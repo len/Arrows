@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2752] on 17 May 2016 at 9:29:15.56242 pm'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2752] on 22 May 2016 at 11:40:58.131977 pm'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 61!
+!provides: 'Mathematics' 1 62!
 !classDefinition: #AbelianGroupPresentation category: #'Mathematics-Free'!
 Object subclass: #AbelianGroupPresentation
 	instanceVariableNames: 'generators relators'
@@ -281,13 +281,13 @@ Object subclass: #ContinuousColorPalette
 ContinuousColorPalette class
 	instanceVariableNames: ''!
 
-!classDefinition: #CoxeterDiagram category: #'Mathematics-Groups-Coxeter'!
+!classDefinition: #CoxeterDiagram category: #'Mathematics-Lie'!
 Object subclass: #CoxeterDiagram
 	instanceVariableNames: 'matrix'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Groups-Coxeter'!
-!classDefinition: 'CoxeterDiagram class' category: #'Mathematics-Groups-Coxeter'!
+	category: 'Mathematics-Lie'!
+!classDefinition: 'CoxeterDiagram class' category: #'Mathematics-Lie'!
 CoxeterDiagram class
 	instanceVariableNames: ''!
 
@@ -559,6 +559,26 @@ GradedVectorSpace subclass: #InfiniteTuples
 	category: 'Mathematics-Linear-Spaces'!
 !classDefinition: 'InfiniteTuples class' category: #'Mathematics-Linear-Spaces'!
 InfiniteTuples class
+	instanceVariableNames: ''!
+
+!classDefinition: #LieAlgebra category: #'Mathematics-Lie'!
+VectorSpace subclass: #LieAlgebra
+	instanceVariableNames: 'space bracket'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Lie'!
+!classDefinition: 'LieAlgebra class' category: #'Mathematics-Lie'!
+LieAlgebra class
+	instanceVariableNames: ''!
+
+!classDefinition: #LieAlgebraIdeal category: #'Mathematics-Lie'!
+LieAlgebra subclass: #LieAlgebraIdeal
+	instanceVariableNames: 'subspace'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Lie'!
+!classDefinition: 'LieAlgebraIdeal class' category: #'Mathematics-Lie'!
+LieAlgebraIdeal class
 	instanceVariableNames: ''!
 
 !classDefinition: #LinearMaps category: #'Mathematics-Linear-Spaces'!
@@ -961,13 +981,13 @@ Domain subclass: #ConvexHull
 ConvexHull class
 	instanceVariableNames: ''!
 
-!classDefinition: #CoxeterSystem category: #'Mathematics-Groups-Coxeter'!
+!classDefinition: #CoxeterSystem category: #'Mathematics-Lie'!
 Domain subclass: #CoxeterSystem
 	instanceVariableNames: 'group generators matrix diagram'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Groups-Coxeter'!
-!classDefinition: 'CoxeterSystem class' category: #'Mathematics-Groups-Coxeter'!
+	category: 'Mathematics-Lie'!
+!classDefinition: 'CoxeterSystem class' category: #'Mathematics-Lie'!
 CoxeterSystem class
 	instanceVariableNames: ''!
 
@@ -1171,13 +1191,13 @@ AffineGroup subclass: #SpecialEuclideanGroup
 SpecialEuclideanGroup class
 	instanceVariableNames: ''!
 
-!classDefinition: #CoxeterGroup category: #'Mathematics-Groups-Coxeter'!
+!classDefinition: #CoxeterGroup category: #'Mathematics-Lie'!
 Group subclass: #CoxeterGroup
 	instanceVariableNames: 'diagram'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Groups-Coxeter'!
-!classDefinition: 'CoxeterGroup class' category: #'Mathematics-Groups-Coxeter'!
+	category: 'Mathematics-Lie'!
+!classDefinition: 'CoxeterGroup class' category: #'Mathematics-Lie'!
 CoxeterGroup class
 	instanceVariableNames: ''!
 
@@ -1431,13 +1451,13 @@ Group subclass: #SemidirectProductGroup
 SemidirectProductGroup class
 	instanceVariableNames: ''!
 
-!classDefinition: #SignedPermutationGroup category: #'Mathematics-Groups-Coxeter'!
+!classDefinition: #SignedPermutationGroup category: #'Mathematics-Lie'!
 Group subclass: #SignedPermutationGroup
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Groups-Coxeter'!
-!classDefinition: 'SignedPermutationGroup class' category: #'Mathematics-Groups-Coxeter'!
+	category: 'Mathematics-Lie'!
+!classDefinition: 'SignedPermutationGroup class' category: #'Mathematics-Lie'!
 SignedPermutationGroup class
 	instanceVariableNames: ''!
 
@@ -2861,13 +2881,13 @@ RootFinder subclass: #RealRootFinder
 RealRootFinder class
 	instanceVariableNames: ''!
 
-!classDefinition: #RootSystem category: #'Mathematics-Lattices'!
+!classDefinition: #RootSystem category: #'Mathematics-Lie'!
 Object subclass: #RootSystem
 	instanceVariableNames: 'roots space'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Lattices'!
-!classDefinition: 'RootSystem class' category: #'Mathematics-Lattices'!
+	category: 'Mathematics-Lie'!
+!classDefinition: 'RootSystem class' category: #'Mathematics-Lie'!
 RootSystem class
 	instanceVariableNames: ''!
 
@@ -3551,6 +3571,11 @@ My instances are the special affine group of an affine space, consisting of all 
 My instances are the special Euclidean group SE(n) or E*(n), a subgroup of the Euclidean group E(n) that consists of rigid motions, i.e. isometries preserving orientation.
 !
 
+!LinearGroup commentStamp: '<historical>' prior: 0!
+My instances are linear groups whose elements are endomorphisms of vector spaces, i.e. invertible linear transformations (LinearMaps) from a vector space into itself.
+
+These groups act naturally on the vector space: g^x |-> g(x).!
+
 !GeneralLinearMatrixGroup commentStamp: '<historical>' prior: 0!
 My instances are GL(V), the General Linear Group of a vector space V. This is the group of automorphisms (invertible linear transformations from the space to itself).!
 
@@ -3937,7 +3962,9 @@ My instances are Number Theoretic Transforms, the analog of DFTs for the field o
 The (pseudo) number theoretic transform may be meaningful in the ring Z/<m> even when the modulo m is not prime, provided a principal root of order n exists.!
 
 !Polynomial commentStamp: '<historical>' prior: 0!
-My instances are polynomials in one or many indeterminates, with coefficients in a commutative ring.!
+My instances are polynomials in one or many indeterminates, with coefficients in a commutative ring.
+
+Subclasses implement particular representations, such as dense (univariate) polynomials (represented as arrays of coefficients) or sparse polynomials (representad as dictionaries monomial -> coefficient).!
 
 !PolynomialDivision commentStamp: '<historical>' prior: 0!
 I am the long division algorithm for univariate polynomials over a field.
@@ -4966,13 +4993,13 @@ testCyclic3
 testCyclic4
 	self cyclic: 4 :: groebner! !
 
-!AlgebraicGeometryBenchmark methodsFor: 'as yet unclassified' stamp: 'len 3/28/2016 02:34'!
+!AlgebraicGeometryBenchmark methodsFor: 'as yet unclassified' stamp: 'len 5/20/2016 03:59'!
 testElimination
 	| Qx x y z I |
 	Qx _ Rationals new polynomialsIn: #(x y z).
 	x _ Qx x. y _ Qx y. z _ Qx z.
 	I _ Qx * {x**2 + y + z - 1. x + (y**2) + z - 1. x + y + (z**2) - 1}.
-	I eliminateAll: #(x y)! !
+	I eliminateAll: #(1 2)! !
 
 !AlgebraicGeometryBenchmark methodsFor: 'as yet unclassified' stamp: 'len 3/28/2016 04:35'!
 testKatsura2
@@ -9426,17 +9453,17 @@ groebner
 	"Answer a Groebner basis of the receiver."
 	^ properties at: #groebner ifAbsentPut: [GroebnerBasis from: self generators]! !
 
-!PolynomialIdeal methodsFor: 'morphisms' stamp: 'len 3/26/2016 05:30'!
+!PolynomialIdeal methodsFor: 'morphisms' stamp: 'len 5/20/2016 03:55'!
 homogenized
 	"Answer the homogenization of the receiver introducing a new indeterminate."
 	| R R` ordering G |
 	R _ self ring.
-	R` _ R scalars polynomialsIn: (R indeterminates copyWith: #h).
+	R` _ R scalars polynomialsIn: R rank + 1.
 	"Must use a graded monomial ordering such as tlex or trevlex:"
 	self flag: #fix.
-	ordering _ MonomialOrdering trevlex: R ordering indeterminates. "should it be R`?"
+	ordering _ MonomialOrdering trevlex: R indeterminates. "should it be R`?"
 	G _ GroebnerBasis from: generators ordering: ordering.
-	^ R` * (G collect: [:each| (each as: R`) homogenizedIn: #h])! !
+	^ R` * (G collect: [:each| (each as: R`) homogenizedIn: R` rank])! !
 
 !PolynomialIdeal methodsFor: 'testing' stamp: 'len 3/15/2016 21:51'!
 includes: aPolynomial 
@@ -10358,6 +10385,14 @@ zero
 over: aRing
 	^ self new scalars: aRing! !
 
+!LieAlgebra methodsFor: 'as yet unclassified' stamp: 'len 5/21/2016 18:54'!
+characters
+	^ self notYetImplemented! !
+
+!LinearMaps methodsFor: 'morphisms' stamp: 'len 5/22/2016 03:48'!
+asLieAlgebra
+	^ LieAlgebra on: self bracket: (Function from: (self cartesian: self) to: self evaluating: [:each| each first @ each second - (each second @ each first)])! !
+
 !LinearMaps methodsFor: 'accessing' stamp: 'len 11/7/2015 04:34'!
 codomain
 	^ codomain! !
@@ -10665,6 +10700,10 @@ basis: aLinearBasis
 = anObject
 	self == anObject ifTrue: [^ true].
 	^ (anObject isKindOf: Matrices) and: [anObject scalars = self scalars and: [self numberOfRows = anObject numberOfRows and: [self numberOfColumns = anObject numberOfColumns]]]! !
+
+!Matrices methodsFor: 'morphisms' stamp: 'len 5/22/2016 03:48'!
+asLieAlgebra
+	^ LieAlgebra on: self bracket: (Function from: (self cartesian: self) to: self evaluating: [:each| each first * each second - (each second * each first)])! !
 
 !Matrices methodsFor: 'basis' stamp: 'len 11/23/2015 02:31'!
 coordinatesOf: aMatrix
@@ -11264,15 +11303,20 @@ one
 polynomials
 	^ self polynomialsIn: #(x)! !
 
-!Ring methodsFor: 'morphisms' stamp: 'len 3/26/2016 05:41'!
-polynomialsIn: aCollection
-	"Answer the ring of multivariate polynomials over the receiver."
-	^ Polynomials indeterminates: aCollection over: self ordering: (MonomialOrdering tlex: aCollection asArray)! !
+!Ring methodsFor: 'morphisms' stamp: 'len 5/20/2016 03:15'!
+polynomialsIn: anIntegerOrCollection
+	"Answer the ring of multivariate polynomials over the receiver in the given indeterminates."
+	^ self polynomialsIn: anIntegerOrCollection ordering: #tlex! !
 
-!Ring methodsFor: 'morphisms' stamp: 'len 3/26/2016 05:41'!
-polynomialsIn: aCollection ordering: aMonomialOrdering
-	"Answer a ring of multivariate polynomials over the receiver."
-	^ Polynomials indeterminates: aCollection over: self ordering: aMonomialOrdering! !
+!Ring methodsFor: 'morphisms' stamp: 'len 5/20/2016 03:28'!
+polynomialsIn: anIntegerOrCollection ordering: aMonomialOrdering
+	"Answer the ring of multivariate polynomials over the receiver over the given indeterminates."
+	| answer |
+	anIntegerOrCollection isInteger
+		ifTrue: [^ Polynomials new: anIntegerOrCollection over: self ordering: aMonomialOrdering].
+	answer _ Polynomials new: anIntegerOrCollection size over: self ordering: aMonomialOrdering.
+	answer indeterminateNames: anIntegerOrCollection.
+	^ answer! !
 
 !Ring methodsFor: 'tuples' stamp: 'len 4/12/2016 02:51'!
 tuple: anArray
@@ -11578,9 +11622,13 @@ signature
 symmetricFunction: i of: element
 	^ self notYetImplemented! !
 
-!NumberField class methodsFor: 'as yet unclassified' stamp: 'len 1/11/2016 02:03'!
+!NumberField class methodsFor: 'instance creation' stamp: 'len 1/11/2016 02:03'!
 adjoint: anAlgebraicNumber
 	^ self new adjoint: anAlgebraicNumber! !
+
+!QuadraticField class methodsFor: 'as yet unclassified' stamp: 'len 5/20/2016 02:43'!
+sqrt: anInteger
+	^ self adjoint: (AlgebraicNumber sqrt: anInteger)! !
 
 !AlgebraicNumbers methodsFor: 'comparing' stamp: 'len 12/26/2015 20:05'!
 = anObject
@@ -11760,8 +11808,8 @@ polynomials: aPolynomials
 = anObject
 	^ anObject class == self class! !
 
-!Rationals methodsFor: 'morphisms' stamp: 'len 1/11/2016 02:04'!
-adjoint: anAlgebraicNumber
+!Rationals methodsFor: 'morphisms' stamp: 'len 5/18/2016 22:22'!
+adjoin: anAlgebraicNumber
 	^ NumberField adjoint: anAlgebraicNumber! !
 
 !Rationals methodsFor: 'morphisms' stamp: 'len 4/17/2016 06:45'!
@@ -12383,15 +12431,27 @@ p: aPrime
 	self == anObject ifTrue: [^ true].
 	^ (anObject isKindOf: Polynomials) and: [anObject scalars = scalars and: [anObject indeterminates = indeterminates]]! !
 
-!Polynomials methodsFor: 'morphisms' stamp: 'len 3/26/2016 05:48'!
+!Polynomials methodsFor: 'morphisms' stamp: 'len 5/21/2016 00:16'!
 asMultivariate
-	self flag: #fix. "inconsistent with Polynomial|asMultivariate?"
-	^ self scalars scalars polynomialsIn: self scalars indeterminates , self indeterminates! !
+	| answer |
+	self isUnivariate ifFalse: [^ self].
+	answer _ self scalars scalars polynomialsIn: self scalars rank + 1.
+	(self indeterminateNames notNil and: [self scalars indeterminateNames notNil])
+		ifTrue: [answer indeterminateNames: self scalars indeterminateNames, self indeterminateNames].
+	^ answer! !
 
-!Polynomials methodsFor: 'morphisms' stamp: 'len 3/25/2016 09:18'!
+!Polynomials methodsFor: 'morphisms' stamp: 'len 5/20/2016 23:16'!
+asUnivariate
+	self isUnivariate ifTrue: [^ self].
+	self indeterminateNames notNil
+		ifTrue: [^ self scalars polynomialsIn: self indeterminateNames allButLast :: polynomialsIn: {self indeterminateNames last}].
+	^ self scalars polynomialsIn: self rank - 1 :: polynomials! !
+
+!Polynomials methodsFor: 'morphisms' stamp: 'len 5/20/2016 06:00'!
 asUnivariateIn: anIndeterminate
 	(self indeterminates includes: anIndeterminate) ifFalse: [^ self error: 'indeterminate not found'].
-	^ self scalars polynomialsIn: (self indeterminates copyWithout: anIndeterminate) :: polynomialsIn: {anIndeterminate}! !
+	anIndeterminate = self indeterminates last ifFalse: [^ self halt].
+	^ self asUnivariate! !
 
 !Polynomials methodsFor: 'morphisms' stamp: 'len 4/11/2016 23:41'!
 asVectorSpace
@@ -12470,9 +12530,13 @@ coefficient: aNumber monomial: aMonomial
 			coefficients at: aMonomial degree + 1 put: aNumber].
 	^ (self polynomialClass coefficients: coefficients) species: self! !
 
-!Polynomials methodsFor: 'elements' stamp: 'len 3/2/2016 05:57'!
+!Polynomials methodsFor: 'elements' stamp: 'len 5/20/2016 03:38'!
 coefficient: aNumber x: anIndeterminate to: anInteger
-	^ self coefficient: aNumber monomial: (Monomial x: anIndeterminate to: anInteger)! !
+	| i |
+	i _ anIndeterminate isInteger
+		ifTrue: [anIndeterminate]
+		ifFalse: [self indeterminateNames indexOf: anIndeterminate ifAbsent: [^ self error: 'unknown indeterminate']].
+	^ self coefficient: aNumber monomial: (Monomial x: i to: anInteger)! !
 
 !Polynomials methodsFor: 'elements' stamp: 'len 3/29/2016 09:06'!
 coefficients: aTuple
@@ -12587,7 +12651,7 @@ fractions
 has: anIndeterminate
 	^ indeterminates includes: anIndeterminate! !
 
-!Polynomials methodsFor: 'comparing' stamp: 'len 3/25/2016 08:26'!
+!Polynomials methodsFor: 'comparing' stamp: 'len 5/20/2016 03:20'!
 hash
 	^ scalars hash * indeterminates hash! !
 
@@ -12598,6 +12662,14 @@ includes: anObject
 !Polynomials methodsFor: 'accessing' stamp: 'len 3/26/2016 05:15'!
 indeterminate
 	^ indeterminates anyOne! !
+
+!Polynomials methodsFor: 'accessing' stamp: 'len 5/20/2016 23:05'!
+indeterminateNames
+	^ properties at: #indeterminateNames ifAbsent: [self isUnivariate ifTrue: [#(x)]]! !
+
+!Polynomials methodsFor: 'accessing-private' stamp: 'len 5/20/2016 03:28'!
+indeterminateNames: aCollection
+	properties at: #indeterminateNames put: aCollection! !
 
 !Polynomials methodsFor: 'accessing' stamp: 'len 3/25/2016 08:26'!
 indeterminates
@@ -12698,24 +12770,25 @@ newFrom: aPolynomial
 			ifTrue: [aPolynomial asSparsePolynomial coefficients]
 			ifFalse: [aPolynomial coefficients])! !
 
-!Polynomials methodsFor: 'morphisms' stamp: 'len 3/26/2016 05:51'!
+!Polynomials methodsFor: 'morphisms' stamp: 'len 5/20/2016 03:41'!
 newIndeterminate
-	| temp |
-	temp _ #t.
-	[indeterminates includes: temp] whileTrue: [temp _ (temp, '`') asSymbol].
-	^ temp! !
+	^ self rank + 1! !
 
 !Polynomials methodsFor: 'elements' stamp: 'len 11/3/2015 20:21'!
 one
 	^ self constant: scalars one! !
 
-!Polynomials methodsFor: 'accessing' stamp: 'len 3/26/2016 06:40'!
+!Polynomials methodsFor: 'accessing' stamp: 'len 5/20/2016 03:57'!
 ordering
-	^ properties at: #ordering ifAbsentPut: [MonomialOrdering tlex: (self indeterminates asSortedCollection: [:a :b| a asString <= b asString])]! !
+	^ properties at: #ordering ifAbsentPut: [MonomialOrdering tlex: self indeterminates]! !
 
-!Polynomials methodsFor: 'accessing' stamp: 'len 11/29/2015 01:35'!
+!Polynomials methodsFor: 'accessing' stamp: 'len 5/20/2016 03:24'!
 ordering: aMonomialOrdering
-	properties at: #ordering put: aMonomialOrdering! !
+	| ordering |
+	ordering _ aMonomialOrdering isSymbol
+		ifTrue: [MonomialOrdering perform: (aMonomialOrdering,':') asSymbol with: self indeterminates]
+		ifFalse: [aMonomialOrdering].
+	properties at: #ordering put: ordering! !
 
 !Polynomials methodsFor: 'morphisms' stamp: 'len 4/24/2016 06:37'!
 over: aRing
@@ -12738,10 +12811,15 @@ printOn: aStream
 random
 	^ PolynomialRandomGenerator on: self! !
 
-!Polynomials methodsFor: 'accessing' stamp: 'len 3/25/2016 08:26'!
+!Polynomials methodsFor: 'accessing' stamp: 'len 5/20/2016 03:20'!
 rank
 	"The rank of a polynomial ring is the number of indeterminates. Univariate polynomials have rank 1."
 	^ indeterminates size! !
+
+!Polynomials methodsFor: 'accessing-private' stamp: 'len 5/20/2016 03:21'!
+rank: anInteger
+	(anInteger isInteger and: [anInteger > 0]) ifFalse: [self error: 'rank must be a positive integer'].
+	indeterminates _ (1 to: anInteger)! !
 
 !Polynomials methodsFor: 'accessing' stamp: 'len 11/2/2015 16:09'!
 scalars
@@ -12759,9 +12837,9 @@ size
 valuation
 	^ self scalars isField ifTrue: [Function from: self to: Naturals new evaluating: [:f| f degree]]! !
 
-!Polynomials methodsFor: 'elements' stamp: 'len 3/26/2016 06:41'!
+!Polynomials methodsFor: 'elements' stamp: 'len 5/20/2016 03:34'!
 x
-	^ self x: self ordering indeterminates first! !
+	^ self x: self indeterminates first! !
 
 !Polynomials methodsFor: 'elements' stamp: 'len 3/26/2016 02:44'!
 x: anIndeterminate
@@ -12775,29 +12853,25 @@ x: anIndeterminate to: n
 xTo: degree
 	^ self x: self indeterminate to: degree! !
 
-!Polynomials methodsFor: 'elements' stamp: 'len 3/26/2016 06:43'!
+!Polynomials methodsFor: 'elements' stamp: 'len 5/20/2016 03:34'!
 y
-	^ self x: self ordering indeterminates second! !
+	^ self x: self indeterminates second! !
 
-!Polynomials methodsFor: 'elements' stamp: 'len 3/26/2016 06:43'!
+!Polynomials methodsFor: 'elements' stamp: 'len 5/20/2016 03:34'!
 z
-	^ self x: self ordering indeterminates third! !
+	^ self x: self indeterminates third! !
 
 !Polynomials methodsFor: 'elements' stamp: 'len 3/23/2016 05:21'!
 zero
 	^ self constant: self scalars zero! !
 
-!Polynomials class methodsFor: 'instance creation' stamp: 'len 3/25/2016 08:24'!
-indeterminates: aCollection over: aRing
-	^ self new indeterminates: aCollection; scalars: aRing! !
+!Polynomials class methodsFor: 'instance creation' stamp: 'len 5/20/2016 03:25'!
+new: anInteger over: aRing
+	^ self new indeterminates: (1 to: anInteger); scalars: aRing! !
 
-!Polynomials class methodsFor: 'instance creation' stamp: 'len 3/28/2016 04:04'!
-indeterminates: aCollection over: aRing ordering: aMonomialOrdering
-	| ordering |
-	ordering _ aMonomialOrdering isSymbol
-		ifTrue: [MonomialOrdering perform: (aMonomialOrdering,':') asSymbol with: aCollection]
-		ifFalse: [aMonomialOrdering].
-	^ self new indeterminates: aCollection; scalars: aRing; ordering: ordering! !
+!Polynomials class methodsFor: 'instance creation' stamp: 'len 5/20/2016 03:25'!
+new: anInteger over: aRing ordering: aMonomialOrdering
+	^ self new rank: anInteger; scalars: aRing; ordering: aMonomialOrdering! !
 
 !PowerSeriesRing methodsFor: 'as yet unclassified' stamp: 'len 4/15/2016 20:49'!
 one
@@ -13758,7 +13832,7 @@ asLattice
 asVectorSpace
 	^ subspace! !
 
-!LinearCode methodsFor: 'as yet unclassified' stamp: 'len 5/12/2016 09:59'!
+!LinearCode methodsFor: 'random' stamp: 'len 5/12/2016 09:59'!
 atRandom: aRandom bits: bitSize
 	^ self asVectorSpace atRandom: aRandom bits: bitSize! !
 
@@ -13826,8 +13900,9 @@ hash
 includes: aCodeword
 	^ self asVectorSpace includes: aCodeword! !
 
-!LinearCode methodsFor: 'testing' stamp: 'len 2/15/2016 21:03'!
+!LinearCode methodsFor: 'testing' stamp: 'len 5/18/2016 06:28'!
 isCyclic
+	"A code is called a cylic code if for each codeword (c1,...,cn) it also contains the cyclic right shifted word (cn,c1,c2,...,cn-1), i.e. the code is invariant under cylic shifts."
 	self do: [:each| (self includes: (each wrap: 1)) ifFalse: [^ false]].
 	^ true! !
 
@@ -13996,38 +14071,71 @@ tetracode
 	"Answer the tetracode, a self dual code of minimum distance 3."
 	^ self subspace: ((Field GF: 3) ** 4 span: {(1,1,1,0) % 3. (0,1,2,1) % 3})! !
 
-!CyclicCode methodsFor: 'as yet unclassified' stamp: 'len 5/17/2016 21:26'!
+!CyclicCode methodsFor: 'converting' stamp: 'len 5/17/2016 21:26'!
 asIdeal
 	^ generator ideal! !
 
-!CyclicCode methodsFor: 'as yet unclassified' stamp: 'len 1/1/2016 06:20'!
-dimension
-	^ generator ideal generator degree - generator representative degree! !
+!CyclicCode methodsFor: 'accessing' stamp: 'len 5/18/2016 07:24'!
+checkPolynomial
+	| x one |
+	x _ generator species x.
+	one _ generator species one.
+	^ x ** self length - one / generator! !
 
-!CyclicCode methodsFor: 'as yet unclassified' stamp: 'len 5/17/2016 21:02'!
+!CyclicCode methodsFor: 'accessing' stamp: 'len 5/18/2016 07:21'!
+dimension
+	^ self length - generator degree! !
+
+!CyclicCode methodsFor: 'iterating' stamp: 'len 5/18/2016 06:30'!
+do: aBlock
+	self asIdeal do: aBlock! !
+
+!CyclicCode methodsFor: 'morphisms' stamp: 'len 5/18/2016 07:30'!
+dual
+	^ self class new: self length generator: self generator reversed! !
+
+!CyclicCode methodsFor: 'accessing' stamp: 'len 5/17/2016 21:02'!
 generator
 	^ generator! !
 
-!CyclicCode methodsFor: 'as yet unclassified' stamp: 'len 5/17/2016 21:02'!
-generator: aPolynomialResidue
-	generator _ aPolynomialResidue! !
+!CyclicCode methodsFor: 'accessing-private' stamp: 'len 5/18/2016 07:21'!
+generator: aPolynomial
+	generator _ aPolynomial.
+"
+	| n V g x |
+	generator _ aPolynomialResidue.
+	n _ generator modulus degree.
+	V _ generator ispecies asVectorSpaceMaxDegree: n.
+	basis _ LinearBasis on: V.
+	g _ generator.
+	x _ generator representative species x mod: generator modulus.
+	[basis includes: g] whileFalse: [basis add: g. g _ g * x].
+	self subspace: basis span"! !
 
-!CyclicCode methodsFor: 'as yet unclassified' stamp: 'len 1/2/2016 04:23'!
+!CyclicCode methodsFor: 'testing' stamp: 'len 5/18/2016 07:27'!
+includes: aCodeword
+	| x |
+	x _ generator species x.
+	^ self checkPolynomial * aCodeword \\ (x ** self length - x one) :: isZero! !
+
+!CyclicCode methodsFor: 'testing' stamp: 'len 5/18/2016 07:22'!
 isIrreducible
-	^ generator representative isIrreducible! !
+	^ generator isIrreducible! !
 
-!CyclicCode class methodsFor: 'as yet unclassified' stamp: 'len 1/2/2016 04:10'!
+!CyclicCode class methodsFor: 'examples' stamp: 'len 5/18/2016 07:20'!
 H7
 	"Answer the Hamming code of length 7."
 	| F Fx x |
 	F _ Field GF: 2.
 	Fx _ F polynomials.
 	x _ Fx x.
-	^ self generator: (x**3 + x + 1 mod: x**7-1)! !
+	^ self new: 7 generator: x**3 + x + 1! !
 
-!CyclicCode class methodsFor: 'as yet unclassified' stamp: 'len 1/2/2016 04:08'!
-generator: aPolynomial
-	^ self new generator: aPolynomial! !
+!CyclicCode class methodsFor: 'instance creation' stamp: 'len 5/18/2016 07:20'!
+new: n generator: aPolynomial
+	| F |
+	F _ aPolynomial scalars.
+	^ (self new subspace: (F extension: aPolynomial) asVectorSpace) generator: aPolynomial! !
 
 !PolynomialCode methodsFor: 'encoding/decoding' stamp: 'len 5/12/2016 09:33'!
 decode: aPolynomial
@@ -14218,6 +14326,10 @@ additiveInverseMap
 additiveOperation
 	^ (GroupAction from: (self, self) to: self evaluating: [:each| each first + each second]) name: '+'! !
 
+!Group methodsFor: 'morphisms' stamp: 'len 5/22/2016 03:44'!
+adjointAction
+	^ GroupAction from: (self, self) to: self evaluating: [:each| self operation value: {self operation value: {each first. each second}. self inverseMap value: each first}]! !
+
 !Group methodsFor: 'random' stamp: 'len 5/9/2016 20:28'!
 atRandom: aRandom bits: bitSize
 	properties at: #elements ifPresent: [:aCollection| ^ aCollection atRandom: aRandom].
@@ -14308,7 +14420,7 @@ commutator
 	This is the smallest normal subgroup of G such that the quotient G / [G,G] is commutative." 
 	^ self commutator: self! !
 
-!Group methodsFor: 'morphisms-endo' stamp: 'len 5/1/2016 23:45'!
+!Group methodsFor: 'morphisms-endo' stamp: 'len 5/20/2016 20:19'!
 commutator: aSubgroup
 	"Answer the commutator group [G,H] of the receiver G with the argument H,"
 	| op inverseMap elements |
@@ -14321,7 +14433,7 @@ commutator: aSubgroup
 			xInv _ inverseMap value: x.
 			yInv _ inverseMap value: y.
 "			answer add: x * y * x reciprocal * y reciprocal]]."
-			elements add: (op value: {(op value: {x.y}). (op value: {xInv. yInv})})]].
+			elements add: (op value: {op value: {op value: {x.y}. xInv}. yInv})]].
 	^ self copyEmpty elements: elements! !
 
 !Group methodsFor: 'private' stamp: 'len 2/13/2016 00:09'!
@@ -14585,6 +14697,10 @@ isTrivial
 	"Answer true if the receiver is the trivial group {id}."
 	^ self order = 1! !
 
+!Group methodsFor: 'morphisms' stamp: 'len 5/22/2016 03:42'!
+leftAction
+	^ GroupAction from: (self, self) to: self evaluating: [:each| self operation value: {each first. each second}]! !
+
 !Group methodsFor: 'morphisms-series' stamp: 'len 5/1/2016 23:03'!
 lowerCentralSeriesDo: aBlock
 	| G G` |
@@ -14668,6 +14784,10 @@ product: aGroup
 random
 	self generators ifNotNil: [^ GroupRandomGenerator on: self].
 	^ super random! !
+
+!Group methodsFor: 'morphisms' stamp: 'len 5/22/2016 03:41'!
+rightAction
+	^ GroupAction from: (self, self) to: self evaluating: [:each| self operation value: {each second. self inverseMap value: each first}]! !
 
 !Group methodsFor: 'morphisms' stamp: 'len 5/16/2016 04:14'!
 rightCosetAction
@@ -14800,9 +14920,9 @@ asSemidirectProduct
 identity
 	^ space id! !
 
-!AffineGroup methodsFor: 'testing' stamp: 'len 2/9/2016 21:12'!
+!AffineGroup methodsFor: 'testing' stamp: 'len 5/22/2016 22:34'!
 includes: anAffineMap
-	^ anAffineMap domain = space and: [anAffineMap isEndomorphism and: [anAffineMap isMonomorphism]]! !
+	^ self notYetImplemented! !
 
 !AffineGroup methodsFor: 'morphisms' stamp: 'len 2/12/2016 18:27'!
 linear
@@ -14885,6 +15005,10 @@ atRandom: aRandom bits: bitSize
 euclidean
 	"Answer the Euclidean group E(A), the group of isometries, i.e. distance-preserving morphisms, also called 'motionss'. This is a subgroup of the receiver."
 	^ EuclideanGroup on: space! !
+
+!GeneralAffineGroup methodsFor: 'testing' stamp: 'len 5/22/2016 22:35'!
+includes: anAffineMap
+	^ anAffineMap domain = space and: [anAffineMap isEndomorphism and: [anAffineMap isMonomorphism]]! !
 
 !GeneralAffineGroup methodsFor: 'morphisms' stamp: 'len 2/12/2016 18:30'!
 linear
@@ -15157,9 +15281,9 @@ do: aBlock
 identity
 	^ space id! !
 
-!LinearGroup methodsFor: 'testing' stamp: 'len 2/11/2016 20:02'!
+!LinearGroup methodsFor: 'testing' stamp: 'len 5/22/2016 22:31'!
 includes: aLinearMap
-	^ space endomorphisms includes: aLinearMap! !
+	^ self notYetImplemented! !
 
 !LinearGroup methodsFor: 'testing' stamp: 'len 2/22/2016 00:27'!
 isFinite
@@ -15216,9 +15340,9 @@ commutator
 		ifFalse: [^ SpecialLinearGroup on: space].
 	^ properties at: #commutator ifAbsentPut: [super commutator]! !
 
-!GeneralLinearGroup methodsFor: 'testing' stamp: 'len 2/11/2016 20:03'!
+!GeneralLinearGroup methodsFor: 'testing' stamp: 'len 5/22/2016 22:17'!
 includes: aLinearMap
-	^ (super includes: aLinearMap) and: [aLinearMap determinant isZero not]! !
+	^ (space endomorphisms includes: aLinearMap) and: [aLinearMap determinant isZero not]! !
 
 !GeneralLinearGroup methodsFor: 'morphisms' stamp: 'len 2/11/2016 20:17'!
 orthogonal
@@ -15279,9 +15403,9 @@ coxeter: aMatrix
 	"Answer the geometric Coxeter group associated with the Coxeter matrix aMatrix."
 	^ self notYetImplemented! !
 
-!OrthogonalGroup methodsFor: 'testing' stamp: 'len 2/11/2016 20:06'!
+!OrthogonalGroup methodsFor: 'testing' stamp: 'len 5/22/2016 22:17'!
 includes: aLinearMap
-	^ (super includes: aLinearMap) and: [aLinearMap isOrthogonal]! !
+	^ (space endomorphisms includes: aLinearMap) and: [aLinearMap isOrthogonal]! !
 
 !OrthogonalGroup methodsFor: 'elements' stamp: 'len 2/11/2016 20:05'!
 reflectionAt: aVector
@@ -15318,9 +15442,9 @@ do: aBlock
 	endos _ space endomorphisms.
 	self scalars do: [:each| aBlock value: (endos scalar: each)]! !
 
-!ScalarGroup methodsFor: 'testing' stamp: 'len 2/11/2016 20:08'!
+!ScalarGroup methodsFor: 'testing' stamp: 'len 5/22/2016 22:18'!
 includes: aLinearMap
-	^ (super includes: aLinearMap) and: [aLinearMap isScalar]! !
+	^ (space endomorphisms includes: aLinearMap) and: [aLinearMap isScalar]! !
 
 !ScalarGroup methodsFor: 'testing' stamp: 'len 2/12/2016 02:19'!
 isCommutative
@@ -15354,9 +15478,9 @@ atRandom: aRandom bits: bitSize
 center
 	^ SpecialScalarGroup on: space! !
 
-!SpecialLinearGroup methodsFor: 'testing' stamp: 'len 2/11/2016 20:12'!
+!SpecialLinearGroup methodsFor: 'testing' stamp: 'len 5/22/2016 22:18'!
 includes: aLinearMap
-	^ (super includes: aLinearMap) and: [aLinearMap determinant = space scalars one]! !
+	^ (space endomorphisms includes: aLinearMap) and: [aLinearMap determinant = space scalars one]! !
 
 !SpecialLinearGroup methodsFor: 'morphisms' stamp: 'len 2/11/2016 20:21'!
 projective
@@ -15375,9 +15499,9 @@ affine
 asMatrixGroup
 	^ SpecialOrthogonalMatrixGroup on: space coordinateSpace! !
 
-!SpecialOrthogonalGroup methodsFor: 'testing' stamp: 'len 2/11/2016 20:15'!
+!SpecialOrthogonalGroup methodsFor: 'testing' stamp: 'len 5/22/2016 22:18'!
 includes: aLinearMap
-	^ (super includes: aLinearMap) and: [aLinearMap isOrthogonal and: [aLinearMap determinant = self scalars one]]! !
+	^ (space endomorphisms includes: aLinearMap) and: [aLinearMap isOrthogonal and: [aLinearMap determinant = self scalars one]]! !
 
 !SpecialOrthogonalGroup methodsFor: 'printing' stamp: 'len 2/11/2016 20:20'!
 shortName
@@ -15386,6 +15510,11 @@ shortName
 !SpecialScalarGroup methodsFor: 'morphisms' stamp: 'len 4/23/2016 06:09'!
 asMatrixGroup
 	^ SpecialScalarMatrixGroup on: space coordinateSpace! !
+
+!SpecialScalarGroup methodsFor: 'testing' stamp: 'len 5/22/2016 22:30'!
+includes: aLinearMap
+	self flag: #fix. "what? this is just {id}?"
+	^ (space endomorphisms includes: aLinearMap) and: [aLinearMap isScalar and: [aLinearMap determinant = space scalars one]]! !
 
 !SpecialScalarGroup methodsFor: 'testing' stamp: 'len 2/12/2016 19:01'!
 isCommutative
@@ -15428,9 +15557,10 @@ do: aBlock
 identity
 	^ matrices identity! !
 
-!MatrixGroup methodsFor: 'testing' stamp: 'len 2/11/2016 05:24'!
+!MatrixGroup methodsFor: 'testing' stamp: 'len 5/22/2016 22:33'!
 includes: aMatrix
-	^ matrices includes: aMatrix! !
+	self flag: #fix.
+	^ self notYetImplemented! !
 
 !MatrixGroup methodsFor: 'testing' stamp: 'len 2/22/2016 00:27'!
 isFinite
@@ -15484,9 +15614,9 @@ commutator
 		ifFalse: [^ SpecialLinearMatrixGroup on: space].
 	^ properties at: #commutator! !
 
-!GeneralLinearMatrixGroup methodsFor: 'testing' stamp: 'len 2/11/2016 05:56'!
+!GeneralLinearMatrixGroup methodsFor: 'testing' stamp: 'len 5/22/2016 22:32'!
 includes: aMatrix
-	^ (super includes: aMatrix) and: [aMatrix determinant isZero not]! !
+	^ (matrices includes: aMatrix) and: [aMatrix determinant isZero not]! !
 
 !GeneralLinearMatrixGroup methodsFor: 'morphisms' stamp: 'len 2/13/2016 07:42'!
 orthogonal
@@ -15538,9 +15668,9 @@ dimension
 do: aBlock
 	self scalars do: [:each| aBlock value: (matrices scalar: each)]! !
 
-!ScalarMatrixGroup methodsFor: 'testing' stamp: 'len 2/11/2016 05:22'!
+!ScalarMatrixGroup methodsFor: 'testing' stamp: 'len 5/22/2016 22:32'!
 includes: aMatrix
-	^ (super includes: aMatrix) and: [aMatrix isScalar]! !
+	^ (matrices includes: aMatrix) and: [aMatrix isScalar]! !
 
 !ScalarMatrixGroup methodsFor: 'testing' stamp: 'len 2/12/2016 02:19'!
 isCommutative
@@ -15563,17 +15693,17 @@ asAlgebraicVariety
 center
 	^ SpecialScalarMatrixGroup on: space! !
 
-!SpecialLinearMatrixGroup methodsFor: 'testing' stamp: 'len 2/11/2016 05:21'!
+!SpecialLinearMatrixGroup methodsFor: 'testing' stamp: 'len 5/22/2016 22:32'!
 includes: aMatrix
-	^ (super includes: aMatrix) and: [aMatrix determinant = self scalars one]! !
+	^ (matrices includes: aMatrix) and: [aMatrix determinant = self scalars one]! !
 
 !SpecialLinearMatrixGroup methodsFor: 'printing' stamp: 'len 2/11/2016 05:20'!
 shortName
 	^ 'SL'! !
 
-!SpecialOrthogonalMatrixGroup methodsFor: 'testing' stamp: 'len 2/11/2016 05:20'!
+!SpecialOrthogonalMatrixGroup methodsFor: 'testing' stamp: 'len 5/22/2016 22:32'!
 includes: aMatrix
-	^ (super includes: aMatrix) and: [aMatrix isOrthogonal and: [aMatrix determinant = self scalars one]]! !
+	^ (matrices includes: aMatrix) and: [aMatrix isOrthogonal and: [aMatrix determinant = self scalars one]]! !
 
 !SpecialOrthogonalMatrixGroup methodsFor: 'printing' stamp: 'len 2/11/2016 05:20'!
 shortName
@@ -18866,6 +18996,33 @@ fromHalf: aVectorSpace evaluating: aBlock
 						aBlock value: {(basis at: i). (basis at: j)}].
 	^ self from: basis matrix: matrix! !
 
+!GroupAction methodsFor: 'graphs' stamp: 'len 5/18/2016 21:33'!
+actionGraph: groupGenerators
+	"Answer the action diagram with respect to the given group generators.
+	This is similar to a Cayley diagram.
+	The connected components of the action diagram are the orbits of the action."
+	| G |
+	self space isFinite ifFalse: [^ self error: 'not a finite space'].
+	G _ Graph unorderedLabeled.
+	groupGenerators do: [:g|
+		self space do: [:x|
+			G addEdgeFrom: x to: (self value: {g.x}) label: g]].
+	^ G! !
+
+!GroupAction methodsFor: 'graphs' stamp: 'len 5/18/2016 21:23'!
+actionGraphMorph
+	^ self actionGraphMorph: self group generators! !
+
+!GroupAction methodsFor: 'graphs' stamp: 'len 5/18/2016 21:26'!
+actionGraphMorph: generators
+	| G answer colors |
+	G _ self actionGraph: generators.
+	answer _ G asMorph3D.
+	colors _ DiscreteColorPalette default.
+	answer edgesAndLabelsDo: [:each :label| each hideLabel; color: (colors at: label)].
+	answer nodesDo: [:each| each color: Color transparent; morphExtent: 0@0].
+	^ answer! !
+
 !GroupAction methodsFor: 'converting' stamp: 'len 5/16/2016 05:26'!
 asHomomorphism
 	^ GroupHomomorphism
@@ -18877,9 +19034,9 @@ asHomomorphism
 fixedPoints
 	^ self space select: [:each| self isFixedPoint: each]! !
 
-!GroupAction methodsFor: 'accessing' stamp: 'len 2/16/2016 04:55'!
+!GroupAction methodsFor: 'accessing' stamp: 'len 5/18/2016 21:30'!
 fixedPointsOf: anElement
-	"Dual idea to the stabilizer."
+	"Dual idea to the stabilizer. The fixes points are the orbits of size 1."
 	^ self space select: [:each| (self value: {anElement. each}) = each]! !
 
 !GroupAction methodsFor: 'accessing' stamp: 'len 2/13/2016 08:02'!
@@ -18896,6 +19053,12 @@ isFixedPoint: aPoint
 	"Answer true if the argument is a fixed point of the receiver."
 	self group do: [:each| (self value: {each. aPoint}) = aPoint ifFalse: [^ false]].
 	^ true! !
+
+!GroupAction methodsFor: 'accessing' stamp: 'len 5/18/2016 21:37'!
+kernel
+	"This is also the intersection of all the stabilizers."
+	^ self group select: [:g| self space allSatisfy: [:x| (self value: {g.x}) = x]]
+	"^ self asHomomorphism kernel"! !
 
 !GroupAction methodsFor: 'accessing' stamp: 'len 5/2/2016 06:57'!
 orbitOf: aPoint
@@ -24687,10 +24850,10 @@ at: anIndeterminate
 
 	^ exponents at: anIndeterminate ifAbsent: [0]! !
 
-!Monomial methodsFor: 'accessing' stamp: 'len 3/26/2016 03:04'!
+!Monomial methodsFor: 'accessing' stamp: 'len 5/22/2016 22:59'!
 at: anIndeterminate put: anInteger
 	"Set the exponent of the anInteger-th indeterminate to anotherInteger. Answer anotherInteger."
-"	anIndeterminate isInteger ifTrue: [self halt]."
+	anIndeterminate isInteger ifFalse: [self error: 'not integer indeterminate'].
 	^ exponents at: anIndeterminate put: anInteger! !
 
 !Monomial methodsFor: 'accessing' stamp: 'len 3/16/2016 20:03'!
@@ -24820,6 +24983,16 @@ printOn: aStream
 			self printIndeterminate: each on: aStream.
 			self printExponent: (self degreeIn: each) on: aStream]! !
 
+!Monomial methodsFor: 'printing' stamp: 'len 5/20/2016 23:10'!
+printOn: aStream as: aPolynomials
+	self degree = 0 ifTrue: [aStream print: 1. ^ self].
+	(aPolynomials ordering indeterminates select: [:each| (self at: each) > 0])
+		do: [:each|
+			| x |
+			x _ aPolynomials indeterminateNames ifNil: [each] ifNotNil: [:names| names at: each ifAbsent: [each]].
+			self printIndeterminate: x on: aStream.
+			self printExponent: (self degreeIn: each) on: aStream]! !
+
 !Monomial methodsFor: 'printing' stamp: 'len 4/5/2016 18:07'!
 printOn: aStream withNames: namesDictionary
 	self degree = 0 ifTrue: [aStream print: 1. ^ self].
@@ -24843,19 +25016,6 @@ value: anObject
 		next _ (anObject at: i) raisedToInteger: exp.
 		answer _ answer isNil ifTrue: [next] ifFalse: [next * answer]].
 	^ answer! !
-
-!Monomial class methodsFor: 'defaults' stamp: 'len 3/17/2016 00:35'!
-defaultNames
-	"Answer the default names for the indeterminates."
-
-	| names last |
-	last _ 0.
-	Smalltalk garbageCollect.
-	Monomial allSubInstancesDo: [:each| each exponents notNil ifTrue: [last _ last max: each lastIndeterminate]].
-	last <= 3 ifTrue: [^ Dictionary with: 1 -> #x with: 2 -> #y with: 3 -> #z].
-	names _ Dictionary new.
-	1 to: last do: [ :each | names add: each -> ('{x', each printString, '}')].
-	^ names! !
 
 !Monomial class methodsFor: 'instance creation' stamp: 'len 3/16/2016 21:36'!
 exponents: aDictionary
@@ -26703,16 +26863,16 @@ apply: aMorphism
 	aMorphism domain = self scalars ifTrue: [^ self coefficientsApply: aMorphism].
 	^ DomainError signal! !
 
-!Polynomial methodsFor: 'converting' stamp: 'len 3/27/2016 02:58'!
+!Polynomial methodsFor: 'converting' stamp: 'len 5/22/2016 22:57'!
 asMultivariate
 	"Convert a polynomial in R[x][y][z] to a polynomial in R[x,y,z]."
 	| R R` answer |
 	((R _ self scalars) isKindOf: Polynomials) ifFalse: [^ self].
-	self species isUnivariate ifFalse: [^ self error: 'not univariate']. "?"
-	R` _ R scalars polynomialsIn: R indeterminates, self species indeterminates.
+	self species isUnivariate ifFalse: [^ self].
+	R` _ self species asMultivariate.
 	answer _ R` zero.
 	self monomialsAndCoefficientsDo: [:key :value|
-		answer _ answer + ((value as: R`) * key)].
+		answer _ answer + ((value as: R`) * (R` x: R rank + 1 to: key degree))].
 	^ answer! !
 
 !Polynomial methodsFor: 'converting' stamp: 'len 11/19/2015 19:33'!
@@ -26728,6 +26888,22 @@ asScalar
 	self isConstant ifFalse: [^ self error: 'not a constant polynomial'].
 	self coefficients do: [:each| each isZero ifFalse: [^ each]].
 	^ self species scalars zero! !
+
+!Polynomial methodsFor: 'converting' stamp: 'len 5/21/2016 00:10'!
+asUnivariate
+	"Answer the receiver as univariate in the last indeterminate, e.g. go from R[x,y,z] to R[x,y][z]."
+	| term n d newCoefficients newSpecies |
+	self species isUnivariate ifTrue: [^ self].
+	n _ self species rank.
+	newSpecies _ self species asUnivariate.
+	(d _ self degreeIn: n) <= 0
+		ifTrue: [^ newSpecies constant: (self as: newSpecies scalars)].
+	newCoefficients _ Array new: d+1.
+	newCoefficients atAllPut: newSpecies scalars zero.
+	self monomialsAndCoefficientsDo: [:key :value|
+		term _ newSpecies scalars coefficient: value monomial: (key copyWithout: n).
+		newCoefficients at: (key degreeIn: n)+1 add: term].
+	^ newSpecies coefficients: newCoefficients! !
 
 !Polynomial methodsFor: 'converting' stamp: 'len 3/25/2016 09:06'!
 asUnivariateIn: anIndeterminate
@@ -26771,10 +26947,10 @@ coefficientAtDegree: anInteger
 	"Answer the coefficient of the degree given by the argument. For univiariate polynomials."
 	^ self coefficientAt: (Monomial x: self leadingIndeterminate to: anInteger)! !
 
-!Polynomial methodsFor: 'accessing coefficients' stamp: 'len 3/25/2016 03:50'!
+!Polynomial methodsFor: 'accessing coefficients' stamp: 'len 5/20/2016 06:21'!
 coefficientAtDegree: anInteger in: anotherInteger
 	"Answer the coefficient of degree anInteger looking at the receiver as univariate in the anotherInteger-th indeterminate."
-	self flag: #fix. "slow"
+	self flag: #fix. "slow and ugly"
 	^ (self asUnivariateIn: anotherInteger) coefficientAtDegree: anInteger! !
 
 !Polynomial methodsFor: 'iterating' stamp: 'len 3/30/2016 02:31'!
@@ -26973,17 +27149,16 @@ factorizer
 factors
 	^ self factorizer factors! !
 
-!Polynomial methodsFor: 'arithmetic' stamp: 'len 3/26/2016 23:11'!
+!Polynomial methodsFor: 'arithmetic' stamp: 'len 5/20/2016 20:35'!
 gcd: aPolynomial
 	"Answer the greatest common divisor of the receiver and aPolynomial."
 	| a b r |
+	aPolynomial isZero ifTrue: [^ self].
 	(self isUnivariate and: [aPolynomial isUnivariate and: [self leadingIndeterminate = aPolynomial leadingIndeterminate]])
 		ifFalse: "Multivariate case:"
-			[| i |
-			self scalars isUFD ifFalse: [^ DomainError signal: 'not an UFD'].
-			i _ self species ordering indeterminates reversed detect: [:one| (self has: one) and: [aPolynomial has: one]] ifNone: [self species ordering indeterminates first].
-			a _ self asUnivariateIn: i.
-			b _ aPolynomial asUnivariateIn: i.
+			[self scalars isUFD ifFalse: [^ DomainError signal: 'not an UFD'].
+			a _ self asUnivariate.
+			b _ aPolynomial asUnivariate.
 			^ (((a primitive gcd: b primitive) * (a content gcd: b content)) asMultivariate as: self species) primitive].
 	self scalars isField
 		ifFalse: "If it's not a field we use the primitive PRS algorithm:"
@@ -26992,7 +27167,6 @@ gcd: aPolynomial
 			[b isZero] whileFalse: [r _ (a pseudoRem: b) primitive. a _ b. b _ r].
 			a isConstant ifTrue: [a _ self one].
 			^ a * (self content gcd: aPolynomial content)].
-	aPolynomial isZero ifTrue: [^ self].
 	a _ self.
 	b _ aPolynomial.
 	[(r _ a \\ b) isZero] whileFalse: [a _ b. b _ r].
@@ -27032,14 +27206,13 @@ hessian
 	vars _ R ordering indeterminates.
 	^ R ** (vars size @ vars size) evaluating: [:i :j| (self derivativeIn: (vars at: i)) derivativeIn: (vars at: j)]! !
 
-!Polynomial methodsFor: 'operations' stamp: 'len 3/26/2016 23:12'!
+!Polynomial methodsFor: 'operations' stamp: 'len 5/20/2016 03:43'!
 homogenized
 	"Answer the homogenization of the receiver introducing a new indeterminate."
 	| R R` |
 	R _ self species.
-	(R has: #h) ifTrue: [self halt].
-	R` _ R scalars polynomialsIn: (R indeterminates copyWith: #h).
-	^ (self as: R`) homogenizedIn: #h! !
+	R` _ R scalars polynomialsIn: R rank + 1.
+	^ (self as: R`) homogenizedIn: R` rank! !
 
 !Polynomial methodsFor: 'operations' stamp: 'len 3/22/2016 23:19'!
 homogenizedIn: anIndeterminate
@@ -27255,10 +27428,10 @@ lcm: aPolynomial
 leadingCoefficient
 	^ self isZero ifTrue: [self scalars zero] ifFalse: [self coefficientAt: self leadingMonomial]! !
 
-!Polynomial methodsFor: 'accessing coefficients' stamp: 'len 3/25/2016 03:51'!
+!Polynomial methodsFor: 'accessing coefficients' stamp: 'len 5/20/2016 06:21'!
 leadingCoefficientIn: anIndeterminate
 	"Answer the leading coefficient of the receiver as univariate polynomial in the given indeterminate."
-	self flag: #fix. "slow"
+	self flag: #fix. "slow and ugly"
 	^ (self asUnivariateIn: anIndeterminate) leadingCoefficient! !
 
 !Polynomial methodsFor: 'accessing indeterminates' stamp: 'len 3/3/2016 05:32'!
@@ -27427,7 +27600,7 @@ printCoefficient: c on: aStream
 	aStream nextPutAll:
 		((numeric or: [string first = $(]) ifTrue: [string] ifFalse: ['(', string, ')'])! !
 
-!Polynomial methodsFor: 'printing' stamp: 'len 4/25/2016 06:54'!
+!Polynomial methodsFor: 'printing' stamp: 'len 5/20/2016 20:47'!
 printOn: aStream
 	| monomials leadingMonomial c |
 	self isBroken ifTrue: [aStream nextPutAll: '(broken) '].
@@ -27437,14 +27610,14 @@ printOn: aStream
 	c printString first = $-
 		ifTrue: [c _ c negated. aStream nextPut: $-].
 	(c ~= c one or: [leadingMonomial degree = 0]) ifTrue: [self printCoefficient: c on: aStream].
-	leadingMonomial degree > 0 ifTrue: [leadingMonomial printOn: aStream].
+	leadingMonomial degree > 0 ifTrue: [leadingMonomial printOn: aStream as: self species].
 	monomials allButFirst do: [:m|
 		c _ self coefficientAt: m.
 		c printString first = $-
 			ifTrue: [aStream nextPutAll: ' - '. c _ c negated]
 			ifFalse: [aStream nextPutAll: ' + '].
 		(c ~= c one or: [m degree = 0]) ifTrue: [self printCoefficient: c on: aStream].
-		m degree > 0 ifTrue: [m printOn: aStream]]! !
+		m degree > 0 ifTrue: [m printOn: aStream as: self species]]! !
 
 !Polynomial methodsFor: 'remainder sequences' stamp: 'len 3/9/2016 00:08'!
 prs: aPolynomial
@@ -28032,7 +28205,7 @@ value: anObject in: anIndeterminate
 zero
 	^ self species zero! !
 
-!Polynomial methodsFor: 'roots' stamp: 'len 3/26/2016 09:29'!
+!Polynomial methodsFor: 'roots' stamp: 'len 5/20/2016 03:41'!
 zeroAddition: aPolynomial
 	"Answer a polynomial whose zeros are the addition of the receiver zeros with the zeros of the argument."
 
@@ -28041,8 +28214,8 @@ zeroAddition: aPolynomial
 		ifTrue: [f _ self. g _ aPolynomial]
 		ifFalse: [g _ self. f _ aPolynomial].
 	R _ self species.
-	y _ R newIndeterminate.
-	R` _ self scalars polynomialsIn: (R indeterminates copyWith: y).
+	y _ R rank + 1.
+	R` _ self scalars polynomialsIn: R rank + 1.
 	X _ R` x: R indeterminate.
 	Y _ R` x: y.
 	m _ f companion.
@@ -28056,17 +28229,16 @@ zeroNegation
 
 	^ self species coefficients: (self denseCoefficients withIndexCollect: [:each :i| i odd ifTrue: [each negated] ifFalse: [each]])! !
 
-!Polynomial methodsFor: 'roots' stamp: 'len 3/26/2016 09:24'!
+!Polynomial methodsFor: 'roots' stamp: 'len 5/22/2016 23:36'!
 zeroProduct: aPolynomial
 	"Answer a polynomial whose zeros are the product of the receiver zeros by the zeros of the argument."
-
 	| f g m |
 	self degree <= aPolynomial degree
 		ifTrue: [f _ self. g _ aPolynomial]
 		ifFalse: [g _ self. f _ aPolynomial].
 	m _ f companion.
 	m _ self scalars polynomials ** m dimension withRows: m rows.
-	^ (g homogenized value: m in: #h) determinant as: self species! !
+	^ (g homogenized asUnivariate value: m) determinant asMultivariate as: self species! !
 
 !Polynomial methodsFor: 'roots' stamp: 'len 11/22/97 23:36'!
 zeroReciprocal
@@ -28082,7 +28254,7 @@ zeroReciprocal
 	0 to: self degree do: [:i| (self coefficientAtDegree: i) = (anObject coefficientAtDegree: i) ifFalse: [^ false]].
 	^ true"! !
 
-!DensePolynomial methodsFor: 'as yet unclassified' stamp: 'len 3/27/2016 02:22'!
+!DensePolynomial methodsFor: 'converting' stamp: 'len 3/27/2016 02:22'!
 asSparsePolynomial
 	^ SparsePolynomial coefficients: (SparseTuple accumulate: [:aBlock| self monomialsAndCoefficientsDo: [:key :value| aBlock value: key -> value]])! !
 
@@ -28132,7 +28304,7 @@ derivative
 derivativeIn: anIndeterminate
 	^ (self has: anIndeterminate) ifTrue: [self derivative] ifFalse: [self zero]! !
 
-!DensePolynomial methodsFor: 'as yet unclassified' stamp: 'len 3/27/2016 03:10'!
+!DensePolynomial methodsFor: 'operations univariate' stamp: 'len 3/27/2016 03:10'!
 even
 	"Decompose the receiver in the form f(x^2)x + g(x^2) and answer g(x)."
 	^ self species coefficients: ((1 to: self coefficients size by: 2) collect: [:each| coefficients at: each])! !
@@ -28175,12 +28347,12 @@ monomialsAndCoefficientsDo: aBlock
 	x _ self species indeterminate.
 	coefficients keysAndValuesDo: [:key :value| value isZero ifFalse: [aBlock value: (Monomial x: x to: key-1) value: value]]! !
 
-!DensePolynomial methodsFor: 'iterating' stamp: 'len 3/26/2016 23:50'!
+!DensePolynomial methodsFor: 'iterating' stamp: 'len 5/19/2016 07:29'!
 monomialsApply: aBlock
 	| x monomials n newCoefficients |
 	x _ self species indeterminate.
-	monomials _ coefficients withIndexCollect: [:each :i|
-		(aBlock value: (Monomial x: x to: i-1)) -> each].
+	monomials _ (1 to: coefficients size) collect: [:i|
+		(aBlock value: (Monomial x: x to: i-1)) -> (coefficients at: i)].
 	n _ monomials max: [:each| each key degree].
 	newCoefficients _ Array new: n+1 :: atAllPut: self scalars zero.
 	monomials do: [:each| newCoefficients at: each key degree + 1 add: each value].
@@ -28204,7 +28376,7 @@ normalize
 	n _ coefficients findLast: [:one| one isZero not].
 	n < coefficients size ifTrue: [coefficients _ coefficients copyFrom: 1 to: n]! !
 
-!DensePolynomial methodsFor: 'as yet unclassified' stamp: 'len 3/27/2016 03:09'!
+!DensePolynomial methodsFor: 'operations univariate' stamp: 'len 3/27/2016 03:09'!
 odd
 	"Decompose the receiver in the form f(x^2)x + g(x^2) and answer f(x)."
 	^ self species coefficients: ((2 to: self coefficients size by: 2) collect: [:each| coefficients at: each])! !
@@ -28259,8 +28431,8 @@ coefficients
 coefficients: aSparseTuple
 	coefficients _ aSparseTuple! !
 
-!SparsePolynomial methodsFor: 'accessing coefficients' stamp: 'len 3/30/2016 03:59'!
-denseCcoefficients
+!SparsePolynomial methodsFor: 'accessing coefficients' stamp: 'len 5/20/2016 01:45'!
+denseCoefficients
 	"Answer a dense array of the receivers coefficients ordered by degree.
 	Makes sense for univariate polynomails."
 	| answer |
@@ -29061,12 +29233,12 @@ isZero
 negated
 	^ self class coefficients: coefficients negated! !
 
-!PowerSeries methodsFor: 'printing' stamp: 'len 4/4/2016 07:28'!
+!PowerSeries methodsFor: 'printing' stamp: 'len 5/20/2016 03:58'!
 printOn: aStream
 	| P f n |
 	n _ coefficients printLimit.
 	P _ coefficients codomain polynomials.
-	f _ P coefficients: (coefficients copyFrom: coefficients startIndex to: coefficients startIndex + n) :: sortedBy: (MonomialOrdering revlex: #(x)).
+	f _ P coefficients: (coefficients copyFrom: coefficients startIndex to: coefficients startIndex + n) :: sortedBy: #revlex.
 	aStream print: f; nextPutAll: ' + O('; print: P x ** (n+1); nextPut: $)! !
 
 !PowerSeries methodsFor: 'arithmetic' stamp: 'len 12/28/2015 05:48'!
@@ -30601,9 +30773,9 @@ isIrreducible
 isNormalized
 	^ roots allSatisfy: [:each| (space innerProduct value: {each.each}) = 2]! !
 
-!RootSystem methodsFor: 'operations' stamp: 'len 1/6/2016 04:59'!
+!RootSystem methodsFor: 'operations' stamp: 'len 5/20/2016 23:59'!
 lattice
-	"Answer the lattice spanned by roots of the receiver."
+	"Answer the root lattice, the Z-submodule spanned by roots of the receiver."
 	^ Lattice basis: self simpleRoots! !
 
 !RootSystem methodsFor: 'roots' stamp: 'len 1/6/2016 03:52'!
@@ -31505,14 +31677,14 @@ testAlgebraicSetNotFinite
 	V _ (Qxy * {y*y - (x*x) - 3}) variety.
 	self assert: V isFinite not! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 3/26/2016 09:12'!
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 5/20/2016 03:59'!
 testEliminationIdeal
 	"Example from Cox IVA 123 p. NOTE: this is a little slow."
 	| Qx x y z I |
 	Qx _ Rationals new polynomialsIn: #(x y z).
 	x _ Qx x. y _ Qx y. z _ Qx z.
 	I _ Qx * {x**2 + y + z - 1. x + (y**2) + z - 1. x + y + (z**2) - 1}.
-	self assert: (I eliminateAll: #(x y)) generator = (z**6 - (z**4*4) + (z**3*4) - (z**2))! !
+	self assert: (I eliminateAll: #(1 2)) generator = (z**6 - (z**4*4) + (z**3*4) - (z**2))! !
 
 !AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 3/24/2016 05:51'!
 testEqualVarietiesDifferentIdeals
@@ -31539,7 +31711,7 @@ testEqualVarietiesDifferentIdeals2
 	self assert: V = V`.
 	self assert: I ~= I`! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 3/28/2016 04:13'!
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 5/20/2016 03:03'!
 testGroebnerTrivial
 	"The 3 polynomials have no common zeroes, the groebner basis should be {1}."
 	| Qx x y I |
@@ -31910,8 +32082,8 @@ testIsSolvableNot
 	G _ Group alternating: (1 to: 5).
 	self assert: G isSolvable not! !
 
-!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 5/13/2016 09:33'!
-testKlein
+!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 5/22/2016 23:37'!
+testKleinFour
 	| V S A |
 	V _ PermutationGroup klein.
 	S _ SymmetricGroup new: 4.
@@ -32859,12 +33031,12 @@ testDiscriminant
 	g _ x**3 + 1.
 	self assert: (f*g) discriminant = (f discriminant * g discriminant * (f resultant: g) squared)! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 4/19/2016 04:20'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 5/22/2016 23:05'!
 testDivision: R
 	| Rx f g |
 	Rx _ R polynomials.
 	f _ Rx atRandomBits: 100 maxDegree: 10 atRandom.
-	g _ Rx atRandomBits: 100 maxDegree: 10 atRandom.
+	[g _ Rx atRandomBits: 100 maxDegree: 10 atRandom. g isZero] whileTrue.
 	self assert: (f // g) * g + (f \\ g) = f! !
 
 !PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 3/31/2016 07:02'!
@@ -32878,6 +33050,10 @@ testDivisionZ
 !PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 3/31/2016 07:02'!
 testDivisionZ2
 	self testDivision: (Field GF: 2)! !
+
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 5/22/2016 23:10'!
+testDivisionZ6
+	self testDivision: (Integers new mod: 6)! !
 
 !PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 4/19/2016 04:10'!
 testDomainError
@@ -33057,6 +33233,17 @@ testFiniteFieldFactorization2
 	self assert: (factors occurrencesOf: x-1) = 2.
 	self assert: (factors occurrencesOf: x-2) = 1! !
 
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 5/19/2016 07:35'!
+testFiniteFieldFactorizationZ2
+	| Z2 x f factors |
+	Z2 _ Integers new mod: 2.
+	x _ Z2 polynomials x.
+	f _ x**24 - 1.
+	factors _ f factors.
+	self assert: factors size = 16.
+	self assert: (factors occurrencesOf: x+1) = 8.
+	self assert: (factors occurrencesOf: x**2+x+1) = 8! !
+
 !PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 2/25/2016 00:35'!
 testFiniteFieldIrreduciblePolynomials
 	"Z/<3>[x] has 8 irreducible monic polynomials of degree 3, out of 27 monic polynomials of degree 3."
@@ -33199,7 +33386,7 @@ testMonomialOrderings
 	self assert: (f sortedBy: grlex) leadingCoefficient = -7.
 	self assert: (f sortedBy: revlex) leadingCoefficient = 11! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 3/26/2016 03:05'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 5/20/2016 03:56'!
 testMultivariateDivision
 	"Example from Cox IVA 62 p."
 	| Zxy x y f f1 f2 division |
@@ -33209,12 +33396,12 @@ testMultivariateDivision
 	f _ x*(y**2)+1.
 	f1 _ x*y+1.
 	f2 _ y+1.
-	division _ f divideBy: {f1. f2} ordering: (MonomialOrdering lex: #(y x)).
+	division _ f divideBy: {f1. f2} ordering: (MonomialOrdering lex: #(2 1)).
 	self assert: division quotients = {y. y one negated}.
 	self assert: division remainder = (y one * 2).
 	self assert: division verify! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 3/26/2016 03:06'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 5/20/2016 03:56'!
 testMultivariateDivision2
 	"Example from Cox IVA 63 p."
 	| Zxy x y f f1 f2 division |
@@ -33224,12 +33411,12 @@ testMultivariateDivision2
 	f _ x**2*y + (x*(y**2)) + (y**2).
 	f1 _ x*y-1.
 	f2 _ y**2-1.
-	division _ f divideBy: {f1. f2} ordering: (MonomialOrdering lex: #(y x)).
+	division _ f divideBy: {f1. f2} ordering: (MonomialOrdering lex: #(2 1)).
 	self assert: division quotients = {x+y. y one}.
 	self assert: division remainder = (x+y+1).
 	self assert: division verify! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 3/26/2016 03:06'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 5/20/2016 03:57'!
 testMultivariateDivision3
 	"Example from Cox IVA 67 p."
 	| Zxy x y f f1 f2 division |
@@ -33239,7 +33426,7 @@ testMultivariateDivision3
 	f _ x**2*y + (x*(y**2)) + (y**2).
 	f1 _ x*y-1.
 	f2 _ y**2-1.
-	division _ f divideBy: {f2. f1} ordering: (MonomialOrdering lex: #(y x)).
+	division _ f divideBy: {f2. f1} ordering: (MonomialOrdering lex: #(2 1)).
 	self assert: division quotients = {x+1. x}.
 	self assert: division remainder = (x*2+1).
 	self assert: division verify! !
@@ -33258,40 +33445,40 @@ testPPRS
 		(4663 -6150)
 		(1))! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 3/26/2016 06:37'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 5/20/2016 04:03'!
 testPseudoDivision1
 	| Zxy x y division |
 	Zxy _ Integers new polynomialsIn: #(x y).
 	x _ Zxy x.
 	y _ Zxy y.
-	division _ x**2 + (y**2) pseudoDivideBy: x - y in: #x.
+	division _ x**2 + (y**2) pseudoDivideBy: x - y in: 1.
 	self assert: division quotient asMultivariate = (x + y).
 	self assert: division remainder asMultivariate = (y**2 * 2).
 	self assert: division verify! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 3/26/2016 06:38'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 5/20/2016 04:03'!
 testPseudoDivision2
 	| Zxy x y division |
 	Zxy _ Rationals new polynomialsIn: #(x y).
 	x _ Zxy x.
 	y _ Zxy y.
-	division _ x**2 + (y**2) pseudoDivideBy: (x-y)*2 in: #x.
+	division _ x**2 + (y**2) pseudoDivideBy: (x-y)*2 in: 1.
 	self assert: division quotient asMultivariate = ((x+y) * 2).
 	self assert: division remainder asMultivariate = (y**2 * 8).
 	self assert: division verify! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 3/26/2016 06:38'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 5/20/2016 04:03'!
 testPseudoDivision3
 	| Zxy x y division |
 	Zxy _ Integers new polynomialsIn: #(x y).
 	x _ Zxy x.
 	y _ Zxy y.
-	division _ x**2 + (y**2) pseudoDivideBy: x - y in: #x.
+	division _ x**2 + (y**2) pseudoDivideBy: x - y in: 1.
 	self assert: division quotient asMultivariate = (x + y).
 	self assert: division remainder asMultivariate = (y**2 * 2).
 	self assert: division verify.
 
-	division _ x**2 + (y**2) pseudoDivideBy: x - y in: #y.
+	division _ x**2 + (y**2) pseudoDivideBy: x - y in: 2.
 	self assert: division quotient asMultivariate = (x + y) negated.
 	self assert: division remainder asMultivariate = (x**2 * 2).
 	self assert: division verify! !
@@ -33446,15 +33633,29 @@ testSubresultant0
 	g _ 3 * (x - 7).
 	self assert: (f resultant: g) = (f subresultant: 0 with: g) asScalar! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 3/26/2016 03:09'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 5/22/2016 23:21'!
 testUnivariateMultivariateConversion
 	| Qx x y f |
 	Qx _ Rationals new polynomialsIn: #(x y).
 	x _ Qx x.
 	y _ Qx y.
 	f _ x**2*y.
-	self assert: (f asUnivariateIn: #x :: asMultivariate as: Qx) = f.
-	self assert: (f asUnivariateIn: #y :: asMultivariate as: Qx) = f! !
+	self assert: (f asUnivariateIn: 1 :: asMultivariate) = f.
+	self assert: (f asUnivariateIn: 2 :: asMultivariate) = f! !
+
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 5/22/2016 23:19'!
+testUnivariateMultivariateConversion2
+	| Qx x y f f` x0 y0 |
+	Qx _ Rationals new polynomialsIn: #(x y).
+	x _ Qx x.
+	y _ Qx y.
+	f _ Qx zero.
+	10 timesRepeat: [f _ f + (10 atRandom - 5 * (x ** (3 atRandom - 1) * (y ** (3 atRandom - 1))))].
+	f` _ f asUnivariate.
+	self assert: f` asMultivariate = f.
+	x0 _ (-100 to: 100) atRandom.
+	y0 _ (-100 to: 100) atRandom.
+	self assert: ((f` value: y0) value: x0) = (f value: {x0. y0})! !
 
 !PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 3/19/2016 03:54'!
 testZeroCoefficientBug
