@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2752] on 22 May 2016 at 11:40:58.131977 pm'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2752] on 23 May 2016 at 5:05:40.051522 am'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 62!
+!provides: 'Mathematics' 1 63!
 !classDefinition: #AbelianGroupPresentation category: #'Mathematics-Free'!
 Object subclass: #AbelianGroupPresentation
 	instanceVariableNames: 'generators relators'
@@ -233,7 +233,7 @@ GroebnerBasis class
 
 !classDefinition: #LinearBasis category: #'Mathematics-Linear'!
 SequenceableCollection subclass: #LinearBasis
-	instanceVariableNames: 'space vectors'
+	instanceVariableNames: 'ambient vectors'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Linear'!
@@ -423,7 +423,7 @@ AbelianGroup class
 
 !classDefinition: #Ideal category: #'Mathematics-Kernel-Domains'!
 AbelianGroup subclass: #Ideal
-	instanceVariableNames: 'ring generators'
+	instanceVariableNames: 'ambient generators'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Kernel-Domains'!
@@ -563,7 +563,7 @@ InfiniteTuples class
 
 !classDefinition: #LieAlgebra category: #'Mathematics-Lie'!
 VectorSpace subclass: #LieAlgebra
-	instanceVariableNames: 'space bracket'
+	instanceVariableNames: 'space'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Lie'!
@@ -2883,7 +2883,7 @@ RealRootFinder class
 
 !classDefinition: #RootSystem category: #'Mathematics-Lie'!
 Object subclass: #RootSystem
-	instanceVariableNames: 'roots space'
+	instanceVariableNames: 'roots ambient'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Lie'!
@@ -7837,6 +7837,14 @@ addAll: aCollection
 	aCollection do: [ :each | self add: each].
 	^ aCollection! !
 
+!LinearBasis methodsFor: 'accessing' stamp: 'len 5/23/2016 04:33'!
+ambient
+	^ ambient! !
+
+!LinearBasis methodsFor: 'accessing-private' stamp: 'len 5/23/2016 04:44'!
+ambient: aVectorSpace
+	ambient _ aVectorSpace! !
+
 !LinearBasis methodsFor: 'operations' stamp: 'len 12/10/2015 04:28'!
 apply: aLinearMap
 	| answer vector |
@@ -7854,36 +7862,36 @@ at: anInteger
 at: anInteger put: anObject
 	^ vectors at: anInteger put: anObject! !
 
-!LinearBasis methodsFor: 'operations' stamp: 'len 12/13/2015 05:11'!
+!LinearBasis methodsFor: 'operations' stamp: 'len 5/23/2016 04:43'!
 changeTo: aLinearBasis
 	"Answer the matrix for changing from the receiver to aLinearBasis."
 	| matrix |
-	matrix _ (space scalars ** (self size @ aLinearBasis size)) new.
+	matrix _ (ambient scalars ** (self size @ aLinearBasis size)) new.
 	self do: [ :each | matrix addRow: (aLinearBasis coordinatesOf: each)].
 	^ matrix transposed! !
 
-!LinearBasis methodsFor: 'iterating' stamp: 'len 3/22/2016 03:58'!
+!LinearBasis methodsFor: 'iterating' stamp: 'len 5/23/2016 04:32'!
 collect: aBlock
 	"Answer a copy of the receiver with the vectors mapped by aBlock."
 
 	| answer |
-	answer _ self species on: space.
-	self do: [ :each | answer add: (aBlock value: each)].
+	answer _ self species on: ambient.
+	self do: [:each| answer add: (aBlock value: each)].
 	^ answer! !
 
-!LinearBasis methodsFor: 'coordinates' stamp: 'len 11/23/2015 17:14'!
+!LinearBasis methodsFor: 'coordinates' stamp: 'len 5/23/2016 04:32'!
 coordinateSpace
-	^ space scalars ** self size! !
+	^ ambient scalars ** self size! !
 
-!LinearBasis methodsFor: 'coordinates' stamp: 'len 12/14/2015 03:16'!
+!LinearBasis methodsFor: 'coordinates' stamp: 'len 5/23/2016 04:44'!
 coordinatesOf
 	"Answer the linear isomorphism mapping a vector to its coordinates in the receiver."
 	^ LinearMap
 		from: self
-		to: (space scalars ** self size) basis
-		matrix: (space scalars ** (space dimension @ self size)) identity! !
+		to: (ambient scalars ** self size) basis
+		matrix: (ambient scalars ** (ambient dimension @ self size)) identity! !
 
-!LinearBasis methodsFor: 'coordinates' stamp: 'len 4/25/2016 01:41'!
+!LinearBasis methodsFor: 'coordinates' stamp: 'len 5/23/2016 04:43'!
 coordinatesOf: anObject
 	"Answer the coordinates of anObject when expressed as a linear combination of the vectors of the receiver.
 	Answer nil if anObject is independent from the receiver."
@@ -7891,7 +7899,7 @@ coordinatesOf: anObject
 	| m reducer coords answer |
 	1 to: self size do: [ :i |
 		(self at: i) = anObject ifTrue: [^ self coordinateSpace e: i]].
-	m _ self matrix rowAugmented: (space coordinatesOf: anObject).
+	m _ self matrix rowAugmented: (ambient coordinatesOf: anObject).
 	reducer _ m transposed reducer.
 	coords _ reducer reduced lastColumn.
 	^ reducer rank > self size
@@ -7900,14 +7908,14 @@ coordinatesOf: anObject
 			reducer pivots do: [:each| answer at: each x put: (coords at: each y)].
 			answer]! !
 
-!LinearBasis methodsFor: 'copying' stamp: 'len 12/29/2015 05:34'!
+!LinearBasis methodsFor: 'copying' stamp: 'len 5/23/2016 04:42'!
 copy
-	^ self class on: space :: addAll: self; yourself! !
+	^ self class on: ambient :: addAll: self; yourself! !
 
-!LinearBasis methodsFor: 'copying' stamp: 'len 2/21/2016 05:18'!
+!LinearBasis methodsFor: 'copying' stamp: 'len 5/23/2016 04:42'!
 copyFrom: startIndex to: endIndex
 	| answer |
-	answer _ self class on: space.
+	answer _ self class on: ambient.
 	startIndex to: endIndex do: [:i| answer add: (self at: i)].
 	^ answer! !
 
@@ -7915,25 +7923,24 @@ copyFrom: startIndex to: endIndex
 do: aBlock 
 	vectors do: aBlock! !
 
-!LinearBasis methodsFor: 'operations' stamp: 'len 12/10/2015 04:11'!
+!LinearBasis methodsFor: 'operations' stamp: 'len 5/23/2016 04:32'!
 dual
 	| answer extendedBasis |
 	extendedBasis _ self extended.
-	answer _ self class on: space dual.
+	answer _ self class on: ambient dual.
 	self do: [:each|
 		answer add:
 			(LinearForm
 				from: extendedBasis coordinates: (extendedBasis coordinatesOf: each))].
 	^ answer! !
 
-!LinearBasis methodsFor: 'operations' stamp: 'len 11/21/2015 23:14'!
+!LinearBasis methodsFor: 'operations' stamp: 'len 5/23/2016 04:43'!
 extended
-	"Answer a basis spanning to all the ambient
-	space, adding generating vectors if needed."
+	"Answer a basis spanning to all the ambient space, adding generating vectors if needed."
 
 	| answer |
 	answer _ self copy.
-	space basis do: [ :each |
+	ambient basis do: [:each|
 		(answer generates: each) ifFalse: [answer add: each]].
 	^ answer! !
 
@@ -7950,13 +7957,13 @@ generates: anObject
 	self isEmpty ifTrue: [^ anObject isZero].
 	^ (self coordinatesOf: anObject) notNil! !
 
-!LinearBasis methodsFor: 'operations' stamp: 'len 12/30/2015 19:49'!
+!LinearBasis methodsFor: 'operations' stamp: 'len 5/23/2016 04:32'!
 gramian
 	"Answer the Gramian of the receiver, or Gram matrix.
 	If M is the generator matrix of the receiver (self matrix), then the Gramian is M * M transposed."
-	^ space scalars ** (self size @ self size)
+	^ ambient scalars ** (self size @ self size)
 		evaluating:
-			[:i :j| space innerProduct value: {(self at: i). (self at: j)}]! !
+			[:i :j| ambient innerProduct value: {(self at: i). (self at: j)}]! !
 
 !LinearBasis methodsFor: 'comparing' stamp: 'len 11/7/2015 01:57'!
 hash
@@ -7974,18 +7981,18 @@ initialize
 isEmpty
 	^ self size = 0! !
 
-!LinearBasis methodsFor: 'testing' stamp: 'len 2/21/2016 05:01'!
+!LinearBasis methodsFor: 'testing' stamp: 'len 5/23/2016 04:42'!
 isOrthogonal
 	self do: [:v|
 		self do: [:w|
-			(v ~~ w and: [(space innerProduct value: {v.w}) isZero not])
+			(v ~~ w and: [(ambient innerProduct value: {v.w}) isZero not])
 				ifTrue: [^ false]]].
 	^ true! !
 
-!LinearBasis methodsFor: 'testing' stamp: 'len 3/22/2016 03:54'!
+!LinearBasis methodsFor: 'testing' stamp: 'len 5/23/2016 04:43'!
 isOrthonormal
 	self isOrthogonal ifFalse: [^ false].
-	self do: [:v| (space innerProduct value: {v.v}) = space scalars one ifFalse: [^ false]].
+	self do: [:v| (ambient innerProduct value: {v.v}) = ambient scalars one ifFalse: [^ false]].
 	^ true! !
 
 !LinearBasis methodsFor: 'accessing' stamp: 'len 1/27/98 05:23'!
@@ -7994,15 +8001,15 @@ last
 
 	^ self at: self size! !
 
-!LinearBasis methodsFor: 'accessing' stamp: 'len 4/12/2016 07:49'!
+!LinearBasis methodsFor: 'accessing' stamp: 'len 5/23/2016 04:42'!
 matrix
 	"Answer the generator matrix M, i.e. the matrix whose rows are the canonical coordinates of the vectors of the receiver.
 	Vectors in the linear subspace generated by the receiver are of the form (a1,...,an)*M."
 	
 	| rows |
 	rows _ OrderedCollection new: self size.
-	self do: [:v| rows add: (space coordinatesOf: v)].
-	^ (space scalars ** (self size @ (rows max: [:each| each size]))) withRows: rows! !
+	self do: [:v| rows add: (ambient coordinatesOf: v)].
+	^ (ambient scalars ** (self size @ (rows max: [:each| each size]))) withRows: rows! !
 
 !LinearBasis methodsFor: 'operations' stamp: 'len 12/23/2015 05:19'!
 orthogonalized
@@ -8020,14 +8027,14 @@ printOn: aStream
 	vectors do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: '; '].
 	aStream nextPut: $}! !
 
-!LinearBasis methodsFor: 'iterating' stamp: 'len 11/21/2015 23:13'!
+!LinearBasis methodsFor: 'iterating' stamp: 'len 5/23/2016 04:43'!
 select: aBlock 
 	"Evaluate aBlock with each of the receiver's elements as the argument. 
 	Collect into a new collection like the receiver, only those elements for 
 	which aBlock evaluates to true. Answer the new collection."
 
 	| newCollection |
-	newCollection _ self class on: space.
+	newCollection _ self class on: ambient.
 	self do: [:each | (aBlock value: each) ifTrue: [newCollection add: each]].
 	^ newCollection! !
 
@@ -8037,26 +8044,18 @@ size
 
 	^ vectors size! !
 
-!LinearBasis methodsFor: 'accessing' stamp: 'len 11/21/2015 23:15'!
-space
-	^ space! !
-
-!LinearBasis methodsFor: 'accessing-private' stamp: 'len 11/21/2015 23:15'!
-space: aVectorSpace
-	space _ aVectorSpace! !
-
 !LinearBasis methodsFor: 'accessing' stamp: 'len 11/7/2015 23:20'!
 span
 	"Answer the subspace generated by the vectors of the receiver."
 	^ LinearSubspace basis: self! !
 
-!LinearBasis methodsFor: 'coordinates' stamp: 'len 12/14/2015 03:16'!
+!LinearBasis methodsFor: 'coordinates' stamp: 'len 5/23/2016 04:43'!
 vectorAt
 	"Answer the linear isomorphism mapping a Tuple to the vector with that coordinates in the receiver."
 	^ LinearMap
-		from: (space scalars ** self size) basis
+		from: (ambient scalars ** self size) basis
 		to: self
-		matrix: (space scalars ** (space dimension @ self size)) identity! !
+		matrix: (ambient scalars ** (ambient dimension @ self size)) identity! !
 
 !LinearBasis methodsFor: 'coordinates' stamp: 'len 3/5/2016 01:32'!
 vectorAt: aTuple 
@@ -8081,9 +8080,9 @@ vectors: aCollection
 new
 	^ super new initialize! !
 
-!LinearBasis class methodsFor: 'instance creation' stamp: 'len 11/21/2015 23:13'!
+!LinearBasis class methodsFor: 'instance creation' stamp: 'len 5/23/2016 04:44'!
 on: aVectorSpace
-	^ self new space: aVectorSpace! !
+	^ self new ambient: aVectorSpace! !
 
 !LinearBasis class methodsFor: 'instance creation' stamp: 'len 1/2/2016 07:58'!
 on: aVectorSpace matrix: aMatrix
@@ -9151,17 +9150,13 @@ new
 newFrom: anObject
 	^ self new elements: anObject! !
 
-!AbelianGroup methodsFor: 'accessing' stamp: 'len 2/28/2016 07:25'!
-additiveIdentity
-	^ self zero! !
-
-!AbelianGroup methodsFor: 'accessing' stamp: 'len 2/28/2016 07:25'!
-additiveInverseMap
-	^ (Function from: self to: self evaluating: [:x| x negated]) name: '-id'! !
-
-!AbelianGroup methodsFor: 'accessing' stamp: 'len 4/19/2016 03:39'!
-additiveOperation
+!AbelianGroup methodsFor: 'accessing' stamp: 'len 5/23/2016 03:51'!
+addition
 	^ (Function from: (self, self) to: self evaluating: [:each| each first + each second]) name: '+'! !
+
+!AbelianGroup methodsFor: 'accessing' stamp: 'len 5/23/2016 03:51'!
+additionInverseMap
+	^ (Function from: self to: self evaluating: [:x| x negated]) name: '-id'! !
 
 !AbelianGroup methodsFor: 'testing' stamp: 'len 12/9/2015 02:26'!
 isAbelian
@@ -9196,19 +9191,19 @@ torsion
 zero
 	^ properties at: #zero! !
 
-!Ideal methodsFor: 'morphisms' stamp: 'len 12/18/2015 19:37'!
+!Ideal methodsFor: 'morphisms' stamp: 'len 5/23/2016 04:18'!
 * anElementOrIdeal
 	| newGenerators |
-	(ring includes: anElementOrIdeal) ifTrue: [^ self class on: ring generators: generators * anElementOrIdeal].
-	anElementOrIdeal ring = ring ifFalse: [^ DomainError signal: 'ideal from different rings'].
+	(ambient includes: anElementOrIdeal) ifTrue: [^ self class on: ambient generators: generators * anElementOrIdeal].
+	anElementOrIdeal ambient = ambient ifFalse: [^ DomainError signal: 'ideal from different rings'].
 	newGenerators _ Set new.
 	generators do: [:a| anElementOrIdeal generators do: [:b| newGenerators add: a*b]].
-	^ self class on: ring generators: newGenerators! !
+	^ self class on: ambient generators: newGenerators! !
 
-!Ideal methodsFor: 'morphisms' stamp: 'len 12/15/2015 04:54'!
+!Ideal methodsFor: 'morphisms' stamp: 'len 5/23/2016 04:16'!
 + anIdeal 
-	anIdeal ring = ring ifFalse: [^ DomainError signal: 'ideals from different rings'].
-	^ self class on: ring generators: (generators asSet copy addAll: anIdeal generators; yourself)! !
+	anIdeal ambient = ambient ifFalse: [^ DomainError signal: 'ideals from different rings'].
+	^ self class on: ambient generators: (generators asSet copy addAll: anIdeal generators; yourself)! !
 
 !Ideal methodsFor: 'comparing' stamp: 'len 12/14/2015 18:55'!
 < anIdeal
@@ -9227,16 +9222,25 @@ zero
 	(anIdeal isKindOf: Ideal) ifFalse: [^ false].
 	^ self <= anIdeal and: [anIdeal <= self]! !
 
-!Ideal methodsFor: 'morphisms' stamp: 'len 12/21/2015 02:58'!
-annihilator
-	^ (ring * ring zero) colon: self! !
+!Ideal methodsFor: 'accessing' stamp: 'len 5/23/2016 04:15'!
+ambient
+	"Answer the ambient ring of this ideal."
+	^ ambient! !
 
-!Ideal methodsFor: 'morphisms' stamp: 'len 4/23/2016 00:45'!
+!Ideal methodsFor: 'accessing-private' stamp: 'len 5/23/2016 04:14'!
+ambient: aRing
+	ambient _ aRing! !
+
+!Ideal methodsFor: 'morphisms' stamp: 'len 5/23/2016 04:17'!
+annihilator
+	^ (ambient * ambient zero) colon: self! !
+
+!Ideal methodsFor: 'morphisms' stamp: 'len 5/23/2016 04:16'!
 apply: aMorphism
 	"Apply a ring homomorphism phi to the receiver, sending each generator g to phi(g)."
 	(aMorphism is: #Function)
-		ifFalse: [^ self class on: ring generators: (generators collect: aMorphism)].
-	aMorphism domain = ring
+		ifFalse: [^ self class on: ambient generators: (generators collect: aMorphism)].
+	aMorphism domain = ambient
 		ifTrue: [^ self class on: aMorphism codomain generators: (generators collect: aMorphism)].
 	^ DomainError signal! !
 
@@ -9245,25 +9249,25 @@ colon: anIdeal
 	"Answer the colon quotient I:J of the receiver I with the argument J."
 	^ self subclassResponsibility! !
 
-!Ideal methodsFor: 'copying' stamp: 'len 11/22/2015 02:30'!
+!Ideal methodsFor: 'copying' stamp: 'len 5/23/2016 04:17'!
 copy
 	"Answer a copy of the receiver."
-	^ self class on: ring generators: self generators copy! !
+	^ self class on: ambient generators: self generators copy! !
 
-!Ideal methodsFor: 'iterating' stamp: 'len 11/20/2015 04:51'!
+!Ideal methodsFor: 'iterating' stamp: 'len 5/23/2016 04:17'!
 do: aBlock
-	ring isCommutative
+	ambient isCommutative
 		ifTrue:
-			[ring do: [ :each | generators do: [ :g | aBlock value: each * g ]]]
+			[ambient do: [:each| generators do: [:g| aBlock value: each * g]]]
 		ifFalse:
-			[ring do: [ :each | generators do: [ :g | aBlock value: each * g; value: g * each ]]]! !
+			[ambient do: [:each| generators do: [:g| aBlock value: each * g; value: g * each]]]! !
 
-!Ideal methodsFor: 'accessing' stamp: 'len 3/26/2016 09:11'!
+!Ideal methodsFor: 'accessing' stamp: 'len 5/23/2016 04:16'!
 generator
 	| generator |
 	generators size = 1 ifTrue: [^ generators anyOne].
-	generators size = 0 ifTrue: [^ ring zero].
-	ring isPID ifFalse: [^ self error: 'not a principal ideal domain'].
+	generators size = 0 ifTrue: [^ ambient zero].
+	ambient isPID ifFalse: [^ self error: 'not a principal ideal domain'].
 	generators do: [:each| generator _ generator isNil ifTrue: [each] ifFalse: [generator gcd: each]].
 	generators _ {generator}! !
 
@@ -9276,24 +9280,24 @@ generators
 generators: aCollection 
 	generators _ aCollection! !
 
-!Ideal methodsFor: 'comparing' stamp: 'len 12/14/2015 02:01'!
+!Ideal methodsFor: 'comparing' stamp: 'len 5/23/2016 04:17'!
 hash
-	^ ring hash + self class hash! !
+	^ ambient hash + self class hash! !
 
 !Ideal methodsFor: 'testing' stamp: 'len 11/26/2015 01:07'!
 includes: anObject
 	^ (self remainderOf: anObject) isZero! !
 
-!Ideal methodsFor: 'morphisms' stamp: 'len 2/24/2016 06:00'!
+!Ideal methodsFor: 'morphisms' stamp: 'len 5/23/2016 04:16'!
 intersection: anIdeal
-	^ ring * (self generator lcm: anIdeal generator)! !
+	^ ambient * (self generator lcm: anIdeal generator)! !
 
-!Ideal methodsFor: 'operations' stamp: 'len 2/24/2016 21:42'!
+!Ideal methodsFor: 'operations' stamp: 'len 5/23/2016 04:18'!
 inverseOf: anObject
 	| euclid |
-	ring isEuclidean ifFalse: [^ nil].
+	ambient isEuclidean ifFalse: [^ nil].
 	euclid _ ExtendedEuclid on: {anObject. self generator}.
-	euclid gcd = self ring one ifFalse: [^ nil].
+	euclid gcd = self ambient one ifFalse: [^ nil].
 	^ euclid combination first! !
 
 !Ideal methodsFor: 'testing' stamp: 'len 1/4/2016 03:29'!
@@ -9310,15 +9314,15 @@ isNull
 isPrime
 	^ properties at: #isPrime! !
 
-!Ideal methodsFor: 'testing' stamp: 'len 12/7/2015 04:45'!
+!Ideal methodsFor: 'testing' stamp: 'len 5/23/2016 04:16'!
 isPrincipal
 	generators size = 1 ifTrue: [^ true].
-	ring isPID ifTrue: [^ true].
+	ambient isPID ifTrue: [^ true].
 	^ properties at: #isPrincipal! !
 
-!Ideal methodsFor: 'testing' stamp: 'len 3/6/2016 22:44'!
+!Ideal methodsFor: 'testing' stamp: 'len 5/23/2016 04:20'!
 isProper
-	^ self ~= self ring! !
+	^ self ~= self ambient! !
 
 !Ideal methodsFor: 'lattice' stamp: 'len 11/21/2015 21:29'!
 join: anIdeal
@@ -9347,25 +9351,17 @@ radical
 remainderOf: anObject
 	^ anObject \\ self generator! !
 
-!Ideal methodsFor: 'accessing' stamp: 'len 11/11/2015 01:59'!
-ring
-	^ ring! !
-
-!Ideal methodsFor: 'accessing-private' stamp: 'len 11/11/2015 01:59'!
-ring: aRing
-	ring _ aRing! !
-
-!Ideal class methodsFor: 'instance creation' stamp: 'len 11/20/2015 05:37'!
+!Ideal class methodsFor: 'instance creation' stamp: 'len 5/23/2016 04:14'!
 on: aRing generators: aCollection
-	^ self new ring: aRing; generators: aCollection! !
+	^ self new ambient: aRing; generators: aCollection! !
 
 !IntegerIdeal methodsFor: 'random' stamp: 'len 4/19/2016 20:05'!
 atRandom: aRandom bits: bitSize
 	^ ((0-bitSize//2 to: bitSize//2) atRandom: aRandom) * self generator! !
 
-!IntegerIdeal methodsFor: 'morphisms' stamp: 'len 2/24/2016 06:00'!
+!IntegerIdeal methodsFor: 'morphisms' stamp: 'len 5/23/2016 04:18'!
 intersection: anIdeal
-	^ ring * (self generator lcm: anIdeal generator)! !
+	^ ambient * (self generator lcm: anIdeal generator)! !
 
 !IntegerIdeal methodsFor: 'operations' stamp: 'len 12/8/2015 01:03'!
 inverseOf: anInteger
@@ -9379,9 +9375,9 @@ isMaximal
 isPrime
 	^ properties at: #isPrime ifAbsentPut:[self generator isPrime]! !
 
-!IntegerIdeal methodsFor: 'morphisms' stamp: 'len 12/21/2015 03:02'!
+!IntegerIdeal methodsFor: 'morphisms' stamp: 'len 5/23/2016 04:18'!
 radical
-	^ ring * (self generator factors asSet inject: 1 into: [:x :each| x*each])! !
+	^ ambient * (self generator factors asSet inject: 1 into: [:x :each| x*each])! !
 
 !IntegerIdeal methodsFor: 'random' stamp: 'len 4/19/2016 22:57'!
 remainderAtRandom: aRandom
@@ -9433,14 +9429,14 @@ output: univariate eliminant g(xi) or there's no eliminant
 where n is minimal, then output eliminant g(xi) = sum akxi^k
 "! !
 
-!PolynomialIdeal methodsFor: 'morphisms' stamp: 'len 3/27/2016 09:06'!
+!PolynomialIdeal methodsFor: 'morphisms' stamp: 'len 5/23/2016 04:18'!
 eliminateAll: aCollection
 	"Answer the elimination ideal for the indeterminates in aCollection = {xi}, i.e. the subideal of polynomials without indeterminates {xi}."
 	| indeterminates ordering G |
-	indeterminates _ aCollection asArray , (ring ordering indeterminates reject: [:each| aCollection includes: each]).
+	indeterminates _ aCollection asArray , (ambient ordering indeterminates reject: [:each| aCollection includes: each]).
 	ordering _ MonomialOrdering lex: indeterminates.
 	G _ GroebnerBasis from: generators ordering: ordering.
-	^ self class on: ring generators: (G minimal asArray select: [:each| (aCollection noneSatisfy:[:none| each has: none])])! !
+	^ self class on: ambient generators: (G minimal asArray select: [:each| (aCollection noneSatisfy:[:none| each has: none])])! !
 
 !PolynomialIdeal methodsFor: 'accessing-private' stamp: 'len 3/15/2016 17:50'!
 generators: aCollection
@@ -9453,11 +9449,11 @@ groebner
 	"Answer a Groebner basis of the receiver."
 	^ properties at: #groebner ifAbsentPut: [GroebnerBasis from: self generators]! !
 
-!PolynomialIdeal methodsFor: 'morphisms' stamp: 'len 5/20/2016 03:55'!
+!PolynomialIdeal methodsFor: 'morphisms' stamp: 'len 5/23/2016 04:20'!
 homogenized
 	"Answer the homogenization of the receiver introducing a new indeterminate."
 	| R R` ordering G |
-	R _ self ring.
+	R _ self ambient.
 	R` _ R scalars polynomialsIn: R rank + 1.
 	"Must use a graded monomial ordering such as tlex or trevlex:"
 	self flag: #fix.
@@ -9471,10 +9467,10 @@ includes: aPolynomial
 	This works on any Groebner basis (any monomial ordering)."
 	^ (self remainderOf: aPolynomial) isZero! !
 
-!PolynomialIdeal methodsFor: 'morphisms' stamp: 'len 3/26/2016 09:10'!
+!PolynomialIdeal methodsFor: 'morphisms' stamp: 'len 5/23/2016 04:20'!
 intersection: anIdeal
 	| R R` t T TminusOne G1 G2 G` G |
-	R _ self ring.
+	R _ self ambient.
 	t _ R newIndeterminate.
 	R` _ R scalars polynomialsIn: (R indeterminates copyWith: t) ordering: (MonomialOrdering lex: R ordering indeterminates, {t}).
 	T _ R` x: t.
@@ -9498,15 +9494,15 @@ isRadical
 isUnivariate
 	^ self generators anyOne species isUnivariate! !
 
-!PolynomialIdeal methodsFor: 'morphisms' stamp: 'len 3/9/2016 05:06'!
+!PolynomialIdeal methodsFor: 'morphisms' stamp: 'len 5/23/2016 04:20'!
 radical
-	^ self class on: self ring generators: (self generators collect: [:each| each reduced])! !
+	^ self class on: self ambient generators: (self generators collect: [:each| each reduced])! !
 
-!PolynomialIdeal methodsFor: 'random' stamp: 'len 4/19/2016 22:59'!
+!PolynomialIdeal methodsFor: 'random' stamp: 'len 5/23/2016 04:19'!
 remainderAtRandom: aRandom
 	self isPrincipal ifFalse: [^ self error: 'not yet implemented'].
-	ring isUnivariate ifFalse: [^ self error: 'not yet implemented'].
-	^ ring coefficients: ((0 to: self generator degree - 1) collect: [:i| ring scalars atRandom: aRandom])! !
+	ambient isUnivariate ifFalse: [^ self error: 'not yet implemented'].
+	^ ambient coefficients: ((0 to: self generator degree - 1) collect: [:i| ambient scalars atRandom: aRandom])! !
 
 !PolynomialIdeal methodsFor: 'operations' stamp: 'len 5/9/2016 17:32'!
 remainderOf: aPolynomial
@@ -9670,10 +9666,14 @@ scalars
 on: aCollection
 	^ self new generators: aCollection! !
 
-!Lattice methodsFor: 'morphisms' stamp: 'len 4/15/2016 07:22'!
+!Lattice methodsFor: 'morphisms' stamp: 'len 5/23/2016 04:36'!
 * anObject
-	(self space scalars includes: anObject) ifTrue: [^ self class basis: (self basis collect: [:each| each * anObject])].
+	(self ambient scalars includes: anObject) ifTrue: [^ self class basis: (self basis collect: [:each| each * anObject])].
 	^ super * anObject! !
+
+!Lattice methodsFor: 'accessing' stamp: 'len 5/23/2016 04:36'!
+ambient
+	^ basis ambient! !
 
 !Lattice methodsFor: 'morphisms' stamp: 'len 4/15/2016 06:12'!
 apply: aLinearTransformation
@@ -9708,11 +9708,11 @@ determinant2
 	"B square means the lattice is full-rank:"
 	^ B isSquare ifTrue: [B determinant abs] ifFalse: [(B transposed * B) determinant squareRoot]! !
 
-!Lattice methodsFor: 'basis' stamp: 'len 12/10/2015 00:58'!
+!Lattice methodsFor: 'basis' stamp: 'len 5/23/2016 04:36'!
 dimension
-	^ basis space dimension! !
+	^ self ambient dimension! !
 
-!Lattice methodsFor: 'morphisms' stamp: 'len 4/13/2016 23:52'!
+!Lattice methodsFor: 'morphisms' stamp: 'len 5/23/2016 04:37'!
 dual
 	"Answer the dual lattice of the receiver (or reciprocal lattice, or polar lattice)."
 	| B Bdual dualBasis |
@@ -9720,7 +9720,7 @@ dual
 	Bdual _ B * (B transposed * B) leftInverse.
 	self flag: #fix. "transposed or not transposed"
 	self flag: #fix. "shouln't be a lattice of linear forms?"
-	dualBasis _ LinearBasis on: basis space matrix: Bdual transposed. "<- transposed or not?"
+	dualBasis _ LinearBasis on: basis ambient matrix: Bdual transposed. "<- transposed or not?"
 	^ self class basis: dualBasis! !
 
 !Lattice methodsFor: 'basis' stamp: 'len 3/3/2016 07:25'!
@@ -9744,9 +9744,9 @@ fundamentalVolume
 includes: anObject
 	^ (basis coordinatesOf: anObject) allSatisfy: [:each| each isInteger]! !
 
-!Lattice methodsFor: 'accessing' stamp: 'len 12/30/2015 20:28'!
+!Lattice methodsFor: 'accessing' stamp: 'len 5/23/2016 04:36'!
 innerProduct
-	^ basis space innerProduct! !
+	^ basis ambient innerProduct! !
 
 !Lattice methodsFor: 'testing' stamp: 'len 12/10/2015 00:58'!
 isFullRank
@@ -9796,10 +9796,6 @@ reducedBasis
 !Lattice methodsFor: 'accessing' stamp: 'len 12/30/2015 21:02'!
 shortVector
 	^ self reducedBasis at: 1! !
-
-!Lattice methodsFor: 'accessing' stamp: 'len 4/15/2016 06:10'!
-space
-	^ basis space! !
 
 !Lattice methodsFor: 'invariants' stamp: 'len 12/30/2015 22:10'!
 thetaSeries
@@ -9932,11 +9928,11 @@ matrix: aMatrix
 	"Answer the vector space of transformations from the receiver to the argument."
 	^ LinearMaps from: self to: aVectorSpace! !
 
-!VectorSpace methodsFor: 'morphisms' stamp: 'len 4/24/2016 04:44'!
+!VectorSpace methodsFor: 'morphisms' stamp: 'len 5/23/2016 04:31'!
 / aSubspace
 	"Answer the quotient of the receiver by the subspace aSubspace,
 	i.e. the vector space obtained by 'collapsing' the subspace to zero."
-	self assert: self = aSubspace space.
+	self = aSubspace ambient ifFalse: [^ self error: 'not a subspace'].
 	^ QuotientSpace by: aSubspace! !
 
 !VectorSpace methodsFor: 'comparing' stamp: 'len 12/13/2015 05:18'!
@@ -9964,6 +9960,10 @@ matrix: aMatrix
 !VectorSpace methodsFor: 'morphisms' stamp: 'len 2/9/2016 21:30'!
 affine
 	^ AffineSubspace direction: self translation: self zero! !
+
+!VectorSpace methodsFor: 'accessing' stamp: 'len 5/23/2016 04:23'!
+ambient
+	^ self! !
 
 !VectorSpace methodsFor: 'morphisms' stamp: 'len 2/25/2016 03:45'!
 annihilator
@@ -10092,15 +10092,11 @@ rotations
 scalarOperation
 	^ Function from: (self scalars, self) to: self evaluating: [:each| each second * each first] "we know it's commutative, so this is faster"! !
 
-!VectorSpace methodsFor: 'accessing' stamp: 'len 11/21/2015 22:47'!
-space
-	^ self! !
-
-!VectorSpace methodsFor: 'morphisms' stamp: 'len 1/28/2016 00:11'!
+!VectorSpace methodsFor: 'morphisms' stamp: 'len 5/23/2016 04:31'!
 span: aCollection
 	"Answer the subspace spanned by the vectors in aCollection."
 	| basis |
-	basis _ LinearBasis on: self space.
+	basis _ LinearBasis on: self ambient.
 	aCollection do: [:each| (basis generates: each) ifFalse: [basis add: each]].
 	^ LinearSubspace basis: basis! !
 
@@ -10126,11 +10122,11 @@ coordinatesOf: aNumber
 dimension
 	^ extension degree! !
 
-!AlgebraicFieldExtensionSpace methodsFor: 'basis' stamp: 'len 3/19/2016 23:25'!
+!AlgebraicFieldExtensionSpace methodsFor: 'basis' stamp: 'len 5/23/2016 04:19'!
 e: anInteger
 	| quotient |
 	quotient _ extension asQuotientRing.
-	^ (quotient project: quotient ideal ring x) ** (anInteger - 1)! !
+	^ (quotient project: quotient ideal ambient x) ** (anInteger - 1)! !
 
 !AlgebraicFieldExtensionSpace methodsFor: 'accessing' stamp: 'len 3/19/2016 23:24'!
 extension
@@ -10385,6 +10381,14 @@ zero
 over: aRing
 	^ self new scalars: aRing! !
 
+!LieAlgebra methodsFor: 'as yet unclassified' stamp: 'len 5/23/2016 03:57'!
+bracket
+	^ properties at: #bracket! !
+
+!LieAlgebra methodsFor: 'as yet unclassified' stamp: 'len 5/23/2016 03:56'!
+bracket: aFunction
+	properties at: #bracket put: aFunction! !
+
 !LieAlgebra methodsFor: 'as yet unclassified' stamp: 'len 5/21/2016 18:54'!
 characters
 	^ self notYetImplemented! !
@@ -10534,10 +10538,14 @@ from: aVectorSpace
 	^ (self basis matrix transposed | aLinearSubspace basis matrix transposed) image apply: self space basis vectorAt
 "! !
 
-!LinearSubspace methodsFor: 'morphisms' stamp: 'len 2/28/2016 23:05'!
+!LinearSubspace methodsFor: 'accessing' stamp: 'len 5/23/2016 04:24'!
+ambient
+	^ basis ambient! !
+
+!LinearSubspace methodsFor: 'morphisms' stamp: 'len 5/23/2016 04:25'!
 annihilator
 	"Answer the annihilator of the receiver, i.e. the space of all linear forms that are 0 at all vectors in the receiver."
-	^ self class basis: (self basis extended dual copyFrom: self dimension + 1 to: self space dimension)! !
+	^ self class basis: (self basis extended dual copyFrom: self dimension + 1 to: self ambient dimension)! !
 
 !LinearSubspace methodsFor: 'basis' stamp: 'len 11/7/2015 03:50'!
 basis
@@ -10547,9 +10555,9 @@ basis
 basis: aLinearBasis
 	basis _ aLinearBasis! !
 
-!LinearSubspace methodsFor: 'basis' stamp: 'len 11/21/2015 22:38'!
+!LinearSubspace methodsFor: 'basis' stamp: 'len 5/23/2016 04:25'!
 codimension
-	^ self space dimension - self dimension! !
+	^ self ambient dimension - self dimension! !
 
 !LinearSubspace methodsFor: 'basis' stamp: 'len 11/25/2015 01:11'!
 coordinatesOf: anObject
@@ -10579,9 +10587,9 @@ equations
 includes: anObject
 	^ basis generates: anObject! !
 
-!LinearSubspace methodsFor: 'morphisms' stamp: 'len 5/12/2016 22:58'!
+!LinearSubspace methodsFor: 'morphisms' stamp: 'len 5/23/2016 04:25'!
 intersection: aLinearSubspace
-	aLinearSubspace = self space ifTrue: [^ self].
+	aLinearSubspace = self ambient ifTrue: [^ self].
 	^ LinearSystem new
 		addAll: self equations;
 		addAll: aLinearSubspace equations;
@@ -10591,14 +10599,14 @@ intersection: aLinearSubspace
 isNonDegenerate
 	^ self radical isTrivial! !
 
-!LinearSubspace methodsFor: 'testing' stamp: 'len 3/6/2016 22:44'!
+!LinearSubspace methodsFor: 'testing' stamp: 'len 5/23/2016 04:26'!
 isProper
-	^ self ~= self space! !
+	^ self ~= self ambient! !
 
-!LinearSubspace methodsFor: 'morphisms' stamp: 'len 4/3/2016 16:15'!
+!LinearSubspace methodsFor: 'morphisms' stamp: 'len 5/23/2016 04:26'!
 perp
 	"Answer the orthogonal complement of the receiver."
-	^ self space span: (self annihilator basis vectors collect: [:f| f asVector])
+	^ self ambient span: (self annihilator basis vectors collect: [:f| f asVector])
 
 "alternative:
 	| k n |
@@ -10613,10 +10621,10 @@ alternative 3:?
 	^ basis dual asArray inject: self space into: [:answer :each| answer intersection: each kernel]	
 "! !
 
-!LinearSubspace methodsFor: 'morphisms' stamp: 'len 4/3/2016 07:47'!
+!LinearSubspace methodsFor: 'morphisms' stamp: 'len 5/23/2016 04:26'!
 perp2
 	"Answer the orthogonal complement of the receiver."
-	^ basis dual asArray inject: self space into: [:answer :each| answer intersection: each kernel]
+	^ basis dual asArray inject: self ambient into: [:answer :each| answer intersection: each kernel]
 
 "alternative:
 	| k n |
@@ -10677,17 +10685,13 @@ quotient
 radical
 	^ self intersection: self perp! !
 
-!LinearSubspace methodsFor: 'accessing' stamp: 'len 11/21/2015 22:38'!
+!LinearSubspace methodsFor: 'accessing' stamp: 'len 5/23/2016 04:26'!
 scalars
-	^ self space scalars! !
+	^ self ambient scalars! !
 
-!LinearSubspace methodsFor: 'accessing' stamp: 'len 11/21/2015 23:08'!
-space
-	^ basis space! !
-
-!LinearSubspace methodsFor: 'elements' stamp: 'len 2/23/2016 00:39'!
+!LinearSubspace methodsFor: 'elements' stamp: 'len 5/23/2016 04:26'!
 zero
-	^ basis space zero! !
+	^ self ambient zero! !
 
 !LinearSubspace class methodsFor: 'instance creation' stamp: 'len 8/21/97 01:45'!
 basis: aLinearBasis
@@ -10860,19 +10864,19 @@ coordinatesOf: anAffineSubspace
 	v _ v - (subspace projection value: v).
 	^ subspace perp basis coordinatesOf: v! !
 
-!QuotientSpace methodsFor: 'private' stamp: 'len 2/8/2016 05:15'!
+!QuotientSpace methodsFor: 'private' stamp: 'len 5/23/2016 04:29'!
 defaultProjection
 	"Answer the quotient map, the canonical projection from the ambient vector space to the quotient space, i.e. the mapping pi:V->V/S that assigns to every v in V the affine subspace v+S."
 	| answer |
-	answer _ LinearMap from: subspace space to: self evaluating: [:each| self project: each].
+	answer _ LinearMap from: subspace ambient to: self evaluating: [:each| self project: each].
 	answer properties
 		at: #kernel put: subspace;
 		at: #image put: self.
 	^ answer! !
 
-!QuotientSpace methodsFor: 'private' stamp: 'len 3/28/2016 06:07'!
+!QuotientSpace methodsFor: 'private' stamp: 'len 5/23/2016 04:29'!
 defaultSection
-	^ LinearMap from: self to: subspace space evaluating: [:each| each translation]! !
+	^ LinearMap from: self to: subspace ambient evaluating: [:each| each translation]! !
 
 !QuotientSpace methodsFor: 'basis' stamp: 'len 11/9/2015 15:59'!
 dimension
@@ -10886,15 +10890,15 @@ e: anInteger
 includes: anObject
 	^ (anObject isKindOf: AffineSubspace) and: [anObject direction = subspace]! !
 
-!QuotientSpace methodsFor: 'printing' stamp: 'len 4/21/2016 00:03'!
+!QuotientSpace methodsFor: 'printing' stamp: 'len 5/23/2016 04:29'!
 printOn: aStream
-	(subspace space printString allSatisfy: [:each|each isAlphaNumeric])
-		ifTrue: [ aStream print: subspace space ]
-		ifFalse: [ aStream nextPut: $(; print: subspace space; nextPut: $)].
+	(subspace ambient printString allSatisfy: [:each|each isAlphaNumeric])
+		ifTrue: [aStream print: subspace ambient]
+		ifFalse: [aStream nextPut: $(; print: subspace ambient; nextPut: $)].
 	aStream nextPut: $/.
 	(subspace printString allSatisfy: [:each|each isAlphaNumeric])
-		ifTrue: [ aStream print: subspace ]
-		ifFalse: [ aStream nextPut: $(; print: subspace; nextPut: $)]! !
+		ifTrue: [aStream print: subspace]
+		ifFalse: [aStream nextPut: $(; print: subspace; nextPut: $)]! !
 
 !QuotientSpace methodsFor: 'morphisms' stamp: 'len 2/9/2016 21:30'!
 project: aVector
@@ -11170,9 +11174,9 @@ new: dimension over: aDomain
 	n isInfinity ifTrue: [^ InfiniteTuples over: self].
 	^ n isPoint ifTrue: [Matrices new: n over: self] ifFalse: [Tuples new: n over: self]! !
 
-!Ring methodsFor: 'morphisms' stamp: 'len 4/24/2016 04:44'!
+!Ring methodsFor: 'morphisms' stamp: 'len 5/23/2016 04:22'!
 / anIdeal
-	self = anIdeal ring ifFalse: [^ DomainError signal: 'the ideal doesn''t belong to the receiver ring'].
+	self = anIdeal ambient ifFalse: [^ DomainError signal: 'the ideal doesn''t belong to the receiver ring'].
 	^ QuotientRing by: anIdeal! !
 
 !Ring methodsFor: 'morphisms' stamp: 'len 12/20/2015 02:56'!
@@ -11480,10 +11484,10 @@ degree
 do: aBlock
 	self asQuotientRing do: aBlock! !
 
-!AlgebraicFieldExtension methodsFor: 'morphisms' stamp: 'len 3/19/2016 08:24'!
+!AlgebraicFieldExtension methodsFor: 'morphisms' stamp: 'len 5/23/2016 04:19'!
 embed: aNumber
 	"This is the field homomorphism that embeds the base field into the receiver."
-	^ self asQuotientRing project: (self asQuotientRing ideal ring embed: aNumber)! !
+	^ self asQuotientRing project: (self asQuotientRing ideal ambient embed: aNumber)! !
 
 !AlgebraicFieldExtension methodsFor: 'morphisms' stamp: 'len 3/19/2016 08:24'!
 embedding
@@ -11783,12 +11787,12 @@ polynomials
 polynomials: aPolynomials
 	self integralDomain: aPolynomials! !
 
-!RationalFunctions methodsFor: 'printing' stamp: 'len 4/21/2016 00:07'!
+!RationalFunctions methodsFor: 'printing' stamp: 'len 5/22/2016 23:48'!
 printOn: aStream
 	aStream print: self scalars.
 	aStream nextPut: $(.
 	self polynomials ordering indeterminates
-		do: [:i| aStream print: (Monomial x: i)]
+		do: [:i| aStream print: (self polynomial x: i)]
 		separatedBy: [aStream nextPut: $,].
 	aStream nextPut: $)! !
 
@@ -11941,26 +11945,26 @@ conjugation
 	"Answer the companion automorphism of the receiver, i.e. the Frobenius automorphism."
 	^ self frobenius! !
 
-!QuotientRing methodsFor: 'private' stamp: 'len 2/8/2016 05:15'!
+!QuotientRing methodsFor: 'private' stamp: 'len 5/23/2016 04:20'!
 defaultProjection
 	"Answer the natural projection, or quotient map, or canonical homomorphism. This takes elements from the base ring to the corresponding residue class in the quotient ring."
 	| answer |
-	answer _ Function from: ideal ring to: self evaluating: [:each| self project: each].
+	answer _ Function from: ideal ambient to: self evaluating: [:each| self project: each].
 	answer properties
 		at: #kernel put: ideal;
 		at: #image put: self.
 	^ answer! !
 
-!QuotientRing methodsFor: 'private' stamp: 'len 3/28/2016 06:03'!
+!QuotientRing methodsFor: 'private' stamp: 'len 5/23/2016 04:20'!
 defaultSection
-	^ Function from: self to: ideal ring evaluating: [:each| each representative]! !
+	^ Function from: self to: ideal ambient evaluating: [:each| each representative]! !
 
-!QuotientRing methodsFor: 'iterating' stamp: 'len 5/12/2016 23:23'!
+!QuotientRing methodsFor: 'iterating' stamp: 'len 5/23/2016 04:21'!
 do: aBlock
 	| visited |
 	self flag: #fix. "does this work in any ring? depends on ring|#do:"
 	visited _ Set new.
-	ideal ring do: [:each|
+	ideal ambient do: [:each|
 		| q |
 		visited add: (q _ self project: each) ifPresent: [^ self].
 		aBlock value: q]! !
@@ -11981,28 +11985,28 @@ ideal
 ideal: anIdeal
 	ideal _ anIdeal! !
 
-!QuotientRing methodsFor: 'testing' stamp: 'len 3/29/2016 23:44'!
+!QuotientRing methodsFor: 'testing' stamp: 'len 5/23/2016 04:21'!
 includes: anObject
 	anObject class = self elementClass ifFalse: [^ false].
-	^ ideal ring includes: anObject representative! !
+	^ ideal ambient includes: anObject representative! !
 
-!QuotientRing methodsFor: 'testing' stamp: 'len 11/28/2015 23:55'!
+!QuotientRing methodsFor: 'testing' stamp: 'len 5/23/2016 04:21'!
 isCommutative
-	ideal ring isCommutative ifTrue: [^ true]. "if the ring is not commutative, we dont know if the quotient is or not"
+	ideal ambient isCommutative ifTrue: [^ true]. "if the ring is not commutative, we dont know if the quotient is or not"
 	^ super isCommutative! !
 
-!QuotientRing methodsFor: 'testing' stamp: 'len 11/28/2015 05:57'!
+!QuotientRing methodsFor: 'testing' stamp: 'len 5/23/2016 04:21'!
 isEuclidean
-	^ ideal ring isEuclidean! !
+	^ ideal ambient isEuclidean! !
 
-!QuotientRing methodsFor: 'testing' stamp: 'len 1/4/2016 03:15'!
+!QuotientRing methodsFor: 'testing' stamp: 'len 5/23/2016 04:21'!
 isField
 	"Answer true if the receiver forms a residue field."
-	^ properties at: #isField ifAbsentPut: [ideal ring isTrivial not and: [ideal ring isCommutative and: [ideal isMaximal]]]! !
+	^ properties at: #isField ifAbsentPut: [ideal ambient isTrivial not and: [ideal ambient isCommutative and: [ideal isMaximal]]]! !
 
-!QuotientRing methodsFor: 'testing' stamp: 'len 1/4/2016 03:17'!
+!QuotientRing methodsFor: 'testing' stamp: 'len 5/23/2016 04:21'!
 isIntegralDomain
-	^ properties at: #isIntegralDomain ifAbsentPut: [(ideal ring isTrivial not and: [ideal ring isCommutative and: [ideal isPrime]]) or: [self isIntegrallyClosedDomain]]! !
+	^ properties at: #isIntegralDomain ifAbsentPut: [(ideal ambient isTrivial not and: [ideal ambient isCommutative and: [ideal isPrime]]) or: [self isIntegrallyClosedDomain]]! !
 
 !QuotientRing methodsFor: 'testing' stamp: 'len 11/23/2015 21:34'!
 isReduced
@@ -12013,15 +12017,15 @@ isReduced
 modulus
 	^ self ideal generator! !
 
-!QuotientRing methodsFor: 'accessing' stamp: 'len 1/2/2016 22:08'!
+!QuotientRing methodsFor: 'accessing' stamp: 'len 5/23/2016 04:21'!
 one
-	^ self project: ideal ring one! !
+	^ self project: ideal ambient one! !
 
-!QuotientRing methodsFor: 'printing' stamp: 'len 4/25/2016 08:18'!
+!QuotientRing methodsFor: 'printing' stamp: 'len 5/23/2016 04:22'!
 printOn: aStream
-	(ideal ring printString allSatisfy: [:each|each isAlphaNumeric])
-		ifTrue: [aStream print: ideal ring]
-		ifFalse: [aStream nextPut: $(; print: ideal ring; nextPut: $)].
+	(ideal ambient printString allSatisfy: [:each|each isAlphaNumeric])
+		ifTrue: [aStream print: ideal ambient]
+		ifFalse: [aStream nextPut: $(; print: ideal ambient; nextPut: $)].
 	aStream nextPut: $/; print: ideal
 "	(ideal printString allSatisfy: [:each|each isAlphaNumeric])
 		ifTrue: [ aStream print: ideal ]
@@ -12036,17 +12040,17 @@ projection
 	"Answer the natural projection, or quotient map, or canonical homomorphism. This takes elements from the base ring to the corresponding residue class in the quotient ring."
 	^ properties at: #projection ifAbsentPut: [self defaultProjection]! !
 
-!QuotientRing methodsFor: 'morphisms' stamp: 'len 4/25/2016 08:45'!
+!QuotientRing methodsFor: 'morphisms' stamp: 'len 5/23/2016 04:22'!
 relation
-	^ EquivalenceRelation on: self ring evaluating: [:a :b| ideal includes: a - b]! !
+	^ EquivalenceRelation on: self ambient evaluating: [:a :b| ideal includes: a - b]! !
 
 !QuotientRing methodsFor: 'morphisms' stamp: 'len 3/28/2016 06:02'!
 section
 	^ properties at: #section ifAbsentPut: [self defaultSection]! !
 
-!QuotientRing methodsFor: 'accessing' stamp: 'len 1/2/2016 22:09'!
+!QuotientRing methodsFor: 'accessing' stamp: 'len 5/23/2016 04:22'!
 zero
-	^ self project: ideal ring zero! !
+	^ self project: ideal ambient zero! !
 
 !QuotientRing class methodsFor: 'instance creation' stamp: 'len 11/28/2015 05:54'!
 by: anIdeal
@@ -12447,10 +12451,10 @@ asUnivariate
 		ifTrue: [^ self scalars polynomialsIn: self indeterminateNames allButLast :: polynomialsIn: {self indeterminateNames last}].
 	^ self scalars polynomialsIn: self rank - 1 :: polynomials! !
 
-!Polynomials methodsFor: 'morphisms' stamp: 'len 5/20/2016 06:00'!
+!Polynomials methodsFor: 'morphisms' stamp: 'len 5/23/2016 04:09'!
 asUnivariateIn: anIndeterminate
 	(self indeterminates includes: anIndeterminate) ifFalse: [^ self error: 'indeterminate not found'].
-	anIndeterminate = self indeterminates last ifFalse: [^ self halt].
+	anIndeterminate = self indeterminates last ifFalse: [^ self error: 'bad indeterminate'].
 	^ self asUnivariate! !
 
 !Polynomials methodsFor: 'morphisms' stamp: 'len 4/11/2016 23:41'!
@@ -12903,13 +12907,13 @@ over: aRing
 		ifTrue: [^ self class direction: direction translation: translation * aScalar].
 	^ super * aScalar "if it's not a scalar"! !
 
-!AffineSubspace methodsFor: 'morphisms' stamp: 'len 2/9/2016 21:26'!
+!AffineSubspace methodsFor: 'morphisms' stamp: 'len 5/23/2016 04:33'!
 + anObject
 	(anObject isKindOf: AffineSubspace)
 		ifTrue: [^ self class direction: direction + anObject direction translation: translation + anObject translation].
 	(anObject isKindOf: VectorSpace)
 		ifTrue: [^ self class direction: direction + anObject translation: translation].
-	(direction space includes: anObject)
+	(direction ambient includes: anObject)
 		ifTrue: [^ self class direction: direction translation: translation + anObject].
 	DomainError signal! !
 
@@ -12946,6 +12950,11 @@ over: aRing
 >= anAffineSubspace
 	"Answer true if the receiver includes the argument."
 	^ anAffineSubspace <= self! !
+
+!AffineSubspace methodsFor: 'accessing' stamp: 'len 5/23/2016 04:33'!
+ambient
+	"Answer the ambient affine space where the receiver lives."
+	^ self class direction: direction ambient translation: direction zero! !
 
 !AffineSubspace methodsFor: 'morphisms' stamp: 'len 5/14/2016 09:09'!
 apply: aMap
@@ -12991,12 +13000,12 @@ direction: aVectorSpace
 do: aBlock
 	direction do: [:each| aBlock value: each + translation]! !
 
-!AffineSubspace methodsFor: 'accessing' stamp: 'len 5/12/2016 22:57'!
+!AffineSubspace methodsFor: 'accessing' stamp: 'len 5/23/2016 04:33'!
 equations
 	"Answer a linear system defining the receiver."
 	| kernel particular answer |
 	kernel _ direction equations.
-	particular _ self space coordinatesOf: translation.
+	particular _ self ambient coordinatesOf: translation.
 	answer _ LinearSystem new.
 	kernel do: [:each| answer add: (each form eq: (each form value: particular))].
 	^ answer! !
@@ -13083,11 +13092,6 @@ rigidMotions
 !AffineSubspace methodsFor: 'accessing' stamp: 'len 2/9/2016 21:25'!
 scalars
 	^ direction scalars! !
-
-!AffineSubspace methodsFor: 'accessing' stamp: 'len 2/10/2016 20:51'!
-space
-	"Answer the ambient affine space where the receiver lives."
-	^ self class direction: direction space translation: direction zero! !
 
 !AffineSubspace methodsFor: 'morphisms' stamp: 'len 2/9/2016 21:26'!
 span
@@ -13214,10 +13218,10 @@ isEmpty
 	self space scalars isAlgebraicallyClosed ifFalse: [self error: 'the ground field is not algebraically closed'].
 	^ false! !
 
-!AlgebraicSet methodsFor: 'testing' stamp: 'len 3/1/2016 22:16'!
+!AlgebraicSet methodsFor: 'testing' stamp: 'len 5/23/2016 04:19'!
 isFinite
 	self flag: #fix. "leadingMonomial in what ordering?"
-	ideal ring indeterminates do: [:x|
+	ideal ambient indeterminates do: [:x|
 		(ideal groebner anySatisfy: [:f| | d m | m _ f leadingMonomial. d _ m degree. d > 0 and: [d = (m degreeIn: x)]])
 			ifFalse: [^ false]].
 	^ true! !
@@ -13298,12 +13302,12 @@ example
 	y _ Cxy y.
 	^ self ideal: Cxy * {x + y - 1}! !
 
-!AlgebraicSet class methodsFor: 'instance creation' stamp: 'len 3/26/2016 05:16'!
+!AlgebraicSet class methodsFor: 'instance creation' stamp: 'len 5/23/2016 04:20'!
 ideal: anIdeal
 	| K n |
-	K _ anIdeal ring scalars algebraicClosure.
+	K _ anIdeal ambient scalars algebraicClosure.
 	self flag: #fix. "ideally, should index the affine/projective space by the indeterminates"
-	n _ anIdeal ring rank.
+	n _ anIdeal ambient rank.
 	^ anIdeal isHomogeneous
 		ifTrue: [self on: (K ** n) projective ideal: anIdeal]
 		ifFalse: [self on: (K ** n) affine ideal: anIdeal]! !
@@ -13819,6 +13823,10 @@ from: aDomain to: anotherDomain
 = aLinearCode
 	^ (aLinearCode isKindOf: LinearCode) and: [self asVectorSpace = aLinearCode asVectorSpace]! !
 
+!LinearCode methodsFor: 'accessing' stamp: 'len 5/23/2016 04:37'!
+ambient
+	^ self asVectorSpace ambient! !
+
 !LinearCode methodsFor: 'morphisms' stamp: 'len 5/17/2016 21:14'!
 asLattice
 	"A linear code in a finite field or ring can be lifted to a lattice."
@@ -13859,12 +13867,12 @@ computeMinimumDistance
 dimension
 	^ self rank! !
 
-!LinearCode methodsFor: 'accessing' stamp: 'len 4/19/2016 03:43'!
+!LinearCode methodsFor: 'accessing' stamp: 'len 5/23/2016 04:38'!
 distance
 	"Answer the Hamming distance function."
 	| k V |
 	k _ self dimension.
-	V _ self space.
+	V _ self ambient.
 	^ Function from: (V, V) to: Integers new evaluating: [:xy| | x y | x _ V coordinatesOf: xy first. y _ V coordinatesOf: xy second. (1 to: k) count: [:i| (x at: i) ~= (y at: i)]]! !
 
 !LinearCode methodsFor: 'graphs' stamp: 'len 3/31/2016 02:02'!
@@ -13915,10 +13923,10 @@ isMaximumDistanceSeparable
 	d _ self minimumDistance.
 	^ k + d = (n + 1)! !
 
-!LinearCode methodsFor: 'testing' stamp: 'len 4/3/2016 23:24'!
+!LinearCode methodsFor: 'testing' stamp: 'len 5/23/2016 04:38'!
 isSelfDual
-	self space dimension even ifFalse: [^ false].
-	self dimension = (self space dimension / 2) ifFalse: [^ false].
+	self ambient dimension even ifFalse: [^ false].
+	self dimension = (self ambient dimension / 2) ifFalse: [^ false].
 	^ self = self dual! !
 
 !LinearCode methodsFor: 'testing' stamp: 'len 4/3/2016 23:20'!
@@ -13930,10 +13938,10 @@ isometries
 	"Answer the subgroup of Iso(F^k) that leave the receiver invariant."
 	self notYetImplemented! !
 
-!LinearCode methodsFor: 'accessing' stamp: 'len 2/11/2016 20:32'!
+!LinearCode methodsFor: 'accessing' stamp: 'len 5/23/2016 04:38'!
 length
 	"Answer the length of a codeword."
-	^ self space dimension! !
+	^ self ambient dimension! !
 
 !LinearCode methodsFor: 'accessing' stamp: 'len 4/3/2016 23:07'!
 minimumDistance
@@ -13945,12 +13953,12 @@ minimumDistance
 parityCheckMatrix
 	^ self dual generatorMatrix! !
 
-!LinearCode methodsFor: 'printing' stamp: 'len 5/12/2016 07:27'!
+!LinearCode methodsFor: 'printing' stamp: 'len 5/23/2016 04:38'!
 printOn: aStream
 	aStream nextPut: $[; print: self length; nextPut: $,; print: self rank; nextPut: $,; print: self minimumDistance; nextPut: $].
 	(aStream isKindOf: TextStream)
 		ifTrue: [aStream withAttribute: TextEmphasis subscript do: [aStream print: self space scalars size]]
-		ifFalse: [aStream nextPut: $-; print: self space scalars size]! !
+		ifFalse: [aStream nextPut: $-; print: self ambient scalars size]! !
 
 !LinearCode methodsFor: 'accessing' stamp: 'len 5/12/2016 07:19'!
 rank
@@ -13968,10 +13976,6 @@ relativeDistance
 size
 	"Answer the number of codewords."
 	^ self asVectorSpace size! !
-
-!LinearCode methodsFor: 'accessing' stamp: 'len 5/12/2016 07:07'!
-space
-	^ self asVectorSpace space! !
 
 !LinearCode methodsFor: 'accessing-private' stamp: 'len 1/1/2016 06:35'!
 subspace: aLinearSubspace
@@ -13992,11 +13996,11 @@ tannerGraph
 					G addEdgeFrom: subcode to: digit]]].
 	^ G! !
 
-!LinearCode methodsFor: 'accessing' stamp: 'len 5/12/2016 07:06'!
+!LinearCode methodsFor: 'accessing' stamp: 'len 5/23/2016 04:38'!
 weight
 	"Answer the Hamming weight function."
 	| V |
-	V _ self space.
+	V _ self ambient.
 	^ Function from: V to: Integers new evaluating: [:x| (V coordinatesOf: x) asArray count: [:each| each isZero not]]! !
 
 !LinearCode methodsFor: 'accessing' stamp: 'len 2/15/2016 20:44'!
@@ -14012,7 +14016,7 @@ weightDistribution: aCodeword
 	"Answer the weight distribution wrt aCodeword."
 	self notYetImplemented! !
 
-!LinearCode methodsFor: 'accessing' stamp: 'len 3/24/2016 05:53'!
+!LinearCode methodsFor: 'accessing' stamp: 'len 5/23/2016 04:38'!
 weightEnumerator
 	"Answer the (Hamming) weight enumerator function (or polynomial in n variables)."
 	| P x y weights answer n |
@@ -14020,7 +14024,7 @@ weightEnumerator
 	x _ P x.
 	y _ P y.
 	answer _ P zero.
-	n _ self space dimension.
+	n _ self ambient dimension.
 	weights _ self weightDistribution.
 	weights asSet do: [:i| answer _ x ** (n - i) * (y ** i) * (weights occurrencesOf: i) + answer].
 	^ answer! !
@@ -18907,11 +18911,11 @@ matrix: aMatrix
 negated
 	^ self class from: basis matrix: matrix negated! !
 
-!BilinearForm methodsFor: 'printing' stamp: 'len 4/21/2016 00:19'!
+!BilinearForm methodsFor: 'printing' stamp: 'len 5/23/2016 04:34'!
 printOn: aStream
-	basis size = basis space dimension
+	basis size = basis ambient dimension
 		ifTrue: [(self class
-					fromHalf: basis space
+					fromHalf: basis ambient
 					evaluating: [:each| self value: each]) asPolynomial
 						printOn: aStream withNames: self defaultNames]
 		ifFalse: [self asPolynomial printOn: aStream withNames: self defaultNames.
@@ -18933,9 +18937,9 @@ right
 rightRadical
 	^ self right kernel! !
 
-!BilinearForm methodsFor: 'accessing' stamp: 'len 1/8/2016 05:05'!
+!BilinearForm methodsFor: 'accessing' stamp: 'len 5/23/2016 04:34'!
 scalars
-	^ basis space scalars! !
+	^ basis ambient scalars! !
 
 !BilinearForm methodsFor: 'operations' stamp: 'len 1/8/2016 05:09'!
 skewSymmetricPart
@@ -19489,9 +19493,9 @@ isZero
 kernel
 	^ properties at: #kernel ifAbsentPut: [matrix kernel apply: domainBasis vectorAt]! !
 
-!LinearMap methodsFor: 'operations' stamp: 'len 2/22/2016 08:33'!
+!LinearMap methodsFor: 'operations' stamp: 'len 5/23/2016 04:40'!
 kernel2
-	^ properties at: #kernel ifAbsentPut: [(self fiberAt: self codomainBasis space zero) direction] "!! 3-5 times slower than the other implementaiton"! !
+	^ properties at: #kernel ifAbsentPut: [(self fiberAt: self codomainBasis ambient zero) direction] "!! 3-5 times slower than the other implementaiton"! !
 
 !LinearMap methodsFor: 'arithmetic' stamp: 'len 2/9/2016 19:44'!
 leftInverse
@@ -19521,13 +19525,13 @@ nullity
 	"Answer the dimension of the kernel of the receiver."
 	^ matrix numberOfRows - matrix rank! !
 
-!LinearMap methodsFor: 'printing' stamp: 'len 4/21/2016 05:48'!
+!LinearMap methodsFor: 'printing' stamp: 'len 5/23/2016 04:40'!
 printOn: aStream
 	self isIdentity ifTrue: [aStream nextPutAll: 'id'. ^ self].
 	self negated isIdentity ifTrue: [aStream nextPutAll: '-id'. ^ self].
 	aStream nextPut: $(.
 	self domainBasis
-		do: [:each| aStream print: (self codomain space dual map value: (self value: each))]
+		do: [:each| aStream print: (self codomain ambient dual map value: (self value: each))]
 		separatedBy: [aStream nextPutAll: ', '].
 	aStream nextPut: $)
 "	aStream nextPutAll: self class name.
@@ -19566,13 +19570,13 @@ value: aVector
 	^ codomainBasis
 		vectorAt: matrix * (domainBasis coordinatesOf: aVector)! !
 
-!LinearMap class methodsFor: 'instance creation' stamp: 'len 2/10/2016 21:21'!
+!LinearMap class methodsFor: 'instance creation' stamp: 'len 5/23/2016 04:40'!
 from: domain to: codomain evaluating: aBlock
 	"Answer a new instance of the receiver using the one argument block aBlock for evaluating each vector in the domainBasis."
 	| domainBasis codomainBasis matrix |
 	domainBasis _ domain basis.
 	codomainBasis _ codomain basis.
-	matrix _ (domainBasis space scalars ** (domainBasis size @ codomainBasis size)) new.
+	matrix _ (domainBasis ambient scalars ** (domainBasis size @ codomainBasis size)) new.
 	domainBasis do: [:each |
 		matrix addRow: (codomainBasis coordinatesOf: (aBlock value: each))].
 	^ self from: domainBasis to: codomainBasis matrix: matrix transposed! !
@@ -19607,11 +19611,11 @@ asEquation
 
 	^ self eq: self domain scalars zero! !
 
-!LinearForm methodsFor: 'converting' stamp: 'len 4/16/2016 07:42'!
+!LinearForm methodsFor: 'converting' stamp: 'len 5/23/2016 04:39'!
 asPolynomial
 	| answer term c polynomials x x` |
-	polynomials _ self domain scalars polynomialsIn: (1 to: self domain space dimension).
-	x _ Tuple new: self domain space dimension evaluating: [:i| polynomials x: i].
+	polynomials _ self domain scalars polynomialsIn: (1 to: self domain ambient dimension).
+	x _ Tuple new: self domain ambient dimension evaluating: [:i| polynomials x: i].
 	x` _ (domainBasis matrix apply: polynomials embedding) * x.
 	answer _ polynomials zero.
 	c _ self matrix asTuple.
@@ -19620,24 +19624,24 @@ asPolynomial
 		answer _ answer isNil ifTrue: [term] ifFalse: [answer + term]].
 	^ answer! !
 
-!LinearForm methodsFor: 'converting' stamp: 'len 2/21/2016 06:51'!
+!LinearForm methodsFor: 'converting' stamp: 'len 5/23/2016 04:39'!
 asTuple
 	"Answer the coordinates of the receiver in the canonical basis."
-	^ (self restrictedTo: domainBasis space) matrix asTuple
+	^ (self restrictedTo: domainBasis ambient) matrix asTuple
 
 	"^ self domain dual coordinatesOf: self"! !
 
-!LinearForm methodsFor: 'converting' stamp: 'len 4/3/2016 16:24'!
+!LinearForm methodsFor: 'converting' stamp: 'len 5/23/2016 04:39'!
 asVector
 	"Answer the vector corresponding to the receiver according to the natural isomorphism from the vector space to its dual.
 	See DualSpace>>#map."
 	self flag: #fix. "this is not natural"
-	^ domainBasis space vectorAt: self asTuple! !
+	^ domainBasis ambient vectorAt: self asTuple! !
 
-!LinearForm methodsFor: 'accessing' stamp: 'len 2/21/2016 06:21'!
+!LinearForm methodsFor: 'accessing' stamp: 'len 5/23/2016 04:39'!
 coordinates
 	"Answer the coordinates of the receiver in the canonical basis."
-	^ (self restrictedTo: domainBasis space) matrix asTuple! !
+	^ (self restrictedTo: domainBasis ambient) matrix asTuple! !
 
 !LinearForm methodsFor: 'operations' stamp: 'len 8/20/97 21:03'!
 eq: anObject
@@ -19645,9 +19649,9 @@ eq: anObject
 
 	^ LinearEquation form: self value: anObject! !
 
-!LinearForm methodsFor: 'operations' stamp: 'len 2/29/2016 00:10'!
+!LinearForm methodsFor: 'operations' stamp: 'len 5/23/2016 04:40'!
 image2
-	^ self kernel dimension < self domainBasis space dimension
+	^ self kernel dimension < self domainBasis ambient dimension
 		ifTrue: [self codomain]
 		ifFalse: [self codomain null]! !
 
@@ -19665,9 +19669,9 @@ from: aVectorSpace evaluating: aBlock
 	"Answer a new instance of the receiver using the one argument block aBlock for evaluating each vector in the given basis."
 	^ self from: aVectorSpace to: (ScalarVectorSpace over: aVectorSpace scalars) evaluating: aBlock! !
 
-!LinearForm class methodsFor: 'instance creation' stamp: 'len 12/10/2015 04:02'!
+!LinearForm class methodsFor: 'instance creation' stamp: 'len 5/23/2016 04:40'!
 from: aLinearBasis matrix: aMatrix
-	^ self from: aLinearBasis to: (ScalarVectorSpace over: aLinearBasis space scalars) basis matrix: aMatrix! !
+	^ self from: aLinearBasis to: (ScalarVectorSpace over: aLinearBasis ambient scalars) basis matrix: aMatrix! !
 
 !Permutation methodsFor: 'arithmetic' stamp: 'len 4/30/98 04:23'!
 * aPermutation
@@ -20389,9 +20393,9 @@ printOn: aStream
 rank
 	^ matrix rank! !
 
-!QuadraticForm methodsFor: 'accessing' stamp: 'len 1/8/2016 05:20'!
+!QuadraticForm methodsFor: 'accessing' stamp: 'len 5/23/2016 04:41'!
 scalars
-	^ basis space scalars! !
+	^ basis ambient scalars! !
 
 !QuadraticForm methodsFor: 'evaluating' stamp: 'len 1/8/2016 05:19'!
 value: aVector
@@ -21349,11 +21353,11 @@ orthogonalBasis
 	orthogonalBasis isNil ifTrue: [self orthogonalize].
 	^ orthogonalBasis! !
 
-!GramSchmidt methodsFor: 'operations' stamp: 'len 12/23/2015 05:25'!
+!GramSchmidt methodsFor: 'operations' stamp: 'len 5/23/2016 04:47'!
 orthogonalize
 	"Orthogonalize the basis."
 	| u uv vv |
-	orthogonalBasis _ LinearBasis on: basis space.
+	orthogonalBasis _ LinearBasis on: basis ambient.
 	basis do: [:each|
 		u _ each.
 		orthogonalBasis do: [:v|
@@ -21366,10 +21370,10 @@ orthogonalize
 orthonormalBasis
 	^ self orthogonalBasis collect: [:each| each / (innerProduct value: each value: each) squareRoot]! !
 
-!GramSchmidt class methodsFor: 'instance creation' stamp: 'len 12/13/2015 00:25'!
+!GramSchmidt class methodsFor: 'instance creation' stamp: 'len 5/23/2016 04:46'!
 basis: aLinearBasis
 	"Answer a new instance of the receiver to orthogonalize aLinearBasis."
-	^ self basis: aLinearBasis innerProduct: aLinearBasis space innerProduct! !
+	^ self basis: aLinearBasis innerProduct: aLinearBasis ambient innerProduct! !
 
 !GramSchmidt class methodsFor: 'instance creation' stamp: 'len 12/13/2015 00:24'!
 basis: aLinearBasis innerProduct: aFunction
@@ -22461,6 +22465,10 @@ isCycle
 
 	^ LinearSystem new add: self; , anObject! !
 
+!LinearEquation methodsFor: 'accessing' stamp: 'len 5/23/2016 04:39'!
+ambient
+	^ form domain ambient! !
+
 !LinearEquation methodsFor: 'converting' stamp: 'len 2/21/2016 06:50'!
 asTuple
 	"Answer a Tuple with the coefficients of the receiver."
@@ -22503,10 +22511,6 @@ printOn: aStream
 solutions
 	^ LinearSystem new add: self; solutions! !
 
-!LinearEquation methodsFor: 'accessing' stamp: 'len 2/29/2016 00:52'!
-space
-	^ form domain space! !
-
 !LinearEquation methodsFor: 'accessing' stamp: 'len 8/20/97 21:20'!
 value
 	"Answer the right side of the receiver (the independent term)."
@@ -22542,6 +22546,10 @@ add: aLinearEquation
 !LinearSystem methodsFor: 'accessing' stamp: 'len 11/20/2015 06:12'!
 addAll: aCollection
 	^ equations addAll: aCollection! !
+
+!LinearSystem methodsFor: 'accessing' stamp: 'len 5/23/2016 04:24'!
+ambient
+	^ equations first ambient! !
 
 !LinearSystem methodsFor: 'accessing' stamp: 'len 11/20/2015 06:13'!
 at: anInteger
@@ -22592,25 +22600,25 @@ isSolution: aVector
 kernel
 	^ self kernelBasis span! !
 
-!LinearSystem methodsFor: 'operations' stamp: 'len 2/29/2016 01:06'!
+!LinearSystem methodsFor: 'operations' stamp: 'len 5/23/2016 04:26'!
 kernel2
-	^ self matrix2 kernel apply: self space basis vectorAt! !
+	^ self matrix2 kernel apply: self ambient basis vectorAt! !
 
 !LinearSystem methodsFor: 'operations' stamp: 'len 11/8/2015 03:55'!
 kernelBasis
 	^ self solver kernelBasis! !
 
-!LinearSystem methodsFor: 'operations' stamp: 'len 2/29/2016 00:46'!
+!LinearSystem methodsFor: 'operations' stamp: 'len 5/23/2016 04:27'!
 matrix
 	| answer |
-	answer _ (self space scalars ** (self size @ self space dimension)) new.
+	answer _ (self ambient scalars ** (self size @ self ambient dimension)) new.
 	self do: [ :each | answer addRow: each asTuple].
 	^ answer! !
 
-!LinearSystem methodsFor: 'operations' stamp: 'len 2/29/2016 00:46'!
+!LinearSystem methodsFor: 'operations' stamp: 'len 5/23/2016 04:27'!
 matrix2
 	| answer |
-	answer _ (self space scalars ** (self size @ self space dimension)) new.
+	answer _ (self ambient scalars ** (self size @ self ambient dimension)) new.
 	self do: [:each| answer addRow: each form asTuple].
 	^ answer! !
 
@@ -22653,18 +22661,14 @@ solutions
 solver
 	^ solver ifNil: [solver _ LinearSystemSolver system: self]! !
 
-!LinearSystem methodsFor: 'accessing' stamp: 'len 11/20/2015 06:12'!
-space
-	^ equations first space! !
-
 !LinearSystem class methodsFor: 'instance creation' stamp: 'len 10/17/97 03:44'!
 new
 	^ super new initialize! !
 
-!LinearSystemSolver methodsFor: 'testing' stamp: 'len 2/29/2016 02:53'!
+!LinearSystemSolver methodsFor: 'testing' stamp: 'len 5/23/2016 04:27'!
 isSolvable
 	"Answer true if the system has any solution."
-	^ reducer dependentColumns includes: system space dimension + 1! !
+	^ reducer dependentColumns includes: system ambient dimension + 1! !
 
 !LinearSystemSolver methodsFor: 'accessing' stamp: 'len 12/26/2015 19:39'!
 kernelBasis
@@ -22675,10 +22679,10 @@ particular
 	"Answer a particular solution of the receiver."
 	^ particular! !
 
-!LinearSystemSolver methodsFor: 'private' stamp: 'len 5/12/2016 22:59'!
+!LinearSystemSolver methodsFor: 'private' stamp: 'len 5/23/2016 04:27'!
 solve
 	| V T basis index depCols indepCols lastCol part v scalar |
-	V _ system space.
+	V _ system ambient.
 	basis _ LinearBasis on: V.
 	T _ V scalars ** V dimension.
 	index _ 0.
@@ -24880,16 +24884,6 @@ copyWithout: anIndeterminate
 
 	^ self copy at: anIndeterminate put: 0; yourself! !
 
-!Monomial methodsFor: 'copying' stamp: 'len 10/22/97 01:28'!
-copyWithoutAll: aCollection
-	"Answer a copy of the receiver with all the
-	indeterminates in the argument removed."
-
-	| answer |
-	answer _ self copy.
-	aCollection do: [ :each | answer at: each put: 0].
-	^ answer! !
-
 !Monomial methodsFor: 'operations' stamp: 'len 3/16/2016 20:04'!
 degree
 	"Answer the total degree of the receiver."
@@ -25001,9 +24995,9 @@ printOn: aStream withNames: namesDictionary
 			self printIndeterminate: each on: aStream withNames: namesDictionary.
 			self printExponent: (self degreeIn: each) on: aStream]! !
 
-!Monomial methodsFor: 'operations' stamp: 'len 3/16/2016 20:03'!
+!Monomial methodsFor: 'operations' stamp: 'len 5/23/2016 00:04'!
 root: anInteger
-	^ self class new exponents: exponents / anInteger! !
+	^ self class exponents: exponents / anInteger! !
 
 !Monomial methodsFor: 'operations' stamp: 'len 12/6/2015 02:12'!
 root: anInteger in: anIndeterminate
@@ -26905,13 +26899,16 @@ asUnivariate
 		newCoefficients at: (key degreeIn: n)+1 add: term].
 	^ newSpecies coefficients: newCoefficients! !
 
-!Polynomial methodsFor: 'converting' stamp: 'len 3/25/2016 09:06'!
+!Polynomial methodsFor: 'converting' stamp: 'len 5/23/2016 04:08'!
 asUnivariateIn: anIndeterminate
 	"Answer the receiver as univariate in the given indeterminate, e.g. go from R[x,y,z] to R[x,y][z]."
 	| newScalars term n newCoefficients newSpecies |
-	self species isUnivariate ifTrue: [^ self].
-"	(self isUnivariateIn: anIndeterminate) ifTrue: [^ self]."
-	newScalars _ self scalars polynomialsIn: (self species indeterminates copyWithout: anIndeterminate).
+	(self species isUnivariate and: [self species indeterminate = anIndeterminate]) ifTrue: [^ self].
+	"(self isUnivariateIn: anIndeterminate) ifTrue: [^ self]."
+	(self species indeterminates includes: anIndeterminate) ifFalse: [self error: 'unknown indeterminate'].
+	anIndeterminate = self species rank ifFalse: [self error: 'bad indeterminate'].
+	newScalars _ self scalars polynomialsIn: self species rank - 1.
+	(self species indeterminates copyWithout: anIndeterminate).
 	newSpecies _ newScalars polynomialsIn: {anIndeterminate}.
 	(n _ self degreeIn: anIndeterminate) < 0
 		ifTrue: [^ newSpecies zero].
@@ -30290,21 +30287,21 @@ adaptToInteger: rcvr andSend: selector
 bitSize
 	^ representative bitSize! !
 
-!Residue methodsFor: 'conjugation' stamp: 'len 3/22/2016 02:23'!
+!Residue methodsFor: 'conjugation' stamp: 'len 5/23/2016 04:22'!
 conjugated
-	^ self ** self ideal ring characteristic! !
+	^ self ** self ideal ambient characteristic! !
 
 !Residue methodsFor: 'conjugation' stamp: 'len 4/20/2016 20:23'!
 conjugates
 	^ Iterator on: [:aBlock| self conjugatesDo: aBlock]! !
 
-!Residue methodsFor: 'conjugation' stamp: 'len 4/20/2016 20:27'!
+!Residue methodsFor: 'conjugation' stamp: 'len 5/23/2016 04:22'!
 conjugatesDo: aBlock
 	"Iterate over the conjugancy class of the receiver, i.e. all the conjugates including the receiver."
 	| alpha |
 	alpha _ self.
 	[aBlock value: alpha.
-	alpha _ alpha ** self ideal ring characteristic.
+	alpha _ alpha ** self ideal ambient characteristic.
 	alpha = self] whileFalse! !
 
 !Residue methodsFor: 'comparing' stamp: 'len 3/22/2016 02:46'!
@@ -30713,26 +30710,35 @@ polynomial: aPolynomial
 squareFreePolynomial: aPolynomial
 	^ super polynomial: aPolynomial! !
 
-!RootSystem methodsFor: 'roots' stamp: 'len 2/11/2016 21:06'!
-coroots
-	^ roots collect: [:v| v * 2 / (space innerProduct value: {v.v})]! !
+!RootSystem methodsFor: 'accessing' stamp: 'len 5/23/2016 05:00'!
+ambient
+	"Answer the ambient space of the receiver."
+	^ ambient! !
 
-!RootSystem methodsFor: 'operations' stamp: 'len 2/15/2016 23:14'!
+!RootSystem methodsFor: 'accessing-private' stamp: 'len 5/23/2016 05:00'!
+ambient: aVectorSpace
+	ambient _ aVectorSpace! !
+
+!RootSystem methodsFor: 'roots' stamp: 'len 5/23/2016 05:00'!
+coroots
+	^ roots collect: [:v| v * 2 / (ambient innerProduct value: {v.v})]! !
+
+!RootSystem methodsFor: 'operations' stamp: 'len 5/23/2016 04:59'!
 coxeterElement
 	| O answer |
-	O _ space automorphisms orthogonal.
-	answer _ space id.
+	O _ ambient automorphisms orthogonal.
+	answer _ ambient id.
 	self simpleRoots do: [:each| answer _ answer @ (O reflectionAt: each)].
 	^ answer! !
 
-!RootSystem methodsFor: 'operations' stamp: 'len 2/11/2016 19:21'!
+!RootSystem methodsFor: 'operations' stamp: 'len 5/23/2016 04:59'!
 coxeterMatrix
 	"Answer the Coxeter matrix of the receiver.
 	Given a basis a_i of simple roots, the Coxeter matrix m_ij is defined by <a_i,a_j> = -2 cos(pi / m_ij)."
 	| S |
 	S _ self normalized simpleRoots.
-	^ space scalars ** (S size @ S size)
-		evaluating: [:i :j| Float pi / ((space innerProduct value: {(S at: i). (S at: j)}) / -2) arcCos]! !
+	^ ambient scalars ** (S size @ S size)
+		evaluating: [:i :j| Float pi / ((ambient innerProduct value: {(S at: i). (S at: j)}) / -2) arcCos]! !
 
 !RootSystem methodsFor: 'operations' stamp: 'len 2/11/2016 20:55'!
 coxeterNumber
@@ -30743,9 +30749,9 @@ degreeOf: aPositiveRoot
 	"Answer the degree of the given positive root."
 	^ (self simpleRoots coordinatesOf: aPositiveRoot) asArray sum! !
 
-!RootSystem methodsFor: 'operations' stamp: 'len 1/6/2016 03:58'!
+!RootSystem methodsFor: 'operations' stamp: 'len 5/23/2016 04:59'!
 dual
-	^ self class on: space roots: self coroots! !
+	^ self class on: ambient roots: self coroots! !
 
 !RootSystem methodsFor: 'operations' stamp: 'len 2/11/2016 20:59'!
 exponents
@@ -30755,11 +30761,11 @@ exponents
 	h _ self coxeterNumber.
 	^ self coxeterElement eigenvalues collect: [:each| each log / (Float pi * 2 i / h)]! !
 
-!RootSystem methodsFor: 'testing' stamp: 'len 2/11/2016 21:13'!
+!RootSystem methodsFor: 'testing' stamp: 'len 5/23/2016 04:59'!
 isCrystallographic
 	^ self roots allSatisfy: [:x|
 		self coroots allSatisfy: [:y|
-			(space innerProduct value: {x. y}) isInteger]]! !
+			(ambient innerProduct value: {x. y}) isInteger]]! !
 
 !RootSystem methodsFor: 'testing' stamp: 'len 2/11/2016 21:16'!
 isIntegral
@@ -30769,9 +30775,9 @@ isIntegral
 isIrreducible
 	^ self coxeterDiagram isConnected! !
 
-!RootSystem methodsFor: 'testing' stamp: 'len 2/11/2016 19:22'!
+!RootSystem methodsFor: 'testing' stamp: 'len 5/23/2016 05:01'!
 isNormalized
-	^ roots allSatisfy: [:each| (space innerProduct value: {each.each}) = 2]! !
+	^ roots allSatisfy: [:each| (ambient innerProduct value: {each.each}) = 2]! !
 
 !RootSystem methodsFor: 'operations' stamp: 'len 5/20/2016 23:59'!
 lattice
@@ -30782,9 +30788,9 @@ lattice
 negativeRoots
 	^ self positiveRoots negated! !
 
-!RootSystem methodsFor: 'operations' stamp: 'len 2/11/2016 19:21'!
+!RootSystem methodsFor: 'operations' stamp: 'len 5/23/2016 05:01'!
 normalized
-	^ self class on: space roots: (roots collect: [:x| x * (2 / (space innerProduct value: {x.x}))])! !
+	^ self class on: ambient roots: (roots collect: [:x| x * (2 / (ambient innerProduct value: {x.x}))])! !
 
 !RootSystem methodsFor: 'roots' stamp: 'len 1/6/2016 03:49'!
 positiveRoots
@@ -30808,9 +30814,9 @@ printOn: aStream
 	roots do: [:each| aStream print: each] separatedBy: [aStream nextPut: $,].
 	aStream nextPut: $}! !
 
-!RootSystem methodsFor: 'accessing' stamp: 'len 1/6/2016 03:41'!
+!RootSystem methodsFor: 'accessing' stamp: 'len 5/23/2016 04:59'!
 rank
-	^ space dimension! !
+	^ ambient dimension! !
 
 !RootSystem methodsFor: 'accessing' stamp: 'len 1/6/2016 04:46'!
 roots
@@ -30820,23 +30826,14 @@ roots
 roots: aCollection
 	roots _ aCollection! !
 
-!RootSystem methodsFor: 'roots' stamp: 'len 2/13/2016 05:49'!
+!RootSystem methodsFor: 'roots' stamp: 'len 5/23/2016 04:59'!
 simpleRoots
 	| answer |
-	answer _ LinearBasis on: space.
+	answer _ LinearBasis on: ambient.
 	self positiveRoots do: [:v|
 		(answer generates: v) ifFalse: [answer add: v].
 		answer size = self rank ifTrue: [^ answer]].
 	^ answer! !
-
-!RootSystem methodsFor: 'accessing' stamp: 'len 1/6/2016 04:56'!
-space
-	"Answer the ambient space of the receiver."
-	^ space! !
-
-!RootSystem methodsFor: 'accessing-private' stamp: 'len 1/6/2016 04:46'!
-space: aVectorSpace
-	space _ aVectorSpace! !
 
 !RootSystem methodsFor: 'operations' stamp: 'len 1/7/2016 05:07'!
 weightLattice
@@ -30856,11 +30853,11 @@ weylAction
 	W name: 'W'.
 	^ GroupAction from: (W, self roots) to: self roots evaluating: [:each| each first value: each second]! !
 
-!RootSystem methodsFor: 'operations' stamp: 'len 5/2/2016 02:30'!
+!RootSystem methodsFor: 'operations' stamp: 'len 5/23/2016 05:01'!
 weylGroup
 	"Answer the Weyl group of the root system, i.e. the (finite) group of isometries of the ambient vector space generated by reflections through hyperplanes perpendicular to the roots. The Weyl group W(R) is the subgroup of GL(V) (and more specifically O(V)) generated by the reflections {s_r} that act on each root r by -1: s_r(r) = -r."
 	| O W |
-	O _ space automorphisms orthogonal.
+	O _ ambient automorphisms orthogonal.
 	W _ Group compositive generators: (self roots collect: [:each| O reflectionAt: each]).
 "	W name: 'W'."
 	^ W! !
@@ -30912,9 +30909,9 @@ example3
 				add: ((V e: i) + (V e: j)) negated]].
 	^ RootSystem on: V roots: roots! !
 
-!RootSystem class methodsFor: 'instance creation' stamp: 'len 1/6/2016 03:40'!
+!RootSystem class methodsFor: 'instance creation' stamp: 'len 5/23/2016 05:00'!
 on: aVectorSpace roots: aCollection
-	^ self new space: aVectorSpace; roots: aCollection! !
+	^ self new ambient: aVectorSpace; roots: aCollection! !
 
 !SchreierSims methodsFor: 'as yet unclassified' stamp: 'len 5/5/2016 08:29'!
 calculateOrbitOf: aPoint
@@ -31807,11 +31804,11 @@ testPolynomialSystem
 	self assert: (V includes: (1, 0)).
 	self assert: (V includes: (0, 1)) not! !
 
-!CodesTest methodsFor: 'as yet unclassified' stamp: 'len 4/3/2016 23:22'!
+!CodesTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2016 04:47'!
 testDual
 	| C |
 	C _ LinearCode subspace: ((Field GF: 2) ** 5 span: {(0,0,0,0,0) % 2. (1,1,1,1,1) % 2}).
-	self assert: C dual size = (C space size / C size).
+	self assert: C dual size = (C ambient size / C size).
 	C dual do: [:v|
 		"check each codeword of the dual has an even number of 1's, because it must be perpendicular to 11111 (and 00000 of course)."
 		self assert: (v count: [:each| each = (1 % 2)]) even]
@@ -33830,11 +33827,11 @@ testBaseSignCondition
 		coordinates _ R simpleRoots coordinatesOf: each :: asArray.
 		self assert: (coordinates allSatisfy: [:xi| xi >= 0]) | (coordinates allSatisfy: [:xi| xi <= 0])]! !
 
-!RootSystemTest methodsFor: 'as yet unclassified' stamp: 'len 2/10/2016 22:49'!
+!RootSystemTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2016 05:02'!
 testPositiveRoots
 	| V R |
 	R _ self rootSystem1.
-	V _ R space.
+	V _ R ambient.
 	R positiveRoots do: [:each|
 		self assert: (V innerProduct value: {each. (1,1,1)}) > 0] "the point bust be in the positive Weyl chamber"! !
 
