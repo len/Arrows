@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2752] on 23 May 2016 at 5:05:40.051522 am'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2752] on 24 May 2016 at 5:33:42.167241 am'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 63!
+!provides: 'Mathematics' 1 64!
 !classDefinition: #AbelianGroupPresentation category: #'Mathematics-Free'!
 Object subclass: #AbelianGroupPresentation
 	instanceVariableNames: 'generators relators'
@@ -7837,8 +7837,9 @@ addAll: aCollection
 	aCollection do: [ :each | self add: each].
 	^ aCollection! !
 
-!LinearBasis methodsFor: 'accessing' stamp: 'len 5/23/2016 04:33'!
+!LinearBasis methodsFor: 'accessing' stamp: 'len 5/23/2016 19:28'!
 ambient
+	"Answer the ambient vector space."
 	^ ambient! !
 
 !LinearBasis methodsFor: 'accessing-private' stamp: 'len 5/23/2016 04:44'!
@@ -9562,8 +9563,9 @@ atRandom: aRandom bits: bitSize
 	self rank = 0 ifTrue: [^ self zero].
 	^ self elementAt: (self coordinateSpace atRandom: aRandom bits: bitSize)! !
 
-!FreeModule methodsFor: 'morphisms' stamp: 'len 4/17/2016 06:57'!
+!FreeModule methodsFor: 'morphisms' stamp: 'len 5/23/2016 19:33'!
 automorphisms
+	self flag: #fix. "does anything work for modules too? remove VectorSpace>>automorphisms"
 	^ GeneralLinearGroup on: self! !
 
 !FreeModule methodsFor: 'basis' stamp: 'len 4/25/2016 06:28'!
@@ -9671,8 +9673,9 @@ on: aCollection
 	(self ambient scalars includes: anObject) ifTrue: [^ self class basis: (self basis collect: [:each| each * anObject])].
 	^ super * anObject! !
 
-!Lattice methodsFor: 'accessing' stamp: 'len 5/23/2016 04:36'!
+!Lattice methodsFor: 'accessing' stamp: 'len 5/23/2016 19:28'!
 ambient
+	"Answer the ambient vector space."
 	^ basis ambient! !
 
 !Lattice methodsFor: 'morphisms' stamp: 'len 4/15/2016 06:12'!
@@ -9961,8 +9964,9 @@ matrix: aMatrix
 affine
 	^ AffineSubspace direction: self translation: self zero! !
 
-!VectorSpace methodsFor: 'accessing' stamp: 'len 5/23/2016 04:23'!
+!VectorSpace methodsFor: 'accessing' stamp: 'len 5/23/2016 19:30'!
 ambient
+	"Answer the ambient vector space."
 	^ self! !
 
 !VectorSpace methodsFor: 'morphisms' stamp: 'len 2/25/2016 03:45'!
@@ -10538,8 +10542,9 @@ from: aVectorSpace
 	^ (self basis matrix transposed | aLinearSubspace basis matrix transposed) image apply: self space basis vectorAt
 "! !
 
-!LinearSubspace methodsFor: 'accessing' stamp: 'len 5/23/2016 04:24'!
+!LinearSubspace methodsFor: 'accessing' stamp: 'len 5/23/2016 19:29'!
 ambient
+	"Answer the ambient vector space."
 	^ basis ambient! !
 
 !LinearSubspace methodsFor: 'morphisms' stamp: 'len 5/23/2016 04:25'!
@@ -12980,16 +12985,13 @@ automorphisms
 codimension
 	^ direction codimension! !
 
-!AffineSubspace methodsFor: 'accessing' stamp: 'len 2/9/2016 21:25'!
-differenceSpace
-	^ direction! !
-
 !AffineSubspace methodsFor: 'accessing' stamp: 'len 2/9/2016 21:24'!
 dimension
 	^ translation isNil ifTrue: [-1] ifFalse: [direction dimension]! !
 
-!AffineSubspace methodsFor: 'accessing' stamp: 'len 2/9/2016 21:27'!
+!AffineSubspace methodsFor: 'accessing' stamp: 'len 5/23/2016 19:44'!
 direction
+	"Answer the 'difference space' or 'direction', a linear subspace parallel to the receiver."
 	^ direction! !
 
 !AffineSubspace methodsFor: 'accessing-private' stamp: 'len 2/9/2016 21:29'!
@@ -13823,8 +13825,9 @@ from: aDomain to: anotherDomain
 = aLinearCode
 	^ (aLinearCode isKindOf: LinearCode) and: [self asVectorSpace = aLinearCode asVectorSpace]! !
 
-!LinearCode methodsFor: 'accessing' stamp: 'len 5/23/2016 04:37'!
+!LinearCode methodsFor: 'accessing' stamp: 'len 5/23/2016 19:28'!
 ambient
+	"Answer the ambient vector space."
 	^ self asVectorSpace ambient! !
 
 !LinearCode methodsFor: 'morphisms' stamp: 'len 5/17/2016 21:14'!
@@ -14333,6 +14336,11 @@ additiveOperation
 !Group methodsFor: 'morphisms' stamp: 'len 5/22/2016 03:44'!
 adjointAction
 	^ GroupAction from: (self, self) to: self evaluating: [:each| self operation value: {self operation value: {each first. each second}. self inverseMap value: each first}]! !
+
+!Group methodsFor: 'accessing' stamp: 'len 5/23/2016 19:35'!
+ambient
+	"Answer the ambient group."
+	^ self! !
 
 !Group methodsFor: 'random' stamp: 'len 5/9/2016 20:28'!
 atRandom: aRandom bits: bitSize
@@ -14915,6 +14923,11 @@ action
 	"Answer the natural action that sends (f, p) to f(p)."
 	^ GroupAction from: (self, space) to: space evaluating: [:each| each first value: each second]! !
 
+!AffineGroup methodsFor: 'accessing' stamp: 'len 5/23/2016 19:47'!
+ambient
+	"Answer the ambient group."
+	^ space automorphisms "the general affine group GA(A)"! !
+
 !AffineGroup methodsFor: 'morphisms' stamp: 'len 2/13/2016 07:24'!
 asSemidirectProduct
 	self flag: #fix. "the action is wrong"
@@ -15255,6 +15268,11 @@ affine
 	self flag: #fix.
 	^ AffineGroup linear: self! !
 
+!LinearGroup methodsFor: 'accessing' stamp: 'len 5/23/2016 19:31'!
+ambient
+	"Answer the ambient group."
+	^ space automorphisms "the general linear group GL(V)"! !
+
 !LinearGroup methodsFor: 'random' stamp: 'len 4/19/2016 20:43'!
 atRandom: aRandom
 	| endos e |
@@ -15533,6 +15551,11 @@ action
 	"Answer the natural action that sends (M, x) to M*x."
 	^ GroupAction from: (self, space) to: space evaluating: [:each| each first * each second]! !
 
+!MatrixGroup methodsFor: 'accessing' stamp: 'len 5/23/2016 19:32'!
+ambient
+	"Answer the ambient group."
+	^ GeneralLinearMatrixGroup on: space! !
+
 !MatrixGroup methodsFor: 'random' stamp: 'len 4/19/2016 20:47'!
 atRandom: aRandom
 	| e |
@@ -15726,14 +15749,20 @@ action
 	"Answer the natural action that sends (s, x) to s(x)."
 	^ GroupAction from: (self, space) to: space evaluating: [:each| each first value: each second]! !
 
+!PermutationGroup methodsFor: 'accessing' stamp: 'len 5/23/2016 19:34'!
+ambient
+	"Answer the ambient group."
+	^ SymmetricGroup on: space! !
+
 !PermutationGroup methodsFor: 'accessing' stamp: 'len 2/16/2016 05:48'!
 degree
 	^ self space size! !
 
-!PermutationGroup methodsFor: 'as yet unclassified' stamp: 'len 5/1/2016 07:15'!
+!PermutationGroup methodsFor: 'as yet unclassified' stamp: 'len 5/23/2016 19:35'!
 isSubgroupOfAn
 	"Monte Carlo test."
 	| random |
+	self flag: #fix.
 	self isTransitive ifFalse: [^ false].
 	random _ self random.
 	20 timesRepeat:
@@ -16352,6 +16381,11 @@ perpendicularBisectors
 = anObject
 	^ (anObject isKindOf: ProjectiveSubspace) and: [vectorSpace = anObject vectorSpace]! !
 
+!ProjectiveSubspace methodsFor: 'accessing' stamp: 'len 5/23/2016 19:48'!
+ambient
+	"Answer the ambient space (a projective space)."
+	^ self class on: vectorSpace ambient! !
+
 !ProjectiveSubspace methodsFor: 'morphisms' stamp: 'len 4/21/2016 04:52'!
 asGrassmannian
 	^ vectorSpace grassmannian: 1! !
@@ -16482,9 +16516,9 @@ pointFromVector: aVector
 	"Answer the projective point associated to the vector aVector."
 	^ self project: aVector! !
 
-!ProjectiveSubspace methodsFor: 'printing' stamp: 'len 4/29/2016 18:39'!
+!ProjectiveSubspace methodsFor: 'printing' stamp: 'len 5/23/2016 19:49'!
 printOn: aStream
-	vectorSpace space = vectorSpace
+	vectorSpace ambient = vectorSpace
 		ifTrue:
 			[aStream nextPutAll: 'P' bold; nextPut: $(; print: vectorSpace; nextPut: $).
 			^ self].
@@ -16512,10 +16546,6 @@ skew: aProjectiveSubspace
 	"Answer true if the receiver and the argument are skew."
 
 	^ (self intersection: aProjectiveSubspace) isEmpty! !
-
-!ProjectiveSubspace methodsFor: 'accessing' stamp: 'len 11/22/2015 00:02'!
-space
-	^ self class on: vectorSpace space! !
 
 !ProjectiveSubspace methodsFor: 'morphisms' stamp: 'len 11/20/2015 22:17'!
 tensor: aProjectiveSpace
@@ -22465,8 +22495,9 @@ isCycle
 
 	^ LinearSystem new add: self; , anObject! !
 
-!LinearEquation methodsFor: 'accessing' stamp: 'len 5/23/2016 04:39'!
+!LinearEquation methodsFor: 'accessing' stamp: 'len 5/23/2016 19:29'!
 ambient
+	"Answer the ambient vector space (where solutions live)."
 	^ form domain ambient! !
 
 !LinearEquation methodsFor: 'converting' stamp: 'len 2/21/2016 06:50'!
@@ -22547,8 +22578,9 @@ add: aLinearEquation
 addAll: aCollection
 	^ equations addAll: aCollection! !
 
-!LinearSystem methodsFor: 'accessing' stamp: 'len 5/23/2016 04:24'!
+!LinearSystem methodsFor: 'accessing' stamp: 'len 5/23/2016 19:29'!
 ambient
+	"Answer the ambient vector space (where solutions live)."
 	^ equations first ambient! !
 
 !LinearSystem methodsFor: 'accessing' stamp: 'len 11/20/2015 06:13'!
@@ -23919,6 +23951,10 @@ is: aSymbol
 isDiagonal
 	^ self isLowerTriangular and: [ self isUpperTriangular ]! !
 
+!Matrix methodsFor: 'testing' stamp: 'len 5/23/2016 19:55'!
+isFullRank
+	^ self rank = (self numberOfColumns min: self numberOfRows)! !
+
 !Matrix methodsFor: 'testing' stamp: 'len 12/31/2015 05:48'!
 isHermitian
 	"Answer true if the receiver is Hermitian (or self-adjoint."
@@ -23951,6 +23987,10 @@ isOrthogonal
 		- Q has orthonormal columns and rows;
 		- For all v, ||Qv|| = ||v||."
 	^ self isSquare and: [(self * self transposed) isIdentity]! !
+
+!Matrix methodsFor: 'testing' stamp: 'len 5/23/2016 19:55'!
+isRankDeficient
+	^ self isFullRank not! !
 
 !Matrix methodsFor: 'testing' stamp: 'len 2/11/2016 06:24'!
 isScalar
@@ -32039,10 +32079,10 @@ testCauchyFrobeniusLemma
 	sum _ G elements sum: [:g| (phi fixedPointsOf: g) size].
 	self assert: phi orbits size * G order = sum! !
 
-!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 5/13/2016 09:24'!
+!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2016 19:35'!
 testD3
 	| D S A |
-	D _ PermutationGroup dihedral: 6.
+	D _ PermutationGroup dihedral: 2*3.
 	S _ SymmetricGroup new: 3.
 	self assert: D = S.
 	A _ AlternatingGroup new: 3.
