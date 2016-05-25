@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2752] on 25 May 2016 at 8:23:03.9238 pm'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2752] on 25 May 2016 at 8:51:06.83228 pm'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 69!
+!provides: 'Mathematics' 1 70!
 !classDefinition: #AbelianGroupPresentation category: #'Mathematics-Free'!
 Object subclass: #AbelianGroupPresentation
 	instanceVariableNames: 'generators relators'
@@ -30575,11 +30575,10 @@ polynomial: aPolynomial
 squareFreePolynomial: aPolynomial
 	^ super polynomial: aPolynomial! !
 
-!RationalRootFinder methodsFor: 'private' stamp: 'len 3/18/2016 07:01'!
+!RationalRootFinder methodsFor: 'private' stamp: 'len 5/25/2016 20:48'!
 separateRoots
 	"Separate the (real) rational roots of the polynomial."
 	| f k tau |
-	self flag: #fix.
 	roots _ Bag new.
 	f _ self polynomial integerPrimitive.
 	(k _ f lowestDegree) > 0 ifTrue: [roots add: 0 withOccurrences: k. f _ f shift: k negated].
@@ -30587,13 +30586,11 @@ separateRoots
 	f independentCoefficient divisorsDo: [:each|
 		f leadingCoefficient divisorsDo: [:one|
 			tau _ each / one.
-			(roots includes: tau)
-				ifFalse:
-					[(f value: tau) isZero
-						ifTrue: [roots add: tau withOccurrences: "slow" (f multiplicityAt: tau)].
-					tau _ tau negated.
-					(f value: tau) isZero
-						ifTrue: [roots add: tau withOccurrences: "slow" (f multiplicityAt: tau)]]]].
+			((roots includes: tau) not and: [(f value: tau) isZero])
+				ifTrue: [roots add: tau withOccurrences: "slow" (f multiplicityAt: tau)].
+			tau _ tau negated.
+			((roots includes: tau) not and: [(f value: tau) isZero])
+				ifTrue: [roots add: tau withOccurrences: "slow" (f multiplicityAt: tau)]]].
 	done _ true! !
 
 !RealRootFinder methodsFor: 'private' stamp: 'len 1/16/2016 08:29'!
@@ -33623,6 +33620,16 @@ testRationalRoots
 	roots _ f rootsIn: Q.
 	self assert: roots size = 3.
 	self assert: (roots occurrencesOf: 1/2) = 2.
+	self assert: (roots occurrencesOf: 2) = 1! !
+
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 5/25/2016 20:50'!
+testRationalRootsBug
+	| x f roots |
+	x _ Rationals new polynomials x.
+	f _ x**3*-1 + (3*x) + 2.
+	roots _ f roots.
+	self assert: roots size = 3.
+	self assert: (roots occurrencesOf: -1) = 2.
 	self assert: (roots occurrencesOf: 2) = 1! !
 
 !PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 4/17/2016 06:42'!
