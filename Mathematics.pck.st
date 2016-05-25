@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2752] on 25 May 2016 at 3:53:16.092589 am'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2752] on 25 May 2016 at 4:09:02.449094 am'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 65!
+!provides: 'Mathematics' 1 66!
 !classDefinition: #AbelianGroupPresentation category: #'Mathematics-Free'!
 Object subclass: #AbelianGroupPresentation
 	instanceVariableNames: 'generators relators'
@@ -5550,9 +5550,9 @@ addEdgeFrom: source to: target
 	targetNode _ self add: target.
 	sourceNode addNeighbor: targetNode! !
 
-!Digraph methodsFor: 'adding' stamp: 'len 4/29/2016 22:29'!
+!Digraph methodsFor: 'adding' stamp: 'len 5/25/2016 04:05'!
 addEdgeFrom: source to: target label: label
-	"pre: (self nodeFor: edge key) isLabelled"
+	"pre: (self nodeAt: edge key) isLabeled"
 	| sourceNode targetNode |
 	sourceNode _ self add: source.
 	targetNode _ self add: target.
@@ -6251,19 +6251,15 @@ removeEdgeFrom: src to: dest
 	pre: the edge must be in the graph."
 	^self removeEdgeFrom: src to: dest ifAbsent: [self notFoundError]! !
 
-!Digraph methodsFor: 'removing' stamp: 'len 2/26/2016 23:20'!
-removeEdgeFrom: src to: dest ifAbsent: exceptionBlock
-	"Remove the given edge.
-	pre: both the source and target of the edge must be in the graph."
-	^self removeEdgeFromNode: (self nodeAt: src) toNode: (self nodeAt: dest) ifAbsent: exceptionBlock! !
-
-!Digraph methodsFor: 'private' stamp: 'len 2/14/2016 22:20'!
-removeEdgeFromNode: srcNode toNode: destNode ifAbsent: exceptionBlock 
+!Digraph methodsFor: 'removing' stamp: 'len 5/25/2016 04:03'!
+removeEdgeFrom: source to: target ifAbsent: exceptionBlock 
 	"Remove the given edge, evaluate exceptionBlock if it doesn't exist. 
 	pre: both the source and target of the edge must be in the graph."
-	(srcNode hasEdgeTo: destNode)
-		ifTrue: [srcNode removeNeighbor: destNode.
-					destNode removeInNeighbor: srcNode]
+	| sourceNode targetNode |
+	sourceNode _ self nodeAt: source.
+	targetNode _ self nodeAt: target.
+	(sourceNode hasEdgeTo: targetNode)
+		ifTrue: [sourceNode removeNeighbor: targetNode]
 		ifFalse: [^ exceptionBlock value]! !
 
 !Digraph methodsFor: 'iterating' stamp: 'len 4/29/2016 22:26'!
@@ -6601,33 +6597,39 @@ unorderedLabeled
 	"Create a new labelled, unordered graph."
 	^super new initialize unorderedLabeled! !
 
-!Graph methodsFor: 'adding' stamp: 'len 5/25/2016 03:20'!
-addEdge: edge 
-	"Add an edge (represented by an Association)."
+!Graph methodsFor: 'adding' stamp: 'len 5/25/2016 04:07'!
+addEdgeFrom: source to: target 
+	| sourceNode targetNode |
+	sourceNode _ self add: source.
+	targetNode _ self add: target.
+	sourceNode addNeighbor: targetNode.
+	targetNode addNeighbor: sourceNode! !
 
-	self addEdgeFrom: edge key to: edge value.
-	self addEdgeFrom: edge value to: edge key.
-	^ edge! !
-
-!Graph methodsFor: 'adding' stamp: 'len 5/25/2016 03:20'!
-addEdge: edge label: label
-	"Add an edge (represented by an Association), with given label.
-	pre: (self nodeAt: edge key) isLabeled"
-
-	self addEdgeFrom: edge key to: edge value label: label.
-	self addEdgeFrom: edge value to: edge key label: label.
-	^edge! !
+!Graph methodsFor: 'adding' stamp: 'len 5/25/2016 04:06'!
+addEdgeFrom: source to: target label: label
+	"pre: (self nodeAt: edge key) isLabeled"
+	| sourceNode targetNode |
+	sourceNode _ self add: source.
+	targetNode _ self add: target.
+	sourceNode addNeighbor: targetNode label: label.
+	targetNode addNeighbor: sourceNode label: label! !
 
 !Graph methodsFor: 'private' stamp: 'len 5/25/2016 03:24'!
 isUndirected
 	^ true! !
 
-!Graph methodsFor: 'removing' stamp: 'len 5/25/2016 03:23'!
-removeEdge: edge 
-	"Remove the given edge.  
-	pre: the edge must be in the graph."
-	self removeEdge: edge ifAbsent: [self notFoundError].
-	self removeEdge: (Association key: edge value value: edge key) ifAbsent: [self notFoundError]! !
+!Graph methodsFor: 'removing' stamp: 'len 5/25/2016 04:04'!
+removeEdgeFrom: source to: target ifAbsent: exceptionBlock 
+	"Remove the given edge, evaluate exceptionBlock if it doesn't exist. 
+	pre: both the source and target of the edge must be in the graph."
+	| sourceNode targetNode |
+	sourceNode _ self nodeAt: source.
+	targetNode _ self nodeAt: target.
+	(sourceNode hasEdgeTo: targetNode)
+		ifTrue:
+			[sourceNode removeNeighbor: targetNode.
+			targetNode removeNeighbor: sourceNode]
+		ifFalse: [^ exceptionBlock value]! !
 
 !RootedDigraph methodsFor: 'adding' stamp: 'len 2/19/2016 21:17'!
 addEdgeFrom: source to: target
