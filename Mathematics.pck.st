@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2752] on 25 May 2016 at 8:06:53.189639 pm'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2752] on 25 May 2016 at 8:23:03.9238 pm'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 68!
+!provides: 'Mathematics' 1 69!
 !classDefinition: #AbelianGroupPresentation category: #'Mathematics-Free'!
 Object subclass: #AbelianGroupPresentation
 	instanceVariableNames: 'generators relators'
@@ -3331,19 +3331,21 @@ Output: x such that x = x_i (mod m_i) for 1<=i<=k.
 !
 
 !Digraph commentStamp: '<historical>' prior: 0!
-A Graph is a collection of GraphNodes.
+My instances are directed graphs. The vertices (values) can be arbitrary objects, and the edges are Associations v1 -> v2. It is implemented as a collection of GraphNodes.
 
-Various properties of the graph are encoded in the class of its nodes (eg whether the graph is ordered, has a fixed arity, or the edges or labelled).
-
-The creation block is initialized so that appropriate nodes are made.
+Various properties of the graph are encoded in the class of its nodes (e.g. whether the graph is ordered, has a fixed arity, or the edges are labeled). The 'creation block' is initialized so that appropriate nodes are made.
 
 Structure:
  nodes 			Set of GraphNodes
  nodeCreator 	a block which is evaluated to create a new node
  type 			a Symbol indicating what the default node type is!
 
+!Graph commentStamp: '<historical>' prior: 0!
+My instances are undirected graphs. It is implemented as a particular case of Digraph, and whenever an edge a -> b is added (or removed) also b -> a is added (or removed).
+!
+
 !RootedDigraph commentStamp: '<historical>' prior: 0!
-A RootedGraph is a directed graph with roots.
+My instances are directed graphs with some distinguished vertices that we call 'roots'.
 
 Structure:
  roots 		Set of root objects
@@ -3799,14 +3801,13 @@ Each node holds on to a corresponding object that is the value of that node.
 Subclasses add state/behaviour to represent edges in the graph.!
 
 !ExplicitGraphNode commentStamp: '<historical>' prior: 0!
-An ExplicitGraphNode stores the edges in a collection, an instance variable of self.
-The type of the collection varies as to whether the graph is ordered, of fixed arity, etc.
+An ExplicitGraphNode stores the edges in a collection, an instance variable. The type of the collection varies as to whether the graph is ordered, of fixed arity, etc.
 
 To change the edge collection, addNeighbor: and removeNeighbor: messages are supplied.
 !
 
 !LabeledExplicitGraphNode commentStamp: '<historical>' prior: 0!
-A LabeledExplicitGraphNode associates a label with each neighbor, and a label with the node itself; i.e., nodes and edges are labeled.
+A LabeledExplicitGraphNode associates a label with each neighbor, and a label with the node itself; i.e. nodes and edges are labeled.
 
 When adding neighbors, the label must be given.!
 
