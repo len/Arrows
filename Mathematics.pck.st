@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2752] on 25 May 2016 at 4:09:02.449094 am'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2752] on 25 May 2016 at 5:24:29.956946 am'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 66!
+!provides: 'Mathematics' 1 67!
 !classDefinition: #AbelianGroupPresentation category: #'Mathematics-Free'!
 Object subclass: #AbelianGroupPresentation
 	instanceVariableNames: 'generators relators'
@@ -15285,6 +15285,10 @@ ambient
 	"Answer the ambient group."
 	^ space automorphisms "the general linear group GL(V)"! !
 
+!LinearGroup methodsFor: 'morphisms' stamp: 'len 5/25/2016 05:23'!
+asMatrixGroup
+	^ (MatrixGroup on: space coordinateSpace) generators: (self generators collect: [:g| g matrix])! !
+
 !LinearGroup methodsFor: 'random' stamp: 'len 4/19/2016 20:43'!
 atRandom: aRandom
 	| endos e |
@@ -15323,8 +15327,9 @@ includes: aLinearMap
 isFinite
 	^ self scalars isFinite or: [super isFinite]! !
 
-!LinearGroup methodsFor: 'printing' stamp: 'len 4/29/2016 18:35'!
+!LinearGroup methodsFor: 'printing' stamp: 'len 5/25/2016 05:09'!
 printOn: aStream
+	self class = LinearGroup ifTrue: [^ super printOn: aStream].
 	aStream nextPutAll: self shortName bold; nextPut: $(; print: space; nextPut: $)! !
 
 !LinearGroup methodsFor: 'accessing' stamp: 'len 2/11/2016 20:15'!
@@ -15605,8 +15610,9 @@ includes: aMatrix
 isFinite
 	^ self scalars isFinite or: [super isFinite]! !
 
-!MatrixGroup methodsFor: 'printing' stamp: 'len 4/29/2016 18:38'!
+!MatrixGroup methodsFor: 'printing' stamp: 'len 5/25/2016 05:07'!
 printOn: aStream
+	self class = MatrixGroup ifTrue: [^ super printOn: aStream].
 	(aStream isKindOf: TextStream)
 		ifTrue:
 			[aStream nextPutAll: self shortName bold; nextPutAll: space dimension printString sub; nextPut: $(; print: self scalars; nextPut: $)]
@@ -15765,6 +15771,26 @@ action
 ambient
 	"Answer the ambient group."
 	^ SymmetricGroup on: space! !
+
+!PermutationGroup methodsFor: 'converting' stamp: 'len 5/25/2016 05:21'!
+asLinearGroupOver: aRing
+	"Return a linear group over aRing isomorphic to the receiver.
+	Assume the space of the receiver is an interval (1 to: n)."
+	| n V |
+	n _ self degree.
+	V _ aRing**n.
+	^ (LinearGroup on: V)
+		generators: (self generators collect: [:g| V -> V evaluating: [:x| x withIndexCollect: [:xi :i| x at: (g value: i)]]])! !
+
+!PermutationGroup methodsFor: 'converting' stamp: 'len 5/25/2016 05:14'!
+asMatrixGroup
+	"Return a matrix group isomorphic to the receiver.
+	Assume the space of the receiver is an interval (1 to: n)."
+	| Z2 n generators |
+	Z2 _ Integers new mod: 2.
+	n _ self degree.
+	generators _ self generators collect: [:g| Z2**(n@n) evaluating: [:i :j| (g at: i) = j ifTrue: [1] ifFalse: [0]]].
+	^ (MatrixGroup on: Z2**n) generators: generators! !
 
 !PermutationGroup methodsFor: 'accessing' stamp: 'len 2/16/2016 05:48'!
 degree
