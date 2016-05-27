@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2752] on 25 May 2016 at 8:51:06.83228 pm'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2752] on 27 May 2016 at 5:08:43.4746 am'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 70!
+!provides: 'Mathematics' 1 71!
 !classDefinition: #AbelianGroupPresentation category: #'Mathematics-Free'!
 Object subclass: #AbelianGroupPresentation
 	instanceVariableNames: 'generators relators'
@@ -521,13 +521,13 @@ VectorSpace subclass: #AlgebraicFieldExtensionSpace
 AlgebraicFieldExtensionSpace class
 	instanceVariableNames: ''!
 
-!classDefinition: #BilinearForms category: #'Mathematics-Linear-Spaces'!
+!classDefinition: #BilinearForms category: #'Mathematics-Multilinear'!
 VectorSpace subclass: #BilinearForms
 	instanceVariableNames: 'vectorSpace domain'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Linear-Spaces'!
-!classDefinition: 'BilinearForms class' category: #'Mathematics-Linear-Spaces'!
+	category: 'Mathematics-Multilinear'!
+!classDefinition: 'BilinearForms class' category: #'Mathematics-Multilinear'!
 BilinearForms class
 	instanceVariableNames: ''!
 
@@ -651,13 +651,13 @@ VectorSpace subclass: #ScalarVectorSpace
 ScalarVectorSpace class
 	instanceVariableNames: ''!
 
-!classDefinition: #Tensors category: #'Mathematics-Linear-Spaces'!
+!classDefinition: #Tensors category: #'Mathematics-Multilinear'!
 VectorSpace subclass: #Tensors
 	instanceVariableNames: 'type vectorSpace'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Linear-Spaces'!
-!classDefinition: 'Tensors class' category: #'Mathematics-Linear-Spaces'!
+	category: 'Mathematics-Multilinear'!
+!classDefinition: 'Tensors class' category: #'Mathematics-Multilinear'!
 Tensors class
 	instanceVariableNames: ''!
 
@@ -1841,13 +1841,13 @@ Function subclass: #AffineMap
 AffineMap class
 	instanceVariableNames: ''!
 
-!classDefinition: #BilinearForm category: #'Mathematics-Linear'!
+!classDefinition: #BilinearForm category: #'Mathematics-Multilinear'!
 Function subclass: #BilinearForm
 	instanceVariableNames: 'basis matrix'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Linear'!
-!classDefinition: 'BilinearForm class' category: #'Mathematics-Linear'!
+	category: 'Mathematics-Multilinear'!
+!classDefinition: 'BilinearForm class' category: #'Mathematics-Multilinear'!
 BilinearForm class
 	instanceVariableNames: ''!
 
@@ -2951,13 +2951,13 @@ Object subclass: #SemidirectProductElement
 SemidirectProductElement class
 	instanceVariableNames: ''!
 
-!classDefinition: #SimpleTensor category: #'Mathematics-Linear'!
+!classDefinition: #SimpleTensor category: #'Mathematics-Multilinear'!
 Object subclass: #SimpleTensor
 	instanceVariableNames: 'left right'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Linear'!
-!classDefinition: 'SimpleTensor class' category: #'Mathematics-Linear'!
+	category: 'Mathematics-Multilinear'!
+!classDefinition: 'SimpleTensor class' category: #'Mathematics-Multilinear'!
 SimpleTensor class
 	instanceVariableNames: ''!
 
@@ -2991,13 +2991,13 @@ Object subclass: #SturmChain
 SturmChain class
 	instanceVariableNames: ''!
 
-!classDefinition: #Tensor category: #'Mathematics-Linear'!
+!classDefinition: #Tensor category: #'Mathematics-Multilinear'!
 Object subclass: #Tensor
 	instanceVariableNames: 'components'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Linear'!
-!classDefinition: 'Tensor class' category: #'Mathematics-Linear'!
+	category: 'Mathematics-Multilinear'!
+!classDefinition: 'Tensor class' category: #'Mathematics-Multilinear'!
 Tensor class
 	instanceVariableNames: ''!
 
@@ -3603,6 +3603,9 @@ My instances are GL(V), the General Linear Group of a vector space V. This is th
 
 !SpecialLinearMatrixGroup commentStamp: '<historical>' prior: 0!
 My instances are SL(V), the Special Linear Group of a vector space V. This is the group of unimodular automorphisms (transformations of determinant 1).!
+
+!PermutationGroup commentStamp: '<historical>' prior: 0!
+My instances are permutation groups, i.e. subgroups of the symmetric group Sym(X) of permutations on the elements of a set X (which we call 'space').!
 
 !RealBox commentStamp: '<historical>' prior: 0!
 My instances are boxes in R^n built by the cartesian product of one-dimensional intervals (instances of RealInterval).
@@ -4726,6 +4729,11 @@ conjugates
 	"The conjugates of an algebraic number with minimal polynomial of degree n are all its n-th roots."
 	^ self notYetImplemented! !
 
+!AlgebraicNumber methodsFor: 'accessing' stamp: 'len 5/27/2016 02:03'!
+denominator
+	"The denominator of an algebraic number is the smallest positive integer that multiplied by the algebraic number is an algebraic integer."
+	^ self minimalPolynomial coefficients inject: 1 into: [:denominator :each| denominator lcm: each denominator]! !
+
 !AlgebraicNumber methodsFor: 'comparing' stamp: 'len 1/17/2016 02:05'!
 hash
 	^ self truncated hash! !
@@ -4738,15 +4746,10 @@ i
 isAlgebraic
 	^ true! !
 
-!AlgebraicNumber methodsFor: 'testing' stamp: 'len 3/22/2016 07:32'!
+!AlgebraicNumber methodsFor: 'testing' stamp: 'len 5/27/2016 02:06'!
 isAlgebraicInteger
-	"An algebraic number is an 'algebraic integer' if it's the root of a monic polynomial in Z[x], in particular if it's minimal polynomial is monic with integer coefficients."
-	^ self minimalPolynomial coefficients allSatisfy: [:each| each isInteger]
-	
-"	| f |
-	f _ self minimalPolynomial.
-	f isMonic ifFalse: [^ false].
-	^ f coefficients allSatisfy: [:each| each isInteger]"! !
+	"An algebraic number is an 'algebraic integer' if it's the root of a monic polynomial in Z[x], in particular if it's minimal polynomial has integer coefficients."
+	^ self minimalPolynomial coefficients allSatisfy: [:each| each isInteger]! !
 
 !AlgebraicNumber methodsFor: 'testing' stamp: 'len 1/13/2016 03:33'!
 isNumber
@@ -6342,19 +6345,6 @@ transposed
 type
 	^ type! !
 
-!Digraph methodsFor: 'accessing' stamp: 'len 5/1/2016 21:42'!
-undirectedEdges
-	^ Iterator on: self performing: #undirectedEdgesDo:! !
-
-!Digraph methodsFor: 'iterating' stamp: 'len 5/1/2016 21:42'!
-undirectedEdgesDo: aBlock
-	"Assume the receiver is undirected."
-	| visited |
-	visited _ Set new.
-	self edgesDo: [:each| | undirectedEdge |
-		undirectedEdge _ Set with: each key with: each value.
-		visited add: undirectedEdge ifAbsent: [aBlock value: undirectedEdge]]! !
-
 !Digraph methodsFor: 'operations' stamp: 'len 4/29/2016 22:26'!
 union: aGraph
 	"Answer the graph whose vertices and edges are the union of the vertices and edges of the receiver and the argument."
@@ -6631,6 +6621,18 @@ removeEdgeFrom: source to: target ifAbsent: exceptionBlock
 			[sourceNode removeNeighbor: targetNode.
 			targetNode removeNeighbor: sourceNode]
 		ifFalse: [^ exceptionBlock value]! !
+
+!Graph methodsFor: 'accessing' stamp: 'len 5/26/2016 20:17'!
+undirectedEdges
+	^ Iterator on: self performing: #undirectedEdgesDo:! !
+
+!Graph methodsFor: 'iterating' stamp: 'len 5/26/2016 20:17'!
+undirectedEdgesDo: aBlock
+	| visited |
+	visited _ Set new.
+	self edgesDo: [:each| | undirectedEdge |
+		undirectedEdge _ Set with: each key with: each value.
+		visited add: undirectedEdge ifAbsent: [aBlock value: undirectedEdge]]! !
 
 !RootedDigraph methodsFor: 'adding' stamp: 'len 2/19/2016 21:17'!
 addEdgeFrom: source to: target
@@ -19687,11 +19689,11 @@ projectionOn: aLinearSubspace
 	domain _ domainBasis span.
 	^ self from: domain to: domain evaluating: [:v| (basis includes: v) ifTrue: [v] ifFalse: [v-v]]! !
 
-!LinearForm methodsFor: 'converting' stamp: 'len 11/7/2015 05:30'!
+!LinearForm methodsFor: 'converting' stamp: 'len 5/25/2016 23:11'!
 asEquation
 	"Answer the homogeneous equation 'self = 0'."
 
-	^ self eq: self domain scalars zero! !
+	^ self eq: self codomain zero! !
 
 !LinearForm methodsFor: 'converting' stamp: 'len 5/23/2016 04:39'!
 asPolynomial
@@ -23373,6 +23375,11 @@ bounds: aRealInterval
 	bounds _ aRealInterval.
 	rightSign _ nil! !
 
+!RealAlgebraicNumber methodsFor: 'accessing' stamp: 'len 5/27/2016 02:03'!
+denominator
+	"The denominator of an algebraic number is the smallest positive integer that multiplied by the algebraic number is an algebraic integer."
+	^ self minimalPolynomial coefficients inject: 1 into: [:denominator :each| denominator lcm: each denominator]! !
+
 !RealAlgebraicNumber methodsFor: 'comparing' stamp: 'len 12/13/97 03:56'!
 hash
 	"Answer the hash value for the receiver."
@@ -23392,15 +23399,10 @@ isAlgebraic
 
 	^ true! !
 
-!RealAlgebraicNumber methodsFor: 'testing' stamp: 'len 3/22/2016 07:32'!
+!RealAlgebraicNumber methodsFor: 'testing' stamp: 'len 5/27/2016 02:06'!
 isAlgebraicInteger
-	"An algebraic number is an 'algebraic integer' if it's the root of a monic polynomial in Z[x], in particular if it's minimal polynomial is monic with integer coefficients."
-	^ self minimalPolynomial coefficients allSatisfy: [:each| each isInteger]
-	
-"	| f |
-	f _ self minimalPolynomial.
-	f isMonic ifFalse: [^ false].
-	^ f coefficients allSatisfy: [:each| each isInteger]"! !
+	"An algebraic number is an 'algebraic integer' if it's the root of a monic polynomial in Z[x], in particular if it's minimal polynomial has integer coefficients."
+	^ self minimalPolynomial coefficients allSatisfy: [:each| each isInteger]! !
 
 !RealAlgebraicNumber methodsFor: 'testing' stamp: 'len 3/3/2016 01:59'!
 isRational
@@ -29374,6 +29376,10 @@ coefficients: aSequence
 cos
 	^ self coefficients: (Sequence to: Rationals new evaluating: [:n| n even ifTrue: [0] ifFalse: [|k| k _ n-1/2. (-1)**k / (2*k) factorial]])! !
 
+!PowerSeries class methodsFor: 'examples' stamp: 'len 5/26/2016 08:04'!
+exp
+	^ self coefficients: (Sequence to: Rationals new evaluating: [:n| 1 / n factorial])! !
+
 !PowerSeries class methodsFor: 'instance creation' stamp: 'len 3/30/2016 03:58'!
 fromPolynomial: aPolynomial
 	^ self coefficients: (LinearRecursiveSequence to: aPolynomial scalars initialValues: aPolynomial denseCoefficients periodic: {aPolynomial scalars zero})! !
@@ -32068,10 +32074,10 @@ testIsSimple2
 	G addEdge: #c -> #c.
 	self assert: G isSimple not "a graph with a loop is not simple"! !
 
-!GraphTest methodsFor: 'as yet unclassified' stamp: 'len 5/25/2016 03:39'!
+!GraphTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2016 20:18'!
 testPetersenGraph
 	| G |
-	G _ Digraph petersen.
+	G _ Graph petersen.
 	self assert: G nodes size = 10.
 	self assert: G undirectedEdges size = 15.
 	self assert: G isCubic.
