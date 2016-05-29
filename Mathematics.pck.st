@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2752] on 27 May 2016 at 5:08:43.4746 am'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2752] on 29 May 2016 at 6:10:00.279923 pm'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 71!
+!provides: 'Mathematics' 1 72!
 !classDefinition: #AbelianGroupPresentation category: #'Mathematics-Free'!
 Object subclass: #AbelianGroupPresentation
 	instanceVariableNames: 'generators relators'
@@ -8902,9 +8902,9 @@ atRandom: aRandom
 	properties at: #elements ifPresent: [:aCollection| aCollection atRandom: aRandom].
 	^ self atRandom: aRandom bits: Infinity positive! !
 
-!Domain methodsFor: 'random' stamp: 'len 5/2/2016 01:39'!
-atRandom: aRandomGenerator bits: bitSize
-	properties at: #elements ifPresent: [:aCollection| ^ aCollection atRandom: aRandomGenerator].
+!Domain methodsFor: 'random' stamp: 'len 5/29/2016 18:08'!
+atRandom: aRandom bits: bitSize
+	properties at: #elements ifPresent: [:aCollection| ^ (aCollection is: #Domain) ifTrue: [aCollection atRandom: aRandom bits: bitSize] ifFalse: [aCollection atRandom: aRandom]].
 	^ self subclassResponsibility! !
 
 !Domain methodsFor: 'random' stamp: 'len 4/19/2016 22:10'!
@@ -9115,7 +9115,7 @@ postCopy
 	super postCopy.
 	properties _ properties copy! !
 
-!Domain methodsFor: 'printing' stamp: 'len 4/25/2016 09:45'!
+!Domain methodsFor: 'printing' stamp: 'len 5/29/2016 17:56'!
 printOn: aStream
 	"Subclasses should reimplement defaultPrintOn: instead of this method."
 	properties at: #name ifPresent: [:aString|
@@ -9123,6 +9123,7 @@ printOn: aStream
 			ifTrue: [aStream withAttribute: TextEmphasis italic do: [aStream nextPutAll: aString. ^ self]]
 			ifFalse: [aStream nextPutAll: aString. ^ self]].
 	properties at: #elements ifPresent: [:aCollection|
+		(aCollection is: #Domain) ifTrue: [aStream print: aCollection. ^ self].
 		aStream nextPut: ${.
 		aCollection asSet do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: ','].
 		aStream nextPut: $}.
@@ -10147,7 +10148,7 @@ e: anInteger
 	quotient _ extension asQuotientRing.
 	^ (quotient project: quotient ideal ambient x) ** (anInteger - 1)! !
 
-!AlgebraicFieldExtensionSpace methodsFor: 'accessing' stamp: 'len 3/19/2016 23:24'!
+!AlgebraicFieldExtensionSpace methodsFor: 'accessing' stamp: 'len 5/29/2016 04:20'!
 extension
 	^ extension! !
 
@@ -10290,13 +10291,14 @@ components
 components: anArray
 	components _ anArray! !
 
-!DirectSumSpace methodsFor: 'basis' stamp: 'len 3/30/2016 06:50'!
+!DirectSumSpace methodsFor: 'basis' stamp: 'len 5/29/2016 17:49'!
 coordinatesOf: anArray
 	"Answer the coordinates of the argument in the canonic basis."
 	| answer |
-	answer _ self scalars tupleClass new.
-	1 to: components size do: [ :i |
-		answer _ answer, ((components at: i) coordinatesOf: (anArray at: i))].
+	components with: anArray do: [:V :v|
+		| coordinates |
+		coordinates _ V coordinatesOf: v.
+		answer _ answer isNil ifTrue: [coordinates] ifFalse: [answer, coordinates]].
 	^ answer! !
 
 !DirectSumSpace methodsFor: 'basis' stamp: 'len 11/30/2015 07:11'!
@@ -10729,6 +10731,10 @@ basis: aLinearBasis
 !Matrices methodsFor: 'morphisms' stamp: 'len 5/22/2016 03:48'!
 asLieAlgebra
 	^ LieAlgebra on: self bracket: (Function from: (self cartesian: self) to: self evaluating: [:each| each first * each second - (each second * each first)])! !
+
+!Matrices methodsFor: 'morphisms' stamp: 'len 5/29/2016 17:55'!
+asRing
+	^ (self as: Ring) one: self identity! !
 
 !Matrices methodsFor: 'basis' stamp: 'len 11/23/2015 02:31'!
 coordinatesOf: aMatrix
@@ -11312,21 +11318,21 @@ isUnit: anElement
 mod: anObject
 	^ self / (self * anObject)! !
 
-!Ring methodsFor: 'accessing' stamp: 'len 2/13/2016 00:13'!
-multiplicativeIdentity
-	^ self one! !
-
-!Ring methodsFor: 'accessing' stamp: 'len 2/13/2016 00:13'!
-multiplicativeInverseMap
-	^ (Function from: self to: self evaluating: [:each| each reciprocal]) name: 'id^-1'! !
-
-!Ring methodsFor: 'accessing' stamp: 'len 4/19/2016 03:43'!
-multiplicativeOperation
+!Ring methodsFor: 'accessing' stamp: 'len 5/29/2016 17:36'!
+multiplication
 	^ (Function from: (self, self) to: self evaluating: [:each| each first * each second]) name: '*'! !
+
+!Ring methodsFor: 'accessing' stamp: 'len 5/29/2016 17:37'!
+multiplicationInverseMap
+	^ (Function from: self to: self evaluating: [:each| each reciprocal]) name: 'x^-1'! !
 
 !Ring methodsFor: 'accessing' stamp: 'len 11/23/2015 02:55'!
 one
 	^ properties at: #one! !
+
+!Ring methodsFor: 'as yet unclassified' stamp: 'len 5/29/2016 17:54'!
+one: anElement
+	properties at: #one put: anElement! !
 
 !Ring methodsFor: 'morphisms' stamp: 'len 3/26/2016 05:42'!
 polynomials
@@ -12065,9 +12071,9 @@ projection
 	"Answer the natural projection, or quotient map, or canonical homomorphism. This takes elements from the base ring to the corresponding residue class in the quotient ring."
 	^ properties at: #projection ifAbsentPut: [self defaultProjection]! !
 
-!QuotientRing methodsFor: 'morphisms' stamp: 'len 5/23/2016 04:22'!
+!QuotientRing methodsFor: 'morphisms' stamp: 'len 5/29/2016 17:33'!
 relation
-	^ EquivalenceRelation on: self ambient evaluating: [:a :b| ideal includes: a - b]! !
+	^ EquivalenceRelation on: self ideal ambient evaluating: [:a :b| ideal includes: a - b]! !
 
 !QuotientRing methodsFor: 'morphisms' stamp: 'len 3/28/2016 06:02'!
 section
@@ -12546,7 +12552,7 @@ chebyshevOfOrder: n
 coefficient: aNumber degree: anInteger
 	^ self coefficient: aNumber monomial: (Monomial x: self indeterminate to: anInteger)! !
 
-!Polynomials methodsFor: 'elements' stamp: 'len 3/30/2016 00:03'!
+!Polynomials methodsFor: 'elements' stamp: 'len 5/29/2016 17:44'!
 coefficient: aNumber monomial: aMonomial
 	| coefficients |
 	self isSparse
@@ -12554,9 +12560,10 @@ coefficient: aNumber monomial: aMonomial
 			[coefficients _ SparseTuple zero: self scalars zero.
 			coefficients at: aMonomial put: aNumber]
 		ifFalse:
-			[coefficients _ self scalars tupleClass new: aMonomial degree + 1.
-			coefficients atAllPut: aNumber zero.
-			coefficients at: aMonomial degree + 1 put: aNumber].
+			[| n zero |
+			n _ aMonomial degree + 1.
+			zero _ aNumber zero.
+			coefficients _ self scalars tuple: n evaluating: [:i| i=n ifTrue: [aNumber] ifFalse: [zero]]].
 	^ (self polynomialClass coefficients: coefficients) species: self! !
 
 !Polynomials methodsFor: 'elements' stamp: 'len 5/20/2016 03:38'!
@@ -12567,16 +12574,16 @@ coefficient: aNumber x: anIndeterminate to: anInteger
 		ifFalse: [self indeterminateNames indexOf: anIndeterminate ifAbsent: [^ self error: 'unknown indeterminate']].
 	^ self coefficient: aNumber monomial: (Monomial x: i to: anInteger)! !
 
-!Polynomials methodsFor: 'elements' stamp: 'len 3/29/2016 09:06'!
+!Polynomials methodsFor: 'elements' stamp: 'len 5/29/2016 17:45'!
 coefficients: aTuple
 	| answer i |
 	self isDense
 		ifTrue:
-			[ | tuple |
-			tuple _ aTuple class = self scalars tupleClass ifTrue: [aTuple] ifFalse: [self scalars tupleClass newFrom: aTuple].
-			^ self polynomialClass coefficients: tuple :: species: self].
+			[| tuple |
+			tuple _ aTuple class = self scalars tupleClass ifTrue: [aTuple] ifFalse: [self scalars tuple: aTuple asArray].
+			^ (self polynomialClass coefficients: tuple) species: self].
 	(aTuple isKindOf: SparseTuple)
-		ifTrue: [^ self polynomialClass coefficients: aTuple :: species: self].
+		ifTrue: [^ (self polynomialClass coefficients: aTuple) species: self].
 	i _ self indeterminate.
 	answer _ self new.
 	aTuple withIndexDo: [:each :n|
@@ -14362,9 +14369,9 @@ ambient
 	"Answer the ambient group."
 	^ self! !
 
-!Group methodsFor: 'random' stamp: 'len 5/9/2016 20:28'!
+!Group methodsFor: 'random' stamp: 'len 5/29/2016 18:03'!
 atRandom: aRandom bits: bitSize
-	properties at: #elements ifPresent: [:aCollection| ^ aCollection atRandom: aRandom].
+	properties at: #elements ifPresent: [:aCollection| ^ (aCollection is: #Domain) ifTrue: [aCollection atRandom: aRandom bits: bitSize] ifFalse: [aCollection atRandom: aRandom]].
 	(properties includesKey: #generators)
 		ifTrue: [^ (GroupRandomGenerator on: self random: aRandom) bits: bitSize; next].
 	^ self subclassResponsibility! !
@@ -14742,9 +14749,9 @@ lowerCentralSeriesDo: aBlock
 	G order = G` order ifTrue: [^ self].
 	G _ G`] repeat! !
 
-!Group methodsFor: 'private' stamp: 'len 2/13/2016 00:11'!
+!Group methodsFor: 'private' stamp: 'len 5/29/2016 17:31'!
 multiplicativeInverseMap
-	^ (Function from: self to: self evaluating: [:each| each reciprocal]) name: 'id^-1'! !
+	^ (Function from: self to: self evaluating: [:each| each reciprocal]) name: 'x^-1'! !
 
 !Group methodsFor: 'private' stamp: 'len 4/19/2016 03:41'!
 multiplicativeOperation
@@ -19378,7 +19385,7 @@ on: aDomain
 adjoint
 	^ self class from: domainBasis dual to: codomainBasis dual matrix: matrix! !
 
-!LinearMap methodsFor: 'operations-eigenvalues' stamp: 'len 2/6/2016 21:37'!
+!LinearMap methodsFor: 'eigenvalues' stamp: 'len 2/6/2016 21:37'!
 algebraicMultiplicityAt: anEigenvalue
 	^ self characteristicPolynomial multiplicityAt: anEigenvalue! !
 
@@ -19467,11 +19474,11 @@ dual
 	This is the 'operator adjoint', not to be confused with the 'Hilbert adjoint' that is defined for an operator in an inner product space."
 	^ self class from: domainBasis dual to: codomainBasis dual matrix: matrix adjoint! !
 
-!LinearMap methodsFor: 'operations-eigenvalues' stamp: 'len 2/6/2016 21:25'!
+!LinearMap methodsFor: 'eigenvalues' stamp: 'len 2/6/2016 21:25'!
 eigenspaceAt: anEigenvalue
 	^ (self - (self identity * anEigenvalue)) kernel! !
 
-!LinearMap methodsFor: 'operations-eigenvalues' stamp: 'len 2/11/2016 22:15'!
+!LinearMap methodsFor: 'eigenvalues' stamp: 'len 2/11/2016 22:15'!
 eigenvalues
 	^ matrix eigenvalues! !
 
@@ -19499,7 +19506,7 @@ fiberAt: aVector
 		coordinate _ coordinate + 1].
 	^ system solutions apply: domainBasis vectorAt! !
 
-!LinearMap methodsFor: 'operations-eigenvalues' stamp: 'len 2/6/2016 21:37'!
+!LinearMap methodsFor: 'eigenvalues' stamp: 'len 2/6/2016 21:37'!
 geometricMultiplicityAt: anEigenvalue
 	^ (self eigenspaceAt: anEigenvalue) dimension! !
 
@@ -19639,7 +19646,7 @@ rightInverse
 	"Answer the right inverse of the receiver, or nil if the receiver is not a monomorphism."
 	^ properties at: #rightInverse ifAbsentPut: [self computeRightInverse]! !
 
-!LinearMap methodsFor: 'operations-eigenvalues' stamp: 'len 2/6/2016 21:29'!
+!LinearMap methodsFor: 'eigenvalues' stamp: 'len 2/6/2016 21:29'!
 spectrum
 	^ matrix spectrum! !
 
@@ -23736,19 +23743,19 @@ at: aPoint
 at: aPoint put: anObject
 	^ self at: aPoint x at: aPoint y put: anObject! !
 
-!Matrix methodsFor: 'operations' stamp: 'len 3/30/2016 06:59'!
+!Matrix methodsFor: 'operations' stamp: 'len 5/29/2016 17:40'!
 berkowitz
 	"Answer the coefficients of the characteristic polynomial of the receiver. It's calculated using the Berkowitz algorithm, that uses small space in comparision with the classical gaussian elimination."
 	| vect C Ar R S Q one |
 	one _ self scalars one.
-	self numberOfRows = 1 ifTrue: [^ self scalars tupleClass withAll: { one negated. (self at: 1@1) }].
+	self numberOfRows = 1 ifTrue: [^ self scalars tuple: { one negated. (self at: 1@1) }].
 	self numberOfRows = 2 ifTrue:
-			[^ self scalars tupleClass withAll:
+			[^ self scalars tuple:
 				{one.
 				((self at: 1@1) + (self at: 2@2)) negated.
 				(self at: 1@1) * (self at: 2@2) - ((self at: 1@2) * (self at: 2@1))}].
 
-	vect _ self scalars tupleClass withAll:
+	vect _ self scalars tuple:
 		{one.
 		(self at: 2@2) negated - (self at: 1@1).
 		(self at: 2@2) * (self at: 1@1) - ((self at: 1@2) * (self at: 2@1))}.
@@ -28176,7 +28183,7 @@ subresultantChain: aPolynomial
 		answer add: (self subresultant: i with: aPolynomial)].
 	^ answer! !
 
-!Polynomial methodsFor: 'operations univariate' stamp: 'len 3/30/2016 07:02'!
+!Polynomial methodsFor: 'operations univariate' stamp: 'len 5/29/2016 17:40'!
 sylvester: aPolynomial
 	"Answer the Sylvester matrix of the receiver with the argument.
 	If p,q polynomials of degrees m and n:
@@ -28189,13 +28196,13 @@ sylvester: aPolynomial
 	m _ self degree.
 	n _ aPolynomial degree.
 	rows _ OrderedCollection new: m+n.
-	p _ self scalars tupleClass withAll: ((1 to: m+n) collect: [:i| self coefficientAtDegree: m-i+1]).
+	p _ self scalars tuple: ((1 to: m+n) collect: [:i| self coefficientAtDegree: m-i+1]).
 	n timesRepeat: [rows add: p. p _ p shift: 1].
-	q _ self scalars tupleClass withAll: ((1 to: m+n) collect: [ :i | aPolynomial coefficientAtDegree: n-i+1]).
+	q _ self scalars tuple: ((1 to: m+n) collect: [ :i | aPolynomial coefficientAtDegree: n-i+1]).
 	m timesRepeat: [rows add: q. q _ q shift: 1].
 	^ (self scalars ** (m+n @ (m+n))) withRows: rows! !
 
-!Polynomial methodsFor: 'deprecated' stamp: 'len 3/30/2016 07:02'!
+!Polynomial methodsFor: 'deprecated' stamp: 'len 5/29/2016 17:40'!
 sylvester: aPolynomial in: anIndeterminate
 	"Answer the Sylvester matrix of the receiver with the argument in the anInteger-th indeterminate.
 	If p,q polynomials of degrees m and n:
@@ -28209,9 +28216,9 @@ sylvester: aPolynomial in: anIndeterminate
 	m _ self degreeIn: anIndeterminate.
 	n _ aPolynomial degreeIn: anIndeterminate.
 	rows _ OrderedCollection new: m+n.
-	p _ self scalars tupleClass withAll: ((1 to: m+n) collect: [ :i | self coefficientAtDegree: m-i+1 in: anIndeterminate ]).
+	p _ self scalars tuple: ((1 to: m+n) collect: [ :i | self coefficientAtDegree: m-i+1 in: anIndeterminate ]).
 	n timesRepeat: [ rows add: p. p _ p shift: 1 ].
-	q _ self scalars tupleClass withAll: ((1 to: m+n) collect: [ :i | aPolynomial coefficientAtDegree: n-i+1 in: anIndeterminate]).
+	q _ self scalars tuple: ((1 to: m+n) collect: [ :i | aPolynomial coefficientAtDegree: n-i+1 in: anIndeterminate]).
 	m timesRepeat: [ rows add: q. q _ q shift: 1 ].
 	^ (self scalars ** (rows size @ rows first size)) withRows: rows! !
 
