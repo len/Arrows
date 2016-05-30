@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2752] on 29 May 2016 at 6:10:00.279923 pm'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2752] on 30 May 2016 at 7:23:12.885347 am'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 72!
+!provides: 'Mathematics' 1 73!
 !classDefinition: #AbelianGroupPresentation category: #'Mathematics-Free'!
 Object subclass: #AbelianGroupPresentation
 	instanceVariableNames: 'generators relators'
@@ -303,7 +303,7 @@ CoxeterDiagram class
 
 !classDefinition: #CylindricalAlgebraicDecomposition category: #'Mathematics-Geometry-Semialgebraic'!
 Object subclass: #CylindricalAlgebraicDecomposition
-	instanceVariableNames: 'polynomials dimension components'
+	instanceVariableNames: 'polynomials components'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Geometry-Semialgebraic'!
@@ -3632,14 +3632,14 @@ For some examples try this:
 My instances are components of a Cell Complex of R^1. See the comment in the class SemialgebraicCell.
 !
 
-!SemialgebraicSet commentStamp: 'len 11/20/2015 06:23' prior: 0!
+!SemialgebraicSet commentStamp: '<historical>' prior: 0!
 My instances are semialgebraic sets, i.e. subsets of R^n expressable as finite union and intersection of sets of the form:
 	{(x1,...,xn) | sign(f(x1,...,xn)) = s}
 where f is a polynomial in R[x1,...,xn] and s is 1, -1 or 0.
 
 Semialgebraic sets are closed under union, intersection, complementation and projection. Furthermore, the boundary and closure of a semialgebraic set is again a semialgebraic set. Semialgebraic sets are the natural generalization of algebraic sets (zeros of polynomials) in such a way to make them be closed under projection.
 
-The implementation is based on the Cylindrical Algebraic Decomposition process. Each SemialgebraicSet is made of the union of SemialgebraicCells (or SemialgebraicLineCells in R^1). For more details on the implementation of semialgebraic sets, refer to the comment of class CylindricalAlgebraicDecomposition.
+This implementation is based on the Cylindrical Algebraic Decomposition process. Each SemialgebraicSet is made of the union of SemialgebraicCells (or SemialgebraicLineCells in R^1). For more details on the implementation of semialgebraic sets, refer to the comment of class CylindricalAlgebraicDecomposition.
 
 Some examples of semialgebraic sets are:
 	open unitary circle in R^2:
@@ -3714,17 +3714,11 @@ Example:
 My instances are linear forms (linear functionals, one-forms, covectors), i.e. linear maps from a vector space to the field of scalars. All the linear forms on a vector space form the dual vector space (see DualSpace).!
 
 !PolynomialRootFunction commentStamp: '<historical>' prior: 0!
-My instances are polynomial root functions. Each of my instances is defined by an integer index and a set of rational multivariate polynomials. For instance, the PolynomialRootFunction with index k and polynomial f of n+1 indeterminates represents the continuous real function going from a connected subset of R^n (a semialgebraic set) to R and whose value at (a1,...,an) is the k-th real root of f(a1,...,an, x) as univariate polynomial in x. A PolynomialRootFunction with two or more defining polynomials is equivalent to the one defined by the product of all the polynomials.
+My instances are defined by an integer index and a set of rational multivariate polynomials. 
 
-Example:
-	| P x y z f |
-	P _ Rationals new polynomialsIn: #(1 2 3).
-	x _ P x.
-	y _ P y.
-	z _ P z.
-	f _ PolynomialRootFunction polynomial: x squared + y squared + z squared - 8 index: 1.
-	(0 to: 2) collect: [ :one |
-		(0 to: 2) collect: [ :two | f value: (one, two)]].
+The PolynomialRootFunction with index k and polynomial f in n+1 indeterminates represents the continuous real function going from a connected subset of R^n (a semialgebraic set) to R and whose value at (a1,...,an) is the k-th real root of f(a1,...,an, x) as univariate polynomial in x.
+
+A PolynomialRootFunction with two or more defining polynomials is equivalent to the one defined by the product of all the polynomials.
 !
 
 !ProjectiveMap commentStamp: '<historical>' prior: 0!
@@ -3897,7 +3891,7 @@ Example:
 !
 
 !RealAlgebraicNumber commentStamp: '<historical>' prior: 0!
-My instances are real algebraic numbers, i.e. real zeros of polynomials with integer coefficients.!
+My instances are real algebraic numbers, i.e. real zeros of polynomials with integer (or rational) coefficients.!
 
 !Matrix commentStamp: '<historical>' prior: 0!
 My instances are matrices.!
@@ -8366,26 +8360,23 @@ isParabolic
 	spectrum _ self gramMatrix spectrum.
 	^ (spectrum occurrencesOf: 0) = 1 and: [spectrum allSatisfy: [:each| each >= 0]]! !
 
-!CylindricalAlgebraicDecomposition methodsFor: 'accessing' stamp: 'len 3/17/2016 03:26'!
+!CylindricalAlgebraicDecomposition methodsFor: 'accessing' stamp: 'len 5/30/2016 03:40'!
 components
-	self decompose.
+	components isNil ifTrue: [self decompose].
 	^ components! !
 
-!CylindricalAlgebraicDecomposition methodsFor: 'accessing-private' stamp: 'len 12/12/97 20:12'!
-components: aCollection
-	components _ aCollection! !
-
-!CylindricalAlgebraicDecomposition methodsFor: 'operations' stamp: 'len 4/17/2016 06:42'!
+!CylindricalAlgebraicDecomposition methodsFor: 'private' stamp: 'len 5/30/2016 05:55'!
 decompose
 	"Perform the cylindrical algebraic decomposition."
 
-	| cells roots point functions f |
-	self done ifTrue: [^ self].
-	self dimension < 1 ifTrue: [^ self components: #()].
+	| x Rx cells roots point functions f |
+	self dimension < 1 ifTrue: [^ components _ #()].
 	self dimension = 1 ifTrue: [^ self decomposeUnivariate].
+	Rx _ RealAlgebraicNumbers new polynomials.
+	x _ Rx x.
 	cells _ OrderedCollection new.
-	(self class polynomials: self phi dimension: self dimension - 1) do: [:each|
-		point _ (each sample, RealAlgebraicNumbers new polynomials x).
+	(self class polynomials: self phi) do: [:each|
+		point _ ((each sample collect: [:s| Rx constant: s]), x).
 		roots _ Set new.
 		self polynomials do: [:some|
 			f _ (some value: point) coefficientsApply: [:coeff|
@@ -8421,9 +8412,9 @@ decompose
 								projection: each
 								between: functions last
 								and: Infinity positive)]].
-	self components: cells! !
+	^ components _ cells! !
 
-!CylindricalAlgebraicDecomposition methodsFor: 'private' stamp: 'len 3/17/2016 03:31'!
+!CylindricalAlgebraicDecomposition methodsFor: 'private' stamp: 'len 5/30/2016 05:28'!
 decomposeUnivariate
 	"Perform the cylindrical algebraic decomposition in the univariate case.
 	It's easy. Suppose we have to find the CAD of R with respect to the polynomial set {f1, ..., fn}.
@@ -8435,10 +8426,7 @@ decomposeUnivariate
 	self polynomials do: [ :each |
 		roots addAll: (RealRootFinder polynomial: each) roots].
 	roots isEmpty
-		ifTrue: [^ self components:
-					(Array with: (SemialgebraicLineCell
-									between: Infinity negative
-									and: Infinity positive))].
+		ifTrue: [^ components _ {SemialgebraicLineCell between: Infinity negative and: Infinity positive}].
 	roots _ roots asSortedCollection.
 	intervals _ OrderedCollection new.
 	intervals add: (SemialgebraicLineCell between: Infinity negative and: roots first).
@@ -8449,17 +8437,13 @@ decomposeUnivariate
 	intervals
 		add: (SemialgebraicLineCell between: roots last and: roots last);
 		add: (SemialgebraicLineCell between: roots last and: Infinity positive).
-	self components: intervals! !
+	^ components _ intervals! !
 
-!CylindricalAlgebraicDecomposition methodsFor: 'accessing' stamp: 'len 12/12/97 23:33'!
+!CylindricalAlgebraicDecomposition methodsFor: 'accessing' stamp: 'len 5/30/2016 05:52'!
 dimension
 	"Answer the dimension of the ambient of the receiver."
-
-	^ dimension! !
-
-!CylindricalAlgebraicDecomposition methodsFor: 'accessing-private' stamp: 'len 12/12/97 20:07'!
-dimension: anInteger
-	dimension _ anInteger! !
+	
+	^ polynomials anyOne species rank! !
 
 !CylindricalAlgebraicDecomposition methodsFor: 'enumerating' stamp: 'len 12/12/97 20:11'!
 do: aBlock
@@ -8467,26 +8451,22 @@ do: aBlock
 
 	self components do: aBlock! !
 
-!CylindricalAlgebraicDecomposition methodsFor: 'accessing' stamp: 'len 12/12/97 20:13'!
-done
-	"Answer true if the receiver has performed the decomposition."
-
-	^ components notNil! !
-
-!CylindricalAlgebraicDecomposition methodsFor: 'private' stamp: 'len 3/17/2016 04:36'!
+!CylindricalAlgebraicDecomposition methodsFor: 'private' stamp: 'len 5/30/2016 05:39'!
 phi
-	"Answer a set of polynomials in n-1 indeterminates which completly characterizes the connected maximal F-delineable subsets of R^{n-1}. (where F is the polynomial set of the receiver and n is the number of indeterminates). See >>decompose."
+	"Answer a set of polynomials in n-1 indeterminates which completly characterize the connected maximal F-delineable subsets of R^{n-1}. (where F is the polynomial set of the receiver and n is the number of indeterminates). See >>decompose."
 
 	| answer f g |
 	answer _ Set new.
 	self polynomials do: [:each|
-		f _ each asUnivariateIn: self dimension.
-		answer addAll: f terms.
-		0 to: f degree - 1 do: [:i| answer add: (f psc: i with: f derivative)]].
+		| f` |
+		f _ each asUnivariate.
+		answer addAll: f coefficients.
+		f` _ f derivative.
+		0 to: f degree - 1 do: [:i| answer add: (f psc: i with: f`)]].
 	1 to: self polynomials size - 1 do: [:i|
 		i + 1 to: self polynomials size do: [:j|
-			f _ (self polynomials at: i) asUnivariateIn: self dimension.
-			g _ (self polynomials at: j) asUnivariateIn: self dimension.
+			f _ (self polynomials at: i) asUnivariate.
+			g _ (self polynomials at: j) asUnivariate.
 			0 to: (f degree min: g degree) do: [:m|
 				answer add: (f psc: m with: g)]]].
 	^ answer select: [:each| each isZero not] :: collect: [ :each | each / each leadingCoefficient] :: asArray! !
@@ -8497,26 +8477,16 @@ polynomials
 
 	^ polynomials! !
 
-!CylindricalAlgebraicDecomposition methodsFor: 'accessing-private' stamp: 'len 12/12/97 20:07'!
+!CylindricalAlgebraicDecomposition methodsFor: 'accessing-private' stamp: 'len 5/30/2016 05:31'!
 polynomials: aPolynomialSet
-	polynomials _ aPolynomialSet! !
+	polynomials _ aPolynomialSet.
+	aPolynomialSet isEmpty ifTrue: [self error: 'empty polynomial set']. "when could it be empty?"! !
 
-!CylindricalAlgebraicDecomposition methodsFor: 'printing' stamp: 'len 12/13/97 04:43'!
-printOn: aStream
-	"Print a representation of the receiver on the stream aStream."
+!CylindricalAlgebraicDecomposition class methodsFor: 'instance creation' stamp: 'len 5/30/2016 05:47'!
+polynomials: aPolynomialSet
+	"Answer a new instance of the receiver representing the cylindrical algebraic decomposition of R^n in cells sign-invariant by aPolynomialSet (of polynomials in R[x1,..,xn])."
 
-	aStream
-		nextPutAll: self class name;
-		nextPutAll: ' on R^'; print: self dimension;
-		nextPutAll: ' by '; print: self polynomials! !
-
-!CylindricalAlgebraicDecomposition class methodsFor: 'instance creation' stamp: 'len 2/7/98 19:11'!
-polynomials: aPolynomialSet dimension: anInteger
-	"Answer a new instance of the receiver representing the
-	cylindrical algebraic decomposition of R^n (n = anInteger)
-	in cells sign invariant by aPolynomialSet."
-
-	^ self new polynomials: aPolynomialSet; dimension: anInteger! !
+	^ self new polynomials: aPolynomialSet! !
 
 !DAGFrontier methodsFor: 'accessing' stamp: 'timestamp) (no'!
 frontier
@@ -9484,12 +9454,12 @@ includes: aPolynomial
 	This works on any Groebner basis (any monomial ordering)."
 	^ (self remainderOf: aPolynomial) isZero! !
 
-!PolynomialIdeal methodsFor: 'morphisms' stamp: 'len 5/23/2016 04:20'!
+!PolynomialIdeal methodsFor: 'morphisms' stamp: 'len 5/30/2016 03:26'!
 intersection: anIdeal
 	| R R` t T TminusOne G1 G2 G` G |
 	R _ self ambient.
-	t _ R newIndeterminate.
-	R` _ R scalars polynomialsIn: (R indeterminates copyWith: t) ordering: (MonomialOrdering lex: R ordering indeterminates, {t}).
+	R` _ R scalars polynomialsIn: R rank + 1 ordering: #lex.
+	t _ R` rank. "last indeterminate index"
 	T _ R` x: t.
 	TminusOne _ T - T one.
 	G1 _ generators collect: [:f| T*(f as: R`)].
@@ -11343,12 +11313,13 @@ polynomialsIn: anIntegerOrCollection
 	"Answer the ring of multivariate polynomials over the receiver in the given indeterminates."
 	^ self polynomialsIn: anIntegerOrCollection ordering: #tlex! !
 
-!Ring methodsFor: 'morphisms' stamp: 'len 5/20/2016 03:28'!
+!Ring methodsFor: 'morphisms' stamp: 'len 5/30/2016 03:01'!
 polynomialsIn: anIntegerOrCollection ordering: aMonomialOrdering
 	"Answer the ring of multivariate polynomials over the receiver over the given indeterminates."
 	| answer |
 	anIntegerOrCollection isInteger
 		ifTrue: [^ Polynomials new: anIntegerOrCollection over: self ordering: aMonomialOrdering].
+	anIntegerOrCollection allSatisfy: [:each| each isString] :: ifFalse: [self error: 'not string indeterminate name']. self flag: #fix.
 	answer _ Polynomials new: anIntegerOrCollection size over: self ordering: aMonomialOrdering.
 	answer indeterminateNames: anIntegerOrCollection.
 	^ answer! !
@@ -12603,14 +12574,6 @@ continuantOfOrder: n
 	n = 1 ifTrue: [^ self x: self ordering indeterminates first].
 	^ (self continuantOfOrder: n - 1) * (self x: (self ordering indeterminates at: n)) + (self continuantOfOrder: n - 2)! !
 
-!Polynomials methodsFor: 'morphisms' stamp: 'len 3/26/2016 05:52'!
-copyWithNewIndeterminate
-	^ self scalars polynomialsIn: (self indeterminates copyWith: self newIndeterminate)! !
-
-!Polynomials methodsFor: 'morphisms' stamp: 'len 3/26/2016 09:03'!
-copyWithNewIndeterminate: anIndeterminate
-	^ self scalars polynomialsIn: (self indeterminates copyWith: anIndeterminate)! !
-
 !Polynomials methodsFor: 'examples' stamp: 'len 11/28/2015 07:25'!
 cyclotomic: n
 	"Answer the n-th cyclotomic polynomial."
@@ -12805,10 +12768,6 @@ newFrom: aPolynomial
 		(((aPolynomial isKindOf: DensePolynomial) and: [self isMultivariate])
 			ifTrue: [aPolynomial asSparsePolynomial coefficients]
 			ifFalse: [aPolynomial coefficients])! !
-
-!Polynomials methodsFor: 'morphisms' stamp: 'len 5/20/2016 03:41'!
-newIndeterminate
-	^ self rank + 1! !
 
 !Polynomials methodsFor: 'elements' stamp: 'len 11/3/2015 20:21'!
 one
@@ -17542,26 +17501,11 @@ ball
 	^ self cad: {x squared + y squared + z squared - 1}
 		:: select: [ :each | each sample norm2 < 1]! !
 
-!SemialgebraicSet class methodsFor: 'instance creation' stamp: 'len 5/15/2016 05:51'!
+!SemialgebraicSet class methodsFor: 'instance creation' stamp: 'len 5/30/2016 05:51'!
 cad: aPolynomialSet
-	"Answer the CAD (Cylindrical Algebraic Decomposition) of R^n,
-	by the polynomials in aPolynomialSet, where n is the last
-	indeterminate (effectively present) of the polynomials."
+	"Answer the CAD (Cylindrical Algebraic Decomposition) of R^n by the polynomials in aPolynomialSet."
 
-	| n |
-	n _ aPolynomialSet anyOne species ordering indeterminates
-		findLast: [:one| aPolynomialSet anySatisfy: [:any| (any degreeIn: one) > 0]].
-	^ self cad: aPolynomialSet dimension: n! !
-
-!SemialgebraicSet class methodsFor: 'instance creation' stamp: 'len 3/17/2016 04:13'!
-cad: aPolynomialSet dimension: anInteger
-	"Answer the CAD (Cylindrical Algebraic Decomposition) of R^n, where n is anInteger, by the polynomials in aPolynomialSet."
-
-	^ self new
-		addAll: (CylindricalAlgebraicDecomposition
-					polynomials: aPolynomialSet
-					dimension: anInteger);
-		yourself! !
+	^ self new addAll: (CylindricalAlgebraicDecomposition polynomials: aPolynomialSet); yourself! !
 
 !SemialgebraicSet class methodsFor: 'examples' stamp: 'len 3/24/2016 06:09'!
 circle
@@ -17574,12 +17518,12 @@ circle
 	^ self cad: {x squared + y squared - 1}
 		:: select: [ :each | each sample norm2 < 1]! !
 
-!SemialgebraicSet class methodsFor: 'examples' stamp: 'len 5/15/2016 05:49'!
+!SemialgebraicSet class methodsFor: 'examples' stamp: 'len 5/30/2016 06:47'!
 circunference
 	"Answer the open unitary circunference in R^2."
 	"SemialgebraicSet circunference."
 	| Qxy x y |
-	Qxy _ Rationals new polynomialsIn: #(1 2).
+	Qxy _ Rationals new polynomialsIn: #(x y).
 	x _ Qxy x.
 	y _ Qxy y.
 	^ self cad: {x squared + y squared - 1}
@@ -18567,9 +18511,10 @@ forwardDifference: n at: h
 		to: self codomain
 		evaluating: [:x| (0 to: n) sum: [:i| (-1)**(n-i) * (n take: i) * (self value: x + ((n-i)*h))]]! !
 
-!Function methodsFor: 'comparing' stamp: 'len 2/12/2016 05:38'!
+!Function methodsFor: 'comparing' stamp: 'len 5/30/2016 06:34'!
 hash
-	^ self domain hash + self codomain hash + (self value: self domain identity) hash! !
+	self flag: #fix. "improve this hash"
+	^ self domain hash + self codomain hash! !
 
 !Function methodsFor: 'accessing' stamp: 'len 4/18/2016 23:42'!
 identity
@@ -20258,13 +20203,22 @@ value: aTuple
 from: anAlgebraicVariety to: anotherAlgebraicVariety components: aTupleOfPolynomials
 	^ self new domain: anAlgebraicVariety; codomain: anotherAlgebraicVariety; components: aTupleOfPolynomials! !
 
+!PolynomialRootFunction methodsFor: 'as yet unclassified' stamp: 'len 5/30/2016 06:44'!
+= aPolynomialRootFunction
+	(aPolynomialRootFunction isKindOf: self class) ifFalse: [^ false].
+	^ self polynomial = aPolynomialRootFunction polynomial and: [self index = aPolynomialRootFunction index]! !
+
 !PolynomialRootFunction methodsFor: 'accessing' stamp: 'len 4/17/2016 06:42'!
 codomain
 	^ RealAlgebraicNumbers new! !
 
-!PolynomialRootFunction methodsFor: 'accessing' stamp: 'len 4/17/2016 06:43'!
+!PolynomialRootFunction methodsFor: 'accessing' stamp: 'len 5/30/2016 06:58'!
 domain
-	^ RealAlgebraicNumbers new ** self polynomial rank! !
+	^ RealAlgebraicNumbers new ** (self polynomials anyOne species rank - 1)! !
+
+!PolynomialRootFunction methodsFor: 'as yet unclassified' stamp: 'len 5/30/2016 06:42'!
+hash
+	^ (self polynomial hash + self index) hashMultiply! !
 
 !PolynomialRootFunction methodsFor: 'accessing' stamp: 'len 3/17/2016 23:52'!
 index
@@ -20274,29 +20228,35 @@ index
 index: anInteger
 	index _ anInteger! !
 
-!PolynomialRootFunction methodsFor: 'accessing' stamp: 'len 3/17/2016 23:52'!
+!PolynomialRootFunction methodsFor: 'accessing' stamp: 'len 5/30/2016 06:38'!
 polynomial
-	| answer |
-	self polynomials do: [ :each |
-		answer _ answer isNil ifTrue: [each] ifFalse: [answer * each]].
-	^ answer! !
+	^ self polynomials product! !
 
 !PolynomialRootFunction methodsFor: 'accessing' stamp: 'len 3/17/2016 23:52'!
 polynomials
 	^ polynomials! !
 
-!PolynomialRootFunction methodsFor: 'accessing-private' stamp: 'len 12/14/97 21:10'!
+!PolynomialRootFunction methodsFor: 'accessing-private' stamp: 'len 5/30/2016 06:01'!
 polynomials: aPolynomialSet
+	(aPolynomialSet allSatisfy: [:each| each species scalars class == Rationals]) ifFalse: [self error: 'not polynomials in Q[x]'].
 	polynomials _ aPolynomialSet! !
 
-!PolynomialRootFunction methodsFor: 'operations' stamp: 'len 4/17/2016 06:43'!
+!PolynomialRootFunction methodsFor: 'as yet unclassified' stamp: 'len 5/30/2016 07:02'!
+printOn: aStream
+	polynomials do: [:f|
+		aStream nextPut: $(; print: f; nextPut: $)].
+	aStream space; print: index; nextPutAll: '-root'.! !
+
+!PolynomialRootFunction methodsFor: 'operations' stamp: 'len 5/30/2016 06:57'!
 value: aTuple
-	| roots f polys x |
+	| roots f polys Rx x |
+	aTuple size = self domain rank ifFalse: [self error: 'asfd'].
 	roots _ Set new.
 	polys _ Set new.
-	x _ RealAlgebraicNumbers new polynomials x.
+	Rx _ RealAlgebraicNumbers new polynomials.
+	x _  Rx x.
 	self polynomials do: [:each|
-		f _ (each value: (aTuple, x))
+		f _ (each value: ((aTuple collect: [:t| Rx constant: t]), x))
 				coefficientsApply: [:coeff|
 					coeff isAlgebraic ifTrue: [coeff asRational] ifFalse: [coeff]].
 		polys do: [:some| f _ f // (f gcd: some)].
@@ -27000,15 +26960,16 @@ asUnivariate
 		newCoefficients at: (key degreeIn: n)+1 add: term].
 	^ newSpecies coefficients: newCoefficients! !
 
-!Polynomial methodsFor: 'converting' stamp: 'len 5/23/2016 04:08'!
+!Polynomial methodsFor: 'converting' stamp: 'len 5/30/2016 03:02'!
 asUnivariateIn: anIndeterminate
 	"Answer the receiver as univariate in the given indeterminate, e.g. go from R[x,y,z] to R[x,y][z]."
-	| newScalars term n newCoefficients newSpecies |
+	| |
 	(self species isUnivariate and: [self species indeterminate = anIndeterminate]) ifTrue: [^ self].
 	"(self isUnivariateIn: anIndeterminate) ifTrue: [^ self]."
 	(self species indeterminates includes: anIndeterminate) ifFalse: [self error: 'unknown indeterminate'].
 	anIndeterminate = self species rank ifFalse: [self error: 'bad indeterminate'].
-	newScalars _ self scalars polynomialsIn: self species rank - 1.
+	^ self asUnivariate
+"	newScalars _ self scalars polynomialsIn: self species rank - 1.
 	(self species indeterminates copyWithout: anIndeterminate).
 	newSpecies _ newScalars polynomialsIn: {anIndeterminate}.
 	(n _ self degreeIn: anIndeterminate) < 0
@@ -27018,7 +26979,7 @@ asUnivariateIn: anIndeterminate
 	self monomialsAndCoefficientsDo: [:key :value|
 		term _ newScalars coefficient: value monomial: (key copyWithout: anIndeterminate).
 		newCoefficients at: (key degreeIn: anIndeterminate)+1 add: term].
-	^ newSpecies coefficients: newCoefficients! !
+	^ newSpecies coefficients: newCoefficients"! !
 
 !Polynomial methodsFor: 'accessing' stamp: 'len 3/1/2016 16:01'!
 bitSize
@@ -27686,17 +27647,16 @@ primitive
 	content _ self content.
 	^ self coefficientsApply: [:each| each / content]! !
 
-!Polynomial methodsFor: 'printing' stamp: 'len 3/1/2016 21:52'!
-printCoefficient: c on: aStream
+!Polynomial methodsFor: 'printing' stamp: 'len 5/30/2016 04:06'!
+printCoefficient: coefficient on: aStream
 	"Print the coefficient of the receiver on the stream aStream."
 
-	| string numeric |
-	string _ c printString.
-	string first = $-
-		ifTrue: [aStream nextPut: $-. string _ c negated printString].
-	numeric _ string allSatisfy: [:each| each isDigit].
-	aStream nextPutAll:
-		((numeric or: [string first = $(]) ifTrue: [string] ifFalse: ['(', string, ')'])! !
+	| c |
+	(c _ coefficient) printString first = $-
+		ifTrue: [aStream nextPut: $-. c _ c negated].
+	(c printString allSatisfy: [:each| each isAlphaNumeric or: ['{}()/' includes: each]])
+		ifTrue: [aStream print: c]
+		ifFalse: [aStream nextPut: $(; print: c; nextPut: $)]! !
 
 !Polynomial methodsFor: 'printing' stamp: 'len 5/20/2016 20:47'!
 printOn: aStream
@@ -27752,11 +27712,29 @@ psc2: anInteger with: aPolynomial
 	m - anInteger timesRepeat: [matrix addRow: tuple. tuple _ tuple shift: 1].
 	^ matrix determinant! !
 
-!Polynomial methodsFor: 'operations univariate' stamp: 'len 3/27/2016 08:00'!
-psc: i with: aPolynomial
+!Polynomial methodsFor: 'operations univariate' stamp: 'len 5/30/2016 03:21'!
+psc3: i with: aPolynomial
 	"Answer the anInteger-th principal subresultant coefficient of the receiver with aPolynomial."
 	self flag: #fix. "user version 2, more efficient, but must test"
-	^ (self subresultant: i with: aPolynomial) leadingCoefficient! !
+	^ (self subresultant: i with: aPolynomial) leadingCoefficient "WTF, sometimes subresultant returns nil, SemialgebraicSet circle"! !
+
+!Polynomial methodsFor: 'operations univariate' stamp: 'len 5/30/2016 05:33'!
+psc: anInteger with: aPolynomial
+	"Answer the anInteger-th principal subresultant coefficient of the receiver with aPolynomial."
+
+	| f g n m t matrix tuple |
+	f _ self.
+	g _ aPolynomial.
+	m _ f degree.
+	n _ g degree.
+	t _ m + n - anInteger - anInteger.
+	t <= 0 ifTrue: [^ self scalars one].
+	matrix _ (f scalars ** (t@t)) new.
+	tuple _ self scalars tuple: t evaluating: [:i| f coefficientAtDegree: m - i + 1].
+	n - anInteger timesRepeat: [matrix addRow: tuple. tuple _ tuple shift: 1].
+	tuple _ self scalars tuple: t evaluating: [:i| g coefficientAtDegree: n - i + 1].
+	m - anInteger timesRepeat: [matrix addRow: tuple. tuple _ tuple shift: 1].
+	^ matrix determinant! !
 
 !Polynomial methodsFor: 'arithmetic' stamp: 'len 12/16/2015 03:11'!
 pseudoDivideBy: aPolynomial
@@ -28172,7 +28150,7 @@ subresultant: i with: aPolynomial in: anIndeterminate
 				put: (aPolynomial shift: m - i - each in: anIndeterminate)].
 	^ matrix determinant! !
 
-!Polynomial methodsFor: 'operations univariate' stamp: 'len 12/21/2015 14:49'!
+!Polynomial methodsFor: 'operations univariate' stamp: 'len 5/30/2016 05:09'!
 subresultantChain: aPolynomial
 	"Answer the Subresultant Chain of the receiver with the argument."
 	| n answer |
@@ -33477,10 +33455,10 @@ testInterpolation2
 	self assert: (f value: 2) = 4.
 	self assert: (f value: 3) = 9! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 3/26/2016 06:45'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 5/30/2016 03:27'!
 testMonomialOrderings
 	| P x y z f grlex lex revlex |
-	P _ Integers new polynomialsIn: (1 to: 3).
+	P _ Integers new polynomialsIn: 3.
 
 	x _ P x.
 	y _ P y.
