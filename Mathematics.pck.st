@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2752] on 30 May 2016 at 7:23:12.885347 am'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2752] on 30 May 2016 at 8:23:21.017237 pm'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 73!
+!provides: 'Mathematics' 1 74!
 !classDefinition: #AbelianGroupPresentation category: #'Mathematics-Free'!
 Object subclass: #AbelianGroupPresentation
 	instanceVariableNames: 'generators relators'
@@ -269,16 +269,6 @@ Set subclass: #KeyedSet
 	category: 'Mathematics-Kernel-Support'!
 !classDefinition: 'KeyedSet class' category: #'Mathematics-Kernel-Support'!
 KeyedSet class
-	instanceVariableNames: ''!
-
-!classDefinition: #ConnectivityGraph category: #'Mathematics-Geometry-Semialgebraic'!
-Object subclass: #ConnectivityGraph
-	instanceVariableNames: 'nodes matrix'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Geometry-Semialgebraic'!
-!classDefinition: 'ConnectivityGraph class' category: #'Mathematics-Geometry-Semialgebraic'!
-ConnectivityGraph class
 	instanceVariableNames: ''!
 
 !classDefinition: #ContinuousColorPalette category: #'Mathematics-Morphic'!
@@ -1621,14 +1611,14 @@ Domain subclass: #RealInterval
 RealInterval class
 	instanceVariableNames: ''!
 
-!classDefinition: #SemialgebraicLineCell category: #'Mathematics-Geometry-Semialgebraic'!
-RealInterval subclass: #SemialgebraicLineCell
+!classDefinition: #SemialgebraicInterval category: #'Mathematics-Geometry-Semialgebraic'!
+RealInterval subclass: #SemialgebraicInterval
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Geometry-Semialgebraic'!
-!classDefinition: 'SemialgebraicLineCell class' category: #'Mathematics-Geometry-Semialgebraic'!
-SemialgebraicLineCell class
+!classDefinition: 'SemialgebraicInterval class' category: #'Mathematics-Geometry-Semialgebraic'!
+SemialgebraicInterval class
 	instanceVariableNames: ''!
 
 !classDefinition: #RightCoset category: #'Mathematics-Groups'!
@@ -3387,10 +3377,6 @@ Example:
 	V _ Rationals new ** 3.
 	LinearBasis on: V vectors: {(1, 2, 3). (3, 2, 3). (2, 0, 0)}!
 
-!ConnectivityGraph commentStamp: '<historical>' prior: 0!
-My instances are graphs represented by an ordered set of vertices and the adjacency matrix defining the edges and arcs. This representation is specially useful when trying to decide whether there exist a path joining two of the graph's vertices.
-!
-
 !CylindricalAlgebraicDecomposition commentStamp: '<historical>' prior: 0!
 My instances decompose R^n into connected components (SemialgebraicCells) such that a given set of polynomials keeps sign-invariant over each of the components. This decomposition is called Cylindrical Algebraic Decomposition (CAD), and what is obtainded is called a Cell Complex of R^n. Each of the components is a SemialgebraicCell (or SemialgebraicLineCell in R^1).
 
@@ -3628,7 +3614,7 @@ For some examples try this:
 	RealInterval open: Infinity negative open: Infinity positive.
 !
 
-!SemialgebraicLineCell commentStamp: '<historical>' prior: 0!
+!SemialgebraicInterval commentStamp: '<historical>' prior: 0!
 My instances are components of a Cell Complex of R^1. See the comment in the class SemialgebraicCell.
 !
 
@@ -4110,7 +4096,7 @@ Output: a collection of the n complex roots of the polynomial.
 !SemialgebraicCell commentStamp: '<historical>' prior: 0!
 My instances are components of a Cell Complex of R^n, where n>1. For the case n=1 SemialgebraicLineCell is used. (See the comments in the class SemialgebraicSet and CylindricalAlgebraicDecomposition).
 
-Each SemialgebraicCell in R^n is represented as the extension of a SemialgebraicCell or SemialgebraicLineCell in R^{n-1}.
+Each SemialgebraicCell in R^n is represented as the extension of a SemialgebraicCell or SemialgebraicInterval in R^{n-1}.
 !
 
 !WuRittProcess commentStamp: 'len 12/30/2015 05:43' prior: 0!
@@ -8245,79 +8231,6 @@ at: anObject ifAbsentPut: aBlock
 	index _ self findElementOrNil: anObject.
 	^ (array at: index) ifNil: [self atNewIndex: index put: aBlock value]! !
 
-!ConnectivityGraph methodsFor: 'accessing' stamp: 'len 1/9/98 21:24'!
-add: anObject
-	"Add the argument to the nodes of the receiver. Answer the argument."
-
-	^ self nodes add: anObject! !
-
-!ConnectivityGraph methodsFor: 'accessing' stamp: 'len 1/9/98 21:40'!
-addAll: aCollection
-	"Add the elements in the argument to the nodes
-	of the receiver. Answer the argument."
-
-	aCollection do: [ :each | self add: each].
-	^ aCollection! !
-
-!ConnectivityGraph methodsFor: 'accessing' stamp: 'len 1/9/98 21:44'!
-addArrowFrom: anObject to: anotherObject
-	"Add an arrow from anObject to anotherObject."
-
-	self matrix
-		atRow: (self nodes indexOf: anObject)
-		column: (self nodes indexOf: anotherObject)
-		put: 1! !
-
-!ConnectivityGraph methodsFor: 'accessing' stamp: 'len 1/9/98 21:44'!
-addEdgeFrom: anObject to: anotherObject
-	"Add an edge from anObject to anotherObject."
-
-	self addArrowFrom: anObject to: anotherObject;
-		addArrowFrom: anotherObject to: anObject! !
-
-!ConnectivityGraph methodsFor: 'testing' stamp: 'len 1/12/98 23:25'!
-connects: anObject with: anotherObject
-	"Answer true if the receiver connects anObject with anotherObject."
-
-	0 to: self nodes size do: [ :each |
-		(self connects: anObject with: anotherObject byAPathOfLength: each)
-			ifTrue: [^ true]].
-	^ false! !
-
-!ConnectivityGraph methodsFor: 'testing' stamp: 'len 1/9/98 21:49'!
-connects: anObject with: anotherObject byAPathOfLength: anInteger
-	"Answer true if the receiver connects anObject
-	with anotherObject by a path of length anInteger."
-
-	^ ((self matrix raisedToInteger: anInteger)
-		atRow: (self nodes indexOf: anObject)
-		column: (self nodes indexOf: anotherObject)) = 1! !
-
-!ConnectivityGraph methodsFor: 'initialization' stamp: 'len 1/9/98 21:22'!
-initialize
-	self nodes: OrderedCollection new! !
-
-!ConnectivityGraph methodsFor: 'accessing' stamp: 'len 1/9/98 21:46'!
-matrix
-	"Answer the adjacency matrix of the receiver."
-
-	matrix isNil ifTrue: [matrix _ Matrix null: self nodes size @ self nodes size].
-	^ matrix! !
-
-!ConnectivityGraph methodsFor: 'accessing' stamp: 'len 1/9/98 21:22'!
-nodes
-	"Answer the nodes of the receiver."
-
-	^ nodes! !
-
-!ConnectivityGraph methodsFor: 'accessing-private' stamp: 'len 1/9/98 21:22'!
-nodes: aCollection
-	nodes _ aCollection! !
-
-!ConnectivityGraph class methodsFor: 'instance creation' stamp: 'len 1/24/98 15:00'!
-new
-	^ super new initialize! !
-
 !ContinuousColorPalette methodsFor: 'as yet unclassified' stamp: 'len 2/26/2016 06:45'!
 at: aFloat
 	^ colors at: (colors size - 1 * aFloat) truncated + 1! !
@@ -8414,7 +8327,7 @@ decompose
 								and: Infinity positive)]].
 	^ components _ cells! !
 
-!CylindricalAlgebraicDecomposition methodsFor: 'private' stamp: 'len 5/30/2016 05:28'!
+!CylindricalAlgebraicDecomposition methodsFor: 'private' stamp: 'len 5/30/2016 18:57'!
 decomposeUnivariate
 	"Perform the cylindrical algebraic decomposition in the univariate case.
 	It's easy. Suppose we have to find the CAD of R with respect to the polynomial set {f1, ..., fn}.
@@ -8426,17 +8339,17 @@ decomposeUnivariate
 	self polynomials do: [ :each |
 		roots addAll: (RealRootFinder polynomial: each) roots].
 	roots isEmpty
-		ifTrue: [^ components _ {SemialgebraicLineCell between: Infinity negative and: Infinity positive}].
+		ifTrue: [^ components _ {SemialgebraicInterval between: Infinity negative and: Infinity positive}].
 	roots _ roots asSortedCollection.
 	intervals _ OrderedCollection new.
-	intervals add: (SemialgebraicLineCell between: Infinity negative and: roots first).
+	intervals add: (SemialgebraicInterval between: Infinity negative and: roots first).
 	1 to: roots size - 1 do: [ :each |
 		intervals
-			add: (SemialgebraicLineCell between: (roots at: each) and: (roots at: each));
-			add: (SemialgebraicLineCell between: (roots at: each) and: (roots at: each + 1))].
+			add: (SemialgebraicInterval between: (roots at: each) and: (roots at: each));
+			add: (SemialgebraicInterval between: (roots at: each) and: (roots at: each + 1))].
 	intervals
-		add: (SemialgebraicLineCell between: roots last and: roots last);
-		add: (SemialgebraicLineCell between: roots last and: Infinity positive).
+		add: (SemialgebraicInterval between: roots last and: roots last);
+		add: (SemialgebraicInterval between: roots last and: Infinity positive).
 	^ components _ intervals! !
 
 !CylindricalAlgebraicDecomposition methodsFor: 'accessing' stamp: 'len 5/30/2016 05:52'!
@@ -17102,7 +17015,7 @@ open: left open: right
 
 	^ self new setLeftBound: left rightBound: right leftOpen: true rightOpen: true! !
 
-!SemialgebraicLineCell methodsFor: 'accessing' stamp: 'len 1/8/98 20:35'!
+!SemialgebraicInterval methodsFor: 'accessing' stamp: 'len 1/8/98 20:35'!
 boundary
 	"Answer the boundary of the receiver."
 
@@ -17111,25 +17024,25 @@ boundary
 		add: (self class between: self right and: self right);
 		yourself! !
 
-!SemialgebraicLineCell methodsFor: 'accessing' stamp: 'len 1/8/98 20:29'!
+!SemialgebraicInterval methodsFor: 'accessing' stamp: 'len 1/8/98 20:29'!
 closure
 	"Answer the closure of the receiver."
 
 	^ self boundary copy add: self; yourself! !
 
-!SemialgebraicLineCell methodsFor: 'accessing' stamp: 'len 1/16/98 21:58'!
+!SemialgebraicInterval methodsFor: 'accessing' stamp: 'len 1/16/98 21:58'!
 interior
 	"Answer the interior of the receiver."
 
 	^ self closure copyWithoutAll: self boundary! !
 
-!SemialgebraicLineCell methodsFor: 'testing' stamp: 'len 2/6/98 13:33'!
+!SemialgebraicInterval methodsFor: 'testing' stamp: 'len 2/6/98 13:33'!
 isCylindricalOver: aCell
 	"Answer true if the receiver is cylindrical over aCell."
 
 	^ self = aCell! !
 
-!SemialgebraicLineCell methodsFor: 'accessing' stamp: 'len 1/17/98 13:49'!
+!SemialgebraicInterval methodsFor: 'accessing' stamp: 'len 1/17/98 13:49'!
 polynomials
 	"Answer the polynomials defining the receiver."
 
@@ -17139,19 +17052,20 @@ polynomials
 	self right isInfinity ifFalse: [answer add: self right polynomial].
 	^ answer! !
 
-!SemialgebraicLineCell methodsFor: 'printing' stamp: 'len 2/6/98 13:03'!
+!SemialgebraicInterval methodsFor: 'printing' stamp: 'len 5/30/2016 19:02'!
 printOn: aStream
 	"Print a representation of the receiver on the stream aStream."
 
 	"aStream nextPut: ${; print: self sentence; nextPut: $}"
-	aStream print: self sample! !
+	"aStream print: self sample"
+	super printOn: aStream! !
 
-!SemialgebraicLineCell methodsFor: 'accessing' stamp: 'len 2/6/98 12:38'!
+!SemialgebraicInterval methodsFor: 'accessing' stamp: 'len 2/6/98 12:38'!
 projection
 	"Answer the projection of the receiver."
 	^ nil! !
 
-!SemialgebraicLineCell methodsFor: 'accessing' stamp: 'len 1/17/2016 01:50'!
+!SemialgebraicInterval methodsFor: 'accessing' stamp: 'len 1/17/2016 01:50'!
 sample
 	"Answer a sample point in the receiver."
 
@@ -17165,7 +17079,7 @@ sample
 	self isRightBounded ifTrue: [^ Tuple with: self right leftBound - 1].
 	^ Tuple with: 0! !
 
-!SemialgebraicLineCell methodsFor: 'accessing' stamp: 'len 3/18/2016 06:44'!
+!SemialgebraicInterval methodsFor: 'accessing' stamp: 'len 3/18/2016 06:44'!
 sentence
 	"Answer a quantifier-free defining sentence for the receiver."
 
@@ -17179,7 +17093,7 @@ sentence
 		answer _ answer isNil ifTrue: [sentence] ifFalse: [answer & sentence]].
 	^ answer! !
 
-!SemialgebraicLineCell class methodsFor: 'instance creation' stamp: 'len 12/20/97 02:35'!
+!SemialgebraicInterval class methodsFor: 'instance creation' stamp: 'len 12/20/97 02:35'!
 between: leftBound and: rightBound
 	"Answer a new instance of the receiver representing the
 	univariate cell which is bounded by the given bounds."
@@ -17327,23 +17241,19 @@ boundary
 
 	self notYetImplemented! !
 
-!SemialgebraicSet methodsFor: 'accessing' stamp: 'len 12/14/97 21:47'!
+!SemialgebraicSet methodsFor: 'accessing' stamp: 'len 5/30/2016 08:48'!
 cells
-	"Answer the cells of the receiver."
-
 	^ cells! !
 
 !SemialgebraicSet methodsFor: 'accessing-private' stamp: 'len 12/14/97 21:46'!
 cells: aCollection
 	cells _ aCollection! !
 
-!SemialgebraicSet methodsFor: 'accessing' stamp: 'len 1/8/98 20:33'!
+!SemialgebraicSet methodsFor: 'accessing' stamp: 'len 5/30/2016 08:48'!
 closure
-	"Answer the closure of the receiver."
-
 	| answer |
 	answer _ self class new.
-	self do: [ :each | answer addAll: each closure].
+	self cells do: [ :each | answer addAll: each closure].
 	^ answer! !
 
 !SemialgebraicSet methodsFor: 'iterating' stamp: 'len 2/6/98 12:37'!
@@ -17424,17 +17334,13 @@ hash
 	self do: [:each| answer _ answer + each hash].
 	^ answer! !
 
-!SemialgebraicSet methodsFor: 'testing' stamp: 'len 3/31/2016 17:53'!
+!SemialgebraicSet methodsFor: 'testing' stamp: 'len 5/30/2016 08:50'!
 includes: anObject
 	(anObject is: #Tuple)
-		ifTrue: [self do: [ :each | (each includes: anObject) ifTrue: [^ true]].
-				^ false].
-	anObject do: [ :each | (self cells includes: each) ifTrue: [^ true]].
+		ifTrue: [^ self cells anySatisfy: [:any| any includes: anObject]].
+	self error: 'not a tuple'.
+"	anObject do: [:each| (self cells includes: each) ifTrue: [^ true]]."
 	^ false! !
-
-!SemialgebraicSet methodsFor: 'initialization' stamp: 'len 1/9/98 21:34'!
-initialize
-	self cells: Set new! !
 
 !SemialgebraicSet methodsFor: 'accessing' stamp: 'len 1/16/98 21:58'!
 interior
@@ -17448,18 +17354,12 @@ isEmpty
 
 	^ self cells isEmpty! !
 
-!SemialgebraicSet methodsFor: 'printing' stamp: 'len 2/6/98 13:33'!
+!SemialgebraicSet methodsFor: 'printing' stamp: 'len 5/30/2016 08:42'!
 printOn: aStream
-	"Print a representation of the receiver on the stream aStream."
-
-	| first |
 	"aStream nextPut: ${; print: self sentence; nextPut: $}"
-	first _ true.
-	self do: [ :each |
-		first ifFalse: [aStream nextPutAll: ', '].
-		aStream print: each.
-		first _ false].
-	first ifTrue: [aStream nextPutAll: '{}']! !
+	aStream nextPut: ${.
+	self do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: ', '].
+	aStream nextPut: $}! !
 
 !SemialgebraicSet methodsFor: 'accessing' stamp: 'len 2/5/98 20:44'!
 projectionAt: anInteger
@@ -17478,16 +17378,12 @@ select: aBlock
 	self do: [:each | (aBlock value: each) ifTrue: [newCollection add: each]].
 	^newCollection! !
 
-!SemialgebraicSet methodsFor: 'accessing' stamp: 'len 2/6/98 13:37'!
+!SemialgebraicSet methodsFor: 'accessing' stamp: 'len 5/30/2016 09:00'!
 sentence
 	"Answer a quantifier-free defining sentence for the receiver."
 
-	| answer |
-	self do: [ :each |
-		answer _ answer isNil
-			ifTrue: [each sentence]
-			ifFalse: [answer | each sentence]].
-	^ answer isNil ifTrue: [Polynomial x squared lneq: 0] ifFalse: [answer]! !
+	self isEmpty ifTrue: [^ Rationals new polynomials x squared lneq: 0].
+	^ self cells collect: [:each| each sentence] andFold: [:a :b| a | b]! !
 
 !SemialgebraicSet class methodsFor: 'examples' stamp: 'len 3/24/2016 06:09'!
 ball
@@ -17501,11 +17397,15 @@ ball
 	^ self cad: {x squared + y squared + z squared - 1}
 		:: select: [ :each | each sample norm2 < 1]! !
 
-!SemialgebraicSet class methodsFor: 'instance creation' stamp: 'len 5/30/2016 05:51'!
+!SemialgebraicSet class methodsFor: 'instance creation' stamp: 'len 5/30/2016 08:44'!
 cad: aPolynomialSet
 	"Answer the CAD (Cylindrical Algebraic Decomposition) of R^n by the polynomials in aPolynomialSet."
 
-	^ self new addAll: (CylindricalAlgebraicDecomposition polynomials: aPolynomialSet); yourself! !
+	^ self cells: (CylindricalAlgebraicDecomposition polynomials: aPolynomialSet) components! !
+
+!SemialgebraicSet class methodsFor: 'instance creation' stamp: 'len 5/30/2016 08:46'!
+cells: aCollection
+	^ super new cells: aCollection! !
 
 !SemialgebraicSet class methodsFor: 'examples' stamp: 'len 3/24/2016 06:09'!
 circle
@@ -17529,9 +17429,9 @@ circunference
 	^ self cad: {x squared + y squared - 1}
 		:: select: [ :each | each sample norm2 = 1]! !
 
-!SemialgebraicSet class methodsFor: 'instance creation' stamp: 'len 12/14/97 22:47'!
+!SemialgebraicSet class methodsFor: 'instance creation' stamp: 'len 5/30/2016 08:46'!
 new
-	^ super new initialize! !
+	^ self cells: Set new! !
 
 !SemialgebraicSet class methodsFor: 'examples' stamp: 'len 3/24/2016 06:09'!
 sphere
@@ -18609,14 +18509,16 @@ negated
 plot: aCollection
 	^ FunctionPlotMorph new evaluationPoints: aCollection; function: self! !
 
-!Function methodsFor: 'printing' stamp: 'len 4/24/2016 06:11'!
+!Function methodsFor: 'printing' stamp: 'len 5/30/2016 18:11'!
 printOn: aStream
 	(properties includesKey: #name)
 		ifTrue:
-			[(aStream isKindOf: TextStream)
-				ifTrue: [aStream withAttribute: TextEmphasis italic do: [aStream nextPutAll: (properties at: #name)]]
-				ifFalse: [aStream nextPutAll: (properties at: #name)]]
-		ifFalse: [super printOn: aStream].
+			[| name |
+			name _ properties at: #name.
+			(name is: #Text) ifFalse: [name _ name italic].
+			aStream nextPutAll: name]
+		ifFalse:
+			[super printOn: aStream].
 	aStream nextPut: $:.
 	self arrowPrintOn: aStream! !
 
@@ -24986,6 +24888,10 @@ hash
 indeterminates
 	^ exponents keys! !
 
+!Monomial methodsFor: 'testing' stamp: 'len 5/30/2016 18:16'!
+isIdentity
+	^ exponents noneSatisfy: [:none| none > 0]! !
+
 !Monomial methodsFor: 'testing' stamp: 'len 3/16/2016 21:08'!
 isUnivariateIn: anIndeterminate
 	^ exponents isEmpty or: [exponents size = 1 and: [exponents includesKey: anIndeterminate]]! !
@@ -28255,7 +28161,7 @@ value4: anObject in: anIndeterminate
 		reverseDo: [:each| answer _ anObject * answer + (one * each)].
 	^ answer! !
 
-!Polynomial methodsFor: 'operations' stamp: 'len 3/26/2016 23:25'!
+!Polynomial methodsFor: 'operations' stamp: 'len 5/30/2016 18:15'!
 value: anObject
 	"Answer the value of the receiver at the argument. For multivariate polynomials, a Tuple or Array is expected."
 	| answer mapping |
@@ -28263,7 +28169,8 @@ value: anObject
 		ifFalse: [^ self value: anObject in: self leadingIndeterminate].
 	mapping _ Dictionary accumulate: [:aBlock| (self species ordering indeterminates with: anObject do: [:i :xi| aBlock value: i -> xi])].
 	answer _ (anObject at: 1) zero.
-	self monomialsAndCoefficientsDo: [:key :value| answer _ answer + (((key value: mapping) ifNil: [1])*value)].
+	self monomialsAndCoefficientsDo: [:key :value|
+		answer _ (key isIdentity ifTrue: [value] ifFalse: [(key value: mapping) * value]) + answer].
 	^ answer! !
 
 !Polynomial methodsFor: 'operations' stamp: 'len 3/30/2016 03:56'!
@@ -28966,12 +28873,12 @@ reduced
 
 	^ self copy! !
 
-!PolynomialInequality methodsFor: 'operations' stamp: 'len 11/24/2015 06:08'!
+!PolynomialInequality methodsFor: 'operations' stamp: 'len 5/30/2016 09:21'!
 rename: anInteger to: anotherInteger
 	"Rename the anInteger-th indeterminate of the receiver to anotherInteger."
 	| xi |
-	self halt. "move to Polynomial"
-	xi _ self polynomial class x: anotherInteger.
+	self flag: #fix. "move to Polynomial"
+	xi _ self polynomial species x: anotherInteger.
 	self polynomial: (self polynomial value: xi in: anInteger)! !
 
 !PolynomialInequality class methodsFor: 'instance creation' stamp: 'len 12/16/97 00:00'!
@@ -29936,11 +29843,11 @@ isUniversal
 	"Answer true if the receiver is an universal quantifier."
 	^ false! !
 
-!Quantifier methodsFor: 'printing' stamp: 'len 2/29/2016 04:07'!
+!Quantifier methodsFor: 'printing' stamp: 'len 5/30/2016 09:19'!
 printOn: aStream
 	"Print a representation of the receiver on the stream aStream."
 
-	self printOn: aStream withNames: Monomial defaultNames! !
+	self printOn: aStream withNames: Dictionary new! !
 
 !Quantifier methodsFor: 'printing' stamp: 'len 12/31/97 03:02'!
 printOn: aStream withNames: aDictionary
@@ -31055,7 +30962,7 @@ boundary
 	^ answer"
 	self notYetImplemented! !
 
-!SemialgebraicCell methodsFor: 'accessing' stamp: 'len 3/17/2016 03:44'!
+!SemialgebraicCell methodsFor: 'accessing' stamp: 'len 5/30/2016 18:56'!
 boundsAt: aTuple
 	"Answer the bounds of the last component of the receiver when the first components are aTuple."
 
@@ -31066,7 +30973,7 @@ boundsAt: aTuple
 	rbound _ (self right isInfinity or: [self right isNumber])
 		ifTrue: [self right]
 		ifFalse: [self right value: aTuple].
-	^ SemialgebraicLineCell between: lbound and: rbound! !
+	^ SemialgebraicInterval between: lbound and: rbound! !
 
 !SemialgebraicCell methodsFor: 'accessing' stamp: 'len 1/8/98 20:28'!
 closure
@@ -31172,12 +31079,12 @@ sample
 	| alpha |
 	^ (alpha _ self projection sample), (self boundsAt: alpha) sample! !
 
-!SemialgebraicCell methodsFor: 'accessing' stamp: 'len 3/18/2016 06:46'!
+!SemialgebraicCell methodsFor: 'accessing' stamp: 'len 5/30/2016 19:00'!
 sentence
 	"Answer a quantifier-free defining sentence for the receiver."
 	
 	| answer sample sign sentence |
-	self flag: #fix. "this is the same as SemialgebraicLineCell>>sentence, fix"
+	self flag: #fix. "this is the same as SemialgebraicInterval>>sentence, fix"
 	sample _ self sample.
 	self polynomials do: [:each|
 		sentence _
