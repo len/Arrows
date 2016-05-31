@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2752] on 30 May 2016 at 8:23:21.017237 pm'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2752] on 31 May 2016 at 8:56:40.383539 pm'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 74!
+!provides: 'Mathematics' 1 75!
 !classDefinition: #AbelianGroupPresentation category: #'Mathematics-Free'!
 Object subclass: #AbelianGroupPresentation
 	instanceVariableNames: 'generators relators'
@@ -3282,13 +3282,14 @@ The algorithm performs O(n^2/2) multiplications; more precisely, at most 2 floor
 I am an abstract superclass for boolean connectives that are employed in the building of Tarski sentences. My concrete subclases are ConjunctionConnective (AND), DisjunctionConnective (OR) and ImplicationConective.
 !
 
-!ConjunctionConnective commentStamp: '<historical>' prior: 0!
+!ConjunctionConnective commentStamp: 'len 5/31/2016 05:54' prior: 0!
 My instances are conjunctions of two Tarski sentences.
 
 For an example try this:
-	| x y |
-	x _ Polynomial x.
-	y _ Polynomial y.
+	| Fxy x y |
+	Fxy _ Rationals new polynomialsIn: #(x y).
+	x _ Fxy x.
+	y _ Fxy y.
 	ConjunctionConnective left: (x squared + y squared gneq: 1) right: (x eq: 1).
 !
 
@@ -3296,9 +3297,10 @@ For an example try this:
 My instances are disjunctions of two Tarski sentences.
 
 For an example try this:
-	| x y |
-	x _ Polynomial x.
-	y _ Polynomial y.
+	| Fxy x y |
+	Fxy _ Rationals new polynomialsIn: #(x y).
+	x _ Fxy x.
+	y _ Fxy y.
 	DisjunctionConnective
 		left: (x squared + y squared lneq: 1) right: (x squared + y squared eq: 1).
 !
@@ -3307,9 +3309,10 @@ For an example try this:
 My instances are implications whose predicate and conclusion are Tarski sentences.
 
 For an example try this:
-	| x y |
-	x _ Polynomial x.
-	y _ Polynomial y.
+	| Fxy x y |
+	Fxy _ Rationals new polynomialsIn: #(x y).
+	x _ Fxy x.
+	y _ Fxy y.
 	ImplicationConnective left: (x squared + y squared eq: 0) right: (x eq: 0).
 !
 
@@ -3985,15 +3988,17 @@ The algorithm performs O(n^2) arithmetic operations for dense polynomials of deg
 My instances are polynomial equations.
 
 For an example try:
-	| x y |
-	x _ Polynomial x.
-	y _ Polynomial y.
+	| Fxy x y |
+	Fxy _ Rationals new polynomialsIn: #(x y).
+	x _ Fxy x.
+	y _ Fxy y.
 	PolynomialEquation polynomial: x*x + (y*y) - 1.
 
 which is equivalent to:
-	| x y |
-	x _ Polynomial x.
-	y _ Polynomial y.
+	| Fxy x y |
+	Fxy _ Rationals new polynomialsIn: #(x y).
+	x _ Fxy x.
+	y _ Fxy y.
 	x*x + (y*y) eq: 1.
 !
 
@@ -4001,15 +4006,17 @@ which is equivalent to:
 My instances are polynomial inequalities.
 
 For an example try:
-	| x y |
-	x _ Polynomial x.
-	y _ Polynomial y.
+	| Fxy x y |
+	Fxy _ Rationals new polynomialsIn: #(x y).
+	x _ Fxy x.
+	y _ Fxy y.
 	PolynomialInequality polynomial: x*x + (y*y) - 1.
 
 which is equivalent to:
-	| x y |
-	x _ Polynomial x.
-	y _ Polynomial y.
+	| Fxy x y |
+	Fxy _ Rationals new polynomialsIn: #(x y).
+	x _ Fxy x.
+	y _ Fxy y.
 	x*x + (y*y) lneq: 1.
 !
 
@@ -4046,9 +4053,10 @@ My instances are QR factorizations of a given real or complex matrix A, such tha
 My instances are Tarski sentences represented by a list of quantifiers (prefix) and by the sentence subject of the quantification (matrix).
 
 For an example try this:
-	| x y |
-	x _ Polynomial x.
-	y _ Polynomial y.
+	| Qxy x y |
+	Qxy _ Rationals new polynomialsIn: #(x y).
+	x _ Qxy x.
+	y _ Qxy y.
 	(QuantifiedSentence matrix: (y squared gneq: x))
 		add: (ExistentialQuantifier indeterminate: 1);
 		add: (UniversalQuantifier indeterminate: 2);
@@ -5414,12 +5422,13 @@ not
 
 	^ self left -> self right not! !
 
-!ImplicationConnective methodsFor: 'printing' stamp: 'len 12/18/97 20:15'!
+!ImplicationConnective methodsFor: 'printing' stamp: 'len 5/31/2016 06:03'!
 printOn: aStream
 	"Print a representation of the receiver on the stream aStream."
 
 	aStream
 		nextPut: $(; print: self left; nextPut: $);
+"		space; nextPut: Character arrowRight; space;"
 		nextPutAll: ' -> ';
 		nextPut: $(; print: self right; nextPut: $)! !
 
@@ -20350,11 +20359,11 @@ rank
 scalars
 	^ basis ambient scalars! !
 
-!QuadraticForm methodsFor: 'evaluating' stamp: 'len 1/8/2016 05:19'!
+!QuadraticForm methodsFor: 'evaluating' stamp: 'len 5/31/2016 06:36'!
 value: aVector
 	| v |
 	v _ basis coordinatesOf: aVector.
-	^ v * matrix * v! !
+	^ v dot: (matrix * v)! !
 
 !QuadraticForm class methodsFor: 'instance creation' stamp: 'len 1/8/2016 05:19'!
 from: aLinearBasis matrix: aMatrix
@@ -29700,11 +29709,13 @@ prenex
 
 	^ self reduced normalized privatePrenex! !
 
-!QuantifiedSentence methodsFor: 'printing' stamp: 'len 12/21/97 21:18'!
+!QuantifiedSentence methodsFor: 'printing' stamp: 'len 5/30/2016 21:36'!
 printOn: aStream
 	"Print a representation of the receiver on the stream aStream."
 
-	self prefix do: [ :each | each printOn: aStream].
+	| names |
+	names _ self matrix polynomial species indeterminateNames.
+	self prefix do: [ :each | | name | each printOn: aStream withNames: names].
 	aStream nextPut: $[; print: self matrix; nextPut: $]! !
 
 !QuantifiedSentence methodsFor: 'private' stamp: 'len 12/31/97 02:25'!
@@ -29892,7 +29903,7 @@ not
 
 	^ UniversalQuantifier indeterminate: self indeterminate! !
 
-!ExistentialQuantifier methodsFor: 'printing' stamp: 'len 12/19/97 21:58'!
+!ExistentialQuantifier methodsFor: 'printing' stamp: 'len 5/31/2016 05:42'!
 printOn: aStream withNames: aDictionary
 	"Print a representation of the receiver on the stream aStream
 	using the indeterminate names from aDictionary."
@@ -29900,8 +29911,8 @@ printOn: aStream withNames: aDictionary
 	| name |
 	name _ aDictionary
 				at: self indeterminate
-				ifAbsent: ['{x', self indeterminate printString, '}'].
-	aStream nextPutAll: '(exists ', name, ')'! !
+				ifAbsent: ['x' asText, self indeterminate printString sub].
+	aStream nextPut: Character exists; nextPutAll: name! !
 
 !UniversalQuantifier methodsFor: 'testing' stamp: 'len 2/5/98 21:27'!
 isUniversal
@@ -29914,7 +29925,7 @@ not
 
 	^ ExistentialQuantifier indeterminate: self indeterminate! !
 
-!UniversalQuantifier methodsFor: 'printing' stamp: 'len 12/19/97 21:59'!
+!UniversalQuantifier methodsFor: 'printing' stamp: 'len 5/31/2016 05:43'!
 printOn: aStream withNames: aDictionary
 	"Print a representation of the receiver on the stream aStream
 	using the indeterminate names from aDictionary."
@@ -29922,8 +29933,8 @@ printOn: aStream withNames: aDictionary
 	| name |
 	name _ aDictionary
 				at: self indeterminate
-				ifAbsent: ['{x', self indeterminate printString, '}'].
-	aStream nextPutAll: '(for all ', name, ')'! !
+				ifAbsent: ['x' asText, self indeterminate printString sub].
+	aStream nextPut: Character forAll; nextPutAll: name! !
 
 !Quaternion methodsFor: 'arithmetic' stamp: 'len 11/11/2015 05:29'!
 * anObject
@@ -32659,6 +32670,18 @@ testPrimeSignature
 	self assert: 100 primeSignature = #(2 2).
 	self assert: 42 primeSignature = #(1 1 1).
 	self assert: 16 primeSignature = #(4)! !
+
+!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 5/31/2016 06:35'!
+testQuadraticForms
+	| V A Q f p |
+	V _ Rationals new ** (2 to: 5) atRandom.
+	[A _ Rationals new ** (V dimension @ V dimension) atRandomBits: 100. A isZero] whileTrue.
+	A _ A + A transposed. "make it symmetric"
+	Q _ QuadraticForm from: V basis matrix: A.
+	f _ Q asPolynomial.
+	p _ V atRandomBits: 100.
+	self assert: (Q value: p) = (f value: p).
+	self assert: (f degree = 2 and: [f isHomogeneous])! !
 
 !MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 4/23/2016 05:28'!
 testSimplecialCmplex
