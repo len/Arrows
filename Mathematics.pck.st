@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2752] on 31 May 2016 at 8:56:40.383539 pm'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2752] on 2 June 2016 at 12:11:22.260976 am'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 75!
+!provides: 'Mathematics' 1 76!
 !classDefinition: #AbelianGroupPresentation category: #'Mathematics-Free'!
 Object subclass: #AbelianGroupPresentation
 	instanceVariableNames: 'generators relators'
@@ -1951,16 +1951,6 @@ Function subclass: #PolynomialMap
 PolynomialMap class
 	instanceVariableNames: ''!
 
-!classDefinition: #PolynomialRootFunction category: #'Mathematics-Geometry-Semialgebraic'!
-Function subclass: #PolynomialRootFunction
-	instanceVariableNames: 'polynomials index'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Geometry-Semialgebraic'!
-!classDefinition: 'PolynomialRootFunction class' category: #'Mathematics-Geometry-Semialgebraic'!
-PolynomialRootFunction class
-	instanceVariableNames: ''!
-
 !classDefinition: #ProjectiveMap category: #'Mathematics-Geometry-Projective'!
 Function subclass: #ProjectiveMap
 	instanceVariableNames: 'linearMap'
@@ -1989,6 +1979,16 @@ Function subclass: #RationalParametrization
 	category: 'Mathematics-Geometry-Algebraic'!
 !classDefinition: 'RationalParametrization class' category: #'Mathematics-Geometry-Algebraic'!
 RationalParametrization class
+	instanceVariableNames: ''!
+
+!classDefinition: #RealRootFunction category: #'Mathematics-Geometry-Semialgebraic'!
+Function subclass: #RealRootFunction
+	instanceVariableNames: 'polynomials index'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Geometry-Semialgebraic'!
+!classDefinition: 'RealRootFunction class' category: #'Mathematics-Geometry-Semialgebraic'!
+RealRootFunction class
 	instanceVariableNames: ''!
 
 !classDefinition: #SemilinearMap category: #'Mathematics-Linear'!
@@ -3545,7 +3545,7 @@ Example:
 My instances are the ring of intergers of a given number field.!
 
 !Polynomials commentStamp: '<historical>' prior: 0!
-My instances are polynomial rings.!
+My instances are polynomial rings in one or many indeterminates.!
 
 !AffineSubspace commentStamp: '<historical>' prior: 0!
 My instances are affine spaces of finite dimension, i.e. flats, or linear varieties, linear manifolds, or translated subspaces of a vector space.
@@ -3702,16 +3702,16 @@ Example:
 !LinearForm commentStamp: '<historical>' prior: 0!
 My instances are linear forms (linear functionals, one-forms, covectors), i.e. linear maps from a vector space to the field of scalars. All the linear forms on a vector space form the dual vector space (see DualSpace).!
 
-!PolynomialRootFunction commentStamp: '<historical>' prior: 0!
+!ProjectiveMap commentStamp: '<historical>' prior: 0!
+My instances are projective transformations from a projective space P(V) to another P(W). These transformations map points to points and lines to lines, etc, preserving incidence. Projective transformation, projective collineation and homography are synonyms.!
+
+!RealRootFunction commentStamp: '<historical>' prior: 0!
 My instances are defined by an integer index and a set of rational multivariate polynomials. 
 
 The PolynomialRootFunction with index k and polynomial f in n+1 indeterminates represents the continuous real function going from a connected subset of R^n (a semialgebraic set) to R and whose value at (a1,...,an) is the k-th real root of f(a1,...,an, x) as univariate polynomial in x.
 
 A PolynomialRootFunction with two or more defining polynomials is equivalent to the one defined by the product of all the polynomials.
 !
-
-!ProjectiveMap commentStamp: '<historical>' prior: 0!
-My instances are projective transformations from a projective space P(V) to another P(W). These transformations map points to points and lines to lines, etc, preserving incidence. Projective transformation, projective collineation and homography are synonyms.!
 
 !Sequence commentStamp: '<historical>' prior: 0!
 My instances are functions with domain in the natural numbers (1,2,...). They can be evaluated at an index (#value: and #at:), and can also be iterated over like collections (#do:, #collect:, #select, etc).
@@ -4024,8 +4024,8 @@ which is equivalent to:
 My instances represent systems of polynomial equations.
 
 Example:
-	| x y |
-	Qxy _ Rationals new polynomialsIn: #(1 2).
+	| Qxy x y |
+	Qxy _ Rationals new polynomialsIn: #(x y).
 	x _ Qxy x.
 	y _ Qxy y.
 	PolynomialSystem new
@@ -10434,6 +10434,26 @@ map
 printOn: aStream
 	aStream print: self domain; nextPut: $*! !
 
+!DualSpace methodsFor: 'elements' stamp: 'len 6/1/2016 06:08'!
+x
+	"As for polynomials."
+	^ self x: 1! !
+
+!DualSpace methodsFor: 'elements' stamp: 'len 6/1/2016 06:07'!
+x: i
+	"As for polynomials."
+	^ self e: i! !
+
+!DualSpace methodsFor: 'elements' stamp: 'len 6/1/2016 06:08'!
+y
+	"As for polynomials."
+	^ self x: 2! !
+
+!DualSpace methodsFor: 'elements' stamp: 'len 6/1/2016 06:08'!
+z
+	"As for polynomials."
+	^ self x: 3! !
+
 !DualSpace class methodsFor: 'instance creation' stamp: 'len 11/7/2015 04:29'!
 from: aVectorSpace
 	"Answer the linear ambient of linear forms with domain in aVectorSpace."
@@ -10489,12 +10509,12 @@ dual
 e: anInteger
 	^ basis at: anInteger! !
 
-!LinearSubspace methodsFor: 'accessing' stamp: 'len 5/13/2016 07:42'!
+!LinearSubspace methodsFor: 'accessing' stamp: 'len 6/1/2016 06:04'!
 equations
 	"Answer a linear system defining the receiver."
 	| answer |
 	answer _ LinearSystem new.
-	self annihilator basis do: [:each| answer add: each asEquation].
+	self annihilator basis do: [:each| answer add: (each eq: self scalars zero)].
 	^ answer! !
 
 !LinearSubspace methodsFor: 'testing' stamp: 'len 5/25/2016 20:04'!
@@ -11038,9 +11058,9 @@ newFrom: anArray
 over: aRing
 	^ self copy scalars: aRing! !
 
-!Tuples methodsFor: 'morphisms' stamp: 'len 5/14/2016 09:01'!
+!Tuples methodsFor: 'morphisms' stamp: 'len 6/2/2016 00:06'!
 polynomials
-	^ self scalars polynomialsIn: (1 to: self dimension)! !
+	^ self scalars polynomialsIn: self dimension! !
 
 !Tuples methodsFor: 'printing' stamp: 'len 4/21/2016 00:04'!
 printOn: aStream
@@ -11235,13 +11255,13 @@ polynomialsIn: anIntegerOrCollection
 	"Answer the ring of multivariate polynomials over the receiver in the given indeterminates."
 	^ self polynomialsIn: anIntegerOrCollection ordering: #tlex! !
 
-!Ring methodsFor: 'morphisms' stamp: 'len 5/30/2016 03:01'!
+!Ring methodsFor: 'morphisms' stamp: 'len 6/1/2016 20:05'!
 polynomialsIn: anIntegerOrCollection ordering: aMonomialOrdering
 	"Answer the ring of multivariate polynomials over the receiver over the given indeterminates."
 	| answer |
 	anIntegerOrCollection isInteger
 		ifTrue: [^ Polynomials new: anIntegerOrCollection over: self ordering: aMonomialOrdering].
-	anIntegerOrCollection allSatisfy: [:each| each isString] :: ifFalse: [self error: 'not string indeterminate name']. self flag: #fix.
+	anIntegerOrCollection allSatisfy: [:each| each isString or: [each is: #Text]] :: ifFalse: [self error: 'not string indeterminate name']. self flag: #fix.
 	answer _ Polynomials new: anIntegerOrCollection size over: self ordering: aMonomialOrdering.
 	answer indeterminateNames: anIntegerOrCollection.
 	^ answer! !
@@ -11732,6 +11752,10 @@ x
 polynomials: aPolynomials
 	^ self new polynomials: aPolynomials! !
 
+!Rationals methodsFor: 'comparing' stamp: 'len 6/1/2016 23:56'!
+<= aDomain
+	^ aDomain isField and: [(aDomain includes: 1) and: [aDomain includes: 0]]! !
+
 !Rationals methodsFor: 'comparing' stamp: 'len 11/10/2015 23:14'!
 = anObject
 	^ anObject class == self class! !
@@ -12056,6 +12080,10 @@ tupleClass
 	self flag: #fix.
 	^ self modulus = 2 ifTrue: [^ BitTuple] ifFalse: [Tuple] "ModularTuple"! !
 
+!RealAlgebraicNumbers methodsFor: 'comparing' stamp: 'len 6/1/2016 23:58'!
+< aDomain
+	^ ((aDomain isKindOf: Rationals) or: [aDomain isKindOf: Integers]) or: [super < aDomain]! !
+
 !RealAlgebraicNumbers methodsFor: 'comparing' stamp: 'len 11/10/2015 23:37'!
 = anObject
 	^ anObject class == self class! !
@@ -12224,6 +12252,10 @@ over: aRing
 / anIdeal
 	^ ModularIntegers by: anIdeal! !
 
+!Integers methodsFor: 'comparing' stamp: 'len 6/1/2016 23:56'!
+<= aDomain
+	^ aDomain isRing and: [(aDomain includes: 1) and: [aDomain includes: 0]]! !
+
 !Integers methodsFor: 'comparing' stamp: 'len 11/10/2015 23:14'!
 = anObject
 	^ anObject class == self class! !
@@ -12353,6 +12385,14 @@ p: aPrime
 	^ (self includes: aPolynomialOrArray)
 			ifTrue: [PolynomialIdeal on: self generators: {aPolynomialOrArray}]
 			ifFalse: [PolynomialIdeal on: self generators: aPolynomialOrArray]! !
+
+!Polynomials methodsFor: 'comparing' stamp: 'len 6/1/2016 23:44'!
+<= aDomain
+	"Answer true if the receiver is included in the argument, i.e. it's a subring of the argument."
+	(aDomain isKindOf: Polynomials) ifFalse: [^ false].
+	self rank = aDomain rank ifFalse: [^ false].
+	self scalars <= aDomain scalars ifFalse: [^ false].
+	^ true! !
 
 !Polynomials methodsFor: 'comparing' stamp: 'len 3/26/2016 05:14'!
 = anObject
@@ -12487,14 +12527,14 @@ coefficients: aTuple
 constant: aNumber
 	^ self coefficient: aNumber monomial: Monomial identity! !
 
-!Polynomials methodsFor: 'examples' stamp: 'len 3/27/2016 09:56'!
+!Polynomials methodsFor: 'examples' stamp: 'len 6/1/2016 21:03'!
 continuantOfOrder: n
 	"Answer the continuant polynomial of order n."
-	"(Rationals new polynomialsIn: #(1 2 3)) continuantOfOrder: 3"
+	"(Rationals new polynomialsIn: 3) continuantOfOrder: 3"
 
 	n = 0 ifTrue: [^ self one].
-	n = 1 ifTrue: [^ self x: self ordering indeterminates first].
-	^ (self continuantOfOrder: n - 1) * (self x: (self ordering indeterminates at: n)) + (self continuantOfOrder: n - 2)! !
+	n = 1 ifTrue: [^ self x: 1].
+	^ (self continuantOfOrder: n - 1) * (self x: n) + (self continuantOfOrder: n - 2)! !
 
 !Polynomials methodsFor: 'examples' stamp: 'len 11/28/2015 07:25'!
 cyclotomic: n
@@ -12576,9 +12616,9 @@ has: anIndeterminate
 hash
 	^ scalars hash * indeterminates hash! !
 
-!Polynomials methodsFor: 'testing' stamp: 'len 12/13/2015 23:08'!
+!Polynomials methodsFor: 'testing' stamp: 'len 6/1/2016 23:50'!
 includes: anObject
-	^ anObject species = self! !
+	^ (anObject isKindOf: Polynomial) and: [anObject species <= self]! !
 
 !Polynomials methodsFor: 'accessing' stamp: 'len 3/26/2016 05:15'!
 indeterminate
@@ -13060,14 +13100,14 @@ coordinateRing
 degree
 	^ ideal degree! !
 
-!AlgebraicSet methodsFor: 'accessing' stamp: 'len 3/26/2016 05:15'!
+!AlgebraicSet methodsFor: 'accessing' stamp: 'len 6/1/2016 20:54'!
 dimension
 	"This is the trascendence degree of the function field over the ground field."
 	| indeterminates G |
 	G _ ideal groebner minimal.
-	indeterminates _ G indeterminates copy.
+	indeterminates _ G indeterminates asSet copy.
 	G do: [:each|
-		indeterminates removeAllFoundIn: (self groebner ordering headOf: each) indeterminates].
+		indeterminates removeAllFoundIn: (ideal groebner ordering headOf: each) indeterminates].
 	^ indeterminates size! !
 
 !AlgebraicSet methodsFor: 'accessing' stamp: 'len 5/13/2016 07:42'!
@@ -13185,12 +13225,12 @@ union: anAlgebraicSet
 	^ self class on: space ideal: ideal * anAlgebraicSet ideal
 although the intersection is harder to compute, it behavers better with radicalization, because the intersection of two radical ideals is radical and we don't need to compute radicals again"! !
 
-!AlgebraicSet class methodsFor: 'examples' stamp: 'len 5/14/2016 06:16'!
+!AlgebraicSet class methodsFor: 'examples' stamp: 'len 6/1/2016 20:53'!
 ellipticCurve
 	"This is a projective variety, an elliptic curve in P**2."
 	| C Cxyz x y z |
 	C _ AlgebraicNumbers new.
-	Cxyz _ C polynomialsIn: #(1 2 3).
+	Cxyz _ C polynomialsIn: 3.
 	x _ Cxyz x.
 	y _ Cxyz y.
 	z _ Cxyz z.
@@ -13222,12 +13262,12 @@ ideal: anIdeal
 		ifTrue: [self on: (K ** n) projective ideal: anIdeal]
 		ifFalse: [self on: (K ** n) affine ideal: anIdeal]! !
 
-!AlgebraicSet class methodsFor: 'examples' stamp: 'len 5/14/2016 06:21'!
+!AlgebraicSet class methodsFor: 'examples' stamp: 'len 6/1/2016 20:53'!
 kleinQuartic
 	"This is a projective variety, a curve in P**2(C)."
 	| C Cxyz x y z |
 	C _ AlgebraicNumbers new.
-	Cxyz _ C polynomialsIn: #(1 2 3).
+	Cxyz _ C polynomialsIn: 3.
 	x _ Cxyz x.
 	y _ Cxyz y.
 	z _ Cxyz z.
@@ -13248,12 +13288,12 @@ twistedCubic
 	z _ Cxyz z.
 	^ self ideal: Cxyz * {y - (x**2). z - (x**3)}! !
 
-!AlgebraicSet class methodsFor: 'examples' stamp: 'len 5/13/2016 08:15'!
+!AlgebraicSet class methodsFor: 'examples' stamp: 'len 6/1/2016 20:53'!
 unitCircle
 	"This is the (complex) unit circle affine algebraic variety."
 	| C Cxy x y |
 	C _ AlgebraicNumbers new.
-	Cxy _ C polynomialsIn: #(1 2).
+	Cxy _ C polynomialsIn: 2.
 	x _ Cxy x.
 	y _ Cxy y.
 	^ self ideal: Cxy * {x**2 + (y**2) - 1}! !
@@ -17074,6 +17114,11 @@ projection
 	"Answer the projection of the receiver."
 	^ nil! !
 
+!SemialgebraicInterval methodsFor: 'accessing' stamp: 'len 6/1/2016 23:32'!
+rank
+	"Answer the number of indeterminates involved to define the receiver."
+	^ 1! !
+
 !SemialgebraicInterval methodsFor: 'accessing' stamp: 'len 1/17/2016 01:50'!
 sample
 	"Answer a sample point in the receiver."
@@ -17244,11 +17289,13 @@ addAll: aCollection
 	aCollection do: [ :each | self add: each].
 	^ aCollection! !
 
-!SemialgebraicSet methodsFor: 'accessing' stamp: 'len 1/10/98 00:22'!
+!SemialgebraicSet methodsFor: 'morphisms' stamp: 'len 6/1/2016 22:59'!
 boundary
 	"Answer the boundary of the receiver."
-
-	self notYetImplemented! !
+	| answer |
+	answer _ self class new.
+	self cells do: [:each| self addAll: each boundary].
+	^ answer! !
 
 !SemialgebraicSet methodsFor: 'accessing' stamp: 'len 5/30/2016 08:48'!
 cells
@@ -17258,7 +17305,7 @@ cells
 cells: aCollection
 	cells _ aCollection! !
 
-!SemialgebraicSet methodsFor: 'accessing' stamp: 'len 5/30/2016 08:48'!
+!SemialgebraicSet methodsFor: 'morphisms' stamp: 'len 5/30/2016 08:48'!
 closure
 	| answer |
 	answer _ self class new.
@@ -17276,18 +17323,29 @@ collect: aBlock
 	self do: [:each | newCollection add: (aBlock value: each)].
 	^newCollection! !
 
-!SemialgebraicSet methodsFor: 'accessing' stamp: 'len 2/2/2016 22:26'!
+!SemialgebraicSet methodsFor: 'morphisms' stamp: 'len 2/2/2016 22:26'!
 complement
 	^ self notYetImplemented! !
 
-!SemialgebraicSet methodsFor: 'testing' stamp: 'len 3/17/2016 23:49'!
+!SemialgebraicSet methodsFor: 'morphisms' stamp: 'len 6/1/2016 23:34'!
+connectivityGraph
+	"Answer the connectivity graph of the cell complex of the receiver."
+	| answer |
+	answer _ Graph unordered.
+	self do: [:each|
+		each boundary do: [:other|
+			(self cells includes: other) ifTrue: [answer addEdgeFrom: each to: other]]].
+	^ answer! !
+
+!SemialgebraicSet methodsFor: 'testing' stamp: 'len 6/1/2016 23:34'!
 connects: aTuple with: anotherTuple
 	"Answer true if there exists a path in the receiver connecting the two points."
 
 	| a b |
 	a _ self detect: [:one| one includes: aTuple] ifNone: [^ false].
 	b _ self detect: [:one| one includes: anotherTuple] ifNone: [^ false].
-	self graph componentsDo: [:each|
+	self flag: #fix. "inefficient"
+	self connectivityGraph componentsDo: [:each|
 		(each includes: a)
 			ifTrue: [^ each includes: b]
 			ifFalse: [(each includes: b) ifTrue: [^ false]]].
@@ -17326,16 +17384,6 @@ do: aBlock
 
 	self cells do: aBlock! !
 
-!SemialgebraicSet methodsFor: 'accessing' stamp: 'len 5/25/2016 03:46'!
-graph
-	"Answer the connectivity graph of the cell complex of the receiver."
-	| answer |
-	answer _ Graph unordered.
-	self do: [:each|
-		each boundary do: [:other|
-			(self cells includes: other) ifTrue: [answer addEdgeFrom: each to: other]]].
-	^ answer! !
-
 !SemialgebraicSet methodsFor: 'comparing' stamp: 'len 3/18/2016 06:43'!
 hash
 	| answer |
@@ -17351,7 +17399,7 @@ includes: anObject
 "	anObject do: [:each| (self cells includes: each) ifTrue: [^ true]]."
 	^ false! !
 
-!SemialgebraicSet methodsFor: 'accessing' stamp: 'len 1/16/98 21:58'!
+!SemialgebraicSet methodsFor: 'morphisms' stamp: 'len 1/16/98 21:58'!
 interior
 	"Answer the interior of the receiver."
 
@@ -17370,11 +17418,13 @@ printOn: aStream
 	self do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: ', '].
 	aStream nextPut: $}! !
 
-!SemialgebraicSet methodsFor: 'accessing' stamp: 'len 2/5/98 20:44'!
+!SemialgebraicSet methodsFor: 'accessing' stamp: 'len 6/1/2016 22:58'!
 projectionAt: anInteger
 	"Answer the first anInteger components of the receiver."
-
-	^ self collect: [ :each | each projectionAt: anInteger]! !
+	| answer |
+	answer _ self class new.
+	self cells do: [:each| answer addAll: (each projectionAt: anInteger)].
+	^ answer! !
 
 !SemialgebraicSet methodsFor: 'iterating' stamp: 'len 1/16/98 22:08'!
 select: aBlock 
@@ -18758,14 +18808,14 @@ linearPart: aLinearMap translation: aVector
 		from: self domain
 		evaluating: [:each| (self value: each) + (aBilinearForm value: each)]! !
 
-!BilinearForm methodsFor: 'converting' stamp: 'len 3/24/2016 05:53'!
+!BilinearForm methodsFor: 'converting' stamp: 'len 6/1/2016 20:04'!
 asPolynomial
 	| n P x y |
 	n _ basis size.
-	P _ self scalars polynomialsIn: n*2.
+	P _ self scalars polynomialsIn: ((1 to: n) collect: [:i| 'x' asText, i printString sub]), ((1 to: n) collect: [:i| 'y' asText, i printString sub]).
 	x _ Tuple new: n evaluating: [:i| P x: i].
 	y _ Tuple new: n evaluating: [:i| P x: n+i].
-	^ self value: {x. y}! !
+	^ x dot: matrix * y! !
 
 !BilinearForm methodsFor: 'accessing' stamp: 'len 1/8/2016 05:22'!
 basis
@@ -18858,15 +18908,14 @@ matrix: aMatrix
 negated
 	^ self class from: basis matrix: matrix negated! !
 
-!BilinearForm methodsFor: 'printing' stamp: 'len 5/23/2016 04:34'!
+!BilinearForm methodsFor: 'printing' stamp: 'len 6/1/2016 20:01'!
 printOn: aStream
 	basis size = basis ambient dimension
 		ifTrue: [(self class
 					fromHalf: basis ambient
 					evaluating: [:each| self value: each]) asPolynomial
-						printOn: aStream withNames: self defaultNames]
-		ifFalse: [self asPolynomial printOn: aStream withNames: self defaultNames.
-				aStream nextPutAll: ' | '; print: self domain]! !
+						printOn: aStream]
+		ifFalse: [aStream print: self asPolynomial; nextPutAll: ' | '; print: self domain]! !
 
 !BilinearForm methodsFor: 'operations' stamp: 'len 1/8/2016 06:29'!
 rank
@@ -19552,16 +19601,10 @@ projectionOn: aLinearSubspace
 	domain _ domainBasis span.
 	^ self from: domain to: domain evaluating: [:v| (basis includes: v) ifTrue: [v] ifFalse: [v-v]]! !
 
-!LinearForm methodsFor: 'converting' stamp: 'len 5/25/2016 23:11'!
-asEquation
-	"Answer the homogeneous equation 'self = 0'."
-
-	^ self eq: self codomain zero! !
-
-!LinearForm methodsFor: 'converting' stamp: 'len 5/23/2016 04:39'!
+!LinearForm methodsFor: 'converting' stamp: 'len 6/1/2016 06:10'!
 asPolynomial
 	| answer term c polynomials x x` |
-	polynomials _ self domain scalars polynomialsIn: (1 to: self domain ambient dimension).
+	polynomials _ self domain scalars polynomialsIn: self domain ambient dimension.
 	x _ Tuple new: self domain ambient dimension evaluating: [:i| polynomials x: i].
 	x` _ (domainBasis matrix apply: polynomials embedding) * x.
 	answer _ polynomials zero.
@@ -20114,80 +20157,6 @@ value: aTuple
 from: anAlgebraicVariety to: anotherAlgebraicVariety components: aTupleOfPolynomials
 	^ self new domain: anAlgebraicVariety; codomain: anotherAlgebraicVariety; components: aTupleOfPolynomials! !
 
-!PolynomialRootFunction methodsFor: 'as yet unclassified' stamp: 'len 5/30/2016 06:44'!
-= aPolynomialRootFunction
-	(aPolynomialRootFunction isKindOf: self class) ifFalse: [^ false].
-	^ self polynomial = aPolynomialRootFunction polynomial and: [self index = aPolynomialRootFunction index]! !
-
-!PolynomialRootFunction methodsFor: 'accessing' stamp: 'len 4/17/2016 06:42'!
-codomain
-	^ RealAlgebraicNumbers new! !
-
-!PolynomialRootFunction methodsFor: 'accessing' stamp: 'len 5/30/2016 06:58'!
-domain
-	^ RealAlgebraicNumbers new ** (self polynomials anyOne species rank - 1)! !
-
-!PolynomialRootFunction methodsFor: 'as yet unclassified' stamp: 'len 5/30/2016 06:42'!
-hash
-	^ (self polynomial hash + self index) hashMultiply! !
-
-!PolynomialRootFunction methodsFor: 'accessing' stamp: 'len 3/17/2016 23:52'!
-index
-	^ index! !
-
-!PolynomialRootFunction methodsFor: 'accessing-private' stamp: 'len 12/14/97 21:11'!
-index: anInteger
-	index _ anInteger! !
-
-!PolynomialRootFunction methodsFor: 'accessing' stamp: 'len 5/30/2016 06:38'!
-polynomial
-	^ self polynomials product! !
-
-!PolynomialRootFunction methodsFor: 'accessing' stamp: 'len 3/17/2016 23:52'!
-polynomials
-	^ polynomials! !
-
-!PolynomialRootFunction methodsFor: 'accessing-private' stamp: 'len 5/30/2016 06:01'!
-polynomials: aPolynomialSet
-	(aPolynomialSet allSatisfy: [:each| each species scalars class == Rationals]) ifFalse: [self error: 'not polynomials in Q[x]'].
-	polynomials _ aPolynomialSet! !
-
-!PolynomialRootFunction methodsFor: 'as yet unclassified' stamp: 'len 5/30/2016 07:02'!
-printOn: aStream
-	polynomials do: [:f|
-		aStream nextPut: $(; print: f; nextPut: $)].
-	aStream space; print: index; nextPutAll: '-root'.! !
-
-!PolynomialRootFunction methodsFor: 'operations' stamp: 'len 5/30/2016 06:57'!
-value: aTuple
-	| roots f polys Rx x |
-	aTuple size = self domain rank ifFalse: [self error: 'asfd'].
-	roots _ Set new.
-	polys _ Set new.
-	Rx _ RealAlgebraicNumbers new polynomials.
-	x _  Rx x.
-	self polynomials do: [:each|
-		f _ (each value: ((aTuple collect: [:t| Rx constant: t]), x))
-				coefficientsApply: [:coeff|
-					coeff isAlgebraic ifTrue: [coeff asRational] ifFalse: [coeff]].
-		polys do: [:some| f _ f // (f gcd: some)].
-		roots addAll: (RealRootFinder polynomial: f) roots.
-		polys add: f].
-	^ roots asSortedCollection at: self index! !
-
-!PolynomialRootFunction class methodsFor: 'instance creation' stamp: 'len 3/17/2016 04:21'!
-polynomial: aPolynomial index: anInteger
-	"Answer a new instance of the receiver representing the anInteger-th root function for the polynomial aPolynomial."
-
-	^ self polynomials: {aPolynomial} index: anInteger! !
-
-!PolynomialRootFunction class methodsFor: 'instance creation' stamp: 'len 12/14/97 21:50'!
-polynomials: aPolynomialSet index: anInteger
-	"Answer a new instance of the receiver representing the
-	anInteger-th root function for the polynomials in aPolynomialSet."
-
-	^ self new polynomials: aPolynomialSet; index: anInteger! !
-
 !ProjectiveMap methodsFor: 'comparing' stamp: 'len 2/22/2016 00:56'!
 = aProjectiveMap
 	(aProjectiveMap isKindOf: ProjectiveMap) ifFalse: [^ false].
@@ -20459,6 +20428,80 @@ rename: anInteger to: anotherInteger
 !RationalParametrization class methodsFor: 'instance creation' stamp: 'len 3/16/2016 05:38'!
 from: domain to: codomain components: anArrayOfRationalFunctions
 	^ self new domain: domain; codomain: codomain; components: anArrayOfRationalFunctions! !
+
+!RealRootFunction methodsFor: 'as yet unclassified' stamp: 'len 5/30/2016 06:44'!
+= aPolynomialRootFunction
+	(aPolynomialRootFunction isKindOf: self class) ifFalse: [^ false].
+	^ self polynomial = aPolynomialRootFunction polynomial and: [self index = aPolynomialRootFunction index]! !
+
+!RealRootFunction methodsFor: 'accessing' stamp: 'len 4/17/2016 06:42'!
+codomain
+	^ RealAlgebraicNumbers new! !
+
+!RealRootFunction methodsFor: 'accessing' stamp: 'len 5/30/2016 06:58'!
+domain
+	^ RealAlgebraicNumbers new ** (self polynomials anyOne species rank - 1)! !
+
+!RealRootFunction methodsFor: 'as yet unclassified' stamp: 'len 5/30/2016 06:42'!
+hash
+	^ (self polynomial hash + self index) hashMultiply! !
+
+!RealRootFunction methodsFor: 'accessing' stamp: 'len 3/17/2016 23:52'!
+index
+	^ index! !
+
+!RealRootFunction methodsFor: 'accessing-private' stamp: 'len 12/14/97 21:11'!
+index: anInteger
+	index _ anInteger! !
+
+!RealRootFunction methodsFor: 'accessing' stamp: 'len 5/30/2016 06:38'!
+polynomial
+	^ self polynomials product! !
+
+!RealRootFunction methodsFor: 'accessing' stamp: 'len 3/17/2016 23:52'!
+polynomials
+	^ polynomials! !
+
+!RealRootFunction methodsFor: 'accessing-private' stamp: 'len 5/30/2016 06:01'!
+polynomials: aPolynomialSet
+	(aPolynomialSet allSatisfy: [:each| each species scalars class == Rationals]) ifFalse: [self error: 'not polynomials in Q[x]'].
+	polynomials _ aPolynomialSet! !
+
+!RealRootFunction methodsFor: 'as yet unclassified' stamp: 'len 5/30/2016 07:02'!
+printOn: aStream
+	polynomials do: [:f|
+		aStream nextPut: $(; print: f; nextPut: $)].
+	aStream space; print: index; nextPutAll: '-root'.! !
+
+!RealRootFunction methodsFor: 'operations' stamp: 'len 6/1/2016 22:48'!
+value: aTuple
+	| roots f polys Rx x |
+	aTuple size = self domain rank ifFalse: [self error: 'the arity of the argument should match the number of indeterminates'].
+	roots _ Set new.
+	polys _ Set new.
+	Rx _ RealAlgebraicNumbers new polynomials.
+	x _  Rx x.
+	self polynomials do: [:each|
+		f _ (each value: ((aTuple collect: [:t| Rx constant: t]), x))
+				coefficientsApply: [:coeff|
+					coeff isAlgebraic ifTrue: [coeff asRational] ifFalse: [coeff]].
+		polys do: [:some| f _ f // (f gcd: some)].
+		roots addAll: (RealRootFinder polynomial: f) roots.
+		polys add: f].
+	^ roots asSortedCollection at: self index! !
+
+!RealRootFunction class methodsFor: 'instance creation' stamp: 'len 3/17/2016 04:21'!
+polynomial: aPolynomial index: anInteger
+	"Answer a new instance of the receiver representing the anInteger-th root function for the polynomial aPolynomial."
+
+	^ self polynomials: {aPolynomial} index: anInteger! !
+
+!RealRootFunction class methodsFor: 'instance creation' stamp: 'len 12/14/97 21:50'!
+polynomials: aPolynomialSet index: anInteger
+	"Answer a new instance of the receiver representing the
+	anInteger-th root function for the polynomials in aPolynomialSet."
+
+	^ self new polynomials: aPolynomialSet; index: anInteger! !
 
 !SemilinearMap methodsFor: 'accessing' stamp: 'len 2/9/2016 00:07'!
 automorphism
@@ -24937,10 +24980,10 @@ printExponent: anInteger on: aStream
 		ifTrue: [aStream nextPutAll: exponent]
 		ifFalse: [aStream nextPut: ${; nextPutAll: exponent; nextPut: $}]! !
 
-!Monomial methodsFor: 'printing' stamp: 'len 4/5/2016 18:25'!
+!Monomial methodsFor: 'printing' stamp: 'len 6/1/2016 20:08'!
 printIndeterminate: indeterminate on: aStream
 	indeterminate isInteger
-		ifFalse: [aStream nextPutAll: indeterminate asString. ^ self].
+		ifFalse: [aStream nextPutAll: indeterminate displayStringOrText. ^ self].
 	(aStream isKindOf: TextStream)
 		ifTrue: [aStream nextPut: $x. aStream withAttribute: TextEmphasis subscript do: [aStream print: indeterminate]]
 		ifFalse:[aStream nextPutAll: '{x', indeterminate printString, '}']! !
@@ -26833,6 +26876,17 @@ apply: aMorphism
 	aMorphism domain = self scalars ifTrue: [^ self coefficientsApply: aMorphism].
 	^ DomainError signal! !
 
+!Polynomial methodsFor: 'converting' stamp: 'len 6/1/2016 20:17'!
+asBilinearForm
+	(self degree = 2 and: [self isHomogeneous]) ifFalse: [^ self error: 'not homogeneous of degree 2'].
+	self species rank even ifFalse: [^ self error: 'not even rank'].
+	^ BilinearForm fromHalf: (self scalars ** (self species rank / 2)) evaluating: [:each| self value: each first, each second]! !
+
+!Polynomial methodsFor: 'converting' stamp: 'len 6/1/2016 19:54'!
+asLinearForm
+	self isLinear ifFalse: [^ self error: 'not a linear polynomial'].
+	^ (self scalars ** self species rank) dual evaluating: self! !
+
 !Polynomial methodsFor: 'converting' stamp: 'len 5/22/2016 22:57'!
 asMultivariate
 	"Convert a polynomial in R[x][y][z] to a polynomial in R[x,y,z]."
@@ -26927,14 +26981,14 @@ coefficientAtDegree: anInteger in: anotherInteger
 	self flag: #fix. "slow and ugly"
 	^ (self asUnivariateIn: anotherInteger) coefficientAtDegree: anInteger! !
 
-!Polynomial methodsFor: 'iterating' stamp: 'len 3/30/2016 02:31'!
+!Polynomial methodsFor: 'iterating' stamp: 'len 6/1/2016 20:59'!
 coefficientsApply: aMorphism
 	"Answer a new polynomial with coefficients obtainted by applying aMorphism to the coefficients of the receiver. This morphism is a ring homomorphism from the scalars ring.
 	If aMorphism is a block we assume the species doesn't change, i.e. the block must evaluate to values within the scalars ring of the receiver."
 
 	| newSpecies |
 	newSpecies _ (aMorphism isKindOf: Function)
-		ifTrue: [aMorphism codomain polynomialsIn: self species indeterminates ordering: self species ordering]
+		ifTrue: [self species over: aMorphism codomain]
 		ifFalse: [self species].
 	^ newSpecies coefficients: (self coefficients collect: aMorphism)! !
 
@@ -27171,14 +27225,13 @@ has: anIndeterminate
 hash
 	^ self coefficients hash! !
 
-!Polynomial methodsFor: 'operations' stamp: 'len 3/26/2016 05:21'!
+!Polynomial methodsFor: 'operations' stamp: 'len 6/1/2016 21:01'!
 hessian
 	"Answer the Hessian matrix of the receiver."
-	| R vars |
+	| n |
 	self flag: #fix. "optimize"
-	R _ self species.
-	vars _ R ordering indeterminates.
-	^ R ** (vars size @ vars size) evaluating: [:i :j| (self derivativeIn: (vars at: i)) derivativeIn: (vars at: j)]! !
+	n _ self species rank.
+	^ self species ** (n @ n) evaluating: [:i :j| (self derivativeIn: i) derivativeIn: j]! !
 
 !Polynomial methodsFor: 'operations' stamp: 'len 5/20/2016 03:43'!
 homogenized
@@ -27760,6 +27813,12 @@ reduced
 	self indeterminates do: [:each| g _ g gcd: (self derivativeIn: each)].
 	^ self / g! !
 
+!Polynomial methodsFor: 'operations' stamp: 'len 6/1/2016 20:43'!
+rename: anInteger to: anotherInteger
+	"Rename the anInteger-th indeterminate of the receiver to anotherInteger."
+	(self indeterminates includes: anotherInteger) ifFalse: [^ self error: 'unknown indeterminate'].
+	^ self value: ((1 to: self species rank) collect: [:i| self species x: (i = anInteger ifTrue: [anotherInteger] ifFalse: [i])])! !
+
 !Polynomial methodsFor: 'operations univariate' stamp: 'len 11/24/2015 06:16'!
 resultant2: aPolynomial
 	"Answer the resultant of the receiver with the argument."
@@ -27834,7 +27893,7 @@ roots
 	"Answer the roots (counted with multiplicity) in the coefficients ring or field."
 	^ self rootsIn: self scalars! !
 
-!Polynomial methodsFor: 'roots' stamp: 'len 5/12/2016 08:06'!
+!Polynomial methodsFor: 'roots' stamp: 'len 6/1/2016 21:35'!
 rootsIn: aField
 	"Answer the roots (conted with multiplicaity) in the given domain."
 	(aField isField and: [aField isFinite]) ifTrue: [^ (FiniteFieldRootFinder polynomial: self) roots].
@@ -27842,7 +27901,8 @@ rootsIn: aField
 	(aField isKindOf: AlgebraicNumbers) ifTrue: [^ (NumericComplexRootFinder polynomial: self) roots].
 	(aField isKindOf: RealAlgebraicNumbers) ifTrue: [^ (RealRootFinder polynomial: self) roots].
 	(aField isKindOf: Integers) ifTrue: [^ (RationalRootFinder polynomial: self) roots select: [:each| each isInteger]].
-"	aField isFinite ifTrue: [aField elements select: [:each| (self value: each) isZero]."
+	self flag: #fix. "count multiplicity"
+	aField isFinite ifTrue: [^ aField elements select: [:each| (self value: each) isZero]].
 	^ self error: 'unknown domain'! !
 
 !Polynomial methodsFor: 'accessing' stamp: 'len 11/26/2015 03:07'!
@@ -28170,16 +28230,16 @@ value4: anObject in: anIndeterminate
 		reverseDo: [:each| answer _ anObject * answer + (one * each)].
 	^ answer! !
 
-!Polynomial methodsFor: 'operations' stamp: 'len 5/30/2016 18:15'!
+!Polynomial methodsFor: 'operations' stamp: 'len 6/1/2016 22:49'!
 value: anObject
 	"Answer the value of the receiver at the argument. For multivariate polynomials, a Tuple or Array is expected."
-	| answer mapping |
+	| answer |
 	((anObject is: #Tuple) or: [anObject class == Array])
 		ifFalse: [^ self value: anObject in: self leadingIndeterminate].
-	mapping _ Dictionary accumulate: [:aBlock| (self species ordering indeterminates with: anObject do: [:i :xi| aBlock value: i -> xi])].
+	anObject size = self species rank ifFalse: [self error: 'the arity of the argument should match the number of indeterminates'].
 	answer _ (anObject at: 1) zero.
 	self monomialsAndCoefficientsDo: [:key :value|
-		answer _ (key isIdentity ifTrue: [value] ifFalse: [(key value: mapping) * value]) + answer].
+		answer _ (key isIdentity ifTrue: [value] ifFalse: [(key value: anObject) * value]) + answer].
 	^ answer! !
 
 !Polynomial methodsFor: 'operations' stamp: 'len 3/30/2016 03:56'!
@@ -28735,13 +28795,10 @@ reduced
 
 	^ self copy! !
 
-!PolynomialEquation methodsFor: 'operations' stamp: 'len 11/24/2015 06:08'!
+!PolynomialEquation methodsFor: 'operations' stamp: 'len 6/1/2016 23:18'!
 rename: anInteger to: anotherInteger 
 	"Rename the anInteger-th indeterminate of the receiver to anotherInteger."
-	| xi |
-	self halt. "move to Polynomial"
-	xi _ self polynomial class x: anotherInteger.
-	self polynomial: (self polynomial value: xi in: anInteger)! !
+	self polynomial: (self polynomial rename: anInteger to: anotherInteger)! !
 
 !PolynomialEquation class methodsFor: 'instance creation' stamp: 'len 7/30/97 23:45'!
 polynomial: aPolynomial
@@ -28882,13 +28939,10 @@ reduced
 
 	^ self copy! !
 
-!PolynomialInequality methodsFor: 'operations' stamp: 'len 5/30/2016 09:21'!
-rename: anInteger to: anotherInteger
+!PolynomialInequality methodsFor: 'operations' stamp: 'len 6/1/2016 23:19'!
+rename: anInteger to: anotherInteger 
 	"Rename the anInteger-th indeterminate of the receiver to anotherInteger."
-	| xi |
-	self flag: #fix. "move to Polynomial"
-	xi _ self polynomial species x: anotherInteger.
-	self polynomial: (self polynomial value: xi in: anInteger)! !
+	self polynomial: (self polynomial rename: anInteger to: anotherInteger)! !
 
 !PolynomialInequality class methodsFor: 'instance creation' stamp: 'len 12/16/97 00:00'!
 polynomial: aPolynomial
@@ -29616,12 +29670,6 @@ copy
 		prefix: (self prefix collect: [ :each | each copy])
 		matrix: self matrix copy! !
 
-!QuantifiedSentence methodsFor: 'private' stamp: 'len 2/29/2016 04:07'!
-defaultNames
-	"Answer the default names for the indeterminates."
-
-	^ Monomial defaultNames! !
-
 !QuantifiedSentence methodsFor: 'arithmetic' stamp: 'len 12/21/97 21:24'!
 exists: anInteger
 	"Answer the quantification of the reciever by the
@@ -29821,12 +29869,11 @@ prefix: aCollection matrix: anObject
 	answer prefix addAll: aCollection.
 	^ answer! !
 
-!QuantifiedSentence class methodsFor: 'instance creation' stamp: 'len 2/5/98 20:32'!
+!QuantifiedSentence class methodsFor: 'instance creation' stamp: 'len 6/1/2016 23:15'!
 quantifier: aQuantifier matrix: anObject
-	"Answer a new instance of the receiver with
-	the quantifier and matrix given by the arguments."
+	"Answer a new instance of the receiver with the quantifier and matrix given by the arguments."
 
-	^ self prefix: (Array with: aQuantifier) matrix: anObject! !
+	^ self prefix: {aQuantifier} matrix: anObject! !
 
 !Quantifier methodsFor: 'copying' stamp: 'len 2/14/98 13:30'!
 copy
@@ -30956,11 +31003,11 @@ schreierVectorOf: aPoint
 		and: [self projection = anObject projection
 			and: [self left = anObject left and: [self right = anObject right]]]! !
 
-!SemialgebraicCell methodsFor: 'accessing' stamp: 'len 1/17/98 14:26'!
+!SemialgebraicCell methodsFor: 'morphisms' stamp: 'len 6/1/2016 21:32'!
 boundary
 	"Answer the boundary of the receiver."
 
-"	| answer |
+	| answer |
 	answer _ SemialgebraicSet new.
 	self projection boundary do: [ :each |
 		answer
@@ -30970,8 +31017,7 @@ boundary
 	answer
 		add: (self class projection: self projection between: self left and: self left);
 		add: (self class projection: self projection between: self right and: self right).
-	^ answer"
-	self notYetImplemented! !
+	^ answer! !
 
 !SemialgebraicCell methodsFor: 'accessing' stamp: 'len 5/30/2016 18:56'!
 boundsAt: aTuple
@@ -30986,7 +31032,7 @@ boundsAt: aTuple
 		ifFalse: [self right value: aTuple].
 	^ SemialgebraicInterval between: lbound and: rbound! !
 
-!SemialgebraicCell methodsFor: 'accessing' stamp: 'len 1/8/98 20:28'!
+!SemialgebraicCell methodsFor: 'morphisms' stamp: 'len 1/8/98 20:28'!
 closure
 	"Answer the closure of the receiver."
 
@@ -31012,7 +31058,7 @@ includes: aTuple
 	pi _ aTuple copyFrom: 1 to: aTuple size - 1.
 	^ (self projection includes: pi) and: [(self boundsAt: pi) includes: aTuple last]! !
 
-!SemialgebraicCell methodsFor: 'accessing' stamp: 'len 1/16/98 21:58'!
+!SemialgebraicCell methodsFor: 'morphisms' stamp: 'len 1/16/98 21:58'!
 interior
 	"Answer the interior of the receiver."
 
@@ -31038,14 +31084,16 @@ left
 left: anObject
 	left _ anObject! !
 
-!SemialgebraicCell methodsFor: 'accessing' stamp: 'len 1/17/98 13:49'!
+!SemialgebraicCell methodsFor: 'accessing' stamp: 'len 6/2/2016 00:08'!
 polynomials
 	"Answer the polynomials defining the receiver."
 
-	| answer |
-	answer _ self projection polynomials.
+	| R answer |
+	answer _ Set new.
 	self left isInfinity ifFalse: [answer addAll: self left polynomials].
 	self right isInfinity ifFalse: [answer addAll: self right polynomials].
+	R _ answer isEmpty ifTrue: [Rationals new polynomialsIn: self rank] ifFalse: [answer anyOne species].
+	self projection polynomials do: [:each| answer add: (each as: R)].
 	^ answer! !
 
 !SemialgebraicCell methodsFor: 'printing' stamp: 'len 2/6/98 13:04'!
@@ -31074,6 +31122,11 @@ projectionAt: anInteger
 	cell _ self.
 	[(cell _ cell projection) notNil] whileTrue: [projections addFirst: cell].
 	^ projections at: anInteger! !
+
+!SemialgebraicCell methodsFor: 'accessing' stamp: 'len 6/1/2016 23:32'!
+rank
+	"Answer the number of indeterminates involved to define the receiver."
+	^ self projection rank + 1! !
 
 !SemialgebraicCell methodsFor: 'accessing-private' stamp: 'len 12/14/97 21:33'!
 right
