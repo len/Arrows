@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2752] on 2 June 2016 at 12:11:22.260976 am'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2752] on 2 June 2016 at 5:24:53.066956 am'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 76!
+!provides: 'Mathematics' 1 77!
 !classDefinition: #AbelianGroupPresentation category: #'Mathematics-Free'!
 Object subclass: #AbelianGroupPresentation
 	instanceVariableNames: 'generators relators'
@@ -3141,6 +3141,16 @@ TestCase subclass: #RootSystemTest
 RootSystemTest class
 	instanceVariableNames: ''!
 
+!classDefinition: #SemialgebraicGeometryTest category: #'Mathematics-Tests'!
+TestCase subclass: #SemialgebraicGeometryTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Tests'!
+!classDefinition: 'SemialgebraicGeometryTest class' category: #'Mathematics-Tests'!
+SemialgebraicGeometryTest class
+	instanceVariableNames: ''!
+
 !classDefinition: #SequenceTest category: #'Mathematics-Tests'!
 TestCase subclass: #SequenceTest
 	instanceVariableNames: ''
@@ -5326,6 +5336,17 @@ prenex
 
 	^ self reduced normalized privatePrenex! !
 
+!BooleanConnective methodsFor: 'printing' stamp: 'len 6/2/2016 01:40'!
+printOn: aStream
+	left class = self class
+		ifTrue: [aStream print: left]
+		ifFalse: [aStream nextPut: $(; print: left; nextPut: $)].
+	aStream space; nextPutAll: self operatorName bold; space.
+	right class = self class
+		ifTrue: [aStream print: right]
+		ifFalse: [aStream nextPut: $(; print: right; nextPut: $)]
+! !
+
 !BooleanConnective methodsFor: 'private' stamp: 'len 12/31/97 02:26'!
 privatePrenex
 	"Answer the prenex form of the receiver.
@@ -5380,14 +5401,9 @@ not
 
 	^ self left not | self right not! !
 
-!ConjunctionConnective methodsFor: 'printing' stamp: 'len 12/18/97 20:14'!
-printOn: aStream
-	"Print a representation of the receiver on the stream aStream."
-
-	aStream
-		nextPut: $(; print: self left; nextPut: $);
-		nextPutAll: ' /\ ';
-		nextPut: $(; print: self right; nextPut: $)! !
+!ConjunctionConnective methodsFor: 'printing' stamp: 'len 6/2/2016 01:34'!
+operatorName
+	^ '&'! !
 
 !DisjunctionConnective methodsFor: 'testing' stamp: 'len 12/18/97 19:44'!
 isSolution: anObject
@@ -5401,14 +5417,9 @@ not
 
 	^ self left not & self right not! !
 
-!DisjunctionConnective methodsFor: 'printing' stamp: 'len 12/18/97 20:14'!
-printOn: aStream
-	"Print a representation of the receiver on the stream aStream."
-
-	aStream
-		nextPut: $(; print: self left; nextPut: $);
-		nextPutAll: ' \/ ';
-		nextPut: $(; print: self right; nextPut: $)! !
+!DisjunctionConnective methodsFor: 'printing' stamp: 'len 6/2/2016 01:34'!
+operatorName
+	^ '|'! !
 
 !ImplicationConnective methodsFor: 'testing' stamp: 'len 12/18/97 19:47'!
 isSolution: anObject
@@ -5422,15 +5433,9 @@ not
 
 	^ self left -> self right not! !
 
-!ImplicationConnective methodsFor: 'printing' stamp: 'len 5/31/2016 06:03'!
-printOn: aStream
-	"Print a representation of the receiver on the stream aStream."
-
-	aStream
-		nextPut: $(; print: self left; nextPut: $);
-"		space; nextPut: Character arrowRight; space;"
-		nextPutAll: ' -> ';
-		nextPut: $(; print: self right; nextPut: $)! !
+!ImplicationConnective methodsFor: 'printing' stamp: 'len 6/2/2016 00:28'!
+operatorName
+	^ '->'! !
 
 !CRT methodsFor: 'initialization' stamp: 'len 3/21/2016 03:02'!
 moduli: anArray
@@ -16842,6 +16847,10 @@ isEmpty
 		ifTrue: [self right < self left]
 		ifFalse: [self left > self right]! !
 
+!RealInterval methodsFor: 'testing' stamp: 'len 6/2/2016 05:16'!
+isFinite
+	^ left = right and: [leftOpen not | rightOpen not]! !
+
 !RealInterval methodsFor: 'testing' stamp: 'len 12/13/97 02:14'!
 isHalfOpen
 	"Answer true if the receiver is hald-open."
@@ -17101,12 +17110,13 @@ polynomials
 	self right isInfinity ifFalse: [answer add: self right polynomial].
 	^ answer! !
 
-!SemialgebraicInterval methodsFor: 'printing' stamp: 'len 5/30/2016 19:02'!
+!SemialgebraicInterval methodsFor: 'printing' stamp: 'len 6/2/2016 02:09'!
 printOn: aStream
-	"Print a representation of the receiver on the stream aStream."
-
 	"aStream nextPut: ${; print: self sentence; nextPut: $}"
-	"aStream print: self sample"
+	self dimension >= 0
+		ifFalse: [aStream nextPut: Character emptySet. ^ self].
+	self dimension = 0
+		ifTrue: [aStream nextPut: ${; print: self sample; nextPut: $}. ^ self].
 	super printOn: aStream! !
 
 !SemialgebraicInterval methodsFor: 'accessing' stamp: 'len 2/6/98 12:38'!
@@ -17268,12 +17278,12 @@ printOn: aStream
 on: aSubgroup representative: anObject
 	^ self new subgroup: aSubgroup; representative: anObject! !
 
-!SemialgebraicSet methodsFor: 'comparing' stamp: 'len 1/17/98 12:40'!
+!SemialgebraicSet methodsFor: 'comparing' stamp: 'len 6/2/2016 05:23'!
 = aSemialgebraicSet
-	"Answer true if the receiver equals the argument."
-
-	self do: [ :each | (aSemialgebraicSet cells includes: each) ifFalse: [^ false]].
-	aSemialgebraicSet do: [ :each | (self cells includes: each) ifFalse: [^ false]].
+	self == aSemialgebraicSet ifTrue: [^ true].
+	(aSemialgebraicSet isKindOf: SemialgebraicSet) ifFalse: [^ false].
+	self cells do: [ :each | (aSemialgebraicSet cells includes: each) ifFalse: [^ false]].
+	aSemialgebraicSet cells do: [ :each | (self cells includes: each) ifFalse: [^ false]].
 	^ true! !
 
 !SemialgebraicSet methodsFor: 'accessing' stamp: 'len 1/9/98 21:34'!
@@ -17289,13 +17299,18 @@ addAll: aCollection
 	aCollection do: [ :each | self add: each].
 	^ aCollection! !
 
-!SemialgebraicSet methodsFor: 'morphisms' stamp: 'len 6/1/2016 22:59'!
+!SemialgebraicSet methodsFor: 'morphisms' stamp: 'len 6/2/2016 05:05'!
 boundary
 	"Answer the boundary of the receiver."
 	| answer |
 	answer _ self class new.
-	self cells do: [:each| self addAll: each boundary].
+	self cells do: [:each| answer addAll: each boundary].
 	^ answer! !
+
+!SemialgebraicSet methodsFor: 'accessing' stamp: 'len 6/2/2016 04:48'!
+boundingBox
+	"Answer a tight bounding box of the receiver, assuming it's bounded."
+	^ self notYetImplemented! !
 
 !SemialgebraicSet methodsFor: 'accessing' stamp: 'len 5/30/2016 08:48'!
 cells
@@ -17327,23 +17342,25 @@ collect: aBlock
 complement
 	^ self notYetImplemented! !
 
-!SemialgebraicSet methodsFor: 'morphisms' stamp: 'len 6/1/2016 23:34'!
+!SemialgebraicSet methodsFor: 'accessing' stamp: 'len 6/2/2016 04:19'!
 connectivityGraph
 	"Answer the connectivity graph of the cell complex of the receiver."
 	| answer |
 	answer _ Graph unordered.
-	self do: [:each|
-		each boundary do: [:other|
-			(self cells includes: other) ifTrue: [answer addEdgeFrom: each to: other]]].
+	self do: [:v|
+		| vBar |
+		vBar _ v closure.
+		self do: [:u|
+			(vBar cells includes: u) ifTrue: [answer addEdgeFrom: u to: v]]].
 	^ answer! !
 
-!SemialgebraicSet methodsFor: 'testing' stamp: 'len 6/1/2016 23:34'!
+!SemialgebraicSet methodsFor: 'testing' stamp: 'len 6/2/2016 05:18'!
 connects: aTuple with: anotherTuple
 	"Answer true if there exists a path in the receiver connecting the two points."
 
 	| a b |
-	a _ self detect: [:one| one includes: aTuple] ifNone: [^ false].
-	b _ self detect: [:one| one includes: anotherTuple] ifNone: [^ false].
+	a _ self cells detect: [:one| one includes: aTuple] ifNone: [^ false].
+	b _ self cells detect: [:one| one includes: anotherTuple] ifNone: [^ false].
 	self flag: #fix. "inefficient"
 	self connectivityGraph componentsDo: [:each|
 		(each includes: a)
@@ -17351,23 +17368,21 @@ connects: aTuple with: anotherTuple
 			ifFalse: [(each includes: b) ifTrue: [^ false]]].
 	^ false! !
 
-!SemialgebraicSet methodsFor: 'copying' stamp: 'len 1/16/98 21:59'!
+!SemialgebraicSet methodsFor: 'copying' stamp: 'len 6/2/2016 05:20'!
 copy
-	"Answer a copy of the receiver."
+	^ self class cells: self cells copy! !
 
-	^ self class basicNew cells: self cells copy! !
-
-!SemialgebraicSet methodsFor: 'copying' stamp: 'len 1/16/98 22:02'!
+!SemialgebraicSet methodsFor: 'copying' stamp: 'len 6/2/2016 05:20'!
 copyWithoutAll: aCollection
 	"Answer a copy of the receiver without all the cells in aCollection."
 
-	^ self select: [ :each | (aCollection includes: each) not]! !
+	^ self class cells: (self cells select: [:each| (aCollection includes: each) not])! !
 
-!SemialgebraicSet methodsFor: 'accessing' stamp: 'len 2/5/98 20:45'!
+!SemialgebraicSet methodsFor: 'accessing' stamp: 'len 6/2/2016 05:03'!
 cylinderAt: aCell
 	"Answer the subset of the receiver cylindrical over aCell."
 
-	^ self select: [ :each | each isCylindricalOver: aCell]! !
+	^ self class cells: (self cells select: [:each| each isCylindricalOver: aCell])! !
 
 !SemialgebraicSet methodsFor: 'iterating' stamp: 'len 1/10/98 00:24'!
 detect: aBlock ifNone: exceptionBlock 
@@ -17378,25 +17393,26 @@ detect: aBlock ifNone: exceptionBlock
 	self do: [:each | (aBlock value: each) ifTrue: [^ each]].
 	^ exceptionBlock value! !
 
+!SemialgebraicSet methodsFor: 'accessing' stamp: 'len 6/2/2016 04:42'!
+dimension
+	"Answer the topological dimension of the receiver."
+	self isEmpty ifTrue: [^ -1].
+	^ self cells max: [:each| each dimension]! !
+
 !SemialgebraicSet methodsFor: 'iterating' stamp: 'len 12/14/97 21:47'!
 do: aBlock
 	"Enumerate the cells of the receiver."
 
 	self cells do: aBlock! !
 
-!SemialgebraicSet methodsFor: 'comparing' stamp: 'len 3/18/2016 06:43'!
+!SemialgebraicSet methodsFor: 'comparing' stamp: 'len 6/2/2016 05:22'!
 hash
-	| answer |
-	answer _ self class hash.
-	self do: [:each| answer _ answer + each hash].
-	^ answer! !
+	^ (self cells inject: self class hash into: [:answer :each| answer + each hash]) hashMultiply! !
 
-!SemialgebraicSet methodsFor: 'testing' stamp: 'len 5/30/2016 08:50'!
+!SemialgebraicSet methodsFor: 'testing' stamp: 'len 6/2/2016 05:19'!
 includes: anObject
 	(anObject is: #Tuple)
 		ifTrue: [^ self cells anySatisfy: [:any| any includes: anObject]].
-	self error: 'not a tuple'.
-"	anObject do: [:each| (self cells includes: each) ifTrue: [^ true]]."
 	^ false! !
 
 !SemialgebraicSet methodsFor: 'morphisms' stamp: 'len 1/16/98 21:58'!
@@ -17405,18 +17421,45 @@ interior
 
 	^ self closure copyWithoutAll: self boundary! !
 
+!SemialgebraicSet methodsFor: 'morphisms' stamp: 'len 6/2/2016 05:06'!
+intersection: aSemialgebraicSet
+	^ self notYetImplemented! !
+
+!SemialgebraicSet methodsFor: 'testing' stamp: 'len 6/2/2016 04:07'!
+isBounded
+	^ self cells allSatisfy: [:each| each isBounded]! !
+
+!SemialgebraicSet methodsFor: 'testing' stamp: 'len 6/2/2016 04:43'!
+isClosed
+	^ self cells allSatisfy: [:each| each isClosed]! !
+
+!SemialgebraicSet methodsFor: 'testing' stamp: 'len 6/2/2016 04:49'!
+isConnected
+	^ self connectivityGraph isConnected! !
+
 !SemialgebraicSet methodsFor: 'testing' stamp: 'len 2/6/98 12:35'!
 isEmpty
 	"Answer true if the receiver is empty."
 
 	^ self cells isEmpty! !
 
-!SemialgebraicSet methodsFor: 'printing' stamp: 'len 5/30/2016 08:42'!
+!SemialgebraicSet methodsFor: 'testing' stamp: 'len 6/2/2016 04:48'!
+isFinite
+	^ self cells allSatisfy: [:each| each isFinite]! !
+
+!SemialgebraicSet methodsFor: 'testing' stamp: 'len 6/2/2016 04:43'!
+isOpen
+	^ self cells allSatisfy: [:each| each isOpen]! !
+
+!SemialgebraicSet methodsFor: 'accessing' stamp: 'len 6/2/2016 04:01'!
+polynomials
+	^ self cells inject: Set new into: [:answer :each| answer addAll: each polynomials; yourself]! !
+
+!SemialgebraicSet methodsFor: 'printing' stamp: 'len 6/2/2016 05:18'!
 printOn: aStream
-	"aStream nextPut: ${; print: self sentence; nextPut: $}"
-	aStream nextPut: ${.
-	self do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: ', '].
-	aStream nextPut: $}! !
+	"aStream nextPut: ${; print: self sentence; nextPut: $}"	
+	self isEmpty ifTrue: [aStream nextPut: Character emptySet].
+	self cells do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: ' U ' bold]! !
 
 !SemialgebraicSet methodsFor: 'accessing' stamp: 'len 6/1/2016 22:58'!
 projectionAt: anInteger
@@ -17425,6 +17468,16 @@ projectionAt: anInteger
 	answer _ self class new.
 	self cells do: [:each| answer addAll: (each projectionAt: anInteger)].
 	^ answer! !
+
+!SemialgebraicSet methodsFor: 'accessing' stamp: 'len 6/2/2016 04:25'!
+rank
+	^ self cells anyOne rank! !
+
+!SemialgebraicSet methodsFor: 'accessing' stamp: 'len 6/2/2016 04:41'!
+sample
+	"Answer a sample point in the receiver."
+
+	^ self cells anyOne sample! !
 
 !SemialgebraicSet methodsFor: 'iterating' stamp: 'len 1/16/98 22:08'!
 select: aBlock 
@@ -17443,6 +17496,10 @@ sentence
 
 	self isEmpty ifTrue: [^ Rationals new polynomials x squared lneq: 0].
 	^ self cells collect: [:each| each sentence] andFold: [:a :b| a | b]! !
+
+!SemialgebraicSet methodsFor: 'morphisms' stamp: 'len 6/2/2016 05:02'!
+union: aSemialgebraicSet
+	^ self class cells: self cells, aSemialgebraicSet cells! !
 
 !SemialgebraicSet class methodsFor: 'examples' stamp: 'len 3/24/2016 06:09'!
 ball
@@ -17487,6 +17544,16 @@ circunference
 	y _ Qxy y.
 	^ self cad: {x squared + y squared - 1}
 		:: select: [ :each | each sample norm2 = 1]! !
+
+!SemialgebraicSet class methodsFor: 'examples' stamp: 'len 6/2/2016 04:56'!
+closedCircle
+	"Answer the closed unitary circle in R^2."
+	| Qxy x y |
+	Qxy _ Rationals new polynomialsIn: #(x y).
+	x _ Qxy x.
+	y _ Qxy y.
+	^ self cad: {x squared + y squared - 1}
+		:: select: [ :each | each sample norm2 <= 1]! !
 
 !SemialgebraicSet class methodsFor: 'instance creation' stamp: 'len 5/30/2016 08:46'!
 new
@@ -28776,11 +28843,9 @@ prenex
 
 	^ self reduced normalized privatePrenex! !
 
-!PolynomialEquation methodsFor: 'printing' stamp: 'len 7/30/97 23:51'!
+!PolynomialEquation methodsFor: 'printing' stamp: 'len 6/2/2016 01:43'!
 printOn: aStream
-	"Print a representation of the receiver on the stream aStream."
-
-	aStream print: self polynomial; nextPutAll: ' = 0'! !
+	aStream print: self polynomial - self polynomial independentCoefficient; nextPutAll: ' = '; print: self polynomial independentCoefficient negated! !
 
 !PolynomialEquation methodsFor: 'private' stamp: 'len 12/31/97 02:27'!
 privatePrenex
@@ -28914,17 +28979,15 @@ prenex
 
 	^ self reduced normalized privatePrenex! !
 
-!PolynomialInequality methodsFor: 'printing' stamp: 'len 3/23/2016 00:03'!
+!PolynomialInequality methodsFor: 'printing' stamp: 'len 6/2/2016 01:45'!
 printOn: aStream
 	"Print a representation of the receiver on the stream aStream."
 
-	| f ineq coeff |
+	| f ineq |
 	self polynomial leadingCoefficient negative
 		ifTrue: [f _ self polynomial negated. ineq _ ' > ']
 		ifFalse: [f _ self polynomial. ineq _ ' < '].
-	(coeff _ f independentCoefficient) negative
-		ifTrue: [aStream print: f - coeff; nextPutAll: ineq; print: coeff negated]
-		ifFalse: [aStream print: f; nextPutAll: ineq; nextPut: $0]! !
+	aStream print: f - f independentCoefficient; nextPutAll: ineq; print: f independentCoefficient negated! !
 
 !PolynomialInequality methodsFor: 'private' stamp: 'len 12/31/97 02:27'!
 privatePrenex
@@ -31003,10 +31066,8 @@ schreierVectorOf: aPoint
 		and: [self projection = anObject projection
 			and: [self left = anObject left and: [self right = anObject right]]]! !
 
-!SemialgebraicCell methodsFor: 'morphisms' stamp: 'len 6/1/2016 21:32'!
+!SemialgebraicCell methodsFor: 'morphisms' stamp: 'len 6/2/2016 02:26'!
 boundary
-	"Answer the boundary of the receiver."
-
 	| answer |
 	answer _ SemialgebraicSet new.
 	self projection boundary do: [ :each |
@@ -31076,6 +31137,10 @@ isCylindricalOver: aCell
 
 	^ self = aCell or: [self projection isCylindricalOver: aCell]! !
 
+!SemialgebraicCell methodsFor: 'testing' stamp: 'len 6/2/2016 05:09'!
+isFinite
+	^ self projection isFinite and: [self left = self right]! !
+
 !SemialgebraicCell methodsFor: 'accessing-private' stamp: 'len 12/14/97 21:33'!
 left
 	^ left! !
@@ -31096,12 +31161,14 @@ polynomials
 	self projection polynomials do: [:each| answer add: (each as: R)].
 	^ answer! !
 
-!SemialgebraicCell methodsFor: 'printing' stamp: 'len 2/6/98 13:04'!
+!SemialgebraicCell methodsFor: 'printing' stamp: 'len 6/2/2016 02:09'!
 printOn: aStream
-	"Print a representation of the receiver on the stream aStream."
-
 	"aStream nextPut: ${; print: self sentence; nextPut: $}"
-	aStream print: self sample! !
+	self dimension >= 0
+		ifFalse: [aStream nextPut: Character emptySet. ^ self].
+	self dimension = 0
+		ifTrue: [aStream nextPut: ${; print: self sample; nextPut: $}. ^ self].
+	aStream print: self dimension; nextPutAll: '-cell'; print: self sample! !
 
 !SemialgebraicCell methodsFor: 'accessing' stamp: 'len 12/14/97 21:01'!
 projection
@@ -33944,6 +34011,32 @@ testWeylGroupAndSimpleRoots
 	R _ self rootSystem1.
 	W _ R weylGroup.
 	R roots do: [:r| self assert: (W anySatisfy: [:w| R simpleRoots includes: (w value: r)])]! !
+
+!SemialgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 6/2/2016 04:54'!
+testCAD
+	| Qxy x y S |
+	Qxy _ Rationals new polynomialsIn: #(x y).
+	x _ Qxy x.
+	y _ Qxy y.
+	S _ SemialgebraicSet cad: {x squared + y squared - 4. (x - 1) * (y - 1) - 1}.
+	self assert: S cells size = 13.
+	self assert: (S cells count: [:each| each dimension = 0]) = 2.
+	self assert: (S cells count: [:each| each dimension = 1]) = 6.
+	self assert: (S cells count: [:each| each dimension = 2]) = 5! !
+
+!SemialgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 6/2/2016 03:56'!
+testDimension
+	self assert: SemialgebraicSet circle dimension = 2.
+	self assert: SemialgebraicSet circunference dimension = 1.
+	self assert: SemialgebraicSet sphere dimension = 2.
+	self assert: SemialgebraicSet ball dimension = 3! !
+
+!SemialgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 6/2/2016 04:39'!
+testSentence
+	| S f |
+	S _ SemialgebraicSet sphere.
+	f _ S sentence.
+	self assert: (S cells allSatisfy: [:each| f isSolution: each sample])! !
 
 !SequenceTest methodsFor: 'as yet unclassified' stamp: 'len 12/5/2015 01:11'!
 testBellNumbers
