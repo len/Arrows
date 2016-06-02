@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2752] on 2 June 2016 at 5:24:53.066956 am'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2752] on 2 June 2016 at 8:16:25.258144 am'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 77!
+!provides: 'Mathematics' 1 78!
 !classDefinition: #AbelianGroupPresentation category: #'Mathematics-Free'!
 Object subclass: #AbelianGroupPresentation
 	instanceVariableNames: 'generators relators'
@@ -539,26 +539,6 @@ VectorSpace subclass: #DirectSumSpace
 	category: 'Mathematics-Linear-Spaces'!
 !classDefinition: 'DirectSumSpace class' category: #'Mathematics-Linear-Spaces'!
 DirectSumSpace class
-	instanceVariableNames: ''!
-
-!classDefinition: #GradedVectorSpace category: #'Mathematics-Linear-Spaces'!
-VectorSpace subclass: #GradedVectorSpace
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Linear-Spaces'!
-!classDefinition: 'GradedVectorSpace class' category: #'Mathematics-Linear-Spaces'!
-GradedVectorSpace class
-	instanceVariableNames: ''!
-
-!classDefinition: #InfiniteTuples category: #'Mathematics-Linear-Spaces'!
-GradedVectorSpace subclass: #InfiniteTuples
-	instanceVariableNames: 'scalars'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Linear-Spaces'!
-!classDefinition: 'InfiniteTuples class' category: #'Mathematics-Linear-Spaces'!
-InfiniteTuples class
 	instanceVariableNames: ''!
 
 !classDefinition: #LieAlgebra category: #'Mathematics-Lie'!
@@ -10246,59 +10226,6 @@ size
 components: anArray
 	^ self new components: anArray! !
 
-!GradedVectorSpace methodsFor: 'as yet unclassified' stamp: 'len 4/12/2016 05:49'!
-indices
-	^ Sequence id! !
-
-!InfiniteTuples methodsFor: 'comparing' stamp: 'len 4/12/2016 05:38'!
-= anObject
-	self == anObject ifTrue: [^ true].
-	^ (anObject isKindOf: InfiniteTuples) and: [anObject scalars = self scalars]! !
-
-!InfiniteTuples methodsFor: 'basis' stamp: 'len 4/12/2016 05:36'!
-coordinatesOf: aTuple
-	^ aTuple! !
-
-!InfiniteTuples methodsFor: 'basis' stamp: 'len 4/24/2016 02:58'!
-dimension
-	^ Aleph new * self scalars size! !
-
-!InfiniteTuples methodsFor: 'basis' stamp: 'len 4/12/2016 05:37'!
-e: anInteger
-	^ self scalars tuple: anInteger evaluating: [:k| k = anInteger ifTrue: [scalars one] ifFalse: [scalars zero]]! !
-
-!InfiniteTuples methodsFor: 'comparing' stamp: 'len 4/12/2016 05:38'!
-hash
-	^ scalars hash + self class hash! !
-
-!InfiniteTuples methodsFor: 'printing' stamp: 'len 4/21/2016 00:23'!
-printOn: aStream
-	aStream print: self scalars.
-	(aStream isKindOf: TextStream)
-		ifTrue: [aStream withAttribute: TextEmphasis superscript do: [aStream print: self dimension]]
-		ifFalse: [aStream nextPutAll: '^'; print: self dimension]! !
-
-!InfiniteTuples methodsFor: 'accessing' stamp: 'len 4/12/2016 05:37'!
-scalars
-	^ scalars! !
-
-!InfiniteTuples methodsFor: 'accessing-private' stamp: 'len 4/12/2016 05:43'!
-scalars: aRing
-	scalars _ aRing! !
-
-!InfiniteTuples methodsFor: 'basis' stamp: 'len 4/12/2016 05:37'!
-vectorAt: aTuple
-	"Answer the vector with coordinates aTuple in the canonic basis."
-	^ aTuple! !
-
-!InfiniteTuples methodsFor: 'elements' stamp: 'len 4/12/2016 05:40'!
-zero
-	^ scalars tuple: #()! !
-
-!InfiniteTuples class methodsFor: 'instance creation' stamp: 'len 4/12/2016 05:43'!
-over: aRing
-	^ self new scalars: aRing! !
-
 !LieAlgebra methodsFor: 'as yet unclassified' stamp: 'len 5/23/2016 03:57'!
 bracket
 	^ properties at: #bracket! !
@@ -11117,9 +11044,9 @@ new: dimension over: aDomain
 			ifTrue: [Ideal on: self generators: {anElementOrArray}]
 			ifFalse: [Ideal on: self generators: anElementOrArray]! !
 
-!Ring methodsFor: 'morphisms' stamp: 'len 4/12/2016 05:46'!
+!Ring methodsFor: 'morphisms' stamp: 'len 6/2/2016 05:31'!
 ** n
-	n isInfinity ifTrue: [^ InfiniteTuples over: self].
+"	n isInfinity ifTrue: [^ InfiniteTuples over: self]."
 	^ n isPoint ifTrue: [Matrices new: n over: self] ifFalse: [Tuples new: n over: self]! !
 
 !Ring methodsFor: 'morphisms' stamp: 'len 5/23/2016 04:22'!
@@ -16749,7 +16676,7 @@ new
 = anInterval
 	^ left = anInterval left and: [right = anInterval right and: [self isLeftOpen = anInterval isLeftOpen and: [self isRightOpen = anInterval isRightOpen]]]! !
 
-!RealInterval methodsFor: 'accessing' stamp: 'len 1/11/2016 02:41'!
+!RealInterval methodsFor: 'morhisms' stamp: 'len 1/11/2016 02:41'!
 cartesian: anInterval
 	"Answer the cartesian product of the receiver by the argument."
 	| answer |
@@ -16775,7 +16702,7 @@ closeRight
 
 	self isRightClosed ifFalse: [^ self copy rightOpen: false]! !
 
-!RealInterval methodsFor: 'accessing' stamp: 'len 1/16/2016 05:59'!
+!RealInterval methodsFor: 'morhisms' stamp: 'len 1/16/2016 05:59'!
 closure
 	^ self class closed: left closed: right! !
 
@@ -16821,6 +16748,10 @@ inf
 	"Answer the infimun of the receiver."
 
 	^ self left! !
+
+!RealInterval methodsFor: 'morhisms' stamp: 'len 6/2/2016 07:29'!
+interior
+	^ self class open: left open: right! !
 
 !RealInterval methodsFor: 'testing' stamp: 'len 2/24/2016 05:59'!
 intersects: anInterval
@@ -17073,7 +17004,7 @@ open: left open: right
 
 	^ self new setLeftBound: left rightBound: right leftOpen: true rightOpen: true! !
 
-!SemialgebraicInterval methodsFor: 'accessing' stamp: 'len 1/8/98 20:35'!
+!SemialgebraicInterval methodsFor: 'morphisms' stamp: 'len 1/8/98 20:35'!
 boundary
 	"Answer the boundary of the receiver."
 
@@ -17082,13 +17013,13 @@ boundary
 		add: (self class between: self right and: self right);
 		yourself! !
 
-!SemialgebraicInterval methodsFor: 'accessing' stamp: 'len 1/8/98 20:29'!
+!SemialgebraicInterval methodsFor: 'morphisms' stamp: 'len 1/8/98 20:29'!
 closure
 	"Answer the closure of the receiver."
 
 	^ self boundary copy add: self; yourself! !
 
-!SemialgebraicInterval methodsFor: 'accessing' stamp: 'len 1/16/98 21:58'!
+!SemialgebraicInterval methodsFor: 'morphisms' stamp: 'len 1/16/98 21:58'!
 interior
 	"Answer the interior of the receiver."
 
@@ -17286,6 +17217,11 @@ on: aSubgroup representative: anObject
 	aSemialgebraicSet cells do: [ :each | (self cells includes: each) ifFalse: [^ false]].
 	^ true! !
 
+!SemialgebraicSet methodsFor: 'morphisms' stamp: 'len 6/2/2016 08:11'!
+\ aSemialgebraicSet
+	"Answer the difference of the receiver with the argument,"
+	^ self copyWithoutAll: aSemialgebraicSet cells! !
+
 !SemialgebraicSet methodsFor: 'accessing' stamp: 'len 1/9/98 21:34'!
 add: aCell
 	"Add the argument to the cells of the receiver. Answer the argument."
@@ -17299,12 +17235,11 @@ addAll: aCollection
 	aCollection do: [ :each | self add: each].
 	^ aCollection! !
 
-!SemialgebraicSet methodsFor: 'morphisms' stamp: 'len 6/2/2016 05:05'!
+!SemialgebraicSet methodsFor: 'morphisms' stamp: 'len 6/2/2016 08:13'!
 boundary
-	"Answer the boundary of the receiver."
 	| answer |
 	answer _ self class new.
-	self cells do: [:each| answer addAll: each boundary].
+	self cells do: [:each| answer addAll: each boundary cells].
 	^ answer! !
 
 !SemialgebraicSet methodsFor: 'accessing' stamp: 'len 6/2/2016 04:48'!
@@ -17320,11 +17255,11 @@ cells
 cells: aCollection
 	cells _ aCollection! !
 
-!SemialgebraicSet methodsFor: 'morphisms' stamp: 'len 5/30/2016 08:48'!
+!SemialgebraicSet methodsFor: 'morphisms' stamp: 'len 6/2/2016 08:12'!
 closure
 	| answer |
 	answer _ self class new.
-	self cells do: [ :each | answer addAll: each closure].
+	self cells do: [ :each | answer addAll: each closure cells].
 	^ answer! !
 
 !SemialgebraicSet methodsFor: 'iterating' stamp: 'len 2/6/98 12:37'!
@@ -17415,15 +17350,14 @@ includes: anObject
 		ifTrue: [^ self cells anySatisfy: [:any| any includes: anObject]].
 	^ false! !
 
-!SemialgebraicSet methodsFor: 'morphisms' stamp: 'len 1/16/98 21:58'!
+!SemialgebraicSet methodsFor: 'morphisms' stamp: 'len 6/2/2016 08:13'!
 interior
-	"Answer the interior of the receiver."
+	^ self closure \ self boundary! !
 
-	^ self closure copyWithoutAll: self boundary! !
-
-!SemialgebraicSet methodsFor: 'morphisms' stamp: 'len 6/2/2016 05:06'!
+!SemialgebraicSet methodsFor: 'morphisms' stamp: 'len 6/2/2016 08:15'!
 intersection: aSemialgebraicSet
-	^ self notYetImplemented! !
+	self flag: #fix. "this is wrong"
+	^ self class cells: (self cells intersection: aSemialgebraicSet cells)! !
 
 !SemialgebraicSet methodsFor: 'testing' stamp: 'len 6/2/2016 04:07'!
 isBounded
@@ -31093,11 +31027,20 @@ boundsAt: aTuple
 		ifFalse: [self right value: aTuple].
 	^ SemialgebraicInterval between: lbound and: rbound! !
 
-!SemialgebraicCell methodsFor: 'morphisms' stamp: 'len 1/8/98 20:28'!
+!SemialgebraicCell methodsFor: 'morphisms' stamp: 'len 6/2/2016 08:08'!
 closure
-	"Answer the closure of the receiver."
-
-	^ self boundary copy add: self; yourself! !
+	| answer |
+	answer _ SemialgebraicSet new.
+	self projection closure do: [:each|
+		answer
+			add: (self class projection: each between: self left and: self left);
+			add: (self class projection: each between: self left and: self right);
+			add: (self class projection: each between: self right and: self right)].
+	answer
+		add: (self class projection: self projection between: self left and: self left);
+		add: self;
+		add: (self class projection: self projection between: self right and: self right).
+	^ answer! !
 
 !SemialgebraicCell methodsFor: 'accessing' stamp: 'len 3/17/2016 03:44'!
 dimension
@@ -31119,8 +31062,12 @@ includes: aTuple
 	pi _ aTuple copyFrom: 1 to: aTuple size - 1.
 	^ (self projection includes: pi) and: [(self boundsAt: pi) includes: aTuple last]! !
 
-!SemialgebraicCell methodsFor: 'morphisms' stamp: 'len 1/16/98 21:58'!
+!SemialgebraicCell methodsFor: 'morphisms' stamp: 'len 6/2/2016 08:09'!
 interior
+	^ self closure \ self boundary! !
+
+!SemialgebraicCell methodsFor: 'morphisms' stamp: 'len 6/2/2016 07:38'!
+interior2
 	"Answer the interior of the receiver."
 
 	^ self closure copyWithoutAll: self boundary! !
@@ -31131,6 +31078,10 @@ isBounded
 
 	^ self projection isBounded and: [(self left isInfinity or: [self right isInfinity]) not]! !
 
+!SemialgebraicCell methodsFor: 'testing' stamp: 'len 6/2/2016 07:33'!
+isClosed
+	^ self projection isClosed and: [self left = self right]! !
+
 !SemialgebraicCell methodsFor: 'testing' stamp: 'len 2/6/98 13:33'!
 isCylindricalOver: aCell
 	"Answer true if the receiver is cylindrical over aCell."
@@ -31140,6 +31091,10 @@ isCylindricalOver: aCell
 !SemialgebraicCell methodsFor: 'testing' stamp: 'len 6/2/2016 05:09'!
 isFinite
 	^ self projection isFinite and: [self left = self right]! !
+
+!SemialgebraicCell methodsFor: 'testing' stamp: 'len 6/2/2016 07:35'!
+isOpen
+	^ self projection isOpen and: [self left ~= self right]! !
 
 !SemialgebraicCell methodsFor: 'accessing-private' stamp: 'len 12/14/97 21:33'!
 left
