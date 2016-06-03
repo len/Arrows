@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2752] on 2 June 2016 at 8:16:25.258144 am'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2752] on 3 June 2016 at 3:21:43.869167 am'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 78!
+!provides: 'Mathematics' 1 79!
 !classDefinition: #AbelianGroupPresentation category: #'Mathematics-Free'!
 Object subclass: #AbelianGroupPresentation
 	instanceVariableNames: 'generators relators'
@@ -9973,8 +9973,17 @@ perp
 printOn: aStream
 	aStream print: self scalars; nextPut: $-; nextPutAll: 'vector space '; print: self basis! !
 
-!VectorSpace methodsFor: 'morphisms' stamp: 'len 11/21/2015 06:12'!
+!VectorSpace methodsFor: 'morphisms' stamp: 'len 6/2/2016 08:36'!
 projective
+	"Answer the projectivization of the receiver."
+	^ ProjectiveSubspace on: self! !
+
+!VectorSpace methodsFor: 'morphisms' stamp: 'len 6/2/2016 18:17'!
+projectiveCompletion
+	^ ProjectiveSubspace on: (self direct: (ScalarVectorSpace over: self scalars))! !
+
+!VectorSpace methodsFor: 'morphisms' stamp: 'len 6/2/2016 18:15'!
+projectivization
 	^ ProjectiveSubspace on: self! !
 
 !VectorSpace methodsFor: 'basis' stamp: 'len 2/28/2016 08:07'!
@@ -10412,6 +10421,10 @@ ambient
 annihilator
 	"Answer the annihilator of the receiver, i.e. the space of all linear forms that are 0 at all vectors in the receiver."
 	^ self class basis: (self basis extended dual copyFrom: self dimension + 1 to: self ambient dimension)! !
+
+!LinearSubspace methodsFor: 'morphisms' stamp: 'len 6/3/2016 02:41'!
+asAlgebraicVariety
+	^ AlgebraicSet on: self ideal: self equations asPolynomialSystem ideal! !
 
 !LinearSubspace methodsFor: 'basis' stamp: 'len 11/7/2015 03:50'!
 basis
@@ -13184,11 +13197,10 @@ example
 	y _ Cxy y.
 	^ self ideal: Cxy * {x + y - 1}! !
 
-!AlgebraicSet class methodsFor: 'instance creation' stamp: 'len 5/23/2016 04:20'!
+!AlgebraicSet class methodsFor: 'instance creation' stamp: 'len 6/2/2016 18:14'!
 ideal: anIdeal
 	| K n |
 	K _ anIdeal ambient scalars algebraicClosure.
-	self flag: #fix. "ideally, should index the affine/projective space by the indeterminates"
 	n _ anIdeal ambient rank.
 	^ anIdeal isHomogeneous
 		ifTrue: [self on: (K ** n) projective ideal: anIdeal]
@@ -19602,18 +19614,12 @@ projectionOn: aLinearSubspace
 	domain _ domainBasis span.
 	^ self from: domain to: domain evaluating: [:v| (basis includes: v) ifTrue: [v] ifFalse: [v-v]]! !
 
-!LinearForm methodsFor: 'converting' stamp: 'len 6/1/2016 06:10'!
+!LinearForm methodsFor: 'converting' stamp: 'len 6/3/2016 03:19'!
 asPolynomial
-	| answer term c polynomials x x` |
-	polynomials _ self domain scalars polynomialsIn: self domain ambient dimension.
-	x _ Tuple new: self domain ambient dimension evaluating: [:i| polynomials x: i].
-	x` _ (domainBasis matrix apply: polynomials embedding) * x.
-	answer _ polynomials zero.
-	c _ self matrix asTuple.
-	1 to: c size do: [:i|
-		term _ (x` at: i) * (c at: i).
-		answer _ answer isNil ifTrue: [term] ifFalse: [answer + term]].
-	^ answer! !
+	| coordinates P |
+	coordinates _ self coordinates.
+	P _ self domain scalars polynomialsIn: coordinates size.
+	^ coordinates dot: ((1 to: P rank) collect: [:i| P x: i])! !
 
 !LinearForm methodsFor: 'converting' stamp: 'len 5/23/2016 04:39'!
 asTuple
@@ -22476,6 +22482,10 @@ ambient
 	"Answer the ambient vector space (where solutions live)."
 	^ form domain ambient! !
 
+!LinearEquation methodsFor: 'converting' stamp: 'len 6/3/2016 02:37'!
+asPolynomialEquation
+	^ form asPolynomial eq: value! !
+
 !LinearEquation methodsFor: 'converting' stamp: 'len 2/21/2016 06:50'!
 asTuple
 	"Answer a Tuple with the coefficients of the receiver."
@@ -22559,11 +22569,12 @@ ambient
 	"Answer the ambient vector space (where solutions live)."
 	^ equations first ambient! !
 
-!LinearSystem methodsFor: 'accessing' stamp: 'len 11/20/2015 06:13'!
-at: anInteger
-	"Answer the anInteger-th equation of the receiver."
-
-	^ equations at: anInteger! !
+!LinearSystem methodsFor: 'converting' stamp: 'len 6/3/2016 02:59'!
+asPolynomialSystem
+	| answer |
+	answer _ PolynomialSystem new.
+	equations do: [:each| answer add: each asPolynomialEquation].
+	^ answer! !
 
 !LinearSystem methodsFor: 'copying' stamp: 'len 11/20/2015 06:13'!
 copy
@@ -22635,10 +22646,10 @@ particular
 	"Answer a particular solution of the receiver, and nil if the system is not solvable."
 	^ self solver particular! !
 
-!LinearSystem methodsFor: 'printing' stamp: 'len 2/21/2016 05:38'!
-printOn: aStream
+!LinearSystem methodsFor: 'printing' stamp: 'len 6/3/2016 02:48'!
+printOn: aStream 
 	aStream nextPut: ${.
-	(1 to: self size) do: [:i| aStream print: (self at: i)] separatedBy: [aStream nextPutAll: '; '].
+	equations do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: '; '].
 	aStream nextPut: $}! !
 
 !LinearSystem methodsFor: 'printing' stamp: 'len 11/8/2015 04:51'!
@@ -22665,7 +22676,7 @@ solutions
 	^ self particular isNil
 		ifFalse: [AffineSubspace direction: self kernel translation: self particular]! !
 
-!LinearSystem methodsFor: 'accessing' stamp: 'len 11/8/2015 03:58'!
+!LinearSystem methodsFor: 'private' stamp: 'len 11/8/2015 03:58'!
 solver
 	^ solver ifNil: [solver _ LinearSystemSolver system: self]! !
 
@@ -29103,6 +29114,13 @@ copy
 do: aBlock 
 	equations do: aBlock! !
 
+!PolynomialSystem methodsFor: 'accessing' stamp: 'len 6/3/2016 02:45'!
+ideal
+	| generators R |
+	generators _ equations collect: [:each| each polynomial].
+	R _ generators anyOne species.
+	^ R * generators! !
+
 !PolynomialSystem methodsFor: 'initialization' stamp: 'len 5/13/2016 07:37'!
 initialize
 	equations _ OrderedCollection new! !
@@ -29134,27 +29152,16 @@ isSolution: anObject
 isZeroDimensional
 	^ self solutions isFinite! !
 
-!PolynomialSystem methodsFor: 'printing' stamp: 'pdm 4/19/98 16:57'!
+!PolynomialSystem methodsFor: 'printing' stamp: 'len 6/3/2016 02:47'!
 printOn: aStream 
-	"Print a representation of the receiver on the stream aStream."
-	| first |
-	aStream nextPutAll: '{ '.
-	first _ true.
-	self do: 
-		[:each | 
-		first ifFalse: [aStream nextPutAll: ', 
-'].
-		aStream print: each.
-		first _ false].
-	aStream nextPutAll: ' }'! !
+	aStream nextPut: ${.
+	equations do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: '; '].
+	aStream nextPut: $}! !
 
-!PolynomialSystem methodsFor: 'accessing' stamp: 'len 12/18/2015 18:32'!
+!PolynomialSystem methodsFor: 'accessing' stamp: 'len 6/3/2016 02:45'!
 solutions
-	"Answer the set of solutions of the receiver."
-	| generators R |
-	generators _ equations collect: [:each | each polynomial].
-	R _ generators anyOne species.
-	^ (R * generators) variety! !
+	"Answer the set of solutions of the receiver (an algebraic set)."
+	^ self ideal variety! !
 
 !PolynomialSystem class methodsFor: 'examples' stamp: 'len 3/24/2016 06:03'!
 cyclic: n
@@ -29467,10 +29474,8 @@ pointAt: aTuple
 		extended at: i put: (aTuple at: i - 1)].
 	^ frame pointAt: extended homogeneous! !
 
-!ProjectiveChart methodsFor: 'printing' stamp: 'len 1/3/2016 05:21'!
+!ProjectiveChart methodsFor: 'printing' stamp: 'len 6/2/2016 18:55'!
 printOn: aStream
-	"Print a representation of the receiver on the stream aStream."
-
 	aStream
 		nextPutAll: self class name;
 		space; print: index;
@@ -29545,17 +29550,10 @@ pointAt: anHomogeneousTuple
 points: aCollection
 	points _ aCollection! !
 
-!ProjectiveFrame methodsFor: 'printing' stamp: 'len 2/25/98 21:17'!
+!ProjectiveFrame methodsFor: 'printing' stamp: 'len 6/2/2016 18:56'!
 printOn: aStream
-	"Print a representation of the receiver on the stream aStream."
-
-	| first |
 	aStream nextPut: ${.
-	first _ true.
-	self do: [ :each |
-		first ifFalse: [aStream nextPutAll: '; '].
-		each printOn: aStream.
-		first _ false].
+	self do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: '; '].
 	aStream nextPut: $}! !
 
 !ProjectiveFrame methodsFor: 'accessing' stamp: 'len 11/8/2015 00:06'!
@@ -31864,6 +31862,17 @@ testIdealIntersection
 	K _ Qxy * {x**2*(y**2)}.
 	self assert: (I intersection: J) = K! !
 
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 6/3/2016 03:02'!
+testLinearSubspaceAsAlgebraicVariety
+	| Q S V |
+	Q _ Rationals new.
+	S _ Q ** 3 grassmannian: 2 :: atRandomBits: 10.
+	V _ S asAlgebraicVariety.
+	self assert: V dimension = S dimension.
+	self assert: (V includes: (S e: 1)).
+	self assert: (V includes: (S e: 2))
+! !
+
 !AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 3/24/2016 05:52'!
 testPolynomialSystem
 	| Qxy x y V system |
@@ -33736,14 +33745,15 @@ testSubresultant0
 	g _ 3 * (x - 7).
 	self assert: (f resultant: g) = (f subresultant: 0 with: g) asScalar! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 5/22/2016 23:21'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 6/3/2016 02:56'!
 testUnivariateMultivariateConversion
 	| Qx x y f |
 	Qx _ Rationals new polynomialsIn: #(x y).
 	x _ Qx x.
 	y _ Qx y.
 	f _ x**2*y.
-	self assert: (f asUnivariateIn: 1 :: asMultivariate) = f.
+	self assert: f asUnivariate asMultivariate = f.
+"	self assert: (f asUnivariateIn: 1 :: asMultivariate) = f."
 	self assert: (f asUnivariateIn: 2 :: asMultivariate) = f! !
 
 !PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 5/22/2016 23:19'!
