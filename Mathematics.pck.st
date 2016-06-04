@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2752] on 4 June 2016 at 5:02:29.973831 am'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2752] on 4 June 2016 at 6:16:40.250355 am'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 80!
+!provides: 'Mathematics' 1 81!
 !classDefinition: #AbelianGroupPresentation category: #'Mathematics-Free'!
 Object subclass: #AbelianGroupPresentation
 	instanceVariableNames: 'generators relators'
@@ -831,16 +831,6 @@ Ring subclass: #Integers
 Integers class
 	instanceVariableNames: ''!
 
-!classDefinition: #LocalRing category: #'Mathematics-Geometry-Algebraic'!
-Ring subclass: #LocalRing
-	instanceVariableNames: 'variety point'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Geometry-Algebraic'!
-!classDefinition: 'LocalRing class' category: #'Mathematics-Geometry-Algebraic'!
-LocalRing class
-	instanceVariableNames: ''!
-
 !classDefinition: #NumberRing category: #'Mathematics-Fields'!
 Ring subclass: #NumberRing
 	instanceVariableNames: 'numberField'
@@ -863,7 +853,7 @@ PAdicIntegers class
 
 !classDefinition: #Polynomials category: #'Mathematics-Polynomials'!
 Ring subclass: #Polynomials
-	instanceVariableNames: 'scalars indeterminates'
+	instanceVariableNames: 'scalars rank'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Polynomials'!
@@ -911,13 +901,13 @@ AlgebraicSet subclass: #AlgebraicCurve
 AlgebraicCurve class
 	instanceVariableNames: ''!
 
-!classDefinition: #EllipticCurve category: #'Mathematics-Geometry-Algebraic'!
+!classDefinition: #EllipticCurve category: #'Mathematics-ETC'!
 AlgebraicCurve subclass: #EllipticCurve
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Geometry-Algebraic'!
-!classDefinition: 'EllipticCurve class' category: #'Mathematics-Geometry-Algebraic'!
+	category: 'Mathematics-ETC'!
+!classDefinition: 'EllipticCurve class' category: #'Mathematics-ETC'!
 EllipticCurve class
 	instanceVariableNames: ''!
 
@@ -1979,16 +1969,6 @@ Function subclass: #RationalMap
 	category: 'Mathematics-Geometry-Algebraic'!
 !classDefinition: 'RationalMap class' category: #'Mathematics-Geometry-Algebraic'!
 RationalMap class
-	instanceVariableNames: ''!
-
-!classDefinition: #RationalParametrization category: #'Mathematics-Geometry-Algebraic'!
-Function subclass: #RationalParametrization
-	instanceVariableNames: 'domain codomain components'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Geometry-Algebraic'!
-!classDefinition: 'RationalParametrization class' category: #'Mathematics-Geometry-Algebraic'!
-RationalParametrization class
 	instanceVariableNames: ''!
 
 !classDefinition: #RealRootFunction category: #'Mathematics-Geometry-Semialgebraic'!
@@ -3579,7 +3559,7 @@ My instances are the ring of intergers of a given number field.!
 My instances are polynomial rings in one or many indeterminates.!
 
 !AffineSubspace commentStamp: '<historical>' prior: 0!
-My instances are affine spaces of finite dimension, i.e. flats, or linear varieties, linear manifolds, or translated subspaces of a vector space.
+My instances are affine spaces of finite dimension, i.e. flats, or linear varieties, linear manifolds, or translated subspaces (cosets) of a vector space.
 
 Affine spaces are essentially vector spaces where the origin 0 was "forgotten", i.e. there's no distinguished origin. Its elements are called points, not vectors.
 
@@ -3588,7 +3568,7 @@ Affine spaces appear when considering the solutions of non-homogeneous linear sy
 Example:
 	| V S f |
 	V _ Rationals new ** 3.
-	S _ LinearSubspace on: V generators: {(1, 1, 1). (2, 0, -2)}.
+	S _ V span: {(1, 1, 1). (2, 0, -2)}.
 	f _ LinearMap projectionOn: S.
 	f fiberAt: (1, 2, 3).
 !
@@ -3626,6 +3606,11 @@ My instances are SL(V), the Special Linear Group of a vector space V. This is th
 
 !PermutationGroup commentStamp: '<historical>' prior: 0!
 My instances are permutation groups, i.e. subgroups of the symmetric group Sym(X) of permutations on the elements of a set X (which we call 'space').!
+
+!ProjectiveSubspace commentStamp: '<historical>' prior: 0!
+My instances are projective spaces P(V) on a given finite-dimensional K-vector space V. Their elements are the subspaces of V, in particular the points of P(V) are the subspaces of dimension 1 of V, or <v> where v ~= 0.
+
+Projective space can also be viewed as the set quotient V/~ of V by the equivalence relation x ~ c*x where c is a constant in K.!
 
 !RealBox commentStamp: '<historical>' prior: 0!
 My instances are boxes in R^n built by the cartesian product of one-dimensional intervals (instances of RealInterval).
@@ -12414,10 +12399,10 @@ p: aPrime
 	self scalars <= aDomain scalars ifFalse: [^ false].
 	^ true! !
 
-!Polynomials methodsFor: 'comparing' stamp: 'len 3/26/2016 05:14'!
+!Polynomials methodsFor: 'comparing' stamp: 'len 6/4/2016 05:14'!
 = anObject
 	self == anObject ifTrue: [^ true].
-	^ (anObject isKindOf: Polynomials) and: [anObject scalars = scalars and: [anObject indeterminates = indeterminates]]! !
+	^ (anObject isKindOf: Polynomials) and: [anObject scalars = scalars and: [anObject rank = rank]]! !
 
 !Polynomials methodsFor: 'comparing' stamp: 'len 6/3/2016 23:17'!
 > aDomain
@@ -12642,21 +12627,22 @@ fractions
 	scalars isField ifFalse: [^ self error: 'scalars are not a field'].
 	^ RationalFunctions polynomials: self! !
 
-!Polynomials methodsFor: 'testing' stamp: 'len 3/26/2016 23:07'!
+!Polynomials methodsFor: 'testing' stamp: 'len 6/4/2016 05:13'!
 has: anIndeterminate
-	^ indeterminates includes: anIndeterminate! !
+	^ self indeterminates includes: anIndeterminate! !
 
-!Polynomials methodsFor: 'comparing' stamp: 'len 5/20/2016 03:20'!
+!Polynomials methodsFor: 'comparing' stamp: 'len 6/4/2016 05:11'!
 hash
-	^ scalars hash * indeterminates hash! !
+	^ scalars hash + rank hash! !
 
 !Polynomials methodsFor: 'testing' stamp: 'len 6/1/2016 23:50'!
 includes: anObject
 	^ (anObject isKindOf: Polynomial) and: [anObject species <= self]! !
 
-!Polynomials methodsFor: 'accessing' stamp: 'len 3/26/2016 05:15'!
+!Polynomials methodsFor: 'accessing' stamp: 'len 6/4/2016 05:12'!
 indeterminate
-	^ indeterminates anyOne! !
+	"Answer the univariate indeterminate."
+	^ 1! !
 
 !Polynomials methodsFor: 'accessing' stamp: 'len 5/20/2016 23:05'!
 indeterminateNames
@@ -12666,13 +12652,9 @@ indeterminateNames
 indeterminateNames: aCollection
 	properties at: #indeterminateNames put: aCollection! !
 
-!Polynomials methodsFor: 'accessing' stamp: 'len 3/25/2016 08:26'!
+!Polynomials methodsFor: 'accessing' stamp: 'len 6/4/2016 05:12'!
 indeterminates
-	^ indeterminates! !
-
-!Polynomials methodsFor: 'accessing-private' stamp: 'len 3/26/2016 05:14'!
-indeterminates: aCollection
-	indeterminates _ aCollection asSet! !
+	^ 1 to: rank! !
 
 !Polynomials methodsFor: 'elements' stamp: 'len 12/19/2015 03:38'!
 interpolate: aCollection
@@ -12802,15 +12784,14 @@ printOn: aStream
 random
 	^ PolynomialRandomGenerator on: self! !
 
-!Polynomials methodsFor: 'accessing' stamp: 'len 5/20/2016 03:20'!
+!Polynomials methodsFor: 'accessing' stamp: 'len 6/4/2016 05:13'!
 rank
 	"The rank of a polynomial ring is the number of indeterminates. Univariate polynomials have rank 1."
-	^ indeterminates size! !
+	^ rank! !
 
-!Polynomials methodsFor: 'accessing-private' stamp: 'len 5/20/2016 03:21'!
+!Polynomials methodsFor: 'accessing-private' stamp: 'len 6/4/2016 05:12'!
 rank: anInteger
-	(anInteger isInteger and: [anInteger > 0]) ifFalse: [self error: 'rank must be a positive integer'].
-	indeterminates _ (1 to: anInteger)! !
+	rank _ anInteger! !
 
 !Polynomials methodsFor: 'accessing' stamp: 'len 11/2/2015 16:09'!
 scalars
@@ -12856,9 +12837,9 @@ z
 zero
 	^ self constant: self scalars zero! !
 
-!Polynomials class methodsFor: 'instance creation' stamp: 'len 5/20/2016 03:25'!
+!Polynomials class methodsFor: 'instance creation' stamp: 'len 6/4/2016 05:11'!
 new: anInteger over: aRing
-	^ self new indeterminates: (1 to: anInteger); scalars: aRing! !
+	^ self new scalars: aRing; rank: anInteger! !
 
 !Polynomials class methodsFor: 'instance creation' stamp: 'len 5/20/2016 03:25'!
 new: anInteger over: aRing ordering: aMonomialOrdering
@@ -13145,14 +13126,14 @@ coordinateRing
 degree
 	^ ideal degree! !
 
-!AlgebraicSet methodsFor: 'accessing' stamp: 'len 6/1/2016 20:54'!
+!AlgebraicSet methodsFor: 'accessing' stamp: 'len 6/4/2016 05:18'!
 dimension
 	"This is the trascendence degree of the function field over the ground field."
 	| indeterminates G |
 	G _ ideal groebner minimal.
 	indeterminates _ G indeterminates asSet copy.
 	G do: [:each|
-		indeterminates removeAllFoundIn: (ideal groebner ordering headOf: each) indeterminates].
+		indeterminates removeAllFoundIn: (G ordering headOf: each) indeterminates].
 	^ indeterminates size! !
 
 !AlgebraicSet methodsFor: 'accessing' stamp: 'len 6/3/2016 20:27'!
@@ -13248,8 +13229,8 @@ project: anIndeterminate
 	"Answer the projection of the receiver by eliminating the given indeterminate."
 	^ self class ideal: (ideal eliminate: anIndeterminate)! !
 
-!AlgebraicSet methodsFor: 'morphisms' stamp: 'len 6/3/2016 23:13'!
-projectiveClosure
+!AlgebraicSet methodsFor: 'morphisms' stamp: 'len 6/4/2016 05:50'!
+projectivization
 	"The projective closure of an affine variety is the variety corresponding to the homogenized ideal."
 	self groundField isAlgebraicallyClosed ifFalse: [self error: 'the ground field is not algebraically closed']. "otherwise the variety obtained can be bigger than the actual projective closure"
 	^ self class ideal: ideal homogenized! !
@@ -16442,6 +16423,11 @@ chart: anInteger
 		frame: self frame
 		index: anInteger
 		origin: (vectorSpace e: anInteger)! !
+
+!ProjectiveSubspace methodsFor: 'accessing' stamp: 'len 6/4/2016 05:56'!
+chartAt: anHyperplane
+	"Answer the chart that puts anHyperplane at infinity and its complement as affine space."
+	^ ProjectiveChart infinity: anHyperplane! !
 
 !ProjectiveSubspace methodsFor: 'accessing' stamp: 'len 11/20/2015 22:11'!
 codimension
@@ -20186,9 +20172,9 @@ representative
 representative: aPolynomial
 	representative _ aPolynomial! !
 
-!PolynomialFunction methodsFor: 'evaluating' stamp: 'len 12/15/2015 20:14'!
-value: aTuple
-	^ representative value: aTuple! !
+!PolynomialFunction methodsFor: 'evaluating' stamp: 'len 6/4/2016 05:23'!
+value: aPoint
+	^ representative value: (domain space coordinatesOf: aPoint)! !
 
 !PolynomialFunction class methodsFor: 'instance creation' stamp: 'len 12/15/2015 20:12'!
 from: anAlgebraicVariety representative: aPolynomial
@@ -20223,9 +20209,9 @@ codomain
 codomain: anAlgebraicVariety
 	codomain _ anAlgebraicVariety! !
 
-!PolynomialMap methodsFor: 'accessing-private' stamp: 'len 12/15/2015 20:02'!
-components: aTupleOfPolynomials
-	^ components _ aTupleOfPolynomials! !
+!PolynomialMap methodsFor: 'accessing-private' stamp: 'len 6/4/2016 05:29'!
+components: anArray
+	components _ anArray! !
 
 !PolynomialMap methodsFor: 'accessing' stamp: 'len 12/15/2015 19:59'!
 domain
@@ -20266,9 +20252,11 @@ printOn: aStream
 		separatedBy: [aStream nextPutAll: ', '].
 	aStream nextPut: $]! !
 
-!PolynomialMap methodsFor: 'evaluating' stamp: 'len 12/15/2015 20:02'!
-value: aTuple
-	^ components collect: [:each| each value: aTuple]! !
+!PolynomialMap methodsFor: 'evaluating' stamp: 'len 6/4/2016 05:27'!
+value: aPoint
+	| t |
+	t _ self domain space coordinatesOf: aPoint.
+	^ self codomain space pointAt: (components collect: [:each| each representative value: t])! !
 
 !PolynomialMap class methodsFor: 'instance creation' stamp: 'len 12/15/2015 20:04'!
 from: anAlgebraicVariety to: anotherAlgebraicVariety components: aTupleOfPolynomials
@@ -20458,25 +20446,25 @@ from: aLinearBasis matrix: aMatrix
 	aMatrix isSymmetric ifFalse: [self error: 'matrix not symmetric'].
 	^ self new basis: aLinearBasis; matrix: aMatrix! !
 
-!RationalParametrization methodsFor: 'arithmetic' stamp: 'len 3/16/2016 05:27'!
+!RationalMap methodsFor: 'arithmetic' stamp: 'len 3/16/2016 05:27'!
 * anObject
 	^ self class from: domain to: codomain components: components * anObject! !
 
-!RationalParametrization methodsFor: 'arithmetic' stamp: 'len 3/16/2016 05:33'!
+!RationalMap methodsFor: 'arithmetic' stamp: 'len 3/16/2016 05:33'!
 + aRationalParametrization
 	(domain = aRationalParametrization domain and: [codomain = aRationalParametrization codomain])
 		ifFalse: [^ DomainError signal].
 	^ self class from: domain to: codomain components: components + aRationalParametrization components! !
 
-!RationalParametrization methodsFor: 'accessing' stamp: 'len 3/16/2016 05:26'!
+!RationalMap methodsFor: 'accessing' stamp: 'len 3/16/2016 05:26'!
 codomain
 	^ codomain! !
 
-!RationalParametrization methodsFor: 'accessing' stamp: 'len 3/16/2016 05:26'!
+!RationalMap methodsFor: 'accessing' stamp: 'len 3/16/2016 05:26'!
 domain
 	^ domain! !
 
-!RationalParametrization methodsFor: 'accessing' stamp: 'pdm 4/19/98 23:45'!
+!RationalMap methodsFor: 'accessing' stamp: 'pdm 4/19/98 23:45'!
 implicit
 	| normal tindets y n generators g ordering basis answer |
 	normal _ self copy normalize.
@@ -20501,15 +20489,11 @@ implicit
 			ifTrue: [answer add: (each eq: each null)]].
 	^ answer! !
 
-!RationalParametrization methodsFor: 'initialization' stamp: 'len 12/14/2015 22:55'!
-initialize
-	components _ OrderedCollection new! !
-
-!RationalParametrization methodsFor: 'arithmetic' stamp: 'len 3/16/2016 05:37'!
+!RationalMap methodsFor: 'arithmetic' stamp: 'len 3/16/2016 05:37'!
 negated
 	^ self class from: domain to: codomain components: components negated! !
 
-!RationalParametrization methodsFor: 'private' stamp: 'len 12/14/2015 22:54'!
+!RationalMap methodsFor: 'private' stamp: 'len 12/14/2015 22:54'!
 normalize
 	| max indets |
 	indets _ Set new.
@@ -20518,7 +20502,7 @@ normalize
 	max _ self size max: indets last.
 	1 to: indets size do: [:each | self rename: (indets at: each) to: max + each]! !
 
-!RationalParametrization methodsFor: 'accessing' stamp: 'len 3/16/2016 05:25'!
+!RationalMap methodsFor: 'accessing' stamp: 'len 3/16/2016 05:25'!
 parameters
 	| answer |
 	answer _ Set new.
@@ -20526,7 +20510,7 @@ parameters
 		each indeterminates do: [:any| ((each numerator degreeIn: any) > 0 or: [(each numerator degreeIn: any) > 0]) ifTrue: [answer add: any]]].
 	^ answer! !
 
-!RationalParametrization methodsFor: 'printing' stamp: 'len 4/21/2016 00:22'!
+!RationalMap methodsFor: 'printing' stamp: 'len 4/21/2016 00:22'!
 printOn: aStream 
 	aStream nextPut: $(.
 	components
@@ -20534,7 +20518,7 @@ printOn: aStream
 		separatedBy: [aStream nextPutAll: ', '].
 	aStream nextPut: $)! !
 
-!RationalParametrization methodsFor: 'private' stamp: 'len 11/24/2015 06:08'!
+!RationalMap methodsFor: 'private' stamp: 'len 11/24/2015 06:08'!
 rename: anInteger to: anotherInteger 
 	"Rename the anInteger-th indeterminate of the receiver to 
 	anotherInteger. "
@@ -20543,7 +20527,7 @@ rename: anInteger to: anotherInteger
 	1 to: self size do: [:each | self at: each put: ((self at: each) numerator value: xi in: anInteger)
 				/ ((self at: each) denominator value: xi in: anInteger)]! !
 
-!RationalParametrization class methodsFor: 'instance creation' stamp: 'len 3/16/2016 05:38'!
+!RationalMap class methodsFor: 'instance creation' stamp: 'len 3/16/2016 05:38'!
 from: domain to: codomain components: anArrayOfRationalFunctions
 	^ self new domain: domain; codomain: codomain; components: anArrayOfRationalFunctions! !
 
