@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2752] on 4 June 2016 at 5:20:27.487988 pm'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2752] on 4 June 2016 at 6:16:02.263097 pm'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 82!
+!provides: 'Mathematics' 1 83!
 !classDefinition: #AbelianGroupPresentation category: #'Mathematics-Free'!
 Object subclass: #AbelianGroupPresentation
 	instanceVariableNames: 'generators relators'
@@ -501,14 +501,14 @@ FreeModule subclass: #VectorSpace
 VectorSpace class
 	instanceVariableNames: ''!
 
-!classDefinition: #AlgebraicFieldExtensionSpace category: #'Mathematics-Fields'!
-VectorSpace subclass: #AlgebraicFieldExtensionSpace
+!classDefinition: #AlgebraicExtensionSpace category: #'Mathematics-Fields'!
+VectorSpace subclass: #AlgebraicExtensionSpace
 	instanceVariableNames: 'extension'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Fields'!
-!classDefinition: 'AlgebraicFieldExtensionSpace class' category: #'Mathematics-Fields'!
-AlgebraicFieldExtensionSpace class
+!classDefinition: 'AlgebraicExtensionSpace class' category: #'Mathematics-Fields'!
+AlgebraicExtensionSpace class
 	instanceVariableNames: ''!
 
 !classDefinition: #BilinearForms category: #'Mathematics-Multilinear'!
@@ -681,18 +681,18 @@ Ring subclass: #Field
 Field class
 	instanceVariableNames: ''!
 
-!classDefinition: #AlgebraicFieldExtension category: #'Mathematics-Fields'!
-Field subclass: #AlgebraicFieldExtension
+!classDefinition: #AlgebraicExtension category: #'Mathematics-Fields'!
+Field subclass: #AlgebraicExtension
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Fields'!
-!classDefinition: 'AlgebraicFieldExtension class' category: #'Mathematics-Fields'!
-AlgebraicFieldExtension class
+!classDefinition: 'AlgebraicExtension class' category: #'Mathematics-Fields'!
+AlgebraicExtension class
 	instanceVariableNames: ''!
 
 !classDefinition: #NumberField category: #'Mathematics-Fields'!
-AlgebraicFieldExtension subclass: #NumberField
+AlgebraicExtension subclass: #NumberField
 	instanceVariableNames: 'adjoint'
 	classVariableNames: ''
 	poolDictionaries: ''
@@ -3519,7 +3519,7 @@ Rings can be constructed from existing rings by taking quotients by an ideal (se
 !AlgebraicIntegers commentStamp: '<historical>' prior: 0!
 My instances are the complex algebraic integers, i.e. complex roots of monic polynomials with integer coefficients.!
 
-!AlgebraicFieldExtension commentStamp: '<historical>' prior: 0!
+!AlgebraicExtension commentStamp: '<historical>' prior: 0!
 My instances are (finite) algebraic extensions E/F of a field F. They are defined by an irreducible polynomial f with coefficients in F, and is isomorphic to F[x]/<f>.!
 
 !NumberField commentStamp: '<historical>' prior: 0!
@@ -10046,39 +10046,23 @@ tensors: aPair
 vectorAt: aTuple
 	^ self elementAt: aTuple! !
 
-!AlgebraicFieldExtensionSpace methodsFor: 'basis' stamp: 'len 3/30/2016 03:54'!
-coordinatesOf: aNumber
-	^ aNumber representative coefficients! !
+!AlgebraicExtensionSpace methodsFor: 'basis' stamp: 'len 6/4/2016 18:08'!
+coordinatesOf: aVector
+	^ self scalars tuple: self dimension evaluating: [:i| aVector representative coefficientAtDegree: i-1]! !
 
-!AlgebraicFieldExtensionSpace methodsFor: 'basis' stamp: 'len 3/19/2016 23:24'!
+!AlgebraicExtensionSpace methodsFor: 'basis' stamp: 'len 6/4/2016 17:52'!
 dimension
-	^ extension degree! !
+	^ self elements degree! !
 
-!AlgebraicFieldExtensionSpace methodsFor: 'basis' stamp: 'len 5/23/2016 04:19'!
+!AlgebraicExtensionSpace methodsFor: 'basis' stamp: 'len 6/4/2016 17:52'!
 e: anInteger
 	| quotient |
-	quotient _ extension asQuotientRing.
+	quotient _ self elements asQuotientRing.
 	^ (quotient project: quotient ideal ambient x) ** (anInteger - 1)! !
 
-!AlgebraicFieldExtensionSpace methodsFor: 'accessing' stamp: 'len 5/29/2016 04:20'!
-extension
-	^ extension! !
-
-!AlgebraicFieldExtensionSpace methodsFor: 'accessing-private' stamp: 'len 3/19/2016 23:28'!
-extension: anAlgebraicFieldExtension
-	extension _ anAlgebraicFieldExtension! !
-
-!AlgebraicFieldExtensionSpace methodsFor: 'printing' stamp: 'len 4/20/2016 23:59'!
-printOn: aStream
-	extension printOn: aStream! !
-
-!AlgebraicFieldExtensionSpace methodsFor: 'accessing' stamp: 'len 3/19/2016 23:26'!
+!AlgebraicExtensionSpace methodsFor: 'accessing' stamp: 'len 6/4/2016 17:53'!
 scalars
-	^ extension baseField! !
-
-!AlgebraicFieldExtensionSpace class methodsFor: 'instance creation' stamp: 'len 3/19/2016 23:27'!
-on: anAlgebraicFieldExtension
-	^ self new extension: anAlgebraicFieldExtension! !
+	^ self elements baseField! !
 
 !BilinearForms methodsFor: 'morphisms' stamp: 'len 1/8/2016 06:55'!
 alternate
@@ -11292,11 +11276,11 @@ cyclotomicRing: n
 	phi _ Fx cyclotomic: n. "cyclotomic polynomial of order n"
 	^ Fx mod: phi "answer the quotient ring modulo <phi>"! !
 
-!Field methodsFor: 'morphisms' stamp: 'len 3/19/2016 03:37'!
+!Field methodsFor: 'morphisms' stamp: 'len 6/4/2016 17:49'!
 extension: aPolynomial
 	"Answer the algebraic extension of the receiver defined by the given irreducible polynomial."
 	aPolynomial scalars = self ifFalse: [self error: 'polynomial coefficients not from this field'].
-	^ AlgebraicFieldExtension polynomial: aPolynomial! !
+	^ AlgebraicExtension polynomial: aPolynomial! !
 
 !Field methodsFor: 'testing' stamp: 'len 12/14/2015 23:49'!
 isAlgebraicallyClosed
@@ -11370,96 +11354,102 @@ GF: q
 	f _ P findIrreducibleOfDegree: n.
 	^ (F extension: f) name: 'GF(',p printString,'^',n printString,')'! !
 
-!AlgebraicFieldExtension methodsFor: 'converting' stamp: 'len 3/19/2016 03:18'!
+!AlgebraicExtension methodsFor: 'converting' stamp: 'len 3/19/2016 03:18'!
 asQuotientRing
 	^ properties at: #quotientRing ifAbsentPut: [self baseField polynomials mod: self polynomial]! !
 
-!AlgebraicFieldExtension methodsFor: 'converting' stamp: 'len 4/20/2016 20:25'!
+!AlgebraicExtension methodsFor: 'converting' stamp: 'len 6/4/2016 17:51'!
 asVectorSpace
-	^ AlgebraicFieldExtensionSpace on: self! !
+	^ self as: AlgebraicExtensionSpace! !
 
-!AlgebraicFieldExtension methodsFor: 'random' stamp: 'len 4/18/2016 04:01'!
+!AlgebraicExtension methodsFor: 'random' stamp: 'len 4/18/2016 04:01'!
 atRandom: aRandomGenerator
 	^ self asQuotientRing atRandom: aRandomGenerator! !
 
-!AlgebraicFieldExtension methodsFor: 'random' stamp: 'len 4/19/2016 22:54'!
+!AlgebraicExtension methodsFor: 'random' stamp: 'len 4/19/2016 22:54'!
 atRandom: aRandomGenerator bits: bitSize
 	^ self asQuotientRing atRandom: aRandomGenerator bits: bitSize! !
 
-!AlgebraicFieldExtension methodsFor: 'accessing' stamp: 'len 3/19/2016 03:21'!
+!AlgebraicExtension methodsFor: 'accessing' stamp: 'len 3/19/2016 03:21'!
 baseField
 	^ self polynomial scalars! !
 
-!AlgebraicFieldExtension methodsFor: 'accessing' stamp: 'len 3/19/2016 04:18'!
+!AlgebraicExtension methodsFor: 'accessing' stamp: 'len 3/19/2016 04:18'!
 characteristic
 	^ self baseField characteristic! !
 
-!AlgebraicFieldExtension methodsFor: 'basis' stamp: 'len 3/30/2016 03:54'!
-coordinatesOf: aNumber
-	^ aNumber representative coefficients! !
+!AlgebraicExtension methodsFor: 'accessing' stamp: 'len 6/4/2016 17:39'!
+characteristicPolynomialOf: anElement
+	^ (self asVectorSpace endomorphisms evaluating: [:x| x * anElement]) characteristicPolynomial! !
 
-!AlgebraicFieldExtension methodsFor: 'accessing' stamp: 'len 3/18/2016 22:31'!
+!AlgebraicExtension methodsFor: 'accessing' stamp: 'len 3/18/2016 22:31'!
 degree
 	^ self polynomial degree! !
 
-!AlgebraicFieldExtension methodsFor: 'iterating' stamp: 'len 3/19/2016 04:22'!
+!AlgebraicExtension methodsFor: 'iterating' stamp: 'len 3/19/2016 04:22'!
 do: aBlock
 	self asQuotientRing do: aBlock! !
 
-!AlgebraicFieldExtension methodsFor: 'morphisms' stamp: 'len 5/23/2016 04:19'!
+!AlgebraicExtension methodsFor: 'morphisms' stamp: 'len 5/23/2016 04:19'!
 embed: aNumber
 	"This is the field homomorphism that embeds the base field into the receiver."
 	^ self asQuotientRing project: (self asQuotientRing ideal ambient embed: aNumber)! !
 
-!AlgebraicFieldExtension methodsFor: 'morphisms' stamp: 'len 3/19/2016 08:24'!
+!AlgebraicExtension methodsFor: 'morphisms' stamp: 'len 3/19/2016 08:24'!
 embedding
 	"Answer the field homomorphism that embeds the base field into the receiver."
 	^ properties at: #embedding ifAbsentPut: [self baseField -> self evaluating: [:x| self embed: x]]! !
 
-!AlgebraicFieldExtension methodsFor: 'morphisms' stamp: 'len 4/20/2016 02:40'!
+!AlgebraicExtension methodsFor: 'morphisms' stamp: 'len 4/20/2016 02:40'!
 embeddingsIn: aField
 	^ (self polynomial rootsIn: aField)
 		collect: [:x| self -> aField evaluating: [:alpha| alpha representative value: x]]! !
 
-!AlgebraicFieldExtension methodsFor: 'testing' stamp: 'len 3/18/2016 22:34'!
+!AlgebraicExtension methodsFor: 'testing' stamp: 'len 3/18/2016 22:34'!
 includes: anObject
 	^ self asQuotientRing includes: anObject! !
 
-!AlgebraicFieldExtension methodsFor: 'testing' stamp: 'len 3/19/2016 04:07'!
+!AlgebraicExtension methodsFor: 'testing' stamp: 'len 3/19/2016 04:07'!
 isField
 	^ true! !
 
-!AlgebraicFieldExtension methodsFor: 'testing' stamp: 'len 5/14/2016 06:54'!
+!AlgebraicExtension methodsFor: 'testing' stamp: 'len 5/14/2016 06:54'!
 isGlobalField
 	^ true! !
 
-!AlgebraicFieldExtension methodsFor: 'accessing' stamp: 'len 4/20/2016 20:24'!
-minimalPolynomialOf: aResidue
-	| x |
+!AlgebraicExtension methodsFor: 'accessing' stamp: 'len 6/4/2016 18:11'!
+minimalPolynomialOf: anElement
+	^ (self asVectorSpace endomorphisms evaluating: [:x| x * anElement]) minimalPolynomial
+"	| x |
 	x _ self polynomials x.
-	^ aResidue conjugates product: [:each| x - each] :: as: self baseField polynomials! !
+	^ aResidue conjugates product: [:each| x - each] :: as: self baseField polynomials"! !
 
-!AlgebraicFieldExtension methodsFor: 'accessing' stamp: 'len 3/18/2016 22:41'!
+!AlgebraicExtension methodsFor: 'accessing' stamp: 'len 3/18/2016 22:41'!
 one
 	^ self embed: self baseField one! !
 
-!AlgebraicFieldExtension methodsFor: 'accessing' stamp: 'len 3/18/2016 22:31'!
+!AlgebraicExtension methodsFor: 'accessing' stamp: 'len 3/18/2016 22:31'!
 polynomial
 	^ properties at: #polynomial! !
 
-!AlgebraicFieldExtension methodsFor: 'accessing-private' stamp: 'len 5/12/2016 10:04'!
+!AlgebraicExtension methodsFor: 'accessing-private' stamp: 'len 5/12/2016 10:04'!
 polynomial: aPolynomial
 	properties at: #polynomial put: aPolynomial! !
 
-!AlgebraicFieldExtension methodsFor: 'printing' stamp: 'len 4/21/2016 00:05'!
+!AlgebraicExtension methodsFor: 'printing' stamp: 'len 4/21/2016 00:05'!
 printOn: aStream
 	aStream print: self baseField; nextPut: $(; print: self polynomial; nextPut: $)! !
 
-!AlgebraicFieldExtension methodsFor: 'accessing' stamp: 'len 3/19/2016 04:24'!
+!AlgebraicExtension methodsFor: 'accessing' stamp: 'len 3/19/2016 04:24'!
 size
 	^ self baseField size ** self degree! !
 
-!AlgebraicFieldExtension class methodsFor: 'instance creation' stamp: 'len 5/12/2016 10:05'!
+!AlgebraicExtension methodsFor: 'accessing' stamp: 'len 6/4/2016 18:12'!
+x
+	"Answer the transcendental element of the receiver."
+	^ self asQuotientRing project: self asQuotientRing ideal ambient x! !
+
+!AlgebraicExtension class methodsFor: 'instance creation' stamp: 'len 5/12/2016 10:05'!
 polynomial: aPolynomial
 	"Answer a new algebraic field extension K(f) where f is the given polynomial in K[x]. The polynomial must be irreducible, otherwise there would be zero divisors."
 	^ self new polynomial: aPolynomial! !
@@ -11468,7 +11458,7 @@ polynomial: aPolynomial
 adjoint
 	^ adjoint! !
 
-!NumberField methodsFor: 'accessing' stamp: 'len 1/11/2016 02:03'!
+!NumberField methodsFor: 'accessing-private' stamp: 'len 1/11/2016 02:03'!
 adjoint: anAlgebraicNumber
 	adjoint _ anAlgebraicNumber! !
 
@@ -11483,10 +11473,6 @@ baseField
 !NumberField methodsFor: 'accessing' stamp: 'len 1/10/2016 22:35'!
 basis
 	^ self integralBasis! !
-
-!NumberField methodsFor: 'morphisms' stamp: 'len 3/20/2016 07:40'!
-characteristicPolynomialOf: element
-	^ (self asVectorSpace endomorphisms evaluating: [:x| x * element]) characteristicPolynomial! !
 
 !NumberField methodsFor: 'accessing' stamp: 'len 1/11/2016 02:22'!
 degree
@@ -11544,8 +11530,8 @@ signature
 	"Answer the signature (r1,r2) of the receiver, i.e. r1 the number of embeddings whose image is real, and 2*r2 the number of non-real complex embeddings."
 	^ self polynomial signature! !
 
-!NumberField methodsFor: 'morphisms' stamp: 'len 1/10/2016 20:57'!
-symmetricFunction: i of: element
+!NumberField methodsFor: 'morphisms' stamp: 'len 6/4/2016 17:42'!
+symmetricFunction: i of: anElement
 	^ self notYetImplemented! !
 
 !NumberField class methodsFor: 'instance creation' stamp: 'len 1/11/2016 02:03'!
@@ -19607,6 +19593,10 @@ matrix
 !LinearMap methodsFor: 'accessing-private' stamp: 'len 1/25/98 19:59'!
 matrix: aMatrix
 	matrix _ aMatrix! !
+
+!LinearMap methodsFor: 'operations' stamp: 'len 6/4/2016 18:10'!
+minimalPolynomial
+	^ self matrix minimalPolynomial! !
 
 !LinearMap methodsFor: 'arithmetic' stamp: 'len 1/8/2016 06:35'!
 negated
@@ -30481,6 +30471,10 @@ representative
 !Residue methodsFor: 'accessing-private' stamp: 'len 11/25/2015 03:12'!
 representative: anObject
 	representative _ anObject! !
+
+!Residue methodsFor: 'arithmetic' stamp: 'len 6/4/2016 18:04'!
+squared
+	^ self * self! !
 
 !Residue methodsFor: 'constants' stamp: 'len 3/22/2016 02:47'!
 zero
