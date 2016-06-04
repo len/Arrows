@@ -1,8 +1,18 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2752] on 27 May 2016 at 10:54:33.931877 pm'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2752] on 4 June 2016 at 5:02:20.264713 am'!
 
-!Object methodsFor: 'printing' stamp: 'len 4/3/2016 02:24'!
-printText
-	^ Text streamContents: [:aStream| self printOn: aStream]! !
+!Character class methodsFor: 'accessing mathematical symbols' stamp: 'len 5/30/2016 21:32'!
+doesNotExist
+	"
+	Character doesNotExist
+	"
+	^ self value: 16r83! !
+
+!Character class methodsFor: 'accessing mathematical symbols' stamp: 'len 5/30/2016 21:33'!
+exists
+	"
+	Character exists
+	"
+	^ self value: 16r82! !
 
 
 !Collection methodsFor: 'enumerating' stamp: 'len 2/17/2016 06:27'!
@@ -267,25 +277,6 @@ listAtCategoryNumber: anInteger
 	^(elementArray copyFrom: firstIndex to: lastIndex) sort! !
 
 
-!MorphicScanner methodsFor: 'scanning' stamp: 'jmv 4/7/2016 16:42'!
-placeEmbeddedObject: anchoredFormOrMorph
-
-	(super placeEmbeddedObject: anchoredFormOrMorph) ifFalse: [^ false].
-	(anchoredFormOrMorph is: #Morph)
-		ifTrue: [
-			anchoredFormOrMorph morphPosition:
-				((destX - anchoredFormOrMorph morphWidth)@
-				(lineY+ line baseline - anchoredFormOrMorph morphHeight)) -
-					topLeft.
-			canvas fullDraw: anchoredFormOrMorph ]
-		ifFalse: [
-			destY _ lineY.
-			canvas
-				image: anchoredFormOrMorph
-				at: destX - anchoredFormOrMorph width @ (destY + line baseline - anchoredFormOrMorph height) ].
-	^ true! !
-
-
 !Collection methodsFor: 'accessing' stamp: 'len 2/23/2016 23:02'!
 anyOne
 	"Answer any element in the receiver."
@@ -415,53 +406,6 @@ insertAndSelect: aString at: anInteger
 	self deselectAndPlaceCursorAt: anInteger.
 	self replaceSelectionWith: newText.
 	self selectFrom: anInteger to: anInteger + newText size - 1! !
-
-
-!SmalltalkEditor methodsFor: 'do-its' stamp: 'len 4/3/2016 07:42'!
-printIt
-	"Treat the current text selection as an expression; evaluate it. Insert the 
-	description of the result of evaluation after the selection and then make 
-	this description the new text selection."
-	self
-		evaluateSelectionAndDo: [ :result |
-			self afterSelectionInsertAndSelect: ' ', result printText ]
-		ifFail: [ morph flash ]! !
-
-
-!Morph methodsFor: 'geometry' stamp: 'jmv 9/22/2012 15:42'!
-morphBoundsInWorld: newBounds
-	| oldExtent newExtent |
-
-	"remove senders and implementors"
-	self flag: #jmvVer2.
-
-	oldExtent _ self morphExtentInWorld.
-	newExtent _ newBounds extent.
-	"Moving stuff around is most likely the most common operation.
-	Optimize it"
-	oldExtent = newExtent ifTrue: [
-		^self morphPositionInWorld: newBounds topLeft ].
-	(oldExtent dotProduct: oldExtent) <= (newExtent dotProduct: newExtent) ifTrue:[
-		"We're growing. First move then resize."
-		self morphPositionInWorld: newBounds topLeft; morphExtent: newExtent.
-	] ifFalse: [
-		"We're shrinking. First resize then move."
-		self morphExtent: newExtent; morphPositionInWorld: newBounds topLeft.
-	].! !
-
-!Morph methodsFor: 'printing' stamp: 'len 4/3/2016 03:52'!
-printOn: aStream 
-	"Add the identity of the receiver to a stream"
-	((aStream isKindOf: TextStream) and: [self owner isNil])
-		ifTrue:
-			[aStream withAttribute: (TextAnchor new anchoredFormOrMorph: self) do: [aStream nextPut: $*].
-			^ self].
-	super printOn: aStream. "a(n) className"
-	aStream 
-		nextPut: $(;
-		print: self identityHash;
-		nextPut: $).
-	self valueOfProperty: #morphName ifPresentDo: [:x | aStream nextPutAll: x asString]! !
 
 
 !SystemWindow methodsFor: 'drawing' stamp: 'len 5/27/2016 21:56'!
@@ -731,135 +675,6 @@ buildMorphicWindow
 	self setLabel: model labelString! !
 
 
-!InnerTextMorph methodsFor: 'notifications' stamp: 'jmv 4/8/2016 09:37'!
-possiblyChanged
-	| embeddedMorphs |
-	embeddedMorphs _ model actualContents embeddedMorphs.
-	self submorphsDo: [:each| 
-		(embeddedMorphs includes: each) ifFalse: [
-			self privateRemove: each.
-			each privateOwner: nil ]].
-	embeddedMorphs do: [:each| each owner == self ifFalse: [self addMorphFront: each]].
-	owner possiblyChanged! !
-
-
-!LayoutMorph methodsFor: 'layout' stamp: 'jmv 4/19/2016 11:21'!
-layoutSubmorphsHorizontallyIn: boundsForLayout
-	"Compute a new layout based on the given layout bounds."
-	| xSep ySep usableWidth sumOfFixed normalizationFactor availableForPropWidth 
-		fractionalWidths integerWidths theLeft usableHeight boundsTop boundsRight theTop minWidth submorphsToLayout 
-			nextMorph ht wd ls theRight boundsBottom theBottom alternativeWidths count diff i |
-	
-	boundsForLayout extent > (2@2) "self minimumExtent" 
-		ifFalse: [ ^self ]. "Too small. Don't bother!!"
-
-	submorphsToLayout := self submorphsToLayout.
-	xSep := self xSeparation.
-	ySep := self ySeparation.
-	usableWidth := boundsForLayout width - ((submorphsToLayout size + 1) * xSep).
-	sumOfFixed := submorphsToLayout sum: [ :m | m layoutSpec fixedWidth ].
-	availableForPropWidth := usableWidth - sumOfFixed max: 0.
-	normalizationFactor := self proportionalWidthNormalizationFactor.
-	availableForPropWidth := availableForPropWidth * normalizationFactor.
-	
-	fractionalWidths := submorphsToLayout collect: [ :m | m layoutSpec widthFor: availableForPropWidth ].
-	"Compute integer widths, mostly rounding but with occasional #floor or #ceiling as needed to keep sum"
-	integerWidths _ fractionalWidths collect: [ :w | w rounded ].
-	diff _ integerWidths sum - fractionalWidths sum rounded.
-	alternativeWidths _ diff > 0 ifTrue: [ fractionalWidths collect: [ :w | w floor ]] ifFalse: [ fractionalWidths collect: [ :w | w ceiling ]].
-	count _ diff abs.
-	i _ 1.
-	[ count > 0] whileTrue: [
-		(integerWidths at: i) = (alternativeWidths at: i) ifFalse: [
-			integerWidths at: i put: (alternativeWidths at: i).
-			count _ count -1 ].
-		i _ i + 1 ].
-	minWidth := integerWidths sum.
-	theLeft := ((usableWidth - minWidth) * (padding ifNil: [0]) max: 0) + boundsForLayout left + xSep.
-	usableHeight := boundsForLayout height - (ySep * 2) max: 0.
-	boundsTop    := boundsForLayout top + ySep.
-	boundsRight  := boundsForLayout right - xSep.
-	boundsBottom := boundsForLayout bottom - ySep.
-
-	submorphsToLayout size to: 1 by: -1 do: [ :index |
-		nextMorph := submorphsToLayout at: index.
-		"major direction"
-		wd := integerWidths at: index.
-		"minor direction"
-		ls := nextMorph layoutSpec.
-		ht := (ls heightFor: usableHeight) min: usableHeight.
-		theTop := ((usableHeight - ht) * ls minorDirectionPadding) floor + boundsTop.
-		theBottom := (theTop + ht) ceiling min: boundsBottom.
-		theRight := (theLeft + (wd min: minWidth)) "ceiling "min: boundsRight.
-		"Set bounds and adjust major direction for next step"
-		self flag: #jmvVer2.	"should extent be set in m's coordinate system? what if its scale is not 1?"
-		ls usesMorphExtent
-			ifTrue: [
-				nextMorph morphPosition: theLeft floor @ theTop floor ]
-			ifFalse: [
-				nextMorph morphPosition: theLeft floor @ theTop floor extent: theRight - theLeft @ (theBottom - theTop) ].
-		theLeft := theRight + xSep
-	]! !
-
-!LayoutMorph methodsFor: 'layout' stamp: 'jmv 4/19/2016 11:24'!
-layoutSubmorphsVerticallyIn: boundsForLayout
-	"Compute a new layout based on the given layout bounds."
-	| xSep ySep usableHeight sumOfFixed normalizationFactor availableForPropHeight 
-		fractionalHeights integerHeights theTop usableWidth boundsLeft boundsBottom theLeft minHeight submorphsToLayout 
-			nextMorph ht wd ls theBottom boundsRight theRight alternativeHeights count diff i |
-
-	boundsForLayout extent > (2@2) "self minimumExtent" 
-		ifFalse: [ ^self ]. "Too small. Don't bother!!"
-
-	submorphsToLayout := self submorphsToLayout.
-	xSep := self xSeparation.
-	ySep := self ySeparation.
-	usableHeight := boundsForLayout height - ((submorphsToLayout size + 1) * ySep).
-	sumOfFixed := submorphsToLayout sum: [ :m | m layoutSpec fixedHeight ].
-	availableForPropHeight := usableHeight - sumOfFixed max: 0.
-	normalizationFactor := self proportionalHeightNormalizationFactor.
-	availableForPropHeight := availableForPropHeight * normalizationFactor.
-	
-	fractionalHeights := submorphsToLayout collect: [ :m | m layoutSpec heightFor: availableForPropHeight ].
-	"Compute integer widths, mostly rounding but with occasional #floor or #ceiling as needed to keep sum"
-	integerHeights _ fractionalHeights collect: [ :w | w rounded ].
-	diff _ integerHeights sum - fractionalHeights sum rounded.
-	alternativeHeights _ diff > 0 ifTrue: [ fractionalHeights collect: [ :w | w floor ]] ifFalse: [ fractionalHeights collect: [ :w | w ceiling ]].
-	count _ diff abs.
-	i _ 1.
-	[ count > 0] whileTrue: [
-		(integerHeights at: i) = (alternativeHeights at: i) ifFalse: [
-			integerHeights at: i put: (alternativeHeights at: i).
-			count _ count -1 ].
-		i _ i + 1 ].
-	minHeight := integerHeights sum.
-	theTop := ((usableHeight - minHeight) * (padding ifNil: [0]) max: 0) + boundsForLayout top + ySep.
-	usableWidth     := boundsForLayout width - (xSep * 2) max: 0.
-	boundsLeft      := boundsForLayout left + xSep.
-	boundsBottom := boundsForLayout bottom - ySep.
-	boundsRight := boundsForLayout right - xSep.
-	
-	submorphsToLayout size to: 1 by: -1 do: [ :index |
-		nextMorph := submorphsToLayout at: index.
-		"major direction"
-		ht := integerHeights at: index.
-		"minor direction"
-		ls := nextMorph layoutSpec.
-		wd := (ls widthFor: usableWidth) min: usableWidth.
-		theLeft := ((usableWidth - wd) * ls minorDirectionPadding) floor + boundsLeft.
-		theRight := (theLeft + wd) ceiling min: boundsRight.
-		theBottom := (theTop + (ht min: minHeight)) "ceiling" min: boundsBottom.
-		"Set bounds and adjust major direction for next step"
-		self flag: #jmvVer2.	"should extent be set in m's coordinate system? what if its scale is not 1?"
-		ls usesMorphExtent
-			ifTrue: [
-				nextMorph morphPosition: theLeft floor @ theTop floor ]
-			ifFalse: [
-				nextMorph morphPosition: theLeft floor @ theTop floor extent: theRight - theLeft @ (theBottom - theTop) ].
-		theTop := theBottom + ySep
-	]! !
-
-
 !ParkMiller88Random methodsFor: 'private' stamp: 'len 5/20/2016 02:23'!
 initialize
 	"Output stabilization is the user's responsibility"
@@ -869,16 +684,6 @@ initialize
 		seed = 0  "zero seeds are unacceptable"
 	] whileTrue.
 	seed _ seed asFloat! !
-
-
-!RealEstateAgent class methodsFor: 'as yet unclassified' stamp: 'jmv 5/20/2011 11:12'!
-maximumUsableAreaInWorld: aWorldOrNil
-
-	| allowedArea |
-	allowedArea _ Display boundingBox.
-	aWorldOrNil ifNotNil: [allowedArea _ allowedArea intersect: aWorldOrNil viewBox].
-	^allowedArea
-! !
 
 
 !Theme methodsFor: 'private - shout mappings' stamp: 'len 3/5/2016 22:41'!
@@ -939,55 +744,14 @@ generateShoutConfig
 
 !methodMoveToSomePackage: SmallInteger #bitCount!
 SmallInteger removeSelectorIfInBaseSystem: #bitCount!
-!methodMoveToSomePackage: Number #isInfinite!
-Number removeSelectorIfInBaseSystem: #isInfinite!
 !methodMoveToSomePackage: FloatArray #dotProduct:!
 FloatArray removeSelectorIfInBaseSystem: #dotProduct:!
+!methodRemoval: Character class #thereDoesNotExists!
+Character class removeSelector: #thereDoesNotExists!
+!methodRemoval: Character class #thereExists!
+Character class removeSelector: #thereExists!
 !methodMoveToSomePackage: BlockClosure #count!
 BlockClosure removeSelectorIfInBaseSystem: #count!
-!methodRemoval: Object #printTextLimitedTo:!
-Object removeSelector: #printTextLimitedTo:!
-!methodRemoval: Object #printTextOn:!
-Object removeSelector: #printTextOn:!
-
-!Object reorganize!
-('*Mathematics' isInfinity)
-('*fileman-core-converting')
-('*fileman-core-testing')
-('Breakpoint' break)
-('accessing' addInstanceVarNamed:withValue: at: at:put: basicAt: basicAt:put: basicSize customizeExplorerContents rawBasicAt: rawBasicAt:put: size yourself)
-('as yet unclassified' revisar)
-('associating' ->)
-('binding' bindingOf:)
-('casing' caseOf: caseOf:otherwise:)
-('class membership' class isKindOf: isMemberOf: respondsTo:)
-('comparing' = closeTo: hash literalEqual: ~=)
-('converting' adaptToFloat:andSend: adaptToFraction:andSend: adaptToInteger:andSend: as: asString complexContents mustBeBoolean mustBeBooleanIn: withoutListWrapper)
-('copying' copy copyForClipboard copyFrom: copySameFrom: postCopy shallowCopy veryDeepCopy)
-('error handling' assert: assert:description: caseError confirm: confirm:orCancel: doesNotUnderstand: error: halt halt: handles: notify:at: notifyWithLabel: primitiveFail primitiveFailed primitiveFailed: shouldBeImplemented shouldNotImplement subclassResponsibility)
-('evaluating' value valueWithArguments:)
-('events-accessing' actionForEvent: actionMap actionSequenceForEvent: actionsDo: hasActionForEvent: setActionSequence:forEvent: updateableActionMap)
-('events-old protocol' addDependent: breakDependents changed changed: removeDependent: update:)
-('events-registering' when:evaluate: when:send:to: when:send:to:with: when:send:to:withArguments:)
-('events-removing' releaseActionMap removeAction:forEvent: removeActionsForEvent: removeActionsSatisfying: removeActionsSatisfying:forEvent: removeActionsWithReceiver: removeActionsWithReceiver:forEvent:)
-('events-triggering' triggerEvent: triggerEvent:with: triggerEvent:withArguments:)
-('finalization' actAsExecutor executor finalizationRegistry finalize retryWithGC:until: toFinalizeSend:to:with:)
-('inspecting' basicInspect inspect inspectWithLabel: inspectorClass)
-('macpal' flash)
-('message handling' disableCode: executeMethod: perform: perform:with: perform:with:with: perform:with:with:with: perform:withArguments: perform:withArguments:inSuperclass: perform:withPossiblyWrongSizedArguments: with:executeMethod: with:with:executeMethod: with:with:with:executeMethod: with:with:with:with:executeMethod: withArgs:executeMethod:)
-('morphic' activeHand runningWorld)
-('object serialization' comeFullyUpOnReload: convertToCurrentVersion:refStream: objectForDataStream: readDataFrom:size: storeDataOn:)
-('printing' displayStringOrText fullPrintString isLiteral longPrintOn: longPrintOn:limitedTo:indent: longPrintString longPrintStringLimitedTo: nominallyUnsent: print printOn: printString printStringLimitedTo: printText printWithClosureAnalysisOn: storeOn: storeString)
-('stepping' stepAt: wantsSteps)
-('system primitives' becomeForward: becomeForward:copyHash: className instVarAt: instVarAt:put: instVarNamed: instVarNamed:put: primitiveChangeClassTo: someObject)
-('testing' is: isArray isBehavior isBlock isClosure isCollection isComplex isFloat isFraction isInteger isInterval isMethodProperties isNumber isPoint isPseudoContext isSequenceableCollection isString isSymbol isVariableBinding name renameTo:)
-('tracing' inboundPointers inboundPointersExcluding: outboundPointers outboundPointersDo:)
-('translation support' inline: success: var:declareC:)
-('user interface' browseClassHierarchy explore hasContentsInExplorer inform: notYetImplemented notify:)
-('user interface support' autoCompleterClassFor: editorClassFor: textStylerClassFor:)
-('private' errorImproperStore errorNonIntegerIndex errorNotIndexable errorSubscriptBounds: primitiveError: species storeAt:inTempFrame:)
-!
-
 
 !Workspace reorganize!
 ('binding' bindingNamesDo: bindingOf: hasBindingOf: hasBindingThatBeginsWith: initializeBindings)
@@ -1032,14 +796,6 @@ Object removeSelector: #printTextOn:!
 ('printing' printOn:)
 ('testing' hasAnyCategoriesSuchThat:)
 ('private' elementArray firstIndexOfCategoryNumber: lastIndexOfCategoryNumber: setDefaultList:)
-!
-
-
-!MorphicScanner reorganize!
-('accessing' canvas:)
-('scanning' displayBulletIfAppropriateFor:textLeft: displayBulletTextLeft:number: displayLine:textTopLeft:leftInRun: placeEmbeddedObject:)
-('stop conditions' crossedX doNewLine endOfRun paddedSpace setStopConditions tab)
-('private' setFont text:foreground: textColor:)
 !
 
 
@@ -1203,28 +959,15 @@ String initialize!
 !
 
 
-!SmalltalkEditor reorganize!
-('accessing-selection' selection)
-('do-its' compileSelectionFor:in: debug:receiver:in: debugIt doIt evaluateSelectionAndDo:ifFail: exploreIt inspectIt printIt)
-('editing keys' browseIt: doIt: exploreIt: fileItIn: implementorsOfIt: inspectIt: methodStringsContainingit: pasteInitials: printIt: referencesToIt: save: sendersOfIt:)
-('events' clickAndHalf)
-('explain' explainAnySel: explainChar: explainClass: explainCtxt: explainGlobal: explainInst: explainMySel: explainNumber: explainPartSel: explainTemp:)
-('menu messages' browseClassFromIt browseIt classCommentsContainingIt explain fileItIn getMenu2 implementorsOfIt methodSourceContainingIt methodStringsContainingit referencesToIt selectedSelector selectedSymbol sendersOfIt)
-('new selection' nextTokenFrom:direction: notify:at:in: selectPrecedingIdentifier selectWord)
-('typing/selecting keys' argAdvance: displayIfFalse: displayIfTrue: newLine:)
-('private' codeProvider explainDelimitor:)
-!
-
-
 !Number reorganize!
-('*Mathematics' ** , adaptToQuaternion:andSend: asQuaternion conjugated isAlgebraic isInfinite isRational norm norm2 one zero)
-('arithmetic' * + - / // abs arg div: mod: negated quo: reciprocal rem: \\)
+('*Mathematics' ** , adaptToQuaternion:andSend: asQuaternion conjugated isAlgebraic isRational norm norm2 one zero)
+('arithmetic' * + - / // \\ abs arg div: mod: negated quo: reciprocal rem:)
 ('comparing' closeTo:)
-('converting' adaptToCollection:andSend: adaptToComplex:andSend: adaptToFloat:andSend: adaptToFraction:andSend: adaptToInteger:andSend: adaptToPoint:andSend: asComplex asInteger asIntegerOrFloat asNumber asPoint asSmallAngleDegrees asSmallPositiveDegrees days degreesToRadians degreesToRadiansMinutes:seconds: hours i milliSeconds minutes nanoSeconds radiansToDegrees seconds weeks withNegativeSign @)
+('converting' @ adaptToCollection:andSend: adaptToComplex:andSend: adaptToFloat:andSend: adaptToFraction:andSend: adaptToInteger:andSend: adaptToPoint:andSend: asComplex asInteger asIntegerOrFloat asNumber asPoint asSmallAngleDegrees asSmallPositiveDegrees days degreesToRadians degreesToRadiansMinutes:seconds: hours i milliSeconds minutes nanoSeconds radiansToDegrees seconds weeks withNegativeSign)
 ('intervals' to: to:by: to:by:do: to:count: to:do:)
 ('mathematical functions' arCosh arSinh arTanh arcCos arcSin arcTan arcTan: copySignTo: cos cosh cubed degreeCos degreeSin exp floorLog: interpolateTo:at: lg ln log log: magnitude nthRoot: raisedTo: raisedToInteger: sign: sin sinh sqrt squared tan tanh)
 ('printing' isOrAreStringWith: printOn: printOn:base: printOn:fractionDigits: printOn:integerDigits:fractionDigits: printOn:integerDigits:padWith:fractionDigits:positiveIndicator: printString printStringBase: storeOn: storeOn:base: storeStringBase:)
-('testing' even isDivisibleBy: isNaN isNumber isZero negative odd positive sign strictlyPositive)
+('testing' even isDivisibleBy: isInfinite isNaN isNumber isZero negative odd positive sign strictlyPositive)
 ('truncation and round off' ceiling detentBy:atMultiplesOf:snap: floor fractionPart integerPart reduce roundDownTo: roundTo: roundUpTo: rounded truncateTo: truncated)
 !
 
@@ -1277,98 +1020,11 @@ String initialize!
 !
 
 
-!Morph reorganize!
-('accessing' adoptWidgetsColor: beSticky color location lock resistsRemoval toggleStickiness unlock unlockContents)
-('accessing - properties' hasProperty: isLocked isSticky lock: name name: nameForWorkspace removeProperty: setProperty:toValue: sticky: valueOfProperty: valueOfProperty:ifAbsent: valueOfProperty:ifPresentDo:)
-('as yet unclassified' canDiscardEdits disregardUnacceptedEdits icon rotationDegrees:)
-('caching' fullReleaseCachedState releaseCachedState)
-('change reporting' addedMorph: invalidateDisplayRect:from: invalidateLocalRect:)
-('classification' isWorldMorph)
-('copying' copy copyForClipboard duplicate)
-('debug and other' addDebuggingItemsTo:hand: buildDebugMenu: inspectOwnerChain ownerChain resumeAfterDrawError resumeAfterStepError)
-('drawing' addPossiblyUncoveredAreasIn:to: clipsLastSubmorph drawOn: drawingFails drawingFailsNot hide imageForm: isKnownFailing refreshWorld show visible visible:)
-('dropping/grabbing' aboutToBeGrabbedBy: aboutToGrab: justDroppedInto:event: justGrabbedFrom: rejectDropMorphEvent: wantsDroppedMorph:event: wantsToBeDroppedInto:)
-('e-toy support' embeddedInMorphicWindowLabeled: unlockOneSubpart wantsRecolorHandle)
-('event handling' mouseButton2Activity mouseStillDownStepRate mouseStillDownThreshold)
-('event handling testing' allowsMorphDrop allowsSubmorphDrag handlesKeyboard handlesMouseDown: handlesMouseOver: handlesMouseStillDown:)
-('events' click:localPosition: doubleClick:localPosition: dragEvent:localPosition: keyDown: keyStroke: keyUp: mouseButton1Down:localPosition: mouseButton1Up:localPosition: mouseButton2Down:localPosition: mouseButton2Up:localPosition: mouseButton3Down:localPosition: mouseButton3Up:localPosition: mouseEnter: mouseLeave: mouseMove:localPosition: mouseStillDown windowEvent:)
-('events-alarms' addAlarm:after: addAlarm:with:after: addAlarm:withArguments:after: alarmScheduler removeAlarm:)
-('events-processing' containsPoint:event: dispatchEvent:localPosition: focusKeyboardFor: handleFocusEvent: processDropMorph:localPosition: processKeyDown:localPosition: processKeyUp:localPosition: processKeystroke:localPosition: processMouseDown:localPosition: processMouseEnter:localPosition: processMouseLeave:localPosition: processMouseMove:localPosition: processMouseOver:localPosition: processMouseStillDown processMouseUp:localPosition: processUnknownEvent:localPosition: processWindowEvent:localPosition: rejectsEvent:)
-('fileIn/out' prepareToBeSaved storeDataOn:)
-('focus handling' hasKeyboardFocus hasMouseFocus keyboardFocusChange:)
-('geometry' extentBorder externalize: externalizeDisplayBounds: externalizeDistance: externalizeDistanceToWorld: externalizeToWorld: fontPreferenceChanged internalize: internalizeDistance: internalizeDistanceFromWorld: internalizeFromWorld: minimumExtent morphAlign:with: morphBounds morphBounds: morphBoundsInWorld morphBoundsInWorld: morphExtent morphExtent: morphExtentInWorld morphExtentInWorld: morphFullBoundsInWorld morphHeight morphLocalBounds morphPosition morphPosition: morphPositionInWorld morphPositionInWorld: morphTopLeft morphWidth rotateBy: rotation:scale: scaleBy: worldBoundsForHalo)
-('geometry eToy' referencePosition referencePosition:)
-('geometry testing' fullContainsPoint: isOrthoRectangularMorph morphContainsPoint:)
-('halos and balloon help' addHalo addHalo: addHalo:from: addHandlesTo:box: addOptionalHandlesTo:box: balloonHelpDelayTime balloonText comeToFrontAndAddHalo deleteBalloon editBalloonHelpContent: editBalloonHelpText halo mouseDownOnHelpHandle: noHelpString okayToBrownDragEasily okayToResizeEasily okayToRotateEasily removeHalo setBalloonText: showBalloon: showBalloon:hand: transferHalo:from: wantsBalloon wantsHalo wantsHaloHandleWithSelector:inHalo:)
-('initialization' inATwoWayScrollPane initialize intoWorld: openInHand openInWorld openInWorld:)
-('iteration of all morphs' nextMorph nextMorphPart2 nextMorphThat: previousMorph previousMorphThat:)
-('layout' acceptDroppingMorph:event: layoutSubmorphs layoutSubmorphsIfNeeded minItemWidth someSubmorphPositionOrExtentChanged)
-('layout-properties' layoutSpec layoutSpec: layoutSpecOrNil)
-('macpal' flash)
-('menus' addAddHandMenuItemsForHalo:hand: addColorMenuItems:hand: addCopyItemsTo: addCustomHaloMenuItems:hand: addCustomMenuItems:hand: addExportMenuItems:hand: addHaloActionsTo: addStandardHaloMenuItemsTo:hand: addTitleForHaloMenu: addToggleItemsToHaloMenu: changeColor collapse expand exportAsBMP exportAsJPEG lockUnlockMorph lockedString maybeAddCollapseItemTo: stickinessString)
-('meta-actions' addEmbeddingMenuItemsTo:hand: buildHandleMenu: changeColorTarget:selector:originalColor:hand: copyToClipboard: dismissMorph duplicateMorph: maybeDuplicateMorph potentialEmbeddingTargets resizeFromMenu resizeMorph)
-('naming' label)
-('object serialization' objectForDataStream:)
-('player' okayToDuplicate)
-('printing' printOn:)
-('rotate scale and flex' rotationDegrees)
-('stepping' shouldGetStepsFrom: startStepping startStepping: startStepping:in:stepTime: startStepping:stepTime: startSteppingStepTime: step stepAt: stopStepping stopStepping: wantsSteps)
-('structure' allOwnersDo: allOwnersReverseDo: firstOwnerSuchThat: hasOwner: isInWorld owner owningWindow root veryLastLeaf withAllOwnersDo: withAllOwnersReverseDo: world)
-('submorphs-accessing' allMorphsDo: clippedSubmorph findA: findDeepSubmorphThat:ifAbsent: findSubmorphBinary: firstSubmorph hasSubmorphs lastSubmorph noteNewOwner: submorphBehind: submorphCount submorphInFrontOf: submorphs submorphsBehind:do: submorphsDo: submorphsDrawingOutsideReverseDo: submorphsInFrontOf:do: submorphsReverseDo: submorphsSatisfying: unclippedSubmorphsReverseDo:)
-('submorphs-add/remove' addAllMorphs: addAllMorphs:after: addMorph: addMorph:behind: addMorph:inFrontOf: addMorph:position: addMorphBack: addMorphBack:position: addMorphFront: addMorphFront:position: addMorphFrontFromWorldPosition: comeToFront delete dismissViaHalo goBehind privateDelete removeAllMorphs removeAllMorphsIn: removeMorph: removedMorph: replaceSubmorph:by:)
-('testing' hasModel is: isCollapsed isOpaqueMorph isOwnedByHand isReallyVisible stepTime)
-('updating' redrawNeeded update:)
-('user interface' activateWindow activateWindowAndSendTopToBack:)
-('private' privateAddAllMorphs:atIndex: privateAddMorph:atIndex: privateAddMorph:atIndex:position: privateOwner: privatePosition: privateRemove: privateSubmorphs)
-!
-
-
 !ChangeSorterWindow reorganize!
 ('GUI building' buildMorphicWindow initialExtent windowColor)
 ('menu building' changeSetMenu classListMenu messageMenu)
 ('menu commands' browseMethodConflicts browseVersions)
 ('keyboard shortcuts' changeSetListKey:from: classListKey:from: messageListKey:from:)
-!
-
-
-!InnerTextMorph reorganize!
-('accept/cancel' acceptOnCR:)
-('accessing' askBeforeDiscardingEdits: contents: contentsAsIs: crAction disableEdition editor hasEditingConflicts hasEditingConflicts: isWrapped model: model:wrappedTo: textColor textColor: wrapFlag:)
-('anchors' anchorMorph:at:)
-('blinking cursor' onBlinkCursor pauseBlinking showsBlinkingCursor startBlinking stopBlinking)
-('caching' releaseCachedState)
-('classification' is:)
-('drawing' debugDrawLineRectsOn: drawOn:)
-('editing' acceptContents acceptOnCR cancelEdits chooseEmphasisOrAlignment chooseFont enterClickableRegion:localPosition: handleInteraction: hasUnacceptedEdits:)
-('event handling' keyboardFocusChange: processKeyStroke:)
-('event handling testing' disablesEdition handlesKeyboard handlesMouseDown:)
-('events' clickAndHalf:localPosition: doubleClickAndHalf:localPosition: keyStroke: mouseButton1Down:localPosition: mouseButton1Up:localPosition: mouseMove:localPosition:)
-('events-processing' processKeystroke:localPosition: processMouseMove:localPosition:)
-('geometry' adjustExtent fontPreferenceChanged minimumExtent privateExtent:)
-('initialization' defaultColor initialize)
-('macpal' flash)
-('menu' addCustomMenuItems:hand: getMenu wrapOnOff wrapString)
-('miscellaneous' disregardUnacceptedEdits selectAll)
-('notifications' possiblyChanged someSubmorphPositionOrExtentChanged)
-('selection' scrollSelectionIntoView)
-('shout' formatAndStyleIfNeeded okToStyle stylerStyled)
-('submorphs-add/remove' addMorphFrontFromWorldPosition:)
-('testing' canDiscardEdits hasUnacceptedEdits)
-('private' autoCompleterClass: extentForComposing fit installEditorAndTextComposition mouseButton2Activity mutex releaseEditorAndTextComposition removedMorph: resetTextComposition selectionChanged stylerClass: textComposition updateFromTextComposition)
-!
-
-
-!LayoutMorph reorganize!
-('accessing' adoptWidgetsColor: direction padding: separation: xSeparation ySeparation)
-('adjust' adjustBy:at: adjustHorizontallyBy:at: adjustVerticallyBy:at:)
-('convenience methods' addAdjusterAndMorph:fixedHeight: addAdjusterAndMorph:layoutSpec: addAdjusterAndMorph:proportionalHeight: addAdjusterAndMorph:proportionalWidth: addMorph:fixedHeight: addMorph:fixedWidth: addMorph:proportionalHeight: addMorph:proportionalWidth: addMorphKeepMorphHeight: addMorphUseAll: addMorphs: addMorphs:widthProportionalTo:)
-('geometry' calculateMinimumExtent fontPreferenceChanged minimumExtent)
-('initialization' beColumn beRow defaultColor doAdoptWidgetsColor initialize)
-('layout' layoutBounds layoutSubmorphs layoutSubmorphsHorizontallyIn: layoutSubmorphsVerticallyIn: submorphsToLayout)
-('layout in owner' layoutSpec)
-('submorphs-add/remove' addAdjusterMorph addMorph: addMorph:layoutSpec:)
-('testing' is:)
-('private' minPaneHeightForReframe minPaneWidthForReframe proportionalHeightNormalizationFactor proportionalWidthNormalizationFactor)
 !
 
 
@@ -1385,6 +1041,12 @@ String initialize!
 ('testing' exists hasChanges hasComment hasDefinition hasMetaclass isMeta nameExists needsInitialize)
 ('testing method dictionary' bindingOf: includesSelector:)
 ('private' allSubclassesWithLevelDo:startingLevel: confirmRemovalOf: evaluate: makeSureClassExists: makeSureSuperClassExists: parserClass)
+!
+
+
+!TextStream reorganize!
+('accessing' nextPutAll:)
+('private' applyAttribute:beginningAt: nextPutAllString:withAttributes: withAttribute:do: withAttributes:do:)
 !
 
 
