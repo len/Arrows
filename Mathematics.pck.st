@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2752] on 4 June 2016 at 6:16:40.250355 am'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2752] on 4 June 2016 at 5:20:27.487988 pm'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 81!
+!provides: 'Mathematics' 1 82!
 !classDefinition: #AbelianGroupPresentation category: #'Mathematics-Free'!
 Object subclass: #AbelianGroupPresentation
 	instanceVariableNames: 'generators relators'
@@ -3493,6 +3493,11 @@ My instances are finitely-generated linear subspaces of a vector space.!
 
 !Matrices commentStamp: '<historical>' prior: 0!
 My instances are vector spaces (or modules) of matrices of n rows by m columns over a given field (or ring).!
+
+!QuotientSpace commentStamp: '<historical>' prior: 0!
+My instances are quotient spaces V / S (read "V mod S") of a given vector space V modulo a subspace S.
+
+The elements of a quotient space are affine subspaces (flats) S + v with v in V, and they form a vector space.!
 
 !ScalarVectorSpace commentStamp: '<historical>' prior: 0!
 My instances are one dimensional vector spaces of scalars.!
@@ -9872,10 +9877,6 @@ matrix: aMatrix
 	self basis do: [:each| (anObject includes: each) ifFalse: [^ false]].
 	^ true! !
 
-!VectorSpace methodsFor: 'morphisms' stamp: 'len 6/4/2016 04:28'!
-affine
-	^ AffineSubspace representative: self zero direction: self! !
-
 !VectorSpace methodsFor: 'accessing' stamp: 'len 5/23/2016 19:30'!
 ambient
 	"Answer the ambient vector space."
@@ -10006,10 +10007,6 @@ product: aVectorSpace
 	^ (aVectorSpace isVectorSpace and: [aVectorSpace scalars = self scalars])
 		ifTrue: [self directSum: aVectorSpace]
 		ifFalse: [super product: aVectorSpace]! !
-
-!VectorSpace methodsFor: 'morphisms' stamp: 'len 6/3/2016 19:51'!
-projectiveCompletion
-	^ ProjectiveSubspace on: (self directSum: (ScalarVectorSpace over: self scalars))! !
 
 !VectorSpace methodsFor: 'morphisms' stamp: 'len 6/2/2016 18:15'!
 projectivization
@@ -10238,14 +10235,9 @@ includes: anObject
 isCoproduct
 	^ true! !
 
-!DirectSumSpace methodsFor: 'printing' stamp: 'len 4/21/2016 00:02'!
+!DirectSumSpace methodsFor: 'printing' stamp: 'len 6/4/2016 09:09'!
 printOn: aStream
-	components
-		do: [:each|
-			(each printString allSatisfy: [:c| c isAlphaNumeric])
-				ifTrue: [aStream print: each ]
-				ifFalse: [aStream nextPut: $(; print: each; nextPut: $)]]
-		separatedBy: [aStream nextPut: Character directSum]! !
+	components do: [:each| aStream print: each] separatedBy: [aStream nextPut: Character directSum]! !
 
 !DirectSumSpace methodsFor: 'morphisms' stamp: 'len 5/1/2016 18:55'!
 projection: i
@@ -13060,6 +13052,10 @@ printOn: aStream
 product: anAffineSubspace
 	^ self class on: (direction product: anAffineSubspace direction)! !
 
+!AffineSubspace methodsFor: 'morphisms' stamp: 'len 6/4/2016 08:57'!
+projectiveCompletion
+	^ (direction directSum: (ScalarVectorSpace over: self scalars)) projectivization! !
+
 !AffineSubspace methodsFor: 'accessing' stamp: 'len 6/4/2016 04:18'!
 representative
 	^ representative! !
@@ -13229,11 +13225,12 @@ project: anIndeterminate
 	"Answer the projection of the receiver by eliminating the given indeterminate."
 	^ self class ideal: (ideal eliminate: anIndeterminate)! !
 
-!AlgebraicSet methodsFor: 'morphisms' stamp: 'len 6/4/2016 05:50'!
+!AlgebraicSet methodsFor: 'morphisms' stamp: 'len 6/4/2016 08:58'!
 projectivization
 	"The projective closure of an affine variety is the variety corresponding to the homogenized ideal."
 	self groundField isAlgebraicallyClosed ifFalse: [self error: 'the ground field is not algebraically closed']. "otherwise the variety obtained can be bigger than the actual projective closure"
-	^ self class ideal: ideal homogenized! !
+	self isAffine ifFalse: [self error: 'only affine varieties can be projectivized'].
+	^ self class on: space projectiveCompletion ideal: ideal homogenized! !
 
 !AlgebraicSet methodsFor: 'accessing' stamp: 'len 12/15/2015 22:07'!
 space
@@ -13454,14 +13451,9 @@ includes: anObject
 isProduct
 	^ true! !
 
-!CartesianProduct methodsFor: 'printing' stamp: 'len 4/21/2016 00:11'!
+!CartesianProduct methodsFor: 'printing' stamp: 'len 6/4/2016 09:09'!
 printOn: aStream
-	components
-		do: [:each|
-			(each printString allSatisfy: [:c| c isAlphaNumeric])
-				ifTrue: [aStream print: each]
-				ifFalse: [aStream nextPut: $(; print: each; nextPut: $)]]
-		separatedBy: [aStream nextPut: $x]! !
+	components do: [:each| aStream print: each] separatedBy: [aStream nextPut: $x]! !
 
 !CartesianProduct methodsFor: 'morphisms' stamp: 'len 2/12/2016 04:11'!
 projection: i
@@ -13597,88 +13589,88 @@ schlafliMatrix
 simpleReflections
 	^ generators! !
 
-!EquivalenceClass methodsFor: 'as yet unclassified' stamp: 'len 4/25/2016 09:14'!
+!EquivalenceClass methodsFor: 'comparing' stamp: 'len 4/25/2016 09:14'!
 = anEquivalenceClass
 	^ anEquivalenceClass includes: self representative! !
 
-!EquivalenceClass methodsFor: 'as yet unclassified' stamp: 'len 4/25/2016 09:33'!
+!EquivalenceClass methodsFor: 'iterating' stamp: 'len 4/25/2016 09:33'!
 do: aBlock
 	self relation domain do: [:each| (self relation includes: {each. self representative}) ifTrue: [aBlock value: each]]! !
 
-!EquivalenceClass methodsFor: 'as yet unclassified' stamp: 'len 4/25/2016 09:13'!
+!EquivalenceClass methodsFor: 'comparing' stamp: 'len 4/25/2016 09:13'!
 hash
 	^ self class hash! !
 
-!EquivalenceClass methodsFor: 'as yet unclassified' stamp: 'len 4/24/2016 04:40'!
+!EquivalenceClass methodsFor: 'testing' stamp: 'len 4/24/2016 04:40'!
 includes: anElement
 	^ self relation includes: {anElement. self representative}! !
 
-!EquivalenceClass methodsFor: 'as yet unclassified' stamp: 'len 4/24/2016 04:37'!
+!EquivalenceClass methodsFor: 'printing' stamp: 'len 4/24/2016 04:37'!
 printOn: aStream
 	aStream nextPut: $[; print: self representative; nextPut: $]! !
 
-!EquivalenceClass methodsFor: 'as yet unclassified' stamp: 'len 4/24/2016 04:39'!
+!EquivalenceClass methodsFor: 'accessing' stamp: 'len 4/24/2016 04:39'!
 relation
 	^ properties at: #relation! !
 
-!EquivalenceClass methodsFor: 'as yet unclassified' stamp: 'len 4/24/2016 04:38'!
+!EquivalenceClass methodsFor: 'accessing-private' stamp: 'len 4/24/2016 04:38'!
 relation: anEquivalenceRelation
 	properties at: #relation put: anEquivalenceRelation! !
 
-!EquivalenceClass methodsFor: 'as yet unclassified' stamp: 'len 4/25/2016 08:40'!
+!EquivalenceClass methodsFor: 'accessing' stamp: 'len 4/25/2016 08:40'!
 representative
 	^ representative! !
 
-!EquivalenceClass methodsFor: 'as yet unclassified' stamp: 'len 4/25/2016 08:40'!
+!EquivalenceClass methodsFor: 'accessing-private' stamp: 'len 4/25/2016 08:40'!
 representative: anElement
 	representative _ anElement! !
 
-!EquivalenceClass class methodsFor: 'as yet unclassified' stamp: 'len 4/25/2016 09:23'!
+!EquivalenceClass class methodsFor: 'instance creation' stamp: 'len 4/25/2016 09:23'!
 representative: anElement relation: anEquivalenceRelation
 	^ self new representative: anElement; relation: anEquivalenceRelation! !
 
-!EquivalenceRelation methodsFor: 'as yet unclassified' stamp: 'len 4/25/2016 08:47'!
+!EquivalenceRelation methodsFor: 'accessing-private' stamp: 'len 4/25/2016 08:47'!
 block: aBlock
 	properties at: #block put: aBlock! !
 
-!EquivalenceRelation methodsFor: 'as yet unclassified' stamp: 'len 4/25/2016 08:55'!
+!EquivalenceRelation methodsFor: 'iterating' stamp: 'len 4/25/2016 08:55'!
 do: aBlock
 	self domain do: [:x|
 		self domain do: [:y|
 			| r |
 			(self includes: (r _ {x.y})) ifTrue: [aBlock value: r]]]! !
 
-!EquivalenceRelation methodsFor: 'as yet unclassified' stamp: 'len 4/25/2016 08:49'!
+!EquivalenceRelation methodsFor: 'accessing' stamp: 'len 4/25/2016 08:49'!
 domain
 	^ properties at: #domain! !
 
-!EquivalenceRelation methodsFor: 'as yet unclassified' stamp: 'len 4/25/2016 08:49'!
+!EquivalenceRelation methodsFor: 'accessing-private' stamp: 'len 4/25/2016 08:49'!
 domain: aDomain
 	properties at: #domain put: aDomain! !
 
-!EquivalenceRelation methodsFor: 'as yet unclassified' stamp: 'len 4/25/2016 09:23'!
+!EquivalenceRelation methodsFor: 'testing' stamp: 'len 4/25/2016 09:23'!
 includes: anArray
 	^ (properties at: #block) valueWithArguments: anArray! !
 
-!EquivalenceRelation methodsFor: 'as yet unclassified' stamp: 'len 4/24/2016 04:25'!
+!EquivalenceRelation methodsFor: 'testing' stamp: 'len 4/24/2016 04:25'!
 isReflexive
 	^ true! !
 
-!EquivalenceRelation methodsFor: 'as yet unclassified' stamp: 'len 4/24/2016 04:24'!
+!EquivalenceRelation methodsFor: 'testing' stamp: 'len 4/24/2016 04:24'!
 isSymmetric
 	^ true! !
 
-!EquivalenceRelation methodsFor: 'as yet unclassified' stamp: 'len 4/24/2016 04:25'!
+!EquivalenceRelation methodsFor: 'testing' stamp: 'len 4/24/2016 04:25'!
 isTransitive
 	^ true! !
 
-!EquivalenceRelation methodsFor: 'as yet unclassified' stamp: 'len 4/25/2016 09:27'!
+!EquivalenceRelation methodsFor: 'printing' stamp: 'len 4/25/2016 09:27'!
 printOn: aStream
 	((properties includesKey: #name) or: [properties includesKey: #elements])
 		ifTrue: [^ super printOn: aStream].
 	aStream nextPut: $~! !
 
-!EquivalenceRelation class methodsFor: 'as yet unclassified' stamp: 'len 4/25/2016 08:48'!
+!EquivalenceRelation class methodsFor: 'instance creation' stamp: 'len 4/25/2016 08:48'!
 on: aDomain evaluating: aBlock
 	^ self new domain: aDomain; block: aBlock! !
 
@@ -16471,10 +16463,10 @@ embed: aPoint
 	"Assumeing the underlying vector space is V (+) K, embed aPoint from A(V) into the receiver."
 	^ self project: {aPoint. vectorSpace scalars one}! !
 
-!ProjectiveSubspace methodsFor: 'morphisms' stamp: 'len 6/3/2016 23:31'!
-embeding
+!ProjectiveSubspace methodsFor: 'morphisms' stamp: 'len 6/4/2016 06:32'!
+embedding
 	"Answer the embedding A(V) -> P(V (+) K), assuming the underlying vector space is V (+) K."
-	^ (vectorSpace at: 1) affine -> self evaluating: [:p| self embed: p]! !
+	^ (vectorSpace at: 1) asAffineSpace -> self evaluating: [:p| self embed: p]! !
 
 !ProjectiveSubspace methodsFor: 'accessing' stamp: 'len 1/3/2016 05:27'!
 frame
@@ -32585,7 +32577,7 @@ testPerpZ2
 	self assert: (V innerProduct value: {S basis first. perp basis first}) isZero.
 	self assert: (V innerProduct value: {S basis first. perp basis second}) isZero! !
 
-!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 5/13/2016 03:05'!
+!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 6/4/2016 08:34'!
 testSubspaceInclusion
 	| V S P v w |
 	V _ Rationals new ** 3.
@@ -32594,8 +32586,11 @@ testSubspaceInclusion
 	[w _ V atRandomBits: 10. S includes: w] whileTrue.
 	P _ V span: {v-w. w}.
 	self assert: S < P.
+	self assert: P > S.
 	self assert: S ~= P.
-	self assert: P > S! !
+	self assert: P ~= S.
+	self assert: (S > P) not.
+	self assert: (P < S) not! !
 
 !LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 2/29/2016 00:49'!
 testSubspaceIntersection
@@ -32608,6 +32603,21 @@ testSubspaceIntersection
 	self assert: (S intersection: T) = T.
 	T` _ V span: {(3,1,-1). (0,1,0)}.
 	self assert: (S intersection: T`) = T! !
+
+!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 6/4/2016 08:39'!
+testSubspaceOfSubspace
+	| V S s T t |
+	V _ Rationals new ** 3.
+	S _ (V grassmannian: 2) atRandomBits: 100.
+	T _ (S grassmannian: 1) atRandomBits: 100.
+	self assert: S < V.
+	self assert: T < S.
+	self assert: T < V.
+	[s _ S atRandomBits: 100. T includes: s] whileTrue.
+	[t _ T atRandomBits: 100. t isZero] whileTrue.
+	self assert: (S includes: s).
+	self assert: (S includes: t).
+	self assert: (T includes: t)! !
 
 !LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 4/19/2016 04:07'!
 testSubspaceSum
