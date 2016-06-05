@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2752] on 5 June 2016 at 10:40:41.038809 pm'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2752] on 5 June 2016 at 10:55:58.352064 pm'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 84!
+!provides: 'Mathematics' 1 85!
 !classDefinition: #AbelianGroupPresentation category: #'Mathematics-Free'!
 Object subclass: #AbelianGroupPresentation
 	instanceVariableNames: 'generators relators'
@@ -9172,6 +9172,11 @@ zero
 	anIdeal ambient = ambient ifFalse: [^ DomainError signal: 'ideals from different rings'].
 	^ self class on: ambient generators: (generators asSet copy addAll: anIdeal generators; yourself)! !
 
+!Ideal methodsFor: 'morphisms' stamp: 'len 6/5/2016 22:47'!
+/\ anIdeal
+	"Meet."
+	^ self intersection: anIdeal! !
+
 !Ideal methodsFor: 'comparing' stamp: 'len 12/14/2015 18:55'!
 < anIdeal
 	"Answer true if the receiver is strictly included in the argument."
@@ -9188,6 +9193,11 @@ zero
 	self == anIdeal ifTrue: [^ true].
 	(anIdeal isKindOf: Ideal) ifFalse: [^ false].
 	^ self <= anIdeal and: [anIdeal <= self]! !
+
+!Ideal methodsFor: 'morphisms' stamp: 'len 6/5/2016 22:46'!
+\/ anIdeal
+	"Join."
+	^ self + anIdeal! !
 
 !Ideal methodsFor: 'accessing' stamp: 'len 5/23/2016 04:15'!
 ambient
@@ -9290,14 +9300,6 @@ isPrincipal
 !Ideal methodsFor: 'testing' stamp: 'len 5/23/2016 04:20'!
 isProper
 	^ self ~= self ambient! !
-
-!Ideal methodsFor: 'lattice' stamp: 'len 11/21/2015 21:29'!
-join: anIdeal
-	^ self + anIdeal! !
-
-!Ideal methodsFor: 'lattice' stamp: 'len 2/24/2016 06:02'!
-meet: anIdeal
-	^ self intersection: anIdeal! !
 
 !Ideal methodsFor: 'printing' stamp: 'len 4/20/2016 23:59'!
 printOn: aStream
@@ -12958,6 +12960,11 @@ over: aRing
 	self flag: #fix. "wtf"
 	^ self class representative: (AffineSubspace representative: representative direction: aLinearSubspace) direction: direction / aLinearSubspace! !
 
+!AffineSubspace methodsFor: 'morphisms' stamp: 'len 6/5/2016 22:45'!
+/\ anAffineSubspace
+	"Meet."
+	^ self intersection: anAffineSubspace! !
+
 !AffineSubspace methodsFor: 'comparing' stamp: 'len 12/26/2015 20:01'!
 < anAffineSubspace
 	"Answer true if the receiver is strictly included in the argument."
@@ -12986,6 +12993,11 @@ over: aRing
 >= anAffineSubspace
 	"Answer true if the receiver includes the argument."
 	^ anAffineSubspace <= self! !
+
+!AffineSubspace methodsFor: 'morphisms' stamp: 'len 6/5/2016 22:45'!
+\/ anAffineSubspace
+	"Join."
+	^ self + anAffineSubspace! !
 
 !AffineSubspace methodsFor: 'accessing' stamp: 'len 6/4/2016 04:25'!
 ambient
@@ -13090,14 +13102,6 @@ isPoint
 !AffineSubspace methodsFor: 'testing' stamp: 'len 6/4/2016 04:29'!
 isZero
 	^ direction includes: representative! !
-
-!AffineSubspace methodsFor: 'lattice' stamp: 'len 11/21/2015 23:24'!
-join: anAffineSubspace
-	^ self + anAffineSubspace! !
-
-!AffineSubspace methodsFor: 'lattice' stamp: 'len 2/24/2016 05:58'!
-meet: anAffineSubspace
-	^ self intersection: anAffineSubspace! !
 
 !AffineSubspace methodsFor: 'morphisms' stamp: 'len 2/12/2016 01:50'!
 motions
@@ -13314,9 +13318,9 @@ space: anAffineSpace
 species
 	^ AlgebraicSet! !
 
-!AlgebraicSet methodsFor: 'morphisms' stamp: 'len 6/3/2016 20:28'!
+!AlgebraicSet methodsFor: 'morphisms' stamp: 'len 6/5/2016 22:54'!
 union: anAlgebraicSet
-	^ self class on: space ideal: (ideal intersection: anAlgebraicSet ideal)
+	^ self class on: space ideal: ideal /\ anAlgebraicSet ideal
 
 "alternatively:
 	^ self class on: space ideal: ideal * anAlgebraicSet ideal
@@ -16484,6 +16488,11 @@ perpendicularBisectors
 	(aProjectiveSpace isKindOf: ProjectiveSubspace) ifFalse: [^ super -> aProjectiveSpace].
 	^ super -> aProjectiveSpace elementClass: ProjectiveMap! !
 
+!ProjectiveSubspace methodsFor: 'morphisms' stamp: 'len 6/5/2016 22:47'!
+/\ aProjectiveSubspace
+	"Meet."
+	^ self intersection: aProjectiveSubspace! !
+
 !ProjectiveSubspace methodsFor: 'comparing' stamp: 'len 11/20/2015 22:07'!
 < aProjectiveSubspace
 	"Answer true if the receiver is strictly included in the argument."
@@ -16499,6 +16508,11 @@ perpendicularBisectors
 !ProjectiveSubspace methodsFor: 'comparing' stamp: 'len 12/14/2015 02:03'!
 = anObject
 	^ (anObject isKindOf: ProjectiveSubspace) and: [vectorSpace = anObject vectorSpace]! !
+
+!ProjectiveSubspace methodsFor: 'morphisms' stamp: 'len 6/5/2016 22:47'!
+\/ aProjectiveSubspace
+	"Join."
+	^ self + aProjectiveSubspace! !
 
 !ProjectiveSubspace methodsFor: 'accessing' stamp: 'len 5/23/2016 19:48'!
 ambient
@@ -16630,14 +16644,6 @@ isPlane
 !ProjectiveSubspace methodsFor: 'testing' stamp: 'len 11/21/2015 06:14'!
 isPoint
 	^ self dimension = 0! !
-
-!ProjectiveSubspace methodsFor: 'lattice' stamp: 'len 11/22/2015 01:15'!
-join: aProjectiveSubspace
-	^ self + aProjectiveSubspace! !
-
-!ProjectiveSubspace methodsFor: 'lattice' stamp: 'len 2/24/2016 05:58'!
-meet: aProjectiveSubspace
-	^ self intersection: aProjectiveSubspace! !
 
 !ProjectiveSubspace methodsFor: 'coordinates' stamp: 'len 6/4/2016 01:38'!
 pointAt: anHomogeneousTuple
@@ -32046,7 +32052,7 @@ testAlgebraicSetFinite
 	V _ (Qxy * {x*x - 1. y*y - (x*x) - 3}) variety.
 	self assert: V isFinite! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 3/24/2016 05:50'!
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 6/5/2016 22:54'!
 testAlgebraicSetIntersection
 	| Qxy x y V V` W |
 	Qxy _ Rationals new polynomialsIn: #(x y).
@@ -32054,7 +32060,7 @@ testAlgebraicSetIntersection
 	y _ Qxy y.
 	V _ (Qxy * {y}) variety.
 	V` _ (Qxy * {x*x - 1}) variety.
-	W _ V intersection: V`.
+	W _ V /\ V`.
 	self assert: (W includes: (1, 0)).
 	self assert: (W includes: (0, 1)) not! !
 
@@ -32181,7 +32187,7 @@ testIdealInclusion3
 	intersection (the ideal is not radical since includes f^2):"
 	self assert: (I includes: f**2)! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 3/24/2016 05:52'!
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 6/5/2016 22:54'!
 testIdealIntersection
 	"Example from Cox IVA 194 p."
 	| Qxy x y I J K |
@@ -32191,7 +32197,7 @@ testIdealIntersection
 	I _ Qxy * {x**2 * y}.
 	J _ Qxy * {x * (y**2)}.
 	K _ Qxy * {x**2*(y**2)}.
-	self assert: (I intersection: J) = K! !
+	self assert: I /\ J = K! !
 
 !AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 6/3/2016 03:02'!
 testLinearSubspaceAsAlgebraicVariety
