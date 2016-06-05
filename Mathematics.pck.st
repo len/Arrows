@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2752] on 5 June 2016 at 10:55:58.352064 pm'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2752] on 5 June 2016 at 11:28:43.971574 pm'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 85!
+!provides: 'Mathematics' 1 86!
 !classDefinition: #AbelianGroupPresentation category: #'Mathematics-Free'!
 Object subclass: #AbelianGroupPresentation
 	instanceVariableNames: 'generators relators'
@@ -4842,7 +4842,7 @@ reciprocal
 		irreducible: irreducible
 		bounds: self bounds reciprocal! !
 
-!AlgebraicNumber methodsFor: 'approximating' stamp: 'len 1/15/2016 02:09'!
+!AlgebraicNumber methodsFor: 'approximating' stamp: 'len 6/5/2016 23:02'!
 refine
 	| P Q P` Q` m x v c dx y v1 m1 |
 	radius _ radius / 2.
@@ -4866,7 +4866,7 @@ refine
 	2 timesRepeat: [x _ x - ((P value: x) / (P` value: x))].
 	approximation _ x! !
 
-!AlgebraicNumber methodsFor: 'approximating' stamp: 'len 6/5/2016 19:26'!
+!AlgebraicNumber methodsFor: 'approximating' stamp: 'len 6/5/2016 23:05'!
 refineTo: aNumber
 	"Refine the receiver up to get an approximation error < aNumber."
 	[self absoluteError >= aNumber] whileTrue: [self refine]! !
@@ -9904,6 +9904,11 @@ matrix: aMatrix
 	self = aSubspace ambient ifFalse: [^ self error: 'not a subspace'].
 	^ QuotientSpace by: aSubspace! !
 
+!VectorSpace methodsFor: 'morphisms' stamp: 'len 6/5/2016 23:27'!
+/\ aSubspace
+	"Meet."
+	^ self intersection: aSubspace! !
+
 !VectorSpace methodsFor: 'comparing' stamp: 'len 12/13/2015 05:18'!
 < aLinearSubspace
 	"Answer true if the receiver is strictly included in the argument, i.e. it's a proper subspace of the argument."
@@ -9925,6 +9930,11 @@ matrix: aMatrix
 	self basis = anObject basis ifTrue: [^ true].
 	self basis do: [:each| (anObject includes: each) ifFalse: [^ false]].
 	^ true! !
+
+!VectorSpace methodsFor: 'morphisms' stamp: 'len 6/5/2016 23:27'!
+\/ aSubspace
+	"Join."
+	^ self + aSubspace! !
 
 !VectorSpace methodsFor: 'accessing' stamp: 'len 5/23/2016 19:30'!
 ambient
@@ -13163,6 +13173,11 @@ span: aCollection
 representative: aVector direction: aVectorSpace
 	^ self new direction: aVectorSpace; representative: aVector! !
 
+!AlgebraicSet methodsFor: 'morphisms' stamp: 'len 6/5/2016 23:21'!
+/\ anAlgebraicSet
+	"Meet."
+	^ self intersection: anAlgebraicSet! !
+
 !AlgebraicSet methodsFor: 'comparing' stamp: 'len 12/14/2015 18:25'!
 < anAlgebraicSet
 	^ self ideal > anAlgebraicSet ideal! !
@@ -13179,6 +13194,11 @@ representative: aVector direction: aVectorSpace
 \ anAlgebraicSet
 	"Answer the difference of the receiver with the argument, whose associated ideal is the ideal (colon) quotient of the respective ideals."
 	^ self class on: space ideal: (ideal colon: anAlgebraicSet ideal)! !
+
+!AlgebraicSet methodsFor: 'morphisms' stamp: 'len 6/5/2016 23:22'!
+\/ anAlgebraicSet
+	"Join."
+	^ self union: anAlgebraicSet! !
 
 !AlgebraicSet methodsFor: 'morphisms' stamp: 'len 3/4/2016 07:56'!
 apply: aPolynomialMap
@@ -16509,6 +16529,11 @@ perpendicularBisectors
 = anObject
 	^ (anObject isKindOf: ProjectiveSubspace) and: [vectorSpace = anObject vectorSpace]! !
 
+!ProjectiveSubspace methodsFor: 'morphisms' stamp: 'len 6/5/2016 23:10'!
+\ anHyperplane
+	"Answer the difference of the receiver with an hyperplane, i.e. an affine space."
+	^ self notYetImplemented! !
+
 !ProjectiveSubspace methodsFor: 'morphisms' stamp: 'len 6/5/2016 22:47'!
 \/ aProjectiveSubspace
 	"Join."
@@ -17442,6 +17467,11 @@ printOn: aStream
 on: aSubgroup representative: anObject
 	^ self new subgroup: aSubgroup; representative: anObject! !
 
+!SemialgebraicSet methodsFor: 'morphisms' stamp: 'len 6/5/2016 23:25'!
+/\ aSemialgebraicSet
+	"Meet."
+	^ self intersection: aSemialgebraicSet! !
+
 !SemialgebraicSet methodsFor: 'comparing' stamp: 'len 6/2/2016 05:23'!
 = aSemialgebraicSet
 	self == aSemialgebraicSet ifTrue: [^ true].
@@ -17454,6 +17484,11 @@ on: aSubgroup representative: anObject
 \ aSemialgebraicSet
 	"Answer the difference of the receiver with the argument,"
 	^ self copyWithoutAll: aSemialgebraicSet cells! !
+
+!SemialgebraicSet methodsFor: 'morphisms' stamp: 'len 6/5/2016 23:25'!
+\/ aSemialgebraicSet
+	"Join."
+	^ self union: aSemialgebraicSet! !
 
 !SemialgebraicSet methodsFor: 'accessing' stamp: 'len 1/9/98 21:34'!
 add: aCell
