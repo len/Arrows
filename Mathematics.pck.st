@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2752] on 4 June 2016 at 6:16:02.263097 pm'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2752] on 5 June 2016 at 10:40:41.038809 pm'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 83!
+!provides: 'Mathematics' 1 84!
 !classDefinition: #AbelianGroupPresentation category: #'Mathematics-Free'!
 Object subclass: #AbelianGroupPresentation
 	instanceVariableNames: 'generators relators'
@@ -23,7 +23,7 @@ AffineFrame class
 
 !classDefinition: #AlgebraicNumber category: #'Mathematics-Fields'!
 Object subclass: #AlgebraicNumber
-	instanceVariableNames: 'polynomial irreducible approximation radius bounds'
+	instanceVariableNames: 'polynomial irreducible approximation radius'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Fields'!
@@ -69,6 +69,16 @@ Benchmark subclass: #PolynomialBenchmark
 	category: 'Mathematics-Tests'!
 !classDefinition: 'PolynomialBenchmark class' category: #'Mathematics-Tests'!
 PolynomialBenchmark class
+	instanceVariableNames: ''!
+
+!classDefinition: #SparsePolynomialMultiplicationBenchmark category: #'Mathematics-Tests'!
+Benchmark subclass: #SparsePolynomialMultiplicationBenchmark
+	instanceVariableNames: 'p pPlusOne'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Tests'!
+!classDefinition: 'SparsePolynomialMultiplicationBenchmark class' category: #'Mathematics-Tests'!
+SparsePolynomialMultiplicationBenchmark class
 	instanceVariableNames: ''!
 
 !classDefinition: #BerlekampMassey category: #'Mathematics-Algorithms'!
@@ -503,7 +513,7 @@ VectorSpace class
 
 !classDefinition: #AlgebraicExtensionSpace category: #'Mathematics-Fields'!
 VectorSpace subclass: #AlgebraicExtensionSpace
-	instanceVariableNames: 'extension'
+	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Fields'!
@@ -661,16 +671,6 @@ AbelianGroup subclass: #Ring
 Ring class
 	instanceVariableNames: ''!
 
-!classDefinition: #AlgebraicIntegers category: #'Mathematics-Fields'!
-Ring subclass: #AlgebraicIntegers
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Fields'!
-!classDefinition: 'AlgebraicIntegers class' category: #'Mathematics-Fields'!
-AlgebraicIntegers class
-	instanceVariableNames: ''!
-
 !classDefinition: #Field category: #'Mathematics-Kernel-Domains'!
 Ring subclass: #Field
 	instanceVariableNames: ''
@@ -821,6 +821,16 @@ Ring subclass: #FreeAlgebra
 FreeAlgebra class
 	instanceVariableNames: ''!
 
+!classDefinition: #GaussianIntegers category: #'Mathematics-Kernel-Domains-Concrete'!
+Ring subclass: #GaussianIntegers
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Kernel-Domains-Concrete'!
+!classDefinition: 'GaussianIntegers class' category: #'Mathematics-Kernel-Domains-Concrete'!
+GaussianIntegers class
+	instanceVariableNames: ''!
+
 !classDefinition: #Integers category: #'Mathematics-Kernel-Domains-Concrete'!
 Ring subclass: #Integers
 	instanceVariableNames: ''
@@ -829,16 +839,6 @@ Ring subclass: #Integers
 	category: 'Mathematics-Kernel-Domains-Concrete'!
 !classDefinition: 'Integers class' category: #'Mathematics-Kernel-Domains-Concrete'!
 Integers class
-	instanceVariableNames: ''!
-
-!classDefinition: #NumberRing category: #'Mathematics-Fields'!
-Ring subclass: #NumberRing
-	instanceVariableNames: 'numberField'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Fields'!
-!classDefinition: 'NumberRing class' category: #'Mathematics-Fields'!
-NumberRing class
 	instanceVariableNames: ''!
 
 !classDefinition: #PAdicIntegers category: #'Mathematics-ETC'!
@@ -911,16 +911,6 @@ AlgebraicCurve subclass: #EllipticCurve
 EllipticCurve class
 	instanceVariableNames: ''!
 
-!classDefinition: #Ball category: #'Mathematics-Kernel-Domains-Concrete'!
-Domain subclass: #Ball
-	instanceVariableNames: 'center radius'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Kernel-Domains-Concrete'!
-!classDefinition: 'Ball class' category: #'Mathematics-Kernel-Domains-Concrete'!
-Ball class
-	instanceVariableNames: ''!
-
 !classDefinition: #CartesianProduct category: #'Mathematics-Kernel-Domains'!
 Domain subclass: #CartesianProduct
 	instanceVariableNames: 'components'
@@ -939,6 +929,16 @@ Domain subclass: #ComplexBox
 	category: 'Mathematics-Kernel-Domains-Concrete'!
 !classDefinition: 'ComplexBox class' category: #'Mathematics-Kernel-Domains-Concrete'!
 ComplexBox class
+	instanceVariableNames: ''!
+
+!classDefinition: #ComplexDisk category: #'Mathematics-Kernel-Domains-Concrete'!
+Domain subclass: #ComplexDisk
+	instanceVariableNames: 'center radius'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Kernel-Domains-Concrete'!
+!classDefinition: 'ComplexDisk class' category: #'Mathematics-Kernel-Domains-Concrete'!
+ComplexDisk class
 	instanceVariableNames: ''!
 
 !classDefinition: #Cone category: #'Mathematics-Geometry-Polytopes'!
@@ -2823,7 +2823,7 @@ Residue class
 
 !classDefinition: #RootFinder category: #'Mathematics-Polynomials-Algorithms'!
 Object subclass: #RootFinder
-	instanceVariableNames: 'polynomial roots done'
+	instanceVariableNames: 'polynomial'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Polynomials-Algorithms'!
@@ -2831,14 +2831,14 @@ Object subclass: #RootFinder
 RootFinder class
 	instanceVariableNames: ''!
 
-!classDefinition: #ComplexRootFinder2 category: #'Mathematics-Polynomials-Algorithms'!
-RootFinder subclass: #ComplexRootFinder2
-	instanceVariableNames: ''
+!classDefinition: #ComplexRootFinder category: #'Mathematics-Polynomials-Algorithms'!
+RootFinder subclass: #ComplexRootFinder
+	instanceVariableNames: 'squareFreePolynomial derivatives roots'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Polynomials-Algorithms'!
-!classDefinition: 'ComplexRootFinder2 class' category: #'Mathematics-Polynomials-Algorithms'!
-ComplexRootFinder2 class
+!classDefinition: 'ComplexRootFinder class' category: #'Mathematics-Polynomials-Algorithms'!
+ComplexRootFinder class
 	instanceVariableNames: ''!
 
 !classDefinition: #FiniteFieldRootFinder category: #'Mathematics-Polynomials-Algorithms'!
@@ -2873,7 +2873,7 @@ RationalRootFinder class
 
 !classDefinition: #RealRootFinder category: #'Mathematics-Polynomials-Algorithms'!
 RootFinder subclass: #RealRootFinder
-	instanceVariableNames: 'sturm fourier'
+	instanceVariableNames: 'squareFreePolynomial sturm fourier roots'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Polynomials-Algorithms'!
@@ -3011,6 +3011,16 @@ TestCase subclass: #AlgebraicGeometryTest
 AlgebraicGeometryTest class
 	instanceVariableNames: ''!
 
+!classDefinition: #AlgebraicNumbersTest category: #'Mathematics-Tests'!
+TestCase subclass: #AlgebraicNumbersTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Tests'!
+!classDefinition: 'AlgebraicNumbersTest class' category: #'Mathematics-Tests'!
+AlgebraicNumbersTest class
+	instanceVariableNames: ''!
+
 !classDefinition: #CodesTest category: #'Mathematics-Tests'!
 TestCase subclass: #CodesTest
 	instanceVariableNames: ''
@@ -3039,16 +3049,6 @@ TestCase subclass: #GroupTest
 	category: 'Mathematics-Tests'!
 !classDefinition: 'GroupTest class' category: #'Mathematics-Tests'!
 GroupTest class
-	instanceVariableNames: ''!
-
-!classDefinition: #InfinityTest category: #'Mathematics-Tests'!
-TestCase subclass: #InfinityTest
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Tests'!
-!classDefinition: 'InfinityTest class' category: #'Mathematics-Tests'!
-InfinityTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #LinearAlgebraTest category: #'Mathematics-Tests'!
@@ -3091,6 +3091,16 @@ TestCase subclass: #MatrixTest
 MatrixTest class
 	instanceVariableNames: ''!
 
+!classDefinition: #NumberFieldTest category: #'Mathematics-Tests'!
+TestCase subclass: #NumberFieldTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Tests'!
+!classDefinition: 'NumberFieldTest class' category: #'Mathematics-Tests'!
+NumberFieldTest class
+	instanceVariableNames: ''!
+
 !classDefinition: #PolynomialTest category: #'Mathematics-Tests'!
 TestCase subclass: #PolynomialTest
 	instanceVariableNames: ''
@@ -3109,16 +3119,6 @@ TestCase subclass: #ProjectiveGeometryTest
 	category: 'Mathematics-Tests'!
 !classDefinition: 'ProjectiveGeometryTest class' category: #'Mathematics-Tests'!
 ProjectiveGeometryTest class
-	instanceVariableNames: ''!
-
-!classDefinition: #RealAlgebraicNumbersTest category: #'Mathematics-Tests'!
-TestCase subclass: #RealAlgebraicNumbersTest
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Tests'!
-!classDefinition: 'RealAlgebraicNumbersTest class' category: #'Mathematics-Tests'!
-RealAlgebraicNumbersTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #RootSystemTest category: #'Mathematics-Tests'!
@@ -3269,6 +3269,11 @@ testRealAlgebraicNumberDivision	102 per second.
 testRealAlgebraicNumberProduct	125 per second.
 testRealAlgebraicNumberSquare	3,490 per second.
 !
+
+!SparsePolynomialMultiplicationBenchmark commentStamp: 'len 6/5/2016 08:50' prior: 0!
+Timings giving in [1] on computers with 0.8ghz - 1ghz intel cpus: general purpose system 20s-100s, tuned systems 2.3s-10s. For bigger coefficients: singular 28s, pari 77s.
+
+[1] R.J. Fateman, Comparing the speed of sparse polynomial multiplication.!
 
 !BerlekampMassey commentStamp: '<historical>' prior: 0!
 I am the Berlekamp-Massey algorithm. The initial purpose of this algorithm was to evaluate Binary BCH codes, but it has found many uses, including inverting matrices of constant diagonal, solving linear recurrences (synthesizing LFSRs with a specified output sequence), etc.
@@ -3516,9 +3521,6 @@ Rings can be commutative or non-commutative. Some specific kinds of commutative 
 	
 Rings can be constructed from existing rings by taking quotients by an ideal (see QuotientRing), by making fractions (see FractionField), by making transendental extensions (Polynomials), etc.!
 
-!AlgebraicIntegers commentStamp: '<historical>' prior: 0!
-My instances are the complex algebraic integers, i.e. complex roots of monic polynomials with integer coefficients.!
-
 !AlgebraicExtension commentStamp: '<historical>' prior: 0!
 My instances are (finite) algebraic extensions E/F of a field F. They are defined by an irreducible polynomial f with coefficients in F, and is isomorphic to F[x]/<f>.!
 
@@ -3556,9 +3558,6 @@ The following sets are in bijection (naturally):
 2. K-algebra homomorphisms K[V] -> K.
 3. Maximal ideals in K[V].
 !
-
-!NumberRing commentStamp: '<historical>' prior: 0!
-My instances are the ring of intergers of a given number field.!
 
 !Polynomials commentStamp: '<historical>' prior: 0!
 My instances are polynomial rings in one or many indeterminates.!
@@ -4254,6 +4253,10 @@ conjugated
 
 	^ self! !
 
+!Number methodsFor: '*Mathematics' stamp: 'len 6/4/2016 21:55'!
+imaginary
+	^ 0! !
+
 !Number methodsFor: '*Mathematics' stamp: 'len 3/17/2016 03:40'!
 isAlgebraic
 	^ false! !
@@ -4273,6 +4276,10 @@ norm2
 !Number methodsFor: '*Mathematics' stamp: 'len 11/19/2015 20:58'!
 one
 	^ 1! !
+
+!Number methodsFor: '*Mathematics' stamp: 'len 6/4/2016 21:54'!
+real
+	^ self! !
 
 !Number methodsFor: '*Mathematics' stamp: 'len 11/19/2015 20:58'!
 zero
@@ -4612,29 +4619,35 @@ span
 origin: aPoint basis: aLinearBasis
 	^ self new origin: aPoint; basis: aLinearBasis! !
 
-!AlgebraicNumber methodsFor: 'arithmetic' stamp: 'len 5/12/2016 08:06'!
+!AlgebraicNumber methodsFor: 'arithmetic' stamp: 'len 6/5/2016 20:58'!
 * aNumber
-	| f precisionRequired rootFinder |
+	| roots |
 	aNumber class = self class
 		ifFalse: [^ aNumber adaptToAlgebraic: self andSend: #*].
-	f _ polynomial zeroProduct: aNumber polynomial.
-	rootFinder _ NumericComplexRootFinder polynomial: f.
-	precisionRequired _ rootFinder tolerance squared.
-	self refineTo: precisionRequired.
-	aNumber refineTo: precisionRequired.
-	^ rootFinder rootNear: approximation * aNumber approximation! !
+	aNumber isZero ifTrue: [^ aNumber].
+	self isZero ifTrue: [^ self].
+	roots _ (ComplexRootFinder polynomial: (self polynomial zeroProduct: aNumber polynomial)) roots.
+	[roots _ roots select: [:each| each bounds includes: self approximation * aNumber approximation].
+	roots size = 1]
+		whileFalse:
+			[roots do: [:each| self refineWith: each].
+			self refineWith: aNumber].
+	^ roots anyOne! !
 
-!AlgebraicNumber methodsFor: 'arithmetic' stamp: 'len 5/12/2016 08:06'!
+!AlgebraicNumber methodsFor: 'arithmetic' stamp: 'len 6/5/2016 20:41'!
 + aNumber
-	| f precisionRequired rootFinder |
+	| f disk |
 	aNumber class = self class
 		ifFalse: [^ aNumber adaptToAlgebraic: self andSend: #+].
-	f _ polynomial zeroAddition: aNumber polynomial.
-	rootFinder _ NumericComplexRootFinder polynomial: f.
-	precisionRequired _ rootFinder tolerance / 2.
-	self refineTo: precisionRequired.
-	aNumber refineTo: precisionRequired.
-	^ rootFinder rootNear: approximation + aNumber approximation! !
+	aNumber isZero ifTrue: [^ self].
+	self isZero ifTrue: [^ aNumber].
+	f _ ComplexRootFinder polynomial:
+		(self polynomial zeroAddition: aNumber polynomial).
+	[disk _ self bounds + aNumber bounds.
+	f moreThanOneRootIn: disk]
+		whileTrue:
+			[self refineWith: aNumber].
+	^ self class polynomial: f polynomial bounds: disk! !
 
 !AlgebraicNumber methodsFor: 'arithmetic' stamp: 'len 1/12/2016 03:38'!
 - anObject
@@ -4644,20 +4657,20 @@ origin: aPoint basis: aLinearBasis
 / anObject
 	^ self * anObject reciprocal! !
 
-!AlgebraicNumber methodsFor: 'comparing' stamp: 'len 1/13/2016 03:21'!
+!AlgebraicNumber methodsFor: 'comparing' stamp: 'len 6/4/2016 22:32'!
 = anObject
 	self == anObject ifTrue: [^ true].
 	anObject isNumber ifFalse: [^ false].
 	anObject class = self class
 		ifFalse: [^ anObject adaptToAlgebraic: self andSend: #=].
-	(self overlaps: anObject) ifFalse: [^ false].
-	(polynomial gcd: anObject polynomial) isConstant
+	(self bounds intersects: anObject bounds) ifFalse: [^ false].
+	(self polynomial gcd: anObject polynomial) isConstant
 		ifTrue: [^ false].
 	^ (self - anObject) isZero! !
 
-!AlgebraicNumber methodsFor: 'approximating' stamp: 'len 1/17/2016 02:13'!
+!AlgebraicNumber methodsFor: 'approximating' stamp: 'len 6/5/2016 19:35'!
 absoluteError
-	^ bounds area! !
+	^ radius! !
 
 !AlgebraicNumber methodsFor: 'converting' stamp: 'len 1/13/2016 03:41'!
 adaptToFloat: rcvr andSend: selector
@@ -4671,14 +4684,10 @@ adaptToFraction: rcvr andSend: selector
 adaptToInteger: rcvr andSend: selector
 	^ (self class fromRational: rcvr) perform: selector with: self! !
 
-!AlgebraicNumber methodsFor: 'accessing' stamp: 'len 5/12/2016 08:06'!
-allRoots
-	^ (NumericComplexRootFinder polynomial: polynomial) roots! !
-
-!AlgebraicNumber methodsFor: 'accessing' stamp: 'len 4/28/2016 06:23'!
+!AlgebraicNumber methodsFor: 'approximating' stamp: 'len 6/4/2016 21:20'!
 approximation
 	"Answre a rational or float current approximation of the receiver."
-	^ bounds midpoint! !
+	^ approximation "bounds midpoint"! !
 
 !AlgebraicNumber methodsFor: 'accessing-private' stamp: 'len 1/15/2016 02:07'!
 approximation: aNumber radius: anotherNumber
@@ -4691,11 +4700,11 @@ asComplexFloat
 	self refineTo: 0.000001.
 	^ approximation asFloat! !
 
-!AlgebraicNumber methodsFor: 'converting' stamp: 'len 1/13/2016 03:42'!
+!AlgebraicNumber methodsFor: 'converting' stamp: 'len 6/4/2016 22:16'!
 asFloat
 	"Answer a Float approximation of the receiver."
 	self refineTo: 0.000001.
-	^ approximation asFloat! !
+	^ self approximation asFloat! !
 
 !AlgebraicNumber methodsFor: 'converting' stamp: 'len 3/21/2016 22:51'!
 asRational
@@ -4713,14 +4722,10 @@ asRational
 				ifTrue: [approximation _ each. radius _ 0. ^ each]].
 	self error: 'the number is irrational'! !
 
-!AlgebraicNumber methodsFor: 'accessing' stamp: 'len 1/17/2016 02:06'!
+!AlgebraicNumber methodsFor: 'approximating' stamp: 'len 6/5/2016 20:59'!
 bounds
-	"Answer a bounding box in the complex plane where the receiver is located, isolated from all other roots of its minimal polynomial."
-	^ bounds! !
-
-!AlgebraicNumber methodsFor: 'accessing-private' stamp: 'len 1/17/2016 02:08'!
-bounds: aComplexBox
-	bounds _ aComplexBox! !
+	"Answer a disk in the complex plane where the receiver is located, isolated from all other roots of its minimal polynomial."
+	^ ComplexDisk center: approximation radius: radius! !
 
 !AlgebraicNumber methodsFor: 'accessing' stamp: 'len 1/13/2016 05:40'!
 conjugates
@@ -4767,26 +4772,34 @@ isRational
 isZero
 	^ approximation abs < radius and: [(polynomial value: 0) = 0]! !
 
-!AlgebraicNumber methodsFor: 'accessing' stamp: 'len 1/12/2016 03:59'!
+!AlgebraicNumber methodsFor: 'accessing' stamp: 'len 6/4/2016 22:10'!
 minimalPolynomial
-	^ irreducible ifTrue: [polynomial] ifFalse: [self notYetImplemented]! !
+	irreducible ifTrue: [^ polynomial].
+	polynomial _ polynomial factors asSet detect: [:one| (one value: self) isZero].
+	irreducible _ true.
+	^ polynomial! !
 
 !AlgebraicNumber methodsFor: 'accessing-private' stamp: 'len 1/12/2016 03:59'!
 minimalPolynomial: aPolynomial
 	polynomial _ aPolynomial.
 	irreducible _ true! !
 
-!AlgebraicNumber methodsFor: 'arithmetic' stamp: 'len 1/15/2016 02:07'!
+!AlgebraicNumber methodsFor: 'arithmetic' stamp: 'len 6/4/2016 22:33'!
 negated
 	"Answer the additive inverse of the receiver."
 	^ self class
 		polynomial: polynomial zeroNegation
-		approximation: approximation negated
-		radius: radius! !
+		irreducible: irreducible
+		approximation: self approximation negated
+		radius: self radius! !
 
 !AlgebraicNumber methodsFor: 'operations' stamp: 'len 1/10/2016 20:46'!
 norm
 	^ self conjugates product! !
+
+!AlgebraicNumber methodsFor: 'constants' stamp: 'len 6/4/2016 21:18'!
+one
+	^ 1! !
 
 !AlgebraicNumber methodsFor: 'accessing' stamp: 'len 1/12/2016 04:00'!
 polynomial
@@ -4801,16 +4814,16 @@ polynomial: aPolynomial
 printOn: aStream
 	self printOn: aStream base: 10! !
 
-!AlgebraicNumber methodsFor: 'printing' stamp: 'len 1/13/2016 01:10'!
+!AlgebraicNumber methodsFor: 'printing' stamp: 'len 6/4/2016 22:19'!
 printOn: aStream base: base
 	| real imaginary |
 	self refineTo: self printPrecision.
-	approximation isComplex
-		ifFalse: [(approximation roundTo: self printPrecision) printOn: aStream base: base. aStream nextPutAll: '..'. ^ self].
-	approximation real isZero
-		ifTrue: [(approximation imaginary roundTo: self printPrecision) printOn: aStream base: base. aStream nextPutAll: 'i..'. ^ self].
-	real _ approximation real asFloat roundTo: self printPrecision.
-	imaginary _ approximation imaginary asFloat roundTo: self printPrecision.
+	self approximation isComplex
+		ifFalse: [(self approximation roundTo: self printPrecision) printOn: aStream base: base. aStream nextPutAll: '..'. ^ self].
+	self approximation real isZero
+		ifTrue: [(self approximation imaginary roundTo: self printPrecision) printOn: aStream base: base. aStream nextPutAll: 'i..'. ^ self].
+	real _ self approximation real asFloat roundTo: self printPrecision.
+	imaginary _ self approximation imaginary asFloat roundTo: self printPrecision.
 	real printOn: aStream base: base.
 	aStream nextPutAll: (0 <= imaginary ifTrue: [' + '] ifFalse: [' - ']).
 	imaginary abs printOn: aStream base: base.
@@ -4820,16 +4833,14 @@ printOn: aStream base: base
 printPrecision
 	^ 0.00001! !
 
-!AlgebraicNumber methodsFor: 'arithmetic' stamp: 'len 5/12/2016 08:06'!
+!AlgebraicNumber methodsFor: 'arithmetic' stamp: 'len 6/5/2016 21:00'!
 reciprocal
 	"Answer the multiplicative inverse of the receiver."
-	| precisionRequired rootFinder |
 	self isZero ifTrue: [^ ZeroDivide signal].
-	rootFinder _ NumericComplexRootFinder polynomial: polynomial zeroReciprocal.
-	self flag: #fix. "look at root separation bounds, the lower and upper cauchy bounds are reversed"
-	precisionRequired _ rootFinder tolerance squared.
-	self refineTo: precisionRequired.
-	^ rootFinder rootNear: approximation reciprocal! !
+	^ self class
+		polynomial: polynomial zeroReciprocal
+		irreducible: irreducible
+		bounds: self bounds reciprocal! !
 
 !AlgebraicNumber methodsFor: 'approximating' stamp: 'len 1/15/2016 02:09'!
 refine
@@ -4855,21 +4866,23 @@ refine
 	2 timesRepeat: [x _ x - ((P value: x) / (P` value: x))].
 	approximation _ x! !
 
-!AlgebraicNumber methodsFor: 'approximating' stamp: 'len 1/15/2016 02:08'!
+!AlgebraicNumber methodsFor: 'approximating' stamp: 'len 6/5/2016 19:26'!
 refineTo: aNumber
-	[radius > aNumber] whileTrue: [self refine]! !
+	"Refine the receiver up to get an approximation error < aNumber."
+	[self absoluteError >= aNumber] whileTrue: [self refine]! !
 
-!AlgebraicNumber methodsFor: 'approximating' stamp: 'len 1/17/2016 02:11'!
-refineWith: anAlgebraicNumber
-	self absoluteError > anAlgebraicNumber absoluteError
+!AlgebraicNumber methodsFor: 'approximating' stamp: 'len 6/5/2016 19:26'!
+refineWith: aRealAlgebraicNumber
+	"Refine the rational interval approximation of either the receiver or the argument, depending on which is less precise at the moment."
+	self relativeError > aRealAlgebraicNumber relativeError
 		ifTrue: [self refine]
-		ifFalse: [anAlgebraicNumber refine]! !
+		ifFalse: [aRealAlgebraicNumber refine]! !
 
-!AlgebraicNumber methodsFor: 'approximating' stamp: 'len 1/17/2016 08:10'!
+!AlgebraicNumber methodsFor: 'approximating' stamp: 'len 6/4/2016 23:10'!
 relativeError
-	"Answer the relative error in the current rational approximation.
-	Assume the bounding box doesn't contain 0."
-	^ bounds area / bounds midpoint abs! !
+	"Answer the relative error in the current rational approximation."
+	self isZero ifTrue: [^ 0].
+	^ self absoluteError / self approximation norm2 "this should be norm or abs, but then it would be float"! !
 
 !AlgebraicNumber methodsFor: 'arithmetic' stamp: 'len 1/13/2016 04:02'!
 squared
@@ -4878,6 +4891,10 @@ squared
 !AlgebraicNumber methodsFor: 'operations' stamp: 'len 1/10/2016 20:46'!
 trace
 	^ self conjugates sum! !
+
+!AlgebraicNumber methodsFor: 'constants' stamp: 'len 6/4/2016 21:18'!
+zero
+	^ 0! !
 
 !AlgebraicNumber class methodsFor: 'instance creation' stamp: 'len 1/15/2016 02:04'!
 approximation: approximateValue radius: approximationError maxDegree: n
@@ -4920,6 +4937,13 @@ polynomial: aPolynomial approximation: aComplex radius: aNumber
 		polynomial: aPolynomial;
 		approximation: aComplex radius: aNumber! !
 
+!AlgebraicNumber class methodsFor: 'instance creation' stamp: 'len 6/4/2016 22:34'!
+polynomial: aPolynomial irreducible: aBoolean approximation: aComplex radius: aNumber
+	^ self new
+		polynomial: aPolynomial;
+		irreducible: aBoolean;
+		approximation: aComplex radius: aNumber! !
+
 !AlgebraicNumber class methodsFor: 'examples' stamp: 'len 1/15/2016 02:27'!
 sqrt2
 	"Answer an instance of the receiver representing the square root of 2."
@@ -4928,6 +4952,13 @@ sqrt2
 		minimalPolynomial: Rationals new polynomials x squared - 2
  		approximation: 1.5
 		radius: 0.1! !
+
+!AlgebraicNumber class methodsFor: 'examples' stamp: 'len 6/4/2016 22:51'!
+sqrt: anIntegerOrFraction
+	"Answer a square root of the rational argument."
+	^ self
+		minimalPolynomial: Rationals new polynomials x squared - anIntegerOrFraction
+ 		approximation: anIntegerOrFraction sqrt radius: 0.00001! !
 
 !Benchmark methodsFor: 'as yet unclassified' stamp: 'len 3/1/2016 04:20'!
 run
@@ -5200,6 +5231,22 @@ testRealAlgebraicNumberSquare
 	| sqrt2 |
 	sqrt2 _ RealAlgebraicNumber sqrt2.
 	10 timesRepeat: [sqrt2 squared]! !
+
+!SparsePolynomialMultiplicationBenchmark methodsFor: 'as yet unclassified' stamp: 'len 6/5/2016 08:44'!
+setUp
+	| P x y z |
+	P _ Integers new polynomialsIn: #(x y z).
+	x _ P x.
+	y _ P y.
+	z _ P z.
+	p _ (1+x+y+z)**20.
+	"p _ 10000000001*(1+x+y+z)**20." "big coefficients"
+	"p _ 1 + (x**2147483647) + (y**2147483647) + (z**2147483647) ** 20." "big exponents"
+	pPlusOne _ p + 1! !
+
+!SparsePolynomialMultiplicationBenchmark methodsFor: 'as yet unclassified' stamp: 'len 6/5/2016 08:44'!
+testProduct
+	p * pPlusOne! !
 
 !BerlekampMassey methodsFor: 'as yet unclassified' stamp: 'len 3/22/2016 23:58'!
 run
@@ -10054,11 +10101,9 @@ coordinatesOf: aVector
 dimension
 	^ self elements degree! !
 
-!AlgebraicExtensionSpace methodsFor: 'basis' stamp: 'len 6/4/2016 17:52'!
+!AlgebraicExtensionSpace methodsFor: 'basis' stamp: 'len 6/4/2016 18:19'!
 e: anInteger
-	| quotient |
-	quotient _ self elements asQuotientRing.
-	^ (quotient project: quotient ideal ambient x) ** (anInteger - 1)! !
+	^ self elements x ** (anInteger - 1)! !
 
 !AlgebraicExtensionSpace methodsFor: 'accessing' stamp: 'len 6/4/2016 17:53'!
 scalars
@@ -11254,10 +11299,6 @@ valuation
 zero
 	^ properties at: #zero ifAbsentPut: [self one - self one]! !
 
-!AlgebraicIntegers methodsFor: 'as yet unclassified' stamp: 'len 3/18/2016 22:21'!
-one
-	^ 1! !
-
 !Field methodsFor: 'morphisms' stamp: 'len 12/15/2015 22:30'!
 algebraicClosure
 	self isAlgebraicallyClosed ifTrue: [^ self].
@@ -11370,6 +11411,12 @@ atRandom: aRandomGenerator
 atRandom: aRandomGenerator bits: bitSize
 	^ self asQuotientRing atRandom: aRandomGenerator bits: bitSize! !
 
+!AlgebraicExtension methodsFor: 'morphisms' stamp: 'len 6/5/2016 19:20'!
+automorphisms
+	"Answer the Galous group of the receiver (assuming the receiver is a Galois extension)."
+	self flag: #fix. "This is actually isomorphic to the Galois group, not the actual Galois group, it should act on elements of the extension and it's not the full symmetric group."
+	^ SymmetricGroup on: (self embeddings collect: [:each| each value: self x])! !
+
 !AlgebraicExtension methodsFor: 'accessing' stamp: 'len 3/19/2016 03:21'!
 baseField
 	^ self polynomial scalars! !
@@ -11378,7 +11425,7 @@ baseField
 characteristic
 	^ self baseField characteristic! !
 
-!AlgebraicExtension methodsFor: 'accessing' stamp: 'len 6/4/2016 17:39'!
+!AlgebraicExtension methodsFor: 'elements-operations' stamp: 'len 6/4/2016 17:39'!
 characteristicPolynomialOf: anElement
 	^ (self asVectorSpace endomorphisms evaluating: [:x| x * anElement]) characteristicPolynomial! !
 
@@ -11400,6 +11447,12 @@ embedding
 	"Answer the field homomorphism that embeds the base field into the receiver."
 	^ properties at: #embedding ifAbsentPut: [self baseField -> self evaluating: [:x| self embed: x]]! !
 
+!AlgebraicExtension methodsFor: 'morphisms' stamp: 'len 6/4/2016 19:30'!
+embeddings
+	"Answer the n distinct embeddings of the receiver in the algebraic closure of the base field, where n is the degree of the receiver. In the case of number fields, the embeddings go to the complex algebraic numbers.
+	When the receiver is a Galois extension, the embeddings send each element to one of its conjugates, and their images are the same."
+	^ properties at: #embeddings ifAbsentPut: [self embeddingsIn: self baseField algebraicClosure]! !
+
 !AlgebraicExtension methodsFor: 'morphisms' stamp: 'len 4/20/2016 02:40'!
 embeddingsIn: aField
 	^ (self polynomial rootsIn: aField)
@@ -11417,12 +11470,12 @@ isField
 isGlobalField
 	^ true! !
 
-!AlgebraicExtension methodsFor: 'accessing' stamp: 'len 6/4/2016 18:11'!
+!AlgebraicExtension methodsFor: 'elements-operations' stamp: 'len 6/4/2016 23:56'!
 minimalPolynomialOf: anElement
 	^ (self asVectorSpace endomorphisms evaluating: [:x| x * anElement]) minimalPolynomial
 "	| x |
 	x _ self polynomials x.
-	^ aResidue conjugates product: [:each| x - each] :: as: self baseField polynomials"! !
+	^ anElement conjugates product: [:each| x - each] :: as: self baseField polynomials"! !
 
 !AlgebraicExtension methodsFor: 'accessing' stamp: 'len 3/18/2016 22:41'!
 one
@@ -11443,6 +11496,10 @@ printOn: aStream
 !AlgebraicExtension methodsFor: 'accessing' stamp: 'len 3/19/2016 04:24'!
 size
 	^ self baseField size ** self degree! !
+
+!AlgebraicExtension methodsFor: 'elements-operations' stamp: 'len 6/4/2016 23:54'!
+symmetricFunction: i of: anElement
+	^ self notYetImplemented! !
 
 !AlgebraicExtension methodsFor: 'accessing' stamp: 'len 6/4/2016 18:12'!
 x
@@ -11483,15 +11540,6 @@ discriminant
 	"The discriminant of an integral basis is independent of the choice of basis and it's called the discriminant of the field K and denoted d(K)."
 	^ self integralBasis discriminant! !
 
-!NumberField methodsFor: 'morphisms' stamp: 'len 4/17/2016 06:45'!
-embeddings
-	"Answer the n distinct embeddings of the receiver in C, where n is the degree of the receiver."
-	^ properties at: #embeddings ifAbsentPut: [self embeddingsIn: AlgebraicNumbers new]! !
-
-!NumberField methodsFor: 'morphisms' stamp: 'len 1/10/2016 22:36'!
-galoisGroup
-	^ self notYetImplemented! !
-
 !NumberField methodsFor: 'morphisms' stamp: 'len 1/10/2016 21:52'!
 integers
 	"Answer the ring of integers of the receiver."
@@ -11513,6 +11561,10 @@ nonArchimedeanPlaces
 polynomial
 	^ self adjoint minimalPolynomial! !
 
+!NumberField methodsFor: 'morphisms' stamp: 'len 6/4/2016 21:16'!
+preferedEmbedding
+	^ self embeddings detect: [:one| (one value: self x) = adjoint]! !
+
 !NumberField methodsFor: 'printing' stamp: 'len 4/21/2016 00:06'!
 printOn: aStream
 	aStream print: self baseField; nextPut: $(; print: adjoint; nextPut: $)! !
@@ -11530,15 +11582,11 @@ signature
 	"Answer the signature (r1,r2) of the receiver, i.e. r1 the number of embeddings whose image is real, and 2*r2 the number of non-real complex embeddings."
 	^ self polynomial signature! !
 
-!NumberField methodsFor: 'morphisms' stamp: 'len 6/4/2016 17:42'!
-symmetricFunction: i of: anElement
-	^ self notYetImplemented! !
-
 !NumberField class methodsFor: 'instance creation' stamp: 'len 1/11/2016 02:03'!
 adjoint: anAlgebraicNumber
 	^ self new adjoint: anAlgebraicNumber! !
 
-!QuadraticField class methodsFor: 'as yet unclassified' stamp: 'len 5/20/2016 02:43'!
+!QuadraticField class methodsFor: 'instance creation' stamp: 'len 5/20/2016 02:43'!
 sqrt: anInteger
 	^ self adjoint: (AlgebraicNumber sqrt: anInteger)! !
 
@@ -12217,6 +12265,42 @@ new: anInteger over: aRing
 !FreeAlgebra class methodsFor: 'instance creation' stamp: 'len 1/20/2016 13:38'!
 over: aRing
 	^ self new: 1 over: aRing! !
+
+!GaussianIntegers methodsFor: 'as yet unclassified' stamp: 'len 6/5/2016 06:10'!
+includes: anObject
+	^ anObject isInteger or: [anObject isComplex and: [anObject real isInteger and: [anObject imaginary isInteger]]]! !
+
+!GaussianIntegers methodsFor: 'as yet unclassified' stamp: 'len 6/5/2016 06:08'!
+isCountable
+	^ true! !
+
+!GaussianIntegers methodsFor: 'as yet unclassified' stamp: 'len 6/5/2016 06:08'!
+isFinite
+	^ false! !
+
+!GaussianIntegers methodsFor: 'testing' stamp: 'len 6/5/2016 06:15'!
+isPID
+	^ true! !
+
+!GaussianIntegers methodsFor: 'as yet unclassified' stamp: 'len 6/5/2016 06:08'!
+isReal
+	^ false! !
+
+!GaussianIntegers methodsFor: 'as yet unclassified' stamp: 'len 6/5/2016 06:13'!
+one
+	^ 1! !
+
+!GaussianIntegers methodsFor: 'as yet unclassified' stamp: 'len 6/5/2016 06:13'!
+printOn: aStream
+	aStream nextPutAll: 'Z' bold, '[i]'! !
+
+!GaussianIntegers methodsFor: 'accessing' stamp: 'len 6/5/2016 06:14'!
+size
+	^ Aleph new: 0! !
+
+!GaussianIntegers methodsFor: 'as yet unclassified' stamp: 'len 6/5/2016 06:13'!
+zero
+	^ 0! !
 
 !Integers methodsFor: 'morphisms' stamp: 'len 12/5/2015 23:51'!
 * anIntegerOrArray
@@ -13345,38 +13429,6 @@ over: aField a: a b: b
 	ideal _ P * (x**3 + (x * (z**2) * a) + (z**3*b) - (y**2*z)).
 	^ self ideal: ideal! !
 
-!Ball methodsFor: 'accessing' stamp: 'len 1/13/2016 22:30'!
-center
-	^ center! !
-
-!Ball methodsFor: 'accessing-private' stamp: 'len 1/13/2016 22:36'!
-center: anObject
-	center _ anObject! !
-
-!Ball methodsFor: 'testing' stamp: 'len 1/13/2016 22:36'!
-includes: anObject
-	^ (anObject - center) norm2 < radius squared! !
-
-!Ball methodsFor: 'testing' stamp: 'len 1/15/2016 06:54'!
-intersects: aBall
-	^ (aBall - center) norm2 <= (radius + aBall radius) squared! !
-
-!Ball methodsFor: 'accessing' stamp: 'len 1/15/2016 07:21'!
-midpoint
-	^ self center! !
-
-!Ball methodsFor: 'accessing' stamp: 'len 1/13/2016 22:30'!
-radius
-	^ radius! !
-
-!Ball methodsFor: 'accessing-private' stamp: 'len 1/13/2016 22:36'!
-radius: aNumber
-	radius _ aNumber! !
-
-!Ball class methodsFor: 'as yet unclassified' stamp: 'len 1/13/2016 22:35'!
-around: anObject radius: aNumber
-	^ self new center: anObject; radius: aNumber! !
-
 !CartesianProduct methodsFor: 'comparing' stamp: 'len 12/9/2015 04:51'!
 = anObject
 	^ (anObject isKindOf: CartesianProduct) and: [anObject components = components]! !
@@ -13505,6 +13557,20 @@ midpoint
 printOn: aStream
 	aStream print: real; nextPutAll: ' + '; print: imaginary; nextPut: $i! !
 
+!ComplexBox methodsFor: 'accessing' stamp: 'len 6/5/2016 06:20'!
+quarters
+	| imaginaries reals |
+	reals _ self real halves.
+	imaginaries _ self imaginary halves.
+	^ {self class real: (reals at: 1) imaginary: (imaginaries at: 1).
+		self class real: (reals at: 1) imaginary: (imaginaries at: 2).
+		self class real: (reals at: 2) imaginary: (imaginaries at: 1).
+		self class real: (reals at: 2) imaginary: (imaginaries at: 2)}! !
+
+!ComplexBox methodsFor: 'accessing' stamp: 'len 6/5/2016 04:08'!
+radius2
+	^ real length squared + imaginary length squared / 4! !
+
 !ComplexBox methodsFor: 'accessing' stamp: 'len 1/11/2016 02:58'!
 real
 	^ real! !
@@ -13518,9 +13584,74 @@ sample
 	"Answer a sample point in the receiver."
 	^ Complex real: real sample imaginary: imaginary sample! !
 
+!ComplexBox methodsFor: 'accessing' stamp: 'len 6/5/2016 21:42'!
+width
+	^ real length min: imaginary length! !
+
+!ComplexBox class methodsFor: 'instance creation' stamp: 'len 6/4/2016 21:53'!
+center: aComplex radius: aNumber
+	^ self
+		real: (RealInterval closed: aComplex real - aNumber closed: aComplex real + aNumber)
+		imaginary: (RealInterval closed: aComplex imaginary - aNumber closed: aComplex imaginary + aNumber)! !
+
 !ComplexBox class methodsFor: 'instance creation' stamp: 'len 1/11/2016 03:43'!
 real: aRealInterval imaginary: anotherRealInterval
 	^ self new real: aRealInterval; imaginary: anotherRealInterval! !
+
+!ComplexBox class methodsFor: 'instance creation' stamp: 'len 6/5/2016 04:07'!
+with: aComplex with: anotherComplex
+	^ self
+		real: (RealInterval with: aComplex real with: anotherComplex real)
+		imaginary: (RealInterval with: aComplex imaginary with: anotherComplex imaginary)! !
+
+!ComplexDisk methodsFor: 'as yet unclassified' stamp: 'len 6/5/2016 20:46'!
+* aDisk
+	^ self class center: aDisk center * self center radius: self radius * aDisk radius! !
+
+!ComplexDisk methodsFor: 'accessing' stamp: 'len 1/13/2016 22:30'!
+center
+	^ center! !
+
+!ComplexDisk methodsFor: 'accessing-private' stamp: 'len 6/5/2016 20:47'!
+center: aComplex
+	center _ aComplex! !
+
+!ComplexDisk methodsFor: 'accessing' stamp: 'len 6/5/2016 20:43'!
+enclosedBox
+	^ ComplexBox center: self center radius: self radius! !
+
+!ComplexDisk methodsFor: 'accessing' stamp: 'len 6/5/2016 20:43'!
+enclosingBox
+	^ ComplexBox center: self center extent: self radius squared @ self radius squared! !
+
+!ComplexDisk methodsFor: 'testing' stamp: 'len 6/5/2016 20:44'!
+includes: anObject
+	^ (anObject - center) norm2 <= radius squared! !
+
+!ComplexDisk methodsFor: 'testing' stamp: 'len 6/5/2016 04:13'!
+intersects: aBall
+	self flag: #fix.
+	^ (aBall center - center) norm2 <= (self radius + aBall radius) squared! !
+
+!ComplexDisk methodsFor: 'accessing' stamp: 'len 1/15/2016 07:21'!
+midpoint
+	^ self center! !
+
+!ComplexDisk methodsFor: 'printing' stamp: 'len 6/5/2016 20:42'!
+printOn: aStream
+	aStream nextPutAll: 'D('; print: self center; nextPut: $,; print: self radius; nextPut: $)! !
+
+!ComplexDisk methodsFor: 'accessing' stamp: 'len 6/5/2016 20:42'!
+radius
+	^ radius! !
+
+!ComplexDisk methodsFor: 'accessing-private' stamp: 'len 6/5/2016 20:47'!
+radius: aNumber
+	radius _ aNumber! !
+
+!ComplexDisk class methodsFor: 'instance creation' stamp: 'len 6/5/2016 20:47'!
+center: aComplex radius: aNumber
+	^ self new center: aComplex; radius: aNumber! !
 
 !CoxeterSystem methodsFor: 'as yet unclassified' stamp: 'len 5/25/2016 03:46'!
 computeDiagram
@@ -16805,6 +16936,12 @@ dimension
 	self left = self right ifTrue: [^ 0].
 	^ 1! !
 
+!RealInterval methodsFor: 'accessing' stamp: 'len 6/5/2016 06:26'!
+halves
+	| m |
+	m _ self midpoint.
+	^ {self copy right: m; rightOpen: false . self copy left: m; leftOpen: true}! !
+
 !RealInterval methodsFor: 'comparing' stamp: 'len 2/6/98 12:43'!
 hash
 	"Answer the hash value for the receiver."
@@ -16839,10 +16976,14 @@ inf
 interior
 	^ self class open: left open: right! !
 
-!RealInterval methodsFor: 'testing' stamp: 'len 2/24/2016 05:59'!
+!RealInterval methodsFor: 'testing' stamp: 'len 6/4/2016 21:43'!
 intersects: anInterval
 	"Answer true if the receiver overlaps the argument."
-	^ (self intersection: anInterval) isEmpty not! !
+	self right < anInterval left ifTrue: [^ false].
+	self left > anInterval right ifTrue: [^ false].
+	self right = anInterval left ifTrue: [^ self isRightClosed and: [anInterval isLeftClosed]].
+	self left = anInterval right ifTrue: [^ self isLeftClosed and: [anInterval isRightClosed]].
+	^ true! !
 
 !RealInterval methodsFor: 'testing' stamp: 'len 12/13/97 03:29'!
 isBounded
@@ -22818,6 +22959,11 @@ system: aLinearSystem
 	anObject = 0 ifTrue: [^ self errorUndetermined].
 	^ self max: anObject! !
 
+!Aleph methodsFor: 'arithmetic' stamp: 'len 6/4/2016 19:12'!
+** aNumber
+	(aNumber isInteger and: [aNumber > 0]) ifTrue: [^ self].
+	DomainError signal: 'only integer positive exponents allowed'! !
+
 !Aleph methodsFor: 'comparing' stamp: 'len 4/22/2016 05:06'!
 < anObject
 	anObject class = self class ifTrue: [^ order < anObject order].
@@ -23276,12 +23422,13 @@ fromInteger: anInteger
 numerator: anInteger shift: n
 	^ self new setNumerator: anInteger shift: n! !
 
-!RealAlgebraicNumber methodsFor: 'arithmetic' stamp: 'len 1/17/2016 01:47'!
+!RealAlgebraicNumber methodsFor: 'arithmetic' stamp: 'len 6/5/2016 20:28'!
 * aNumber
 	| f b |
 	aNumber class = self class
 		ifFalse: [^ aNumber adaptToRealAlgebraic: self andSend: #*].
 	aNumber isZero ifTrue: [^ aNumber].
+	self isZero ifTrue: [^ self].
 	f _ RealRootFinder polynomial:
 		(self polynomial zeroProduct: aNumber polynomial).
 	[b _ self bounds * aNumber bounds.
@@ -23290,11 +23437,13 @@ numerator: anInteger shift: n
 			[self refineWith: aNumber].
 	^ self class polynomial: f polynomial bounds: b! !
 
-!RealAlgebraicNumber methodsFor: 'arithmetic' stamp: 'len 1/17/2016 03:32'!
+!RealAlgebraicNumber methodsFor: 'arithmetic' stamp: 'len 6/5/2016 20:29'!
 + aNumber
 	| f b |
 	aNumber class = self class
 		ifFalse: [^ aNumber adaptToRealAlgebraic: self andSend: #+].
+	aNumber isZero ifTrue: [^ self].
+	self isZero ifTrue: [^ aNumber].
 	f _ RealRootFinder polynomial:
 		(self polynomial zeroAddition: aNumber polynomial).
 	[b _ self bounds + aNumber bounds.
@@ -23311,35 +23460,34 @@ numerator: anInteger shift: n
 / anObject
 	^ self * anObject reciprocal! !
 
-!RealAlgebraicNumber methodsFor: 'comparing' stamp: 'len 1/17/2016 01:47'!
+!RealAlgebraicNumber methodsFor: 'comparing' stamp: 'len 6/4/2016 21:32'!
 < anObject
 	"Answer whether the receiver is less than the argument."
 
 	anObject class = self class ifFalse: [^ (self - anObject) sign = -1].
 	(self = anObject) ifTrue: [^ false].
-	[self overlaps: anObject] whileTrue: [self refineWith: anObject].
+	[self bounds intersects: anObject bounds] whileTrue: [self refineWith: anObject].
 	^ self rightBound < anObject leftBound! !
 
-!RealAlgebraicNumber methodsFor: 'comparing' stamp: 'len 1/13/2016 03:59'!
+!RealAlgebraicNumber methodsFor: 'comparing' stamp: 'len 6/4/2016 21:32'!
 = anObject
 	anObject isNumber ifFalse: [^ false].
 	self == anObject ifTrue: [^ true].
 	anObject class = self class
 		ifFalse: [^ anObject adaptToRealAlgebraic: self andSend: #=].
-	(self overlaps: anObject) ifFalse: [^ false].
+	(self bounds intersects: anObject bounds) ifFalse: [^ false].
 	(self polynomial gcd: anObject polynomial) isConstant
 		ifTrue: [^ false].
 	^ (self - anObject) isZero! !
 
-!RealAlgebraicNumber methodsFor: 'approximating' stamp: 'len 1/16/2016 07:09'!
+!RealAlgebraicNumber methodsFor: 'approximating' stamp: 'len 6/4/2016 22:22'!
 absoluteError
 	"Answer the maximun current error in the rational approximation of the receiver."
-	^ bounds length! !
+	^ bounds length / 2! !
 
-!RealAlgebraicNumber methodsFor: 'converting' stamp: 'len 1/13/2016 03:58'!
+!RealAlgebraicNumber methodsFor: 'converting' stamp: 'len 6/4/2016 21:25'!
 adaptToAlgebraic: rcvr andSend: selector
-	self notYetImplemented
-	"^ rcvr perform: selector with: (AlgebraicNumber polynomial: polynomial approximation: self asFloat epsilon: 0.00001)"! !
+	^ rcvr perform: selector with: (AlgebraicNumber polynomial: polynomial approximation: bounds midpoint radius: bounds length / 2)! !
 
 !RealAlgebraicNumber methodsFor: 'converting' stamp: 'len 11/19/2015 21:39'!
 adaptToFloat: rcvr andSend: selector
@@ -23353,12 +23501,17 @@ adaptToFraction: rcvr andSend: selector
 adaptToInteger: rcvr andSend: selector
 	^ (self class fromRational: rcvr) perform: selector with: self! !
 
-!RealAlgebraicNumber methodsFor: 'converting' stamp: 'len 6/3/2016 20:53'!
+!RealAlgebraicNumber methodsFor: 'approximating' stamp: 'len 6/4/2016 21:23'!
+approximation
+	"Answer the current rational approximation of the receiver."
+	^ bounds midpoint! !
+
+!RealAlgebraicNumber methodsFor: 'converting' stamp: 'len 6/4/2016 23:06'!
 asFloat
 	"Answer a Float approximation of the receiver."
 
 	self refineTo: 0.000001.
-	^ self bounds midpoint asFloat! !
+	^ self approximation asFloat! !
 
 !RealAlgebraicNumber methodsFor: 'converting' stamp: 'len 3/21/2016 22:51'!
 asRational
@@ -23376,7 +23529,7 @@ asRational
 				ifTrue: [self bounds: (RealInterval open: each closed: each). ^ each]].
 	self error: 'the number is irrational'! !
 
-!RealAlgebraicNumber methodsFor: 'accessing' stamp: 'len 1/16/2016 06:27'!
+!RealAlgebraicNumber methodsFor: 'approximating' stamp: 'len 1/16/2016 06:27'!
 bounds
 	^ bounds! !
 
@@ -23423,7 +23576,7 @@ isZero
 	^ self leftBound = 0 and: [self rightBound = 0]
 "	^ self isRational and: [self asRational = 0]"! !
 
-!RealAlgebraicNumber methodsFor: 'accessing' stamp: 'len 1/16/2016 06:38'!
+!RealAlgebraicNumber methodsFor: 'accessing-private' stamp: 'len 1/16/2016 06:38'!
 leftBound
 	^ bounds left! !
 
@@ -23438,9 +23591,10 @@ minimalPolynomial
 	irreducible _ true.
 	^ polynomial! !
 
-!RealAlgebraicNumber methodsFor: 'arithmetic' stamp: 'len 6/3/2016 20:50'!
+!RealAlgebraicNumber methodsFor: 'arithmetic' stamp: 'len 6/5/2016 20:30'!
 negated
 	"Answer the additive inverse of the receiver."
+	self isZero ifTrue: [^ self].
 	^ self class
 		polynomial: polynomial zeroNegation
 		irreducible: irreducible
@@ -23466,10 +23620,6 @@ normalize
 				ifTrue: [self leftBound: p]
 				ifFalse: [self leftBound: 0; rightBound: 0]].
 	self leftBound > self rightBound ifTrue: [self error: 'interval normalization error']! !
-
-!RealAlgebraicNumber methodsFor: 'testing' stamp: 'len 1/16/2016 07:01'!
-overlaps: aRealAlgebraicNumber
-	^ (self bounds includes: aRealAlgebraicNumber leftBound) or: [self bounds includes: aRealAlgebraicNumber rightBound]! !
 
 !RealAlgebraicNumber methodsFor: 'accessing' stamp: 'len 6/3/2016 20:51'!
 polynomial
@@ -23524,10 +23674,10 @@ reduce
 			[polynomial _ polynomial species x - self asRational.
 			irreducible _ true]! !
 
-!RealAlgebraicNumber methodsFor: 'approximating' stamp: 'len 1/17/2016 08:06'!
+!RealAlgebraicNumber methodsFor: 'approximating' stamp: 'len 6/4/2016 23:06'!
 refine
 	"Refine the rational interval approximation of the receiver."
-	self refineAt: bounds midpoint! !
+	self refineAt: self approximation! !
 
 !RealAlgebraicNumber methodsFor: 'approximating' stamp: 'len 1/17/2016 02:57'!
 refineAt: aFraction
@@ -23550,14 +23700,13 @@ refineWith: aRealAlgebraicNumber
 		ifTrue: [self refine]
 		ifFalse: [aRealAlgebraicNumber refine]! !
 
-!RealAlgebraicNumber methodsFor: 'approximating' stamp: 'len 3/22/2016 07:48'!
+!RealAlgebraicNumber methodsFor: 'approximating' stamp: 'len 6/4/2016 23:10'!
 relativeError
-	"Answer the relative error in the current rational approximation.
-	Assume the bounding interval doesn't contain 0."
-	bounds left = bounds right ifTrue: [^ 0].
-	^ bounds length / bounds midpoint abs! !
+	"Answer the relative error in the current rational approximation."
+	self isZero ifTrue: [^ 0].
+	^ self absoluteError / self approximation abs! !
 
-!RealAlgebraicNumber methodsFor: 'accessing' stamp: 'len 1/16/2016 06:38'!
+!RealAlgebraicNumber methodsFor: 'accessing-private' stamp: 'len 1/16/2016 06:38'!
 rightBound
 	^ bounds right! !
 
@@ -23581,9 +23730,14 @@ sign
 
 	^ self leftBound sign! !
 
-!RealAlgebraicNumber methodsFor: 'mathematical functions' stamp: 'len 2/13/2016 06:14'!
+!RealAlgebraicNumber methodsFor: 'mathematical functions' stamp: 'len 6/4/2016 22:57'!
 squareRoot
-	^ self notYetImplemented! !
+	self isRational ifFalse: [^ self notYetImplemented].
+	self negative ifTrue: [^ self negated squareRoot i].
+	self isZero ifTrue: [^ self].
+	^ self class
+		polynomial: self polynomial zeroSquareRoot
+ 		bounds: (RealInterval open: 0 open: (self asRational max: 1))! !
 
 !RealAlgebraicNumber methodsFor: 'mathematical functions' stamp: 'len 1/16/2016 06:27'!
 squared
@@ -23647,13 +23801,13 @@ sqrt2
 		minimalPolynomial: Rationals new polynomials x squared - 2
  		bounds: (RealInterval open: 1 open: 2)! !
 
-!RealAlgebraicNumber class methodsFor: 'examples' stamp: 'len 1/16/2016 07:06'!
-sqrt: anIntegerOrFraction
+!RealAlgebraicNumber class methodsFor: 'examples' stamp: 'len 6/4/2016 23:00'!
+sqrt: aNumber
 	"Answer a square root of the rational argument."
-	anIntegerOrFraction negative ifTrue: [^ (self sqrt: anIntegerOrFraction negated) i].
+	aNumber positive ifFalse: [^ DomainError signal: 'negative square root'].
 	^ self
-		minimalPolynomial: Rationals new polynomials x squared - anIntegerOrFraction
- 		bounds: (RealInterval open: 0 open: (anIntegerOrFraction max: 1))! !
+		minimalPolynomial: Rationals new polynomials x squared - aNumber
+ 		bounds: (RealInterval open: 0 open: (aNumber max: 1))! !
 
 !Matrix methodsFor: 'arithmetic' stamp: 'len 3/28/2016 01:23'!
 * anObject
@@ -27973,12 +28127,12 @@ roots
 	"Answer the roots (counted with multiplicity) in the coefficients ring or field."
 	^ self rootsIn: self scalars! !
 
-!Polynomial methodsFor: 'roots' stamp: 'len 6/1/2016 21:35'!
+!Polynomial methodsFor: 'roots' stamp: 'len 6/5/2016 05:22'!
 rootsIn: aField
 	"Answer the roots (conted with multiplicaity) in the given domain."
 	(aField isField and: [aField isFinite]) ifTrue: [^ (FiniteFieldRootFinder polynomial: self) roots].
 	(aField isKindOf: Rationals) ifTrue: [^ (RationalRootFinder polynomial: self) roots].
-	(aField isKindOf: AlgebraicNumbers) ifTrue: [^ (NumericComplexRootFinder polynomial: self) roots].
+	(aField isKindOf: AlgebraicNumbers) ifTrue: [^ (ComplexRootFinder polynomial: self) roots].
 	(aField isKindOf: RealAlgebraicNumbers) ifTrue: [^ (RealRootFinder polynomial: self) roots].
 	(aField isKindOf: Integers) ifTrue: [^ (RationalRootFinder polynomial: self) roots select: [:each| each isInteger]].
 	self flag: #fix. "count multiplicity"
@@ -30488,24 +30642,17 @@ representative: anObject ideal: anIdeal
 polynomial
 	^ polynomial! !
 
-!RootFinder methodsFor: 'accessing-private' stamp: 'len 1/11/2016 04:41'!
+!RootFinder methodsFor: 'accessing-private' stamp: 'len 6/5/2016 04:55'!
 polynomial: aPolynomial	
-	polynomial _ aPolynomial.
-	done _ false! !
+	polynomial _ aPolynomial! !
 
 !RootFinder methodsFor: 'printing' stamp: 'len 1/11/2016 04:30'!
 printOn: aStream
 	aStream nextPutAll: self class name; nextPutAll: ' on '; print: self polynomial! !
 
-!RootFinder methodsFor: 'accessing' stamp: 'len 1/11/2016 04:42'!
+!RootFinder methodsFor: 'accessing' stamp: 'len 6/5/2016 05:21'!
 roots
-	"Answer a collection with the roots of the polynomial."
-	done ifFalse: [self separateRoots].
-	^ roots! !
-
-!RootFinder methodsFor: 'private' stamp: 'len 1/11/2016 05:59'!
-separateRoots
-	self subclassResponsibility! !
+	^ self subclassResponsibility! !
 
 !RootFinder class methodsFor: 'instance creation' stamp: 'len 11/6/97 21:11'!
 polynomial: aPolynomial
@@ -30513,14 +30660,127 @@ polynomial: aPolynomial
 
 	^ self new polynomial: aPolynomial! !
 
-!FiniteFieldRootFinder methodsFor: 'as yet unclassified' stamp: 'len 2/8/2016 18:07'!
-separateRoots
+!ComplexRootFinder methodsFor: 'as yet unclassified' stamp: 'len 6/5/2016 21:30'!
+T: K at: m radius: r
+	| t |
+	t _ 0.
+	1 to: self derivatives size do: [:j|
+		| f |
+		f _ derivatives at: j.
+		t _ (f value: m) abs * (r ** j) / j factorial + t].
+	^ (squareFreePolynomial value: m) abs > (K * t)! !
+
+!ComplexRootFinder methodsFor: 'as yet unclassified' stamp: 'len 6/5/2016 21:32'!
+T`: K at: m radius: r
+	| t |
+	t _ 0.
+	1 to: self derivatives size - 1 do: [:j|
+		| f |
+		f _ derivatives at: j+1.
+		t _ (f value: m) abs * (r ** j) / j factorial + t].
+	^ (derivatives first value: m) abs > (K * t)! !
+
+!ComplexRootFinder methodsFor: 'as yet unclassified' stamp: 'len 6/5/2016 05:07'!
+bigBounds
+	"Compute and answer a first estimate of a box containing all the complex roots."
+	| bound |
+	bound _ self polynomial norm1 / self polynomial leadingCoefficient.
+	bound _ bound max: 1.
+	^ ComplexBox center: 0 radius: bound! !
+
+!ComplexRootFinder methodsFor: 'as yet unclassified' stamp: 'len 6/5/2016 21:26'!
+derivatives
+	| f |
+	derivatives ifNotNil: [^ derivatives].
+	f _ squareFreePolynomial.
+	derivatives _ OrderedCollection new: f degree.
+	f degree timesRepeat: [derivatives add: (f _ f derivative)].
+	^ derivatives! !
+
+!ComplexRootFinder methodsFor: 'as yet unclassified' stamp: 'len 6/5/2016 22:28'!
+eightPointTest: m width: w
+	| N NE E SE S SW W NW points values imaginaryCrossings realCrossings |
+	N _ 1 i.
+	NE _ 20/29 + (21/29) i.
+	E _ 1.
+	SE _ 20/29 - (21/29) i.
+	S _ -1 i.
+	SW _ -20/29 - (21/29) i.
+	W _ -1.
+	NW _ -20/29 + (21/29) i.
+	points _ {N. NE. E. SE. S. SW. W. NW} collect: [:p| w*p + m].
+	values _ points collect: [:p| squareFreePolynomial value: p].
+	realCrossings _ (1 to: values size) select: [:j| (values at: j) real isZero or: [(values at: j) real * (values atWrap: j+1) real < 0]].
+	realCrossings size = 2 ifFalse: [^ false].
+	imaginaryCrossings _ (1 to: values size) select: [:j| (values at: j) imaginary isZero or: [(values at: j) imaginary * (values atWrap: j+1) imaginary < 0]].
+	imaginaryCrossings size = 2 ifFalse: [^ false].
+	realCrossings first < imaginaryCrossings first
+		ifTrue: [^ realCrossings second < imaginaryCrossings second].
+	^ realCrossings first > imaginaryCrossings first
+		and: [realCrossings second > imaginaryCrossings second]! !
+
+!ComplexRootFinder methodsFor: 'as yet unclassified' stamp: 'len 6/5/2016 20:40'!
+moreThanOneRootIn: aDisk
+	"if this holds, there's at most one root in aDisk."
+	^ self T`: 3/2 at: aDisk center radius: aDisk radius
+"	^ (self rootsIn: aBox) size > 1"! !
+
+!ComplexRootFinder methodsFor: 'as yet unclassified' stamp: 'len 6/5/2016 05:08'!
+polynomial: aPolynomial
+	polynomial _ aPolynomial.
+	self flag: #fix. "this could be exact division, also doing the same in class side via #reduced"
+	squareFreePolynomial _ (aPolynomial // (aPolynomial gcd: aPolynomial derivative)) integerPrimitive! !
+
+!ComplexRootFinder methodsFor: 'as yet unclassified' stamp: 'len 6/5/2016 05:16'!
+roots
+	"Separate the roots in disks each of them containing one isolated root."
+	^ self rootsIn: self bigBounds! !
+
+!ComplexRootFinder methodsFor: 'as yet unclassified' stamp: 'len 6/5/2016 22:32'!
+rootsIn: aBox
+	"Separate the roots in disks each of them containing one isolated root."
+	| queue disks |
+	queue _ OrderedCollection with: aBox.
+	disks _ OrderedCollection new.
+	[queue isEmpty]
+		whileFalse:
+			[| B m delta |
+			B _ queue removeFirst.
+			m _ B midpoint.
+			delta _ B width * 3 / 4. "> B radius, and a dyadic fraction"
+			(self T: 1 at: m radius: delta)
+				"if holds, then D(m,delta) constains no roots"
+				ifFalse:
+					[((self T`: 6 at: m radius: 4*delta) and: [self T`: 3/2 at: m radius: 8*delta])
+						"if the second holds, then D(m,8*delta) contains at most one root"
+						"the first is required so that if two disks overlap, we can discard any one of them"
+						ifTrue:
+							[(self eightPointTest: m width: B width)
+								ifTrue:
+									[| D i D` |
+									D _ ComplexDisk center: m radius: 4*delta.
+									(i _ (1 to: disks size) detect: [:j| (D` _ disks at: j) intersects: D] ifNone: [])
+									 isNil
+										ifTrue: [disks add: D]
+										ifFalse: [D` radius < D radius ifTrue: [disks at: i put: D]]]]
+						ifFalse:
+							[queue addAll: B quarters]]].
+	^ disks collect: [:each| AlgebraicNumber polynomial: squareFreePolynomial approximation: each center radius: each radius]! !
+
+!ComplexRootFinder methodsFor: 'as yet unclassified' stamp: 'len 6/5/2016 05:09'!
+squareFreePolynomial: aPolynomial
+	polynomial _ aPolynomial.
+	squareFreePolynomial _ aPolynomial! !
+
+!FiniteFieldRootFinder methodsFor: 'accessing' stamp: 'len 6/5/2016 05:17'!
+roots
+	| roots |
 	roots _ OrderedCollection new.
 	(FiniteFieldPolynomialFactorizer new polynomial: self polynomial; factors)
 		do: [:each|
 			each degree = 1
 				ifTrue: [roots add: each independentCoefficient negated / each leadingCoefficient]].
-	done _ true! !
+	^ roots! !
 
 !NumericComplexRootFinder methodsFor: 'private' stamp: 'len 1/13/2016 03:01'!
 initialValue
@@ -30537,9 +30797,9 @@ rootNear: aComplex
 	self roots do: [:each| each refine]] repeat"
 	^ self roots detectMin: [:each| (each approximation - aComplex) abs]! !
 
-!NumericComplexRootFinder methodsFor: 'private' stamp: 'len 1/15/2016 06:04'!
-separateRoots
-	| X P Q P` Q` n x v m c dx x1 v1 m1 realCoefficients |
+!NumericComplexRootFinder methodsFor: 'private' stamp: 'len 6/5/2016 05:19'!
+roots
+	| roots X P Q P` Q` n x v m c dx x1 v1 m1 realCoefficients |
 	X _ polynomial species x.
 	P _ polynomial.
 	Q _ P.
@@ -30580,7 +30840,7 @@ separateRoots
 			Q` _ Q derivative. "###"
 			n _ n - 2].
 	n > 0] whileTrue.
-	done _ true! !
+	^ roots! !
 
 !NumericComplexRootFinder methodsFor: 'accessing' stamp: 'len 1/15/2016 05:57'!
 tolerance
@@ -30598,10 +30858,10 @@ polynomial: aPolynomial
 squareFreePolynomial: aPolynomial
 	^ super polynomial: aPolynomial! !
 
-!RationalRootFinder methodsFor: 'private' stamp: 'len 5/25/2016 20:48'!
-separateRoots
+!RationalRootFinder methodsFor: 'private' stamp: 'len 6/5/2016 05:18'!
+roots
 	"Separate the (real) rational roots of the polynomial."
-	| f k tau |
+	| roots f k tau |
 	roots _ Bag new.
 	f _ self polynomial integerPrimitive.
 	(k _ f lowestDegree) > 0 ifTrue: [roots add: 0 withOccurrences: k. f _ f shift: k negated].
@@ -30614,30 +30874,30 @@ separateRoots
 			tau _ tau negated.
 			((roots includes: tau) not and: [(f value: tau) isZero])
 				ifTrue: [roots add: tau withOccurrences: "slow" (f multiplicityAt: tau)]]].
-	done _ true! !
+	^ roots! !
 
-!RealRootFinder methodsFor: 'private' stamp: 'len 1/16/2016 08:29'!
+!RealRootFinder methodsFor: 'private' stamp: 'len 6/5/2016 05:57'!
 bigBounds
 	"Compute and answer a first estimate of an interval containing all the real roots."
 	| bound |
-	bound _ self polynomial norm1 / self polynomial leadingCoefficient.
+	bound _ squareFreePolynomial norm1 / squareFreePolynomial leadingCoefficient.
 	bound _ bound max: 1.
 "	bound _ DyadicFraction fromInteger: bound."
 	^ RealInterval closed: bound negated closed: bound! !
 
-!RealRootFinder methodsFor: 'private' stamp: 'len 1/15/2016 02:23'!
+!RealRootFinder methodsFor: 'private' stamp: 'len 6/5/2016 05:57'!
 computeFourier
 	"Compute the Budan-Fourier sequence for the polynomial of the receiver."
 	| f |
-	f _ self polynomial.
+	f _ squareFreePolynomial.
 	fourier _ (OrderedCollection new: f degree + 1) add: f; yourself.
 	f degree timesRepeat: [fourier add: (f _ f derivative)]! !
 
-!RealRootFinder methodsFor: 'private' stamp: 'len 1/15/2016 02:24'!
+!RealRootFinder methodsFor: 'private' stamp: 'len 6/5/2016 05:57'!
 computeSturm
 	"Compute a sturmian sequence for the receiver."
 	| f g r |
-	f _ self polynomial.
+	f _ squareFreePolynomial.
 	g _ f derivative.
 	sturm _ (OrderedCollection new: f degree + 1) add: f; add: g; yourself.
 	[g degree > 0]
@@ -30646,16 +30906,6 @@ computeSturm
 			f _ g.
 			g _ r]! !
 
-!RealRootFinder methodsFor: 'refining roots' stamp: 'len 8/28/97 02:02'!
-error
-	"Answer the maximun current error in the
-	rational approximation of the roots."
-
-	| error |
-	error _ 0.
-	self roots do: [ :each | error _ error max: each error].
-	^ error asFloat! !
-
 !RealRootFinder methodsFor: 'accessing' stamp: 'len 11/18/97 00:38'!
 fourier
 	"Answer the Budan-Fourier sequence for the polynomial of the receiver."
@@ -30663,23 +30913,23 @@ fourier
 	fourier isNil ifTrue: [self computeFourier].
 	^ fourier! !
 
-!RealRootFinder methodsFor: 'private' stamp: 'len 1/15/2016 02:18'!
+!RealRootFinder methodsFor: 'private' stamp: 'len 6/5/2016 05:57'!
 heuristicDetectOneRootBetween: leftBound and: rightBound
 	| first |
-	first _ self polynomial value: leftBound.
+	first _ squareFreePolynomial value: leftBound.
 	2 to: 10 do: [:each|
-		first ~= (self polynomial value: (rightBound - leftBound) / each) sign
+		first ~= (squareFreePolynomial value: (rightBound - leftBound) / each) sign
 			ifTrue: [^ true]].
 	^ false! !
 
-!RealRootFinder methodsFor: 'couting roots' stamp: 'len 1/15/2016 02:22'!
+!RealRootFinder methodsFor: 'couting roots' stamp: 'len 6/5/2016 06:00'!
 lowerBoundNumberOfRootsBetween: leftBound and: rightBound
 	"Answer a lower bound for the number of real roots in the open interval (leftBound, rightBound)."
 	| answer last sign |
 	answer _ 0.
 	last _ 0.
-	1 to: self polynomial degree * 2 do: [:each|
-		sign _ (self polynomial value: (rightBound - leftBound) / each) sign.
+	1 to: squareFreePolynomial degree * 2 do: [:each|
+		sign _ (squareFreePolynomial value: (rightBound - leftBound) / each) sign.
 		(last ~= sign and: [sign ~= 0]) ifTrue: [answer _ answer + 1].
 		last _ sign].
 	^ answer! !
@@ -30701,11 +30951,11 @@ moreThanOneRootBetween: leftBound and: rightBound
 
 	^ (self numberOfRootsBetween: leftBound and: rightBound) > 1! !
 
-!RealRootFinder methodsFor: 'couting roots' stamp: 'len 1/15/2016 02:40'!
+!RealRootFinder methodsFor: 'couting roots' stamp: 'len 6/5/2016 06:00'!
 numberOfNegativeRoots
 	"Answer the number of negative roots."
 	| fix |
-	fix _ (self polynomial value: 0) = 0 ifTrue: [1] ifFalse: [0].
+	fix _ (squareFreePolynomial value: 0) = 0 ifTrue: [1] ifFalse: [0].
 	^ (self numberOfRootsBetween: self bigBounds min and: 0) - fix! !
 
 !RealRootFinder methodsFor: 'couting roots' stamp: 'len 1/15/2016 02:41'!
@@ -30744,22 +30994,28 @@ numberOfRootsBetween: leftBound and: rightBound
 
 	^ leftSignChanges - rightSignChanges! !
 
-!RealRootFinder methodsFor: 'initialization' stamp: 'len 2/26/2016 03:30'!
+!RealRootFinder methodsFor: 'initialization' stamp: 'len 6/5/2016 05:04'!
 polynomial: aPolynomial
-	polynomial _ (aPolynomial // (aPolynomial gcd: aPolynomial derivative)) integerPrimitive.
-	roots _ (SortedCollection sortBlock: [ :one :other | one leftBound <= other leftBound]).
-	done _ false! !
+	polynomial _ aPolynomial.
+	self flag: #fix. "this could be exact division, also doing the same in class side via #reduced"
+	squareFreePolynomial _ (aPolynomial // (aPolynomial gcd: aPolynomial derivative)) integerPrimitive! !
 
-!RealRootFinder methodsFor: 'operations' stamp: 'len 1/15/2016 02:41'!
+!RealRootFinder methodsFor: 'accessing' stamp: 'len 6/5/2016 04:47'!
+roots
+	"Answer a collection with the roots of the polynomial."
+	roots isNil ifTrue: [self separateRoots].
+	^ roots! !
+
+!RealRootFinder methodsFor: 'operations' stamp: 'len 6/5/2016 04:47'!
 separateRoots
 	"Separate the roots in intervals each of them including an isolated root."
 
 	| bounds |
+	roots _ SortedCollection sortBlock: [ :one :other | one leftBound <= other leftBound].
 	bounds _ self bigBounds.
-	self separateRootsBetween: bounds min and: bounds max.
-	done _ true! !
+	self separateRootsBetween: bounds min and: bounds max! !
 
-!RealRootFinder methodsFor: 'operations' stamp: 'len 2/26/2016 03:29'!
+!RealRootFinder methodsFor: 'operations' stamp: 'len 6/5/2016 05:59'!
 separateRootsBetween: leftBound and: rightBound
 	"Separate the roots in the real interval given by the arguments."
 	| r mid |
@@ -30769,13 +31025,18 @@ separateRootsBetween: leftBound and: rightBound
 	r = 1 ifTrue:
 		[roots add:
 			(RealAlgebraicNumber
-				polynomial: self polynomial
+				polynomial: squareFreePolynomial
 				bounds: (RealInterval closed: leftBound closed: rightBound)).
 		^ self].
 
 	mid _ leftBound + rightBound / 2.
 	self separateRootsBetween: leftBound and: mid.
 	self separateRootsBetween: mid and: rightBound! !
+
+!RealRootFinder methodsFor: 'initialization' stamp: 'len 6/5/2016 04:46'!
+squareFreePolynomial: aPolynomial
+	polynomial _ aPolynomial.
+	squareFreePolynomial _ aPolynomial! !
 
 !RealRootFinder methodsFor: 'accessing' stamp: 'len 8/23/97 18:10'!
 sturm
@@ -30818,9 +31079,9 @@ upperBoundNumberOfRootsBetween: leftBound and: rightBound
 polynomial: aPolynomial
 	^ self squareFreePolynomial: aPolynomial reduced! !
 
-!RealRootFinder class methodsFor: 'instance creation' stamp: 'len 1/16/2016 07:50'!
+!RealRootFinder class methodsFor: 'instance creation' stamp: 'len 6/5/2016 04:58'!
 squareFreePolynomial: aPolynomial
-	^ super polynomial: aPolynomial! !
+	^ self new squareFreePolynomial: aPolynomial! !
 
 !RootSystem methodsFor: 'accessing' stamp: 'len 5/23/2016 05:00'!
 ambient
@@ -31956,6 +32217,108 @@ testPolynomialSystem
 	self assert: (V includes: (1, 0)).
 	self assert: (V includes: (0, 1)) not! !
 
+!AlgebraicNumbersTest methodsFor: 'as yet unclassified' stamp: 'len 6/4/2016 22:00'!
+testArithmetic
+	| sqrt2 sqrt3 sqrt5 five sqrt6 |
+	sqrt2 _ AlgebraicNumber sqrt2.
+	sqrt3 _ AlgebraicNumber sqrt: 3.
+	sqrt5 _ AlgebraicNumber sqrt: 5.
+	sqrt6 _ AlgebraicNumber sqrt: 6.
+	five _ AlgebraicNumber fromRational: 5.
+	self assert: sqrt2 squared asRational = 2.
+	self assert: (sqrt2 + sqrt3) * sqrt2 = (2 + sqrt6).
+	self assert: (sqrt3 / sqrt5) squared reciprocal asRational = (5/3).
+"	self assert: (((five root: 3) + sqrt2 - sqrt2) ** 3) asRational = 5"! !
+
+!AlgebraicNumbersTest methodsFor: 'as yet unclassified' stamp: 'len 6/4/2016 22:00'!
+testDivision
+	| sqrt3 sqrt5 |
+	sqrt3 _ AlgebraicNumber sqrt: 3.
+	sqrt5 _ AlgebraicNumber sqrt: 5.
+	self assert: (sqrt3 / sqrt5 / sqrt3 / sqrt5) asRational = (1/5)! !
+
+!AlgebraicNumbersTest methodsFor: 'as yet unclassified' stamp: 'len 6/4/2016 22:01'!
+testProduct
+	| sqrt3 sqrt5 |
+	sqrt3 _ AlgebraicNumber sqrt: 3.
+	sqrt5 _ AlgebraicNumber sqrt: 5.
+	self assert: (sqrt3 * sqrt5 * sqrt3 * sqrt5) asRational = 15! !
+
+!AlgebraicNumbersTest methodsFor: 'as yet unclassified' stamp: 'len 6/4/2016 21:59'!
+testRealArithmetic
+	| sqrt2 sqrt3 sqrt5 five sqrt6 |
+	sqrt2 _ RealAlgebraicNumber sqrt2.
+	sqrt3 _ RealAlgebraicNumber sqrt: 3.
+	sqrt5 _ RealAlgebraicNumber sqrt: 5.
+	sqrt6 _ RealAlgebraicNumber sqrt: 6.
+	five _ RealAlgebraicNumber fromRational: 5.
+	self assert: sqrt2 squared asRational = 2.
+	self assert: (sqrt2 + sqrt3) * sqrt2 = (2 + sqrt6).
+	self assert: (sqrt3 / sqrt5) squared reciprocal asRational = (5/3).
+"	self assert: (((five root: 3) + sqrt2 - sqrt2) ** 3) asRational = 5"! !
+
+!AlgebraicNumbersTest methodsFor: 'as yet unclassified' stamp: 'len 6/4/2016 21:59'!
+testRealDivision
+	| sqrt3 sqrt5 |
+	sqrt3 _ RealAlgebraicNumber sqrt: 3.
+	sqrt5 _ RealAlgebraicNumber sqrt: 5.
+	self assert: (sqrt3 / sqrt5 / sqrt3 / sqrt5) asRational = (1/5)! !
+
+!AlgebraicNumbersTest methodsFor: 'as yet unclassified' stamp: 'len 6/4/2016 21:59'!
+testRealNormalizationBug
+	| f interval x |
+	x _ Rationals new polynomials x.
+	f _ x**4 * 1576875 - (x**2 * 877250) + 43923.
+	interval _ RealInterval open: (-260139/1345600) closed: (81631/134560).
+	RealAlgebraicNumber polynomial: f bounds: interval! !
+
+!AlgebraicNumbersTest methodsFor: 'as yet unclassified' stamp: 'len 6/4/2016 21:59'!
+testRealProduct
+	| sqrt3 sqrt5 |
+	sqrt3 _ RealAlgebraicNumber sqrt: 3.
+	sqrt5 _ RealAlgebraicNumber sqrt: 5.
+	self assert: (sqrt3 * sqrt5 * sqrt3 * sqrt5) asRational = 15! !
+
+!AlgebraicNumbersTest methodsFor: 'as yet unclassified' stamp: 'len 6/4/2016 21:59'!
+testRealSquare
+	| sqrt2 |
+	sqrt2 _ RealAlgebraicNumber sqrt2.
+	self assert: sqrt2 squared asRational = 2! !
+
+!AlgebraicNumbersTest methodsFor: 'as yet unclassified' stamp: 'len 6/4/2016 22:00'!
+testRealSquareRoot
+	| a |
+	a _ RealAlgebraicNumber fromRational: 3.
+	self assert: a squareRoot squared = a! !
+
+!AlgebraicNumbersTest methodsFor: 'as yet unclassified' stamp: 'len 6/4/2016 22:00'!
+testRealSum
+	| sqrt2 sqrt3 sqrt5 |
+	sqrt2 _ RealAlgebraicNumber sqrt: 2.
+	sqrt3 _ RealAlgebraicNumber sqrt: 3.
+	sqrt5 _ RealAlgebraicNumber sqrt: 5.
+	self assert: sqrt3 + sqrt5 + sqrt2 - sqrt3 - sqrt5 = sqrt2! !
+
+!AlgebraicNumbersTest methodsFor: 'as yet unclassified' stamp: 'len 6/4/2016 22:01'!
+testSquare
+	| sqrt2 |
+	sqrt2 _ AlgebraicNumber sqrt2.
+	self assert: sqrt2 squared asRational = 2! !
+
+!AlgebraicNumbersTest methodsFor: 'as yet unclassified' stamp: 'len 6/4/2016 22:01'!
+testSquareRoot
+	| a |
+	a _ AlgebraicNumber fromRational: 3.
+	self assert: a squareRoot squared = a! !
+
+!AlgebraicNumbersTest methodsFor: 'as yet unclassified' stamp: 'len 6/4/2016 22:01'!
+testSum
+	| sqrt2 sqrt3 sqrt5 |
+	sqrt2 _ AlgebraicNumber sqrt: 2.
+	sqrt3 _ AlgebraicNumber sqrt: 3.
+	sqrt5 _ AlgebraicNumber sqrt: 5.
+	self assert: sqrt3 + sqrt5 + sqrt2 - sqrt3 - sqrt5 = sqrt2! !
+
 !CodesTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2016 04:47'!
 testDual
 	| C |
@@ -32270,24 +32633,6 @@ testSymmetricOrder
 	| G |
 	G _ Group symmetric: (1 to: 4).
 	self assert: G order = 4 factorial! !
-
-!InfinityTest methodsFor: 'as yet unclassified' stamp: 'len 11/9/2015 15:22'!
-testInfinity
-	self assert: Infinity positive > Infinity negative.
-	self assert: Infinity positive > 127934879182734.
-	self assert: Infinity negative < -198273498712341.
-	self assert: Infinity positive >= 127934879182734.
-	self assert: Infinity negative <= -198273498712341.
-	self assert: -918723948719 > Infinity negative.
-	self assert: 91872123948719 < Infinity positive! !
-
-!InfinityTest methodsFor: 'as yet unclassified' stamp: 'len 11/19/2015 16:57'!
-testInfinityUndeterminates
-	self should: [Infinity positive + Infinity negative] raise: Error.
-	self should: [Infinity positive * 0] raise: Error.
-	self should: [Infinity positive / Infinity positive] raise: Error.
-	self should: [Infinity positive raisedToInteger: 0] raise: Error
-! !
 
 !LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 2/21/2016 05:47'!
 testAnnihilator
@@ -32745,6 +33090,24 @@ testGaloisFields
 	[(a _ GF atRandom) isZero] whileTrue.
 	self assert: a * a reciprocal = GF one! !
 
+!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 6/4/2016 21:56'!
+testInfinity
+	self assert: Infinity positive > Infinity negative.
+	self assert: Infinity positive > 127934879182734.
+	self assert: Infinity negative < -198273498712341.
+	self assert: Infinity positive >= 127934879182734.
+	self assert: Infinity negative <= -198273498712341.
+	self assert: -918723948719 > Infinity negative.
+	self assert: 91872123948719 < Infinity positive! !
+
+!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 6/4/2016 21:56'!
+testInfinityUndeterminates
+	self should: [Infinity positive + Infinity negative] raise: Error.
+	self should: [Infinity positive * 0] raise: Error.
+	self should: [Infinity positive / Infinity positive] raise: Error.
+	self should: [Infinity positive raisedToInteger: 0] raise: Error
+! !
+
 !MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 12/13/2015 02:02'!
 testIntegerDivisors
 	self assert: 12 numberOfDivisors = 6.
@@ -32866,6 +33229,17 @@ testQuadraticForms
 	p _ V atRandomBits: 100.
 	self assert: (Q value: p) = (f value: p).
 	self assert: (f degree = 2 and: [f isHomogeneous])! !
+
+!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 6/4/2016 21:48'!
+testRealIntervalIntersects
+	| I J |
+	I _ RealInterval open: -1 closed: 0.
+	J _ RealInterval open: 0 closed: 1.
+	self assert: (I intersects: J) not.
+	J _ RealInterval closed: 0 open: 1.
+	self assert: (I intersects: J).
+	J _ RealInterval closed: -2 closed: -1.
+	self assert: (I intersects: J) not! !
 
 !MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 4/23/2016 05:28'!
 testSimplecialCmplex
@@ -33140,6 +33514,24 @@ testTransposed
 	A _ Integers new ** (6 atRandom @ 6 atRandom) :: atRandomBits: 1000.
 	self assert: A columns = A transposed rows.
 	self assert: A transposed transposed = A! !
+
+!NumberFieldTest methodsFor: 'as yet unclassified' stamp: 'len 6/4/2016 19:06'!
+testQSqrt2
+	| Q E x |
+	Q _ Rationals new.
+	x _ Q polynomials x.
+	E _ Q adjoin: RealAlgebraicNumber sqrt2.
+	self assert: (E minimalPolynomialOf: E x) = E polynomial.
+	self assert: (E minimalPolynomialOf: E x squared) = (x - 2)! !
+
+!NumberFieldTest methodsFor: 'as yet unclassified' stamp: 'len 6/4/2016 19:13'!
+testQSqrt2RealEmbeddings
+	| Q E embeddings roots |
+	Q _ Rationals new.
+	E _ Q adjoin: RealAlgebraicNumber sqrt2.
+	embeddings _ E realEmbeddings.
+	roots _ (E polynomial rootsIn: RealAlgebraicNumbers new) asSet.
+	self assert: (embeddings collect: [:f| f value: E x]) asSet = roots! !
 
 !PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 3/7/2016 07:00'!
 testArithmetic
@@ -33957,61 +34349,6 @@ testProjectiveSpaceBasic
 	self assert: (P coordinatesOf: p2) = (1,0,1) homogeneous.
 	self assert: p3 = p0.
 	self assert: (p0 + p1) dimension = 1! !
-
-!RealAlgebraicNumbersTest methodsFor: 'as yet unclassified' stamp: 'len 3/21/2016 22:37'!
-testArithmetic
-	| sqrt2 sqrt3 sqrt5 five sqrt6 |
-	sqrt2 _ RealAlgebraicNumber sqrt2.
-	sqrt3 _ RealAlgebraicNumber sqrt: 3.
-	sqrt5 _ RealAlgebraicNumber sqrt: 5.
-	sqrt6 _ RealAlgebraicNumber sqrt: 6.
-	five _ RealAlgebraicNumber fromRational: 5.
-	self assert: sqrt2 squared asRational = 2.
-	self assert: (sqrt2 + sqrt3) * sqrt2 = (2 + sqrt6).
-	self assert: (sqrt3 / sqrt5) squared reciprocal asRational = (5/3).
-"	self assert: (((five root: 3) + sqrt2 - sqrt2) ** 3) asRational = 5"! !
-
-!RealAlgebraicNumbersTest methodsFor: 'as yet unclassified' stamp: 'len 1/10/2016 23:37'!
-testDivision
-	| sqrt3 sqrt5 |
-	sqrt3 _ RealAlgebraicNumber sqrt: 3.
-	sqrt5 _ RealAlgebraicNumber sqrt: 5.
-	self assert: (sqrt3 / sqrt5 / sqrt3 / sqrt5) asRational = (1/5)! !
-
-!RealAlgebraicNumbersTest methodsFor: 'as yet unclassified' stamp: 'len 3/21/2016 22:34'!
-testNormalizationBug
-	| f interval x |
-	x _ Rationals new polynomials x.
-	f _ x**4 * 1576875 - (x**2 * 877250) + 43923.
-	interval _ RealInterval open: (-260139/1345600) closed: (81631/134560).
-	RealAlgebraicNumber polynomial: f bounds: interval! !
-
-!RealAlgebraicNumbersTest methodsFor: 'as yet unclassified' stamp: 'len 1/10/2016 23:36'!
-testProduct
-	| sqrt3 sqrt5 |
-	sqrt3 _ RealAlgebraicNumber sqrt: 3.
-	sqrt5 _ RealAlgebraicNumber sqrt: 5.
-	self assert: (sqrt3 * sqrt5 * sqrt3 * sqrt5) asRational = 15! !
-
-!RealAlgebraicNumbersTest methodsFor: 'as yet unclassified' stamp: 'len 1/10/2016 23:37'!
-testSquare
-	| sqrt2 |
-	sqrt2 _ RealAlgebraicNumber sqrt2.
-	self assert: sqrt2 squared asRational = 2! !
-
-!RealAlgebraicNumbersTest methodsFor: 'as yet unclassified' stamp: 'len 3/21/2016 22:35'!
-testSquareRoot
-	| a |
-	a _ RealAlgebraicNumber fromRational: 3.
-	self assert: a squareRoot squared = a! !
-
-!RealAlgebraicNumbersTest methodsFor: 'as yet unclassified' stamp: 'len 1/17/2016 07:14'!
-testSum
-	| sqrt2 sqrt3 sqrt5 |
-	sqrt2 _ RealAlgebraicNumber sqrt: 2.
-	sqrt3 _ RealAlgebraicNumber sqrt: 3.
-	sqrt5 _ RealAlgebraicNumber sqrt: 5.
-	self assert: sqrt3 + sqrt5 + sqrt2 - sqrt3 - sqrt5 = sqrt2! !
 
 !RootSystemTest methodsFor: 'as yet unclassified' stamp: 'len 2/10/2016 22:43'!
 rootSystem1
