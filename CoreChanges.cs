@@ -1,4 +1,4 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2752] on 4 June 2016 at 5:02:20.264713 am'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2752] on 6 June 2016 at 2:42:21.716425 am'!
 
 !Character class methodsFor: 'accessing mathematical symbols' stamp: 'len 5/30/2016 21:32'!
 doesNotExist
@@ -162,6 +162,16 @@ shuffledBy: aGenerator
 !String methodsFor: 'testing' stamp: 'len 3/22/2016 21:11'!
 isAlphaNumeric
 	^ self allSatisfy: [:each| each isAlphaNumeric]! !
+
+!String methodsFor: 'text conversion helpers' stamp: 'len 6/6/2016 02:14'!
+struck
+	^self asText struck! !
+
+
+!Text methodsFor: 'adding emphasis' stamp: 'len 6/6/2016 02:15'!
+struck
+	string size = 0 ifTrue: [ ^self ].
+	self addAttribute: TextEmphasis struckThrough from: 1 to: string size! !
 
 
 !Number methodsFor: 'mathematical functions' stamp: 'len 2/11/2016 21:21'!
@@ -406,6 +416,20 @@ insertAndSelect: aString at: anInteger
 	self deselectAndPlaceCursorAt: anInteger.
 	self replaceSelectionWith: newText.
 	self selectFrom: anInteger to: anInteger + newText size - 1! !
+
+
+!Fraction methodsFor: 'printing' stamp: 'len 6/6/2016 02:01'!
+printOn: aStream base: base
+	(aStream isKindOf: TextStream)
+		ifTrue:
+			[aStream nextPutAll: (numerator printStringBase: base) super; nextPut: $/; nextPutAll: (denominator printStringBase: base) sub.
+			^ self].
+	aStream nextPut: $(.
+	numerator printOn: aStream base: base.
+	aStream nextPut: $/.
+	denominator printOn: aStream base: base.
+	aStream nextPut: $).
+! !
 
 
 !SystemWindow methodsFor: 'drawing' stamp: 'len 5/27/2016 21:56'!
@@ -890,7 +914,7 @@ BlockClosure removeSelectorIfInBaseSystem: #count!
 ('uCompletion' separateKeywords)
 ('user interface' edit editLabel:)
 ('private' correctAgainstEnumerator:continuedFrom: evaluateExpression:parameters: getEnclosedExpressionFrom: replaceFrom:to:with:startingAt:)
-('text conversion helpers' bold italic sub super under)
+('text conversion helpers' bold italic struck sub super under)
 !
 
 String initialize!
@@ -960,7 +984,7 @@ String initialize!
 
 
 !Number reorganize!
-('*Mathematics' ** , adaptToQuaternion:andSend: asQuaternion conjugated isAlgebraic isRational norm norm2 one zero)
+('*Mathematics' ** , adaptToQuaternion:andSend: asQuaternion conjugated imaginary isAlgebraic isRational norm norm2 one real zero)
 ('arithmetic' * + - / // \\ abs arg div: mod: negated quo: reciprocal rem:)
 ('comparing' closeTo:)
 ('converting' @ adaptToCollection:andSend: adaptToComplex:andSend: adaptToFloat:andSend: adaptToFraction:andSend: adaptToInteger:andSend: adaptToPoint:andSend: asComplex asInteger asIntegerOrFloat asNumber asPoint asSmallAngleDegrees asSmallPositiveDegrees days degreesToRadians degreesToRadiansMinutes:seconds: hours i milliSeconds minutes nanoSeconds radiansToDegrees seconds weeks withNegativeSign)
