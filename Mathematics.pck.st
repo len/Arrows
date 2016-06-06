@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2752] on 5 June 2016 at 11:28:43.971574 pm'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2752] on 6 June 2016 at 8:50:10.420238 am'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 86!
+!provides: 'Mathematics' 1 87!
 !classDefinition: #AbelianGroupPresentation category: #'Mathematics-Free'!
 Object subclass: #AbelianGroupPresentation
 	instanceVariableNames: 'generators relators'
@@ -9065,17 +9065,14 @@ postCopy
 	super postCopy.
 	properties _ properties copy! !
 
-!Domain methodsFor: 'printing' stamp: 'len 5/29/2016 17:56'!
+!Domain methodsFor: 'printing' stamp: 'len 6/6/2016 08:47'!
 printOn: aStream
 	"Subclasses should reimplement defaultPrintOn: instead of this method."
-	properties at: #name ifPresent: [:aString|
-		(aStream isKindOf: TextStream)
-			ifTrue: [aStream withAttribute: TextEmphasis italic do: [aStream nextPutAll: aString. ^ self]]
-			ifFalse: [aStream nextPutAll: aString. ^ self]].
+	properties at: #name ifPresent: [:aString| aStream nextPutAll: aString bold. ^ self].
 	properties at: #elements ifPresent: [:aCollection|
 		(aCollection is: #Domain) ifTrue: [aStream print: aCollection. ^ self].
-		aStream nextPut: ${.
-		aCollection asSet do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: ','].
+		aStream nextPut: ${. "Wildberger notation for unordered sets: elements separated by spaces"
+		aCollection asSet do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: ' '].
 		aStream nextPut: $}.
 		^ self].
 	^ super printOn: aStream! !
@@ -25088,14 +25085,16 @@ representative: anInteger ideal: anIdeal
 representative: anInteger modulo: anotherInteger
 	^ self new representative: anInteger; modulus: anotherInteger! !
 
-!Monomial methodsFor: 'operations' stamp: 'len 3/16/2016 21:02'!
+!Monomial methodsFor: 'operations' stamp: 'len 6/6/2016 04:24'!
 * aMonomial
-	^ self class exponents: exponents + aMonomial exponents! !
+	"^ self class exponents: exponents + aMonomial exponents"
+	^ self class exponents: ((1 to: (self lastIndeterminate max: aMonomial lastIndeterminate)) collect: [:i| (self at: i) + (aMonomial at: i)])! !
 
-!Monomial methodsFor: 'operations' stamp: 'len 3/16/2016 21:02'!
+!Monomial methodsFor: 'operations' stamp: 'len 6/6/2016 04:24'!
 / aMonomial
 	"Answer the exact division of the receiver by the argument."
-	^ self class exponents: exponents - aMonomial exponents! !
+"	^ self class exponents: exponents - aMonomial exponents"
+	^ self class exponents: ((1 to: (self lastIndeterminate max: aMonomial lastIndeterminate)) collect: [:i| (self at: i) - (aMonomial at: i)])! !
 
 !Monomial methodsFor: 'comparing' stamp: 'len 10/22/97 23:58'!
 < aMonomialLiteral
@@ -25109,21 +25108,25 @@ representative: anInteger modulo: anotherInteger
 
 	^ (self > aMonomialLiteral) not! !
 
-!Monomial methodsFor: 'comparing' stamp: 'len 3/16/2016 20:51'!
+!Monomial methodsFor: 'comparing' stamp: 'len 6/6/2016 07:03'!
 = aMonomial
+	| exponents2 n |
 	aMonomial isInteger ifTrue: [^ self degree = aMonomial].
-	^ exponents = aMonomial exponents! !
+	(n _ self lastIndeterminate) = aMonomial lastIndeterminate ifFalse: [^ false].
+	exponents2 _ aMonomial exponents.
+	1 to: n do: [:i| (exponents at: i) = (exponents2 at: i) ifFalse: [^ false]].
+	^ true! !
 
-!Monomial methodsFor: 'comparing' stamp: 'len 3/16/2016 20:51'!
+!Monomial methodsFor: 'comparing' stamp: 'len 6/6/2016 07:03'!
 > aMonomial
 	"Answer true if the receiver is greater than the argument in the total lexicographic ordering."
 
 	| n m |
 	(n _ self degree) > (m _ aMonomial degree) ifTrue: [^ true].
 	n < m ifTrue: [^ false].
-	1 to: (self lastIndeterminate max: aMonomial lastIndeterminate) do: [:each|
-		(self at: each) < (aMonomial at: each) ifTrue: [^ false].
-		(self at: each) > (aMonomial at: each) ifTrue: [^ true]].
+	1 to: (self lastIndeterminate max: aMonomial lastIndeterminate) do: [:i|
+		(self at: i) < (aMonomial at: i) ifTrue: [^ false].
+		(self at: i) > (aMonomial at: i) ifTrue: [^ true]].
 	^ false! !
 
 !Monomial methodsFor: 'comparing' stamp: 'len 3/16/2016 20:52'!
@@ -25132,10 +25135,10 @@ representative: anInteger modulo: anotherInteger
 
 	^ self = aMonomial or: [self > aMonomial]! !
 
-!Monomial methodsFor: 'testing' stamp: 'len 3/17/2016 01:03'!
+!Monomial methodsFor: 'testing' stamp: 'len 6/6/2016 02:49'!
 | aMonomial
 	"Answer true if the receiver divides the argument."
-	exponents keysDo: [:each| (self at: each) > (aMonomial at: each) ifTrue: [^ false]].
+	exponents withIndexDo: [:each :i| each > (aMonomial at: i) ifTrue: [^ false]].
 	^ true! !
 
 !Monomial methodsFor: 'accessing' stamp: 'len 3/17/2016 00:26'!
@@ -25144,7 +25147,7 @@ at: anIndeterminate
 
 	^ exponents at: anIndeterminate ifAbsent: [0]! !
 
-!Monomial methodsFor: 'accessing' stamp: 'len 5/22/2016 22:59'!
+!Monomial methodsFor: 'accessing-private' stamp: 'len 5/22/2016 22:59'!
 at: anIndeterminate put: anInteger
 	"Set the exponent of the anInteger-th indeterminate to anotherInteger. Answer anotherInteger."
 	anIndeterminate isInteger ifFalse: [self error: 'not integer indeterminate'].
@@ -25154,19 +25157,36 @@ at: anIndeterminate put: anInteger
 bitSize
 	^ exponents inject: 0 into: [:x :each| x + each bitSize]! !
 
-!Monomial methodsFor: 'operations' stamp: 'len 3/17/2016 00:39'!
+!Monomial methodsFor: 'operations' stamp: 'len 6/6/2016 07:11'!
 complete: anInteger in: anIndeterminate
 	"Answer a copy of the receiver of degree anInteger completing with a power of the indeterminate anotherInteger."
 
-	| deg |
-	(deg _ self degree) = anInteger ifTrue: [^ self].
-	^ self copy
-		at: anIndeterminate put: (anInteger - deg + (self at: anIndeterminate));
-		yourself! !
+	| n d |
+	(n _ self degree) = anInteger ifTrue: [^ self].
+	d _ (anInteger - n + (self at: anIndeterminate)).
+	anIndeterminate <= exponents size
+		ifTrue: [^ self copy at: anIndeterminate put: d; yourself].
+	^ self class exponents:
+		((Array new: anIndeterminate)
+			replaceFrom: 1 to: exponents size with: exponents;
+			from: exponents size + 1 to: anIndeterminate - 1 put: 0;
+			at: anIndeterminate put: d;
+			yourself)! !
 
 !Monomial methodsFor: 'copying' stamp: 'len 3/17/2016 00:21'!
 copy
 	^ self class exponents: exponents copy! !
+
+!Monomial methodsFor: 'copying' stamp: 'len 6/6/2016 07:06'!
+copyWith: anIndeterminate to: anInteger
+	anIndeterminate <= exponents size
+		ifTrue: [^ self copy at: anIndeterminate put: anInteger; yourself].
+	^ self class exponents:
+		((Array new: anIndeterminate)
+			replaceFrom: 1 to: exponents size with: exponents;
+			from: exponents size + 1 to: anIndeterminate - 1 put: 0;
+			at: anIndeterminate put: anInteger;
+			yourself)! !
 
 !Monomial methodsFor: 'copying' stamp: 'len 3/17/2016 00:21'!
 copyWithout: anIndeterminate
@@ -25174,10 +25194,11 @@ copyWithout: anIndeterminate
 
 	^ self copy at: anIndeterminate put: 0; yourself! !
 
-!Monomial methodsFor: 'operations' stamp: 'len 3/16/2016 20:04'!
+!Monomial methodsFor: 'operations' stamp: 'len 6/6/2016 04:25'!
 degree
 	"Answer the total degree of the receiver."
-	^ exponents inject: 0 into: [:x :each| x + each]! !
+	exponents isEmpty ifTrue: [^ 0].
+	^ exponents sum! !
 
 !Monomial methodsFor: 'operations' stamp: 'len 3/17/2016 00:25'!
 degreeIn: anIndeterminate
@@ -25193,53 +25214,46 @@ exponents
 exponents: anArray
 	exponents _ anArray! !
 
-!Monomial methodsFor: 'operations' stamp: 'len 3/16/2016 21:04'!
+!Monomial methodsFor: 'operations' stamp: 'len 6/6/2016 08:43'!
 gcd: aMonomial
 	"Answer the greatest common divisor of the receiver and the argument."
-
-	| answer |
-	answer _ self copy.
-	exponents keysDo: [:each|
-		answer at: each put: ((self at: each) min: (aMonomial at: each))].
-	^ answer! !
+	exponents size <= aMonomial exponents size ifFalse: [^ aMonomial gcd: self].
+	^ self class exponents: (exponents withIndexCollect: [:each :i| each min: (aMonomial at: i)])! !
 
 !Monomial methodsFor: 'testing' stamp: 'len 12/5/2015 22:34'!
 has: anIndeterminate
 	^ (self at: anIndeterminate) ~= 0! !
 
-!Monomial methodsFor: 'comparing' stamp: 'len 3/16/2016 20:52'!
+!Monomial methodsFor: 'comparing' stamp: 'len 6/6/2016 07:05'!
 hash
-	^ exponents hash! !
-
-!Monomial methodsFor: 'accessing' stamp: 'len 3/16/2016 20:48'!
-indeterminates
-	^ exponents keys! !
-
-!Monomial methodsFor: 'testing' stamp: 'len 5/30/2016 18:16'!
-isIdentity
-	^ exponents noneSatisfy: [:none| none > 0]! !
-
-!Monomial methodsFor: 'testing' stamp: 'len 3/16/2016 21:08'!
-isUnivariateIn: anIndeterminate
-	^ exponents isEmpty or: [exponents size = 1 and: [exponents includesKey: anIndeterminate]]! !
-
-!Monomial methodsFor: 'accessing' stamp: 'len 3/17/2016 00:20'!
-lastIndeterminate
-	"Answer the leading indeterminate of the receiver (the last indeterminate effectively present)."
 	| answer |
 	answer _ 0.
-	exponents keysDo: [:each| answer _ answer max: each].
+	exponents do: [:each| answer _ answer + each].
+		"each = 0 ifFalse: [answer _ (answer + each) hashMultiply + i]]."
 	^ answer! !
 
-!Monomial methodsFor: 'operations' stamp: 'len 3/16/2016 21:05'!
+!Monomial methodsFor: 'accessing' stamp: 'len 6/6/2016 08:40'!
+indeterminates
+	^ (1 to: exponents size) select: [:i| (exponents at: i) ~= 0]! !
+
+!Monomial methodsFor: 'testing' stamp: 'len 6/6/2016 02:50'!
+isIdentity
+	^ exponents allSatisfy: [:each| each = 0]! !
+
+!Monomial methodsFor: 'testing' stamp: 'len 6/6/2016 05:03'!
+isUnivariateIn: anIndeterminate
+	^ exponents isEmpty or: [(self at: anIndeterminate) = self degree]! !
+
+!Monomial methodsFor: 'accessing' stamp: 'len 6/6/2016 07:00'!
+lastIndeterminate
+	"Answer the leading indeterminate of the receiver (the last indeterminate effectively present)."
+	^ exponents findLast: [:one| one ~= 0]! !
+
+!Monomial methodsFor: 'operations' stamp: 'len 6/6/2016 08:44'!
 lcm: aMonomial
 	"Answer the least common multiple of the receiver and the argument."
-
-	| answer |
-	answer _ self copy.
-	aMonomial exponents keysDo: [:each|
-		answer at: each put: ((self at: each) max: (aMonomial at: each))].
-	^ answer! !
+	exponents size >= aMonomial exponents size ifFalse: [^ aMonomial lcm: self].
+	^ self class exponents: (exponents withIndexCollect: [:each :i| each max: (aMonomial at: i)])! !
 
 !Monomial methodsFor: 'printing' stamp: 'len 4/3/2016 02:52'!
 printExponent: anInteger on: aStream
@@ -25271,15 +25285,15 @@ printOn: aStream
 			self printIndeterminate: each on: aStream.
 			self printExponent: (self degreeIn: each) on: aStream]! !
 
-!Monomial methodsFor: 'printing' stamp: 'len 5/20/2016 23:10'!
+!Monomial methodsFor: 'printing' stamp: 'len 6/6/2016 08:36'!
 printOn: aStream as: aPolynomials
 	self degree = 0 ifTrue: [aStream print: 1. ^ self].
-	(aPolynomials ordering indeterminates select: [:each| (self at: each) > 0])
-		do: [:each|
+	(aPolynomials ordering indeterminates select: [:i| (self at: i) ~= 0])
+		do: [:i|
 			| x |
-			x _ aPolynomials indeterminateNames ifNil: [each] ifNotNil: [:names| names at: each ifAbsent: [each]].
+			x _ aPolynomials indeterminateNames ifNil: [i] ifNotNil: [:names| names at: i ifAbsent: [i]].
 			self printIndeterminate: x on: aStream.
-			self printExponent: (self degreeIn: each) on: aStream]! !
+			self printExponent: (self at: i) on: aStream]! !
 
 !Monomial methodsFor: 'printing' stamp: 'len 4/5/2016 18:07'!
 printOn: aStream withNames: namesDictionary
@@ -25293,30 +25307,38 @@ printOn: aStream withNames: namesDictionary
 root: anInteger
 	^ self class exponents: exponents / anInteger! !
 
-!Monomial methodsFor: 'operations' stamp: 'len 12/6/2015 02:12'!
+!Monomial methodsFor: 'operations' stamp: 'len 6/6/2016 04:28'!
 root: anInteger in: anIndeterminate
-	^ self copy at: anIndeterminate put: (self at: anIndeterminate) / anInteger! !
+	^ self copy at: anIndeterminate put: (self at: anIndeterminate) / anInteger; yourself! !
 
-!Monomial methodsFor: 'operations' stamp: 'len 3/26/2016 22:44'!
+!Monomial methodsFor: 'operations' stamp: 'len 6/6/2016 04:29'!
 value: anObject
 	| answer next |
-	exponents keysAndValuesDo: [:i :exp|
-		next _ (anObject at: i) raisedToInteger: exp.
+	exponents withIndexDo: [:exp :i|
+		next _ (anObject at: i) ** exp.
 		answer _ answer isNil ifTrue: [next] ifFalse: [next * answer]].
 	^ answer! !
+
+!Monomial methodsFor: 'operations' stamp: 'len 6/6/2016 04:45'!
+without: anIndeterminate
+	^ (self has: anIndeterminate) ifFalse: [self] ifTrue: [self copyWithout: anIndeterminate]! !
 
 !Monomial class methodsFor: 'instance creation' stamp: 'len 3/16/2016 21:36'!
 exponents: aDictionary
 	^ self basicNew exponents: aDictionary! !
 
-!Monomial class methodsFor: 'instance creation' stamp: 'len 3/16/2016 21:34'!
+!Monomial class methodsFor: 'instance creation' stamp: 'len 6/6/2016 02:43'!
 identity
 	"Answer the identity monomial (i.e., the monomial without indeterminates, or with all exponents 0)."
-	^ self new! !
+	^ self new: 0! !
 
-!Monomial class methodsFor: 'instance creation' stamp: 'len 3/24/2016 18:44'!
+!Monomial class methodsFor: 'instance creation' stamp: 'len 6/6/2016 02:45'!
 new
-	^ self exponents: (SparseTuple new setZero: 0)! !
+	^ self new: 0! !
+
+!Monomial class methodsFor: 'instance creation' stamp: 'len 6/6/2016 02:45'!
+new: anInteger
+	^ self exponents: ((Array new: anInteger) atAllPut: 0; yourself)! !
 
 !Monomial class methodsFor: 'instance creation' stamp: 'len 11/6/2015 04:08'!
 x: i
@@ -25324,11 +25346,11 @@ x: i
 
 	^ self x: i to: 1! !
 
-!Monomial class methodsFor: 'instance creation' stamp: 'len 3/16/2016 21:35'!
+!Monomial class methodsFor: 'instance creation' stamp: 'len 6/6/2016 02:46'!
 x: i to: k
 	"Answer a new instance of the receiver with only one indeterminate, xi, raised to n."
 
-	^ self new at: i put: k; yourself! !
+	^ (self new: i) at: i put: k; yourself! !
 
 !MonomialOrdering methodsFor: 'arithmetic' stamp: 'len 3/27/2016 09:28'!
 * aMonomialOrdering
@@ -25365,7 +25387,7 @@ headOf2: aPolynomial
 			ifTrue: [each] ifFalse: [answer]].
 	^ answer! !
 
-!MonomialOrdering methodsFor: 'ordering' stamp: 'len 3/28/2016 01:24'!
+!MonomialOrdering methodsFor: 'ordering' stamp: 'len 6/6/2016 05:07'!
 headOf: aPolynomial
 	"Answer the head monomial of aPolynomial according to this ordering."
 	| head headTuple |
@@ -25373,7 +25395,7 @@ headOf: aPolynomial
 	aPolynomial monomialsDo: [:each|
 		| t a b |
 		t _ FloatArray new: indeterminates size.
-		each exponents keysAndValuesDo: [:xi :exp| t at: (indeterminates indexOf: xi) put: exp].
+		1 to: indeterminates size do: [:i| t at: i put: (each at: i)].
 		head isNil
 			ifTrue: [head _ each. headTuple _ t]
 			ifFalse: [self weights anySatisfy: [:w|
@@ -27188,7 +27210,7 @@ asScalar
 	self coefficients do: [:each| each isZero ifFalse: [^ each]].
 	^ self species scalars zero! !
 
-!Polynomial methodsFor: 'converting' stamp: 'len 5/21/2016 00:10'!
+!Polynomial methodsFor: 'converting' stamp: 'len 6/6/2016 04:41'!
 asUnivariate
 	"Answer the receiver as univariate in the last indeterminate, e.g. go from R[x,y,z] to R[x,y][z]."
 	| term n d newCoefficients newSpecies |
@@ -27200,7 +27222,7 @@ asUnivariate
 	newCoefficients _ Array new: d+1.
 	newCoefficients atAllPut: newSpecies scalars zero.
 	self monomialsAndCoefficientsDo: [:key :value|
-		term _ newSpecies scalars coefficient: value monomial: (key copyWithout: n).
+		term _ newSpecies scalars coefficient: value monomial: (key without: n).
 		newCoefficients at: (key degreeIn: n)+1 add: term].
 	^ newSpecies coefficients: newCoefficients! !
 
@@ -27487,9 +27509,9 @@ gneq: anObject
 
 	^ self negated lneq: anObject negated! !
 
-!Polynomial methodsFor: 'operations' stamp: 'len 3/26/2016 05:19'!
+!Polynomial methodsFor: 'operations' stamp: 'len 6/6/2016 08:37'!
 gradient
-	^ self species ordering indeterminates collect: [:each| self derivativeIn: each]! !
+	^ self species indeterminates collect: [:each| self derivativeIn: each]! !
 
 !Polynomial methodsFor: 'accessing indeterminates' stamp: 'len 3/1/2016 16:31'!
 has: anIndeterminate
@@ -27736,12 +27758,12 @@ leadingCoefficientIn: anIndeterminate
 	self flag: #fix. "slow and ugly"
 	^ (self asUnivariateIn: anIndeterminate) leadingCoefficient! !
 
-!Polynomial methodsFor: 'accessing indeterminates' stamp: 'len 3/3/2016 05:32'!
+!Polynomial methodsFor: 'accessing indeterminates' stamp: 'len 6/6/2016 08:37'!
 leadingIndeterminate
 	"Answer the main (or leading) indeterminate of the receiver (according to a monomial ordering)."
 	| indeterminates |
 	indeterminates _ self species ordering indeterminates.
-	indeterminates reverseDo: [:each| (self has: each) ifTrue: [^ each]].
+	indeterminates reverseDo: [:i| (self has: i) ifTrue: [^ i]].
 	^ indeterminates first! !
 
 !Polynomial methodsFor: 'accessing monomials' stamp: 'len 3/28/2016 03:48'!
@@ -32117,7 +32139,7 @@ testAlgebraicSetNotFinite
 	V _ (Qxy * {y*y - (x*x) - 3}) variety.
 	self assert: V isFinite not! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 5/20/2016 03:59'!
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 6/6/2016 08:44'!
 testEliminationIdeal
 	"Example from Cox IVA 123 p. NOTE: this is a little slow."
 	| Qx x y z I |
@@ -32151,7 +32173,7 @@ testEqualVarietiesDifferentIdeals2
 	self assert: V = V`.
 	self assert: I ~= I`! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 6/3/2016 04:15'!
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 6/6/2016 08:44'!
 testGroebnerTrivial
 	"The 3 polynomials have no common zeroes, the groebner basis should be {1}."
 	| Qx x y I |
@@ -34002,6 +34024,34 @@ testInterpolation2
 	self assert: (f value: 2) = 4.
 	self assert: (f value: 3) = 9! !
 
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 6/6/2016 04:11'!
+testMonomialDivision
+	| x y |
+	x _ Monomial x: 1.
+	self assert: x*x = (Monomial x: 1 to: 2).
+	y _ Monomial x: 2.
+	self assert: x*x*y / (x*y) = x.
+	self assert: x*y*x / x = (x*y).
+	self assert: x*y*x*y / (x*y) = (x*y)! !
+
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 6/6/2016 03:57'!
+testMonomialGCD
+	| x y a b |
+	x _ Monomial x: 1.
+	y _ Monomial x: 2.
+	a _ x*x*y*y*y.
+	b _ x*x*x*y*y.
+	self assert: (a gcd: b) = (x*x*y*y)! !
+
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 6/6/2016 08:49'!
+testMonomialLCM
+	| x y a b |
+	x _ Monomial x: 1.
+	y _ Monomial x: 2.
+	a _ x*x.
+	b _ x*y*y.
+	self assert: (a lcm: b) = (x*x*y*y)! !
+
 !PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 5/30/2016 03:27'!
 testMonomialOrderings
 	| P x y z f grlex lex revlex |
@@ -34020,6 +34070,17 @@ testMonomialOrderings
 	self assert: (f sortedBy: lex) leadingCoefficient = 10.
 	self assert: (f sortedBy: grlex) leadingCoefficient = -7.
 	self assert: (f sortedBy: revlex) leadingCoefficient = 11! !
+
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 6/6/2016 04:09'!
+testMonomialProduct
+	| x y |
+	x _ Monomial x: 1.
+	self assert: x*x = (Monomial x: 1 to: 2).
+	y _ Monomial x: 2.
+	self assert: x*y = (y*x).
+	self assert: x*y*y = (x*(y*y)).
+	self assert: ((x*y*y) at: 2) = 2.
+	self assert: (x*y*x*x*y) degree = 5! !
 
 !PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 5/20/2016 03:56'!
 testMultivariateDivision
