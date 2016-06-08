@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2752] on 6 June 2016 at 8:50:10.420238 am'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2794] on 8 June 2016 at 6:26:13.495531 am'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 87!
+!provides: 'Mathematics' 1 88!
 !classDefinition: #AbelianGroupPresentation category: #'Mathematics-Free'!
 Object subclass: #AbelianGroupPresentation
 	instanceVariableNames: 'generators relators'
@@ -3200,75 +3200,26 @@ testKatsura2	1,260 per second.
 !
 
 !PolynomialBenchmark commentStamp: '<historical>' prior: 0!
-new with univariate dense polynomials:
-testFiniteField	13.3 per second.
-testFiniteFieldPolynomialFactorization	44.8 per second.
-testPolynomialAddition	612 per second.
-testPolynomialDivisionOverQ	1,240 per second.
-testPolynomialDivisionOverZ	1,050 per second.
-testPolynomialGCDOverQ	1,100 per second.
-testPolynomialGCDOverZ	829 per second.
-testPolynomialMultiplication	3,680 per second.
-testPolynomialPseudoDivision	1,400 per second.
-testPolynomialPseudoRemainder	1,400 per second.
-testPolynomialRealRoots	24 per second.
-testRealAlgebraicNumberAddition	2 per second.
-testRealAlgebraicNumberDivision	90 per second.
-testRealAlgebraicNumberProduct	111 per second.
-testRealAlgebraicNumberSquare	7,560 per second.
-
-new for polynomials and monomials with dictionaries:
-testFiniteField	4.41 per second.
-testFiniteFieldPolynomialFactorization	39.6 per second.
-testPolynomialAddition	373 per second.
-testPolynomialDivisionOverQ	761 per second.
-testPolynomialDivisionOverZ	423 per second.
-testPolynomialGCDOverQ	744 per second.
-testPolynomialGCDOverZ	468 per second.
-testPolynomialMultiplication	1,000 per second.
-testPolynomialPseudoDivision	528 per second.
-testPolynomialPseudoRemainder	449 per second.
-testPolynomialRealRoots	16.9 per second.
-testRealAlgebraicNumberAddition	1.9 per second.
-testRealAlgebraicNumberDivision	93.9 per second.
-testRealAlgebraicNumberProduct	104 per second.
-testRealAlgebraicNumberSquare	3,360 per second.
-
-new for sparse polynomials with dictionaries (monomial -> coefficient):
-testFiniteField	3.55 per second.
-testFiniteFieldPolynomialFactorization	44.2 per second.
-testPolynomialAddition	385 per second.
-testPolynomialDivisionOverQ	939 per second.
-testPolynomialDivisionOverZ	921 per second.
-testPolynomialGCDOverQ	857 per second.
-testPolynomialGCDOverZ	504 per second.
-testPolynomialMultiplication	1,240 per second.
-testPolynomialPseudoDivision	4,340 per second. (broken)
-testPolynomialPseudoRemainder	568 per second.
-testPolynomialRealRoots	16.7 per second.
-testRealAlgebraicNumberAddition	1.91 per second.
-testRealAlgebraicNumberDivision	90.9 per second.
-testRealAlgebraicNumberProduct	102 per second.
-testRealAlgebraicNumberSquare	3,260 per second.
-
-
-original with polynomials as collections of terms:
-testFiniteField	3.53 per second.
-testFiniteFieldPolynomialFactorization	45.3 per second.
-testPolynomialAddition	180 per second.
-testPolynomialDivisionOverQ	1,030 per second.
-testPolynomialDivisionOverZ	1,050 per second.
-testPolynomialGCDOverQ	1,070 per second.
-testPolynomialGCDOverZ	620 per second.
-testPolynomialMultiplication	479 per second.
-testPolynomialPseudoDivision	5,260 per second. (broken)
-testPolynomialPseudoRemainder	462 per second.
-testPolynomialRealRoots	14 per second.
-testRealAlgebraicNumberAddition	1.74 per second.
-testRealAlgebraicNumberDivision	102 per second.
-testRealAlgebraicNumberProduct	125 per second.
-testRealAlgebraicNumberSquare	3,490 per second.
-!
+testFiniteField	11.3 per second.
+testFiniteFieldPolynomialFactorization	54.5 per second.
+testPolynomialAdditionOverZ	10.8 per second.
+testPolynomialAdditionOverZ2	75 per second.
+testPolynomialDivisionOverQ	1.17 per second.
+testPolynomialDivisionOverZ	1.06 per second.
+testPolynomialGCDOverQ	1.11 per second.
+testPolynomialGCDOverZ	1.38 per second.
+testPolynomialGCDOverZ2	4.53 per second.
+testPolynomialMultiplication2OverZ	32 per second.
+testPolynomialMultiplication2OverZ2	58 per second.
+testPolynomialMultiplicationOverZ	0.563 per second.
+testPolynomialMultiplicationOverZ2	2,120 per second.
+testPolynomialPseudoDivision	1,220 per second.
+testPolynomialPseudoRemainder	1,190 per second.
+testPolynomialRealRoots	23 per second.
+testRealAlgebraicNumberAddition	5.96 seconds.
+testRealAlgebraicNumberDivision	70.8 per second.
+testRealAlgebraicNumberProduct	81.7 per second.
+testRealAlgebraicNumberSquare	1,820 per second!
 
 !SparsePolynomialMultiplicationBenchmark commentStamp: 'len 6/5/2016 08:50' prior: 0!
 Timings giving in [1] on computers with 0.8ghz - 1ghz intel cpus: general purpose system 20s-100s, tuned systems 2.3s-10s. For bigger coefficients: singular 28s, pari 77s.
@@ -4137,6 +4088,55 @@ Output: an extended characteristic set (or ascending chain, or Wu characteristic
 !Object methodsFor: '*Mathematics' stamp: 'len 11/19/2015 17:01'!
 isInfinity
 	^ false! !
+
+!StrikeFont class methodsFor: '*mathematics-character shapes' stamp: 'len 6/7/2016 07:15'!
+buildLargerPlusMinus
+	| f10 f12 form |
+	f10 _ AbstractFont familyName: 'DejaVu Sans Mono' pointSize: 10.
+	f12 _ AbstractFont familyName: 'DejaVu Sans Mono' pointSize: 12.
+	f10 glyphAt: $+ put: ((f12 glyphAt: $+) copy: (1@1 extent: 8@f10 height)).
+	form _ ((f12 glyphAt: $-) copy: (1@2 extent: 8@f10 height)).
+	form copy: (1@0 extent: 4@form height) from: form to: 0@0 rule: Form over.
+	form copy: (4@0 extent: 4@form height) from: form to: 5@0 rule: Form over.
+	f10 glyphAt: $- put: form! !
+
+!StrikeFont class methodsFor: '*mathematics-character shapes' stamp: 'len 6/7/2016 06:54'!
+buildMathFont
+	"
+	StrikeFont buildMathFont
+	"
+	#(9 10 11 12 14) do: [:pointSize| self buildMathFont: pointSize].
+	self buildLargerPlusMinus! !
+
+!StrikeFont class methodsFor: '*mathematics-character shapes' stamp: 'len 6/7/2016 07:27'!
+buildMathFont: pointSize
+	"
+	StrikeFont buildMathFont
+	"
+	| font normal smaller larger |
+	font _ AbstractFont familyName: 'DejaVu Sans Mono' pointSize: pointSize.
+	normal _ AbstractFont familyName: 'DejaVu' pointSize: pointSize.
+	smaller _ (AbstractFont familyName: 'DejaVu' pointSize: pointSize-2) ifNil: [normal].
+	larger _ (AbstractFont familyName: 'DejaVu' pointSize: pointSize+1) ifNil: [normal].
+	"replace some glyphs with their normal counterpart, because the monospaced glyps are just too ugly or unclear:"
+	'Üáàâäãåçì' do: [:each|
+		font takeGlyphFor: each from: each in: normal.
+		font bold takeGlyphFor: each from: each in: normal bold.
+		font italic takeGlyphFor: each from: each in: normal].
+	"make them bigger"
+	'Ö' do: [:each|
+		font takeAllGlyphFor: each from: each in: larger].
+	"these are absent in the monospaced font, and are too big in the normal font"
+	'éèêë' do: [:each|
+		font takeGlyphFor: each from: each in: smaller.
+		font bold takeGlyphFor: each from: each in: smaller bold.
+		font italic takeGlyphFor: each from: each in: smaller].
+	"to do: prime `, + - *"
+"	font takeGlyphFor: $` from: $` in: font bold."
+	"font takeGlyphFor: $` from: $, in: font.
+	form _ font glyphAt: $`.
+	form _ form flippedBy: #vertical.
+	font glyphAt: $` put: form."! !
 
 !BlockClosure methodsFor: '*Mathematics' stamp: 'len 5/1/2016 22:42'!
 asBlockOrFunction
@@ -6248,7 +6248,7 @@ orderedLabeled
 	type _ #(#ordered #labeled).
 	nodeCreator _ InitializationBlocks at: #orderedLabeled! !
 
-!Digraph methodsFor: 'printing' stamp: 'len 2/14/2016 21:31'!
+!Digraph methodsFor: 'printing' stamp: 'len 6/8/2016 06:14'!
 printOn: aStream
 	self isEmpty ifTrue: [aStream nextPut: Character emptySet. ^ self].
 	super printOn: aStream! !
@@ -8345,7 +8345,7 @@ components
 	components isNil ifTrue: [self decompose].
 	^ components! !
 
-!CylindricalAlgebraicDecomposition methodsFor: 'private' stamp: 'len 5/30/2016 05:55'!
+!CylindricalAlgebraicDecomposition methodsFor: 'private' stamp: 'len 6/7/2016 00:21'!
 decompose
 	"Perform the cylindrical algebraic decomposition."
 
@@ -8368,7 +8368,7 @@ decompose
 							projection: each
 							between: Infinity negative and: Infinity positive)]
 			ifFalse: [functions _ (1 to: roots size)
-						collect: [ :some | PolynomialRootFunction
+						collect: [ :some | RealRootFunction
 											polynomials: self polynomials index: some].
 					cells add: (SemialgebraicCell
 								projection: each
@@ -10210,12 +10210,9 @@ e: anInteger
 polynomials: aPolynomials
 	polynomials _ aPolynomials! !
 
-!BoundDegreePolynomials methodsFor: 'printing' stamp: 'len 4/21/2016 00:02'!
+!BoundDegreePolynomials methodsFor: 'printing' stamp: 'len 6/7/2016 21:44'!
 printOn: aStream
-	aStream print: polynomials.
-	(aStream isKindOf: TextStream)
-		ifTrue: [aStream withAttribute: TextEmphasis subscript do: [aStream nextPutAll: '<'; print: degree+1]]
-		ifFalse: [aStream nextPut: $<; print: degree+1]! !
+	aStream print: polynomials; nextPutAll: ('<', (degree+1) printString) sub! !
 
 !BoundDegreePolynomials methodsFor: 'accessing' stamp: 'len 4/6/2016 07:04'!
 scalars
@@ -10273,7 +10270,7 @@ includes: anObject
 isCoproduct
 	^ true! !
 
-!DirectSumSpace methodsFor: 'printing' stamp: 'len 6/4/2016 09:09'!
+!DirectSumSpace methodsFor: 'printing' stamp: 'len 6/8/2016 01:49'!
 printOn: aStream
 	components do: [:each| aStream print: each] separatedBy: [aStream nextPut: Character directSum]! !
 
@@ -10761,12 +10758,12 @@ one
 over: aRing
 	^ self copy scalars: aRing! !
 
-!Matrices methodsFor: 'printing' stamp: 'len 4/21/2016 00:03'!
+!Matrices methodsFor: 'printing' stamp: 'len 6/8/2016 01:53'!
 printOn: aStream
 	aStream print: self scalars.
-	(aStream isKindOf: TextStream)
-		ifTrue: [aStream withAttribute: TextEmphasis superscript do: [aStream print: numberOfRows; nextPut: $x; print: numberOfColumns]]
-		ifFalse: [aStream nextPutAll: '^('; print: numberOfRows; nextPut: $x; print: numberOfColumns; nextPut: $)]! !
+	aStream isText
+		ifTrue: [aStream nextPutAll: (numberOfRows printString, Character times asString, numberOfColumns printString) super]
+		ifFalse: [aStream nextPutAll: '^('; print: numberOfRows; nextPut: Character times; print: numberOfColumns; nextPut: $)]! !
 
 !Matrices methodsFor: 'elements' stamp: 'len 2/6/2016 19:57'!
 scalar: aNumber
@@ -11078,11 +11075,11 @@ over: aRing
 polynomials
 	^ self scalars polynomialsIn: self dimension! !
 
-!Tuples methodsFor: 'printing' stamp: 'len 4/21/2016 00:04'!
+!Tuples methodsFor: 'printing' stamp: 'len 6/7/2016 21:52'!
 printOn: aStream
 	aStream print: self scalars.
-	(aStream isKindOf: TextStream)
-		ifTrue: [aStream withAttribute: TextEmphasis superscript do: [aStream print: self dimension]]
+	aStream isText
+		ifTrue: [aStream nextPutAll: self dimension printString super]
 		ifFalse: [aStream nextPutAll: '^'; print: self dimension]! !
 
 !Tuples methodsFor: 'morphisms' stamp: 'len 12/14/2015 19:23'!
@@ -11643,9 +11640,9 @@ isFinite
 one
 	^ 1! !
 
-!AlgebraicNumbers methodsFor: 'printing' stamp: 'len 4/29/2016 18:34'!
+!AlgebraicNumbers methodsFor: 'printing' stamp: 'len 6/8/2016 06:09'!
 printOn: aStream
-	aStream nextPutAll: 'C' bold! !
+	aStream nextPut: Character bbC! !
 
 !AlgebraicNumbers methodsFor: 'accessing' stamp: 'len 4/29/2016 07:38'!
 size
@@ -11875,9 +11872,9 @@ positiveDo: aBlock
 	q _ 1.
 	[aBlock value: q. q _ 1 / (2 * q floor - q + 1)] repeat! !
 
-!Rationals methodsFor: 'printing' stamp: 'len 4/29/2016 18:41'!
+!Rationals methodsFor: 'printing' stamp: 'len 6/8/2016 06:08'!
 printOn: aStream
-	aStream nextPutAll: 'Q' bold! !
+	aStream nextPut: Character bbQ! !
 
 !Rationals methodsFor: 'morphisms' stamp: 'len 4/17/2016 06:44'!
 realClosure
@@ -12157,9 +12154,9 @@ isReal
 one
 	^ 1! !
 
-!RealAlgebraicNumbers methodsFor: 'printing' stamp: 'len 4/29/2016 18:40'!
+!RealAlgebraicNumbers methodsFor: 'printing' stamp: 'len 6/8/2016 06:09'!
 printOn: aStream
-	aStream nextPutAll: 'R' bold! !
+	aStream nextPut: Character bbR! !
 
 !RealAlgebraicNumbers methodsFor: 'accessing' stamp: 'len 4/29/2016 07:38'!
 size
@@ -12198,12 +12195,11 @@ includes: anObject
 indeterminates
 	^ indeterminates! !
 
-!FreeAlgebra methodsFor: 'accessing-private' stamp: 'len 3/23/2016 05:35'!
+!FreeAlgebra methodsFor: 'accessing-private' stamp: 'len 6/8/2016 05:58'!
 indeterminates: aCollection
 	indeterminates _ aCollection isSequenceable
 		ifTrue: [aCollection]
-		ifFalse: [aCollection asArray sort: [:a :b| a printString <= b printString]].
-	indeterminates first = 1 ifFalse: [self halt]! !
+		ifFalse: [aCollection asArray sort: [:a :b| a printString <= b printString]]! !
 
 !FreeAlgebra methodsFor: 'testing' stamp: 'len 3/5/2016 04:24'!
 isAssociative
@@ -12299,9 +12295,9 @@ isReal
 one
 	^ 1! !
 
-!GaussianIntegers methodsFor: 'as yet unclassified' stamp: 'len 6/5/2016 06:13'!
+!GaussianIntegers methodsFor: 'as yet unclassified' stamp: 'len 6/8/2016 06:08'!
 printOn: aStream
-	aStream nextPutAll: 'Z' bold, '[i]'! !
+	aStream nextPutAll: Character bbZ asString, '[i]'! !
 
 !GaussianIntegers methodsFor: 'accessing' stamp: 'len 6/5/2016 06:14'!
 size
@@ -12405,9 +12401,9 @@ modPrime: anInteger
 one
 	^ 1! !
 
-!Integers methodsFor: 'printing' stamp: 'len 4/29/2016 18:35'!
+!Integers methodsFor: 'printing' stamp: 'len 6/8/2016 06:07'!
 printOn: aStream
-	aStream nextPutAll: 'Z' bold! !
+	aStream nextPut: Character bbZ! !
 
 !Integers methodsFor: 'accessing' stamp: 'len 4/24/2016 02:58'!
 size
@@ -13122,10 +13118,10 @@ negated
 parallel: anAffineSubspace "|| anAffineSubspace"
 	^ direction <= anAffineSubspace direction or: [direction >= anAffineSubspace direction]! !
 
-!AffineSubspace methodsFor: 'printing' stamp: 'len 6/4/2016 04:21'!
+!AffineSubspace methodsFor: 'printing' stamp: 'len 6/8/2016 06:15'!
 printOn: aStream
-	direction ambient = direction ifTrue: [aStream nextPutAll: 'A' bold; nextPut: $(; print: direction; nextPut: $). ^ self].
-	self isEmpty ifTrue: [aStream nextPutAll: '{}'. ^ self].
+	direction ambient = direction ifTrue: [aStream print: direction. ^ self].
+	self isEmpty ifTrue: [aStream nextPut: Character emptySet. ^ self].
 	self dimension = 0 ifTrue: [aStream nextPut: ${; print: representative; nextPut: $}. ^ self].
 	aStream print: direction; nextPutAll: ' + '; print: representative! !
 
@@ -13510,9 +13506,9 @@ includes: anObject
 isProduct
 	^ true! !
 
-!CartesianProduct methodsFor: 'printing' stamp: 'len 6/4/2016 09:09'!
+!CartesianProduct methodsFor: 'printing' stamp: 'len 6/7/2016 00:50'!
 printOn: aStream
-	components do: [:each| aStream print: each] separatedBy: [aStream nextPut: $x]! !
+	components do: [:each| aStream print: each] separatedBy: [aStream nextPut: Character times]! !
 
 !CartesianProduct methodsFor: 'morphisms' stamp: 'len 2/12/2016 04:11'!
 projection: i
@@ -14071,11 +14067,11 @@ minimumDistance
 parityCheckMatrix
 	^ self dual generatorMatrix! !
 
-!LinearCode methodsFor: 'printing' stamp: 'len 5/23/2016 04:38'!
+!LinearCode methodsFor: 'printing' stamp: 'len 6/7/2016 21:45'!
 printOn: aStream
 	aStream nextPut: $[; print: self length; nextPut: $,; print: self rank; nextPut: $,; print: self minimumDistance; nextPut: $].
-	(aStream isKindOf: TextStream)
-		ifTrue: [aStream withAttribute: TextEmphasis subscript do: [aStream print: self space scalars size]]
+	aStream isText
+		ifTrue: [aStream nextPutAll: self ambient scalars size printString sub]
 		ifFalse: [aStream nextPut: $-; print: self ambient scalars size]! !
 
 !LinearCode methodsFor: 'accessing' stamp: 'len 5/12/2016 07:19'!
@@ -15284,12 +15280,9 @@ isProduct
 operation
 	^ Function from: (self, self) to: self evaluating: [:x| x first with: (1 to: x size) collect: [:xi :i| (self at: i) operation value: {xi. x second at: i}]]! !
 
-!DirectProductGroup methodsFor: 'printing' stamp: 'len 4/21/2016 00:14'!
+!DirectProductGroup methodsFor: 'printing' stamp: 'len 6/8/2016 01:49'!
 printOn: aStream
-	| X |
-	X _ (components allSatisfy: [:each| each isKindOf: AbelianGroup])
-		ifTrue: [Character directSum] ifFalse: [Character directProduct].
-	components do: [:each| aStream print: each] separatedBy: [aStream space; nextPut: X; space]! !
+	components do: [:each| aStream print: each] separatedBy: [aStream nextPut: Character directProduct]! !
 
 !DirectProductGroup methodsFor: 'morphisms' stamp: 'len 2/12/2016 19:51'!
 projection: i
@@ -15713,10 +15706,10 @@ includes: aMatrix
 isFinite
 	^ self scalars isFinite or: [super isFinite]! !
 
-!MatrixGroup methodsFor: 'printing' stamp: 'len 5/25/2016 05:07'!
+!MatrixGroup methodsFor: 'printing' stamp: 'len 6/7/2016 21:47'!
 printOn: aStream
 	self class = MatrixGroup ifTrue: [^ super printOn: aStream].
-	(aStream isKindOf: TextStream)
+	aStream isText
 		ifTrue:
 			[aStream nextPutAll: self shortName bold; nextPutAll: space dimension printString sub; nextPut: $(; print: self scalars; nextPut: $)]
 		ifFalse:
@@ -15828,12 +15821,12 @@ isCommutative
 shortName
 	^ 'Z'! !
 
-!SpecialLinearMatrixGroup methodsFor: 'morphisms' stamp: 'len 4/21/2016 23:42'!
+!SpecialLinearMatrixGroup methodsFor: 'morphisms' stamp: 'len 6/8/2016 05:40'!
 asAlgebraicVariety
 	| n m P det |
 	n _ matrices numberOfRows.
 	m _ matrices numberOfColumns.
-	P _ self scalars polynomialsIn: (1 to: n*m).
+	P _ self scalars polynomialsIn: n*m.
 	det _ ((matrices over: P) evaluating: [:i :j| P x: i - 1 * m + j]) determinant.
 	^ P * (det - self scalars one) :: variety! !
 
@@ -16312,9 +16305,9 @@ isFinite
 isReal
 	^ true! !
 
-!Naturals methodsFor: 'printing' stamp: 'len 4/29/2016 18:38'!
+!Naturals methodsFor: 'printing' stamp: 'len 6/8/2016 06:08'!
 printOn: aStream
-	aStream nextPutAll: 'N' bold! !
+	aStream nextPut: Character bbN! !
 
 !Naturals methodsFor: 'accessing' stamp: 'len 4/24/2016 02:58'!
 size
@@ -16673,11 +16666,11 @@ pointAt: anHomogeneousTuple
 
 	^ self project: (vectorSpace vectorAt: anHomogeneousTuple asTuple)! !
 
-!ProjectiveSubspace methodsFor: 'printing' stamp: 'len 5/23/2016 19:49'!
+!ProjectiveSubspace methodsFor: 'printing' stamp: 'len 6/8/2016 06:10'!
 printOn: aStream
 	vectorSpace ambient = vectorSpace
 		ifTrue:
-			[aStream nextPutAll: 'P' bold; nextPut: $(; print: vectorSpace; nextPut: $).
+			[aStream nextPut: Character bbP; nextPut: $(; print: vectorSpace; nextPut: $).
 			^ self].
 	aStream nextPut: $[.
 	self dimension = 0 "a point"
@@ -16867,9 +16860,9 @@ measure
 midpoint
 	^ Tuple withAll: ((1 to: self size) collect: [:each| each midpoint])! !
 
-!RealBox methodsFor: 'printing' stamp: 'len 1/11/2016 02:39'!
+!RealBox methodsFor: 'printing' stamp: 'len 6/7/2016 00:51'!
 printOn: aStream
-	components do: [:each| aStream print: each] separatedBy: [aStream nextPut: $x]! !
+	components do: [:each| aStream print: each] separatedBy: [aStream nextPut: Character times]! !
 
 !RealBox methodsFor: 'accessing' stamp: 'len 1/11/2016 02:36'!
 sample
@@ -18667,9 +18660,9 @@ value: anObject
 				@ (self @@ anInteger \\ 2)].
 	^ (self @@ anInteger negated) inverse! !
 
-!Function methodsFor: 'printing' stamp: 'len 4/24/2016 06:09'!
+!Function methodsFor: 'printing' stamp: 'len 6/7/2016 18:54'!
 arrowPrintOn: aStream
-	aStream print: self domain; nextPutAll: ' -> '; print: self codomain! !
+	aStream print: self domain; nextPut: $; print: self codomain! !
 
 !Function methodsFor: 'printing' stamp: 'len 4/18/2016 23:41'!
 arrowPrintString
@@ -19871,12 +19864,12 @@ projectionOn: aLinearSubspace
 	domain _ domainBasis span.
 	^ self from: domain to: domain evaluating: [:v| (basis includes: v) ifTrue: [v] ifFalse: [v-v]]! !
 
-!LinearForm methodsFor: 'converting' stamp: 'len 6/3/2016 03:19'!
+!LinearForm methodsFor: 'converting' stamp: 'len 6/7/2016 07:22'!
 asPolynomial
 	| coordinates P |
 	coordinates _ self coordinates.
 	P _ self domain scalars polynomialsIn: coordinates size.
-	^ coordinates dot: ((1 to: P rank) collect: [:i| P x: i])! !
+	^ (P tuple: P rank evaluating: [:i| P x: i]) dot: coordinates! !
 
 !LinearForm methodsFor: 'converting' stamp: 'len 5/23/2016 04:39'!
 asTuple
@@ -23046,12 +23039,9 @@ order
 order: anInteger
 	order _ anInteger! !
 
-!Aleph methodsFor: 'printing' stamp: 'len 4/22/2016 05:06'!
+!Aleph methodsFor: 'printing' stamp: 'len 6/7/2016 21:43'!
 printOn: aStream
-	aStream nextPut: Character aleph.
-	(aStream isKindOf: TextStream)
-		ifTrue: [aStream withAttribute: TextEmphasis subscript do: [aStream print: order]]
-		ifFalse: [aStream print: order]! !
+	aStream nextPut: Character aleph; nextPutAll: order printString sub! !
 
 !Aleph class methodsFor: 'instance creation' stamp: 'len 4/22/2016 02:37'!
 new
@@ -25255,26 +25245,26 @@ lcm: aMonomial
 	exponents size >= aMonomial exponents size ifFalse: [^ aMonomial lcm: self].
 	^ self class exponents: (exponents withIndexCollect: [:each :i| each max: (aMonomial at: i)])! !
 
-!Monomial methodsFor: 'printing' stamp: 'len 4/3/2016 02:52'!
+!Monomial methodsFor: 'printing' stamp: 'len 6/7/2016 21:48'!
 printExponent: anInteger on: aStream
 	| exponent |
 	(exponent _ anInteger printString) = '1'
 		ifTrue: [^ self].
-	(aStream isKindOf: TextStream)
+	aStream isText
 		ifTrue:
-			[aStream withAttribute: TextEmphasis superscript do: [aStream nextPutAll: exponent].
+			[aStream nextPutAll: exponent super.
 			^ self].
 	aStream nextPut: $^.
 	exponent size = 1
 		ifTrue: [aStream nextPutAll: exponent]
 		ifFalse: [aStream nextPut: ${; nextPutAll: exponent; nextPut: $}]! !
 
-!Monomial methodsFor: 'printing' stamp: 'len 6/1/2016 20:08'!
+!Monomial methodsFor: 'printing' stamp: 'len 6/7/2016 21:49'!
 printIndeterminate: indeterminate on: aStream
 	indeterminate isInteger
 		ifFalse: [aStream nextPutAll: indeterminate displayStringOrText. ^ self].
-	(aStream isKindOf: TextStream)
-		ifTrue: [aStream nextPut: $x. aStream withAttribute: TextEmphasis subscript do: [aStream print: indeterminate]]
+	aStream isText
+		ifTrue: [aStream nextPut: $x; nextPutAll: indeterminate printString sub]
 		ifFalse:[aStream nextPutAll: '{x', indeterminate printString, '}']! !
 
 !Monomial methodsFor: 'printing' stamp: 'len 4/5/2016 18:26'!
