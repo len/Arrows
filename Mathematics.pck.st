@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2794] on 8 June 2016 at 6:26:13.495531 am'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2794] on 9 June 2016 at 6:17:38.462379 am'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 88!
+!provides: 'Mathematics' 1 89!
 !classDefinition: #AbelianGroupPresentation category: #'Mathematics-Free'!
 Object subclass: #AbelianGroupPresentation
 	instanceVariableNames: 'generators relators'
@@ -909,6 +909,16 @@ AlgebraicCurve subclass: #EllipticCurve
 	category: 'Mathematics-ETC'!
 !classDefinition: 'EllipticCurve class' category: #'Mathematics-ETC'!
 EllipticCurve class
+	instanceVariableNames: ''!
+
+!classDefinition: #Quadric category: #'Mathematics-Lattices'!
+AlgebraicSet subclass: #Quadric
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Lattices'!
+!classDefinition: 'Quadric class' category: #'Mathematics-Lattices'!
+Quadric class
 	instanceVariableNames: ''!
 
 !classDefinition: #CartesianProduct category: #'Mathematics-Kernel-Domains'!
@@ -10270,9 +10280,9 @@ includes: anObject
 isCoproduct
 	^ true! !
 
-!DirectSumSpace methodsFor: 'printing' stamp: 'len 6/8/2016 01:49'!
+!DirectSumSpace methodsFor: 'printing' stamp: 'len 6/8/2016 06:52'!
 printOn: aStream
-	components do: [:each| aStream print: each] separatedBy: [aStream nextPut: Character directSum]! !
+	components do: [:each| aStream print: each] separatedBy: [aStream nextPut: Character oplus]! !
 
 !DirectSumSpace methodsFor: 'morphisms' stamp: 'len 5/1/2016 18:55'!
 projection: i
@@ -10480,9 +10490,9 @@ annihilator
 	"Answer the annihilator of the receiver, i.e. the space of all linear forms that are 0 at all vectors in the receiver."
 	^ self class basis: (self basis extended dual copyFrom: self dimension + 1 to: self ambient dimension)! !
 
-!LinearSubspace methodsFor: 'morphisms' stamp: 'len 6/3/2016 02:41'!
+!LinearSubspace methodsFor: 'morphisms' stamp: 'len 6/9/2016 06:16'!
 asAlgebraicVariety
-	^ AlgebraicSet on: self ideal: self equations asPolynomialSystem ideal! !
+	^ AlgebraicSet on: self ambient asAffineSpace ideal: self equations asPolynomialSystem ideal! !
 
 !LinearSubspace methodsFor: 'basis' stamp: 'len 11/7/2015 03:50'!
 basis
@@ -10564,10 +10574,10 @@ alternative 3:?
 	^ basis dual asArray inject: self space into: [:answer :each| answer intersection: each kernel]	
 "! !
 
-!LinearSubspace methodsFor: 'morphisms' stamp: 'len 5/23/2016 04:26'!
+!LinearSubspace methodsFor: 'morphisms' stamp: 'len 6/9/2016 04:43'!
 perp2
 	"Answer the orthogonal complement of the receiver."
-	^ basis dual asArray inject: self ambient into: [:answer :each| answer intersection: each kernel]
+	^ basis dual asArray inject: self ambient into: [:answer :each| answer /\ each kernel]
 
 "alternative:
 	| k n |
@@ -10625,9 +10635,9 @@ quotient
 	"Answer the quotient space of the ambient space by the receiver."
 	^ QuotientSpace by: self! !
 
-!LinearSubspace methodsFor: 'morphisms' stamp: 'len 2/24/2016 06:02'!
+!LinearSubspace methodsFor: 'morphisms' stamp: 'len 6/9/2016 04:43'!
 radical
-	^ self intersection: self perp! !
+	^ self /\ self perp! !
 
 !LinearSubspace methodsFor: 'accessing' stamp: 'len 5/23/2016 04:26'!
 scalars
@@ -11640,9 +11650,9 @@ isFinite
 one
 	^ 1! !
 
-!AlgebraicNumbers methodsFor: 'printing' stamp: 'len 6/8/2016 06:09'!
+!AlgebraicNumbers methodsFor: 'printing' stamp: 'len 6/8/2016 21:05'!
 printOn: aStream
-	aStream nextPut: Character bbC! !
+	aStream nextPut: Character CC! !
 
 !AlgebraicNumbers methodsFor: 'accessing' stamp: 'len 4/29/2016 07:38'!
 size
@@ -11872,9 +11882,9 @@ positiveDo: aBlock
 	q _ 1.
 	[aBlock value: q. q _ 1 / (2 * q floor - q + 1)] repeat! !
 
-!Rationals methodsFor: 'printing' stamp: 'len 6/8/2016 06:08'!
+!Rationals methodsFor: 'printing' stamp: 'len 6/8/2016 21:05'!
 printOn: aStream
-	aStream nextPut: Character bbQ! !
+	aStream nextPut: Character QQ! !
 
 !Rationals methodsFor: 'morphisms' stamp: 'len 4/17/2016 06:44'!
 realClosure
@@ -12154,9 +12164,9 @@ isReal
 one
 	^ 1! !
 
-!RealAlgebraicNumbers methodsFor: 'printing' stamp: 'len 6/8/2016 06:09'!
+!RealAlgebraicNumbers methodsFor: 'printing' stamp: 'len 6/8/2016 21:05'!
 printOn: aStream
-	aStream nextPut: Character bbR! !
+	aStream nextPut: Character RR! !
 
 !RealAlgebraicNumbers methodsFor: 'accessing' stamp: 'len 4/29/2016 07:38'!
 size
@@ -12295,9 +12305,9 @@ isReal
 one
 	^ 1! !
 
-!GaussianIntegers methodsFor: 'as yet unclassified' stamp: 'len 6/8/2016 06:08'!
+!GaussianIntegers methodsFor: 'as yet unclassified' stamp: 'len 6/8/2016 21:04'!
 printOn: aStream
-	aStream nextPutAll: Character bbZ asString, '[i]'! !
+	aStream nextPutAll: Character ZZ asString, '[i]'! !
 
 !GaussianIntegers methodsFor: 'accessing' stamp: 'len 6/5/2016 06:14'!
 size
@@ -12401,9 +12411,9 @@ modPrime: anInteger
 one
 	^ 1! !
 
-!Integers methodsFor: 'printing' stamp: 'len 6/8/2016 06:07'!
+!Integers methodsFor: 'printing' stamp: 'len 6/8/2016 21:35'!
 printOn: aStream
-	aStream nextPut: Character bbZ! !
+	aStream nextPut: Character ZZ! !
 
 !Integers methodsFor: 'accessing' stamp: 'len 4/24/2016 02:58'!
 size
@@ -13030,6 +13040,10 @@ automorphisms
 codimension
 	^ direction codimension! !
 
+!AffineSubspace methodsFor: 'coordinates' stamp: 'len 6/9/2016 00:39'!
+coordinatesOf: aPoint
+	^ direction coordinatesOf: aPoint - representative! !
+
 !AffineSubspace methodsFor: 'accessing' stamp: 'len 6/4/2016 04:21'!
 dimension
 	^ representative isNil ifTrue: [-1] ifFalse: [direction dimension]! !
@@ -13117,6 +13131,10 @@ negated
 !AffineSubspace methodsFor: 'testing' stamp: 'len 2/9/2016 21:24'!
 parallel: anAffineSubspace "|| anAffineSubspace"
 	^ direction <= anAffineSubspace direction or: [direction >= anAffineSubspace direction]! !
+
+!AffineSubspace methodsFor: 'coordinates' stamp: 'len 6/9/2016 00:40'!
+pointAt: aTuple
+	^ (direction vectorAt: aTuple) + representative! !
 
 !AffineSubspace methodsFor: 'printing' stamp: 'len 6/8/2016 06:15'!
 printOn: aStream
@@ -13254,10 +13272,12 @@ ideal
 ideal: anIdeal
 	ideal _ anIdeal radical! !
 
-!AlgebraicSet methodsFor: 'testing' stamp: 'len 11/24/2015 06:10'!
-includes: aTuple 
+!AlgebraicSet methodsFor: 'testing' stamp: 'len 6/9/2016 00:21'!
+includes: aPoint
 	"Answer true if the receiver includes the argument."
-	^ ideal generators allSatisfy: [:each | (each value: aTuple) isZero]! !
+	| p |
+	p _ space coordinatesOf: aPoint.
+	^ ideal generators allSatisfy: [:each | (each value: p) isZero]! !
 
 !AlgebraicSet methodsFor: 'morphisms' stamp: 'len 2/24/2016 06:00'!
 intersection: anAlgebraicSet
@@ -13816,10 +13836,10 @@ on: aDomain evaluating: aBlock
 asHomogeneousSpace
 	^ self notYetImplemented! !
 
-!Grassmannian methodsFor: 'morphisms' stamp: 'len 6/3/2016 20:17'!
+!Grassmannian methodsFor: 'morphisms' stamp: 'len 6/9/2016 04:13'!
 asProjectiveSpace
-	self dimension = 1 ifTrue: [^ space projectivization].
-	^ self error: 'Grassmannian of dimension > 1'! !
+	self rank = 1 ifTrue: [^ space projectivization].
+	^ self error: 'Grassmannian of rank > 1'! !
 
 !Grassmannian methodsFor: 'random' stamp: 'len 4/21/2016 16:58'!
 atRandom: aRandom bits: bits
@@ -15280,9 +15300,9 @@ isProduct
 operation
 	^ Function from: (self, self) to: self evaluating: [:x| x first with: (1 to: x size) collect: [:xi :i| (self at: i) operation value: {xi. x second at: i}]]! !
 
-!DirectProductGroup methodsFor: 'printing' stamp: 'len 6/8/2016 01:49'!
+!DirectProductGroup methodsFor: 'printing' stamp: 'len 6/8/2016 07:00'!
 printOn: aStream
-	components do: [:each| aStream print: each] separatedBy: [aStream nextPut: Character directProduct]! !
+	components do: [:each| aStream print: each] separatedBy: [aStream nextPut: Character otimes]! !
 
 !DirectProductGroup methodsFor: 'morphisms' stamp: 'len 2/12/2016 19:51'!
 projection: i
@@ -16305,9 +16325,9 @@ isFinite
 isReal
 	^ true! !
 
-!Naturals methodsFor: 'printing' stamp: 'len 6/8/2016 06:08'!
+!Naturals methodsFor: 'printing' stamp: 'len 6/8/2016 21:05'!
 printOn: aStream
-	aStream nextPut: Character bbN! !
+	aStream nextPut: Character NN! !
 
 !Naturals methodsFor: 'accessing' stamp: 'len 4/24/2016 02:58'!
 size
@@ -16666,11 +16686,11 @@ pointAt: anHomogeneousTuple
 
 	^ self project: (vectorSpace vectorAt: anHomogeneousTuple asTuple)! !
 
-!ProjectiveSubspace methodsFor: 'printing' stamp: 'len 6/8/2016 06:10'!
+!ProjectiveSubspace methodsFor: 'printing' stamp: 'len 6/8/2016 21:05'!
 printOn: aStream
 	vectorSpace ambient = vectorSpace
 		ifTrue:
-			[aStream nextPut: Character bbP; nextPut: $(; print: vectorSpace; nextPut: $).
+			[aStream nextPut: Character PP; nextPut: $(; print: vectorSpace; nextPut: $).
 			^ self].
 	aStream nextPut: $[.
 	self dimension = 0 "a point"
@@ -16691,11 +16711,11 @@ projection
 scalars
 	^ vectorSpace scalars! !
 
-!ProjectiveSubspace methodsFor: 'testing' stamp: 'len 2/24/2016 05:58'!
+!ProjectiveSubspace methodsFor: 'testing' stamp: 'len 6/9/2016 04:44'!
 skew: aProjectiveSubspace
 	"Answer true if the receiver and the argument are skew."
 
-	^ (self intersection: aProjectiveSubspace) isEmpty! !
+	^ (self /\ aProjectiveSubspace) isEmpty! !
 
 !ProjectiveSubspace methodsFor: 'accessing' stamp: 'len 6/4/2016 01:38'!
 unit
@@ -19076,6 +19096,11 @@ asPolynomial
 	y _ Tuple new: n evaluating: [:i| P x: n+i].
 	^ x dot: matrix * y! !
 
+!BilinearForm methodsFor: 'converting' stamp: 'len 6/8/2016 21:27'!
+asQuadraticForm
+	"Answer the associated quadratic form."
+	^ QuadraticForm from: basis matrix: matrix! !
+
 !BilinearForm methodsFor: 'accessing' stamp: 'len 1/8/2016 05:22'!
 basis
 	^ basis! !
@@ -20528,8 +20553,9 @@ linearMap: aLinearMap
 		from: basis
 		matrix: matrix + aQuadraticForm matrix! !
 
-!QuadraticForm methodsFor: 'converting' stamp: 'len 1/8/2016 05:20'!
+!QuadraticForm methodsFor: 'converting' stamp: 'len 6/8/2016 21:30'!
 asBilinearForm
+	"Answer the bilinear form associated with the receiver (assuming the characteristic is not 2). This is, via the polarization identity: B(v,w) = (Q(v+w) - Q(v-w)) / 4."
 	^ BilinearForm from: basis matrix: matrix! !
 
 !QuadraticForm methodsFor: 'converting' stamp: 'len 3/28/2016 01:26'!
@@ -20593,6 +20619,10 @@ value: aVector
 	| v |
 	v _ basis coordinatesOf: aVector.
 	^ v dot: (matrix * v)! !
+
+!QuadraticForm methodsFor: 'accessing' stamp: 'len 6/9/2016 00:22'!
+zeros
+	^ Quadric on: self domain ideal: self asPolynomial asIdeal! !
 
 !QuadraticForm class methodsFor: 'instance creation' stamp: 'len 1/8/2016 05:19'!
 from: aLinearBasis matrix: aMatrix
@@ -27169,6 +27199,11 @@ asBilinearForm
 	self species rank even ifFalse: [^ self error: 'not even rank'].
 	^ BilinearForm fromHalf: (self scalars ** (self species rank / 2)) evaluating: [:each| self value: each first, each second]! !
 
+!Polynomial methodsFor: 'converting' stamp: 'len 6/8/2016 23:44'!
+asIdeal
+	"Answer the ideal generated by the receiver."
+	^ self species * self! !
+
 !Polynomial methodsFor: 'converting' stamp: 'len 6/1/2016 19:54'!
 asLinearForm
 	self isLinear ifFalse: [^ self error: 'not a linear polynomial'].
@@ -29756,10 +29791,10 @@ printOn: aStream
 		space; print: index;
 		space; print: frame! !
 
-!ProjectiveChart methodsFor: 'coordinates' stamp: 'len 6/4/2016 04:37'!
+!ProjectiveChart methodsFor: 'coordinates' stamp: 'len 6/9/2016 04:44'!
 vectorFromPoint: aPoint
 	"Answer a vector associated to the projective point aPoint (which is a linear subspace of dimension 1)."
-	^ (aPoint vectorSpace asAffineSpace intersection: self affine) representative! !
+	^ (aPoint vectorSpace asAffineSpace /\ self affine) representative! !
 
 !ProjectiveChart class methodsFor: 'instance creation' stamp: 'len 1/3/2016 05:22'!
 frame: aProjectiveFrame index: anInteger origin: anObject
@@ -32697,6 +32732,20 @@ testAnnihilator
 	self assert: S0 dimension = S codimension.
 	S0 basis do: [:f| self assert: (f value: v) isZero]! !
 
+!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 6/8/2016 21:10'!
+testAnnihilatorProperties
+	| V S T |
+	V _ Rationals new ** 5.
+	S _ (V grassmannian: 4) atRandomBits: 100.
+	T _ (S grassmannian: 2) atRandomBits: 100.
+	T _ V span: T basis. "hack, otherwise T ambient = S"
+	self assert: T <= S.
+	self assert: T annihilator >= S annihilator. "reverses inclusions"
+	self assert: (S + T) annihilator = (S annihilator /\ T annihilator).
+	self assert: S dimension + S annihilator dimension = V dimension.
+	self assert: V annihilator isTrivial.
+"	self assert: S annihilator annihilator = S dual dual"! !
+
 !LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 2/24/2016 20:49'!
 testAnnihilatorZ2
 	| V v S S0 |
@@ -32947,7 +32996,7 @@ testPerp
 	p _ S projection.
 	self assert: p kernel = perp! !
 
-!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 2/24/2016 16:48'!
+!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 6/9/2016 04:42'!
 testPerpProperties
 	| V S T |
 	V _ Rationals new ** 3.
@@ -32955,7 +33004,7 @@ testPerpProperties
 	T _ V span: {(1, -1, -3)}. "subspace of S"
 	self assert: S + S perp = V.
 	self assert: T + T perp = V.
-	self assert: (S intersection: S perp) isTrivial.
+	self assert: (S /\ S perp) isTrivial.
 	self assert: S <= S perp perp.
 	self assert: S perp < T perp "because S > T"! !
 
@@ -32984,17 +33033,17 @@ testSubspaceInclusion
 	self assert: (S > P) not.
 	self assert: (P < S) not! !
 
-!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 2/29/2016 00:49'!
+!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 6/9/2016 04:43'!
 testSubspaceIntersection
 	| V S T T` |
 	V _ Rationals new ** 3.
 	S _ V span: {(1, 1, 1). (2, 0, -2)}.
-	self assert: (S intersection: V) = S.
-	self assert: (S intersection: S) = S.
+	self assert: S /\ V = S.
+	self assert: S /\ S = S.
 	T _ V span: {(3,1,-1)}.
-	self assert: (S intersection: T) = T.
+	self assert: S /\ T = T.
 	T` _ V span: {(3,1,-1). (0,1,0)}.
-	self assert: (S intersection: T`) = T! !
+	self assert: S /\ T` = T! !
 
 !LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 6/4/2016 08:39'!
 testSubspaceOfSubspace
@@ -34360,7 +34409,7 @@ testZeroCoefficientBug
 	Qx _ Rationals new polynomials.
 	self assert: (Qx one * 0) isZero! !
 
-!ProjectiveGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 6/3/2016 20:17'!
+!ProjectiveGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 6/9/2016 04:42'!
 testDesarguesTheorem
 	"In a projective space of dimension >= 3, two triangles are in perspective axially iff they are in perspective centrally. In other words, given two triangles {a,b,c} and {A,B,C}, if the lines aA, bB and cC are concurrent (meet at a point), then the points AB /\ ab, AC /\ ac and BC /\ bc are collinear.
 	
@@ -34375,21 +34424,21 @@ testDesarguesTheorem
 	b _ random next.
 	c _ random next.
 	
-	X _ A+B intersection: a+b.
-	Y _ A+C intersection: a+c.
-	Z _ B+C intersection: b+c.
+	X _ A+B /\ (a+b).
+	Y _ A+C /\ (a+c).
+	Z _ B+C /\ (b+c).
 	"aA,bB,cC are not concurrent:"
-	self deny: ((a+A intersection: b+B) intersection: c+C) isPoint.
+	self deny: (a+A /\ (b+B) /\ (c+C)) isPoint.
 	"X,Y,Z are not collinear"
 	self deny: (X+Y+Z) isLine.
 
 	"make the lines concurrent:"
-	C _ a+A intersection: b+B.
-	"p1 _ A+B intersection: a+b."
-	Y _ A+C intersection: a+c.
-	Z _ B+C intersection: b+c.
+	C _ a+A /\ (b+B).
+	"p1 _ A+B /\ (a+b)."
+	Y _ A+C /\ (a+c).
+	Z _ B+C /\ (b+c).
 	"aA,bB,cC are concurrent:"
-	self assert: ((a+A intersection: b+B) intersection: c+C) isPoint.
+	self assert: (a+A /\ (b+B) /\ (c+C)) isPoint.
 	"X,Y,Z are collinear"
 	self assert: (X+Y+Z) isLine! !
 
@@ -34405,7 +34454,7 @@ testHomogeneousTuples
 	self assert: (1,2,3) homogeneous = (2,4,6) homogeneous.
 	self assert: (1,2,3) homogeneous ~= (-2,4,6) homogeneous! !
 
-!ProjectiveGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 6/3/2016 20:17'!
+!ProjectiveGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 6/9/2016 04:39'!
 testPappusHexagonTheorem
 	"Given a set of collinear points {A,B,C} and another set of collinear points {a,b,c}, then the intersection points X,Y,Z of line pairs Ab and aB, Ac and aC, Bc and bC are collinear.
 	The theorem is true in any projective plane over any field, but fails for projective planes over any skewfield (non-commutative division ring). The projective planes in which the theorem is valid are called pappian planes."
@@ -34418,9 +34467,9 @@ testPappusHexagonTheorem
 	b _ P atRandomBits: 100.
 	c _ a+b :: atRandomBits: 100.
 	
-	X _ A+b intersection: a+B.
-	Y _ A+c intersection: a+C.
-	Z _ B+c intersection: b+C.
+	X _ A+b /\ (a+B).
+	Y _ A+c /\ (a+C).
+	Z _ B+c /\ (b+C).
 
 	"A,B,C are collinear:"
 	self assert: (A+B+C) isLine.
