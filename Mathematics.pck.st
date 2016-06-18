@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2794] on 11 June 2016 at 6:32:58.76666 pm'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2794] on 18 June 2016 at 5:20:43.650786 am'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 91!
+!provides: 'Mathematics' 1 93!
 !classDefinition: #AbelianGroupPresentation category: #'Mathematics-Free'!
 Object subclass: #AbelianGroupPresentation
 	instanceVariableNames: 'generators relators'
@@ -331,44 +331,24 @@ Object subclass: #DFT
 DFT class
 	instanceVariableNames: ''!
 
-!classDefinition: #Diagram category: #'Mathematics-Kernel-Diagrams'!
+!classDefinition: #Diagram category: #'Mathematics-Kernel-Support'!
 Object subclass: #Diagram
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Kernel-Diagrams'!
-!classDefinition: 'Diagram class' category: #'Mathematics-Kernel-Diagrams'!
+	category: 'Mathematics-Kernel-Support'!
+!classDefinition: 'Diagram class' category: #'Mathematics-Kernel-Support'!
 Diagram class
 	instanceVariableNames: ''!
 
 !classDefinition: #ChainComplex category: #'Mathematics-Topology'!
 Diagram subclass: #ChainComplex
-	instanceVariableNames: 'complex'
+	instanceVariableNames: 'arrows'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Topology'!
 !classDefinition: 'ChainComplex class' category: #'Mathematics-Topology'!
 ChainComplex class
-	instanceVariableNames: ''!
-
-!classDefinition: #ExactSequence category: #'Mathematics-Kernel-Diagrams'!
-Diagram subclass: #ExactSequence
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Kernel-Diagrams'!
-!classDefinition: 'ExactSequence class' category: #'Mathematics-Kernel-Diagrams'!
-ExactSequence class
-	instanceVariableNames: ''!
-
-!classDefinition: #ShortExactSequence category: #'Mathematics-Kernel-Diagrams'!
-ExactSequence subclass: #ShortExactSequence
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Kernel-Diagrams'!
-!classDefinition: 'ShortExactSequence class' category: #'Mathematics-Kernel-Diagrams'!
-ShortExactSequence class
 	instanceVariableNames: ''!
 
 !classDefinition: #SubgroupSeries category: #'Mathematics-Groups'!
@@ -531,16 +511,6 @@ VectorSpace subclass: #BilinearForms
 BilinearForms class
 	instanceVariableNames: ''!
 
-!classDefinition: #BoundDegreePolynomials category: #'Mathematics-Polynomials'!
-VectorSpace subclass: #BoundDegreePolynomials
-	instanceVariableNames: 'polynomials degree'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Polynomials'!
-!classDefinition: 'BoundDegreePolynomials class' category: #'Mathematics-Polynomials'!
-BoundDegreePolynomials class
-	instanceVariableNames: ''!
-
 !classDefinition: #DirectSumSpace category: #'Mathematics-Linear-Spaces'!
 VectorSpace subclass: #DirectSumSpace
 	instanceVariableNames: 'components'
@@ -609,6 +579,16 @@ VectorSpace subclass: #Matrices
 	category: 'Mathematics-Linear-Spaces'!
 !classDefinition: 'Matrices class' category: #'Mathematics-Linear-Spaces'!
 Matrices class
+	instanceVariableNames: ''!
+
+!classDefinition: #PolynomialSpace category: #'Mathematics-Polynomials'!
+VectorSpace subclass: #PolynomialSpace
+	instanceVariableNames: 'polynomials degree'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Polynomials'!
+!classDefinition: 'PolynomialSpace class' category: #'Mathematics-Polynomials'!
+PolynomialSpace class
 	instanceVariableNames: ''!
 
 !classDefinition: #QuotientSpace category: #'Mathematics-Linear-Spaces'!
@@ -1651,6 +1631,16 @@ Domain subclass: #SemialgebraicSet
 SemialgebraicSet class
 	instanceVariableNames: ''!
 
+!classDefinition: #SimplicialComplex category: #'Mathematics-Topology'!
+Domain subclass: #SimplicialComplex
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Topology'!
+!classDefinition: 'SimplicialComplex class' category: #'Mathematics-Topology'!
+SimplicialComplex class
+	instanceVariableNames: ''!
+
 !classDefinition: #Spectrum category: #'Mathematics-ETC'!
 Domain subclass: #Spectrum
 	instanceVariableNames: 'ring'
@@ -1659,26 +1649,6 @@ Domain subclass: #Spectrum
 	category: 'Mathematics-ETC'!
 !classDefinition: 'Spectrum class' category: #'Mathematics-ETC'!
 Spectrum class
-	instanceVariableNames: ''!
-
-!classDefinition: #TopologicalSpace category: #'Mathematics-Topology'!
-Domain subclass: #TopologicalSpace
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Topology'!
-!classDefinition: 'TopologicalSpace class' category: #'Mathematics-Topology'!
-TopologicalSpace class
-	instanceVariableNames: ''!
-
-!classDefinition: #SimplicialComplex category: #'Mathematics-Topology'!
-TopologicalSpace subclass: #SimplicialComplex
-	instanceVariableNames: 'simplices'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Topology'!
-!classDefinition: 'SimplicialComplex class' category: #'Mathematics-Topology'!
-SimplicialComplex class
 	instanceVariableNames: ''!
 
 !classDefinition: #ElementaryTensorOld category: #'Mathematics-ETC'!
@@ -3161,6 +3131,16 @@ TestCase subclass: #SequenceTest
 SequenceTest class
 	instanceVariableNames: ''!
 
+!classDefinition: #SimplicesTest category: #'Mathematics-Tests'!
+TestCase subclass: #SimplicesTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Tests'!
+!classDefinition: 'SimplicesTest class' category: #'Mathematics-Tests'!
+SimplicesTest class
+	instanceVariableNames: ''!
+
 !classDefinition: #UnivariatePolynomialDivision category: #'Mathematics-ETC'!
 Object subclass: #UnivariatePolynomialDivision
 	instanceVariableNames: 'dividend divisor quotient remainder'
@@ -3394,6 +3374,13 @@ bag		<Bag> of nodes, used to calculate updates to the frontier.
 Clients of this class must *not* modify the frontier set, only access it.
 !
 
+!ChainComplex commentStamp: '<historical>' prior: 0!
+My instances are (bounded) chain complexes.
+
+A chain complex (Ci,di) is a sequence of abelian groups or modules conected by homomorphisms (called boundary operators or differentials) di:Ai->A{i-1} such that the composition between any two consecutive maps is zero: di @ d{i+1} = 0.
+
+A bounded chain complex is one where only a finite number of Ci are not {0}.!
+
 !Dijkstra commentStamp: '<historical>' prior: 0!
 I am Dijkstra's algorithm for computing distances and shortest paths in a graph from a fixed starting node (source). If the graph is edge-labeled, the labels are used as weights.
 
@@ -3459,6 +3446,9 @@ My instances are finitely-generated linear subspaces of a vector space.!
 
 !Matrices commentStamp: '<historical>' prior: 0!
 My instances are vector spaces (or modules) of matrices of n rows by m columns over a given field (or ring).!
+
+!PolynomialSpace commentStamp: '<historical>' prior: 0!
+My instances are vector spaces made of univariate polynomials of degree <= n, for a given n.!
 
 !QuotientSpace commentStamp: '<historical>' prior: 0!
 My instances are quotient spaces V / S (read "V mod S") of a given vector space V modulo a subspace S.
@@ -3618,6 +3608,11 @@ Some examples of semialgebraic sets are:
 		SemialgebraicSet circunference.
 !
 
+!SimplicialComplex commentStamp: '<historical>' prior: 0!
+My instances are abstract simplicial complexes. These are combinatorial objects consisting of a collection of simplices with the following properties:
+- every face of a simplex is also in the complex;
+- the intersection of two simplices is either empty or a common face of both simplices.!
+
 !Spectrum commentStamp: '<historical>' prior: 0!
 My instances are spectra of commutative rings. Given a commutative ring R, the spectra of R idenoted Spec(R) is the set of all prime ideals of R.!
 
@@ -3670,6 +3665,9 @@ My instances are bilinear forms, i.e. functions from VxV to F where V is a vecto
 	B(v+cv`, w) = B(v, w) + cB(v`, w)
 	B(v, w+cw`) = B(v, w) + cB(v, w`)
 !
+
+!ChainMap commentStamp: '<historical>' prior: 0!
+A chain map between two chain complexes (Ci,di) and (C`i,d`i) is a sequence of homomorphisms fi:Ci->C`i that commutes with the boundary operator in the two complexes: d`i @ fi = f{i-1} @ di. They send cycles to cycles and boundaries to boundaries, and this descends to a map in homology fi* : Hi -> H`i.!
 
 !LinearMap commentStamp: '<historical>' prior: 0!
 My instances are linear transformations between spaces of finite dimension, i.e. morphisms of vector spaces.
@@ -4099,54 +4097,30 @@ Output: an extended characteristic set (or ascending chain, or Wu characteristic
 isInfinity
 	^ false! !
 
-!StrikeFont class methodsFor: '*mathematics-character shapes' stamp: 'len 6/7/2016 07:15'!
-buildLargerPlusMinus
-	| f10 f12 form |
-	f10 _ AbstractFont familyName: 'DejaVu Sans Mono' pointSize: 10.
-	f12 _ AbstractFont familyName: 'DejaVu Sans Mono' pointSize: 12.
-	f10 glyphAt: $+ put: ((f12 glyphAt: $+) copy: (1@1 extent: 8@f10 height)).
-	form _ ((f12 glyphAt: $-) copy: (1@2 extent: 8@f10 height)).
-	form copy: (1@0 extent: 4@form height) from: form to: 0@0 rule: Form over.
-	form copy: (4@0 extent: 4@form height) from: form to: 5@0 rule: Form over.
-	f10 glyphAt: $- put: form! !
-
-!StrikeFont class methodsFor: '*mathematics-character shapes' stamp: 'len 6/7/2016 06:54'!
+!StrikeFont class methodsFor: '*mathematics-character shapes' stamp: 'len 6/16/2016 21:26'!
 buildMathFont
 	"
 	StrikeFont buildMathFont
 	"
-	#(9 10 11 12 14) do: [:pointSize| self buildMathFont: pointSize].
-	self buildLargerPlusMinus! !
+	#(9 10 11 12 14) do: [:pointSize| self buildMathFont: pointSize]! !
 
-!StrikeFont class methodsFor: '*mathematics-character shapes' stamp: 'len 6/10/2016 06:43'!
+!StrikeFont class methodsFor: '*mathematics-character shapes' stamp: 'len 6/17/2016 03:09'!
 buildMathFont: pointSize
-	"
-	StrikeFont buildMathFont
-	"
-	| font normal smaller larger |
+	| font normal larger muchLarger |
 	font _ AbstractFont familyName: 'DejaVu Sans Mono' pointSize: pointSize.
-	normal _ AbstractFont familyName: 'DejaVu' pointSize: pointSize.
-	smaller _ (AbstractFont familyName: 'DejaVu' pointSize: pointSize-2) ifNil: [normal].
-	larger _ (AbstractFont familyName: 'DejaVu' pointSize: pointSize+1) ifNil: [normal].
-	"replace some glyphs with their normal counterpart, because the monospaced glyps are just too ugly or unclear:"
-	'Üáàâäãåçì' do: [:each|
-		font takeGlyphFor: each from: each in: normal.
-		font bold takeGlyphFor: each from: each in: normal bold.
-		font italic takeGlyphFor: each from: each in: normal].
-	"make them bigger"
-	'Ö' do: [:each|
+	normal _ AbstractFont familyName: 'DejaVu Sans' pointSize: pointSize.
+	#(2 1 3 0) detect: [:one| (larger _ (AbstractFont familyName: 'DejaVu Sans' pointSize: pointSize+one)) notNil].
+	#(4 3 2 1 0) detect: [:one| (muchLarger _ (AbstractFont familyName: 'DejaVu Sans' pointSize: pointSize+one)) notNil].
+	"replace some math glyphs with their normal counterpart, because the monospaced glyphs are too too small (and some are missing):"
+	'ÄÅÇÉÑÖÜáàâäãåçéèêëíìîïñóòôúùûü' do: [:each|
+		font takeAllGlyphFor: each from: each in: normal].
+	'Äêëíìîïñóòôúù' do: [:each|
 		font takeAllGlyphFor: each from: each in: larger].
-	"these are absent in the monospaced font, and are too big in the normal font"
-	'éèêë' do: [:each|
-		font takeGlyphFor: each from: each in: smaller.
-		font bold takeGlyphFor: each from: each in: smaller bold.
-		font italic takeGlyphFor: each from: each in: smaller].
-	"to do: prime `, + - *"
-	font takeGlyphFor: $` from: $' in: font bold.
-	"font takeGlyphFor: $` from: $, in: font.
-	form _ font glyphAt: $`.
-	form _ form flippedBy: #vertical.
-	font glyphAt: $` put: form."! !
+	'Äîï' do: [:each|
+		font takeAllGlyphFor: each from: each in: muchLarger].
+	"make arrows bigger"
+	'' do: [:each|
+		font takeAllGlyphFor: each from: each in: larger]! !
 
 !BlockClosure methodsFor: '*mathematics' stamp: 'len 5/1/2016 22:42'!
 asBlockOrFunction
@@ -4185,6 +4159,42 @@ gather: aBlock
 plot: aFunction
 	^ FunctionPlotMorph new evaluationPoints: self; function: aFunction! !
 
+!Collection class methodsFor: '*mathematics-instance creation'!
+accumulate: iteratorBlock
+	"Return a new instance of myself by evaluating the iteratorBlock.
+	Examples:
+		| x oc set |
+		x := #( 1 2 3 4 1 ).
+		oc := OrderedCollection accumulate: [ :incBlock | x do: incBlock].
+		Transcript cr; show: oc printString.
+		set := Set accumulate: [ :incBlock | x do: incBlock].
+		Transcript cr; show: set printString"
+
+	| collection | 
+	collection := self new.
+	iteratorBlock value: [ :element | collection add: element].
+	^collection! !
+
+!Collection class methodsFor: '*mathematics-instance creation'!
+accumulate: iteratorSymbol on: collection
+	"Return a new instance of myself by sending the iteratorSymbol to the collection.
+	Examples:
+		| x oc set |
+		x := #( 1 2 3 4 1 ).
+		oc := OrderedCollection accumulate: #do: on: x.
+		Transcript cr; show: oc printString.
+		set := Set accumulate: #do: on: x.
+		Transcript cr; show: set printString"
+
+	| newCollection | 
+	newCollection := self new.
+	collection perform: iteratorSymbol with: [ :element | newCollection add: element].
+	^newCollection! !
+
+!SequenceableCollection methodsFor: '*mathematics' stamp: 'len 3/23/2016 05:04'!
+at: anInteger add: anObject
+	^ self at: anInteger put: (self at: anInteger) + anObject! !
+
 !SequenceableCollection methodsFor: '*mathematics' stamp: 'len 3/24/2016 02:52'!
 convolution: aCollection
 	| answer |
@@ -4220,6 +4230,16 @@ add: newObject ifPresent: aBlock
 		ifTrue: [self atNewIndex: index put: newObject]
 		ifFalse: [aBlock value].
 	^ newObject! !
+
+!Set methodsFor: '*mathematics' stamp: 'len 6/13/2016 01:03'!
+powerset
+	"Answer all subsets of the receiver, including self and {}."
+	| e answer |
+	self isEmpty ifTrue: [^ OrderedCollection with: self].
+	e _ self anyOne.
+	answer _ (self copyWithout: e) powerset.
+	answer copy do: [:each| answer add: (each copyWith: e)].
+	^ answer! !
 
 !Complex methodsFor: '*mathematics' stamp: 'len 11/19/2015 17:24'!
 ** aNumber
@@ -8522,42 +8542,46 @@ on: rootedGraph
 value: aTuple
 	^ ring tuple: n evaluating: [:k| (1 to: n) sum: [:j| (aTuple at: j) * (alpha ** (j*k))]]! !
 
-!Diagram methodsFor: 'accessing' stamp: 'len 4/27/2016 02:31'!
+!Diagram methodsFor: 'accessing' stamp: 'len 6/13/2016 03:38'!
 arrows
-	^ Iterator on: self performing: #arrowsDo:! !
-
-!Diagram methodsFor: 'accessing' stamp: 'len 4/27/2016 02:24'!
-arrowsDo: aBlock
 	^ self subclassResponsibility! !
 
-!Diagram methodsFor: 'accessing' stamp: 'len 5/25/2016 03:42'!
+!Diagram methodsFor: 'accessing' stamp: 'len 6/13/2016 03:40'!
 asGraph
 	| answer |
 	answer _ Digraph unorderedLabeled.
-	self arrowsDo: [:each|
+	self arrows do: [:each|
 		answer addEdgeFrom: each domain to: each codomain label: each].
 	^ answer! !
 
-!Diagram methodsFor: 'accessing' stamp: 'len 4/27/2016 02:32'!
+!Diagram methodsFor: 'accessing' stamp: 'len 6/13/2016 03:39'!
 objects
-	^ Iterator on: self performing: #objectsDo:! !
-
-!Diagram methodsFor: 'accessing' stamp: 'len 4/27/2016 02:31'!
-objectsDo: aBlock
 	| objects |
 	objects _ Set new.
-	self arrowsDo: [:each|
-		objects add: each domain ifAbsent: [aBlock value: each domain].
-		objects add: each codomain ifAbsent: [aBlock value: each codomain]]! !
+	self arrows do: [:each|
+		objects add: each domain; add: each codomain].
+	^ objects! !
 
 !Diagram methodsFor: 'printing' stamp: 'len 4/27/2016 02:35'!
 printOn: aStream
 	self arrows do: [:each| each arrowPrintOn: aStream] separatedBy: [aStream nextPutAll: ', ']! !
 
-!ChainComplex methodsFor: 'as yet unclassified' stamp: 'len 4/27/2016 06:47'!
-arrowsDo: aBlock
-	"..."
-	self notYetImplemented! !
+!ChainComplex methodsFor: 'as yet unclassified' stamp: 'len 6/13/2016 03:47'!
+arrows
+	^ arrows! !
+
+!ChainComplex methodsFor: 'as yet unclassified' stamp: 'len 6/13/2016 04:34'!
+homology: i
+	^ (self arrows at: i) kernel / (self arrows at: i+1) image! !
+
+!ChainComplex methodsFor: 'as yet unclassified' stamp: 'len 6/13/2016 03:46'!
+isExact
+	^ (1 to: self arrows size - 1) allSatisfy: [:i| (self arrows at: i) image = (self arrows at: i+1) kernel]! !
+
+!ChainComplex methodsFor: 'as yet unclassified' stamp: 'len 6/13/2016 04:37'!
+printOn: aStream
+	aStream print: self arrows first domain.
+	self arrows allButFirstDo: [:each| aStream nextPutAll: '  '; print: each codomain].! !
 
 !SubgroupSeries methodsFor: 'accessing' stamp: 'len 5/1/98 17:35'!
 add: aSubgroup
@@ -8803,6 +8827,10 @@ default
 	relation _ anEquivalenceRelation isBlock ifTrue: [EquivalenceRelation on: self evaluating: anEquivalenceRelation] ifFalse: [anEquivalenceRelation].
 	^ QuotientSet by: relation! !
 
+!Domain methodsFor: 'morphisms' stamp: 'len 6/13/2016 00:30'!
+/\ aDomain
+	^ self intersection: aDomain! !
+
 !Domain methodsFor: 'comparing' stamp: 'len 5/13/2016 02:46'!
 < aDomain
 	"Answer true if the receiver is strictly included in the argument."
@@ -8855,11 +8883,6 @@ allSatisfy: aBlock
 anySatisfy: aBlock
 	self do: [:each| (aBlock value: each) ifTrue: [^ true]].
 	^ false! !
-
-!Domain methodsFor: 'morphisms' stamp: 'len 4/25/2016 09:43'!
-asFormalSet
-	"This is the forgetful functor to Set."
-	^ Domain newFrom: self! !
 
 !Domain methodsFor: 'converting' stamp: 'len 4/25/2016 20:58'!
 asSet
@@ -9034,6 +9057,10 @@ isFreeModule
 isGroup
 	^ self isRing! !
 
+!Domain methodsFor: 'testing' stamp: 'len 6/17/2016 22:20'!
+isInfinite
+	^ self isFinite not! !
+
 !Domain methodsFor: 'testing' stamp: 'len 4/22/2016 14:02'!
 isInitial
 	^ properties at: #isInitial ifAbsent: [self size = 0]! !
@@ -9083,8 +9110,9 @@ name
 name: aString
 	properties at: #name put: aString! !
 
-!Domain methodsFor: 'morphisms' stamp: 'len 4/23/2016 00:58'!
+!Domain methodsFor: 'morphisms' stamp: 'len 6/13/2016 00:48'!
 null
+	"Answer the null or zero object in the category of the receiver, i.e. an object that is both intial and terminal. For example {id} in the case of groups (the trivial group)."
 	^ properties at: #null! !
 
 !Domain methodsFor: 'copying' stamp: 'len 3/19/2016 22:41'!
@@ -9132,6 +9160,11 @@ size
 species
 	"Answer a class appropiate for the subobjects (sub-structures) of the receiver."
 	^ self class! !
+
+!Domain methodsFor: 'morphisms' stamp: 'len 6/13/2016 00:31'!
+è aDomain
+	"This is a convenience method for doing coproducts. Subclasses can reimplement it to mean something different from the coproduct in order to match customary notation."
+	^ self coproduct: aDomain! !
 
 !Domain class methodsFor: 'instance creation' stamp: 'len 11/23/2015 05:05'!
 new
@@ -9966,8 +9999,8 @@ matrix: aMatrix
 		ifFalse: [^ super ~ aVectorSpace].
 	^ self = aVectorSpace or: [self scalars = aVectorSpace scalars and: [self dimension = aVectorSpace dimension]]! !
 
-!VectorSpace methodsFor: 'morphisms' stamp: 'len 6/9/2016 09:24'!
-è aVectorSpace
+!VectorSpace methodsFor: 'morphisms' stamp: 'len 6/17/2016 02:43'!
+ê aVectorSpace
 	^ DirectSumSpace components: {self. aVectorSpace}! !
 
 !VectorSpace methodsFor: 'accessing' stamp: 'len 5/23/2016 19:30'!
@@ -10237,36 +10270,6 @@ vectorSpace: aVectorSpace
 !BilinearForms class methodsFor: 'instance creation' stamp: 'len 1/8/2016 06:50'!
 on: aVectorSpace
 	^ self new vectorSpace: aVectorSpace! !
-
-!BoundDegreePolynomials methodsFor: 'basis' stamp: 'len 4/12/2016 08:08'!
-coordinatesOf: aPolynomial
-	| coefficients |
-	coefficients _ aPolynomial coefficients.
-	^ coefficients, ((1 to: self dimension - coefficients size) collect: [:each| self scalars zero])! !
-
-!BoundDegreePolynomials methodsFor: 'as yet unclassified' stamp: 'len 4/6/2016 07:07'!
-degree: anInteger
-	degree _ anInteger! !
-
-!BoundDegreePolynomials methodsFor: 'basis' stamp: 'len 4/6/2016 07:06'!
-dimension
-	^ degree + 1! !
-
-!BoundDegreePolynomials methodsFor: 'basis' stamp: 'len 4/6/2016 07:03'!
-e: anInteger
-	^ polynomials xTo: anInteger - 1! !
-
-!BoundDegreePolynomials methodsFor: 'as yet unclassified' stamp: 'len 4/6/2016 07:07'!
-polynomials: aPolynomials
-	polynomials _ aPolynomials! !
-
-!BoundDegreePolynomials methodsFor: 'printing' stamp: 'len 6/7/2016 21:44'!
-printOn: aStream
-	aStream print: polynomials; nextPutAll: ('<', (degree+1) printString) sub! !
-
-!BoundDegreePolynomials methodsFor: 'accessing' stamp: 'len 4/6/2016 07:04'!
-scalars
-	^ polynomials scalars! !
 
 !DirectSumSpace methodsFor: 'accessing' stamp: 'len 2/16/2016 07:31'!
 arity
@@ -10854,6 +10857,36 @@ zero
 !Matrices class methodsFor: 'instance creation' stamp: 'len 4/23/2016 06:15'!
 new: dimension over: aDomain
 	^ self new numberOfRows: dimension x columns: dimension y; scalars: aDomain! !
+
+!PolynomialSpace methodsFor: 'basis' stamp: 'len 4/12/2016 08:08'!
+coordinatesOf: aPolynomial
+	| coefficients |
+	coefficients _ aPolynomial coefficients.
+	^ coefficients, ((1 to: self dimension - coefficients size) collect: [:each| self scalars zero])! !
+
+!PolynomialSpace methodsFor: 'as yet unclassified' stamp: 'len 4/6/2016 07:07'!
+degree: anInteger
+	degree _ anInteger! !
+
+!PolynomialSpace methodsFor: 'basis' stamp: 'len 4/6/2016 07:06'!
+dimension
+	^ degree + 1! !
+
+!PolynomialSpace methodsFor: 'basis' stamp: 'len 4/6/2016 07:03'!
+e: anInteger
+	^ polynomials xTo: anInteger - 1! !
+
+!PolynomialSpace methodsFor: 'as yet unclassified' stamp: 'len 4/6/2016 07:07'!
+polynomials: aPolynomials
+	polynomials _ aPolynomials! !
+
+!PolynomialSpace methodsFor: 'printing' stamp: 'len 6/7/2016 21:44'!
+printOn: aStream
+	aStream print: polynomials; nextPutAll: ('<', (degree+1) printString) sub! !
+
+!PolynomialSpace methodsFor: 'accessing' stamp: 'len 4/6/2016 07:04'!
+scalars
+	^ polynomials scalars! !
 
 !QuotientSpace methodsFor: 'basis' stamp: 'len 6/4/2016 04:20'!
 coordinatesOf: anAffineSubspace
@@ -12561,9 +12594,9 @@ asUnivariateIn: anIndeterminate
 asVectorSpace
 	^ PolynomialVectorSpace new polynomialRing: self! !
 
-!Polynomials methodsFor: 'morphisms' stamp: 'len 4/6/2016 07:11'!
+!Polynomials methodsFor: 'morphisms' stamp: 'len 6/11/2016 22:30'!
 asVectorSpaceMaxDegree: n
-	^ BoundDegreePolynomials new polynomials: self; degree: n! !
+	^ PolynomialSpace new polynomials: self; degree: n! !
 
 !Polynomials methodsFor: 'random' stamp: 'len 4/19/2016 20:24'!
 atRandom: aRandom bits: bitSize
@@ -14924,7 +14957,7 @@ operation
 order
 	^ self size! !
 
-!Group methodsFor: 'accessing' stamp: 'len 3/18/2016 06:53'!
+!Group methodsFor: 'accessing' stamp: 'len 6/18/2016 04:02'!
 orderOf: anElement
 	"Answer the order of the argument in the receiver, i.e. the minimum e such that g^e = 1.
 	COHEN Algorithm 1.4.3 (Order of an Element)."
@@ -14935,9 +14968,8 @@ orderOf: anElement
 	id _ self identity.
 	factors asSet do: [:p|
 		e _ e / (p ** (factors occurrencesOf: p)).
-		self flag: #fix. "use the operation"
-		g1 _ anElement ** e.
-		[g1 = id] whileFalse: [g1 _ g1 ** p. e _ e*p]].
+		g1 _ self raise: anElement to: e.
+		[g1 = id] whileFalse: [g1 _ self raise: g1 to: p. e _ e*p]].
 	^ e! !
 
 !Group methodsFor: 'morphisms' stamp: 'len 1/6/2016 05:51'!
@@ -14954,7 +14986,7 @@ perfectCore
 presentation
 	^ properties at: #presentation! !
 
-!Group methodsFor: 'as yet unclassified' stamp: 'len 5/13/2016 09:21'!
+!Group methodsFor: 'printing' stamp: 'len 5/13/2016 09:21'!
 printOn: aStream
 	| generators |
 	((properties includesKey: #name) or: [(generators _ self generators) isNil])
@@ -14966,6 +14998,17 @@ printOn: aStream
 !Group methodsFor: 'morphisms' stamp: 'len 6/3/2016 19:51'!
 product: aGroup
 	^ self directProduct: aGroup! !
+
+!Group methodsFor: 'private' stamp: 'len 6/18/2016 04:03'!
+raise: anElement to: anInteger
+	| op |
+	anInteger = 1 ifTrue: [^ anElement].
+	anInteger = 0 ifTrue: [^ self identity].
+	anInteger < 0 ifTrue: [^ self raise: (self inverseMap value: anElement) to: anInteger negated].
+	op _ self operation.
+	^ op value:
+		{self raise: (op value: {anElement. anElement}) to: anInteger // 2.
+		self raise: anElement to: anInteger \\ 2}! !
 
 !Group methodsFor: 'random' stamp: 'len 4/19/2016 22:50'!
 random
@@ -15332,21 +15375,21 @@ includes: anObject
 	components with: anObject do: [:G :x| (G includes: x) ifFalse: [^ false]].
 	^ true! !
 
-!DirectProductGroup methodsFor: 'accessing' stamp: 'len 4/22/2016 20:50'!
+!DirectProductGroup methodsFor: 'accessing' stamp: 'len 6/11/2016 21:00'!
 inverseMap
-	^ Function from: self to: self evaluating: [:x| x with: (1 to: x size) collect: [:xi :i| (self at: i) inverseMap value: xi]]! !
+	^ Function from: self to: self evaluating: [:x| x withIndexCollect: [:xi :i| (self at: i) inverseMap value: xi]]! !
 
 !DirectProductGroup methodsFor: 'testing' stamp: 'len 4/22/2016 13:43'!
 isProduct
 	^ true! !
 
-!DirectProductGroup methodsFor: 'accessing' stamp: 'len 4/22/2016 20:50'!
+!DirectProductGroup methodsFor: 'accessing' stamp: 'len 6/11/2016 21:00'!
 operation
-	^ Function from: (self, self) to: self evaluating: [:x| x first with: (1 to: x size) collect: [:xi :i| (self at: i) operation value: {xi. x second at: i}]]! !
+	^ Function from: (self, self) to: self evaluating: [:x| x first withIndexCollect: [:xi :i| (self at: i) operation value: {xi. x second at: i}]]! !
 
-!DirectProductGroup methodsFor: 'printing' stamp: 'len 6/8/2016 07:00'!
+!DirectProductGroup methodsFor: 'printing' stamp: 'len 6/11/2016 21:02'!
 printOn: aStream
-	components do: [:each| aStream print: each] separatedBy: [aStream nextPut: Character otimes]! !
+	components do: [:each| aStream print: each] separatedBy: [aStream nextPut: Character times]! !
 
 !DirectProductGroup methodsFor: 'morphisms' stamp: 'len 2/12/2016 19:51'!
 projection: i
@@ -15556,13 +15599,14 @@ projective
 shortName
 	^ 'GL'! !
 
-!GeneralLinearGroup methodsFor: 'accessing' stamp: 'len 4/28/2016 02:35'!
+!GeneralLinearGroup methodsFor: 'accessing' stamp: 'len 6/17/2016 22:19'!
 size
 	| q n |
+	self space isInfinite ifTrue: [^ self space size]. "?"
 	(self space scalars isField and: [self space scalars isFinite])
 		ifFalse: [^ super size].
 	q _ self space scalars size.
-	n _ self space dimension .
+	n _ self space dimension.
 	^ q ** (n*(n-1)/2) * ((1 to: n) inject: 1 into: [:x :k| q**k - 1 * x])! !
 
 !GeneralLinearGroup methodsFor: 'morphisms' stamp: 'len 2/12/2016 18:58'!
@@ -17827,85 +17871,100 @@ sphere
 	^ self cad: {x squared + y squared + z squared - 1}
 		:: select: [ :each | each sample norm2 = 1]! !
 
-!Spectrum methodsFor: 'as yet unclassified' stamp: 'len 5/25/2016 00:17'!
-includes: anIdeal
-	^ anIdeal ambient = ring and: [anIdeal isPrime]! !
-
-!Spectrum methodsFor: 'as yet unclassified' stamp: 'len 5/25/2016 00:15'!
-printOn: aStream
-	aStream nextPutAll: 'Spec' bold; nextPut: $(; print: ring; nextPut: $)! !
-
 !SimplicialComplex methodsFor: 'morphisms' stamp: 'len 2/29/2016 08:26'!
 / aFace
 	"Answer the link of the face aFace."
 	^ self notYetImplemented! !
 
-!SimplicialComplex methodsFor: 'subobjects' stamp: 'len 4/21/2016 04:37'!
+!SimplicialComplex methodsFor: 'subobjects' stamp: 'len 6/13/2016 01:09'!
 cells
-	^ self faces: 3! !
+	^ self faces: self dimension! !
 
-!SimplicialComplex methodsFor: 'morphisms' stamp: 'len 4/23/2016 06:02'!
+!SimplicialComplex methodsFor: 'homology' stamp: 'len 6/12/2016 06:10'!
 chains: p
 	"Answer the p-chain group."
-	^ FreeAbelianGroup on: (self faces: p)! !
+	^ FreeAbelianGroup on: (self faces: p) asArray! !
 
-!SimplicialComplex methodsFor: 'morphisms' stamp: 'len 4/25/2016 06:40'!
+!SimplicialComplex methodsFor: 'homology' stamp: 'len 6/12/2016 06:12'!
 chains: p over: anAbelianGroup
 	"Answer the p-chain group."
 	(anAbelianGroup isKindOf: Integers)
-		ifTrue: [^ FreeAbelianGroup on: (self faces: p) asArray].
+		ifTrue: [^ self chains: p].
 	anAbelianGroup isField
 		ifTrue: [^ VectorSpace on: (self faces: p) asArray over: anAbelianGroup].
 	anAbelianGroup isRing
 		ifTrue: [^ FreeModule on: (self faces: p) asArray over: anAbelianGroup].
 	DomainError signal! !
 
-!SimplicialComplex methodsFor: 'morphisms' stamp: 'len 2/23/2016 05:58'!
-closureOf: aCollection
-	^ self notYetImplemented! !
+!SimplicialComplex methodsFor: 'morphisms' stamp: 'len 6/13/2016 09:43'!
+closedStarOf: aCollection
+	^ self closureOf: (self starOf: aCollection)! !
 
-!SimplicialComplex methodsFor: 'morphisms' stamp: 'len 3/4/2016 21:21'!
+!SimplicialComplex methodsFor: 'morphisms' stamp: 'len 6/11/2016 23:53'!
+closureOf: aCollection
+	| simplices |
+	simplices _ self elements copyAs: Set.
+	self elements do: [:each|
+		simplices addAll: each closure].
+	^ self class newFrom: simplices! !
+
+!SimplicialComplex methodsFor: 'homology' stamp: 'len 6/12/2016 06:14'!
 cochains: p
+	"Answer the p-cochain group."
 	^ (self chains: p) dual! !
+
+!SimplicialComplex methodsFor: 'homology' stamp: 'len 6/12/2016 06:13'!
+cochains: p over: anAbelianGroup
+	"Answer the p-cochain group."
+	^ (self chains: p over: anAbelianGroup) dual! !
 
 !SimplicialComplex methodsFor: 'morphisms' stamp: 'len 2/29/2016 08:25'!
 coskeleton: n
 	"Answer the n-coskeleton of the receiver."
 	^ self notYetImplemented! !
 
-!SimplicialComplex methodsFor: 'invariants' stamp: 'len 3/4/2016 04:23'!
+!SimplicialComplex methodsFor: 'invariants' stamp: 'len 6/11/2016 22:52'!
 dimension
-	^ simplices max: [:each| each dimension]! !
+	^ self elements max: [:each| each dimension]! !
 
 !SimplicialComplex methodsFor: 'subobjects' stamp: 'len 4/21/2016 04:37'!
 edges
 	^ self faces: 1! !
 
-!SimplicialComplex methodsFor: 'invariants' stamp: 'len 4/21/2016 04:26'!
+!SimplicialComplex methodsFor: 'private' stamp: 'len 6/11/2016 22:53'!
+elements: aCollection
+	super elements: (aCollection collect: [:each| (each isKindOf: Simplex) ifTrue: [each] ifFalse: [each as: Simplex]])! !
+
+!SimplicialComplex methodsFor: 'invariants' stamp: 'len 6/11/2016 22:52'!
 euler
 	"Answer the Euler characteristic of the receiver."
-	^ (0 to: (simplices max: [:each| each dimension])) sum: [:p| simplices count: [:each| each dimension = p]]! !
-
-!SimplicialComplex methodsFor: 'subobjects' stamp: 'len 4/21/2016 04:37'!
-faces
-	^ self faces: 2! !
+	^ (0 to: self dimension) sum: [:p| self elements count: [:each| each dimension = p]]! !
 
 !SimplicialComplex methodsFor: 'subobjects' stamp: 'len 4/23/2016 06:03'!
 faces: m
 	^ Set accumulate: [:aBlock| self faces: m do: aBlock]! !
 
-!SimplicialComplex methodsFor: 'subobjects' stamp: 'len 4/21/2016 04:01'!
+!SimplicialComplex methodsFor: 'subobjects' stamp: 'len 6/11/2016 22:45'!
 faces: m do: aBlock
 	"Iterate over the m-faces of the receiver."
-	simplices do: [:each| each faces: m do: aBlock]! !
+	self do: [:each| each faces: m do: aBlock]! !
 
 !SimplicialComplex methodsFor: 'subobjects' stamp: 'len 4/21/2016 04:37'!
 facets
 	^ self faces: self dimension - 1! !
 
-!SimplicialComplex methodsFor: 'morphisms' stamp: 'len 3/4/2016 04:19'!
+!SimplicialComplex methodsFor: 'homology' stamp: 'len 3/4/2016 04:19'!
 homology: n
 	^ (self cycles: n) / (self boundaries: n)! !
+
+!SimplicialComplex methodsFor: 'testing' stamp: 'len 6/13/2016 16:29'!
+isConnected
+	^ (self skeleton: 1) asGraph isConnected! !
+
+!SimplicialComplex methodsFor: 'morphisms' stamp: 'len 6/12/2016 08:43'!
+linkOf: aFace
+	"Answer the link of the face aFac, the complex of all faces of simplices in the star that do not intersect aFace."
+	^ self notYetImplemented! !
 
 !SimplicialComplex methodsFor: 'printing' stamp: 'len 4/23/2016 05:34'!
 printOn: aStream
@@ -17916,25 +17975,25 @@ printOn: aStream
 ridges
 	^ self faces: self dimension - 2! !
 
-!SimplicialComplex methodsFor: 'printing' stamp: 'len 4/23/2016 05:33'!
+!SimplicialComplex methodsFor: 'printing' stamp: 'len 6/11/2016 23:13'!
 shortPrintOn: aStream
 	aStream nextPut: ${.
-	simplices do: [:each| each shortPrintOn: aStream] separatedBy: [aStream nextPut: $,].
+	self elements do: [:each| each shortPrintOn: aStream] separatedBy: [aStream nextPut: $,].
 	aStream nextPut: $}
 	! !
 
-!SimplicialComplex methodsFor: 'as yet unclassified' stamp: 'len 5/9/2016 20:33'!
-simplices: aCollection
-	simplices _ aCollection collect: [:each| (each isKindOf: Simplex) ifTrue: [each] ifFalse: [each as: Simplex]]! !
-
-!SimplicialComplex methodsFor: 'morphisms' stamp: 'len 5/9/2016 19:42'!
+!SimplicialComplex methodsFor: 'morphisms' stamp: 'len 6/11/2016 23:54'!
 skeleton: n
 	"Answer the n-skeleton of the receiver."
-	^ self class simplices: (simplices collect: [:each| each skeleton: n])! !
+	^ self class newFrom: (self elements collect: [:each| each dimension <= n])! !
 
-!SimplicialComplex methodsFor: 'morphisms' stamp: 'len 2/23/2016 05:59'!
+!SimplicialComplex methodsFor: 'morphisms' stamp: 'len 6/11/2016 23:30'!
 starOf: aCollection
-	^ self notYetImplemented! !
+	| simplices |
+	simplices _ Set new.
+	aCollection do: [:each|
+		self do: [:other| (each intersects: other) ifTrue: [simplices add: other]]].
+	^ self newFrom: simplices! !
 
 !SimplicialComplex methodsFor: 'subobjects' stamp: 'len 4/21/2016 04:37'!
 vertices
@@ -17952,10 +18011,6 @@ kleinBottle
 moebiusStrip
 	^ self notYetImplemented! !
 
-!SimplicialComplex class methodsFor: 'as yet unclassified' stamp: 'len 4/23/2016 05:19'!
-simplices: aCollection
-	^ self new simplices: aCollection! !
-
 !SimplicialComplex class methodsFor: 'examples' stamp: 'len 4/21/2016 04:06'!
 sphere: n
 	^ self notYetImplemented! !
@@ -17963,6 +18018,14 @@ sphere: n
 !SimplicialComplex class methodsFor: 'examples' stamp: 'len 4/21/2016 03:57'!
 torus
 	^ self notYetImplemented! !
+
+!Spectrum methodsFor: 'as yet unclassified' stamp: 'len 5/25/2016 00:17'!
+includes: anIdeal
+	^ anIdeal ambient = ring and: [anIdeal isPrime]! !
+
+!Spectrum methodsFor: 'as yet unclassified' stamp: 'len 5/25/2016 00:15'!
+printOn: aStream
+	aStream nextPutAll: 'Spec' bold; nextPut: $(; print: ring; nextPut: $)! !
 
 !ElementaryTensorOld methodsFor: 'arithmetic' stamp: 'len 11/9/2015 03:09'!
 * anObject
@@ -19614,12 +19677,12 @@ on: aDomain
 		to: self codomain
 		evaluating: [:each| self value: (aLinearMap value: each)]! !
 
-!LinearMap methodsFor: 'arithmetic' stamp: 'len 6/10/2016 06:33'!
-ê aLinearMap
+!LinearMap methodsFor: 'arithmetic' stamp: 'len 6/17/2016 02:54'!
+í aLinearMap
 	"Answer the tensor product of the receiver with the argument."
-	^ self domain ê aLinearMap domain -> (self codomain ê aLinearMap codomain)
-"		matrix: self matrix ê aLinearMap matrix" "must change to the same basis"
-		evaluating: [:each| (self value: (each at: 1)) ê (aLinearMap value: (each at: 2))]! !
+	^ self domain í aLinearMap domain -> (self codomain í aLinearMap codomain)
+"		matrix: self matrix í aLinearMap matrix" "must change to the same basis"
+		evaluating: [:each| (self value: (each at: 1)) í (aLinearMap value: (each at: 2))]! !
 
 !LinearMap methodsFor: 'operations' stamp: 'len 12/16/2015 22:03'!
 adjoint
@@ -23963,8 +24026,8 @@ sqrt: aNumber
 	"Answer the receiver augmented with the columns of aMatrix."
 	^ self columnAugmented: aMatrix! !
 
-!Matrix methodsFor: 'arithmetic' stamp: 'len 6/10/2016 06:34'!
-ê aMatrix
+!Matrix methodsFor: 'arithmetic' stamp: 'len 6/17/2016 02:54'!
+í aMatrix
 	^ self kronecker: aMatrix! !
 
 !Matrix methodsFor: 'reduction' stamp: 'len 3/21/2016 23:35'!
@@ -31260,9 +31323,9 @@ coxeterMatrix
 	^ ambient scalars ** (S size @ S size)
 		evaluating: [:i :j| Float pi / ((ambient innerProduct value: {(S at: i). (S at: j)}) / -2) arcCos]! !
 
-!RootSystem methodsFor: 'operations' stamp: 'len 2/11/2016 20:55'!
+!RootSystem methodsFor: 'operations' stamp: 'len 6/17/2016 22:12'!
 coxeterNumber
-	^ self coxeterElement order "?"! !
+	^ ambient automorphisms orderOf: self coxeterElement! !
 
 !RootSystem methodsFor: 'roots' stamp: 'len 1/6/2016 05:01'!
 degreeOf: aPositiveRoot
@@ -31746,9 +31809,15 @@ right: aVector
 scalars
 	^ left scalars! !
 
-!Simplex methodsFor: 'comparing' stamp: 'len 5/9/2016 17:02'!
+!Simplex methodsFor: 'comparing' stamp: 'len 6/13/2016 09:34'!
+< aSimplex
+	"Answer true if the receiver is strictly contained in aSimplex as a face."
+	^ aSimplex > self! !
+
+!Simplex methodsFor: 'comparing' stamp: 'len 6/13/2016 09:33'!
 <= aSimplex
-	^ points includesAllOf: aSimplex points! !
+	"Answer true if the receiver is contained in aSimplex as a face."
+	^ aSimplex >= self! !
 
 !Simplex methodsFor: 'comparing' stamp: 'len 3/3/2016 23:32'!
 = aSimplex
@@ -31760,7 +31829,17 @@ scalars
 		each = (aSimplex points atWrap: i+ip-1) ifFalse: [^ false]].
 	^ true! !
 
-!Simplex methodsFor: 'as yet unclassified' stamp: 'len 5/25/2016 03:46'!
+!Simplex methodsFor: 'comparing' stamp: 'len 6/13/2016 09:33'!
+> aSimplex
+	"Answer true if the receiver strictly containes aSimplex as a face."
+	^ self dimension > aSimplex dimension and: [points includesAllOf: aSimplex points]! !
+
+!Simplex methodsFor: 'comparing' stamp: 'len 6/13/2016 09:33'!
+>= aSimplex
+	"Answer true if the receiver containes aSimplex as a face."
+	^ self dimension >= aSimplex dimension and: [points includesAllOf: aSimplex points]! !
+
+!Simplex methodsFor: 'converting' stamp: 'len 5/25/2016 03:46'!
 asSkeletonGraph
 	| graph |
 	graph _ Graph unordered.
@@ -31770,18 +31849,22 @@ asSkeletonGraph
 			graph addEdgeFrom: x to: y]].
 	^ graph! !
 
-!Simplex methodsFor: 'morphisms' stamp: 'len 3/3/2016 23:15'!
+!Simplex methodsFor: 'morphisms' stamp: 'len 6/13/2016 00:11'!
 boundary
-	"the boundary of a n-simplex is an affine (n-1)-chain with coefficients 1 and -1."
+	"Answer the union of all facets of the receiver. The boundary of a n-simplex is a (n-1)-chain with coefficients 1 and -1."
 	| answer |
 	answer _ SimplicialChain new.
 	1 to: points size do: [:i|
 		answer coefficientAt: (self class points: (points copyWithoutIndex: i)) add: (-1)**i].
 	^ answer! !
 
-!Simplex methodsFor: 'subobjects' stamp: 'len 2/23/2016 02:03'!
-cells
-	^ self faces: 3! !
+!Simplex methodsFor: 'morphisms' stamp: 'len 6/11/2016 23:57'!
+closure
+	| simplices |
+	simplices _ Set with: self.
+	-1 to: self dimension do: [:i|
+		self faces: i do: [:each| simplices add: each]].
+	^ SimplicialComplex newFrom: simplices! !
 
 !Simplex methodsFor: 'accessing' stamp: 'len 2/23/2016 03:04'!
 dimension
@@ -31791,51 +31874,57 @@ dimension
 edges
 	^ self faces: 1! !
 
-!Simplex methodsFor: 'subobjects' stamp: 'len 2/23/2016 02:02'!
+!Simplex methodsFor: 'subobjects' stamp: 'len 6/13/2016 00:00'!
 faces
-	^ self faces: 2! !
+	"Answer all faces of the receiver (including the empty set and the receiver)."
+	^ Iterator on: [:aBlock| self facesDo: aBlock]! !
 
 !Simplex methodsFor: 'subobjects' stamp: 'len 2/23/2016 02:00'!
 faces: m
 	^ Iterator on: [:aBlock| self faces: m do: aBlock]! !
 
-!Simplex methodsFor: 'subobjects' stamp: 'len 5/9/2016 21:04'!
+!Simplex methodsFor: 'subobjects' stamp: 'len 6/13/2016 00:40'!
 faces: m do: aBlock
 	"Iterate over the m-faces of the receiver."
-	m = -1 ifTrue: [^ self class points: #()].
+	m = -1 ifTrue: [^ aBlock value: (self class points: #())].
+	points isEmpty ifTrue: [^ self].
 	points combinations: m+1 atATimeDo: [:each|
 		aBlock value: (self class points: each copy)]! !
 
-!Simplex methodsFor: 'subobjects' stamp: 'len 2/23/2016 02:16'!
+!Simplex methodsFor: 'subobjects' stamp: 'len 6/12/2016 23:59'!
+facesDo: aBlock
+	"Iterate over all faces of the receiver (including the empty set and the receiver)."
+	-1 to: self dimension do: [:i| self faces: i do: aBlock]! !
+
+!Simplex methodsFor: 'subobjects' stamp: 'len 6/13/2016 00:09'!
 facets
+	"Answer the boundary faces of the receiver."
 	^ self faces: self dimension - 1! !
 
-!Simplex methodsFor: 'comparing' stamp: 'len 3/3/2016 23:18'!
+!Simplex methodsFor: 'comparing' stamp: 'len 6/12/2016 21:37'!
 hash
-	^ points hash! !
+	^ points inject: self class hash into: [:sum :each| sum + each hash hashMultiply]! !
 
-!Simplex methodsFor: 'testing' stamp: 'len 2/23/2016 03:19'!
-includes: aPoint
-	self notYetImplemented! !
+!Simplex methodsFor: 'morphisms' stamp: 'len 6/13/2016 00:16'!
+interior
+	"Answer the interior of the receiver (sometimes called 'open simplex')."
+	^ (SimplicialChain with: self) - self boundary! !
 
-!Simplex methodsFor: 'morphisms' stamp: 'len 3/3/2016 23:13'!
+!Simplex methodsFor: 'morphisms' stamp: 'len 6/13/2016 00:26'!
 intersection: aSimplex
+	"Answer the face common to the receiver and aSimplex, which could be {}."
 	^ self class points: (self points intersection: aSimplex points)! !
-
-!Simplex methodsFor: 'testing' stamp: 'len 2/23/2016 02:06'!
-isConvex
-	^ true! !
 
 !Simplex methodsFor: 'testing' stamp: 'len 5/9/2016 21:05'!
 isTrivial
 	^ points isEmpty! !
 
-!Simplex methodsFor: 'arithmetic' stamp: 'len 3/1/2016 02:12'!
+!Simplex methodsFor: 'arithmetic' stamp: 'len 6/13/2016 00:08'!
 negated
 	"Answer the oppositely oriented simplex."
-	^ self class points: (points copy swap: 1 with: 2; yourself)! !
+	^ self opposite! !
 
-!Simplex methodsFor: 'arithmetic' stamp: 'len 3/4/2016 21:08'!
+!Simplex methodsFor: 'morphisms' stamp: 'len 6/13/2016 00:08'!
 opposite
 	"Answer the oppositely oriented simplex."
 	^ self class points: (points copy swap: 1 with: 2; yourself)! !
@@ -31852,6 +31941,16 @@ points: aCollection
 printOn: aStream
 "	aStream print: self dimension; nextPutAll: '-simplex '."
 	self shortPrintOn: aStream! !
+
+!Simplex methodsFor: 'subobjects' stamp: 'len 6/12/2016 23:59'!
+properFaces
+	"Answer all proper faces of the receiver of any dimension (including the empty set)."
+	^ Iterator on: [:aBlock| self properFacesDo: aBlock]! !
+
+!Simplex methodsFor: 'subobjects' stamp: 'len 6/12/2016 23:59'!
+properFacesDo: aBlock
+	"Iterate over all proper faces of the receiver (including the empty set)."
+	-1 to: self dimension - 1 do: [:i| self faces: i do: aBlock]! !
 
 !Simplex methodsFor: 'subobjects' stamp: 'len 2/27/2016 08:15'!
 ridges
@@ -31871,8 +31970,9 @@ vertices
 volume
 	^ self notYetImplemented "see wikipedia"! !
 
-!Simplex class methodsFor: 'instance creation' stamp: 'len 5/9/2016 17:04'!
+!Simplex class methodsFor: 'instance creation' stamp: 'len 6/13/2016 00:53'!
 new: n
+	"Answer the standard n-simplex {1,...,n}."
 	^ self points: (1 to: n+1)! !
 
 !Simplex class methodsFor: 'instance creation' stamp: 'len 4/23/2016 05:21'!
@@ -33431,36 +33531,6 @@ testRealIntervalIntersects
 	J _ RealInterval closed: -2 closed: -1.
 	self assert: (I intersects: J) not! !
 
-!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 4/23/2016 05:28'!
-testSimplecialCmplex
-	| S |
-	S _ SimplicialComplex simplices: {{1. 2. 3}. {2. 4}. {3. 4}. {5}}.
-	self assert: (S faces: 2) asSet size = 1.
-	self assert: (S faces: 1) asSet size = 5.
-	self assert: (S faces: 0) asSet size = 5! !
-
-!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 3/1/2016 03:43'!
-testSimplex
-	| tetrahedron |
-	tetrahedron _ Simplex points: {(1,0,0). (0,1,0). (0,0,1). (0,0,0)}.
-	self assert: tetrahedron dimension = 3.
-	self assert: tetrahedron faces size = 4.
-	self assert: tetrahedron edges size = 6.
-	self assert: tetrahedron cells size = 1! !
-
-!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 3/3/2016 23:21'!
-testSimplexBoundaryBoundary
-	| S |
-	S _ Simplex points: #(a b c d).
-	self assert: S boundary boundary isZero! !
-
-!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 4/23/2016 05:37'!
-testSimplexNegation
-	| S |
-	S _ Simplex points: {1. 2. 3. 4}.
-	self assert: S negated negated = S.
-	self assert: S negated ~= S! !
-
 !MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 3/3/2016 23:22'!
 testWord
 	| x y |
@@ -34806,6 +34876,51 @@ testRecursiveSum
 	c` _ Sequence evaluating: [:i| (a at: i) + (b at: i)].
 	self assert: (c isKindOf: LinearRecursiveSequence).
 	self assert: (c equals: c` upTo: 20)! !
+
+!SimplicesTest methodsFor: 'nil' stamp: 'len 6/11/2016 22:52'!
+testSimplecialCmplex
+	| S |
+	S _ SimplicialComplex newFrom: {{1. 2. 3}. {2. 4}. {3. 4}. {5}}.
+	self assert: (S faces: 2) asSet size = 1.
+	self assert: (S faces: 1) asSet size = 5.
+	self assert: (S faces: 0) asSet size = 5! !
+
+!SimplicesTest methodsFor: 'as yet unclassified' stamp: 'len 6/12/2016 21:08'!
+testSimplecialComplex
+	| S |
+	S _ SimplicialComplex newFrom: {{1. 2. 3}. {2. 4}. {3. 4}. {5}}.
+	self assert: (S faces: 2) asSet size = 1.
+	self assert: (S faces: 1) asSet size = 5.
+	self assert: (S faces: 0) asSet size = 5! !
+
+!SimplicesTest methodsFor: 'as yet unclassified' stamp: 'len 6/12/2016 21:38'!
+testSimplex
+	| tetrahedron |
+	tetrahedron _ Simplex points: {(1,0,0). (0,1,0). (0,0,1). (0,0,0)}.
+	self assert: tetrahedron dimension = 3.
+	self assert: (tetrahedron faces: 2) size = 4.
+	self assert: tetrahedron edges size = 6.
+	self assert: tetrahedron cells size = 1! !
+
+!SimplicesTest methodsFor: 'as yet unclassified' stamp: 'len 6/12/2016 21:09'!
+testSimplexBoundaryBoundary
+	| S |
+	S _ Simplex points: #(a b c d).
+	self assert: S boundary boundary isZero! !
+
+!SimplicesTest methodsFor: 'as yet unclassified' stamp: 'len 6/12/2016 21:12'!
+testSimplexInclusion
+	| S S` |
+	S _ Simplex new: (2 to: 10) atRandom.
+	S` _ Simplex new: (0 to: S dimension) atRandom.
+	self assert: S` <= S! !
+
+!SimplicesTest methodsFor: 'as yet unclassified' stamp: 'len 6/12/2016 21:09'!
+testSimplexNegation
+	| S |
+	S _ Simplex points: {1. 2. 3. 4}.
+	self assert: S negated negated = S.
+	self assert: S negated ~= S! !
 
 !UnivariatePolynomialDivision methodsFor: 'accessing' stamp: 'len 11/3/2015 05:14'!
 quotient
