@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2794] on 18 June 2016 at 5:20:43.650786 am'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2794] on 19 June 2016 at 2:55:26.107967 am'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 93!
+!provides: 'Mathematics' 1 94!
 !classDefinition: #AbelianGroupPresentation category: #'Mathematics-Free'!
 Object subclass: #AbelianGroupPresentation
 	instanceVariableNames: 'generators relators'
@@ -3422,8 +3422,8 @@ Subclasses might reimplement:
   #printOn:
 !
 
-!AbelianGroup commentStamp: 'len 4/23/2016 02:58' prior: 0!
-My instances are additive (abelian, commutative) groups. Subclasses are structures that build up from an abelian group, such as modules, vector spaces, rings, ideals, etc.
+!AbelianGroup commentStamp: '<historical>' prior: 0!
+My instances are additive (abelian, commutative) groups, i.e. objects of a preadditive category. Subclasses are structures that build up from an abelian group, such as modules, vector spaces, rings, ideals, etc.
 !
 
 !Ideal commentStamp: '<historical>' prior: 0!
@@ -10003,6 +10003,10 @@ matrix: aMatrix
  aVectorSpace
 	^ DirectSumSpace components: {self. aVectorSpace}! !
 
+!VectorSpace methodsFor: 'morphisms' stamp: 'len 6/19/2016 02:41'!
+’ aVectorSpace
+	^ TensorProductSpace left: self right: aVectorSpace! !
+
 !VectorSpace methodsFor: 'accessing' stamp: 'len 5/23/2016 19:30'!
 ambient
 	"Answer the ambient vector space."
@@ -10323,9 +10327,9 @@ includes: anObject
 isCoproduct
 	^ true! !
 
-!DirectSumSpace methodsFor: 'printing' stamp: 'len 6/8/2016 06:52'!
+!DirectSumSpace methodsFor: 'printing' stamp: 'len 6/19/2016 02:46'!
 printOn: aStream
-	components do: [:each| aStream print: each] separatedBy: [aStream nextPut: Character oplus]! !
+	components do: [:each| aStream print: each] separatedBy: [aStream space; nextPut: Character oplus; space]! !
 
 !DirectSumSpace methodsFor: 'morphisms' stamp: 'len 5/1/2016 18:55'!
 projection: i
@@ -10480,9 +10484,9 @@ map
 	self flag: #fix. "this is not natural"
 	^ LinearMap from: domain to: self evaluating: [:v| self vectorAt: (domain coordinatesOf: v)]! !
 
-!DualSpace methodsFor: 'printing' stamp: 'len 4/21/2016 00:03'!
+!DualSpace methodsFor: 'printing' stamp: 'len 6/19/2016 00:25'!
 printOn: aStream
-	aStream print: self domain; nextPut: $*! !
+	aStream print: self domain; nextPutAll: '*' super! !
 
 !DualSpace methodsFor: 'elements' stamp: 'len 6/1/2016 06:08'!
 x
@@ -10994,9 +10998,33 @@ scalars: anAlgebraicAmbient
 over: aField
 	^ self new scalars: aField! !
 
+!TensorProductSpace methodsFor: 'as yet unclassified' stamp: 'len 6/19/2016 02:37'!
+dimension
+	^ left dimension * right dimension! !
+
+!TensorProductSpace methodsFor: 'as yet unclassified' stamp: 'len 6/19/2016 02:40'!
+e: anInteger
+	^ SimpleTensor left: (left e: anInteger - 1 // left dimension + 1) right: (right e: anInteger - 1 \\ right dimension + 1)! !
+
+!TensorProductSpace methodsFor: 'as yet unclassified' stamp: 'len 6/19/2016 02:42'!
+left: aVectorSpace
+	left _ aVectorSpace! !
+
+!TensorProductSpace methodsFor: 'as yet unclassified' stamp: 'len 6/19/2016 02:45'!
+printOn: aStream
+	aStream print: left; space; nextPut: Character otimes; space; print: right! !
+
+!TensorProductSpace methodsFor: 'as yet unclassified' stamp: 'len 6/19/2016 02:43'!
+right: aVectorSpace
+	right _ aVectorSpace! !
+
 !TensorProductSpace methodsFor: 'as yet unclassified' stamp: 'len 6/4/2016 00:59'!
 scalars
 	^ left scalars! !
+
+!TensorProductSpace class methodsFor: 'as yet unclassified' stamp: 'len 6/19/2016 02:42'!
+left: aVectorSpace right: anotherVectorSpace
+	^ self new left: aVectorSpace; right: anotherVectorSpace! !
 
 !Tensors methodsFor: 'accessing' stamp: 'len 11/29/2015 00:38'!
 contravariantOrder
@@ -19677,12 +19705,12 @@ on: aDomain
 		to: self codomain
 		evaluating: [:each| self value: (aLinearMap value: each)]! !
 
-!LinearMap methodsFor: 'arithmetic' stamp: 'len 6/17/2016 02:54'!
+!LinearMap methodsFor: 'arithmetic' stamp: 'len 6/19/2016 02:50'!
 ’ aLinearMap
 	"Answer the tensor product of the receiver with the argument."
 	^ self domain ’ aLinearMap domain -> (self codomain ’ aLinearMap codomain)
 "		matrix: self matrix ’ aLinearMap matrix" "must change to the same basis"
-		evaluating: [:each| (self value: (each at: 1)) ’ (aLinearMap value: (each at: 2))]! !
+		evaluating: [:each| SimpleTensor left: (self value: (each at: 1)) right: (aLinearMap value: (each at: 2))]! !
 
 !LinearMap methodsFor: 'operations' stamp: 'len 12/16/2015 22:03'!
 adjoint
@@ -31323,9 +31351,9 @@ coxeterMatrix
 	^ ambient scalars ** (S size @ S size)
 		evaluating: [:i :j| Float pi / ((ambient innerProduct value: {(S at: i). (S at: j)}) / -2) arcCos]! !
 
-!RootSystem methodsFor: 'operations' stamp: 'len 6/17/2016 22:12'!
+!RootSystem methodsFor: 'operations' stamp: 'len 6/18/2016 17:14'!
 coxeterNumber
-	^ ambient automorphisms orderOf: self coxeterElement! !
+	^ self weylGroup orderOf: self coxeterElement! !
 
 !RootSystem methodsFor: 'roots' stamp: 'len 1/6/2016 05:01'!
 degreeOf: aPositiveRoot
@@ -31436,7 +31464,7 @@ weylAction
 	W name: 'W'.
 	^ GroupAction from: (W, self roots) to: self roots evaluating: [:each| each first value: each second]! !
 
-!RootSystem methodsFor: 'operations' stamp: 'len 5/23/2016 05:01'!
+!RootSystem methodsFor: 'operations' stamp: 'len 6/18/2016 17:22'!
 weylGroup
 	"Answer the Weyl group of the root system, i.e. the (finite) group of isometries of the ambient vector space generated by reflections through hyperplanes perpendicular to the roots. The Weyl group W(R) is the subgroup of GL(V) (and more specifically O(V)) generated by the reflections {s_r} that act on each root r by -1: s_r(r) = -r."
 	| O W |
@@ -31781,6 +31809,20 @@ species
 species: aSemidirectProductGroup
 	species _ aSemidirectProductGroup! !
 
+!SimpleTensor methodsFor: 'as yet unclassified' stamp: 'len 6/19/2016 02:53'!
+@ aSimpleTensor
+	^ self class left: left @ aSimpleTensor left right: right @ aSimpleTensor right! !
+
+!SimpleTensor methodsFor: 'as yet unclassified' stamp: 'len 6/19/2016 02:49'!
+at: anInteger
+	anInteger = 1 ifTrue: [^ left].
+	anInteger = 2 ifTrue: [^ right].
+	^ self error: 'index out of bounds'! !
+
+!SimpleTensor methodsFor: 'as yet unclassified' stamp: 'len 6/19/2016 02:53'!
+inverse
+	^ self class left: left inverse right: right inverse! !
+
 !SimpleTensor methodsFor: 'as yet unclassified' stamp: 'len 11/27/2015 04:50'!
 left
 	^ left! !
@@ -31792,6 +31834,10 @@ left: aVector
 !SimpleTensor methodsFor: 'as yet unclassified' stamp: 'len 11/27/2015 05:08'!
 order
 	^ 2! !
+
+!SimpleTensor methodsFor: 'as yet unclassified' stamp: 'len 6/19/2016 02:34'!
+printOn: aStream
+	aStream print: left; nextPut: Character otimes; print: right! !
 
 !SimpleTensor methodsFor: 'as yet unclassified' stamp: 'len 11/27/2015 05:05'!
 rank
@@ -31808,6 +31854,14 @@ right: aVector
 !SimpleTensor methodsFor: 'as yet unclassified' stamp: 'len 11/27/2015 04:51'!
 scalars
 	^ left scalars! !
+
+!SimpleTensor methodsFor: 'as yet unclassified' stamp: 'len 6/19/2016 02:24'!
+value: aLinearForm
+	^ (aLinearForm value: left) * right! !
+
+!SimpleTensor class methodsFor: 'as yet unclassified' stamp: 'len 6/19/2016 02:43'!
+left: aVector right: anotherVector
+	^ self new left: aVector; right: anotherVector! !
 
 !Simplex methodsFor: 'comparing' stamp: 'len 6/13/2016 09:34'!
 < aSimplex
@@ -32087,7 +32141,7 @@ polynomial: aPolynomial
 on: aPolynomial
 	^ self basicNew setPolynomial: aPolynomial! !
 
-!Tensor methodsFor: 'accessing' stamp: 'len 11/27/2015 05:50'!
+!Tensor methodsFor: 'accessing' stamp: 'len 6/19/2016 02:22'!
 add: aVector
 	^ components add: aVector! !
 
@@ -32099,9 +32153,9 @@ at: anIndex
 initialize
 	components _ OrderedCollection new! !
 
-!Tensor methodsFor: 'printing' stamp: 'len 11/27/2015 05:52'!
+!Tensor methodsFor: 'printing' stamp: 'len 6/19/2016 02:22'!
 printOn: aStream
-	components do: [:each| aStream print: each] separatedBy: [aStream nextPut: ' (X) ']! !
+	components do: [:each| aStream print: each] separatedBy: [aStream nextPut: ' ’ ']! !
 
 !Tensor methodsFor: 'accessing' stamp: 'len 11/27/2015 05:52'!
 size
@@ -33259,6 +33313,17 @@ testSubspaceSystem
 	V _ Rationals new ** 3.
 	S _ V span: {(1, 1, 1). (2, 0, -2)}.
 	self assert: S equations kernel = S! !
+
+!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 6/19/2016 02:18'!
+testTensorProductOfLinearForms
+	| V W f g t v |
+	V _ Rationals new ** 3.
+	W _ V dual.
+	f _ W atRandomBits: 10.
+	g _ W atRandomBits: 10.
+	t _ f ’ g.
+	v _ V atRandomBits: 10.
+	self assert: (t value: v) = ((f value: v) * (g value: v))! !
 
 !LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 6/11/2016 05:54'!
 testThirdsomorphismTheorem
@@ -34893,14 +34958,14 @@ testSimplecialComplex
 	self assert: (S faces: 1) asSet size = 5.
 	self assert: (S faces: 0) asSet size = 5! !
 
-!SimplicesTest methodsFor: 'as yet unclassified' stamp: 'len 6/12/2016 21:38'!
+!SimplicesTest methodsFor: 'as yet unclassified' stamp: 'len 6/18/2016 17:16'!
 testSimplex
 	| tetrahedron |
 	tetrahedron _ Simplex points: {(1,0,0). (0,1,0). (0,0,1). (0,0,0)}.
 	self assert: tetrahedron dimension = 3.
 	self assert: (tetrahedron faces: 2) size = 4.
 	self assert: tetrahedron edges size = 6.
-	self assert: tetrahedron cells size = 1! !
+	self assert: (tetrahedron faces: 3) size = 1! !
 
 !SimplicesTest methodsFor: 'as yet unclassified' stamp: 'len 6/12/2016 21:09'!
 testSimplexBoundaryBoundary
