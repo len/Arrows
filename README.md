@@ -6,3 +6,5 @@ This is a continuation of some projects started in MathMorphs, after a pause of 
 Still far from finished, but steadily growing and getting better.
 This is not about scientific computing and numerical algorithms. This is more about abstract algebra, pure mathematics and exact computation.
 Roughly, it includes support for computing in: group theory, algebraic geometry, algebraic topology, algebraic number theory and coding theory.
+
+![alt tag](https://raw.githubusercontent.com/len/Cuis-Mathematics/master/screenshots/screenshot1.png)
