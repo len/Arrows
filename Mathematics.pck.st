@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2794] on 19 June 2016 at 2:55:26.107967 am'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2794] on 22 June 2016 at 4:36:40.644625 am'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 94!
+!provides: 'Mathematics' 1 95!
 !classDefinition: #AbelianGroupPresentation category: #'Mathematics-Free'!
 Object subclass: #AbelianGroupPresentation
 	instanceVariableNames: 'generators relators'
@@ -521,6 +521,16 @@ VectorSpace subclass: #DirectSumSpace
 DirectSumSpace class
 	instanceVariableNames: ''!
 
+!classDefinition: #HomogeneousPolynomialSpace category: #'Mathematics-Polynomials-Domains'!
+VectorSpace subclass: #HomogeneousPolynomialSpace
+	instanceVariableNames: 'polynomials degree'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Polynomials-Domains'!
+!classDefinition: 'HomogeneousPolynomialSpace class' category: #'Mathematics-Polynomials-Domains'!
+HomogeneousPolynomialSpace class
+	instanceVariableNames: ''!
+
 !classDefinition: #LieAlgebra category: #'Mathematics-Lie'!
 VectorSpace subclass: #LieAlgebra
 	instanceVariableNames: 'space'
@@ -581,13 +591,13 @@ VectorSpace subclass: #Matrices
 Matrices class
 	instanceVariableNames: ''!
 
-!classDefinition: #PolynomialSpace category: #'Mathematics-Polynomials'!
+!classDefinition: #PolynomialSpace category: #'Mathematics-Polynomials-Domains'!
 VectorSpace subclass: #PolynomialSpace
 	instanceVariableNames: 'polynomials degree'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Polynomials'!
-!classDefinition: 'PolynomialSpace class' category: #'Mathematics-Polynomials'!
+	category: 'Mathematics-Polynomials-Domains'!
+!classDefinition: 'PolynomialSpace class' category: #'Mathematics-Polynomials-Domains'!
 PolynomialSpace class
 	instanceVariableNames: ''!
 
@@ -731,13 +741,13 @@ FractionField subclass: #FunctionField
 FunctionField class
 	instanceVariableNames: ''!
 
-!classDefinition: #RationalFunctions category: #'Mathematics-Polynomials'!
+!classDefinition: #RationalFunctions category: #'Mathematics-Polynomials-Domains'!
 FractionField subclass: #RationalFunctions
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Polynomials'!
-!classDefinition: 'RationalFunctions class' category: #'Mathematics-Polynomials'!
+	category: 'Mathematics-Polynomials-Domains'!
+!classDefinition: 'RationalFunctions class' category: #'Mathematics-Polynomials-Domains'!
 RationalFunctions class
 	instanceVariableNames: ''!
 
@@ -831,13 +841,13 @@ Ring subclass: #PAdicIntegers
 PAdicIntegers class
 	instanceVariableNames: ''!
 
-!classDefinition: #Polynomials category: #'Mathematics-Polynomials'!
+!classDefinition: #Polynomials category: #'Mathematics-Polynomials-Domains'!
 Ring subclass: #Polynomials
 	instanceVariableNames: 'scalars rank'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Polynomials'!
-!classDefinition: 'Polynomials class' category: #'Mathematics-Polynomials'!
+	category: 'Mathematics-Polynomials-Domains'!
+!classDefinition: 'Polynomials class' category: #'Mathematics-Polynomials-Domains'!
 Polynomials class
 	instanceVariableNames: ''!
 
@@ -1451,13 +1461,13 @@ Group subclass: #UnitsGroup
 UnitsGroup class
 	instanceVariableNames: ''!
 
-!classDefinition: #Monomials category: #'Mathematics-Polynomials'!
+!classDefinition: #Monomials category: #'Mathematics-Polynomials-Domains'!
 Monoid subclass: #Monomials
 	instanceVariableNames: 'indeterminates'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Polynomials'!
-!classDefinition: 'Monomials class' category: #'Mathematics-Polynomials'!
+	category: 'Mathematics-Polynomials-Domains'!
+!classDefinition: 'Monomials class' category: #'Mathematics-Polynomials-Domains'!
 Monomials class
 	instanceVariableNames: ''!
 
@@ -3434,6 +3444,12 @@ I am an abstract class modeling vector spaces. Instances of my concrete subclass
 
 Examples of vector spaces are tuples, matrices and linear transformations. There's also an algebra of vector spaces to construct new vector spaces, such as products or direct sums of spaces, dual, quotient, etc.!
 
+!AlgebraicExtensionSpace commentStamp: '<historical>' prior: 0!
+My instances are (finite) algebraic extensions E/F of a field F seen as an F-vector space.!
+
+!HomogeneousPolynomialSpace commentStamp: '<historical>' prior: 0!
+My instances are vector spaces of multivariate homogeneous polynomials of degree d in n variables, for fixed d and n.!
+
 !LinearMaps commentStamp: '<historical>' prior: 0!
 My instances are vector spaces of transformations from a vector space to another, i.e. the space of morphisms between two vector spaces.!
 
@@ -3448,7 +3464,7 @@ My instances are finitely-generated linear subspaces of a vector space.!
 My instances are vector spaces (or modules) of matrices of n rows by m columns over a given field (or ring).!
 
 !PolynomialSpace commentStamp: '<historical>' prior: 0!
-My instances are vector spaces made of univariate polynomials of degree <= n, for a given n.!
+My instances are vector spaces of univariate polynomials of degree <= n, for a fixed n.!
 
 !QuotientSpace commentStamp: '<historical>' prior: 0!
 My instances are quotient spaces V / S (read "V mod S") of a given vector space V modulo a subspace S.
@@ -3483,6 +3499,9 @@ Example:
 	Q _ Rationals new.
 	Q adjoint: RealAlgebraicNumber sqrt2
 !
+
+!FunctionField commentStamp: '<historical>' prior: 0!
+My instances are fields of fractions of coordinate rings of (affine) algebraic varieties.!
 
 !RationalFunctions commentStamp: '<historical>' prior: 0!
 My instances are rational functions, i.e. the field of fractions over a given polynomial ring.!
@@ -4378,6 +4397,14 @@ adaptToRealAlgebraic: rcvr andSend: selector
 !Integer methodsFor: '*mathematics' stamp: 'len 2/10/2016 21:11'!
 bitSize
 	^ self abs highBit + 1! !
+
+!Integer methodsFor: '*mathematics' stamp: 'len 6/21/2016 04:18'!
+choose: anInteger
+	"Answer the binomial coefficient (self anInteger)"
+	" 6 take: 3  "
+
+	(anInteger < 0 or: [anInteger > self]) ifTrue: [^0].
+	^(self - anInteger + 1 productTo: self) // anInteger factorial! !
 
 !Integer methodsFor: '*mathematics' stamp: 'len 4/23/2016 19:35'!
 count: aBlock
@@ -7771,6 +7798,13 @@ addAll: aCollection
 at: anInteger
 	^ polynomials at: anInteger! !
 
+!GroebnerBasis methodsFor: 'operations' stamp: 'len 6/22/2016 03:51'!
+coordinatesOf: aPolynomial 
+	^ (MultiPolynomialDivision
+		divide: aPolynomial
+		by: self
+		ordering: self ordering) quotients! !
+
 !GroebnerBasis methodsFor: 'copying' stamp: 'len 11/24/2015 00:00'!
 copy
 	"Answer a copy of the reciever."
@@ -7862,6 +7896,10 @@ ordering
 ordering: aMonomialOrdering 
 	"Change the monomial ordering of the receiver."
 	ordering _ aMonomialOrdering! !
+
+!GroebnerBasis methodsFor: 'operations' stamp: 'len 6/22/2016 03:52'!
+polynomialAt: aTuple
+	^ (1 to: aTuple size) sum: [:i| (self at: i) * (aTuple at: i)]! !
 
 !GroebnerBasis methodsFor: 'accessing-private' stamp: 'len 11/23/2015 23:51'!
 polynomials: aCollection
@@ -8574,8 +8612,9 @@ arrows
 homology: i
 	^ (self arrows at: i) kernel / (self arrows at: i+1) image! !
 
-!ChainComplex methodsFor: 'as yet unclassified' stamp: 'len 6/13/2016 03:46'!
+!ChainComplex methodsFor: 'as yet unclassified' stamp: 'len 6/22/2016 03:25'!
 isExact
+	"A chain complex is 'exact' if the image of each arrow is exactly the kernel of the next arrow."
 	^ (1 to: self arrows size - 1) allSatisfy: [:i| (self arrows at: i) image = (self arrows at: i+1) kernel]! !
 
 !ChainComplex methodsFor: 'as yet unclassified' stamp: 'len 6/13/2016 04:37'!
@@ -9141,6 +9180,22 @@ product: aDomain
 properties
 	^ properties! !
 
+!Domain methodsFor: 'accessing' stamp: 'len 6/20/2016 02:44'!
+propertyAt: aSymbol
+	^ self propertyAt: aSymbol ifAbsent: [self error: 'no such property']! !
+
+!Domain methodsFor: 'accessing' stamp: 'len 6/20/2016 02:43'!
+propertyAt: aSymbol ifAbsent: exceptionBlock
+	^ properties at: aSymbol ifAbsent: exceptionBlock! !
+
+!Domain methodsFor: 'accessing' stamp: 'len 6/20/2016 02:45'!
+propertyAt: aSymbol ifAbsentPut: aBlock
+	^ properties at: aSymbol ifAbsentPut: aBlock! !
+
+!Domain methodsFor: 'accessing' stamp: 'len 6/20/2016 02:44'!
+propertyAt: aSymbol put: anObject
+	^ properties at: aSymbol put: anObject! !
+
 !Domain methodsFor: 'random' stamp: 'len 4/19/2016 21:09'!
 random
 	^ RandomGenerator on: self! !
@@ -9559,16 +9614,12 @@ characteristic
 isModule
 	^ true! !
 
-!Module methodsFor: 'testing' stamp: 'len 3/5/2016 04:32'!
-isVectorSpace
-	^ self scalars isField! !
-
 !Module methodsFor: 'printing' stamp: 'len 4/21/2016 00:00'!
 printOn: aStream
 	aStream nextPutAll: 'a '; print: self scalars; nextPutAll: '-module'! !
 
-!Module methodsFor: 'accessing' stamp: 'len 4/19/2016 03:43'!
-scalarOperation
+!Module methodsFor: 'accessing' stamp: 'len 6/21/2016 23:05'!
+scalarAction
 	^ Function from: (self scalars, self) to: self evaluating: [:each| each first * each second]! !
 
 !Module methodsFor: 'accessing' stamp: 'len 2/14/2016 18:01'!
@@ -9601,6 +9652,10 @@ automorphisms
 !FreeModule methodsFor: 'basis' stamp: 'len 4/25/2016 06:28'!
 basis
 	^ properties at: #basis ifAbsentPut: [LinearBasis on: self vectors: (self indices collect: [:i| (self e: i)])]! !
+
+!FreeModule methodsFor: 'basis' stamp: 'len 6/20/2016 19:56'!
+coordinateRing
+	^ self scalars polynomialsIn: self rank! !
 
 !FreeModule methodsFor: 'basis' stamp: 'len 2/28/2016 07:45'!
 coordinateSpace
@@ -9745,7 +9800,7 @@ determinant2
 dimension
 	^ self ambient dimension! !
 
-!Lattice methodsFor: 'morphisms' stamp: 'len 5/23/2016 04:37'!
+!Lattice methodsFor: 'morphisms' stamp: 'len 6/20/2016 08:20'!
 dual
 	"Answer the dual lattice of the receiver (or reciprocal lattice, or polar lattice)."
 	| B Bdual dualBasis |
@@ -10104,6 +10159,10 @@ isInitial
 isTrivial
 	^ self dimension = 0! !
 
+!VectorSpace methodsFor: 'testing' stamp: 'len 6/21/2016 23:10'!
+isVectorSpace
+	^ self scalars isField! !
+
 !VectorSpace methodsFor: 'iterating' stamp: 'len 11/23/2015 16:46'!
 iterator
 	| coordinatesIterator |
@@ -10132,9 +10191,9 @@ perp
 	"Answer the orthogonal complement of the receiver."
 	^ self null! !
 
-!VectorSpace methodsFor: 'printing' stamp: 'len 4/25/2016 06:56'!
+!VectorSpace methodsFor: 'printing' stamp: 'len 6/22/2016 03:15'!
 printOn: aStream
-	aStream print: self scalars; nextPut: $-; nextPutAll: 'vector space '; print: self basis! !
+	aStream print: self scalars; nextPut: $-; nextPutAll: (self isVectorSpace ifTrue: ['vector space '] ifFalse: ['module']); print: self basis! !
 
 !VectorSpace methodsFor: 'morphisms' stamp: 'len 6/4/2016 00:21'!
 product: aVectorSpace
@@ -10156,8 +10215,8 @@ rank
 rotations
 	^ SpecialOrthogonalGroup on: self! !
 
-!VectorSpace methodsFor: 'accessing' stamp: 'len 4/19/2016 03:44'!
-scalarOperation
+!VectorSpace methodsFor: 'accessing' stamp: 'len 6/21/2016 23:05'!
+scalarAction
 	^ Function from: (self scalars, self) to: self evaluating: [:each| each second * each first] "we know it's commutative, so this is faster"! !
 
 !VectorSpace methodsFor: 'morphisms' stamp: 'len 6/11/2016 18:27'!
@@ -10868,9 +10927,13 @@ coordinatesOf: aPolynomial
 	coefficients _ aPolynomial coefficients.
 	^ coefficients, ((1 to: self dimension - coefficients size) collect: [:each| self scalars zero])! !
 
-!PolynomialSpace methodsFor: 'as yet unclassified' stamp: 'len 4/6/2016 07:07'!
+!PolynomialSpace methodsFor: 'accessing-private' stamp: 'len 4/6/2016 07:07'!
 degree: anInteger
 	degree _ anInteger! !
+
+!PolynomialSpace methodsFor: 'morphisms' stamp: 'len 6/19/2016 03:27'!
+differential
+	^ self -> self evaluating: [:f| f derivative]! !
 
 !PolynomialSpace methodsFor: 'basis' stamp: 'len 4/6/2016 07:06'!
 dimension
@@ -10880,7 +10943,11 @@ dimension
 e: anInteger
 	^ polynomials xTo: anInteger - 1! !
 
-!PolynomialSpace methodsFor: 'as yet unclassified' stamp: 'len 4/6/2016 07:07'!
+!PolynomialSpace methodsFor: 'morphisms' stamp: 'len 6/19/2016 04:18'!
+integral: a to: b
+	^ self dual evaluating: [:f| f integral: a to: b]! !
+
+!PolynomialSpace methodsFor: 'accessing-private' stamp: 'len 4/6/2016 07:07'!
 polynomials: aPolynomials
 	polynomials _ aPolynomials! !
 
@@ -11181,10 +11248,6 @@ newFrom: anArray
 !Tuples methodsFor: 'morphisms' stamp: 'len 4/24/2016 06:36'!
 over: aRing
 	^ self copy scalars: aRing! !
-
-!Tuples methodsFor: 'morphisms' stamp: 'len 6/2/2016 00:06'!
-polynomials
-	^ self scalars polynomialsIn: self dimension! !
 
 !Tuples methodsFor: 'printing' stamp: 'len 6/7/2016 21:52'!
 printOn: aStream
@@ -11542,6 +11605,12 @@ baseField
 characteristic
 	^ self baseField characteristic! !
 
+!AlgebraicExtension methodsFor: 'elements-operations' stamp: 'len 6/21/2016 05:39'!
+characteristicPolynomialOf2: anElement
+	| x |
+	x _ AlgebraicNumbers new polynomials x.
+	^ (self embeddings product: [:each| x - (each value: anElement)]) as: self baseField polynomials! !
+
 !AlgebraicExtension methodsFor: 'elements-operations' stamp: 'len 6/4/2016 17:39'!
 characteristicPolynomialOf: anElement
 	^ (self asVectorSpace endomorphisms evaluating: [:x| x * anElement]) characteristicPolynomial! !
@@ -11587,12 +11656,23 @@ isField
 isGlobalField
 	^ true! !
 
+!AlgebraicExtension methodsFor: 'elements-operations' stamp: 'len 6/21/2016 05:38'!
+minimalPolynomialOf2: anElement
+	^ (self preferedEmbedding value: anElement) minimalPolynomial! !
+
 !AlgebraicExtension methodsFor: 'elements-operations' stamp: 'len 6/4/2016 23:56'!
 minimalPolynomialOf: anElement
 	^ (self asVectorSpace endomorphisms evaluating: [:x| x * anElement]) minimalPolynomial
 "	| x |
 	x _ self polynomials x.
 	^ anElement conjugates product: [:each| x - each] :: as: self baseField polynomials"! !
+
+!AlgebraicExtension methodsFor: 'elements-operations' stamp: 'len 6/21/2016 05:29'!
+normOf: anElement
+	"Answer the absolute norm of anElement."
+	| f |
+	f _ self minimalPolynomialOf: anElement.
+	^ f independentCoefficient / f leadingCoefficient * (f degree even ifTrue: [1] ifFalse: [-1])! !
 
 !AlgebraicExtension methodsFor: 'accessing' stamp: 'len 3/18/2016 22:41'!
 one
@@ -11617,6 +11697,13 @@ size
 !AlgebraicExtension methodsFor: 'elements-operations' stamp: 'len 6/4/2016 23:54'!
 symmetricFunction: i of: anElement
 	^ self notYetImplemented! !
+
+!AlgebraicExtension methodsFor: 'elements-operations' stamp: 'len 6/21/2016 05:30'!
+traceOf: anElement
+	"Answer the absolute trace of anElement."
+	| f |
+	f _ self minimalPolynomialOf: anElement.
+	^ (f coefficientAtDegree: f degree - 1) / f leadingCoefficient! !
 
 !AlgebraicExtension methodsFor: 'accessing' stamp: 'len 6/4/2016 18:12'!
 x
@@ -15542,17 +15629,24 @@ defaultInverseMap
 defaultOperation
 	^ self compositiveOperation! !
 
+!LinearGroup methodsFor: 'accessing' stamp: 'len 6/20/2016 19:36'!
+degree
+	^ space dimension! !
+
 !LinearGroup methodsFor: 'iterating' stamp: 'len 2/11/2016 20:02'!
 do: aBlock
 	space endomorphisms do: [:each| (self includes: each) ifTrue: [aBlock value: each]]! !
 
+!LinearGroup methodsFor: 'morphisms' stamp: 'len 6/20/2016 21:38'!
+hilbertSeries
+	"This is the sum of dim(S_d ^G z^d for d>=0. By Molien 1897:"
+	| order |
+	order _ self size.
+	^ (self sum: [:g| g characteristicPolynomial asRationalFunction reciprocal]) / order! !
+
 !LinearGroup methodsFor: 'accessing' stamp: 'len 2/11/2016 20:01'!
 identity
 	^ space id! !
-
-!LinearGroup methodsFor: 'testing' stamp: 'len 5/22/2016 22:31'!
-includes: aLinearMap
-	^ self notYetImplemented! !
 
 !LinearGroup methodsFor: 'testing' stamp: 'len 2/22/2016 00:27'!
 isFinite
@@ -15562,6 +15656,16 @@ isFinite
 printOn: aStream
 	self class = LinearGroup ifTrue: [^ super printOn: aStream].
 	aStream nextPutAll: self shortName bold; nextPut: $(; print: space; nextPut: $)! !
+
+!LinearGroup methodsFor: 'morphisms' stamp: 'len 6/20/2016 21:24'!
+reynolds
+	"Answer the Reynolds operator. Properties:
+	- K-linear map S -> S^G;
+	- restricts to the identity on S^G;
+	- it's an S^G-module homomorphisms: R(p*q) = p*R(q) for all invariants p in S^G."
+	| order |
+	order _ self size.
+	^ self space coordinateRing -> self invariantsRing evaluating: [:p| (self sum: [:g| p @ g]) / order]! !
 
 !LinearGroup methodsFor: 'accessing' stamp: 'len 2/11/2016 20:15'!
 scalars
@@ -15825,6 +15929,10 @@ defaultInverseMap
 defaultOperation
 	^ self multiplicativeOperation! !
 
+!MatrixGroup methodsFor: 'accessing' stamp: 'len 6/20/2016 19:37'!
+degree
+	^ space dimension! !
+
 !MatrixGroup methodsFor: 'iterating' stamp: 'len 2/11/2016 05:10'!
 do: aBlock
 	matrices do: [:each| (self includes: each) ifTrue: [aBlock value: each]]! !
@@ -15832,11 +15940,6 @@ do: aBlock
 !MatrixGroup methodsFor: 'accessing' stamp: 'len 2/13/2016 07:40'!
 identity
 	^ matrices identity! !
-
-!MatrixGroup methodsFor: 'testing' stamp: 'len 5/22/2016 22:33'!
-includes: aMatrix
-	self flag: #fix.
-	^ self notYetImplemented! !
 
 !MatrixGroup methodsFor: 'testing' stamp: 'len 2/22/2016 00:27'!
 isFinite
@@ -31855,9 +31958,9 @@ right: aVector
 scalars
 	^ left scalars! !
 
-!SimpleTensor methodsFor: 'as yet unclassified' stamp: 'len 6/19/2016 02:24'!
-value: aLinearForm
-	^ (aLinearForm value: left) * right! !
+!SimpleTensor methodsFor: 'as yet unclassified' stamp: 'len 6/19/2016 04:06'!
+value: aCovector
+	^ (aCovector value: left) * right! !
 
 !SimpleTensor class methodsFor: 'as yet unclassified' stamp: 'len 6/19/2016 02:43'!
 left: aVector right: anotherVector
@@ -33314,6 +33417,21 @@ testSubspaceSystem
 	S _ V span: {(1, 1, 1). (2, 0, -2)}.
 	self assert: S equations kernel = S! !
 
+!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 6/19/2016 04:34'!
+testTensorProductAssociativity
+	| V1 V2 V3 |
+	V1 _ Rationals new ** 2.
+	V2 _ Rationals new ** 3.
+	V3 _ Rationals new ** 4.
+	self assert: (V1 ’ V2) ’ V3 ~ (V1 ’ (V2 ’ V3))! !
+
+!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 6/19/2016 04:32'!
+testTensorProductCommutativity
+	| V W |
+	V _ Rationals new ** 3.
+	W _ Rationals new ** 4.
+	self assert: V ’ W ~ (W ’ V)! !
+
 !LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 6/19/2016 02:18'!
 testTensorProductOfLinearForms
 	| V W f g t v |
@@ -33348,6 +33466,18 @@ testOrthogonalAtRandom
 	G _ V automorphisms orthogonal.
 	self assert: (G atRandomBits: 100) isOrthogonal.
 	self assert: (G includes: (G atRandomBits: 100))! !
+
+!LinearGroupsTest methodsFor: 'as yet unclassified' stamp: 'len 6/20/2016 21:42'!
+testRotationsBy90Degrees
+	"Group of rotations by 90 degrees in the plane, isomorphic to Z/4Z."
+	| V G |
+	V _ Rationals new ** 2.
+	G _ (LinearGroup on: V) generators: {V -> V vectorAt: (0, 1, -1, 0)}.
+	self assert: G size = 4.
+	self assert: G isCyclic.
+	self flag: #todo.
+	"test invariant ring K[x,y]^G = K[x^2+y^2, x^2y^2, x^3y-xy^3], isomorphic to K[a,b,c]/<c^2-a^2b+4b^2>"
+	"test hilbert series is 1-z^8 / ((1-z^2)^2(1-z^4)) = 1 + z^2 + 3z^4 + 3z^6 + ..."! !
 
 !MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 3/30/2016 22:59'!
 testBitTupleBug
