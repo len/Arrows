@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2794] on 22 June 2016 at 4:36:40.644625 am'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2794] on 23 June 2016 at 7:05:57.636168 am'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 95!
+!provides: 'Mathematics' 1 96!
 !classDefinition: #AbelianGroupPresentation category: #'Mathematics-Free'!
 Object subclass: #AbelianGroupPresentation
 	instanceVariableNames: 'generators relators'
@@ -1661,6 +1661,66 @@ Domain subclass: #Spectrum
 Spectrum class
 	instanceVariableNames: ''!
 
+!classDefinition: #ElementAdapter category: #'Mathematics-Groups-Elements'!
+Object subclass: #ElementAdapter
+	instanceVariableNames: 'value'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Groups-Elements'!
+!classDefinition: 'ElementAdapter class' category: #'Mathematics-Groups-Elements'!
+ElementAdapter class
+	instanceVariableNames: ''!
+
+!classDefinition: #GroupElement category: #'Mathematics-Groups-Elements'!
+ElementAdapter subclass: #GroupElement
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Groups-Elements'!
+!classDefinition: 'GroupElement class' category: #'Mathematics-Groups-Elements'!
+GroupElement class
+	instanceVariableNames: ''!
+
+!classDefinition: #GroupAdditiveElement category: #'Mathematics-Groups-Elements'!
+GroupElement subclass: #GroupAdditiveElement
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Groups-Elements'!
+!classDefinition: 'GroupAdditiveElement class' category: #'Mathematics-Groups-Elements'!
+GroupAdditiveElement class
+	instanceVariableNames: ''!
+
+!classDefinition: #GroupCompositiveElement category: #'Mathematics-Groups-Elements'!
+GroupElement subclass: #GroupCompositiveElement
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Groups-Elements'!
+!classDefinition: 'GroupCompositiveElement class' category: #'Mathematics-Groups-Elements'!
+GroupCompositiveElement class
+	instanceVariableNames: ''!
+
+!classDefinition: #RingElement category: #'Mathematics-Groups-Elements'!
+ElementAdapter subclass: #RingElement
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Groups-Elements'!
+!classDefinition: 'RingElement class' category: #'Mathematics-Groups-Elements'!
+RingElement class
+	instanceVariableNames: ''!
+
+!classDefinition: #RingCompositiveElement category: #'Mathematics-Groups-Elements'!
+RingElement subclass: #RingCompositiveElement
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Groups-Elements'!
+!classDefinition: 'RingCompositiveElement class' category: #'Mathematics-Groups-Elements'!
+RingCompositiveElement class
+	instanceVariableNames: ''!
+
 !classDefinition: #ElementaryTensorOld category: #'Mathematics-ETC'!
 Object subclass: #ElementaryTensorOld
 	instanceVariableNames: 'left right'
@@ -2891,14 +2951,14 @@ Object subclass: #SchreierSims
 SchreierSims class
 	instanceVariableNames: ''!
 
-!classDefinition: #SchreierVector category: #'Mathematics-Groups'!
-Object subclass: #SchreierVector
+!classDefinition: #SchreierTree category: #'Mathematics-Groups'!
+Object subclass: #SchreierTree
 	instanceVariableNames: 'v w'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Groups'!
-!classDefinition: 'SchreierVector class' category: #'Mathematics-Groups'!
-SchreierVector class
+!classDefinition: 'SchreierTree class' category: #'Mathematics-Groups'!
+SchreierTree class
 	instanceVariableNames: ''!
 
 !classDefinition: #SemialgebraicCell category: #'Mathematics-Geometry-Semialgebraic'!
@@ -3438,6 +3498,13 @@ My instances are additive (abelian, commutative) groups, i.e. objects of a pread
 
 !Ideal commentStamp: '<historical>' prior: 0!
 My instances are finitely-generated ideals of a ring. Ideals are the kernels of ring homomorphisms.!
+
+!Module commentStamp: 'len 6/23/2016 01:23' prior: 0!
+My instances are right R-modules.
+!
+
+!FreeModule commentStamp: 'len 6/23/2016 01:23' prior: 0!
+My instances are free right R-modules, i.e. right R-modules with a basis.!
 
 !VectorSpace commentStamp: 'len 4/23/2016 03:02' prior: 0!
 I am an abstract class modeling vector spaces. Instances of my concrete subclasses define a canonical system of coordinates for the objects considered as vectors.
@@ -4173,6 +4240,14 @@ copyEmpty: anInteger
 gather: aBlock
 	^ Array streamContents:
 		[:stream | self do: [:each | stream nextPutAll: (aBlock value: each)]]! !
+
+!Collection methodsFor: '*mathematics' stamp: 'len 6/23/2016 05:29'!
+isFinite
+	^ true! !
+
+!Collection methodsFor: '*mathematics' stamp: 'len 6/23/2016 05:29'!
+isInfinite
+	^ false! !
 
 !Collection methodsFor: '*mathematics' stamp: 'len 4/25/2016 07:52'!
 plot: aFunction
@@ -9038,10 +9113,9 @@ id
 	"Answer the identity automorphism."
 	^ self endomorphisms identity! !
 
-!Domain methodsFor: 'testing' stamp: 'len 5/2/2016 02:28'!
+!Domain methodsFor: 'testing' stamp: 'len 6/23/2016 07:04'!
 includes: anElement
-	properties at: #elements ifPresent: [:aCollection| ^ aCollection includes: anElement].
-	^ self subclassResponsibility! !
+	^ self elements includes: anElement! !
 
 !Domain methodsFor: 'initialization' stamp: 'len 11/23/2015 03:03'!
 initialize
@@ -9606,6 +9680,11 @@ variety
 	"Answer the algebraic variety that is the set of zeroes of all polynomials in the receiver."
 	^ AlgebraicSet ideal: self! !
 
+!Module methodsFor: 'morphisms' stamp: 'len 6/23/2016 01:26'!
+-> aModule
+	"Answer the module of module homomorphisms from the receiver to aModule."
+	^ LinearMaps from: self to: aModule! !
+
 !Module methodsFor: 'accessing' stamp: 'len 2/14/2016 18:05'!
 characteristic
 	^ self scalars characteristic! !
@@ -9618,9 +9697,9 @@ isModule
 printOn: aStream
 	aStream nextPutAll: 'a '; print: self scalars; nextPutAll: '-module'! !
 
-!Module methodsFor: 'accessing' stamp: 'len 6/21/2016 23:05'!
+!Module methodsFor: 'accessing' stamp: 'len 6/23/2016 01:19'!
 scalarAction
-	^ Function from: (self scalars, self) to: self evaluating: [:each| each first * each second]! !
+	^ Function from: (self, self scalars) to: self evaluating: [:each| each first * each second]! !
 
 !Module methodsFor: 'accessing' stamp: 'len 2/14/2016 18:01'!
 scalars
@@ -10090,10 +10169,6 @@ asSubspaceOf: aVectorSpace
 automorphisms
 	^ GeneralLinearGroup on: self! !
 
-!VectorSpace methodsFor: 'morphisms' stamp: 'len 2/22/2016 01:00'!
-bilinear
-	^ BilinearForms on: self! !
-
 !VectorSpace methodsFor: 'basis' stamp: 'len 4/25/2016 06:29'!
 dimension
 	^ self basis size! !
@@ -10214,10 +10289,6 @@ rank
 !VectorSpace methodsFor: 'morphisms' stamp: 'len 2/11/2016 20:27'!
 rotations
 	^ SpecialOrthogonalGroup on: self! !
-
-!VectorSpace methodsFor: 'accessing' stamp: 'len 6/21/2016 23:05'!
-scalarAction
-	^ Function from: (self scalars, self) to: self evaluating: [:each| each second * each first] "we know it's commutative, so this is faster"! !
 
 !VectorSpace methodsFor: 'morphisms' stamp: 'len 6/11/2016 18:27'!
 span: aCollection
@@ -15633,9 +15704,11 @@ defaultOperation
 degree
 	^ space dimension! !
 
-!LinearGroup methodsFor: 'iterating' stamp: 'len 2/11/2016 20:02'!
+!LinearGroup methodsFor: 'iterating' stamp: 'len 6/23/2016 07:02'!
 do: aBlock
-	space endomorphisms do: [:each| (self includes: each) ifTrue: [aBlock value: each]]! !
+	self flag: #fix.
+	^ super do: aBlock
+"	space endomorphisms do: [:each| (self includes: each) ifTrue: [aBlock value: each]]"! !
 
 !LinearGroup methodsFor: 'morphisms' stamp: 'len 6/20/2016 21:38'!
 hilbertSeries
@@ -15933,9 +16006,11 @@ defaultOperation
 degree
 	^ space dimension! !
 
-!MatrixGroup methodsFor: 'iterating' stamp: 'len 2/11/2016 05:10'!
+!MatrixGroup methodsFor: 'iterating' stamp: 'len 6/23/2016 07:03'!
 do: aBlock
-	matrices do: [:each| (self includes: each) ifTrue: [aBlock value: each]]! !
+	self flag: #fix.
+	^ super do: aBlock
+"	matrices do: [:each| (self includes: each) ifTrue: [aBlock value: each]]"! !
 
 !MatrixGroup methodsFor: 'accessing' stamp: 'len 2/13/2016 07:40'!
 identity
@@ -16131,7 +16206,7 @@ asMatrixGroup
 degree
 	^ self space size! !
 
-!PermutationGroup methodsFor: 'as yet unclassified' stamp: 'len 5/23/2016 19:35'!
+!PermutationGroup methodsFor: 'testing' stamp: 'len 5/23/2016 19:35'!
 isSubgroupOfAn
 	"Monte Carlo test."
 	| random |
@@ -16153,6 +16228,27 @@ space: aCollection
 !PermutationGroup methodsFor: 'private' stamp: 'len 3/4/2016 20:36'!
 species
 	^ PermutationGroup! !
+
+!PermutationGroup class methodsFor: 'examples' stamp: 'len 6/23/2016 06:43'!
+M11
+	"Answer the Mathieu group on 11 points. With order 7920, this is the smallest of the 26 sporadic simple groups."
+	| s1 s2 |
+	"ALTERNATIVELY:
+	s1 _ Permutation cycles: #((1 2 3 4 5 6 7 8 9 10 11).
+	s2 _ Permutation cycles: #((3 7 11 8) (4 10 5 6)).
+	"
+	s1 _ Permutation cycles: #((1 10) (2 8) (3 11) (5 7)).
+	s2 _ Permutation cycles: #((1 4 7 6) (2 11 10 9)).
+	^ self on: (1 to: 11) generators: {s1. s2}! !
+
+!PermutationGroup class methodsFor: 'examples' stamp: 'len 6/23/2016 06:45'!
+M12
+	"Answer the Mathieu group on 12 points, the second smallest of the 26 sporadic simple groups, with order 95040."
+	| s1 s2 s3 |
+	s1 _ Permutation cycles: #((1 2 3 4 5 6 7 8 9 10 11)).
+	s2 _ Permutation cycles: #((3 7 11 8) (4 10 5 6)).
+	s3 _ Permutation cycles: #((1 12) (2 11) (3 6) (4 8) (5 9) (7 10)).
+	^ self on: (1 to: 12) generators: {s1. s2. s3}! !
 
 !PermutationGroup class methodsFor: 'examples' stamp: 'len 5/14/2016 00:30'!
 cyclic: n
@@ -18158,6 +18254,153 @@ includes: anIdeal
 printOn: aStream
 	aStream nextPutAll: 'Spec' bold; nextPut: $(; print: ring; nextPut: $)! !
 
+!ElementAdapter methodsFor: 'comparing' stamp: 'len 6/23/2016 02:24'!
+= anObject
+	^ anObject = value! !
+
+!ElementAdapter methodsFor: 'comparing' stamp: 'len 6/23/2016 02:24'!
+hash
+	^ value hash! !
+
+!ElementAdapter methodsFor: 'printing' stamp: 'len 6/23/2016 02:25'!
+printOn: aStream
+	aStream print: value! !
+
+!ElementAdapter methodsFor: 'private' stamp: 'len 6/23/2016 02:23'!
+setValue: anObject
+	value _ anObject! !
+
+!ElementAdapter methodsFor: 'accessing' stamp: 'len 6/23/2016 02:23'!
+value
+	^ value! !
+
+!ElementAdapter class methodsFor: 'instance creation' stamp: 'len 6/23/2016 02:24'!
+on: anObject
+	^ self new setValue: anObject! !
+
+!GroupElement methodsFor: 'arithmetic' stamp: 'len 6/23/2016 02:47'!
+* anObject
+	^ self class on: value * anObject value! !
+
+!GroupElement methodsFor: 'arithmetic' stamp: 'len 6/23/2016 04:49'!
+** anInteger
+	anInteger = 1 ifTrue: [^ self].
+	anInteger = 0 ifTrue: [^ self one].
+	anInteger > 1
+		ifTrue: [^(self * self ** (anInteger // 2)) * (self ** (anInteger \\ 2))].
+	^ (self ** anInteger negated) reciprocal! !
+
+!GroupElement methodsFor: 'arithmetic' stamp: 'len 6/23/2016 02:45'!
+/ anObject
+	^ self * anObject reciprocal! !
+
+!GroupElement methodsFor: 'arithmetic' stamp: 'len 6/23/2016 04:48'!
+identity
+	^ self one! !
+
+!GroupElement methodsFor: 'arithmetic' stamp: 'len 6/23/2016 04:48'!
+inverse
+	^ self reciprocal! !
+
+!GroupElement methodsFor: 'arithmetic' stamp: 'len 6/23/2016 04:48'!
+one
+	^ self class on: value one! !
+
+!GroupElement methodsFor: 'arithmetic' stamp: 'len 6/23/2016 02:47'!
+reciprocal
+	^ self class on: value reciprocal! !
+
+!GroupAdditiveElement methodsFor: 'arithmetic' stamp: 'len 6/23/2016 02:28'!
+* anObject
+	anObject class == self class ifTrue: [^ self class on: self value + anObject value].
+	^ self class on: self value * anObject "?"! !
+
+!GroupAdditiveElement methodsFor: 'arithmetic' stamp: 'len 6/23/2016 02:35'!
+** anInteger
+	^ self class on: value * anInteger! !
+
+!GroupAdditiveElement methodsFor: 'arithmetic' stamp: 'len 6/23/2016 04:50'!
+one
+	^ self class on: value zero! !
+
+!GroupAdditiveElement methodsFor: 'arithmetic' stamp: 'len 6/23/2016 04:50'!
+reciprocal
+	^ self class on: value negated! !
+
+!GroupCompositiveElement methodsFor: 'arithmetic' stamp: 'len 6/23/2016 02:16'!
+* anObject
+	anObject class == self class ifTrue: [^ self class on: self value @ anObject value].
+	^ self class on: self value * anObject! !
+
+!GroupCompositiveElement methodsFor: 'arithmetic' stamp: 'len 6/23/2016 02:37'!
+** anInteger
+	^ self class on: value @@ anInteger! !
+
+!GroupCompositiveElement methodsFor: 'arithmetic' stamp: 'len 6/23/2016 04:49'!
+one
+	^ self class on: value identity! !
+
+!GroupCompositiveElement methodsFor: 'arithmetic' stamp: 'len 6/23/2016 04:50'!
+reciprocal
+	^ self class on: value inverse! !
+
+!RingElement methodsFor: 'arithmetic' stamp: 'len 6/23/2016 04:47'!
+* anObject
+	^ self class on: value * anObject value! !
+
+!RingElement methodsFor: 'arithmetic' stamp: 'len 6/23/2016 04:49'!
+** anInteger
+	anInteger = 1 ifTrue: [^ self].
+	anInteger = 0 ifTrue: [^ self one].
+	anInteger > 1
+		ifTrue: [^(self * self ** (anInteger // 2)) * (self ** (anInteger \\ 2))].
+	^ (self ** anInteger negated) reciprocal! !
+
+!RingElement methodsFor: 'arithmetic' stamp: 'len 6/23/2016 02:46'!
++ anObject
+	^ self class on: value + anObject value! !
+
+!RingElement methodsFor: 'arithmetic' stamp: 'len 6/23/2016 02:46'!
+- anObject
+	^ self + anObject negated! !
+
+!RingElement methodsFor: 'arithmetic' stamp: 'len 6/23/2016 02:46'!
+/ anObject
+	^ self * anObject reciprocal! !
+
+!RingElement methodsFor: 'arithmetic' stamp: 'len 6/23/2016 02:47'!
+negated
+	^ self class on: value negated! !
+
+!RingElement methodsFor: 'arithmetic' stamp: 'len 6/23/2016 04:47'!
+one
+	^ value one! !
+
+!RingElement methodsFor: 'arithmetic' stamp: 'len 6/23/2016 04:47'!
+reciprocal
+	^ self class on: value reciprocal! !
+
+!RingElement methodsFor: 'arithmetic' stamp: 'len 6/23/2016 04:47'!
+zero
+	^ value zero! !
+
+!RingCompositiveElement methodsFor: 'arithmetic' stamp: 'len 6/23/2016 04:46'!
+* anObject
+	anObject class == self class ifTrue: [^ self class on: self value @ anObject value].
+	^ self class on: self value * anObject! !
+
+!RingCompositiveElement methodsFor: 'arithmetic' stamp: 'len 6/23/2016 02:43'!
+** anInteger
+	^ self class on: value @@ anInteger! !
+
+!RingCompositiveElement methodsFor: 'arithmetic' stamp: 'len 6/23/2016 04:46'!
+one
+	^ self class on: value one! !
+
+!RingCompositiveElement methodsFor: 'arithmetic' stamp: 'len 6/23/2016 04:46'!
+reciprocal
+	^ self class on: value inverse! !
+
 !ElementaryTensorOld methodsFor: 'arithmetic' stamp: 'len 11/9/2015 03:09'!
 * anObject
 	| answer |
@@ -19556,9 +19799,9 @@ asHomomorphism
 fixedPoints
 	^ self space select: [:each| self isFixedPoint: each]! !
 
-!GroupAction methodsFor: 'accessing' stamp: 'len 5/18/2016 21:30'!
+!GroupAction methodsFor: 'accessing' stamp: 'len 6/22/2016 07:36'!
 fixedPointsOf: anElement
-	"Dual idea to the stabilizer. The fixes points are the orbits of size 1."
+	"Dual idea to the stabilizer. The fixed points are the orbits of size 1."
 	^ self space select: [:each| (self value: {anElement. each}) = each]! !
 
 !GroupAction methodsFor: 'accessing' stamp: 'len 2/13/2016 08:02'!
@@ -19582,24 +19825,25 @@ kernel
 	^ self group select: [:g| self space allSatisfy: [:x| (self value: {g.x}) = x]]
 	"^ self asHomomorphism kernel"! !
 
-!GroupAction methodsFor: 'accessing' stamp: 'len 5/2/2016 06:57'!
+!GroupAction methodsFor: 'accessing' stamp: 'len 6/22/2016 07:34'!
 orbitOf: aPoint
 	"Answer the set of points to which aPoint can be 'moved' by elements of the group G.
 	All the orbits form a partition of the underlying set (space) X, and it's written X/G and called the quotient of the action. In geometric situations it may be called the orbit space, and in algebraic situations it is called the space of coinvariants (in contrast with the space of invariants, that are the fixed points)."
-	| answer generators op |
+	| answer generators |
 	(generators _ self group generators) isNil
 		ifTrue:
 			[answer _ Set new.
 			self group do: [:each| answer add: (self value: {each. aPoint})].
 			^ answer].
-	self flag: #fix. "wtf?"
+	^ (SchreierSims new action: self; generators: generators; calculateOrbitOf: aPoint) first
+	"self flag: #fix. ""wtf?""
 	op _ self group operation.
 	answer _ Set with: aPoint.
 	[| changed |
 	changed _ false.
 	answer copy do: [:h| generators do: [:g| answer add: (self value: {op value: {h.g}. aPoint}) ifAbsent: [changed _ true]]].
 	changed] whileTrue.
-	^ answer! !
+	^ answer"! !
 
 !GroupAction methodsFor: 'accessing' stamp: 'len 5/16/2016 05:28'!
 orbits
@@ -31627,44 +31871,84 @@ example3
 on: aVectorSpace roots: aCollection
 	^ self new ambient: aVectorSpace; roots: aCollection! !
 
-!SchreierSims methodsFor: 'as yet unclassified' stamp: 'len 5/5/2016 08:29'!
+!SchreierSims methodsFor: 'as yet unclassified' stamp: 'len 6/22/2016 07:31'!
+action: aGroupAction
+	action _ aGroupAction! !
+
+!SchreierSims methodsFor: 'as yet unclassified' stamp: 'len 6/23/2016 05:03'!
+base
+	^ self notYetImplemented! !
+
+!SchreierSims methodsFor: 'as yet unclassified' stamp: 'len 6/23/2016 05:47'!
 calculateOrbitOf: aPoint
-	| vector w orbit queue |
-	vector _ SparseTuple new.
-	w _ SparseTuple new.
+	| v w orbit queue |
+	v _ Dictionary new. "Schreier vector"
+	w _ Dictionary new. "backward pointers"
 	orbit _ Set with: aPoint.
-	vector at: aPoint put: -1.
-	w at: aPoint put: -1.
+	v at: aPoint put: nil. "-1"
+	w at: aPoint put: nil. "-1"
 	queue _ OrderedCollection with: aPoint.
 	[| a |
 	a _ queue removeFirst.
 	1 to: generators size do: [:i|
-		| x |
-		x _ self value: {generators at: i. a}.
+		| x g |
+		x _ action value: {g _ generators at: i. a}.
 		(orbit includes: x)
 			ifFalse:
 				[orbit add: x.
 				queue add: x.
-				vector at: x put: i.
+				v at: x put: g.
 				w at: x put: a]].
 	queue isEmpty] whileFalse.
-	^ {orbit. vector. w}! !
+	^ {orbit. v. w}! !
 
-!SchreierSims methodsFor: 'as yet unclassified' stamp: 'len 4/30/2016 06:47'!
+!SchreierSims methodsFor: 'as yet unclassified' stamp: 'len 6/22/2016 16:32'!
+generators: aCollection
+	generators _ aCollection asArray! !
+
+!SchreierSims methodsFor: 'as yet unclassified' stamp: 'len 6/22/2016 16:35'!
 schreierVectorOf: aPoint
 	| vector orbit queue |
-	vector _ SparseTuple new.
+	vector _ Dictionary new.
 	orbit _ Set with: aPoint.
-	vector at: aPoint put: -1.
+	vector at: aPoint put: nil.
 	queue _ OrderedCollection with: aPoint.
 	[| a |
 	a _ queue removeFirst.
 	1 to: generators size do: [:i|
-		| x |
-		x _ self value: {generators at: i. a}.
-		(orbit includes: x) ifFalse: [orbit add: x. queue add: x. vector at: x put: i]].
+		| x g |
+		x _ action value: {g _ generators at: i. a}.
+		(orbit includes: x) ifFalse: [orbit add: x. queue add: x. vector at: x put: g]].
 	queue isEmpty] whileFalse.
 	^ vector! !
+
+!SchreierSims methodsFor: 'as yet unclassified' stamp: 'len 6/23/2016 06:16'!
+strip: g base: B orbits: orbits u: u
+	| g` |
+	g` _ g.
+	B withIndexDo: [:b :i| | b` |
+		b` _ g` value: b.
+		((orbits at: i) includes: b`)
+			ifFalse: [^ {g`. i}].
+		g` _ g` @ ((u at: i) value: b`) inverse].
+	^ {g`. B size + 1}! !
+
+!SchreierSims methodsFor: 'as yet unclassified' stamp: 'len 6/23/2016 05:03'!
+strongGeneratingSet
+	^ self notYetImplemented! !
+
+!SchreierSims methodsFor: 'as yet unclassified' stamp: 'len 6/23/2016 06:07'!
+trace: aPoint v: v w: w
+	"Trace the Schreier spanning tree (v,w) for the orbit containing aPoint.
+	Answer u(aPoint), where u is a representative function."
+	| alpha u |
+	u _ Permutation new.
+	alpha _ aPoint.
+	[(v at: alpha) notNil]
+		whileTrue:
+			[u _ (v at: alpha) * u.
+			alpha _ w at: alpha].
+	^ u! !
 
 !SemialgebraicCell methodsFor: 'comparing' stamp: 'len 3/18/2016 06:43'!
 = anObject
@@ -32933,6 +33217,28 @@ testUnion
 	| G |
 	G _ Digraph unordered addEdges: {#a -> #b. #b -> #c. #d -> #e. #x -> #b}; yourself.
 	self assert: (G union: G transposed) = G symmetric! !
+
+!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 6/22/2016 07:24'!
+testActionOrbitOf
+	| g1 g2 g3 G |
+	g1 _ Permutation cycles: #((1 3 2) (4 6 5)).
+	g2 _ Permutation cycles: #((1 2 3) (4 5 6)).
+	g3 _ Permutation cycles: #((7 8)).
+	G _ PermutationGroup on: (1 to: 8) generators: {g1. g2. g3}.
+	self assert: (G action orbitOf: 1) = #(1 2 3) asSet.
+	self assert: (G action orbitOf: 4) = #(4 6 5) asSet.
+	self assert: (G action orbitOf: 7) = #(7 8) asSet! !
+
+!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 6/22/2016 07:28'!
+testActionStabilizerOf
+	| g1 g2 g3 id G |
+	g1 _ Permutation cycles: #((1 3 2) (4 6 5)).
+	g2 _ Permutation cycles: #((1 2 3) (4 5 6)).
+	g3 _ Permutation cycles: #((7 8)).
+	id _ Permutation new.
+	G _ PermutationGroup on: (1 to: 8) generators: {g1. g2. g3}.
+	self assert: (G action stabilizerOf: 1) asSet = {id. g3} asSet.
+	self assert: (G action stabilizerOf: 7) asSet = {id. g1. g2} asSet! !
 
 !GroupTest methodsFor: 'as yet unclassified' stamp: 'len 5/2/2016 02:12'!
 testAlternatingIsSymmetricCommutator
