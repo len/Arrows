@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2794] on 24 June 2016 at 6:01:43.818479 am'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 24 June 2016 at 9:57:05.578779 pm'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 97!
+!provides: 'Mathematics' 1 101!
 !classDefinition: #AbelianGroupPresentation category: #'Mathematics-Free'!
 Object subclass: #AbelianGroupPresentation
 	instanceVariableNames: 'generators relators'
@@ -3201,16 +3201,6 @@ TestCase subclass: #SimplicesTest
 SimplicesTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #UnivariatePolynomialDivision category: #'Mathematics-ETC'!
-Object subclass: #UnivariatePolynomialDivision
-	instanceVariableNames: 'dividend divisor quotient remainder'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-ETC'!
-!classDefinition: 'UnivariatePolynomialDivision class' category: #'Mathematics-ETC'!
-UnivariatePolynomialDivision class
-	instanceVariableNames: ''!
-
 !classDefinition: #Word category: #'Mathematics-Free'!
 Object subclass: #Word
 	instanceVariableNames: 'syllables'
@@ -4180,12 +4170,12 @@ Output: an extended characteristic set (or ascending chain, or Wu characteristic
 isInfinity
 	^ false! !
 
-!StrikeFont class methodsFor: '*mathematics-character shapes' stamp: 'len 6/16/2016 21:26'!
+!StrikeFont class methodsFor: '*mathematics-character shapes' stamp: 'len 6/24/2016 21:49'!
 buildMathFont
 	"
 	StrikeFont buildMathFont
 	"
-	#(9 10 11 12 14) do: [:pointSize| self buildMathFont: pointSize]! !
+	#(5 6 7 8 9 10 11 12 14 17 22) do: [:pointSize| self buildMathFont: pointSize]! !
 
 !StrikeFont class methodsFor: '*mathematics-character shapes' stamp: 'len 6/17/2016 03:09'!
 buildMathFont: pointSize
@@ -6898,7 +6888,7 @@ initialize
 	super initialize.
 	roots := Set new! !
 
-!RootedDigraph methodsFor: 'testing' stamp: 'len 5/7/2016 04:11'!
+!RootedDigraph methodsFor: 'testing' stamp: 'len 6/24/2016 17:11'!
 isCyclic
 	"Is the graph cyclic?"
 
@@ -6913,7 +6903,7 @@ isCyclic
 	frontier remove: next.
 	next neighborsDo: 
 			[:neighbor | 
-			(remaining removeOne: neighbor) = 0 ifTrue: [frontier add: neighbor]]] 
+			(remaining remove: neighbor) = 0 ifTrue: [frontier add: neighbor]]] 
 			repeat! !
 
 !RootedDigraph methodsFor: 'testing' stamp: 'timestamp) (no'!
@@ -6952,7 +6942,7 @@ markDo: aBlock
 					ifFalse: [todo add: child]].
 		todo remove: node]! !
 
-!RootedDigraph methodsFor: 'iterating' stamp: 'len 5/7/2016 04:11'!
+!RootedDigraph methodsFor: 'iterating' stamp: 'len 6/24/2016 17:11'!
 preOrderDo: aBlock 
 	"Walk the graph, evaluating aBlock for each node.  Evaluate each node before its successors, but in no particular order when there is a choice.
 	pre: self isCyclic not"
@@ -6969,7 +6959,7 @@ preOrderDo: aBlock
 	frontier remove: next.
 	next neighborsDo: 
 			[:neighbor | 
-			(remaining removeOne: neighbor) = 0 ifTrue: [frontier add: neighbor]]] 
+			(remaining remove: neighbor) = 0 ifTrue: [frontier add: neighbor]]] 
 			repeat! !
 
 !RootedDigraph methodsFor: 'operations' stamp: 'timestamp) (no'!
@@ -8625,12 +8615,12 @@ frontier: f bag: remaining
 	frontier := f.
 	bag := remaining! !
 
-!DAGFrontier methodsFor: 'advancing' stamp: 'timestamp) (no'!
+!DAGFrontier methodsFor: 'advancing' stamp: 'len 6/24/2016 17:11'!
 remove: frontierObject
 	frontier remove: frontierObject.
 	frontierObject neighborsDo:
 		[ :neighbor |
-			(bag removeOne: neighbor) = 0
+			(bag remove: neighbor) = 0
 				ifTrue: [frontier add: neighbor]].
 	^frontierObject! !
 
@@ -12797,10 +12787,6 @@ asUnivariateIn: anIndeterminate
 	anIndeterminate = self indeterminates last ifFalse: [^ self error: 'bad indeterminate'].
 	^ self asUnivariate! !
 
-!Polynomials methodsFor: 'morphisms' stamp: 'len 4/11/2016 23:41'!
-asVectorSpace
-	^ PolynomialVectorSpace new polynomialRing: self! !
-
 !Polynomials methodsFor: 'morphisms' stamp: 'len 6/11/2016 22:30'!
 asVectorSpaceMaxDegree: n
 	^ PolynomialSpace new polynomials: self; degree: n! !
@@ -15465,10 +15451,6 @@ shortName
 special
 	^ SpecialAffineGroup on: space! !
 
-!GeneralAffineGroup methodsFor: 'morphisms' stamp: 'len 2/12/2016 18:28'!
-stabilizerOf: anAffineMap
-	^ self notYetImplemented! !
-
 !SpecialAffineGroup methodsFor: 'testing' stamp: 'len 2/12/2016 18:55'!
 includes: anAffineMap
 	^ anAffineMap domain = space and: [anAffineMap isEndomorphism and: [anAffineMap matrix determinant = space scalars one]]! !
@@ -15795,6 +15777,10 @@ on: aVectorSpace
 affine
 	^ GeneralAffineGroup on: space asAffineSpace! !
 
+!GeneralLinearGroup methodsFor: 'accessing' stamp: 'len 6/24/2016 08:44'!
+ambient
+	^ self! !
+
 !GeneralLinearGroup methodsFor: 'morphisms' stamp: 'len 4/17/2016 06:58'!
 asMatrixGroup
 	^ GeneralLinearMatrixGroup on: space coordinateSpace! !
@@ -16081,6 +16067,10 @@ on: aTuples
 	(anObject isKindOf: MatrixGroup) ifTrue: [^ space >= anObject space].
 	^ super >= anObject! !
 
+!GeneralLinearMatrixGroup methodsFor: 'accessing' stamp: 'len 6/24/2016 08:44'!
+ambient
+	^ self! !
+
 !GeneralLinearMatrixGroup methodsFor: 'morphisms' stamp: 'len 2/13/2016 07:42'!
 center
 	^ ScalarMatrixGroup on: space! !
@@ -16365,6 +16355,10 @@ size
 	(anObject isKindOf: PermutationGroup)
 		ifTrue: [^ self space >= anObject space].
 	^ super >= anObject! !
+
+!SymmetricGroup methodsFor: 'accessing' stamp: 'len 6/24/2016 08:44'!
+ambient
+	^ self! !
 
 !SymmetricGroup methodsFor: 'elements' stamp: 'len 4/19/2016 20:50'!
 atRandom: aRandom
@@ -21331,9 +21325,9 @@ automorphism
 automorphism: aFieldAutomorphism
 	automorphism _ aFieldAutomorphism! !
 
-!SemilinearMap methodsFor: 'accessing' stamp: 'len 2/9/2016 00:07'!
+!SemilinearMap methodsFor: 'accessing' stamp: 'len 6/24/2016 21:36'!
 bitSize
-	^ linearMap bitSize! !
+	^ matrix bitSize! !
 
 !SemilinearMap methodsFor: 'accessing' stamp: 'len 2/9/2016 00:02'!
 codomain
@@ -26446,10 +26440,11 @@ mouseButton1Down: aMouseButtonEvent localPosition: localEventPosition
 	super mouseButton1Down: aMouseButtonEvent localPosition: localEventPosition.
 	firstMousePosition _ lastMousePosition _ localEventPosition! !
 
-!FunctionPlotMorph methodsFor: 'event handling' stamp: 'len 4/27/2016 21:56'!
+!FunctionPlotMorph methodsFor: 'event handling' stamp: 'len 6/24/2016 21:36'!
 mouseButton1Up: aMouseButtonEvent localPosition: localEventPosition
 	super mouseButton1Up: aMouseButtonEvent localPosition: localEventPosition.
-	mouseMoveEventHandler _ nil! !
+	self flag: #fix.
+"	mouseMoveEventHandler _ nil"! !
 
 !FunctionPlotMorph methodsFor: 'event handling' stamp: 'len 4/27/2016 22:16'!
 mouseMove: aMouseMoveEvent localPosition: localEventPosition
@@ -26889,17 +26884,6 @@ accumulate
 accumulated
 
 	^self copy accumulate! !
-
-!HistogramMorph methodsFor: 'building' stamp: 'jmv 6/4/2015 10:53'!
-accumulatedAsMap
-
-	| answer |
-	answer _ UnitaryMonotonicMap new: tallies size+1.
-	answer at: 1 put: 0.0.
-	1 to: tallies size do: [ :i |
-		answer at: i+1 put: (answer at: i) + (tallies at: i) ].
-	answer /= answer last.
-	^answer! !
 
 !HistogramMorph methodsFor: 'building' stamp: 'jmv 4/6/2015 11:37'!
 addValue: aNumber
@@ -29339,9 +29323,8 @@ coefficientAt: aMonomial
 coefficientAt: aMonomial add: value
 	^ coefficients at: aMonomial add: value! !
 
-!SparsePolynomial methodsFor: 'accessing coefficients' stamp: 'len 3/22/2016 23:28'!
+!SparsePolynomial methodsFor: 'accessing coefficients' stamp: 'len 6/24/2016 21:35'!
 coefficientAt: aMonomial put: value
-	leadingMonomial _ nil.
 	^ coefficients at: aMonomial put: value! !
 
 !SparsePolynomial methodsFor: 'accessing coefficients' stamp: 'len 3/22/2016 23:33'!
@@ -32022,10 +32005,10 @@ root: aPoint generators: anArray action: aGroupAction
 stabilizer
 	^ self notYetImplemented! !
 
-!SchreierTree methodsFor: 'as yet unclassified' stamp: 'len 6/24/2016 02:57'!
+!SchreierTree methodsFor: 'as yet unclassified' stamp: 'len 6/24/2016 09:21'!
 trace: aPoint
 	"Trace the Schreier spanning tree (v,w) for the orbit containing aPoint.
-	Answer u(aPoint), where u is a representative function."
+	Answer the transversal u(aPoint), where u is a representative function."
 	| alpha u |
 	u _ Permutation new.
 	alpha _ aPoint.
@@ -35511,34 +35494,6 @@ testSimplexNegation
 	S _ Simplex points: {1. 2. 3. 4}.
 	self assert: S negated negated = S.
 	self assert: S negated ~= S! !
-
-!UnivariatePolynomialDivision methodsFor: 'accessing' stamp: 'len 11/3/2015 05:14'!
-quotient
-	^ quotient! !
-
-!UnivariatePolynomialDivision methodsFor: 'accessing' stamp: 'len 11/3/2015 05:15'!
-remainder
-	^ remainder! !
-
-!UnivariatePolynomialDivision methodsFor: 'running' stamp: 'len 12/13/2015 00:19'!
-run
-	| t |
-	quotient _ divisor - divisor.
-	remainder _ dividend.
-	[remainder isZero not and: [ remainder degree >= divisor degree ]]
-		whileTrue:
-			[t _ UnivariatePolynomial coefficient: remainder leadingCoefficient / divisor leadingCoefficient degree: remainder degree - divisor degree scalars: dividend scalars.
-			quotient _ quotient + t.
-			remainder _ remainder - (t * divisor)]! !
-
-!UnivariatePolynomialDivision methodsFor: 'initialization' stamp: 'len 11/3/2015 05:14'!
-setDividend: aPolynomial divisor: anotherPolynomial
-	dividend _ aPolynomial.
-	divisor _ anotherPolynomial! !
-
-!UnivariatePolynomialDivision class methodsFor: 'as yet unclassified' stamp: 'len 11/3/2015 05:16'!
-divide: aPolynomial by: anotherPolynomial
-	^ self basicNew setDividend: aPolynomial divisor: anotherPolynomial! !
 
 !Word methodsFor: 'arithmetic' stamp: 'len 3/3/2016 05:25'!
 * aWord
