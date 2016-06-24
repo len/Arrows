@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2794] on 23 June 2016 at 7:05:57.636168 am'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2794] on 24 June 2016 at 6:01:43.818479 am'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 96!
+!provides: 'Mathematics' 1 97!
 !classDefinition: #AbelianGroupPresentation category: #'Mathematics-Free'!
 Object subclass: #AbelianGroupPresentation
 	instanceVariableNames: 'generators relators'
@@ -1439,16 +1439,6 @@ Group subclass: #SemidirectProductGroup
 	category: 'Mathematics-Groups'!
 !classDefinition: 'SemidirectProductGroup class' category: #'Mathematics-Groups'!
 SemidirectProductGroup class
-	instanceVariableNames: ''!
-
-!classDefinition: #SignedPermutationGroup category: #'Mathematics-Lie'!
-Group subclass: #SignedPermutationGroup
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Lie'!
-!classDefinition: 'SignedPermutationGroup class' category: #'Mathematics-Lie'!
-SignedPermutationGroup class
 	instanceVariableNames: ''!
 
 !classDefinition: #UnitsGroup category: #'Mathematics-Kernel-Domains'!
@@ -2953,7 +2943,7 @@ SchreierSims class
 
 !classDefinition: #SchreierTree category: #'Mathematics-Groups'!
 Object subclass: #SchreierTree
-	instanceVariableNames: 'v w'
+	instanceVariableNames: 'v w orbit root generators action'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Groups'!
@@ -3637,7 +3627,12 @@ My instances are the special Euclidean group SE(n) or E*(n), a subgroup of the E
 !LinearGroup commentStamp: '<historical>' prior: 0!
 My instances are linear groups whose elements are endomorphisms of vector spaces, i.e. invertible linear transformations (LinearMaps) from a vector space into itself.
 
-These groups act naturally on the vector space: g^x |-> g(x).!
+These groups act naturally on the domain vector space by the action g^v |-> g(v).!
+
+!MatrixGroup commentStamp: '<historical>' prior: 0!
+My instances are matrix groups, i.e. subgroups of the general linear matrix group GL(n,K) of nxn invertible matrices with coefficients in the field K.
+
+These groups act naturally on the vector space K^n by the action A^v |-> A*v. (Or the corresponding left action).!
 
 !GeneralLinearMatrixGroup commentStamp: '<historical>' prior: 0!
 My instances are GL(V), the General Linear Group of a vector space V. This is the group of automorphisms (invertible linear transformations from the space to itself).!
@@ -3646,7 +3641,9 @@ My instances are GL(V), the General Linear Group of a vector space V. This is th
 My instances are SL(V), the Special Linear Group of a vector space V. This is the group of unimodular automorphisms (transformations of determinant 1).!
 
 !PermutationGroup commentStamp: '<historical>' prior: 0!
-My instances are permutation groups, i.e. subgroups of the symmetric group Sym(X) of permutations on the elements of a set X (which we call 'space').!
+My instances are permutation groups, i.e. subgroups of the symmetric group Sym(X) of permutations on the elements of a set X (which we call 'space').
+
+Elements of the space X are refered to as 'points', while the the word 'element' is used for elements of the group itself (permutations). The group acts naturally on the space X by the action p^x |-> p(x).!
 
 !ProjectiveSubspace commentStamp: '<historical>' prior: 0!
 My instances are projective spaces P(V) on a given finite-dimensional K-vector space V. Their elements are the subspaces of V, in particular the points of P(V) are the subspaces of dimension 1 of V, or <v> where v ~= 0.
@@ -4371,9 +4368,9 @@ adaptToQuaternion: rcvr andSend: selector
 asQuaternion
 	^ Quaternion a: self b: self zero c: self zero d: self zero! !
 
-!Number methodsFor: '*mathematics' stamp: 'len 11/19/2015 18:43'!
+!Number methodsFor: '*mathematics' stamp: 'len 6/23/2016 23:27'!
 conjugated
-	"Answer the complex conjugation of the receiver."
+	"Answer the complex conjugate of the receiver."
 
 	^ self! !
 
@@ -8979,6 +8976,11 @@ default
 	"Answer true if the receiver is isomorphic to the argument."
 	^ self = aDomain "not much more we can test at this abstract level, subclasses reimplement ~"! !
 
+!Domain methodsFor: 'morphisms' stamp: 'len 6/24/2016 05:31'!
+ aDomain
+	"This is a convenience method for doing coproducts. Subclasses can reimplement it to mean something different from the coproduct in order to match customary notation."
+	^ self coproduct: aDomain! !
+
 !Domain methodsFor: 'iterating' stamp: 'len 12/18/2015 19:24'!
 accumulate: maximumNumberOfElements
 	| answer |
@@ -8997,6 +8999,10 @@ allSatisfy: aBlock
 anySatisfy: aBlock
 	self do: [:each| (aBlock value: each) ifTrue: [^ true]].
 	^ false! !
+
+!Domain methodsFor: 'morphisms' stamp: 'len 6/24/2016 05:34'!
+apply: aMorphism
+	^ self collect: aMorphism! !
 
 !Domain methodsFor: 'converting' stamp: 'len 4/25/2016 20:58'!
 asSet
@@ -9116,6 +9122,12 @@ id
 !Domain methodsFor: 'testing' stamp: 'len 6/23/2016 07:04'!
 includes: anElement
 	^ self elements includes: anElement! !
+
+!Domain methodsFor: 'testing' stamp: 'len 6/24/2016 05:59'!
+includesAllOf: aCollection 
+	"Answer whether all the elements of aCollection are in the receiver."
+	aCollection do: [:each| (self includes: each) ifFalse: [^ false]].
+	^ true! !
 
 !Domain methodsFor: 'initialization' stamp: 'len 11/23/2015 03:03'!
 initialize
@@ -9289,11 +9301,6 @@ size
 species
 	"Answer a class appropiate for the subobjects (sub-structures) of the receiver."
 	^ self class! !
-
-!Domain methodsFor: 'morphisms' stamp: 'len 6/13/2016 00:31'!
- aDomain
-	"This is a convenience method for doing coproducts. Subclasses can reimplement it to mean something different from the coproduct in order to match customary notation."
-	^ self coproduct: aDomain! !
 
 !Domain class methodsFor: 'instance creation' stamp: 'len 11/23/2015 05:05'!
 new
@@ -10477,6 +10484,20 @@ size
 !DirectSumSpace class methodsFor: 'accessing-private' stamp: 'len 11/10/2015 22:58'!
 components: anArray
 	^ self new components: anArray! !
+
+!HomogeneousPolynomialSpace methodsFor: 'as yet unclassified' stamp: 'len 6/24/2016 05:47'!
+dimension
+	| n |
+	n _ polynomials rank.
+	^ degree + n - 1 choose: degree! !
+
+!HomogeneousPolynomialSpace methodsFor: 'as yet unclassified' stamp: 'len 6/24/2016 05:51'!
+e: anInteger
+	^ self ordering e: anInteger degree: degree! !
+
+!HomogeneousPolynomialSpace methodsFor: 'as yet unclassified' stamp: 'len 6/24/2016 05:51'!
+ordering
+	^ polynomials ordering! !
 
 !LieAlgebra methodsFor: 'as yet unclassified' stamp: 'len 5/23/2016 03:57'!
 bracket
@@ -13410,9 +13431,9 @@ printOn: aStream
 product: anAffineSubspace
 	^ self class on: (direction product: anAffineSubspace direction)! !
 
-!AffineSubspace methodsFor: 'morphisms' stamp: 'len 6/11/2016 05:46'!
+!AffineSubspace methodsFor: 'morphisms' stamp: 'len 6/24/2016 05:32'!
 projectiveClosure
-	^ (direction  (ScalarSpace over: self scalars)) projective! !
+	^ (direction  (ScalarSpace over: self scalars)) projective! !
 
 !AffineSubspace methodsFor: 'accessing' stamp: 'len 6/4/2016 04:18'!
 representative
@@ -14957,11 +14978,12 @@ derivedSeriesDo: aBlock
 directProduct: aGroup
 	^ DirectProductGroup components: {self. aGroup}! !
 
-!Group methodsFor: 'iterating' stamp: 'len 5/1/2016 23:59'!
+!Group methodsFor: 'iterating' stamp: 'len 6/24/2016 03:16'!
 do: aBlock
 	| current previous op |
 	properties at: #elements ifPresent: [:aCollection| aCollection do: aBlock. ^ self].
 	"iterate all elements from the generators:"
+	self flag: #fix. "this is too expensive"
 	op _ self operation.
 	current _ self generators asSet.
 	current do: aBlock.
@@ -16172,6 +16194,14 @@ isCommutative
 shortName
 	^ 'SZ'! !
 
+!PermutationGroup methodsFor: 'comparing' stamp: 'len 6/24/2016 05:59'!
+= anObject
+	self == anObject ifTrue: [^ true].
+	(anObject isKindOf: PermutationGroup)
+		ifFalse: [^ super = anObject].
+	self generators asSet = anObject generators asSet ifFalse: [^ false].
+	^ self size = anObject size and: [self includesAllOf: anObject generators]! !
+
 !PermutationGroup methodsFor: 'accessing' stamp: 'len 5/6/2016 02:49'!
 action
 	"Answer the natural action that sends (s, x) to s(x)."
@@ -16202,6 +16232,20 @@ asMatrixGroup
 	generators _ self generators collect: [:g| Z2**(n@n) evaluating: [:i :j| (g at: i) = j ifTrue: [1] ifFalse: [0]]].
 	^ (MatrixGroup on: Z2**n) generators: generators! !
 
+!PermutationGroup methodsFor: 'private' stamp: 'len 6/24/2016 03:30'!
+computeSize
+	"Schreier-Sims algorithm."
+	| G answer |
+	G _ self.
+	answer _ 1.
+	space do: [:b| | tree |
+		G isTrivial ifTrue: [^ answer].
+		tree _ SchreierTree root: b generators: G generators action: G action.
+		answer _ answer * tree orbit size.
+		G _ tree stabilizer].
+	self error: 'what?'.
+	^ answer! !
+
 !PermutationGroup methodsFor: 'accessing' stamp: 'len 2/16/2016 05:48'!
 degree
 	^ self space size! !
@@ -16216,6 +16260,14 @@ isSubgroupOfAn
 	20 timesRepeat:
 		[random next isPurple ifTrue: [^ true]].
 	^ false! !
+
+!PermutationGroup methodsFor: 'testing' stamp: 'len 6/24/2016 05:55'!
+isTrivial
+	^ self generators allSatisfy: [:each| each = self identity]! !
+
+!PermutationGroup methodsFor: 'accessing' stamp: 'len 6/24/2016 03:17'!
+size
+	^ properties at: #size ifAbsentPut: [self computeSize]! !
 
 !PermutationGroup methodsFor: 'accessing' stamp: 'len 2/15/2016 21:52'!
 space
@@ -19239,9 +19291,9 @@ hash
 identity
 	^ Identity on: self domain! !
 
-!Function methodsFor: 'accessing' stamp: 'len 2/5/2016 20:15'!
+!Function methodsFor: 'accessing' stamp: 'len 6/24/2016 05:30'!
 image
-	^ properties at: #image! !
+	^ properties at: #image ifAbsent: [self domain apply: self]! !
 
 !Function methodsFor: 'initialization' stamp: 'len 4/18/2016 23:42'!
 initialize
@@ -19369,9 +19421,9 @@ section
 species
 	^ Function! !
 
-!Function methodsFor: 'operations' stamp: 'len 12/3/2015 20:38'!
+!Function methodsFor: 'operations' stamp: 'len 6/23/2016 20:36'!
 squared
-	^ self ** 2! !
+	^ self * self! !
 
 !Function methodsFor: 'evaluating' stamp: 'len 4/27/2016 06:18'!
 value: anObject
@@ -19825,7 +19877,7 @@ kernel
 	^ self group select: [:g| self space allSatisfy: [:x| (self value: {g.x}) = x]]
 	"^ self asHomomorphism kernel"! !
 
-!GroupAction methodsFor: 'accessing' stamp: 'len 6/22/2016 07:34'!
+!GroupAction methodsFor: 'accessing' stamp: 'len 6/24/2016 03:08'!
 orbitOf: aPoint
 	"Answer the set of points to which aPoint can be 'moved' by elements of the group G.
 	All the orbits form a partition of the underlying set (space) X, and it's written X/G and called the quotient of the action. In geometric situations it may be called the orbit space, and in algebraic situations it is called the space of coinvariants (in contrast with the space of invariants, that are the fixed points)."
@@ -19835,15 +19887,7 @@ orbitOf: aPoint
 			[answer _ Set new.
 			self group do: [:each| answer add: (self value: {each. aPoint})].
 			^ answer].
-	^ (SchreierSims new action: self; generators: generators; calculateOrbitOf: aPoint) first
-	"self flag: #fix. ""wtf?""
-	op _ self group operation.
-	answer _ Set with: aPoint.
-	[| changed |
-	changed _ false.
-	answer copy do: [:h| generators do: [:g| answer add: (self value: {op value: {h.g}. aPoint}) ifAbsent: [changed _ true]]].
-	changed] whileTrue.
-	^ answer"! !
+	^ (SchreierTree root: aPoint generators: generators action: self) orbit! !
 
 !GroupAction methodsFor: 'accessing' stamp: 'len 5/16/2016 05:28'!
 orbits
@@ -20192,6 +20236,10 @@ geometricMultiplicityAt: anEigenvalue
 hash
 	^ self domain hash - self codomain hash! !
 
+!LinearMap methodsFor: 'accessing' stamp: 'len 6/23/2016 20:38'!
+identity
+	^ self class from: domainBasis to: codomainBasis matrix: matrix species identity! !
+
 !LinearMap methodsFor: 'operations' stamp: 'len 2/22/2016 00:54'!
 image
 	^ properties at: #image ifAbsentPut: [self codomain span: (self domainBasis collect: [:each| self value: each])]! !
@@ -20298,18 +20346,15 @@ nullity
 	"Answer the dimension of the kernel of the receiver."
 	^ matrix numberOfRows - matrix rank! !
 
-!LinearMap methodsFor: 'printing' stamp: 'len 5/23/2016 04:40'!
+!LinearMap methodsFor: 'printing' stamp: 'len 6/23/2016 23:15'!
 printOn: aStream
 	self isIdentity ifTrue: [aStream nextPutAll: 'id'. ^ self].
 	self negated isIdentity ifTrue: [aStream nextPutAll: '-id'. ^ self].
 	aStream nextPut: $(.
-	self domainBasis
-		do: [:each| aStream print: (self codomain ambient dual map value: (self value: each))]
+	matrix rows
+		do: [:each| aStream print: (domainBasis dual vectorAt: each)]
 		separatedBy: [aStream nextPutAll: ', '].
-	aStream nextPut: $)
-"	aStream nextPutAll: self class name.
-	self domainBasis do: [:each|
-		aStream space; print: each; nextPutAll: '->'; print: (self value: each)]"! !
+	aStream nextPut: $)! !
 
 !LinearMap methodsFor: 'operations' stamp: 'len 6/10/2016 06:02'!
 projective
@@ -20445,10 +20490,11 @@ from: aLinearBasis matrix: aMatrix
 
 	^ self @ aPermutation! !
 
-!Permutation methodsFor: 'comparing' stamp: 'len 2/12/2016 07:09'!
+!Permutation methodsFor: 'comparing' stamp: 'len 6/23/2016 07:37'!
 = anObject
 	(anObject isKindOf: Permutation) ifFalse: [^ super = anObject].
 	self size = anObject size ifFalse: [^ false].
+"	self map = anObject map ifFalse: [^ false]. this could give the wrong result"
 	self changesDo: [:each| (anObject at: each) = (self at: each) ifFalse: [^ false]].
 	^ true! !
 
@@ -20542,11 +20588,11 @@ even
 
 	^ self sign = 1! !
 
-!Permutation methodsFor: 'comparing' stamp: 'len 2/12/2016 07:09'!
+!Permutation methodsFor: 'comparing' stamp: 'len 6/23/2016 07:17'!
 hash
 	| answer |
 	answer _ self size.
-	self changesDo: [:each| answer _ answer + each hash].
+	self changesDo: [:each| answer _ answer hashMultiply + each hash].
 	^ answer! !
 
 !Permutation methodsFor: 'arithmetic' stamp: 'len 10/7/1998 04:32'!
@@ -20667,12 +20713,6 @@ size
 !Permutation methodsFor: 'private' stamp: 'len 9/29/97 19:14'!
 species
 	^ Permutation! !
-
-!Permutation methodsFor: 'arithmetic' stamp: 'len 10/2/97 19:04'!
-squared
-	"Answer the square of the receiver."
-
-	^ self * self! !
 
 !Permutation methodsFor: 'accessing' stamp: 'len 9/30/97 00:11'!
 transpositions
@@ -23175,6 +23215,14 @@ printOn: aStream
 		c ~= c one ifTrue: [self printCoefficient: c on: aStream].
 		aStream print: each]! !
 
+!LinearCombination methodsFor: 'accessing' stamp: 'len 6/23/2016 20:54'!
+value
+	| answer |
+	answer _ nil.
+	coefficients keysAndValuesDo: [:key :value|
+		answer _ answer ifNil: [key * value] ifNotNil: [key * value + answer]].
+	^ answer! !
+
 !LinearCombination class methodsFor: 'instance creation' stamp: 'len 2/28/2016 04:30'!
 coefficients: aDictionary
 	^ self new coefficients: aDictionary! !
@@ -24415,10 +24463,12 @@ adaptToNumber: aNumber andSend: selector
 	selector == #* ifFalse: [^ super adaptToNumber: aNumber andSend: selector].
 	^ self collect: [:each| aNumber * each]! !
 
-!Matrix methodsFor: 'operations' stamp: 'len 12/31/2015 05:55'!
+!Matrix methodsFor: 'operations' stamp: 'len 6/23/2016 23:26'!
 adjoint
 	"Answer the conjugate transpose A* of the receiver A (also called Hermitian conjugate, bedaggered matrix, adjoint matrix or transjugate)."
-	^ self transposed conjugated! !
+	self species scalars isReal ifTrue: [^ self transposed].
+	self species scalars isComplex ifTrue: [^ self transposed conjugated].
+	^ self error: 'not real or complex matrix'! !
 
 !Matrix methodsFor: 'operations' stamp: 'len 12/22/2015 21:12'!
 adjugate
@@ -24593,7 +24643,7 @@ comatrix
 	"Answer the co-matrix (or cofactor matrix) of the receiver, i.e. the matrix '(a{ij})' where 'a{ij}' is the cofactor 'ij'."
 	^ self adjugate transposed! !
 
-!Matrix methodsFor: 'arithmetic' stamp: 'len 12/31/2015 05:40'!
+!Matrix methodsFor: 'arithmetic' stamp: 'len 6/23/2016 23:27'!
 conjugated
 	^ self collect: [:each| each conjugated]! !
 
@@ -24720,9 +24770,9 @@ isDiagonal
 isFullRank
 	^ self rank = (self numberOfColumns min: self numberOfRows)! !
 
-!Matrix methodsFor: 'testing' stamp: 'len 12/31/2015 05:48'!
+!Matrix methodsFor: 'testing' stamp: 'len 6/23/2016 23:25'!
 isHermitian
-	"Answer true if the receiver is Hermitian (or self-adjoint."
+	"Answer true if the receiver is Hermitian (or self-adjoint)."
 	^ self = self adjoint! !
 
 !Matrix methodsFor: 'testing' stamp: 'len 12/11/2015 00:32'!
@@ -26122,7 +26172,7 @@ containsPoint: aPoint
 direction
 	^ (self targetPoint - self sourcePoint) normalized! !
 
-!EdgeMorph methodsFor: 'drawing' stamp: 'len 5/4/2016 06:57'!
+!EdgeMorph methodsFor: 'drawing' stamp: 'len 6/23/2016 23:35'!
 drawOn: aCanvas 
 	"frameRectangle: self bounds color: Color black;"
 	| sourcePoint targetPoint direction |
@@ -31879,7 +31929,7 @@ action: aGroupAction
 base
 	^ self notYetImplemented! !
 
-!SchreierSims methodsFor: 'as yet unclassified' stamp: 'len 6/23/2016 05:47'!
+!SchreierSims methodsFor: 'as yet unclassified' stamp: 'len 6/24/2016 03:02'!
 calculateOrbitOf: aPoint
 	| v w orbit queue |
 	v _ Dictionary new. "Schreier vector"
@@ -31892,7 +31942,8 @@ calculateOrbitOf: aPoint
 	a _ queue removeFirst.
 	1 to: generators size do: [:i|
 		| x g |
-		x _ action value: {g _ generators at: i. a}.
+		g _ generators at: i.
+		x _ action value: {g. a}.
 		(orbit includes: x)
 			ifFalse:
 				[orbit add: x.
@@ -31900,7 +31951,7 @@ calculateOrbitOf: aPoint
 				v at: x put: g.
 				w at: x put: a]].
 	queue isEmpty] whileFalse.
-	^ {orbit. v. w}! !
+	^ {orbit. SchreierTree v: v w: w}! !
 
 !SchreierSims methodsFor: 'as yet unclassified' stamp: 'len 6/22/2016 16:32'!
 generators: aCollection
@@ -31937,8 +31988,42 @@ strip: g base: B orbits: orbits u: u
 strongGeneratingSet
 	^ self notYetImplemented! !
 
-!SchreierSims methodsFor: 'as yet unclassified' stamp: 'len 6/23/2016 06:07'!
-trace: aPoint v: v w: w
+!SchreierTree methodsFor: 'as yet unclassified' stamp: 'len 6/24/2016 03:07'!
+orbit
+	^ orbit! !
+
+!SchreierTree methodsFor: 'as yet unclassified' stamp: 'len 6/24/2016 03:06'!
+root: aPoint generators: anArray action: aGroupAction
+	| queue |
+	root _ aPoint.
+	generators _ anArray.
+	action _ aGroupAction.
+	v _ Dictionary new. "Schreier vector"
+	w _ Dictionary new. "backward pointers"
+	orbit _ Set with: aPoint.
+	v at: aPoint put: nil. "-1"
+	w at: aPoint put: nil. "-1"
+	queue _ OrderedCollection with: aPoint.
+	[| a |
+	a _ queue removeFirst.
+	1 to: generators size do: [:i|
+		| x g |
+		g _ generators at: i.
+		x _ action value: {g. a}.
+		(orbit includes: x)
+			ifFalse:
+				[orbit add: x.
+				queue add: x.
+				v at: x put: g.
+				w at: x put: a]].
+	queue isEmpty] whileFalse! !
+
+!SchreierTree methodsFor: 'as yet unclassified' stamp: 'len 6/24/2016 03:14'!
+stabilizer
+	^ self notYetImplemented! !
+
+!SchreierTree methodsFor: 'as yet unclassified' stamp: 'len 6/24/2016 02:57'!
+trace: aPoint
 	"Trace the Schreier spanning tree (v,w) for the orbit containing aPoint.
 	Answer u(aPoint), where u is a representative function."
 	| alpha u |
@@ -31949,6 +32034,10 @@ trace: aPoint v: v w: w
 			[u _ (v at: alpha) * u.
 			alpha _ w at: alpha].
 	^ u! !
+
+!SchreierTree class methodsFor: 'as yet unclassified' stamp: 'len 6/24/2016 03:07'!
+root: aPoint generators: anArray action: aGroupAction
+	^ self new root: aPoint generators: anArray action: aGroupAction! !
 
 !SemialgebraicCell methodsFor: 'comparing' stamp: 'len 3/18/2016 06:43'!
 = anObject
