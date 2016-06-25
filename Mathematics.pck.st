@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 24 June 2016 at 9:57:05.578779 pm'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 25 June 2016 at 7:00:21.88225 am'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 101!
+!provides: 'Mathematics' 1 102!
 !classDefinition: #AbelianGroupPresentation category: #'Mathematics-Free'!
 Object subclass: #AbelianGroupPresentation
 	instanceVariableNames: 'generators relators'
@@ -1651,63 +1651,63 @@ Domain subclass: #Spectrum
 Spectrum class
 	instanceVariableNames: ''!
 
-!classDefinition: #ElementAdapter category: #'Mathematics-Groups-Elements'!
+!classDefinition: #ElementAdapter category: #'Mathematics-Kernel-Elements'!
 Object subclass: #ElementAdapter
 	instanceVariableNames: 'value'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Groups-Elements'!
-!classDefinition: 'ElementAdapter class' category: #'Mathematics-Groups-Elements'!
+	category: 'Mathematics-Kernel-Elements'!
+!classDefinition: 'ElementAdapter class' category: #'Mathematics-Kernel-Elements'!
 ElementAdapter class
 	instanceVariableNames: ''!
 
-!classDefinition: #GroupElement category: #'Mathematics-Groups-Elements'!
+!classDefinition: #GroupElement category: #'Mathematics-Kernel-Elements'!
 ElementAdapter subclass: #GroupElement
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Groups-Elements'!
-!classDefinition: 'GroupElement class' category: #'Mathematics-Groups-Elements'!
+	category: 'Mathematics-Kernel-Elements'!
+!classDefinition: 'GroupElement class' category: #'Mathematics-Kernel-Elements'!
 GroupElement class
 	instanceVariableNames: ''!
 
-!classDefinition: #GroupAdditiveElement category: #'Mathematics-Groups-Elements'!
+!classDefinition: #GroupAdditiveElement category: #'Mathematics-Kernel-Elements'!
 GroupElement subclass: #GroupAdditiveElement
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Groups-Elements'!
-!classDefinition: 'GroupAdditiveElement class' category: #'Mathematics-Groups-Elements'!
+	category: 'Mathematics-Kernel-Elements'!
+!classDefinition: 'GroupAdditiveElement class' category: #'Mathematics-Kernel-Elements'!
 GroupAdditiveElement class
 	instanceVariableNames: ''!
 
-!classDefinition: #GroupCompositiveElement category: #'Mathematics-Groups-Elements'!
+!classDefinition: #GroupCompositiveElement category: #'Mathematics-Kernel-Elements'!
 GroupElement subclass: #GroupCompositiveElement
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Groups-Elements'!
-!classDefinition: 'GroupCompositiveElement class' category: #'Mathematics-Groups-Elements'!
+	category: 'Mathematics-Kernel-Elements'!
+!classDefinition: 'GroupCompositiveElement class' category: #'Mathematics-Kernel-Elements'!
 GroupCompositiveElement class
 	instanceVariableNames: ''!
 
-!classDefinition: #RingElement category: #'Mathematics-Groups-Elements'!
+!classDefinition: #RingElement category: #'Mathematics-Kernel-Elements'!
 ElementAdapter subclass: #RingElement
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Groups-Elements'!
-!classDefinition: 'RingElement class' category: #'Mathematics-Groups-Elements'!
+	category: 'Mathematics-Kernel-Elements'!
+!classDefinition: 'RingElement class' category: #'Mathematics-Kernel-Elements'!
 RingElement class
 	instanceVariableNames: ''!
 
-!classDefinition: #RingCompositiveElement category: #'Mathematics-Groups-Elements'!
+!classDefinition: #RingCompositiveElement category: #'Mathematics-Kernel-Elements'!
 RingElement subclass: #RingCompositiveElement
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Groups-Elements'!
-!classDefinition: 'RingCompositiveElement class' category: #'Mathematics-Groups-Elements'!
+	category: 'Mathematics-Kernel-Elements'!
+!classDefinition: 'RingCompositiveElement class' category: #'Mathematics-Kernel-Elements'!
 RingCompositiveElement class
 	instanceVariableNames: ''!
 
@@ -3451,8 +3451,8 @@ Structure:
  coefficients	Sequence -- the coefficients of the Dirichlet series
 !
 
-!Domain commentStamp: 'len 4/23/2016 01:07' prior: 0!
-My instances represent mathematical structures, such as groups, rings, fields, vector spaces, topologies, etc.
+!Domain commentStamp: '<historical>' prior: 0!
+My instances are mathematical structures, such as groups, rings, fields, vector spaces, topologies, etc.
 
 Domains are connected by morphisms (arrows, functions), which in turn can be viewed as elements of other mathematical structures (domains). See Function.
 From the category theory point of view, domains and functions are the exactly objects and morphisms (arrows) of categories.
@@ -5739,20 +5739,20 @@ addEdges: aCollection
 addNode: aGraphNode
 	^ nodes add: aGraphNode! !
 
-!Digraph methodsFor: 'operations' stamp: 'len 2/17/2016 06:01'!
+!Digraph methodsFor: 'operations' stamp: 'len 6/25/2016 05:56'!
 adjacencyMatrix
 	"Answer the adjacency matrix of the receiver, assuming that the vertices are the integers {1,..,n}.
 	If the graph is labelled, use the labels as entries in the matrix."
 	| n matrix |
 	n _ self order.
-	matrix _ (Rationals new ** (n@n)) zero.
+	matrix _ (Integers new ** (n@n)) zero.
 	self edgesAndLabelsDo: [:edge :label| matrix at: edge key value at: edge value value put: (label ifNil: [1])].
 	^ matrix! !
 
-!Digraph methodsFor: 'operations' stamp: 'len 5/5/2016 23:47'!
+!Digraph methodsFor: 'operations' stamp: 'len 6/25/2016 05:56'!
 adjacencyMatrix: vertices
 	"Answer the adjacency matrix of the receiver, using the vertex ordering given by the argument."
-	^ Rationals new ** (vertices size @ vertices size) evaluating: [:i :j| (self hasEdgeFrom: (vertices at: i) to: (vertices at: j)) ifTrue: [1] ifFalse: [0]]! !
+	^ Integers new ** (vertices size @ vertices size) evaluating: [:i :j| (self hasEdgeFrom: (vertices at: i) to: (vertices at: j)) ifTrue: [1] ifFalse: [0]]! !
 
 !Digraph methodsFor: 'accessing' stamp: 'len 2/23/2016 23:01'!
 anyOne
@@ -11074,15 +11074,15 @@ e: anInteger
 includes: anObject
 	^ (anObject isKindOf: AffineSubspace) and: [anObject direction = subspace]! !
 
-!QuotientSpace methodsFor: 'printing' stamp: 'len 5/23/2016 04:29'!
+!QuotientSpace methodsFor: 'printing' stamp: 'len 6/25/2016 01:41'!
 printOn: aStream
-	(subspace ambient printString allSatisfy: [:each|each isAlphaNumeric])
-		ifTrue: [aStream print: subspace ambient]
-		ifFalse: [aStream nextPut: $(; print: subspace ambient; nextPut: $)].
+	(subspace ambient printString includes: $/)
+		ifTrue: [aStream nextPut: $(; print: subspace ambient; nextPut: $)]
+		ifFalse: [aStream print: subspace ambient].
 	aStream nextPut: $/.
-	(subspace printString allSatisfy: [:each|each isAlphaNumeric])
-		ifTrue: [aStream print: subspace]
-		ifFalse: [aStream nextPut: $(; print: subspace; nextPut: $)]! !
+	(subspace printString includes: $/)
+		ifTrue: [aStream nextPut: $(; print: subspace; nextPut: $)]
+		ifFalse: [aStream print: subspace]! !
 
 !QuotientSpace methodsFor: 'morphisms' stamp: 'len 6/4/2016 03:58'!
 project: aVector
@@ -12275,15 +12275,12 @@ modulus
 one
 	^ self project: ideal ambient one! !
 
-!QuotientRing methodsFor: 'printing' stamp: 'len 5/23/2016 04:22'!
+!QuotientRing methodsFor: 'printing' stamp: 'len 6/25/2016 01:39'!
 printOn: aStream
-	(ideal ambient printString allSatisfy: [:each|each isAlphaNumeric])
-		ifTrue: [aStream print: ideal ambient]
-		ifFalse: [aStream nextPut: $(; print: ideal ambient; nextPut: $)].
-	aStream nextPut: $/; print: ideal
-"	(ideal printString allSatisfy: [:each|each isAlphaNumeric])
-		ifTrue: [ aStream print: ideal ]
-		ifFalse: [ aStream nextPut: $(; print: ideal; nextPut: $)]"! !
+	(ideal ambient printString includes: $/)
+		ifTrue: [aStream nextPut: $(; print: ideal ambient; nextPut: $)]
+		ifFalse: [aStream print: ideal ambient].
+	aStream nextPut: $/; print: ideal! !
 
 !QuotientRing methodsFor: 'morphisms' stamp: 'len 4/18/2016 04:52'!
 project: anElement
@@ -14347,10 +14344,10 @@ length
 	"Answer the length of a codeword."
 	^ self ambient dimension! !
 
-!LinearCode methodsFor: 'accessing' stamp: 'len 4/3/2016 23:07'!
+!LinearCode methodsFor: 'accessing' stamp: 'len 6/25/2016 03:33'!
 minimumDistance
 	"Answer the minimum Hamming distance between codewords.
-	If the minimum distance id d, the code can correct (d-1)/2 errors."
+	If the minimum distance is d, the code can correct (d-1)/2 errors."
 	^ properties at: #minimumDistance ifAbsentPut: [self computeMinimumDistance]! !
 
 !LinearCode methodsFor: 'accessing' stamp: 'len 5/12/2016 10:12'!
@@ -14432,6 +14429,16 @@ weightEnumerator
 	weights _ self weightDistribution.
 	weights asSet do: [:i| answer _ x ** (n - i) * (y ** i) * (weights occurrencesOf: i) + answer].
 	^ answer! !
+
+!LinearCode class methodsFor: 'examples' stamp: 'len 6/25/2016 06:57'!
+G24
+	"This is the extended binary Golary code [24,12,8].
+	Its generator matrix is I|A, where I is the 12x12 identity matrix and A is the complement of the adjacency matrix of the icosahedron."
+	| F A |
+	F _ Integers new mod: 2.
+	A _ Graph icosahedron adjacencyMatrix: (1 to: 12).
+	A _ A apply: (A scalars -> F evaluating: [:x| x = 0 ifTrue: [F one] ifFalse: [F zero]]).
+	^ self matrix: A species identity | A! !
 
 !LinearCode class methodsFor: 'examples' stamp: 'len 3/31/2016 01:45'!
 H7
@@ -14597,10 +14604,10 @@ G23
 generator: aPolynomial
 	^ self new: aPolynomial degree generator: aPolynomial! !
 
-!PolynomialCode class methodsFor: 'instance creation' stamp: 'len 5/3/2016 08:13'!
+!PolynomialCode class methodsFor: 'instance creation' stamp: 'len 6/25/2016 06:05'!
 new: n generator: aPolynomial
 	| V subspace |
-	V _ aPolynomial species asVectorSpaceMaxDegree: n.
+	V _ aPolynomial species asVectorSpaceMaxDegree: n - 1.
 	subspace _ V span: (V select: [:f| aPolynomial | f]).
 	^ (self subspace: subspace) generator: aPolynomial! !
 
@@ -14612,9 +14619,9 @@ copyEmpty
 operation
 	^ properties at: #operation ifAbsentPut: [(Function from: (self, self) to: self evaluating: [:each| each first * each second]) name: '*']! !
 
-!Magma methodsFor: 'private' stamp: 'len 4/23/2016 03:36'!
+!Magma methodsFor: 'private' stamp: 'len 6/24/2016 22:29'!
 operation: aFunction
-	properties at: #operation put: (aFunction as: (self,self) -> self)! !
+	properties at: #operation put: aFunction! !
 
 !Loop methodsFor: 'accessing' stamp: 'len 4/23/2016 03:38'!
 identity
@@ -14996,9 +15003,9 @@ generator
 generators
 	^ properties at: #generators ifAbsent: []! !
 
-!Group methodsFor: 'private' stamp: 'len 5/1/2016 22:46'!
+!Group methodsFor: 'private' stamp: 'len 6/24/2016 22:31'!
 generators: aCollection
-	properties at: #generators put: aCollection! !
+	properties at: #generators put: aCollection asArray! !
 
 !Group methodsFor: 'morphisms-endo' stamp: 'len 5/1/2016 22:59'!
 hypoabelianization
@@ -15263,12 +15270,12 @@ upperCentralSeriesQuotientsDo: aBlock
 	Z` _ self trivial.
 	self upperCentralSeriesDo: [:Z| aBlock value: Z / Z`. Z` _ Z]! !
 
-!Group class methodsFor: 'instance creation' stamp: 'len 5/1/2016 23:43'!
+!Group class methodsFor: 'instance creation' stamp: 'len 6/24/2016 22:28'!
 additive
 	| G |
 	G _ self new.
-	G operation: ((Function from: (G, G) to: G evaluating: [:each| each first + each second]) name: '+').
-	G inverseMap: (Function from: G to: G evaluating: [:x| x negated]).
+	G operation: G additiveOperation.
+	G inverseMap: G additiveInverseMap.
 	^ G! !
 
 !Group class methodsFor: 'example' stamp: 'len 5/14/2016 00:33'!
@@ -15276,12 +15283,12 @@ alternating: aCollection
 	"Answer the group of alternate permutations of aCollection."
 	^ ((self symmetric: aCollection) select: [:each| each even]) name: 'Alt' bold, '(', aCollection printText, ')'! !
 
-!Group class methodsFor: 'instance creation' stamp: 'len 5/1/2016 23:44'!
+!Group class methodsFor: 'instance creation' stamp: 'len 6/24/2016 22:27'!
 compositive
 	| G |
 	G _ self new.
-	G operation: ((Function from: (G, G) to: G evaluating: [:each| each first @ each second]) name: '@').
-	G inverseMap: (Function from: G to: G evaluating: [:x| x inverse]).
+	G operation: G compositiveOperation.
+	G inverseMap: G compositiveInverseMap.
 	^ G! !
 
 !Group class methodsFor: 'example' stamp: 'len 5/13/2016 08:54'!
@@ -15293,12 +15300,12 @@ integersMod: anInteger
 	"Answer the cyclic group of integers modulo anInteger."
 	^ self additive elements: ((0 to: anInteger-1) collect: [:x| x % anInteger]) asSet; name: 'Z' bold, anInteger printString sub! !
 
-!Group class methodsFor: 'instance creation' stamp: 'len 5/1/2016 23:44'!
+!Group class methodsFor: 'instance creation' stamp: 'len 6/24/2016 22:28'!
 multiplicative
 	| G |
 	G _ self new.
-	G operation: ((Function from: (G, G) to: G evaluating: [:each| each first * each second]) name: '*').
-	G inverseMap: (Function from: G to: G evaluating: [:x| x reciprocal]).
+	G operation: G multiplicativeOperation.
+	G inverseMap: G multiplicativeInverseMap.
 	^ G! !
 
 !Group class methodsFor: 'example' stamp: 'len 5/14/2016 02:45'!
@@ -16184,12 +16191,12 @@ isCommutative
 shortName
 	^ 'SZ'! !
 
-!PermutationGroup methodsFor: 'comparing' stamp: 'len 6/24/2016 05:59'!
+!PermutationGroup methodsFor: 'comparing' stamp: 'len 6/25/2016 02:08'!
 = anObject
 	self == anObject ifTrue: [^ true].
 	(anObject isKindOf: PermutationGroup)
 		ifFalse: [^ super = anObject].
-	self generators asSet = anObject generators asSet ifFalse: [^ false].
+	self generators asSet = anObject generators asSet ifTrue: [^ true].
 	^ self size = anObject size and: [self includesAllOf: anObject generators]! !
 
 !PermutationGroup methodsFor: 'accessing' stamp: 'len 5/6/2016 02:49'!
@@ -16475,12 +16482,16 @@ do: aBlock
 identity
 	^ self project: base identity! !
 
-!QuotientGroup methodsFor: 'printing' stamp: 'len 4/21/2016 00:16'!
+!QuotientGroup methodsFor: 'printing' stamp: 'len 6/25/2016 01:42'!
 printOn: aStream
-	(base printString allSatisfy: [:each|each isAlphaNumeric])
-		ifTrue: [aStream print: base]
-		ifFalse: [aStream nextPut: $(; print: base; nextPut: $)].
-	aStream nextPut: $/; print: subgroup! !
+	(base printString includes: $/)
+		ifTrue: [aStream nextPut: $(; print: base; nextPut: $)]
+		ifFalse: [aStream print: base].
+	aStream nextPut: $/.
+	(subgroup printString includes: $/)
+		ifTrue: [aStream nextPut: $(; print: subgroup; nextPut: $)]
+		ifFalse: [aStream print: subgroup].
+! !
 
 !QuotientGroup methodsFor: 'morphisms' stamp: 'len 2/13/2016 06:54'!
 project: anElement
@@ -24469,11 +24480,11 @@ adjugate
 	"Answer the adjugate matrix (or classical adjoint matrix) of the receiver. This is the matrix such that multiplicated at the left by the receiver equals the scalar matrix with the determinant of the receiver in the diagonal."
 	^ (self characteristicPolynomial shift: -1) negated value: self! !
 
-!Matrix methodsFor: 'operations' stamp: 'len 12/10/2015 04:49'!
+!Matrix methodsFor: 'operations' stamp: 'len 6/25/2016 05:51'!
 apply: aMorphism
 	"Apply a homomorphism to the coefficients of the receiver."
 	aMorphism domain = self species scalars
-		ifTrue: [^ (aMorphism codomain ** (self species numberOfRows @ self species numberOfColumns)) evaluating: [:i :j| aMorphism value: (self at: i at: j)]].
+		ifTrue: [^ (self species over: aMorphism codomain) evaluating: [:i :j| aMorphism value: (self at: i at: j)]].
 	^ DomainError signal! !
 
 !Matrix methodsFor: 'converting' stamp: 'len 12/23/2015 05:12'!
@@ -28468,31 +28479,31 @@ primitive
 	content _ self content.
 	^ self coefficientsApply: [:each| each / content]! !
 
-!Polynomial methodsFor: 'printing' stamp: 'len 5/30/2016 04:06'!
+!Polynomial methodsFor: 'printing' stamp: 'len 6/25/2016 01:45'!
 printCoefficient: coefficient on: aStream
 	"Print the coefficient of the receiver on the stream aStream."
 
 	| c |
-	(c _ coefficient) printString first = $-
+	((c _ coefficient) printString first = $- "or: [coefficient isNumber and: [coefficient negative]]")
 		ifTrue: [aStream nextPut: $-. c _ c negated].
 	(c printString allSatisfy: [:each| each isAlphaNumeric or: ['{}()/' includes: each]])
 		ifTrue: [aStream print: c]
 		ifFalse: [aStream nextPut: $(; print: c; nextPut: $)]! !
 
-!Polynomial methodsFor: 'printing' stamp: 'len 5/20/2016 20:47'!
+!Polynomial methodsFor: 'printing' stamp: 'len 6/25/2016 01:46'!
 printOn: aStream
 	| monomials leadingMonomial c |
 	self isBroken ifTrue: [aStream nextPutAll: '(broken) '].
 	self isConstant ifTrue: [aStream print: self leadingCoefficient. ^ self].
 	monomials _ self monomialsSorted.
 	c _ self coefficientAt: (leadingMonomial _ monomials first).
-	c printString first = $-
+	(c printString first = $- or: [c isNumber and: [c negative]])
 		ifTrue: [c _ c negated. aStream nextPut: $-].
 	(c ~= c one or: [leadingMonomial degree = 0]) ifTrue: [self printCoefficient: c on: aStream].
 	leadingMonomial degree > 0 ifTrue: [leadingMonomial printOn: aStream as: self species].
 	monomials allButFirst do: [:m|
 		c _ self coefficientAt: m.
-		c printString first = $-
+		(c printString first = $- or: [c isNumber and: [c negative]])
 			ifTrue: [aStream nextPutAll: ' - '. c _ c negated]
 			ifFalse: [aStream nextPutAll: ' + '].
 		(c ~= c one or: [m degree = 0]) ifTrue: [self printCoefficient: c on: aStream].
@@ -32018,7 +32029,7 @@ trace: aPoint
 			alpha _ w at: alpha].
 	^ u! !
 
-!SchreierTree class methodsFor: 'as yet unclassified' stamp: 'len 6/24/2016 03:07'!
+!SchreierTree class methodsFor: 'instance creation' stamp: 'len 6/24/2016 03:07'!
 root: aPoint generators: anArray action: aGroupAction
 	^ self new root: aPoint generators: anArray action: aGroupAction! !
 
@@ -33079,15 +33090,25 @@ testSum
 	sqrt5 _ AlgebraicNumber sqrt: 5.
 	self assert: sqrt3 + sqrt5 + sqrt2 - sqrt3 - sqrt5 = sqrt2! !
 
-!CodesTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2016 04:47'!
+!CodesTest methodsFor: 'as yet unclassified' stamp: 'len 6/25/2016 05:24'!
 testDual
-	| C |
-	C _ LinearCode subspace: ((Field GF: 2) ** 5 span: {(0,0,0,0,0) % 2. (1,1,1,1,1) % 2}).
+	| F C |
+	F _ Field GF: 2.
+	C _ LinearCode subspace: (F**5 span: {(0,0,0,0,0) % 2. (1,1,1,1,1) % 2}).
 	self assert: C dual size = (C ambient size / C size).
 	C dual do: [:v|
 		"check each codeword of the dual has an even number of 1's, because it must be perpendicular to 11111 (and 00000 of course)."
 		self assert: (v count: [:each| each = (1 % 2)]) even]
 ! !
+
+!CodesTest methodsFor: 'as yet unclassified' stamp: 'len 6/25/2016 06:22'!
+testGolay24
+	| C W x y |
+	C _ LinearCode G24.
+	W _ C weightEnumerator.
+	x _ W species x.
+	y _ W species y.
+	self assert: W = (x**24 + (x**16*(y**8)*759) + (x**12*(y**12)*2576) + (x**8*(y**16)*759) + (y**24)) "typo in neil's video 22:20"! !
 
 !CodesTest methodsFor: 'as yet unclassified' stamp: 'len 5/12/2016 09:47'!
 testHamming743
@@ -33098,9 +33119,10 @@ testHamming743
 	self assert: H7 weightDistribution = #(0 3 3 3 3 3 3 3 4 4 4 4 4 4 4 7) asBag.
 	self assert: H7 dual minimumDistance = 4! !
 
-!CodesTest methodsFor: 'as yet unclassified' stamp: 'len 4/7/2016 19:34'!
+!CodesTest methodsFor: 'as yet unclassified' stamp: 'len 6/25/2016 05:33'!
 testMacWilliamsTheorem
 	"(MacWilliams, 1962) the theorem relates the weight enumerator of a linear code to the weight enumerator of its dual."
+	"From youtube, Neil Sloane 'Error Correcting Codes, Group Theory and Invariant Theory, Part 1' 20:30."
 	| C W Wperp x y |
 	C _ LinearCode H7.
 	W _ C weightEnumerator.
@@ -33116,13 +33138,15 @@ testParityCheckMatrix
 	M _ H7 parityCheckMatrix.
 	self assert: (M * H7 atRandom) isZero! !
 
-!CodesTest methodsFor: 'as yet unclassified' stamp: 'len 4/3/2016 23:28'!
+!CodesTest methodsFor: 'as yet unclassified' stamp: 'len 6/25/2016 03:31'!
 testSelfDual
-	"test other examples of self-dual codes: H8, G24"
-	| C |
-	C _ LinearCode subspace: ((Field GF: 2) ** 2 span: {(0,0) % 2. (1,1) % 2}).
+	| F C |
+	F _ Field GF: 2.
+	"{00,11} is the smallest self-dual code"
+	C _ LinearCode subspace: (F**2 span: {(0,0) % 2. (1,1) % 2}).
 	self assert: C isSelfDual.
-	self assert: C isSelfOrthogonal! !
+	self assert: C isSelfOrthogonal.
+	"TODO: test other examples of self-dual codes: H8, G24"! !
 
 !CodesTest methodsFor: 'as yet unclassified' stamp: 'len 5/12/2016 07:28'!
 testSingletonBound: C
@@ -33143,16 +33167,29 @@ testSingletonBoundTrtracode
 	"Any linear [n,k,d] code satisfies k + d <= n + 1."
 	self testSingletonBound: LinearCode tetracode! !
 
-!CodesTest methodsFor: 'as yet unclassified' stamp: 'len 4/4/2016 03:27'!
+!CodesTest methodsFor: 'as yet unclassified' stamp: 'len 6/25/2016 03:33'!
 testTetracode
-	| C P x y |
-	C _ LinearCode subspace: ((Field GF: 3) ** 4 span: {(1,1,1,0) % 3. (0,1,2,1) % 3}).
+	| F C P x y |
+	F _ Field GF: 3.
+	C _ LinearCode subspace: (F**4 span: {(1,1,1,0) % 3. (0,1,2,1) % 3}).
 	self assert: C isSelfDual.
 	self assert: C minimumDistance = 3.
 	P _ Integers new polynomialsIn: #(x y).
 	x _ P x.
 	y _ P y.
 	self assert: C weightEnumerator = (x**4 + (x*(y**3)*8))! !
+
+!CodesTest methodsFor: 'as yet unclassified' stamp: 'len 6/25/2016 05:32'!
+testWeightEnumerator
+	"From youtube, Neil Sloane 'error correcting codes, group theory and invariant theory part 1' 19:30."
+	| F C w x y |
+	F _ Field GF: 2.
+	C _ LinearCode subspace: (F**5 span: {(0,0,0,0,0) % 2. (1,1,1,1,1) % 2}).
+	w _ C weightEnumerator.
+	x _ w species x.
+	y _ w species y.
+	self assert: w = (x**5 + (y**5)).
+	self assert: C dual weightEnumerator = (x**5 + (x**3*(y**2)*10) + (y**4*x*5))! !
 
 !GraphTest methodsFor: 'as yet unclassified' stamp: 'len 5/25/2016 03:46'!
 testComplement
@@ -35449,14 +35486,6 @@ testRecursiveSum
 	c` _ Sequence evaluating: [:i| (a at: i) + (b at: i)].
 	self assert: (c isKindOf: LinearRecursiveSequence).
 	self assert: (c equals: c` upTo: 20)! !
-
-!SimplicesTest methodsFor: 'nil' stamp: 'len 6/11/2016 22:52'!
-testSimplecialCmplex
-	| S |
-	S _ SimplicialComplex newFrom: {{1. 2. 3}. {2. 4}. {3. 4}. {5}}.
-	self assert: (S faces: 2) asSet size = 1.
-	self assert: (S faces: 1) asSet size = 5.
-	self assert: (S faces: 0) asSet size = 5! !
 
 !SimplicesTest methodsFor: 'as yet unclassified' stamp: 'len 6/12/2016 21:08'!
 testSimplecialComplex
