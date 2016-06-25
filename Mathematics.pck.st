@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 25 June 2016 at 7:00:21.88225 am'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 25 June 2016 at 8:29:35.767845 am'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 102!
+!provides: 'Mathematics' 1 103!
 !classDefinition: #AbelianGroupPresentation category: #'Mathematics-Free'!
 Object subclass: #AbelianGroupPresentation
 	instanceVariableNames: 'generators relators'
@@ -14430,9 +14430,37 @@ weightEnumerator
 	weights asSet do: [:i| answer _ x ** (n - i) * (y ** i) * (weights occurrencesOf: i) + answer].
 	^ answer! !
 
-!LinearCode class methodsFor: 'examples' stamp: 'len 6/25/2016 06:57'!
+!LinearCode class methodsFor: 'examples' stamp: 'len 6/25/2016 08:05'!
+G11
+	"Answer the perfect ternary Golary code [11,6,5]."
+	| F A |
+	F _ Field GF: 3.
+	A _ (F ** (6@11)) new.
+	A addRow: (1,0,0,0,0,0, 1,1,1,1,1) % 3.
+	A addRow: (0,1,0,0,0,0, 0,1,2,2,1) % 3.
+	A addRow: (0,0,1,0,0,0, 1,0,1,2,2) % 3.
+	A addRow: (0,0,0,1,0,0, 2,1,0,1,2) % 3.
+	A addRow: (0,0,0,0,1,0, 2,2,1,0,1) % 3.
+	A addRow: (0,0,0,0,0,1, 1,2,2,1,0) % 3.
+	^ self matrix: A! !
+
+!LinearCode class methodsFor: 'examples' stamp: 'len 6/25/2016 08:05'!
+G12
+	"Answer the extended ternary Golary code [12,6,6]."
+	| F A |
+	F _ Field GF: 3.
+	A _ (F ** (6@11)) new.
+	A addRow: (1,0,0,0,0,0, 0,1,1,1,1,1) % 3.
+	A addRow: (0,1,0,0,0,0, 1,0,1,2,2,1) % 3.
+	A addRow: (0,0,1,0,0,0, 1,1,0,1,2,2) % 3.
+	A addRow: (0,0,0,1,0,0, 1,2,1,0,1,2) % 3.
+	A addRow: (0,0,0,0,1,0, 1,2,2,1,0,1) % 3.
+	A addRow: (0,0,0,0,0,1, 1,1,2,2,1,0) % 3.
+	^ self matrix: A! !
+
+!LinearCode class methodsFor: 'examples' stamp: 'len 6/25/2016 08:06'!
 G24
-	"This is the extended binary Golary code [24,12,8].
+	"Answer the extended binary Golary code [24,12,8].
 	Its generator matrix is I|A, where I is the 12x12 identity matrix and A is the complement of the adjacency matrix of the icosahedron."
 	| F A |
 	F _ Integers new mod: 2.
