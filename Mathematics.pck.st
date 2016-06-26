@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 25 June 2016 at 8:29:35.767845 am'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 26 June 2016 at 5:18:49.395298 am'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 103!
+!provides: 'Mathematics' 1 106!
 !classDefinition: #AbelianGroupPresentation category: #'Mathematics-Free'!
 Object subclass: #AbelianGroupPresentation
 	instanceVariableNames: 'generators relators'
@@ -2931,23 +2931,23 @@ Object subclass: #RootSystem
 RootSystem class
 	instanceVariableNames: ''!
 
-!classDefinition: #SchreierSims category: #'Mathematics-Groups'!
+!classDefinition: #SchreierSims category: #'Mathematics-Groups-Algorithms'!
 Object subclass: #SchreierSims
-	instanceVariableNames: 'action generators'
+	instanceVariableNames: 'action generators base strongGeneratingSet order'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Groups'!
-!classDefinition: 'SchreierSims class' category: #'Mathematics-Groups'!
+	category: 'Mathematics-Groups-Algorithms'!
+!classDefinition: 'SchreierSims class' category: #'Mathematics-Groups-Algorithms'!
 SchreierSims class
 	instanceVariableNames: ''!
 
-!classDefinition: #SchreierTree category: #'Mathematics-Groups'!
+!classDefinition: #SchreierTree category: #'Mathematics-Groups-Algorithms'!
 Object subclass: #SchreierTree
 	instanceVariableNames: 'v w orbit root generators action'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Groups'!
-!classDefinition: 'SchreierTree class' category: #'Mathematics-Groups'!
+	category: 'Mathematics-Groups-Algorithms'!
+!classDefinition: 'SchreierTree class' category: #'Mathematics-Groups-Algorithms'!
 SchreierTree class
 	instanceVariableNames: ''!
 
@@ -3429,7 +3429,9 @@ My instances are (bounded) chain complexes.
 
 A chain complex (Ci,di) is a sequence of abelian groups or modules conected by homomorphisms (called boundary operators or differentials) di:Ai->A{i-1} such that the composition between any two consecutive maps is zero: di @ d{i+1} = 0.
 
-A bounded chain complex is one where only a finite number of Ci are not {0}.!
+A bounded chain complex is one where only a finite number of Ci are not {0}.
+
+Chain complexes form a cateogory with chain maps as morphisms.!
 
 !Dijkstra commentStamp: '<historical>' prior: 0!
 I am Dijkstra's algorithm for computing distances and shortest paths in a graph from a fixed starting node (source). If the graph is edge-labeled, the labels are used as weights.
@@ -3740,7 +3742,9 @@ My instances are bilinear forms, i.e. functions from VxV to F where V is a vecto
 !
 
 !ChainMap commentStamp: '<historical>' prior: 0!
-A chain map between two chain complexes (Ci,di) and (C`i,d`i) is a sequence of homomorphisms fi:Ci->C`i that commutes with the boundary operator in the two complexes: d`i @ fi = f{i-1} @ di. They send cycles to cycles and boundaries to boundaries, and this descends to a map in homology fi* : Hi -> H`i.!
+A chain map between two chain complexes (Ci,di) and (C`i,d`i) is a sequence of homomorphisms fi:Ci->C`i that commutes with the boundary operator in the two complexes: d`i @ fi = f{i-1} @ di. They send cycles to cycles and boundaries to boundaries, and this descends to a map in homology fi* : Hi -> H`i.
+
+Chain maps are morphisms in the category of chain complexes.!
 
 !LinearMap commentStamp: '<historical>' prior: 0!
 My instances are linear transformations between spaces of finite dimension, i.e. morphisms of vector spaces.
@@ -4158,6 +4162,9 @@ My instances are components of a Cell Complex of R^n, where n>1. For the case n=
 
 Each SemialgebraicCell in R^n is represented as the extension of a SemialgebraicCell or SemialgebraicInterval in R^{n-1}.
 !
+
+!Simplex commentStamp: '<historical>' prior: 0!
+My instances are (abstract) n-simplices.!
 
 !WuRittProcess commentStamp: 'len 12/30/2015 05:43' prior: 0!
 I'm the Ritt-Wu process.
@@ -13074,6 +13081,10 @@ modPrime: anObject
 		at: #isField put: true.
 	^ answer! !
 
+!Polynomials methodsFor: 'elements' stamp: 'len 6/26/2016 01:42'!
+monomial: aMonomial
+	^ self coefficient: self scalars one monomial: aMonomial! !
+
 !Polynomials methodsFor: 'elements' stamp: 'len 11/26/2015 03:17'!
 new
 	^ self polynomialClass new species: self! !
@@ -14251,10 +14262,13 @@ automorphisms
 	The automorphisms of a code and it's dual are the same."
 	self notYetImplemented! !
 
-!LinearCode methodsFor: 'accessing' stamp: 'len 1/1/2016 00:10'!
+!LinearCode methodsFor: 'accessing' stamp: 'len 6/26/2016 01:43'!
 completeWeightEnumerator
-	"Answer the complete (Hamming) weight enumerator function (or polynomial in n variables)."
-	self notYetImplemented! !
+	"Answer the complete weight enumerator polynomial."
+	| F P |
+	F _ self ambient scalars elements asArray.
+	P _ Integers new polynomialsIn: F size.
+	^ self elements sum: [:each| P monomial: (Monomial exponents: (F collect: [:i| each occurrencesOf: i]))]! !
 
 !LinearCode methodsFor: 'private' stamp: 'len 2/15/2016 20:35'!
 computeMinimumDistance
@@ -14417,9 +14431,9 @@ weightDistribution: aCodeword
 	"Answer the weight distribution wrt aCodeword."
 	self notYetImplemented! !
 
-!LinearCode methodsFor: 'accessing' stamp: 'len 5/23/2016 04:38'!
+!LinearCode methodsFor: 'accessing' stamp: 'len 6/26/2016 01:30'!
 weightEnumerator
-	"Answer the (Hamming) weight enumerator function (or polynomial in n variables)."
+	"Answer the Hamming weight enumerator polynomial."
 	| P x y weights answer n |
 	P _ Integers new polynomialsIn: #(x y).
 	x _ P x.
@@ -14476,6 +14490,18 @@ H7
 	A _ (F ** (4@7)) new.
 	A addRow: (c _ (1,1,0,1,0,0,0) % 2).
 	3 timesRepeat: [A addRow: (c _ c >> 1)].
+	^ self matrix: A! !
+
+!LinearCode class methodsFor: 'examples' stamp: 'len 6/26/2016 01:28'!
+H8
+	"Answer the extended Hamming code [8,4,4]."
+	| F A |
+	F _ Field GF: 2.
+	A _ (F ** (4@8)) new.
+	A addRow: (1,0,0,0, 0,1,1,1) % 2.
+	A addRow: (0,1,0,0, 1,0,1,1) % 2.
+	A addRow: (0,0,1,0, 1,1,0,1) % 2.
+	A addRow: (0,0,0,1, 1,1,1,0) % 2.
 	^ self matrix: A! !
 
 !LinearCode class methodsFor: 'examples' stamp: 'len 5/12/2016 09:42'!
@@ -15749,11 +15775,12 @@ do: aBlock
 	^ super do: aBlock
 "	space endomorphisms do: [:each| (self includes: each) ifTrue: [aBlock value: each]]"! !
 
-!LinearGroup methodsFor: 'morphisms' stamp: 'len 6/20/2016 21:38'!
+!LinearGroup methodsFor: 'morphisms' stamp: 'len 6/25/2016 23:44'!
 hilbertSeries
-	"This is the sum of dim(S_d ^G z^d for d>=0. By Molien 1897:"
+	"This is the sum of dim(S_d ^G z^d for d>=0 (by Molien's formula, 1897), i.e. it counts the homogeneous polynomials of a given digree d that are invariants for the group."
 	| order |
 	order _ self size.
+	order | self ambient characteristic ifTrue: [^ self error: 'group order divides characteristic'].
 	^ (self sum: [:g| g characteristicPolynomial asRationalFunction reciprocal]) / order! !
 
 !LinearGroup methodsFor: 'accessing' stamp: 'len 2/11/2016 20:01'!
@@ -31822,11 +31849,14 @@ negativeRoots
 normalized
 	^ self class on: ambient roots: (roots collect: [:x| x * (2 / (ambient innerProduct value: {x.x}))])! !
 
-!RootSystem methodsFor: 'roots' stamp: 'len 1/6/2016 03:49'!
+!RootSystem methodsFor: 'roots' stamp: 'len 6/25/2016 23:08'!
 positiveRoots
 	| answer |
 	answer _ Set new.
-	self roots do: [:each| (answer includes: each negated) ifFalse: [answer add: each]].
+	roots do: [:a| (answer includes: a negated)
+		ifFalse:
+			[answer add: a.
+			answer copy do: [:b| (roots includes: a+b) ifTrue: [answer add: b]]]].
 	^ answer! !
 
 !RootSystem methodsFor: 'roots' stamp: 'len 1/6/2016 04:51'!
@@ -31947,53 +31977,34 @@ on: aVectorSpace roots: aCollection
 action: aGroupAction
 	action _ aGroupAction! !
 
-!SchreierSims methodsFor: 'as yet unclassified' stamp: 'len 6/23/2016 05:03'!
+!SchreierSims methodsFor: 'as yet unclassified' stamp: 'len 6/25/2016 20:05'!
 base
-	^ self notYetImplemented! !
-
-!SchreierSims methodsFor: 'as yet unclassified' stamp: 'len 6/24/2016 03:02'!
-calculateOrbitOf: aPoint
-	| v w orbit queue |
-	v _ Dictionary new. "Schreier vector"
-	w _ Dictionary new. "backward pointers"
-	orbit _ Set with: aPoint.
-	v at: aPoint put: nil. "-1"
-	w at: aPoint put: nil. "-1"
-	queue _ OrderedCollection with: aPoint.
-	[| a |
-	a _ queue removeFirst.
-	1 to: generators size do: [:i|
-		| x g |
-		g _ generators at: i.
-		x _ action value: {g. a}.
-		(orbit includes: x)
-			ifFalse:
-				[orbit add: x.
-				queue add: x.
-				v at: x put: g.
-				w at: x put: a]].
-	queue isEmpty] whileFalse.
-	^ {orbit. SchreierTree v: v w: w}! !
+	base ifNil: [self run].
+	^ base! !
 
 !SchreierSims methodsFor: 'as yet unclassified' stamp: 'len 6/22/2016 16:32'!
 generators: aCollection
 	generators _ aCollection asArray! !
 
-!SchreierSims methodsFor: 'as yet unclassified' stamp: 'len 6/22/2016 16:35'!
-schreierVectorOf: aPoint
-	| vector orbit queue |
-	vector _ Dictionary new.
-	orbit _ Set with: aPoint.
-	vector at: aPoint put: nil.
-	queue _ OrderedCollection with: aPoint.
-	[| a |
-	a _ queue removeFirst.
-	1 to: generators size do: [:i|
-		| x g |
-		x _ action value: {g _ generators at: i. a}.
-		(orbit includes: x) ifFalse: [orbit add: x. queue add: x. vector at: x put: g]].
-	queue isEmpty] whileFalse.
-	^ vector! !
+!SchreierSims methodsFor: 'as yet unclassified' stamp: 'len 6/25/2016 20:06'!
+order
+	order ifNil: [self run].
+	^ order! !
+
+!SchreierSims methodsFor: 'as yet unclassified' stamp: 'len 6/25/2016 20:05'!
+run
+	| G order base strongGeneratingSet |
+	G _ action group.
+	order _ 1.
+	base _ OrderedCollection new.
+	strongGeneratingSet _ OrderedCollection new.
+	G action space do: [:b| | tree |
+		G isTrivial ifTrue: [^ order].
+		tree _ SchreierTree root: b generators: G generators action: G action.
+		order _ order * tree orbit size.
+		G _ tree stabilizer].
+	self error: 'what?'.
+	^ order! !
 
 !SchreierSims methodsFor: 'as yet unclassified' stamp: 'len 6/23/2016 06:16'!
 strip: g base: B orbits: orbits u: u
@@ -32006,9 +32017,10 @@ strip: g base: B orbits: orbits u: u
 		g` _ g` @ ((u at: i) value: b`) inverse].
 	^ {g`. B size + 1}! !
 
-!SchreierSims methodsFor: 'as yet unclassified' stamp: 'len 6/23/2016 05:03'!
+!SchreierSims methodsFor: 'as yet unclassified' stamp: 'len 6/25/2016 20:06'!
 strongGeneratingSet
-	^ self notYetImplemented! !
+	strongGeneratingSet ifNil: [self run].
+	^ strongGeneratingSet! !
 
 !SchreierTree methodsFor: 'as yet unclassified' stamp: 'len 6/24/2016 03:07'!
 orbit
@@ -32054,6 +32066,18 @@ trace: aPoint
 	[(v at: alpha) notNil]
 		whileTrue:
 			[u _ (v at: alpha) * u.
+			alpha _ w at: alpha].
+	^ u! !
+
+!SchreierTree methodsFor: 'as yet unclassified' stamp: 'len 6/25/2016 20:32'!
+traceInverse: aPoint
+	"Calculate inverses of coset representatives. See 'the schreier-sims algorithm' pp 18. This makes backward pointers unnecesary."
+	| alpha u |
+	u _ Permutation new.
+	alpha _ aPoint.
+	[(v at: alpha) notNil]
+		whileTrue:
+			[u _ u * (v at: alpha) reciprocal.
 			alpha _ w at: alpha].
 	^ u! !
 
@@ -33129,10 +33153,11 @@ testDual
 		self assert: (v count: [:each| each = (1 % 2)]) even]
 ! !
 
-!CodesTest methodsFor: 'as yet unclassified' stamp: 'len 6/25/2016 06:22'!
+!CodesTest methodsFor: 'as yet unclassified' stamp: 'len 6/26/2016 01:57'!
 testGolay24
 	| C W x y |
 	C _ LinearCode G24.
+	self assert: C isSelfDual.
 	W _ C weightEnumerator.
 	x _ W species x.
 	y _ W species y.
@@ -33146,6 +33171,14 @@ testHamming743
 	self assert: H7 minimumDistance = 3.
 	self assert: H7 weightDistribution = #(0 3 3 3 3 3 3 3 4 4 4 4 4 4 4 7) asBag.
 	self assert: H7 dual minimumDistance = 4! !
+
+!CodesTest methodsFor: 'as yet unclassified' stamp: 'len 6/26/2016 01:57'!
+testHamming844
+	| C |
+	C _ LinearCode H8.
+	self assert: C isSelfDual.
+	self assert: C isSelfOrthogonal.
+! !
 
 !CodesTest methodsFor: 'as yet unclassified' stamp: 'len 6/25/2016 05:33'!
 testMacWilliamsTheorem
@@ -34976,37 +35009,37 @@ testPPRS
 		(4663 -6150)
 		(1))! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 5/20/2016 04:03'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 6/26/2016 05:15'!
 testPseudoDivision1
 	| Zxy x y division |
 	Zxy _ Integers new polynomialsIn: #(x y).
 	x _ Zxy x.
 	y _ Zxy y.
-	division _ x**2 + (y**2) pseudoDivideBy: x - y in: 1.
+	division _ x**2 + (y**2) pseudoDivideBy: y - x in: 2.
 	self assert: division quotient asMultivariate = (x + y).
-	self assert: division remainder asMultivariate = (y**2 * 2).
+	self assert: division remainder asMultivariate = (x**2 * 2).
 	self assert: division verify! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 5/20/2016 04:03'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 6/26/2016 05:16'!
 testPseudoDivision2
 	| Zxy x y division |
 	Zxy _ Rationals new polynomialsIn: #(x y).
 	x _ Zxy x.
 	y _ Zxy y.
-	division _ x**2 + (y**2) pseudoDivideBy: (x-y)*2 in: 1.
+	division _ x**2 + (y**2) pseudoDivideBy: (y-x)*2 in: 2.
 	self assert: division quotient asMultivariate = ((x+y) * 2).
-	self assert: division remainder asMultivariate = (y**2 * 8).
+	self assert: division remainder asMultivariate = (x**2 * 8).
 	self assert: division verify! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 5/20/2016 04:03'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 6/26/2016 05:17'!
 testPseudoDivision3
 	| Zxy x y division |
 	Zxy _ Integers new polynomialsIn: #(x y).
 	x _ Zxy x.
 	y _ Zxy y.
-	division _ x**2 + (y**2) pseudoDivideBy: x - y in: 1.
+	division _ x**2 + (y**2) pseudoDivideBy: y - x in: 2.
 	self assert: division quotient asMultivariate = (x + y).
-	self assert: division remainder asMultivariate = (y**2 * 2).
+	self assert: division remainder asMultivariate = (x**2 * 2).
 	self assert: division verify.
 
 	division _ x**2 + (y**2) pseudoDivideBy: x - y in: 2.
@@ -35310,13 +35343,13 @@ testBaseSignCondition
 		coordinates _ R simpleRoots coordinatesOf: each :: asArray.
 		self assert: (coordinates allSatisfy: [:xi| xi >= 0]) | (coordinates allSatisfy: [:xi| xi <= 0])]! !
 
-!RootSystemTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2016 05:02'!
+!RootSystemTest methodsFor: 'as yet unclassified' stamp: 'len 6/25/2016 23:09'!
 testPositiveRoots
 	| V R |
 	R _ self rootSystem1.
 	V _ R ambient.
 	R positiveRoots do: [:each|
-		self assert: (V innerProduct value: {each. (1,1,1)}) > 0] "the point bust be in the positive Weyl chamber"! !
+		self assert: (V innerProduct value: {each. (1,1,1)}) > 0] "the point must be in the positive Weyl chamber"! !
 
 !RootSystemTest methodsFor: 'as yet unclassified' stamp: 'len 2/11/2016 01:39'!
 testWeylGroup
