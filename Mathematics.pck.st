@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 28 June 2016 at 7:30:32.587533 pm'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 28 June 2016 at 9:00:17.702069 pm'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 109!
+!provides: 'Mathematics' 1 110!
 !classDefinition: #AbelianGroupPresentation category: #'Mathematics-Free'!
 Object subclass: #AbelianGroupPresentation
 	instanceVariableNames: 'generators relators'
@@ -19422,6 +19422,14 @@ forwardDifference: n at: h
 		to: self codomain
 		evaluating: [:x| (0 to: n) sum: [:i| (-1)**(n-i) * (n take: i) * (self value: x + ((n-i)*h))]]! !
 
+!Function methodsFor: 'testing' stamp: 'len 6/28/2016 20:55'!
+hasLeftInverse
+	^ self leftInverse notNil! !
+
+!Function methodsFor: 'testing' stamp: 'len 6/28/2016 20:55'!
+hasRightInverse
+	^ self rightInverse notNil! !
+
 !Function methodsFor: 'comparing' stamp: 'len 6/28/2016 09:15'!
 hash
 	self flag: #fix. "improve this hash"
@@ -19471,6 +19479,10 @@ isIdentity
 !Function methodsFor: 'testing' stamp: 'len 2/9/2016 04:25'!
 isInjective
 	^ self hasLeftInverse! !
+
+!Function methodsFor: 'testing' stamp: 'len 6/28/2016 20:58'!
+isInvertible
+	^ self inverse notNil! !
 
 !Function methodsFor: 'testing' stamp: 'len 4/18/2016 23:43'!
 isIsomorphism
