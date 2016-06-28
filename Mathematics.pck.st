@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 27 June 2016 at 11:30:44.813647 pm'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 28 June 2016 at 7:30:32.587533 pm'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 108!
+!provides: 'Mathematics' 1 109!
 !classDefinition: #AbelianGroupPresentation category: #'Mathematics-Free'!
 Object subclass: #AbelianGroupPresentation
 	instanceVariableNames: 'generators relators'
@@ -1971,6 +1971,16 @@ Permutation subclass: #PermutationCycle
 PermutationCycle class
 	instanceVariableNames: ''!
 
+!classDefinition: #StandardPermutation category: #'Mathematics-Groups-Permutations'!
+Permutation subclass: #StandardPermutation
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Groups-Permutations'!
+!classDefinition: 'StandardPermutation class' category: #'Mathematics-Groups-Permutations'!
+StandardPermutation class
+	instanceVariableNames: ''!
+
 !classDefinition: #PolynomialFunction category: #'Mathematics-Geometry-Algebraic'!
 Function subclass: #PolynomialFunction
 	instanceVariableNames: 'domain representative'
@@ -3250,6 +3260,28 @@ testKatsura2	1,260 per second.
 !
 
 !PolynomialBenchmark commentStamp: '<historical>' prior: 0!
+testFiniteField	11.1 per second.
+testFiniteFieldPolynomialFactorization	58 per second.
+testMultivariatePolynomialAdditionOverZ	FAILED
+testPolynomialAdditionOverZ	11.9 per second.
+testPolynomialAdditionOverZ2	76.2 per second.
+testPolynomialDivisionOverQ	1.23 per second.
+testPolynomialDivisionOverZ	1.12 per second.
+testPolynomialGCDOverQ	1.16 per second.
+testPolynomialGCDOverZ	1.45 per second.
+testPolynomialGCDOverZ2	4.64 per second.
+testPolynomialMultiplication2OverZ	33.9 per second.
+testPolynomialMultiplication2OverZ2	58.4 per second.
+testPolynomialMultiplicationOverZ	0.588 per second.
+testPolynomialMultiplicationOverZ2	2,260 per second.
+testPolynomialPseudoDivision	1,210 per second.
+testPolynomialPseudoRemainder	1,220 per second.
+testPolynomialRealRoots	22.8 per second.
+testRealAlgebraicNumberAddition	5.28 seconds.
+testRealAlgebraicNumberDivision	74.1 per second.
+testRealAlgebraicNumberProduct	88.6 per second.
+testRealAlgebraicNumberSquare	2,020 per second.
+
 testFiniteField	10.8 per second.
 testFiniteFieldPolynomialFactorization	55.1 per second.
 testMultivariatePolynomialAdditionOverZ	FAILED
@@ -6165,9 +6197,9 @@ hasLoop
 	self nodesDo: [:each| each hasLoop ifTrue: [^ true]].
 	^ false! !
 
-!Digraph methodsFor: 'comparing' stamp: 'len 2/16/2016 22:07'!
+!Digraph methodsFor: 'comparing' stamp: 'len 6/28/2016 09:08'!
 hash
-	^ self nodes hash! !
+	^ nodes hash! !
 
 !Digraph methodsFor: 'initialization' stamp: 'len 2/14/2016 22:15'!
 implicitCollection: collectionBlock
@@ -9041,10 +9073,10 @@ asSet
 	properties at: #elements ifPresent: [:aCollectionOrDomain| ^ aCollectionOrDomain asSet].
 	^ (Iterator on: self performing: #do:) asSet! !
 
-!Domain methodsFor: 'random' stamp: 'len 6/10/2016 23:26'!
+!Domain methodsFor: 'random' stamp: 'len 6/28/2016 08:38'!
 atRandom
 	"Answer an element in the receiver choosen at random. This will fail if the receiver is not finite."
-	^ self random next! !
+	^ Random withDefaultDo: [:aRandom| self atRandom: aRandom]! !
 
 !Domain methodsFor: 'random' stamp: 'len 6/10/2016 23:26'!
 atRandom: aRandom
@@ -10927,9 +10959,9 @@ evaluatingDiagonal: aBlock
 	zero _ self scalars zero.
 	^ self evaluating: [:i :j| i == j ifTrue: [aBlock value: i] ifFalse: [zero]]! !
 
-!Matrices methodsFor: 'comparing' stamp: 'len 12/14/2015 01:50'!
+!Matrices methodsFor: 'comparing' stamp: 'len 6/28/2016 09:24'!
 hash
-	^ self scalars hash * (self dimension + 1)! !
+	^ scalars hash + numberOfRows hash hashMultiply + numberOfColumns! !
 
 !Matrices methodsFor: 'elements' stamp: 'len 11/26/2015 03:42'!
 identity
@@ -11327,9 +11359,9 @@ e: anInteger
 evaluating: aBlock
 	^ scalars tuple: dimension evaluating: aBlock! !
 
-!Tuples methodsFor: 'comparing' stamp: 'len 12/14/2015 01:49'!
+!Tuples methodsFor: 'comparing' stamp: 'len 6/28/2016 09:38'!
 hash
-	^ scalars hash * (self dimension + 1)! !
+	^ scalars hash + dimension! !
 
 !Tuples methodsFor: 'testing' stamp: 'len 3/30/2016 07:05'!
 includes: anObject
@@ -12138,9 +12170,9 @@ embed: anInteger
 embedding
 	^ properties at: #embedding ifAbsentPut: [Function from: self integralDomain to: self evaluating: [:x| x]] "because in Smalltalk Fractions of denominator 1 are always reduced to their Integer numerator"! !
 
-!Rationals methodsFor: 'comparing' stamp: 'len 11/10/2015 23:12'!
+!Rationals methodsFor: 'comparing' stamp: 'len 6/28/2016 09:27'!
 hash
-	^ 3129374! !
+	^ self class hash! !
 
 !Rationals methodsFor: 'testing' stamp: 'len 1/11/2016 05:56'!
 includes: anObject
@@ -13013,9 +13045,9 @@ fractions
 has: anIndeterminate
 	^ self indeterminates includes: anIndeterminate! !
 
-!Polynomials methodsFor: 'comparing' stamp: 'len 6/4/2016 05:11'!
+!Polynomials methodsFor: 'comparing' stamp: 'len 6/28/2016 09:23'!
 hash
-	^ scalars hash + rank hash! !
+	^ scalars hash + rank! !
 
 !Polynomials methodsFor: 'testing' stamp: 'len 6/1/2016 23:50'!
 includes: anObject
@@ -16352,7 +16384,7 @@ isSubgroupOfAn
 isTrivial
 	^ self generators allSatisfy: [:each| each = self identity]! !
 
-!PermutationGroup methodsFor: 'accessing' stamp: 'len 6/24/2016 03:17'!
+!PermutationGroup methodsFor: 'accessing' stamp: 'len 6/28/2016 08:49'!
 size
 	^ properties at: #size ifAbsentPut: [self computeSize]! !
 
@@ -16404,13 +16436,21 @@ dihedral: order
 	s _ Permutation on: (1 to: n) evaluating: [:i| n - i + 1].
 	^ self on: (1 to: n) generators: {s. r} :: name: 'Dih' bold, order printString sub! !
 
-!PermutationGroup class methodsFor: 'examples' stamp: 'len 5/14/2016 00:28'!
+!PermutationGroup class methodsFor: 'examples' stamp: 'len 6/28/2016 07:31'!
+hessian
+	"Answer the Hessian group, a finite group of order 216 introduced by Jordan and named after Otto Hesse."
+	| s1 s2 |
+	s1 _ StandardPermutation cycles: #((1 2 4) (5 6 8) (3 9 7)).
+	s2 _ StandardPermutation cycles: #((4 5 6) (7 9 8)).
+	^ self on: (1 to: 9) generators: {s1. s2}! !
+
+!PermutationGroup class methodsFor: 'examples' stamp: 'len 6/28/2016 06:12'!
 klein
 	"Answer the Klein four-group (or Vierergruppe) as a permutation group."
 	| a b |
-	a _ Permutation fromArray: #(2 1 4 3).
-	b _ Permutation fromArray: #(3 4 1 2).
-	"c _ Permutation fromArray: #(4 3 2 1)."
+	a _ Permutation values: #(2 1 4 3).
+	b _ Permutation values: #(3 4 1 2).
+	"c _ Permutation values: #(4 3 2 1)."
 	^ self on: (1 to: 4) generators: {a.b} :: name: 'V' bold! !
 
 !PermutationGroup class methodsFor: 'instance creation' stamp: 'len 5/2/2016 01:33'!
@@ -16425,11 +16465,18 @@ on: aCollection
 on: aCollection generators: anotherCollection
 	^ (self on: aCollection) generators: anotherCollection! !
 
-!AlternatingGroup methodsFor: 'iterating' stamp: 'len 2/19/2016 04:49'!
+!AlternatingGroup methodsFor: 'random' stamp: 'len 6/28/2016 08:48'!
+atRandom: aRandom bits: bitSize
+	| S answer |
+	S _ self ambient.
+	[(answer _ S atRandom: aRandom bits: bitSize) even] whileFalse.
+	^ answer! !
+
+!AlternatingGroup methodsFor: 'iterating' stamp: 'len 6/28/2016 06:10'!
 do: aBlock
 	| domain |
 	domain _ self space asArray.
-	domain permutationsDo: [:each| |p| (p _ Permutation fromArray: domain to: each) even ifTrue: [aBlock value: p]]! !
+	domain permutationsDo: [:each| |p| (p _ Permutation keys: domain values: each) even ifTrue: [aBlock value: p]]! !
 
 !AlternatingGroup methodsFor: 'testing' stamp: 'len 5/13/2016 02:48'!
 includes: aPermutation
@@ -16457,11 +16504,11 @@ size
 ambient
 	^ self! !
 
-!SymmetricGroup methodsFor: 'elements' stamp: 'len 4/19/2016 20:50'!
+!SymmetricGroup methodsFor: 'elements' stamp: 'len 6/28/2016 06:10'!
 atRandom: aRandom
 	| domain |
 	domain _ self space asArray.
-	^ Permutation fromArray: domain to: (domain shuffledBy: aRandom)! !
+	^ Permutation keys: domain values: (domain shuffledBy: aRandom)! !
 
 !SymmetricGroup methodsFor: 'elements' stamp: 'len 4/19/2016 22:45'!
 atRandom: aRandom bits: bits
@@ -16471,11 +16518,11 @@ atRandom: aRandom bits: bits
 commutator
 	^ AlternatingGroup on: space! !
 
-!SymmetricGroup methodsFor: 'iterating' stamp: 'len 2/17/2016 01:31'!
+!SymmetricGroup methodsFor: 'iterating' stamp: 'len 6/28/2016 06:10'!
 do: aBlock
 	| domain |
 	domain _ self space asArray.
-	domain permutationsDo: [:each| aBlock value: (Permutation fromArray: domain to: each)]! !
+	domain permutationsDo: [:each| aBlock value: (Permutation keys: domain values: each)]! !
 
 !SymmetricGroup methodsFor: 'accessing' stamp: 'len 2/15/2016 21:51'!
 generators
@@ -17104,9 +17151,9 @@ frame
 	1 to: self dimension + 1 do: [:i| answer add: (self e: i)].
 	^ answer! !
 
-!ProjectiveSubspace methodsFor: 'comparing' stamp: 'len 11/20/2015 22:08'!
+!ProjectiveSubspace methodsFor: 'comparing' stamp: 'len 6/28/2016 09:26'!
 hash
-	^ vectorSpace hash bitXor: self class hash! !
+	^ vectorSpace hash + self class hash! !
 
 !ProjectiveSubspace methodsFor: 'testing' stamp: 'len 3/23/2016 21:49'!
 includes: aPoint
@@ -17297,13 +17344,13 @@ do: aBlock
 first
 	^ self at: 1! !
 
-!RealBox methodsFor: 'comparing' stamp: 'len 12/19/97 22:06'!
+!RealBox methodsFor: 'comparing' stamp: 'len 6/28/2016 09:28'!
 hash
 	"Answer the hash value of the receiver."
 
 	^ self size = 0
-		ifTrue: [self size hash]
-		ifFalse: [self size hash + self first hash + self last hash]! !
+		ifTrue: [0]
+		ifFalse: [self first hash hashMultiply + self last hash hashMultiply + self size hash]! !
 
 !RealBox methodsFor: 'testing' stamp: 'len 1/11/2016 02:40'!
 includes: aTuple
@@ -17445,11 +17492,9 @@ halves
 	m _ self midpoint.
 	^ {self copy right: m; rightOpen: false . self copy left: m; leftOpen: true}! !
 
-!RealInterval methodsFor: 'comparing' stamp: 'len 2/6/98 12:43'!
+!RealInterval methodsFor: 'comparing' stamp: 'len 6/28/2016 09:30'!
 hash
-	"Answer the hash value for the receiver."
-
-	^ "self left hash + self right hash +" self isLeftOpen hash + self isRightOpen hash! !
+	^ self left hash hashMultiply + self right hash + self isRightOpen hash + self isLeftOpen hash hashMultiply! !
 
 !RealInterval methodsFor: 'constants' stamp: 'len 12/13/97 03:20'!
 identity
@@ -18080,9 +18125,9 @@ do: aBlock
 
 	self cells do: aBlock! !
 
-!SemialgebraicSet methodsFor: 'comparing' stamp: 'len 6/2/2016 05:22'!
+!SemialgebraicSet methodsFor: 'comparing' stamp: 'len 6/28/2016 09:36'!
 hash
-	^ (self cells inject: self class hash into: [:answer :each| answer + each hash]) hashMultiply! !
+	^ self cells inject: self class hash into: [:answer :each| answer + each hash]! !
 
 !SemialgebraicSet methodsFor: 'testing' stamp: 'len 6/2/2016 05:19'!
 includes: anObject
@@ -19377,10 +19422,10 @@ forwardDifference: n at: h
 		to: self codomain
 		evaluating: [:x| (0 to: n) sum: [:i| (-1)**(n-i) * (n take: i) * (self value: x + ((n-i)*h))]]! !
 
-!Function methodsFor: 'comparing' stamp: 'len 5/30/2016 06:34'!
+!Function methodsFor: 'comparing' stamp: 'len 6/28/2016 09:15'!
 hash
 	self flag: #fix. "improve this hash"
-	^ self domain hash + self codomain hash! !
+	^ self domain hash hashMultiply + self codomain hash! !
 
 !Function methodsFor: 'accessing' stamp: 'len 4/18/2016 23:42'!
 identity
@@ -20015,10 +20060,6 @@ fiberAt: anElement
 	Answer nil if the element is not in the image of the receiver."
 	^ self kernel * (self domain detect: [:one| (self value: one) = anElement] ifNone: [^ nil])! !
 
-!GroupHomomorphism methodsFor: 'comparing' stamp: 'len 5/2/2016 09:36'!
-hash
-	^ self domain hash - self codomain hash! !
-
 !GroupHomomorphism methodsFor: 'accessing' stamp: 'len 11/24/2015 06:12'!
 image
 	"Answer the image of the receiver."
@@ -20111,10 +20152,6 @@ hasLeftInverse
 !Identity methodsFor: 'testing' stamp: 'len 2/9/2016 04:20'!
 hasRightInverse
 	^ true! !
-
-!Identity methodsFor: 'comparing' stamp: 'len 4/23/2016 03:51'!
-hash
-	^ self domain hash + self codomain hash! !
 
 !Identity methodsFor: 'testing' stamp: 'len 2/9/2016 04:21'!
 isEpimorphism
@@ -20326,10 +20363,6 @@ fiberAt: aVector
 !LinearMap methodsFor: 'eigenvalues' stamp: 'len 2/6/2016 21:37'!
 geometricMultiplicityAt: anEigenvalue
 	^ (self eigenspaceAt: anEigenvalue) dimension! !
-
-!LinearMap methodsFor: 'comparing' stamp: 'len 11/20/2015 15:14'!
-hash
-	^ self domain hash - self codomain hash! !
 
 !LinearMap methodsFor: 'accessing' stamp: 'len 6/23/2016 20:38'!
 identity
@@ -20585,23 +20618,22 @@ from: aLinearBasis matrix: aMatrix
 
 	^ self @ aPermutation! !
 
-!Permutation methodsFor: 'comparing' stamp: 'len 6/23/2016 07:37'!
-= anObject
-	(anObject isKindOf: Permutation) ifFalse: [^ super = anObject].
-	self size = anObject size ifFalse: [^ false].
-"	self map = anObject map ifFalse: [^ false]. this could give the wrong result"
-	self changesDo: [:each| (anObject at: each) = (self at: each) ifFalse: [^ false]].
+!Permutation methodsFor: 'comparing' stamp: 'len 6/28/2016 07:43'!
+= aPermutation
+	(aPermutation isKindOf: Permutation) ifFalse: [^ super = aPermutation].
+	map keysAndValuesDo: [:key :value| (aPermutation at: key) = value ifFalse: [^ false]].
+	aPermutation map size <= map size ifTrue: [^ true].
+	aPermutation map keysAndValuesDo: [:key :value| value = (self at: key) ifFalse: [^ false]].
 	^ true! !
 
-!Permutation methodsFor: 'arithmetic' stamp: 'len 5/2/2016 04:06'!
+!Permutation methodsFor: 'arithmetic' stamp: 'len 6/28/2016 09:51'!
 @ aPermutation
 	"Answer the composition of the receiver with the argument."
-
 	| answer |
 	answer _ self species new.
 	self changesDo: [:each|
 		answer at: each put: (self at: (aPermutation at: each))].
-	aPermutation changesDo: [ :each |
+	aPermutation changesDo: [:each|
 		answer at: each put: (self at: (aPermutation at: each))].
 	^ answer! !
 
@@ -20612,37 +20644,27 @@ aChange
 	self changesDo: [ :each | ^ each].
 	^ nil! !
 
-!Permutation methodsFor: 'accessing' stamp: 'len 5/6/98 05:01'!
+!Permutation methodsFor: 'accessing' stamp: 'len 6/28/2016 07:01'!
 at: anObject
-	"Answer the object to which the receiver maps the argument."
+	^ map at: anObject ifAbsent: [anObject]! !
 
-	^ self map at: anObject ifAbsent: [anObject]! !
-
-!Permutation methodsFor: 'accessing' stamp: 'len 5/2/2016 04:05'!
+!Permutation methodsFor: 'accessing' stamp: 'len 6/28/2016 07:01'!
 at: anObject put: anotherObject
-	"Change the receiver to map the first object to the second one."
+	anObject = anotherObject ifTrue: [^ anotherObject].
+	^ map at: anObject put: anotherObject! !
 
-	anObject = anotherObject
-		ifFalse: [self map at: anObject put: anotherObject]! !
-
-!Permutation methodsFor: 'accessing' stamp: 'len 6/27/2016 23:21'!
+!Permutation methodsFor: 'accessing' stamp: 'len 6/28/2016 07:34'!
 changes
 	"Answer the elements changed by the receiver."
+	^ Iterator on: self performing: #changesDo:! !
 
-	| answer |
-	answer _ Set2 new.
-	self changesDo: [ :each | answer add: each].
-	^ answer! !
-
-!Permutation methodsFor: 'iterating' stamp: 'len 5/6/98 05:03'!
+!Permutation methodsFor: 'iterating' stamp: 'len 6/28/2016 07:25'!
 changesDo: aBlock
-	"Enumerate the elements changed by the receiver."
+	map keysDo: aBlock! !
 
-	self map keysDo: aBlock! !
-
-!Permutation methodsFor: 'accessing' stamp: 'len 5/2/2016 04:44'!
+!Permutation methodsFor: 'accessing' stamp: 'len 6/28/2016 07:01'!
 codomain
-	^ map values as: Domain! !
+	^ self domain! !
 
 !Permutation methodsFor: 'accessing' stamp: 'len 5/2/2016 04:06'!
 cycleAt: anObject
@@ -20659,11 +20681,11 @@ cycles
 	"Answer the cycles of the receiver."
 	^ Iterator on: self performing: #cyclesDo:! !
 
-!Permutation methodsFor: 'iterating' stamp: 'len 5/2/2016 04:41'!
+!Permutation methodsFor: 'iterating' stamp: 'len 6/28/2016 07:34'!
 cyclesDo: aBlock
 	"Iterate over the cycles of the receiver."
 	| left first next cycle |
-	left _ self changes.
+	left _ self changes copyAs: Set2.
 	[left size > 0] whileTrue: [
 		cycle _ PermutationCycle new.
 		first _ left anyOne.
@@ -20683,26 +20705,22 @@ even
 
 	^ self sign = 1! !
 
-!Permutation methodsFor: 'comparing' stamp: 'len 6/23/2016 07:17'!
+!Permutation methodsFor: 'comparing' stamp: 'len 6/28/2016 08:59'!
 hash
 	| answer |
-	answer _ self size.
-	self changesDo: [:each| answer _ answer hashMultiply + each hash].
+	answer _ 0.
+"	self changesDo: [:each| answer _ answer + each hash]."
+	map keysAndValuesDo: [:key :value| key = value ifFalse: [answer _ key hash hashMultiply + value hash + answer]].
 	^ answer! !
 
-!Permutation methodsFor: 'arithmetic' stamp: 'len 10/7/1998 04:32'!
+!Permutation methodsFor: 'arithmetic' stamp: 'len 6/28/2016 07:25'!
 identity
 	"Answer the identity permutation."
-	^ self class new! !
+	^ self species new! !
 
-!Permutation methodsFor: 'initialization' stamp: 'len 5/2/2016 04:08'!
-initialize
-	super initialize.
-	map _ Dictionary new! !
-
-!Permutation methodsFor: 'arithmetic' stamp: 'len 5/2/2016 04:06'!
+!Permutation methodsFor: 'arithmetic' stamp: 'len 6/28/2016 07:29'!
 inverse
-	"Answer the composition inverse of the receiver."
+	"Answer the compositive inverse of the receiver."
 
 	| answer |
 	answer _ self species new.
@@ -20721,11 +20739,11 @@ isCycle
 
 	^ self cycles size = 1! !
 
-!Permutation methodsFor: 'testing' stamp: 'len 9/28/97 01:15'!
+!Permutation methodsFor: 'testing' stamp: 'len 6/28/2016 07:40'!
 isIdentity
 	"Answer true if the receiver is the identity permutation."
 
-	^ self size = 0! !
+	^ self changes size = 0! !
 
 !Permutation methodsFor: 'testing' stamp: 'len 9/28/97 01:17'!
 isTransposition
@@ -20737,6 +20755,10 @@ isTransposition
 map
 	^ map! !
 
+!Permutation methodsFor: 'accessing-private' stamp: 'len 6/28/2016 07:13'!
+map: aCollection
+	map _ aCollection! !
+
 !Permutation methodsFor: 'testing' stamp: 'len 10/1/97 19:08'!
 odd
 	"Answer true if the receiver is odd."
@@ -20747,10 +20769,13 @@ odd
 one
 	^ self identity! !
 
-!Permutation methodsFor: 'accessing' stamp: 'len 10/1/97 19:25'!
+!Permutation methodsFor: 'accessing' stamp: 'len 6/28/2016 09:49'!
 order
-	"Answer the order of the receiver."
+	self isIdentity ifTrue: [^ 1].
+	^ self cycles inject: 1 into: [:last :each| last lcm: each order]! !
 
+!Permutation methodsFor: 'accessing' stamp: 'len 6/28/2016 09:47'!
+order2
 	| answer next |
 	answer _ 1.
 	next _ self.
@@ -20771,17 +20796,6 @@ printOn: aStream
 		ifTrue: [aStream nextPutAll: 'id']
 		ifFalse: [self cyclesDo: [ :each | each printOn: aStream]]! !
 
-!Permutation methodsFor: 'arithmetic' stamp: 'len 10/2/97 19:04'!
-raisedToInteger: anInteger
-	"Answer the receiver raised to the argument."
-
-	anInteger = 0 ifTrue: [^ self class new].
-	anInteger = 1 ifTrue: [^ self].
-	^ anInteger > 1
-		ifTrue: [(self squared raisedToInteger: anInteger // 2)
-				* (self raisedToInteger: anInteger \\ 2)]
-		ifFalse: [(self raisedToInteger: anInteger negated) inverse]! !
-
 !Permutation methodsFor: 'arithmetic' stamp: 'len 4/30/98 04:24'!
 reciprocal
 	"Answer the multiplication inverse of the receiver."
@@ -20799,27 +20813,21 @@ sign
 
 	"^ self transpositions size even ifTrue: [1] ifFalse: [-1]"! !
 
-!Permutation methodsFor: 'accessing' stamp: 'len 9/28/97 00:54'!
-size
-	"Answer the number of elements changed by the receiver."
-
-	^ self map size! !
-
 !Permutation methodsFor: 'private' stamp: 'len 9/29/97 19:14'!
 species
 	^ Permutation! !
 
-!Permutation methodsFor: 'accessing' stamp: 'len 9/30/97 00:11'!
+!Permutation methodsFor: 'accessing' stamp: 'len 6/28/2016 07:04'!
 transpositions
 	"Answer the decomposition of the receiver in product of transpositions."
 
-	| answer last |
+	| answer last value |
 	answer _ OrderedCollection new.
-	self changesDo: [ :each |	
+	self changesDo: [:each|	
 		last _ each.
-		answer reverseDo: [ :one | last _ one at: last].
-		(self at: each) = last
-			ifFalse: [answer addFirst: (self species transpose: last with: (self at: each))]].
+		answer reverseDo: [:one| last _ one at: last].
+		(value _ self at: each) = last
+			ifFalse: [answer addFirst: (self species transpose: last with: value)]].
 	^ answer! !
 
 !Permutation methodsFor: 'accessing' stamp: 'len 4/27/98 21:03'!
@@ -20849,24 +20857,17 @@ cycle: aCollection
 cycles: anArray
 	^ anArray inject: Permutation new into: [:answer :each| answer @ (self cycle: each)]! !
 
-!Permutation class methodsFor: 'instance creation' stamp: 'len 5/2/2016 04:07'!
-fromArray: anArray
-	| answer |
-	answer _ self new.
-	1 to: anArray size do: [:each| answer at: each put: (anArray at: each)].
-	^ answer! !
-
-!Permutation class methodsFor: 'instance creation' stamp: 'len 5/2/2016 04:07'!
-fromArray: anArray to: anotherArray
+!Permutation class methodsFor: 'instance creation' stamp: 'len 6/28/2016 06:09'!
+keys: anArray values: anotherArray
 	| answer |
 	answer _ self new.
 	anArray with: anotherArray do: [:x :y| answer at: x put: y].
 	^ answer! !
 
-!Permutation class methodsFor: 'instance creation' stamp: 'len 2/12/2016 07:11'!
+!Permutation class methodsFor: 'instance creation' stamp: 'len 6/28/2016 07:13'!
 new
 	"Answer a new instance of the receiver representing the identity permutation."
-	^ super new initialize! !
+	^ super new map: Dictionary2 new! !
 
 !Permutation class methodsFor: 'instance creation' stamp: 'len 5/16/2016 05:25'!
 on: aSet evaluating: aBlock
@@ -20882,6 +20883,13 @@ transpose: anObject with: anotherObject
 		at: anObject put: anotherObject;
 		at: anotherObject put: anObject;
 		yourself! !
+
+!Permutation class methodsFor: 'instance creation' stamp: 'len 6/28/2016 06:09'!
+values: anArray
+	| answer |
+	answer _ self new.
+	1 to: anArray size do: [:each| answer at: each put: (anArray at: each)].
+	^ answer! !
 
 !PermutationCycle methodsFor: 'accessing' stamp: 'len 5/6/98 04:59'!
 cycleAt: anObject
@@ -20903,6 +20911,10 @@ isCycle
 	"Answer true if the receiver is a cycle."
 	^ true! !
 
+!PermutationCycle methodsFor: 'accessing' stamp: 'len 6/28/2016 09:43'!
+order
+	^ self changes size! !
+
 !PermutationCycle methodsFor: 'printing' stamp: 'len 5/6/98 04:58'!
 printOn: aStream
 	"Print a representation of the receiver on the stream aStream.
@@ -20918,10 +20930,10 @@ printOn: aStream
 	[aStream print: (last _ self at: last). last = first] whileFalse: [aStream space].
 	aStream nextPut: $)! !
 
-!PermutationCycle methodsFor: 'accessing' stamp: 'len 5/6/98 04:59'!
+!PermutationCycle methodsFor: 'accessing' stamp: 'len 6/28/2016 08:40'!
 sign
 	"Answer the sign of the receiver."
-	^ self size odd ifTrue: [1] ifFalse: [-1]! !
+	^ self changes size odd ifTrue: [1] ifFalse: [-1]! !
 
 !PermutationCycle methodsFor: 'accessing' stamp: 'len 5/6/98 04:59'!
 transpositions
@@ -20933,6 +20945,39 @@ transpositions
 	self size - 1 timesRepeat: [
 		answer addFirst: (self species transpose: first with: (last _ self at: last))].
 	^ answer! !
+
+!StandardPermutation methodsFor: 'as yet unclassified' stamp: 'len 6/28/2016 08:55'!
+= aPermutation
+	(aPermutation isKindOf: self class) ifFalse: [^ super = aPermutation].
+	^ map = aPermutation map! !
+
+!StandardPermutation methodsFor: 'as yet unclassified' stamp: 'len 6/28/2016 07:30'!
+@ aPermutation
+	"Answer the composition of the receiver with the argument."
+
+	((aPermutation isKindOf: self class) and: [map size = aPermutation map size])
+		ifFalse: [^ super @ aPermutation].
+	^ self class values: (aPermutation map collect: [:each| map at: each])! !
+
+!StandardPermutation methodsFor: 'as yet unclassified' stamp: 'len 6/28/2016 07:35'!
+changesDo: aBlock
+	1 to: map size do: [:i| (map at: i) = i ifFalse: [aBlock value: i]]! !
+
+!StandardPermutation methodsFor: 'as yet unclassified' stamp: 'len 6/28/2016 08:53'!
+domain
+	^ (1 to: map size) as: Domain! !
+
+!StandardPermutation methodsFor: 'as yet unclassified' stamp: 'len 6/28/2016 07:28'!
+inverse
+	"Answer the compositive inverse of the receiver."
+	| values |
+	values _ map copy.
+	1 to: map size do: [:i| values at: (map at: i) put: i].
+	^ self class values: values! !
+
+!StandardPermutation class methodsFor: 'as yet unclassified' stamp: 'len 6/28/2016 07:13'!
+values: anArray
+	^ self basicNew map: anArray! !
 
 !PolynomialFunction methodsFor: 'operations' stamp: 'len 3/4/2016 19:54'!
 * anObject
@@ -21357,9 +21402,9 @@ codomain
 domain
 	^ RealAlgebraicNumbers new ** (self polynomials anyOne species rank - 1)! !
 
-!RealRootFunction methodsFor: 'as yet unclassified' stamp: 'len 5/30/2016 06:42'!
+!RealRootFunction methodsFor: 'as yet unclassified' stamp: 'len 6/28/2016 09:30'!
 hash
-	^ (self polynomial hash + self index) hashMultiply! !
+	^ self polynomial hash hashMultiply + self index hash! !
 
 !RealRootFunction methodsFor: 'accessing' stamp: 'len 3/17/2016 23:52'!
 index
@@ -23682,9 +23727,9 @@ adaptToNumber: rcvr andSend: selector
 	selector == #<= ifTrue:[^true].
 	^super adaptToNumber: rcvr andSend: selector! !
 
-!Aleph methodsFor: 'comparing' stamp: 'len 4/22/2016 05:05'!
+!Aleph methodsFor: 'comparing' stamp: 'len 6/28/2016 09:04'!
 hash
-	^ order hash + self class identityHash! !
+	^ self class hash + order hash! !
 
 !Aleph methodsFor: 'testing' stamp: 'len 4/22/2016 05:06'!
 isCountable
@@ -23787,9 +23832,9 @@ adaptToNumber: rcvr andSend: selector
 errorUndetermined
 	^ self error: 'undetermined'! !
 
-!Infinity methodsFor: 'comparing' stamp: 'len 11/11/2015 03:35'!
+!Infinity methodsFor: 'comparing' stamp: 'len 6/28/2016 09:19'!
 hash
-	^ self sign hash! !
+	^ self sign hash + self class hash! !
 
 !Infinity methodsFor: 'testing' stamp: 'len 11/19/2015 17:00'!
 isInfinity
@@ -24047,9 +24092,9 @@ asFraction
 denominator
 	^ 1 bitShift: shift! !
 
-!DyadicFraction methodsFor: 'comparing' stamp: 'len 1/16/2016 07:58'!
+!DyadicFraction methodsFor: 'comparing' stamp: 'len 6/28/2016 09:12'!
 hash
-	^ numerator + shift! !
+	^ numerator hashMultiply + shift! !
 
 !DyadicFraction methodsFor: 'testing' stamp: 'len 1/15/2016 07:48'!
 isZero
@@ -24830,6 +24875,15 @@ eigenspaceAt: anEigenvalue
 eigenvalues
 	^ self spectrum asSet! !
 
+!Matrix methodsFor: 'comparing' stamp: 'len 6/28/2016 09:33'!
+hash
+	| answer |
+	answer _ 0.
+	1 to: self numberOfRows do: [:i|
+		1 to: self numberOfColumns do: [:j|
+			answer _ answer hashMultiply + (self at: i@j) hash]].
+	^ answer! !
+
 !Matrix methodsFor: 'reduction' stamp: 'len 3/21/2016 04:41'!
 hermite
 	^ HermiteNormalForm new matrix: self copy; run! !
@@ -25257,10 +25311,6 @@ columnsDo: aBlock
 copy
 	^ self species withColumns: (columns collect: [ :each | each copy])! !
 
-!ColumnMatrix methodsFor: 'comparing' stamp: 'len 3/23/2016 02:51'!
-hash
-	^ columns hash! !
-
 !ColumnMatrix methodsFor: 'testing' stamp: 'len 3/23/2016 02:44'!
 isZero
 	^ columns allSatisfy: [:each| each isZero]! !
@@ -25331,10 +25381,6 @@ columnAt: j
 !RowMatrix methodsFor: 'copying' stamp: 'len 3/23/2016 00:19'!
 copy
 	^ self species withRows: (rows collect: [ :each | each copy])! !
-
-!RowMatrix methodsFor: 'comparing' stamp: 'len 3/23/2016 00:18'!
-hash
-	^ rows hash! !
 
 !RowMatrix methodsFor: 'testing' stamp: 'len 3/23/2016 00:19'!
 isZero
@@ -31016,9 +31062,9 @@ d
 
 	^ d! !
 
-!Quaternion methodsFor: 'comparing' stamp: 'len 11/11/2015 05:16'!
+!Quaternion methodsFor: 'comparing' stamp: 'len 6/28/2016 09:27'!
 hash
-	^ self a hash + self b hash + self c hash + self d hash! !
+	^ ((a hash hashMultiply + b hash) hashMultiply + c hash) hashMultiply + d hash! !
 
 !Quaternion methodsFor: 'arithmetic' stamp: 'len 2/25/98 03:29'!
 i
@@ -31208,14 +31254,14 @@ generators: aCollection
 	state _ aCollection asOrderedCollection.
 	60 - (state size min: 10) timesRepeat: [self next] "initial precomputation takes about 60 multiplications / inversions in the group"! !
 
-!GroupRandomGenerator methodsFor: 'generating' stamp: 'len 4/19/2016 04:04'!
+!GroupRandomGenerator methodsFor: 'generating' stamp: 'len 6/28/2016 08:42'!
 next
 	"Product Replacement Algorithm. After the initial precomputation, every new random element takes one multiplication and 1/2 inversion in the group."
 	| g g` i |
 	state isNil ifTrue: [self generators: self domain generators].
 	g _ state atRandom: random.
 	[(state at: (i _ state size atRandom: random)) == g] whileTrue.
-	2 atRandom = 1 ifTrue: [g _ self domain inverseMap value: g].
+	(2 atRandom: random) = 1 ifTrue: [g _ self domain inverseMap value: g].
 	g` _ self domain operation value: ({g. state at: i} shuffledBy: random).
 	state size < 10 ifTrue: [state add: g`] ifFalse: [state at: i put: g`].
 	^ g`! !
@@ -31577,22 +31623,36 @@ polynomial: aPolynomial
 squareFreePolynomial: aPolynomial
 	^ super polynomial: aPolynomial! !
 
-!RationalRootFinder methodsFor: 'private' stamp: 'len 6/5/2016 05:18'!
+!RationalRootFinder methodsFor: 'private' stamp: 'len 6/28/2016 19:20'!
+multiplicityAt: aRoot fourier: fourier
+	| count |
+	count _ 0.
+	fourier do: [:each| (each value: aRoot) isZero ifFalse: [^ count]. count _ count + 1].
+	[fourier last isConstant]
+		whileFalse:
+			[((fourier add: fourier last derivative) value: aRoot) isZero ifFalse: [^ count]. count _ count + 1].
+	^ count! !
+
+!RationalRootFinder methodsFor: 'accessing' stamp: 'len 6/28/2016 19:23'!
 roots
 	"Separate the (real) rational roots of the polynomial."
-	| roots f k tau |
+	| roots f n k tau visited fourier |
 	roots _ Bag new.
 	f _ self polynomial integerPrimitive.
+	n _ f degree.
 	(k _ f lowestDegree) > 0 ifTrue: [roots add: 0 withOccurrences: k. f _ f shift: k negated].
-	self flag: #fix. "f could be zero now"
+	f isConstant ifTrue: [^ roots].
+	visited _ Set2 new.
+	fourier _ OrderedCollection with: f.
 	f independentCoefficient divisorsDo: [:each|
 		f leadingCoefficient divisorsDo: [:one|
 			tau _ each / one.
-			((roots includes: tau) not and: [(f value: tau) isZero])
-				ifTrue: [roots add: tau withOccurrences: "slow" (f multiplicityAt: tau)].
-			tau _ tau negated.
-			((roots includes: tau) not and: [(f value: tau) isZero])
-				ifTrue: [roots add: tau withOccurrences: "slow" (f multiplicityAt: tau)]]].
+			visited add: tau ifAbsent:
+					[(f value: tau) isZero
+						ifTrue: [roots add: tau withOccurrences: (self multiplicityAt: tau fourier: fourier). roots size = n ifTrue: [^ roots]].
+					tau _ tau negated.
+					(f value: tau) isZero
+						ifTrue: [roots add: tau withOccurrences: (self multiplicityAt: tau fourier: fourier). roots size = n ifTrue: [^ roots]]]]].
 	^ roots! !
 
 !RealRootFinder methodsFor: 'private' stamp: 'len 6/5/2016 05:57'!
@@ -32176,9 +32236,9 @@ dimension
 		ifTrue: [self projection dimension]
 		ifFalse: [self projection dimension + 1]! !
 
-!SemialgebraicCell methodsFor: 'comparing' stamp: 'len 3/18/2016 06:43'!
+!SemialgebraicCell methodsFor: 'comparing' stamp: 'len 6/28/2016 09:35'!
 hash
-	^ self projection hash + self left hash + self right hash! !
+	^ self projection hash + self left hash + self right hash hashMultiply! !
 
 !SemialgebraicCell methodsFor: 'testing' stamp: 'len 1/17/98 14:23'!
 includes: aTuple
@@ -33480,11 +33540,11 @@ testD3
 	self assert: D commutator = A.
 	self assert: D center isTrivial! !
 
-!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 6/3/2016 19:51'!
+!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 6/28/2016 08:45'!
 testDirectProduct
 	| S A G g |
-	S _ Group symmetric: (1 to: 3).
-	A _ Group alternating: (1 to: 3).
+	S _ SymmetricGroup new: 3.
+	A _ AlternatingGroup new: 3.
 	G _ S directProduct: A.
 	g _ G atRandom.
 	self assert: (G operation value: {g. G inverseMap value: g}) = G identity! !
