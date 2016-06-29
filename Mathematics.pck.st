@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 29 June 2016 at 10:07:15.420271 pm'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 29 June 2016 at 11:48:45.907472 pm'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 113!
+!provides: 'Mathematics' 1 114!
 !classDefinition: #AbelianGroupPresentation category: #'Mathematics-Free'!
 Object subclass: #AbelianGroupPresentation
 	instanceVariableNames: 'generators relators'
@@ -1041,14 +1041,14 @@ Domain subclass: #LinearCode
 LinearCode class
 	instanceVariableNames: ''!
 
-!classDefinition: #CyclicCode category: #'Mathematics-Codes'!
-LinearCode subclass: #CyclicCode
+!classDefinition: #CyclicCode2 category: #'Mathematics-Codes'!
+LinearCode subclass: #CyclicCode2
 	instanceVariableNames: 'generator'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Codes'!
-!classDefinition: 'CyclicCode class' category: #'Mathematics-Codes'!
-CyclicCode class
+!classDefinition: 'CyclicCode2 class' category: #'Mathematics-Codes'!
+CyclicCode2 class
 	instanceVariableNames: ''!
 
 !classDefinition: #PolynomialCode category: #'Mathematics-Codes'!
@@ -1059,6 +1059,16 @@ LinearCode subclass: #PolynomialCode
 	category: 'Mathematics-Codes'!
 !classDefinition: 'PolynomialCode class' category: #'Mathematics-Codes'!
 PolynomialCode class
+	instanceVariableNames: ''!
+
+!classDefinition: #CyclicCode category: #'Mathematics-Codes'!
+PolynomialCode subclass: #CyclicCode
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Codes'!
+!classDefinition: 'CyclicCode class' category: #'Mathematics-Codes'!
+CyclicCode class
 	instanceVariableNames: ''!
 
 !classDefinition: #Magma category: #'Mathematics-Kernel-Domains'!
@@ -3669,6 +3679,16 @@ My instances are polynomial codes.
 
 In coding theory, a polynomial code is a type of linear code whose set of valid codewords consists of those polynomials (usually of some fixed length) that are divisible by some fixed polynomial (of shorter length, called the generator polynomial).!
 
+!FreeMonoid commentStamp: '<historical>' prior: 0!
+My instances are free monoids. A free monoid is a monoid whose elements are words in a finite set of arbitrary objects (symbols), and the monoid operation is word concatenation.!
+
+!Group commentStamp: '<historical>' prior: 0!
+My instances are groups.
+
+In the most generic form, groups can be represented explicitly as a set of elements, plus a distinguished 'identity' element, group operation and inverse map. They can be also defined and represented more compactly by a set of generators.
+
+Some specific groups (such as permutation groups and matrix groups) can be represented in more efficient ways, and operate with more efficient algorithms. See subclasses.!
+
 !EuclideanGroup commentStamp: '<historical>' prior: 0!
 My instances are the Euclidean group E(n) or ISO(n), the symmetry group of n-dimensional Euclidean space. Its elements are the isometries associated with the Euclidean metric, and are called Euclidean motions (they are affine maps).
 
@@ -3816,6 +3836,15 @@ A chain map between two chain complexes (Ci,di) and (C`i,d`i) is a sequence of h
 
 Chain maps are morphisms in the category of chain complexes.!
 
+!GroupAction commentStamp: '<historical>' prior: 0!
+My instances are (left) group actions.
+
+Given a group G and a set X, a (left) group action phi:GxX -> X is a function such that satisfies:
+- Identity: phi(id,x) = x;
+- Compatibility: phi(g, phi(h,x)) = phi(g*h, x).
+
+The group G is said to 'act' on X (on the left). The set X is called a (left) G-set.!
+
 !LinearMap commentStamp: '<historical>' prior: 0!
 My instances are linear transformations between spaces of finite dimension, i.e. morphisms of vector spaces.
 
@@ -3951,6 +3980,14 @@ I am the Lagrange-Gauss reduction algorithm. My instances perform reduction of l
 Input: a vector space V and two independent vectors {v1,v2} that generate a lattice;
 Output: a short vector in the lattice.
 !
+
+!LinearCombination commentStamp: '<historical>' prior: 0!
+My instances are formal linear combinations of arbitrary objects.!
+
+!FreePolynomial commentStamp: '<historical>' prior: 0!
+My instances are elements of the free algebra in a finite set of objects.
+
+A free polynomial is a formal linear combination of words, that in turn are formal (non-commutative) products of arbitrary objects.!
 
 !SimplicialChain commentStamp: '<historical>' prior: 0!
 A simplicial k-chain is a formal linear combination of k-simplices.!
@@ -4235,6 +4272,9 @@ Each SemialgebraicCell in R^n is represented as the extension of a Semialgebraic
 
 !Simplex commentStamp: '<historical>' prior: 0!
 My instances are (abstract) n-simplices.!
+
+!Word commentStamp: '<historical>' prior: 0!
+A word is a (non-commutative) formal product of a finite ordered list of objects.!
 
 !WuRittProcess commentStamp: 'len 12/30/2015 05:43' prior: 0!
 I'm the Ritt-Wu process.
@@ -14645,34 +14685,34 @@ tetracode
 	"Answer the tetracode, a self dual code of minimum distance 3."
 	^ self subspace: ((Field GF: 3) ** 4 span: {(1,1,1,0) % 3. (0,1,2,1) % 3})! !
 
-!CyclicCode methodsFor: 'converting' stamp: 'len 5/17/2016 21:26'!
+!CyclicCode2 methodsFor: 'converting' stamp: 'len 5/17/2016 21:26'!
 asIdeal
 	^ generator ideal! !
 
-!CyclicCode methodsFor: 'accessing' stamp: 'len 5/18/2016 07:24'!
+!CyclicCode2 methodsFor: 'accessing' stamp: 'len 5/18/2016 07:24'!
 checkPolynomial
 	| x one |
 	x _ generator species x.
 	one _ generator species one.
 	^ x ** self length - one / generator! !
 
-!CyclicCode methodsFor: 'accessing' stamp: 'len 5/18/2016 07:21'!
+!CyclicCode2 methodsFor: 'accessing' stamp: 'len 5/18/2016 07:21'!
 dimension
 	^ self length - generator degree! !
 
-!CyclicCode methodsFor: 'iterating' stamp: 'len 5/18/2016 06:30'!
+!CyclicCode2 methodsFor: 'iterating' stamp: 'len 5/18/2016 06:30'!
 do: aBlock
 	self asIdeal do: aBlock! !
 
-!CyclicCode methodsFor: 'morphisms' stamp: 'len 5/18/2016 07:30'!
+!CyclicCode2 methodsFor: 'morphisms' stamp: 'len 5/18/2016 07:30'!
 dual
 	^ self class new: self length generator: self generator reversed! !
 
-!CyclicCode methodsFor: 'accessing' stamp: 'len 5/17/2016 21:02'!
+!CyclicCode2 methodsFor: 'accessing' stamp: 'len 5/17/2016 21:02'!
 generator
 	^ generator! !
 
-!CyclicCode methodsFor: 'accessing-private' stamp: 'len 5/18/2016 07:21'!
+!CyclicCode2 methodsFor: 'accessing-private' stamp: 'len 5/18/2016 07:21'!
 generator: aPolynomial
 	generator _ aPolynomial.
 "
@@ -14686,17 +14726,17 @@ generator: aPolynomial
 	[basis includes: g] whileFalse: [basis add: g. g _ g * x].
 	self subspace: basis span"! !
 
-!CyclicCode methodsFor: 'testing' stamp: 'len 5/18/2016 07:27'!
+!CyclicCode2 methodsFor: 'testing' stamp: 'len 5/18/2016 07:27'!
 includes: aCodeword
 	| x |
 	x _ generator species x.
 	^ self checkPolynomial * aCodeword \\ (x ** self length - x one) :: isZero! !
 
-!CyclicCode methodsFor: 'testing' stamp: 'len 5/18/2016 07:22'!
+!CyclicCode2 methodsFor: 'testing' stamp: 'len 5/18/2016 07:22'!
 isIrreducible
 	^ generator isIrreducible! !
 
-!CyclicCode class methodsFor: 'examples' stamp: 'len 5/18/2016 07:20'!
+!CyclicCode2 class methodsFor: 'examples' stamp: 'len 5/18/2016 07:20'!
 H7
 	"Answer the Hamming code of length 7."
 	| F Fx x |
@@ -14705,7 +14745,7 @@ H7
 	x _ Fx x.
 	^ self new: 7 generator: x**3 + x + 1! !
 
-!CyclicCode class methodsFor: 'instance creation' stamp: 'len 5/18/2016 07:20'!
+!CyclicCode2 class methodsFor: 'instance creation' stamp: 'len 5/18/2016 07:20'!
 new: n generator: aPolynomial
 	| F |
 	F _ aPolynomial scalars.
@@ -14780,6 +14820,27 @@ new: n generator: aPolynomial
 	W _ aPolynomial species asVectorSpaceMaxDegree: n - aPolynomial degree - 1.
 	subspace _ V span: (W collect: [:f| aPolynomial * f]).
 	^ (self subspace: subspace) generator: aPolynomial! !
+
+!CyclicCode methodsFor: 'as yet unclassified' stamp: 'len 6/29/2016 22:18'!
+checkPolynomial
+	| x one |
+	x _ generator species x.
+	one _ generator species one.
+	^ x ** self length - one / generator! !
+
+!CyclicCode methodsFor: 'as yet unclassified' stamp: 'len 6/29/2016 22:18'!
+dual
+	^ self class new: self length generator: self generator reversed! !
+
+!CyclicCode methodsFor: 'as yet unclassified' stamp: 'len 6/29/2016 22:18'!
+includes: aCodeword
+	| x |
+	x _ generator species x.
+	^ self checkPolynomial * aCodeword \\ (x ** self length - x one) :: isZero! !
+
+!CyclicCode methodsFor: 'as yet unclassified' stamp: 'len 6/29/2016 22:18'!
+isIrreducible
+	^ generator isIrreducible! !
 
 !Magma methodsFor: 'copying' stamp: 'len 5/1/2016 23:33'!
 copyEmpty
@@ -23474,12 +23535,12 @@ printOn: aStream
 		c ~= c one ifTrue: [self printCoefficient: c on: aStream].
 		aStream print: each]! !
 
-!LinearCombination methodsFor: 'accessing' stamp: 'len 6/23/2016 20:54'!
+!LinearCombination methodsFor: 'accessing' stamp: 'len 6/29/2016 23:24'!
 value
 	| answer |
 	answer _ nil.
 	coefficients keysAndValuesDo: [:key :value|
-		answer _ answer ifNil: [key * value] ifNotNil: [key * value + answer]].
+		answer _ answer ifNil: [key value * value] ifNotNil: [key value * value + answer]].
 	^ answer! !
 
 !LinearCombination class methodsFor: 'instance creation' stamp: 'len 2/28/2016 04:30'!
@@ -23511,25 +23572,20 @@ with: anElement times: n
 		ifTrue: [^ self mapMonomials: [:each| each*anObject]].
 	^ DomainError signal! !
 
-!FreePolynomial methodsFor: 'arithmetic' stamp: 'len 2/29/2016 05:10'!
+!FreePolynomial methodsFor: 'arithmetic' stamp: 'len 6/29/2016 23:30'!
 ** anInteger
-	^ self raisedToInteger: anInteger! !
+	"Answer the receiver raised to the power anInteger."
+	(anInteger isInteger and: [anInteger >= 0])
+		ifFalse: [^ self error: 'undefinted'].
+	anInteger = 0 ifTrue: [^ self one].
+	anInteger = 1 ifTrue: [^ self].
+	^ self * self ** (anInteger // 2) * (self ** (anInteger \\ 2))! !
 
 !FreePolynomial methodsFor: 'accessing' stamp: 'len 3/3/2016 05:27'!
 degree
 	"Answer the total degree of the receiver."
 	self isZero ifTrue: [^ Infinity negative].
 	^ self monomials max: [:each| each length]! !
-
-!FreePolynomial methodsFor: 'arithmetic' stamp: 'len 2/29/2016 05:09'!
-raisedToInteger: anInteger
-	"Answer the receiver raised to the power anInteger."
-	(anInteger isInteger and: [anInteger >= 0])
-		ifFalse: [^ self error: 'undefinted'].
-	anInteger = 0 ifTrue: [^ self one].
-	anInteger = 1 ifTrue: [^ self].
-	^ (self * self raisedToInteger: anInteger // 2)
-			* (self raisedToInteger: anInteger \\ 2)! !
 
 !FreePolynomial methodsFor: 'arithmetic' stamp: 'len 3/2/2016 05:35'!
 squared
@@ -35826,12 +35882,12 @@ testSimplexNegation
 				ifFalse: [^ self class syllables: (x, {Association key: xn key value: exponent}, y) asArray]].
 	^ self class syllables: (x, y) asArray! !
 
-!Word methodsFor: 'arithmetic' stamp: 'len 3/30/2016 03:39'!
+!Word methodsFor: 'arithmetic' stamp: 'len 6/29/2016 23:30'!
 ** anInteger
 	anInteger = 1 ifTrue: [^ self].
 	anInteger = 0 ifTrue: [^ self class empty].
 	anInteger < 0 ifTrue: [^ self reciprocal ** anInteger negated].
-	^ (self * self ** (anInteger // 2)) * (self ** (anInteger \\ 2))! !
+	^ self * self ** (anInteger // 2) * (self ** (anInteger \\ 2))! !
 
 !Word methodsFor: 'arithmetic' stamp: 'len 2/20/2016 05:34'!
 / aWord
@@ -35877,6 +35933,10 @@ syllables
 !Word methodsFor: 'accessing-private' stamp: 'len 3/3/2016 05:21'!
 syllables: anArray
 	syllables _ anArray! !
+
+!Word methodsFor: 'accessing' stamp: 'len 6/29/2016 23:23'!
+value
+	^ syllables product: [:each| each key ** each value]! !
 
 !Word class methodsFor: 'instance creation' stamp: 'len 3/3/2016 05:24'!
 empty
