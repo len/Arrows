@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 29 June 2016 at 6:44:35.253746 am'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 29 June 2016 at 10:07:15.420271 pm'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 112!
+!provides: 'Mathematics' 1 113!
 !classDefinition: #AbelianGroupPresentation category: #'Mathematics-Free'!
 Object subclass: #AbelianGroupPresentation
 	instanceVariableNames: 'generators relators'
@@ -3658,6 +3658,16 @@ My instances are sets of zeros of multivariate polynomials in an algebraically c
 
 !Grassmannian commentStamp: '<historical>' prior: 0!
 The Grassmannian Gr(r.V) is the set of r-dimensional subspaces of the vector space V.!
+
+!LinearCode commentStamp: 'len 6/29/2016 22:05' prior: 0!
+My instances are linear codes.
+
+In coding theory, a linear code is an error-correcting code for which any linear combination of codewords is also a codeword.!
+
+!PolynomialCode commentStamp: 'len 6/29/2016 22:03' prior: 0!
+My instances are polynomial codes.
+
+In coding theory, a polynomial code is a type of linear code whose set of valid codewords consists of those polynomials (usually of some fixed length) that are divisible by some fixed polynomial (of shorter length, called the generator polynomial).!
 
 !EuclideanGroup commentStamp: '<historical>' prior: 0!
 My instances are the Euclidean group E(n) or ISO(n), the symmetry group of n-dimensional Euclidean space. Its elements are the isometries associated with the Euclidean metric, and are called Euclidean motions (they are affine maps).
@@ -14739,9 +14749,9 @@ rank
 size
 	^ generator species scalars size ** (self length - generator degree)! !
 
-!PolynomialCode class methodsFor: 'examples' stamp: 'len 5/12/2016 07:43'!
+!PolynomialCode class methodsFor: 'examples' stamp: 'len 6/29/2016 21:55'!
 G23
-	"Answer the perfect G23 Golay code."
+	"Answer the perfect binary Golay code [23,12,7]."
 	| F Fx x g |
 	F _ Field GF: 2.
 	Fx _ F polynomials.
@@ -14749,15 +14759,26 @@ G23
 	g _ x**11 + (x**10) + (x**6) + (x**5) + (x**4) + (x**2) + Fx one.
 	^ self new: 23 generator: g! !
 
+!PolynomialCode class methodsFor: 'examples' stamp: 'len 6/29/2016 21:57'!
+H7
+	"Answer the Hamming code [7,4,3]."
+	| F Fx x g |
+	F _ Field GF: 2.
+	Fx _ F polynomials.
+	x _ Fx x.
+	g _ x**3 + x + Fx one.
+	^ self new: 7 generator: g! !
+
 !PolynomialCode class methodsFor: 'instance creation' stamp: 'len 5/12/2016 07:42'!
 generator: aPolynomial
 	^ self new: aPolynomial degree generator: aPolynomial! !
 
-!PolynomialCode class methodsFor: 'instance creation' stamp: 'len 6/25/2016 06:05'!
+!PolynomialCode class methodsFor: 'instance creation' stamp: 'len 6/29/2016 21:52'!
 new: n generator: aPolynomial
-	| V subspace |
+	| V W subspace |
 	V _ aPolynomial species asVectorSpaceMaxDegree: n - 1.
-	subspace _ V span: (V select: [:f| aPolynomial | f]).
+	W _ aPolynomial species asVectorSpaceMaxDegree: n - aPolynomial degree - 1.
+	subspace _ V span: (W collect: [:f| aPolynomial * f]).
 	^ (self subspace: subspace) generator: aPolynomial! !
 
 !Magma methodsFor: 'copying' stamp: 'len 5/1/2016 23:33'!
@@ -16734,6 +16755,10 @@ do: aBlock
 !SemidirectProductGroup methodsFor: 'accessing' stamp: 'len 4/22/2016 20:49'!
 identity
 	^ self project: {left identity. right identity}! !
+
+!SemidirectProductGroup methodsFor: 'testing' stamp: 'len 6/29/2016 21:21'!
+isProduct
+	^ true! !
 
 !SemidirectProductGroup methodsFor: 'accessing' stamp: 'len 2/12/2016 06:16'!
 left
@@ -20042,6 +20067,10 @@ asHomomorphism
 		from: self group
 		to: (PermutationGroup on: self space)
 		evaluating: [:g| Permutation on: self space evaluating: [:x| self value: {g.x}]]! !
+
+!GroupAction methodsFor: 'accessing' stamp: 'len 6/29/2016 08:46'!
+degree
+	^ self space size! !
 
 !GroupAction methodsFor: 'accessing' stamp: 'len 2/13/2016 06:31'!
 fixedPoints
@@ -32244,8 +32273,9 @@ root: aPoint generators: anArray action: aGroupAction
 				w at: x put: a]].
 	queue isEmpty] whileFalse! !
 
-!SchreierTree methodsFor: 'as yet unclassified' stamp: 'len 6/24/2016 03:14'!
+!SchreierTree methodsFor: 'as yet unclassified' stamp: 'len 6/29/2016 08:57'!
 stabilizer
+	"Answer the stabilizer of the root."
 	^ self notYetImplemented! !
 
 !SchreierTree methodsFor: 'as yet unclassified' stamp: 'len 6/24/2016 09:21'!
