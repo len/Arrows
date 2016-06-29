@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 28 June 2016 at 9:00:17.702069 pm'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 29 June 2016 at 12:45:10.843794 am'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 110!
+!provides: 'Mathematics' 1 111!
 !classDefinition: #AbelianGroupPresentation category: #'Mathematics-Free'!
 Object subclass: #AbelianGroupPresentation
 	instanceVariableNames: 'generators relators'
@@ -1463,7 +1463,7 @@ UnitsGroup class
 
 !classDefinition: #Monomials category: #'Mathematics-Polynomials-Domains'!
 Monoid subclass: #Monomials
-	instanceVariableNames: 'indeterminates'
+	instanceVariableNames: 'rank'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Polynomials-Domains'!
@@ -3666,6 +3666,9 @@ Example:
 !AlgebraicSet commentStamp: '<historical>' prior: 0!
 My instances are sets of zeros of multivariate polynomials in an algebraically closed field. They are geometric manifestations of solutions of systems of polynomial equations.!
 
+!Grassmannian commentStamp: '<historical>' prior: 0!
+The Grassmannian Gr(r.V) is the set of r-dimensional subspaces of the vector space V.!
+
 !EuclideanGroup commentStamp: '<historical>' prior: 0!
 My instances are the Euclidean group E(n) or ISO(n), the symmetry group of n-dimensional Euclidean space. It's elements are the isometries associated with the Euclidean metric, and are called Euclidean motions (they are affine maps).
 
@@ -4057,7 +4060,7 @@ where some of the ai or bi may be 0. And suppose the variables are ordered x1 < 
 	bSum = b1 w1 + b2 w2 + ... + bn wn;
 if aSum < bSum, then a < b; if aSum > bSum, then a > b; if aSum = bSum, we continue with the next weight, until there are no more weights (then, a should equal b...).
 
-Theorem: For any monomial ordering in a finite number of variables, there are a collection of weights which models that ordering. So, with this scheme we are able to contruct any ordering.
+Theorem: For any monomial ordering in a finite number of variables, there is a collection of weights that models the ordering. So, with this idea we can contruct any ordering.
 !
 
 !GraphMorph commentStamp: '<historical>' prior: 0!
@@ -14206,6 +14209,11 @@ dual
 includes: aLinearSubspace
 	^ space >= aLinearSubspace and: [aLinearSubspace rank = rank]! !
 
+!Grassmannian methodsFor: 'morphisms' stamp: 'len 6/28/2016 23:34'!
+pluckerEmbedding
+	"Answer the Plucker embedding, a natural embedding of the Grassmannian into a projective space."
+	^ self notYetImplemented "need to implement the wedge product"! !
+
 !Grassmannian methodsFor: 'printing' stamp: 'len 4/29/2016 18:35'!
 printOn: aStream
 	aStream nextPutAll: 'Gr' bold; nextPut: $(; print: rank; nextPut: $,; print: space; nextPut: $)! !
@@ -16400,25 +16408,25 @@ space: aCollection
 species
 	^ PermutationGroup! !
 
-!PermutationGroup class methodsFor: 'examples' stamp: 'len 6/23/2016 06:43'!
+!PermutationGroup class methodsFor: 'examples' stamp: 'len 6/29/2016 00:42'!
 M11
 	"Answer the Mathieu group on 11 points. With order 7920, this is the smallest of the 26 sporadic simple groups."
 	| s1 s2 |
 	"ALTERNATIVELY:
-	s1 _ Permutation cycles: #((1 2 3 4 5 6 7 8 9 10 11).
-	s2 _ Permutation cycles: #((3 7 11 8) (4 10 5 6)).
+	s1 _ Permutation new: 11 cycles: #((1 2 3 4 5 6 7 8 9 10 11).
+	s2 _ Permutation new: 11 cycles: #((3 7 11 8) (4 10 5 6)).
 	"
-	s1 _ Permutation cycles: #((1 10) (2 8) (3 11) (5 7)).
-	s2 _ Permutation cycles: #((1 4 7 6) (2 11 10 9)).
+	s1 _ Permutation new: 11 cycles: #((1 10) (2 8) (3 11) (5 7)).
+	s2 _ Permutation new: 11 cycles: #((1 4 7 6) (2 11 10 9)).
 	^ self on: (1 to: 11) generators: {s1. s2}! !
 
-!PermutationGroup class methodsFor: 'examples' stamp: 'len 6/23/2016 06:45'!
+!PermutationGroup class methodsFor: 'examples' stamp: 'len 6/29/2016 00:43'!
 M12
 	"Answer the Mathieu group on 12 points, the second smallest of the 26 sporadic simple groups, with order 95040."
 	| s1 s2 s3 |
-	s1 _ Permutation cycles: #((1 2 3 4 5 6 7 8 9 10 11)).
-	s2 _ Permutation cycles: #((3 7 11 8) (4 10 5 6)).
-	s3 _ Permutation cycles: #((1 12) (2 11) (3 6) (4 8) (5 9) (7 10)).
+	s1 _ Permutation new: 12 cycles: #((1 2 3 4 5 6 7 8 9 10 11)).
+	s2 _ Permutation new: 12 cycles: #((3 7 11 8) (4 10 5 6)).
+	s3 _ Permutation new: 12 cycles: #((1 12) (2 11) (3 6) (4 8) (5 9) (7 10)).
 	^ self on: (1 to: 12) generators: {s1. s2. s3}! !
 
 !PermutationGroup class methodsFor: 'examples' stamp: 'len 5/14/2016 00:30'!
@@ -16436,12 +16444,12 @@ dihedral: order
 	s _ Permutation on: (1 to: n) evaluating: [:i| n - i + 1].
 	^ self on: (1 to: n) generators: {s. r} :: name: 'Dih' bold, order printString sub! !
 
-!PermutationGroup class methodsFor: 'examples' stamp: 'len 6/28/2016 07:31'!
+!PermutationGroup class methodsFor: 'examples' stamp: 'len 6/29/2016 00:40'!
 hessian
 	"Answer the Hessian group, a finite group of order 216 introduced by Jordan and named after Otto Hesse."
 	| s1 s2 |
-	s1 _ StandardPermutation cycles: #((1 2 4) (5 6 8) (3 9 7)).
-	s2 _ StandardPermutation cycles: #((4 5 6) (7 9 8)).
+	s1 _ Permutation new: 9 cycles: #((1 2 4) (5 6 8) (3 9 7)).
+	s2 _ Permutation new: 9 cycles: #((4 5 6) (7 9 8)).
 	^ self on: (1 to: 9) generators: {s1. s2}! !
 
 !PermutationGroup class methodsFor: 'examples' stamp: 'len 6/28/2016 06:12'!
@@ -16478,9 +16486,9 @@ do: aBlock
 	domain _ self space asArray.
 	domain permutationsDo: [:each| |p| (p _ Permutation keys: domain values: each) even ifTrue: [aBlock value: p]]! !
 
-!AlternatingGroup methodsFor: 'testing' stamp: 'len 5/13/2016 02:48'!
+!AlternatingGroup methodsFor: 'testing' stamp: 'len 6/29/2016 00:26'!
 includes: aPermutation
-	^ (aPermutation isKindOf: Permutation) and: ["aPermutation domain <= space and: ["aPermutation even]! !
+	^ (aPermutation is: #Permutation) and: ["aPermutation domain <= space and: ["aPermutation even]! !
 
 !AlternatingGroup methodsFor: 'testing' stamp: 'len 2/16/2016 05:54'!
 isSimple
@@ -16780,21 +16788,25 @@ ring: aRing
 on: aRing
 	^ self new ring: aRing! !
 
-!Monomials methodsFor: 'as yet unclassified' stamp: 'len 3/28/2016 03:38'!
+!Monomials methodsFor: 'as yet unclassified' stamp: 'len 6/28/2016 23:38'!
 indeterminates
-	^ indeterminates! !
+	^ 1 to: rank! !
 
-!Monomials methodsFor: 'as yet unclassified' stamp: 'len 3/28/2016 03:35'!
-indeterminates: aCollection
-	indeterminates _ aCollection! !
-
-!Monomials methodsFor: 'as yet unclassified' stamp: 'len 4/21/2016 00:23'!
+!Monomials methodsFor: 'as yet unclassified' stamp: 'len 6/28/2016 23:38'!
 printOn: aStream
 	aStream nextPut: $[.
-	indeterminates
+	self indeterminates
 		do: [:i| aStream print: (Monomial x: i)]
 		separatedBy: [aStream nextPut: $,].
 	aStream nextPutAll: ']*'! !
+
+!Monomials methodsFor: 'as yet unclassified' stamp: 'len 6/28/2016 23:37'!
+rank
+	^ rank! !
+
+!Monomials methodsFor: 'as yet unclassified' stamp: 'len 6/28/2016 23:37'!
+rank: anInteger
+	rank _ anInteger! !
 
 !Naturals methodsFor: 'comparing' stamp: 'len 12/14/2015 01:55'!
 = anObject
@@ -20630,9 +20642,9 @@ from: aLinearBasis matrix: aMatrix
 
 	^ self @ aPermutation! !
 
-!Permutation methodsFor: 'comparing' stamp: 'len 6/28/2016 07:43'!
+!Permutation methodsFor: 'comparing' stamp: 'len 6/29/2016 00:26'!
 = aPermutation
-	(aPermutation isKindOf: Permutation) ifFalse: [^ super = aPermutation].
+	(aPermutation isKindOf: self species) ifFalse: [^ super = aPermutation].
 	map keysAndValuesDo: [:key :value| (aPermutation at: key) = value ifFalse: [^ false]].
 	aPermutation map size <= map size ifTrue: [^ true].
 	aPermutation map keysAndValuesDo: [:key :value| value = (self at: key) ifFalse: [^ false]].
@@ -20655,6 +20667,10 @@ aChange
 
 	self changesDo: [ :each | ^ each].
 	^ nil! !
+
+!Permutation methodsFor: 'converting' stamp: 'len 6/29/2016 00:15'!
+asStandardPermutationIn: anArray
+	^ StandardPermutation values: (anArray collect: [:each| anArray indexOf: (self value: each)])! !
 
 !Permutation methodsFor: 'accessing' stamp: 'len 6/28/2016 07:01'!
 at: anObject
@@ -20738,6 +20754,10 @@ inverse
 	answer _ self species new.
 	self changesDo: [:each| answer at: (self at: each) put: each].
 	^ answer! !
+
+!Permutation methodsFor: 'testing' stamp: 'len 6/29/2016 00:25'!
+is: aSymbol
+	^ aSymbol == #Permutation or: [super is: aSymbol]! !
 
 !Permutation methodsFor: 'testing' stamp: 'len 5/6/98 05:03'!
 isConjugateWith: aPermutation
@@ -20881,6 +20901,26 @@ new
 	"Answer a new instance of the receiver representing the identity permutation."
 	^ super new map: Dictionary2 new! !
 
+!Permutation class methodsFor: 'instance creation' stamp: 'len 6/29/2016 00:37'!
+new: anInteger
+	^ StandardPermutation values: (1 to: anInteger) asArray! !
+
+!Permutation class methodsFor: 'instance creation' stamp: 'len 6/29/2016 00:38'!
+new: n cycle: aCollection
+	| answer first last |
+	answer _ StandardPermutation new: n.
+	aCollection do: [:each|
+		first isNil
+			ifTrue: [first _ each]
+			ifFalse: [answer at: last put: each].
+		last _ each].
+	answer at: last put: first.
+	^ answer! !
+
+!Permutation class methodsFor: 'instance creation' stamp: 'len 6/29/2016 00:38'!
+new: n cycles: anArray
+	^ anArray inject: (self new: n) into: [:answer :each| answer @ (self new: n cycle: each)]! !
+
 !Permutation class methodsFor: 'instance creation' stamp: 'len 5/16/2016 05:25'!
 on: aSet evaluating: aBlock
 	| answer |
@@ -20896,12 +20936,9 @@ transpose: anObject with: anotherObject
 		at: anotherObject put: anObject;
 		yourself! !
 
-!Permutation class methodsFor: 'instance creation' stamp: 'len 6/28/2016 06:09'!
+!Permutation class methodsFor: 'instance creation' stamp: 'len 6/29/2016 00:39'!
 values: anArray
-	| answer |
-	answer _ self new.
-	1 to: anArray size do: [:each| answer at: each put: (anArray at: each)].
-	^ answer! !
+	^ StandardPermutation values: anArray! !
 
 !PermutationCycle methodsFor: 'accessing' stamp: 'len 5/6/98 04:59'!
 cycleAt: anObject
@@ -20958,12 +20995,12 @@ transpositions
 		answer addFirst: (self species transpose: first with: (last _ self at: last))].
 	^ answer! !
 
-!StandardPermutation methodsFor: 'as yet unclassified' stamp: 'len 6/28/2016 08:55'!
+!StandardPermutation methodsFor: 'comparing' stamp: 'len 6/28/2016 08:55'!
 = aPermutation
 	(aPermutation isKindOf: self class) ifFalse: [^ super = aPermutation].
 	^ map = aPermutation map! !
 
-!StandardPermutation methodsFor: 'as yet unclassified' stamp: 'len 6/28/2016 07:30'!
+!StandardPermutation methodsFor: 'arithmetic' stamp: 'len 6/28/2016 07:30'!
 @ aPermutation
 	"Answer the composition of the receiver with the argument."
 
@@ -20971,15 +21008,28 @@ transpositions
 		ifFalse: [^ super @ aPermutation].
 	^ self class values: (aPermutation map collect: [:each| map at: each])! !
 
-!StandardPermutation methodsFor: 'as yet unclassified' stamp: 'len 6/28/2016 07:35'!
+!StandardPermutation methodsFor: 'converting' stamp: 'len 6/28/2016 23:57'!
+asPermutationIn: anArray
+	^ self species keys: anArray values: (map collect: [:each| anArray at: each])! !
+
+!StandardPermutation methodsFor: 'iterating' stamp: 'len 6/28/2016 07:35'!
 changesDo: aBlock
 	1 to: map size do: [:i| (map at: i) = i ifFalse: [aBlock value: i]]! !
 
-!StandardPermutation methodsFor: 'as yet unclassified' stamp: 'len 6/28/2016 08:53'!
+!StandardPermutation methodsFor: 'accessing' stamp: 'len 6/29/2016 00:24'!
+degree
+	^ map size! !
+
+!StandardPermutation methodsFor: 'accessing' stamp: 'len 6/28/2016 08:53'!
 domain
 	^ (1 to: map size) as: Domain! !
 
-!StandardPermutation methodsFor: 'as yet unclassified' stamp: 'len 6/28/2016 07:28'!
+!StandardPermutation methodsFor: 'arithmetic' stamp: 'len 6/29/2016 00:24'!
+identity
+	"Answer the identity permutation."
+	^ self class new: self degree! !
+
+!StandardPermutation methodsFor: 'arithmetic' stamp: 'len 6/28/2016 07:28'!
 inverse
 	"Answer the compositive inverse of the receiver."
 	| values |
@@ -20987,7 +21037,7 @@ inverse
 	1 to: map size do: [:i| values at: (map at: i) put: i].
 	^ self class values: values! !
 
-!StandardPermutation class methodsFor: 'as yet unclassified' stamp: 'len 6/28/2016 07:13'!
+!StandardPermutation class methodsFor: 'instance creation' stamp: 'len 6/28/2016 07:13'!
 values: anArray
 	^ self basicNew map: anArray! !
 
@@ -33496,24 +33546,24 @@ testUnion
 	G _ Digraph unordered addEdges: {#a -> #b. #b -> #c. #d -> #e. #x -> #b}; yourself.
 	self assert: (G union: G transposed) = G symmetric! !
 
-!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 6/22/2016 07:24'!
+!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 6/29/2016 00:37'!
 testActionOrbitOf
 	| g1 g2 g3 G |
-	g1 _ Permutation cycles: #((1 3 2) (4 6 5)).
-	g2 _ Permutation cycles: #((1 2 3) (4 5 6)).
-	g3 _ Permutation cycles: #((7 8)).
+	g1 _ Permutation new: 8 cycles: #((1 3 2) (4 6 5)).
+	g2 _ Permutation new: 8 cycles: #((1 2 3) (4 5 6)).
+	g3 _ Permutation new: 8 cycles: #((7 8)).
 	G _ PermutationGroup on: (1 to: 8) generators: {g1. g2. g3}.
 	self assert: (G action orbitOf: 1) = #(1 2 3) asSet.
 	self assert: (G action orbitOf: 4) = #(4 6 5) asSet.
 	self assert: (G action orbitOf: 7) = #(7 8) asSet! !
 
-!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 6/22/2016 07:28'!
+!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 6/29/2016 00:42'!
 testActionStabilizerOf
 	| g1 g2 g3 id G |
-	g1 _ Permutation cycles: #((1 3 2) (4 6 5)).
-	g2 _ Permutation cycles: #((1 2 3) (4 5 6)).
-	g3 _ Permutation cycles: #((7 8)).
-	id _ Permutation new.
+	g1 _ Permutation new: 8 cycles: #((1 3 2) (4 6 5)).
+	g2 _ Permutation new: 8 cycles: #((1 2 3) (4 5 6)).
+	g3 _ Permutation new: 8 cycles: #((7 8)).
+	id _ Permutation new: 8.
 	G _ PermutationGroup on: (1 to: 8) generators: {g1. g2. g3}.
 	self assert: (G action stabilizerOf: 1) asSet = {id. g3} asSet.
 	self assert: (G action stabilizerOf: 7) asSet = {id. g1. g2} asSet! !
