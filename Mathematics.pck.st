@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 29 June 2016 at 12:45:10.843794 am'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 29 June 2016 at 6:44:35.253746 am'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 111!
+!provides: 'Mathematics' 1 112!
 !classDefinition: #AbelianGroupPresentation category: #'Mathematics-Free'!
 Object subclass: #AbelianGroupPresentation
 	instanceVariableNames: 'generators relators'
@@ -171,16 +171,6 @@ Digraph subclass: #RootedDigraph
 RootedDigraph class
 	instanceVariableNames: ''!
 
-!classDefinition: #IndexedTuple category: #'Mathematics-Kernel-Tuples'!
-Collection subclass: #IndexedTuple
-	instanceVariableNames: 'indices elements'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Kernel-Tuples'!
-!classDefinition: 'IndexedTuple class' category: #'Mathematics-Kernel-Tuples'!
-IndexedTuple class
-	instanceVariableNames: ''!
-
 !classDefinition: #Iterator category: #'Mathematics-Kernel-Support'!
 Collection subclass: #Iterator
 	instanceVariableNames: 'block'
@@ -213,7 +203,7 @@ BitTuple class
 
 !classDefinition: #ModularTuple category: #'Mathematics-Kernel-Tuples'!
 AbstractTuple subclass: #ModularTuple
-	instanceVariableNames: 'modulo representatives modulus'
+	instanceVariableNames: 'representatives modulus'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Kernel-Tuples'!
@@ -1651,13 +1641,13 @@ Domain subclass: #SimplicialComplex
 SimplicialComplex class
 	instanceVariableNames: ''!
 
-!classDefinition: #Spectrum category: #'Mathematics-ETC'!
+!classDefinition: #Spectrum category: #'Mathematics-Kernel-Domains'!
 Domain subclass: #Spectrum
 	instanceVariableNames: 'ring'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-ETC'!
-!classDefinition: 'Spectrum class' category: #'Mathematics-ETC'!
+	category: 'Mathematics-Kernel-Domains'!
+!classDefinition: 'Spectrum class' category: #'Mathematics-Kernel-Domains'!
 Spectrum class
 	instanceVariableNames: ''!
 
@@ -3670,7 +3660,7 @@ My instances are sets of zeros of multivariate polynomials in an algebraically c
 The Grassmannian Gr(r.V) is the set of r-dimensional subspaces of the vector space V.!
 
 !EuclideanGroup commentStamp: '<historical>' prior: 0!
-My instances are the Euclidean group E(n) or ISO(n), the symmetry group of n-dimensional Euclidean space. It's elements are the isometries associated with the Euclidean metric, and are called Euclidean motions (they are affine maps).
+My instances are the Euclidean group E(n) or ISO(n), the symmetry group of n-dimensional Euclidean space. Its elements are the isometries associated with the Euclidean metric, and are called Euclidean motions (they are affine maps).
 
 E(n) includes the subgroup E*(n) or SE(n) of isometries preserving orientation, also called rigid motions or special Euclidean group.!
 
@@ -3759,7 +3749,7 @@ My instances are abstract simplicial complexes. These are combinatorial objects 
 - the intersection of two simplices is either empty or a common face of both simplices.!
 
 !Spectrum commentStamp: '<historical>' prior: 0!
-My instances are spectra of commutative rings. Given a commutative ring R, the spectra of R idenoted Spec(R) is the set of all prime ideals of R.!
+My instances are spectra of commutative rings. Given a commutative ring R, the spectrum of R denoted Spec(R) is the set of all prime ideals of R.!
 
 !ExtendedEuclid commentStamp: 'len 3/21/2016 03:16' prior: 0!
 I am the Euclid's extended algorithm.
@@ -4545,6 +4535,14 @@ choose: anInteger
 	(anInteger < 0 or: [anInteger > self]) ifTrue: [^0].
 	^(self - anInteger + 1 productTo: self) // anInteger factorial! !
 
+!Integer methodsFor: '*mathematics' stamp: 'len 6/29/2016 06:40'!
+choose: anInteger q: q
+	"Answer the q-binomial coefficient of self with anInteger.
+	This counts the number of 'anInteger'-dimensional subspaces of a vector space of dimension 'self' over a finite field of order 'q' (power of a prime)."
+
+	(anInteger < 0 or: [anInteger > self]) ifTrue: [^0].
+	^ ((0 to: anInteger - 1) inject: 1 into: [:x :i| 1 - (q**(self-i)) * x]) / ((1 to: anInteger) inject: 1 into: [:x :i| 1 - (q**i) * x])! !
+
 !Integer methodsFor: '*mathematics' stamp: 'len 4/23/2016 19:35'!
 count: aBlock
 	| answer |
@@ -4747,14 +4745,6 @@ stirling: anInteger
 	self = anInteger ifTrue: [^ self Stirling: anInteger].
 	self+1 = anInteger ifTrue: [^ self take: 2].
 	^ (self-1) * (self-1 stirling: anInteger) + (self-1 stirling: anInteger-1)! !
-
-!Integer methodsFor: '*mathematics' stamp: 'len 4/28/2016 02:57'!
-take: anInteger q: q
-	"Answer the q-binomial coefficient of self with anInteger.
-	This counts the number of 'anInteger'-dimensional subspaces of a vector space of dimension 'self' over a finite field of order 'q' (power of a prime)."
-
-	(anInteger < 0 or: [anInteger > self]) ifTrue: [^0].
-	^ ((0 to: anInteger - 1) inject: 1 into: [:x :i| 1 - (q**(self-i)) * x]) / ((1 to: anInteger) inject: 1 into: [:x :i| 1 - (q**i) * x])! !
 
 !SmallInteger methodsFor: '*mathematics' stamp: 'len 3/28/2016 07:53'!
 bitCount
@@ -7278,14 +7268,6 @@ exampleSmallTree2
 	"RootedGraph exampleSmallTree2"
 	^self unordered roots: (Set with: Magnitude) childrenMsg: #subclasses! !
 
-!IndexedTuple methodsFor: 'as yet unclassified' stamp: 'len 3/30/2016 22:11'!
-elements: anArray
-	elements _ anArray! !
-
-!IndexedTuple methodsFor: 'as yet unclassified' stamp: 'len 3/30/2016 22:08'!
-indices: anArray
-	indices _ anArray! !
-
 !Iterator methodsFor: 'adding'!
 add: anObject
 	"Iterators are read-only"
@@ -7700,6 +7682,28 @@ newFrom: anObject
 	anObject isInteger ifTrue: [^ self fromInteger: anObject].
 	^ super newFrom: anObject! !
 
+!ModularTuple methodsFor: 'as yet unclassified' stamp: 'len 6/29/2016 06:01'!
+* aNumber
+	^ self class representatives: (representatives collect: [:each| each * aNumber \\ modulus]) modulus: modulus! !
+
+!ModularTuple methodsFor: 'as yet unclassified' stamp: 'len 6/29/2016 05:59'!
++ aTuple
+	| a an b bn c |
+	(an _ self size) <= (bn _ aTuple size) ifFalse: [^ aTuple + self].
+	a _ representatives.
+	b _ aTuple representatives.
+	c _ representatives class new: bn.
+	1 to: an do: [:i|
+		c at: i put: (a at: i) + (c at: i) \\ modulus].
+	c replaceFrom: an+1 to: bn with: b startingAt: an+1.
+	^ self class representatives: c modulus: modulus! !
+
+!ModularTuple methodsFor: 'as yet unclassified' stamp: 'len 6/29/2016 05:50'!
+arrayClass
+	modulus <= 255 ifTrue: [^ ByteArray].
+	modulus <= 16rFFFFFFFF ifTrue: [^ WordArray].
+	^ Array! !
+
 !ModularTuple methodsFor: 'as yet unclassified' stamp: 'len 4/25/2016 00:28'!
 at: anInteger
 	^ (representatives at: anInteger ifAbsent: [0]) % modulus! !
@@ -7717,6 +7721,10 @@ modulus
 !ModularTuple methodsFor: 'as yet unclassified' stamp: 'len 4/25/2016 00:28'!
 modulus: anInteger
 	modulus _ anInteger! !
+
+!ModularTuple methodsFor: 'as yet unclassified' stamp: 'len 6/29/2016 06:00'!
+negated
+	^ self class representatives: (representatives collect: [:each| modulus - each]) modulus: modulus! !
 
 !ModularTuple methodsFor: 'as yet unclassified' stamp: 'len 3/31/2016 07:43'!
 representatives
@@ -11452,6 +11460,14 @@ zero
 new: dimension over: aDomain
 	^ self new setDimension: dimension scalars: aDomain! !
 
+!Ring methodsFor: 'morphisms' stamp: 'len 6/29/2016 03:48'!
+% anObject
+	^ self mod: anObject! !
+
+!Ring methodsFor: 'morphisms' stamp: 'len 6/29/2016 03:48'!
+%% anObject
+	^ self modPrime: anObject! !
+
 !Ring methodsFor: 'morphisms' stamp: 'len 12/5/2015 23:51'!
 * anElementOrArray
 	^ (self includes: anElementOrArray)
@@ -11611,6 +11627,10 @@ polynomialsIn: anIntegerOrCollection ordering: aMonomialOrdering
 	answer _ Polynomials new: anIntegerOrCollection size over: self ordering: aMonomialOrdering.
 	answer indeterminateNames: anIntegerOrCollection.
 	^ answer! !
+
+!Ring methodsFor: 'morphisms' stamp: 'len 6/29/2016 06:34'!
+spectrum
+	^ Spectrum on: self! !
 
 !Ring methodsFor: 'tuples' stamp: 'len 4/12/2016 02:51'!
 tuple: anArray
@@ -12667,9 +12687,9 @@ zero
 			ifTrue: [IntegerIdeal on: self generators: {anIntegerOrArray}]
 			ifFalse: [IntegerIdeal on: self generators: anIntegerOrArray]! !
 
-!Integers methodsFor: 'morphisms' stamp: 'len 4/15/2016 21:13'!
+!Integers methodsFor: 'morphisms' stamp: 'len 6/29/2016 03:47'!
 / anIdeal
-	^ ModularIntegers by: anIdeal! !
+	^ ModularIntegers by: (anIdeal isInteger ifTrue: [self * anIdeal] ifFalse: [anIdeal])! !
 
 !Integers methodsFor: 'comparing' stamp: 'len 6/1/2016 23:56'!
 <= aDomain
@@ -14226,10 +14246,10 @@ rank
 rank: anInteger
 	rank _ anInteger! !
 
-!Grassmannian methodsFor: 'accessing' stamp: 'len 4/28/2016 03:00'!
+!Grassmannian methodsFor: 'accessing' stamp: 'len 6/29/2016 06:41'!
 size
 	self space isFinite ifFalse: [^ self space size].
-	^ self space dimension take: self rank q: self space scalars size! !
+	^ self space dimension choose: self rank q: self space scalars size! !
 
 !Grassmannian methodsFor: 'accessing' stamp: 'len 4/20/2016 23:55'!
 space
@@ -17207,7 +17227,7 @@ pointAt: anHomogeneousTuple
 
 	^ self project: (vectorSpace vectorAt: anHomogeneousTuple asTuple)! !
 
-!ProjectiveSubspace methodsFor: 'printing' stamp: 'len 6/8/2016 21:05'!
+!ProjectiveSubspace methodsFor: 'printing' stamp: 'len 6/29/2016 06:24'!
 printOn: aStream
 	vectorSpace ambient = vectorSpace
 		ifTrue:
@@ -17215,8 +17235,12 @@ printOn: aStream
 			^ self].
 	aStream nextPut: $[.
 	self dimension = 0 "a point"
-		ifTrue: [aStream print: vectorSpace basis first]
-		ifFalse: [aStream print: vectorSpace].
+		ifTrue:
+			[| v |
+			v _ vectorSpace basis first.
+			(v isKindOf: Tuple) ifTrue: [v do: [:each| aStream print: each] separatedBy: [aStream nextPut: $:]]]
+		ifFalse:
+			[aStream print: vectorSpace].
 	aStream nextPut: $]! !
 
 !ProjectiveSubspace methodsFor: 'morphisms' stamp: 'len 6/4/2016 02:23'!
@@ -18457,6 +18481,14 @@ includes: anIdeal
 !Spectrum methodsFor: 'as yet unclassified' stamp: 'len 5/25/2016 00:15'!
 printOn: aStream
 	aStream nextPutAll: 'Spec' bold; nextPut: $(; print: ring; nextPut: $)! !
+
+!Spectrum methodsFor: 'as yet unclassified' stamp: 'len 6/29/2016 06:34'!
+ring: aRing
+	ring _ aRing! !
+
+!Spectrum class methodsFor: 'as yet unclassified' stamp: 'len 6/29/2016 06:34'!
+on: aRing
+	^ self new ring: aRing! !
 
 !ElementAdapter methodsFor: 'comparing' stamp: 'len 6/23/2016 02:24'!
 = anObject
@@ -21000,13 +21032,18 @@ transpositions
 	(aPermutation isKindOf: self class) ifFalse: [^ super = aPermutation].
 	^ map = aPermutation map! !
 
-!StandardPermutation methodsFor: 'arithmetic' stamp: 'len 6/28/2016 07:30'!
+!StandardPermutation methodsFor: 'arithmetic' stamp: 'len 6/29/2016 00:54'!
 @ aPermutation
 	"Answer the composition of the receiver with the argument."
 
-	((aPermutation isKindOf: self class) and: [map size = aPermutation map size])
+	| otherMap newMap |
+	(aPermutation class == self class and: [map size = aPermutation map size])
 		ifFalse: [^ super @ aPermutation].
-	^ self class values: (aPermutation map collect: [:each| map at: each])! !
+	otherMap _ aPermutation map.
+	newMap _ Array new: map size.
+	1 to: map size do: [:i|
+		newMap at: i put: (map at: (otherMap at: i))]. 
+	^ self class values: newMap! !
 
 !StandardPermutation methodsFor: 'converting' stamp: 'len 6/28/2016 23:57'!
 asPermutationIn: anArray
@@ -22985,14 +23022,12 @@ run
 	i = l] whileFalse: [i _ i - 1. k _ k - 1].
 	^ matrix copyFrom: 1@k to: m@n! !
 
-!HomogeneousTuple methodsFor: 'comparing' stamp: 'len 11/19/2015 18:51'!
-= aProjectiveTuple
-	"Answer true if the receiver equals the argument."
-
+!HomogeneousTuple methodsFor: 'comparing' stamp: 'len 6/29/2016 05:24'!
+= aHomogeneousTuple
 	| index |
-	index _ self firstNotNull.
-	(aProjectiveTuple at: index) isZero ifTrue: [^ false].
-	^ self coordinates / (self at: index) = (aProjectiveTuple coordinates / (aProjectiveTuple at: index))! !
+	index _ self firstNonZero.
+	(aHomogeneousTuple at: index) isZero ifTrue: [^ false].
+	^ self coordinates / (self at: index) = (aHomogeneousTuple coordinates / (aHomogeneousTuple at: index))! !
 
 !HomogeneousTuple methodsFor: 'converting' stamp: 'len 11/7/97 01:42'!
 affinized
@@ -23030,25 +23065,18 @@ coordinates
 coordinates: aTuple
 	coordinates _ aTuple! !
 
-!HomogeneousTuple methodsFor: 'private' stamp: 'len 11/19/2015 18:51'!
-firstNotNull
-	"Answer the first not null coordinate of the receiver."
-
+!HomogeneousTuple methodsFor: 'private' stamp: 'len 6/29/2016 05:23'!
+firstNonZero
 	^ (1 to: self size) detect: [ :each | (self at: each) isZero not]! !
 
-!HomogeneousTuple methodsFor: 'comparing' stamp: 'len 11/20/2015 16:15'!
+!HomogeneousTuple methodsFor: 'comparing' stamp: 'len 6/29/2016 05:24'!
 hash
-	^ (coordinates / (self at: self firstNotNull)) hash! !
+	^ (coordinates / (self at: self firstNonZero)) hash! !
 
-!HomogeneousTuple methodsFor: 'printing' stamp: 'len 11/20/2015 23:51'!
+!HomogeneousTuple methodsFor: 'printing' stamp: 'len 6/29/2016 05:25'!
 printOn: aStream
-	| first |
 	aStream nextPut: $[.
-	first _ true.
-	self coordinates do: [ :each |
-		first ifFalse: [aStream nextPutAll: ':'].
-		first _ false.
-		each printOn: aStream].
+	self coordinates do: [:each| each printOn: aStream] separatedBy: [aStream nextPut: $:].
 	aStream nextPut: $]! !
 
 !HomogeneousTuple methodsFor: 'accessing' stamp: 'len 11/20/2015 16:14'!
@@ -25856,12 +25884,19 @@ representative: anInteger ideal: anIdeal
 representative: anInteger modulo: anotherInteger
 	^ self new representative: anInteger; modulus: anotherInteger! !
 
-!Monomial methodsFor: 'operations' stamp: 'len 6/6/2016 04:24'!
+!Monomial methodsFor: 'operations' stamp: 'len 6/29/2016 05:14'!
 * aMonomial
-	"^ self class exponents: exponents + aMonomial exponents"
-	^ self class exponents: ((1 to: (self lastIndeterminate max: aMonomial lastIndeterminate)) collect: [:i| (self at: i) + (aMonomial at: i)])! !
+	| a an b bn c |
+"	^ self class exponents: exponents + aMonomial exponents"
+	(an _ self lastIndeterminate) <= (bn _ aMonomial lastIndeterminate)
+		ifTrue: [a _ exponents. b _ aMonomial exponents]
+		ifFalse: [| t | a _ aMonomial exponents. b _ exponents. t _ an. an _ bn. bn _ t].
+	c _ Array new: bn.
+	1 to: an do: [:i| c at: i put: (a at: i) + (b at: i)].
+	c replaceFrom: an+1 to: bn with: b startingAt: an+1.
+	^ self class exponents: c! !
 
-!Monomial methodsFor: 'operations' stamp: 'len 6/6/2016 04:24'!
+!Monomial methodsFor: 'operations' stamp: 'len 6/29/2016 04:14'!
 / aMonomial
 	"Answer the exact division of the receiver by the argument."
 "	^ self class exponents: exponents - aMonomial exponents"
@@ -26093,9 +26128,9 @@ value: anObject
 without: anIndeterminate
 	^ (self has: anIndeterminate) ifFalse: [self] ifTrue: [self copyWithout: anIndeterminate]! !
 
-!Monomial class methodsFor: 'instance creation' stamp: 'len 3/16/2016 21:36'!
-exponents: aDictionary
-	^ self basicNew exponents: aDictionary! !
+!Monomial class methodsFor: 'instance creation' stamp: 'len 6/29/2016 03:58'!
+exponents: anArray
+	^ self basicNew exponents: anArray "(anArray as: Tuple)"! !
 
 !Monomial class methodsFor: 'instance creation' stamp: 'len 6/6/2016 02:43'!
 identity
