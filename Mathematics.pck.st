@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 30 June 2016 at 2:38:56.580086 am'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 30 June 2016 at 4:13:31.949286 am'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 116!
+!provides: 'Mathematics' 1 117!
 !classDefinition: #AbelianGroupPresentation category: #'Mathematics-Free'!
 Object subclass: #AbelianGroupPresentation
 	instanceVariableNames: 'generators relators'
@@ -3726,6 +3726,11 @@ My instances are SL(V), the Special Linear Group of a vector space V. This is th
 My instances are permutation groups, i.e. subgroups of the symmetric group Sym(X) of permutations on the elements of a set X (which we call 'space').
 
 Elements of the space X are refered to as 'points', while the the word 'element' is used for elements of the group itself (permutations). The group acts naturally on the space X by the action p^x |-> p(x).!
+
+!UnitsGroup commentStamp: '<historical>' prior: 0!
+My instances are sets of ring units.
+
+Given a ring R, the group of units of R is the set of elements of R that have multiplicative inverse, and they form a group under multiplication. For a field F (or more generally division ring), the units are all non-zero elements F \ {0}.!
 
 !Monomials commentStamp: '<historical>' prior: 0!
 My instances are (commutative) monoids of monomials in n indeterminates.!
@@ -11525,10 +11530,6 @@ new: dimension over: aDomain
 % anObject
 	^ self mod: anObject! !
 
-!Ring methodsFor: 'morphisms' stamp: 'len 6/29/2016 03:48'!
-%% anObject
-	^ self modPrime: anObject! !
-
 !Ring methodsFor: 'morphisms' stamp: 'len 12/5/2015 23:51'!
 * anElementOrArray
 	^ (self includes: anElementOrArray)
@@ -11694,8 +11695,9 @@ polynomialsIn: anIntegerOrCollection ordering: aMonomialOrdering
 	answer indeterminateNames: anIntegerOrCollection.
 	^ answer! !
 
-!Ring methodsFor: 'morphisms' stamp: 'len 6/29/2016 06:34'!
+!Ring methodsFor: 'morphisms' stamp: 'len 6/30/2016 03:43'!
 spectrum
+	self isCommutative ifFalse: [DomainError signal: 'non-commutative ring'].
 	^ Spectrum on: self! !
 
 !Ring methodsFor: 'tuples' stamp: 'len 4/12/2016 02:51'!
@@ -11710,7 +11712,7 @@ tuple: anInteger evaluating: aBlock
 tupleClass
 	^ properties at: #tupleClass ifAbsentPut: [Tuple]! !
 
-!Ring methodsFor: 'morphisms' stamp: 'len 5/12/2016 23:08'!
+!Ring methodsFor: 'morphisms' stamp: 'len 6/30/2016 04:03'!
 units
 	"Answer the multiplicative group of units of the receiver (i.e., elements that have multiplicative inverse)."
 	^ UnitsGroup on: self! !
@@ -11794,6 +11796,12 @@ isPrime
 isTerminal
 	"The category of fields has no terminal objects."
 	^ false! !
+
+!Field methodsFor: 'testing' stamp: 'len 6/30/2016 04:02'!
+isUnit: anElement
+	self flag: #fix. "this is here because QuotientRing is subclass, otherwise just need to do: ^ anElement isZero not"
+	self characteristic = 0 ifTrue: [^ anElement isZero not].
+	^ anElement reciprocal notNil! !
 
 !Field methodsFor: 'morphisms' stamp: 'len 2/8/2016 20:26'!
 primeSubfield
@@ -15256,17 +15264,30 @@ exponent
 	"Answer the exponent of the receiver, i.e. the maximum order of an element."
 	^ properties at: #exponent ifAbsentPut: [self computeExponent]! !
 
-!Group methodsFor: 'accessing' stamp: 'len 5/13/2016 00:58'!
+!Group methodsFor: 'accessing' stamp: 'len 6/30/2016 03:24'!
 generator
-	^ self detect: [:one| (self span: {one}) size = self size]! !
+	self generators size = 1 ifFalse: [self error: 'not cyclic'].
+	^ self generators anyOne! !
 
-!Group methodsFor: 'accessing' stamp: 'len 2/16/2016 05:29'!
+!Group methodsFor: 'accessing' stamp: 'len 6/30/2016 03:36'!
 generators
 	^ properties at: #generators ifAbsent: []! !
 
 !Group methodsFor: 'private' stamp: 'len 6/24/2016 22:31'!
 generators: aCollection
 	properties at: #generators put: aCollection asArray! !
+
+!Group methodsFor: 'morphisms' stamp: 'len 6/30/2016 02:45'!
+groupAlgebraOver: aField
+	^ aField freeAlgebraIn: self elements! !
+
+!Group methodsFor: 'morphisms' stamp: 'len 6/30/2016 02:43'!
+groupRing
+	^ self groupRingOver: Integers new! !
+
+!Group methodsFor: 'morphisms' stamp: 'len 6/30/2016 02:45'!
+groupRingOver: aRing
+	^ aRing freeModuleIn: self elements! !
 
 !Group methodsFor: 'morphisms-endo' stamp: 'len 5/1/2016 22:59'!
 hypoabelianization
@@ -16528,9 +16549,9 @@ isSubgroupOfAn
 isTrivial
 	^ self generators allSatisfy: [:each| each = self identity]! !
 
-!PermutationGroup methodsFor: 'accessing' stamp: 'len 6/28/2016 08:49'!
+!PermutationGroup methodsFor: 'accessing' stamp: 'len 6/30/2016 03:19'!
 size
-	^ properties at: #size ifAbsentPut: [self computeSize]! !
+	^ properties at: #size ifAbsentPut: [super size]"self computeSize]"! !
 
 !PermutationGroup methodsFor: 'accessing' stamp: 'len 2/15/2016 21:52'!
 space
@@ -16896,31 +16917,31 @@ size
 left: aGroup right: anotherGroup action: anAction
 	^ self new left: aGroup; right: anotherGroup; action: anAction! !
 
-!UnitsGroup methodsFor: 'as yet unclassified' stamp: 'len 5/12/2016 23:17'!
+!UnitsGroup methodsFor: 'iterating' stamp: 'len 5/12/2016 23:17'!
 do: aBlock
 	ring do: [:each| (self includes: each) ifTrue: [aBlock value: each]]! !
 
-!UnitsGroup methodsFor: 'as yet unclassified' stamp: 'len 4/10/2016 06:17'!
+!UnitsGroup methodsFor: 'accessing' stamp: 'len 4/10/2016 06:17'!
 identity
 	^ ring one! !
 
-!UnitsGroup methodsFor: 'as yet unclassified' stamp: 'len 5/12/2016 23:05'!
+!UnitsGroup methodsFor: 'testing' stamp: 'len 5/12/2016 23:05'!
 includes: anElement
 	^ ring isUnit: anElement! !
 
-!UnitsGroup methodsFor: 'as yet unclassified' stamp: 'len 4/22/2016 17:29'!
+!UnitsGroup methodsFor: 'accessing' stamp: 'len 4/22/2016 17:29'!
 inverseMap
 	^ self multiplicativeInverseMap! !
 
-!UnitsGroup methodsFor: 'as yet unclassified' stamp: 'len 4/22/2016 17:29'!
+!UnitsGroup methodsFor: 'accessing' stamp: 'len 4/22/2016 17:29'!
 operation
 	^ self multiplicativeOperation! !
 
-!UnitsGroup methodsFor: 'as yet unclassified' stamp: 'len 5/12/2016 23:15'!
+!UnitsGroup methodsFor: 'printing' stamp: 'len 6/30/2016 04:05'!
 printOn: aStream
-	aStream print: ring; nextPutAll: '*' super! !
+	aStream print: ring; nextPutAll: '*' super ! !
 
-!UnitsGroup methodsFor: 'as yet unclassified' stamp: 'len 5/12/2016 23:14'!
+!UnitsGroup methodsFor: 'accessing-private' stamp: 'len 5/12/2016 23:14'!
 ring: aRing
 	ring _ aRing! !
 
@@ -30522,9 +30543,9 @@ inverse
 					ifTrue: [b1]
 					ifFalse: [b1 negated * ((2 to: n) sum: [:i| (a at: i+1) * (b at: n-i+1)])]])! !
 
-!PowerSeries methodsFor: 'testing' stamp: 'len 12/28/2015 04:15'!
+!PowerSeries methodsFor: 'testing' stamp: 'len 6/30/2016 04:01'!
 isInvertible
-	^ self scalars isInvertible: (coefficients at: 1)! !
+	^ self scalars isUnit: (coefficients at: 1)! !
 
 !PowerSeries methodsFor: 'testing' stamp: 'len 4/11/2016 23:09'!
 isZero
