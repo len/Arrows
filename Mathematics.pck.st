@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 30 June 2016 at 4:13:31.949286 am'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 30 June 2016 at 4:54:01.343826 am'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 117!
+!provides: 'Mathematics' 1 118!
 !classDefinition: #AbelianGroupPresentation category: #'Mathematics-Free'!
 Object subclass: #AbelianGroupPresentation
 	instanceVariableNames: 'generators relators'
@@ -1209,16 +1209,6 @@ Group subclass: #DirectProductGroup
 	category: 'Mathematics-Groups'!
 !classDefinition: 'DirectProductGroup class' category: #'Mathematics-Groups'!
 DirectProductGroup class
-	instanceVariableNames: ''!
-
-!classDefinition: #FinitelyPresentedGroup category: #'Mathematics-Groups'!
-Group subclass: #FinitelyPresentedGroup
-	instanceVariableNames: 'presentation'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Groups'!
-!classDefinition: 'FinitelyPresentedGroup class' category: #'Mathematics-Groups'!
-FinitelyPresentedGroup class
 	instanceVariableNames: ''!
 
 !classDefinition: #FreeGroup category: #'Mathematics-Free'!
@@ -11551,10 +11541,6 @@ PG: n
 	"Answer the projective space of dimension n. When the receiver is the finite field GF(q) this is PG(n,q)."
 	^ (self ** (n + 1)) projective! !
 
-!Ring methodsFor: 'morphisms' stamp: 'len 12/27/2015 01:51'!
-asField
-	^ self isField ifTrue: [self] ifFalse: [self fractions]! !
-
 !Ring methodsFor: 'accessing' stamp: 'len 11/28/2015 03:56'!
 characteristic
 	^ properties at: #characteristic! !
@@ -14093,9 +14079,13 @@ with: aComplex with: anotherComplex
 		real: (RealInterval with: aComplex real with: anotherComplex real)
 		imaginary: (RealInterval with: aComplex imaginary with: anotherComplex imaginary)! !
 
-!ComplexDisk methodsFor: 'as yet unclassified' stamp: 'len 6/5/2016 20:46'!
+!ComplexDisk methodsFor: 'arithmetic' stamp: 'len 6/5/2016 20:46'!
 * aDisk
 	^ self class center: aDisk center * self center radius: self radius * aDisk radius! !
+
+!ComplexDisk methodsFor: 'arithmetic' stamp: 'len 6/30/2016 04:37'!
++ aDisk
+	^ self class center: aDisk center + self center radius: self radius + aDisk radius! !
 
 !ComplexDisk methodsFor: 'accessing' stamp: 'len 1/13/2016 22:30'!
 center
@@ -14105,13 +14095,10 @@ center
 center: aComplex
 	center _ aComplex! !
 
-!ComplexDisk methodsFor: 'accessing' stamp: 'len 6/5/2016 20:43'!
-enclosedBox
-	^ ComplexBox center: self center radius: self radius! !
-
-!ComplexDisk methodsFor: 'accessing' stamp: 'len 6/5/2016 20:43'!
+!ComplexDisk methodsFor: 'accessing' stamp: 'len 6/30/2016 04:43'!
 enclosingBox
-	^ ComplexBox center: self center extent: self radius squared @ self radius squared! !
+	"Answer a ComplexBox that encloses the receiver."
+	^ ComplexBox center: self center radius: self radius! !
 
 !ComplexDisk methodsFor: 'testing' stamp: 'len 6/5/2016 20:44'!
 includes: anObject
@@ -15885,14 +15872,6 @@ size
 !DirectProductGroup class methodsFor: 'instance creation' stamp: 'len 2/12/2016 20:02'!
 components: anArray
 	^ self new components: anArray! !
-
-!FinitelyPresentedGroup methodsFor: 'as yet unclassified' stamp: 'len 5/1/2016 20:59'!
-presentation
-	^ presentation! !
-
-!FinitelyPresentedGroup methodsFor: 'as yet unclassified' stamp: 'len 5/1/2016 20:59'!
-presentation: aGroupPresentation
-	presentation _ aGroupPresentation! !
 
 !FreeGroup methodsFor: 'elements' stamp: 'len 4/19/2016 20:42'!
 atRandom: aRandom bits: bitSize
@@ -22332,11 +22311,13 @@ pellNumbers
 to: codomain constant: anObject
 	^ self to: codomain initialValues: {anObject} coefficients: {anObject one}! !
 
-!LinearRecursiveSequence class methodsFor: 'instance creation' stamp: 'len 12/27/2015 19:13'!
+!LinearRecursiveSequence class methodsFor: 'instance creation' stamp: 'len 6/30/2016 04:31'!
 to: codomain evaluating: aBlock maxOrder: n
 	| initialValues bm f |
 	initialValues _ ((1 to: 2*n) collect: [:i| aBlock at: i]).
-	bm _ ModifiedBerlekampMassey new field: codomain asField; input: initialValues.
+	bm _ ModifiedBerlekampMassey new
+		field: (codomain isField ifTrue: [codomain] ifFalse: [codomain fractions]);
+		input: initialValues.
 	f _ bm minimalPolynomial.
 	^ self to: codomain initialValues: (initialValues copyFrom: 1 to: f degree) minimalPolynomial:f! !
 
