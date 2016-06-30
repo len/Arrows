@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 30 June 2016 at 12:23:36.588731 am'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 30 June 2016 at 2:38:56.580086 am'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 115!
+!provides: 'Mathematics' 1 116!
 !classDefinition: #AbelianGroupPresentation category: #'Mathematics-Free'!
 Object subclass: #AbelianGroupPresentation
 	instanceVariableNames: 'generators relators'
@@ -9941,6 +9941,10 @@ size
 zero
 	^ properties at: #zero ifAbsentPut: [| e | (e _ self e: 1) - e]! !
 
+!FreeModule class methodsFor: 'instance creation' stamp: 'len 6/30/2016 02:26'!
+new: anInteger over: aRing
+	^ self on: (1 to: anInteger) over: aRing! !
+
 !FreeModule class methodsFor: 'instance creation' stamp: 'len 4/25/2016 06:38'!
 on: aCollection over: aRing
 	^ self new generators: aCollection; scalars: aRing! !
@@ -9962,6 +9966,10 @@ presentation
 !FreeAbelianGroup methodsFor: 'accessing' stamp: 'len 2/24/2016 04:08'!
 scalars
 	^ properties at: #scalars ifAbsentPut: [Integers new]! !
+
+!FreeAbelianGroup class methodsFor: 'instance creation' stamp: 'len 6/30/2016 02:27'!
+new: anInteger
+	^ self on: (1 to: anInteger)! !
 
 !FreeAbelianGroup class methodsFor: 'instance creation' stamp: 'len 4/25/2016 06:38'!
 on: aCollection
@@ -11560,10 +11568,15 @@ fractions
 freeAlgebra
 	^ FreeAlgebra over: self! !
 
-!Ring methodsFor: 'morphisms' stamp: 'len 1/20/2016 13:42'!
+!Ring methodsFor: 'morphisms' stamp: 'len 6/30/2016 02:27'!
 freeAlgebraIn: aCollection
 	"Answer the free algebra in the given indeterminates over the receiver."
-	^ FreeAlgebra indeterminates: aCollection over: self! !
+	^ FreeAlgebra on: aCollection over: self! !
+
+!Ring methodsFor: 'morphisms' stamp: 'len 6/30/2016 02:34'!
+freeModuleIn: aCollection
+	"Answer the free module in the given indeterminates over the receiver."
+	^ FreeModule on: aCollection over: self! !
 
 !Ring methodsFor: 'morphisms' stamp: 'len 1/5/2016 03:17'!
 frobenius
@@ -11734,6 +11747,11 @@ extension: aPolynomial
 	"Answer the algebraic extension of the receiver defined by the given irreducible polynomial."
 	aPolynomial scalars = self ifFalse: [self error: 'polynomial coefficients not from this field'].
 	^ AlgebraicExtension polynomial: aPolynomial! !
+
+!Field methodsFor: 'morphisms' stamp: 'len 6/30/2016 02:34'!
+freeVectorSpaceIn: aCollection
+	"Answer the free vector space in the given indeterminates over the receiver."
+	^ VectorSpace on: aCollection over: self! !
 
 !Field methodsFor: 'testing' stamp: 'len 12/14/2015 23:49'!
 isAlgebraicallyClosed
@@ -12686,13 +12704,13 @@ z
 zero
 	^ self new! !
 
-!FreeAlgebra class methodsFor: 'instance creation' stamp: 'len 2/24/2016 03:44'!
-indeterminates: aCollection over: aRing
-	^ self new indeterminates: aCollection; scalars: aRing! !
-
-!FreeAlgebra class methodsFor: 'instance creation' stamp: 'len 1/20/2016 13:38'!
+!FreeAlgebra class methodsFor: 'instance creation' stamp: 'len 6/30/2016 02:27'!
 new: anInteger over: aRing
-	^ self indeterminates: (1 to: anInteger) over: aRing! !
+	^ self on: (1 to: anInteger) over: aRing! !
+
+!FreeAlgebra class methodsFor: 'instance creation' stamp: 'len 6/30/2016 02:27'!
+on: aCollection over: aRing
+	^ self new indeterminates: aCollection; scalars: aRing! !
 
 !FreeAlgebra class methodsFor: 'instance creation' stamp: 'len 1/20/2016 13:38'!
 over: aRing
@@ -12774,6 +12792,11 @@ do: aBlock
 !Integers methodsFor: 'morphisms' stamp: 'len 11/27/2015 19:37'!
 fractions
 	^ Rationals new! !
+
+!Integers methodsFor: 'morphisms' stamp: 'len 6/30/2016 02:37'!
+freeModuleIn: aCollection
+	"Answer the free abelian group in the given indeterminates (a Z-module)."
+	^ FreeAbelianGroup on: aCollection! !
 
 !Integers methodsFor: 'comparing' stamp: 'len 12/14/2015 01:59'!
 hash
@@ -14936,6 +14959,10 @@ symbols
 symbols: aCollection
 	symbols _ aCollection! !
 
+!FreeMonoid class methodsFor: 'instance creation' stamp: 'len 6/30/2016 02:25'!
+new: anInteger
+	^ self on: (1 to: anInteger)! !
+
 !FreeMonoid class methodsFor: 'instance creation' stamp: 'len 2/14/2016 21:10'!
 on: aCollection
 	^ self new symbols: aCollection! !
@@ -15899,6 +15926,10 @@ symbols
 !FreeGroup methodsFor: 'accessing-private' stamp: 'len 2/14/2016 21:09'!
 symbols: aCollection
 	symbols _ aCollection! !
+
+!FreeGroup class methodsFor: 'instance creation' stamp: 'len 6/30/2016 02:24'!
+new: anInteger
+	^ self on: (1 to: anInteger)! !
 
 !FreeGroup class methodsFor: 'instance creation' stamp: 'len 2/14/2016 21:09'!
 on: aCollection
@@ -16901,17 +16932,25 @@ on: aRing
 = anObject
 	^ (anObject isKindOf: Monomials) and: [anObject rank = rank]! !
 
-!Monomials methodsFor: 'random' stamp: 'len 6/30/2016 00:14'!
+!Monomials methodsFor: 'random' stamp: 'len 6/30/2016 00:32'!
 atRandom: aRandom bits: bitSize
-	^ Monomial exponents: ((Integers new ** self rank) atRandom: aRandom bits: bitSize) asArray! !
+	^ Monomial exponents: (((Naturals new ** self rank) atRandom: aRandom bits: bitSize) collect: [:x| x - 1]) asArray! !
 
-!Monomials methodsFor: 'iterating' stamp: 'len 6/30/2016 00:18'!
+!Monomials methodsFor: 'iterating' stamp: 'len 6/30/2016 00:31'!
 do: aBlock
-	Integers new ** self rank do: [:each| aBlock value: (Monomial exponents: each asArray)]! !
+	Naturals new ** self rank do: [:each| aBlock value: (Monomial exponents: (each collect: [:x| x - 1]) asArray)]! !
+
+!Monomials methodsFor: 'accessing' stamp: 'len 6/30/2016 00:36'!
+generators
+	^ (1 to: rank) collect: [:i| self x: i]! !
 
 !Monomials methodsFor: 'comparing' stamp: 'len 6/30/2016 00:21'!
 hash
 	^ self rank + self class hash! !
+
+!Monomials methodsFor: 'accessing' stamp: 'len 6/30/2016 00:29'!
+identity
+	^ Monomial new: rank! !
 
 !Monomials methodsFor: 'testing' stamp: 'len 6/30/2016 00:12'!
 includes: aMonomial
@@ -16920,6 +16959,18 @@ includes: aMonomial
 !Monomials methodsFor: 'accessing' stamp: 'len 6/28/2016 23:38'!
 indeterminates
 	^ 1 to: rank! !
+
+!Monomials methodsFor: 'testing' stamp: 'len 6/30/2016 00:36'!
+isCommutative
+	^ true! !
+
+!Monomials methodsFor: 'testing' stamp: 'len 6/30/2016 00:36'!
+isCountable
+	^ true! !
+
+!Monomials methodsFor: 'testing' stamp: 'len 6/30/2016 00:36'!
+isFinite
+	^ false! !
 
 !Monomials methodsFor: 'printing' stamp: 'len 6/28/2016 23:38'!
 printOn: aStream
@@ -16937,6 +16988,10 @@ rank
 rank: anInteger
 	rank _ anInteger! !
 
+!Monomials methodsFor: 'elements' stamp: 'len 6/30/2016 00:37'!
+x: anInteger
+	^ Monomial x: anInteger! !
+
 !Monomials class methodsFor: 'as yet unclassified' stamp: 'len 6/30/2016 00:08'!
 new: anInteger
 	^ self new rank: anInteger! !
@@ -16945,9 +17000,9 @@ new: anInteger
 = anObject
 	^ self class == anObject class! !
 
-!Naturals methodsFor: 'random' stamp: 'len 4/19/2016 20:56'!
+!Naturals methodsFor: 'random' stamp: 'len 6/30/2016 00:34'!
 atRandom: aRandom bits: bitSize
-	^ aRandom nextBits: bitSize! !
+	^ (aRandom nextBits: bitSize truncated) + 1! !
 
 !Naturals methodsFor: 'iterating' stamp: 'len 12/3/2015 20:12'!
 do: aBlock
@@ -35965,13 +36020,17 @@ syllables: anArray
 value
 	^ syllables product: [:each| each key ** each value]! !
 
-!Word class methodsFor: 'instance creation' stamp: 'len 3/3/2016 05:24'!
+!Word class methodsFor: 'instance creation' stamp: 'len 6/30/2016 02:31'!
 empty
 	^ self syllables: #()! !
 
-!Word class methodsFor: 'instance creation' stamp: 'len 3/3/2016 05:24'!
+!Word class methodsFor: 'instance creation' stamp: 'len 6/30/2016 02:31'!
+new
+	^ self shouldNotImplement! !
+
+!Word class methodsFor: 'instance creation' stamp: 'len 6/30/2016 02:30'!
 syllables: anArray
-	^ self new syllables: anArray! !
+	^ self basicNew syllables: anArray! !
 
 !Word class methodsFor: 'instance creation' stamp: 'len 2/12/2016 07:30'!
 x: i
