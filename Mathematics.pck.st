@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 29 June 2016 at 11:48:45.907472 pm'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 30 June 2016 at 12:23:36.588731 am'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 114!
+!provides: 'Mathematics' 1 115!
 !classDefinition: #AbelianGroupPresentation category: #'Mathematics-Free'!
 Object subclass: #AbelianGroupPresentation
 	instanceVariableNames: 'generators relators'
@@ -3620,7 +3620,7 @@ Example:
 My instances are fields of fractions of coordinate rings of (affine) algebraic varieties.!
 
 !RationalFunctions commentStamp: '<historical>' prior: 0!
-My instances are rational functions, i.e. the field of fractions over a given polynomial ring.!
+My instances are rational functions, i.e. the field of fractions of a given polynomial ring.!
 
 !QuotientRing commentStamp: '<historical>' prior: 0!
 My instances are quotient rings (also called factor rings, difference rings or residue class rings). 
@@ -3726,6 +3726,9 @@ My instances are SL(V), the Special Linear Group of a vector space V. This is th
 My instances are permutation groups, i.e. subgroups of the symmetric group Sym(X) of permutations on the elements of a set X (which we call 'space').
 
 Elements of the space X are refered to as 'points', while the the word 'element' is used for elements of the group itself (permutations). The group acts naturally on the space X by the action p^x |-> p(x).!
+
+!Monomials commentStamp: '<historical>' prior: 0!
+My instances are (commutative) monoids of monomials in n indeterminates.!
 
 !ProjectiveSubspace commentStamp: '<historical>' prior: 0!
 My instances are projective spaces P(V) on a given finite-dimensional K-vector space V. Their elements are the subspaces of V, in particular the points of P(V) are the subspaces of dimension 1 of V, or <v> where v ~= 0.
@@ -16894,11 +16897,31 @@ ring: aRing
 on: aRing
 	^ self new ring: aRing! !
 
-!Monomials methodsFor: 'as yet unclassified' stamp: 'len 6/28/2016 23:38'!
+!Monomials methodsFor: 'comparing' stamp: 'len 6/30/2016 00:21'!
+= anObject
+	^ (anObject isKindOf: Monomials) and: [anObject rank = rank]! !
+
+!Monomials methodsFor: 'random' stamp: 'len 6/30/2016 00:14'!
+atRandom: aRandom bits: bitSize
+	^ Monomial exponents: ((Integers new ** self rank) atRandom: aRandom bits: bitSize) asArray! !
+
+!Monomials methodsFor: 'iterating' stamp: 'len 6/30/2016 00:18'!
+do: aBlock
+	Integers new ** self rank do: [:each| aBlock value: (Monomial exponents: each asArray)]! !
+
+!Monomials methodsFor: 'comparing' stamp: 'len 6/30/2016 00:21'!
+hash
+	^ self rank + self class hash! !
+
+!Monomials methodsFor: 'testing' stamp: 'len 6/30/2016 00:12'!
+includes: aMonomial
+	^ (aMonomial isKindOf: Monomial) and: [aMonomial lastIndeterminate <= rank]! !
+
+!Monomials methodsFor: 'accessing' stamp: 'len 6/28/2016 23:38'!
 indeterminates
 	^ 1 to: rank! !
 
-!Monomials methodsFor: 'as yet unclassified' stamp: 'len 6/28/2016 23:38'!
+!Monomials methodsFor: 'printing' stamp: 'len 6/28/2016 23:38'!
 printOn: aStream
 	aStream nextPut: $[.
 	self indeterminates
@@ -16906,13 +16929,17 @@ printOn: aStream
 		separatedBy: [aStream nextPut: $,].
 	aStream nextPutAll: ']*'! !
 
-!Monomials methodsFor: 'as yet unclassified' stamp: 'len 6/28/2016 23:37'!
+!Monomials methodsFor: 'accessing' stamp: 'len 6/28/2016 23:37'!
 rank
 	^ rank! !
 
-!Monomials methodsFor: 'as yet unclassified' stamp: 'len 6/28/2016 23:37'!
+!Monomials methodsFor: 'accessing-private' stamp: 'len 6/28/2016 23:37'!
 rank: anInteger
 	rank _ anInteger! !
+
+!Monomials class methodsFor: 'as yet unclassified' stamp: 'len 6/30/2016 00:08'!
+new: anInteger
+	^ self new rank: anInteger! !
 
 !Naturals methodsFor: 'comparing' stamp: 'len 12/14/2015 01:55'!
 = anObject
@@ -26167,10 +26194,10 @@ printIndeterminate: indeterminate on: aStream
 		ifTrue: [aStream nextPut: $x; nextPutAll: indeterminate printString sub]
 		ifFalse:[aStream nextPutAll: '{x', indeterminate printString, '}']! !
 
-!Monomial methodsFor: 'printing' stamp: 'len 4/5/2016 18:26'!
+!Monomial methodsFor: 'printing' stamp: 'len 6/30/2016 00:16'!
 printOn: aStream
 	self degree = 0 ifTrue: [aStream print: 1. ^ self].
-	(self indeterminates select: [:each| (self at: each) > 0])
+	(self indeterminates select: [:each| (self at: each) ~= 0])
 		asSortedCollection do: [:each|
 			self printIndeterminate: each on: aStream.
 			self printExponent: (self degreeIn: each) on: aStream]! !
@@ -26185,10 +26212,10 @@ printOn: aStream as: aPolynomials
 			self printIndeterminate: x on: aStream.
 			self printExponent: (self at: i) on: aStream]! !
 
-!Monomial methodsFor: 'printing' stamp: 'len 4/5/2016 18:07'!
+!Monomial methodsFor: 'printing' stamp: 'len 6/30/2016 00:17'!
 printOn: aStream withNames: namesDictionary
 	self degree = 0 ifTrue: [aStream print: 1. ^ self].
-	(self indeterminates select: [:each| (self at: each) > 0])
+	(self indeterminates select: [:each| (self at: each) ~= 0])
 		asSortedCollection do: [:each|
 			self printIndeterminate: each on: aStream withNames: namesDictionary.
 			self printExponent: (self degreeIn: each) on: aStream]! !
