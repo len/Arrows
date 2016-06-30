@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 30 June 2016 at 10:09:01.391901 am'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 30 June 2016 at 6:57:59.706633 pm'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 120!
+!provides: 'Mathematics' 1 121!
 !classDefinition: #AbelianGroupPresentation category: #'Mathematics-Free'!
 Object subclass: #AbelianGroupPresentation
 	instanceVariableNames: 'generators relators'
@@ -15251,19 +15251,20 @@ derivedSeriesDo: aBlock
 directProduct: aGroup
 	^ DirectProductGroup components: {self. aGroup}! !
 
-!Group methodsFor: 'iterating' stamp: 'len 6/24/2016 03:16'!
+!Group methodsFor: 'iterating' stamp: 'len 6/30/2016 18:57'!
 do: aBlock
-	| current previous op |
+	| generators current previous op |
 	properties at: #elements ifPresent: [:aCollection| aCollection do: aBlock. ^ self].
 	"iterate all elements from the generators:"
 	self flag: #fix. "this is too expensive"
 	op _ self operation.
-	current _ self generators asSet.
+	generators _ self generators.
+	current _ generators asSet.
 	current do: aBlock.
 	[previous _ current.
 	current _ current copy.
 	previous do: [:x|
-		previous do: [:y|
+		generators do: [:y|
 			| xy |
 			xy _ op value: {x. y}.
 			current add: xy ifAbsent: [aBlock value: xy]]].
@@ -32386,12 +32387,14 @@ generators: aCollection
 imageOf: anElement
 	^ base collect: [:each| action value: {anElement. each}]! !
 
-!SchreierSims methodsFor: 'as yet unclassified' stamp: 'len 6/30/2016 09:58'!
+!SchreierSims methodsFor: 'as yet unclassified' stamp: 'len 6/30/2016 10:13'!
 includes: anElement
+	"Answer true if the group includes anElement."
 	^ (self strip: anElement) = action group identity! !
 
-!SchreierSims methodsFor: 'as yet unclassified' stamp: 'len 6/25/2016 20:06'!
+!SchreierSims methodsFor: 'as yet unclassified' stamp: 'len 6/30/2016 10:13'!
 order
+	"Answer the order of the group."
 	order ifNil: [self run].
 	^ order! !
 
