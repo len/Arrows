@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 30 June 2016 at 4:54:01.343826 am'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 30 June 2016 at 7:35:55.247431 am'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 118!
+!provides: 'Mathematics' 1 119!
 !classDefinition: #AbelianGroupPresentation category: #'Mathematics-Free'!
 Object subclass: #AbelianGroupPresentation
 	instanceVariableNames: 'generators relators'
@@ -5378,7 +5378,7 @@ testPolynomialGCDOverZ
 	g _ x**6 - 1 ** 5.
 	2000 timesRepeat: [f gcd: g]! !
 
-!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 3/31/2016 17:29'!
+!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 6/30/2016 07:31'!
 testPolynomialGCDOverZ2
 	| P x f g |
 	P _ Integers new modPrime: 2 :: polynomials.
@@ -7609,6 +7609,11 @@ with: anObject
 - aBitTuple
 	^ self + aBitTuple! !
 
+!BitTuple methodsFor: 'comparing' stamp: 'len 6/30/2016 06:49'!
+= aTuple
+	self class = aTuple class ifFalse: [^ super = aTuple].
+	^ size = aTuple size and: [integer = aTuple asInteger]! !
+
 !BitTuple methodsFor: 'arithmetic' stamp: 'len 3/29/2016 19:09'!
 >>> anInteger
 	^ self class fromInteger: (integer bitShift: anInteger) size: (size + anInteger max: 0)! !
@@ -7665,6 +7670,10 @@ dot: aBitTuple
 !BitTuple methodsFor: 'arithmetic' stamp: 'len 3/28/2016 06:52'!
 hadamard: aBitTuple
 	^ self class fromInteger: (integer bitAnd: aBitTuple asInteger) size: (self size min: aBitTuple size)! !
+
+!BitTuple methodsFor: 'comparing' stamp: 'len 6/30/2016 06:50'!
+hash
+	^ integer hash! !
 
 !BitTuple methodsFor: 'initialization' stamp: 'len 3/28/2016 05:41'!
 integer: anInteger size: anotherInteger
@@ -7730,11 +7739,11 @@ newFrom: anObject
 	anObject isInteger ifTrue: [^ self fromInteger: anObject].
 	^ super newFrom: anObject! !
 
-!ModularTuple methodsFor: 'as yet unclassified' stamp: 'len 6/29/2016 06:01'!
+!ModularTuple methodsFor: 'arithmetic' stamp: 'len 6/29/2016 06:01'!
 * aNumber
 	^ self class representatives: (representatives collect: [:each| each * aNumber \\ modulus]) modulus: modulus! !
 
-!ModularTuple methodsFor: 'as yet unclassified' stamp: 'len 6/29/2016 05:59'!
+!ModularTuple methodsFor: 'arithmetic' stamp: 'len 6/29/2016 05:59'!
 + aTuple
 	| a an b bn c |
 	(an _ self size) <= (bn _ aTuple size) ifFalse: [^ aTuple + self].
@@ -7746,43 +7755,57 @@ newFrom: anObject
 	c replaceFrom: an+1 to: bn with: b startingAt: an+1.
 	^ self class representatives: c modulus: modulus! !
 
-!ModularTuple methodsFor: 'as yet unclassified' stamp: 'len 6/29/2016 05:50'!
+!ModularTuple methodsFor: 'comparing' stamp: 'len 6/30/2016 06:51'!
+= aTuple
+	self class = aTuple class ifFalse: [^ super = aTuple].
+	^ modulus = aTuple modulus and: [representatives = aTuple representatives]! !
+
+!ModularTuple methodsFor: 'accessing-private' stamp: 'len 6/29/2016 05:50'!
 arrayClass
 	modulus <= 255 ifTrue: [^ ByteArray].
 	modulus <= 16rFFFFFFFF ifTrue: [^ WordArray].
 	^ Array! !
 
-!ModularTuple methodsFor: 'as yet unclassified' stamp: 'len 4/25/2016 00:28'!
+!ModularTuple methodsFor: 'accessing' stamp: 'len 4/25/2016 00:28'!
 at: anInteger
 	^ (representatives at: anInteger ifAbsent: [0]) % modulus! !
 
-!ModularTuple methodsFor: 'as yet unclassified' stamp: 'len 4/25/2016 00:28'!
+!ModularTuple methodsFor: 'accessing' stamp: 'len 4/25/2016 00:28'!
 at: anInteger put: aModularInteger
 	aModularInteger isInteger ifTrue: [^ representatives at: anInteger put: aModularInteger \\ modulus].
 	representatives at: anInteger put: aModularInteger representative.
 	^ aModularInteger! !
 
-!ModularTuple methodsFor: 'as yet unclassified' stamp: 'len 4/25/2016 00:28'!
+!ModularTuple methodsFor: 'comparing' stamp: 'len 6/30/2016 06:52'!
+hash
+	^ representatives hash! !
+
+!ModularTuple methodsFor: 'accessing-private' stamp: 'len 4/25/2016 00:28'!
 modulus
 	^ modulus! !
 
-!ModularTuple methodsFor: 'as yet unclassified' stamp: 'len 4/25/2016 00:28'!
+!ModularTuple methodsFor: 'accessing-private' stamp: 'len 4/25/2016 00:28'!
 modulus: anInteger
 	modulus _ anInteger! !
 
-!ModularTuple methodsFor: 'as yet unclassified' stamp: 'len 6/29/2016 06:00'!
+!ModularTuple methodsFor: 'arithmetic' stamp: 'len 6/29/2016 06:00'!
 negated
 	^ self class representatives: (representatives collect: [:each| modulus - each]) modulus: modulus! !
 
-!ModularTuple methodsFor: 'as yet unclassified' stamp: 'len 3/31/2016 07:43'!
+!ModularTuple methodsFor: 'printing' stamp: 'len 6/30/2016 06:56'!
+printOn: aStream
+	modulus > 16 ifTrue: [^ super printOn: aStream].
+	1 to: self size do: [:i| (representatives at: i) printOn: aStream base: 16]! !
+
+!ModularTuple methodsFor: 'accessing-private' stamp: 'len 3/31/2016 07:43'!
 representatives
 	^ representatives! !
 
-!ModularTuple methodsFor: 'as yet unclassified' stamp: 'len 3/31/2016 07:43'!
+!ModularTuple methodsFor: 'accessing-private' stamp: 'len 3/31/2016 07:43'!
 representatives: anArray
 	representatives _ anArray! !
 
-!ModularTuple methodsFor: 'as yet unclassified' stamp: 'len 3/31/2016 07:47'!
+!ModularTuple methodsFor: 'accessing' stamp: 'len 3/31/2016 07:47'!
 size
 	^ representatives size! !
 
@@ -13007,9 +13030,10 @@ chebyshevOfOrder: n
 		c = 0 ifFalse: [answer _ answer + (self coefficient: scalars one * c degree: each - 1)]].
 	^ answer! !
 
-!Polynomials methodsFor: 'elements' stamp: 'len 3/26/2016 02:56'!
+!Polynomials methodsFor: 'elements' stamp: 'len 6/30/2016 07:30'!
 coefficient: aNumber degree: anInteger
-	^ self coefficient: aNumber monomial: (Monomial x: self indeterminate to: anInteger)! !
+	^ self coefficients: (self scalars tuple: {aNumber}) >>> anInteger
+"	^ self coefficient: aNumber monomial: (Monomial x: self indeterminate to: anInteger)"! !
 
 !Polynomials methodsFor: 'elements' stamp: 'len 5/29/2016 17:44'!
 coefficient: aNumber monomial: aMonomial
@@ -29851,10 +29875,10 @@ coefficients: aSparseTuple
 new
 	^ super new initialize! !
 
-!PolynomialDivision methodsFor: 'private' stamp: 'len 3/23/2016 05:18'!
+!PolynomialDivision methodsFor: 'private' stamp: 'len 6/30/2016 07:25'!
 divide
 	"Compute the quotient and the remainder polynomials."
-	| quo rem lc n m term indeterminate |
+	| quo rem lc n m term |
 	divisor isZero ifTrue: [^ (ZeroDivide dividend: dividend) signal].
 	divisor degree = 0
 		ifTrue: [quotient _ dividend * divisor leadingCoefficient reciprocal.
@@ -29863,13 +29887,13 @@ divide
 	dividend degree < (m _ divisor degree)
 		ifTrue: [quotient _ dividend zero. remainder _ dividend.
 					^ self].
-	indeterminate _ divisor leadingIndeterminate.
+"	indeterminate _ divisor leadingIndeterminate."
 	quo _ dividend species zero.
 	rem _ dividend copy.
 	lc _ divisor leadingCoefficient.
 	[(n _ rem degree) >= m]
 		whileTrue:
-			[term _ dividend species coefficient: rem leadingCoefficient / lc x: indeterminate to: n-m.
+			[term _ dividend species coefficient: rem leadingCoefficient / lc degree: n-m.
 			rem _ rem + (divisor * term negated).
 			"or optimized as:
 			divisor monomialsAndCoefficientsDo: [:key :value|
