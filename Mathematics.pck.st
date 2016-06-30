@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 30 June 2016 at 7:35:55.247431 am'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 30 June 2016 at 10:09:01.391901 am'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 119!
+!provides: 'Mathematics' 1 120!
 !classDefinition: #AbelianGroupPresentation category: #'Mathematics-Free'!
 Object subclass: #AbelianGroupPresentation
 	instanceVariableNames: 'generators relators'
@@ -2943,7 +2943,7 @@ RootSystem class
 
 !classDefinition: #SchreierSims category: #'Mathematics-Groups-Algorithms'!
 Object subclass: #SchreierSims
-	instanceVariableNames: 'action generators base strongGeneratingSet order'
+	instanceVariableNames: 'action generators base strongGeneratingSet trees order'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Groups-Algorithms'!
@@ -32362,45 +32362,67 @@ on: aVectorSpace roots: aCollection
 action: aGroupAction
 	action _ aGroupAction! !
 
-!SchreierSims methodsFor: 'as yet unclassified' stamp: 'len 6/25/2016 20:05'!
+!SchreierSims methodsFor: 'as yet unclassified' stamp: 'len 6/30/2016 09:02'!
 base
+	"A base of a group G acting on X is a finite sequence of distinct points B={x1,..,xn} such that the stabilizer of B is {id}, i.e. the only element that fixes all xi is the identity."
 	base ifNil: [self run].
 	^ base! !
+
+!SchreierSims methodsFor: 'as yet unclassified' stamp: 'len 6/30/2016 10:08'!
+elementFromImage: anArray
+	| image g |
+	image _ anArray copy.
+	g _ action group identity.
+	trees withIndexDo: [:each :i|
+		g _ (each trace: (image at: i)) * g.
+		i to: base size do: [:j| image at: j put: (action value: {each traceInverse: (image at: i). image at: j})]].
+	^ g! !
 
 !SchreierSims methodsFor: 'as yet unclassified' stamp: 'len 6/22/2016 16:32'!
 generators: aCollection
 	generators _ aCollection asArray! !
+
+!SchreierSims methodsFor: 'as yet unclassified' stamp: 'len 6/30/2016 10:02'!
+imageOf: anElement
+	^ base collect: [:each| action value: {anElement. each}]! !
+
+!SchreierSims methodsFor: 'as yet unclassified' stamp: 'len 6/30/2016 09:58'!
+includes: anElement
+	^ (self strip: anElement) = action group identity! !
 
 !SchreierSims methodsFor: 'as yet unclassified' stamp: 'len 6/25/2016 20:06'!
 order
 	order ifNil: [self run].
 	^ order! !
 
-!SchreierSims methodsFor: 'as yet unclassified' stamp: 'len 6/25/2016 20:05'!
+!SchreierSims methodsFor: 'as yet unclassified' stamp: 'len 6/30/2016 09:57'!
 run
-	| G order base strongGeneratingSet |
+	| G order |
 	G _ action group.
 	order _ 1.
 	base _ OrderedCollection new.
 	strongGeneratingSet _ OrderedCollection new.
+	trees _ OrderedCollection new.
 	G action space do: [:b| | tree |
 		G isTrivial ifTrue: [^ order].
 		tree _ SchreierTree root: b generators: G generators action: G action.
+		trees add: tree.
 		order _ order * tree orbit size.
 		G _ tree stabilizer].
 	self error: 'what?'.
 	^ order! !
 
-!SchreierSims methodsFor: 'as yet unclassified' stamp: 'len 6/23/2016 06:16'!
-strip: g base: B orbits: orbits u: u
-	| g` |
-	g` _ g.
-	B withIndexDo: [:b :i| | b` |
-		b` _ g` value: b.
-		((orbits at: i) includes: b`)
-			ifFalse: [^ {g`. i}].
-		g` _ g` @ ((u at: i) value: b`) inverse].
-	^ {g`. B size + 1}! !
+!SchreierSims methodsFor: 'as yet unclassified' stamp: 'len 6/30/2016 09:55'!
+strip: anElement
+	| g |
+	g _ anElement.
+	trees withIndexDo: [:each :i| | b b` |
+		b _ each root.
+		b` _ action value: {g. b}.
+		(each orbits includes: b`)
+			ifFalse: [^ {g. i}].
+		g _ g * (each traceInverse: b`)].
+	^ {g. trees size + 1}! !
 
 !SchreierSims methodsFor: 'as yet unclassified' stamp: 'len 6/25/2016 20:06'!
 strongGeneratingSet
@@ -32442,12 +32464,14 @@ stabilizer
 	"Answer the stabilizer of the root."
 	^ self notYetImplemented! !
 
-!SchreierTree methodsFor: 'as yet unclassified' stamp: 'len 6/24/2016 09:21'!
+!SchreierTree methodsFor: 'as yet unclassified' stamp: 'len 6/30/2016 09:43'!
 trace: aPoint
 	"Trace the Schreier spanning tree (v,w) for the orbit containing aPoint.
-	Answer the transversal u(aPoint), where u is a representative function."
+	Answer the transversal u(aPoint), i.e. an element such that root^u(aPoint) = aPoint.
+	This is the representative function, and in particular u(root^h) is a representative of the coset G_root * h, where G_root is the stabilizer at the root of this Schreier tree.
+	For an element g in G, there's an h in G_root g = h * u(root^g), and h = h * u(root^h)^-1."
 	| alpha u |
-	u _ Permutation new.
+	u _ action group identity.
 	alpha _ aPoint.
 	[(v at: alpha) notNil]
 		whileTrue:
@@ -32455,11 +32479,11 @@ trace: aPoint
 			alpha _ w at: alpha].
 	^ u! !
 
-!SchreierTree methodsFor: 'as yet unclassified' stamp: 'len 6/25/2016 20:32'!
+!SchreierTree methodsFor: 'as yet unclassified' stamp: 'len 6/30/2016 09:33'!
 traceInverse: aPoint
-	"Calculate inverses of coset representatives. See 'the schreier-sims algorithm' pp 18. This makes backward pointers unnecesary."
+	"Calculate inverses of coset representatives. See 'the schreier-sims algorithm' pp 18. Assumes we're using a (strong) generating set that is closed under inversion. This makes backward pointers unnecesary."
 	| alpha u |
-	u _ Permutation new.
+	u _ action group identity.
 	alpha _ aPoint.
 	[(v at: alpha) notNil]
 		whileTrue:
