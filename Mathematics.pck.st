@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 1 July 2016 at 5:11:36.928393 am'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 1 July 2016 at 9:55:47.622411 am'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 123!
+!provides: 'Mathematics' 1 124!
 !classDefinition: #AbelianGroupPresentation category: #'Mathematics-Free'!
 Object subclass: #AbelianGroupPresentation
 	instanceVariableNames: 'generators relators'
@@ -3544,6 +3544,11 @@ My instances are right R-modules.
 
 !FreeModule commentStamp: 'len 6/23/2016 01:23' prior: 0!
 My instances are free right R-modules, i.e. right R-modules with a basis.!
+
+!FreeAbelianGroup commentStamp: '<historical>' prior: 0!
+TODO:
+- membership: compute Hermite normal form of the matrix of the basis
+- or use LLL!
 
 !VectorSpace commentStamp: 'len 4/23/2016 03:02' prior: 0!
 I am an abstract class modeling vector spaces. Instances of my concrete subclasses define a canonical system of coordinates for the objects considered as vectors.
@@ -15368,9 +15373,9 @@ isNilpotent
 	self lowerCentralSeriesDo: [:each| termination _ each].
 	^ termination isTrivial! !
 
-!Group methodsFor: 'testing' stamp: 'len 5/2/2016 02:31'!
+!Group methodsFor: 'testing' stamp: 'len 7/1/2016 08:13'!
 isNormalIn: aGroup
-	"Answer true if the receiver is normal as subgroup of aFiniteGroup, i.e. if it is a subgroup invariant under conjugation."
+	"Answer true if the receiver is normal as subgroup of aGroup, i.e. if it is a subgroup invariant under conjugation."
 	| inverseMap op |
 	op _ self operation.
 	inverseMap _ self inverseMap.
@@ -15439,8 +15444,9 @@ multiplicativeInverseMap
 multiplicativeOperation
 	^ (GroupAction from: (self, self) to: self evaluating: [:each| each first * each second]) name: '*'! !
 
-!Group methodsFor: 'morphisms-endo' stamp: 'len 5/1/2016 23:00'!
+!Group methodsFor: 'morphisms-endo' stamp: 'len 7/1/2016 08:16'!
 normalizerOf: aCollection
+	"Answer the normal closure of aCollection in the receiver, i.e. the smallest normal subgroup that contains aCollection."
 	| inverseMap op |
 	op _ self operation.
 	inverseMap _ self inverseMap.
@@ -20885,15 +20891,15 @@ from: aLinearBasis matrix: aMatrix
 	aPermutation map keysAndValuesDo: [:key :value| value = (self at: key) ifFalse: [^ false]].
 	^ true! !
 
-!Permutation methodsFor: 'arithmetic' stamp: 'len 6/28/2016 09:51'!
+!Permutation methodsFor: 'arithmetic' stamp: 'len 7/1/2016 09:54'!
 @ aPermutation
 	"Answer the composition of the receiver with the argument."
 	| answer |
 	answer _ self species new.
 	self changesDo: [:each|
-		answer at: each put: (self at: (aPermutation at: each))].
+		answer at: each put: (aPermutation at: (self at: each))].
 	aPermutation changesDo: [:each|
-		answer at: each put: (self at: (aPermutation at: each))].
+		answer at: each put: (aPermutation at: (self at: each))].
 	^ answer! !
 
 !Permutation methodsFor: 'accessing' stamp: 'len 5/6/98 05:01'!
@@ -21235,7 +21241,7 @@ transpositions
 	(aPermutation isKindOf: self class) ifFalse: [^ super = aPermutation].
 	^ map = aPermutation map! !
 
-!StandardPermutation methodsFor: 'arithmetic' stamp: 'len 6/29/2016 00:54'!
+!StandardPermutation methodsFor: 'arithmetic' stamp: 'len 7/1/2016 09:54'!
 @ aPermutation
 	"Answer the composition of the receiver with the argument."
 
@@ -21245,7 +21251,7 @@ transpositions
 	otherMap _ aPermutation map.
 	newMap _ Array new: map size.
 	1 to: map size do: [:i|
-		newMap at: i put: (map at: (otherMap at: i))]. 
+		newMap at: i put: (otherMap at: (map at: i))]. 
 	^ self class values: newMap! !
 
 !StandardPermutation methodsFor: 'converting' stamp: 'len 6/28/2016 23:57'!
@@ -32375,11 +32381,12 @@ base
 	base ifNil: [self run].
 	^ base! !
 
-!SchreierSims methodsFor: 'computing-private' stamp: 'len 7/1/2016 00:41'!
+!SchreierSims methodsFor: 'computing-private' stamp: 'len 7/1/2016 05:46'!
 buildBSGS
 	base _ OrderedCollection new.
 	strongGeneratingSet _ OrderedCollection new.
-	self buildPartialBSGS! !
+	self buildPartialBSGS.
+	base size to: 1 by: -1 do: [:i| self schreierSimsStep: i]! !
 
 !SchreierSims methodsFor: 'computing-private' stamp: 'len 7/1/2016 00:39'!
 buildPartialBSGS
@@ -34599,6 +34606,30 @@ testPAdicNorm
 	x _ x * 4.
 	self assert: x valuation = 2.
 	self assert: x norm = (1/4)! !
+
+!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 7/1/2016 09:53'!
+testPermutationProduct
+	| a b |
+	a _ Permutation cycles: #((1 4 5) (2 3)).
+	b _ Permutation cycles: #((2 4) (5 1)).
+	self assert: a*b = (Permutation cycle: #(1 2 3 4)).
+	self assert: a*a = (Permutation cycle: #(1 5 4))! !
+
+!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 7/1/2016 09:53'!
+testPermutationProduct2
+	| a b |
+	a _ Permutation new: 5 cycles: #((1 4 5) (2 3)).
+	b _ Permutation new: 5 cycles: #((2 4) (5 1)).
+	self assert: a*b = (Permutation cycle: #(1 2 3 4)).
+	self assert: a*a = (Permutation cycle: #(1 5 4))! !
+
+!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 7/1/2016 09:53'!
+testPermutationProduct3
+	| a b |
+	a _ Permutation cycles: #((2 3 4)).
+	b _ Permutation cycles: #((1 2) (3 4)).
+	self assert: a*b = (Permutation cycle: #(1 2 4)).
+	self assert: b*a = (Permutation cycle: #(1 3 2))! !
 
 !MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 4/13/2016 21:48'!
 testPolynomialVectorSpace
