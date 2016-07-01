@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 1 July 2016 at 2:22:32.021834 am'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 1 July 2016 at 5:11:36.928393 am'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 122!
+!provides: 'Mathematics' 1 123!
 !classDefinition: #AbelianGroupPresentation category: #'Mathematics-Free'!
 Object subclass: #AbelianGroupPresentation
 	instanceVariableNames: 'generators relators'
@@ -3807,7 +3807,7 @@ While (after initial precomputation) Dijkstra's algorithm is able to efficiently
 My instances are elements of a fraction field, i.e. fractions with numerator and denominator in a given integral domain. See class FractionField.!
 
 !RationalFunction commentStamp: '<historical>' prior: 0!
-My instances are rational functions, i.e. fractions where the numerator and denominator sre polynomials.!
+My instances are rational functions, i.e. fractions where the numerator and denominator are polynomials.!
 
 !Function commentStamp: '<historical>' prior: 0!
 My instances are functions, i.e. maps from a mathematical structure (domain) to another structure (codomain). Evaluated at elements of the domain (>>#value:) they produce elements of the codomain.
@@ -4136,6 +4136,12 @@ The (pseudo) number theoretic transform may be meaningful in the ring Z/<m> even
 My instances are polynomials in one or many indeterminates, with coefficients in a commutative ring.
 
 Subclasses implement particular representations, such as dense (univariate) polynomials (represented as arrays of coefficients) or sparse polynomials (representad as dictionaries monomial -> coefficient).!
+
+!DensePolynomial commentStamp: '<historical>' prior: 0!
+My instances are univariate polynomials in dense representation. The coefficients of a dense polynomial are stored as a Tuple indexed by degree.!
+
+!SparsePolynomial commentStamp: '<historical>' prior: 0!
+My instances are polynomials in sparse representation. The coefficients of a sparse polynomial are stored as a SparseTuple indexed by monomials.!
 
 !PolynomialDivision commentStamp: '<historical>' prior: 0!
 I am the long division algorithm for univariate polynomials over a field.
@@ -10639,17 +10645,17 @@ size
 components: anArray
 	^ self new components: anArray! !
 
-!HomogeneousPolynomialSpace methodsFor: 'as yet unclassified' stamp: 'len 6/24/2016 05:47'!
+!HomogeneousPolynomialSpace methodsFor: 'basis' stamp: 'len 6/24/2016 05:47'!
 dimension
 	| n |
 	n _ polynomials rank.
 	^ degree + n - 1 choose: degree! !
 
-!HomogeneousPolynomialSpace methodsFor: 'as yet unclassified' stamp: 'len 6/24/2016 05:51'!
+!HomogeneousPolynomialSpace methodsFor: 'basis' stamp: 'len 6/24/2016 05:51'!
 e: anInteger
 	^ self ordering e: anInteger degree: degree! !
 
-!HomogeneousPolynomialSpace methodsFor: 'as yet unclassified' stamp: 'len 6/24/2016 05:51'!
+!HomogeneousPolynomialSpace methodsFor: 'accessing' stamp: 'len 6/24/2016 05:51'!
 ordering
 	^ polynomials ordering! !
 
@@ -33891,6 +33897,12 @@ testDirectProductOfAbelianGroups
 	G1xG2 _ DirectProductGroup components: {G1. G2}.
 	g _ G1xG2 atRandomBits: 100.
 	self assert: (G1xG2 operation value: {g. G1xG2 inverseMap value: g}) = G1xG2 identity! !
+
+!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 7/1/2016 05:09'!
+testHessian
+	| H |
+	H _ PermutationGroup hessian.
+	self assert: H elements size = 216! !
 
 !GroupTest methodsFor: 'as yet unclassified' stamp: 'len 5/2/2016 02:35'!
 testIsSolvable
