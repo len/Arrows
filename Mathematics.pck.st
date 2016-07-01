@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 30 June 2016 at 6:57:59.706633 pm'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 1 July 2016 at 2:22:32.021834 am'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 121!
+!provides: 'Mathematics' 1 122!
 !classDefinition: #AbelianGroupPresentation category: #'Mathematics-Free'!
 Object subclass: #AbelianGroupPresentation
 	instanceVariableNames: 'generators relators'
@@ -32359,17 +32359,33 @@ example3
 on: aVectorSpace roots: aCollection
 	^ self new ambient: aVectorSpace; roots: aCollection! !
 
-!SchreierSims methodsFor: 'as yet unclassified' stamp: 'len 6/22/2016 07:31'!
+!SchreierSims methodsFor: 'accessing-private' stamp: 'len 6/22/2016 07:31'!
 action: aGroupAction
 	action _ aGroupAction! !
 
-!SchreierSims methodsFor: 'as yet unclassified' stamp: 'len 6/30/2016 09:02'!
+!SchreierSims methodsFor: 'accessing' stamp: 'len 6/30/2016 09:02'!
 base
 	"A base of a group G acting on X is a finite sequence of distinct points B={x1,..,xn} such that the stabilizer of B is {id}, i.e. the only element that fixes all xi is the identity."
 	base ifNil: [self run].
 	^ base! !
 
-!SchreierSims methodsFor: 'as yet unclassified' stamp: 'len 6/30/2016 10:08'!
+!SchreierSims methodsFor: 'computing-private' stamp: 'len 7/1/2016 00:41'!
+buildBSGS
+	base _ OrderedCollection new.
+	strongGeneratingSet _ OrderedCollection new.
+	self buildPartialBSGS! !
+
+!SchreierSims methodsFor: 'computing-private' stamp: 'len 7/1/2016 00:39'!
+buildPartialBSGS
+	| id |
+	id _ action group identity.
+	generators do: [:each| each = id ifFalse: [strongGeneratingSet add: each]].
+	strongGeneratingSet copy do: [:s|
+		(base allSatisfy: [:b| (s value: b) = b])
+			ifTrue: [base add: (action space detect: [:one| action isFixedPoint: one])].
+			s squared = id ifFalse: [base add: s inverse]]! !
+
+!SchreierSims methodsFor: 'computing' stamp: 'len 6/30/2016 10:08'!
 elementFromImage: anArray
 	| image g |
 	image _ anArray copy.
@@ -32379,26 +32395,26 @@ elementFromImage: anArray
 		i to: base size do: [:j| image at: j put: (action value: {each traceInverse: (image at: i). image at: j})]].
 	^ g! !
 
-!SchreierSims methodsFor: 'as yet unclassified' stamp: 'len 6/22/2016 16:32'!
+!SchreierSims methodsFor: 'accessing-private' stamp: 'len 6/22/2016 16:32'!
 generators: aCollection
 	generators _ aCollection asArray! !
 
-!SchreierSims methodsFor: 'as yet unclassified' stamp: 'len 6/30/2016 10:02'!
+!SchreierSims methodsFor: 'computing' stamp: 'len 6/30/2016 10:02'!
 imageOf: anElement
 	^ base collect: [:each| action value: {anElement. each}]! !
 
-!SchreierSims methodsFor: 'as yet unclassified' stamp: 'len 6/30/2016 10:13'!
+!SchreierSims methodsFor: 'computing' stamp: 'len 6/30/2016 10:13'!
 includes: anElement
 	"Answer true if the group includes anElement."
 	^ (self strip: anElement) = action group identity! !
 
-!SchreierSims methodsFor: 'as yet unclassified' stamp: 'len 6/30/2016 10:13'!
+!SchreierSims methodsFor: 'accessing' stamp: 'len 6/30/2016 10:13'!
 order
 	"Answer the order of the group."
 	order ifNil: [self run].
 	^ order! !
 
-!SchreierSims methodsFor: 'as yet unclassified' stamp: 'len 6/30/2016 09:57'!
+!SchreierSims methodsFor: 'computing-private' stamp: 'len 6/30/2016 09:57'!
 run
 	| G order |
 	G _ action group.
@@ -32415,7 +32431,7 @@ run
 	self error: 'what?'.
 	^ order! !
 
-!SchreierSims methodsFor: 'as yet unclassified' stamp: 'len 6/30/2016 09:55'!
+!SchreierSims methodsFor: 'computing' stamp: 'len 6/30/2016 09:55'!
 strip: anElement
 	| g |
 	g _ anElement.
@@ -32427,16 +32443,16 @@ strip: anElement
 		g _ g * (each traceInverse: b`)].
 	^ {g. trees size + 1}! !
 
-!SchreierSims methodsFor: 'as yet unclassified' stamp: 'len 6/25/2016 20:06'!
+!SchreierSims methodsFor: 'accessing' stamp: 'len 6/25/2016 20:06'!
 strongGeneratingSet
 	strongGeneratingSet ifNil: [self run].
 	^ strongGeneratingSet! !
 
-!SchreierTree methodsFor: 'as yet unclassified' stamp: 'len 6/24/2016 03:07'!
+!SchreierTree methodsFor: 'accessing' stamp: 'len 6/24/2016 03:07'!
 orbit
 	^ orbit! !
 
-!SchreierTree methodsFor: 'as yet unclassified' stamp: 'len 6/27/2016 23:24'!
+!SchreierTree methodsFor: 'initialization' stamp: 'len 6/27/2016 23:24'!
 root: aPoint generators: anArray action: aGroupAction
 	| queue |
 	root _ aPoint.
@@ -32462,12 +32478,12 @@ root: aPoint generators: anArray action: aGroupAction
 				w at: x put: a]].
 	queue isEmpty] whileFalse! !
 
-!SchreierTree methodsFor: 'as yet unclassified' stamp: 'len 6/29/2016 08:57'!
+!SchreierTree methodsFor: 'accessing' stamp: 'len 6/29/2016 08:57'!
 stabilizer
 	"Answer the stabilizer of the root."
 	^ self notYetImplemented! !
 
-!SchreierTree methodsFor: 'as yet unclassified' stamp: 'len 6/30/2016 09:43'!
+!SchreierTree methodsFor: 'accessing' stamp: 'len 6/30/2016 09:43'!
 trace: aPoint
 	"Trace the Schreier spanning tree (v,w) for the orbit containing aPoint.
 	Answer the transversal u(aPoint), i.e. an element such that root^u(aPoint) = aPoint.
@@ -32482,7 +32498,7 @@ trace: aPoint
 			alpha _ w at: alpha].
 	^ u! !
 
-!SchreierTree methodsFor: 'as yet unclassified' stamp: 'len 6/30/2016 09:33'!
+!SchreierTree methodsFor: 'accessing' stamp: 'len 6/30/2016 09:33'!
 traceInverse: aPoint
 	"Calculate inverses of coset representatives. See 'the schreier-sims algorithm' pp 18. Assumes we're using a (strong) generating set that is closed under inversion. This makes backward pointers unnecesary."
 	| alpha u |
