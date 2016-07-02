@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 2 July 2016 at 6:08:33.69476 am'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 2 July 2016 at 4:50:36.437116 pm'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 127!
+!provides: 'Mathematics' 1 128!
 !classDefinition: #AbelianGroupPresentation category: #'Mathematics-Free'!
 Object subclass: #AbelianGroupPresentation
 	instanceVariableNames: 'generators relators'
@@ -181,18 +181,28 @@ Collection subclass: #Iterator
 Iterator class
 	instanceVariableNames: ''!
 
-!classDefinition: #AbstractTuple category: #'Mathematics-Kernel-Tuples'!
-ArrayedCollection subclass: #AbstractTuple
+!classDefinition: #BitArray category: #'Mathematics-ETC'!
+ArrayedCollection subclass: #BitArray
+	instanceVariableNames: 'bytes length'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-ETC'!
+!classDefinition: 'BitArray class' category: #'Mathematics-ETC'!
+BitArray class
+	instanceVariableNames: ''!
+
+!classDefinition: #OrderedTuple category: #'Mathematics-Kernel-Tuples'!
+ArrayedCollection subclass: #OrderedTuple
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Kernel-Tuples'!
-!classDefinition: 'AbstractTuple class' category: #'Mathematics-Kernel-Tuples'!
-AbstractTuple class
+!classDefinition: 'OrderedTuple class' category: #'Mathematics-Kernel-Tuples'!
+OrderedTuple class
 	instanceVariableNames: ''!
 
 !classDefinition: #BitTuple category: #'Mathematics-Kernel-Tuples'!
-AbstractTuple subclass: #BitTuple
+OrderedTuple subclass: #BitTuple
 	instanceVariableNames: 'integer size'
 	classVariableNames: 'One Zero'
 	poolDictionaries: ''
@@ -202,7 +212,7 @@ BitTuple class
 	instanceVariableNames: ''!
 
 !classDefinition: #ModularTuple category: #'Mathematics-Kernel-Tuples'!
-AbstractTuple subclass: #ModularTuple
+OrderedTuple subclass: #ModularTuple
 	instanceVariableNames: 'representatives modulus'
 	classVariableNames: ''
 	poolDictionaries: ''
@@ -212,23 +222,13 @@ ModularTuple class
 	instanceVariableNames: ''!
 
 !classDefinition: #Tuple category: #'Mathematics-Kernel-Tuples'!
-AbstractTuple subclass: #Tuple
+OrderedTuple subclass: #Tuple
 	instanceVariableNames: 'elements'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Kernel-Tuples'!
 !classDefinition: 'Tuple class' category: #'Mathematics-Kernel-Tuples'!
 Tuple class
-	instanceVariableNames: ''!
-
-!classDefinition: #BitArray category: #'Mathematics-ETC'!
-ArrayedCollection subclass: #BitArray
-	instanceVariableNames: 'bytes length'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-ETC'!
-!classDefinition: 'BitArray class' category: #'Mathematics-ETC'!
-BitArray class
 	instanceVariableNames: ''!
 
 !classDefinition: #GroebnerBasis category: #'Mathematics-Geometry-Algebraic'!
@@ -331,13 +331,13 @@ Object subclass: #Diagram
 Diagram class
 	instanceVariableNames: ''!
 
-!classDefinition: #ChainComplex category: #'Mathematics-Topology'!
+!classDefinition: #ChainComplex category: #'Mathematics-Simplices'!
 Diagram subclass: #ChainComplex
 	instanceVariableNames: 'arrows'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Topology'!
-!classDefinition: 'ChainComplex class' category: #'Mathematics-Topology'!
+	category: 'Mathematics-Simplices'!
+!classDefinition: 'ChainComplex class' category: #'Mathematics-Simplices'!
 ChainComplex class
 	instanceVariableNames: ''!
 
@@ -1631,13 +1631,13 @@ Domain subclass: #SemialgebraicSet
 SemialgebraicSet class
 	instanceVariableNames: ''!
 
-!classDefinition: #SimplicialComplex category: #'Mathematics-Topology'!
+!classDefinition: #SimplicialComplex category: #'Mathematics-Simplices'!
 Domain subclass: #SimplicialComplex
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Topology'!
-!classDefinition: 'SimplicialComplex class' category: #'Mathematics-Topology'!
+	category: 'Mathematics-Simplices'!
+!classDefinition: 'SimplicialComplex class' category: #'Mathematics-Simplices'!
 SimplicialComplex class
 	instanceVariableNames: ''!
 
@@ -1871,13 +1871,13 @@ Function subclass: #BilinearForm
 BilinearForm class
 	instanceVariableNames: ''!
 
-!classDefinition: #ChainMap category: #'Mathematics-Topology'!
+!classDefinition: #ChainMap category: #'Mathematics-Simplices'!
 Function subclass: #ChainMap
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Topology'!
-!classDefinition: 'ChainMap class' category: #'Mathematics-Topology'!
+	category: 'Mathematics-Simplices'!
+!classDefinition: 'ChainMap class' category: #'Mathematics-Simplices'!
 ChainMap class
 	instanceVariableNames: ''!
 
@@ -2071,13 +2071,13 @@ Function subclass: #SesquilinearForm
 SesquilinearForm class
 	instanceVariableNames: ''!
 
-!classDefinition: #SimplicialMap category: #'Mathematics-Topology'!
+!classDefinition: #SimplicialMap category: #'Mathematics-Simplices'!
 Function subclass: #SimplicialMap
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Topology'!
-!classDefinition: 'SimplicialMap class' category: #'Mathematics-Topology'!
+	category: 'Mathematics-Simplices'!
+!classDefinition: 'SimplicialMap class' category: #'Mathematics-Simplices'!
 SimplicialMap class
 	instanceVariableNames: ''!
 
@@ -2291,13 +2291,13 @@ LinearCombination subclass: #FreePolynomial
 FreePolynomial class
 	instanceVariableNames: ''!
 
-!classDefinition: #SimplicialChain category: #'Mathematics-Topology'!
+!classDefinition: #SimplicialChain category: #'Mathematics-Simplices'!
 LinearCombination subclass: #SimplicialChain
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Topology'!
-!classDefinition: 'SimplicialChain class' category: #'Mathematics-Topology'!
+	category: 'Mathematics-Simplices'!
+!classDefinition: 'SimplicialChain class' category: #'Mathematics-Simplices'!
 SimplicialChain class
 	instanceVariableNames: ''!
 
@@ -2991,13 +2991,13 @@ Object subclass: #SimpleTensor
 SimpleTensor class
 	instanceVariableNames: ''!
 
-!classDefinition: #Simplex category: #'Mathematics-Topology'!
+!classDefinition: #Simplex category: #'Mathematics-Simplices'!
 Object subclass: #Simplex
 	instanceVariableNames: 'points'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Topology'!
-!classDefinition: 'Simplex class' category: #'Mathematics-Topology'!
+	category: 'Mathematics-Simplices'!
+!classDefinition: 'Simplex class' category: #'Mathematics-Simplices'!
 Simplex class
 	instanceVariableNames: ''!
 
@@ -7476,45 +7476,125 @@ on: aBlock
 on: anObject performing: aSymbol
 	^ self new block: [:aBlock| anObject perform: aSymbol with: aBlock]! !
 
-!AbstractTuple methodsFor: 'arithmetic' stamp: 'len 4/16/2016 07:50'!
+!BitArray methodsFor: 'arithmetic' stamp: 'len 12/21/2015 22:15'!
+* aBitArray
+	| answer |
+	answer _ self class new: (self size max: aBitArray size).
+	1 to: answer byteSize do: [:i|
+		answer byteAt: i put: ((self byteAt: i) bitAnd: (aBitArray byteAt: i))].
+	^ answer! !
+
+!BitArray methodsFor: 'arithmetic' stamp: 'len 12/21/2015 22:14'!
++ aBitArray
+	| answer |
+	answer _ self class new: (self size max: aBitArray size).
+	1 to: answer byteSize do: [:i|
+		answer byteAt: i put: ((self byteAt: i) bitXor: (aBitArray byteAt: i))].
+	^ answer! !
+
+!BitArray methodsFor: 'converting' stamp: 'len 12/21/2015 22:17'!
+asByteArray
+	^ bytes! !
+
+!BitArray methodsFor: 'converting' stamp: 'len 12/21/2015 22:21'!
+asInteger
+	"Answer the receiver as a possitive integer."
+	| answer i |
+	answer _ 0.
+	i _ 0.
+	bytes do: [:each| answer _ answer + (each bitShift: i). i _ i + 8].
+	^ answer! !
+
+!BitArray methodsFor: 'accessing' stamp: 'len 12/21/2015 22:30'!
+at: anInteger
+	^ (bytes at: anInteger - 1 // 8 + 1 ifAbsent: [^ 0]) bitAt: anInteger - 1 \\ 8 + 1! !
+
+!BitArray methodsFor: 'accessing' stamp: 'len 12/21/2015 22:07'!
+at: anInteger put: aBit
+	| i i0 b |
+	i _ anInteger - 1 // 8 + 1.
+	i0 _ anInteger - 1 \\ 8 + 1.
+	b _ bytes at: i.
+	(b bitAt: i0) == aBit
+		ifFalse: [b _ b bitXor: (1 bitShift: i0-1)].
+	bytes at: i put: b.
+	^ aBit! !
+
+!BitArray methodsFor: 'accessing' stamp: 'len 12/21/2015 22:16'!
+byteAt: anInteger
+	^ bytes at: anInteger ifAbsent: [0]! !
+
+!BitArray methodsFor: 'accessing' stamp: 'len 12/21/2015 22:16'!
+byteAt: anInteger put: aByte
+	^ bytes at: anInteger put: aByte! !
+
+!BitArray methodsFor: 'initialization' stamp: 'len 12/21/2015 20:31'!
+bytes: aByteArray length: anInteger
+	bytes _ aByteArray.
+	length _ anInteger! !
+
+!BitArray methodsFor: 'printing' stamp: 'len 12/21/2015 20:42'!
+printOn: aStream
+	1 to: self size do: [:i| aStream print: (self at: i)]! !
+
+!BitArray methodsFor: 'accessing' stamp: 'len 12/21/2015 20:41'!
+size
+	^ length! !
+
+!BitArray class methodsFor: 'instance creation' stamp: 'len 12/21/2015 20:41'!
+new: anInteger
+	^ self new: anInteger bytes: (ByteArray new: (anInteger / 8) ceiling)! !
+
+!BitArray class methodsFor: 'instance creation' stamp: 'len 12/21/2015 20:40'!
+new: anInteger bytes: aByteArray
+	^ self basicNew bytes: aByteArray length: anInteger! !
+
+!BitArray class methodsFor: 'instance creation' stamp: 'len 12/21/2015 22:26'!
+random: anInteger
+	| answer |
+	answer _ self new: anInteger.
+	1 to: answer size do: [:i| answer at: i put: 2 atRandom - 1].
+	^ answer! !
+
+!OrderedTuple methodsFor: 'arithmetic' stamp: 'len 4/16/2016 07:50'!
 % anInteger
 	anInteger = 2 ifTrue: [^ BitTuple new: self size evaluating: [:i| (self at: i) % 2]].
 	^ self collect: [:each| each % anInteger]! !
 
-!AbstractTuple methodsFor: 'arithmetic' stamp: 'len 3/29/2016 18:52'!
+!OrderedTuple methodsFor: 'arithmetic' stamp: 'len 3/29/2016 18:52'!
 * aNumber
 	^ self collect: [:each| each * aNumber]! !
 
-!AbstractTuple methodsFor: 'arithmetic' stamp: 'len 3/29/2016 18:50'!
+!OrderedTuple methodsFor: 'arithmetic' stamp: 'len 3/29/2016 18:50'!
 / aNumber
 	^ self collect: [:each| each / aNumber]! !
 
-!AbstractTuple methodsFor: 'arithmetic' stamp: 'len 3/29/2016 18:50'!
+!OrderedTuple methodsFor: 'arithmetic' stamp: 'len 3/29/2016 18:50'!
 // aNumber
 	^ self collect: [:each| each // aNumber]! !
 
-!AbstractTuple methodsFor: 'arithmetic' stamp: 'len 3/29/2016 19:02'!
+!OrderedTuple methodsFor: 'arithmetic' stamp: 'len 3/29/2016 19:02'!
 << anInteger
 	^ self >> anInteger negated! !
 
-!AbstractTuple methodsFor: 'arithmetic' stamp: 'len 3/29/2016 18:45'!
+!OrderedTuple methodsFor: 'arithmetic' stamp: 'len 3/29/2016 18:45'!
 <<< anInteger
 	^ self >>> anInteger negated! !
 
-!AbstractTuple methodsFor: 'comparing' stamp: 'len 3/29/2016 18:48'!
+!OrderedTuple methodsFor: 'comparing' stamp: 'len 7/2/2016 06:39'!
 = anObject
 	self == anObject ifTrue: [^ true].
-	(anObject isKindOf: AbstractTuple) ifFalse: [^ false].
+	(anObject isKindOf: OrderedTuple) ifFalse: [^ false].
 	self size = anObject size ifFalse: [^ false].
 	1 to: self size do: [:i|
 		(self at: i) = (anObject at: i) ifFalse: [^ false]].
 	^ true! !
 
-!AbstractTuple methodsFor: 'arithmetic' stamp: 'len 3/29/2016 19:02'!
+!OrderedTuple methodsFor: 'arithmetic' stamp: 'len 3/29/2016 19:02'!
 >> anInteger
 	^ self shift: anInteger! !
 
-!AbstractTuple methodsFor: 'arithmetic' stamp: 'len 3/29/2016 18:46'!
+!OrderedTuple methodsFor: 'arithmetic' stamp: 'len 3/29/2016 18:46'!
 >>> anInteger
 	| fill |
 	(anInteger == 0 or: [self isEmpty]) ifTrue: [^ self].
@@ -7523,41 +7603,41 @@ on: anObject performing: aSymbol
 	fill atAllPut: (self at: 1) - (self at: 1).
 	^ fill, self! !
 
-!AbstractTuple methodsFor: 'arithmetic' stamp: 'len 3/29/2016 18:46'!
+!OrderedTuple methodsFor: 'arithmetic' stamp: 'len 3/29/2016 18:46'!
 \\ aNumber
 	^ self collect: [:each| each \\ aNumber]! !
 
-!AbstractTuple methodsFor: 'converting' stamp: 'len 3/29/2016 18:53'!
+!OrderedTuple methodsFor: 'converting' stamp: 'len 3/29/2016 18:53'!
 adaptToNumber: aNumber andSend: selector
 	selector == #* ifTrue:[^ self collect: [:each| aNumber * each]].
 	^ super adaptToNumber: aNumber andSend: selector! !
 
-!AbstractTuple methodsFor: 'converting' stamp: 'len 4/8/2016 22:34'!
+!OrderedTuple methodsFor: 'converting' stamp: 'len 4/8/2016 22:34'!
 adaptToRealAlgebraic: aNumber andSend: selector
 	^ self adaptToNumber: aNumber andSend: selector! !
 
-!AbstractTuple methodsFor: 'operations' stamp: 'len 3/29/2016 18:54'!
+!OrderedTuple methodsFor: 'operations' stamp: 'len 3/29/2016 18:54'!
 apply: aMorphism
 	"Apply a homomorphism to the coefficients of the receiver."
 	^ self collect: aMorphism! !
 
-!AbstractTuple methodsFor: 'converting' stamp: 'len 3/30/2016 21:50'!
+!OrderedTuple methodsFor: 'converting' stamp: 'len 3/30/2016 21:50'!
 as: aClass
 	self class == aClass ifTrue: [^ self].
 	^ super as: aClass! !
 
-!AbstractTuple methodsFor: 'accessing' stamp: 'len 3/29/2016 18:54'!
+!OrderedTuple methodsFor: 'accessing' stamp: 'len 3/29/2016 18:54'!
 bitSize
 	| answer |
 	answer _ 0.
 	self do: [:each| answer _ answer + each bitSize].
 	^ answer! !
 
-!AbstractTuple methodsFor: 'arithmetic' stamp: 'len 3/29/2016 18:54'!
+!OrderedTuple methodsFor: 'arithmetic' stamp: 'len 3/29/2016 18:54'!
 conjugated
 	^ self collect: [:each| each conjugated]! !
 
-!AbstractTuple methodsFor: 'arithmetic' stamp: 'len 3/30/2016 06:41'!
+!OrderedTuple methodsFor: 'arithmetic' stamp: 'len 3/30/2016 06:41'!
 convolution: aTuple
 	| answer |
 	self isEmpty ifTrue: [^ self].
@@ -7569,92 +7649,92 @@ convolution: aTuple
 			answer at: i+j-1 add: xi*yj]].
 	^ answer! !
 
-!AbstractTuple methodsFor: 'accessing' stamp: 'len 3/29/2016 19:05'!
+!OrderedTuple methodsFor: 'accessing' stamp: 'len 3/29/2016 19:05'!
 dimension
 	^ self size! !
 
-!AbstractTuple methodsFor: 'arithmetic' stamp: 'len 4/6/2016 07:18'!
+!OrderedTuple methodsFor: 'arithmetic' stamp: 'len 4/6/2016 07:18'!
 dot: aTuple
 	| answer |
 	answer _ (self at: 1) * (aTuple at: 1).
 	2 to: (self size min: aTuple size) do: [:i| answer _ answer + ((self at: i) * (aTuple at: i))].
 	^ answer! !
 
-!AbstractTuple methodsFor: 'arithmetic' stamp: 'len 3/29/2016 18:56'!
+!OrderedTuple methodsFor: 'arithmetic' stamp: 'len 3/29/2016 18:56'!
 hadamard: aTuple
 	^ self class new: (self size min: aTuple size) evaluating: [:i| (self at: i) * (aTuple at: i)]! !
 
-!AbstractTuple methodsFor: 'converting' stamp: 'len 3/29/2016 18:59'!
+!OrderedTuple methodsFor: 'converting' stamp: 'len 3/29/2016 18:59'!
 homogeneous
 	^ HomogeneousTuple coordinates: self! !
 
-!AbstractTuple methodsFor: 'converting' stamp: 'len 3/29/2016 19:00'!
+!OrderedTuple methodsFor: 'converting' stamp: 'len 3/29/2016 19:00'!
 homogenized
 	^ HomogeneousTuple coordinates: (self, self first one)! !
 
-!AbstractTuple methodsFor: 'accessing' stamp: 'len 3/29/2016 19:05'!
+!OrderedTuple methodsFor: 'accessing' stamp: 'len 3/29/2016 19:05'!
 indices
 	^ 1 to: self size! !
 
-!AbstractTuple methodsFor: 'testing' stamp: 'len 3/29/2016 19:04'!
+!OrderedTuple methodsFor: 'testing' stamp: 'len 3/29/2016 19:04'!
 is: aSymbol
 	^ aSymbol == #Tuple or: [super is: aSymbol]! !
 
-!AbstractTuple methodsFor: 'testing' stamp: 'len 3/29/2016 19:04'!
+!OrderedTuple methodsFor: 'testing' stamp: 'len 3/29/2016 19:04'!
 isZero
 	^ self allSatisfy: [:each| each isZero]! !
 
-!AbstractTuple methodsFor: 'arithmetic' stamp: 'len 3/29/2016 18:56'!
+!OrderedTuple methodsFor: 'arithmetic' stamp: 'len 3/29/2016 18:56'!
 negated
 	^ self collect: [:each| each negated]! !
 
-!AbstractTuple methodsFor: 'arithmetic' stamp: 'len 3/29/2016 19:03'!
+!OrderedTuple methodsFor: 'arithmetic' stamp: 'len 3/29/2016 19:03'!
 norm
 	^ self norm2 squareRoot! !
 
-!AbstractTuple methodsFor: 'arithmetic' stamp: 'len 3/29/2016 19:03'!
+!OrderedTuple methodsFor: 'arithmetic' stamp: 'len 3/29/2016 19:03'!
 norm2
 	^ self dot: self! !
 
-!AbstractTuple methodsFor: 'printing' stamp: 'len 3/29/2016 19:04'!
+!OrderedTuple methodsFor: 'printing' stamp: 'len 3/29/2016 19:04'!
 printOn: aStream
 	aStream nextPut: $(.
 	self do: [:x| aStream print: x] separatedBy: [aStream nextPutAll: ','].
 	aStream nextPut: $)! !
 
-!AbstractTuple methodsFor: 'operations' stamp: 'len 4/16/2016 08:45'!
+!OrderedTuple methodsFor: 'operations' stamp: 'len 4/16/2016 08:45'!
 support
 	^ self indices reject: [:each| (self at: each) isZero]! !
 
-!AbstractTuple methodsFor: 'operations' stamp: 'len 4/16/2016 08:43'!
+!OrderedTuple methodsFor: 'operations' stamp: 'len 4/16/2016 08:43'!
 weight
 	^ self count: [:each| each isZero not]! !
 
-!AbstractTuple methodsFor: 'arithmetic' stamp: 'len 4/10/2016 06:44'!
+!OrderedTuple methodsFor: 'arithmetic' stamp: 'len 4/10/2016 06:44'!
 wrap: n
 	"Perform a cyclic right shift."
 	^ self class new: self size evaluating: [:i| (self at: i-1-n \\ self size + 1)]! !
 
-!AbstractTuple methodsFor: 'accessing' stamp: 'len 3/29/2016 19:06'!
+!OrderedTuple methodsFor: 'accessing' stamp: 'len 3/29/2016 19:06'!
 x
 	^ self at: 1! !
 
-!AbstractTuple methodsFor: 'accessing' stamp: 'len 3/29/2016 19:06'!
+!OrderedTuple methodsFor: 'accessing' stamp: 'len 3/29/2016 19:06'!
 y
 	^ self at: 2! !
 
-!AbstractTuple methodsFor: 'accessing' stamp: 'len 3/29/2016 19:06'!
+!OrderedTuple methodsFor: 'accessing' stamp: 'len 3/29/2016 19:06'!
 z
 	^ self at: 3! !
 
-!AbstractTuple class methodsFor: 'instance creation' stamp: 'len 7/1/2016 21:42'!
+!OrderedTuple class methodsFor: 'instance creation' stamp: 'len 7/1/2016 21:42'!
 new: anInteger evaluating: aBlock
 	| array |
 	array _ Array new: anInteger.
 	1 to: anInteger do: [:i| array at: i put: (aBlock value: i)].
 	^ self withAll: array! !
 
-!AbstractTuple class methodsFor: 'instance creation' stamp: 'len 3/30/2016 06:51'!
+!OrderedTuple class methodsFor: 'instance creation' stamp: 'len 3/30/2016 06:51'!
 with: anObject
 	^ self withAll: {anObject}! !
 
@@ -8017,86 +8097,6 @@ new: anInteger
 !Tuple class methodsFor: 'instance creation' stamp: 'len 3/26/2016 23:24'!
 withAll: anArray
 	^ self basicNew elements: anArray asArray! !
-
-!BitArray methodsFor: 'arithmetic' stamp: 'len 12/21/2015 22:15'!
-* aBitArray
-	| answer |
-	answer _ self class new: (self size max: aBitArray size).
-	1 to: answer byteSize do: [:i|
-		answer byteAt: i put: ((self byteAt: i) bitAnd: (aBitArray byteAt: i))].
-	^ answer! !
-
-!BitArray methodsFor: 'arithmetic' stamp: 'len 12/21/2015 22:14'!
-+ aBitArray
-	| answer |
-	answer _ self class new: (self size max: aBitArray size).
-	1 to: answer byteSize do: [:i|
-		answer byteAt: i put: ((self byteAt: i) bitXor: (aBitArray byteAt: i))].
-	^ answer! !
-
-!BitArray methodsFor: 'converting' stamp: 'len 12/21/2015 22:17'!
-asByteArray
-	^ bytes! !
-
-!BitArray methodsFor: 'converting' stamp: 'len 12/21/2015 22:21'!
-asInteger
-	"Answer the receiver as a possitive integer."
-	| answer i |
-	answer _ 0.
-	i _ 0.
-	bytes do: [:each| answer _ answer + (each bitShift: i). i _ i + 8].
-	^ answer! !
-
-!BitArray methodsFor: 'accessing' stamp: 'len 12/21/2015 22:30'!
-at: anInteger
-	^ (bytes at: anInteger - 1 // 8 + 1 ifAbsent: [^ 0]) bitAt: anInteger - 1 \\ 8 + 1! !
-
-!BitArray methodsFor: 'accessing' stamp: 'len 12/21/2015 22:07'!
-at: anInteger put: aBit
-	| i i0 b |
-	i _ anInteger - 1 // 8 + 1.
-	i0 _ anInteger - 1 \\ 8 + 1.
-	b _ bytes at: i.
-	(b bitAt: i0) == aBit
-		ifFalse: [b _ b bitXor: (1 bitShift: i0-1)].
-	bytes at: i put: b.
-	^ aBit! !
-
-!BitArray methodsFor: 'accessing' stamp: 'len 12/21/2015 22:16'!
-byteAt: anInteger
-	^ bytes at: anInteger ifAbsent: [0]! !
-
-!BitArray methodsFor: 'accessing' stamp: 'len 12/21/2015 22:16'!
-byteAt: anInteger put: aByte
-	^ bytes at: anInteger put: aByte! !
-
-!BitArray methodsFor: 'initialization' stamp: 'len 12/21/2015 20:31'!
-bytes: aByteArray length: anInteger
-	bytes _ aByteArray.
-	length _ anInteger! !
-
-!BitArray methodsFor: 'printing' stamp: 'len 12/21/2015 20:42'!
-printOn: aStream
-	1 to: self size do: [:i| aStream print: (self at: i)]! !
-
-!BitArray methodsFor: 'accessing' stamp: 'len 12/21/2015 20:41'!
-size
-	^ length! !
-
-!BitArray class methodsFor: 'instance creation' stamp: 'len 12/21/2015 20:41'!
-new: anInteger
-	^ self new: anInteger bytes: (ByteArray new: (anInteger / 8) ceiling)! !
-
-!BitArray class methodsFor: 'instance creation' stamp: 'len 12/21/2015 20:40'!
-new: anInteger bytes: aByteArray
-	^ self basicNew bytes: aByteArray length: anInteger! !
-
-!BitArray class methodsFor: 'instance creation' stamp: 'len 12/21/2015 22:26'!
-random: anInteger
-	| answer |
-	answer _ self new: anInteger.
-	1 to: answer size do: [:i| answer at: i put: 2 atRandom - 1].
-	^ answer! !
 
 !GroebnerBasis methodsFor: 'accessing' stamp: 'len 11/20/2015 05:09'!
 add: aPolynomial
@@ -9351,6 +9351,16 @@ elements: aCollection
 endomorphisms
 	^ self -> self! !
 
+!Domain methodsFor: 'accessing' stamp: 'len 7/2/2016 16:48'!
+generators
+	"Subclases can use this or reimplement it when it makes sense."
+	^ properties at: #generators ifAbsent: []! !
+
+!Domain methodsFor: 'accessing' stamp: 'len 7/2/2016 16:49'!
+generators: aCollection
+	"Subclases can use this or reimplement it when it makes sense."
+	properties at: #generators put: aCollection asArray! !
+
 !Domain methodsFor: 'comparing' stamp: 'len 4/23/2016 00:41'!
 hash
 	^ self isFinite ifTrue: [self size hash] ifFalse: [super hash]! !
@@ -10006,10 +10016,6 @@ elementAt: aTuple
 !FreeModule methodsFor: 'accessing' stamp: 'len 4/25/2016 06:37'!
 generators
 	^ properties at: #generators ifAbsent: [self basis]! !
-
-!FreeModule methodsFor: 'accessing' stamp: 'len 4/25/2016 21:25'!
-generators: aCollection
-	properties at: #generators put: aCollection asArray! !
 
 !FreeModule methodsFor: 'comparing' stamp: 'len 4/25/2016 21:27'!
 hash
@@ -15374,14 +15380,6 @@ exponent
 generator
 	self generators size = 1 ifFalse: [self error: 'not cyclic'].
 	^ self generators anyOne! !
-
-!Group methodsFor: 'accessing' stamp: 'len 6/30/2016 03:36'!
-generators
-	^ properties at: #generators ifAbsent: []! !
-
-!Group methodsFor: 'private' stamp: 'len 6/24/2016 22:31'!
-generators: aCollection
-	properties at: #generators put: aCollection asArray! !
 
 !Group methodsFor: 'morphisms' stamp: 'len 6/30/2016 02:45'!
 groupAlgebraOver: aField
@@ -23718,7 +23716,7 @@ printOn2: aStream
 			ifFalse: [coefficient  > 0
 				ifTrue: [aStream nextPutAll: ' + '; print: coefficient; print: each]]]! !
 
-!LinearCombination methodsFor: 'printing' stamp: 'len 4/25/2016 06:53'!
+!LinearCombination methodsFor: 'printing' stamp: 'len 7/2/2016 16:46'!
 printOn: aStream
 	| elements c |
 	self isZero ifTrue: [aStream nextPutAll: '0'. ^ self].
@@ -23727,14 +23725,16 @@ printOn: aStream
 	c printString first = $-
 		ifTrue: [c _ c negated. aStream nextPut: $-].
 	c ~= c one ifTrue: [self printCoefficient: c on: aStream].
-	aStream print: elements first.
+	((elements first isKindOf: Word) and: [elements first isEmpty])
+		ifFalse: [aStream print: elements first].
 	elements allButFirst do: [:each|
 		c _ self coefficientAt: each.
 		c printString first = $-
 			ifTrue: [aStream nextPutAll: ' - '. c _ c negated]
 			ifFalse: [aStream nextPutAll: ' + '].
 		c ~= c one ifTrue: [self printCoefficient: c on: aStream].
-		aStream print: each]! !
+		((each isKindOf: Word) and: [each isEmpty])
+			ifFalse: [aStream print: each]]! !
 
 !LinearCombination methodsFor: 'accessing' stamp: 'len 6/29/2016 23:24'!
 value
@@ -36220,10 +36220,32 @@ isEmpty
 length
 	^ syllables sum: [:each| each value abs]! !
 
-!Word methodsFor: 'printing' stamp: 'len 4/18/2016 00:49'!
+!Word methodsFor: 'printing' stamp: 'len 7/2/2016 16:29'!
+printExponent: anInteger on: aStream
+	| exponent |
+	(exponent _ anInteger printString) = '1'
+		ifTrue: [^ self].
+	aStream isText
+		ifTrue:
+			[aStream nextPutAll: exponent super.
+			^ self].
+	aStream nextPut: $^.
+	exponent size = 1
+		ifTrue: [aStream nextPutAll: exponent]
+		ifFalse: [aStream nextPut: ${; nextPutAll: exponent; nextPut: $}]! !
+
+!Word methodsFor: 'printing' stamp: 'len 7/2/2016 16:29'!
+printIndeterminate: indeterminate on: aStream
+	indeterminate isInteger
+		ifFalse: [aStream nextPutAll: indeterminate displayStringOrText. ^ self].
+	aStream isText
+		ifTrue: [aStream nextPut: $x; nextPutAll: indeterminate printString sub]
+		ifFalse:[aStream nextPutAll: '{x', indeterminate printString, '}']! !
+
+!Word methodsFor: 'printing' stamp: 'len 7/2/2016 16:31'!
 printOn: aStream
 	self isEmpty ifTrue: [aStream print: 1. ^ self].
-	self do: [:i :exp| exp = 0 ifFalse: [aStream print: (Monomial x: i to: exp)]]! !
+	self do: [:i :exp| exp = 0 ifFalse: [self printIndeterminate: i on: aStream. self printExponent: exp on: aStream]]! !
 
 !Word methodsFor: 'arithmetic' stamp: 'len 3/3/2016 05:21'!
 reciprocal
