@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 1 July 2016 at 9:55:47.622411 am'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 2 July 2016 at 12:52:18.851463 am'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 124!
+!provides: 'Mathematics' 1 125!
 !classDefinition: #AbelianGroupPresentation category: #'Mathematics-Free'!
 Object subclass: #AbelianGroupPresentation
 	instanceVariableNames: 'generators relators'
@@ -4582,9 +4582,24 @@ adaptToAlgebraic: rcvr andSend: selector
 adaptToRealAlgebraic: rcvr andSend: selector
 	^ rcvr perform: selector with: (RealAlgebraicNumber fromRational: self)! !
 
-!Integer methodsFor: '*mathematics' stamp: 'len 2/10/2016 21:11'!
+!Integer methodsFor: '*mathematics' stamp: 'len 7/2/2016 00:34'!
+bitParity
+	| n parity h |
+	self = 0 ifTrue: [^ 0].
+	self = 1 ifTrue: [^ 1].
+	h _ self digitLength.
+	h < 2 ifFalse:
+		[ | m |m _ h // 2.
+		^ ((self bitShift: m*-8) bitXor: (self bitAnd: (1 bitShift: m*8) - 1)) bitParity].
+	n _ self.
+	parity _ 0.
+	[n = 0] whileFalse: [parity _ parity bitXor: (n bitAnd: 1). n _ n bitShift: -1].
+	^ parity! !
+
+!Integer methodsFor: '*mathematics' stamp: 'len 7/1/2016 23:03'!
 bitSize
-	^ self abs highBit + 1! !
+	self negative ifTrue: [^ self negated highBit + 1].
+	^ self highBit! !
 
 !Integer methodsFor: '*mathematics' stamp: 'len 6/21/2016 04:18'!
 choose: anInteger
@@ -7592,11 +7607,14 @@ y
 z
 	^ self at: 3! !
 
-!AbstractTuple class methodsFor: 'as yet unclassified' stamp: 'len 3/30/2016 06:51'!
+!AbstractTuple class methodsFor: 'instance creation' stamp: 'len 7/1/2016 21:42'!
 new: anInteger evaluating: aBlock
-	^ self withAll: ((1 to: anInteger) collect: aBlock)! !
+	| array |
+	array _ Array new: anInteger.
+	1 to: anInteger do: [:i| array at: i put: (aBlock value: i)].
+	^ self withAll: array! !
 
-!AbstractTuple class methodsFor: 'as yet unclassified' stamp: 'len 3/30/2016 06:51'!
+!AbstractTuple class methodsFor: 'instance creation' stamp: 'len 3/30/2016 06:51'!
 with: anObject
 	^ self withAll: {anObject}! !
 
@@ -7604,16 +7622,16 @@ with: anObject
 * aBit
 	^ ((aBit isInteger and: [aBit even]) or: [aBit isZero]) ifTrue: [self zero] ifFalse: [self]! !
 
-!BitTuple methodsFor: 'arithmetic' stamp: 'len 3/28/2016 06:51'!
+!BitTuple methodsFor: 'arithmetic' stamp: 'len 7/2/2016 00:51'!
 + aBitTuple
-	^ self class fromInteger: (integer bitXor: aBitTuple asInteger) size: (self size max: aBitTuple size)! !
+	^ self class new: (self size max: aBitTuple size) fromInteger: (integer bitXor: aBitTuple asInteger)! !
 
-!BitTuple methodsFor: 'copying' stamp: 'len 4/9/2016 20:50'!
+!BitTuple methodsFor: 'copying' stamp: 'len 7/2/2016 00:48'!
 , anObject
 	((anObject is: #Tuple) or: [anObject is: #Array])
 		ifFalse: [^ self copyWith: anObject].
 	anObject class = self class
-		ifTrue: [^ self class fromInteger: (integer bitXor: (anObject asInteger bitShift: size)) size: size + anObject size].
+		ifTrue: [^ self class new: size + anObject size fromInteger: (integer bitXor: (anObject asInteger bitShift: size))].
 	^ self , (anObject as: self class)! !
 
 !BitTuple methodsFor: 'arithmetic' stamp: 'len 3/28/2016 06:51'!
@@ -7625,9 +7643,9 @@ with: anObject
 	self class = aTuple class ifFalse: [^ super = aTuple].
 	^ size = aTuple size and: [integer = aTuple asInteger]! !
 
-!BitTuple methodsFor: 'arithmetic' stamp: 'len 3/29/2016 19:09'!
+!BitTuple methodsFor: 'arithmetic' stamp: 'len 7/2/2016 00:48'!
 >>> anInteger
-	^ self class fromInteger: (integer bitShift: anInteger) size: (size + anInteger max: 0)! !
+	^ self class new: (size + anInteger max: 0) fromInteger: (integer bitShift: anInteger)! !
 
 !BitTuple methodsFor: 'converting' stamp: 'len 3/28/2016 04:45'!
 asInteger
@@ -7658,19 +7676,22 @@ convolution: aBitTuple
 		b _ b bitShift: 1].
 	^ self class fromInteger: c! !
 
-!BitTuple methodsFor: 'copying' stamp: 'len 3/31/2016 08:44'!
+!BitTuple methodsFor: 'copying' stamp: 'len 7/2/2016 00:49'!
 copyFrom: start to: stop 
 	"Answer a copy of a subset of the receiver, starting from element at 
 	index start until element at index stop."
 
 	| newSize |
 	newSize _ stop - start + 1 max: 0.
-	start = 1 ifTrue: [^ self class fromInteger: integer size: newSize].
-	^ self class fromInteger: (integer bitShift: 1 - start) size: newSize! !
+	start = 1 ifTrue: [^ self class new: newSize fromInteger: integer].
+	^ self class new: newSize fromInteger: (integer bitShift: 1 - start)! !
 
-!BitTuple methodsFor: 'arithmetic' stamp: 'len 3/31/2016 00:22'!
+!BitTuple methodsFor: 'arithmetic' stamp: 'len 7/2/2016 00:44'!
 dot: aBitTuple
-	^ self hadamard: aBitTuple :: sum
+	^ (integer bitAnd: aBitTuple asInteger) bitParity = 0 ifTrue: [Zero] ifFalse: [One]
+
+"	^ self hadamard: aBitTuple :: sum
+"
 
 "	| x |
 	x _ self asInteger bitAnd: aBitTuple asInteger.
@@ -7678,9 +7699,9 @@ dot: aBitTuple
 		whileTrue: [x _ x >> (x highBit // 2) bitAnd: x].
 	^ x"! !
 
-!BitTuple methodsFor: 'arithmetic' stamp: 'len 3/28/2016 06:52'!
+!BitTuple methodsFor: 'arithmetic' stamp: 'len 7/2/2016 00:49'!
 hadamard: aBitTuple
-	^ self class fromInteger: (integer bitAnd: aBitTuple asInteger) size: (self size min: aBitTuple size)! !
+	^ self class new: (self size min: aBitTuple size) fromInteger: (integer bitAnd: aBitTuple asInteger)! !
 
 !BitTuple methodsFor: 'comparing' stamp: 'len 6/30/2016 06:50'!
 hash
@@ -7703,35 +7724,41 @@ norm
 norm2
 	^ self sum! !
 
+!BitTuple methodsFor: 'arithmetic' stamp: 'len 7/1/2016 22:58'!
+parity
+	"Answer 1 if the receiver has an odd number of bits on, 0 if it has an even number of bits on."
+	| n parity |
+	integer = 0 ifTrue: [^ 0].
+"	n _ integer >> (integer lowBit - 1). skip initial zeros, we could also skip chunks of zeros in the middle"
+	n _ integer.
+	parity _ 0.
+	[n = 0] whileFalse: [parity _ parity bitXor: (n bitAnd: 1). n _ n >> 1].
+	^ parity! !
+
 !BitTuple methodsFor: 'printing' stamp: 'len 3/28/2016 04:52'!
 printOn: aStream
 	1 to: self size do: [:i| aStream print: (self at: i)]! !
 
-!BitTuple methodsFor: 'arithmetic' stamp: 'len 3/29/2016 19:08'!
+!BitTuple methodsFor: 'arithmetic' stamp: 'len 7/2/2016 00:49'!
 shift: anInteger
-	^ self class fromInteger: (integer bitShift: anInteger) size: size! !
+	^ self class new: size fromInteger: (integer bitShift: anInteger)! !
 
 !BitTuple methodsFor: 'accessing' stamp: 'len 3/28/2016 06:49'!
 size
 	^ size! !
 
-!BitTuple methodsFor: 'arithmetic' stamp: 'len 3/31/2016 00:04'!
+!BitTuple methodsFor: 'arithmetic' stamp: 'len 7/2/2016 00:39'!
 sum
 	"Answer the sum of the bits, i.e. the parity."
-	"<primitive>"
-	^ super sum! !
+	^ integer bitParity = 0 ifTrue: [Zero] ifFalse: [One]! !
 
-!BitTuple methodsFor: 'arithmetic' stamp: 'len 3/28/2016 06:54'!
+!BitTuple methodsFor: 'arithmetic' stamp: 'len 7/2/2016 00:49'!
 zero
-	^ self class fromInteger: 0 size: self size! !
+	^ self class new: self size fromInteger: 0! !
 
-!BitTuple class methodsFor: 'instance creation' stamp: 'len 3/28/2016 05:41'!
+!BitTuple class methodsFor: 'instance creation' stamp: 'len 7/2/2016 00:50'!
 fromInteger: anInteger
-	^ self fromInteger: anInteger size: anInteger highBit! !
-
-!BitTuple class methodsFor: 'instance creation' stamp: 'len 3/28/2016 05:41'!
-fromInteger: anInteger size: size
-	^ self basicNew integer: anInteger size: size! !
+	^ self new: anInteger highBit fromInteger: anInteger! !
 
 !BitTuple class methodsFor: 'initialization' stamp: 'len 3/29/2016 06:09'!
 initialize
@@ -7741,9 +7768,21 @@ initialize
 	One _ Z2 one.
 	Zero _ Z2 zero! !
 
-!BitTuple class methodsFor: 'instance creation' stamp: 'len 3/28/2016 05:40'!
+!BitTuple class methodsFor: 'instance creation' stamp: 'len 7/2/2016 00:50'!
 new: anInteger
-	^ self fromInteger: 0 size: anInteger! !
+	^ self new: anInteger fromInteger: 0! !
+
+!BitTuple class methodsFor: 'instance creation' stamp: 'len 7/2/2016 00:50'!
+new: anInteger evaluating: aBlock
+	| integer |
+	integer _ 0.
+	anInteger to: 1 by: -1 do:
+		[:i| integer _ (integer bitShift: 1) bitXor: (aBlock value: i) representative].
+	^ self new: anInteger fromInteger: integer! !
+
+!BitTuple class methodsFor: 'instance creation' stamp: 'len 7/2/2016 00:47'!
+new: n fromInteger: anInteger
+	^ self basicNew integer: anInteger size: n! !
 
 !BitTuple class methodsFor: 'instance creation' stamp: 'len 3/29/2016 18:22'!
 newFrom: anObject
@@ -8191,9 +8230,10 @@ from: aCollection ordering: aMonomialOrdering
 new
 	^ super new initialize! !
 
-!LinearBasis methodsFor: 'comparing' stamp: 'len 11/7/2015 01:56'!
+!LinearBasis methodsFor: 'comparing' stamp: 'len 7/1/2016 21:35'!
 = aLinearBasis
-	^ vectors = aLinearBasis vectors! !
+	self == aLinearBasis ifTrue: [^ true].
+	^ ambient = aLinearBasis ambient and: [vectors = aLinearBasis vectors]! !
 
 !LinearBasis methodsFor: 'accessing' stamp: 'len 11/7/2015 01:53'!
 add: anObject
@@ -10283,14 +10323,13 @@ matrix: aMatrix
 	self basis do: [:each| (aLinearSubspace includes: each) ifFalse: [^ false]].
 	^ true! !
 
-!VectorSpace methodsFor: 'comparing' stamp: 'len 4/29/2016 18:53'!
+!VectorSpace methodsFor: 'comparing' stamp: 'len 7/1/2016 21:39'!
 = anObject
 	self == anObject ifTrue: [^ true].
 	(anObject isKindOf: VectorSpace) ifFalse: [^ false].
 	self scalars = anObject scalars ifFalse: [^ false].
 	self dimension = anObject dimension ifFalse: [^ false].
-	self basis = anObject basis ifTrue: [^ true].
-	self basis do: [:each| (anObject includes: each) ifFalse: [^ false]].
+	1 to: self dimension do: [:i| (anObject includes: (self e: i)) ifFalse: [^ false]].
 	^ true! !
 
 !VectorSpace methodsFor: 'morphisms' stamp: 'len 6/5/2016 23:27'!
@@ -20454,24 +20493,18 @@ on: aDomain
 * anObject
 	^ self class from: domainBasis to: codomainBasis matrix: matrix * anObject! !
 
-!LinearMap methodsFor: 'arithmetic' stamp: 'len 1/8/2016 06:33'!
+!LinearMap methodsFor: 'arithmetic' stamp: 'len 7/1/2016 21:34'!
 + aLinearMap
-	"Answer the sum of the receiver and the argument."
-
 	(self domainBasis = aLinearMap domainBasis
 		and: [self codomainBasis = aLinearMap codomainBasis])
 			ifTrue:
-				[^ self class
-						from: domainBasis
-						to: codomainBasis
-						matrix: matrix + aLinearMap matrix].
-	(self domain = aLinearMap domain
-		and: [self codomain = aLinearMap codomain])
+				[^ self class from: domainBasis to: codomainBasis matrix: matrix + aLinearMap matrix].
+	(self domain = aLinearMap domain and: [self codomain = aLinearMap codomain])
 			ifFalse: [^ self error: 'domain or codomain don''t match'].
 	^ self class
 		from: self domain
 		to: self codomain
-		evaluating: [:v | (self value: v) + (aLinearMap value: v)]! !
+		evaluating: [:v| (self value: v) + (aLinearMap value: v)]! !
 
 !LinearMap methodsFor: 'comparing' stamp: 'len 4/29/2016 18:56'!
 = aLinearMap
@@ -20484,10 +20517,13 @@ on: aDomain
 			ifFalse: [^ false]].
 	^ true! !
 
-!LinearMap methodsFor: 'arithmetic' stamp: 'len 2/11/2016 21:41'!
+!LinearMap methodsFor: 'arithmetic' stamp: 'len 7/1/2016 21:32'!
 @ aLinearMap
 	"Answer the composition of the receiver with the argument."
-	self domain >= aLinearMap codomain ifFalse: [^ DomainError signal: 'domains don''t match'].
+	domainBasis = aLinearMap domainBasis
+		ifTrue: [^ self class from: aLinearMap domainBasis to: codomainBasis matrix: matrix * aLinearMap matrix].
+	self domain >= aLinearMap codomain
+		ifFalse: [^ DomainError signal: 'domains don''t match'].
 	^ self class
 		from: aLinearMap domain
 		to: self codomain
@@ -34412,6 +34448,13 @@ testBitTupleBug
 	self assert: ((0,1,0) % 2 :: sum = Z2 one).
 	self assert: ((1,1,0) % 2 :: sum = Z2 zero).
 	self assert: ((1,1,1) % 2 :: sum = Z2 one)! !
+
+!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 7/1/2016 22:26'!
+testBitTupleSum
+	self assert: (BitTuple fromInteger: 2r1011101) sum representative = 1.
+	self assert: (BitTuple fromInteger: 2r10000100100010) sum representative = 0
+	
+	! !
 
 !MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 2/4/2016 19:50'!
 testCRT
