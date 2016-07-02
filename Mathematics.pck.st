@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 2 July 2016 at 4:50:36.437116 pm'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 2 July 2016 at 5:33:14.525173 pm'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 128!
+!provides: 'Mathematics' 1 129!
 !classDefinition: #AbelianGroupPresentation category: #'Mathematics-Free'!
 Object subclass: #AbelianGroupPresentation
 	instanceVariableNames: 'generators relators'
@@ -11199,6 +11199,10 @@ matrixClass
 new
 	^ self matrixClass new species: self! !
 
+!Matrices methodsFor: 'elements' stamp: 'len 7/2/2016 17:17'!
+newFrom: aMatrix
+	^ aMatrix copy species: self! !
+
 !Matrices methodsFor: 'accessing' stamp: 'len 11/3/2015 21:42'!
 numberOfColumns
 	^ numberOfColumns! !
@@ -12766,6 +12770,10 @@ indeterminates: aCollection
 !FreeAlgebra methodsFor: 'testing' stamp: 'len 3/5/2016 04:24'!
 isAssociative
 	^ true! !
+
+!FreeAlgebra methodsFor: 'testing' stamp: 'len 7/2/2016 16:57'!
+isCommutative
+	^ indeterminates size <= 1 and: [scalars isCommutative]! !
 
 !FreeAlgebra methodsFor: 'testing' stamp: 'len 2/13/2016 20:43'!
 isCountable
@@ -14991,6 +14999,10 @@ isIrreducible
 copyEmpty
 	^ super copyEmpty operation: self operation! !
 
+!Magma methodsFor: 'testing' stamp: 'len 7/2/2016 16:53'!
+isCommutative
+	^ false! !
+
 !Magma methodsFor: 'accessing' stamp: 'len 4/22/2016 17:21'!
 operation
 	^ properties at: #operation ifAbsentPut: [(Function from: (self, self) to: self evaluating: [:each| each first * each second]) name: '*']! !
@@ -15046,6 +15058,10 @@ identity
 includes: aWord
 	aWord do: [:i :exp| ((symbols includes: i) and: [exp >= 0]) ifFalse: [^ false]].
 	^ true! !
+
+!FreeMonoid methodsFor: 'testing' stamp: 'len 7/2/2016 16:55'!
+isCommutative
+	^ symbols size <= 1! !
 
 !FreeMonoid methodsFor: 'testing' stamp: 'len 2/13/2016 20:42'!
 isCountable
@@ -16012,6 +16028,10 @@ identity
 includes: aWord
 	aWord do: [:i :exp| (symbols includes: i) ifFalse: [^ false]].
 	^ true! !
+
+!FreeGroup methodsFor: 'testing' stamp: 'len 7/2/2016 16:56'!
+isCommutative
+	^ symbols size <= 1! !
 
 !FreeGroup methodsFor: 'testing' stamp: 'len 2/13/2016 20:42'!
 isCountable
@@ -25146,9 +25166,9 @@ columnAugmented: aMatrix
 columnSpace
 	^ (self scalars ** self numberOfRows) span: self columns! !
 
-!Matrix methodsFor: 'accessing' stamp: 'len 11/4/2015 23:25'!
+!Matrix methodsFor: 'accessing' stamp: 'len 7/2/2016 17:13'!
 columns
-	^ (1 to: self numberOfColumns) collect: [ :i | self columnAt: i ]! !
+	^ (1 to: self numberOfColumns) collect: [:i| self columnAt: i]! !
 
 !Matrix methodsFor: 'iterating' stamp: 'len 11/4/2015 23:07'!
 columnsDo: aBlock
@@ -25591,6 +25611,10 @@ rowAugmented: aMatrix
 !Matrix methodsFor: 'subspaces' stamp: 'len 2/22/2016 00:56'!
 rowSpace
 	^ (self scalars ** self numberOfColumns) span: self rows! !
+
+!Matrix methodsFor: 'accessing' stamp: 'len 7/2/2016 17:12'!
+rows
+	^ (1 to: self numberOfRows) collect: [:i| self rowAt: i]! !
 
 !Matrix methodsFor: 'accessing' stamp: 'len 11/26/2015 04:02'!
 scalars
@@ -30984,16 +31008,16 @@ R
 matrix: aMatrix
 	matrix _ aMatrix! !
 
-!QRDecomposition methodsFor: 'as yet unclassified' stamp: 'len 3/21/2016 22:19'!
+!QRDecomposition methodsFor: 'as yet unclassified' stamp: 'len 7/2/2016 17:20'!
 run
-	| K n basis ortho zero |
-	K _ matrix scalars.
+	| K n basis ortho |
+	K _ matrix scalars "algebraicClosure".
 	n _ matrix numberOfRows.
 	basis _ LinearBasis on: K ** n vectors: matrix columns.
 	ortho _ basis orthonormalized.
 	Q _ matrix species withColumns: ortho.
-	zero _ K zero.
-	"R _ matrix species evaluating: [:i :j| i > j ifTrue: [zero] ifFalse: [(basis at: i) dotProduct: (ortho at: j)]]"
+"	zero _ K zero.
+	R _ matrix species evaluating: [:i :j| i > j ifTrue: [zero] ifFalse: [(basis at: i) dotProduct: (ortho at: j)]]"
 	R _ Q transposed * matrix! !
 
 !QRDecomposition methodsFor: 'as yet unclassified' stamp: 'len 3/21/2016 22:15'!
@@ -34981,6 +35005,18 @@ testMinor
 	A _ M vectorAt: #(1 2 3 4 5 6 7 8 9 10 11 12).
 	B _ A minor: 2@3.
 	self assert: B columns = {(1, 7, 10). (2, 8, 11)}! !
+
+!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 7/2/2016 17:29'!
+testQRDecomposition
+	| A QR Q R |
+	A _ Rationals new ** (3@3) :: atRandomBits: 10.
+	A _ A as: (A species over: RealAlgebraicNumbers new).
+	QR _ A QR.
+	Q _ QR Q.
+	R _ QR R.
+	self assert: A = (Q * R).
+	self assert: Q isOrthogonal.
+	self assert: R isUpperTriangular! !
 
 !MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 11/26/2015 01:45'!
 testRank
