@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 2 July 2016 at 5:33:14.525173 pm'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 2 July 2016 at 8:58:12.190006 pm'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 129!
+!provides: 'Mathematics' 1 130!
 !classDefinition: #AbelianGroupPresentation category: #'Mathematics-Free'!
 Object subclass: #AbelianGroupPresentation
 	instanceVariableNames: 'generators relators'
@@ -4787,6 +4787,19 @@ numberOfDivisors
 !Integer methodsFor: '*mathematics' stamp: 'len 11/19/2015 18:29'!
 numerator
 	^ self! !
+
+!Integer methodsFor: '*mathematics' stamp: 'len 7/2/2016 20:55'!
+partitions
+	^ Iterator on: self performing: #partitionsDo:! !
+
+!Integer methodsFor: '*mathematics' stamp: 'len 7/2/2016 20:57'!
+partitionsDo: aBlock
+	self < 0 ifTrue: [^ DomainError signal: 'negative number'].
+	self = 0 ifTrue: [^ aBlock value: #()].
+	self - 1 partitionsDo: [:each|
+		aBlock value: #(1), each.
+		(each size > 0 and: [each size < 2 or: [(each at: 2) > (each at: 1)]])
+			ifTrue: [aBlock value: (each copy at: 1 put: (each at: 1) + 1; yourself)]]! !
 
 !Integer methodsFor: '*mathematics' stamp: 'len 9/17/97 02:05'!
 pollard
