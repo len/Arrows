@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 2 July 2016 at 5:49:32.503139 am'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 2 July 2016 at 6:08:33.69476 am'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 126!
+!provides: 'Mathematics' 1 127!
 !classDefinition: #AbelianGroupPresentation category: #'Mathematics-Free'!
 Object subclass: #AbelianGroupPresentation
 	instanceVariableNames: 'generators relators'
@@ -7778,6 +7778,10 @@ parity
 !BitTuple methodsFor: 'printing' stamp: 'len 3/28/2016 04:52'!
 printOn: aStream
 	1 to: self size do: [:i| aStream print: (self at: i)]! !
+
+!BitTuple methodsFor: 'arithmetic' stamp: 'len 7/2/2016 06:01'!
+reversed
+	^ self class new: self size fromInteger: (integer bitReverse: self size)! !
 
 !BitTuple methodsFor: 'arithmetic' stamp: 'len 7/2/2016 00:49'!
 shift: anInteger
@@ -29812,6 +29816,12 @@ odd
 	"Decompose the receiver in the form f(x^2)x + g(x^2) and answer f(x)."
 	^ self species coefficients: ((2 to: self coefficients size by: 2) collect: [:each| coefficients at: each])! !
 
+!DensePolynomial methodsFor: 'operations univariate' stamp: 'len 7/2/2016 06:00'!
+reversed
+	"Answer the reverse of the receiver."
+
+	^ self species coefficients: coefficients reversed! !
+
 !DensePolynomial methodsFor: 'operations' stamp: 'len 3/29/2016 18:17'!
 shift: anInteger
 	| n |
@@ -34500,6 +34510,14 @@ testBitTupleBug
 	self assert: ((0,1,0) % 2 :: sum = Z2 one).
 	self assert: ((1,1,0) % 2 :: sum = Z2 zero).
 	self assert: ((1,1,1) % 2 :: sum = Z2 one)! !
+
+!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 7/2/2016 06:07'!
+testBitTupleReversed
+	| v i |
+	v _ Integers new / 2 ** 100 atRandom :: atRandom.
+	i _ v size atRandom.
+	self assert: (v reversed at: i) = (v at: v size - i + 1).
+	self assert: v reversed reversed = v! !
 
 !MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 7/1/2016 22:26'!
 testBitTupleSum
