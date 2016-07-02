@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 2 July 2016 at 12:52:18.851463 am'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 2 July 2016 at 5:49:32.503139 am'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 125!
+!provides: 'Mathematics' 1 126!
 !classDefinition: #AbelianGroupPresentation category: #'Mathematics-Free'!
 Object subclass: #AbelianGroupPresentation
 	instanceVariableNames: 'generators relators'
@@ -4582,19 +4582,38 @@ adaptToAlgebraic: rcvr andSend: selector
 adaptToRealAlgebraic: rcvr andSend: selector
 	^ rcvr perform: selector with: (RealAlgebraicNumber fromRational: self)! !
 
-!Integer methodsFor: '*mathematics' stamp: 'len 7/2/2016 00:34'!
-bitParity
-	| n parity h |
+!Integer methodsFor: '*mathematics' stamp: 'len 7/2/2016 05:45'!
+bitCount
+	"Answer the number of bits that are set, i.e. the number of 1s in the binary representation."
+	| n |
 	self = 0 ifTrue: [^ 0].
 	self = 1 ifTrue: [^ 1].
-	h _ self digitLength.
-	h < 2 ifFalse:
-		[ | m |m _ h // 2.
-		^ ((self bitShift: m*-8) bitXor: (self bitAnd: (1 bitShift: m*8) - 1)) bitParity].
+	n _ self digitLength * 8. "this will always be >= 32, because SmallInteger implements bitCount"
+	n _ n // 2.
+	^ (self bitShift: n negated) bitCount + (self bitAnd: (1 bitShift: n) - 1) bitCount! !
+
+!Integer methodsFor: '*mathematics' stamp: 'len 7/2/2016 05:43'!
+bitParity
+	"Answer 1 if there are an odd number of bits set, 0 otherwise."
+	| n |
+	self = 0 ifTrue: [^ 0].
+	self = 1 ifTrue: [^ 1].
+	n _ self digitLength * 8. "this will always be >= 32, because SmallInteger implements bitParity"
+	n _ n // 2.
+	^ ((self bitShift: n negated) bitXor: (self bitAnd: (1 bitShift: n) - 1)) bitParity! !
+
+!Integer methodsFor: '*mathematics' stamp: 'len 7/2/2016 05:43'!
+bitParity2
+	"Answer 1 if there are an odd number of bits set, 0 otherwise."
+	| i n |
+	self = 0 ifTrue: [^ 0].
+	self = 1 ifTrue: [^ 1].
+	i _ self digitLength * 8. "this will always be >= 32, because SmallInteger implements bitParity"
 	n _ self.
-	parity _ 0.
-	[n = 0] whileFalse: [parity _ parity bitXor: (n bitAnd: 1). n _ n bitShift: -1].
-	^ parity! !
+	[i _ i bitShift: -1.
+	i > 30] whileTrue:
+		[n _ n bitXor: (n bitShift: i negated)].
+	^ (n bitAnd: (1 bitShift: i) - 1) bitParity! !
 
 !Integer methodsFor: '*mathematics' stamp: 'len 7/1/2016 23:03'!
 bitSize
@@ -4820,16 +4839,37 @@ stirling: anInteger
 	self+1 = anInteger ifTrue: [^ self take: 2].
 	^ (self-1) * (self-1 stirling: anInteger) + (self-1 stirling: anInteger-1)! !
 
-!SmallInteger methodsFor: '*mathematics' stamp: 'len 3/28/2016 07:53'!
+!SmallInteger methodsFor: '*mathematics' stamp: 'len 7/2/2016 05:40'!
 bitCount
-	"HACKMEM"
+	| v count |
+	v _ self.
+	count _ 0.
+	[v = 0] whileFalse: [v _ v bitAnd: v - 1. count _ count + 1].
+	^ count
+	
+	"HACKMEM:
 	| count |
 	self flag: #fix.
 	count _ self - ((self >> 1) bitAnd: 8r33333333333) - ((self >> 1) bitAnd: 8r11111111111).
 	^ (count + (count >> 3) bitAnd: 8r30707070707) \\ 63
-	
 "
-2r11 bitCount 
+! !
+
+!SmallInteger methodsFor: '*mathematics' stamp: 'len 7/2/2016 05:43'!
+bitParity
+	"Answer 1 if there are an odd number of bits set, 0 otherwise."
+	| v parity |
+	v _ self.
+	parity _ 0.
+	[v = 0] whileFalse: [parity _ parity bitXor: (v bitAnd: 1). v _ v bitShift: -1].
+	^ parity
+
+"	n _ self.
+	n _ n bitXor: (n bitShift: -16).
+	n _ n bitXor: (n bitShift: -8).
+	n _ n bitXor: (n bitShift: -4).
+	n _ n bitAnd: 16rF.
+	^ (16r6996 bitShift: n negated) bitAnd: 1
 "! !
 
 !Point methodsFor: '*mathematics' stamp: 'len 2/25/2016 17:01'!
@@ -34439,6 +34479,18 @@ testRotationsBy90Degrees
 	self flag: #todo.
 	"test invariant ring K[x,y]^G = K[x^2+y^2, x^2y^2, x^3y-xy^3], isomorphic to K[a,b,c]/<c^2-a^2b+4b^2>"
 	"test hilbert series is 1-z^8 / ((1-z^2)^2(1-z^4)) = 1 + z^2 + 3z^4 + 3z^6 + ..."! !
+
+!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 7/2/2016 05:48'!
+testBitCount
+	| v |
+	v _ 1 << 3000 :: atRandom.
+	self assert: (v printStringBase: 2 :: count: [:x| x = $1]) = v bitCount! !
+
+!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 7/2/2016 05:48'!
+testBitParity
+	| v |
+	v _ 1 << 3000 :: atRandom.
+	self assert: ((v printStringBase: 2 :: count: [:x| x = $1]) bitAnd: 1) = v bitParity! !
 
 !MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 3/30/2016 22:59'!
 testBitTupleBug
