@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 3 July 2016 at 12:03:53.329091 am'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 3 July 2016 at 4:30:15.213633 am'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 131!
+!provides: 'Mathematics' 1 132!
 !classDefinition: #AbelianGroupPresentation category: #'Mathematics-Free'!
 Object subclass: #AbelianGroupPresentation
 	instanceVariableNames: 'generators relators'
@@ -59,6 +59,16 @@ Benchmark subclass: #GroebnerBasisBenchmark
 	category: 'Mathematics-Tests'!
 !classDefinition: 'GroebnerBasisBenchmark class' category: #'Mathematics-Tests'!
 GroebnerBasisBenchmark class
+	instanceVariableNames: ''!
+
+!classDefinition: #IntegersBenchmark category: #'Mathematics-Tests'!
+Benchmark subclass: #IntegersBenchmark
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Tests'!
+!classDefinition: 'IntegersBenchmark class' category: #'Mathematics-Tests'!
+IntegersBenchmark class
 	instanceVariableNames: ''!
 
 !classDefinition: #PolynomialBenchmark category: #'Mathematics-Tests'!
@@ -1451,13 +1461,13 @@ Group subclass: #UnitsGroup
 UnitsGroup class
 	instanceVariableNames: ''!
 
-!classDefinition: #Monomials category: #'Mathematics-Polynomials-Domains'!
+!classDefinition: #Monomials category: #'Mathematics-Monomials'!
 Monoid subclass: #Monomials
 	instanceVariableNames: 'rank'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Polynomials-Domains'!
-!classDefinition: 'Monomials class' category: #'Mathematics-Polynomials-Domains'!
+	category: 'Mathematics-Monomials'!
+!classDefinition: 'Monomials class' category: #'Mathematics-Monomials'!
 Monomials class
 	instanceVariableNames: ''!
 
@@ -2471,53 +2481,73 @@ Object subclass: #ModularInteger
 ModularInteger class
 	instanceVariableNames: ''!
 
-!classDefinition: #Monomial category: #'Mathematics-Polynomials'!
+!classDefinition: #Monomial category: #'Mathematics-Monomials'!
 Object subclass: #Monomial
 	instanceVariableNames: 'exponents'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Polynomials'!
-!classDefinition: 'Monomial class' category: #'Mathematics-Polynomials'!
+	category: 'Mathematics-Monomials'!
+!classDefinition: 'Monomial class' category: #'Mathematics-Monomials'!
 Monomial class
 	instanceVariableNames: ''!
 
-!classDefinition: #MonomialOrdering category: #'Mathematics-Polynomials-Orderings'!
+!classDefinition: #MonomialOrdering category: #'Mathematics-Monomials-Orderings'!
 Object subclass: #MonomialOrdering
 	instanceVariableNames: 'rank'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Polynomials-Orderings'!
-!classDefinition: 'MonomialOrdering class' category: #'Mathematics-Polynomials-Orderings'!
+	category: 'Mathematics-Monomials-Orderings'!
+!classDefinition: 'MonomialOrdering class' category: #'Mathematics-Monomials-Orderings'!
 MonomialOrdering class
 	instanceVariableNames: ''!
 
-!classDefinition: #LexicographicMonomialOrdering category: #'Mathematics-Polynomials-Orderings'!
-MonomialOrdering subclass: #LexicographicMonomialOrdering
+!classDefinition: #LexicographicOrdering category: #'Mathematics-Monomials-Orderings'!
+MonomialOrdering subclass: #LexicographicOrdering
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Polynomials-Orderings'!
-!classDefinition: 'LexicographicMonomialOrdering class' category: #'Mathematics-Polynomials-Orderings'!
-LexicographicMonomialOrdering class
+	category: 'Mathematics-Monomials-Orderings'!
+!classDefinition: 'LexicographicOrdering class' category: #'Mathematics-Monomials-Orderings'!
+LexicographicOrdering class
 	instanceVariableNames: ''!
 
-!classDefinition: #TotalLexicographicMonomialOrdering category: #'Mathematics-Polynomials-Orderings'!
-MonomialOrdering subclass: #TotalLexicographicMonomialOrdering
+!classDefinition: #ReverseLexicographicOrdering category: #'Mathematics-Monomials-Orderings'!
+MonomialOrdering subclass: #ReverseLexicographicOrdering
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Polynomials-Orderings'!
-!classDefinition: 'TotalLexicographicMonomialOrdering class' category: #'Mathematics-Polynomials-Orderings'!
-TotalLexicographicMonomialOrdering class
+	category: 'Mathematics-Monomials-Orderings'!
+!classDefinition: 'ReverseLexicographicOrdering class' category: #'Mathematics-Monomials-Orderings'!
+ReverseLexicographicOrdering class
 	instanceVariableNames: ''!
 
-!classDefinition: #WeightedMonomialOrdering category: #'Mathematics-Polynomials-Orderings'!
+!classDefinition: #TotalLexicographicOrdering category: #'Mathematics-Monomials-Orderings'!
+MonomialOrdering subclass: #TotalLexicographicOrdering
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Monomials-Orderings'!
+!classDefinition: 'TotalLexicographicOrdering class' category: #'Mathematics-Monomials-Orderings'!
+TotalLexicographicOrdering class
+	instanceVariableNames: ''!
+
+!classDefinition: #TotalReverseLexicographicOrdering category: #'Mathematics-Monomials-Orderings'!
+MonomialOrdering subclass: #TotalReverseLexicographicOrdering
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Monomials-Orderings'!
+!classDefinition: 'TotalReverseLexicographicOrdering class' category: #'Mathematics-Monomials-Orderings'!
+TotalReverseLexicographicOrdering class
+	instanceVariableNames: ''!
+
+!classDefinition: #WeightedMonomialOrdering category: #'Mathematics-Monomials-Orderings'!
 MonomialOrdering subclass: #WeightedMonomialOrdering
-	instanceVariableNames: 'type indeterminates weight'
+	instanceVariableNames: 'weights'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Polynomials-Orderings'!
-!classDefinition: 'WeightedMonomialOrdering class' category: #'Mathematics-Polynomials-Orderings'!
+	category: 'Mathematics-Monomials-Orderings'!
+!classDefinition: 'WeightedMonomialOrdering class' category: #'Mathematics-Monomials-Orderings'!
 WeightedMonomialOrdering class
 	instanceVariableNames: ''!
 
@@ -3171,6 +3201,16 @@ TestCase subclass: #MatrixTest
 MatrixTest class
 	instanceVariableNames: ''!
 
+!classDefinition: #MonomialTest category: #'Mathematics-Tests'!
+TestCase subclass: #MonomialTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Tests'!
+!classDefinition: 'MonomialTest class' category: #'Mathematics-Tests'!
+MonomialTest class
+	instanceVariableNames: ''!
+
 !classDefinition: #NumberFieldTest category: #'Mathematics-Tests'!
 TestCase subclass: #NumberFieldTest
 	instanceVariableNames: ''
@@ -3274,6 +3314,14 @@ Structure:
 !
 
 !GroebnerBasisBenchmark commentStamp: '<historical>' prior: 0!
+GroebnerBasisBenchmark new run
+
+testCyclic3	540 per second.
+testCyclic4	3.73 per second.
+testElimination	2 per second.
+testKatsura2	2,130 per second.
+testKatsura3	0.257 per second.
+
 testCyclic3	494 per second.
 testCyclic4	2.41 per second.
 testElimination	1.34 per second.
@@ -3293,6 +3341,8 @@ testKatsura2	1,260 per second.
 !
 
 !PolynomialBenchmark commentStamp: '<historical>' prior: 0!
+PolynomialBenchmark new run
+
 testFiniteField	11.1 per second.
 testFiniteFieldPolynomialFactorization	58 per second.
 testMultivariatePolynomialAdditionOverZ	FAILED
@@ -5424,6 +5474,10 @@ testKatsura2
 !GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 3/31/2016 17:34'!
 testKatsura3
 	self katsura3 :: groebner! !
+
+!IntegersBenchmark methodsFor: 'as yet unclassified' stamp: 'len 7/3/2016 04:28'!
+test1000Factorial
+	1000 factorial! !
 
 !PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 3/1/2016 04:18'!
 testFiniteField
@@ -9922,7 +9976,7 @@ groebner
 	"Answer a Groebner basis of the receiver."
 	^ properties at: #groebner ifAbsentPut: [GroebnerBasis from: self generators]! !
 
-!PolynomialIdeal methodsFor: 'morphisms' stamp: 'len 7/2/2016 23:38'!
+!PolynomialIdeal methodsFor: 'morphisms' stamp: 'len 7/3/2016 04:18'!
 homogenized
 	"Answer the homogenization of the receiver introducing a new indeterminate."
 	| R R` ordering G |
@@ -9930,7 +9984,7 @@ homogenized
 	R` _ R scalars polynomialsIn: R rank + 1.
 	"Must use a graded monomial ordering such as tlex or trevlex:"
 	self flag: #fix.
-	ordering _ WeightedMonomialOrdering trevlex: R indeterminates. "should it be R`?"
+	ordering _ MonomialOrdering trevlex: R rank. "should it be R`?"
 	G _ GroebnerBasis from: generators ordering: ordering.
 	^ R` * (G collect: [:each| (each as: R`) homogenizedIn: R` rank])! !
 
@@ -13453,9 +13507,9 @@ newFrom: aPolynomial
 one
 	^ self constant: scalars one! !
 
-!Polynomials methodsFor: 'accessing' stamp: 'len 7/2/2016 23:40'!
+!Polynomials methodsFor: 'accessing' stamp: 'len 7/3/2016 04:18'!
 ordering
-	^ properties at: #ordering ifAbsentPut: [WeightedMonomialOrdering tlex: self indeterminates]! !
+	^ properties at: #ordering ifAbsentPut: [MonomialOrdering tlex: self rank]! !
 
 !Polynomials methodsFor: 'accessing' stamp: 'len 7/2/2016 23:41'!
 ordering: aMonomialOrdering
@@ -26314,10 +26368,11 @@ representative: anInteger modulo: anotherInteger
 
 	^ self = aMonomial or: [self > aMonomial]! !
 
-!Monomial methodsFor: 'testing' stamp: 'len 6/6/2016 02:49'!
+!Monomial methodsFor: 'testing' stamp: 'len 7/3/2016 00:29'!
 | aMonomial
 	"Answer true if the receiver divides the argument."
-	exponents withIndexDo: [:each :i| each > (aMonomial at: i) ifTrue: [^ false]].
+	1 to: exponents size do: [:i|
+		(exponents at: i) > (aMonomial at: i) ifTrue: [^ false]].
 	^ true! !
 
 !Monomial methodsFor: 'accessing' stamp: 'len 7/2/2016 23:00'!
@@ -26573,7 +26628,7 @@ leadingTermOf: aPolynomial
 rank
 	^ rank! !
 
-!MonomialOrdering methodsFor: 'as yet unclassified' stamp: 'len 7/2/2016 23:53'!
+!MonomialOrdering methodsFor: 'accessing-private' stamp: 'len 7/2/2016 23:53'!
 rank: anInteger
 	rank _ anInteger! !
 
@@ -26581,19 +26636,27 @@ rank: anInteger
 type
 	^ nil! !
 
-!MonomialOrdering class methodsFor: 'examples' stamp: 'len 7/2/2016 23:42'!
+!MonomialOrdering class methodsFor: 'examples' stamp: 'len 7/3/2016 04:09'!
 lex: anInteger
-	^ LexicographicMonomialOrdering new: anInteger! !
+	^ LexicographicOrdering new: anInteger! !
 
 !MonomialOrdering class methodsFor: 'instance creation' stamp: 'len 7/2/2016 23:55'!
 new: anInteger
 	^ self new rank: anInteger! !
 
-!MonomialOrdering class methodsFor: 'examples' stamp: 'len 7/2/2016 23:55'!
-tlex: anInteger
-	^ TotalLexicographicMonomialOrdering new: anInteger! !
+!MonomialOrdering class methodsFor: 'examples' stamp: 'len 7/3/2016 04:09'!
+revlex: anInteger
+	^ ReverseLexicographicOrdering new: anInteger! !
 
-!LexicographicMonomialOrdering methodsFor: 'ordering' stamp: 'len 7/2/2016 23:34'!
+!MonomialOrdering class methodsFor: 'examples' stamp: 'len 7/3/2016 04:09'!
+tlex: anInteger
+	^ TotalLexicographicOrdering new: anInteger! !
+
+!MonomialOrdering class methodsFor: 'examples' stamp: 'len 7/3/2016 04:10'!
+trevlex: anInteger
+	^ TotalReverseLexicographicOrdering new: anInteger! !
+
+!LexicographicOrdering methodsFor: 'ordering' stamp: 'len 7/2/2016 23:34'!
 is: aMonomial gneq: anotherMonomial
 	"Answer true if the first argument is greater than the second."
 	| e1 e2 |
@@ -26607,11 +26670,29 @@ is: aMonomial gneq: anotherMonomial
 		a = b ifFalse: [^ false]].
 	^ false! !
 
-!LexicographicMonomialOrdering methodsFor: 'accessing' stamp: 'len 7/2/2016 23:26'!
+!LexicographicOrdering methodsFor: 'accessing' stamp: 'len 7/2/2016 23:26'!
 type
 	^ #lex! !
 
-!TotalLexicographicMonomialOrdering methodsFor: 'as yet unclassified' stamp: 'len 7/3/2016 00:01'!
+!ReverseLexicographicOrdering methodsFor: 'ordering' stamp: 'len 7/3/2016 00:41'!
+is: aMonomial gneq: anotherMonomial
+	"Answer true if the first argument is greater than the second."
+	| e1 e2 |
+	e1 _ aMonomial "exponents".
+	e2 _ anotherMonomial "exponents".
+	rank to: 1 by: -1 do: [:i|
+		| a b |
+		a _ e1 at: i.
+		b _ e2 at: i.
+		a < b ifTrue: [^ true].
+		a = b ifFalse: [^ false]].
+	^ false! !
+
+!ReverseLexicographicOrdering methodsFor: 'accessing' stamp: 'len 7/3/2016 00:41'!
+type
+	^ #revlex! !
+
+!TotalLexicographicOrdering methodsFor: 'ordering' stamp: 'len 7/3/2016 00:01'!
 is: aMonomial gneq: anotherMonomial
 	"Answer true if the first argument is greater than the second."
 	| d1 d2 e1 e2 |
@@ -26627,41 +26708,60 @@ is: aMonomial gneq: anotherMonomial
 		a = b ifFalse: [^ false]].
 	^ false! !
 
-!TotalLexicographicMonomialOrdering methodsFor: 'as yet unclassified' stamp: 'len 7/2/2016 23:54'!
+!TotalLexicographicOrdering methodsFor: 'accessing' stamp: 'len 7/2/2016 23:54'!
 type
 	^ #tlex! !
 
-!WeightedMonomialOrdering methodsFor: 'arithmetic' stamp: 'len 7/2/2016 23:18'!
+!TotalReverseLexicographicOrdering methodsFor: 'ordering' stamp: 'len 7/3/2016 00:42'!
+is: aMonomial gneq: anotherMonomial
+	"Answer true if the first argument is greater than the second."
+	| d1 d2 e1 e2 |
+	(d1 _ aMonomial degree) > (d2 _ anotherMonomial degree) ifTrue: [^ true].
+	d1 = d2 ifFalse: [^ false].
+	e1 _ aMonomial "exponents".
+	e2 _ anotherMonomial "exponents".
+	rank to: 1 by: -1 do: [:i|
+		| a b |
+		a _ e1 at: i.
+		b _ e2 at: i.
+		a < b ifTrue: [^ true].
+		a = b ifFalse: [^ false]].
+	^ false! !
+
+!TotalReverseLexicographicOrdering methodsFor: 'accessing' stamp: 'len 7/3/2016 00:43'!
+type
+	^ #trevlex! !
+
+!WeightedMonomialOrdering methodsFor: 'arithmetic' stamp: 'len 7/3/2016 02:24'!
 * aMonomialOrdering
-	"Answer the product of the recever by the argument."
-	| newWeights null |
+	| newWeights zero |
 	newWeights _ OrderedCollection new.
-	null _ aMonomialOrdering weights first zero.
-	weights do: [ :each | newWeights add: each, null].
-	null _ weights first zero.
-	aMonomialOrdering weights do: [:each| newWeights add: null, each].
-	^ self species
-		indeterminates: self indeterminates, aMonomialOrdering indeterminates
+	zero _ aMonomialOrdering weights first zero.
+	weights do: [:each| newWeights add: each, zero].
+	zero _ weights first zero.
+	aMonomialOrdering weights do: [:each| newWeights add: zero, each].
+	^ self class
+		new: self rank + aMonomialOrdering rank
 		weights: newWeights! !
 
-!WeightedMonomialOrdering methodsFor: 'arithmetic' stamp: 'len 7/2/2016 23:18'!
+!WeightedMonomialOrdering methodsFor: 'arithmetic' stamp: 'len 7/3/2016 02:50'!
 , aMonomialOrdering
 	"Answer the concatenation of the recever and the argument."
 
-	self indeterminates = aMonomialOrdering indeterminates ifFalse: [^ self error: 'Cannot concatenate monomial orderings with different indeterminates'].
-	^ self species
-		indeterminates: self indeterminates
+	self rank = aMonomialOrdering rank ifFalse: [^ self error: 'cannot concatenate monomial orderings of different rank'].
+	^ self class
+		new: self rank
 		weights: (self weights copy addAll: aMonomialOrdering weights; yourself)! !
 
-!WeightedMonomialOrdering methodsFor: 'ordering' stamp: 'len 7/2/2016 23:19'!
+!WeightedMonomialOrdering methodsFor: 'ordering' stamp: 'len 7/3/2016 02:52'!
 headOf: aPolynomial
 	"Answer the head monomial of aPolynomial according to this ordering."
 	| head headTuple |
-	headTuple _ FloatArray new: indeterminates size.
+	headTuple _ FloatArray new: rank.
 	aPolynomial monomialsDo: [:each|
 		| t a b |
-		t _ FloatArray new: indeterminates size.
-		1 to: indeterminates size do: [:i| t at: i put: (each at: i)].
+		t _ FloatArray new: rank.
+		1 to: rank do: [:i| t at: i put: (each at: i)].
 		head isNil
 			ifTrue: [head _ each. headTuple _ t]
 			ifFalse: [self weights anySatisfy: [:w|
@@ -26670,32 +26770,21 @@ headOf: aPolynomial
 				a ~= b] :: ifTrue: [a > b ifTrue: [head _ each. headTuple _ t]]]].
 	^ head! !
 
-!WeightedMonomialOrdering methodsFor: 'accessing' stamp: 'len 7/2/2016 23:28'!
-indeterminates
-	^ indeterminates! !
-
-!WeightedMonomialOrdering methodsFor: 'accessing-private' stamp: 'len 7/2/2016 23:28'!
-indeterminates: aCollection
-	aCollection isSequenceable ifFalse: [self error: 'the indeterminates are unordered'].
-	indeterminates _ aCollection! !
-
-!WeightedMonomialOrdering methodsFor: 'arithmetic' stamp: 'len 7/2/2016 23:28'!
+!WeightedMonomialOrdering methodsFor: 'arithmetic' stamp: 'len 7/3/2016 02:23'!
 inverse
 	^ self class
-		indeterminates: self indeterminates reversed
-		weights: self weights! !
+		new: self rank
+		weights: (self weights collect: [:each| each reversed])! !
 
-!WeightedMonomialOrdering methodsFor: 'ordering' stamp: 'len 7/2/2016 23:26'!
+!WeightedMonomialOrdering methodsFor: 'ordering' stamp: 'len 7/3/2016 02:53'!
 is: aMonomial gneq: anotherMonomial
 	"Answer true if the first argument is greater than the second."
 	| t1 t2 |
-	t1 _ FloatArray new: indeterminates size.
+	t1 _ FloatArray new: rank.
 	t2 _ t1 copy.
-	1 to: indeterminates size do: [:i|
-		| xi |
-		xi _ indeterminates at: i.
-		t1 at: i put: (aMonomial at: xi).
-		t2 at: i put: (anotherMonomial at: xi)].
+	1 to: rank do: [:i|
+		t1 at: i put: (aMonomial at: i).
+		t2 at: i put: (anotherMonomial at: i)].
 	self weights do: [:w|
 		| a b |
 		a _ w dot: t1.
@@ -26713,23 +26802,11 @@ printOn: aStream
 	type isNil
 		ifTrue: [aStream space. self weights do: [:each| aStream print: each] separatedBy: [aStream space]]! !
 
-!WeightedMonomialOrdering methodsFor: 'accessing' stamp: 'len 7/2/2016 23:34'!
-rank
-	^ indeterminates size! !
-
-!WeightedMonomialOrdering methodsFor: 'arithmetic' stamp: 'len 7/2/2016 23:28'!
+!WeightedMonomialOrdering methodsFor: 'arithmetic' stamp: 'len 7/3/2016 02:22'!
 reverse
 	^ self class
-		indeterminates: self indeterminates
-		weights: (self weights collect: [ :each | each negated])! !
-
-!WeightedMonomialOrdering methodsFor: 'accessing' stamp: 'len 7/2/2016 23:27'!
-type
-	^ type! !
-
-!WeightedMonomialOrdering methodsFor: 'accessing-private' stamp: 'len 7/2/2016 23:28'!
-type: aSymbol
-	type _ aSymbol! !
+		new: self rank
+		weights: (self weights collect: [:each| each negated])! !
 
 !WeightedMonomialOrdering methodsFor: 'accessing' stamp: 'len 7/2/2016 23:18'!
 weights
@@ -26739,40 +26816,45 @@ weights
 weights: aCollectionOfTuples
 	weights _ aCollectionOfTuples collect: [:each| each as: FloatArray]! !
 
-!WeightedMonomialOrdering class methodsFor: 'as yet unclassified' stamp: 'len 7/2/2016 23:32'!
-indeterminates: aCollection weights: aCollectionOfTuples
-	^ self new indeterminates: aCollection; weights: aCollectionOfTuples! !
+!WeightedMonomialOrdering class methodsFor: 'as yet unclassified' stamp: 'len 7/3/2016 02:27'!
+indeterminates: indeterminates weights: weights
+	weights isSequenceable ifFalse: [self error: 'the indeterminates are unordered'].
+	^ self new: indeterminates size weights: (weights collect: [:each| each withIndexCollect: [:x :i| each at: (indeterminates indexOf: i)]])! !
 
-!WeightedMonomialOrdering class methodsFor: 'as yet unclassified' stamp: 'len 7/2/2016 23:32'!
+!WeightedMonomialOrdering class methodsFor: 'as yet unclassified' stamp: 'len 7/3/2016 02:29'!
 lex: aCollection
 	"Answer the lexicographic order with the indeterminates of aCollection."
 	| weighs n |
 	n _ aCollection size.
 	weighs _ (1 to: n) collect: [:i| Tuple new: n evaluating: [:k| k==i ifTrue:[1] ifFalse: [0]]].
-	^ (self indeterminates: aCollection weights: weighs) type: #lex! !
+	^ self indeterminates: aCollection weights: weighs! !
 
-!WeightedMonomialOrdering class methodsFor: 'as yet unclassified' stamp: 'len 7/2/2016 23:32'!
+!WeightedMonomialOrdering class methodsFor: 'as yet unclassified' stamp: 'len 7/3/2016 02:44'!
+new: anInteger weights: anArray
+	^ (self new: anInteger) weights: anArray! !
+
+!WeightedMonomialOrdering class methodsFor: 'as yet unclassified' stamp: 'len 7/3/2016 02:43'!
 revlex: aCollection
 	"Answer the reverse lexicographic ordering with the indeterminates of aCollection."
-	^ (self lex: aCollection) reverse type: #revlex! !
+	^ (self lex: aCollection) reverse! !
 
-!WeightedMonomialOrdering class methodsFor: 'as yet unclassified' stamp: 'len 7/2/2016 23:32'!
+!WeightedMonomialOrdering class methodsFor: 'as yet unclassified' stamp: 'len 7/3/2016 02:48'!
 tlex: aCollection
 	"Answer the total (or graded) lexicographic ordering with the indeterminates of aCollection."
 	| weights |
 	weights _ OrderedCollection new.
 	weights add: (Tuple new: aCollection size evaluating: [:each| 1]).
 	weights addAll: (self lex: aCollection) weights.
-	^ (self indeterminates: aCollection weights: weights) type: #tlex! !
+	^ self new: aCollection size weights: weights! !
 
-!WeightedMonomialOrdering class methodsFor: 'as yet unclassified' stamp: 'len 7/2/2016 23:32'!
+!WeightedMonomialOrdering class methodsFor: 'as yet unclassified' stamp: 'len 7/3/2016 02:49'!
 trevlex: aCollection
 	"Answer the total (or graded) reverse lexicographic ordering with the indeterminates of aCollection."
 	| weights |
 	weights _ OrderedCollection new.
 	weights add: (Tuple new: aCollection size evaluating: [:each| 1]).
 	weights addAll: (self revlex: aCollection) weights.
-	^ (self indeterminates: aCollection weights: weights) type: #trevlex! !
+	^ self new: aCollection size weights: weights! !
 
 !EdgeMorph methodsFor: 'private' stamp: 'len 2/19/2016 19:04'!
 adjustBounds
@@ -27939,27 +28021,30 @@ x: aPoint
 origin
 	^ self morphLocalBounds center! !
 
-!MultiPolynomialDivision methodsFor: 'private' stamp: 'len 3/17/2016 01:30'!
+!MultiPolynomialDivision methodsFor: 'private' stamp: 'len 7/3/2016 00:36'!
 divide
 	"Perform the division algorithm computing quotients and remainder."
-	| p s zero index fi q headp headfi t |
+	| p s zero index fi q headp headfi t heads |
 	zero _ dividend zero.
 	quotients _ (1 to: divisors size) collect: [:each| zero].
 	remainder _ zero.
 	s _ divisors size.
 	p _ dividend.
+	heads _ Array new: divisors size.
 	[p isZero] whileFalse: [
 		headp _ self ordering headOf: p.
 		t _ p termAt: headp.
 		(index _ (1 to: s)
-			detect: [:one|
-				(headfi _ self ordering headOf: (fi _ divisors at: one)) | headp]
+			detect: [:i|
+				"~20% of time spent here"
+				(headfi _ (heads at: i) ifNil: [heads at: i put: (self ordering headOf: (fi _ divisors at: i))]) | headp]
 			ifNone: []) isNil
 			ifTrue:
 				[remainder _ remainder + t.
 				p _ p - t]
 			ifFalse:
-				[q _ t / headfi / (fi coefficientAt: headfi).
+				[fi _ divisors at: index.
+				q _ t / headfi / (fi coefficientAt: headfi).
 				quotients at: index put: (quotients at: index) + q.
 				p _ p - (fi * q)]]! !
 
@@ -35141,6 +35226,110 @@ testTransposed
 	self assert: A columns = A transposed rows.
 	self assert: A transposed transposed = A! !
 
+!MonomialTest methodsFor: 'as yet unclassified' stamp: 'len 7/3/2016 02:06'!
+testMonomialDivision
+	| x y |
+	x _ Monomial x: 1.
+	self assert: x*x = (Monomial x: 1 to: 2).
+	y _ Monomial x: 2.
+	self assert: x*x*y / (x*y) = x.
+	self assert: x*y*x / x = (x*y).
+	self assert: x*y*x*y / (x*y) = (x*y)! !
+
+!MonomialTest methodsFor: 'as yet unclassified' stamp: 'len 7/3/2016 02:07'!
+testMonomialGCD
+	| x y a b |
+	x _ Monomial x: 1.
+	y _ Monomial x: 2.
+	a _ x*x*y*y*y.
+	b _ x*x*x*y*y.
+	self assert: (a gcd: b) = (x*x*y*y)! !
+
+!MonomialTest methodsFor: 'as yet unclassified' stamp: 'len 7/3/2016 02:07'!
+testMonomialLCM
+	| x y a b |
+	x _ Monomial x: 1.
+	y _ Monomial x: 2.
+	a _ x*x.
+	b _ x*y*y.
+	self assert: (a lcm: b) = (x*x*y*y)! !
+
+!MonomialTest methodsFor: 'as yet unclassified' stamp: 'len 7/3/2016 02:07'!
+testMonomialOrderings
+	| P x y z f grlex lex revlex |
+	P _ Integers new polynomialsIn: 3.
+
+	x _ P x.
+	y _ P y.
+	z _ P z.
+
+	f _ 10*x - (7*(y**4)) + (11*(y**3)*z).
+
+	lex _ MonomialOrdering lex: 3.
+	grlex _ MonomialOrdering tlex: 3.
+	revlex _ MonomialOrdering revlex: 3.
+
+	self assert: (f sortedBy: lex) leadingCoefficient = 10.
+	self assert: (f sortedBy: grlex) leadingCoefficient = -7.
+	self assert: (f sortedBy: revlex) leadingCoefficient = 11! !
+
+!MonomialTest methodsFor: 'as yet unclassified' stamp: 'len 7/3/2016 02:10'!
+testMonomialOrderingsExample
+	| a b grlex lex grevlex |
+	a _ Monomial exponents: #(3 2 8).
+	b _ Monomial exponents: #(2 9 2).
+	
+	lex _ MonomialOrdering lex: 3.
+	grlex _ MonomialOrdering tlex: 3.
+	grevlex _ MonomialOrdering trevlex: 3.
+
+	self assert: (lex is: a gneq: b).
+	self assert: (grlex is: a gneq: b).
+	self assert: (grevlex is: b gneq: a)! !
+
+!MonomialTest methodsFor: 'as yet unclassified' stamp: 'len 7/3/2016 02:15'!
+testMonomialOrderingsOfIndeterminates
+	| x y z |
+	x _ Monomial x: 1.
+	y _ Monomial x: 2.
+	z _ Monomial x: 3.
+	{MonomialOrdering lex: 3.
+	MonomialOrdering revlex: 3.
+	MonomialOrdering tlex: 3.
+	MonomialOrdering trevlex: 3} do: [:ordering| 
+	self assert: (ordering is: x gneq: y).
+	self assert: (ordering is: y gneq: z)]! !
+
+!MonomialTest methodsFor: 'as yet unclassified' stamp: 'len 7/3/2016 02:07'!
+testMonomialProduct
+	| x y |
+	x _ Monomial x: 1.
+	self assert: x*x = (Monomial x: 1 to: 2).
+	y _ Monomial x: 2.
+	self assert: x*y = (y*x).
+	self assert: x*y*y = (x*(y*y)).
+	self assert: ((x*y*y) at: 2) = 2.
+	self assert: (x*y*x*x*y) degree = 5! !
+
+!MonomialTest methodsFor: 'as yet unclassified' stamp: 'len 7/3/2016 02:07'!
+testWeightedMonomialOrderings
+	| P x y z f grlex lex revlex |
+	P _ Integers new polynomialsIn: 3.
+
+	x _ P x.
+	y _ P y.
+	z _ P z.
+
+	f _ 10*x - (7*(y**4)) + (11*(y**3)*z).
+
+	lex _ WeightedMonomialOrdering lex: (1 to: 3).
+	grlex _ WeightedMonomialOrdering tlex: (1 to: 3).
+	revlex _ WeightedMonomialOrdering revlex: (1 to: 3).
+
+	self assert: (f sortedBy: lex) leadingCoefficient = 10.
+	self assert: (f sortedBy: grlex) leadingCoefficient = -7.
+	self assert: (f sortedBy: revlex) leadingCoefficient = 11! !
+
 !NumberFieldTest methodsFor: 'as yet unclassified' stamp: 'len 6/4/2016 19:06'!
 testQSqrt2
 	| Q E x |
@@ -35586,64 +35775,6 @@ testInterpolation2
 	self assert: (f value: 1) = 2.
 	self assert: (f value: 2) = 4.
 	self assert: (f value: 3) = 9! !
-
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 6/6/2016 04:11'!
-testMonomialDivision
-	| x y |
-	x _ Monomial x: 1.
-	self assert: x*x = (Monomial x: 1 to: 2).
-	y _ Monomial x: 2.
-	self assert: x*x*y / (x*y) = x.
-	self assert: x*y*x / x = (x*y).
-	self assert: x*y*x*y / (x*y) = (x*y)! !
-
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 6/6/2016 03:57'!
-testMonomialGCD
-	| x y a b |
-	x _ Monomial x: 1.
-	y _ Monomial x: 2.
-	a _ x*x*y*y*y.
-	b _ x*x*x*y*y.
-	self assert: (a gcd: b) = (x*x*y*y)! !
-
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 6/6/2016 08:49'!
-testMonomialLCM
-	| x y a b |
-	x _ Monomial x: 1.
-	y _ Monomial x: 2.
-	a _ x*x.
-	b _ x*y*y.
-	self assert: (a lcm: b) = (x*x*y*y)! !
-
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 7/2/2016 23:39'!
-testMonomialOrderings
-	| P x y z f grlex lex revlex |
-	P _ Integers new polynomialsIn: 3.
-
-	x _ P x.
-	y _ P y.
-	z _ P z.
-
-	f _ 10*x - (7*(y**4)) + (11*(y**3)*z).
-
-	lex _ WeightedMonomialOrdering lex: (1 to: 3).
-	grlex _ WeightedMonomialOrdering tlex: (1 to: 3).
-	revlex _ WeightedMonomialOrdering revlex: (1 to: 3).
-
-	self assert: (f sortedBy: lex) leadingCoefficient = 10.
-	self assert: (f sortedBy: grlex) leadingCoefficient = -7.
-	self assert: (f sortedBy: revlex) leadingCoefficient = 11! !
-
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 6/6/2016 04:09'!
-testMonomialProduct
-	| x y |
-	x _ Monomial x: 1.
-	self assert: x*x = (Monomial x: 1 to: 2).
-	y _ Monomial x: 2.
-	self assert: x*y = (y*x).
-	self assert: x*y*y = (x*(y*y)).
-	self assert: ((x*y*y) at: 2) = 2.
-	self assert: (x*y*x*x*y) degree = 5! !
 
 !PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 7/2/2016 23:39'!
 testMultivariateDivision
