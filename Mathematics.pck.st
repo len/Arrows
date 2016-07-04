@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 4 July 2016 at 6:45:26.930496 am'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 4 July 2016 at 7:30:54.347413 am'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 138!
+!provides: 'Mathematics' 1 139!
 !classDefinition: #AbelianGroupPresentation category: #'Mathematics-Free'!
 Object subclass: #AbelianGroupPresentation
 	instanceVariableNames: 'generators relators'
@@ -3313,8 +3313,21 @@ Structure:
 
 !
 
-!GroebnerBasisBenchmark commentStamp: '<historical>' prior: 0!
+!GroebnerBasisBenchmark commentStamp: 'len 7/4/2016 07:27' prior: 0!
 GroebnerBasisBenchmark new run
+
+testCyclic3	615 per second.
+testCyclic4	29.2 per second.
+testCyclic5	1.38 per second.
+testElimination	43.5 per second.
+testKatsura2	2,330 per second.
+testKatsura3	7.21 per second.
+
+testCyclic3	632 per second.
+testCyclic4	4.34 per second.
+testElimination	3.45 per second.
+testKatsura2	2,190 per second.
+testKatsura3	0.288 per second.
 
 testCyclic3	524 per second.
 testCyclic4	4.85 per second.
@@ -5464,6 +5477,10 @@ testCyclic3
 !GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 7/4/2016 06:33'!
 testCyclic4
 	self cyclic: 4 :: groebnerBasis! !
+
+!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 7/4/2016 07:25'!
+testCyclic5
+	self cyclic: 5 :: groebnerBasis! !
 
 !GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 5/20/2016 03:59'!
 testElimination
@@ -8369,26 +8386,28 @@ from: aCollection
 	"Answer a new instance of the receiver representing a Groebner basis obtainded from aCollection of generators."
 	^ self from: aCollection ordering: aCollection anyOne species ordering! !
 
-!GroebnerBasis class methodsFor: 'instance creation' stamp: 'len 3/1/2016 19:53'!
+!GroebnerBasis class methodsFor: 'instance creation' stamp: 'len 7/4/2016 07:23'!
 from: aCollection ordering: aMonomialOrdering 
 	"Answer a new instance of the receiver representing a Groebner basis obtainded from aCollection of polynomials operating with the ordering aMonomialOrdering."
-	| answer next rem lcm p q hp hq hpc hqc |
-	aCollection anyOne scalars isField ifFalse: [^ self error: 'not over a field'].
-	answer _ self new ordering: aMonomialOrdering; addAll: aCollection; yourself.
-	[next _ OrderedCollection new.
-	1 to: answer size do: [:each |
-		each + 1 to: answer size do: [:other | 
-			p _ answer at: each.
-			q _ answer at: other.
-			hp _ aMonomialOrdering headOf: p.
-			hpc _ p coefficientAt: hp.
+	| basis newPolynomials rem lcm p q hp hq hpc hqc |
+	aCollection anyOne scalars isField ifFalse: [^ DomainError signal: 'not over a field'].
+	basis _ self new ordering: aMonomialOrdering; addAll: aCollection; yourself.
+	[newPolynomials _ OrderedCollection new.
+	1 to: basis size do: [:i|
+		p _ basis at: i.
+		hp _ aMonomialOrdering headOf: p.
+		hpc _ p coefficientAt: hp.
+		i+1 to: basis size do: [:k|
+			q _ basis at: k.
 			hq _ aMonomialOrdering headOf: q.
 			hqc _ q coefficientAt: hq.
 			lcm _ hp lcm: hq.
-			rem _ answer remainderOf: p * lcm / hp / hpc - (q * lcm / hq / hqc).
-			rem isZero ifFalse: [next add: rem]]].
-	(answer addAll: next) isEmpty] whileFalse.
-	^ answer! !
+			rem _ basis remainderOf: p * (lcm / hp) / hpc - (q * (lcm / hq) / hqc).
+			rem isZero ifFalse: [newPolynomials add: rem]]].
+	newPolynomials isEmpty]
+		whileFalse: "this is like Magma's ReduceByNew=True"
+			[newPolynomials do: [:each| (basis remainderOf: each) isZero ifFalse: [basis add: each]]].
+	^ basis! !
 
 !GroebnerBasis class methodsFor: 'instance creation' stamp: 'len 11/20/2015 05:16'!
 new
@@ -11916,10 +11935,10 @@ one: anElement
 polynomials
 	^ self polynomialsIn: #(x)! !
 
-!Ring methodsFor: 'morphisms' stamp: 'len 7/4/2016 06:43'!
+!Ring methodsFor: 'morphisms' stamp: 'len 7/4/2016 07:14'!
 polynomialsIn: anIntegerOrCollection
 	"Answer the ring of multivariate polynomials over the receiver in the given indeterminates."
-	^ self polynomialsIn: anIntegerOrCollection ordering: #tlex! !
+	^ self polynomialsIn: anIntegerOrCollection ordering: #trevlex! !
 
 !Ring methodsFor: 'morphisms' stamp: 'len 7/2/2016 23:46'!
 polynomialsIn: anIntegerOrCollection ordering: aMonomialOrdering
