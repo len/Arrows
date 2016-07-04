@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 4 July 2016 at 1:16:27.627077 am'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 4 July 2016 at 3:21:00.973671 am'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 133!
+!provides: 'Mathematics' 1 135!
 !classDefinition: #AbelianGroupPresentation category: #'Mathematics-Free'!
 Object subclass: #AbelianGroupPresentation
 	instanceVariableNames: 'generators relators'
@@ -12433,10 +12433,6 @@ embedding
 indeterminates
 	^ self polynomials indeterminates! !
 
-!RationalFunctions methodsFor: 'testing' stamp: 'len 3/27/2016 07:57'!
-isMultivariate
-	^ self isUnivariate not! !
-
 !RationalFunctions methodsFor: 'testing' stamp: 'len 11/27/2015 20:13'!
 isUnivariate
 	^ self polynomials isUnivariate! !
@@ -13454,10 +13450,6 @@ isIntegralDomain
 	scalars isIntegralDomain ifTrue: [^ true].
 	^ super isIntegralDomain! !
 
-!Polynomials methodsFor: 'testing' stamp: 'len 3/27/2016 02:58'!
-isMultivariate
-	^ self rank > 1! !
-
 !Polynomials methodsFor: 'testing' stamp: 'len 11/29/2015 00:27'!
 isNoetherian
 	scalars isNoetherian ifTrue: [^ true]. "Hilber's basis theorem"
@@ -13504,12 +13496,12 @@ monomial: aMonomial
 new
 	^ self polynomialClass new species: self! !
 
-!Polynomials methodsFor: 'elements' stamp: 'len 3/27/2016 02:18'!
+!Polynomials methodsFor: 'elements' stamp: 'len 7/4/2016 01:33'!
 newFrom: aPolynomial
 	(aPolynomial indeterminates allSatisfy: [:each| self has: each])
 		ifFalse: [self halt].
 	^ self coefficients:
-		(((aPolynomial isKindOf: DensePolynomial) and: [self isMultivariate])
+		(((aPolynomial isKindOf: DensePolynomial) and: [self isUnivariate not])
 			ifTrue: [aPolynomial asSparsePolynomial coefficients]
 			ifFalse: [aPolynomial coefficients])! !
 
@@ -17217,6 +17209,14 @@ identity
 includes: aMonomial
 	^ (aMonomial isKindOf: Monomial) and: [aMonomial lastIndeterminate <= rank]! !
 
+!Monomials methodsFor: 'accessing' stamp: 'len 7/4/2016 01:30'!
+indeterminateNames
+	^ properties at: #indeterminateNames ifAbsent: [self isUnivariate ifTrue: [#(x)]]! !
+
+!Monomials methodsFor: 'accessing-private' stamp: 'len 7/4/2016 01:31'!
+indeterminateNames: aCollection
+	properties at: #indeterminateNames put: aCollection! !
+
 !Monomials methodsFor: 'accessing' stamp: 'len 6/28/2016 23:38'!
 indeterminates
 	^ 1 to: rank! !
@@ -17232,6 +17232,22 @@ isCountable
 !Monomials methodsFor: 'testing' stamp: 'len 6/30/2016 00:36'!
 isFinite
 	^ false! !
+
+!Monomials methodsFor: 'testing' stamp: 'len 7/4/2016 01:33'!
+isUnivariate
+	^ self rank = 1! !
+
+!Monomials methodsFor: 'accessing' stamp: 'len 7/4/2016 01:28'!
+ordering
+	^ properties at: #ordering ifAbsentPut: [MonomialOrdering tlex: self rank]! !
+
+!Monomials methodsFor: 'accessing' stamp: 'len 7/4/2016 01:29'!
+ordering: aMonomialOrdering
+	| ordering |
+	ordering _ aMonomialOrdering isSymbol
+		ifTrue: [MonomialOrdering perform: (aMonomialOrdering,':') asSymbol with: self rank]
+		ifFalse: [aMonomialOrdering].
+	properties at: #ordering put: ordering! !
 
 !Monomials methodsFor: 'printing' stamp: 'len 6/28/2016 23:38'!
 printOn: aStream
@@ -21130,9 +21146,13 @@ aChange
 	self changesDo: [ :each | ^ each].
 	^ nil! !
 
-!Permutation methodsFor: 'converting' stamp: 'len 6/29/2016 00:15'!
+!Permutation methodsFor: 'converting' stamp: 'len 7/4/2016 02:56'!
+asArray
+	^ (1 to: map size) collect: [:each| self at: each]! !
+
+!Permutation methodsFor: 'converting' stamp: 'len 7/4/2016 02:52'!
 asStandardPermutationIn: anArray
-	^ StandardPermutation values: (anArray collect: [:each| anArray indexOf: (self value: each)])! !
+	^ StandardPermutation values: (anArray collect: [:each| anArray indexOf: (self at: each)])! !
 
 !Permutation methodsFor: 'accessing' stamp: 'len 6/28/2016 07:01'!
 at: anObject
@@ -21276,11 +21296,13 @@ order2
 	[next isIdentity] whileFalse: [next _ next * self. answer _ answer + 1].
 	^ answer! !
 
-!Permutation methodsFor: 'operations' stamp: 'len 9/30/97 00:15'!
-permute: aCollection
-	"Answer the permutation of the elements of aCollection induced by the receiver."
-
-	^ (1 to: aCollection size) collect: [ :each | aCollection at: (self at: each)]! !
+!Permutation methodsFor: 'operations' stamp: 'len 7/4/2016 03:04'!
+permute: anArray
+	"Answer the permutation of the elements of anArray induced by the receiver."
+	| answer |
+	answer _ Array new: anArray size.
+	1 to: anArray size do: [:i| answer at: i put: (anArray at: (self at: i))].
+	^ answer! !
 
 !Permutation methodsFor: 'printing' stamp: 'len 10/1/97 18:59'!
 printOn: aStream
@@ -26498,6 +26520,11 @@ lcm: aMonomial
 	exponents size >= aMonomial exponents size ifFalse: [^ aMonomial lcm: self].
 	^ self class exponents: (exponents withIndexCollect: [:each :i| each max: (aMonomial at: i)])! !
 
+!Monomial methodsFor: 'operations' stamp: 'len 7/4/2016 03:20'!
+permutedBy: aPermutation
+	"Permute the variables of the receiver. The argument can be an Array (permutation in 'image format'). For example given a monomial in x,z,y, #(1 2 3) doesn't change anything, #(2 1 3) exchanges variables x and y."
+	^ self class exponents: ((1 to: exponents size) collect: [:i| self at: (aPermutation at: i)])! !
+
 !Monomial methodsFor: 'printing' stamp: 'len 6/7/2016 21:48'!
 printExponent: anInteger on: aStream
 	| exponent |
@@ -28968,10 +28995,6 @@ isLinear
 isMonic
 	^ self leadingCoefficient = self scalars one! !
 
-!Polynomial methodsFor: 'testing' stamp: 'len 2/4/2016 19:33'!
-isMultivariate
-	^ self isUnivariate not! !
-
 !Polynomial methodsFor: 'testing' stamp: 'len 3/9/2016 02:55'!
 isPrimitive
 	"A polynomial is primitive if it has content unity."
@@ -29038,11 +29061,13 @@ leadingCoefficientIn: anIndeterminate
 	self flag: #fix. "slow and ugly"
 	^ (self asUnivariateIn: anIndeterminate) leadingCoefficient! !
 
-!Polynomial methodsFor: 'accessing indeterminates' stamp: 'len 7/4/2016 00:08'!
+!Polynomial methodsFor: 'accessing indeterminates' stamp: 'len 6/6/2016 08:37'!
 leadingIndeterminate
-	"Answer the main (or leading) indeterminate of the receiver."
-	self species rank to: 1 by: -1 do: [:i| (self has: i) ifTrue: [^ i]].
-	^ 1! !
+	"Answer the main (or leading) indeterminate of the receiver (according to a monomial ordering)."
+	| indeterminates |
+	indeterminates _ self species ordering indeterminates.
+	indeterminates reverseDo: [:i| (self has: i) ifTrue: [^ i]].
+	^ indeterminates first! !
 
 !Polynomial methodsFor: 'accessing monomials' stamp: 'len 3/28/2016 03:48'!
 leadingMonomial
@@ -29151,6 +29176,11 @@ odd
 !Polynomial methodsFor: 'constants' stamp: 'len 11/26/2015 03:38'!
 one
 	^ self species one! !
+
+!Polynomial methodsFor: 'operations' stamp: 'len 7/4/2016 03:20'!
+permutedBy: aPermutation
+	"Permute the variables of the receiver. The argument can be an Array (permutation in 'image format'). For example given a polynomial in x,z,y, #(1 2 3) doesn't change anything, #(2 1 3) exchanges variables x and y."
+	^ self monomialsApply: [:each| each permutedBy: aPermutation]! !
 
 !Polynomial methodsFor: 'arithmetic' stamp: 'len 12/20/2015 03:24'!
 pgcd: aPolynomial
@@ -29805,11 +29835,11 @@ value4: anObject in: anIndeterminate
 		reverseDo: [:each| answer _ anObject * answer + (one * each)].
 	^ answer! !
 
-!Polynomial methodsFor: 'operations' stamp: 'len 6/1/2016 22:49'!
+!Polynomial methodsFor: 'operations' stamp: 'len 7/4/2016 01:47'!
 value: anObject
 	"Answer the value of the receiver at the argument. For multivariate polynomials, a Tuple or Array is expected."
 	| answer |
-	((anObject is: #Tuple) or: [anObject class == Array])
+	((anObject is: #Tuple) or: [anObject is: #Array])
 		ifFalse: [^ self value: anObject in: self leadingIndeterminate].
 	anObject size = self species rank ifFalse: [self error: 'the arity of the argument should match the number of indeterminates'].
 	answer _ (anObject at: 1) zero.
