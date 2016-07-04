@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 4 July 2016 at 4:49:28.199514 am'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 4 July 2016 at 6:45:26.930496 am'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 136!
+!provides: 'Mathematics' 1 138!
 !classDefinition: #AbelianGroupPresentation category: #'Mathematics-Free'!
 Object subclass: #AbelianGroupPresentation
 	instanceVariableNames: 'generators relators'
@@ -5457,13 +5457,13 @@ katsura5
 		y**2 + (x*z*2) + (y*t*2) + (z*u*2) - z.
 		y*z*2 + (x*t*2) + (y*u*2) - t}! !
 
-!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 3/28/2016 04:34'!
+!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 7/4/2016 06:32'!
 testCyclic3
-	self cyclic: 3 :: groebner! !
+	self cyclic: 3 :: groebnerBasis! !
 
-!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 3/31/2016 17:33'!
+!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 7/4/2016 06:33'!
 testCyclic4
-	self cyclic: 4 :: groebner! !
+	self cyclic: 4 :: groebnerBasis! !
 
 !GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 5/20/2016 03:59'!
 testElimination
@@ -5473,13 +5473,13 @@ testElimination
 	I _ Qx * {x**2 + y + z - 1. x + (y**2) + z - 1. x + y + (z**2) - 1}.
 	I eliminateAll: #(1 2)! !
 
-!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 3/28/2016 04:35'!
+!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 7/4/2016 06:33'!
 testKatsura2
-	self katsura2 :: groebner! !
+	self katsura2 :: groebnerBasis! !
 
-!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 3/31/2016 17:34'!
+!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 7/4/2016 06:33'!
 testKatsura3
-	self katsura3 :: groebner! !
+	self katsura3 :: groebnerBasis! !
 
 !IntegersBenchmark methodsFor: 'as yet unclassified' stamp: 'len 7/3/2016 04:28'!
 test1000Factorial
@@ -9930,12 +9930,12 @@ colon: anIdeal
 	"Cox IVA 205p"
 	self notYetImplemented! !
 
-!PolynomialIdeal methodsFor: 'accessing' stamp: 'len 3/16/2016 03:42'!
+!PolynomialIdeal methodsFor: 'accessing' stamp: 'len 7/4/2016 06:33'!
 degree
 	"Answer the degree of the ideal, i.e. the number of monomials that are not multiple of any leading monomial in the Groebner basis."
 	| G count leadingMonomials |
 	leadingMonomials _ Set new.
-	G _ self groebner minimal.
+	G _ self groebnerBasis minimal.
 	G do: [:each| leadingMonomials add: each leadingMonomial].
 	count _ 0.
 	G do: [:each|
@@ -9944,11 +9944,11 @@ degree
 					ifFalse: [count _ count + 1]]].
 	^ count! !
 
-!PolynomialIdeal methodsFor: 'morphisms' stamp: 'len 12/16/2015 22:21'!
+!PolynomialIdeal methodsFor: 'morphisms' stamp: 'len 7/4/2016 06:33'!
 eliminate: anIndeterminate
 	"Answer the elimination ideal computed by eliminating the indeterminates in aCollection."
 	| G indets |
-	G _ self groebner.
+	G _ self groebnerBasis.
 	(G anySatisfy: [:f| indets _ (G ordering headOf: f) indeterminates. indets size = 1 and: [indets includes: anIndeterminate]]) ifFalse: [^ self error: 'there''s no eliminant'].
 	self notYetImplemented
 
@@ -9971,16 +9971,16 @@ eliminateAll: aCollection
 	G _ GroebnerBasis from: generators ordering: ordering.
 	^ self class on: ambient generators: (G minimal asArray select: [:each| (aCollection noneSatisfy:[:none| each has: none])])! !
 
-!PolynomialIdeal methodsFor: 'accessing-private' stamp: 'len 3/15/2016 17:50'!
+!PolynomialIdeal methodsFor: 'accessing-private' stamp: 'len 7/4/2016 06:33'!
 generators: aCollection
 	super generators: aCollection.
 	(aCollection isKindOf: GroebnerBasis)
-		ifTrue: [properties at: #groebner put: aCollection]! !
+		ifTrue: [properties at: #groebnerBasis put: aCollection]! !
 
-!PolynomialIdeal methodsFor: 'accessing' stamp: 'len 3/15/2016 17:50'!
-groebner
+!PolynomialIdeal methodsFor: 'accessing' stamp: 'len 7/4/2016 06:32'!
+groebnerBasis
 	"Answer a Groebner basis of the receiver."
-	^ properties at: #groebner ifAbsentPut: [GroebnerBasis from: self generators]! !
+	^ properties at: #groebnerBasis ifAbsentPut: [GroebnerBasis from: self generators]! !
 
 !PolynomialIdeal methodsFor: 'morphisms' stamp: 'len 7/3/2016 04:18'!
 homogenized
@@ -10000,12 +10000,12 @@ includes: aPolynomial
 	This works on any Groebner basis (any monomial ordering)."
 	^ (self remainderOf: aPolynomial) isZero! !
 
-!PolynomialIdeal methodsFor: 'morphisms' stamp: 'len 7/2/2016 23:42'!
+!PolynomialIdeal methodsFor: 'morphisms' stamp: 'len 7/4/2016 06:41'!
 intersection: anIdeal
 	| R R` t T TminusOne G1 G2 G` G |
 	R _ self ambient.
 	R` _ R scalars polynomialsIn: R rank + 1 ordering: #lex.
-	t _ R` rank. "last indeterminate index"
+	t _ R` rank. "index of last indeterminate"
 	T _ R` x: t.
 	TminusOne _ T - T one.
 	G1 _ generators collect: [:f| T*(f as: R`)].
@@ -10023,18 +10023,18 @@ isHomogeneous
 isRadical
 	^ self = self radical! !
 
-!PolynomialIdeal methodsFor: 'testing' stamp: 'len 6/4/2016 00:07'!
+!PolynomialIdeal methodsFor: 'testing' stamp: 'len 7/4/2016 06:33'!
 isTrivial
 	"Answer true if the receiver is <1>."
-	^ self groebner anySatisfy: [:f| f isConstant]! !
+	^ self groebnerBasis anySatisfy: [:f| f isConstant]! !
 
 !PolynomialIdeal methodsFor: 'testing' stamp: 'len 5/9/2016 17:33'!
 isUnivariate
 	^ self generators anyOne species isUnivariate! !
 
-!PolynomialIdeal methodsFor: 'morphisms' stamp: 'len 7/3/2016 05:43'!
+!PolynomialIdeal methodsFor: 'morphisms' stamp: 'len 7/4/2016 06:33'!
 leadingIdeal
-	^ self class on: self ambient generators: (self groebner collect: [:each| each leadingTerm])! !
+	^ self class on: self ambient generators: (self groebnerBasis collect: [:each| each leadingTerm])! !
 
 !PolynomialIdeal methodsFor: 'morphisms' stamp: 'len 5/23/2016 04:20'!
 radical
@@ -10046,10 +10046,10 @@ remainderAtRandom: aRandom
 	ambient isUnivariate ifFalse: [^ self error: 'not yet implemented'].
 	^ ambient coefficients: ((0 to: self generator degree - 1) collect: [:i| ambient scalars atRandom: aRandom])! !
 
-!PolynomialIdeal methodsFor: 'operations' stamp: 'len 5/9/2016 17:32'!
+!PolynomialIdeal methodsFor: 'operations' stamp: 'len 7/4/2016 06:33'!
 remainderOf: aPolynomial
 	self isUnivariate ifTrue: [^ aPolynomial \\ self generator].
-	^ self groebner remainderOf: aPolynomial! !
+	^ self groebnerBasis remainderOf: aPolynomial! !
 
 !PolynomialIdeal methodsFor: 'morphisms' stamp: 'len 3/15/2016 18:05'!
 saturation: anIdeal
@@ -11916,10 +11916,10 @@ one: anElement
 polynomials
 	^ self polynomialsIn: #(x)! !
 
-!Ring methodsFor: 'morphisms' stamp: 'len 7/3/2016 04:52'!
+!Ring methodsFor: 'morphisms' stamp: 'len 7/4/2016 06:43'!
 polynomialsIn: anIntegerOrCollection
 	"Answer the ring of multivariate polynomials over the receiver in the given indeterminates."
-	^ self polynomialsIn: anIntegerOrCollection ordering: #trevlex! !
+	^ self polynomialsIn: anIntegerOrCollection ordering: #tlex! !
 
 !Ring methodsFor: 'morphisms' stamp: 'len 7/2/2016 23:46'!
 polynomialsIn: anIntegerOrCollection ordering: aMonomialOrdering
@@ -13912,11 +13912,11 @@ coordinateRing
 degree
 	^ ideal degree! !
 
-!AlgebraicSet methodsFor: 'accessing' stamp: 'len 6/4/2016 05:18'!
+!AlgebraicSet methodsFor: 'accessing' stamp: 'len 7/4/2016 06:32'!
 dimension
 	"This is the trascendence degree of the function field over the ground field."
 	| indeterminates G |
-	G _ ideal groebner minimal.
+	G _ ideal groebnerBasis minimal.
 	indeterminates _ G indeterminates asSet copy.
 	G do: [:each|
 		indeterminates removeAllFoundIn: (G ordering headOf: each) indeterminates].
@@ -13972,21 +13972,21 @@ intersection: anAlgebraicSet
 isAffine
 	^ space isKindOf: AffineSubspace! !
 
-!AlgebraicSet methodsFor: 'testing' stamp: 'len 3/18/2016 00:21'!
+!AlgebraicSet methodsFor: 'testing' stamp: 'len 7/4/2016 06:32'!
 isEmpty
 	"Answer true if the receiver is empty. 
 	Ref. Algorithmic Algebra, B. Mishra, pag. 142-145."
 	self flag: #fix. "should only test if the basis is {1}, and only works on an agebraically closed field"
-	ideal groebner
+	ideal groebnerBasis
 		do: [:each | (each isConstant and: [each isZero not]) ifTrue: [^ true]].
 	self space scalars isAlgebraicallyClosed ifFalse: [self error: 'the ground field is not algebraically closed'].
 	^ false! !
 
-!AlgebraicSet methodsFor: 'testing' stamp: 'len 6/3/2016 19:35'!
+!AlgebraicSet methodsFor: 'testing' stamp: 'len 7/4/2016 06:32'!
 isFinite
 	"This works for any Groebner basis, no matter the ordering."
 	ideal ambient indeterminates do: [:x|
-		(ideal groebner anySatisfy: [:f| | d m | m _ f leadingMonomial. d _ m degree. d > 0 and: [d = (m degreeIn: x)]])
+		(ideal groebnerBasis anySatisfy: [:f| | d m | m _ f leadingMonomial. d _ m degree. d > 0 and: [d = (m degreeIn: x)]])
 			ifFalse: [^ false]].
 	^ true! !
 
@@ -16841,12 +16841,12 @@ hessian
 	s2 _ Permutation new: 9 cycles: #((4 5 6) (7 9 8)).
 	^ self on: (1 to: 9) generators: {s1. s2}! !
 
-!PermutationGroup class methodsFor: 'examples' stamp: 'len 6/28/2016 06:12'!
+!PermutationGroup class methodsFor: 'examples' stamp: 'len 7/4/2016 05:02'!
 klein
 	"Answer the Klein four-group (or Vierergruppe) as a permutation group."
 	| a b |
-	a _ Permutation values: #(2 1 4 3).
-	b _ Permutation values: #(3 4 1 2).
+	a _ Permutation image: #(2 1 4 3).
+	b _ Permutation image: #(3 4 1 2).
 	"c _ Permutation values: #(4 3 2 1)."
 	^ self on: (1 to: 4) generators: {a.b} :: name: 'V' bold! !
 
@@ -21150,9 +21150,9 @@ aChange
 asArray
 	^ (1 to: map size) collect: [:each| self at: each]! !
 
-!Permutation methodsFor: 'converting' stamp: 'len 7/4/2016 02:52'!
+!Permutation methodsFor: 'converting' stamp: 'len 7/4/2016 05:01'!
 asStandardPermutationIn: anArray
-	^ StandardPermutation values: (anArray collect: [:each| anArray indexOf: (self at: each)])! !
+	^ StandardPermutation image: (anArray collect: [:each| anArray indexOf: (self at: each)])! !
 
 !Permutation methodsFor: 'accessing' stamp: 'len 6/28/2016 07:01'!
 at: anObject
@@ -21373,6 +21373,10 @@ cycle: aCollection
 cycles: anArray
 	^ anArray inject: Permutation new into: [:answer :each| answer @ (self cycle: each)]! !
 
+!Permutation class methodsFor: 'instance creation' stamp: 'len 7/4/2016 05:01'!
+image: anArray
+	^ StandardPermutation image: anArray! !
+
 !Permutation class methodsFor: 'instance creation' stamp: 'len 6/28/2016 06:09'!
 keys: anArray values: anotherArray
 	| answer |
@@ -21385,9 +21389,9 @@ new
 	"Answer a new instance of the receiver representing the identity permutation."
 	^ super new map: Dictionary2 new! !
 
-!Permutation class methodsFor: 'instance creation' stamp: 'len 6/29/2016 00:37'!
+!Permutation class methodsFor: 'instance creation' stamp: 'len 7/4/2016 05:01'!
 new: anInteger
-	^ StandardPermutation values: (1 to: anInteger) asArray! !
+	^ StandardPermutation image: (1 to: anInteger) asArray! !
 
 !Permutation class methodsFor: 'instance creation' stamp: 'len 6/29/2016 00:38'!
 new: n cycle: aCollection
@@ -21419,10 +21423,6 @@ transpose: anObject with: anotherObject
 		at: anObject put: anotherObject;
 		at: anotherObject put: anObject;
 		yourself! !
-
-!Permutation class methodsFor: 'instance creation' stamp: 'len 6/29/2016 00:39'!
-values: anArray
-	^ StandardPermutation values: anArray! !
 
 !PermutationCycle methodsFor: 'accessing' stamp: 'len 5/6/98 04:59'!
 cycleAt: anObject
@@ -21484,7 +21484,7 @@ transpositions
 	(aPermutation isKindOf: self class) ifFalse: [^ super = aPermutation].
 	^ map = aPermutation map! !
 
-!StandardPermutation methodsFor: 'arithmetic' stamp: 'len 7/1/2016 09:54'!
+!StandardPermutation methodsFor: 'arithmetic' stamp: 'len 7/4/2016 05:02'!
 @ aPermutation
 	"Answer the composition of the receiver with the argument."
 
@@ -21495,7 +21495,7 @@ transpositions
 	newMap _ Array new: map size.
 	1 to: map size do: [:i|
 		newMap at: i put: (otherMap at: (map at: i))]. 
-	^ self class values: newMap! !
+	^ self class image: newMap! !
 
 !StandardPermutation methodsFor: 'converting' stamp: 'len 6/28/2016 23:57'!
 asPermutationIn: anArray
@@ -21518,16 +21518,16 @@ identity
 	"Answer the identity permutation."
 	^ self class new: self degree! !
 
-!StandardPermutation methodsFor: 'arithmetic' stamp: 'len 6/28/2016 07:28'!
+!StandardPermutation methodsFor: 'arithmetic' stamp: 'len 7/4/2016 05:02'!
 inverse
 	"Answer the compositive inverse of the receiver."
 	| values |
 	values _ map copy.
 	1 to: map size do: [:i| values at: (map at: i) put: i].
-	^ self class values: values! !
+	^ self class image: values! !
 
-!StandardPermutation class methodsFor: 'instance creation' stamp: 'len 6/28/2016 07:13'!
-values: anArray
+!StandardPermutation class methodsFor: 'instance creation' stamp: 'len 7/4/2016 06:34'!
+image: anArray
 	^ self basicNew map: anArray! !
 
 !PolynomialFunction methodsFor: 'operations' stamp: 'len 3/4/2016 19:54'!
@@ -26665,6 +26665,15 @@ leadingMonomialOf: aPolynomial
 leadingTermOf: aPolynomial
 	^ aPolynomial termAt: (self leadingMonomialOf: aPolynomial)! !
 
+!MonomialOrdering methodsFor: 'printing' stamp: 'len 7/4/2016 06:26'!
+printOn: aStream
+	self type isNil
+		ifTrue: [super printOn: aStream]
+		ifFalse: [aStream nextPutAll: self type].
+	aStream nextPut: $[.
+	self indeterminates do: [:i| aStream print: (Monomial x: i)] separatedBy: [aStream nextPut: $,].
+	aStream nextPut: $]! !
+
 !MonomialOrdering methodsFor: 'accessing' stamp: 'len 7/4/2016 00:40'!
 rank
 	^ indeterminates size! !
@@ -26834,21 +26843,21 @@ is: aMonomial gneq: anotherMonomial
 		a = b ifFalse: [^ a > b]].
 	^ false! !
 
-!WeightedMonomialOrdering methodsFor: 'printing' stamp: 'len 7/2/2016 23:26'!
+!WeightedMonomialOrdering methodsFor: 'printing' stamp: 'len 7/4/2016 06:26'!
 printOn: aStream
-	type notNil
-		ifTrue: [aStream nextPutAll: type].
-	aStream nextPut: $[.
-	self indeterminates do: [:i| aStream print: (Monomial x: i)] separatedBy: [aStream nextPut: $,].
-	aStream nextPut: $].
-	type isNil
-		ifTrue: [aStream space. self weights do: [:each| aStream print: each] separatedBy: [aStream space]]! !
+	super printOn: aStream.
+	aStream space.
+	self weights do: [:each| aStream print: each] separatedBy: [aStream space]! !
 
 !WeightedMonomialOrdering methodsFor: 'arithmetic' stamp: 'len 7/3/2016 02:22'!
 reverse
 	^ self class
 		new: self rank
 		weights: (self weights collect: [:each| each negated])! !
+
+!WeightedMonomialOrdering methodsFor: 'accessing' stamp: 'len 7/4/2016 06:23'!
+type
+	^ #weighted! !
 
 !WeightedMonomialOrdering methodsFor: 'accessing' stamp: 'len 7/2/2016 23:18'!
 weights
@@ -33683,7 +33692,7 @@ testEqualVarietiesDifferentIdeals2
 	self assert: V = V`.
 	self assert: I ~= I`! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 6/6/2016 08:44'!
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 7/4/2016 06:32'!
 testGroebnerTrivial
 	"The 3 polynomials have no common zeroes, the groebner basis should be {1}."
 	| Qx x y I |
@@ -33691,7 +33700,7 @@ testGroebnerTrivial
 	x _ Qx x.
 	y _ Qx y.
 	I _ Qx * {x + y. x**2 - 1. y**2 - (x*2)}.
-	self assert: I groebner minimal isTrivial! !
+	self assert: I groebnerBasis minimal isTrivial! !
 
 !AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 3/24/2016 05:51'!
 testIdealHomogenization
