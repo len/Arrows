@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 4 July 2016 at 3:21:00.973671 am'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 4 July 2016 at 4:49:28.199514 am'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 135!
+!provides: 'Mathematics' 1 136!
 !classDefinition: #AbelianGroupPresentation category: #'Mathematics-Free'!
 Object subclass: #AbelianGroupPresentation
 	instanceVariableNames: 'generators relators'
@@ -3013,7 +3013,7 @@ SchreierSims class
 
 !classDefinition: #SchreierTree category: #'Mathematics-Groups-Algorithms'!
 Object subclass: #SchreierTree
-	instanceVariableNames: 'v w orbit root generators action'
+	instanceVariableNames: 'root generators action v w orbit'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Groups-Algorithms'!
@@ -9387,10 +9387,10 @@ atRandom: aRandom bits: bitSize
 	properties at: #elements ifPresent: [:aCollection| ^ (aCollection is: #Domain) ifTrue: [aCollection atRandom: aRandom bits: bitSize] ifFalse: [aCollection atRandom: aRandom]].
 	^ self subclassResponsibility! !
 
-!Domain methodsFor: 'random' stamp: 'len 6/10/2016 23:20'!
+!Domain methodsFor: 'random' stamp: 'len 7/4/2016 03:30'!
 atRandomBits: n
 	"Answer an element of the receiver of at most n bits (as measured by #bitSize). The total number of elements that could be returned shouldn't exceed 2^n."
-	^ self random bits: n; next! !
+	^ Random withDefaultDo: [:aRandom| self atRandom: aRandom bits: n]! !
 
 !Domain methodsFor: 'morphisms' stamp: 'len 4/21/2016 05:08'!
 cartesian: aDomain
@@ -11192,7 +11192,7 @@ printOn: aStream
 project: aVector
 	^ self projection value: aVector! !
 
-!LinearSubspace methodsFor: 'morphisms' stamp: 'len 2/24/2016 08:12'!
+!LinearSubspace methodsFor: 'morphisms' stamp: 'len 7/4/2016 04:48'!
 projection
 	"Answer an orthogonal projection on the receiver. A projection P is a linear transformation from the ambient vector space to a subspace such that P^2 = P (idempotent)."
 	| answer B B` K matrix |
@@ -20718,10 +20718,10 @@ on: aDomain
 			ifFalse: [^ false]].
 	^ true! !
 
-!LinearMap methodsFor: 'arithmetic' stamp: 'len 7/1/2016 21:32'!
+!LinearMap methodsFor: 'arithmetic' stamp: 'len 7/4/2016 04:48'!
 @ aLinearMap
 	"Answer the composition of the receiver with the argument."
-	domainBasis = aLinearMap domainBasis
+	domainBasis = aLinearMap codomainBasis
 		ifTrue: [^ self class from: aLinearMap domainBasis to: codomainBasis matrix: matrix * aLinearMap matrix].
 	self domain >= aLinearMap codomain
 		ifFalse: [^ DomainError signal: 'domains don''t match'].
@@ -21873,7 +21873,7 @@ codomain
 domain
 	^ domain! !
 
-!RationalMap methodsFor: 'accessing' stamp: 'len 7/2/2016 23:41'!
+!RationalMap methodsFor: 'accessing' stamp: 'len 7/4/2016 03:40'!
 implicit
 	| normal tindets y n generators g ordering basis answer |
 	normal _ self copy normalize.
@@ -21886,7 +21886,7 @@ implicit
 					ifTrue: [each denominator]
 					ifFalse: [g * each denominator]].
 	generators add: g identity - (g * (Polynomial x: y)).
-	ordering _ WeightedMonomialOrdering lex: (1 to: n), tindets , (Array with: y).
+	ordering _ MonomialOrdering lex: (1 to: n), tindets , {y}.
 	ordering _ ordering inverse.
 	basis _ (GroebnerBasis from: generators ordering: ordering) minimal.
 	answer _ PolynomialSystem new.
@@ -30669,10 +30669,10 @@ remainder
 	remainder isNil ifTrue: [self divide].
 	^ remainder! !
 
-!PolynomialPseudoDivision methodsFor: 'private' stamp: 'len 3/8/2016 21:42'!
+!PolynomialPseudoDivision methodsFor: 'private' stamp: 'len 7/4/2016 04:37'!
 verify
 	| a b |
-	a _ (divisor leadingCoefficient ** self delta) * dividend.
+	a _ dividend * (divisor leadingCoefficient ** self delta).
 	b _ self quotient * divisor + self remainder.
 	^ a = b! !
 
@@ -35331,7 +35331,7 @@ testMonomialOrderingsExample
 	self assert: (grlex is: a gneq: b).
 	self assert: (grevlex is: b gneq: a)! !
 
-!MonomialTest methodsFor: 'as yet unclassified' stamp: 'len 7/3/2016 02:15'!
+!MonomialTest methodsFor: 'as yet unclassified' stamp: 'len 7/4/2016 03:41'!
 testMonomialOrderingsOfIndeterminates
 	| x y z |
 	x _ Monomial x: 1.
@@ -35341,8 +35341,19 @@ testMonomialOrderingsOfIndeterminates
 	MonomialOrdering revlex: 3.
 	MonomialOrdering tlex: 3.
 	MonomialOrdering trevlex: 3} do: [:ordering| 
-	self assert: (ordering is: x gneq: y).
-	self assert: (ordering is: y gneq: z)]! !
+		self assert: (ordering is: x gneq: y).
+		self assert: (ordering is: y gneq: z)]! !
+
+!MonomialTest methodsFor: 'as yet unclassified' stamp: 'len 7/4/2016 03:44'!
+testMonomialOrderingsOfIndeterminatesReordered
+	| x y z ordering |
+	x _ Monomial x: 1.
+	y _ Monomial x: 2.
+	z _ Monomial x: 3.
+	ordering _ MonomialOrdering lex: #(2 1 3).
+	self assert: (ordering is: y gneq: x).
+	self assert: (ordering is: x gneq: z).
+! !
 
 !MonomialTest methodsFor: 'as yet unclassified' stamp: 'len 7/3/2016 02:07'!
 testMonomialProduct
@@ -35484,12 +35495,12 @@ testDiscriminant
 	g _ x**3 + 1.
 	self assert: (f*g) discriminant = (f discriminant * g discriminant * (f resultant: g) squared)! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 5/22/2016 23:05'!
-testDivision: R
-	| Rx f g |
-	Rx _ R polynomials.
-	f _ Rx atRandomBits: 100 maxDegree: 10 atRandom.
-	[g _ Rx atRandomBits: 100 maxDegree: 10 atRandom. g isZero] whileTrue.
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 7/4/2016 04:33'!
+testDivision: F
+	| Fx f g |
+	Fx _ F polynomials.
+	f _ Fx atRandomBits: 100 maxDegree: 10 atRandom.
+	[g _ Fx atRandomBits: 100 maxDegree: 10 atRandom. g isZero] whileTrue.
 	self assert: (f // g) * g + (f \\ g) = f! !
 
 !PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 3/31/2016 07:02'!
@@ -35497,16 +35508,12 @@ testDivisionQ
 	self testDivision: Rationals new! !
 
 !PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 3/31/2016 07:02'!
-testDivisionZ
-	self testDivision: Integers new! !
-
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 3/31/2016 07:02'!
 testDivisionZ2
 	self testDivision: (Field GF: 2)! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 5/22/2016 23:10'!
-testDivisionZ6
-	self testDivision: (Integers new mod: 6)! !
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 7/4/2016 04:39'!
+testDivisionZ65535
+	self testDivision: (Field GF: 2**17 - 1)! !
 
 !PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 4/19/2016 04:10'!
 testDomainError
@@ -35820,7 +35827,7 @@ testInterpolation2
 	self assert: (f value: 2) = 4.
 	self assert: (f value: 3) = 9! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 7/2/2016 23:39'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 7/4/2016 03:41'!
 testMultivariateDivision
 	"Example from Cox IVA 62 p."
 	| Zxy x y f f1 f2 division |
@@ -35830,12 +35837,12 @@ testMultivariateDivision
 	f _ x*(y**2)+1.
 	f1 _ x*y+1.
 	f2 _ y+1.
-	division _ f divideBy: {f1. f2} ordering: (WeightedMonomialOrdering lex: #(2 1)).
+	division _ f divideBy: {f1. f2} ordering: (MonomialOrdering lex: #(2 1)).
 	self assert: division quotients = {y. y one negated}.
 	self assert: division remainder = (y one * 2).
 	self assert: division verify! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 7/2/2016 23:40'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 7/4/2016 03:41'!
 testMultivariateDivision2
 	"Example from Cox IVA 63 p."
 	| Zxy x y f f1 f2 division |
@@ -35845,12 +35852,12 @@ testMultivariateDivision2
 	f _ x**2*y + (x*(y**2)) + (y**2).
 	f1 _ x*y-1.
 	f2 _ y**2-1.
-	division _ f divideBy: {f1. f2} ordering: (WeightedMonomialOrdering lex: #(2 1)).
+	division _ f divideBy: {f1. f2} ordering: (MonomialOrdering lex: #(2 1)).
 	self assert: division quotients = {x+y. y one}.
 	self assert: division remainder = (x+y+1).
 	self assert: division verify! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 7/2/2016 23:40'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 7/4/2016 03:41'!
 testMultivariateDivision3
 	"Example from Cox IVA 67 p."
 	| Zxy x y f f1 f2 division |
@@ -35860,7 +35867,7 @@ testMultivariateDivision3
 	f _ x**2*y + (x*(y**2)) + (y**2).
 	f1 _ x*y-1.
 	f2 _ y**2-1.
-	division _ f divideBy: {f2. f1} ordering: (WeightedMonomialOrdering lex: #(2 1)).
+	division _ f divideBy: {f2. f1} ordering: (MonomialOrdering lex: #(2 1)).
 	self assert: division quotients = {x+1. x}.
 	self assert: division remainder = (x*2+1).
 	self assert: division verify! !
@@ -35917,6 +35924,15 @@ testPseudoDivision3
 	self assert: division remainder asMultivariate = (x**2 * 2).
 	self assert: division verify! !
 
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 7/4/2016 04:35'!
+testPseudoDivision: R
+	| Rx f g div |
+	Rx _ R polynomials.
+	f _ Rx atRandomBits: 100 maxDegree: 10 atRandom.
+	[g _ Rx atRandomBits: 100 maxDegree: 10 atRandom. g isZero] whileTrue.
+	div _ f pseudoDivideBy: g.
+	self assert: div verify! !
+
 !PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 12/11/2015 06:14'!
 testPseudoDivisionUnivariate
 	| Zx x division |
@@ -35936,6 +35952,14 @@ testPseudoDivisionUnivariate2
 	a _ Zx coefficients: #(1 0 1 0 -3 -3 8 2 -5) reversed.
 	b _ Zx coefficients: #(3 0 5 0 -4 -9 21) reversed.
 	^ self assert: (a pseudoDivideBy: b) verify! !
+
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 7/4/2016 04:34'!
+testPseudoDivisionZ
+	self testPseudoDivision: Integers new! !
+
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 7/4/2016 04:33'!
+testPseudoDivisionZ6
+	self testPseudoDivision: (Integers new mod: 6)! !
 
 !PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 3/8/2016 22:06'!
 testPseudoRemainder
