@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 4 July 2016 at 7:30:54.347413 am'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 4 July 2016 at 9:17:21.2043 am'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 139!
+!provides: 'Mathematics' 1 140!
 !classDefinition: #AbelianGroupPresentation category: #'Mathematics-Free'!
 Object subclass: #AbelianGroupPresentation
 	instanceVariableNames: 'generators relators'
@@ -5412,10 +5412,14 @@ setUp
 tearDown
 	^ self! !
 
-!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 7/2/2016 23:10'!
+!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 7/4/2016 08:36'!
 cyclic: n
+	^ self cyclic: n over: Rationals new! !
+
+!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 7/4/2016 08:36'!
+cyclic: n over: scalars
 	| P singles generators |
-	P _ Rationals new polynomialsIn: n.
+	P _ scalars polynomialsIn: n.
 	singles _ (1 to: n) collect: [:i| P x: i].
 	generators _ OrderedCollection new.
 	1 to: n-1 do: [:k | | f |
@@ -5470,6 +5474,18 @@ katsura5
 		y**2 + (x*z*2) + (y*t*2) + (z*u*2) - z.
 		y*z*2 + (x*t*2) + (y*u*2) - t}! !
 
+!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 7/4/2016 08:36'!
+modularCyclic: n
+	^ self cyclic: n over: (Field GF: 32003)! !
+
+!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 7/4/2016 08:40'!
+modularKatsura2
+	| P x y |
+	P _ (Field GF: 32003) polynomialsIn: #(x y).
+	x _ P x.
+	y _ P y.
+	^ P * {x + (y*2) - 1. x**2 + (y**2 * 2) - x}! !
+
 !GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 7/4/2016 06:32'!
 testCyclic3
 	self cyclic: 3 :: groebnerBasis! !
@@ -5497,6 +5513,14 @@ testKatsura2
 !GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 7/4/2016 06:33'!
 testKatsura3
 	self katsura3 :: groebnerBasis! !
+
+!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 7/4/2016 08:37'!
+testModularCyclic3
+	self modularCyclic: 3 :: groebnerBasis! !
+
+!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 7/4/2016 08:40'!
+testModularKatsura2
+	self modularKatsura2 :: groebnerBasis! !
 
 !IntegersBenchmark methodsFor: 'as yet unclassified' stamp: 'len 7/3/2016 04:28'!
 test1000Factorial
@@ -8386,27 +8410,31 @@ from: aCollection
 	"Answer a new instance of the receiver representing a Groebner basis obtainded from aCollection of generators."
 	^ self from: aCollection ordering: aCollection anyOne species ordering! !
 
-!GroebnerBasis class methodsFor: 'instance creation' stamp: 'len 7/4/2016 07:23'!
+!GroebnerBasis class methodsFor: 'instance creation' stamp: 'len 7/4/2016 09:16'!
 from: aCollection ordering: aMonomialOrdering 
 	"Answer a new instance of the receiver representing a Groebner basis obtainded from aCollection of polynomials operating with the ordering aMonomialOrdering."
-	| basis newPolynomials rem lcm p q hp hq hpc hqc |
+	| basis newPolynomials rem lcm p q hp hq hpc hqc heads start |
 	aCollection anyOne scalars isField ifFalse: [^ DomainError signal: 'not over a field'].
 	basis _ self new ordering: aMonomialOrdering; addAll: aCollection; yourself.
+	heads _ Dictionary2 new.
+	start _ 1.
 	[newPolynomials _ OrderedCollection new.
 	1 to: basis size do: [:i|
 		p _ basis at: i.
-		hp _ aMonomialOrdering headOf: p.
+		hp _ heads at: i ifAbsentPut: [aMonomialOrdering headOf: p].
 		hpc _ p coefficientAt: hp.
-		i+1 to: basis size do: [:k|
+		i+start to: basis size do: [:k|
 			q _ basis at: k.
-			hq _ aMonomialOrdering headOf: q.
+			hq _ heads at: k ifAbsentPut: [aMonomialOrdering headOf: q].
 			hqc _ q coefficientAt: hq.
 			lcm _ hp lcm: hq.
 			rem _ basis remainderOf: p * (lcm / hp) / hpc - (q * (lcm / hq) / hqc).
-			rem isZero ifFalse: [newPolynomials add: rem]]].
+			rem isZero ifFalse: ["Display fill: (i@k extent: 1@1) fillColor: Color yellow." newPolynomials add: rem]]].
 	newPolynomials isEmpty]
 		whileFalse: "this is like Magma's ReduceByNew=True"
-			[newPolynomials do: [:each| (basis remainderOf: each) isZero ifFalse: [basis add: each]]].
+			[start _ basis size.
+			basis add: newPolynomials first.
+			newPolynomials allButFirstDo: [:each| (basis remainderOf: each) isZero ifFalse: [basis add: each]]].
 	^ basis! !
 
 !GroebnerBasis class methodsFor: 'instance creation' stamp: 'len 11/20/2015 05:16'!
