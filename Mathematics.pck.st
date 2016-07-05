@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 4 July 2016 at 9:17:21.2043 am'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 5 July 2016 at 2:52:45.620209 am'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 140!
+!provides: 'Mathematics' 1 141!
 !classDefinition: #AbelianGroupPresentation category: #'Mathematics-Free'!
 Object subclass: #AbelianGroupPresentation
 	instanceVariableNames: 'generators relators'
@@ -241,13 +241,13 @@ OrderedTuple subclass: #Tuple
 Tuple class
 	instanceVariableNames: ''!
 
-!classDefinition: #GroebnerBasis category: #'Mathematics-Geometry-Algebraic'!
+!classDefinition: #GroebnerBasis category: #'Mathematics-Polynomials-Domains'!
 SequenceableCollection subclass: #GroebnerBasis
 	instanceVariableNames: 'polynomials ordering isMinimal'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Geometry-Algebraic'!
-!classDefinition: 'GroebnerBasis class' category: #'Mathematics-Geometry-Algebraic'!
+	category: 'Mathematics-Polynomials-Domains'!
+!classDefinition: 'GroebnerBasis class' category: #'Mathematics-Polynomials-Domains'!
 GroebnerBasis class
 	instanceVariableNames: ''!
 
@@ -431,23 +431,23 @@ Ideal subclass: #IntegerIdeal
 IntegerIdeal class
 	instanceVariableNames: ''!
 
-!classDefinition: #PolynomialIdeal category: #'Mathematics-Geometry-Algebraic'!
+!classDefinition: #PolynomialIdeal category: #'Mathematics-Polynomials-Domains'!
 Ideal subclass: #PolynomialIdeal
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Geometry-Algebraic'!
-!classDefinition: 'PolynomialIdeal class' category: #'Mathematics-Geometry-Algebraic'!
+	category: 'Mathematics-Polynomials-Domains'!
+!classDefinition: 'PolynomialIdeal class' category: #'Mathematics-Polynomials-Domains'!
 PolynomialIdeal class
 	instanceVariableNames: ''!
 
-!classDefinition: #MonomialIdeal category: #'Mathematics-Geometry-Algebraic'!
+!classDefinition: #MonomialIdeal category: #'Mathematics-Polynomials-Domains'!
 PolynomialIdeal subclass: #MonomialIdeal
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Geometry-Algebraic'!
-!classDefinition: 'MonomialIdeal class' category: #'Mathematics-Geometry-Algebraic'!
+	category: 'Mathematics-Polynomials-Domains'!
+!classDefinition: 'MonomialIdeal class' category: #'Mathematics-Polynomials-Domains'!
 MonomialIdeal class
 	instanceVariableNames: ''!
 
@@ -3313,8 +3313,17 @@ Structure:
 
 !
 
-!GroebnerBasisBenchmark commentStamp: 'len 7/4/2016 07:27' prior: 0!
+!GroebnerBasisBenchmark commentStamp: '<historical>' prior: 0!
 GroebnerBasisBenchmark new run
+
+testCyclic3	1,060 per second.
+testCyclic4	56.3 per second.
+testCyclic5	1.08 per second.
+testElimination	241 per second.
+testKatsura2	4,790 per second.
+testKatsura3	11.5 per second.
+testModularCyclic3	173 per second.
+testModularKatsura2	200 per second.
 
 testCyclic3	615 per second.
 testCyclic4	29.2 per second.
@@ -8405,31 +8414,83 @@ size
 species
 	^ Array! !
 
-!GroebnerBasis class methodsFor: 'instance creation' stamp: 'len 3/16/2016 04:30'!
-from: aCollection
-	"Answer a new instance of the receiver representing a Groebner basis obtainded from aCollection of generators."
-	^ self from: aCollection ordering: aCollection anyOne species ordering! !
-
-!GroebnerBasis class methodsFor: 'instance creation' stamp: 'len 7/4/2016 09:16'!
-from: aCollection ordering: aMonomialOrdering 
+!GroebnerBasis class methodsFor: 'instance creation' stamp: 'len 7/5/2016 01:42'!
+from2: aCollection ordering: aMonomialOrdering 
 	"Answer a new instance of the receiver representing a Groebner basis obtainded from aCollection of polynomials operating with the ordering aMonomialOrdering."
-	| basis newPolynomials rem lcm p q hp hq hpc hqc heads start |
+	| basis newPolynomials rem lcm fi hi ci fk hk ck heads start |
 	aCollection anyOne scalars isField ifFalse: [^ DomainError signal: 'not over a field'].
 	basis _ self new ordering: aMonomialOrdering; addAll: aCollection; yourself.
 	heads _ Dictionary2 new.
 	start _ 1.
 	[newPolynomials _ OrderedCollection new.
 	1 to: basis size do: [:i|
-		p _ basis at: i.
-		hp _ heads at: i ifAbsentPut: [aMonomialOrdering headOf: p].
-		hpc _ p coefficientAt: hp.
+		fi _ basis at: i.
+		hi _ heads at: i ifAbsentPut: [aMonomialOrdering headOf: fi].
+		ci _ fi coefficientAt: hi.
 		i+start to: basis size do: [:k|
-			q _ basis at: k.
-			hq _ heads at: k ifAbsentPut: [aMonomialOrdering headOf: q].
-			hqc _ q coefficientAt: hq.
-			lcm _ hp lcm: hq.
-			rem _ basis remainderOf: p * (lcm / hp) / hpc - (q * (lcm / hq) / hqc).
-			rem isZero ifFalse: ["Display fill: (i@k extent: 1@1) fillColor: Color yellow." newPolynomials add: rem]]].
+			fk _ basis at: k.
+			hk _ heads at: k ifAbsentPut: [aMonomialOrdering headOf: fk].
+			ck _ fk coefficientAt: hk.
+			lcm _ hi lcm: hk.
+"			(lcm ~= (hi * hk) and: [heads anySatisfy: [:any| any | lcm]]) ifFalse:"
+			rem _ basis remainderOf: fi * (lcm / hi) / ci - (fk * (lcm / hk) / ck).
+			rem isZero ifFalse: ["Display fill: (i@k*4 extent: 3@3) fillColor: Color yellow." newPolynomials add: rem]]].
+	newPolynomials isEmpty]
+		whileFalse: "this is like Magma's ReduceByNew=True"
+			[start _ basis size.
+			basis add: newPolynomials first.
+			newPolynomials allButFirstDo: [:each| (basis remainderOf: each) isZero ifFalse: [basis add: each]]].
+	^ basis! !
+
+!GroebnerBasis class methodsFor: 'instance creation' stamp: 'len 7/5/2016 01:42'!
+from3: aCollection ordering: aMonomialOrdering 
+	"Answer a new instance of the receiver representing a Groebner basis obtainded from aCollection of polynomials operating with the ordering aMonomialOrdering."
+	| basis fi hi ci fk hk ck lcm rem heads start i |
+	aCollection anyOne scalars isField ifFalse: [^ DomainError signal: 'not over a field'].
+	basis _ self new ordering: aMonomialOrdering; addAll: aCollection; yourself.
+	heads _ Dictionary2 new.
+	start _ 1.
+	i _ 0.
+	[(i _ i + 1) <= basis size] whileTrue:
+		[fi _ basis at: i.
+		hi _ heads at: i ifAbsentPut: [aMonomialOrdering headOf: fi].
+		ci _ fi coefficientAt: hi.
+		i+start to: basis size do: [:k|
+			[fk _ basis at: k.
+			hk _ heads at: k ifAbsentPut: [aMonomialOrdering headOf: fk].
+			ck _ fk coefficientAt: hk.
+			lcm _ hi lcm: hk.
+			rem _ basis remainderOf: fi * (lcm / hi) / ci - (fk * (lcm / hk) / ck).
+			rem isZero ifFalse: ["Display fill: (i@k*4 extent: 3@3) fillColor: Color yellow." basis add: rem]]]].
+	^ basis! !
+
+!GroebnerBasis class methodsFor: 'instance creation' stamp: 'len 3/16/2016 04:30'!
+from: aCollection
+	"Answer a new instance of the receiver representing a Groebner basis obtainded from aCollection of generators."
+	^ self from: aCollection ordering: aCollection anyOne species ordering! !
+
+!GroebnerBasis class methodsFor: 'instance creation' stamp: 'len 7/5/2016 02:09'!
+from: aCollection ordering: aMonomialOrdering 
+	"Buchberger algorithm.
+	Answer a Groebner basis obtainded from the given polynomials and ordering."
+	| basis newPolynomials rem lcm fi hi ci fk hk ck heads start |
+	aCollection anyOne scalars isField ifFalse: [^ DomainError signal: 'not over a field'].
+	basis _ self new ordering: aMonomialOrdering; addAll: aCollection; yourself.
+	heads _ Dictionary2 new.
+	start _ 1.
+	[newPolynomials _ OrderedCollection new.
+	1 to: basis size do: [:i|
+		fi _ basis at: i.
+		hi _ heads at: i ifAbsentPut: [aMonomialOrdering headOf: fi].
+		ci _ fi coefficientAt: hi.
+		i+start to: basis size do: [:k|
+			fk _ basis at: k.
+			hk _ heads at: k ifAbsentPut: [aMonomialOrdering headOf: fk].
+			ck _ fk coefficientAt: hk.
+			lcm _ hi lcm: hk.
+"			(lcm ~= (hi * hk) and: [heads anySatisfy: [:any| any | lcm]]) ifFalse:"
+			rem _ basis remainderOf: fi * (lcm / hi) / ci - (fk * (lcm / hk) / ck).
+			rem isZero ifFalse: ["Display fill: (i@k*4 extent: 3@3) fillColor: Color yellow." newPolynomials add: rem]]].
 	newPolynomials isEmpty]
 		whileFalse: "this is like Magma's ReduceByNew=True"
 			[start _ basis size.
@@ -9434,10 +9495,10 @@ atRandom: aRandom bits: bitSize
 	properties at: #elements ifPresent: [:aCollection| ^ (aCollection is: #Domain) ifTrue: [aCollection atRandom: aRandom bits: bitSize] ifFalse: [aCollection atRandom: aRandom]].
 	^ self subclassResponsibility! !
 
-!Domain methodsFor: 'random' stamp: 'len 7/4/2016 03:30'!
-atRandomBits: n
+!Domain methodsFor: 'random' stamp: 'len 7/5/2016 02:29'!
+atRandomBits: bitSize
 	"Answer an element of the receiver of at most n bits (as measured by #bitSize). The total number of elements that could be returned shouldn't exceed 2^n."
-	^ Random withDefaultDo: [:aRandom| self atRandom: aRandom bits: n]! !
+	^ Random withDefaultDo: [:aRandom| self atRandom: aRandom bits: bitSize]! !
 
 !Domain methodsFor: 'morphisms' stamp: 'len 4/21/2016 05:08'!
 cartesian: aDomain
@@ -13252,24 +13313,30 @@ asUnivariateIn: anIndeterminate
 asVectorSpaceMaxDegree: n
 	^ PolynomialSpace new polynomials: self; degree: n! !
 
-!Polynomials methodsFor: 'random' stamp: 'len 4/19/2016 20:24'!
+!Polynomials methodsFor: 'random' stamp: 'len 7/5/2016 02:51'!
 atRandom: aRandom bits: bitSize
-	^ self atRandom: aRandom bits: bitSize maxDegree: (bitSize + 1 atRandom: aRandom) - 1! !
+	^ self atRandom: aRandom bits: bitSize maxDegree: (bitSize**(1/rank) min: bitSize - 1) truncated! !
 
-!Polynomials methodsFor: 'random' stamp: 'len 5/9/2016 20:36'!
+!Polynomials methodsFor: 'random' stamp: 'len 7/5/2016 02:48'!
 atRandom: aRandom bits: bitSize maxDegree: d
-	self isUnivariate ifFalse: [^ self notYetImplemented].
-	^ self coefficients: (self scalars ** (d+1) evaluating: [:i| self scalars atRandom: aRandom bits: bitSize / (d+1)])! !
+	| answer term n |
+	self isUnivariate
+		ifTrue: [^ self coefficients: (scalars ** (d+1) atRandom: aRandom bits: bitSize)].
+	answer _ self zero.
+	n _ 2**rank.
+	n timesRepeat:
+		[term _ ((1 to: d) product: [:i| self x: (rank atRandom: aRandom) to: (2 atRandom: aRandom) - 1]) * (scalars atRandom: aRandom bits: bitSize/(rank*d)).
+		answer _ answer + term].
+	^ answer! !
 
 !Polynomials methodsFor: 'random' stamp: 'len 4/19/2016 20:23'!
 atRandom: aRandom maxDegree: d
 	self isUnivariate ifFalse: [^ self notYetImplemented].
 	^ self coefficients: (self scalars ** d evaluating: [:i| self scalars atRandom: aRandom])! !
 
-!Polynomials methodsFor: 'random' stamp: 'len 4/19/2016 20:25'!
+!Polynomials methodsFor: 'random' stamp: 'len 7/5/2016 02:29'!
 atRandomBits: bitSize maxDegree: d
-	self isUnivariate ifFalse: [^ self notYetImplemented].
-	^ self coefficients: (self scalars ** d evaluating: [:i| self scalars atRandomBits: bitSize / d])! !
+	^ Random withDefaultDo: [:aRandom| self atRandom: aRandom bits: bitSize maxDegree: d]! !
 
 !Polynomials methodsFor: 'random' stamp: 'len 2/24/2016 23:33'!
 atRandomDegree: d
@@ -28119,7 +28186,7 @@ x: aPoint
 origin
 	^ self morphLocalBounds center! !
 
-!MultiPolynomialDivision methodsFor: 'private' stamp: 'len 7/3/2016 05:11'!
+!MultiPolynomialDivision methodsFor: 'private' stamp: 'len 7/4/2016 18:34'!
 divide
 	"Perform the division algorithm computing quotients and remainder."
 	| p s zero fi q headp headfi t heads i found |
@@ -28145,7 +28212,7 @@ divide
 				p _ p - (fi * q)]
 			ifFalse:
 				[remainder _ remainder + t.
-					p _ p - t]]! !
+				p _ p - t]]! !
 
 !MultiPolynomialDivision methodsFor: 'initialization' stamp: 'len 12/6/2015 19:03'!
 divide: aPolynomial by: anArrayOfPolynomials
