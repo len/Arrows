@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 7 July 2016 at 4:54:34.233149 am'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 7 July 2016 at 5:50:07.281951 am'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 142!
+!provides: 'Mathematics' 1 143!
 !classDefinition: #AbelianGroupPresentation category: #'Mathematics-Free'!
 Object subclass: #AbelianGroupPresentation
 	instanceVariableNames: 'generators relators'
@@ -3315,6 +3315,15 @@ Structure:
 
 !GroebnerBasisBenchmark commentStamp: '<historical>' prior: 0!
 GroebnerBasisBenchmark new run
+
+'testCyclic3	1,080 per second.
+testCyclic4	36.8 per second.
+testCyclic5	1.19 per second.
+testElimination	77.1 per second.
+testKatsura2	3,810 per second.
+testKatsura3	26.1 per second.
+testModularCyclic3	173 per second.
+testModularKatsura2	201 per second.' 
 
 testCyclic3	1,060 per second.
 testCyclic4	56.3 per second.
@@ -8419,7 +8428,7 @@ printOn: aStream
 	polynomials do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: '. '].
 	aStream nextPut: $}! !
 
-!GroebnerBasis methodsFor: 'operations' stamp: 'len 7/7/2016 03:10'!
+!GroebnerBasis methodsFor: 'operations' stamp: 'len 7/7/2016 05:23'!
 reduce: aPolynomial 
 	"Answer the remainder of the argument when divided by the receiver."
 	| division |
@@ -8427,7 +8436,7 @@ reduce: aPolynomial
 		divide: aPolynomial
 		by: self
 		ordering: self ordering.
-	division verify ifFalse: [self halt].
+"	division verify ifFalse: [self halt]."
 	^ division remainder! !
 
 !GroebnerBasis methodsFor: 'operations' stamp: 'len 12/14/2015 19:04'!
@@ -8435,8 +8444,9 @@ reduced
 	self isReduced ifFalse: [self halt].
 	^ self! !
 
-!GroebnerBasis methodsFor: 'testing' stamp: 'len 7/7/2016 02:23'!
+!GroebnerBasis methodsFor: 'testing' stamp: 'len 7/7/2016 05:08'!
 reduces: aPolynomial
+	self isEmpty ifTrue: [^ false].
 	^ (self reduce: aPolynomial) isZero! !
 
 !GroebnerBasis methodsFor: 'accessing' stamp: 'len 11/20/2015 05:10'!
@@ -8550,35 +8560,35 @@ from: aCollection
 	"Answer a new instance of the receiver representing a Groebner basis obtainded from aCollection of generators."
 	^ self from: aCollection ordering: aCollection anyOne species ordering! !
 
-!GroebnerBasis class methodsFor: 'instance creation' stamp: 'len 7/7/2016 04:52'!
+!GroebnerBasis class methodsFor: 'instance creation' stamp: 'len 7/7/2016 05:26'!
 from: aCollection ordering: aMonomialOrdering 
 	"Buchberger algorithm.
 	Answer a Groebner basis obtainded from the given polynomials and ordering."
-	| basis newPolynomials rem lcm fi hi ci fk hk ck heads start |
+	| G S heads |
 	aCollection anyOne scalars isField ifFalse: [^ DomainError signal: 'not over a field'].
-	basis _ self new ordering: aMonomialOrdering; addAll: aCollection; yourself.
+	G _ self new ordering: aMonomialOrdering; yourself.
+	S _ aCollection.
 	heads _ Dictionary2 new.
-	start _ 1.
-	[newPolynomials _ OrderedCollection new.
-	1 to: basis size do: [:i|
-		fi _ basis at: i.
+	[S do: [:f| (G reduces: f) ifFalse: [G add: f]].
+	S _ Set2 new.
+	1 to: G size do: [:i| | fi hi ci |
+		fi _ G at: i.
 		hi _ heads at: i ifAbsentPut: [aMonomialOrdering headOf: fi].
 		ci _ fi coefficientAt: hi.
-		i+start to: basis size do: [:k|
-			fk _ basis at: k.
+		i+1 to: G size do: [:k| | fk hk ck lcm r |
+			fk _ G at: k.
 			hk _ heads at: k ifAbsentPut: [aMonomialOrdering headOf: fk].
 			ck _ fk coefficientAt: hk.
 			lcm _ hi lcm: hk.
-			rem _ basis reduce: fi * (lcm / hi) / ci - (fk * (lcm / hk) / ck).
-			(lcm ~= (hi * hk) "and: [heads anySatisfy: [:any| any | lcm]]") ifTrue: [
-			rem isZero ifFalse: ["Display fill: (i@k*4 extent: 3@3) fillColor: Color yellow." newPolynomials add: rem]] ifFalse: [rem isZero ifFalse: ["self halt"]]]].
-	newPolynomials isEmpty]
-		whileFalse: "this is like Magma's ReduceByNew=True"
-			["start _ basis size."
-			basis add: newPolynomials first.
-			newPolynomials allButFirstDo: [:each| (basis reduces: each) ifFalse: [basis add: each]]].
-	basis verify ifFalse: [self halt].
-	^ basis! !
+			(lcm ~= (hi * hk) and: [heads anySatisfy: [:any| any | lcm]])
+				ifTrue:
+					[r _ G reduce: fi * (lcm / hi) / ci - (fk * (lcm / hk) / ck).
+					r isZero ifFalse:
+						["Display fill: (i@k*4 extent: 3@3) fillColor: Color yellow."
+						S add: r]]]].
+	S isEmpty] whileFalse.
+"	G verify ifFalse: [self halt]."
+	^ G! !
 
 !GroebnerBasis class methodsFor: 'instance creation' stamp: 'len 11/20/2015 05:16'!
 new
@@ -10278,6 +10288,51 @@ cyclic: n over: scalars
 		generators add: f].
 	generators add: singles product - 1.
 	^ self on: P generators: generators! !
+
+!PolynomialIdeal class methodsFor: 'examples' stamp: 'len 7/7/2016 05:15'!
+katsura2
+	| P x y |
+	P _ Rationals new polynomialsIn: #(x y).
+	x _ P x.
+	y _ P y.
+	^ self on: P generators: {x + (y*2) - 1. x**2 + (y**2 * 2) - x}! !
+
+!PolynomialIdeal class methodsFor: 'examples' stamp: 'len 7/7/2016 05:16'!
+katsura3
+	| P x y z |
+	P _ Rationals new polynomialsIn: #(x y z).
+	x _ P x: #x.
+	y _ P x: #y.
+	z _ P x: #z.
+	^ self on: P generators: {x + (y*2) + (z*2) - 1. x**2 + (y**2 * 2) + (z**2 * 2) - x. x*y*2 + (y*z*2) - y}! !
+
+!PolynomialIdeal class methodsFor: 'examples' stamp: 'len 7/7/2016 05:16'!
+katsura4
+	| P x y z t |
+	P _ Rationals new polynomialsIn: #(x y z t).
+	x _ P x: #x.
+	y _ P x: #y.
+	z _ P x: #z.
+	t _ P x: #t.
+	^ self on: P generators: {x + (y*2) + (z*2) + (t*2) - 1.
+		x**2 + (y**2 * 2) + (z**2 * 2) + (t**2 * 2) - x.
+		x*y*2 + (y*z*2) + (z*t*2) - y.
+		y**2 + (x*z*2) + (y*t*2) - z}! !
+
+!PolynomialIdeal class methodsFor: 'examples' stamp: 'len 7/7/2016 05:16'!
+katsura5
+	| P x y z t u |
+	P _ Rationals new polynomialsIn: #(x y z t u).
+	x _ P x: #x.
+	y _ P x: #y.
+	z _ P x: #z.
+	t _ P x: #t.
+	u _ P x: #u.
+	^ self on: P generators: {x + (y*2) + (z*2) + (t*2) + (u*2) - 1.
+		x**2 + (y**2 * 2) + (z**2 * 2) + (t**2 * 2) + (u**2 * 2) - x.
+		x*y*2 + (y*z*2) + (z*t*2) + (t*u*2) - y.
+		y**2 + (x*z*2) + (y*t*2) + (z*u*2) - z.
+		y*z*2 + (x*t*2) + (y*u*2) - t}! !
 
 !Module methodsFor: 'morphisms' stamp: 'len 6/23/2016 01:26'!
 -> aModule
@@ -26923,6 +26978,11 @@ rank
 type
 	^ nil! !
 
+!MonomialOrdering methodsFor: 'ordering' stamp: 'len 7/7/2016 05:36'!
+value: aMonomial value: anotherMonomial
+	"Answer true if the first argument is greater than the second."
+	^ self subclassResponsibility! !
+
 !MonomialOrdering class methodsFor: 'instance creation' stamp: 'len 7/4/2016 00:51'!
 indeterminates: anArray
 	anArray isInteger ifTrue: [^ self new indeterminates: (1 to: anArray) asArray].
@@ -33944,6 +34004,35 @@ testEqualVarietiesDifferentIdeals2
 	V` _ I` variety.
 	self assert: V = V`.
 	self assert: I ~= I`! !
+
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 7/7/2016 05:25'!
+testGroebnerCyclic3
+	| I G |
+	I _ PolynomialIdeal cyclic: 3.
+	G _ I groebnerBasis.
+	self assert: G verify.
+	I generators do: [:each|
+		self assert: (G reduces: each)]! !
+
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 7/7/2016 05:49'!
+testGroebnerExample
+	| P x y z F G |
+	P _ Rationals new polynomialsIn: #(x y z) ordering: #lex.
+	x _ P x.
+	y _ P y.
+	z _ P z.
+	F _ {x**2 - (y*z). y**2 - (z*x). z**2 - (x*y)}.
+	G _ GroebnerBasis from: F :: minimal reduced.
+	self assert: G asSet = {x**2 - (y*z). x*z - (y**2). x*y - (z**2). y**3 - (z**3)} asSet! !
+
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 7/7/2016 05:25'!
+testGroebnerKatsura3
+	| I G |
+	I _ PolynomialIdeal katsura3.
+	G _ I groebnerBasis.
+	self assert: G verify.
+	I generators do: [:each|
+		self assert: (G reduces: each)]! !
 
 !AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 7/7/2016 02:26'!
 testGroebnerTrivial
