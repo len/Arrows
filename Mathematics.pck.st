@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 7 July 2016 at 8:52:31.087 pm'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 7 July 2016 at 11:36:58.004025 pm'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 144!
+!provides: 'Mathematics' 1 146!
 !classDefinition: #AbelianGroupPresentation category: #'Mathematics-Free'!
 Object subclass: #AbelianGroupPresentation
 	instanceVariableNames: 'generators relators'
@@ -3313,8 +3313,18 @@ Structure:
 
 !
 
-!GroebnerBasisBenchmark commentStamp: '<historical>' prior: 0!
+!GroebnerBasisBenchmark commentStamp: 'len 7/7/2016 23:28' prior: 0!
 GroebnerBasisBenchmark new run
+'testCyclic3	1,130 per second.
+testCyclic4	195 per second.
+testCyclic5	48.7 per second.
+testCyclic6	9.31 per second.
+testElimination	116 per second.
+testKatsura2	3,440 per second.
+testKatsura3	354 per second.
+testKatsura4	2.8 per second.
+testModularCyclic3	149 per second.
+testModularKatsura2	184 per second.' 
 
 'testCyclic3	1,080 per second.
 testCyclic4	36.8 per second.
@@ -3504,9 +3514,9 @@ Output: x such that x = x_i (mod m_i) for 1<=i<=k.
 !
 
 !Digraph commentStamp: '<historical>' prior: 0!
-My instances are directed graphs. The vertices (values) can be arbitrary objects, and the edges are Associations v1 -> v2. It is implemented as a collection of GraphNodes.
+My instances are directed graphs. The vertices (values) can be arbitrary objects, and the edges are Associations v1 -> v2. It uses a sparse representation, implemented as a collection of nodes (GraphNodes) where each node knows its neighbors.
 
-Various properties of the graph are encoded in the class of its nodes (e.g. whether the graph is ordered, has a fixed arity, or the edges are labeled). The 'creation block' is initialized so that appropriate nodes are made.
+Some properties of the graph are encoded in the class of its nodes (e.g. whether the graph is ordered, has a fixed arity, or the edges are labeled). The 'creation block' is initialized so that appropriate nodes are made.
 
 Structure:
  nodes 			Set of GraphNodes
@@ -5541,6 +5551,10 @@ testCyclic4
 testCyclic5
 	self cyclic: 5 :: groebnerBasis! !
 
+!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 7/7/2016 23:27'!
+testCyclic6
+	self cyclic: 6 :: groebnerBasis! !
+
 !GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 5/20/2016 03:59'!
 testElimination
 	| Qx x y z I |
@@ -5556,6 +5570,10 @@ testKatsura2
 !GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 7/4/2016 06:33'!
 testKatsura3
 	self katsura3 :: groebnerBasis! !
+
+!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 7/7/2016 23:26'!
+testKatsura4
+	self katsura4 :: groebnerBasis! !
 
 !GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 7/4/2016 08:37'!
 testModularCyclic3
@@ -8447,10 +8465,12 @@ reduce: aPolynomial
 "	division verify ifFalse: [self halt]."
 	^ division remainder! !
 
-!GroebnerBasis methodsFor: 'operations' stamp: 'len 12/14/2015 19:04'!
+!GroebnerBasis methodsFor: 'operations' stamp: 'len 7/7/2016 21:02'!
 reduced
-	self isReduced ifFalse: [self halt].
-	^ self! !
+	| minimal |
+	minimal _ self minimal.
+	minimal isReduced ifFalse: [self halt].
+	^ minimal! !
 
 !GroebnerBasis methodsFor: 'testing' stamp: 'len 7/7/2016 05:08'!
 reduces: aPolynomial
@@ -8568,7 +8588,7 @@ from: aCollection
 	"Answer a new instance of the receiver representing a Groebner basis obtainded from aCollection of generators."
 	^ self from: aCollection ordering: aCollection anyOne species ordering! !
 
-!GroebnerBasis class methodsFor: 'instance creation' stamp: 'len 7/7/2016 05:26'!
+!GroebnerBasis class methodsFor: 'instance creation' stamp: 'len 7/7/2016 23:32'!
 from: aCollection ordering: aMonomialOrdering 
 	"Buchberger algorithm.
 	Answer a Groebner basis obtainded from the given polynomials and ordering."
@@ -8576,24 +8596,27 @@ from: aCollection ordering: aMonomialOrdering
 	aCollection anyOne scalars isField ifFalse: [^ DomainError signal: 'not over a field'].
 	G _ self new ordering: aMonomialOrdering; yourself.
 	S _ aCollection.
-	heads _ Dictionary2 new.
+	heads _ OrderedCollection new.
 	[S do: [:f| (G reduces: f) ifFalse: [G add: f]].
 	S _ Set2 new.
 	1 to: G size do: [:i| | fi hi ci |
 		fi _ G at: i.
-		hi _ heads at: i ifAbsentPut: [aMonomialOrdering headOf: fi].
+		hi _ i = (heads size + 1) ifTrue: [heads add: (aMonomialOrdering headOf: fi)] ifFalse: [heads at: i].
 		ci _ fi coefficientAt: hi.
 		i+1 to: G size do: [:k| | fk hk ck lcm r |
 			fk _ G at: k.
-			hk _ heads at: k ifAbsentPut: [aMonomialOrdering headOf: fk].
-			ck _ fk coefficientAt: hk.
+			hk _ k = (heads size + 1) ifTrue: [heads add: (aMonomialOrdering headOf: fk)] ifFalse: [heads at: k].
 			lcm _ hi lcm: hk.
-			(lcm ~= (hi * hk) and: [heads anySatisfy: [:any| any | lcm]])
+			"Buchberger criterium 1 and 2:"
+			(lcm ~= (hi * hk) and: [((1 to: i-1) noneSatisfy: [:j| (heads at: j) | lcm])])
 				ifTrue:
-					[r _ G reduce: fi * (lcm / hi) / ci - (fk * (lcm / hk) / ck).
-					r isZero ifFalse:
-						["Display fill: (i@k*4 extent: 3@3) fillColor: Color yellow."
-						S add: r]]]].
+					[ck _ fk coefficientAt: hk.
+					r _ G reduce: fi * (lcm / hi) / ci - (fk * (lcm / hk) / ck).
+					r isZero
+"						ifTrue: [Display fill: (i@k*4 extent: 3@3) fillColor: Color red]"
+						ifFalse: [
+"							Display fill: (i@k*4 extent: 3@3) fillColor: Color green."
+							S add: r]]]].
 	S isEmpty] whileFalse.
 "	G verify ifFalse: [self halt]."
 	^ G! !
@@ -34027,7 +34050,7 @@ testGroebnerCyclic3
 	I generators do: [:each|
 		self assert: (G reduces: each)]! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 7/7/2016 05:49'!
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 7/7/2016 21:19'!
 testGroebnerExample
 	| P x y z F G |
 	P _ Rationals new polynomialsIn: #(x y z) ordering: #lex.
@@ -34035,7 +34058,7 @@ testGroebnerExample
 	y _ P y.
 	z _ P z.
 	F _ {x**2 - (y*z). y**2 - (z*x). z**2 - (x*y)}.
-	G _ GroebnerBasis from: F :: minimal reduced.
+	G _ GroebnerBasis from: F :: minimal.
 	self assert: G asSet = {x**2 - (y*z). x*z - (y**2). x*y - (z**2). y**3 - (z**3)} asSet! !
 
 !AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 7/7/2016 05:25'!
