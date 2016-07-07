@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 5 July 2016 at 2:52:45.620209 am'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 7 July 2016 at 4:54:34.233149 am'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 141!
+!provides: 'Mathematics' 1 142!
 !classDefinition: #AbelianGroupPresentation category: #'Mathematics-Free'!
 Object subclass: #AbelianGroupPresentation
 	instanceVariableNames: 'generators relators'
@@ -3526,7 +3526,7 @@ Example:
 !
 
 !GroebnerBasis commentStamp: '<historical>' prior: 0!
-My instances are Groebner basis of a given ideal.
+My instances are Groebner bases.
 
 Let polynomials f1..fm in F[x1,..,xn] and define an ideal I = <f1,...,fm>. For a fixed monomial ordering, a subset G = {g1,...,gm} of I is called a Groebner basis for I if every f in I is reducible by G, i.e. there exists one g in G such that the leading monomial of g lm(g) divides lm(f).
 
@@ -3796,7 +3796,7 @@ My instances are polynomial codes.
 In coding theory, a polynomial code is a type of linear code whose set of valid codewords consists of those polynomials (usually of some fixed length) that are divisible by some fixed polynomial (of shorter length, called the generator polynomial).!
 
 !FreeMonoid commentStamp: '<historical>' prior: 0!
-My instances are free monoids. A free monoid is a monoid whose elements are words in a finite set of arbitrary objects (symbols), and the monoid operation is word concatenation.!
+My instances are free monoids. A free monoid is a monoid whose elements are words in a finite set of arbitrary objects (symbols), together with word concatenation as monoid operation.!
 
 !Group commentStamp: '<historical>' prior: 0!
 My instances are groups.
@@ -4209,6 +4209,21 @@ My instances are (commutative) power products of one or many variables.!
 My instances are monomial orderings.
 !
 
+!LexicographicOrdering commentStamp: '<historical>' prior: 0!
+The lexicographic ordering has the property that for each subring S[x1..xn] <= R, and each polynomial f in R, f is in S iff its leading monomial is in S.
+
+Elimination by the lexicographic ordering produces elements of an ideal which are free of the first variable.!
+
+!TotalLexicographicOrdering commentStamp: '<historical>' prior: 0!
+The total lexicographic ordering has the property that for each subring S[x1..xn] <= R, and each homogeneous polynomial f in R, f is in S iff its leading monomial is in S.
+
+Elimination by the total lexicographic ordering produces elements of an homogeneous ideal which are free of the first variable.!
+
+!TotalReverseLexicographicOrdering commentStamp: '<historical>' prior: 0!
+The total reverse lexicographic ordering has the property that for each subring S[x1..xn] <= R, and each homogeneous polynomial f in S[x1..xi], xi divides f iff it divides the leading monomial.
+
+Elimination by the total reverse lexicographic ordering produces elements of a homogeneous ideal which are divisible by the last variable.!
+
 !WeightedMonomialOrdering commentStamp: '<historical>' prior: 0!
 My instances are monomial orderings defined by weight tuples.
 
@@ -4256,6 +4271,16 @@ Histograms to be used for statistical purposes. Useful, for example, for many im
 Counts are currently held in a WordArray, and limited to about 4 billion counts (32 bit unsigned integers)
 
 A good number of bins can be n^(1/2) or n^(1/3), where n is the total number of samples. See Wikipedia article for rationale.!
+
+!MultiPolynomialDivision commentStamp: '<historical>' prior: 0!
+I am the multivariate polynomial division algorithm for polynomials over a field.
+
+Input: dividend and divisors f,f1,..,fs in K[x1..xd], and a monomial ordering;
+Output: quotient and remander polynomials q1..qs,r in K[x1..xd] such that f = q1*f1 + ... + qn*fn + r, such that:
+1. LM(qifi) <= LM(f);
+2. None of the monomials in r is divisible by any LM(fi).
+
+The algorithm performs O(n^d m^d) operations in the coefficients field K, where n is the total degree of f and m is the maximal total degree of f1..fs.!
 
 !NTT commentStamp: '<historical>' prior: 0!
 My instances are Number Theoretic Transforms, the analog of DFTs for the field of integers modulo a prime p. Special cases are the Fermat Number Transform (p = 2^k + 1) and the Mersenne Number Transform (p = 2^k - 1).
@@ -5499,9 +5524,9 @@ modularKatsura2
 testCyclic3
 	self cyclic: 3 :: groebnerBasis! !
 
-!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 7/4/2016 06:33'!
+!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 7/5/2016 17:02'!
 testCyclic4
-	self cyclic: 4 :: groebnerBasis! !
+	^ self cyclic: 4 :: groebnerBasis! !
 
 !GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 7/4/2016 07:25'!
 testCyclic5
@@ -7830,8 +7855,9 @@ dot: aTuple
 	2 to: (self size min: aTuple size) do: [:i| answer _ answer + ((self at: i) * (aTuple at: i))].
 	^ answer! !
 
-!OrderedTuple methodsFor: 'arithmetic' stamp: 'len 3/29/2016 18:56'!
+!OrderedTuple methodsFor: 'arithmetic' stamp: 'len 7/5/2016 06:57'!
 hadamard: aTuple
+	"Answer the pointwise product with the argument, also called Hadamard product."
 	^ self class new: (self size min: aTuple size) evaluating: [:i| (self at: i) * (aTuple at: i)]! !
 
 !OrderedTuple methodsFor: 'converting' stamp: 'len 3/29/2016 18:59'!
@@ -7989,8 +8015,9 @@ dot: aBitTuple
 		whileTrue: [x _ x >> (x highBit // 2) bitAnd: x].
 	^ x"! !
 
-!BitTuple methodsFor: 'arithmetic' stamp: 'len 7/2/2016 00:49'!
+!BitTuple methodsFor: 'arithmetic' stamp: 'len 7/5/2016 06:57'!
 hadamard: aBitTuple
+	"Answer the pointwise product with the argument, also called Hadamard product."
 	^ self class new: (self size min: aBitTuple size) fromInteger: (integer bitAnd: aBitTuple asInteger)! !
 
 !BitTuple methodsFor: 'comparing' stamp: 'len 6/30/2016 06:50'!
@@ -8313,7 +8340,7 @@ initialize
 	polynomials _ OrderedCollection new.
 	isMinimal _ false! !
 
-!GroebnerBasis methodsFor: 'testing' stamp: 'len 3/20/2016 23:06'!
+!GroebnerBasis methodsFor: 'testing' stamp: 'len 7/7/2016 02:22'!
 isMinimal
 	"A Groebner basis G is minimal when for all p in G:
 	1. LC(p) = 1;
@@ -8323,8 +8350,7 @@ isMinimal
 	"Check all polynomials are monic:"
 	self do: [:each| (ordering leadingCoefficientOf: each) ~= one ifTrue: [^ false]].
 	self do: [:each| "Check if the basis without it still generates its leading term:"
-		((self copyWithout: each)
-			remainderOf: (ordering leadingTermOf: each)) isZero
+		((self copyWithout: each) reduces: (ordering leadingTermOf: each))
 				ifTrue: [^ false]].
 	^ true! !
 
@@ -8332,7 +8358,7 @@ isMinimal
 isMinimal: aBoolean
 	isMinimal _ aBoolean! !
 
-!GroebnerBasis methodsFor: 'testing' stamp: 'len 3/20/2016 23:06'!
+!GroebnerBasis methodsFor: 'testing' stamp: 'len 7/7/2016 02:23'!
 isReduced
 	"A Groebner basis G is reduced when for all p in G:
 	1. LC(p) = 1;
@@ -8343,7 +8369,7 @@ isReduced
 	self do: [:each| (ordering leadingCoefficientOf: each) ~= one ifTrue: [^ false]].
 	self do: [:each| "Check if the basis without it still generates its monomials:"
 		subBasis _ self copyWithout: each.
-		each terms do: [:other| (subBasis remainderOf: other) isZero ifTrue: [^ false]]].
+		each terms do: [:other| (subBasis reduces: other) ifTrue: [^ false]]].
 	^ true! !
 
 !GroebnerBasis methodsFor: 'testing' stamp: 'len 6/3/2016 04:17'!
@@ -8393,18 +8419,25 @@ printOn: aStream
 	polynomials do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: '. '].
 	aStream nextPut: $}! !
 
+!GroebnerBasis methodsFor: 'operations' stamp: 'len 7/7/2016 03:10'!
+reduce: aPolynomial 
+	"Answer the remainder of the argument when divided by the receiver."
+	| division |
+	division _ MultiPolynomialDivision
+		divide: aPolynomial
+		by: self
+		ordering: self ordering.
+	division verify ifFalse: [self halt].
+	^ division remainder! !
+
 !GroebnerBasis methodsFor: 'operations' stamp: 'len 12/14/2015 19:04'!
 reduced
 	self isReduced ifFalse: [self halt].
 	^ self! !
 
-!GroebnerBasis methodsFor: 'operations' stamp: 'len 12/13/2015 00:41'!
-remainderOf: aPolynomial 
-	"Answer the remainder of the argument when divided by the receiver."
-	^ (MultiPolynomialDivision
-		divide: aPolynomial
-		by: self
-		ordering: self ordering) remainder! !
+!GroebnerBasis methodsFor: 'testing' stamp: 'len 7/7/2016 02:23'!
+reduces: aPolynomial
+	^ (self reduce: aPolynomial) isZero! !
 
 !GroebnerBasis methodsFor: 'accessing' stamp: 'len 11/20/2015 05:10'!
 size
@@ -8414,9 +8447,27 @@ size
 species
 	^ Array! !
 
-!GroebnerBasis class methodsFor: 'instance creation' stamp: 'len 7/5/2016 01:42'!
+!GroebnerBasis methodsFor: 'private' stamp: 'len 7/7/2016 04:45'!
+verify
+	1 to: self size do: [:i|
+		| fi hi ci |
+		fi _ self at: i.
+		hi _ ordering headOf: fi.
+		ci _ fi coefficientAt: hi.
+		i+1 to: self size do: [:j|
+			| fj hj cj lcm |
+			fj _ self at: j.
+			hj _ ordering headOf: fj.
+			cj _ fj coefficientAt: hj.
+			lcm _ hi lcm: hj.
+			(self reduces: fi * (lcm / hi) / ci - (fj * (lcm / hj) / cj))
+				ifFalse: [^ false halt]]].
+	^ true! !
+
+!GroebnerBasis class methodsFor: 'instance creation' stamp: 'len 7/5/2016 16:59'!
 from2: aCollection ordering: aMonomialOrdering 
-	"Answer a new instance of the receiver representing a Groebner basis obtainded from aCollection of polynomials operating with the ordering aMonomialOrdering."
+	"Buchberger algorithm.
+	Answer a Groebner basis obtainded from the given polynomials and ordering."
 	| basis newPolynomials rem lcm fi hi ci fk hk ck heads start |
 	aCollection anyOne scalars isField ifFalse: [^ DomainError signal: 'not over a field'].
 	basis _ self new ordering: aMonomialOrdering; addAll: aCollection; yourself.
@@ -8464,12 +8515,42 @@ from3: aCollection ordering: aMonomialOrdering
 			rem isZero ifFalse: ["Display fill: (i@k*4 extent: 3@3) fillColor: Color yellow." basis add: rem]]]].
 	^ basis! !
 
+!GroebnerBasis class methodsFor: 'instance creation' stamp: 'len 7/5/2016 17:18'!
+from4: aCollection ordering: aMonomialOrdering 
+	"Buchberger algorithm.
+	Answer a Groebner basis obtainded from the given polynomials and ordering."
+	| basis newPolynomials rem lcm fi hi ci fk hk ck heads start pairsDone |
+	aCollection anyOne scalars isField ifFalse: [^ DomainError signal: 'not over a field'].
+	basis _ self new ordering: aMonomialOrdering; addAll: aCollection; yourself.
+	heads _ Dictionary2 new.
+	start _ 1.
+	pairsDone _ Set new.
+	[newPolynomials _ OrderedCollection new.
+	1 to: basis size do: [:i|
+		fi _ basis at: i.
+		hi _ heads at: i ifAbsentPut: [aMonomialOrdering headOf: fi].
+		ci _ fi coefficientAt: hi.
+		i+1"start" to: basis size do: [:k|
+			pairsDone add: i@k ifAbsent: [fk _ basis at: k.
+			hk _ heads at: k ifAbsentPut: [aMonomialOrdering headOf: fk].
+			ck _ fk coefficientAt: hk.
+			lcm _ hi lcm: hk.
+			lcm = (hi * hk) ifFalse:
+				[rem _ basis remainderOf: fi * (lcm / hi) / ci - (fk * (lcm / hk) / ck).
+				rem isZero ifFalse: ["Display fill: (i@k*4 extent: 3@3) fillColor: Color yellow." newPolynomials add: rem]]]]].
+	newPolynomials isEmpty]
+		whileFalse: "this is like Magma's ReduceByNew=True"
+			[start _ basis size.
+			basis add: newPolynomials first.
+			newPolynomials allButFirstDo: [:each| (basis remainderOf: each) isZero ifFalse: [basis add: each]]].
+	^ basis! !
+
 !GroebnerBasis class methodsFor: 'instance creation' stamp: 'len 3/16/2016 04:30'!
 from: aCollection
 	"Answer a new instance of the receiver representing a Groebner basis obtainded from aCollection of generators."
 	^ self from: aCollection ordering: aCollection anyOne species ordering! !
 
-!GroebnerBasis class methodsFor: 'instance creation' stamp: 'len 7/5/2016 02:09'!
+!GroebnerBasis class methodsFor: 'instance creation' stamp: 'len 7/7/2016 04:52'!
 from: aCollection ordering: aMonomialOrdering 
 	"Buchberger algorithm.
 	Answer a Groebner basis obtainded from the given polynomials and ordering."
@@ -8488,14 +8569,15 @@ from: aCollection ordering: aMonomialOrdering
 			hk _ heads at: k ifAbsentPut: [aMonomialOrdering headOf: fk].
 			ck _ fk coefficientAt: hk.
 			lcm _ hi lcm: hk.
-"			(lcm ~= (hi * hk) and: [heads anySatisfy: [:any| any | lcm]]) ifFalse:"
-			rem _ basis remainderOf: fi * (lcm / hi) / ci - (fk * (lcm / hk) / ck).
-			rem isZero ifFalse: ["Display fill: (i@k*4 extent: 3@3) fillColor: Color yellow." newPolynomials add: rem]]].
+			rem _ basis reduce: fi * (lcm / hi) / ci - (fk * (lcm / hk) / ck).
+			(lcm ~= (hi * hk) "and: [heads anySatisfy: [:any| any | lcm]]") ifTrue: [
+			rem isZero ifFalse: ["Display fill: (i@k*4 extent: 3@3) fillColor: Color yellow." newPolynomials add: rem]] ifFalse: [rem isZero ifFalse: ["self halt"]]]].
 	newPolynomials isEmpty]
 		whileFalse: "this is like Magma's ReduceByNew=True"
-			[start _ basis size.
+			["start _ basis size."
 			basis add: newPolynomials first.
-			newPolynomials allButFirstDo: [:each| (basis remainderOf: each) isZero ifFalse: [basis add: each]]].
+			newPolynomials allButFirstDo: [:each| (basis reduces: each) ifFalse: [basis add: each]]].
+	basis verify ifFalse: [self halt].
 	^ basis! !
 
 !GroebnerBasis class methodsFor: 'instance creation' stamp: 'len 11/20/2015 05:16'!
@@ -8837,10 +8919,10 @@ collectNoZero: aBlock
 	"The result of aBlock must never be zero."
 	^ self copy associationsDo: [:each| each value: (aBlock value: each value)]! !
 
-!SparseTuple methodsFor: 'arithmetic' stamp: 'len 3/23/2016 07:25'!
+!SparseTuple methodsFor: 'arithmetic' stamp: 'len 7/5/2016 06:50'!
 convolution: aSparseTuple
 	| answer |
-	answer _ self class new: self size + aSparseTuple size :: setZero: zero.
+	answer _ self class new: self size + aSparseTuple size zero: zero.
 	self keysAndValuesDo: [:key :value|
 		aSparseTuple keysAndValuesDo: [:key2 :value2|
 			answer at: key*key2 add: value*value2]].
@@ -8855,8 +8937,9 @@ dot: aSparseTuple
 		aSparseTuple at: key ifPresent: [:value2| answer _ answer + (value*value2)]].
 	^ answer	! !
 
-!SparseTuple methodsFor: 'arithmetic' stamp: 'len 3/28/2016 06:42'!
+!SparseTuple methodsFor: 'arithmetic' stamp: 'len 7/5/2016 06:52'!
 hadamard: aSparseTuple
+	"Answer the pointwise product with the argument, also called Hadamard product."
 	| answer |
 	self size <= aSparseTuple size ifFalse: [^ aSparseTuple hadamard: self]. "assuming it's commutative"
 	answer _ self copyEmpty.
@@ -8886,9 +8969,13 @@ withIndexDo: elementAndIndexBlock
 	"Just like with:do: except that the iteration index supplies the second argument to the block."
 	self keysAndValuesDo: [:key :value| elementAndIndexBlock value: value value: key]! !
 
-!SparseTuple methodsFor: 'arithmetic' stamp: 'len 3/1/2016 03:03'!
+!SparseTuple methodsFor: 'arithmetic' stamp: 'len 7/5/2016 06:52'!
 zero
-	^ self class new setZero: zero! !
+	^ self class zero: zero! !
+
+!SparseTuple class methodsFor: 'instance creation' stamp: 'len 7/5/2016 06:49'!
+new: anInteger zero: anObject
+	^ (self new: anInteger) setZero: anObject! !
 
 !SparseTuple class methodsFor: 'instance creation' stamp: 'len 3/1/2016 04:27'!
 zero: anObject
@@ -10032,6 +10119,10 @@ remainderAtRandom: aRandom
 	self flag: #fix." "this is wrong, both groebner basis should at least use the same ordering"
 "	^ self groebner reduced = anObject groebner reduced"! !
 
+!PolynomialIdeal methodsFor: 'random' stamp: 'len 7/6/2016 01:03'!
+atRandom: aRandom bits: bitSize
+	^ self generators sum: [:each| each * (self ambient atRandom: aRandom bits: bitSize / self generators size)]! !
+
 !PolynomialIdeal methodsFor: 'morphisms' stamp: 'len 3/15/2016 18:04'!
 colon: anIdeal
 	"Answer the colon quotient I:J of the receiver I with the argument J."
@@ -10131,10 +10222,11 @@ isHomogeneous
 isRadical
 	^ self = self radical! !
 
-!PolynomialIdeal methodsFor: 'testing' stamp: 'len 7/4/2016 06:33'!
+!PolynomialIdeal methodsFor: 'testing' stamp: 'len 7/6/2016 06:16'!
 isTrivial
 	"Answer true if the receiver is <1>."
-	^ self groebnerBasis anySatisfy: [:f| f isConstant]! !
+	(self generators anySatisfy: [:g| g isConstant]) ifTrue: [^ true].
+	^ self groebnerBasis anySatisfy: [:g| g isConstant]! !
 
 !PolynomialIdeal methodsFor: 'testing' stamp: 'len 5/9/2016 17:33'!
 isUnivariate
@@ -10154,10 +10246,10 @@ remainderAtRandom: aRandom
 	ambient isUnivariate ifFalse: [^ self error: 'not yet implemented'].
 	^ ambient coefficients: ((0 to: self generator degree - 1) collect: [:i| ambient scalars atRandom: aRandom])! !
 
-!PolynomialIdeal methodsFor: 'operations' stamp: 'len 7/4/2016 06:33'!
+!PolynomialIdeal methodsFor: 'operations' stamp: 'len 7/7/2016 02:19'!
 remainderOf: aPolynomial
 	self isUnivariate ifTrue: [^ aPolynomial \\ self generator].
-	^ self groebnerBasis remainderOf: aPolynomial! !
+	^ self groebnerBasis reduce: aPolynomial! !
 
 !PolynomialIdeal methodsFor: 'morphisms' stamp: 'len 3/15/2016 18:05'!
 saturation: anIdeal
@@ -10169,6 +10261,23 @@ saturation: anIdeal
 variety
 	"Answer the algebraic variety that is the set of zeroes of all polynomials in the receiver."
 	^ AlgebraicSet ideal: self! !
+
+!PolynomialIdeal class methodsFor: 'examples' stamp: 'len 7/6/2016 06:41'!
+cyclic: n
+	^ self cyclic: n over: Rationals new! !
+
+!PolynomialIdeal class methodsFor: 'examples' stamp: 'len 7/6/2016 06:41'!
+cyclic: n over: scalars
+	| P singles generators |
+	P _ scalars polynomialsIn: n.
+	singles _ (1 to: n) collect: [:i| P x: i].
+	generators _ OrderedCollection new.
+	1 to: n-1 do: [:k | | f |
+		f _ P zero.
+		singles combinations: k atATimeDo: [:each| f _ f + each product].
+		generators add: f].
+	generators add: singles product - 1.
+	^ self on: P generators: generators! !
 
 !Module methodsFor: 'morphisms' stamp: 'len 6/23/2016 01:26'!
 -> aModule
@@ -10984,6 +11093,10 @@ e: anInteger
 !HomogeneousPolynomialSpace methodsFor: 'accessing' stamp: 'len 6/24/2016 05:51'!
 ordering
 	^ polynomials ordering! !
+
+!HomogeneousPolynomialSpace methodsFor: 'as yet unclassified' stamp: 'len 7/6/2016 08:39'!
+printOn: aStream
+	aStream print: polynomials; nextPutAll: degree printString sub! !
 
 !LieAlgebra methodsFor: 'as yet unclassified' stamp: 'len 5/23/2016 03:57'!
 bracket
@@ -22430,13 +22543,23 @@ dynamic: aBlock
 evaluating: aBlock
 	^ self to: Integers new evaluating: aBlock! !
 
-!Sequence class methodsFor: 'examples' stamp: 'len 3/1/2016 22:20'!
+!Sequence class methodsFor: 'examples' stamp: 'len 7/6/2016 23:52'!
 fibonacci
-	^ Sequence to: Integers new recurrence: [:f :n| n=1 ifTrue: [0] ifFalse: [n=2 ifTrue: [1] ifFalse: [(f at: n-1) + (f at: n-2)]]]! !
+	^ Sequence recurrence: [:f :n| n=1 ifTrue: [0] ifFalse: [n=2 ifTrue: [1] ifFalse: [(f at: n-1) + (f at: n-2)]]]! !
 
 !Sequence class methodsFor: 'examples' stamp: 'len 12/4/2015 22:54'!
 harmonicNumbers
 	^ Sequence to: Rationals new evaluating: [:n| (1 to: n) sum: [:k| 1/k]]! !
+
+!Sequence class methodsFor: 'examples' stamp: 'len 7/6/2016 23:45'!
+highlyCompositeNumbers
+	^ self recurrence: [:f :n| | i max |
+		n = 1
+			ifTrue: [1]
+			ifFalse:
+				[i _ f at: n-1.
+				max _ i numberOfDivisors.
+				[(i _ i + 1) numberOfDivisors > max] whileFalse. i]]! !
 
 !Sequence class methodsFor: 'examples' stamp: 'len 12/5/2015 00:20'!
 id
@@ -22532,23 +22655,23 @@ to: aDomain dynamic: aBlock
 to: aDomain evaluating: aBlock
 	^ self from: Naturals new to: aDomain evaluating: aBlock! !
 
-!Sequence class methodsFor: 'intance creation' stamp: 'len 4/30/2016 04:22'!
+!Sequence class methodsFor: 'intance creation' stamp: 'len 7/6/2016 23:51'!
 to: aDomain recurrence: aBlock
 	| cache |
 	cache _ OrderedCollection new.
 	^ self to: aDomain evaluating:
 			[:n|
-			(n isInteger and: [n > 0]) ifFalse: [DomainError signal].
-			[cache size < n] whileTrue: [cache add: (aBlock value: cache value: n)].
+			"(n isInteger and: [n > 0]) ifFalse: [DomainError signal]."
+			[cache size < n] whileTrue: [cache add: (aBlock value: cache value: cache size + 1)].
 			cache at: n]! !
 
-!Sequence class methodsFor: 'intance creation' stamp: 'len 4/30/2016 04:22'!
+!Sequence class methodsFor: 'intance creation' stamp: 'len 7/6/2016 23:51'!
 to: aDomain streamming: aBlock
 	| cache |
 	cache _ OrderedCollection new.
 	^ self to: aDomain evaluating:
 			[:n|
-			(n isInteger and: [n > 0]) ifFalse: [DomainError signal].
+			"(n isInteger and: [n > 0]) ifFalse: [DomainError signal]."
 			[cache size < n] whileTrue: [cache add: aBlock value].
 			cache at: n]! !
 
@@ -26762,6 +26885,10 @@ is: aMonomial gneq: anotherMonomial
 	"Answer true if the first argument is greater than the second."
 	^ self subclassResponsibility! !
 
+!MonomialOrdering methodsFor: 'as yet unclassified' stamp: 'len 7/6/2016 08:26'!
+isGraded
+	^ false! !
+
 !MonomialOrdering methodsFor: 'ordering' stamp: 'len 3/16/2016 07:21'!
 leadingCoefficientOf: aPolynomial
 	^ aPolynomial coefficientAt: (self leadingMonomialOf: aPolynomial)! !
@@ -26873,6 +27000,10 @@ is: aMonomial gneq: anotherMonomial
 		a = b ifFalse: [^ false]].
 	^ false! !
 
+!TotalLexicographicOrdering methodsFor: 'as yet unclassified' stamp: 'len 7/6/2016 08:27'!
+isGraded
+	^ true! !
+
 !TotalLexicographicOrdering methodsFor: 'accessing' stamp: 'len 7/2/2016 23:54'!
 type
 	^ #tlex! !
@@ -26892,6 +27023,10 @@ is: aMonomial gneq: anotherMonomial
 		a < b ifTrue: [^ true].
 		a = b ifFalse: [^ false]].
 	^ false! !
+
+!TotalReverseLexicographicOrdering methodsFor: 'as yet unclassified' stamp: 'len 7/6/2016 08:27'!
+isGraded
+	^ true! !
 
 !TotalReverseLexicographicOrdering methodsFor: 'accessing' stamp: 'len 7/3/2016 00:43'!
 type
@@ -28186,25 +28321,23 @@ x: aPoint
 origin
 	^ self morphLocalBounds center! !
 
-!MultiPolynomialDivision methodsFor: 'private' stamp: 'len 7/4/2016 18:34'!
+!MultiPolynomialDivision methodsFor: 'private' stamp: 'len 7/7/2016 04:11'!
 divide
 	"Perform the division algorithm computing quotients and remainder."
-	| p s zero fi q headp headfi t heads i found |
+	| p s zero fi q headp headfi t heads i |
 	zero _ dividend zero.
 	quotients _ (1 to: divisors size) collect: [:each| zero].
 	remainder _ zero.
 	s _ divisors size.
 	p _ dividend.
 	heads _ Array new: divisors size.
-	[p isZero] whileFalse: [
-		headp _ self ordering headOf: p.
+	[p isZero] whileFalse:
+		[headp _ self ordering headOf: p.
 		t _ p termAt: headp.
 		i _ 1.
-		["~20% of time spent here, mostly in Monomial>>|"
-		headfi _ (heads at: i) ifNil: [heads at: i put: (self ordering headOf: (fi _ divisors at: i))].
-		(found _ headfi | headp) or: [i >= s]]
-			whileFalse: [i _ i + 1].
-		found
+		[headfi _ (heads at: i) ifNil: [heads at: i put: (self ordering headOf: (fi _ divisors at: i))].
+		(headfi | headp) or: [(i _ i + 1) > s]] whileFalse.
+		i <= s "i.e. found fi such that headfi | headp"
 			ifTrue:
 				[fi _ divisors at: i.
 				q _ t / headfi / (fi coefficientAt: headfi).
@@ -28266,13 +28399,19 @@ remainder
 	remainder isNil ifTrue: [self divide].
 	^ remainder! !
 
-!MultiPolynomialDivision methodsFor: 'private' stamp: 'len 3/15/2016 21:34'!
+!MultiPolynomialDivision methodsFor: 'private' stamp: 'len 7/7/2016 04:12'!
 verify
 	| total |
 	total _ self remainder.
+	self divisors with: self quotients do: [:f :q| total _ total + (f*q)].
+	total = self dividend ifFalse: [^ false halt].
+
 	self divisors with: self quotients do: [:f :q|
-		total _ total + (f*q)].
-	^ total = self dividend! !
+		(q isZero not and: [ordering is: (ordering headOf: f*q) gneq: (ordering headOf: self dividend)])
+			ifTrue: [^ false halt]].
+	
+	self remainder monomials do: [:each| (divisors noneSatisfy: [:f| (ordering headOf: f) | each]) ifFalse: [^ false halt]].
+	^ true ! !
 
 !MultiPolynomialDivision class methodsFor: 'instance creation' stamp: 'len 3/9/2016 21:46'!
 divide: aPolynomial by: anArrayOfPolynomials
@@ -29300,6 +29439,11 @@ odd
 one
 	^ self species one! !
 
+!Polynomial methodsFor: 'converting' stamp: 'len 7/7/2016 04:25'!
+orderedBy: aMonomialOrdering
+	"Answer a copy of the receiver with a different monomial ordering."
+	^ self copy species: (species copy ordering: aMonomialOrdering)! !
+
 !Polynomial methodsFor: 'operations' stamp: 'len 7/4/2016 03:20'!
 permutedBy: aPermutation
 	"Permute the variables of the receiver. The argument can be an Array (permutation in 'image format'). For example given a polynomial in x,z,y, #(1 2 3) doesn't change anything, #(2 1 3) exchanges variables x and y."
@@ -29684,11 +29828,6 @@ signature
 			g _ A leadingCoefficient abs.
 			h _ h ** (1 - d) * (g ** d)].
 	^ {r1. n - r1 / 2}! !
-
-!Polynomial methodsFor: 'converting' stamp: 'len 3/1/2016 21:02'!
-sortedBy: aMonomialOrdering
-	"Answer a copy of the receiver with a different monomial ordering."
-	^ self copy species: (species copy ordering: aMonomialOrdering)! !
 
 !Polynomial methodsFor: 'accessing-private' stamp: 'len 11/26/2015 03:07'!
 species
@@ -33806,9 +33945,9 @@ testEqualVarietiesDifferentIdeals2
 	self assert: V = V`.
 	self assert: I ~= I`! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 7/4/2016 06:32'!
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 7/7/2016 02:26'!
 testGroebnerTrivial
-	"The 3 polynomials have no common zeroes, the groebner basis should be {1}."
+	"The 3 polynomials have no common zeroes, the Groebner basis should be {1}."
 	| Qx x y I |
 	Qx _ Rationals new polynomialsIn: #(x y) ordering: #lex.
 	x _ Qx x.
@@ -33835,8 +33974,20 @@ testIdealHomogenization
 	J _ Qx * {f1 homogenized. f2 homogenized}.
 	self deny: (J includes: f3 homogenized)! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 3/24/2016 05:51'!
-testIdealInclusion
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 6/5/2016 22:54'!
+testIdealIntersection
+	"Example from Cox IVA 194 p."
+	| Qxy x y I J K |
+	Qxy _ Rationals new polynomialsIn: #(x y).
+	x _ Qxy x.
+	y _ Qxy y.
+	I _ Qxy * {x**2 * y}.
+	J _ Qxy * {x * (y**2)}.
+	K _ Qxy * {x**2*(y**2)}.
+	self assert: I /\ J = K! !
+
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 7/6/2016 01:06'!
+testIdealMembership
 	| Qxy x y f g I J h k |
 	Qxy _ Rationals new polynomialsIn: #(x y).
 	x _ Qxy x.
@@ -33852,8 +34003,8 @@ testIdealInclusion
 	self assert: (J includes: h) not.
 	self assert: (J includes: k) not! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 3/24/2016 05:52'!
-testIdealInclusion2
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 7/6/2016 01:07'!
+testIdealMembership2
 	| Qxy x y I |
 	Qxy _ Rationals new polynomialsIn: #(x y).
 	x _ Qxy x.
@@ -33861,8 +34012,8 @@ testIdealInclusion2
 	I _ Qxy * {x*x. y*2 + x}.
 	self assert: (I includes: (x + y) squared)! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 3/27/2016 09:57'!
-testIdealInclusion3
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 7/6/2016 01:07'!
+testIdealMembership3
 	| Qx x y z w f g I |
 	Qx _ Rationals new polynomialsIn: #(x y z w).
 	x _ Qx x.
@@ -33877,17 +34028,16 @@ testIdealInclusion3
 	intersection (the ideal is not radical since includes f^2):"
 	self assert: (I includes: f**2)! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 6/5/2016 22:54'!
-testIdealIntersection
-	"Example from Cox IVA 194 p."
-	| Qxy x y I J K |
-	Qxy _ Rationals new polynomialsIn: #(x y).
-	x _ Qxy x.
-	y _ Qxy y.
-	I _ Qxy * {x**2 * y}.
-	J _ Qxy * {x * (y**2)}.
-	K _ Qxy * {x**2*(y**2)}.
-	self assert: I /\ J = K! !
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 7/6/2016 06:13'!
+testIdealMembershipRandom
+	| P f1 f2 f3 I g |
+	P _ Rationals new polynomialsIn: #(x y z).
+	[(f1 _ P atRandomBits: 10) isZero] whileTrue.
+	[(f2 _ P atRandomBits: 10) isZero] whileTrue.
+	[(f3 _ P atRandomBits: 10) isZero] whileTrue.
+	I _ P * {f1. f2. f3}.
+	g _ I atRandomBits: 100.
+	self assert: (I includes: g)! !
 
 !AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 6/3/2016 03:02'!
 testLinearSubspaceAsAlgebraicVariety
@@ -35421,7 +35571,7 @@ testMonomialLCM
 	b _ x*y*y.
 	self assert: (a lcm: b) = (x*x*y*y)! !
 
-!MonomialTest methodsFor: 'as yet unclassified' stamp: 'len 7/3/2016 02:07'!
+!MonomialTest methodsFor: 'as yet unclassified' stamp: 'len 7/7/2016 04:25'!
 testMonomialOrderings
 	| P x y z f grlex lex revlex |
 	P _ Integers new polynomialsIn: 3.
@@ -35436,9 +35586,9 @@ testMonomialOrderings
 	grlex _ MonomialOrdering tlex: 3.
 	revlex _ MonomialOrdering revlex: 3.
 
-	self assert: (f sortedBy: lex) leadingCoefficient = 10.
-	self assert: (f sortedBy: grlex) leadingCoefficient = -7.
-	self assert: (f sortedBy: revlex) leadingCoefficient = 11! !
+	self assert: (f orderedBy: lex) leadingCoefficient = 10.
+	self assert: (f orderedBy: grlex) leadingCoefficient = -7.
+	self assert: (f orderedBy: revlex) leadingCoefficient = 11! !
 
 !MonomialTest methodsFor: 'as yet unclassified' stamp: 'len 7/3/2016 02:10'!
 testMonomialOrderingsExample
