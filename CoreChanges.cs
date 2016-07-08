@@ -1,4 +1,10 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 24 June 2016 at 10:10:58.899821 pm'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 8 July 2016 at 5:58:37.871231 am'!
+!classDefinition: #Dictionary2 category: #'Collections-Unordered'!
+Dictionary subclass: #Dictionary2
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Collections-Unordered'!
 !classDefinition: #Set2 category: #'Collections-Unordered'!
 Set subclass: #Set2
 	instanceVariableNames: ''
@@ -80,9 +86,39 @@ shuffledBy: aGenerator
 	^ (self collect: [ :each | each ]) shuffleBy: aGenerator! !
 
 
+!Array methodsFor: 'accessing' stamp: 'len 7/4/2016 04:15'!
+at2: index
+	<primitive: 60>
+	^ nil! !
+
+!Array methodsFor: 'accessing' stamp: 'len 7/4/2016 04:16'!
+at2: index ifAbsent: exceptionBlock
+	^ (self at2: index) ifNil: [exceptionBlock value]! !
+
+
 !String methodsFor: 'testing' stamp: 'len 3/22/2016 21:11'!
 isAlphaNumeric
 	^ self allSatisfy: [:each| each isAlphaNumeric]! !
+
+
+!Dictionary2 methodsFor: 'as yet unclassified' stamp: 'len 6/27/2016 22:48'!
+scanFor: anObject
+	"Scan the key array for the first slot containing either a nil (indicating an empty slot) or an element that matches anObject. Answer the index of that slot or zero if no slot is found. This method will be overridden in various subclasses that have different interpretations for matching elements."
+	| element start finish |
+	start _ (anObject hash hashMultiply \\ array size) + 1.
+	finish _ array size.
+
+	"Search from (hash mod size) to the end."
+	start to: finish do:
+		[:index | ((element _ array at: index) == nil or: [element key = anObject])
+			ifTrue: [^ index ]].
+
+	"Search from 1 to where we started."
+	1 to: start-1 do:
+		[:index | ((element _ array at: index) == nil or: [element key = anObject])
+			ifTrue: [^ index ]].
+
+	^ 0  "No match AND no empty slot"! !
 
 
 !SystemDictionary methodsFor: 'browsing' stamp: 'len 6/9/2016 23:23'!
@@ -132,14 +168,13 @@ scanFor2: anObject
 
 	^ 0  "No match AND no empty slot"! !
 
-!Set2 methodsFor: 'as yet unclassified' stamp: 'len 6/10/2016 01:18'!
+!Set2 methodsFor: 'as yet unclassified' stamp: 'len 6/27/2016 22:47'!
 scanFor3: anObject
 	"Scan the key array for the first slot containing either a nil (indicating an empty slot) or an element that matches anObject. Answer the index of that slot or zero if no slot is found. This method will be overridden in various subclasses that have different interpretations for matching elements."
-	| finish hash start element |
+	| finish  start element |
 	finish _ array size.
-	hash _ anObject hash hashMultiply.
-	start _ (hash \\ array size) + 1.
-
+	start _ (anObject hash hashMultiply \\ array size) + 1.
+	
 	"Search from (hash mod size) to the end."
 	start to: finish do:
 		[:index | ((element _ array at: index) == nil or: [element = anObject])
@@ -152,14 +187,13 @@ scanFor3: anObject
 
 	^ 0  "No match AND no empty slot"! !
 
-!Set2 methodsFor: 'as yet unclassified' stamp: 'len 6/10/2016 01:24'!
+!Set2 methodsFor: 'as yet unclassified' stamp: 'len 6/27/2016 22:48'!
 scanFor: anObject
 	"Scan the key array for the first slot containing either a nil (indicating an empty slot) or an element that matches anObject. Answer the index of that slot or zero if no slot is found. This method will be overridden in various subclasses that have different interpretations for matching elements."
-	| finish hash start element |
+	| finish  start element |
 	finish _ array size.
-	hash _ anObject hash * (finish // 4096 + 1).
-	start _ (hash \\ array size) + 1.
-
+	start _ (anObject hash hashMultiply \\ array size) + 1.
+	
 	"Search from (hash mod size) to the end."
 	start to: finish do:
 		[:index | ((element _ array at: index) == nil or: [element = anObject])
@@ -361,6 +395,18 @@ openOn: anObject
 	^ self openOn: anObject withLabel: label! !
 
 
+!Categorizer methodsFor: 'accessing' stamp: 'len 7/4/2016 04:57'!
+listAtCategoryNumber: anInteger 
+	"Answer the array of elements stored at the position indexed by anInteger.  Answer nil if anInteger is larger than the number of categories."
+
+	| firstIndex lastIndex |
+	(anInteger < 1 or: [anInteger > categoryStops size])
+		ifTrue: [^ nil].
+	firstIndex _ self firstIndexOfCategoryNumber: anInteger.
+	lastIndex _  self lastIndexOfCategoryNumber: anInteger.
+	^(elementArray copyFrom: firstIndex to: lastIndex) asSortedCollection! !
+
+
 !Character methodsFor: 'testing' stamp: 'len 6/11/2016 17:13'!
 isSpecial
 	"Answer whether the receiver is one of the special characters that can be used as binary operator."
@@ -546,6 +592,23 @@ initialize
 	CSNonSeparators _ CSSeparators complement! !
 
 
+!Interval methodsFor: 'printing' stamp: 'len 6/28/2016 08:23'!
+printOn: aStream
+	| s |
+	aStream
+	 print: start;
+	 nextPutAll: ' to: ';
+	 print: stop.
+	s _ self increment.
+	s ~= 1 ifTrue: [aStream nextPutAll: ' by: '; print: s]! !
+
+!Interval methodsFor: 'printing' stamp: 'len 6/28/2016 08:24'!
+storeOn: aStream 
+	"This is possible because we know numbers store and print the same."
+	
+	aStream nextPut: $(; print: self; nextPut:$)! !
+
+
 !Dictionary methodsFor: 'printing' stamp: 'len 6/22/2016 16:36'!
 printElementsOn: aStream
 	aStream nextPut: $(.
@@ -569,12 +632,82 @@ printOn: aStream
 ! !
 
 
+!Duration methodsFor: 'ansi protocol' stamp: 'len 6/28/2016 09:12'!
+hash
+	^seconds bitXor: nanos! !
+
+
 !MenuMorph methodsFor: 'keyboard control' stamp: 'len 6/11/2016 20:40'!
 keyboardFocusChange: aBoolean
 	"Notify change due to green border for keyboard focus"
 
 	aBoolean ifFalse: [self deleteIfPopUp: nil].
 	self redrawNeeded! !
+
+
+!MessageSetWindow methodsFor: 'GUI building' stamp: 'len 6/30/2016 07:20'!
+buildMorphicWindow
+	"Answer a morphic window with the given label that can display the receiver"
+
+	self layoutMorph
+		addMorph: self buildMorphicMessageList proportionalHeight: 0.4;
+		addAdjusterAndMorph: self buildLowerPanes proportionalHeight: 0.6.
+	model changed: #editSelection! !
+
+
+!DebuggerWindow methodsFor: 'GUI building' stamp: 'len 6/29/2016 21:42'!
+buildMorphicWindow
+	"Open a full morphic debugger with the given label"
+
+	| upperMorph bottomMorph1 bottomMorph2 bottomMorph3 bottomMorph4 bottomMorph |
+
+	upperMorph _ PluggableListMorph
+		model: model 
+		listGetter: #contextStackList
+		indexGetter: #contextStackIndex
+		indexSetter: #toggleContextStackIndex:
+		mainView: self
+		menuGetter: #contextStackMenu
+		keystrokeAction: #contextStackKey:from:.
+
+	bottomMorph1 _ PluggableListMorph
+			model: model receiverInspector
+			listGetter: #fieldList
+			indexGetter: #selectionIndex 
+			indexSetter: #toggleIndex:
+			mainView: self
+			menuGetter: #receiverFieldListMenu
+			keystrokeAction: #inspectorKey:from:.
+	bottomMorph2 _ TextModelMorph
+			textProvider: model receiverInspector
+			textGetter: #acceptedContents 
+			textSetter: #accept:
+			selectionGetter: #contentsSelection.
+	bottomMorph3 _ PluggableListMorph
+			model: model contextVariablesInspector 
+			listGetter: #fieldList
+			indexGetter: #selectionIndex 
+			indexSetter: #toggleIndex:
+			mainView: self
+			menuGetter: #contextFieldListMenu
+			keystrokeAction: #inspectorKey:from:.
+	bottomMorph4 _ TextModelMorph
+			textProvider: model contextVariablesInspector
+			textGetter: #acceptedContents 
+			textSetter: #accept:
+			selectionGetter: #contentsSelection.
+
+	bottomMorph _ LayoutMorph newRow.
+	bottomMorph
+		addMorph: bottomMorph1 proportionalWidth: 0.2;
+		addAdjusterAndMorph: bottomMorph2 proportionalWidth: 0.3;
+		addAdjusterAndMorph: bottomMorph3 proportionalWidth: 0.2;
+		addAdjusterAndMorph: bottomMorph4 proportionalWidth: 0.3.
+
+	self layoutMorph
+		addMorph: upperMorph proportionalHeight: 0.3;
+		addAdjusterAndMorph: self buildLowerPanes proportionalHeight: 0.5;
+		addAdjusterAndMorph: bottomMorph proportionalHeight: 0.2! !
 
 
 !FillInTheBlankMorph methodsFor: 'initialization' stamp: 'len 6/9/2016 21:08'!
@@ -757,6 +890,8 @@ shout
 		#tempVars 				-> #(gray muchDarker).
 	}! !
 
+!methodMoveToSomePackage: Integer #bitParity!
+Integer removeSelectorIfInBaseSystem: #bitParity!
 !methodRemoval: Character class #HH!
 Character class removeSelector: #HH!
 !methodRemoval: Character class #bullet!
@@ -789,4 +924,20 @@ Character class removeSelector: #notIdentical!
 Character class removeSelector: #strictlyEquivalent!
 !methodRemoval: Character class #summation!
 Character class removeSelector: #summation!
+
+!Metaclass reorganize!
+('accessing' allInstances category isMeta name soleInstance theMetaClass theNonMetaClass)
+('class hierarchy' addObsoleteSubclass: addSubclass: obsoleteSubclasses removeObsoleteSubclass: removeSubclass: subclasses subclassesDo: subclassesDoGently:)
+('compiling' acceptsLoggingOfCompilation bindingOf: possibleVariablesFor:continuedFrom: wantsChangeSetLogging wantsRecompilationProgressReported)
+('copying' postCopy)
+('enumerating' allInstancesDo:)
+('fileIn/Out' definition fileOutInitializerOn: fileOutOn:moveSource:toFile: fileOutOn:moveSource:toFile:initializing: nonTrivial objectForDataStream: storeDataOn:)
+('initialization' adoptInstance:from: instanceVariableNames:)
+('instance creation' new)
+('instance variables' addInstVarName: removeInstVarName:)
+('pool variables' classPool)
+('testing' canZapMethodDictionary isObsolete)
+('private' replaceObsoleteInstanceWith:)
+!
+
 String initialize!
