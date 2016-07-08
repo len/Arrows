@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 8 July 2016 at 1:53:13.023163 am'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 8 July 2016 at 5:51:12.115078 am'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 147!
+!provides: 'Mathematics' 1 148!
 !classDefinition: #AbelianGroupPresentation category: #'Mathematics-Free'!
 Object subclass: #AbelianGroupPresentation
 	instanceVariableNames: 'generators relators'
@@ -79,6 +79,16 @@ Benchmark subclass: #PolynomialBenchmark
 	category: 'Mathematics-Tests'!
 !classDefinition: 'PolynomialBenchmark class' category: #'Mathematics-Tests'!
 PolynomialBenchmark class
+	instanceVariableNames: ''!
+
+!classDefinition: #SmallMatrixBenchmark category: #'Mathematics-Tests'!
+Benchmark subclass: #SmallMatrixBenchmark
+	instanceVariableNames: 'integerMatrix binaryMatrix'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Tests'!
+!classDefinition: 'SmallMatrixBenchmark class' category: #'Mathematics-Tests'!
+SmallMatrixBenchmark class
 	instanceVariableNames: ''!
 
 !classDefinition: #SparsePolynomialMultiplicationBenchmark category: #'Mathematics-Tests'!
@@ -2411,6 +2421,16 @@ Matrix subclass: #ColumnMatrix
 ColumnMatrix class
 	instanceVariableNames: ''!
 
+!classDefinition: #DenseMatrix category: #'Mathematics-Linear'!
+Matrix subclass: #DenseMatrix
+	instanceVariableNames: 'coefficients'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Linear'!
+!classDefinition: 'DenseMatrix class' category: #'Mathematics-Linear'!
+DenseMatrix class
+	instanceVariableNames: ''!
+
 !classDefinition: #RowMatrix category: #'Mathematics-Linear'!
 Matrix subclass: #RowMatrix
 	instanceVariableNames: 'rows'
@@ -2419,6 +2439,16 @@ Matrix subclass: #RowMatrix
 	category: 'Mathematics-Linear'!
 !classDefinition: 'RowMatrix class' category: #'Mathematics-Linear'!
 RowMatrix class
+	instanceVariableNames: ''!
+
+!classDefinition: #SparseMatrix category: #'Mathematics-Linear'!
+Matrix subclass: #SparseMatrix
+	instanceVariableNames: 'coefficients'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Linear'!
+!classDefinition: 'SparseMatrix class' category: #'Mathematics-Linear'!
+SparseMatrix class
 	instanceVariableNames: ''!
 
 !classDefinition: #MatrixReducer category: #'Mathematics-Linear-Algorithms'!
@@ -3464,6 +3494,20 @@ testRealAlgebraicNumberAddition	5.96 seconds.
 testRealAlgebraicNumberDivision	70.8 per second.
 testRealAlgebraicNumberProduct	81.7 per second.
 testRealAlgebraicNumberSquare	1,820 per second!
+
+!SmallMatrixBenchmark commentStamp: '<historical>' prior: 0!
+This benchmark tests some basic operations on 64x64 matrices.
+
+SmallMatrixBenchmark new run
+testAdditionZ	4,500 per second.
+testAdditionZ2	33,700 per second.
+testCopyZ	58,200 per second.
+testCopyZ2	164,000 per second.
+testMultiplicationZ	20.1 per second.
+testMultiplicationZ2	7.81 per second.
+testTranspositionZ	1,580 per second.
+testTranspositionZ2	565 per second.
+!
 
 !SparsePolynomialMultiplicationBenchmark commentStamp: 'len 6/5/2016 08:50' prior: 0!
 Timings giving in [1] on computers with 0.8ghz - 1ghz intel cpus: general purpose system 20s-100s, tuned systems 2.3s-10s. For bigger coefficients: singular 28s, pari 77s.
@@ -5771,6 +5815,43 @@ testRealAlgebraicNumberSquare
 	| sqrt2 |
 	sqrt2 _ RealAlgebraicNumber sqrt2.
 	10 timesRepeat: [sqrt2 squared]! !
+
+!SmallMatrixBenchmark methodsFor: 'as yet unclassified' stamp: 'len 7/8/2016 02:48'!
+setUp
+	integerMatrix _ Integers new ** (64@64) :: atRandomBits: 10000.
+	binaryMatrix _ (Field GF: 2) ** (64@64) :: atRandom! !
+
+!SmallMatrixBenchmark methodsFor: 'as yet unclassified' stamp: 'len 7/8/2016 02:48'!
+testAdditionZ
+	integerMatrix + integerMatrix! !
+
+!SmallMatrixBenchmark methodsFor: 'as yet unclassified' stamp: 'len 7/8/2016 02:48'!
+testAdditionZ2
+	binaryMatrix + binaryMatrix! !
+
+!SmallMatrixBenchmark methodsFor: 'as yet unclassified' stamp: 'len 7/8/2016 02:49'!
+testCopyZ
+	integerMatrix copy! !
+
+!SmallMatrixBenchmark methodsFor: 'as yet unclassified' stamp: 'len 7/8/2016 02:50'!
+testCopyZ2
+	binaryMatrix copy! !
+
+!SmallMatrixBenchmark methodsFor: 'as yet unclassified' stamp: 'len 7/8/2016 02:49'!
+testMultiplicationZ
+	integerMatrix * integerMatrix! !
+
+!SmallMatrixBenchmark methodsFor: 'as yet unclassified' stamp: 'len 7/8/2016 02:58'!
+testMultiplicationZ2
+	binaryMatrix * binaryMatrix! !
+
+!SmallMatrixBenchmark methodsFor: 'as yet unclassified' stamp: 'len 7/8/2016 02:49'!
+testTranspositionZ
+	integerMatrix transposed! !
+
+!SmallMatrixBenchmark methodsFor: 'as yet unclassified' stamp: 'len 7/8/2016 02:58'!
+testTranspositionZ2
+	binaryMatrix transposed! !
 
 !SparsePolynomialMultiplicationBenchmark methodsFor: 'as yet unclassified' stamp: 'len 6/5/2016 08:44'!
 setUp
@@ -11569,6 +11650,10 @@ asRing
 coordinatesOf: aMatrix
 	^ aMatrix asTuple! !
 
+!Matrices methodsFor: 'elements' stamp: 'len 7/8/2016 04:43'!
+dense: aTuple
+	^ DenseMatrix new coefficients: aTuple; species: self! !
+
 !Matrices methodsFor: 'elements' stamp: 'len 3/3/2016 18:57'!
 diagonal: aTuple
 	^ self evaluatingDiagonal: [:i| aTuple at: i]! !
@@ -11584,6 +11669,15 @@ e: anInteger
 	zero _ scalars zero.
 	m _ numberOfColumns.
 	^ self evaluating: [:i :j| (i-1)*m + j = anInteger ifTrue: [one] ifFalse: [zero]]! !
+
+!Matrices methodsFor: 'basis' stamp: 'len 7/8/2016 03:03'!
+elementAt: aTuple
+	^ self evaluating: [:i :j| aTuple at: (i-1)*numberOfColumns + j]
+
+"	| answer |
+	answer _ self zero.
+	aTuple withIndexDo: [:each :i| answer _ (self e: i) * each + answer].
+	^ answer"! !
 
 !Matrices methodsFor: 'elements' stamp: 'len 4/22/2016 21:38'!
 evaluating: aBlock
@@ -11694,6 +11788,10 @@ scalars: aDomain
 !Matrices methodsFor: 'accessing' stamp: 'len 11/9/2015 23:18'!
 size
 	^ scalars size ** (self numberOfRows * self numberOfColumns)! !
+
+!Matrices methodsFor: 'elements' stamp: 'len 7/8/2016 04:20'!
+sparse: aSparseTuple
+	^ SparseMatrix new coefficients: aSparseTuple; species: self! !
 
 !Matrices methodsFor: 'morphisms' stamp: 'len 11/26/2015 01:34'!
 transposed
@@ -19291,13 +19389,13 @@ on: anObject
 * anObject
 	^ self class on: value * anObject value! !
 
-!GroupElement methodsFor: 'arithmetic' stamp: 'len 6/23/2016 04:49'!
+!GroupElement methodsFor: 'arithmetic' stamp: 'len 7/8/2016 05:38'!
 ** anInteger
 	anInteger = 1 ifTrue: [^ self].
 	anInteger = 0 ifTrue: [^ self one].
-	anInteger > 1
-		ifTrue: [^(self * self ** (anInteger // 2)) * (self ** (anInteger \\ 2))].
-	^ (self ** anInteger negated) reciprocal! !
+	anInteger < 0
+		ifTrue: [^ (self ** anInteger negated) reciprocal].
+	^ (self * self ** (anInteger // 2)) * (self ** (anInteger \\ 2))! !
 
 !GroupElement methodsFor: 'arithmetic' stamp: 'len 6/23/2016 02:45'!
 / anObject
@@ -19357,13 +19455,13 @@ reciprocal
 * anObject
 	^ self class on: value * anObject value! !
 
-!RingElement methodsFor: 'arithmetic' stamp: 'len 6/23/2016 04:49'!
+!RingElement methodsFor: 'arithmetic' stamp: 'len 7/8/2016 05:42'!
 ** anInteger
+	"Answer the receiver raised to the power anInteger."
 	anInteger = 1 ifTrue: [^ self].
 	anInteger = 0 ifTrue: [^ self one].
-	anInteger > 1
-		ifTrue: [^(self * self ** (anInteger // 2)) * (self ** (anInteger \\ 2))].
-	^ (self ** anInteger negated) reciprocal! !
+	anInteger < 0 ifTrue: [^ self reciprocal ** anInteger negated].
+	^ self squared ** (anInteger // 2) * (self ** (anInteger \\ 2))! !
 
 !RingElement methodsFor: 'arithmetic' stamp: 'len 6/23/2016 02:46'!
 + anObject
@@ -24280,14 +24378,14 @@ with: anElement times: n
 		ifTrue: [^ self mapMonomials: [:each| each*anObject]].
 	^ DomainError signal! !
 
-!FreePolynomial methodsFor: 'arithmetic' stamp: 'len 6/29/2016 23:30'!
+!FreePolynomial methodsFor: 'arithmetic' stamp: 'len 7/8/2016 05:38'!
 ** anInteger
 	"Answer the receiver raised to the power anInteger."
 	(anInteger isInteger and: [anInteger >= 0])
 		ifFalse: [^ self error: 'undefinted'].
 	anInteger = 0 ifTrue: [^ self one].
 	anInteger = 1 ifTrue: [^ self].
-	^ self * self ** (anInteger // 2) * (self ** (anInteger \\ 2))! !
+	^ self squared ** (anInteger // 2) * (self ** (anInteger \\ 2))! !
 
 !FreePolynomial methodsFor: 'accessing' stamp: 'len 3/3/2016 05:27'!
 degree
@@ -25439,10 +25537,13 @@ sqrt: aNumber
 	(self scalars includes: anObject) ifFalse: [^ DomainError signal].
 	^ self collect: [:each| each * anObject]! !
 
-!Matrix methodsFor: 'arithmetic' stamp: 'len 1/16/2016 06:08'!
+!Matrix methodsFor: 'arithmetic' stamp: 'len 7/8/2016 05:39'!
 ** anInteger
-	anInteger isInteger ifFalse: [^ DomainError signal: 'Exponentiation not defined for non-integer exponents' ].
-	^ self raisedToInteger: anInteger! !
+	"Answer the receiver raised to the power anInteger."
+	anInteger = 1 ifTrue: [^ self].
+	anInteger = 0 ifTrue: [^ self identity].
+	anInteger < 0 ifTrue: [^ self reciprocal ** anInteger negated].
+	^ (self squared ** (anInteger // 2)) * (self ** (anInteger \\ 2))! !
 
 !Matrix methodsFor: 'arithmetic' stamp: 'len 3/23/2016 00:25'!
 + aMatrix
@@ -25734,9 +25835,9 @@ diagonalDo: aBlock
 dimension
 	^ self numberOfRows @ self numberOfColumns! !
 
-!Matrix methodsFor: 'iterating' stamp: 'len 11/4/2015 23:06'!
+!Matrix methodsFor: 'iterating' stamp: 'len 7/8/2016 04:30'!
 do: aBlock
-	self rowsDo: [ :each | each do: aBlock ]! !
+	self rowsDo: [:each| each do: aBlock ]! !
 
 !Matrix methodsFor: 'arithmetic' stamp: 'len 3/28/2016 01:23'!
 dot: aMatrix
@@ -26042,14 +26143,6 @@ pseudoInverse
 	"Answer the Moore-Penrose pseudoinverse matrix of the receiver."
 	^ self notYetImplemented! !
 
-!Matrix methodsFor: 'arithmetic' stamp: 'len 12/29/2015 02:39'!
-raisedToInteger: anInteger
-	"Answer the receiver raised to the power anInteger."
-	anInteger = 0 ifTrue: [^ self identity].
-	anInteger = 1 ifTrue: [^ self].
-	anInteger < 0 ifTrue: [^ self reciprocal raisedToInteger: anInteger negated].
-	^ (self * self raisedToInteger: anInteger // 2) * (self raisedToInteger: anInteger \\ 2)! !
-
 !Matrix methodsFor: 'operations' stamp: 'len 12/3/2015 04:38'!
 rank
 	^ self reducer rank! !
@@ -26330,6 +26423,35 @@ new
 withRows: anArray
 	^ self basicNew rows: anArray! !
 
+!SparseMatrix methodsFor: 'as yet unclassified' stamp: 'len 7/8/2016 05:30'!
++ aMatrix
+	self species = aMatrix species ifFalse: [^ DomainError signal: 'matrices of different species'].
+	aMatrix class = self class ifTrue: [^ self species sparse: self coefficients + aMatrix coefficients].
+	^ self species evaluating: [:i :j| (self at: i@j) + (aMatrix at: i@j)]! !
+
+!SparseMatrix methodsFor: 'as yet unclassified' stamp: 'len 7/8/2016 05:31'!
+- aMatrix
+	self species = aMatrix species ifFalse: [^ DomainError signal: 'matrices of different species'].
+	aMatrix class = self class ifTrue: [^ self species sparse: self coefficients - aMatrix coefficients].
+	^ self species evaluating: [:i :j| (self at: i@j) - (aMatrix at: i@j)]! !
+
+!SparseMatrix methodsFor: 'as yet unclassified' stamp: 'len 7/8/2016 04:11'!
+at: i at: j
+	^ coefficients at: i@j ifAbsent: [species scalars zero]! !
+
+!SparseMatrix methodsFor: 'as yet unclassified' stamp: 'len 7/8/2016 04:10'!
+at: i at: j put: anObject
+	^ coefficients at: i@j put: anObject! !
+
+!SparseMatrix methodsFor: 'as yet unclassified' stamp: 'len 7/8/2016 04:12'!
+coefficients: aSparseTuple
+	coefficients _ aSparseTuple! !
+
+!SparseMatrix methodsFor: 'as yet unclassified' stamp: 'len 7/8/2016 04:09'!
+species: aMatrices
+	super species: aMatrices.
+	coefficients isNil ifTrue: [coefficients _ SparseTuple zero: aMatrices scalars zero]! !
+
 !MatrixReducer methodsFor: 'accessing' stamp: 'len 11/6/2015 04:59'!
 addPivot: aPoint
 	currentPivot _ aPoint.
@@ -26572,13 +26694,12 @@ run
 	aModularInteger isInteger ifTrue: [^ self class representative: representative * aModularInteger \\ modulus modulo: modulus].
 	^ self class representative: representative * aModularInteger representative \\ modulus modulo: modulus! !
 
-!ModularInteger methodsFor: 'arithmetic' stamp: 'len 3/30/2016 03:36'!
+!ModularInteger methodsFor: 'arithmetic' stamp: 'len 7/8/2016 05:40'!
 ** anInteger
 	anInteger = 1 ifTrue: [^ self].
 	anInteger = 0 ifTrue: [^ self one].
-	anInteger > 1
-		ifTrue: [^(self * self ** (anInteger // 2)) * (self ** (anInteger \\ 2))].
-	^ (self ** anInteger negated) reciprocal! !
+	anInteger < 0 ifTrue: [^ self reciprocal ** anInteger negated].
+	^ (self * self ** (anInteger // 2)) * (self ** (anInteger \\ 2))! !
 
 !ModularInteger methodsFor: 'arithmetic' stamp: 'len 4/25/2016 00:24'!
 + aModularInteger
@@ -28758,9 +28879,13 @@ row: anInteger column: anotherInteger
 		ifTrue: [^ anObject coefficientsApply: [:each| self * each]].
 	^ DomainError signal! !
 
-!Polynomial methodsFor: 'arithmetic' stamp: 'len 11/6/2015 03:20'!
+!Polynomial methodsFor: 'arithmetic' stamp: 'len 7/8/2016 05:40'!
 ** anInteger
-	^ self raisedToInteger: anInteger! !
+	"Answer the receiver raised to the power anInteger."
+	anInteger = 1 ifTrue: [^ self].
+	anInteger = 0 ifTrue: [^ self one].
+	anInteger < 0 ifTrue: [^ (self ** anInteger negated) reciprocal].
+	^ self squared ** (anInteger // 2) * (self ** (anInteger \\ 2))! !
 
 !Polynomial methodsFor: 'arithmetic' stamp: 'len 3/23/2016 04:05'!
 + anObject
@@ -28837,10 +28962,10 @@ affinizedIn: anIndeterminate
 	"Answer the affinization of the receiver in the given indeterminate."
 	^ self monomialsApply: [:each| each copyWithout: anIndeterminate]! !
 
-!Polynomial methodsFor: 'operations' stamp: 'len 2/14/2016 21:04'!
+!Polynomial methodsFor: 'operations' stamp: 'len 7/8/2016 04:37'!
 apply: aMorphism
 	"Apply a homomorphism to the coefficients of the receiver."
-	aMorphism domain = self scalars ifTrue: [^ self coefficientsApply: aMorphism].
+	(aMorphism isBlock or: [aMorphism domain = self scalars]) ifTrue: [^ self coefficientsApply: aMorphism].
 	^ DomainError signal! !
 
 !Polynomial methodsFor: 'converting' stamp: 'len 6/1/2016 20:17'!
@@ -29767,16 +29892,6 @@ raisedTo: anInteger modulo: anObject
 	anInteger = 1 ifTrue: [^ self \\ anObject].
 	^ (self squared \\ anObject raisedTo: anInteger // 2 modulo: anObject) * (self raisedTo: anInteger \\ 2 modulo: anObject) \\ anObject! !
 
-!Polynomial methodsFor: 'arithmetic' stamp: 'len 3/2/2016 20:50'!
-raisedToInteger: anInteger
-	"Answer the receiver raised to the power anInteger."
-	anInteger = 1 ifTrue: [^ self].
-	anInteger = 0 ifTrue: [^ self one].
-	anInteger > 1
-		ifTrue: [^ (self * self raisedToInteger: anInteger // 2)
-				* (self raisedToInteger: anInteger \\ 2)].
-	^ (self raisedToInteger: anInteger negated) reciprocal! !
-
 !Polynomial methodsFor: 'arithmetic' stamp: 'len 2/14/2016 21:05'!
 reciprocal
 	self isConstant ifTrue: [^ self coefficientsApply: [:each| each reciprocal]]. "assuming we're in a field"
@@ -29797,22 +29912,23 @@ rename: anInteger to: anotherInteger
 	(self indeterminates includes: anotherInteger) ifFalse: [^ self error: 'unknown indeterminate'].
 	^ self value: ((1 to: self species rank) collect: [:i| self species x: (i = anInteger ifTrue: [anotherInteger] ifFalse: [i])])! !
 
-!Polynomial methodsFor: 'operations univariate' stamp: 'len 11/24/2015 06:16'!
+!Polynomial methodsFor: 'operations univariate' stamp: 'len 7/8/2016 05:43'!
 resultant2: aPolynomial
 	"Answer the resultant of the receiver with the argument."
-
 	| f g mult |
 	self degree <= aPolynomial degree
 		ifTrue: [f _ self. g _ aPolynomial]
 		ifFalse: [f _ aPolynomial. g _ self].
-	f isConstant ifTrue: [^ (f raisedToInteger: g degree)].
+	f isConstant ifTrue: [^ (f ** g degree)].
 	f isMonic
-		ifTrue: [mult _ f leadingCoefficient]
-		ifFalse: [mult _ f leadingCoefficient raisedToInteger: g degree.
-				f _ f / f leadingCoefficient].
+		ifTrue:
+			[mult _ f leadingCoefficient]
+		ifFalse:
+			[mult _ f leadingCoefficient ** g degree.
+			f _ f / f leadingCoefficient].
 	^ (g value: f companion) determinant * mult! !
 
-!Polynomial methodsFor: 'operations univariate' stamp: 'len 11/22/97 23:30'!
+!Polynomial methodsFor: 'operations univariate' stamp: 'len 7/8/2016 05:44'!
 resultant3: aPolynomial
 	"Answer the resultant of the receiver with the argument."
 
@@ -29821,34 +29937,34 @@ resultant3: aPolynomial
 		ifTrue: [f _ aPolynomial. g _ self. negate _ true]
 		ifFalse: [f _ self. g _ aPolynomial. negate _ false].
 	answer _ f isConstant
-		ifTrue: [f raisedToInteger: g degree]
-		ifFalse: [(f resultant3: g \\ f) *
-				(f leadingCoefficient raisedToInteger: (g degree - f degree + 1))].
+		ifTrue: [f ** g degree]
+		ifFalse:
+			[(f resultant3: g \\ f) * (f leadingCoefficient ** (g degree - f degree + 1))].
 	^ negate ifTrue: [answer negated] ifFalse: [answer]! !
 
-!Polynomial methodsFor: 'operations univariate' stamp: 'len 12/19/2015 23:15'!
+!Polynomial methodsFor: 'operations univariate' stamp: 'len 7/8/2016 05:44'!
 resultant: aPolynomial
 	"Answer the resultant of the receiver with aPolynomial."
 	self degree = 0
-		ifTrue: [^ aPolynomial raisedToInteger: self degree].
+		ifTrue: [^ aPolynomial ** self degree].
 	aPolynomial degree = 0
 		ifTrue:
 			[^ (self degree even or: [aPolynomial degree even])
-					ifTrue: [(self raisedToInteger: aPolynomial degree)]
-					ifFalse: [(self raisedToInteger: aPolynomial degree) negated]].
+					ifTrue: [(self ** aPolynomial degree)]
+					ifFalse: [(self ** aPolynomial degree) negated]].
 	^ (self sylvester: aPolynomial) determinant! !
 
-!Polynomial methodsFor: 'deprecated' stamp: 'len 3/27/2016 07:52'!
+!Polynomial methodsFor: 'deprecated' stamp: 'len 7/8/2016 05:45'!
 resultant: aPolynomial in: anIndeterminate
 	"Answer the resultant of the receiver with aPolynomial in the anInteger-th indeterminate."
 
 	self flag: #fix. self flag: #deprecated.
 	(self degreeIn: anIndeterminate) = 0
-		ifTrue: [^ aPolynomial raisedToInteger: self degree].
+		ifTrue: [^ aPolynomial ** self degree].
 	(aPolynomial degreeIn: anIndeterminate) = 0 ifTrue: [
 		^ (self degree even or: [aPolynomial degree even])
-			ifTrue: [(self raisedToInteger: aPolynomial degree)]
-			ifFalse: [(self raisedToInteger: aPolynomial degree) negated]].
+			ifTrue: [(self ** aPolynomial degree)]
+			ifFalse: [(self ** aPolynomial degree) negated]].
 
 	^ (self sylvester: aPolynomial in: anIndeterminate) determinant! !
 
@@ -30031,7 +30147,7 @@ squareFreeFactorizationOLD
 squared
 	^ self * self! !
 
-!Polynomial methodsFor: 'operations univariate' stamp: 'len 4/22/2016 21:39'!
+!Polynomial methodsFor: 'operations univariate' stamp: 'len 7/8/2016 05:45'!
 subresultant: i with: aPolynomial
 	"Answer the i-th subresultant of the receiver with aPolynomial."
 	| lambda mu n m c matrix tuple t |
@@ -30047,7 +30163,7 @@ subresultant: i with: aPolynomial
 				ifFalse:
 					[n + 1 < m
 						ifTrue: [c _ aPolynomial] ifFalse: [^ nil]].
-			^ c * (c leadingCoefficient raisedToInteger: (m - n) abs - 1)].
+			^ c * (c leadingCoefficient ** ((m - n) abs - 1))].
 	(i between: lambda and: mu) ifTrue: [^ self zero].
 	(i between: 0 and: lambda - 1) ifFalse: [self error: 'index out of range'].
 	t _ m + n - (2*i).
@@ -30062,7 +30178,7 @@ subresultant: i with: aPolynomial
 		matrix at: n - i + k @ (m + n - (2*i)) put: (aPolynomial shift: m - i - k)].
 	^ matrix determinant! !
 
-!Polynomial methodsFor: 'deprecated' stamp: 'len 4/22/2016 21:39'!
+!Polynomial methodsFor: 'deprecated' stamp: 'len 7/8/2016 05:46'!
 subresultant: i with: aPolynomial in: anIndeterminate
 	"Answer the i-th subresultant of the receiver with the aPolynomial in the given indeterminate."
 
@@ -30079,7 +30195,7 @@ subresultant: i with: aPolynomial in: anIndeterminate
 				ifFalse:
 					[aPolynomial degree + 1 < self degree
 						ifTrue: [c _ aPolynomial] ifFalse: [^ nil]].
-			^ c * ((c leadingCoefficientIn: anIndeterminate) raisedToInteger: (m - n) abs - 1)].
+			^ c * ((c leadingCoefficientIn: anIndeterminate) ** ((m - n) abs - 1))].
 	(i between: lambda and: mu) ifTrue: [^ self zero].
 	(i between: 0 and: lambda - 1) ifFalse: [self error: 'index out of range'].
 	t _ m + n - (2*i).
@@ -30161,7 +30277,7 @@ terms
 	self flag: #fix.
 	^ self monomials collect: [:each| self termAt: each] "inefficient"! !
 
-!Polynomial methodsFor: 'operations' stamp: 'len 3/9/2016 07:35'!
+!Polynomial methodsFor: 'operations' stamp: 'len 7/8/2016 05:46'!
 value2: anObject in: anIndeterminate
 	"Answer the value of the receiver at the argument, as univariate polynomial in the given indeterminate.
 	Use Horner's method, doing n multiplications and n additions for a dense polynomial of degree n."
@@ -30176,11 +30292,11 @@ value2: anObject in: anIndeterminate
 	monomials do: [:monomial|
 		| coefficient |
 		coefficient _ f coefficientAt: monomial.
-		answer _ answer * (anObject raisedToInteger: lastDegree - (lastDegree _ monomial degree)) + (one * coefficient)].
-	lastDegree = 0 ifFalse: [answer _ answer * (anObject raisedToInteger: lastDegree)].
+		answer _ answer * (anObject ** (lastDegree - (lastDegree _ monomial degree))) + (one * coefficient)].
+	lastDegree = 0 ifFalse: [answer _ answer * (anObject ** lastDegree)].
 	^ answer! !
 
-!Polynomial methodsFor: 'operations' stamp: 'len 3/23/2016 05:10'!
+!Polynomial methodsFor: 'operations' stamp: 'len 7/8/2016 05:47'!
 value3: anObject in: anIndeterminate
 	"Answer the value of the receiver at the argument, as univariate polynomial in the given indeterminate."
 	| answer v |
@@ -30188,7 +30304,7 @@ value3: anObject in: anIndeterminate
 	"(self has: anIndeterminate) ifFalse: [^ self]."
 	answer _ nil.
 	(self asUnivariateIn: anIndeterminate) monomialsAndCoefficientsDo: [:key :value|
-		v _ (anObject raisedToInteger: key degree) * value.
+		v _ (anObject ** key degree) * value.
 		answer _ answer isNil ifTrue: [v] ifFalse: [answer + v]].
 	^ answer! !
 
@@ -31012,12 +31128,12 @@ exactQuotient
 	"Answer the quotient of an exact division."
 	^ self quotient / (divisor leadingCoefficient ** self delta)! !
 
-!PolynomialPseudoDivision methodsFor: 'printing' stamp: 'len 1/24/98 12:55'!
+!PolynomialPseudoDivision methodsFor: 'printing' stamp: 'len 7/8/2016 05:47'!
 printOn: aStream
 	"Print a representation of the receiver on the stream aStream."
 
 	aStream
-		print: (self divisor leadingCoefficient raisedToInteger: self delta);
+		print: (self divisor leadingCoefficient ** self delta);
 		nextPut: $(;
 		print: self dividend;
 		nextPutAll: ') = (';
@@ -31164,13 +31280,13 @@ new
 		ifTrue: [^ self * (self class fromPolynomial: anObject)].
 	^ DomainError signal! !
 
-!PowerSeries methodsFor: 'arithmetic' stamp: 'len 4/3/2016 16:48'!
+!PowerSeries methodsFor: 'arithmetic' stamp: 'len 7/8/2016 05:40'!
 ** anInteger
 	"Answer the receiver raised to the power anInteger."
 	anInteger = 1 ifTrue: [^ self].
 	anInteger = 0 ifTrue: [^ self one].
 	anInteger < 0 ifTrue: [^ (self ** anInteger negated) reciprocal].
-	^ self * self ** (anInteger // 2) * (self ** (anInteger \\ 2))! !
+	^ self squared ** (anInteger // 2) * (self ** (anInteger \\ 2))! !
 
 !PowerSeries methodsFor: 'arithmetic' stamp: 'len 12/30/2015 05:45'!
 + anObject
@@ -31959,6 +32075,14 @@ printOn: aStream withNames: aDictionary
 		c: a0 * b2 + (a2 * b0) + (a3 * b1) - (a1 * b3)
 		d: a0 * b3 + (a3 * b0) + (a1 * b2) - (a2 * b1)! !
 
+!Quaternion methodsFor: 'arithmetic' stamp: 'len 7/8/2016 05:48'!
+** anInteger
+	"Answer the receiver raised to the power anInteger."
+	anInteger = 1 ifTrue: [^ self].
+	anInteger = 0 ifTrue: [^ self one].
+	anInteger < 0 ifTrue: [^ (self ** anInteger negated) reciprocal].
+	^ self squared ** (anInteger // 2) * (self ** (anInteger \\ 2))! !
+
 !Quaternion methodsFor: 'arithmetic' stamp: 'len 11/11/2015 05:30'!
 + anObject
 	(anObject isKindOf: Number)
@@ -32133,18 +32257,6 @@ printOn: aStream
 						number = number one ifFalse: [aStream print: number; space].
 						aStream nextPut: $k. something _ true]! !
 
-!Quaternion methodsFor: 'mathematical functions' stamp: 'len 3/2/2016 20:50'!
-raisedToInteger: anInteger
-	"Answer the receiver raised to the power anInteger
-	where the argument must be a kind of Integer."
-
-	anInteger = 0 ifTrue: [^ self one].
-	anInteger = 1 ifTrue: [^ self].
-	anInteger > 1 ifTrue:
-		[^ (self * self raisedToInteger: anInteger // 2)
-		 * (self raisedToInteger: anInteger \\ 2)].
-	^ (self raisedToInteger: anInteger negated) reciprocal! !
-
 !Quaternion methodsFor: 'arithmetic' stamp: 'len 2/25/98 02:58'!
 reciprocal
 	"Answer the multiplicative inverse of the receiver."
@@ -32258,13 +32370,13 @@ next
 	anObject isInteger ifTrue: [^ self project: representative * anObject].
 	^ self project: representative * anObject representative! !
 
-!Residue methodsFor: 'arithmetic' stamp: 'len 3/30/2016 03:37'!
+!Residue methodsFor: 'arithmetic' stamp: 'len 7/8/2016 05:41'!
 ** anInteger
+	"Answer the receiver raised to the power anInteger."
 	anInteger = 1 ifTrue: [^ self].
 	anInteger = 0 ifTrue: [^ self one].
-	anInteger > 1
-		ifTrue: [^(self * self ** (anInteger // 2)) * (self ** (anInteger \\ 2))].
-	^ (self ** anInteger negated) reciprocal! !
+	anInteger < 0 ifTrue: [^ (self ** anInteger negated) reciprocal].
+	^ self squared ** (anInteger // 2) * (self ** (anInteger \\ 2))! !
 
 !Residue methodsFor: 'arithmetic' stamp: 'len 3/22/2016 02:44'!
 + aResidue
@@ -35308,12 +35420,12 @@ testInfinity
 	self assert: -918723948719 > Infinity negative.
 	self assert: 91872123948719 < Infinity positive! !
 
-!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 6/4/2016 21:56'!
+!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 7/8/2016 05:34'!
 testInfinityUndeterminates
 	self should: [Infinity positive + Infinity negative] raise: Error.
 	self should: [Infinity positive * 0] raise: Error.
 	self should: [Infinity positive / Infinity positive] raise: Error.
-	self should: [Infinity positive raisedToInteger: 0] raise: Error
+	self should: [Infinity positive ** 0] raise: Error
 ! !
 
 !MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 12/13/2015 02:02'!
@@ -36960,12 +37072,12 @@ testSimplexNegation
 				ifFalse: [^ self class syllables: (x, {Association key: xn key value: exponent}, y) asArray]].
 	^ self class syllables: (x, y) asArray! !
 
-!Word methodsFor: 'arithmetic' stamp: 'len 6/29/2016 23:30'!
+!Word methodsFor: 'arithmetic' stamp: 'len 7/8/2016 05:42'!
 ** anInteger
 	anInteger = 1 ifTrue: [^ self].
 	anInteger = 0 ifTrue: [^ self class empty].
 	anInteger < 0 ifTrue: [^ self reciprocal ** anInteger negated].
-	^ self * self ** (anInteger // 2) * (self ** (anInteger \\ 2))! !
+	^ self squared ** (anInteger // 2) * (self ** (anInteger \\ 2))! !
 
 !Word methodsFor: 'arithmetic' stamp: 'len 2/20/2016 05:34'!
 / aWord
@@ -37025,6 +37137,10 @@ reciprocal
 !Word methodsFor: 'arithmetic' stamp: 'len 3/3/2016 05:23'!
 reversed
 	^ self class syllables: syllables reversed! !
+
+!Word methodsFor: 'arithmetic' stamp: 'len 7/8/2016 05:50'!
+squared
+	^ self * self! !
 
 !Word methodsFor: 'accessing' stamp: 'len 3/3/2016 05:24'!
 syllables
