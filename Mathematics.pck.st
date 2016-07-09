@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 9 July 2016 at 8:09:53.209274 am'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 9 July 2016 at 11:26:50.676905 pm'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 151!
+!provides: 'Mathematics' 1 152!
 !classDefinition: #AbelianGroupPresentation category: #'Mathematics-Free'!
 Object subclass: #AbelianGroupPresentation
 	instanceVariableNames: 'generators relators'
@@ -2581,24 +2581,44 @@ MonomialOrdering subclass: #WeightedMonomialOrdering
 WeightedMonomialOrdering class
 	instanceVariableNames: ''!
 
-!classDefinition: #EdgeMorph category: #'Mathematics-Graphs-Morphic'!
-RectangleLikeMorph subclass: #EdgeMorph
-	instanceVariableNames: 'source target width drawArrowHead label labelMorph'
+!classDefinition: #GraphEdgeMorph category: #'Mathematics-Graphs-Morphic'!
+Morph subclass: #GraphEdgeMorph
+	instanceVariableNames: 'color source target width drawArrowHead label labelMorph'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Graphs-Morphic'!
-!classDefinition: 'EdgeMorph class' category: #'Mathematics-Graphs-Morphic'!
-EdgeMorph class
+!classDefinition: 'GraphEdgeMorph class' category: #'Mathematics-Graphs-Morphic'!
+GraphEdgeMorph class
 	instanceVariableNames: ''!
 
 !classDefinition: #SpringEdgeMorph category: #'Mathematics-Graphs-Morphic'!
-EdgeMorph subclass: #SpringEdgeMorph
+GraphEdgeMorph subclass: #SpringEdgeMorph
 	instanceVariableNames: 'desiredDistance'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Graphs-Morphic'!
 !classDefinition: 'SpringEdgeMorph class' category: #'Mathematics-Graphs-Morphic'!
 SpringEdgeMorph class
+	instanceVariableNames: ''!
+
+!classDefinition: #GraphNodeMorph category: #'Mathematics-Graphs-Morphic'!
+Morph subclass: #GraphNodeMorph
+	instanceVariableNames: 'node x dx extent color shape label labelMorph'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Graphs-Morphic'!
+!classDefinition: 'GraphNodeMorph class' category: #'Mathematics-Graphs-Morphic'!
+GraphNodeMorph class
+	instanceVariableNames: ''!
+
+!classDefinition: #SpringNodeMorph category: #'Mathematics-Graphs-Morphic'!
+GraphNodeMorph subclass: #SpringNodeMorph
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Graphs-Morphic'!
+!classDefinition: 'SpringNodeMorph class' category: #'Mathematics-Graphs-Morphic'!
+SpringNodeMorph class
 	instanceVariableNames: ''!
 
 !classDefinition: #FunctionPlotMorph category: #'Mathematics-Morphic'!
@@ -2613,7 +2633,7 @@ FunctionPlotMorph class
 
 !classDefinition: #GraphMorph category: #'Mathematics-Graphs-Morphic'!
 RectangleLikeMorph subclass: #GraphMorph
-	instanceVariableNames: 'graph nodeToMorph edgeToMorph focusNode'
+	instanceVariableNames: 'graph nodeToMorph edgeToMorph focusNode dimension lastMousePosition components'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Graphs-Morphic'!
@@ -2623,7 +2643,7 @@ GraphMorph class
 
 !classDefinition: #SpringGraphMorph category: #'Mathematics-Graphs-Morphic'!
 GraphMorph subclass: #SpringGraphMorph
-	instanceVariableNames: 'dimension lastMousePosition components'
+	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Graphs-Morphic'!
@@ -2639,26 +2659,6 @@ RectangleLikeMorph subclass: #HistogramMorph
 	category: 'Mathematics-Morphic'!
 !classDefinition: 'HistogramMorph class' category: #'Mathematics-Morphic'!
 HistogramMorph class
-	instanceVariableNames: ''!
-
-!classDefinition: #NodeMorph category: #'Mathematics-Graphs-Morphic'!
-RectangleLikeMorph subclass: #NodeMorph
-	instanceVariableNames: 'node shape label labelMorph'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Graphs-Morphic'!
-!classDefinition: 'NodeMorph class' category: #'Mathematics-Graphs-Morphic'!
-NodeMorph class
-	instanceVariableNames: ''!
-
-!classDefinition: #SpringNodeMorph category: #'Mathematics-Graphs-Morphic'!
-NodeMorph subclass: #SpringNodeMorph
-	instanceVariableNames: 'x dx'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Graphs-Morphic'!
-!classDefinition: 'SpringNodeMorph class' category: #'Mathematics-Graphs-Morphic'!
-SpringNodeMorph class
 	instanceVariableNames: ''!
 
 !classDefinition: #PointMorph category: #'Mathematics-Morphic'!
@@ -3853,7 +3853,7 @@ My instances are polynomial rings in one or many indeterminates.!
 !AffineSubspace commentStamp: '<historical>' prior: 0!
 My instances are affine spaces of finite dimension, i.e. flats, or linear varieties, linear manifolds, or translated subspaces (cosets) of a vector space.
 
-Affine spaces are essentially vector spaces where the origin 0 was "forgotten", i.e. there's no distinguished origin. Its elements are called points, not vectors.
+Affine spaces are essentially vector spaces where the origin 0 was "forgotten", i.e. there's no distinguished origin. Its elements are called points, not vectors, but they are the same objects.
 
 Affine spaces appear when considering the solutions of non-homogeneous linear systems, or the set of all the vectors in the domain of a linear map that are mapped to a given vector in the codomain of the transformation (which is called the fiber of the vector).
 
@@ -10374,9 +10374,10 @@ homogenized
 	G _ GroebnerBasis from: generators ordering: ordering.
 	^ R` * (G collect: [:each| (each as: R`) homogenizedIn: R` rank])! !
 
-!PolynomialIdeal methodsFor: 'testing' stamp: 'len 7/7/2016 20:45'!
+!PolynomialIdeal methodsFor: 'testing' stamp: 'len 7/9/2016 08:19'!
 includes: aPolynomial 
-	"Answer true if the receiver includes aPolynomial. (Ideal Membership Problem).
+	"(Ideal Membership Problem)
+	Answer true if the receiver includes aPolynomial.
 	This works on any Groebner basis (any monomial ordering)."
 	^ (self reduce: aPolynomial) isZero! !
 
@@ -10426,6 +10427,19 @@ isUnivariate
 radical
 	self flag: #fix. "this is not right, maybe only works for Q[x1..xn] and monomial ideals"
 	^ self squareFree! !
+
+!PolynomialIdeal methodsFor: 'testing' stamp: 'len 7/9/2016 23:20'!
+radicalIncludes: aPolynomial
+	"(Radical Membership Problem)
+	Answer true if the radical of the receiver includes aPolynomial."
+	| R R` t X |
+	R _ self ambient.
+	R` _ R scalars polynomialsIn: R rank + 1.
+	t _ R` x: R rank + 1.
+	X _ OrderedCollection new.
+	self generators do: [:g| X add: (g as: R`)].
+	X add: (aPolynomial as: R`) * t - R` one.
+	^ (R` * X) isTrivial! !
 
 !PolynomialIdeal methodsFor: 'operations' stamp: 'len 7/7/2016 20:46'!
 reduce: aPolynomial
@@ -27482,22 +27496,30 @@ trevlex: aCollection
 	weights addAll: (self revlex: aCollection) weights.
 	^ self new: aCollection size weights: weights! !
 
-!EdgeMorph methodsFor: 'private' stamp: 'len 2/19/2016 19:04'!
+!GraphEdgeMorph methodsFor: 'private' stamp: 'len 2/19/2016 19:04'!
 adjustBounds
 	| newBounds |
 	newBounds _ (self externalize: self sourcePoint) rect: (self externalize: self targetPoint).
 	self morphBounds: newBounds.
 	labelMorph ifNotNil: [labelMorph morphAlign: labelMorph morphBounds center with: newBounds extent // 2]! !
 
-!EdgeMorph methodsFor: 'geometry-testing' stamp: 'len 2/17/2016 23:39'!
-containsPoint: aPoint
-	^ false! !
+!GraphEdgeMorph methodsFor: 'accessing' stamp: 'len 7/9/2016 22:11'!
+alpha
+	^ source alpha + target alpha / 2.0! !
 
-!EdgeMorph methodsFor: 'drawing' stamp: 'len 3/1/2016 01:44'!
+!GraphEdgeMorph methodsFor: 'accessing' stamp: 'len 7/9/2016 22:26'!
+color
+	^ color alpha: self alpha! !
+
+!GraphEdgeMorph methodsFor: 'accessing' stamp: 'len 7/9/2016 22:27'!
+color: aColor
+	color _ aColor! !
+
+!GraphEdgeMorph methodsFor: 'drawing' stamp: 'len 3/1/2016 01:44'!
 direction
 	^ (self targetPoint - self sourcePoint) normalized! !
 
-!EdgeMorph methodsFor: 'drawing' stamp: 'len 6/23/2016 23:35'!
+!GraphEdgeMorph methodsFor: 'drawing' stamp: 'len 6/23/2016 23:35'!
 drawOn: aCanvas 
 	"frameRectangle: self bounds color: Color black;"
 	| sourcePoint targetPoint direction |
@@ -27549,39 +27571,39 @@ drawOn: aCanvas
 	aa computeArrowFormAt: self sourcePoint from: self destinationPoint.
 	self addMorph: aa"! !
 
-!EdgeMorph methodsFor: 'accessing' stamp: 'len 2/19/2016 03:25'!
+!GraphEdgeMorph methodsFor: 'accessing' stamp: 'len 2/19/2016 03:25'!
 hideArrowHead
 	drawArrowHead _ false! !
 
-!EdgeMorph methodsFor: 'private' stamp: 'len 2/19/2016 19:01'!
+!GraphEdgeMorph methodsFor: 'private' stamp: 'len 2/19/2016 19:01'!
 hideLabel
 	labelMorph notNil ifTrue: [labelMorph delete. labelMorph _ nil]! !
 
-!EdgeMorph methodsFor: 'initialization' stamp: 'len 2/19/2016 03:29'!
+!GraphEdgeMorph methodsFor: 'initialization' stamp: 'len 2/19/2016 03:29'!
 initialize
 	super initialize.
 	self color: Color gray.
 	width _ 1.
 	drawArrowHead _ true! !
 
-!EdgeMorph methodsFor: 'accessing' stamp: 'len 2/19/2016 19:00'!
+!GraphEdgeMorph methodsFor: 'accessing' stamp: 'len 2/19/2016 19:00'!
 label
 	^ label! !
 
-!EdgeMorph methodsFor: 'accessing' stamp: 'len 2/19/2016 19:00'!
+!GraphEdgeMorph methodsFor: 'accessing' stamp: 'len 2/19/2016 19:00'!
 label: aString
 	label _ aString.
 	label notNil ifTrue: [self showLabel] ifFalse: [self hideLabel]! !
 
-!EdgeMorph methodsFor: 'as yet unclassified' stamp: 'len 4/28/2016 05:50'!
+!GraphEdgeMorph methodsFor: 'geometry testing' stamp: 'len 4/28/2016 05:50'!
 morphContainsPoint: aLocalPoint
 	^ super morphContainsPoint: aLocalPoint! !
 
-!EdgeMorph methodsFor: 'accessing' stamp: 'len 2/19/2016 03:25'!
+!GraphEdgeMorph methodsFor: 'accessing' stamp: 'len 2/19/2016 03:25'!
 showArrowHead
 	drawArrowHead _ true! !
 
-!EdgeMorph methodsFor: 'private' stamp: 'len 4/30/2016 06:56'!
+!GraphEdgeMorph methodsFor: 'private' stamp: 'len 4/30/2016 06:56'!
 showLabel
 	(labelMorph notNil or: [label isNil]) ifTrue: [^ self].
 	labelMorph _ StringMorph contents: label asString font: Preferences standardMenuFont.
@@ -27589,55 +27611,51 @@ showLabel
 	self addMorph: labelMorph.
 	labelMorph morphAlign: labelMorph morphBounds leftCenter with: self morphBounds rightCenter + (1@0)! !
 
-!EdgeMorph methodsFor: 'accessing' stamp: 'Samir Saidani 6/23/2003 21:17'!
+!GraphEdgeMorph methodsFor: 'accessing' stamp: 'Samir Saidani 6/23/2003 21:17'!
 source
 	^ source! !
 
-!EdgeMorph methodsFor: 'accessing' stamp: 'Samir Saidani 6/23/2003 21:17'!
+!GraphEdgeMorph methodsFor: 'accessing' stamp: 'Samir Saidani 6/23/2003 21:17'!
 source: aMorph
 	source _ aMorph! !
 
-!EdgeMorph methodsFor: 'accessing' stamp: 'len 3/1/2016 01:48'!
+!GraphEdgeMorph methodsFor: 'accessing' stamp: 'len 3/1/2016 01:48'!
 sourcePoint
 	^ self internalizeFromWorld: source morphBoundsInWorld center! !
 
-!EdgeMorph methodsFor: 'stepping' stamp: 'len 2/26/2016 03:03'!
+!GraphEdgeMorph methodsFor: 'stepping' stamp: 'len 2/26/2016 03:03'!
 step
 	(source owner isNil or: [target owner isNil]) ifTrue: [^ self delete].
 	self adjustBounds! !
 
-!EdgeMorph methodsFor: 'stepping' stamp: 'Samir Saidani 6/23/2003 21:17'!
+!GraphEdgeMorph methodsFor: 'stepping' stamp: 'Samir Saidani 6/23/2003 21:17'!
 stepTime
 	^ 0! !
 
-!EdgeMorph methodsFor: 'accessing' stamp: 'len 2/15/2016 22:56'!
+!GraphEdgeMorph methodsFor: 'accessing' stamp: 'len 2/15/2016 22:56'!
 target
 	^ target! !
 
-!EdgeMorph methodsFor: 'accessing' stamp: 'len 2/15/2016 22:56'!
+!GraphEdgeMorph methodsFor: 'accessing' stamp: 'len 2/15/2016 22:56'!
 target: aMorph
 	target _ aMorph! !
 
-!EdgeMorph methodsFor: 'accessing' stamp: 'len 2/17/2016 22:20'!
+!GraphEdgeMorph methodsFor: 'accessing' stamp: 'len 2/17/2016 22:20'!
 targetPoint
 	^ self internalizeFromWorld: target morphBoundsInWorld center! !
 
-!EdgeMorph methodsFor: 'stepping' stamp: 'len 2/17/2016 22:15'!
+!GraphEdgeMorph methodsFor: 'stepping' stamp: 'len 2/17/2016 22:15'!
 wantsSteps
 	^ true! !
 
-!EdgeMorph methodsFor: 'accessing' stamp: 'len 2/18/2016 06:16'!
+!GraphEdgeMorph methodsFor: 'accessing' stamp: 'len 2/18/2016 06:16'!
 width
 	^ width! !
 
-!EdgeMorph methodsFor: 'accessing' stamp: 'len 2/18/2016 06:16'!
+!GraphEdgeMorph methodsFor: 'accessing' stamp: 'len 2/18/2016 06:16'!
 width: anInteger
 	"Set the width of the line to draw."
 	width _ anInteger! !
-
-!SpringEdgeMorph methodsFor: 'accessing' stamp: 'len 4/22/2016 00:47'!
-alpha
-	^ source alpha + target alpha / 2.0! !
 
 !SpringEdgeMorph methodsFor: 'moving' stamp: 'len 2/25/2016 17:08'!
 approachNodes
@@ -27649,10 +27667,6 @@ approachNodes
 			delta _ diff * f / 2.
 			target dx: target dx - delta.
 			source dx: source dx + delta]! !
-
-!SpringEdgeMorph methodsFor: 'accessing' stamp: 'len 4/22/2016 00:48'!
-color
-	^ super color alpha: self alpha! !
 
 !SpringEdgeMorph methodsFor: 'moving' stamp: 'len 4/27/2016 07:57'!
 desiredDistance
@@ -27677,6 +27691,223 @@ step
 !SpringEdgeMorph methodsFor: 'stepping' stamp: 'len 2/24/2016 21:12'!
 wantsSteps
 	^ false! !
+
+!GraphNodeMorph methodsFor: 'accessing' stamp: 'len 7/9/2016 22:39'!
+alpha
+	self dimension > 2 ifFalse: [^ 1.0].
+	(owner isNil or: [x z >= 0]) ifTrue: [^ 1.0].
+	^ (x z / owner morphExtent y + 1) squared min: 1.0 max: 0.0! !
+
+!GraphNodeMorph methodsFor: 'accessing' stamp: 'len 7/9/2016 22:25'!
+color
+	^ color! !
+
+!GraphNodeMorph methodsFor: 'accessing' stamp: 'len 7/9/2016 22:25'!
+color: aColor
+	color _ aColor! !
+
+!GraphNodeMorph methodsFor: 'moving' stamp: 'len 7/9/2016 22:40'!
+dampBy: aNumber
+	dx _ dx / aNumber! !
+
+!GraphNodeMorph methodsFor: 'accessing' stamp: 'len 7/9/2016 22:39'!
+dimension
+	^ x size! !
+
+!GraphNodeMorph methodsFor: 'accessing' stamp: 'len 7/9/2016 22:40'!
+dimension: anInteger
+	| n |
+	(n _ x size) = anInteger
+		ifTrue: [^ self].
+	n > anInteger
+		ifTrue:
+			[x _ x copyFrom: 1 to: anInteger.
+			dx _ dx copyFrom: 1 to: anInteger]
+		ifFalse:
+			[| z |
+			z _ Tuple new: anInteger - n evaluating: [:i| 0].
+			x _ x, z.
+			dx _ dx, z]! !
+
+!GraphNodeMorph methodsFor: 'moving' stamp: 'len 7/9/2016 22:40'!
+doMove
+	| bounds delta |
+	x _ x + dx.
+	bounds _ owner morphLocalBounds.
+	self morphPosition: bounds center + ((x at: 1) @ (x at: 2)).
+	(bounds containsRect: self morphBounds)
+		ifFalse: [delta _ 2 * (self morphBounds amountToTranslateWithin: bounds).
+					x _ x + (delta x, delta y).
+					self morphPosition: bounds center + ((x at: 1) @ (x at: 2)).
+					dx _ dx * 0 "0@0"].
+	^ dx norm! !
+
+!GraphNodeMorph methodsFor: 'drawing' stamp: 'len 5/4/2016 06:37'!
+drawOn: aCanvas
+	(extent x abs < 2 and: [extent y abs < 2]) ifTrue: [^ self].
+	shape == #circle
+		ifTrue: [aCanvas fillEllipse: self morphLocalBounds color: self color. ^ self].
+	shape == #square
+		ifTrue: [aCanvas fillRectangle: self morphLocalBounds color: self color. ^ self].
+	shape == #squareFrame
+		ifTrue: [aCanvas frameRectangle: self morphLocalBounds borderWidth: 1 color: self color. ^ self].
+	shape == #circleFrame
+		ifTrue: [aCanvas frameEllipse: self morphLocalBounds borderWidth: 1 color: self color. ^ self].
+	"otherwise do nothing"
+	^ self! !
+
+!GraphNodeMorph methodsFor: 'accessing' stamp: 'len 7/9/2016 22:41'!
+dx
+	^ dx! !
+
+!GraphNodeMorph methodsFor: 'accessing' stamp: 'len 7/9/2016 22:41'!
+dx: aVector
+	dx _ aVector! !
+
+!GraphNodeMorph methodsFor: 'accessing' stamp: 'len 7/9/2016 22:30'!
+extent
+	^ extent! !
+
+!GraphNodeMorph methodsFor: 'accessing' stamp: 'len 7/9/2016 22:30'!
+extent: aPoint
+	extent _ aPoint! !
+
+!GraphNodeMorph methodsFor: 'moving' stamp: 'len 7/9/2016 22:54'!
+freeze
+	dx _ dx * 0.0! !
+
+!GraphNodeMorph methodsFor: 'private' stamp: 'len 2/18/2016 21:42'!
+hideLabel
+	labelMorph notNil ifTrue: [labelMorph delete. labelMorph _ nil]! !
+
+!GraphNodeMorph methodsFor: 'initialization' stamp: 'len 7/9/2016 22:59'!
+initialize
+	super initialize.
+	self color: Color gray.
+	x _ (0,0).
+	dx _ x.
+	shape _ #circle.
+	extent _ 10@10! !
+
+!GraphNodeMorph methodsFor: 'accessing' stamp: 'len 2/18/2016 21:42'!
+label
+	^ label! !
+
+!GraphNodeMorph methodsFor: 'accessing' stamp: 'len 2/18/2016 21:43'!
+label: aString
+	label _ aString.
+	label notNil ifTrue: [self showLabel] ifFalse: [self hideLabel]! !
+
+!GraphNodeMorph methodsFor: 'moving' stamp: 'len 7/9/2016 22:31'!
+morphExtent
+	^ extent! !
+
+!GraphNodeMorph methodsFor: 'accessing' stamp: 'len 2/12/2003 23:20'!
+node
+	^ node! !
+
+!GraphNodeMorph methodsFor: 'accessing' stamp: 'len 4/8/2016 23:02'!
+node: aGraphNode 
+	node _ aGraphNode.
+	self label: node value printText! !
+
+!GraphNodeMorph methodsFor: 'moving' stamp: 'len 7/9/2016 22:42'!
+perturbate: n
+	dx _ dx + (dx collect: [:xi| n atRandom - n])! !
+
+!GraphNodeMorph methodsFor: 'moving' stamp: 'len 7/9/2016 22:42'!
+perturbation
+	^ x collect: [:xi| 3 atRandom - 2]! !
+
+!GraphNodeMorph methodsFor: 'accessing' stamp: 'len 2/26/2016 03:13'!
+radius: aNumber
+	self morphExtent: aNumber @ aNumber! !
+
+!GraphNodeMorph methodsFor: 'accessing' stamp: 'len 2/18/2016 21:25'!
+shape
+	^ shape! !
+
+!GraphNodeMorph methodsFor: 'accessing' stamp: 'len 2/18/2016 21:31'!
+shape: aShapeSymbol
+	shape _ aShapeSymbol.
+	self redrawNeeded! !
+
+!GraphNodeMorph methodsFor: 'private' stamp: 'len 4/30/2016 06:55'!
+showLabel
+	(labelMorph notNil or: [label isNil]) ifTrue: [^ self].
+	labelMorph _ StringMorph contents: label font: Preferences standardMenuFont.
+	labelMorph color: Color white.
+	self addMorph: labelMorph.
+	labelMorph morphAlign: labelMorph morphBounds leftCenter with: self morphBounds rightCenter + (1@0)! !
+
+!GraphNodeMorph methodsFor: 'moving' stamp: 'len 7/9/2016 22:42'!
+translateBy: delta
+	dx _ dx + delta! !
+
+!GraphNodeMorph methodsFor: 'accessing' stamp: 'len 2/18/2016 21:07'!
+value
+	^ node value! !
+
+!GraphNodeMorph methodsFor: 'accessing' stamp: 'len 7/9/2016 22:14'!
+x
+	^ x! !
+
+!GraphNodeMorph methodsFor: 'accessing' stamp: 'len 7/9/2016 22:14'!
+x: aPoint
+	x _ aPoint! !
+
+!SpringNodeMorph methodsFor: 'event handling testing' stamp: 'len 7/9/2016 22:10'!
+aboutToBeGrabbedBy: aHand 
+	super aboutToBeGrabbedBy: aHand.
+	(owner isKindOf: GraphMorph) ifTrue: ["owner focusOn: node; stopStepping"]! !
+
+!SpringNodeMorph methodsFor: 'moving' stamp: 'len 2/25/2016 16:56'!
+approachPoint: aPoint
+	| dx` x1 x2 diff |
+	dx` _ dx - dx. "0@0."
+	x1 _ x.
+	x2 _ aPoint.
+	x1 = x2 ifTrue: [^ self].
+	diff _ x1 - x2.
+	dx` _ dx` + (diff / diff norm2).
+	dx` isZero ifFalse: [dx _ dx + (dx` / dx` norm * 2)]! !
+
+!SpringNodeMorph methodsFor: 'event handling testing' stamp: 'sam 2/10/2004 01:56'!
+handlesMouseDown: evt 
+	evt shiftPressed
+		ifFalse: [^ super handlesMouseDown: evt]
+		ifTrue: [^ true]! !
+
+!SpringNodeMorph methodsFor: 'private' stamp: 'len 2/29/2016 21:28'!
+nearbyNodesDo: aBlock
+	| count |
+	count _ 0.
+	node markDo: [:each |
+		count _ count + 1.
+		count > 40 ifTrue: [^ self].
+		aBlock value: (owner nodeAt: each)]! !
+
+!SpringNodeMorph methodsFor: 'moving' stamp: 'len 7/9/2016 22:15'!
+separateFromAllNodes
+	| dx` x1 x2 |
+	(owner isKindOf: SpringGraphMorph) ifFalse: [^ self].
+	dx` _ dx - dx. "0@0"
+	x1 _ x.
+	owner nodesDo: [:each|
+		x2 _ each x + each dx.
+		self == each
+			ifFalse:
+				[x1 = x2
+					ifTrue: [dx` _ dx` + self perturbation]
+					ifFalse:
+						[| diff |
+						diff _ x1 - x2.
+						dx` _ dx` + (diff / diff norm2)]]].
+	dx` isZero ifFalse: [dx _ dx + (dx` / dx` norm * 2)]! !
+
+!SpringNodeMorph methodsFor: 'event handling testing' stamp: 'len 2/18/2016 06:02'!
+wantsToBeDroppedInto: aMorph
+	^ aMorph isKindOf: SpringGraphMorph! !
 
 !FunctionPlotMorph methodsFor: 'private' stamp: 'len 1/2/2016 06:07'!
 computeEvaluationPoints
@@ -27903,9 +28134,21 @@ addNode: aGraphNode
 			self privateAddEdgeFrom: aGraphNode to: each label: label].
 	^ morph! !
 
-!GraphMorph methodsFor: 'event handling' stamp: 'len 2/8/2003 00:38'!
+!GraphMorph methodsFor: 'stepping' stamp: 'len 7/9/2016 22:47'!
+alignToCenter
+	| centerOfMass delta |
+	centerOfMass _ nodeToMorph anyOne x * 0. "0@0"
+	self nodesDo: [:each| centerOfMass _ centerOfMass + each x].
+	centerOfMass _ centerOfMass / graph size.
+	centerOfMass isZero ifTrue: [^ self].
+	delta _ centerOfMass negated.
+	self nodesDo: [:each| each translateBy: delta]! !
+
+!GraphMorph methodsFor: 'event handling' stamp: 'len 7/9/2016 22:52'!
 allowSubmorphExtraction
-	^ false! !
+	" allow extraction so submorphs can be grabbed and dragged to a new position.
+	  usefull to rearrange the vertices manually"
+	^ true! !
 
 !GraphMorph methodsFor: 'layout' stamp: 'sam 6/1/2004 14:37'!
 clearAll
@@ -27923,6 +28166,16 @@ clearNodes
 	self nodesDo: [:nodeMorph | nodeMorph delete].
 	self initializeNodeToMorph! !
 
+!GraphMorph methodsFor: 'accessing' stamp: 'len 7/9/2016 22:45'!
+dimension
+	^ dimension! !
+
+!GraphMorph methodsFor: 'accessing' stamp: 'len 7/9/2016 22:45'!
+dimension: anInteger
+	dimension _ anInteger.
+	self nodesDo: [:each| each dimension: anInteger].
+	self startStepping! !
+
 !GraphMorph methodsFor: 'accessing' stamp: 'len 2/29/2016 21:43'!
 edgeAt: anEdge
 	| edge |
@@ -27930,9 +28183,9 @@ edgeAt: anEdge
 	graph isDirected ifFalse: [edge _ edge asSet].
 	^ edgeToMorph at: edge! !
 
-!GraphMorph methodsFor: 'private' stamp: 'len 2/17/2016 23:24'!
+!GraphMorph methodsFor: 'private' stamp: 'len 7/9/2016 22:26'!
 edgeClass
-	^ EdgeMorph! !
+	^ GraphEdgeMorph! !
 
 !GraphMorph methodsFor: 'accessing' stamp: 'len 5/4/2016 06:50'!
 edges
@@ -27950,9 +28203,11 @@ edgesDo: aBlock
 focusNode
 	^focusNode! !
 
-!GraphMorph methodsFor: 'accessing' stamp: 'len 2/26/2016 23:21'!
+!GraphMorph methodsFor: 'accessing' stamp: 'len 7/9/2016 23:00'!
 focusOn: aNode
-	focusNode _ graph nodeAt: aNode! !
+	focusNode _ graph nodeAt: aNode.
+	nodeToMorph at: focusNode ifPresent: [:aMorph| aMorph freeze].
+	self startStepping! !
 
 !GraphMorph methodsFor: 'accessing' stamp: 'len 2/14/2016 22:45'!
 graph
@@ -27972,13 +28227,24 @@ graph: aGraph
 		ifTrue: [self focusOn: graph rootNode]
 		ifFalse: [self focusOn: graph anyOne]! !
 
-!GraphMorph methodsFor: 'initialization' stamp: 'len 4/21/2016 06:02'!
+!GraphMorph methodsFor: 'event handling' stamp: 'len 7/9/2016 22:51'!
+handlesMouseDown: aMouseButtonEvent
+	"Do I want to receive mouseDown events (mouseDown:, mouseMove:, mouseUp:)?"
+	^true! !
+
+!GraphMorph methodsFor: 'accessing' stamp: 'len 7/9/2016 22:45'!
+hideLabels
+	self nodesDo: [:each| each hideLabel].
+	self edgesDo: [:each| each hideLabel]! !
+
+!GraphMorph methodsFor: 'initialization' stamp: 'len 7/9/2016 22:49'!
 initialize
 	super initialize.
 	self morphExtent: 300 @ 300.
 	self color: Color transparent.
 	self initializeNodeToMorph.
-	self initializeEdgeToMorph! !
+	self initializeEdgeToMorph.
+	dimension _ 2! !
 
 !GraphMorph methodsFor: 'initialization' stamp: 'Samir Saidani 12/7/2003 19:25'!
 initializeEdgeToMorph
@@ -27988,13 +28254,32 @@ initializeEdgeToMorph
 initializeNodeToMorph
 	nodeToMorph _ Dictionary new! !
 
+!GraphMorph methodsFor: 'event handling' stamp: 'len 7/9/2016 22:51'!
+mouseButton1Down: aMouseButtonEvent localPosition: localEventPosition
+	super mouseButton1Down: aMouseButtonEvent localPosition: localEventPosition.
+	lastMousePosition _ localEventPosition! !
+
+!GraphMorph methodsFor: 'event handling' stamp: 'len 7/9/2016 22:51'!
+mouseMove: aMouseMoveEvent localPosition: localEventPosition
+	lastMousePosition isNil
+		ifFalse:
+			[aMouseMoveEvent shiftPressed
+				ifTrue:
+					[| bounds d |
+					bounds _ self morphLocalBounds.
+					d _ (localEventPosition dist: lastMousePosition) / (bounds width min: bounds height).
+					localEventPosition y >= lastMousePosition y ifTrue: [d _ d negated].
+					self scaleEdgesBy: 2.0 ** d]
+				ifFalse: [self rotateNodesBy: lastMousePosition - localEventPosition]].
+	lastMousePosition _ localEventPosition! !
+
 !GraphMorph methodsFor: 'accessing' stamp: 'len 2/26/2016 23:22'!
 nodeAt: aGraphNode
 	^ nodeToMorph at: aGraphNode! !
 
-!GraphMorph methodsFor: 'private' stamp: 'len 2/17/2016 23:30'!
+!GraphMorph methodsFor: 'private' stamp: 'len 7/9/2016 22:26'!
 nodeClass
-	^ NodeMorph! !
+	^ GraphNodeMorph! !
 
 !GraphMorph methodsFor: 'iterating' stamp: 'len 2/15/2003 18:58'!
 nodesDo: aBlock
@@ -28003,6 +28288,11 @@ nodesDo: aBlock
 !GraphMorph methodsFor: 'accessing' stamp: 'len 2/17/2016 23:11'!
 origin
 	^ (nodeToMorph at: (focusNode ifNil: [^ self morphExtent // 2])) morphBounds center! !
+
+!GraphMorph methodsFor: 'accessing' stamp: 'len 7/9/2016 22:45'!
+perturbate: n
+	self nodesDo: [:each| each perturbate: n].
+	self startStepping! !
 
 !GraphMorph methodsFor: 'private' stamp: 'len 2/29/2016 21:39'!
 privateAddEdgeFrom: source to: target label: label
@@ -28017,6 +28307,10 @@ privateAddEdgeFrom: source to: target label: label
 	graph isDirected ifTrue: [morph showArrowHead] ifFalse: [morph hideArrowHead].
 	self addMorphBack: morph.
 	^ morph! !
+
+!GraphMorph methodsFor: 'as yet unclassified' stamp: 'len 7/9/2016 22:53'!
+privateExtent: aPoint
+	^ (super privateExtent: aPoint) ifTrue: [self startStepping]; yourself! !
 
 !GraphMorph methodsFor: 'private' stamp: 'len 2/29/2016 21:40'!
 privateRemoveEdgeFrom: source to: target label: label 
@@ -28033,15 +28327,42 @@ removeEdge: anEdge
 removeEdge: anEdge label: label 
 	^ self privateRemoveEdgeFrom: anEdge key to: anEdge value label: label! !
 
-!SpringGraphMorph methodsFor: 'stepping' stamp: 'len 2/25/2016 17:19'!
-alignToCenter
-	| centerOfMass delta |
-	centerOfMass _ nodeToMorph anyOne x * 0. "0@0"
-	self nodesDo: [:each| centerOfMass _ centerOfMass + each x].
-	centerOfMass _ centerOfMass / graph size.
-	centerOfMass isZero ifTrue: [^ self].
-	delta _ centerOfMass negated.
-	self nodesDo: [:each| each translateBy: delta]! !
+!GraphMorph methodsFor: 'event handling' stamp: 'len 7/9/2016 22:51'!
+rotateNodesBy: aPoint
+	| xSpeed ySpeed |
+	self dimension < 3 ifTrue: [^ self].
+	xSpeed _ Float pi / self morphLocalBounds width.
+	ySpeed _ Float pi / self morphLocalBounds height.
+"	self dimension = 2 ifTrue: [self nodesDo: [:each| |p pp| p _ each x. pp _ p x @ p y rotatedBy: aPoint y * ySpeed negated + (aPoint x * xSpeed). each x: (pp x, pp y)]. ^ self]."
+	self nodesDo: [:each| | p xz yz |
+		p _ each x.
+		xz _ p x @ p z.
+		xz _ xz rotatedBy: aPoint x * xSpeed.
+		yz _ p y @ xz y.
+		yz _ yz rotatedBy: aPoint y * ySpeed.
+		p _ (xz x, yz x, yz y).
+		each x: p.
+		each dx: p * 0. "optimization, dont rotate the velocities"].
+	self startStepping! !
+
+!GraphMorph methodsFor: 'stepping' stamp: 'len 7/9/2016 22:48'!
+step
+	| maxDelta |
+	self nodesDo: [:each| each dampBy: 1.1]. "damping"
+	self alignToCenter.
+	maxDelta _ 0.
+	self nodesDo: [:each| maxDelta _ maxDelta max: each doMove].
+	self edgesDo: [:each| each adjustBounds].
+	self redrawNeeded.
+	maxDelta < 0.1 ifTrue: [self stopStepping]! !
+
+!GraphMorph methodsFor: 'stepping' stamp: 'len 7/9/2016 22:48'!
+stepTime
+	^ 0! !
+
+!GraphMorph methodsFor: 'stepping' stamp: 'len 7/9/2016 22:48'!
+wantsSteps
+	^ true! !
 
 !SpringGraphMorph methodsFor: 'event handling' stamp: 'len 2/8/2003 00:38'!
 allowSubmorphExtraction
@@ -28077,25 +28398,9 @@ aproachConnectedNodes
 desiredDistance: aNumber
 	^ self edgesDo: [:each| each desiredDistance: aNumber]! !
 
-!SpringGraphMorph methodsFor: 'accessing' stamp: 'len 4/22/2016 01:02'!
-dimension
-	^ dimension! !
-
-!SpringGraphMorph methodsFor: 'accessing' stamp: 'len 4/25/2016 23:08'!
-dimension: anInteger
-	dimension _ anInteger.
-	self nodesDo: [:each| each dimension: anInteger].
-	self startStepping! !
-
 !SpringGraphMorph methodsFor: 'private' stamp: 'len 2/15/2003 18:10'!
 edgeClass
 	^ SpringEdgeMorph! !
-
-!SpringGraphMorph methodsFor: 'accessing' stamp: 'len 2/19/2016 02:06'!
-focusOn: aVertex
-	super focusOn: aVertex.
-"	(nodeToMorph at: aVertex) dxdy: 0@0."
-	self startStepping! !
 
 !SpringGraphMorph methodsFor: 'accessing' stamp: 'len 5/25/2016 03:15'!
 graph: aGraph
@@ -28112,70 +28417,9 @@ graph: aGraph
 			components _ nil].
 	self edgesDo: [:each| each desiredDistance: desiredDistance "/ each source node degree sqrt"]! !
 
-!SpringGraphMorph methodsFor: 'event handling' stamp: 'len 4/22/2016 00:54'!
-handlesMouseDown: aMouseButtonEvent
-	"Do I want to receive mouseDown events (mouseDown:, mouseMove:, mouseUp:)?"
-	^true! !
-
-!SpringGraphMorph methodsFor: 'accessing' stamp: 'len 4/26/2016 02:06'!
-hideLabels
-	self nodesDo: [:each| each hideLabel].
-	self edgesDo: [:each| each hideLabel]! !
-
-!SpringGraphMorph methodsFor: 'initialization' stamp: 'len 4/25/2016 21:36'!
-initialize
-	super initialize.
-	dimension _ 2! !
-
-!SpringGraphMorph methodsFor: 'event handling' stamp: 'len 4/22/2016 00:55'!
-mouseButton1Down: aMouseButtonEvent localPosition: localEventPosition
-	super mouseButton1Down: aMouseButtonEvent localPosition: localEventPosition.
-	lastMousePosition _ localEventPosition! !
-
-!SpringGraphMorph methodsFor: 'event handling' stamp: 'len 4/27/2016 21:13'!
-mouseMove: aMouseMoveEvent localPosition: localEventPosition
-	lastMousePosition isNil
-		ifFalse:
-			[aMouseMoveEvent shiftPressed
-				ifTrue:
-					[| bounds d |
-					bounds _ self morphLocalBounds.
-					d _ (localEventPosition dist: lastMousePosition) / (bounds width min: bounds height).
-					localEventPosition y >= lastMousePosition y ifTrue: [d _ d negated].
-					self scaleEdgesBy: 2.0 ** d]
-				ifFalse: [self rotateNodesBy: lastMousePosition - localEventPosition]].
-	lastMousePosition _ localEventPosition! !
-
 !SpringGraphMorph methodsFor: 'private' stamp: 'len 2/25/2016 17:42'!
 nodeClass
 	^ SpringNodeMorph! !
-
-!SpringGraphMorph methodsFor: 'accessing' stamp: 'len 4/27/2016 07:38'!
-perturbate: n
-	self nodesDo: [:each| each perturbate: n].
-	self startStepping! !
-
-!SpringGraphMorph methodsFor: 'as yet unclassified' stamp: 'len 4/29/2016 22:44'!
-privateExtent: aPoint
-	^ (super privateExtent: aPoint) ifTrue: [self startStepping]; yourself! !
-
-!SpringGraphMorph methodsFor: 'event handling' stamp: 'len 4/27/2016 08:00'!
-rotateNodesBy: aPoint
-	| xSpeed ySpeed |
-	self dimension < 3 ifTrue: [^ self].
-	xSpeed _ Float pi / self morphLocalBounds width.
-	ySpeed _ Float pi / self morphLocalBounds height.
-"	self dimension = 2 ifTrue: [self nodesDo: [:each| |p pp| p _ each x. pp _ p x @ p y rotatedBy: aPoint y * ySpeed negated + (aPoint x * xSpeed). each x: (pp x, pp y)]. ^ self]."
-	self nodesDo: [:each| | p xz yz |
-		p _ each x.
-		xz _ p x @ p z.
-		xz _ xz rotatedBy: aPoint x * xSpeed.
-		yz _ p y @ xz y.
-		yz _ yz rotatedBy: aPoint y * ySpeed.
-		p _ (xz x, yz x, yz y).
-		each x: p.
-		each dx: p * 0. "optimization, dont rotate the velocities"].
-	self startStepping! !
 
 !SpringGraphMorph methodsFor: 'event handling' stamp: 'len 4/27/2016 08:01'!
 scaleEdgesBy: aNumber
@@ -28196,14 +28440,6 @@ step
 	self edgesDo: [:each| each adjustBounds].
 	self redrawNeeded.
 	maxDelta < 0.1 ifTrue: [self stopStepping]! !
-
-!SpringGraphMorph methodsFor: 'stepping' stamp: 'len 2/12/2003 22:26'!
-stepTime
-	^ 0! !
-
-!SpringGraphMorph methodsFor: 'stepping' stamp: 'len 2/25/2016 19:51'!
-wantsSteps
-	^ true! !
 
 !HistogramMorph methodsFor: 'building' stamp: 'jmv 4/10/2015 16:12'!
 accumulate
@@ -28441,207 +28677,6 @@ new: regularBinCount min: min max: max extraBinsForClampedValues: aBoolean
 		lowBinCenter: lowBinCenter
 		highBinCenter: highBinCenter
 		extraBinsForClampedValues: aBoolean! !
-
-!NodeMorph methodsFor: 'drawing' stamp: 'len 5/4/2016 06:37'!
-drawOn: aCanvas
-	(extent x abs < 2 and: [extent y abs < 2]) ifTrue: [^ self].
-	shape == #circle
-		ifTrue: [aCanvas fillEllipse: self morphLocalBounds color: self color. ^ self].
-	shape == #square
-		ifTrue: [aCanvas fillRectangle: self morphLocalBounds color: self color. ^ self].
-	shape == #squareFrame
-		ifTrue: [aCanvas frameRectangle: self morphLocalBounds borderWidth: 1 color: self color. ^ self].
-	shape == #circleFrame
-		ifTrue: [aCanvas frameEllipse: self morphLocalBounds borderWidth: 1 color: self color. ^ self].
-	"otherwise do nothing"
-	^ self! !
-
-!NodeMorph methodsFor: 'private' stamp: 'len 2/18/2016 21:42'!
-hideLabel
-	labelMorph notNil ifTrue: [labelMorph delete. labelMorph _ nil]! !
-
-!NodeMorph methodsFor: 'initialization' stamp: 'len 2/18/2016 21:27'!
-initialize
-	super initialize.
-	self morphExtent: 10@10.
-	self color: Color gray.
-	shape _ #circle! !
-
-!NodeMorph methodsFor: 'accessing' stamp: 'len 2/18/2016 21:42'!
-label
-	^ label! !
-
-!NodeMorph methodsFor: 'accessing' stamp: 'len 2/18/2016 21:43'!
-label: aString
-	label _ aString.
-	label notNil ifTrue: [self showLabel] ifFalse: [self hideLabel]! !
-
-!NodeMorph methodsFor: 'accessing' stamp: 'len 2/12/2003 23:20'!
-node
-	^ node! !
-
-!NodeMorph methodsFor: 'accessing' stamp: 'len 4/8/2016 23:02'!
-node: aGraphNode 
-	node _ aGraphNode.
-	self label: node value printText! !
-
-!NodeMorph methodsFor: 'accessing' stamp: 'len 2/26/2016 03:13'!
-radius: aNumber
-	self morphExtent: aNumber @ aNumber! !
-
-!NodeMorph methodsFor: 'accessing' stamp: 'len 2/18/2016 21:25'!
-shape
-	^ shape! !
-
-!NodeMorph methodsFor: 'accessing' stamp: 'len 2/18/2016 21:31'!
-shape: aShapeSymbol
-	shape _ aShapeSymbol.
-	self redrawNeeded! !
-
-!NodeMorph methodsFor: 'private' stamp: 'len 4/30/2016 06:55'!
-showLabel
-	(labelMorph notNil or: [label isNil]) ifTrue: [^ self].
-	labelMorph _ StringMorph contents: label font: Preferences standardMenuFont.
-	labelMorph color: Color white.
-	self addMorph: labelMorph.
-	labelMorph morphAlign: labelMorph morphBounds leftCenter with: self morphBounds rightCenter + (1@0)! !
-
-!NodeMorph methodsFor: 'accessing' stamp: 'len 2/18/2016 21:07'!
-value
-	^ node value! !
-
-!SpringNodeMorph methodsFor: 'event handling testing' stamp: 'len 2/19/2016 03:35'!
-aboutToBeGrabbedBy: aHand 
-	super aboutToBeGrabbedBy: aHand.
-	(owner isKindOf: GraphMorph) ifTrue: [owner focusOn: node"; stopStepping"]! !
-
-!SpringNodeMorph methodsFor: 'accessing' stamp: 'len 5/2/2016 06:49'!
-alpha
-	self dimension > 2 ifFalse: [^ 1.0].
-	(owner isNil or: [x z >= 0]) ifTrue: [^ 1.0].
-	^ (x z / owner morphExtent y + 1) squared min: 1.0 max: 0.0! !
-
-!SpringNodeMorph methodsFor: 'moving' stamp: 'len 2/25/2016 16:56'!
-approachPoint: aPoint
-	| dx` x1 x2 diff |
-	dx` _ dx - dx. "0@0."
-	x1 _ x.
-	x2 _ aPoint.
-	x1 = x2 ifTrue: [^ self].
-	diff _ x1 - x2.
-	dx` _ dx` + (diff / diff norm2).
-	dx` isZero ifFalse: [dx _ dx + (dx` / dx` norm * 2)]! !
-
-!SpringNodeMorph methodsFor: 'accessing' stamp: 'len 4/22/2016 00:50'!
-color
-	^ super color alpha: self alpha! !
-
-!SpringNodeMorph methodsFor: 'moving' stamp: 'len 2/25/2016 16:12'!
-dampBy: aNumber
-	dx _ dx / aNumber! !
-
-!SpringNodeMorph methodsFor: 'accessing' stamp: 'len 4/22/2016 00:43'!
-dimension
-	^ x size! !
-
-!SpringNodeMorph methodsFor: 'accessing' stamp: 'len 4/22/2016 01:01'!
-dimension: anInteger
-	| n |
-	(n _ x size) = anInteger
-		ifTrue: [^ self].
-	n > anInteger
-		ifTrue:
-			[x _ x copyFrom: 1 to: anInteger.
-			dx _ dx copyFrom: 1 to: anInteger]
-		ifFalse:
-			[| z |
-			z _ Tuple new: anInteger - n evaluating: [:i| 0].
-			x _ x, z.
-			dx _ dx, z]! !
-
-!SpringNodeMorph methodsFor: 'moving' stamp: 'len 4/22/2016 00:54'!
-doMove
-	| bounds delta |
-	x _ x + dx.
-	bounds _ owner morphLocalBounds.
-	self morphPosition: bounds center + ((x at: 1) @ (x at: 2)).
-	(bounds containsRect: self morphBounds)
-		ifFalse: [delta _ 2 * (self morphBounds amountToTranslateWithin: bounds).
-					x _ x + (delta x, delta y).
-					self morphPosition: bounds center + ((x at: 1) @ (x at: 2)).
-					dx _ dx * 0 "0@0"].
-	^ dx norm! !
-
-!SpringNodeMorph methodsFor: 'accessing' stamp: 'len 2/25/2016 16:11'!
-dx
-	^ dx! !
-
-!SpringNodeMorph methodsFor: 'accessing' stamp: 'len 2/25/2016 16:24'!
-dx: aVector
-	dx _ aVector! !
-
-!SpringNodeMorph methodsFor: 'event handling testing' stamp: 'sam 2/10/2004 01:56'!
-handlesMouseDown: evt 
-	evt shiftPressed
-		ifFalse: [^ super handlesMouseDown: evt]
-		ifTrue: [^ true]! !
-
-!SpringNodeMorph methodsFor: 'initialization' stamp: 'len 4/22/2016 00:58'!
-initialize
-	super initialize.
-	x _ (0,0).
-	dx _ x! !
-
-!SpringNodeMorph methodsFor: 'private' stamp: 'len 2/29/2016 21:28'!
-nearbyNodesDo: aBlock
-	| count |
-	count _ 0.
-	node markDo: [:each |
-		count _ count + 1.
-		count > 40 ifTrue: [^ self].
-		aBlock value: (owner nodeAt: each)]! !
-
-!SpringNodeMorph methodsFor: 'moving' stamp: 'len 4/27/2016 07:37'!
-perturbate: n
-	dx _ dx + (dx collect: [:xi| n atRandom - n])! !
-
-!SpringNodeMorph methodsFor: 'moving' stamp: 'len 4/22/2016 00:51'!
-perturbation
-	^ x collect: [:xi| 3 atRandom - 2]! !
-
-!SpringNodeMorph methodsFor: 'moving' stamp: 'len 2/25/2016 16:58'!
-separateFromAllNodes
-	| dx` x1 x2 |
-	(owner isKindOf: SpringGraphMorph) ifFalse: [^ self].
-	dx` _ dx - dx. "0@0"
-	x1 _ x.
-	owner nodesDo: [:each|
-		x2 _ each x + each dx.
-		self == each
-			ifFalse:
-				[x1 = x2
-					ifTrue: [dx` _ dx` + self perturbation]
-					ifFalse:
-						[| diff |
-						diff _ x1 - x2.
-						dx` _ dx` + (diff / diff norm2)]]].
-	dx` isZero ifFalse: [dx _ dx + (dx` / dx` norm * 2)]! !
-
-!SpringNodeMorph methodsFor: 'moving' stamp: 'len 2/25/2016 16:16'!
-translateBy: delta
-	dx _ dx + delta! !
-
-!SpringNodeMorph methodsFor: 'event handling testing' stamp: 'len 2/18/2016 06:02'!
-wantsToBeDroppedInto: aMorph
-	^ aMorph isKindOf: SpringGraphMorph! !
-
-!SpringNodeMorph methodsFor: 'accessing' stamp: 'len 2/25/2016 16:11'!
-x
-	^ x! !
-
-!SpringNodeMorph methodsFor: 'accessing' stamp: 'len 2/25/2016 16:24'!
-x: aPoint
-	x _ aPoint! !
 
 !SpaceMorph methodsFor: 'as yet unclassified' stamp: 'len 2/26/2016 02:09'!
 origin
@@ -34804,6 +34839,19 @@ testMultivariateDivisionExample
 	F _ {x**2 - (y*z). y**2 - (z*x). z**2 - (x*y)}.
 	f _ x**3 + (y**3 * 3).
 	self assert: (f divideBy: F ordering: (MonomialOrdering tlex: #(1 2 3))) remainder = (y**3 * 4)! !
+
+!GroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 7/9/2016 23:25'!
+testRadicalMembership
+	| R x y z g1 g2 f I |
+	R _ Rationals new polynomialsIn: #(x y z).
+	x _ R x.
+	y _ R y.
+	z _ R z.
+	g1 _ x**4*(y**2) + (z**2) - (x*(y**3)*z*4) - (y**5*z*2).
+	g2 _ (x + (y**2)) ** 2.
+	f _ y*z - (x**3).
+	I _ R * {g1. g2}.
+	self assert: (I radicalIncludes: f)! !
 
 !GroupTest methodsFor: 'as yet unclassified' stamp: 'len 6/29/2016 00:37'!
 testActionOrbitOf
