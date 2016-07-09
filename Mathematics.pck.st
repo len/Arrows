@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 9 July 2016 at 5:36:15.292992 am'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 9 July 2016 at 8:09:53.209274 am'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 150!
+!provides: 'Mathematics' 1 151!
 !classDefinition: #AbelianGroupPresentation category: #'Mathematics-Free'!
 Object subclass: #AbelianGroupPresentation
 	instanceVariableNames: 'generators relators'
@@ -3353,9 +3353,21 @@ Structure:
 
 !
 
-!GroebnerBasisBenchmark commentStamp: 'len 7/7/2016 23:28' prior: 0!
+!GroebnerBasisBenchmark commentStamp: '<historical>' prior: 0!
 GroebnerBasisBenchmark new run
-'testCyclic3	1,130 per second.
+
+testCyclic3	1,300 per second.
+testCyclic4	264 per second.
+testCyclic5	60.1 per second.
+testCyclic6	9.7 per second.
+testElimination	143 per second.
+testKatsura2	4,230 per second.
+testKatsura3	407 per second.
+testKatsura4	4.06 per second.
+testModularCyclic3	175 per second.
+testModularKatsura2	194 per second. 
+
+testCyclic3	1,130 per second.
 testCyclic4	195 per second.
 testCyclic5	48.7 per second.
 testCyclic6	9.31 per second.
@@ -3364,7 +3376,7 @@ testKatsura2	3,440 per second.
 testKatsura3	354 per second.
 testKatsura4	2.8 per second.
 testModularCyclic3	149 per second.
-testModularKatsura2	184 per second.' 
+testModularKatsura2	184 per second.'
 
 'testCyclic3	1,080 per second.
 testCyclic4	36.8 per second.
@@ -16720,9 +16732,9 @@ do: aBlock
 	^ super do: aBlock
 "	space endomorphisms do: [:each| (self includes: each) ifTrue: [aBlock value: each]]"! !
 
-!LinearGroup methodsFor: 'morphisms' stamp: 'len 6/25/2016 23:44'!
+!LinearGroup methodsFor: 'invariants' stamp: 'len 7/9/2016 07:51'!
 hilbertSeries
-	"This is the sum of dim(S_d ^G z^d for d>=0 (by Molien's formula, 1897), i.e. it counts the homogeneous polynomials of a given digree d that are invariants for the group."
+	"This is the sum of dim(S_d ^G z^d for d>=0 (by Molien's formula, 1897), i.e. it counts the homogeneous polynomials of a given degree d that are invariants for the group."
 	| order |
 	order _ self size.
 	order | self ambient characteristic ifTrue: [^ self error: 'group order divides characteristic'].
@@ -16741,7 +16753,7 @@ printOn: aStream
 	self class = LinearGroup ifTrue: [^ super printOn: aStream].
 	aStream nextPutAll: self shortName bold; nextPut: $(; print: space; nextPut: $)! !
 
-!LinearGroup methodsFor: 'morphisms' stamp: 'len 6/20/2016 21:24'!
+!LinearGroup methodsFor: 'invariants' stamp: 'len 6/20/2016 21:24'!
 reynolds
 	"Answer the Reynolds operator. Properties:
 	- K-linear map S -> S^G;
@@ -17027,6 +17039,14 @@ do: aBlock
 	^ super do: aBlock
 "	matrices do: [:each| (self includes: each) ifTrue: [aBlock value: each]]"! !
 
+!MatrixGroup methodsFor: 'invariants' stamp: 'len 7/9/2016 07:56'!
+hilbertSeries
+	"This is the sum of dim(S_d ^G z^d for d>=0 (by Molien's formula, 1897), i.e. it counts the homogeneous polynomials of a given degree d that are invariants for the group."
+	| order |
+	order _ self size.
+	order | self ambient characteristic ifTrue: [^ self error: 'group order divides characteristic'].
+	^ (self sum: [:g| g characteristicPolynomial asRationalFunction reciprocal]) / order! !
+
 !MatrixGroup methodsFor: 'accessing' stamp: 'len 2/13/2016 07:40'!
 identity
 	^ matrices identity! !
@@ -17065,9 +17085,32 @@ space: aTuples
 species
 	^ MatrixGroup! !
 
+!MatrixGroup class methodsFor: 'examples' stamp: 'len 7/9/2016 08:01'!
+C4
+	"Answer the cyclic matrix group of order 4."
+	| V M a |
+	V _ Rationals new ** 2.
+	M _ V scalars ** (2@2).
+	a _ M elementAt: (0,-1,1,0).
+	^ self on: V generators: {a}! !
+
+!MatrixGroup class methodsFor: 'examples' stamp: 'len 7/9/2016 07:46'!
+klein
+	"Answer the Klein four-group (or Vierergruppe) as a matrix group."
+	| V M a b |
+	V _ Rationals new ** 2.
+	M _ V scalars ** (2@2).
+	a _ M elementAt: (1,0,0,-1).
+	b _ a negated.
+	^ self on: V generators: {a.b} ":: name: 'V' bold"! !
+
 !MatrixGroup class methodsFor: 'instance creation' stamp: 'len 2/13/2016 07:39'!
 on: aTuples
 	^ self new space: aTuples! !
+
+!MatrixGroup class methodsFor: 'instance creation' stamp: 'len 7/9/2016 07:42'!
+on: aTuples generators: aCollection
+	^ (self on: aTuples) generators: aCollection! !
 
 !GeneralLinearMatrixGroup methodsFor: 'comparing' stamp: 'len 5/1/2016 06:35'!
 >= anObject
@@ -26151,22 +26194,24 @@ one
 permanent
 	^ self notYetImplemented! !
 
-!Matrix methodsFor: 'printing' stamp: 'len 3/31/2016 02:40'!
+!Matrix methodsFor: 'printing' stamp: 'len 7/9/2016 07:48'!
 printBitsOn: aStream
+	aStream cr.
 	self rows do: [:row|
 		aStream nextPut: $[.
 		row do: [:bit| aStream nextPut: (bit isZero ifTrue: [$0] ifFalse: [$1])].
 		aStream nextPut: $]] separatedBy: [aStream cr]! !
 
-!Matrix methodsFor: 'printing' stamp: 'len 3/31/2016 02:40'!
+!Matrix methodsFor: 'printing' stamp: 'len 7/9/2016 07:47'!
 printOn: aStream
 	| pads string pad |
 	self scalars size = 2 ifTrue: [^ self printBitsOn: aStream].
-	pads _ (1 to: self numberOfColumns) collect: [ :each | 0].
-	self rows do: [ :each |
+	aStream cr.
+	pads _ (1 to: self numberOfColumns) collect: [:each| 0].
+	self rows do: [:each|
 		1 to: each dimension do: [ :index |
 			pads at: index put: ((pads at: index) max: (each at: index) printString size)]].
-	self rows do: [ :each |
+	self rows do: [:each|
 		aStream nextPut: $[.
 		1 to: each size - 1 do: [ :index |
 			string _ (each at: index) printString.
