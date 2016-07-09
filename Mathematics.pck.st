@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 9 July 2016 at 3:47:11.986818 am'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 9 July 2016 at 5:36:15.292992 am'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 149!
+!provides: 'Mathematics' 1 150!
 !classDefinition: #AbelianGroupPresentation category: #'Mathematics-Free'!
 Object subclass: #AbelianGroupPresentation
 	instanceVariableNames: 'generators relators'
@@ -10373,7 +10373,7 @@ initial
 	"Answer the initial ideal, i.e. the ideal of all leading monomials of the receiver."
 	^ MonomialIdeal on: self ambient generators: self groebnerBasis initial! !
 
-!PolynomialIdeal methodsFor: 'morphisms' stamp: 'len 7/4/2016 06:41'!
+!PolynomialIdeal methodsFor: 'morphisms' stamp: 'len 7/9/2016 05:16'!
 intersection: anIdeal
 	| R R` t T TminusOne G1 G2 G` G |
 	R _ self ambient.
@@ -10386,7 +10386,7 @@ intersection: anIdeal
 	G` _ GroebnerBasis from: G1, G2.
 	G _ GroebnerBasis new ordering: (MonomialOrdering lex: R rank).
 	G` do: [:each| (each has: t) ifFalse: [G add: (each as: R)]].
-	^ self class on: R generators: G! !
+	^ self species on: R generators: G! !
 
 !PolynomialIdeal methodsFor: 'testing' stamp: 'len 12/15/2015 21:13'!
 isHomogeneous
@@ -10396,19 +10396,23 @@ isHomogeneous
 isRadical
 	^ self = self radical! !
 
+!PolynomialIdeal methodsFor: 'testing' stamp: 'len 7/9/2016 05:20'!
+isSquareFree
+	^ self = self squareFree! !
+
 !PolynomialIdeal methodsFor: 'testing' stamp: 'len 7/6/2016 06:16'!
 isTrivial
 	"Answer true if the receiver is <1>."
 	(self generators anySatisfy: [:g| g isConstant]) ifTrue: [^ true].
 	^ self groebnerBasis anySatisfy: [:g| g isConstant]! !
 
-!PolynomialIdeal methodsFor: 'testing' stamp: 'len 5/9/2016 17:33'!
+!PolynomialIdeal methodsFor: 'testing' stamp: 'len 7/9/2016 05:18'!
 isUnivariate
-	^ self generators anyOne species isUnivariate! !
+	^ self ambient isUnivariate! !
 
-!PolynomialIdeal methodsFor: 'morphisms' stamp: 'len 7/8/2016 23:44'!
+!PolynomialIdeal methodsFor: 'morphisms' stamp: 'len 7/9/2016 05:21'!
 radical
-	self flag: #fix. "this is not right, maybe only works for Q[x1..xn]"
+	self flag: #fix. "this is not right, maybe only works for Q[x1..xn] and monomial ideals"
 	^ self squareFree! !
 
 !PolynomialIdeal methodsFor: 'operations' stamp: 'len 7/7/2016 20:46'!
@@ -10498,6 +10502,11 @@ katsura5
 		x*y*2 + (y*z*2) + (z*t*2) + (t*u*2) - y.
 		y**2 + (x*z*2) + (y*t*2) + (z*u*2) - z.
 		y*z*2 + (x*t*2) + (y*u*2) - t}! !
+
+!MonomialIdeal methodsFor: 'as yet unclassified' stamp: 'len 7/9/2016 05:16'!
+radical
+	"This works for monomial ideals."
+	^ self squareFree! !
 
 !MonomialIdeal methodsFor: 'as yet unclassified' stamp: 'len 7/7/2016 07:39'!
 species
@@ -17182,13 +17191,16 @@ isCommutative
 shortName
 	^ 'SZ'! !
 
-!PermutationGroup methodsFor: 'comparing' stamp: 'len 6/25/2016 02:08'!
+!PermutationGroup methodsFor: 'comparing' stamp: 'len 7/9/2016 05:31'!
 = anObject
 	self == anObject ifTrue: [^ true].
 	(anObject isKindOf: PermutationGroup)
 		ifFalse: [^ super = anObject].
-	self generators asSet = anObject generators asSet ifTrue: [^ true].
-	^ self size = anObject size and: [self includesAllOf: anObject generators]! !
+	self generators ifNotNil: [:g1| anObject generators ifNotNil: [:g2| g1 asSet = g2 asSet ifTrue: [^ true]]].
+	self size = anObject size ifFalse: [^ false].
+	anObject generators ifNotNil: [:generators| ^ self includesAllOf: generators].
+	self generators ifNotNil: [:generators| ^ anObject includesAllOf: generators].
+	^ super = anObject! !
 
 !PermutationGroup methodsFor: 'accessing' stamp: 'len 5/6/2016 02:49'!
 action
@@ -17248,10 +17260,6 @@ isSubgroupOfAn
 	20 timesRepeat:
 		[random next isPurple ifTrue: [^ true]].
 	^ false! !
-
-!PermutationGroup methodsFor: 'testing' stamp: 'len 6/24/2016 05:55'!
-isTrivial
-	^ self generators allSatisfy: [:each| each = self identity]! !
 
 !PermutationGroup methodsFor: 'accessing' stamp: 'len 6/30/2016 03:19'!
 size
