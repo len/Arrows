@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 9 July 2016 at 11:26:50.676905 pm'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 10 July 2016 at 8:08:24.64475 am'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 152!
+!provides: 'Mathematics' 1 153!
 !classDefinition: #AbelianGroupPresentation category: #'Mathematics-Free'!
 Object subclass: #AbelianGroupPresentation
 	instanceVariableNames: 'generators relators'
@@ -499,6 +499,16 @@ FreeAbelianGroup subclass: #Lattice
 	category: 'Mathematics-Lattices'!
 !classDefinition: 'Lattice class' category: #'Mathematics-Lattices'!
 Lattice class
+	instanceVariableNames: ''!
+
+!classDefinition: #SyzygyModule category: #'Mathematics-Polynomials-Domains'!
+FreeModule subclass: #SyzygyModule
+	instanceVariableNames: 'polynomials'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Polynomials-Domains'!
+!classDefinition: 'SyzygyModule class' category: #'Mathematics-Polynomials-Domains'!
+SyzygyModule class
 	instanceVariableNames: ''!
 
 !classDefinition: #VectorSpace category: #'Mathematics-Linear-Spaces'!
@@ -3769,7 +3779,7 @@ My instances are (finite) algebraic extensions E/F of a field F seen as an F-vec
 My instances are vector spaces of multivariate homogeneous polynomials of degree d in n variables, for fixed d and n.!
 
 !LinearMaps commentStamp: '<historical>' prior: 0!
-My instances are vector spaces of transformations from a vector space to another, i.e. the space of morphisms between two vector spaces.!
+My instances are K-vector spaces (or R-modules) of linear transformations from a K-vector space (R-module) to another, i.e. the space of morphisms between two vector spaces (module homomorphisms).!
 
 !DualSpace commentStamp: 'len 4/23/2016 03:03' prior: 0!
 My instances are vector spaces of linear forms, i.e linear maps from a vector space V into the ground field K. This is the (algebraic) dual of V and it is noted V*.
@@ -4376,7 +4386,7 @@ The (pseudo) number theoretic transform may be meaningful in the ring Z/<m> even
 !Polynomial commentStamp: '<historical>' prior: 0!
 My instances are polynomials in one or many indeterminates, with coefficients in a commutative ring.
 
-Subclasses implement particular representations, such as dense (univariate) polynomials (represented as arrays of coefficients) or sparse polynomials (representad as dictionaries monomial -> coefficient).!
+Subclasses implement particular representations, such as dense univariate polynomials (represented as arrays of coefficients) or sparse polynomials (representad as dictionaries monomial -> coefficient).!
 
 !SparsePolynomial commentStamp: '<historical>' prior: 0!
 My instances are polynomials in sparse representation. The coefficients of a sparse polynomial are stored as a SparseTuple indexed by monomials.!
@@ -8771,10 +8781,10 @@ ambient
 ambient: aVectorSpace
 	ambient _ aVectorSpace! !
 
-!LinearBasis methodsFor: 'operations' stamp: 'len 12/10/2015 04:28'!
+!LinearBasis methodsFor: 'operations' stamp: 'len 7/10/2016 05:23'!
 apply: aLinearMap
 	| answer vector |
-	answer _ self class on: aLinearMap codomain.
+	answer _ self class on: (aLinearMap isBlock ifTrue: [ambient] ifFalse: [aLinearMap codomain]).
 	self do: [:each|
 		(answer generates: (vector _ aLinearMap value: each))
 			ifFalse: [answer add: vector]].
@@ -8858,6 +8868,17 @@ dual
 		answer add:
 			(LinearForm
 				from: extendedBasis coordinates: (extendedBasis coordinatesOf: each))].
+	^ answer! !
+
+!LinearBasis methodsFor: 'coordinates' stamp: 'len 7/10/2016 07:31'!
+elementAt: aTuple 
+	"Answer the vector with coordinates aTuple when expressed as a linear combination of the receiver."
+	| answer |
+"	self assert: aTuple size = self size."
+	1 to: aTuple size do: [ :each |
+		answer _ answer isNil
+			ifTrue: [(self at: each) * (aTuple at: each)]
+			ifFalse: [(self at: each) * (aTuple at: each) + answer]].
 	^ answer! !
 
 !LinearBasis methodsFor: 'operations' stamp: 'len 5/23/2016 04:43'!
@@ -8983,16 +9004,10 @@ vectorAt
 		to: self
 		matrix: (ambient scalars ** (self size @ self size)) identity! !
 
-!LinearBasis methodsFor: 'coordinates' stamp: 'len 3/5/2016 01:32'!
+!LinearBasis methodsFor: 'coordinates' stamp: 'len 7/10/2016 07:31'!
 vectorAt: aTuple 
 	"Answer the vector with coordinates aTuple when expressed as a linear combination of the receiver."
-	| answer |
-"	self assert: aTuple size = self size."
-	1 to: aTuple size do: [ :each |
-		answer _ answer isNil
-			ifTrue: [(self at: each) * (aTuple at: each)]
-			ifFalse: [(self at: each) * (aTuple at: each) + answer]].
-	^ answer! !
+	^ self elementAt: aTuple! !
 
 !LinearBasis methodsFor: 'accessing-private' stamp: 'len 11/7/2015 01:56'!
 vectors
@@ -9722,6 +9737,11 @@ accumulate: maximumNumberOfElements
 allSatisfy: aBlock
 	self do: [:each| (aBlock value: each) ifFalse: [^ false]].
 	^ true! !
+
+!Domain methodsFor: 'accessing' stamp: 'len 7/10/2016 05:40'!
+ambient
+	"Domains can be substructures of other domains. Answer the ambient domain of which the receiver is substructure."
+	^ properties at: #ambient ifAbsent: [self]! !
 
 !Domain methodsFor: 'iterating' stamp: 'len 5/1/2016 23:21'!
 anySatisfy: aBlock
@@ -10606,8 +10626,9 @@ coordinatesOf: anElement
 e: anInteger
 	^ (properties at: #basis ifAbsent: [^ LinearCombination with: (self generators at: anInteger)]) at: anInteger! !
 
-!FreeModule methodsFor: 'basis' stamp: 'len 2/28/2016 07:50'!
+!FreeModule methodsFor: 'basis' stamp: 'len 7/10/2016 07:37'!
 elementAt: aTuple
+	"Answer a module element with the given coordinates in the canonical basis."
 	| answer |
 	answer _ self zero.
 	aTuple withIndexDo: [:each :i| answer _ (self e: i) * each + answer].
@@ -10704,9 +10725,9 @@ ambient
 	"Answer the ambient vector space."
 	^ basis ambient! !
 
-!Lattice methodsFor: 'morphisms' stamp: 'len 4/15/2016 06:12'!
-apply: aLinearTransformation
-	^ self class basis: (self basis apply: aLinearTransformation)! !
+!Lattice methodsFor: 'morphisms' stamp: 'len 7/10/2016 05:26'!
+apply: aLinearMap
+	^ self class basis: (self basis apply: aLinearMap)! !
 
 !Lattice methodsFor: 'basis' stamp: 'len 12/9/2015 02:18'!
 basis
@@ -10945,6 +10966,12 @@ matrix: aMatrix
 	"Answer a lattice with generator matrix aMatrix."
 	^ self basis: aMatrix rowSpace basis! !
 
+!SyzygyModule methodsFor: 'as yet unclassified' stamp: 'len 7/10/2016 00:00'!
+printOn: aStream
+	aStream nextPutAll: 'Syz('.
+	polynomials do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: ', '].
+	aStream nextPut: $)! !
+
 !VectorSpace methodsFor: 'morphisms' stamp: 'len 11/20/2015 15:01'!
 -> aVectorSpace
 	"Answer the vector space of transformations from the receiver to the argument."
@@ -11001,11 +11028,6 @@ matrix: aMatrix
 !VectorSpace methodsFor: 'morphisms' stamp: 'len 6/19/2016 02:41'!
 ’ aVectorSpace
 	^ TensorProductSpace left: self right: aVectorSpace! !
-
-!VectorSpace methodsFor: 'accessing' stamp: 'len 5/23/2016 19:30'!
-ambient
-	"Answer the ambient vector space."
-	^ self! !
 
 !VectorSpace methodsFor: 'morphisms' stamp: 'len 2/25/2016 03:45'!
 annihilator
@@ -11898,6 +11920,10 @@ coordinatesOf: aPolynomial
 	coefficients _ aPolynomial coefficients.
 	^ coefficients, ((1 to: self dimension - coefficients size) collect: [:each| self scalars zero])! !
 
+!PolynomialSpace methodsFor: 'accessing' stamp: 'len 7/10/2016 07:39'!
+degree
+	^ degree! !
+
 !PolynomialSpace methodsFor: 'accessing-private' stamp: 'len 4/6/2016 07:07'!
 degree: anInteger
 	degree _ anInteger! !
@@ -11913,6 +11939,10 @@ dimension
 !PolynomialSpace methodsFor: 'basis' stamp: 'len 4/6/2016 07:03'!
 e: anInteger
 	^ polynomials xTo: anInteger - 1! !
+
+!PolynomialSpace methodsFor: 'basis' stamp: 'len 7/10/2016 07:39'!
+elementAt: aTuple
+	^ polynomials coefficients: aTuple! !
 
 !PolynomialSpace methodsFor: 'morphisms' stamp: 'len 6/19/2016 04:18'!
 integral: a to: b
@@ -12170,6 +12200,11 @@ do: aBlock from: min to: max
 e: anInteger
 	^ self scalars tuple: dimension evaluating: [:k| k = anInteger ifTrue: [scalars one] ifFalse: [scalars zero]]! !
 
+!Tuples methodsFor: 'basis' stamp: 'len 7/10/2016 07:35'!
+elementAt: aTuple
+	"Answer the vector with coordinates aTuple in the canonical basis (i.e, the standard basis)."
+	^ aTuple! !
+
 !Tuples methodsFor: 'elements' stamp: 'len 4/14/2016 06:45'!
 evaluating: aBlock
 	^ scalars tuple: dimension evaluating: aBlock! !
@@ -12247,11 +12282,6 @@ setDimension: n scalars: aDomain
 !Tuples methodsFor: 'private' stamp: 'len 3/30/2016 06:47'!
 tupleClass
 	^ scalars tupleClass! !
-
-!Tuples methodsFor: 'basis' stamp: 'len 11/23/2015 02:35'!
-vectorAt: aTuple
-	"Answer the vector with coordinates aTuple in the canonic basis."
-	^ aTuple! !
 
 !Tuples methodsFor: 'elements' stamp: 'len 4/22/2016 21:57'!
 zero
@@ -15770,11 +15800,6 @@ additiveOperation
 !Group methodsFor: 'morphisms' stamp: 'len 5/22/2016 03:44'!
 adjointAction
 	^ GroupAction from: (self, self) to: self evaluating: [:each| self operation value: {self operation value: {each first. each second}. self inverseMap value: each first}]! !
-
-!Group methodsFor: 'accessing' stamp: 'len 5/23/2016 19:35'!
-ambient
-	"Answer the ambient group."
-	^ self! !
 
 !Group methodsFor: 'random' stamp: 'len 5/29/2016 18:03'!
 atRandom: aRandom bits: bitSize
@@ -35029,6 +35054,17 @@ testFirstIsomorphismTheorem
 	phi _ S / f kernel -> f image evaluating: [:x| f value: x representative].
 	self assert: phi isIsomorphism! !
 
+!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 7/10/2016 08:02'!
+testFreeModule: M
+	| c t v x y |
+	x _ M atRandomBits: 10 * M rank.
+	self assert: x = (M elementAt: (M coordinatesOf: x)).
+	y _ M atRandomBits: 10 * M rank.
+	c _ M scalars atRandomBits: 100.
+	v _ x * c + y.
+	t _ (M coordinatesOf: x) * c + (M coordinatesOf: y).
+	self assert: v = (M elementAt: t)! !
+
 !LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 6/3/2016 04:07'!
 testGrassmannian
 	| Q G S |
@@ -35230,6 +35266,22 @@ testLinearSystemSolver3
 	self assert: system kernel dimension = 2.
 	self assert: (system solutions includes: (V vectorAt: (1, -2, -2, 0)))! !
 
+!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 7/10/2016 08:00'!
+testMatricesQ
+	self testFreeModule: (Rationals new ** (5 atRandom @ 5 atRandom))! !
+
+!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 7/10/2016 08:00'!
+testMatricesZ
+	self testFreeModule: (Integers new ** (5 atRandom @ 5 atRandom))! !
+
+!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 7/10/2016 08:00'!
+testMatricesZ2
+	self testFreeModule: ((Integers new mod: 2) ** (5 atRandom @ 5 atRandom))! !
+
+!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 7/10/2016 08:00'!
+testMatricesZ4
+	self testFreeModule: ((Integers new mod: 4) ** (5 atRandom @ 5 atRandom))! !
+
 !LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 6/4/2016 03:33'!
 testMatrixTraceAsLinearMap
 	| Q F f |
@@ -35418,6 +35470,22 @@ testThirdsomorphismTheorem
 	S _ V grassmannian: (1 to: V dimension) atRandom :: atRandomBits: 50.
 	T _ S grassmannian: (1 to: S dimension) atRandom :: atRandomBits: 50.
 	self assert: (V/T)/(S/T) ~ (V/S)! !
+
+!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 7/10/2016 07:52'!
+testTuplesQ
+	self testFreeModule: (Rationals new ** 5 atRandom)! !
+
+!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 7/10/2016 07:52'!
+testTuplesZ
+	self testFreeModule: (Integers new ** 5 atRandom)! !
+
+!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 7/10/2016 07:52'!
+testTuplesZ2
+	self testFreeModule: ((Integers new mod: 2) ** 5 atRandom)! !
+
+!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 7/10/2016 07:59'!
+testTuplesZ4
+	self testFreeModule: ((Integers new mod: 4) ** 5 atRandom)! !
 
 !LinearGroupsTest methodsFor: 'as yet unclassified' stamp: 'len 4/19/2016 04:08'!
 testGeneralLinearAtRandom
