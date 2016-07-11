@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 10 July 2016 at 8:08:24.64475 am'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 11 July 2016 at 7:05:24.663164 am'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 153!
+!provides: 'Mathematics' 1 154!
 !classDefinition: #AbelianGroupPresentation category: #'Mathematics-Free'!
 Object subclass: #AbelianGroupPresentation
 	instanceVariableNames: 'generators relators'
@@ -4505,8 +4505,8 @@ For an example try:
 My instances are quaternions. Quaternions constitute an example of non-commutative field.
 !
 
-!GroupRandomGenerator commentStamp: 'len 2/17/2016 01:32' prior: 0!
-I am the Product Replacement Algorithm for generating random elements in a group from a set of generators.!
+!GroupRandomGenerator commentStamp: '<historical>' prior: 0!
+I am the Product Replacement Algorithm for generating random elements in a group from a set of generators. Essentially, it performs a random walk on a Cayley graph.!
 
 !Residue commentStamp: '<historical>' prior: 0!
 My instances are elements of a quotient ring, i.e. residue classes modulo an ideal. See class QuotientRing.!
@@ -6180,10 +6180,25 @@ mod: anArray
 	(self hasEdge: anEdge)
 		ifTrue: [^ self copy removeEdge: anEdge; yourself]! !
 
-!Digraph methodsFor: 'operations' stamp: 'len 5/25/2016 00:51'!
+!Digraph methodsFor: 'operations' stamp: 'len 7/11/2016 07:05'!
 / anEdge
 	"Answer the graph obtained by contracting anEdge."
-	self notYetImplemented! !
+	| answer newNode |
+	(self hasEdge: anEdge) ifFalse: [^ self].
+	answer _ self copyEmpty.
+	self flag: #fix. "careful, i'm sending #value assuming it is a GraphNode, but it might be an actual value already"
+	newNode _ {anEdge key value. anEdge value value}.
+	self edgesDo: [:each|
+		each = anEdge
+			ifFalse:
+				[| e |
+				e _ each.
+				(e key = anEdge key or: [e key = anEdge value])
+					ifTrue: [e _ newNode -> e value].
+				(e value = anEdge key or: [e value = anEdge value])
+					ifTrue: [e _ e key -> newNode].
+				answer addEdge: e]].
+	^ answer! !
 
 !Digraph methodsFor: 'comparing' stamp: 'len 5/25/2016 03:29'!
 < aGraph
@@ -6212,10 +6227,10 @@ mod: anArray
 >= aGraph 
 	^ aGraph <= self! !
 
-!Digraph methodsFor: 'adding' stamp: 'len 5/7/2016 04:20'!
+!Digraph methodsFor: 'adding' stamp: 'len 7/11/2016 06:56'!
 add: anObject
 	"Create a new GraphNode for the value (if necessary), and add it to the graph. You shouldn't be calling this unless you're sure what you're doing. Better to add nodes by adding edges."
-	^ nodes at: anObject ifAbsentPut: [self newNodeOn: anObject]! !
+	^ nodes at: anObject ifAbsentPut: [nodeCreator value: ((anObject isKindOf: GraphNode) ifTrue: [anObject value] ifFalse: [anObject])]! !
 
 !Digraph methodsFor: 'adding' stamp: 'len 5/25/2016 03:18'!
 addEdge: edge 
@@ -6251,10 +6266,6 @@ addEdgeFrom: source to: target label: label
 addEdges: aCollection
 	aCollection do: [:each| self addEdge: each].
 	^ aCollection! !
-
-!Digraph methodsFor: 'adding' stamp: 'len 4/29/2016 22:32'!
-addNode: aGraphNode
-	^ nodes add: aGraphNode! !
 
 !Digraph methodsFor: 'operations' stamp: 'len 6/25/2016 05:56'!
 adjacencyMatrix
@@ -6306,6 +6317,10 @@ asRooted
 	self edgesDo: [:each| answer addEdge: each].
 	answer findRoots.
 	^ answer! !
+
+!Digraph methodsFor: 'random' stamp: 'len 7/11/2016 05:32'!
+atRandom: aRandom
+	^ (nodes atRandom: aRandom) value! !
 
 !Digraph methodsFor: 'statistics' stamp: 'len 2/15/2016 07:03'!
 averageDegree
@@ -6543,7 +6558,7 @@ components
 	"Answer the Strongly Connected Components of the receiver."
 	^ Set accumulate: [:aBlock | self componentsDo: aBlock]! !
 
-!Digraph methodsFor: 'operations' stamp: 'len 4/30/2016 07:29'!
+!Digraph methodsFor: 'operations' stamp: 'len 7/11/2016 06:53'!
 componentsDo: aBlock
 	"Iterate over the Strongly Connected Components of the receiver."
 	| component remainingNodes node |
@@ -6553,7 +6568,7 @@ componentsDo: aBlock
 			[node _ remainingNodes anyOne.
 			component _ self copyEmpty.
 			node markDo: [:each|
-				component addNode: each.
+				component privateAddNode: each.
 				remainingNodes remove: each ifAbsent: []].
 			aBlock value: component]! !
 
@@ -6609,6 +6624,21 @@ do: aBlock
 !Digraph methodsFor: 'operations' stamp: 'len 2/15/2016 08:09'!
 eccentricityOf: anObject
 	^ (Dijkstra graph: self source: anObject) eccentricity! !
+
+!Digraph methodsFor: 'random' stamp: 'len 7/11/2016 05:59'!
+edgeAtRandom
+	^ Random withDefaultDo: [:aRandom| self edgeAtRandom: aRandom]! !
+
+!Digraph methodsFor: 'random' stamp: 'len 7/11/2016 05:59'!
+edgeAtRandom: aRandom
+	| count |
+	3 timesRepeat:
+		[| source |
+		(source _ nodes atRandom: aRandom) neighbors
+			ifNotEmpty: [:neighbors| ^ source -> (neighbors atRandom: aRandom)]].
+	count _ self numberOfEdges atRandom.
+	self edgesDo: [:each| (count _ count - 1) > 0 ifFalse: [^ each]].
+	self error: 'inconsitency problem, edge not found'! !
 
 !Digraph methodsFor: 'accessing' stamp: 'len 5/1/2016 21:44'!
 edges
@@ -6830,10 +6860,6 @@ multiplicityFrom: source to: target
 neighborhoodOf: node
 	^ self subgraphInducedBy: (self nodeAt: node) neighbors! !
 
-!Digraph methodsFor: 'private' stamp: 'len 2/15/2016 07:01'!
-newNodeOn: anObject
-	^ nodeCreator value: ((anObject isKindOf: GraphNode) ifTrue: [anObject value] ifFalse: [anObject])! !
-
 !Digraph methodsFor: 'accessing' stamp: 'len 2/26/2016 23:17'!
 nodeAt: anObject
 	^ self nodeAt: anObject ifAbsent: [self error: 'node not found']! !
@@ -6896,6 +6922,10 @@ orderedLabeled
 printOn: aStream
 	self isEmpty ifTrue: [aStream nextPut: Character emptySet. ^ self].
 	super printOn: aStream! !
+
+!Digraph methodsFor: 'adding' stamp: 'len 7/11/2016 06:53'!
+privateAddNode: aGraphNode
+	^ nodes add: aGraphNode! !
 
 !Digraph methodsFor: 'operations' stamp: 'len 4/29/2016 19:07'!
 radius
@@ -7086,6 +7116,10 @@ binaryLabeled
 	"Create an labeled, ordered graph with arity of 2 (ie each vertex has exactly two connecting edges)."
 	^super new initialize binaryLabeled! !
 
+!Digraph class methodsFor: 'examples' stamp: 'len 7/11/2016 05:29'!
+cube
+	^ self cube: 3! !
+
 !Digraph class methodsFor: 'examples' stamp: 'len 5/25/2016 03:38'!
 cube: n
 	"Answer an n-cube."
@@ -7169,7 +7203,7 @@ implicitIteratorBlock: iteratorBlock
 	Each node is the graph is accessed by evaluating iteratorBlock to iterate over a collection of neighbouring nodes."
 	^super new initialize implicitIteratorBlock: iteratorBlock! !
 
-!Digraph class methodsFor: 'initialization' stamp: 'len 5/25/2016 03:48'!
+!Digraph class methodsFor: 'initialization' stamp: 'len 7/11/2016 06:54'!
 initialize
 	"Digraph initialize"
 	InitializationBlocks	_ Dictionary new.
@@ -7203,7 +7237,7 @@ initialize
 				on: value
 				iteratorBlock: [:aBlock | iterator
 						value: [:node | aBlock
-								value: (graph addNode: node)]]]]! !
+								value: (graph privateAddNode: node)]]]]! !
 
 !Digraph class methodsFor: 'examples' stamp: 'len 5/1/2016 04:39'!
 moebiusKantor
@@ -7273,6 +7307,25 @@ unorderedLabeled
 	"Create a new labelled, unordered graph."
 	^super new initialize unorderedLabeled! !
 
+!Graph methodsFor: 'operations' stamp: 'len 7/11/2016 07:04'!
+/ anEdge
+	"Answer the graph obtained by contracting anEdge."
+	| answer newNode |
+	answer _ self copyEmpty.
+	self flag: #fix. "careful, i'm sending #value assuming it is a GraphNode, but it might be an actual value already"
+	newNode _ {anEdge key value. anEdge value value} asSet.
+	self edgesDo: [:each|
+		(each = anEdge or: [each key = anEdge value and: [each value = anEdge key]])
+			ifFalse:
+				[| e |
+				e _ each.
+				(e key = anEdge key or: [e key = anEdge value])
+					ifTrue: [e _ newNode -> e value].
+				(e value = anEdge key or: [e value = anEdge value])
+					ifTrue: [e _ e key -> newNode].
+				answer addEdge: e]].
+	^ answer! !
+
 !Graph methodsFor: 'adding' stamp: 'len 5/25/2016 04:07'!
 addEdgeFrom: source to: target 
 	| sourceNode targetNode |
@@ -7329,11 +7382,11 @@ addEdgeFrom: source to: target label: label
 	super addEdgeFrom: source to: target label: label.
 	roots remove: target ifAbsent: []! !
 
-!RootedDigraph methodsFor: 'adding' stamp: 'len 2/26/2016 20:47'!
+!RootedDigraph methodsFor: 'adding' stamp: 'len 7/11/2016 06:23'!
 addRoot: anObject
 	"Add anObject as a root of the graph."
 	| node |
-	node _ nodes add: (self newNodeOn: anObject).
+	node _ self add: anObject.
 	roots add: node value.
 	^ node! !
 
@@ -10610,8 +10663,9 @@ automorphisms
 basis
 	^ properties at: #basis ifAbsentPut: [LinearBasis on: self vectors: (self indices collect: [:i| (self e: i)])]! !
 
-!FreeModule methodsFor: 'basis' stamp: 'len 6/20/2016 19:56'!
+!FreeModule methodsFor: 'basis' stamp: 'len 7/10/2016 23:06'!
 coordinateRing
+	"The coordinate ring of a R-module of rank n (or K-vector space of dimension n) is the polynomial ring R[x1..xn] (K[x1..xn]."
 	^ self scalars polynomialsIn: self rank! !
 
 !FreeModule methodsFor: 'basis' stamp: 'len 2/28/2016 07:45'!
@@ -11187,12 +11241,6 @@ span: aCollection
 	basis _ LinearBasis on: self.
 	aCollection do: [:each| (basis generates: each) ifFalse: [basis add: each]].
 	^ LinearSubspace basis: basis! !
-
-!VectorSpace methodsFor: 'morphisms' stamp: 'len 11/21/2015 23:00'!
-tensor: aVectorSpace
-	"Answer the tensorial product of the receiver by the argument."
-self halt
-"	^ TensorAmbient left: self right: aLinearAmbient"! !
 
 !VectorSpace methodsFor: 'morphisms' stamp: 'len 11/27/2015 05:49'!
 tensors: aPair
@@ -12976,12 +13024,12 @@ polynomials
 polynomials: aPolynomials
 	self integralDomain: aPolynomials! !
 
-!RationalFunctions methodsFor: 'printing' stamp: 'len 5/22/2016 23:48'!
+!RationalFunctions methodsFor: 'printing' stamp: 'len 7/11/2016 01:12'!
 printOn: aStream
 	aStream print: self scalars.
 	aStream nextPut: $(.
 	self polynomials ordering indeterminates
-		do: [:i| aStream print: (self polynomial x: i)]
+		do: [:i| aStream print: (self polynomials x: i)]
 		separatedBy: [aStream nextPut: $,].
 	aStream nextPut: $)! !
 
@@ -16771,13 +16819,13 @@ do: aBlock
 	^ super do: aBlock
 "	space endomorphisms do: [:each| (self includes: each) ifTrue: [aBlock value: each]]"! !
 
-!LinearGroup methodsFor: 'invariants' stamp: 'len 7/9/2016 07:51'!
+!LinearGroup methodsFor: 'invariants' stamp: 'len 7/10/2016 08:57'!
 hilbertSeries
 	"This is the sum of dim(S_d ^G z^d for d>=0 (by Molien's formula, 1897), i.e. it counts the homogeneous polynomials of a given degree d that are invariants for the group."
 	| order |
 	order _ self size.
-	order | self ambient characteristic ifTrue: [^ self error: 'group order divides characteristic'].
-	^ (self sum: [:g| g characteristicPolynomial asRationalFunction reciprocal]) / order! !
+	order | self scalars characteristic ifTrue: [^ self error: 'group order divides characteristic'].
+	^ (self elements sum: [:g| g characteristicPolynomial asRationalFunction reciprocal]) / order! !
 
 !LinearGroup methodsFor: 'accessing' stamp: 'len 2/11/2016 20:01'!
 identity
@@ -17078,13 +17126,13 @@ do: aBlock
 	^ super do: aBlock
 "	matrices do: [:each| (self includes: each) ifTrue: [aBlock value: each]]"! !
 
-!MatrixGroup methodsFor: 'invariants' stamp: 'len 7/9/2016 07:56'!
+!MatrixGroup methodsFor: 'invariants' stamp: 'len 7/10/2016 08:57'!
 hilbertSeries
 	"This is the sum of dim(S_d ^G z^d for d>=0 (by Molien's formula, 1897), i.e. it counts the homogeneous polynomials of a given degree d that are invariants for the group."
 	| order |
 	order _ self size.
-	order | self ambient characteristic ifTrue: [^ self error: 'group order divides characteristic'].
-	^ (self sum: [:g| g characteristicPolynomial asRationalFunction reciprocal]) / order! !
+	order | self scalars characteristic ifTrue: [^ self error: 'group order divides characteristic'].
+	^ (self elements sum: [:g| g characteristicPolynomial asRationalFunction reciprocal]) / order! !
 
 !MatrixGroup methodsFor: 'accessing' stamp: 'len 2/13/2016 07:40'!
 identity
@@ -17124,13 +17172,22 @@ space: aTuples
 species
 	^ MatrixGroup! !
 
-!MatrixGroup class methodsFor: 'examples' stamp: 'len 7/9/2016 08:01'!
+!MatrixGroup class methodsFor: 'examples' stamp: 'len 7/10/2016 23:29'!
+C3
+	"Answer the cyclic matrix group of order 3."
+	| V M a |
+	V _ (Field GF: 5) ** 2.
+	M _ V scalars ** (2@2).
+	a _ M elementAt: (0,1,-1,-1) % 5.
+	^ self on: V generators: {a}! !
+
+!MatrixGroup class methodsFor: 'examples' stamp: 'len 7/10/2016 23:29'!
 C4
 	"Answer the cyclic matrix group of order 4."
 	| V M a |
-	V _ Rationals new ** 2.
+	V _ (Field GF: 7) ** 2.
 	M _ V scalars ** (2@2).
-	a _ M elementAt: (0,-1,1,0).
+	a _ M elementAt: (0,-1,1,0) % 7.
 	^ self on: V generators: {a}! !
 
 !MatrixGroup class methodsFor: 'examples' stamp: 'len 7/9/2016 07:46'!
@@ -20173,9 +20230,10 @@ printOn: aStream
 		ifTrue: [aStream nextPut: $(; print: self denominator; nextPut: $)]
 		ifFalse: [aStream print: self denominator]! !
 
-!FormalFraction methodsFor: 'private' stamp: 'len 11/28/2015 06:29'!
+!FormalFraction methodsFor: 'private' stamp: 'len 7/11/2016 01:18'!
 reduce
 	| gcd |
+	numerator isZero ifTrue: [denominator _ numerator one. ^ self].
 	gcd _ numerator gcd: denominator.
 	numerator _ numerator / gcd.
 	denominator _ denominator / gcd! !
@@ -20295,19 +20353,17 @@ poles
 polesIn: aField
 	^ denominator rootsIn: aField! !
 
-!RationalFunction methodsFor: 'printing' stamp: 'len 4/16/2016 07:23'!
+!RationalFunction methodsFor: 'printing' stamp: 'len 7/11/2016 01:14'!
 printOn: aStream
 	"Print a representation of the reseiver on the stream aStream."
 
-	| string |
+	| |
 	self denominator = self denominator one ifTrue: [aStream print: self numerator. ^ self].
-	string _ self numerator printString.
-	((string includes: $+) or: [string includes: $-])
+	self numerator terms size > 1
 		ifTrue: [aStream nextPut: $(; print: self numerator; nextPut: $)]
 		ifFalse: [aStream print: self numerator].
 	aStream nextPutAll: ' / '.
-	string _ self denominator printString.
-	((string includes: $+) or: [string includes: $-])
+	self denominator terms size > 1
 		ifTrue: [aStream nextPut: $(; print: self denominator; nextPut: $)]
 		ifFalse: [aStream print: self denominator]! !
 
@@ -20320,12 +20376,12 @@ reciprocal
 "	self numerator isConstant ifTrue: [^ denominator * mult]."
 	^ self class numerator: denominator * mult denominator: numerator * mult! !
 
-!RationalFunction methodsFor: 'private' stamp: 'len 12/27/2015 05:58'!
+!RationalFunction methodsFor: 'private' stamp: 'len 7/11/2016 01:17'!
 reduce
 	"Reduce the receiver dividing the numerator and the denominator
 	by them GCD and making the denominator monic."
 	| gcd mult num den |
-	(num _ numerator) isZero ifTrue: [^ num].
+	(num _ numerator) isZero ifTrue: [denominator _ num one. ^ num].
 	den _ denominator.
 	gcd _ num gcd: den.
 	num _ num // gcd.
@@ -22488,14 +22544,10 @@ printOn: aStream
 		separatedBy: [aStream nextPutAll: ', '].
 	aStream nextPut: $)! !
 
-!RationalMap methodsFor: 'private' stamp: 'len 11/24/2015 06:08'!
+!RationalMap methodsFor: 'private' stamp: 'len 7/11/2016 05:42'!
 rename: anInteger to: anotherInteger 
-	"Rename the anInteger-th indeterminate of the receiver to 
-	anotherInteger. "
-	| xi |
-	xi _ Polynomial x: anotherInteger.
-	1 to: self size do: [:each | self at: each put: ((self at: each) numerator value: xi in: anInteger)
-				/ ((self at: each) denominator value: xi in: anInteger)]! !
+	"Rename the anInteger-th indeterminate of the receiver to anotherInteger. "
+	components _ components collect: [:each| each rename: anInteger to: anotherInteger]! !
 
 !RationalMap class methodsFor: 'instance creation' stamp: 'len 3/16/2016 05:38'!
 from: domain to: codomain components: anArrayOfRationalFunctions
@@ -35054,13 +35106,13 @@ testFirstIsomorphismTheorem
 	phi _ S / f kernel -> f image evaluating: [:x| f value: x representative].
 	self assert: phi isIsomorphism! !
 
-!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 7/10/2016 08:02'!
+!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 7/11/2016 01:26'!
 testFreeModule: M
 	| c t v x y |
 	x _ M atRandomBits: 10 * M rank.
 	self assert: x = (M elementAt: (M coordinatesOf: x)).
 	y _ M atRandomBits: 10 * M rank.
-	c _ M scalars atRandomBits: 100.
+	c _ M scalars atRandomBits: 20.
 	v _ x * c + y.
 	t _ (M coordinatesOf: x) * c + (M coordinatesOf: y).
 	self assert: v = (M elementAt: t)! !
@@ -35474,6 +35526,12 @@ testThirdsomorphismTheorem
 !LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 7/10/2016 07:52'!
 testTuplesQ
 	self testFreeModule: (Rationals new ** 5 atRandom)! !
+
+!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 7/11/2016 01:24'!
+testTuplesRationalFunctionsQ
+	| F |
+	F _ Rationals new polynomials fractions.
+	self testFreeModule: (F ** 3 atRandom)! !
 
 !LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 7/10/2016 07:52'!
 testTuplesZ
