@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 11 July 2016 at 7:05:24.663164 am'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 12 July 2016 at 4:09:50.452723 am'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 154!
+!provides: 'Mathematics' 1 155!
 !classDefinition: #AbelianGroupPresentation category: #'Mathematics-Free'!
 Object subclass: #AbelianGroupPresentation
 	instanceVariableNames: 'generators relators'
@@ -289,6 +289,16 @@ Set subclass: #KeyedSet
 	category: 'Mathematics-Kernel-Support'!
 !classDefinition: 'KeyedSet class' category: #'Mathematics-Kernel-Support'!
 KeyedSet class
+	instanceVariableNames: ''!
+
+!classDefinition: #YoungTableau category: #'Mathematics-Kernel-Support'!
+Collection subclass: #YoungTableau
+	instanceVariableNames: 'rows'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Kernel-Support'!
+!classDefinition: 'YoungTableau class' category: #'Mathematics-Kernel-Support'!
+YoungTableau class
 	instanceVariableNames: ''!
 
 !classDefinition: #ContinuousColorPalette category: #'Mathematics-Morphic'!
@@ -3800,7 +3810,7 @@ My instances are quotient spaces V / S (read "V mod S") of a given vector space 
 The elements of a quotient space are affine subspaces (flats) S + v with v in V, and they form a vector space.!
 
 !ScalarSpace commentStamp: '<historical>' prior: 0!
-My instances are one dimensional vector spaces of scalars.!
+My instances are one dimensional vector spaces of scalars, i.e. a field K viewed as a K-vector space.!
 
 !Tuples commentStamp: '<historical>' prior: 0!
 My instances are vector spaces (or modules) of n-tuples over a given field (or ring).!
@@ -6180,7 +6190,7 @@ mod: anArray
 	(self hasEdge: anEdge)
 		ifTrue: [^ self copy removeEdge: anEdge; yourself]! !
 
-!Digraph methodsFor: 'operations' stamp: 'len 7/11/2016 07:05'!
+!Digraph methodsFor: 'operations' stamp: 'len 7/12/2016 03:57'!
 / anEdge
 	"Answer the graph obtained by contracting anEdge."
 	| answer newNode |
@@ -6188,6 +6198,8 @@ mod: anArray
 	answer _ self copyEmpty.
 	self flag: #fix. "careful, i'm sending #value assuming it is a GraphNode, but it might be an actual value already"
 	newNode _ {anEdge key value. anEdge value value}.
+	answer add: newNode.
+	self nodesDo: [:each| (each = anEdge key or: [each = anEdge value]) ifFalse: [answer add: each]].
 	self edgesDo: [:each|
 		each = anEdge
 			ifFalse:
@@ -6511,6 +6523,17 @@ center
 	| radius |
 	radius _ self radius.
 	^ self values select: [:each| (self eccentricityOf: each) = radius]! !
+
+!Digraph methodsFor: 'operations' stamp: 'len 7/11/2016 08:00'!
+chromaticPolynomial
+	^ self chromaticPolynomialAt: Integers new polynomials x! !
+
+!Digraph methodsFor: 'operations' stamp: 'len 7/11/2016 07:59'!
+chromaticPolynomialAt: k
+	| e |
+	self isEdgeless ifTrue: [^ k ** self numberOfNodes].
+	e _ self edges anyOne.
+	^ ((self - e) chromaticPolynomialAt: k) - ((self / e) chromaticPolynomialAt: k)! !
 
 !Digraph methodsFor: 'operations' stamp: 'len 2/20/2016 06:53'!
 circumference
@@ -7087,14 +7110,36 @@ values
 valuesDo: aBlock
 	nodes do: [:each| aBlock value: each value]! !
 
-!Digraph class methodsFor: 'examples' stamp: 'len 5/25/2016 03:37'!
+!Digraph class methodsFor: 'examples' stamp: 'len 7/12/2016 04:04'!
+C: n
+	"Answer the cycle n vertices 1 -> 2 -> ... -> n -> 1."
+	| C |
+	C _ self unordered.
+	1 to: n-1 do: [:i| C addEdge: i->(i+1)].
+	n > 1 ifTrue: [C addEdge: n -> 1].
+	^ C! !
+
+!Digraph class methodsFor: 'examples' stamp: 'len 7/12/2016 04:09'!
 K: n
 	"Answer the n-complete graph."
 	| K |
 	K _ self unordered.
-	1 to: n do: [:i|
-		1 to: i do: [:j| K addEdge: i->j]].
+	1 to: n do: [:i| K add: i].
+	1 to: n do: [:i| 1 to: i do: [:j| i ~= j ifTrue: [K addEdge: i->j]]].
 	^ K! !
+
+!Digraph class methodsFor: 'examples' stamp: 'len 7/11/2016 08:17'!
+N: n
+	"Answer the null graph with n vertices {1..n}."
+	^ self unordered addAll: (1 to: n); yourself! !
+
+!Digraph class methodsFor: 'examples' stamp: 'len 7/11/2016 08:03'!
+P: n
+	"Answer the path of n vertices 1 -> 2 -> ... -> n."
+	| P |
+	P _ self unordered.
+	1 to: n-1 do: [:i| P addEdge: i->(i+1)].
+	^ P! !
 
 !Digraph class methodsFor: 'instance creation' stamp: 'timestamp) (no'!
 arity: n
@@ -7307,13 +7352,16 @@ unorderedLabeled
 	"Create a new labelled, unordered graph."
 	^super new initialize unorderedLabeled! !
 
-!Graph methodsFor: 'operations' stamp: 'len 7/11/2016 07:04'!
+!Graph methodsFor: 'operations' stamp: 'len 7/12/2016 03:56'!
 / anEdge
 	"Answer the graph obtained by contracting anEdge."
 	| answer newNode |
+	(self hasEdge: anEdge) ifFalse: [^ self].
 	answer _ self copyEmpty.
 	self flag: #fix. "careful, i'm sending #value assuming it is a GraphNode, but it might be an actual value already"
 	newNode _ {anEdge key value. anEdge value value} asSet.
+	answer add: newNode.
+	self nodesDo: [:each| (each = anEdge key or: [each = anEdge value]) ifFalse: [answer add: each]].
 	self edgesDo: [:each|
 		(each = anEdge or: [each key = anEdge value and: [each value = anEdge key]])
 			ifFalse:
@@ -9241,6 +9289,101 @@ at: anObject ifAbsentPut: aBlock
 	anObject ifNil: [self error: 'Sets cannot meaningfully contain nil as an element'].
 	index _ self findElementOrNil: anObject.
 	^ (array at: index) ifNil: [self atNewIndex: index put: aBlock value]! !
+
+!YoungTableau methodsFor: 'accessing' stamp: 'len 7/11/2016 21:43'!
+at: aPoint
+	^ (rows at: aPoint y) at: aPoint x! !
+
+!YoungTableau methodsFor: 'accessing' stamp: 'len 7/11/2016 21:44'!
+at: aPoint put: anObject
+	^ (rows at: aPoint y) at: aPoint x put: anObject! !
+
+!YoungTableau methodsFor: 'copying' stamp: 'len 7/11/2016 22:07'!
+copy
+	^ self class rows: (rows collect: [:each| each copy])! !
+
+!YoungTableau methodsFor: 'enumerating' stamp: 'len 7/11/2016 22:11'!
+do: aBlock
+	rows do: [:each| each do: aBlock]! !
+
+!YoungTableau methodsFor: 'testing' stamp: 'len 7/12/2016 00:11'!
+isSemiStandard
+	self withIndexDo: [:each :index|
+		(index x > 1 and: [each < (self at: index x - 1 @ index y)])
+			ifTrue: [^ false].
+		(index y > 1 and: [each < (self at: index x @ (index y - 1))])
+			ifTrue: [^ false]].
+	^ true! !
+
+!YoungTableau methodsFor: 'testing' stamp: 'len 7/12/2016 00:15'!
+isStandard
+	"if it is semistandard and content = (1,1,..,1)"
+	self withIndexDo: [:each :index|
+		(index x > 1 and: [each <= (self at: index x - 1 @ index y)])
+			ifTrue: [^ false].
+		(index y > 1 and: [each <= (self at: index x @ (index y - 1))])
+			ifTrue: [^ false]].
+	^ true! !
+
+!YoungTableau methodsFor: 'arithmetic' stamp: 'len 7/11/2016 22:02'!
+negated
+	self numberOfRows = 1 ifTrue: [^ self].
+	^ self copy at: 1@1 put: (self at: 1@2); at: 1@2 put: (self at: 1@1); yourself! !
+
+!YoungTableau methodsFor: 'accessing' stamp: 'len 7/11/2016 22:35'!
+numberOfColumns
+	^ rows first size! !
+
+!YoungTableau methodsFor: 'accessing' stamp: 'len 7/11/2016 22:34'!
+numberOfRows
+	^ rows size! !
+
+!YoungTableau methodsFor: 'printing' stamp: 'len 7/11/2016 22:08'!
+printOn: aStream
+	self rows do: [:row|
+		aStream nextPut: $[.
+		row do: [:each| aStream print: each] separatedBy: [aStream nextPut: $|].
+		aStream nextPut: $]] separatedBy: [aStream cr; space]! !
+
+!YoungTableau methodsFor: 'accessing' stamp: 'len 7/12/2016 00:07'!
+rank
+	^ rows sum: [:each| each size]! !
+
+!YoungTableau methodsFor: 'accessing' stamp: 'len 7/11/2016 21:47'!
+rows
+	^ rows! !
+
+!YoungTableau methodsFor: 'initialization' stamp: 'len 7/11/2016 21:37'!
+rows: anArray
+	rows _ anArray! !
+
+!YoungTableau methodsFor: 'accessing' stamp: 'len 7/11/2016 22:34'!
+shape
+	^ rows collect: [:each| each size]! !
+
+!YoungTableau methodsFor: 'arithmetic' stamp: 'len 7/11/2016 21:56'!
+sign
+	self notYetImplemented! !
+
+!YoungTableau methodsFor: 'accessing' stamp: 'len 7/12/2016 00:06'!
+weight
+	| answer |
+	answer _ Array new: self rank.
+	answer atAllPut: 0.
+	self do: [:each| answer at: each put: (answer at: each) + 1].
+	^ answer! !
+
+!YoungTableau methodsFor: 'enumerating' stamp: 'len 7/12/2016 00:15'!
+withIndexDo: aBlock
+	rows withIndexDo: [:row :j| row withIndexDo: [:each :i| aBlock value: each value: i@j]]! !
+
+!YoungTableau class methodsFor: 'instance creation' stamp: 'len 7/11/2016 21:47'!
+rows: anArray
+	^ self basicNew rows: anArray! !
+
+!YoungTableau class methodsFor: 'instance creation' stamp: 'len 7/11/2016 22:33'!
+shape: anArray
+	^ self rows: (anArray collect: [:each| Array new: each])! !
 
 !ContinuousColorPalette methodsFor: 'as yet unclassified' stamp: 'len 2/26/2016 06:45'!
 at: aFloat
@@ -16783,8 +16926,9 @@ ambient
 	"Answer the ambient group."
 	^ space automorphisms "the general linear group GL(V)"! !
 
-!LinearGroup methodsFor: 'morphisms' stamp: 'len 5/25/2016 05:23'!
+!LinearGroup methodsFor: 'morphisms' stamp: 'len 7/11/2016 20:57'!
 asMatrixGroup
+	self flag: #fix. "the matrix depends on the basis"
 	^ (MatrixGroup on: space coordinateSpace) generators: (self generators collect: [:g| g matrix])! !
 
 !LinearGroup methodsFor: 'random' stamp: 'len 4/19/2016 20:43'!
@@ -16819,12 +16963,12 @@ do: aBlock
 	^ super do: aBlock
 "	space endomorphisms do: [:each| (self includes: each) ifTrue: [aBlock value: each]]"! !
 
-!LinearGroup methodsFor: 'invariants' stamp: 'len 7/10/2016 08:57'!
+!LinearGroup methodsFor: 'invariants' stamp: 'len 7/11/2016 10:21'!
 hilbertSeries
 	"This is the sum of dim(S_d ^G z^d for d>=0 (by Molien's formula, 1897), i.e. it counts the homogeneous polynomials of a given degree d that are invariants for the group."
 	| order |
 	order _ self size.
-	order | self scalars characteristic ifTrue: [^ self error: 'group order divides characteristic'].
+	order | self scalars characteristic ifTrue: [self error: 'group order divides characteristic'].
 	^ (self elements sum: [:g| g characteristicPolynomial asRationalFunction reciprocal]) / order! !
 
 !LinearGroup methodsFor: 'accessing' stamp: 'len 2/11/2016 20:01'!
@@ -17126,12 +17270,12 @@ do: aBlock
 	^ super do: aBlock
 "	matrices do: [:each| (self includes: each) ifTrue: [aBlock value: each]]"! !
 
-!MatrixGroup methodsFor: 'invariants' stamp: 'len 7/10/2016 08:57'!
+!MatrixGroup methodsFor: 'invariants' stamp: 'len 7/11/2016 19:16'!
 hilbertSeries
 	"This is the sum of dim(S_d ^G z^d for d>=0 (by Molien's formula, 1897), i.e. it counts the homogeneous polynomials of a given degree d that are invariants for the group."
 	| order |
 	order _ self size.
-	order | self scalars characteristic ifTrue: [^ self error: 'group order divides characteristic'].
+	order | self scalars characteristic ifTrue: [self error: 'group order divides characteristic'].
 	^ (self elements sum: [:g| g characteristicPolynomial asRationalFunction reciprocal]) / order! !
 
 !MatrixGroup methodsFor: 'accessing' stamp: 'len 2/13/2016 07:40'!
@@ -26285,15 +26429,15 @@ one
 permanent
 	^ self notYetImplemented! !
 
-!Matrix methodsFor: 'printing' stamp: 'len 7/9/2016 07:48'!
+!Matrix methodsFor: 'printing' stamp: 'len 7/11/2016 22:08'!
 printBitsOn: aStream
 	aStream cr.
 	self rows do: [:row|
 		aStream nextPut: $[.
 		row do: [:bit| aStream nextPut: (bit isZero ifTrue: [$0] ifFalse: [$1])].
-		aStream nextPut: $]] separatedBy: [aStream cr]! !
+		aStream nextPut: $]] separatedBy: [aStream cr; space]! !
 
-!Matrix methodsFor: 'printing' stamp: 'len 7/9/2016 07:47'!
+!Matrix methodsFor: 'printing' stamp: 'len 7/11/2016 22:08'!
 printOn: aStream
 	| pads string pad |
 	self scalars size = 2 ifTrue: [^ self printBitsOn: aStream].
@@ -26315,7 +26459,7 @@ printOn: aStream
 		pad // 2 timesRepeat: [aStream space].
 		aStream nextPutAll: string.
 		pad // 2 + (pad \\ 2) timesRepeat: [aStream space].
-		aStream nextPut: $]] separatedBy: [aStream cr]! !
+		aStream nextPut: $]] separatedBy: [aStream cr; space]! !
 
 !Matrix methodsFor: 'printing' stamp: 'len 12/13/2015 23:41'!
 printTeXOn: aStream
@@ -34565,6 +34709,26 @@ testWeightEnumerator
 	self assert: w = (x**5 + (y**5)).
 	self assert: C dual weightEnumerator = (x**5 + (x**3*(y**2)*10) + (y**4*x*5))! !
 
+!GraphTest methodsFor: 'as yet unclassified' stamp: 'len 7/12/2016 04:02'!
+testChromaticPolynomialComplete
+	| x |
+	x _ Integers new polynomials x.
+	self assert: (Graph K: 3) chromaticPolynomial = (x*(x-1)*(x-2))! !
+
+!GraphTest methodsFor: 'as yet unclassified' stamp: 'len 7/12/2016 04:02'!
+testChromaticPolynomialCylic
+	| x n |
+	x _ Integers new polynomials x.
+	n _ 4 atRandom.
+	self assert: (Graph C: n) chromaticPolynomial = (x-1**n + ((-1)**n * (x-1)))! !
+
+!GraphTest methodsFor: 'as yet unclassified' stamp: 'len 7/12/2016 04:03'!
+testChromaticPolynomialPath
+	| x n |
+	x _ Integers new polynomials x.
+	n _ 4 atRandom.
+	self assert: (Graph P: n) chromaticPolynomial = (x-1**(n-1)*x)! !
+
 !GraphTest methodsFor: 'as yet unclassified' stamp: 'len 5/25/2016 03:46'!
 testComplement
 	| G H |
@@ -35885,6 +36049,21 @@ testWord
 	self assert: x*y*y * (y reciprocal * y reciprocal * x) = (x**2).
 	self assert: x * (y * y * x) = (x * y * (y * x)).
 	self assert: (x*y * (x*y) reciprocal) isEmpty! !
+
+!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 7/12/2016 00:36'!
+testYoungTableauxSemiStandard
+	| T |
+	T _ YoungTableau rows: #((1 1 2 2 3) (2 3 4 4) (4) (5)).
+	self assert: T isSemiStandard.
+	self assert: T shape = #(5 4 1 1)! !
+
+!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 7/12/2016 00:36'!
+testYoungTableauxStandard
+	| T |
+	T _ YoungTableau rows: #((1 4 6 8) (2 5 7) (3)).
+	self assert: T isStandard.
+	self assert: T weight = #(1 1 1 1 1 1 1 1).
+	self assert: T shape = #(4 3 1)! !
 
 !MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 12/11/2015 05:04'!
 testAdjugate
