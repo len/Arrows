@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 12 July 2016 at 4:09:50.452723 am'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 12 July 2016 at 7:28:07.821129 am'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 155!
+!provides: 'Mathematics' 1 156!
 !classDefinition: #AbelianGroupPresentation category: #'Mathematics-Free'!
 Object subclass: #AbelianGroupPresentation
 	instanceVariableNames: 'generators relators'
@@ -6524,6 +6524,13 @@ center
 	radius _ self radius.
 	^ self values select: [:each| (self eccentricityOf: each) = radius]! !
 
+!Digraph methodsFor: 'operations' stamp: 'len 7/12/2016 07:15'!
+chromaticNumber
+	"The minimum number of colors to do a proper coloring of the graph."
+	| chi |
+	chi _ self chromaticPolynomial.
+	^ (1 to: self size) detect: [:i| (chi value: i) > 0]! !
+
 !Digraph methodsFor: 'operations' stamp: 'len 7/11/2016 08:00'!
 chromaticPolynomial
 	^ self chromaticPolynomialAt: Integers new polynomials x! !
@@ -7140,6 +7147,22 @@ P: n
 	P _ self unordered.
 	1 to: n-1 do: [:i| P addEdge: i->(i+1)].
 	^ P! !
+
+!Digraph class methodsFor: 'examples' stamp: 'len 7/12/2016 07:23'!
+S: n
+	"Answer the star graph of n vertices."
+	| S |
+	S _ self unordered.
+	2 to: n do: [:i| S addEdge: 1 -> i].
+	^ S! !
+
+!Digraph class methodsFor: 'examples' stamp: 'len 7/12/2016 07:25'!
+W: n
+	"Answer the wheel graph of n vertices."
+	| W |
+	W _ self unordered.
+	2 to: n do: [:i| W addEdge: 1 -> i; addEdge: i -> (i=n ifTrue: [2] ifFalse: [i+1])].
+	^ W! !
 
 !Digraph class methodsFor: 'instance creation' stamp: 'timestamp) (no'!
 arity: n
@@ -34708,6 +34731,18 @@ testWeightEnumerator
 	y _ w species y.
 	self assert: w = (x**5 + (y**5)).
 	self assert: C dual weightEnumerator = (x**5 + (x**3*(y**2)*10) + (y**4*x*5))! !
+
+!GraphTest methodsFor: 'as yet unclassified' stamp: 'len 7/12/2016 07:27'!
+testChromaticNumber
+	| G |
+	G _ Graph unordered add: 1; add: 2; add: 3; yourself. 
+	self assert: G chromaticNumber = 1. "edgeless graph"
+	self assert: (Graph K: 3) chromaticNumber = 3.
+	self assert: (Graph C: 5) chromaticNumber = 3.
+	self assert: (Graph C: 6) chromaticNumber = 2.
+	self assert: (Graph W: 6) chromaticNumber = 4.
+	self assert: (Graph W: 5) chromaticNumber = 3.
+	self assert: (Graph S: 6) chromaticNumber = 2! !
 
 !GraphTest methodsFor: 'as yet unclassified' stamp: 'len 7/12/2016 04:02'!
 testChromaticPolynomialComplete
