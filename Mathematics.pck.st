@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 12 July 2016 at 7:28:07.821129 am'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 13 July 2016 at 11:22:45.766609 pm'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 156!
+!provides: 'Mathematics' 1 157!
 !classDefinition: #AbelianGroupPresentation category: #'Mathematics-Free'!
 Object subclass: #AbelianGroupPresentation
 	instanceVariableNames: 'generators relators'
@@ -161,24 +161,24 @@ Object subclass: #CRT
 CRT class
 	instanceVariableNames: ''!
 
+!classDefinition: #AbstractGraph category: #'Mathematics-Graphs'!
+Collection subclass: #AbstractGraph
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Graphs'!
+!classDefinition: 'AbstractGraph class' category: #'Mathematics-Graphs'!
+AbstractGraph class
+	instanceVariableNames: ''!
+
 !classDefinition: #Digraph category: #'Mathematics-Graphs'!
-Collection subclass: #Digraph
+AbstractGraph subclass: #Digraph
 	instanceVariableNames: 'nodes nodeCreator type'
 	classVariableNames: 'InitializationBlocks'
 	poolDictionaries: ''
 	category: 'Mathematics-Graphs'!
 !classDefinition: 'Digraph class' category: #'Mathematics-Graphs'!
 Digraph class
-	instanceVariableNames: ''!
-
-!classDefinition: #Graph category: #'Mathematics-Graphs'!
-Digraph subclass: #Graph
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Graphs'!
-!classDefinition: 'Graph class' category: #'Mathematics-Graphs'!
-Graph class
 	instanceVariableNames: ''!
 
 !classDefinition: #RootedDigraph category: #'Mathematics-Graphs'!
@@ -189,6 +189,16 @@ Digraph subclass: #RootedDigraph
 	category: 'Mathematics-Graphs'!
 !classDefinition: 'RootedDigraph class' category: #'Mathematics-Graphs'!
 RootedDigraph class
+	instanceVariableNames: ''!
+
+!classDefinition: #Graph category: #'Mathematics-Graphs'!
+AbstractGraph subclass: #Graph
+	instanceVariableNames: 'digraph'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Graphs'!
+!classDefinition: 'Graph class' category: #'Mathematics-Graphs'!
+Graph class
 	instanceVariableNames: ''!
 
 !classDefinition: #Iterator category: #'Mathematics-Kernel-Support'!
@@ -2141,63 +2151,63 @@ Object subclass: #GramSchmidt
 GramSchmidt class
 	instanceVariableNames: ''!
 
-!classDefinition: #GraphNode category: #'Mathematics-Graphs-Nodes'!
+!classDefinition: #GraphNode category: #'Mathematics-Graphs-Parts'!
 Object subclass: #GraphNode
 	instanceVariableNames: 'value'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Graphs-Nodes'!
-!classDefinition: 'GraphNode class' category: #'Mathematics-Graphs-Nodes'!
+	category: 'Mathematics-Graphs-Parts'!
+!classDefinition: 'GraphNode class' category: #'Mathematics-Graphs-Parts'!
 GraphNode class
 	instanceVariableNames: ''!
 
-!classDefinition: #ExplicitGraphNode category: #'Mathematics-Graphs-Nodes'!
+!classDefinition: #ExplicitGraphNode category: #'Mathematics-Graphs-Parts'!
 GraphNode subclass: #ExplicitGraphNode
 	instanceVariableNames: 'inNeighbors outNeighbors'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Graphs-Nodes'!
-!classDefinition: 'ExplicitGraphNode class' category: #'Mathematics-Graphs-Nodes'!
+	category: 'Mathematics-Graphs-Parts'!
+!classDefinition: 'ExplicitGraphNode class' category: #'Mathematics-Graphs-Parts'!
 ExplicitGraphNode class
 	instanceVariableNames: ''!
 
-!classDefinition: #LabeledExplicitGraphNode category: #'Mathematics-Graphs-Nodes'!
+!classDefinition: #LabeledExplicitGraphNode category: #'Mathematics-Graphs-Parts'!
 ExplicitGraphNode subclass: #LabeledExplicitGraphNode
 	instanceVariableNames: 'label'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Graphs-Nodes'!
-!classDefinition: 'LabeledExplicitGraphNode class' category: #'Mathematics-Graphs-Nodes'!
+	category: 'Mathematics-Graphs-Parts'!
+!classDefinition: 'LabeledExplicitGraphNode class' category: #'Mathematics-Graphs-Parts'!
 LabeledExplicitGraphNode class
 	instanceVariableNames: ''!
 
-!classDefinition: #ImplicitGraphNode category: #'Mathematics-Graphs-Nodes'!
+!classDefinition: #ImplicitGraphNode category: #'Mathematics-Graphs-Parts'!
 GraphNode subclass: #ImplicitGraphNode
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Graphs-Nodes'!
-!classDefinition: 'ImplicitGraphNode class' category: #'Mathematics-Graphs-Nodes'!
+	category: 'Mathematics-Graphs-Parts'!
+!classDefinition: 'ImplicitGraphNode class' category: #'Mathematics-Graphs-Parts'!
 ImplicitGraphNode class
 	instanceVariableNames: ''!
 
-!classDefinition: #ImplicitGraphNodeCollection category: #'Mathematics-Graphs-Nodes'!
+!classDefinition: #ImplicitGraphNodeCollection category: #'Mathematics-Graphs-Parts'!
 ImplicitGraphNode subclass: #ImplicitGraphNodeCollection
 	instanceVariableNames: 'collectionBlock'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Graphs-Nodes'!
-!classDefinition: 'ImplicitGraphNodeCollection class' category: #'Mathematics-Graphs-Nodes'!
+	category: 'Mathematics-Graphs-Parts'!
+!classDefinition: 'ImplicitGraphNodeCollection class' category: #'Mathematics-Graphs-Parts'!
 ImplicitGraphNodeCollection class
 	instanceVariableNames: ''!
 
-!classDefinition: #ImplicitGraphNodeIterator category: #'Mathematics-Graphs-Nodes'!
+!classDefinition: #ImplicitGraphNodeIterator category: #'Mathematics-Graphs-Parts'!
 ImplicitGraphNode subclass: #ImplicitGraphNodeIterator
 	instanceVariableNames: 'iterator'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Graphs-Nodes'!
-!classDefinition: 'ImplicitGraphNodeIterator class' category: #'Mathematics-Graphs-Nodes'!
+	category: 'Mathematics-Graphs-Parts'!
+!classDefinition: 'ImplicitGraphNodeIterator class' category: #'Mathematics-Graphs-Parts'!
 ImplicitGraphNodeIterator class
 	instanceVariableNames: ''!
 
@@ -2389,6 +2399,16 @@ Magnitude subclass: #Infinity
 	category: 'Mathematics-Kernel-Support'!
 !classDefinition: 'Infinity class' category: #'Mathematics-Kernel-Support'!
 Infinity class
+	instanceVariableNames: ''!
+
+!classDefinition: #MutualAssociation category: #'Mathematics-Graphs-Parts'!
+Association subclass: #MutualAssociation
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Graphs-Parts'!
+!classDefinition: 'MutualAssociation class' category: #'Mathematics-Graphs-Parts'!
+MutualAssociation class
 	instanceVariableNames: ''!
 
 !classDefinition: #ContinuedFraction category: #'Mathematics-Sequences'!
@@ -3609,15 +3629,15 @@ Structure:
  nodeCreator 	a block which is evaluated to create a new node
  type 			a Symbol indicating what the default node type is!
 
-!Graph commentStamp: '<historical>' prior: 0!
-My instances are undirected graphs. It is implemented as a particular case of Digraph, and whenever an edge a -> b is added (or removed) also b -> a is added (or removed).
-!
-
 !RootedDigraph commentStamp: '<historical>' prior: 0!
 My instances are directed graphs with some distinguished vertices that we call 'roots'.
 
 Structure:
  roots 		Set of root objects
+!
+
+!Graph commentStamp: '<historical>' prior: 0!
+My instances are undirected graphs. It is implemented as a particular case of Digraph, and whenever an edge a -> b is added (or removed) also b -> a is added (or removed).
 !
 
 !Iterator commentStamp: '<historical>' prior: 0!
@@ -6176,32 +6196,34 @@ solutionFor: remainders
 mod: anArray
 	^ self new moduli: anArray! !
 
-!Digraph methodsFor: 'operations' stamp: 'len 5/25/2016 00:48'!
+!AbstractGraph methodsFor: 'operations' stamp: 'len 7/13/2016 21:52'!
 + aGraphOrEdge
 	"Answer the dijoint union of the receiver with the argument. Assume they are disjoint."
-	(aGraphOrEdge isKindOf: self species)
-		ifTrue: [^ self union: aGraphOrEdge].
+	(aGraphOrEdge isKindOf: Association)
+		ifFalse: [^ self union: aGraphOrEdge].
 	(self hasEdge: aGraphOrEdge)
 		ifFalse: [^ self copy addEdge: aGraphOrEdge; yourself]! !
 
-!Digraph methodsFor: 'operations' stamp: 'len 5/25/2016 00:48'!
+!AbstractGraph methodsFor: 'operations' stamp: 'len 7/13/2016 22:04'!
 - anEdge
 	"Answer the graph obtained by removing anEdge."
 	(self hasEdge: anEdge)
 		ifTrue: [^ self copy removeEdge: anEdge; yourself]! !
 
-!Digraph methodsFor: 'operations' stamp: 'len 7/12/2016 03:57'!
+!AbstractGraph methodsFor: 'operations' stamp: 'len 7/13/2016 22:05'!
 / anEdge
-	"Answer the graph obtained by contracting anEdge."
-	| answer newNode |
+	"Answer the graph obtained by contracting the given edge a -> b, by removing the edge and collapsing a with b in a single node."
+
+	| answer newNode found |
 	(self hasEdge: anEdge) ifFalse: [^ self].
 	answer _ self copyEmpty.
-	self flag: #fix. "careful, i'm sending #value assuming it is a GraphNode, but it might be an actual value already"
-	newNode _ {anEdge key value. anEdge value value}.
+	newNode _ anEdge.
 	answer add: newNode.
 	self nodesDo: [:each| (each = anEdge key or: [each = anEdge value]) ifFalse: [answer add: each]].
+	found _ false.
 	self edgesDo: [:each|
-		each = anEdge
+		(each = anEdge and: [found not])
+			ifTrue: [found _ true]
 			ifFalse:
 				[| e |
 				e _ each.
@@ -6212,9 +6234,9 @@ mod: anArray
 				answer addEdge: e]].
 	^ answer! !
 
-!Digraph methodsFor: 'comparing' stamp: 'len 5/25/2016 03:29'!
+!AbstractGraph methodsFor: 'comparing' stamp: 'len 7/13/2016 21:57'!
 < aGraph
-	(aGraph isKindOf: Digraph) ifFalse: [^ aGraph > self].
+	(aGraph isKindOf: self species) ifFalse: [^ aGraph >= self].
 	self size < aGraph size ifFalse: [^ false].
 	self nodesDo: [:each|
 		| node |
@@ -6223,35 +6245,31 @@ mod: anArray
 		each neighborsDo: [:n| (node hasEdgeTo: n value) ifFalse: [^ false]]].
 	^ true! !
 
-!Digraph methodsFor: 'comparing' stamp: 'len 2/19/2016 05:11'!
+!AbstractGraph methodsFor: 'comparing' stamp: 'len 7/13/2016 21:57'!
 <= aGraph
 	^ (self > aGraph) not! !
 
-!Digraph methodsFor: 'comparing' stamp: 'len 5/25/2016 03:29'!
+!AbstractGraph methodsFor: 'comparing' stamp: 'len 7/13/2016 21:58'!
 = aGraph
-	^ (aGraph isKindOf: Digraph) and: [self nodes = aGraph nodes and: [self edges asSet = aGraph edges asSet]]! !
+	self flag: #fix. "allow multiple edges"
+	^ (aGraph isKindOf: self species) and: [self nodes = aGraph nodes and: [self edges asSet = aGraph edges asSet]]! !
 
-!Digraph methodsFor: 'comparing' stamp: 'len 2/19/2016 05:11'!
+!AbstractGraph methodsFor: 'comparing' stamp: 'len 7/13/2016 21:58'!
 > aGraph
 	^ aGraph < self! !
 
-!Digraph methodsFor: 'comparing' stamp: 'len 2/19/2016 05:11'!
+!AbstractGraph methodsFor: 'comparing' stamp: 'len 7/13/2016 21:58'!
 >= aGraph 
 	^ aGraph <= self! !
 
-!Digraph methodsFor: 'adding' stamp: 'len 7/11/2016 06:56'!
-add: anObject
-	"Create a new GraphNode for the value (if necessary), and add it to the graph. You shouldn't be calling this unless you're sure what you're doing. Better to add nodes by adding edges."
-	^ nodes at: anObject ifAbsentPut: [nodeCreator value: ((anObject isKindOf: GraphNode) ifTrue: [anObject value] ifFalse: [anObject])]! !
-
-!Digraph methodsFor: 'adding' stamp: 'len 5/25/2016 03:18'!
+!AbstractGraph methodsFor: 'adding/removing' stamp: 'len 7/13/2016 21:55'!
 addEdge: edge 
 	"Add an edge (represented by an Association)."
 
 	self addEdgeFrom: edge key to: edge value.
 	^ edge! !
 
-!Digraph methodsFor: 'adding' stamp: 'len 5/25/2016 03:19'!
+!AbstractGraph methodsFor: 'adding/removing' stamp: 'len 7/13/2016 21:55'!
 addEdge: edge label: label
 	"Add an edge (represented by an Association), with given label.
 	pre: (self nodeAt: edge key) isLabeled"
@@ -6259,27 +6277,12 @@ addEdge: edge label: label
 	self addEdgeFrom: edge key to: edge value label: label.
 	^edge! !
 
-!Digraph methodsFor: 'adding' stamp: 'len 4/29/2016 22:29'!
-addEdgeFrom: source to: target 
-	| sourceNode targetNode |
-	sourceNode _ self add: source.
-	targetNode _ self add: target.
-	sourceNode addNeighbor: targetNode! !
-
-!Digraph methodsFor: 'adding' stamp: 'len 5/25/2016 04:05'!
-addEdgeFrom: source to: target label: label
-	"pre: (self nodeAt: edge key) isLabeled"
-	| sourceNode targetNode |
-	sourceNode _ self add: source.
-	targetNode _ self add: target.
-	sourceNode addNeighbor: targetNode label: label! !
-
-!Digraph methodsFor: 'adding' stamp: 'len 2/26/2016 22:16'!
+!AbstractGraph methodsFor: 'adding/removing' stamp: 'len 7/13/2016 21:55'!
 addEdges: aCollection
 	aCollection do: [:each| self addEdge: each].
 	^ aCollection! !
 
-!Digraph methodsFor: 'operations' stamp: 'len 6/25/2016 05:56'!
+!AbstractGraph methodsFor: 'operations' stamp: 'len 7/13/2016 22:05'!
 adjacencyMatrix
 	"Answer the adjacency matrix of the receiver, assuming that the vertices are the integers {1,..,n}.
 	If the graph is labelled, use the labels as entries in the matrix."
@@ -6289,52 +6292,24 @@ adjacencyMatrix
 	self edgesAndLabelsDo: [:edge :label| matrix at: edge key value at: edge value value put: (label ifNil: [1])].
 	^ matrix! !
 
-!Digraph methodsFor: 'operations' stamp: 'len 6/25/2016 05:56'!
+!AbstractGraph methodsFor: 'operations' stamp: 'len 7/13/2016 22:06'!
 adjacencyMatrix: vertices
 	"Answer the adjacency matrix of the receiver, using the vertex ordering given by the argument."
 	^ Integers new ** (vertices size @ vertices size) evaluating: [:i :j| (self hasEdgeFrom: (vertices at: i) to: (vertices at: j)) ifTrue: [1] ifFalse: [0]]! !
 
-!Digraph methodsFor: 'accessing' stamp: 'len 2/23/2016 23:01'!
-anyOne
-	self do: [:each| ^ each].
-	self errorEmptyCollection! !
-
-!Digraph methodsFor: 'initialization' stamp: 'len 2/14/2016 22:14'!
-arity: n
-	type _ #(#arity).
-	nodeCreator _ (InitializationBlocks at: #arity) value: n! !
-
-!Digraph methodsFor: 'initialization' stamp: 'len 2/20/2016 06:37'!
-arityLabeled: n
-	type _ #(#arity #labeled).
-	nodeCreator _ (InitializationBlocks at: #arityLabeled) value: n! !
-
-!Digraph methodsFor: 'converting' stamp: 'len 4/18/2016 01:37'!
+!AbstractGraph methodsFor: 'converting' stamp: 'len 7/13/2016 22:00'!
 asMorph
 	^ self asMorph3D! !
 
-!Digraph methodsFor: 'converting' stamp: 'len 4/18/2016 01:36'!
+!AbstractGraph methodsFor: 'converting' stamp: 'len 7/13/2016 22:00'!
 asMorph2D
 	^ SpringGraphMorph new graph: self! !
 
-!Digraph methodsFor: 'converting' stamp: 'len 4/22/2016 00:57'!
+!AbstractGraph methodsFor: 'converting' stamp: 'len 7/13/2016 22:00'!
 asMorph3D
 	^ SpringGraphMorph new graph: self; dimension: 3! !
 
-!Digraph methodsFor: 'converting' stamp: 'len 5/25/2016 03:15'!
-asRooted
-	| answer |
-	answer _ RootedDigraph unordered.
-	answer addAll: self.
-	self edgesDo: [:each| answer addEdge: each].
-	answer findRoots.
-	^ answer! !
-
-!Digraph methodsFor: 'random' stamp: 'len 7/11/2016 05:32'!
-atRandom: aRandom
-	^ (nodes atRandom: aRandom) value! !
-
-!Digraph methodsFor: 'statistics' stamp: 'len 2/15/2016 07:03'!
+!AbstractGraph methodsFor: 'statistics' stamp: 'len 7/13/2016 23:11'!
 averageDegree
 	"The average degree of the graph."
 	"^ 2 * self numberOfEdges / self size"
@@ -6342,7 +6317,7 @@ averageDegree
 	sum _ self nodes sum: [:node | node degree].
 	^ sum / self size! !
 
-!Digraph methodsFor: 'statistics' stamp: 'len 2/26/2016 23:19'!
+!AbstractGraph methodsFor: 'statistics' stamp: 'len 7/13/2016 23:11'!
 averagePathLength
 	"The average path length of the graph."
 	| sum n progress max |
@@ -6368,7 +6343,7 @@ averagePathLength
 	progress delete.
 	^ (sum / max) asFloat! !
 
-!Digraph methodsFor: 'statistics' stamp: 'len 2/26/2016 23:19'!
+!AbstractGraph methodsFor: 'statistics' stamp: 'len 7/13/2016 23:11'!
 averagePathLength2
 	"The average path length of the graph."
 	| sum n max |
@@ -6386,7 +6361,7 @@ averagePathLength2
 			n := n + 1.].
 	^ (sum / max) asFloat! !
 
-!Digraph methodsFor: 'statistics' stamp: 'len 2/26/2016 23:19'!
+!AbstractGraph methodsFor: 'statistics' stamp: 'len 7/13/2016 23:11'!
 averagePathLengthAcuteAt
 	"The aproximate average path length of the graph."
 	| sum n progress p max nodesList |
@@ -6417,7 +6392,7 @@ averagePathLengthAcuteAt
 	progress delete.
 	^ (sum / max) asFloat! !
 
-!Digraph methodsFor: 'statistics' stamp: 'len 2/26/2016 23:19'!
+!AbstractGraph methodsFor: 'statistics' stamp: 'len 7/13/2016 23:11'!
 averagePathLengthAcuteAt: percentage
 	"The aproximate average path length of the graph."
 	| sum n max nodesList |
@@ -6443,17 +6418,7 @@ averagePathLengthAcuteAt: percentage
 	"progress delete."
 	^ (sum / max) asFloat! !
 
-!Digraph methodsFor: 'initialization' stamp: 'len 2/14/2016 22:15'!
-binary
-	type _ #(#binary).
-	nodeCreator _ InitializationBlocks at: #binary! !
-
-!Digraph methodsFor: 'initialization' stamp: 'len 2/20/2016 06:38'!
-binaryLabeled
-	type _ #(#binary #labeled).
-	nodeCreator _ InitializationBlocks at: #binaryLabeled! !
-
-!Digraph methodsFor: 'etc' stamp: 'len 5/7/2016 04:08'!
+!AbstractGraph methodsFor: 'operations' stamp: 'len 7/13/2016 23:13'!
 breadthFirstPath2From: origin to: target with: visitedNodes 
 	| queue node nodesLevels |
 	nodesLevels _ Dictionary new.
@@ -6473,7 +6438,7 @@ breadthFirstPath2From: origin to: target with: visitedNodes
 	"No path From origin to target, i.e. the two subgraph are not conected"
 	^ 0! !
 
-!Digraph methodsFor: 'etc' stamp: 'Michael Piel 2/8/2004 17:41'!
+!AbstractGraph methodsFor: 'operations' stamp: 'len 7/13/2016 23:13'!
 breadthFirstPathFrom: source to: target 
 	| visitedNodes |
 	(source isLeaf
@@ -6485,7 +6450,7 @@ breadthFirstPathFrom: source to: target
 				to: target
 				with: visitedNodes]! !
 
-!Digraph methodsFor: 'etc' stamp: 'len 5/7/2016 04:08'!
+!AbstractGraph methodsFor: 'operations' stamp: 'len 7/13/2016 23:13'!
 breadthFirstPathFrom: origin to: target with: visitedNodes 
 	| queue node nodesLevels |
 	nodesLevels _ Bag new.
@@ -6504,7 +6469,7 @@ breadthFirstPathFrom: origin to: target with: visitedNodes
 	"No path From origin to target, i.e. the two subgraph are not conected"
 	^ 0! !
 
-!Digraph methodsFor: 'operations' stamp: 'len 4/29/2016 22:25'!
+!AbstractGraph methodsFor: 'operations' stamp: 'len 7/13/2016 22:06'!
 cartesian: aGraph
 	"Answer the cartesian product of the receiver with the argument. This is a commutative and associative operation (for unlabelled graphs)."
 	| G |
@@ -6516,7 +6481,7 @@ cartesian: aGraph
 			y neighborsDo: [:y`| G addEdge: {x value.y value} -> {x value.y` value}]]].
 	^ G! !
 
-!Digraph methodsFor: 'operations' stamp: 'len 2/17/2016 02:44'!
+!AbstractGraph methodsFor: 'operations' stamp: 'len 7/13/2016 22:06'!
 center
 	"Answer the center of the receiver, i.e. the subset of vertices with maximal eccentricity.
 	Using Dijsktra shortest path algorithm this computation requires time O(|V|^3)."
@@ -6524,37 +6489,37 @@ center
 	radius _ self radius.
 	^ self values select: [:each| (self eccentricityOf: each) = radius]! !
 
-!Digraph methodsFor: 'operations' stamp: 'len 7/12/2016 07:15'!
+!AbstractGraph methodsFor: 'operations' stamp: 'len 7/13/2016 22:06'!
 chromaticNumber
 	"The minimum number of colors to do a proper coloring of the graph."
 	| chi |
 	chi _ self chromaticPolynomial.
 	^ (1 to: self size) detect: [:i| (chi value: i) > 0]! !
 
-!Digraph methodsFor: 'operations' stamp: 'len 7/11/2016 08:00'!
+!AbstractGraph methodsFor: 'operations' stamp: 'len 7/13/2016 22:06'!
 chromaticPolynomial
 	^ self chromaticPolynomialAt: Integers new polynomials x! !
 
-!Digraph methodsFor: 'operations' stamp: 'len 7/11/2016 07:59'!
+!AbstractGraph methodsFor: 'operations' stamp: 'len 7/13/2016 22:06'!
 chromaticPolynomialAt: k
 	| e |
-	self isEdgeless ifTrue: [^ k ** self numberOfNodes].
+	self isEdgeless ifTrue: [^ k ** self size].
 	e _ self edges anyOne.
 	^ ((self - e) chromaticPolynomialAt: k) - ((self / e) chromaticPolynomialAt: k)! !
 
-!Digraph methodsFor: 'operations' stamp: 'len 2/20/2016 06:53'!
+!AbstractGraph methodsFor: 'operations' stamp: 'len 7/13/2016 22:06'!
 circumference
 	"Answer the length of the longest cycle."
 	^ self notYetImplemented! !
 
-!Digraph methodsFor: 'statistics' stamp: 'len 2/14/2016 22:12'!
+!AbstractGraph methodsFor: 'statistics' stamp: 'len 7/13/2016 23:11'!
 clusteringCoefficient
 	| sum |
 	sum _ 0.
 	self nodesDo: [:node | node degree > 1 ifTrue: [sum _ sum + node clusteringCoefficient]].
 	^ (sum / self order) asFloat! !
 
-!Digraph methodsFor: 'iterating' stamp: 'len 4/29/2016 22:25'!
+!AbstractGraph methodsFor: 'iterating' stamp: 'len 7/13/2016 22:03'!
 collect: aBlock
 	"Answer a new graph like the receiver but with vertices values mapped by aBlock."
 	| answer |
@@ -6563,7 +6528,7 @@ collect: aBlock
 	self edgesDo: [:each| answer addEdgeFrom: (aBlock value: each key) to: (aBlock value: each value)].
 	^ answer! !
 
-!Digraph methodsFor: 'iterating' stamp: 'len 4/29/2016 22:25'!
+!AbstractGraph methodsFor: 'iterating' stamp: 'len 7/13/2016 22:03'!
 collect: aBlock labels: labelBlock
 	"Answer a new graph like the receiver but with vertices values mapped by aBlock."
 	| answer |
@@ -6572,8 +6537,9 @@ collect: aBlock labels: labelBlock
 	self edgesAndLabelsDo: [:each :label| answer addEdgeFrom: (aBlock value: each key) to: (aBlock value: each value) label: (labelBlock value: label)].
 	^ answer! !
 
-!Digraph methodsFor: 'operations' stamp: 'len 4/29/2016 22:25'!
+!AbstractGraph methodsFor: 'operations' stamp: 'len 7/13/2016 22:06'!
 complement
+	"Answer the complement graph, i.e. the graph where two edges are connected iff they are *not* connected in the receiver."
 	| answer |
 	answer _ self copyEmpty.
 	self nodesDo: [:x|
@@ -6583,55 +6549,17 @@ complement
 		self nodesDo: [:y| (neighbors includes: y) ifFalse: [answer addEdgeFrom: x to: y]]].
 	^ answer! !
 
-!Digraph methodsFor: 'operations' stamp: 'len 2/14/2003 22:56'!
+!AbstractGraph methodsFor: 'operations' stamp: 'len 7/13/2016 22:06'!
 components
 	"Answer the Strongly Connected Components of the receiver."
 	^ Set accumulate: [:aBlock | self componentsDo: aBlock]! !
 
-!Digraph methodsFor: 'operations' stamp: 'len 7/11/2016 06:53'!
-componentsDo: aBlock
-	"Iterate over the Strongly Connected Components of the receiver."
-	| component remainingNodes node |
-	remainingNodes _ self nodes copy.
-	[remainingNodes isEmpty]
-		whileFalse:
-			[node _ remainingNodes anyOne.
-			component _ self copyEmpty.
-			node markDo: [:each|
-				component privateAddNode: each.
-				remainingNodes remove: each ifAbsent: []].
-			aBlock value: component]! !
-
-!Digraph methodsFor: 'operations' stamp: 'len 2/26/2016 23:19'!
-contractionOf: edge
-	"Answer the graph obtained by contracting the given edge a -> b, by removing the edge and collapsing a with b in a single node."
-	| G a b |
-	G _ self copy.
-	G removeEdge: edge.
-	a _ G nodeAt: edge key.
-	b _ G nodeAt: edge value.
-	a neighborsDo: [:n| b addNeighbor: n].
-	a inNeighbors copy do: [:n| n addNeighbor: b. n removeNeighbor: a].
-	G remove: a.
-	^ G! !
-
-!Digraph methodsFor: 'copying' stamp: 'len 2/19/2016 20:51'!
-copy
-	^ self collect: [:each| each]! !
-
-!Digraph methodsFor: 'copying' stamp: 'len 2/16/2016 22:19'!
-copyEmpty
-	"Return a graph of the same type with no nodes or edges."
-	^self isImplicit
-		ifTrue: [self class ordered]
-		ifFalse: [super copy initialize]! !
-
-!Digraph methodsFor: 'accessing' stamp: 'len 2/15/2016 07:40'!
+!AbstractGraph methodsFor: 'accessing' stamp: 'len 7/13/2016 21:53'!
 degree
 	self isEmpty ifTrue: [^ 0].
-	^ nodes max: [:each| each degree]! !
+	^ self nodes max: [:each| each degree]! !
 
-!Digraph methodsFor: 'statistics' stamp: 'len 2/19/2016 21:31'!
+!AbstractGraph methodsFor: 'statistics' stamp: 'len 7/13/2016 23:11'!
 degreeDistribution
 	"The distribution degree of the graph."
 	| b |
@@ -6639,91 +6567,58 @@ degreeDistribution
 	self nodesDo: [:each| b add: each degree].
 	^ b frequencyDistribution! !
 
-!Digraph methodsFor: 'operations' stamp: 'len 2/17/2016 06:29'!
+!AbstractGraph methodsFor: 'operations' stamp: 'len 7/13/2016 22:07'!
 diameter
 	^ self nodes max: [:each| self eccentricityOf: each]! !
 
-!Digraph methodsFor: 'operations' stamp: 'len 2/15/2016 06:48'!
+!AbstractGraph methodsFor: 'operations' stamp: 'len 7/13/2016 23:05'!
 distanceFrom: source to: target
 	^ (Dijkstra graph: self source: source) distanceTo: target! !
 
-!Digraph methodsFor: 'iterating' stamp: 'len 2/19/2016 21:23'!
+!AbstractGraph methodsFor: 'iterating' stamp: 'len 7/13/2016 22:03'!
 do: aBlock
 	self valuesDo: aBlock! !
 
-!Digraph methodsFor: 'operations' stamp: 'len 2/15/2016 08:09'!
+!AbstractGraph methodsFor: 'operations' stamp: 'len 7/13/2016 23:05'!
 eccentricityOf: anObject
 	^ (Dijkstra graph: self source: anObject) eccentricity! !
 
-!Digraph methodsFor: 'random' stamp: 'len 7/11/2016 05:59'!
+!AbstractGraph methodsFor: 'random' stamp: 'len 7/13/2016 23:14'!
 edgeAtRandom
 	^ Random withDefaultDo: [:aRandom| self edgeAtRandom: aRandom]! !
 
-!Digraph methodsFor: 'random' stamp: 'len 7/11/2016 05:59'!
-edgeAtRandom: aRandom
-	| count |
-	3 timesRepeat:
-		[| source |
-		(source _ nodes atRandom: aRandom) neighbors
-			ifNotEmpty: [:neighbors| ^ source -> (neighbors atRandom: aRandom)]].
-	count _ self numberOfEdges atRandom.
-	self edgesDo: [:each| (count _ count - 1) > 0 ifFalse: [^ each]].
-	self error: 'inconsitency problem, edge not found'! !
-
-!Digraph methodsFor: 'accessing' stamp: 'len 5/1/2016 21:44'!
+!AbstractGraph methodsFor: 'accessing' stamp: 'len 7/13/2016 21:53'!
 edges
 	^ Iterator on: self performing: #edgesDo:! !
 
-!Digraph methodsFor: 'iterating' stamp: 'len 2/17/2016 06:00'!
-edgesAndLabelsDo: aBinaryBlock
-	self nodesDo: [:node| node neighborsAndLabelsDo: [:n :label| aBinaryBlock value: (Association key: node value: n) value: label]]! !
-
-!Digraph methodsFor: 'iterating' stamp: 'len 2/14/2016 21:39'!
-edgesDo: aBlock
-	self nodesDo: [:node| node neighborsDo: [:n| aBlock value: (Association key: node value: n)]]! !
-
-!Digraph methodsFor: 'operations' stamp: 'len 2/20/2016 06:08'!
+!AbstractGraph methodsFor: 'operations' stamp: 'len 7/13/2016 22:07'!
 girth
 	"Answer the length of the shortest cycle."
 	^ self notYetImplemented! !
 
-!Digraph methodsFor: 'testing' stamp: 'len 5/5/2016 23:46'!
+!AbstractGraph methodsFor: 'testing' stamp: 'len 7/13/2016 22:31'!
 hasEdge: edge
 	^ self hasEdgeFrom: edge key to: edge value! !
 
-!Digraph methodsFor: 'testing' stamp: 'len 5/5/2016 23:46'!
+!AbstractGraph methodsFor: 'testing' stamp: 'len 7/13/2016 22:31'!
 hasEdgeFrom: a to: b
 	^ (self nodeAt: a) hasEdgeTo: b! !
 
-!Digraph methodsFor: 'testing' stamp: 'len 4/30/2016 07:15'!
+!AbstractGraph methodsFor: 'testing' stamp: 'len 7/13/2016 22:31'!
 hasLoop
 	self nodesDo: [:each| each hasLoop ifTrue: [^ true]].
 	^ false! !
 
-!Digraph methodsFor: 'comparing' stamp: 'len 6/28/2016 09:08'!
+!AbstractGraph methodsFor: 'comparing' stamp: 'len 7/13/2016 21:58'!
 hash
-	^ nodes hash! !
+	^ self nodes hash! !
 
-!Digraph methodsFor: 'initialization' stamp: 'len 2/14/2016 22:15'!
-implicitCollection: collectionBlock
-	type _ #(#implicitCollection).
-	nodeCreator _ (InitializationBlocks at: #implicitCollection) value: self value: collectionBlock! !
-
-!Digraph methodsFor: 'initialization' stamp: 'len 2/14/2016 22:15'!
-implicitIteratorBlock: iteratorBlock
-	type _ #(#implicitIteratorBlock).
-	nodeCreator _ (InitializationBlocks at: #implicitIteratorBlock) value: self value: iteratorBlock! !
-
-!Digraph methodsFor: 'testing' stamp: 'len 2/15/2016 08:11'!
-includes: anObject 
+!AbstractGraph methodsFor: 'testing' stamp: 'len 7/13/2016 22:32'!
+includes: anObject
 	"Answer whether anObject is one of the vertices of the receiver."
-	^ nodes includes: anObject! !
+	^ self nodes includes: anObject! !
 
-!Digraph methodsFor: 'initialization' stamp: 'len 2/26/2016 21:40'!
-initialize
-	nodes _ KeyedSet new! !
-
-!Digraph methodsFor: 'operations' stamp: 'len 4/29/2016 22:01'!
+!AbstractGraph methodsFor: 'operations' stamp: 'len 7/13/2016 22:07'!
 intersection: aGraph
 	"Answer the graph whose vertices and edges is the intersection of the vertices and edges of the receiver and the argument."
 	| answer |
@@ -6737,28 +6632,28 @@ intersection: aGraph
 						ifTrue: [answer addEdgeFrom: each to: n]]]].
 	^ answer! !
 
-!Digraph methodsFor: 'testing' stamp: 'len 2/15/2016 08:11'!
+!AbstractGraph methodsFor: 'testing' stamp: 'len 7/13/2016 22:32'!
 isChain
 	"Answer whether the graph is a chain - path graph."
-	^ (self select:[:each| each isAnExtremity]) size + (self select:[:each| each isMiddle]) size = self order! !
+	^ (self select: [:each| each isAnExtremity]) size + (self select:[:each| each isMiddle]) size = self order! !
 
-!Digraph methodsFor: 'testing' stamp: 'len 2/19/2016 21:29'!
+!AbstractGraph methodsFor: 'testing' stamp: 'len 7/13/2016 22:32'!
 isComplete
 	self nodesDo: [:x| self nodesDo: [:y| (x hasEdgeTo: y) ifFalse: [^ false]]].
 	^ true! !
 
-!Digraph methodsFor: 'testing' stamp: 'len 2/15/2016 06:35'!
+!AbstractGraph methodsFor: 'testing' stamp: 'len 7/13/2016 22:33'!
 isConnected
 	| count |
 	count _ 0.
 	self componentsDo: [:each| count _ count + 1. count > 1 ifTrue: [^ false]].
 	^ true! !
 
-!Digraph methodsFor: 'testing' stamp: 'len 5/1/2016 04:17'!
+!AbstractGraph methodsFor: 'testing' stamp: 'len 7/13/2016 22:33'!
 isCubic
 	^ self nodes allSatisfy: [:each| each degree = 3]! !
 
-!Digraph methodsFor: 'testing' stamp: 'len 2/26/2016 20:40'!
+!AbstractGraph methodsFor: 'testing' stamp: 'len 7/13/2016 22:33'!
 isCyclic
 	[self topologicalSort] on: Error do: [^ true].
 	^ false
@@ -6773,21 +6668,17 @@ isCyclic
 	Transcript show: 'done'; newLine.
 	^ false"! !
 
-!Digraph methodsFor: 'private' stamp: 'len 2/29/2016 21:48'!
-isDirected
-	^self isUndirected not! !
-
-!Digraph methodsFor: 'testing' stamp: 'len 4/29/2016 19:36'!
+!AbstractGraph methodsFor: 'testing' stamp: 'len 7/13/2016 22:33'!
 isEdgeless
 	^ self numberOfEdges = 0! !
 
-!Digraph methodsFor: 'testing' stamp: 'timestamp) (no'!
+!AbstractGraph methodsFor: 'testing' stamp: 'len 7/13/2016 22:33'!
 isEmpty
 	"Answer whether the receiver contains any elements."
 
-	^nodes isEmpty! !
+	^ self nodes isEmpty! !
 
-!Digraph methodsFor: 'testing' stamp: 'len 2/29/2016 21:07'!
+!AbstractGraph methodsFor: 'testing' stamp: 'len 7/13/2016 22:33'!
 isEulerian
 	"Answer true if the receiver has an Eurler walk."
 	| count |
@@ -6795,60 +6686,37 @@ isEulerian
 	self nodesDo: [:each| each degree odd ifTrue: [(count _ count + 1) > 2 ifTrue: [^ false]]].
 	^ count = 0 or: [count = 2]! !
 
-!Digraph methodsFor: 'testing' stamp: 'len 2/19/2016 17:30'!
+!AbstractGraph methodsFor: 'testing' stamp: 'len 7/13/2016 22:33'!
 isHamiltonian
-	"Answer true if the receiver has a Hamiltonian cycle (or Hamiltonian circuis, vertex tour, or graph cycle), which is a cycle that visits each node once except for the start/end node that is visited twice."
+	"Answer true if the receiver has a Hamiltonian cycle (or Hamiltonian circuit, vertex tour, or graph cycle), which is a cycle that visits each node once except for the start/end node that is visited twice."
 	^ self closure isComplete "Bondy-Chvatai theorem"! !
 
-!Digraph methodsFor: 'private' stamp: 'timestamp) (no'!
-isImplicit
-	"Is the node creator for implicit nodes?"
-	^(type includes: #implicitCollection) or: [type includes: #implicitIteratorBlock]! !
-
-!Digraph methodsFor: 'private' stamp: 'len 2/20/2016 06:38'!
-isLabeled
-	"Is the node creator for labeled nodes?"
-	^type includes: #labeled! !
-
-!Digraph methodsFor: 'testing' stamp: 'len 2/17/2016 03:38'!
+!AbstractGraph methodsFor: 'testing' stamp: 'len 7/13/2016 22:34'!
 isReflexive
-	^ nodes allSatisfy: [:each| each isReflexive]! !
+	^ self nodes allSatisfy: [:each| each isReflexive]! !
 
-!Digraph methodsFor: 'testing' stamp: 'len 5/1/2016 22:05'!
+!AbstractGraph methodsFor: 'testing' stamp: 'len 7/13/2016 22:34'!
 isRegular
 	| n |
 	self isEmpty ifTrue: [^ true].
 	n _ self nodes anyOne degree.
 	^ self nodes allSatisfy: [:each| each degree = n]! !
 
-!Digraph methodsFor: 'testing' stamp: 'len 4/30/2016 07:10'!
+!AbstractGraph methodsFor: 'testing' stamp: 'len 7/13/2016 22:34'!
 isSimple
 	"A graph is simple if doesn't countain multiple edges with the same endpoints."
 	^ self nodes allSatisfy: [:each| each isSimple]! !
 
-!Digraph methodsFor: 'testing' stamp: 'len 2/17/2016 03:38'!
-isSymmetric
-	^ nodes allSatisfy: [:each| each isSymmetric]! !
-
-!Digraph methodsFor: 'testing' stamp: 'len 2/19/2016 17:31'!
+!AbstractGraph methodsFor: 'testing' stamp: 'len 7/13/2016 22:34'!
 isTraceable
 	"Answer true if the receiver has a Hamiltonian path (or traceable path), which is a path that visits each vertex exactly once."
 	^ self notYetImplemented! !
 
-!Digraph methodsFor: 'testing' stamp: 'len 2/17/2016 03:37'!
-isTransitive
-	^ nodes allSatisfy: [:each| each isTransitive]! !
-
-!Digraph methodsFor: 'private' stamp: 'len 5/25/2016 03:24'!
+!AbstractGraph methodsFor: 'testing' stamp: 'len 7/13/2016 22:37'!
 isUndirected
-	^ false! !
+	^ self isDirected not! !
 
-!Digraph methodsFor: 'testing' stamp: 'len 2/17/2016 02:42'!
-isWeaklyConnected
-	"A graph is said to be 'weakly connected' when its symmetric closure is connected."
-	^ self symmetric isConnected! !
-
-!Digraph methodsFor: 'operations' stamp: 'len 2/17/2016 03:48'!
+!AbstractGraph methodsFor: 'operations' stamp: 'len 7/13/2016 22:08'!
 join: aGraph
 	"Answer the graph with all edges that connect the vertices of the receiver with the vertices of the argument. This is a commutative operation (for unlabelled graphs)."
 	| answer |
@@ -6857,7 +6725,7 @@ join: aGraph
 	aGraph edgesDo: [:each| (self includes: each key) ifTrue: [answer addEdge: each]].
 	^ answer! !
 
-!Digraph methodsFor: 'operations' stamp: 'len 2/20/2016 06:23'!
+!AbstractGraph methodsFor: 'operations' stamp: 'len 7/13/2016 22:08'!
 line
 	"Answer the line graph of the receiver, i.e. the graph L(G) such that:
 	 - each edge of G is a vertex of L(G);
@@ -6869,100 +6737,58 @@ line
 			answer addEdgeFrom: each to: (Association key: each value value: n)]].
 	^ answer! !
 
-!Digraph methodsFor: 'operations' stamp: 'len 5/24/2016 21:22'!
+!AbstractGraph methodsFor: 'operations' stamp: 'len 7/13/2016 22:08'!
 maxmimumDegree
 	^ self nodes inject: Infinity negative into: [:maximum :each| maximum max: each degree]! !
 
-!Digraph methodsFor: 'operations' stamp: 'len 5/24/2016 21:21'!
+!AbstractGraph methodsFor: 'operations' stamp: 'len 7/13/2016 22:08'!
 minimumDegree
 	^ self nodes inject: Infinity positive into: [:minimum :each| minimum min: each degree]! !
 
-!Digraph methodsFor: 'operations' stamp: 'len 2/15/2016 07:55'!
+!AbstractGraph methodsFor: 'operations' stamp: 'len 7/13/2016 22:08'!
 multiplicity
 	^ self edges max: [:each| self multiplicityFrom: each key to: each value]! !
 
-!Digraph methodsFor: 'operations' stamp: 'len 2/26/2016 23:20'!
+!AbstractGraph methodsFor: 'operations' stamp: 'len 7/13/2016 22:08'!
 multiplicityFrom: source to: target
-	self flag: #fix. "no multiple edges supported"
 	^ (self nodeAt: source) neighbors occurrencesOf: target! !
 
-!Digraph methodsFor: 'operations' stamp: 'len 2/26/2016 23:20'!
+!AbstractGraph methodsFor: 'operations' stamp: 'len 7/13/2016 22:08'!
 neighborhoodOf: node
 	^ self subgraphInducedBy: (self nodeAt: node) neighbors! !
 
-!Digraph methodsFor: 'accessing' stamp: 'len 2/26/2016 23:17'!
+!AbstractGraph methodsFor: 'accessing' stamp: 'len 7/13/2016 22:24'!
 nodeAt: anObject
-	^ self nodeAt: anObject ifAbsent: [self error: 'node not found']! !
+	^ self nodeAt: anObject ifAbsent: [self errorNotFound: anObject]! !
 
-!Digraph methodsFor: 'accessing' stamp: 'len 2/26/2016 23:17'!
+!AbstractGraph methodsFor: 'accessing' stamp: 'len 7/13/2016 22:24'!
 nodeAt: anObject ifAbsent: exceptionBlock
-	^ nodes at: anObject ifAbsent: exceptionBlock! !
+	^ self nodes at: anObject ifAbsent: exceptionBlock! !
 
-!Digraph methodsFor: 'private' stamp: 'timestamp) (no'!
-nodeCreator: n
-	nodeCreator := n! !
-
-!Digraph methodsFor: 'accessing' stamp: 'len 2/14/2016 21:42'!
-nodes
-	^ nodes! !
-
-!Digraph methodsFor: 'iterating' stamp: 'len 2/14/2016 21:38'!
-nodesDo: aBlock
-	(self type = #(#implicitCollection) or: [self type = #(#implicitIteratorBlock)])
-		ifTrue: [nodes asOrderedCollection do: aBlock]
-		ifFalse: [nodes do: aBlock]! !
-
-!Digraph methodsFor: 'errors' stamp: 'len 2/13/2003 23:29'!
-notFoundError
-	^ self error: 'object is not in the collection'! !
-
-!Digraph methodsFor: 'accessing' stamp: 'len 4/29/2016 19:36'!
+!AbstractGraph methodsFor: 'accessing' stamp: 'len 7/13/2016 21:53'!
 numberOfEdges
 	"This is commonly known as the size of the graph, but the size message returns the order (number of vertices), as this fits in better with Smalltalk usage."
 	| count |
 	count _ 0.
-	self edgesDo: [:each| count _ count + 1].
+	self nodesDo: [:each| count _ count + each neighbors size].
 	^ count! !
 
-!Digraph methodsFor: 'accessing' stamp: 'len 4/29/2016 19:36'!
-numberOfNodes
-	^ nodes size! !
-
-!Digraph methodsFor: 'testing' stamp: 'timestamp) (no'!
-occurrencesOf: anObject 
-	"Answer how many of the receiver's elements are equal to anObject."
-
-	^(self includes: anObject) ifTrue: [1] ifFalse: [0]! !
-
-!Digraph methodsFor: 'accessing' stamp: 'len 2/14/2016 21:56'!
+!AbstractGraph methodsFor: 'accessing' stamp: 'len 7/13/2016 21:54'!
 order
+	"The size of a graph G=(V,E) is the number of vertices |V|, contrary to the more common convention of defining it as |E|."
 	^ self size! !
 
-!Digraph methodsFor: 'initialization' stamp: 'len 2/14/2016 22:15'!
-ordered
-	type _ #(#ordered).
-	nodeCreator _ InitializationBlocks at: #ordered! !
-
-!Digraph methodsFor: 'initialization' stamp: 'len 2/20/2016 06:37'!
-orderedLabeled
-	type _ #(#ordered #labeled).
-	nodeCreator _ InitializationBlocks at: #orderedLabeled! !
-
-!Digraph methodsFor: 'printing' stamp: 'len 6/8/2016 06:14'!
+!AbstractGraph methodsFor: 'printing' stamp: 'len 7/13/2016 22:54'!
 printOn: aStream
 	self isEmpty ifTrue: [aStream nextPut: Character emptySet. ^ self].
 	super printOn: aStream! !
 
-!Digraph methodsFor: 'adding' stamp: 'len 7/11/2016 06:53'!
-privateAddNode: aGraphNode
-	^ nodes add: aGraphNode! !
-
-!Digraph methodsFor: 'operations' stamp: 'len 4/29/2016 19:07'!
+!AbstractGraph methodsFor: 'operations' stamp: 'len 7/13/2016 22:08'!
 radius
 	^ self nodes min: [:each| self eccentricityOf: each]
 "	^ (FloydWarshall graph: self) radius"! !
 
-!Digraph methodsFor: 'operations' stamp: 'len 2/20/2016 06:09'!
+!AbstractGraph methodsFor: 'operations' stamp: 'len 7/13/2016 22:09'!
 reflexive
 	"Answer the reflexive closure of the receiver."
 	| answer |
@@ -6970,48 +6796,25 @@ reflexive
 	answer nodesDo: [:each | answer addEdgeFrom: each to: each].
 	^ answer! !
 
-!Digraph methodsFor: 'removing' stamp: 'timestamp) (no'!
-remove: aGraphNode 
-	"Remove the given node.
-	pre: the node must be in the graph, and not the target of an edge."
-	^self remove: aGraphNode ifAbsent: [self notFoundError]! !
-
-!Digraph methodsFor: 'removing' stamp: 'timestamp) (no'!
-remove: aGraphNode ifAbsent: exceptionBlock 
-	"Remove the given node, evaluate exceptionBlock if it's not part of the graph.
-	pre: the node shouldn't be the target of an edge."
-	^nodes remove: aGraphNode ifAbsent: exceptionBlock! !
-
-!Digraph methodsFor: 'removing' stamp: 'len 5/25/2016 03:22'!
-removeEdge: edge 
-	"Remove the given edge.  
+!AbstractGraph methodsFor: 'adding/removing' stamp: 'len 7/13/2016 22:17'!
+removeEdge: anEdge
+	"Remove the given edge.
 	pre: the edge must be in the graph."
-	self removeEdge: edge ifAbsent: [self notFoundError]! !
+	self removeEdge: anEdge ifAbsent: [self errorNotFound: anEdge]! !
 
-!Digraph methodsFor: 'removing' stamp: 'len 5/25/2016 03:22'!
+!AbstractGraph methodsFor: 'adding/removing' stamp: 'len 7/13/2016 22:16'!
 removeEdge: edge ifAbsent: exceptionBlock 
 	"Remove the given edge, evaluate exceptionBlock if it doesn't exist.
 	pre: both the source and target of the edge must be in the graph."
 	^self removeEdgeFrom: edge key to: edge value ifAbsent: exceptionBlock! !
 
-!Digraph methodsFor: 'removing' stamp: 'timestamp) (no'!
+!AbstractGraph methodsFor: 'adding/removing' stamp: 'len 7/13/2016 22:17'!
 removeEdgeFrom: src to: dest
 	"Remove the given edge.
 	pre: the edge must be in the graph."
-	^self removeEdgeFrom: src to: dest ifAbsent: [self notFoundError]! !
+	^self removeEdgeFrom: src to: dest ifAbsent: [self errorNotFound: src -> dest]! !
 
-!Digraph methodsFor: 'removing' stamp: 'len 5/25/2016 04:03'!
-removeEdgeFrom: source to: target ifAbsent: exceptionBlock 
-	"Remove the given edge, evaluate exceptionBlock if it doesn't exist. 
-	pre: both the source and target of the edge must be in the graph."
-	| sourceNode targetNode |
-	sourceNode _ self nodeAt: source.
-	targetNode _ self nodeAt: target.
-	(sourceNode hasEdgeTo: targetNode)
-		ifTrue: [sourceNode removeNeighbor: targetNode]
-		ifFalse: [^ exceptionBlock value]! !
-
-!Digraph methodsFor: 'iterating' stamp: 'len 4/29/2016 22:26'!
+!AbstractGraph methodsFor: 'iterating' stamp: 'len 7/13/2016 22:04'!
 select: aBlock
 	"Answer the subgraph of the receiver whose vertices satisfy aBlock."
 	| answer |
@@ -7022,15 +6825,16 @@ select: aBlock
 			ifTrue: [answer addEdgeFrom: each key value to: each value value]].
 	^ answer! !
 
-!Digraph methodsFor: 'operations' stamp: 'len 2/15/2016 06:48'!
+!AbstractGraph methodsFor: 'operations' stamp: 'len 7/13/2016 23:05'!
 shortestPathFrom: source to: target
 	^ (Dijkstra graph: self source: source) shortestPathTo: target! !
 
-!Digraph methodsFor: 'accessing' stamp: 'len 2/14/2016 21:55'!
+!AbstractGraph methodsFor: 'accessing' stamp: 'len 7/13/2016 21:54'!
 size
-	^ nodes size! !
+	"The size of a graph G=(V,E) is the number of vertices |V|, contrary to the more common convention of defining it as |E|."
+	^ self nodes size! !
 
-!Digraph methodsFor: 'operations' stamp: 'len 2/17/2016 05:13'!
+!AbstractGraph methodsFor: 'operations' stamp: 'len 7/13/2016 22:09'!
 subgraphInducedBy: aSet
 	| answer |
 	answer _ self copy.
@@ -7039,7 +6843,7 @@ subgraphInducedBy: aSet
 			ifTrue: [answer addEdge: each]].
 	^ answer! !
 
-!Digraph methodsFor: 'operations' stamp: 'len 2/17/2016 02:37'!
+!AbstractGraph methodsFor: 'operations' stamp: 'len 7/13/2016 23:06'!
 symmetric
 	"Answer the symmetric closure of the receiver."
 	| answer |
@@ -7047,7 +6851,7 @@ symmetric
 	self edgesDo: [:each | answer addEdge: (Association key: each value value: each key)].
 	^ answer! !
 
-!Digraph methodsFor: 'operations' stamp: 'len 5/25/2016 03:30'!
+!AbstractGraph methodsFor: 'operations' stamp: 'len 7/13/2016 22:12'!
 tensor: aGraph
 	"Answer the tensor product (or direct graph product, categorical graph product, cardinal graph product, Kronecker graph product) of the receiver with the argument. This is a commutative operation (for unlabelled graphs)."
 	| G |
@@ -7059,7 +6863,7 @@ tensor: aGraph
 				y neighborsDo: [:y`| G addEdge: {x value.y value} -> {x` value.y` value}]]]].
 	^ G! !
 
-!Digraph methodsFor: 'operations' stamp: 'len 2/19/2016 21:31'!
+!AbstractGraph methodsFor: 'operations' stamp: 'len 7/13/2016 22:12'!
 topologicalSort
 	"Answer a topological sort of the receiver. This is a linear ordering of its vertices such that for each edge a -> b, a comes before to b in the ordering.
 	This is Kahn's algorithm."
@@ -7078,7 +6882,7 @@ topologicalSort
 	G isEdgeless ifFalse: [^ self error: 'the graph has at least one cycle'].
 	^ answer! !
 
-!Digraph methodsFor: 'operations' stamp: 'len 2/17/2016 02:40'!
+!AbstractGraph methodsFor: 'operations' stamp: 'len 7/13/2016 23:06'!
 transposed
 	"Answer the transpose of the receiver. This is the graphs where edges a->b are inverted as b->a."
 	| answer |
@@ -7086,11 +6890,7 @@ transposed
 	self edgesDo: [:each | answer addEdge: (Association key: each value value: each key)].
 	^ answer! !
 
-!Digraph methodsFor: 'accessing' stamp: 'len 2/14/2016 21:55'!
-type
-	^ type! !
-
-!Digraph methodsFor: 'operations' stamp: 'len 4/29/2016 22:26'!
+!AbstractGraph methodsFor: 'operations' stamp: 'len 7/13/2016 22:13'!
 union: aGraph
 	"Answer the graph whose vertices and edges are the union of the vertices and edges of the receiver and the argument."
 	| answer |
@@ -7098,6 +6898,366 @@ union: aGraph
 	aGraph valuesDo: [:each| answer add: each].
 	aGraph edgesDo: [:each| answer addEdgeFrom: each key to: each value].
 	^ answer! !
+
+!AbstractGraph methodsFor: 'accessing' stamp: 'len 7/13/2016 21:55'!
+values
+	^ self nodes collect: [:each| each value]! !
+
+!AbstractGraph methodsFor: 'iterating' stamp: 'len 7/13/2016 22:04'!
+valuesDo: aBlock
+	self nodesDo: [:each| aBlock value: each value]! !
+
+!AbstractGraph class methodsFor: 'examples' stamp: 'len 7/13/2016 22:40'!
+C: n
+	"Answer the cycle n vertices 1 -> 2 -> ... -> n -> 1."
+	| C |
+	C _ self unordered.
+	1 to: n-1 do: [:i| C addEdge: i->(i+1)].
+	n > 1 ifTrue: [C addEdge: n -> 1].
+	^ C! !
+
+!AbstractGraph class methodsFor: 'examples' stamp: 'len 7/13/2016 22:40'!
+K: n
+	"Answer the n-complete graph."
+	| K |
+	K _ self unordered.
+	1 to: n do: [:i| K add: i].
+	1 to: n do: [:i| 1 to: i do: [:j| i ~= j ifTrue: [K addEdge: i->j]]].
+	^ K! !
+
+!AbstractGraph class methodsFor: 'examples' stamp: 'len 7/13/2016 22:40'!
+N: n
+	"Answer the null graph with n vertices {1..n}."
+	^ self unordered addAll: (1 to: n); yourself! !
+
+!AbstractGraph class methodsFor: 'examples' stamp: 'len 7/13/2016 22:40'!
+P: n
+	"Answer the path of n vertices 1 -> 2 -> ... -> n."
+	| P |
+	P _ self unordered.
+	1 to: n-1 do: [:i| P addEdge: i->(i+1)].
+	^ P! !
+
+!AbstractGraph class methodsFor: 'examples' stamp: 'len 7/13/2016 22:40'!
+S: n
+	"Answer the star graph of n vertices."
+	| S |
+	S _ self unordered.
+	2 to: n do: [:i| S addEdge: 1 -> i].
+	^ S! !
+
+!AbstractGraph class methodsFor: 'examples' stamp: 'len 7/13/2016 22:40'!
+W: n
+	"Answer the wheel graph of n vertices."
+	| W |
+	W _ self unordered.
+	2 to: n do: [:i| W addEdge: 1 -> i; addEdge: i -> (i=n ifTrue: [2] ifFalse: [i+1])].
+	^ W! !
+
+!AbstractGraph class methodsFor: 'examples' stamp: 'len 7/13/2016 22:40'!
+cube
+	^ self cube: 3! !
+
+!AbstractGraph class methodsFor: 'examples' stamp: 'len 7/13/2016 22:40'!
+cube: n
+	"Answer an n-cube."
+	| G H |
+	G _ self unordered addEdge: 1 -> 2; yourself.
+	H _ G.
+	n - 1 timesRepeat: [H _ H cartesian: G].
+	^ H! !
+
+!AbstractGraph class methodsFor: 'examples' stamp: 'len 7/13/2016 22:40'!
+desargues
+	"Answer the Desargues graph."
+	^ self petersen: 10 order: 3! !
+
+!AbstractGraph class methodsFor: 'examples' stamp: 'len 7/13/2016 22:40'!
+dodecahedron
+	^ self petersen: 10 order: 2! !
+
+!AbstractGraph class methodsFor: 'examples' stamp: 'len 7/13/2016 22:41'!
+durer
+	"Answer the Durer graph."
+	^ self petersen: 6 order: 2! !
+
+!AbstractGraph class methodsFor: 'examples' stamp: 'len 7/13/2016 22:46'!
+exampleImplicitGraph
+	"Graph exampleImplicitGraph. BUG : There is a problem when you don't  
+	test classes without subclasses, maybe a problem in the block creation  
+	for ImplicitGraphNode (cf. Graph>>initialize)"
+	| tree |
+	tree _ self implicitCollection: [:class | class subclasses].
+	Magnitude withAllSubclasses
+		do: [:class| "class subclasses isEmpty ifFalse: ["tree add: class"]"].
+	^ tree! !
+
+!AbstractGraph class methodsFor: 'examples' stamp: 'len 7/13/2016 22:46'!
+exampleImplicitGraph2
+	| forest |
+	forest := self implicitCollection: [:class | class ~= ProtoObject ifTrue: [{class superclass}] ifFalse:[#()]].
+	(Smalltalk organization listAtCategoryNamed: 'Mathematics-Graphs') do: [:className| forest add: (Smalltalk at: className)].
+	^ forest! !
+
+!AbstractGraph class methodsFor: 'examples' stamp: 'len 7/13/2016 22:47'!
+exampleImplicitGraph3
+	"Graph exampleImplicitGraph3"
+	| tree |
+	tree _ self implicitIteratorBlock: [:class| [:aBlock| class subclasses do: aBlock]].
+	RootedDigraph withAllSuperclasses do: [:class| tree add: class].
+	^tree! !
+
+!AbstractGraph class methodsFor: 'examples' stamp: 'len 7/13/2016 22:41'!
+icosahedron
+	^ self unordered addEdges:
+		{1->2. 2->3. 3->1.
+		4->5. 5->6. 6->7. 7->8. 8->9. 9->4.
+		1->9. 1->4. 1->5. 2->5. 2->6. 2->7. 3->7. 3->8. 3->9.
+		10->11. 11->12. 12->10.
+		10->4. 10->5. 10->6. 11->6. 11->7. 11->8. 12->8. 12->9. 12->4}; yourself! !
+
+!AbstractGraph class methodsFor: 'examples' stamp: 'len 7/13/2016 22:41'!
+moebiusKantor
+	"Answer the Moebius-Kantor graph."
+	^ self petersen: 8 order: 3! !
+
+!AbstractGraph class methodsFor: 'examples' stamp: 'len 7/13/2016 22:41'!
+nauru
+	"Answer the Nauru graph."
+	^ self petersen: 12 order: 5! !
+
+!AbstractGraph class methodsFor: 'private' stamp: 'len 7/13/2016 22:50'!
+new
+	^ self error: 'Graphs should not be created with new.'! !
+
+!AbstractGraph class methodsFor: 'examples' stamp: 'len 7/13/2016 22:41'!
+octahedron
+	^ self unordered addEdges: {1->2. 2->3. 3->1. 1->4. 2->4. 2->5. 3->5. 3->6. 1->6. 4->5. 5->6. 6->4}; yourself! !
+
+!AbstractGraph class methodsFor: 'examples' stamp: 'len 7/13/2016 22:41'!
+petersen
+	^ self unordered addEdges:
+		{1->2. 2->3. 3->4. 4->5. 5->1.
+		1->6. 2->7. 3->8. 4->9. 5->10.
+		6->8. 6->9. 7->9. 7->10. 8->10}; yourself! !
+
+!AbstractGraph class methodsFor: 'examples' stamp: 'len 7/13/2016 22:41'!
+petersen: n order: k
+	"Answer the generalized Petersen graph G(n,k)."
+	| G |
+	k < (n/2) ifFalse: [^ DomainError signal].
+	G _ self unordered.
+	0 to: n-1 do: [:i|
+		G addEdges: {i->(i+1\\n). i->(i+n). i+n->(i+k\\n+n)}].
+	^ G ! !
+
+!AbstractGraph class methodsFor: 'examples' stamp: 'len 7/13/2016 22:41'!
+prism: n
+	"Answer an n-prism."
+	^ self petersen: n order: 1! !
+
+!AbstractGraph class methodsFor: 'examples' stamp: 'len 7/13/2016 22:41'!
+square
+	^ self unordered addEdges: {1 -> 2. 2 -> 3. 3 -> 4. 4 -> 1}; yourself! !
+
+!AbstractGraph class methodsFor: 'examples' stamp: 'len 7/13/2016 22:41'!
+triangle
+	^ self unordered addEdges: {1->2. 2->3. 3->1}; yourself! !
+
+!Digraph methodsFor: 'adding/removing' stamp: 'len 7/11/2016 06:56'!
+add: anObject
+	"Create a new GraphNode for the value (if necessary), and add it to the graph. You shouldn't be calling this unless you're sure what you're doing. Better to add nodes by adding edges."
+	^ nodes at: anObject ifAbsentPut: [nodeCreator value: ((anObject isKindOf: GraphNode) ifTrue: [anObject value] ifFalse: [anObject])]! !
+
+!Digraph methodsFor: 'adding/removing' stamp: 'len 4/29/2016 22:29'!
+addEdgeFrom: source to: target 
+	| sourceNode targetNode |
+	sourceNode _ self add: source.
+	targetNode _ self add: target.
+	sourceNode addNeighbor: targetNode! !
+
+!Digraph methodsFor: 'adding/removing' stamp: 'len 5/25/2016 04:05'!
+addEdgeFrom: source to: target label: label
+	"pre: (self nodeAt: edge key) isLabeled"
+	| sourceNode targetNode |
+	sourceNode _ self add: source.
+	targetNode _ self add: target.
+	sourceNode addNeighbor: targetNode label: label! !
+
+!Digraph methodsFor: 'initialization' stamp: 'len 2/14/2016 22:14'!
+arity: n
+	type _ #(#arity).
+	nodeCreator _ (InitializationBlocks at: #arity) value: n! !
+
+!Digraph methodsFor: 'initialization' stamp: 'len 2/20/2016 06:37'!
+arityLabeled: n
+	type _ #(#arity #labeled).
+	nodeCreator _ (InitializationBlocks at: #arityLabeled) value: n! !
+
+!Digraph methodsFor: 'converting' stamp: 'len 5/25/2016 03:15'!
+asRooted
+	| answer |
+	answer _ RootedDigraph unordered.
+	answer addAll: self.
+	self edgesDo: [:each| answer addEdge: each].
+	answer findRoots.
+	^ answer! !
+
+!Digraph methodsFor: 'converting' stamp: 'len 7/13/2016 23:13'!
+asUndirected
+	^ Graph digraph: self symmetric! !
+
+!Digraph methodsFor: 'random' stamp: 'len 7/11/2016 05:32'!
+atRandom: aRandom
+	^ (nodes atRandom: aRandom) value! !
+
+!Digraph methodsFor: 'initialization' stamp: 'len 2/14/2016 22:15'!
+binary
+	type _ #(#binary).
+	nodeCreator _ InitializationBlocks at: #binary! !
+
+!Digraph methodsFor: 'initialization' stamp: 'len 2/20/2016 06:38'!
+binaryLabeled
+	type _ #(#binary #labeled).
+	nodeCreator _ InitializationBlocks at: #binaryLabeled! !
+
+!Digraph methodsFor: 'iterating' stamp: 'len 7/13/2016 22:25'!
+componentsDo: aBlock
+	"Iterate over the Strongly Connected Components of the receiver."
+	| component remainingNodes node |
+	remainingNodes _ self nodes copy.
+	[remainingNodes isEmpty]
+		whileFalse:
+			[node _ remainingNodes anyOne.
+			component _ self copyEmpty.
+			node markDo: [:each|
+				component nodes add: each.
+				remainingNodes remove: each ifAbsent: []].
+			aBlock value: component]! !
+
+!Digraph methodsFor: 'copying' stamp: 'len 7/13/2016 22:56'!
+copy
+	^ self collect: [:each| each]! !
+
+!Digraph methodsFor: 'copying' stamp: 'len 2/16/2016 22:19'!
+copyEmpty
+	"Return a graph of the same type with no nodes or edges."
+	^self isImplicit
+		ifTrue: [self class ordered]
+		ifFalse: [super copy initialize]! !
+
+!Digraph methodsFor: 'random' stamp: 'len 7/11/2016 05:59'!
+edgeAtRandom: aRandom
+	| count |
+	3 timesRepeat:
+		[| source |
+		(source _ nodes atRandom: aRandom) neighbors
+			ifNotEmpty: [:neighbors| ^ source -> (neighbors atRandom: aRandom)]].
+	count _ self numberOfEdges atRandom.
+	self edgesDo: [:each| (count _ count - 1) > 0 ifFalse: [^ each]].
+	self error: 'inconsitency problem, edge not found'! !
+
+!Digraph methodsFor: 'iterating' stamp: 'len 2/17/2016 06:00'!
+edgesAndLabelsDo: aBinaryBlock
+	self nodesDo: [:node| node neighborsAndLabelsDo: [:n :label| aBinaryBlock value: (Association key: node value: n) value: label]]! !
+
+!Digraph methodsFor: 'iterating' stamp: 'len 2/14/2016 21:39'!
+edgesDo: aBlock
+	self nodesDo: [:node| node neighborsDo: [:n| aBlock value: (Association key: node value: n)]]! !
+
+!Digraph methodsFor: 'initialization' stamp: 'len 2/14/2016 22:15'!
+implicitCollection: collectionBlock
+	type _ #(#implicitCollection).
+	nodeCreator _ (InitializationBlocks at: #implicitCollection) value: self value: collectionBlock! !
+
+!Digraph methodsFor: 'initialization' stamp: 'len 2/14/2016 22:15'!
+implicitIteratorBlock: iteratorBlock
+	type _ #(#implicitIteratorBlock).
+	nodeCreator _ (InitializationBlocks at: #implicitIteratorBlock) value: self value: iteratorBlock! !
+
+!Digraph methodsFor: 'initialization' stamp: 'len 2/26/2016 21:40'!
+initialize
+	nodes _ KeyedSet new! !
+
+!Digraph methodsFor: 'private' stamp: 'len 7/13/2016 22:37'!
+isDirected
+	^ true! !
+
+!Digraph methodsFor: 'private' stamp: 'timestamp) (no'!
+isImplicit
+	"Is the node creator for implicit nodes?"
+	^(type includes: #implicitCollection) or: [type includes: #implicitIteratorBlock]! !
+
+!Digraph methodsFor: 'private' stamp: 'len 2/20/2016 06:38'!
+isLabeled
+	"Is the node creator for labeled nodes?"
+	^type includes: #labeled! !
+
+!Digraph methodsFor: 'testing' stamp: 'len 7/13/2016 20:56'!
+isOrdered
+	^ self type includes: #ordered! !
+
+!Digraph methodsFor: 'testing' stamp: 'len 2/17/2016 03:38'!
+isSymmetric
+	^ nodes allSatisfy: [:each| each isSymmetric]! !
+
+!Digraph methodsFor: 'testing' stamp: 'len 2/17/2016 03:37'!
+isTransitive
+	^ nodes allSatisfy: [:each| each isTransitive]! !
+
+!Digraph methodsFor: 'testing' stamp: 'len 7/13/2016 20:56'!
+isUnordered
+	^ self type includes: #unordered! !
+
+!Digraph methodsFor: 'testing' stamp: 'len 2/17/2016 02:42'!
+isWeaklyConnected
+	"A graph is said to be 'weakly connected' when its symmetric closure is connected."
+	^ self symmetric isConnected! !
+
+!Digraph methodsFor: 'private' stamp: 'timestamp) (no'!
+nodeCreator: n
+	nodeCreator := n! !
+
+!Digraph methodsFor: 'accessing' stamp: 'len 2/14/2016 21:42'!
+nodes
+	^ nodes! !
+
+!Digraph methodsFor: 'iterating' stamp: 'len 2/14/2016 21:38'!
+nodesDo: aBlock
+	(self type = #(#implicitCollection) or: [self type = #(#implicitIteratorBlock)])
+		ifTrue: [nodes asOrderedCollection do: aBlock]
+		ifFalse: [nodes do: aBlock]! !
+
+!Digraph methodsFor: 'initialization' stamp: 'len 2/14/2016 22:15'!
+ordered
+	type _ #(#ordered).
+	nodeCreator _ InitializationBlocks at: #ordered! !
+
+!Digraph methodsFor: 'initialization' stamp: 'len 2/20/2016 06:37'!
+orderedLabeled
+	type _ #(#ordered #labeled).
+	nodeCreator _ InitializationBlocks at: #orderedLabeled! !
+
+!Digraph methodsFor: 'adding/removing' stamp: 'timestamp) (no'!
+remove: aGraphNode ifAbsent: exceptionBlock 
+	"Remove the given node, evaluate exceptionBlock if it's not part of the graph.
+	pre: the node shouldn't be the target of an edge."
+	^nodes remove: aGraphNode ifAbsent: exceptionBlock! !
+
+!Digraph methodsFor: 'adding/removing' stamp: 'len 5/25/2016 04:03'!
+removeEdgeFrom: source to: target ifAbsent: exceptionBlock 
+	"Remove the given edge, evaluate exceptionBlock if it doesn't exist. 
+	pre: both the source and target of the edge must be in the graph."
+	| sourceNode targetNode |
+	sourceNode _ self nodeAt: source.
+	targetNode _ self nodeAt: target.
+	(sourceNode hasEdgeTo: targetNode)
+		ifTrue: [sourceNode removeNeighbor: targetNode]
+		ifFalse: [^ exceptionBlock value]! !
+
+!Digraph methodsFor: 'accessing' stamp: 'len 2/14/2016 21:55'!
+type
+	^ type! !
 
 !Digraph methodsFor: 'initialization' stamp: 'len 2/14/2016 22:16'!
 unordered
@@ -7109,169 +7269,39 @@ unorderedLabeled
 	type _ #(#unordered #labeled).
 	nodeCreator _ InitializationBlocks at: #unorderedLabeled! !
 
-!Digraph methodsFor: 'accessing' stamp: 'len 2/15/2016 06:15'!
-values
-	^ self nodes collect: [:each| each value]! !
-
-!Digraph methodsFor: 'iterating' stamp: 'len 2/19/2016 21:32'!
-valuesDo: aBlock
-	nodes do: [:each| aBlock value: each value]! !
-
-!Digraph class methodsFor: 'examples' stamp: 'len 7/12/2016 04:04'!
-C: n
-	"Answer the cycle n vertices 1 -> 2 -> ... -> n -> 1."
-	| C |
-	C _ self unordered.
-	1 to: n-1 do: [:i| C addEdge: i->(i+1)].
-	n > 1 ifTrue: [C addEdge: n -> 1].
-	^ C! !
-
-!Digraph class methodsFor: 'examples' stamp: 'len 7/12/2016 04:09'!
-K: n
-	"Answer the n-complete graph."
-	| K |
-	K _ self unordered.
-	1 to: n do: [:i| K add: i].
-	1 to: n do: [:i| 1 to: i do: [:j| i ~= j ifTrue: [K addEdge: i->j]]].
-	^ K! !
-
-!Digraph class methodsFor: 'examples' stamp: 'len 7/11/2016 08:17'!
-N: n
-	"Answer the null graph with n vertices {1..n}."
-	^ self unordered addAll: (1 to: n); yourself! !
-
-!Digraph class methodsFor: 'examples' stamp: 'len 7/11/2016 08:03'!
-P: n
-	"Answer the path of n vertices 1 -> 2 -> ... -> n."
-	| P |
-	P _ self unordered.
-	1 to: n-1 do: [:i| P addEdge: i->(i+1)].
-	^ P! !
-
-!Digraph class methodsFor: 'examples' stamp: 'len 7/12/2016 07:23'!
-S: n
-	"Answer the star graph of n vertices."
-	| S |
-	S _ self unordered.
-	2 to: n do: [:i| S addEdge: 1 -> i].
-	^ S! !
-
-!Digraph class methodsFor: 'examples' stamp: 'len 7/12/2016 07:25'!
-W: n
-	"Answer the wheel graph of n vertices."
-	| W |
-	W _ self unordered.
-	2 to: n do: [:i| W addEdge: 1 -> i; addEdge: i -> (i=n ifTrue: [2] ifFalse: [i+1])].
-	^ W! !
-
-!Digraph class methodsFor: 'instance creation' stamp: 'timestamp) (no'!
+!Digraph class methodsFor: 'instance creation' stamp: 'len 7/13/2016 22:50'!
 arity: n
 	"Create a new ordered graph with fixed arity."
-	^super new initialize arity: n! !
+	^ self basicNew initialize arity: n! !
 
-!Digraph class methodsFor: 'instance creation' stamp: 'len 2/20/2016 06:37'!
+!Digraph class methodsFor: 'instance creation' stamp: 'len 7/13/2016 22:50'!
 arityLabeled: n
 	"Create a new labeled, ordered graph with fixed arity."
-	^super new initialize arityLabeled: n! !
+	^ self basicNew initialize arityLabeled: n! !
 
-!Digraph class methodsFor: 'instance creation' stamp: 'timestamp) (no'!
+!Digraph class methodsFor: 'instance creation' stamp: 'len 7/13/2016 22:51'!
 binary
 	"Create an ordered graph with arity of 2 (ie each vertex has exactly two connecting edges)."
-	^super new initialize binary! !
+	^ self basicNew initialize binary! !
 
-!Digraph class methodsFor: 'instance creation' stamp: 'len 2/20/2016 06:38'!
+!Digraph class methodsFor: 'instance creation' stamp: 'len 7/13/2016 22:51'!
 binaryLabeled
 	"Create an labeled, ordered graph with arity of 2 (ie each vertex has exactly two connecting edges)."
-	^super new initialize binaryLabeled! !
+	^ self basicNew initialize binaryLabeled! !
 
-!Digraph class methodsFor: 'examples' stamp: 'len 7/11/2016 05:29'!
-cube
-	^ self cube: 3! !
-
-!Digraph class methodsFor: 'examples' stamp: 'len 5/25/2016 03:38'!
-cube: n
-	"Answer an n-cube."
-	| G H |
-	G _ self unordered addEdge: 1 -> 2; yourself.
-	H _ G.
-	n - 1 timesRepeat: [H _ H cartesian: G].
-	^ H! !
-
-!Digraph class methodsFor: 'examples' stamp: 'len 5/25/2016 03:37'!
-cycle: aCollection
-	| G first last |
-	G _ self unordered.
-	aCollection isEmpty ifTrue: [^ G].
-	aCollection do: [:each|
-		first isNil
-			ifTrue: [first _ each]
-			ifFalse: [G addEdgeFrom: last to: each].
-		last _ each].
-	G addEdgeFrom: last to: first.
-	^ G! !
-
-!Digraph class methodsFor: 'examples' stamp: 'len 5/1/2016 04:40'!
-desargues
-	"Answer the Desargues graph."
-	^ self petersen: 10 order: 3! !
-
-!Digraph class methodsFor: 'examples' stamp: 'len 5/1/2016 04:35'!
-dodecahedron
-	^ self petersen: 10 order: 2! !
-
-!Digraph class methodsFor: 'examples' stamp: 'len 5/1/2016 04:38'!
-durer
-	"Answer the Durer graph."
-	^ self petersen: 6 order: 2! !
-
-!Digraph class methodsFor: 'examples' stamp: 'len 4/29/2016 22:26'!
-exampleImplicitGraph
-	"Graph exampleImplicitGraph. BUG : There is a problem when you don't  
-	test classes without subclasses, maybe a problem in the block creation  
-	for ImplicitGraphNode (cf. Graph>>initialize)"
-	| tree |
-	tree _ self implicitCollection: [:class | class subclasses].
-	Magnitude withAllSubclasses
-		do: [:class| "class subclasses isEmpty ifFalse: ["tree add: class"]"].
-	^ tree! !
-
-!Digraph class methodsFor: 'examples' stamp: 'len 4/29/2016 22:26'!
-exampleImplicitGraph2
-	| forest |
-	forest := self implicitCollection: [:class | class ~= ProtoObject ifTrue: [{class superclass}] ifFalse:[#()]].
-	(Smalltalk organization listAtCategoryNamed: 'Mathematics-Graphs') do: [:className| forest add: (Smalltalk at: className)].
-	^ forest! !
-
-!Digraph class methodsFor: 'examples' stamp: 'len 5/25/2016 03:31'!
-exampleImplicitGraph3
-	"Graph exampleImplicitGraph3"
-	| tree |
-	tree _ self implicitIteratorBlock: [:class| [:aBlock| class subclasses do: aBlock]].
-	Digraph withAllSuperclasses do: [:class| tree add: class].
-	^tree! !
-
-!Digraph class methodsFor: 'examples' stamp: 'len 5/25/2016 03:38'!
-icosahedron
-	^ self unordered addEdges:
-		{1->2. 2->3. 3->1.
-		4->5. 5->6. 6->7. 7->8. 8->9. 9->4.
-		1->9. 1->4. 1->5. 2->5. 2->6. 2->7. 3->7. 3->8. 3->9.
-		10->11. 11->12. 12->10.
-		10->4. 10->5. 10->6. 11->6. 11->7. 11->8. 12->8. 12->9. 12->4}; yourself! !
-
-!Digraph class methodsFor: 'instance creation' stamp: 'timestamp) (no'!
+!Digraph class methodsFor: 'instance creation' stamp: 'len 7/13/2016 22:51'!
 implicitCollection: collectionBlock
 	"Create a new graph, using the structure implicit in existing objects.
 	Each node is the graph is accessed by evaluating collectionBlock to yield a collection of neighbouring nodes."
-	^super new initialize implicitCollection: collectionBlock! !
+	^ self basicNew initialize implicitCollection: collectionBlock! !
 
-!Digraph class methodsFor: 'instance creation' stamp: 'timestamp) (no'!
+!Digraph class methodsFor: 'instance creation' stamp: 'len 7/13/2016 22:51'!
 implicitIteratorBlock: iteratorBlock
 	"Create a new graph, using the structure implicit in existing objects.
 	Each node is the graph is accessed by evaluating iteratorBlock to iterate over a collection of neighbouring nodes."
-	^super new initialize implicitIteratorBlock: iteratorBlock! !
+	^ self basicNew initialize implicitIteratorBlock: iteratorBlock! !
 
-!Digraph class methodsFor: 'initialization' stamp: 'len 7/11/2016 06:54'!
+!Digraph class methodsFor: 'initialization' stamp: 'len 7/13/2016 22:25'!
 initialize
 	"Digraph initialize"
 	InitializationBlocks	_ Dictionary new.
@@ -7305,143 +7335,27 @@ initialize
 				on: value
 				iteratorBlock: [:aBlock | iterator
 						value: [:node | aBlock
-								value: (graph privateAddNode: node)]]]]! !
+								value: (graph nodes add: node)]]]]! !
 
-!Digraph class methodsFor: 'examples' stamp: 'len 5/1/2016 04:39'!
-moebiusKantor
-	"Answer the Moebius-Kantor graph."
-	^ self petersen: 8 order: 3! !
-
-!Digraph class methodsFor: 'examples' stamp: 'len 5/1/2016 04:42'!
-nauru
-	"Answer the Nauru graph."
-	^ self petersen: 12 order: 5! !
-
-!Digraph class methodsFor: 'private' stamp: 'len 2/14/2016 22:23'!
-new
-	^ self error: 'Graphs should not be created with new.'! !
-
-!Digraph class methodsFor: 'examples' stamp: 'len 5/25/2016 03:38'!
-octahedron
-	^ self unordered addEdges: {1->2. 2->3. 3->1. 1->4. 2->4. 2->5. 3->5. 3->6. 1->6. 4->5. 5->6. 6->4}; yourself! !
-
-!Digraph class methodsFor: 'instance creation' stamp: 'timestamp) (no'!
+!Digraph class methodsFor: 'instance creation' stamp: 'len 7/13/2016 22:51'!
 ordered
 	"Create a new ordered graph."
-	^ super new initialize ordered! !
+	^ self basicNew initialize ordered! !
 
-!Digraph class methodsFor: 'instance creation' stamp: 'len 2/20/2016 06:36'!
+!Digraph class methodsFor: 'instance creation' stamp: 'len 7/13/2016 22:51'!
 orderedLabeled
 	"Create a new labeled, ordered graph."
-	^super new initialize orderedLabeled! !
+	^ self basicNew initialize orderedLabeled! !
 
-!Digraph class methodsFor: 'examples' stamp: 'len 5/25/2016 03:37'!
-petersen
-	^ self unordered addEdges:
-		{1->2. 2->3. 3->4. 4->5. 5->1.
-		1->6. 2->7. 3->8. 4->9. 5->10.
-		6->8. 6->9. 7->9. 7->10. 8->10}; yourself! !
-
-!Digraph class methodsFor: 'examples' stamp: 'len 5/25/2016 03:38'!
-petersen: n order: k
-	"Answer the generalized Petersen graph G(n,k)."
-	| G |
-	k < (n/2) ifFalse: [^ DomainError signal].
-	G _ self unordered.
-	0 to: n-1 do: [:i|
-		G addEdges: {i->(i+1\\n). i->(i+n). i+n->(i+k\\n+n)}].
-	^ G ! !
-
-!Digraph class methodsFor: 'examples' stamp: 'len 5/1/2016 04:37'!
-prism: n
-	"Answer an n-prism."
-	^ self petersen: n order: 1! !
-
-!Digraph class methodsFor: 'examples' stamp: 'len 5/25/2016 03:38'!
-square
-	^ self unordered addEdges: {1 -> 2. 2 -> 3. 3 -> 4. 4 -> 1}; yourself! !
-
-!Digraph class methodsFor: 'examples' stamp: 'len 5/25/2016 03:37'!
-triangle
-	^ self unordered addEdges: {1->2. 2->3. 3->1}; yourself! !
-
-!Digraph class methodsFor: 'instance creation' stamp: 'timestamp) (no'!
+!Digraph class methodsFor: 'instance creation' stamp: 'len 7/13/2016 22:51'!
 unordered
 	"Create a new unordered graph."
-	^super new initialize unordered! !
+	^ self basicNew initialize unordered! !
 
-!Digraph class methodsFor: 'instance creation' stamp: 'len 2/20/2016 06:36'!
+!Digraph class methodsFor: 'instance creation' stamp: 'len 7/13/2016 22:51'!
 unorderedLabeled
-	"Create a new labelled, unordered graph."
-	^super new initialize unorderedLabeled! !
-
-!Graph methodsFor: 'operations' stamp: 'len 7/12/2016 03:56'!
-/ anEdge
-	"Answer the graph obtained by contracting anEdge."
-	| answer newNode |
-	(self hasEdge: anEdge) ifFalse: [^ self].
-	answer _ self copyEmpty.
-	self flag: #fix. "careful, i'm sending #value assuming it is a GraphNode, but it might be an actual value already"
-	newNode _ {anEdge key value. anEdge value value} asSet.
-	answer add: newNode.
-	self nodesDo: [:each| (each = anEdge key or: [each = anEdge value]) ifFalse: [answer add: each]].
-	self edgesDo: [:each|
-		(each = anEdge or: [each key = anEdge value and: [each value = anEdge key]])
-			ifFalse:
-				[| e |
-				e _ each.
-				(e key = anEdge key or: [e key = anEdge value])
-					ifTrue: [e _ newNode -> e value].
-				(e value = anEdge key or: [e value = anEdge value])
-					ifTrue: [e _ e key -> newNode].
-				answer addEdge: e]].
-	^ answer! !
-
-!Graph methodsFor: 'adding' stamp: 'len 5/25/2016 04:07'!
-addEdgeFrom: source to: target 
-	| sourceNode targetNode |
-	sourceNode _ self add: source.
-	targetNode _ self add: target.
-	sourceNode addNeighbor: targetNode.
-	targetNode addNeighbor: sourceNode! !
-
-!Graph methodsFor: 'adding' stamp: 'len 5/25/2016 04:06'!
-addEdgeFrom: source to: target label: label
-	"pre: (self nodeAt: edge key) isLabeled"
-	| sourceNode targetNode |
-	sourceNode _ self add: source.
-	targetNode _ self add: target.
-	sourceNode addNeighbor: targetNode label: label.
-	targetNode addNeighbor: sourceNode label: label! !
-
-!Graph methodsFor: 'private' stamp: 'len 5/25/2016 03:24'!
-isUndirected
-	^ true! !
-
-!Graph methodsFor: 'removing' stamp: 'len 5/25/2016 04:04'!
-removeEdgeFrom: source to: target ifAbsent: exceptionBlock 
-	"Remove the given edge, evaluate exceptionBlock if it doesn't exist. 
-	pre: both the source and target of the edge must be in the graph."
-	| sourceNode targetNode |
-	sourceNode _ self nodeAt: source.
-	targetNode _ self nodeAt: target.
-	(sourceNode hasEdgeTo: targetNode)
-		ifTrue:
-			[sourceNode removeNeighbor: targetNode.
-			targetNode removeNeighbor: sourceNode]
-		ifFalse: [^ exceptionBlock value]! !
-
-!Graph methodsFor: 'accessing' stamp: 'len 5/26/2016 20:17'!
-undirectedEdges
-	^ Iterator on: self performing: #undirectedEdgesDo:! !
-
-!Graph methodsFor: 'iterating' stamp: 'len 6/27/2016 23:17'!
-undirectedEdgesDo: aBlock
-	| visited |
-	visited _ Set2 new.
-	self edgesDo: [:each| | undirectedEdge |
-		undirectedEdge _ Set with: each key with: each value.
-		visited add: undirectedEdge ifAbsent: [aBlock value: undirectedEdge]]! !
+	"Create a new labeled, unordered graph."
+	^ self basicNew initialize unorderedLabeled! !
 
 !RootedDigraph methodsFor: 'adding' stamp: 'len 2/19/2016 21:17'!
 addEdgeFrom: source to: target
@@ -7841,6 +7755,237 @@ exampleSmallTree
 exampleSmallTree2
 	"RootedGraph exampleSmallTree2"
 	^self unordered roots: (Set with: Magnitude) childrenMsg: #subclasses! !
+
+!Graph methodsFor: 'adding/removing' stamp: 'len 7/13/2016 22:52'!
+add: anObject
+	^ digraph add: anObject! !
+
+!Graph methodsFor: 'adding/removing' stamp: 'len 5/25/2016 04:07'!
+addEdgeFrom: source to: target 
+	| sourceNode targetNode |
+	sourceNode _ self add: source.
+	targetNode _ self add: target.
+	sourceNode addNeighbor: targetNode.
+	targetNode addNeighbor: sourceNode! !
+
+!Graph methodsFor: 'adding/removing' stamp: 'len 5/25/2016 04:06'!
+addEdgeFrom: source to: target label: label
+	"pre: (self nodeAt: edge key) isLabeled"
+	| sourceNode targetNode |
+	sourceNode _ self add: source.
+	targetNode _ self add: target.
+	sourceNode addNeighbor: targetNode label: label.
+	targetNode addNeighbor: sourceNode label: label! !
+
+!Graph methodsFor: 'converting' stamp: 'len 7/13/2016 22:29'!
+asDirected
+	^ digraph! !
+
+!Graph methodsFor: 'random' stamp: 'len 7/13/2016 23:14'!
+atRandom: aRandom
+	^ digraph atRandom: aRandom! !
+
+!Graph methodsFor: 'iterating' stamp: 'len 7/13/2016 22:58'!
+componentsDo: aBlock
+	digraph componentsDo: [:each| aBlock value: (self class digraph: each)]! !
+
+!Graph methodsFor: 'copying' stamp: 'len 7/13/2016 22:57'!
+copy
+	^ self class digraph: digraph copy! !
+
+!Graph methodsFor: 'copying' stamp: 'len 7/13/2016 22:30'!
+copyEmpty
+	^ self class digraph: digraph copyEmpty! !
+
+!Graph methodsFor: 'initialization' stamp: 'len 7/13/2016 22:29'!
+digraph: aDigraph
+	digraph _ aDigraph! !
+
+!Graph methodsFor: 'random' stamp: 'len 7/13/2016 23:15'!
+edgeAtRandom: aRandom
+	^ (digraph edgeAtRandom: aRandom) as: MutualAssociation! !
+
+!Graph methodsFor: 'iterating' stamp: 'len 7/13/2016 23:16'!
+edgesAndLabelsDo: aBinaryBlock
+	| visited |
+	visited _ Set2 new.
+	digraph edgesAndLabelsDo: [:each :label|
+		(visited includes: each value -> each key)
+			ifFalse: [aBinaryBlock value: (each as: MutualAssociation) value: label].
+		visited add: each]! !
+
+!Graph methodsFor: 'iterating' stamp: 'len 7/13/2016 23:16'!
+edgesDo: aBlock
+	| visited |
+	visited _ Set2 new.
+	digraph edgesDo: [:each|
+		(visited includes: each value -> each key)
+			ifFalse: [aBlock value: (each as: MutualAssociation)].
+		visited add: each]! !
+
+!Graph methodsFor: 'testing' stamp: 'len 7/13/2016 22:37'!
+isDirected
+	^ false! !
+
+!Graph methodsFor: 'testing' stamp: 'len 7/13/2016 22:35'!
+isSymmetric
+	^ true! !
+
+!Graph methodsFor: 'testing' stamp: 'len 7/13/2016 22:35'!
+isTransitive
+	^ true! !
+
+!Graph methodsFor: 'accessing' stamp: 'len 7/13/2016 22:53'!
+nodes
+	^ digraph nodes! !
+
+!Graph methodsFor: 'iterating' stamp: 'len 7/13/2016 22:53'!
+nodesDo: aBlock
+	digraph nodesDo: aBlock! !
+
+!Graph methodsFor: 'accessing' stamp: 'len 7/13/2016 21:45'!
+numberOfEdges
+	^ digraph numberOfEdges / 2! !
+
+!Graph methodsFor: 'testing' stamp: 'len 7/13/2016 22:36'!
+occurrencesOf: anObject 
+	"Answer how many of the receiver's elements are equal to anObject."
+
+	^(self includes: anObject) ifTrue: [1] ifFalse: [0]! !
+
+!Graph methodsFor: 'adding/removing' stamp: 'len 7/13/2016 22:59'!
+remove: aGraphNode ifAbsent: exceptionBlock 
+	"Remove the given node, evaluate exceptionBlock if it's not part of the graph.
+	pre: the node shouldn't be the target of an edge."
+	^ digraph remove: aGraphNode ifAbsent: exceptionBlock! !
+
+!Graph methodsFor: 'adding/removing' stamp: 'len 5/25/2016 04:04'!
+removeEdgeFrom: source to: target ifAbsent: exceptionBlock 
+	"Remove the given edge, evaluate exceptionBlock if it doesn't exist. 
+	pre: both the source and target of the edge must be in the graph."
+	| sourceNode targetNode |
+	sourceNode _ self nodeAt: source.
+	targetNode _ self nodeAt: target.
+	(sourceNode hasEdgeTo: targetNode)
+		ifTrue:
+			[sourceNode removeNeighbor: targetNode.
+			targetNode removeNeighbor: sourceNode]
+		ifFalse: [^ exceptionBlock value]! !
+
+!Graph methodsFor: 'operations' stamp: 'len 7/13/2016 22:13'!
+symmetric
+	^ self! !
+
+!Graph methodsFor: 'operations' stamp: 'len 7/13/2016 22:13'!
+transposed
+	^ self! !
+
+!Graph methodsFor: 'operations' stamp: 'len 7/13/2016 21:49'!
+tuttePolynomial
+	| P K G` i j |
+	P _ Integers new polynomialsIn: #(x y).
+	self isEdgeless ifTrue: [^ P one].
+	K _ self components size.
+	i _ 0. j _ 0.
+	self edgesDo: [:e|
+		e key = e value "it's a loop"
+			ifTrue: [j _ j + 1]
+			ifFalse:
+				[G` _ self - e.
+				G` numberOfEdges < self numberOfEdges ifFalse: [self halt].
+				G` components size > K "it's a bridge"
+					ifTrue: [i _ i + 1]
+					ifFalse: [^ G` tuttePolynomial + (self / e) tuttePolynomial]]].
+	^ P monomial: (Monomial exponents: {i. j})! !
+
+!Graph methodsFor: 'operations' stamp: 'len 7/13/2016 21:11'!
+tuttePolynomial2
+	| P K G` i j |
+	P _ Integers new polynomialsIn: #(x y).
+	self isEdgeless ifTrue: [^ P one].
+	K _ self components size.
+	i _ 0. j _ 0.
+	self edgesDo: [:e|
+		e key = e value "it's a loop"
+			ifTrue: [j _ j + 1]
+			ifFalse:
+				[G` _ self - e.
+				G` components size > K "it's a bridge"
+					ifTrue: [i _ i + 1]
+					ifFalse: [^ G` tuttePolynomial + (self / e) tuttePolynomial]]].
+	^ P monomial: (Monomial exponents: {i. j})! !
+
+!Graph methodsFor: 'operations' stamp: 'len 7/13/2016 21:14'!
+tuttePolynomial3
+	| P K G` |
+	P _ Integers new polynomialsIn: #(x y).
+	self isEdgeless ifTrue: [^ P one].
+	K _ self components size.
+	self undirectedEdgesDo: [:e|
+		e key = e value "it's a loop"
+			ifTrue: [^ P y * (self - e) tuttePolynomial]
+			ifFalse:
+				[G` _ self - e.
+				G` components size > K "it's a bridge"
+					ifTrue: [^ P x * (self / e) tuttePolynomial]
+					ifFalse: [^ G` tuttePolynomial + (self / e) tuttePolynomial]]].
+	^ self error: 'inconsistency, this line should have been reaached'! !
+
+!Graph class methodsFor: 'instance creation' stamp: 'len 7/13/2016 22:43'!
+arity: n
+	"Create a new ordered graph with fixed arity."
+	^ self digraph: (Digraph arity: n)! !
+
+!Graph class methodsFor: 'instance creation' stamp: 'len 7/13/2016 22:43'!
+arityLabeled: n
+	"Create a new labeled, ordered graph with fixed arity."
+	^ self digraph: (Digraph arityLabeled: n)! !
+
+!Graph class methodsFor: 'instance creation' stamp: 'len 7/13/2016 22:43'!
+binary
+	"Create an ordered graph with arity of 2 (ie each vertex has exactly two connecting edges)."
+	^ self digraph: Digraph binary! !
+
+!Graph class methodsFor: 'instance creation' stamp: 'len 7/13/2016 22:44'!
+binaryLabeled
+	"Create an labeled, ordered graph with arity of 2 (ie each vertex has exactly two connecting edges)."
+	^ self digraph: Digraph binaryLabeled! !
+
+!Graph class methodsFor: 'private' stamp: 'len 7/13/2016 22:27'!
+digraph: aDigraph
+	^ self basicNew digraph: aDigraph! !
+
+!Graph class methodsFor: 'instance creation' stamp: 'len 7/13/2016 22:44'!
+implicitCollection: collectionBlock
+	"Create a new graph, using the structure implicit in existing objects.
+	Each node is the graph is accessed by evaluating collectionBlock to yield a collection of neighbouring nodes."
+	^ self digraph: (Digraph implicitCollection: collectionBlock)! !
+
+!Graph class methodsFor: 'instance creation' stamp: 'len 7/13/2016 22:44'!
+implicitIteratorBlock: iteratorBlock
+	"Create a new graph, using the structure implicit in existing objects.
+	Each node is the graph is accessed by evaluating iteratorBlock to iterate over a collection of neighbouring nodes."
+	^ self digraph: (Digraph implicitIteratorBlock: iteratorBlock)! !
+
+!Graph class methodsFor: 'instance creation' stamp: 'len 7/13/2016 22:45'!
+ordered
+	"Create a new ordered graph."
+	^ self digraph: Digraph ordered! !
+
+!Graph class methodsFor: 'instance creation' stamp: 'len 7/13/2016 22:45'!
+orderedLabeled
+	"Create a new labeled, ordered graph."
+	^ self digraph: Digraph orderedLabeled! !
+
+!Graph class methodsFor: 'instance creation' stamp: 'len 7/13/2016 22:45'!
+unordered
+	"Create a new unordered graph."
+	^ self digraph: Digraph unordered! !
+
+!Graph class methodsFor: 'instance creation' stamp: 'len 7/13/2016 22:45'!
+unorderedLabeled
+	"Create a new labeled, unordered graph."
+	^ self digraph: Digraph unorderedLabeled! !
 
 !Iterator methodsFor: 'adding'!
 add: anObject
@@ -23879,7 +24024,7 @@ initializeOrdered
 	outNeighbors _ OrderedCollection new.
 	inNeighbors _ Set new! !
 
-!ExplicitGraphNode methodsFor: 'initialize' stamp: 'len 2/28/2016 17:01'!
+!ExplicitGraphNode methodsFor: 'initialize' stamp: 'len 7/13/2016 21:05'!
 initializeUnordered
 	outNeighbors _ Set new.
 	inNeighbors _ Set new! !
@@ -25262,6 +25407,29 @@ sign: anInteger
 	"Answer a new instance of the receiver with sign anInteger."
 
 	^ self new sign: anInteger! !
+
+!MutualAssociation methodsFor: 'comparing' stamp: 'len 7/13/2016 07:55'!
+= anAssociation
+	(anAssociation isKindOf: Association)
+		ifFalse: [^ false].
+	^ key = anAssociation key
+		ifTrue: [value = anAssociation value]
+		ifFalse: [value = anAssociation key and: [key = anAssociation value]]! !
+
+!MutualAssociation methodsFor: 'comparing' stamp: 'len 7/13/2016 07:31'!
+hash
+	^ key hash bitXor: value hash! !
+
+!MutualAssociation methodsFor: 'printing' stamp: 'len 7/13/2016 07:31'!
+printOn: aStream
+	aStream
+		print: key;
+		nextPutAll: ' <-> ';
+		print: value! !
+
+!MutualAssociation class methodsFor: 'instance creation' stamp: 'len 7/13/2016 07:33'!
+with: anObject with: anotherObject
+	^ self key: anObject value: anotherObject! !
 
 !ContinuedFraction methodsFor: 'converting' stamp: 'len 3/27/2016 04:47'!
 asFraction
@@ -34864,12 +35032,12 @@ testIsSimple2
 	G addEdge: #c -> #c.
 	self assert: G isSimple not "a graph with a loop is not simple"! !
 
-!GraphTest methodsFor: 'as yet unclassified' stamp: 'len 6/26/2016 05:36'!
+!GraphTest methodsFor: 'as yet unclassified' stamp: 'len 7/13/2016 21:47'!
 testPetersenGraph
 	| G |
 	G _ Graph petersen.
 	self assert: G nodes size = 10.
-	self assert: G undirectedEdges size = 15.
+	self assert: G edges size = 15.
 	self assert: G isCubic.
 	self assert: G radius = 2.
 	self assert: G diameter = 2.
@@ -34893,6 +35061,24 @@ testTransposed
 	self assert: (G hasEdge: #c -> #b) not.
 	self assert: (T hasEdge: #b -> #c) not.
 	self assert: (T hasEdge: #c -> #b)! !
+
+!GraphTest methodsFor: 'as yet unclassified' stamp: 'len 7/13/2016 23:20'!
+testTuttePolynomial
+	| G P x y T |
+	G _ Graph ordered addEdges: {1->2. 2->3. 3->4. 4->1. 1->3}; yourself.
+	P _ Integers new polynomialsIn: #(x y).
+	x _ P x.
+	y _ P y.
+	T _ x*(x**2 + (x+y)) + (x**2 + (x+y)) + (x*y + (y**2)).
+	self assert: G tuttePolynomial = T! !
+
+!GraphTest methodsFor: 'as yet unclassified' stamp: 'len 7/13/2016 21:48'!
+testUndirectedEdgeContraction
+	| G |
+	G _ Graph ordered addEdges: {1->2. 2->3. 3->4. 4->1. 1->3}; yourself.
+	self assert: G edges size = 5.
+	self assert: (G / (1->2)) edges size = 4.
+	self assert: (G / (1->2) / ((1->2)->3)) edges size = 3! !
 
 !GraphTest methodsFor: 'as yet unclassified' stamp: 'len 5/25/2016 03:39'!
 testUnion
