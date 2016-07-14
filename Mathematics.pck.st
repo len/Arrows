@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 13 July 2016 at 11:22:45.766609 pm'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 14 July 2016 at 12:26:14.650271 am'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 157!
+!provides: 'Mathematics' 1 158!
 !classDefinition: #AbelianGroupPresentation category: #'Mathematics-Free'!
 Object subclass: #AbelianGroupPresentation
 	instanceVariableNames: 'generators relators'
@@ -6277,7 +6277,7 @@ addEdge: edge label: label
 	self addEdgeFrom: edge key to: edge value label: label.
 	^edge! !
 
-!AbstractGraph methodsFor: 'adding/removing' stamp: 'len 7/13/2016 21:55'!
+!AbstractGraph methodsFor: 'adding/removing' stamp: 'len 7/13/2016 23:54'!
 addEdges: aCollection
 	aCollection do: [:each| self addEdge: each].
 	^ aCollection! !
@@ -6916,7 +6916,7 @@ C: n
 	n > 1 ifTrue: [C addEdge: n -> 1].
 	^ C! !
 
-!AbstractGraph class methodsFor: 'examples' stamp: 'len 7/13/2016 22:40'!
+!AbstractGraph class methodsFor: 'examples' stamp: 'len 7/14/2016 00:12'!
 K: n
 	"Answer the n-complete graph."
 	| K |
@@ -7007,7 +7007,7 @@ exampleImplicitGraph3
 	RootedDigraph withAllSuperclasses do: [:class| tree add: class].
 	^tree! !
 
-!AbstractGraph class methodsFor: 'examples' stamp: 'len 7/13/2016 22:41'!
+!AbstractGraph class methodsFor: 'examples' stamp: 'len 7/13/2016 23:54'!
 icosahedron
 	^ self unordered addEdges:
 		{1->2. 2->3. 3->1.
@@ -7030,18 +7030,18 @@ nauru
 new
 	^ self error: 'Graphs should not be created with new.'! !
 
-!AbstractGraph class methodsFor: 'examples' stamp: 'len 7/13/2016 22:41'!
+!AbstractGraph class methodsFor: 'examples' stamp: 'len 7/13/2016 23:54'!
 octahedron
 	^ self unordered addEdges: {1->2. 2->3. 3->1. 1->4. 2->4. 2->5. 3->5. 3->6. 1->6. 4->5. 5->6. 6->4}; yourself! !
 
-!AbstractGraph class methodsFor: 'examples' stamp: 'len 7/13/2016 22:41'!
+!AbstractGraph class methodsFor: 'examples' stamp: 'len 7/13/2016 23:54'!
 petersen
 	^ self unordered addEdges:
 		{1->2. 2->3. 3->4. 4->5. 5->1.
 		1->6. 2->7. 3->8. 4->9. 5->10.
 		6->8. 6->9. 7->9. 7->10. 8->10}; yourself! !
 
-!AbstractGraph class methodsFor: 'examples' stamp: 'len 7/13/2016 22:41'!
+!AbstractGraph class methodsFor: 'examples' stamp: 'len 7/13/2016 23:55'!
 petersen: n order: k
 	"Answer the generalized Petersen graph G(n,k)."
 	| G |
@@ -7056,11 +7056,11 @@ prism: n
 	"Answer an n-prism."
 	^ self petersen: n order: 1! !
 
-!AbstractGraph class methodsFor: 'examples' stamp: 'len 7/13/2016 22:41'!
+!AbstractGraph class methodsFor: 'examples' stamp: 'len 7/13/2016 23:55'!
 square
 	^ self unordered addEdges: {1 -> 2. 2 -> 3. 3 -> 4. 4 -> 1}; yourself! !
 
-!AbstractGraph class methodsFor: 'examples' stamp: 'len 7/13/2016 22:41'!
+!AbstractGraph class methodsFor: 'examples' stamp: 'len 7/13/2016 23:55'!
 triangle
 	^ self unordered addEdges: {1->2. 2->3. 3->1}; yourself! !
 
@@ -7880,25 +7880,23 @@ symmetric
 transposed
 	^ self! !
 
-!Graph methodsFor: 'operations' stamp: 'len 7/13/2016 21:49'!
+!Graph methodsFor: 'operations' stamp: 'len 7/14/2016 00:25'!
 tuttePolynomial
-	| P K G` i j |
+	| P K G` |
 	P _ Integers new polynomialsIn: #(x y).
 	self isEdgeless ifTrue: [^ P one].
 	K _ self components size.
-	i _ 0. j _ 0.
 	self edgesDo: [:e|
 		e key = e value "it's a loop"
-			ifTrue: [j _ j + 1]
+			ifTrue: [^ P y * (self - e) tuttePolynomial3]
 			ifFalse:
 				[G` _ self - e.
-				G` numberOfEdges < self numberOfEdges ifFalse: [self halt].
 				G` components size > K "it's a bridge"
-					ifTrue: [i _ i + 1]
-					ifFalse: [^ G` tuttePolynomial + (self / e) tuttePolynomial]]].
-	^ P monomial: (Monomial exponents: {i. j})! !
+					ifTrue: [^ P x * (self / e) tuttePolynomial3]
+					ifFalse: [^ G` tuttePolynomial3 + (self / e) tuttePolynomial3]]].
+	^ self error: 'inconsistency, this line should have been reaached'! !
 
-!Graph methodsFor: 'operations' stamp: 'len 7/13/2016 21:11'!
+!Graph methodsFor: 'operations' stamp: 'len 7/14/2016 00:25'!
 tuttePolynomial2
 	| P K G` i j |
 	P _ Integers new polynomialsIn: #(x y).
@@ -7915,20 +7913,20 @@ tuttePolynomial2
 					ifFalse: [^ G` tuttePolynomial + (self / e) tuttePolynomial]]].
 	^ P monomial: (Monomial exponents: {i. j})! !
 
-!Graph methodsFor: 'operations' stamp: 'len 7/13/2016 21:14'!
+!Graph methodsFor: 'operations' stamp: 'len 7/14/2016 00:24'!
 tuttePolynomial3
 	| P K G` |
 	P _ Integers new polynomialsIn: #(x y).
 	self isEdgeless ifTrue: [^ P one].
 	K _ self components size.
-	self undirectedEdgesDo: [:e|
+	self edgesDo: [:e|
 		e key = e value "it's a loop"
-			ifTrue: [^ P y * (self - e) tuttePolynomial]
+			ifTrue: [^ P y * (self - e) tuttePolynomial3]
 			ifFalse:
 				[G` _ self - e.
 				G` components size > K "it's a bridge"
-					ifTrue: [^ P x * (self / e) tuttePolynomial]
-					ifFalse: [^ G` tuttePolynomial + (self / e) tuttePolynomial]]].
+					ifTrue: [^ P x * (self / e) tuttePolynomial3]
+					ifFalse: [^ G` tuttePolynomial3 + (self / e) tuttePolynomial3]]].
 	^ self error: 'inconsistency, this line should have been reaached'! !
 
 !Graph class methodsFor: 'instance creation' stamp: 'len 7/13/2016 22:43'!
@@ -24014,20 +24012,20 @@ inDegree
 inNeighbors
 	^inNeighbors! !
 
-!ExplicitGraphNode methodsFor: 'initialize' stamp: 'len 2/28/2016 17:01'!
+!ExplicitGraphNode methodsFor: 'initialize' stamp: 'len 7/14/2016 00:12'!
 initializeFixed: arity 
 	outNeighbors _ Array new: arity.
-	inNeighbors _ Set new! !
+	inNeighbors _ Bag new! !
 
-!ExplicitGraphNode methodsFor: 'initialize' stamp: 'len 2/28/2016 17:01'!
+!ExplicitGraphNode methodsFor: 'initialize' stamp: 'len 7/14/2016 00:12'!
 initializeOrdered
 	outNeighbors _ OrderedCollection new.
-	inNeighbors _ Set new! !
+	inNeighbors _ Bag new! !
 
-!ExplicitGraphNode methodsFor: 'initialize' stamp: 'len 7/13/2016 21:05'!
+!ExplicitGraphNode methodsFor: 'initialize' stamp: 'len 7/14/2016 00:12'!
 initializeUnordered
-	outNeighbors _ Set new.
-	inNeighbors _ Set new! !
+	outNeighbors _ Bag new.
+	inNeighbors _ Bag new! !
 
 !ExplicitGraphNode methodsFor: 'testing' stamp: 'sam 2/9/2004 15:30'!
 isAnExtremity
@@ -33621,6 +33619,44 @@ weylGroup
 weylVector
 	^ self positiveRoots sum / 2! !
 
+!RootSystem class methodsFor: 'examples' stamp: 'len 7/14/2016 00:09'!
+A: V
+	| roots |
+	roots _ Set new.
+	1 to: V dimension do: [:i|
+		i to: V dimension do: [:j|
+			roots add: (V e: i) - (V e: j)]].
+	^ self on: V roots: roots! !
+
+!RootSystem class methodsFor: 'examples' stamp: 'len 7/14/2016 00:09'!
+B: V
+	| roots |
+	roots _ Set new.
+	1 to: V dimension do: [:i|
+		roots add: (V e: i).
+		i to: V dimension do: [:j|
+			roots add: (V e: i) - (V e: j); add: (V e: i) + (V e: j)]].
+	^ self on: V roots: roots! !
+
+!RootSystem class methodsFor: 'examples' stamp: 'len 7/14/2016 00:09'!
+C: V
+	| roots |
+	roots _ Set new.
+	1 to: V dimension do: [:i|
+		roots add: (V e: i)*2.
+		i to: V dimension do: [:j|
+			roots add: (V e: i) - (V e: j); add: (V e: i) + (V e: j)]].
+	^ self on: V roots: roots! !
+
+!RootSystem class methodsFor: 'examples' stamp: 'len 7/14/2016 00:09'!
+D: V
+	| roots |
+	roots _ Set new.
+	1 to: V dimension do: [:i|
+		i to: V dimension do: [:j|
+			roots add: (V e: i) - (V e: j); add: (V e: i) + (V e: j)]].
+	^ self on: V roots: roots! !
+
 !RootSystem class methodsFor: 'examples' stamp: 'len 2/11/2016 19:41'!
 example1
 	"This is a normalized root system in R^n. The Weyl group associated to it is the symmetric group S_n."
@@ -33663,6 +33699,10 @@ example3
 				add: (V e: i) + (V e: j);
 				add: ((V e: i) + (V e: j)) negated]].
 	^ RootSystem on: V roots: roots! !
+
+!RootSystem class methodsFor: 'examples' stamp: 'len 7/14/2016 00:09'!
+hexagonal
+	^ self A: Rationals new ** 2! !
 
 !RootSystem class methodsFor: 'instance creation' stamp: 'len 5/23/2016 05:00'!
 on: aVectorSpace roots: aCollection
@@ -34900,7 +34940,7 @@ testWeightEnumerator
 	self assert: w = (x**5 + (y**5)).
 	self assert: C dual weightEnumerator = (x**5 + (x**3*(y**2)*10) + (y**4*x*5))! !
 
-!GraphTest methodsFor: 'as yet unclassified' stamp: 'len 7/12/2016 07:27'!
+!GraphTest methodsFor: 'as yet unclassified' stamp: 'len 7/14/2016 00:17'!
 testChromaticNumber
 	| G |
 	G _ Graph unordered add: 1; add: 2; add: 3; yourself. 
@@ -35070,6 +35110,36 @@ testTuttePolynomial
 	x _ P x.
 	y _ P y.
 	T _ x*(x**2 + (x+y)) + (x**2 + (x+y)) + (x*y + (y**2)).
+	self assert: G tuttePolynomial = T! !
+
+!GraphTest methodsFor: 'as yet unclassified' stamp: 'len 7/14/2016 00:13'!
+testTuttePolynomial2
+	| G P x y T |
+	G _ Graph ordered addEdges: {1->2. 2->3. 3->4. 4->1. 1->3}; yourself.
+	P _ Integers new polynomialsIn: #(x y).
+	x _ P x.
+	y _ P y.
+	T _ x*(x**2 + (x+y)) + (x**2 + (x+y)) + (x*y + (y**2)).
+	self assert: G tuttePolynomial = T! !
+
+!GraphTest methodsFor: 'as yet unclassified' stamp: 'len 7/14/2016 00:15'!
+testTuttePolynomialK3
+	| G P x y T |
+	G _ Graph K: 3.
+	P _ Integers new polynomialsIn: #(x y).
+	x _ P x.
+	y _ P y.
+	T _ x**2 + x + y.
+	self assert: G tuttePolynomial = T! !
+
+!GraphTest methodsFor: 'as yet unclassified' stamp: 'len 7/14/2016 00:16'!
+testTuttePolynomialK4
+	| G P x y T |
+	G _ Graph K: 4.
+	P _ Integers new polynomialsIn: #(x y).
+	x _ P x.
+	y _ P y.
+	T _ x**3 + (x**2*3) + (x*2) + (x*y*4) + (y*2) + (y**2*3) + (y**3).
 	self assert: G tuttePolynomial = T! !
 
 !GraphTest methodsFor: 'as yet unclassified' stamp: 'len 7/13/2016 21:48'!
