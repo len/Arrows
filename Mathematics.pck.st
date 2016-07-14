@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 14 July 2016 at 5:47:10.60263 am'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 14 July 2016 at 7:01:04.673217 am'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 160!
+!provides: 'Mathematics' 1 161!
 !classDefinition: #AbelianGroupPresentation category: #'Mathematics-Free'!
 Object subclass: #AbelianGroupPresentation
 	instanceVariableNames: 'generators relators'
@@ -6487,16 +6487,19 @@ chromaticNumber
 	chi _ self chromaticPolynomial.
 	^ (1 to: self size) detect: [:i| (chi value: i) > 0]! !
 
-!AbstractGraph methodsFor: 'operations' stamp: 'len 7/13/2016 22:06'!
+!AbstractGraph methodsFor: 'operations' stamp: 'len 7/14/2016 06:49'!
 chromaticPolynomial
+	"The chromatic polynomial P(G,k) is a polynomial in k that counts the number of k-colorings of G."
 	^ self chromaticPolynomialAt: Integers new polynomials x! !
 
-!AbstractGraph methodsFor: 'operations' stamp: 'len 7/13/2016 22:06'!
+!AbstractGraph methodsFor: 'operations' stamp: 'len 7/14/2016 06:50'!
 chromaticPolynomialAt: k
-	| e |
+	"The chromatic polynomial P(G,k) is a polynomial in k that counts the number of k-colorings of G. Answer the evaluation at k."
 	self isEdgeless ifTrue: [^ k ** self size].
-	e _ self edges anyOne.
-	^ ((self - e) chromaticPolynomialAt: k) - ((self / e) chromaticPolynomialAt: k)! !
+	self edgesDo: [:each|
+		each key = each value
+			ifFalse: [^ ((self - each) chromaticPolynomialAt: k) - ((self / each) chromaticPolynomialAt: k)]].
+	^ k*0! !
 
 !AbstractGraph methodsFor: 'operations' stamp: 'len 7/13/2016 22:06'!
 circumference
@@ -7814,6 +7817,13 @@ edgesDo: aBlock
 			ifFalse: [aBlock value: (each as: MutualAssociation)].
 		visited add: each]! !
 
+!Graph methodsFor: 'operations' stamp: 'len 7/14/2016 07:00'!
+flowPolynomial
+	"The flow polynomial F(G,k) is a polynomial in k that counts the number of nowhere-zero k-flows of G."
+	| x |
+	x _ Integers new polynomials x.
+	^ (-1)**(self size + self numberOfEdges + self components size) * (self tuttePolynomial value: {0. 1 - x})! !
+
 !Graph methodsFor: 'testing' stamp: 'len 7/13/2016 22:37'!
 isDirected
 	^ false! !
@@ -7871,7 +7881,7 @@ symmetric
 transposed
 	^ self! !
 
-!Graph methodsFor: 'operations' stamp: 'len 7/14/2016 00:25'!
+!Graph methodsFor: 'operations' stamp: 'len 7/14/2016 06:52'!
 tuttePolynomial
 	| P K G` |
 	P _ Integers new polynomialsIn: #(x y).
@@ -7879,45 +7889,12 @@ tuttePolynomial
 	K _ self components size.
 	self edgesDo: [:e|
 		e key = e value "it's a loop"
-			ifTrue: [^ P y * (self - e) tuttePolynomial3]
+			ifTrue: [^ P y * (self - e) tuttePolynomial]
 			ifFalse:
 				[G` _ self - e.
 				G` components size > K "it's a bridge"
-					ifTrue: [^ P x * (self / e) tuttePolynomial3]
-					ifFalse: [^ G` tuttePolynomial3 + (self / e) tuttePolynomial3]]].
-	^ self error: 'inconsistency, this line should have been reaached'! !
-
-!Graph methodsFor: 'operations' stamp: 'len 7/14/2016 00:25'!
-tuttePolynomial2
-	| P K G` i j |
-	P _ Integers new polynomialsIn: #(x y).
-	self isEdgeless ifTrue: [^ P one].
-	K _ self components size.
-	i _ 0. j _ 0.
-	self edgesDo: [:e|
-		e key = e value "it's a loop"
-			ifTrue: [j _ j + 1]
-			ifFalse:
-				[G` _ self - e.
-				G` components size > K "it's a bridge"
-					ifTrue: [i _ i + 1]
+					ifTrue: [^ P x * (self / e) tuttePolynomial]
 					ifFalse: [^ G` tuttePolynomial + (self / e) tuttePolynomial]]].
-	^ P monomial: (Monomial exponents: {i. j})! !
-
-!Graph methodsFor: 'operations' stamp: 'len 7/14/2016 00:24'!
-tuttePolynomial3
-	| P K G` |
-	P _ Integers new polynomialsIn: #(x y).
-	self isEdgeless ifTrue: [^ P one].
-	K _ self components size.
-	self edgesDo: [:e|
-		e key = e value "it's a loop"
-			ifTrue: [^ P y * (self - e) tuttePolynomial3]
-			ifFalse:
-				[G` _ self - e.
-				G` components size > K "it's a bridge"
-					ifTrue: [^ P x * (self / e) tuttePolynomial3]
-					ifFalse: [^ G` tuttePolynomial3 + (self / e) tuttePolynomial3]]].
 	^ self error: 'inconsistency, this line should have been reaached'! !
 
 !Graph class methodsFor: 'instance creation' stamp: 'len 7/13/2016 22:43'!
@@ -27892,11 +27869,11 @@ color: aColor
 direction
 	^ (self targetPoint - self sourcePoint) normalized! !
 
-!GraphEdgeMorph methodsFor: 'drawing' stamp: 'len 7/14/2016 05:36'!
+!GraphEdgeMorph methodsFor: 'drawing' stamp: 'len 7/14/2016 06:17'!
 drawArcOn: aCanvas from: sourcePoint to: targetPoint
-	multiplicity = 1
-		ifTrue: [aCanvas line: sourcePoint to: targetPoint width: width color: color. ^ self].
-	1 to: multiplicity do: [:i|
+	multiplicity odd
+		ifTrue: [aCanvas line: sourcePoint to: targetPoint width: width color: color].
+	1 to: multiplicity - (multiplicity \\ 2) do: [:i|
 		self drawCurveOn: aCanvas from: sourcePoint to: targetPoint curvature: i+1//2 * (i odd ifTrue: [1] ifFalse: [-1])]! !
 
 !GraphEdgeMorph methodsFor: 'drawing' stamp: 'len 7/14/2016 05:20'!
