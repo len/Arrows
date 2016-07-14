@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 14 July 2016 at 12:26:14.650271 am'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 14 July 2016 at 3:07:34.535642 am'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 158!
+!provides: 'Mathematics' 1 159!
 !classDefinition: #AbelianGroupPresentation category: #'Mathematics-Free'!
 Object subclass: #AbelianGroupPresentation
 	instanceVariableNames: 'generators relators'
@@ -4373,23 +4373,22 @@ Theorem: For any monomial ordering in a finite number of variables, there is a c
 Examples:
 	| A4 a b |
 	A4 _ AlternatingGroup on: (1 to: 4).
-	a _ Permutation fromArray: (2,1,4,3).
-	b _ Permutation fromArray: (2,3,1,4).
+	a _ Permutation image: (2,1,4,3).
+	b _ Permutation image: (2,3,1,4).
 	(A4 cayleyGraphMorph: {a.b}) openInWorld.
-	(A4 cayleyGraphMorph3D: {a.b}) openInWorld.
 
 	| R W |
 	R _ RootSystem example1.
 	W _ R dual weylGroup.
-	(W cayleyGraphMorph3D: {W atRandom. W atRandom}) openInWorld
+	(W cayleyGraphMorph: {W atRandom. W atRandom}) openInWorld
 
 	| G |
-	G _ Graph exampleGraph.
+	G _ Graph exampleImplicitGraph.
 	SpringGraphMorph new graph: G; openInWorld 
 
 	| G |
-	G _ RootedGraph exampleSmallLabelledTree.
-	Spring3DGraphMorph new graph: G; openInWorld 
+	G _ RootedDigraph exampleSmallLabelledTree.
+	SpringGraphMorph new graph: G; openInWorld 
 !
 
 !HistogramMorph commentStamp: '<historical>' prior: 0!
@@ -6297,17 +6296,9 @@ adjacencyMatrix: vertices
 	"Answer the adjacency matrix of the receiver, using the vertex ordering given by the argument."
 	^ Integers new ** (vertices size @ vertices size) evaluating: [:i :j| (self hasEdgeFrom: (vertices at: i) to: (vertices at: j)) ifTrue: [1] ifFalse: [0]]! !
 
-!AbstractGraph methodsFor: 'converting' stamp: 'len 7/13/2016 22:00'!
+!AbstractGraph methodsFor: 'converting' stamp: 'len 7/14/2016 02:55'!
 asMorph
-	^ self asMorph3D! !
-
-!AbstractGraph methodsFor: 'converting' stamp: 'len 7/13/2016 22:00'!
-asMorph2D
 	^ SpringGraphMorph new graph: self! !
-
-!AbstractGraph methodsFor: 'converting' stamp: 'len 7/13/2016 22:00'!
-asMorph3D
-	^ SpringGraphMorph new graph: self; dimension: 3! !
 
 !AbstractGraph methodsFor: 'statistics' stamp: 'len 7/13/2016 23:11'!
 averageDegree
@@ -7301,7 +7292,7 @@ implicitIteratorBlock: iteratorBlock
 	Each node is the graph is accessed by evaluating iteratorBlock to iterate over a collection of neighbouring nodes."
 	^ self basicNew initialize implicitIteratorBlock: iteratorBlock! !
 
-!Digraph class methodsFor: 'initialization' stamp: 'len 7/13/2016 22:25'!
+!Digraph class methodsFor: 'initialization' stamp: 'len 7/14/2016 03:05'!
 initialize
 	"Digraph initialize"
 	InitializationBlocks	_ Dictionary new.
@@ -7326,7 +7317,7 @@ initialize
 		put: [:graph :collectionBlock | [:value | ImplicitGraphNode
 				on: value
 				collectionBlock: [(collectionBlock value: value)
-						collect: [:node | graph addNode: node]]]];
+						collect: [:node | graph add: node]]]];
 		at: #implicitIteratorBlock
 		put: [:graph :iteratorBlock | [:value | 
 			| iterator | 
@@ -16182,41 +16173,13 @@ cayleyGraph: generators
 cayleyGraphMorph
 	^ self cayleyGraphMorph: self generators! !
 
-!Group methodsFor: 'graphs' stamp: 'len 4/29/2016 07:14'!
-cayleyGraphMorph2D: generators
-	"Answer the colored Cayley graph of the receiver for the given set of generators.
-	The set of generators is usually assumed to be symmetric (contains all inverses too) and to not contain the identity."
-	| G answer colors |
-	G _ self cayleyGraph: generators.
-	answer _ SpringGraphMorph new graph: G.
-	colors _ DiscreteColorPalette default.
-	answer edgesAndLabelsDo: [:each :label| each hideLabel; color: (colors at: label)].
-	answer nodesDo: [:each| each color: Color transparent; morphExtent: 0@0].
-	(answer nodeAt: self identity) color: Color white; shape: #square; morphExtent: 10@10.
-	generators do: [:each| (answer nodeAt: each) color: (colors at: each); morphExtent: 12@10].
-	^ answer! !
-
-!Group methodsFor: 'graphs' stamp: 'len 4/22/2016 00:57'!
-cayleyGraphMorph3D: generators
-	"Answer the colored Cayley graph of the receiver for the given set of generators.
-	The set of generators is usually assumed to be symmetric (contains all inverses too) and to not contain the identity."
-	| G answer colors |
-	G _ self cayleyGraph: generators.
-	answer _ G asMorph3D.
-	colors _ DiscreteColorPalette default.
-	answer edgesAndLabelsDo: [:each :label| each hideLabel; color: (colors at: label)].
-	answer nodesDo: [:each| each color: Color transparent; morphExtent: 0@0].
-	(answer nodeAt: self identity) color: Color white; shape: #square; morphExtent: 10@10.
-	generators do: [:each| (answer nodeAt: each) color: (colors at: each); morphExtent: 12@10].
-	^ answer! !
-
-!Group methodsFor: 'graphs' stamp: 'len 4/29/2016 07:14'!
+!Group methodsFor: 'graphs' stamp: 'len 7/14/2016 02:55'!
 cayleyGraphMorph: generators
 	"Answer the colored Cayley graph of the receiver for the given set of generators.
 	The set of generators is usually assumed to be symmetric (contains all inverses too) and to not contain the identity."
 	| G answer colors |
 	G _ self cayleyGraph: generators.
-	answer _ G asMorph3D.
+	answer _ G asMorph.
 	colors _ DiscreteColorPalette default.
 	answer edgesAndLabelsDo: [:each :label| each hideLabel; color: (colors at: label)].
 	answer nodesDo: [:each| each color: Color transparent; morphExtent: 0@0].
@@ -21399,11 +21362,11 @@ actionGraph: groupGenerators
 actionGraphMorph
 	^ self actionGraphMorph: self group generators! !
 
-!GroupAction methodsFor: 'graphs' stamp: 'len 5/18/2016 21:26'!
+!GroupAction methodsFor: 'graphs' stamp: 'len 7/14/2016 02:55'!
 actionGraphMorph: generators
 	| G answer colors |
 	G _ self actionGraph: generators.
-	answer _ G asMorph3D.
+	answer _ G asMorph.
 	colors _ DiscreteColorPalette default.
 	answer edgesAndLabelsDo: [:each :label| each hideLabel; color: (colors at: label)].
 	answer nodesDo: [:each| each color: Color transparent; morphExtent: 0@0].
@@ -27929,15 +27892,11 @@ color: aColor
 direction
 	^ (self targetPoint - self sourcePoint) normalized! !
 
-!GraphEdgeMorph methodsFor: 'drawing' stamp: 'len 6/23/2016 23:35'!
-drawOn: aCanvas 
-	"frameRectangle: self bounds color: Color black;"
+!GraphEdgeMorph methodsFor: 'drawing' stamp: 'len 7/14/2016 02:43'!
+drawArrowOn: aCanvas from: aPoint to: anotherPoint
 	| sourcePoint targetPoint direction |
-	"aCanvas frameRectangle: self morphLocalBounds borderWidth: 1 color: Color red."
-	[sourcePoint _ self sourcePoint.
-	targetPoint _ self targetPoint] on: Error do: [^ self].
-	drawArrowHead ifFalse: [aCanvas line: sourcePoint to: targetPoint width: width color: self color. ^ self].
-	targetPoint = sourcePoint ifTrue: [^ self].
+	sourcePoint _ aPoint.
+	targetPoint _ anotherPoint.
 	direction _ (targetPoint - sourcePoint) normalized.
 	target identityHash < source identityHash
 		ifTrue:
@@ -27979,7 +27938,23 @@ drawOn: aCanvas
 "	| aa |
 	aa _ PolygonMorph new.
 	aa computeArrowFormAt: self sourcePoint from: self destinationPoint.
-	self addMorph: aa"! !
+	self addMorph: aa"
+! !
+
+!GraphEdgeMorph methodsFor: 'drawing' stamp: 'len 7/14/2016 02:51'!
+drawLoopOn: aCanvas at: aPoint
+	aCanvas frameEllipse: (aPoint - (10@20) extent: 20@20) borderWidth: width color: self color! !
+
+!GraphEdgeMorph methodsFor: 'drawing' stamp: 'len 7/14/2016 02:44'!
+drawOn: aCanvas 
+	"frameRectangle: self bounds color: Color black;"
+	| sourcePoint targetPoint |
+	"aCanvas frameRectangle: self morphLocalBounds borderWidth: 1 color: Color red."
+	[sourcePoint _ self sourcePoint.
+	targetPoint _ self targetPoint] on: Error do: [^ self].
+	targetPoint = sourcePoint ifTrue: [^ self drawLoopOn: aCanvas at: targetPoint].
+	drawArrowHead ifTrue: [^ self drawArrowOn: aCanvas from: sourcePoint to: targetPoint].
+	aCanvas line: sourcePoint to: targetPoint width: width color: self color! !
 
 !GraphEdgeMorph methodsFor: 'accessing' stamp: 'len 2/19/2016 03:25'!
 hideArrowHead
@@ -28529,12 +28504,13 @@ addEdge: anEdge label: label
 	dest _ self graph nodeAt: anEdge value.
 	^ self privateAddEdgeFrom: src to: dest label: label! !
 
-!GraphMorph methodsFor: 'private' stamp: 'len 2/20/2016 06:17'!
+!GraphMorph methodsFor: 'private' stamp: 'len 7/14/2016 02:59'!
 addNode: aGraphNode 
 	| morph |
 	(nodeToMorph includesKey: aGraphNode)
 		ifTrue: [^ nodeToMorph at: aGraphNode].
 	morph _ self nodeClass new node: aGraphNode.
+	morph dimension: dimension.
 	nodeToMorph at: aGraphNode put: morph.
 	morph morphPosition: self morphWidth asInteger atRandom @ self morphHeight asInteger atRandom.
 	self addMorph: morph.
@@ -28647,14 +28623,14 @@ hideLabels
 	self nodesDo: [:each| each hideLabel].
 	self edgesDo: [:each| each hideLabel]! !
 
-!GraphMorph methodsFor: 'initialization' stamp: 'len 7/9/2016 22:49'!
+!GraphMorph methodsFor: 'initialization' stamp: 'len 7/14/2016 02:56'!
 initialize
 	super initialize.
 	self morphExtent: 300 @ 300.
 	self color: Color transparent.
 	self initializeNodeToMorph.
 	self initializeEdgeToMorph.
-	dimension _ 2! !
+	dimension _ 3! !
 
 !GraphMorph methodsFor: 'initialization' stamp: 'Samir Saidani 12/7/2003 19:25'!
 initializeEdgeToMorph
