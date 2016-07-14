@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 14 July 2016 at 3:07:34.535642 am'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 14 July 2016 at 5:47:10.60263 am'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 159!
+!provides: 'Mathematics' 1 160!
 !classDefinition: #AbelianGroupPresentation category: #'Mathematics-Free'!
 Object subclass: #AbelianGroupPresentation
 	instanceVariableNames: 'generators relators'
@@ -2623,7 +2623,7 @@ WeightedMonomialOrdering class
 
 !classDefinition: #GraphEdgeMorph category: #'Mathematics-Graphs-Morphic'!
 Morph subclass: #GraphEdgeMorph
-	instanceVariableNames: 'color source target width drawArrowHead label labelMorph'
+	instanceVariableNames: 'color source target width drawArrowHead label labelMorph multiplicity'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Graphs-Morphic'!
@@ -27892,7 +27892,14 @@ color: aColor
 direction
 	^ (self targetPoint - self sourcePoint) normalized! !
 
-!GraphEdgeMorph methodsFor: 'drawing' stamp: 'len 7/14/2016 02:43'!
+!GraphEdgeMorph methodsFor: 'drawing' stamp: 'len 7/14/2016 05:36'!
+drawArcOn: aCanvas from: sourcePoint to: targetPoint
+	multiplicity = 1
+		ifTrue: [aCanvas line: sourcePoint to: targetPoint width: width color: color. ^ self].
+	1 to: multiplicity do: [:i|
+		self drawCurveOn: aCanvas from: sourcePoint to: targetPoint curvature: i+1//2 * (i odd ifTrue: [1] ifFalse: [-1])]! !
+
+!GraphEdgeMorph methodsFor: 'drawing' stamp: 'len 7/14/2016 05:20'!
 drawArrowOn: aCanvas from: aPoint to: anotherPoint
 	| sourcePoint targetPoint direction |
 	sourcePoint _ aPoint.
@@ -27906,7 +27913,7 @@ drawArrowOn: aCanvas from: aPoint to: anotherPoint
 			targetPoint _ targetPoint + shift].
 	targetPoint _ targetPoint - (direction * target morphExtent x).
 	sourcePoint _ sourcePoint + (direction * source morphExtent x).
-	aCanvas line: sourcePoint to: targetPoint width: width color: self color.
+	self drawArcOn: aCanvas from: sourcePoint to: targetPoint.
 	aCanvas line: targetPoint - (direction*3) - ((direction rotatedBy: Float pi / 4) * 4)
 		to: targetPoint width: width color: self color.
 	aCanvas line: targetPoint - (direction*2) - ((direction rotatedBy: Float pi / 4) * 4)
@@ -27941,11 +27948,22 @@ drawArrowOn: aCanvas from: aPoint to: anotherPoint
 	self addMorph: aa"
 ! !
 
+!GraphEdgeMorph methodsFor: 'drawing' stamp: 'len 7/14/2016 05:44'!
+drawCurveOn: aCanvas from: sourcePoint to: targetPoint curvature: curvature
+	| perp previous |
+	perp _ targetPoint - sourcePoint / 10.0 rotatedBy: Float pi / 2.
+	0.0 to: 1.0 count: 15 do: [:i|
+		| current |
+		current _ sourcePoint * i + (targetPoint * (1.0-i)).
+		current _ current + ((0.5 - (0.5-i) abs) sqrt * curvature * perp).
+		previous ifNotNil: [aCanvas line: previous to: current width: width color: color].
+		previous _ current]! !
+
 !GraphEdgeMorph methodsFor: 'drawing' stamp: 'len 7/14/2016 02:51'!
 drawLoopOn: aCanvas at: aPoint
 	aCanvas frameEllipse: (aPoint - (10@20) extent: 20@20) borderWidth: width color: self color! !
 
-!GraphEdgeMorph methodsFor: 'drawing' stamp: 'len 7/14/2016 02:44'!
+!GraphEdgeMorph methodsFor: 'drawing' stamp: 'len 7/14/2016 05:21'!
 drawOn: aCanvas 
 	"frameRectangle: self bounds color: Color black;"
 	| sourcePoint targetPoint |
@@ -27954,7 +27972,7 @@ drawOn: aCanvas
 	targetPoint _ self targetPoint] on: Error do: [^ self].
 	targetPoint = sourcePoint ifTrue: [^ self drawLoopOn: aCanvas at: targetPoint].
 	drawArrowHead ifTrue: [^ self drawArrowOn: aCanvas from: sourcePoint to: targetPoint].
-	aCanvas line: sourcePoint to: targetPoint width: width color: self color! !
+	self drawArcOn: aCanvas from: sourcePoint to: targetPoint! !
 
 !GraphEdgeMorph methodsFor: 'accessing' stamp: 'len 2/19/2016 03:25'!
 hideArrowHead
@@ -27964,12 +27982,17 @@ hideArrowHead
 hideLabel
 	labelMorph notNil ifTrue: [labelMorph delete. labelMorph _ nil]! !
 
-!GraphEdgeMorph methodsFor: 'initialization' stamp: 'len 2/19/2016 03:29'!
+!GraphEdgeMorph methodsFor: 'accessing' stamp: 'len 7/14/2016 05:33'!
+incrementMultiplicity
+	multiplicity _ multiplicity + 1! !
+
+!GraphEdgeMorph methodsFor: 'initialization' stamp: 'len 7/14/2016 05:37'!
 initialize
 	super initialize.
 	self color: Color gray.
 	width _ 1.
-	drawArrowHead _ true! !
+	drawArrowHead _ true.
+	multiplicity _ 1! !
 
 !GraphEdgeMorph methodsFor: 'accessing' stamp: 'len 2/19/2016 19:00'!
 label
@@ -28493,18 +28516,14 @@ acceptDroppingMorph: aMorph event: evt
 addEdge: anEdge
 	^ self addEdge: anEdge label: nil! !
 
-!GraphMorph methodsFor: 'private' stamp: 'len 2/26/2016 23:20'!
+!GraphMorph methodsFor: 'private' stamp: 'len 7/14/2016 05:25'!
 addEdge: anEdge label: label 
 	| src dest |
-"	(self graph nodes includes: anEdge key)
-		ifFalse: [self error: 'no node on the model'].
-	(self graph nodes includes: anEdge value)
-		ifFalse: [self error: 'no node on the model'].
-"	src _ self graph nodeAt: anEdge key.
+	src _ self graph nodeAt: anEdge key.
 	dest _ self graph nodeAt: anEdge value.
 	^ self privateAddEdgeFrom: src to: dest label: label! !
 
-!GraphMorph methodsFor: 'private' stamp: 'len 7/14/2016 02:59'!
+!GraphMorph methodsFor: 'private' stamp: 'len 7/14/2016 05:42'!
 addNode: aGraphNode 
 	| morph |
 	(nodeToMorph includesKey: aGraphNode)
@@ -28514,10 +28533,10 @@ addNode: aGraphNode
 	nodeToMorph at: aGraphNode put: morph.
 	morph morphPosition: self morphWidth asInteger atRandom @ self morphHeight asInteger atRandom.
 	self addMorph: morph.
-	aGraphNode
+"	aGraphNode
 		neighborsAndLabelsDo: [:each :label|
 			self addNode: each.
-			self privateAddEdgeFrom: aGraphNode to: each label: label].
+			self privateAddEdgeFrom: aGraphNode to: each label: label]."
 	^ morph! !
 
 !GraphMorph methodsFor: 'stepping' stamp: 'len 7/9/2016 22:47'!
@@ -28562,11 +28581,11 @@ dimension: anInteger
 	self nodesDo: [:each| each dimension: anInteger].
 	self startStepping! !
 
-!GraphMorph methodsFor: 'accessing' stamp: 'len 2/29/2016 21:43'!
+!GraphMorph methodsFor: 'accessing' stamp: 'len 7/14/2016 05:39'!
 edgeAt: anEdge
 	| edge |
-	edge _ {anEdge key. anEdge value}.
-	graph isDirected ifFalse: [edge _ edge asSet].
+	edge _ anEdge key -> anEdge value.
+	graph isDirected ifFalse: [edge _ edge as: MutualAssociation].
 	^ edgeToMorph at: edge! !
 
 !GraphMorph methodsFor: 'private' stamp: 'len 7/9/2016 22:26'!
@@ -28599,11 +28618,12 @@ focusOn: aNode
 graph
 	^ graph! !
 
-!GraphMorph methodsFor: 'accessing' stamp: 'len 5/25/2016 03:15'!
+!GraphMorph methodsFor: 'accessing' stamp: 'len 7/14/2016 05:42'!
 graph: aGraph
 	self clearAll.
 	graph _ aGraph.
 	graph nodesDo: [:each| self addNode: each].
+	graph edgesAndLabelsDo: [:each :label| self addEdge: each label: label].
 	graph
 		when: #addNode: send: #addNode: to: self;
 		when: #addEdge: send: #addEdge: to: self;
@@ -28680,12 +28700,13 @@ perturbate: n
 	self nodesDo: [:each| each perturbate: n].
 	self startStepping! !
 
-!GraphMorph methodsFor: 'private' stamp: 'len 2/29/2016 21:39'!
+!GraphMorph methodsFor: 'private' stamp: 'len 7/14/2016 05:38'!
 privateAddEdgeFrom: source to: target label: label
 	| edge morph |
-	edge _ {source. target}.
-	graph isDirected ifFalse: [edge _ edge asSet].
-	(edgeToMorph includesKey: edge) ifTrue: [^ edgeToMorph at: edge].
+	edge _ source -> target.
+	graph isDirected ifFalse: [edge _ edge as: MutualAssociation].
+	(edgeToMorph includesKey: edge)
+		ifTrue: [^ (edgeToMorph at: edge) incrementMultiplicity].
 	morph _ self edgeClass new.
 	edgeToMorph at: edge put: morph.
 	morph source: (nodeToMorph at: source); target: (nodeToMorph at: target).
@@ -28698,11 +28719,11 @@ privateAddEdgeFrom: source to: target label: label
 privateExtent: aPoint
 	^ (super privateExtent: aPoint) ifTrue: [self startStepping]; yourself! !
 
-!GraphMorph methodsFor: 'private' stamp: 'len 2/29/2016 21:40'!
+!GraphMorph methodsFor: 'private' stamp: 'len 7/14/2016 05:39'!
 privateRemoveEdgeFrom: source to: target label: label 
 	| edge |
-	edge _ {source. target}.
-	graph isDirected ifFalse: [edge _ edge asSet].
+	edge _ source -> target.
+	graph isDirected ifFalse: [edge _ edge as: MutualAssociation].
 	(edgeToMorph removeKey: edge ifAbsent: [^ self]) delete! !
 
 !GraphMorph methodsFor: 'private' stamp: 'timestamp) (no'!
