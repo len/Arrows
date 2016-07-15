@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 14 July 2016 at 7:01:04.673217 am'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 15 July 2016 at 12:45:45.87986 am'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 161!
+!provides: 'Mathematics' 1 162!
 !classDefinition: #AbelianGroupPresentation category: #'Mathematics-Free'!
 Object subclass: #AbelianGroupPresentation
 	instanceVariableNames: 'generators relators'
@@ -501,6 +501,16 @@ Module subclass: #FreeModule
 FreeModule class
 	instanceVariableNames: ''!
 
+!classDefinition: #DirectSumSpace category: #'Mathematics-Linear-Spaces'!
+FreeModule subclass: #DirectSumSpace
+	instanceVariableNames: 'components'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Linear-Spaces'!
+!classDefinition: 'DirectSumSpace class' category: #'Mathematics-Linear-Spaces'!
+DirectSumSpace class
+	instanceVariableNames: ''!
+
 !classDefinition: #FreeAbelianGroup category: #'Mathematics-Free'!
 FreeModule subclass: #FreeAbelianGroup
 	instanceVariableNames: ''
@@ -521,6 +531,46 @@ FreeAbelianGroup subclass: #Lattice
 Lattice class
 	instanceVariableNames: ''!
 
+!classDefinition: #LinearMaps category: #'Mathematics-Linear-Spaces'!
+FreeModule subclass: #LinearMaps
+	instanceVariableNames: 'domain codomain'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Linear-Spaces'!
+!classDefinition: 'LinearMaps class' category: #'Mathematics-Linear-Spaces'!
+LinearMaps class
+	instanceVariableNames: ''!
+
+!classDefinition: #DualSpace category: #'Mathematics-Linear-Spaces'!
+LinearMaps subclass: #DualSpace
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Linear-Spaces'!
+!classDefinition: 'DualSpace class' category: #'Mathematics-Linear-Spaces'!
+DualSpace class
+	instanceVariableNames: ''!
+
+!classDefinition: #Matrices category: #'Mathematics-Linear-Spaces'!
+FreeModule subclass: #Matrices
+	instanceVariableNames: 'scalars numberOfRows numberOfColumns'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Linear-Spaces'!
+!classDefinition: 'Matrices class' category: #'Mathematics-Linear-Spaces'!
+Matrices class
+	instanceVariableNames: ''!
+
+!classDefinition: #ScalarSpace category: #'Mathematics-Linear-Spaces'!
+FreeModule subclass: #ScalarSpace
+	instanceVariableNames: 'scalars'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Linear-Spaces'!
+!classDefinition: 'ScalarSpace class' category: #'Mathematics-Linear-Spaces'!
+ScalarSpace class
+	instanceVariableNames: ''!
+
 !classDefinition: #SyzygyModule category: #'Mathematics-Polynomials-Domains'!
 FreeModule subclass: #SyzygyModule
 	instanceVariableNames: 'polynomials'
@@ -529,6 +579,26 @@ FreeModule subclass: #SyzygyModule
 	category: 'Mathematics-Polynomials-Domains'!
 !classDefinition: 'SyzygyModule class' category: #'Mathematics-Polynomials-Domains'!
 SyzygyModule class
+	instanceVariableNames: ''!
+
+!classDefinition: #TensorProductSpace category: #'Mathematics-Multilinear'!
+FreeModule subclass: #TensorProductSpace
+	instanceVariableNames: 'left right'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Multilinear'!
+!classDefinition: 'TensorProductSpace class' category: #'Mathematics-Multilinear'!
+TensorProductSpace class
+	instanceVariableNames: ''!
+
+!classDefinition: #Tuples category: #'Mathematics-Linear-Spaces'!
+FreeModule subclass: #Tuples
+	instanceVariableNames: 'scalars dimension'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Linear-Spaces'!
+!classDefinition: 'Tuples class' category: #'Mathematics-Linear-Spaces'!
+Tuples class
 	instanceVariableNames: ''!
 
 !classDefinition: #VectorSpace category: #'Mathematics-Linear-Spaces'!
@@ -561,16 +631,6 @@ VectorSpace subclass: #BilinearForms
 BilinearForms class
 	instanceVariableNames: ''!
 
-!classDefinition: #DirectSumSpace category: #'Mathematics-Linear-Spaces'!
-VectorSpace subclass: #DirectSumSpace
-	instanceVariableNames: 'components'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Linear-Spaces'!
-!classDefinition: 'DirectSumSpace class' category: #'Mathematics-Linear-Spaces'!
-DirectSumSpace class
-	instanceVariableNames: ''!
-
 !classDefinition: #HomogeneousPolynomialSpace category: #'Mathematics-Polynomials-Domains'!
 VectorSpace subclass: #HomogeneousPolynomialSpace
 	instanceVariableNames: 'polynomials degree'
@@ -601,26 +661,6 @@ LieAlgebra subclass: #LieAlgebraIdeal
 LieAlgebraIdeal class
 	instanceVariableNames: ''!
 
-!classDefinition: #LinearMaps category: #'Mathematics-Linear-Spaces'!
-VectorSpace subclass: #LinearMaps
-	instanceVariableNames: 'domain codomain'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Linear-Spaces'!
-!classDefinition: 'LinearMaps class' category: #'Mathematics-Linear-Spaces'!
-LinearMaps class
-	instanceVariableNames: ''!
-
-!classDefinition: #DualSpace category: #'Mathematics-Linear-Spaces'!
-LinearMaps subclass: #DualSpace
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Linear-Spaces'!
-!classDefinition: 'DualSpace class' category: #'Mathematics-Linear-Spaces'!
-DualSpace class
-	instanceVariableNames: ''!
-
 !classDefinition: #LinearSubspace category: #'Mathematics-Linear-Spaces'!
 VectorSpace subclass: #LinearSubspace
 	instanceVariableNames: 'basis'
@@ -629,16 +669,6 @@ VectorSpace subclass: #LinearSubspace
 	category: 'Mathematics-Linear-Spaces'!
 !classDefinition: 'LinearSubspace class' category: #'Mathematics-Linear-Spaces'!
 LinearSubspace class
-	instanceVariableNames: ''!
-
-!classDefinition: #Matrices category: #'Mathematics-Linear-Spaces'!
-VectorSpace subclass: #Matrices
-	instanceVariableNames: 'scalars numberOfRows numberOfColumns'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Linear-Spaces'!
-!classDefinition: 'Matrices class' category: #'Mathematics-Linear-Spaces'!
-Matrices class
 	instanceVariableNames: ''!
 
 !classDefinition: #PolynomialSpace category: #'Mathematics-Polynomials-Domains'!
@@ -661,26 +691,6 @@ VectorSpace subclass: #QuotientSpace
 QuotientSpace class
 	instanceVariableNames: ''!
 
-!classDefinition: #ScalarSpace category: #'Mathematics-Linear-Spaces'!
-VectorSpace subclass: #ScalarSpace
-	instanceVariableNames: 'scalars'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Linear-Spaces'!
-!classDefinition: 'ScalarSpace class' category: #'Mathematics-Linear-Spaces'!
-ScalarSpace class
-	instanceVariableNames: ''!
-
-!classDefinition: #TensorProductSpace category: #'Mathematics-Multilinear'!
-VectorSpace subclass: #TensorProductSpace
-	instanceVariableNames: 'left right'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Multilinear'!
-!classDefinition: 'TensorProductSpace class' category: #'Mathematics-Multilinear'!
-TensorProductSpace class
-	instanceVariableNames: ''!
-
 !classDefinition: #Tensors category: #'Mathematics-Multilinear'!
 VectorSpace subclass: #Tensors
 	instanceVariableNames: 'type vectorSpace'
@@ -689,16 +699,6 @@ VectorSpace subclass: #Tensors
 	category: 'Mathematics-Multilinear'!
 !classDefinition: 'Tensors class' category: #'Mathematics-Multilinear'!
 Tensors class
-	instanceVariableNames: ''!
-
-!classDefinition: #Tuples category: #'Mathematics-Linear-Spaces'!
-VectorSpace subclass: #Tuples
-	instanceVariableNames: 'scalars dimension'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Linear-Spaces'!
-!classDefinition: 'Tuples class' category: #'Mathematics-Linear-Spaces'!
-Tuples class
 	instanceVariableNames: ''!
 
 !classDefinition: #Ring category: #'Mathematics-Kernel-Domains'!
@@ -3797,6 +3797,22 @@ TODO:
 - membership: compute Hermite normal form of the matrix of the basis
 - or use LLL!
 
+!LinearMaps commentStamp: '<historical>' prior: 0!
+My instances are K-vector spaces (or R-modules) of linear transformations from a K-vector space (R-module) to another, i.e. the space of morphisms between two vector spaces (module homomorphisms).!
+
+!DualSpace commentStamp: 'len 4/23/2016 03:03' prior: 0!
+My instances are vector spaces of linear forms, i.e linear maps from a vector space V into the ground field K. This is the (algebraic) dual of V and it is noted V*.
+!
+
+!Matrices commentStamp: '<historical>' prior: 0!
+My instances are vector spaces (or modules) of matrices of n rows by m columns over a given field (or ring).!
+
+!ScalarSpace commentStamp: '<historical>' prior: 0!
+My instances are one dimensional vector spaces of scalars, i.e. a field K viewed as a K-vector space.!
+
+!Tuples commentStamp: '<historical>' prior: 0!
+My instances are vector spaces (or modules) of n-tuples over a given field (or ring).!
+
 !VectorSpace commentStamp: 'len 4/23/2016 03:02' prior: 0!
 I am an abstract class modeling vector spaces. Instances of my concrete subclasses define a canonical system of coordinates for the objects considered as vectors.
 
@@ -3808,18 +3824,8 @@ My instances are (finite) algebraic extensions E/F of a field F seen as an F-vec
 !HomogeneousPolynomialSpace commentStamp: '<historical>' prior: 0!
 My instances are vector spaces of multivariate homogeneous polynomials of degree d in n variables, for fixed d and n.!
 
-!LinearMaps commentStamp: '<historical>' prior: 0!
-My instances are K-vector spaces (or R-modules) of linear transformations from a K-vector space (R-module) to another, i.e. the space of morphisms between two vector spaces (module homomorphisms).!
-
-!DualSpace commentStamp: 'len 4/23/2016 03:03' prior: 0!
-My instances are vector spaces of linear forms, i.e linear maps from a vector space V into the ground field K. This is the (algebraic) dual of V and it is noted V*.
-!
-
 !LinearSubspace commentStamp: 'len 11/26/2015 06:31' prior: 0!
 My instances are finitely-generated linear subspaces of a vector space.!
-
-!Matrices commentStamp: '<historical>' prior: 0!
-My instances are vector spaces (or modules) of matrices of n rows by m columns over a given field (or ring).!
 
 !PolynomialSpace commentStamp: '<historical>' prior: 0!
 My instances are vector spaces of univariate polynomials of degree <= n, for a fixed n.!
@@ -3828,12 +3834,6 @@ My instances are vector spaces of univariate polynomials of degree <= n, for a f
 My instances are quotient spaces V / S (read "V mod S") of a given vector space V modulo a subspace S.
 
 The elements of a quotient space are affine subspaces (flats) S + v with v in V, and they form a vector space.!
-
-!ScalarSpace commentStamp: '<historical>' prior: 0!
-My instances are one dimensional vector spaces of scalars, i.e. a field K viewed as a K-vector space.!
-
-!Tuples commentStamp: '<historical>' prior: 0!
-My instances are vector spaces (or modules) of n-tuples over a given field (or ring).!
 
 !Ring commentStamp: '<historical>' prior: 0!
 My instances are rings, i.e. structures with a set R of elements and two binary operations + and * such that:
@@ -6561,6 +6561,16 @@ degreeDistribution
 	self nodesDo: [:each| b add: each degree].
 	^ b frequencyDistribution! !
 
+!AbstractGraph methodsFor: 'accessing' stamp: 'len 7/14/2016 08:36'!
+density
+	"Answer a measure of the graph density (vs sparsity), a number between 0 and 1.
+	A graph is dense if the number of edges is close to the maximum (for the given number of vertices).
+	pre: assume the graph is simple."
+	| V E |
+	V _ self size.
+	E _ self numberOfEdges.
+	^ self isDirected ifTrue: [2*E/(V*(V-1))] ifFalse: [E/(V*(V-1))]! !
+
 !AbstractGraph methodsFor: 'operations' stamp: 'len 7/13/2016 22:07'!
 diameter
 	^ self nodes max: [:each| self eccentricityOf: each]! !
@@ -8998,6 +9008,12 @@ new
 	self == aLinearBasis ifTrue: [^ true].
 	^ ambient = aLinearBasis ambient and: [vectors = aLinearBasis vectors]! !
 
+!LinearBasis methodsFor: 'operations' stamp: 'len 7/14/2016 23:08'!
+ aLinearBasis
+	| sum |
+	sum _ ambient  aLinearBasis ambient.
+	^ self class on: sum vectors: (self vectors collect: [:each| Tuple with: each with: aLinearBasis ambient zero]), (aLinearBasis vectors collect: [:each| Tuple with: ambient zero with: each])! !
+
 !LinearBasis methodsFor: 'accessing' stamp: 'len 11/7/2015 01:53'!
 add: anObject
 	^ vectors add: anObject! !
@@ -10917,10 +10933,82 @@ scalars
 scalars: aRing
 	properties at: #scalars put: aRing! !
 
-!FreeModule methodsFor: 'comparing' stamp: 'len 4/25/2016 21:26'!
+!FreeModule methodsFor: 'morphisms' stamp: 'len 7/14/2016 23:19'!
+-> aModule
+	"Answer the module of homomorphisms from the receiver to the argument."
+	^ LinearMaps from: self to: aModule! !
+
+!FreeModule methodsFor: 'morphisms' stamp: 'len 7/14/2016 23:20'!
+/ aSubmodule
+	"Answer the quotient of the receiver by the submodule aSubmodule,
+	i.e. the module obtained by 'collapsing' the submodule to zero."
+	^ QuotientSpace by: (aSubmodule asSubmoduleOf: self)! !
+
+!FreeModule methodsFor: 'morphisms' stamp: 'len 7/14/2016 23:23'!
+/\ aModule
+	"Meet."
+	^ self intersection: aModule! !
+
+!FreeModule methodsFor: 'comparing' stamp: 'len 7/14/2016 23:18'!
+< aModule
+	"Answer true if the receiver is strictly included in the argument, i.e. it's a proper submodule of the argument."
+	^ self rank < aModule rank and: [self <= aModule]! !
+
+!FreeModule methodsFor: 'comparing' stamp: 'len 7/14/2016 23:21'!
+<= aModule
+	"Answer true if the receiver is included in the argument, i.e. it's a submodule of the argument."
+	self rank <= aModule rank ifFalse: [^ false].
+	self basis do: [:each| (aModule includes: each) ifFalse: [^ false]].
+	^ true! !
+
+!FreeModule methodsFor: 'comparing' stamp: 'len 7/14/2016 23:22'!
 = anObject
 	self == anObject ifTrue: [^ true].
-	^ (anObject isKindOf: FreeModule) and: [self scalars = anObject scalars and: [anObject generators asSet = self generators asSet]]! !
+	(anObject isKindOf: FreeModule) ifFalse: [^ false].
+	self scalars = anObject scalars ifFalse: [^ false].
+	self rank = anObject rank ifFalse: [^ false].
+	1 to: self rank do: [:i| (anObject includes: (self e: i)) ifFalse: [^ false]].
+	^ true! !
+
+!FreeModule methodsFor: 'morphisms' stamp: 'len 7/14/2016 23:23'!
+\/ aModule
+	"Join."
+	^ self + aModule! !
+
+!FreeModule methodsFor: 'testing' stamp: 'len 7/14/2016 23:58'!
+~ aModule
+	"Answer true if the receiver is isomorphic to the argument."
+	aModule isFreeModule
+		ifFalse: [^ super ~ aModule].
+	^ self = aModule or: [self scalars = aModule scalars and: [self rank = aModule rank]]! !
+
+!FreeModule methodsFor: 'morphisms' stamp: 'len 7/14/2016 23:14'!
+ aFreeModule
+	^ DirectSumSpace components: {self. aFreeModule}! !
+
+!FreeModule methodsFor: 'morphisms' stamp: 'len 7/14/2016 23:24'!
+’ aModule
+	^ TensorProductSpace left: self right: aModule! !
+
+!FreeModule methodsFor: 'morphisms' stamp: 'len 7/15/2016 00:34'!
+annihilator
+	"Answer the annihilator of the receiver, i.e. the space of all linear forms that are 0 at all vectors in the receiver."
+	^ self dual null! !
+
+!FreeModule methodsFor: 'morphisms' stamp: 'len 7/14/2016 23:24'!
+apply: aLinearMap
+	"Answer the receiver transformed by aLinearMap."
+	^ (self basis apply: aLinearMap) span! !
+
+!FreeModule methodsFor: 'morphisms' stamp: 'len 7/15/2016 00:32'!
+asAffineSpace
+	self isVectorSpace ifFalse: [DomainError signal: 'not a vector space'].
+	^ AffineSubspace representative: self zero direction: self! !
+
+!FreeModule methodsFor: 'morphisms' stamp: 'len 7/15/2016 00:01'!
+asSubmoduleOf: aModule
+	self flag: #fix. "avoid computing linear independence again"
+	^ aModule span: self basis! !
 
 !FreeModule methodsFor: 'random' stamp: 'len 4/19/2016 20:12'!
 atRandom: aRandom
@@ -10931,9 +11019,8 @@ atRandom: aRandom bits: bitSize
 	self rank = 0 ifTrue: [^ self zero].
 	^ self elementAt: (self coordinateSpace atRandom: aRandom bits: bitSize)! !
 
-!FreeModule methodsFor: 'morphisms' stamp: 'len 5/23/2016 19:33'!
+!FreeModule methodsFor: 'morphisms' stamp: 'len 7/14/2016 23:52'!
 automorphisms
-	self flag: #fix. "does anything work for modules too? remove VectorSpace>>automorphisms"
 	^ GeneralLinearGroup on: self! !
 
 !FreeModule methodsFor: 'basis' stamp: 'len 4/25/2016 06:28'!
@@ -10953,6 +11040,15 @@ coordinateSpace
 coordinatesOf: anElement
 	^ self scalars tuple: self generators size evaluating: [:i| (anElement coefficientAt: (self generators at: i)) ifNil: [self scalars zero]]! !
 
+!FreeModule methodsFor: 'basis' stamp: 'len 7/15/2016 00:04'!
+dimension
+	"Custom notation for vector spaces."
+	^ self rank! !
+
+!FreeModule methodsFor: 'morphisms' stamp: 'len 7/15/2016 00:24'!
+dual
+	^ DualSpace from: self! !
+
 !FreeModule methodsFor: 'basis' stamp: 'len 4/25/2016 06:38'!
 e: anInteger
 	^ (properties at: #basis ifAbsent: [^ LinearCombination with: (self generators at: anInteger)]) at: anInteger! !
@@ -10969,17 +11065,43 @@ elementAt: aTuple
 generators
 	^ properties at: #generators ifAbsent: [self basis]! !
 
-!FreeModule methodsFor: 'comparing' stamp: 'len 4/25/2016 21:27'!
-hash
-	^ self generators asSet hash! !
+!FreeModule methodsFor: 'morphisms' stamp: 'len 7/15/2016 00:31'!
+grassmannian: r
+	"Answer the set of r-dimensional subspaces of the receiver."
+	self isVectorSpace ifFalse: [DomainError signal: 'not a vector space'].
+	self assert: (r <= self dimension and: [r >= 0]).
+	^ Grassmannian new: r over: self! !
 
-!FreeModule methodsFor: 'testing' stamp: 'len 4/25/2016 06:39'!
+!FreeModule methodsFor: 'comparing' stamp: 'len 7/14/2016 23:22'!
+hash
+	^ self scalars hash + self rank hashMultiply! !
+
+!FreeModule methodsFor: 'morphisms' stamp: 'len 7/15/2016 00:07'!
+hull: aCollection
+	"Answer the affine hull (flat) spanned by the vectors in aCollection."
+	| vectors x0 |
+	vectors _ aCollection asArray.
+	x0 _ vectors at: 1.
+	^ AffineSubspace
+		representative: x0
+		direction: (self span: ((2 to: vectors size) collect: [:i| x0 - (vectors at: i)]))! !
+
+!FreeModule methodsFor: 'testing' stamp: 'len 7/15/2016 00:30'!
 includes: anObject
-	^ (anObject isKindOf: LinearCombination) and: [anObject coefficients keys allSatisfy: [:each| self generators includes: each]]! !
+"	^ (anObject isKindOf: LinearCombination) and: [anObject coefficients keys allSatisfy: [:each| self generators includes: each]]"
+	^ (self coordinatesOf: anObject) notNil! !
 
 !FreeModule methodsFor: 'basis' stamp: 'len 4/25/2016 21:30'!
 indices
 	^ 1 to: (properties at: #generators ifAbsent: [^ 1 to: self rank]) size! !
+
+!FreeModule methodsFor: 'accessing' stamp: 'len 7/15/2016 00:36'!
+innerProduct
+	"Answer the bilinear form defining the Euclidean inner product."
+	^ properties at: #innerProduct ifAbsentPut:
+		[BilinearForm
+			from: (self, self)
+			evaluating: [:each| (self coordinatesOf: each first) dot: (self coordinatesOf: each second)]]! !
 
 !FreeModule methodsFor: 'testing' stamp: 'len 2/28/2016 07:55'!
 isCountable
@@ -10993,20 +11115,92 @@ isFinite
 isFreeModule
 	^ true! !
 
-!FreeModule methodsFor: 'printing' stamp: 'len 4/25/2016 21:23'!
+!FreeModule methodsFor: 'testing' stamp: 'len 7/14/2016 23:58'!
+isInitial
+	^ self isTrivial! !
+
+!FreeModule methodsFor: 'testing' stamp: 'len 7/14/2016 23:58'!
+isTrivial
+	^ self rank = 0! !
+
+!FreeModule methodsFor: 'testing' stamp: 'len 7/14/2016 23:58'!
+isVectorSpace
+	^ self scalars isField! !
+
+!FreeModule methodsFor: 'accessing' stamp: 'len 7/15/2016 00:36'!
+norm
+	^ properties at: #norm ifAbsentPut:
+		[Function from: self to: self scalars "should go to the reals"
+			evaluating: [:x| (self innerProduct value: {x. x conjugated}) squareRoot]]! !
+
+!FreeModule methodsFor: 'accessing' stamp: 'len 7/15/2016 00:36'!
+norm2
+	"Answer the squared norm."
+	^ properties at: #norm2 ifAbsentPut:
+		[Function from: self to: self scalars
+			evaluating: [:x| (self innerProduct value: {x. x conjugated})]]! !
+
+!FreeModule methodsFor: 'morphisms' stamp: 'len 7/14/2016 23:55'!
+null
+	^ self span: #()! !
+
+!FreeModule methodsFor: 'printing' stamp: 'len 7/15/2016 00:35'!
 printOn: aStream
-	(properties includesKey: #generators) ifFalse: [^ self].
-	aStream print: self scalars; nextPutAll: '-module {'.
-	self generators do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: '; '].
-	aStream nextPutAll: '}'! !
+	aStream print: self scalars; nextPut: $-; nextPutAll: (self isVectorSpace ifTrue: ['vector space '] ifFalse: ['module']); print: self basis! !
+
+!FreeModule methodsFor: 'morphisms' stamp: 'len 7/14/2016 23:56'!
+product: aModule
+	"Answer the categorical product, i.e. direct sum of the receiver and the argument."
+	^ (aModule isFreeModule and: [aModule scalars = self scalars])
+		ifTrue: [self  aModule]
+		ifFalse: [super product: aModule]! !
+
+!FreeModule methodsFor: 'morphisms' stamp: 'len 7/15/2016 00:35'!
+projective
+	"Answer the projective subspace induced by the receiver, consisting of the 1-dimension subspaces."
+	self isVectorSpace ifFalse: [^ DomainError signal: 'not a vector space'].
+	^ ProjectiveSubspace on: self! !
 
 !FreeModule methodsFor: 'basis' stamp: 'len 2/24/2016 02:24'!
 rank
 	^ self basis size! !
 
+!FreeModule methodsFor: 'morphisms' stamp: 'len 7/14/2016 23:56'!
+rotations
+	^ SpecialOrthogonalGroup on: self! !
+
 !FreeModule methodsFor: 'accessing' stamp: 'len 3/19/2016 02:51'!
 size
 	^ self scalars size ** self rank! !
+
+!FreeModule methodsFor: 'morphisms' stamp: 'len 7/15/2016 00:09'!
+span: aCollection
+	"Answer the subspace spanned by the vectors in aCollection."
+	| basis |
+	self flag: #fix. "avoid computing linear independence again"
+"	(aCollection isKindOf: LinearBasis)
+		ifTrue:
+			[basis _ LinearBasis on: self vectors: aCollection vectors]
+		ifFalse:
+			[basis _ LinearBasis on: self.
+			aCollection do: [:each| (basis generates: each) ifFalse: [basis add: each]]]."
+	basis _ LinearBasis on: self.
+	aCollection do: [:each| (basis generates: each) ifFalse: [basis add: each]].
+	^ LinearSubspace basis: basis! !
+
+!FreeModule methodsFor: 'morphisms' stamp: 'len 7/14/2016 23:57'!
+tensors: aPair
+	^ Tensors type: aPair on: self! !
+
+!FreeModule methodsFor: 'testing' stamp: 'len 7/15/2016 00:21'!
+torsion
+	"Free modules are torsionless."
+	^ self null! !
+
+!FreeModule methodsFor: 'basis' stamp: 'len 7/15/2016 00:04'!
+vectorAt: aTuple
+	"Custom notation for vector spaces."
+	^ self elementAt: aTuple! !
 
 !FreeModule methodsFor: 'elements' stamp: 'len 5/12/2016 10:09'!
 zero
@@ -11019,6 +11213,79 @@ new: anInteger over: aRing
 !FreeModule class methodsFor: 'instance creation' stamp: 'len 4/25/2016 06:38'!
 on: aCollection over: aRing
 	^ self new generators: aCollection; scalars: aRing! !
+
+!DirectSumSpace methodsFor: 'accessing' stamp: 'len 2/16/2016 07:31'!
+arity
+	^ components size! !
+
+!DirectSumSpace methodsFor: 'morphisms' stamp: 'len 5/1/2016 18:54'!
+asCartesianProduct
+	^ CartesianProduct components: components! !
+
+!DirectSumSpace methodsFor: 'accessing' stamp: 'len 2/12/2016 20:12'!
+at: anInteger
+	^ components at: anInteger! !
+
+!DirectSumSpace methodsFor: 'accessing-private' stamp: 'len 11/10/2015 22:53'!
+components
+	^ components! !
+
+!DirectSumSpace methodsFor: 'accessing-private' stamp: 'len 6/11/2016 16:45'!
+components: anArray
+	components _ anArray as: Tuple! !
+
+!DirectSumSpace methodsFor: 'basis' stamp: 'len 5/29/2016 17:49'!
+coordinatesOf: anArray
+	"Answer the coordinates of the argument in the canonic basis."
+	| answer |
+	components with: anArray do: [:V :v|
+		| coordinates |
+		coordinates _ V coordinatesOf: v.
+		answer _ answer isNil ifTrue: [coordinates] ifFalse: [answer, coordinates]].
+	^ answer! !
+
+!DirectSumSpace methodsFor: 'basis' stamp: 'len 11/30/2015 07:11'!
+dimension
+	^ components sum: [:each| each dimension]! !
+
+!DirectSumSpace methodsFor: 'basis' stamp: 'len 12/10/2015 04:22'!
+e: anInteger
+	^ components collect: [:each| each e: anInteger]! !
+
+!DirectSumSpace methodsFor: 'morphisms' stamp: 'len 5/1/2016 18:54'!
+embedding: i
+	^ (self at: i) -> self evaluating: [:x| components withIndexCollect: [:each :k| k = i ifTrue: [x] ifFalse: [each zero]]]! !
+
+!DirectSumSpace methodsFor: 'testing' stamp: 'len 2/12/2016 20:14'!
+includes: anObject
+	anObject size = components size ifFalse: [^ false].
+	components with: anObject do: [:V :x| (V includes: x) ifFalse: [^ false]].
+	^ true! !
+
+!DirectSumSpace methodsFor: 'testing' stamp: 'len 4/22/2016 13:44'!
+isCoproduct
+	^ true! !
+
+!DirectSumSpace methodsFor: 'printing' stamp: 'len 6/19/2016 02:46'!
+printOn: aStream
+	components do: [:each| aStream print: each] separatedBy: [aStream space; nextPut: Character oplus; space]! !
+
+!DirectSumSpace methodsFor: 'morphisms' stamp: 'len 5/1/2016 18:55'!
+projection: i
+	^ self -> (self at: i) evaluating: [:x| x at: i]! !
+
+!DirectSumSpace methodsFor: 'accessing' stamp: 'len 11/10/2015 22:56'!
+scalars
+	components do: [ :each | ^ each scalars].
+	^ nil! !
+
+!DirectSumSpace methodsFor: 'accessing' stamp: 'len 2/16/2016 07:32'!
+size
+	^ components product: [:each| each size]! !
+
+!DirectSumSpace class methodsFor: 'accessing-private' stamp: 'len 11/10/2015 22:58'!
+components: anArray
+	^ self new components: anArray! !
 
 !FreeAbelianGroup methodsFor: 'testing' stamp: 'len 2/24/2016 04:09'!
 isInfiniteCyclic
@@ -11050,6 +11317,10 @@ on: aCollection
 * anObject
 	(self ambient scalars includes: anObject) ifTrue: [^ self class basis: (self basis collect: [:each| each * anObject])].
 	^ super * anObject! !
+
+!Lattice methodsFor: 'morphisms' stamp: 'len 7/14/2016 22:53'!
+ aLattice
+	^ self class basis: basis  aLattice basis! !
 
 !Lattice methodsFor: 'accessing' stamp: 'len 5/23/2016 19:28'!
 ambient
@@ -11297,160 +11568,574 @@ matrix: aMatrix
 	"Answer a lattice with generator matrix aMatrix."
 	^ self basis: aMatrix rowSpace basis! !
 
+!LinearMaps methodsFor: 'morphisms' stamp: 'len 5/22/2016 03:48'!
+asLieAlgebra
+	^ LieAlgebra on: self bracket: (Function from: (self cartesian: self) to: self evaluating: [:each| each first @ each second - (each second @ each first)])! !
+
+!LinearMaps methodsFor: 'accessing' stamp: 'len 11/7/2015 04:34'!
+codomain
+	^ codomain! !
+
+!LinearMaps methodsFor: 'accessing-private' stamp: 'len 11/7/2015 04:31'!
+codomain: aVectorSpace
+	codomain _ aVectorSpace! !
+
+!LinearMaps methodsFor: 'basis' stamp: 'len 12/10/2015 03:48'!
+coordinatesOf: aLinearMap
+	"Answer the coordinates of aLinearMap with respect to the domain and codomain basis."
+
+	^ self matrices coordinatesOf: (self matrixOf: aLinearMap)! !
+
+!LinearMaps methodsFor: 'basis' stamp: 'len 11/7/2015 03:42'!
+dimension
+	^ self domain dimension * self codomain dimension! !
+
+!LinearMaps methodsFor: 'accessing' stamp: 'len 11/7/2015 04:34'!
+domain
+	^ domain! !
+
+!LinearMaps methodsFor: 'accessing-private' stamp: 'len 11/7/2015 04:31'!
+domain: aVectorSpace
+	domain _ aVectorSpace! !
+
+!LinearMaps methodsFor: 'basis' stamp: 'len 1/5/2016 03:28'!
+e: anInteger
+	"Answer the anInteger-th canonic vector."
+	^ LinearMap
+		from: self domain basis
+		to: self codomain basis
+		matrix: (self matrices e: anInteger)! !
+
+!LinearMaps methodsFor: 'elements' stamp: 'len 1/5/2016 03:21'!
+evaluating: aBlock
+	^ LinearMap from: domain to: codomain evaluating: aBlock! !
+
+!LinearMaps methodsFor: 'elements' stamp: 'len 2/11/2016 20:50'!
+identity
+	^ self matrix: self matrices identity! !
+
+!LinearMaps methodsFor: 'morphisms' stamp: 'len 11/8/2015 13:55'!
+inverse
+	^ self class from: self codomain to: self domain! !
+
+!LinearMaps methodsFor: 'testing' stamp: 'len 2/13/2016 00:19'!
+isEndomorphisms
+	^ domain = codomain! !
+
+!LinearMaps methodsFor: 'private' stamp: 'len 1/5/2016 03:20'!
+matrices
+	"Answer the vector space of the matrices associated to the transformations of the receiver."
+	^ self scalars ** (self codomain dimension @ self domain dimension)! !
+
+!LinearMaps methodsFor: 'elements' stamp: 'len 2/11/2016 06:04'!
+matrix: aMatrix
+	"Answer the linear transformation associated to the given matrix in the canonical basis for the domain and codomain vector spaces."
+	^ LinearMap from: domain basis to: codomain basis matrix: aMatrix! !
+
+!LinearMaps methodsFor: 'private' stamp: 'len 1/5/2016 03:20'!
+matrixOf: aLinearMap
+	"Answer the matrix associated to aLinearTransformation with respect to the domain and codomain basis."
+	| answer |
+	answer _ self matrices new.
+	self domain basis do: [:each|
+		answer addRow: (self codomain coordinatesOf: (aLinearMap value: each))].
+	^ answer transposed! !
+
+!LinearMaps methodsFor: 'elements' stamp: 'len 4/23/2016 03:56'!
+newFrom: anObject
+	(anObject isBlock or: [anObject is: #Function]) ifTrue: [^ self evaluating: anObject].
+	(anObject is: #Matrix) ifTrue: [^ self matrix: anObject].
+	(self scalars includes: anObject) ifTrue: [^ self scalar: anObject].
+	DomainError signal! !
+
+!LinearMaps methodsFor: 'printing' stamp: 'len 4/21/2016 00:02'!
+printOn: aStream
+	(Homomorphisms from: self domain to: self codomain) printOn: aStream! !
+
+!LinearMaps methodsFor: 'basis' stamp: 'len 7/15/2016 00:25'!
+rank
+	^ self dimension! !
+
+!LinearMaps methodsFor: 'elements' stamp: 'len 2/11/2016 20:10'!
+scalar: aNumber
+	^ self evaluating: [:x| x * aNumber]! !
+
+!LinearMaps methodsFor: 'accessing' stamp: 'len 11/7/2015 03:43'!
+scalars
+	"Answer the algebraic ambient of scalars."
+
+	^ self domain scalars! !
+
+!LinearMaps class methodsFor: 'instance creation' stamp: 'len 11/7/2015 03:40'!
+from: aVectorSpace to: anotherVectorSpace
+	^ self new
+		domain: aVectorSpace;
+		codomain: anotherVectorSpace! !
+
+!DualSpace methodsFor: 'accessing-private' stamp: 'len 6/11/2016 05:46'!
+domain: aVectorSpace
+	super domain: aVectorSpace.
+	self codomain: (ScalarSpace over: aVectorSpace scalars)! !
+
+!DualSpace methodsFor: 'basis' stamp: 'len 12/10/2015 03:56'!
+e: anInteger
+	"Answer the anInteger-th canonic vector."
+
+	^ LinearForm
+		from: self domain basis
+		matrix: (self matrices e: anInteger)! !
+
+!DualSpace methodsFor: 'elements' stamp: 'len 1/5/2016 03:21'!
+evaluating: aBlock
+	^ LinearForm from: domain to: codomain evaluating: aBlock! !
+
+!DualSpace methodsFor: 'morphisms' stamp: 'len 4/3/2016 16:23'!
+map
+	"Answer the natural isomorphism from the vector space to the dual.
+	See LinearForm>>#asVector."
+	self flag: #fix. "this is not natural"
+	^ LinearMap from: domain to: self evaluating: [:v| self vectorAt: (domain coordinatesOf: v)]! !
+
+!DualSpace methodsFor: 'printing' stamp: 'len 6/19/2016 00:25'!
+printOn: aStream
+	aStream print: self domain; nextPutAll: '*' super! !
+
+!DualSpace methodsFor: 'elements' stamp: 'len 6/1/2016 06:08'!
+x
+	"As for polynomials."
+	^ self x: 1! !
+
+!DualSpace methodsFor: 'elements' stamp: 'len 6/1/2016 06:07'!
+x: i
+	"As for polynomials."
+	^ self e: i! !
+
+!DualSpace methodsFor: 'elements' stamp: 'len 6/1/2016 06:08'!
+y
+	"As for polynomials."
+	^ self x: 2! !
+
+!DualSpace methodsFor: 'elements' stamp: 'len 6/1/2016 06:08'!
+z
+	"As for polynomials."
+	^ self x: 3! !
+
+!DualSpace class methodsFor: 'instance creation' stamp: 'len 11/7/2015 04:29'!
+from: aVectorSpace
+	"Answer the linear ambient of linear forms with domain in aVectorSpace."
+
+	^ self new domain: aVectorSpace! !
+
+!Matrices methodsFor: 'comparing' stamp: 'len 12/14/2015 01:51'!
+= anObject
+	self == anObject ifTrue: [^ true].
+	^ (anObject isKindOf: Matrices) and: [anObject scalars = self scalars and: [self numberOfRows = anObject numberOfRows and: [self numberOfColumns = anObject numberOfColumns]]]! !
+
+!Matrices methodsFor: 'morphisms' stamp: 'len 5/22/2016 03:48'!
+asLieAlgebra
+	^ LieAlgebra on: self bracket: (Function from: (self cartesian: self) to: self evaluating: [:each| each first * each second - (each second * each first)])! !
+
+!Matrices methodsFor: 'morphisms' stamp: 'len 5/29/2016 17:55'!
+asRing
+	^ (self as: Ring) one: self identity! !
+
+!Matrices methodsFor: 'basis' stamp: 'len 11/23/2015 02:31'!
+coordinatesOf: aMatrix
+	^ aMatrix asTuple! !
+
+!Matrices methodsFor: 'elements' stamp: 'len 7/8/2016 04:43'!
+dense: aTuple
+	^ DenseMatrix new coefficients: aTuple; species: self! !
+
+!Matrices methodsFor: 'elements' stamp: 'len 3/3/2016 18:57'!
+diagonal: aTuple
+	^ self evaluatingDiagonal: [:i| aTuple at: i]! !
+
+!Matrices methodsFor: 'basis' stamp: 'len 11/26/2015 03:53'!
+e: anInteger
+	| one zero m |
+	one _ scalars one.
+	zero _ scalars zero.
+	m _ numberOfColumns.
+	^ self evaluating: [:i :j| (i-1)*m + j = anInteger ifTrue: [one] ifFalse: [zero]]! !
+
+!Matrices methodsFor: 'basis' stamp: 'len 7/8/2016 03:03'!
+elementAt: aTuple
+	^ self evaluating: [:i :j| aTuple at: (i-1)*numberOfColumns + j]
+
+"	| answer |
+	answer _ self zero.
+	aTuple withIndexDo: [:each :i| answer _ (self e: i) * each + answer].
+	^ answer"! !
+
+!Matrices methodsFor: 'elements' stamp: 'len 4/22/2016 21:38'!
+evaluating: aBlock
+	^ self withRows: ((1 to: numberOfRows) collect: [:i| self scalars tuple: self numberOfColumns evaluating: [:j| aBlock value: i value: j]])! !
+
+!Matrices methodsFor: 'elements' stamp: 'len 1/7/2016 06:41'!
+evaluatingDiagonal: aBlock
+	| zero |
+	zero _ self scalars zero.
+	^ self evaluating: [:i :j| i == j ifTrue: [aBlock value: i] ifFalse: [zero]]! !
+
+!Matrices methodsFor: 'comparing' stamp: 'len 6/28/2016 09:24'!
+hash
+	^ scalars hash + numberOfRows hash hashMultiply + numberOfColumns! !
+
+!Matrices methodsFor: 'elements' stamp: 'len 11/26/2015 03:42'!
+identity
+	^ self scalar: scalars one! !
+
+!Matrices methodsFor: 'testing' stamp: 'len 11/26/2015 01:37'!
+includes: anObject
+	(anObject is: #Matrix) ifFalse: [^ false].
+	anObject do: [ :each | (scalars includes: each) ifFalse: [^ false]].
+	^ true! !
+
+!Matrices methodsFor: 'testing' stamp: 'len 3/5/2016 00:32'!
+isAssociative
+	^ self isSquare and: [scalars isCommutativeRing]! !
+
+!Matrices methodsFor: 'testing' stamp: 'len 11/26/2015 15:34'!
+isCommutative
+	^ self isRing and: [numberOfColumns = 1]! !
+
+!Matrices methodsFor: 'testing' stamp: 'len 11/7/2015 22:05'!
+isCountable
+	^ scalars isCountable! !
+
+!Matrices methodsFor: 'testing' stamp: 'len 11/7/2015 22:05'!
+isFinite
+	^ scalars isFinite! !
+
+!Matrices methodsFor: 'testing' stamp: 'len 11/7/2015 22:02'!
+isModule
+	^ scalars isRing! !
+
+!Matrices methodsFor: 'testing' stamp: 'len 11/26/2015 15:32'!
+isRing
+	^ self isSquare and: [scalars isRing]! !
+
+!Matrices methodsFor: 'testing' stamp: 'len 11/3/2015 20:57'!
+isSquare
+	^ numberOfRows = numberOfColumns! !
+
+!Matrices methodsFor: 'accessing' stamp: 'len 3/23/2016 00:29'!
+matrixClass
+	^ properties at: #matrixClass ifAbsentPut: [RowMatrix]! !
+
+!Matrices methodsFor: 'elements' stamp: 'len 11/26/2015 04:06'!
+new
+	^ self matrixClass new species: self! !
+
+!Matrices methodsFor: 'elements' stamp: 'len 7/2/2016 17:17'!
+newFrom: aMatrix
+	^ aMatrix copy species: self! !
+
+!Matrices methodsFor: 'accessing' stamp: 'len 11/3/2015 21:42'!
+numberOfColumns
+	^ numberOfColumns! !
+
+!Matrices methodsFor: 'accessing' stamp: 'len 11/3/2015 21:42'!
+numberOfRows
+	^ numberOfRows! !
+
+!Matrices methodsFor: 'initialization' stamp: 'len 4/23/2016 06:14'!
+numberOfRows: n columns: m
+	numberOfRows _ n.
+	numberOfColumns _ m! !
+
+!Matrices methodsFor: 'elements' stamp: 'len 11/26/2015 04:36'!
+one
+	^ self scalar: scalars one! !
+
+!Matrices methodsFor: 'morphisms' stamp: 'len 4/23/2016 06:12'!
+over: aRing
+	^ self copy scalars: aRing! !
+
+!Matrices methodsFor: 'printing' stamp: 'len 6/8/2016 01:53'!
+printOn: aStream
+	aStream print: self scalars.
+	aStream isText
+		ifTrue: [aStream nextPutAll: (numberOfRows printString, Character times asString, numberOfColumns printString) super]
+		ifFalse: [aStream nextPutAll: '^('; print: numberOfRows; nextPut: Character times; print: numberOfColumns; nextPut: $)]! !
+
+!Matrices methodsFor: 'basis' stamp: 'len 7/15/2016 00:40'!
+rank
+	^ numberOfRows * numberOfColumns! !
+
+!Matrices methodsFor: 'elements' stamp: 'len 2/6/2016 19:57'!
+scalar: aNumber
+	| zero |
+	zero _ scalars zero.
+	^ self evaluating: [:i :j| i=j ifTrue: [aNumber] ifFalse: [zero]]! !
+
+!Matrices methodsFor: 'accessing' stamp: 'len 11/3/2015 21:43'!
+scalars
+	^ scalars! !
+
+!Matrices methodsFor: 'initialization' stamp: 'len 4/23/2016 06:15'!
+scalars: aDomain
+	scalars _ aDomain! !
+
+!Matrices methodsFor: 'accessing' stamp: 'len 11/9/2015 23:18'!
+size
+	^ scalars size ** (self numberOfRows * self numberOfColumns)! !
+
+!Matrices methodsFor: 'elements' stamp: 'len 7/8/2016 04:20'!
+sparse: aSparseTuple
+	^ SparseMatrix new coefficients: aSparseTuple; species: self! !
+
+!Matrices methodsFor: 'morphisms' stamp: 'len 11/26/2015 01:34'!
+transposed
+	^ self isSquare
+		ifTrue: [self]
+		ifFalse: [self class new: self numberOfColumns @ self numberOfRows over: scalars]! !
+
+!Matrices methodsFor: 'elements' stamp: 'len 3/23/2016 02:59'!
+withColumns: anArray
+	^ (ColumnMatrix withColumns: anArray) species: self! !
+
+!Matrices methodsFor: 'elements' stamp: 'len 11/26/2015 03:43'!
+withRows: anArray
+	^ (self matrixClass withRows: anArray) species: self! !
+
+!Matrices methodsFor: 'elements' stamp: 'len 11/26/2015 04:36'!
+zero
+	^ self scalar: scalars zero! !
+
+!Matrices class methodsFor: 'instance creation' stamp: 'len 4/23/2016 06:15'!
+new: dimension over: aDomain
+	^ self new numberOfRows: dimension x columns: dimension y; scalars: aDomain! !
+
+!ScalarSpace methodsFor: 'basis' stamp: 'len 4/22/2016 21:55'!
+coordinatesOf: anObject
+	"Answer the coordinates of the argument in the canonic basis."
+	^ self scalars tuple: {anObject}! !
+
+!ScalarSpace methodsFor: 'basis' stamp: 'len 11/19/2015 19:18'!
+e: anInteger
+	"Answer the anInteger-th canonic vector."
+	^ self scalars one! !
+
+!ScalarSpace methodsFor: 'printing' stamp: 'len 4/21/2016 00:04'!
+printOn: aStream
+	aStream print: scalars! !
+
+!ScalarSpace methodsFor: 'basis' stamp: 'len 7/15/2016 00:40'!
+rank
+	^ 1! !
+
+!ScalarSpace methodsFor: 'accessing' stamp: 'len 11/7/2015 02:57'!
+scalars
+	^ scalars! !
+
+!ScalarSpace methodsFor: 'accessing-private' stamp: 'len 2/19/98 01:06'!
+scalars: anAlgebraicAmbient
+	scalars _ anAlgebraicAmbient! !
+
+!ScalarSpace class methodsFor: 'instance creation' stamp: 'len 11/7/2015 03:33'!
+over: aField
+	^ self new scalars: aField! !
+
 !SyzygyModule methodsFor: 'as yet unclassified' stamp: 'len 7/10/2016 00:00'!
 printOn: aStream
 	aStream nextPutAll: 'Syz('.
 	polynomials do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: ', '].
 	aStream nextPut: $)! !
 
-!VectorSpace methodsFor: 'morphisms' stamp: 'len 11/20/2015 15:01'!
--> aVectorSpace
-	"Answer the vector space of transformations from the receiver to the argument."
-	^ LinearMaps from: self to: aVectorSpace! !
+!TensorProductSpace methodsFor: 'as yet unclassified' stamp: 'len 6/19/2016 02:40'!
+e: anInteger
+	^ SimpleTensor left: (left e: anInteger - 1 // left dimension + 1) right: (right e: anInteger - 1 \\ right dimension + 1)! !
 
-!VectorSpace methodsFor: 'morphisms' stamp: 'len 6/11/2016 16:50'!
-/ aSubspace
-	"Answer the quotient of the receiver by the subspace aSubspace,
-	i.e. the vector space obtained by 'collapsing' the subspace to zero."
-	^ QuotientSpace by: (aSubspace asSubspaceOf: self)! !
+!TensorProductSpace methodsFor: 'as yet unclassified' stamp: 'len 6/19/2016 02:42'!
+left: aVectorSpace
+	left _ aVectorSpace! !
 
-!VectorSpace methodsFor: 'morphisms' stamp: 'len 6/5/2016 23:27'!
-/\ aSubspace
-	"Meet."
-	^ self intersection: aSubspace! !
+!TensorProductSpace methodsFor: 'as yet unclassified' stamp: 'len 6/19/2016 02:45'!
+printOn: aStream
+	aStream print: left; space; nextPut: Character otimes; space; print: right! !
 
-!VectorSpace methodsFor: 'comparing' stamp: 'len 12/13/2015 05:18'!
-< aLinearSubspace
-	"Answer true if the receiver is strictly included in the argument, i.e. it's a proper subspace of the argument."
-	^ self dimension < aLinearSubspace dimension and: [self <= aLinearSubspace]! !
+!TensorProductSpace methodsFor: 'as yet unclassified' stamp: 'len 7/15/2016 00:40'!
+rank
+	^ left rank * right rank! !
 
-!VectorSpace methodsFor: 'comparing' stamp: 'len 12/13/2015 05:18'!
-<= aLinearSubspace
-	"Answer true if the receiver is included in the argument, i.e. it's a subspace of the argument."
-	self dimension <= aLinearSubspace dimension ifFalse: [^ false].
-	self basis do: [:each| (aLinearSubspace includes: each) ifFalse: [^ false]].
-	^ true! !
+!TensorProductSpace methodsFor: 'as yet unclassified' stamp: 'len 6/19/2016 02:43'!
+right: aVectorSpace
+	right _ aVectorSpace! !
 
-!VectorSpace methodsFor: 'comparing' stamp: 'len 7/1/2016 21:39'!
+!TensorProductSpace methodsFor: 'as yet unclassified' stamp: 'len 6/4/2016 00:59'!
+scalars
+	^ left scalars! !
+
+!TensorProductSpace class methodsFor: 'as yet unclassified' stamp: 'len 6/19/2016 02:42'!
+left: aVectorSpace right: anotherVectorSpace
+	^ self new left: aVectorSpace; right: anotherVectorSpace! !
+
+!Tuples methodsFor: 'comparing' stamp: 'len 3/29/2016 18:01'!
 = anObject
 	self == anObject ifTrue: [^ true].
-	(anObject isKindOf: VectorSpace) ifFalse: [^ false].
-	self scalars = anObject scalars ifFalse: [^ false].
-	self dimension = anObject dimension ifFalse: [^ false].
-	1 to: self dimension do: [:i| (anObject includes: (self e: i)) ifFalse: [^ false]].
+	^ (anObject isKindOf: Tuples) and: [anObject scalars = self scalars and: [self dimension = anObject dimension]]! !
+
+!Tuples methodsFor: 'random' stamp: 'len 4/19/2016 20:13'!
+atRandom: aRandom
+	^ scalars tuple: self dimension evaluating: [:i| scalars atRandom: aRandom]! !
+
+!Tuples methodsFor: 'random' stamp: 'len 4/19/2016 22:10'!
+atRandom: aRandom bits: bitSize
+	| n |
+	n _ bitSize / self dimension.
+	^ scalars tuple: self dimension evaluating: [:i| scalars atRandom: aRandom bits: n]! !
+
+!Tuples methodsFor: 'basis' stamp: 'len 11/23/2015 02:34'!
+coordinatesOf: aTuple
+	^ aTuple! !
+
+!Tuples methodsFor: 'basis' stamp: 'len 11/2/2015 16:14'!
+dimension
+	^ dimension! !
+
+!Tuples methodsFor: 'iterating' stamp: 'len 11/10/2015 17:47'!
+do: aBlock
+	self do: aBlock from: 1 to: scalars size! !
+
+!Tuples methodsFor: 'iterating' stamp: 'len 3/30/2016 07:15'!
+do: aBlock from: min to: max
+	| n projection k |
+	n _ self dimension.
+	n = 0 ifTrue: [^ (min > 0 and: [max >= min]) ifTrue: [aBlock value: (self tupleClass withAll: {})]].
+	n = 1 ifTrue: [^ scalars do: [ :s | aBlock value: (self tupleClass withAll: {s})] from: min to: max].
+	projection _ self class new: n-1 over: self scalars.
+	k _ 1.
+	scalars do: [:s|
+		max < k ifTrue: [^ self].
+		k < min
+			ifFalse:
+				[projection do: [:p|
+					aBlock value: (s,p).
+					scalars do: [:t| (p includes: s) ifTrue: [aBlock value: (t,p)]] from: min to: k-1.
+				] from: min to: k].
+		k _ k + 1]! !
+
+!Tuples methodsFor: 'basis' stamp: 'len 4/12/2016 05:36'!
+e: anInteger
+	^ self scalars tuple: dimension evaluating: [:k| k = anInteger ifTrue: [scalars one] ifFalse: [scalars zero]]! !
+
+!Tuples methodsFor: 'basis' stamp: 'len 7/10/2016 07:35'!
+elementAt: aTuple
+	"Answer the vector with coordinates aTuple in the canonical basis (i.e, the standard basis)."
+	^ aTuple! !
+
+!Tuples methodsFor: 'elements' stamp: 'len 4/14/2016 06:45'!
+evaluating: aBlock
+	^ scalars tuple: dimension evaluating: aBlock! !
+
+!Tuples methodsFor: 'comparing' stamp: 'len 6/28/2016 09:38'!
+hash
+	^ scalars hash + dimension! !
+
+!Tuples methodsFor: 'testing' stamp: 'len 3/30/2016 07:05'!
+includes: anObject
+	(anObject is: #Tuple) ifFalse: [^ false].
+	anObject do: [:each| (scalars includes: each) ifFalse: [^ false]].
 	^ true! !
 
-!VectorSpace methodsFor: 'morphisms' stamp: 'len 6/5/2016 23:27'!
-\/ aSubspace
-	"Join."
-	^ self + aSubspace! !
+!Tuples methodsFor: 'testing' stamp: 'len 11/7/2015 22:06'!
+isCountable
+	^ scalars isCountable! !
 
-!VectorSpace methodsFor: 'testing' stamp: 'len 6/10/2016 23:10'!
-~ aVectorSpace
-	"Answer true if the receiver is isomorphic to the argument."
-	(aVectorSpace isKindOf: VectorSpace)
-		ifFalse: [^ super ~ aVectorSpace].
-	^ self = aVectorSpace or: [self scalars = aVectorSpace scalars and: [self dimension = aVectorSpace dimension]]! !
+!Tuples methodsFor: 'testing' stamp: 'len 11/7/2015 22:06'!
+isFinite
+	^ scalars isFinite! !
 
-!VectorSpace methodsFor: 'morphisms' stamp: 'len 6/17/2016 02:43'!
- aVectorSpace
-	^ DirectSumSpace components: {self. aVectorSpace}! !
+!Tuples methodsFor: 'testing' stamp: 'len 11/5/2015 19:23'!
+isModule
+	^ scalars isRing! !
 
-!VectorSpace methodsFor: 'morphisms' stamp: 'len 6/19/2016 02:41'!
-’ aVectorSpace
-	^ TensorProductSpace left: self right: aVectorSpace! !
+!Tuples methodsFor: 'iterating' stamp: 'len 3/30/2016 07:16'!
+iterator
+	| n scalarsIterator projection projectionIterator i k s p j |
+	n _ self dimension.
+	n = 0 ifTrue: [ ^ [self tupleClass withAll: {}] ].
+	scalarsIterator _ self scalars iterator.
+	n = 1 ifTrue: [ ^ [self tupleClass withAll: {scalarsIterator value}] ].
+	projection _ self class new: n-1 over: self scalars.
+	k _ 0.
+	i _ 0.
+	^ [(n-1)*(n-2)*(k**(n-2)) = i ifTrue: [s _ scalarsIterator value. k _ k+1. projectionIterator _ projection iterator. i _ 0].
+		j _ i\\(n-1).
+		j == 0 ifTrue: [p _ projectionIterator value].
+		i _ i+1.
+		(p copyFrom: 1 to: j), s, (p copyFrom: j+1 to: n-1)]! !
 
-!VectorSpace methodsFor: 'morphisms' stamp: 'len 2/25/2016 03:45'!
-annihilator
-	"Answer the annihilator of the receiver, i.e. the space of all linear forms that are 0 at all vectors in the receiver."
-	^ self dual null! !
+!Tuples methodsFor: 'elements' stamp: 'len 3/29/2016 08:10'!
+newFrom: anArray
+	^ self tupleClass newFrom: anArray! !
 
-!VectorSpace methodsFor: 'morphisms' stamp: 'len 1/7/2016 05:51'!
-apply: aLinearMap
-	"Answer the receiver transformed by aLinearMap."
-	^ (self basis apply: aLinearMap) span! !
+!Tuples methodsFor: 'morphisms' stamp: 'len 4/24/2016 06:36'!
+over: aRing
+	^ self copy scalars: aRing! !
 
-!VectorSpace methodsFor: 'morphisms' stamp: 'len 6/4/2016 04:28'!
-asAffineSpace
-	^ AffineSubspace representative: self zero direction: self! !
+!Tuples methodsFor: 'printing' stamp: 'len 6/7/2016 21:52'!
+printOn: aStream
+	aStream print: self scalars.
+	aStream isText
+		ifTrue: [aStream nextPutAll: self dimension printString super]
+		ifFalse: [aStream nextPutAll: '^'; print: self dimension]! !
+
+!Tuples methodsFor: 'morphisms' stamp: 'len 12/14/2015 19:23'!
+projection: i
+	^ LinearForm from: self evaluating: [:x| x at: i]! !
+
+!Tuples methodsFor: 'basis' stamp: 'len 7/15/2016 00:06'!
+rank
+	^ dimension! !
+
+!Tuples methodsFor: 'accessing' stamp: 'len 11/2/2015 17:34'!
+scalars
+	^ scalars! !
+
+!Tuples methodsFor: 'private' stamp: 'len 4/24/2016 06:36'!
+scalars: aDomain
+	scalars _ aDomain! !
+
+!Tuples methodsFor: 'initialization' stamp: 'len 4/19/2016 21:38'!
+setDimension: n scalars: aDomain
+	dimension _ n.
+	scalars _ aDomain! !
+
+!Tuples methodsFor: 'private' stamp: 'len 3/30/2016 06:47'!
+tupleClass
+	^ scalars tupleClass! !
+
+!Tuples methodsFor: 'elements' stamp: 'len 4/22/2016 21:57'!
+zero
+	| contents |
+	contents _ Array new: self dimension.
+	contents atAllPut: self scalars zero.
+	^ scalars tuple: contents! !
+
+!Tuples class methodsFor: 'instance creation' stamp: 'len 4/19/2016 21:37'!
+new: dimension over: aDomain
+	^ self new setDimension: dimension scalars: aDomain! !
 
 !VectorSpace methodsFor: 'morphisms' stamp: 'len 6/11/2016 18:31'!
 asSubspaceOf: aVectorSpace
 	self flag: #fix. "avoid computing linear independence again"
 	^ aVectorSpace span: self basis! !
 
-!VectorSpace methodsFor: 'morphisms' stamp: 'len 2/11/2016 20:26'!
-automorphisms
-	^ GeneralLinearGroup on: self! !
-
-!VectorSpace methodsFor: 'basis' stamp: 'len 4/25/2016 06:29'!
+!VectorSpace methodsFor: 'basis' stamp: 'len 7/15/2016 00:45'!
 dimension
 	^ self basis size! !
-
-!VectorSpace methodsFor: 'morphisms' stamp: 'len 6/3/2016 19:52'!
-directSum: aVectorSpace
-	^ DirectSumSpace components: {self. aVectorSpace}! !
 
 !VectorSpace methodsFor: 'iterating' stamp: 'len 11/23/2015 16:45'!
 do: aBlock
 	self coordinateSpace do: [ :each | aBlock value: (self vectorAt: each) ]! !
 
-!VectorSpace methodsFor: 'morphisms' stamp: 'len 11/9/2015 15:55'!
-dual
-	^ DualSpace from: self! !
-
-!VectorSpace methodsFor: 'morphisms' stamp: 'len 4/21/2016 17:01'!
-grassmannian: r
-	"Answer the set of r-dimensional subspaces of the receiver."
-	self assert: (r <= self dimension and: [r >= 0]).
-	^ Grassmannian new: r over: self! !
-
-!VectorSpace methodsFor: 'comparing' stamp: 'len 12/13/2015 05:14'!
-hash
-	^ self dimension + self scalars hash! !
-
-!VectorSpace methodsFor: 'morphisms' stamp: 'len 6/4/2016 04:29'!
-hull: aCollection
-	"Answer the affine hull (flat) spanned by the vectors in aCollection."
-	| vectors x0 |
-	vectors _ aCollection asArray.
-	x0 _ vectors at: 1.
-	^ AffineSubspace
-		representative: x0
-		direction: (self span: ((2 to: vectors size) collect: [:i| x0 - (vectors at: i)]))! !
-
-!VectorSpace methodsFor: 'testing' stamp: 'len 11/8/2015 02:00'!
-includes: anObject
-	^ (self coordinatesOf: anObject) notNil! !
-
-!VectorSpace methodsFor: 'accessing' stamp: 'len 4/19/2016 03:44'!
-innerProduct
-	"Answer the bilinear form defining the Euclidean inner product."
-	^ properties at: #innerProduct ifAbsentPut:
-		[BilinearForm
-			from: (self, self)
-			evaluating: [:each| (self coordinatesOf: each first) dot: (self coordinatesOf: each second)]]! !
-
 !VectorSpace methodsFor: 'morphisms' stamp: 'len 2/24/2016 08:46'!
 intersection: aLinearSubspace
 	self >= aLinearSubspace ifFalse: [^ self error: 'not a subspace of this space'].
 	^ aLinearSubspace! !
-
-!VectorSpace methodsFor: 'testing' stamp: 'len 11/8/2015 02:25'!
-isFinite
-	^ self scalars isFinite! !
-
-!VectorSpace methodsFor: 'testing' stamp: 'len 11/28/2015 09:11'!
-isInitial
-	^ self isTrivial! !
-
-!VectorSpace methodsFor: 'testing' stamp: 'len 11/28/2015 09:11'!
-isTrivial
-	^ self dimension = 0! !
-
-!VectorSpace methodsFor: 'testing' stamp: 'len 6/21/2016 23:10'!
-isVectorSpace
-	^ self scalars isField! !
 
 !VectorSpace methodsFor: 'iterating' stamp: 'len 11/23/2015 16:46'!
 iterator
@@ -11458,74 +12143,14 @@ iterator
 	coordinatesIterator _ self coordinateSpace iterator.
 	^ [ self vectorAt: coordinatesIterator value ]! !
 
-!VectorSpace methodsFor: 'accessing' stamp: 'len 2/13/2016 06:12'!
-norm
-	^ properties at: #norm ifAbsentPut:
-		[Function from: self to: self scalars "should go to the reals"
-			evaluating: [:x| (self innerProduct value: {x. x conjugated}) squareRoot]]! !
-
-!VectorSpace methodsFor: 'accessing' stamp: 'len 12/31/2015 04:58'!
-norm2
-	"Answer the squared norm."
-	^ properties at: #norm2 ifAbsentPut:
-		[Function from: self to: self scalars
-			evaluating: [:x| (self innerProduct value: {x. x conjugated})]]! !
-
-!VectorSpace methodsFor: 'morphisms' stamp: 'len 2/12/2016 08:02'!
-null
-	^ self span: #()! !
-
 !VectorSpace methodsFor: 'morphisms' stamp: 'len 2/25/2016 03:46'!
 perp
 	"Answer the orthogonal complement of the receiver."
 	^ self null! !
 
-!VectorSpace methodsFor: 'printing' stamp: 'len 6/22/2016 03:15'!
-printOn: aStream
-	aStream print: self scalars; nextPut: $-; nextPutAll: (self isVectorSpace ifTrue: ['vector space '] ifFalse: ['module']); print: self basis! !
-
-!VectorSpace methodsFor: 'morphisms' stamp: 'len 6/4/2016 00:21'!
-product: aVectorSpace
-	"Answer the categorical product, i.e. direct sum of the receiver and the argument."
-	^ (aVectorSpace isVectorSpace and: [aVectorSpace scalars = self scalars])
-		ifTrue: [self directSum: aVectorSpace]
-		ifFalse: [super product: aVectorSpace]! !
-
-!VectorSpace methodsFor: 'morphisms' stamp: 'len 6/10/2016 06:00'!
-projective
-	"Answer the projective subspace induced by the receiver, consisting of the 1-dimension subspaces."
-	^ ProjectiveSubspace on: self! !
-
-!VectorSpace methodsFor: 'basis' stamp: 'len 2/28/2016 08:07'!
+!VectorSpace methodsFor: 'basis' stamp: 'len 7/15/2016 00:45'!
 rank
 	^ self dimension! !
-
-!VectorSpace methodsFor: 'morphisms' stamp: 'len 2/11/2016 20:27'!
-rotations
-	^ SpecialOrthogonalGroup on: self! !
-
-!VectorSpace methodsFor: 'morphisms' stamp: 'len 6/11/2016 18:27'!
-span: aCollection
-	"Answer the subspace spanned by the vectors in aCollection."
-	| basis |
-	self flag: #fix. "avoid computing linear independence again"
-"	(aCollection isKindOf: LinearBasis)
-		ifTrue:
-			[basis _ LinearBasis on: self vectors: aCollection vectors]
-		ifFalse:
-			[basis _ LinearBasis on: self.
-			aCollection do: [:each| (basis generates: each) ifFalse: [basis add: each]]]."
-	basis _ LinearBasis on: self.
-	aCollection do: [:each| (basis generates: each) ifFalse: [basis add: each]].
-	^ LinearSubspace basis: basis! !
-
-!VectorSpace methodsFor: 'morphisms' stamp: 'len 11/27/2015 05:49'!
-tensors: aPair
-	^ Tensors type: aPair on: self! !
-
-!VectorSpace methodsFor: 'basis' stamp: 'len 2/28/2016 07:51'!
-vectorAt: aTuple
-	^ self elementAt: aTuple! !
 
 !AlgebraicExtensionSpace methodsFor: 'basis' stamp: 'len 6/4/2016 18:08'!
 coordinatesOf: aVector
@@ -11613,79 +12238,6 @@ vectorSpace: aVectorSpace
 on: aVectorSpace
 	^ self new vectorSpace: aVectorSpace! !
 
-!DirectSumSpace methodsFor: 'accessing' stamp: 'len 2/16/2016 07:31'!
-arity
-	^ components size! !
-
-!DirectSumSpace methodsFor: 'morphisms' stamp: 'len 5/1/2016 18:54'!
-asCartesianProduct
-	^ CartesianProduct components: components! !
-
-!DirectSumSpace methodsFor: 'accessing' stamp: 'len 2/12/2016 20:12'!
-at: anInteger
-	^ components at: anInteger! !
-
-!DirectSumSpace methodsFor: 'accessing-private' stamp: 'len 11/10/2015 22:53'!
-components
-	^ components! !
-
-!DirectSumSpace methodsFor: 'accessing-private' stamp: 'len 6/11/2016 16:45'!
-components: anArray
-	components _ anArray as: Tuple! !
-
-!DirectSumSpace methodsFor: 'basis' stamp: 'len 5/29/2016 17:49'!
-coordinatesOf: anArray
-	"Answer the coordinates of the argument in the canonic basis."
-	| answer |
-	components with: anArray do: [:V :v|
-		| coordinates |
-		coordinates _ V coordinatesOf: v.
-		answer _ answer isNil ifTrue: [coordinates] ifFalse: [answer, coordinates]].
-	^ answer! !
-
-!DirectSumSpace methodsFor: 'basis' stamp: 'len 11/30/2015 07:11'!
-dimension
-	^ components sum: [:each| each dimension]! !
-
-!DirectSumSpace methodsFor: 'basis' stamp: 'len 12/10/2015 04:22'!
-e: anInteger
-	^ components collect: [:each| each e: anInteger]! !
-
-!DirectSumSpace methodsFor: 'morphisms' stamp: 'len 5/1/2016 18:54'!
-embedding: i
-	^ (self at: i) -> self evaluating: [:x| components withIndexCollect: [:each :k| k = i ifTrue: [x] ifFalse: [each zero]]]! !
-
-!DirectSumSpace methodsFor: 'testing' stamp: 'len 2/12/2016 20:14'!
-includes: anObject
-	anObject size = components size ifFalse: [^ false].
-	components with: anObject do: [:V :x| (V includes: x) ifFalse: [^ false]].
-	^ true! !
-
-!DirectSumSpace methodsFor: 'testing' stamp: 'len 4/22/2016 13:44'!
-isCoproduct
-	^ true! !
-
-!DirectSumSpace methodsFor: 'printing' stamp: 'len 6/19/2016 02:46'!
-printOn: aStream
-	components do: [:each| aStream print: each] separatedBy: [aStream space; nextPut: Character oplus; space]! !
-
-!DirectSumSpace methodsFor: 'morphisms' stamp: 'len 5/1/2016 18:55'!
-projection: i
-	^ self -> (self at: i) evaluating: [:x| x at: i]! !
-
-!DirectSumSpace methodsFor: 'accessing' stamp: 'len 11/10/2015 22:56'!
-scalars
-	components do: [ :each | ^ each scalars].
-	^ nil! !
-
-!DirectSumSpace methodsFor: 'accessing' stamp: 'len 2/16/2016 07:32'!
-size
-	^ components product: [:each| each size]! !
-
-!DirectSumSpace class methodsFor: 'accessing-private' stamp: 'len 11/10/2015 22:58'!
-components: anArray
-	^ self new components: anArray! !
-
 !HomogeneousPolynomialSpace methodsFor: 'basis' stamp: 'len 6/24/2016 05:47'!
 dimension
 	| n |
@@ -11715,160 +12267,6 @@ bracket: aFunction
 !LieAlgebra methodsFor: 'as yet unclassified' stamp: 'len 5/21/2016 18:54'!
 characters
 	^ self notYetImplemented! !
-
-!LinearMaps methodsFor: 'morphisms' stamp: 'len 5/22/2016 03:48'!
-asLieAlgebra
-	^ LieAlgebra on: self bracket: (Function from: (self cartesian: self) to: self evaluating: [:each| each first @ each second - (each second @ each first)])! !
-
-!LinearMaps methodsFor: 'accessing' stamp: 'len 11/7/2015 04:34'!
-codomain
-	^ codomain! !
-
-!LinearMaps methodsFor: 'accessing-private' stamp: 'len 11/7/2015 04:31'!
-codomain: aVectorSpace
-	codomain _ aVectorSpace! !
-
-!LinearMaps methodsFor: 'basis' stamp: 'len 12/10/2015 03:48'!
-coordinatesOf: aLinearMap
-	"Answer the coordinates of aLinearMap with respect to the domain and codomain basis."
-
-	^ self matrices coordinatesOf: (self matrixOf: aLinearMap)! !
-
-!LinearMaps methodsFor: 'basis' stamp: 'len 11/7/2015 03:42'!
-dimension
-	^ self domain dimension * self codomain dimension! !
-
-!LinearMaps methodsFor: 'accessing' stamp: 'len 11/7/2015 04:34'!
-domain
-	^ domain! !
-
-!LinearMaps methodsFor: 'accessing-private' stamp: 'len 11/7/2015 04:31'!
-domain: aVectorSpace
-	domain _ aVectorSpace! !
-
-!LinearMaps methodsFor: 'basis' stamp: 'len 1/5/2016 03:28'!
-e: anInteger
-	"Answer the anInteger-th canonic vector."
-	^ LinearMap
-		from: self domain basis
-		to: self codomain basis
-		matrix: (self matrices e: anInteger)! !
-
-!LinearMaps methodsFor: 'elements' stamp: 'len 1/5/2016 03:21'!
-evaluating: aBlock
-	^ LinearMap from: domain to: codomain evaluating: aBlock! !
-
-!LinearMaps methodsFor: 'elements' stamp: 'len 2/11/2016 20:50'!
-identity
-	^ self matrix: self matrices identity! !
-
-!LinearMaps methodsFor: 'morphisms' stamp: 'len 11/8/2015 13:55'!
-inverse
-	^ self class from: self codomain to: self domain! !
-
-!LinearMaps methodsFor: 'testing' stamp: 'len 2/13/2016 00:19'!
-isEndomorphisms
-	^ domain = codomain! !
-
-!LinearMaps methodsFor: 'private' stamp: 'len 1/5/2016 03:20'!
-matrices
-	"Answer the vector space of the matrices associated to the transformations of the receiver."
-	^ self scalars ** (self codomain dimension @ self domain dimension)! !
-
-!LinearMaps methodsFor: 'elements' stamp: 'len 2/11/2016 06:04'!
-matrix: aMatrix
-	"Answer the linear transformation associated to the given matrix in the canonical basis for the domain and codomain vector spaces."
-	^ LinearMap from: domain basis to: codomain basis matrix: aMatrix! !
-
-!LinearMaps methodsFor: 'private' stamp: 'len 1/5/2016 03:20'!
-matrixOf: aLinearMap
-	"Answer the matrix associated to aLinearTransformation with respect to the domain and codomain basis."
-	| answer |
-	answer _ self matrices new.
-	self domain basis do: [:each|
-		answer addRow: (self codomain coordinatesOf: (aLinearMap value: each))].
-	^ answer transposed! !
-
-!LinearMaps methodsFor: 'elements' stamp: 'len 4/23/2016 03:56'!
-newFrom: anObject
-	(anObject isBlock or: [anObject is: #Function]) ifTrue: [^ self evaluating: anObject].
-	(anObject is: #Matrix) ifTrue: [^ self matrix: anObject].
-	(self scalars includes: anObject) ifTrue: [^ self scalar: anObject].
-	DomainError signal! !
-
-!LinearMaps methodsFor: 'printing' stamp: 'len 4/21/2016 00:02'!
-printOn: aStream
-	(Homomorphisms from: self domain to: self codomain) printOn: aStream! !
-
-!LinearMaps methodsFor: 'elements' stamp: 'len 2/11/2016 20:10'!
-scalar: aNumber
-	^ self evaluating: [:x| x * aNumber]! !
-
-!LinearMaps methodsFor: 'accessing' stamp: 'len 11/7/2015 03:43'!
-scalars
-	"Answer the algebraic ambient of scalars."
-
-	^ self domain scalars! !
-
-!LinearMaps class methodsFor: 'instance creation' stamp: 'len 11/7/2015 03:40'!
-from: aVectorSpace to: anotherVectorSpace
-	^ self new
-		domain: aVectorSpace;
-		codomain: anotherVectorSpace! !
-
-!DualSpace methodsFor: 'accessing-private' stamp: 'len 6/11/2016 05:46'!
-domain: aVectorSpace
-	super domain: aVectorSpace.
-	self codomain: (ScalarSpace over: aVectorSpace scalars)! !
-
-!DualSpace methodsFor: 'basis' stamp: 'len 12/10/2015 03:56'!
-e: anInteger
-	"Answer the anInteger-th canonic vector."
-
-	^ LinearForm
-		from: self domain basis
-		matrix: (self matrices e: anInteger)! !
-
-!DualSpace methodsFor: 'elements' stamp: 'len 1/5/2016 03:21'!
-evaluating: aBlock
-	^ LinearForm from: domain to: codomain evaluating: aBlock! !
-
-!DualSpace methodsFor: 'morphisms' stamp: 'len 4/3/2016 16:23'!
-map
-	"Answer the natural isomorphism from the vector space to the dual.
-	See LinearForm>>#asVector."
-	self flag: #fix. "this is not natural"
-	^ LinearMap from: domain to: self evaluating: [:v| self vectorAt: (domain coordinatesOf: v)]! !
-
-!DualSpace methodsFor: 'printing' stamp: 'len 6/19/2016 00:25'!
-printOn: aStream
-	aStream print: self domain; nextPutAll: '*' super! !
-
-!DualSpace methodsFor: 'elements' stamp: 'len 6/1/2016 06:08'!
-x
-	"As for polynomials."
-	^ self x: 1! !
-
-!DualSpace methodsFor: 'elements' stamp: 'len 6/1/2016 06:07'!
-x: i
-	"As for polynomials."
-	^ self e: i! !
-
-!DualSpace methodsFor: 'elements' stamp: 'len 6/1/2016 06:08'!
-y
-	"As for polynomials."
-	^ self x: 2! !
-
-!DualSpace methodsFor: 'elements' stamp: 'len 6/1/2016 06:08'!
-z
-	"As for polynomials."
-	^ self x: 3! !
-
-!DualSpace class methodsFor: 'instance creation' stamp: 'len 11/7/2015 04:29'!
-from: aVectorSpace
-	"Answer the linear ambient of linear forms with domain in aVectorSpace."
-
-	^ self new domain: aVectorSpace! !
 
 !LinearSubspace methodsFor: 'morphisms' stamp: 'len 6/4/2016 04:44'!
 + anObject
@@ -12057,188 +12455,6 @@ basis: aLinearBasis
 
 	^ self new basis: aLinearBasis! !
 
-!Matrices methodsFor: 'comparing' stamp: 'len 12/14/2015 01:51'!
-= anObject
-	self == anObject ifTrue: [^ true].
-	^ (anObject isKindOf: Matrices) and: [anObject scalars = self scalars and: [self numberOfRows = anObject numberOfRows and: [self numberOfColumns = anObject numberOfColumns]]]! !
-
-!Matrices methodsFor: 'morphisms' stamp: 'len 5/22/2016 03:48'!
-asLieAlgebra
-	^ LieAlgebra on: self bracket: (Function from: (self cartesian: self) to: self evaluating: [:each| each first * each second - (each second * each first)])! !
-
-!Matrices methodsFor: 'morphisms' stamp: 'len 5/29/2016 17:55'!
-asRing
-	^ (self as: Ring) one: self identity! !
-
-!Matrices methodsFor: 'basis' stamp: 'len 11/23/2015 02:31'!
-coordinatesOf: aMatrix
-	^ aMatrix asTuple! !
-
-!Matrices methodsFor: 'elements' stamp: 'len 7/8/2016 04:43'!
-dense: aTuple
-	^ DenseMatrix new coefficients: aTuple; species: self! !
-
-!Matrices methodsFor: 'elements' stamp: 'len 3/3/2016 18:57'!
-diagonal: aTuple
-	^ self evaluatingDiagonal: [:i| aTuple at: i]! !
-
-!Matrices methodsFor: 'basis' stamp: 'len 11/23/2015 02:30'!
-dimension
-	^ numberOfRows * numberOfColumns! !
-
-!Matrices methodsFor: 'basis' stamp: 'len 11/26/2015 03:53'!
-e: anInteger
-	| one zero m |
-	one _ scalars one.
-	zero _ scalars zero.
-	m _ numberOfColumns.
-	^ self evaluating: [:i :j| (i-1)*m + j = anInteger ifTrue: [one] ifFalse: [zero]]! !
-
-!Matrices methodsFor: 'basis' stamp: 'len 7/8/2016 03:03'!
-elementAt: aTuple
-	^ self evaluating: [:i :j| aTuple at: (i-1)*numberOfColumns + j]
-
-"	| answer |
-	answer _ self zero.
-	aTuple withIndexDo: [:each :i| answer _ (self e: i) * each + answer].
-	^ answer"! !
-
-!Matrices methodsFor: 'elements' stamp: 'len 4/22/2016 21:38'!
-evaluating: aBlock
-	^ self withRows: ((1 to: numberOfRows) collect: [:i| self scalars tuple: self numberOfColumns evaluating: [:j| aBlock value: i value: j]])! !
-
-!Matrices methodsFor: 'elements' stamp: 'len 1/7/2016 06:41'!
-evaluatingDiagonal: aBlock
-	| zero |
-	zero _ self scalars zero.
-	^ self evaluating: [:i :j| i == j ifTrue: [aBlock value: i] ifFalse: [zero]]! !
-
-!Matrices methodsFor: 'comparing' stamp: 'len 6/28/2016 09:24'!
-hash
-	^ scalars hash + numberOfRows hash hashMultiply + numberOfColumns! !
-
-!Matrices methodsFor: 'elements' stamp: 'len 11/26/2015 03:42'!
-identity
-	^ self scalar: scalars one! !
-
-!Matrices methodsFor: 'testing' stamp: 'len 11/26/2015 01:37'!
-includes: anObject
-	(anObject is: #Matrix) ifFalse: [^ false].
-	anObject do: [ :each | (scalars includes: each) ifFalse: [^ false]].
-	^ true! !
-
-!Matrices methodsFor: 'testing' stamp: 'len 3/5/2016 00:32'!
-isAssociative
-	^ self isSquare and: [scalars isCommutativeRing]! !
-
-!Matrices methodsFor: 'testing' stamp: 'len 11/26/2015 15:34'!
-isCommutative
-	^ self isRing and: [numberOfColumns = 1]! !
-
-!Matrices methodsFor: 'testing' stamp: 'len 11/7/2015 22:05'!
-isCountable
-	^ scalars isCountable! !
-
-!Matrices methodsFor: 'testing' stamp: 'len 11/7/2015 22:05'!
-isFinite
-	^ scalars isFinite! !
-
-!Matrices methodsFor: 'testing' stamp: 'len 11/7/2015 22:02'!
-isModule
-	^ scalars isRing! !
-
-!Matrices methodsFor: 'testing' stamp: 'len 11/26/2015 15:32'!
-isRing
-	^ self isSquare and: [scalars isRing]! !
-
-!Matrices methodsFor: 'testing' stamp: 'len 11/3/2015 20:57'!
-isSquare
-	^ numberOfRows = numberOfColumns! !
-
-!Matrices methodsFor: 'accessing' stamp: 'len 3/23/2016 00:29'!
-matrixClass
-	^ properties at: #matrixClass ifAbsentPut: [RowMatrix]! !
-
-!Matrices methodsFor: 'elements' stamp: 'len 11/26/2015 04:06'!
-new
-	^ self matrixClass new species: self! !
-
-!Matrices methodsFor: 'elements' stamp: 'len 7/2/2016 17:17'!
-newFrom: aMatrix
-	^ aMatrix copy species: self! !
-
-!Matrices methodsFor: 'accessing' stamp: 'len 11/3/2015 21:42'!
-numberOfColumns
-	^ numberOfColumns! !
-
-!Matrices methodsFor: 'accessing' stamp: 'len 11/3/2015 21:42'!
-numberOfRows
-	^ numberOfRows! !
-
-!Matrices methodsFor: 'initialization' stamp: 'len 4/23/2016 06:14'!
-numberOfRows: n columns: m
-	numberOfRows _ n.
-	numberOfColumns _ m! !
-
-!Matrices methodsFor: 'elements' stamp: 'len 11/26/2015 04:36'!
-one
-	^ self scalar: scalars one! !
-
-!Matrices methodsFor: 'morphisms' stamp: 'len 4/23/2016 06:12'!
-over: aRing
-	^ self copy scalars: aRing! !
-
-!Matrices methodsFor: 'printing' stamp: 'len 6/8/2016 01:53'!
-printOn: aStream
-	aStream print: self scalars.
-	aStream isText
-		ifTrue: [aStream nextPutAll: (numberOfRows printString, Character times asString, numberOfColumns printString) super]
-		ifFalse: [aStream nextPutAll: '^('; print: numberOfRows; nextPut: Character times; print: numberOfColumns; nextPut: $)]! !
-
-!Matrices methodsFor: 'elements' stamp: 'len 2/6/2016 19:57'!
-scalar: aNumber
-	| zero |
-	zero _ scalars zero.
-	^ self evaluating: [:i :j| i=j ifTrue: [aNumber] ifFalse: [zero]]! !
-
-!Matrices methodsFor: 'accessing' stamp: 'len 11/3/2015 21:43'!
-scalars
-	^ scalars! !
-
-!Matrices methodsFor: 'initialization' stamp: 'len 4/23/2016 06:15'!
-scalars: aDomain
-	scalars _ aDomain! !
-
-!Matrices methodsFor: 'accessing' stamp: 'len 11/9/2015 23:18'!
-size
-	^ scalars size ** (self numberOfRows * self numberOfColumns)! !
-
-!Matrices methodsFor: 'elements' stamp: 'len 7/8/2016 04:20'!
-sparse: aSparseTuple
-	^ SparseMatrix new coefficients: aSparseTuple; species: self! !
-
-!Matrices methodsFor: 'morphisms' stamp: 'len 11/26/2015 01:34'!
-transposed
-	^ self isSquare
-		ifTrue: [self]
-		ifFalse: [self class new: self numberOfColumns @ self numberOfRows over: scalars]! !
-
-!Matrices methodsFor: 'elements' stamp: 'len 3/23/2016 02:59'!
-withColumns: anArray
-	^ (ColumnMatrix withColumns: anArray) species: self! !
-
-!Matrices methodsFor: 'elements' stamp: 'len 11/26/2015 03:43'!
-withRows: anArray
-	^ (self matrixClass withRows: anArray) species: self! !
-
-!Matrices methodsFor: 'elements' stamp: 'len 11/26/2015 04:36'!
-zero
-	^ self scalar: scalars zero! !
-
-!Matrices class methodsFor: 'instance creation' stamp: 'len 4/23/2016 06:15'!
-new: dimension over: aDomain
-	^ self new numberOfRows: dimension x columns: dimension y; scalars: aDomain! !
-
 !PolynomialSpace methodsFor: 'basis' stamp: 'len 4/12/2016 08:08'!
 coordinatesOf: aPolynomial
 	| coefficients |
@@ -12361,64 +12577,6 @@ subspace: aLinearSubspace
 by: aLinearSubspace
 	^ self new subspace: aLinearSubspace! !
 
-!ScalarSpace methodsFor: 'basis' stamp: 'len 4/22/2016 21:55'!
-coordinatesOf: anObject
-	"Answer the coordinates of the argument in the canonic basis."
-	^ self scalars tuple: {anObject}! !
-
-!ScalarSpace methodsFor: 'basis' stamp: 'len 11/7/2015 01:35'!
-dimension
-	^ 1! !
-
-!ScalarSpace methodsFor: 'basis' stamp: 'len 11/19/2015 19:18'!
-e: anInteger
-	"Answer the anInteger-th canonic vector."
-	^ self scalars one! !
-
-!ScalarSpace methodsFor: 'printing' stamp: 'len 4/21/2016 00:04'!
-printOn: aStream
-	aStream print: scalars! !
-
-!ScalarSpace methodsFor: 'accessing' stamp: 'len 11/7/2015 02:57'!
-scalars
-	^ scalars! !
-
-!ScalarSpace methodsFor: 'accessing-private' stamp: 'len 2/19/98 01:06'!
-scalars: anAlgebraicAmbient
-	scalars _ anAlgebraicAmbient! !
-
-!ScalarSpace class methodsFor: 'instance creation' stamp: 'len 11/7/2015 03:33'!
-over: aField
-	^ self new scalars: aField! !
-
-!TensorProductSpace methodsFor: 'as yet unclassified' stamp: 'len 6/19/2016 02:37'!
-dimension
-	^ left dimension * right dimension! !
-
-!TensorProductSpace methodsFor: 'as yet unclassified' stamp: 'len 6/19/2016 02:40'!
-e: anInteger
-	^ SimpleTensor left: (left e: anInteger - 1 // left dimension + 1) right: (right e: anInteger - 1 \\ right dimension + 1)! !
-
-!TensorProductSpace methodsFor: 'as yet unclassified' stamp: 'len 6/19/2016 02:42'!
-left: aVectorSpace
-	left _ aVectorSpace! !
-
-!TensorProductSpace methodsFor: 'as yet unclassified' stamp: 'len 6/19/2016 02:45'!
-printOn: aStream
-	aStream print: left; space; nextPut: Character otimes; space; print: right! !
-
-!TensorProductSpace methodsFor: 'as yet unclassified' stamp: 'len 6/19/2016 02:43'!
-right: aVectorSpace
-	right _ aVectorSpace! !
-
-!TensorProductSpace methodsFor: 'as yet unclassified' stamp: 'len 6/4/2016 00:59'!
-scalars
-	^ left scalars! !
-
-!TensorProductSpace class methodsFor: 'as yet unclassified' stamp: 'len 6/19/2016 02:42'!
-left: aVectorSpace right: anotherVectorSpace
-	^ self new left: aVectorSpace; right: anotherVectorSpace! !
-
 !Tensors methodsFor: 'accessing' stamp: 'len 11/29/2015 00:38'!
 contravariantOrder
 	^ self type first! !
@@ -12475,149 +12633,6 @@ vectorSpace: aVectorSpace
 !Tensors class methodsFor: 'instance creation' stamp: 'len 11/27/2015 05:20'!
 type: aPair on: aVectorSpace
 	^ self new type: aPair; vectorSpace: aVectorSpace! !
-
-!Tuples methodsFor: 'comparing' stamp: 'len 3/29/2016 18:01'!
-= anObject
-	self == anObject ifTrue: [^ true].
-	^ (anObject isKindOf: Tuples) and: [anObject scalars = self scalars and: [self dimension = anObject dimension]]! !
-
-!Tuples methodsFor: 'random' stamp: 'len 4/19/2016 20:13'!
-atRandom: aRandom
-	^ scalars tuple: self dimension evaluating: [:i| scalars atRandom: aRandom]! !
-
-!Tuples methodsFor: 'random' stamp: 'len 4/19/2016 22:10'!
-atRandom: aRandom bits: bitSize
-	| n |
-	n _ bitSize / self dimension.
-	^ scalars tuple: self dimension evaluating: [:i| scalars atRandom: aRandom bits: n]! !
-
-!Tuples methodsFor: 'basis' stamp: 'len 11/23/2015 02:34'!
-coordinatesOf: aTuple
-	^ aTuple! !
-
-!Tuples methodsFor: 'basis' stamp: 'len 11/2/2015 16:14'!
-dimension
-	^ dimension! !
-
-!Tuples methodsFor: 'iterating' stamp: 'len 11/10/2015 17:47'!
-do: aBlock
-	self do: aBlock from: 1 to: scalars size! !
-
-!Tuples methodsFor: 'iterating' stamp: 'len 3/30/2016 07:15'!
-do: aBlock from: min to: max
-	| n projection k |
-	n _ self dimension.
-	n = 0 ifTrue: [^ (min > 0 and: [max >= min]) ifTrue: [aBlock value: (self tupleClass withAll: {})]].
-	n = 1 ifTrue: [^ scalars do: [ :s | aBlock value: (self tupleClass withAll: {s})] from: min to: max].
-	projection _ self class new: n-1 over: self scalars.
-	k _ 1.
-	scalars do: [:s|
-		max < k ifTrue: [^ self].
-		k < min
-			ifFalse:
-				[projection do: [:p|
-					aBlock value: (s,p).
-					scalars do: [:t| (p includes: s) ifTrue: [aBlock value: (t,p)]] from: min to: k-1.
-				] from: min to: k].
-		k _ k + 1]! !
-
-!Tuples methodsFor: 'basis' stamp: 'len 4/12/2016 05:36'!
-e: anInteger
-	^ self scalars tuple: dimension evaluating: [:k| k = anInteger ifTrue: [scalars one] ifFalse: [scalars zero]]! !
-
-!Tuples methodsFor: 'basis' stamp: 'len 7/10/2016 07:35'!
-elementAt: aTuple
-	"Answer the vector with coordinates aTuple in the canonical basis (i.e, the standard basis)."
-	^ aTuple! !
-
-!Tuples methodsFor: 'elements' stamp: 'len 4/14/2016 06:45'!
-evaluating: aBlock
-	^ scalars tuple: dimension evaluating: aBlock! !
-
-!Tuples methodsFor: 'comparing' stamp: 'len 6/28/2016 09:38'!
-hash
-	^ scalars hash + dimension! !
-
-!Tuples methodsFor: 'testing' stamp: 'len 3/30/2016 07:05'!
-includes: anObject
-	(anObject is: #Tuple) ifFalse: [^ false].
-	anObject do: [:each| (scalars includes: each) ifFalse: [^ false]].
-	^ true! !
-
-!Tuples methodsFor: 'testing' stamp: 'len 11/7/2015 22:06'!
-isCountable
-	^ scalars isCountable! !
-
-!Tuples methodsFor: 'testing' stamp: 'len 11/7/2015 22:06'!
-isFinite
-	^ scalars isFinite! !
-
-!Tuples methodsFor: 'testing' stamp: 'len 11/5/2015 19:23'!
-isModule
-	^ scalars isRing! !
-
-!Tuples methodsFor: 'iterating' stamp: 'len 3/30/2016 07:16'!
-iterator
-	| n scalarsIterator projection projectionIterator i k s p j |
-	n _ self dimension.
-	n = 0 ifTrue: [ ^ [self tupleClass withAll: {}] ].
-	scalarsIterator _ self scalars iterator.
-	n = 1 ifTrue: [ ^ [self tupleClass withAll: {scalarsIterator value}] ].
-	projection _ self class new: n-1 over: self scalars.
-	k _ 0.
-	i _ 0.
-	^ [(n-1)*(n-2)*(k**(n-2)) = i ifTrue: [s _ scalarsIterator value. k _ k+1. projectionIterator _ projection iterator. i _ 0].
-		j _ i\\(n-1).
-		j == 0 ifTrue: [p _ projectionIterator value].
-		i _ i+1.
-		(p copyFrom: 1 to: j), s, (p copyFrom: j+1 to: n-1)]! !
-
-!Tuples methodsFor: 'elements' stamp: 'len 3/29/2016 08:10'!
-newFrom: anArray
-	^ self tupleClass newFrom: anArray! !
-
-!Tuples methodsFor: 'morphisms' stamp: 'len 4/24/2016 06:36'!
-over: aRing
-	^ self copy scalars: aRing! !
-
-!Tuples methodsFor: 'printing' stamp: 'len 6/7/2016 21:52'!
-printOn: aStream
-	aStream print: self scalars.
-	aStream isText
-		ifTrue: [aStream nextPutAll: self dimension printString super]
-		ifFalse: [aStream nextPutAll: '^'; print: self dimension]! !
-
-!Tuples methodsFor: 'morphisms' stamp: 'len 12/14/2015 19:23'!
-projection: i
-	^ LinearForm from: self evaluating: [:x| x at: i]! !
-
-!Tuples methodsFor: 'accessing' stamp: 'len 11/2/2015 17:34'!
-scalars
-	^ scalars! !
-
-!Tuples methodsFor: 'private' stamp: 'len 4/24/2016 06:36'!
-scalars: aDomain
-	scalars _ aDomain! !
-
-!Tuples methodsFor: 'initialization' stamp: 'len 4/19/2016 21:38'!
-setDimension: n scalars: aDomain
-	dimension _ n.
-	scalars _ aDomain! !
-
-!Tuples methodsFor: 'private' stamp: 'len 3/30/2016 06:47'!
-tupleClass
-	^ scalars tupleClass! !
-
-!Tuples methodsFor: 'elements' stamp: 'len 4/22/2016 21:57'!
-zero
-	| contents |
-	contents _ Array new: self dimension.
-	contents atAllPut: self scalars zero.
-	^ scalars tuple: contents! !
-
-!Tuples class methodsFor: 'instance creation' stamp: 'len 4/19/2016 21:37'!
-new: dimension over: aDomain
-	^ self new setDimension: dimension scalars: aDomain! !
 
 !Ring methodsFor: 'morphisms' stamp: 'len 6/29/2016 03:48'!
 % anObject
@@ -34833,14 +34848,17 @@ testHamming743
 	self assert: H7 weightDistribution = #(0 3 3 3 3 3 3 3 4 4 4 4 4 4 4 7) asBag.
 	self assert: H7 dual minimumDistance = 4! !
 
-!CodesTest methodsFor: 'as yet unclassified' stamp: 'len 6/26/2016 05:39'!
+!CodesTest methodsFor: 'as yet unclassified' stamp: 'len 7/14/2016 18:16'!
 testHamming844
-	| C |
+	| C P x y |
 	C _ LinearCode H8.
 	self assert: C isSelfDual.
 	self assert: C isSelfOrthogonal.
 	self assert: C minimumDistance = 4.
-	self assert: C dual minimumDistance = 4! !
+	self assert: C dual minimumDistance = 4.
+	P _ Integers new polynomialsIn: 2.
+	x _ P x. y _ P y.
+	self assert: C weightEnumerator = (x**8 + (x*y**4*14) + (y**8))! !
 
 !CodesTest methodsFor: 'as yet unclassified' stamp: 'len 6/25/2016 05:33'!
 testMacWilliamsTheorem
@@ -35423,15 +35441,6 @@ testDirectProduct
 	G _ S directProduct: A.
 	g _ G atRandom.
 	self assert: (G operation value: {g. G inverseMap value: g}) = G identity! !
-
-!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 4/19/2016 04:07'!
-testDirectProductOfAbelianGroups
-	| G1 G2 G1xG2 g |
-	G1 _ Rationals new ** 3.
-	G2 _ Integers new ** (2@2).
-	G1xG2 _ DirectProductGroup components: {G1. G2}.
-	g _ G1xG2 atRandomBits: 100.
-	self assert: (G1xG2 operation value: {g. G1xG2 inverseMap value: g}) = G1xG2 identity! !
 
 !GroupTest methodsFor: 'as yet unclassified' stamp: 'len 7/1/2016 05:09'!
 testHessian
