@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 15 July 2016 at 5:12:29.33265 am'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 15 July 2016 at 6:15:42.693572 pm'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 163!
+!provides: 'Mathematics' 1 164!
 !classDefinition: #AbelianGroupPresentation category: #'Mathematics-Free'!
 Object subclass: #AbelianGroupPresentation
 	instanceVariableNames: 'generators relators'
@@ -13465,6 +13465,11 @@ valuation: p
 zero
 	^ 0! !
 
+!Rationals class methodsFor: 'initialization' stamp: 'len 7/15/2016 18:12'!
+initialize
+	super initialize.
+	QQ _ self new! !
+
 !QuotientRing methodsFor: 'comparing' stamp: 'len 12/14/2015 01:57'!
 = anObject
 	self == anObject ifTrue: [^ true].
@@ -13989,6 +13994,11 @@ valuation
 !Integers methodsFor: 'elements' stamp: 'len 11/3/2015 20:50'!
 zero
 	^ 0! !
+
+!Integers class methodsFor: 'initialization' stamp: 'len 7/15/2016 18:11'!
+initialize
+	super initialize.
+	ZZ _ self new! !
 
 !PAdicIntegers methodsFor: 'testing' stamp: 'len 12/7/2015 01:29'!
 isIntegralDomain
@@ -18206,6 +18216,11 @@ printOn: aStream
 !Naturals methodsFor: 'accessing' stamp: 'len 4/24/2016 02:58'!
 size
 	^ Aleph new! !
+
+!Naturals class methodsFor: 'initialization' stamp: 'len 7/15/2016 18:12'!
+initialize
+	super initialize.
+	NN _ self new! !
 
 !Polytope methodsFor: 'arithmetic' stamp: 'len 4/17/2016 03:29'!
 * aPolytope
@@ -37994,3 +38009,6 @@ run
 	^ characteristicSet _ G! !
 Digraph initialize!
 BitTuple initialize!
+Rationals initialize!
+Integers initialize!
+Naturals initialize!
