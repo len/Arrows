@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 15 July 2016 at 6:39:26.558901 pm'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 16 July 2016 at 4:53:29.2845 am'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 165!
+!provides: 'Mathematics' 1 166!
 !classDefinition: #AbelianGroupPresentation category: #'Mathematics-Free'!
 Object subclass: #AbelianGroupPresentation
 	instanceVariableNames: 'generators relators'
@@ -2221,24 +2221,24 @@ Object subclass: #GroupPresentation
 GroupPresentation class
 	instanceVariableNames: ''!
 
-!classDefinition: #HNFModuloD category: #'Mathematics-Linear-Algorithms'!
-Object subclass: #HNFModuloD
-	instanceVariableNames: 'matrix modulo'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Linear-Algorithms'!
-!classDefinition: 'HNFModuloD class' category: #'Mathematics-Linear-Algorithms'!
-HNFModuloD class
-	instanceVariableNames: ''!
-
-!classDefinition: #HermiteNormalForm category: #'Mathematics-Linear-Algorithms'!
-Object subclass: #HermiteNormalForm
+!classDefinition: #HermiteNormalForm2 category: #'Mathematics-Linear-Algorithms'!
+Object subclass: #HermiteNormalForm2
 	instanceVariableNames: 'matrix'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Linear-Algorithms'!
-!classDefinition: 'HermiteNormalForm class' category: #'Mathematics-Linear-Algorithms'!
-HermiteNormalForm class
+!classDefinition: 'HermiteNormalForm2 class' category: #'Mathematics-Linear-Algorithms'!
+HermiteNormalForm2 class
+	instanceVariableNames: ''!
+
+!classDefinition: #HermiteNormalFormCRT category: #'Mathematics-Linear-Algorithms'!
+Object subclass: #HermiteNormalFormCRT
+	instanceVariableNames: 'matrix HNF'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Linear-Algorithms'!
+!classDefinition: 'HermiteNormalFormCRT class' category: #'Mathematics-Linear-Algorithms'!
+HermiteNormalFormCRT class
 	instanceVariableNames: ''!
 
 !classDefinition: #HomogeneousTuple category: #'Mathematics-Geometry-Projective'!
@@ -4294,9 +4294,6 @@ Example:
 
 !RealAlgebraicNumber commentStamp: '<historical>' prior: 0!
 My instances are real algebraic numbers, i.e. real zeros of polynomials with integer (or rational) coefficients.!
-
-!Matrix commentStamp: '<historical>' prior: 0!
-My instances are matrices.!
 
 !GaussBareiss commentStamp: '<historical>' prior: 0!
 I am the Gauss-Bereiss algorithm.
@@ -24289,32 +24286,15 @@ free: aCollection
 generators: aCollection relators: anotherCollection
 	^ self new generators: aCollection; relators: anotherCollection! !
 
-!HNFModuloD methodsFor: 'as yet unclassified' stamp: 'len 3/5/2016 21:24'!
-reduce
-	| m n i j k R |
-	m _ matrix numberOfRows.
-	n _ matrix numberOfColumns.
-	
-	"Initialize:"
-	i _ m. j _ n. k _ n. R _ modulo.
-	"Check zero:"
-	[j = 1] whileFalse:
-		[j _ j - 1.
-		(matrix at: i@j) isZero not "Euclidean step:"
-			ifTrue:
-				[]].
-	"Next row:"
-	"..."! !
-
-!HermiteNormalForm methodsFor: 'as yet unclassified' stamp: 'len 3/5/2016 22:52'!
+!HermiteNormalForm2 methodsFor: 'as yet unclassified' stamp: 'len 3/5/2016 22:52'!
 matrix
 	^ matrix! !
 
-!HermiteNormalForm methodsFor: 'as yet unclassified' stamp: 'len 3/6/2016 04:14'!
+!HermiteNormalForm2 methodsFor: 'as yet unclassified' stamp: 'len 3/6/2016 04:14'!
 matrix: aMatrix
 	matrix _ aMatrix! !
 
-!HermiteNormalForm methodsFor: 'as yet unclassified' stamp: 'len 3/21/2016 05:07'!
+!HermiteNormalForm2 methodsFor: 'as yet unclassified' stamp: 'len 3/21/2016 05:07'!
 reduceStep2: i k: k
 	| j0 b |
 	"2. Row finished?"
@@ -24333,7 +24313,7 @@ reduceStep2: i k: k
 		q _ (matrix at: i@j) // b.
 		matrix addColumn: k multipliedBy: q negated toColumn: j]] repeat! !
 
-!HermiteNormalForm methodsFor: 'as yet unclassified' stamp: 'len 3/21/2016 05:02'!
+!HermiteNormalForm2 methodsFor: 'as yet unclassified' stamp: 'len 3/21/2016 05:02'!
 reduceStep: i k: k
 	| j0 b |
 	"2. Row finished?"
@@ -24352,7 +24332,7 @@ reduceStep: i k: k
 		q _ (matrix at: i@j) // b.
 		matrix addColumn: k multipliedBy: q negated toColumn: j]] repeat! !
 
-!HermiteNormalForm methodsFor: 'as yet unclassified' stamp: 'len 3/21/2016 05:02'!
+!HermiteNormalForm2 methodsFor: 'as yet unclassified' stamp: 'len 3/21/2016 05:02'!
 run
 	| n m i k l b |
 	m _ matrix numberOfRows.
@@ -24375,6 +24355,39 @@ run
 	"6. Finished?"
 	i = l] whileFalse: [i _ i - 1. k _ k - 1].
 	^ matrix copyFrom: 1@k to: m@n! !
+
+!HermiteNormalFormCRT methodsFor: 'as yet unclassified' stamp: 'len 7/16/2016 04:10'!
+addColumn: a to: B
+	^ (B columnAugmented: a) HNF columnAt: B numberOfColumns + 1! !
+
+!HermiteNormalFormCRT methodsFor: 'as yet unclassified' stamp: 'len 7/16/2016 04:46'!
+addRow: b to: H
+	| H0 |
+	H0 _ H isSquare
+		ifTrue: [H]
+		ifFalse:
+			[H rowAugmented: (H scalars ** (H numberOfColumns - 1) :: zero, (H rowAugmented: b) determinant)].
+	"..."! !
+
+!HermiteNormalFormCRT methodsFor: 'as yet unclassified' stamp: 'len 7/16/2016 01:28'!
+matrix: aMatrix
+	matrix _ aMatrix! !
+
+!HermiteNormalFormCRT methodsFor: 'as yet unclassified' stamp: 'len 7/16/2016 03:50'!
+probablePivotsOf: aMatrix
+	^ aMatrix % (10007 to: 46000) atRandom nextPrime :: reducer pivots
+! !
+
+!HermiteNormalFormCRT methodsFor: 'as yet unclassified' stamp: 'len 7/16/2016 04:35'!
+run
+"
+	HNF _ matrix zero.
+	HNF at: 1@1 put: (matrix at: 1@1).
+	2 to: matrix numberOfColumns do: [:j|
+		a _ matrix columnAt: j.
+		x _ self addColumn: a.
+		HNF _ addRow: a to: HNF | x
+"! !
 
 !HomogeneousTuple methodsFor: 'comparing' stamp: 'len 6/29/2016 05:24'!
 = aHomogeneousTuple
@@ -25029,11 +25042,11 @@ kernel2
 kernelBasis
 	^ self solver kernelBasis! !
 
-!LinearSystem methodsFor: 'operations' stamp: 'len 5/23/2016 04:27'!
+!LinearSystem methodsFor: 'operations' stamp: 'len 7/16/2016 03:47'!
 matrix
 	| answer |
 	answer _ (self ambient scalars ** (self size @ self ambient dimension)) new.
-	self do: [ :each | answer addRow: each asTuple].
+	self do: [:each| answer addRow: each asTuple].
 	^ answer! !
 
 !LinearSystem methodsFor: 'operations' stamp: 'len 5/23/2016 04:27'!
@@ -26056,19 +26069,31 @@ sqrt: aNumber
 	"Answer the receiver augmented with the columns of aMatrix."
 	^ self columnAugmented: aMatrix! !
 
-!Matrix methodsFor: 'testing' stamp: 'len 7/15/2016 03:18'!
+!Matrix methodsFor: 'testing' stamp: 'len 7/15/2016 23:53'!
 ~ aMatrix
 	"Answer true if the receiver is similar to aMatrix."
-	^ self characteristicMatrix smith = aMatrix characteristicMatrix smith! !
+	^ self characteristicMatrix SNF = aMatrix characteristicMatrix SNF! !
 
 !Matrix methodsFor: 'arithmetic' stamp: 'len 6/17/2016 02:54'!
 ’ aMatrix
 	^ self kronecker: aMatrix! !
 
+!Matrix methodsFor: 'reduction' stamp: 'len 7/16/2016 01:27'!
+HNF
+	"Answer the Hermite normal form of the receiver."
+	(self scalars isKindOf: Integers) ifFalse: [^ DomainError signal: 'coefficients ring is not Z'].
+	^ HermiteNormalForm2 new matrix: self copy; run! !
+
 !Matrix methodsFor: 'reduction' stamp: 'len 3/21/2016 23:35'!
 QR
 	"Answer the QR factorization of the receiver."
 	^ QRDecomposition new matrix: self! !
+
+!Matrix methodsFor: 'reduction' stamp: 'len 7/15/2016 23:53'!
+SNF
+	"Answer the diagonal of the Smith normal form of the receiver, ordered such that each element divides the next one."
+	self scalars isPID ifFalse: [^ DomainError signal: 'coefficients ring is not a PID'].
+	^ SmithNormalForm new matrix: self copy; diagonal! !
 
 !Matrix methodsFor: 'converting' stamp: 'len 2/10/2016 21:38'!
 adaptToNumber: aNumber andSend: selector
@@ -26101,12 +26126,14 @@ asTuple
 	self rowsDo: [:each| answer _ answer isNil ifTrue: [each] ifFalse: [answer, each]].
 	^ answer! !
 
-!Matrix methodsFor: 'accessing' stamp: 'len 11/26/2015 04:47'!
+!Matrix methodsFor: 'accessing' stamp: 'len 7/16/2016 00:05'!
 at: aPoint
+	"Answer the coefficient at i@j (row i, column j)."
 	^ self at: aPoint x at: aPoint y! !
 
-!Matrix methodsFor: 'accessing' stamp: 'len 11/5/2015 05:40'!
+!Matrix methodsFor: 'accessing' stamp: 'len 7/16/2016 00:05'!
 at: aPoint put: anObject
+	"Answer the coefficient at i@j (row i, column j)."
 	^ self at: aPoint x at: aPoint y put: anObject! !
 
 !Matrix methodsFor: 'operations' stamp: 'len 5/29/2016 17:40'!
@@ -26364,12 +26391,6 @@ hash
 			answer _ answer hashMultiply + (self at: i@j) hash]].
 	^ answer! !
 
-!Matrix methodsFor: 'reduction' stamp: 'len 7/15/2016 02:41'!
-hermite
-	"Answer the Hermite normal form of the receiver."
-	(self scalars isKindOf: Integers) ifFalse: [^ DomainError signal: 'coefficients ring is not Z'].
-	^ HermiteNormalForm new matrix: self copy; run! !
-
 !Matrix methodsFor: 'constants' stamp: 'len 11/26/2015 03:46'!
 identity
 	^ self species identity! !
@@ -26400,6 +26421,21 @@ isDiagonal
 !Matrix methodsFor: 'testing' stamp: 'len 5/23/2016 19:55'!
 isFullRank
 	^ self rank = (self numberOfColumns min: self numberOfRows)! !
+
+!Matrix methodsFor: 'testing' stamp: 'len 7/16/2016 01:00'!
+isHNF
+	"Answer true if the receiver is in (row) Hermite normal form."
+	self isUpperTriangular ifFalse: [^ false].
+	1 to: (self numberOfRows min: self numberOfColumns) do: [:j|
+		| pivot |
+		((pivot _ self at: j@j) isInteger and: [pivot > 0]) ifFalse: [^ false].
+		1 to: j-1 do: [:i|
+			| x |
+			((x _ self at: i@j) isInteger and: [x >= 0 and: [x < pivot]])
+				ifFalse: [^ false]]].
+	self numberOfColumns + 1 to: self numberOfRows do: [:i|
+		(self rowAt: i) isZero ifFalse: [^ false]].
+	^ true! !
 
 !Matrix methodsFor: 'testing' stamp: 'len 6/23/2016 23:25'!
 isHermitian
@@ -26698,12 +26734,6 @@ rows
 scalars
 	^ species scalars! !
 
-!Matrix methodsFor: 'reduction' stamp: 'len 7/15/2016 02:42'!
-smith
-	"Answer the diagonal of the Smith normal form of the receiver, ordered such that each element divides the next one."
-	self scalars isPID ifFalse: [^ DomainError signal: 'coefficients ring is not a PID'].
-	^ SmithNormalForm new matrix: self copy; diagonal! !
-
 !Matrix methodsFor: 'accessing' stamp: 'len 11/26/2015 04:03'!
 species
 	^ species! !
@@ -26741,6 +26771,10 @@ transposed
 !Matrix methodsFor: 'constants' stamp: 'len 12/11/2015 00:39'!
 zero
 	^ self species zero! !
+
+!ColumnMatrix methodsFor: 'arithmetic' stamp: 'len 7/16/2016 03:46'!
+% anInteger
+	^ self species columns: (self columns collect: [:each| each % anInteger])! !
 
 !ColumnMatrix methodsFor: 'arithmetic' stamp: 'len 7/15/2016 05:07'!
 + aMatrix
@@ -26818,6 +26852,10 @@ columns: anArray
 !ColumnMatrix class methodsFor: 'instance creation' stamp: 'len 7/15/2016 05:07'!
 new
 	^ self columns: OrderedCollection new! !
+
+!RowMatrix methodsFor: 'arithmetic' stamp: 'len 7/16/2016 03:46'!
+% anInteger
+	^ self species rows: (self rows collect: [:each| each % anInteger])! !
 
 !RowMatrix methodsFor: 'arithmetic' stamp: 'len 7/15/2016 05:11'!
 + aMatrix
@@ -34391,14 +34429,15 @@ reduceStep: i mod: R
 			c _ c + 1].
 	c > 0] whileTrue "8. Repeat stage i?"! !
 
-!SmithNormalForm methodsFor: 'private' stamp: 'len 4/22/2016 21:55'!
+!SmithNormalForm methodsFor: 'private' stamp: 'len 7/16/2016 04:23'!
 run
 	| n i R b k |
 	n _ matrix numberOfRows.
 	diagonal _ OrderedCollection new: n.
 	"1. Initialize i:"
 	i _ n.
-	R _ matrix determinant abs.
+	R _ matrix determinant.
+	(matrix scalars isKindOf: Integers) ifTrue: [R _ R abs]. "not sure why take abs"
 	n = 1 ifTrue: [diagonal add: R. ^ self].
 	"2-9. Reduction:"
 	[[self reduceStep: i mod: R.
@@ -36467,31 +36506,31 @@ testDomainError
 	self should: [A + B] raise: DomainError.
 	self should: [A * B] raise: DomainError! !
 
-!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 7/15/2016 05:10'!
+!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 7/15/2016 23:53'!
 testHermiteNormalForm
 	"Example from wikipedia."
 	| M A H |
-	M _ Integers new ** (4@4).
+	M _ ZZ ** (4@4).
 	A _ M rows: { (3,3,1,4). (0,1,0,0). (0,0,19,16). (0,0,0,3) }.
 	H _ M rows: { (3,0,1,1). (0,1,0,0). (0,0,19,1). (0,0,0,3) }.
-	self assert: A hermite = H! !
+	self assert: A HNF = H! !
 
-!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 7/15/2016 05:10'!
+!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 7/15/2016 23:54'!
 testHermiteNormalForm2
 	| M A H |
-	M _ Integers new ** (3@3).
+	M _ ZZ ** (3@3).
 	A _ M rows: { (9,-36,30). (-36,192,-180). (30,-180,180) }.
 	H _ M rows: { (3,0,30). (0,12,0). (0,0,60) }.
-	self assert: A hermite = H! !
+	self assert: A HNF = H! !
 
-!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 7/15/2016 05:10'!
+!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 7/15/2016 23:54'!
 testHermiteNormalForm3
 	"Example from wikipedia"
 	| M A H |
-	M _ Integers new ** (3@4).
+	M _ ZZ ** (3@4).
 	A _ M rows: { (2,3,6,2). (5,6,1,6). (8,3,1,1) }.
 	H _ M rows: { (1,0,50,-11). (0,3,28,-2). (0,0,61,-13) }.
-	self assert: A hermite = H! !
+	self assert: A HNF = H! !
 
 !MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 7/15/2016 05:10'!
 testInverse
@@ -36510,6 +36549,17 @@ testInverse2
 	f _ x**8 + (x**6) - (3*(x**4)) - (3*(x**3)) + (8*(x**2)) + (2*x) - 5.
 	A _ f companion.
 	self assert: (A * A inverse) isIdentity! !
+
+!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 7/16/2016 00:48'!
+testIsHNF
+	| M |
+	M _ ZZ ** (4@4) rows: {(2,0,1,11). (0,1,5,12). (0,0,6,12). (0,0,0,33)}.
+	self assert: M isHNF.
+	self assert: M transposed isHNF not.
+	M _ ZZ ** (5@4) rows: {(2,0,1,11). (0,1,5,12). (0,0,6,12). (0,0,0,33). (0,0,0,0)}.
+	self assert: M isHNF.
+	M _ ZZ ** (5@4) rows: {(2,0,1,11). (0,1,5,12). (0,0,6,12). (0,0,0,33). (0,0,0,1)}.
+	self assert: M isHNF not! !
 
 !MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 7/15/2016 05:10'!
 testJordanNormalForm
@@ -36549,16 +36599,27 @@ testMatrixKernelImageTheorem
 	A _ (Rationals new ** (n @ n)) atRandomBits: 100.
 	self assert: A kernel dimension + A image dimension = n! !
 
-!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 7/15/2016 03:25'!
+!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 7/16/2016 04:53'!
 testMatrixSimilarity
 	"Examples from wikipedia article on SNF"
 	| M A B C |
-	M _ Rationals new ** (2@2).
+	M _ QQ ** (2@2).
 	A _ M rows: {(1,2). (0,1)}.
 	B _ M rows: {(3,-4). (1,-1)}.
 	C _ M rows: {(1,0). (1,2)}.
 	self assert: A ~ B.
 	self deny: A ~ C! !
+
+!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 7/16/2016 04:51'!
+testMatrixSimilarity2
+	| n M A B P |
+	n _ 5 atRandom.
+	M _ QQ ** (n@n).
+	A _ M atRandomBits: 10*n*n.
+	[(P _ M atRandomBits: 10*n*n) isSingular] whileTrue.
+	B _ M atRandomBits: 10*n*n.
+	self assert: A ~ (P inverse * A * P).
+	self deny: A ~ B! !
 
 !MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 4/19/2016 04:08'!
 testMinimalPolynomial
@@ -36617,20 +36678,26 @@ testRankNullityTheorem
 	A _ (Rationals new ** (n @ n)) atRandomBits: 100.
 	self assert: A rank + A nullity = n! !
 
-!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 7/15/2016 05:11'!
+!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 7/16/2016 03:59'!
+testReducerPivots
+	| A |
+	A _ ZZ ** (3@3) rows: {(0,-1,-1). (0,-20,1). (0,1,2)}.
+	self assert: A reducer pivots asArray = {2@1. 3@2}! !
+
+!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 7/15/2016 23:53'!
 testSmithNormalForm
 	| M A |
-	M _ Integers new ** (3@3).
+	M _ ZZ ** (3@3).
 	A _ M rows: { (2,4,4). (-6,6,12). (10,-4,-16) }.
-	self assert: A smith = (2,6,12)! !
+	self assert: A SNF = (2,6,12)! !
 
-!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 7/15/2016 05:11'!
+!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 7/15/2016 23:53'!
 testSmithNormalForm2
 	| M A |
-	M _ Integers new ** (3@3).
+	M _ ZZ ** (3@3).
 	"Reduced Laplacian matrix of K_4:"
 	A _ M rows: { (3,-1,-1). (-1,3,-1). (-1,-1,3) }.
-	self assert: A smith = (1,4,4)! !
+	self assert: A SNF = (1,4,4)! !
 
 !MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 4/19/2016 04:10'!
 testTransposed
