@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 16 July 2016 at 4:53:29.2845 am'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 17 July 2016 at 9:57:08.535366 pm'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 166!
+!provides: 'Mathematics' 1 167!
 !classDefinition: #AbelianGroupPresentation category: #'Mathematics-Free'!
 Object subclass: #AbelianGroupPresentation
 	instanceVariableNames: 'generators relators'
@@ -7904,6 +7904,10 @@ tuttePolynomial
 					ifFalse: [^ G` tuttePolynomial + (self / e) tuttePolynomial]]].
 	^ self error: 'inconsistency, this line should have been reaached'! !
 
+!Graph methodsFor: 'accessing' stamp: 'len 7/16/2016 08:25'!
+type
+	^ digraph type! !
+
 !Graph class methodsFor: 'instance creation' stamp: 'len 7/13/2016 22:43'!
 arity: n
 	"Create a new ordered graph with fixed arity."
@@ -10052,10 +10056,10 @@ default
 	"Answer true if the receiver includes the argument."
 	^ aDomain <= self! !
 
-!Domain methodsFor: 'testing' stamp: 'len 6/10/2016 23:12'!
+!Domain methodsFor: 'testing' stamp: 'len 7/16/2016 05:22'!
 ~ aDomain
 	"Answer true if the receiver is isomorphic to the argument."
-	^ self = aDomain "not much more we can test at this abstract level, subclasses reimplement ~"! !
+	^ self = aDomain "not much more we can test at this abstract level, subclasses should reimplement"! !
 
 !Domain methodsFor: 'morphisms' stamp: 'len 6/24/2016 05:31'!
  aDomain
@@ -12801,9 +12805,9 @@ tuple: anArray
 tuple: anInteger evaluating: aBlock
 	^ self tupleClass new: anInteger evaluating: aBlock! !
 
-!Ring methodsFor: 'tuples' stamp: 'len 3/29/2016 08:50'!
+!Ring methodsFor: 'tuples' stamp: 'len 7/16/2016 06:22'!
 tupleClass
-	^ properties at: #tupleClass ifAbsentPut: [Tuple]! !
+	^ properties at: #tupleClass ifAbsent: [Tuple]! !
 
 !Ring methodsFor: 'morphisms' stamp: 'len 6/30/2016 04:03'!
 units
@@ -23207,6 +23211,21 @@ fibonacci
 harmonicNumbers
 	^ Sequence to: QQ evaluating: [:n| (1 to: n) sum: [:k| 1/k]]! !
 
+!Sequence class methodsFor: 'examples' stamp: 'len 7/17/2016 21:54'!
+hensel: aPolynomial at: anIntegerRoot mod: p
+	"Answer the p-adic expansion by Hensel lemma."
+	| x |
+	x _ aPolynomial species x.
+	^ self recurrence:
+		[:f :n|
+		n = 1
+			ifTrue: [anIntegerRoot]
+			ifFalse:
+				[| g a |
+				g _ (f at: n-1) + (p**(n-1) * x).
+				a _ (aPolynomial value: g % (p**n)) roots anyOne representative.
+				g value: a]]! !
+
 !Sequence class methodsFor: 'examples' stamp: 'len 7/6/2016 23:45'!
 highlyCompositeNumbers
 	^ self recurrence: [:f :n| | i max |
@@ -26069,9 +26088,10 @@ sqrt: aNumber
 	"Answer the receiver augmented with the columns of aMatrix."
 	^ self columnAugmented: aMatrix! !
 
-!Matrix methodsFor: 'testing' stamp: 'len 7/15/2016 23:53'!
+!Matrix methodsFor: 'testing' stamp: 'len 7/16/2016 05:02'!
 ~ aMatrix
-	"Answer true if the receiver is similar to aMatrix."
+	"Answer true if the receiver is similar to aMatrix.
+	Two matrices A and B are 'similar' if there exists an invertible matrix P such that B = P^-1 * A * P."
 	^ self characteristicMatrix SNF = aMatrix characteristicMatrix SNF! !
 
 !Matrix methodsFor: 'arithmetic' stamp: 'len 6/17/2016 02:54'!
@@ -26631,19 +26651,18 @@ one
 permanent
 	^ self notYetImplemented! !
 
-!Matrix methodsFor: 'printing' stamp: 'len 7/15/2016 03:33'!
+!Matrix methodsFor: 'printing' stamp: 'len 7/16/2016 05:22'!
 printBitsOn: aStream
-	aStream cr.
 	self rows do: [:row|
 		aStream nextPut: $[.
 		row do: [:bit| aStream nextPut: (bit isZero ifTrue: [$0] ifFalse: [$1])].
 		aStream nextPut: $]] separatedBy: [aStream cr]! !
 
-!Matrix methodsFor: 'printing' stamp: 'len 7/15/2016 03:33'!
+!Matrix methodsFor: 'printing' stamp: 'len 7/16/2016 23:09'!
 printOn: aStream
 	| pads string pad |
-	self scalars size = 2 ifTrue: [^ self printBitsOn: aStream].
 	aStream cr.
+	self scalars size = 2 ifTrue: [^ self printBitsOn: aStream].
 	pads _ (1 to: self numberOfColumns) collect: [:each| 0].
 	self rows do: [:each|
 		1 to: each dimension do: [ :index |
@@ -29457,6 +29476,10 @@ transpose
 !Pixel class methodsFor: 'as yet unclassified' stamp: 'len 2/13/2016 17:50'!
 row: anInteger column: anotherInteger
 	^ self new row: anInteger; column: anotherInteger! !
+
+!Polynomial methodsFor: 'arithmetic' stamp: 'len 7/17/2016 21:37'!
+% anInteger
+	^ (self species over: (self scalars % anInteger)) coefficients: self coefficients % anInteger! !
 
 !Polynomial methodsFor: 'arithmetic' stamp: 'len 3/23/2016 07:25'!
 * anObject
