@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 17 July 2016 at 9:57:08.535366 pm'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 18 July 2016 at 6:54:48.359912 am'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 167!
+!provides: 'Mathematics' 1 168!
 !classDefinition: #AbelianGroupPresentation category: #'Mathematics-Free'!
 Object subclass: #AbelianGroupPresentation
 	instanceVariableNames: 'generators relators'
@@ -811,6 +811,16 @@ FractionField subclass: #Rationals
 Rationals class
 	instanceVariableNames: ''!
 
+!classDefinition: #PAdicNumbers category: #'Mathematics-Kernel-Domains-Concrete'!
+Field subclass: #PAdicNumbers
+	instanceVariableNames: 'p'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Kernel-Domains-Concrete'!
+!classDefinition: 'PAdicNumbers class' category: #'Mathematics-Kernel-Domains-Concrete'!
+PAdicNumbers class
+	instanceVariableNames: ''!
+
 !classDefinition: #QuotientRing category: #'Mathematics-Kernel-Domains'!
 Field subclass: #QuotientRing
 	instanceVariableNames: 'ideal'
@@ -881,13 +891,13 @@ Ring subclass: #Integers
 Integers class
 	instanceVariableNames: ''!
 
-!classDefinition: #PAdicIntegers category: #'Mathematics-ETC'!
+!classDefinition: #PAdicIntegers category: #'Mathematics-Kernel-Domains-Concrete'!
 Ring subclass: #PAdicIntegers
 	instanceVariableNames: 'p'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-ETC'!
-!classDefinition: 'PAdicIntegers class' category: #'Mathematics-ETC'!
+	category: 'Mathematics-Kernel-Domains-Concrete'!
+!classDefinition: 'PAdicIntegers class' category: #'Mathematics-Kernel-Domains-Concrete'!
 PAdicIntegers class
 	instanceVariableNames: ''!
 
@@ -1871,13 +1881,13 @@ Object subclass: #FormalFraction
 FormalFraction class
 	instanceVariableNames: ''!
 
-!classDefinition: #PAdicNumber category: #'Mathematics-ETC'!
+!classDefinition: #PAdicNumber category: #'Mathematics-Kernel-Support'!
 FormalFraction subclass: #PAdicNumber
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-ETC'!
-!classDefinition: 'PAdicNumber class' category: #'Mathematics-ETC'!
+	category: 'Mathematics-Kernel-Support'!
+!classDefinition: 'PAdicNumber class' category: #'Mathematics-Kernel-Support'!
 PAdicNumber class
 	instanceVariableNames: ''!
 
@@ -2751,13 +2761,13 @@ Object subclass: #OEIS
 OEIS class
 	instanceVariableNames: ''!
 
-!classDefinition: #PAdicInteger category: #'Mathematics-ETC'!
+!classDefinition: #PAdicInteger category: #'Mathematics-Kernel-Support'!
 Object subclass: #PAdicInteger
 	instanceVariableNames: 'digits'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-ETC'!
-!classDefinition: 'PAdicInteger class' category: #'Mathematics-ETC'!
+	category: 'Mathematics-Kernel-Support'!
+!classDefinition: 'PAdicInteger class' category: #'Mathematics-Kernel-Support'!
 PAdicInteger class
 	instanceVariableNames: ''!
 
@@ -3620,7 +3630,7 @@ Output: x such that x = x_i (mod m_i) for 1<=i<=k.
 !
 
 !Digraph commentStamp: '<historical>' prior: 0!
-My instances are directed graphs. The vertices (values) can be arbitrary objects, and the edges are Associations v1 -> v2. It uses a sparse representation, implemented as a collection of nodes (GraphNodes) where each node knows its neighbors.
+My instances are directed graphs (digraphs). The vertices (values) can be arbitrary objects, and the edges are Associations v1 -> v2. It uses a sparse representation, implemented as a collection of nodes (GraphNodes) where each node knows its neighbors.
 
 Some properties of the graph are encoded in the class of its nodes (e.g. whether the graph is ordered, has a fixed arity, or the edges are labeled). The 'creation block' is initialized so that appropriate nodes are made.
 
@@ -3637,7 +3647,12 @@ Structure:
 !
 
 !Graph commentStamp: '<historical>' prior: 0!
-My instances are undirected graphs. It is implemented as a particular case of Digraph, and whenever an edge a -> b is added (or removed) also b -> a is added (or removed).
+My instances are undirected graphs. The vertices (values) can be arbitrary objects, and the edges are MutualAssociations v1 <-> v2.
+
+Internally, graphs are represented as symmetric digraphs (i.e., whenever the edge v1 -> v2 is present, v2 -> v1 is also present).
+
+Structure:
+ digraph 		The associated directed graph
 !
 
 !Iterator commentStamp: '<historical>' prior: 0!
@@ -4685,6 +4700,10 @@ convolution: aCollection
 		1 to: aCollection size do: [:k|
 			answer at: i+k-1 add: (self at: i) * (aCollection at: k)]].
 	^ answer! !
+
+!SequenceableCollection methodsFor: '*mathematics' stamp: 'len 7/17/2016 22:13'!
+plot
+	^ FunctionPlotMorph new evaluationPoints: (1 to: self size); function: (Function evaluating: [:n| self at: n])! !
 
 !Set methodsFor: '*mathematics' stamp: 'len 4/27/2016 02:28'!
 add: newObject ifAbsent: aBlock
@@ -8237,11 +8256,6 @@ dot: aTuple
 	2 to: (self size min: aTuple size) do: [:i| answer _ answer + ((self at: i) * (aTuple at: i))].
 	^ answer! !
 
-!OrderedTuple methodsFor: 'arithmetic' stamp: 'len 7/5/2016 06:57'!
-hadamard: aTuple
-	"Answer the pointwise product with the argument, also called Hadamard product."
-	^ self class new: (self size min: aTuple size) evaluating: [:i| (self at: i) * (aTuple at: i)]! !
-
 !OrderedTuple methodsFor: 'converting' stamp: 'len 3/29/2016 18:59'!
 homogeneous
 	^ HomogeneousTuple coordinates: self! !
@@ -8281,6 +8295,11 @@ norm
 !OrderedTuple methodsFor: 'arithmetic' stamp: 'len 3/29/2016 19:03'!
 norm2
 	^ self dot: self! !
+
+!OrderedTuple methodsFor: 'arithmetic' stamp: 'len 7/17/2016 23:21'!
+pointwiseProduct: aTuple
+	"Answer the pointwise product with the argument, also called Hadamard product."
+	^ self class new: (self size min: aTuple size) evaluating: [:i| (self at: i) * (aTuple at: i)]! !
 
 !OrderedTuple methodsFor: 'printing' stamp: 'len 3/29/2016 19:04'!
 printOn: aStream
@@ -8405,11 +8424,6 @@ dot: aBitTuple
 		whileTrue: [x _ x >> (x highBit // 2) bitAnd: x].
 	^ x"! !
 
-!BitTuple methodsFor: 'arithmetic' stamp: 'len 7/5/2016 06:57'!
-hadamard: aBitTuple
-	"Answer the pointwise product with the argument, also called Hadamard product."
-	^ self class new: (self size min: aBitTuple size) fromInteger: (integer bitAnd: aBitTuple asInteger)! !
-
 !BitTuple methodsFor: 'comparing' stamp: 'len 6/30/2016 06:50'!
 hash
 	^ integer hash! !
@@ -8441,6 +8455,11 @@ parity
 	parity _ 0.
 	[n = 0] whileFalse: [parity _ parity bitXor: (n bitAnd: 1). n _ n >> 1].
 	^ parity! !
+
+!BitTuple methodsFor: 'arithmetic' stamp: 'len 7/17/2016 23:22'!
+pointwiseProduct: aBitTuple
+	"Answer the pointwise product with the argument, also called Hadamard product."
+	^ self class new: (self size min: aBitTuple size) fromInteger: (integer bitAnd: aBitTuple asInteger)! !
 
 !BitTuple methodsFor: 'printing' stamp: 'len 3/28/2016 04:52'!
 printOn: aStream
@@ -9363,16 +9382,6 @@ dot: aSparseTuple
 		aSparseTuple at: key ifPresent: [:value2| answer _ answer + (value*value2)]].
 	^ answer	! !
 
-!SparseTuple methodsFor: 'arithmetic' stamp: 'len 7/5/2016 06:52'!
-hadamard: aSparseTuple
-	"Answer the pointwise product with the argument, also called Hadamard product."
-	| answer |
-	self size <= aSparseTuple size ifFalse: [^ aSparseTuple hadamard: self]. "assuming it's commutative"
-	answer _ self copyEmpty.
-	self keysAndValuesDo: [:key :value|
-		answer at: key put: value * (aSparseTuple at: key)].
-	^ answer! !
-
 !SparseTuple methodsFor: 'initialization' stamp: 'len 3/1/2016 03:00'!
 initialize
 	super initialize.
@@ -9393,6 +9402,16 @@ isZero
 !SparseTuple methodsFor: 'arithmetic' stamp: 'len 3/28/2016 06:40'!
 negated
 	^ self collectNoZero: [:each| each negated]! !
+
+!SparseTuple methodsFor: 'arithmetic' stamp: 'len 7/17/2016 23:21'!
+pointwiseProduct: aSparseTuple
+	"Answer the pointwise product with the argument, also called Hadamard product."
+	| answer |
+	self size <= aSparseTuple size ifFalse: [^ aSparseTuple pointwiseProduct: self]. "assuming it's commutative"
+	answer _ self copyEmpty.
+	self keysAndValuesDo: [:key :value|
+		answer at: key put: value * (aSparseTuple at: key)].
+	^ answer! !
 
 !SparseTuple methodsFor: 'private' stamp: 'len 3/1/2016 03:00'!
 setZero: anObject
@@ -12908,12 +12927,12 @@ primeSubfield
 		ifTrue: [QQ]
 		ifFalse: [ZZ modPrime: self characteristic]! !
 
-!Field methodsFor: 'accessing' stamp: 'len 7/15/2016 18:20'!
+!Field methodsFor: 'accessing' stamp: 'len 7/17/2016 23:54'!
 valuation
 	"Answer the trivial valuation of the receiver as an Euclidean domain."
 	| one |
 	one _ self one.
-	^ Function from: self to: NN evaluating: [:x| one]! !
+	^ Function from: self to: QQ evaluating: [:x| one]! !
 
 !Field class methodsFor: 'examples' stamp: 'len 7/15/2016 18:24'!
 GF: q
@@ -13440,10 +13459,10 @@ realClosure
 size
 	^ Aleph new! !
 
-!Rationals methodsFor: 'accessing' stamp: 'len 7/15/2016 18:21'!
+!Rationals methodsFor: 'accessing' stamp: 'len 7/17/2016 23:53'!
 valuation
 	"Answer the absolute value valuation."
-	^ Function from: self to: NN evaluating: [:x| x abs]! !
+	^ Function from: self to: self evaluating: [:x| x abs]! !
 
 !Rationals methodsFor: 'accessing' stamp: 'len 7/15/2016 18:21'!
 valuation: p
@@ -13458,6 +13477,18 @@ zero
 initialize
 	super initialize.
 	QQ _ self new! !
+
+!PAdicNumbers methodsFor: 'as yet unclassified' stamp: 'len 7/17/2016 23:33'!
+p: aPrime
+	p _ aPrime! !
+
+!PAdicNumbers methodsFor: 'as yet unclassified' stamp: 'len 7/17/2016 23:33'!
+printOn: aStream
+	aStream nextPut: Character QQ; nextPutAll: p printString sub! !
+
+!PAdicNumbers class methodsFor: 'as yet unclassified' stamp: 'len 7/17/2016 23:33'!
+p: aPrime
+	^ self new p: aPrime! !
 
 !QuotientRing methodsFor: 'comparing' stamp: 'len 12/14/2015 01:57'!
 = anObject
@@ -13976,9 +14007,9 @@ printOn: aStream
 size
 	^ Aleph new! !
 
-!Integers methodsFor: 'accessing' stamp: 'len 7/15/2016 18:20'!
+!Integers methodsFor: 'accessing' stamp: 'len 7/17/2016 23:53'!
 valuation
-	^ Function from: self to: NN evaluating: [:x| x abs]! !
+	^ Function from: self to: self evaluating: [:x| x abs]! !
 
 !Integers methodsFor: 'elements' stamp: 'len 11/3/2015 20:50'!
 zero
@@ -14005,9 +14036,13 @@ p
 p: aPrime
 	p _ aPrime! !
 
-!PAdicIntegers methodsFor: 'printing' stamp: 'len 4/21/2016 00:09'!
+!PAdicIntegers methodsFor: 'printing' stamp: 'len 7/17/2016 23:05'!
 printOn: aStream
-	aStream nextPutAll: 'Z'; print: p! !
+	aStream nextPut: Character ZZ; nextPutAll: p printString sub! !
+
+!PAdicIntegers methodsFor: 'morphisms' stamp: 'len 7/17/2016 23:27'!
+project: anInteger
+	^ PAdicInteger fromNatural: anInteger p: p! !
 
 !PAdicIntegers methodsFor: 'elements' stamp: 'len 3/27/2016 02:03'!
 zero
@@ -14446,7 +14481,7 @@ scalars: aRing
 size
 	^ Aleph new * self scalars size! !
 
-!Polynomials methodsFor: 'accessing' stamp: 'len 7/15/2016 18:21'!
+!Polynomials methodsFor: 'accessing' stamp: 'len 7/17/2016 23:54'!
 valuation
 	^ self scalars isField ifTrue: [Function from: self to: NN evaluating: [:f| f degree]]! !
 
@@ -23071,6 +23106,10 @@ ordinaryGeneratingSeries
 	"Answer the ordinary generating function of the receiver."
 	^ PowerSeries coefficients: self! !
 
+!Sequence methodsFor: 'operations' stamp: 'len 7/17/2016 23:23'!
+pointwiseProduct: aSequence
+	^ self class evaluating: [:i| (self at: i) * (aSequence at: i)]! !
+
 !Sequence methodsFor: 'printing' stamp: 'len 4/26/2016 06:42'!
 printLimit
 	^ properties at: #printLimit ifAbsent: [17]! !
@@ -23211,7 +23250,7 @@ fibonacci
 harmonicNumbers
 	^ Sequence to: QQ evaluating: [:n| (1 to: n) sum: [:k| 1/k]]! !
 
-!Sequence class methodsFor: 'examples' stamp: 'len 7/17/2016 21:54'!
+!Sequence class methodsFor: 'examples' stamp: 'len 7/17/2016 22:10'!
 hensel: aPolynomial at: anIntegerRoot mod: p
 	"Answer the p-adic expansion by Hensel lemma."
 	| x |
@@ -23224,7 +23263,7 @@ hensel: aPolynomial at: anIntegerRoot mod: p
 				[| g a |
 				g _ (f at: n-1) + (p**(n-1) * x).
 				a _ (aPolynomial value: g % (p**n)) roots anyOne representative.
-				g value: a]]! !
+				(g value: a) \\ (p**n)]]! !
 
 !Sequence class methodsFor: 'examples' stamp: 'len 7/6/2016 23:45'!
 highlyCompositeNumbers
@@ -29349,26 +29388,27 @@ default
 new
 	^ super new initialize! !
 
-!PAdicInteger methodsFor: 'arithmetic' stamp: 'len 12/7/2015 03:01'!
+!PAdicInteger methodsFor: 'arithmetic' stamp: 'len 7/17/2016 23:24'!
 * anObject
 	anObject isInteger
 		ifTrue: [^ self class digits: digits * anObject].
-	^ self class digits: ((1 to: (self size min: anObject size)) collect: [:i| (self at: i) * (anObject at: i)])! !
+	^ self class digits: (digits pointwiseProduct: anObject digits)! !
 
-!PAdicInteger methodsFor: 'arithmetic' stamp: 'len 12/7/2015 03:02'!
+!PAdicInteger methodsFor: 'arithmetic' stamp: 'len 7/17/2016 23:18'!
 + aPAdicInteger
-	^ self class digits: ((1 to: (self size max: aPAdicInteger size)) collect: [:i| (self at: i) + (aPAdicInteger at: i)])! !
+	^ self class digits: digits + aPAdicInteger digits! !
 
-!PAdicInteger methodsFor: 'arithmetic' stamp: 'len 12/7/2015 03:02'!
+!PAdicInteger methodsFor: 'arithmetic' stamp: 'len 7/17/2016 23:24'!
 - aPAdicInteger
-	^ self class digits: ((1 to: (self size max: aPAdicInteger size)) collect: [:i| (self at: i) - (aPAdicInteger at: i)])! !
+	^ self class digits: self digits - aPAdicInteger digits! !
 
 !PAdicInteger methodsFor: 'comparing' stamp: 'len 12/7/2015 03:01'!
 = aPAdicInteger
 	^ aPAdicInteger class == self class and: [digits = aPAdicInteger digits]! !
 
-!PAdicInteger methodsFor: 'accessing' stamp: 'len 12/7/2015 02:55'!
+!PAdicInteger methodsFor: 'accessing' stamp: 'len 7/17/2016 23:31'!
 at: anInteger
+	"Answer the digit corresponding to p^(anInteger-1)."
 	anInteger > digits size ifTrue: [^ digits last].
 	^ digits at: anInteger! !
 
@@ -29376,10 +29416,10 @@ at: anInteger
 digits
 	^ digits! !
 
-!PAdicInteger methodsFor: 'initialization' stamp: 'len 12/7/2015 03:11'!
+!PAdicInteger methodsFor: 'initialization' stamp: 'len 7/17/2016 23:29'!
 digits: anArray
 	| n |
-	digits _ anArray.
+	digits _ anArray as: Tuple.
 	n _ (digits size to: 2 by: -1) detect: [:i| (digits at: i) representative ~= (digits at: i-1) representative] ifNone: [^ self].
 	n < digits size ifTrue: [digits _ digits copyFrom: 1 to: n]! !
 
@@ -29392,9 +29432,9 @@ isUniformizing
 	"Answer true if the receiver is a uniformizing element."
 	^ self valuation = 1! !
 
-!PAdicInteger methodsFor: 'testing' stamp: 'len 12/7/2015 03:01'!
+!PAdicInteger methodsFor: 'testing' stamp: 'len 7/17/2016 23:30'!
 isZero
-	^ digits allSatisfy: [:each| each isZero]! !
+	^ digits isZero! !
 
 !PAdicInteger methodsFor: 'arithmetic' stamp: 'len 12/7/2015 03:02'!
 negated
@@ -29408,9 +29448,9 @@ norm
 one
 	^ self class fromNatural: 1 p: self p! !
 
-!PAdicInteger methodsFor: 'accessing' stamp: 'len 1/2/2016 22:34'!
+!PAdicInteger methodsFor: 'accessing' stamp: 'len 7/17/2016 23:10'!
 p
-	^ digits first ideal generator! !
+	^ digits first modulus! !
 
 !PAdicInteger methodsFor: 'printing' stamp: 'len 12/7/2015 03:00'!
 printOn: aStream
@@ -29422,27 +29462,26 @@ printOn: aStream
 size
 	^ digits size! !
 
-!PAdicInteger methodsFor: 'accessing' stamp: 'len 12/8/2015 03:15'!
+!PAdicInteger methodsFor: 'accessing' stamp: 'len 7/17/2016 23:32'!
 valuation
 	self isZero ifTrue: [^ Infinity positive].
-	^ ((1 to: self size) detect: [:one| (self at: one) isZero not]) - 1! !
+	^ (digits findFirst: [:each| each isZero not]) - 1! !
 
 !PAdicInteger methodsFor: 'constants' stamp: 'len 12/7/2015 03:13'!
 zero
 	^ self class fromNatural: 0 p: self p! !
 
-!PAdicInteger class methodsFor: 'instance creation' stamp: 'len 12/7/2015 02:57'!
+!PAdicInteger class methodsFor: 'instance creation' stamp: 'len 7/17/2016 23:29'!
 digits: anArray
 	^ self new digits: anArray! !
 
-!PAdicInteger class methodsFor: 'instance creation' stamp: 'len 1/2/2016 22:32'!
+!PAdicInteger class methodsFor: 'instance creation' stamp: 'len 7/17/2016 23:27'!
 fromNatural: anInteger p: aPrime
-	| Z I digits |
-	Z _ Integers new.
-	I _ Z.
+	| I digits |
+	I _ ZZ.
 	digits _ OrderedCollection new.
 	[I _ I * aPrime.
-	digits add: (Z/I project: anInteger).
+	digits add: (ZZ/I project: anInteger).
 	I generator > anInteger ifTrue: [^ self digits: digits]] repeat! !
 
 !Pixel methodsFor: 'as yet unclassified' stamp: 'len 2/13/2016 17:49'!
@@ -30445,15 +30484,15 @@ roots
 	"Answer the roots (counted with multiplicity) in the coefficients ring or field."
 	^ self rootsIn: self scalars! !
 
-!Polynomial methodsFor: 'roots' stamp: 'len 6/5/2016 05:22'!
+!Polynomial methodsFor: 'roots' stamp: 'len 7/17/2016 23:38'!
 rootsIn: aField
 	"Answer the roots (conted with multiplicaity) in the given domain."
-	(aField isField and: [aField isFinite]) ifTrue: [^ (FiniteFieldRootFinder polynomial: self) roots].
+	(aField isField and: [aField isFinite and: [aField characteristic even not]]) ifTrue: [^ (FiniteFieldRootFinder polynomial: self) roots].
 	(aField isKindOf: Rationals) ifTrue: [^ (RationalRootFinder polynomial: self) roots].
 	(aField isKindOf: AlgebraicNumbers) ifTrue: [^ (ComplexRootFinder polynomial: self) roots].
 	(aField isKindOf: RealAlgebraicNumbers) ifTrue: [^ (RealRootFinder polynomial: self) roots].
 	(aField isKindOf: Integers) ifTrue: [^ (RationalRootFinder polynomial: self) roots select: [:each| each isInteger]].
-	self flag: #fix. "count multiplicity"
+	self flag: #fix. "count multiplicity, implement more efficient algorithm"
 	aField isFinite ifTrue: [^ aField elements select: [:each| (self value: each) isZero]].
 	^ self error: 'unknown domain'! !
 
