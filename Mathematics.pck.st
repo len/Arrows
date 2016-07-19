@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 19 July 2016 at 1:28:03.118407 am'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 19 July 2016 at 2:58:21.294866 am'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 169!
+!provides: 'Mathematics' 1 170!
 !classDefinition: #AbelianGroupPresentation category: #'Mathematics-Free'!
 Object subclass: #AbelianGroupPresentation
 	instanceVariableNames: 'generators relators'
@@ -3769,24 +3769,27 @@ Structure:
 !
 
 !Domain commentStamp: '<historical>' prior: 0!
-My instances are mathematical structures, such as groups, rings, fields, vector spaces, topologies, etc.
+My instances are mathematical structures, such as groups, rings, fields, vector spaces, modules, etc.
 
-Domains are connected by morphisms (arrows, functions), which in turn can be viewed as elements of other mathematical structures (domains). See Function.
-From the category theory point of view, domains and functions are the exactly objects and morphisms (arrows) of categories.
-
-Domains can be built from other domains, for example taking cartesian products, direct sums, direct products, duals, etc, and these operations are also morphisms (they send groups to groups, vector spaces to vector spaces, etc).
+Domains are connected by morphisms (arrows, functions), that in turn can be viewed as elements of other mathematical structures. See Function. From the point of view of category theory, Domains and Functions are 'objects' and 'morphisms' (arrows) of categories.
 
 Domains belong to small categories, i.e. categories with an underlying set. When the underlying set is finite, #asSet returns a Set (a Collection).
+
+Domains can be built from other domains, for example by taking products or coproducts (cartesian products, direct sums, direct products), quotients, duals, etc. These operations are also morphisms (functors, more precisely).
 
 Subclasses might reimplement:
   #product: and #coproduct:
   #->
   #= and #<=
   #size
+  #includes:
   #do:
   #atRandom::bits:
-  #is:
   #printOn:
+
+Some domains have associated canonical embeddings (inclusion maps) or projections, and might implement:
+  #project: and #projection
+  #embed: and #embedding
 !
 
 !AbelianGroup commentStamp: '<historical>' prior: 0!
@@ -4088,12 +4091,12 @@ My instances are rational functions, i.e. fractions where the numerator and deno
 !Function commentStamp: '<historical>' prior: 0!
 My instances are functions, i.e. maps from a mathematical structure (domain) to another structure (codomain). Evaluated at elements of the domain (>>#value:) they produce elements of the codomain.
 
-In general a Function is morphism of sets. If the function preserves some mathematical structure from its domain, it is called a morphism. For example linear maps are morphisms of vector spaces, continuous functions are morphisms of topological spaces, group homomorphisms are morphisms of groups, etc.
+In general a Function is a morphism of sets. If the function preserves some mathematical structure from its domain, it is called a morphism (or homomorphism of some category corresponding to the preserved structure). For example linear maps are morphisms of vector spaces, continuous functions are morphisms of topological spaces, group homomorphisms are morphisms of groups, etc.
 
-Example:
-	Function from: Integers new to: Integers new evaluating: [:x| x squared + 1].
-	Integers new -> Integers new evaluating: [:x| x squared + 1].
-	Integers new endomorphisms evaluating: [:x| x squared + 1]
+Example (three equivalent ways to construct a function):
+	Function from: ZZ to: ZZ evaluating: [:x| x squared + 1].
+	ZZ -> ZZ evaluating: [:x| x squared + 1].
+	ZZ endomorphisms evaluating: [:x| x squared + 1]
 !
 
 !AffineMap commentStamp: '<historical>' prior: 0!
@@ -4118,6 +4121,9 @@ Given a group G and a set X, a (left) group action phi:GxX -> X is a function su
 - Compatibility: phi(g, phi(h,x)) = phi(g*h, x).
 
 The group G is said to 'act' on X (on the left). The set X is called a (left) G-set.!
+
+!Identity commentStamp: '<historical>' prior: 0!
+My instances are identity morphisms.!
 
 !LinearMap commentStamp: '<historical>' prior: 0!
 My instances are linear transformations between spaces of finite dimension, i.e. morphisms of vector spaces.
@@ -10220,7 +10226,7 @@ elements
 	properties at: #elements ifPresent: [:aCollectionOrDomain| ^ aCollectionOrDomain].
 	^ Iterator on: self performing: #do:! !
 
-!Domain methodsFor: 'private' stamp: 'len 4/22/2016 17:18'!
+!Domain methodsFor: 'accessing-private' stamp: 'len 4/22/2016 17:18'!
 elements: aCollection
 	properties at: #elements put: aCollection! !
 
@@ -10953,7 +10959,7 @@ scalarAction
 scalars
 	^ properties at: #scalars! !
 
-!Module methodsFor: 'private' stamp: 'len 4/23/2016 06:00'!
+!Module methodsFor: 'accessing-private' stamp: 'len 4/23/2016 06:00'!
 scalars: aRing
 	properties at: #scalars put: aRing! !
 
@@ -12021,12 +12027,12 @@ dimension
 do: aBlock
 	self do: aBlock from: 1 to: scalars size! !
 
-!TupleSpace methodsFor: 'iterating' stamp: 'len 3/30/2016 07:15'!
+!TupleSpace methodsFor: 'iterating' stamp: 'len 7/19/2016 02:45'!
 do: aBlock from: min to: max
 	| n projection k |
 	n _ self dimension.
-	n = 0 ifTrue: [^ (min > 0 and: [max >= min]) ifTrue: [aBlock value: (self tupleClass withAll: {})]].
-	n = 1 ifTrue: [^ scalars do: [ :s | aBlock value: (self tupleClass withAll: {s})] from: min to: max].
+	n = 0 ifTrue: [^ (min > 0 and: [max >= min]) ifTrue: [aBlock value: (scalars tuple: {})]].
+	n = 1 ifTrue: [^ scalars do: [ :s | aBlock value: (scalars tuple: {s})] from: min to: max].
 	projection _ self class new: n-1 over: self scalars.
 	k _ 1.
 	scalars do: [:s|
@@ -12074,13 +12080,13 @@ isFinite
 isModule
 	^ scalars isRing! !
 
-!TupleSpace methodsFor: 'iterating' stamp: 'len 3/30/2016 07:16'!
+!TupleSpace methodsFor: 'iterating' stamp: 'len 7/19/2016 02:45'!
 iterator
 	| n scalarsIterator projection projectionIterator i k s p j |
 	n _ self dimension.
-	n = 0 ifTrue: [ ^ [self tupleClass withAll: {}] ].
+	n = 0 ifTrue: [ ^ [scalars tuple: {}] ].
 	scalarsIterator _ self scalars iterator.
-	n = 1 ifTrue: [ ^ [self tupleClass withAll: {scalarsIterator value}] ].
+	n = 1 ifTrue: [ ^ [scalars tuple: {scalarsIterator value}] ].
 	projection _ self class new: n-1 over: self scalars.
 	k _ 0.
 	i _ 0.
@@ -12090,9 +12096,9 @@ iterator
 		i _ i+1.
 		(p copyFrom: 1 to: j), s, (p copyFrom: j+1 to: n-1)]! !
 
-!TupleSpace methodsFor: 'elements' stamp: 'len 3/29/2016 08:10'!
+!TupleSpace methodsFor: 'elements' stamp: 'len 7/19/2016 02:45'!
 newFrom: anArray
-	^ self tupleClass newFrom: anArray! !
+	^ scalars tupleClass newFrom: anArray! !
 
 !TupleSpace methodsFor: 'morphisms' stamp: 'len 4/24/2016 06:36'!
 over: aRing
@@ -12125,10 +12131,6 @@ scalars: aDomain
 setDimension: n scalars: aDomain
 	dimension _ n.
 	scalars _ aDomain! !
-
-!TupleSpace methodsFor: 'private' stamp: 'len 3/30/2016 06:47'!
-tupleClass
-	^ scalars tupleClass! !
 
 !TupleSpace methodsFor: 'elements' stamp: 'len 4/22/2016 21:57'!
 zero
@@ -12797,7 +12799,7 @@ multiplicationInverseMap
 one
 	^ properties at: #one! !
 
-!Ring methodsFor: 'as yet unclassified' stamp: 'len 5/29/2016 17:54'!
+!Ring methodsFor: 'accessing-private' stamp: 'len 5/29/2016 17:54'!
 one: anElement
 	properties at: #one put: anElement! !
 
@@ -12833,9 +12835,9 @@ tuple: anArray
 tuple: anInteger evaluating: aBlock
 	^ self tupleClass new: anInteger evaluating: aBlock! !
 
-!Ring methodsFor: 'tuples' stamp: 'len 7/16/2016 06:22'!
+!Ring methodsFor: 'tuples' stamp: 'len 7/19/2016 02:46'!
 tupleClass
-	^ properties at: #tupleClass ifAbsent: [Tuple]! !
+	^ Tuple! !
 
 !Ring methodsFor: 'morphisms' stamp: 'len 6/30/2016 04:03'!
 units
@@ -16046,7 +16048,7 @@ isCommutative
 operation
 	^ properties at: #operation ifAbsentPut: [(Function from: (self, self) to: self evaluating: [:each| each first * each second]) name: '*']! !
 
-!Magma methodsFor: 'private' stamp: 'len 6/24/2016 22:29'!
+!Magma methodsFor: 'accessing-private' stamp: 'len 6/24/2016 22:29'!
 operation: aFunction
 	properties at: #operation put: aFunction! !
 
@@ -16054,7 +16056,7 @@ operation: aFunction
 identity
 	^ properties at: #identity! !
 
-!Loop methodsFor: 'accessing' stamp: 'len 4/23/2016 03:38'!
+!Loop methodsFor: 'accessing-private' stamp: 'len 4/23/2016 03:38'!
 identity: anElement
 	properties at: #identity put: anElement! !
 
@@ -16066,7 +16068,7 @@ copyEmpty
 identity
 	^ properties at: #identity! !
 
-!Monoid methodsFor: 'private' stamp: 'len 4/22/2016 17:23'!
+!Monoid methodsFor: 'accessing-private' stamp: 'len 4/22/2016 17:23'!
 identity: anElement
 	properties at: #identity put: anElement! !
 
@@ -16436,7 +16438,7 @@ innerAutomorphisms
 inverseMap
 	^ properties at: #inverseMap ifAbsentPut: [self defaultInverseMap]! !
 
-!Group methodsFor: 'private' stamp: 'len 5/1/2016 22:37'!
+!Group methodsFor: 'accessing-private' stamp: 'len 5/1/2016 22:37'!
 inverseMap: aFunction
 	properties at: #inverseMap put: (aFunction as: self -> self)! !
 
@@ -18695,7 +18697,7 @@ projection
 relation
 	^ properties at: #relation! !
 
-!QuotientSet methodsFor: 'private' stamp: 'len 4/25/2016 08:53'!
+!QuotientSet methodsFor: 'accessing-private' stamp: 'len 4/25/2016 08:53'!
 relation: anEquivalenceRelation
 	properties at: #relation put: anEquivalenceRelation! !
 
