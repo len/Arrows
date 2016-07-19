@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 18 July 2016 at 6:54:48.359912 am'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 19 July 2016 at 1:28:03.118407 am'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 168!
+!provides: 'Mathematics' 1 169!
 !classDefinition: #AbelianGroupPresentation category: #'Mathematics-Free'!
 Object subclass: #AbelianGroupPresentation
 	instanceVariableNames: 'generators relators'
@@ -551,14 +551,14 @@ LinearMaps subclass: #DualSpace
 DualSpace class
 	instanceVariableNames: ''!
 
-!classDefinition: #Matrices category: #'Mathematics-Linear-Spaces'!
-FreeModule subclass: #Matrices
+!classDefinition: #MatrixSpace category: #'Mathematics-Linear-Spaces'!
+FreeModule subclass: #MatrixSpace
 	instanceVariableNames: 'scalars numberOfRows numberOfColumns'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Linear-Spaces'!
-!classDefinition: 'Matrices class' category: #'Mathematics-Linear-Spaces'!
-Matrices class
+!classDefinition: 'MatrixSpace class' category: #'Mathematics-Linear-Spaces'!
+MatrixSpace class
 	instanceVariableNames: ''!
 
 !classDefinition: #ScalarSpace category: #'Mathematics-Linear-Spaces'!
@@ -591,14 +591,14 @@ FreeModule subclass: #TensorProductSpace
 TensorProductSpace class
 	instanceVariableNames: ''!
 
-!classDefinition: #Tuples category: #'Mathematics-Linear-Spaces'!
-FreeModule subclass: #Tuples
+!classDefinition: #TupleSpace category: #'Mathematics-Linear-Spaces'!
+FreeModule subclass: #TupleSpace
 	instanceVariableNames: 'scalars dimension'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Linear-Spaces'!
-!classDefinition: 'Tuples class' category: #'Mathematics-Linear-Spaces'!
-Tuples class
+!classDefinition: 'TupleSpace class' category: #'Mathematics-Linear-Spaces'!
+TupleSpace class
 	instanceVariableNames: ''!
 
 !classDefinition: #VectorSpace category: #'Mathematics-Linear-Spaces'!
@@ -901,14 +901,14 @@ Ring subclass: #PAdicIntegers
 PAdicIntegers class
 	instanceVariableNames: ''!
 
-!classDefinition: #Polynomials category: #'Mathematics-Polynomials-Domains'!
-Ring subclass: #Polynomials
+!classDefinition: #PolynomialRing category: #'Mathematics-Polynomials-Domains'!
+Ring subclass: #PolynomialRing
 	instanceVariableNames: 'scalars rank'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Polynomials-Domains'!
-!classDefinition: 'Polynomials class' category: #'Mathematics-Polynomials-Domains'!
-Polynomials class
+!classDefinition: 'PolynomialRing class' category: #'Mathematics-Polynomials-Domains'!
+PolynomialRing class
 	instanceVariableNames: ''!
 
 !classDefinition: #PowerSeriesRing category: #'Mathematics-Sequences'!
@@ -2791,14 +2791,14 @@ Object subclass: #Polynomial
 Polynomial class
 	instanceVariableNames: ''!
 
-!classDefinition: #SparsePolynomial category: #'Mathematics-Polynomials'!
-Polynomial subclass: #SparsePolynomial
+!classDefinition: #MultivariatePolynomial category: #'Mathematics-Polynomials'!
+Polynomial subclass: #MultivariatePolynomial
 	instanceVariableNames: 'coefficients'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Polynomials'!
-!classDefinition: 'SparsePolynomial class' category: #'Mathematics-Polynomials'!
-SparsePolynomial class
+!classDefinition: 'MultivariatePolynomial class' category: #'Mathematics-Polynomials'!
+MultivariatePolynomial class
 	instanceVariableNames: ''!
 
 !classDefinition: #UnivariatePolynomial category: #'Mathematics-Polynomials'!
@@ -3819,13 +3819,13 @@ My instances are K-vector spaces (or R-modules) of linear transformations from a
 My instances are vector spaces of linear forms, i.e linear maps from a vector space V into the ground field K. This is the (algebraic) dual of V and it is noted V*.
 !
 
-!Matrices commentStamp: '<historical>' prior: 0!
+!MatrixSpace commentStamp: '<historical>' prior: 0!
 My instances are vector spaces (or modules) of matrices of n rows by m columns over a given field (or ring).!
 
 !ScalarSpace commentStamp: '<historical>' prior: 0!
 My instances are one dimensional vector spaces of scalars, i.e. a field K viewed as a K-vector space.!
 
-!Tuples commentStamp: '<historical>' prior: 0!
+!TupleSpace commentStamp: '<historical>' prior: 0!
 My instances are vector spaces (or modules) of n-tuples over a given field (or ring).!
 
 !VectorSpace commentStamp: '<historical>' prior: 0!
@@ -3879,6 +3879,9 @@ My instances are fields of fractions of coordinate rings of (affine) algebraic v
 !RationalFunctions commentStamp: '<historical>' prior: 0!
 My instances are rational functions, i.e. the field of fractions of a given polynomial ring.!
 
+!Rationals commentStamp: '<historical>' prior: 0!
+My singletion global instance QQ is the field of rational numbers.!
+
 !QuotientRing commentStamp: '<historical>' prior: 0!
 My instances are quotient rings (also called factor rings, difference rings or residue class rings). 
 
@@ -3902,7 +3905,10 @@ The following sets are in bijection (naturally):
 3. Maximal ideals in K[V].
 !
 
-!Polynomials commentStamp: '<historical>' prior: 0!
+!Integers commentStamp: '<historical>' prior: 0!
+My singletion global instance ZZ is the ring of integer numbers.!
+
+!PolynomialRing commentStamp: '<historical>' prior: 0!
 My instances are polynomial rings in one or many indeterminates.!
 
 !AffineSubspace commentStamp: '<historical>' prior: 0!
@@ -3991,6 +3997,9 @@ Given a ring R, the group of units of R is the set of elements of R that have mu
 
 !Monomials commentStamp: '<historical>' prior: 0!
 My instances are (commutative) monoids of monomials in n indeterminates.!
+
+!Naturals commentStamp: '<historical>' prior: 0!
+My singletion global instance NN is the set of natural numbers 1, 2, 3, ...!
 
 !ProjectiveSubspace commentStamp: '<historical>' prior: 0!
 My instances are projective spaces P(V) on a given finite-dimensional K-vector space V. Their elements are the subspaces of V, in particular the points of P(V) are the subspaces of dimension 1 of V, or <v> where v ~= 0.
@@ -4429,7 +4438,7 @@ My instances are polynomials in one or many indeterminates, with coefficients in
 
 Subclasses implement particular representations, such as dense univariate polynomials (represented as arrays of coefficients) or sparse polynomials (representad as dictionaries monomial -> coefficient).!
 
-!SparsePolynomial commentStamp: '<historical>' prior: 0!
+!MultivariatePolynomial commentStamp: '<historical>' prior: 0!
 My instances are polynomials in sparse representation. The coefficients of a sparse polynomial are stored as a SparseTuple indexed by monomials.!
 
 !UnivariatePolynomial commentStamp: '<historical>' prior: 0!
@@ -11739,36 +11748,36 @@ from: aVectorSpace
 
 	^ self new domain: aVectorSpace! !
 
-!Matrices methodsFor: 'comparing' stamp: 'len 12/14/2015 01:51'!
+!MatrixSpace methodsFor: 'comparing' stamp: 'len 7/19/2016 01:13'!
 = anObject
 	self == anObject ifTrue: [^ true].
-	^ (anObject isKindOf: Matrices) and: [anObject scalars = self scalars and: [self numberOfRows = anObject numberOfRows and: [self numberOfColumns = anObject numberOfColumns]]]! !
+	^ (anObject isKindOf: MatrixSpace) and: [anObject scalars = self scalars and: [self numberOfRows = anObject numberOfRows and: [self numberOfColumns = anObject numberOfColumns]]]! !
 
-!Matrices methodsFor: 'morphisms' stamp: 'len 5/22/2016 03:48'!
+!MatrixSpace methodsFor: 'morphisms' stamp: 'len 5/22/2016 03:48'!
 asLieAlgebra
 	^ LieAlgebra on: self bracket: (Function from: (self cartesian: self) to: self evaluating: [:each| each first * each second - (each second * each first)])! !
 
-!Matrices methodsFor: 'morphisms' stamp: 'len 5/29/2016 17:55'!
+!MatrixSpace methodsFor: 'morphisms' stamp: 'len 5/29/2016 17:55'!
 asRing
 	^ (self as: Ring) one: self identity! !
 
-!Matrices methodsFor: 'elements' stamp: 'len 7/15/2016 05:08'!
+!MatrixSpace methodsFor: 'elements' stamp: 'len 7/15/2016 05:08'!
 columns: anArray
 	^ (ColumnMatrix columns: anArray) species: self! !
 
-!Matrices methodsFor: 'basis' stamp: 'len 11/23/2015 02:31'!
+!MatrixSpace methodsFor: 'basis' stamp: 'len 11/23/2015 02:31'!
 coordinatesOf: aMatrix
 	^ aMatrix asTuple! !
 
-!Matrices methodsFor: 'elements' stamp: 'len 7/8/2016 04:43'!
+!MatrixSpace methodsFor: 'elements' stamp: 'len 7/8/2016 04:43'!
 dense: aTuple
 	^ DenseMatrix new coefficients: aTuple; species: self! !
 
-!Matrices methodsFor: 'elements' stamp: 'len 3/3/2016 18:57'!
+!MatrixSpace methodsFor: 'elements' stamp: 'len 3/3/2016 18:57'!
 diagonal: aTuple
 	^ self evaluatingDiagonal: [:i| aTuple at: i]! !
 
-!Matrices methodsFor: 'basis' stamp: 'len 11/26/2015 03:53'!
+!MatrixSpace methodsFor: 'basis' stamp: 'len 11/26/2015 03:53'!
 e: anInteger
 	| one zero m |
 	one _ scalars one.
@@ -11776,7 +11785,7 @@ e: anInteger
 	m _ numberOfColumns.
 	^ self evaluating: [:i :j| (i-1)*m + j = anInteger ifTrue: [one] ifFalse: [zero]]! !
 
-!Matrices methodsFor: 'basis' stamp: 'len 7/8/2016 03:03'!
+!MatrixSpace methodsFor: 'basis' stamp: 'len 7/8/2016 03:03'!
 elementAt: aTuple
 	^ self evaluating: [:i :j| aTuple at: (i-1)*numberOfColumns + j]
 
@@ -11785,139 +11794,139 @@ elementAt: aTuple
 	aTuple withIndexDo: [:each :i| answer _ (self e: i) * each + answer].
 	^ answer"! !
 
-!Matrices methodsFor: 'elements' stamp: 'len 7/15/2016 05:09'!
+!MatrixSpace methodsFor: 'elements' stamp: 'len 7/15/2016 05:09'!
 evaluating: aBlock
 	^ self rows: ((1 to: numberOfRows) collect: [:i| self scalars tuple: self numberOfColumns evaluating: [:j| aBlock value: i value: j]])! !
 
-!Matrices methodsFor: 'elements' stamp: 'len 1/7/2016 06:41'!
+!MatrixSpace methodsFor: 'elements' stamp: 'len 1/7/2016 06:41'!
 evaluatingDiagonal: aBlock
 	| zero |
 	zero _ self scalars zero.
 	^ self evaluating: [:i :j| i == j ifTrue: [aBlock value: i] ifFalse: [zero]]! !
 
-!Matrices methodsFor: 'comparing' stamp: 'len 6/28/2016 09:24'!
+!MatrixSpace methodsFor: 'comparing' stamp: 'len 6/28/2016 09:24'!
 hash
 	^ scalars hash + numberOfRows hash hashMultiply + numberOfColumns! !
 
-!Matrices methodsFor: 'elements' stamp: 'len 11/26/2015 03:42'!
+!MatrixSpace methodsFor: 'elements' stamp: 'len 11/26/2015 03:42'!
 identity
 	^ self scalar: scalars one! !
 
-!Matrices methodsFor: 'testing' stamp: 'len 11/26/2015 01:37'!
+!MatrixSpace methodsFor: 'testing' stamp: 'len 11/26/2015 01:37'!
 includes: anObject
 	(anObject is: #Matrix) ifFalse: [^ false].
 	anObject do: [ :each | (scalars includes: each) ifFalse: [^ false]].
 	^ true! !
 
-!Matrices methodsFor: 'testing' stamp: 'len 3/5/2016 00:32'!
+!MatrixSpace methodsFor: 'testing' stamp: 'len 3/5/2016 00:32'!
 isAssociative
 	^ self isSquare and: [scalars isCommutativeRing]! !
 
-!Matrices methodsFor: 'testing' stamp: 'len 11/26/2015 15:34'!
+!MatrixSpace methodsFor: 'testing' stamp: 'len 11/26/2015 15:34'!
 isCommutative
 	^ self isRing and: [numberOfColumns = 1]! !
 
-!Matrices methodsFor: 'testing' stamp: 'len 11/7/2015 22:05'!
+!MatrixSpace methodsFor: 'testing' stamp: 'len 11/7/2015 22:05'!
 isCountable
 	^ scalars isCountable! !
 
-!Matrices methodsFor: 'testing' stamp: 'len 11/7/2015 22:05'!
+!MatrixSpace methodsFor: 'testing' stamp: 'len 11/7/2015 22:05'!
 isFinite
 	^ scalars isFinite! !
 
-!Matrices methodsFor: 'testing' stamp: 'len 11/7/2015 22:02'!
+!MatrixSpace methodsFor: 'testing' stamp: 'len 11/7/2015 22:02'!
 isModule
 	^ scalars isRing! !
 
-!Matrices methodsFor: 'testing' stamp: 'len 11/26/2015 15:32'!
+!MatrixSpace methodsFor: 'testing' stamp: 'len 11/26/2015 15:32'!
 isRing
 	^ self isSquare and: [scalars isRing]! !
 
-!Matrices methodsFor: 'testing' stamp: 'len 11/3/2015 20:57'!
+!MatrixSpace methodsFor: 'testing' stamp: 'len 11/3/2015 20:57'!
 isSquare
 	^ numberOfRows = numberOfColumns! !
 
-!Matrices methodsFor: 'accessing' stamp: 'len 3/23/2016 00:29'!
+!MatrixSpace methodsFor: 'accessing' stamp: 'len 3/23/2016 00:29'!
 matrixClass
 	^ properties at: #matrixClass ifAbsentPut: [RowMatrix]! !
 
-!Matrices methodsFor: 'elements' stamp: 'len 11/26/2015 04:06'!
+!MatrixSpace methodsFor: 'elements' stamp: 'len 11/26/2015 04:06'!
 new
 	^ self matrixClass new species: self! !
 
-!Matrices methodsFor: 'elements' stamp: 'len 7/2/2016 17:17'!
+!MatrixSpace methodsFor: 'elements' stamp: 'len 7/2/2016 17:17'!
 newFrom: aMatrix
 	^ aMatrix copy species: self! !
 
-!Matrices methodsFor: 'accessing' stamp: 'len 11/3/2015 21:42'!
+!MatrixSpace methodsFor: 'accessing' stamp: 'len 11/3/2015 21:42'!
 numberOfColumns
 	^ numberOfColumns! !
 
-!Matrices methodsFor: 'accessing' stamp: 'len 11/3/2015 21:42'!
+!MatrixSpace methodsFor: 'accessing' stamp: 'len 11/3/2015 21:42'!
 numberOfRows
 	^ numberOfRows! !
 
-!Matrices methodsFor: 'initialization' stamp: 'len 4/23/2016 06:14'!
+!MatrixSpace methodsFor: 'initialization' stamp: 'len 4/23/2016 06:14'!
 numberOfRows: n columns: m
 	numberOfRows _ n.
 	numberOfColumns _ m! !
 
-!Matrices methodsFor: 'elements' stamp: 'len 11/26/2015 04:36'!
+!MatrixSpace methodsFor: 'elements' stamp: 'len 11/26/2015 04:36'!
 one
 	^ self scalar: scalars one! !
 
-!Matrices methodsFor: 'morphisms' stamp: 'len 4/23/2016 06:12'!
+!MatrixSpace methodsFor: 'morphisms' stamp: 'len 4/23/2016 06:12'!
 over: aRing
 	^ self copy scalars: aRing! !
 
-!Matrices methodsFor: 'printing' stamp: 'len 6/8/2016 01:53'!
+!MatrixSpace methodsFor: 'printing' stamp: 'len 6/8/2016 01:53'!
 printOn: aStream
 	aStream print: self scalars.
 	aStream isText
 		ifTrue: [aStream nextPutAll: (numberOfRows printString, Character times asString, numberOfColumns printString) super]
 		ifFalse: [aStream nextPutAll: '^('; print: numberOfRows; nextPut: Character times; print: numberOfColumns; nextPut: $)]! !
 
-!Matrices methodsFor: 'basis' stamp: 'len 7/15/2016 00:40'!
+!MatrixSpace methodsFor: 'basis' stamp: 'len 7/15/2016 00:40'!
 rank
 	^ numberOfRows * numberOfColumns! !
 
-!Matrices methodsFor: 'elements' stamp: 'len 7/15/2016 05:09'!
+!MatrixSpace methodsFor: 'elements' stamp: 'len 7/15/2016 05:09'!
 rows: anArray
 	^ (RowMatrix rows: anArray) species: self! !
 
-!Matrices methodsFor: 'elements' stamp: 'len 2/6/2016 19:57'!
+!MatrixSpace methodsFor: 'elements' stamp: 'len 2/6/2016 19:57'!
 scalar: aNumber
 	| zero |
 	zero _ scalars zero.
 	^ self evaluating: [:i :j| i=j ifTrue: [aNumber] ifFalse: [zero]]! !
 
-!Matrices methodsFor: 'accessing' stamp: 'len 11/3/2015 21:43'!
+!MatrixSpace methodsFor: 'accessing' stamp: 'len 11/3/2015 21:43'!
 scalars
 	^ scalars! !
 
-!Matrices methodsFor: 'initialization' stamp: 'len 4/23/2016 06:15'!
+!MatrixSpace methodsFor: 'initialization' stamp: 'len 4/23/2016 06:15'!
 scalars: aDomain
 	scalars _ aDomain! !
 
-!Matrices methodsFor: 'accessing' stamp: 'len 11/9/2015 23:18'!
+!MatrixSpace methodsFor: 'accessing' stamp: 'len 11/9/2015 23:18'!
 size
 	^ scalars size ** (self numberOfRows * self numberOfColumns)! !
 
-!Matrices methodsFor: 'elements' stamp: 'len 7/8/2016 04:20'!
+!MatrixSpace methodsFor: 'elements' stamp: 'len 7/8/2016 04:20'!
 sparse: aSparseTuple
 	^ SparseMatrix new coefficients: aSparseTuple; species: self! !
 
-!Matrices methodsFor: 'morphisms' stamp: 'len 11/26/2015 01:34'!
+!MatrixSpace methodsFor: 'morphisms' stamp: 'len 11/26/2015 01:34'!
 transposed
 	^ self isSquare
 		ifTrue: [self]
 		ifFalse: [self class new: self numberOfColumns @ self numberOfRows over: scalars]! !
 
-!Matrices methodsFor: 'elements' stamp: 'len 11/26/2015 04:36'!
+!MatrixSpace methodsFor: 'elements' stamp: 'len 11/26/2015 04:36'!
 zero
 	^ self scalar: scalars zero! !
 
-!Matrices class methodsFor: 'instance creation' stamp: 'len 4/23/2016 06:15'!
+!MatrixSpace class methodsFor: 'instance creation' stamp: 'len 4/23/2016 06:15'!
 new: dimension over: aDomain
 	^ self new numberOfRows: dimension x columns: dimension y; scalars: aDomain! !
 
@@ -11985,34 +11994,34 @@ scalars
 left: aVectorSpace right: anotherVectorSpace
 	^ self new left: aVectorSpace; right: anotherVectorSpace! !
 
-!Tuples methodsFor: 'comparing' stamp: 'len 3/29/2016 18:01'!
+!TupleSpace methodsFor: 'comparing' stamp: 'len 7/19/2016 01:14'!
 = anObject
 	self == anObject ifTrue: [^ true].
-	^ (anObject isKindOf: Tuples) and: [anObject scalars = self scalars and: [self dimension = anObject dimension]]! !
+	^ (anObject isKindOf: TupleSpace) and: [anObject scalars = self scalars and: [self dimension = anObject dimension]]! !
 
-!Tuples methodsFor: 'random' stamp: 'len 4/19/2016 20:13'!
+!TupleSpace methodsFor: 'random' stamp: 'len 4/19/2016 20:13'!
 atRandom: aRandom
 	^ scalars tuple: self dimension evaluating: [:i| scalars atRandom: aRandom]! !
 
-!Tuples methodsFor: 'random' stamp: 'len 4/19/2016 22:10'!
+!TupleSpace methodsFor: 'random' stamp: 'len 4/19/2016 22:10'!
 atRandom: aRandom bits: bitSize
 	| n |
 	n _ bitSize / self dimension.
 	^ scalars tuple: self dimension evaluating: [:i| scalars atRandom: aRandom bits: n]! !
 
-!Tuples methodsFor: 'basis' stamp: 'len 11/23/2015 02:34'!
+!TupleSpace methodsFor: 'basis' stamp: 'len 11/23/2015 02:34'!
 coordinatesOf: aTuple
 	^ aTuple! !
 
-!Tuples methodsFor: 'basis' stamp: 'len 11/2/2015 16:14'!
+!TupleSpace methodsFor: 'basis' stamp: 'len 11/2/2015 16:14'!
 dimension
 	^ dimension! !
 
-!Tuples methodsFor: 'iterating' stamp: 'len 11/10/2015 17:47'!
+!TupleSpace methodsFor: 'iterating' stamp: 'len 11/10/2015 17:47'!
 do: aBlock
 	self do: aBlock from: 1 to: scalars size! !
 
-!Tuples methodsFor: 'iterating' stamp: 'len 3/30/2016 07:15'!
+!TupleSpace methodsFor: 'iterating' stamp: 'len 3/30/2016 07:15'!
 do: aBlock from: min to: max
 	| n projection k |
 	n _ self dimension.
@@ -12030,42 +12039,42 @@ do: aBlock from: min to: max
 				] from: min to: k].
 		k _ k + 1]! !
 
-!Tuples methodsFor: 'basis' stamp: 'len 4/12/2016 05:36'!
+!TupleSpace methodsFor: 'basis' stamp: 'len 4/12/2016 05:36'!
 e: anInteger
 	^ self scalars tuple: dimension evaluating: [:k| k = anInteger ifTrue: [scalars one] ifFalse: [scalars zero]]! !
 
-!Tuples methodsFor: 'basis' stamp: 'len 7/10/2016 07:35'!
+!TupleSpace methodsFor: 'basis' stamp: 'len 7/10/2016 07:35'!
 elementAt: aTuple
 	"Answer the vector with coordinates aTuple in the canonical basis (i.e, the standard basis)."
 	^ aTuple! !
 
-!Tuples methodsFor: 'elements' stamp: 'len 4/14/2016 06:45'!
+!TupleSpace methodsFor: 'elements' stamp: 'len 4/14/2016 06:45'!
 evaluating: aBlock
 	^ scalars tuple: dimension evaluating: aBlock! !
 
-!Tuples methodsFor: 'comparing' stamp: 'len 6/28/2016 09:38'!
+!TupleSpace methodsFor: 'comparing' stamp: 'len 6/28/2016 09:38'!
 hash
 	^ scalars hash + dimension! !
 
-!Tuples methodsFor: 'testing' stamp: 'len 3/30/2016 07:05'!
+!TupleSpace methodsFor: 'testing' stamp: 'len 3/30/2016 07:05'!
 includes: anObject
 	(anObject is: #Tuple) ifFalse: [^ false].
 	anObject do: [:each| (scalars includes: each) ifFalse: [^ false]].
 	^ true! !
 
-!Tuples methodsFor: 'testing' stamp: 'len 11/7/2015 22:06'!
+!TupleSpace methodsFor: 'testing' stamp: 'len 11/7/2015 22:06'!
 isCountable
 	^ scalars isCountable! !
 
-!Tuples methodsFor: 'testing' stamp: 'len 11/7/2015 22:06'!
+!TupleSpace methodsFor: 'testing' stamp: 'len 11/7/2015 22:06'!
 isFinite
 	^ scalars isFinite! !
 
-!Tuples methodsFor: 'testing' stamp: 'len 11/5/2015 19:23'!
+!TupleSpace methodsFor: 'testing' stamp: 'len 11/5/2015 19:23'!
 isModule
 	^ scalars isRing! !
 
-!Tuples methodsFor: 'iterating' stamp: 'len 3/30/2016 07:16'!
+!TupleSpace methodsFor: 'iterating' stamp: 'len 3/30/2016 07:16'!
 iterator
 	| n scalarsIterator projection projectionIterator i k s p j |
 	n _ self dimension.
@@ -12081,54 +12090,54 @@ iterator
 		i _ i+1.
 		(p copyFrom: 1 to: j), s, (p copyFrom: j+1 to: n-1)]! !
 
-!Tuples methodsFor: 'elements' stamp: 'len 3/29/2016 08:10'!
+!TupleSpace methodsFor: 'elements' stamp: 'len 3/29/2016 08:10'!
 newFrom: anArray
 	^ self tupleClass newFrom: anArray! !
 
-!Tuples methodsFor: 'morphisms' stamp: 'len 4/24/2016 06:36'!
+!TupleSpace methodsFor: 'morphisms' stamp: 'len 4/24/2016 06:36'!
 over: aRing
 	^ self copy scalars: aRing! !
 
-!Tuples methodsFor: 'printing' stamp: 'len 6/7/2016 21:52'!
+!TupleSpace methodsFor: 'printing' stamp: 'len 6/7/2016 21:52'!
 printOn: aStream
 	aStream print: self scalars.
 	aStream isText
 		ifTrue: [aStream nextPutAll: self dimension printString super]
 		ifFalse: [aStream nextPutAll: '^'; print: self dimension]! !
 
-!Tuples methodsFor: 'morphisms' stamp: 'len 12/14/2015 19:23'!
+!TupleSpace methodsFor: 'morphisms' stamp: 'len 12/14/2015 19:23'!
 projection: i
 	^ LinearForm from: self evaluating: [:x| x at: i]! !
 
-!Tuples methodsFor: 'basis' stamp: 'len 7/15/2016 00:06'!
+!TupleSpace methodsFor: 'basis' stamp: 'len 7/15/2016 00:06'!
 rank
 	^ dimension! !
 
-!Tuples methodsFor: 'accessing' stamp: 'len 11/2/2015 17:34'!
+!TupleSpace methodsFor: 'accessing' stamp: 'len 11/2/2015 17:34'!
 scalars
 	^ scalars! !
 
-!Tuples methodsFor: 'private' stamp: 'len 4/24/2016 06:36'!
+!TupleSpace methodsFor: 'private' stamp: 'len 4/24/2016 06:36'!
 scalars: aDomain
 	scalars _ aDomain! !
 
-!Tuples methodsFor: 'initialization' stamp: 'len 4/19/2016 21:38'!
+!TupleSpace methodsFor: 'initialization' stamp: 'len 4/19/2016 21:38'!
 setDimension: n scalars: aDomain
 	dimension _ n.
 	scalars _ aDomain! !
 
-!Tuples methodsFor: 'private' stamp: 'len 3/30/2016 06:47'!
+!TupleSpace methodsFor: 'private' stamp: 'len 3/30/2016 06:47'!
 tupleClass
 	^ scalars tupleClass! !
 
-!Tuples methodsFor: 'elements' stamp: 'len 4/22/2016 21:57'!
+!TupleSpace methodsFor: 'elements' stamp: 'len 4/22/2016 21:57'!
 zero
 	| contents |
 	contents _ Array new: self dimension.
 	contents atAllPut: self scalars zero.
 	^ scalars tuple: contents! !
 
-!Tuples class methodsFor: 'instance creation' stamp: 'len 4/19/2016 21:37'!
+!TupleSpace class methodsFor: 'instance creation' stamp: 'len 4/19/2016 21:37'!
 new: dimension over: aDomain
 	^ self new setDimension: dimension scalars: aDomain! !
 
@@ -12657,10 +12666,10 @@ type: aPair on: aVectorSpace
 			ifTrue: [Ideal on: self generators: {anElementOrArray}]
 			ifFalse: [Ideal on: self generators: anElementOrArray]! !
 
-!Ring methodsFor: 'morphisms' stamp: 'len 6/2/2016 05:31'!
+!Ring methodsFor: 'morphisms' stamp: 'len 7/19/2016 01:14'!
 ** n
-"	n isInfinity ifTrue: [^ InfiniteTuples over: self]."
-	^ n isPoint ifTrue: [Matrices new: n over: self] ifFalse: [Tuples new: n over: self]! !
+"	n isInfinity ifTrue: [^ InfiniteTupleSpace over: self]."
+	^ n isPoint ifTrue: [MatrixSpace new: n over: self] ifFalse: [TupleSpace new: n over: self]! !
 
 !Ring methodsFor: 'morphisms' stamp: 'len 5/23/2016 04:22'!
 / anIdeal
@@ -12801,13 +12810,13 @@ polynomialsIn: anIntegerOrCollection
 	"Answer the ring of multivariate polynomials over the receiver in the given indeterminates."
 	^ self polynomialsIn: anIntegerOrCollection ordering: #trevlex! !
 
-!Ring methodsFor: 'morphisms' stamp: 'len 7/2/2016 23:46'!
+!Ring methodsFor: 'morphisms' stamp: 'len 7/19/2016 01:12'!
 polynomialsIn: anIntegerOrCollection ordering: aMonomialOrdering
 	"Answer the ring of multivariate polynomials over the receiver over the given indeterminates."
 	| answer |
 	anIntegerOrCollection isInteger
-		ifTrue: [^ Polynomials new: anIntegerOrCollection over: self ordering: aMonomialOrdering].
-	answer _ Polynomials new: anIntegerOrCollection size over: self ordering: aMonomialOrdering.
+		ifTrue: [^ PolynomialRing new: anIntegerOrCollection over: self ordering: aMonomialOrdering].
+	answer _ PolynomialRing new: anIntegerOrCollection size over: self ordering: aMonomialOrdering.
 	answer indeterminateNames: anIntegerOrCollection.
 	^ answer! !
 
@@ -14052,47 +14061,47 @@ zero
 p: aPrime
 	^ self new p: aPrime! !
 
-!Polynomials methodsFor: 'morphisms' stamp: 'len 12/5/2015 23:52'!
+!PolynomialRing methodsFor: 'morphisms' stamp: 'len 12/5/2015 23:52'!
 * aPolynomialOrArray
 	^ (self includes: aPolynomialOrArray)
 			ifTrue: [PolynomialIdeal on: self generators: {aPolynomialOrArray}]
 			ifFalse: [PolynomialIdeal on: self generators: aPolynomialOrArray]! !
 
-!Polynomials methodsFor: 'comparing' stamp: 'len 6/3/2016 23:16'!
+!PolynomialRing methodsFor: 'comparing' stamp: 'len 7/19/2016 01:12'!
 < aDomain
-	(aDomain isKindOf: Polynomials) ifFalse: [^ false].
+	(aDomain isKindOf: PolynomialRing) ifFalse: [^ false].
 	self rank = aDomain rank ifFalse: [^ false].
 	self scalars < aDomain scalars ifFalse: [^ false].
 	^ true! !
 
-!Polynomials methodsFor: 'comparing' stamp: 'len 6/1/2016 23:44'!
+!PolynomialRing methodsFor: 'comparing' stamp: 'len 7/19/2016 01:12'!
 <= aDomain
 	"Answer true if the receiver is included in the argument, i.e. it's a subring of the argument."
-	(aDomain isKindOf: Polynomials) ifFalse: [^ false].
+	(aDomain isKindOf: PolynomialRing) ifFalse: [^ false].
 	self rank = aDomain rank ifFalse: [^ false].
 	self scalars <= aDomain scalars ifFalse: [^ false].
 	^ true! !
 
-!Polynomials methodsFor: 'comparing' stamp: 'len 6/4/2016 05:14'!
+!PolynomialRing methodsFor: 'comparing' stamp: 'len 7/19/2016 01:12'!
 = anObject
 	self == anObject ifTrue: [^ true].
-	^ (anObject isKindOf: Polynomials) and: [anObject scalars = scalars and: [anObject rank = rank]]! !
+	^ (anObject isKindOf: PolynomialRing) and: [anObject scalars = scalars and: [anObject rank = rank]]! !
 
-!Polynomials methodsFor: 'comparing' stamp: 'len 6/3/2016 23:17'!
+!PolynomialRing methodsFor: 'comparing' stamp: 'len 7/19/2016 01:12'!
 > aDomain
-	(aDomain isKindOf: Polynomials) ifFalse: [^ false].
+	(aDomain isKindOf: PolynomialRing) ifFalse: [^ false].
 	self rank = aDomain rank ifFalse: [^ false].
 	self scalars > aDomain scalars ifFalse: [^ false].
 	^ true! !
 
-!Polynomials methodsFor: 'comparing' stamp: 'len 6/3/2016 23:18'!
+!PolynomialRing methodsFor: 'comparing' stamp: 'len 7/19/2016 01:12'!
 >= aDomain
-	(aDomain isKindOf: Polynomials) ifFalse: [^ false].
+	(aDomain isKindOf: PolynomialRing) ifFalse: [^ false].
 	self rank = aDomain rank ifFalse: [^ false].
 	self scalars >= aDomain scalars ifFalse: [^ false].
 	^ true! !
 
-!Polynomials methodsFor: 'morphisms' stamp: 'len 5/21/2016 00:16'!
+!PolynomialRing methodsFor: 'morphisms' stamp: 'len 5/21/2016 00:16'!
 asMultivariate
 	| answer |
 	self isUnivariate ifFalse: [^ self].
@@ -14101,28 +14110,28 @@ asMultivariate
 		ifTrue: [answer indeterminateNames: self scalars indeterminateNames, self indeterminateNames].
 	^ answer! !
 
-!Polynomials methodsFor: 'morphisms' stamp: 'len 5/20/2016 23:16'!
+!PolynomialRing methodsFor: 'morphisms' stamp: 'len 5/20/2016 23:16'!
 asUnivariate
 	self isUnivariate ifTrue: [^ self].
 	self indeterminateNames notNil
 		ifTrue: [^ self scalars polynomialsIn: self indeterminateNames allButLast :: polynomialsIn: {self indeterminateNames last}].
 	^ self scalars polynomialsIn: self rank - 1 :: polynomials! !
 
-!Polynomials methodsFor: 'morphisms' stamp: 'len 5/23/2016 04:09'!
+!PolynomialRing methodsFor: 'morphisms' stamp: 'len 5/23/2016 04:09'!
 asUnivariateIn: anIndeterminate
 	(self indeterminates includes: anIndeterminate) ifFalse: [^ self error: 'indeterminate not found'].
 	anIndeterminate = self indeterminates last ifFalse: [^ self error: 'bad indeterminate'].
 	^ self asUnivariate! !
 
-!Polynomials methodsFor: 'morphisms' stamp: 'len 6/11/2016 22:30'!
+!PolynomialRing methodsFor: 'morphisms' stamp: 'len 6/11/2016 22:30'!
 asVectorSpaceMaxDegree: n
 	^ PolynomialSpace new polynomials: self; degree: n! !
 
-!Polynomials methodsFor: 'random' stamp: 'len 7/5/2016 02:51'!
+!PolynomialRing methodsFor: 'random' stamp: 'len 7/5/2016 02:51'!
 atRandom: aRandom bits: bitSize
 	^ self atRandom: aRandom bits: bitSize maxDegree: (bitSize**(1/rank) min: bitSize - 1) truncated! !
 
-!Polynomials methodsFor: 'random' stamp: 'len 7/5/2016 02:48'!
+!PolynomialRing methodsFor: 'random' stamp: 'len 7/5/2016 02:48'!
 atRandom: aRandom bits: bitSize maxDegree: d
 	| answer term n |
 	self isUnivariate
@@ -14134,32 +14143,32 @@ atRandom: aRandom bits: bitSize maxDegree: d
 		answer _ answer + term].
 	^ answer! !
 
-!Polynomials methodsFor: 'random' stamp: 'len 4/19/2016 20:23'!
+!PolynomialRing methodsFor: 'random' stamp: 'len 4/19/2016 20:23'!
 atRandom: aRandom maxDegree: d
 	self isUnivariate ifFalse: [^ self notYetImplemented].
 	^ self coefficients: (self scalars ** d evaluating: [:i| self scalars atRandom: aRandom])! !
 
-!Polynomials methodsFor: 'random' stamp: 'len 7/5/2016 02:29'!
+!PolynomialRing methodsFor: 'random' stamp: 'len 7/5/2016 02:29'!
 atRandomBits: bitSize maxDegree: d
 	^ Random withDefaultDo: [:aRandom| self atRandom: aRandom bits: bitSize maxDegree: d]! !
 
-!Polynomials methodsFor: 'random' stamp: 'len 2/24/2016 23:33'!
+!PolynomialRing methodsFor: 'random' stamp: 'len 2/24/2016 23:33'!
 atRandomDegree: d
 	"Answer a polynomial of degree d choosen at random with a uniform distribution."
 	self isUnivariate ifFalse: [^ self notYetImplemented].
 	^ self coefficients: (self scalars ** d) atRandom, self scalars one! !
 
-!Polynomials methodsFor: 'random' stamp: 'len 2/25/2016 00:18'!
+!PolynomialRing methodsFor: 'random' stamp: 'len 2/25/2016 00:18'!
 atRandomMaxDegree: d
 	"Answer a polynomial of degree at most d choosen at random with a uniform distribution."
 	self isUnivariate ifFalse: [^ self notYetImplemented].
 	^ self coefficients: (self scalars ** (d+1)) atRandom! !
 
-!Polynomials methodsFor: 'accessing' stamp: 'len 11/5/2015 17:35'!
+!PolynomialRing methodsFor: 'accessing' stamp: 'len 11/5/2015 17:35'!
 characteristic
 	^ scalars characteristic! !
 
-!Polynomials methodsFor: 'examples' stamp: 'len 3/1/2016 22:32'!
+!PolynomialRing methodsFor: 'examples' stamp: 'len 3/1/2016 22:32'!
 chebyshevOfOrder: n
 	"Answer the n-th Chebyshev polynomial."
 
@@ -14176,25 +14185,25 @@ chebyshevOfOrder: n
 		c = 0 ifFalse: [answer _ answer + (self coefficient: scalars one * c degree: each - 1)]].
 	^ answer! !
 
-!Polynomials methodsFor: 'elements' stamp: 'len 7/9/2016 03:28'!
+!PolynomialRing methodsFor: 'elements' stamp: 'len 7/9/2016 03:28'!
 coefficient: aNumber degree: anInteger
 	^ self coefficients: (self scalars tuple: {aNumber}) >>> anInteger! !
 
-!Polynomials methodsFor: 'elements' stamp: 'len 5/29/2016 17:44'!
+!PolynomialRing methodsFor: 'elements' stamp: 'len 7/19/2016 01:07'!
 coefficient: aNumber monomial: aMonomial
 	| coefficients |
-	self isSparse
-		ifTrue:
+	self isUnivariate
+		ifFalse:
 			[coefficients _ SparseTuple zero: self scalars zero.
 			coefficients at: aMonomial put: aNumber]
-		ifFalse:
+		ifTrue:
 			[| n zero |
 			n _ aMonomial degree + 1.
 			zero _ aNumber zero.
 			coefficients _ self scalars tuple: n evaluating: [:i| i=n ifTrue: [aNumber] ifFalse: [zero]]].
 	^ (self polynomialClass coefficients: coefficients) species: self! !
 
-!Polynomials methodsFor: 'elements' stamp: 'len 5/20/2016 03:38'!
+!PolynomialRing methodsFor: 'elements' stamp: 'len 5/20/2016 03:38'!
 coefficient: aNumber x: anIndeterminate to: anInteger
 	| i |
 	i _ anIndeterminate isInteger
@@ -14202,10 +14211,10 @@ coefficient: aNumber x: anIndeterminate to: anInteger
 		ifFalse: [self indeterminateNames indexOf: anIndeterminate ifAbsent: [^ self error: 'unknown indeterminate']].
 	^ self coefficient: aNumber monomial: (Monomial x: i to: anInteger)! !
 
-!Polynomials methodsFor: 'elements' stamp: 'len 7/9/2016 03:43'!
+!PolynomialRing methodsFor: 'elements' stamp: 'len 7/19/2016 01:08'!
 coefficients: aTuple
 	| tuple |
-	self isUnivariate ifFalse: [^ (SparsePolynomial coefficients: aTuple) species: self].
+	self isUnivariate ifFalse: [^ (MultivariatePolynomial coefficients: aTuple) species: self].
 	tuple _ aTuple class = self scalars tupleClass
 		ifTrue: [aTuple]
 		ifFalse: [(aTuple isKindOf: SparseTuple)
@@ -14217,12 +14226,12 @@ coefficients: aTuple
 			ifFalse: [self scalars tuple: aTuple]].
 	^ (UnivariatePolynomial coefficients: tuple) species: self! !
 
-!Polynomials methodsFor: 'elements' stamp: 'len 7/9/2016 03:31'!
+!PolynomialRing methodsFor: 'elements' stamp: 'len 7/9/2016 03:31'!
 constant: aNumber
 	self isUnivariate ifTrue: [^ self coefficients: (self scalars tuple: {aNumber})].
 	^ self coefficient: aNumber monomial: Monomial identity! !
 
-!Polynomials methodsFor: 'examples' stamp: 'len 6/1/2016 21:03'!
+!PolynomialRing methodsFor: 'examples' stamp: 'len 6/1/2016 21:03'!
 continuantOfOrder: n
 	"Answer the continuant polynomial of order n."
 	"(Rationals new polynomialsIn: 3) continuantOfOrder: 3"
@@ -14231,7 +14240,7 @@ continuantOfOrder: n
 	n = 1 ifTrue: [^ self x: 1].
 	^ (self continuantOfOrder: n - 1) * (self x: n) + (self continuantOfOrder: n - 2)! !
 
-!Polynomials methodsFor: 'examples' stamp: 'len 11/28/2015 07:25'!
+!PolynomialRing methodsFor: 'examples' stamp: 'len 11/28/2015 07:25'!
 cyclotomic: n
 	"Answer the n-th cyclotomic polynomial."
 	| one x answer numerator denominator |
@@ -14248,7 +14257,7 @@ cyclotomic: n
 		mu = -1 ifTrue: [denominator _ denominator * (x**d - one)]].
 	^ numerator // denominator! !
 
-!Polynomials methodsFor: 'examples' stamp: 'len 11/26/2015 03:44'!
+!PolynomialRing methodsFor: 'examples' stamp: 'len 11/26/2015 03:44'!
 determinantOfOrder: n
 	"Answer the determinant polynomial of order n."
 	"Polynomial determinantOfOrder: 3"
@@ -14256,7 +14265,7 @@ determinantOfOrder: n
 	n = 0 ifTrue: [^ self zero].
 	^ (self ** (n@n) evaluating: [:i :j| self x: n * (j - 1) + i]) determinant! !
 
-!Polynomials methodsFor: 'iterating' stamp: 'len 12/21/2015 23:09'!
+!PolynomialRing methodsFor: 'iterating' stamp: 'len 12/21/2015 23:09'!
 do: aBlock
 	| k |
 	self scalars isFinite ifFalse: [^ self notYetImplemented].
@@ -14266,16 +14275,16 @@ do: aBlock
 	[(self scalars ** k) do: [:t| t last isZero ifFalse: [aBlock value: (self coefficients: t)]].
 	k _ k + 1] repeat! !
 
-!Polynomials methodsFor: 'morphisms' stamp: 'len 1/2/2016 04:13'!
+!PolynomialRing methodsFor: 'morphisms' stamp: 'len 1/2/2016 04:13'!
 embed: aScalar
 	^ self constant: aScalar! !
 
-!Polynomials methodsFor: 'morphisms' stamp: 'len 12/31/2015 00:14'!
+!PolynomialRing methodsFor: 'morphisms' stamp: 'len 12/31/2015 00:14'!
 embedding
 	"Answer the embedding map from the base ring into the receiver."
 	^ properties at: #embedding ifAbsentPut: [Function from: scalars to: self evaluating: [:x| self constant: x]]! !
 
-!Polynomials methodsFor: 'examples' stamp: 'len 11/6/2015 03:45'!
+!PolynomialRing methodsFor: 'examples' stamp: 'len 11/6/2015 03:45'!
 fibonacciOfOrder: n
 	"Answer the n-th Fibonacci polynomial."
 	"Polynomial fibonacciOfOrder: 3"
@@ -14285,7 +14294,7 @@ fibonacciOfOrder: n
 	n = 1 ifTrue: [^ self one].
 	^ (self fibonacciOfOrder: n - 1) - (self x * (self fibonacciOfOrder: n - 2))! !
 
-!Polynomials methodsFor: 'elements' stamp: 'len 5/9/2016 20:05'!
+!PolynomialRing methodsFor: 'elements' stamp: 'len 5/9/2016 20:05'!
 findIrreducibleOfDegree: n
 	| one x p random |
 	one _ scalars one.
@@ -14298,41 +14307,41 @@ findIrreducibleOfDegree: n
 	[(p _ random next) degree = n and: [p isIrreducible]] whileFalse.
 	^ p! !
 
-!Polynomials methodsFor: 'morphisms' stamp: 'len 11/24/2015 05:32'!
+!PolynomialRing methodsFor: 'morphisms' stamp: 'len 11/24/2015 05:32'!
 fractions
 	scalars isField ifFalse: [^ self error: 'scalars are not a field'].
 	^ RationalFunctions polynomials: self! !
 
-!Polynomials methodsFor: 'testing' stamp: 'len 6/4/2016 05:13'!
+!PolynomialRing methodsFor: 'testing' stamp: 'len 6/4/2016 05:13'!
 has: anIndeterminate
 	^ self indeterminates includes: anIndeterminate! !
 
-!Polynomials methodsFor: 'comparing' stamp: 'len 6/28/2016 09:23'!
+!PolynomialRing methodsFor: 'comparing' stamp: 'len 6/28/2016 09:23'!
 hash
 	^ scalars hash + rank! !
 
-!Polynomials methodsFor: 'testing' stamp: 'len 6/1/2016 23:50'!
+!PolynomialRing methodsFor: 'testing' stamp: 'len 6/1/2016 23:50'!
 includes: anObject
 	^ (anObject isKindOf: Polynomial) and: [anObject species <= self]! !
 
-!Polynomials methodsFor: 'accessing' stamp: 'len 6/4/2016 05:12'!
+!PolynomialRing methodsFor: 'accessing' stamp: 'len 6/4/2016 05:12'!
 indeterminate
 	"Answer the univariate indeterminate."
 	^ 1! !
 
-!Polynomials methodsFor: 'accessing' stamp: 'len 5/20/2016 23:05'!
+!PolynomialRing methodsFor: 'accessing' stamp: 'len 5/20/2016 23:05'!
 indeterminateNames
 	^ properties at: #indeterminateNames ifAbsent: [self isUnivariate ifTrue: [#(x)]]! !
 
-!Polynomials methodsFor: 'accessing-private' stamp: 'len 5/20/2016 03:28'!
+!PolynomialRing methodsFor: 'accessing-private' stamp: 'len 5/20/2016 03:28'!
 indeterminateNames: aCollection
 	properties at: #indeterminateNames put: aCollection! !
 
-!Polynomials methodsFor: 'accessing' stamp: 'len 6/4/2016 05:12'!
+!PolynomialRing methodsFor: 'accessing' stamp: 'len 6/4/2016 05:12'!
 indeterminates
 	^ 1 to: rank! !
 
-!Polynomials methodsFor: 'elements' stamp: 'len 12/19/2015 03:38'!
+!PolynomialRing methodsFor: 'elements' stamp: 'len 12/19/2015 03:38'!
 interpolate: aCollection
 	"Answer a polynomial f that for each pair k -> v of the argument evaluates to f(k) = v.
 	(Lagrange polynomials.)"
@@ -14347,55 +14356,47 @@ interpolate: aCollection
 		answer _ p * a value + answer].
 	^ answer! !
 
-!Polynomials methodsFor: 'testing' stamp: 'len 11/4/2015 21:52'!
+!PolynomialRing methodsFor: 'testing' stamp: 'len 11/4/2015 21:52'!
 isCommutative
 	^ scalars isCommutative! !
 
-!Polynomials methodsFor: 'private' stamp: 'len 7/9/2016 03:22'!
-isDense
-	^ self isSparse not! !
-
-!Polynomials methodsFor: 'testing' stamp: 'len 11/4/2015 21:51'!
+!PolynomialRing methodsFor: 'testing' stamp: 'len 11/4/2015 21:51'!
 isEuclidean
 	^ scalars isEuclidean! !
 
-!Polynomials methodsFor: 'testing' stamp: 'len 11/29/2015 00:16'!
+!PolynomialRing methodsFor: 'testing' stamp: 'len 11/29/2015 00:16'!
 isGCDDomain
 	^ scalars isField or: [scalars isUFD]! !
 
-!Polynomials methodsFor: 'testing' stamp: 'len 11/29/2015 00:26'!
+!PolynomialRing methodsFor: 'testing' stamp: 'len 11/29/2015 00:26'!
 isIntegralDomain
 	scalars isIntegralDomain ifTrue: [^ true].
 	^ super isIntegralDomain! !
 
-!Polynomials methodsFor: 'testing' stamp: 'len 11/29/2015 00:27'!
+!PolynomialRing methodsFor: 'testing' stamp: 'len 11/29/2015 00:27'!
 isNoetherian
 	scalars isNoetherian ifTrue: [^ true]. "Hilber's basis theorem"
 	^ super isNoetherian! !
 
-!Polynomials methodsFor: 'testing' stamp: 'len 12/8/2015 06:10'!
+!PolynomialRing methodsFor: 'testing' stamp: 'len 12/8/2015 06:10'!
 isPID
 	"Univariate polynomials over a field are principal ideal domains."
 	^ scalars isField and: [self isUnivariate]! !
 
-!Polynomials methodsFor: 'testing' stamp: 'len 11/4/2015 21:51'!
+!PolynomialRing methodsFor: 'testing' stamp: 'len 11/4/2015 21:51'!
 isRing
 	^ scalars isRing! !
 
-!Polynomials methodsFor: 'private' stamp: 'len 7/9/2016 03:25'!
-isSparse
-	^ self polynomialClass = SparsePolynomial! !
-
-!Polynomials methodsFor: 'testing' stamp: 'len 11/29/2015 00:26'!
+!PolynomialRing methodsFor: 'testing' stamp: 'len 11/29/2015 00:26'!
 isUFD
 	scalars isUFD ifTrue: [^ true]. "proof based on Gauss lemma"
 	^ super isUFD! !
 
-!Polynomials methodsFor: 'testing' stamp: 'len 7/9/2016 03:25'!
+!PolynomialRing methodsFor: 'testing' stamp: 'len 7/9/2016 03:25'!
 isUnivariate
 	^ rank = 1! !
 
-!Polynomials methodsFor: 'morphisms' stamp: 'len 12/28/2015 20:20'!
+!PolynomialRing methodsFor: 'morphisms' stamp: 'len 12/28/2015 20:20'!
 modPrime: anObject
 	| answer |
 	self assert: self scalars isField.
@@ -14406,15 +14407,15 @@ modPrime: anObject
 		at: #isField put: true.
 	^ answer! !
 
-!Polynomials methodsFor: 'elements' stamp: 'len 6/26/2016 01:42'!
+!PolynomialRing methodsFor: 'elements' stamp: 'len 6/26/2016 01:42'!
 monomial: aMonomial
 	^ self coefficient: self scalars one monomial: aMonomial! !
 
-!Polynomials methodsFor: 'elements' stamp: 'len 11/26/2015 03:17'!
+!PolynomialRing methodsFor: 'elements' stamp: 'len 11/26/2015 03:17'!
 new
 	^ self polynomialClass new species: self! !
 
-!Polynomials methodsFor: 'elements' stamp: 'len 7/9/2016 03:01'!
+!PolynomialRing methodsFor: 'elements' stamp: 'len 7/9/2016 03:01'!
 newFrom: aPolynomial
 	(aPolynomial indeterminates allSatisfy: [:each| self has: each])
 		ifFalse: [self halt].
@@ -14423,15 +14424,15 @@ newFrom: aPolynomial
 			ifTrue: [aPolynomial asSparsePolynomial coefficients]
 			ifFalse: [aPolynomial coefficients])! !
 
-!Polynomials methodsFor: 'elements' stamp: 'len 11/3/2015 20:21'!
+!PolynomialRing methodsFor: 'elements' stamp: 'len 11/3/2015 20:21'!
 one
 	^ self constant: scalars one! !
 
-!Polynomials methodsFor: 'accessing' stamp: 'len 7/3/2016 04:18'!
+!PolynomialRing methodsFor: 'accessing' stamp: 'len 7/3/2016 04:18'!
 ordering
 	^ properties at: #ordering ifAbsentPut: [MonomialOrdering tlex: self rank]! !
 
-!Polynomials methodsFor: 'accessing' stamp: 'len 7/2/2016 23:41'!
+!PolynomialRing methodsFor: 'accessing' stamp: 'len 7/2/2016 23:41'!
 ordering: aMonomialOrdering
 	| ordering |
 	ordering _ aMonomialOrdering isSymbol
@@ -14439,15 +14440,15 @@ ordering: aMonomialOrdering
 		ifFalse: [aMonomialOrdering].
 	properties at: #ordering put: ordering! !
 
-!Polynomials methodsFor: 'morphisms' stamp: 'len 4/24/2016 06:37'!
+!PolynomialRing methodsFor: 'morphisms' stamp: 'len 4/24/2016 06:37'!
 over: aRing
 	^ self copy scalars: aRing! !
 
-!Polynomials methodsFor: 'private' stamp: 'len 7/9/2016 03:24'!
+!PolynomialRing methodsFor: 'private' stamp: 'len 7/19/2016 01:08'!
 polynomialClass
-	^ properties at: #polynomialClass ifAbsent: [self isUnivariate ifTrue: [UnivariatePolynomial] ifFalse: [SparsePolynomial]]! !
+	^ properties at: #polynomialClass ifAbsent: [self isUnivariate ifTrue: [UnivariatePolynomial] ifFalse: [MultivariatePolynomial]]! !
 
-!Polynomials methodsFor: 'printing' stamp: 'len 4/21/2016 00:10'!
+!PolynomialRing methodsFor: 'printing' stamp: 'len 4/21/2016 00:10'!
 printOn: aStream
 	aStream print: scalars.
 	aStream nextPut: $[.
@@ -14456,68 +14457,68 @@ printOn: aStream
 		separatedBy: [aStream nextPut: $,].
 	aStream nextPut: $]! !
 
-!Polynomials methodsFor: 'random' stamp: 'len 4/19/2016 22:51'!
+!PolynomialRing methodsFor: 'random' stamp: 'len 4/19/2016 22:51'!
 random
 	^ PolynomialRandomGenerator on: self! !
 
-!Polynomials methodsFor: 'accessing' stamp: 'len 6/4/2016 05:13'!
+!PolynomialRing methodsFor: 'accessing' stamp: 'len 6/4/2016 05:13'!
 rank
 	"The rank of a polynomial ring is the number of indeterminates. Univariate polynomials have rank 1."
 	^ rank! !
 
-!Polynomials methodsFor: 'accessing-private' stamp: 'len 6/4/2016 05:12'!
+!PolynomialRing methodsFor: 'accessing-private' stamp: 'len 6/4/2016 05:12'!
 rank: anInteger
 	rank _ anInteger! !
 
-!Polynomials methodsFor: 'accessing' stamp: 'len 11/2/2015 16:09'!
+!PolynomialRing methodsFor: 'accessing' stamp: 'len 11/2/2015 16:09'!
 scalars
 	^ scalars! !
 
-!Polynomials methodsFor: 'accessing-private' stamp: 'len 11/9/2015 04:16'!
+!PolynomialRing methodsFor: 'accessing-private' stamp: 'len 11/9/2015 04:16'!
 scalars: aRing
 	scalars _ aRing! !
 
-!Polynomials methodsFor: 'accessing' stamp: 'len 4/24/2016 02:59'!
+!PolynomialRing methodsFor: 'accessing' stamp: 'len 4/24/2016 02:59'!
 size
 	^ Aleph new * self scalars size! !
 
-!Polynomials methodsFor: 'accessing' stamp: 'len 7/17/2016 23:54'!
+!PolynomialRing methodsFor: 'accessing' stamp: 'len 7/17/2016 23:54'!
 valuation
 	^ self scalars isField ifTrue: [Function from: self to: NN evaluating: [:f| f degree]]! !
 
-!Polynomials methodsFor: 'elements' stamp: 'len 5/20/2016 03:34'!
+!PolynomialRing methodsFor: 'elements' stamp: 'len 5/20/2016 03:34'!
 x
 	^ self x: self indeterminates first! !
 
-!Polynomials methodsFor: 'elements' stamp: 'len 3/26/2016 02:44'!
+!PolynomialRing methodsFor: 'elements' stamp: 'len 3/26/2016 02:44'!
 x: anIndeterminate
 	^ self x: anIndeterminate to: 1! !
 
-!Polynomials methodsFor: 'elements' stamp: 'len 3/26/2016 02:44'!
+!PolynomialRing methodsFor: 'elements' stamp: 'len 3/26/2016 02:44'!
 x: anIndeterminate to: n
 	^ self coefficient: scalars one x: anIndeterminate to: n! !
 
-!Polynomials methodsFor: 'elements' stamp: 'len 4/6/2016 07:03'!
+!PolynomialRing methodsFor: 'elements' stamp: 'len 4/6/2016 07:03'!
 xTo: degree
 	^ self x: self indeterminate to: degree! !
 
-!Polynomials methodsFor: 'elements' stamp: 'len 5/20/2016 03:34'!
+!PolynomialRing methodsFor: 'elements' stamp: 'len 5/20/2016 03:34'!
 y
 	^ self x: self indeterminates second! !
 
-!Polynomials methodsFor: 'elements' stamp: 'len 5/20/2016 03:34'!
+!PolynomialRing methodsFor: 'elements' stamp: 'len 5/20/2016 03:34'!
 z
 	^ self x: self indeterminates third! !
 
-!Polynomials methodsFor: 'elements' stamp: 'len 3/23/2016 05:21'!
+!PolynomialRing methodsFor: 'elements' stamp: 'len 3/23/2016 05:21'!
 zero
 	^ self constant: self scalars zero! !
 
-!Polynomials class methodsFor: 'instance creation' stamp: 'len 6/4/2016 05:11'!
+!PolynomialRing class methodsFor: 'instance creation' stamp: 'len 6/4/2016 05:11'!
 new: anInteger over: aRing
 	^ self new scalars: aRing; rank: anInteger! !
 
-!Polynomials class methodsFor: 'instance creation' stamp: 'len 5/20/2016 03:25'!
+!PolynomialRing class methodsFor: 'instance creation' stamp: 'len 5/20/2016 03:25'!
 new: anInteger over: aRing ordering: aMonomialOrdering
 	^ self new rank: anInteger; scalars: aRing; ordering: aMonomialOrdering! !
 
@@ -22799,9 +22800,10 @@ codomain
 domain
 	^ domain! !
 
-!RationalMap methodsFor: 'accessing' stamp: 'len 7/4/2016 03:40'!
+!RationalMap methodsFor: 'accessing' stamp: 'len 7/19/2016 01:04'!
 implicit
 	| normal tindets y n generators g ordering basis answer |
+	self flag: #fix.
 	normal _ self copy normalize.
 	tindets _ normal parameters asSortedCollection.
 	y _ tindets last + 1.
@@ -23318,6 +23320,14 @@ partitions
 phi
 	"Answer Euler's totient function."
 	^ self evaluating: [:a| (1 to: a) count: [:b| (a gcd: b) = 1]]! !
+
+!Sequence class methodsFor: 'examples' stamp: 'len 7/19/2016 00:56'!
+primeGaps
+	| p |
+	p _ 2.
+	^ Sequence streamming: [p negated + (p _ p nextPrime)]
+"	p _ Sequence primes.
+	^ Sequence evaluating: [:i| (p at: i+1) - (p at: i)]"! !
 
 !Sequence class methodsFor: 'examples' stamp: 'len 4/27/2016 20:52'!
 primes
@@ -29630,11 +29640,11 @@ asLinearForm
 	self isLinear ifFalse: [^ self error: 'not a linear polynomial'].
 	^ (self scalars ** self species rank) dual evaluating: self! !
 
-!Polynomial methodsFor: 'converting' stamp: 'len 5/22/2016 22:57'!
+!Polynomial methodsFor: 'converting' stamp: 'len 7/19/2016 01:12'!
 asMultivariate
 	"Convert a polynomial in R[x][y][z] to a polynomial in R[x,y,z]."
 	| R R` answer |
-	((R _ self scalars) isKindOf: Polynomials) ifFalse: [^ self].
+	((R _ self scalars) isKindOf: PolynomialRing) ifFalse: [^ self].
 	self species isUnivariate ifFalse: [^ self].
 	R` _ self species asMultivariate.
 	answer _ R` zero.
@@ -30826,28 +30836,28 @@ zeroReciprocal
 
 	^ self reversed! !
 
-!SparsePolynomial methodsFor: 'accessing coefficients' stamp: 'len 3/22/2016 23:27'!
+!MultivariatePolynomial methodsFor: 'accessing coefficients' stamp: 'len 3/22/2016 23:27'!
 coefficientAt: aMonomial
 	"Answer the coefficient of the monomial given by the argument."
 	^ coefficients at: aMonomial ifAbsent: [self scalars zero]! !
 
-!SparsePolynomial methodsFor: 'accessing coefficients' stamp: 'len 3/28/2016 03:55'!
+!MultivariatePolynomial methodsFor: 'accessing coefficients' stamp: 'len 3/28/2016 03:55'!
 coefficientAt: aMonomial add: value
 	^ coefficients at: aMonomial add: value! !
 
-!SparsePolynomial methodsFor: 'accessing coefficients' stamp: 'len 6/24/2016 21:35'!
+!MultivariatePolynomial methodsFor: 'accessing coefficients' stamp: 'len 6/24/2016 21:35'!
 coefficientAt: aMonomial put: value
 	^ coefficients at: aMonomial put: value! !
 
-!SparsePolynomial methodsFor: 'accessing coefficients' stamp: 'len 3/22/2016 23:33'!
+!MultivariatePolynomial methodsFor: 'accessing coefficients' stamp: 'len 3/22/2016 23:33'!
 coefficients
 	^ coefficients! !
 
-!SparsePolynomial methodsFor: 'accessing-private' stamp: 'len 3/22/2016 23:33'!
+!MultivariatePolynomial methodsFor: 'accessing-private' stamp: 'len 3/22/2016 23:33'!
 coefficients: aSparseTuple
 	coefficients _ aSparseTuple! !
 
-!SparsePolynomial methodsFor: 'accessing coefficients' stamp: 'len 5/20/2016 01:45'!
+!MultivariatePolynomial methodsFor: 'accessing coefficients' stamp: 'len 5/20/2016 01:45'!
 denseCoefficients
 	"Answer a dense array of the receivers coefficients ordered by degree.
 	Makes sense for univariate polynomails."
@@ -30859,13 +30869,13 @@ denseCoefficients
 		answer at: key degree + 1 put: value].
 	^ answer! !
 
-!SparsePolynomial methodsFor: 'private' stamp: 'len 3/22/2016 23:31'!
+!MultivariatePolynomial methodsFor: 'private' stamp: 'len 3/22/2016 23:31'!
 density
 	"Answer a measure of the density/sparsity of the receiver."
 	self isZero ifTrue: [^ 0].
 	^ coefficients size / (self monomials max: [:each| each degree])! !
 
-!SparsePolynomial methodsFor: 'operations' stamp: 'len 3/22/2016 23:37'!
+!MultivariatePolynomial methodsFor: 'operations' stamp: 'len 3/22/2016 23:37'!
 derivativeIn: anIndeterminate
 	| answer |
 	answer _ self species new.
@@ -30876,7 +30886,7 @@ derivativeIn: anIndeterminate
 				[answer coefficientAt: (key copy at: anIndeterminate put: degree - 1; yourself) put: value * degree]].
 	^ answer! !
 
-!SparsePolynomial methodsFor: 'operations' stamp: 'len 3/22/2016 23:38'!
+!MultivariatePolynomial methodsFor: 'operations' stamp: 'len 3/22/2016 23:38'!
 evenIn: anIndeterminate
 	"Decompose the receiver in the form f(x^2)x + g(x^2) and answer g(x), where 'x' is the given indeterminate."
 	| answer monomial d |
@@ -30889,21 +30899,21 @@ evenIn: anIndeterminate
 				answer coefficientAt: monomial add: value]].
 	^ answer! !
 
-!SparsePolynomial methodsFor: 'operations' stamp: 'len 3/22/2016 23:37'!
+!MultivariatePolynomial methodsFor: 'operations' stamp: 'len 3/22/2016 23:37'!
 homogeneousComponentAt: anInteger
 	"Answer the receiver's homogeneous component of degree anInteger."
 
 	^ self species coefficients: (coefficients selectByKey: [ :each | each degree = anInteger])! !
 
-!SparsePolynomial methodsFor: 'initialization' stamp: 'len 3/22/2016 23:38'!
+!MultivariatePolynomial methodsFor: 'initialization' stamp: 'len 3/22/2016 23:38'!
 initialize
 	coefficients _ SparseTuple new! !
 
-!SparsePolynomial methodsFor: 'iterating' stamp: 'len 3/23/2016 05:08'!
+!MultivariatePolynomial methodsFor: 'iterating' stamp: 'len 3/23/2016 05:08'!
 monomialsAndCoefficientsDo: aBlock
 	coefficients keysAndValuesDo: aBlock! !
 
-!SparsePolynomial methodsFor: 'iterating' stamp: 'len 3/23/2016 04:17'!
+!MultivariatePolynomial methodsFor: 'iterating' stamp: 'len 3/23/2016 04:17'!
 monomialsApply: aBlock
 	| answer |
 	answer _ self species new.
@@ -30911,11 +30921,11 @@ monomialsApply: aBlock
 		answer coefficientAt: (aBlock value: monomial) add: coefficient].
 	^ answer! !
 
-!SparsePolynomial methodsFor: 'iterating' stamp: 'len 3/22/2016 23:37'!
+!MultivariatePolynomial methodsFor: 'iterating' stamp: 'len 3/22/2016 23:37'!
 monomialsDo: aBlock
 	coefficients keysDo: aBlock! !
 
-!SparsePolynomial methodsFor: 'operations' stamp: 'len 3/22/2016 23:39'!
+!MultivariatePolynomial methodsFor: 'operations' stamp: 'len 3/22/2016 23:39'!
 oddIn: anIndeterminate
 	"Decompose the receiver in the form f(x^2)x + g(x^2) and answer f(x), where 'x' is the given indeterminate."
 	| answer monomial d |
@@ -30928,7 +30938,7 @@ oddIn: anIndeterminate
 				answer coefficientAt: monomial add: value]].
 	^ answer! !
 
-!SparsePolynomial methodsFor: 'operations' stamp: 'len 3/22/2016 23:39'!
+!MultivariatePolynomial methodsFor: 'operations' stamp: 'len 3/22/2016 23:39'!
 shift: anInteger in: anIndeterminate
 	"Answer the receiver shifted anInteger places as univariate polynomial in the given indeterminate."
 
@@ -30942,11 +30952,11 @@ shift: anInteger in: anIndeterminate
 			answer coefficientAt: monomial add: value]].
 	^ answer! !
 
-!SparsePolynomial class methodsFor: 'instance creation' stamp: 'len 3/26/2016 22:56'!
+!MultivariatePolynomial class methodsFor: 'instance creation' stamp: 'len 3/26/2016 22:56'!
 coefficients: aSparseTuple
 	^ self basicNew coefficients: aSparseTuple! !
 
-!SparsePolynomial class methodsFor: 'instance creation' stamp: 'len 3/22/2016 23:44'!
+!MultivariatePolynomial class methodsFor: 'instance creation' stamp: 'len 3/22/2016 23:44'!
 new
 	^ super new initialize! !
 
@@ -30966,9 +30976,9 @@ new
 >> anInteger
 	^ self << anInteger negated! !
 
-!UnivariatePolynomial methodsFor: 'converting' stamp: 'len 3/27/2016 02:22'!
+!UnivariatePolynomial methodsFor: 'converting' stamp: 'len 7/19/2016 01:09'!
 asSparsePolynomial
-	^ SparsePolynomial coefficients: (SparseTuple accumulate: [:aBlock| self monomialsAndCoefficientsDo: [:key :value| aBlock value: key -> value]])! !
+	^ MultivariatePolynomial coefficients: (SparseTuple accumulate: [:aBlock| self monomialsAndCoefficientsDo: [:key :value| aBlock value: key -> value]])! !
 
 !UnivariatePolynomial methodsFor: 'accessing coefficients' stamp: 'len 3/23/2016 04:08'!
 coefficientAt: aMonomial
@@ -31668,8 +31678,9 @@ corrector
 corrector: aPolynomial
 	corrector _ aPolynomial! !
 
-!PolynomialInterpolator methodsFor: 'initialization' stamp: 'len 11/23/97 00:08'!
+!PolynomialInterpolator methodsFor: 'initialization' stamp: 'len 7/19/2016 01:03'!
 initialize
+	self flag: #fix.
 	self polynomial: Polynomial null.
 	self corrector: Polynomial identity! !
 
