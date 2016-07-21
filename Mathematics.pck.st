@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 19 July 2016 at 2:58:21.294866 am'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 21 July 2016 at 2:45:08.477695 am'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 170!
+!provides: 'Mathematics' 1 171!
 !classDefinition: #AbelianGroupPresentation category: #'Mathematics-Free'!
 Object subclass: #AbelianGroupPresentation
 	instanceVariableNames: 'generators relators'
@@ -3837,7 +3837,11 @@ I am an abstract class modeling vector spaces. Instances of my concrete subclass
 Examples of vector spaces are tuples, matrices and linear transformations. There's also an algebra of vector spaces to construct new vector spaces, such as products or direct sums of spaces, dual, quotient, etc.!
 
 !AlgebraicExtensionSpace commentStamp: '<historical>' prior: 0!
-My instances are (finite) algebraic extensions E/F of a field F seen as an F-vector space.!
+My instances are (finite) algebraic extensions E/F of a field F seen as an F-vector space.
+
+Example:
+	QQ extension: QQ polynomials x**4 - 2 :: asVectorSpace
+!
 
 !HomogeneousPolynomialSpace commentStamp: '<historical>' prior: 0!
 My instances are vector spaces of multivariate homogeneous polynomials of degree d in n variables, for fixed d and n.!
@@ -3865,16 +3869,21 @@ Rings can be commutative or non-commutative. Some specific kinds of commutative 
 Rings can be constructed from existing rings by taking quotients by an ideal (see QuotientRing), by making fractions (see FractionField), by making transendental extensions (Polynomials), etc.!
 
 !AlgebraicExtension commentStamp: '<historical>' prior: 0!
-My instances are (finite) algebraic extensions E/F of a field F. They are defined by an irreducible polynomial f with coefficients in F, and is isomorphic to F[x]/<f>.!
+My instances are (finite) algebraic extensions E/F of a field F. They are defined by an irreducible polynomial f with coefficients in F, and is isomorphic to F[x]/<f>.
+
+Example:
+	QQ extension: QQ polynomials x**4 - 2
+!
 
 !NumberField commentStamp: '<historical>' prior: 0!
 My instances are number fields, i.e. finite (and thus algebraic) field extensions of the rational numbers Q. Number fields can also be viewed as vector spaces over Q.
 
 Example:
-	| Q |
-	Q _ Rationals new.
-	Q adjoint: RealAlgebraicNumber sqrt2
+	QQ adjoint: RealAlgebraicNumber sqrt2
 !
+
+!AlgebraicNumbers commentStamp: '<historical>' prior: 0!
+I'm the field of (complex) algebraic numbers, i.e. the algebraic closure of Q.!
 
 !FunctionField commentStamp: '<historical>' prior: 0!
 My instances are fields of fractions of coordinate rings of (affine) algebraic varieties.!
@@ -4051,7 +4060,7 @@ Some examples of semialgebraic sets are:
 !
 
 !SimplicialComplex commentStamp: '<historical>' prior: 0!
-My instances are abstract simplicial complexes. These are combinatorial objects consisting of a collection of simplices with the following properties:
+My instances are abstract simplicial complexes. These are combinatorial objects consisting of a collection of simplices (the 'faces' of the simplicial complex) with the following properties:
 - every face of a simplex is also in the complex;
 - the intersection of two simplices is either empty or a common face of both simplices.!
 
@@ -4230,7 +4239,7 @@ To change the edge collection, addNeighbor: and removeNeighbor: messages are sup
 !LabeledExplicitGraphNode commentStamp: '<historical>' prior: 0!
 A LabeledExplicitGraphNode associates a label with each neighbor, and a label with the node itself; i.e. nodes and edges are labeled.
 
-When adding neighbors, the label must be given.!
+When adding neighbors, the edge label must be given.!
 
 !ImplicitGraphNode commentStamp: '<historical>' prior: 0!
 An ImplicitGraphNode has the edge structure represented within the value, and therefore forwards messages to the value to access edges.
@@ -6279,10 +6288,9 @@ mod: anArray
 <= aGraph
 	^ (self > aGraph) not! !
 
-!AbstractGraph methodsFor: 'comparing' stamp: 'len 7/13/2016 21:58'!
+!AbstractGraph methodsFor: 'comparing' stamp: 'len 7/21/2016 00:07'!
 = aGraph
-	self flag: #fix. "allow multiple edges"
-	^ (aGraph isKindOf: self species) and: [self nodes = aGraph nodes and: [self edges asSet = aGraph edges asSet]]! !
+	^ (aGraph isKindOf: self species) and: [self nodes = aGraph nodes and: [self edges asBag = aGraph edges asBag]]! !
 
 !AbstractGraph methodsFor: 'comparing' stamp: 'len 7/13/2016 21:58'!
 > aGraph
@@ -6291,6 +6299,19 @@ mod: anArray
 !AbstractGraph methodsFor: 'comparing' stamp: 'len 7/13/2016 21:58'!
 >= aGraph 
 	^ aGraph <= self! !
+
+!AbstractGraph methodsFor: 'comparing' stamp: 'len 7/21/2016 02:12'!
+~ aGraph
+	"Answer true if the receiver is isomorphic to aGraph."
+	| n G H |
+	self isLabeled ifTrue: [self notYetImplemented].
+	self species = aGraph species ifFalse: [^ false].
+	(n _ self size) = aGraph size ifFalse: [^ false].
+	"we could insert some heuristic tests here, comparing easy-to-compute invariants"
+	G _ self asStandard.
+	H _ aGraph asStandard.
+	(SymmetricGroup new: n) do: [:each| (G collect: each) = H ifTrue: [^ true]].
+	^ false! !
 
 !AbstractGraph methodsFor: 'adding/removing' stamp: 'len 7/13/2016 21:55'!
 addEdge: edge 
@@ -6312,24 +6333,32 @@ addEdges: aCollection
 	aCollection do: [:each| self addEdge: each].
 	^ aCollection! !
 
-!AbstractGraph methodsFor: 'operations' stamp: 'len 7/15/2016 18:23'!
+!AbstractGraph methodsFor: 'operations' stamp: 'len 7/20/2016 23:43'!
 adjacencyMatrix
 	"Answer the adjacency matrix of the receiver, assuming that the vertices are the integers {1,..,n}.
 	If the graph is labelled, use the labels as entries in the matrix."
 	| n matrix |
 	n _ self order.
 	matrix _ (ZZ ** (n@n)) zero.
-	self edgesAndLabelsDo: [:edge :label| matrix at: edge key value at: edge value value put: (label ifNil: [1])].
+	self edgesAndLabelsDo: [:edge :label| matrix at: edge key at: edge value add: (label ifNil: [1])].
 	^ matrix! !
 
-!AbstractGraph methodsFor: 'operations' stamp: 'len 7/15/2016 18:23'!
+!AbstractGraph methodsFor: 'operations' stamp: 'len 7/19/2016 23:20'!
 adjacencyMatrix: vertices
 	"Answer the adjacency matrix of the receiver, using the vertex ordering given by the argument."
-	^ ZZ ** (vertices size @ vertices size) evaluating: [:i :j| (self hasEdgeFrom: (vertices at: i) to: (vertices at: j)) ifTrue: [1] ifFalse: [0]]! !
+	^ ZZ ** (vertices size @ vertices size) evaluating: [:i :j| self multiplicityFrom: (vertices at: i) to: (vertices at: j)]! !
 
 !AbstractGraph methodsFor: 'converting' stamp: 'len 7/14/2016 02:55'!
 asMorph
 	^ SpringGraphMorph new graph: self! !
+
+!AbstractGraph methodsFor: 'converting' stamp: 'len 7/21/2016 02:12'!
+asStandard
+	^ self asStandard: self values asArray! !
+
+!AbstractGraph methodsFor: 'converting' stamp: 'len 7/21/2016 02:12'!
+asStandard: verticesArray
+	^ self collect: [:each| verticesArray indexOf: each]! !
 
 !AbstractGraph methodsFor: 'statistics' stamp: 'len 7/13/2016 23:11'!
 averageDegree
@@ -6491,16 +6520,14 @@ breadthFirstPathFrom: origin to: target with: visitedNodes
 	"No path From origin to target, i.e. the two subgraph are not conected"
 	^ 0! !
 
-!AbstractGraph methodsFor: 'operations' stamp: 'len 7/13/2016 22:06'!
+!AbstractGraph methodsFor: 'operations' stamp: 'len 7/20/2016 23:56'!
 cartesian: aGraph
-	"Answer the cartesian product of the receiver with the argument. This is a commutative and associative operation (for unlabelled graphs)."
+	"Answer the cartesian product of the receiver with the argument. This is a commutative and associative operation (for unlabeled graphs)."
 	| G |
 	G _ self copyEmpty.
-	self nodesDo: [:x|
-		aGraph nodesDo: [:y|
-			G add: {x value.y value}.
-			x neighborsDo: [:x`| G addEdge: {x value.y value} -> {x` value.y value}].
-			y neighborsDo: [:y`| G addEdge: {x value.y value} -> {x value.y` value}]]].
+	self do: [:x| aGraph do: [:y| G add: (x, y)]].
+	self do: [:x| aGraph edgesDo: [:e| G addEdgeFrom: (x, e key) to: (x, e value)]].
+	self edgesDo: [:e| aGraph do: [:y| G addEdgeFrom: (e key, y) to: (e value, y)]].
 	^ G! !
 
 !AbstractGraph methodsFor: 'operations' stamp: 'len 7/13/2016 22:06'!
@@ -6553,25 +6580,13 @@ collect: aBlock
 	self edgesDo: [:each| answer addEdgeFrom: (aBlock value: each key) to: (aBlock value: each value)].
 	^ answer! !
 
-!AbstractGraph methodsFor: 'iterating' stamp: 'len 7/13/2016 22:03'!
+!AbstractGraph methodsFor: 'iterating' stamp: 'len 7/20/2016 23:50'!
 collect: aBlock labels: labelBlock
 	"Answer a new graph like the receiver but with vertices values mapped by aBlock."
 	| answer |
 	answer _ self copyEmpty.
-	self nodesDo: [:each| answer add: (aBlock value: each value)].
+	self do: [:each| answer add: (aBlock value: each)].
 	self edgesAndLabelsDo: [:each :label| answer addEdgeFrom: (aBlock value: each key) to: (aBlock value: each value) label: (labelBlock value: label)].
-	^ answer! !
-
-!AbstractGraph methodsFor: 'operations' stamp: 'len 7/13/2016 22:06'!
-complement
-	"Answer the complement graph, i.e. the graph where two edges are connected iff they are *not* connected in the receiver."
-	| answer |
-	answer _ self copyEmpty.
-	self nodesDo: [:x|
-		| neighbors |
-		answer add: x.
-		neighbors _ x neighbors.
-		self nodesDo: [:y| (neighbors includes: y) ifFalse: [answer addEdgeFrom: x to: y]]].
 	^ answer! !
 
 !AbstractGraph methodsFor: 'operations' stamp: 'len 7/13/2016 22:06'!
@@ -6610,9 +6625,10 @@ diameter
 distanceFrom: source to: target
 	^ (Dijkstra graph: self source: source) distanceTo: target! !
 
-!AbstractGraph methodsFor: 'iterating' stamp: 'len 7/13/2016 22:03'!
+!AbstractGraph methodsFor: 'iterating' stamp: 'len 7/20/2016 23:34'!
 do: aBlock
-	self valuesDo: aBlock! !
+	"Iterate over the vertices of the receiver (the values, not GraphNodes)."
+	self nodesDo: [:each| aBlock value: each value]! !
 
 !AbstractGraph methodsFor: 'operations' stamp: 'len 7/13/2016 23:05'!
 eccentricityOf: anObject
@@ -6751,25 +6767,26 @@ isTraceable
 isUndirected
 	^ self isDirected not! !
 
-!AbstractGraph methodsFor: 'operations' stamp: 'len 7/13/2016 22:08'!
+!AbstractGraph methodsFor: 'operations' stamp: 'len 7/20/2016 23:19'!
 join: aGraph
-	"Answer the graph with all edges that connect the vertices of the receiver with the vertices of the argument. This is a commutative operation (for unlabelled graphs)."
+	"Answer the graph with all edges that connect the vertices of the receiver with the vertices of the argument. This is a commutative operation (for unlabeled graphs)."
 	| answer |
 	answer _ self copyEmpty.
 	self edgesDo: [:each| (aGraph includes: each value) ifTrue: [answer addEdge: each]].
 	aGraph edgesDo: [:each| (self includes: each key) ifTrue: [answer addEdge: each]].
 	^ answer! !
 
-!AbstractGraph methodsFor: 'operations' stamp: 'len 7/13/2016 22:08'!
+!AbstractGraph methodsFor: 'operations' stamp: 'len 7/20/2016 23:54'!
 line
 	"Answer the line graph of the receiver, i.e. the graph L(G) such that:
 	 - each edge of G is a vertex of L(G);
 	 - if two edges of G share a common endpoint, the correspondng vertices in L(G) are connected." 
 	| answer |
+	self flag: #fix.
 	answer _ self copyEmpty.
-	self edgesDo: [:each|
+	self fullEdgesDo: [:each| "each contains GraphNodes, not values"
 		each value neighborsDo: [:n|
-			answer addEdgeFrom: each to: (Association key: each value value: n)]].
+			answer addEdgeFrom: each to: (Association key: each value value value: n value)]].
 	^ answer! !
 
 !AbstractGraph methodsFor: 'operations' stamp: 'len 7/13/2016 22:08'!
@@ -6788,8 +6805,9 @@ multiplicity
 multiplicityFrom: source to: target
 	^ (self nodeAt: source) neighbors occurrencesOf: target! !
 
-!AbstractGraph methodsFor: 'operations' stamp: 'len 7/13/2016 22:08'!
+!AbstractGraph methodsFor: 'operations' stamp: 'len 7/20/2016 23:22'!
 neighborhoodOf: node
+	"Answer the subgraph of everything that is reachable from the given vertex."
 	^ self subgraphInducedBy: (self nodeAt: node) neighbors! !
 
 !AbstractGraph methodsFor: 'accessing' stamp: 'len 7/13/2016 22:24'!
@@ -6823,12 +6841,12 @@ radius
 	^ self nodes min: [:each| self eccentricityOf: each]
 "	^ (FloydWarshall graph: self) radius"! !
 
-!AbstractGraph methodsFor: 'operations' stamp: 'len 7/13/2016 22:09'!
+!AbstractGraph methodsFor: 'operations' stamp: 'len 7/20/2016 23:47'!
 reflexive
 	"Answer the reflexive closure of the receiver."
 	| answer |
 	answer _ self copy.
-	answer nodesDo: [:each | answer addEdgeFrom: each to: each].
+	answer nodesDo: [:each | each hasLoop ifFalse: [answer addEdgeFrom: each to: each]].
 	^ answer! !
 
 !AbstractGraph methodsFor: 'adding/removing' stamp: 'len 7/13/2016 22:17'!
@@ -6849,32 +6867,41 @@ removeEdgeFrom: src to: dest
 	pre: the edge must be in the graph."
 	^self removeEdgeFrom: src to: dest ifAbsent: [self errorNotFound: src -> dest]! !
 
-!AbstractGraph methodsFor: 'iterating' stamp: 'len 7/13/2016 22:04'!
+!AbstractGraph methodsFor: 'iterating' stamp: 'len 7/20/2016 23:54'!
 select: aBlock
 	"Answer the subgraph of the receiver whose vertices satisfy aBlock."
 	| answer |
 	answer _ self copyEmpty.
-	self nodesDo: [:each| (aBlock value: each value) ifTrue: [answer add: each value]].
+	self do: [:each| (aBlock value: each) ifTrue: [answer add: each]].
 	self edgesDo: [:each|
-		((aBlock value: each key value) and: [aBlock value: each value value])
-			ifTrue: [answer addEdgeFrom: each key value to: each value value]].
+		((aBlock value: each key) and: [aBlock value: each value])
+			ifTrue: [answer addEdgeFrom: each key to: each value]].
 	^ answer! !
 
 !AbstractGraph methodsFor: 'operations' stamp: 'len 7/13/2016 23:05'!
 shortestPathFrom: source to: target
 	^ (Dijkstra graph: self source: source) shortestPathTo: target! !
 
+!AbstractGraph methodsFor: 'random' stamp: 'len 7/21/2016 01:53'!
+shuffled
+	^ Random withDefaultDo: [:aRandom| self shuffledBy: aRandom]! !
+
+!AbstractGraph methodsFor: 'random' stamp: 'len 7/21/2016 01:53'!
+shuffledBy: aRandom
+	^ self collect: ((SymmetricGroup on: self values) atRandom: aRandom)! !
+
 !AbstractGraph methodsFor: 'accessing' stamp: 'len 7/13/2016 21:54'!
 size
 	"The size of a graph G=(V,E) is the number of vertices |V|, contrary to the more common convention of defining it as |E|."
 	^ self nodes size! !
 
-!AbstractGraph methodsFor: 'operations' stamp: 'len 7/13/2016 22:09'!
+!AbstractGraph methodsFor: 'operations' stamp: 'len 7/20/2016 23:55'!
 subgraphInducedBy: aSet
+	"Answer the subgraph induces by aSet of vertices."
 	| answer |
 	answer _ self copy.
 	self edgesDo: [:each|
-		((aSet includes: each key value) and: [aSet includes: each value value])
+		((aSet includes: each key) and: [aSet includes: each value])
 			ifTrue: [answer addEdge: each]].
 	^ answer! !
 
@@ -6886,16 +6913,15 @@ symmetric
 	self edgesDo: [:each | answer addEdge: (Association key: each value value: each key)].
 	^ answer! !
 
-!AbstractGraph methodsFor: 'operations' stamp: 'len 7/13/2016 22:12'!
+!AbstractGraph methodsFor: 'operations' stamp: 'len 7/20/2016 23:55'!
 tensor: aGraph
-	"Answer the tensor product (or direct graph product, categorical graph product, cardinal graph product, Kronecker graph product) of the receiver with the argument. This is a commutative operation (for unlabelled graphs)."
+	"Answer the tensor product (or direct graph product, categorical graph product, cardinal graph product, Kronecker graph product) of the receiver with the argument. This is a commutative operation (for unlabeled graphs)."
 	| G |
 	G _ self class ordered.
-	self nodesDo: [:x|
-		aGraph nodesDo: [:y|
-			G add: {x value.y value}.
-			x neighborsDo: [:x`|
-				y neighborsDo: [:y`| G addEdge: {x value.y value} -> {x` value.y` value}]]]].
+	self do: [:x| aGraph do: [:y| G add: (x, y)]].
+	self edgesDo: [:e1|
+		aGraph edgesDo: [:e2|
+			G addEdgeFrom: (e1 key, e2 key) to: (e1 value, e2 value)]].
 	^ G! !
 
 !AbstractGraph methodsFor: 'operations' stamp: 'len 7/13/2016 22:12'!
@@ -6925,12 +6951,12 @@ transposed
 	self edgesDo: [:each | answer addEdge: (Association key: each value value: each key)].
 	^ answer! !
 
-!AbstractGraph methodsFor: 'operations' stamp: 'len 7/13/2016 22:13'!
+!AbstractGraph methodsFor: 'operations' stamp: 'len 7/20/2016 23:34'!
 union: aGraph
 	"Answer the graph whose vertices and edges are the union of the vertices and edges of the receiver and the argument."
 	| answer |
 	answer _ self copy.
-	aGraph valuesDo: [:each| answer add: each].
+	aGraph do: [:each| answer add: each].
 	aGraph edgesDo: [:each| answer addEdgeFrom: each key to: each value].
 	^ answer! !
 
@@ -6938,17 +6964,13 @@ union: aGraph
 values
 	^ self nodes collect: [:each| each value]! !
 
-!AbstractGraph methodsFor: 'iterating' stamp: 'len 7/13/2016 22:04'!
-valuesDo: aBlock
-	self nodesDo: [:each| aBlock value: each value]! !
-
-!AbstractGraph class methodsFor: 'examples' stamp: 'len 7/13/2016 22:40'!
+!AbstractGraph class methodsFor: 'examples' stamp: 'len 7/20/2016 19:17'!
 C: n
-	"Answer the cycle n vertices 1 -> 2 -> ... -> n -> 1."
+	"Answer the cycle of n vertices 1 -> 2 -> ... -> n -> 1."
 	| C |
 	C _ self unordered.
 	1 to: n-1 do: [:i| C addEdge: i->(i+1)].
-	n > 1 ifTrue: [C addEdge: n -> 1].
+	n >= 1 ifTrue: [C addEdge: n -> 1]. "the extremal case of n = 1 is just a loop"
 	^ C! !
 
 !AbstractGraph class methodsFor: 'examples' stamp: 'len 7/14/2016 00:12'!
@@ -6965,10 +6987,11 @@ N: n
 	"Answer the null graph with n vertices {1..n}."
 	^ self unordered addAll: (1 to: n); yourself! !
 
-!AbstractGraph class methodsFor: 'examples' stamp: 'len 7/13/2016 22:40'!
+!AbstractGraph class methodsFor: 'examples' stamp: 'len 7/20/2016 19:16'!
 P: n
 	"Answer the path of n vertices 1 -> 2 -> ... -> n."
 	| P |
+	n > 1 ifFalse: [self error: 'path graph only definted for >= 2 vertices'].
 	P _ self unordered.
 	1 to: n-1 do: [:i| P addEdge: i->(i+1)].
 	^ P! !
@@ -7156,6 +7179,18 @@ binaryLabeled
 	type _ #(#binary #labeled).
 	nodeCreator _ InitializationBlocks at: #binaryLabeled! !
 
+!Digraph methodsFor: 'operations' stamp: 'len 7/21/2016 02:43'!
+complement
+	"Answer the complement graph, i.e. the graph where two edges are connected iff they are *not* connected in the receiver."
+	| answer |
+	answer _ self copyEmpty.
+	self nodesDo: [:x|
+		| neighbors |
+		answer add: x.
+		neighbors _ x neighbors.
+		self nodesDo: [:y| (neighbors includes: y) ifFalse: [answer addEdgeFrom: x to: y]]].
+	^ answer! !
+
 !Digraph methodsFor: 'iterating' stamp: 'len 7/13/2016 22:25'!
 componentsDo: aBlock
 	"Iterate over the Strongly Connected Components of the receiver."
@@ -7192,12 +7227,20 @@ edgeAtRandom: aRandom
 	self edgesDo: [:each| (count _ count - 1) > 0 ifFalse: [^ each]].
 	self error: 'inconsitency problem, edge not found'! !
 
-!Digraph methodsFor: 'iterating' stamp: 'len 2/17/2016 06:00'!
+!Digraph methodsFor: 'iterating' stamp: 'len 7/20/2016 23:39'!
 edgesAndLabelsDo: aBinaryBlock
+	self nodesDo: [:node| node neighborsAndLabelsDo: [:n :label| aBinaryBlock value: (Association key: node value value: n value) value: label]]! !
+
+!Digraph methodsFor: 'iterating' stamp: 'len 7/20/2016 23:39'!
+edgesDo: aBlock
+	self nodesDo: [:node| node neighborsDo: [:n| aBlock value: (Association key: node value value: n value)]]! !
+
+!Digraph methodsFor: 'iterating' stamp: 'len 7/20/2016 23:39'!
+fullEdgesAndLabelsDo: aBinaryBlock
 	self nodesDo: [:node| node neighborsAndLabelsDo: [:n :label| aBinaryBlock value: (Association key: node value: n) value: label]]! !
 
-!Digraph methodsFor: 'iterating' stamp: 'len 2/14/2016 21:39'!
-edgesDo: aBlock
+!Digraph methodsFor: 'iterating' stamp: 'len 7/20/2016 23:39'!
+fullEdgesDo: aBlock
 	self nodesDo: [:node| node neighborsDo: [:n| aBlock value: (Association key: node value: n)]]! !
 
 !Digraph methodsFor: 'initialization' stamp: 'len 2/14/2016 22:15'!
@@ -7257,9 +7300,9 @@ nodeCreator: n
 nodes
 	^ nodes! !
 
-!Digraph methodsFor: 'iterating' stamp: 'len 2/14/2016 21:38'!
+!Digraph methodsFor: 'iterating' stamp: 'len 7/20/2016 23:42'!
 nodesDo: aBlock
-	(self type = #(#implicitCollection) or: [self type = #(#implicitIteratorBlock)])
+	self isImplicit
 		ifTrue: [nodes asOrderedCollection do: aBlock]
 		ifFalse: [nodes do: aBlock]! !
 
@@ -7430,25 +7473,25 @@ buildFromRoots: rootCollection
 	self roots: rootCollection.
 	self markDo: [ :junk ]! !
 
-!RootedDigraph methodsFor: 'iterating' stamp: 'len 4/29/2016 22:28'!
+!RootedDigraph methodsFor: 'iterating' stamp: 'len 7/21/2016 00:02'!
 collect: aBlock
 	"Answer a new graph like the receiver but with vertices values mapped by aBlock.
 	Note that aBlock is evaluated on the nodes, not the values."
 	| answer |
 	answer _ super copyEmpty.
 	answer roots: (roots collect: aBlock).
-	self nodesDo: [:each| answer add: (aBlock value: each)].
+	self do: [:each| answer add: (aBlock value: each)].
 	self edgesDo: [:each| answer addEdgeFrom: (aBlock value: each key) to: (aBlock value: each value)].
 	^ answer! !
 
-!RootedDigraph methodsFor: 'iterating' stamp: 'len 4/29/2016 22:28'!
+!RootedDigraph methodsFor: 'iterating' stamp: 'len 7/21/2016 00:02'!
 collect: aBlock labels: labelBlock
 	"Answer a new graph like the receiver but with vertices values mapped by aBlock.
 	Note that aBlock is evaluated on the nodes, not the values."
 	| answer |
 	answer _ super copyEmpty.
 	self rootNodes do: [:each| answer addRoot: (aBlock value: each)].
-	self nodesDo: [:each| answer add: (aBlock value: each)].
+	self do: [:each| answer add: (aBlock value: each)].
 	self edgesAndLabelsDo: [:each :label| answer addEdgeFrom: (aBlock value: each key) to: (aBlock value: each value) label: (labelBlock value: label)].
 	^ answer! !
 
@@ -7610,6 +7653,11 @@ removeAllFrom: aNode
 				ifTrue: [aNode neighbors copy do: [:n | aNode removeNeighbor: n]]
 				ifFalse: [self remove: child]]! !
 
+!RootedDigraph methodsFor: 'accessing' stamp: 'len 7/21/2016 00:04'!
+root
+	"pre: roots size = 1"
+	^ roots anyOne! !
+
 !RootedDigraph methodsFor: 'accessing' stamp: 'len 2/26/2016 23:21'!
 rootNode
 	"return the GraphNode for the root.
@@ -7620,6 +7668,10 @@ rootNode
 rootNodes
 	"Return the GraphNodes for the roots."
 	^roots collect: [ :root | self nodeAt: root]! !
+
+!RootedDigraph methodsFor: 'accessing' stamp: 'len 7/21/2016 00:03'!
+roots
+	^ roots! !
 
 !RootedDigraph methodsFor: 'initialization' stamp: 'len 4/29/2016 22:28'!
 roots: aCollection
@@ -7820,6 +7872,10 @@ asDirected
 atRandom: aRandom
 	^ digraph atRandom: aRandom! !
 
+!Graph methodsFor: 'operations' stamp: 'len 7/21/2016 02:44'!
+complement
+	^ self class digraph: digraph complement! !
+
 !Graph methodsFor: 'iterating' stamp: 'len 7/13/2016 22:58'!
 componentsDo: aBlock
 	digraph componentsDo: [:each| aBlock value: (self class digraph: each)]! !
@@ -7865,9 +7921,39 @@ flowPolynomial
 	x _ ZZ polynomials x.
 	^ (-1)**(self size + self numberOfEdges + self components size) * (self tuttePolynomial value: {0. 1 - x})! !
 
+!Graph methodsFor: 'iterating' stamp: 'len 7/20/2016 23:43'!
+fullEdgesAndLabelsDo: aBinaryBlock
+	| visited |
+	visited _ Set2 new.
+	digraph fullEdgesAndLabelsDo: [:each :label|
+		(visited includes: each value -> each key)
+			ifFalse: [aBinaryBlock value: (each as: MutualAssociation) value: label].
+		visited add: each]! !
+
+!Graph methodsFor: 'iterating' stamp: 'len 7/20/2016 23:43'!
+fullEdgesDo: aBlock
+	| visited |
+	visited _ Set2 new.
+	digraph fullEdgesDo: [:each|
+		(visited includes: each value -> each key)
+			ifFalse: [aBlock value: (each as: MutualAssociation)].
+		visited add: each]! !
+
 !Graph methodsFor: 'testing' stamp: 'len 7/13/2016 22:37'!
 isDirected
 	^ false! !
+
+!Graph methodsFor: 'testing' stamp: 'len 7/21/2016 02:13'!
+isImplicit
+	^ digraph isImplicit! !
+
+!Graph methodsFor: 'testing' stamp: 'len 7/21/2016 02:13'!
+isLabeled
+	^ digraph isLabeled! !
+
+!Graph methodsFor: 'testing' stamp: 'len 7/21/2016 02:13'!
+isOrdered
+	^ digraph isOrdered! !
 
 !Graph methodsFor: 'testing' stamp: 'len 7/13/2016 22:35'!
 isSymmetric
@@ -10356,11 +10442,6 @@ isTerminal
 isVectorSpace
 	^ false! !
 
-!Domain methodsFor: 'iterating' stamp: 'len 11/10/2015 01:33'!
-iterator
-	"Answer a Block to iterate over the elements in the receiver."
-	^ self subclassResponsibility! !
-
 !Domain methodsFor: 'accessing' stamp: 'len 4/20/2016 23:58'!
 name
 	^ properties at: #name ifAbsent: [self printString]! !
@@ -11079,6 +11160,10 @@ dimension
 	"Custom notation for vector spaces."
 	^ self rank! !
 
+!FreeModule methodsFor: 'iterating' stamp: 'len 7/19/2016 23:46'!
+do: aBlock
+	self coordinateSpace do: [:each| aBlock value: (self elementAt: each)]! !
+
 !FreeModule methodsFor: 'morphisms' stamp: 'len 7/15/2016 00:24'!
 dual
 	^ DualSpace from: self! !
@@ -11340,9 +11425,9 @@ presentation
 	self flag: #fix. "generators are additive or multiplicative?"
 	^ GroupPresentation generators: self basis relators: commutators! !
 
-!FreeAbelianGroup methodsFor: 'accessing' stamp: 'len 7/15/2016 18:25'!
+!FreeAbelianGroup methodsFor: 'accessing' stamp: 'len 7/19/2016 03:03'!
 scalars
-	^ properties at: #scalars ifAbsentPut: [ZZ]! !
+	^ ZZ! !
 
 !FreeAbelianGroup class methodsFor: 'instance creation' stamp: 'len 6/30/2016 02:27'!
 new: anInteger
@@ -12080,22 +12165,6 @@ isFinite
 isModule
 	^ scalars isRing! !
 
-!TupleSpace methodsFor: 'iterating' stamp: 'len 7/19/2016 02:45'!
-iterator
-	| n scalarsIterator projection projectionIterator i k s p j |
-	n _ self dimension.
-	n = 0 ifTrue: [ ^ [scalars tuple: {}] ].
-	scalarsIterator _ self scalars iterator.
-	n = 1 ifTrue: [ ^ [scalars tuple: {scalarsIterator value}] ].
-	projection _ self class new: n-1 over: self scalars.
-	k _ 0.
-	i _ 0.
-	^ [(n-1)*(n-2)*(k**(n-2)) = i ifTrue: [s _ scalarsIterator value. k _ k+1. projectionIterator _ projection iterator. i _ 0].
-		j _ i\\(n-1).
-		j == 0 ifTrue: [p _ projectionIterator value].
-		i _ i+1.
-		(p copyFrom: 1 to: j), s, (p copyFrom: j+1 to: n-1)]! !
-
 !TupleSpace methodsFor: 'elements' stamp: 'len 7/19/2016 02:45'!
 newFrom: anArray
 	^ scalars tupleClass newFrom: anArray! !
@@ -12152,20 +12221,10 @@ asSubspaceOf: aVectorSpace
 dimension
 	^ self basis size! !
 
-!VectorSpace methodsFor: 'iterating' stamp: 'len 11/23/2015 16:45'!
-do: aBlock
-	self coordinateSpace do: [ :each | aBlock value: (self vectorAt: each) ]! !
-
 !VectorSpace methodsFor: 'morphisms' stamp: 'len 2/24/2016 08:46'!
 intersection: aLinearSubspace
 	self >= aLinearSubspace ifFalse: [^ self error: 'not a subspace of this space'].
 	^ aLinearSubspace! !
-
-!VectorSpace methodsFor: 'iterating' stamp: 'len 11/23/2015 16:46'!
-iterator
-	| coordinatesIterator |
-	coordinatesIterator _ self coordinateSpace iterator.
-	^ [ self vectorAt: coordinatesIterator value ]! !
 
 !VectorSpace methodsFor: 'morphisms' stamp: 'len 2/25/2016 03:46'!
 perp
@@ -13431,22 +13490,6 @@ isPrime
 isReal
 	^ true! !
 
-!Rationals methodsFor: 'iterating' stamp: 'len 12/3/2015 02:41'!
-iterator
-	"Enumerate the rational numbers by a breadth-first traversal of the Calkin-Wilf tree. This is an extension of the so called Calkin-Wilf sequence to include 0 and the negative numbers."
-
-	| q i t |
-	i _ -1.
-	q _ 1.
-	^ [i _ i + 1.
-	i == 0
-		ifTrue:
-			[0]
-		ifFalse:
-			[i odd
-				ifTrue: [q]
-				ifFalse:[t _ q. q _ 1 / (2 * q floor - q + 1). t negated]] ]! !
-
 !Rationals methodsFor: 'elements' stamp: 'len 11/2/2015 15:53'!
 one
 	^ 1! !
@@ -13988,13 +14031,6 @@ isReal
 !Integers methodsFor: 'testing' stamp: 'len 5/12/2016 23:13'!
 isUnit: anInteger
 	^ anInteger = 1 or: [anInteger = -1]! !
-
-!Integers methodsFor: 'iterating' stamp: 'len 11/10/2015 03:07'!
-iterator
-	| i |
-	i _ -1.
-	^ [ i _ i + 1 ]
-"	^ [ i _ i + 1. i=0 ifTrue: [0] ifFalse: [i odd ifTrue: [i+1/2] ifFalse: [i/ -2]] ]"! !
 
 !Integers methodsFor: 'morphisms' stamp: 'len 2/8/2016 20:28'!
 modPrime: anInteger
@@ -15327,14 +15363,14 @@ matrix
 matrix: aMatrix
 	matrix _ aMatrix! !
 
-!CoxeterSystem methodsFor: 'as yet unclassified' stamp: 'len 4/18/2016 08:23'!
+!CoxeterSystem methodsFor: 'as yet unclassified' stamp: 'len 7/20/2016 23:50'!
 presentation
 	| generators relators |
 	generators _ self diagram values collect: [:each| Word x: each].
 	relators _ OrderedCollection new.
 	self diagram edgesAndLabelsDo: [:each :label|
 		label isInfinity
-			ifFalse: [relators add: (Word x: each key value) * (Word x: each value value) ** (label ifNil: [3])]].
+			ifFalse: [relators add: (Word x: each key) * (Word x: each value) ** (label ifNil: [3])]].
 	^ GroupPresentation generators: generators relators: relators! !
 
 !CoxeterSystem methodsFor: 'as yet unclassified' stamp: 'len 4/18/2016 03:17'!
@@ -16901,14 +16937,14 @@ gramMatrix
 isHyperbolic
 	^ (self gramMatrix spectrum count: [:each| each negative]) = 1! !
 
-!CoxeterGroup methodsFor: 'as yet unclassified' stamp: 'len 4/18/2016 01:27'!
+!CoxeterGroup methodsFor: 'as yet unclassified' stamp: 'len 7/20/2016 23:49'!
 presentation
 	| generators relators |
 	generators _ diagram values collect: [:each| Word x: each].
 	relators _ OrderedCollection new.
 	diagram edgesAndLabelsDo: [:each :label|
 		label isInfinity
-			ifFalse: [relators add: (Word x: each key value) * (Word x: each value value) ** (label ifNil: [3])]].
+			ifFalse: [relators add: (Word x: each key) * (Word x: each value) ** (label ifNil: [3])]].
 	^ GroupPresentation generators: generators relators: relators! !
 
 !CoxeterGroup class methodsFor: 'as yet unclassified' stamp: 'len 4/18/2016 01:25'!
@@ -22079,8 +22115,8 @@ aChange
 asArray
 	^ (1 to: map size) collect: [:each| self at: each]! !
 
-!Permutation methodsFor: 'converting' stamp: 'len 7/4/2016 05:01'!
-asStandardPermutationIn: anArray
+!Permutation methodsFor: 'converting' stamp: 'len 7/21/2016 02:11'!
+asStandard: anArray
 	^ StandardPermutation image: (anArray collect: [:each| anArray indexOf: (self at: each)])! !
 
 !Permutation methodsFor: 'accessing' stamp: 'len 6/28/2016 07:01'!
@@ -23966,9 +24002,9 @@ neighborsDo: aBlock
 printOn: aStream
 	aStream nextPut: $[; print: value; nextPut: $]! !
 
-!GraphNode methodsFor: 'operations' stamp: 'len 5/25/2016 03:16'!
+!GraphNode methodsFor: 'operations' stamp: 'len 7/20/2016 08:48'!
 span
-	"Answer the spanning tree of the receive."
+	"Answer the spanning tree of the receiver."
 	| tree |
 	tree _ RootedDigraph ordered.
 	tree roots: (Set with: self).
@@ -26202,6 +26238,10 @@ at: aPoint
 	"Answer the coefficient at i@j (row i, column j)."
 	^ self at: aPoint x at: aPoint y! !
 
+!Matrix methodsFor: 'accessing' stamp: 'len 7/19/2016 23:23'!
+at: i at: j add: anObject
+	self at: i at: j put: (self at: i at: j) + anObject! !
+
 !Matrix methodsFor: 'accessing' stamp: 'len 7/16/2016 00:05'!
 at: aPoint put: anObject
 	"Answer the coefficient at i@j (row i, column j)."
@@ -26329,7 +26369,7 @@ columnAt: i put: aTuple
 	self flag: #fix.
 	aTuple withIndexDo: [:each :k| self at: k@i put: each] "note: this will fail with sparse tuples"! !
 
-!Matrix methodsFor: 'operations' stamp: 'len 7/15/2016 05:09'!
+!Matrix methodsFor: 'operations' stamp: 'len 7/20/2016 03:09'!
 columnAugmented: aMatrix
 	"Answer the receiver augmented with the columns of aMatrix."
 	| n m m` |
@@ -26337,8 +26377,7 @@ columnAugmented: aMatrix
 	m _ self numberOfColumns.
 	(aMatrix is: #Tuple)
 		ifTrue:
-			[m` _ aMatrix numberOfColumns.
-			aMatrix size = n ifFalse: [^ DomainError signal: 'dimensions don''t match'].
+			[aMatrix size = n ifFalse: [^ DomainError signal: 'dimensions don''t match'].
 			^ self species scalars ** (n @ (m+1)) rows: ((1 to: n) collect: [:i| (self rowAt: i), (aMatrix at: i)])].
 	m` _ aMatrix numberOfColumns.
 	aMatrix numberOfRows = n ifFalse: [^ DomainError signal: 'dimensions don''t match'].
@@ -26755,17 +26794,17 @@ rank
 reciprocal
 	^ self inverse! !
 
-!Matrix methodsFor: 'reduction' stamp: 'len 12/26/2015 05:00'!
+!Matrix methodsFor: 'reduction' stamp: 'len 7/20/2016 02:40'!
 reducer
 	self scalars isField ifTrue: [^ GaussianElimination on: self copy].
 	(self scalars isRing and: [self scalars isCommutative]) ifTrue: [^ GaussBareiss on: self copy].
-	^ nil! !
+	^ DomainError signal! !
 
-!Matrix methodsFor: 'reduction' stamp: 'len 12/26/2015 18:45'!
+!Matrix methodsFor: 'reduction' stamp: 'len 7/20/2016 02:40'!
 reducerWith: aMatrix
 	self scalars isField ifTrue: [^ GaussianElimination on: self copy extension: aMatrix copy].
 	(self scalars isRing and: [self scalars isCommutative]) ifTrue: [^ GaussBareiss on: self copy extension: aMatrix copy].
-	^ nil! !
+	^ DomainError signal! !
 
 !Matrix methodsFor: 'arithmetic' stamp: 'len 12/10/2015 23:50'!
 rightInverse
@@ -32320,11 +32359,12 @@ R
 matrix: aMatrix
 	matrix _ aMatrix! !
 
-!QRDecomposition methodsFor: 'as yet unclassified' stamp: 'len 7/15/2016 05:08'!
+!QRDecomposition methodsFor: 'as yet unclassified' stamp: 'len 7/19/2016 08:51'!
 run
 	| K n basis ortho |
 	K _ matrix scalars "algebraicClosure".
 	n _ matrix numberOfRows.
+	self flag: #fix. "we're assuming the columns are independent"
 	basis _ LinearBasis on: K ** n vectors: matrix columns.
 	ortho _ basis orthonormalized.
 	Q _ matrix species columns: ortho.
@@ -33887,9 +33927,9 @@ order
 	order ifNil: [self run].
 	^ order! !
 
-!SchreierSims methodsFor: 'computing-private' stamp: 'len 6/30/2016 09:57'!
+!SchreierSims methodsFor: 'computing-private' stamp: 'len 7/19/2016 08:37'!
 run
-	| G order |
+	| G |
 	G _ action group.
 	order _ 1.
 	base _ OrderedCollection new.
@@ -35067,6 +35107,14 @@ testWeightEnumerator
 	self assert: w = (x**5 + (y**5)).
 	self assert: C dual weightEnumerator = (x**5 + (x**3*(y**2)*10) + (y**4*x*5))! !
 
+!GraphTest methodsFor: 'as yet unclassified' stamp: 'len 7/20/2016 19:31'!
+testCartesianProduct
+	| G H |
+	G _ Graph unordered addEdge: 1 -> 2; yourself.
+	H _ G cartesian: G.
+	self assert: H size = 4.
+	self assert: H numberOfEdges = 4! !
+
 !GraphTest methodsFor: 'as yet unclassified' stamp: 'len 7/14/2016 00:17'!
 testChromaticNumber
 	| G |
@@ -35092,11 +35140,11 @@ testChromaticPolynomialCylic
 	n _ 4 atRandom.
 	self assert: (Graph C: n) chromaticPolynomial = (x-1**n + ((-1)**n * (x-1)))! !
 
-!GraphTest methodsFor: 'as yet unclassified' stamp: 'len 7/15/2016 18:25'!
+!GraphTest methodsFor: 'as yet unclassified' stamp: 'len 7/20/2016 19:15'!
 testChromaticPolynomialPath
 	| x n |
 	x _ ZZ polynomials x.
-	n _ 4 atRandom.
+	n _ 4 atRandom + 1.
 	self assert: (Graph P: n) chromaticPolynomial = (x-1**(n-1)*x)! !
 
 !GraphTest methodsFor: 'as yet unclassified' stamp: 'len 5/25/2016 03:46'!
@@ -35198,6 +35246,18 @@ testIsSimple2
 	self assert: G isSimple.
 	G addEdge: #c -> #c.
 	self assert: G isSimple not "a graph with a loop is not simple"! !
+
+!GraphTest methodsFor: 'as yet unclassified' stamp: 'len 7/21/2016 02:42'!
+testIsomorphism
+	| G H |
+	G _ Graph unordered.
+	5 timesRepeat: [G addEdge: 5 atRandom -> 5 atRandom].
+	H _ G shuffled.
+	self assert: G ~ H.
+	H _ G copy.
+	G addEdge: 1 -> 3.
+	H addEdge: 2 -> 3.
+	self deny: G ~ H! !
 
 !GraphTest methodsFor: 'as yet unclassified' stamp: 'len 7/13/2016 21:47'!
 testPetersenGraph
@@ -36146,6 +36206,16 @@ testRotationsBy90Degrees
 	"test invariant ring K[x,y]^G = K[x^2+y^2, x^2y^2, x^3y-xy^3], isomorphic to K[a,b,c]/<c^2-a^2b+4b^2>"
 	"test hilbert series is 1-z^8 / ((1-z^2)^2(1-z^4)) = 1 + z^2 + 3z^4 + 3z^6 + ..."! !
 
+!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 7/20/2016 03:40'!
+testAlgebraicExtension
+	| x E a b |
+	x _ QQ polynomials x.
+	E _ QQ extension: x**4 - 2.
+	a _ E x.
+	self assert: (a**4) representative asScalar = 2.
+	b _ a**2 + (E embed: 3).
+	self assert: (E minimalPolynomialOf: b) = (x**2 - (x*6) + 7)! !
+
 !MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 7/2/2016 05:48'!
 testBitCount
 	| v |
@@ -36713,15 +36783,16 @@ testMinor
 	B _ A minor: 2@3.
 	self assert: B columns = {(1, 7, 10). (2, 8, 11)}! !
 
-!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 7/2/2016 17:29'!
+!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 7/19/2016 08:54'!
 testQRDecomposition
-	| A QR Q R |
-	A _ Rationals new ** (3@3) :: atRandomBits: 10.
+	| n A QR Q R |
+	n _ 3.
+	[A _ QQ ** (n@n) :: atRandomBits: n*n. A isFullRank] whileFalse.
 	A _ A as: (A species over: RealAlgebraicNumbers new).
 	QR _ A QR.
 	Q _ QR Q.
 	R _ QR R.
-	self assert: A = (Q * R).
+	self assert: Q * R = A.
 	self assert: Q isOrthogonal.
 	self assert: R isUpperTriangular! !
 
