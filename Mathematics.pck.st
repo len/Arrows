@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 11 August 2016 at 5:38:47.313266 am'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 12 August 2016 at 5:05:31.549788 am'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 174!
+!provides: 'Mathematics' 1 175!
 !classDefinition: #AbelianGroupPresentation category: #'Mathematics-Free'!
 Object subclass: #AbelianGroupPresentation
 	instanceVariableNames: 'generators relators'
@@ -429,6 +429,16 @@ Object subclass: #DiscreteColorPalette
 	category: 'Mathematics-Morphic'!
 !classDefinition: 'DiscreteColorPalette class' category: #'Mathematics-Morphic'!
 DiscreteColorPalette class
+	instanceVariableNames: ''!
+
+!classDefinition: #DocumentationGenerator category: #'Mathematics-ETC'!
+Object subclass: #DocumentationGenerator
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-ETC'!
+!classDefinition: 'DocumentationGenerator class' category: #'Mathematics-ETC'!
+DocumentationGenerator class
 	instanceVariableNames: ''!
 
 !classDefinition: #Domain category: #'Mathematics-Kernel'!
@@ -4014,7 +4024,7 @@ Some domains have associated canonical embeddings (inclusion maps) or projection
 !AbelianGroup commentStamp: '<historical>' prior: 0!
 My instances are additive (abelian, commutative) groups, i.e. objects of a preadditive category. Subclasses are structures that build up from an abelian group, such as modules, vector spaces, rings, ideals, etc.
 
-I don't implement isCommutative to return true, because subclasses like rings implement it (for the multiplication operation in the case of rings, for example). My instances are viewed not as groups but as some additive structure that has an underlying abelian group structure, and in order to operate with the group it must be converted to a Group (see >>asGroup).!
+I don't implement isCommutative to return true, because subclasses like rings implement it (for the multiplication operation in the case of rings, for example). My instances are viewed not as groups but as some structure that has an underlying abelian group structure, and in order to operate with the group it must be converted to a Group (see >>asGroup).!
 
 !Ideal commentStamp: '<historical>' prior: 0!
 My instances are finitely-generated ideals of a ring. Ideals are the kernels of ring homomorphisms.!
@@ -4041,6 +4051,9 @@ TODO:
 - membership: compute Hermite normal form of the matrix of the basis
 - or use LLL!
 
+!Lattice commentStamp: '<historical>' prior: 0!
+My instances are subgroups of a real vector space that are isomorphic to Z^n.!
+
 !LinearMaps commentStamp: '<historical>' prior: 0!
 My instances are K-vector spaces (or R-modules) of linear transformations from a K-vector space (R-module) to another, i.e. the space of morphisms between two vector spaces (module homomorphisms).!
 
@@ -4052,7 +4065,7 @@ My instances are vector spaces of linear forms, i.e linear maps from a vector sp
 My instances are vector spaces (or modules) of matrices of n rows by m columns over a given field (or ring).!
 
 !ScalarSpace commentStamp: '<historical>' prior: 0!
-My instances are one dimensional vector spaces of scalars, i.e. a field K viewed as a K-vector space.!
+My instances are one-dimensional vector spaces of scalars, i.e. a field K viewed as a K-vector space.!
 
 !TupleSpace commentStamp: '<historical>' prior: 0!
 My instances are vector spaces (or modules) of n-tuples over a given field (or ring).!
@@ -4085,14 +4098,14 @@ The elements of a quotient space are affine subspaces (flats) S + v with v in V,
 
 !Ring commentStamp: '<historical>' prior: 0!
 My instances are rings, i.e. structures with a set R of elements and two binary operations + and * such that:
-	- R is an abelian group under addition;
-	- R is a monoid under multiplication;
-	- multiplication is distributive with respect to multiplication.
+- R is an abelian group under addition;
+- R is a monoid under multiplication;
+- multiplication is distributive with respect to multiplication.
 
 Rings can be commutative or non-commutative. Some specific kinds of commutative rings are given with the following class of inclusions:
 	Commutative rings > integral domains > integrity closed domains > unique factorization domains > principal ideal domains > Euclidean domains > fields > finite fields.
 	
-Rings can be constructed from existing rings by taking quotients by an ideal (see QuotientRing), by making fractions (see FractionField), by making transendental extensions (Polynomials), etc.!
+Rings can be constructed from existing rings by taking quotients by an ideal (see QuotientRing), by making fractions (see FractionField), by making transcendental extensions (Polynomials), etc.!
 
 !AlgebraicExtension commentStamp: '<historical>' prior: 0!
 My instances are (finite) algebraic extensions E/F of a field F. They are defined by an irreducible polynomial f with coefficients in F, and is isomorphic to F[x]/<f>.
@@ -4111,6 +4124,15 @@ Example:
 !AlgebraicNumbers commentStamp: '<historical>' prior: 0!
 I'm the field of (complex) algebraic numbers, i.e. the algebraic closure of Q.!
 
+!ComplexNumbers commentStamp: '<historical>' prior: 0!
+I'm the field of complex numbers.!
+
+!ExtendedComplexNumbers commentStamp: '<historical>' prior: 0!
+I'm the field of complex numbers extended with the point a infinity.!
+
+!FractionField commentStamp: '<historical>' prior: 0!
+My instances are fields of fractions (ratios, quotients) in an integral domain. See Ring>>fractions.!
+
 !FunctionField commentStamp: '<historical>' prior: 0!
 My instances are fields of fractions of coordinate rings of (affine) algebraic varieties.!
 
@@ -4119,6 +4141,12 @@ My instances are rational functions, i.e. the field of fractions of a given poly
 
 !Rationals commentStamp: '<historical>' prior: 0!
 My singletion global instance QQ is the field of rational numbers.!
+
+!RealAlgebraicNumbers commentStamp: '<historical>' prior: 0!
+I'm the field of real algebraic numbers, i.e. real zeros of polynomials with integer or rational coefficients.!
+
+!Reals commentStamp: '<historical>' prior: 0!
+I'm the field of real numbers.!
 
 !ResidueField commentStamp: '<historical>' prior: 0!
 My instances are quotients of a ring by a maximal ideal. They are special cases of quotient rings (and thus, they are polynorphic with QuotientRing).!
@@ -4135,7 +4163,7 @@ My instances are polynomial rings in one or many indeterminates.!
 !QuotientRing commentStamp: '<historical>' prior: 0!
 My instances are quotient rings (also called factor rings, difference rings or residue class rings). 
 
-Given a commutative ring R and a two-sided-ideal I of R, the quotient ring R/I is the set of cosets of I in R by the equivalence relation a = b if a - b is in I. If the ideal is maximal, the resulting quotient ring is a field. If it's only prime, the quotient ring is an integral domain.
+Given a commutative ring R and a two-sided-ideal I of R, the quotient ring R/I is the set of cosets of I in R by the equivalence relation a = b if a - b is in I. If the ideal is maximal, the resulting quotient ring is a field (see ResidueField). If it's only prime, the quotient ring is an integral domain.
 
 Example:
 	| Z I |
@@ -4176,13 +4204,20 @@ Example:
 !AlgebraicSet commentStamp: '<historical>' prior: 0!
 My instances are sets of zeros of multivariate polynomials in an algebraically closed field. They are geometric manifestations of solutions of systems of polynomial equations.!
 
+!CartesianProduct commentStamp: '<historical>' prior: 0!
+My instances are cartesian products. See Domain>>,.
+
+Example:
+  (ZZ, QQ)
+!
+
 !Grassmannian commentStamp: '<historical>' prior: 0!
 The Grassmannian Gr(r.V) is the set of r-dimensional subspaces of the vector space V.!
 
-!LinearCode commentStamp: 'len 6/29/2016 22:05' prior: 0!
+!LinearCode commentStamp: '<historical>' prior: 0!
 My instances are linear codes.
 
-In coding theory, a linear code is an error-correcting code for which any linear combination of codewords is also a codeword.!
+In coding theory, a linear code is an error-correcting code for which any linear combination of codewords is also a codeword. Thus, linear codes can be seen as a vector space (or more precisely as a subspace of a vector space).!
 
 !PolynomialCode commentStamp: 'len 6/29/2016 22:03' prior: 0!
 My instances are polynomial codes.
@@ -4238,7 +4273,7 @@ My instances are SL(V), the Special Linear Group of a vector space V. This is th
 !PermutationGroup commentStamp: '<historical>' prior: 0!
 My instances are permutation groups, i.e. subgroups of the symmetric group Sym(X) of permutations on the elements of a set X (which we call 'space').
 
-Elements of the space X are refered to as 'points', while the the word 'element' is used for elements of the group itself (permutations). The group acts naturally on the space X by the action p^x |-> p(x).!
+Elements of the space X are refered to as 'points', while the word 'element' is used for elements of the group itself (permutations). The group acts naturally on the space X by the action p^x |-> p(x).!
 
 !ProjectiveGroup commentStamp: '<historical>' prior: 0!
 My instances are groups of projective maps acting on a projective space. They are subgroups of the projective general linear group PGL(V).!
@@ -4258,6 +4293,9 @@ My singletion global instance NN is the set of natural numbers 1, 2, 3, ...!
 My instances are projective spaces P(V) on a given finite-dimensional K-vector space V. Their elements are the subspaces of V, in particular the points of P(V) are the subspaces of dimension 1 of V, or <v> where v ~= 0.
 
 Projective space can also be viewed as the set quotient V/~ of V by the equivalence relation x ~ c*x where c is a constant in K.!
+
+!QuotientSet commentStamp: '<historical>' prior: 0!
+My instances are quotients of a set by an equivalence relation. See EquivalenceRelation and EquivalenceClass.!
 
 !RealBox commentStamp: '<historical>' prior: 0!
 My instances are boxes in R^n built by the cartesian product of one-dimensional intervals (instances of RealInterval).
@@ -4281,7 +4319,7 @@ For some examples try this:
 !
 
 !SemialgebraicInterval commentStamp: '<historical>' prior: 0!
-My instances are components of a Cell Complex of R^1. See the comment in the class SemialgebraicCell.
+My instances are components of a cell complex of R^1. See SemialgebraicCell.
 !
 
 !SemialgebraicSet commentStamp: '<historical>' prior: 0!
@@ -4576,12 +4614,15 @@ Counts are currently held in a WordArray, and limited to about 4 billion counts 
 
 A good number of bins can be n^(1/2) or n^(1/3), where n is the total number of samples. See Wikipedia article for rationale.!
 
+!Morphism commentStamp: '<historical>' prior: 0!
+I'm an abstract superclass for functions and other morphisms (although in general is not necesary for morphisms to be subclasses).!
+
 !Function commentStamp: '<historical>' prior: 0!
 My instances are functions, i.e. maps from a mathematical structure (domain) to another structure (codomain). Evaluated at elements of the domain (>>#value:) they produce elements of the codomain.
 
-In general a Function is a morphism of sets. If the function preserves some mathematical structure from its domain, it is called a morphism (or homomorphism of some category corresponding to the preserved structure). For example linear maps are morphisms of vector spaces, continuous functions are morphisms of topological spaces, group homomorphisms are morphisms of groups, etc.
+In general a Function is a morphism of sets. If the function preserves some mathematical structure from its domain, it is called a morphism (or homomorphism) of some category corresponding to the preserved structure. For example linear maps are morphisms of vector spaces, continuous functions are morphisms of topological spaces, group homomorphisms are morphisms of groups, etc.
 
-Example (three equivalent ways to construct a function):
+Examples (three equivalent ways to construct a function):
 	Function from: ZZ to: ZZ evaluating: [:x| x squared + 1].
 	ZZ -> ZZ evaluating: [:x| x squared + 1].
 	ZZ endomorphisms evaluating: [:x| x squared + 1]
@@ -4610,6 +4651,12 @@ Given a group G and a set X, a (left) group action phi:GxX -> X is a function th
 
 The group G is said to 'act' on X (on the left). The set X is called a (left) G-set (or G-space, G-module, depending on the category of X). Here we just call it 'space'.!
 
+!GroupHomomorphism commentStamp: '<historical>' prior: 0!
+My instances are morphisms of groups.!
+
+!Conjugation commentStamp: '<historical>' prior: 0!
+My instances are group homomorphisms defined as conjugation by a given element.!
+
 !GroupRepresentation commentStamp: '<historical>' prior: 0!
 Given a group and an object X, a group representation is a group homomorphism from G to the automorphisms group Aut(X). X is called the representation space. Informally speaking, a representation allows us to view a group as symmetries of an object.
 
@@ -4617,7 +4664,7 @@ For example, a linear representation of a group G on a vector space V is a group
 Any group action can be seen as a permutation representation. In turn, any representation phi has an associated action on the representation space that maps (g,x) -> phi(g)(x).!
 
 !LinearMap commentStamp: '<historical>' prior: 0!
-My instances are linear transformations between spaces of finite dimension, i.e. morphisms of vector spaces.
+My instances are linear transformations between spaces of finite dimension, i.e. morphisms of vector spaces or free modules.
 
 Example:
 	| V S |
@@ -4628,8 +4675,27 @@ Example:
 !LinearForm commentStamp: '<historical>' prior: 0!
 My instances are linear forms (linear functionals, one-forms, covectors), i.e. linear maps from a vector space to the field of scalars. All the linear forms on a vector space form the dual vector space (see DualSpace).!
 
+!Permutation commentStamp: '<historical>' prior: 0!
+My instances are bijective functions from a domain to itself. Permutations under composition form groups (see PermutationGroup).!
+
+!PermutationCycle commentStamp: '<historical>' prior: 0!
+My instances are cycles. See Permutation>>cyclesDo:.
+!
+
+!StandardPermutation commentStamp: '<historical>' prior: 0!
+My instances are permutations whose domain is the set {1,2,...,n} for somo natural number n. They are more efficient than arbitrary permutations, and often it's worth to convert a permutation to a standard form (by choosing an ordering of its domain) before computing with it (see Permutation>>asStandard:).!
+
+!PolynomialFunction commentStamp: '<historical>' prior: 0!
+My instances are polynomial functions on an algebraic variety.!
+
+!PolynomialMap commentStamp: '<historical>' prior: 0!
+My instances are polynomial maps between algebraic varieties.!
+
 !ProjectiveMap commentStamp: '<historical>' prior: 0!
 My instances are projective transformations from a projective space P(V) to another P(W). These transformations map points to points and lines to lines, etc, preserving incidence. Projective transformation, projective collineation and homography are synonyms.!
+
+!RationalMap commentStamp: '<historical>' prior: 0!
+My instances are rational maps between algebraic varieties.!
 
 !RealRootFunction commentStamp: '<historical>' prior: 0!
 My instances are defined by an integer index and a set of rational multivariate polynomials. 
@@ -10464,6 +10530,55 @@ colors: anArray
 default
 	^ self colors: (#("brightGreen" periwinkle seaGreen hotPink lightYellow cyan lightPink lightOrange  "lightGreen" "lightRed"  "mustard" ) collect: [:each| Color exactColorNamed: each]) "shuffled"! !
 
+!DocumentationGenerator methodsFor: 'as yet unclassified' stamp: 'len 8/12/2016 01:52'!
+generate
+	| blacklist classes tokens |
+	blacklist _ #('Mathematics-Kernel-Elements' 'Mathematics-Geometry-Polytopes' 'Mathematics-Tests' 'Mathematics-Lie' 'Mathematics-Expressions' 'Mathematics-ETC').
+	classes _ Object withAllSubclasses select: [:each| each class ~= Metaclass and: [(each category beginsWith: 'Mathematics') and: [(blacklist includes: each category) not]]].
+	tokens _ classes collect: [:each| each name].
+	classes do: [:class|
+		| output i file |
+		output _ '' writeStream.
+		class withAllSuperclasses reversed do: [:each|
+			| generated |
+			generated _ self generate: each name references: tokens.
+			each == class ifTrue: [generated _ '**', generated, '**'].
+			output nextPutAll: generated]
+			separatedBy: [output nextPutAll: ' > '].
+		output lf; lf.
+		class hasComment ifTrue: [output nextPutAll: (self generate: class comment references: tokens); lf; lf].
+		output nextPutAll: '***'; lf.
+		i _ 0.
+		class allSuperclasses reversed do: [:each|
+			i*2 timesRepeat: [output nextPutAll: '&nbsp;'].
+			output nextPutAll: (self generate: each name references: tokens).
+			output nextPutAll: '  '; lf.
+			i _ i + 1].
+		class allSubclassesWithLevelDo: [:subclass :level|
+			| generated |
+			(level+i)*2 timesRepeat: [output nextPutAll: '&nbsp;'].
+			generated _ self generate: subclass name references: tokens.
+			subclass == class ifTrue: [generated _ '**', generated, '**'].
+			output nextPutAll: generated.
+			output nextPutAll: '  '; lf] startingLevel: 0.
+		file _ self path,class name,'.md' :: asFileEntry.
+		file assureExistence; fileContents: output contents]! !
+
+!DocumentationGenerator methodsFor: 'as yet unclassified' stamp: 'len 8/12/2016 01:22'!
+generate: comment references: tokens
+	| output |
+	output _ comment.
+	output _ output copyReplaceAll: Character tab asString with: '&nbsp;&nbsp;'.
+	tokens do: [:each|
+		output _ output copyReplaceTokens: each with: '[',each,'](',each,')'.
+		output _ output copyReplaceTokens: each, 's' with: '[',each,'s](',each,')'.
+		output _ output copyReplaceAll: Character lf asString with: '  ', Character lf asString].
+	^ output! !
+
+!DocumentationGenerator methodsFor: 'as yet unclassified' stamp: 'len 8/11/2016 21:58'!
+path
+	^ '/home/guest/cuis/Cuis-Mathematics.wiki/doc/'! !
+
 !Domain methodsFor: 'morphisms' stamp: 'len 4/18/2016 23:30'!
 * aDomain
 	"This is a convenience method for doing categorical products. Subclasses can reimplement it to mean something different from the categorical product in order to match customary notation."
@@ -13704,6 +13819,10 @@ extended
 !ComplexNumbers methodsFor: 'testing' stamp: 'len 8/5/2016 21:50'!
 includes: anObject
 	^ anObject isComplex! !
+
+!ComplexNumbers methodsFor: 'testing' stamp: 'len 8/12/2016 04:48'!
+isAlgebraicallyClosed
+	^ true! !
 
 !ComplexNumbers methodsFor: 'testing' stamp: 'len 8/5/2016 21:55'!
 isComplex
@@ -27650,9 +27769,9 @@ new
 	self domain do: [:each| (self value: each) = (aFunction value: each) ifFalse: [^ false]].
 	^ true! !
 
-!Function methodsFor: 'operations' stamp: 'len 2/9/2016 03:59'!
+!Function methodsFor: 'operations' stamp: 'len 8/12/2016 04:08'!
 @ aFunction
-	(aFunction isKindOf: Identity) ifTrue: [^ self].
+	aFunction class == Identity ifTrue: [^ self].
 	^ self species from: aFunction domain to: self codomain evaluating: [:x| self value: (aFunction value: x)]! !
 
 !Function methodsFor: 'private' stamp: 'len 8/8/2016 06:45'!
