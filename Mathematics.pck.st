@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 12 August 2016 at 5:05:31.549788 am'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 13 August 2016 at 1:52:23.983043 am'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 175!
+!provides: 'Mathematics' 1 178!
 !classDefinition: #AbelianGroupPresentation category: #'Mathematics-Free'!
 Object subclass: #AbelianGroupPresentation
 	instanceVariableNames: 'generators relators'
@@ -1801,14 +1801,14 @@ Domain subclass: #RightCoset
 RightCoset class
 	instanceVariableNames: ''!
 
-!classDefinition: #LeftCoset category: #'Mathematics-Groups'!
-RightCoset subclass: #LeftCoset
+!classDefinition: #Coset category: #'Mathematics-Groups'!
+RightCoset subclass: #Coset
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Groups'!
-!classDefinition: 'LeftCoset class' category: #'Mathematics-Groups'!
-LeftCoset class
+!classDefinition: 'Coset class' category: #'Mathematics-Groups'!
+Coset class
 	instanceVariableNames: ''!
 
 !classDefinition: #SemialgebraicSet category: #'Mathematics-Geometry-Semialgebraic'!
@@ -3809,7 +3809,7 @@ Timings giving in [1] on computers with 0.8ghz - 1ghz intel cpus: general purpos
 !BerlekampMassey commentStamp: '<historical>' prior: 0!
 I am the Berlekamp-Massey algorithm. The initial purpose of this algorithm was to evaluate Binary BCH codes, but it has found many uses, including inverting matrices of constant diagonal, solving linear recurrences (synthesizing LFSRs with a specified output sequence), etc.
 
-Input: a_1..a_{2n} the first 2n coefficients of a linear recurrsive sequence over a field K of order at most n (the minimal polynomial has degree bound n);
+Input: a_1..a_{2n} the first 2n coefficients of a linear recursive sequence over a field K of order at most n (the minimal polynomial has degree bound n);
 Output: the minimal polynomial of the sequence.
 
 The algorithm performs O(n^2/2) multiplications; more precisely, at most 2 floor(n^2/4) - n + 1 multiplications.!
@@ -3903,7 +3903,7 @@ When all fi's are linear, then a Groebner basis corresponds to "row echelon form
  
 Example:
 	| Qxy x y grlex f1 f2 |
-	Qxy _ Rationals new polynomialsIn: #(1 2).
+	Qxy _ QQ polynomialsIn: #(1 2).
 	x _ Qxy x.
 	y _ Qxy y.
 	grlex _ MonomialOrdering tlex: #(1 2).
@@ -4092,9 +4092,9 @@ My instances are finitely-generated linear subspaces of a vector space.!
 My instances are vector spaces of univariate polynomials of degree <= n, for a fixed n.!
 
 !QuotientSpace commentStamp: '<historical>' prior: 0!
-My instances are quotient spaces V / S (read "V mod S") of a given vector space V modulo a subspace S.
+My instances are quotient spaces V/S (read "V mod S") of a given vector space V modulo a subspace S.
 
-The elements of a quotient space are affine subspaces (flats) S + v with v in V, and they form a vector space.!
+The elements of a quotient space are affine subspaces (flats) S + v with v in V, and they form a vector space. See AffineSubspace.!
 
 !Ring commentStamp: '<historical>' prior: 0!
 My instances are rings, i.e. structures with a set R of elements and two binary operations + and * such that:
@@ -4137,7 +4137,14 @@ My instances are fields of fractions (ratios, quotients) in an integral domain. 
 My instances are fields of fractions of coordinate rings of (affine) algebraic varieties.!
 
 !RationalFunctions commentStamp: '<historical>' prior: 0!
-My instances are rational functions, i.e. the field of fractions of a given polynomial ring.!
+My instances are rational functions, i.e. the field of fractions of a given polynomial ring.
+
+Example:
+	"x / y in Q[x,y]"
+	| F |
+	F _ QQ polynomialsIn: #(x y) :: fractions.
+	(F x: 1) / (F x: 2)
+!
 
 !Rationals commentStamp: '<historical>' prior: 0!
 My singletion global instance QQ is the field of rational numbers.!
@@ -4158,7 +4165,27 @@ My instances are fields of order p prime, i.e. the residue field Z/<p> of intege
 My singletion global instance ZZ is the ring of integer numbers.!
 
 !PolynomialRing commentStamp: '<historical>' prior: 0!
-My instances are polynomial rings in one or many indeterminates.!
+My instances are polynomial rings in one or many indeterminates.
+
+Example:
+	"Polynomial in Z[x]"
+	| R x |
+	R _ ZZ polynomials.
+	x _ R x.
+	x**2 - x + 1
+
+Example:
+	"Polynomial in Z[x] by tuple of coefficients"
+	ZZ polynomials coefficients: #(1 -1 1)
+
+Example:
+	"Polynomial in Q[x,y]"
+	| R x y |
+	R _ ZZ polynomialsIn: #(x y). "these are just names for printing"
+	x _ R x: 1.
+	y _ R x: 2.
+	(x - y) ** 2
+!
 
 !QuotientRing commentStamp: '<historical>' prior: 0!
 My instances are quotient rings (also called factor rings, difference rings or residue class rings). 
@@ -4195,7 +4222,7 @@ Affine spaces appear when considering the solutions of non-homogeneous linear sy
 
 Example:
 	| V S f |
-	V _ Rationals new ** 3.
+	V _ QQ ** 3.
 	S _ V span: {(1, 1, 1). (2, 0, -2)}.
 	f _ LinearMap projectionOn: S.
 	f fiberAt: (1, 2, 3).
@@ -4259,6 +4286,13 @@ My instances are groups of linear transformations acting on a vector space. They
 
 These groups act naturally on the domain vector space by the action g^v |-> g(v).!
 
+!GeneralLinearGroup commentStamp: '<historical>' prior: 0!
+My instances are the general linear group GL(V) of automorphisms of a vector space V.
+
+Examples (two equivalent ways to create GL(V):
+	GeneralLinearGroup on: QQ ** 3.
+	(QQ ** 3) automorphisms!
+
 !MatrixGroup commentStamp: '<historical>' prior: 0!
 My instances are groups of nxn (non-singular) matrices acting on the tuple space K^n. They are subgroups of the general linear matrix group GL(n,K) of nxn invertible matrices with coefficients in the field K.
 
@@ -4275,8 +4309,21 @@ My instances are permutation groups, i.e. subgroups of the symmetric group Sym(X
 
 Elements of the space X are refered to as 'points', while the word 'element' is used for elements of the group itself (permutations). The group acts naturally on the space X by the action p^x |-> p(x).!
 
+!AlternatingGroup commentStamp: '<historical>' prior: 0!
+My instances are the alternating group Alt(X) of even permutations on the elements of a set X (which we call 'space').!
+
+!SymmetricGroup commentStamp: '<historical>' prior: 0!
+My instances are the symmetric group Sym(X) of permutations on the elements of a set X (which we call 'space').
+
+Examples:
+	SymmetricGroup new: 3.
+	SymmetricGroup on: #(a b c).!
+
 !ProjectiveGroup commentStamp: '<historical>' prior: 0!
 My instances are groups of projective maps acting on a projective space. They are subgroups of the projective general linear group PGL(V).!
+
+!QuotientGroup commentStamp: '<historical>' prior: 0!
+My instances are quotient groups (or factor groups) G/N (read "G mod N"), i.e. the quotient of a group G by a normal subgroup N. The elements are the Cosets of N.!
 
 !UnitsGroup commentStamp: '<historical>' prior: 0!
 My instances are sets of ring units.
@@ -4295,7 +4342,7 @@ My instances are projective spaces P(V) on a given finite-dimensional K-vector s
 Projective space can also be viewed as the set quotient V/~ of V by the equivalence relation x ~ c*x where c is a constant in K.!
 
 !QuotientSet commentStamp: '<historical>' prior: 0!
-My instances are quotients of a set by an equivalence relation. See EquivalenceRelation and EquivalenceClass.!
+My instances are quotients of a set by an equivalence relation. The elements are equivalence classes. See EquivalenceRelation and EquivalenceClass.!
 
 !RealBox commentStamp: '<historical>' prior: 0!
 My instances are boxes in R^n built by the cartesian product of one-dimensional intervals (instances of RealInterval).
@@ -4321,6 +4368,12 @@ For some examples try this:
 !SemialgebraicInterval commentStamp: '<historical>' prior: 0!
 My instances are components of a cell complex of R^1. See SemialgebraicCell.
 !
+
+!RightCoset commentStamp: '<historical>' prior: 0!
+My instances are (right) cosets of a subgroup H of a group G: {Hg : g in G}.!
+
+!Coset commentStamp: '<historical>' prior: 0!
+My instances are (left) cosets of a subgroup H of a group G: {gH : g in G}.!
 
 !SemialgebraicSet commentStamp: '<historical>' prior: 0!
 My instances are semialgebraic sets, i.e. subsets of R^n expressable as finite union and intersection of sets of the form:
@@ -4376,7 +4429,9 @@ While (after initial precomputation) Dijkstra's algorithm is able to efficiently
 My instances are elements of a fraction field, i.e. fractions with numerator and denominator in a given integral domain. See class FractionField.!
 
 !RationalFunction commentStamp: '<historical>' prior: 0!
-My instances are rational functions, i.e. fractions where the numerator and denominator are polynomials.!
+My instances are rational functions, i.e. fractions where the numerator and denominator are polynomials.
+
+For examples see RationalFunctions.!
 
 !GaussianElimination2 commentStamp: '<historical>' prior: 0!
 I am the Gaussian Elimination algorithm.
@@ -4768,7 +4823,10 @@ The (pseudo) number theoretic transform may be meaningful in the ring Z/<m> even
 !Polynomial commentStamp: '<historical>' prior: 0!
 My instances are polynomials in one or many indeterminates, with coefficients in a commutative ring.
 
-Subclasses implement particular representations, such as dense univariate polynomials (represented as arrays of coefficients) or sparse polynomials (representad as dictionaries monomial -> coefficient).!
+Subclasses implement particular representations, such as dense univariate polynomials (represented as arrays of coefficients) or sparse polynomials (representad as dictionaries monomial -> coefficient).
+
+For examples, see PolynomialRing.
+!
 
 !MultivariatePolynomial commentStamp: '<historical>' prior: 0!
 My instances are polynomials in sparse representation. The coefficients of a sparse polynomial are stored as a SparseTuple indexed by monomials.!
@@ -4965,6 +5023,28 @@ count
 	self whileTrue: [count _ count + 1].
 	^ count! !
 
+!Collection methodsFor: '*mathematics' stamp: 'len 8/12/2016 21:17'!
+< aCollection
+	"Answer true if the receiver is a proper subcollection of aCollection."
+	^ self <= aCollection and: [self size < aCollection size]! !
+
+!Collection methodsFor: '*mathematics' stamp: 'len 8/12/2016 21:16'!
+<= aCollection
+	"Answer true if the receiver is a subcollection of aCollection."
+	(aCollection isKindOf: self species) ifFalse: [^ false].
+	self size <= aCollection size ifFalse: [^ false].
+	^ self allSatisfy: [:each| aCollection includes: each]! !
+
+!Collection methodsFor: '*mathematics' stamp: 'len 8/12/2016 21:11'!
+> aCollection
+	"Answer true if aCollection is a proper subcollection of the receiver."
+	^ aCollection < self! !
+
+!Collection methodsFor: '*mathematics' stamp: 'len 8/12/2016 21:12'!
+>= aCollection
+	"Answer true if aCollection is a subcollection of the receiver."
+	^ aCollection <= self! !
+
 !Collection methodsFor: '*mathematics' stamp: 'len 2/18/2003 21:40'!
 anyIfNone: aBlock
 	"Answer a representative sample of the receiver. This method can
@@ -5030,6 +5110,13 @@ accumulate: iteratorSymbol on: collection
 	newCollection := self new.
 	collection perform: iteratorSymbol with: [ :element | newCollection add: element].
 	^newCollection! !
+
+!SequenceableCollection methodsFor: '*mathematics' stamp: 'len 8/12/2016 22:01'!
+<= aCollection
+	"Answer true if the receiver is a subcollection of aCollection."
+	(aCollection isKindOf: self species) ifFalse: [^ false].
+	self size <= aCollection size ifFalse: [^ false].
+	^ (aCollection indexOfSubCollection: self startingAt: 1) > 0! !
 
 !SequenceableCollection methodsFor: '*mathematics' stamp: 'len 3/23/2016 05:04'!
 at: anInteger add: anObject
@@ -6628,8 +6715,9 @@ mod: anArray
 				answer addEdge: e]].
 	^ answer! !
 
-!AbstractGraph methodsFor: 'comparing' stamp: 'len 7/13/2016 21:57'!
+!AbstractGraph methodsFor: 'comparing' stamp: 'len 8/12/2016 21:18'!
 < aGraph
+	"Answer true if the receiver is a proper subgraph of aGraph."
 	(aGraph isKindOf: self species) ifFalse: [^ aGraph >= self].
 	self size < aGraph size ifFalse: [^ false].
 	self nodesDo: [:each|
@@ -6639,20 +6727,30 @@ mod: anArray
 		each neighborsDo: [:n| (node hasEdgeTo: n value) ifFalse: [^ false]]].
 	^ true! !
 
-!AbstractGraph methodsFor: 'comparing' stamp: 'len 7/13/2016 21:57'!
+!AbstractGraph methodsFor: 'comparing' stamp: 'len 8/12/2016 21:45'!
 <= aGraph
-	^ (self > aGraph) not! !
+	"Answer true if the receiver is a subgraph of aGraph."
+	(aGraph isKindOf: self species) ifFalse: [^ aGraph >= self].
+	self size <= aGraph size ifFalse: [^ false].
+	self nodesDo: [:each|
+		| node |
+		(aGraph includes: each value) ifFalse: [^ false].
+		node _ aGraph nodeAt: each value.
+		each neighborsDo: [:n| (node hasEdgeTo: n value) ifFalse: [^ false]]].
+	^ true! !
 
 !AbstractGraph methodsFor: 'comparing' stamp: 'len 7/21/2016 00:07'!
 = aGraph
 	^ (aGraph isKindOf: self species) and: [self nodes = aGraph nodes and: [self edges asBag = aGraph edges asBag]]! !
 
-!AbstractGraph methodsFor: 'comparing' stamp: 'len 7/13/2016 21:58'!
+!AbstractGraph methodsFor: 'comparing' stamp: 'len 8/12/2016 21:47'!
 > aGraph
+	"Answer true if aGraph is a proper subgraph of the receiver."
 	^ aGraph < self! !
 
-!AbstractGraph methodsFor: 'comparing' stamp: 'len 7/13/2016 21:58'!
->= aGraph 
+!AbstractGraph methodsFor: 'comparing' stamp: 'len 8/12/2016 21:47'!
+>= aGraph
+	"Answer true if aGraph is a subgraph of the receiver."
 	^ aGraph <= self! !
 
 !AbstractGraph methodsFor: 'comparing' stamp: 'len 7/23/2016 04:06'!
@@ -10530,11 +10628,11 @@ colors: anArray
 default
 	^ self colors: (#("brightGreen" periwinkle seaGreen hotPink lightYellow cyan lightPink lightOrange  "lightGreen" "lightRed"  "mustard" ) collect: [:each| Color exactColorNamed: each]) "shuffled"! !
 
-!DocumentationGenerator methodsFor: 'as yet unclassified' stamp: 'len 8/12/2016 01:52'!
+!DocumentationGenerator methodsFor: 'as yet unclassified' stamp: 'len 8/12/2016 18:19'!
 generate
 	| blacklist classes tokens |
-	blacklist _ #('Mathematics-Kernel-Elements' 'Mathematics-Geometry-Polytopes' 'Mathematics-Tests' 'Mathematics-Lie' 'Mathematics-Expressions' 'Mathematics-ETC').
-	classes _ Object withAllSubclasses select: [:each| each class ~= Metaclass and: [(each category beginsWith: 'Mathematics') and: [(blacklist includes: each category) not]]].
+	blacklist _ #('Mathematics-Kernel-Elements' 'Mathematics-Geometry-Polytopes' 'Mathematics-Morphic' 'Mathematics-Tests' 'Mathematics-Lie' 'Mathematics-Expressions' 'Mathematics-ETC').
+	classes _ Object withAllSubclasses select: [:each| each class ~= Metaclass and: [(each allSuperclasses includes: Morph) not and: [(each category beginsWith: 'Mathematics') and: [(blacklist includes: each category) not]]]].
 	tokens _ classes collect: [:each| each name].
 	classes do: [:class|
 		| output i file |
@@ -10564,11 +10662,13 @@ generate
 		file _ self path,class name,'.md' :: asFileEntry.
 		file assureExistence; fileContents: output contents]! !
 
-!DocumentationGenerator methodsFor: 'as yet unclassified' stamp: 'len 8/12/2016 01:22'!
+!DocumentationGenerator methodsFor: 'as yet unclassified' stamp: 'len 8/12/2016 08:05'!
 generate: comment references: tokens
 	| output |
 	output _ comment.
-	output _ output copyReplaceAll: Character tab asString with: '&nbsp;&nbsp;'.
+	'\[]*_{}()#<>' do: [:each|
+		(output includes: each) ifTrue: [output _ output copyReplaceAll: each asString with: '\', each asString]].
+	output _ output copyReplaceAll: Character tab asString with: '&nbsp;&nbsp;&nbsp;&nbsp;'.
 	tokens do: [:each|
 		output _ output copyReplaceTokens: each with: '[',each,'](',each,')'.
 		output _ output copyReplaceTokens: each, 's' with: '[',each,'s](',each,')'.
@@ -10616,16 +10716,16 @@ path
 /\ aDomain
 	^ self intersection: aDomain! !
 
-!Domain methodsFor: 'comparing' stamp: 'len 5/13/2016 02:46'!
+!Domain methodsFor: 'comparing' stamp: 'len 8/12/2016 21:51'!
 < aDomain
-	"Answer true if the receiver is strictly included in the argument."
+	"Answer true if the receiver is a proper subobject of aDomain (strict inclusion)."
 	aDomain isFinite ifTrue: [^ self size < aDomain size and: [self elements allSatisfy: [:each| aDomain includes: each]]].
 	self isFinite ifTrue: [self do: [:each| (aDomain includes: each) ifFalse: [^ false]]. ^ true].
 	^ aDomain > self! !
 
-!Domain methodsFor: 'comparing' stamp: 'len 4/18/2016 23:32'!
+!Domain methodsFor: 'comparing' stamp: 'len 8/12/2016 21:49'!
 <= aDomain
-	"Answer true if the receiver is included in the argument."
+	"Answer true if the receiver is a subobject of aDomain (inclusion)."
 	^ self = aDomain or: [self < aDomain]! !
 
 !Domain methodsFor: 'comparing' stamp: 'len 5/2/2016 09:18'!
@@ -10635,14 +10735,14 @@ path
 	self size = aDomain size ifFalse: [^ false].
 	^ super = aDomain! !
 
-!Domain methodsFor: 'comparing' stamp: 'len 4/18/2016 23:33'!
+!Domain methodsFor: 'comparing' stamp: 'len 8/12/2016 21:49'!
 > aDomain
-	"Answer true if the receiver strictly includes the argument."
+	"Answer true if aDomain is a proper subobject of the receiver (strict inclusion)."
 	^ aDomain < self! !
 
-!Domain methodsFor: 'comparing' stamp: 'len 4/18/2016 23:33'!
+!Domain methodsFor: 'comparing' stamp: 'len 8/12/2016 21:50'!
 >= aDomain
-	"Answer true if the receiver includes the argument."
+	"Answer true if aDomain is a subobject of the receiver (inclusion)."
 	^ aDomain <= self! !
 
 !Domain methodsFor: 'comparing' stamp: 'len 7/16/2016 05:22'!
@@ -18950,9 +19050,9 @@ printOn: aStream
 		ifFalse: [aStream print: subgroup].
 ! !
 
-!QuotientGroup methodsFor: 'morphisms' stamp: 'len 2/13/2016 06:54'!
+!QuotientGroup methodsFor: 'morphisms' stamp: 'len 8/12/2016 08:13'!
 project: anElement
-	^ LeftCoset on: subgroup representative: anElement! !
+	^ Coset on: subgroup representative: anElement! !
 
 !QuotientGroup methodsFor: 'morphisms' stamp: 'len 2/8/2016 04:40'!
 projection
@@ -20426,35 +20526,35 @@ subgroup: aSubgroup
 on: aSubgroup representative: anObject
 	^ self new subgroup: aSubgroup; representative: anObject! !
 
-!LeftCoset methodsFor: 'comparing' stamp: 'len 2/9/2016 07:01'!
+!Coset methodsFor: 'comparing' stamp: 'len 2/9/2016 07:01'!
 = aCoset
 	| inverseMap op |
 	op _ subgroup operation.
 	inverseMap _ subgroup inverseMap.
 	^ subgroup includes: (op value: {representative. inverseMap value: aCoset representative})! !
 
-!LeftCoset methodsFor: 'enumerating' stamp: 'len 2/9/2016 07:02'!
+!Coset methodsFor: 'enumerating' stamp: 'len 2/9/2016 07:02'!
 do: aBlock
 	"Enumerate the elements of the receiver."
 	| op |
 	op _ subgroup operation.
 	self subgroup do: [:each| aBlock value: (op value: {representative. each})]! !
 
-!LeftCoset methodsFor: 'testing' stamp: 'len 2/9/2016 07:06'!
+!Coset methodsFor: 'testing' stamp: 'len 2/9/2016 07:06'!
 includes: anElement
 	| op inverseMap |
 	op _ subgroup operation.
 	inverseMap _ subgroup inverseMap.
 	^ subgroup includes: (op value: {inverseMap value: representative. anElement})! !
 
-!LeftCoset methodsFor: 'printing' stamp: 'len 4/26/2016 07:47'!
+!Coset methodsFor: 'printing' stamp: 'len 4/26/2016 07:47'!
 printOn: aStream
 	super printOn: aStream
 "	| op |
 	op _ subgroup operation name ifNil: ['*']..
 	aStream print: representative; space; nextPutAll: op; space; print: subgroup"! !
 
-!LeftCoset class methodsFor: 'instance creation' stamp: 'len 2/13/2016 06:57'!
+!Coset class methodsFor: 'instance creation' stamp: 'len 2/13/2016 06:57'!
 on: aSubgroup representative: anObject
 	^ self new subgroup: aSubgroup; representative: anObject! !
 
