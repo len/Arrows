@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 13 August 2016 at 1:52:23.983043 am'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 24 August 2016 at 9:43:15.047696 pm'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 178!
+!provides: 'Mathematics' 1 182!
 !classDefinition: #AbelianGroupPresentation category: #'Mathematics-Free'!
 Object subclass: #AbelianGroupPresentation
 	instanceVariableNames: 'generators relators'
@@ -31,14 +31,14 @@ Object subclass: #AlgebraicNumber
 AlgebraicNumber class
 	instanceVariableNames: ''!
 
-!classDefinition: #AutomaticColorPalette category: #'Mathematics-Morphic'!
-Object subclass: #AutomaticColorPalette
+!classDefinition: #AutomaticPalette category: #'Mathematics-Morphic'!
+Object subclass: #AutomaticPalette
 	instanceVariableNames: 'map'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Morphic'!
-!classDefinition: 'AutomaticColorPalette class' category: #'Mathematics-Morphic'!
-AutomaticColorPalette class
+!classDefinition: 'AutomaticPalette class' category: #'Mathematics-Morphic'!
+AutomaticPalette class
 	instanceVariableNames: ''!
 
 !classDefinition: #BarycentricFrame category: #'Mathematics-Geometry-Affine'!
@@ -321,14 +321,14 @@ Collection subclass: #YoungTableau
 YoungTableau class
 	instanceVariableNames: ''!
 
-!classDefinition: #ContinuousColorPalette category: #'Mathematics-Morphic'!
-Object subclass: #ContinuousColorPalette
-	instanceVariableNames: 'colors'
+!classDefinition: #ContinuousPalette category: #'Mathematics-Morphic'!
+Object subclass: #ContinuousPalette
+	instanceVariableNames: 'colors min max'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Morphic'!
-!classDefinition: 'ContinuousColorPalette class' category: #'Mathematics-Morphic'!
-ContinuousColorPalette class
+!classDefinition: 'ContinuousPalette class' category: #'Mathematics-Morphic'!
+ContinuousPalette class
 	instanceVariableNames: ''!
 
 !classDefinition: #CoxeterDiagram category: #'Mathematics-Lie'!
@@ -421,14 +421,14 @@ Object subclass: #DirichletSeries
 DirichletSeries class
 	instanceVariableNames: ''!
 
-!classDefinition: #DiscreteColorPalette category: #'Mathematics-Morphic'!
-Object subclass: #DiscreteColorPalette
+!classDefinition: #DiscretePalette category: #'Mathematics-Morphic'!
+Object subclass: #DiscretePalette
 	instanceVariableNames: 'colors map'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Morphic'!
-!classDefinition: 'DiscreteColorPalette class' category: #'Mathematics-Morphic'!
-DiscreteColorPalette class
+!classDefinition: 'DiscretePalette class' category: #'Mathematics-Morphic'!
+DiscretePalette class
 	instanceVariableNames: ''!
 
 !classDefinition: #DocumentationGenerator category: #'Mathematics-ETC'!
@@ -1931,6 +1931,16 @@ Object subclass: #ElementaryTensorOld
 ElementaryTensorOld class
 	instanceVariableNames: ''!
 
+!classDefinition: #EllipticCurveElement category: #'Mathematics-ETC'!
+Object subclass: #EllipticCurveElement
+	instanceVariableNames: 'curve point'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-ETC'!
+!classDefinition: 'EllipticCurveElement class' category: #'Mathematics-ETC'!
+EllipticCurveElement class
+	instanceVariableNames: ''!
+
 !classDefinition: #Expression category: #'Mathematics-Expressions'!
 Object subclass: #Expression
 	instanceVariableNames: ''
@@ -2661,24 +2671,24 @@ RectangleLikeMorph subclass: #MultiplicationTableMorph
 MultiplicationTableMorph class
 	instanceVariableNames: ''!
 
-!classDefinition: #PointMorph category: #'Mathematics-Morphic'!
-RectangleLikeMorph subclass: #PointMorph
-	instanceVariableNames: 'position'
+!classDefinition: #ScalarPlotMorph category: #'Mathematics-Morphic'!
+RectangleLikeMorph subclass: #ScalarPlotMorph
+	instanceVariableNames: 'function palette xMin xMax yMin yMax form'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Morphic'!
-!classDefinition: 'PointMorph class' category: #'Mathematics-Morphic'!
-PointMorph class
+!classDefinition: 'ScalarPlotMorph class' category: #'Mathematics-Morphic'!
+ScalarPlotMorph class
 	instanceVariableNames: ''!
 
-!classDefinition: #SpaceMorph category: #'Mathematics-Morphic'!
-RectangleLikeMorph subclass: #SpaceMorph
-	instanceVariableNames: ''
+!classDefinition: #ScatterPlotMorph category: #'Mathematics-Morphic'!
+RectangleLikeMorph subclass: #ScatterPlotMorph
+	instanceVariableNames: 'points transformation max min positionBlock colorBlock sizeBlock lastMousePosition'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Morphic'!
-!classDefinition: 'SpaceMorph class' category: #'Mathematics-Morphic'!
-SpaceMorph class
+!classDefinition: 'ScatterPlotMorph class' category: #'Mathematics-Morphic'!
+ScatterPlotMorph class
 	instanceVariableNames: ''!
 
 !classDefinition: #Morphism category: #'Mathematics-Kernel'!
@@ -3917,11 +3927,11 @@ My instances are bases for linear spaces of finite dimension.
 
 Example:
 	| V |
-	V _ Rationals new ** 3.
+	V _ QQ ** 3.
 	LinearBasis on: V vectors: {(1, 2, 3). (3, 2, 3). (2, 0, 0)}!
 
 !CylindricalAlgebraicDecomposition commentStamp: '<historical>' prior: 0!
-My instances decompose R^n into connected components (SemialgebraicCells) such that a given set of polynomials keeps sign-invariant over each of the components. This decomposition is called Cylindrical Algebraic Decomposition (CAD), and what is obtainded is called a Cell Complex of R^n. Each of the components is a SemialgebraicCell (or SemialgebraicLineCell in R^1).
+My instances decompose R^n into connected components (SemialgebraicCells) such that a given set of polynomials keeps sign-invariant over each of the components. This decomposition is called Cylindrical Algebraic Decomposition (CAD), and what is obtainded is called a Cell Complex of R^n. Each of the components is a SemialgebraicCell (or SemialgebraicInterval in R^1).
 
 The univariate case is easy. Suppose we have to find the CAD of R with respect to the polynomial set {f1, ..., fn}. Then we find all the real roots of f1, ..., fn, a1 < a2 < ... < am, and the CAD we were looking for is:
 	[-infinity, a1), [a1, a1], (a1, a2), [a2, a2], (a2, a3), ... [am, am], (am, +infinity].
@@ -3950,9 +3960,9 @@ The construction of the CAD in the multivariate case is performed inductively. S
 Sample points for each of the cells constructed can be easyly computed.
 
 Finally, we cite the Collin's Theorem. Given a finite set of multivariate polynomials F in Q[x1,...,xn] we can effectively construct the followings:
-	o. A F-sign-invariat cylindrical algebraic decomposition K of R^n into semialgebraic connected cells. Each cell C in K is homeomorphic to R^d for some 0 <= d <= n.
-	o. A sample algebraic point in each cell in K and defining polynomials for each sample point.
-	o. Quantifier-free defining sentences for each cell C in K.
+- A F-sign-invariat cylindrical algebraic decomposition K of R^n into semialgebraic connected cells. Each cell C in K is homeomorphic to R^d for some 0 <= d <= n;
+- A sample algebraic point in each cell in K and defining polynomials for each sample point;
+- Quantifier-free defining sentences for each cell C in K.
 
 !
 
@@ -4000,34 +4010,53 @@ Structure:
 !Domain commentStamp: '<historical>' prior: 0!
 My instances are mathematical structures, such as groups, rings, fields, vector spaces, modules, etc.
 
-Domains are connected by morphisms (arrows, functions), that in turn can be viewed as elements of other mathematical structures. See Function. From the point of view of category theory, Domains and Functions are 'objects' and 'morphisms' (arrows) of categories.
+Domains are connected by morphisms (in many cases functions), that in turn can be viewed as elements of other mathematical structures. From the point of view of category theory, Domains and Functions are respectively 'objects' and 'morphisms' of (small) categories.
 
-Domains belong to small categories, i.e. categories with an underlying set (or locally small categories, i.e. categories such that for any two objects A, B, Hom(A,B) is a set). When the underlying set is finite, #asSet returns a Set (a Collection).
+Domains often have an underlying set: the set of elements. The cardinality of a domain can be finite or infinite, and countable or uncountable (see Aleph and >>size). When the underlying set is finite, #asSet returns a Smalltalk Set. When it is countable, it is possible to iterate over its element (see >>do:).  Also, when it makes sense to take elements at random, #atRandom:, #atRandom:bits: or similar messages are implemented.
 
-Domains can be built from other domains, for example by taking products or coproducts (cartesian products, direct sums, direct products), quotients, duals, etc. These operations are also morphisms (functors, more precisely).
+Domains can be built from other domains by composition (in the OOP sense), for example by taking products or coproducts (cartesian products, direct products, direct sums), quotients, duals, etc. These operations are also morphisms (functors, more precisely), and are mostly implemented as Smalltalk messages.
 
-Subclasses might reimplement:
-  #= and #<=
-  #includes:
-  #size
-  #do:
-  #atRandom::bits:
-  #printOn:
-  #product: and #coproduct:
-  #->
+Domains, as categorical objects, can have subobjects. Groups have subgroups, vector spaces have subspaces, rings have subrings, etc. In general, there is an #ambient object, and there is a protocol for inclusion testing: #<, #<=, #>=, #>.
 
-Some domains have associated canonical embeddings (inclusion maps) or projections, and might implement:
-  #project: and #projection
-  #embed: and #embedding
+Some domains, such as field extensions, the field of fractions of a ring, etc have associated canonical embeddings, and should implement #embed: and #embedding. Other domains, such as quotient objects, have canonical projections and should implement #project: and #projection. N-ary products and coproducts should implement #projection: for the i-th projection map.
+
+Subclasses most frequently reimplement the following messages:
+-  #= and #<=
+-  #includes:
+-  #size
+-  #do:
+-  #atRandom::bits:
+-  #printOn:
+-  #product: and #coproduct:
+-  #->
+
+References:
+	https://en.wikipedia.org/wiki/Algebraic_structure
+	https://en.wikipedia.org/wiki/Category_theory
 !
 
 !AbelianGroup commentStamp: '<historical>' prior: 0!
-My instances are additive (abelian, commutative) groups, i.e. objects of a preadditive category. Subclasses are structures that build up from an abelian group, such as modules, vector spaces, rings, ideals, etc.
+My instances are additive (abelian, commutative) groups. Subclasses are structures that build up from an abelian group, such as modules, vector spaces, rings, ideals, etc.
 
-I don't implement isCommutative to return true, because subclasses like rings implement it (for the multiplication operation in the case of rings, for example). My instances are viewed not as groups but as some structure that has an underlying abelian group structure, and in order to operate with the group it must be converted to a Group (see >>asGroup).!
+Group-specific behaviour is not implemented here. My instances are viewed not as groups but as some structure that has an underlying abelian group structure, and in order to operate with the group structure it must be converted to a Group (see >>asGroup).!
 
 !Ideal commentStamp: '<historical>' prior: 0!
-My instances are finitely-generated ideals of a ring. Ideals are the kernels of ring homomorphisms.!
+My instances are finitely-generated ideals of a commutative ring.
+
+For an arbitrary ring R, a subset I <= R is called a two-sided ideal (or simply ideal) of R if it's a subgroup of R (as group under addition) and "absorbs multiplication by elements of R", i.e. I * R = I and R * I = I.
+
+Equivalently, an ideal of R is a R-submodule of R.
+
+Ideals are the kernels of ring homomorphisms.
+
+References:
+	https://en.wikipedia.org/wiki/Ideal_(ring_theory)!
+
+!IntegerIdeal commentStamp: '<historical>' prior: 0!
+My instances are ideals of integers. They are cyclic, i.e. they are all multiples of a given integer (the #generator).!
+
+!PolynomialIdeal commentStamp: '<historical>' prior: 0!
+My instances are ideals of polynomials.!
 
 !MonomialIdeal commentStamp: '<historical>' prior: 0!
 My instances are ideals generated by a list of monomials.!
@@ -4052,13 +4081,13 @@ TODO:
 - or use LLL!
 
 !Lattice commentStamp: '<historical>' prior: 0!
-My instances are subgroups of a real vector space that are isomorphic to Z^n.!
+A lattice is the set of integer linear combinations of a basis of a real vector space. This is a subgroup of the vector space (as abelian group) isomorphic to Z^n.!
 
 !LinearMaps commentStamp: '<historical>' prior: 0!
 My instances are K-vector spaces (or R-modules) of linear transformations from a K-vector space (R-module) to another, i.e. the space of morphisms between two vector spaces (module homomorphisms).!
 
-!DualSpace commentStamp: 'len 4/23/2016 03:03' prior: 0!
-My instances are vector spaces of linear forms, i.e linear maps from a vector space V into the ground field K. This is the (algebraic) dual of V and it is noted V*.
+!DualSpace commentStamp: '<historical>' prior: 0!
+My instances are vector spaces of linear forms (see LinearForm), i.e linear maps from a vector space V to the ground field K. This is the (algebraic) dual of V and it is noted V*.
 !
 
 !MatrixSpace commentStamp: '<historical>' prior: 0!
@@ -4097,15 +4126,23 @@ My instances are quotient spaces V/S (read "V mod S") of a given vector space V 
 The elements of a quotient space are affine subspaces (flats) S + v with v in V, and they form a vector space. See AffineSubspace.!
 
 !Ring commentStamp: '<historical>' prior: 0!
-My instances are rings, i.e. structures with a set R of elements and two binary operations + and * such that:
+My instances are rings with one, i.e. structures with a set R of elements and two binary operations + and * such that:
 - R is an abelian group under addition;
 - R is a monoid under multiplication;
 - multiplication is distributive with respect to multiplication.
 
+The idea of 'ring' appears naturally in mathematics when considering the endomorphisms of abelian groups (or other abelian categories) under composition.
+
 Rings can be commutative or non-commutative. Some specific kinds of commutative rings are given with the following class of inclusions:
 	Commutative rings > integral domains > integrity closed domains > unique factorization domains > principal ideal domains > Euclidean domains > fields > finite fields.
-	
-Rings can be constructed from existing rings by taking quotients by an ideal (see QuotientRing), by making fractions (see FractionField), by making transcendental extensions (Polynomials), etc.!
+
+Rings can be constructed from existing rings by taking quotients by an ideal (see QuotientRing), by making fractions (see FractionField), by making transcendental extensions (PolynomialRing), etc.!
+
+!Field commentStamp: '<historical>' prior: 0!
+A field is a nonzero commutative division ring, or equivalently a ring whose nonzero elements form an abelian group under multiplication. See subclasses for concrete examples.
+
+References:
+	https://en.wikipedia.org/wiki/Field_(mathematics)!
 
 !AlgebraicExtension commentStamp: '<historical>' prior: 0!
 My instances are (finite) algebraic extensions E/F of a field F. They are defined by an irreducible polynomial f with coefficients in F, and is isomorphic to F[x]/<f>.
@@ -4131,7 +4168,10 @@ I'm the field of complex numbers.!
 I'm the field of complex numbers extended with the point a infinity.!
 
 !FractionField commentStamp: '<historical>' prior: 0!
-My instances are fields of fractions (ratios, quotients) in an integral domain. See Ring>>fractions.!
+My instances are fields of fractions (ratios, quotients) in an integral domain. See Ring>>fractions.
+
+References:
+	https://en.wikipedia.org/wiki/Field_of_fractions!
 
 !FunctionField commentStamp: '<historical>' prior: 0!
 My instances are fields of fractions of coordinate rings of (affine) algebraic varieties.!
@@ -4190,7 +4230,7 @@ Example:
 !QuotientRing commentStamp: '<historical>' prior: 0!
 My instances are quotient rings (also called factor rings, difference rings or residue class rings). 
 
-Given a commutative ring R and a two-sided-ideal I of R, the quotient ring R/I is the set of cosets of I in R by the equivalence relation a = b if a - b is in I. If the ideal is maximal, the resulting quotient ring is a field (see ResidueField). If it's only prime, the quotient ring is an integral domain.
+Given a commutative ring R and a two-sided-ideal I of R, the quotient ring R/I is the set of cosets of I in R by the equivalence relation a ~ b if a - b is in I. If the ideal is maximal, the resulting quotient ring is a field (see ResidueField). If it's only prime, the quotient ring is an integral domain.
 
 Example:
 	| Z I |
@@ -4236,6 +4276,38 @@ My instances are cartesian products. See Domain>>,.
 
 Example:
   (ZZ, QQ)
+
+References:
+	https://en.wikipedia.org/wiki/Cartesian_product
+!
+
+!EquivalenceClass commentStamp: '<historical>' prior: 0!
+Given a set X and an equivalence relation ~, the equivalence class of an element a is the set of elements equivalent to a: [a] = {x in X such that x ~ a}. An member of an equivalence class is called a 'representative'.
+
+Elements of quotient objects (elements of QuotientRings, QuotientSpaces, etc) are polymorphic with EquivalenceClass.
+
+See EquivalenceRelation.
+
+References:
+	https://en.wikipedia.org/wiki/Equivalence_class!
+
+!EquivalenceRelation commentStamp: '<historical>' prior: 0!
+An equivalence relation on X is a binary relation ~ on X with the following properties:
+- For every element a in X, a ~ a (reflexivity);
+- For every two elements a, b in X, if a ~ b then b ~ a (symmetry);
+- For every three elements a, b, c in X, if a ~ b and b ~ c then a ~ c (transitivity).
+
+See EquivalenceClass.
+
+References:
+	https://en.wikipedia.org/wiki/Equivalence_relation!
+
+!FormalSet commentStamp: '<historical>' prior: 0!
+My instances are mathematical sets, i.e. objects in the category of sets. They arise when seeing a Smalltalk Set as a mathematical set, or when seeing any other Domain as a set (as applying the forgetful functor to the cateogry of sets).
+
+Examples:
+	#(1 2 3) asSet as: FormalSet.
+	ZZ as: FormalSet.
 !
 
 !Grassmannian commentStamp: '<historical>' prior: 0!
@@ -4244,22 +4316,48 @@ The Grassmannian Gr(r.V) is the set of r-dimensional subspaces of the vector spa
 !LinearCode commentStamp: '<historical>' prior: 0!
 My instances are linear codes.
 
-In coding theory, a linear code is an error-correcting code for which any linear combination of codewords is also a codeword. Thus, linear codes can be seen as a vector space (or more precisely as a subspace of a vector space).!
+In coding theory, a linear code is an error-correcting code for which any linear combination of codewords is also a codeword. Thus, linear codes can be seen as a vector space (or more precisely as a subspace of a vector space).
 
-!PolynomialCode commentStamp: 'len 6/29/2016 22:03' prior: 0!
+References:
+	https://en.wikipedia.org/wiki/Linear_code
+!
+
+!PolynomialCode commentStamp: '<historical>' prior: 0!
 My instances are polynomial codes.
 
-In coding theory, a polynomial code is a type of linear code whose set of valid codewords consists of those polynomials (usually of some fixed length) that are divisible by some fixed polynomial (of shorter length, called the generator polynomial).!
+In coding theory, a polynomial code is a type of linear code whose set of valid codewords consists of those polynomials (usually of some fixed length) that are divisible by some fixed polynomial (of shorter length, called the generator polynomial).
+
+References:
+	https://en.wikipedia.org/wiki/Polynomial_code
+!
+
+!Magma commentStamp: '<historical>' prior: 0!
+My instances are magmas. They consist of a set and a binary operation, with no other requirements.!
+
+!Quasigroup commentStamp: '<historical>' prior: 0!
+Quasigroups consist of a set and a binary operation (like a magma), obeying the Latin square property: each element occurs exactly once in each row and exactly once in each column of the multiplication table.!
+
+!Loop commentStamp: '<historical>' prior: 0!
+A Loop is a Quasigrop with an identity element.!
+
+!Semigroup commentStamp: '<historical>' prior: 0!
+Semigroups consist of a set and an associative binary operation, most often denoted multiplicatively.!
+
+!Monoid commentStamp: '<historical>' prior: 0!
+My instances are monoids. They consist of a set, an associative binary operation and an identity element.!
 
 !FreeMonoid commentStamp: '<historical>' prior: 0!
 My instances are free monoids. A free monoid is a monoid whose elements are words in a finite set of arbitrary objects (symbols), together with word concatenation as monoid operation.!
 
 !Group commentStamp: '<historical>' prior: 0!
-My instances are groups.
+My instances are groups. They consist of a set, with an associative binary operation, an inverse map (every element has an inverse), and an identity element.
 
 In the most generic form, groups can be represented explicitly as a set of elements, plus a distinguished 'identity' element, group operation and inverse map. They can be also defined and represented more compactly by a set of generators.
 
-Some specific groups (such as permutation groups and matrix groups) can be represented in more efficient ways, and operate with more efficient algorithms. See subclasses.!
+Some specific groups (such as permutation groups and matrix groups) can be represented in more efficient ways, and operate with more efficient algorithms. See subclasses.
+
+References:
+	https://en.wikipedia.org/wiki/Group_(mathematics)!
 
 !AffineGroup commentStamp: '<historical>' prior: 0!
 My instances are groups of (invertible) affine maps acting on an affine space. They are subgroups of the general affine group GA(V).!
@@ -4287,11 +4385,15 @@ My instances are groups of linear transformations acting on a vector space. They
 These groups act naturally on the domain vector space by the action g^v |-> g(v).!
 
 !GeneralLinearGroup commentStamp: '<historical>' prior: 0!
-My instances are the general linear group GL(V) of automorphisms of a vector space V.
+My instances are the general linear group GL(V) of automorphisms of a vector space V. The elements are invertible linear transformations from V to itself (see LinearMap, LinearGroup).
 
 Examples (two equivalent ways to create GL(V):
 	GeneralLinearGroup on: QQ ** 3.
 	(QQ ** 3) automorphisms!
+
+!OrthogonalGroup commentStamp: '<historical>' prior: 0!
+My instances are O(V), the Orthogonal Group of a vector space V. This is the group of automorphisms that preserve the inner product.
+!
 
 !MatrixGroup commentStamp: '<historical>' prior: 0!
 My instances are groups of nxn (non-singular) matrices acting on the tuple space K^n. They are subgroups of the general linear matrix group GL(n,K) of nxn invertible matrices with coefficients in the field K.
@@ -4299,7 +4401,11 @@ My instances are groups of nxn (non-singular) matrices acting on the tuple space
 These groups act naturally on the vector space K^n by the action A^v |-> A*v. (Or the corresponding left action).!
 
 !GeneralLinearMatrixGroup commentStamp: '<historical>' prior: 0!
-My instances are GL(V), the General Linear Group of a vector space V. This is the group of automorphisms (invertible linear transformations from the space to itself).!
+My instances are the general linear (matrix) group GL(n,K) of nxn invertible matrices with coefficients in K, acting on the tuple space K^n.
+
+Example:
+	GeneralLinearMatrixGroup on: QQ ** 3
+!
 
 !SpecialLinearMatrixGroup commentStamp: '<historical>' prior: 0!
 My instances are SL(V), the Special Linear Group of a vector space V. This is the group of unimodular automorphisms (transformations of determinant 1).!
@@ -4328,13 +4434,19 @@ My instances are quotient groups (or factor groups) G/N (read "G mod N"), i.e. t
 !UnitsGroup commentStamp: '<historical>' prior: 0!
 My instances are sets of ring units.
 
-Given a ring R, the group of units of R is the set of elements of R that have multiplicative inverse, and they form a group under multiplication. For a field F (or more generally a division ring), the units are all non-zero elements F \ {0}.!
+Given a ring R, the group of units of R is the set of elements of R that have multiplicative inverse, and they form a group under multiplication. For a field F (or more generally a division ring), the units are all non-zero elements F \ {0}.
+
+References:
+	https://en.wikipedia.org/wiki/Unit_(ring_theory)!
 
 !Monomials commentStamp: '<historical>' prior: 0!
 My instances are (commutative) monoids of monomials in n indeterminates.!
 
 !Naturals commentStamp: '<historical>' prior: 0!
 My singletion global instance NN is the set of natural numbers 1, 2, 3, ...!
+
+!Morphisms commentStamp: '<historical>' prior: 0!
+My instances are Hom(A,B) objects for domain A and codomain B.!
 
 !ProjectiveSubspace commentStamp: '<historical>' prior: 0!
 My instances are projective spaces P(V) on a given finite-dimensional K-vector space V. Their elements are the subspaces of V, in particular the points of P(V) are the subspaces of dimension 1 of V, or <v> where v ~= 0.
@@ -4369,8 +4481,8 @@ For some examples try this:
 My instances are components of a cell complex of R^1. See SemialgebraicCell.
 !
 
-!RightCoset commentStamp: '<historical>' prior: 0!
-My instances are (right) cosets of a subgroup H of a group G: {Hg : g in G}.!
+!RightCoset commentStamp: 'len 8/14/2016 06:04' prior: 0!
+My instances are right cosets of a subgroup H of a group G: {Hg : g in G}.!
 
 !Coset commentStamp: '<historical>' prior: 0!
 My instances are (left) cosets of a subgroup H of a group G: {gH : g in G}.!
@@ -4382,7 +4494,7 @@ where f is a polynomial in R[x1,...,xn] and s is 1, -1 or 0.
 
 Semialgebraic sets are closed under union, intersection, complementation and projection. Furthermore, the boundary and closure of a semialgebraic set is again a semialgebraic set. Semialgebraic sets are the natural generalization of algebraic sets (zeros of polynomials) in such a way to make them be closed under projection.
 
-This implementation is based on the Cylindrical Algebraic Decomposition process. Each SemialgebraicSet is made of the union of SemialgebraicCells (or SemialgebraicLineCells in R^1). For more details on the implementation of semialgebraic sets, refer to the comment of class CylindricalAlgebraicDecomposition.
+This implementation is based on the Cylindrical Algebraic Decomposition process. Each SemialgebraicSet is made of the union of SemialgebraicCells (or SemialgebraicIntervals in R^1). For more details on the implementation of semialgebraic sets, refer to the comment of class CylindricalAlgebraicDecomposition.
 
 Some examples of semialgebraic sets are:
 	open unitary circle in R^2:
@@ -4524,6 +4636,9 @@ where the left side is a LinearForm and the right side is a constant value.
 !LinearSystem commentStamp: '<historical>' prior: 0!
 My instances are systems of linear equations.!
 
+!Aleph commentStamp: '<historical>' prior: 0!
+My instances are aleph numbers, i.e. cardinalities of infinite sets. Aleph-naught is the cardinality of the natural numbers. Assuming the continuum hypothesis, aleph-one is taken to be the cardinality of the real numbers.!
+
 !Infinity commentStamp: '<historical>' prior: 0!
 My instances are the real +infinity or -infinity.
 
@@ -4599,23 +4714,29 @@ Output: the minimal polynomial of the sequence.
 !
 
 !Monomial commentStamp: '<historical>' prior: 0!
-My instances are (commutative) power products of one or many variables.!
+My instances are (commutative) power products of one or many variables. They form a monoid (see Monomials). Also, their formal linear combinations over a ring are Polynomials.!
 
 !MonomialOrdering commentStamp: '<historical>' prior: 0!
 My instances are monomial orderings.
 !
 
 !LexicographicOrdering commentStamp: '<historical>' prior: 0!
+The lexicographic ordering is the 'dictionary' ordering.
+
 The lexicographic ordering has the property that for each subring S[x1..xn] <= R, and each polynomial f in R, f is in S iff its leading monomial is in S.
 
 Elimination by the lexicographic ordering produces elements of an ideal which are free of the first variable.!
 
 !TotalLexicographicOrdering commentStamp: '<historical>' prior: 0!
+The total (or graded) lexicographic ordering first compares the total degree of the monomials, and takes the monomial with largest total degree. If two monomials have the same total degree, the lexicographic ordering is used to break the tie.
+
 The total lexicographic ordering has the property that for each subring S[x1..xn] <= R, and each homogeneous polynomial f in R, f is in S iff its leading monomial is in S.
 
 Elimination by the total lexicographic ordering produces elements of an homogeneous ideal which are free of the first variable.!
 
 !TotalReverseLexicographicOrdering commentStamp: '<historical>' prior: 0!
+The total (or graded) reverse lexicographic ordering first compares the total degree of the monomials, and takes the monomial with largest total degree. If two monomials have the same total degree, the reverse lexicographic ordering is used to break the tie (this is the lexicographic ordering on the reversed list of indeterminates (xn, ..., x1).
+
 The total reverse lexicographic ordering has the property that for each subring S[x1..xn] <= R, and each homogeneous polynomial f in S[x1..xi], xi divides f iff it divides the leading monomial.
 
 Elimination by the total reverse lexicographic ordering produces elements of a homogeneous ideal which are divisible by the last variable.!
@@ -4623,7 +4744,7 @@ Elimination by the total reverse lexicographic ordering produces elements of a h
 !WeightedMonomialOrdering commentStamp: '<historical>' prior: 0!
 My instances are monomial orderings defined by weight tuples.
 
-For monomials in n variables, there are n!! (n factorial) orderings, and in certain aplications such as Groebner bases it's desirable to easily construct new monomial orderings.
+For monomials in n variables, there are n!! (n factorial) orderings. In certain applications such as Groebner bases it's desirable to easily construct new monomial orderings.
 
 ideterminates 		an array with the indeterminates (variables) in order;
 weights 				n-tuples with real coefficients.
@@ -4670,17 +4791,25 @@ Counts are currently held in a WordArray, and limited to about 4 billion counts 
 A good number of bins can be n^(1/2) or n^(1/3), where n is the total number of samples. See Wikipedia article for rationale.!
 
 !Morphism commentStamp: '<historical>' prior: 0!
-I'm an abstract superclass for functions and other morphisms (although in general is not necesary for morphisms to be subclasses).!
+I'm an abstract superclass for functions and other morphisms (although in general is not necesary for morphisms to be subclasses).
+
+References:
+	https://en.wikipedia.org/wiki/Morphism
+!
 
 !Function commentStamp: '<historical>' prior: 0!
-My instances are functions, i.e. maps from a mathematical structure (domain) to another structure (codomain). Evaluated at elements of the domain (>>#value:) they produce elements of the codomain.
+My instances are functions, i.e. maps from a mathematical structure (domain) to another structure (codomain). Evaluated at elements of the domain (>>#value:) they produce elements of the codomain. See Domain.
 
-In general a Function is a morphism of sets. If the function preserves some mathematical structure from its domain, it is called a morphism (or homomorphism) of some category corresponding to the preserved structure. For example linear maps are morphisms of vector spaces, continuous functions are morphisms of topological spaces, group homomorphisms are morphisms of groups, etc.
+In general a Function is a morphism of sets. If the function preserves some mathematical structure, it is called a morphism of some category corresponding to the preserved structure. For example linear maps are morphisms of vector spaces, continuous functions are morphisms of topological spaces, and group homomorphisms are morphisms of groups.
 
-Examples (three equivalent ways to construct a function):
+Examples (three ways to construct a function):
 	Function from: ZZ to: ZZ evaluating: [:x| x squared + 1].
 	ZZ -> ZZ evaluating: [:x| x squared + 1].
 	ZZ endomorphisms evaluating: [:x| x squared + 1]
+
+References:
+	https://en.wikipedia.org/wiki/Function_(set_theory)
+	https://en.wikipedia.org/wiki/Morphism
 !
 
 !AffineMap commentStamp: '<historical>' prior: 0!
@@ -4704,7 +4833,10 @@ Given a group G and a set X, a (left) group action phi:GxX -> X is a function th
 - Identity: phi(id,x) = x;
 - Compatibility: phi(g, phi(h,x)) = phi(g*h, x).
 
-The group G is said to 'act' on X (on the left). The set X is called a (left) G-set (or G-space, G-module, depending on the category of X). Here we just call it 'space'.!
+The group G is said to 'act' on X (on the left). The set X is called a (left) G-set (or G-space, G-module, depending on the category of X). Here we just call it 'space'.
+
+References:
+	https://en.wikipedia.org/wiki/Group_action!
 
 !GroupHomomorphism commentStamp: '<historical>' prior: 0!
 My instances are morphisms of groups.!
@@ -4716,19 +4848,25 @@ My instances are group homomorphisms defined as conjugation by a given element.!
 Given a group and an object X, a group representation is a group homomorphism from G to the automorphisms group Aut(X). X is called the representation space. Informally speaking, a representation allows us to view a group as symmetries of an object.
 
 For example, a linear representation of a group G on a vector space V is a group homomorphism G -> GL(V). A permutation representation of G on a set X is a group homomorphism G -> Sym(X). 
-Any group action can be seen as a permutation representation. In turn, any representation phi has an associated action on the representation space that maps (g,x) -> phi(g)(x).!
+Any group action can be seen as a permutation representation. In turn, any representation phi has an associated action on the representation space that maps (g,x) -> phi(g)(x).
+
+References:
+	https://en.wikipedia.org/wiki/Group_representation!
 
 !LinearMap commentStamp: '<historical>' prior: 0!
 My instances are linear transformations between spaces of finite dimension, i.e. morphisms of vector spaces or free modules.
 
 Example:
 	| V S |
-	V _ Rationals new ** 3.
-	S _ LinearSubspace generators: (Array with: (1, 1, 1) with: (2, 0, -2)) on: V.
-	LinearMap projectionOn: S.!
+	V _ QQ ** 3.
+	S _ V span: {(1, 1, 1). (2, 0, -2)}.
+	LinearMap projectionOn: S.
+!
 
 !LinearForm commentStamp: '<historical>' prior: 0!
-My instances are linear forms (linear functionals, one-forms, covectors), i.e. linear maps from a vector space to the field of scalars. All the linear forms on a vector space form the dual vector space (see DualSpace).!
+My instances are linear forms (linear functionals, one-forms, covectors), i.e. linear maps from a vector space to the field of scalars.
+
+All the linear forms on a vector space form the dual vector space (see DualSpace).!
 
 !Permutation commentStamp: '<historical>' prior: 0!
 My instances are bijective functions from a domain to itself. Permutations under composition form groups (see PermutationGroup).!
@@ -4755,27 +4893,26 @@ My instances are rational maps between algebraic varieties.!
 !RealRootFunction commentStamp: '<historical>' prior: 0!
 My instances are defined by an integer index and a set of rational multivariate polynomials. 
 
-The PolynomialRootFunction with index k and polynomial f in n+1 indeterminates represents the continuous real function going from a connected subset of R^n (a semialgebraic set) to R and whose value at (a1,...,an) is the k-th real root of f(a1,...,an, x) as univariate polynomial in x.
+The RealRootFunction with index k and polynomial f in n+1 indeterminates represents the continuous real function going from a connected subset of R^n (a semialgebraic set) to R and whose value at (a1,...,an) is the k-th real root of f(a1,...,an, x) as univariate polynomial in x.
 
-A PolynomialRootFunction with two or more defining polynomials is equivalent to the one defined by the product of all the polynomials.
-!
+A RealRootFunction with two or more defining polynomials is equivalent to the one defined by the product of all the polynomials.!
 
 !Sequence commentStamp: '<historical>' prior: 0!
-My instances are functions with domain in the natural numbers (1,2,...). They can be evaluated at an index (#value: and #at:), and can also be iterated over like collections (#do:, #collect:, #select, etc).
+My instances are functions with domain the natural numbers (1,2,...). They can be evaluated at an index (#value: and #at:), and can also be iterated over like collections (#do:, #collect:, #select, etc).
 
 Examples:
 	Sequence fibonacci.
 	Sequence primes.
 
-Each sequence has an associated generating series, which is the formal power series whose coefficients are the sequence:
+Each sequence has an associated generating series, which is the formal power series whose coefficients are the sequence (see PowerSeries):
 	Sequence fibonacci generatingSeries
-and Dirichlet series:
+and Dirichlet series (see DirichletSeries):
 	Sequence fibonacci dirichletSeries
 !
 
 !LinearRecursiveSequence commentStamp: '<historical>' prior: 0!
 My instances are constant-recursive (or C-recursive or C-finite) sequences, i.e. sequences satisfying homogeneous linear recurrences with constant coefficients:
-	a(n) = c_1a(n-1) + ... + c_da(n-d)
+	a(n) = c_1 a(n-1) + ... + c_d a(n-d)
 
 These sequences are closed under:
 - addition a(n)+b(n)
@@ -4787,19 +4924,19 @@ These sequences are closed under:
 - indefinite sumation a(1)+a(2)+...+a(n)
 - multisection a(mn+r), 0 <= r < m.
 
-Power series whose coefficients are linear recursive sequences are also closed under:
+Power series whose coefficients are linear recursive sequences are closed under:
+- addition
+- multiplication
 - derivation
 
 Example:
-LinearRecursiveSequence fibonacci.
+	LinearRecursiveSequence fibonacci.
+	LinearRecursiveSequence fibonacci generatingFunction
 
 Example:
-LinearRecursiveSequence fibonacci generatingFunction
-
-Example:
-| f |
-f _ LinearRecursiveSequence fibonacci * LinearRecursiveSequence pellNumbers.
-f minimalPolynomial
+	| f |
+	f _ LinearRecursiveSequence fibonacci * LinearRecursiveSequence pellNumbers.
+	f minimalPolynomial
 !
 
 !Identity commentStamp: '<historical>' prior: 0!
@@ -4949,7 +5086,7 @@ My instances are quaternions. Quaternions constitute an example of non-commutati
 I am the Product Replacement Algorithm for generating random elements in a group from a set of generators. Essentially, it performs a random walk on a Cayley graph.!
 
 !Residue commentStamp: '<historical>' prior: 0!
-My instances are elements of a quotient ring, i.e. residue classes modulo an ideal. See class QuotientRing.!
+My instances are elements of a quotient ring, i.e. residue classes modulo an ideal. See QuotientRing and ResidueField.!
 
 !NumericComplexRootFinder commentStamp: '<historical>' prior: 0!
 My instances separate complex roots of polynomials with real or complex coefficients. This is Newton's modified algorithm [1], and the convergence is quadratic. The polynomial is assumed to be squarefree.
@@ -4960,7 +5097,7 @@ Output: a collection of the n complex roots of the polynomial.
 [1] "A Course In Computational Algebraic Number Theory", Cohen, Algorithm 3.6.6.!
 
 !SemialgebraicCell commentStamp: '<historical>' prior: 0!
-My instances are components of a Cell Complex of R^n, where n>1. For the case n=1 SemialgebraicLineCell is used. (See the comments in the class SemialgebraicSet and CylindricalAlgebraicDecomposition).
+My instances are components of a cell complex of R^n, where n>1. For the case n=1 SemialgebraicInterval is used. (See the comments in the class SemialgebraicSet and CylindricalAlgebraicDecomposition).
 
 Each SemialgebraicCell in R^n is represented as the extension of a SemialgebraicCell or SemialgebraicInterval in R^{n-1}.
 !
@@ -6015,18 +6152,18 @@ sqrt: anIntegerOrFraction
 		minimalPolynomial: QQ polynomials x squared - anIntegerOrFraction
  		approximation: anIntegerOrFraction sqrt radius: 0.00001! !
 
-!AutomaticColorPalette methodsFor: 'as yet unclassified' stamp: 'len 7/31/2016 04:52'!
+!AutomaticPalette methodsFor: 'as yet unclassified' stamp: 'len 7/31/2016 04:52'!
 at: anObject
 	| i n |
 	i _ map at: anObject ifAbsentPut: [map size].
 	n _ map size.
 	^ Color h: i * 360.0 / (n + 1) s: 0.65 v: 0.95! !
 
-!AutomaticColorPalette methodsFor: 'as yet unclassified' stamp: 'len 7/31/2016 04:44'!
+!AutomaticPalette methodsFor: 'as yet unclassified' stamp: 'len 7/31/2016 04:44'!
 initialize
 	map _ Dictionary new! !
 
-!AutomaticColorPalette class methodsFor: 'as yet unclassified' stamp: 'len 7/31/2016 04:44'!
+!AutomaticPalette class methodsFor: 'as yet unclassified' stamp: 'len 7/31/2016 04:44'!
 new
 	^ super new initialize! !
 
@@ -10167,21 +10304,42 @@ rows: anArray
 shape: anArray
 	^ self rows: (anArray collect: [:each| Array new: each])! !
 
-!ContinuousColorPalette methodsFor: 'as yet unclassified' stamp: 'len 2/26/2016 06:45'!
-at: aFloat
-	^ colors at: (colors size - 1 * aFloat) truncated + 1! !
+!ContinuousPalette methodsFor: 'as yet unclassified' stamp: 'len 8/17/2016 23:35'!
+at: aNumber
+	| v |
+	v _ (aNumber max: min) min: max.
+	^ colors at: (colors size - 1 * (v - min) / (max - min)) truncated + 1! !
 
-!ContinuousColorPalette methodsFor: 'as yet unclassified' stamp: 'len 2/26/2016 06:43'!
+!ContinuousPalette methodsFor: 'as yet unclassified' stamp: 'len 2/26/2016 06:43'!
 colors: anArray
 	colors _ anArray! !
 
-!ContinuousColorPalette class methodsFor: 'as yet unclassified' stamp: 'len 2/26/2016 06:54'!
+!ContinuousPalette methodsFor: 'as yet unclassified' stamp: 'len 8/17/2016 23:33'!
+max: aNumber
+	max _ aNumber! !
+
+!ContinuousPalette methodsFor: 'as yet unclassified' stamp: 'len 8/17/2016 23:33'!
+min: aNumber
+	min _ aNumber! !
+
+!ContinuousPalette class methodsFor: 'as yet unclassified' stamp: 'len 8/17/2016 23:38'!
 default
 	| blue green red |
 	red _ Rationals new polynomials interpolate: {"0 -> 0.0." 40 -> 0. 65 -> 0.8. "90 -> 0." 100 -> 0. 150 -> 0.5. 200 -> 0.9. 215 -> 1. 255 -> 0.95}.
 	green _ Rationals new polynomials interpolate: {0 -> 0.2. 50 -> 0.48. 100 -> 0.68. 150 -> 0.75. 200 -> 0.70. 255 -> 1}.
 	blue _ Rationals new polynomials interpolate: {0 -> 0.5. 35 -> 0.9. 85 -> 0.8. 115 -> 0.7. 150 -> 0.5. 200 -> 0.3. 255 -> 0}.
-	^ self new colors: ((0 to: 255) collect: [:x| Color fromArray: ({x < 80 ifTrue: [0] ifFalse: [red value: x]. green value: x. blue value: x} collect: [:y| y abs min: 1.0])])! !
+	^ self new colors: ((0 to: 255) collect: [:x| Color fromArray: ({x < 80 ifTrue: [0] ifFalse: [red value: x]. green value: x. blue value: x} collect: [:y| y abs min: 1.0])]); min: 0.0; max: 1.0! !
+
+!ContinuousPalette class methodsFor: 'as yet unclassified' stamp: 'len 8/18/2016 07:30'!
+grayscale
+	^ (self new: 100 interpolating: {Color darkGray darker. Color white}) min: 0.0; max: 1.0! !
+
+!ContinuousPalette class methodsFor: 'as yet unclassified' stamp: 'len 8/18/2016 07:21'!
+new: anInteger interpolating: anArray
+	^ self new colors: ((0 to: anInteger-1) collect: [:i|
+			| mu |
+			mu _ i * anArray size / (anInteger-1).
+			(anArray atPin: mu floor + 1) mixed: mu - mu floor with: (anArray atPin: mu ceiling + 1)])! !
 
 !CoxeterDiagram methodsFor: 'as yet unclassified' stamp: 'len 2/11/2016 22:11'!
 gramMatrix
@@ -10601,16 +10759,16 @@ coefficients: aSequence
 zeta
 	^ self coefficients: (LinearRecursiveSequence constant: 1)! !
 
-!DiscreteColorPalette methodsFor: 'as yet unclassified' stamp: 'len 2/18/2016 23:38'!
+!DiscretePalette methodsFor: 'as yet unclassified' stamp: 'len 2/18/2016 23:38'!
 at: anObject
 	^ map at: anObject ifAbsentPut: [self newColor]! !
 
-!DiscreteColorPalette methodsFor: 'as yet unclassified' stamp: 'len 2/18/2016 23:42'!
+!DiscretePalette methodsFor: 'as yet unclassified' stamp: 'len 2/18/2016 23:42'!
 colors: anArray
 	colors _ anArray.
 	map _ Dictionary new! !
 
-!DiscreteColorPalette methodsFor: 'as yet unclassified' stamp: 'len 7/31/2016 04:32'!
+!DiscretePalette methodsFor: 'as yet unclassified' stamp: 'len 7/31/2016 04:32'!
 newColor
 	| a b answer |
 	map size < colors size ifTrue: [^ colors at: map size + 1].
@@ -10620,15 +10778,21 @@ newColor
 	colors includes: answer] whileTrue.
 	^ answer! !
 
-!DiscreteColorPalette class methodsFor: 'as yet unclassified' stamp: 'len 2/18/2016 23:42'!
+!DiscretePalette class methodsFor: 'as yet unclassified' stamp: 'len 2/18/2016 23:42'!
 colors: anArray
 	^ self new colors: anArray! !
 
-!DiscreteColorPalette class methodsFor: 'as yet unclassified' stamp: 'len 5/2/2016 07:36'!
+!DiscretePalette class methodsFor: 'as yet unclassified' stamp: 'len 5/2/2016 07:36'!
 default
 	^ self colors: (#("brightGreen" periwinkle seaGreen hotPink lightYellow cyan lightPink lightOrange  "lightGreen" "lightRed"  "mustard" ) collect: [:each| Color exactColorNamed: each]) "shuffled"! !
 
-!DocumentationGenerator methodsFor: 'as yet unclassified' stamp: 'len 8/12/2016 18:19'!
+!DocumentationGenerator methodsFor: 'as yet unclassified' stamp: 'len 8/18/2016 03:30'!
+copy: aString replaceAll: oldSubstring with: newSubstring
+	^ aString lines
+		collect: [:each| (each includesSubString: 'http') ifTrue: [each] ifFalse: [each copyReplaceTokens: oldSubstring with: newSubstring]]
+		andFold: [:a :b| a, Character lf asString, b]! !
+
+!DocumentationGenerator methodsFor: 'as yet unclassified' stamp: 'len 8/23/2016 02:36'!
 generate
 	| blacklist classes tokens |
 	blacklist _ #('Mathematics-Kernel-Elements' 'Mathematics-Geometry-Polytopes' 'Mathematics-Morphic' 'Mathematics-Tests' 'Mathematics-Lie' 'Mathematics-Expressions' 'Mathematics-ETC').
@@ -10639,14 +10803,26 @@ generate
 		output _ '' writeStream.
 		class withAllSuperclasses reversed do: [:each|
 			| generated |
-			generated _ self generate: each name references: tokens.
-			each == class ifTrue: [generated _ '**', generated, '**'].
+			generated _ each == class
+				ifTrue: ['**', each name, '**']
+				ifFalse: [self generate: each name references: tokens].
 			output nextPutAll: generated]
 			separatedBy: [output nextPutAll: ' > '].
 		output lf; lf.
-		class hasComment ifTrue: [output nextPutAll: (self generate: class comment references: tokens); lf; lf].
+		class hasComment ifTrue: [output nextPutAll: (self generate: class comment references: tokens except: class name); lf; lf].
 		output nextPutAll: '***'; lf.
-		i _ 0.
+"		class organization categories do: [:category|
+			((category includesSubString: 'private') or: [category includesSubString: 'initialization'])
+				ifFalse:
+					[output nextPutAll: '*', category, '*  '; lf.
+					(class organization listAtCategoryNamed: category)
+						do: [:selector|
+							| methodComment |
+							output nextPutAll: '&nbsp;&nbsp;**',selector,'**  '; lf.
+							(methodComment _ class firstCommentAt: selector) isEmpty
+								ifFalse: [methodComment lines do: [:line| output nextPutAll: '&nbsp;&nbsp;&nbsp;&nbsp;', line, '  '; lf]]]]].
+		output nextPutAll: '***'; lf.
+"		i _ 0.
 		class allSuperclasses reversed do: [:each|
 			i*2 timesRepeat: [output nextPutAll: '&nbsp;'].
 			output nextPutAll: (self generate: each name references: tokens).
@@ -10655,24 +10831,32 @@ generate
 		class allSubclassesWithLevelDo: [:subclass :level|
 			| generated |
 			(level+i)*2 timesRepeat: [output nextPutAll: '&nbsp;'].
-			generated _ self generate: subclass name references: tokens.
-			subclass == class ifTrue: [generated _ '**', generated, '**'].
+			generated _ subclass == class
+				ifTrue: ['**', subclass name, '**']
+				ifFalse: [self generate: subclass name references: tokens].
 			output nextPutAll: generated.
 			output nextPutAll: '  '; lf] startingLevel: 0.
 		file _ self path,class name,'.md' :: asFileEntry.
 		file assureExistence; fileContents: output contents]! !
 
-!DocumentationGenerator methodsFor: 'as yet unclassified' stamp: 'len 8/12/2016 08:05'!
+!DocumentationGenerator methodsFor: 'as yet unclassified' stamp: 'len 8/18/2016 02:57'!
 generate: comment references: tokens
+	^ self generate: comment references: tokens except: nil! !
+
+!DocumentationGenerator methodsFor: 'as yet unclassified' stamp: 'len 8/23/2016 00:58'!
+generate: comment references: tokens except: currentToken
 	| output |
 	output _ comment.
-	'\[]*_{}()#<>' do: [:each|
+	'\[]*{}#<>' do: [:each|
+"	'\[]*_{}()#<>' do: [:each|"
 		(output includes: each) ifTrue: [output _ output copyReplaceAll: each asString with: '\', each asString]].
 	output _ output copyReplaceAll: Character tab asString with: '&nbsp;&nbsp;&nbsp;&nbsp;'.
 	tokens do: [:each|
-		output _ output copyReplaceTokens: each with: '[',each,'](',each,')'.
-		output _ output copyReplaceTokens: each, 's' with: '[',each,'s](',each,')'.
-		output _ output copyReplaceAll: Character lf asString with: '  ', Character lf asString].
+		output _ self copy: output replaceAll: each with: '[',each,'](',each,')'.
+		(tokens includes: each, 's') ifFalse:
+			[output _ self copy: output replaceAll: each, 's' with: '[',each,'s](',each,')']]
+				without: currentToken.
+	output _ output copyReplaceAll: Character lf asString with: '  ', Character lf asString.
 	^ output! !
 
 !DocumentationGenerator methodsFor: 'as yet unclassified' stamp: 'len 8/11/2016 21:58'!
@@ -10760,9 +10944,10 @@ allSatisfy: aBlock
 	self do: [:each| (aBlock value: each) ifFalse: [^ false]].
 	^ true! !
 
-!Domain methodsFor: 'accessing' stamp: 'len 7/10/2016 05:40'!
+!Domain methodsFor: 'accessing' stamp: 'len 8/17/2016 17:57'!
 ambient
-	"Domains can be substructures of other domains. Answer the ambient domain of which the receiver is substructure."
+	"Domains can be subobjects of other domains, for example subspeces are subobjects of vector spaces.
+	Answer the ambient domain of which the receiver is a subobject."
 	^ properties at: #ambient ifAbsent: [self]! !
 
 !Domain methodsFor: 'iterating' stamp: 'len 5/1/2016 23:21'!
@@ -11056,10 +11241,6 @@ propertyAt: aSymbol ifAbsentPut: aBlock
 !Domain methodsFor: 'accessing' stamp: 'len 6/20/2016 02:44'!
 propertyAt: aSymbol put: anObject
 	^ properties at: aSymbol put: anObject! !
-
-!Domain methodsFor: 'random' stamp: 'len 4/19/2016 21:09'!
-random
-	^ RandomGenerator on: self! !
 
 !Domain methodsFor: 'iterating' stamp: 'len 5/3/2016 08:15'!
 select: aBlock
@@ -12335,6 +12516,10 @@ evaluating: aBlock
 identity
 	^ self matrix: self matrices identity! !
 
+!LinearMaps methodsFor: 'testing' stamp: 'len 8/23/2016 21:58'!
+includes: aLinearMap
+	^ (aLinearMap isKindOf: LinearMap) and: [aLinearMap domain = self domain and: [aLinearMap codomain = self codomain]]! !
+
 !LinearMaps methodsFor: 'morphisms' stamp: 'len 11/8/2015 13:55'!
 inverse
 	^ self class from: self codomain to: self domain! !
@@ -13187,6 +13372,10 @@ printOn: aStream
 scalars
 	^ polynomials scalars! !
 
+!QuotientSpace methodsFor: 'accessing' stamp: 'len 8/24/2016 19:05'!
+base
+	^ subspace ambient! !
+
 !QuotientSpace methodsFor: 'basis' stamp: 'len 6/4/2016 04:20'!
 coordinatesOf: anAffineSubspace
 	| v |
@@ -13194,19 +13383,16 @@ coordinatesOf: anAffineSubspace
 	v _ v - (subspace project: v).
 	^ subspace perp basis coordinatesOf: v! !
 
-!QuotientSpace methodsFor: 'private' stamp: 'len 5/23/2016 04:29'!
+!QuotientSpace methodsFor: 'private' stamp: 'len 8/24/2016 19:06'!
 defaultProjection
 	"Answer the quotient map, the canonical projection from the ambient vector space to the quotient space, i.e. the mapping pi:V->V/S that assigns to every v in V the affine subspace v+S."
 	| answer |
-	answer _ LinearMap from: subspace ambient to: self evaluating: [:each| self project: each].
+	answer _ LinearMap from: self base to: self evaluating: [:each| self project: each].
 	answer properties
 		at: #kernel put: subspace;
-		at: #image put: self.
+		at: #image put: self;
+		at: #rightInverse put: (Function from: self to: self base evaluating: [:each| each representative]).
 	^ answer! !
-
-!QuotientSpace methodsFor: 'private' stamp: 'len 6/4/2016 03:54'!
-defaultSection
-	^ LinearMap from: self to: subspace ambient evaluating: [:each| each representative]! !
 
 !QuotientSpace methodsFor: 'basis' stamp: 'len 11/9/2015 15:59'!
 dimension
@@ -13243,17 +13429,17 @@ projection
 	"Answer the quotient map, the canonical projection from the ambient vector space to the quotient space, i.e. the mapping pi:V->V/S that assigns to every v in V the affine subspace v+S."
 	^ properties at: #projection ifAbsentPut: [self defaultProjection]! !
 
-!QuotientSpace methodsFor: 'morphisms' stamp: 'len 4/25/2016 18:22'!
+!QuotientSpace methodsFor: 'morphisms' stamp: 'len 8/24/2016 19:05'!
 relation
-	^ EquivalenceRelation on: subspace evaluating: [:x :y| subspace includes: x - y]! !
+	^ EquivalenceRelation on: self base evaluating: [:x :y| subspace includes: x - y]! !
 
 !QuotientSpace methodsFor: 'accessing' stamp: 'len 5/25/2016 19:58'!
 scalars
 	^ subspace scalars! !
 
-!QuotientSpace methodsFor: 'morphisms' stamp: 'len 3/28/2016 06:06'!
+!QuotientSpace methodsFor: 'morphisms' stamp: 'len 8/24/2016 19:01'!
 section
-	^ properties at: #section ifAbsentPut: [self defaultSection]! !
+	^ self projection section! !
 
 !QuotientSpace methodsFor: 'accessing' stamp: 'len 11/9/2015 16:17'!
 subspace
@@ -13384,6 +13570,11 @@ frobenius
 	| p |
 	p _ self characteristic.
 	^ Function from: self to: self evaluating: [:r| r ** p]! !
+
+!Ring methodsFor: 'testing' stamp: 'len 8/17/2016 17:54'!
+hasOne
+	"Answer true if the receiver is a ring with one, i.e. includes the element 1."
+	^ self includes: self one! !
 
 !Ring methodsFor: 'testing' stamp: 'len 11/28/2015 23:53'!
 isCommutative
@@ -14319,19 +14510,16 @@ conjugation
 	"Answer the companion automorphism of the receiver, i.e. the Frobenius automorphism."
 	^ self frobenius! !
 
-!ResidueField methodsFor: 'private' stamp: 'len 5/23/2016 04:20'!
+!ResidueField methodsFor: 'private' stamp: 'len 8/24/2016 19:02'!
 defaultProjection
 	"Answer the natural projection, or quotient map, or canonical homomorphism. This takes elements from the base ring to the corresponding residue class in the quotient ring."
 	| answer |
 	answer _ Function from: ideal ambient to: self evaluating: [:each| self project: each].
 	answer properties
 		at: #kernel put: ideal;
-		at: #image put: self.
+		at: #image put: self;
+		at: #rightInverse put: (Function from: self to: ideal ambient evaluating: [:each| each representative]).
 	^ answer! !
-
-!ResidueField methodsFor: 'private' stamp: 'len 5/23/2016 04:20'!
-defaultSection
-	^ Function from: self to: ideal ambient evaluating: [:each| each representative]! !
 
 !ResidueField methodsFor: 'iterating' stamp: 'len 6/27/2016 23:22'!
 do: aBlock
@@ -14397,13 +14585,13 @@ projection
 	"Answer the natural projection, or quotient map, or canonical homomorphism. This takes elements from the base ring to the corresponding residue class in the quotient ring."
 	^ properties at: #projection ifAbsentPut: [self defaultProjection]! !
 
-!ResidueField methodsFor: 'morphisms' stamp: 'len 5/29/2016 17:33'!
+!ResidueField methodsFor: 'morphisms' stamp: 'len 8/24/2016 19:06'!
 relation
-	^ EquivalenceRelation on: self ideal ambient evaluating: [:a :b| ideal includes: a - b]! !
+	^ EquivalenceRelation on: self base evaluating: [:a :b| ideal includes: a - b]! !
 
-!ResidueField methodsFor: 'morphisms' stamp: 'len 3/28/2016 06:02'!
+!ResidueField methodsFor: 'morphisms' stamp: 'len 8/24/2016 19:02'!
 section
-	^ properties at: #section ifAbsentPut: [self defaultSection]! !
+	^ self projection section! !
 
 !ResidueField methodsFor: 'accessing' stamp: 'len 5/23/2016 04:22'!
 zero
@@ -15300,24 +15488,25 @@ atRandom: aRandom bits: bitSize
 	^ self atRandom: aRandom
 "	^ self project: (ideal ring atRandom: aRandom bits: bitSize)"! !
 
+!QuotientRing methodsFor: 'accessing' stamp: 'len 8/24/2016 19:03'!
+base
+	^ ideal ambient! !
+
 !QuotientRing methodsFor: 'morphisms' stamp: 'len 2/5/2016 19:52'!
 conjugation
 	"Answer the companion automorphism of the receiver, i.e. the Frobenius automorphism."
 	^ self frobenius! !
 
-!QuotientRing methodsFor: 'private' stamp: 'len 5/23/2016 04:20'!
+!QuotientRing methodsFor: 'private' stamp: 'len 8/24/2016 19:04'!
 defaultProjection
 	"Answer the natural projection, or quotient map, or canonical homomorphism. This takes elements from the base ring to the corresponding residue class in the quotient ring."
 	| answer |
-	answer _ Function from: ideal ambient to: self evaluating: [:each| self project: each].
+	answer _ Function from: self base to: self evaluating: [:each| self project: each].
 	answer properties
 		at: #kernel put: ideal;
-		at: #image put: self.
+		at: #image put: self;
+		at: #rightInverse put: (Function from: self to: self base evaluating: [:each| each representative]).
 	^ answer! !
-
-!QuotientRing methodsFor: 'private' stamp: 'len 5/23/2016 04:20'!
-defaultSection
-	^ Function from: self to: ideal ambient evaluating: [:each| each representative]! !
 
 !QuotientRing methodsFor: 'iterating' stamp: 'len 6/27/2016 23:22'!
 do: aBlock
@@ -15401,13 +15590,13 @@ projection
 	"Answer the natural projection, or quotient map, or canonical homomorphism. This takes elements from the base ring to the corresponding residue class in the quotient ring."
 	^ properties at: #projection ifAbsentPut: [self defaultProjection]! !
 
-!QuotientRing methodsFor: 'morphisms' stamp: 'len 5/29/2016 17:33'!
+!QuotientRing methodsFor: 'morphisms' stamp: 'len 8/24/2016 19:04'!
 relation
-	^ EquivalenceRelation on: self ideal ambient evaluating: [:a :b| ideal includes: a - b]! !
+	^ EquivalenceRelation on: self base evaluating: [:a :b| ideal includes: a - b]! !
 
-!QuotientRing methodsFor: 'morphisms' stamp: 'len 3/28/2016 06:02'!
+!QuotientRing methodsFor: 'morphisms' stamp: 'len 8/24/2016 19:00'!
 section
-	^ properties at: #section ifAbsentPut: [self defaultSection]! !
+	^ self projection section! !
 
 !QuotientRing methodsFor: 'accessing' stamp: 'len 5/23/2016 04:22'!
 zero
@@ -15998,8 +16187,9 @@ discriminant
 isSingular
 	^ self discriminant == 0! !
 
-!EllipticCurve class methodsFor: 'instance creation' stamp: 'len 3/24/2016 05:53'!
+!EllipticCurve class methodsFor: 'instance creation' stamp: 'len 8/24/2016 03:20'!
 over: aField a: a b: b
+	"Answer the curve y^2 = x^3 + ax + b homogenized."
 	| P x y z ideal |
 	P _ aField polynomialsIn: #(x y z).
 	x _ P x. y _ P y. z _ P z.
@@ -16390,8 +16580,18 @@ on: aDomain evaluating: aBlock
 	relation _ anEquivalenceRelation isBlock ifTrue: [EquivalenceRelation on: self evaluating: anEquivalenceRelation] ifFalse: [anEquivalenceRelation].
 	^ QuotientSet by: relation! !
 
-!FormalSet methodsFor: 'as yet unclassified' stamp: 'len 8/9/2016 23:32'!
+!FormalSet methodsFor: 'as yet unclassified' stamp: 'len 8/15/2016 03:26'!
+automorphisms
+	^ SymmetricGroup on: self! !
+
+!FormalSet methodsFor: 'as yet unclassified' stamp: 'len 8/14/2016 01:35'!
+coproduct: aFormalSet
+	"The coproduct in the category of sets is the disjoint union."
+	^ self species newFrom: ((self elements collect: [:each| (each, 0)]) union: (aFormalSet elements collect: [:each| (each, 1)]))! !
+
+!FormalSet methodsFor: 'as yet unclassified' stamp: 'len 8/14/2016 05:28'!
 null
+	"Answer the empty set, i.e. the null object in the category of sets."
 	^ self class newFrom: (Set new: 0)! !
 
 !Grassmannian methodsFor: 'comparing' stamp: 'len 4/20/2016 23:55'!
@@ -16954,11 +17154,11 @@ multiplicationTable
 		({'id'. '0'. '1'} includes: str) or: [str <= b printString]].
 	^ MultiplicationTableMorph elements: elements operation: self operation! !
 
-!Magma methodsFor: 'morphic' stamp: 'len 7/31/2016 01:49'!
+!Magma methodsFor: 'morphic' stamp: 'len 8/16/2016 04:02'!
 multiplicationTable2
 	| elements op table palette p |
 	op _ self operation.
-	palette _ DiscreteColorPalette default.
+	palette _ DiscretePalette default.
 	table _ LayoutMorph newRow color: Color red.
 	table morphExtent: 150@150.
 	elements _ self elements asArray asSortedCollection: [:a :b|
@@ -17138,14 +17338,14 @@ cayleyGraph: generators
 cayleyGraphMorph
 	^ self cayleyGraphMorph: self generators! !
 
-!Group methodsFor: 'graphs' stamp: 'len 7/31/2016 05:23'!
+!Group methodsFor: 'graphs' stamp: 'len 8/16/2016 04:03'!
 cayleyGraphMorph: generators
 	"Answer the colored Cayley graph of the receiver for the given set of generators.
 	The set of generators is usually assumed to be symmetric (contains all inverses too) and to not contain the identity."
 	| G answer colors |
 	G _ self cayleyGraph: generators.
 	answer _ G asMorph.
-	colors _ AutomaticColorPalette new.
+	colors _ AutomaticPalette new.
 	generators do: [:each| colors at: each].
 	generators do: [:each| (answer nodeAt: each) color: (colors at: each); morphExtent: 12@10].
 	answer edgesAndLabelsDo: [:each :label| each hideLabel; color: (colors at: label)].
@@ -17632,10 +17832,9 @@ raise: anElement to: anInteger
 		{self raise: (op value: {anElement. anElement}) to: anInteger // 2.
 		self raise: anElement to: anInteger \\ 2}! !
 
-!Group methodsFor: 'random' stamp: 'len 4/19/2016 22:50'!
+!Group methodsFor: 'random' stamp: 'len 8/17/2016 16:43'!
 random
-	self generators ifNotNil: [^ GroupRandomGenerator on: self].
-	^ super random! !
+	^ GroupRandomGenerator on: self! !
 
 !Group methodsFor: 'morphisms' stamp: 'len 5/22/2016 03:41'!
 rightAction
@@ -18017,10 +18216,6 @@ printOn: aStream
 !DirectProductGroup methodsFor: 'morphisms' stamp: 'len 2/12/2016 19:51'!
 projection: i
 	^ Function from: self to: (self at: i) evaluating: [:x| x at: i]! !
-
-!DirectProductGroup methodsFor: 'random' stamp: 'len 4/19/2016 21:03'!
-random
-	^ self asCartesianProduct random! !
 
 !DirectProductGroup methodsFor: 'accessing' stamp: 'len 2/12/2016 20:10'!
 size
@@ -19010,19 +19205,16 @@ base
 base: aGroup
 	base _ aGroup! !
 
-!QuotientGroup methodsFor: 'private' stamp: 'len 2/8/2016 05:14'!
+!QuotientGroup methodsFor: 'private' stamp: 'len 8/24/2016 18:59'!
 defaultProjection
 	"Answer the natural projection, or quotient map, or canonical homomorphism. This takes elements from the base group to the corresponding coset in the quotient group."
 	| answer |
 	answer _ Function from: base to: self evaluating: [:each| self project: each].
 	answer properties
 		at: #kernel put: subgroup;
-		at: #image put: self.
+		at: #image put: self;
+		at: #rightInverse put: (Function from: self to: base evaluating: [:each| each representative]).
 	^ answer! !
-
-!QuotientGroup methodsFor: 'private' stamp: 'len 3/28/2016 06:04'!
-defaultSection
-	^ Function from: self to: base evaluating: [:each| each representative]! !
 
 !QuotientGroup methodsFor: 'iterating' stamp: 'len 6/27/2016 23:22'!
 do: aBlock
@@ -19035,7 +19227,7 @@ do: aBlock
 identity
 	^ self project: base identity! !
 
-!QuotientGroup methodsFor: 'nil' stamp: 'len 8/10/2016 00:59'!
+!QuotientGroup methodsFor: 'testing' stamp: 'len 8/10/2016 00:59'!
 isQuotient
 	^ true! !
 
@@ -19066,9 +19258,9 @@ relation
 	inv _ self base inverseMap.
 	^ EquivalenceRelation on: self base evaluating: [:x :y| subgroup includes: (op value: {x. inv value: y})]! !
 
-!QuotientGroup methodsFor: 'morphisms' stamp: 'len 3/28/2016 06:04'!
+!QuotientGroup methodsFor: 'morphisms' stamp: 'len 8/24/2016 18:59'!
 section
-	^ properties at: #section ifAbsentPut: [self defaultSection]! !
+	^ self projection section! !
 
 !QuotientGroup methodsFor: 'accessing' stamp: 'len 5/2/2016 02:14'!
 size
@@ -19830,11 +20022,16 @@ on: aVectorSpace
 base
 	^ self relation domain! !
 
-!QuotientSet methodsFor: 'iterating' stamp: 'len 4/26/2016 07:26'!
+!QuotientSet methodsFor: 'iterating' stamp: 'len 8/14/2016 06:17'!
 do: aBlock
-	self base do: [:each| aBlock value: (self project: each)]! !
+	| visited |
+	visited _ Set new.
+	self base do: [:each|
+		| x |
+		x _ self project: each.
+		visited add: x ifAbsent: [aBlock value: x]]! !
 
-!QuotientSet methodsFor: 'nil' stamp: 'len 8/10/2016 01:01'!
+!QuotientSet methodsFor: 'testing' stamp: 'len 8/10/2016 01:01'!
 isQuotient
 	^ true! !
 
@@ -27584,6 +27781,13 @@ new: regularBinCount min: min max: max extraBinsForClampedValues: aBoolean
 		highBinCenter: highBinCenter
 		extraBinsForClampedValues: aBoolean! !
 
+!HistogramMorph class methodsFor: 'instance creation' stamp: 'len 8/14/2016 00:10'!
+new: binCount samples: aCollection
+	| answer |
+	answer _ self new: binCount min: aCollection min max: aCollection max.
+	aCollection do: [:each| answer addValue: each].
+	^ answer! !
+
 !CompositeGraphMorph methodsFor: 'as yet unclassified' stamp: 'len 7/30/2016 07:36'!
 addComponent: aGraphMorph
 	self addMorph: aGraphMorph proportionalWidth: 1! !
@@ -27652,11 +27856,11 @@ drawOn: aCanvas
 elements: anArray
 	elements _ anArray asArray! !
 
-!MultiplicationTableMorph methodsFor: 'as yet unclassified' stamp: 'len 7/31/2016 04:49'!
+!MultiplicationTableMorph methodsFor: 'as yet unclassified' stamp: 'len 8/16/2016 04:03'!
 initialize
 	super initialize.
 	self morphExtent: 150@150.
-	colors _ AutomaticColorPalette new! !
+	colors _ AutomaticPalette new! !
 
 !MultiplicationTableMorph methodsFor: 'as yet unclassified' stamp: 'len 7/31/2016 04:28'!
 morphExtent: aPoint
@@ -27672,9 +27876,191 @@ operation: aBinaryOperation
 elements: anArray operation: aBinaryOperation
 	^ self new elements: anArray; operation: aBinaryOperation! !
 
-!SpaceMorph methodsFor: 'as yet unclassified' stamp: 'len 2/26/2016 02:09'!
-origin
-	^ self morphLocalBounds center! !
+!ScalarPlotMorph methodsFor: 'as yet unclassified' stamp: 'len 8/17/2016 23:44'!
+drawOn: aCanvas
+	| r |
+	r _ 1.
+	0 to: extent x - r by: r do: [:x|
+		0 to: extent y - r by: r do: [:y|
+			aCanvas fillRectangle: (x@y extent: r@r) color: (palette at: (function value: (self morphToDomain: x@y)))]]
+! !
+
+!ScalarPlotMorph methodsFor: 'as yet unclassified' stamp: 'len 8/17/2016 23:23'!
+function: aFunction
+	function _ aFunction! !
+
+!ScalarPlotMorph methodsFor: 'as yet unclassified' stamp: 'len 8/17/2016 23:50'!
+initialize
+	super initialize.
+	extent _ 100@100.
+	function _ [:v| v x cos * v y sin].
+	xMin _ -4. xMax _ 4.
+	yMin _ -4. yMax _ 4.
+	palette _ ContinuousPalette default min: -1.0; max: 1.0! !
+
+!ScalarPlotMorph methodsFor: 'as yet unclassified' stamp: 'len 8/17/2016 23:30'!
+morphToDomain: aPoint
+	^ (aPoint x * (xMax - xMin) / extent x + xMin, (aPoint y * (yMax - yMin) / extent y + yMin))! !
+
+!ScatterPlotMorph methodsFor: 'as yet unclassified' stamp: 'len 8/16/2016 03:45'!
+applyRotationBy: aPoint
+	| bounds xSpeed ySpeed rotation |
+	self dimension < 3 ifTrue: [^ self].
+	bounds _ self morphLocalBounds.
+	xSpeed _ Float pi / bounds width.
+	ySpeed _ Float pi / bounds height.
+	rotation _ (QQ**self dimension) endomorphisms evaluating: [:p|
+		| xz yz |
+		xz _ p x @ p z.
+		xz _ xz rotatedBy: aPoint x * xSpeed.
+		yz _ p y @ xz y.
+		yz _ yz rotatedBy: aPoint y * ySpeed.
+		(xz x, yz x, yz y), (p copyFrom: 4 to: p size)].
+	transformation _ rotation @ (transformation ifNil: [rotation identity]).
+	self redrawNeeded! !
+
+!ScatterPlotMorph methodsFor: 'as yet unclassified' stamp: 'len 8/16/2016 02:00'!
+applyScaleBy: aNumber
+	transformation _ transformation * aNumber.
+	self redrawNeeded! !
+
+!ScatterPlotMorph methodsFor: 'as yet unclassified' stamp: 'len 8/21/2016 07:13'!
+colorBy: aBlock
+	colorBlock _ aBlock.
+	self redrawNeeded! !
+
+!ScatterPlotMorph methodsFor: 'as yet unclassified' stamp: 'len 8/15/2016 18:57'!
+dimension
+	^ points anyOne size! !
+
+!ScatterPlotMorph methodsFor: 'as yet unclassified' stamp: 'len 8/21/2016 07:19'!
+drawOn: aCanvas
+	| bounds range boxColor w |
+	bounds _ self morphLocalBounds insetBy: 1.
+	range _ max - min.
+	"draw box:"
+	self dimension >= 3 ifTrue:
+		[boxColor _ Color white alpha: 0.2.
+		self drawPolyline: {(-1,-1,-1). (-1,1,-1). (-1,1,1). (1,1,1). (1,-1,1). (1,-1,-1). (-1,-1,-1). (-1,-1,1). (-1,1,1)} color: boxColor on: aCanvas.
+		self drawPolyline: {(1,-1,1). (-1,-1,1)} color: boxColor on: aCanvas.
+		self drawPolyline: {(1,1,-1). (1,1,1)} color: boxColor on: aCanvas.
+		self drawPolyline: {(1,-1,-1). (1,1,-1). (-1,1,-1)} color: boxColor on: aCanvas].
+	
+	"draw points:"
+	w _ extent x min: extent y.
+	points withIndexDo: [:each :k|
+		| p xy z r shade c |
+		p _ positionBlock value: each.
+		p _ p collect: [:xi| xi - min / range - 0.5 * 2].
+		transformation ifNotNil: [p _ transformation value: p].
+		xy _ p x / 2 + 0.5 * w @ (p y / 2 + 0.5 * w).
+		z _ p size >= 3 ifTrue: [(p z / 2 + 0.5 max: 0.0) min: 1.0] ifFalse: [1.0].
+		r _ z * (sizeBlock value: each) :: rounded + 1.
+		shade _ z / 2 + 0.5.
+		c _ colorBlock value: each.
+		c _ c mixed: shade with: Color black.
+		c _ c alpha: c alpha * (shade / 2 + 0.5).
+		(bounds containsPoint: xy) ifTrue:
+			[aCanvas fillRectangle: (Rectangle center: xy extent: r@r) color: c]]! !
+
+!ScatterPlotMorph methodsFor: 'as yet unclassified' stamp: 'len 8/19/2016 18:39'!
+drawPolyline: anArray color: aColor on: aCanvas
+	| w lastPoint |
+	w _ extent x min: extent y.
+	lastPoint _ nil.
+	anArray do: [:each|
+		| p xy |
+		p _ transformation ifNil: [each] ifNotNil: [transformation value: each].
+		xy _ p x / 2 + 0.5 * w @ (p y / 2 + 0.5 * w).
+		lastPoint ifNotNil: [aCanvas line: lastPoint to: xy width: 1 color: aColor].
+		lastPoint _ xy]! !
+
+!ScatterPlotMorph methodsFor: 'as yet unclassified' stamp: 'len 8/13/2016 04:51'!
+handlesMouseDown: aMouseButtonEvent
+	"Do I want to receive mouseDown events (mouseDown:, mouseMove:, mouseUp:)?"
+	^true! !
+
+!ScatterPlotMorph methodsFor: 'as yet unclassified' stamp: 'len 8/19/2016 18:30'!
+initialize
+	| palette |
+	super initialize.
+	color _ Color white.
+	extent _ 250@250.
+	transformation _ nil.
+	positionBlock _ [:aTuple| aTuple copyFrom: 1 to: (aTuple size min: 3)].
+	palette _ ContinuousPalette default.
+	colorBlock _ [:aTuple| palette at: (positionBlock value: aTuple) norm2 / (max - min) squared].
+	sizeBlock _ [:aTuple| 3]! !
+
+!ScatterPlotMorph methodsFor: 'as yet unclassified' stamp: 'len 8/13/2016 04:51'!
+mouseButton1Down: aMouseButtonEvent localPosition: localEventPosition
+	super mouseButton1Down: aMouseButtonEvent localPosition: localEventPosition.
+	lastMousePosition _ localEventPosition! !
+
+!ScatterPlotMorph methodsFor: 'as yet unclassified' stamp: 'len 8/16/2016 01:59'!
+mouseMove: aMouseMoveEvent localPosition: localEventPosition
+	lastMousePosition isNil
+		ifFalse:
+			[aMouseMoveEvent shiftPressed
+				ifTrue:
+					[| bounds d |
+					bounds _ self morphLocalBounds.
+					d _ (localEventPosition dist: lastMousePosition) / (bounds width min: bounds height).
+					localEventPosition y >= lastMousePosition y ifTrue: [d _ d negated].
+					self applyScaleBy: 2.0 ** d]
+				ifFalse: [self applyRotationBy: lastMousePosition - localEventPosition]].
+	lastMousePosition _ localEventPosition! !
+
+!ScatterPlotMorph methodsFor: 'as yet unclassified' stamp: 'len 8/21/2016 07:14'!
+points: anArray
+	points _ anArray.
+	max _ points max: [:each| each max].
+	min _ points min: [:each| each min].
+	transformation _ QQ**self dimension :: id.
+	self redrawNeeded! !
+
+!ScatterPlotMorph methodsFor: 'as yet unclassified' stamp: 'len 8/21/2016 07:13'!
+positionBy: aBlock
+	positionBlock _ aBlock.
+	self redrawNeeded! !
+
+!ScatterPlotMorph methodsFor: 'as yet unclassified' stamp: 'len 8/21/2016 07:13'!
+sizeBy: aBlock
+	sizeBlock _ aBlock.
+	self redrawNeeded! !
+
+!ScatterPlotMorph class methodsFor: 'as yet unclassified' stamp: 'len 8/19/2016 23:33'!
+example
+	| palette |
+	palette _ ContinuousPalette default.
+	^ (self timeDelayPlot: (Sequence primes difference first: 1000))
+			colorBy: [:each| palette at: each bitSize / 40.0]! !
+
+!ScatterPlotMorph class methodsFor: 'as yet unclassified' stamp: 'len 8/19/2016 05:21'!
+example2
+	| samples |
+	samples _ 1 to: 1000 :: collect: [:i| Random new next].
+	^ self timeDelayPlot: samples! !
+
+!ScatterPlotMorph class methodsFor: 'as yet unclassified' stamp: 'len 8/19/2016 05:22'!
+example3
+	| samples |
+	samples _ 1 to: 1000 :: collect: [:i| | r | r _ Random new. 100 timesRepeat: [r next]. r next].
+	^ self timeDelayPlot: samples! !
+
+!ScatterPlotMorph class methodsFor: 'as yet unclassified' stamp: 'len 8/18/2016 06:38'!
+timeDelayPlot: anArray
+	^ self timeDelayPlot: anArray lag: 1! !
+
+!ScatterPlotMorph class methodsFor: 'as yet unclassified' stamp: 'len 8/18/2016 06:39'!
+timeDelayPlot: anArray dimension: m lag: r
+	^ self new
+		points: ((m*r+1 to: anArray size) collect: [:i|
+			Tuple new: m evaluating: [:j| anArray at: i-(j-1*r)]])! !
+
+!ScatterPlotMorph class methodsFor: 'as yet unclassified' stamp: 'len 8/18/2016 06:39'!
+timeDelayPlot: anArray lag: r
+	^ self timeDelayPlot: anArray dimension: 3 lag: r! !
 
 !Morphism methodsFor: 'operations' stamp: 'len 8/8/2016 05:49'!
 @ aMorphism
@@ -27869,18 +28255,19 @@ new
 	self domain do: [:each| (self value: each) = (aFunction value: each) ifFalse: [^ false]].
 	^ true! !
 
-!Function methodsFor: 'operations' stamp: 'len 8/12/2016 04:08'!
+!Function methodsFor: 'operations' stamp: 'len 8/24/2016 21:19'!
 @ aFunction
 	aFunction class == Identity ifTrue: [^ self].
+	aFunction codomain = self domain ifFalse: [DomainError signal: 'domains don''t match'].
 	^ self species from: aFunction domain to: self codomain evaluating: [:x| self value: (aFunction value: x)]! !
 
-!Function methodsFor: 'private' stamp: 'len 8/8/2016 06:45'!
+!Function methodsFor: 'private' stamp: 'len 8/14/2016 05:33'!
 asBlock
-	^ properties at: #valueBlock ifAbsent: [[:x| self value: x]]! !
+	^ properties at: #block ifAbsent: [[:x| self value: x]]! !
 
-!Function methodsFor: 'private' stamp: 'len 8/8/2016 06:45'!
+!Function methodsFor: 'private' stamp: 'len 8/14/2016 05:33'!
 asBlockOrFunction
-	^ properties at: #valueBlock ifAbsent: [self]! !
+	^ properties at: #block ifAbsent: [self]! !
 
 !Function methodsFor: 'operations' stamp: 'len 12/27/2015 22:08'!
 backwardDifference: n at: h
@@ -27888,6 +28275,10 @@ backwardDifference: n at: h
 		from: self domain
 		to: self codomain
 		evaluating: [:x| (0 to: n) sum: [:i| (-1)**i * (n take: i) * (self value: x + (i*h))]]! !
+
+!Function methodsFor: 'private' stamp: 'len 8/14/2016 05:33'!
+block: aBlock
+	properties at: #block put: aBlock asBlockOrFunction! !
 
 !Function methodsFor: 'operations' stamp: 'len 12/27/2015 22:09'!
 centralDifference: n at: h
@@ -27915,9 +28306,9 @@ hash
 isBiyective
 	^ self isInjective and: [self isSurjective]! !
 
-!Function methodsFor: 'testing' stamp: 'len 4/16/2016 19:16'!
+!Function methodsFor: 'testing' stamp: 'len 8/24/2016 20:37'!
 isEpimorphism
-	^ self isInjective! !
+	^ self isSurjective! !
 
 !Function methodsFor: 'testing' stamp: 'len 2/9/2016 04:25'!
 isInjective
@@ -27959,23 +28350,19 @@ species
 squared
 	^ self * self! !
 
-!Function methodsFor: 'evaluating' stamp: 'len 8/8/2016 06:44'!
+!Function methodsFor: 'evaluating' stamp: 'len 8/14/2016 05:33'!
 value: anObject
 "	(self domain includes: anObject) ifFalse: [^ anObject apply: self]."
 	self flag: #fix. "check argument"
-	^ (properties at: #valueBlock) value: anObject! !
+	^ (properties at: #block) value: anObject! !
 
-!Function methodsFor: 'private' stamp: 'len 8/8/2016 06:45'!
-valueBlock: aBlock
-	properties at: #valueBlock put: aBlock asBlockOrFunction! !
-
-!Function class methodsFor: 'instance creation' stamp: 'len 8/8/2016 06:43'!
+!Function class methodsFor: 'instance creation' stamp: 'len 8/14/2016 05:33'!
 evaluating: aBlock
-	^ self new valueBlock: aBlock! !
+	^ self new block: aBlock! !
 
-!Function class methodsFor: 'instance creation' stamp: 'len 8/8/2016 06:43'!
+!Function class methodsFor: 'instance creation' stamp: 'len 8/14/2016 05:33'!
 from: aDomain to: anotherDomain evaluating: aBlock
-	^ self new domain: aDomain; codomain: anotherDomain; valueBlock: aBlock! !
+	^ self new domain: aDomain; codomain: anotherDomain; block: aBlock! !
 
 !AffineMap methodsFor: 'arithmetic' stamp: 'len 5/14/2016 09:06'!
 * aNumber
@@ -28059,11 +28446,11 @@ isIsometry
 isSurjective
 	^ linearPart isSurjective! !
 
-!AffineMap methodsFor: 'arithmetic' stamp: 'len 5/14/2016 09:07'!
+!AffineMap methodsFor: 'arithmetic' stamp: 'len 8/24/2016 21:42'!
 leftInverse
 	| linearInverse |
 	linearInverse _ linearPart leftInverse ifNil: [^ nil].
-	^ self class linearPart: linearInverse translation: (linearInverse value: translation)! !
+	^ self class linearPart: linearInverse translation: (linearInverse value: translation negated)! !
 
 !AffineMap methodsFor: 'accessing-private' stamp: 'len 11/20/2015 15:58'!
 linearMap: aLinearMap
@@ -28103,11 +28490,11 @@ printOn: aStream
 	self negated isIdentity ifTrue: [aStream nextPutAll: '-id'. ^ self].
 	aStream print: linearPart; nextPutAll: ' + '; print: translation! !
 
-!AffineMap methodsFor: 'arithmetic' stamp: 'len 5/14/2016 09:08'!
+!AffineMap methodsFor: 'arithmetic' stamp: 'len 8/24/2016 21:42'!
 rightInverse
 	| linearInverse |
 	linearInverse _ linearPart rightInverse ifNil: [^ nil].
-	^ self class linearPart: linearInverse translation: (linearInverse value: translation)! !
+	^ self class linearPart: linearInverse translation: (linearInverse value: translation negated)! !
 
 !AffineMap methodsFor: 'accessing-private' stamp: 'len 2/11/2016 21:38'!
 translation
@@ -28360,12 +28747,12 @@ actionGraph: groupGenerators
 actionGraphMorph
 	^ self actionGraphMorph: self group generators! !
 
-!GroupAction methodsFor: 'graphs' stamp: 'len 7/14/2016 02:55'!
+!GroupAction methodsFor: 'graphs' stamp: 'len 8/16/2016 04:02'!
 actionGraphMorph: generators
 	| G answer colors |
 	G _ self actionGraph: generators.
 	answer _ G asMorph.
-	colors _ DiscreteColorPalette default.
+	colors _ DiscretePalette default.
 	answer edgesAndLabelsDo: [:each :label| each hideLabel; color: (colors at: label)].
 	answer nodesDo: [:each| each color: Color transparent; morphExtent: 0@0].
 	^ answer! !
@@ -28658,18 +29045,18 @@ codomainBasis
 codomainBasis: aLinearBasis
 	codomainBasis _ aLinearBasis! !
 
-!LinearMap methodsFor: 'private' stamp: 'len 2/9/2016 19:42'!
+!LinearMap methodsFor: 'private' stamp: 'len 8/24/2016 21:39'!
 computeLeftInverse
-	^ self isEpimorphism
+	^ self isMonomorphism
 		ifTrue:
 			[self class
 				from: codomainBasis
 				to: domainBasis
 				matrix: matrix leftInverse]! !
 
-!LinearMap methodsFor: 'private' stamp: 'len 2/9/2016 19:43'!
+!LinearMap methodsFor: 'private' stamp: 'len 8/24/2016 21:14'!
 computeRightInverse
-	^ self isMonomorphism
+	^ self isEpimorphism
 		ifTrue:
 			[self class
 				from: codomainBasis
@@ -29626,11 +30013,11 @@ from: P to: P` evaluating: aBlock
 	self flag: #fix.
 	^ self linearMap: (LinearMap from: P vectorSpace to: P` vectorSpace evaluating: [:v| P` vectorFromPoint: (aBlock value: (P project: v))])! !
 
-!ProjectiveMap class methodsFor: 'examples' stamp: 'len 6/4/2016 04:55'!
-hyperplane: aProjectiveSubspace center: anObject
-	"Answer the central collineation with invariant hyperplane aProjectiveSubspace and center anObject."
+!ProjectiveMap class methodsFor: 'examples' stamp: 'len 8/24/2016 19:26'!
+hyperplane: aProjectiveSubspace center: aPoint
+	"Answer the central collineation with invariant hyperplane aProjectiveSubspace and center aPoint."
 	| a basis c space |
-	a _ aProjectiveSubspace ambient vectorFromPoint: anObject.
+	a _ aProjectiveSubspace ambient vectorFromPoint: aPoint.
 	basis _ aProjectiveSubspace vectorSpace basis extended.
 	c _ basis last -
 			((LinearMap projectionOn: aProjectiveSubspace vectorSpace)
@@ -29986,9 +30373,9 @@ automorphism: aFieldAutomorphism linearMap: aLinearMap
 >> anInteger
 	^ self shift: anInteger! !
 
-!Sequence methodsFor: 'accessing' stamp: 'len 4/24/2016 04:56'!
+!Sequence methodsFor: 'accessing' stamp: 'len 8/14/2016 05:32'!
 at: anInteger
-	^ anInteger >= 0 ifTrue: [(properties at: #valueBlock) value: anInteger]! !
+	^ anInteger >= 0 ifTrue: [(properties at: #block) value: anInteger]! !
 
 !Sequence methodsFor: 'operations' stamp: 'len 12/27/2015 02:11'!
 average
@@ -30034,8 +30421,9 @@ copyFrom: start to: end
 count: aBlock
 	^ (self collect: [:each| (aBlock value: each) ifTrue: [1] ifFalse: [0]]) sum! !
 
-!Sequence methodsFor: 'operations' stamp: 'len 12/4/2015 06:13'!
-delta
+!Sequence methodsFor: 'operations' stamp: 'len 8/15/2016 18:28'!
+difference
+	"Answer the 'difference' sequence of the receiver, or delta, or discrete derivative."
 	^ (self shift: -1) - self! !
 
 !Sequence methodsFor: 'operations' stamp: 'len 12/27/2015 02:11'!
@@ -30311,13 +30699,12 @@ phi
 	"Answer Euler's totient function."
 	^ self evaluating: [:a| (1 to: a) count: [:b| (a gcd: b) = 1]]! !
 
-!Sequence class methodsFor: 'examples' stamp: 'len 7/19/2016 00:56'!
+!Sequence class methodsFor: 'examples' stamp: 'len 8/15/2016 18:29'!
 primeGaps
 	| p |
 	p _ 2.
 	^ Sequence streamming: [p negated + (p _ p nextPrime)]
-"	p _ Sequence primes.
-	^ Sequence evaluating: [:i| (p at: i+1) - (p at: i)]"! !
+"	^ Sequence primes difference"! !
 
 !Sequence class methodsFor: 'examples' stamp: 'len 4/27/2016 20:52'!
 primes
@@ -36218,6 +36605,14 @@ testAffineMapEvaluating
 	f _ AffineMap from: A to: A evaluating: [:p| p*2 - (1,0,0)].
 	self assert: (f value: (1,2,3)) = (1,4,6)! !
 
+!AffineGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 8/24/2016 19:17'!
+testAffineMapInverse
+	| A f |
+	A _ (QQ ** 3) asAffineSpace.
+	f _ A automorphisms atRandomBits: 1000.
+	self assert: (f @ f inverse) isIdentity.
+	self assert: (f inverse @ f) isIdentity! !
+
 !AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 3/26/2016 03:45'!
 testAlgebraicSetDegree
 	"Twisted cubic in P^3 with homogeneous coordinates x,y,w,z."
@@ -37291,6 +37686,20 @@ testLinearMap
 	self assert: (f value: (2, 2, 2)) = (2, 2,  2).
 	self assert: (f value: (1, 0, -1)) = (1, 0,  -1)! !
 
+!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/24/2016 21:00'!
+testLinearMapComposition
+	| V W f g v w |
+	V _ QQ ** 3.
+	W _ QQ ** 5.
+	f _ V -> W atRandomBits: 1000.
+	g _ W -> V atRandomBits: 1000.
+	v _ V atRandomBits: 1000.
+	w _ W atRandomBits: 1000.
+	self assert: (W endomorphisms includes: f @ g).
+	self assert: (V endomorphisms includes: g @ f).
+	self assert: (f @ g value: w) = (f value: (g value: w)).
+	self assert: (g @ f value: v) = (g value: (f value: v))! !
+
 !LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 4/19/2016 21:06'!
 testLinearMapFiber
 	| Q f w v |
@@ -37322,6 +37731,14 @@ testLinearMapImage2
 	self assert: (image includes: (f value: (S atRandomBits: 100))).
 	self assert: (image includes: (f value: (V atRandomBits: 100)))! !
 
+!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/24/2016 19:15'!
+testLinearMapInverse
+	| V f |
+	V _ QQ ** 3.
+	f _ V automorphisms atRandomBits: 1000.
+	self assert: (f @ f inverse) isIdentity.
+	self assert: (f inverse @ f) isIdentity! !
+
 !LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 7/7/2016 20:40'!
 testLinearMapKernel
 	| V W f kernel v |
@@ -37351,6 +37768,22 @@ testLinearMapKernelZ2
 	self assert: (kernel apply: f) isTrivial.
 	self assert: kernel dimension = 2.
 	self assert: (kernel includes: (0,1,1) % 2)! !
+
+!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/24/2016 21:38'!
+testLinearMapLeftInverse
+	| V W f |
+	V _ QQ ** 3.
+	W _ QQ ** 5.
+	[f _ V -> W atRandomBits: 1000. f rank = 3] whileFalse.
+	self assert: (f leftInverse @ f) = V id! !
+
+!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/24/2016 21:38'!
+testLinearMapRightInverse
+	| V W f |
+	V _ QQ ** 5.
+	W _ QQ ** 3.
+	[f _ V -> W atRandomBits: 1000. f rank = 3] whileFalse.
+	self assert: (f @ f rightInverse) = W id! !
 
 !LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 7/7/2016 20:49'!
 testLinearMapZ2
@@ -37798,6 +38231,31 @@ testFreeAbelianGroup
 	self assert: (x-y-(x-y)) isZero.
 	self assert: (A coordinatesOf: x) = x0! !
 
+!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 8/24/2016 20:53'!
+testFunctionComposition
+	| f g a |
+	f _ Function from: ZZ to: ZZ evaluating: [:x| x * 2].
+	g _ Function from: ZZ to: ZZ evaluating: [:x| x + 1].
+	a _ 1000 atRandom.
+	self assert: (f @ g value: a) = (f value: (g value: a)).
+	self assert: (g @ f value: a) = (g value: (f value: a))! !
+
+!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 8/24/2016 20:54'!
+testFunctionComposition2
+	| f g a |
+	f _ Function from: ZZ to: QQ evaluating: [:x| x / 2].
+	g _ Function from: QQ to: ZZ evaluating: [:x| x numerator].
+	a _ 1000 atRandom.
+	self assert: (f @ g value: a) = (f value: (g value: a)).
+	self assert: (g @ f value: a) = (g value: (f value: a))! !
+
+!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 8/24/2016 21:19'!
+testFunctionComposition3
+	| f g |
+	f _ Function from: ZZ to: QQ evaluating: [:x| x / 2].
+	g _ Function from: ZZ to: ZZ evaluating: [:x| x + 1].
+	self should: [g @ f] raise: DomainError! !
+
 !MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 3/19/2016 04:09'!
 testGaloisFields
 	| GF pi x one a |
@@ -38200,6 +38658,20 @@ testJordanNormalForm
 	B _ Q ** (2@2) scalar: 4 :: at: 1@2 put: 1; yourself.
 	self assert: (jordan includes: B)! !
 
+!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 8/24/2016 19:18'!
+testKernel
+	| A S |
+	A _ Rationals new ** (3@6) rows: {(1, 0, -3, 0, 2, -8). (0, 1, 5, 0, -1, 4). (0, 0, 0, 1, 7, -9). (0, 0, 0, 0, 0, 0)}.
+	S _ Rationals new ** 6 span: {(3,-5,1,0,0,0). (-2,1,0,-7,1,0). (8,-4,0,9,0,1)}.
+	self assert: A kernel = S! !
+
+!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 8/24/2016 19:19'!
+testKernelImageTheorem
+	| n A |
+	n _ 6 atRandom.
+	A _ (Rationals new ** (n @ n)) atRandomBits: 100.
+	self assert: A kernel dimension + A image dimension = n! !
+
 !MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 11/27/2015 04:20'!
 testKroneckerProduct
 	| Z A B C |
@@ -38209,41 +38681,12 @@ testKroneckerProduct
 	C _ Z ** (4@4) vectorAt: (0, 5, 0, 10, 6, 7, 12, 14, 0, 15, 0, 20, 18, 21, 24, 28).
 	self assert: (A kronecker: B) = C! !
 
-!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 7/15/2016 05:10'!
-testMatrixKernel
-	| A S |
-	A _ Rationals new ** (3@6) rows: {(1, 0, -3, 0, 2, -8). (0, 1, 5, 0, -1, 4). (0, 0, 0, 1, 7, -9). (0, 0, 0, 0, 0, 0)}.
-	S _ Rationals new ** 6 span: {(3,-5,1,0,0,0). (-2,1,0,-7,1,0). (8,-4,0,9,0,1)}.
-	self assert: A kernel = S! !
-
-!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 4/19/2016 04:08'!
-testMatrixKernelImageTheorem
-	| n A |
-	n _ 6 atRandom.
-	A _ (Rationals new ** (n @ n)) atRandomBits: 100.
-	self assert: A kernel dimension + A image dimension = n! !
-
-!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 7/16/2016 04:53'!
-testMatrixSimilarity
-	"Examples from wikipedia article on SNF"
-	| M A B C |
-	M _ QQ ** (2@2).
-	A _ M rows: {(1,2). (0,1)}.
-	B _ M rows: {(3,-4). (1,-1)}.
-	C _ M rows: {(1,0). (1,2)}.
-	self assert: A ~ B.
-	self deny: A ~ C! !
-
-!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 7/16/2016 04:51'!
-testMatrixSimilarity2
-	| n M A B P |
-	n _ 5 atRandom.
-	M _ QQ ** (n@n).
-	A _ M atRandomBits: 10*n*n.
-	[(P _ M atRandomBits: 10*n*n) isSingular] whileTrue.
-	B _ M atRandomBits: 10*n*n.
-	self assert: A ~ (P inverse * A * P).
-	self deny: A ~ B! !
+!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 8/24/2016 19:23'!
+testLeftInverse
+	| M A |
+	M _ QQ ** (5@3).
+	[A _ M atRandomBits: 1000. A rank = 3] whileFalse.
+	self assert: (A leftInverse * A) isIdentity! !
 
 !MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 4/19/2016 04:08'!
 testMinimalPolynomial
@@ -38308,6 +38751,35 @@ testReducerPivots
 	| A |
 	A _ ZZ ** (3@3) rows: {(0,-1,-1). (0,-20,1). (0,1,2)}.
 	self assert: A reducer pivots asArray = {2@1. 3@2}! !
+
+!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 8/24/2016 19:24'!
+testRightInverse
+	| M A |
+	M _ QQ ** (3@5).
+	[A _ M atRandomBits: 1000. A rank = 3] whileFalse.
+	self assert: (A * A rightInverse) isIdentity! !
+
+!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 8/24/2016 19:19'!
+testSimilarity
+	"Examples from wikipedia article on SNF"
+	| M A B C |
+	M _ QQ ** (2@2).
+	A _ M rows: {(1,2). (0,1)}.
+	B _ M rows: {(3,-4). (1,-1)}.
+	C _ M rows: {(1,0). (1,2)}.
+	self assert: A ~ B.
+	self deny: A ~ C! !
+
+!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 8/24/2016 19:19'!
+testSimilarity2
+	| n M A B P |
+	n _ 5 atRandom.
+	M _ QQ ** (n@n).
+	A _ M atRandomBits: 10*n*n.
+	[(P _ M atRandomBits: 10*n*n) isSingular] whileTrue.
+	B _ M atRandomBits: 10*n*n.
+	self assert: A ~ (P inverse * A * P).
+	self deny: A ~ B! !
 
 !MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 7/15/2016 23:53'!
 testSmithNormalForm
