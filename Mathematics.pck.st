@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 24 August 2016 at 9:43:15.047696 pm'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 24 August 2016 at 10:06:44.181221 pm'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 182!
+!provides: 'Mathematics' 1 183!
 !classDefinition: #AbelianGroupPresentation category: #'Mathematics-Free'!
 Object subclass: #AbelianGroupPresentation
 	instanceVariableNames: 'generators relators'
@@ -11355,9 +11355,10 @@ zero
 	"Answer true if the receiver is strictly included in the argument."
 	^ self ~= anIdeal and: [self <= anIdeal]! !
 
-!Ideal methodsFor: 'comparing' stamp: 'len 12/14/2015 18:54'!
+!Ideal methodsFor: 'comparing' stamp: 'len 8/24/2016 22:01'!
 <= anIdeal
 	"Answer true if the receiver is included in the argument."
+	self == anIdeal ifTrue: [^ true].
 	generators do: [:each | (anIdeal includes: each) ifFalse: [^ false]].
 	^ true! !
 
@@ -11829,9 +11830,10 @@ scalars: aRing
 	"Answer true if the receiver is strictly included in the argument, i.e. it's a proper submodule of the argument."
 	^ self rank < aModule rank and: [self <= aModule]! !
 
-!FreeModule methodsFor: 'comparing' stamp: 'len 7/14/2016 23:21'!
+!FreeModule methodsFor: 'comparing' stamp: 'len 8/24/2016 22:00'!
 <= aModule
 	"Answer true if the receiver is included in the argument, i.e. it's a submodule of the argument."
+	self == aModule ifTrue: [^ true].
 	self rank <= aModule rank ifFalse: [^ false].
 	self basis do: [:each| (aModule includes: each) ifFalse: [^ false]].
 	^ true! !
@@ -14978,7 +14980,7 @@ p: aPrime
 	self scalars < aDomain scalars ifFalse: [^ false].
 	^ true! !
 
-!PolynomialRing methodsFor: 'comparing' stamp: 'len 7/19/2016 01:12'!
+!PolynomialRing methodsFor: 'comparing' stamp: 'len 8/24/2016 22:03'!
 <= aDomain
 	"Answer true if the receiver is included in the argument, i.e. it's a subring of the argument."
 	(aDomain isKindOf: PolynomialRing) ifFalse: [^ false].
@@ -15712,9 +15714,10 @@ generators
 	"Answer true if the receiver is strictly included in the argument."
 	^ self dimension < anAffineSubspace dimension and: [self <= anAffineSubspace]! !
 
-!AffineSubspace methodsFor: 'comparing' stamp: 'len 6/4/2016 04:29'!
+!AffineSubspace methodsFor: 'comparing' stamp: 'len 8/24/2016 22:04'!
 <= anAffineSubspace
 	"Answer true if the receiver is included in the argument."
+	self == anAffineSubspace ifTrue: [^ true].
 	self dimension <= anAffineSubspace dimension ifFalse: [^ false].
 	self isEmpty ifTrue: [^ true].
 	^ (anAffineSubspace includes: representative) and: [direction <= anAffineSubspace direction]! !
@@ -15725,16 +15728,6 @@ generators
 	(anObject isKindOf: AffineSubspace) ifFalse: [^ false].
 	self isEmpty ifTrue: [^ anObject isEmpty].
 	^ direction = anObject direction and: [anObject includes: representative]! !
-
-!AffineSubspace methodsFor: 'comparing' stamp: 'len 12/26/2015 20:01'!
-> anAffineSubspace
-	"Answer true if the receiver strictly includes the argument."
-	^ anAffineSubspace < self! !
-
-!AffineSubspace methodsFor: 'comparing' stamp: 'len 12/26/2015 20:01'!
->= anAffineSubspace
-	"Answer true if the receiver includes the argument."
-	^ anAffineSubspace <= self! !
 
 !AffineSubspace methodsFor: 'morphisms' stamp: 'len 6/5/2016 22:45'!
 \/ anAffineSubspace
@@ -28255,10 +28248,10 @@ new
 	self domain do: [:each| (self value: each) = (aFunction value: each) ifFalse: [^ false]].
 	^ true! !
 
-!Function methodsFor: 'operations' stamp: 'len 8/24/2016 21:19'!
+!Function methodsFor: 'operations' stamp: 'len 8/24/2016 21:56'!
 @ aFunction
 	aFunction class == Identity ifTrue: [^ self].
-	aFunction codomain = self domain ifFalse: [DomainError signal: 'domains don''t match'].
+	self domain >= aFunction codomain ifFalse: [DomainError signal: 'domains don''t match'].
 	^ self species from: aFunction domain to: self codomain evaluating: [:x| self value: (aFunction value: x)]! !
 
 !Function methodsFor: 'private' stamp: 'len 8/14/2016 05:33'!
@@ -28446,11 +28439,10 @@ isIsometry
 isSurjective
 	^ linearPart isSurjective! !
 
-!AffineMap methodsFor: 'arithmetic' stamp: 'len 8/24/2016 21:42'!
+!AffineMap methodsFor: 'arithmetic' stamp: 'len 8/24/2016 21:53'!
 leftInverse
-	| linearInverse |
-	linearInverse _ linearPart leftInverse ifNil: [^ nil].
-	^ self class linearPart: linearInverse translation: (linearInverse value: translation negated)! !
+	"Answer the left inverse of the receiver. Answer nil if the receiver is not a monomorphism."
+	^ linearPart leftInverse ifNotNil: [:aLinearMap| self class linearPart: aLinearMap translation: (aLinearMap value: translation negated)]! !
 
 !AffineMap methodsFor: 'accessing-private' stamp: 'len 11/20/2015 15:58'!
 linearMap: aLinearMap
@@ -28490,11 +28482,10 @@ printOn: aStream
 	self negated isIdentity ifTrue: [aStream nextPutAll: '-id'. ^ self].
 	aStream print: linearPart; nextPutAll: ' + '; print: translation! !
 
-!AffineMap methodsFor: 'arithmetic' stamp: 'len 8/24/2016 21:42'!
+!AffineMap methodsFor: 'arithmetic' stamp: 'len 8/24/2016 21:54'!
 rightInverse
-	| linearInverse |
-	linearInverse _ linearPart rightInverse ifNil: [^ nil].
-	^ self class linearPart: linearInverse translation: (linearInverse value: translation negated)! !
+	"Answer the right inverse of the receiver. Answer nil if the receiver is not an epimorphism."
+	^ linearPart rightInverse ifNotNil: [:aLinearMap| self class linearPart: aLinearMap translation: (aLinearMap value: translation negated)]! !
 
 !AffineMap methodsFor: 'accessing-private' stamp: 'len 2/11/2016 21:38'!
 translation
@@ -28987,13 +28978,12 @@ space
 			ifFalse: [^ false]].
 	^ true! !
 
-!LinearMap methodsFor: 'arithmetic' stamp: 'len 7/4/2016 04:48'!
+!LinearMap methodsFor: 'arithmetic' stamp: 'len 8/24/2016 21:57'!
 @ aLinearMap
 	"Answer the composition of the receiver with the argument."
 	domainBasis = aLinearMap codomainBasis
 		ifTrue: [^ self class from: aLinearMap domainBasis to: codomainBasis matrix: matrix * aLinearMap matrix].
-	self domain >= aLinearMap codomain
-		ifFalse: [^ DomainError signal: 'domains don''t match'].
+	self domain >= aLinearMap codomain ifFalse: [^ DomainError signal: 'domains don''t match'].
 	^ self class
 		from: aLinearMap domain
 		to: self codomain
@@ -29213,9 +29203,9 @@ kernel
 kernel2
 	^ properties at: #kernel ifAbsentPut: [(self fiberAt: self codomainBasis ambient zero) direction] "!! 3-5 times slower than the other implementaiton"! !
 
-!LinearMap methodsFor: 'arithmetic' stamp: 'len 2/9/2016 19:44'!
+!LinearMap methodsFor: 'arithmetic' stamp: 'len 8/24/2016 21:50'!
 leftInverse
-	"Answer the left inverse of the receiver, or nil if the receiver is not an epimorphism."
+	"Answer the left inverse of the receiver, or nil if the receiver is not a monomorphism."
 	^ properties at: #leftInverse ifAbsentPut: [self computeLeftInverse]! !
 
 !LinearMap methodsFor: 'accessing' stamp: 'len 2/9/2016 00:00'!
@@ -29272,9 +29262,9 @@ restrictedTo: aLinearSubspace
 		to: self codomain
 		evaluating: [:each | self value: each]! !
 
-!LinearMap methodsFor: 'arithmetic' stamp: 'len 2/9/2016 19:43'!
+!LinearMap methodsFor: 'arithmetic' stamp: 'len 8/24/2016 21:51'!
 rightInverse
-	"Answer the right inverse of the receiver, or nil if the receiver is not a monomorphism."
+	"Answer the right inverse of the receiver, or nil if the receiver is not an epimorphism."
 	^ properties at: #rightInverse ifAbsentPut: [self computeRightInverse]! !
 
 !LinearMap methodsFor: 'eigenvalues' stamp: 'len 2/6/2016 21:29'!
@@ -29397,10 +29387,11 @@ from: aLinearBasis matrix: aMatrix
 	aPermutation map keysAndValuesDo: [:key :value| value = (self at: key) ifFalse: [^ false]].
 	^ true! !
 
-!Permutation methodsFor: 'arithmetic' stamp: 'len 7/1/2016 09:54'!
+!Permutation methodsFor: 'arithmetic' stamp: 'len 8/24/2016 21:58'!
 @ aPermutation
 	"Answer the composition of the receiver with the argument."
 	| answer |
+	self flag: #fix. "this is not functoin composition, it's reversed"
 	answer _ self species new.
 	self changesDo: [:each|
 		answer at: each put: (aPermutation at: (self at: each))].
@@ -29753,11 +29744,12 @@ transpositions
 	(aPermutation isKindOf: self class) ifFalse: [^ super = aPermutation].
 	^ map = aPermutation map! !
 
-!StandardPermutation methodsFor: 'arithmetic' stamp: 'len 7/4/2016 05:02'!
+!StandardPermutation methodsFor: 'arithmetic' stamp: 'len 8/24/2016 21:58'!
 @ aPermutation
 	"Answer the composition of the receiver with the argument."
 
 	| otherMap newMap |
+	self flag: #fix. "this is not functoin composition, it's reversed"
 	(aPermutation class == self class and: [map size = aPermutation map size])
 		ifFalse: [^ super @ aPermutation].
 	otherMap _ aPermutation map.
@@ -29973,12 +29965,10 @@ inverse
 
 	^ self domain dimension = self codomain dimension ifTrue: [self leftInverse]! !
 
-!ProjectiveMap methodsFor: 'arithmetic' stamp: 'len 1/5/2016 00:13'!
+!ProjectiveMap methodsFor: 'arithmetic' stamp: 'len 8/24/2016 21:50'!
 leftInverse
 	"Answer the left inverse of the receiver. Answer nil if the receiver is not a monomorphism."
-	| linearLeftInverse |
-	^ (linearLeftInverse _ linearMap leftInverse) notNil
-		ifTrue: [self class linearMap: linearLeftInverse]! !
+	^ linearMap leftInverse ifNotNil: [:aLinearMap| self class linearMap: aLinearMap]! !
 
 !ProjectiveMap methodsFor: 'accessing' stamp: 'len 11/20/2015 16:33'!
 linearMap
@@ -30002,6 +29992,11 @@ printOn: aStream
 restrictedTo: aProjectiveSubspace
 	"Answer a new projectivity like the receiver but with domain restricted to aProjectiveSubspace."
 	^ self class linearMap: (linearMap restrictedTo: aProjectiveSubspace vectorSpace)! !
+
+!ProjectiveMap methodsFor: 'arithmetic' stamp: 'len 8/24/2016 21:52'!
+rightInverse
+	"Answer the right inverse of the receiver. Answer nil if the receiver is not an epimorphism."
+	^ linearMap rightInverse ifNotNil: [:aLinearMap| self class linearMap: aLinearMap]! !
 
 !ProjectiveMap methodsFor: 'operations' stamp: 'len 6/10/2016 05:38'!
 value: aPoint
