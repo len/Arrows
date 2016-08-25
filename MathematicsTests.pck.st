@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 25 August 2016 at 12:57:10.169836 am'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 25 August 2016 at 6:58:00.675137 am'!
 'Description Please enter a description for this package'!
-!provides: 'MathematicsTests' 1 1!
+!provides: 'MathematicsTests' 1 2!
 !classDefinition: #Benchmark category: #MathematicsTests!
 Object subclass: #Benchmark
 	instanceVariableNames: ''
@@ -2714,10 +2714,10 @@ testYoungTableauxStandard
 	self assert: T weight = #(1 1 1 1 1 1 1 1).
 	self assert: T shape = #(4 3 1)! !
 
-!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 7/15/2016 05:09'!
+!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 8/25/2016 06:50'!
 testAdjugate
 	| M A I |
-	M _ Rationals new ** (3@3).
+	M _ QQ ** (3@3).
 	A _ M rows: { (2,1,1). (-1,0,1). (0,2,1) }.
 	I _ M identity.
 	self assert: A * A adjugate = (I * A determinant)! !
@@ -2767,7 +2767,7 @@ testCharacteristicMatrixAndPolynomialOverQ
 	A _ QQ ** (n@n) :: atRandomBits: n*5.
 	self assert: A characteristicPolynomial = A characteristicMatrix determinant! !
 
-!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 8/25/2016 00:51'!
+!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 8/25/2016 06:34'!
 testCharacteristicMatrixAndPolynomialOverZ
 	| n A |
 	n _ 5 atRandom.

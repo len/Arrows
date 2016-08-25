@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 25 August 2016 at 5:00:37.288961 am'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 25 August 2016 at 6:58:23.302297 am'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 186!
+!provides: 'Mathematics' 1 188!
 !classDefinition: #AbelianGroupPresentation category: #'Mathematics-Free'!
 Object subclass: #AbelianGroupPresentation
 	instanceVariableNames: 'generators relators'
@@ -2653,7 +2653,7 @@ Function class
 
 !classDefinition: #AffineMap category: #'Mathematics-Geometry-Affine'!
 Function subclass: #AffineMap
-	instanceVariableNames: 'linearMap translation linearPart'
+	instanceVariableNames: 'linearPart translation'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Geometry-Affine'!
@@ -10276,9 +10276,9 @@ generators: aCollection
 hash
 	^ self isFinite ifTrue: [self size hash] ifFalse: [super hash]! !
 
-!Domain methodsFor: 'morphisms' stamp: 'len 4/18/2016 23:35'!
+!Domain methodsFor: 'morphisms' stamp: 'len 8/25/2016 06:24'!
 id
-	"Answer the identity automorphism."
+	"Answer the identity morphism."
 	^ self endomorphisms identity! !
 
 !Domain methodsFor: 'testing' stamp: 'len 6/23/2016 07:04'!
@@ -15009,8 +15009,9 @@ frame
 hash
 	^ self isEmpty ifTrue: [0] ifFalse: [direction hash]! !
 
-!AffineSubspace methodsFor: 'morphisms' stamp: 'len 2/11/2016 21:50'!
+!AffineSubspace methodsFor: 'morphisms' stamp: 'len 8/25/2016 06:24'!
 id
+	"Answer the identity morphism."
 	^ AffineMap from: self to: self evaluating: [:x| x]! !
 
 !AffineSubspace methodsFor: 'testing' stamp: 'len 6/4/2016 04:32'!
@@ -15189,9 +15190,9 @@ groundField
 hash
 	^ self ideal hash! !
 
-!AlgebraicSet methodsFor: 'morphisms' stamp: 'len 3/4/2016 20:08'!
+!AlgebraicSet methodsFor: 'morphisms' stamp: 'len 8/25/2016 06:23'!
 id
-	"Answer the identity automorphism. This is a polynomial mapping."
+	"Answer the identity morphism. This is a polynomial mapping."
 	^ self notYetImplemented! !
 
 !AlgebraicSet methodsFor: 'accessing' stamp: 'len 11/22/2015 02:20'!
@@ -19110,6 +19111,11 @@ frame
 !ProjectiveSubspace methodsFor: 'comparing' stamp: 'len 6/28/2016 09:26'!
 hash
 	^ vectorSpace hash + self class hash! !
+
+!ProjectiveSubspace methodsFor: 'morphisms' stamp: 'len 8/25/2016 06:25'!
+id
+	"Answer the identity morphism."
+	^ ProjectiveMap from: self to: self evaluating: [:x| x]! !
 
 !ProjectiveSubspace methodsFor: 'testing' stamp: 'len 3/23/2016 21:49'!
 includes: aPoint
@@ -23976,9 +23982,9 @@ at: aPoint put: anObject
 	"Answer the coefficient at i@j (row i, column j)."
 	^ self at: aPoint x at: aPoint y put: anObject! !
 
-!Matrix methodsFor: 'operations' stamp: 'len 5/29/2016 17:40'!
+!Matrix methodsFor: 'operations' stamp: 'len 8/25/2016 06:38'!
 berkowitz
-	"Answer the coefficients of the characteristic polynomial of the receiver. It's calculated using the Berkowitz algorithm, that uses small space in comparision with the classical gaussian elimination."
+	"Answer the coefficients of the characteristic polynomial of the receiver. It's computed by the Berkowitz algorithm, using small space in comparision with classic gaussian elimination."
 	| vect C Ar R S Q one |
 	one _ self scalars one.
 	self numberOfRows = 1 ifTrue: [^ self scalars tuple: { one negated. (self at: 1@1) }].
@@ -24038,25 +24044,37 @@ berkowitz: x
 bitSize
 	^ self rows inject: 0 into: [:x :each| x + each bitSize]! !
 
-!Matrix methodsFor: 'operations' stamp: 'len 7/15/2016 03:17'!
+!Matrix methodsFor: 'operations' stamp: 'len 8/25/2016 06:57'!
 characteristicMatrix
+	"Answer the characteristic matrix A - xI."
+	| P x |
+	P _ self scalars polynomials.
+	x _ P x.
+	^ P ** self dimension
+		evaluating: [:i :j|
+			i == j
+				ifTrue: [(P constant: (self at: i @ j)) - x]
+				ifFalse: [P constant: (self at: i @ j)]]! !
+
+!Matrix methodsFor: 'operations' stamp: 'len 8/25/2016 06:54'!
+characteristicMatrix2
 	"Answer the characteristic matrix xI - A."
 	| P MP |
 	P _ self scalars polynomials.
 	MP _ self species over: P.
 	^ (MP scalar: P x) - (self as: MP)! !
 
-!Matrix methodsFor: 'operations' stamp: 'len 3/17/2016 00:41'!
+!Matrix methodsFor: 'operations' stamp: 'len 8/25/2016 06:52'!
 characteristicPolynomial
-	^ self scalars polynomials coefficients: self berkowitz asArray reversed! !
+	^ self scalars polynomials coefficients: self berkowitz reversed! !
 
-!Matrix methodsFor: 'operations' stamp: 'len 11/26/2015 03:44'!
+!Matrix methodsFor: 'operations' stamp: 'len 8/25/2016 06:41'!
 characteristicPolynomial2
 	| P x |
 	P _ self scalars polynomials.
 	x _ P x.
 	^ (P ** self dimension
-		evaluating: [:i :j| i == j ifTrue: [(P constant: (self at: i @ j)) - x] ifFalse: [P constant: (self at: i @ j)]]) determinant! !
+		evaluating: [:i :j| i == j ifTrue: [x - (P constant: (self at: i @ j))] ifFalse: [P constant: (self at: i @ j) negated]]) determinant! !
 
 !Matrix methodsFor: 'operations' stamp: 'len 12/22/2015 21:23'!
 characteristicPolynomial3
@@ -27652,10 +27670,6 @@ leftInverse
 	"Answer a left inverse (or retraction) of the receiver.
 	Answer nil if the receiver is not a monomorphism."
 	^ linearPart leftInverse ifNotNil: [:aLinearMap| self class linearPart: aLinearMap translation: (aLinearMap value: translation negated)]! !
-
-!AffineMap methodsFor: 'accessing-private' stamp: 'len 11/20/2015 15:58'!
-linearMap: aLinearMap
-	linearMap _ aLinearMap! !
 
 !AffineMap methodsFor: 'accessing-private' stamp: 'len 5/14/2016 09:06'!
 linearPart
