@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 25 August 2016 at 12:21:55.216272 am'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 25 August 2016 at 12:57:13.179301 am'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 184!
+!provides: 'Mathematics' 1 185!
 !classDefinition: #AbelianGroupPresentation category: #'Mathematics-Free'!
 Object subclass: #AbelianGroupPresentation
 	instanceVariableNames: 'generators relators'
@@ -27643,9 +27643,10 @@ isIsometry
 isSurjective
 	^ linearPart isSurjective! !
 
-!AffineMap methodsFor: 'arithmetic' stamp: 'len 8/24/2016 21:53'!
+!AffineMap methodsFor: 'arithmetic' stamp: 'len 8/25/2016 00:48'!
 leftInverse
-	"Answer the left inverse of the receiver. Answer nil if the receiver is not a monomorphism."
+	"Answer a left inverse (or retraction) of the receiver.
+	Answer nil if the receiver is not a monomorphism."
 	^ linearPart leftInverse ifNotNil: [:aLinearMap| self class linearPart: aLinearMap translation: (aLinearMap value: translation negated)]! !
 
 !AffineMap methodsFor: 'accessing-private' stamp: 'len 11/20/2015 15:58'!
@@ -27686,9 +27687,10 @@ printOn: aStream
 	self negated isIdentity ifTrue: [aStream nextPutAll: '-id'. ^ self].
 	aStream print: linearPart; nextPutAll: ' + '; print: translation! !
 
-!AffineMap methodsFor: 'arithmetic' stamp: 'len 8/24/2016 21:54'!
+!AffineMap methodsFor: 'arithmetic' stamp: 'len 8/25/2016 00:49'!
 rightInverse
-	"Answer the right inverse of the receiver. Answer nil if the receiver is not an epimorphism."
+	"Answer a right inverse (or section) of the receiver.
+	Answer nil if the receiver is not an epimorphism."
 	^ linearPart rightInverse ifNotNil: [:aLinearMap| self class linearPart: aLinearMap translation: (aLinearMap value: translation negated)]! !
 
 !AffineMap methodsFor: 'accessing-private' stamp: 'len 2/11/2016 21:38'!
@@ -28407,9 +28409,10 @@ kernel
 kernel2
 	^ properties at: #kernel ifAbsentPut: [(self fiberAt: self codomainBasis ambient zero) direction] "!! 3-5 times slower than the other implementaiton"! !
 
-!LinearMap methodsFor: 'arithmetic' stamp: 'len 8/24/2016 21:50'!
+!LinearMap methodsFor: 'arithmetic' stamp: 'len 8/25/2016 00:49'!
 leftInverse
-	"Answer the left inverse of the receiver, or nil if the receiver is not a monomorphism."
+	"Answer a left inverse (or retraction) of the receiver.
+	Answer nil if the receiver is not a monomorphism."
 	^ properties at: #leftInverse ifAbsentPut: [self computeLeftInverse]! !
 
 !LinearMap methodsFor: 'accessing' stamp: 'len 2/9/2016 00:00'!
@@ -28466,9 +28469,10 @@ restrictedTo: aLinearSubspace
 		to: self codomain
 		evaluating: [:each | self value: each]! !
 
-!LinearMap methodsFor: 'arithmetic' stamp: 'len 8/24/2016 21:51'!
+!LinearMap methodsFor: 'arithmetic' stamp: 'len 8/25/2016 00:49'!
 rightInverse
-	"Answer the right inverse of the receiver, or nil if the receiver is not an epimorphism."
+	"Answer a right inverse (or section) of the receiver.
+	Answer nil if the receiver is not an epimorphism."
 	^ properties at: #rightInverse ifAbsentPut: [self computeRightInverse]! !
 
 !LinearMap methodsFor: 'eigenvalues' stamp: 'len 2/6/2016 21:29'!
@@ -28577,11 +28581,16 @@ from: aVectorSpace evaluating: aBlock
 from: aLinearBasis matrix: aMatrix
 	^ self from: aLinearBasis to: (ScalarSpace over: aLinearBasis ambient scalars) basis matrix: aMatrix! !
 
-!Permutation methodsFor: 'arithmetic' stamp: 'len 4/30/98 04:23'!
+!Permutation methodsFor: 'arithmetic' stamp: 'len 8/25/2016 00:32'!
 * aPermutation
-	"Answer the product of the receiver by the argument."
-
-	^ self @ aPermutation! !
+	"Answer the product of the receiver with the argument. This is group product operation, and it's function composition in reverse order."
+	| answer |
+	answer _ self species new.
+	self changesDo: [:each|
+		answer at: each put: (aPermutation at: (self at: each))].
+	aPermutation changesDo: [:each|
+		answer at: each put: (aPermutation at: (self at: each))].
+	^ answer! !
 
 !Permutation methodsFor: 'comparing' stamp: 'len 6/29/2016 00:26'!
 = aPermutation
@@ -28591,17 +28600,10 @@ from: aLinearBasis matrix: aMatrix
 	aPermutation map keysAndValuesDo: [:key :value| value = (self at: key) ifFalse: [^ false]].
 	^ true! !
 
-!Permutation methodsFor: 'arithmetic' stamp: 'len 8/24/2016 21:58'!
+!Permutation methodsFor: 'arithmetic' stamp: 'len 8/25/2016 00:55'!
 @ aPermutation
 	"Answer the composition of the receiver with the argument."
-	| answer |
-	self flag: #fix. "this is not functoin composition, it's reversed"
-	answer _ self species new.
-	self changesDo: [:each|
-		answer at: each put: (aPermutation at: (self at: each))].
-	aPermutation changesDo: [:each|
-		answer at: each put: (aPermutation at: (self at: each))].
-	^ answer! !
+	^ aPermutation * self! !
 
 !Permutation methodsFor: 'accessing' stamp: 'len 5/6/98 05:01'!
 aChange
@@ -28679,6 +28681,14 @@ even
 
 	^ self sign = 1! !
 
+!Permutation methodsFor: 'testing' stamp: 'len 8/25/2016 00:38'!
+hasLeftInverse
+	^ true! !
+
+!Permutation methodsFor: 'testing' stamp: 'len 8/25/2016 00:38'!
+hasRightInverse
+	^ true! !
+
 !Permutation methodsFor: 'comparing' stamp: 'len 6/28/2016 08:59'!
 hash
 	| answer |
@@ -28728,6 +28738,10 @@ isTransposition
 	"Answer true if the receiver is a transposition."
 
 	^ self size = 2! !
+
+!Permutation methodsFor: 'arithmetic' stamp: 'len 8/25/2016 00:36'!
+leftInverse
+	^ self inverse! !
 
 !Permutation methodsFor: 'accessing-private' stamp: 'len 5/6/98 04:50'!
 map
@@ -28780,6 +28794,10 @@ printOn: aStream
 reciprocal
 	"Answer the multiplication inverse of the receiver."
 
+	^ self inverse! !
+
+!Permutation methodsFor: 'arithmetic' stamp: 'len 8/25/2016 00:36'!
+rightInverse
 	^ self inverse! !
 
 !Permutation methodsFor: 'accessing' stamp: 'len 10/1/97 19:00'!
@@ -28943,17 +28961,11 @@ transpositions
 		answer addFirst: (self species transpose: first with: (last _ self at: last))].
 	^ answer! !
 
-!StandardPermutation methodsFor: 'comparing' stamp: 'len 6/28/2016 08:55'!
-= aPermutation
-	(aPermutation isKindOf: self class) ifFalse: [^ super = aPermutation].
-	^ map = aPermutation map! !
-
-!StandardPermutation methodsFor: 'arithmetic' stamp: 'len 8/24/2016 21:58'!
-@ aPermutation
+!StandardPermutation methodsFor: 'arithmetic' stamp: 'len 8/25/2016 00:54'!
+* aPermutation
 	"Answer the composition of the receiver with the argument."
 
 	| otherMap newMap |
-	self flag: #fix. "this is not functoin composition, it's reversed"
 	(aPermutation class == self class and: [map size = aPermutation map size])
 		ifFalse: [^ super @ aPermutation].
 	otherMap _ aPermutation map.
@@ -28961,6 +28973,11 @@ transpositions
 	1 to: map size do: [:i|
 		newMap at: i put: (otherMap at: (map at: i))]. 
 	^ self class image: newMap! !
+
+!StandardPermutation methodsFor: 'comparing' stamp: 'len 6/28/2016 08:55'!
+= aPermutation
+	(aPermutation isKindOf: self class) ifFalse: [^ super = aPermutation].
+	^ map = aPermutation map! !
 
 !StandardPermutation methodsFor: 'converting' stamp: 'len 6/28/2016 23:57'!
 asPermutationIn: anArray
@@ -29169,9 +29186,10 @@ inverse
 
 	^ self domain dimension = self codomain dimension ifTrue: [self leftInverse]! !
 
-!ProjectiveMap methodsFor: 'arithmetic' stamp: 'len 8/24/2016 21:50'!
+!ProjectiveMap methodsFor: 'arithmetic' stamp: 'len 8/25/2016 00:49'!
 leftInverse
-	"Answer the left inverse of the receiver. Answer nil if the receiver is not a monomorphism."
+	"Answer a left inverse (or retraction) of the receiver.
+	Answer nil if the receiver is not a monomorphism."
 	^ linearMap leftInverse ifNotNil: [:aLinearMap| self class linearMap: aLinearMap]! !
 
 !ProjectiveMap methodsFor: 'accessing' stamp: 'len 11/20/2015 16:33'!
@@ -29197,9 +29215,10 @@ restrictedTo: aProjectiveSubspace
 	"Answer a new projectivity like the receiver but with domain restricted to aProjectiveSubspace."
 	^ self class linearMap: (linearMap restrictedTo: aProjectiveSubspace vectorSpace)! !
 
-!ProjectiveMap methodsFor: 'arithmetic' stamp: 'len 8/24/2016 21:52'!
+!ProjectiveMap methodsFor: 'arithmetic' stamp: 'len 8/25/2016 00:49'!
 rightInverse
-	"Answer the right inverse of the receiver. Answer nil if the receiver is not an epimorphism."
+	"Answer a right inverse (or section) of the receiver.
+	Answer nil if the receiver is not an epimorphism."
 	^ linearMap rightInverse ifNotNil: [:aLinearMap| self class linearMap: aLinearMap]! !
 
 !ProjectiveMap methodsFor: 'operations' stamp: 'len 6/10/2016 05:38'!

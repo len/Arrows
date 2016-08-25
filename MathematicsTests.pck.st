@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 25 August 2016 at 12:21:58.972657 am'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 25 August 2016 at 12:57:10.169836 am'!
 'Description Please enter a description for this package'!
-!provides: 'MathematicsTests' 1 0!
+!provides: 'MathematicsTests' 1 1!
 !classDefinition: #Benchmark category: #MathematicsTests!
 Object subclass: #Benchmark
 	instanceVariableNames: ''
@@ -2760,18 +2760,18 @@ testCayleyHamiltorTheoremInZ
 	A _ M atRandomBits: 100.
 	self assert: (A characteristicPolynomial value: A) isZero! !
 
-!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 7/15/2016 03:30'!
+!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 8/25/2016 00:51'!
 testCharacteristicMatrixAndPolynomialOverQ
 	| n A |
 	n _ 5 atRandom.
-	A _ Rationals new ** (n@n) :: atRandomBits: n*5.
+	A _ QQ ** (n@n) :: atRandomBits: n*5.
 	self assert: A characteristicPolynomial = A characteristicMatrix determinant! !
 
-!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 7/15/2016 03:31'!
+!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 8/25/2016 00:51'!
 testCharacteristicMatrixAndPolynomialOverZ
 	| n A |
 	n _ 5 atRandom.
-	A _ Integers new ** (n@n) :: atRandomBits: n*5.
+	A _ ZZ ** (n@n) :: atRandomBits: n*5.
 	self assert: A characteristicPolynomial = A characteristicMatrix determinant! !
 
 !MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 4/19/2016 04:08'!
