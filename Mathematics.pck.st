@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 25 August 2016 at 12:57:13.179301 am'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 25 August 2016 at 5:00:37.288961 am'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 185!
+!provides: 'Mathematics' 1 186!
 !classDefinition: #AbelianGroupPresentation category: #'Mathematics-Free'!
 Object subclass: #AbelianGroupPresentation
 	instanceVariableNames: 'generators relators'
@@ -10067,24 +10067,24 @@ generate: comment references: tokens except: currentToken
 path
 	^ '/home/guest/cuis/Cuis-Mathematics.wiki/doc/'! !
 
-!Domain methodsFor: 'morphisms' stamp: 'len 4/18/2016 23:30'!
+!Domain methodsFor: 'operations' stamp: 'len 4/18/2016 23:30'!
 * aDomain
 	"This is a convenience method for doing categorical products. Subclasses can reimplement it to mean something different from the categorical product in order to match customary notation."
 	^ self product: aDomain! !
 
-!Domain methodsFor: 'morphisms' stamp: 'len 11/10/2015 22:47'!
+!Domain methodsFor: 'operations' stamp: 'len 11/10/2015 22:47'!
 ** anInteger
 	| components |
 	components _ Array new: anInteger.
 	components atAllPut: self.
 	^ CartesianProduct components: components! !
 
-!Domain methodsFor: 'morphisms' stamp: 'len 4/18/2016 23:30'!
+!Domain methodsFor: 'operations' stamp: 'len 4/18/2016 23:30'!
 + aDomain
 	"This is a convenience method for doing coproducts. Subclasses can reimplement it to mean something different from the coproduct in order to match customary notation."
 	^ self coproduct: aDomain! !
 
-!Domain methodsFor: 'morphisms' stamp: 'len 4/21/2016 05:08'!
+!Domain methodsFor: 'operations' stamp: 'len 4/21/2016 05:08'!
 , aDomain
 	"Answer the cartesian set product of the receiver with the argument."
 	^ self cartesian: aDomain! !
@@ -10094,13 +10094,13 @@ path
 	"Answer the morphisms that go from the receiver to the argument."
 	^ Morphisms from: self to: aDomain! !
 
-!Domain methodsFor: 'morphisms' stamp: 'len 4/27/2016 02:49'!
+!Domain methodsFor: 'operations' stamp: 'len 4/27/2016 02:49'!
 / anEquivalenceRelation
 	| relation |
 	relation _ anEquivalenceRelation isBlock ifTrue: [EquivalenceRelation on: self evaluating: anEquivalenceRelation] ifFalse: [anEquivalenceRelation].
 	^ QuotientSet by: relation! !
 
-!Domain methodsFor: 'morphisms' stamp: 'len 6/13/2016 00:30'!
+!Domain methodsFor: 'operations' stamp: 'len 6/13/2016 00:30'!
 /\ aDomain
 	^ self intersection: aDomain! !
 
@@ -10138,7 +10138,7 @@ path
 	"Answer true if the receiver is isomorphic to the argument."
 	^ self = aDomain "not much more we can test at this abstract level, subclasses should reimplement"! !
 
-!Domain methodsFor: 'morphisms' stamp: 'len 6/24/2016 05:31'!
+!Domain methodsFor: 'operations' stamp: 'len 6/24/2016 05:31'!
  aDomain
 	"This is a convenience method for doing coproducts. Subclasses can reimplement it to mean something different from the coproduct in order to match customary notation."
 	^ self coproduct: aDomain! !
@@ -10195,7 +10195,7 @@ atRandomBits: bitSize
 	"Answer an element of the receiver of at most n bits (as measured by #bitSize). The total number of elements that could be returned shouldn't exceed 2^n."
 	^ Random withDefaultDo: [:aRandom| self atRandom: aRandom bits: bitSize]! !
 
-!Domain methodsFor: 'morphisms' stamp: 'len 4/21/2016 05:08'!
+!Domain methodsFor: 'operations' stamp: 'len 4/21/2016 05:08'!
 cartesian: aDomain
 	"Answer the cartesian set product of the receiver with the argument."
 	^ (CartesianProduct components: {self}), aDomain! !
@@ -10207,7 +10207,7 @@ collect: aBlock
 	self do: [:each| elements add: (aBlock value: each)].
 	^ elements as: Domain! !
 
-!Domain methodsFor: 'morphisms' stamp: 'len 4/18/2016 23:31'!
+!Domain methodsFor: 'operations' stamp: 'len 4/18/2016 23:31'!
 coproduct: aDomain
 	"Answer the categorical sum (or coproduct) of the receiver with the argument."
 	^ self subclassResponsibility! !
@@ -10295,7 +10295,7 @@ includesAllOf: aCollection
 initialize
 	properties _ IdentityDictionary new! !
 
-!Domain methodsFor: 'morphisms' stamp: 'len 5/2/2016 09:12'!
+!Domain methodsFor: 'operations' stamp: 'len 5/2/2016 09:12'!
 intersection: aCollection
 	"Answer the intersection of the receiver and the argument."
 	^ self select: [:each| aCollection includes: each]! !
@@ -10399,7 +10399,7 @@ name
 name: aString
 	properties at: #name put: aString! !
 
-!Domain methodsFor: 'morphisms' stamp: 'len 6/13/2016 00:48'!
+!Domain methodsFor: 'accessing' stamp: 'len 6/13/2016 00:48'!
 null
 	"Answer the null or zero object in the category of the receiver, i.e. an object that is both intial and terminal. For example {id} in the case of groups (the trivial group)."
 	^ properties at: #null! !
@@ -10421,7 +10421,7 @@ printOn: aStream
 		^ self].
 	^ super printOn: aStream! !
 
-!Domain methodsFor: 'morphisms' stamp: 'len 4/23/2016 00:58'!
+!Domain methodsFor: 'operations' stamp: 'len 4/23/2016 00:58'!
 product: aDomain
 	"Answer the categorical product of the receiver with the argument. The most general case (at least within concrete categories) is the cartesian product of sets."
 	^ self cartesian: aDomain! !
@@ -10461,6 +10461,10 @@ size
 species
 	"Answer a class appropiate for the subobjects (sub-structures) of the receiver."
 	^ self class! !
+
+!Domain methodsFor: 'morphisms' stamp: 'len 8/25/2016 04:27'!
+to: aDomain evaluating: aBlock
+	^ self -> aDomain evaluating: aBlock! !
 
 !Domain methodsFor: 'iterating' stamp: 'len 8/1/2016 03:53'!
 upTo: maximumNumberOfElements
@@ -10535,7 +10539,7 @@ torsion
 zero
 	^ properties at: #zero! !
 
-!Ideal methodsFor: 'morphisms' stamp: 'len 5/23/2016 04:18'!
+!Ideal methodsFor: 'operations' stamp: 'len 5/23/2016 04:18'!
 * anElementOrIdeal
 	| newGenerators |
 	(ambient includes: anElementOrIdeal) ifTrue: [^ self class on: ambient generators: generators * anElementOrIdeal].
@@ -10544,12 +10548,12 @@ zero
 	generators do: [:a| anElementOrIdeal generators do: [:b| newGenerators add: a*b]].
 	^ self class on: ambient generators: newGenerators! !
 
-!Ideal methodsFor: 'morphisms' stamp: 'len 5/23/2016 04:16'!
+!Ideal methodsFor: 'operations' stamp: 'len 5/23/2016 04:16'!
 + anIdeal 
 	anIdeal ambient = ambient ifFalse: [^ DomainError signal: 'ideals from different rings'].
 	^ self class on: ambient generators: (generators asSet copy addAll: anIdeal generators; yourself)! !
 
-!Ideal methodsFor: 'morphisms' stamp: 'len 6/5/2016 22:47'!
+!Ideal methodsFor: 'operations' stamp: 'len 6/5/2016 22:47'!
 /\ anIdeal
 	"Meet."
 	^ self intersection: anIdeal! !
@@ -10572,7 +10576,7 @@ zero
 	(anIdeal isKindOf: Ideal) ifFalse: [^ false].
 	^ self <= anIdeal and: [anIdeal <= self]! !
 
-!Ideal methodsFor: 'morphisms' stamp: 'len 6/5/2016 22:46'!
+!Ideal methodsFor: 'operations' stamp: 'len 6/5/2016 22:46'!
 \/ anIdeal
 	"Join."
 	^ self + anIdeal! !
@@ -10586,7 +10590,7 @@ ambient
 ambient: aRing
 	ambient _ aRing! !
 
-!Ideal methodsFor: 'morphisms' stamp: 'len 5/23/2016 04:17'!
+!Ideal methodsFor: 'operations' stamp: 'len 5/23/2016 04:17'!
 annihilator
 	^ (ambient * ambient zero) colon: self! !
 
@@ -10599,7 +10603,7 @@ apply: aMorphism
 		ifTrue: [^ self class on: aMorphism codomain generators: (generators collect: aMorphism)].
 	^ DomainError signal! !
 
-!Ideal methodsFor: 'morphisms' stamp: 'len 12/21/2015 02:56'!
+!Ideal methodsFor: 'operations' stamp: 'len 12/21/2015 02:56'!
 colon: anIdeal
 	"Answer the colon quotient I:J of the receiver I with the argument J."
 	^ self subclassResponsibility! !
@@ -10643,11 +10647,11 @@ hash
 includes: anObject
 	^ (self reduce: anObject) isZero! !
 
-!Ideal methodsFor: 'morphisms' stamp: 'len 5/23/2016 04:16'!
+!Ideal methodsFor: 'operations' stamp: 'len 5/23/2016 04:16'!
 intersection: anIdeal
 	^ ambient * (self generator lcm: anIdeal generator)! !
 
-!Ideal methodsFor: 'operations' stamp: 'len 5/23/2016 04:18'!
+!Ideal methodsFor: 'operations-elements' stamp: 'len 5/23/2016 04:18'!
 inverseOf: anObject
 	| euclid |
 	ambient isEuclidean ifFalse: [^ nil].
@@ -10685,16 +10689,16 @@ printOn: aStream
 	generators do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: ', '].
 	aStream nextPut: $>! !
 
-!Ideal methodsFor: 'morphisms' stamp: 'len 4/25/2016 21:02'!
+!Ideal methodsFor: 'operations' stamp: 'len 4/25/2016 21:02'!
 quotient
 	"Answer the quotient ring of the base ring by the receiver."
 	^ QuotientRing by: self! !
 
-!Ideal methodsFor: 'morphisms' stamp: 'len 2/13/2016 02:49'!
+!Ideal methodsFor: 'operations' stamp: 'len 2/13/2016 02:49'!
 radical
 	^ self subclassResponsibility! !
 
-!Ideal methodsFor: 'operations' stamp: 'len 7/7/2016 20:47'!
+!Ideal methodsFor: 'operations-elements' stamp: 'len 7/7/2016 20:47'!
 reduce: anObject
 	^ anObject \\ self generator! !
 
@@ -10710,7 +10714,7 @@ atRandom: aRandom bits: bitSize
 intersection: anIdeal
 	^ ambient * (self generator lcm: anIdeal generator)! !
 
-!IntegerIdeal methodsFor: 'operations' stamp: 'len 12/8/2015 01:03'!
+!IntegerIdeal methodsFor: 'operations-elements' stamp: 'len 12/8/2015 01:03'!
 inverseOf: anInteger
 	^ anInteger reciprocalModulo: self generator! !
 
@@ -10742,7 +10746,7 @@ remainderAtRandom: aRandom
 atRandom: aRandom bits: bitSize
 	^ self generators sum: [:each| each * (self ambient atRandom: aRandom bits: bitSize / self generators size)]! !
 
-!PolynomialIdeal methodsFor: 'morphisms' stamp: 'len 7/8/2016 22:03'!
+!PolynomialIdeal methodsFor: 'operations' stamp: 'len 7/8/2016 22:03'!
 colon: anIdeal
 	"Answer the colon quotient I:J of the receiver I with the argument J."
 	"Cox IVA 205p"
@@ -10766,7 +10770,7 @@ degree
 					ifFalse: [count _ count + 1]]].
 	^ count! !
 
-!PolynomialIdeal methodsFor: 'morphisms' stamp: 'len 8/2/2016 02:19'!
+!PolynomialIdeal methodsFor: 'operations' stamp: 'len 8/2/2016 02:19'!
 eliminate: anIndeterminate
 	"Answer the elimination ideal computed by eliminating anIndeterminate."
 	^ self eliminateAll: {anIndeterminate}
@@ -10786,7 +10790,7 @@ output: univariate eliminant g(xi) or there's no eliminant
 where n is minimal, then output eliminant g(xi) = sum akxi^k
 "! !
 
-!PolynomialIdeal methodsFor: 'morphisms' stamp: 'len 7/4/2016 00:49'!
+!PolynomialIdeal methodsFor: 'operations' stamp: 'len 7/4/2016 00:49'!
 eliminateAll: aCollection
 	"Answer the elimination ideal for the indeterminates in aCollection = {xi}, i.e. the subideal of polynomials without indeterminates {xi}."
 	| indeterminates ordering G |
@@ -10806,7 +10810,7 @@ groebnerBasis
 	"Answer a Groebner basis of the receiver."
 	^ properties at: #groebnerBasis ifAbsentPut: [GroebnerBasis from: self generators]! !
 
-!PolynomialIdeal methodsFor: 'morphisms' stamp: 'len 7/3/2016 04:18'!
+!PolynomialIdeal methodsFor: 'operations' stamp: 'len 7/3/2016 04:18'!
 homogenized
 	"Answer the homogenization of the receiver introducing a new indeterminate."
 	| R R` ordering G |
@@ -10825,12 +10829,12 @@ includes: aPolynomial
 	This works on any Groebner basis (any monomial ordering)."
 	^ (self reduce: aPolynomial) isZero! !
 
-!PolynomialIdeal methodsFor: 'morphisms' stamp: 'len 7/7/2016 07:43'!
+!PolynomialIdeal methodsFor: 'operations' stamp: 'len 7/7/2016 07:43'!
 initial
 	"Answer the initial ideal, i.e. the ideal of all leading monomials of the receiver."
 	^ MonomialIdeal on: self ambient generators: self groebnerBasis initial! !
 
-!PolynomialIdeal methodsFor: 'morphisms' stamp: 'len 7/9/2016 05:16'!
+!PolynomialIdeal methodsFor: 'operations' stamp: 'len 7/9/2016 05:16'!
 intersection: anIdeal
 	| R R` t T TminusOne G1 G2 G` G |
 	R _ self ambient.
@@ -10867,7 +10871,7 @@ isTrivial
 isUnivariate
 	^ self ambient isUnivariate! !
 
-!PolynomialIdeal methodsFor: 'morphisms' stamp: 'len 7/9/2016 05:21'!
+!PolynomialIdeal methodsFor: 'operations' stamp: 'len 7/9/2016 05:21'!
 radical
 	self flag: #fix. "this is not right, maybe only works for Q[x1..xn] and monomial ideals"
 	^ self squareFree! !
@@ -10885,7 +10889,7 @@ radicalIncludes: aPolynomial
 	X add: (aPolynomial as: R`) * t - R` one.
 	^ (R` * X) isTrivial! !
 
-!PolynomialIdeal methodsFor: 'operations' stamp: 'len 7/7/2016 20:46'!
+!PolynomialIdeal methodsFor: 'operations-elements' stamp: 'len 7/7/2016 20:46'!
 reduce: aPolynomial
 	self isUnivariate ifTrue: [^ aPolynomial \\ self generator].
 	^ self groebnerBasis reduce: aPolynomial! !
@@ -10896,13 +10900,13 @@ remainderAtRandom: aRandom
 	ambient isUnivariate ifFalse: [^ self error: 'not yet implemented'].
 	^ ambient coefficients: ((0 to: self generator degree - 1) collect: [:i| ambient scalars atRandom: aRandom])! !
 
-!PolynomialIdeal methodsFor: 'morphisms' stamp: 'len 3/15/2016 18:05'!
+!PolynomialIdeal methodsFor: 'operations' stamp: 'len 3/15/2016 18:05'!
 saturation: anIdeal
 	"Answer the saturation I:J^infinity of the receiver I with the argument J."
 	"Cox IVA 205p"
 	self notYetImplemented! !
 
-!PolynomialIdeal methodsFor: 'morphisms' stamp: 'len 7/8/2016 23:43'!
+!PolynomialIdeal methodsFor: 'operations' stamp: 'len 7/8/2016 23:43'!
 squareFree
 	^ self class on: self ambient generators: (self generators collect: [:each| each squareFree])! !
 
@@ -10973,7 +10977,7 @@ katsura5
 		y**2 + (x*z*2) + (y*t*2) + (z*u*2) - z.
 		y*z*2 + (x*t*2) + (y*u*2) - t}! !
 
-!MonomialIdeal methodsFor: 'morphisms' stamp: 'len 7/9/2016 05:16'!
+!MonomialIdeal methodsFor: 'operations' stamp: 'len 7/9/2016 05:16'!
 radical
 	"This works for monomial ideals."
 	^ self squareFree! !
@@ -11018,13 +11022,13 @@ scalars: aRing
 		ifTrue: [^ DualSpace from: self].
 	^ LinearMaps from: self to: aModule! !
 
-!FreeModule methodsFor: 'morphisms' stamp: 'len 7/14/2016 23:20'!
+!FreeModule methodsFor: 'operations' stamp: 'len 7/14/2016 23:20'!
 / aSubmodule
 	"Answer the quotient of the receiver by the submodule aSubmodule,
 	i.e. the module obtained by 'collapsing' the submodule to zero."
 	^ QuotientSpace by: (aSubmodule asSubmoduleOf: self)! !
 
-!FreeModule methodsFor: 'morphisms' stamp: 'len 7/14/2016 23:23'!
+!FreeModule methodsFor: 'operations' stamp: 'len 7/14/2016 23:23'!
 /\ aModule
 	"Meet."
 	^ self intersection: aModule! !
@@ -11051,7 +11055,7 @@ scalars: aRing
 	1 to: self rank do: [:i| (anObject includes: (self e: i)) ifFalse: [^ false]].
 	^ true! !
 
-!FreeModule methodsFor: 'morphisms' stamp: 'len 7/14/2016 23:23'!
+!FreeModule methodsFor: 'operations' stamp: 'len 7/14/2016 23:23'!
 \/ aModule
 	"Join."
 	^ self + aModule! !
@@ -11063,11 +11067,11 @@ scalars: aRing
 		ifFalse: [^ super ~ aModule].
 	^ self = aModule or: [self scalars = aModule scalars and: [self rank = aModule rank]]! !
 
-!FreeModule methodsFor: 'morphisms' stamp: 'len 7/14/2016 23:14'!
+!FreeModule methodsFor: 'operations' stamp: 'len 7/14/2016 23:14'!
  aFreeModule
 	^ DirectSumSpace components: {self. aFreeModule}! !
 
-!FreeModule methodsFor: 'morphisms' stamp: 'len 7/14/2016 23:24'!
+!FreeModule methodsFor: 'operations' stamp: 'len 7/14/2016 23:24'!
 ’ aModule
 	^ TensorProductSpace left: self right: aModule! !
 
@@ -11075,7 +11079,7 @@ scalars: aRing
 ambient
 	^ self basis ambient! !
 
-!FreeModule methodsFor: 'morphisms' stamp: 'len 7/15/2016 00:34'!
+!FreeModule methodsFor: 'operations' stamp: 'len 7/15/2016 00:34'!
 annihilator
 	"Answer the annihilator of the receiver, i.e. the space of all linear forms that are 0 at all vectors in the receiver."
 	^ self dual null! !
@@ -11085,12 +11089,12 @@ apply: aLinearMap
 	"Answer the receiver transformed by aLinearMap."
 	^ (self basis apply: aLinearMap) span! !
 
-!FreeModule methodsFor: 'morphisms' stamp: 'len 7/15/2016 00:32'!
+!FreeModule methodsFor: 'converting' stamp: 'len 7/15/2016 00:32'!
 asAffineSpace
 	self isVectorSpace ifFalse: [DomainError signal: 'not a vector space'].
 	^ AffineSubspace representative: self zero direction: self! !
 
-!FreeModule methodsFor: 'morphisms' stamp: 'len 7/15/2016 00:01'!
+!FreeModule methodsFor: 'converting' stamp: 'len 7/15/2016 00:01'!
 asSubmoduleOf: aModule
 	self flag: #fix. "avoid computing linear independence again"
 	^ aModule span: self basis! !
@@ -11134,7 +11138,7 @@ dimension
 do: aBlock
 	self coordinateSpace do: [:each| aBlock value: (self elementAt: each)]! !
 
-!FreeModule methodsFor: 'morphisms' stamp: 'len 7/15/2016 00:24'!
+!FreeModule methodsFor: 'operations' stamp: 'len 7/15/2016 00:24'!
 dual
 	^ DualSpace from: self! !
 
@@ -11154,7 +11158,7 @@ elementAt: aTuple
 generators
 	^ properties at: #generators ifAbsent: [self basis]! !
 
-!FreeModule methodsFor: 'morphisms' stamp: 'len 7/15/2016 00:31'!
+!FreeModule methodsFor: 'operations' stamp: 'len 7/15/2016 00:31'!
 grassmannian: r
 	"Answer the set of r-dimensional subspaces of the receiver."
 	self isVectorSpace ifFalse: [DomainError signal: 'not a vector space'].
@@ -11165,7 +11169,7 @@ grassmannian: r
 hash
 	^ self scalars hash + self rank hashMultiply! !
 
-!FreeModule methodsFor: 'morphisms' stamp: 'len 7/15/2016 00:07'!
+!FreeModule methodsFor: 'operations' stamp: 'len 7/15/2016 00:07'!
 hull: aCollection
 	"Answer the affine hull (flat) spanned by the vectors in aCollection."
 	| vectors x0 |
@@ -11234,7 +11238,7 @@ norm2
 		[Function from: self to: self scalars
 			evaluating: [:x| (self innerProduct value: {x. x conjugated})]]! !
 
-!FreeModule methodsFor: 'morphisms' stamp: 'len 8/4/2016 22:33'!
+!FreeModule methodsFor: 'accessing' stamp: 'len 8/4/2016 22:33'!
 null
 	"Answer the trivial submodule."
 	^ self span: #()! !
@@ -11243,14 +11247,14 @@ null
 printOn: aStream
 	aStream print: self scalars; nextPut: $-; nextPutAll: (self isVectorSpace ifTrue: ['vector space '] ifFalse: ['module']); print: self basis! !
 
-!FreeModule methodsFor: 'morphisms' stamp: 'len 7/14/2016 23:56'!
+!FreeModule methodsFor: 'operations' stamp: 'len 7/14/2016 23:56'!
 product: aModule
 	"Answer the categorical product, i.e. direct sum of the receiver and the argument."
 	^ (aModule isFreeModule and: [aModule scalars = self scalars])
 		ifTrue: [self  aModule]
 		ifFalse: [super product: aModule]! !
 
-!FreeModule methodsFor: 'morphisms' stamp: 'len 7/15/2016 00:35'!
+!FreeModule methodsFor: 'operations' stamp: 'len 7/15/2016 00:35'!
 projective
 	"Answer the projective subspace induced by the receiver, consisting of the 1-dimension subspaces."
 	self isVectorSpace ifFalse: [^ DomainError signal: 'not a vector space'].
@@ -11268,7 +11272,7 @@ rotations
 size
 	^ self scalars size ** self rank! !
 
-!FreeModule methodsFor: 'morphisms' stamp: 'len 7/15/2016 00:09'!
+!FreeModule methodsFor: 'operations' stamp: 'len 7/15/2016 00:09'!
 span: aCollection
 	"Answer the subspace spanned by the vectors in aCollection."
 	| basis |
@@ -11283,7 +11287,7 @@ span: aCollection
 	aCollection do: [:each| (basis generates: each) ifFalse: [basis add: each]].
 	^ LinearSubspace basis: basis! !
 
-!FreeModule methodsFor: 'morphisms' stamp: 'len 7/14/2016 23:57'!
+!FreeModule methodsFor: 'operations' stamp: 'len 7/14/2016 23:57'!
 tensors: aPair
 	^ Tensors type: aPair on: self! !
 
@@ -11313,7 +11317,7 @@ on: aCollection over: aRing
 arity
 	^ components size! !
 
-!DirectSumSpace methodsFor: 'morphisms' stamp: 'len 5/1/2016 18:54'!
+!DirectSumSpace methodsFor: 'converting' stamp: 'len 5/1/2016 18:54'!
 asCartesianProduct
 	^ CartesianProduct components: components! !
 
@@ -11432,12 +11436,12 @@ new: anInteger
 on: aCollection
 	^ self new generators: aCollection! !
 
-!Lattice methodsFor: 'morphisms' stamp: 'len 5/23/2016 04:36'!
+!Lattice methodsFor: 'operations' stamp: 'len 5/23/2016 04:36'!
 * anObject
 	(self ambient scalars includes: anObject) ifTrue: [^ self class basis: (self basis collect: [:each| each * anObject])].
 	^ super * anObject! !
 
-!Lattice methodsFor: 'morphisms' stamp: 'len 7/14/2016 22:53'!
+!Lattice methodsFor: 'operations' stamp: 'len 7/14/2016 22:53'!
  aLattice
 	^ self class basis: basis  aLattice basis! !
 
@@ -11483,7 +11487,7 @@ determinant2
 dimension
 	^ self ambient dimension! !
 
-!Lattice methodsFor: 'morphisms' stamp: 'len 6/20/2016 08:20'!
+!Lattice methodsFor: 'operations' stamp: 'len 6/20/2016 08:20'!
 dual
 	"Answer the dual lattice of the receiver (or reciprocal lattice, or polar lattice)."
 	| B Bdual dualBasis |
@@ -11676,7 +11680,7 @@ matrix: aMatrix
 	"Answer a lattice with generator matrix aMatrix."
 	^ self basis: aMatrix rowSpace basis! !
 
-!LinearMaps methodsFor: 'morphisms' stamp: 'len 5/22/2016 03:48'!
+!LinearMaps methodsFor: 'converting' stamp: 'len 5/22/2016 03:48'!
 asLieAlgebra
 	^ LieAlgebra on: self bracket: (Function from: (self cartesian: self) to: self evaluating: [:each| each first @ each second - (each second @ each first)])! !
 
@@ -11726,7 +11730,7 @@ identity
 includes: aLinearMap
 	^ (aLinearMap isKindOf: LinearMap) and: [aLinearMap domain = self domain and: [aLinearMap codomain = self codomain]]! !
 
-!LinearMaps methodsFor: 'morphisms' stamp: 'len 11/8/2015 13:55'!
+!LinearMaps methodsFor: 'operations' stamp: 'len 11/8/2015 13:55'!
 inverse
 	^ self class from: self codomain to: self domain! !
 
@@ -11844,11 +11848,11 @@ from: aVectorSpace
 	self == anObject ifTrue: [^ true].
 	^ (anObject isKindOf: MatrixSpace) and: [anObject scalars = self scalars and: [self numberOfRows = anObject numberOfRows and: [self numberOfColumns = anObject numberOfColumns]]]! !
 
-!MatrixSpace methodsFor: 'morphisms' stamp: 'len 5/22/2016 03:48'!
+!MatrixSpace methodsFor: 'converting' stamp: 'len 5/22/2016 03:48'!
 asLieAlgebra
 	^ LieAlgebra on: self bracket: (Function from: (self cartesian: self) to: self evaluating: [:each| each first * each second - (each second * each first)])! !
 
-!MatrixSpace methodsFor: 'morphisms' stamp: 'len 8/4/2016 09:18'!
+!MatrixSpace methodsFor: 'converting' stamp: 'len 8/4/2016 09:18'!
 asRing
 	self isSquare ifFalse: [self error: 'not square matrices'].
 	^ (self as: Ring) one: self identity! !
@@ -11967,7 +11971,7 @@ numberOfRows: n columns: m
 one
 	^ self scalar: scalars one! !
 
-!MatrixSpace methodsFor: 'morphisms' stamp: 'len 4/23/2016 06:12'!
+!MatrixSpace methodsFor: 'converting' stamp: 'len 4/23/2016 06:12'!
 over: aRing
 	^ self copy scalars: aRing! !
 
@@ -12008,7 +12012,7 @@ size
 sparse: aSparseTuple
 	^ SparseMatrix new coefficients: aSparseTuple; species: self! !
 
-!MatrixSpace methodsFor: 'morphisms' stamp: 'len 11/26/2015 01:34'!
+!MatrixSpace methodsFor: 'operations' stamp: 'len 11/26/2015 01:34'!
 transposed
 	^ self isSquare
 		ifTrue: [self]
@@ -12152,7 +12156,7 @@ isModule
 newFrom: anArray
 	^ scalars tupleClass newFrom: anArray! !
 
-!TupleSpace methodsFor: 'morphisms' stamp: 'len 4/24/2016 06:36'!
+!TupleSpace methodsFor: 'converting' stamp: 'len 4/24/2016 06:36'!
 over: aRing
 	^ self copy scalars: aRing! !
 
@@ -12206,7 +12210,7 @@ zero
 new: dimension over: aDomain
 	^ self new setDimension: dimension scalars: aDomain! !
 
-!VectorSpace methodsFor: 'morphisms' stamp: 'len 6/11/2016 18:31'!
+!VectorSpace methodsFor: 'converting' stamp: 'len 6/11/2016 18:31'!
 asSubspaceOf: aVectorSpace
 	self flag: #fix. "avoid computing linear independence again"
 	^ aVectorSpace span: self basis! !
@@ -12215,12 +12219,12 @@ asSubspaceOf: aVectorSpace
 dimension
 	^ self basis size! !
 
-!VectorSpace methodsFor: 'morphisms' stamp: 'len 2/24/2016 08:46'!
+!VectorSpace methodsFor: 'operations' stamp: 'len 2/24/2016 08:46'!
 intersection: aLinearSubspace
 	self >= aLinearSubspace ifFalse: [^ self error: 'not a subspace of this space'].
 	^ aLinearSubspace! !
 
-!VectorSpace methodsFor: 'morphisms' stamp: 'len 2/25/2016 03:46'!
+!VectorSpace methodsFor: 'operations' stamp: 'len 2/25/2016 03:46'!
 perp
 	"Answer the orthogonal complement of the receiver."
 	^ self null! !
@@ -12245,7 +12249,7 @@ e: anInteger
 scalars
 	^ self elements baseField! !
 
-!BilinearForms methodsFor: 'morphisms' stamp: 'len 1/8/2016 06:55'!
+!BilinearForms methodsFor: 'operations' stamp: 'len 1/8/2016 06:55'!
 alternate
 	"Answer the subspace of alternating bilinear forms."
 	^ self notYetImplemented! !
@@ -12302,7 +12306,7 @@ printOn: aStream
 scalars
 	^ vectorSpace scalars! !
 
-!BilinearForms methodsFor: 'morphisms' stamp: 'len 1/8/2016 06:56'!
+!BilinearForms methodsFor: 'operations' stamp: 'len 1/8/2016 06:56'!
 symmetric
 	"Answer the subspace of symmetric bilinear forms."
 	^ self notYetImplemented! !
@@ -12329,7 +12333,7 @@ e: anInteger
 ordering
 	^ polynomials ordering! !
 
-!HomogeneousPolynomialSpace methodsFor: 'as yet unclassified' stamp: 'len 7/6/2016 08:39'!
+!HomogeneousPolynomialSpace methodsFor: 'printing' stamp: 'len 7/6/2016 08:39'!
 printOn: aStream
 	aStream print: polynomials; nextPutAll: degree printString sub! !
 
@@ -12345,7 +12349,7 @@ bracket: aFunction
 characters
 	^ self notYetImplemented! !
 
-!LinearSubspace methodsFor: 'morphisms' stamp: 'len 6/4/2016 04:44'!
+!LinearSubspace methodsFor: 'operations' stamp: 'len 6/4/2016 04:44'!
 + anObject
 	| sum |
 	(self ambient includes: anObject) ifTrue: [^ AffineSubspace representative: anObject direction: self].
@@ -12363,12 +12367,12 @@ ambient
 	"Answer the ambient vector space."
 	^ basis ambient! !
 
-!LinearSubspace methodsFor: 'morphisms' stamp: 'len 5/23/2016 04:25'!
+!LinearSubspace methodsFor: 'operations' stamp: 'len 5/23/2016 04:25'!
 annihilator
 	"Answer the annihilator of the receiver, i.e. the space of all linear forms that are 0 at all vectors in the receiver."
 	^ self class basis: (self basis extended dual copyFrom: self dimension + 1 to: self ambient dimension)! !
 
-!LinearSubspace methodsFor: 'morphisms' stamp: 'len 6/9/2016 06:16'!
+!LinearSubspace methodsFor: 'converting' stamp: 'len 6/9/2016 06:16'!
 asAlgebraicVariety
 	^ AlgebraicSet on: self ambient asAffineSpace ideal: self equations asPolynomialSystem ideal! !
 
@@ -12392,7 +12396,7 @@ coordinatesOf: anObject
 dimension
 	^ basis size! !
 
-!LinearSubspace methodsFor: 'morphisms' stamp: 'len 4/21/2016 05:41'!
+!LinearSubspace methodsFor: 'operations' stamp: 'len 4/21/2016 05:41'!
 dual
 	^ basis dual span! !
 
@@ -12418,7 +12422,7 @@ includes: anObject
 	(self ambient includes: anObject) ifFalse: [^ false].
 	^ basis generates: anObject! !
 
-!LinearSubspace methodsFor: 'morphisms' stamp: 'len 5/23/2016 04:25'!
+!LinearSubspace methodsFor: 'operations' stamp: 'len 5/23/2016 04:25'!
 intersection: aLinearSubspace
 	aLinearSubspace = self ambient ifTrue: [^ self].
 	^ LinearSystem new
@@ -12434,7 +12438,7 @@ isNonDegenerate
 isProper
 	^ self ~= self ambient! !
 
-!LinearSubspace methodsFor: 'morphisms' stamp: 'len 5/23/2016 04:26'!
+!LinearSubspace methodsFor: 'operations' stamp: 'len 5/23/2016 04:26'!
 perp
 	"Answer the orthogonal complement of the receiver."
 	^ self ambient span: (self annihilator basis vectors collect: [:f| f asVector])
@@ -12452,7 +12456,7 @@ alternative 3:?
 	^ basis dual asArray inject: self space into: [:answer :each| answer intersection: each kernel]	
 "! !
 
-!LinearSubspace methodsFor: 'morphisms' stamp: 'len 6/9/2016 04:43'!
+!LinearSubspace methodsFor: 'operations' stamp: 'len 6/9/2016 04:43'!
 perp2
 	"Answer the orthogonal complement of the receiver."
 	^ basis dual asArray inject: self ambient into: [:answer :each| answer /\ each kernel]
@@ -12466,7 +12470,7 @@ perp2
 alternative 2:
 	^ self projection kernel"! !
 
-!LinearSubspace methodsFor: 'morphisms' stamp: 'len 4/3/2016 07:46'!
+!LinearSubspace methodsFor: 'operations' stamp: 'len 4/3/2016 07:46'!
 perp3
 	"Answer the orthogonal complement of the receiver."
 	^ self projection kernel
@@ -12508,12 +12512,12 @@ projection
 	properties at: #projection put: answer.
 	^ answer! !
 
-!LinearSubspace methodsFor: 'morphisms' stamp: 'len 11/28/2015 06:01'!
+!LinearSubspace methodsFor: 'operations' stamp: 'len 11/28/2015 06:01'!
 quotient
 	"Answer the quotient space of the ambient space by the receiver."
 	^ QuotientSpace by: self! !
 
-!LinearSubspace methodsFor: 'morphisms' stamp: 'len 6/9/2016 04:43'!
+!LinearSubspace methodsFor: 'operations' stamp: 'len 6/9/2016 04:43'!
 radical
 	^ self /\ self perp! !
 
@@ -12635,7 +12639,7 @@ projection
 	"Answer the quotient map, the canonical projection from the ambient vector space to the quotient space, i.e. the mapping pi:V->V/S that assigns to every v in V the affine subspace v+S."
 	^ properties at: #projection ifAbsentPut: [self defaultProjection]! !
 
-!QuotientSpace methodsFor: 'morphisms' stamp: 'len 8/24/2016 19:05'!
+!QuotientSpace methodsFor: 'accessing' stamp: 'len 8/24/2016 19:05'!
 relation
 	^ EquivalenceRelation on: self base evaluating: [:x :y| subspace includes: x - y]! !
 
@@ -12716,27 +12720,27 @@ vectorSpace: aVectorSpace
 type: aPair on: aVectorSpace
 	^ self new type: aPair; vectorSpace: aVectorSpace! !
 
-!Ring methodsFor: 'morphisms' stamp: 'len 6/29/2016 03:48'!
+!Ring methodsFor: 'operations' stamp: 'len 6/29/2016 03:48'!
 % anObject
 	^ self mod: anObject! !
 
-!Ring methodsFor: 'morphisms' stamp: 'len 12/5/2015 23:51'!
+!Ring methodsFor: 'operations' stamp: 'len 12/5/2015 23:51'!
 * anElementOrArray
 	^ (self includes: anElementOrArray)
 			ifTrue: [Ideal on: self generators: {anElementOrArray}]
 			ifFalse: [Ideal on: self generators: anElementOrArray]! !
 
-!Ring methodsFor: 'morphisms' stamp: 'len 7/19/2016 01:14'!
+!Ring methodsFor: 'operations' stamp: 'len 7/19/2016 01:14'!
 ** n
 "	n isInfinity ifTrue: [^ InfiniteTupleSpace over: self]."
 	^ n isPoint ifTrue: [MatrixSpace new: n over: self] ifFalse: [TupleSpace new: n over: self]! !
 
-!Ring methodsFor: 'morphisms' stamp: 'len 5/23/2016 04:22'!
+!Ring methodsFor: 'operations' stamp: 'len 5/23/2016 04:22'!
 / anIdeal
 	self = anIdeal ambient ifFalse: [^ DomainError signal: 'the ideal doesn''t belong to the receiver ring'].
 	^ QuotientRing by: anIdeal! !
 
-!Ring methodsFor: 'morphisms' stamp: 'len 6/10/2016 05:38'!
+!Ring methodsFor: 'operations' stamp: 'len 6/10/2016 05:38'!
 PG: n
 	"Answer the projective space of dimension n. When the receiver is the finite field GF(q) this is PG(n,q)."
 	^ (self ** (n + 1)) projective! !
@@ -12750,27 +12754,27 @@ asSelfModule
 characteristic
 	^ properties at: #characteristic! !
 
-!Ring methodsFor: 'morphisms' stamp: 'len 12/14/2015 23:24'!
+!Ring methodsFor: 'operations' stamp: 'len 12/14/2015 23:24'!
 fractions
 	"Answer the fraction field of the receiver, assuming it is an integral domain."
 	self isIntegralDomain ifFalse: [DomainError signal: 'not an integer domain'].
 	^ FractionField over: self! !
 
-!Ring methodsFor: 'morphisms' stamp: 'len 1/20/2016 13:42'!
+!Ring methodsFor: 'operations' stamp: 'len 1/20/2016 13:42'!
 freeAlgebra
 	^ FreeAlgebra over: self! !
 
-!Ring methodsFor: 'morphisms' stamp: 'len 6/30/2016 02:27'!
+!Ring methodsFor: 'operations' stamp: 'len 6/30/2016 02:27'!
 freeAlgebraIn: aCollection
 	"Answer the free algebra in the given indeterminates over the receiver."
 	^ FreeAlgebra on: aCollection over: self! !
 
-!Ring methodsFor: 'morphisms' stamp: 'len 6/30/2016 02:34'!
+!Ring methodsFor: 'operations' stamp: 'len 6/30/2016 02:34'!
 freeModuleIn: aCollection
 	"Answer the free module in the given indeterminates over the receiver."
 	^ FreeModule on: aCollection over: self! !
 
-!Ring methodsFor: 'morphisms' stamp: 'len 1/5/2016 03:17'!
+!Ring methodsFor: 'operations' stamp: 'len 1/5/2016 03:17'!
 frobenius
 	"Answer the Frobenius endomorphism, assuming the receiver is of characteristic p prime."
 	| p |
@@ -12851,7 +12855,7 @@ isUnit: anElement
 	self isDivisionRing ifTrue: [^ anElement isZero not].
 	^ self subclassResponsibility! !
 
-!Ring methodsFor: 'morphisms' stamp: 'len 11/22/2015 06:26'!
+!Ring methodsFor: 'operations' stamp: 'len 11/22/2015 06:26'!
 mod: anObject
 	^ self / (self * anObject)! !
 
@@ -12871,16 +12875,16 @@ one
 one: anElement
 	properties at: #one put: anElement! !
 
-!Ring methodsFor: 'morphisms' stamp: 'len 3/26/2016 05:42'!
+!Ring methodsFor: 'operations' stamp: 'len 3/26/2016 05:42'!
 polynomials
 	^ self polynomialsIn: #(x)! !
 
-!Ring methodsFor: 'morphisms' stamp: 'len 7/8/2016 19:54'!
+!Ring methodsFor: 'operations' stamp: 'len 7/8/2016 19:54'!
 polynomialsIn: anIntegerOrCollection
 	"Answer the ring of multivariate polynomials over the receiver in the given indeterminates."
 	^ self polynomialsIn: anIntegerOrCollection ordering: #trevlex! !
 
-!Ring methodsFor: 'morphisms' stamp: 'len 7/19/2016 01:12'!
+!Ring methodsFor: 'operations' stamp: 'len 7/19/2016 01:12'!
 polynomialsIn: anIntegerOrCollection ordering: aMonomialOrdering
 	"Answer the ring of multivariate polynomials over the receiver over the given indeterminates."
 	| answer |
@@ -12890,7 +12894,7 @@ polynomialsIn: anIntegerOrCollection ordering: aMonomialOrdering
 	answer indeterminateNames: anIntegerOrCollection.
 	^ answer! !
 
-!Ring methodsFor: 'morphisms' stamp: 'len 6/30/2016 03:43'!
+!Ring methodsFor: 'operations' stamp: 'len 6/30/2016 03:43'!
 spectrum
 	self isCommutative ifFalse: [DomainError signal: 'non-commutative ring'].
 	^ Spectrum on: self! !
@@ -12907,7 +12911,7 @@ tuple: anInteger evaluating: aBlock
 tupleClass
 	^ Tuple! !
 
-!Ring methodsFor: 'morphisms' stamp: 'len 6/30/2016 04:03'!
+!Ring methodsFor: 'operations' stamp: 'len 6/30/2016 04:03'!
 units
 	"Answer the multiplicative group of units of the receiver (i.e., elements that have multiplicative inverse)."
 	^ UnitsGroup on: self! !
@@ -12921,7 +12925,7 @@ valuation
 zero
 	^ properties at: #zero ifAbsentPut: [self one - self one]! !
 
-!Field methodsFor: 'morphisms' stamp: 'len 12/15/2015 22:30'!
+!Field methodsFor: 'operations' stamp: 'len 12/15/2015 22:30'!
 algebraicClosure
 	self isAlgebraicallyClosed ifTrue: [^ self].
 	^ properties at: #algebraicClosure! !
@@ -12936,7 +12940,7 @@ conjugation
 	"Answer the companion automorphism of the receiver."
 	^ self id! !
 
-!Field methodsFor: 'morphisms' stamp: 'len 12/9/2015 02:34'!
+!Field methodsFor: 'operations' stamp: 'len 12/9/2015 02:34'!
 cyclotomicRing: n
 	"Answer the n-th cyclotomic ring on the receiver."
 	| Fx phi |
@@ -12944,13 +12948,13 @@ cyclotomicRing: n
 	phi _ Fx cyclotomic: n. "cyclotomic polynomial of order n"
 	^ Fx mod: phi "answer the quotient ring modulo <phi>"! !
 
-!Field methodsFor: 'morphisms' stamp: 'len 6/4/2016 17:49'!
+!Field methodsFor: 'operations' stamp: 'len 6/4/2016 17:49'!
 extension: aPolynomial
 	"Answer the algebraic extension of the receiver defined by the given irreducible polynomial."
 	aPolynomial scalars = self ifFalse: [self error: 'polynomial coefficients not from this field'].
 	^ AlgebraicExtension polynomial: aPolynomial! !
 
-!Field methodsFor: 'morphisms' stamp: 'len 6/30/2016 02:34'!
+!Field methodsFor: 'operations' stamp: 'len 6/30/2016 02:34'!
 freeVectorSpaceIn: aCollection
 	"Answer the free vector space in the given indeterminates over the receiver."
 	^ VectorSpace on: aCollection over: self! !
@@ -13001,7 +13005,7 @@ isTerminal
 isUnit: anElement
 	^ anElement isZero not! !
 
-!Field methodsFor: 'morphisms' stamp: 'len 7/15/2016 18:24'!
+!Field methodsFor: 'operations' stamp: 'len 7/15/2016 18:24'!
 primeSubfield
 	"A prime field is a field with no proper subfields. Every subfield contains a prime subfield, that is either isomorphic to Q or Z_p for some prime p."
 	self flag: #fix. "the subfield is isomorphic, not equal"
@@ -13178,7 +13182,7 @@ adjoint
 adjoint: anAlgebraicNumber
 	adjoint _ anAlgebraicNumber! !
 
-!NumberField methodsFor: 'morphisms' stamp: 'len 1/10/2016 22:34'!
+!NumberField methodsFor: 'operations' stamp: 'len 1/10/2016 22:34'!
 archimedeanPlaces
 	^ self notYetImplemented! !
 
@@ -13199,7 +13203,7 @@ discriminant
 	"The discriminant of an integral basis is independent of the choice of basis and it's called the discriminant of the field K and denoted d(K)."
 	^ self integralBasis discriminant! !
 
-!NumberField methodsFor: 'morphisms' stamp: 'len 1/10/2016 21:52'!
+!NumberField methodsFor: 'operations' stamp: 'len 1/10/2016 21:52'!
 integers
 	"Answer the ring of integers of the receiver."
 	^ self notYetImplemented! !
@@ -13212,7 +13216,7 @@ integralBasis
 isQuadraticField
 	^ self degree = 2! !
 
-!NumberField methodsFor: 'morphisms' stamp: 'len 1/10/2016 22:34'!
+!NumberField methodsFor: 'operations' stamp: 'len 1/10/2016 22:34'!
 nonArchimedeanPlaces
 	^ self notYetImplemented! !
 
@@ -13232,7 +13236,7 @@ printOn: aStream
 realEmbeddings
 	^ self embeddingsIn: RealAlgebraicNumbers new! !
 
-!NumberField methodsFor: 'morphisms' stamp: 'len 1/11/2016 03:53'!
+!NumberField methodsFor: 'operations' stamp: 'len 1/11/2016 03:53'!
 regulator
 	^ self notYetImplemented! !
 
@@ -13497,11 +13501,11 @@ polynomials: aPolynomials
 = anObject
 	^ anObject class == self class! !
 
-!Rationals methodsFor: 'morphisms' stamp: 'len 5/18/2016 22:22'!
+!Rationals methodsFor: 'operations' stamp: 'len 5/18/2016 22:22'!
 adjoin: anAlgebraicNumber
 	^ NumberField adjoint: anAlgebraicNumber! !
 
-!Rationals methodsFor: 'morphisms' stamp: 'len 4/17/2016 06:45'!
+!Rationals methodsFor: 'operations' stamp: 'len 4/17/2016 06:45'!
 algebraicClosure
 	^ AlgebraicNumbers new! !
 
@@ -13571,7 +13575,7 @@ positiveDo: aBlock
 printOn: aStream
 	aStream nextPut: Character QQ! !
 
-!Rationals methodsFor: 'morphisms' stamp: 'len 4/17/2016 06:44'!
+!Rationals methodsFor: 'operations' stamp: 'len 4/17/2016 06:44'!
 realClosure
 	^ RealAlgebraicNumbers new! !
 
@@ -13622,7 +13626,7 @@ p: aPrime
 > aDomain
 	^ (aDomain isKindOf: Rationals) or: [aDomain isKindOf: Integers]! !
 
-!RealAlgebraicNumbers methodsFor: 'morphisms' stamp: 'len 4/17/2016 06:45'!
+!RealAlgebraicNumbers methodsFor: 'operations' stamp: 'len 4/17/2016 06:45'!
 algebraicClosure
 	^ AlgebraicNumbers new! !
 
@@ -13791,7 +13795,7 @@ projection
 	"Answer the natural projection, or quotient map, or canonical homomorphism. This takes elements from the base ring to the corresponding residue class in the quotient ring."
 	^ properties at: #projection ifAbsentPut: [self defaultProjection]! !
 
-!ResidueField methodsFor: 'morphisms' stamp: 'len 8/24/2016 19:06'!
+!ResidueField methodsFor: 'accessing' stamp: 'len 8/24/2016 19:06'!
 relation
 	^ EquivalenceRelation on: self base evaluating: [:a :b| ideal includes: a - b]! !
 
@@ -14028,13 +14032,13 @@ scalars: aRing
 on: aGroup over: aRing
 	^ self new group: aGroup; scalars: aRing! !
 
-!Integers methodsFor: 'morphisms' stamp: 'len 12/5/2015 23:51'!
+!Integers methodsFor: 'operations' stamp: 'len 12/5/2015 23:51'!
 * anIntegerOrArray
 	^ (self includes: anIntegerOrArray)
 			ifTrue: [IntegerIdeal on: self generators: {anIntegerOrArray}]
 			ifFalse: [IntegerIdeal on: self generators: anIntegerOrArray]! !
 
-!Integers methodsFor: 'morphisms' stamp: 'len 6/29/2016 03:47'!
+!Integers methodsFor: 'operations' stamp: 'len 6/29/2016 03:47'!
 / anIdeal
 	^ ModularIntegers by: (anIdeal isInteger ifTrue: [self * anIdeal] ifFalse: [anIdeal])! !
 
@@ -14065,11 +14069,11 @@ do: aBlock
 	i _ 1.
 	[ aBlock value: i; value: i negated. i _ i + 1 ] repeat! !
 
-!Integers methodsFor: 'morphisms' stamp: 'len 7/15/2016 18:31'!
+!Integers methodsFor: 'operations' stamp: 'len 7/15/2016 18:31'!
 fractions
 	^ QQ! !
 
-!Integers methodsFor: 'morphisms' stamp: 'len 6/30/2016 02:37'!
+!Integers methodsFor: 'operations' stamp: 'len 6/30/2016 02:37'!
 freeModuleIn: aCollection
 	"Answer the free abelian group in the given indeterminates (a Z-module)."
 	^ FreeAbelianGroup on: aCollection! !
@@ -14106,7 +14110,7 @@ isReal
 isUnit: anInteger
 	^ anInteger = 1 or: [anInteger = -1]! !
 
-!Integers methodsFor: 'morphisms' stamp: 'len 8/10/2016 06:08'!
+!Integers methodsFor: 'operations' stamp: 'len 8/10/2016 06:08'!
 modPrime: anInteger
 	^ PrimeField new: anInteger! !
 
@@ -14171,7 +14175,7 @@ zero
 p: aPrime
 	^ self new p: aPrime! !
 
-!PolynomialRing methodsFor: 'morphisms' stamp: 'len 12/5/2015 23:52'!
+!PolynomialRing methodsFor: 'operations' stamp: 'len 12/5/2015 23:52'!
 * aPolynomialOrArray
 	^ (self includes: aPolynomialOrArray)
 			ifTrue: [PolynomialIdeal on: self generators: {aPolynomialOrArray}]
@@ -14211,7 +14215,7 @@ p: aPrime
 	self scalars >= aDomain scalars ifFalse: [^ false].
 	^ true! !
 
-!PolynomialRing methodsFor: 'morphisms' stamp: 'len 5/21/2016 00:16'!
+!PolynomialRing methodsFor: 'converting' stamp: 'len 5/21/2016 00:16'!
 asMultivariate
 	| answer |
 	self isUnivariate ifFalse: [^ self].
@@ -14220,20 +14224,20 @@ asMultivariate
 		ifTrue: [answer indeterminateNames: self scalars indeterminateNames, self indeterminateNames].
 	^ answer! !
 
-!PolynomialRing methodsFor: 'morphisms' stamp: 'len 5/20/2016 23:16'!
+!PolynomialRing methodsFor: 'converting' stamp: 'len 5/20/2016 23:16'!
 asUnivariate
 	self isUnivariate ifTrue: [^ self].
 	self indeterminateNames notNil
 		ifTrue: [^ self scalars polynomialsIn: self indeterminateNames allButLast :: polynomialsIn: {self indeterminateNames last}].
 	^ self scalars polynomialsIn: self rank - 1 :: polynomials! !
 
-!PolynomialRing methodsFor: 'morphisms' stamp: 'len 5/23/2016 04:09'!
+!PolynomialRing methodsFor: 'converting' stamp: 'len 5/23/2016 04:09'!
 asUnivariateIn: anIndeterminate
 	(self indeterminates includes: anIndeterminate) ifFalse: [^ self error: 'indeterminate not found'].
 	anIndeterminate = self indeterminates last ifFalse: [^ self error: 'bad indeterminate'].
 	^ self asUnivariate! !
 
-!PolynomialRing methodsFor: 'morphisms' stamp: 'len 6/11/2016 22:30'!
+!PolynomialRing methodsFor: 'converting' stamp: 'len 6/11/2016 22:30'!
 asVectorSpaceMaxDegree: n
 	^ PolynomialSpace new polynomials: self; degree: n! !
 
@@ -14394,7 +14398,7 @@ embedding
 	"Answer the embedding map from the base ring into the receiver."
 	^ properties at: #embedding ifAbsentPut: [Function from: scalars to: self evaluating: [:x| self constant: x]]! !
 
-!PolynomialRing methodsFor: 'morphisms' stamp: 'len 8/3/2016 08:00'!
+!PolynomialRing methodsFor: 'operations' stamp: 'len 8/3/2016 08:00'!
 expansion: anInteger
 	"Answer the canonical embedding into the polynomials in n+anInteger indeterminates.
 	Perhaps this should be called 'embedding' instead of 'expansion'."
@@ -14426,7 +14430,7 @@ findIrreducibleOfDegree: n
 	[(p _ self atRandom: random maxDegree: n) degree = n and: [p isIrreducible]] whileFalse.
 	^ p! !
 
-!PolynomialRing methodsFor: 'morphisms' stamp: 'len 11/24/2015 05:32'!
+!PolynomialRing methodsFor: 'operations' stamp: 'len 11/24/2015 05:32'!
 fractions
 	scalars isField ifFalse: [^ self error: 'scalars are not a field'].
 	^ RationalFunctions polynomials: self! !
@@ -14515,7 +14519,7 @@ isUFD
 isUnivariate
 	^ rank = 1! !
 
-!PolynomialRing methodsFor: 'morphisms' stamp: 'len 12/28/2015 20:20'!
+!PolynomialRing methodsFor: 'operations' stamp: 'len 12/28/2015 20:20'!
 modPrime: anObject
 	| answer |
 	self assert: self scalars isField.
@@ -14559,7 +14563,7 @@ ordering: aMonomialOrdering
 		ifFalse: [aMonomialOrdering].
 	properties at: #ordering put: ordering! !
 
-!PolynomialRing methodsFor: 'morphisms' stamp: 'len 4/24/2016 06:37'!
+!PolynomialRing methodsFor: 'converting' stamp: 'len 4/24/2016 06:37'!
 over: aRing
 	^ self copy scalars: aRing! !
 
@@ -14796,7 +14800,7 @@ projection
 	"Answer the natural projection, or quotient map, or canonical homomorphism. This takes elements from the base ring to the corresponding residue class in the quotient ring."
 	^ properties at: #projection ifAbsentPut: [self defaultProjection]! !
 
-!QuotientRing methodsFor: 'morphisms' stamp: 'len 8/24/2016 19:04'!
+!QuotientRing methodsFor: 'accessing' stamp: 'len 8/24/2016 19:04'!
 relation
 	^ EquivalenceRelation on: self base evaluating: [:a :b| ideal includes: a - b]! !
 
@@ -14812,7 +14816,7 @@ zero
 by: anIdeal
 	^ self new ideal: anIdeal! !
 
-!CoordinateRing methodsFor: 'morphisms' stamp: 'len 6/3/2016 23:22'!
+!CoordinateRing methodsFor: 'operations' stamp: 'len 6/3/2016 23:22'!
 fractions
 	^ FunctionField over: self! !
 
@@ -14877,13 +14881,13 @@ tupleClass
 generators
 	^ (1 to: self rank) collect: [:i| polynomials symmetric: i]! !
 
-!AffineSubspace methodsFor: 'morphisms' stamp: 'len 6/4/2016 04:24'!
+!AffineSubspace methodsFor: 'operations' stamp: 'len 6/4/2016 04:24'!
 * aScalar
 	(self scalars includes: aScalar)
 		ifTrue: [^ self class representative: representative * aScalar direction: direction].
 	^ super * aScalar "if it's not a scalar"! !
 
-!AffineSubspace methodsFor: 'morphisms' stamp: 'len 6/4/2016 04:20'!
+!AffineSubspace methodsFor: 'operations' stamp: 'len 6/4/2016 04:20'!
 + anObject
 	(anObject isKindOf: AffineSubspace)
 		ifTrue: [^ self class representative: representative + anObject representative direction: direction + anObject direction].
@@ -14893,7 +14897,7 @@ generators
 		ifTrue: [^ self class representative: representative + anObject direction: direction].
 	DomainError signal! !
 
-!AffineSubspace methodsFor: 'morphisms' stamp: 'len 6/11/2016 17:03'!
+!AffineSubspace methodsFor: 'operations' stamp: 'len 6/11/2016 17:03'!
 - anObject
 	^ self + anObject negated! !
 
@@ -14902,13 +14906,13 @@ generators
 	(anAffineSpace isKindOf: AffineSubspace) ifFalse: [^ super -> anAffineSpace].
 	^ super -> anAffineSpace elementClass: AffineMap! !
 
-!AffineSubspace methodsFor: 'morphisms' stamp: 'len 6/4/2016 04:32'!
+!AffineSubspace methodsFor: 'operations' stamp: 'len 6/4/2016 04:32'!
 / aLinearSubspace
 	direction >= aLinearSubspace ifFalse: [DomainError signal: 'not a linear subspace'].
 	self flag: #fix. "wtf"
 	^ self class representative: (AffineSubspace representative: representative direction: aLinearSubspace) direction: direction / aLinearSubspace! !
 
-!AffineSubspace methodsFor: 'morphisms' stamp: 'len 6/5/2016 22:45'!
+!AffineSubspace methodsFor: 'operations' stamp: 'len 6/5/2016 22:45'!
 /\ anAffineSubspace
 	"Meet."
 	^ self intersection: anAffineSubspace! !
@@ -14933,7 +14937,7 @@ generators
 	self isEmpty ifTrue: [^ anObject isEmpty].
 	^ direction = anObject direction and: [anObject includes: representative]! !
 
-!AffineSubspace methodsFor: 'morphisms' stamp: 'len 6/5/2016 22:45'!
+!AffineSubspace methodsFor: 'operations' stamp: 'len 6/5/2016 22:45'!
 \/ anAffineSubspace
 	"Join."
 	^ self + anAffineSubspace! !
@@ -15013,7 +15017,7 @@ id
 includes: anObject
 	^ self isEmpty not and: [direction includes: anObject - representative]! !
 
-!AffineSubspace methodsFor: 'morphisms' stamp: 'len 5/12/2016 22:57'!
+!AffineSubspace methodsFor: 'operations' stamp: 'len 5/12/2016 22:57'!
 intersection: anAffineSubspace
 	| system |
 	self isEmpty ifTrue: [^ self].
@@ -15050,7 +15054,7 @@ isZero
 motions
 	^ self automorphisms euclidean! !
 
-!AffineSubspace methodsFor: 'morphisms' stamp: 'len 6/4/2016 04:21'!
+!AffineSubspace methodsFor: 'operations' stamp: 'len 6/4/2016 04:21'!
 negated
 	^ self class representative: representative negated direction: direction! !
 
@@ -15069,11 +15073,11 @@ printOn: aStream
 	self dimension = 0 ifTrue: [aStream nextPut: ${; print: representative; nextPut: $}. ^ self].
 	aStream print: direction; nextPutAll: ' + '; print: representative! !
 
-!AffineSubspace methodsFor: 'morphisms' stamp: 'len 6/4/2016 00:19'!
+!AffineSubspace methodsFor: 'operations' stamp: 'len 6/4/2016 00:19'!
 product: anAffineSubspace
 	^ self class on: (direction product: anAffineSubspace direction)! !
 
-!AffineSubspace methodsFor: 'morphisms' stamp: 'len 6/24/2016 05:32'!
+!AffineSubspace methodsFor: 'operations' stamp: 'len 6/24/2016 05:32'!
 projectiveClosure
 	^ (direction  (ScalarSpace over: self scalars)) projective! !
 
@@ -15093,13 +15097,13 @@ rigidMotions
 scalars
 	^ direction scalars! !
 
-!AffineSubspace methodsFor: 'morphisms' stamp: 'len 6/4/2016 04:31'!
+!AffineSubspace methodsFor: 'operations' stamp: 'len 6/4/2016 04:31'!
 span
 	"Answer the linear span of the receiver."
 	(direction includes: representative) ifTrue: [^ direction].
 	^ (direction basis copyWith: representative) span! !
 
-!AffineSubspace methodsFor: 'morphisms' stamp: 'len 6/11/2016 16:55'!
+!AffineSubspace methodsFor: 'operations' stamp: 'len 6/11/2016 16:55'!
 span: aCollection
 	"Answer the subspace spanned by the points in aCollection."
 	| p |
@@ -15110,7 +15114,7 @@ span: aCollection
 representative: aVector direction: aVectorSpace
 	^ self new direction: aVectorSpace; representative: aVector! !
 
-!AlgebraicSet methodsFor: 'morphisms' stamp: 'len 6/5/2016 23:21'!
+!AlgebraicSet methodsFor: 'operations' stamp: 'len 6/5/2016 23:21'!
 /\ anAlgebraicSet
 	"Meet."
 	^ self intersection: anAlgebraicSet! !
@@ -15127,12 +15131,12 @@ representative: aVector direction: aVectorSpace
 = anObject
 	^ anObject species = self species and: [self ideal = anObject ideal]! !
 
-!AlgebraicSet methodsFor: 'morphisms' stamp: 'len 12/26/2015 19:51'!
+!AlgebraicSet methodsFor: 'operations' stamp: 'len 12/26/2015 19:51'!
 \ anAlgebraicSet
 	"Answer the difference of the receiver with the argument, whose associated ideal is the ideal (colon) quotient of the respective ideals."
 	^ self class on: space ideal: (ideal colon: anAlgebraicSet ideal)! !
 
-!AlgebraicSet methodsFor: 'morphisms' stamp: 'len 6/5/2016 23:22'!
+!AlgebraicSet methodsFor: 'operations' stamp: 'len 6/5/2016 23:22'!
 \/ anAlgebraicSet
 	"Join."
 	^ self union: anAlgebraicSet! !
@@ -15205,7 +15209,7 @@ includes: aPoint
 	p _ space coordinatesOf: aPoint.
 	^ ideal generators allSatisfy: [:each | (each value: p) isZero]! !
 
-!AlgebraicSet methodsFor: 'morphisms' stamp: 'len 2/24/2016 06:00'!
+!AlgebraicSet methodsFor: 'operations' stamp: 'len 2/24/2016 06:00'!
 intersection: anAlgebraicSet
 	^ self class on: space ideal: ideal + anAlgebraicSet ideal! !
 
@@ -15249,7 +15253,7 @@ printOn: aStream
 	ideal generators do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: ', '].
 	aStream nextPut: $)! !
 
-!AlgebraicSet methodsFor: 'morphisms' stamp: 'len 6/4/2016 00:32'!
+!AlgebraicSet methodsFor: 'operations' stamp: 'len 6/4/2016 00:32'!
 product: anAlgebraicSet
 	^ self class on: (space product: anAlgebraicSet space) ideal: (self ideal product: anAlgebraicSet ideal)! !
 
@@ -15258,7 +15262,7 @@ project: anIndeterminate
 	"Answer the projection of the receiver by eliminating the given indeterminate."
 	^ self class ideal: (ideal eliminate: anIndeterminate)! !
 
-!AlgebraicSet methodsFor: 'morphisms' stamp: 'len 6/10/2016 05:41'!
+!AlgebraicSet methodsFor: 'operations' stamp: 'len 6/10/2016 05:41'!
 projectiveClosure
 	"The projective closure of an affine variety is the projective variety corresponding to the homogenized ideal."
 	self groundField isAlgebraicallyClosed ifFalse: [self error: 'the ground field is not algebraically closed']. "otherwise the variety obtained can be bigger than the actual projective closure"
@@ -15277,7 +15281,7 @@ space: anAffineSpace
 species
 	^ AlgebraicSet! !
 
-!AlgebraicSet methodsFor: 'morphisms' stamp: 'len 6/5/2016 22:54'!
+!AlgebraicSet methodsFor: 'operations' stamp: 'len 6/5/2016 22:54'!
 union: anAlgebraicSet
 	^ self class on: space ideal: ideal /\ anAlgebraicSet ideal
 
@@ -15415,7 +15419,7 @@ atRandom: aRandom bits: bitSize
 	n _ bitSize / components size.
 	^ components collect: [:each| each atRandom: aRandom bits: n]! !
 
-!CartesianProduct methodsFor: 'morphisms' stamp: 'len 4/21/2016 05:08'!
+!CartesianProduct methodsFor: 'operations' stamp: 'len 4/21/2016 05:08'!
 cartesian: aDomain
 	^ aDomain class == self class
 		ifTrue: [self class components: components, aDomain components]
@@ -15871,7 +15875,7 @@ ambient
 	"Answer the ambient vector space."
 	^ self asVectorSpace ambient! !
 
-!LinearCode methodsFor: 'morphisms' stamp: 'len 5/17/2016 21:14'!
+!LinearCode methodsFor: 'converting' stamp: 'len 5/17/2016 21:14'!
 asLattice
 	"A linear code in a finite field or ring can be lifted to a lattice."
 	| S F lift |
@@ -15880,7 +15884,7 @@ asLattice
 	lift _ S -> (S apply: F section) evaluating: [:each| each apply: F section].
 	^ Lattice basis: (S basis apply: lift)! !
 
-!LinearCode methodsFor: 'morphisms' stamp: 'len 3/31/2016 02:33'!
+!LinearCode methodsFor: 'converting' stamp: 'len 3/31/2016 02:33'!
 asVectorSpace
 	^ subspace! !
 
@@ -15938,7 +15942,7 @@ distanceGraph: d
 do: aBlock
 	self asVectorSpace do: aBlock! !
 
-!LinearCode methodsFor: 'morphisms' stamp: 'len 5/12/2016 07:07'!
+!LinearCode methodsFor: 'operations' stamp: 'len 5/12/2016 07:07'!
 dual
 	"Answer the dual or orthogonal code of the receiver."
 	^ LinearCode subspace: self asVectorSpace perp! !
@@ -16191,7 +16195,7 @@ dimension
 do: aBlock
 	self asIdeal do: aBlock! !
 
-!CyclicCode2 methodsFor: 'morphisms' stamp: 'len 5/18/2016 07:30'!
+!CyclicCode2 methodsFor: 'operations' stamp: 'len 5/18/2016 07:30'!
 dual
 	^ self class new: self length generator: self generator reversed! !
 
@@ -16472,11 +16476,11 @@ new: anInteger
 on: aCollection
 	^ self new symbols: aCollection! !
 
-!Group methodsFor: 'morphisms' stamp: 'len 4/29/2016 08:00'!
+!Group methodsFor: 'operations' stamp: 'len 4/29/2016 08:00'!
 * anElement
 	^ RightCoset on: self representative: anElement! !
 
-!Group methodsFor: 'morphisms' stamp: 'len 5/2/2016 09:15'!
+!Group methodsFor: 'operations' stamp: 'len 5/2/2016 09:15'!
 / aSubgroup
 	"Answer the quotient group (or factor group) of the receiver by the argument.
 	Assume aSubgroup is normal in the receiver, otherwise this is just the set of left cosets."
@@ -16486,12 +16490,12 @@ on: aCollection
 	If aSubgroup is not normal in the receiver, this is just the set of left cosets."
 "	^ self collect: [:each| LeftCoset on: aSubgroup representative: each]"! !
 
-!Group methodsFor: 'morphisms' stamp: 'len 5/2/2016 09:15'!
+!Group methodsFor: 'operations' stamp: 'len 5/2/2016 09:15'!
 \ aSubgroup
 	"Answer the right factor group (or right quotient group) of the receiver by the argument. If aGroup is not normal in the receiver, this is just the set of right cosets."
 	^ self collect: [:each| RightCoset on: aSubgroup representative: each]! !
 
-!Group methodsFor: 'morphisms' stamp: 'len 2/9/2016 06:34'!
+!Group methodsFor: 'operations' stamp: 'len 2/9/2016 06:34'!
 abelianization
 	"Answer the receiver 'made abelian'."
 	| answer |
@@ -16550,11 +16554,11 @@ cayleyGraphMorph: generators
 	(answer nodeAt: self identity) color: Color white; shape: #square; morphExtent: 10@10.
 	^ answer! !
 
-!Group methodsFor: 'morphisms-endo' stamp: 'len 5/1/2016 22:58'!
+!Group methodsFor: 'operations-endo' stamp: 'len 5/1/2016 22:58'!
 center
 	^ self centralizerOf: self! !
 
-!Group methodsFor: 'morphisms-endo' stamp: 'len 5/1/2016 22:58'!
+!Group methodsFor: 'operations-endo' stamp: 'len 5/1/2016 22:58'!
 centralizerOf: aCollection
 	| op |
 	op _ self operation.
@@ -16568,13 +16572,13 @@ collect: aBlock
 	self do: [:each| elements add: (aBlock value: each)].
 	^ self copyEmpty elements: elements! !
 
-!Group methodsFor: 'morphisms-endo' stamp: 'len 7/27/2016 07:46'!
+!Group methodsFor: 'operations-endo' stamp: 'len 7/27/2016 07:46'!
 commutator
 	"Answer the commutator group [G,G] of the receiver G, also called the derived group and noted G`.
 	This is the smallest normal subgroup of G such that the quotient G / [G,G] is commutative."
 	^ self commutator: self! !
 
-!Group methodsFor: 'morphisms-endo' stamp: 'len 7/27/2016 07:52'!
+!Group methodsFor: 'operations-endo' stamp: 'len 7/27/2016 07:52'!
 commutator2: aGroup
 	"Answer the commutator group [G,H] of the receiver G with the argument H."
 	| op inverseMap generators |
@@ -16590,7 +16594,7 @@ commutator2: aGroup
 			generators add: (op value: {op value: {op value: {x.y}. xInv}. yInv})]].
 	^ (self copyEmpty generators: self generators, aGroup generators) normalClosureOf: generators! !
 
-!Group methodsFor: 'morphisms-endo' stamp: 'len 5/20/2016 20:19'!
+!Group methodsFor: 'operations-endo' stamp: 'len 5/20/2016 20:19'!
 commutator: aSubgroup
 	"Answer the commutator group [G,H] of the receiver G with the argument H,"
 	| op inverseMap elements |
@@ -16643,11 +16647,11 @@ computeGenerators
 				previous size = elements size] whileFalse]].
 	^ generators! !
 
-!Group methodsFor: 'morphisms' stamp: 'len 7/27/2016 07:17'!
+!Group methodsFor: 'operations' stamp: 'len 7/27/2016 07:17'!
 conjugacyClassOf: anElement
 	^ self conjugation orbitOf: anElement! !
 
-!Group methodsFor: 'morphisms' stamp: 'len 7/27/2016 07:11'!
+!Group methodsFor: 'operations' stamp: 'len 7/27/2016 07:11'!
 conjugacyClasses
 	^ self conjugation orbits! !
 
@@ -16661,7 +16665,7 @@ conjugate: x with: y
 conjugation
 	^ GroupAction from: (self, self) to: self evaluating: [:each| self conjugate: each first with: each second]! !
 
-!Group methodsFor: 'morphisms' stamp: 'len 4/29/2016 08:23'!
+!Group methodsFor: 'operations' stamp: 'len 4/29/2016 08:23'!
 coproduct: aGroup
 	^ self freeProduct: aGroup! !
 
@@ -16744,7 +16748,7 @@ derivedSeriesDo: aBlock
 	G order = G` order ifTrue: [^ self].
 	G _ G`] repeat! !
 
-!Group methodsFor: 'morphisms' stamp: 'len 6/3/2016 19:51'!
+!Group methodsFor: 'operations' stamp: 'len 6/3/2016 19:51'!
 directProduct: aGroup
 	^ DirectProductGroup components: {self. aGroup}! !
 
@@ -16784,20 +16788,20 @@ generators
 	^ (properties includesKey: #elements)
 		ifTrue: [properties at: #generators put: self computeGenerators]! !
 
-!Group methodsFor: 'morphisms' stamp: 'len 8/4/2016 22:32'!
+!Group methodsFor: 'operations' stamp: 'len 8/4/2016 22:32'!
 groupAlgebraOver: aField
 	self flag: #fix. "use group multiplication, same as >>groupRingOver:?"
 	^ aField freeAlgebraIn: self elements! !
 
-!Group methodsFor: 'morphisms' stamp: 'len 7/15/2016 18:26'!
+!Group methodsFor: 'operations' stamp: 'len 7/15/2016 18:26'!
 groupRing
 	^ self groupRingOver: ZZ! !
 
-!Group methodsFor: 'morphisms' stamp: 'len 8/7/2016 08:43'!
+!Group methodsFor: 'operations' stamp: 'len 8/7/2016 08:43'!
 groupRingOver: aRing
 	^ GroupRing on: self over: aRing! !
 
-!Group methodsFor: 'morphisms-endo' stamp: 'len 5/1/2016 22:59'!
+!Group methodsFor: 'operations-endo' stamp: 'len 5/1/2016 22:59'!
 hypoabelianization
 	^ self / self perfectCore! !
 
@@ -16921,7 +16925,7 @@ multiplicativeInverseMap
 multiplicativeOperation
 	^ (GroupAction from: (self, self) to: self evaluating: [:each| each first * each second]) name: '*'! !
 
-!Group methodsFor: 'morphisms-endo' stamp: 'len 7/27/2016 06:22'!
+!Group methodsFor: 'operations-endo' stamp: 'len 7/27/2016 06:22'!
 normalClosureOf: aSubset
 	"From Handbook of Computational Group Theory (Holt) 74p.
 	The normal closure of A <= G in G (denoted A^G) is the smallest normal subgroup of G that contains A, i.e. the intersection of all normal subgroups that contain A. Equivalently, it is the set A^G := {g^-1 * a * g | g in G, a in A}."
@@ -16946,7 +16950,7 @@ normalClosureOf: aSubset
 				(N includes: hg) ifFalse: [Z add: hg. N _ self copyEmpty generators: Z. random2 _ N random]]].
 	^ N! !
 
-!Group methodsFor: 'morphisms-endo' stamp: 'len 7/1/2016 08:16'!
+!Group methodsFor: 'operations-endo' stamp: 'len 7/1/2016 08:16'!
 normalizerOf: aCollection
 	"Answer the normal closure of aCollection in the receiver, i.e. the smallest normal subgroup that contains aCollection."
 	| inverseMap op |
@@ -16954,7 +16958,7 @@ normalizerOf: aCollection
 	inverseMap _ self inverseMap.
 	^ self select: [:x| (aCollection collect: [:y| op value: {op value: {x.y}. inverseMap value: x}]) = aCollection]! !
 
-!Group methodsFor: 'morphisms' stamp: 'len 8/4/2016 22:33'!
+!Group methodsFor: 'accessing' stamp: 'len 8/4/2016 22:33'!
 null
 	"Answer the trivial subgroup."
 	^ self span: #()! !
@@ -16995,7 +16999,7 @@ orderOf: anElement boundedBy: n
 outerAutomorphisms
 	^ self automorphisms / self innerAutomorphisms! !
 
-!Group methodsFor: 'morphisms-endo' stamp: 'len 5/1/2016 22:59'!
+!Group methodsFor: 'operations-endo' stamp: 'len 5/1/2016 22:59'!
 perfectCore
 	| answer |
 	self derivedSeriesDo: [:each| answer _ each].
@@ -17014,7 +17018,7 @@ printOn: aStream
 	generators do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: '; '].
 	aStream nextPut: $>! !
 
-!Group methodsFor: 'morphisms' stamp: 'len 6/3/2016 19:51'!
+!Group methodsFor: 'operations' stamp: 'len 6/3/2016 19:51'!
 product: aGroup
 	^ self directProduct: aGroup! !
 
@@ -17054,11 +17058,11 @@ select: aBlock
 	self do: [:each| (aBlock value: each) ifTrue: [elements add: each]].
 	^ self copyEmpty elements: elements! !
 
-!Group methodsFor: 'morphisms' stamp: 'len 2/13/2016 07:23'!
+!Group methodsFor: 'operations' stamp: 'len 2/13/2016 07:23'!
 semidirect: aGroup action: aGroupAction
 	^ SemidirectProductGroup left: self right: aGroup action: aGroupAction! !
 
-!Group methodsFor: 'morphisms' stamp: 'len 5/1/2016 23:45'!
+!Group methodsFor: 'operations' stamp: 'len 5/1/2016 23:45'!
 span: aCollection
 	"Answer the subgroup generated by the argument."
 	^ self copyEmpty generators: aCollection! !
@@ -17067,7 +17071,7 @@ span: aCollection
 species
 	^ Group! !
 
-!Group methodsFor: 'morphisms' stamp: 'len 8/4/2016 22:33'!
+!Group methodsFor: 'accessing' stamp: 'len 8/4/2016 22:33'!
 trivial
 	"Answer the trivial subgroup."
 	^ self null! !
@@ -17165,7 +17169,7 @@ ambient
 	"Answer the ambient group."
 	^ space automorphisms "the general affine group GA(A)"! !
 
-!AffineGroup methodsFor: 'morphisms' stamp: 'len 2/13/2016 07:24'!
+!AffineGroup methodsFor: 'operations' stamp: 'len 2/13/2016 07:24'!
 asSemidirectProduct
 	self flag: #fix. "the action is wrong"
 	^ SemidirectProductGroup left: space direction right: self linear action: self linear id! !
@@ -17178,7 +17182,7 @@ identity
 includes: anAffineMap
 	^ self notYetImplemented! !
 
-!AffineGroup methodsFor: 'morphisms' stamp: 'len 2/12/2016 18:27'!
+!AffineGroup methodsFor: 'operations' stamp: 'len 2/12/2016 18:27'!
 linear
 	^ properties at: #linear! !
 
@@ -17232,7 +17236,7 @@ dimension
 includes: anAffineMap
 	^ anAffineMap domain = space and: [anAffineMap isEndomorphism and: [anAffineMap isIsometry]]! !
 
-!EuclideanGroup methodsFor: 'morphisms' stamp: 'len 2/12/2016 18:29'!
+!EuclideanGroup methodsFor: 'operations' stamp: 'len 2/12/2016 18:29'!
 linear
 	^ space direction automorphisms orthogonal! !
 
@@ -17240,7 +17244,7 @@ linear
 shortName
 	^ 'E'! !
 
-!EuclideanGroup methodsFor: 'morphisms' stamp: 'len 2/12/2016 18:37'!
+!EuclideanGroup methodsFor: 'operations' stamp: 'len 2/12/2016 18:37'!
 special
 	"Answer the special Euclidean group SE(A), the group of direct isometries, i.e. isometries preserving orientation, also called 'rigid motions'. This is a subgroup of the receiver."
 	^ SpecialEuclideanGroup on: space! !
@@ -17255,7 +17259,7 @@ atRandom: aRandom bits: bitSize
 	n _ bitSize sqrtFloor.
 	^ AffineMap linearPart: (space direction automorphisms atRandom: aRandom bits: bitSize - n) translation: (space atRandom: aRandom bits: n)! !
 
-!GeneralAffineGroup methodsFor: 'morphisms' stamp: 'len 2/12/2016 18:28'!
+!GeneralAffineGroup methodsFor: 'operations' stamp: 'len 2/12/2016 18:28'!
 euclidean
 	"Answer the Euclidean group E(A), the group of isometries, i.e. distance-preserving morphisms, also called 'motionss'. This is a subgroup of the receiver."
 	^ EuclideanGroup on: space! !
@@ -17264,7 +17268,7 @@ euclidean
 includes: anAffineMap
 	^ anAffineMap domain = space and: [anAffineMap isEndomorphism and: [anAffineMap isMonomorphism]]! !
 
-!GeneralAffineGroup methodsFor: 'morphisms' stamp: 'len 2/12/2016 18:30'!
+!GeneralAffineGroup methodsFor: 'operations' stamp: 'len 2/12/2016 18:30'!
 linear
 	^ space direction automorphisms! !
 
@@ -17272,7 +17276,7 @@ linear
 shortName
 	^ 'GA'! !
 
-!GeneralAffineGroup methodsFor: 'morphisms' stamp: 'len 2/12/2016 18:49'!
+!GeneralAffineGroup methodsFor: 'operations' stamp: 'len 2/12/2016 18:49'!
 special
 	^ SpecialAffineGroup on: space! !
 
@@ -17280,7 +17284,7 @@ special
 includes: anAffineMap
 	^ anAffineMap domain = space and: [anAffineMap isEndomorphism and: [anAffineMap matrix determinant = space scalars one]]! !
 
-!SpecialAffineGroup methodsFor: 'morphisms' stamp: 'len 2/12/2016 18:55'!
+!SpecialAffineGroup methodsFor: 'operations' stamp: 'len 2/12/2016 18:55'!
 linear
 	^ SpecialLinearGroup on: space direction! !
 
@@ -17292,7 +17296,7 @@ shortName
 includes: anAffineMap
 	^ anAffineMap domain = space and: [anAffineMap isEndomorphism and: [anAffineMap isIsometry and: [anAffineMap matrix determinant = space scalars one]]]! !
 
-!SpecialEuclideanGroup methodsFor: 'morphisms' stamp: 'len 2/12/2016 18:38'!
+!SpecialEuclideanGroup methodsFor: 'operations' stamp: 'len 2/12/2016 18:38'!
 linear
 	^ space direction rotations! !
 
@@ -17352,7 +17356,7 @@ matrix: aMatrix
 arity
 	^ components size! !
 
-!DirectProductGroup methodsFor: 'morphisms' stamp: 'len 4/19/2016 20:39'!
+!DirectProductGroup methodsFor: 'converting' stamp: 'len 4/19/2016 20:39'!
 asCartesianProduct
 	^ CartesianProduct components: components! !
 
@@ -17498,7 +17502,7 @@ action
 	"Answer the natural action that sends (f, v) to f(v)."
 	^ GroupAction from: (self, space) to: space evaluating: [:each| each first value: each second]! !
 
-!LinearGroup methodsFor: 'morphisms' stamp: 'len 3/18/2016 03:33'!
+!LinearGroup methodsFor: 'operations' stamp: 'len 3/18/2016 03:33'!
 affine
 	self flag: #fix.
 	^ AffineGroup linear: self! !
@@ -17508,7 +17512,7 @@ ambient
 	"Answer the ambient group."
 	^ space automorphisms "the general linear group GL(V)"! !
 
-!LinearGroup methodsFor: 'morphisms' stamp: 'len 7/11/2016 20:57'!
+!LinearGroup methodsFor: 'operations' stamp: 'len 7/11/2016 20:57'!
 asMatrixGroup
 	self flag: #fix. "the matrix depends on the basis"
 	^ (MatrixGroup on: space coordinateSpace) generators: (self generators collect: [:g| g matrix])! !
@@ -17617,7 +17621,7 @@ on: aVectorSpace
 	(anObject isKindOf: LinearGroup) ifTrue: [^ space >= anObject space].
 	^ super >= anObject! !
 
-!GeneralLinearGroup methodsFor: 'morphisms' stamp: 'len 6/4/2016 04:35'!
+!GeneralLinearGroup methodsFor: 'operations' stamp: 'len 6/4/2016 04:35'!
 affine
 	^ GeneralAffineGroup on: space asAffineSpace! !
 
@@ -17625,15 +17629,15 @@ affine
 ambient
 	^ self! !
 
-!GeneralLinearGroup methodsFor: 'morphisms' stamp: 'len 4/17/2016 06:58'!
+!GeneralLinearGroup methodsFor: 'operations' stamp: 'len 4/17/2016 06:58'!
 asMatrixGroup
 	^ GeneralLinearMatrixGroup on: space coordinateSpace! !
 
-!GeneralLinearGroup methodsFor: 'morphisms' stamp: 'len 2/11/2016 20:20'!
+!GeneralLinearGroup methodsFor: 'operations' stamp: 'len 2/11/2016 20:20'!
 center
 	^ ScalarGroup on: space! !
 
-!GeneralLinearGroup methodsFor: 'morphisms' stamp: 'len 4/17/2016 07:08'!
+!GeneralLinearGroup methodsFor: 'operations' stamp: 'len 4/17/2016 07:08'!
 commutator
 	(space dimension = 2 and: [space scalars size = 2])
 		ifFalse: [^ SpecialLinearGroup on: space].
@@ -17643,11 +17647,11 @@ commutator
 includes: aLinearMap
 	^ (space endomorphisms includes: aLinearMap) and: [aLinearMap determinant isZero not]! !
 
-!GeneralLinearGroup methodsFor: 'morphisms' stamp: 'len 2/11/2016 20:17'!
+!GeneralLinearGroup methodsFor: 'operations' stamp: 'len 2/11/2016 20:17'!
 orthogonal
 	^ OrthogonalGroup on: space! !
 
-!GeneralLinearGroup methodsFor: 'morphisms' stamp: 'len 8/5/2016 05:14'!
+!GeneralLinearGroup methodsFor: 'operations' stamp: 'len 8/5/2016 05:14'!
 projective
 	"Answer the projective (general) linear group PGL(V) which is the quotient of the receiver by its center (the scalar transformations)."
 	^ ProjectiveGeneralLinearGroup on: space projective! !
@@ -17666,15 +17670,15 @@ size
 	n _ self space dimension.
 	^ q ** (n*(n-1)/2) * ((1 to: n) inject: 1 into: [:x :k| q**k - 1 * x])! !
 
-!GeneralLinearGroup methodsFor: 'morphisms' stamp: 'len 2/12/2016 18:58'!
+!GeneralLinearGroup methodsFor: 'operations' stamp: 'len 2/12/2016 18:58'!
 special
 	^ SpecialLinearGroup on: space! !
 
-!OrthogonalGroup methodsFor: 'morphisms' stamp: 'len 6/4/2016 04:35'!
+!OrthogonalGroup methodsFor: 'operations' stamp: 'len 6/4/2016 04:35'!
 affine
 	^ EuclideanGroup on: space asAffineSpace! !
 
-!OrthogonalGroup methodsFor: 'morphisms' stamp: 'len 4/23/2016 06:08'!
+!OrthogonalGroup methodsFor: 'operations' stamp: 'len 4/23/2016 06:08'!
 asMatrixGroup
 	^ ScalarMatrixGroup on: space coordinateSpace! !
 
@@ -17698,7 +17702,7 @@ atRandom: aRandom bits: bitSize
 			answer _ answer @ (self reflectionAt: v)].
 	^ answer! !
 
-!OrthogonalGroup methodsFor: 'morphisms' stamp: 'len 2/11/2016 22:07'!
+!OrthogonalGroup methodsFor: 'operations' stamp: 'len 2/11/2016 22:07'!
 coxeter: aMatrix
 	"Answer the geometric Coxeter group associated with the Coxeter matrix aMatrix."
 	^ self notYetImplemented! !
@@ -17716,11 +17720,11 @@ reflectionAt: aVector
 shortName
 	^ 'O'! !
 
-!OrthogonalGroup methodsFor: 'morphisms' stamp: 'len 2/12/2016 18:59'!
+!OrthogonalGroup methodsFor: 'operations' stamp: 'len 2/12/2016 18:59'!
 special
 	^ SpecialOrthogonalGroup on: space! !
 
-!ScalarGroup methodsFor: 'morphisms' stamp: 'len 4/23/2016 06:09'!
+!ScalarGroup methodsFor: 'operations' stamp: 'len 4/23/2016 06:09'!
 asMatrixGroup
 	^ ScalarMatrixGroup on: space coordinateSpace! !
 
@@ -17754,11 +17758,11 @@ isCommutative
 shortName
 	^ 'Z'! !
 
-!ScalarGroup methodsFor: 'morphisms' stamp: 'len 2/12/2016 19:01'!
+!ScalarGroup methodsFor: 'operations' stamp: 'len 2/12/2016 19:01'!
 special
 	^ SpecialScalarGroup on: space! !
 
-!SpecialLinearGroup methodsFor: 'morphisms' stamp: 'len 4/23/2016 06:09'!
+!SpecialLinearGroup methodsFor: 'operations' stamp: 'len 4/23/2016 06:09'!
 asMatrixGroup
 	^ SpecialLinearMatrixGroup on: space coordinateSpace! !
 
@@ -17774,7 +17778,7 @@ atRandom: aRandom bits: bitSize
 	f _ space automorphisms atRandom: aRandom bits: bitSize.
 	^ f / f determinant! !
 
-!SpecialLinearGroup methodsFor: 'morphisms' stamp: 'len 2/11/2016 20:20'!
+!SpecialLinearGroup methodsFor: 'operations' stamp: 'len 2/11/2016 20:20'!
 center
 	^ SpecialScalarGroup on: space! !
 
@@ -17782,7 +17786,7 @@ center
 includes: aLinearMap
 	^ (space endomorphisms includes: aLinearMap) and: [aLinearMap determinant = space scalars one]! !
 
-!SpecialLinearGroup methodsFor: 'morphisms' stamp: 'len 6/10/2016 05:38'!
+!SpecialLinearGroup methodsFor: 'operations' stamp: 'len 6/10/2016 05:38'!
 projective
 	"Answer the projective special linear group PSL(V) which is the quotient of the receiver by its center {Id, -Id}."
 	^ ProjectiveSpecialLinearGroup on: space projective! !
@@ -17791,11 +17795,11 @@ projective
 shortName
 	^ 'SL'! !
 
-!SpecialOrthogonalGroup methodsFor: 'morphisms' stamp: 'len 2/12/2016 18:44'!
+!SpecialOrthogonalGroup methodsFor: 'operations' stamp: 'len 2/12/2016 18:44'!
 affine
 	^ SpecialEuclideanGroup on: space affine! !
 
-!SpecialOrthogonalGroup methodsFor: 'morphisms' stamp: 'len 4/23/2016 06:09'!
+!SpecialOrthogonalGroup methodsFor: 'operations' stamp: 'len 4/23/2016 06:09'!
 asMatrixGroup
 	^ SpecialOrthogonalMatrixGroup on: space coordinateSpace! !
 
@@ -17807,7 +17811,7 @@ includes: aLinearMap
 shortName
 	^ 'SO'! !
 
-!SpecialScalarGroup methodsFor: 'morphisms' stamp: 'len 4/23/2016 06:09'!
+!SpecialScalarGroup methodsFor: 'operations' stamp: 'len 4/23/2016 06:09'!
 asMatrixGroup
 	^ SpecialScalarMatrixGroup on: space coordinateSpace! !
 
@@ -17988,11 +17992,11 @@ on: aTuples generators: aCollection
 ambient
 	^ self! !
 
-!GeneralLinearMatrixGroup methodsFor: 'morphisms' stamp: 'len 2/13/2016 07:42'!
+!GeneralLinearMatrixGroup methodsFor: 'operations' stamp: 'len 2/13/2016 07:42'!
 center
 	^ ScalarMatrixGroup on: space! !
 
-!GeneralLinearMatrixGroup methodsFor: 'morphisms' stamp: 'len 2/13/2016 07:43'!
+!GeneralLinearMatrixGroup methodsFor: 'operations' stamp: 'len 2/13/2016 07:43'!
 commutator
 	(self dimension = 2 and: [self scalars size = 2])
 		ifFalse: [^ SpecialLinearMatrixGroup on: space].
@@ -18002,7 +18006,7 @@ commutator
 includes: aMatrix
 	^ (matrices includes: aMatrix) and: [aMatrix determinant isZero not]! !
 
-!GeneralLinearMatrixGroup methodsFor: 'morphisms' stamp: 'len 2/13/2016 07:42'!
+!GeneralLinearMatrixGroup methodsFor: 'operations' stamp: 'len 2/13/2016 07:42'!
 orthogonal
 	^ OrthogonalMatrixGroup on: space! !
 
@@ -18019,7 +18023,7 @@ size
 	n _ self space dimension .
 	^ q ** (n*(n-1)/2) * ((1 to: n) inject: 1 into: [:x :k| q**k - 1 * x])! !
 
-!GeneralLinearMatrixGroup methodsFor: 'morphisms' stamp: 'len 2/13/2016 07:43'!
+!GeneralLinearMatrixGroup methodsFor: 'operations' stamp: 'len 2/13/2016 07:43'!
 special
 	"Answer the special linear group SL(n) which is a subgroup of the receiver."
 	^ SpecialLinearMatrixGroup on: space! !
@@ -18032,7 +18036,7 @@ includes: aMatrix
 shortName
 	^ 'O'! !
 
-!OrthogonalMatrixGroup methodsFor: 'morphisms' stamp: 'len 2/13/2016 07:44'!
+!OrthogonalMatrixGroup methodsFor: 'operations' stamp: 'len 2/13/2016 07:44'!
 special
 	^ SpecialOrthogonalMatrixGroup on: space! !
 
@@ -18064,7 +18068,7 @@ isCommutative
 shortName
 	^ 'Z'! !
 
-!SpecialLinearMatrixGroup methodsFor: 'morphisms' stamp: 'len 6/8/2016 05:40'!
+!SpecialLinearMatrixGroup methodsFor: 'operations' stamp: 'len 6/8/2016 05:40'!
 asAlgebraicVariety
 	| n m P det |
 	n _ matrices numberOfRows.
@@ -18073,7 +18077,7 @@ asAlgebraicVariety
 	det _ ((matrices over: P) evaluating: [:i :j| P x: i - 1 * m + j]) determinant.
 	^ P * (det - self scalars one) :: variety! !
 
-!SpecialLinearMatrixGroup methodsFor: 'morphisms' stamp: 'len 2/13/2016 07:43'!
+!SpecialLinearMatrixGroup methodsFor: 'operations' stamp: 'len 2/13/2016 07:43'!
 center
 	^ SpecialScalarMatrixGroup on: space! !
 
@@ -18156,7 +18160,7 @@ computeSize
 	self error: 'what?'.
 	^ answer! !
 
-!PermutationGroup methodsFor: 'nil' stamp: 'len 7/23/2016 06:25'!
+!PermutationGroup methodsFor: 'copying' stamp: 'len 7/23/2016 06:25'!
 copyEmpty
 	^ super copyEmpty space: space! !
 
@@ -18313,7 +18317,7 @@ atRandom: aRandom
 atRandom: aRandom bits: bits
 	^ self atRandom: aRandom! !
 
-!SymmetricGroup methodsFor: 'morphisms' stamp: 'len 2/16/2016 05:50'!
+!SymmetricGroup methodsFor: 'operations' stamp: 'len 2/16/2016 05:50'!
 commutator
 	^ AlternatingGroup on: space! !
 
@@ -18448,7 +18452,7 @@ projection
 	"Answer the natural projection, or quotient map, or canonical homomorphism. This takes elements from the base group to the corresponding coset in the quotient group."
 	^ properties at: #projection ifAbsentPut: [self defaultProjection]! !
 
-!QuotientGroup methodsFor: 'morphisms' stamp: 'len 4/26/2016 08:07'!
+!QuotientGroup methodsFor: 'accessing' stamp: 'len 4/26/2016 08:07'!
 relation
 	| inv op |
 	op _ self base operation.
@@ -18488,7 +18492,7 @@ action: anAction
 arity
 	^ 2! !
 
-!SemidirectProductGroup methodsFor: 'morphisms' stamp: 'len 4/19/2016 20:55'!
+!SemidirectProductGroup methodsFor: 'converting' stamp: 'len 4/19/2016 20:55'!
 asCartesianProduct
 	^ (left, right)! !
 
@@ -18772,7 +18776,7 @@ identity
 includes: aMorphism
 	^ (aMorphism isKindOf: Function) and: [aMorphism domain = self domain and: [aMorphism codomain = self codomain]]! !
 
-!Morphisms methodsFor: 'morphisms' stamp: 'len 4/19/2016 04:52'!
+!Morphisms methodsFor: 'operations' stamp: 'len 4/19/2016 04:52'!
 inverse
 	^ self class from: self domain to: self codomain! !
 
@@ -18970,7 +18974,7 @@ orthocenter
 perpendicularBisectors
 	^ self notYetImplemented! !
 
-!ProjectiveSubspace methodsFor: 'morphisms' stamp: 'len 11/20/2015 22:06'!
+!ProjectiveSubspace methodsFor: 'operations' stamp: 'len 11/20/2015 22:06'!
 + aProjectiveSubspace
 	^ self class on: vectorSpace + aProjectiveSubspace vectorSpace! !
 
@@ -18979,7 +18983,7 @@ perpendicularBisectors
 	(aProjectiveSpace isKindOf: ProjectiveSubspace) ifFalse: [^ super -> aProjectiveSpace].
 	^ super -> aProjectiveSpace elementClass: ProjectiveMap! !
 
-!ProjectiveSubspace methodsFor: 'morphisms' stamp: 'len 6/5/2016 22:47'!
+!ProjectiveSubspace methodsFor: 'operations' stamp: 'len 6/5/2016 22:47'!
 /\ aProjectiveSubspace
 	"Meet."
 	^ self intersection: aProjectiveSubspace! !
@@ -19000,12 +19004,12 @@ perpendicularBisectors
 = anObject
 	^ (anObject isKindOf: ProjectiveSubspace) and: [vectorSpace = anObject vectorSpace]! !
 
-!ProjectiveSubspace methodsFor: 'morphisms' stamp: 'len 6/5/2016 23:10'!
+!ProjectiveSubspace methodsFor: 'operations' stamp: 'len 6/5/2016 23:10'!
 \ anHyperplane
 	"Answer the difference of the receiver with an hyperplane, i.e. an affine space."
 	^ self notYetImplemented! !
 
-!ProjectiveSubspace methodsFor: 'morphisms' stamp: 'len 6/5/2016 22:47'!
+!ProjectiveSubspace methodsFor: 'operations' stamp: 'len 6/5/2016 22:47'!
 \/ aProjectiveSubspace
 	"Join."
 	^ self + aProjectiveSubspace! !
@@ -19072,7 +19076,7 @@ coplanar: aProjectiveSubspace
 dimension
 	^ vectorSpace dimension - 1! !
 
-!ProjectiveSubspace methodsFor: 'morphisms' stamp: 'len 2/4/2016 19:58'!
+!ProjectiveSubspace methodsFor: 'operations' stamp: 'len 2/4/2016 19:58'!
 dual
 	"Answer the dual projective space of the receiver.
 	For a projective plane C = (P,L,I) given by points P, lines L, and an incidence relation I, the duality maps points to lines and lines to points preserving incidence: C* = (L,P,I*).
@@ -19111,7 +19115,7 @@ hash
 includes: aPoint
 	^ vectorSpace includes: (self vectorFromPoint: aPoint)! !
 
-!ProjectiveSubspace methodsFor: 'morphisms' stamp: 'len 2/24/2016 06:01'!
+!ProjectiveSubspace methodsFor: 'operations' stamp: 'len 2/24/2016 06:01'!
 intersection: aProjectiveSubspace
 	"Answer the intersection between the receiver and the argument."
 
@@ -19411,7 +19415,7 @@ new
 = anInterval
 	^ left = anInterval left and: [right = anInterval right and: [self isLeftOpen = anInterval isLeftOpen and: [self isRightOpen = anInterval isRightOpen]]]! !
 
-!RealInterval methodsFor: 'morhisms' stamp: 'len 1/11/2016 02:41'!
+!RealInterval methodsFor: 'operations' stamp: 'len 1/11/2016 02:41'!
 cartesian: anInterval
 	"Answer the cartesian product of the receiver by the argument."
 	| answer |
@@ -19437,7 +19441,7 @@ closeRight
 
 	self isRightClosed ifFalse: [^ self copy rightOpen: false]! !
 
-!RealInterval methodsFor: 'morhisms' stamp: 'len 1/16/2016 05:59'!
+!RealInterval methodsFor: 'operations' stamp: 'len 1/16/2016 05:59'!
 closure
 	^ self class closed: left closed: right! !
 
@@ -19488,7 +19492,7 @@ inf
 
 	^ self left! !
 
-!RealInterval methodsFor: 'morhisms' stamp: 'len 6/2/2016 07:29'!
+!RealInterval methodsFor: 'operations' stamp: 'len 6/2/2016 07:29'!
 interior
 	^ self class open: left open: right! !
 
@@ -19747,7 +19751,7 @@ open: left open: right
 
 	^ self new setLeftBound: left rightBound: right leftOpen: true rightOpen: true! !
 
-!SemialgebraicInterval methodsFor: 'morphisms' stamp: 'len 1/8/98 20:35'!
+!SemialgebraicInterval methodsFor: 'operations' stamp: 'len 1/8/98 20:35'!
 boundary
 	"Answer the boundary of the receiver."
 
@@ -19756,13 +19760,13 @@ boundary
 		add: (self class between: self right and: self right);
 		yourself! !
 
-!SemialgebraicInterval methodsFor: 'morphisms' stamp: 'len 1/8/98 20:29'!
+!SemialgebraicInterval methodsFor: 'operations' stamp: 'len 1/8/98 20:29'!
 closure
 	"Answer the closure of the receiver."
 
 	^ self boundary copy add: self; yourself! !
 
-!SemialgebraicInterval methodsFor: 'morphisms' stamp: 'len 1/16/98 21:58'!
+!SemialgebraicInterval methodsFor: 'operations' stamp: 'len 1/16/98 21:58'!
 interior
 	"Answer the interior of the receiver."
 
@@ -19952,7 +19956,7 @@ printOn: aStream
 on: aSubgroup representative: anObject
 	^ self new subgroup: aSubgroup; representative: anObject! !
 
-!SemialgebraicSet methodsFor: 'morphisms' stamp: 'len 6/5/2016 23:25'!
+!SemialgebraicSet methodsFor: 'operations' stamp: 'len 6/5/2016 23:25'!
 /\ aSemialgebraicSet
 	"Meet."
 	^ self intersection: aSemialgebraicSet! !
@@ -19965,12 +19969,12 @@ on: aSubgroup representative: anObject
 	aSemialgebraicSet cells do: [ :each | (self cells includes: each) ifFalse: [^ false]].
 	^ true! !
 
-!SemialgebraicSet methodsFor: 'morphisms' stamp: 'len 6/2/2016 08:11'!
+!SemialgebraicSet methodsFor: 'operations' stamp: 'len 6/2/2016 08:11'!
 \ aSemialgebraicSet
 	"Answer the difference of the receiver with the argument,"
 	^ self copyWithoutAll: aSemialgebraicSet cells! !
 
-!SemialgebraicSet methodsFor: 'morphisms' stamp: 'len 6/5/2016 23:25'!
+!SemialgebraicSet methodsFor: 'operations' stamp: 'len 6/5/2016 23:25'!
 \/ aSemialgebraicSet
 	"Join."
 	^ self union: aSemialgebraicSet! !
@@ -19988,7 +19992,7 @@ addAll: aCollection
 	aCollection do: [ :each | self add: each].
 	^ aCollection! !
 
-!SemialgebraicSet methodsFor: 'morphisms' stamp: 'len 6/2/2016 08:13'!
+!SemialgebraicSet methodsFor: 'operations' stamp: 'len 6/2/2016 08:13'!
 boundary
 	| answer |
 	answer _ self class new.
@@ -20008,7 +20012,7 @@ cells
 cells: aCollection
 	cells _ aCollection! !
 
-!SemialgebraicSet methodsFor: 'morphisms' stamp: 'len 6/2/2016 08:12'!
+!SemialgebraicSet methodsFor: 'operations' stamp: 'len 6/2/2016 08:12'!
 closure
 	| answer |
 	answer _ self class new.
@@ -20026,7 +20030,7 @@ collect: aBlock
 	self do: [:each | newCollection add: (aBlock value: each)].
 	^newCollection! !
 
-!SemialgebraicSet methodsFor: 'morphisms' stamp: 'len 2/2/2016 22:26'!
+!SemialgebraicSet methodsFor: 'operations' stamp: 'len 2/2/2016 22:26'!
 complement
 	^ self notYetImplemented! !
 
@@ -20103,11 +20107,11 @@ includes: anObject
 		ifTrue: [^ self cells anySatisfy: [:any| any includes: anObject]].
 	^ false! !
 
-!SemialgebraicSet methodsFor: 'morphisms' stamp: 'len 6/2/2016 08:13'!
+!SemialgebraicSet methodsFor: 'operations' stamp: 'len 6/2/2016 08:13'!
 interior
 	^ self closure \ self boundary! !
 
-!SemialgebraicSet methodsFor: 'morphisms' stamp: 'len 6/2/2016 08:15'!
+!SemialgebraicSet methodsFor: 'operations' stamp: 'len 6/2/2016 08:15'!
 intersection: aSemialgebraicSet
 	self flag: #fix. "this is wrong"
 	^ self class cells: (self cells intersection: aSemialgebraicSet cells)! !
@@ -20184,7 +20188,7 @@ sentence
 	self isEmpty ifTrue: [^ QQ polynomials x squared lneq: 0].
 	^ self cells collect: [:each| each sentence] andFold: [:a :b| a | b]! !
 
-!SemialgebraicSet methodsFor: 'morphisms' stamp: 'len 6/2/2016 05:02'!
+!SemialgebraicSet methodsFor: 'operations' stamp: 'len 6/2/2016 05:02'!
 union: aSemialgebraicSet
 	^ self class cells: self cells, aSemialgebraicSet cells! !
 
@@ -20296,7 +20300,7 @@ size
 	^ answer
 ! !
 
-!SimplicialComplex methodsFor: 'morphisms' stamp: 'len 2/29/2016 08:26'!
+!SimplicialComplex methodsFor: 'operations' stamp: 'len 2/29/2016 08:26'!
 / aFace
 	"Answer the link of the face aFace."
 	^ self notYetImplemented! !
@@ -20329,11 +20333,11 @@ chains: p over: anAbelianGroup
 		ifTrue: [^ FreeModule on: (self faces: p) asArray over: anAbelianGroup].
 	DomainError signal! !
 
-!SimplicialComplex methodsFor: 'morphisms' stamp: 'len 6/13/2016 09:43'!
+!SimplicialComplex methodsFor: 'operations' stamp: 'len 6/13/2016 09:43'!
 closedStarOf: aCollection
 	^ self closureOf: (self starOf: aCollection)! !
 
-!SimplicialComplex methodsFor: 'morphisms' stamp: 'len 6/11/2016 23:53'!
+!SimplicialComplex methodsFor: 'operations' stamp: 'len 6/11/2016 23:53'!
 closureOf: aCollection
 	| simplices |
 	simplices _ self elements copyAs: Set.
@@ -20367,7 +20371,7 @@ cocycles: i
 cohomology: i
 	^ (self cocycles: i) / (self coboundaries: i)! !
 
-!SimplicialComplex methodsFor: 'morphisms' stamp: 'len 2/29/2016 08:25'!
+!SimplicialComplex methodsFor: 'operations' stamp: 'len 2/29/2016 08:25'!
 coskeleton: n
 	"Answer the n-coskeleton of the receiver."
 	^ self notYetImplemented! !
@@ -20414,7 +20418,7 @@ homology: i
 isConnected
 	^ (self skeleton: 1) asGraph isConnected! !
 
-!SimplicialComplex methodsFor: 'morphisms' stamp: 'len 6/12/2016 08:43'!
+!SimplicialComplex methodsFor: 'operations' stamp: 'len 6/12/2016 08:43'!
 linkOf: aFace
 	"Answer the link of the face aFac, the complex of all faces of simplices in the star that do not intersect aFace."
 	^ self notYetImplemented! !
@@ -20435,12 +20439,12 @@ shortPrintOn: aStream
 	aStream nextPut: $}
 	! !
 
-!SimplicialComplex methodsFor: 'morphisms' stamp: 'len 6/11/2016 23:54'!
+!SimplicialComplex methodsFor: 'operations' stamp: 'len 6/11/2016 23:54'!
 skeleton: n
 	"Answer the n-skeleton of the receiver."
 	^ self class newFrom: (self elements collect: [:each| each dimension <= n])! !
 
-!SimplicialComplex methodsFor: 'morphisms' stamp: 'len 6/11/2016 23:30'!
+!SimplicialComplex methodsFor: 'operations' stamp: 'len 6/11/2016 23:30'!
 starOf: aCollection
 	| simplices |
 	simplices _ Set new.
@@ -28144,9 +28148,9 @@ action
 	"Answer the associated group action on the representation space."
 	^ GroupAction from: (self domain, self space) to: self space evaluating: [:each| (self value: each first) value: each second]! !
 
-!GroupRepresentation methodsFor: 'as yet unclassified' stamp: 'len 8/4/2016 22:30'!
+!GroupRepresentation methodsFor: 'invariants' stamp: 'len 8/25/2016 04:16'!
 character
-	"Answer the caracter of the receiver, assuming it's a linear or matrix representation."
+	"Answer the character of the receiver, assuming it's a linear or matrix representation."
 	"This is a class function, i.e. it's constant on conjugacy classes, because similar matrices (or linear maps) have the same trace."
 	self space isModule ifFalse: [^ self error: 'not a linear or matrix representation'].
 	^ Function from: self domain to: self space scalars evaluating: [:g| (self value: g) trace] "should be a GroupHomomorphism?"! !
