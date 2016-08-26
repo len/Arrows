@@ -1,66 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 26 August 2016 at 4:38:27.001206 am'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 26 August 2016 at 4:42:44.412719 am'!
 'Description Please enter a description for this package'!
 !provides: 'MathematicsTests' 1 3!
-!classDefinition: #Benchmark category: #MathematicsTests!
-Object subclass: #Benchmark
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'MathematicsTests'!
-!classDefinition: 'Benchmark class' category: #MathematicsTests!
-Benchmark class
-	instanceVariableNames: ''!
-
-!classDefinition: #GroebnerBasisBenchmark category: #MathematicsTests!
-Benchmark subclass: #GroebnerBasisBenchmark
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'MathematicsTests'!
-!classDefinition: 'GroebnerBasisBenchmark class' category: #MathematicsTests!
-GroebnerBasisBenchmark class
-	instanceVariableNames: ''!
-
-!classDefinition: #IntegersBenchmark category: #MathematicsTests!
-Benchmark subclass: #IntegersBenchmark
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'MathematicsTests'!
-!classDefinition: 'IntegersBenchmark class' category: #MathematicsTests!
-IntegersBenchmark class
-	instanceVariableNames: ''!
-
-!classDefinition: #PolynomialBenchmark category: #MathematicsTests!
-Benchmark subclass: #PolynomialBenchmark
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'MathematicsTests'!
-!classDefinition: 'PolynomialBenchmark class' category: #MathematicsTests!
-PolynomialBenchmark class
-	instanceVariableNames: ''!
-
-!classDefinition: #SmallMatrixBenchmark category: #MathematicsTests!
-Benchmark subclass: #SmallMatrixBenchmark
-	instanceVariableNames: 'integerMatrix binaryMatrix'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'MathematicsTests'!
-!classDefinition: 'SmallMatrixBenchmark class' category: #MathematicsTests!
-SmallMatrixBenchmark class
-	instanceVariableNames: ''!
-
-!classDefinition: #SparsePolynomialMultiplicationBenchmark category: #MathematicsTests!
-Benchmark subclass: #SparsePolynomialMultiplicationBenchmark
-	instanceVariableNames: 'p pPlusOne'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'MathematicsTests'!
-!classDefinition: 'SparsePolynomialMultiplicationBenchmark class' category: #MathematicsTests!
-SparsePolynomialMultiplicationBenchmark class
-	instanceVariableNames: ''!
-
 !classDefinition: #AffineGeometryTest category: #MathematicsTests!
 TestCase subclass: #AffineGeometryTest
 	instanceVariableNames: ''
@@ -251,6 +191,66 @@ TestCase subclass: #SimplicesTest
 SimplicesTest class
 	instanceVariableNames: ''!
 
+!classDefinition: #Benchmark category: #MathematicsTests!
+Object subclass: #Benchmark
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'MathematicsTests'!
+!classDefinition: 'Benchmark class' category: #MathematicsTests!
+Benchmark class
+	instanceVariableNames: ''!
+
+!classDefinition: #GroebnerBasisBenchmark category: #MathematicsTests!
+Benchmark subclass: #GroebnerBasisBenchmark
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'MathematicsTests'!
+!classDefinition: 'GroebnerBasisBenchmark class' category: #MathematicsTests!
+GroebnerBasisBenchmark class
+	instanceVariableNames: ''!
+
+!classDefinition: #IntegersBenchmark category: #MathematicsTests!
+Benchmark subclass: #IntegersBenchmark
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'MathematicsTests'!
+!classDefinition: 'IntegersBenchmark class' category: #MathematicsTests!
+IntegersBenchmark class
+	instanceVariableNames: ''!
+
+!classDefinition: #PolynomialBenchmark category: #MathematicsTests!
+Benchmark subclass: #PolynomialBenchmark
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'MathematicsTests'!
+!classDefinition: 'PolynomialBenchmark class' category: #MathematicsTests!
+PolynomialBenchmark class
+	instanceVariableNames: ''!
+
+!classDefinition: #SmallMatrixBenchmark category: #MathematicsTests!
+Benchmark subclass: #SmallMatrixBenchmark
+	instanceVariableNames: 'integerMatrix binaryMatrix'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'MathematicsTests'!
+!classDefinition: 'SmallMatrixBenchmark class' category: #MathematicsTests!
+SmallMatrixBenchmark class
+	instanceVariableNames: ''!
+
+!classDefinition: #SparsePolynomialMultiplicationBenchmark category: #MathematicsTests!
+Benchmark subclass: #SparsePolynomialMultiplicationBenchmark
+	instanceVariableNames: 'p pPlusOne'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'MathematicsTests'!
+!classDefinition: 'SparsePolynomialMultiplicationBenchmark class' category: #MathematicsTests!
+SparsePolynomialMultiplicationBenchmark class
+	instanceVariableNames: ''!
+
 
 !GroebnerBasisBenchmark commentStamp: '<historical>' prior: 0!
 GroebnerBasisBenchmark new run
@@ -424,379 +424,6 @@ testTranspositionZ2	565 per second.
 Timings giving in [1] on computers with 0.8ghz - 1ghz intel cpus: general purpose system 20s-100s, tuned systems 2.3s-10s. For bigger coefficients: singular 28s, pari 77s.
 
 [1] R.J. Fateman, Comparing the speed of sparse polynomial multiplication.!
-
-!Benchmark methodsFor: 'as yet unclassified' stamp: 'len 3/1/2016 04:20'!
-run
-	| output |
-	output _ WriteStream on: (String new: 1000).
-	(self class selectors asArray select: [:each|
-		(each beginsWith: 'test') and: [each numArgs isZero]]) sort
-		do: [:each|
-			output nextPutAll: each; tab.
-			self setUp.
-			Smalltalk garbageCollect.
-			[output nextPutAll: [self perform: each] bench] on: Error do: [output nextPutAll: 'FAILED'].
-			self tearDown]
-		separatedBy: [output newLine].
-	^ output contents! !
-
-!Benchmark methodsFor: 'as yet unclassified' stamp: 'len 3/1/2016 04:16'!
-setUp
-	^ self! !
-
-!Benchmark methodsFor: 'as yet unclassified' stamp: 'len 3/1/2016 04:16'!
-tearDown
-	^ self! !
-
-!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 7/15/2016 18:31'!
-cyclic: n
-	^ self cyclic: n over: QQ! !
-
-!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 7/4/2016 08:36'!
-cyclic: n over: scalars
-	| P singles generators |
-	P _ scalars polynomialsIn: n.
-	singles _ (1 to: n) collect: [:i| P x: i].
-	generators _ OrderedCollection new.
-	1 to: n-1 do: [:k | | f |
-		f _ P zero.
-		singles combinations: k atATimeDo: [:each| f _ f + each product].
-		generators add: f].
-	generators add: singles product - 1.
-	^ P * generators! !
-
-!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 3/28/2016 02:35'!
-katsura2
-	| P x y |
-	P _ Rationals new polynomialsIn: #(x y).
-	x _ P x.
-	y _ P y.
-	^ P * {x + (y*2) - 1. x**2 + (y**2 * 2) - x}! !
-
-!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 3/28/2016 02:35'!
-katsura3
-	| P x y z |
-	P _ Rationals new polynomialsIn: #(x y z).
-	x _ P x: #x.
-	y _ P x: #y.
-	z _ P x: #z.
-	^ P * {x + (y*2) + (z*2) - 1. x**2 + (y**2 * 2) + (z**2 * 2) - x. x*y*2 + (y*z*2) - y}! !
-
-!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 3/28/2016 02:35'!
-katsura4
-	| P x y z t |
-	P _ Rationals new polynomialsIn: #(x y z t).
-	x _ P x: #x.
-	y _ P x: #y.
-	z _ P x: #z.
-	t _ P x: #t.
-	^ P * {x + (y*2) + (z*2) + (t*2) - 1.
-		x**2 + (y**2 * 2) + (z**2 * 2) + (t**2 * 2) - x.
-		x*y*2 + (y*z*2) + (z*t*2) - y.
-		y**2 + (x*z*2) + (y*t*2) - z}! !
-
-!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 3/28/2016 02:35'!
-katsura5
-	| P x y z t u |
-	P _ Rationals new polynomialsIn: #(x y z t u).
-	x _ P x: #x.
-	y _ P x: #y.
-	z _ P x: #z.
-	t _ P x: #t.
-	u _ P x: #u.
-	^ P * {x + (y*2) + (z*2) + (t*2) + (u*2) - 1.
-		x**2 + (y**2 * 2) + (z**2 * 2) + (t**2 * 2) + (u**2 * 2) - x.
-		x*y*2 + (y*z*2) + (z*t*2) + (t*u*2) - y.
-		y**2 + (x*z*2) + (y*t*2) + (z*u*2) - z.
-		y*z*2 + (x*t*2) + (y*u*2) - t}! !
-
-!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 7/4/2016 08:36'!
-modularCyclic: n
-	^ self cyclic: n over: (Field GF: 32003)! !
-
-!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 7/4/2016 08:40'!
-modularKatsura2
-	| P x y |
-	P _ (Field GF: 32003) polynomialsIn: #(x y).
-	x _ P x.
-	y _ P y.
-	^ P * {x + (y*2) - 1. x**2 + (y**2 * 2) - x}! !
-
-!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 7/4/2016 06:32'!
-testCyclic3
-	self cyclic: 3 :: groebnerBasis! !
-
-!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 7/5/2016 17:02'!
-testCyclic4
-	^ self cyclic: 4 :: groebnerBasis! !
-
-!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 7/4/2016 07:25'!
-testCyclic5
-	self cyclic: 5 :: groebnerBasis! !
-
-!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 7/7/2016 23:27'!
-testCyclic6
-	self cyclic: 6 :: groebnerBasis! !
-
-!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 5/20/2016 03:59'!
-testElimination
-	| Qx x y z I |
-	Qx _ Rationals new polynomialsIn: #(x y z).
-	x _ Qx x. y _ Qx y. z _ Qx z.
-	I _ Qx * {x**2 + y + z - 1. x + (y**2) + z - 1. x + y + (z**2) - 1}.
-	I eliminateAll: #(1 2)! !
-
-!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 7/4/2016 06:33'!
-testKatsura2
-	self katsura2 :: groebnerBasis! !
-
-!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 7/4/2016 06:33'!
-testKatsura3
-	self katsura3 :: groebnerBasis! !
-
-!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 7/7/2016 23:26'!
-testKatsura4
-	self katsura4 :: groebnerBasis! !
-
-!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 7/4/2016 08:37'!
-testModularCyclic3
-	self modularCyclic: 3 :: groebnerBasis! !
-
-!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 7/4/2016 08:40'!
-testModularKatsura2
-	self modularKatsura2 :: groebnerBasis! !
-
-!IntegersBenchmark methodsFor: 'as yet unclassified' stamp: 'len 7/3/2016 04:28'!
-test1000Factorial
-	1000 factorial! !
-
-!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 7/25/2016 23:51'!
-testFiniteField
-	"Benchmark Polynomial>>#= and Residue#>>="
-	| F |
-	F _ Field GF: 9.
-	((F**3) upTo: 9**3) asSet size = (9**3) ifFalse: [self halt]! !
-
-!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 3/1/2016 15:43'!
-testFiniteFieldPolynomialFactorization
-	| F Fx x one f |
-	F _ Integers new modPrime: 3.
-	Fx _ F polynomials.
-	x _ Fx x.
-	one _ Fx one.
-	f _ x**11 + (x**9 * 2) + (x**8 * 2) + (x**6) + (x**5) + (x**3 * 2) + (x**2 * 2) + one.
-	20 timesRepeat: [f factorizer factors]! !
-
-!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 6/11/2016 08:08'!
-testMultivariatePolynomialAdditionOverZ
-	| P f g |
-	P _ Integers new polynomialsIn: #(x y z).
-	f _ P atRandomBits: 100 maxDegree: 50.
-	g _ P atRandomBits: 100 maxDegree: 50.
-	10000 timesRepeat: [f + g]! !
-
-!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 4/19/2016 04:19'!
-testPolynomialAdditionOverZ
-	| P f g |
-	P _ Integers new polynomials.
-	f _ P atRandomBits: 100 maxDegree: 50.
-	g _ P atRandomBits: 100 maxDegree: 50.
-	10000 timesRepeat: [f + g]! !
-
-!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 3/31/2016 08:46'!
-testPolynomialAdditionOverZ2
-	| P f g |
-	P _ Integers new modPrime: 2 :: polynomials.
-	f _ P atRandomDegree: 50.
-	g _ P atRandomDegree: 50.
-	10000 timesRepeat: [f + g]! !
-
-!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 3/31/2016 08:19'!
-testPolynomialDivisionOverQ
-	| Q P x f g |
-	Q _ Rationals new.
-	P _ Q polynomials.
-	x _ P x.
-	f _ x**2 + x + 1 ** 10.
-	g _ 1 - x ** 10.
-	2000 timesRepeat: [f // g. f \\ g]! !
-
-!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 3/31/2016 08:21'!
-testPolynomialDivisionOverZ
-	| Z P x f g |
-	Z _ Integers new.
-	P _ Z polynomials.
-	x _ P x.
-	f _ x**2 + x + 1 ** 10.
-	g _ 1 - x ** 10.
-	2000 timesRepeat: [f // g. f \\ g]! !
-
-!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 3/31/2016 17:28'!
-testPolynomialGCDOverQ
-	| P x f g |
-	P _ Rationals new polynomials.
-	x _ P x.
-	f _ x**4 - 1 ** 5.
-	g _ x**6 - 1 ** 5.
-	2000 timesRepeat: [f gcd: g]! !
-
-!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 3/31/2016 17:28'!
-testPolynomialGCDOverZ
-	| P x f g |
-	P _ Integers new polynomials.
-	x _ P x.
-	f _ x**4 - 1 ** 5.
-	g _ x**6 - 1 ** 5.
-	2000 timesRepeat: [f gcd: g]! !
-
-!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 6/30/2016 07:31'!
-testPolynomialGCDOverZ2
-	| P x f g |
-	P _ Integers new modPrime: 2 :: polynomials.
-	x _ P x.
-	f _ x**4 - 1 ** 5.
-	g _ x**6 - 1 ** 5.
-	2000 timesRepeat: [f gcd: g]! !
-
-!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 4/19/2016 04:20'!
-testPolynomialMultiplication2OverZ
-	| P f g |
-	P _ Integers new polynomials.
-	f _ P atRandomBits: 100 maxDegree: 50.
-	g _ P atRandomBits: 100 maxDegree: 50.
-	100 timesRepeat: [f * g]! !
-
-!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 4/19/2016 04:20'!
-testPolynomialMultiplication2OverZ2
-	| P f g |
-	P _ Field GF: 2 :: polynomials.
-	f _ P atRandomBits: 100 maxDegree: 50.
-	g _ P atRandomBits: 100 maxDegree: 50.
-	100 timesRepeat: [f * g]! !
-
-!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 3/31/2016 08:56'!
-testPolynomialMultiplicationOverZ
-	| P x f |
-	P _ Rationals new polynomials.
-	x _ P x.
-	f _ x - 1.
-	1 to: 9 do: [:i| f _ x - i * f * f]! !
-
-!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 3/31/2016 08:54'!
-testPolynomialMultiplicationOverZ2
-	| P x f |
-	P _ Field GF: 2 :: polynomials.
-	x _ P x.
-	f _ x - (1 % 2).
-	1 to: 9 do: [:i| f _ x - (i % 2) * f * f]! !
-
-!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 3/3/2016 02:12'!
-testPolynomialPseudoDivision
-	| Zx x a b |
-	Zx _ Integers new polynomials.
-	x _ Zx x.
-	a _ x**8 + (x**6) - (3*(x**4)) - (3*(x**3)) + (8*(x**2)) + (2*x) - 5.
-	b _ 3*(x**6) + (5*(x**4)) - (4*(x**2)) - (9*x) + 21.
-	20 timesRepeat: [(a pseudoDivideBy: b) quotient]! !
-
-!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 3/1/2016 15:48'!
-testPolynomialPseudoRemainder
-	| Zx x a b |
-	Zx _ Integers new polynomials.
-	x _ Zx x.
-	a _ x**8 + (x**6) - (3*(x**4)) - (3*(x**3)) + (8*(x**2)) + (2*x) - 5.
-	b _ 3*(x**6) + (5*(x**4)) - (4*(x**2)) - (9*x) + 21.
-	20 timesRepeat: [a pseudoRem: b]! !
-
-!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 4/17/2016 06:42'!
-testPolynomialRealRoots
-	| Q R x f |
-	Q _ Rationals new.
-	R _ RealAlgebraicNumbers new.
-	x _ Q polynomials x.
-	f _ (x-(1/2))**2*(x-2)*(x**2 + 1)*(x**2-2).
-	20 timesRepeat: [f rootsIn: R]! !
-
-!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 3/1/2016 15:55'!
-testRealAlgebraicNumberAddition
-	| sqrt2 sqrt3 sqrt5 |
-	sqrt2 _ RealAlgebraicNumber sqrt: 2.
-	sqrt3 _ RealAlgebraicNumber sqrt: 3.
-	sqrt5 _ RealAlgebraicNumber sqrt: 5.
-	10 timesRepeat: [sqrt3 + sqrt5 + sqrt2 - sqrt3 - sqrt5]! !
-
-!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 3/1/2016 15:56'!
-testRealAlgebraicNumberDivision
-	| sqrt3 sqrt5 |
-	sqrt3 _ RealAlgebraicNumber sqrt: 3.
-	sqrt5 _ RealAlgebraicNumber sqrt: 5.
-	10 timesRepeat: [sqrt3 / sqrt5 / sqrt3 / sqrt5]! !
-
-!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 3/1/2016 15:56'!
-testRealAlgebraicNumberProduct
-	| sqrt3 sqrt5 |
-	sqrt3 _ RealAlgebraicNumber sqrt: 3.
-	sqrt5 _ RealAlgebraicNumber sqrt: 5.
-	10 timesRepeat: [sqrt3 * sqrt5 * sqrt3 * sqrt5]! !
-
-!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 3/1/2016 15:57'!
-testRealAlgebraicNumberSquare
-	| sqrt2 |
-	sqrt2 _ RealAlgebraicNumber sqrt2.
-	10 timesRepeat: [sqrt2 squared]! !
-
-!SmallMatrixBenchmark methodsFor: 'as yet unclassified' stamp: 'len 7/8/2016 02:48'!
-setUp
-	integerMatrix _ Integers new ** (64@64) :: atRandomBits: 10000.
-	binaryMatrix _ (Field GF: 2) ** (64@64) :: atRandom! !
-
-!SmallMatrixBenchmark methodsFor: 'as yet unclassified' stamp: 'len 7/8/2016 02:48'!
-testAdditionZ
-	integerMatrix + integerMatrix! !
-
-!SmallMatrixBenchmark methodsFor: 'as yet unclassified' stamp: 'len 7/8/2016 02:48'!
-testAdditionZ2
-	binaryMatrix + binaryMatrix! !
-
-!SmallMatrixBenchmark methodsFor: 'as yet unclassified' stamp: 'len 7/8/2016 02:49'!
-testCopyZ
-	integerMatrix copy! !
-
-!SmallMatrixBenchmark methodsFor: 'as yet unclassified' stamp: 'len 7/8/2016 02:50'!
-testCopyZ2
-	binaryMatrix copy! !
-
-!SmallMatrixBenchmark methodsFor: 'as yet unclassified' stamp: 'len 7/8/2016 02:49'!
-testMultiplicationZ
-	integerMatrix * integerMatrix! !
-
-!SmallMatrixBenchmark methodsFor: 'as yet unclassified' stamp: 'len 7/8/2016 02:58'!
-testMultiplicationZ2
-	binaryMatrix * binaryMatrix! !
-
-!SmallMatrixBenchmark methodsFor: 'as yet unclassified' stamp: 'len 7/8/2016 02:49'!
-testTranspositionZ
-	integerMatrix transposed! !
-
-!SmallMatrixBenchmark methodsFor: 'as yet unclassified' stamp: 'len 7/8/2016 02:58'!
-testTranspositionZ2
-	binaryMatrix transposed! !
-
-!SparsePolynomialMultiplicationBenchmark methodsFor: 'as yet unclassified' stamp: 'len 6/5/2016 08:44'!
-setUp
-	| P x y z |
-	P _ Integers new polynomialsIn: #(x y z).
-	x _ P x.
-	y _ P y.
-	z _ P z.
-	p _ (1+x+y+z)**20.
-	"p _ 10000000001*(1+x+y+z)**20." "big coefficients"
-	"p _ 1 + (x**2147483647) + (y**2147483647) + (z**2147483647) ** 20." "big exponents"
-	pPlusOne _ p + 1! !
-
-!SparsePolynomialMultiplicationBenchmark methodsFor: 'as yet unclassified' stamp: 'len 6/5/2016 08:44'!
-testProduct
-	p * pPlusOne! !
 
 !AffineGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 3/18/2016 03:46'!
 testAffineHull
@@ -4260,3 +3887,376 @@ testSimplexNegation
 	S _ Simplex points: {1. 2. 3. 4}.
 	self assert: S negated negated = S.
 	self assert: S negated ~= S! !
+
+!Benchmark methodsFor: 'as yet unclassified' stamp: 'len 3/1/2016 04:20'!
+run
+	| output |
+	output _ WriteStream on: (String new: 1000).
+	(self class selectors asArray select: [:each|
+		(each beginsWith: 'test') and: [each numArgs isZero]]) sort
+		do: [:each|
+			output nextPutAll: each; tab.
+			self setUp.
+			Smalltalk garbageCollect.
+			[output nextPutAll: [self perform: each] bench] on: Error do: [output nextPutAll: 'FAILED'].
+			self tearDown]
+		separatedBy: [output newLine].
+	^ output contents! !
+
+!Benchmark methodsFor: 'as yet unclassified' stamp: 'len 3/1/2016 04:16'!
+setUp
+	^ self! !
+
+!Benchmark methodsFor: 'as yet unclassified' stamp: 'len 3/1/2016 04:16'!
+tearDown
+	^ self! !
+
+!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 7/15/2016 18:31'!
+cyclic: n
+	^ self cyclic: n over: QQ! !
+
+!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 7/4/2016 08:36'!
+cyclic: n over: scalars
+	| P singles generators |
+	P _ scalars polynomialsIn: n.
+	singles _ (1 to: n) collect: [:i| P x: i].
+	generators _ OrderedCollection new.
+	1 to: n-1 do: [:k | | f |
+		f _ P zero.
+		singles combinations: k atATimeDo: [:each| f _ f + each product].
+		generators add: f].
+	generators add: singles product - 1.
+	^ P * generators! !
+
+!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 3/28/2016 02:35'!
+katsura2
+	| P x y |
+	P _ Rationals new polynomialsIn: #(x y).
+	x _ P x.
+	y _ P y.
+	^ P * {x + (y*2) - 1. x**2 + (y**2 * 2) - x}! !
+
+!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 3/28/2016 02:35'!
+katsura3
+	| P x y z |
+	P _ Rationals new polynomialsIn: #(x y z).
+	x _ P x: #x.
+	y _ P x: #y.
+	z _ P x: #z.
+	^ P * {x + (y*2) + (z*2) - 1. x**2 + (y**2 * 2) + (z**2 * 2) - x. x*y*2 + (y*z*2) - y}! !
+
+!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 3/28/2016 02:35'!
+katsura4
+	| P x y z t |
+	P _ Rationals new polynomialsIn: #(x y z t).
+	x _ P x: #x.
+	y _ P x: #y.
+	z _ P x: #z.
+	t _ P x: #t.
+	^ P * {x + (y*2) + (z*2) + (t*2) - 1.
+		x**2 + (y**2 * 2) + (z**2 * 2) + (t**2 * 2) - x.
+		x*y*2 + (y*z*2) + (z*t*2) - y.
+		y**2 + (x*z*2) + (y*t*2) - z}! !
+
+!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 3/28/2016 02:35'!
+katsura5
+	| P x y z t u |
+	P _ Rationals new polynomialsIn: #(x y z t u).
+	x _ P x: #x.
+	y _ P x: #y.
+	z _ P x: #z.
+	t _ P x: #t.
+	u _ P x: #u.
+	^ P * {x + (y*2) + (z*2) + (t*2) + (u*2) - 1.
+		x**2 + (y**2 * 2) + (z**2 * 2) + (t**2 * 2) + (u**2 * 2) - x.
+		x*y*2 + (y*z*2) + (z*t*2) + (t*u*2) - y.
+		y**2 + (x*z*2) + (y*t*2) + (z*u*2) - z.
+		y*z*2 + (x*t*2) + (y*u*2) - t}! !
+
+!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 7/4/2016 08:36'!
+modularCyclic: n
+	^ self cyclic: n over: (Field GF: 32003)! !
+
+!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 7/4/2016 08:40'!
+modularKatsura2
+	| P x y |
+	P _ (Field GF: 32003) polynomialsIn: #(x y).
+	x _ P x.
+	y _ P y.
+	^ P * {x + (y*2) - 1. x**2 + (y**2 * 2) - x}! !
+
+!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 7/4/2016 06:32'!
+testCyclic3
+	self cyclic: 3 :: groebnerBasis! !
+
+!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 7/5/2016 17:02'!
+testCyclic4
+	^ self cyclic: 4 :: groebnerBasis! !
+
+!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 7/4/2016 07:25'!
+testCyclic5
+	self cyclic: 5 :: groebnerBasis! !
+
+!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 7/7/2016 23:27'!
+testCyclic6
+	self cyclic: 6 :: groebnerBasis! !
+
+!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 5/20/2016 03:59'!
+testElimination
+	| Qx x y z I |
+	Qx _ Rationals new polynomialsIn: #(x y z).
+	x _ Qx x. y _ Qx y. z _ Qx z.
+	I _ Qx * {x**2 + y + z - 1. x + (y**2) + z - 1. x + y + (z**2) - 1}.
+	I eliminateAll: #(1 2)! !
+
+!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 7/4/2016 06:33'!
+testKatsura2
+	self katsura2 :: groebnerBasis! !
+
+!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 7/4/2016 06:33'!
+testKatsura3
+	self katsura3 :: groebnerBasis! !
+
+!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 7/7/2016 23:26'!
+testKatsura4
+	self katsura4 :: groebnerBasis! !
+
+!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 7/4/2016 08:37'!
+testModularCyclic3
+	self modularCyclic: 3 :: groebnerBasis! !
+
+!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 7/4/2016 08:40'!
+testModularKatsura2
+	self modularKatsura2 :: groebnerBasis! !
+
+!IntegersBenchmark methodsFor: 'as yet unclassified' stamp: 'len 7/3/2016 04:28'!
+test1000Factorial
+	1000 factorial! !
+
+!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 7/25/2016 23:51'!
+testFiniteField
+	"Benchmark Polynomial>>#= and Residue#>>="
+	| F |
+	F _ Field GF: 9.
+	((F**3) upTo: 9**3) asSet size = (9**3) ifFalse: [self halt]! !
+
+!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 3/1/2016 15:43'!
+testFiniteFieldPolynomialFactorization
+	| F Fx x one f |
+	F _ Integers new modPrime: 3.
+	Fx _ F polynomials.
+	x _ Fx x.
+	one _ Fx one.
+	f _ x**11 + (x**9 * 2) + (x**8 * 2) + (x**6) + (x**5) + (x**3 * 2) + (x**2 * 2) + one.
+	20 timesRepeat: [f factorizer factors]! !
+
+!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 6/11/2016 08:08'!
+testMultivariatePolynomialAdditionOverZ
+	| P f g |
+	P _ Integers new polynomialsIn: #(x y z).
+	f _ P atRandomBits: 100 maxDegree: 50.
+	g _ P atRandomBits: 100 maxDegree: 50.
+	10000 timesRepeat: [f + g]! !
+
+!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 4/19/2016 04:19'!
+testPolynomialAdditionOverZ
+	| P f g |
+	P _ Integers new polynomials.
+	f _ P atRandomBits: 100 maxDegree: 50.
+	g _ P atRandomBits: 100 maxDegree: 50.
+	10000 timesRepeat: [f + g]! !
+
+!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 3/31/2016 08:46'!
+testPolynomialAdditionOverZ2
+	| P f g |
+	P _ Integers new modPrime: 2 :: polynomials.
+	f _ P atRandomDegree: 50.
+	g _ P atRandomDegree: 50.
+	10000 timesRepeat: [f + g]! !
+
+!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 3/31/2016 08:19'!
+testPolynomialDivisionOverQ
+	| Q P x f g |
+	Q _ Rationals new.
+	P _ Q polynomials.
+	x _ P x.
+	f _ x**2 + x + 1 ** 10.
+	g _ 1 - x ** 10.
+	2000 timesRepeat: [f // g. f \\ g]! !
+
+!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 3/31/2016 08:21'!
+testPolynomialDivisionOverZ
+	| Z P x f g |
+	Z _ Integers new.
+	P _ Z polynomials.
+	x _ P x.
+	f _ x**2 + x + 1 ** 10.
+	g _ 1 - x ** 10.
+	2000 timesRepeat: [f // g. f \\ g]! !
+
+!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 3/31/2016 17:28'!
+testPolynomialGCDOverQ
+	| P x f g |
+	P _ Rationals new polynomials.
+	x _ P x.
+	f _ x**4 - 1 ** 5.
+	g _ x**6 - 1 ** 5.
+	2000 timesRepeat: [f gcd: g]! !
+
+!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 3/31/2016 17:28'!
+testPolynomialGCDOverZ
+	| P x f g |
+	P _ Integers new polynomials.
+	x _ P x.
+	f _ x**4 - 1 ** 5.
+	g _ x**6 - 1 ** 5.
+	2000 timesRepeat: [f gcd: g]! !
+
+!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 6/30/2016 07:31'!
+testPolynomialGCDOverZ2
+	| P x f g |
+	P _ Integers new modPrime: 2 :: polynomials.
+	x _ P x.
+	f _ x**4 - 1 ** 5.
+	g _ x**6 - 1 ** 5.
+	2000 timesRepeat: [f gcd: g]! !
+
+!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 4/19/2016 04:20'!
+testPolynomialMultiplication2OverZ
+	| P f g |
+	P _ Integers new polynomials.
+	f _ P atRandomBits: 100 maxDegree: 50.
+	g _ P atRandomBits: 100 maxDegree: 50.
+	100 timesRepeat: [f * g]! !
+
+!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 4/19/2016 04:20'!
+testPolynomialMultiplication2OverZ2
+	| P f g |
+	P _ Field GF: 2 :: polynomials.
+	f _ P atRandomBits: 100 maxDegree: 50.
+	g _ P atRandomBits: 100 maxDegree: 50.
+	100 timesRepeat: [f * g]! !
+
+!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 3/31/2016 08:56'!
+testPolynomialMultiplicationOverZ
+	| P x f |
+	P _ Rationals new polynomials.
+	x _ P x.
+	f _ x - 1.
+	1 to: 9 do: [:i| f _ x - i * f * f]! !
+
+!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 3/31/2016 08:54'!
+testPolynomialMultiplicationOverZ2
+	| P x f |
+	P _ Field GF: 2 :: polynomials.
+	x _ P x.
+	f _ x - (1 % 2).
+	1 to: 9 do: [:i| f _ x - (i % 2) * f * f]! !
+
+!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 3/3/2016 02:12'!
+testPolynomialPseudoDivision
+	| Zx x a b |
+	Zx _ Integers new polynomials.
+	x _ Zx x.
+	a _ x**8 + (x**6) - (3*(x**4)) - (3*(x**3)) + (8*(x**2)) + (2*x) - 5.
+	b _ 3*(x**6) + (5*(x**4)) - (4*(x**2)) - (9*x) + 21.
+	20 timesRepeat: [(a pseudoDivideBy: b) quotient]! !
+
+!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 3/1/2016 15:48'!
+testPolynomialPseudoRemainder
+	| Zx x a b |
+	Zx _ Integers new polynomials.
+	x _ Zx x.
+	a _ x**8 + (x**6) - (3*(x**4)) - (3*(x**3)) + (8*(x**2)) + (2*x) - 5.
+	b _ 3*(x**6) + (5*(x**4)) - (4*(x**2)) - (9*x) + 21.
+	20 timesRepeat: [a pseudoRem: b]! !
+
+!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 4/17/2016 06:42'!
+testPolynomialRealRoots
+	| Q R x f |
+	Q _ Rationals new.
+	R _ RealAlgebraicNumbers new.
+	x _ Q polynomials x.
+	f _ (x-(1/2))**2*(x-2)*(x**2 + 1)*(x**2-2).
+	20 timesRepeat: [f rootsIn: R]! !
+
+!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 3/1/2016 15:55'!
+testRealAlgebraicNumberAddition
+	| sqrt2 sqrt3 sqrt5 |
+	sqrt2 _ RealAlgebraicNumber sqrt: 2.
+	sqrt3 _ RealAlgebraicNumber sqrt: 3.
+	sqrt5 _ RealAlgebraicNumber sqrt: 5.
+	10 timesRepeat: [sqrt3 + sqrt5 + sqrt2 - sqrt3 - sqrt5]! !
+
+!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 3/1/2016 15:56'!
+testRealAlgebraicNumberDivision
+	| sqrt3 sqrt5 |
+	sqrt3 _ RealAlgebraicNumber sqrt: 3.
+	sqrt5 _ RealAlgebraicNumber sqrt: 5.
+	10 timesRepeat: [sqrt3 / sqrt5 / sqrt3 / sqrt5]! !
+
+!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 3/1/2016 15:56'!
+testRealAlgebraicNumberProduct
+	| sqrt3 sqrt5 |
+	sqrt3 _ RealAlgebraicNumber sqrt: 3.
+	sqrt5 _ RealAlgebraicNumber sqrt: 5.
+	10 timesRepeat: [sqrt3 * sqrt5 * sqrt3 * sqrt5]! !
+
+!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 3/1/2016 15:57'!
+testRealAlgebraicNumberSquare
+	| sqrt2 |
+	sqrt2 _ RealAlgebraicNumber sqrt2.
+	10 timesRepeat: [sqrt2 squared]! !
+
+!SmallMatrixBenchmark methodsFor: 'as yet unclassified' stamp: 'len 7/8/2016 02:48'!
+setUp
+	integerMatrix _ Integers new ** (64@64) :: atRandomBits: 10000.
+	binaryMatrix _ (Field GF: 2) ** (64@64) :: atRandom! !
+
+!SmallMatrixBenchmark methodsFor: 'as yet unclassified' stamp: 'len 7/8/2016 02:48'!
+testAdditionZ
+	integerMatrix + integerMatrix! !
+
+!SmallMatrixBenchmark methodsFor: 'as yet unclassified' stamp: 'len 7/8/2016 02:48'!
+testAdditionZ2
+	binaryMatrix + binaryMatrix! !
+
+!SmallMatrixBenchmark methodsFor: 'as yet unclassified' stamp: 'len 7/8/2016 02:49'!
+testCopyZ
+	integerMatrix copy! !
+
+!SmallMatrixBenchmark methodsFor: 'as yet unclassified' stamp: 'len 7/8/2016 02:50'!
+testCopyZ2
+	binaryMatrix copy! !
+
+!SmallMatrixBenchmark methodsFor: 'as yet unclassified' stamp: 'len 7/8/2016 02:49'!
+testMultiplicationZ
+	integerMatrix * integerMatrix! !
+
+!SmallMatrixBenchmark methodsFor: 'as yet unclassified' stamp: 'len 7/8/2016 02:58'!
+testMultiplicationZ2
+	binaryMatrix * binaryMatrix! !
+
+!SmallMatrixBenchmark methodsFor: 'as yet unclassified' stamp: 'len 7/8/2016 02:49'!
+testTranspositionZ
+	integerMatrix transposed! !
+
+!SmallMatrixBenchmark methodsFor: 'as yet unclassified' stamp: 'len 7/8/2016 02:58'!
+testTranspositionZ2
+	binaryMatrix transposed! !
+
+!SparsePolynomialMultiplicationBenchmark methodsFor: 'as yet unclassified' stamp: 'len 6/5/2016 08:44'!
+setUp
+	| P x y z |
+	P _ Integers new polynomialsIn: #(x y z).
+	x _ P x.
+	y _ P y.
+	z _ P z.
+	p _ (1+x+y+z)**20.
+	"p _ 10000000001*(1+x+y+z)**20." "big coefficients"
+	"p _ 1 + (x**2147483647) + (y**2147483647) + (z**2147483647) ** 20." "big exponents"
+	pPlusOne _ p + 1! !
+
+!SparsePolynomialMultiplicationBenchmark methodsFor: 'as yet unclassified' stamp: 'len 6/5/2016 08:44'!
+testProduct
+	p * pPlusOne! !
