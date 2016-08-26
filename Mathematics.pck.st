@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 26 August 2016 at 4:43:46.499248 am'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 26 August 2016 at 6:11:51.03653 am'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 189!
+!provides: 'Mathematics' 1 190!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
 	instanceVariableNames: 'numerator shift'
@@ -34840,12 +34840,12 @@ max: aNumber
 min: aNumber
 	min _ aNumber! !
 
-!ContinuousPalette class methodsFor: 'as yet unclassified' stamp: 'len 8/17/2016 23:38'!
+!ContinuousPalette class methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:56'!
 default
 	| blue green red |
-	red _ Rationals new polynomials interpolate: {"0 -> 0.0." 40 -> 0. 65 -> 0.8. "90 -> 0." 100 -> 0. 150 -> 0.5. 200 -> 0.9. 215 -> 1. 255 -> 0.95}.
-	green _ Rationals new polynomials interpolate: {0 -> 0.2. 50 -> 0.48. 100 -> 0.68. 150 -> 0.75. 200 -> 0.70. 255 -> 1}.
-	blue _ Rationals new polynomials interpolate: {0 -> 0.5. 35 -> 0.9. 85 -> 0.8. 115 -> 0.7. 150 -> 0.5. 200 -> 0.3. 255 -> 0}.
+	red _ QQ polynomials interpolate: {"0 -> 0.0." 40 -> 0. 65 -> 0.8. "90 -> 0." 100 -> 0. 150 -> 0.5. 200 -> 0.9. 215 -> 1. 255 -> 0.95}.
+	green _ QQ polynomials interpolate: {0 -> 0.2. 50 -> 0.48. 100 -> 0.68. 150 -> 0.75. 200 -> 0.70. 255 -> 1}.
+	blue _ QQ polynomials interpolate: {0 -> 0.5. 35 -> 0.9. 85 -> 0.8. 115 -> 0.7. 150 -> 0.5. 200 -> 0.3. 255 -> 0}.
 	^ self new colors: ((0 to: 255) collect: [:x| Color fromArray: ({x < 80 ifTrue: [0] ifFalse: [red value: x]. green value: x. blue value: x} collect: [:y| y abs min: 1.0])]); min: 0.0; max: 1.0! !
 
 !ContinuousPalette class methodsFor: 'as yet unclassified' stamp: 'len 8/18/2016 07:30'!

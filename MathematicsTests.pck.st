@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 26 August 2016 at 4:42:44.412719 am'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 26 August 2016 at 6:11:47.03684 am'!
 'Description Please enter a description for this package'!
-!provides: 'MathematicsTests' 1 3!
+!provides: 'MathematicsTests' 1 4!
 !classDefinition: #AffineGeometryTest category: #MathematicsTests!
 TestCase subclass: #AffineGeometryTest
 	instanceVariableNames: ''
@@ -425,10 +425,10 @@ Timings giving in [1] on computers with 0.8ghz - 1ghz intel cpus: general purpos
 
 [1] R.J. Fateman, Comparing the speed of sparse polynomial multiplication.!
 
-!AffineGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 3/18/2016 03:46'!
+!AffineGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:54'!
 testAffineHull
 	| V v1 v2 H |
-	V _ Rationals new ** 3.
+	V _ QQ ** 3.
 	v1 _ (1,0,0).
 	v2 _ (2,2,2).
 	H _ V hull: {v1. v2}.
@@ -436,11 +436,11 @@ testAffineHull
 	self assert: (H includes: v1).
 	self assert: (H includes: v2)! !
 
-!AffineGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 6/4/2016 04:34'!
+!AffineGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:55'!
 testAffineMapCollinearity
 	"Affine maps preserve collinearity."
 	| A f p1 p1` p2 p2` p3 p3` |
-	A _ (Rationals new ** 3) asAffineSpace.
+	A _ (QQ ** 3) asAffineSpace.
 	f _ A automorphisms atRandomBits: 100.
 	"three collinear points:"
 	p1 _ (1,2,3) + (1,0,1). p2 _ (2,4,6) + (1,0,1). p3 _ (-1,-2,-3) + (1,0,1).
@@ -462,10 +462,10 @@ testAffineMapComposition
 	self assert: (g @ f value: x) = (g value: (f value: x)).
 	self should: [f @ g] raise: DomainError! !
 
-!AffineGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 6/4/2016 04:34'!
+!AffineGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:55'!
 testAffineMapEvaluating
 	| A f |
-	A _ (Rationals new ** 3) asAffineSpace.
+	A _ (QQ ** 3) asAffineSpace.
 	f _ AffineMap from: A to: A evaluating: [:p| p*2 - (1,0,0)].
 	self assert: (f value: (1,2,3)) = (1,4,6)! !
 
@@ -477,11 +477,11 @@ testAffineMapInverse
 	self assert: (f @ f inverse) isIdentity.
 	self assert: (f inverse @ f) isIdentity! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 3/26/2016 03:45'!
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:55'!
 testAlgebraicSetDegree
 	"Twisted cubic in P^3 with homogeneous coordinates x,y,w,z."
 	| Qx x y z w V |
-	Qx _ Rationals new polynomialsIn: #(x y z w).
+	Qx _ QQ polynomialsIn: #(x y z w).
 	x _ Qx x.
 	y _ Qx y.
 	z _ Qx z.
@@ -494,26 +494,26 @@ testAlgebraicSetDegree
 	"But we get the twisted cubic (in some sense) 'counted with multiplicity 2', so the degree is 6"
 	self assert: V degree = 6! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 3/24/2016 05:50'!
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:55'!
 testAlgebraicSetEmpty
 	| Qxyz V |
-	Qxyz _ Rationals new polynomialsIn: #(x y z).
+	Qxyz _ QQ polynomialsIn: #(x y z).
 	V _ (Qxyz * {Qxyz continuantOfOrder: 2. Qxyz continuantOfOrder: 3}) variety.
 	self assert: V isEmpty! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 3/24/2016 05:50'!
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:55'!
 testAlgebraicSetFinite
 	| Qxy x y V |
-	Qxy _ Rationals new polynomialsIn: #(x y).
+	Qxy _ QQ polynomialsIn: #(x y).
 	x _ Qxy x.
 	y _ Qxy y.
 	V _ (Qxy * {x*x - 1. y*y - (x*x) - 3}) variety.
 	self assert: V isFinite! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 6/5/2016 22:54'!
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:55'!
 testAlgebraicSetIntersection
 	| Qxy x y V V` W |
-	Qxy _ Rationals new polynomialsIn: #(x y).
+	Qxy _ QQ polynomialsIn: #(x y).
 	x _ Qxy x.
 	y _ Qxy y.
 	V _ (Qxy * {y}) variety.
@@ -522,28 +522,28 @@ testAlgebraicSetIntersection
 	self assert: (W includes: (1, 0)).
 	self assert: (W includes: (0, 1)) not! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 3/24/2016 05:50'!
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:55'!
 testAlgebraicSetNotEmpty
 	| Qxy x y V |
-	Qxy _ Rationals new polynomialsIn: #(x y).
+	Qxy _ QQ polynomialsIn: #(x y).
 	x _ Qxy x.
 	y _ Qxy y.
 	V _ (Qxy * {x*x - 1. y*y - (x*x) - 3}) variety.
 	self assert: V isEmpty not! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 3/24/2016 05:50'!
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:55'!
 testAlgebraicSetNotFinite
 	| Qxy x y V |
-	Qxy _ Rationals new polynomialsIn: #(x y).
+	Qxy _ QQ polynomialsIn: #(x y).
 	x _ Qxy x.
 	y _ Qxy y.
 	V _ (Qxy * {y*y - (x*x) - 3}) variety.
 	self assert: V isFinite not! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 3/24/2016 05:51'!
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:55'!
 testEqualVarietiesDifferentIdeals
 	| Qx x I I` V V` |
-	Qx _ Rationals new polynomials.
+	Qx _ QQ polynomials.
 	x _ Qx x.
 	I _ Qx * {x}.
 	I` _ Qx * {x**2}.
@@ -552,10 +552,10 @@ testEqualVarietiesDifferentIdeals
 	self assert: V = V`.
 	self assert: I ~= I`! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 3/24/2016 05:51'!
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:55'!
 testEqualVarietiesDifferentIdeals2
 	| Qx x y I I` V V` |
-	Qx _ Rationals new polynomialsIn: #(x y).
+	Qx _ QQ polynomialsIn: #(x y).
 	x _ Qx x.
 	y _ Qx y.
 	I _ Qx * {x. y}.
@@ -565,21 +565,20 @@ testEqualVarietiesDifferentIdeals2
 	self assert: V = V`.
 	self assert: I ~= I`! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 6/3/2016 03:02'!
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:55'!
 testLinearSubspaceAsAlgebraicVariety
-	| Q S V |
-	Q _ Rationals new.
-	S _ Q ** 3 grassmannian: 2 :: atRandomBits: 10.
+	| S V |
+	S _ QQ ** 3 grassmannian: 2 :: atRandomBits: 10.
 	V _ S asAlgebraicVariety.
 	self assert: V dimension = S dimension.
 	self assert: (V includes: (S e: 1)).
 	self assert: (V includes: (S e: 2))
 ! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 3/24/2016 05:52'!
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:55'!
 testPolynomialSystem
 	| Qxy x y V system |
-	Qxy _ Rationals new polynomialsIn: #(x y).
+	Qxy _ QQ polynomialsIn: #(x y).
 	x _ Qxy x.
 	y _ Qxy y.
 	system _ PolynomialSystem new.
@@ -636,10 +635,10 @@ testRealDivision
 	sqrt5 _ RealAlgebraicNumber sqrt: 5.
 	self assert: (sqrt3 / sqrt5 / sqrt3 / sqrt5) asRational = (1/5)! !
 
-!AlgebraicNumbersTest methodsFor: 'as yet unclassified' stamp: 'len 6/4/2016 21:59'!
+!AlgebraicNumbersTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:55'!
 testRealNormalizationBug
 	| f interval x |
-	x _ Rationals new polynomials x.
+	x _ QQ polynomials x.
 	f _ x**4 * 1576875 - (x**2 * 877250) + 43923.
 	interval _ RealInterval open: (-260139/1345600) closed: (81631/134560).
 	RealAlgebraicNumber polynomial: f bounds: interval! !
@@ -1060,11 +1059,11 @@ testUnion
 	G _ Digraph unordered addEdges: {#a -> #b. #b -> #c. #d -> #e. #x -> #b}; yourself.
 	self assert: (G union: G transposed) = G symmetric! !
 
-!GroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 7/8/2016 01:45'!
+!GroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:56'!
 testEliminationIdeal
 	"Example from Cox IVA 123 p. NOTE: this is a little slow."
 	| Qx x y z I |
-	Qx _ Rationals new polynomialsIn: #(x y z).
+	Qx _ QQ polynomialsIn: #(x y z).
 	x _ Qx x. y _ Qx y. z _ Qx z.
 	I _ Qx * {x**2 + y + z - 1. x + (y**2) + z - 1. x + y + (z**2) - 1}.
 	self assert: (I eliminateAll: #(1 2)) generator = (z**6 - (z**4*4) + (z**3*4) - (z**2))! !
@@ -1119,10 +1118,10 @@ testGroebnerCyclic4
 	G _ I groebnerBasis.
 	self testGroebnerBasis: G ideal: I! !
 
-!GroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 7/8/2016 01:44'!
+!GroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:56'!
 testGroebnerExample
 	| P x y z F G |
-	P _ Rationals new polynomialsIn: #(x y z) ordering: #lex.
+	P _ QQ polynomialsIn: #(x y z) ordering: #lex.
 	x _ P x.
 	y _ P y.
 	z _ P z.
@@ -1144,21 +1143,21 @@ testGroebnerKatsura3
 	G _ I groebnerBasis.
 	self testGroebnerBasis: G ideal: I! !
 
-!GroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 7/8/2016 01:45'!
+!GroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:56'!
 testGroebnerTrivial
 	"The 3 polynomials have no common zeroes, the Groebner basis should be {1}."
 	| Qx x y I |
-	Qx _ Rationals new polynomialsIn: #(x y) ordering: #lex.
+	Qx _ QQ polynomialsIn: #(x y) ordering: #lex.
 	x _ Qx x.
 	y _ Qx y.
 	I _ Qx * {x + y. x**2 - 1. y**2 - (x*2)}.
 	self assert: I groebnerBasis minimal isTrivial! !
 
-!GroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 7/8/2016 01:46'!
+!GroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:56'!
 testIdealHomogenization
 	"The homogenization of an ideal can be bigger than the ideal generated by the homogenized generators."
 	| Qx x y z f1 f2 I f3 J |
-	Qx _ Rationals new polynomialsIn: #(x y z).
+	Qx _ QQ polynomialsIn: #(x y z).
 	x _ Qx x.
 	y _ Qx y.
 	z _ Qx z.
@@ -1173,11 +1172,11 @@ testIdealHomogenization
 	J _ Qx * {f1 homogenized. f2 homogenized}.
 	self deny: (J includes: f3 homogenized)! !
 
-!GroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 7/8/2016 01:46'!
+!GroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:56'!
 testIdealIntersection
 	"Example from Cox IVA 194 p."
 	| Qxy x y I J K |
-	Qxy _ Rationals new polynomialsIn: #(x y).
+	Qxy _ QQ polynomialsIn: #(x y).
 	x _ Qxy x.
 	y _ Qxy y.
 	I _ Qxy * {x**2 * y}.
@@ -1185,10 +1184,10 @@ testIdealIntersection
 	K _ Qxy * {x**2*(y**2)}.
 	self assert: I /\ J = K! !
 
-!GroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 7/8/2016 01:46'!
+!GroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:56'!
 testIdealMembership
 	| Qxy x y f g I J h k |
-	Qxy _ Rationals new polynomialsIn: #(x y).
+	Qxy _ QQ polynomialsIn: #(x y).
 	x _ Qxy x.
 	y _ Qxy y.
 	f _ x**2 - y.
@@ -1202,19 +1201,19 @@ testIdealMembership
 	self assert: (J includes: h) not.
 	self assert: (J includes: k) not! !
 
-!GroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 7/8/2016 01:46'!
+!GroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:56'!
 testIdealMembership2
 	| Qxy x y I |
-	Qxy _ Rationals new polynomialsIn: #(x y).
+	Qxy _ QQ polynomialsIn: #(x y).
 	x _ Qxy x.
 	y _ Qxy y.
 	I _ Qxy * {x*x. y*2 + x}.
 	self assert: (I includes: (x + y) squared)! !
 
-!GroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 7/8/2016 01:46'!
+!GroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:56'!
 testIdealMembership3
 	| Qx x y z w f g I |
-	Qx _ Rationals new polynomialsIn: #(x y z w).
+	Qx _ QQ polynomialsIn: #(x y z w).
 	x _ Qx x.
 	y _ Qx y.
 	z _ Qx z.
@@ -1227,10 +1226,10 @@ testIdealMembership3
 	intersection (the ideal is not radical since includes f^2):"
 	self assert: (I includes: f**2)! !
 
-!GroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 7/8/2016 01:46'!
+!GroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:56'!
 testIdealMembershipRandom
 	| P f1 f2 f3 I g |
-	P _ Rationals new polynomialsIn: #(x y z).
+	P _ QQ polynomialsIn: #(x y z).
 	[(f1 _ P atRandomBits: 10) isZero] whileTrue.
 	[(f2 _ P atRandomBits: 10) isZero] whileTrue.
 	[(f3 _ P atRandomBits: 10) isZero] whileTrue.
@@ -1254,21 +1253,21 @@ testIdealRadicalZeroDimNotPerfectField
 	self deny: (I includes: x - y).
 	self assert: (I radical includes: x - y)"! !
 
-!GroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 7/9/2016 03:45'!
+!GroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:57'!
 testIdealRadicalZeroDimPerfectField
 	"Seidenberg algorithm works for 0-dimensional ideals over a perfect field." 
 	| R y z I J |
-	R _ Rationals new polynomialsIn: #(y z).
+	R _ QQ polynomialsIn: #(y z).
 	y _ R x: #y.
 	z _ R x: #z.
 	I _ R * {y + z. z**2}.
 	J _ R * {y. z}.
 	self assert: I radical = J! !
 
-!GroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 7/8/2016 19:56'!
+!GroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:57'!
 testMultivariateDivisionExample
 	| P x y z F f |
-	P _ Rationals new polynomialsIn: #(x y z) ordering: #lex.
+	P _ QQ polynomialsIn: #(x y z) ordering: #lex.
 	x _ P x.
 	y _ P y.
 	z _ P z.
@@ -1276,10 +1275,10 @@ testMultivariateDivisionExample
 	f _ x**3 + (y**3 * 3).
 	self assert: (f divideBy: F ordering: (MonomialOrdering tlex: #(1 2 3))) remainder = (y**3 * 4)! !
 
-!GroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 7/9/2016 23:25'!
+!GroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:57'!
 testRadicalMembership
 	| R x y z g1 g2 f I |
-	R _ Rationals new polynomialsIn: #(x y z).
+	R _ QQ polynomialsIn: #(x y z).
 	x _ R x.
 	y _ R y.
 	z _ R z.
@@ -1412,20 +1411,20 @@ testSymmetricOrder
 	G _ Group symmetric: (1 to: 4).
 	self assert: G order = 4 factorial! !
 
-!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 2/21/2016 05:47'!
+!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:57'!
 testAnnihilator
 	| V v S S0 |
-	V _ Rationals new ** 3.
+	V _ QQ ** 3.
 	v _ (1,-2,1).
 	S _ V span: {v}.
 	S0 _ S annihilator.
 	self assert: S0 dimension = S codimension.
 	S0 basis do: [:f| self assert: (f value: v) isZero]! !
 
-!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 6/8/2016 21:10'!
+!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:57'!
 testAnnihilatorProperties
 	| V S T |
-	V _ Rationals new ** 5.
+	V _ QQ ** 5.
 	S _ (V grassmannian: 4) atRandomBits: 100.
 	T _ (S grassmannian: 2) atRandomBits: 100.
 	T _ V span: T basis. "hack, otherwise T ambient = S"
@@ -1446,10 +1445,10 @@ testAnnihilatorZ2
 	self assert: S0 dimension = S codimension.
 	S0 basis do: [:f| self assert: (f value: v) isZero]! !
 
-!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 6/10/2016 23:31'!
+!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:57'!
 testFirstIsomorphismTheorem
 	| V S T f phi |
-	V _ Rationals new ** 5.
+	V _ QQ ** 5.
 	S _ V grassmannian: (1 to: V dimension) atRandom :: atRandomBits: 50.
 	T _ V grassmannian: (1 to: V dimension) atRandom :: atRandomBits: 50.
 	f _ S -> T :: atRandomBits: 50.
@@ -1467,36 +1466,35 @@ testFreeModule: M
 	t _ (M coordinatesOf: x) * c + (M coordinatesOf: y).
 	self assert: v = (M elementAt: t)! !
 
-!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 6/3/2016 04:07'!
+!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:57'!
 testGrassmannian
-	| Q G S |
-	Q _ Rationals new.
-	G _ Q**3 grassmannian: 2.
+	| G S |
+	G _ QQ**3 grassmannian: 2.
 	S _ G atRandomBits: 20.
 	self assert: S dimension = 2.
 	self assert: (G includes: S).
 	self assert: (G dual includes: S perp dual)! !
 
-!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 3/15/2016 21:23'!
+!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:57'!
 testLinearBasisCoordinatesOf
 	| V basis c |
-	V _ Rationals new ** 3.
+	V _ QQ ** 3.
 	basis _ LinearBasis on: V vectors: {(-1,0,0). (0,0,2)}.
 	c _ basis coordinatesOf: (1,0,4).
 	self assert: c = (-1,2)! !
 
-!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 3/15/2016 21:22'!
+!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:57'!
 testLinearBasisCoordinatesOf2
 	| V basis c |
-	V _ Rationals new ** 3.
+	V _ QQ ** 3.
 	basis _ LinearBasis on: V vectors: {(-1,0,0). (0,0,2)}.
 	c _ basis coordinatesOf: (1,1,4).
 	self assert: c isNil! !
 
-!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 3/15/2016 21:22'!
+!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:57'!
 testLinearBasisDual
 	| V basis B Bdual I |
-	V _ Rationals new ** 3.
+	V _ QQ ** 3.
 	basis _ LinearBasis on: V vectors: {(-1,0,0). (0,1,2). (0,1,1)}.
 	B _ basis matrix.
 	Bdual _ basis dual matrix.
@@ -1504,28 +1502,28 @@ testLinearBasisDual
 	self assert: B determinant = (1 / Bdual determinant).
 	self assert: B transposed * Bdual = I! !
 
-!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 2/4/2016 04:21'!
+!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:57'!
 testLinearForm1
 	| V f |
-	V _ Rationals new ** 3.
+	V _ QQ ** 3.
 	f _ LinearForm from: V evaluating: [:v| v x + v y - v z].
 	self assert: (f value: (1,1,1)) = 1.
 	self assert: (f value: (2,2,1)) = 3.
 	self assert: (f value: (3,1, -1)) = 5! !
 
-!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 1/5/2016 03:09'!
+!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:58'!
 testLinearForm2
 	| V f |
-	V _ Rationals new ** 3.
+	V _ QQ ** 3.
 	f _ LinearForm from: V evaluating: [:v| v x + v y - v z].
 	self assert: f domain = V.
 	self assert: f kernel dimension = 2.
 	self assert: f image dimension = 1! !
 
-!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 6/3/2016 04:06'!
+!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:58'!
 testLinearFormAsPolynomial
 	| V f x |
-	V _ Rationals new ** 5 atRandom.
+	V _ QQ ** 5 atRandom.
 	f _ V dual atRandomBits: 100.
 	x _ V atRandomBits: 100.
 	self assert: (f value: x) = (f asPolynomial value: x).
@@ -1541,10 +1539,10 @@ testLinearFormZ2
 	self assert: f image dimension = 1.
 	self assert: (f kernel includes: (1,1,1,1) % 2)! !
 
-!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 2/24/2016 20:20'!
+!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:58'!
 testLinearMap
 	| V S f |
-	V _ Rationals new ** 3.
+	V _ QQ ** 3.
 	S _ V span: {(1, 1, 1). (2, 0, -2)}.
 	f _ LinearMap projectionOn: S.
 	self assert: (f value: (2, 2, 2)) = (2, 2,  2).
@@ -1573,31 +1571,30 @@ testLinearMapCompositionError
 	g _ Y -> Z atRandomBits: 1000.
 	self should: [f @ g] raise: DomainError! !
 
-!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 4/19/2016 21:06'!
+!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:58'!
 testLinearMapFiber
-	| Q f w v |
-	Q _ Rationals new.
-	f _ Q ** 6 atRandom -> (Q ** 6 atRandom) atRandomBits: 100.
+	| f w v |
+	f _ QQ ** 6 atRandom -> (QQ ** 6 atRandom) atRandomBits: 100.
 	w _ f image atRandomBits: 100.
 	v _ (f fiberAt: w) atRandomBits: 100.
 "	Transcript show: w; nextPutAll: ' <- '; show: v; newLine."
 	self assert: (f value: v) = w! !
 
-!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 7/7/2016 20:41'!
+!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:58'!
 testLinearMapImage
 	| V W f image v w |
-	V _ Rationals new ** 5 atRandom.
-	W _ Rationals new ** 5 atRandom.
+	V _ QQ ** 5 atRandom.
+	W _ QQ ** 5 atRandom.
 	f _ V -> W :: atRandomBits: 1000.
 	image _ f image.
 	v _ V atRandomBits: 100.
 	w _ f value: v.
 	self assert: (image includes: w)! !
 
-!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 7/7/2016 20:41'!
+!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:58'!
 testLinearMapImage2
 	| V S f image |
-	V _ Rationals new ** 3.
+	V _ QQ ** 3.
 	S _ V span: {(1, 1, 1). (2, 0, -2)}.
 	f _ LinearMap projectionOn: S.
 	image _ f image.
@@ -1612,20 +1609,20 @@ testLinearMapInverse
 	self assert: (f @ f inverse) isIdentity.
 	self assert: (f inverse @ f) isIdentity! !
 
-!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 7/7/2016 20:40'!
+!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:58'!
 testLinearMapKernel
 	| V W f kernel v |
-	V _ Rationals new ** 5 atRandom.
-	W _ Rationals new ** 5 atRandom.
+	V _ QQ ** 5 atRandom.
+	W _ QQ ** 5 atRandom.
 	f _ V -> W :: atRandomBits: 1000.
 	kernel _ f kernel.
 	v _ kernel atRandomBits: 100.
 	self assert: (f value: v) isZero! !
 
-!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 7/7/2016 20:40'!
+!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:58'!
 testLinearMapKernel2
 	| V S f kernel |
-	V _ Rationals new ** 3.
+	V _ QQ ** 3.
 	S _ V span: {(1, 1, 1). (2, 0, -2)}.
 	f _ LinearMap projectionOn: S.
 	kernel _ f kernel.
@@ -1669,30 +1666,30 @@ testLinearMapZ2
 	v _ kernel atRandom.
 	self assert: (f value: v) isZero! !
 
-!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 11/8/2015 04:54'!
+!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:58'!
 testLinearSystem
 	| V  x y z system |
-	V _ Rationals new ** 3.
+	V _ QQ ** 3.
 	x _ V dual e: 1.
 	y _ V dual e: 2.
 	z _ V dual e: 3.
 	system _ (x*3 + (y*2) - z eq: 1), (x*2 - (y*2) + (z*4) eq: -2), (x*(-1) + (y/2) - z eq: 0).
 	self assert: (system isSolution: (1, -2, -2))! !
 
-!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 11/8/2015 04:56'!
+!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:59'!
 testLinearSystemSolver
 	| V  x y z system |
-	V _ Rationals new ** 3.
+	V _ QQ ** 3.
 	x _ V dual e: 1.
 	y _ V dual e: 2.
 	z _ V dual e: 3.
 	system _ (x*3 + (y*2) - z eq: 1), (x*2 - (y*2) + (z*4) eq: -2), (x*(-1) + (y/2) - z eq: 0).
 	self assert: (system solutions includes: (1, -2, -2))! !
 
-!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 11/8/2015 05:03'!
+!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:59'!
 testLinearSystemSolver2
 	| V  x y z system f1 f2 |
-	V _ Rationals new ** 3.
+	V _ QQ ** 3.
 	x _ V dual e: 1.
 	y _ V dual e: 2.
 	z _ V dual e: 3.
@@ -1702,10 +1699,10 @@ testLinearSystemSolver2
 	self assert: system kernel dimension = 1.
 	self assert: (system solutions includes: (1, -2, -2))! !
 
-!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 11/21/2015 22:21'!
+!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:59'!
 testLinearSystemSolver3
 	| V  x y z system f1 f2 |
-	V _ Rationals new ** (2@2).
+	V _ QQ ** (2@2).
 	x _ V dual e: 1.
 	y _ V dual e: 2.
 	z _ V dual e: 3.
@@ -1715,34 +1712,33 @@ testLinearSystemSolver3
 	self assert: system kernel dimension = 2.
 	self assert: (system solutions includes: (V vectorAt: (1, -2, -2, 0)))! !
 
-!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 7/10/2016 08:00'!
+!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:59'!
 testMatricesQ
-	self testFreeModule: (Rationals new ** (5 atRandom @ 5 atRandom))! !
+	self testFreeModule: (QQ ** (5 atRandom @ 5 atRandom))! !
 
-!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 7/10/2016 08:00'!
+!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:46'!
 testMatricesZ
-	self testFreeModule: (Integers new ** (5 atRandom @ 5 atRandom))! !
+	self testFreeModule: (ZZ ** (5 atRandom @ 5 atRandom))! !
 
-!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 7/10/2016 08:00'!
+!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:46'!
 testMatricesZ2
-	self testFreeModule: ((Integers new mod: 2) ** (5 atRandom @ 5 atRandom))! !
+	self testFreeModule: ((ZZ mod: 2) ** (5 atRandom @ 5 atRandom))! !
 
-!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 7/10/2016 08:00'!
+!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:46'!
 testMatricesZ4
-	self testFreeModule: ((Integers new mod: 4) ** (5 atRandom @ 5 atRandom))! !
+	self testFreeModule: ((ZZ mod: 4) ** (5 atRandom @ 5 atRandom))! !
 
-!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 6/4/2016 03:33'!
+!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:59'!
 testMatrixTraceAsLinearMap
-	| Q F f |
-	Q _ Rationals new.
-	F _ Q ** (3@3) :: dual. "linear forms"
+	| F f |
+	F _ QQ ** (3@3) :: dual. "linear forms"
 	f _ F evaluating: [:x| x trace].
 	self assert: f = ((F x: 1) + (F x: 5) + (F x: 9))! !
 
-!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 2/28/2016 05:15'!
+!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:59'!
 testOrthogonalProjection
 	| V S p v |
-	V _ Rationals new ** 3.
+	V _ QQ ** 3.
 	S _ V span: {(1, 1, 0). (1, 0, 0)}.
 	p _ S projection.
 	v _ (78, 21, 139).
@@ -1752,26 +1748,26 @@ testOrthogonalProjection
 	self assert: p image = S.
 	self assert: (S apply: p) = S! !
 
-!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 2/21/2016 05:03'!
+!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:59'!
 testOrthogonalization
 	| V B |
-	V _ Rationals new ** 3.
+	V _ QQ ** 3.
 	B _ LinearBasis on: V vectors: {(1, 1, 0). (1, 0, 0)}.
 	self assert: B orthogonalized isOrthogonal.
 	self assert: B extended orthogonalized isOrthogonal! !
 
-!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 3/22/2016 03:55'!
+!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:59'!
 testOrthonormalization
 	| V B |
-	V _ Rationals new ** 3.
+	V _ QQ ** 3.
 	B _ LinearBasis on: V vectors: {(1, 1, 0). (1, 0, 0)}.
 	self assert: B orthonormalized isOrthonormal.
 	self assert: B extended orthonormalized isOrthonormal! !
 
-!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 2/29/2016 06:05'!
+!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:59'!
 testPerp
 	| V S p perp |
-	V _ Rationals new ** 3.
+	V _ QQ ** 3.
 	S _ V span: {(1, 1, 1). (2, 0, -2)}.
 	perp _ S perp.
 	self assert: perp dimension = 1.
@@ -1780,10 +1776,10 @@ testPerp
 	p _ S projection.
 	self assert: p kernel = perp! !
 
-!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 6/9/2016 04:42'!
+!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:02'!
 testPerpProperties
 	| V S T |
-	V _ Rationals new ** 3.
+	V _ QQ ** 3.
 	S _ V span: {(1, 1, 1). (2, 0, -2)}.
 	T _ V span: {(1, -1, -3)}. "subspace of S"
 	self assert: S + S perp = V.
@@ -1792,20 +1788,20 @@ testPerpProperties
 	self assert: S <= S perp perp.
 	self assert: S perp < T perp "because S > T"! !
 
-!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 4/3/2016 08:02'!
+!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:46'!
 testPerpZ2
 	| V S perp |
-	V _ (Integers new modPrime: 2) ** 3.
+	V _ (ZZ modPrime: 2) ** 3.
 	S _ V span: {(1,1,1) % 2}.
 	perp _ S perp.
 	self assert: perp dimension = 2.
 	self assert: (V innerProduct value: {S basis first. perp basis first}) isZero.
 	self assert: (V innerProduct value: {S basis first. perp basis second}) isZero! !
 
-!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 6/11/2016 05:41'!
+!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:02'!
 testQuotient
 	| V S Q |
-	V _ Rationals new ** 5.
+	V _ QQ ** 5.
 	S _ V grassmannian: (1 to: V dimension) atRandom :: atRandomBits: 50.
 	Q _ V/S.
 	self assert: Q dimension = (V dimension - S dimension).
@@ -1813,10 +1809,10 @@ testQuotient
 	self assert: (V / V null) dimension = V dimension.
 	self assert: (V / V) dimension = 0! !
 
-!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 6/10/2016 23:14'!
+!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:02'!
 testSecondIsomorphismTheorem
 	| V S T |
-	V _ Rationals new ** 5.
+	V _ QQ ** 5.
 	S _ V grassmannian: (1 to: V dimension) atRandom :: atRandomBits: 50.
 	T _ V grassmannian: (1 to: V dimension) atRandom :: atRandomBits: 50.
 	self assert: (S+T)/T ~ (S/(S /\ T))
@@ -1824,10 +1820,10 @@ testSecondIsomorphismTheorem
 	phi _ S / f kernel -> f image evaluating: [:x| f value: x representative].
 	self assert: phi isIsomorphism"! !
 
-!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 6/4/2016 08:34'!
+!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:02'!
 testSubspaceInclusion
 	| V S P v w |
-	V _ Rationals new ** 3.
+	V _ QQ ** 3.
 	[v _ V atRandomBits: 10. v isZero] whileTrue.
 	S _ V span: {v}.
 	[w _ V atRandomBits: 10. S includes: w] whileTrue.
@@ -1839,10 +1835,10 @@ testSubspaceInclusion
 	self assert: (S > P) not.
 	self assert: (P < S) not! !
 
-!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 6/9/2016 04:43'!
+!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:02'!
 testSubspaceIntersection
 	| V S T T` |
-	V _ Rationals new ** 3.
+	V _ QQ ** 3.
 	S _ V span: {(1, 1, 1). (2, 0, -2)}.
 	self assert: S /\ V = S.
 	self assert: S /\ S = S.
@@ -1851,10 +1847,10 @@ testSubspaceIntersection
 	T` _ V span: {(3,1,-1). (0,1,0)}.
 	self assert: S /\ T` = T! !
 
-!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 6/4/2016 08:39'!
+!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:02'!
 testSubspaceOfSubspace
 	| V S s T t |
-	V _ Rationals new ** 3.
+	V _ QQ ** 3.
 	S _ (V grassmannian: 2) atRandomBits: 100.
 	T _ (S grassmannian: 1) atRandomBits: 100.
 	self assert: S < V.
@@ -1866,10 +1862,10 @@ testSubspaceOfSubspace
 	self assert: (S includes: t).
 	self assert: (T includes: t)! !
 
-!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 4/19/2016 04:07'!
+!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:02'!
 testSubspaceSum
 	| V v w S T P |
-	V _ Rationals new ** 3.
+	V _ QQ ** 3.
 	[v _ V atRandomBits: 10. v isZero not] whileFalse.
 	[w _ V atRandomBits: 10. w isZero not and: [v ~= w]] whileFalse.
 	S _ V span: {v}.
@@ -1879,32 +1875,32 @@ testSubspaceSum
 	T _ V span: {v - w. v + w}.
 	self assert: S + T = P! !
 
-!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 5/12/2016 22:57'!
+!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:03'!
 testSubspaceSystem
 	| V S |
-	V _ Rationals new ** 3.
+	V _ QQ ** 3.
 	S _ V span: {(1, 1, 1). (2, 0, -2)}.
 	self assert: S equations kernel = S! !
 
-!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 6/19/2016 04:34'!
+!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:03'!
 testTensorProductAssociativity
 	| V1 V2 V3 |
-	V1 _ Rationals new ** 2.
-	V2 _ Rationals new ** 3.
-	V3 _ Rationals new ** 4.
+	V1 _ QQ ** 2.
+	V2 _ QQ ** 3.
+	V3 _ QQ ** 4.
 	self assert: (V1 ’ V2) ’ V3 ~ (V1 ’ (V2 ’ V3))! !
 
-!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 6/19/2016 04:32'!
+!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:03'!
 testTensorProductCommutativity
 	| V W |
-	V _ Rationals new ** 3.
-	W _ Rationals new ** 4.
+	V _ QQ ** 3.
+	W _ QQ ** 4.
 	self assert: V ’ W ~ (W ’ V)! !
 
-!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 6/19/2016 02:18'!
+!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:03'!
 testTensorProductOfLinearForms
 	| V W f g t v |
-	V _ Rationals new ** 3.
+	V _ QQ ** 3.
 	W _ V dual.
 	f _ W atRandomBits: 10.
 	g _ W atRandomBits: 10.
@@ -1912,57 +1908,57 @@ testTensorProductOfLinearForms
 	v _ V atRandomBits: 10.
 	self assert: (t value: v) = ((f value: v) * (g value: v))! !
 
-!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 6/11/2016 05:54'!
+!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:03'!
 testThirdsomorphismTheorem
 	| V S T |
-	V _ Rationals new ** 5.
+	V _ QQ ** 5.
 	S _ V grassmannian: (1 to: V dimension) atRandom :: atRandomBits: 50.
 	T _ S grassmannian: (1 to: S dimension) atRandom :: atRandomBits: 50.
 	self assert: (V/T)/(S/T) ~ (V/S)! !
 
-!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 7/10/2016 07:52'!
+!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:03'!
 testTuplesQ
-	self testFreeModule: (Rationals new ** 5 atRandom)! !
+	self testFreeModule: (QQ ** 5 atRandom)! !
 
-!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 7/11/2016 01:24'!
+!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:03'!
 testTuplesRationalFunctionsQ
 	| F |
-	F _ Rationals new polynomials fractions.
+	F _ QQ polynomials fractions.
 	self testFreeModule: (F ** 3 atRandom)! !
 
-!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 7/10/2016 07:52'!
+!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:46'!
 testTuplesZ
-	self testFreeModule: (Integers new ** 5 atRandom)! !
+	self testFreeModule: (ZZ ** 5 atRandom)! !
 
-!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 7/10/2016 07:52'!
+!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:46'!
 testTuplesZ2
-	self testFreeModule: ((Integers new mod: 2) ** 5 atRandom)! !
+	self testFreeModule: ((ZZ mod: 2) ** 5 atRandom)! !
 
-!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 7/10/2016 07:59'!
+!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:46'!
 testTuplesZ4
-	self testFreeModule: ((Integers new mod: 4) ** 5 atRandom)! !
+	self testFreeModule: ((ZZ mod: 4) ** 5 atRandom)! !
 
-!LinearGroupsTest methodsFor: 'as yet unclassified' stamp: 'len 4/19/2016 04:08'!
+!LinearGroupsTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:03'!
 testGeneralLinearAtRandom
 	| V G |
-	V _ Rationals new ** 3.
+	V _ QQ ** 3.
 	G _ V automorphisms.
 	self assert: (G atRandomBits: 100) isInvertible.
 	self assert: (G includes: (G atRandomBits: 100))! !
 
-!LinearGroupsTest methodsFor: 'as yet unclassified' stamp: 'len 4/19/2016 04:08'!
+!LinearGroupsTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:03'!
 testOrthogonalAtRandom
 	| V G |
-	V _ Rationals new ** 3.
+	V _ QQ ** 3.
 	G _ V automorphisms orthogonal.
 	self assert: (G atRandomBits: 100) isOrthogonal.
 	self assert: (G includes: (G atRandomBits: 100))! !
 
-!LinearGroupsTest methodsFor: 'as yet unclassified' stamp: 'len 6/20/2016 21:42'!
+!LinearGroupsTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:04'!
 testRotationsBy90Degrees
 	"Group of rotations by 90 degrees in the plane, isomorphic to Z/4Z."
 	| V G |
-	V _ Rationals new ** 2.
+	V _ QQ ** 2.
 	G _ (LinearGroup on: V) generators: {V -> V vectorAt: (0, 1, -1, 0)}.
 	self assert: G size = 4.
 	self assert: G isCyclic.
@@ -2001,10 +1997,10 @@ testBitTupleBug
 	self assert: ((1,1,0) % 2 :: sum = Z2 zero).
 	self assert: ((1,1,1) % 2 :: sum = Z2 one)! !
 
-!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 7/2/2016 06:07'!
+!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:46'!
 testBitTupleReversed
 	| v i |
-	v _ Integers new / 2 ** 100 atRandom :: atRandom.
+	v _ ZZ / 2 ** 100 atRandom :: atRandom.
 	i _ v size atRandom.
 	self assert: (v reversed at: i) = (v at: v size - i + 1).
 	self assert: v reversed reversed = v! !
@@ -2087,9 +2083,9 @@ testExtendedEuclid
 	self assert: euclid gcd = (a gcd: b).
 	self assert: euclid verify! !
 
-!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 2/9/2016 06:10'!
+!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:05'!
 testFieldAutomorphisms
-	self assert: Rationals new automorphisms isTrivial! !
+	self assert: QQ automorphisms isTrivial! !
 
 !MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 3/5/2016 04:55'!
 testFreeAbelianGroup
@@ -2210,10 +2206,10 @@ testLatticeD4SelfDual
 	D4 _ Lattice D4.
 	self assert: D4 isSelfDual! !
 
-!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 2/28/2016 05:11'!
+!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:05'!
 testLatticeDual
 	| V basis lattice dualLattice I |
-	V _ Rationals new ** 3.
+	V _ QQ ** 3.
 	basis _ LinearBasis on: V vectors: {(-1,0,0). (0,1,2). (0,1,1)}.
 	lattice _ Lattice basis: basis.
 	dualLattice _ lattice dual.
@@ -2222,10 +2218,10 @@ testLatticeDual
 	self assert: lattice determinant = (1 / dualLattice determinant).
 	self assert: lattice basis matrix * dualLattice basis matrix = I! !
 
-!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 2/28/2016 05:11'!
+!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:05'!
 testLatticeDual2
 	| V basis lattice dualLattice |
-	V _ Rationals new ** 3.
+	V _ QQ ** 3.
 	basis _ LinearBasis on: V vectors: {(-1,0,0). (0,1,2)}. "not full rank"
 	lattice _ Lattice basis: basis.
 	dualLattice _ lattice dual.
@@ -2233,11 +2229,10 @@ testLatticeDual2
 	self assert: lattice determinant = (1 / dualLattice determinant).
 	self assert: (lattice basis matrix * dualLattice basis matrix) isIdentity! !
 
-!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 2/24/2016 21:22'!
+!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:47'!
 testModularIntegersField
-	| Z F a b |
-	Z _ Integers new.
-	F _ Z modPrime: 7.
+	| F a b |
+	F _ ZZ modPrime: 7.
 	self assert: F isField.
 	self assert: F characteristic = 7.
 	a _ F projection value: 3.
@@ -2284,10 +2279,10 @@ testPermutationProduct3
 	self assert: a*b = (Permutation cycle: #(1 2 4)).
 	self assert: b*a = (Permutation cycle: #(1 3 2))! !
 
-!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 4/13/2016 21:48'!
+!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:05'!
 testPolynomialVectorSpace
 	| Qx V S x |
-	Qx _ Rationals new polynomials.
+	Qx _ QQ polynomials.
 	x _ Qx x.
 	V _ Qx asVectorSpaceMaxDegree: 5.
 	S _ V span: {Qx one. x**2. x*2}.
@@ -2305,11 +2300,11 @@ testPrimeSignature
 	self assert: 42 primeSignature = #(1 1 1).
 	self assert: 16 primeSignature = #(4)! !
 
-!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 5/31/2016 06:35'!
+!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:05'!
 testQuadraticForms
 	| V A Q f p |
-	V _ Rationals new ** (2 to: 5) atRandom.
-	[A _ Rationals new ** (V dimension @ V dimension) atRandomBits: 100. A isZero] whileTrue.
+	V _ QQ ** (2 to: 5) atRandom.
+	[A _ QQ ** (V dimension @ V dimension) atRandomBits: 100. A isZero] whileTrue.
 	A _ A + A transposed. "make it symmetric"
 	Q _ QuadraticForm from: V basis matrix: A.
 	f _ Q asPolynomial.
@@ -2362,18 +2357,18 @@ testAdjugate
 	I _ M identity.
 	self assert: A * A adjugate = (I * A determinant)! !
 
-!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 7/15/2016 05:10'!
+!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:05'!
 testAdjugate2
 	| M A B |
-	M _ Rationals new ** (3@3).
+	M _ QQ ** (3@3).
 	A _ M rows: { (-3,2,-5). (-1,0,-2). (3,-4,1) }.
 	B _ M rows: { (-8,18,-4). (-5,12,-1). (4,-6,2) }.
 	self assert: A adjugate = B! !
 
-!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 7/15/2016 05:10'!
+!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:05'!
 testAdjugateProperties
 	| M A B I c |
-	M _ Rationals new ** (3@3).
+	M _ QQ ** (3@3).
 	A _ M rows: { (-3,2,-5). (-1,0,-2). (3,-4,1) }.
 	B _ M rows: { (-1,2,3). (1,-2,1). (2,2,-1) }.
 	c _ 7.
@@ -2384,19 +2379,19 @@ testAdjugateProperties
 	self assert: (A**5) adjugate = (A adjugate ** 5).
 	self assert: A transposed adjugate = A adjugate transposed! !
 
-!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 4/19/2016 04:08'!
+!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:05'!
 testCayleyHamiltorTheoremInQ
 	| n M A |
 	n _ 6 atRandom.
-	M _ Rationals new ** (n@n).
+	M _ QQ ** (n@n).
 	A _ M atRandomBits: 100.
 	self assert: (A characteristicPolynomial value: A) isZero! !
 
-!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 4/19/2016 04:08'!
+!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:47'!
 testCayleyHamiltorTheoremInZ
 	| n M A |
 	n _ 6 atRandom.
-	M _ Integers new ** (n@n).
+	M _ ZZ ** (n@n).
 	A _ M atRandomBits: 100.
 	self assert: (A characteristicPolynomial value: A) isZero! !
 
@@ -2414,50 +2409,50 @@ testCharacteristicMatrixAndPolynomialOverZ
 	A _ ZZ ** (n@n) :: atRandomBits: n*5.
 	self assert: A characteristicPolynomial = A characteristicMatrix determinant! !
 
-!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 4/19/2016 04:08'!
+!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:05'!
 testCharacteristicPolynomial
 	| M A B |
-	M _ Rationals new ** (5@5).
+	M _ QQ ** (5@5).
 	A _ M atRandomBits: 100.
 	self assert: (A characteristicPolynomial value: A) isZero.
 	B _ M atRandomBits: 100.
 	self assert: (A*B) characteristicPolynomial = (B*A) characteristicPolynomial! !
 
-!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 7/15/2016 05:10'!
+!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:05'!
 testDeterminant
 	| M m |
-	M _ Rationals new ** (2@2).
+	M _ QQ ** (2@2).
 	m _ M rows: { (2,1). (-1,0) }.
 	self assert: m determinant = 1! !
 
-!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 7/15/2016 05:10'!
+!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:47'!
 testDeterminant2
 	| M vandermonde |
-	M _ Rationals new ** (3@3).
+	M _ QQ ** (3@3).
 	vandermonde _ M rows: {(1,1,1). (3,5,7). (9,25,49)}.
 	self assert: vandermonde determinant = 16.
-	M _ Integers new ** (3@3).
+	M _ ZZ ** (3@3).
 	vandermonde _ M rows: {(1,1,1). (3,5,7). (9,25,49)}.
 	self assert: vandermonde determinant = 16! !
 
-!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 7/15/2016 05:10'!
+!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:47'!
 testDeterminant3
 	| M A B |
-	M _ Rationals new ** (3@3).
+	M _ QQ ** (3@3).
 	A _ M rows: {(1,1,1). (3,5,7). (9,25,49)}.
 	B _ M rows: {(1,0,4). (1,1,1). (2,-2,-3)}.
 	self assert: A determinant * B determinant = (A * B) determinant.
-	M _ Integers new ** (3@3).
+	M _ ZZ ** (3@3).
 	A _ M rows: {(1,1,1). (3,5,7). (9,25,49)}.
 	B _ M rows: {(1,0,4). (1,1,1). (2,-2,-3)}.
 	self assert: A determinant * B determinant = (A * B) determinant! !
 
-!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 3/5/2016 06:50'!
+!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:47'!
 testDomainError
 	| A B |
-	A _ Integers new ** (4@4) :: identity.
+	A _ ZZ ** (4@4) :: identity.
 	self should: [A / 2] raise: DomainError.
-	B _ Rationals new ** (4@4) :: identity.
+	B _ QQ ** (4@4) :: identity.
 	self should: [A + B] raise: DomainError.
 	self should: [A * B] raise: DomainError! !
 
@@ -2487,19 +2482,19 @@ testHermiteNormalForm3
 	H _ M rows: { (1,0,50,-11). (0,3,28,-2). (0,0,61,-13) }.
 	self assert: A HNF = H! !
 
-!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 7/15/2016 05:10'!
+!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:05'!
 testInverse
 	| M A I |
-	M _ Rationals new ** (3@3).
+	M _ QQ ** (3@3).
 	A _ M rows: { (2,1,1). (-1,0,1). (0,2,1) }.
 	I _ M identity.
 	self assert: A inverse * A = I.
 	self assert: A * A inverse = I! !
 
-!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 12/26/2015 18:48'!
+!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:06'!
 testInverse2
 	| Qx x f A |
-	Qx _ Rationals new polynomials.
+	Qx _ QQ polynomials.
 	x _ Qx x.
 	f _ x**8 + (x**6) - (3*(x**4)) - (3*(x**3)) + (8*(x**2)) + (2*x) - 5.
 	A _ f companion.
@@ -2516,42 +2511,40 @@ testIsHNF
 	M _ ZZ ** (5@4) rows: {(2,0,1,11). (0,1,5,12). (0,0,6,12). (0,0,0,33). (0,0,0,1)}.
 	self assert: M isHNF not! !
 
-!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 7/15/2016 05:10'!
+!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:06'!
 testJordanNormalForm
-	| Q M A jordan B |
-	Q _ Rationals new.
-	M _ Q ** (4@4).
+	| M A jordan B |
+	M _ QQ ** (4@4).
 	A _ M rows: { (5,4,2,1). (0,1,-1,-1). (-1,-1,3,0). (1,1,-1,2) }.
 	jordan _ A jordan.
 	self assert: jordan size = 3.
-	B _ Q ** (1@1) scalar: 1.
+	B _ QQ ** (1@1) scalar: 1.
 	self assert: (jordan includes: B).
-	B _ Q ** (1@1) scalar: 2.
+	B _ QQ ** (1@1) scalar: 2.
 	self assert: (jordan includes: B).
-	B _ Q ** (2@2) scalar: 4 :: at: 1@2 put: 1; yourself.
+	B _ QQ ** (2@2) scalar: 4 :: at: 1@2 put: 1; yourself.
 	self assert: (jordan includes: B)! !
 
-!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 8/24/2016 19:18'!
+!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:06'!
 testKernel
 	| A S |
-	A _ Rationals new ** (3@6) rows: {(1, 0, -3, 0, 2, -8). (0, 1, 5, 0, -1, 4). (0, 0, 0, 1, 7, -9). (0, 0, 0, 0, 0, 0)}.
-	S _ Rationals new ** 6 span: {(3,-5,1,0,0,0). (-2,1,0,-7,1,0). (8,-4,0,9,0,1)}.
+	A _ QQ ** (3@6) rows: {(1, 0, -3, 0, 2, -8). (0, 1, 5, 0, -1, 4). (0, 0, 0, 1, 7, -9). (0, 0, 0, 0, 0, 0)}.
+	S _ QQ ** 6 span: {(3,-5,1,0,0,0). (-2,1,0,-7,1,0). (8,-4,0,9,0,1)}.
 	self assert: A kernel = S! !
 
-!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 8/24/2016 19:19'!
+!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:06'!
 testKernelImageTheorem
 	| n A |
 	n _ 6 atRandom.
-	A _ (Rationals new ** (n @ n)) atRandomBits: 100.
+	A _ QQ ** (n @ n) atRandomBits: 100.
 	self assert: A kernel dimension + A image dimension = n! !
 
-!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 11/27/2015 04:20'!
+!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:47'!
 testKroneckerProduct
-	| Z A B C |
-	Z _ Integers new.
-	A _ Z ** (2@2) vectorAt: (1,2,3,4).
-	B _ Z ** (2@2) vectorAt: (0,5,6,7).
-	C _ Z ** (4@4) vectorAt: (0, 5, 0, 10, 6, 7, 12, 14, 0, 15, 0, 20, 18, 21, 24, 28).
+	| A B C |
+	A _ ZZ ** (2@2) vectorAt: (1,2,3,4).
+	B _ ZZ ** (2@2) vectorAt: (0,5,6,7).
+	C _ ZZ ** (4@4) vectorAt: (0, 5, 0, 10, 6, 7, 12, 14, 0, 15, 0, 20, 18, 21, 24, 28).
 	self assert: (A kronecker: B) = C! !
 
 !MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 8/24/2016 19:23'!
@@ -2561,19 +2554,19 @@ testLeftInverse
 	[A _ M atRandomBits: 1000. A rank = 3] whileFalse.
 	self assert: (A leftInverse * A) isIdentity! !
 
-!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 4/19/2016 04:08'!
+!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:06'!
 testMinimalPolynomial
 	| M m f |
-	M _ Rationals new ** (5@5).
+	M _ QQ ** (5@5).
 	m _ M atRandomBits: 100.
 	f _ m minimalPolynomial.
 	self assert: f | m characteristicPolynomial.
 	self assert: (f value: m) isZero! !
 
-!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 12/12/2015 21:32'!
+!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:48'!
 testMinor
 	| M A B |
-	M _ Integers new ** (4@3).
+	M _ ZZ ** (4@3).
 	A _ M vectorAt: #(1 2 3 4 5 6 7 8 9 10 11 12).
 	B _ A minor: 2@3.
 	self assert: B columns = {(1, 7, 10). (2, 8, 11)}! !
@@ -2591,32 +2584,32 @@ testQRDecomposition
 	self assert: Q isOrthogonal.
 	self assert: R isUpperTriangular! !
 
-!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 7/15/2016 05:11'!
+!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:48'!
 testRank
 	| M vandermonde |
-	M _ Rationals new ** (3@3).
+	M _ QQ ** (3@3).
 	vandermonde _ M rows: {(1,1,1). (3,5,7). (9,25,49)}.
 	self assert: vandermonde rank = 3.
-	M _ Integers new ** (3@3).
+	M _ ZZ ** (3@3).
 	vandermonde _ M rows: {(1,1,1). (3,5,7). (9,25,49)}.
 	self assert: vandermonde rank = 3! !
 
-!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 7/15/2016 05:11'!
+!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:48'!
 testRank2
 	| M m |
-	M _ Rationals new ** (3@3).
+	M _ QQ ** (3@3).
 	m _ M rows: {(1,1,1). (2,2,0). (3,3,1)}.
 	self assert: m rank = 2.
 
-	M _ Integers new ** (3@3).
+	M _ ZZ ** (3@3).
 	m _ M rows: {(1,1,1). (2,2,2). (5,5,5)}.
 	self assert: m rank = 1! !
 
-!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 4/19/2016 04:08'!
+!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:06'!
 testRankNullityTheorem
 	| n A |
 	n _ 6 atRandom.
-	A _ (Rationals new ** (n @ n)) atRandomBits: 100.
+	A _ QQ ** (n @ n) atRandomBits: 100.
 	self assert: A rank + A nullity = n! !
 
 !MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 7/16/2016 03:59'!
@@ -2669,10 +2662,10 @@ testSmithNormalForm2
 	A _ M rows: { (3,-1,-1). (-1,3,-1). (-1,-1,3) }.
 	self assert: A SNF = (1,4,4)! !
 
-!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 4/19/2016 04:10'!
+!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:48'!
 testTransposed
 	| A |
-	A _ Integers new ** (6 atRandom @ 6 atRandom) :: atRandomBits: 1000.
+	A _ ZZ ** (6 atRandom @ 6 atRandom) :: atRandomBits: 1000.
 	self assert: A columns = A transposed rows.
 	self assert: A transposed transposed = A! !
 
@@ -2704,10 +2697,10 @@ testMonomialLCM
 	b _ x*y*y.
 	self assert: (a lcm: b) = (x*x*y*y)! !
 
-!MonomialTest methodsFor: 'as yet unclassified' stamp: 'len 7/7/2016 04:25'!
+!MonomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:48'!
 testMonomialOrderings
 	| P x y z f grlex lex revlex |
-	P _ Integers new polynomialsIn: 3.
+	P _ ZZ polynomialsIn: 3.
 
 	x _ P x.
 	y _ P y.
@@ -2772,10 +2765,10 @@ testMonomialProduct
 	self assert: ((x*y*y) at: 2) = 2.
 	self assert: (x*y*x*x*y) degree = 5! !
 
-!MonomialTest methodsFor: 'as yet unclassified' stamp: 'len 7/7/2016 08:00'!
+!MonomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:48'!
 testWeightedMonomialOrderings
 	| P x y z f grlex lex revlex |
-	P _ Integers new polynomialsIn: 3.
+	P _ ZZ polynomialsIn: 3.
 
 	x _ P x.
 	y _ P y.
@@ -2791,28 +2784,26 @@ testWeightedMonomialOrderings
 	self assert: (f orderedBy: grlex) leadingCoefficient = -7.
 	self assert: (f orderedBy: revlex) leadingCoefficient = 11! !
 
-!NumberFieldTest methodsFor: 'as yet unclassified' stamp: 'len 6/4/2016 19:06'!
+!NumberFieldTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:07'!
 testQSqrt2
-	| Q E x |
-	Q _ Rationals new.
-	x _ Q polynomials x.
-	E _ Q adjoin: RealAlgebraicNumber sqrt2.
+	| E x |
+	x _ QQ polynomials x.
+	E _ QQ adjoin: RealAlgebraicNumber sqrt2.
 	self assert: (E minimalPolynomialOf: E x) = E polynomial.
 	self assert: (E minimalPolynomialOf: E x squared) = (x - 2)! !
 
-!NumberFieldTest methodsFor: 'as yet unclassified' stamp: 'len 6/4/2016 19:13'!
+!NumberFieldTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:07'!
 testQSqrt2RealEmbeddings
-	| Q E embeddings roots |
-	Q _ Rationals new.
-	E _ Q adjoin: RealAlgebraicNumber sqrt2.
+	| E embeddings roots |
+	E _ QQ adjoin: RealAlgebraicNumber sqrt2.
 	embeddings _ E realEmbeddings.
 	roots _ (E polynomial rootsIn: RealAlgebraicNumbers new) asSet.
 	self assert: (embeddings collect: [:f| f value: E x]) asSet = roots! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 3/7/2016 07:00'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:08'!
 testArithmetic
 	| x f g |
-	x _ Rationals new polynomials x.
+	x _ QQ polynomials x.
 	f _ x**2 + (x*2) - 1.
 	g _ x**2 - (x*2) + 1.
 	self assert: f+g = (x**2 * 2).
@@ -2823,10 +2814,10 @@ testArithmetic
 	self assert: (f*g + (x - 1) \\ g) = (x - 1)
 ! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 3/31/2016 07:06'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:49'!
 testArithmeticZ2
 	| x f g |
-	x _ Integers new modPrime: 2 :: polynomials x.
+	x _ ZZ modPrime: 2 :: polynomials x.
 	f _ x**2 + (x*2) - 1.
 	g _ x**2 - (x*2) + 1.
 	self assert: f+g = (x**2 * 2).
@@ -2837,10 +2828,10 @@ testArithmeticZ2
 	self assert: (f*g + (x - 1) \\ g) = (x - 1)
 ! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 3/30/2016 03:20'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:50'!
 testArithmeticZ3
 	| x f g |
-	x _ Integers new mod: 3 :: polynomials x.
+	x _ ZZ mod: 3 :: polynomials x.
 	f _ x**2 + (x*2) - 1.
 	g _ x**2 - (x*2) + 1.
 	self assert: f+g = (x**2 * 2).
@@ -2851,10 +2842,10 @@ testArithmeticZ3
 	self assert: (f*g + (x - 1) \\ g) = (x - 1)
 ! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 2/24/2016 06:35'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:08'!
 testCRT
 	| x f1 f2 f3 crt r1 r2 r3 h |
-	x _ Rationals new polynomials x.
+	x _ QQ polynomials x.
 	f1 _ x**5 + 1.
 	f2 _ x**2 + 1.
 	f3 _ x - 1.
@@ -2867,35 +2858,35 @@ testCRT
 	self assert: h \\ f2 = r2.
 	self assert: h \\ f3 = r3! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 3/26/2016 06:44'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:50'!
 testCompanionMatrix
 	| x p |
-	x _ Integers new polynomials x.
+	x _ ZZ polynomials x.
 	p _ x**2 + (x*2) - 1.
 	self assert: p companion characteristicPolynomial = p.
 	self assert: p companion minimalPolynomial = p! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 3/24/2016 06:03'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:50'!
 testContentAndPrimitive
 	| Zx Zxy x y f |
-	Zx _ Integers new polynomialsIn: #(x).
+	Zx _ ZZ polynomialsIn: #(x).
 	Zxy _ Zx polynomialsIn: #(y).
 	x _ Zx x.
 	y _ Zxy x.
 	f _ 2*x*y + (2*(x**2)).
 	self assert: f primitive * f content = f! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 4/19/2016 04:20'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:50'!
 testContentAndPrimitiveAtRandom
 	| Zx f |
-	Zx _ Integers new polynomials.
+	Zx _ ZZ polynomials.
 	f _ Zx atRandomBits: 100 maxDegree: (1 to: 10) atRandom.
 	self assert: f primitive * f content = f! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 12/19/2015 23:47'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:50'!
 testDiscriminant
 	| Zx x f g |
-	Zx _ Integers new polynomials.
+	Zx _ ZZ polynomials.
 	x _ Zx x.
 	f _ x**2 + x + 1.
 	g _ x**3 + 1.
@@ -2909,9 +2900,9 @@ testDivision: F
 	[g _ Fx atRandomBits: 100 maxDegree: 10 atRandom. g isZero] whileTrue.
 	self assert: (f // g) * g + (f \\ g) = f! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 3/31/2016 07:02'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:08'!
 testDivisionQ
-	self testDivision: Rationals new! !
+	self testDivision: QQ! !
 
 !PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 3/31/2016 07:02'!
 testDivisionZ2
@@ -2921,21 +2912,21 @@ testDivisionZ2
 testDivisionZ65535
 	self testDivision: (Field GF: 2**17 - 1)! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 4/19/2016 04:10'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:50'!
 testDomainError
 	| f g |
-	f _ Integers new polynomials atRandomBits: 10.
+	f _ ZZ polynomials atRandomBits: 10.
 "	self should: [f / 2] raise: DomainError."
-	g _ Rationals new polynomials atRandomBits: 10.
+	g _ QQ polynomials atRandomBits: 10.
 	self should: [f + g] raise: DomainError.
 	self should: [f * g] raise: DomainError! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 3/30/2016 03:57'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:50'!
 testEPRS
 	"Example from Zippel."
 	| a b eprs |
-	a _ Integers new polynomials coefficients: #(1 0 1 0 -3 -3 8 2 -5) reversed.
-	b _ Integers new polynomials coefficients: #(3 0 5 0 -4 -9 21) reversed.
+	a _ ZZ polynomials coefficients: #(1 0 1 0 -3 -3 8 2 -5) reversed.
+	b _ ZZ polynomials coefficients: #(3 0 5 0 -4 -9 21) reversed.
 	eprs _ a eprs: b :: collect: [:each| each denseCoefficients reversed asArray] :: asArray.
 	self assert: eprs = #((1 0 1 0 -3 -3 8 2 -5)
 		(3 0 5 0 -4 -9 21)
@@ -2943,14 +2934,13 @@ testEPRS
 		(15795 30375 -59535) 
 		(1254542875143750 -1654608338437500) (12593338795500743100931141992187500))! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 4/19/2016 22:15'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:50'!
 testEvaluationHomomorphism
-	| Z Zx f g a |
-	Z _ Integers new.
-	Zx _ Z polynomials.
+	| Zx f g a |
+	Zx _ ZZ polynomials.
 	f _ Zx atRandomBits: 1000 maxDegree: 10.
 	g _ Zx atRandomBits: 1000 maxDegree: 10.
-	a _ Z atRandomBits: 100.
+	a _ ZZ atRandomBits: 100.
 	self assert: (f+g value: a) = ((f value: a) + (g value: a)).
 	self assert: (f-g value: a) = ((f value: a) - (g value: a)).
 	self assert: (f*g value: a) = ((f value: a) * (g value: a)).
@@ -2968,14 +2958,13 @@ testEvaluationHomomorphism: F
 	self assert: (f*g value: a) = ((f value: a) * (g value: a)).
 	self assert: (f**3 value: a) = ((f value: a)**3)! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 4/19/2016 22:16'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:51'!
 testEvaluationHomomorphismMultivariate
-	| Z Zxyz f g a |
-	Z _ Integers new.
-	Zxyz _ Z polynomialsIn: #(x y z).
+	| Zxyz f g a |
+	Zxyz _ ZZ polynomialsIn: #(x y z).
 	f _ Zxyz atRandomBits: 1000 maxDegree: 10.
 	g _ Zxyz atRandomBits: 1000 maxDegree: 10.
-	a _ Z ** 3 atRandomBits: 100.
+	a _ ZZ ** 3 atRandomBits: 100.
 	self assert: (f+g value: a) = ((f value: a) + (g value: a)).
 	self assert: (f-g value: a) = ((f value: a) - (g value: a)).
 	self assert: (f*g value: a) = ((f value: a) * (g value: a)).
@@ -2985,41 +2974,40 @@ testEvaluationHomomorphismMultivariate
 testEvaluationHomomorphismZ2
 	self testEvaluationHomomorphism: (Field GF: 2)! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 3/31/2016 06:58'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:51'!
 testEvaluationHomomorphismZm
-	self testEvaluationHomomorphism: (Integers new mod: 2 + 100 atRandom).
-	self testEvaluationHomomorphism: (Integers new mod: 2**13 - 2).
-	self testEvaluationHomomorphism: (Integers new mod: 2**31 - 2)! !
+	self testEvaluationHomomorphism: (ZZ mod: 2 + 100 atRandom).
+	self testEvaluationHomomorphism: (ZZ mod: 2**13 - 2).
+	self testEvaluationHomomorphism: (ZZ mod: 2**31 - 2)! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 3/31/2016 06:56'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:51'!
 testEvaluationHomomorphismZp
 	self testEvaluationHomomorphism: (Field GF: 3).
 	self testEvaluationHomomorphism: (Field GF: 5).
-	self testEvaluationHomomorphism: (Integers new modPrime: 2**13 - 1).
-	self testEvaluationHomomorphism: (Integers new modPrime: 2**31 - 1)! !
+	self testEvaluationHomomorphism: (ZZ modPrime: 2**13 - 1).
+	self testEvaluationHomomorphism: (ZZ modPrime: 2**31 - 1)! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 4/19/2016 04:11'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:51'!
 testEvaluationMultivariate
-	| Z Zxyz f a x y z |
-	Z _ Integers new.
-	Zxyz _ Z polynomialsIn: #(x y z).
+	| Zxyz f a x y z |
+	Zxyz _ ZZ polynomialsIn: #(x y z).
 	x _ Zxyz x. y _ Zxyz y. z _ Zxyz z.
 	f _ x**2 * y - z.
-	a _ Z ** 3 atRandomBits: 100.
+	a _ ZZ ** 3 atRandomBits: 100.
 	self assert: (f value: a) = ((a at: 1)**2 * (a at: 2) - (a at: 3))! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 3/8/2016 22:14'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:51'!
 testExactDivisionBug
 	| Zx x f |
-	Zx _ Integers new polynomials.
+	Zx _ ZZ polynomials.
 	x _ Zx x.
 	f _ x*2.
 	self assert: f / f = Zx one! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 3/24/2016 06:04'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:08'!
 testExactDivisionMultivariate
 	| Qxy x y f g |
-	Qxy _ Rationals new polynomialsIn: #(x y).
+	Qxy _ QQ polynomialsIn: #(x y).
 	x _ Qxy x.
 	y _ Qxy y.
 	f _ x-y.
@@ -3027,10 +3015,10 @@ testExactDivisionMultivariate
 	self assert: f * g / g = f.
 	self assert: f * g / f = g! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 3/24/2016 06:04'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:08'!
 testExactDivisionMultivariate2
 	| Qxy x y f g |
-	Qxy _ Rationals new polynomialsIn: #(x y).
+	Qxy _ QQ polynomialsIn: #(x y).
 	x _ Qxy x.
 	y _ Qxy y.
 	f _ x-y.
@@ -3038,45 +3026,45 @@ testExactDivisionMultivariate2
 	self assert: (f * g divideBy: g) quotient = f.
 	self assert: (f * g divideBy: f) quotient = g! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 3/7/2016 21:30'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:08'!
 testExactDivisionOverQ
 	| x f g |
-	x _ Rationals new polynomials x.
+	x _ QQ polynomials x.
 	f _ x**2 + x + 1.
 	g _ 1 - x.
 	self assert: f * g / g = f.
 	self assert: f * g / f = g! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 4/19/2016 04:20'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:08'!
 testExactDivisionOverQRandom
 	| Qx f g |
-	Qx _ Rationals new polynomials.
+	Qx _ QQ polynomials.
 	f _ Qx atRandomBits: 100 maxDegree: (1 to: 10) atRandom.
 	g _ Qx atRandomBits: 100 maxDegree: (1 to: 10) atRandom.
 	self assert: f * g / g = f.
 	self assert: f * g / f = g! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 3/7/2016 21:30'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:51'!
 testExactDivisionOverZ
 	| x f g |
-	x _ Integers new polynomials x.
+	x _ ZZ polynomials x.
 	f _ x**2 + x + 1.
 	g _ 1 - x.
 	self assert: f * g / g = f.
 	self assert: f * g / f = g! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 2/23/2016 22:46'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:08'!
 testExtendedEuclidBug
 	| x f1 f2 |
-	x _ Rationals new polynomials x.
+	x _ QQ polynomials x.
 	f1 _ x**2 + 1.
 	f2 _ x - 1.
 	self assert: (ExtendedEuclid on: {f1. f2}) gcd = (f1 gcd: f2)! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 12/6/2015 06:06'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:52'!
 testFiniteFieldFactorization
 	| F Fx x one f factors |
-	F _ Integers new modPrime: 3.
+	F _ ZZ modPrime: 3.
 	Fx _ F polynomials.
 	x _ Fx x.
 	one _ Fx one.
@@ -3088,10 +3076,10 @@ testFiniteFieldFactorization
 	self assert: (factors occurrencesOf: x + one) = 1.
 	self assert: (factors inject: Fx one into: [:a :b|a*b]) = f! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 2/8/2016 18:26'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:52'!
 testFiniteFieldFactorization2
 	| Z3 x f factors |
-	Z3 _ Integers new modPrime: 3.
+	Z3 _ ZZ modPrime: 3.
 	x _ Z3 polynomials x.
 	f _ (x-1)**2*(x-2).
 	factors _ f factors.
@@ -3099,10 +3087,10 @@ testFiniteFieldFactorization2
 	self assert: (factors occurrencesOf: x-1) = 2.
 	self assert: (factors occurrencesOf: x-2) = 1! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 5/19/2016 07:35'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:52'!
 testFiniteFieldFactorizationZ2
 	| Z2 x f factors |
-	Z2 _ Integers new mod: 2.
+	Z2 _ ZZ mod: 2.
 	x _ Z2 polynomials x.
 	f _ x**24 - 1.
 	factors _ f factors.
@@ -3110,11 +3098,11 @@ testFiniteFieldFactorizationZ2
 	self assert: (factors occurrencesOf: x+1) = 8.
 	self assert: (factors occurrencesOf: x**2+x+1) = 8! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 2/25/2016 00:35'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:52'!
 testFiniteFieldIrreduciblePolynomials
 	"Z/<3>[x] has 8 irreducible monic polynomials of degree 3, out of 27 monic polynomials of degree 3."
 	| F Fx f count |
-	F _ Integers new modPrime: 3.
+	F _ ZZ modPrime: 3.
 	Fx _ F polynomials.
 	count _ 0.
 	(F ** 3) do: [:each|
@@ -3127,20 +3115,20 @@ testFiniteFieldIrreduciblePolynomials
 				[self assert: f factors size > 1]].
 	self assert: count = 8! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 2/24/2016 23:00'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:52'!
 testFiniteFieldIsIrreducible
 	| F Fx x f |
-	F _ Integers new modPrime: 3.
+	F _ ZZ modPrime: 3.
 	Fx _ F polynomials.
 	x _ Fx x.
 	f _ x**3 + (x*2) + 1.
 	self assert: f factors size = 1.
 	self assert: f isIrreducible! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 2/8/2016 18:28'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:52'!
 testFiniteFieldRoots
 	| Z3 x f roots |
-	Z3 _ Integers new modPrime: 3.
+	Z3 _ ZZ modPrime: 3.
 	x _ Z3 polynomials x.
 	f _ (x-1)**2*(x-2).
 	roots _ f roots.
@@ -3148,10 +3136,10 @@ testFiniteFieldRoots
 	self assert: (roots occurrencesOf: (Z3 project: 1)) = 2.
 	self assert: (roots occurrencesOf: (Z3 project: 2)) = 1! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 12/6/2015 05:52'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:52'!
 testFiniteFieldSFF
 	| F Fx x one f factors |
-	F _ Integers new modPrime: 3.
+	F _ ZZ modPrime: 3.
 	Fx _ F polynomials.
 	x _ Fx x.
 	one _ Fx one.
@@ -3162,31 +3150,29 @@ testFiniteFieldSFF
 	self assert: (factors occurrencesOf: x**2 + one) = 3.
 	self assert: (factors occurrencesOf: x + one) = 1! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 12/16/2015 03:42'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:09'!
 testGCD
-	| Q P x f g |
-	Q _ Rationals new.
-	P _ Q polynomials.
+	| P x f g |
+	P _ QQ polynomials.
 	x _ P x.
 	f _ x**4 - 1.
 	g _ x**6 - 1.
 	self assert: (f gcd: g) = (x**2 - 1)! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 3/24/2016 06:04'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:52'!
 testGCDMultivariate
 	| Zxy x y f g |
-	Zxy _ Integers new polynomialsIn: #(x y).
+	Zxy _ ZZ polynomialsIn: #(x y).
 	x _ Zxy x.
 	y _ Zxy y.
 	f _ (x+y)*(y-x).
 	g _ (y-x)**2.
 	self assert: (f gcd: g) = (y-x)! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 3/24/2016 06:04'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:09'!
 testGCDMultivariate2
-	| Q P x y f1 f2 f3 f4 f5 f g |
-	Q _ Rationals new.
-	P _ Q polynomialsIn: #(x y).
+	| P x y f1 f2 f3 f4 f5 f g |
+	P _ QQ polynomialsIn: #(x y).
 	x _ P x.
 	y _ P y.
 	f1 _ x**2 + (y**2) + 1.
@@ -3198,46 +3184,46 @@ testGCDMultivariate2
 	g _ f1*f1*f4*f5.
 	self assert: (f gcd: g) = (f1 * f1)! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 3/9/2016 07:21'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:52'!
 testGCDOverZ
 	| x f g |
-	x _ Integers new polynomials x.
+	x _ ZZ polynomials x.
 	f _ (x**4 - 1)*6.
 	g _ (x**6 - 1)*9.
 	self assert: (f gcd: g) = ((x**2 - 1)*3)! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 4/19/2016 21:25'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:52'!
 testGaussLemma
 	"Lemma (Gauss): The product of two primitive polynomials is primitive."
 	| Zx f g |
-	Zx _ Integers new polynomials.
+	Zx _ ZZ polynomials.
 	f _ Zx atRandomBits: 100 maxDegree: (5 to: 10) atRandom.
 	g _ Zx atRandomBits: 100 maxDegree: (5 to: 10) atRandom.
 	self assert: (f primitive * g primitive) isPrimitive! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 12/19/2015 03:29'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:09'!
 testInterpolation
 	| Qx f |
-	Qx _ Rationals new polynomials.
+	Qx _ QQ polynomials.
 	f _ Qx interpolate: {1 -> 2. 2 -> 3. 4 -> 5}.
 	self assert: (f value: 1) = 2.
 	self assert: (f value: 2) = 3.
 	self assert: (f value: 4) = 5! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 12/19/2015 03:32'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:09'!
 testInterpolation2
 	| Qx f |
-	Qx _ Rationals new polynomials.
+	Qx _ QQ polynomials.
 	f _ Qx interpolate: {1 -> 2. 2 -> 4. 3 -> 9}.
 	self assert: (f value: 1) = 2.
 	self assert: (f value: 2) = 4.
 	self assert: (f value: 3) = 9! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 7/4/2016 03:41'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:52'!
 testMultivariateDivision
 	"Example from Cox IVA 62 p."
 	| Zxy x y f f1 f2 division |
-	Zxy _ Integers new polynomialsIn: #(x y).
+	Zxy _ ZZ polynomialsIn: #(x y).
 	x _ Zxy x.
 	y _ Zxy y.
 	f _ x*(y**2)+1.
@@ -3248,11 +3234,11 @@ testMultivariateDivision
 	self assert: division remainder = (y one * 2).
 	self assert: division verify! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 7/4/2016 03:41'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:52'!
 testMultivariateDivision2
 	"Example from Cox IVA 63 p."
 	| Zxy x y f f1 f2 division |
-	Zxy _ Integers new polynomialsIn: #(x y).
+	Zxy _ ZZ polynomialsIn: #(x y).
 	x _ Zxy x.
 	y _ Zxy y.
 	f _ x**2*y + (x*(y**2)) + (y**2).
@@ -3263,11 +3249,11 @@ testMultivariateDivision2
 	self assert: division remainder = (x+y+1).
 	self assert: division verify! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 7/4/2016 03:41'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:52'!
 testMultivariateDivision3
 	"Example from Cox IVA 67 p."
 	| Zxy x y f f1 f2 division |
-	Zxy _ Integers new polynomialsIn: #(x y).
+	Zxy _ ZZ polynomialsIn: #(x y).
 	x _ Zxy x.
 	y _ Zxy y.
 	f _ x**2*y + (x*(y**2)) + (y**2).
@@ -3278,18 +3264,18 @@ testMultivariateDivision3
 	self assert: division remainder = (x*2+1).
 	self assert: division verify! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 7/8/2016 23:52'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:09'!
 testMultivariateGCDBug
 	| x |
-	x _ Rationals new polynomialsIn: 3 :: x.
+	x _ QQ polynomialsIn: 3 :: x.
 	self assert: (x**2 gcd: x) = x! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 3/30/2016 03:57'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:53'!
 testPPRS
 	"Example from Zippel."
 	| a b pprs |
-	a _ Integers new polynomials coefficients: #(1 0 1 0 -3 -3 8 2 -5) reversed.
-	b _ Integers new polynomials coefficients: #(3 0 5 0 -4 -9 21) reversed.
+	a _ ZZ polynomials coefficients: #(1 0 1 0 -3 -3 8 2 -5) reversed.
+	b _ ZZ polynomials coefficients: #(3 0 5 0 -4 -9 21) reversed.
 	pprs _ a pprs: b :: collect: [:each| each denseCoefficients reversed asArray] :: asArray.
 	self assert: pprs = #((1 0 1 0 -3 -3 8 2 -5) 
 		(3 0 5 0 -4 -9 21)
@@ -3298,10 +3284,10 @@ testPPRS
 		(4663 -6150)
 		(1))! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 6/26/2016 05:15'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:53'!
 testPseudoDivision1
 	| Zxy x y division |
-	Zxy _ Integers new polynomialsIn: #(x y).
+	Zxy _ ZZ polynomialsIn: #(x y).
 	x _ Zxy x.
 	y _ Zxy y.
 	division _ x**2 + (y**2) pseudoDivideBy: y - x in: 2.
@@ -3309,10 +3295,10 @@ testPseudoDivision1
 	self assert: division remainder asMultivariate = (x**2 * 2).
 	self assert: division verify! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 6/26/2016 05:16'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:09'!
 testPseudoDivision2
 	| Zxy x y division |
-	Zxy _ Rationals new polynomialsIn: #(x y).
+	Zxy _ QQ polynomialsIn: #(x y).
 	x _ Zxy x.
 	y _ Zxy y.
 	division _ x**2 + (y**2) pseudoDivideBy: (y-x)*2 in: 2.
@@ -3320,10 +3306,10 @@ testPseudoDivision2
 	self assert: division remainder asMultivariate = (x**2 * 8).
 	self assert: division verify! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 6/26/2016 05:17'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:53'!
 testPseudoDivision3
 	| Zxy x y division |
-	Zxy _ Integers new polynomialsIn: #(x y).
+	Zxy _ ZZ polynomialsIn: #(x y).
 	x _ Zxy x.
 	y _ Zxy y.
 	division _ x**2 + (y**2) pseudoDivideBy: y - x in: 2.
@@ -3345,10 +3331,10 @@ testPseudoDivision: R
 	div _ f pseudoDivideBy: g.
 	self assert: div verify! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 12/11/2015 06:14'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:53'!
 testPseudoDivisionUnivariate
 	| Zx x division |
-	Zx _ Integers new polynomials.
+	Zx _ ZZ polynomials.
 	x _ Zx x.
 	division _ x**3 + x + 1 pseudoDivideBy: (x**2 * 3) + x + 1.
 	self assert: division quotient = (x*3 - 1).
@@ -3356,27 +3342,27 @@ testPseudoDivisionUnivariate
 	self assert: division delta = 2.
 	self assert: division verify! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 3/8/2016 16:56'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:53'!
 testPseudoDivisionUnivariate2
 	"Example from Zippel book"
 	| Zx a b |
-	Zx _ Integers new polynomials.
+	Zx _ ZZ polynomials.
 	a _ Zx coefficients: #(1 0 1 0 -3 -3 8 2 -5) reversed.
 	b _ Zx coefficients: #(3 0 5 0 -4 -9 21) reversed.
 	^ self assert: (a pseudoDivideBy: b) verify! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 7/4/2016 04:34'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:53'!
 testPseudoDivisionZ
-	self testPseudoDivision: Integers new! !
+	self testPseudoDivision: ZZ! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 7/4/2016 04:33'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:53'!
 testPseudoDivisionZ6
-	self testPseudoDivision: (Integers new mod: 6)! !
+	self testPseudoDivision: (ZZ mod: 6)! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 3/8/2016 22:06'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:53'!
 testPseudoRemainder
 	| Zx x a b r |
-	Zx _ Integers new polynomials.
+	Zx _ ZZ polynomials.
 	x _ Zx x.
 	a _ x**8 + (x**6) - (3*(x**4)) - (3*(x**3)) + (8*(x**2)) + (2*x) - 5.
 	b _ 3*(x**6) + (5*(x**4)) - (4*(x**2)) - (9*x) + 21.
@@ -3384,43 +3370,41 @@ testPseudoRemainder
 	self assert: (a pseudoRem: b) = r.
 	self assert: (a pseudoDivideBy: b) remainder = r! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 2/8/2016 18:31'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:10'!
 testRationalRoots
-	| Q x f roots |
-	Q _ Rationals new.
-	x _ Q polynomials x.
+	| x f roots |
+	x _ QQ polynomials x.
 	f _ (x-(1/2))**2*(x-2)*(x**2 + 1)*(x**2-2).
-	roots _ f rootsIn: Q.
+	roots _ f rootsIn: QQ.
 	self assert: roots size = 3.
 	self assert: (roots occurrencesOf: 1/2) = 2.
 	self assert: (roots occurrencesOf: 2) = 1! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 5/25/2016 20:50'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:10'!
 testRationalRootsBug
 	| x f roots |
-	x _ Rationals new polynomials x.
+	x _ QQ polynomials x.
 	f _ x**3*-1 + (3*x) + 2.
 	roots _ f roots.
 	self assert: roots size = 3.
 	self assert: (roots occurrencesOf: -1) = 2.
 	self assert: (roots occurrencesOf: 2) = 1! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 4/17/2016 06:42'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:10'!
 testRealRoots
-	| Q R x f roots |
-	Q _ Rationals new.
+	| R x f roots |
 	R _ RealAlgebraicNumbers new.
-	x _ Q polynomials x.
+	x _ QQ polynomials x.
 	f _ (x-(1/2))**2*(x-2)*(x**2 + 1)*(x**2-2).
 	roots _ f rootsIn: R.
 	self assert: roots size = 4.
 	self assert: (roots occurrencesOf: 1/2) = 2.
 	self assert: (roots occurrencesOf: 2) = 1! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 12/21/2015 17:46'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:53'!
 testResultant
 	| Zx x f g f` g` h |
-	Zx _ Integers new polynomials.
+	Zx _ ZZ polynomials.
 	x _ Zx x.
 	f _ x**2 + x + 1.
 	f` _ f * (x + 2).
@@ -3432,21 +3416,21 @@ testResultant
 	self assert: (-1)**(f degree * g degree) * (f resultant: g) = (g resultant: f).
 	self assert: (f * g resultant: h) = ((f resultant: h) * (g resultant: h))! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 12/19/2015 23:57'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:53'!
 testResultant2
 	| Zx x f g |
-	Zx _ Integers new polynomials.
+	Zx _ ZZ polynomials.
 	x _ Zx x.
 	f _ 2 * (x - 5) * (x - 11).
 	g _ 3 * (x - 7).
 	self assert: (f resultant: g) = ((2 ** 1) * (3**2) * (5 - 7) * (11 - 7))! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 3/30/2016 03:57'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:53'!
 testSPRS
 	"Example from Zippel."
 	| a b sprs |
-	a _ Integers new polynomials coefficients: #(1 0 1 0 -3 -3 8 2 -5) reversed.
-	b _ Integers new polynomials coefficients: #(3 0 5 0 -4 -9 21) reversed.
+	a _ ZZ polynomials coefficients: #(1 0 1 0 -3 -3 8 2 -5) reversed.
+	b _ ZZ polynomials coefficients: #(3 0 5 0 -4 -9 21) reversed.
 	sprs _ a sprs: b :: collect: [:each| each denseCoefficients reversed asArray] :: asArray.
 	self assert: sprs = #((1 0 1 0 -3 -3 8 2 -5)
 		#(3 0 5 0 -4 -9 21)
@@ -3456,10 +3440,10 @@ testSPRS
 		#(260708))
 ! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 4/19/2016 21:24'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:53'!
 testShift
 	| Zx x f |
-	Zx _ Integers new polynomials.
+	Zx _ ZZ polynomials.
 	x _ Zx x.
 	f _ Zx atRandomBits: 10.
 	self assert: (f shift: 10) degree = (f degree + 10).
@@ -3467,11 +3451,10 @@ testShift
 	self assert: f * (x**3) = (f shift: 3).
 	self assert: (f * (x**3) shift: -3) = f! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 7/8/2016 23:45'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:10'!
 testSquareFree
-	| Q P x f1 f2 f3 f |
-	Q _ Rationals new.
-	P _ Q polynomials.
+	| P x f1 f2 f3 f |
+	P _ QQ polynomials.
 	x _ P x.
 	f1 _ x**2 + x + 1.
 	f2 _ 1 - x.
@@ -3479,11 +3462,10 @@ testSquareFree
 	f _ f1*f1*f2*f3*f3*f3.
 	self assert: f squareFree = (f1 * f2 * f3)! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 7/8/2016 23:47'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:10'!
 testSquareFreeMultivariate
-	| Q P x y f1 f2 f |
-	Q _ Rationals new.
-	P _ Q polynomialsIn: #(x y).
+	| P x y f1 f2 f |
+	P _ QQ polynomialsIn: #(x y).
 	x _ P x.
 	y _ P y.
 	f1 _ x + 1.
@@ -3491,11 +3473,11 @@ testSquareFreeMultivariate
 	f _ f1*f1*f2*f2.
 	self assert: f squareFree = (f1 * f2)! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 3/18/2016 05:38'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:54'!
 testSubresultant
 	"deg(gcd(f,g)) = d iff subresultant(f,g,k) = 0 for all k < d and subresultant(f,g,d) ~= 0, and the d-th subresultant coefficient is in fact a gcd of f and g."
 	| x f g |
-	x _ Integers new polynomials x.
+	x _ ZZ polynomials x.
 	f _ (x**4 - 1)*6.
 	g _ (x**6 - 1)*9.
 	"self assert: (f gcd: g) = ((x**2 - 1)*3)"
@@ -3504,19 +3486,19 @@ testSubresultant
 	self assert: (f subresultant: 2 with: g) isZero not.
 	self assert: (f subresultant: 2 with: g) primitive = (x**2 - 1)! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 3/18/2016 05:32'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:54'!
 testSubresultant0
 	| Zx x f g |
-	Zx _ Integers new polynomials.
+	Zx _ ZZ polynomials.
 	x _ Zx x.
 	f _ 2 * (x - 5) * (x - 11).
 	g _ 3 * (x - 7).
 	self assert: (f resultant: g) = (f subresultant: 0 with: g) asScalar! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 6/3/2016 02:56'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:10'!
 testUnivariateMultivariateConversion
 	| Qx x y f |
-	Qx _ Rationals new polynomialsIn: #(x y).
+	Qx _ QQ polynomialsIn: #(x y).
 	x _ Qx x.
 	y _ Qx y.
 	f _ x**2*y.
@@ -3524,10 +3506,10 @@ testUnivariateMultivariateConversion
 "	self assert: (f asUnivariateIn: 1 :: asMultivariate) = f."
 	self assert: (f asUnivariateIn: 2 :: asMultivariate) = f! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 5/22/2016 23:19'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:10'!
 testUnivariateMultivariateConversion2
 	| Qx x y f f` x0 y0 |
-	Qx _ Rationals new polynomialsIn: #(x y).
+	Qx _ QQ polynomialsIn: #(x y).
 	x _ Qx x.
 	y _ Qx y.
 	f _ Qx zero.
@@ -3538,10 +3520,10 @@ testUnivariateMultivariateConversion2
 	y0 _ (-100 to: 100) atRandom.
 	self assert: ((f` value: y0) value: x0) = (f value: {x0. y0})! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 3/19/2016 03:54'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:10'!
 testZeroCoefficientBug
 	| Qx |
-	Qx _ Rationals new polynomials.
+	Qx _ QQ polynomials.
 	self assert: (Qx one * 0) isZero! !
 
 !ProjectiveGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 8/10/2016 06:21'!
@@ -3581,12 +3563,12 @@ testHomogeneousTuples
 	self assert: (1,2,3) homogeneous = (2,4,6) homogeneous.
 	self assert: (1,2,3) homogeneous ~= (-2,4,6) homogeneous! !
 
-!ProjectiveGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 6/10/2016 05:37'!
+!ProjectiveGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:10'!
 testPappusHexagonTheorem
 	"Given a set of collinear points {A,B,C} and another set of collinear points {a,b,c}, then the intersection points X,Y,Z of line pairs Ab and aB, Ac and aC, Bc and bC are collinear.
 	The theorem is true in any projective plane over any field, but fails for projective planes over any skewfield (non-commutative division ring). The projective planes in which the theorem is valid are called pappian planes."
 	| P A B C a b c X Y Z |
-	P _ Rationals new ** 3 :: projective.
+	P _ QQ ** 3 :: projective.
 	A _ P atRandomBits: 100.
 	B _ P atRandomBits: 100.
 	C _ A+B :: atRandomBits: 100.
@@ -3605,10 +3587,10 @@ testPappusHexagonTheorem
 	"X,Y,Z are collinear:"
 	self assert: (X+Y+Z) isLine! !
 
-!ProjectiveGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 6/10/2016 05:38'!
+!ProjectiveGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:11'!
 testProjectiveSpaceBasic
 	| V P p0 p1 p2 p3 |
-	V _ Rationals new ** 3.
+	V _ QQ ** 3.
 	P _ V projective.
 	p0 _ P project: (1,1,0).
 	p1 _ P project: (0,1,1).
@@ -3748,11 +3730,11 @@ testPowerSeries
 	cos _ PowerSeries cos.
 	self assert: ((cos squared + sin squared) coefficients beginsWith: #(1 0 0 0 0 0 0 0 0))! !
 
-!SequenceTest methodsFor: 'as yet unclassified' stamp: 'len 3/30/2016 03:58'!
+!SequenceTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:54'!
 testRecursive
 	| f g |
 	f _ Sequence fibonacci.
-	g _ LinearRecursiveSequence to: Integers new evaluating: f maxOrder: 5.
+	g _ LinearRecursiveSequence to: ZZ evaluating: f maxOrder: 5.
 	self assert: (f equals: g upTo: 20).
 	self assert: g order = 2.
 	self assert: g characteristicPolynomial denseCoefficients asArray = #(-1 -1 1)! !
@@ -3928,27 +3910,27 @@ cyclic: n over: scalars
 	generators add: singles product - 1.
 	^ P * generators! !
 
-!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 3/28/2016 02:35'!
+!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:43'!
 katsura2
 	| P x y |
-	P _ Rationals new polynomialsIn: #(x y).
+	P _ QQ polynomialsIn: #(x y).
 	x _ P x.
 	y _ P y.
 	^ P * {x + (y*2) - 1. x**2 + (y**2 * 2) - x}! !
 
-!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 3/28/2016 02:35'!
+!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:44'!
 katsura3
 	| P x y z |
-	P _ Rationals new polynomialsIn: #(x y z).
+	P _ QQ polynomialsIn: #(x y z).
 	x _ P x: #x.
 	y _ P x: #y.
 	z _ P x: #z.
 	^ P * {x + (y*2) + (z*2) - 1. x**2 + (y**2 * 2) + (z**2 * 2) - x. x*y*2 + (y*z*2) - y}! !
 
-!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 3/28/2016 02:35'!
+!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:44'!
 katsura4
 	| P x y z t |
-	P _ Rationals new polynomialsIn: #(x y z t).
+	P _ QQ polynomialsIn: #(x y z t).
 	x _ P x: #x.
 	y _ P x: #y.
 	z _ P x: #z.
@@ -3958,10 +3940,10 @@ katsura4
 		x*y*2 + (y*z*2) + (z*t*2) - y.
 		y**2 + (x*z*2) + (y*t*2) - z}! !
 
-!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 3/28/2016 02:35'!
+!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:44'!
 katsura5
 	| P x y z t u |
-	P _ Rationals new polynomialsIn: #(x y z t u).
+	P _ QQ polynomialsIn: #(x y z t u).
 	x _ P x: #x.
 	y _ P x: #y.
 	z _ P x: #z.
@@ -4001,10 +3983,10 @@ testCyclic5
 testCyclic6
 	self cyclic: 6 :: groebnerBasis! !
 
-!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 5/20/2016 03:59'!
-testElimination
+!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:43'!
+testEliminationExample
 	| Qx x y z I |
-	Qx _ Rationals new polynomialsIn: #(x y z).
+	Qx _ QQ polynomialsIn: #(x y z).
 	x _ Qx x. y _ Qx y. z _ Qx z.
 	I _ Qx * {x**2 + y + z - 1. x + (y**2) + z - 1. x + y + (z**2) - 1}.
 	I eliminateAll: #(1 2)! !
@@ -4040,91 +4022,89 @@ testFiniteField
 	F _ Field GF: 9.
 	((F**3) upTo: 9**3) asSet size = (9**3) ifFalse: [self halt]! !
 
-!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 3/1/2016 15:43'!
+!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:49'!
 testFiniteFieldPolynomialFactorization
 	| F Fx x one f |
-	F _ Integers new modPrime: 3.
+	F _ ZZ modPrime: 3.
 	Fx _ F polynomials.
 	x _ Fx x.
 	one _ Fx one.
 	f _ x**11 + (x**9 * 2) + (x**8 * 2) + (x**6) + (x**5) + (x**3 * 2) + (x**2 * 2) + one.
 	20 timesRepeat: [f factorizer factors]! !
 
-!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 6/11/2016 08:08'!
+!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:49'!
 testMultivariatePolynomialAdditionOverZ
 	| P f g |
-	P _ Integers new polynomialsIn: #(x y z).
+	P _ ZZ polynomialsIn: #(x y z).
 	f _ P atRandomBits: 100 maxDegree: 50.
 	g _ P atRandomBits: 100 maxDegree: 50.
 	10000 timesRepeat: [f + g]! !
 
-!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 4/19/2016 04:19'!
+!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:49'!
 testPolynomialAdditionOverZ
 	| P f g |
-	P _ Integers new polynomials.
+	P _ ZZ polynomials.
 	f _ P atRandomBits: 100 maxDegree: 50.
 	g _ P atRandomBits: 100 maxDegree: 50.
 	10000 timesRepeat: [f + g]! !
 
-!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 3/31/2016 08:46'!
+!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:49'!
 testPolynomialAdditionOverZ2
 	| P f g |
-	P _ Integers new modPrime: 2 :: polynomials.
+	P _ ZZ modPrime: 2 :: polynomials.
 	f _ P atRandomDegree: 50.
 	g _ P atRandomDegree: 50.
 	10000 timesRepeat: [f + g]! !
 
-!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 3/31/2016 08:19'!
+!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:08'!
 testPolynomialDivisionOverQ
-	| Q P x f g |
-	Q _ Rationals new.
-	P _ Q polynomials.
+	| P x f g |
+	P _ QQ polynomials.
 	x _ P x.
 	f _ x**2 + x + 1 ** 10.
 	g _ 1 - x ** 10.
 	2000 timesRepeat: [f // g. f \\ g]! !
 
-!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 3/31/2016 08:21'!
+!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:49'!
 testPolynomialDivisionOverZ
-	| Z P x f g |
-	Z _ Integers new.
-	P _ Z polynomials.
+	| P x f g |
+	P _ ZZ polynomials.
 	x _ P x.
 	f _ x**2 + x + 1 ** 10.
 	g _ 1 - x ** 10.
 	2000 timesRepeat: [f // g. f \\ g]! !
 
-!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 3/31/2016 17:28'!
+!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:08'!
 testPolynomialGCDOverQ
 	| P x f g |
-	P _ Rationals new polynomials.
+	P _ QQ polynomials.
 	x _ P x.
 	f _ x**4 - 1 ** 5.
 	g _ x**6 - 1 ** 5.
 	2000 timesRepeat: [f gcd: g]! !
 
-!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 3/31/2016 17:28'!
+!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:49'!
 testPolynomialGCDOverZ
 	| P x f g |
-	P _ Integers new polynomials.
+	P _ ZZ polynomials.
 	x _ P x.
 	f _ x**4 - 1 ** 5.
 	g _ x**6 - 1 ** 5.
 	2000 timesRepeat: [f gcd: g]! !
 
-!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 6/30/2016 07:31'!
+!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:49'!
 testPolynomialGCDOverZ2
 	| P x f g |
-	P _ Integers new modPrime: 2 :: polynomials.
+	P _ ZZ modPrime: 2 :: polynomials.
 	x _ P x.
 	f _ x**4 - 1 ** 5.
 	g _ x**6 - 1 ** 5.
 	2000 timesRepeat: [f gcd: g]! !
 
-!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 4/19/2016 04:20'!
+!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:49'!
 testPolynomialMultiplication2OverZ
 	| P f g |
-	P _ Integers new polynomials.
+	P _ ZZ polynomials.
 	f _ P atRandomBits: 100 maxDegree: 50.
 	g _ P atRandomBits: 100 maxDegree: 50.
 	100 timesRepeat: [f * g]! !
@@ -4137,10 +4117,10 @@ testPolynomialMultiplication2OverZ2
 	g _ P atRandomBits: 100 maxDegree: 50.
 	100 timesRepeat: [f * g]! !
 
-!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 3/31/2016 08:56'!
+!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:08'!
 testPolynomialMultiplicationOverZ
 	| P x f |
-	P _ Rationals new polynomials.
+	P _ QQ polynomials.
 	x _ P x.
 	f _ x - 1.
 	1 to: 9 do: [:i| f _ x - i * f * f]! !
@@ -4153,30 +4133,29 @@ testPolynomialMultiplicationOverZ2
 	f _ x - (1 % 2).
 	1 to: 9 do: [:i| f _ x - (i % 2) * f * f]! !
 
-!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 3/3/2016 02:12'!
+!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:49'!
 testPolynomialPseudoDivision
 	| Zx x a b |
-	Zx _ Integers new polynomials.
+	Zx _ ZZ polynomials.
 	x _ Zx x.
 	a _ x**8 + (x**6) - (3*(x**4)) - (3*(x**3)) + (8*(x**2)) + (2*x) - 5.
 	b _ 3*(x**6) + (5*(x**4)) - (4*(x**2)) - (9*x) + 21.
 	20 timesRepeat: [(a pseudoDivideBy: b) quotient]! !
 
-!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 3/1/2016 15:48'!
+!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:49'!
 testPolynomialPseudoRemainder
 	| Zx x a b |
-	Zx _ Integers new polynomials.
+	Zx _ ZZ polynomials.
 	x _ Zx x.
 	a _ x**8 + (x**6) - (3*(x**4)) - (3*(x**3)) + (8*(x**2)) + (2*x) - 5.
 	b _ 3*(x**6) + (5*(x**4)) - (4*(x**2)) - (9*x) + 21.
 	20 timesRepeat: [a pseudoRem: b]! !
 
-!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 4/17/2016 06:42'!
+!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:08'!
 testPolynomialRealRoots
-	| Q R x f |
-	Q _ Rationals new.
+	| R x f |
 	R _ RealAlgebraicNumbers new.
-	x _ Q polynomials x.
+	x _ QQ polynomials x.
 	f _ (x-(1/2))**2*(x-2)*(x**2 + 1)*(x**2-2).
 	20 timesRepeat: [f rootsIn: R]! !
 
@@ -4208,9 +4187,9 @@ testRealAlgebraicNumberSquare
 	sqrt2 _ RealAlgebraicNumber sqrt2.
 	10 timesRepeat: [sqrt2 squared]! !
 
-!SmallMatrixBenchmark methodsFor: 'as yet unclassified' stamp: 'len 7/8/2016 02:48'!
+!SmallMatrixBenchmark methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:54'!
 setUp
-	integerMatrix _ Integers new ** (64@64) :: atRandomBits: 10000.
+	integerMatrix _ ZZ ** (64@64) :: atRandomBits: 10000.
 	binaryMatrix _ (Field GF: 2) ** (64@64) :: atRandom! !
 
 !SmallMatrixBenchmark methodsFor: 'as yet unclassified' stamp: 'len 7/8/2016 02:48'!
@@ -4245,10 +4224,10 @@ testTranspositionZ
 testTranspositionZ2
 	binaryMatrix transposed! !
 
-!SparsePolynomialMultiplicationBenchmark methodsFor: 'as yet unclassified' stamp: 'len 6/5/2016 08:44'!
+!SparsePolynomialMultiplicationBenchmark methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:54'!
 setUp
 	| P x y z |
-	P _ Integers new polynomialsIn: #(x y z).
+	P _ ZZ polynomialsIn: #(x y z).
 	x _ P x.
 	y _ P y.
 	z _ P z.
