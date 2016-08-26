@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 25 August 2016 at 6:58:00.675137 am'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 26 August 2016 at 4:38:27.001206 am'!
 'Description Please enter a description for this package'!
-!provides: 'MathematicsTests' 1 2!
+!provides: 'MathematicsTests' 1 3!
 !classDefinition: #Benchmark category: #MathematicsTests!
 Object subclass: #Benchmark
 	instanceVariableNames: ''
@@ -821,6 +821,19 @@ testAffineMapCollinearity
 	"the imagees of the three collinear points must be collinear:"
 	p1` _ f value: p1. p2` _ f value: p2. p3` _ f value: p3.
 	self assert: (A span: {p1`.p2`.p3`}) isLine! !
+
+!AffineGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 8/25/2016 21:04'!
+testAffineMapComposition
+	| X Y Z f g x |
+	X _ QQ ** 3 :: asAffineSpace.
+	Y _ QQ ** 5 :: asAffineSpace.
+	Z _ QQ ** 4 :: asAffineSpace.
+	f _ X -> Y atRandomBits: 1000.
+	g _ Y -> Z atRandomBits: 1000.
+	x _ X atRandomBits: 1000.
+	self assert: (X -> Z includes: g @ f).
+	self assert: (g @ f value: x) = (g value: (f value: x)).
+	self should: [f @ g] raise: DomainError! !
 
 !AffineGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 6/4/2016 04:34'!
 testAffineMapEvaluating

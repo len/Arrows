@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 25 August 2016 at 6:58:23.302297 am'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 26 August 2016 at 4:38:22.338423 am'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 188!
+!provides: 'Mathematics' 1 189!
 !classDefinition: #AbelianGroupPresentation category: #'Mathematics-Free'!
 Object subclass: #AbelianGroupPresentation
 	instanceVariableNames: 'generators relators'
@@ -853,7 +853,7 @@ PrimeField class
 
 !classDefinition: #FreeAlgebra category: #'Mathematics-Free'!
 Ring subclass: #FreeAlgebra
-	instanceVariableNames: 'scalars indeterminates'
+	instanceVariableNames: 'scalars words'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Free'!
@@ -989,6 +989,16 @@ Domain subclass: #AffineSubspace
 	category: 'Mathematics-Geometry-Affine'!
 !classDefinition: 'AffineSubspace class' category: #'Mathematics-Geometry-Affine'!
 AffineSubspace class
+	instanceVariableNames: ''!
+
+!classDefinition: #AffineMaps category: #'Mathematics-Geometry-Affine'!
+AffineSubspace subclass: #AffineMaps
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Geometry-Affine'!
+!classDefinition: 'AffineMaps class' category: #'Mathematics-Geometry-Affine'!
+AffineMaps class
 	instanceVariableNames: ''!
 
 !classDefinition: #AlgebraicSet category: #'Mathematics-Geometry-Algebraic'!
@@ -1691,6 +1701,16 @@ Domain subclass: #ProjectiveSubspace
 ProjectiveSubspace class
 	instanceVariableNames: ''!
 
+!classDefinition: #ProjectiveMaps category: #'Mathematics-Geometry-Projective'!
+ProjectiveSubspace subclass: #ProjectiveMaps
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Geometry-Projective'!
+!classDefinition: 'ProjectiveMaps class' category: #'Mathematics-Geometry-Projective'!
+ProjectiveMaps class
+	instanceVariableNames: ''!
+
 !classDefinition: #QuotientSet category: #'Mathematics-Kernel-Domains'!
 Domain subclass: #QuotientSet
 	instanceVariableNames: ''
@@ -2219,16 +2239,6 @@ LinearCombination subclass: #FreePolynomial
 	category: 'Mathematics-Free'!
 !classDefinition: 'FreePolynomial class' category: #'Mathematics-Free'!
 FreePolynomial class
-	instanceVariableNames: ''!
-
-!classDefinition: #GroupRingElement category: #'Mathematics-Free'!
-LinearCombination subclass: #GroupRingElement
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Free'!
-!classDefinition: 'GroupRingElement class' category: #'Mathematics-Free'!
-GroupRingElement class
 	instanceVariableNames: ''!
 
 !classDefinition: #SimplicialChain category: #'Mathematics-Simplices'!
@@ -3591,11 +3601,11 @@ Domains are connected by morphisms (in many cases functions), that in turn can b
 
 Domains often have an underlying set: the set of elements. The cardinality of a domain can be finite or infinite, and countable or uncountable (see Aleph and >>size). When the underlying set is finite, #asSet returns a Smalltalk Set. When it is countable, it is possible to iterate over its element (see >>do:).  Also, when it makes sense to take elements at random, #atRandom:, #atRandom:bits: or similar messages are implemented.
 
-Domains can be built from other domains by composition (in the OOP sense), for example by taking products or coproducts (cartesian products, direct products, direct sums), quotients, duals, etc. These operations are also morphisms (functors, more precisely), and are mostly implemented as Smalltalk messages.
+Domains can be built from other domains by composition (in the OOP sense), for example by taking products or coproducts (cartesian products, direct products, direct sums), quotients, localizations, duals, etc. These operations are also morphisms (functors, more precisely), and are mostly implemented as Smalltalk messages.
 
-Domains, as categorical objects, can have subobjects. Groups have subgroups, vector spaces have subspaces, rings have subrings, etc. In general, there is an #ambient object, and there is a protocol for inclusion testing: #<, #<=, #>=, #>.
+Domains, as categorical objects, can have subobjects. Groups have subgroups, vector spaces have subspaces, rings have subrings and ideals, etc. In general, there is an #ambient object, and there is a protocol for inclusion testing: #<, #<=, #>=, #>.
 
-Some domains, such as field extensions, the field of fractions of a ring, etc have associated canonical embeddings, and should implement #embed: and #embedding. Other domains, such as quotient objects, have canonical projections and should implement #project: and #projection. N-ary products and coproducts should implement #projection: for the i-th projection map.
+Some domains, such as field extensions, localizations, the field of fractions of a ring, etc have associated canonical embeddings, and should implement #embed: and #embedding. Other domains, such as quotient objects, have canonical projections and should implement #project: and #projection. N-ary products and coproducts should implement #projection: for the i-th projection map.
 
 Subclasses most frequently reimplement the following messages:
 -  #= and #<=
@@ -3610,6 +3620,9 @@ Subclasses most frequently reimplement the following messages:
 References:
 	https://en.wikipedia.org/wiki/Algebraic_structure
 	https://en.wikipedia.org/wiki/Category_theory
+	https://en.wikipedia.org/wiki/Subobject
+	https://en.wikipedia.org/wiki/Product_(category_theory)
+	https://en.wikipedia.org/wiki/Coproduct
 !
 
 !AbelianGroup commentStamp: '<historical>' prior: 0!
@@ -3624,7 +3637,7 @@ For an arbitrary ring R, a subset I <= R is called a two-sided ideal (or simply 
 
 Equivalently, an ideal of R is a R-submodule of R.
 
-Ideals are the kernels of ring homomorphisms.
+Ideals are the ring theory analog of normal subgroups from group theory. They are 'normal subobjects' that are in one-to-one correspondence with certain congruences, and this allows to quotient by them. Given a ring R and an ideal I, the quotient R/I can be constructed (see QuotientRing). Ideals are the kernels of ring homomorphisms.
 
 References:
 	https://en.wikipedia.org/wiki/Ideal_(ring_theory)!
@@ -3661,7 +3674,11 @@ TODO:
 A lattice is the set of integer linear combinations of a basis of a real vector space. This is a subgroup of the vector space (as abelian group) isomorphic to Z^n.!
 
 !LinearMaps commentStamp: '<historical>' prior: 0!
-My instances are K-vector spaces (or R-modules) of linear transformations from a K-vector space (R-module) to another, i.e. the space of morphisms between two vector spaces (module homomorphisms).!
+My instances are K-vector spaces (or R-modules) of linear transformations from a K-vector space (R-module) A to another one B, i.e. Hom(A,B), the space of morphisms between two vector spaces (or module homomorphisms).
+
+Example:
+	QQ ** 3 -> (QQ ** 2).
+!
 
 !DualSpace commentStamp: '<historical>' prior: 0!
 My instances are vector spaces of linear forms (see LinearForm), i.e linear maps from a vector space V to the ground field K. This is the (algebraic) dual of V and it is noted V*.
@@ -3677,9 +3694,10 @@ My instances are one-dimensional vector spaces of scalars, i.e. a field K viewed
 My instances are vector spaces (or modules) of n-tuples over a given field (or ring).!
 
 !VectorSpace commentStamp: '<historical>' prior: 0!
-I am an abstract class modeling vector spaces. Instances of my concrete subclasses define a standard system of coordinates for the objects considered as vectors.
+My instances are finitely-generated vector spaces. My subclasses might define concrete vector spaces by specifying a standard basis, so that it's possible to compute with it.
 
-Examples of vector spaces are tuples, matrices and linear transformations. There's also an algebra of vector spaces to construct new vector spaces, such as products or direct sums of spaces, dual, quotient, etc.!
+Examples of vector spaces are tuples, matrices and linear transformations.
+!
 
 !AlgebraicExtensionSpace commentStamp: '<historical>' prior: 0!
 My instances are (finite) algebraic extensions E/F of a field F seen as an F-vector space.
@@ -3691,8 +3709,12 @@ Example:
 !HomogeneousPolynomialSpace commentStamp: '<historical>' prior: 0!
 My instances are vector spaces of multivariate homogeneous polynomials of degree d in n variables, for fixed d and n.!
 
-!LinearSubspace commentStamp: 'len 11/26/2015 06:31' prior: 0!
-My instances are finitely-generated linear subspaces of a vector space.!
+!LinearSubspace commentStamp: '<historical>' prior: 0!
+My instances are finitely-generated linear subspaces of a vector space.
+
+Example:
+	QQ ** 3 span: {(1,0,0). (0,2,1)}
+!
 
 !PolynomialSpace commentStamp: '<historical>' prior: 0!
 My instances are vector spaces of univariate polynomials of degree <= n, for a fixed n.!
@@ -3700,7 +3722,10 @@ My instances are vector spaces of univariate polynomials of degree <= n, for a f
 !QuotientSpace commentStamp: '<historical>' prior: 0!
 My instances are quotient spaces V/S (read "V mod S") of a given vector space V modulo a subspace S.
 
-The elements of a quotient space are affine subspaces (flats) S + v with v in V, and they form a vector space. See AffineSubspace.!
+The elements of a quotient space are affine subspaces (flats) S + v with v in V, and they form a vector space. See AffineSubspace.
+
+References:
+	https://en.wikipedia.org/wiki/Quotient_space_(linear_algebra)!
 
 !Ring commentStamp: '<historical>' prior: 0!
 My instances are rings with one, i.e. structures with a set R of elements and two binary operations + and * such that:
@@ -3778,6 +3803,16 @@ My instances are quotients of a ring by a maximal ideal. They are special cases 
 !PrimeField commentStamp: '<historical>' prior: 0!
 My instances are fields of order p prime, i.e. the residue field Z/<p> of integers modulo p.!
 
+!GroupRing commentStamp: '<historical>' prior: 0!
+My instances are group rings. Given a ring R and a group G, the group ring R[G] can be seen as a ring or as a free R-module with basis one-to-one with G. As a ring, its addition law is that of the free module, and the multiplication extends by linearity the given group law on the basis.
+
+When the ring R is commutative, the group ring is also referred to as a group algebra.
+
+Categorically, the group ring construction is left adjoint to the group of units (see UnitsGroup).
+
+References:
+	https://en.wikipedia.org/wiki/Group_ring!
+
 !Integers commentStamp: '<historical>' prior: 0!
 My singletion global instance ZZ is the ring of integer numbers.!
 
@@ -3814,7 +3849,9 @@ Example:
 	Z _ Integers new.
 	I _ Z * 3.
 	(Z/I) elements.
-!
+
+References:
+	https://en.wikipedia.org/wiki/Quotient_ring!
 
 !CoordinateRing commentStamp: 'len 6/4/2016 03:42' prior: 0!
 My instances are the coordinate ring K[V] of an affine variety V (over a field K). The elements are morphisms from V to K, i.e. polynomial functions in K[X] restricted to V, also called 'regular functions'. This is isomorphic to the quotient ring K[X] / I(V).
@@ -4006,7 +4043,10 @@ Examples:
 My instances are groups of projective maps acting on a projective space. They are subgroups of the projective general linear group PGL(V).!
 
 !QuotientGroup commentStamp: '<historical>' prior: 0!
-My instances are quotient groups (or factor groups) G/N (read "G mod N"), i.e. the quotient of a group G by a normal subgroup N. The elements are the Cosets of N.!
+My instances are quotient groups (or factor groups) G/N (read "G mod N"), i.e. the quotient of a group G by a normal subgroup N. The elements are the cosets of N (see Coset).
+
+References:
+	https://en.wikipedia.org/wiki/Quotient_group!
 
 !UnitsGroup commentStamp: '<historical>' prior: 0!
 My instances are sets of ring units.
@@ -4025,10 +4065,14 @@ My singletion global instance NN is the set of natural numbers 1, 2, 3, ...!
 !Morphisms commentStamp: '<historical>' prior: 0!
 My instances are Hom(A,B) objects for domain A and codomain B.!
 
-!ProjectiveSubspace commentStamp: '<historical>' prior: 0!
+!ProjectiveSubspace commentStamp: 'len 8/25/2016 20:20' prior: 0!
 My instances are projective spaces P(V) on a given finite-dimensional K-vector space V. Their elements are the subspaces of V, in particular the points of P(V) are the subspaces of dimension 1 of V, or <v> where v ~= 0.
 
-Projective space can also be viewed as the set quotient V/~ of V by the equivalence relation x ~ c*x where c is a constant in K.!
+Projective space can also be viewed as the set quotient V/~ of V by the equivalence relation x ~ c*x where c is a constant in K. Or as the grassmannian Gr(1,V).
+
+References:
+	https://en.wikipedia.org/wiki/Projective_space
+!
 
 !QuotientSet commentStamp: '<historical>' prior: 0!
 My instances are quotients of a set by an equivalence relation. The elements are equivalence classes. See EquivalenceRelation and EquivalenceClass.!
@@ -9996,11 +10040,11 @@ copy: aString replaceAll: oldSubstring with: newSubstring
 		collect: [:each| (each includesSubString: 'http') ifTrue: [each] ifFalse: [each copyReplaceTokens: oldSubstring with: newSubstring]]
 		andFold: [:a :b| a, Character lf asString, b]! !
 
-!DocumentationGenerator methodsFor: 'as yet unclassified' stamp: 'len 8/23/2016 02:36'!
+!DocumentationGenerator methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 04:26'!
 generate
 	| blacklist classes tokens |
-	blacklist _ #('Mathematics-Kernel-Elements' 'Mathematics-Geometry-Polytopes' 'Mathematics-Morphic' 'Mathematics-Tests' 'Mathematics-Lie' 'Mathematics-Expressions' 'Mathematics-ETC').
-	classes _ Object withAllSubclasses select: [:each| each class ~= Metaclass and: [(each allSuperclasses includes: Morph) not and: [(each category beginsWith: 'Mathematics') and: [(blacklist includes: each category) not]]]].
+	blacklist _ #('Mathematics-Kernel-Elements' 'Mathematics-Geometry-Polytopes' 'Mathematics-Morphic' 'Mathematics-Lie' 'Mathematics-Expressions' 'Mathematics-ETC').
+	classes _ Object withAllSubclasses select: [:each| each class ~= Metaclass and: [(each allSuperclasses includes: Morph) not and: [(each category beginsWith: 'Mathematics-') and: [(blacklist includes: each category) not]]]].
 	tokens _ classes collect: [:each| each name].
 	classes do: [:class|
 		| output i file |
@@ -11116,6 +11160,10 @@ automorphisms
 basis
 	^ properties at: #basis ifAbsentPut: [LinearBasis on: self vectors: (self indices collect: [:i| (self e: i)])]! !
 
+!FreeModule methodsFor: 'basis' stamp: 'len 8/25/2016 21:02'!
+codimension
+	^ self ambient dimension - self dimension! !
+
 !FreeModule methodsFor: 'basis' stamp: 'len 7/10/2016 23:06'!
 coordinateRing
 	"The coordinate ring of a R-module of rank n (or K-vector space of dimension n) is the polynomial ring R[x1..xn] (K[x1..xn]."
@@ -11680,6 +11728,11 @@ matrix: aMatrix
 	"Answer a lattice with generator matrix aMatrix."
 	^ self basis: aMatrix rowSpace basis! !
 
+!LinearMaps methodsFor: 'converting' stamp: 'len 8/25/2016 21:07'!
+asAffineSpace
+	self isVectorSpace ifFalse: [DomainError signal: 'not a vector space'].
+	^ AffineMaps representative: self zero direction: self! !
+
 !LinearMaps methodsFor: 'converting' stamp: 'len 5/22/2016 03:48'!
 asLieAlgebra
 	^ LieAlgebra on: self bracket: (Function from: (self cartesian: self) to: self evaluating: [:each| each first @ each second - (each second @ each first)])! !
@@ -11730,10 +11783,6 @@ identity
 includes: aLinearMap
 	^ (aLinearMap isKindOf: LinearMap) and: [aLinearMap domain = self domain and: [aLinearMap codomain = self codomain]]! !
 
-!LinearMaps methodsFor: 'operations' stamp: 'len 11/8/2015 13:55'!
-inverse
-	^ self class from: self codomain to: self domain! !
-
 !LinearMaps methodsFor: 'testing' stamp: 'len 2/13/2016 00:19'!
 isEndomorphisms
 	^ domain = codomain! !
@@ -11764,10 +11813,20 @@ newFrom: anObject
 	(self scalars includes: anObject) ifTrue: [^ self scalar: anObject].
 	DomainError signal! !
 
+!LinearMaps methodsFor: 'operations' stamp: 'len 8/25/2016 21:11'!
+opposite
+	^ self class from: self codomain to: self domain! !
+
 !LinearMaps methodsFor: 'printing' stamp: 'len 8/1/2016 09:02'!
 printOn: aStream
 	"Delegate in order to print the standard notation:"
 	(Morphisms from: self domain to: self codomain) printOn: aStream! !
+
+!LinearMaps methodsFor: 'operations' stamp: 'len 8/25/2016 21:17'!
+projective
+	"Answer the projective subspace induced by the receiver, consisting of the 1-dimension subspaces."
+	self isVectorSpace ifFalse: [^ DomainError signal: 'not a vector space'].
+	^ ProjectiveMaps on: self! !
 
 !LinearMaps methodsFor: 'basis' stamp: 'len 7/15/2016 00:25'!
 rank
@@ -12362,11 +12421,6 @@ characters
 	^ (self basis matrix transposed | aLinearSubspace basis matrix transposed) image apply: self space basis vectorAt
 "! !
 
-!LinearSubspace methodsFor: 'accessing' stamp: 'len 5/23/2016 19:29'!
-ambient
-	"Answer the ambient vector space."
-	^ basis ambient! !
-
 !LinearSubspace methodsFor: 'operations' stamp: 'len 5/23/2016 04:25'!
 annihilator
 	"Answer the annihilator of the receiver, i.e. the space of all linear forms that are 0 at all vectors in the receiver."
@@ -12383,10 +12437,6 @@ basis
 !LinearSubspace methodsFor: 'accessing-private' stamp: 'len 8/21/97 01:54'!
 basis: aLinearBasis
 	basis _ aLinearBasis! !
-
-!LinearSubspace methodsFor: 'basis' stamp: 'len 5/23/2016 04:25'!
-codimension
-	^ self ambient dimension - self dimension! !
 
 !LinearSubspace methodsFor: 'basis' stamp: 'len 11/25/2015 01:11'!
 coordinatesOf: anObject
@@ -13855,66 +13905,67 @@ tupleClass
 new: aPrime
 	^ self by: ZZ * aPrime! !
 
-!FreeAlgebra methodsFor: 'comparing' stamp: 'len 1/20/2016 12:58'!
+!FreeAlgebra methodsFor: 'comparing' stamp: 'len 8/25/2016 08:22'!
 = anObject
 	self == anObject ifTrue: [^ true].
-	^ (anObject isKindOf: FreeAlgebra) and: [anObject scalars = scalars and: [anObject indeterminates = indeterminates]]! !
+	^ (anObject isKindOf: FreeAlgebra) and: [anObject scalars = scalars and: [anObject words = words]]! !
 
 !FreeAlgebra methodsFor: 'elements' stamp: 'len 3/2/2016 05:54'!
 coefficient: aNumber word: aWord
 	^ self new coefficientAt: aWord put: aNumber; yourself! !
 
-!FreeAlgebra methodsFor: 'elements' stamp: 'len 3/2/2016 05:49'!
+!FreeAlgebra methodsFor: 'elements' stamp: 'len 8/25/2016 08:19'!
 coefficients: aCollection
-	^ (FreePolynomial coefficients: aCollection) species: self! !
+	^ FreePolynomial coefficients: aCollection! !
 
-!FreeAlgebra methodsFor: 'elements' stamp: 'len 3/2/2016 05:40'!
+!FreeAlgebra methodsFor: 'elements' stamp: 'len 8/25/2016 08:26'!
 constant: aNumber
-	^ self coefficient: aNumber word: Word empty! !
+	^ self coefficient: aNumber word: words identity! !
 
-!FreeAlgebra methodsFor: 'comparing' stamp: 'len 1/20/2016 12:59'!
+!FreeAlgebra methodsFor: 'comparing' stamp: 'len 8/25/2016 08:21'!
 hash
-	^ scalars hash * indeterminates size! !
+	^ scalars hash + words hash hashMultiply! !
 
-!FreeAlgebra methodsFor: 'testing' stamp: 'len 1/20/2016 14:54'!
+!FreeAlgebra methodsFor: 'testing' stamp: 'len 8/25/2016 08:28'!
 includes: anObject
-	^ anObject species = self! !
+	anObject coefficients keysAndValuesDo: [:key :value|
+		(words includes: key) ifFalse: [^ false].
+		(scalars includes: value) ifFalse: [^ false]].
+	^ true! !
 
-!FreeAlgebra methodsFor: 'accessing' stamp: 'len 1/20/2016 12:57'!
+!FreeAlgebra methodsFor: 'accessing' stamp: 'len 8/25/2016 08:22'!
 indeterminates
-	^ indeterminates! !
-
-!FreeAlgebra methodsFor: 'accessing-private' stamp: 'len 6/8/2016 05:58'!
-indeterminates: aCollection
-	indeterminates _ aCollection isSequenceable
-		ifTrue: [aCollection]
-		ifFalse: [aCollection asArray sort: [:a :b| a printString <= b printString]]! !
+	^ words symbols! !
 
 !FreeAlgebra methodsFor: 'testing' stamp: 'len 3/5/2016 04:24'!
 isAssociative
 	^ true! !
 
-!FreeAlgebra methodsFor: 'testing' stamp: 'len 7/2/2016 16:57'!
+!FreeAlgebra methodsFor: 'testing' stamp: 'len 8/25/2016 08:29'!
 isCommutative
-	^ indeterminates size <= 1 and: [scalars isCommutative]! !
+	^ words isCommutative and: [scalars isCommutative]! !
 
-!FreeAlgebra methodsFor: 'testing' stamp: 'len 2/13/2016 20:43'!
+!FreeAlgebra methodsFor: 'testing' stamp: 'len 8/25/2016 08:30'!
 isCountable
-	^ self isFinite or: [scalars isCountable]! !
+	^ words isCountable and: [scalars isCountable]! !
 
-!FreeAlgebra methodsFor: 'elements' stamp: 'len 3/2/2016 05:36'!
+!FreeAlgebra methodsFor: 'testing' stamp: 'len 8/25/2016 08:30'!
+isFinite
+	^ words isFinite and: [scalars isFinite]! !
+
+!FreeAlgebra methodsFor: 'elements' stamp: 'len 8/25/2016 08:19'!
 new
-	^ FreePolynomial new species: self! !
+	^ FreePolynomial new! !
 
 !FreeAlgebra methodsFor: 'elements' stamp: 'len 1/20/2016 14:06'!
 one
 	^ self constant: scalars one! !
 
-!FreeAlgebra methodsFor: 'printing' stamp: 'len 4/21/2016 00:09'!
+!FreeAlgebra methodsFor: 'printing' stamp: 'len 8/25/2016 08:22'!
 printOn: aStream
 	aStream print: scalars.
 	aStream nextPut: ${.
-	indeterminates
+	self indeterminates
 		do: [:i| aStream print: (Word x: i)]
 		separatedBy: [aStream nextPut: $,].
 	aStream nextPut: $}! !
@@ -13932,21 +13983,29 @@ scalars
 scalars: aCommutativeRing
 	scalars _ aCommutativeRing! !
 
-!FreeAlgebra methodsFor: 'elements' stamp: 'len 3/2/2016 06:06'!
+!FreeAlgebra methodsFor: 'accessing' stamp: 'len 8/25/2016 08:27'!
+words
+	^ words! !
+
+!FreeAlgebra methodsFor: 'accessing-private' stamp: 'len 8/25/2016 08:24'!
+words: aMonoid
+	words _ aMonoid! !
+
+!FreeAlgebra methodsFor: 'elements' stamp: 'len 8/25/2016 08:21'!
 x
-	^ self x: indeterminates first! !
+	^ self x: self indeterminates first! !
 
 !FreeAlgebra methodsFor: 'elements' stamp: 'len 3/2/2016 05:56'!
 x: anIndeterminate
 	^ self coefficient: scalars one word: (Word x: anIndeterminate)! !
 
-!FreeAlgebra methodsFor: 'elements' stamp: 'len 3/2/2016 06:06'!
+!FreeAlgebra methodsFor: 'elements' stamp: 'len 8/25/2016 08:22'!
 y
-	^ self x: indeterminates second! !
+	^ self x: self indeterminates second! !
 
-!FreeAlgebra methodsFor: 'elements' stamp: 'len 3/2/2016 06:06'!
+!FreeAlgebra methodsFor: 'elements' stamp: 'len 8/25/2016 08:21'!
 z
-	^ self x: indeterminates third! !
+	^ self x: self indeterminates third! !
 
 !FreeAlgebra methodsFor: 'elements' stamp: 'len 3/2/2016 05:55'!
 zero
@@ -13956,13 +14015,17 @@ zero
 new: anInteger over: aRing
 	^ self on: (1 to: anInteger) over: aRing! !
 
-!FreeAlgebra class methodsFor: 'instance creation' stamp: 'len 6/30/2016 02:27'!
+!FreeAlgebra class methodsFor: 'instance creation' stamp: 'len 8/25/2016 08:25'!
 on: aCollection over: aRing
-	^ self new indeterminates: aCollection; scalars: aRing! !
+	^ self words: (FreeMonoid on: aCollection) over: aRing! !
 
 !FreeAlgebra class methodsFor: 'instance creation' stamp: 'len 1/20/2016 13:38'!
 over: aRing
 	^ self new: 1 over: aRing! !
+
+!FreeAlgebra class methodsFor: 'instance creation' stamp: 'len 8/25/2016 08:24'!
+words: aMonoid over: aRing
+	^ self new words: aMonoid; scalars: aRing! !
 
 !GaussianIntegers methodsFor: 'testing' stamp: 'len 6/5/2016 06:10'!
 includes: anObject
@@ -13996,39 +14059,72 @@ size
 zero
 	^ 0! !
 
-!GroupRing methodsFor: 'as yet unclassified' stamp: 'len 8/7/2016 08:41'!
-embed: aGroupElement
-	^ GroupRingElement new coefficientAt: aGroupElement put: self scalars one! !
+!GroupRing methodsFor: 'comparing' stamp: 'len 8/26/2016 01:30'!
+<= aGroupRing
+	(aGroupRing isKindOf: GroupRing) ifFalse: [^ super <= aGroupRing].
+	^ self scalars <= aGroupRing scalars and: [self group <= aGroupRing group]! !
 
-!GroupRing methodsFor: 'as yet unclassified' stamp: 'len 8/7/2016 08:42'!
+!GroupRing methodsFor: 'comparing' stamp: 'len 8/25/2016 08:35'!
+= anObject
+	self == anObject ifTrue: [^ true].
+	^ (anObject isKindOf: GroupRing) and: [anObject scalars = scalars and: [anObject group = group]]! !
+
+!GroupRing methodsFor: 'morphisms' stamp: 'len 8/25/2016 08:36'!
+embed: aGroupElement
+	^ FreePolynomial new coefficientAt: aGroupElement put: scalars one! !
+
+!GroupRing methodsFor: 'morphisms' stamp: 'len 8/7/2016 08:42'!
 embedding
 	^ Function from: self group to: self evaluating: [:g| self embed: g]! !
 
-!GroupRing methodsFor: 'as yet unclassified' stamp: 'len 8/7/2016 08:36'!
+!GroupRing methodsFor: 'accessing' stamp: 'len 8/7/2016 08:36'!
 group
 	^ group! !
 
-!GroupRing methodsFor: 'as yet unclassified' stamp: 'len 8/7/2016 08:37'!
+!GroupRing methodsFor: 'accessing-private' stamp: 'len 8/7/2016 08:37'!
 group: aGroup
 	group _ aGroup! !
 
-!GroupRing methodsFor: 'as yet unclassified' stamp: 'len 8/7/2016 08:40'!
+!GroupRing methodsFor: 'comparing' stamp: 'len 8/25/2016 08:35'!
+hash
+	^ scalars hash + group hash hashMultiply! !
+
+!GroupRing methodsFor: 'testing' stamp: 'len 8/25/2016 08:36'!
+includes: anObject
+	anObject coefficients keysAndValuesDo: [:key :value|
+		(group includes: key) ifFalse: [^ false].
+		(scalars includes: value) ifFalse: [^ false]].
+	^ true! !
+
+!GroupRing methodsFor: 'testing' stamp: 'len 8/25/2016 08:37'!
+isCommutative
+	^ scalars isCommutative and: [group isCommutative]! !
+
+!GroupRing methodsFor: 'testing' stamp: 'len 8/25/2016 08:38'!
+isCountable
+	^ scalars isCountable and: [group isCountable]! !
+
+!GroupRing methodsFor: 'testing' stamp: 'len 8/25/2016 08:38'!
+isFinite
+	^ scalars isFinite and: [group isFinite]! !
+
+!GroupRing methodsFor: 'accessing' stamp: 'len 8/7/2016 08:40'!
 one
 	^ self embed: self group identity! !
 
-!GroupRing methodsFor: 'as yet unclassified' stamp: 'len 8/7/2016 08:38'!
+!GroupRing methodsFor: 'printing' stamp: 'len 8/7/2016 08:38'!
 printOn: aStream
 	aStream print: self scalars; nextPut: $[; print: self group; nextPut: $]! !
 
-!GroupRing methodsFor: 'as yet unclassified' stamp: 'len 8/7/2016 08:38'!
+!GroupRing methodsFor: 'accessing' stamp: 'len 8/7/2016 08:38'!
 scalars
 	^ scalars! !
 
-!GroupRing methodsFor: 'as yet unclassified' stamp: 'len 8/7/2016 08:38'!
+!GroupRing methodsFor: 'accessing-private' stamp: 'len 8/7/2016 08:38'!
 scalars: aRing
 	scalars _ aRing! !
 
-!GroupRing class methodsFor: 'as yet unclassified' stamp: 'len 8/7/2016 08:39'!
+!GroupRing class methodsFor: 'instance creation' stamp: 'len 8/7/2016 08:39'!
 on: aGroup over: aRing
 	^ self new group: aGroup; scalars: aRing! !
 
@@ -15114,6 +15210,35 @@ span: aCollection
 !AffineSubspace class methodsFor: 'instance creation' stamp: 'len 6/4/2016 04:22'!
 representative: aVector direction: aVectorSpace
 	^ self new direction: aVectorSpace; representative: aVector! !
+
+!AffineMaps methodsFor: 'accessing' stamp: 'len 8/25/2016 21:08'!
+codomain
+	^ self direction codomain asAffineSpace! !
+
+!AffineMaps methodsFor: 'accessing' stamp: 'len 8/25/2016 21:08'!
+domain
+	^ self direction domain asAffineSpace! !
+
+!AffineMaps methodsFor: 'elements' stamp: 'len 8/25/2016 21:09'!
+evaluating: aBlock
+	^ AffineMap from: self domain to: self codomain evaluating: aBlock! !
+
+!AffineMaps methodsFor: 'elements' stamp: 'len 8/25/2016 21:09'!
+identity
+	^ self evaluating: [:x| x]! !
+
+!AffineMaps methodsFor: 'printing' stamp: 'len 8/25/2016 21:08'!
+printOn: aStream
+	"Delegate in order to print the standard notation:"
+	(Morphisms from: self domain to: self codomain) printOn: aStream! !
+
+!AffineMaps methodsFor: 'elements' stamp: 'len 8/25/2016 21:10'!
+scalar: aNumber
+	^ self evaluating: [:x| x * aNumber]! !
+
+!AffineMaps methodsFor: 'elements' stamp: 'len 8/25/2016 21:10'!
+translation: aVector
+	^ self evaluating: [:x| x + aVector]! !
 
 !AlgebraicSet methodsFor: 'operations' stamp: 'len 6/5/2016 23:21'!
 /\ anAlgebraicSet
@@ -18777,10 +18902,6 @@ identity
 includes: aMorphism
 	^ (aMorphism isKindOf: Function) and: [aMorphism domain = self domain and: [aMorphism codomain = self codomain]]! !
 
-!Morphisms methodsFor: 'operations' stamp: 'len 4/19/2016 04:52'!
-inverse
-	^ self class from: self domain to: self codomain! !
-
 !Morphisms methodsFor: 'testing' stamp: 'len 4/19/2016 04:53'!
 isEndomorphisms
 	^ self domain = self codomain! !
@@ -18788,6 +18909,10 @@ isEndomorphisms
 !Morphisms methodsFor: 'elements' stamp: 'len 4/23/2016 03:47'!
 newFrom: anObject
 	^ self evaluating: anObject! !
+
+!Morphisms methodsFor: 'operations' stamp: 'len 8/25/2016 21:11'!
+opposite
+	^ self class from: self domain to: self codomain! !
 
 !Morphisms methodsFor: 'printing' stamp: 'len 4/21/2016 00:12'!
 printOn: aStream
@@ -18979,10 +19104,10 @@ perpendicularBisectors
 + aProjectiveSubspace
 	^ self class on: vectorSpace + aProjectiveSubspace vectorSpace! !
 
-!ProjectiveSubspace methodsFor: 'morphisms' stamp: 'len 6/4/2016 03:27'!
+!ProjectiveSubspace methodsFor: 'morphisms' stamp: 'len 8/25/2016 21:16'!
 -> aProjectiveSpace
 	(aProjectiveSpace isKindOf: ProjectiveSubspace) ifFalse: [^ super -> aProjectiveSpace].
-	^ super -> aProjectiveSpace elementClass: ProjectiveMap! !
+	^ (vectorSpace -> aProjectiveSpace vectorSpace) projective! !
 
 !ProjectiveSubspace methodsFor: 'operations' stamp: 'len 6/5/2016 22:47'!
 /\ aProjectiveSubspace
@@ -19020,8 +19145,9 @@ ambient
 	"Answer the ambient space (a projective space)."
 	^ self class on: vectorSpace ambient! !
 
-!ProjectiveSubspace methodsFor: 'converting' stamp: 'len 4/21/2016 04:52'!
+!ProjectiveSubspace methodsFor: 'converting' stamp: 'len 8/25/2016 20:18'!
 asGrassmannian
+	"A projective space is the set of lines through the origin of a vector space, i.e. subspaces of dimension 1. That's the grassmannian Gr(1,V)."
 	^ vectorSpace grassmannian: 1! !
 
 !ProjectiveSubspace methodsFor: 'random' stamp: 'len 4/19/2016 20:30'!
@@ -19189,6 +19315,10 @@ projection
 scalars
 	^ vectorSpace scalars! !
 
+!ProjectiveSubspace methodsFor: 'accessing' stamp: 'len 8/25/2016 19:16'!
+size
+	^ self asGrassmannian size! !
+
 !ProjectiveSubspace methodsFor: 'testing' stamp: 'len 6/9/2016 04:44'!
 skew: aProjectiveSubspace
 	"Answer true if the receiver and the argument are skew."
@@ -19224,6 +19354,31 @@ on: aVectorSpace
 	the projective space P(V) over a vector space V."
 
 	^ self new vectorSpace: aVectorSpace! !
+
+!ProjectiveMaps methodsFor: 'accessing' stamp: 'len 8/25/2016 21:14'!
+codomain
+	^ vectorSpace codomain projective! !
+
+!ProjectiveMaps methodsFor: 'accessing' stamp: 'len 8/25/2016 21:14'!
+domain
+	^ vectorSpace domain projective! !
+
+!ProjectiveMaps methodsFor: 'elements' stamp: 'len 8/25/2016 21:19'!
+evaluating: aBlock
+	^ ProjectiveMap from: self domain to: self codomain evaluating: aBlock! !
+
+!ProjectiveMaps methodsFor: 'elements' stamp: 'len 8/25/2016 21:20'!
+identity
+	^ self evaluating: [:x| x]! !
+
+!ProjectiveMaps methodsFor: 'printing' stamp: 'len 8/25/2016 21:15'!
+printOn: aStream
+	"Delegate in order to print the standard notation:"
+	(Morphisms from: self domain to: self codomain) printOn: aStream! !
+
+!ProjectiveMaps methodsFor: 'as yet unclassified' stamp: 'len 8/25/2016 21:23'!
+vectorFromPoint: aProjectiveMap
+	^ aProjectiveMap linearMap! !
 
 !QuotientSet methodsFor: 'accessing' stamp: 'len 4/26/2016 07:26'!
 base
@@ -19267,6 +19422,10 @@ relation
 !QuotientSet methodsFor: 'accessing-private' stamp: 'len 4/25/2016 08:53'!
 relation: anEquivalenceRelation
 	properties at: #relation put: anEquivalenceRelation! !
+
+!QuotientSet methodsFor: 'morphisms' stamp: 'len 8/25/2016 20:48'!
+section
+	^ self projection section! !
 
 !QuotientSet class methodsFor: 'instance creation' stamp: 'len 4/25/2016 21:02'!
 by: anEquivalenceRelation
@@ -22701,11 +22860,6 @@ degree
 !FreePolynomial methodsFor: 'arithmetic' stamp: 'len 3/2/2016 05:35'!
 squared
 	^ self * self! !
-
-!GroupRingElement methodsFor: 'arithmetic' stamp: 'len 8/7/2016 08:35'!
-* anObject
-	(anObject isKindOf: GroupRingElement) ifFalse: [^ super * anObject].
-	^ self species coefficients: (coefficients convolution: anObject coefficients)! !
 
 !SimplicialChain methodsFor: 'operations' stamp: 'len 3/5/2016 04:52'!
 boundary
