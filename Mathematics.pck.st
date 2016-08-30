@@ -1,4 +1,4 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 30 August 2016 at 4:11:13.007851 am'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 30 August 2016 at 5:41:51.732679 am'!
 'Description Please enter a description for this package'!
 !provides: 'Mathematics' 1 191!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
@@ -11,13 +11,13 @@ Number subclass: #DyadicFraction
 DyadicFraction class
 	instanceVariableNames: ''!
 
-!classDefinition: #RealAlgebraicNumber category: #'Mathematics-Fields'!
+!classDefinition: #RealAlgebraicNumber category: #'Mathematics-Number Fields'!
 Number subclass: #RealAlgebraicNumber
 	instanceVariableNames: 'polynomial irreducible bounds rightSign'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Fields'!
-!classDefinition: 'RealAlgebraicNumber class' category: #'Mathematics-Fields'!
+	category: 'Mathematics-Number Fields'!
+!classDefinition: 'RealAlgebraicNumber class' category: #'Mathematics-Number Fields'!
 RealAlgebraicNumber class
 	instanceVariableNames: ''!
 
@@ -561,13 +561,13 @@ VectorSpace subclass: #PolynomialSpace
 PolynomialSpace class
 	instanceVariableNames: ''!
 
-!classDefinition: #AlgebraicExtensionSpace category: #'Mathematics-Fields'!
+!classDefinition: #AlgebraicExtensionSpace category: #'Mathematics-Number Fields'!
 VectorSpace subclass: #AlgebraicExtensionSpace
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Fields'!
-!classDefinition: 'AlgebraicExtensionSpace class' category: #'Mathematics-Fields'!
+	category: 'Mathematics-Number Fields'!
+!classDefinition: 'AlgebraicExtensionSpace class' category: #'Mathematics-Number Fields'!
 AlgebraicExtensionSpace class
 	instanceVariableNames: ''!
 
@@ -751,63 +751,63 @@ Field subclass: #Reals
 Reals class
 	instanceVariableNames: ''!
 
-!classDefinition: #AlgebraicExtension category: #'Mathematics-Fields'!
+!classDefinition: #AlgebraicExtension category: #'Mathematics-Number Fields'!
 Field subclass: #AlgebraicExtension
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Fields'!
-!classDefinition: 'AlgebraicExtension class' category: #'Mathematics-Fields'!
+	category: 'Mathematics-Number Fields'!
+!classDefinition: 'AlgebraicExtension class' category: #'Mathematics-Number Fields'!
 AlgebraicExtension class
 	instanceVariableNames: ''!
 
-!classDefinition: #NumberField category: #'Mathematics-Fields'!
+!classDefinition: #NumberField category: #'Mathematics-Number Fields'!
 AlgebraicExtension subclass: #NumberField
 	instanceVariableNames: 'adjoint'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Fields'!
-!classDefinition: 'NumberField class' category: #'Mathematics-Fields'!
+	category: 'Mathematics-Number Fields'!
+!classDefinition: 'NumberField class' category: #'Mathematics-Number Fields'!
 NumberField class
 	instanceVariableNames: ''!
 
-!classDefinition: #CyclotomicField category: #'Mathematics-Fields'!
+!classDefinition: #CyclotomicField category: #'Mathematics-Number Fields'!
 NumberField subclass: #CyclotomicField
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Fields'!
-!classDefinition: 'CyclotomicField class' category: #'Mathematics-Fields'!
+	category: 'Mathematics-Number Fields'!
+!classDefinition: 'CyclotomicField class' category: #'Mathematics-Number Fields'!
 CyclotomicField class
 	instanceVariableNames: ''!
 
-!classDefinition: #QuadraticField category: #'Mathematics-Fields'!
+!classDefinition: #QuadraticField category: #'Mathematics-Number Fields'!
 NumberField subclass: #QuadraticField
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Fields'!
-!classDefinition: 'QuadraticField class' category: #'Mathematics-Fields'!
+	category: 'Mathematics-Number Fields'!
+!classDefinition: 'QuadraticField class' category: #'Mathematics-Number Fields'!
 QuadraticField class
 	instanceVariableNames: ''!
 
-!classDefinition: #AlgebraicNumbers category: #'Mathematics-Fields'!
+!classDefinition: #AlgebraicNumbers category: #'Mathematics-Number Fields'!
 Field subclass: #AlgebraicNumbers
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Fields'!
-!classDefinition: 'AlgebraicNumbers class' category: #'Mathematics-Fields'!
+	category: 'Mathematics-Number Fields'!
+!classDefinition: 'AlgebraicNumbers class' category: #'Mathematics-Number Fields'!
 AlgebraicNumbers class
 	instanceVariableNames: ''!
 
-!classDefinition: #RealAlgebraicNumbers category: #'Mathematics-Fields'!
+!classDefinition: #RealAlgebraicNumbers category: #'Mathematics-Number Fields'!
 Field subclass: #RealAlgebraicNumbers
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Fields'!
-!classDefinition: 'RealAlgebraicNumbers class' category: #'Mathematics-Fields'!
+	category: 'Mathematics-Number Fields'!
+!classDefinition: 'RealAlgebraicNumbers class' category: #'Mathematics-Number Fields'!
 RealAlgebraicNumbers class
 	instanceVariableNames: ''!
 
@@ -2811,13 +2811,13 @@ RootFinder subclass: #RealRootFinder
 RealRootFinder class
 	instanceVariableNames: ''!
 
-!classDefinition: #AlgebraicNumber category: #'Mathematics-Fields'!
+!classDefinition: #AlgebraicNumber category: #'Mathematics-Number Fields'!
 Object subclass: #AlgebraicNumber
 	instanceVariableNames: 'polynomial irreducible approximation radius'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Fields'!
-!classDefinition: 'AlgebraicNumber class' category: #'Mathematics-Fields'!
+	category: 'Mathematics-Number Fields'!
+!classDefinition: 'AlgebraicNumber class' category: #'Mathematics-Number Fields'!
 AlgebraicNumber class
 	instanceVariableNames: ''!
 
