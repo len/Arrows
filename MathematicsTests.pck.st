@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 30 August 2016 at 4:11:10.030245 am'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 30 August 2016 at 8:19:22.825074 pm'!
 'Description Please enter a description for this package'!
-!provides: 'MathematicsTests' 1 5!
+!provides: 'MathematicsTests' 1 6!
 !classDefinition: #AffineGeometryTest category: #MathematicsTests!
 TestCase subclass: #AffineGeometryTest
 	instanceVariableNames: ''
@@ -1061,6 +1061,14 @@ testRadicalMembership
 	I _ R * {g1. g2}.
 	self assert: (I radicalIncludes: f)! !
 
+!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/30/2016 07:01'!
+testZeroIdeal
+	| zero |
+	zero _ ZZ * #(). "the zero ideal {0}"
+	self assert: zero isZero.
+	self assert: (zero includes: 0).
+	self deny: (zero includes: 42)! !
+
 !GraphTest methodsFor: 'as yet unclassified' stamp: 'len 7/23/2016 06:29'!
 testAutomorphismsK3
 	"Aut(K3) = Sym(3)"
@@ -1316,6 +1324,14 @@ testUnion
 	G _ Digraph unordered addEdges: {#a -> #b. #b -> #c. #d -> #e. #x -> #b}; yourself.
 	self assert: (G union: G transposed) = G symmetric! !
 
+!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 8/30/2016 20:00'!
+smallGroupAtRandom
+	^ {[SymmetricGroup new: 3].
+	[AlternatingGroup new: 3].
+	[PermutationGroup klein].
+	[MatrixGroup klein].
+	[Group symmetric: (1 to: 4)]} atRandom value! !
+
 !GroupTest methodsFor: 'as yet unclassified' stamp: 'len 6/29/2016 00:37'!
 testActionOrbitOf
 	| g1 g2 g3 G |
@@ -1372,14 +1388,48 @@ testD3
 	self assert: D commutator = A.
 	self assert: D center isTrivial! !
 
-!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 6/28/2016 08:45'!
+!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 8/30/2016 19:34'!
 testDirectProduct
 	| S A G g |
-	S _ SymmetricGroup new: 3.
-	A _ AlternatingGroup new: 3.
+	S _ self smallGroupAtRandom.
+	A _ self smallGroupAtRandom.
 	G _ S directProduct: A.
 	g _ G atRandom.
 	self assert: (G operation value: {g. G inverseMap value: g}) = G identity! !
+
+!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 8/30/2016 19:59'!
+testGroupRing
+	| G R a a` b b` c c` |
+	G _ self smallGroupAtRandom.
+	R _ G groupRing.
+	a _ G atRandom.
+	b _ G atRandom.
+	c _ G atRandom.
+	a` _ R embed: a.
+	b` _ R embed: b.
+	c` _ R embed: c.
+	self assert: a` * b` = (R embed: a*b).
+	self assert: a` * 2 + b` * c` - (a` * c`) - (b` * c`) = (R embed: a*b).
+	self assert: (a` + b`) * (a` - b`) = (a` ** 2 - (b` ** 2))! !
+
+!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 8/30/2016 19:56'!
+testGroupRingIsARing
+	| G R a a` b b` c c` e e` |
+	G _ self smallGroupAtRandom.
+	R _ G groupRing.
+	e _ G identity.
+	a _ G atRandom.
+	b _ G atRandom.
+	c _ G atRandom.
+	e` _ R embed: e.
+	a` _ R embed: a.
+	b` _ R embed: b.
+	c` _ R embed: c.
+	self assert: e` = R one.
+	self assert: e` * a` = a`.
+	self assert: a` * e` = a`.
+	self assert: (a` * b` * c`) = (a` * (b` * c`)).
+	G isCommutative ifTrue: [self assert: a` * b` = (b` * a`)].! !
 
 !GroupTest methodsFor: 'as yet unclassified' stamp: 'len 7/1/2016 05:09'!
 testHessian
@@ -1408,11 +1458,11 @@ testKleinFour
 	A _ AlternatingGroup new: 4.
 	self assert: (V isNormalIn: A)! !
 
-!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 5/2/2016 02:35'!
+!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 8/30/2016 19:35'!
 testLagrangeTheorem
 	"G finite group, H subgroup of G, then |H| divides |G|."
 	| G H |
-	G _ Group symmetric: (1 to: 4).
+	G _ self smallGroupAtRandom.
 	H _ G span: (G random next: 3 atRandom) asSet.
 	self assert: H order | G order! !
 
