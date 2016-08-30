@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 26 August 2016 at 6:11:47.03684 am'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 30 August 2016 at 4:11:10.030245 am'!
 'Description Please enter a description for this package'!
-!provides: 'MathematicsTests' 1 4!
+!provides: 'MathematicsTests' 1 5!
 !classDefinition: #AffineGeometryTest category: #MathematicsTests!
 TestCase subclass: #AffineGeometryTest
 	instanceVariableNames: ''
@@ -41,6 +41,16 @@ TestCase subclass: #CodesTest
 CodesTest class
 	instanceVariableNames: ''!
 
+!classDefinition: #CommutativeAlgebraTest category: #MathematicsTests!
+TestCase subclass: #CommutativeAlgebraTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'MathematicsTests'!
+!classDefinition: 'CommutativeAlgebraTest class' category: #MathematicsTests!
+CommutativeAlgebraTest class
+	instanceVariableNames: ''!
+
 !classDefinition: #GraphTest category: #MathematicsTests!
 TestCase subclass: #GraphTest
 	instanceVariableNames: ''
@@ -49,16 +59,6 @@ TestCase subclass: #GraphTest
 	category: 'MathematicsTests'!
 !classDefinition: 'GraphTest class' category: #MathematicsTests!
 GraphTest class
-	instanceVariableNames: ''!
-
-!classDefinition: #GroebnerBasisTest category: #MathematicsTests!
-TestCase subclass: #GroebnerBasisTest
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'MathematicsTests'!
-!classDefinition: 'GroebnerBasisTest class' category: #MathematicsTests!
-GroebnerBasisTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #GroupTest category: #MathematicsTests!
@@ -804,6 +804,263 @@ testWeightEnumerator
 	self assert: w = (x**5 + (y**5)).
 	self assert: C dual weightEnumerator = (x**5 + (x**3*(y**2)*10) + (y**4*x*5))! !
 
+!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:56'!
+testEliminationIdeal
+	"Example from Cox IVA 123 p. NOTE: this is a little slow."
+	| Qx x y z I |
+	Qx _ QQ polynomialsIn: #(x y z).
+	x _ Qx x. y _ Qx y. z _ Qx z.
+	I _ Qx * {x**2 + y + z - 1. x + (y**2) + z - 1. x + y + (z**2) - 1}.
+	self assert: (I eliminateAll: #(1 2)) generator = (z**6 - (z**4*4) + (z**3*4) - (z**2))! !
+
+!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 7/8/2016 20:11'!
+testGroebnerBasis: G ideal: I
+	| g |
+	self assert: G verify.
+	I generators do: [:each| self assert: (G reduces: each)].
+	g _ I atRandomBits: 100.
+	self assert: (G reduces: g)! !
+
+!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 7/8/2016 01:48'!
+testGroebnerCyclic3
+	| I G |
+	I _ PolynomialIdeal cyclic: 3.
+	G _ I groebnerBasis.
+	self testGroebnerBasis: G ideal: I! !
+
+!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 7/8/2016 20:09'!
+testGroebnerCyclic3Lexicographic
+	| I G |
+	I _ PolynomialIdeal cyclic: 3.
+	G _ GroebnerBasis from: I generators ordering: (MonomialOrdering lex: 3).
+	self testGroebnerBasis: G ideal: I! !
+
+!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 7/8/2016 01:49'!
+testGroebnerCyclic3OverZ2
+	| I G |
+	I _ PolynomialIdeal cyclic: 3 over: (Field GF: 2).
+	G _ I groebnerBasis.
+	self testGroebnerBasis: G ideal: I! !
+
+!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 7/8/2016 20:09'!
+testGroebnerCyclic3TotalLexicographic
+	| I G |
+	I _ PolynomialIdeal cyclic: 3.
+	G _ GroebnerBasis from: I generators ordering: (MonomialOrdering tlex: 3).
+	self testGroebnerBasis: G ideal: I! !
+
+!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 7/8/2016 20:09'!
+testGroebnerCyclic3TotalReverseLexicographic
+	| I G |
+	I _ PolynomialIdeal cyclic: 3.
+	G _ GroebnerBasis from: I generators ordering: (MonomialOrdering trevlex: 3).
+	self testGroebnerBasis: G ideal: I! !
+
+!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 7/8/2016 01:48'!
+testGroebnerCyclic4
+	| I G |
+	I _ PolynomialIdeal cyclic: 4.
+	G _ I groebnerBasis.
+	self testGroebnerBasis: G ideal: I! !
+
+!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:56'!
+testGroebnerExample
+	| P x y z F G |
+	P _ QQ polynomialsIn: #(x y z) ordering: #lex.
+	x _ P x.
+	y _ P y.
+	z _ P z.
+	F _ {x**2 - (y*z). y**2 - (z*x). z**2 - (x*y)}.
+	G _ GroebnerBasis from: F :: minimal.
+	self assert: G asSet = {x**2 - (y*z). x*z - (y**2). x*y - (z**2). y**3 - (z**3)} asSet! !
+
+!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 7/8/2016 01:48'!
+testGroebnerKatsura2
+	| I G |
+	I _ PolynomialIdeal katsura2.
+	G _ I groebnerBasis.
+	self testGroebnerBasis: G ideal: I! !
+
+!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 7/8/2016 01:48'!
+testGroebnerKatsura3
+	| I G |
+	I _ PolynomialIdeal katsura3.
+	G _ I groebnerBasis.
+	self testGroebnerBasis: G ideal: I! !
+
+!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:56'!
+testGroebnerTrivial
+	"The 3 polynomials have no common zeroes, the Groebner basis should be {1}."
+	| Qx x y I |
+	Qx _ QQ polynomialsIn: #(x y) ordering: #lex.
+	x _ Qx x.
+	y _ Qx y.
+	I _ Qx * {x + y. x**2 - 1. y**2 - (x*2)}.
+	self assert: I groebnerBasis minimal isTrivial! !
+
+!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 19:35'!
+testIdealDimension
+	| R I |
+	R _ QQ polynomialsIn: #(x y).
+	I _ R * R zero.
+	self assert: I dimension = 2.
+	I _ R * {R x. R y}.
+	self assert: I dimension = 1! !
+
+!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:56'!
+testIdealHomogenization
+	"The homogenization of an ideal can be bigger than the ideal generated by the homogenized generators."
+	| Qx x y z f1 f2 I f3 J |
+	Qx _ QQ polynomialsIn: #(x y z).
+	x _ Qx x.
+	y _ Qx y.
+	z _ Qx z.
+	"Ideal for the twisted cubic:"
+	f1 _ y - (x**2).
+	f2 _ z - (x**3).
+	I _ Qx * {f1. f2}.
+	"Now a polynomial in I:"
+	f3 _ f2 - (f1*x).
+	self assert: (I homogenized includes: f3 homogenized).
+	"But it's not in the ideal generated by the homogenized generators:"
+	J _ Qx * {f1 homogenized. f2 homogenized}.
+	self deny: (J includes: f3 homogenized)! !
+
+!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:56'!
+testIdealIntersection
+	"Example from Cox IVA 194 p."
+	| Qxy x y I J K |
+	Qxy _ QQ polynomialsIn: #(x y).
+	x _ Qxy x.
+	y _ Qxy y.
+	I _ Qxy * {x**2 * y}.
+	J _ Qxy * {x * (y**2)}.
+	K _ Qxy * {x**2*(y**2)}.
+	self assert: I /\ J = K! !
+
+!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 19:31'!
+testIdealIsPrime
+	| R x y I |
+	R _ QQ polynomialsIn: #(x y).
+	x _ R x: #x.
+	y _ R x: #y.
+	I _ R * {x**2 - (y**2) - 1}.
+	self assert: I isPrime! !
+
+!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:56'!
+testIdealMembership
+	| Qxy x y f g I J h k |
+	Qxy _ QQ polynomialsIn: #(x y).
+	x _ Qxy x.
+	y _ Qxy y.
+	f _ x**2 - y.
+	g _ x**3 - x.
+	I _ Qxy * {f. g}.
+	J _ Qxy * {x**2. y**3}.
+	h _ y**2 - y.
+	k _ x*y - x.
+	self assert: (I includes: h).
+	self assert: (I includes: k).
+	self assert: (J includes: h) not.
+	self assert: (J includes: k) not! !
+
+!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:56'!
+testIdealMembership2
+	| Qxy x y I |
+	Qxy _ QQ polynomialsIn: #(x y).
+	x _ Qxy x.
+	y _ Qxy y.
+	I _ Qxy * {x*x. y*2 + x}.
+	self assert: (I includes: (x + y) squared)! !
+
+!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:56'!
+testIdealMembership3
+	| Qx x y z w f g I |
+	Qx _ QQ polynomialsIn: #(x y z w).
+	x _ Qx x.
+	y _ Qx y.
+	z _ Qx z.
+	w _ Qx x: #w.
+	f _ x*z-(y**2). "twisted cubic"
+	g _ z*(y*w-(z**2)) - (w*(x*w-(y*z))).
+	I _ Qx * {f. g}.
+	"The twisted cubic C in P^3 is the set-theoretic complete intersection
+	of f=0 and g=0, but not a scheme-theoretic or ideal-theoretic complete
+	intersection (the ideal is not radical since includes f^2):"
+	self assert: (I includes: f**2)! !
+
+!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:56'!
+testIdealMembershipRandom
+	| P f1 f2 f3 I g |
+	P _ QQ polynomialsIn: #(x y z).
+	[(f1 _ P atRandomBits: 10) isZero] whileTrue.
+	[(f2 _ P atRandomBits: 10) isZero] whileTrue.
+	[(f3 _ P atRandomBits: 10) isZero] whileTrue.
+	I _ P * {f1. f2. f3}.
+	g _ I atRandomBits: 100.
+	self assert: (I includes: g)! !
+
+!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 19:28'!
+testIdealRadical
+	| R x y I J |
+	R _ QQ polynomialsIn: #(x y).
+	x _ R x: #x.
+	y _ R x: #y.
+	I _ R * {x**3. y**2}.
+	J _ R * {x. y}.
+	self assert: I radical = J! !
+
+!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 7/9/2016 03:46'!
+testIdealRadicalZeroDimNotPerfectField
+	"Counterexample that shows how Seidenberg algorithm fails over a non-perfect field."
+	self flag: #fix.
+"	| p F R t x y I |
+	p _ #(3 5 7 11) atRandom.
+	F _ (Integers new modPrime: p) polynomialsIn: #(t) :: fractions.
+	R _ F polynomialsIn: #(x y).
+	t _ F x: #t.
+	x _ R x.
+	y _ R y.
+	I _ R * {x**p - t. y**p - t}.
+	self assert: (I includes: x**p - (y**p)).
+	self deny: (I includes: x - y).
+	self assert: (I radical includes: x - y)"! !
+
+!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:57'!
+testIdealRadicalZeroDimPerfectField
+	"Seidenberg algorithm works for 0-dimensional ideals over a perfect field." 
+	| R y z I J |
+	R _ QQ polynomialsIn: #(y z).
+	y _ R x: #y.
+	z _ R x: #z.
+	I _ R * {y + z. z**2}.
+	J _ R * {y. z}.
+	self assert: I radical = J! !
+
+!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:57'!
+testMultivariateDivisionExample
+	| P x y z F f |
+	P _ QQ polynomialsIn: #(x y z) ordering: #lex.
+	x _ P x.
+	y _ P y.
+	z _ P z.
+	F _ {x**2 - (y*z). y**2 - (z*x). z**2 - (x*y)}.
+	f _ x**3 + (y**3 * 3).
+	self assert: (f divideBy: F ordering: (MonomialOrdering tlex: #(1 2 3))) remainder = (y**3 * 4)! !
+
+!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:57'!
+testRadicalMembership
+	| R x y z g1 g2 f I |
+	R _ QQ polynomialsIn: #(x y z).
+	x _ R x.
+	y _ R y.
+	z _ R z.
+	g1 _ x**4*(y**2) + (z**2) - (x*(y**3)*z*4) - (y**5*z*2).
+	g2 _ (x + (y**2)) ** 2.
+	f _ y*z - (x**3).
+	I _ R * {g1. g2}.
+	self assert: (I radicalIncludes: f)! !
+
 !GraphTest methodsFor: 'as yet unclassified' stamp: 'len 7/23/2016 06:29'!
 testAutomorphismsK3
 	"Aut(K3) = Sym(3)"
@@ -1058,235 +1315,6 @@ testUnion
 	| G |
 	G _ Digraph unordered addEdges: {#a -> #b. #b -> #c. #d -> #e. #x -> #b}; yourself.
 	self assert: (G union: G transposed) = G symmetric! !
-
-!GroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:56'!
-testEliminationIdeal
-	"Example from Cox IVA 123 p. NOTE: this is a little slow."
-	| Qx x y z I |
-	Qx _ QQ polynomialsIn: #(x y z).
-	x _ Qx x. y _ Qx y. z _ Qx z.
-	I _ Qx * {x**2 + y + z - 1. x + (y**2) + z - 1. x + y + (z**2) - 1}.
-	self assert: (I eliminateAll: #(1 2)) generator = (z**6 - (z**4*4) + (z**3*4) - (z**2))! !
-
-!GroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 7/8/2016 20:11'!
-testGroebnerBasis: G ideal: I
-	| g |
-	self assert: G verify.
-	I generators do: [:each| self assert: (G reduces: each)].
-	g _ I atRandomBits: 100.
-	self assert: (G reduces: g)! !
-
-!GroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 7/8/2016 01:48'!
-testGroebnerCyclic3
-	| I G |
-	I _ PolynomialIdeal cyclic: 3.
-	G _ I groebnerBasis.
-	self testGroebnerBasis: G ideal: I! !
-
-!GroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 7/8/2016 20:09'!
-testGroebnerCyclic3Lexicographic
-	| I G |
-	I _ PolynomialIdeal cyclic: 3.
-	G _ GroebnerBasis from: I generators ordering: (MonomialOrdering lex: 3).
-	self testGroebnerBasis: G ideal: I! !
-
-!GroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 7/8/2016 01:49'!
-testGroebnerCyclic3OverZ2
-	| I G |
-	I _ PolynomialIdeal cyclic: 3 over: (Field GF: 2).
-	G _ I groebnerBasis.
-	self testGroebnerBasis: G ideal: I! !
-
-!GroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 7/8/2016 20:09'!
-testGroebnerCyclic3TotalLexicographic
-	| I G |
-	I _ PolynomialIdeal cyclic: 3.
-	G _ GroebnerBasis from: I generators ordering: (MonomialOrdering tlex: 3).
-	self testGroebnerBasis: G ideal: I! !
-
-!GroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 7/8/2016 20:09'!
-testGroebnerCyclic3TotalReverseLexicographic
-	| I G |
-	I _ PolynomialIdeal cyclic: 3.
-	G _ GroebnerBasis from: I generators ordering: (MonomialOrdering trevlex: 3).
-	self testGroebnerBasis: G ideal: I! !
-
-!GroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 7/8/2016 01:48'!
-testGroebnerCyclic4
-	| I G |
-	I _ PolynomialIdeal cyclic: 4.
-	G _ I groebnerBasis.
-	self testGroebnerBasis: G ideal: I! !
-
-!GroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:56'!
-testGroebnerExample
-	| P x y z F G |
-	P _ QQ polynomialsIn: #(x y z) ordering: #lex.
-	x _ P x.
-	y _ P y.
-	z _ P z.
-	F _ {x**2 - (y*z). y**2 - (z*x). z**2 - (x*y)}.
-	G _ GroebnerBasis from: F :: minimal.
-	self assert: G asSet = {x**2 - (y*z). x*z - (y**2). x*y - (z**2). y**3 - (z**3)} asSet! !
-
-!GroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 7/8/2016 01:48'!
-testGroebnerKatsura2
-	| I G |
-	I _ PolynomialIdeal katsura2.
-	G _ I groebnerBasis.
-	self testGroebnerBasis: G ideal: I! !
-
-!GroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 7/8/2016 01:48'!
-testGroebnerKatsura3
-	| I G |
-	I _ PolynomialIdeal katsura3.
-	G _ I groebnerBasis.
-	self testGroebnerBasis: G ideal: I! !
-
-!GroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:56'!
-testGroebnerTrivial
-	"The 3 polynomials have no common zeroes, the Groebner basis should be {1}."
-	| Qx x y I |
-	Qx _ QQ polynomialsIn: #(x y) ordering: #lex.
-	x _ Qx x.
-	y _ Qx y.
-	I _ Qx * {x + y. x**2 - 1. y**2 - (x*2)}.
-	self assert: I groebnerBasis minimal isTrivial! !
-
-!GroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:56'!
-testIdealHomogenization
-	"The homogenization of an ideal can be bigger than the ideal generated by the homogenized generators."
-	| Qx x y z f1 f2 I f3 J |
-	Qx _ QQ polynomialsIn: #(x y z).
-	x _ Qx x.
-	y _ Qx y.
-	z _ Qx z.
-	"Ideal for the twisted cubic:"
-	f1 _ y - (x**2).
-	f2 _ z - (x**3).
-	I _ Qx * {f1. f2}.
-	"Now a polynomial in I:"
-	f3 _ f2 - (f1*x).
-	self assert: (I homogenized includes: f3 homogenized).
-	"But it's not in the ideal generated by the homogenized generators:"
-	J _ Qx * {f1 homogenized. f2 homogenized}.
-	self deny: (J includes: f3 homogenized)! !
-
-!GroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:56'!
-testIdealIntersection
-	"Example from Cox IVA 194 p."
-	| Qxy x y I J K |
-	Qxy _ QQ polynomialsIn: #(x y).
-	x _ Qxy x.
-	y _ Qxy y.
-	I _ Qxy * {x**2 * y}.
-	J _ Qxy * {x * (y**2)}.
-	K _ Qxy * {x**2*(y**2)}.
-	self assert: I /\ J = K! !
-
-!GroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:56'!
-testIdealMembership
-	| Qxy x y f g I J h k |
-	Qxy _ QQ polynomialsIn: #(x y).
-	x _ Qxy x.
-	y _ Qxy y.
-	f _ x**2 - y.
-	g _ x**3 - x.
-	I _ Qxy * {f. g}.
-	J _ Qxy * {x**2. y**3}.
-	h _ y**2 - y.
-	k _ x*y - x.
-	self assert: (I includes: h).
-	self assert: (I includes: k).
-	self assert: (J includes: h) not.
-	self assert: (J includes: k) not! !
-
-!GroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:56'!
-testIdealMembership2
-	| Qxy x y I |
-	Qxy _ QQ polynomialsIn: #(x y).
-	x _ Qxy x.
-	y _ Qxy y.
-	I _ Qxy * {x*x. y*2 + x}.
-	self assert: (I includes: (x + y) squared)! !
-
-!GroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:56'!
-testIdealMembership3
-	| Qx x y z w f g I |
-	Qx _ QQ polynomialsIn: #(x y z w).
-	x _ Qx x.
-	y _ Qx y.
-	z _ Qx z.
-	w _ Qx x: #w.
-	f _ x*z-(y**2). "twisted cubic"
-	g _ z*(y*w-(z**2)) - (w*(x*w-(y*z))).
-	I _ Qx * {f. g}.
-	"The twisted cubic C in P^3 is the set-theoretic complete intersection
-	of f=0 and g=0, but not a scheme-theoretic or ideal-theoretic complete
-	intersection (the ideal is not radical since includes f^2):"
-	self assert: (I includes: f**2)! !
-
-!GroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:56'!
-testIdealMembershipRandom
-	| P f1 f2 f3 I g |
-	P _ QQ polynomialsIn: #(x y z).
-	[(f1 _ P atRandomBits: 10) isZero] whileTrue.
-	[(f2 _ P atRandomBits: 10) isZero] whileTrue.
-	[(f3 _ P atRandomBits: 10) isZero] whileTrue.
-	I _ P * {f1. f2. f3}.
-	g _ I atRandomBits: 100.
-	self assert: (I includes: g)! !
-
-!GroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 7/9/2016 03:46'!
-testIdealRadicalZeroDimNotPerfectField
-	"Counterexample that shows how Seidenberg algorithm fails over a non-perfect field."
-	self flag: #fix.
-"	| p F R t x y I |
-	p _ #(3 5 7 11) atRandom.
-	F _ (Integers new modPrime: p) polynomialsIn: #(t) :: fractions.
-	R _ F polynomialsIn: #(x y).
-	t _ F x: #t.
-	x _ R x.
-	y _ R y.
-	I _ R * {x**p - t. y**p - t}.
-	self assert: (I includes: x**p - (y**p)).
-	self deny: (I includes: x - y).
-	self assert: (I radical includes: x - y)"! !
-
-!GroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:57'!
-testIdealRadicalZeroDimPerfectField
-	"Seidenberg algorithm works for 0-dimensional ideals over a perfect field." 
-	| R y z I J |
-	R _ QQ polynomialsIn: #(y z).
-	y _ R x: #y.
-	z _ R x: #z.
-	I _ R * {y + z. z**2}.
-	J _ R * {y. z}.
-	self assert: I radical = J! !
-
-!GroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:57'!
-testMultivariateDivisionExample
-	| P x y z F f |
-	P _ QQ polynomialsIn: #(x y z) ordering: #lex.
-	x _ P x.
-	y _ P y.
-	z _ P z.
-	F _ {x**2 - (y*z). y**2 - (z*x). z**2 - (x*y)}.
-	f _ x**3 + (y**3 * 3).
-	self assert: (f divideBy: F ordering: (MonomialOrdering tlex: #(1 2 3))) remainder = (y**3 * 4)! !
-
-!GroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:57'!
-testRadicalMembership
-	| R x y z g1 g2 f I |
-	R _ QQ polynomialsIn: #(x y z).
-	x _ R x.
-	y _ R y.
-	z _ R z.
-	g1 _ x**4*(y**2) + (z**2) - (x*(y**3)*z*4) - (y**5*z*2).
-	g2 _ (x + (y**2)) ** 2.
-	f _ y*z - (x**3).
-	I _ R * {g1. g2}.
-	self assert: (I radicalIncludes: f)! !
 
 !GroupTest methodsFor: 'as yet unclassified' stamp: 'len 6/29/2016 00:37'!
 testActionOrbitOf
