@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 30 August 2016 at 8:18:49.663016 pm'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 30 August 2016 at 8:31:37.897803 pm'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 192!
+!provides: 'Mathematics' 1 193!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
 	instanceVariableNames: 'numerator shift'
@@ -351,13 +351,13 @@ Domain subclass: #AbelianGroup
 AbelianGroup class
 	instanceVariableNames: ''!
 
-!classDefinition: #Ideal category: #'Mathematics-Kernel-Domains'!
+!classDefinition: #Ideal category: #'Mathematics-Rings'!
 AbelianGroup subclass: #Ideal
 	instanceVariableNames: 'ambient generators'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Kernel-Domains'!
-!classDefinition: 'Ideal class' category: #'Mathematics-Kernel-Domains'!
+	category: 'Mathematics-Rings'!
+!classDefinition: 'Ideal class' category: #'Mathematics-Rings'!
 Ideal class
 	instanceVariableNames: ''!
 
@@ -391,13 +391,13 @@ PolynomialIdeal subclass: #MonomialIdeal
 MonomialIdeal class
 	instanceVariableNames: ''!
 
-!classDefinition: #Module category: #'Mathematics-Kernel-Domains'!
+!classDefinition: #Module category: #'Mathematics-Rings'!
 AbelianGroup subclass: #Module
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Kernel-Domains'!
-!classDefinition: 'Module class' category: #'Mathematics-Kernel-Domains'!
+	category: 'Mathematics-Rings'!
+!classDefinition: 'Module class' category: #'Mathematics-Rings'!
 Module class
 	instanceVariableNames: ''!
 
@@ -621,94 +621,114 @@ FreeModule subclass: #ExteriorPower
 ExteriorPower class
 	instanceVariableNames: ''!
 
-!classDefinition: #Ring category: #'Mathematics-Kernel-Domains'!
+!classDefinition: #Ring category: #'Mathematics-Rings'!
 AbelianGroup subclass: #Ring
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Kernel-Domains'!
-!classDefinition: 'Ring class' category: #'Mathematics-Kernel-Domains'!
+	category: 'Mathematics-Rings'!
+!classDefinition: 'Ring class' category: #'Mathematics-Rings'!
 Ring class
 	instanceVariableNames: ''!
 
-!classDefinition: #DirectProductRing category: #'Mathematics-Kernel-Domains'!
+!classDefinition: #GaussianIntegers category: #'Mathematics-Kernel-Domains-Concrete'!
+Ring subclass: #GaussianIntegers
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Kernel-Domains-Concrete'!
+!classDefinition: 'GaussianIntegers class' category: #'Mathematics-Kernel-Domains-Concrete'!
+GaussianIntegers class
+	instanceVariableNames: ''!
+
+!classDefinition: #Integers category: #'Mathematics-Kernel-Domains-Concrete'!
+Ring subclass: #Integers
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Kernel-Domains-Concrete'!
+!classDefinition: 'Integers class' category: #'Mathematics-Kernel-Domains-Concrete'!
+Integers class
+	instanceVariableNames: ''!
+
+!classDefinition: #PAdicIntegers category: #'Mathematics-Kernel-Domains-Concrete'!
+Ring subclass: #PAdicIntegers
+	instanceVariableNames: 'p'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Kernel-Domains-Concrete'!
+!classDefinition: 'PAdicIntegers class' category: #'Mathematics-Kernel-Domains-Concrete'!
+PAdicIntegers class
+	instanceVariableNames: ''!
+
+!classDefinition: #FreeAlgebra category: #'Mathematics-Free'!
+Ring subclass: #FreeAlgebra
+	instanceVariableNames: 'scalars words'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Free'!
+!classDefinition: 'FreeAlgebra class' category: #'Mathematics-Free'!
+FreeAlgebra class
+	instanceVariableNames: ''!
+
+!classDefinition: #GroupRing category: #'Mathematics-Free'!
+Ring subclass: #GroupRing
+	instanceVariableNames: 'group scalars'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Free'!
+!classDefinition: 'GroupRing class' category: #'Mathematics-Free'!
+GroupRing class
+	instanceVariableNames: ''!
+
+!classDefinition: #DirectProductRing category: #'Mathematics-Rings'!
 Ring subclass: #DirectProductRing
 	instanceVariableNames: 'components'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Kernel-Domains'!
-!classDefinition: 'DirectProductRing class' category: #'Mathematics-Kernel-Domains'!
+	category: 'Mathematics-Rings'!
+!classDefinition: 'DirectProductRing class' category: #'Mathematics-Rings'!
 DirectProductRing class
 	instanceVariableNames: ''!
 
-!classDefinition: #Field category: #'Mathematics-Kernel-Domains'!
+!classDefinition: #QuotientRing category: #'Mathematics-Rings'!
+Ring subclass: #QuotientRing
+	instanceVariableNames: 'ideal'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Rings'!
+!classDefinition: 'QuotientRing class' category: #'Mathematics-Rings'!
+QuotientRing class
+	instanceVariableNames: ''!
+
+!classDefinition: #ModularIntegers category: #'Mathematics-Kernel-Domains-Concrete'!
+QuotientRing subclass: #ModularIntegers
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Kernel-Domains-Concrete'!
+!classDefinition: 'ModularIntegers class' category: #'Mathematics-Kernel-Domains-Concrete'!
+ModularIntegers class
+	instanceVariableNames: ''!
+
+!classDefinition: #CoordinateRing category: #'Mathematics-Geometry-Algebraic'!
+QuotientRing subclass: #CoordinateRing
+	instanceVariableNames: 'variety'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Geometry-Algebraic'!
+!classDefinition: 'CoordinateRing class' category: #'Mathematics-Geometry-Algebraic'!
+CoordinateRing class
+	instanceVariableNames: ''!
+
+!classDefinition: #Field category: #'Mathematics-Fields'!
 Ring subclass: #Field
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Kernel-Domains'!
-!classDefinition: 'Field class' category: #'Mathematics-Kernel-Domains'!
+	category: 'Mathematics-Fields'!
+!classDefinition: 'Field class' category: #'Mathematics-Fields'!
 Field class
-	instanceVariableNames: ''!
-
-!classDefinition: #FractionField category: #'Mathematics-Kernel-Domains'!
-Field subclass: #FractionField
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Kernel-Domains'!
-!classDefinition: 'FractionField class' category: #'Mathematics-Kernel-Domains'!
-FractionField class
-	instanceVariableNames: ''!
-
-!classDefinition: #Rationals category: #'Mathematics-Kernel-Domains-Concrete'!
-FractionField subclass: #Rationals
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Kernel-Domains-Concrete'!
-!classDefinition: 'Rationals class' category: #'Mathematics-Kernel-Domains-Concrete'!
-Rationals class
-	instanceVariableNames: ''!
-
-!classDefinition: #RationalFunctions category: #'Mathematics-Polynomials-Domains'!
-FractionField subclass: #RationalFunctions
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Polynomials-Domains'!
-!classDefinition: 'RationalFunctions class' category: #'Mathematics-Polynomials-Domains'!
-RationalFunctions class
-	instanceVariableNames: ''!
-
-!classDefinition: #FunctionField category: #'Mathematics-Geometry-Algebraic'!
-FractionField subclass: #FunctionField
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Geometry-Algebraic'!
-!classDefinition: 'FunctionField class' category: #'Mathematics-Geometry-Algebraic'!
-FunctionField class
-	instanceVariableNames: ''!
-
-!classDefinition: #ResidueField category: #'Mathematics-Kernel-Domains'!
-Field subclass: #ResidueField
-	instanceVariableNames: 'ideal'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Kernel-Domains'!
-!classDefinition: 'ResidueField class' category: #'Mathematics-Kernel-Domains'!
-ResidueField class
-	instanceVariableNames: ''!
-
-!classDefinition: #PrimeField category: #'Mathematics-Kernel-Domains-Concrete'!
-ResidueField subclass: #PrimeField
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Kernel-Domains-Concrete'!
-!classDefinition: 'PrimeField class' category: #'Mathematics-Kernel-Domains-Concrete'!
-PrimeField class
 	instanceVariableNames: ''!
 
 !classDefinition: #ComplexNumbers category: #'Mathematics-Kernel-Domains-Concrete'!
@@ -749,6 +769,66 @@ Field subclass: #Reals
 	category: 'Mathematics-Kernel-Domains-Concrete'!
 !classDefinition: 'Reals class' category: #'Mathematics-Kernel-Domains-Concrete'!
 Reals class
+	instanceVariableNames: ''!
+
+!classDefinition: #FractionField category: #'Mathematics-Fields'!
+Field subclass: #FractionField
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Fields'!
+!classDefinition: 'FractionField class' category: #'Mathematics-Fields'!
+FractionField class
+	instanceVariableNames: ''!
+
+!classDefinition: #Rationals category: #'Mathematics-Kernel-Domains-Concrete'!
+FractionField subclass: #Rationals
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Kernel-Domains-Concrete'!
+!classDefinition: 'Rationals class' category: #'Mathematics-Kernel-Domains-Concrete'!
+Rationals class
+	instanceVariableNames: ''!
+
+!classDefinition: #RationalFunctions category: #'Mathematics-Polynomials-Domains'!
+FractionField subclass: #RationalFunctions
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Polynomials-Domains'!
+!classDefinition: 'RationalFunctions class' category: #'Mathematics-Polynomials-Domains'!
+RationalFunctions class
+	instanceVariableNames: ''!
+
+!classDefinition: #FunctionField category: #'Mathematics-Geometry-Algebraic'!
+FractionField subclass: #FunctionField
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Geometry-Algebraic'!
+!classDefinition: 'FunctionField class' category: #'Mathematics-Geometry-Algebraic'!
+FunctionField class
+	instanceVariableNames: ''!
+
+!classDefinition: #ResidueField category: #'Mathematics-Fields'!
+Field subclass: #ResidueField
+	instanceVariableNames: 'ideal'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Fields'!
+!classDefinition: 'ResidueField class' category: #'Mathematics-Fields'!
+ResidueField class
+	instanceVariableNames: ''!
+
+!classDefinition: #PrimeField category: #'Mathematics-Kernel-Domains-Concrete'!
+ResidueField subclass: #PrimeField
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Kernel-Domains-Concrete'!
+!classDefinition: 'PrimeField class' category: #'Mathematics-Kernel-Domains-Concrete'!
+PrimeField class
 	instanceVariableNames: ''!
 
 !classDefinition: #AlgebraicExtension category: #'Mathematics-Number Fields'!
@@ -809,86 +889,6 @@ Field subclass: #RealAlgebraicNumbers
 	category: 'Mathematics-Number Fields'!
 !classDefinition: 'RealAlgebraicNumbers class' category: #'Mathematics-Number Fields'!
 RealAlgebraicNumbers class
-	instanceVariableNames: ''!
-
-!classDefinition: #QuotientRing category: #'Mathematics-Kernel-Domains'!
-Ring subclass: #QuotientRing
-	instanceVariableNames: 'ideal'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Kernel-Domains'!
-!classDefinition: 'QuotientRing class' category: #'Mathematics-Kernel-Domains'!
-QuotientRing class
-	instanceVariableNames: ''!
-
-!classDefinition: #ModularIntegers category: #'Mathematics-Kernel-Domains-Concrete'!
-QuotientRing subclass: #ModularIntegers
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Kernel-Domains-Concrete'!
-!classDefinition: 'ModularIntegers class' category: #'Mathematics-Kernel-Domains-Concrete'!
-ModularIntegers class
-	instanceVariableNames: ''!
-
-!classDefinition: #CoordinateRing category: #'Mathematics-Geometry-Algebraic'!
-QuotientRing subclass: #CoordinateRing
-	instanceVariableNames: 'variety'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Geometry-Algebraic'!
-!classDefinition: 'CoordinateRing class' category: #'Mathematics-Geometry-Algebraic'!
-CoordinateRing class
-	instanceVariableNames: ''!
-
-!classDefinition: #GaussianIntegers category: #'Mathematics-Kernel-Domains-Concrete'!
-Ring subclass: #GaussianIntegers
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Kernel-Domains-Concrete'!
-!classDefinition: 'GaussianIntegers class' category: #'Mathematics-Kernel-Domains-Concrete'!
-GaussianIntegers class
-	instanceVariableNames: ''!
-
-!classDefinition: #Integers category: #'Mathematics-Kernel-Domains-Concrete'!
-Ring subclass: #Integers
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Kernel-Domains-Concrete'!
-!classDefinition: 'Integers class' category: #'Mathematics-Kernel-Domains-Concrete'!
-Integers class
-	instanceVariableNames: ''!
-
-!classDefinition: #PAdicIntegers category: #'Mathematics-Kernel-Domains-Concrete'!
-Ring subclass: #PAdicIntegers
-	instanceVariableNames: 'p'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Kernel-Domains-Concrete'!
-!classDefinition: 'PAdicIntegers class' category: #'Mathematics-Kernel-Domains-Concrete'!
-PAdicIntegers class
-	instanceVariableNames: ''!
-
-!classDefinition: #FreeAlgebra category: #'Mathematics-Free'!
-Ring subclass: #FreeAlgebra
-	instanceVariableNames: 'scalars words'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Free'!
-!classDefinition: 'FreeAlgebra class' category: #'Mathematics-Free'!
-FreeAlgebra class
-	instanceVariableNames: ''!
-
-!classDefinition: #GroupRing category: #'Mathematics-Free'!
-Ring subclass: #GroupRing
-	instanceVariableNames: 'group scalars'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Free'!
-!classDefinition: 'GroupRing class' category: #'Mathematics-Free'!
-GroupRing class
 	instanceVariableNames: ''!
 
 !classDefinition: #PolynomialRing category: #'Mathematics-Polynomials-Domains'!
@@ -1061,16 +1061,6 @@ Monoid subclass: #Group
 Group class
 	instanceVariableNames: ''!
 
-!classDefinition: #UnitsGroup category: #'Mathematics-Kernel-Domains'!
-Group subclass: #UnitsGroup
-	instanceVariableNames: 'ring'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Kernel-Domains'!
-!classDefinition: 'UnitsGroup class' category: #'Mathematics-Kernel-Domains'!
-UnitsGroup class
-	instanceVariableNames: ''!
-
 !classDefinition: #FreeGroup category: #'Mathematics-Free'!
 Group subclass: #FreeGroup
 	instanceVariableNames: 'symbols'
@@ -1139,6 +1129,16 @@ PermutationGroup subclass: #SymmetricGroup
 	category: 'Mathematics-Groups-Permutations'!
 !classDefinition: 'SymmetricGroup class' category: #'Mathematics-Groups-Permutations'!
 SymmetricGroup class
+	instanceVariableNames: ''!
+
+!classDefinition: #UnitsGroup category: #'Mathematics-Rings'!
+Group subclass: #UnitsGroup
+	instanceVariableNames: 'ring'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Rings'!
+!classDefinition: 'UnitsGroup class' category: #'Mathematics-Rings'!
+UnitsGroup class
 	instanceVariableNames: ''!
 
 !classDefinition: #LinearGroup category: #'Mathematics-Linear-Groups'!
@@ -3746,68 +3746,18 @@ Rings can be commutative or non-commutative. Some specific kinds of commutative 
 
 Rings can be constructed from existing rings by taking quotients by an ideal (see QuotientRing), by making fractions (see FractionField), by making transcendental extensions (PolynomialRing), etc.!
 
-!Field commentStamp: '<historical>' prior: 0!
-A field is a nonzero commutative division ring, or equivalently a ring whose nonzero elements form an abelian group under multiplication. See subclasses for concrete examples.
+!Integers commentStamp: '<historical>' prior: 0!
+My singletion global instance ZZ is the ring of integer numbers.!
+
+!GroupRing commentStamp: '<historical>' prior: 0!
+My instances are group rings. Given a ring R and a group G, the group ring R[G] can be seen as a ring or as a free R-module with basis one-to-one with G. As a ring, its addition law is that of the free module, and the multiplication extends by linearity the given group law on the basis.
+
+When the ring R is commutative, the group ring is also referred to as a group algebra.
+
+Categorically, the group ring construction is left adjoint to the group of units (see UnitsGroup). It's also a 'category algebra' analogous to the monoid ring for monoids and  incidence algebra for posets.
 
 References:
-	https://en.wikipedia.org/wiki/Field_(mathematics)!
-
-!FractionField commentStamp: '<historical>' prior: 0!
-My instances are fields of fractions (ratios, quotients) in an integral domain. See Ring>>fractions.
-
-References:
-	https://en.wikipedia.org/wiki/Field_of_fractions!
-
-!Rationals commentStamp: '<historical>' prior: 0!
-My singletion global instance QQ is the field of rational numbers.!
-
-!RationalFunctions commentStamp: '<historical>' prior: 0!
-My instances are rational functions, i.e. the field of fractions of a given polynomial ring.
-
-Example:
-	"x / y in Q[x,y]"
-	| F |
-	F _ QQ polynomialsIn: #(x y) :: fractions.
-	(F x: 1) / (F x: 2)
-!
-
-!FunctionField commentStamp: '<historical>' prior: 0!
-My instances are fields of fractions of coordinate rings of (affine) algebraic varieties.!
-
-!ResidueField commentStamp: '<historical>' prior: 0!
-My instances are quotients of a ring by a maximal ideal. They are special cases of quotient rings (and thus, they are polynorphic with QuotientRing).!
-
-!PrimeField commentStamp: '<historical>' prior: 0!
-My instances are fields of order p prime, i.e. the residue field Z/<p> of integers modulo p.!
-
-!ComplexNumbers commentStamp: '<historical>' prior: 0!
-I'm the field of complex numbers.!
-
-!ExtendedComplexNumbers commentStamp: '<historical>' prior: 0!
-I'm the field of complex numbers extended with the point a infinity.!
-
-!Reals commentStamp: '<historical>' prior: 0!
-I'm the field of real numbers.!
-
-!AlgebraicExtension commentStamp: '<historical>' prior: 0!
-My instances are (finite) algebraic extensions E/F of a field F. They are defined by an irreducible polynomial f with coefficients in F, and is isomorphic to F[x]/<f>.
-
-Example:
-	QQ extension: QQ polynomials x**4 - 2
-!
-
-!NumberField commentStamp: '<historical>' prior: 0!
-My instances are number fields, i.e. finite (and thus algebraic) field extensions of the rational numbers Q. Number fields can also be viewed as vector spaces over Q.
-
-Example:
-	QQ adjoint: RealAlgebraicNumber sqrt2
-!
-
-!AlgebraicNumbers commentStamp: '<historical>' prior: 0!
-I'm the field of (complex) algebraic numbers, i.e. the algebraic closure of Q.!
-
-!RealAlgebraicNumbers commentStamp: '<historical>' prior: 0!
-I'm the field of real algebraic numbers, i.e. real zeros of polynomials with integer or rational coefficients.!
+	https://en.wikipedia.org/wiki/Group_ring!
 
 !QuotientRing commentStamp: '<historical>' prior: 0!
 My instances are quotient rings (also called factor rings, difference rings or residue class rings). 
@@ -3837,18 +3787,68 @@ The following sets are in bijection (naturally):
 3. Maximal ideals in K[V].
 !
 
-!Integers commentStamp: '<historical>' prior: 0!
-My singletion global instance ZZ is the ring of integer numbers.!
-
-!GroupRing commentStamp: '<historical>' prior: 0!
-My instances are group rings. Given a ring R and a group G, the group ring R[G] can be seen as a ring or as a free R-module with basis one-to-one with G. As a ring, its addition law is that of the free module, and the multiplication extends by linearity the given group law on the basis.
-
-When the ring R is commutative, the group ring is also referred to as a group algebra.
-
-Categorically, the group ring construction is left adjoint to the group of units (see UnitsGroup). It's also a 'category algebra' analogous to the monoid ring for monoids and  incidence algebra for posets.
+!Field commentStamp: '<historical>' prior: 0!
+A field is a nonzero commutative division ring, or equivalently a ring whose nonzero elements form an abelian group under multiplication. See subclasses for concrete examples.
 
 References:
-	https://en.wikipedia.org/wiki/Group_ring!
+	https://en.wikipedia.org/wiki/Field_(mathematics)!
+
+!ComplexNumbers commentStamp: '<historical>' prior: 0!
+I'm the field of complex numbers.!
+
+!ExtendedComplexNumbers commentStamp: '<historical>' prior: 0!
+I'm the field of complex numbers extended with the point a infinity.!
+
+!Reals commentStamp: '<historical>' prior: 0!
+I'm the field of real numbers.!
+
+!FractionField commentStamp: '<historical>' prior: 0!
+My instances are fields of fractions (ratios, quotients) in an integral domain. See Ring>>fractions.
+
+References:
+	https://en.wikipedia.org/wiki/Field_of_fractions!
+
+!Rationals commentStamp: '<historical>' prior: 0!
+My singletion global instance QQ is the field of rational numbers.!
+
+!RationalFunctions commentStamp: '<historical>' prior: 0!
+My instances are rational functions, i.e. the field of fractions of a given polynomial ring.
+
+Example:
+	"x / y in Q[x,y]"
+	| F |
+	F _ QQ polynomialsIn: #(x y) :: fractions.
+	(F x: 1) / (F x: 2)
+!
+
+!FunctionField commentStamp: '<historical>' prior: 0!
+My instances are fields of fractions of coordinate rings of (affine) algebraic varieties.!
+
+!ResidueField commentStamp: '<historical>' prior: 0!
+My instances are quotients of a ring by a maximal ideal. They are special cases of quotient rings (and thus, they are polynorphic with QuotientRing).!
+
+!PrimeField commentStamp: '<historical>' prior: 0!
+My instances are fields of order p prime, i.e. the residue field Z/<p> of integers modulo p.!
+
+!AlgebraicExtension commentStamp: '<historical>' prior: 0!
+My instances are (finite) algebraic extensions E/F of a field F. They are defined by an irreducible polynomial f with coefficients in F, and is isomorphic to F[x]/<f>.
+
+Example:
+	QQ extension: QQ polynomials x**4 - 2
+!
+
+!NumberField commentStamp: '<historical>' prior: 0!
+My instances are number fields, i.e. finite (and thus algebraic) field extensions of the rational numbers Q. Number fields can also be viewed as vector spaces over Q.
+
+Example:
+	QQ adjoint: RealAlgebraicNumber sqrt2
+!
+
+!AlgebraicNumbers commentStamp: '<historical>' prior: 0!
+I'm the field of (complex) algebraic numbers, i.e. the algebraic closure of Q.!
+
+!RealAlgebraicNumbers commentStamp: '<historical>' prior: 0!
+I'm the field of real algebraic numbers, i.e. real zeros of polynomials with integer or rational coefficients.!
 
 !PolynomialRing commentStamp: '<historical>' prior: 0!
 My instances are polynomial rings in one or many indeterminates.
@@ -3943,14 +3943,6 @@ Some specific groups (such as permutation groups and matrix groups) can be repre
 References:
 	https://en.wikipedia.org/wiki/Group_(mathematics)!
 
-!UnitsGroup commentStamp: '<historical>' prior: 0!
-My instances are sets of ring units.
-
-Given a ring R, the group of units of R is the set of elements of R that have multiplicative inverse, and they form a group under multiplication. For a field F (or more generally a division ring), the units are all non-zero elements F \ {0}.
-
-References:
-	https://en.wikipedia.org/wiki/Unit_(ring_theory)!
-
 !DirectProductGroup commentStamp: '<historical>' prior: 0!
 My instances are direct products of rings. Elements are tuples, and multiplication and addition are defined component wise.!
 
@@ -3974,6 +3966,14 @@ My instances are the symmetric group Sym(X) of permutations on the elements of a
 Examples:
 	SymmetricGroup new: 3.
 	SymmetricGroup on: #(a b c).!
+
+!UnitsGroup commentStamp: '<historical>' prior: 0!
+My instances are sets of ring units.
+
+Given a ring R, the group of units of R is the set of elements of R that have multiplicative inverse, and they form a group under multiplication. For a field F (or more generally a division ring), the units are all non-zero elements F \ {0}.
+
+References:
+	https://en.wikipedia.org/wiki/Unit_(ring_theory)!
 
 !LinearGroup commentStamp: '<historical>' prior: 0!
 My instances are groups of linear transformations acting on a vector space. They are subgroups of the general linear group GL(V).
@@ -14268,6 +14268,368 @@ valuation
 zero
 	^ properties at: #zero ifAbsentPut: [self one - self one]! !
 
+!GaussianIntegers methodsFor: 'testing' stamp: 'len 6/5/2016 06:10'!
+includes: anObject
+	^ anObject isInteger or: [anObject isComplex and: [anObject real isInteger and: [anObject imaginary isInteger]]]! !
+
+!GaussianIntegers methodsFor: 'testing' stamp: 'len 6/5/2016 06:08'!
+isCountable
+	^ true! !
+
+!GaussianIntegers methodsFor: 'testing' stamp: 'len 6/5/2016 06:08'!
+isFinite
+	^ false! !
+
+!GaussianIntegers methodsFor: 'testing' stamp: 'len 6/5/2016 06:15'!
+isPID
+	^ true! !
+
+!GaussianIntegers methodsFor: 'accessing' stamp: 'len 6/5/2016 06:13'!
+one
+	^ 1! !
+
+!GaussianIntegers methodsFor: 'printing' stamp: 'len 6/8/2016 21:04'!
+printOn: aStream
+	aStream nextPutAll: Character ZZ asString, '[i]'! !
+
+!GaussianIntegers methodsFor: 'accessing' stamp: 'len 6/5/2016 06:14'!
+size
+	^ Aleph new: 0! !
+
+!GaussianIntegers methodsFor: 'accessing' stamp: 'len 6/5/2016 06:13'!
+zero
+	^ 0! !
+
+!Integers methodsFor: 'operations' stamp: 'len 12/5/2015 23:51'!
+* anIntegerOrArray
+	^ (self includes: anIntegerOrArray)
+			ifTrue: [IntegerIdeal on: self generators: {anIntegerOrArray}]
+			ifFalse: [IntegerIdeal on: self generators: anIntegerOrArray]! !
+
+!Integers methodsFor: 'operations' stamp: 'len 6/29/2016 03:47'!
+/ anIdeal
+	^ ModularIntegers by: (anIdeal isInteger ifTrue: [self * anIdeal] ifFalse: [anIdeal])! !
+
+!Integers methodsFor: 'comparing' stamp: 'len 6/1/2016 23:56'!
+<= aDomain
+	^ aDomain isRing and: [(aDomain includes: 1) and: [aDomain includes: 0]]! !
+
+!Integers methodsFor: 'comparing' stamp: 'len 11/10/2015 23:14'!
+= anObject
+	^ anObject class == self class! !
+
+!Integers methodsFor: 'random' stamp: 'len 4/19/2016 22:12'!
+atRandom: aRandom bits: bitSize
+	| n |
+	bitSize isInfinity ifTrue: [^ self error: 'infinite bitsize'].
+	bitSize < 1 ifTrue: [^ self error: 'bitsize should be > 1'].
+	n _ 2**(bitSize truncated - 1).
+	^ (0-n to: n) atRandom: aRandom! !
+
+!Integers methodsFor: 'accessing' stamp: 'len 11/5/2015 17:34'!
+characteristic
+	^ 0! !
+
+!Integers methodsFor: 'iterating' stamp: 'len 11/10/2015 17:57'!
+do: aBlock
+	| i |
+	aBlock value: 0.
+	i _ 1.
+	[ aBlock value: i; value: i negated. i _ i + 1 ] repeat! !
+
+!Integers methodsFor: 'operations' stamp: 'len 7/15/2016 18:31'!
+fractions
+	^ QQ! !
+
+!Integers methodsFor: 'operations' stamp: 'len 6/30/2016 02:37'!
+freeModuleIn: aCollection
+	"Answer the free abelian group in the given indeterminates (a Z-module)."
+	^ FreeAbelianGroup on: aCollection! !
+
+!Integers methodsFor: 'comparing' stamp: 'len 12/14/2015 01:59'!
+hash
+	^ self class hash! !
+
+!Integers methodsFor: 'testing' stamp: 'len 11/23/2015 02:37'!
+includes: anObject
+	^ anObject isInteger! !
+
+!Integers methodsFor: 'testing' stamp: 'len 11/7/2015 21:58'!
+isCountable
+	^ true! !
+
+!Integers methodsFor: 'testing' stamp: 'len 11/4/2015 21:52'!
+isEuclidean
+	^ true! !
+
+!Integers methodsFor: 'testing' stamp: 'len 11/7/2015 21:58'!
+isFinite
+	^ false! !
+
+!Integers methodsFor: 'testing' stamp: 'len 12/28/2015 04:34'!
+isInvertible: anElement
+	^ anElement == 1 or: [anElement == -1]! !
+
+!Integers methodsFor: 'testing' stamp: 'len 2/11/2016 22:19'!
+isReal
+	^ true! !
+
+!Integers methodsFor: 'testing' stamp: 'len 5/12/2016 23:13'!
+isUnit: anInteger
+	^ anInteger = 1 or: [anInteger = -1]! !
+
+!Integers methodsFor: 'operations' stamp: 'len 8/10/2016 06:08'!
+modPrime: anInteger
+	^ PrimeField new: anInteger! !
+
+!Integers methodsFor: 'elements' stamp: 'len 11/5/2015 19:19'!
+one
+	^ 1! !
+
+!Integers methodsFor: 'printing' stamp: 'len 6/8/2016 21:35'!
+printOn: aStream
+	aStream nextPut: Character ZZ! !
+
+!Integers methodsFor: 'accessing' stamp: 'len 4/24/2016 02:58'!
+size
+	^ Aleph new! !
+
+!Integers methodsFor: 'accessing' stamp: 'len 7/17/2016 23:53'!
+valuation
+	^ Function from: self to: self evaluating: [:x| x abs]! !
+
+!Integers methodsFor: 'elements' stamp: 'len 11/3/2015 20:50'!
+zero
+	^ 0! !
+
+!Integers class methodsFor: 'initialization' stamp: 'len 8/5/2016 21:32'!
+initialize
+	super initialize.
+	Smalltalk at: #ZZ put: self new! !
+
+!PAdicIntegers methodsFor: 'testing' stamp: 'len 12/7/2015 01:29'!
+isIntegralDomain
+	^ true! !
+
+!PAdicIntegers methodsFor: 'elements' stamp: 'len 3/27/2016 02:02'!
+one
+	^ PAdicInteger fromNatural: 1 p: p! !
+
+!PAdicIntegers methodsFor: 'accessing' stamp: 'len 12/7/2015 01:16'!
+p
+	^ p! !
+
+!PAdicIntegers methodsFor: 'initialization' stamp: 'len 12/7/2015 01:16'!
+p: aPrime
+	p _ aPrime! !
+
+!PAdicIntegers methodsFor: 'printing' stamp: 'len 7/17/2016 23:05'!
+printOn: aStream
+	aStream nextPut: Character ZZ; nextPutAll: p printString sub! !
+
+!PAdicIntegers methodsFor: 'morphisms' stamp: 'len 7/17/2016 23:27'!
+project: anInteger
+	^ PAdicInteger fromNatural: anInteger p: p! !
+
+!PAdicIntegers methodsFor: 'elements' stamp: 'len 3/27/2016 02:03'!
+zero
+	^ PAdicInteger fromNatural: 0 p: p! !
+
+!PAdicIntegers class methodsFor: 'instance creation' stamp: 'len 12/7/2015 01:15'!
+p: aPrime
+	^ self new p: aPrime! !
+
+!FreeAlgebra methodsFor: 'comparing' stamp: 'len 8/25/2016 08:22'!
+= anObject
+	self == anObject ifTrue: [^ true].
+	^ (anObject isKindOf: FreeAlgebra) and: [anObject scalars = scalars and: [anObject words = words]]! !
+
+!FreeAlgebra methodsFor: 'elements' stamp: 'len 3/2/2016 05:54'!
+coefficient: aNumber word: aWord
+	^ self new coefficientAt: aWord put: aNumber; yourself! !
+
+!FreeAlgebra methodsFor: 'elements' stamp: 'len 8/25/2016 08:19'!
+coefficients: aCollection
+	^ FreePolynomial coefficients: aCollection! !
+
+!FreeAlgebra methodsFor: 'elements' stamp: 'len 8/25/2016 08:26'!
+constant: aNumber
+	^ self coefficient: aNumber word: words identity! !
+
+!FreeAlgebra methodsFor: 'comparing' stamp: 'len 8/25/2016 08:21'!
+hash
+	^ scalars hash + words hash hashMultiply! !
+
+!FreeAlgebra methodsFor: 'testing' stamp: 'len 8/25/2016 08:28'!
+includes: anObject
+	anObject coefficients keysAndValuesDo: [:key :value|
+		(words includes: key) ifFalse: [^ false].
+		(scalars includes: value) ifFalse: [^ false]].
+	^ true! !
+
+!FreeAlgebra methodsFor: 'accessing' stamp: 'len 8/25/2016 08:22'!
+indeterminates
+	^ words symbols! !
+
+!FreeAlgebra methodsFor: 'testing' stamp: 'len 3/5/2016 04:24'!
+isAssociative
+	^ true! !
+
+!FreeAlgebra methodsFor: 'testing' stamp: 'len 8/25/2016 08:29'!
+isCommutative
+	^ words isCommutative and: [scalars isCommutative]! !
+
+!FreeAlgebra methodsFor: 'testing' stamp: 'len 8/25/2016 08:30'!
+isCountable
+	^ words isCountable and: [scalars isCountable]! !
+
+!FreeAlgebra methodsFor: 'testing' stamp: 'len 8/25/2016 08:30'!
+isFinite
+	^ words isFinite and: [scalars isFinite]! !
+
+!FreeAlgebra methodsFor: 'elements' stamp: 'len 8/25/2016 08:19'!
+new
+	^ FreePolynomial new! !
+
+!FreeAlgebra methodsFor: 'elements' stamp: 'len 1/20/2016 14:06'!
+one
+	^ self constant: scalars one! !
+
+!FreeAlgebra methodsFor: 'printing' stamp: 'len 8/25/2016 08:22'!
+printOn: aStream
+	aStream print: scalars.
+	aStream nextPut: ${.
+	self indeterminates
+		do: [:i| aStream print: (Word x: i)]
+		separatedBy: [aStream nextPut: $,].
+	aStream nextPut: $}! !
+
+!FreeAlgebra methodsFor: 'accessing' stamp: 'len 3/5/2016 04:30'!
+rank
+	self flag: #fix. "conflicts with FreeModule|rank"
+	^ self indeterminates size! !
+
+!FreeAlgebra methodsFor: 'accessing' stamp: 'len 1/20/2016 14:58'!
+scalars
+	^ scalars! !
+
+!FreeAlgebra methodsFor: 'accessing-private' stamp: 'len 1/20/2016 13:39'!
+scalars: aCommutativeRing
+	scalars _ aCommutativeRing! !
+
+!FreeAlgebra methodsFor: 'accessing' stamp: 'len 8/25/2016 08:27'!
+words
+	^ words! !
+
+!FreeAlgebra methodsFor: 'accessing-private' stamp: 'len 8/25/2016 08:24'!
+words: aMonoid
+	words _ aMonoid! !
+
+!FreeAlgebra methodsFor: 'elements' stamp: 'len 8/25/2016 08:21'!
+x
+	^ self x: self indeterminates first! !
+
+!FreeAlgebra methodsFor: 'elements' stamp: 'len 3/2/2016 05:56'!
+x: anIndeterminate
+	^ self coefficient: scalars one word: (Word x: anIndeterminate)! !
+
+!FreeAlgebra methodsFor: 'elements' stamp: 'len 8/25/2016 08:22'!
+y
+	^ self x: self indeterminates second! !
+
+!FreeAlgebra methodsFor: 'elements' stamp: 'len 8/25/2016 08:21'!
+z
+	^ self x: self indeterminates third! !
+
+!FreeAlgebra methodsFor: 'elements' stamp: 'len 3/2/2016 05:55'!
+zero
+	^ self new! !
+
+!FreeAlgebra class methodsFor: 'instance creation' stamp: 'len 6/30/2016 02:27'!
+new: anInteger over: aRing
+	^ self on: (1 to: anInteger) over: aRing! !
+
+!FreeAlgebra class methodsFor: 'instance creation' stamp: 'len 8/25/2016 08:25'!
+on: aCollection over: aRing
+	^ self words: (FreeMonoid on: aCollection) over: aRing! !
+
+!FreeAlgebra class methodsFor: 'instance creation' stamp: 'len 1/20/2016 13:38'!
+over: aRing
+	^ self new: 1 over: aRing! !
+
+!FreeAlgebra class methodsFor: 'instance creation' stamp: 'len 8/25/2016 08:24'!
+words: aMonoid over: aRing
+	^ self new words: aMonoid; scalars: aRing! !
+
+!GroupRing methodsFor: 'comparing' stamp: 'len 8/26/2016 01:30'!
+<= aGroupRing
+	(aGroupRing isKindOf: GroupRing) ifFalse: [^ super <= aGroupRing].
+	^ self scalars <= aGroupRing scalars and: [self group <= aGroupRing group]! !
+
+!GroupRing methodsFor: 'comparing' stamp: 'len 8/25/2016 08:35'!
+= anObject
+	self == anObject ifTrue: [^ true].
+	^ (anObject isKindOf: GroupRing) and: [anObject scalars = scalars and: [anObject group = group]]! !
+
+!GroupRing methodsFor: 'morphisms' stamp: 'len 8/25/2016 08:36'!
+embed: aGroupElement
+	^ FreePolynomial new coefficientAt: aGroupElement put: scalars one! !
+
+!GroupRing methodsFor: 'morphisms' stamp: 'len 8/7/2016 08:42'!
+embedding
+	^ Function from: self group to: self evaluating: [:g| self embed: g]! !
+
+!GroupRing methodsFor: 'accessing' stamp: 'len 8/7/2016 08:36'!
+group
+	^ group! !
+
+!GroupRing methodsFor: 'accessing-private' stamp: 'len 8/7/2016 08:37'!
+group: aGroup
+	group _ aGroup! !
+
+!GroupRing methodsFor: 'comparing' stamp: 'len 8/25/2016 08:35'!
+hash
+	^ scalars hash + group hash hashMultiply! !
+
+!GroupRing methodsFor: 'testing' stamp: 'len 8/25/2016 08:36'!
+includes: anObject
+	anObject coefficients keysAndValuesDo: [:key :value|
+		(group includes: key) ifFalse: [^ false].
+		(scalars includes: value) ifFalse: [^ false]].
+	^ true! !
+
+!GroupRing methodsFor: 'testing' stamp: 'len 8/25/2016 08:37'!
+isCommutative
+	^ scalars isCommutative and: [group isCommutative]! !
+
+!GroupRing methodsFor: 'testing' stamp: 'len 8/25/2016 08:38'!
+isCountable
+	^ scalars isCountable and: [group isCountable]! !
+
+!GroupRing methodsFor: 'testing' stamp: 'len 8/25/2016 08:38'!
+isFinite
+	^ scalars isFinite and: [group isFinite]! !
+
+!GroupRing methodsFor: 'accessing' stamp: 'len 8/7/2016 08:40'!
+one
+	^ self embed: self group identity! !
+
+!GroupRing methodsFor: 'printing' stamp: 'len 8/7/2016 08:38'!
+printOn: aStream
+	aStream print: self scalars; nextPut: $[; print: self group; nextPut: $]! !
+
+!GroupRing methodsFor: 'accessing' stamp: 'len 8/7/2016 08:38'!
+scalars
+	^ scalars! !
+
+!GroupRing methodsFor: 'accessing-private' stamp: 'len 8/7/2016 08:38'!
+scalars: aRing
+	scalars _ aRing! !
+
+!GroupRing class methodsFor: 'instance creation' stamp: 'len 8/7/2016 08:39'!
+on: aGroup over: aRing
+	^ self new group: aGroup; scalars: aRing! !
+
 !DirectProductRing methodsFor: 'comparing' stamp: 'len 8/29/2016 04:13'!
 = anObject
 	^ (anObject isKindOf: DirectProductGroup) and: [anObject components = components]! !
@@ -14341,6 +14703,201 @@ zero
 !DirectProductRing class methodsFor: 'instance creation' stamp: 'len 8/29/2016 04:09'!
 components: anArray
 	^ self new components: anArray! !
+
+!QuotientRing methodsFor: 'comparing' stamp: 'len 12/14/2015 01:57'!
+= anObject
+	self == anObject ifTrue: [^ true].
+	(anObject isKindOf: QuotientRing) ifFalse: [^ false].
+	^ ideal = anObject ideal! !
+
+!QuotientRing methodsFor: 'random' stamp: 'len 4/19/2016 23:05'!
+atRandom: aRandom
+	^ self project: (ideal remainderAtRandom: aRandom)
+"	^ self project: (ideal ring atRandom: aRandom)"! !
+
+!QuotientRing methodsFor: 'random' stamp: 'len 4/19/2016 23:01'!
+atRandom: aRandom bits: bitSize
+	^ self atRandom: aRandom
+"	^ self project: (ideal ring atRandom: aRandom bits: bitSize)"! !
+
+!QuotientRing methodsFor: 'accessing' stamp: 'len 8/24/2016 19:03'!
+base
+	^ ideal ambient! !
+
+!QuotientRing methodsFor: 'morphisms' stamp: 'len 2/5/2016 19:52'!
+conjugation
+	"Answer the companion automorphism of the receiver, i.e. the Frobenius automorphism."
+	^ self frobenius! !
+
+!QuotientRing methodsFor: 'private' stamp: 'len 8/24/2016 19:04'!
+defaultProjection
+	"Answer the natural projection, or quotient map, or canonical homomorphism. This takes elements from the base ring to the corresponding residue class in the quotient ring."
+	| answer |
+	answer _ Function from: self base to: self evaluating: [:each| self project: each].
+	answer properties
+		at: #kernel put: ideal;
+		at: #image put: self;
+		at: #rightInverse put: (Function from: self to: self base evaluating: [:each| each representative]).
+	^ answer! !
+
+!QuotientRing methodsFor: 'iterating' stamp: 'len 6/27/2016 23:22'!
+do: aBlock
+	| visited |
+	self flag: #fix. "does this work in any ring? depends on ring|#do:"
+	visited _ Set2 new.
+	ideal ambient do: [:each|
+		| q |
+		visited add: (q _ self project: each) ifPresent: [^ self].
+		aBlock value: q]! !
+
+!QuotientRing methodsFor: 'private' stamp: 'len 3/29/2016 23:45'!
+elementClass
+	^ properties at: #elementClass ifAbsentPut: [Residue]! !
+
+!QuotientRing methodsFor: 'comparing' stamp: 'len 12/14/2015 01:57'!
+hash
+	^ ideal hash! !
+
+!QuotientRing methodsFor: 'accessing' stamp: 'len 11/21/2015 17:14'!
+ideal
+	^ ideal! !
+
+!QuotientRing methodsFor: 'accessing-private' stamp: 'len 11/21/2015 17:13'!
+ideal: anIdeal
+	ideal _ anIdeal! !
+
+!QuotientRing methodsFor: 'testing' stamp: 'len 5/23/2016 04:21'!
+includes: anObject
+	anObject class = self elementClass ifFalse: [^ false].
+	^ ideal ambient includes: anObject representative! !
+
+!QuotientRing methodsFor: 'testing' stamp: 'len 5/23/2016 04:21'!
+isCommutative
+	ideal ambient isCommutative ifTrue: [^ true]. "if the ring is not commutative, we dont know if the quotient is or not"
+	^ super isCommutative! !
+
+!QuotientRing methodsFor: 'testing' stamp: 'len 5/23/2016 04:21'!
+isEuclidean
+	^ ideal ambient isEuclidean! !
+
+!QuotientRing methodsFor: 'testing' stamp: 'len 5/23/2016 04:21'!
+isField
+	"Answer true if the receiver forms a residue field."
+	^ properties at: #isField ifAbsentPut: [ideal ambient isTrivial not and: [ideal ambient isCommutative and: [ideal isMaximal]]]! !
+
+!QuotientRing methodsFor: 'testing' stamp: 'len 5/23/2016 04:21'!
+isIntegralDomain
+	^ properties at: #isIntegralDomain ifAbsentPut: [(ideal ambient isTrivial not and: [ideal ambient isCommutative and: [ideal isPrime]]) or: [self isIntegrallyClosedDomain]]! !
+
+!QuotientRing methodsFor: 'testing' stamp: 'len 8/10/2016 01:01'!
+isQuotient
+	^ true! !
+
+!QuotientRing methodsFor: 'testing' stamp: 'len 11/23/2015 21:34'!
+isReduced
+	"A quotient ring is reduced iff the ideal is radical."
+	^ ideal isRadical! !
+
+!QuotientRing methodsFor: 'accessing' stamp: 'len 4/25/2016 00:30'!
+modulus
+	^ self ideal generator! !
+
+!QuotientRing methodsFor: 'accessing' stamp: 'len 5/23/2016 04:21'!
+one
+	^ self project: ideal ambient one! !
+
+!QuotientRing methodsFor: 'printing' stamp: 'len 6/25/2016 01:39'!
+printOn: aStream
+	(ideal ambient printString includes: $/)
+		ifTrue: [aStream nextPut: $(; print: ideal ambient; nextPut: $)]
+		ifFalse: [aStream print: ideal ambient].
+	aStream nextPut: $/; print: ideal! !
+
+!QuotientRing methodsFor: 'morphisms' stamp: 'len 7/7/2016 20:46'!
+project: anElement
+	^ self elementClass representative: (ideal reduce: anElement) ideal: ideal! !
+
+!QuotientRing methodsFor: 'morphisms' stamp: 'len 2/8/2016 04:39'!
+projection
+	"Answer the natural projection, or quotient map, or canonical homomorphism. This takes elements from the base ring to the corresponding residue class in the quotient ring."
+	^ properties at: #projection ifAbsentPut: [self defaultProjection]! !
+
+!QuotientRing methodsFor: 'accessing' stamp: 'len 8/24/2016 19:04'!
+relation
+	^ EquivalenceRelation on: self base evaluating: [:a :b| ideal includes: a - b]! !
+
+!QuotientRing methodsFor: 'morphisms' stamp: 'len 8/24/2016 19:00'!
+section
+	^ self projection section! !
+
+!QuotientRing methodsFor: 'accessing' stamp: 'len 5/23/2016 04:22'!
+zero
+	^ self project: ideal ambient zero! !
+
+!QuotientRing class methodsFor: 'instance creation' stamp: 'len 11/28/2015 05:54'!
+by: anIdeal
+	^ self new ideal: anIdeal! !
+
+!ModularIntegers methodsFor: 'random' stamp: 'len 4/25/2016 00:26'!
+atRandom: aRandom
+	^ self project: (self modulus atRandom: aRandom) - 1! !
+
+!ModularIntegers methodsFor: 'random' stamp: 'len 4/19/2016 22:14'!
+atRandom: aRandom bits: bitSize
+	^ self atRandom: aRandom! !
+
+!ModularIntegers methodsFor: 'accessing' stamp: 'len 4/25/2016 00:26'!
+characteristic
+	^ self modulus! !
+
+!ModularIntegers methodsFor: 'private' stamp: 'len 4/15/2016 21:10'!
+elementClass
+	^ ModularInteger! !
+
+!ModularIntegers methodsFor: 'testing' stamp: 'len 5/12/2016 23:20'!
+isField
+	^ properties at: #isField ifAbsentPut: [self modulus isPrime]! !
+
+!ModularIntegers methodsFor: 'testing' stamp: 'len 5/12/2016 23:34'!
+isUnit: anElement
+	^ (anElement representative gcd: self modulus) = 1! !
+
+!ModularIntegers methodsFor: 'accessing' stamp: 'len 4/25/2016 00:27'!
+size
+	^ self modulus! !
+
+!ModularIntegers methodsFor: 'private' stamp: 'len 4/25/2016 00:27'!
+tupleClass
+	self flag: #fix.
+	^ self modulus = 2 ifTrue: [^ BitTuple] ifFalse: [Tuple] "ModularTuple"! !
+
+!CoordinateRing methodsFor: 'operations' stamp: 'len 6/3/2016 23:22'!
+fractions
+	^ FunctionField over: self! !
+
+!CoordinateRing methodsFor: 'testing' stamp: 'len 3/5/2016 07:25'!
+includes: anObject
+	^ (anObject isKindOf: PolynomialFunction) and: [anObject domain = variety]! !
+
+!CoordinateRing methodsFor: 'printing' stamp: 'len 4/21/2016 00:08'!
+printOn: aStream
+	aStream print: variety groundField; nextPut: $[; print: variety; nextPut: $]! !
+
+!CoordinateRing methodsFor: 'morphisms' stamp: 'len 7/7/2016 20:44'!
+project: aPolynomial
+	^ PolynomialFunction from: variety representative: (variety ideal reduce: aPolynomial)! !
+
+!CoordinateRing methodsFor: 'accessing' stamp: 'len 2/8/2016 02:27'!
+variety
+	^ variety! !
+
+!CoordinateRing methodsFor: 'accessing-private' stamp: 'len 2/8/2016 02:27'!
+variety: anAlgebraicVariety
+	variety _ anAlgebraicVariety! !
+
+!CoordinateRing class methodsFor: 'instance creation' stamp: 'len 4/25/2016 21:02'!
+on: anAlgebraicVariety
+	^ (self by: anAlgebraicVariety ideal) variety: anAlgebraicVariety! !
 
 !Field methodsFor: 'operations' stamp: 'len 12/15/2015 22:30'!
 algebraicClosure
@@ -14450,6 +15007,109 @@ GF: q
 	P _ F polynomials.
 	f _ P findIrreducibleOfDegree: n.
 	^ (F extension: f) name: 'GF(',p printString,'^',n printString,')'! !
+
+!ComplexNumbers methodsFor: 'accessing' stamp: 'len 8/6/2016 03:44'!
+characteristic
+	^ 0! !
+
+!ComplexNumbers methodsFor: 'accessing' stamp: 'len 8/6/2016 03:44'!
+conjugation
+	^ Function from: self to: self evaluating: [:x| x conjugated]! !
+
+!ComplexNumbers methodsFor: 'iterating' stamp: 'len 8/6/2016 03:50'!
+do: aBlock
+	^ self shouldNotImplement! !
+
+!ComplexNumbers methodsFor: 'converting' stamp: 'len 8/5/2016 21:53'!
+extended
+	^ ExtendedComplexNumbers new! !
+
+!ComplexNumbers methodsFor: 'testing' stamp: 'len 8/5/2016 21:50'!
+includes: anObject
+	^ anObject isComplex! !
+
+!ComplexNumbers methodsFor: 'testing' stamp: 'len 8/12/2016 04:48'!
+isAlgebraicallyClosed
+	^ true! !
+
+!ComplexNumbers methodsFor: 'testing' stamp: 'len 8/5/2016 21:55'!
+isComplex
+	^ true! !
+
+!ComplexNumbers methodsFor: 'accessing' stamp: 'len 8/6/2016 03:45'!
+one
+	^ 1! !
+
+!ComplexNumbers methodsFor: 'printing' stamp: 'len 8/5/2016 21:35'!
+printOn: aStream
+	aStream nextPut: Character CC! !
+
+!ComplexNumbers methodsFor: 'accessing' stamp: 'len 8/6/2016 03:44'!
+size
+	^ Aleph new: 1! !
+
+!ComplexNumbers methodsFor: 'accessing' stamp: 'len 8/6/2016 03:45'!
+zero
+	^ 0! !
+
+!ComplexNumbers class methodsFor: 'initialization' stamp: 'len 8/5/2016 21:34'!
+initialize
+	super initialize.
+	Smalltalk at: #CC put: self new! !
+
+!ExtendedComplexNumbers methodsFor: 'testing' stamp: 'len 8/5/2016 21:49'!
+includes: anObject
+	^ anObject isComplex or: [anObject isInfinity]! !
+
+!ExtendedComplexNumbers methodsFor: 'testing' stamp: 'len 8/5/2016 21:55'!
+isComplex
+	^ true! !
+
+!ExtendedComplexNumbers methodsFor: 'printing' stamp: 'len 8/5/2016 21:48'!
+printOn: aStream
+	aStream nextPut: Character CC; nextPutAll: ' U {'; nextPut: Character infinity; nextPut: $}
+"	aStream nextPut: Character CC; nextPutAll: Character infinity asString sub"! !
+
+!PAdicNumbers methodsFor: 'as yet unclassified' stamp: 'len 7/17/2016 23:33'!
+p: aPrime
+	p _ aPrime! !
+
+!PAdicNumbers methodsFor: 'as yet unclassified' stamp: 'len 7/17/2016 23:33'!
+printOn: aStream
+	aStream nextPut: Character QQ; nextPutAll: p printString sub! !
+
+!PAdicNumbers class methodsFor: 'as yet unclassified' stamp: 'len 7/17/2016 23:33'!
+p: aPrime
+	^ self new p: aPrime! !
+
+!Reals methodsFor: 'accessing' stamp: 'len 8/6/2016 03:45'!
+characteristic
+	^ 0! !
+
+!Reals methodsFor: 'iterating' stamp: 'len 8/6/2016 03:50'!
+do: aBlock
+	^ self shouldNotImplement! !
+
+!Reals methodsFor: 'testing' stamp: 'len 8/5/2016 21:50'!
+includes: anObject
+	^ anObject isReal! !
+
+!Reals methodsFor: 'testing' stamp: 'len 8/5/2016 21:55'!
+isReal
+	^ true! !
+
+!Reals methodsFor: 'printing' stamp: 'len 8/5/2016 21:35'!
+printOn: aStream
+	aStream nextPut: Character RR! !
+
+!Reals methodsFor: 'accessing' stamp: 'len 8/6/2016 03:45'!
+size
+	^ Aleph new: 1! !
+
+!Reals class methodsFor: 'initialization' stamp: 'len 8/5/2016 21:33'!
+initialize
+	super initialize.
+	Smalltalk at: #RR put: self new! !
 
 !FractionField methodsFor: 'comparing' stamp: 'len 12/14/2015 01:58'!
 = anObject
@@ -14846,109 +15506,6 @@ tupleClass
 new: aPrime
 	^ self by: ZZ * aPrime! !
 
-!ComplexNumbers methodsFor: 'accessing' stamp: 'len 8/6/2016 03:44'!
-characteristic
-	^ 0! !
-
-!ComplexNumbers methodsFor: 'accessing' stamp: 'len 8/6/2016 03:44'!
-conjugation
-	^ Function from: self to: self evaluating: [:x| x conjugated]! !
-
-!ComplexNumbers methodsFor: 'iterating' stamp: 'len 8/6/2016 03:50'!
-do: aBlock
-	^ self shouldNotImplement! !
-
-!ComplexNumbers methodsFor: 'converting' stamp: 'len 8/5/2016 21:53'!
-extended
-	^ ExtendedComplexNumbers new! !
-
-!ComplexNumbers methodsFor: 'testing' stamp: 'len 8/5/2016 21:50'!
-includes: anObject
-	^ anObject isComplex! !
-
-!ComplexNumbers methodsFor: 'testing' stamp: 'len 8/12/2016 04:48'!
-isAlgebraicallyClosed
-	^ true! !
-
-!ComplexNumbers methodsFor: 'testing' stamp: 'len 8/5/2016 21:55'!
-isComplex
-	^ true! !
-
-!ComplexNumbers methodsFor: 'accessing' stamp: 'len 8/6/2016 03:45'!
-one
-	^ 1! !
-
-!ComplexNumbers methodsFor: 'printing' stamp: 'len 8/5/2016 21:35'!
-printOn: aStream
-	aStream nextPut: Character CC! !
-
-!ComplexNumbers methodsFor: 'accessing' stamp: 'len 8/6/2016 03:44'!
-size
-	^ Aleph new: 1! !
-
-!ComplexNumbers methodsFor: 'accessing' stamp: 'len 8/6/2016 03:45'!
-zero
-	^ 0! !
-
-!ComplexNumbers class methodsFor: 'initialization' stamp: 'len 8/5/2016 21:34'!
-initialize
-	super initialize.
-	Smalltalk at: #CC put: self new! !
-
-!ExtendedComplexNumbers methodsFor: 'testing' stamp: 'len 8/5/2016 21:49'!
-includes: anObject
-	^ anObject isComplex or: [anObject isInfinity]! !
-
-!ExtendedComplexNumbers methodsFor: 'testing' stamp: 'len 8/5/2016 21:55'!
-isComplex
-	^ true! !
-
-!ExtendedComplexNumbers methodsFor: 'printing' stamp: 'len 8/5/2016 21:48'!
-printOn: aStream
-	aStream nextPut: Character CC; nextPutAll: ' U {'; nextPut: Character infinity; nextPut: $}
-"	aStream nextPut: Character CC; nextPutAll: Character infinity asString sub"! !
-
-!PAdicNumbers methodsFor: 'as yet unclassified' stamp: 'len 7/17/2016 23:33'!
-p: aPrime
-	p _ aPrime! !
-
-!PAdicNumbers methodsFor: 'as yet unclassified' stamp: 'len 7/17/2016 23:33'!
-printOn: aStream
-	aStream nextPut: Character QQ; nextPutAll: p printString sub! !
-
-!PAdicNumbers class methodsFor: 'as yet unclassified' stamp: 'len 7/17/2016 23:33'!
-p: aPrime
-	^ self new p: aPrime! !
-
-!Reals methodsFor: 'accessing' stamp: 'len 8/6/2016 03:45'!
-characteristic
-	^ 0! !
-
-!Reals methodsFor: 'iterating' stamp: 'len 8/6/2016 03:50'!
-do: aBlock
-	^ self shouldNotImplement! !
-
-!Reals methodsFor: 'testing' stamp: 'len 8/5/2016 21:50'!
-includes: anObject
-	^ anObject isReal! !
-
-!Reals methodsFor: 'testing' stamp: 'len 8/5/2016 21:55'!
-isReal
-	^ true! !
-
-!Reals methodsFor: 'printing' stamp: 'len 8/5/2016 21:35'!
-printOn: aStream
-	aStream nextPut: Character RR! !
-
-!Reals methodsFor: 'accessing' stamp: 'len 8/6/2016 03:45'!
-size
-	^ Aleph new: 1! !
-
-!Reals class methodsFor: 'initialization' stamp: 'len 8/5/2016 21:33'!
-initialize
-	super initialize.
-	Smalltalk at: #RR put: self new! !
-
 !AlgebraicExtension methodsFor: 'converting' stamp: 'len 3/19/2016 03:18'!
 asQuotientRing
 	^ properties at: #quotientRing ifAbsentPut: [self baseField polynomials mod: self polynomial]! !
@@ -15271,563 +15828,6 @@ size
 !RealAlgebraicNumbers methodsFor: 'elements' stamp: 'len 2/11/2016 19:36'!
 zero
 	^ 0! !
-
-!QuotientRing methodsFor: 'comparing' stamp: 'len 12/14/2015 01:57'!
-= anObject
-	self == anObject ifTrue: [^ true].
-	(anObject isKindOf: QuotientRing) ifFalse: [^ false].
-	^ ideal = anObject ideal! !
-
-!QuotientRing methodsFor: 'random' stamp: 'len 4/19/2016 23:05'!
-atRandom: aRandom
-	^ self project: (ideal remainderAtRandom: aRandom)
-"	^ self project: (ideal ring atRandom: aRandom)"! !
-
-!QuotientRing methodsFor: 'random' stamp: 'len 4/19/2016 23:01'!
-atRandom: aRandom bits: bitSize
-	^ self atRandom: aRandom
-"	^ self project: (ideal ring atRandom: aRandom bits: bitSize)"! !
-
-!QuotientRing methodsFor: 'accessing' stamp: 'len 8/24/2016 19:03'!
-base
-	^ ideal ambient! !
-
-!QuotientRing methodsFor: 'morphisms' stamp: 'len 2/5/2016 19:52'!
-conjugation
-	"Answer the companion automorphism of the receiver, i.e. the Frobenius automorphism."
-	^ self frobenius! !
-
-!QuotientRing methodsFor: 'private' stamp: 'len 8/24/2016 19:04'!
-defaultProjection
-	"Answer the natural projection, or quotient map, or canonical homomorphism. This takes elements from the base ring to the corresponding residue class in the quotient ring."
-	| answer |
-	answer _ Function from: self base to: self evaluating: [:each| self project: each].
-	answer properties
-		at: #kernel put: ideal;
-		at: #image put: self;
-		at: #rightInverse put: (Function from: self to: self base evaluating: [:each| each representative]).
-	^ answer! !
-
-!QuotientRing methodsFor: 'iterating' stamp: 'len 6/27/2016 23:22'!
-do: aBlock
-	| visited |
-	self flag: #fix. "does this work in any ring? depends on ring|#do:"
-	visited _ Set2 new.
-	ideal ambient do: [:each|
-		| q |
-		visited add: (q _ self project: each) ifPresent: [^ self].
-		aBlock value: q]! !
-
-!QuotientRing methodsFor: 'private' stamp: 'len 3/29/2016 23:45'!
-elementClass
-	^ properties at: #elementClass ifAbsentPut: [Residue]! !
-
-!QuotientRing methodsFor: 'comparing' stamp: 'len 12/14/2015 01:57'!
-hash
-	^ ideal hash! !
-
-!QuotientRing methodsFor: 'accessing' stamp: 'len 11/21/2015 17:14'!
-ideal
-	^ ideal! !
-
-!QuotientRing methodsFor: 'accessing-private' stamp: 'len 11/21/2015 17:13'!
-ideal: anIdeal
-	ideal _ anIdeal! !
-
-!QuotientRing methodsFor: 'testing' stamp: 'len 5/23/2016 04:21'!
-includes: anObject
-	anObject class = self elementClass ifFalse: [^ false].
-	^ ideal ambient includes: anObject representative! !
-
-!QuotientRing methodsFor: 'testing' stamp: 'len 5/23/2016 04:21'!
-isCommutative
-	ideal ambient isCommutative ifTrue: [^ true]. "if the ring is not commutative, we dont know if the quotient is or not"
-	^ super isCommutative! !
-
-!QuotientRing methodsFor: 'testing' stamp: 'len 5/23/2016 04:21'!
-isEuclidean
-	^ ideal ambient isEuclidean! !
-
-!QuotientRing methodsFor: 'testing' stamp: 'len 5/23/2016 04:21'!
-isField
-	"Answer true if the receiver forms a residue field."
-	^ properties at: #isField ifAbsentPut: [ideal ambient isTrivial not and: [ideal ambient isCommutative and: [ideal isMaximal]]]! !
-
-!QuotientRing methodsFor: 'testing' stamp: 'len 5/23/2016 04:21'!
-isIntegralDomain
-	^ properties at: #isIntegralDomain ifAbsentPut: [(ideal ambient isTrivial not and: [ideal ambient isCommutative and: [ideal isPrime]]) or: [self isIntegrallyClosedDomain]]! !
-
-!QuotientRing methodsFor: 'testing' stamp: 'len 8/10/2016 01:01'!
-isQuotient
-	^ true! !
-
-!QuotientRing methodsFor: 'testing' stamp: 'len 11/23/2015 21:34'!
-isReduced
-	"A quotient ring is reduced iff the ideal is radical."
-	^ ideal isRadical! !
-
-!QuotientRing methodsFor: 'accessing' stamp: 'len 4/25/2016 00:30'!
-modulus
-	^ self ideal generator! !
-
-!QuotientRing methodsFor: 'accessing' stamp: 'len 5/23/2016 04:21'!
-one
-	^ self project: ideal ambient one! !
-
-!QuotientRing methodsFor: 'printing' stamp: 'len 6/25/2016 01:39'!
-printOn: aStream
-	(ideal ambient printString includes: $/)
-		ifTrue: [aStream nextPut: $(; print: ideal ambient; nextPut: $)]
-		ifFalse: [aStream print: ideal ambient].
-	aStream nextPut: $/; print: ideal! !
-
-!QuotientRing methodsFor: 'morphisms' stamp: 'len 7/7/2016 20:46'!
-project: anElement
-	^ self elementClass representative: (ideal reduce: anElement) ideal: ideal! !
-
-!QuotientRing methodsFor: 'morphisms' stamp: 'len 2/8/2016 04:39'!
-projection
-	"Answer the natural projection, or quotient map, or canonical homomorphism. This takes elements from the base ring to the corresponding residue class in the quotient ring."
-	^ properties at: #projection ifAbsentPut: [self defaultProjection]! !
-
-!QuotientRing methodsFor: 'accessing' stamp: 'len 8/24/2016 19:04'!
-relation
-	^ EquivalenceRelation on: self base evaluating: [:a :b| ideal includes: a - b]! !
-
-!QuotientRing methodsFor: 'morphisms' stamp: 'len 8/24/2016 19:00'!
-section
-	^ self projection section! !
-
-!QuotientRing methodsFor: 'accessing' stamp: 'len 5/23/2016 04:22'!
-zero
-	^ self project: ideal ambient zero! !
-
-!QuotientRing class methodsFor: 'instance creation' stamp: 'len 11/28/2015 05:54'!
-by: anIdeal
-	^ self new ideal: anIdeal! !
-
-!ModularIntegers methodsFor: 'random' stamp: 'len 4/25/2016 00:26'!
-atRandom: aRandom
-	^ self project: (self modulus atRandom: aRandom) - 1! !
-
-!ModularIntegers methodsFor: 'random' stamp: 'len 4/19/2016 22:14'!
-atRandom: aRandom bits: bitSize
-	^ self atRandom: aRandom! !
-
-!ModularIntegers methodsFor: 'accessing' stamp: 'len 4/25/2016 00:26'!
-characteristic
-	^ self modulus! !
-
-!ModularIntegers methodsFor: 'private' stamp: 'len 4/15/2016 21:10'!
-elementClass
-	^ ModularInteger! !
-
-!ModularIntegers methodsFor: 'testing' stamp: 'len 5/12/2016 23:20'!
-isField
-	^ properties at: #isField ifAbsentPut: [self modulus isPrime]! !
-
-!ModularIntegers methodsFor: 'testing' stamp: 'len 5/12/2016 23:34'!
-isUnit: anElement
-	^ (anElement representative gcd: self modulus) = 1! !
-
-!ModularIntegers methodsFor: 'accessing' stamp: 'len 4/25/2016 00:27'!
-size
-	^ self modulus! !
-
-!ModularIntegers methodsFor: 'private' stamp: 'len 4/25/2016 00:27'!
-tupleClass
-	self flag: #fix.
-	^ self modulus = 2 ifTrue: [^ BitTuple] ifFalse: [Tuple] "ModularTuple"! !
-
-!CoordinateRing methodsFor: 'operations' stamp: 'len 6/3/2016 23:22'!
-fractions
-	^ FunctionField over: self! !
-
-!CoordinateRing methodsFor: 'testing' stamp: 'len 3/5/2016 07:25'!
-includes: anObject
-	^ (anObject isKindOf: PolynomialFunction) and: [anObject domain = variety]! !
-
-!CoordinateRing methodsFor: 'printing' stamp: 'len 4/21/2016 00:08'!
-printOn: aStream
-	aStream print: variety groundField; nextPut: $[; print: variety; nextPut: $]! !
-
-!CoordinateRing methodsFor: 'morphisms' stamp: 'len 7/7/2016 20:44'!
-project: aPolynomial
-	^ PolynomialFunction from: variety representative: (variety ideal reduce: aPolynomial)! !
-
-!CoordinateRing methodsFor: 'accessing' stamp: 'len 2/8/2016 02:27'!
-variety
-	^ variety! !
-
-!CoordinateRing methodsFor: 'accessing-private' stamp: 'len 2/8/2016 02:27'!
-variety: anAlgebraicVariety
-	variety _ anAlgebraicVariety! !
-
-!CoordinateRing class methodsFor: 'instance creation' stamp: 'len 4/25/2016 21:02'!
-on: anAlgebraicVariety
-	^ (self by: anAlgebraicVariety ideal) variety: anAlgebraicVariety! !
-
-!GaussianIntegers methodsFor: 'testing' stamp: 'len 6/5/2016 06:10'!
-includes: anObject
-	^ anObject isInteger or: [anObject isComplex and: [anObject real isInteger and: [anObject imaginary isInteger]]]! !
-
-!GaussianIntegers methodsFor: 'testing' stamp: 'len 6/5/2016 06:08'!
-isCountable
-	^ true! !
-
-!GaussianIntegers methodsFor: 'testing' stamp: 'len 6/5/2016 06:08'!
-isFinite
-	^ false! !
-
-!GaussianIntegers methodsFor: 'testing' stamp: 'len 6/5/2016 06:15'!
-isPID
-	^ true! !
-
-!GaussianIntegers methodsFor: 'accessing' stamp: 'len 6/5/2016 06:13'!
-one
-	^ 1! !
-
-!GaussianIntegers methodsFor: 'printing' stamp: 'len 6/8/2016 21:04'!
-printOn: aStream
-	aStream nextPutAll: Character ZZ asString, '[i]'! !
-
-!GaussianIntegers methodsFor: 'accessing' stamp: 'len 6/5/2016 06:14'!
-size
-	^ Aleph new: 0! !
-
-!GaussianIntegers methodsFor: 'accessing' stamp: 'len 6/5/2016 06:13'!
-zero
-	^ 0! !
-
-!Integers methodsFor: 'operations' stamp: 'len 12/5/2015 23:51'!
-* anIntegerOrArray
-	^ (self includes: anIntegerOrArray)
-			ifTrue: [IntegerIdeal on: self generators: {anIntegerOrArray}]
-			ifFalse: [IntegerIdeal on: self generators: anIntegerOrArray]! !
-
-!Integers methodsFor: 'operations' stamp: 'len 6/29/2016 03:47'!
-/ anIdeal
-	^ ModularIntegers by: (anIdeal isInteger ifTrue: [self * anIdeal] ifFalse: [anIdeal])! !
-
-!Integers methodsFor: 'comparing' stamp: 'len 6/1/2016 23:56'!
-<= aDomain
-	^ aDomain isRing and: [(aDomain includes: 1) and: [aDomain includes: 0]]! !
-
-!Integers methodsFor: 'comparing' stamp: 'len 11/10/2015 23:14'!
-= anObject
-	^ anObject class == self class! !
-
-!Integers methodsFor: 'random' stamp: 'len 4/19/2016 22:12'!
-atRandom: aRandom bits: bitSize
-	| n |
-	bitSize isInfinity ifTrue: [^ self error: 'infinite bitsize'].
-	bitSize < 1 ifTrue: [^ self error: 'bitsize should be > 1'].
-	n _ 2**(bitSize truncated - 1).
-	^ (0-n to: n) atRandom: aRandom! !
-
-!Integers methodsFor: 'accessing' stamp: 'len 11/5/2015 17:34'!
-characteristic
-	^ 0! !
-
-!Integers methodsFor: 'iterating' stamp: 'len 11/10/2015 17:57'!
-do: aBlock
-	| i |
-	aBlock value: 0.
-	i _ 1.
-	[ aBlock value: i; value: i negated. i _ i + 1 ] repeat! !
-
-!Integers methodsFor: 'operations' stamp: 'len 7/15/2016 18:31'!
-fractions
-	^ QQ! !
-
-!Integers methodsFor: 'operations' stamp: 'len 6/30/2016 02:37'!
-freeModuleIn: aCollection
-	"Answer the free abelian group in the given indeterminates (a Z-module)."
-	^ FreeAbelianGroup on: aCollection! !
-
-!Integers methodsFor: 'comparing' stamp: 'len 12/14/2015 01:59'!
-hash
-	^ self class hash! !
-
-!Integers methodsFor: 'testing' stamp: 'len 11/23/2015 02:37'!
-includes: anObject
-	^ anObject isInteger! !
-
-!Integers methodsFor: 'testing' stamp: 'len 11/7/2015 21:58'!
-isCountable
-	^ true! !
-
-!Integers methodsFor: 'testing' stamp: 'len 11/4/2015 21:52'!
-isEuclidean
-	^ true! !
-
-!Integers methodsFor: 'testing' stamp: 'len 11/7/2015 21:58'!
-isFinite
-	^ false! !
-
-!Integers methodsFor: 'testing' stamp: 'len 12/28/2015 04:34'!
-isInvertible: anElement
-	^ anElement == 1 or: [anElement == -1]! !
-
-!Integers methodsFor: 'testing' stamp: 'len 2/11/2016 22:19'!
-isReal
-	^ true! !
-
-!Integers methodsFor: 'testing' stamp: 'len 5/12/2016 23:13'!
-isUnit: anInteger
-	^ anInteger = 1 or: [anInteger = -1]! !
-
-!Integers methodsFor: 'operations' stamp: 'len 8/10/2016 06:08'!
-modPrime: anInteger
-	^ PrimeField new: anInteger! !
-
-!Integers methodsFor: 'elements' stamp: 'len 11/5/2015 19:19'!
-one
-	^ 1! !
-
-!Integers methodsFor: 'printing' stamp: 'len 6/8/2016 21:35'!
-printOn: aStream
-	aStream nextPut: Character ZZ! !
-
-!Integers methodsFor: 'accessing' stamp: 'len 4/24/2016 02:58'!
-size
-	^ Aleph new! !
-
-!Integers methodsFor: 'accessing' stamp: 'len 7/17/2016 23:53'!
-valuation
-	^ Function from: self to: self evaluating: [:x| x abs]! !
-
-!Integers methodsFor: 'elements' stamp: 'len 11/3/2015 20:50'!
-zero
-	^ 0! !
-
-!Integers class methodsFor: 'initialization' stamp: 'len 8/5/2016 21:32'!
-initialize
-	super initialize.
-	Smalltalk at: #ZZ put: self new! !
-
-!PAdicIntegers methodsFor: 'testing' stamp: 'len 12/7/2015 01:29'!
-isIntegralDomain
-	^ true! !
-
-!PAdicIntegers methodsFor: 'elements' stamp: 'len 3/27/2016 02:02'!
-one
-	^ PAdicInteger fromNatural: 1 p: p! !
-
-!PAdicIntegers methodsFor: 'accessing' stamp: 'len 12/7/2015 01:16'!
-p
-	^ p! !
-
-!PAdicIntegers methodsFor: 'initialization' stamp: 'len 12/7/2015 01:16'!
-p: aPrime
-	p _ aPrime! !
-
-!PAdicIntegers methodsFor: 'printing' stamp: 'len 7/17/2016 23:05'!
-printOn: aStream
-	aStream nextPut: Character ZZ; nextPutAll: p printString sub! !
-
-!PAdicIntegers methodsFor: 'morphisms' stamp: 'len 7/17/2016 23:27'!
-project: anInteger
-	^ PAdicInteger fromNatural: anInteger p: p! !
-
-!PAdicIntegers methodsFor: 'elements' stamp: 'len 3/27/2016 02:03'!
-zero
-	^ PAdicInteger fromNatural: 0 p: p! !
-
-!PAdicIntegers class methodsFor: 'instance creation' stamp: 'len 12/7/2015 01:15'!
-p: aPrime
-	^ self new p: aPrime! !
-
-!FreeAlgebra methodsFor: 'comparing' stamp: 'len 8/25/2016 08:22'!
-= anObject
-	self == anObject ifTrue: [^ true].
-	^ (anObject isKindOf: FreeAlgebra) and: [anObject scalars = scalars and: [anObject words = words]]! !
-
-!FreeAlgebra methodsFor: 'elements' stamp: 'len 3/2/2016 05:54'!
-coefficient: aNumber word: aWord
-	^ self new coefficientAt: aWord put: aNumber; yourself! !
-
-!FreeAlgebra methodsFor: 'elements' stamp: 'len 8/25/2016 08:19'!
-coefficients: aCollection
-	^ FreePolynomial coefficients: aCollection! !
-
-!FreeAlgebra methodsFor: 'elements' stamp: 'len 8/25/2016 08:26'!
-constant: aNumber
-	^ self coefficient: aNumber word: words identity! !
-
-!FreeAlgebra methodsFor: 'comparing' stamp: 'len 8/25/2016 08:21'!
-hash
-	^ scalars hash + words hash hashMultiply! !
-
-!FreeAlgebra methodsFor: 'testing' stamp: 'len 8/25/2016 08:28'!
-includes: anObject
-	anObject coefficients keysAndValuesDo: [:key :value|
-		(words includes: key) ifFalse: [^ false].
-		(scalars includes: value) ifFalse: [^ false]].
-	^ true! !
-
-!FreeAlgebra methodsFor: 'accessing' stamp: 'len 8/25/2016 08:22'!
-indeterminates
-	^ words symbols! !
-
-!FreeAlgebra methodsFor: 'testing' stamp: 'len 3/5/2016 04:24'!
-isAssociative
-	^ true! !
-
-!FreeAlgebra methodsFor: 'testing' stamp: 'len 8/25/2016 08:29'!
-isCommutative
-	^ words isCommutative and: [scalars isCommutative]! !
-
-!FreeAlgebra methodsFor: 'testing' stamp: 'len 8/25/2016 08:30'!
-isCountable
-	^ words isCountable and: [scalars isCountable]! !
-
-!FreeAlgebra methodsFor: 'testing' stamp: 'len 8/25/2016 08:30'!
-isFinite
-	^ words isFinite and: [scalars isFinite]! !
-
-!FreeAlgebra methodsFor: 'elements' stamp: 'len 8/25/2016 08:19'!
-new
-	^ FreePolynomial new! !
-
-!FreeAlgebra methodsFor: 'elements' stamp: 'len 1/20/2016 14:06'!
-one
-	^ self constant: scalars one! !
-
-!FreeAlgebra methodsFor: 'printing' stamp: 'len 8/25/2016 08:22'!
-printOn: aStream
-	aStream print: scalars.
-	aStream nextPut: ${.
-	self indeterminates
-		do: [:i| aStream print: (Word x: i)]
-		separatedBy: [aStream nextPut: $,].
-	aStream nextPut: $}! !
-
-!FreeAlgebra methodsFor: 'accessing' stamp: 'len 3/5/2016 04:30'!
-rank
-	self flag: #fix. "conflicts with FreeModule|rank"
-	^ self indeterminates size! !
-
-!FreeAlgebra methodsFor: 'accessing' stamp: 'len 1/20/2016 14:58'!
-scalars
-	^ scalars! !
-
-!FreeAlgebra methodsFor: 'accessing-private' stamp: 'len 1/20/2016 13:39'!
-scalars: aCommutativeRing
-	scalars _ aCommutativeRing! !
-
-!FreeAlgebra methodsFor: 'accessing' stamp: 'len 8/25/2016 08:27'!
-words
-	^ words! !
-
-!FreeAlgebra methodsFor: 'accessing-private' stamp: 'len 8/25/2016 08:24'!
-words: aMonoid
-	words _ aMonoid! !
-
-!FreeAlgebra methodsFor: 'elements' stamp: 'len 8/25/2016 08:21'!
-x
-	^ self x: self indeterminates first! !
-
-!FreeAlgebra methodsFor: 'elements' stamp: 'len 3/2/2016 05:56'!
-x: anIndeterminate
-	^ self coefficient: scalars one word: (Word x: anIndeterminate)! !
-
-!FreeAlgebra methodsFor: 'elements' stamp: 'len 8/25/2016 08:22'!
-y
-	^ self x: self indeterminates second! !
-
-!FreeAlgebra methodsFor: 'elements' stamp: 'len 8/25/2016 08:21'!
-z
-	^ self x: self indeterminates third! !
-
-!FreeAlgebra methodsFor: 'elements' stamp: 'len 3/2/2016 05:55'!
-zero
-	^ self new! !
-
-!FreeAlgebra class methodsFor: 'instance creation' stamp: 'len 6/30/2016 02:27'!
-new: anInteger over: aRing
-	^ self on: (1 to: anInteger) over: aRing! !
-
-!FreeAlgebra class methodsFor: 'instance creation' stamp: 'len 8/25/2016 08:25'!
-on: aCollection over: aRing
-	^ self words: (FreeMonoid on: aCollection) over: aRing! !
-
-!FreeAlgebra class methodsFor: 'instance creation' stamp: 'len 1/20/2016 13:38'!
-over: aRing
-	^ self new: 1 over: aRing! !
-
-!FreeAlgebra class methodsFor: 'instance creation' stamp: 'len 8/25/2016 08:24'!
-words: aMonoid over: aRing
-	^ self new words: aMonoid; scalars: aRing! !
-
-!GroupRing methodsFor: 'comparing' stamp: 'len 8/26/2016 01:30'!
-<= aGroupRing
-	(aGroupRing isKindOf: GroupRing) ifFalse: [^ super <= aGroupRing].
-	^ self scalars <= aGroupRing scalars and: [self group <= aGroupRing group]! !
-
-!GroupRing methodsFor: 'comparing' stamp: 'len 8/25/2016 08:35'!
-= anObject
-	self == anObject ifTrue: [^ true].
-	^ (anObject isKindOf: GroupRing) and: [anObject scalars = scalars and: [anObject group = group]]! !
-
-!GroupRing methodsFor: 'morphisms' stamp: 'len 8/25/2016 08:36'!
-embed: aGroupElement
-	^ FreePolynomial new coefficientAt: aGroupElement put: scalars one! !
-
-!GroupRing methodsFor: 'morphisms' stamp: 'len 8/7/2016 08:42'!
-embedding
-	^ Function from: self group to: self evaluating: [:g| self embed: g]! !
-
-!GroupRing methodsFor: 'accessing' stamp: 'len 8/7/2016 08:36'!
-group
-	^ group! !
-
-!GroupRing methodsFor: 'accessing-private' stamp: 'len 8/7/2016 08:37'!
-group: aGroup
-	group _ aGroup! !
-
-!GroupRing methodsFor: 'comparing' stamp: 'len 8/25/2016 08:35'!
-hash
-	^ scalars hash + group hash hashMultiply! !
-
-!GroupRing methodsFor: 'testing' stamp: 'len 8/25/2016 08:36'!
-includes: anObject
-	anObject coefficients keysAndValuesDo: [:key :value|
-		(group includes: key) ifFalse: [^ false].
-		(scalars includes: value) ifFalse: [^ false]].
-	^ true! !
-
-!GroupRing methodsFor: 'testing' stamp: 'len 8/25/2016 08:37'!
-isCommutative
-	^ scalars isCommutative and: [group isCommutative]! !
-
-!GroupRing methodsFor: 'testing' stamp: 'len 8/25/2016 08:38'!
-isCountable
-	^ scalars isCountable and: [group isCountable]! !
-
-!GroupRing methodsFor: 'testing' stamp: 'len 8/25/2016 08:38'!
-isFinite
-	^ scalars isFinite and: [group isFinite]! !
-
-!GroupRing methodsFor: 'accessing' stamp: 'len 8/7/2016 08:40'!
-one
-	^ self embed: self group identity! !
-
-!GroupRing methodsFor: 'printing' stamp: 'len 8/7/2016 08:38'!
-printOn: aStream
-	aStream print: self scalars; nextPut: $[; print: self group; nextPut: $]! !
-
-!GroupRing methodsFor: 'accessing' stamp: 'len 8/7/2016 08:38'!
-scalars
-	^ scalars! !
-
-!GroupRing methodsFor: 'accessing-private' stamp: 'len 8/7/2016 08:38'!
-scalars: aRing
-	scalars _ aRing! !
-
-!GroupRing class methodsFor: 'instance creation' stamp: 'len 8/7/2016 08:39'!
-on: aGroup over: aRing
-	^ self new group: aGroup; scalars: aRing! !
 
 !PolynomialRing methodsFor: 'operations' stamp: 'len 12/5/2015 23:52'!
 * aPolynomialOrArray
@@ -17437,38 +17437,6 @@ unitsModulo: m
 			ifTrue: [elements add: element]].
 	^ self multiplicative elements: elements! !
 
-!UnitsGroup methodsFor: 'iterating' stamp: 'len 5/12/2016 23:17'!
-do: aBlock
-	ring do: [:each| (self includes: each) ifTrue: [aBlock value: each]]! !
-
-!UnitsGroup methodsFor: 'accessing' stamp: 'len 4/10/2016 06:17'!
-identity
-	^ ring one! !
-
-!UnitsGroup methodsFor: 'testing' stamp: 'len 5/12/2016 23:05'!
-includes: anElement
-	^ ring isUnit: anElement! !
-
-!UnitsGroup methodsFor: 'accessing' stamp: 'len 4/22/2016 17:29'!
-inverseMap
-	^ self multiplicativeInverseMap! !
-
-!UnitsGroup methodsFor: 'accessing' stamp: 'len 4/22/2016 17:29'!
-operation
-	^ self multiplicativeOperation! !
-
-!UnitsGroup methodsFor: 'printing' stamp: 'len 6/30/2016 04:05'!
-printOn: aStream
-	aStream print: ring; nextPutAll: '*' super ! !
-
-!UnitsGroup methodsFor: 'accessing-private' stamp: 'len 5/12/2016 23:14'!
-ring: aRing
-	ring _ aRing! !
-
-!UnitsGroup class methodsFor: 'instance creation' stamp: 'len 5/12/2016 23:09'!
-on: aRing
-	^ self new ring: aRing! !
-
 !FreeGroup methodsFor: 'comparing' stamp: 'len 7/27/2016 08:02'!
 ~ aFreeGroup
 	"Answer true if the receiver is isomorphic to the argument."
@@ -18042,6 +18010,38 @@ printOn: aStream
 !SymmetricGroup methodsFor: 'accessing' stamp: 'len 2/16/2016 05:50'!
 size
 	^ self degree factorial! !
+
+!UnitsGroup methodsFor: 'iterating' stamp: 'len 5/12/2016 23:17'!
+do: aBlock
+	ring do: [:each| (self includes: each) ifTrue: [aBlock value: each]]! !
+
+!UnitsGroup methodsFor: 'accessing' stamp: 'len 4/10/2016 06:17'!
+identity
+	^ ring one! !
+
+!UnitsGroup methodsFor: 'testing' stamp: 'len 5/12/2016 23:05'!
+includes: anElement
+	^ ring isUnit: anElement! !
+
+!UnitsGroup methodsFor: 'accessing' stamp: 'len 4/22/2016 17:29'!
+inverseMap
+	^ self multiplicativeInverseMap! !
+
+!UnitsGroup methodsFor: 'accessing' stamp: 'len 4/22/2016 17:29'!
+operation
+	^ self multiplicativeOperation! !
+
+!UnitsGroup methodsFor: 'printing' stamp: 'len 6/30/2016 04:05'!
+printOn: aStream
+	aStream print: ring; nextPutAll: '*' super ! !
+
+!UnitsGroup methodsFor: 'accessing-private' stamp: 'len 5/12/2016 23:14'!
+ring: aRing
+	ring _ aRing! !
+
+!UnitsGroup class methodsFor: 'instance creation' stamp: 'len 5/12/2016 23:09'!
+on: aRing
+	^ self new ring: aRing! !
 
 !LinearGroup methodsFor: 'accessing' stamp: 'len 5/6/2016 02:47'!
 action
@@ -22777,6 +22777,10 @@ inverse
 		from: self codomain to: self domain
 		evaluating: [ :each | self domain detect: [ :one | (self value: one) = each]]! !
 
+!GroupHomomorphism methodsFor: 'testing' stamp: 'len 8/30/2016 20:23'!
+is: aSymbol
+	^ aSymbol == #GroupHomomorphism or: [super is: aSymbol]! !
+
 !GroupHomomorphism methodsFor: 'testing' stamp: 'len 11/7/2015 16:46'!
 isInjective
 	^ self kernel isTrivial! !
@@ -23486,6 +23490,10 @@ inverse
 	"Answer the inverse of the receiver. Answer nil if the receiver is not an isomorphism."
 
 	^ self domain dimension = self codomain dimension ifTrue: [self leftInverse]! !
+
+!LinearMap methodsFor: 'testing' stamp: 'len 8/30/2016 20:23'!
+is: aSymbol
+	^ aSymbol == #ModuleHomomorphism or: [super is: aSymbol]! !
 
 !LinearMap methodsFor: 'testing' stamp: 'len 9/1/97 23:23'!
 isConstant
@@ -36662,8 +36670,8 @@ new
 	^ super new initialize! !
 BitTuple initialize!
 Digraph initialize!
-Rationals initialize!
+Integers initialize!
 ComplexNumbers initialize!
 Reals initialize!
-Integers initialize!
+Rationals initialize!
 Naturals initialize!
