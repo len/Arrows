@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 30 August 2016 at 5:41:51.732679 am'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 30 August 2016 at 8:18:49.663016 pm'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 191!
+!provides: 'Mathematics' 1 192!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
 	instanceVariableNames: 'numerator shift'
@@ -1521,18 +1521,18 @@ PolynomialCode subclass: #CyclicCode
 CyclicCode class
 	instanceVariableNames: ''!
 
-!classDefinition: #AffineSubspace category: #'Mathematics-Geometry-Affine'!
-Domain subclass: #AffineSubspace
+!classDefinition: #AffineLinearSpace category: #'Mathematics-Geometry-Affine'!
+Domain subclass: #AffineLinearSpace
 	instanceVariableNames: 'direction representative'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Geometry-Affine'!
-!classDefinition: 'AffineSubspace class' category: #'Mathematics-Geometry-Affine'!
-AffineSubspace class
+!classDefinition: 'AffineLinearSpace class' category: #'Mathematics-Geometry-Affine'!
+AffineLinearSpace class
 	instanceVariableNames: ''!
 
 !classDefinition: #AffineMaps category: #'Mathematics-Geometry-Affine'!
-AffineSubspace subclass: #AffineMaps
+AffineLinearSpace subclass: #AffineMaps
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
@@ -1541,18 +1541,18 @@ AffineSubspace subclass: #AffineMaps
 AffineMaps class
 	instanceVariableNames: ''!
 
-!classDefinition: #ProjectiveSubspace category: #'Mathematics-Geometry-Projective'!
-Domain subclass: #ProjectiveSubspace
+!classDefinition: #ProjectiveLinearSpace category: #'Mathematics-Geometry-Projective'!
+Domain subclass: #ProjectiveLinearSpace
 	instanceVariableNames: 'vectorSpace'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Geometry-Projective'!
-!classDefinition: 'ProjectiveSubspace class' category: #'Mathematics-Geometry-Projective'!
-ProjectiveSubspace class
+!classDefinition: 'ProjectiveLinearSpace class' category: #'Mathematics-Geometry-Projective'!
+ProjectiveLinearSpace class
 	instanceVariableNames: ''!
 
 !classDefinition: #ProjectiveMaps category: #'Mathematics-Geometry-Projective'!
-ProjectiveSubspace subclass: #ProjectiveMaps
+ProjectiveLinearSpace subclass: #ProjectiveMaps
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
@@ -1791,6 +1791,16 @@ AffineScheme subclass: #AffineSpace
 AffineSpace class
 	instanceVariableNames: ''!
 
+!classDefinition: #Spectrum category: #'Mathematics-Schemes'!
+AffineScheme subclass: #Spectrum
+	instanceVariableNames: 'coordinateRing'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Schemes'!
+!classDefinition: 'Spectrum class' category: #'Mathematics-Schemes'!
+Spectrum class
+	instanceVariableNames: ''!
+
 !classDefinition: #ProjectiveScheme category: #'Mathematics-Schemes'!
 Scheme subclass: #ProjectiveScheme
 	instanceVariableNames: ''
@@ -1809,16 +1819,6 @@ ProjectiveScheme subclass: #ProjectiveSpace
 	category: 'Mathematics-Schemes'!
 !classDefinition: 'ProjectiveSpace class' category: #'Mathematics-Schemes'!
 ProjectiveSpace class
-	instanceVariableNames: ''!
-
-!classDefinition: #Spectrum category: #'Mathematics-Schemes'!
-Scheme subclass: #Spectrum
-	instanceVariableNames: 'coordinateRing'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Schemes'!
-!classDefinition: 'Spectrum class' category: #'Mathematics-Schemes'!
-Spectrum class
 	instanceVariableNames: ''!
 
 !classDefinition: #CoxeterSystem category: #'Mathematics-Lie'!
@@ -3845,7 +3845,7 @@ My instances are group rings. Given a ring R and a group G, the group ring R[G] 
 
 When the ring R is commutative, the group ring is also referred to as a group algebra.
 
-Categorically, the group ring construction is left adjoint to the group of units (see UnitsGroup).
+Categorically, the group ring construction is left adjoint to the group of units (see UnitsGroup). It's also a 'category algebra' analogous to the monoid ring for monoids and  incidence algebra for posets.
 
 References:
 	https://en.wikipedia.org/wiki/Group_ring!
@@ -4090,7 +4090,7 @@ References:
 	https://en.wikipedia.org/wiki/Polynomial_code
 !
 
-!AffineSubspace commentStamp: '<historical>' prior: 0!
+!AffineLinearSpace commentStamp: '<historical>' prior: 0!
 My instances are affine spaces contained in a given vector space, i.e. flats, or linear varieties, linear manifolds, or translated subspaces (cosets) of a vector space.
 
 Affine spaces are essentially vector spaces where the origin 0 was "forgotten", i.e. there's no distinguished origin. Its elements are called points, not vectors, but they are the same objects.
@@ -4107,7 +4107,7 @@ Example:
 	f fiberAt: (1, 2, 3).
 !
 
-!ProjectiveSubspace commentStamp: '<historical>' prior: 0!
+!ProjectiveLinearSpace commentStamp: '<historical>' prior: 0!
 My instances are projective spaces P(V) formed by the projectivization of a given finite-dimensional K-vector space V. Their elements are the subspaces of V, in particular the points of P(V) are the subspaces of dimension 1 of V, or <v> where v ~= 0.
 
 Projective space can also be viewed as the set quotient V-{0}/~ by the equivalence relation x ~ c*x where c is a constant in K. Or, as the grassmannian Gr(1,V).
@@ -4153,6 +4153,8 @@ My instances are abstract simplicial complexes. These are combinatorial objects 
 Also can be seen as a subset of the power set of some set V, often V={1,...,n}, closed under inclusion.!
 
 !Scheme commentStamp: '<historical>' prior: 0!
+My instances are schemes over a commutative ring.
+
 References:
 	https://en.wikipedia.org/wiki/Scheme_(mathematics)!
 
@@ -11956,8 +11958,10 @@ generators: aCollection
 hash
 	^ ambient hash + self class hash! !
 
-!Ideal methodsFor: 'testing' stamp: 'len 7/7/2016 20:45'!
+!Ideal methodsFor: 'testing' stamp: 'len 8/30/2016 06:59'!
 includes: anObject
+	(self ambient includes: anObject) ifFalse: [^ false].
+	self isZero ifTrue: [^ anObject isZero].
 	^ (self reduce: anObject) isZero! !
 
 !Ideal methodsFor: 'operations' stamp: 'len 5/23/2016 04:16'!
@@ -11976,11 +11980,10 @@ inverseOf: anObject
 isMaximal
 	^ properties at: #isMaximal! !
 
-!Ideal methodsFor: 'testing' stamp: 'len 11/21/2015 22:07'!
-isNull
-	"Answer true if the receiver is the null ideal."
-	generators do: [:each | each isZero ifFalse: [^ false]].
-	^ true! !
+!Ideal methodsFor: 'testing' stamp: 'len 8/30/2016 06:58'!
+isOne
+	"Answer true if the receiver is the unit ideal <1> that equals the whole ambient ring."
+	^ self includes: self ambient one! !
 
 !Ideal methodsFor: 'testing' stamp: 'len 12/7/2015 00:19'!
 isPrime
@@ -11996,8 +11999,15 @@ isPrincipal
 isProper
 	^ self ~= self ambient! !
 
-!Ideal methodsFor: 'printing' stamp: 'len 4/20/2016 23:59'!
+!Ideal methodsFor: 'testing' stamp: 'len 8/30/2016 06:58'!
+isZero
+	"Answer true if the receiver is the zero ideal {0}."
+	generators do: [:each | each isZero ifFalse: [^ false]].
+	^ true! !
+
+!Ideal methodsFor: 'printing' stamp: 'len 8/30/2016 06:59'!
 printOn: aStream
+	self isZero ifTrue: [aStream nextPut: ${; print: self ambient zero; nextPut: $}. ^ self].
 	aStream nextPut: $<.
 	generators do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: ', '].
 	aStream nextPut: $>! !
@@ -12402,10 +12412,10 @@ apply: aLinearMap
 	"Answer the receiver transformed by aLinearMap."
 	^ (self basis apply: aLinearMap) span! !
 
-!FreeModule methodsFor: 'converting' stamp: 'len 7/15/2016 00:32'!
+!FreeModule methodsFor: 'converting' stamp: 'len 8/30/2016 05:47'!
 asAffineSpace
 	self isVectorSpace ifFalse: [DomainError signal: 'not a vector space'].
-	^ AffineSubspace representative: self zero direction: self! !
+	^ AffineLinearSpace representative: self zero direction: self! !
 
 !FreeModule methodsFor: 'converting' stamp: 'len 7/15/2016 00:01'!
 asSubmoduleOf: aModule
@@ -12486,13 +12496,13 @@ grassmannian: r
 hash
 	^ self scalars hash + self rank hashMultiply! !
 
-!FreeModule methodsFor: 'operations' stamp: 'len 7/15/2016 00:07'!
+!FreeModule methodsFor: 'operations' stamp: 'len 8/30/2016 05:47'!
 hull: aCollection
 	"Answer the affine hull (flat) spanned by the vectors in aCollection."
 	| vectors x0 |
 	vectors _ aCollection asArray.
 	x0 _ vectors at: 1.
-	^ AffineSubspace
+	^ AffineLinearSpace
 		representative: x0
 		direction: (self span: ((2 to: vectors size) collect: [:i| x0 - (vectors at: i)]))! !
 
@@ -12571,11 +12581,11 @@ product: aModule
 		ifTrue: [self  aModule]
 		ifFalse: [super product: aModule]! !
 
-!FreeModule methodsFor: 'operations' stamp: 'len 7/15/2016 00:35'!
+!FreeModule methodsFor: 'operations' stamp: 'len 8/30/2016 05:45'!
 projective
 	"Answer the projective subspace induced by the receiver, consisting of the 1-dimension subspaces."
 	self isVectorSpace ifFalse: [^ DomainError signal: 'not a vector space'].
-	^ ProjectiveSubspace on: self! !
+	^ ProjectiveLinearSpace on: self! !
 
 !FreeModule methodsFor: 'basis' stamp: 'len 2/24/2016 02:24'!
 rank
@@ -13503,10 +13513,10 @@ perp
 rank
 	^ self dimension! !
 
-!LinearSubspace methodsFor: 'operations' stamp: 'len 6/4/2016 04:44'!
+!LinearSubspace methodsFor: 'operations' stamp: 'len 8/30/2016 05:47'!
 + anObject
 	| sum |
-	(self ambient includes: anObject) ifTrue: [^ AffineSubspace representative: anObject direction: self].
+	(self ambient includes: anObject) ifTrue: [^ AffineLinearSpace representative: anObject direction: self].
 	"assume anObject isVectorSpace"
 	sum _ self basis copy.
 	anObject basis do: [:each| (sum generates: each) ifFalse: [sum add: each]].
@@ -13707,13 +13717,13 @@ defaultProjection
 dimension
 	^ subspace codimension! !
 
-!QuotientSpace methodsFor: 'basis' stamp: 'len 6/4/2016 04:28'!
+!QuotientSpace methodsFor: 'basis' stamp: 'len 8/30/2016 05:47'!
 e: anInteger
-	^ AffineSubspace representative: (subspace perp e: anInteger) direction: subspace! !
+	^ AffineLinearSpace representative: (subspace perp e: anInteger) direction: subspace! !
 
-!QuotientSpace methodsFor: 'testing' stamp: 'len 2/9/2016 21:28'!
+!QuotientSpace methodsFor: 'testing' stamp: 'len 8/30/2016 05:47'!
 includes: anObject
-	^ (anObject isKindOf: AffineSubspace) and: [anObject direction = subspace]! !
+	^ (anObject isKindOf: AffineLinearSpace) and: [anObject direction = subspace]! !
 
 !QuotientSpace methodsFor: 'testing' stamp: 'len 8/10/2016 01:02'!
 isQuotient
@@ -13729,9 +13739,9 @@ printOn: aStream
 		ifTrue: [aStream nextPut: $(; print: subspace; nextPut: $)]
 		ifFalse: [aStream print: subspace]! !
 
-!QuotientSpace methodsFor: 'morphisms' stamp: 'len 6/4/2016 03:58'!
+!QuotientSpace methodsFor: 'morphisms' stamp: 'len 8/30/2016 05:47'!
 project: aVector
-	^ AffineSubspace direction: subspace representative: aVector! !
+	^ AffineLinearSpace direction: subspace representative: aVector! !
 
 !QuotientSpace methodsFor: 'morphisms' stamp: 'len 2/8/2016 04:42'!
 projection
@@ -15859,6 +15869,12 @@ on: aGroup over: aRing
 	self scalars >= aDomain scalars ifFalse: [^ false].
 	^ true! !
 
+!PolynomialRing methodsFor: 'comparing' stamp: 'len 8/30/2016 07:09'!
+~ aPolynomialRing
+	"Answer true if the receiver is canonically isomorphic to the argument."
+	"R[x][y] ~ R[x,y]"
+	self notYetImplemented! !
+
 !PolynomialRing methodsFor: 'converting' stamp: 'len 5/21/2016 00:16'!
 asMultivariate
 	| answer |
@@ -16662,6 +16678,10 @@ printOn: aStream
 size
 	^ Aleph new! !
 
+!Naturals methodsFor: 'morphisms' stamp: 'len 8/30/2016 09:25'!
+to: aDomain evaluating: aBlock
+	^ Sequence to: aDomain evaluating: aBlock! !
+
 !Naturals class methodsFor: 'initialization' stamp: 'len 8/5/2016 21:33'!
 initialize
 	super initialize.
@@ -16883,10 +16903,11 @@ computeExponent
 	self do: [:each| answer _ answer max: (self orderOf: each)].
 	^ answer! !
 
-!Group methodsFor: 'private' stamp: 'len 7/25/2016 02:29'!
+!Group methodsFor: 'private' stamp: 'len 8/30/2016 19:48'!
 computeGenerators
 	"The receiver is a finite group represented explicitly as a set of its elements, or at least can be iterated over. This method computes a set of generators."
 	| n op generators elements |
+	(properties includesKey: #elements) ifFalse: [^ nil].
 	n _ self order.
 	op _ self operation.
 	generators _ OrderedCollection new.
@@ -17040,11 +17061,10 @@ generator
 	self generators size = 1 ifFalse: [self error: 'not cyclic'].
 	^ self generators anyOne! !
 
-!Group methodsFor: 'accessing' stamp: 'len 7/23/2016 09:57'!
+!Group methodsFor: 'accessing' stamp: 'len 8/30/2016 19:46'!
 generators
 	properties at: #generators ifPresent: [:aCollection| ^ aCollection].
-	^ (properties includesKey: #elements)
-		ifTrue: [properties at: #generators put: self computeGenerators]! !
+	^ properties at: #generators put: (self computeGenerators ifNil: [^ nil])! !
 
 !Group methodsFor: 'operations' stamp: 'len 8/4/2016 22:32'!
 groupAlgebraOver: aField
@@ -17939,6 +17959,14 @@ atRandom: aRandom bits: bitSize
 	[(answer _ S atRandom: aRandom bits: bitSize) even] whileFalse.
 	^ answer! !
 
+!AlternatingGroup methodsFor: 'private' stamp: 'len 8/30/2016 19:44'!
+computeGenerators
+	| answer X |
+	answer _ OrderedCollection new.
+	X _ space asArray.
+	1 to: X size - 2 do: [:i| answer add: (Permutation cycle: {i. i+1. i+2})].
+	^ answer! !
+
 !AlternatingGroup methodsFor: 'iterating' stamp: 'len 6/28/2016 06:10'!
 do: aBlock
 	| domain |
@@ -17985,19 +18013,19 @@ atRandom: aRandom bits: bits
 commutator
 	^ AlternatingGroup on: space! !
 
-!SymmetricGroup methodsFor: 'iterating' stamp: 'len 6/28/2016 06:10'!
-do: aBlock
-	| domain |
-	domain _ self space asArray.
-	domain permutationsDo: [:each| aBlock value: (Permutation keys: domain values: each)]! !
-
-!SymmetricGroup methodsFor: 'accessing' stamp: 'len 7/25/2016 23:14'!
-generators
+!SymmetricGroup methodsFor: 'private' stamp: 'len 8/30/2016 19:43'!
+computeGenerators
 	| answer X |
 	answer _ OrderedCollection new.
 	X _ space asArray.
 	2 to: X size do: [:i| answer add: (Permutation transpose: (X at: 1) with: (X at: i))].
 	^ answer! !
+
+!SymmetricGroup methodsFor: 'iterating' stamp: 'len 6/28/2016 06:10'!
+do: aBlock
+	| domain |
+	domain _ self space asArray.
+	domain permutationsDo: [:each| aBlock value: (Permutation keys: domain values: each)]! !
 
 !SymmetricGroup methodsFor: 'testing' stamp: 'len 2/15/2016 21:51'!
 includes: aPermutation
@@ -18034,20 +18062,6 @@ ambient
 asMatrixGroup
 	self flag: #fix. "the matrix depends on the basis"
 	^ (MatrixGroup on: space coordinateSpace) generators: (self generators collect: [:g| g matrix])! !
-
-!LinearGroup methodsFor: 'random' stamp: 'len 4/19/2016 20:43'!
-atRandom: aRandom
-	| endos e |
-	endos _ space endomorphisms.
-	[self includes: (e _ endos atRandom: aRandom)] whileFalse.
-	^ e! !
-
-!LinearGroup methodsFor: 'random' stamp: 'len 4/19/2016 20:43'!
-atRandom: aRandom bits: bitSize
-	| endos e |
-	endos _ space endomorphisms.
-	[self includes: (e _ endos atRandom: aRandom bits: bitSize)] whileFalse.
-	^ e! !
 
 !LinearGroup methodsFor: 'copying' stamp: 'len 7/23/2016 06:26'!
 copyEmpty
@@ -18151,6 +18165,18 @@ ambient
 asMatrixGroup
 	^ GeneralLinearMatrixGroup on: space coordinateSpace! !
 
+!GeneralLinearGroup methodsFor: 'random' stamp: 'len 8/30/2016 20:08'!
+atRandom: aRandom
+	| answer |
+	[(answer _ self space endomorphisms atRandom: aRandom) isInvertible] whileFalse.
+	^ answer! !
+
+!GeneralLinearGroup methodsFor: 'random' stamp: 'len 8/30/2016 20:08'!
+atRandom: aRandom bits: bitSize
+	| answer |
+	[(answer _ self space endomorphisms atRandom: aRandom bits: bitSize) isInvertible] whileFalse.
+	^ answer! !
+
 !GeneralLinearGroup methodsFor: 'operations' stamp: 'len 2/11/2016 20:20'!
 center
 	^ ScalarGroup on: space! !
@@ -18196,9 +18222,9 @@ special
 affine
 	^ EuclideanGroup on: space asAffineSpace! !
 
-!OrthogonalGroup methodsFor: 'operations' stamp: 'len 4/23/2016 06:08'!
+!OrthogonalGroup methodsFor: 'operations' stamp: 'len 8/30/2016 20:14'!
 asMatrixGroup
-	^ ScalarMatrixGroup on: space coordinateSpace! !
+	^ OrthogonalMatrixGroup on: space coordinateSpace! !
 
 !OrthogonalGroup methodsFor: 'random' stamp: 'len 4/19/2016 20:43'!
 atRandom: aRandom
@@ -18284,18 +18310,6 @@ special
 asMatrixGroup
 	^ SpecialLinearMatrixGroup on: space coordinateSpace! !
 
-!SpecialLinearGroup methodsFor: 'random' stamp: 'len 4/19/2016 20:46'!
-atRandom: aRandom
-	| f |
-	f _ space automorphisms atRandom: aRandom.
-	^ f / f determinant! !
-
-!SpecialLinearGroup methodsFor: 'random' stamp: 'len 4/19/2016 20:46'!
-atRandom: aRandom bits: bitSize
-	| f |
-	f _ space automorphisms atRandom: aRandom bits: bitSize.
-	^ f / f determinant! !
-
 !SpecialLinearGroup methodsFor: 'operations' stamp: 'len 2/11/2016 20:20'!
 center
 	^ SpecialScalarGroup on: space! !
@@ -18355,18 +18369,6 @@ action
 ambient
 	"Answer the ambient group."
 	^ GeneralLinearMatrixGroup on: space! !
-
-!MatrixGroup methodsFor: 'random' stamp: 'len 4/19/2016 20:47'!
-atRandom: aRandom
-	| e |
-	[self includes: (e _ matrices atRandom: aRandom)] whileFalse.
-	^ e! !
-
-!MatrixGroup methodsFor: 'random' stamp: 'len 4/19/2016 20:47'!
-atRandom: aRandom bits: bitSize
-	| e |
-	[self includes: (e _ matrices atRandom: aRandom bits: bitSize)] whileFalse.
-	^ e! !
 
 !MatrixGroup methodsFor: 'copying' stamp: 'len 7/23/2016 06:27'!
 copyEmpty
@@ -18509,6 +18511,18 @@ on: aTuples generators: aCollection
 !GeneralLinearMatrixGroup methodsFor: 'accessing' stamp: 'len 6/24/2016 08:44'!
 ambient
 	^ self! !
+
+!GeneralLinearMatrixGroup methodsFor: 'random' stamp: 'len 8/30/2016 20:10'!
+atRandom: aRandom
+	| answer |
+	[(answer _ matrices atRandom: aRandom) isSingular] whileTrue.
+	^ answer! !
+
+!GeneralLinearMatrixGroup methodsFor: 'random' stamp: 'len 8/30/2016 20:10'!
+atRandom: aRandom bits: bitSize
+	| answer |
+	[(answer _ matrices atRandom: aRandom bits: bitSize) isSingular] whileTrue.
+	^ answer! !
 
 !GeneralLinearMatrixGroup methodsFor: 'operations' stamp: 'len 2/13/2016 07:42'!
 center
@@ -20433,15 +20447,15 @@ includes: aCodeword
 isIrreducible
 	^ generator isIrreducible! !
 
-!AffineSubspace methodsFor: 'operations' stamp: 'len 6/4/2016 04:24'!
+!AffineLinearSpace methodsFor: 'operations' stamp: 'len 6/4/2016 04:24'!
 * aScalar
 	(self scalars includes: aScalar)
 		ifTrue: [^ self class representative: representative * aScalar direction: direction].
 	^ super * aScalar "if it's not a scalar"! !
 
-!AffineSubspace methodsFor: 'operations' stamp: 'len 6/4/2016 04:20'!
+!AffineLinearSpace methodsFor: 'operations' stamp: 'len 8/30/2016 05:47'!
 + anObject
-	(anObject isKindOf: AffineSubspace)
+	(anObject isKindOf: AffineLinearSpace)
 		ifTrue: [^ self class representative: representative + anObject representative direction: direction + anObject direction].
 	(anObject isKindOf: VectorSpace)
 		ifTrue: [^ self class representative: representative direction: direction + anObject].
@@ -20449,32 +20463,32 @@ isIrreducible
 		ifTrue: [^ self class representative: representative + anObject direction: direction].
 	DomainError signal! !
 
-!AffineSubspace methodsFor: 'operations' stamp: 'len 6/11/2016 17:03'!
+!AffineLinearSpace methodsFor: 'operations' stamp: 'len 6/11/2016 17:03'!
 - anObject
 	^ self + anObject negated! !
 
-!AffineSubspace methodsFor: 'morphisms' stamp: 'len 6/4/2016 03:27'!
+!AffineLinearSpace methodsFor: 'morphisms' stamp: 'len 8/30/2016 05:47'!
 -> anAffineSpace
-	(anAffineSpace isKindOf: AffineSubspace) ifFalse: [^ super -> anAffineSpace].
+	(anAffineSpace isKindOf: AffineLinearSpace) ifFalse: [^ super -> anAffineSpace].
 	^ super -> anAffineSpace elementClass: AffineMap! !
 
-!AffineSubspace methodsFor: 'operations' stamp: 'len 6/4/2016 04:32'!
+!AffineLinearSpace methodsFor: 'operations' stamp: 'len 8/30/2016 05:47'!
 / aLinearSubspace
 	direction >= aLinearSubspace ifFalse: [DomainError signal: 'not a linear subspace'].
 	self flag: #fix. "wtf"
-	^ self class representative: (AffineSubspace representative: representative direction: aLinearSubspace) direction: direction / aLinearSubspace! !
+	^ self class representative: (AffineLinearSpace representative: representative direction: aLinearSubspace) direction: direction / aLinearSubspace! !
 
-!AffineSubspace methodsFor: 'operations' stamp: 'len 6/5/2016 22:45'!
+!AffineLinearSpace methodsFor: 'operations' stamp: 'len 6/5/2016 22:45'!
 /\ anAffineSubspace
 	"Meet."
 	^ self intersection: anAffineSubspace! !
 
-!AffineSubspace methodsFor: 'comparing' stamp: 'len 12/26/2015 20:01'!
+!AffineLinearSpace methodsFor: 'comparing' stamp: 'len 12/26/2015 20:01'!
 < anAffineSubspace
 	"Answer true if the receiver is strictly included in the argument."
 	^ self dimension < anAffineSubspace dimension and: [self <= anAffineSubspace]! !
 
-!AffineSubspace methodsFor: 'comparing' stamp: 'len 8/24/2016 22:04'!
+!AffineLinearSpace methodsFor: 'comparing' stamp: 'len 8/24/2016 22:04'!
 <= anAffineSubspace
 	"Answer true if the receiver is included in the argument."
 	self == anAffineSubspace ifTrue: [^ true].
@@ -20482,68 +20496,68 @@ isIrreducible
 	self isEmpty ifTrue: [^ true].
 	^ (anAffineSubspace includes: representative) and: [direction <= anAffineSubspace direction]! !
 
-!AffineSubspace methodsFor: 'comparing' stamp: 'len 6/4/2016 04:32'!
+!AffineLinearSpace methodsFor: 'comparing' stamp: 'len 8/30/2016 05:47'!
 = anObject
 	self == anObject ifTrue: [^ true].
-	(anObject isKindOf: AffineSubspace) ifFalse: [^ false].
+	(anObject isKindOf: AffineLinearSpace) ifFalse: [^ false].
 	self isEmpty ifTrue: [^ anObject isEmpty].
 	^ direction = anObject direction and: [anObject includes: representative]! !
 
-!AffineSubspace methodsFor: 'operations' stamp: 'len 6/5/2016 22:45'!
+!AffineLinearSpace methodsFor: 'operations' stamp: 'len 6/5/2016 22:45'!
 \/ anAffineSubspace
 	"Join."
 	^ self + anAffineSubspace! !
 
-!AffineSubspace methodsFor: 'accessing' stamp: 'len 6/4/2016 04:25'!
+!AffineLinearSpace methodsFor: 'accessing' stamp: 'len 6/4/2016 04:25'!
 ambient
 	"Answer the ambient affine space where the receiver lives."
 	^ self class representative: direction zero direction: direction ambient! !
 
-!AffineSubspace methodsFor: 'morphisms' stamp: 'len 6/4/2016 04:26'!
+!AffineLinearSpace methodsFor: 'morphisms' stamp: 'len 6/4/2016 04:26'!
 apply: aMap
 	"Answer the receiver transformed by anAffineMap."
 	(aMap isKindOf: AffineMap)
 		ifTrue: [^ self class representative: (aMap value: representative) direction: (direction apply: aMap linearPart)].
 	^ self class representative: (aMap value: representative) direction: (direction apply: aMap)! !
 
-!AffineSubspace methodsFor: 'random' stamp: 'len 6/4/2016 04:29'!
+!AffineLinearSpace methodsFor: 'random' stamp: 'len 6/4/2016 04:29'!
 atRandom: aRandom
 	^ (direction atRandom: aRandom) + representative! !
 
-!AffineSubspace methodsFor: 'random' stamp: 'len 6/4/2016 04:30'!
+!AffineLinearSpace methodsFor: 'random' stamp: 'len 6/4/2016 04:30'!
 atRandom: aRandom bits: bitSize
 	^ (direction atRandom: aRandom bits: bitSize) + representative! !
 
-!AffineSubspace methodsFor: 'morphisms' stamp: 'len 2/12/2016 18:34'!
+!AffineLinearSpace methodsFor: 'morphisms' stamp: 'len 2/12/2016 18:34'!
 automorphisms
 	^ GeneralAffineGroup on: self! !
 
-!AffineSubspace methodsFor: 'accessing' stamp: 'len 2/9/2016 21:23'!
+!AffineLinearSpace methodsFor: 'accessing' stamp: 'len 2/9/2016 21:23'!
 codimension
 	^ direction codimension! !
 
-!AffineSubspace methodsFor: 'coordinates' stamp: 'len 6/9/2016 00:39'!
+!AffineLinearSpace methodsFor: 'coordinates' stamp: 'len 6/9/2016 00:39'!
 coordinatesOf: aPoint
 	^ direction coordinatesOf: aPoint - representative! !
 
-!AffineSubspace methodsFor: 'accessing' stamp: 'len 6/4/2016 04:21'!
+!AffineLinearSpace methodsFor: 'accessing' stamp: 'len 6/4/2016 04:21'!
 dimension
 	^ representative isNil ifTrue: [-1] ifFalse: [direction dimension]! !
 
-!AffineSubspace methodsFor: 'accessing' stamp: 'len 5/23/2016 19:44'!
+!AffineLinearSpace methodsFor: 'accessing' stamp: 'len 5/23/2016 19:44'!
 direction
 	"Answer the 'difference space' or 'direction', a linear subspace parallel to the receiver."
 	^ direction! !
 
-!AffineSubspace methodsFor: 'accessing-private' stamp: 'len 2/9/2016 21:29'!
+!AffineLinearSpace methodsFor: 'accessing-private' stamp: 'len 2/9/2016 21:29'!
 direction: aVectorSpace
 	direction _ aVectorSpace! !
 
-!AffineSubspace methodsFor: 'iterating' stamp: 'len 6/4/2016 04:30'!
+!AffineLinearSpace methodsFor: 'iterating' stamp: 'len 6/4/2016 04:30'!
 do: aBlock
 	direction do: [:each| aBlock value: each + representative]! !
 
-!AffineSubspace methodsFor: 'accessing' stamp: 'len 6/4/2016 04:29'!
+!AffineLinearSpace methodsFor: 'accessing' stamp: 'len 6/4/2016 04:29'!
 equations
 	"Answer a linear system defining the receiver."
 	| kernel particular answer |
@@ -20553,24 +20567,24 @@ equations
 	kernel do: [:each| answer add: (each form eq: (each form value: particular))].
 	^ answer! !
 
-!AffineSubspace methodsFor: 'accessing' stamp: 'len 6/4/2016 04:18'!
+!AffineLinearSpace methodsFor: 'accessing' stamp: 'len 6/4/2016 04:18'!
 frame
 	^ AffineFrame origin: representative basis: direction basis! !
 
-!AffineSubspace methodsFor: 'comparing' stamp: 'len 2/9/2016 21:25'!
+!AffineLinearSpace methodsFor: 'comparing' stamp: 'len 2/9/2016 21:25'!
 hash
 	^ self isEmpty ifTrue: [0] ifFalse: [direction hash]! !
 
-!AffineSubspace methodsFor: 'morphisms' stamp: 'len 8/25/2016 06:24'!
+!AffineLinearSpace methodsFor: 'morphisms' stamp: 'len 8/25/2016 06:24'!
 id
 	"Answer the identity morphism."
 	^ AffineMap from: self to: self evaluating: [:x| x]! !
 
-!AffineSubspace methodsFor: 'testing' stamp: 'len 6/4/2016 04:32'!
+!AffineLinearSpace methodsFor: 'testing' stamp: 'len 6/4/2016 04:32'!
 includes: anObject
 	^ self isEmpty not and: [direction includes: anObject - representative]! !
 
-!AffineSubspace methodsFor: 'operations' stamp: 'len 5/12/2016 22:57'!
+!AffineLinearSpace methodsFor: 'operations' stamp: 'len 5/12/2016 22:57'!
 intersection: anAffineSubspace
 	| system |
 	self isEmpty ifTrue: [^ self].
@@ -20579,91 +20593,91 @@ intersection: anAffineSubspace
 	anAffineSubspace equations do: [ :each | system add: each].
 	^ system solutions! !
 
-!AffineSubspace methodsFor: 'testing' stamp: 'len 11/9/2015 16:23'!
+!AffineLinearSpace methodsFor: 'testing' stamp: 'len 11/9/2015 16:23'!
 isEmpty
 	^ self dimension = -1! !
 
-!AffineSubspace methodsFor: 'testing' stamp: 'len 1/5/2016 00:05'!
+!AffineLinearSpace methodsFor: 'testing' stamp: 'len 1/5/2016 00:05'!
 isHyperplane
 	^ self codimension = 1! !
 
-!AffineSubspace methodsFor: 'testing' stamp: 'len 1/5/2016 00:04'!
+!AffineLinearSpace methodsFor: 'testing' stamp: 'len 1/5/2016 00:04'!
 isLine
 	^ self dimension = 1! !
 
-!AffineSubspace methodsFor: 'testing' stamp: 'len 1/5/2016 00:04'!
+!AffineLinearSpace methodsFor: 'testing' stamp: 'len 1/5/2016 00:04'!
 isPlane
 	^ self dimension = 2! !
 
-!AffineSubspace methodsFor: 'testing' stamp: 'len 1/5/2016 00:04'!
+!AffineLinearSpace methodsFor: 'testing' stamp: 'len 1/5/2016 00:04'!
 isPoint
 	^ self dimension = 0! !
 
-!AffineSubspace methodsFor: 'testing' stamp: 'len 6/4/2016 04:29'!
+!AffineLinearSpace methodsFor: 'testing' stamp: 'len 6/4/2016 04:29'!
 isZero
 	^ direction includes: representative! !
 
-!AffineSubspace methodsFor: 'morphisms' stamp: 'len 2/12/2016 01:50'!
+!AffineLinearSpace methodsFor: 'morphisms' stamp: 'len 2/12/2016 01:50'!
 motions
 	^ self automorphisms euclidean! !
 
-!AffineSubspace methodsFor: 'operations' stamp: 'len 6/4/2016 04:21'!
+!AffineLinearSpace methodsFor: 'operations' stamp: 'len 6/4/2016 04:21'!
 negated
 	^ self class representative: representative negated direction: direction! !
 
-!AffineSubspace methodsFor: 'testing' stamp: 'len 2/9/2016 21:24'!
+!AffineLinearSpace methodsFor: 'testing' stamp: 'len 2/9/2016 21:24'!
 parallel: anAffineSubspace "|| anAffineSubspace"
 	^ direction <= anAffineSubspace direction or: [direction >= anAffineSubspace direction]! !
 
-!AffineSubspace methodsFor: 'coordinates' stamp: 'len 6/9/2016 00:40'!
+!AffineLinearSpace methodsFor: 'coordinates' stamp: 'len 6/9/2016 00:40'!
 pointAt: aTuple
 	^ (direction vectorAt: aTuple) + representative! !
 
-!AffineSubspace methodsFor: 'printing' stamp: 'len 6/8/2016 06:15'!
+!AffineLinearSpace methodsFor: 'printing' stamp: 'len 6/8/2016 06:15'!
 printOn: aStream
 	direction ambient = direction ifTrue: [aStream print: direction. ^ self].
 	self isEmpty ifTrue: [aStream nextPut: Character emptySet. ^ self].
 	self dimension = 0 ifTrue: [aStream nextPut: ${; print: representative; nextPut: $}. ^ self].
 	aStream print: direction; nextPutAll: ' + '; print: representative! !
 
-!AffineSubspace methodsFor: 'operations' stamp: 'len 6/4/2016 00:19'!
+!AffineLinearSpace methodsFor: 'operations' stamp: 'len 6/4/2016 00:19'!
 product: anAffineSubspace
 	^ self class on: (direction product: anAffineSubspace direction)! !
 
-!AffineSubspace methodsFor: 'operations' stamp: 'len 6/24/2016 05:32'!
+!AffineLinearSpace methodsFor: 'operations' stamp: 'len 6/24/2016 05:32'!
 projectiveClosure
 	^ (direction  (ScalarSpace over: self scalars)) projective! !
 
-!AffineSubspace methodsFor: 'accessing' stamp: 'len 6/4/2016 04:18'!
+!AffineLinearSpace methodsFor: 'accessing' stamp: 'len 6/4/2016 04:18'!
 representative
 	^ representative! !
 
-!AffineSubspace methodsFor: 'accessing-private' stamp: 'len 6/4/2016 04:30'!
+!AffineLinearSpace methodsFor: 'accessing-private' stamp: 'len 6/4/2016 04:30'!
 representative: aPoint
 	representative _ aPoint! !
 
-!AffineSubspace methodsFor: 'morphisms' stamp: 'len 2/12/2016 01:50'!
+!AffineLinearSpace methodsFor: 'morphisms' stamp: 'len 2/12/2016 01:50'!
 rigidMotions
 	^ self automorphisms euclidean special! !
 
-!AffineSubspace methodsFor: 'accessing' stamp: 'len 2/9/2016 21:25'!
+!AffineLinearSpace methodsFor: 'accessing' stamp: 'len 2/9/2016 21:25'!
 scalars
 	^ direction scalars! !
 
-!AffineSubspace methodsFor: 'operations' stamp: 'len 6/4/2016 04:31'!
+!AffineLinearSpace methodsFor: 'operations' stamp: 'len 6/4/2016 04:31'!
 span
 	"Answer the linear span of the receiver."
 	(direction includes: representative) ifTrue: [^ direction].
 	^ (direction basis copyWith: representative) span! !
 
-!AffineSubspace methodsFor: 'operations' stamp: 'len 6/11/2016 16:55'!
+!AffineLinearSpace methodsFor: 'operations' stamp: 'len 6/11/2016 16:55'!
 span: aCollection
 	"Answer the subspace spanned by the points in aCollection."
 	| p |
 	p _ aCollection anyOne.
 	^ self class representative: p direction: (direction span: ((aCollection copyWithout: p) collect: [:each| each - p]))! !
 
-!AffineSubspace class methodsFor: 'instance creation' stamp: 'len 6/4/2016 04:22'!
+!AffineLinearSpace class methodsFor: 'instance creation' stamp: 'len 6/4/2016 04:22'!
 representative: aVector direction: aVectorSpace
 	^ self new direction: aVectorSpace; representative: aVector! !
 
@@ -20696,73 +20710,73 @@ scalar: aNumber
 translation: aVector
 	^ self evaluating: [:x| x + aVector]! !
 
-!ProjectiveSubspace methodsFor: 'operations' stamp: 'len 11/20/2015 22:06'!
+!ProjectiveLinearSpace methodsFor: 'operations' stamp: 'len 11/20/2015 22:06'!
 + aProjectiveSubspace
 	^ self class on: vectorSpace + aProjectiveSubspace vectorSpace! !
 
-!ProjectiveSubspace methodsFor: 'morphisms' stamp: 'len 8/25/2016 21:16'!
+!ProjectiveLinearSpace methodsFor: 'morphisms' stamp: 'len 8/30/2016 05:46'!
 -> aProjectiveSpace
-	(aProjectiveSpace isKindOf: ProjectiveSubspace) ifFalse: [^ super -> aProjectiveSpace].
+	(aProjectiveSpace isKindOf: ProjectiveLinearSpace) ifFalse: [^ super -> aProjectiveSpace].
 	^ (vectorSpace -> aProjectiveSpace vectorSpace) projective! !
 
-!ProjectiveSubspace methodsFor: 'operations' stamp: 'len 6/5/2016 22:47'!
+!ProjectiveLinearSpace methodsFor: 'operations' stamp: 'len 6/5/2016 22:47'!
 /\ aProjectiveSubspace
 	"Meet."
 	^ self intersection: aProjectiveSubspace! !
 
-!ProjectiveSubspace methodsFor: 'comparing' stamp: 'len 11/20/2015 22:07'!
+!ProjectiveLinearSpace methodsFor: 'comparing' stamp: 'len 11/20/2015 22:07'!
 < aProjectiveSubspace
 	"Answer true if the receiver is strictly included in the argument."
 
 	^ vectorSpace < aProjectiveSubspace vectorSpace! !
 
-!ProjectiveSubspace methodsFor: 'comparing' stamp: 'len 11/20/2015 22:07'!
+!ProjectiveLinearSpace methodsFor: 'comparing' stamp: 'len 11/20/2015 22:07'!
 <= aProjectiveSubspace
 	"Answer true if the receiver is included in the argument."
 
 	^ vectorSpace <= aProjectiveSubspace vectorSpace! !
 
-!ProjectiveSubspace methodsFor: 'comparing' stamp: 'len 12/14/2015 02:03'!
+!ProjectiveLinearSpace methodsFor: 'comparing' stamp: 'len 8/30/2016 05:46'!
 = anObject
-	^ (anObject isKindOf: ProjectiveSubspace) and: [vectorSpace = anObject vectorSpace]! !
+	^ (anObject isKindOf: ProjectiveLinearSpace) and: [vectorSpace = anObject vectorSpace]! !
 
-!ProjectiveSubspace methodsFor: 'operations' stamp: 'len 6/5/2016 23:10'!
+!ProjectiveLinearSpace methodsFor: 'operations' stamp: 'len 6/5/2016 23:10'!
 \ anHyperplane
 	"Answer the difference of the receiver with an hyperplane, i.e. an affine space."
 	^ self notYetImplemented! !
 
-!ProjectiveSubspace methodsFor: 'operations' stamp: 'len 6/5/2016 22:47'!
+!ProjectiveLinearSpace methodsFor: 'operations' stamp: 'len 6/5/2016 22:47'!
 \/ aProjectiveSubspace
 	"Join."
 	^ self + aProjectiveSubspace! !
 
-!ProjectiveSubspace methodsFor: 'accessing' stamp: 'len 5/23/2016 19:48'!
+!ProjectiveLinearSpace methodsFor: 'accessing' stamp: 'len 5/23/2016 19:48'!
 ambient
 	"Answer the ambient space (a projective space)."
 	^ self class on: vectorSpace ambient! !
 
-!ProjectiveSubspace methodsFor: 'converting' stamp: 'len 8/25/2016 20:18'!
+!ProjectiveLinearSpace methodsFor: 'converting' stamp: 'len 8/25/2016 20:18'!
 asGrassmannian
 	"A projective space is the set of lines through the origin of a vector space, i.e. subspaces of dimension 1. That's the grassmannian Gr(1,V)."
 	^ vectorSpace grassmannian: 1! !
 
-!ProjectiveSubspace methodsFor: 'random' stamp: 'len 4/19/2016 20:30'!
+!ProjectiveLinearSpace methodsFor: 'random' stamp: 'len 4/19/2016 20:30'!
 atRandom: aRandom
 	| v |
 	[(v _ vectorSpace atRandom: aRandom) isZero] whileTrue.
 	^ self project: v! !
 
-!ProjectiveSubspace methodsFor: 'random' stamp: 'len 4/19/2016 20:30'!
+!ProjectiveLinearSpace methodsFor: 'random' stamp: 'len 4/19/2016 20:30'!
 atRandom: aRandom bits: bitSize
 	| v |
 	[(v _ vectorSpace atRandom: aRandom bits: bitSize) isZero] whileTrue.
 	^ self project: v! !
 
-!ProjectiveSubspace methodsFor: 'morphisms' stamp: 'len 8/5/2016 05:14'!
+!ProjectiveLinearSpace methodsFor: 'morphisms' stamp: 'len 8/5/2016 05:14'!
 automorphisms
 	^ ProjectiveGeneralLinearGroup on: self! !
 
-!ProjectiveSubspace methodsFor: 'accessing' stamp: 'len 1/3/2016 05:23'!
+!ProjectiveLinearSpace methodsFor: 'accessing' stamp: 'len 1/3/2016 05:23'!
 chart: anInteger
 	"Answer the anInteger-th canonic chart."
 	^ ProjectiveChart
@@ -20770,59 +20784,59 @@ chart: anInteger
 		index: anInteger
 		origin: (vectorSpace e: anInteger)! !
 
-!ProjectiveSubspace methodsFor: 'accessing' stamp: 'len 6/4/2016 05:56'!
+!ProjectiveLinearSpace methodsFor: 'accessing' stamp: 'len 6/4/2016 05:56'!
 chartAt: anHyperplane
 	"Answer the chart that puts anHyperplane at infinity and its complement as affine space."
 	^ ProjectiveChart infinity: anHyperplane! !
 
-!ProjectiveSubspace methodsFor: 'accessing' stamp: 'len 11/20/2015 22:11'!
+!ProjectiveLinearSpace methodsFor: 'accessing' stamp: 'len 11/20/2015 22:11'!
 codimension
 	^ vectorSpace codimension! !
 
-!ProjectiveSubspace methodsFor: 'testing' stamp: 'len 1/5/2016 00:04'!
+!ProjectiveLinearSpace methodsFor: 'testing' stamp: 'len 1/5/2016 00:04'!
 collinear: aProjectiveSubspace
 	"Answer true if the receiver and the argument are within a line."
 	^ (self + aProjectiveSubspace) dimension <= 1! !
 
-!ProjectiveSubspace methodsFor: 'coordinates' stamp: 'len 11/21/2015 07:02'!
+!ProjectiveLinearSpace methodsFor: 'coordinates' stamp: 'len 11/21/2015 07:02'!
 coordinatesOf: anObject
 	"Answer the coordinates of the argument in the receiver."
 
 	^ (vectorSpace coordinatesOf: (self vectorFromPoint: anObject)) homogeneous! !
 
-!ProjectiveSubspace methodsFor: 'testing' stamp: 'len 1/5/2016 00:04'!
+!ProjectiveLinearSpace methodsFor: 'testing' stamp: 'len 1/5/2016 00:04'!
 coplanar: aProjectiveSubspace
 	"Answer true if the receiver and the argument are within a plane."
 	^ (self + aProjectiveSubspace) dimension <= 2! !
 
-!ProjectiveSubspace methodsFor: 'accessing' stamp: 'len 11/20/2015 22:12'!
+!ProjectiveLinearSpace methodsFor: 'accessing' stamp: 'len 11/20/2015 22:12'!
 dimension
 	^ vectorSpace dimension - 1! !
 
-!ProjectiveSubspace methodsFor: 'operations' stamp: 'len 2/4/2016 19:58'!
+!ProjectiveLinearSpace methodsFor: 'operations' stamp: 'len 2/4/2016 19:58'!
 dual
 	"Answer the dual projective space of the receiver.
 	For a projective plane C = (P,L,I) given by points P, lines L, and an incidence relation I, the duality maps points to lines and lines to points preserving incidence: C* = (L,P,I*).
 	In the more general case of a projective space of dimension n, the duality interchanges points with hyperplanes and objects of dimension r with objects of dimension n - 1 - r."
 	^ self class on: vectorSpace annihilator! !
 
-!ProjectiveSubspace methodsFor: 'coordinates' stamp: 'len 6/4/2016 01:38'!
+!ProjectiveLinearSpace methodsFor: 'coordinates' stamp: 'len 6/4/2016 01:38'!
 e: anInteger
 	"Answer the anInteger-th canonic point."
 
 	^ self project: (vectorSpace e: anInteger)! !
 
-!ProjectiveSubspace methodsFor: 'morphisms' stamp: 'len 6/3/2016 23:30'!
+!ProjectiveLinearSpace methodsFor: 'morphisms' stamp: 'len 6/3/2016 23:30'!
 embed: aPoint
 	"Assumeing the underlying vector space is V (+) K, embed aPoint from A(V) into the receiver."
 	^ self project: {aPoint. vectorSpace scalars one}! !
 
-!ProjectiveSubspace methodsFor: 'morphisms' stamp: 'len 8/28/2016 03:40'!
+!ProjectiveLinearSpace methodsFor: 'morphisms' stamp: 'len 8/28/2016 03:40'!
 embedding
 	"Answer the embedding A(V) -> P(VK), assuming the underlying vector space is VK."
 	^ (vectorSpace at: 1) asAffineSpace -> self evaluating: [:p| self embed: p]! !
 
-!ProjectiveSubspace methodsFor: 'accessing' stamp: 'len 1/3/2016 05:27'!
+!ProjectiveLinearSpace methodsFor: 'accessing' stamp: 'len 1/3/2016 05:27'!
 frame
 	"Answer the canonic frame of the receiver."
 	| answer |
@@ -20830,56 +20844,56 @@ frame
 	1 to: self dimension + 1 do: [:i| answer add: (self e: i)].
 	^ answer! !
 
-!ProjectiveSubspace methodsFor: 'comparing' stamp: 'len 6/28/2016 09:26'!
+!ProjectiveLinearSpace methodsFor: 'comparing' stamp: 'len 6/28/2016 09:26'!
 hash
 	^ vectorSpace hash + self class hash! !
 
-!ProjectiveSubspace methodsFor: 'morphisms' stamp: 'len 8/25/2016 06:25'!
+!ProjectiveLinearSpace methodsFor: 'morphisms' stamp: 'len 8/25/2016 06:25'!
 id
 	"Answer the identity morphism."
 	^ ProjectiveMap from: self to: self evaluating: [:x| x]! !
 
-!ProjectiveSubspace methodsFor: 'testing' stamp: 'len 3/23/2016 21:49'!
+!ProjectiveLinearSpace methodsFor: 'testing' stamp: 'len 3/23/2016 21:49'!
 includes: aPoint
 	^ vectorSpace includes: (self vectorFromPoint: aPoint)! !
 
-!ProjectiveSubspace methodsFor: 'operations' stamp: 'len 2/24/2016 06:01'!
+!ProjectiveLinearSpace methodsFor: 'operations' stamp: 'len 2/24/2016 06:01'!
 intersection: aProjectiveSubspace
 	"Answer the intersection between the receiver and the argument."
 
 	^ self class on: (vectorSpace intersection: aProjectiveSubspace vectorSpace)! !
 
-!ProjectiveSubspace methodsFor: 'testing' stamp: 'len 1/5/2016 00:03'!
+!ProjectiveLinearSpace methodsFor: 'testing' stamp: 'len 1/5/2016 00:03'!
 isEmpty
 	^ self dimension = -1! !
 
-!ProjectiveSubspace methodsFor: 'testing' stamp: 'len 1/5/2016 00:05'!
+!ProjectiveLinearSpace methodsFor: 'testing' stamp: 'len 1/5/2016 00:05'!
 isHyperplane
 	^ self codimension = 1! !
 
-!ProjectiveSubspace methodsFor: 'testing' stamp: 'len 11/21/2015 06:14'!
+!ProjectiveLinearSpace methodsFor: 'testing' stamp: 'len 11/21/2015 06:14'!
 isLine
 	^ self dimension = 1! !
 
-!ProjectiveSubspace methodsFor: 'testing' stamp: 'len 11/20/2015 21:00'!
+!ProjectiveLinearSpace methodsFor: 'testing' stamp: 'len 11/20/2015 21:00'!
 isPappian
 	^ self isPlane and: [self scalars isCommutative]! !
 
-!ProjectiveSubspace methodsFor: 'testing' stamp: 'len 11/20/2015 20:59'!
+!ProjectiveLinearSpace methodsFor: 'testing' stamp: 'len 11/20/2015 20:59'!
 isPlane
 	^ self dimension = 2! !
 
-!ProjectiveSubspace methodsFor: 'testing' stamp: 'len 11/21/2015 06:14'!
+!ProjectiveLinearSpace methodsFor: 'testing' stamp: 'len 11/21/2015 06:14'!
 isPoint
 	^ self dimension = 0! !
 
-!ProjectiveSubspace methodsFor: 'coordinates' stamp: 'len 6/4/2016 01:38'!
+!ProjectiveLinearSpace methodsFor: 'coordinates' stamp: 'len 6/4/2016 01:38'!
 pointAt: anHomogeneousTuple
 	"Answer the point with the given homogenous coordinates in the receiver."
 
 	^ self project: (vectorSpace vectorAt: anHomogeneousTuple asTuple)! !
 
-!ProjectiveSubspace methodsFor: 'printing' stamp: 'len 8/5/2016 05:10'!
+!ProjectiveLinearSpace methodsFor: 'printing' stamp: 'len 8/5/2016 05:10'!
 printOn: aStream
 	vectorSpace ambient = vectorSpace
 		ifTrue:
@@ -20898,30 +20912,30 @@ printOn: aStream
 			[aStream print: vectorSpace].
 	aStream nextPut: $]! !
 
-!ProjectiveSubspace methodsFor: 'morphisms' stamp: 'len 6/4/2016 02:23'!
+!ProjectiveLinearSpace methodsFor: 'morphisms' stamp: 'len 6/4/2016 02:23'!
 project: aVector
 	^ self class on: (vectorSpace span: {aVector})! !
 
-!ProjectiveSubspace methodsFor: 'morphisms' stamp: 'len 3/18/2016 04:54'!
+!ProjectiveLinearSpace methodsFor: 'morphisms' stamp: 'len 3/18/2016 04:54'!
 projection
 	"Answer the canonical projection V\{0} -> P(V)."
 	^ Function from: vectorSpace to: self evaluating: [:v| self project: v]! !
 
-!ProjectiveSubspace methodsFor: 'accessing' stamp: 'len 11/20/2015 22:13'!
+!ProjectiveLinearSpace methodsFor: 'accessing' stamp: 'len 11/20/2015 22:13'!
 scalars
 	^ vectorSpace scalars! !
 
-!ProjectiveSubspace methodsFor: 'accessing' stamp: 'len 8/25/2016 19:16'!
+!ProjectiveLinearSpace methodsFor: 'accessing' stamp: 'len 8/25/2016 19:16'!
 size
 	^ self asGrassmannian size! !
 
-!ProjectiveSubspace methodsFor: 'testing' stamp: 'len 6/9/2016 04:44'!
+!ProjectiveLinearSpace methodsFor: 'testing' stamp: 'len 6/9/2016 04:44'!
 skew: aProjectiveSubspace
 	"Answer true if the receiver and the argument are skew."
 
 	^ (self /\ aProjectiveSubspace) isEmpty! !
 
-!ProjectiveSubspace methodsFor: 'accessing' stamp: 'len 6/4/2016 01:38'!
+!ProjectiveLinearSpace methodsFor: 'accessing' stamp: 'len 6/4/2016 01:38'!
 unit
 	"Answer the unit point of the receiver."
 
@@ -20932,19 +20946,19 @@ unit
 			ifFalse: [unit + (vectorSpace e: each)]].
 	^ self project: unit! !
 
-!ProjectiveSubspace methodsFor: 'coordinates' stamp: 'len 6/4/2016 02:23'!
+!ProjectiveLinearSpace methodsFor: 'coordinates' stamp: 'len 6/4/2016 02:23'!
 vectorFromPoint: aPoint
 	^ aPoint vectorSpace generator! !
 
-!ProjectiveSubspace methodsFor: 'accessing' stamp: 'len 11/22/2015 00:02'!
+!ProjectiveLinearSpace methodsFor: 'accessing' stamp: 'len 11/22/2015 00:02'!
 vectorSpace
 	^ vectorSpace! !
 
-!ProjectiveSubspace methodsFor: 'accessing-private' stamp: 'len 11/20/2015 22:13'!
+!ProjectiveLinearSpace methodsFor: 'accessing-private' stamp: 'len 11/20/2015 22:13'!
 vectorSpace: aVectorSpace
 	vectorSpace _ aVectorSpace! !
 
-!ProjectiveSubspace class methodsFor: 'instance creation' stamp: 'len 11/20/2015 22:04'!
+!ProjectiveLinearSpace class methodsFor: 'instance creation' stamp: 'len 11/20/2015 22:04'!
 on: aVectorSpace
 	"Answer a new instance of the receiver representing
 	the projective space P(V) over a vector space V."
@@ -21075,9 +21089,9 @@ includes: aPoint
 intersection: anAlgebraicSet
 	^ self class on: space ideal: ideal + anAlgebraicSet ideal! !
 
-!AlgebraicSet methodsFor: 'testing' stamp: 'len 2/3/2016 23:04'!
+!AlgebraicSet methodsFor: 'testing' stamp: 'len 8/30/2016 05:48'!
 isAffine
-	^ space isKindOf: AffineSubspace! !
+	^ space isKindOf: AffineLinearSpace! !
 
 !AlgebraicSet methodsFor: 'testing' stamp: 'len 7/4/2016 06:32'!
 isEmpty
@@ -21101,9 +21115,9 @@ isFinite
 isIrreducible
 	^ ideal isPrime "IFF. Alternatively, iif the coordinate ring is an integral domain"! !
 
-!AlgebraicSet methodsFor: 'testing' stamp: 'len 2/3/2016 23:03'!
+!AlgebraicSet methodsFor: 'testing' stamp: 'len 8/30/2016 05:45'!
 isProjective
-	^ space isKindOf: ProjectiveSubspace! !
+	^ space isKindOf: ProjectiveLinearSpace! !
 
 !AlgebraicSet methodsFor: 'testing' stamp: 'len 12/15/2015 20:34'!
 isVariety
@@ -22052,12 +22066,12 @@ project: anIndeterminate
 	"Answer the projection of the receiver by eliminating the given indeterminate."
 	^ self species ideal: (self ideal eliminate: anIndeterminate)! !
 
-!AffineScheme methodsFor: 'operations' stamp: 'len 8/28/2016 00:12'!
+!AffineScheme methodsFor: 'operations' stamp: 'len 8/30/2016 07:11'!
 projectiveClosure
 	"The projective closure of an affine variety is the projective variety corresponding to the homogenized ideal."
 	(self scalars isField and: [self scalars isAlgebraicallyClosed])
 		ifFalse: [self error: 'the ground field is not algebraically closed']. "otherwise the variety obtained can be bigger than the actual projective closure"
-	^ self species ideal: self ideal homogenized! !
+	^ ProjectiveScheme ideal: self ideal homogenized! !
 
 !AffineScheme methodsFor: 'private' stamp: 'len 8/28/2016 00:13'!
 species
@@ -22132,6 +22146,62 @@ coordinateRing: aPolynomialRing
 !AffineSpace class methodsFor: 'instance creation' stamp: 'len 8/27/2016 18:56'!
 new: dimension over: aCommutativeRing
 	^ self new coordinateRing: (aCommutativeRing polynomialsIn: dimension)! !
+
+!Spectrum methodsFor: 'comparing' stamp: 'len 8/30/2016 06:13'!
+< anObject
+	^ self coordinateRing < anObject coordinateRing! !
+
+!Spectrum methodsFor: 'comparing' stamp: 'len 8/30/2016 06:13'!
+<= anObject
+	^ self coordinateRing <= anObject coordinateRing! !
+
+!Spectrum methodsFor: 'comparing' stamp: 'len 8/30/2016 06:13'!
+= anObject
+	^ self coordinateRing = anObject coordinateRing! !
+
+!Spectrum methodsFor: 'accessing' stamp: 'len 8/30/2016 06:19'!
+absoluteDimension
+	^ self coordinateRing krullDimension! !
+
+!Spectrum methodsFor: 'accessing' stamp: 'len 8/29/2016 18:05'!
+coordinateRing
+	^ coordinateRing! !
+
+!Spectrum methodsFor: 'accessing-private' stamp: 'len 8/29/2016 18:04'!
+coordinateRing: aRing
+	coordinateRing _ aRing! !
+
+!Spectrum methodsFor: 'comparing' stamp: 'len 8/30/2016 06:14'!
+hash
+	^ self coordinateRing hash! !
+
+!Spectrum methodsFor: 'accessing' stamp: 'len 8/30/2016 07:04'!
+ideal
+	^ self coordinateRing * #() "zero ideal"! !
+
+!Spectrum methodsFor: 'accessing-private' stamp: 'len 8/30/2016 06:12'!
+ideal: anIdeal
+	self shouldNotImplement! !
+
+!Spectrum methodsFor: 'testing' stamp: 'len 8/29/2016 18:04'!
+includes: anIdeal
+	^ anIdeal ambient = self coordinateRing and: [anIdeal isPrime]! !
+
+!Spectrum methodsFor: 'testing' stamp: 'len 8/30/2016 06:17'!
+isNoetherian
+	^ self coordinateRing isNoetherian! !
+
+!Spectrum methodsFor: 'printing' stamp: 'len 5/25/2016 00:15'!
+printOn: aStream
+	aStream nextPutAll: 'Spec' bold; nextPut: $(; print: ring; nextPut: $)! !
+
+!Spectrum methodsFor: 'accessing' stamp: 'len 8/30/2016 06:19'!
+relativeDimension
+	^ self coordinateRing krullDimension - self baseRing krullDimension! !
+
+!Spectrum class methodsFor: 'instance creation' stamp: 'len 8/29/2016 18:04'!
+on: aRing
+	^ self new coordinateRing: aRing! !
 
 !ProjectiveScheme methodsFor: 'operations' stamp: 'len 8/28/2016 02:42'!
 /\ aProjectiveScheme
@@ -22212,26 +22282,6 @@ coordinateRing: aPolynomialRing
 !ProjectiveSpace class methodsFor: 'instance creation' stamp: 'len 8/27/2016 19:02'!
 new: dimension over: aCommutativeRing
 	^ self new coordinateRing: (aCommutativeRing polynomialsIn: dimension+1)! !
-
-!Spectrum methodsFor: 'accessing' stamp: 'len 8/29/2016 18:05'!
-coordinateRing
-	^ coordinateRing! !
-
-!Spectrum methodsFor: 'accessing-private' stamp: 'len 8/29/2016 18:04'!
-coordinateRing: aRing
-	coordinateRing _ aRing! !
-
-!Spectrum methodsFor: 'testing' stamp: 'len 8/29/2016 18:04'!
-includes: anIdeal
-	^ anIdeal ambient = self coordinateRing and: [anIdeal isPrime]! !
-
-!Spectrum methodsFor: 'printing' stamp: 'len 5/25/2016 00:15'!
-printOn: aStream
-	aStream nextPutAll: 'Spec' bold; nextPut: $(; print: ring; nextPut: $)! !
-
-!Spectrum class methodsFor: 'instance creation' stamp: 'len 8/29/2016 18:04'!
-on: aRing
-	^ self new coordinateRing: aRing! !
 
 !CoxeterSystem methodsFor: 'as yet unclassified' stamp: 'len 5/25/2016 03:46'!
 computeDiagram
@@ -24653,9 +24703,9 @@ from: aLinearBasis matrix: aMatrix
 bitSize
 	^ linearPart bitSize + translation bitSize! !
 
-!AffineMap methodsFor: 'accessing' stamp: 'len 6/4/2016 04:23'!
+!AffineMap methodsFor: 'accessing' stamp: 'len 8/30/2016 05:48'!
 codomain
-	^ AffineSubspace representative: translation direction: linearPart codomain! !
+	^ AffineLinearSpace representative: translation direction: linearPart codomain! !
 
 !AffineMap methodsFor: 'accessing' stamp: 'len 5/14/2016 09:11'!
 codomainFrame
@@ -24677,9 +24727,9 @@ fiberAt: aPoint
 hash
 	^ linearPart hash! !
 
-!AffineMap methodsFor: 'operations' stamp: 'len 6/4/2016 04:23'!
+!AffineMap methodsFor: 'operations' stamp: 'len 8/30/2016 05:48'!
 image
-	^ AffineSubspace representative: translation direction: linearPart image! !
+	^ AffineLinearSpace representative: translation direction: linearPart image! !
 
 !AffineMap methodsFor: 'arithmetic' stamp: 'len 2/11/2016 21:47'!
 inverse
@@ -24797,26 +24847,26 @@ linearPart: aLinearMap translation: aVector
 	"Answer the composition of the receiver with the argument."
 	^ self class linearMap: linearMap @ aProjectiveMap linearMap! !
 
-!ProjectiveMap methodsFor: 'accessing' stamp: 'len 11/21/2015 06:12'!
+!ProjectiveMap methodsFor: 'accessing' stamp: 'len 8/30/2016 05:46'!
 codomain
-	^ ProjectiveSubspace on: linearMap codomain! !
+	^ ProjectiveLinearSpace on: linearMap codomain! !
 
 !ProjectiveMap methodsFor: 'operations' stamp: 'len 6/4/2016 04:55'!
 corestrictedTo: aProjectiveSubspace
 	"Answer a new projectivity like the receiver but with codomain restricted to aProjectiveSubspace."
 	^ self class linearMap: (linearMap corestrictedTo: aProjectiveSubspace vectorSpace)! !
 
-!ProjectiveMap methodsFor: 'accessing' stamp: 'len 11/21/2015 06:12'!
+!ProjectiveMap methodsFor: 'accessing' stamp: 'len 8/30/2016 05:46'!
 domain
-	^ ProjectiveSubspace on: linearMap domain! !
+	^ ProjectiveLinearSpace on: linearMap domain! !
 
 !ProjectiveMap methodsFor: 'comparing' stamp: 'len 2/22/2016 00:57'!
 hash
 	^ (linearMap domain -> linearMap codomain span: {linearMap}) hash! !
 
-!ProjectiveMap methodsFor: 'accessing' stamp: 'len 11/21/2015 06:12'!
+!ProjectiveMap methodsFor: 'accessing' stamp: 'len 8/30/2016 05:46'!
 image
-	^ ProjectiveSubspace on: linearMap image! !
+	^ ProjectiveLinearSpace on: linearMap image! !
 
 !ProjectiveMap methodsFor: 'arithmetic' stamp: 'len 2/25/98 18:14'!
 inverse
@@ -25322,13 +25372,13 @@ generators: aCollection
 	state _ aCollection asOrderedCollection.
 	60 - (state size min: 10) timesRepeat: [self next] "initial precomputation takes about 60 multiplications / inversions in the group"! !
 
-!GroupRandomGenerator methodsFor: 'generating' stamp: 'len 6/28/2016 08:42'!
+!GroupRandomGenerator methodsFor: 'generating' stamp: 'len 8/30/2016 19:53'!
 next
 	"Product Replacement Algorithm. After the initial precomputation, every new random element takes one multiplication and 1/2 inversion in the group."
 	| g g` i |
 	state isNil ifTrue: [self generators: self domain generators].
 	g _ state atRandom: random.
-	[(state at: (i _ state size atRandom: random)) == g] whileTrue.
+	[(state at: (i _ state size atRandom: random)) == g and: [state size > 1 "otherwise fails with cyclic groups"]] whileTrue.
 	(2 atRandom: random) = 1 ifTrue: [g _ self domain inverseMap value: g].
 	g` _ self domain operation value: ({g. state at: i} shuffledBy: random).
 	state size < 10 ifTrue: [state add: g`] ifFalse: [state at: i put: g`].
@@ -27200,13 +27250,13 @@ printTeXOn: aStream
 size
 	^ equations size! !
 
-!LinearSystem methodsFor: 'operations' stamp: 'len 6/4/2016 04:27'!
+!LinearSystem methodsFor: 'operations' stamp: 'len 8/30/2016 05:48'!
 solutions
 	"Answer the manifold of solution of the receiver,
 	or nil if the system has no solutions."
 
 	^ self particular isNil
-		ifFalse: [AffineSubspace representative: self particular direction: self kernel]! !
+		ifFalse: [AffineLinearSpace representative: self particular direction: self kernel]! !
 
 !LinearSystem methodsFor: 'private' stamp: 'len 11/8/2015 03:58'!
 solver
@@ -33415,9 +33465,9 @@ printOn: aStream
 	basis do: [:v| aStream print: v] separatedBy: [aStream nextPutAll: ', '].
 	aStream nextPut: $}! !
 
-!AffineFrame methodsFor: 'accessing' stamp: 'len 6/4/2016 04:22'!
+!AffineFrame methodsFor: 'accessing' stamp: 'len 8/30/2016 05:47'!
 span
-	^ AffineSubspace representative: origin direction: basis span! !
+	^ AffineLinearSpace representative: origin direction: basis span! !
 
 !AffineFrame class methodsFor: 'instance creation' stamp: 'len 1/3/2016 03:43'!
 origin: aPoint basis: aLinearBasis
@@ -33514,7 +33564,7 @@ x: x y: y z: z
 
 	^ self coordinates: (Tuple x: x y: y z: z)! !
 
-!ProjectiveChart methodsFor: 'accessing' stamp: 'len 6/4/2016 04:27'!
+!ProjectiveChart methodsFor: 'accessing' stamp: 'len 8/30/2016 05:48'!
 affine
 	"Answer the affine space associated to the receiver."
 	| parallel |
@@ -33523,7 +33573,7 @@ affine
 		parallel add: (frame space vectorFromPoint: (frame at: i))].
 	self index + 1 to: frame size do: [:i|
 		parallel add: (frame space vectorFromPoint: (frame at: i))].
-	^ AffineSubspace representative: origin direction: parallel span! !
+	^ AffineLinearSpace representative: origin direction: parallel span! !
 
 !ProjectiveChart methodsFor: 'coordinates' stamp: 'len 1/3/2016 05:20'!
 coordinatesOf: aPoint
