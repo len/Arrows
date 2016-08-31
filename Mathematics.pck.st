@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 31 August 2016 at 4:10:03.277675 am'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 31 August 2016 at 8:31:27.400082 am'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 194!
+!provides: 'Mathematics' 1 195!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
 	instanceVariableNames: 'numerator shift'
@@ -1581,18 +1581,78 @@ AlgebraicSet subclass: #Quadric
 Quadric class
 	instanceVariableNames: ''!
 
-!classDefinition: #AlgebraicCurve category: #'Mathematics-Geometry-Algebraic'!
-AlgebraicSet subclass: #AlgebraicCurve
+!classDefinition: #Scheme category: #'Mathematics-Geometry-Algebraic-Schemes'!
+Domain subclass: #Scheme
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Geometry-Algebraic'!
-!classDefinition: 'AlgebraicCurve class' category: #'Mathematics-Geometry-Algebraic'!
-AlgebraicCurve class
+	category: 'Mathematics-Geometry-Algebraic-Schemes'!
+!classDefinition: 'Scheme class' category: #'Mathematics-Geometry-Algebraic-Schemes'!
+Scheme class
+	instanceVariableNames: ''!
+
+!classDefinition: #AffineScheme category: #'Mathematics-Geometry-Algebraic-Schemes'!
+Scheme subclass: #AffineScheme
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Geometry-Algebraic-Schemes'!
+!classDefinition: 'AffineScheme class' category: #'Mathematics-Geometry-Algebraic-Schemes'!
+AffineScheme class
+	instanceVariableNames: ''!
+
+!classDefinition: #AffinePlaneCurve category: #'Mathematics-Geometry-Algebraic-Schemes'!
+AffineScheme subclass: #AffinePlaneCurve
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Geometry-Algebraic-Schemes'!
+!classDefinition: 'AffinePlaneCurve class' category: #'Mathematics-Geometry-Algebraic-Schemes'!
+AffinePlaneCurve class
+	instanceVariableNames: ''!
+
+!classDefinition: #AffineSpace category: #'Mathematics-Geometry-Algebraic-Schemes'!
+AffineScheme subclass: #AffineSpace
+	instanceVariableNames: 'coordinateRing'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Geometry-Algebraic-Schemes'!
+!classDefinition: 'AffineSpace class' category: #'Mathematics-Geometry-Algebraic-Schemes'!
+AffineSpace class
+	instanceVariableNames: ''!
+
+!classDefinition: #Spectrum category: #'Mathematics-Geometry-Algebraic-Schemes'!
+AffineScheme subclass: #Spectrum
+	instanceVariableNames: 'coordinateRing'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Geometry-Algebraic-Schemes'!
+!classDefinition: 'Spectrum class' category: #'Mathematics-Geometry-Algebraic-Schemes'!
+Spectrum class
+	instanceVariableNames: ''!
+
+!classDefinition: #ProjectiveScheme category: #'Mathematics-Geometry-Algebraic-Schemes'!
+Scheme subclass: #ProjectiveScheme
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Geometry-Algebraic-Schemes'!
+!classDefinition: 'ProjectiveScheme class' category: #'Mathematics-Geometry-Algebraic-Schemes'!
+ProjectiveScheme class
+	instanceVariableNames: ''!
+
+!classDefinition: #ProjectiveSpace category: #'Mathematics-Geometry-Algebraic-Schemes'!
+ProjectiveScheme subclass: #ProjectiveSpace
+	instanceVariableNames: 'coordinateRing'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Geometry-Algebraic-Schemes'!
+!classDefinition: 'ProjectiveSpace class' category: #'Mathematics-Geometry-Algebraic-Schemes'!
+ProjectiveSpace class
 	instanceVariableNames: ''!
 
 !classDefinition: #EllipticCurve category: #'Mathematics-ETC'!
-AlgebraicCurve subclass: #EllipticCurve
+ProjectiveScheme subclass: #EllipticCurve
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
@@ -1749,76 +1809,6 @@ Domain subclass: #SimplicialComplex
 	category: 'Mathematics-Homology'!
 !classDefinition: 'SimplicialComplex class' category: #'Mathematics-Homology'!
 SimplicialComplex class
-	instanceVariableNames: ''!
-
-!classDefinition: #Scheme category: #'Mathematics-Schemes'!
-Domain subclass: #Scheme
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Schemes'!
-!classDefinition: 'Scheme class' category: #'Mathematics-Schemes'!
-Scheme class
-	instanceVariableNames: ''!
-
-!classDefinition: #AffineScheme category: #'Mathematics-Schemes'!
-Scheme subclass: #AffineScheme
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Schemes'!
-!classDefinition: 'AffineScheme class' category: #'Mathematics-Schemes'!
-AffineScheme class
-	instanceVariableNames: ''!
-
-!classDefinition: #AffinePlaneCurve category: #'Mathematics-Schemes'!
-AffineScheme subclass: #AffinePlaneCurve
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Schemes'!
-!classDefinition: 'AffinePlaneCurve class' category: #'Mathematics-Schemes'!
-AffinePlaneCurve class
-	instanceVariableNames: ''!
-
-!classDefinition: #AffineSpace category: #'Mathematics-Schemes'!
-AffineScheme subclass: #AffineSpace
-	instanceVariableNames: 'coordinateRing'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Schemes'!
-!classDefinition: 'AffineSpace class' category: #'Mathematics-Schemes'!
-AffineSpace class
-	instanceVariableNames: ''!
-
-!classDefinition: #Spectrum category: #'Mathematics-Schemes'!
-AffineScheme subclass: #Spectrum
-	instanceVariableNames: 'coordinateRing'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Schemes'!
-!classDefinition: 'Spectrum class' category: #'Mathematics-Schemes'!
-Spectrum class
-	instanceVariableNames: ''!
-
-!classDefinition: #ProjectiveScheme category: #'Mathematics-Schemes'!
-Scheme subclass: #ProjectiveScheme
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Schemes'!
-!classDefinition: 'ProjectiveScheme class' category: #'Mathematics-Schemes'!
-ProjectiveScheme class
-	instanceVariableNames: ''!
-
-!classDefinition: #ProjectiveSpace category: #'Mathematics-Schemes'!
-ProjectiveScheme subclass: #ProjectiveSpace
-	instanceVariableNames: 'coordinateRing'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Schemes'!
-!classDefinition: 'ProjectiveSpace class' category: #'Mathematics-Schemes'!
-ProjectiveSpace class
 	instanceVariableNames: ''!
 
 !classDefinition: #CoxeterSystem category: #'Mathematics-Lie'!
@@ -3614,14 +3604,14 @@ Domains, as categorical objects, can have subobjects. Groups have subgroups, vec
 Some domains, such as field extensions, localizations, the field of fractions of a ring, etc have associated canonical embeddings, and should implement #embed: and #embedding. Other domains, such as quotient objects, have canonical projections and should implement #project: and #projection. N-ary products and coproducts should implement #projection: for the i-th projection map.
 
 Subclasses most frequently reimplement the following messages:
--  #= and #<=
--  #includes:
--  #size
--  #do:
--  #atRandom::bits:
--  #printOn:
--  #product: and #coproduct:
--  #->
+- #= and #<=
+- #includes:
+- #size
+- #do:
+- #atRandom::bits:
+- #printOn:
+- #product: and #coproduct:
+- #->, #id and #to:evaluating:
 
 References:
 	https://en.wikipedia.org/wiki/Algebraic_structure
@@ -4129,6 +4119,18 @@ If I is radical, then I(V(I)) = I. There is a one-to-one correspondence between 
 
 If I is a prime ideal, then V(I) is irreducible. There's an one-to-ono correspondence between prime ideals of irreducible algebraic sets (or algebraic varieties). The maximal ideals correspond to points.!
 
+!Scheme commentStamp: '<historical>' prior: 0!
+My instances are schemes over a commutative ring.
+
+References:
+	https://en.wikipedia.org/wiki/Scheme_(mathematics)!
+
+!Spectrum commentStamp: '<historical>' prior: 0!
+My instances are spectra of commutative rings. Given a commutative ring R, the spectrum of R denoted Spec(R) is the set of all prime ideals of R.
+
+References:
+	https://en.wikipedia.org/wiki/Spectrum_of_a_ring!
+
 !SemialgebraicSet commentStamp: '<historical>' prior: 0!
 My instances are semialgebraic sets, i.e. subsets of R^n expressable as finite union and intersection of sets of the form:
 	{(x1,...,xn) | sign(f(x1,...,xn)) = s}
@@ -4152,20 +4154,14 @@ My instances are abstract simplicial complexes. These are combinatorial objects 
 
 Also can be seen as a subset of the power set of some set V, often V={1,...,n}, closed under inclusion.!
 
-!Scheme commentStamp: '<historical>' prior: 0!
-My instances are schemes over a commutative ring.
-
-References:
-	https://en.wikipedia.org/wiki/Scheme_(mathematics)!
-
-!Spectrum commentStamp: '<historical>' prior: 0!
-My instances are spectra of commutative rings. Given a commutative ring R, the spectrum of R denoted Spec(R) is the set of all prime ideals of R.
-
-References:
-	https://en.wikipedia.org/wiki/Spectrum_of_a_ring!
-
 !Morphism commentStamp: '<historical>' prior: 0!
 I'm an abstract superclass for functions and other morphisms.
+
+Examples (three equivalent ways to construct a homomorphism):
+	"These constructions are similar to the explicit construction above, but they actually return homomorphisms of the corresponding category, not necesarily a Function (in this case LinearMaps):"
+	QQ**3 to: QQ**3 evaluating: [:v| (v x - v y, v x, v z)].
+	QQ**3 -> (QQ**3) evaluating: [:v| (v x - v y, v x, v z)].
+	(QQ**3) endomorphisms evaluating: [:v| (v x - v y, v x, v z)].
 
 References:
 	https://en.wikipedia.org/wiki/Morphism
@@ -4176,10 +4172,14 @@ My instances are functions, i.e. maps from a mathematical structure (domain) to 
 
 In general a Function is a morphism of sets. If the function preserves some mathematical structure, it is called a morphism of some category corresponding to the preserved structure. For example linear maps are morphisms of vector spaces, continuous functions are morphisms of topological spaces, and group homomorphisms are morphisms of groups.
 
-Examples (three ways to construct a function):
+Example:
 	Function from: ZZ to: ZZ evaluating: [:x| x squared + 1].
-	ZZ -> ZZ evaluating: [:x| x squared + 1].
-	ZZ endomorphisms evaluating: [:x| x squared + 1]
+
+Examples (three equivalent ways to construct a homomorphism):
+	"These constructions are similar to the explicit construction above, but they actually return homomorphisms of the corresponding category, not arbitrary functions (in this case LinearMaps, morphisms of vector spaces):"
+	QQ**3 to: QQ**3 evaluating: [:v| (v x - v y, v x, v z)].
+	QQ**3 -> (QQ**3) evaluating: [:v| (v x - v y, v x, v z)].
+	(QQ**3) endomorphisms evaluating: [:v| (v x - v y, v x, v z)].
 
 References:
 	https://en.wikipedia.org/wiki/Function_(set_theory)
@@ -11775,9 +11775,9 @@ species
 	"Answer a class appropiate for the subobjects (sub-structures) of the receiver."
 	^ self class! !
 
-!Domain methodsFor: 'morphisms' stamp: 'len 8/31/2016 04:04'!
+!Domain methodsFor: 'morphisms' stamp: 'len 8/31/2016 05:41'!
 to: aDomain evaluating: aBlock
-	"Answer a morphism to the specified domain, evaluating as the given block."
+	"Answer a morphism to the specified codomain (in the same category), evaluating as the given block."
 	^ Function from: self to: aDomain evaluating: aBlock! !
 
 !Domain methodsFor: 'iterating' stamp: 'len 8/1/2016 03:53'!
@@ -12432,7 +12432,7 @@ atRandom: aRandom bits: bitSize
 	self rank = 0 ifTrue: [^ self zero].
 	^ self elementAt: (self coordinateSpace atRandom: aRandom bits: bitSize)! !
 
-!FreeModule methodsFor: 'morphisms' stamp: 'len 7/14/2016 23:52'!
+!FreeModule methodsFor: 'morphisms' stamp: 'len 8/31/2016 08:29'!
 automorphisms
 	^ GeneralLinearGroup on: self! !
 
@@ -15582,10 +15582,10 @@ embeddings
 	When the receiver is a Galois extension, the embeddings send each element to one of its conjugates, and their images are the same."
 	^ properties at: #embeddings ifAbsentPut: [self embeddingsIn: self baseField algebraicClosure]! !
 
-!AlgebraicExtension methodsFor: 'morphisms' stamp: 'len 4/20/2016 02:40'!
+!AlgebraicExtension methodsFor: 'morphisms' stamp: 'len 8/31/2016 05:43'!
 embeddingsIn: aField
 	^ (self polynomial rootsIn: aField)
-		collect: [:x| self -> aField evaluating: [:alpha| alpha representative value: x]]! !
+		collect: [:x| self to: aField evaluating: [:alpha| alpha representative value: x]]! !
 
 !AlgebraicExtension methodsFor: 'testing' stamp: 'len 3/18/2016 22:34'!
 includes: anObject
@@ -20237,14 +20237,14 @@ G12
 	A addRow: (0,0,0,0,0,1, 1,1,2,2,1,0) % 3.
 	^ self matrix: A! !
 
-!LinearCode class methodsFor: 'examples' stamp: 'len 8/31/2016 04:03'!
+!LinearCode class methodsFor: 'examples' stamp: 'len 8/31/2016 05:38'!
 G24
 	"Answer the extended binary Golary code [24,12,8].
 	Its generator matrix is I|A, where I is the 12x12 identity matrix and A is the complement of the adjacency matrix of the icosahedron."
 	| F A |
 	F _ ZZ mod: 2.
 	A _ Graph icosahedron adjacencyMatrix: (1 to: 12).
-	A _ A apply: (A scalars to: F evaluating: [:x| x = 0 ifTrue: [F one] ifFalse: [F zero]]).
+	A _ A apply: (Function from: A scalars to: F evaluating: [:x| x = 0 ifTrue: [F one] ifFalse: [F zero]]).
 	^ self matrix: A species identity | A! !
 
 !LinearCode class methodsFor: 'examples' stamp: 'len 3/31/2016 01:45'!
@@ -20543,8 +20543,9 @@ atRandom: aRandom
 atRandom: aRandom bits: bitSize
 	^ (direction atRandom: aRandom bits: bitSize) + representative! !
 
-!AffineLinearSpace methodsFor: 'morphisms' stamp: 'len 2/12/2016 18:34'!
+!AffineLinearSpace methodsFor: 'morphisms' stamp: 'len 8/31/2016 08:27'!
 automorphisms
+	"Answer the general affine group GA(A)."
 	^ GeneralAffineGroup on: self! !
 
 !AffineLinearSpace methodsFor: 'accessing' stamp: 'len 2/9/2016 21:23'!
@@ -20632,9 +20633,10 @@ isPoint
 isZero
 	^ direction includes: representative! !
 
-!AffineLinearSpace methodsFor: 'morphisms' stamp: 'len 2/12/2016 01:50'!
+!AffineLinearSpace methodsFor: 'morphisms' stamp: 'len 8/31/2016 08:28'!
 motions
-	^ self automorphisms euclidean! !
+	"Answer the Euclidean group E(A), the group of isometries, i.e. distance-preserving morphisms, also called 'motionss'. This is a subgroup of the general affine group GA(A)."
+	^ EuclideanGroup on: self! !
 
 !AffineLinearSpace methodsFor: 'operations' stamp: 'len 6/4/2016 04:21'!
 negated
@@ -20671,9 +20673,10 @@ representative
 representative: aPoint
 	representative _ aPoint! !
 
-!AffineLinearSpace methodsFor: 'morphisms' stamp: 'len 2/12/2016 01:50'!
+!AffineLinearSpace methodsFor: 'morphisms' stamp: 'len 8/31/2016 08:28'!
 rigidMotions
-	^ self automorphisms euclidean special! !
+	"Answer the special Euclidean group SE(A), the group of direct isometries, i.e. isometries preserving orientation, also called 'rigid motions'. This is a subgroup of the Euclidean group of motions (see >>motions) which in turn is a subgroup of the general affine group GA(A)."
+	^ SpecialEuclideanGroup on: self! !
 
 !AffineLinearSpace methodsFor: 'accessing' stamp: 'len 2/9/2016 21:25'!
 scalars
@@ -21256,24 +21259,347 @@ unitCircle
 	y _ Cxy y.
 	^ self ideal: Cxy * {x**2 + (y**2) - 1}! !
 
-!AlgebraicCurve methodsFor: 'accessing' stamp: 'len 2/3/2016 20:31'!
-dimension
-	^ 1! !
+!Scheme methodsFor: 'testing' stamp: 'len 8/27/2016 21:43'!
+isAffine
+	^ false! !
 
-!AlgebraicCurve methodsFor: 'testing' stamp: 'len 5/13/2016 07:47'!
+!Scheme methodsFor: 'testing' stamp: 'len 8/28/2016 02:52'!
+isConnected
+	"Answer true if the receiver as a topological space is connected."
+	^ properties at: #isConnected! !
+
+!Scheme methodsFor: 'testing' stamp: 'len 8/28/2016 02:51'!
+isIrreducible
+	"Answer true if the receiver as a topological space is irreducible."
+	^ properties at: #isIrreducible! !
+
+!Scheme methodsFor: 'testing' stamp: 'len 8/27/2016 21:43'!
+isProjective
+	^ false! !
+
+!AffineScheme methodsFor: 'operations' stamp: 'len 8/27/2016 21:27'!
+/\ anAffineScheme
+	"Answer the intersection of the receiver and the argument."
+	^ self species ideal: self ideal + anAffineScheme ideal! !
+
+!AffineScheme methodsFor: 'comparing' stamp: 'len 8/27/2016 20:47'!
+< anAffineScheme
+	^ self ideal > anAffineScheme ideal! !
+
+!AffineScheme methodsFor: 'comparing' stamp: 'len 8/27/2016 20:43'!
+<= anAffineScheme
+	^ self ideal >= anAffineScheme ideal! !
+
+!AffineScheme methodsFor: 'comparing' stamp: 'len 8/27/2016 20:44'!
+= anObject
+	^ (anObject isKindOf: AffineScheme) and: [self ideal = anObject ideal]! !
+
+!AffineScheme methodsFor: 'operations' stamp: 'len 8/27/2016 21:26'!
+\ anAffineScheme
+	"Answer the difference of the receiver with the argument, whose associated ideal is the ideal (colon) quotient of the respective ideals."
+	^ self species ideal: (self ideal colon: anAffineScheme ideal)! !
+
+!AffineScheme methodsFor: 'operations' stamp: 'len 8/27/2016 21:28'!
+\/ anAffineScheme
+	"Answer the union of the receiver and the argument."
+	^ self species ideal: self ideal /\ anAffineScheme ideal! !
+
+!AffineScheme methodsFor: 'accessing' stamp: 'len 8/27/2016 21:26'!
+ambient
+	^ AffineSpace coordinateRing: self ideal ambient! !
+
+!AffineScheme methodsFor: 'accessing' stamp: 'len 8/27/2016 19:21'!
+coordinateRing
+	^ CoordinateRing on: self! !
+
+!AffineScheme methodsFor: 'accessing' stamp: 'len 8/27/2016 21:27'!
+degree
+	^ self ideal degree! !
+
+!AffineScheme methodsFor: 'accessing' stamp: 'len 8/27/2016 21:26'!
+dimension
+	"This is the trascendence degree of the function field over the ground field."
+	| indeterminates G |
+	G _ self ideal groebnerBasis minimal.
+	indeterminates _ G indeterminates asSet copy.
+	G do: [:each|
+		indeterminates removeAllFoundIn: (G ordering headOf: each) indeterminates].
+	^ indeterminates size! !
+
+!AffineScheme methodsFor: 'accessing' stamp: 'len 8/27/2016 20:41'!
+functionField
+	"Answer the function field (or field of rational functions) of the receiver. This is the fractions field of the coordinate ring and it's noted K(V) (analogous to the coordinate ring noted K[V])."
+	^ self coordinateRing fractions! !
+
+!AffineScheme methodsFor: 'comparing' stamp: 'len 8/27/2016 20:44'!
+hash
+	^ self ideal hash! !
+
+!AffineScheme methodsFor: 'accessing' stamp: 'len 8/27/2016 21:28'!
+ideal
+	^ properties at: #ideal! !
+
+!AffineScheme methodsFor: 'accessing-private' stamp: 'len 8/27/2016 21:28'!
+ideal: aPolynomialIdeal
+	properties at: #ideal put: aPolynomialIdeal! !
+
+!AffineScheme methodsFor: 'testing' stamp: 'len 8/27/2016 21:43'!
+isAffine
+	^ true! !
+
+!AffineScheme methodsFor: 'printing' stamp: 'len 8/27/2016 21:26'!
+printOn: aStream
+	aStream nextPutAll: 'V('.
+	self ideal generators do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: ', '].
+	aStream nextPut: $)! !
+
+!AffineScheme methodsFor: 'operations' stamp: 'len 8/27/2016 21:27'!
+project: anIndeterminate
+	"Answer the projection of the receiver by eliminating the given indeterminate."
+	^ self species ideal: (self ideal eliminate: anIndeterminate)! !
+
+!AffineScheme methodsFor: 'operations' stamp: 'len 8/30/2016 07:11'!
+projectiveClosure
+	"The projective closure of an affine variety is the projective variety corresponding to the homogenized ideal."
+	(self scalars isField and: [self scalars isAlgebraicallyClosed])
+		ifFalse: [self error: 'the ground field is not algebraically closed']. "otherwise the variety obtained can be bigger than the actual projective closure"
+	^ ProjectiveScheme ideal: self ideal homogenized! !
+
+!AffineScheme methodsFor: 'private' stamp: 'len 8/28/2016 00:13'!
+species
+	^ AffineScheme! !
+
+!AffineScheme class methodsFor: 'instance creation' stamp: 'len 8/27/2016 19:22'!
+ideal: anIdeal
+	^ self new ideal: anIdeal! !
+
+!AffinePlaneCurve methodsFor: 'as yet unclassified' stamp: 'len 8/29/2016 16:44'!
+= anAffinePlaneCurve
+	(anAffinePlaneCurve isKindOf: AffinePlaneCurve) ifFalse: [^ super = anAffinePlaneCurve].
+	^ self polynomial = anAffinePlaneCurve polynomial "should be up to multiplication by a constant"! !
+
+!AffinePlaneCurve methodsFor: 'as yet unclassified' stamp: 'len 8/29/2016 16:46'!
+components
+	^ self polynomial factors collect: [:each| self class polynomial: each]! !
+
+!AffinePlaneCurve methodsFor: 'as yet unclassified' stamp: 'len 8/29/2016 16:45'!
+degree
+	^ self polynomial degree! !
+
+!AffinePlaneCurve methodsFor: 'as yet unclassified' stamp: 'len 8/31/2016 08:14'!
 isSingularAt: aPoint
 	^ self polynomial gradient allSatisfy: [:each| (each value: aPoint) isZero]! !
 
-!AlgebraicCurve methodsFor: 'accessing' stamp: 'len 12/14/2015 19:37'!
+!AffinePlaneCurve methodsFor: 'as yet unclassified' stamp: 'len 8/29/2016 16:42'!
 polynomial
 	^ self ideal generator! !
 
-!AlgebraicCurve methodsFor: 'accessing' stamp: 'len 5/13/2016 08:20'!
+!AffinePlaneCurve methodsFor: 'as yet unclassified' stamp: 'len 8/31/2016 08:15'!
 tangentAt: aPoint
 	| g P |
 	g _ self polynomial.
 	P _ g species.
-	^ AlgebraicCurve equation: ((P indeterminates inject: P zero into: [:sum :i| (P x: i) - (aPoint at: i) * ((g derivativeIn: i) value: aPoint) + sum]) eq: P scalars zero)! !
+	^ AffinePlaneCurve polynomial: (P indeterminates inject: P zero into: [:sum :i| (P x: i) - (aPoint at: i) * ((g derivativeIn: i) value: aPoint) + sum])! !
+
+!AffinePlaneCurve class methodsFor: 'instance creation' stamp: 'len 8/29/2016 16:46'!
+polynomial: aPolynomial
+	^ self ideal: aPolynomial species * aPolynomial! !
+
+!AffineSpace methodsFor: 'accessing' stamp: 'len 8/27/2016 19:03'!
+ambient
+	^ self! !
+
+!AffineSpace methodsFor: 'morphisms' stamp: 'len 8/31/2016 08:28'!
+automorphisms
+	"Answer the general affine group GA(A)."
+	^ GeneralAffineGroup on: self! !
+
+!AffineSpace methodsFor: 'accessing' stamp: 'len 8/27/2016 18:56'!
+coordinateRing
+	^ coordinateRing! !
+
+!AffineSpace methodsFor: 'accessing-private' stamp: 'len 8/27/2016 18:56'!
+coordinateRing: aPolynomialRing
+	coordinateRing _ aPolynomialRing! !
+
+!AffineSpace methodsFor: 'accessing' stamp: 'len 8/27/2016 19:46'!
+dimension
+	^ self coordinateRing rank! !
+
+!AffineSpace methodsFor: 'accessing' stamp: 'len 8/27/2016 21:24'!
+ideal
+	"Answer the defining ideal of the receiver, considered as a subscheme of itself."
+	^ self coordinateRing * self scalars zero! !
+
+!AffineSpace methodsFor: 'accessing-private' stamp: 'len 8/27/2016 21:48'!
+ideal: anIdeal
+	self shouldNotImplement! !
+
+!AffineSpace methodsFor: 'morphisms' stamp: 'len 8/31/2016 08:28'!
+motions
+	"Answer the Euclidean group E(A), the group of isometries, i.e. distance-preserving morphisms, also called 'motionss'. This is a subgroup of the general affine group GA(A)."
+	^ EuclideanGroup on: self! !
+
+!AffineSpace methodsFor: 'printing' stamp: 'len 8/27/2016 19:48'!
+printOn: aStream
+	aStream print: self scalars; nextPutAll: self dimension printString super! !
+
+!AffineSpace methodsFor: 'operations' stamp: 'len 8/28/2016 00:13'!
+projectiveClosure
+	^ ProjectiveSpace new: self dimension over: self scalars! !
+
+!AffineSpace methodsFor: 'morphisms' stamp: 'len 8/31/2016 08:28'!
+rigidMotions
+	"Answer the special Euclidean group SE(A), the group of direct isometries, i.e. isometries preserving orientation, also called 'rigid motions'. This is a subgroup of the Euclidean group of motions (see >>motions) which in turn is a subgroup of the general affine group GA(A)."
+	^ SpecialEuclideanGroup on: self! !
+
+!AffineSpace methodsFor: 'accessing' stamp: 'len 8/27/2016 19:47'!
+scalars
+	^ self coordinateRing scalars! !
+
+!AffineSpace class methodsFor: 'instance creation' stamp: 'len 8/27/2016 19:24'!
+coordinateRing: aPolynomialRing
+	^ self new coordinateRing: aPolynomialRing! !
+
+!AffineSpace class methodsFor: 'instance creation' stamp: 'len 8/27/2016 18:56'!
+new: dimension over: aCommutativeRing
+	^ self new coordinateRing: (aCommutativeRing polynomialsIn: dimension)! !
+
+!Spectrum methodsFor: 'comparing' stamp: 'len 8/30/2016 06:13'!
+< anObject
+	^ self coordinateRing < anObject coordinateRing! !
+
+!Spectrum methodsFor: 'comparing' stamp: 'len 8/30/2016 06:13'!
+<= anObject
+	^ self coordinateRing <= anObject coordinateRing! !
+
+!Spectrum methodsFor: 'comparing' stamp: 'len 8/30/2016 06:13'!
+= anObject
+	^ self coordinateRing = anObject coordinateRing! !
+
+!Spectrum methodsFor: 'accessing' stamp: 'len 8/30/2016 06:19'!
+absoluteDimension
+	^ self coordinateRing krullDimension! !
+
+!Spectrum methodsFor: 'accessing' stamp: 'len 8/29/2016 18:05'!
+coordinateRing
+	^ coordinateRing! !
+
+!Spectrum methodsFor: 'accessing-private' stamp: 'len 8/29/2016 18:04'!
+coordinateRing: aRing
+	coordinateRing _ aRing! !
+
+!Spectrum methodsFor: 'comparing' stamp: 'len 8/30/2016 06:14'!
+hash
+	^ self coordinateRing hash! !
+
+!Spectrum methodsFor: 'accessing' stamp: 'len 8/30/2016 07:04'!
+ideal
+	^ self coordinateRing * #() "zero ideal"! !
+
+!Spectrum methodsFor: 'accessing-private' stamp: 'len 8/30/2016 06:12'!
+ideal: anIdeal
+	self shouldNotImplement! !
+
+!Spectrum methodsFor: 'testing' stamp: 'len 8/29/2016 18:04'!
+includes: anIdeal
+	^ anIdeal ambient = self coordinateRing and: [anIdeal isPrime]! !
+
+!Spectrum methodsFor: 'testing' stamp: 'len 8/30/2016 06:17'!
+isNoetherian
+	^ self coordinateRing isNoetherian! !
+
+!Spectrum methodsFor: 'printing' stamp: 'len 5/25/2016 00:15'!
+printOn: aStream
+	aStream nextPutAll: 'Spec' bold; nextPut: $(; print: ring; nextPut: $)! !
+
+!Spectrum methodsFor: 'accessing' stamp: 'len 8/30/2016 06:19'!
+relativeDimension
+	^ self coordinateRing krullDimension - self baseRing krullDimension! !
+
+!Spectrum class methodsFor: 'instance creation' stamp: 'len 8/29/2016 18:04'!
+on: aRing
+	^ self new coordinateRing: aRing! !
+
+!ProjectiveScheme methodsFor: 'operations' stamp: 'len 8/28/2016 02:42'!
+/\ aProjectiveScheme
+	"Answer the intersection of the receiver and the argument."
+	^ self species ideal: self ideal + aProjectiveScheme ideal! !
+
+!ProjectiveScheme methodsFor: 'operations' stamp: 'len 8/28/2016 02:46'!
+\/ aProjectiveScheme
+	"Answer the union of the receiver and the argument."
+	^ self species ideal: self ideal * aProjectiveScheme ideal! !
+
+!ProjectiveScheme methodsFor: 'accessing' stamp: 'len 8/27/2016 21:45'!
+ambient
+	^ ProjectiveSpace coordinateRing: self ideal ambient! !
+
+!ProjectiveScheme methodsFor: 'accessing' stamp: 'len 8/27/2016 21:46'!
+coordinateRing
+	^ CoordinateRing on: self! !
+
+!ProjectiveScheme methodsFor: 'accessing' stamp: 'len 8/27/2016 21:44'!
+ideal
+	^ properties at: #ideal! !
+
+!ProjectiveScheme methodsFor: 'accessing-private' stamp: 'len 8/27/2016 21:45'!
+ideal: anHomogeneousPolynomialIdeal
+	properties at: #ideal put: anHomogeneousPolynomialIdeal! !
+
+!ProjectiveScheme methodsFor: 'testing' stamp: 'len 8/27/2016 21:44'!
+isProjective
+	^ true! !
+
+!ProjectiveScheme methodsFor: 'printing' stamp: 'len 8/27/2016 21:46'!
+printOn: aStream
+	aStream nextPutAll: 'V('.
+	self ideal generators do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: ', '].
+	aStream nextPut: $)! !
+
+!ProjectiveScheme methodsFor: 'private' stamp: 'len 8/28/2016 02:42'!
+species
+	^ ProjectiveScheme! !
+
+!ProjectiveScheme class methodsFor: 'instance creation' stamp: 'len 8/27/2016 21:48'!
+ideal: anHomogeneousPolynomialIdeal
+	^ self new ideal: anHomogeneousPolynomialIdeal! !
+
+!ProjectiveSpace methodsFor: 'accessing' stamp: 'len 8/27/2016 19:03'!
+ambient
+	^ self! !
+
+!ProjectiveSpace methodsFor: 'accessing' stamp: 'len 8/27/2016 18:59'!
+coordinateRing
+	^ coordinateRing! !
+
+!ProjectiveSpace methodsFor: 'accessing-private' stamp: 'len 8/27/2016 18:59'!
+coordinateRing: aPolynomialRing
+	coordinateRing _ aPolynomialRing! !
+
+!ProjectiveSpace methodsFor: 'accessing' stamp: 'len 8/27/2016 19:47'!
+dimension
+	^ self coordinateRing rank - 1! !
+
+!ProjectiveSpace methodsFor: 'accessing-private' stamp: 'len 8/27/2016 21:48'!
+ideal: anIdeal
+	self shouldNotImplement! !
+
+!ProjectiveSpace methodsFor: 'printing' stamp: 'len 8/27/2016 19:47'!
+printOn: aStream
+	aStream nextPut: Character PP; nextPutAll: self dimension printString super; print: self scalars! !
+
+!ProjectiveSpace methodsFor: 'accessing' stamp: 'len 8/27/2016 19:47'!
+scalars
+	^ self coordinateRing scalars! !
+
+!ProjectiveSpace class methodsFor: 'instance creation' stamp: 'len 8/27/2016 19:24'!
+coordinateRing: aPolynomialRing
+	^ self new coordinateRing: aPolynomialRing! !
+
+!ProjectiveSpace class methodsFor: 'instance creation' stamp: 'len 8/27/2016 19:02'!
+new: dimension over: aCommutativeRing
+	^ self new coordinateRing: (aCommutativeRing polynomialsIn: dimension+1)! !
 
 !EllipticCurve methodsFor: 'operations' stamp: 'len 2/3/2016 20:28'!
 discriminant
@@ -21985,322 +22311,6 @@ sphere: n
 !SimplicialComplex class methodsFor: 'examples' stamp: 'len 4/21/2016 03:57'!
 torus
 	^ self notYetImplemented! !
-
-!Scheme methodsFor: 'testing' stamp: 'len 8/27/2016 21:43'!
-isAffine
-	^ false! !
-
-!Scheme methodsFor: 'testing' stamp: 'len 8/28/2016 02:52'!
-isConnected
-	"Answer true if the receiver as a topological space is connected."
-	^ properties at: #isConnected! !
-
-!Scheme methodsFor: 'testing' stamp: 'len 8/28/2016 02:51'!
-isIrreducible
-	"Answer true if the receiver as a topological space is irreducible."
-	^ properties at: #isIrreducible! !
-
-!Scheme methodsFor: 'testing' stamp: 'len 8/27/2016 21:43'!
-isProjective
-	^ false! !
-
-!AffineScheme methodsFor: 'operations' stamp: 'len 8/27/2016 21:27'!
-/\ anAffineScheme
-	"Answer the intersection of the receiver and the argument."
-	^ self species ideal: self ideal + anAffineScheme ideal! !
-
-!AffineScheme methodsFor: 'comparing' stamp: 'len 8/27/2016 20:47'!
-< anAffineScheme
-	^ self ideal > anAffineScheme ideal! !
-
-!AffineScheme methodsFor: 'comparing' stamp: 'len 8/27/2016 20:43'!
-<= anAffineScheme
-	^ self ideal >= anAffineScheme ideal! !
-
-!AffineScheme methodsFor: 'comparing' stamp: 'len 8/27/2016 20:44'!
-= anObject
-	^ (anObject isKindOf: AffineScheme) and: [self ideal = anObject ideal]! !
-
-!AffineScheme methodsFor: 'operations' stamp: 'len 8/27/2016 21:26'!
-\ anAffineScheme
-	"Answer the difference of the receiver with the argument, whose associated ideal is the ideal (colon) quotient of the respective ideals."
-	^ self species ideal: (self ideal colon: anAffineScheme ideal)! !
-
-!AffineScheme methodsFor: 'operations' stamp: 'len 8/27/2016 21:28'!
-\/ anAffineScheme
-	"Answer the union of the receiver and the argument."
-	^ self species ideal: self ideal /\ anAffineScheme ideal! !
-
-!AffineScheme methodsFor: 'accessing' stamp: 'len 8/27/2016 21:26'!
-ambient
-	^ AffineSpace coordinateRing: self ideal ambient! !
-
-!AffineScheme methodsFor: 'accessing' stamp: 'len 8/27/2016 19:21'!
-coordinateRing
-	^ CoordinateRing on: self! !
-
-!AffineScheme methodsFor: 'accessing' stamp: 'len 8/27/2016 21:27'!
-degree
-	^ self ideal degree! !
-
-!AffineScheme methodsFor: 'accessing' stamp: 'len 8/27/2016 21:26'!
-dimension
-	"This is the trascendence degree of the function field over the ground field."
-	| indeterminates G |
-	G _ self ideal groebnerBasis minimal.
-	indeterminates _ G indeterminates asSet copy.
-	G do: [:each|
-		indeterminates removeAllFoundIn: (G ordering headOf: each) indeterminates].
-	^ indeterminates size! !
-
-!AffineScheme methodsFor: 'accessing' stamp: 'len 8/27/2016 20:41'!
-functionField
-	"Answer the function field (or field of rational functions) of the receiver. This is the fractions field of the coordinate ring and it's noted K(V) (analogous to the coordinate ring noted K[V])."
-	^ self coordinateRing fractions! !
-
-!AffineScheme methodsFor: 'comparing' stamp: 'len 8/27/2016 20:44'!
-hash
-	^ self ideal hash! !
-
-!AffineScheme methodsFor: 'accessing' stamp: 'len 8/27/2016 21:28'!
-ideal
-	^ properties at: #ideal! !
-
-!AffineScheme methodsFor: 'accessing-private' stamp: 'len 8/27/2016 21:28'!
-ideal: aPolynomialIdeal
-	properties at: #ideal put: aPolynomialIdeal! !
-
-!AffineScheme methodsFor: 'testing' stamp: 'len 8/27/2016 21:43'!
-isAffine
-	^ true! !
-
-!AffineScheme methodsFor: 'printing' stamp: 'len 8/27/2016 21:26'!
-printOn: aStream
-	aStream nextPutAll: 'V('.
-	self ideal generators do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: ', '].
-	aStream nextPut: $)! !
-
-!AffineScheme methodsFor: 'operations' stamp: 'len 8/27/2016 21:27'!
-project: anIndeterminate
-	"Answer the projection of the receiver by eliminating the given indeterminate."
-	^ self species ideal: (self ideal eliminate: anIndeterminate)! !
-
-!AffineScheme methodsFor: 'operations' stamp: 'len 8/30/2016 07:11'!
-projectiveClosure
-	"The projective closure of an affine variety is the projective variety corresponding to the homogenized ideal."
-	(self scalars isField and: [self scalars isAlgebraicallyClosed])
-		ifFalse: [self error: 'the ground field is not algebraically closed']. "otherwise the variety obtained can be bigger than the actual projective closure"
-	^ ProjectiveScheme ideal: self ideal homogenized! !
-
-!AffineScheme methodsFor: 'private' stamp: 'len 8/28/2016 00:13'!
-species
-	^ AffineScheme! !
-
-!AffineScheme class methodsFor: 'instance creation' stamp: 'len 8/27/2016 19:22'!
-ideal: anIdeal
-	^ self new ideal: anIdeal! !
-
-!AffinePlaneCurve methodsFor: 'as yet unclassified' stamp: 'len 8/29/2016 16:44'!
-= anAffinePlaneCurve
-	(anAffinePlaneCurve isKindOf: AffinePlaneCurve) ifFalse: [^ super = anAffinePlaneCurve].
-	^ self polynomial = anAffinePlaneCurve polynomial "should be up to multiplication by a constant"! !
-
-!AffinePlaneCurve methodsFor: 'as yet unclassified' stamp: 'len 8/29/2016 16:46'!
-components
-	^ self polynomial factors collect: [:each| self class polynomial: each]! !
-
-!AffinePlaneCurve methodsFor: 'as yet unclassified' stamp: 'len 8/29/2016 16:45'!
-degree
-	^ self polynomial degree! !
-
-!AffinePlaneCurve methodsFor: 'as yet unclassified' stamp: 'len 8/29/2016 16:42'!
-polynomial
-	^ self ideal generator! !
-
-!AffinePlaneCurve class methodsFor: 'instance creation' stamp: 'len 8/29/2016 16:46'!
-polynomial: aPolynomial
-	^ self ideal: aPolynomial species * aPolynomial! !
-
-!AffineSpace methodsFor: 'accessing' stamp: 'len 8/27/2016 19:03'!
-ambient
-	^ self! !
-
-!AffineSpace methodsFor: 'accessing' stamp: 'len 8/27/2016 18:56'!
-coordinateRing
-	^ coordinateRing! !
-
-!AffineSpace methodsFor: 'accessing-private' stamp: 'len 8/27/2016 18:56'!
-coordinateRing: aPolynomialRing
-	coordinateRing _ aPolynomialRing! !
-
-!AffineSpace methodsFor: 'accessing' stamp: 'len 8/27/2016 19:46'!
-dimension
-	^ self coordinateRing rank! !
-
-!AffineSpace methodsFor: 'accessing' stamp: 'len 8/27/2016 21:24'!
-ideal
-	"Answer the defining ideal of the receiver, considered as a subscheme of itself."
-	^ self coordinateRing * self scalars zero! !
-
-!AffineSpace methodsFor: 'accessing-private' stamp: 'len 8/27/2016 21:48'!
-ideal: anIdeal
-	self shouldNotImplement! !
-
-!AffineSpace methodsFor: 'printing' stamp: 'len 8/27/2016 19:48'!
-printOn: aStream
-	aStream print: self scalars; nextPutAll: self dimension printString super! !
-
-!AffineSpace methodsFor: 'operations' stamp: 'len 8/28/2016 00:13'!
-projectiveClosure
-	^ ProjectiveSpace new: self dimension over: self scalars! !
-
-!AffineSpace methodsFor: 'accessing' stamp: 'len 8/27/2016 19:47'!
-scalars
-	^ self coordinateRing scalars! !
-
-!AffineSpace class methodsFor: 'instance creation' stamp: 'len 8/27/2016 19:24'!
-coordinateRing: aPolynomialRing
-	^ self new coordinateRing: aPolynomialRing! !
-
-!AffineSpace class methodsFor: 'instance creation' stamp: 'len 8/27/2016 18:56'!
-new: dimension over: aCommutativeRing
-	^ self new coordinateRing: (aCommutativeRing polynomialsIn: dimension)! !
-
-!Spectrum methodsFor: 'comparing' stamp: 'len 8/30/2016 06:13'!
-< anObject
-	^ self coordinateRing < anObject coordinateRing! !
-
-!Spectrum methodsFor: 'comparing' stamp: 'len 8/30/2016 06:13'!
-<= anObject
-	^ self coordinateRing <= anObject coordinateRing! !
-
-!Spectrum methodsFor: 'comparing' stamp: 'len 8/30/2016 06:13'!
-= anObject
-	^ self coordinateRing = anObject coordinateRing! !
-
-!Spectrum methodsFor: 'accessing' stamp: 'len 8/30/2016 06:19'!
-absoluteDimension
-	^ self coordinateRing krullDimension! !
-
-!Spectrum methodsFor: 'accessing' stamp: 'len 8/29/2016 18:05'!
-coordinateRing
-	^ coordinateRing! !
-
-!Spectrum methodsFor: 'accessing-private' stamp: 'len 8/29/2016 18:04'!
-coordinateRing: aRing
-	coordinateRing _ aRing! !
-
-!Spectrum methodsFor: 'comparing' stamp: 'len 8/30/2016 06:14'!
-hash
-	^ self coordinateRing hash! !
-
-!Spectrum methodsFor: 'accessing' stamp: 'len 8/30/2016 07:04'!
-ideal
-	^ self coordinateRing * #() "zero ideal"! !
-
-!Spectrum methodsFor: 'accessing-private' stamp: 'len 8/30/2016 06:12'!
-ideal: anIdeal
-	self shouldNotImplement! !
-
-!Spectrum methodsFor: 'testing' stamp: 'len 8/29/2016 18:04'!
-includes: anIdeal
-	^ anIdeal ambient = self coordinateRing and: [anIdeal isPrime]! !
-
-!Spectrum methodsFor: 'testing' stamp: 'len 8/30/2016 06:17'!
-isNoetherian
-	^ self coordinateRing isNoetherian! !
-
-!Spectrum methodsFor: 'printing' stamp: 'len 5/25/2016 00:15'!
-printOn: aStream
-	aStream nextPutAll: 'Spec' bold; nextPut: $(; print: ring; nextPut: $)! !
-
-!Spectrum methodsFor: 'accessing' stamp: 'len 8/30/2016 06:19'!
-relativeDimension
-	^ self coordinateRing krullDimension - self baseRing krullDimension! !
-
-!Spectrum class methodsFor: 'instance creation' stamp: 'len 8/29/2016 18:04'!
-on: aRing
-	^ self new coordinateRing: aRing! !
-
-!ProjectiveScheme methodsFor: 'operations' stamp: 'len 8/28/2016 02:42'!
-/\ aProjectiveScheme
-	"Answer the intersection of the receiver and the argument."
-	^ self species ideal: self ideal + aProjectiveScheme ideal! !
-
-!ProjectiveScheme methodsFor: 'operations' stamp: 'len 8/28/2016 02:46'!
-\/ aProjectiveScheme
-	"Answer the union of the receiver and the argument."
-	^ self species ideal: self ideal * aProjectiveScheme ideal! !
-
-!ProjectiveScheme methodsFor: 'accessing' stamp: 'len 8/27/2016 21:45'!
-ambient
-	^ ProjectiveSpace coordinateRing: self ideal ambient! !
-
-!ProjectiveScheme methodsFor: 'accessing' stamp: 'len 8/27/2016 21:46'!
-coordinateRing
-	^ CoordinateRing on: self! !
-
-!ProjectiveScheme methodsFor: 'accessing' stamp: 'len 8/27/2016 21:44'!
-ideal
-	^ properties at: #ideal! !
-
-!ProjectiveScheme methodsFor: 'accessing-private' stamp: 'len 8/27/2016 21:45'!
-ideal: anHomogeneousPolynomialIdeal
-	properties at: #ideal put: anHomogeneousPolynomialIdeal! !
-
-!ProjectiveScheme methodsFor: 'testing' stamp: 'len 8/27/2016 21:44'!
-isProjective
-	^ true! !
-
-!ProjectiveScheme methodsFor: 'printing' stamp: 'len 8/27/2016 21:46'!
-printOn: aStream
-	aStream nextPutAll: 'V('.
-	self ideal generators do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: ', '].
-	aStream nextPut: $)! !
-
-!ProjectiveScheme methodsFor: 'private' stamp: 'len 8/28/2016 02:42'!
-species
-	^ ProjectiveScheme! !
-
-!ProjectiveScheme class methodsFor: 'instance creation' stamp: 'len 8/27/2016 21:48'!
-ideal: anHomogeneousPolynomialIdeal
-	^ self new ideal: anHomogeneousPolynomialIdeal! !
-
-!ProjectiveSpace methodsFor: 'accessing' stamp: 'len 8/27/2016 19:03'!
-ambient
-	^ self! !
-
-!ProjectiveSpace methodsFor: 'accessing' stamp: 'len 8/27/2016 18:59'!
-coordinateRing
-	^ coordinateRing! !
-
-!ProjectiveSpace methodsFor: 'accessing-private' stamp: 'len 8/27/2016 18:59'!
-coordinateRing: aPolynomialRing
-	coordinateRing _ aPolynomialRing! !
-
-!ProjectiveSpace methodsFor: 'accessing' stamp: 'len 8/27/2016 19:47'!
-dimension
-	^ self coordinateRing rank - 1! !
-
-!ProjectiveSpace methodsFor: 'accessing-private' stamp: 'len 8/27/2016 21:48'!
-ideal: anIdeal
-	self shouldNotImplement! !
-
-!ProjectiveSpace methodsFor: 'printing' stamp: 'len 8/27/2016 19:47'!
-printOn: aStream
-	aStream nextPut: Character PP; nextPutAll: self dimension printString super; print: self scalars! !
-
-!ProjectiveSpace methodsFor: 'accessing' stamp: 'len 8/27/2016 19:47'!
-scalars
-	^ self coordinateRing scalars! !
-
-!ProjectiveSpace class methodsFor: 'instance creation' stamp: 'len 8/27/2016 19:24'!
-coordinateRing: aPolynomialRing
-	^ self new coordinateRing: aPolynomialRing! !
-
-!ProjectiveSpace class methodsFor: 'instance creation' stamp: 'len 8/27/2016 19:02'!
-new: dimension over: aCommutativeRing
-	^ self new coordinateRing: (aCommutativeRing polynomialsIn: dimension+1)! !
 
 !CoxeterSystem methodsFor: 'as yet unclassified' stamp: 'len 5/25/2016 03:46'!
 computeDiagram
