@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 30 August 2016 at 8:31:37.897803 pm'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 31 August 2016 at 4:10:03.277675 am'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 193!
+!provides: 'Mathematics' 1 194!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
 	instanceVariableNames: 'numerator shift'
@@ -1741,13 +1741,13 @@ SemistandardTableaux subclass: #StandardTableaux
 StandardTableaux class
 	instanceVariableNames: ''!
 
-!classDefinition: #SimplicialComplex category: #'Mathematics-Simplices'!
+!classDefinition: #SimplicialComplex category: #'Mathematics-Homology'!
 Domain subclass: #SimplicialComplex
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Simplices'!
-!classDefinition: 'SimplicialComplex class' category: #'Mathematics-Simplices'!
+	category: 'Mathematics-Homology'!
+!classDefinition: 'SimplicialComplex class' category: #'Mathematics-Homology'!
 SimplicialComplex class
 	instanceVariableNames: ''!
 
@@ -2081,23 +2081,23 @@ Function subclass: #RealRootFunction
 RealRootFunction class
 	instanceVariableNames: ''!
 
-!classDefinition: #ChainMap category: #'Mathematics-Simplices'!
+!classDefinition: #ChainMap category: #'Mathematics-Homology'!
 Function subclass: #ChainMap
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Simplices'!
-!classDefinition: 'ChainMap class' category: #'Mathematics-Simplices'!
+	category: 'Mathematics-Homology'!
+!classDefinition: 'ChainMap class' category: #'Mathematics-Homology'!
 ChainMap class
 	instanceVariableNames: ''!
 
-!classDefinition: #SimplicialMap category: #'Mathematics-Simplices'!
+!classDefinition: #SimplicialMap category: #'Mathematics-Homology'!
 Function subclass: #SimplicialMap
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Simplices'!
-!classDefinition: 'SimplicialMap class' category: #'Mathematics-Simplices'!
+	category: 'Mathematics-Homology'!
+!classDefinition: 'SimplicialMap class' category: #'Mathematics-Homology'!
 SimplicialMap class
 	instanceVariableNames: ''!
 
@@ -2211,13 +2211,13 @@ Diagram subclass: #SubgroupSeries
 SubgroupSeries class
 	instanceVariableNames: ''!
 
-!classDefinition: #ChainComplex category: #'Mathematics-Simplices'!
+!classDefinition: #ChainComplex category: #'Mathematics-Homology'!
 Diagram subclass: #ChainComplex
 	instanceVariableNames: 'arrows'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Simplices'!
-!classDefinition: 'ChainComplex class' category: #'Mathematics-Simplices'!
+	category: 'Mathematics-Homology'!
+!classDefinition: 'ChainComplex class' category: #'Mathematics-Homology'!
 ChainComplex class
 	instanceVariableNames: ''!
 
@@ -2331,13 +2331,13 @@ LinearCombination subclass: #FreePolynomial
 FreePolynomial class
 	instanceVariableNames: ''!
 
-!classDefinition: #SimplicialChain category: #'Mathematics-Simplices'!
+!classDefinition: #SimplicialChain category: #'Mathematics-Homology'!
 LinearCombination subclass: #SimplicialChain
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Simplices'!
-!classDefinition: 'SimplicialChain class' category: #'Mathematics-Simplices'!
+	category: 'Mathematics-Homology'!
+!classDefinition: 'SimplicialChain class' category: #'Mathematics-Homology'!
 SimplicialChain class
 	instanceVariableNames: ''!
 
@@ -3151,6 +3151,16 @@ Object subclass: #YoungDiagram
 YoungDiagram class
 	instanceVariableNames: ''!
 
+!classDefinition: #Simplex category: #'Mathematics-Homology'!
+Object subclass: #Simplex
+	instanceVariableNames: 'points'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Homology'!
+!classDefinition: 'Simplex class' category: #'Mathematics-Homology'!
+Simplex class
+	instanceVariableNames: ''!
+
 !classDefinition: #BerlekampMassey category: #'Mathematics-Algorithms'!
 Object subclass: #BerlekampMassey
 	instanceVariableNames: ''
@@ -3259,16 +3269,6 @@ Object subclass: #DiscretePalette
 	category: 'Mathematics-Morphic'!
 !classDefinition: 'DiscretePalette class' category: #'Mathematics-Morphic'!
 DiscretePalette class
-	instanceVariableNames: ''!
-
-!classDefinition: #Simplex category: #'Mathematics-Simplices'!
-Object subclass: #Simplex
-	instanceVariableNames: 'points'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Simplices'!
-!classDefinition: 'Simplex class' category: #'Mathematics-Simplices'!
-Simplex class
 	instanceVariableNames: ''!
 
 !classDefinition: #CoxeterDiagram category: #'Mathematics-Lie'!
@@ -4769,6 +4769,9 @@ For an example try:
 	UniversalQuantifier indeterminate: 3.
 !
 
+!Simplex commentStamp: '<historical>' prior: 0!
+My instances are (abstract) n-simplices.!
+
 !BerlekampMassey commentStamp: '<historical>' prior: 0!
 I am the Berlekamp-Massey algorithm. The initial purpose of this algorithm was to evaluate Binary BCH codes, but it has found many uses, including inverting matrices of constant diagonal, solving linear recurrences (synthesizing LFSRs with a specified output sequence), etc.
 
@@ -4824,9 +4827,6 @@ I'm the Ritt-Wu process.
 Input: a set of polynomials F = {f1,...,fr} in K[x1,...,xn];
 Output: an extended characteristic set (or ascending chain, or Wu characteristic set) of F.
 !
-
-!Simplex commentStamp: '<historical>' prior: 0!
-My instances are (abstract) n-simplices.!
 
 !GaussianElimination2 commentStamp: '<historical>' prior: 0!
 I am the Gaussian Elimination algorithm.
@@ -11509,12 +11509,12 @@ cartesian: aDomain
 	"Answer the cartesian set product of the receiver with the argument."
 	^ (CartesianProduct components: {self}), aDomain! !
 
-!Domain methodsFor: 'iterating' stamp: 'len 5/3/2016 08:15'!
+!Domain methodsFor: 'iterating' stamp: 'len 8/31/2016 03:33'!
 collect: aBlock
 	| elements |
 	elements _ Set new.
 	self do: [:each| elements add: (aBlock value: each)].
-	^ elements as: Domain! !
+	^ elements as: FormalSet! !
 
 !Domain methodsFor: 'operations' stamp: 'len 4/18/2016 23:31'!
 coproduct: aDomain
@@ -11585,10 +11585,10 @@ generators: aCollection
 hash
 	^ self isFinite ifTrue: [self size hash] ifFalse: [super hash]! !
 
-!Domain methodsFor: 'morphisms' stamp: 'len 8/25/2016 06:24'!
+!Domain methodsFor: 'morphisms' stamp: 'len 8/31/2016 03:42'!
 id
 	"Answer the identity morphism."
-	^ self endomorphisms identity! !
+	^ Identity on: self! !
 
 !Domain methodsFor: 'testing' stamp: 'len 6/23/2016 07:04'!
 includes: anElement
@@ -11759,12 +11759,12 @@ propertyAt: aSymbol ifAbsentPut: aBlock
 propertyAt: aSymbol put: anObject
 	^ properties at: aSymbol put: anObject! !
 
-!Domain methodsFor: 'iterating' stamp: 'len 5/3/2016 08:15'!
+!Domain methodsFor: 'iterating' stamp: 'len 8/31/2016 03:34'!
 select: aBlock
 	| elements |
 	elements _ Set new.
 	self do: [:each| (aBlock value: each) ifTrue: [elements add: each]].
-	^ elements as: Domain! !
+	^ elements as: FormalSet! !
 
 !Domain methodsFor: 'accessing' stamp: 'len 4/25/2016 09:46'!
 size
@@ -11775,9 +11775,10 @@ species
 	"Answer a class appropiate for the subobjects (sub-structures) of the receiver."
 	^ self class! !
 
-!Domain methodsFor: 'morphisms' stamp: 'len 8/25/2016 04:27'!
+!Domain methodsFor: 'morphisms' stamp: 'len 8/31/2016 04:04'!
 to: aDomain evaluating: aBlock
-	^ self -> aDomain evaluating: aBlock! !
+	"Answer a morphism to the specified domain, evaluating as the given block."
+	^ Function from: self to: aDomain evaluating: aBlock! !
 
 !Domain methodsFor: 'iterating' stamp: 'len 8/1/2016 03:53'!
 upTo: maximumNumberOfElements
@@ -12506,6 +12507,11 @@ hull: aCollection
 		representative: x0
 		direction: (self span: ((2 to: vectors size) collect: [:i| x0 - (vectors at: i)]))! !
 
+!FreeModule methodsFor: 'morphisms' stamp: 'len 8/31/2016 03:48'!
+id
+	"Answer the identity morphism."
+	^ LinearMap from: self to: self evaluating: [:x| x]! !
+
 !FreeModule methodsFor: 'testing' stamp: 'len 7/15/2016 00:30'!
 includes: anObject
 "	^ (anObject isKindOf: LinearCombination) and: [anObject coefficients keys allSatisfy: [:each| self generators includes: each]]"
@@ -12617,6 +12623,12 @@ span: aCollection
 !FreeModule methodsFor: 'operations' stamp: 'len 7/14/2016 23:57'!
 tensors: aPair
 	^ Tensors type: aPair on: self! !
+
+!FreeModule methodsFor: 'morphisms' stamp: 'len 8/31/2016 03:54'!
+to: aModule evaluating: aBlock
+	"Answer the module homomorphism from the receiver to the argument."
+	(aModule isKindOf: Module) ifFalse: [^ super to: aModule evaluating: aBlock].
+	^ LinearMap from: self to: aModule evaluating: aBlock! !
 
 !FreeModule methodsFor: 'testing' stamp: 'len 7/15/2016 00:21'!
 torsion
@@ -16536,25 +16548,29 @@ printOn: aStream
 on: aDomain evaluating: aBlock
 	^ self new domain: aDomain; block: aBlock! !
 
-!FormalSet methodsFor: 'as yet unclassified' stamp: 'len 8/9/2016 23:30'!
+!FormalSet methodsFor: 'operations' stamp: 'len 8/9/2016 23:30'!
 / anEquivalenceRelation
 	| relation |
 	relation _ anEquivalenceRelation isBlock ifTrue: [EquivalenceRelation on: self evaluating: anEquivalenceRelation] ifFalse: [anEquivalenceRelation].
 	^ QuotientSet by: relation! !
 
-!FormalSet methodsFor: 'as yet unclassified' stamp: 'len 8/15/2016 03:26'!
+!FormalSet methodsFor: 'morphisms' stamp: 'len 8/15/2016 03:26'!
 automorphisms
 	^ SymmetricGroup on: self! !
 
-!FormalSet methodsFor: 'as yet unclassified' stamp: 'len 8/14/2016 01:35'!
+!FormalSet methodsFor: 'operations' stamp: 'len 8/14/2016 01:35'!
 coproduct: aFormalSet
 	"The coproduct in the category of sets is the disjoint union."
 	^ self species newFrom: ((self elements collect: [:each| (each, 0)]) union: (aFormalSet elements collect: [:each| (each, 1)]))! !
 
-!FormalSet methodsFor: 'as yet unclassified' stamp: 'len 8/14/2016 05:28'!
+!FormalSet methodsFor: 'accessing' stamp: 'len 8/14/2016 05:28'!
 null
 	"Answer the empty set, i.e. the null object in the category of sets."
 	^ self class newFrom: (Set new: 0)! !
+
+!FormalSet methodsFor: 'morphisms' stamp: 'len 8/31/2016 03:36'!
+to: aDomain evaluating: aBlock
+	^ Function from: self to: aDomain evaluating: aBlock! !
 
 !Magma methodsFor: 'copying' stamp: 'len 5/1/2016 23:33'!
 copyEmpty
@@ -17349,6 +17365,12 @@ span: aCollection
 species
 	^ Group! !
 
+!Group methodsFor: 'morphisms' stamp: 'len 8/31/2016 03:55'!
+to: aGroup evaluating: aBlock
+	"Answer the group homomorphism from the receiver to the argument."
+	(aGroup isKindOf: Group) ifFalse: [^ super to: aGroup evaluating: aBlock].
+	^ GroupHomomorphism from: self to: aGroup evaluating: aBlock! !
+
 !Group methodsFor: 'accessing' stamp: 'len 8/4/2016 22:33'!
 trivial
 	"Answer the trivial subgroup."
@@ -17981,13 +18003,14 @@ atRandom: aRandom bits: bits
 commutator
 	^ AlternatingGroup on: space! !
 
-!SymmetricGroup methodsFor: 'private' stamp: 'len 8/30/2016 19:43'!
+!SymmetricGroup methodsFor: 'private' stamp: 'len 8/30/2016 20:41'!
 computeGenerators
 	| answer X |
 	answer _ OrderedCollection new.
 	X _ space asArray.
 	2 to: X size do: [:i| answer add: (Permutation transpose: (X at: 1) with: (X at: i))].
-	^ answer! !
+	^ answer
+"alternatively: Coxeter generators, the set of (i,i+1) all the adjacent transpositions"! !
 
 !SymmetricGroup methodsFor: 'iterating' stamp: 'len 6/28/2016 06:10'!
 do: aBlock
@@ -18977,21 +19000,13 @@ domain
 domain: aDomain
 	properties at: #domain put: aDomain! !
 
-!Morphisms methodsFor: 'accessing-private' stamp: 'len 6/3/2016 03:34'!
-elementClass
-	^ properties at: #elementClass ifAbsent: [Function]! !
-
-!Morphisms methodsFor: 'accessing-private' stamp: 'len 6/3/2016 03:34'!
-elementClass: aClass
-	properties at: #elementClass put: aClass! !
-
-!Morphisms methodsFor: 'elements' stamp: 'len 6/3/2016 03:33'!
+!Morphisms methodsFor: 'elements' stamp: 'len 8/31/2016 03:37'!
 evaluating: aBlock
-	^ self elementClass from: self domain to: self codomain evaluating: aBlock! !
+	^ self domain to: self codomain evaluating: aBlock! !
 
-!Morphisms methodsFor: 'elements' stamp: 'len 2/15/2016 03:58'!
+!Morphisms methodsFor: 'elements' stamp: 'len 8/31/2016 03:41'!
 identity
-	^ self isEndomorphisms ifTrue: [Identity on: self domain]! !
+	^ self isEndomorphisms ifTrue: [self domain id]! !
 
 !Morphisms methodsFor: 'testing' stamp: 'len 4/19/2016 04:53'!
 includes: aMorphism
@@ -20222,14 +20237,14 @@ G12
 	A addRow: (0,0,0,0,0,1, 1,1,2,2,1,0) % 3.
 	^ self matrix: A! !
 
-!LinearCode class methodsFor: 'examples' stamp: 'len 7/15/2016 18:27'!
+!LinearCode class methodsFor: 'examples' stamp: 'len 8/31/2016 04:03'!
 G24
 	"Answer the extended binary Golary code [24,12,8].
 	Its generator matrix is I|A, where I is the 12x12 identity matrix and A is the complement of the adjacency matrix of the icosahedron."
 	| F A |
 	F _ ZZ mod: 2.
 	A _ Graph icosahedron adjacencyMatrix: (1 to: 12).
-	A _ A apply: (A scalars -> F evaluating: [:x| x = 0 ifTrue: [F one] ifFalse: [F zero]]).
+	A _ A apply: (A scalars to: F evaluating: [:x| x = 0 ifTrue: [F one] ifFalse: [F zero]]).
 	^ self matrix: A species identity | A! !
 
 !LinearCode class methodsFor: 'examples' stamp: 'len 3/31/2016 01:45'!
@@ -20467,10 +20482,10 @@ isIrreducible
 - anObject
 	^ self + anObject negated! !
 
-!AffineLinearSpace methodsFor: 'morphisms' stamp: 'len 8/30/2016 05:47'!
--> anAffineSpace
-	(anAffineSpace isKindOf: AffineLinearSpace) ifFalse: [^ super -> anAffineSpace].
-	^ super -> anAffineSpace elementClass: AffineMap! !
+!AffineLinearSpace methodsFor: 'morphisms' stamp: 'len 8/31/2016 04:06'!
+-> aDomain
+	"Answer the morphisms that go from the receiver to the argument."
+	^ AffineMaps from: self to: aDomain! !
 
 !AffineLinearSpace methodsFor: 'operations' stamp: 'len 8/30/2016 05:47'!
 / aLinearSubspace
@@ -20677,6 +20692,11 @@ span: aCollection
 	p _ aCollection anyOne.
 	^ self class representative: p direction: (direction span: ((aCollection copyWithout: p) collect: [:each| each - p]))! !
 
+!AffineLinearSpace methodsFor: 'morphisms' stamp: 'len 8/31/2016 03:38'!
+to: anAffineSpace evaluating: aBlock
+	(anAffineSpace isKindOf: AffineLinearSpace) ifFalse: [^ super to: anAffineSpace evaluating: aBlock].
+	^ AffineMap from: self to: anAffineSpace evaluating: aBlock! !
+
 !AffineLinearSpace class methodsFor: 'instance creation' stamp: 'len 6/4/2016 04:22'!
 representative: aVector direction: aVectorSpace
 	^ self new direction: aVectorSpace; representative: aVector! !
@@ -20714,9 +20734,8 @@ translation: aVector
 + aProjectiveSubspace
 	^ self class on: vectorSpace + aProjectiveSubspace vectorSpace! !
 
-!ProjectiveLinearSpace methodsFor: 'morphisms' stamp: 'len 8/30/2016 05:46'!
+!ProjectiveLinearSpace methodsFor: 'morphisms' stamp: 'len 8/31/2016 03:49'!
 -> aProjectiveSpace
-	(aProjectiveSpace isKindOf: ProjectiveLinearSpace) ifFalse: [^ super -> aProjectiveSpace].
 	^ (vectorSpace -> aProjectiveSpace vectorSpace) projective! !
 
 !ProjectiveLinearSpace methodsFor: 'operations' stamp: 'len 6/5/2016 22:47'!
@@ -22961,9 +22980,9 @@ cyclesDo: aBlock
 		next ~= first] whileTrue.
 		aBlock value: cycle]! !
 
-!Permutation methodsFor: 'accessing' stamp: 'len 5/2/2016 04:43'!
+!Permutation methodsFor: 'accessing' stamp: 'len 8/31/2016 03:34'!
 domain
-	^ map keys as: Domain! !
+	^ map keys as: FormalSet! !
 
 !Permutation methodsFor: 'testing' stamp: 'len 10/1/97 19:09'!
 even
@@ -23281,9 +23300,9 @@ changesDo: aBlock
 degree
 	^ map size! !
 
-!StandardPermutation methodsFor: 'accessing' stamp: 'len 6/28/2016 08:53'!
+!StandardPermutation methodsFor: 'accessing' stamp: 'len 8/31/2016 03:34'!
 domain
-	^ (1 to: map size) as: Domain! !
+	^ (1 to: map size) as: FormalSet! !
 
 !StandardPermutation methodsFor: 'arithmetic' stamp: 'len 6/29/2016 00:24'!
 identity
@@ -35062,6 +35081,180 @@ shape: aPartition
 shape: aPartition
 	^ self new shape: aPartition! !
 
+!Simplex methodsFor: 'comparing' stamp: 'len 6/13/2016 09:34'!
+< aSimplex
+	"Answer true if the receiver is strictly contained in aSimplex as a face."
+	^ aSimplex > self! !
+
+!Simplex methodsFor: 'comparing' stamp: 'len 6/13/2016 09:33'!
+<= aSimplex
+	"Answer true if the receiver is contained in aSimplex as a face."
+	^ aSimplex >= self! !
+
+!Simplex methodsFor: 'comparing' stamp: 'len 3/3/2016 23:32'!
+= aSimplex
+	| ip p |
+	points isEmpty ifTrue: [^ aSimplex points isEmpty].
+	p _ points first.
+	ip _ aSimplex points indexOf: p ifAbsent: [^ false].
+	points withIndexDo: [:each :i|
+		each = (aSimplex points atWrap: i+ip-1) ifFalse: [^ false]].
+	^ true! !
+
+!Simplex methodsFor: 'comparing' stamp: 'len 6/13/2016 09:33'!
+> aSimplex
+	"Answer true if the receiver strictly containes aSimplex as a face."
+	^ self dimension > aSimplex dimension and: [points includesAllOf: aSimplex points]! !
+
+!Simplex methodsFor: 'comparing' stamp: 'len 6/13/2016 09:33'!
+>= aSimplex
+	"Answer true if the receiver containes aSimplex as a face."
+	^ self dimension >= aSimplex dimension and: [points includesAllOf: aSimplex points]! !
+
+!Simplex methodsFor: 'converting' stamp: 'len 5/25/2016 03:46'!
+asSkeletonGraph
+	| graph |
+	graph _ Graph unordered.
+	graph addAll: self facets.
+	self facets do: [:x|
+		self facets do: [:y|
+			graph addEdgeFrom: x to: y]].
+	^ graph! !
+
+!Simplex methodsFor: 'morphisms' stamp: 'len 6/13/2016 00:11'!
+boundary
+	"Answer the union of all facets of the receiver. The boundary of a n-simplex is a (n-1)-chain with coefficients 1 and -1."
+	| answer |
+	answer _ SimplicialChain new.
+	1 to: points size do: [:i|
+		answer coefficientAt: (self class points: (points copyWithoutIndex: i)) add: (-1)**i].
+	^ answer! !
+
+!Simplex methodsFor: 'morphisms' stamp: 'len 6/11/2016 23:57'!
+closure
+	| simplices |
+	simplices _ Set with: self.
+	-1 to: self dimension do: [:i|
+		self faces: i do: [:each| simplices add: each]].
+	^ SimplicialComplex newFrom: simplices! !
+
+!Simplex methodsFor: 'accessing' stamp: 'len 2/23/2016 03:04'!
+dimension
+	^ points size - 1! !
+
+!Simplex methodsFor: 'subobjects' stamp: 'len 2/23/2016 02:02'!
+edges
+	^ self faces: 1! !
+
+!Simplex methodsFor: 'subobjects' stamp: 'len 6/13/2016 00:00'!
+faces
+	"Answer all faces of the receiver (including the empty set and the receiver)."
+	^ Iterator on: [:aBlock| self facesDo: aBlock]! !
+
+!Simplex methodsFor: 'subobjects' stamp: 'len 2/23/2016 02:00'!
+faces: m
+	^ Iterator on: [:aBlock| self faces: m do: aBlock]! !
+
+!Simplex methodsFor: 'subobjects' stamp: 'len 6/13/2016 00:40'!
+faces: m do: aBlock
+	"Iterate over the m-faces of the receiver."
+	m = -1 ifTrue: [^ aBlock value: (self class points: #())].
+	points isEmpty ifTrue: [^ self].
+	points combinations: m+1 atATimeDo: [:each|
+		aBlock value: (self class points: each copy)]! !
+
+!Simplex methodsFor: 'subobjects' stamp: 'len 6/12/2016 23:59'!
+facesDo: aBlock
+	"Iterate over all faces of the receiver (including the empty set and the receiver)."
+	-1 to: self dimension do: [:i| self faces: i do: aBlock]! !
+
+!Simplex methodsFor: 'subobjects' stamp: 'len 6/13/2016 00:09'!
+facets
+	"Answer the boundary faces of the receiver."
+	^ self faces: self dimension - 1! !
+
+!Simplex methodsFor: 'comparing' stamp: 'len 6/12/2016 21:37'!
+hash
+	^ points inject: self class hash into: [:sum :each| sum + each hash hashMultiply]! !
+
+!Simplex methodsFor: 'morphisms' stamp: 'len 6/13/2016 00:16'!
+interior
+	"Answer the interior of the receiver (sometimes called 'open simplex')."
+	^ (SimplicialChain with: self) - self boundary! !
+
+!Simplex methodsFor: 'morphisms' stamp: 'len 6/13/2016 00:26'!
+intersection: aSimplex
+	"Answer the face common to the receiver and aSimplex, which could be {}."
+	^ self class points: (self points intersection: aSimplex points)! !
+
+!Simplex methodsFor: 'testing' stamp: 'len 5/9/2016 21:05'!
+isTrivial
+	^ points isEmpty! !
+
+!Simplex methodsFor: 'arithmetic' stamp: 'len 6/13/2016 00:08'!
+negated
+	"Answer the oppositely oriented simplex."
+	^ self opposite! !
+
+!Simplex methodsFor: 'morphisms' stamp: 'len 6/13/2016 00:08'!
+opposite
+	"Answer the oppositely oriented simplex."
+	^ self class points: (points copy swap: 1 with: 2; yourself)! !
+
+!Simplex methodsFor: 'accessing' stamp: 'len 2/23/2016 01:38'!
+points
+	^ points! !
+
+!Simplex methodsFor: 'accessing-private' stamp: 'len 2/23/2016 01:38'!
+points: aCollection
+	points _ aCollection! !
+
+!Simplex methodsFor: 'printing' stamp: 'len 4/23/2016 05:25'!
+printOn: aStream
+"	aStream print: self dimension; nextPutAll: '-simplex '."
+	self shortPrintOn: aStream! !
+
+!Simplex methodsFor: 'subobjects' stamp: 'len 6/12/2016 23:59'!
+properFaces
+	"Answer all proper faces of the receiver of any dimension (including the empty set)."
+	^ Iterator on: [:aBlock| self properFacesDo: aBlock]! !
+
+!Simplex methodsFor: 'subobjects' stamp: 'len 6/12/2016 23:59'!
+properFacesDo: aBlock
+	"Iterate over all proper faces of the receiver (including the empty set)."
+	-1 to: self dimension - 1 do: [:i| self faces: i do: aBlock]! !
+
+!Simplex methodsFor: 'subobjects' stamp: 'len 2/27/2016 08:15'!
+ridges
+	^ self faces: self dimension - 2! !
+
+!Simplex methodsFor: 'printing' stamp: 'len 4/21/2016 04:05'!
+shortPrintOn: aStream
+	aStream nextPut: ${.
+	self points do: [:each| aStream print: each] separatedBy: [aStream nextPut: $,].
+	aStream nextPut: $}! !
+
+!Simplex methodsFor: 'subobjects' stamp: 'len 2/23/2016 02:01'!
+vertices
+	^ self faces: 0! !
+
+!Simplex methodsFor: 'accessing' stamp: 'len 2/23/2016 02:13'!
+volume
+	^ self notYetImplemented "see wikipedia"! !
+
+!Simplex class methodsFor: 'instance creation' stamp: 'len 6/13/2016 00:53'!
+new: n
+	"Answer the standard n-simplex {1,...,n}."
+	^ self points: (1 to: n+1)! !
+
+!Simplex class methodsFor: 'instance creation' stamp: 'len 4/23/2016 05:21'!
+newFrom: aCollection
+	^ self points: aCollection! !
+
+!Simplex class methodsFor: 'instance creation' stamp: 'len 3/1/2016 02:13'!
+points: aCollection
+	^ self new points: aCollection! !
+
 !BerlekampMassey methodsFor: 'as yet unclassified' stamp: 'len 3/22/2016 23:58'!
 run
 	| F Fx x C L N m B d b s |
@@ -35416,180 +35609,6 @@ colors: anArray
 !DiscretePalette class methodsFor: 'as yet unclassified' stamp: 'len 5/2/2016 07:36'!
 default
 	^ self colors: (#("brightGreen" periwinkle seaGreen hotPink lightYellow cyan lightPink lightOrange  "lightGreen" "lightRed"  "mustard" ) collect: [:each| Color exactColorNamed: each]) "shuffled"! !
-
-!Simplex methodsFor: 'comparing' stamp: 'len 6/13/2016 09:34'!
-< aSimplex
-	"Answer true if the receiver is strictly contained in aSimplex as a face."
-	^ aSimplex > self! !
-
-!Simplex methodsFor: 'comparing' stamp: 'len 6/13/2016 09:33'!
-<= aSimplex
-	"Answer true if the receiver is contained in aSimplex as a face."
-	^ aSimplex >= self! !
-
-!Simplex methodsFor: 'comparing' stamp: 'len 3/3/2016 23:32'!
-= aSimplex
-	| ip p |
-	points isEmpty ifTrue: [^ aSimplex points isEmpty].
-	p _ points first.
-	ip _ aSimplex points indexOf: p ifAbsent: [^ false].
-	points withIndexDo: [:each :i|
-		each = (aSimplex points atWrap: i+ip-1) ifFalse: [^ false]].
-	^ true! !
-
-!Simplex methodsFor: 'comparing' stamp: 'len 6/13/2016 09:33'!
-> aSimplex
-	"Answer true if the receiver strictly containes aSimplex as a face."
-	^ self dimension > aSimplex dimension and: [points includesAllOf: aSimplex points]! !
-
-!Simplex methodsFor: 'comparing' stamp: 'len 6/13/2016 09:33'!
->= aSimplex
-	"Answer true if the receiver containes aSimplex as a face."
-	^ self dimension >= aSimplex dimension and: [points includesAllOf: aSimplex points]! !
-
-!Simplex methodsFor: 'converting' stamp: 'len 5/25/2016 03:46'!
-asSkeletonGraph
-	| graph |
-	graph _ Graph unordered.
-	graph addAll: self facets.
-	self facets do: [:x|
-		self facets do: [:y|
-			graph addEdgeFrom: x to: y]].
-	^ graph! !
-
-!Simplex methodsFor: 'morphisms' stamp: 'len 6/13/2016 00:11'!
-boundary
-	"Answer the union of all facets of the receiver. The boundary of a n-simplex is a (n-1)-chain with coefficients 1 and -1."
-	| answer |
-	answer _ SimplicialChain new.
-	1 to: points size do: [:i|
-		answer coefficientAt: (self class points: (points copyWithoutIndex: i)) add: (-1)**i].
-	^ answer! !
-
-!Simplex methodsFor: 'morphisms' stamp: 'len 6/11/2016 23:57'!
-closure
-	| simplices |
-	simplices _ Set with: self.
-	-1 to: self dimension do: [:i|
-		self faces: i do: [:each| simplices add: each]].
-	^ SimplicialComplex newFrom: simplices! !
-
-!Simplex methodsFor: 'accessing' stamp: 'len 2/23/2016 03:04'!
-dimension
-	^ points size - 1! !
-
-!Simplex methodsFor: 'subobjects' stamp: 'len 2/23/2016 02:02'!
-edges
-	^ self faces: 1! !
-
-!Simplex methodsFor: 'subobjects' stamp: 'len 6/13/2016 00:00'!
-faces
-	"Answer all faces of the receiver (including the empty set and the receiver)."
-	^ Iterator on: [:aBlock| self facesDo: aBlock]! !
-
-!Simplex methodsFor: 'subobjects' stamp: 'len 2/23/2016 02:00'!
-faces: m
-	^ Iterator on: [:aBlock| self faces: m do: aBlock]! !
-
-!Simplex methodsFor: 'subobjects' stamp: 'len 6/13/2016 00:40'!
-faces: m do: aBlock
-	"Iterate over the m-faces of the receiver."
-	m = -1 ifTrue: [^ aBlock value: (self class points: #())].
-	points isEmpty ifTrue: [^ self].
-	points combinations: m+1 atATimeDo: [:each|
-		aBlock value: (self class points: each copy)]! !
-
-!Simplex methodsFor: 'subobjects' stamp: 'len 6/12/2016 23:59'!
-facesDo: aBlock
-	"Iterate over all faces of the receiver (including the empty set and the receiver)."
-	-1 to: self dimension do: [:i| self faces: i do: aBlock]! !
-
-!Simplex methodsFor: 'subobjects' stamp: 'len 6/13/2016 00:09'!
-facets
-	"Answer the boundary faces of the receiver."
-	^ self faces: self dimension - 1! !
-
-!Simplex methodsFor: 'comparing' stamp: 'len 6/12/2016 21:37'!
-hash
-	^ points inject: self class hash into: [:sum :each| sum + each hash hashMultiply]! !
-
-!Simplex methodsFor: 'morphisms' stamp: 'len 6/13/2016 00:16'!
-interior
-	"Answer the interior of the receiver (sometimes called 'open simplex')."
-	^ (SimplicialChain with: self) - self boundary! !
-
-!Simplex methodsFor: 'morphisms' stamp: 'len 6/13/2016 00:26'!
-intersection: aSimplex
-	"Answer the face common to the receiver and aSimplex, which could be {}."
-	^ self class points: (self points intersection: aSimplex points)! !
-
-!Simplex methodsFor: 'testing' stamp: 'len 5/9/2016 21:05'!
-isTrivial
-	^ points isEmpty! !
-
-!Simplex methodsFor: 'arithmetic' stamp: 'len 6/13/2016 00:08'!
-negated
-	"Answer the oppositely oriented simplex."
-	^ self opposite! !
-
-!Simplex methodsFor: 'morphisms' stamp: 'len 6/13/2016 00:08'!
-opposite
-	"Answer the oppositely oriented simplex."
-	^ self class points: (points copy swap: 1 with: 2; yourself)! !
-
-!Simplex methodsFor: 'accessing' stamp: 'len 2/23/2016 01:38'!
-points
-	^ points! !
-
-!Simplex methodsFor: 'accessing-private' stamp: 'len 2/23/2016 01:38'!
-points: aCollection
-	points _ aCollection! !
-
-!Simplex methodsFor: 'printing' stamp: 'len 4/23/2016 05:25'!
-printOn: aStream
-"	aStream print: self dimension; nextPutAll: '-simplex '."
-	self shortPrintOn: aStream! !
-
-!Simplex methodsFor: 'subobjects' stamp: 'len 6/12/2016 23:59'!
-properFaces
-	"Answer all proper faces of the receiver of any dimension (including the empty set)."
-	^ Iterator on: [:aBlock| self properFacesDo: aBlock]! !
-
-!Simplex methodsFor: 'subobjects' stamp: 'len 6/12/2016 23:59'!
-properFacesDo: aBlock
-	"Iterate over all proper faces of the receiver (including the empty set)."
-	-1 to: self dimension - 1 do: [:i| self faces: i do: aBlock]! !
-
-!Simplex methodsFor: 'subobjects' stamp: 'len 2/27/2016 08:15'!
-ridges
-	^ self faces: self dimension - 2! !
-
-!Simplex methodsFor: 'printing' stamp: 'len 4/21/2016 04:05'!
-shortPrintOn: aStream
-	aStream nextPut: ${.
-	self points do: [:each| aStream print: each] separatedBy: [aStream nextPut: $,].
-	aStream nextPut: $}! !
-
-!Simplex methodsFor: 'subobjects' stamp: 'len 2/23/2016 02:01'!
-vertices
-	^ self faces: 0! !
-
-!Simplex methodsFor: 'accessing' stamp: 'len 2/23/2016 02:13'!
-volume
-	^ self notYetImplemented "see wikipedia"! !
-
-!Simplex class methodsFor: 'instance creation' stamp: 'len 6/13/2016 00:53'!
-new: n
-	"Answer the standard n-simplex {1,...,n}."
-	^ self points: (1 to: n+1)! !
-
-!Simplex class methodsFor: 'instance creation' stamp: 'len 4/23/2016 05:21'!
-newFrom: aCollection
-	^ self points: aCollection! !
-
-!Simplex class methodsFor: 'instance creation' stamp: 'len 3/1/2016 02:13'!
-points: aCollection
-	^ self new points: aCollection! !
 
 !CoxeterDiagram methodsFor: 'as yet unclassified' stamp: 'len 2/11/2016 22:11'!
 gramMatrix
