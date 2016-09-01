@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 30 August 2016 at 8:19:22.825074 pm'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 1 September 2016 at 8:07:38.928353 am'!
 'Description Please enter a description for this package'!
-!provides: 'MathematicsTests' 1 6!
+!provides: 'MathematicsTests' 1 7!
 !classDefinition: #AffineGeometryTest category: #MathematicsTests!
 TestCase subclass: #AffineGeometryTest
 	instanceVariableNames: ''
@@ -510,7 +510,7 @@ testAlgebraicSetFinite
 	V _ (Qxy * {x*x - 1. y*y - (x*x) - 3}) variety.
 	self assert: V isFinite! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:55'!
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 9/1/2016 08:00'!
 testAlgebraicSetIntersection
 	| Qxy x y V V` W |
 	Qxy _ QQ polynomialsIn: #(x y).
@@ -518,7 +518,7 @@ testAlgebraicSetIntersection
 	y _ Qxy y.
 	V _ (Qxy * {y}) variety.
 	V` _ (Qxy * {x*x - 1}) variety.
-	W _ V /\ V`.
+	W _ V ˜ V`.
 	self assert: (W includes: (1, 0)).
 	self assert: (W includes: (0, 1)) not! !
 
@@ -926,7 +926,7 @@ testIdealHomogenization
 	J _ Qx * {f1 homogenized. f2 homogenized}.
 	self deny: (J includes: f3 homogenized)! !
 
-!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:56'!
+!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 9/1/2016 08:00'!
 testIdealIntersection
 	"Example from Cox IVA 194 p."
 	| Qxy x y I J K |
@@ -936,7 +936,7 @@ testIdealIntersection
 	I _ Qxy * {x**2 * y}.
 	J _ Qxy * {x * (y**2)}.
 	K _ Qxy * {x**2*(y**2)}.
-	self assert: I /\ J = K! !
+	self assert: I ˜ J = K! !
 
 !CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 19:31'!
 testIdealIsPrime
@@ -1126,13 +1126,13 @@ testChromaticPolynomialPath
 	n _ 4 atRandom + 1.
 	self assert: (Graph P: n) chromaticPolynomial = (x-1**(n-1)*x)! !
 
-!GraphTest methodsFor: 'as yet unclassified' stamp: 'len 5/25/2016 03:46'!
+!GraphTest methodsFor: 'as yet unclassified' stamp: 'len 9/1/2016 07:53'!
 testComplement
 	| G H |
 	G _ Graph unordered addEdges: {#a -> #b. #b -> #c. #d -> #e}; yourself.
 	H _ G complement.
-	self assert: (G union: H) isComplete.
-	self assert: (G intersection: H) isEdgeless.
+	self assert: (G ™ H) isComplete.
+	self assert: (G ˜ H) isEdgeless.
 	self assert: H complement = G! !
 
 !GraphTest methodsFor: 'as yet unclassified' stamp: 'len 5/25/2016 03:46'!
@@ -1170,12 +1170,12 @@ testImplicit
 	self assert: G values asSet = #(1 2 4 8) asSet.
 	self assert: G edges size = 6! !
 
-!GraphTest methodsFor: 'as yet unclassified' stamp: 'len 5/25/2016 03:39'!
+!GraphTest methodsFor: 'as yet unclassified' stamp: 'len 9/1/2016 07:53'!
 testIntersection
 	| G H I |
 	G _ Digraph unordered addEdges: {#a -> #b. #b -> #c. #d -> #e. #x -> #b}; yourself.
 	H _ Digraph unordered addEdges: {#A -> #B. #b -> #c. #d -> #e. #X -> #X. #b -> #a}; yourself.
-	I _ G intersection: H.
+	I _ G ˜ H.
 	self assert: I numberOfEdges = 2.
 	self assert: (I hasEdge: #b -> #c).
 	self assert: (I hasEdge: #d -> #e)! !
@@ -1318,11 +1318,11 @@ testUndirectedEdgeContraction
 	self assert: (G / (1->2)) edges size = 4.
 	self assert: (G / (1->2) / ((1->2)->3)) edges size = 3! !
 
-!GraphTest methodsFor: 'as yet unclassified' stamp: 'len 5/25/2016 03:39'!
+!GraphTest methodsFor: 'as yet unclassified' stamp: 'len 9/1/2016 07:51'!
 testUnion
 	| G |
 	G _ Digraph unordered addEdges: {#a -> #b. #b -> #c. #d -> #e. #x -> #b}; yourself.
-	self assert: (G union: G transposed) = G symmetric! !
+	self assert: (G ™ G transposed) = G symmetric! !
 
 !GroupTest methodsFor: 'as yet unclassified' stamp: 'len 8/30/2016 20:00'!
 smallGroupAtRandom
@@ -1499,7 +1499,7 @@ testAnnihilator
 	self assert: S0 dimension = S codimension.
 	S0 basis do: [:f| self assert: (f value: v) isZero]! !
 
-!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:57'!
+!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 9/1/2016 08:00'!
 testAnnihilatorProperties
 	| V S T |
 	V _ QQ ** 5.
@@ -1508,7 +1508,7 @@ testAnnihilatorProperties
 	T _ V span: T basis. "hack, otherwise T ambient = S"
 	self assert: T <= S.
 	self assert: T annihilator >= S annihilator. "reverses inclusions"
-	self assert: (S + T) annihilator = (S annihilator /\ T annihilator).
+	self assert: (S + T) annihilator = (S annihilator ˜ T annihilator).
 	self assert: S dimension + S annihilator dimension = V dimension.
 	self assert: V annihilator isTrivial.
 "	self assert: S annihilator annihilator = S dual dual"! !
@@ -1854,7 +1854,7 @@ testPerp
 	p _ S projection.
 	self assert: p kernel = perp! !
 
-!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:02'!
+!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 9/1/2016 08:00'!
 testPerpProperties
 	| V S T |
 	V _ QQ ** 3.
@@ -1862,7 +1862,7 @@ testPerpProperties
 	T _ V span: {(1, -1, -3)}. "subspace of S"
 	self assert: S + S perp = V.
 	self assert: T + T perp = V.
-	self assert: (S /\ S perp) isTrivial.
+	self assert: (S ˜ S perp) isTrivial.
 	self assert: S <= S perp perp.
 	self assert: S perp < T perp "because S > T"! !
 
@@ -1887,13 +1887,13 @@ testQuotient
 	self assert: (V / V null) dimension = V dimension.
 	self assert: (V / V) dimension = 0! !
 
-!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:02'!
+!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 9/1/2016 08:00'!
 testSecondIsomorphismTheorem
 	| V S T |
 	V _ QQ ** 5.
 	S _ V grassmannian: (1 to: V dimension) atRandom :: atRandomBits: 50.
 	T _ V grassmannian: (1 to: V dimension) atRandom :: atRandomBits: 50.
-	self assert: (S+T)/T ~ (S/(S /\ T))
+	self assert: (S+T)/T ~ (S/(S ˜ T))
 "	f _ S -> T :: atRandomBits: 10.
 	phi _ S / f kernel -> f image evaluating: [:x| f value: x representative].
 	self assert: phi isIsomorphism"! !
@@ -1913,17 +1913,17 @@ testSubspaceInclusion
 	self assert: (S > P) not.
 	self assert: (P < S) not! !
 
-!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:02'!
+!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 9/1/2016 08:01'!
 testSubspaceIntersection
 	| V S T T` |
 	V _ QQ ** 3.
 	S _ V span: {(1, 1, 1). (2, 0, -2)}.
-	self assert: S /\ V = S.
-	self assert: S /\ S = S.
+	self assert: S ˜ V = S.
+	self assert: S ˜ S = S.
 	T _ V span: {(3,1,-1)}.
-	self assert: S /\ T = T.
+	self assert: S ˜ T = T.
 	T` _ V span: {(3,1,-1). (0,1,0)}.
-	self assert: S /\ T` = T! !
+	self assert: S ˜ T` = T! !
 
 !LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:02'!
 testSubspaceOfSubspace
@@ -3604,7 +3604,7 @@ testZeroCoefficientBug
 	Qx _ QQ polynomials.
 	self assert: (Qx one * 0) isZero! !
 
-!ProjectiveGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 8/10/2016 06:21'!
+!ProjectiveGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 9/1/2016 07:41'!
 testDesarguesTheorem
 	"In a projective space of dimension >= 3, two triangles are in perspective axially iff they are in perspective centrally. In other words, given two triangles {a,b,c} and {A,B,C}, if the lines aA, bB and cC are concurrent (meet at a point), then the points AB /\ ab, AC /\ ac and BC /\ bc are collinear.
 	
@@ -3618,21 +3618,21 @@ testDesarguesTheorem
 	b _ P atRandomBits: 100.
 	c _ P atRandomBits: 100.
 	
-	X _ A+B /\ (a+b).
-	Y _ A+C /\ (a+c).
-	Z _ B+C /\ (b+c).
+	X _ A+B ˜ (a+b).
+	Y _ A+C ˜ (a+c).
+	Z _ B+C ˜ (b+c).
 	"aA,bB,cC are not concurrent:"
-	self deny: (a+A /\ (b+B) /\ (c+C)) isPoint.
+	self deny: (a+A ˜ (b+B) ˜ (c+C)) isPoint.
 	"X,Y,Z are not collinear:"
 	self deny: (X+Y+Z) isLine.
 
 	"make the lines concurrent:"
-	C _ a+A /\ (b+B).
+	C _ a+A ˜ (b+B).
 	"p1 _ A+B /\ (a+b)."
-	Y _ A+C /\ (a+c).
-	Z _ B+C /\ (b+c).
+	Y _ A+C ˜ (a+c).
+	Z _ B+C ˜ (b+c).
 	"aA,bB,cC are concurrent:"
-	self assert: (a+A /\ (b+B) /\ (c+C)) isPoint.
+	self assert: (a+A ˜ (b+B) ˜ (c+C)) isPoint.
 	"X,Y,Z are collinear"
 	self assert: (X+Y+Z) isLine! !
 
@@ -3641,7 +3641,7 @@ testHomogeneousTuples
 	self assert: (1,2,3) homogeneous = (2,4,6) homogeneous.
 	self assert: (1,2,3) homogeneous ~= (-2,4,6) homogeneous! !
 
-!ProjectiveGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:10'!
+!ProjectiveGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 9/1/2016 08:01'!
 testPappusHexagonTheorem
 	"Given a set of collinear points {A,B,C} and another set of collinear points {a,b,c}, then the intersection points X,Y,Z of line pairs Ab and aB, Ac and aC, Bc and bC are collinear.
 	The theorem is true in any projective plane over any field, but fails for projective planes over any skewfield (non-commutative division ring). The projective planes in which the theorem is valid are called pappian planes."
@@ -3654,9 +3654,9 @@ testPappusHexagonTheorem
 	b _ P atRandomBits: 100.
 	c _ a+b :: atRandomBits: 100.
 	
-	X _ A+b /\ (a+B).
-	Y _ A+c /\ (a+C).
-	Z _ B+c /\ (b+C).
+	X _ A+b ˜ (a+B).
+	Y _ A+c ˜ (a+C).
+	Z _ B+c ˜ (b+C).
 
 	"A,B,C are collinear:"
 	self assert: (A+B+C) isLine.

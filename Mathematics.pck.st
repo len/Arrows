@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 31 August 2016 at 8:31:27.400082 am'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 1 September 2016 at 8:07:42.917198 am'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 195!
+!provides: 'Mathematics' 1 196!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
 	instanceVariableNames: 'numerator shift'
@@ -671,16 +671,6 @@ Ring subclass: #FreeAlgebra
 FreeAlgebra class
 	instanceVariableNames: ''!
 
-!classDefinition: #GroupRing category: #'Mathematics-Free'!
-Ring subclass: #GroupRing
-	instanceVariableNames: 'group scalars'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Free'!
-!classDefinition: 'GroupRing class' category: #'Mathematics-Free'!
-GroupRing class
-	instanceVariableNames: ''!
-
 !classDefinition: #DirectProductRing category: #'Mathematics-Rings'!
 Ring subclass: #DirectProductRing
 	instanceVariableNames: 'components'
@@ -689,6 +679,16 @@ Ring subclass: #DirectProductRing
 	category: 'Mathematics-Rings'!
 !classDefinition: 'DirectProductRing class' category: #'Mathematics-Rings'!
 DirectProductRing class
+	instanceVariableNames: ''!
+
+!classDefinition: #GroupRing category: #'Mathematics-Rings'!
+Ring subclass: #GroupRing
+	instanceVariableNames: 'group scalars'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Rings'!
+!classDefinition: 'GroupRing class' category: #'Mathematics-Rings'!
+GroupRing class
 	instanceVariableNames: ''!
 
 !classDefinition: #QuotientRing category: #'Mathematics-Rings'!
@@ -3624,7 +3624,9 @@ References:
 !AbelianGroup commentStamp: '<historical>' prior: 0!
 My instances are additive (abelian, commutative) groups. Subclasses are structures that build up from an abelian group, such as modules, vector spaces, rings, ideals, etc.
 
-Group-specific behaviour is not implemented here. My instances are viewed not as groups but as some structure that has an underlying abelian group structure, and in order to operate with the group structure it must be converted to a Group (see >>asGroup).!
+Group-specific behaviour is not implemented here. My instances are viewed not as groups but as some structure that has an underlying abelian group structure, and in order to operate with the group structure it must be converted to a Group (see >>asGroup).
+
+As an abelian category, morphisms and objects can be added, and kernels and cokernels exist.!
 
 !Ideal commentStamp: '<historical>' prior: 0!
 My instances are finitely-generated ideals of a commutative ring.
@@ -3734,7 +3736,9 @@ The idea of 'ring' appears naturally in mathematics when considering the endomor
 Rings can be commutative or non-commutative. Some specific kinds of commutative rings are given with the following class of inclusions:
 	Commutative rings > integral domains > integrity closed domains > unique factorization domains > principal ideal domains > Euclidean domains > fields > finite fields.
 
-Rings can be constructed from existing rings by taking quotients by an ideal (see QuotientRing), by making fractions (see FractionField), by making transcendental extensions (PolynomialRing), etc.!
+Rings can be constructed from existing rings by taking quotients by an ideal (see QuotientRing), by making transcendental extensions (see PolynomialRing), etc.
+
+Rings can be made into fields by 'adding the missing multiplicative inverses' or localization, for example by making fractions of an integral domain (see FractionField).!
 
 !Integers commentStamp: '<historical>' prior: 0!
 My singletion global instance ZZ is the ring of integer numbers.!
@@ -3793,7 +3797,12 @@ I'm the field of complex numbers extended with the point a infinity.!
 I'm the field of real numbers.!
 
 !FractionField commentStamp: '<historical>' prior: 0!
-My instances are fields of fractions (ratios, quotients) in an integral domain. See Ring>>fractions.
+My instances are fields of fractions (ratios, quotients) with numerator and (nonzero) denominator in an integral domain. See Ring>>fractions.
+
+For example, the field of fractions of the integers is the rational numbers:
+	ZZ fractions
+
+The field of fractions is a particular case of the more general construction of the localization of a ring or module.
 
 References:
 	https://en.wikipedia.org/wiki/Field_of_fractions!
@@ -3958,7 +3967,7 @@ Examples:
 	SymmetricGroup on: #(a b c).!
 
 !UnitsGroup commentStamp: '<historical>' prior: 0!
-My instances are sets of ring units.
+My instances are sets of ring units, that have a group structure.
 
 Given a ring R, the group of units of R is the set of elements of R that have multiplicative inverse, and they form a group under multiplication. For a field F (or more generally a division ring), the units are all non-zero elements F \ {0}.
 
@@ -5321,6 +5330,14 @@ count
 >= aCollection
 	"Answer true if aCollection is a subcollection of the receiver."
 	^ aCollection <= self! !
+
+!Collection methodsFor: '*mathematics' stamp: 'len 9/1/2016 07:50'!
+˜ aCollection
+	^ self intersection: aCollection! !
+
+!Collection methodsFor: '*mathematics' stamp: 'len 9/1/2016 07:50'!
+™ aCollection
+	^ self union: aCollection! !
 
 !Collection methodsFor: '*mathematics' stamp: 'len 2/18/2003 21:40'!
 anyIfNone: aBlock
@@ -7843,11 +7860,11 @@ on: aBlock
 on: anObject performing: aSymbol
 	^ self new block: [:aBlock| anObject perform: aSymbol with: aBlock]! !
 
-!AbstractGraph methodsFor: 'operations' stamp: 'len 7/13/2016 21:52'!
+!AbstractGraph methodsFor: 'operations' stamp: 'len 9/1/2016 07:48'!
 + aGraphOrEdge
 	"Answer the dijoint union of the receiver with the argument. Assume they are disjoint."
 	(aGraphOrEdge isKindOf: Association)
-		ifFalse: [^ self union: aGraphOrEdge].
+		ifFalse: [^ self ™ aGraphOrEdge].
 	(self hasEdge: aGraphOrEdge)
 		ifFalse: [^ self copy addEdge: aGraphOrEdge; yourself]! !
 
@@ -7931,6 +7948,29 @@ on: anObject performing: aSymbol
 	H _ aGraph asStandard.
 	(SymmetricGroup new: n) do: [:each| (G apply: each) = H ifTrue: [^ true]].
 	^ false! !
+
+!AbstractGraph methodsFor: 'operations' stamp: 'len 9/1/2016 07:48'!
+˜ aGraph
+	"Answer the graph whose vertices and edges is the intersection of the vertices and edges of the receiver and the argument."
+	| answer |
+	answer _ self copyEmpty.
+	aGraph nodesDo: [:each|
+		(self nodeAt: each ifAbsent: [])
+			ifNotNil: [:node|
+				answer add: each.
+				each neighborsDo: [:n|
+					(node hasEdgeTo: n)
+						ifTrue: [answer addEdgeFrom: each to: n]]]].
+	^ answer! !
+
+!AbstractGraph methodsFor: 'operations' stamp: 'len 9/1/2016 07:48'!
+™ aGraph
+	"Answer the graph whose vertices and edges are the union of the vertices and edges of the receiver and the argument."
+	| answer |
+	answer _ self copy.
+	aGraph do: [:each| answer add: each].
+	aGraph edgesDo: [:each| answer addEdgeFrom: each key to: each value].
+	^ answer! !
 
 !AbstractGraph methodsFor: 'adding/removing' stamp: 'len 7/13/2016 21:55'!
 addEdge: edge 
@@ -8324,20 +8364,6 @@ includes: anObject
 	"Answer whether anObject is one of the vertices of the receiver."
 	^ self nodes includes: anObject! !
 
-!AbstractGraph methodsFor: 'operations' stamp: 'len 7/13/2016 22:07'!
-intersection: aGraph
-	"Answer the graph whose vertices and edges is the intersection of the vertices and edges of the receiver and the argument."
-	| answer |
-	answer _ self copyEmpty.
-	aGraph nodesDo: [:each|
-		(self nodeAt: each ifAbsent: [])
-			ifNotNil: [:node|
-				answer add: each.
-				each neighborsDo: [:n|
-					(node hasEdgeTo: n)
-						ifTrue: [answer addEdgeFrom: each to: n]]]].
-	^ answer! !
-
 !AbstractGraph methodsFor: 'testing' stamp: 'len 7/13/2016 22:32'!
 isChain
 	"Answer whether the graph is a chain - path graph."
@@ -8619,15 +8645,6 @@ transposed
 	| answer |
 	answer _ self copyEmpty.
 	self edgesDo: [:each | answer addEdge: (Association key: each value value: each key)].
-	^ answer! !
-
-!AbstractGraph methodsFor: 'operations' stamp: 'len 7/20/2016 23:34'!
-union: aGraph
-	"Answer the graph whose vertices and edges are the union of the vertices and edges of the receiver and the argument."
-	| answer |
-	answer _ self copy.
-	aGraph do: [:each| answer add: each].
-	aGraph edgesDo: [:each| answer addEdgeFrom: each key to: each value].
 	^ answer! !
 
 !AbstractGraph methodsFor: 'accessing' stamp: 'len 7/23/2016 04:32'!
@@ -11399,9 +11416,9 @@ wantsToBeDroppedInto: aMorph
 	relation _ anEquivalenceRelation isBlock ifTrue: [EquivalenceRelation on: self evaluating: anEquivalenceRelation] ifFalse: [anEquivalenceRelation].
 	^ QuotientSet by: relation! !
 
-!Domain methodsFor: 'operations' stamp: 'len 6/13/2016 00:30'!
+!Domain methodsFor: 'operations' stamp: 'len 9/1/2016 07:53'!
 /\ aDomain
-	^ self intersection: aDomain! !
+	^ self ˜ aDomain! !
 
 !Domain methodsFor: 'comparing' stamp: 'len 8/12/2016 21:51'!
 < aDomain
@@ -11451,6 +11468,11 @@ wantsToBeDroppedInto: aMorph
  aDomain
 	"This is a convenience method for doing coproducts. Subclasses can reimplement it to mean something different from the coproduct in order to match customary notation."
 	^ self coproduct: aDomain! !
+
+!Domain methodsFor: 'operations' stamp: 'len 9/1/2016 07:53'!
+˜ aCollection
+	"Answer the intersection of the receiver and the argument."
+	^ self select: [:each| aCollection includes: each]! !
 
 !Domain methodsFor: 'iterating' stamp: 'len 5/1/2016 23:22'!
 allSatisfy: aBlock
@@ -11603,11 +11625,6 @@ includesAllOf: aCollection
 !Domain methodsFor: 'initialization' stamp: 'len 11/23/2015 03:03'!
 initialize
 	properties _ IdentityDictionary new! !
-
-!Domain methodsFor: 'operations' stamp: 'len 5/2/2016 09:12'!
-intersection: aCollection
-	"Answer the intersection of the receiver and the argument."
-	^ self select: [:each| aCollection includes: each]! !
 
 !Domain methodsFor: 'testing' stamp: 'len 4/23/2016 00:24'!
 is: aSymbol
@@ -11869,10 +11886,10 @@ zero
 	anIdeal ambient = ambient ifFalse: [^ DomainError signal: 'ideals from different rings'].
 	^ self class on: ambient generators: (generators asSet copy addAll: anIdeal generators; yourself)! !
 
-!Ideal methodsFor: 'operations' stamp: 'len 6/5/2016 22:47'!
+!Ideal methodsFor: 'operations' stamp: 'len 9/1/2016 07:54'!
 /\ anIdeal
 	"Meet."
-	^ self intersection: anIdeal! !
+	^ self ˜ anIdeal! !
 
 !Ideal methodsFor: 'comparing' stamp: 'len 12/14/2015 18:55'!
 < anIdeal
@@ -11896,6 +11913,10 @@ zero
 \/ anIdeal
 	"Join."
 	^ self + anIdeal! !
+
+!Ideal methodsFor: 'operations' stamp: 'len 9/1/2016 08:04'!
+˜ anIdeal
+	^ ambient * (self generator lcm: anIdeal generator)! !
 
 !Ideal methodsFor: 'accessing' stamp: 'len 5/23/2016 04:15'!
 ambient
@@ -11965,10 +11986,6 @@ includes: anObject
 	self isZero ifTrue: [^ anObject isZero].
 	^ (self reduce: anObject) isZero! !
 
-!Ideal methodsFor: 'operations' stamp: 'len 5/23/2016 04:16'!
-intersection: anIdeal
-	^ ambient * (self generator lcm: anIdeal generator)! !
-
 !Ideal methodsFor: 'operations-elements' stamp: 'len 5/23/2016 04:18'!
 inverseOf: anObject
 	| euclid |
@@ -12030,13 +12047,13 @@ reduce: anObject
 on: aRing generators: aCollection
 	^ self new ambient: aRing; generators: aCollection! !
 
+!IntegerIdeal methodsFor: 'morphisms' stamp: 'len 9/1/2016 08:05'!
+˜ anIdeal
+	^ ambient * (self generator lcm: anIdeal generator)! !
+
 !IntegerIdeal methodsFor: 'random' stamp: 'len 4/19/2016 20:05'!
 atRandom: aRandom bits: bitSize
 	^ ((0-bitSize//2 to: bitSize//2) atRandom: aRandom) * self generator! !
-
-!IntegerIdeal methodsFor: 'morphisms' stamp: 'len 5/23/2016 04:18'!
-intersection: anIdeal
-	^ ambient * (self generator lcm: anIdeal generator)! !
 
 !IntegerIdeal methodsFor: 'operations-elements' stamp: 'len 12/8/2015 01:03'!
 inverseOf: anInteger
@@ -12066,18 +12083,33 @@ remainderAtRandom: aRandom
 	self flag: #fix." "this is wrong, both groebner basis should at least use the same ordering"
 "	^ self groebner reduced = anObject groebner reduced"! !
 
+!PolynomialIdeal methodsFor: 'operations' stamp: 'len 9/1/2016 08:05'!
+˜ anIdeal
+	| R R` t T TminusOne G1 G2 G` G |
+	R _ self ambient.
+	R` _ R scalars polynomialsIn: R rank + 1 ordering: #lex.
+	t _ R` rank. "index of last indeterminate"
+	T _ R` x: t.
+	TminusOne _ T - T one.
+	G1 _ generators collect: [:f| T*(f as: R`)].
+	G2 _ anIdeal generators collect: [:g| TminusOne*(g as: R`)].
+	G` _ GroebnerBasis from: G1, G2.
+	G _ GroebnerBasis new ordering: (MonomialOrdering lex: R rank).
+	G` do: [:each| (each has: t) ifFalse: [G add: (each as: R)]].
+	^ self species on: R generators: G! !
+
 !PolynomialIdeal methodsFor: 'random' stamp: 'len 7/6/2016 01:03'!
 atRandom: aRandom bits: bitSize
 	^ self generators sum: [:each| each * (self ambient atRandom: aRandom bits: bitSize / self generators size)]! !
 
-!PolynomialIdeal methodsFor: 'operations' stamp: 'len 7/8/2016 22:03'!
+!PolynomialIdeal methodsFor: 'operations' stamp: 'len 9/1/2016 08:01'!
 colon: anIdeal
 	"Answer the colon quotient I:J of the receiver I with the argument J."
 	"Cox IVA 205p"
 	| answer |
 	answer _ self ambient * self ambient one. "<1>"
 	anIdeal generators do: [:g|
-		answer _ answer /\ (self ambient * ((self ambient * g /\ self) groebnerBasis apply: [:h| h / g]))].
+		answer _ answer ˜ (self ambient * ((self ambient * g ˜ self) groebnerBasis apply: [:h| h / g]))].
 	^ answer! !
 
 !PolynomialIdeal methodsFor: 'accessing' stamp: 'len 7/4/2016 06:33'!
@@ -12157,21 +12189,6 @@ includes: aPolynomial
 initial
 	"Answer the initial ideal, i.e. the ideal of all leading monomials of the receiver."
 	^ MonomialIdeal on: self ambient generators: self groebnerBasis initial! !
-
-!PolynomialIdeal methodsFor: 'operations' stamp: 'len 7/9/2016 05:16'!
-intersection: anIdeal
-	| R R` t T TminusOne G1 G2 G` G |
-	R _ self ambient.
-	R` _ R scalars polynomialsIn: R rank + 1 ordering: #lex.
-	t _ R` rank. "index of last indeterminate"
-	T _ R` x: t.
-	TminusOne _ T - T one.
-	G1 _ generators collect: [:f| T*(f as: R`)].
-	G2 _ anIdeal generators collect: [:g| TminusOne*(g as: R`)].
-	G` _ GroebnerBasis from: G1, G2.
-	G _ GroebnerBasis new ordering: (MonomialOrdering lex: R rank).
-	G` do: [:each| (each has: t) ifFalse: [G add: (each as: R)]].
-	^ self species on: R generators: G! !
 
 !PolynomialIdeal methodsFor: 'testing' stamp: 'len 12/15/2015 21:13'!
 isHomogeneous
@@ -12310,9 +12327,11 @@ radical
 species
 	^ PolynomialIdeal! !
 
-!Module methodsFor: 'morphisms' stamp: 'len 6/23/2016 01:26'!
+!Module methodsFor: 'morphisms' stamp: 'len 8/31/2016 08:36'!
 -> aModule
-	"Answer the module of module homomorphisms from the receiver to aModule."
+	"Answer the module of homomorphisms from the receiver to the argument."
+	(aModule isKindOf: ScalarSpace)
+		ifTrue: [^ DualSpace from: self].
 	^ LinearMaps from: self to: aModule! !
 
 !Module methodsFor: 'accessing' stamp: 'len 2/14/2016 18:05'!
@@ -12339,9 +12358,10 @@ scalars
 scalars: aRing
 	properties at: #scalars put: aRing! !
 
-!FreeModule methodsFor: 'morphisms' stamp: 'len 8/9/2016 23:27'!
+!FreeModule methodsFor: 'morphisms' stamp: 'len 8/31/2016 08:37'!
 -> aModule
 	"Answer the module of homomorphisms from the receiver to the argument."
+	self flag: #fix. "implemented in super"
 	(aModule isKindOf: ScalarSpace)
 		ifTrue: [^ DualSpace from: self].
 	^ LinearMaps from: self to: aModule! !
@@ -12352,10 +12372,10 @@ scalars: aRing
 	i.e. the module obtained by 'collapsing' the submodule to zero."
 	^ QuotientSpace by: (aSubmodule asSubmoduleOf: self)! !
 
-!FreeModule methodsFor: 'operations' stamp: 'len 7/14/2016 23:23'!
+!FreeModule methodsFor: 'operations' stamp: 'len 9/1/2016 07:53'!
 /\ aModule
 	"Meet."
-	^ self intersection: aModule! !
+	^ self ˜ aModule! !
 
 !FreeModule methodsFor: 'comparing' stamp: 'len 7/14/2016 23:18'!
 < aModule
@@ -13502,6 +13522,11 @@ zero
 new: dimension over: aDomain
 	^ self new setDimension: dimension scalars: aDomain! !
 
+!VectorSpace methodsFor: 'operations' stamp: 'len 9/1/2016 08:06'!
+˜ aLinearSubspace
+	self >= aLinearSubspace ifFalse: [^ self error: 'not a subspace of this space'].
+	^ aLinearSubspace! !
+
 !VectorSpace methodsFor: 'converting' stamp: 'len 6/11/2016 18:31'!
 asSubspaceOf: aVectorSpace
 	self flag: #fix. "avoid computing linear independence again"
@@ -13510,11 +13535,6 @@ asSubspaceOf: aVectorSpace
 !VectorSpace methodsFor: 'basis' stamp: 'len 7/15/2016 00:45'!
 dimension
 	^ self basis size! !
-
-!VectorSpace methodsFor: 'operations' stamp: 'len 2/24/2016 08:46'!
-intersection: aLinearSubspace
-	self >= aLinearSubspace ifFalse: [^ self error: 'not a subspace of this space'].
-	^ aLinearSubspace! !
 
 !VectorSpace methodsFor: 'operations' stamp: 'len 2/25/2016 03:46'!
 perp
@@ -13537,6 +13557,14 @@ rank
 "alternative but 5-10 times slower:
 	^ (self basis matrix transposed | aLinearSubspace basis matrix transposed) image apply: self space basis vectorAt
 "! !
+
+!LinearSubspace methodsFor: 'operations' stamp: 'len 9/1/2016 08:05'!
+˜ aLinearSubspace
+	aLinearSubspace = self ambient ifTrue: [^ self].
+	^ LinearSystem new
+		addAll: self equations;
+		addAll: aLinearSubspace equations;
+		kernel! !
 
 !LinearSubspace methodsFor: 'operations' stamp: 'len 5/23/2016 04:25'!
 annihilator
@@ -13589,14 +13617,6 @@ includes: anObject
 	(self ambient includes: anObject) ifFalse: [^ false].
 	^ basis generates: anObject! !
 
-!LinearSubspace methodsFor: 'operations' stamp: 'len 5/23/2016 04:25'!
-intersection: aLinearSubspace
-	aLinearSubspace = self ambient ifTrue: [^ self].
-	^ LinearSystem new
-		addAll: self equations;
-		addAll: aLinearSubspace equations;
-		kernel! !
-
 !LinearSubspace methodsFor: 'testing' stamp: 'len 1/8/2016 06:23'!
 isNonDegenerate
 	^ self radical isTrivial! !
@@ -13623,10 +13643,10 @@ alternative 3:?
 	^ basis dual asArray inject: self space into: [:answer :each| answer intersection: each kernel]	
 "! !
 
-!LinearSubspace methodsFor: 'operations' stamp: 'len 6/9/2016 04:43'!
+!LinearSubspace methodsFor: 'operations' stamp: 'len 9/1/2016 08:01'!
 perp2
 	"Answer the orthogonal complement of the receiver."
-	^ basis dual asArray inject: self ambient into: [:answer :each| answer /\ each kernel]
+	^ basis dual asArray inject: self ambient into: [:answer :each| answer ˜ each kernel]
 
 "alternative:
 	| k n |
@@ -13684,9 +13704,9 @@ quotient
 	"Answer the quotient space of the ambient space by the receiver."
 	^ QuotientSpace by: self! !
 
-!LinearSubspace methodsFor: 'operations' stamp: 'len 6/9/2016 04:43'!
+!LinearSubspace methodsFor: 'operations' stamp: 'len 9/1/2016 08:01'!
 radical
-	^ self /\ self perp! !
+	^ self ˜ self perp! !
 
 !LinearSubspace methodsFor: 'accessing' stamp: 'len 5/23/2016 04:26'!
 scalars
@@ -14140,6 +14160,10 @@ hasOne
 isCommutative
 	^ properties at: #isCommutative ifAbsent: [self isIntegralDomain]! !
 
+!Ring methodsFor: 'testing' stamp: 'len 8/31/2016 08:49'!
+isCompositive
+	^ self multiplication name = '@'! !
+
 !Ring methodsFor: 'testing' stamp: 'len 11/28/2015 23:44'!
 isDedekindDomain
 	"A Ddedekind domain is an integral domain in which every non-zero proper ideal factors into a product of prime ideals."
@@ -14573,75 +14597,6 @@ over: aRing
 words: aMonoid over: aRing
 	^ self new words: aMonoid; scalars: aRing! !
 
-!GroupRing methodsFor: 'comparing' stamp: 'len 8/26/2016 01:30'!
-<= aGroupRing
-	(aGroupRing isKindOf: GroupRing) ifFalse: [^ super <= aGroupRing].
-	^ self scalars <= aGroupRing scalars and: [self group <= aGroupRing group]! !
-
-!GroupRing methodsFor: 'comparing' stamp: 'len 8/25/2016 08:35'!
-= anObject
-	self == anObject ifTrue: [^ true].
-	^ (anObject isKindOf: GroupRing) and: [anObject scalars = scalars and: [anObject group = group]]! !
-
-!GroupRing methodsFor: 'morphisms' stamp: 'len 8/25/2016 08:36'!
-embed: aGroupElement
-	^ FreePolynomial new coefficientAt: aGroupElement put: scalars one! !
-
-!GroupRing methodsFor: 'morphisms' stamp: 'len 8/7/2016 08:42'!
-embedding
-	^ Function from: self group to: self evaluating: [:g| self embed: g]! !
-
-!GroupRing methodsFor: 'accessing' stamp: 'len 8/7/2016 08:36'!
-group
-	^ group! !
-
-!GroupRing methodsFor: 'accessing-private' stamp: 'len 8/7/2016 08:37'!
-group: aGroup
-	group _ aGroup! !
-
-!GroupRing methodsFor: 'comparing' stamp: 'len 8/25/2016 08:35'!
-hash
-	^ scalars hash + group hash hashMultiply! !
-
-!GroupRing methodsFor: 'testing' stamp: 'len 8/25/2016 08:36'!
-includes: anObject
-	anObject coefficients keysAndValuesDo: [:key :value|
-		(group includes: key) ifFalse: [^ false].
-		(scalars includes: value) ifFalse: [^ false]].
-	^ true! !
-
-!GroupRing methodsFor: 'testing' stamp: 'len 8/25/2016 08:37'!
-isCommutative
-	^ scalars isCommutative and: [group isCommutative]! !
-
-!GroupRing methodsFor: 'testing' stamp: 'len 8/25/2016 08:38'!
-isCountable
-	^ scalars isCountable and: [group isCountable]! !
-
-!GroupRing methodsFor: 'testing' stamp: 'len 8/25/2016 08:38'!
-isFinite
-	^ scalars isFinite and: [group isFinite]! !
-
-!GroupRing methodsFor: 'accessing' stamp: 'len 8/7/2016 08:40'!
-one
-	^ self embed: self group identity! !
-
-!GroupRing methodsFor: 'printing' stamp: 'len 8/7/2016 08:38'!
-printOn: aStream
-	aStream print: self scalars; nextPut: $[; print: self group; nextPut: $]! !
-
-!GroupRing methodsFor: 'accessing' stamp: 'len 8/7/2016 08:38'!
-scalars
-	^ scalars! !
-
-!GroupRing methodsFor: 'accessing-private' stamp: 'len 8/7/2016 08:38'!
-scalars: aRing
-	scalars _ aRing! !
-
-!GroupRing class methodsFor: 'instance creation' stamp: 'len 8/7/2016 08:39'!
-on: aGroup over: aRing
-	^ self new group: aGroup; scalars: aRing! !
-
 !DirectProductRing methodsFor: 'comparing' stamp: 'len 8/29/2016 04:13'!
 = anObject
 	^ (anObject isKindOf: DirectProductGroup) and: [anObject components = components]! !
@@ -14715,6 +14670,75 @@ zero
 !DirectProductRing class methodsFor: 'instance creation' stamp: 'len 8/29/2016 04:09'!
 components: anArray
 	^ self new components: anArray! !
+
+!GroupRing methodsFor: 'comparing' stamp: 'len 8/26/2016 01:30'!
+<= aGroupRing
+	(aGroupRing isKindOf: GroupRing) ifFalse: [^ super <= aGroupRing].
+	^ self scalars <= aGroupRing scalars and: [self group <= aGroupRing group]! !
+
+!GroupRing methodsFor: 'comparing' stamp: 'len 8/25/2016 08:35'!
+= anObject
+	self == anObject ifTrue: [^ true].
+	^ (anObject isKindOf: GroupRing) and: [anObject scalars = scalars and: [anObject group = group]]! !
+
+!GroupRing methodsFor: 'morphisms' stamp: 'len 8/25/2016 08:36'!
+embed: aGroupElement
+	^ FreePolynomial new coefficientAt: aGroupElement put: scalars one! !
+
+!GroupRing methodsFor: 'morphisms' stamp: 'len 8/7/2016 08:42'!
+embedding
+	^ Function from: self group to: self evaluating: [:g| self embed: g]! !
+
+!GroupRing methodsFor: 'accessing' stamp: 'len 8/7/2016 08:36'!
+group
+	^ group! !
+
+!GroupRing methodsFor: 'accessing-private' stamp: 'len 8/7/2016 08:37'!
+group: aGroup
+	group _ aGroup! !
+
+!GroupRing methodsFor: 'comparing' stamp: 'len 8/25/2016 08:35'!
+hash
+	^ scalars hash + group hash hashMultiply! !
+
+!GroupRing methodsFor: 'testing' stamp: 'len 8/25/2016 08:36'!
+includes: anObject
+	anObject coefficients keysAndValuesDo: [:key :value|
+		(group includes: key) ifFalse: [^ false].
+		(scalars includes: value) ifFalse: [^ false]].
+	^ true! !
+
+!GroupRing methodsFor: 'testing' stamp: 'len 8/25/2016 08:37'!
+isCommutative
+	^ scalars isCommutative and: [group isCommutative]! !
+
+!GroupRing methodsFor: 'testing' stamp: 'len 8/25/2016 08:38'!
+isCountable
+	^ scalars isCountable and: [group isCountable]! !
+
+!GroupRing methodsFor: 'testing' stamp: 'len 8/25/2016 08:38'!
+isFinite
+	^ scalars isFinite and: [group isFinite]! !
+
+!GroupRing methodsFor: 'accessing' stamp: 'len 8/7/2016 08:40'!
+one
+	^ self embed: self group identity! !
+
+!GroupRing methodsFor: 'printing' stamp: 'len 8/7/2016 08:38'!
+printOn: aStream
+	aStream print: self scalars; nextPut: $[; print: self group; nextPut: $]! !
+
+!GroupRing methodsFor: 'accessing' stamp: 'len 8/7/2016 08:38'!
+scalars
+	^ scalars! !
+
+!GroupRing methodsFor: 'accessing-private' stamp: 'len 8/7/2016 08:38'!
+scalars: aRing
+	scalars _ aRing! !
+
+!GroupRing class methodsFor: 'instance creation' stamp: 'len 8/7/2016 08:39'!
+on: aGroup over: aRing
+	^ self new group: aGroup; scalars: aRing! !
 
 !QuotientRing methodsFor: 'comparing' stamp: 'len 12/14/2015 01:57'!
 = anObject
@@ -16558,10 +16582,10 @@ on: aDomain evaluating: aBlock
 automorphisms
 	^ SymmetricGroup on: self! !
 
-!FormalSet methodsFor: 'operations' stamp: 'len 8/14/2016 01:35'!
+!FormalSet methodsFor: 'operations' stamp: 'len 9/1/2016 07:51'!
 coproduct: aFormalSet
 	"The coproduct in the category of sets is the disjoint union."
-	^ self species newFrom: ((self elements collect: [:each| (each, 0)]) union: (aFormalSet elements collect: [:each| (each, 1)]))! !
+	^ self species newFrom: ((self elements collect: [:each| (each, 0)]) ™ (aFormalSet elements collect: [:each| (each, 1)]))! !
 
 !FormalSet methodsFor: 'accessing' stamp: 'len 8/14/2016 05:28'!
 null
@@ -17124,6 +17148,14 @@ inverseMap: aFunction
 isAbelian
 	^ self isCommutative! !
 
+!Group methodsFor: 'testing' stamp: 'len 8/31/2016 08:48'!
+isAdditive
+	^ self operation name = '+'! !
+
+!Group methodsFor: 'testing' stamp: 'len 8/31/2016 08:48'!
+isCompositive
+	^ self operation name = '@'! !
+
 !Group methodsFor: 'testing' stamp: 'len 5/2/2016 02:32'!
 isCyclic
 	"Answer true if the receiver is generated by one element."
@@ -17141,6 +17173,10 @@ isHypoabelian
 !Group methodsFor: 'testing' stamp: 'len 11/28/2015 09:09'!
 isInitial
 	^ self isTrivial! !
+
+!Group methodsFor: 'testing' stamp: 'len 8/31/2016 08:47'!
+isMultiplicative
+	^ self operation name = '*'! !
 
 !Group methodsFor: 'testing' stamp: 'len 5/2/2016 02:32'!
 isNilpotent
@@ -20493,10 +20529,10 @@ isIrreducible
 	self flag: #fix. "wtf"
 	^ self class representative: (AffineLinearSpace representative: representative direction: aLinearSubspace) direction: direction / aLinearSubspace! !
 
-!AffineLinearSpace methodsFor: 'operations' stamp: 'len 6/5/2016 22:45'!
+!AffineLinearSpace methodsFor: 'operations' stamp: 'len 9/1/2016 07:52'!
 /\ anAffineSubspace
 	"Meet."
-	^ self intersection: anAffineSubspace! !
+	^ self ˜ anAffineSubspace! !
 
 !AffineLinearSpace methodsFor: 'comparing' stamp: 'len 12/26/2015 20:01'!
 < anAffineSubspace
@@ -20518,10 +20554,19 @@ isIrreducible
 	self isEmpty ifTrue: [^ anObject isEmpty].
 	^ direction = anObject direction and: [anObject includes: representative]! !
 
-!AffineLinearSpace methodsFor: 'operations' stamp: 'len 6/5/2016 22:45'!
+!AffineLinearSpace methodsFor: 'operations' stamp: 'len 9/1/2016 07:42'!
 \/ anAffineSubspace
 	"Join."
 	^ self + anAffineSubspace! !
+
+!AffineLinearSpace methodsFor: 'operations' stamp: 'len 9/1/2016 07:52'!
+˜ anAffineSubspace
+	| system |
+	self isEmpty ifTrue: [^ self].
+	anAffineSubspace isEmpty ifTrue: [^ anAffineSubspace].
+	system _ self equations copy.
+	anAffineSubspace equations do: [ :each | system add: each].
+	^ system solutions! !
 
 !AffineLinearSpace methodsFor: 'accessing' stamp: 'len 6/4/2016 04:25'!
 ambient
@@ -20599,15 +20644,6 @@ id
 !AffineLinearSpace methodsFor: 'testing' stamp: 'len 6/4/2016 04:32'!
 includes: anObject
 	^ self isEmpty not and: [direction includes: anObject - representative]! !
-
-!AffineLinearSpace methodsFor: 'operations' stamp: 'len 5/12/2016 22:57'!
-intersection: anAffineSubspace
-	| system |
-	self isEmpty ifTrue: [^ self].
-	anAffineSubspace isEmpty ifTrue: [^ anAffineSubspace].
-	system _ self equations copy.
-	anAffineSubspace equations do: [ :each | system add: each].
-	^ system solutions! !
 
 !AffineLinearSpace methodsFor: 'testing' stamp: 'len 11/9/2015 16:23'!
 isEmpty
@@ -20741,10 +20777,10 @@ translation: aVector
 -> aProjectiveSpace
 	^ (vectorSpace -> aProjectiveSpace vectorSpace) projective! !
 
-!ProjectiveLinearSpace methodsFor: 'operations' stamp: 'len 6/5/2016 22:47'!
+!ProjectiveLinearSpace methodsFor: 'operations' stamp: 'len 9/1/2016 07:54'!
 /\ aProjectiveSubspace
 	"Meet."
-	^ self intersection: aProjectiveSubspace! !
+	^ self ˜ aProjectiveSubspace! !
 
 !ProjectiveLinearSpace methodsFor: 'comparing' stamp: 'len 11/20/2015 22:07'!
 < aProjectiveSubspace
@@ -20771,6 +20807,12 @@ translation: aVector
 \/ aProjectiveSubspace
 	"Join."
 	^ self + aProjectiveSubspace! !
+
+!ProjectiveLinearSpace methodsFor: 'operations' stamp: 'len 9/1/2016 07:54'!
+˜ aProjectiveSubspace
+	"Answer the intersection between the receiver and the argument."
+
+	^ self class on: (vectorSpace ˜ aProjectiveSubspace vectorSpace)! !
 
 !ProjectiveLinearSpace methodsFor: 'accessing' stamp: 'len 5/23/2016 19:48'!
 ambient
@@ -20879,12 +20921,6 @@ id
 includes: aPoint
 	^ vectorSpace includes: (self vectorFromPoint: aPoint)! !
 
-!ProjectiveLinearSpace methodsFor: 'operations' stamp: 'len 2/24/2016 06:01'!
-intersection: aProjectiveSubspace
-	"Answer the intersection between the receiver and the argument."
-
-	^ self class on: (vectorSpace intersection: aProjectiveSubspace vectorSpace)! !
-
 !ProjectiveLinearSpace methodsFor: 'testing' stamp: 'len 1/5/2016 00:03'!
 isEmpty
 	^ self dimension = -1! !
@@ -20915,14 +20951,11 @@ pointAt: anHomogeneousTuple
 
 	^ self project: (vectorSpace vectorAt: anHomogeneousTuple asTuple)! !
 
-!ProjectiveLinearSpace methodsFor: 'printing' stamp: 'len 8/5/2016 05:10'!
+!ProjectiveLinearSpace methodsFor: 'printing' stamp: 'len 9/1/2016 03:12'!
 printOn: aStream
-	vectorSpace ambient = vectorSpace
+	self isAmbient
 		ifTrue:
-			[aStream nextPut: Character PP.
-			(vectorSpace printString size = 1 or: [(vectorSpace isKindOf: TupleSpace) or: [vectorSpace isKindOf: MatrixSpace]])
-				ifTrue: [aStream print: vectorSpace]
-				ifFalse: [aStream nextPut: $(; print: vectorSpace; nextPut: $)].
+			[aStream nextPut: Character PP; nextPut: $(; print: vectorSpace; nextPut: $).
 			^ self].
 	aStream nextPut: $[.
 	self dimension = 0 "a point"
@@ -20951,11 +20984,11 @@ scalars
 size
 	^ self asGrassmannian size! !
 
-!ProjectiveLinearSpace methodsFor: 'testing' stamp: 'len 6/9/2016 04:44'!
+!ProjectiveLinearSpace methodsFor: 'testing' stamp: 'len 9/1/2016 08:01'!
 skew: aProjectiveSubspace
 	"Answer true if the receiver and the argument are skew."
 
-	^ (self /\ aProjectiveSubspace) isEmpty! !
+	^ (self ˜ aProjectiveSubspace) isEmpty! !
 
 !ProjectiveLinearSpace methodsFor: 'accessing' stamp: 'len 6/4/2016 01:38'!
 unit
@@ -21012,10 +21045,10 @@ printOn: aStream
 vectorFromPoint: aProjectiveMap
 	^ aProjectiveMap linearMap! !
 
-!AlgebraicSet methodsFor: 'operations' stamp: 'len 6/5/2016 23:21'!
+!AlgebraicSet methodsFor: 'operations' stamp: 'len 9/1/2016 07:52'!
 /\ anAlgebraicSet
 	"Meet."
-	^ self intersection: anAlgebraicSet! !
+	^ self ˜ anAlgebraicSet! !
 
 !AlgebraicSet methodsFor: 'comparing' stamp: 'len 12/14/2015 18:25'!
 < anAlgebraicSet
@@ -21034,10 +21067,22 @@ vectorFromPoint: aProjectiveMap
 	"Answer the difference of the receiver with the argument, whose associated ideal is the ideal (colon) quotient of the respective ideals."
 	^ self class on: space ideal: (ideal colon: anAlgebraicSet ideal)! !
 
-!AlgebraicSet methodsFor: 'operations' stamp: 'len 6/5/2016 23:22'!
+!AlgebraicSet methodsFor: 'operations' stamp: 'len 9/1/2016 07:49'!
 \/ anAlgebraicSet
 	"Join."
-	^ self union: anAlgebraicSet! !
+	^ self ™ anAlgebraicSet! !
+
+!AlgebraicSet methodsFor: 'operations' stamp: 'len 9/1/2016 07:52'!
+˜ anAlgebraicSet
+	^ self class on: space ideal: ideal + anAlgebraicSet ideal! !
+
+!AlgebraicSet methodsFor: 'operations' stamp: 'len 9/1/2016 07:48'!
+™ anAlgebraicSet
+	^ self class on: space ideal: ideal ˜ anAlgebraicSet ideal
+
+"alternatively:
+	^ self class on: space ideal: ideal * anAlgebraicSet ideal
+although the intersection is harder to compute, it behaves better with radicalization, because the intersection of two radical ideals is radical and we don't need to compute radicals again"! !
 
 !AlgebraicSet methodsFor: 'morphisms' stamp: 'len 3/4/2016 07:56'!
 apply: aPolynomialMap
@@ -21107,10 +21152,6 @@ includes: aPoint
 	p _ space coordinatesOf: aPoint.
 	^ ideal generators allSatisfy: [:each | (each value: p) isZero]! !
 
-!AlgebraicSet methodsFor: 'operations' stamp: 'len 2/24/2016 06:00'!
-intersection: anAlgebraicSet
-	^ self class on: space ideal: ideal + anAlgebraicSet ideal! !
-
 !AlgebraicSet methodsFor: 'testing' stamp: 'len 8/30/2016 05:48'!
 isAffine
 	^ space isKindOf: AffineLinearSpace! !
@@ -21178,14 +21219,6 @@ space: anAffineSpace
 !AlgebraicSet methodsFor: 'private' stamp: 'len 3/6/2016 07:36'!
 species
 	^ AlgebraicSet! !
-
-!AlgebraicSet methodsFor: 'operations' stamp: 'len 6/5/2016 22:54'!
-union: anAlgebraicSet
-	^ self class on: space ideal: ideal /\ anAlgebraicSet ideal
-
-"alternatively:
-	^ self class on: space ideal: ideal * anAlgebraicSet ideal
-although the intersection is harder to compute, it behaves better with radicalization, because the intersection of two radical ideals is radical and we don't need to compute radicals again"! !
 
 !AlgebraicSet class methodsFor: 'examples' stamp: 'len 6/1/2016 20:53'!
 ellipticCurve
@@ -21277,11 +21310,6 @@ isIrreducible
 isProjective
 	^ false! !
 
-!AffineScheme methodsFor: 'operations' stamp: 'len 8/27/2016 21:27'!
-/\ anAffineScheme
-	"Answer the intersection of the receiver and the argument."
-	^ self species ideal: self ideal + anAffineScheme ideal! !
-
 !AffineScheme methodsFor: 'comparing' stamp: 'len 8/27/2016 20:47'!
 < anAffineScheme
 	^ self ideal > anAffineScheme ideal! !
@@ -21299,10 +21327,15 @@ isProjective
 	"Answer the difference of the receiver with the argument, whose associated ideal is the ideal (colon) quotient of the respective ideals."
 	^ self species ideal: (self ideal colon: anAffineScheme ideal)! !
 
-!AffineScheme methodsFor: 'operations' stamp: 'len 8/27/2016 21:28'!
-\/ anAffineScheme
+!AffineScheme methodsFor: 'operations' stamp: 'len 9/1/2016 07:58'!
+˜ anAffineScheme
+	"Answer the intersection of the receiver and the argument."
+	^ self species ideal: self ideal + anAffineScheme ideal! !
+
+!AffineScheme methodsFor: 'operations' stamp: 'len 9/1/2016 07:57'!
+™ anAffineScheme
 	"Answer the union of the receiver and the argument."
-	^ self species ideal: self ideal /\ anAffineScheme ideal! !
+	^ self species ideal: self ideal ˜ anAffineScheme ideal! !
 
 !AffineScheme methodsFor: 'accessing' stamp: 'len 8/27/2016 21:26'!
 ambient
@@ -21521,13 +21554,13 @@ relativeDimension
 on: aRing
 	^ self new coordinateRing: aRing! !
 
-!ProjectiveScheme methodsFor: 'operations' stamp: 'len 8/28/2016 02:42'!
-/\ aProjectiveScheme
+!ProjectiveScheme methodsFor: 'operations' stamp: 'len 9/1/2016 07:59'!
+˜ aProjectiveScheme
 	"Answer the intersection of the receiver and the argument."
 	^ self species ideal: self ideal + aProjectiveScheme ideal! !
 
-!ProjectiveScheme methodsFor: 'operations' stamp: 'len 8/28/2016 02:46'!
-\/ aProjectiveScheme
+!ProjectiveScheme methodsFor: 'operations' stamp: 'len 9/1/2016 07:59'!
+™ aProjectiveScheme
 	"Answer the union of the receiver and the argument."
 	^ self species ideal: self ideal * aProjectiveScheme ideal! !
 
@@ -21585,9 +21618,9 @@ dimension
 ideal: anIdeal
 	self shouldNotImplement! !
 
-!ProjectiveSpace methodsFor: 'printing' stamp: 'len 8/27/2016 19:47'!
+!ProjectiveSpace methodsFor: 'printing' stamp: 'len 9/1/2016 04:21'!
 printOn: aStream
-	aStream nextPut: Character PP; nextPutAll: self dimension printString super; print: self scalars! !
+	aStream print: self scalars; nextPut: Character PP; nextPutAll: self dimension printString super! !
 
 !ProjectiveSpace methodsFor: 'accessing' stamp: 'len 8/27/2016 19:47'!
 scalars
@@ -21618,10 +21651,10 @@ over: aField a: a b: b
 	ideal _ P * (x**3 + (x * (z**2) * a) + (z**3*b) - (y**2*z)).
 	^ self ideal: ideal! !
 
-!SemialgebraicSet methodsFor: 'operations' stamp: 'len 6/5/2016 23:25'!
+!SemialgebraicSet methodsFor: 'operations' stamp: 'len 9/1/2016 07:54'!
 /\ aSemialgebraicSet
 	"Meet."
-	^ self intersection: aSemialgebraicSet! !
+	^ self ˜ aSemialgebraicSet! !
 
 !SemialgebraicSet methodsFor: 'comparing' stamp: 'len 6/2/2016 05:23'!
 = aSemialgebraicSet
@@ -21636,10 +21669,19 @@ over: aField a: a b: b
 	"Answer the difference of the receiver with the argument,"
 	^ self copyWithoutAll: aSemialgebraicSet cells! !
 
-!SemialgebraicSet methodsFor: 'operations' stamp: 'len 6/5/2016 23:25'!
+!SemialgebraicSet methodsFor: 'operations' stamp: 'len 9/1/2016 07:51'!
 \/ aSemialgebraicSet
 	"Join."
-	^ self union: aSemialgebraicSet! !
+	^ self ™ aSemialgebraicSet! !
+
+!SemialgebraicSet methodsFor: 'operations' stamp: 'len 9/1/2016 07:54'!
+˜ aSemialgebraicSet
+	self flag: #fix. "this is wrong"
+	^ self class cells: self cells ˜ aSemialgebraicSet cells! !
+
+!SemialgebraicSet methodsFor: 'operations' stamp: 'len 9/1/2016 07:56'!
+™ aSemialgebraicSet
+	^ self class cells: self cells ™ aSemialgebraicSet cells! !
 
 !SemialgebraicSet methodsFor: 'accessing' stamp: 'len 1/9/98 21:34'!
 add: aCell
@@ -21771,11 +21813,6 @@ includes: anObject
 interior
 	^ self closure \ self boundary! !
 
-!SemialgebraicSet methodsFor: 'operations' stamp: 'len 6/2/2016 08:15'!
-intersection: aSemialgebraicSet
-	self flag: #fix. "this is wrong"
-	^ self class cells: (self cells intersection: aSemialgebraicSet cells)! !
-
 !SemialgebraicSet methodsFor: 'testing' stamp: 'len 6/2/2016 04:07'!
 isBounded
 	^ self cells allSatisfy: [:each| each isBounded]! !
@@ -21847,10 +21884,6 @@ sentence
 
 	self isEmpty ifTrue: [^ QQ polynomials x squared lneq: 0].
 	^ self cells collect: [:each| each sentence] andFold: [:a :b| a | b]! !
-
-!SemialgebraicSet methodsFor: 'operations' stamp: 'len 6/2/2016 05:02'!
-union: aSemialgebraicSet
-	^ self class cells: self cells, aSemialgebraicSet cells! !
 
 !SemialgebraicSet class methodsFor: 'examples' stamp: 'len 7/15/2016 18:38'!
 ball
@@ -21937,16 +21970,16 @@ sphere
 			newPoints add: p+q]].
 	^ self class points: newPoints! !
 
+!Polytope methodsFor: 'arithmetic' stamp: 'len 9/1/2016 08:06'!
+˜ aPolytope
+	^ self notYetImplemented! !
+
 !Polytope methodsFor: 'as yet unclassified' stamp: 'len 4/17/2016 04:40'!
 boundary
 	^ self notYetImplemented! !
 
 !Polytope methodsFor: 'as yet unclassified' stamp: 'len 4/17/2016 04:40'!
 interior
-	^ self notYetImplemented! !
-
-!Polytope methodsFor: 'arithmetic' stamp: 'len 4/17/2016 03:28'!
-intersection: aPolytope
 	^ self notYetImplemented! !
 
 !Polytope methodsFor: 'accessing' stamp: 'len 4/17/2016 03:27'!
@@ -33132,11 +33165,11 @@ isInitial
 	"o-->..."
 	^ self inDegree = 0 and: [self degree = 1]! !
 
-!ExplicitGraphNode methodsFor: 'testing' stamp: 'len 5/7/2016 04:07'!
+!ExplicitGraphNode methodsFor: 'testing' stamp: 'len 9/1/2016 07:51'!
 isMiddle
 	"..--o--..."
 	^ (self inDegree + self degree between: 2 and: 4)
-		and: [(self inNeighbors union: self neighbors) size = 2]! !
+		and: [(self inNeighbors ™ self neighbors) size = 2]! !
 
 !ExplicitGraphNode methodsFor: 'testing' stamp: 'timestamp) (no'!
 isOrdered
@@ -33670,10 +33703,10 @@ printOn: aStream
 		space; print: index;
 		space; print: frame! !
 
-!ProjectiveChart methodsFor: 'coordinates' stamp: 'len 6/9/2016 04:44'!
+!ProjectiveChart methodsFor: 'coordinates' stamp: 'len 9/1/2016 08:01'!
 vectorFromPoint: aPoint
 	"Answer a vector associated to the projective point aPoint (which is a linear subspace of dimension 1)."
-	^ (aPoint vectorSpace asAffineSpace /\ self affine) representative! !
+	^ (aPoint vectorSpace asAffineSpace ˜ self affine) representative! !
 
 !ProjectiveChart class methodsFor: 'instance creation' stamp: 'len 1/3/2016 05:22'!
 frame: aProjectiveFrame index: anInteger origin: anObject
@@ -35121,6 +35154,11 @@ shape: aPartition
 	"Answer true if the receiver containes aSimplex as a face."
 	^ self dimension >= aSimplex dimension and: [points includesAllOf: aSimplex points]! !
 
+!Simplex methodsFor: 'morphisms' stamp: 'len 9/1/2016 07:55'!
+˜ aSimplex
+	"Answer the face common to the receiver and aSimplex, which could be {}."
+	^ self class points: (self points ˜ aSimplex points)! !
+
 !Simplex methodsFor: 'converting' stamp: 'len 5/25/2016 03:46'!
 asSkeletonGraph
 	| graph |
@@ -35191,11 +35229,6 @@ hash
 interior
 	"Answer the interior of the receiver (sometimes called 'open simplex')."
 	^ (SimplicialChain with: self) - self boundary! !
-
-!Simplex methodsFor: 'morphisms' stamp: 'len 6/13/2016 00:26'!
-intersection: aSimplex
-	"Answer the face common to the receiver and aSimplex, which could be {}."
-	^ self class points: (self points intersection: aSimplex points)! !
 
 !Simplex methodsFor: 'testing' stamp: 'len 5/9/2016 21:05'!
 isTrivial
@@ -35530,12 +35563,12 @@ characteristicSet
 polynomials: aCollection
 	polynomials _ aCollection! !
 
-!WuRittProcess methodsFor: 'as yet unclassified' stamp: 'len 12/30/2015 05:30'!
+!WuRittProcess methodsFor: 'as yet unclassified' stamp: 'len 9/1/2016 07:51'!
 run
 	| F G R F` r |
 	F _ polynomials.
 	G _ Set new. R _ Set new.
-	[F _ F union: R. F` _ R. R _ Set new.
+	[F _ F ™ R. F` _ R. R _ Set new.
 	[F` notEmpty] whileTrue: ["..."].
 	F do: [:f| ((G includes: f) or: [(r _ G pseudoRemainderOf: f) isZero]) ifFalse: [R add: r]].
 	R isEmpty] whileFalse.
@@ -36415,17 +36448,21 @@ on: aMatrix extension: extMatrix
 * anInteger
 	^ self notYetImplemented! !
 
-!Maxel methodsFor: 'as yet unclassified' stamp: 'len 2/13/2016 17:52'!
+!Maxel methodsFor: 'as yet unclassified' stamp: 'len 9/1/2016 07:51'!
 + aMaxel
-	^ self class pixels: (pixels union: aMaxel pixels)! !
+	^ self class pixels: (pixels ™ aMaxel pixels)! !
+
+!Maxel methodsFor: 'as yet unclassified' stamp: 'len 9/1/2016 08:05'!
+˜ aMaxel
+	^ self notYetImplemented! !
+
+!Maxel methodsFor: 'as yet unclassified' stamp: 'len 9/1/2016 07:57'!
+™ aMaxel
+	^ self notYetImplemented! !
 
 !Maxel methodsFor: 'as yet unclassified' stamp: 'len 2/13/2016 17:46'!
 extent
 	^ Pixel row: (pixels max: [:each| each row]) column: (pixels max: [:each| each column])! !
-
-!Maxel methodsFor: 'as yet unclassified' stamp: 'len 2/13/2016 17:53'!
-intersection: aMaxel
-	^ self notYetImplemented! !
 
 !Maxel methodsFor: 'as yet unclassified' stamp: 'len 2/13/2016 17:51'!
 isDiagonal
@@ -36446,10 +36483,6 @@ size
 !Maxel methodsFor: 'as yet unclassified' stamp: 'len 2/13/2016 17:48'!
 trasposed
 	^ self class pixels: (pixels collect: [:each| each transposed])! !
-
-!Maxel methodsFor: 'as yet unclassified' stamp: 'len 2/13/2016 17:53'!
-union: aMaxel
-	^ self notYetImplemented! !
 
 !Maxel class methodsFor: 'as yet unclassified' stamp: 'len 2/13/2016 17:51'!
 pixels: aCollection
