@@ -1,5 +1,5 @@
 # Cuis-Mathematics
-A computational algebra system in Smalltalk ([Cuis Smalltalk)(https://github.com/Cuis-Smalltalk/Cuis-Smalltalk-Dev) more precisely).
+A computational algebra system in Smalltalk ([Cuis Smalltalk](https://github.com/Cuis-Smalltalk/Cuis-Smalltalk-Dev) more precisely).
 
 This is a continuation of some projects started in MathMorphs, after a pause of about 19 years (!).
 
