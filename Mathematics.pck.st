@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 26 September 2016 at 5:07:31.487776 pm'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 2 October 2016 at 9:39:08.977943 am'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 199!
+!provides: 'Mathematics' 1 200!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
 	instanceVariableNames: 'numerator shift'
@@ -1949,6 +1949,16 @@ Permutation subclass: #StandardPermutation
 	category: 'Mathematics-Groups-Permutations'!
 !classDefinition: 'StandardPermutation class' category: #'Mathematics-Groups-Permutations'!
 StandardPermutation class
+	instanceVariableNames: ''!
+
+!classDefinition: #RingHomomorphism category: #'Mathematics-Rings'!
+Function subclass: #RingHomomorphism
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Rings'!
+!classDefinition: 'RingHomomorphism class' category: #'Mathematics-Rings'!
+RingHomomorphism class
 	instanceVariableNames: ''!
 
 !classDefinition: #LinearMap category: #'Mathematics-Linear'!
@@ -15885,6 +15895,16 @@ integralBasis
 isQuadraticField
 	^ self degree = 2! !
 
+!NumberField methodsFor: 'testing' stamp: 'len 9/26/2016 17:48'!
+isTotallyImaginary
+	"Answer true if no embedding into the complex numbers has image contained in the real numbers."
+	^ self signature first = 0! !
+
+!NumberField methodsFor: 'testing' stamp: 'len 9/26/2016 17:47'!
+isTotallyReal
+	"Answer true if every embedding into the complex numbers has image contained in the real numbers."
+	^ self signature second = 0! !
+
 !NumberField methodsFor: 'operations' stamp: 'len 1/10/2016 22:34'!
 nonArchimedeanPlaces
 	^ self notYetImplemented! !
@@ -15917,6 +15937,10 @@ signature
 !NumberField class methodsFor: 'instance creation' stamp: 'len 1/11/2016 02:03'!
 adjoint: anAlgebraicNumber
 	^ self new adjoint: anAlgebraicNumber! !
+
+!NumberField class methodsFor: 'instance creation' stamp: 'len 9/26/2016 17:56'!
+polynomial: aPolynomial
+	^ self adjoint: (aPolynomial rootsIn: CC) anyOne! !
 
 !QuadraticField class methodsFor: 'instance creation' stamp: 'len 5/20/2016 02:43'!
 sqrt: anInteger
@@ -22902,6 +22926,10 @@ evaluating: aBlock
 !Function class methodsFor: 'instance creation' stamp: 'len 8/14/2016 05:33'!
 from: aDomain to: anotherDomain evaluating: aBlock
 	^ self new domain: aDomain; codomain: anotherDomain; block: aBlock! !
+
+!Function class methodsFor: 'instance creation' stamp: 'len 10/2/2016 09:31'!
+newFrom: aFunction
+	^ self from: aFunction domain to: aFunction codomain evaluating: aFunction! !
 
 !GroupAction methodsFor: 'graphs' stamp: 'len 5/25/2016 03:45'!
 actionGraph: groupGenerators
@@ -30586,13 +30614,13 @@ roots
 	"Answer the roots (counted with multiplicity) in the coefficients ring or field."
 	^ self rootsIn: self scalars! !
 
-!Polynomial methodsFor: 'roots' stamp: 'len 7/17/2016 23:38'!
+!Polynomial methodsFor: 'roots' stamp: 'len 9/26/2016 17:57'!
 rootsIn: aField
 	"Answer the roots (conted with multiplicaity) in the given domain."
 	(aField isField and: [aField isFinite and: [aField characteristic even not]]) ifTrue: [^ (FiniteFieldRootFinder polynomial: self) roots].
 	(aField isKindOf: Rationals) ifTrue: [^ (RationalRootFinder polynomial: self) roots].
-	(aField isKindOf: AlgebraicNumbers) ifTrue: [^ (ComplexRootFinder polynomial: self) roots].
-	(aField isKindOf: RealAlgebraicNumbers) ifTrue: [^ (RealRootFinder polynomial: self) roots].
+	((aField isKindOf: AlgebraicNumbers) or: [aField isKindOf: ComplexNumbers]) ifTrue: [^ (ComplexRootFinder polynomial: self) roots].
+	((aField isKindOf: RealAlgebraicNumbers) or: [aField isKindOf: Reals]) ifTrue: [^ (RealRootFinder polynomial: self) roots].
 	(aField isKindOf: Integers) ifTrue: [^ (RationalRootFinder polynomial: self) roots select: [:each| each isInteger]].
 	self flag: #fix. "count multiplicity, implement more efficient algorithm"
 	aField isFinite ifTrue: [^ aField elements select: [:each| (self value: each) isZero]].

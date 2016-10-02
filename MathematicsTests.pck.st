@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 1 September 2016 at 8:07:38.928353 am'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 2 October 2016 at 9:39:05.548657 am'!
 'Description Please enter a description for this package'!
-!provides: 'MathematicsTests' 1 7!
+!provides: 'MathematicsTests' 1 8!
 !classDefinition: #AffineGeometryTest category: #MathematicsTests!
 TestCase subclass: #AffineGeometryTest
 	instanceVariableNames: ''
@@ -2203,6 +2203,13 @@ testFunctionComposition3
 	g _ Function from: ZZ to: ZZ evaluating: [:x| x + 1].
 	self should: [g @ f] raise: DomainError! !
 
+!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 10/2/2016 09:37'!
+testFunctionNewFrom
+	| f g |
+	f _ QQ**3 :: endomorphisms atRandomBits: 1000. "f is a LinearMap"
+	g _ f as: Function. "degrade it to a simple Function, not a LinearMap any more"
+	self assert: (g as: LinearMap) = f! !
+
 !MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 3/19/2016 04:09'!
 testGaloisFields
 	| GF pi x one a |
@@ -2877,6 +2884,28 @@ testQSqrt2RealEmbeddings
 	embeddings _ E realEmbeddings.
 	roots _ (E polynomial rootsIn: RealAlgebraicNumbers new) asSet.
 	self assert: (embeddings collect: [:f| f value: E x]) asSet = roots! !
+
+!NumberFieldTest methodsFor: 'as yet unclassified' stamp: 'len 9/26/2016 18:00'!
+testTotallyImaginary
+	| x E |
+	x _ QQ polynomials x.
+	E _ NumberField polynomial: x**2 + 2.
+	self assert: E isTotallyImaginary.
+	E _ NumberField polynomial: x**2 - 2.
+	self assert: E isTotallyImaginary not.
+	E _ NumberField polynomial: x**4 - 2.
+	self assert: E isTotallyImaginary not! !
+
+!NumberFieldTest methodsFor: 'as yet unclassified' stamp: 'len 9/26/2016 17:59'!
+testTotallyReal
+	| x E |
+	x _ QQ polynomials x.
+	E _ NumberField polynomial: x**2 + 2.
+	self assert: E isTotallyReal not.
+	E _ NumberField polynomial: x**2 - 2.
+	self assert: E isTotallyReal.
+	E _ NumberField polynomial: x**4 - 2.
+	self assert: E isTotallyReal not! !
 
 !PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:08'!
 testArithmetic
