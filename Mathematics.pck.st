@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 2 October 2016 at 9:39:08.977943 am'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 4 October 2016 at 9:07:15.453384 am'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 200!
+!provides: 'Mathematics' 1 201!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
 	instanceVariableNames: 'numerator shift'
@@ -1861,6 +1861,26 @@ Domain subclass: #MetricSpace
 MetricSpace class
 	instanceVariableNames: ''!
 
+!classDefinition: #Presheaf category: #'Mathematics-Topology'!
+Domain subclass: #Presheaf
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Topology'!
+!classDefinition: 'Presheaf class' category: #'Mathematics-Topology'!
+Presheaf class
+	instanceVariableNames: ''!
+
+!classDefinition: #TopologicalSpace category: #'Mathematics-Topology'!
+Domain subclass: #TopologicalSpace
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Topology'!
+!classDefinition: 'TopologicalSpace class' category: #'Mathematics-Topology'!
+TopologicalSpace class
+	instanceVariableNames: ''!
+
 !classDefinition: #Morphism category: #'Mathematics-Kernel'!
 Object subclass: #Morphism
 	instanceVariableNames: 'properties'
@@ -1959,6 +1979,16 @@ Function subclass: #RingHomomorphism
 	category: 'Mathematics-Rings'!
 !classDefinition: 'RingHomomorphism class' category: #'Mathematics-Rings'!
 RingHomomorphism class
+	instanceVariableNames: ''!
+
+!classDefinition: #FieldHomomorphism category: #'Mathematics-Fields'!
+RingHomomorphism subclass: #FieldHomomorphism
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Fields'!
+!classDefinition: 'FieldHomomorphism class' category: #'Mathematics-Fields'!
+FieldHomomorphism class
 	instanceVariableNames: ''!
 
 !classDefinition: #LinearMap category: #'Mathematics-Linear'!
@@ -2151,6 +2181,26 @@ Morphism subclass: #Identity
 Identity class
 	instanceVariableNames: ''!
 
+!classDefinition: #SchemeMorphism category: #'Mathematics-Geometry-Algebraic-Schemes'!
+Morphism subclass: #SchemeMorphism
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Geometry-Algebraic-Schemes'!
+!classDefinition: 'SchemeMorphism class' category: #'Mathematics-Geometry-Algebraic-Schemes'!
+SchemeMorphism class
+	instanceVariableNames: ''!
+
+!classDefinition: #PresheafMorphism category: #'Mathematics-Topology'!
+Morphism subclass: #PresheafMorphism
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Topology'!
+!classDefinition: 'PresheafMorphism class' category: #'Mathematics-Topology'!
+PresheafMorphism class
+	instanceVariableNames: ''!
+
 !classDefinition: #RandomGenerator category: #'Mathematics-Kernel'!
 Object subclass: #RandomGenerator
 	instanceVariableNames: 'domain bits random'
@@ -2339,6 +2389,16 @@ LinearCombination subclass: #FreePolynomial
 	category: 'Mathematics-Free'!
 !classDefinition: 'FreePolynomial class' category: #'Mathematics-Free'!
 FreePolynomial class
+	instanceVariableNames: ''!
+
+!classDefinition: #Divisor category: #'Mathematics-Geometry-Algebraic-Schemes'!
+LinearCombination subclass: #Divisor
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Geometry-Algebraic-Schemes'!
+!classDefinition: 'Divisor class' category: #'Mathematics-Geometry-Algebraic-Schemes'!
+Divisor class
 	instanceVariableNames: ''!
 
 !classDefinition: #SimplicialChain category: #'Mathematics-Homology'!
@@ -3031,6 +3091,16 @@ Object subclass: #PolynomialSystem
 PolynomialSystem class
 	instanceVariableNames: ''!
 
+!classDefinition: #SchemePoint category: #'Mathematics-Geometry-Algebraic-Schemes'!
+Object subclass: #SchemePoint
+	instanceVariableNames: 'morphism'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Geometry-Algebraic-Schemes'!
+!classDefinition: 'SchemePoint class' category: #'Mathematics-Geometry-Algebraic-Schemes'!
+SchemePoint class
+	instanceVariableNames: ''!
+
 !classDefinition: #CylindricalAlgebraicDecomposition category: #'Mathematics-Geometry-Semialgebraic'!
 Object subclass: #CylindricalAlgebraicDecomposition
 	instanceVariableNames: 'polynomials components'
@@ -3626,7 +3696,7 @@ Chain complexes form a cateogory with chain maps as morphisms.!
 !Domain commentStamp: '<historical>' prior: 0!
 My instances are mathematical structures, such as groups, rings, fields, vector spaces, modules, etc.
 
-Domains are connected by Morphisms, which in many cases are Functions, and in turn can be viewed as elements of other mathematical structures. From the point of view of category theory, Domains and Functions are respectively 'objects' and 'morphisms' of (small) categories.
+Domains are connected by Morphisms, which in many cases are Functions, and these morphisms in turn can be viewed as elements of other mathematical structures. From the point of view of category theory, Domains and Functions are respectively 'objects' and 'morphisms' of (small) categories.
 
 Domains often have an underlying set: the set of elements. The cardinality of a domain can be finite or infinite, and countable or uncountable (see Aleph and >>size). When the underlying set is finite, #asSet returns a Smalltalk Set. When it is countable, it is possible to iterate over its element (see >>do:).  Also, when it makes sense to take elements at random, #atRandom:, #atRandom:bits: or similar messages are implemented.
 
@@ -3634,7 +3704,7 @@ Examples:
 	QQ**(3@3) atRandomBits: 100.
 	(ZZ mod: 5) asSet.
 
-Domains can be built from other domains by composition (in the OOP sense), for example by taking products or coproducts (cartesian products, direct products, direct sums), quotients, localizations, duals, etc. These operations are also morphisms (functors, more precisely), and are mostly implemented as Smalltalk messages.
+Domains can be built from other domains by composition (in the OOP sense), for example by taking products or coproducts (cartesian products, direct products, direct sums), quotients, localizations, extensions, duals, etc. These operations are also morphisms (functors, more precisely), and are mostly implemented as Smalltalk messages.
 
 Examples:
 	ZZ × QQ polynomials.
@@ -11950,9 +12020,9 @@ select: aBlock
 size
 	^ properties at: #size ifAbsentPut: [self asSet size]! !
 
-!Domain methodsFor: 'private' stamp: 'len 2/12/2016 22:33'!
+!Domain methodsFor: 'private' stamp: 'len 10/3/2016 09:38'!
 species
-	"Answer a class appropiate for the subobjects (sub-structures) of the receiver."
+	"Answer a class appropiate for the subobjects of the receiver."
 	^ self class! !
 
 !Domain methodsFor: 'morphisms' stamp: 'len 8/31/2016 05:41'!
@@ -13897,15 +13967,15 @@ coordinatesOf: anAffineSubspace
 	v _ v - (subspace project: v).
 	^ subspace perp basis coordinatesOf: v! !
 
-!QuotientSpace methodsFor: 'private' stamp: 'len 8/24/2016 19:06'!
+!QuotientSpace methodsFor: 'private' stamp: 'len 10/4/2016 09:04'!
 defaultProjection
 	"Answer the quotient map, the canonical projection from the ambient vector space to the quotient space, i.e. the mapping pi:V->V/S that assigns to every v in V the affine subspace v+S."
 	| answer |
-	answer _ LinearMap from: self base to: self evaluating: [:each| self project: each].
+	answer _ self base to: self evaluating: [:each| self project: each].
 	answer properties
 		at: #kernel put: subspace;
 		at: #image put: self;
-		at: #rightInverse put: (Function from: self to: self base evaluating: [:each| each representative]).
+		at: #rightInverse put: (self to: self base evaluating: [:each| each representative]).
 	^ answer! !
 
 !QuotientSpace methodsFor: 'basis' stamp: 'len 11/9/2015 15:59'!
@@ -14307,12 +14377,12 @@ freeModuleIn: aCollection
 	"Answer the free module in the given indeterminates over the receiver."
 	^ FreeModule on: aCollection over: self! !
 
-!Ring methodsFor: 'operations' stamp: 'len 1/5/2016 03:17'!
+!Ring methodsFor: 'morphisms' stamp: 'len 10/4/2016 08:46'!
 frobenius
 	"Answer the Frobenius endomorphism, assuming the receiver is of characteristic p prime."
 	| p |
 	p _ self characteristic.
-	^ Function from: self to: self evaluating: [:r| r ** p]! !
+	^ self to: self evaluating: [:r| r ** p]! !
 
 !Ring methodsFor: 'testing' stamp: 'len 8/17/2016 17:54'!
 hasOne
@@ -14444,6 +14514,12 @@ spec
 	"Answer the spectrum of the receiver, Spec(R)."
 	self isCommutative ifFalse: [DomainError signal: 'non-commutative ring'].
 	^ Spectrum on: self! !
+
+!Ring methodsFor: 'morphisms' stamp: 'len 10/4/2016 08:48'!
+to: aRing evaluating: aBlock
+	"Answer the ring homomorphism to aRing evaluating as the given block."
+	(aRing isKindOf: Ring) ifFalse: [^ super to: aRing evaluating: aBlock].
+	^ RingHomomorphism from: self to: aRing evaluating: aBlock! !
 
 !Ring methodsFor: 'tuples' stamp: 'len 4/12/2016 02:51'!
 tuple: anArray
@@ -14936,15 +15012,15 @@ conjugation
 	"Answer the companion automorphism of the receiver, i.e. the Frobenius automorphism."
 	^ self frobenius! !
 
-!QuotientRing methodsFor: 'private' stamp: 'len 8/24/2016 19:04'!
+!QuotientRing methodsFor: 'private' stamp: 'len 10/4/2016 08:44'!
 defaultProjection
 	"Answer the natural projection, or quotient map, or canonical homomorphism. This takes elements from the base ring to the corresponding residue class in the quotient ring."
 	| answer |
-	answer _ Function from: self base to: self evaluating: [:each| self project: each].
+	answer _ self base to: self evaluating: [:each| self project: each].
 	answer properties
 		at: #kernel put: ideal;
 		at: #image put: self;
-		at: #rightInverse put: (Function from: self to: self base evaluating: [:each| each representative]).
+		at: #rightInverse put: (self to: self base evaluating: [:each| each representative]).
 	^ answer! !
 
 !QuotientRing methodsFor: 'iterating' stamp: 'len 9/26/2016 16:49'!
@@ -15194,6 +15270,12 @@ primeSubfield
 		ifTrue: [QQ]
 		ifFalse: [ZZ modPrime: self characteristic]! !
 
+!Field methodsFor: 'morphisms' stamp: 'len 10/4/2016 08:51'!
+to: aField evaluating: aBlock
+	"Answer the group homomorphism from the receiver to the argument."
+	(aField isKindOf: Field) ifFalse: [^ super to: aField evaluating: aBlock].
+	^ FieldHomomorphism from: self to: aField evaluating: aBlock! !
+
 !Field methodsFor: 'accessing' stamp: 'len 7/17/2016 23:54'!
 valuation
 	"Answer the trivial valuation of the receiver as an Euclidean domain."
@@ -15219,9 +15301,9 @@ GF: q
 characteristic
 	^ 0! !
 
-!ComplexNumbers methodsFor: 'accessing' stamp: 'len 8/6/2016 03:44'!
+!ComplexNumbers methodsFor: 'accessing' stamp: 'len 10/4/2016 08:59'!
 conjugation
-	^ Function from: self to: self evaluating: [:x| x conjugated]! !
+	^ self to: self evaluating: [:x| x conjugated]! !
 
 !ComplexNumbers methodsFor: 'iterating' stamp: 'len 8/6/2016 03:50'!
 do: aBlock
@@ -15342,10 +15424,10 @@ atRandom: aRandom bits: bitSize
 embed: anObject
 	^ FormalFraction numerator: anObject denominator: self integralDomain one! !
 
-!FractionField methodsFor: 'morphisms' stamp: 'len 4/19/2016 21:13'!
+!FractionField methodsFor: 'morphisms' stamp: 'len 10/4/2016 08:52'!
 embedding
 	"Answer the embedding map from the integral domain into the receiver."
-	^ properties at: #embedding ifAbsentPut: [Function from: self integralDomain to: self evaluating: [:x| FormalFraction numerator: x denominator: self integralDomain one]]! !
+	^ properties at: #embedding ifAbsentPut: [self integralDomain to: self evaluating: [:x| self embed: x]]! !
 
 !FractionField methodsFor: 'comparing' stamp: 'len 11/30/2015 23:19'!
 hash
@@ -15420,9 +15502,9 @@ do: aBlock
 embed: anInteger
 	^ anInteger "because in Smalltalk Fractions of denominator 1 are always reduced to their Integer numerator"! !
 
-!Rationals methodsFor: 'morphisms' stamp: 'len 4/19/2016 21:12'!
+!Rationals methodsFor: 'morphisms' stamp: 'len 10/4/2016 09:05'!
 embedding
-	^ properties at: #embedding ifAbsentPut: [Function from: self integralDomain to: self evaluating: [:x| x]] "because in Smalltalk Fractions of denominator 1 are always reduced to their Integer numerator"! !
+	^ properties at: #embedding ifAbsentPut: [self integralDomain to: self evaluating: [:x| x]] "because in Smalltalk Fractions of denominator 1 are always reduced to their Integer numerator"! !
 
 !Rationals methodsFor: 'comparing' stamp: 'len 6/28/2016 09:27'!
 hash
@@ -15503,10 +15585,10 @@ characteristic
 embed: aPolynomial
 	^ RationalFunction numerator: aPolynomial denominator: self polynomials one! !
 
-!RationalFunctions methodsFor: 'morphisms' stamp: 'len 11/29/2015 00:31'!
+!RationalFunctions methodsFor: 'morphisms' stamp: 'len 10/4/2016 09:05'!
 embedding
 	"Answer the embedding map from the base polynomials ring into the receiver."
-	^ properties at: #embedding ifAbsentPut: [Function from: self polynomials to: self evaluating: [:x| RationalFunction numerator: x denominator: self polynomials one]]! !
+	^ properties at: #embedding ifAbsentPut: [self polynomials to: self evaluating: [:x| RationalFunction numerator: x denominator: self polynomials one]]! !
 
 !RationalFunctions methodsFor: 'accessing' stamp: 'len 11/27/2015 20:13'!
 indeterminates
@@ -15578,15 +15660,15 @@ conjugation
 	"Answer the companion automorphism of the receiver, i.e. the Frobenius automorphism."
 	^ self frobenius! !
 
-!ResidueField methodsFor: 'private' stamp: 'len 9/26/2016 16:51'!
+!ResidueField methodsFor: 'private' stamp: 'len 10/4/2016 08:53'!
 defaultProjection
 	"Answer the natural projection, or quotient map, or canonical homomorphism. This takes elements from the base ring to the corresponding residue class in the quotient ring."
 	| answer |
-	answer _ Function from: ideal ring to: self evaluating: [:each| self project: each].
+	answer _ ideal ring to: self evaluating: [:each| self project: each].
 	answer properties
 		at: #kernel put: ideal;
 		at: #image put: self;
-		at: #rightInverse put: (Function from: self to: ideal ring evaluating: [:each| each representative]).
+		at: #rightInverse put: (RingHomomorphism from: self to: ideal ring evaluating: [:each| each representative]).
 	^ answer! !
 
 !ResidueField methodsFor: 'iterating' stamp: 'len 9/26/2016 16:51'!
@@ -15766,10 +15848,10 @@ embed: aNumber
 	"This is the field homomorphism that embeds the base field into the receiver."
 	^ self asQuotientRing project: (self asQuotientRing ideal ring embed: aNumber)! !
 
-!AlgebraicExtension methodsFor: 'morphisms' stamp: 'len 3/19/2016 08:24'!
+!AlgebraicExtension methodsFor: 'morphisms' stamp: 'len 10/4/2016 08:56'!
 embedding
 	"Answer the field homomorphism that embeds the base field into the receiver."
-	^ properties at: #embedding ifAbsentPut: [self baseField -> self evaluating: [:x| self embed: x]]! !
+	^ properties at: #embedding ifAbsentPut: [self baseField to: self evaluating: [:x| self embed: x]]! !
 
 !AlgebraicExtension methodsFor: 'morphisms' stamp: 'len 6/4/2016 19:30'!
 embeddings
@@ -15958,9 +16040,9 @@ sqrt: anInteger
 characteristic
 	^ 0! !
 
-!AlgebraicNumbers methodsFor: 'morphisms' stamp: 'len 2/5/2016 19:57'!
+!AlgebraicNumbers methodsFor: 'morphisms' stamp: 'len 10/4/2016 08:56'!
 conjugation
-	^ Function from: self to: self evaluating: [:x| x conjugated]! !
+	^ self to: self evaluating: [:x| x conjugated]! !
 
 !AlgebraicNumbers methodsFor: 'comparing' stamp: 'len 12/26/2015 20:05'!
 hash
@@ -16274,19 +16356,19 @@ do: aBlock
 embed: aScalar
 	^ self constant: aScalar! !
 
-!PolynomialRing methodsFor: 'morphisms' stamp: 'len 12/31/2015 00:14'!
+!PolynomialRing methodsFor: 'morphisms' stamp: 'len 10/4/2016 09:02'!
 embedding
 	"Answer the embedding map from the base ring into the receiver."
-	^ properties at: #embedding ifAbsentPut: [Function from: scalars to: self evaluating: [:x| self constant: x]]! !
+	^ properties at: #embedding ifAbsentPut: [RingHomomorphism from: scalars to: self evaluating: [:x| self constant: x]]! !
 
-!PolynomialRing methodsFor: 'operations' stamp: 'len 8/3/2016 08:00'!
+!PolynomialRing methodsFor: 'operations' stamp: 'len 10/4/2016 09:02'!
 expansion: anInteger
 	"Answer the canonical embedding into the polynomials in n+anInteger indeterminates.
 	Perhaps this should be called 'embedding' instead of 'expansion'."
 	| codomain |
 	anInteger > 0 ifFalse: [self error: 'out of bounds'].
 	codomain _ (self scalars polynomialsIn: self rank + anInteger).
-	^ Function from: self to: codomain evaluating: [:aPolynomial| aPolynomial as: codomain]! !
+	^ self to: codomain evaluating: [:aPolynomial| aPolynomial as: codomain]! !
 
 !PolynomialRing methodsFor: 'examples' stamp: 'len 11/6/2015 03:45'!
 fibonacciOfOrder: n
@@ -16315,6 +16397,10 @@ findIrreducibleOfDegree: n
 fractions
 	scalars isField ifFalse: [^ self error: 'scalars are not a field'].
 	^ RationalFunctions polynomials: self! !
+
+!PolynomialRing methodsFor: 'accessing' stamp: 'len 10/2/2016 10:34'!
+generators
+	^ (1 to: self rank) collect: [:i| self x: i]! !
 
 !PolynomialRing methodsFor: 'testing' stamp: 'len 6/4/2016 05:13'!
 has: anIndeterminate
@@ -16466,13 +16552,13 @@ proj
 	"Answer the projective space associated to the receiver, Proj(R)."
 	^ ProjectiveSpace coordinateRing: self! !
 
-!PolynomialRing methodsFor: 'morphisms' stamp: 'len 8/3/2016 07:58'!
+!PolynomialRing methodsFor: 'morphisms' stamp: 'len 10/4/2016 09:03'!
 projection: anInteger
 	"Answer the canonical projection on the polynomials in anInteger indeterminates."
 	| codomain |
 	(anInteger between: 0 and: self rank) ifFalse: [self error: 'out of bounds'].
 	codomain _ (self scalars polynomialsIn: anInteger).
-	^ Function from: self to: codomain evaluating: [:aPolynomial| aPolynomial as: codomain]! !
+	^ self to: codomain evaluating: [:aPolynomial| aPolynomial as: codomain]! !
 
 !PolynomialRing methodsFor: 'accessing' stamp: 'len 6/4/2016 05:13'!
 rank
@@ -17786,15 +17872,15 @@ base
 base: aGroup
 	base _ aGroup! !
 
-!QuotientGroup methodsFor: 'private' stamp: 'len 8/24/2016 18:59'!
+!QuotientGroup methodsFor: 'private' stamp: 'len 10/4/2016 09:03'!
 defaultProjection
 	"Answer the natural projection, or quotient map, or canonical homomorphism. This takes elements from the base group to the corresponding coset in the quotient group."
 	| answer |
-	answer _ Function from: base to: self evaluating: [:each| self project: each].
+	answer _ base to: self evaluating: [:each| self project: each].
 	answer properties
 		at: #kernel put: subgroup;
 		at: #image put: self;
-		at: #rightInverse put: (Function from: self to: base evaluating: [:each| each representative]).
+		at: #rightInverse put: (self to: base evaluating: [:each| each representative]).
 	^ answer! !
 
 !QuotientGroup methodsFor: 'iterating' stamp: 'len 6/27/2016 23:22'!
@@ -19174,9 +19260,9 @@ evaluating: aBlock
 identity
 	^ self isEndomorphisms ifTrue: [self domain id]! !
 
-!Morphisms methodsFor: 'testing' stamp: 'len 4/19/2016 04:53'!
+!Morphisms methodsFor: 'testing' stamp: 'len 10/4/2016 09:02'!
 includes: aMorphism
-	^ (aMorphism isKindOf: Function) and: [aMorphism domain = self domain and: [aMorphism codomain = self codomain]]! !
+	^ (aMorphism isKindOf: Morphism) and: [aMorphism domain = self domain and: [aMorphism codomain = self codomain]]! !
 
 !Morphisms methodsFor: 'testing' stamp: 'len 4/19/2016 04:53'!
 isEndomorphisms
@@ -22605,6 +22691,27 @@ schlafliMatrix
 simpleReflections
 	^ generators! !
 
+!Presheaf methodsFor: 'as yet unclassified' stamp: 'len 10/3/2016 10:06'!
+globalSections
+	^ self sectionsOver: self space! !
+
+!Presheaf methodsFor: 'as yet unclassified' stamp: 'len 10/3/2016 10:10'!
+restrictionMapFrom: V to: U
+	^ self subclassResponsibility! !
+
+!Presheaf methodsFor: 'as yet unclassified' stamp: 'len 10/3/2016 10:07'!
+sectionsOver: U
+	"Answer the abelian group corresponding to the given open set."
+	^ self subclassResponsibility! !
+
+!TopologicalSpace methodsFor: 'as yet unclassified' stamp: 'len 10/3/2016 10:21'!
+base
+	^ self subclassResponsibility! !
+
+!TopologicalSpace methodsFor: 'as yet unclassified' stamp: 'len 10/3/2016 10:08'!
+isOpen: aSubset
+	^ self subclassResponsibility! !
+
 !Morphism methodsFor: 'operations' stamp: 'len 8/8/2016 05:49'!
 @ aMorphism
 	^ self subclassResponsibility! !
@@ -23599,6 +23706,11 @@ inverse
 !StandardPermutation class methodsFor: 'instance creation' stamp: 'len 7/4/2016 06:34'!
 image: anArray
 	^ self basicNew map: anArray! !
+
+!RingHomomorphism methodsFor: 'as yet unclassified' stamp: 'len 10/3/2016 09:01'!
+spec
+	"This is the Spec functor. Answer the scheme homomorphism induced by the receiver, i.e. given a ring homomorphism f:R->S, Spec(f) is a scheme homomorphism Spec(S)->Spec(R)."
+	self notYetImplemented! !
 
 !LinearMap methodsFor: 'arithmetic' stamp: 'len 1/8/2016 06:32'!
 * anObject
@@ -34094,6 +34206,10 @@ cyclic: n
 !PolynomialSystem class methodsFor: 'instance creation' stamp: 'len 10/22/97 01:00'!
 new
 	^ super new initialize! !
+
+!SchemePoint methodsFor: 'as yet unclassified' stamp: 'len 10/3/2016 09:06'!
+scheme
+	^ morphism codomain! !
 
 !CylindricalAlgebraicDecomposition methodsFor: 'accessing' stamp: 'len 5/30/2016 03:40'!
 components
