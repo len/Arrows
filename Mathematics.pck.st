@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 6 October 2016 at 3:19:30.351141 pm'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 6 October 2016 at 3:43:53.491137 pm'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 202!
+!provides: 'Mathematics' 1 203!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
 	instanceVariableNames: 'numerator shift'
@@ -2443,7 +2443,7 @@ Word class
 
 !classDefinition: #SemidirectProductElement category: #'Mathematics-Groups'!
 Object subclass: #SemidirectProductElement
-	instanceVariableNames: 'species left right'
+	instanceVariableNames: 'parent left right'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Groups'!
@@ -2493,7 +2493,7 @@ LinearSystem class
 
 !classDefinition: #Matrix category: #'Mathematics-Linear'!
 Object subclass: #Matrix
-	instanceVariableNames: 'species'
+	instanceVariableNames: 'parent'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Linear'!
@@ -2733,7 +2733,7 @@ WeightedMonomialOrdering class
 
 !classDefinition: #Polynomial category: #'Mathematics-Polynomials'!
 Object subclass: #Polynomial
-	instanceVariableNames: 'species'
+	instanceVariableNames: 'parent'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Polynomials'!
@@ -13455,17 +13455,17 @@ asRing
 	self isSquare ifFalse: [self error: 'not square matrices'].
 	^ (self as: Ring) one: self identity! !
 
-!MatrixSpace methodsFor: 'elements' stamp: 'len 7/15/2016 05:08'!
+!MatrixSpace methodsFor: 'elements' stamp: 'len 10/6/2016 15:33'!
 columns: anArray
-	^ (ColumnMatrix columns: anArray) species: self! !
+	^ (ColumnMatrix columns: anArray) parent: self! !
 
 !MatrixSpace methodsFor: 'basis' stamp: 'len 11/23/2015 02:31'!
 coordinatesOf: aMatrix
 	^ aMatrix asTuple! !
 
-!MatrixSpace methodsFor: 'elements' stamp: 'len 7/8/2016 04:43'!
+!MatrixSpace methodsFor: 'elements' stamp: 'len 10/6/2016 15:33'!
 dense: aTuple
-	^ DenseMatrix new coefficients: aTuple; species: self! !
+	^ DenseMatrix new coefficients: aTuple; parent: self! !
 
 !MatrixSpace methodsFor: 'elements' stamp: 'len 3/3/2016 18:57'!
 diagonal: aTuple
@@ -13544,13 +13544,13 @@ isSquare
 matrixClass
 	^ properties at: #matrixClass ifAbsentPut: [RowMatrix]! !
 
-!MatrixSpace methodsFor: 'elements' stamp: 'len 11/26/2015 04:06'!
+!MatrixSpace methodsFor: 'elements' stamp: 'len 10/6/2016 15:33'!
 new
-	^ self matrixClass new species: self! !
+	^ self matrixClass new parent: self! !
 
-!MatrixSpace methodsFor: 'elements' stamp: 'len 7/2/2016 17:17'!
+!MatrixSpace methodsFor: 'elements' stamp: 'len 10/6/2016 15:33'!
 newFrom: aMatrix
-	^ aMatrix copy species: self! !
+	^ aMatrix copy parent: self! !
 
 !MatrixSpace methodsFor: 'accessing' stamp: 'len 11/3/2015 21:42'!
 numberOfColumns
@@ -13584,9 +13584,9 @@ printOn: aStream
 rank
 	^ numberOfRows * numberOfColumns! !
 
-!MatrixSpace methodsFor: 'elements' stamp: 'len 7/15/2016 05:09'!
+!MatrixSpace methodsFor: 'elements' stamp: 'len 10/6/2016 15:33'!
 rows: anArray
-	^ (RowMatrix rows: anArray) species: self! !
+	^ (RowMatrix rows: anArray) parent: self! !
 
 !MatrixSpace methodsFor: 'elements' stamp: 'len 2/6/2016 19:57'!
 scalar: aNumber
@@ -13606,9 +13606,9 @@ scalars: aDomain
 size
 	^ scalars size ** (self numberOfRows * self numberOfColumns)! !
 
-!MatrixSpace methodsFor: 'elements' stamp: 'len 7/8/2016 04:20'!
+!MatrixSpace methodsFor: 'elements' stamp: 'len 10/6/2016 15:33'!
 sparse: aSparseTuple
-	^ SparseMatrix new coefficients: aSparseTuple; species: self! !
+	^ SparseMatrix new coefficients: aSparseTuple; parent: self! !
 
 !MatrixSpace methodsFor: 'operations' stamp: 'len 11/26/2015 01:34'!
 transposed
@@ -16301,7 +16301,7 @@ chebyshevOfOrder: n
 coefficient: aNumber degree: anInteger
 	^ self coefficients: (self scalars tuple: {aNumber}) >>> anInteger! !
 
-!PolynomialRing methodsFor: 'elements' stamp: 'len 7/19/2016 01:07'!
+!PolynomialRing methodsFor: 'elements' stamp: 'len 10/6/2016 15:35'!
 coefficient: aNumber monomial: aMonomial
 	| coefficients |
 	self isUnivariate
@@ -16313,7 +16313,7 @@ coefficient: aNumber monomial: aMonomial
 			n _ aMonomial degree + 1.
 			zero _ aNumber zero.
 			coefficients _ self scalars tuple: n evaluating: [:i| i=n ifTrue: [aNumber] ifFalse: [zero]]].
-	^ (self polynomialClass coefficients: coefficients) species: self! !
+	^ (self polynomialClass coefficients: coefficients) parent: self! !
 
 !PolynomialRing methodsFor: 'elements' stamp: 'len 5/20/2016 03:38'!
 coefficient: aNumber x: anIndeterminate to: anInteger
@@ -16323,10 +16323,10 @@ coefficient: aNumber x: anIndeterminate to: anInteger
 		ifFalse: [self indeterminateNames indexOf: anIndeterminate ifAbsent: [^ self error: 'unknown indeterminate']].
 	^ self coefficient: aNumber monomial: (Monomial x: i to: anInteger)! !
 
-!PolynomialRing methodsFor: 'elements' stamp: 'len 7/19/2016 01:08'!
+!PolynomialRing methodsFor: 'elements' stamp: 'len 10/6/2016 15:36'!
 coefficients: aTuple
 	| tuple |
-	self isUnivariate ifFalse: [^ (MultivariatePolynomial coefficients: aTuple) species: self].
+	self isUnivariate ifFalse: [^ (MultivariatePolynomial coefficients: aTuple) parent: self].
 	tuple _ aTuple class = self scalars tupleClass
 		ifTrue: [aTuple]
 		ifFalse: [(aTuple isKindOf: SparseTuple)
@@ -16336,7 +16336,7 @@ coefficients: aTuple
 				aTuple keysDo: [:each| n _ n max: each degree].
 				self scalars tuple: n+1 evaluating: [:i| aTuple at: (Monomial x: 1 to: i-1)]]
 			ifFalse: [self scalars tuple: aTuple]].
-	^ (UnivariatePolynomial coefficients: tuple) species: self! !
+	^ (UnivariatePolynomial coefficients: tuple) parent: self! !
 
 !PolynomialRing methodsFor: 'elements' stamp: 'len 7/9/2016 03:31'!
 constant: aNumber
@@ -16536,9 +16536,9 @@ modPrime: anObject
 monomial: aMonomial
 	^ self coefficient: self scalars one monomial: aMonomial! !
 
-!PolynomialRing methodsFor: 'elements' stamp: 'len 11/26/2015 03:17'!
+!PolynomialRing methodsFor: 'elements' stamp: 'len 10/6/2016 15:35'!
 new
-	^ self polynomialClass new species: self! !
+	^ self polynomialClass new parent: self! !
 
 !PolynomialRing methodsFor: 'elements' stamp: 'len 7/9/2016 03:01'!
 newFrom: aPolynomial
@@ -18033,11 +18033,11 @@ left: aGroup
 printOn: aStream
 	aStream print: left; nextPutAll: ' X| '; print: right! !
 
-!SemidirectProductGroup methodsFor: 'morphisms' stamp: 'len 2/12/2016 06:19'!
+!SemidirectProductGroup methodsFor: 'morphisms' stamp: 'len 10/6/2016 15:35'!
 project: anArray
 	"Project a cartesian product of two elements to their semidirect product."
 	^ SemidirectProductElement new
-		species: self;
+		parent: self;
 		left: (anArray at: 1);
 		right: (anArray at: 2)! !
 
@@ -21761,16 +21761,16 @@ isSingularAt: aPoint
 polynomial
 	^ self ideal generator! !
 
-!AffinePlaneCurve methodsFor: 'as yet unclassified' stamp: 'len 8/31/2016 08:15'!
+!AffinePlaneCurve methodsFor: 'as yet unclassified' stamp: 'len 10/6/2016 15:38'!
 tangentAt: aPoint
 	| g P |
 	g _ self polynomial.
-	P _ g species.
+	P _ g parent.
 	^ AffinePlaneCurve polynomial: (P indeterminates inject: P zero into: [:sum :i| (P x: i) - (aPoint at: i) * ((g derivativeIn: i) value: aPoint) + sum])! !
 
-!AffinePlaneCurve class methodsFor: 'instance creation' stamp: 'len 8/29/2016 16:46'!
+!AffinePlaneCurve class methodsFor: 'instance creation' stamp: 'len 10/6/2016 15:38'!
 polynomial: aPolynomial
-	^ self ideal: aPolynomial species * aPolynomial! !
+	^ self ideal: aPolynomial parent * aPolynomial! !
 
 !AffineSpace methodsFor: 'accessing' stamp: 'len 8/27/2016 19:03'!
 ambient
@@ -22893,6 +22893,11 @@ name
 !Morphism methodsFor: 'printing' stamp: 'len 8/8/2016 05:52'!
 name: aString
 	properties at: #name put: aString! !
+
+!Morphism methodsFor: 'accessing' stamp: 'len 10/6/2016 15:42'!
+parent
+	"A morphism f:A->B belongs to Hom(A,B)."
+	^ self domain -> self codomain! !
 
 !Morphism methodsFor: 'printing' stamp: 'len 8/8/2016 05:51'!
 printOn: aStream
@@ -27263,12 +27268,12 @@ x: i to: k
 	k = 0 ifTrue: [^ self empty].
 	^ self syllables: {i -> k}! !
 
-!SemidirectProductElement methodsFor: 'arithmetic' stamp: 'len 4/22/2016 20:51'!
+!SemidirectProductElement methodsFor: 'arithmetic' stamp: 'len 10/6/2016 15:37'!
 * aSemidirectProduct
-	^ self species
+	^ self parent
 		project:
-			{species left operation value: {left. aSemidirectProduct left}.
-			species right operation value: {species action value: {aSemidirectProduct left. right}. aSemidirectProduct right}}! !
+			{parent left operation value: {left. aSemidirectProduct left}.
+			parent right operation value: {parent action value: {aSemidirectProduct left. right}. aSemidirectProduct right}}! !
 
 !SemidirectProductElement methodsFor: 'arithmetic' stamp: 'len 2/12/2016 06:14'!
 / aSemidirectProduct
@@ -27287,16 +27292,24 @@ left
 left: anObject
 	left _ anObject! !
 
+!SemidirectProductElement methodsFor: 'private' stamp: 'len 10/6/2016 15:37'!
+parent
+	^ parent! !
+
+!SemidirectProductElement methodsFor: 'accessing-private' stamp: 'len 10/6/2016 15:37'!
+parent: aSemidirectProductGroup
+	parent _ aSemidirectProductGroup! !
+
 !SemidirectProductElement methodsFor: 'printing' stamp: 'len 2/12/2016 06:10'!
 printOn: aStream
 	aStream nextPut: $(; print: left; nextPutAll: ', '; print: right; nextPut: $)! !
 
-!SemidirectProductElement methodsFor: 'arithmetic' stamp: 'len 4/22/2016 20:50'!
+!SemidirectProductElement methodsFor: 'arithmetic' stamp: 'len 10/6/2016 15:36'!
 reciprocal
 	| leftInverse rightInverse |
-	leftInverse _ species left inverseMap value: left.
-	rightInverse _ species right inverseMap value: right.
-	^ species project: {leftInverse. species right inverseMap value: (species action value: {leftInverse. rightInverse})}! !
+	leftInverse _ parent left inverseMap value: left.
+	rightInverse _ parent right inverseMap value: right.
+	^ parent project: {leftInverse. parent right inverseMap value: (parent action value: {leftInverse. rightInverse})}! !
 
 !SemidirectProductElement methodsFor: 'accessing' stamp: 'len 5/5/98 00:18'!
 right
@@ -27306,14 +27319,6 @@ right
 !SemidirectProductElement methodsFor: 'accessing-private' stamp: 'len 5/5/98 00:17'!
 right: anObject
 	right _ anObject! !
-
-!SemidirectProductElement methodsFor: 'private' stamp: 'len 2/12/2016 06:09'!
-species
-	^ species! !
-
-!SemidirectProductElement methodsFor: 'accessing-private' stamp: 'len 2/12/2016 06:09'!
-species: aSemidirectProductGroup
-	species _ aSemidirectProductGroup! !
 
 !SchreierSims methodsFor: 'accessing-private' stamp: 'len 6/22/2016 07:31'!
 action: aGroupAction
@@ -28301,6 +28306,14 @@ nullity
 one
 	^ self identity! !
 
+!Matrix methodsFor: 'accessing' stamp: 'len 10/6/2016 15:30'!
+parent
+	^ parent! !
+
+!Matrix methodsFor: 'initialization' stamp: 'len 10/6/2016 15:31'!
+parent: aMatrixSpace
+	parent _ aMatrixSpace! !
+
 !Matrix methodsFor: 'operations' stamp: 'len 11/5/2015 02:51'!
 permanent
 	^ self notYetImplemented! !
@@ -28403,17 +28416,13 @@ rowSpace
 rows
 	^ (1 to: self numberOfRows) collect: [:i| self rowAt: i]! !
 
-!Matrix methodsFor: 'accessing' stamp: 'len 11/26/2015 04:02'!
+!Matrix methodsFor: 'accessing' stamp: 'len 10/6/2016 15:29'!
 scalars
-	^ species scalars! !
+	^ self parent scalars! !
 
-!Matrix methodsFor: 'accessing' stamp: 'len 11/26/2015 04:03'!
+!Matrix methodsFor: 'private' stamp: 'len 10/6/2016 15:39'!
 species
-	^ species! !
-
-!Matrix methodsFor: 'initialization' stamp: 'len 11/26/2015 04:03'!
-species: aMatrices
-	species _ aMatrices! !
+	^ self parent! !
 
 !Matrix methodsFor: 'eigenvalues' stamp: 'len 2/6/2016 19:45'!
 spectralRadius
@@ -28645,9 +28654,9 @@ rows: anArray
 	aMatrix class = self class ifTrue: [^ self species sparse: self coefficients - aMatrix coefficients].
 	^ self species evaluating: [:i :j| (self at: i@j) - (aMatrix at: i@j)]! !
 
-!SparseMatrix methodsFor: 'as yet unclassified' stamp: 'len 7/8/2016 04:11'!
+!SparseMatrix methodsFor: 'as yet unclassified' stamp: 'len 10/6/2016 15:30'!
 at: i at: j
-	^ coefficients at: i@j ifAbsent: [species scalars zero]! !
+	^ coefficients at: i@j ifAbsent: [parent scalars zero]! !
 
 !SparseMatrix methodsFor: 'as yet unclassified' stamp: 'len 7/8/2016 04:10'!
 at: i at: j put: anObject
@@ -28657,10 +28666,10 @@ at: i at: j put: anObject
 coefficients: aSparseTuple
 	coefficients _ aSparseTuple! !
 
-!SparseMatrix methodsFor: 'as yet unclassified' stamp: 'len 7/8/2016 04:09'!
-species: aMatrices
-	super species: aMatrices.
-	coefficients isNil ifTrue: [coefficients _ SparseTuple zero: aMatrices scalars zero]! !
+!SparseMatrix methodsFor: 'as yet unclassified' stamp: 'len 10/6/2016 15:32'!
+parent: aMatrixSpace
+	super parent: aMatrixSpace.
+	coefficients isNil ifTrue: [coefficients _ SparseTuple zero: aMatrixSpace scalars zero]! !
 
 !GramSchmidt methodsFor: 'accessing-private' stamp: 'len 12/13/2015 00:31'!
 basis: aLinearBasis
@@ -30574,10 +30583,18 @@ normMax
 one
 	^ self species one! !
 
-!Polynomial methodsFor: 'converting' stamp: 'len 7/7/2016 04:25'!
+!Polynomial methodsFor: 'converting' stamp: 'len 10/6/2016 15:34'!
 orderedBy: aMonomialOrdering
 	"Answer a copy of the receiver with a different monomial ordering."
-	^ self copy species: (species copy ordering: aMonomialOrdering)! !
+	^ self copy parent: (parent copy ordering: aMonomialOrdering)! !
+
+!Polynomial methodsFor: 'accessing-private' stamp: 'len 10/6/2016 15:34'!
+parent
+	^ parent! !
+
+!Polynomial methodsFor: 'accessing-private' stamp: 'len 10/6/2016 15:35'!
+parent: aPolynomialRing
+	parent _ aPolynomialRing! !
 
 !Polynomial methodsFor: 'operations' stamp: 'len 7/4/2016 03:20'!
 permutedBy: aPermutation
@@ -30804,9 +30821,9 @@ rootsIn: aField
 	aField isFinite ifTrue: [^ aField elements select: [:each| (self value: each) isZero]].
 	^ self error: 'unknown domain'! !
 
-!Polynomial methodsFor: 'accessing' stamp: 'len 11/26/2015 03:07'!
+!Polynomial methodsFor: 'accessing' stamp: 'len 10/6/2016 15:34'!
 scalars
-	^ species scalars! !
+	^ parent scalars! !
 
 !Polynomial methodsFor: 'operations' stamp: 'len 3/24/2016 03:02'!
 shift: anInteger in: anIndeterminate
@@ -30850,13 +30867,9 @@ signature
 			h _ h ** (1 - d) * (g ** d)].
 	^ {r1. n - r1 / 2}! !
 
-!Polynomial methodsFor: 'accessing-private' stamp: 'len 11/26/2015 03:07'!
+!Polynomial methodsFor: 'private' stamp: 'len 10/6/2016 15:40'!
 species
-	^ species! !
-
-!Polynomial methodsFor: 'accessing-private' stamp: 'len 11/26/2015 03:07'!
-species: aPolynomials
-	species _ aPolynomials! !
+	^ self parent! !
 
 !Polynomial methodsFor: 'remainder sequences' stamp: 'len 3/9/2016 06:32'!
 sprs2: aPolynomial
