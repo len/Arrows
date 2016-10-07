@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 6 October 2016 at 3:43:53.491137 pm'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 7 October 2016 at 8:35:44.551629 am'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 203!
+!provides: 'Mathematics' 1 204!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
 	instanceVariableNames: 'numerator shift'
@@ -15035,10 +15035,10 @@ atRandom: aRandom
 	^ self project: (ideal remainderAtRandom: aRandom)
 "	^ self project: (ideal ring atRandom: aRandom)"! !
 
-!QuotientRing methodsFor: 'random' stamp: 'len 4/19/2016 23:01'!
+!QuotientRing methodsFor: 'random' stamp: 'len 10/7/2016 07:12'!
 atRandom: aRandom bits: bitSize
-	^ self atRandom: aRandom
-"	^ self project: (ideal ring atRandom: aRandom bits: bitSize)"! !
+"	^ self atRandom: aRandom"
+	^ self project: (ideal ring atRandom: aRandom bits: bitSize)! !
 
 !QuotientRing methodsFor: 'accessing' stamp: 'len 9/26/2016 16:49'!
 base
@@ -15682,15 +15682,15 @@ variety
 	(anObject isKindOf: ResidueField) ifFalse: [^ false].
 	^ ideal = anObject ideal! !
 
-!ResidueField methodsFor: 'random' stamp: 'len 4/19/2016 23:05'!
+!ResidueField methodsFor: 'random' stamp: 'len 10/7/2016 07:11'!
 atRandom: aRandom
 	^ self project: (ideal remainderAtRandom: aRandom)
 "	^ self project: (ideal ring atRandom: aRandom)"! !
 
-!ResidueField methodsFor: 'random' stamp: 'len 4/19/2016 23:01'!
+!ResidueField methodsFor: 'random' stamp: 'len 10/7/2016 07:11'!
 atRandom: aRandom bits: bitSize
-	^ self atRandom: aRandom
-"	^ self project: (ideal ring atRandom: aRandom bits: bitSize)"! !
+"	^ self atRandom: aRandom"
+	^ self project: (ideal ring atRandom: aRandom bits: bitSize)! !
 
 !ResidueField methodsFor: 'private' stamp: 'len 10/6/2016 09:52'!
 buildProjection
@@ -16950,9 +16950,9 @@ multiplicationTable2
 operation
 	^ properties at: #operation ifAbsentPut: [(Function from: (self, self) to: self evaluating: [:each| each first * each second]) name: '*']! !
 
-!Magma methodsFor: 'accessing-private' stamp: 'len 6/24/2016 22:29'!
+!Magma methodsFor: 'accessing-private' stamp: 'len 10/7/2016 07:02'!
 operation: aFunction
-	properties at: #operation put: aFunction! !
+	properties at: #operation put: (aFunction as: (self, self) -> self)! !
 
 !Loop methodsFor: 'accessing' stamp: 'len 4/23/2016 03:38'!
 identity
@@ -17917,6 +17917,14 @@ buildProjection
 		at: #image put: self;
 		at: #rightInverse put: (self to: self base evaluating: [:each| each representative]).
 	^ answer! !
+
+!QuotientGroup methodsFor: 'private' stamp: 'len 10/7/2016 07:05'!
+defaultInverseMap
+	^ self base inverseMap as: self -> self! !
+
+!QuotientGroup methodsFor: 'private' stamp: 'len 10/7/2016 07:04'!
+defaultOperation
+	^ self base operation as: (self, self) -> self! !
 
 !QuotientGroup methodsFor: 'iterating' stamp: 'len 6/27/2016 23:22'!
 do: aBlock
