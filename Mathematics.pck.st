@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 7 October 2016 at 8:55:50.506243 am'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 7 October 2016 at 9:17:52.336071 am'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 205!
+!provides: 'Mathematics' 1 206!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
 	instanceVariableNames: 'numerator shift'
@@ -111,13 +111,13 @@ ArrayedCollection subclass: #BitArray
 BitArray class
 	instanceVariableNames: ''!
 
-!classDefinition: #LinearBasis category: #'Mathematics-Linear'!
+!classDefinition: #LinearBasis category: #'Mathematics-Modules-Support'!
 SequenceableCollection subclass: #LinearBasis
 	instanceVariableNames: 'ambient vectors'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Linear'!
-!classDefinition: 'LinearBasis class' category: #'Mathematics-Linear'!
+	category: 'Mathematics-Modules-Support'!
+!classDefinition: 'LinearBasis class' category: #'Mathematics-Modules-Support'!
 LinearBasis class
 	instanceVariableNames: ''!
 
@@ -431,23 +431,33 @@ AbelianGroup subclass: #Module
 Module class
 	instanceVariableNames: ''!
 
-!classDefinition: #FreeModule category: #'Mathematics-Free'!
+!classDefinition: #FreeModule category: #'Mathematics-Modules'!
 Module subclass: #FreeModule
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Free'!
-!classDefinition: 'FreeModule class' category: #'Mathematics-Free'!
+	category: 'Mathematics-Modules'!
+!classDefinition: 'FreeModule class' category: #'Mathematics-Modules'!
 FreeModule class
 	instanceVariableNames: ''!
 
-!classDefinition: #FreeAbelianGroup category: #'Mathematics-Free'!
+!classDefinition: #DirectSumModule category: #'Mathematics-Modules'!
+FreeModule subclass: #DirectSumModule
+	instanceVariableNames: 'components'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Modules'!
+!classDefinition: 'DirectSumModule class' category: #'Mathematics-Modules'!
+DirectSumModule class
+	instanceVariableNames: ''!
+
+!classDefinition: #FreeAbelianGroup category: #'Mathematics-Modules'!
 FreeModule subclass: #FreeAbelianGroup
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Free'!
-!classDefinition: 'FreeAbelianGroup class' category: #'Mathematics-Free'!
+	category: 'Mathematics-Modules'!
+!classDefinition: 'FreeAbelianGroup class' category: #'Mathematics-Modules'!
 FreeAbelianGroup class
 	instanceVariableNames: ''!
 
@@ -461,94 +471,84 @@ FreeAbelianGroup subclass: #Lattice
 Lattice class
 	instanceVariableNames: ''!
 
-!classDefinition: #DirectSumModule category: #'Mathematics-Linear-Spaces'!
-FreeModule subclass: #DirectSumModule
-	instanceVariableNames: 'components'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Linear-Spaces'!
-!classDefinition: 'DirectSumModule class' category: #'Mathematics-Linear-Spaces'!
-DirectSumModule class
-	instanceVariableNames: ''!
-
-!classDefinition: #LinearMaps category: #'Mathematics-Linear-Spaces'!
+!classDefinition: #LinearMaps category: #'Mathematics-Modules'!
 FreeModule subclass: #LinearMaps
 	instanceVariableNames: 'domain codomain'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Linear-Spaces'!
-!classDefinition: 'LinearMaps class' category: #'Mathematics-Linear-Spaces'!
+	category: 'Mathematics-Modules'!
+!classDefinition: 'LinearMaps class' category: #'Mathematics-Modules'!
 LinearMaps class
 	instanceVariableNames: ''!
 
-!classDefinition: #DualModule category: #'Mathematics-Linear-Spaces'!
+!classDefinition: #DualModule category: #'Mathematics-Modules'!
 LinearMaps subclass: #DualModule
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Linear-Spaces'!
-!classDefinition: 'DualModule class' category: #'Mathematics-Linear-Spaces'!
+	category: 'Mathematics-Modules'!
+!classDefinition: 'DualModule class' category: #'Mathematics-Modules'!
 DualModule class
 	instanceVariableNames: ''!
 
-!classDefinition: #MatrixModule category: #'Mathematics-Linear-Spaces'!
+!classDefinition: #MatrixModule category: #'Mathematics-Modules'!
 FreeModule subclass: #MatrixModule
 	instanceVariableNames: 'scalars numberOfRows numberOfColumns'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Linear-Spaces'!
-!classDefinition: 'MatrixModule class' category: #'Mathematics-Linear-Spaces'!
+	category: 'Mathematics-Modules'!
+!classDefinition: 'MatrixModule class' category: #'Mathematics-Modules'!
 MatrixModule class
 	instanceVariableNames: ''!
 
-!classDefinition: #QuotientModule category: #'Mathematics-Linear-Spaces'!
+!classDefinition: #QuotientModule category: #'Mathematics-Modules'!
 FreeModule subclass: #QuotientModule
 	instanceVariableNames: 'subspace'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Linear-Spaces'!
-!classDefinition: 'QuotientModule class' category: #'Mathematics-Linear-Spaces'!
+	category: 'Mathematics-Modules'!
+!classDefinition: 'QuotientModule class' category: #'Mathematics-Modules'!
 QuotientModule class
 	instanceVariableNames: ''!
 
-!classDefinition: #ScalarModule category: #'Mathematics-Linear-Spaces'!
+!classDefinition: #ScalarModule category: #'Mathematics-Modules'!
 FreeModule subclass: #ScalarModule
 	instanceVariableNames: 'scalars'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Linear-Spaces'!
-!classDefinition: 'ScalarModule class' category: #'Mathematics-Linear-Spaces'!
+	category: 'Mathematics-Modules'!
+!classDefinition: 'ScalarModule class' category: #'Mathematics-Modules'!
 ScalarModule class
 	instanceVariableNames: ''!
 
-!classDefinition: #TupleModule category: #'Mathematics-Linear-Spaces'!
+!classDefinition: #Submodule category: #'Mathematics-Modules'!
+FreeModule subclass: #Submodule
+	instanceVariableNames: 'basis'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Modules'!
+!classDefinition: 'Submodule class' category: #'Mathematics-Modules'!
+Submodule class
+	instanceVariableNames: ''!
+
+!classDefinition: #TupleModule category: #'Mathematics-Modules'!
 FreeModule subclass: #TupleModule
 	instanceVariableNames: 'scalars dimension'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Linear-Spaces'!
-!classDefinition: 'TupleModule class' category: #'Mathematics-Linear-Spaces'!
+	category: 'Mathematics-Modules'!
+!classDefinition: 'TupleModule class' category: #'Mathematics-Modules'!
 TupleModule class
 	instanceVariableNames: ''!
 
-!classDefinition: #VectorSpace category: #'Mathematics-Linear-Spaces'!
+!classDefinition: #VectorSpace category: #'Mathematics-Modules'!
 FreeModule subclass: #VectorSpace
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Linear-Spaces'!
-!classDefinition: 'VectorSpace class' category: #'Mathematics-Linear-Spaces'!
+	category: 'Mathematics-Modules'!
+!classDefinition: 'VectorSpace class' category: #'Mathematics-Modules'!
 VectorSpace class
-	instanceVariableNames: ''!
-
-!classDefinition: #Submodule category: #'Mathematics-Linear-Spaces'!
-VectorSpace subclass: #Submodule
-	instanceVariableNames: 'basis'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Linear-Spaces'!
-!classDefinition: 'Submodule class' category: #'Mathematics-Linear-Spaces'!
-Submodule class
 	instanceVariableNames: ''!
 
 !classDefinition: #BilinearForms category: #'Mathematics-Multilinear'!
@@ -701,16 +701,6 @@ Ring subclass: #PAdicIntegers
 PAdicIntegers class
 	instanceVariableNames: ''!
 
-!classDefinition: #FreeAlgebra category: #'Mathematics-Free'!
-Ring subclass: #FreeAlgebra
-	instanceVariableNames: 'scalars words'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Free'!
-!classDefinition: 'FreeAlgebra class' category: #'Mathematics-Free'!
-FreeAlgebra class
-	instanceVariableNames: ''!
-
 !classDefinition: #DirectProductRing category: #'Mathematics-Rings'!
 Ring subclass: #DirectProductRing
 	instanceVariableNames: 'components'
@@ -719,6 +709,16 @@ Ring subclass: #DirectProductRing
 	category: 'Mathematics-Rings'!
 !classDefinition: 'DirectProductRing class' category: #'Mathematics-Rings'!
 DirectProductRing class
+	instanceVariableNames: ''!
+
+!classDefinition: #FreeAlgebra category: #'Mathematics-Rings'!
+Ring subclass: #FreeAlgebra
+	instanceVariableNames: 'scalars words'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Rings'!
+!classDefinition: 'FreeAlgebra class' category: #'Mathematics-Rings'!
+FreeAlgebra class
 	instanceVariableNames: ''!
 
 !classDefinition: #GroupRing category: #'Mathematics-Rings'!
@@ -1071,13 +1071,13 @@ Semigroup subclass: #Monoid
 Monoid class
 	instanceVariableNames: ''!
 
-!classDefinition: #FreeMonoid category: #'Mathematics-Free'!
+!classDefinition: #FreeMonoid category: #'Mathematics-Kernel-Domains-Concrete'!
 Monoid subclass: #FreeMonoid
 	instanceVariableNames: 'symbols'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Free'!
-!classDefinition: 'FreeMonoid class' category: #'Mathematics-Free'!
+	category: 'Mathematics-Kernel-Domains-Concrete'!
+!classDefinition: 'FreeMonoid class' category: #'Mathematics-Kernel-Domains-Concrete'!
 FreeMonoid class
 	instanceVariableNames: ''!
 
@@ -1091,16 +1091,6 @@ Monoid subclass: #Group
 Group class
 	instanceVariableNames: ''!
 
-!classDefinition: #FreeGroup category: #'Mathematics-Free'!
-Group subclass: #FreeGroup
-	instanceVariableNames: 'symbols'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Free'!
-!classDefinition: 'FreeGroup class' category: #'Mathematics-Free'!
-FreeGroup class
-	instanceVariableNames: ''!
-
 !classDefinition: #DirectProductGroup category: #'Mathematics-Groups'!
 Group subclass: #DirectProductGroup
 	instanceVariableNames: 'components'
@@ -1109,6 +1099,16 @@ Group subclass: #DirectProductGroup
 	category: 'Mathematics-Groups'!
 !classDefinition: 'DirectProductGroup class' category: #'Mathematics-Groups'!
 DirectProductGroup class
+	instanceVariableNames: ''!
+
+!classDefinition: #FreeGroup category: #'Mathematics-Groups'!
+Group subclass: #FreeGroup
+	instanceVariableNames: 'symbols'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Groups'!
+!classDefinition: 'FreeGroup class' category: #'Mathematics-Groups'!
+FreeGroup class
 	instanceVariableNames: ''!
 
 !classDefinition: #QuotientGroup category: #'Mathematics-Groups'!
@@ -1171,143 +1171,143 @@ Group subclass: #UnitsGroup
 UnitsGroup class
 	instanceVariableNames: ''!
 
-!classDefinition: #LinearGroup category: #'Mathematics-Linear-Groups'!
+!classDefinition: #LinearGroup category: #'Mathematics-Groups-Linear'!
 Group subclass: #LinearGroup
 	instanceVariableNames: 'space'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Linear-Groups'!
-!classDefinition: 'LinearGroup class' category: #'Mathematics-Linear-Groups'!
+	category: 'Mathematics-Groups-Linear'!
+!classDefinition: 'LinearGroup class' category: #'Mathematics-Groups-Linear'!
 LinearGroup class
 	instanceVariableNames: ''!
 
-!classDefinition: #GeneralLinearGroup category: #'Mathematics-Linear-Groups'!
+!classDefinition: #GeneralLinearGroup category: #'Mathematics-Groups-Linear'!
 LinearGroup subclass: #GeneralLinearGroup
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Linear-Groups'!
-!classDefinition: 'GeneralLinearGroup class' category: #'Mathematics-Linear-Groups'!
+	category: 'Mathematics-Groups-Linear'!
+!classDefinition: 'GeneralLinearGroup class' category: #'Mathematics-Groups-Linear'!
 GeneralLinearGroup class
 	instanceVariableNames: ''!
 
-!classDefinition: #OrthogonalGroup category: #'Mathematics-Linear-Groups'!
+!classDefinition: #OrthogonalGroup category: #'Mathematics-Groups-Linear'!
 LinearGroup subclass: #OrthogonalGroup
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Linear-Groups'!
-!classDefinition: 'OrthogonalGroup class' category: #'Mathematics-Linear-Groups'!
+	category: 'Mathematics-Groups-Linear'!
+!classDefinition: 'OrthogonalGroup class' category: #'Mathematics-Groups-Linear'!
 OrthogonalGroup class
 	instanceVariableNames: ''!
 
-!classDefinition: #ScalarGroup category: #'Mathematics-Linear-Groups'!
+!classDefinition: #ScalarGroup category: #'Mathematics-Groups-Linear'!
 LinearGroup subclass: #ScalarGroup
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Linear-Groups'!
-!classDefinition: 'ScalarGroup class' category: #'Mathematics-Linear-Groups'!
+	category: 'Mathematics-Groups-Linear'!
+!classDefinition: 'ScalarGroup class' category: #'Mathematics-Groups-Linear'!
 ScalarGroup class
 	instanceVariableNames: ''!
 
-!classDefinition: #SpecialLinearGroup category: #'Mathematics-Linear-Groups'!
+!classDefinition: #SpecialLinearGroup category: #'Mathematics-Groups-Linear'!
 LinearGroup subclass: #SpecialLinearGroup
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Linear-Groups'!
-!classDefinition: 'SpecialLinearGroup class' category: #'Mathematics-Linear-Groups'!
+	category: 'Mathematics-Groups-Linear'!
+!classDefinition: 'SpecialLinearGroup class' category: #'Mathematics-Groups-Linear'!
 SpecialLinearGroup class
 	instanceVariableNames: ''!
 
-!classDefinition: #SpecialOrthogonalGroup category: #'Mathematics-Linear-Groups'!
+!classDefinition: #SpecialOrthogonalGroup category: #'Mathematics-Groups-Linear'!
 LinearGroup subclass: #SpecialOrthogonalGroup
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Linear-Groups'!
-!classDefinition: 'SpecialOrthogonalGroup class' category: #'Mathematics-Linear-Groups'!
+	category: 'Mathematics-Groups-Linear'!
+!classDefinition: 'SpecialOrthogonalGroup class' category: #'Mathematics-Groups-Linear'!
 SpecialOrthogonalGroup class
 	instanceVariableNames: ''!
 
-!classDefinition: #SpecialScalarGroup category: #'Mathematics-Linear-Groups'!
+!classDefinition: #SpecialScalarGroup category: #'Mathematics-Groups-Linear'!
 LinearGroup subclass: #SpecialScalarGroup
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Linear-Groups'!
-!classDefinition: 'SpecialScalarGroup class' category: #'Mathematics-Linear-Groups'!
+	category: 'Mathematics-Groups-Linear'!
+!classDefinition: 'SpecialScalarGroup class' category: #'Mathematics-Groups-Linear'!
 SpecialScalarGroup class
 	instanceVariableNames: ''!
 
-!classDefinition: #MatrixGroup category: #'Mathematics-Linear-Groups'!
+!classDefinition: #MatrixGroup category: #'Mathematics-Groups-Linear'!
 Group subclass: #MatrixGroup
 	instanceVariableNames: 'space matrices'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Linear-Groups'!
-!classDefinition: 'MatrixGroup class' category: #'Mathematics-Linear-Groups'!
+	category: 'Mathematics-Groups-Linear'!
+!classDefinition: 'MatrixGroup class' category: #'Mathematics-Groups-Linear'!
 MatrixGroup class
 	instanceVariableNames: ''!
 
-!classDefinition: #GeneralLinearMatrixGroup category: #'Mathematics-Linear-Groups'!
+!classDefinition: #GeneralLinearMatrixGroup category: #'Mathematics-Groups-Linear'!
 MatrixGroup subclass: #GeneralLinearMatrixGroup
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Linear-Groups'!
-!classDefinition: 'GeneralLinearMatrixGroup class' category: #'Mathematics-Linear-Groups'!
+	category: 'Mathematics-Groups-Linear'!
+!classDefinition: 'GeneralLinearMatrixGroup class' category: #'Mathematics-Groups-Linear'!
 GeneralLinearMatrixGroup class
 	instanceVariableNames: ''!
 
-!classDefinition: #OrthogonalMatrixGroup category: #'Mathematics-Linear-Groups'!
+!classDefinition: #OrthogonalMatrixGroup category: #'Mathematics-Groups-Linear'!
 MatrixGroup subclass: #OrthogonalMatrixGroup
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Linear-Groups'!
-!classDefinition: 'OrthogonalMatrixGroup class' category: #'Mathematics-Linear-Groups'!
+	category: 'Mathematics-Groups-Linear'!
+!classDefinition: 'OrthogonalMatrixGroup class' category: #'Mathematics-Groups-Linear'!
 OrthogonalMatrixGroup class
 	instanceVariableNames: ''!
 
-!classDefinition: #ScalarMatrixGroup category: #'Mathematics-Linear-Groups'!
+!classDefinition: #ScalarMatrixGroup category: #'Mathematics-Groups-Linear'!
 MatrixGroup subclass: #ScalarMatrixGroup
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Linear-Groups'!
-!classDefinition: 'ScalarMatrixGroup class' category: #'Mathematics-Linear-Groups'!
+	category: 'Mathematics-Groups-Linear'!
+!classDefinition: 'ScalarMatrixGroup class' category: #'Mathematics-Groups-Linear'!
 ScalarMatrixGroup class
 	instanceVariableNames: ''!
 
-!classDefinition: #SpecialLinearMatrixGroup category: #'Mathematics-Linear-Groups'!
+!classDefinition: #SpecialLinearMatrixGroup category: #'Mathematics-Groups-Linear'!
 MatrixGroup subclass: #SpecialLinearMatrixGroup
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Linear-Groups'!
-!classDefinition: 'SpecialLinearMatrixGroup class' category: #'Mathematics-Linear-Groups'!
+	category: 'Mathematics-Groups-Linear'!
+!classDefinition: 'SpecialLinearMatrixGroup class' category: #'Mathematics-Groups-Linear'!
 SpecialLinearMatrixGroup class
 	instanceVariableNames: ''!
 
-!classDefinition: #SpecialOrthogonalMatrixGroup category: #'Mathematics-Linear-Groups'!
+!classDefinition: #SpecialOrthogonalMatrixGroup category: #'Mathematics-Groups-Linear'!
 MatrixGroup subclass: #SpecialOrthogonalMatrixGroup
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Linear-Groups'!
-!classDefinition: 'SpecialOrthogonalMatrixGroup class' category: #'Mathematics-Linear-Groups'!
+	category: 'Mathematics-Groups-Linear'!
+!classDefinition: 'SpecialOrthogonalMatrixGroup class' category: #'Mathematics-Groups-Linear'!
 SpecialOrthogonalMatrixGroup class
 	instanceVariableNames: ''!
 
-!classDefinition: #SpecialScalarMatrixGroup category: #'Mathematics-Linear-Groups'!
+!classDefinition: #SpecialScalarMatrixGroup category: #'Mathematics-Groups-Linear'!
 MatrixGroup subclass: #SpecialScalarMatrixGroup
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Linear-Groups'!
-!classDefinition: 'SpecialScalarMatrixGroup class' category: #'Mathematics-Linear-Groups'!
+	category: 'Mathematics-Groups-Linear'!
+!classDefinition: 'SpecialScalarMatrixGroup class' category: #'Mathematics-Groups-Linear'!
 SpecialScalarMatrixGroup class
 	instanceVariableNames: ''!
 
@@ -1511,13 +1511,13 @@ RightCoset subclass: #Coset
 Coset class
 	instanceVariableNames: ''!
 
-!classDefinition: #Grassmannian category: #'Mathematics-Linear-Spaces'!
+!classDefinition: #Grassmannian category: #'Mathematics-Modules'!
 Domain subclass: #Grassmannian
 	instanceVariableNames: 'space rank'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Linear-Spaces'!
-!classDefinition: 'Grassmannian class' category: #'Mathematics-Linear-Spaces'!
+	category: 'Mathematics-Modules'!
+!classDefinition: 'Grassmannian class' category: #'Mathematics-Modules'!
 Grassmannian class
 	instanceVariableNames: ''!
 
@@ -2001,43 +2001,43 @@ RingHomomorphism subclass: #FieldHomomorphism
 FieldHomomorphism class
 	instanceVariableNames: ''!
 
-!classDefinition: #LinearMap category: #'Mathematics-Linear'!
+!classDefinition: #LinearMap category: #'Mathematics-Modules-Support'!
 Function subclass: #LinearMap
 	instanceVariableNames: 'domainBasis codomainBasis matrix'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Linear'!
-!classDefinition: 'LinearMap class' category: #'Mathematics-Linear'!
+	category: 'Mathematics-Modules-Support'!
+!classDefinition: 'LinearMap class' category: #'Mathematics-Modules-Support'!
 LinearMap class
 	instanceVariableNames: ''!
 
-!classDefinition: #LinearForm category: #'Mathematics-Linear'!
+!classDefinition: #LinearForm category: #'Mathematics-Modules-Support'!
 LinearMap subclass: #LinearForm
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Linear'!
-!classDefinition: 'LinearForm class' category: #'Mathematics-Linear'!
+	category: 'Mathematics-Modules-Support'!
+!classDefinition: 'LinearForm class' category: #'Mathematics-Modules-Support'!
 LinearForm class
 	instanceVariableNames: ''!
 
-!classDefinition: #SemilinearMap category: #'Mathematics-Linear'!
+!classDefinition: #SemilinearMap category: #'Mathematics-Modules-Support'!
 Function subclass: #SemilinearMap
 	instanceVariableNames: 'domainBasis codomainBasis matrix automorphism'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Linear'!
-!classDefinition: 'SemilinearMap class' category: #'Mathematics-Linear'!
+	category: 'Mathematics-Modules-Support'!
+!classDefinition: 'SemilinearMap class' category: #'Mathematics-Modules-Support'!
 SemilinearMap class
 	instanceVariableNames: ''!
 
-!classDefinition: #SesquilinearForm category: #'Mathematics-Linear'!
+!classDefinition: #SesquilinearForm category: #'Mathematics-Modules-Support'!
 Function subclass: #SesquilinearForm
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Linear'!
-!classDefinition: 'SesquilinearForm class' category: #'Mathematics-Linear'!
+	category: 'Mathematics-Modules-Support'!
+!classDefinition: 'SesquilinearForm class' category: #'Mathematics-Modules-Support'!
 SesquilinearForm class
 	instanceVariableNames: ''!
 
@@ -2321,6 +2321,46 @@ FormalFraction subclass: #RationalFunction
 RationalFunction class
 	instanceVariableNames: ''!
 
+!classDefinition: #FormalSum category: #'Mathematics-Kernel-Support'!
+Object subclass: #FormalSum
+	instanceVariableNames: 'coefficients'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Kernel-Support'!
+!classDefinition: 'FormalSum class' category: #'Mathematics-Kernel-Support'!
+FormalSum class
+	instanceVariableNames: ''!
+
+!classDefinition: #FreePolynomial category: #'Mathematics-Kernel-Support'!
+FormalSum subclass: #FreePolynomial
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Kernel-Support'!
+!classDefinition: 'FreePolynomial class' category: #'Mathematics-Kernel-Support'!
+FreePolynomial class
+	instanceVariableNames: ''!
+
+!classDefinition: #Divisor category: #'Mathematics-Geometry-Algebraic-Schemes'!
+FormalSum subclass: #Divisor
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Geometry-Algebraic-Schemes'!
+!classDefinition: 'Divisor class' category: #'Mathematics-Geometry-Algebraic-Schemes'!
+Divisor class
+	instanceVariableNames: ''!
+
+!classDefinition: #SimplicialChain category: #'Mathematics-Homology'!
+FormalSum subclass: #SimplicialChain
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Homology'!
+!classDefinition: 'SimplicialChain class' category: #'Mathematics-Homology'!
+SimplicialChain class
+	instanceVariableNames: ''!
+
 !classDefinition: #ModularInteger category: #'Mathematics-Kernel-Support'!
 Object subclass: #ModularInteger
 	instanceVariableNames: 'representative modulus'
@@ -2361,84 +2401,34 @@ Object subclass: #Residue
 Residue class
 	instanceVariableNames: ''!
 
-!classDefinition: #AbelianGroupPresentation category: #'Mathematics-Free'!
-Object subclass: #AbelianGroupPresentation
-	instanceVariableNames: 'generators relators'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Free'!
-!classDefinition: 'AbelianGroupPresentation class' category: #'Mathematics-Free'!
-AbelianGroupPresentation class
-	instanceVariableNames: ''!
-
-!classDefinition: #FormalSum category: #'Mathematics-Free'!
-Object subclass: #FormalSum
-	instanceVariableNames: 'coefficients'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Free'!
-!classDefinition: 'FormalSum class' category: #'Mathematics-Free'!
-FormalSum class
-	instanceVariableNames: ''!
-
-!classDefinition: #FreePolynomial category: #'Mathematics-Free'!
-FormalSum subclass: #FreePolynomial
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Free'!
-!classDefinition: 'FreePolynomial class' category: #'Mathematics-Free'!
-FreePolynomial class
-	instanceVariableNames: ''!
-
-!classDefinition: #Divisor category: #'Mathematics-Geometry-Algebraic-Schemes'!
-FormalSum subclass: #Divisor
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Geometry-Algebraic-Schemes'!
-!classDefinition: 'Divisor class' category: #'Mathematics-Geometry-Algebraic-Schemes'!
-Divisor class
-	instanceVariableNames: ''!
-
-!classDefinition: #SimplicialChain category: #'Mathematics-Homology'!
-FormalSum subclass: #SimplicialChain
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Homology'!
-!classDefinition: 'SimplicialChain class' category: #'Mathematics-Homology'!
-SimplicialChain class
-	instanceVariableNames: ''!
-
-!classDefinition: #GroupPresentation category: #'Mathematics-Free'!
-Object subclass: #GroupPresentation
-	instanceVariableNames: 'generators relators'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Free'!
-!classDefinition: 'GroupPresentation class' category: #'Mathematics-Free'!
-GroupPresentation class
-	instanceVariableNames: ''!
-
-!classDefinition: #SLP category: #'Mathematics-Free'!
+!classDefinition: #SLP category: #'Mathematics-Kernel-Support'!
 Object subclass: #SLP
 	instanceVariableNames: 'word'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Free'!
-!classDefinition: 'SLP class' category: #'Mathematics-Free'!
+	category: 'Mathematics-Kernel-Support'!
+!classDefinition: 'SLP class' category: #'Mathematics-Kernel-Support'!
 SLP class
 	instanceVariableNames: ''!
 
-!classDefinition: #Word category: #'Mathematics-Free'!
+!classDefinition: #Word category: #'Mathematics-Kernel-Support'!
 Object subclass: #Word
 	instanceVariableNames: 'syllables'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Free'!
-!classDefinition: 'Word class' category: #'Mathematics-Free'!
+	category: 'Mathematics-Kernel-Support'!
+!classDefinition: 'Word class' category: #'Mathematics-Kernel-Support'!
 Word class
+	instanceVariableNames: ''!
+
+!classDefinition: #GroupPresentation category: #'Mathematics-Groups'!
+Object subclass: #GroupPresentation
+	instanceVariableNames: 'generators relators'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Groups'!
+!classDefinition: 'GroupPresentation class' category: #'Mathematics-Groups'!
+GroupPresentation class
 	instanceVariableNames: ''!
 
 !classDefinition: #SemidirectProductElement category: #'Mathematics-Groups'!
@@ -2471,173 +2461,173 @@ Object subclass: #SchreierTree
 SchreierTree class
 	instanceVariableNames: ''!
 
-!classDefinition: #LinearEquation category: #'Mathematics-Linear'!
+!classDefinition: #LinearEquation category: #'Mathematics-Modules-Support'!
 Object subclass: #LinearEquation
 	instanceVariableNames: 'form value'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Linear'!
-!classDefinition: 'LinearEquation class' category: #'Mathematics-Linear'!
+	category: 'Mathematics-Modules-Support'!
+!classDefinition: 'LinearEquation class' category: #'Mathematics-Modules-Support'!
 LinearEquation class
 	instanceVariableNames: ''!
 
-!classDefinition: #LinearSystem category: #'Mathematics-Linear'!
+!classDefinition: #LinearSystem category: #'Mathematics-Modules-Support'!
 Object subclass: #LinearSystem
 	instanceVariableNames: 'equations solver'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Linear'!
-!classDefinition: 'LinearSystem class' category: #'Mathematics-Linear'!
+	category: 'Mathematics-Modules-Support'!
+!classDefinition: 'LinearSystem class' category: #'Mathematics-Modules-Support'!
 LinearSystem class
 	instanceVariableNames: ''!
 
-!classDefinition: #Matrix category: #'Mathematics-Linear'!
+!classDefinition: #Matrix category: #'Mathematics-Modules-Support'!
 Object subclass: #Matrix
 	instanceVariableNames: 'parent'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Linear'!
-!classDefinition: 'Matrix class' category: #'Mathematics-Linear'!
+	category: 'Mathematics-Modules-Support'!
+!classDefinition: 'Matrix class' category: #'Mathematics-Modules-Support'!
 Matrix class
 	instanceVariableNames: ''!
 
-!classDefinition: #ColumnMatrix category: #'Mathematics-Linear'!
+!classDefinition: #ColumnMatrix category: #'Mathematics-Modules-Support'!
 Matrix subclass: #ColumnMatrix
 	instanceVariableNames: 'columns'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Linear'!
-!classDefinition: 'ColumnMatrix class' category: #'Mathematics-Linear'!
+	category: 'Mathematics-Modules-Support'!
+!classDefinition: 'ColumnMatrix class' category: #'Mathematics-Modules-Support'!
 ColumnMatrix class
 	instanceVariableNames: ''!
 
-!classDefinition: #DenseMatrix category: #'Mathematics-Linear'!
+!classDefinition: #DenseMatrix category: #'Mathematics-Modules-Support'!
 Matrix subclass: #DenseMatrix
 	instanceVariableNames: 'coefficients'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Linear'!
-!classDefinition: 'DenseMatrix class' category: #'Mathematics-Linear'!
+	category: 'Mathematics-Modules-Support'!
+!classDefinition: 'DenseMatrix class' category: #'Mathematics-Modules-Support'!
 DenseMatrix class
 	instanceVariableNames: ''!
 
-!classDefinition: #RowMatrix category: #'Mathematics-Linear'!
+!classDefinition: #RowMatrix category: #'Mathematics-Modules-Support'!
 Matrix subclass: #RowMatrix
 	instanceVariableNames: 'rows'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Linear'!
-!classDefinition: 'RowMatrix class' category: #'Mathematics-Linear'!
+	category: 'Mathematics-Modules-Support'!
+!classDefinition: 'RowMatrix class' category: #'Mathematics-Modules-Support'!
 RowMatrix class
 	instanceVariableNames: ''!
 
-!classDefinition: #SparseMatrix category: #'Mathematics-Linear'!
+!classDefinition: #SparseMatrix category: #'Mathematics-Modules-Support'!
 Matrix subclass: #SparseMatrix
 	instanceVariableNames: 'coefficients'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Linear'!
-!classDefinition: 'SparseMatrix class' category: #'Mathematics-Linear'!
+	category: 'Mathematics-Modules-Support'!
+!classDefinition: 'SparseMatrix class' category: #'Mathematics-Modules-Support'!
 SparseMatrix class
 	instanceVariableNames: ''!
 
-!classDefinition: #GramSchmidt category: #'Mathematics-Linear-Algorithms'!
+!classDefinition: #GramSchmidt category: #'Mathematics-Modules-Algorithms'!
 Object subclass: #GramSchmidt
 	instanceVariableNames: 'basis innerProduct orthogonalBasis matrix'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Linear-Algorithms'!
-!classDefinition: 'GramSchmidt class' category: #'Mathematics-Linear-Algorithms'!
+	category: 'Mathematics-Modules-Algorithms'!
+!classDefinition: 'GramSchmidt class' category: #'Mathematics-Modules-Algorithms'!
 GramSchmidt class
 	instanceVariableNames: ''!
 
-!classDefinition: #HermiteNormalForm2 category: #'Mathematics-Linear-Algorithms'!
+!classDefinition: #HermiteNormalForm2 category: #'Mathematics-Modules-Algorithms'!
 Object subclass: #HermiteNormalForm2
 	instanceVariableNames: 'matrix'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Linear-Algorithms'!
-!classDefinition: 'HermiteNormalForm2 class' category: #'Mathematics-Linear-Algorithms'!
+	category: 'Mathematics-Modules-Algorithms'!
+!classDefinition: 'HermiteNormalForm2 class' category: #'Mathematics-Modules-Algorithms'!
 HermiteNormalForm2 class
 	instanceVariableNames: ''!
 
-!classDefinition: #HermiteNormalFormCRT category: #'Mathematics-Linear-Algorithms'!
+!classDefinition: #HermiteNormalFormCRT category: #'Mathematics-Modules-Algorithms'!
 Object subclass: #HermiteNormalFormCRT
 	instanceVariableNames: 'matrix HNF'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Linear-Algorithms'!
-!classDefinition: 'HermiteNormalFormCRT class' category: #'Mathematics-Linear-Algorithms'!
+	category: 'Mathematics-Modules-Algorithms'!
+!classDefinition: 'HermiteNormalFormCRT class' category: #'Mathematics-Modules-Algorithms'!
 HermiteNormalFormCRT class
 	instanceVariableNames: ''!
 
-!classDefinition: #JordanNormalForm category: #'Mathematics-Linear-Algorithms'!
+!classDefinition: #JordanNormalForm category: #'Mathematics-Modules-Algorithms'!
 Object subclass: #JordanNormalForm
 	instanceVariableNames: 'matrix blocks'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Linear-Algorithms'!
-!classDefinition: 'JordanNormalForm class' category: #'Mathematics-Linear-Algorithms'!
+	category: 'Mathematics-Modules-Algorithms'!
+!classDefinition: 'JordanNormalForm class' category: #'Mathematics-Modules-Algorithms'!
 JordanNormalForm class
 	instanceVariableNames: ''!
 
-!classDefinition: #LinearSystemSolver category: #'Mathematics-Linear-Algorithms'!
+!classDefinition: #LinearSystemSolver category: #'Mathematics-Modules-Algorithms'!
 Object subclass: #LinearSystemSolver
 	instanceVariableNames: 'system reducer kernelBasis particular'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Linear-Algorithms'!
-!classDefinition: 'LinearSystemSolver class' category: #'Mathematics-Linear-Algorithms'!
+	category: 'Mathematics-Modules-Algorithms'!
+!classDefinition: 'LinearSystemSolver class' category: #'Mathematics-Modules-Algorithms'!
 LinearSystemSolver class
 	instanceVariableNames: ''!
 
-!classDefinition: #MatrixReducer category: #'Mathematics-Linear-Algorithms'!
+!classDefinition: #MatrixReducer category: #'Mathematics-Modules-Algorithms'!
 Object subclass: #MatrixReducer
 	instanceVariableNames: 'matrix extension currentPivot pivots determinantFactor'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Linear-Algorithms'!
-!classDefinition: 'MatrixReducer class' category: #'Mathematics-Linear-Algorithms'!
+	category: 'Mathematics-Modules-Algorithms'!
+!classDefinition: 'MatrixReducer class' category: #'Mathematics-Modules-Algorithms'!
 MatrixReducer class
 	instanceVariableNames: ''!
 
-!classDefinition: #GaussBareiss category: #'Mathematics-Linear-Algorithms'!
+!classDefinition: #GaussBareiss category: #'Mathematics-Modules-Algorithms'!
 MatrixReducer subclass: #GaussBareiss
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Linear-Algorithms'!
-!classDefinition: 'GaussBareiss class' category: #'Mathematics-Linear-Algorithms'!
+	category: 'Mathematics-Modules-Algorithms'!
+!classDefinition: 'GaussBareiss class' category: #'Mathematics-Modules-Algorithms'!
 GaussBareiss class
 	instanceVariableNames: ''!
 
-!classDefinition: #GaussianElimination category: #'Mathematics-Linear-Algorithms'!
+!classDefinition: #GaussianElimination category: #'Mathematics-Modules-Algorithms'!
 MatrixReducer subclass: #GaussianElimination
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Linear-Algorithms'!
-!classDefinition: 'GaussianElimination class' category: #'Mathematics-Linear-Algorithms'!
+	category: 'Mathematics-Modules-Algorithms'!
+!classDefinition: 'GaussianElimination class' category: #'Mathematics-Modules-Algorithms'!
 GaussianElimination class
 	instanceVariableNames: ''!
 
-!classDefinition: #QRDecomposition category: #'Mathematics-Linear-Algorithms'!
+!classDefinition: #QRDecomposition category: #'Mathematics-Modules-Algorithms'!
 Object subclass: #QRDecomposition
 	instanceVariableNames: 'matrix Q R'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Linear-Algorithms'!
-!classDefinition: 'QRDecomposition class' category: #'Mathematics-Linear-Algorithms'!
+	category: 'Mathematics-Modules-Algorithms'!
+!classDefinition: 'QRDecomposition class' category: #'Mathematics-Modules-Algorithms'!
 QRDecomposition class
 	instanceVariableNames: ''!
 
-!classDefinition: #SmithNormalForm category: #'Mathematics-Linear-Algorithms'!
+!classDefinition: #SmithNormalForm category: #'Mathematics-Modules-Algorithms'!
 Object subclass: #SmithNormalForm
 	instanceVariableNames: 'matrix diagonal'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Linear-Algorithms'!
-!classDefinition: 'SmithNormalForm class' category: #'Mathematics-Linear-Algorithms'!
+	category: 'Mathematics-Modules-Algorithms'!
+!classDefinition: 'SmithNormalForm class' category: #'Mathematics-Modules-Algorithms'!
 SmithNormalForm class
 	instanceVariableNames: ''!
 
@@ -3819,6 +3809,13 @@ References:
 !ScalarModule commentStamp: '<historical>' prior: 0!
 My instances are one-dimensional free modules (or vector spaces) of scalars, i.e. a ring R viewed as a R-module (or a field K viewed as a K-vector space).!
 
+!Submodule commentStamp: '<historical>' prior: 0!
+My instances are finitely-generated submodules of a given module (or linear subspaces of a given vector space).
+
+Example:
+	QQ ** 3 span: {(1,0,0). (0,2,1)}
+!
+
 !TupleModule commentStamp: '<historical>' prior: 0!
 My instances are modules (or vector spaces) of n-tuples over a given ring (or field).!
 
@@ -3826,13 +3823,6 @@ My instances are modules (or vector spaces) of n-tuples over a given ring (or fi
 My instances are finitely-generated vector spaces. My subclasses might define concrete vector spaces by specifying a standard basis, so that it's possible to compute with it.
 
 Examples of vector spaces are tuples, matrices and linear transformations.
-!
-
-!Submodule commentStamp: '<historical>' prior: 0!
-My instances are finitely-generated submodules of a given module (or linear subspaces of a given vector space).
-
-Example:
-	QQ ** 3 span: {(1,0,0). (0,2,1)}
 !
 
 !HomogeneousPolynomialSpace commentStamp: '<historical>' prior: 0!
@@ -4069,11 +4059,11 @@ Some specific groups (such as permutation groups and matrix groups) can be repre
 References:
 	https://en.wikipedia.org/wiki/Group_(mathematics)!
 
-!FreeGroup commentStamp: '<historical>' prior: 0!
-My instances are free groups on a given set of symbols. Their elements are (non-commutative) words on the set of symbols.!
-
 !DirectProductGroup commentStamp: '<historical>' prior: 0!
 My instances are direct products of rings. Elements are tuples, and multiplication and addition are defined component wise.!
+
+!FreeGroup commentStamp: '<historical>' prior: 0!
+My instances are free groups on a given set of symbols. Their elements are (non-commutative) words on the set of symbols.!
 
 !QuotientGroup commentStamp: '<historical>' prior: 0!
 My instances are quotient groups (or factor groups) G/N (read "G mod N"), i.e. the quotient of a group G by a normal subgroup N. The elements are the cosets of N (see Coset).
@@ -4498,13 +4488,6 @@ My instances are rational functions, i.e. fractions where the numerator and deno
 
 For examples see RationalFunctions.!
 
-!Quaternion commentStamp: 'len 11/20/2015 00:39' prior: 0!
-My instances are quaternions. Quaternions constitute an example of non-commutative field.
-!
-
-!Residue commentStamp: '<historical>' prior: 0!
-My instances are elements of a quotient ring, i.e. residue classes modulo an ideal. See QuotientRing and ResidueField.!
-
 !FormalSum commentStamp: '<historical>' prior: 0!
 My instances are formal linear combinations of arbitrary objects.!
 
@@ -4515,6 +4498,13 @@ A free polynomial is a formal linear combination of words, that in turn are form
 
 !SimplicialChain commentStamp: '<historical>' prior: 0!
 A simplicial k-chain is a formal linear combination of k-simplices.!
+
+!Quaternion commentStamp: 'len 11/20/2015 00:39' prior: 0!
+My instances are quaternions. Quaternions constitute an example of non-commutative field.
+!
+
+!Residue commentStamp: '<historical>' prior: 0!
+My instances are elements of a quotient ring, i.e. residue classes modulo an ideal. See QuotientRing and ResidueField.!
 
 !Word commentStamp: '<historical>' prior: 0!
 A word is a (non-commutative) formal product of a finite ordered list of objects.!
@@ -12666,6 +12656,11 @@ scalars: aRing
 ’ aModule
 	^ TensorProductSpace left: self right: aModule! !
 
+!FreeModule methodsFor: 'operations' stamp: 'len 10/7/2016 08:59'!
+˜ aSubmodule
+	self >= aSubmodule ifFalse: [^ self error: 'not a submodule of this module'].
+	^ aSubmodule! !
+
 !FreeModule methodsFor: 'accessing' stamp: 'len 7/15/2016 04:24'!
 ambient
 	^ self basis ambient! !
@@ -12847,6 +12842,11 @@ null
 	"Answer the trivial submodule."
 	^ self span: #()! !
 
+!FreeModule methodsFor: 'operations' stamp: 'len 10/7/2016 09:02'!
+perp
+	"Answer the orthogonal complement of the receiver."
+	^ self null! !
+
 !FreeModule methodsFor: 'printing' stamp: 'len 7/15/2016 00:35'!
 printOn: aStream
 	aStream print: self scalars; nextPut: $-; nextPutAll: (self isVectorSpace ifTrue: ['vector space '] ifFalse: ['module']); print: self basis! !
@@ -12922,6 +12922,79 @@ new: anInteger over: aRing
 !FreeModule class methodsFor: 'instance creation' stamp: 'len 4/25/2016 06:38'!
 on: aCollection over: aRing
 	^ self new generators: aCollection; scalars: aRing! !
+
+!DirectSumModule methodsFor: 'accessing' stamp: 'len 2/16/2016 07:31'!
+arity
+	^ components size! !
+
+!DirectSumModule methodsFor: 'converting' stamp: 'len 5/1/2016 18:54'!
+asCartesianProduct
+	^ CartesianProduct components: components! !
+
+!DirectSumModule methodsFor: 'accessing' stamp: 'len 2/12/2016 20:12'!
+at: anInteger
+	^ components at: anInteger! !
+
+!DirectSumModule methodsFor: 'accessing-private' stamp: 'len 11/10/2015 22:53'!
+components
+	^ components! !
+
+!DirectSumModule methodsFor: 'accessing-private' stamp: 'len 6/11/2016 16:45'!
+components: anArray
+	components _ anArray as: Tuple! !
+
+!DirectSumModule methodsFor: 'basis' stamp: 'len 5/29/2016 17:49'!
+coordinatesOf: anArray
+	"Answer the coordinates of the argument in the canonic basis."
+	| answer |
+	components with: anArray do: [:V :v|
+		| coordinates |
+		coordinates _ V coordinatesOf: v.
+		answer _ answer isNil ifTrue: [coordinates] ifFalse: [answer, coordinates]].
+	^ answer! !
+
+!DirectSumModule methodsFor: 'basis' stamp: 'len 11/30/2015 07:11'!
+dimension
+	^ components sum: [:each| each dimension]! !
+
+!DirectSumModule methodsFor: 'basis' stamp: 'len 12/10/2015 04:22'!
+e: anInteger
+	^ components collect: [:each| each e: anInteger]! !
+
+!DirectSumModule methodsFor: 'morphisms' stamp: 'len 5/1/2016 18:54'!
+embedding: i
+	^ (self at: i) -> self evaluating: [:x| components withIndexCollect: [:each :k| k = i ifTrue: [x] ifFalse: [each zero]]]! !
+
+!DirectSumModule methodsFor: 'testing' stamp: 'len 2/12/2016 20:14'!
+includes: anObject
+	anObject size = components size ifFalse: [^ false].
+	components with: anObject do: [:V :x| (V includes: x) ifFalse: [^ false]].
+	^ true! !
+
+!DirectSumModule methodsFor: 'testing' stamp: 'len 4/22/2016 13:44'!
+isCoproduct
+	^ true! !
+
+!DirectSumModule methodsFor: 'printing' stamp: 'len 6/19/2016 02:46'!
+printOn: aStream
+	components do: [:each| aStream print: each] separatedBy: [aStream space; nextPut: Character oplus; space]! !
+
+!DirectSumModule methodsFor: 'morphisms' stamp: 'len 5/1/2016 18:55'!
+projection: i
+	^ self -> (self at: i) evaluating: [:x| x at: i]! !
+
+!DirectSumModule methodsFor: 'accessing' stamp: 'len 11/10/2015 22:56'!
+scalars
+	components do: [ :each | ^ each scalars].
+	^ nil! !
+
+!DirectSumModule methodsFor: 'accessing' stamp: 'len 2/16/2016 07:32'!
+size
+	^ components product: [:each| each size]! !
+
+!DirectSumModule class methodsFor: 'accessing-private' stamp: 'len 11/10/2015 22:58'!
+components: anArray
+	^ self new components: anArray! !
 
 !FreeAbelianGroup methodsFor: 'testing' stamp: 'len 2/24/2016 04:09'!
 isInfiniteCyclic
@@ -13194,79 +13267,6 @@ fcc
 matrix: aMatrix
 	"Answer a lattice with generator matrix aMatrix."
 	^ self basis: aMatrix rowSpace basis! !
-
-!DirectSumModule methodsFor: 'accessing' stamp: 'len 2/16/2016 07:31'!
-arity
-	^ components size! !
-
-!DirectSumModule methodsFor: 'converting' stamp: 'len 5/1/2016 18:54'!
-asCartesianProduct
-	^ CartesianProduct components: components! !
-
-!DirectSumModule methodsFor: 'accessing' stamp: 'len 2/12/2016 20:12'!
-at: anInteger
-	^ components at: anInteger! !
-
-!DirectSumModule methodsFor: 'accessing-private' stamp: 'len 11/10/2015 22:53'!
-components
-	^ components! !
-
-!DirectSumModule methodsFor: 'accessing-private' stamp: 'len 6/11/2016 16:45'!
-components: anArray
-	components _ anArray as: Tuple! !
-
-!DirectSumModule methodsFor: 'basis' stamp: 'len 5/29/2016 17:49'!
-coordinatesOf: anArray
-	"Answer the coordinates of the argument in the canonic basis."
-	| answer |
-	components with: anArray do: [:V :v|
-		| coordinates |
-		coordinates _ V coordinatesOf: v.
-		answer _ answer isNil ifTrue: [coordinates] ifFalse: [answer, coordinates]].
-	^ answer! !
-
-!DirectSumModule methodsFor: 'basis' stamp: 'len 11/30/2015 07:11'!
-dimension
-	^ components sum: [:each| each dimension]! !
-
-!DirectSumModule methodsFor: 'basis' stamp: 'len 12/10/2015 04:22'!
-e: anInteger
-	^ components collect: [:each| each e: anInteger]! !
-
-!DirectSumModule methodsFor: 'morphisms' stamp: 'len 5/1/2016 18:54'!
-embedding: i
-	^ (self at: i) -> self evaluating: [:x| components withIndexCollect: [:each :k| k = i ifTrue: [x] ifFalse: [each zero]]]! !
-
-!DirectSumModule methodsFor: 'testing' stamp: 'len 2/12/2016 20:14'!
-includes: anObject
-	anObject size = components size ifFalse: [^ false].
-	components with: anObject do: [:V :x| (V includes: x) ifFalse: [^ false]].
-	^ true! !
-
-!DirectSumModule methodsFor: 'testing' stamp: 'len 4/22/2016 13:44'!
-isCoproduct
-	^ true! !
-
-!DirectSumModule methodsFor: 'printing' stamp: 'len 6/19/2016 02:46'!
-printOn: aStream
-	components do: [:each| aStream print: each] separatedBy: [aStream space; nextPut: Character oplus; space]! !
-
-!DirectSumModule methodsFor: 'morphisms' stamp: 'len 5/1/2016 18:55'!
-projection: i
-	^ self -> (self at: i) evaluating: [:x| x at: i]! !
-
-!DirectSumModule methodsFor: 'accessing' stamp: 'len 11/10/2015 22:56'!
-scalars
-	components do: [ :each | ^ each scalars].
-	^ nil! !
-
-!DirectSumModule methodsFor: 'accessing' stamp: 'len 2/16/2016 07:32'!
-size
-	^ components product: [:each| each size]! !
-
-!DirectSumModule class methodsFor: 'accessing-private' stamp: 'len 11/10/2015 22:58'!
-components: anArray
-	^ self new components: anArray! !
 
 !LinearMaps methodsFor: 'converting' stamp: 'len 8/25/2016 21:07'!
 asAffineSpace
@@ -13728,6 +13728,184 @@ scalars: anAlgebraicAmbient
 over: aField
 	^ self new scalars: aField! !
 
+!Submodule methodsFor: 'operations' stamp: 'len 8/30/2016 05:47'!
++ anObject
+	| sum |
+	(self ambient includes: anObject) ifTrue: [^ AffineLinearSpace representative: anObject direction: self].
+	"assume anObject isVectorSpace"
+	sum _ self basis copy.
+	anObject basis do: [:each| (sum generates: each) ifFalse: [sum add: each]].
+	^ self class basis: sum
+	
+"alternative but 5-10 times slower:
+	^ (self basis matrix transposed | aLinearSubspace basis matrix transposed) image apply: self space basis vectorAt
+"! !
+
+!Submodule methodsFor: 'operations' stamp: 'len 9/1/2016 08:05'!
+˜ aLinearSubspace
+	aLinearSubspace = self ambient ifTrue: [^ self].
+	^ LinearSystem new
+		addAll: self equations;
+		addAll: aLinearSubspace equations;
+		kernel! !
+
+!Submodule methodsFor: 'operations' stamp: 'len 5/23/2016 04:25'!
+annihilator
+	"Answer the annihilator of the receiver, i.e. the space of all linear forms that are 0 at all vectors in the receiver."
+	^ self class basis: (self basis extended dual copyFrom: self dimension + 1 to: self ambient dimension)! !
+
+!Submodule methodsFor: 'converting' stamp: 'len 6/9/2016 06:16'!
+asAlgebraicVariety
+	^ AlgebraicSet on: self ambient asAffineSpace ideal: self equations asPolynomialSystem ideal! !
+
+!Submodule methodsFor: 'basis' stamp: 'len 11/7/2015 03:50'!
+basis
+	^ basis! !
+
+!Submodule methodsFor: 'accessing-private' stamp: 'len 8/21/97 01:54'!
+basis: aLinearBasis
+	basis _ aLinearBasis! !
+
+!Submodule methodsFor: 'basis' stamp: 'len 11/25/2015 01:11'!
+coordinatesOf: anObject
+	^ basis coordinatesOf: anObject! !
+
+!Submodule methodsFor: 'operations' stamp: 'len 4/21/2016 05:41'!
+dual
+	^ basis dual span! !
+
+!Submodule methodsFor: 'basis' stamp: 'len 11/25/2015 01:11'!
+e: anInteger
+	^ basis at: anInteger! !
+
+!Submodule methodsFor: 'accessing' stamp: 'len 6/1/2016 06:04'!
+equations
+	"Answer a linear system defining the receiver."
+	| answer |
+	answer _ LinearSystem new.
+	self annihilator basis do: [:each| answer add: (each eq: self scalars zero)].
+	^ answer! !
+
+!Submodule methodsFor: 'accessing' stamp: 'len 6/4/2016 01:44'!
+generator
+	self dimension = 1 ifFalse: [^ self error: 'not a line'].
+	^ self basis first! !
+
+!Submodule methodsFor: 'testing' stamp: 'len 5/25/2016 20:04'!
+includes: anObject
+	(self ambient includes: anObject) ifFalse: [^ false].
+	^ basis generates: anObject! !
+
+!Submodule methodsFor: 'testing' stamp: 'len 1/8/2016 06:23'!
+isNonDegenerate
+	^ self radical isTrivial! !
+
+!Submodule methodsFor: 'testing' stamp: 'len 5/23/2016 04:26'!
+isProper
+	^ self ~= self ambient! !
+
+!Submodule methodsFor: 'operations' stamp: 'len 5/23/2016 04:26'!
+perp
+	"Answer the orthogonal complement of the receiver."
+	^ self ambient span: (self annihilator basis vectors collect: [:f| f asVector])
+
+"alternative:
+	| k n |
+	k _ self dimension.
+	n _ self space dimension.
+	^ (self basis extended orthogonalized copyFrom: k + 1 to: n) span
+
+alternative 2:
+	^ self projection kernel
+
+alternative 3:?
+	^ basis dual asArray inject: self space into: [:answer :each| answer intersection: each kernel]	
+"! !
+
+!Submodule methodsFor: 'operations' stamp: 'len 9/1/2016 08:01'!
+perp2
+	"Answer the orthogonal complement of the receiver."
+	^ basis dual asArray inject: self ambient into: [:answer :each| answer ˜ each kernel]
+
+"alternative:
+	| k n |
+	k _ self dimension.
+	n _ self space dimension.
+	^ (self basis extended orthogonalized copyFrom: k + 1 to: n) span
+
+alternative 2:
+	^ self projection kernel"! !
+
+!Submodule methodsFor: 'operations' stamp: 'len 4/3/2016 07:46'!
+perp3
+	"Answer the orthogonal complement of the receiver."
+	^ self projection kernel
+
+"alternative:
+	| k n |
+	k _ self dimension.
+	n _ self space dimension.
+	^ (self basis extended orthogonalized copyFrom: k + 1 to: n) span"! !
+
+!Submodule methodsFor: 'printing' stamp: 'len 6/4/2016 04:52'!
+printOn: aStream
+	| first |
+	self basis = self ambient basis ifTrue: [self ambient printOn: aStream. ^ self].
+	self isTrivial ifTrue: [aStream nextPut: ${; print: self zero; nextPut: $}. ^ self].
+	first _ true.
+	aStream nextPut: $<.
+	self basis do: [ :each |
+		first ifFalse: [aStream nextPutAll: '; '].
+		aStream print: each.
+		first _ false].
+	aStream nextPut: $>! !
+
+!Submodule methodsFor: 'morphisms' stamp: 'len 1/2/2016 04:16'!
+project: aVector
+	^ self projection value: aVector! !
+
+!Submodule methodsFor: 'morphisms' stamp: 'len 7/4/2016 04:48'!
+projection
+	"Answer an orthogonal projection on the receiver. A projection P is a linear transformation from the ambient vector space to a subspace such that P^2 = P (idempotent)."
+	| answer B B` K matrix |
+	answer _ properties at: #projection ifAbsent: [].
+	answer notNil ifTrue: [^ answer].
+	B _ basis orthogonalized.
+	B` _ basis extended orthogonalized.
+	K _ self scalars.
+	matrix _ (K ** (B size @ B` size)) evaluatingDiagonal: [:i| K one"(B at: i) norm2"].
+	answer _ LinearMap from: B` to: B matrix: matrix.
+	properties at: #projection put: answer.
+	^ answer! !
+
+!Submodule methodsFor: 'operations' stamp: 'len 10/7/2016 08:40'!
+quotient
+	"Answer the quotient space of the ambient space by the receiver."
+	^ QuotientModule by: self! !
+
+!Submodule methodsFor: 'operations' stamp: 'len 9/1/2016 08:01'!
+radical
+	^ self ˜ self perp! !
+
+!Submodule methodsFor: 'basis' stamp: 'len 10/7/2016 08:58'!
+rank
+	^ basis size! !
+
+!Submodule methodsFor: 'accessing' stamp: 'len 5/23/2016 04:26'!
+scalars
+	^ self ambient scalars! !
+
+!Submodule methodsFor: 'elements' stamp: 'len 5/23/2016 04:26'!
+zero
+	^ self ambient zero! !
+
+!Submodule class methodsFor: 'instance creation' stamp: 'len 8/21/97 01:45'!
+basis: aLinearBasis
+	"Answer a new instance of the receiver representing the
+	linear space generated by the basis aLinearBasis."
+
+	^ self new basis: aLinearBasis! !
+
 !TupleModule methodsFor: 'comparing' stamp: 'len 10/7/2016 08:44'!
 = anObject
 	self == anObject ifTrue: [^ true].
@@ -13848,206 +14026,17 @@ zero
 new: dimension over: aDomain
 	^ self new setDimension: dimension scalars: aDomain! !
 
-!VectorSpace methodsFor: 'operations' stamp: 'len 9/1/2016 08:06'!
-˜ aLinearSubspace
-	self >= aLinearSubspace ifFalse: [^ self error: 'not a subspace of this space'].
-	^ aLinearSubspace! !
-
-!VectorSpace methodsFor: 'converting' stamp: 'len 6/11/2016 18:31'!
+!VectorSpace methodsFor: 'converting' stamp: 'len 10/7/2016 09:01'!
 asSubspaceOf: aVectorSpace
-	self flag: #fix. "avoid computing linear independence again"
-	^ aVectorSpace span: self basis! !
+	^ super asSubmoduleOf: aVectorSpace! !
 
 !VectorSpace methodsFor: 'basis' stamp: 'len 7/15/2016 00:45'!
 dimension
 	^ self basis size! !
 
-!VectorSpace methodsFor: 'operations' stamp: 'len 2/25/2016 03:46'!
-perp
-	"Answer the orthogonal complement of the receiver."
-	^ self null! !
-
 !VectorSpace methodsFor: 'basis' stamp: 'len 7/15/2016 00:45'!
 rank
 	^ self dimension! !
-
-!Submodule methodsFor: 'operations' stamp: 'len 8/30/2016 05:47'!
-+ anObject
-	| sum |
-	(self ambient includes: anObject) ifTrue: [^ AffineLinearSpace representative: anObject direction: self].
-	"assume anObject isVectorSpace"
-	sum _ self basis copy.
-	anObject basis do: [:each| (sum generates: each) ifFalse: [sum add: each]].
-	^ self class basis: sum
-	
-"alternative but 5-10 times slower:
-	^ (self basis matrix transposed | aLinearSubspace basis matrix transposed) image apply: self space basis vectorAt
-"! !
-
-!Submodule methodsFor: 'operations' stamp: 'len 9/1/2016 08:05'!
-˜ aLinearSubspace
-	aLinearSubspace = self ambient ifTrue: [^ self].
-	^ LinearSystem new
-		addAll: self equations;
-		addAll: aLinearSubspace equations;
-		kernel! !
-
-!Submodule methodsFor: 'operations' stamp: 'len 5/23/2016 04:25'!
-annihilator
-	"Answer the annihilator of the receiver, i.e. the space of all linear forms that are 0 at all vectors in the receiver."
-	^ self class basis: (self basis extended dual copyFrom: self dimension + 1 to: self ambient dimension)! !
-
-!Submodule methodsFor: 'converting' stamp: 'len 6/9/2016 06:16'!
-asAlgebraicVariety
-	^ AlgebraicSet on: self ambient asAffineSpace ideal: self equations asPolynomialSystem ideal! !
-
-!Submodule methodsFor: 'basis' stamp: 'len 11/7/2015 03:50'!
-basis
-	^ basis! !
-
-!Submodule methodsFor: 'accessing-private' stamp: 'len 8/21/97 01:54'!
-basis: aLinearBasis
-	basis _ aLinearBasis! !
-
-!Submodule methodsFor: 'basis' stamp: 'len 11/25/2015 01:11'!
-coordinatesOf: anObject
-	^ basis coordinatesOf: anObject! !
-
-!Submodule methodsFor: 'basis' stamp: 'len 11/9/2015 06:30'!
-dimension
-	^ basis size! !
-
-!Submodule methodsFor: 'operations' stamp: 'len 4/21/2016 05:41'!
-dual
-	^ basis dual span! !
-
-!Submodule methodsFor: 'basis' stamp: 'len 11/25/2015 01:11'!
-e: anInteger
-	^ basis at: anInteger! !
-
-!Submodule methodsFor: 'accessing' stamp: 'len 6/1/2016 06:04'!
-equations
-	"Answer a linear system defining the receiver."
-	| answer |
-	answer _ LinearSystem new.
-	self annihilator basis do: [:each| answer add: (each eq: self scalars zero)].
-	^ answer! !
-
-!Submodule methodsFor: 'accessing' stamp: 'len 6/4/2016 01:44'!
-generator
-	self dimension = 1 ifFalse: [^ self error: 'not a line'].
-	^ self basis first! !
-
-!Submodule methodsFor: 'testing' stamp: 'len 5/25/2016 20:04'!
-includes: anObject
-	(self ambient includes: anObject) ifFalse: [^ false].
-	^ basis generates: anObject! !
-
-!Submodule methodsFor: 'testing' stamp: 'len 1/8/2016 06:23'!
-isNonDegenerate
-	^ self radical isTrivial! !
-
-!Submodule methodsFor: 'testing' stamp: 'len 5/23/2016 04:26'!
-isProper
-	^ self ~= self ambient! !
-
-!Submodule methodsFor: 'operations' stamp: 'len 5/23/2016 04:26'!
-perp
-	"Answer the orthogonal complement of the receiver."
-	^ self ambient span: (self annihilator basis vectors collect: [:f| f asVector])
-
-"alternative:
-	| k n |
-	k _ self dimension.
-	n _ self space dimension.
-	^ (self basis extended orthogonalized copyFrom: k + 1 to: n) span
-
-alternative 2:
-	^ self projection kernel
-
-alternative 3:?
-	^ basis dual asArray inject: self space into: [:answer :each| answer intersection: each kernel]	
-"! !
-
-!Submodule methodsFor: 'operations' stamp: 'len 9/1/2016 08:01'!
-perp2
-	"Answer the orthogonal complement of the receiver."
-	^ basis dual asArray inject: self ambient into: [:answer :each| answer ˜ each kernel]
-
-"alternative:
-	| k n |
-	k _ self dimension.
-	n _ self space dimension.
-	^ (self basis extended orthogonalized copyFrom: k + 1 to: n) span
-
-alternative 2:
-	^ self projection kernel"! !
-
-!Submodule methodsFor: 'operations' stamp: 'len 4/3/2016 07:46'!
-perp3
-	"Answer the orthogonal complement of the receiver."
-	^ self projection kernel
-
-"alternative:
-	| k n |
-	k _ self dimension.
-	n _ self space dimension.
-	^ (self basis extended orthogonalized copyFrom: k + 1 to: n) span"! !
-
-!Submodule methodsFor: 'printing' stamp: 'len 6/4/2016 04:52'!
-printOn: aStream
-	| first |
-	self basis = self ambient basis ifTrue: [self ambient printOn: aStream. ^ self].
-	self isTrivial ifTrue: [aStream nextPut: ${; print: self zero; nextPut: $}. ^ self].
-	first _ true.
-	aStream nextPut: $<.
-	self basis do: [ :each |
-		first ifFalse: [aStream nextPutAll: '; '].
-		aStream print: each.
-		first _ false].
-	aStream nextPut: $>! !
-
-!Submodule methodsFor: 'morphisms' stamp: 'len 1/2/2016 04:16'!
-project: aVector
-	^ self projection value: aVector! !
-
-!Submodule methodsFor: 'morphisms' stamp: 'len 7/4/2016 04:48'!
-projection
-	"Answer an orthogonal projection on the receiver. A projection P is a linear transformation from the ambient vector space to a subspace such that P^2 = P (idempotent)."
-	| answer B B` K matrix |
-	answer _ properties at: #projection ifAbsent: [].
-	answer notNil ifTrue: [^ answer].
-	B _ basis orthogonalized.
-	B` _ basis extended orthogonalized.
-	K _ self scalars.
-	matrix _ (K ** (B size @ B` size)) evaluatingDiagonal: [:i| K one"(B at: i) norm2"].
-	answer _ LinearMap from: B` to: B matrix: matrix.
-	properties at: #projection put: answer.
-	^ answer! !
-
-!Submodule methodsFor: 'operations' stamp: 'len 10/7/2016 08:40'!
-quotient
-	"Answer the quotient space of the ambient space by the receiver."
-	^ QuotientModule by: self! !
-
-!Submodule methodsFor: 'operations' stamp: 'len 9/1/2016 08:01'!
-radical
-	^ self ˜ self perp! !
-
-!Submodule methodsFor: 'accessing' stamp: 'len 5/23/2016 04:26'!
-scalars
-	^ self ambient scalars! !
-
-!Submodule methodsFor: 'elements' stamp: 'len 5/23/2016 04:26'!
-zero
-	^ self ambient zero! !
-
-!Submodule class methodsFor: 'instance creation' stamp: 'len 8/21/97 01:45'!
-basis: aLinearBasis
-	"Answer a new instance of the receiver representing the
-	linear space generated by the basis aLinearBasis."
-
-	^ self new basis: aLinearBasis! !
 
 !BilinearForms methodsFor: 'operations' stamp: 'len 1/8/2016 06:55'!
 alternate
@@ -14756,6 +14745,80 @@ zero
 p: aPrime
 	^ self new p: aPrime! !
 
+!DirectProductRing methodsFor: 'comparing' stamp: 'len 8/29/2016 04:13'!
+= anObject
+	^ (anObject isKindOf: DirectProductGroup) and: [anObject components = components]! !
+
+!DirectProductRing methodsFor: 'accessing' stamp: 'len 8/29/2016 04:09'!
+arity
+	^ components size! !
+
+!DirectProductRing methodsFor: 'converting' stamp: 'len 8/29/2016 04:11'!
+asCartesianProduct
+	^ CartesianProduct components: components! !
+
+!DirectProductRing methodsFor: 'accessing' stamp: 'len 8/29/2016 04:09'!
+at: anInteger
+	^ components at: anInteger! !
+
+!DirectProductRing methodsFor: 'random' stamp: 'len 8/29/2016 04:12'!
+atRandom: aRandom
+	^ self asCartesianProduct atRandom: aRandom! !
+
+!DirectProductRing methodsFor: 'random' stamp: 'len 8/29/2016 04:12'!
+atRandom: aRandom bits: bits
+	^ self asCartesianProduct atRandom: aRandom bits: bits! !
+
+!DirectProductRing methodsFor: 'accessing-private' stamp: 'len 8/29/2016 04:10'!
+components
+	^ components! !
+
+!DirectProductRing methodsFor: 'accessing-private' stamp: 'len 8/29/2016 04:10'!
+components: anArray
+	components _ anArray as: Tuple! !
+
+!DirectProductRing methodsFor: 'iterating' stamp: 'len 8/29/2016 04:11'!
+do: aBlock
+	self asCartesianProduct do: aBlock! !
+
+!DirectProductRing methodsFor: 'comparing' stamp: 'len 8/29/2016 04:13'!
+hash
+	^ components hash! !
+
+!DirectProductRing methodsFor: 'testing' stamp: 'len 8/29/2016 04:14'!
+includes: anObject
+	anObject size = components size ifFalse: [^ false].
+	components with: anObject do: [:G :x| (G includes: x) ifFalse: [^ false]].
+	^ true! !
+
+!DirectProductRing methodsFor: 'testing' stamp: 'len 8/29/2016 04:14'!
+isProduct
+	^ true! !
+
+!DirectProductRing methodsFor: 'accessing' stamp: 'len 8/29/2016 04:10'!
+one
+	^ components collect: [:each| each one]! !
+
+!DirectProductRing methodsFor: 'printing' stamp: 'len 8/29/2016 04:12'!
+printOn: aStream
+	components do: [:each| aStream print: each] separatedBy: [aStream nextPut: Character times]! !
+
+!DirectProductRing methodsFor: 'morphisms' stamp: 'len 8/29/2016 04:11'!
+projection: i
+	^ Function from: self to: (self at: i) evaluating: [:x| x at: i]! !
+
+!DirectProductRing methodsFor: 'accessing' stamp: 'len 8/29/2016 04:10'!
+size
+	^ components product: [:each| each size]! !
+
+!DirectProductRing methodsFor: 'accessing' stamp: 'len 8/29/2016 04:10'!
+zero
+	^ components collect: [:each| each zero]! !
+
+!DirectProductRing class methodsFor: 'instance creation' stamp: 'len 8/29/2016 04:09'!
+components: anArray
+	^ self new components: anArray! !
+
 !FreeAlgebra methodsFor: 'comparing' stamp: 'len 8/25/2016 08:22'!
 = anObject
 	self == anObject ifTrue: [^ true].
@@ -14877,80 +14940,6 @@ over: aRing
 !FreeAlgebra class methodsFor: 'instance creation' stamp: 'len 8/25/2016 08:24'!
 words: aMonoid over: aRing
 	^ self new words: aMonoid; scalars: aRing! !
-
-!DirectProductRing methodsFor: 'comparing' stamp: 'len 8/29/2016 04:13'!
-= anObject
-	^ (anObject isKindOf: DirectProductGroup) and: [anObject components = components]! !
-
-!DirectProductRing methodsFor: 'accessing' stamp: 'len 8/29/2016 04:09'!
-arity
-	^ components size! !
-
-!DirectProductRing methodsFor: 'converting' stamp: 'len 8/29/2016 04:11'!
-asCartesianProduct
-	^ CartesianProduct components: components! !
-
-!DirectProductRing methodsFor: 'accessing' stamp: 'len 8/29/2016 04:09'!
-at: anInteger
-	^ components at: anInteger! !
-
-!DirectProductRing methodsFor: 'random' stamp: 'len 8/29/2016 04:12'!
-atRandom: aRandom
-	^ self asCartesianProduct atRandom: aRandom! !
-
-!DirectProductRing methodsFor: 'random' stamp: 'len 8/29/2016 04:12'!
-atRandom: aRandom bits: bits
-	^ self asCartesianProduct atRandom: aRandom bits: bits! !
-
-!DirectProductRing methodsFor: 'accessing-private' stamp: 'len 8/29/2016 04:10'!
-components
-	^ components! !
-
-!DirectProductRing methodsFor: 'accessing-private' stamp: 'len 8/29/2016 04:10'!
-components: anArray
-	components _ anArray as: Tuple! !
-
-!DirectProductRing methodsFor: 'iterating' stamp: 'len 8/29/2016 04:11'!
-do: aBlock
-	self asCartesianProduct do: aBlock! !
-
-!DirectProductRing methodsFor: 'comparing' stamp: 'len 8/29/2016 04:13'!
-hash
-	^ components hash! !
-
-!DirectProductRing methodsFor: 'testing' stamp: 'len 8/29/2016 04:14'!
-includes: anObject
-	anObject size = components size ifFalse: [^ false].
-	components with: anObject do: [:G :x| (G includes: x) ifFalse: [^ false]].
-	^ true! !
-
-!DirectProductRing methodsFor: 'testing' stamp: 'len 8/29/2016 04:14'!
-isProduct
-	^ true! !
-
-!DirectProductRing methodsFor: 'accessing' stamp: 'len 8/29/2016 04:10'!
-one
-	^ components collect: [:each| each one]! !
-
-!DirectProductRing methodsFor: 'printing' stamp: 'len 8/29/2016 04:12'!
-printOn: aStream
-	components do: [:each| aStream print: each] separatedBy: [aStream nextPut: Character times]! !
-
-!DirectProductRing methodsFor: 'morphisms' stamp: 'len 8/29/2016 04:11'!
-projection: i
-	^ Function from: self to: (self at: i) evaluating: [:x| x at: i]! !
-
-!DirectProductRing methodsFor: 'accessing' stamp: 'len 8/29/2016 04:10'!
-size
-	^ components product: [:each| each size]! !
-
-!DirectProductRing methodsFor: 'accessing' stamp: 'len 8/29/2016 04:10'!
-zero
-	^ components collect: [:each| each zero]! !
-
-!DirectProductRing class methodsFor: 'instance creation' stamp: 'len 8/29/2016 04:09'!
-components: anArray
-	^ self new components: anArray! !
 
 !GroupRing methodsFor: 'comparing' stamp: 'len 8/26/2016 01:30'!
 <= aGroupRing
@@ -17743,77 +17732,6 @@ unitsModulo: m
 			ifTrue: [elements add: element]].
 	^ self multiplicative elements: elements! !
 
-!FreeGroup methodsFor: 'comparing' stamp: 'len 7/27/2016 08:02'!
-~ aFreeGroup
-	"Answer true if the receiver is isomorphic to the argument."
-	^ ((aFreeGroup isKindOf: FreeGroup) and: [self rank = aFreeGroup rank]) or: [super ~ aFreeGroup]! !
-
-!FreeGroup methodsFor: 'elements' stamp: 'len 4/19/2016 20:42'!
-atRandom: aRandom bits: bitSize
-	| answer |
-	answer _ self identity.
-	bitSize // symbols size highBit
-		timesRepeat:
-			[answer _ (Word x: (symbols atRandom: aRandom) to: (#(-1 1) atRandom: aRandom)) * answer].
-	^ answer! !
-
-!FreeGroup methodsFor: 'accessing' stamp: 'len 2/14/2016 21:13'!
-generators
-	^ symbols collect: [:each| Word x: each]! !
-
-!FreeGroup methodsFor: 'accessing' stamp: 'len 2/13/2016 17:27'!
-identity
-	^ Word empty! !
-
-!FreeGroup methodsFor: 'testing' stamp: 'len 2/13/2016 20:16'!
-includes: aWord
-	aWord do: [:i :exp| (symbols includes: i) ifFalse: [^ false]].
-	^ true! !
-
-!FreeGroup methodsFor: 'testing' stamp: 'len 7/2/2016 16:56'!
-isCommutative
-	^ symbols size <= 1! !
-
-!FreeGroup methodsFor: 'testing' stamp: 'len 2/13/2016 20:42'!
-isCountable
-	^ true! !
-
-!FreeGroup methodsFor: 'testing' stamp: 'len 2/13/2016 17:31'!
-isFinitelyGenerated
-	^ true! !
-
-!FreeGroup methodsFor: 'accessing' stamp: 'len 3/3/2016 07:13'!
-presentation
-	^ GroupPresentation free: self generators! !
-
-!FreeGroup methodsFor: 'printing' stamp: 'len 4/21/2016 00:15'!
-printOn: aStream
-	aStream nextPutAll: 'F('; print: symbols; nextPut: $)! !
-
-!FreeGroup methodsFor: 'accessing' stamp: 'len 2/14/2016 20:59'!
-rank
-	^ symbols size! !
-
-!FreeGroup methodsFor: 'accessing' stamp: 'len 4/22/2016 21:50'!
-size
-	^ symbols size > 0 ifTrue: [Aleph new] ifFalse: [1]! !
-
-!FreeGroup methodsFor: 'accessing' stamp: 'len 2/14/2016 21:09'!
-symbols
-	^ symbols! !
-
-!FreeGroup methodsFor: 'accessing-private' stamp: 'len 2/14/2016 21:09'!
-symbols: aCollection
-	symbols _ aCollection! !
-
-!FreeGroup class methodsFor: 'instance creation' stamp: 'len 6/30/2016 02:24'!
-new: anInteger
-	^ self on: (1 to: anInteger)! !
-
-!FreeGroup class methodsFor: 'instance creation' stamp: 'len 2/14/2016 21:09'!
-on: aCollection
-	^ self new symbols: aCollection! !
-
 !DirectProductGroup methodsFor: 'comparing' stamp: 'len 2/12/2016 20:05'!
 = anObject
 	^ (anObject isKindOf: DirectProductGroup) and: [anObject components = components]! !
@@ -17891,6 +17809,77 @@ size
 !DirectProductGroup class methodsFor: 'instance creation' stamp: 'len 2/12/2016 20:02'!
 components: anArray
 	^ self new components: anArray! !
+
+!FreeGroup methodsFor: 'comparing' stamp: 'len 7/27/2016 08:02'!
+~ aFreeGroup
+	"Answer true if the receiver is isomorphic to the argument."
+	^ ((aFreeGroup isKindOf: FreeGroup) and: [self rank = aFreeGroup rank]) or: [super ~ aFreeGroup]! !
+
+!FreeGroup methodsFor: 'elements' stamp: 'len 4/19/2016 20:42'!
+atRandom: aRandom bits: bitSize
+	| answer |
+	answer _ self identity.
+	bitSize // symbols size highBit
+		timesRepeat:
+			[answer _ (Word x: (symbols atRandom: aRandom) to: (#(-1 1) atRandom: aRandom)) * answer].
+	^ answer! !
+
+!FreeGroup methodsFor: 'accessing' stamp: 'len 2/14/2016 21:13'!
+generators
+	^ symbols collect: [:each| Word x: each]! !
+
+!FreeGroup methodsFor: 'accessing' stamp: 'len 2/13/2016 17:27'!
+identity
+	^ Word empty! !
+
+!FreeGroup methodsFor: 'testing' stamp: 'len 2/13/2016 20:16'!
+includes: aWord
+	aWord do: [:i :exp| (symbols includes: i) ifFalse: [^ false]].
+	^ true! !
+
+!FreeGroup methodsFor: 'testing' stamp: 'len 7/2/2016 16:56'!
+isCommutative
+	^ symbols size <= 1! !
+
+!FreeGroup methodsFor: 'testing' stamp: 'len 2/13/2016 20:42'!
+isCountable
+	^ true! !
+
+!FreeGroup methodsFor: 'testing' stamp: 'len 2/13/2016 17:31'!
+isFinitelyGenerated
+	^ true! !
+
+!FreeGroup methodsFor: 'accessing' stamp: 'len 3/3/2016 07:13'!
+presentation
+	^ GroupPresentation free: self generators! !
+
+!FreeGroup methodsFor: 'printing' stamp: 'len 4/21/2016 00:15'!
+printOn: aStream
+	aStream nextPutAll: 'F('; print: symbols; nextPut: $)! !
+
+!FreeGroup methodsFor: 'accessing' stamp: 'len 2/14/2016 20:59'!
+rank
+	^ symbols size! !
+
+!FreeGroup methodsFor: 'accessing' stamp: 'len 4/22/2016 21:50'!
+size
+	^ symbols size > 0 ifTrue: [Aleph new] ifFalse: [1]! !
+
+!FreeGroup methodsFor: 'accessing' stamp: 'len 2/14/2016 21:09'!
+symbols
+	^ symbols! !
+
+!FreeGroup methodsFor: 'accessing-private' stamp: 'len 2/14/2016 21:09'!
+symbols: aCollection
+	symbols _ aCollection! !
+
+!FreeGroup class methodsFor: 'instance creation' stamp: 'len 6/30/2016 02:24'!
+new: anInteger
+	^ self on: (1 to: anInteger)! !
+
+!FreeGroup class methodsFor: 'instance creation' stamp: 'len 2/14/2016 21:09'!
+on: aCollection
+	^ self new symbols: aCollection! !
 
 !QuotientGroup methodsFor: 'random' stamp: 'len 5/1/2016 22:55'!
 atRandom: aRandomGenerator bits: bitSize
@@ -26307,6 +26296,176 @@ value: anObject
 
 	^ (self numerator value: anObject) / (self denominator value: anObject)! !
 
+!FormalSum methodsFor: 'arithmetic' stamp: 'len 3/5/2016 04:40'!
+* aNumber
+	^ self species coefficients: coefficients * aNumber! !
+
+!FormalSum methodsFor: 'arithmetic' stamp: 'len 3/5/2016 04:40'!
++ aFormalLinearCombination
+	^ self species coefficients: coefficients + aFormalLinearCombination coefficients! !
+
+!FormalSum methodsFor: 'arithmetic' stamp: 'len 3/1/2016 03:40'!
+- aFormalLinearCombination
+	^ self + aFormalLinearCombination negated! !
+
+!FormalSum methodsFor: 'arithmetic' stamp: 'len 3/2/2016 05:59'!
+/ aNumber
+	^ self * aNumber reciprocal! !
+
+!FormalSum methodsFor: 'comparing' stamp: 'len 2/28/2016 04:32'!
+= anAbelianWord
+	^ coefficients = anAbelianWord coefficients! !
+
+!FormalSum methodsFor: 'accessing' stamp: 'len 3/5/2016 04:50'!
+coefficientAt: anElement
+	^ coefficients at: anElement ifAbsent: []! !
+
+!FormalSum methodsFor: 'accessing' stamp: 'len 3/2/2016 06:00'!
+coefficientAt: anElement add: aNumber
+	^ coefficients at: anElement add: aNumber! !
+
+!FormalSum methodsFor: 'accessing' stamp: 'len 3/2/2016 06:00'!
+coefficientAt: anElement put: aNumber
+	^ coefficients at: anElement put: aNumber! !
+
+!FormalSum methodsFor: 'accessing' stamp: 'len 2/28/2016 04:29'!
+coefficients
+	^ coefficients! !
+
+!FormalSum methodsFor: 'accessing' stamp: 'len 3/1/2016 03:39'!
+coefficients: aSparseTuple
+	coefficients _ aSparseTuple! !
+
+!FormalSum methodsFor: 'comparing' stamp: 'len 2/28/2016 04:32'!
+hash
+	^ coefficients hash! !
+
+!FormalSum methodsFor: 'testing' stamp: 'len 2/28/2016 04:23'!
+isZero
+	^ coefficients isEmpty! !
+
+!FormalSum methodsFor: 'arithmetic' stamp: 'len 3/5/2016 04:40'!
+negated
+	^ self species coefficients: coefficients negated! !
+
+!FormalSum methodsFor: 'printing' stamp: 'len 4/25/2016 06:46'!
+printCoefficient: c on: aStream
+	"Print the coefficient of the receiver on the stream aStream."
+
+	| string numeric |
+	string _ c printString.
+	string first = $-
+		ifTrue: [aStream nextPut: $-. string _ c negated printString].
+	numeric _ string allSatisfy: [:each| each isDigit].
+	aStream nextPutAll:
+		((numeric or: [string first = $(]) ifTrue: [string] ifFalse: ['(', string, ')'])! !
+
+!FormalSum methodsFor: 'printing' stamp: 'len 4/25/2016 06:47'!
+printOn2: aStream
+	| elements |
+	self flag: #fix. "copy form Polynomial"
+	self isZero ifTrue: [aStream nextPutAll: '0'. ^ self].
+	elements _ coefficients keys asSortedCollection: [:a :b| a printString <= b printString].
+	aStream print: (coefficients at: elements first); print: elements first.
+	elements allButFirstDo: 
+		[:each| | coefficient |
+		(coefficient _ coefficients at: each) < 0
+			ifTrue: [aStream nextPutAll: ' - '; print: coefficient negated; print: each]
+			ifFalse: [coefficient  > 0
+				ifTrue: [aStream nextPutAll: ' + '; print: coefficient; print: each]]]! !
+
+!FormalSum methodsFor: 'printing' stamp: 'len 7/2/2016 16:46'!
+printOn: aStream
+	| elements c |
+	self isZero ifTrue: [aStream nextPutAll: '0'. ^ self].
+	elements _ coefficients keys asSortedCollection: [:a :b| a printString <= b printString].
+	c _ self coefficientAt: elements first.
+	c printString first = $-
+		ifTrue: [c _ c negated. aStream nextPut: $-].
+	c ~= c one ifTrue: [self printCoefficient: c on: aStream].
+	((elements first isKindOf: Word) and: [elements first isEmpty])
+		ifFalse: [aStream print: elements first].
+	elements allButFirst do: [:each|
+		c _ self coefficientAt: each.
+		c printString first = $-
+			ifTrue: [aStream nextPutAll: ' - '. c _ c negated]
+			ifFalse: [aStream nextPutAll: ' + '].
+		c ~= c one ifTrue: [self printCoefficient: c on: aStream].
+		((each isKindOf: Word) and: [each isEmpty])
+			ifFalse: [aStream print: each]]! !
+
+!FormalSum methodsFor: 'accessing' stamp: 'len 6/29/2016 23:24'!
+value
+	| answer |
+	answer _ nil.
+	coefficients keysAndValuesDo: [:key :value|
+		answer _ answer ifNil: [key value * value] ifNotNil: [key value * value + answer]].
+	^ answer! !
+
+!FormalSum class methodsFor: 'instance creation' stamp: 'len 2/28/2016 04:30'!
+coefficients: aDictionary
+	^ self new coefficients: aDictionary! !
+
+!FormalSum class methodsFor: 'instance creation' stamp: 'len 3/1/2016 03:41'!
+new
+	^ super new coefficients: SparseTuple new! !
+
+!FormalSum class methodsFor: 'instance creation' stamp: 'len 2/28/2016 04:47'!
+with: anElement
+	^ self with: anElement times: 1! !
+
+!FormalSum class methodsFor: 'instance creation' stamp: 'len 3/1/2016 03:42'!
+with: anElement times: n
+	^ self coefficients: (SparseTuple new at: anElement put: n; yourself)! !
+
+!FreePolynomial methodsFor: 'arithmetic' stamp: 'len 3/23/2016 07:25'!
+* anObject
+	((self scalars includes: anObject) or: [anObject isInteger])
+		ifTrue: [^ self coefficientsApply: [:each| each * anObject]].
+	((anObject isKindOf: Polynomial) and: [anObject scalars includes: self])
+		ifTrue: [^ anObject coefficientsApply: [:each| self * each]].
+	(self species includes: anObject)
+		ifTrue:
+			[^ self species coefficients: (coefficients convolution: anObject coefficients)].
+	(anObject isKindOf: Word)
+		ifTrue: [^ self mapMonomials: [:each| each*anObject]].
+	^ DomainError signal! !
+
+!FreePolynomial methodsFor: 'arithmetic' stamp: 'len 7/8/2016 05:38'!
+** anInteger
+	"Answer the receiver raised to the power anInteger."
+	(anInteger isInteger and: [anInteger >= 0])
+		ifFalse: [^ self error: 'undefinted'].
+	anInteger = 0 ifTrue: [^ self one].
+	anInteger = 1 ifTrue: [^ self].
+	^ self squared ** (anInteger // 2) * (self ** (anInteger \\ 2))! !
+
+!FreePolynomial methodsFor: 'accessing' stamp: 'len 3/3/2016 05:27'!
+degree
+	"Answer the total degree of the receiver."
+	self isZero ifTrue: [^ Infinity negative].
+	^ self monomials max: [:each| each length]! !
+
+!FreePolynomial methodsFor: 'arithmetic' stamp: 'len 3/2/2016 05:35'!
+squared
+	^ self * self! !
+
+!SimplicialChain methodsFor: 'operations' stamp: 'len 3/5/2016 04:52'!
+boundary
+	"The boundary of a chain is the linear combination of the boundary of the simplices in the chain. The boundary of a k-chain is a (k-1)-chain."
+	| answer |
+	answer _ self species new.
+	self coefficients keysAndValuesDo: [:key :value| answer _ answer + (key boundary * value)].
+	^ answer! !
+
+!SimplicialChain methodsFor: 'accessing' stamp: 'len 2/29/2016 07:15'!
+dimension
+	^ (coefficients anyIfNone: [^ -1]) dimension! !
+
+!SimplicialChain methodsFor: 'testing' stamp: 'len 2/23/2016 03:33'!
+isCycle
+	^ self boundary isZero! !
+
 !ModularInteger methodsFor: 'arithmetic' stamp: 'len 4/25/2016 00:23'!
 * aModularInteger
 	aModularInteger isInteger ifTrue: [^ self class representative: representative * aModularInteger \\ modulus modulo: modulus].
@@ -26876,237 +27035,6 @@ zero
 representative: anObject ideal: anIdeal
 	^ self new representative: anObject; ideal: anIdeal! !
 
-!FormalSum methodsFor: 'arithmetic' stamp: 'len 3/5/2016 04:40'!
-* aNumber
-	^ self species coefficients: coefficients * aNumber! !
-
-!FormalSum methodsFor: 'arithmetic' stamp: 'len 3/5/2016 04:40'!
-+ aFormalLinearCombination
-	^ self species coefficients: coefficients + aFormalLinearCombination coefficients! !
-
-!FormalSum methodsFor: 'arithmetic' stamp: 'len 3/1/2016 03:40'!
-- aFormalLinearCombination
-	^ self + aFormalLinearCombination negated! !
-
-!FormalSum methodsFor: 'arithmetic' stamp: 'len 3/2/2016 05:59'!
-/ aNumber
-	^ self * aNumber reciprocal! !
-
-!FormalSum methodsFor: 'comparing' stamp: 'len 2/28/2016 04:32'!
-= anAbelianWord
-	^ coefficients = anAbelianWord coefficients! !
-
-!FormalSum methodsFor: 'accessing' stamp: 'len 3/5/2016 04:50'!
-coefficientAt: anElement
-	^ coefficients at: anElement ifAbsent: []! !
-
-!FormalSum methodsFor: 'accessing' stamp: 'len 3/2/2016 06:00'!
-coefficientAt: anElement add: aNumber
-	^ coefficients at: anElement add: aNumber! !
-
-!FormalSum methodsFor: 'accessing' stamp: 'len 3/2/2016 06:00'!
-coefficientAt: anElement put: aNumber
-	^ coefficients at: anElement put: aNumber! !
-
-!FormalSum methodsFor: 'accessing' stamp: 'len 2/28/2016 04:29'!
-coefficients
-	^ coefficients! !
-
-!FormalSum methodsFor: 'accessing' stamp: 'len 3/1/2016 03:39'!
-coefficients: aSparseTuple
-	coefficients _ aSparseTuple! !
-
-!FormalSum methodsFor: 'comparing' stamp: 'len 2/28/2016 04:32'!
-hash
-	^ coefficients hash! !
-
-!FormalSum methodsFor: 'testing' stamp: 'len 2/28/2016 04:23'!
-isZero
-	^ coefficients isEmpty! !
-
-!FormalSum methodsFor: 'arithmetic' stamp: 'len 3/5/2016 04:40'!
-negated
-	^ self species coefficients: coefficients negated! !
-
-!FormalSum methodsFor: 'printing' stamp: 'len 4/25/2016 06:46'!
-printCoefficient: c on: aStream
-	"Print the coefficient of the receiver on the stream aStream."
-
-	| string numeric |
-	string _ c printString.
-	string first = $-
-		ifTrue: [aStream nextPut: $-. string _ c negated printString].
-	numeric _ string allSatisfy: [:each| each isDigit].
-	aStream nextPutAll:
-		((numeric or: [string first = $(]) ifTrue: [string] ifFalse: ['(', string, ')'])! !
-
-!FormalSum methodsFor: 'printing' stamp: 'len 4/25/2016 06:47'!
-printOn2: aStream
-	| elements |
-	self flag: #fix. "copy form Polynomial"
-	self isZero ifTrue: [aStream nextPutAll: '0'. ^ self].
-	elements _ coefficients keys asSortedCollection: [:a :b| a printString <= b printString].
-	aStream print: (coefficients at: elements first); print: elements first.
-	elements allButFirstDo: 
-		[:each| | coefficient |
-		(coefficient _ coefficients at: each) < 0
-			ifTrue: [aStream nextPutAll: ' - '; print: coefficient negated; print: each]
-			ifFalse: [coefficient  > 0
-				ifTrue: [aStream nextPutAll: ' + '; print: coefficient; print: each]]]! !
-
-!FormalSum methodsFor: 'printing' stamp: 'len 7/2/2016 16:46'!
-printOn: aStream
-	| elements c |
-	self isZero ifTrue: [aStream nextPutAll: '0'. ^ self].
-	elements _ coefficients keys asSortedCollection: [:a :b| a printString <= b printString].
-	c _ self coefficientAt: elements first.
-	c printString first = $-
-		ifTrue: [c _ c negated. aStream nextPut: $-].
-	c ~= c one ifTrue: [self printCoefficient: c on: aStream].
-	((elements first isKindOf: Word) and: [elements first isEmpty])
-		ifFalse: [aStream print: elements first].
-	elements allButFirst do: [:each|
-		c _ self coefficientAt: each.
-		c printString first = $-
-			ifTrue: [aStream nextPutAll: ' - '. c _ c negated]
-			ifFalse: [aStream nextPutAll: ' + '].
-		c ~= c one ifTrue: [self printCoefficient: c on: aStream].
-		((each isKindOf: Word) and: [each isEmpty])
-			ifFalse: [aStream print: each]]! !
-
-!FormalSum methodsFor: 'accessing' stamp: 'len 6/29/2016 23:24'!
-value
-	| answer |
-	answer _ nil.
-	coefficients keysAndValuesDo: [:key :value|
-		answer _ answer ifNil: [key value * value] ifNotNil: [key value * value + answer]].
-	^ answer! !
-
-!FormalSum class methodsFor: 'instance creation' stamp: 'len 2/28/2016 04:30'!
-coefficients: aDictionary
-	^ self new coefficients: aDictionary! !
-
-!FormalSum class methodsFor: 'instance creation' stamp: 'len 3/1/2016 03:41'!
-new
-	^ super new coefficients: SparseTuple new! !
-
-!FormalSum class methodsFor: 'instance creation' stamp: 'len 2/28/2016 04:47'!
-with: anElement
-	^ self with: anElement times: 1! !
-
-!FormalSum class methodsFor: 'instance creation' stamp: 'len 3/1/2016 03:42'!
-with: anElement times: n
-	^ self coefficients: (SparseTuple new at: anElement put: n; yourself)! !
-
-!FreePolynomial methodsFor: 'arithmetic' stamp: 'len 3/23/2016 07:25'!
-* anObject
-	((self scalars includes: anObject) or: [anObject isInteger])
-		ifTrue: [^ self coefficientsApply: [:each| each * anObject]].
-	((anObject isKindOf: Polynomial) and: [anObject scalars includes: self])
-		ifTrue: [^ anObject coefficientsApply: [:each| self * each]].
-	(self species includes: anObject)
-		ifTrue:
-			[^ self species coefficients: (coefficients convolution: anObject coefficients)].
-	(anObject isKindOf: Word)
-		ifTrue: [^ self mapMonomials: [:each| each*anObject]].
-	^ DomainError signal! !
-
-!FreePolynomial methodsFor: 'arithmetic' stamp: 'len 7/8/2016 05:38'!
-** anInteger
-	"Answer the receiver raised to the power anInteger."
-	(anInteger isInteger and: [anInteger >= 0])
-		ifFalse: [^ self error: 'undefinted'].
-	anInteger = 0 ifTrue: [^ self one].
-	anInteger = 1 ifTrue: [^ self].
-	^ self squared ** (anInteger // 2) * (self ** (anInteger \\ 2))! !
-
-!FreePolynomial methodsFor: 'accessing' stamp: 'len 3/3/2016 05:27'!
-degree
-	"Answer the total degree of the receiver."
-	self isZero ifTrue: [^ Infinity negative].
-	^ self monomials max: [:each| each length]! !
-
-!FreePolynomial methodsFor: 'arithmetic' stamp: 'len 3/2/2016 05:35'!
-squared
-	^ self * self! !
-
-!SimplicialChain methodsFor: 'operations' stamp: 'len 3/5/2016 04:52'!
-boundary
-	"The boundary of a chain is the linear combination of the boundary of the simplices in the chain. The boundary of a k-chain is a (k-1)-chain."
-	| answer |
-	answer _ self species new.
-	self coefficients keysAndValuesDo: [:key :value| answer _ answer + (key boundary * value)].
-	^ answer! !
-
-!SimplicialChain methodsFor: 'accessing' stamp: 'len 2/29/2016 07:15'!
-dimension
-	^ (coefficients anyIfNone: [^ -1]) dimension! !
-
-!SimplicialChain methodsFor: 'testing' stamp: 'len 2/23/2016 03:33'!
-isCycle
-	^ self boundary isZero! !
-
-!GroupPresentation methodsFor: 'accessing' stamp: 'len 2/12/2016 07:49'!
-deficiency
-	^ generators size - relators size! !
-
-!GroupPresentation methodsFor: 'morphisms' stamp: 'len 2/12/2016 07:53'!
-directProduct: aPresentation
-	^ self class generators: (generators, aPresentation generators) relators: (relators, aPresentation relators, (self commutatorWith: aPresentation))! !
-
-!GroupPresentation methodsFor: 'morphisms' stamp: 'len 2/12/2016 07:51'!
-freeProduct: aPresentation
-	^ self class generators: (generators, aPresentation generators) relators: (relators, aPresentation relators)! !
-
-!GroupPresentation methodsFor: 'accessing' stamp: 'len 11/27/2015 21:34'!
-generators
-	^ generators! !
-
-!GroupPresentation methodsFor: 'accessing-private' stamp: 'len 11/27/2015 21:35'!
-generators: aCollection
-	generators _ aCollection! !
-
-!GroupPresentation methodsFor: 'printing' stamp: 'len 2/12/2016 07:34'!
-printOn: aStream
-	aStream nextPut: $<.
-	generators do: [:each| aStream print: each] separatedBy: [aStream nextPut: $,].
-	aStream nextPutAll: ' | '.
-	relators isEmpty ifTrue: [aStream nextPut: Character emptySet].
-	relators do: [:each| aStream print: each; nextPutAll: '=1'] separatedBy: [aStream nextPut: $,].
-	aStream nextPut: $>! !
-
-!GroupPresentation methodsFor: 'accessing' stamp: 'len 11/27/2015 21:34'!
-relators
-	^ relators! !
-
-!GroupPresentation methodsFor: 'accessing-private' stamp: 'len 11/27/2015 21:35'!
-relators: aCollection
-	relators _ aCollection! !
-
-!GroupPresentation class methodsFor: 'examples' stamp: 'len 2/13/2016 08:37'!
-C: n
-	"Answer the cyclic group of order n."
-	| x |
-	x _ Word x: 1.
-	^ self generators: {x} relators: {x**n}! !
-
-!GroupPresentation class methodsFor: 'examples' stamp: 'len 2/13/2016 08:37'!
-D: n
-	"Answer the dihedral group of order n."
-	| x1 x2 |
-	x1 _ Word x: 1.
-	x2 _ Word x: 2.
-	^ self generators: {x1. x2} relators: {x1**n. x2**2. (x1*x2)**2}! !
-
-!GroupPresentation class methodsFor: 'examples' stamp: 'len 11/27/2015 21:46'!
-free: aCollection
-	"Answer the free group on aCollection."
-	^ self generators: aCollection relators: #()! !
-
-!GroupPresentation class methodsFor: 'instance creation' stamp: 'len 11/27/2015 21:45'!
-generators: aCollection relators: anotherCollection
-	^ self new generators: aCollection; relators: anotherCollection! !
-
 !SLP methodsFor: 'as yet unclassified' stamp: 'len 7/26/2016 23:37'!
 * aSLP
 	^ self class word: (Word syllables: {word -> 1. aSLP word -> 1})! !
@@ -27272,6 +27200,67 @@ x: i to: k
 	"Answer a new instance of the receiver with only one indeterminate, xi, raised to n."
 	k = 0 ifTrue: [^ self empty].
 	^ self syllables: {i -> k}! !
+
+!GroupPresentation methodsFor: 'accessing' stamp: 'len 2/12/2016 07:49'!
+deficiency
+	^ generators size - relators size! !
+
+!GroupPresentation methodsFor: 'morphisms' stamp: 'len 2/12/2016 07:53'!
+directProduct: aPresentation
+	^ self class generators: (generators, aPresentation generators) relators: (relators, aPresentation relators, (self commutatorWith: aPresentation))! !
+
+!GroupPresentation methodsFor: 'morphisms' stamp: 'len 2/12/2016 07:51'!
+freeProduct: aPresentation
+	^ self class generators: (generators, aPresentation generators) relators: (relators, aPresentation relators)! !
+
+!GroupPresentation methodsFor: 'accessing' stamp: 'len 11/27/2015 21:34'!
+generators
+	^ generators! !
+
+!GroupPresentation methodsFor: 'accessing-private' stamp: 'len 11/27/2015 21:35'!
+generators: aCollection
+	generators _ aCollection! !
+
+!GroupPresentation methodsFor: 'printing' stamp: 'len 2/12/2016 07:34'!
+printOn: aStream
+	aStream nextPut: $<.
+	generators do: [:each| aStream print: each] separatedBy: [aStream nextPut: $,].
+	aStream nextPutAll: ' | '.
+	relators isEmpty ifTrue: [aStream nextPut: Character emptySet].
+	relators do: [:each| aStream print: each; nextPutAll: '=1'] separatedBy: [aStream nextPut: $,].
+	aStream nextPut: $>! !
+
+!GroupPresentation methodsFor: 'accessing' stamp: 'len 11/27/2015 21:34'!
+relators
+	^ relators! !
+
+!GroupPresentation methodsFor: 'accessing-private' stamp: 'len 11/27/2015 21:35'!
+relators: aCollection
+	relators _ aCollection! !
+
+!GroupPresentation class methodsFor: 'examples' stamp: 'len 2/13/2016 08:37'!
+C: n
+	"Answer the cyclic group of order n."
+	| x |
+	x _ Word x: 1.
+	^ self generators: {x} relators: {x**n}! !
+
+!GroupPresentation class methodsFor: 'examples' stamp: 'len 2/13/2016 08:37'!
+D: n
+	"Answer the dihedral group of order n."
+	| x1 x2 |
+	x1 _ Word x: 1.
+	x2 _ Word x: 2.
+	^ self generators: {x1. x2} relators: {x1**n. x2**2. (x1*x2)**2}! !
+
+!GroupPresentation class methodsFor: 'examples' stamp: 'len 11/27/2015 21:46'!
+free: aCollection
+	"Answer the free group on aCollection."
+	^ self generators: aCollection relators: #()! !
+
+!GroupPresentation class methodsFor: 'instance creation' stamp: 'len 11/27/2015 21:45'!
+generators: aCollection relators: anotherCollection
+	^ self new generators: aCollection; relators: anotherCollection! !
 
 !SemidirectProductElement methodsFor: 'arithmetic' stamp: 'len 10/6/2016 15:37'!
 * aSemidirectProduct
