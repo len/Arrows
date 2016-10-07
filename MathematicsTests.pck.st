@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 2 October 2016 at 9:39:05.548657 am'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 7 October 2016 at 8:34:50.439992 am'!
 'Description Please enter a description for this package'!
-!provides: 'MathematicsTests' 1 8!
+!provides: 'MathematicsTests' 1 9!
 !classDefinition: #AffineGeometryTest category: #MathematicsTests!
 TestCase subclass: #AffineGeometryTest
 	instanceVariableNames: ''
@@ -149,6 +149,16 @@ TestCase subclass: #ProjectiveGeometryTest
 	category: 'MathematicsTests'!
 !classDefinition: 'ProjectiveGeometryTest class' category: #MathematicsTests!
 ProjectiveGeometryTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #RingTest category: #MathematicsTests!
+TestCase subclass: #RingTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'MathematicsTests'!
+!classDefinition: 'RingTest class' category: #MathematicsTests!
+RingTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #RootSystemTest category: #MathematicsTests!
@@ -1397,6 +1407,28 @@ testDirectProduct
 	g _ G atRandom.
 	self assert: (G operation value: {g. G inverseMap value: g}) = G identity! !
 
+!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 10/6/2016 20:26'!
+testGroup: G
+	| e a b c |
+	e _ G identity.
+	a _ G atRandomBits: 100.
+	b _ G atRandomBits: 100.
+	c _ G atRandomBits: 100.
+	self assert: e * a = a.
+	self assert: a * e = a.
+	self assert: a * a reciprocal = e.
+	self assert: a reciprocal * a = e! !
+
+!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 10/7/2016 06:41'!
+testGroupHomomorphism: phi
+	| G H a b |
+	G _ phi domain.
+	H _ phi codomain.
+	a _ G atRandomBits: 100.
+	b _ G atRandomBits: 100.
+	self assert: (phi value: G identity) = H identity.
+	self assert: (phi value: (G operation value: {a. b})) = (H operation value: {phi value: a. phi value: b})! !
+
 !GroupTest methodsFor: 'as yet unclassified' stamp: 'len 8/30/2016 19:59'!
 testGroupRing
 	| G R a a` b b` c c` |
@@ -1482,6 +1514,19 @@ testOrbitStabilizerTheorem
 	phi _ GroupAction from: (G, X) to: X evaluating: [:each| each first value: each second].
 	x _ X atRandom.
 	self assert: (phi stabilizerOf: x) order * (phi orbitOf: x) size = G order! !
+
+!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 10/7/2016 06:41'!
+testQuotientGroup
+	| G N Q pi h |
+	G _ Group integersMod: 6.
+	N _ G span: {3 % 6}.
+	Q _ G / N.
+	self assert: Q size = 3.
+	pi _ Q projection.
+	self assert: (Q includes: (pi value: G atRandom)).
+	h _ Q atRandom.
+	self assert: (pi value: (pi section value: h)) = h.
+	self testGroupHomomorphism: pi! !
 
 !GroupTest methodsFor: 'as yet unclassified' stamp: 'len 5/2/2016 02:36'!
 testSymmetricOrder
@@ -1886,6 +1931,19 @@ testQuotient
 	self assert: (Q includes: S + (V atRandomBits: 50)).
 	self assert: (V / V null) dimension = V dimension.
 	self assert: (V / V) dimension = 0! !
+
+!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 10/6/2016 10:36'!
+testQuotientMaps
+	| V S Q pi v s |
+	V _ QQ ** 5.
+	S _ V grassmannian: (1 to: V dimension) atRandom :: atRandomBits: 50.
+	Q _ V/S.
+	pi _ Q projection.
+	v _ V atRandomBits: 100.
+	s _ pi value: v.
+	self assert: (Q includes: s).
+	self assert: (V includes: (pi section value: s)).
+	self assert: s = (pi value: (pi section value: s))! !
 
 !LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 9/1/2016 08:00'!
 testSecondIsomorphismTheorem
@@ -3706,6 +3764,94 @@ testProjectiveSpaceBasic
 	self assert: (P coordinatesOf: p2) = (1,0,1) homogeneous.
 	self assert: p3 = p0.
 	self assert: (p0 + p1) dimension = 1! !
+
+!RingTest methodsFor: 'as yet unclassified' stamp: 'len 10/6/2016 20:11'!
+newQuotientRing
+	| R I |
+	R _ ZZ polynomials.
+	I _ R * (R atRandomBits: 100 maxDegree: 5).
+	^ R / I! !
+
+!RingTest methodsFor: 'as yet unclassified' stamp: 'len 10/6/2016 20:34'!
+testMatrixRing
+	self testRing: (ZZ ** (5@5)) asRing! !
+
+!RingTest methodsFor: 'as yet unclassified' stamp: 'len 10/7/2016 06:12'!
+testModularIntegers
+	| Zm |
+	Zm _ ZZ mod: 10 atRandom + 1.
+	self testRing: Zm.
+	self testRingHomomorphism: Zm projection! !
+
+!RingTest methodsFor: 'as yet unclassified' stamp: 'len 10/7/2016 06:13'!
+testMultivariatePolynomialRing
+	| R |
+	R _ ZZ polynomialsIn: #(x y z).
+	self testRing: R.
+	self testRingHomomorphism: R embedding! !
+
+!RingTest methodsFor: 'as yet unclassified' stamp: 'len 10/7/2016 06:14'!
+testPolynomialRing
+	| R |
+	R _ ZZ polynomials.
+	self testRing: R.
+	self testRingHomomorphism: R embedding! !
+
+!RingTest methodsFor: 'as yet unclassified' stamp: 'len 10/6/2016 20:32'!
+testQuotientRing
+	| Q |
+	Q _ self newQuotientRing.
+	self testRing: Q.
+	self testRingHomomorphism: Q projection! !
+
+!RingTest methodsFor: 'as yet unclassified' stamp: 'len 10/6/2016 20:32'!
+testQuotientRing2
+	| Q pi f g |
+	Q _ self newQuotientRing.
+	f _ Q base atRandomBits: 100.
+	g _ Q ideal atRandomBits: 100.
+	pi _ Q projection.
+	self assert: (pi value: g) isZero.
+	self assert: (Q includes: (pi value: f)).
+	self testRingHomomorphism: pi.
+"	self assert: (pi value: f) = (pi value: f + g)."
+"	h _ Q atRandomBits: 100.
+	self assert: (pi value: (pi section value: h)) = h"! !
+
+!RingTest methodsFor: 'as yet unclassified' stamp: 'len 10/6/2016 20:30'!
+testRing: R
+	| one zero a b c |
+	one _ R one.
+	zero _ R zero.
+	a _ R atRandomBits: 100.
+	b _ R atRandomBits: 100.
+	c _ R atRandomBits: 100.
+	self assert: a * one = a.
+	self assert: one * a = a.
+	self assert: zero * a = zero.
+	self assert: a * zero = zero.
+	self assert: zero + a = a.
+	self assert: a + zero = a.
+	self assert: a + b = (b + a). "commutativity of addition"
+	self assert: (a + b + c) = (a + (b + c)). "associativity of addition"
+	self assert: (a * b * c) = (a * (b * c)). "associativity of multiplication"
+	R isCommutative ifTrue: [self assert: a * b = (b * a)]. "commutativity of multiplication"! !
+
+!RingTest methodsFor: 'as yet unclassified' stamp: 'len 10/6/2016 20:17'!
+testRingHomomorphism: phi
+	| R S a b |
+	R _ phi domain.
+	S _ phi codomain.
+	a _ R atRandomBits: 100.
+	b _ R atRandomBits: 100.
+	self assert: (phi value: R zero) = S zero.
+	self assert: (phi value: R one) = S one.
+	self assert: (phi value: a + b) = ((phi value: a) + (phi value: b)).
+	self assert: (phi value: a * b) = ((phi value: a) * (phi value: b))! !
+
+!RingTest methodsFor: 'as yet unclassified' stamp: 'len 10/6/2016 20:27'!
+testZZ
+	self testRing: ZZ! !
 
 !RootSystemTest methodsFor: 'as yet unclassified' stamp: 'len 7/15/2016 18:37'!
 rootSystem1
