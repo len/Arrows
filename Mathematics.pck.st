@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 7 October 2016 at 9:17:52.336071 am'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 9 October 2016 at 9:17:01.059231 pm'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 206!
+!provides: 'Mathematics' 1 207!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
 	instanceVariableNames: 'numerator shift'
@@ -379,6 +379,16 @@ Domain subclass: #AbelianGroup
 	category: 'Mathematics-Kernel-Domains'!
 !classDefinition: 'AbelianGroup class' category: #'Mathematics-Kernel-Domains'!
 AbelianGroup class
+	instanceVariableNames: ''!
+
+!classDefinition: #DirectSum category: #'Mathematics-Kernel-Domains'!
+AbelianGroup subclass: #DirectSum
+	instanceVariableNames: 'components'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Kernel-Domains'!
+!classDefinition: 'DirectSum class' category: #'Mathematics-Kernel-Domains'!
+DirectSum class
 	instanceVariableNames: ''!
 
 !classDefinition: #Ideal category: #'Mathematics-Rings'!
@@ -861,13 +871,13 @@ Field subclass: #ResidueField
 ResidueField class
 	instanceVariableNames: ''!
 
-!classDefinition: #PrimeField category: #'Mathematics-Kernel-Domains-Concrete'!
+!classDefinition: #PrimeField category: #'Mathematics-Fields'!
 ResidueField subclass: #PrimeField
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Kernel-Domains-Concrete'!
-!classDefinition: 'PrimeField class' category: #'Mathematics-Kernel-Domains-Concrete'!
+	category: 'Mathematics-Fields'!
+!classDefinition: 'PrimeField class' category: #'Mathematics-Fields'!
 PrimeField class
 	instanceVariableNames: ''!
 
@@ -1161,16 +1171,6 @@ PermutationGroup subclass: #SymmetricGroup
 SymmetricGroup class
 	instanceVariableNames: ''!
 
-!classDefinition: #UnitsGroup category: #'Mathematics-Rings'!
-Group subclass: #UnitsGroup
-	instanceVariableNames: 'ring'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Rings'!
-!classDefinition: 'UnitsGroup class' category: #'Mathematics-Rings'!
-UnitsGroup class
-	instanceVariableNames: ''!
-
 !classDefinition: #LinearGroup category: #'Mathematics-Groups-Linear'!
 Group subclass: #LinearGroup
 	instanceVariableNames: 'space'
@@ -1311,84 +1311,94 @@ MatrixGroup subclass: #SpecialScalarMatrixGroup
 SpecialScalarMatrixGroup class
 	instanceVariableNames: ''!
 
-!classDefinition: #AffineGroup category: #'Mathematics-Geometry-Affine-Groups'!
+!classDefinition: #AffineGroup category: #'Mathematics-Groups-Affine'!
 Group subclass: #AffineGroup
 	instanceVariableNames: 'space'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Geometry-Affine-Groups'!
-!classDefinition: 'AffineGroup class' category: #'Mathematics-Geometry-Affine-Groups'!
+	category: 'Mathematics-Groups-Affine'!
+!classDefinition: 'AffineGroup class' category: #'Mathematics-Groups-Affine'!
 AffineGroup class
 	instanceVariableNames: ''!
 
-!classDefinition: #EuclideanGroup category: #'Mathematics-Geometry-Affine-Groups'!
+!classDefinition: #EuclideanGroup category: #'Mathematics-Groups-Affine'!
 AffineGroup subclass: #EuclideanGroup
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Geometry-Affine-Groups'!
-!classDefinition: 'EuclideanGroup class' category: #'Mathematics-Geometry-Affine-Groups'!
+	category: 'Mathematics-Groups-Affine'!
+!classDefinition: 'EuclideanGroup class' category: #'Mathematics-Groups-Affine'!
 EuclideanGroup class
 	instanceVariableNames: ''!
 
-!classDefinition: #GeneralAffineGroup category: #'Mathematics-Geometry-Affine-Groups'!
+!classDefinition: #GeneralAffineGroup category: #'Mathematics-Groups-Affine'!
 AffineGroup subclass: #GeneralAffineGroup
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Geometry-Affine-Groups'!
-!classDefinition: 'GeneralAffineGroup class' category: #'Mathematics-Geometry-Affine-Groups'!
+	category: 'Mathematics-Groups-Affine'!
+!classDefinition: 'GeneralAffineGroup class' category: #'Mathematics-Groups-Affine'!
 GeneralAffineGroup class
 	instanceVariableNames: ''!
 
-!classDefinition: #SpecialAffineGroup category: #'Mathematics-Geometry-Affine-Groups'!
+!classDefinition: #SpecialAffineGroup category: #'Mathematics-Groups-Affine'!
 AffineGroup subclass: #SpecialAffineGroup
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Geometry-Affine-Groups'!
-!classDefinition: 'SpecialAffineGroup class' category: #'Mathematics-Geometry-Affine-Groups'!
+	category: 'Mathematics-Groups-Affine'!
+!classDefinition: 'SpecialAffineGroup class' category: #'Mathematics-Groups-Affine'!
 SpecialAffineGroup class
 	instanceVariableNames: ''!
 
-!classDefinition: #SpecialEuclideanGroup category: #'Mathematics-Geometry-Affine-Groups'!
+!classDefinition: #SpecialEuclideanGroup category: #'Mathematics-Groups-Affine'!
 AffineGroup subclass: #SpecialEuclideanGroup
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Geometry-Affine-Groups'!
-!classDefinition: 'SpecialEuclideanGroup class' category: #'Mathematics-Geometry-Affine-Groups'!
+	category: 'Mathematics-Groups-Affine'!
+!classDefinition: 'SpecialEuclideanGroup class' category: #'Mathematics-Groups-Affine'!
 SpecialEuclideanGroup class
 	instanceVariableNames: ''!
 
-!classDefinition: #ProjectiveGroup category: #'Mathematics-Geometry-Projective-Groups'!
+!classDefinition: #ProjectiveGroup category: #'Mathematics-Groups-Projective'!
 Group subclass: #ProjectiveGroup
 	instanceVariableNames: 'space'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Geometry-Projective-Groups'!
-!classDefinition: 'ProjectiveGroup class' category: #'Mathematics-Geometry-Projective-Groups'!
+	category: 'Mathematics-Groups-Projective'!
+!classDefinition: 'ProjectiveGroup class' category: #'Mathematics-Groups-Projective'!
 ProjectiveGroup class
 	instanceVariableNames: ''!
 
-!classDefinition: #ProjectiveGeneralLinearGroup category: #'Mathematics-Geometry-Projective-Groups'!
+!classDefinition: #ProjectiveGeneralLinearGroup category: #'Mathematics-Groups-Projective'!
 ProjectiveGroup subclass: #ProjectiveGeneralLinearGroup
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Geometry-Projective-Groups'!
-!classDefinition: 'ProjectiveGeneralLinearGroup class' category: #'Mathematics-Geometry-Projective-Groups'!
+	category: 'Mathematics-Groups-Projective'!
+!classDefinition: 'ProjectiveGeneralLinearGroup class' category: #'Mathematics-Groups-Projective'!
 ProjectiveGeneralLinearGroup class
 	instanceVariableNames: ''!
 
-!classDefinition: #ProjectiveSpecialLinearGroup category: #'Mathematics-Geometry-Projective-Groups'!
+!classDefinition: #ProjectiveSpecialLinearGroup category: #'Mathematics-Groups-Projective'!
 ProjectiveGroup subclass: #ProjectiveSpecialLinearGroup
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Geometry-Projective-Groups'!
-!classDefinition: 'ProjectiveSpecialLinearGroup class' category: #'Mathematics-Geometry-Projective-Groups'!
+	category: 'Mathematics-Groups-Projective'!
+!classDefinition: 'ProjectiveSpecialLinearGroup class' category: #'Mathematics-Groups-Projective'!
 ProjectiveSpecialLinearGroup class
+	instanceVariableNames: ''!
+
+!classDefinition: #UnitsGroup category: #'Mathematics-Rings'!
+Group subclass: #UnitsGroup
+	instanceVariableNames: 'ring'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Rings'!
+!classDefinition: 'UnitsGroup class' category: #'Mathematics-Rings'!
+UnitsGroup class
 	instanceVariableNames: ''!
 
 !classDefinition: #CoxeterGroup category: #'Mathematics-Lie'!
@@ -1429,6 +1439,36 @@ Domain subclass: #QuotientSet
 	category: 'Mathematics-Kernel-Domains'!
 !classDefinition: 'QuotientSet class' category: #'Mathematics-Kernel-Domains'!
 QuotientSet class
+	instanceVariableNames: ''!
+
+!classDefinition: #Category category: #'Mathematics-Kernel-Categories'!
+Domain subclass: #Category
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Kernel-Categories'!
+!classDefinition: 'Category class' category: #'Mathematics-Kernel-Categories'!
+Category class
+	instanceVariableNames: ''!
+
+!classDefinition: #AbelianGroups category: #'Mathematics-Kernel-Categories'!
+Category subclass: #AbelianGroups
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Kernel-Categories'!
+!classDefinition: 'AbelianGroups class' category: #'Mathematics-Kernel-Categories'!
+AbelianGroups class
+	instanceVariableNames: ''!
+
+!classDefinition: #Modules category: #'Mathematics-Kernel-Categories'!
+AbelianGroups subclass: #Modules
+	instanceVariableNames: 'scalars'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Kernel-Categories'!
+!classDefinition: 'Modules class' category: #'Mathematics-Kernel-Categories'!
+Modules class
 	instanceVariableNames: ''!
 
 !classDefinition: #ComplexBox category: #'Mathematics-Kernel-Domains-Concrete'!
@@ -2181,6 +2221,16 @@ Morphism subclass: #Identity
 Identity class
 	instanceVariableNames: ''!
 
+!classDefinition: #Functor category: #'Mathematics-Kernel-Categories'!
+Morphism subclass: #Functor
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Kernel-Categories'!
+!classDefinition: 'Functor class' category: #'Mathematics-Kernel-Categories'!
+Functor class
+	instanceVariableNames: ''!
+
 !classDefinition: #SchemeMorphism category: #'Mathematics-Geometry-Algebraic-Schemes'!
 Morphism subclass: #SchemeMorphism
 	instanceVariableNames: ''
@@ -2461,6 +2511,56 @@ Object subclass: #SchreierTree
 SchreierTree class
 	instanceVariableNames: ''!
 
+!classDefinition: #Matrix category: #'Mathematics-Modules-Matrices'!
+Object subclass: #Matrix
+	instanceVariableNames: 'parent'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Modules-Matrices'!
+!classDefinition: 'Matrix class' category: #'Mathematics-Modules-Matrices'!
+Matrix class
+	instanceVariableNames: ''!
+
+!classDefinition: #ColumnMatrix category: #'Mathematics-Modules-Matrices'!
+Matrix subclass: #ColumnMatrix
+	instanceVariableNames: 'columns'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Modules-Matrices'!
+!classDefinition: 'ColumnMatrix class' category: #'Mathematics-Modules-Matrices'!
+ColumnMatrix class
+	instanceVariableNames: ''!
+
+!classDefinition: #DenseMatrix category: #'Mathematics-Modules-Matrices'!
+Matrix subclass: #DenseMatrix
+	instanceVariableNames: 'coefficients'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Modules-Matrices'!
+!classDefinition: 'DenseMatrix class' category: #'Mathematics-Modules-Matrices'!
+DenseMatrix class
+	instanceVariableNames: ''!
+
+!classDefinition: #RowMatrix category: #'Mathematics-Modules-Matrices'!
+Matrix subclass: #RowMatrix
+	instanceVariableNames: 'rows'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Modules-Matrices'!
+!classDefinition: 'RowMatrix class' category: #'Mathematics-Modules-Matrices'!
+RowMatrix class
+	instanceVariableNames: ''!
+
+!classDefinition: #SparseMatrix category: #'Mathematics-Modules-Matrices'!
+Matrix subclass: #SparseMatrix
+	instanceVariableNames: 'coefficients'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Modules-Matrices'!
+!classDefinition: 'SparseMatrix class' category: #'Mathematics-Modules-Matrices'!
+SparseMatrix class
+	instanceVariableNames: ''!
+
 !classDefinition: #LinearEquation category: #'Mathematics-Modules-Support'!
 Object subclass: #LinearEquation
 	instanceVariableNames: 'form value'
@@ -2479,56 +2579,6 @@ Object subclass: #LinearSystem
 	category: 'Mathematics-Modules-Support'!
 !classDefinition: 'LinearSystem class' category: #'Mathematics-Modules-Support'!
 LinearSystem class
-	instanceVariableNames: ''!
-
-!classDefinition: #Matrix category: #'Mathematics-Modules-Support'!
-Object subclass: #Matrix
-	instanceVariableNames: 'parent'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Modules-Support'!
-!classDefinition: 'Matrix class' category: #'Mathematics-Modules-Support'!
-Matrix class
-	instanceVariableNames: ''!
-
-!classDefinition: #ColumnMatrix category: #'Mathematics-Modules-Support'!
-Matrix subclass: #ColumnMatrix
-	instanceVariableNames: 'columns'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Modules-Support'!
-!classDefinition: 'ColumnMatrix class' category: #'Mathematics-Modules-Support'!
-ColumnMatrix class
-	instanceVariableNames: ''!
-
-!classDefinition: #DenseMatrix category: #'Mathematics-Modules-Support'!
-Matrix subclass: #DenseMatrix
-	instanceVariableNames: 'coefficients'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Modules-Support'!
-!classDefinition: 'DenseMatrix class' category: #'Mathematics-Modules-Support'!
-DenseMatrix class
-	instanceVariableNames: ''!
-
-!classDefinition: #RowMatrix category: #'Mathematics-Modules-Support'!
-Matrix subclass: #RowMatrix
-	instanceVariableNames: 'rows'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Modules-Support'!
-!classDefinition: 'RowMatrix class' category: #'Mathematics-Modules-Support'!
-RowMatrix class
-	instanceVariableNames: ''!
-
-!classDefinition: #SparseMatrix category: #'Mathematics-Modules-Support'!
-Matrix subclass: #SparseMatrix
-	instanceVariableNames: 'coefficients'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Modules-Support'!
-!classDefinition: 'SparseMatrix class' category: #'Mathematics-Modules-Support'!
-SparseMatrix class
 	instanceVariableNames: ''!
 
 !classDefinition: #GramSchmidt category: #'Mathematics-Modules-Algorithms'!
@@ -3745,6 +3795,11 @@ Group-specific behaviour is not implemented here. My instances are viewed not as
 
 As an abelian category, morphisms and objects can be added, and kernels and cokernels exist.!
 
+!DirectSum commentStamp: '<historical>' prior: 0!
+My instances are direct sums of abelian groups (or objects in an abelian category).
+
+Direct sums are equipped with projection homomorphisms into the i-th component (>>projection:) and coprojections or embeddings from the i-th component (>>embedding:).!
+
 !Ideal commentStamp: '<historical>' prior: 0!
 My instances are finitely-generated ideals of a commutative ring.
 
@@ -3826,7 +3881,7 @@ Examples of vector spaces are tuples, matrices and linear transformations.
 !
 
 !HomogeneousPolynomialSpace commentStamp: '<historical>' prior: 0!
-My instances are vector spaces of multivariate homogeneous polynomials of degree d in n variables, for fixed d and n.!
+My instances are modules of multivariate homogeneous polynomials of degree d in n variables, for fixed d and n.!
 
 !PolynomialSpace commentStamp: '<historical>' prior: 0!
 My instances are vector spaces of univariate polynomials of degree <= n, for a fixed n.!
@@ -4086,16 +4141,6 @@ Examples:
 	SymmetricGroup new: 3.
 	SymmetricGroup on: #(a b c).!
 
-!UnitsGroup commentStamp: '<historical>' prior: 0!
-My instances are sets of ring units. They have a group structure.
-
-Given a ring R, the group of units of R is the set of elements of R that have multiplicative inverse, and they form a group under multiplication. For a field F (or more generally a division ring), the units are all non-zero elements F \ {0}.
-
-Categorically, this construction is a functor from the cateogory of rings to the category of groups. This functor has a left adjoint which is the integral group ring construction (see GroupRing).
-
-References:
-	https://en.wikipedia.org/wiki/Unit_(ring_theory)!
-
 !LinearGroup commentStamp: '<historical>' prior: 0!
 My instances are groups of linear transformations acting on a vector space. They are subgroups of the general linear group GL(V).
 
@@ -4149,6 +4194,16 @@ My instances are the special Euclidean group SE(n) or E*(n), a subgroup of the E
 
 !ProjectiveGroup commentStamp: '<historical>' prior: 0!
 My instances are groups of projective maps acting on a projective space. They are subgroups of the projective general linear group PGL(V).!
+
+!UnitsGroup commentStamp: '<historical>' prior: 0!
+My instances are sets of ring units. They have a group structure.
+
+Given a ring R, the group of units of R is the set of elements of R that have multiplicative inverse, and they form a group under multiplication. For a field F (or more generally a division ring), the units are all non-zero elements F \ {0}.
+
+Categorically, this construction is a functor from the cateogory of rings to the category of groups. This functor has a left adjoint which is the integral group ring construction (see GroupRing).
+
+References:
+	https://en.wikipedia.org/wiki/Unit_(ring_theory)!
 
 !Monomials commentStamp: '<historical>' prior: 0!
 My instances are (commutative) monoids of monomials in n indeterminates.!
@@ -11670,11 +11725,11 @@ printOn: aStream
 	"Answer true if the receiver is a subobject of aDomain (inclusion)."
 	^ self = aDomain or: [self < aDomain]! !
 
-!Domain methodsFor: 'comparing' stamp: 'len 5/2/2016 09:18'!
+!Domain methodsFor: 'comparing' stamp: 'len 10/9/2016 08:55'!
 = aDomain
 	self == aDomain ifTrue: [^ true].
-	self isFinite ifTrue: [^ self size = aDomain size and: [self asSet = aDomain asSet]].
 	self size = aDomain size ifFalse: [^ false].
+	self isFinite ifTrue: [^ self asSet = aDomain asSet].
 	^ super = aDomain! !
 
 !Domain methodsFor: 'comparing' stamp: 'len 8/12/2016 21:49'!
@@ -11939,9 +11994,9 @@ isProduct
 	"Answer true if the receiver is some kind of categorical product, such as cartesian product of sets, direct product of groups, etc."
 	^ false! !
 
-!Domain methodsFor: 'testing' stamp: 'len 8/10/2016 01:00'!
+!Domain methodsFor: 'testing' stamp: 'len 10/7/2016 09:52'!
 isQuotient
-	"Answer true if the receiver is some kind of categorical quotient, such as a quotient of sets, gropus, vector spaces, etc."
+	"Answer true if the receiver is some kind of quotient object, such as a quotient of sets, gropus, vector spaces, etc."
 	^ false! !
 
 !Domain methodsFor: 'testing-domains' stamp: 'len 2/11/2016 22:18'!
@@ -12067,18 +12122,29 @@ new
 newFrom: anObject
 	^ self new elements: anObject! !
 
-!AbelianGroup methodsFor: 'accessing' stamp: 'len 5/23/2016 03:51'!
-addition
-	^ (Function from: (self, self) to: self evaluating: [:each| each first + each second]) name: '+'! !
+!AbelianGroup methodsFor: 'operations' stamp: 'len 10/9/2016 20:58'!
+ anAbelianGroup
+	^ DirectSum components: {self. anAbelianGroup}! !
 
-!AbelianGroup methodsFor: 'accessing' stamp: 'len 5/23/2016 03:51'!
+!AbelianGroup methodsFor: 'accessing' stamp: 'len 10/9/2016 09:09'!
+addition
+	^ ((self, self) to: self evaluating: [:each| each first + each second]) name: '+'! !
+
+!AbelianGroup methodsFor: 'accessing' stamp: 'len 10/9/2016 09:00'!
 additionInverseMap
-	^ (Function from: self to: self evaluating: [:x| x negated]) name: '-id'! !
+	^ (self to: self evaluating: [:x| x negated]) name: '-id'! !
 
 !AbelianGroup methodsFor: 'converting' stamp: 'len 7/9/2016 00:10'!
 asGroup
 	self generators ifNotNil: [:aCollection| ^ Group additive generators: aCollection].
 	^ Group additive elements: self! !
+
+!AbelianGroup methodsFor: 'operations' stamp: 'len 10/9/2016 21:01'!
+coproduct: anAbelianGroup
+	"Answer the categorical product, i.e. direct sum of the receiver and the argument."
+	^ anAbelianGroup isAbelianGroup
+		ifTrue: [self  anAbelianGroup]
+		ifFalse: [super product: anAbelianGroup]! !
 
 !AbelianGroup methodsFor: 'testing' stamp: 'len 12/9/2015 02:26'!
 isAbelian
@@ -12104,6 +12170,13 @@ isTorsionFree
 isTrivial
 	^ self size = 1! !
 
+!AbelianGroup methodsFor: 'operations' stamp: 'len 10/9/2016 21:01'!
+product: anAbelianGroup
+	"Answer the categorical product, i.e. direct sum of the receiver and the argument."
+	^ anAbelianGroup isAbelianGroup
+		ifTrue: [self  anAbelianGroup]
+		ifFalse: [super product: anAbelianGroup]! !
+
 !AbelianGroup methodsFor: 'accessing' stamp: 'len 7/15/2016 04:16'!
 torsion
 	"Answer the torsion subgroup of the receiver, i.e. the set of elements e such that exists non-zero integer m with e*m = 0."
@@ -12112,6 +12185,52 @@ torsion
 !AbelianGroup methodsFor: 'accessing' stamp: 'len 11/23/2015 07:24'!
 zero
 	^ properties at: #zero! !
+
+!DirectSum methodsFor: 'accessing' stamp: 'len 10/9/2016 10:41'!
+arity
+	^ components size! !
+
+!DirectSum methodsFor: 'converting' stamp: 'len 10/9/2016 10:43'!
+asCartesianProduct
+	^ CartesianProduct components: components! !
+
+!DirectSum methodsFor: 'accessing' stamp: 'len 10/9/2016 10:41'!
+at: anInteger
+	^ components at: anInteger! !
+
+!DirectSum methodsFor: 'accessing-private' stamp: 'len 10/9/2016 10:43'!
+components
+	^ components! !
+
+!DirectSum methodsFor: 'accessing-private' stamp: 'len 10/9/2016 10:43'!
+components: anArray
+	components _ anArray as: Tuple! !
+
+!DirectSum methodsFor: 'morphisms' stamp: 'len 10/9/2016 10:44'!
+embedding: i
+	^ (self at: i) to: self evaluating: [:x| components withIndexCollect: [:each :k| k = i ifTrue: [x] ifFalse: [each zero]]]! !
+
+!DirectSum methodsFor: 'testing' stamp: 'len 10/9/2016 10:45'!
+includes: anObject
+	anObject size = components size ifFalse: [^ false].
+	components with: anObject do: [:V :x| (V includes: x) ifFalse: [^ false]].
+	^ true! !
+
+!DirectSum methodsFor: 'testing' stamp: 'len 10/9/2016 10:45'!
+isCoproduct
+	^ true! !
+
+!DirectSum methodsFor: 'printing' stamp: 'len 10/9/2016 10:45'!
+printOn: aStream
+	components do: [:each| aStream print: each] separatedBy: [aStream space; nextPut: Character oplus; space]! !
+
+!DirectSum methodsFor: 'morphisms' stamp: 'len 10/9/2016 10:44'!
+projection: i
+	^ self to: (self at: i) evaluating: [:x| x at: i]! !
+
+!DirectSum methodsFor: 'accessing' stamp: 'len 10/9/2016 10:42'!
+size
+	^ components product: [:each| each size]! !
 
 !Ideal methodsFor: 'operations' stamp: 'len 9/26/2016 16:54'!
 * anElementOrIdeal
@@ -12591,9 +12710,9 @@ isModule
 printOn: aStream
 	aStream nextPutAll: 'a '; print: self scalars; nextPutAll: '-module'! !
 
-!Module methodsFor: 'accessing' stamp: 'len 6/23/2016 01:19'!
+!Module methodsFor: 'accessing' stamp: 'len 10/9/2016 09:01'!
 scalarAction
-	^ Function from: (self, self scalars) to: self evaluating: [:each| each first * each second]! !
+	^ (self, self scalars) to: self evaluating: [:each| each first * each second]! !
 
 !Module methodsFor: 'accessing' stamp: 'len 2/14/2016 18:01'!
 scalars
@@ -12656,10 +12775,12 @@ scalars: aRing
 ’ aModule
 	^ TensorProductSpace left: self right: aModule! !
 
-!FreeModule methodsFor: 'operations' stamp: 'len 10/7/2016 08:59'!
+!FreeModule methodsFor: 'operations' stamp: 'len 10/7/2016 09:28'!
 ˜ aSubmodule
-	self >= aSubmodule ifFalse: [^ self error: 'not a submodule of this module'].
-	^ aSubmodule! !
+	self ambient = aSubmodule ambient ifFalse: [^ self error: 'abients don''t match'].
+	self <= aSubmodule ifTrue: [^ self].
+	aSubmodule <= self ifTrue: [^ aSubmodule].
+	^ self subclassResponsibility! !
 
 !FreeModule methodsFor: 'accessing' stamp: 'len 7/15/2016 04:24'!
 ambient
@@ -12961,9 +13082,9 @@ dimension
 e: anInteger
 	^ components collect: [:each| each e: anInteger]! !
 
-!DirectSumModule methodsFor: 'morphisms' stamp: 'len 5/1/2016 18:54'!
+!DirectSumModule methodsFor: 'morphisms' stamp: 'len 10/9/2016 10:44'!
 embedding: i
-	^ (self at: i) -> self evaluating: [:x| components withIndexCollect: [:each :k| k = i ifTrue: [x] ifFalse: [each zero]]]! !
+	^ (self at: i) to: self evaluating: [:x| components withIndexCollect: [:each :k| k = i ifTrue: [x] ifFalse: [each zero]]]! !
 
 !DirectSumModule methodsFor: 'testing' stamp: 'len 2/12/2016 20:14'!
 includes: anObject
@@ -12979,9 +13100,9 @@ isCoproduct
 printOn: aStream
 	components do: [:each| aStream print: each] separatedBy: [aStream space; nextPut: Character oplus; space]! !
 
-!DirectSumModule methodsFor: 'morphisms' stamp: 'len 5/1/2016 18:55'!
+!DirectSumModule methodsFor: 'morphisms' stamp: 'len 10/9/2016 10:44'!
 projection: i
-	^ self -> (self at: i) evaluating: [:x| x at: i]! !
+	^ self to: (self at: i) evaluating: [:x| x at: i]! !
 
 !DirectSumModule methodsFor: 'accessing' stamp: 'len 11/10/2015 22:56'!
 scalars
@@ -13349,9 +13470,9 @@ newFrom: anObject
 	(self scalars includes: anObject) ifTrue: [^ self scalar: anObject].
 	DomainError signal! !
 
-!LinearMaps methodsFor: 'operations' stamp: 'len 8/25/2016 21:11'!
+!LinearMaps methodsFor: 'operations' stamp: 'len 10/9/2016 08:35'!
 opposite
-	^ self class from: self codomain to: self domain! !
+	^ self class from: self domain to: self codomain! !
 
 !LinearMaps methodsFor: 'printing' stamp: 'len 8/1/2016 09:02'!
 printOn: aStream
@@ -13741,12 +13862,12 @@ over: aField
 	^ (self basis matrix transposed | aLinearSubspace basis matrix transposed) image apply: self space basis vectorAt
 "! !
 
-!Submodule methodsFor: 'operations' stamp: 'len 9/1/2016 08:05'!
-˜ aLinearSubspace
-	aLinearSubspace = self ambient ifTrue: [^ self].
+!Submodule methodsFor: 'operations' stamp: 'len 10/7/2016 09:29'!
+˜ aModule
+	aModule = self ambient ifTrue: [^ self].
 	^ LinearSystem new
 		addAll: self equations;
-		addAll: aLinearSubspace equations;
+		addAll: aModule equations;
 		kernel! !
 
 !Submodule methodsFor: 'operations' stamp: 'len 5/23/2016 04:25'!
@@ -14357,6 +14478,10 @@ space: aFreeModule
 	self = anIdeal ring ifFalse: [^ DomainError signal: 'the ideal doesn''t belong to the receiver ring'].
 	^ QuotientRing by: anIdeal! !
 
+!Ring methodsFor: 'operations' stamp: 'len 10/9/2016 21:11'!
+× aRing
+	^ DirectProductRing components: {self. aRing}! !
+
 !Ring methodsFor: 'operations' stamp: 'len 6/10/2016 05:38'!
 PG: n
 	"Answer the projective space of dimension n. When the receiver is the finite field GF(q) this is PG(n,q)."
@@ -14375,10 +14500,6 @@ asSelfModule
 !Ring methodsFor: 'accessing' stamp: 'len 11/28/2015 03:56'!
 characteristic
 	^ properties at: #characteristic! !
-
-!Ring methodsFor: 'operations' stamp: 'len 8/29/2016 04:16'!
-directProduct: aRing
-	^ DirectProductRing components: {self. aRing}! !
 
 !Ring methodsFor: 'operations' stamp: 'len 12/14/2015 23:24'!
 fractions
@@ -14489,13 +14610,13 @@ isUnit: anElement
 mod: anObject
 	^ self / (self * anObject)! !
 
-!Ring methodsFor: 'accessing' stamp: 'len 5/29/2016 17:36'!
+!Ring methodsFor: 'accessing' stamp: 'len 10/9/2016 09:01'!
 multiplication
-	^ (Function from: (self, self) to: self evaluating: [:each| each first * each second]) name: '*'! !
+	^ ((self, self) to: self evaluating: [:each| each first * each second]) name: '*'! !
 
-!Ring methodsFor: 'accessing' stamp: 'len 5/29/2016 17:37'!
+!Ring methodsFor: 'accessing' stamp: 'len 10/9/2016 09:01'!
 multiplicationInverseMap
-	^ (Function from: self to: self evaluating: [:each| each reciprocal]) name: 'x^-1'! !
+	^ (self to: self evaluating: [:each| each reciprocal]) name: 'x^-1'! !
 
 !Ring methodsFor: 'accessing' stamp: 'len 11/23/2015 02:55'!
 one
@@ -14528,9 +14649,9 @@ polynomialsIn: anIntegerOrCollection ordering: aMonomialOrdering
 	answer indeterminateNames: anIntegerOrCollection.
 	^ answer! !
 
-!Ring methodsFor: 'operations' stamp: 'len 8/29/2016 04:16'!
+!Ring methodsFor: 'operations' stamp: 'len 10/9/2016 21:11'!
 product: aRing
-	^ self directProduct: aRing! !
+	^ self × aRing! !
 
 !Ring methodsFor: 'operations' stamp: 'len 9/26/2016 06:46'!
 spec
@@ -14803,9 +14924,9 @@ one
 printOn: aStream
 	components do: [:each| aStream print: each] separatedBy: [aStream nextPut: Character times]! !
 
-!DirectProductRing methodsFor: 'morphisms' stamp: 'len 8/29/2016 04:11'!
+!DirectProductRing methodsFor: 'morphisms' stamp: 'len 10/9/2016 09:04'!
 projection: i
-	^ Function from: self to: (self at: i) evaluating: [:x| x at: i]! !
+	^ self to: (self at: i) evaluating: [:x| x at: i]! !
 
 !DirectProductRing methodsFor: 'accessing' stamp: 'len 8/29/2016 04:10'!
 size
@@ -14955,9 +15076,9 @@ words: aMonoid over: aRing
 embed: aGroupElement
 	^ FreePolynomial new coefficientAt: aGroupElement put: scalars one! !
 
-!GroupRing methodsFor: 'morphisms' stamp: 'len 8/7/2016 08:42'!
+!GroupRing methodsFor: 'morphisms' stamp: 'len 10/9/2016 09:11'!
 embedding
-	^ Function from: self group to: self evaluating: [:g| self embed: g]! !
+	^ Function from: self group to: self evaluating: [:g| self embed: g] "should be a group homomorphism in Hom(Grp,Ab)?"! !
 
 !GroupRing methodsFor: 'accessing' stamp: 'len 8/7/2016 08:36'!
 group
@@ -16750,9 +16871,9 @@ isProduct
 printOn: aStream
 	components do: [:each| aStream print: each] separatedBy: [aStream nextPut: Character times]! !
 
-!CartesianProduct methodsFor: 'morphisms' stamp: 'len 2/12/2016 04:11'!
+!CartesianProduct methodsFor: 'morphisms' stamp: 'len 10/9/2016 09:09'!
 projection: i
-	^ Function from: self to: (self at: i) evaluating: [:x| x at: i]! !
+	^ self to: (self at: i) evaluating: [:x| x at: i]! !
 
 !CartesianProduct methodsFor: 'accessing' stamp: 'len 2/12/2016 20:09'!
 size
@@ -16932,9 +17053,9 @@ multiplicationTable2
 		table addMorph: column proportionalWidth: p].
 	^ table! !
 
-!Magma methodsFor: 'accessing' stamp: 'len 4/22/2016 17:21'!
+!Magma methodsFor: 'accessing' stamp: 'len 10/9/2016 09:03'!
 operation
-	^ properties at: #operation ifAbsentPut: [(Function from: (self, self) to: self evaluating: [:each| each first * each second]) name: '*']! !
+	^ properties at: #operation ifAbsentPut: [((self, self) to: self evaluating: [:each| each first * each second]) name: '*']! !
 
 !Magma methodsFor: 'accessing-private' stamp: 'len 10/7/2016 07:02'!
 operation: aFunction
@@ -17002,10 +17123,10 @@ printOn: aStream
 	symbols do: [:i| aStream print: (Word x: i)] separatedBy: [aStream nextPut: $,].
 	aStream nextPutAll: '}*'! !
 
-!FreeMonoid methodsFor: 'morphisms' stamp: 'len 2/13/2016 20:23'!
+!FreeMonoid methodsFor: 'morphisms' stamp: 'len 10/9/2016 09:04'!
 projection: anObject
 	"Answer the 'string projection' endomorphism that removes all occurrences of a letter from a string."
-	^ Function from: self to: (self copyWithout: anObject) evaluating: [:w| w copyWithout: anObject]! !
+	^ self to: (self copyWithout: anObject) evaluating: [:w| w copyWithout: anObject]! !
 
 !FreeMonoid methodsFor: 'accessing' stamp: 'len 2/14/2016 20:58'!
 rank
@@ -17050,6 +17171,10 @@ on: aCollection
 	"Answer the right factor group (or right quotient group) of the receiver by the argument. If aGroup is not normal in the receiver, this is just the set of right cosets."
 	^ self collect: [:each| RightCoset on: aSubgroup representative: each]! !
 
+!Group methodsFor: 'operations' stamp: 'len 10/9/2016 21:12'!
+× aGroup
+	^ DirectProductGroup components: {self. aGroup}! !
+
 !Group methodsFor: 'operations' stamp: 'len 2/9/2016 06:34'!
 abelianization
 	"Answer the receiver 'made abelian'."
@@ -17058,9 +17183,9 @@ abelianization
 	answer properties at: #isCommutative put: true.
 	^ answer! !
 
-!Group methodsFor: 'private' stamp: 'len 2/13/2016 00:08'!
+!Group methodsFor: 'private' stamp: 'len 10/9/2016 08:59'!
 additiveInverseMap
-	^ (Function from: self to: self evaluating: [:each| each negated]) name: '-id'! !
+	^ (self to: self evaluating: [:each| each negated]) name: '-id'! !
 
 !Group methodsFor: 'private' stamp: 'len 4/19/2016 03:41'!
 additiveOperation
@@ -17165,9 +17290,9 @@ commutator: aSubgroup
 			elements add: (op value: {op value: {op value: {x.y}. xInv}. yInv})]].
 	^ self copyEmpty elements: elements! !
 
-!Group methodsFor: 'private' stamp: 'len 2/13/2016 00:09'!
+!Group methodsFor: 'private' stamp: 'len 10/9/2016 08:59'!
 compositiveInverseMap
-	^ (Function from: self to: self evaluating: [:each| each inverse]) name: 'inverse'! !
+	^ (self to: self evaluating: [:each| each inverse]) name: 'inverse'! !
 
 !Group methodsFor: 'private' stamp: 'len 4/19/2016 03:41'!
 compositiveOperation
@@ -17221,8 +17346,9 @@ conjugate: x with: y
 conjugation
 	^ GroupAction from: (self, self) to: self evaluating: [:each| self conjugate: each first with: each second]! !
 
-!Group methodsFor: 'operations' stamp: 'len 4/29/2016 08:23'!
+!Group methodsFor: 'operations' stamp: 'len 10/9/2016 21:15'!
 coproduct: aGroup
+	self flag: #fix. "the free product is usually noted *"
 	^ self freeProduct: aGroup! !
 
 !Group methodsFor: 'copying' stamp: 'len 5/1/2016 23:38'!
@@ -17303,10 +17429,6 @@ derivedSeriesDo: aBlock
 	aBlock value: G`.
 	G order = G` order ifTrue: [^ self].
 	G _ G`] repeat! !
-
-!Group methodsFor: 'operations' stamp: 'len 6/3/2016 19:51'!
-directProduct: aGroup
-	^ DirectProductGroup components: {self. aGroup}! !
 
 !Group methodsFor: 'iterating' stamp: 'len 6/30/2016 18:57'!
 do: aBlock
@@ -17484,9 +17606,9 @@ lowerCentralSeriesDo: aBlock
 	G order = G` order ifTrue: [^ self].
 	G _ G`] repeat! !
 
-!Group methodsFor: 'private' stamp: 'len 5/29/2016 17:31'!
+!Group methodsFor: 'private' stamp: 'len 10/9/2016 08:58'!
 multiplicativeInverseMap
-	^ (Function from: self to: self evaluating: [:each| each reciprocal]) name: 'x^-1'! !
+	^ (self to: self evaluating: [:each| each reciprocal]) name: 'x^-1'! !
 
 !Group methodsFor: 'private' stamp: 'len 4/19/2016 03:41'!
 multiplicativeOperation
@@ -17585,9 +17707,9 @@ printOn: aStream
 	generators do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: '; '].
 	aStream nextPut: $>! !
 
-!Group methodsFor: 'operations' stamp: 'len 6/3/2016 19:51'!
+!Group methodsFor: 'operations' stamp: 'len 10/9/2016 21:12'!
 product: aGroup
-	^ self directProduct: aGroup! !
+	^ self × aGroup! !
 
 !Group methodsFor: 'private' stamp: 'len 6/18/2016 04:03'!
 raise: anElement to: anInteger
@@ -17782,25 +17904,25 @@ includes: anObject
 	components with: anObject do: [:G :x| (G includes: x) ifFalse: [^ false]].
 	^ true! !
 
-!DirectProductGroup methodsFor: 'accessing' stamp: 'len 6/11/2016 21:00'!
+!DirectProductGroup methodsFor: 'accessing' stamp: 'len 10/9/2016 09:10'!
 inverseMap
-	^ Function from: self to: self evaluating: [:x| x withIndexCollect: [:xi :i| (self at: i) inverseMap value: xi]]! !
+	^ self to: self evaluating: [:x| x withIndexCollect: [:xi :i| (self at: i) inverseMap value: xi]]! !
 
 !DirectProductGroup methodsFor: 'testing' stamp: 'len 4/22/2016 13:43'!
 isProduct
 	^ true! !
 
-!DirectProductGroup methodsFor: 'accessing' stamp: 'len 6/11/2016 21:00'!
+!DirectProductGroup methodsFor: 'accessing' stamp: 'len 10/9/2016 09:03'!
 operation
-	^ Function from: (self, self) to: self evaluating: [:x| x first withIndexCollect: [:xi :i| (self at: i) operation value: {xi. x second at: i}]]! !
+	^ GroupAction from: (self, self) to: self evaluating: [:x| x first withIndexCollect: [:xi :i| (self at: i) operation value: {xi. x second at: i}]]! !
 
 !DirectProductGroup methodsFor: 'printing' stamp: 'len 6/11/2016 21:02'!
 printOn: aStream
 	components do: [:each| aStream print: each] separatedBy: [aStream nextPut: Character times]! !
 
-!DirectProductGroup methodsFor: 'morphisms' stamp: 'len 2/12/2016 19:51'!
+!DirectProductGroup methodsFor: 'morphisms' stamp: 'len 10/9/2016 09:04'!
 projection: i
-	^ Function from: self to: (self at: i) evaluating: [:x| x at: i]! !
+	^ self to: (self at: i) evaluating: [:x| x at: i]! !
 
 !DirectProductGroup methodsFor: 'accessing' stamp: 'len 2/12/2016 20:10'!
 size
@@ -18035,10 +18157,10 @@ project: anArray
 		left: (anArray at: 1);
 		right: (anArray at: 2)! !
 
-!SemidirectProductGroup methodsFor: 'morphisms' stamp: 'len 4/19/2016 03:43'!
+!SemidirectProductGroup methodsFor: 'morphisms' stamp: 'len 10/9/2016 09:08'!
 projection
 	"Answer the projection from the cartesian product of two groups to their semidirect product."
-	^ Function from: (left, right) to: self evaluating: [:each| self project: each]! !
+	^ (left, right) to: self evaluating: [:each| self project: each]! !
 
 !SemidirectProductGroup methodsFor: 'accessing' stamp: 'len 2/12/2016 06:16'!
 right
@@ -18310,38 +18432,6 @@ printOn: aStream
 !SymmetricGroup methodsFor: 'accessing' stamp: 'len 2/16/2016 05:50'!
 size
 	^ self degree factorial! !
-
-!UnitsGroup methodsFor: 'iterating' stamp: 'len 5/12/2016 23:17'!
-do: aBlock
-	ring do: [:each| (self includes: each) ifTrue: [aBlock value: each]]! !
-
-!UnitsGroup methodsFor: 'accessing' stamp: 'len 4/10/2016 06:17'!
-identity
-	^ ring one! !
-
-!UnitsGroup methodsFor: 'testing' stamp: 'len 5/12/2016 23:05'!
-includes: anElement
-	^ ring isUnit: anElement! !
-
-!UnitsGroup methodsFor: 'accessing' stamp: 'len 4/22/2016 17:29'!
-inverseMap
-	^ self multiplicativeInverseMap! !
-
-!UnitsGroup methodsFor: 'accessing' stamp: 'len 4/22/2016 17:29'!
-operation
-	^ self multiplicativeOperation! !
-
-!UnitsGroup methodsFor: 'printing' stamp: 'len 9/5/2016 17:32'!
-printOn: aStream
-	aStream print: ring; nextPutAll: Character times asString super ! !
-
-!UnitsGroup methodsFor: 'accessing-private' stamp: 'len 5/12/2016 23:14'!
-ring: aRing
-	ring _ aRing! !
-
-!UnitsGroup class methodsFor: 'instance creation' stamp: 'len 5/12/2016 23:09'!
-on: aRing
-	^ self new ring: aRing! !
 
 !LinearGroup methodsFor: 'accessing' stamp: 'len 5/6/2016 02:47'!
 action
@@ -19125,6 +19215,38 @@ shortName
 shortName
 	^ 'PSL'! !
 
+!UnitsGroup methodsFor: 'iterating' stamp: 'len 5/12/2016 23:17'!
+do: aBlock
+	ring do: [:each| (self includes: each) ifTrue: [aBlock value: each]]! !
+
+!UnitsGroup methodsFor: 'accessing' stamp: 'len 4/10/2016 06:17'!
+identity
+	^ ring one! !
+
+!UnitsGroup methodsFor: 'testing' stamp: 'len 5/12/2016 23:05'!
+includes: anElement
+	^ ring isUnit: anElement! !
+
+!UnitsGroup methodsFor: 'accessing' stamp: 'len 4/22/2016 17:29'!
+inverseMap
+	^ self multiplicativeInverseMap! !
+
+!UnitsGroup methodsFor: 'accessing' stamp: 'len 4/22/2016 17:29'!
+operation
+	^ self multiplicativeOperation! !
+
+!UnitsGroup methodsFor: 'printing' stamp: 'len 9/5/2016 17:32'!
+printOn: aStream
+	aStream print: ring; nextPutAll: Character times asString super ! !
+
+!UnitsGroup methodsFor: 'accessing-private' stamp: 'len 5/12/2016 23:14'!
+ring: aRing
+	ring _ aRing! !
+
+!UnitsGroup class methodsFor: 'instance creation' stamp: 'len 5/12/2016 23:09'!
+on: aRing
+	^ self new ring: aRing! !
+
 !CoxeterGroup methodsFor: 'as yet unclassified' stamp: 'len 4/18/2016 01:25'!
 diagram
 	^ diagram! !
@@ -19357,6 +19479,34 @@ relation: anEquivalenceRelation
 !QuotientSet class methodsFor: 'instance creation' stamp: 'len 4/25/2016 21:02'!
 by: anEquivalenceRelation
 	^ self new relation: anEquivalenceRelation! !
+
+!Category methodsFor: 'as yet unclassified' stamp: 'len 10/9/2016 08:48'!
+isAbelian
+	^ false! !
+
+!AbelianGroups methodsFor: 'as yet unclassified' stamp: 'len 10/9/2016 08:48'!
+isAbelian
+	^ true! !
+
+!AbelianGroups methodsFor: 'as yet unclassified' stamp: 'len 10/9/2016 08:49'!
+printOn: aStream
+	aStream nextPutAll: 'Ab'! !
+
+!Modules methodsFor: 'as yet unclassified' stamp: 'len 10/9/2016 08:46'!
+printOn: aStream
+	aStream print: scalars; nextPutAll: (scalars isField ifTrue: ['-Vect'] ifFalse: ['-Mod'])! !
+
+!Modules methodsFor: 'as yet unclassified' stamp: 'len 10/9/2016 08:43'!
+scalars
+	^ scalars! !
+
+!Modules methodsFor: 'as yet unclassified' stamp: 'len 10/9/2016 08:44'!
+scalars: aCommutativeRing
+	scalars _ aCommutativeRing! !
+
+!Modules class methodsFor: 'as yet unclassified' stamp: 'len 10/9/2016 08:47'!
+over: aCommutativeRing
+	^ self new scalars: aCommutativeRing! !
 
 !ComplexBox methodsFor: 'accessing' stamp: 'len 1/16/2016 05:56'!
 area
@@ -20380,13 +20530,13 @@ computeMinimumDistance
 dimension
 	^ self rank! !
 
-!LinearCode methodsFor: 'accessing' stamp: 'len 7/15/2016 18:27'!
+!LinearCode methodsFor: 'accessing' stamp: 'len 10/9/2016 09:06'!
 distance
 	"Answer the Hamming distance function."
 	| k V |
 	k _ self dimension.
 	V _ self ambient.
-	^ Function from: (V, V) to: ZZ evaluating: [:xy| | x y | x _ V coordinatesOf: xy first. y _ V coordinatesOf: xy second. (1 to: k) count: [:i| (x at: i) ~= (y at: i)]]! !
+	^ (V, V) to: ZZ evaluating: [:xy| | x y | x _ V coordinatesOf: xy first. y _ V coordinatesOf: xy second. (1 to: k) count: [:i| (x at: i) ~= (y at: i)]]! !
 
 !LinearCode methodsFor: 'graphs' stamp: 'len 5/25/2016 03:46'!
 distanceGraph: d
@@ -23757,10 +23907,6 @@ isZero
 	^ (self value: self domain one) = self codomain zero
 "	^ self codomain isTrivial"! !
 
-!RingHomomorphism methodsFor: 'as yet unclassified' stamp: 'len 10/5/2016 10:30'!
-pushforward: anIdeal
-	^ anIdeal apply: self! !
-
 !RingHomomorphism methodsFor: 'as yet unclassified' stamp: 'len 10/3/2016 09:01'!
 spec
 	"This is the Spec functor. Answer the scheme homomorphism induced by the receiver, i.e. given a ring homomorphism f:R->S, Spec(f) is a scheme homomorphism Spec(S)->Spec(R)."
@@ -25813,6 +25959,10 @@ value: anObject
 on: aDomain
 	^ self new domain: aDomain! !
 
+!Functor methodsFor: 'as yet unclassified' stamp: 'len 10/9/2016 08:50'!
+arrowPrintOn: aStream
+	aStream print: self domain; nextPutAll: ' => '; print: self codomain! !
+
 !SpectrumMorphism methodsFor: 'as yet unclassified' stamp: 'len 10/4/2016 09:43'!
 codomain
 	^ oposite domain spec! !
@@ -26449,6 +26599,13 @@ degree
 !FreePolynomial methodsFor: 'arithmetic' stamp: 'len 3/2/2016 05:35'!
 squared
 	^ self * self! !
+
+!Divisor methodsFor: 'as yet unclassified' stamp: 'len 10/8/2016 19:49'!
+degree
+	| answer |
+	answer _ 0.
+	self coefficients keysDo: [:each| answer _ answer + each].
+	^ answer! !
 
 !SimplicialChain methodsFor: 'operations' stamp: 'len 3/5/2016 04:52'!
 boundary
@@ -27201,17 +27358,18 @@ x: i to: k
 	k = 0 ifTrue: [^ self empty].
 	^ self syllables: {i -> k}! !
 
+!GroupPresentation methodsFor: 'morphisms' stamp: 'len 10/9/2016 21:14'!
+* aPresentation
+	"Answer the free product of the receiver with the argument."
+	^ self class generators: (generators, aPresentation generators) relators: (relators, aPresentation relators)! !
+
+!GroupPresentation methodsFor: 'morphisms' stamp: 'len 10/9/2016 21:13'!
+× aPresentation
+	^ self class generators: (generators, aPresentation generators) relators: (relators, aPresentation relators, (self commutatorWith: aPresentation))! !
+
 !GroupPresentation methodsFor: 'accessing' stamp: 'len 2/12/2016 07:49'!
 deficiency
 	^ generators size - relators size! !
-
-!GroupPresentation methodsFor: 'morphisms' stamp: 'len 2/12/2016 07:53'!
-directProduct: aPresentation
-	^ self class generators: (generators, aPresentation generators) relators: (relators, aPresentation relators, (self commutatorWith: aPresentation))! !
-
-!GroupPresentation methodsFor: 'morphisms' stamp: 'len 2/12/2016 07:51'!
-freeProduct: aPresentation
-	^ self class generators: (generators, aPresentation generators) relators: (relators, aPresentation relators)! !
 
 !GroupPresentation methodsFor: 'accessing' stamp: 'len 11/27/2015 21:34'!
 generators
@@ -27469,219 +27627,6 @@ traceInverse: aPoint
 !SchreierTree class methodsFor: 'instance creation' stamp: 'len 6/24/2016 03:07'!
 root: aPoint generators: anArray action: aGroupAction
 	^ self new root: aPoint generators: anArray action: aGroupAction! !
-
-!LinearEquation methodsFor: 'accessing' stamp: 'len 11/20/2015 06:16'!
-, anObject
-	"Answer the LinearSystem with the receiver and the argument."
-
-	^ LinearSystem new add: self; , anObject! !
-
-!LinearEquation methodsFor: 'accessing' stamp: 'len 5/23/2016 19:29'!
-ambient
-	"Answer the ambient vector space (where solutions live)."
-	^ form domain ambient! !
-
-!LinearEquation methodsFor: 'converting' stamp: 'len 6/3/2016 02:37'!
-asPolynomialEquation
-	^ form asPolynomial eq: value! !
-
-!LinearEquation methodsFor: 'converting' stamp: 'len 2/21/2016 06:50'!
-asTuple
-	"Answer a Tuple with the coefficients of the receiver."
-	^ form asTuple, value! !
-
-!LinearEquation methodsFor: 'accessing' stamp: 'len 11/20/2015 06:09'!
-form
-	"Answer the left side of the receiver (the linear form)."
-	^ form! !
-
-!LinearEquation methodsFor: 'accessing-private' stamp: 'len 8/20/97 21:01'!
-form: aLinearForm
-	form _ aLinearForm! !
-
-!LinearEquation methodsFor: 'operations' stamp: 'len 11/19/2015 19:39'!
-homogeneous
-	"Answer the homogeneous equation associated to the receiver."
-
-	^ self class form: self form value: self value zero! !
-
-!LinearEquation methodsFor: 'testing' stamp: 'len 11/19/2015 18:50'!
-isHomogeneous
-	"Answer true if the receiver is an homogeneous equation."
-
-	^ self value isZero! !
-
-!LinearEquation methodsFor: 'testing' stamp: 'len 11/24/2015 06:13'!
-isSolution: aVector
-	"Answer true if the argument is a solution of the receiver."
-
-	^ (self form value: aVector) = self value! !
-
-!LinearEquation methodsFor: 'printing' stamp: 'len 8/20/97 21:22'!
-printOn: aStream
-	"Print a representation of the receiver on the stream aStream."
-
-	aStream print: self form; nextPutAll: ' = '; print: self value! !
-
-!LinearEquation methodsFor: 'operations' stamp: 'len 11/20/2015 06:15'!
-solutions
-	^ LinearSystem new add: self; solutions! !
-
-!LinearEquation methodsFor: 'accessing' stamp: 'len 8/20/97 21:20'!
-value
-	"Answer the right side of the receiver (the independent term)."
-
-	^ value! !
-
-!LinearEquation methodsFor: 'accessing-private' stamp: 'len 8/20/97 21:01'!
-value: anObject
-	value _ anObject! !
-
-!LinearEquation class methodsFor: 'instance creation' stamp: 'len 8/20/97 21:02'!
-form: aLinearForm value: anObject
-	"Answer a new instance of the receiver representing
-	the equation 'aLinearForm = anObject'."
-
-	^ self new form: aLinearForm; value: anObject! !
-
-!LinearSystem methodsFor: 'accessing' stamp: 'len 11/25/97 01:50'!
-, anObject
-	"Answer a copy of the receiver concatenated with the argument."
-
-	| answer |
-	answer _ self copy.
-	anObject class == self class
-		ifTrue: [answer addAll: anObject]
-		ifFalse: [answer add: anObject].
-	^ answer! !
-
-!LinearSystem methodsFor: 'accessing' stamp: 'len 11/20/2015 06:12'!
-add: aLinearEquation
-	^ equations add: aLinearEquation! !
-
-!LinearSystem methodsFor: 'accessing' stamp: 'len 11/20/2015 06:12'!
-addAll: aCollection
-	^ equations addAll: aCollection! !
-
-!LinearSystem methodsFor: 'accessing' stamp: 'len 5/23/2016 19:29'!
-ambient
-	"Answer the ambient vector space (where solutions live)."
-	^ equations first ambient! !
-
-!LinearSystem methodsFor: 'converting' stamp: 'len 6/3/2016 02:59'!
-asPolynomialSystem
-	| answer |
-	answer _ PolynomialSystem new.
-	equations do: [:each| answer add: each asPolynomialEquation].
-	^ answer! !
-
-!LinearSystem methodsFor: 'copying' stamp: 'len 11/20/2015 06:13'!
-copy
-	^ self class new addAll: equations; yourself! !
-
-!LinearSystem methodsFor: 'iterating' stamp: 'len 11/20/2015 06:13'!
-do: aBlock 
-	equations do: aBlock! !
-
-!LinearSystem methodsFor: 'operations' stamp: 'len 5/13/2016 07:43'!
-homogeneous
-	"Answer the homogeneous system associated to the receiver."
-
-	| answer |
-	answer _ self class new.
-	self do: [:each| answer add: each homogeneous].
-	^ answer! !
-
-!LinearSystem methodsFor: 'initialization' stamp: 'len 5/13/2016 07:37'!
-initialize
-	equations _ OrderedCollection new! !
-
-!LinearSystem methodsFor: 'testing' stamp: 'len 8/20/97 21:35'!
-isHomogeneous
-	"Answer true if the receiver is an homogeneous system."
-
-	self do: [ :each | each isHomogeneous ifFalse: [^ false]].
-	^ true! !
-
-!LinearSystem methodsFor: 'testing' stamp: 'len 12/28/2015 03:03'!
-isInconsistent
-	^ self particular isNil! !
-
-!LinearSystem methodsFor: 'testing' stamp: 'len 11/8/2015 03:55'!
-isSolution: aVector
-	"Answer true if the argument is a solution of the receiver."
-
-	self do: [ :each | (each isSolution: aVector) ifFalse: [^ false]].
-	^ true! !
-
-!LinearSystem methodsFor: 'operations' stamp: 'len 2/29/2016 01:06'!
-kernel
-	^ self kernelBasis span! !
-
-!LinearSystem methodsFor: 'operations' stamp: 'len 5/23/2016 04:26'!
-kernel2
-	^ self matrix2 kernel apply: self ambient basis vectorAt! !
-
-!LinearSystem methodsFor: 'operations' stamp: 'len 11/8/2015 03:55'!
-kernelBasis
-	^ self solver kernelBasis! !
-
-!LinearSystem methodsFor: 'operations' stamp: 'len 7/16/2016 03:47'!
-matrix
-	| answer |
-	answer _ (self ambient scalars ** (self size @ self ambient dimension)) new.
-	self do: [:each| answer addRow: each asTuple].
-	^ answer! !
-
-!LinearSystem methodsFor: 'operations' stamp: 'len 5/23/2016 04:27'!
-matrix2
-	| answer |
-	answer _ (self ambient scalars ** (self size @ self ambient dimension)) new.
-	self do: [:each| answer addRow: each form asTuple].
-	^ answer! !
-
-!LinearSystem methodsFor: 'operations' stamp: 'len 2/29/2016 02:49'!
-particular
-	"Answer a particular solution of the receiver, and nil if the system is not solvable."
-	^ self solver particular! !
-
-!LinearSystem methodsFor: 'printing' stamp: 'len 6/3/2016 02:48'!
-printOn: aStream 
-	aStream nextPut: ${.
-	equations do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: '; '].
-	aStream nextPut: $}! !
-
-!LinearSystem methodsFor: 'printing' stamp: 'len 11/8/2015 04:51'!
-printTeXOn: aStream
-	self size = 1 ifTrue: [self first printOn: aStream. ^ self].
-
-	aStream nextPutAll: '\eqalign{'; cr.
-	self do: [ :each |
-		aStream
-			print: each form;
-			nextPutAll: ' &= ';
-			print: each value; cr].
-	aStream nextPut: $}; cr! !
-
-!LinearSystem methodsFor: 'accessing' stamp: 'len 11/20/2015 06:13'!
-size
-	^ equations size! !
-
-!LinearSystem methodsFor: 'operations' stamp: 'len 8/30/2016 05:48'!
-solutions
-	"Answer the manifold of solution of the receiver,
-	or nil if the system has no solutions."
-
-	^ self particular isNil
-		ifFalse: [AffineLinearSpace representative: self particular direction: self kernel]! !
-
-!LinearSystem methodsFor: 'private' stamp: 'len 11/8/2015 03:58'!
-solver
-	^ solver ifNil: [solver _ LinearSystemSolver system: self]! !
-
-!LinearSystem class methodsFor: 'instance creation' stamp: 'len 10/17/97 03:44'!
-new
-	^ super new initialize! !
 
 !Matrix methodsFor: 'arithmetic' stamp: 'len 3/28/2016 01:23'!
 * anObject
@@ -28664,6 +28609,219 @@ coefficients: aSparseTuple
 parent: aMatrixSpace
 	super parent: aMatrixSpace.
 	coefficients isNil ifTrue: [coefficients _ SparseTuple zero: aMatrixSpace scalars zero]! !
+
+!LinearEquation methodsFor: 'accessing' stamp: 'len 11/20/2015 06:16'!
+, anObject
+	"Answer the LinearSystem with the receiver and the argument."
+
+	^ LinearSystem new add: self; , anObject! !
+
+!LinearEquation methodsFor: 'accessing' stamp: 'len 5/23/2016 19:29'!
+ambient
+	"Answer the ambient vector space (where solutions live)."
+	^ form domain ambient! !
+
+!LinearEquation methodsFor: 'converting' stamp: 'len 6/3/2016 02:37'!
+asPolynomialEquation
+	^ form asPolynomial eq: value! !
+
+!LinearEquation methodsFor: 'converting' stamp: 'len 2/21/2016 06:50'!
+asTuple
+	"Answer a Tuple with the coefficients of the receiver."
+	^ form asTuple, value! !
+
+!LinearEquation methodsFor: 'accessing' stamp: 'len 11/20/2015 06:09'!
+form
+	"Answer the left side of the receiver (the linear form)."
+	^ form! !
+
+!LinearEquation methodsFor: 'accessing-private' stamp: 'len 8/20/97 21:01'!
+form: aLinearForm
+	form _ aLinearForm! !
+
+!LinearEquation methodsFor: 'operations' stamp: 'len 11/19/2015 19:39'!
+homogeneous
+	"Answer the homogeneous equation associated to the receiver."
+
+	^ self class form: self form value: self value zero! !
+
+!LinearEquation methodsFor: 'testing' stamp: 'len 11/19/2015 18:50'!
+isHomogeneous
+	"Answer true if the receiver is an homogeneous equation."
+
+	^ self value isZero! !
+
+!LinearEquation methodsFor: 'testing' stamp: 'len 11/24/2015 06:13'!
+isSolution: aVector
+	"Answer true if the argument is a solution of the receiver."
+
+	^ (self form value: aVector) = self value! !
+
+!LinearEquation methodsFor: 'printing' stamp: 'len 8/20/97 21:22'!
+printOn: aStream
+	"Print a representation of the receiver on the stream aStream."
+
+	aStream print: self form; nextPutAll: ' = '; print: self value! !
+
+!LinearEquation methodsFor: 'operations' stamp: 'len 11/20/2015 06:15'!
+solutions
+	^ LinearSystem new add: self; solutions! !
+
+!LinearEquation methodsFor: 'accessing' stamp: 'len 8/20/97 21:20'!
+value
+	"Answer the right side of the receiver (the independent term)."
+
+	^ value! !
+
+!LinearEquation methodsFor: 'accessing-private' stamp: 'len 8/20/97 21:01'!
+value: anObject
+	value _ anObject! !
+
+!LinearEquation class methodsFor: 'instance creation' stamp: 'len 8/20/97 21:02'!
+form: aLinearForm value: anObject
+	"Answer a new instance of the receiver representing
+	the equation 'aLinearForm = anObject'."
+
+	^ self new form: aLinearForm; value: anObject! !
+
+!LinearSystem methodsFor: 'accessing' stamp: 'len 11/25/97 01:50'!
+, anObject
+	"Answer a copy of the receiver concatenated with the argument."
+
+	| answer |
+	answer _ self copy.
+	anObject class == self class
+		ifTrue: [answer addAll: anObject]
+		ifFalse: [answer add: anObject].
+	^ answer! !
+
+!LinearSystem methodsFor: 'accessing' stamp: 'len 11/20/2015 06:12'!
+add: aLinearEquation
+	^ equations add: aLinearEquation! !
+
+!LinearSystem methodsFor: 'accessing' stamp: 'len 11/20/2015 06:12'!
+addAll: aCollection
+	^ equations addAll: aCollection! !
+
+!LinearSystem methodsFor: 'accessing' stamp: 'len 5/23/2016 19:29'!
+ambient
+	"Answer the ambient vector space (where solutions live)."
+	^ equations first ambient! !
+
+!LinearSystem methodsFor: 'converting' stamp: 'len 6/3/2016 02:59'!
+asPolynomialSystem
+	| answer |
+	answer _ PolynomialSystem new.
+	equations do: [:each| answer add: each asPolynomialEquation].
+	^ answer! !
+
+!LinearSystem methodsFor: 'copying' stamp: 'len 11/20/2015 06:13'!
+copy
+	^ self class new addAll: equations; yourself! !
+
+!LinearSystem methodsFor: 'iterating' stamp: 'len 11/20/2015 06:13'!
+do: aBlock 
+	equations do: aBlock! !
+
+!LinearSystem methodsFor: 'operations' stamp: 'len 5/13/2016 07:43'!
+homogeneous
+	"Answer the homogeneous system associated to the receiver."
+
+	| answer |
+	answer _ self class new.
+	self do: [:each| answer add: each homogeneous].
+	^ answer! !
+
+!LinearSystem methodsFor: 'initialization' stamp: 'len 5/13/2016 07:37'!
+initialize
+	equations _ OrderedCollection new! !
+
+!LinearSystem methodsFor: 'testing' stamp: 'len 8/20/97 21:35'!
+isHomogeneous
+	"Answer true if the receiver is an homogeneous system."
+
+	self do: [ :each | each isHomogeneous ifFalse: [^ false]].
+	^ true! !
+
+!LinearSystem methodsFor: 'testing' stamp: 'len 12/28/2015 03:03'!
+isInconsistent
+	^ self particular isNil! !
+
+!LinearSystem methodsFor: 'testing' stamp: 'len 11/8/2015 03:55'!
+isSolution: aVector
+	"Answer true if the argument is a solution of the receiver."
+
+	self do: [ :each | (each isSolution: aVector) ifFalse: [^ false]].
+	^ true! !
+
+!LinearSystem methodsFor: 'operations' stamp: 'len 2/29/2016 01:06'!
+kernel
+	^ self kernelBasis span! !
+
+!LinearSystem methodsFor: 'operations' stamp: 'len 5/23/2016 04:26'!
+kernel2
+	^ self matrix2 kernel apply: self ambient basis vectorAt! !
+
+!LinearSystem methodsFor: 'operations' stamp: 'len 11/8/2015 03:55'!
+kernelBasis
+	^ self solver kernelBasis! !
+
+!LinearSystem methodsFor: 'operations' stamp: 'len 7/16/2016 03:47'!
+matrix
+	| answer |
+	answer _ (self ambient scalars ** (self size @ self ambient dimension)) new.
+	self do: [:each| answer addRow: each asTuple].
+	^ answer! !
+
+!LinearSystem methodsFor: 'operations' stamp: 'len 5/23/2016 04:27'!
+matrix2
+	| answer |
+	answer _ (self ambient scalars ** (self size @ self ambient dimension)) new.
+	self do: [:each| answer addRow: each form asTuple].
+	^ answer! !
+
+!LinearSystem methodsFor: 'operations' stamp: 'len 2/29/2016 02:49'!
+particular
+	"Answer a particular solution of the receiver, and nil if the system is not solvable."
+	^ self solver particular! !
+
+!LinearSystem methodsFor: 'printing' stamp: 'len 6/3/2016 02:48'!
+printOn: aStream 
+	aStream nextPut: ${.
+	equations do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: '; '].
+	aStream nextPut: $}! !
+
+!LinearSystem methodsFor: 'printing' stamp: 'len 11/8/2015 04:51'!
+printTeXOn: aStream
+	self size = 1 ifTrue: [self first printOn: aStream. ^ self].
+
+	aStream nextPutAll: '\eqalign{'; cr.
+	self do: [ :each |
+		aStream
+			print: each form;
+			nextPutAll: ' &= ';
+			print: each value; cr].
+	aStream nextPut: $}; cr! !
+
+!LinearSystem methodsFor: 'accessing' stamp: 'len 11/20/2015 06:13'!
+size
+	^ equations size! !
+
+!LinearSystem methodsFor: 'operations' stamp: 'len 8/30/2016 05:48'!
+solutions
+	"Answer the manifold of solution of the receiver,
+	or nil if the system has no solutions."
+
+	^ self particular isNil
+		ifFalse: [AffineLinearSpace representative: self particular direction: self kernel]! !
+
+!LinearSystem methodsFor: 'private' stamp: 'len 11/8/2015 03:58'!
+solver
+	^ solver ifNil: [solver _ LinearSystemSolver system: self]! !
+
+!LinearSystem class methodsFor: 'instance creation' stamp: 'len 10/17/97 03:44'!
+new
+	^ super new initialize! !
 
 !GramSchmidt methodsFor: 'accessing-private' stamp: 'len 12/13/2015 00:31'!
 basis: aLinearBasis

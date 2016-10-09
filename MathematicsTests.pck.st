@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 7 October 2016 at 8:34:50.439992 am'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 9 October 2016 at 9:17:04.680174 pm'!
 'Description Please enter a description for this package'!
-!provides: 'MathematicsTests' 1 9!
+!provides: 'MathematicsTests' 1 10!
 !classDefinition: #AffineGeometryTest category: #MathematicsTests!
 TestCase subclass: #AffineGeometryTest
 	instanceVariableNames: ''
@@ -1398,12 +1398,12 @@ testD3
 	self assert: D commutator = A.
 	self assert: D center isTrivial! !
 
-!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 8/30/2016 19:34'!
+!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 10/9/2016 21:13'!
 testDirectProduct
 	| S A G g |
 	S _ self smallGroupAtRandom.
 	A _ self smallGroupAtRandom.
-	G _ S directProduct: A.
+	G _ S × A.
 	g _ G atRandom.
 	self assert: (G operation value: {g. G inverseMap value: g}) = G identity! !
 
