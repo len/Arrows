@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 10 October 2016 at 9:37:34.550146 am'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 10 October 2016 at 10:00:43.218726 am'!
 'Description Please enter a description for this package'!
-!provides: 'MathematicsTests' 1 11!
+!provides: 'MathematicsTests' 1 12!
 !classDefinition: #AbelianGroupTest category: #MathematicsTests!
 TestCase subclass: #AbelianGroupTest
 	instanceVariableNames: ''
@@ -3823,12 +3823,28 @@ testProjectiveSpaceBasic
 	self assert: p3 = p0.
 	self assert: (p0 + p1) dimension = 1! !
 
-!RingTest methodsFor: 'as yet unclassified' stamp: 'len 10/6/2016 20:11'!
+!RingTest methodsFor: 'as yet unclassified' stamp: 'len 10/10/2016 09:57'!
 newQuotientRing
 	| R I |
+	2 atRandom = 1 ifTrue: [^ ZZ mod: (2 to: 10) atRandom].
 	R _ ZZ polynomials.
 	I _ R * (R atRandomBits: 100 maxDegree: 5).
 	^ R / I! !
+
+!RingTest methodsFor: 'as yet unclassified' stamp: 'len 10/10/2016 09:56'!
+newRing
+	2 atRandom = 1 ifTrue: [^ {ZZ. QQ. ZZ mod: (2 to: 10) atRandom} atRandom polynomialsIn: (1 to: 3) atRandom].
+	2 atRandom = 1 ifTrue: [^ self newQuotientRing].
+	^ ZZ! !
+
+!RingTest methodsFor: 'as yet unclassified' stamp: 'len 10/10/2016 09:58'!
+testDirectProduct
+	| R S P |
+	R _ self newRing.
+	S _ self newRing.
+	P _ R × S.
+	self testRing: P.
+	self testRingHomomorphism: (P projection: 2 atRandom)! !
 
 !RingTest methodsFor: 'as yet unclassified' stamp: 'len 10/6/2016 20:34'!
 testMatrixRing
