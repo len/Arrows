@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 9 October 2016 at 9:17:01.059231 pm'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 10 October 2016 at 9:04:01.082509 am'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 207!
+!provides: 'Mathematics' 1 208!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
 	instanceVariableNames: 'numerator shift'
@@ -1951,6 +1951,36 @@ Morphism subclass: #Function
 Function class
 	instanceVariableNames: ''!
 
+!classDefinition: #AbelianGroupHomomorphism category: #'Mathematics-Kernel-Support'!
+Function subclass: #AbelianGroupHomomorphism
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Kernel-Support'!
+!classDefinition: 'AbelianGroupHomomorphism class' category: #'Mathematics-Kernel-Support'!
+AbelianGroupHomomorphism class
+	instanceVariableNames: ''!
+
+!classDefinition: #RingHomomorphism category: #'Mathematics-Rings'!
+AbelianGroupHomomorphism subclass: #RingHomomorphism
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Rings'!
+!classDefinition: 'RingHomomorphism class' category: #'Mathematics-Rings'!
+RingHomomorphism class
+	instanceVariableNames: ''!
+
+!classDefinition: #FieldHomomorphism category: #'Mathematics-Fields'!
+RingHomomorphism subclass: #FieldHomomorphism
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Fields'!
+!classDefinition: 'FieldHomomorphism class' category: #'Mathematics-Fields'!
+FieldHomomorphism class
+	instanceVariableNames: ''!
+
 !classDefinition: #GroupAction category: #'Mathematics-Groups'!
 Function subclass: #GroupAction
 	instanceVariableNames: ''
@@ -2019,26 +2049,6 @@ Permutation subclass: #StandardPermutation
 	category: 'Mathematics-Groups-Permutations'!
 !classDefinition: 'StandardPermutation class' category: #'Mathematics-Groups-Permutations'!
 StandardPermutation class
-	instanceVariableNames: ''!
-
-!classDefinition: #RingHomomorphism category: #'Mathematics-Rings'!
-Function subclass: #RingHomomorphism
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Rings'!
-!classDefinition: 'RingHomomorphism class' category: #'Mathematics-Rings'!
-RingHomomorphism class
-	instanceVariableNames: ''!
-
-!classDefinition: #FieldHomomorphism category: #'Mathematics-Fields'!
-RingHomomorphism subclass: #FieldHomomorphism
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Fields'!
-!classDefinition: 'FieldHomomorphism class' category: #'Mathematics-Fields'!
-FieldHomomorphism class
 	instanceVariableNames: ''!
 
 !classDefinition: #LinearMap category: #'Mathematics-Modules-Support'!
@@ -3762,7 +3772,7 @@ Examples:
 
 Domains, as categorical objects, can have subobjects. Groups have subgroups, vector spaces have subspaces, rings have subrings and ideals, etc. In general, there is an #ambient object, and there is a protocol for inclusion testing: #<, #<=, #>=, #>.
 
-Some domains, such as field extensions, localizations, the field of fractions of a ring, etc have associated canonical embeddings, and should implement #embed: and #embedding. Other domains, such as quotient objects, have canonical projections and should implement #project: and #projection. N-ary products and coproducts should implement #projection: for the i-th projection map.
+Some domains, such as field extensions, localizations, the field of fractions of a ring, etc have associated canonical embeddings, and should implement #embed: and #embedding. Other domains, such as quotient objects, have canonical projections and should implement #project: and #projection. N-ary products and coproducts should implement #projection: for the i-th projection map (and coproducts also implement #embedding: for the i-th coprojection).
 
 Examples:
 	(ZZ × QQ) projection: 2.
@@ -12177,6 +12187,10 @@ product: anAbelianGroup
 		ifTrue: [self  anAbelianGroup]
 		ifFalse: [super product: anAbelianGroup]! !
 
+!AbelianGroup methodsFor: 'morphisms' stamp: 'len 10/10/2016 08:49'!
+to: anAbelianGroup evaluating: aBlock
+	^ AbelianGroupHomomorphism from: self to: anAbelianGroup evaluating: aBlock! !
+
 !AbelianGroup methodsFor: 'accessing' stamp: 'len 7/15/2016 04:16'!
 torsion
 	"Answer the torsion subgroup of the receiver, i.e. the set of elements e such that exists non-zero integer m with e*m = 0."
@@ -12206,9 +12220,9 @@ components
 components: anArray
 	components _ anArray as: Tuple! !
 
-!DirectSum methodsFor: 'morphisms' stamp: 'len 10/9/2016 10:44'!
+!DirectSum methodsFor: 'morphisms' stamp: 'len 10/10/2016 08:39'!
 embedding: i
-	^ (self at: i) to: self evaluating: [:x| components withIndexCollect: [:each :k| k = i ifTrue: [x] ifFalse: [each zero]]]! !
+	^ ((self at: i) to: self evaluating: [:x| components withIndexCollect: [:each :k| k = i ifTrue: [x] ifFalse: [each zero]]]) name: 'i', i printText sub! !
 
 !DirectSum methodsFor: 'testing' stamp: 'len 10/9/2016 10:45'!
 includes: anObject
@@ -12220,17 +12234,21 @@ includes: anObject
 isCoproduct
 	^ true! !
 
-!DirectSum methodsFor: 'printing' stamp: 'len 10/9/2016 10:45'!
+!DirectSum methodsFor: 'printing' stamp: 'len 10/10/2016 08:44'!
 printOn: aStream
-	components do: [:each| aStream print: each] separatedBy: [aStream space; nextPut: Character oplus; space]! !
+	components do: [:each| aStream print: each] separatedBy: [aStream nextPut: Character oplus]! !
 
-!DirectSum methodsFor: 'morphisms' stamp: 'len 10/9/2016 10:44'!
+!DirectSum methodsFor: 'morphisms' stamp: 'len 10/10/2016 08:38'!
 projection: i
-	^ self to: (self at: i) evaluating: [:x| x at: i]! !
+	^ (self to: (self at: i) evaluating: [:x| x at: i]) name: Character pi asText, i printText sub! !
 
 !DirectSum methodsFor: 'accessing' stamp: 'len 10/9/2016 10:42'!
 size
 	^ components product: [:each| each size]! !
+
+!DirectSum class methodsFor: 'instance creation' stamp: 'len 10/10/2016 08:40'!
+components: anArray
+	^ self new components: anArray! !
 
 !Ideal methodsFor: 'operations' stamp: 'len 9/26/2016 16:54'!
 * anElementOrIdeal
@@ -13082,9 +13100,9 @@ dimension
 e: anInteger
 	^ components collect: [:each| each e: anInteger]! !
 
-!DirectSumModule methodsFor: 'morphisms' stamp: 'len 10/9/2016 10:44'!
+!DirectSumModule methodsFor: 'morphisms' stamp: 'len 10/10/2016 08:44'!
 embedding: i
-	^ (self at: i) to: self evaluating: [:x| components withIndexCollect: [:each :k| k = i ifTrue: [x] ifFalse: [each zero]]]! !
+	^ ((self at: i) to: self evaluating: [:x| components withIndexCollect: [:each :k| k = i ifTrue: [x] ifFalse: [each zero]]]) name: 'i', i printText sub! !
 
 !DirectSumModule methodsFor: 'testing' stamp: 'len 2/12/2016 20:14'!
 includes: anObject
@@ -13096,13 +13114,13 @@ includes: anObject
 isCoproduct
 	^ true! !
 
-!DirectSumModule methodsFor: 'printing' stamp: 'len 6/19/2016 02:46'!
+!DirectSumModule methodsFor: 'printing' stamp: 'len 10/10/2016 08:45'!
 printOn: aStream
-	components do: [:each| aStream print: each] separatedBy: [aStream space; nextPut: Character oplus; space]! !
+	components do: [:each| aStream print: each] separatedBy: [aStream nextPut: Character oplus]! !
 
-!DirectSumModule methodsFor: 'morphisms' stamp: 'len 10/9/2016 10:44'!
+!DirectSumModule methodsFor: 'morphisms' stamp: 'len 10/10/2016 08:42'!
 projection: i
-	^ self to: (self at: i) evaluating: [:x| x at: i]! !
+	^ (self to: (self at: i) evaluating: [:x| x at: i]) name: Character pi asText, i printText sub! !
 
 !DirectSumModule methodsFor: 'accessing' stamp: 'len 11/10/2015 22:56'!
 scalars
@@ -13746,11 +13764,12 @@ new: dimension over: aDomain
 base
 	^ subspace ambient! !
 
-!QuotientModule methodsFor: 'private' stamp: 'len 10/6/2016 09:52'!
+!QuotientModule methodsFor: 'private' stamp: 'len 10/10/2016 08:52'!
 buildProjection
 	"Answer the quotient map, the canonical projection from the ambient vector space to the quotient space, i.e. the mapping pi:V->V/S that assigns to every v in V the affine subspace v+S."
 	| answer |
 	answer _ self base to: self evaluating: [:each| self project: each].
+	answer name: Character pi asString.
 	answer properties
 		at: #kernel put: subspace;
 		at: #image put: self;
@@ -14104,7 +14123,7 @@ printOn: aStream
 		ifTrue: [aStream nextPutAll: self dimension printString super]
 		ifFalse: [aStream nextPutAll: '^'; print: self dimension]! !
 
-!TupleModule methodsFor: 'morphisms' stamp: 'len 12/14/2015 19:23'!
+!TupleModule methodsFor: 'morphisms' stamp: 'len 10/10/2016 08:43'!
 projection: i
 	^ LinearForm from: self evaluating: [:x| x at: i]! !
 
@@ -14924,9 +14943,9 @@ one
 printOn: aStream
 	components do: [:each| aStream print: each] separatedBy: [aStream nextPut: Character times]! !
 
-!DirectProductRing methodsFor: 'morphisms' stamp: 'len 10/9/2016 09:04'!
+!DirectProductRing methodsFor: 'morphisms' stamp: 'len 10/10/2016 08:42'!
 projection: i
-	^ self to: (self at: i) evaluating: [:x| x at: i]! !
+	^ (self to: (self at: i) evaluating: [:x| x at: i]) name: Character pi asText, i printText sub! !
 
 !DirectProductRing methodsFor: 'accessing' stamp: 'len 8/29/2016 04:10'!
 size
@@ -15076,9 +15095,9 @@ words: aMonoid over: aRing
 embed: aGroupElement
 	^ FreePolynomial new coefficientAt: aGroupElement put: scalars one! !
 
-!GroupRing methodsFor: 'morphisms' stamp: 'len 10/9/2016 09:11'!
+!GroupRing methodsFor: 'morphisms' stamp: 'len 10/10/2016 08:56'!
 embedding
-	^ Function from: self group to: self evaluating: [:g| self embed: g] "should be a group homomorphism in Hom(Grp,Ab)?"! !
+	^ (Function from: self group to: self evaluating: [:g| self embed: g]) name: 'i' "should be a group homomorphism in Hom(Grp,Ab)?"! !
 
 !GroupRing methodsFor: 'accessing' stamp: 'len 8/7/2016 08:36'!
 group
@@ -15151,11 +15170,12 @@ atRandom: aRandom bits: bitSize
 base
 	^ ideal ring! !
 
-!QuotientRing methodsFor: 'private' stamp: 'len 10/6/2016 09:52'!
+!QuotientRing methodsFor: 'private' stamp: 'len 10/10/2016 08:52'!
 buildProjection
 	"Answer the natural projection, or quotient map, or canonical homomorphism. This takes elements from the base ring to the corresponding residue class in the quotient ring."
 	| answer |
 	answer _ self base to: self evaluating: [:each| self project: each].
+	answer name: Character pi asString.
 	answer properties
 		at: #kernel put: ideal;
 		at: #image put: self;
@@ -15568,10 +15588,10 @@ atRandom: aRandom bits: bitSize
 embed: anObject
 	^ FormalFraction numerator: anObject denominator: self integralDomain one! !
 
-!FractionField methodsFor: 'morphisms' stamp: 'len 10/4/2016 08:52'!
+!FractionField methodsFor: 'morphisms' stamp: 'len 10/10/2016 08:56'!
 embedding
 	"Answer the embedding map from the integral domain into the receiver."
-	^ properties at: #embedding ifAbsentPut: [self integralDomain to: self evaluating: [:x| self embed: x]]! !
+	^ properties at: #embedding ifAbsentPut: [(self integralDomain to: self evaluating: [:x| self embed: x]) name: 'i']! !
 
 !FractionField methodsFor: 'comparing' stamp: 'len 11/30/2015 23:19'!
 hash
@@ -15646,9 +15666,9 @@ do: aBlock
 embed: anInteger
 	^ anInteger "because in Smalltalk Fractions of denominator 1 are always reduced to their Integer numerator"! !
 
-!Rationals methodsFor: 'morphisms' stamp: 'len 10/4/2016 09:05'!
+!Rationals methodsFor: 'morphisms' stamp: 'len 10/10/2016 08:58'!
 embedding
-	^ properties at: #embedding ifAbsentPut: [self integralDomain to: self evaluating: [:x| x]] "because in Smalltalk Fractions of denominator 1 are always reduced to their Integer numerator"! !
+	^ properties at: #embedding ifAbsentPut: [(self integralDomain to: self evaluating: [:x| x]) name: 'i'] "because in Smalltalk Fractions of denominator 1 are always reduced to their Integer numerator"! !
 
 !Rationals methodsFor: 'comparing' stamp: 'len 6/28/2016 09:27'!
 hash
@@ -15729,10 +15749,10 @@ characteristic
 embed: aPolynomial
 	^ RationalFunction numerator: aPolynomial denominator: self polynomials one! !
 
-!RationalFunctions methodsFor: 'morphisms' stamp: 'len 10/4/2016 09:05'!
+!RationalFunctions methodsFor: 'morphisms' stamp: 'len 10/10/2016 08:57'!
 embedding
 	"Answer the embedding map from the base polynomials ring into the receiver."
-	^ properties at: #embedding ifAbsentPut: [self polynomials to: self evaluating: [:x| RationalFunction numerator: x denominator: self polynomials one]]! !
+	^ properties at: #embedding ifAbsentPut: [(self polynomials to: self evaluating: [:f| self embed: f]) name: 'i']! !
 
 !RationalFunctions methodsFor: 'accessing' stamp: 'len 11/27/2015 20:13'!
 indeterminates
@@ -15799,11 +15819,12 @@ atRandom: aRandom bits: bitSize
 "	^ self atRandom: aRandom"
 	^ self project: (ideal ring atRandom: aRandom bits: bitSize)! !
 
-!ResidueField methodsFor: 'private' stamp: 'len 10/6/2016 09:52'!
+!ResidueField methodsFor: 'private' stamp: 'len 10/10/2016 08:52'!
 buildProjection
 	"Answer the natural projection, or quotient map, or canonical homomorphism. This takes elements from the base ring to the corresponding residue class in the quotient ring."
 	| answer |
 	answer _ ideal ring to: self evaluating: [:each| self project: each].
+	answer name: Character pi asString.
 	answer properties
 		at: #kernel put: ideal;
 		at: #image put: self;
@@ -15894,6 +15915,10 @@ by: anIdeal
 !PrimeField methodsFor: 'random' stamp: 'len 8/10/2016 06:02'!
 atRandom: aRandom
 	^ self project: (self modulus atRandom: aRandom) - 1! !
+
+!PrimeField methodsFor: 'random' stamp: 'len 10/10/2016 09:00'!
+atRandom: aRandom bits: bitSize
+	^ self atRandom: aRandom! !
 
 !PrimeField methodsFor: 'accessing' stamp: 'len 8/10/2016 06:02'!
 characteristic
@@ -15989,10 +16014,10 @@ embed: aNumber
 	"This is the field homomorphism that embeds the base field into the receiver."
 	^ self asQuotientRing project: (self asQuotientRing ideal ring embed: aNumber)! !
 
-!AlgebraicExtension methodsFor: 'morphisms' stamp: 'len 10/4/2016 08:56'!
+!AlgebraicExtension methodsFor: 'morphisms' stamp: 'len 10/10/2016 08:55'!
 embedding
 	"Answer the field homomorphism that embeds the base field into the receiver."
-	^ properties at: #embedding ifAbsentPut: [self baseField to: self evaluating: [:x| self embed: x]]! !
+	^ properties at: #embedding ifAbsentPut: [(self baseField to: self evaluating: [:x| self embed: x]) name: 'i']! !
 
 !AlgebraicExtension methodsFor: 'morphisms' stamp: 'len 6/4/2016 19:30'!
 embeddings
@@ -16498,10 +16523,10 @@ do: aBlock
 embed: aScalar
 	^ self constant: aScalar! !
 
-!PolynomialRing methodsFor: 'morphisms' stamp: 'len 10/4/2016 09:02'!
+!PolynomialRing methodsFor: 'morphisms' stamp: 'len 10/10/2016 08:56'!
 embedding
 	"Answer the embedding map from the base ring into the receiver."
-	^ properties at: #embedding ifAbsentPut: [RingHomomorphism from: scalars to: self evaluating: [:x| self constant: x]]! !
+	^ properties at: #embedding ifAbsentPut: [(RingHomomorphism from: scalars to: self evaluating: [:x| self constant: x]) name: 'i']! !
 
 !PolynomialRing methodsFor: 'operations' stamp: 'len 10/4/2016 09:02'!
 expansion: anInteger
@@ -16871,9 +16896,9 @@ isProduct
 printOn: aStream
 	components do: [:each| aStream print: each] separatedBy: [aStream nextPut: Character times]! !
 
-!CartesianProduct methodsFor: 'morphisms' stamp: 'len 10/9/2016 09:09'!
+!CartesianProduct methodsFor: 'morphisms' stamp: 'len 10/10/2016 08:41'!
 projection: i
-	^ self to: (self at: i) evaluating: [:x| x at: i]! !
+	^ (self to: (self at: i) evaluating: [:x| x at: i]) name: Character pi asText, i printText sub! !
 
 !CartesianProduct methodsFor: 'accessing' stamp: 'len 2/12/2016 20:09'!
 size
@@ -17920,9 +17945,9 @@ operation
 printOn: aStream
 	components do: [:each| aStream print: each] separatedBy: [aStream nextPut: Character times]! !
 
-!DirectProductGroup methodsFor: 'morphisms' stamp: 'len 10/9/2016 09:04'!
+!DirectProductGroup methodsFor: 'morphisms' stamp: 'len 10/10/2016 08:42'!
 projection: i
-	^ self to: (self at: i) evaluating: [:x| x at: i]! !
+	^ (self to: (self at: i) evaluating: [:x| x at: i]) name: Character pi asText, i printText sub! !
 
 !DirectProductGroup methodsFor: 'accessing' stamp: 'len 2/12/2016 20:10'!
 size
@@ -18015,11 +18040,12 @@ base
 base: aGroup
 	base _ aGroup! !
 
-!QuotientGroup methodsFor: 'private' stamp: 'len 10/6/2016 09:59'!
+!QuotientGroup methodsFor: 'private' stamp: 'len 10/10/2016 08:51'!
 buildProjection
 	"Answer the natural projection, or quotient map, or canonical homomorphism. This takes elements from the base group to the corresponding coset in the quotient group."
 	| answer |
 	answer _ self base to: self evaluating: [:each| self project: each].
+	answer name: Character pi asString.
 	answer properties
 		at: #kernel put: subgroup;
 		at: #image put: self;
@@ -18157,10 +18183,10 @@ project: anArray
 		left: (anArray at: 1);
 		right: (anArray at: 2)! !
 
-!SemidirectProductGroup methodsFor: 'morphisms' stamp: 'len 10/9/2016 09:08'!
+!SemidirectProductGroup methodsFor: 'morphisms' stamp: 'len 10/10/2016 08:53'!
 projection
 	"Answer the projection from the cartesian product of two groups to their semidirect product."
-	^ (left, right) to: self evaluating: [:each| self project: each]! !
+	^ ((left, right) to: self evaluating: [:each| self project: each]) name: Character pi asString! !
 
 !SemidirectProductGroup methodsFor: 'accessing' stamp: 'len 2/12/2016 06:16'!
 right
@@ -19464,9 +19490,9 @@ printOn: aStream
 project: anElement
 	^ EquivalenceClass representative: anElement relation: self relation! !
 
-!QuotientSet methodsFor: 'morphisms' stamp: 'len 4/26/2016 07:26'!
+!QuotientSet methodsFor: 'morphisms' stamp: 'len 10/10/2016 08:52'!
 projection
-	^ Function from: self base to: self evaluating: [:v| self project: v]! !
+	^ (Function from: self base to: self evaluating: [:v| self project: v]) name: Character pi asString! !
 
 !QuotientSet methodsFor: 'accessing' stamp: 'len 4/24/2016 04:40'!
 relation
@@ -21343,10 +21369,10 @@ embed: aPoint
 	"Assumeing the underlying vector space is V (+) K, embed aPoint from A(V) into the receiver."
 	^ self project: {aPoint. vectorSpace scalars one}! !
 
-!ProjectiveLinearSpace methodsFor: 'morphisms' stamp: 'len 8/28/2016 03:40'!
+!ProjectiveLinearSpace methodsFor: 'morphisms' stamp: 'len 10/10/2016 08:56'!
 embedding
 	"Answer the embedding A(V) -> P(VK), assuming the underlying vector space is VK."
-	^ (vectorSpace at: 1) asAffineSpace -> self evaluating: [:p| self embed: p]! !
+	^ ((vectorSpace at: 1) asAffineSpace to: self evaluating: [:p| self embed: p]) name: 'i'! !
 
 !ProjectiveLinearSpace methodsFor: 'accessing' stamp: 'len 1/3/2016 05:27'!
 frame
@@ -21419,10 +21445,10 @@ printOn: aStream
 project: aVector
 	^ self class on: (vectorSpace span: {aVector})! !
 
-!ProjectiveLinearSpace methodsFor: 'morphisms' stamp: 'len 3/18/2016 04:54'!
+!ProjectiveLinearSpace methodsFor: 'morphisms' stamp: 'len 10/10/2016 08:51'!
 projection
 	"Answer the canonical projection V\{0} -> P(V)."
-	^ Function from: vectorSpace to: self evaluating: [:v| self project: v]! !
+	^ (Function from: vectorSpace to: self evaluating: [:v| self project: v]) name: Character pi asString! !
 
 !ProjectiveLinearSpace methodsFor: 'accessing' stamp: 'len 11/20/2015 22:13'!
 scalars
@@ -23232,6 +23258,29 @@ from: aDomain to: anotherDomain evaluating: aBlock
 newFrom: aFunction
 	^ self from: aFunction domain to: aFunction codomain evaluating: aFunction! !
 
+!AbelianGroupHomomorphism methodsFor: 'as yet unclassified' stamp: 'len 10/10/2016 08:49'!
+species
+	^ AbelianGroupHomomorphism! !
+
+!RingHomomorphism methodsFor: 'as yet unclassified' stamp: 'len 10/5/2016 10:27'!
+isZero
+	"A ring homomorphism to a non-trivial ring cannot be zero, because 1 maps to 1."
+	^ (self value: self domain one) = self codomain zero
+"	^ self codomain isTrivial"! !
+
+!RingHomomorphism methodsFor: 'as yet unclassified' stamp: 'len 10/3/2016 09:01'!
+spec
+	"This is the Spec functor. Answer the scheme homomorphism induced by the receiver, i.e. given a ring homomorphism f:R->S, Spec(f) is a scheme homomorphism Spec(S)->Spec(R)."
+	self notYetImplemented! !
+
+!RingHomomorphism methodsFor: 'as yet unclassified' stamp: 'len 10/10/2016 08:35'!
+species
+	^ RingHomomorphism! !
+
+!FieldHomomorphism methodsFor: 'as yet unclassified' stamp: 'len 10/10/2016 08:35'!
+species
+	^ FieldHomomorphism! !
+
 !GroupAction methodsFor: 'graphs' stamp: 'len 5/25/2016 03:45'!
 actionGraph: groupGenerators
 	"Answer the action diagram with respect to the given group generators.
@@ -23396,6 +23445,10 @@ mapping
 mapping: aDictionary
 	properties at: #mapping put: aDictionary! !
 
+!GroupHomomorphism methodsFor: 'private' stamp: 'len 10/10/2016 08:34'!
+species
+	^ GroupHomomorphism! !
+
 !GroupHomomorphism class methodsFor: 'instance creation' stamp: 'len 8/1/2016 09:15'!
 from: aDomain to: anotherDomain mapping: aDictionary
 	^ self new domain: aDomain; codomain: anotherDomain; mapping: aDictionary! !
@@ -23433,10 +23486,6 @@ inverse
 !Conjugation methodsFor: 'accessing' stamp: 'len 2/12/2016 06:37'!
 kernel
 	^ self domain null! !
-
-!Conjugation methodsFor: 'private' stamp: 'len 2/13/2016 05:17'!
-species
-	^ GroupHomomorphism! !
 
 !Conjugation methodsFor: 'evaluating' stamp: 'len 2/12/2016 06:36'!
 value: anElement
@@ -23900,17 +23949,6 @@ inverse
 !StandardPermutation class methodsFor: 'instance creation' stamp: 'len 7/4/2016 06:34'!
 image: anArray
 	^ self basicNew map: anArray! !
-
-!RingHomomorphism methodsFor: 'as yet unclassified' stamp: 'len 10/5/2016 10:27'!
-isZero
-	"A ring homomorphism to a non-trivial ring cannot be zero, because 1 maps to 1."
-	^ (self value: self domain one) = self codomain zero
-"	^ self codomain isTrivial"! !
-
-!RingHomomorphism methodsFor: 'as yet unclassified' stamp: 'len 10/3/2016 09:01'!
-spec
-	"This is the Spec functor. Answer the scheme homomorphism induced by the receiver, i.e. given a ring homomorphism f:R->S, Spec(f) is a scheme homomorphism Spec(S)->Spec(R)."
-	self notYetImplemented! !
 
 !LinearMap methodsFor: 'arithmetic' stamp: 'len 1/8/2016 06:32'!
 * anObject
@@ -36595,10 +36633,10 @@ escape: aString
 	output _ output copyReplaceAll: Character oplus asString with: '&oplus;'.
 	^ output! !
 
-!DocumentationGenerator methodsFor: 'as yet unclassified' stamp: 'len 9/3/2016 06:57'!
+!DocumentationGenerator methodsFor: 'as yet unclassified' stamp: 'len 10/9/2016 21:22'!
 generate
 	| blacklist classes |
-	blacklist _ #('Mathematics-Kernel-Elements' 'Mathematics-Geometry-Polytopes' 'Mathematics-Morphic' 'Mathematics-Lie' 'Mathematics-Expressions' 'Mathematics-ETC').
+	blacklist _ #('Mathematics-Kernel-Elements' 'Mathematics-Geometry-Polytopes' 'Mathematics-Morphic' 'Mathematics-Lie' 'Mathematics-Expressions' 'Mathematics-ETC' 'Mathematics-Kernel-Categories').
 	classes _ Object withAllSubclasses select: [:each| each class ~= Metaclass and: [(each allSuperclasses includes: Morph) not and: [(each category beginsWith: 'Mathematics-') and: [(blacklist includes: each category) not]]]].
 	self generateForClasses: classes! !
 
