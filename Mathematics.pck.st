@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 10 October 2016 at 9:37:26.186919 am'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 10 October 2016 at 5:49:12.69796 pm'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 209!
+!provides: 'Mathematics' 1 210!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
 	instanceVariableNames: 'numerator shift'
@@ -3756,7 +3756,7 @@ Chain complexes form a cateogory with chain maps as morphisms.!
 !Domain commentStamp: '<historical>' prior: 0!
 My instances are mathematical structures, such as groups, rings, fields, vector spaces, modules, etc.
 
-Domains are connected by Morphisms, which in many cases are Functions, and these morphisms in turn can be viewed as elements of other mathematical structures. From the point of view of category theory, Domains and Functions are respectively 'objects' and 'morphisms' of (small) categories.
+Domains are connected by Morphisms, which in many cases are Functions. From the point of view of category theory, Domains and Functions are respectively 'objects' and 'morphisms' of (small) categories.
 
 Domains often have an underlying set: the set of elements. The cardinality of a domain can be finite or infinite, and countable or uncountable (see Aleph and >>size). When the underlying set is finite, #asSet returns a Smalltalk Set. When it is countable, it is possible to iterate over its element (see >>do:).  Also, when it makes sense to take elements at random, #atRandom:, #atRandom:bits: or similar messages are implemented.
 
@@ -3772,7 +3772,7 @@ Examples:
 
 Domains, as categorical objects, can have subobjects. Groups have subgroups, vector spaces have subspaces, rings have subrings and ideals, etc. In general, there is an #ambient object, and there is a protocol for inclusion testing: #<, #<=, #>=, #>.
 
-Some domains, such as field extensions, localizations, the field of fractions of a ring, etc have associated canonical embeddings, and should implement #embed: and #embedding. Other domains, such as quotient objects, have canonical projections and should implement #project: and #projection. N-ary products and coproducts should implement #projection: for the i-th projection map (and coproducts also implement #embedding: for the i-th coprojection).
+Some domains, such as field extensions and localizations, have associated canonical embeddings, and should implement #embed: and #embedding. Other domains, such as quotient objects, have canonical projections and should implement #project: and #projection. N-ary products and coproducts should implement #projection: for the i-th projection map (and coproducts also implement #embedding: for the i-th coprojection).
 
 Examples:
 	(ZZ × QQ) projection: 2.
@@ -3806,9 +3806,9 @@ Group-specific behaviour is not implemented here. My instances are viewed not as
 As an abelian category, morphisms and objects can be added, and kernels and cokernels exist.!
 
 !DirectSum commentStamp: '<historical>' prior: 0!
-My instances are direct sums of abelian groups (or objects in an abelian category).
+My instances are direct sums of abelian groups (or objects in an abelian category, see AbelianGroup).
 
-Direct sums are equipped with projection homomorphisms into the i-th component (>>projection:) and coprojections or embeddings from the i-th component (>>embedding:).!
+Direct sums are equipped with projection homomorphisms to the i-th component (>>projection:) and coprojections or embeddings from the i-th component (>>embedding:).!
 
 !Ideal commentStamp: '<historical>' prior: 0!
 My instances are finitely-generated ideals of a commutative ring.
@@ -4330,7 +4330,7 @@ A morphism of schemes is a morphism of the underlying locally ringed spaces.
 References:
 	https://en.wikipedia.org/wiki/Scheme_(mathematics)!
 
-!AffineScheme commentStamp: 'len 9/22/2016 08:00' prior: 0!
+!AffineScheme commentStamp: '<historical>' prior: 0!
 My instances are affine schemes.
 
 Example:
@@ -4339,6 +4339,13 @@ Example:
 	x _ R x.
 	y _ R y.
 	AffineScheme ideal: R * (x**2 + (y**2) - 1)
+
+Or equivalently:
+	| R x y |
+	R _ ZZ polynomialsIn: #(x y).
+	x _ R x.
+	y _ R y.
+	(R / (R * (x**2 + (y**2) - 1))) spec
 !
 
 !AffineSpace commentStamp: '<historical>' prior: 0!
@@ -4390,7 +4397,7 @@ References:
 	https://en.wikipedia.org/wiki/Morphism
 !
 
-!Function commentStamp: '<historical>' prior: 0!
+!Function commentStamp: 'len 10/10/2016 16:26' prior: 0!
 My instances are functions, i.e. maps from a mathematical structure (domain) to another structure (codomain). Evaluated at elements of the domain (>>#value:) they produce elements of the codomain. See Domain.
 
 In general a Function is a morphism of sets. If the function preserves some mathematical structure, it is called a morphism of some category corresponding to the preserved structure. For example linear maps are morphisms of vector spaces, continuous functions are morphisms of topological spaces, and group homomorphisms are morphisms of groups.
@@ -4398,11 +4405,19 @@ In general a Function is a morphism of sets. If the function preserves some math
 Example:
 	Function from: ZZ to: ZZ evaluating: [:x| x squared + 1].
 
-Examples (three equivalent ways to construct a homomorphism):
+Examples (three equivalent ways to construct homomorphisms):
 	"These constructions are similar to the explicit construction above, but they actually return homomorphisms of the corresponding category, not arbitrary functions (in this case LinearMaps, morphisms of vector spaces):"
 	QQ**3 to: QQ**3 evaluating: [:v| (v x - v y, v x, v z)].
 	QQ**3 -> (QQ**3) evaluating: [:v| (v x - v y, v x, v z)].
 	(QQ**3) endomorphisms evaluating: [:v| (v x - v y, v x, v z)].
+
+In general, functions are defined by a domain, a codomain, and an expression that can be evaluated at elements of the domain and answers elements of the codomain. One such expression can be a Smalltalk block, another Function, or in general any Smalltalk object that admits evaluation, such as polynomials:
+
+Examples (two ways to define the Frobenius endomorphism):
+	(ZZ mod: 6) endomorphisms evaluating: [:x| x**6].
+	(ZZ mod: 6) endomorphisms evaluating: (ZZ mod: 6) polynomials x ** 6.
+
+Note that functions defined by polynomials or other symbolic expressions, as opposed to functions defined by Smalltalk blocks, are printed more explicitly (as a formula).
 
 References:
 	https://en.wikipedia.org/wiki/Function_(set_theory)
@@ -5502,10 +5517,6 @@ one
 !Complex methodsFor: '*mathematics' stamp: 'len 12/26/2015 19:56'!
 zero
 	^ self class real: real zero imaginary: imaginary zero! !
-
-!BlockClosure methodsFor: '*mathematics' stamp: 'len 5/1/2016 22:42'!
-asBlockOrFunction
-	^ self! !
 
 !BlockClosure methodsFor: '*mathematics' stamp: 'len 4/24/2016 06:00'!
 count
@@ -12786,12 +12797,12 @@ freeModuleIn: aCollection
 	"Answer the free module in the given indeterminates over the receiver."
 	^ FreeModule on: aCollection over: self! !
 
-!Ring methodsFor: 'morphisms' stamp: 'len 10/4/2016 08:46'!
+!Ring methodsFor: 'morphisms' stamp: 'len 10/10/2016 14:13'!
 frobenius
 	"Answer the Frobenius endomorphism, assuming the receiver is of characteristic p prime."
 	| p |
 	p _ self characteristic.
-	^ self to: self evaluating: [:r| r ** p]! !
+	^ self to: self evaluating: self polynomials x ** p! !
 
 !Ring methodsFor: 'testing' stamp: 'len 8/17/2016 17:54'!
 hasOne
@@ -13447,9 +13458,9 @@ do: aBlock
 elementClass
 	^ properties at: #elementClass ifAbsentPut: [Residue]! !
 
-!QuotientRing methodsFor: 'accessing' stamp: 'len 10/6/2016 10:17'!
+!QuotientRing methodsFor: 'accessing' stamp: 'len 10/10/2016 16:29'!
 generators
-	^ self base generators apply: self projection! !
+	^ (self base generators ifNil: [^ nil]) apply: self projection! !
 
 !QuotientRing methodsFor: 'comparing' stamp: 'len 12/14/2015 01:57'!
 hash
@@ -21897,12 +21908,9 @@ ideal: aPolynomialIdeal
 isAffine
 	^ true! !
 
-!AffineScheme methodsFor: 'printing' stamp: 'len 9/22/2016 07:56'!
+!AffineScheme methodsFor: 'printing' stamp: 'len 10/10/2016 13:54'!
 printOn: aStream
-	aStream nextPutAll: 'Spec('; print: self coordinateRing; nextPut: $)
-"	aStream nextPutAll: 'V('.
-	self ideal generators do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: ', '].
-	aStream nextPut: $)"! !
+	aStream nextPutAll: 'Spec '; print: self coordinateRing! !
 
 !AffineScheme methodsFor: 'operations' stamp: 'len 8/27/2016 21:27'!
 project: anIndeterminate
@@ -22064,10 +22072,6 @@ isNoetherian
 isTerminal
 	^ coordinateRing isKindOf: Integers! !
 
-!Spectrum methodsFor: 'printing' stamp: 'len 9/26/2016 06:47'!
-printOn: aStream
-	aStream nextPutAll: 'Spec' bold; nextPut: $(; print: coordinateRing; nextPut: $)! !
-
 !Spectrum methodsFor: 'accessing' stamp: 'len 8/30/2016 06:19'!
 relativeDimension
 	^ self coordinateRing krullDimension - self baseRing krullDimension! !
@@ -22106,11 +22110,9 @@ ideal: anHomogeneousPolynomialIdeal
 isProjective
 	^ true! !
 
-!ProjectiveScheme methodsFor: 'printing' stamp: 'len 8/27/2016 21:46'!
+!ProjectiveScheme methodsFor: 'printing' stamp: 'len 10/10/2016 13:53'!
 printOn: aStream
-	aStream nextPutAll: 'V('.
-	self ideal generators do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: ', '].
-	aStream nextPut: $)! !
+	aStream nextPutAll: 'Proj '; print: self coordinateRing! !
 
 !ProjectiveScheme methodsFor: 'private' stamp: 'len 8/28/2016 02:42'!
 species
@@ -22941,8 +22943,9 @@ base
 isOpen: aSubset
 	^ self subclassResponsibility! !
 
-!Morphism methodsFor: 'operations' stamp: 'len 8/8/2016 05:49'!
+!Morphism methodsFor: 'operations' stamp: 'len 10/10/2016 15:12'!
 @ aMorphism
+	"Answer the composition of the receiver with the argument."
 	^ self subclassResponsibility! !
 
 !Morphism methodsFor: 'operations' stamp: 'len 10/5/2016 10:05'!
@@ -23151,8 +23154,9 @@ new
 	self domain do: [:each| (self value: each) = (aFunction value: each) ifFalse: [^ false]].
 	^ true! !
 
-!Function methodsFor: 'operations' stamp: 'len 8/24/2016 21:56'!
+!Function methodsFor: 'operations' stamp: 'len 10/10/2016 15:12'!
 @ aFunction
+	"Answer the composition of the receiver with the argument."
 	aFunction class == Identity ifTrue: [^ self].
 	self domain >= aFunction codomain ifFalse: [DomainError signal: 'domains don''t match'].
 	^ self species from: aFunction domain to: self codomain evaluating: [:x| self value: (aFunction value: x)]! !
@@ -23163,24 +23167,12 @@ new
 	self codomain <= aFunction domain ifFalse: [DomainError signal: 'domains don''t match'].
 	^ self species from: self domain to: aFunction codomain evaluating: [:x| aFunction value: (self value: x)]! !
 
-!Function methodsFor: 'private' stamp: 'len 8/14/2016 05:33'!
-asBlock
-	^ properties at: #block ifAbsent: [[:x| self value: x]]! !
-
-!Function methodsFor: 'private' stamp: 'len 8/14/2016 05:33'!
-asBlockOrFunction
-	^ properties at: #block ifAbsent: [self]! !
-
 !Function methodsFor: 'operations' stamp: 'len 12/27/2015 22:08'!
 backwardDifference: n at: h
 	^ self species
 		from: self domain
 		to: self codomain
 		evaluating: [:x| (0 to: n) sum: [:i| (-1)**i * (n take: i) * (self value: x + (i*h))]]! !
-
-!Function methodsFor: 'private' stamp: 'len 8/14/2016 05:33'!
-block: aBlock
-	properties at: #block put: aBlock asBlockOrFunction! !
 
 !Function methodsFor: 'operations' stamp: 'len 12/27/2015 22:09'!
 centralDifference: n at: h
@@ -23192,6 +23184,14 @@ centralDifference: n at: h
 !Function methodsFor: 'operations' stamp: 'len 4/19/2016 21:40'!
 corestrictedTo: aDomain
 	^ self species from: self domain to: aDomain evaluating: [:x| self value: x]! !
+
+!Function methodsFor: 'private' stamp: 'len 10/10/2016 14:05'!
+expression
+	^ properties at: #expression ifAbsent: [self]! !
+
+!Function methodsFor: 'private' stamp: 'len 10/10/2016 14:06'!
+expression: anExpression
+	properties at: #expression put: ((anExpression isKindOf: Function) ifTrue: [anExpression expression] ifFalse: [anExpression])! !
 
 !Function methodsFor: 'operations' stamp: 'len 12/27/2015 22:08'!
 forwardDifference: n at: h
@@ -23236,6 +23236,12 @@ negated
 plot: aCollection
 	^ FunctionPlotMorph new evaluationPoints: aCollection; function: self! !
 
+!Function methodsFor: 'printing' stamp: 'len 10/10/2016 14:12'!
+printOn: aStream
+	(self expression isBlock not and: [(self expression isKindOf: Function) not])
+		ifTrue: [aStream print: self expression]
+		ifFalse: [super printOn: aStream]! !
+
 !Function methodsFor: 'operations' stamp: 'len 2/12/2016 05:48'!
 reciprocal
 	^ self species from: self domain to: self codomain evaluating: [:each| (self value: each) reciprocal]! !
@@ -23252,23 +23258,30 @@ species
 squared
 	^ self * self! !
 
-!Function methodsFor: 'evaluating' stamp: 'len 8/14/2016 05:33'!
+!Function methodsFor: 'evaluating' stamp: 'len 10/10/2016 14:01'!
 value: anObject
 "	(self domain includes: anObject) ifFalse: [^ anObject apply: self]."
 	self flag: #fix. "check argument"
-	^ (properties at: #block) value: anObject! !
+	^ (properties at: #expression) value: anObject! !
 
-!Function class methodsFor: 'instance creation' stamp: 'len 8/14/2016 05:33'!
-evaluating: aBlock
-	^ self new block: aBlock! !
+!Function class methodsFor: 'instance creation' stamp: 'len 10/10/2016 13:59'!
+evaluating: anExpression
+	^ self new expression: anExpression! !
 
-!Function class methodsFor: 'instance creation' stamp: 'len 8/14/2016 05:33'!
-from: aDomain to: anotherDomain evaluating: aBlock
-	^ self new domain: aDomain; codomain: anotherDomain; block: aBlock! !
+!Function class methodsFor: 'instance creation' stamp: 'len 10/10/2016 13:59'!
+from: aDomain to: anotherDomain evaluating: anExpression
+	^ self new domain: aDomain; codomain: anotherDomain; expression: anExpression! !
 
 !Function class methodsFor: 'instance creation' stamp: 'len 10/2/2016 09:31'!
 newFrom: aFunction
 	^ self from: aFunction domain to: aFunction codomain evaluating: aFunction! !
+
+!AbelianGroupHomomorphism methodsFor: 'as yet unclassified' stamp: 'len 10/10/2016 16:36'!
+= anObject
+	(anObject isKindOf: RingHomomorphism) ifFalse: [^ super = anObject].
+	(anObject domain = self domain and: [anObject codomain = self codomain])
+		ifFalse: [^ false].
+	^ (self domain generators ifNil: [self domain]) allSatisfy: [:each| (self value: each) = (anObject value: each)]! !
 
 !AbelianGroupHomomorphism methodsFor: 'as yet unclassified' stamp: 'len 10/10/2016 09:14'!
 is: aSymbol
@@ -23277,6 +23290,13 @@ is: aSymbol
 !AbelianGroupHomomorphism methodsFor: 'as yet unclassified' stamp: 'len 10/10/2016 08:49'!
 species
 	^ AbelianGroupHomomorphism! !
+
+!RingHomomorphism methodsFor: 'as yet unclassified' stamp: 'len 10/10/2016 16:36'!
+= anObject
+	(anObject isKindOf: RingHomomorphism) ifFalse: [^ super = anObject].
+	(anObject domain = self domain and: [anObject codomain = self codomain])
+		ifFalse: [^ false].
+	^ (self domain generators ifNil: [self domain]) allSatisfy: [:each| (self value: each) = (anObject value: each)]! !
 
 !RingHomomorphism methodsFor: 'as yet unclassified' stamp: 'len 10/10/2016 09:14'!
 is: aSymbol
@@ -23296,6 +23316,13 @@ spec
 !RingHomomorphism methodsFor: 'as yet unclassified' stamp: 'len 10/10/2016 08:35'!
 species
 	^ RingHomomorphism! !
+
+!FieldHomomorphism methodsFor: 'as yet unclassified' stamp: 'len 10/10/2016 16:37'!
+= anObject
+	(anObject isKindOf: FieldHomomorphism) ifFalse: [^ super = anObject].
+	(anObject domain = self domain and: [anObject codomain = self codomain])
+		ifFalse: [^ false].
+	^ (self domain generators ifNil: [self domain]) allSatisfy: [:each| (self value: each) = (anObject value: each)]! !
 
 !FieldHomomorphism methodsFor: 'as yet unclassified' stamp: 'len 10/10/2016 09:14'!
 is: aSymbol
@@ -24672,9 +24699,9 @@ fromHalf: aVectorSpace evaluating: aBlock
 >> anInteger
 	^ self shift: anInteger! !
 
-!Sequence methodsFor: 'accessing' stamp: 'len 8/14/2016 05:32'!
+!Sequence methodsFor: 'accessing' stamp: 'len 10/10/2016 14:06'!
 at: anInteger
-	^ anInteger >= 0 ifTrue: [(properties at: #block) value: anInteger]! !
+	^ anInteger >= 0 ifTrue: [super value: anInteger]! !
 
 !Sequence methodsFor: 'operations' stamp: 'len 12/27/2015 02:11'!
 average
@@ -25965,8 +25992,9 @@ polynomials: aPolynomialSet index: anInteger
 = aFunction
 	^ self domain = aFunction domain and: [self codomain = aFunction codomain and: [aFunction isIdentity]]! !
 
-!Identity methodsFor: 'operations' stamp: 'len 2/9/2016 03:58'!
+!Identity methodsFor: 'operations' stamp: 'len 10/10/2016 15:12'!
 @ aFunction
+	"Answer the composition of the receiver with the argument."
 	^ aFunction! !
 
 !Identity methodsFor: 'operations' stamp: 'len 9/21/2016 16:52'!
@@ -30108,6 +30136,12 @@ trevlex: aCollection
 !Polynomial methodsFor: 'comparing' stamp: 'len 3/1/2016 17:55'!
 = anObject
 	^ self species = anObject species and: [self coefficients = anObject coefficients]! !
+
+!Polynomial methodsFor: 'arithmetic' stamp: 'len 10/10/2016 15:13'!
+@ anObject
+	"Answer the composition of the receiver with the argument."
+	anObject isBlock ifTrue: [^ [:x| self value: (anObject value: x)]].
+	^ self value: anObject! !
 
 !Polynomial methodsFor: 'arithmetic' stamp: 'len 3/22/2016 23:26'!
 \\ anObject
