@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 10 October 2016 at 8:22:22.252076 pm'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 10 October 2016 at 9:14:37.572151 pm'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 211!
+!provides: 'Mathematics' 1 212!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
 	instanceVariableNames: 'numerator shift'
@@ -4393,7 +4393,7 @@ References:
 	https://en.wikipedia.org/wiki/Morphism
 !
 
-!Function commentStamp: 'len 10/10/2016 16:26' prior: 0!
+!Function commentStamp: '<historical>' prior: 0!
 My instances are functions, i.e. maps from a mathematical structure (domain) to another structure (codomain). Evaluated at elements of the domain (>>#value:) they produce elements of the codomain. See Domain.
 
 In general a Function is a morphism of sets. If the function preserves some mathematical structure, it is called a morphism of some category corresponding to the preserved structure. For example linear maps are morphisms of vector spaces, continuous functions are morphisms of topological spaces, and group homomorphisms are morphisms of groups.
@@ -4402,7 +4402,7 @@ Example:
 	Function from: ZZ to: ZZ evaluating: [:x| x squared + 1].
 
 Examples (three equivalent ways to construct homomorphisms):
-	"These constructions are similar to the explicit construction above, but they actually return homomorphisms of the corresponding category, not arbitrary functions (in this case LinearMaps, morphisms of vector spaces):"
+	"These constructions are similar to the explicit construction above, but they return not arbitrary functions but homomorphisms of the corresponding category (in this case linear maps, i.e. morphisms of vector spaces):"
 	QQ**3 to: QQ**3 evaluating: [:v| (v x - v y, v x, v z)].
 	QQ**3 -> (QQ**3) evaluating: [:v| (v x - v y, v x, v z)].
 	(QQ**3) endomorphisms evaluating: [:v| (v x - v y, v x, v z)].
@@ -4478,12 +4478,14 @@ My instances are bilinear forms, i.e. functions from VxV to F where V is a vecto
 	B(v, w+cw`) = B(v, w) + cB(v, w`)
 !
 
-!Sequence commentStamp: '<historical>' prior: 0!
-My instances are functions with domain the natural numbers (1,2,...). They can be evaluated at an index (#value: and #at:), and can also be iterated over like collections (#do:, #collect:, #select, etc).
+!Sequence commentStamp: 'len 10/10/2016 21:13' prior: 0!
+My instances are functions with domain the natural numbers (1,2,...). They can be evaluated at an index (#value: and #at:), and can also be iterated over like Smalltalk collections (#do:, #collect:, #select, etc).
 
-Examples:
-	Sequence fibonacci.
-	Sequence primes.
+Example (the Fibonacci sequence):
+	Sequence initialValues: #(0 1) recurrence: [:f :n| (f at: n-1) + (f at: n-2)].
+
+Example (the harmonic numbers):
+	Sequence to: QQ evaluating: [:n| (1 to: n) sum: [:k| 1/k]].
 
 Each sequence has an associated generating series, which is the formal power series whose coefficients are the sequence (see PowerSeries):
 	Sequence fibonacci generatingSeries
@@ -15087,13 +15089,6 @@ printOn: aStream
 generators
 	^ (1 to: self rank) collect: [:i| polynomials symmetric: i]! !
 
-!Module methodsFor: 'morphisms' stamp: 'len 10/7/2016 08:40'!
--> aModule
-	"Answer the morphisms that go from the receiver A to the argument B: Hom(A,B)."
-	(aModule isKindOf: ScalarModule)
-		ifTrue: [^ self dual].
-	^ LinearMaps from: self to: aModule! !
-
 !Module methodsFor: 'accessing' stamp: 'len 2/14/2016 18:05'!
 characteristic
 	^ self scalars characteristic! !
@@ -15117,6 +15112,19 @@ scalars
 !Module methodsFor: 'accessing-private' stamp: 'len 4/23/2016 06:00'!
 scalars: aRing
 	properties at: #scalars put: aRing! !
+
+!Module methodsFor: 'morphisms' stamp: 'len 10/10/2016 20:27'!
+to: aModule evaluating: aBlock
+	"Answer the module homomorphism from the receiver to the argument."
+	(aModule isKindOf: Module) ifFalse: [^ super to: aModule evaluating: aBlock].
+	^ ModuleHomomorphism from: self to: aModule evaluating: aBlock! !
+
+!FreeModule methodsFor: 'morphisms' stamp: 'len 10/10/2016 20:26'!
+-> aModule
+	"Answer the morphisms that go from the receiver A to the argument B: Hom(A,B)."
+	(aModule isKindOf: ScalarModule)
+		ifTrue: [^ self dual].
+	^ LinearMaps from: self to: aModule! !
 
 !FreeModule methodsFor: 'operations' stamp: 'len 10/7/2016 08:40'!
 / aSubmodule
@@ -15412,10 +15420,10 @@ span: aCollection
 tensors: aPair
 	^ Tensors type: aPair on: self! !
 
-!FreeModule methodsFor: 'morphisms' stamp: 'len 8/31/2016 03:54'!
+!FreeModule methodsFor: 'morphisms' stamp: 'len 10/10/2016 20:26'!
 to: aModule evaluating: aBlock
 	"Answer the module homomorphism from the receiver to the argument."
-	(aModule isKindOf: Module) ifFalse: [^ super to: aModule evaluating: aBlock].
+	(aModule isKindOf: FreeModule) ifFalse: [^ super to: aModule evaluating: aBlock].
 	^ LinearMap from: self to: aModule evaluating: aBlock! !
 
 !FreeModule methodsFor: 'testing' stamp: 'len 7/15/2016 00:21'!
@@ -24944,9 +24952,9 @@ dynamic: aBlock
 evaluating: aBlock
 	^ self to: ZZ evaluating: aBlock! !
 
-!Sequence class methodsFor: 'examples' stamp: 'len 7/6/2016 23:52'!
+!Sequence class methodsFor: 'examples' stamp: 'len 10/10/2016 21:09'!
 fibonacci
-	^ Sequence recurrence: [:f :n| n=1 ifTrue: [0] ifFalse: [n=2 ifTrue: [1] ifFalse: [(f at: n-1) + (f at: n-2)]]]! !
+	^ Sequence initialValues: #(0 1) recurrence: [:f :n| (f at: n-1) + (f at: n-2)]! !
 
 !Sequence class methodsFor: 'examples' stamp: 'len 7/15/2016 18:38'!
 harmonicNumbers
@@ -24980,6 +24988,10 @@ highlyCompositeNumbers
 !Sequence class methodsFor: 'examples' stamp: 'len 12/5/2015 00:20'!
 id
 	^ Sequence evaluating: [:n| n]! !
+
+!Sequence class methodsFor: 'intance creation' stamp: 'len 10/10/2016 21:08'!
+initialValues: anArray recurrence: aBinaryBlock
+	^ self to: ZZ initialValues: anArray recurrence: aBinaryBlock! !
 
 !Sequence class methodsFor: 'examples' stamp: 'len 12/4/2015 01:53'!
 liouville
@@ -25028,9 +25040,9 @@ primeGaps
 	^ Sequence streamming: [p negated + (p _ p nextPrime)]
 "	^ Sequence primes difference"! !
 
-!Sequence class methodsFor: 'examples' stamp: 'len 4/27/2016 20:52'!
+!Sequence class methodsFor: 'examples' stamp: 'len 10/10/2016 21:11'!
 primes
-	^ Sequence recurrence: [:f :i| i = 1 ifTrue: [2] ifFalse: [(f at: i-1) nextPrime]]
+	^ Sequence initialValues: #(2) recurrence: [:f :i| (f at: i-1) nextPrime]
 "	^ Sequence evaluating: [:i|
 		| n count |
 		n _ 2.
@@ -25038,9 +25050,9 @@ primes
 		[count = i] whileFalse: [n _ n nextPrime. count _ count + 1].
 		n]"! !
 
-!Sequence class methodsFor: 'intance creation' stamp: 'len 7/15/2016 18:30'!
+!Sequence class methodsFor: 'intance creation' stamp: 'len 10/10/2016 21:08'!
 recurrence: aBinaryBlock
-	^ self to: ZZ recurrence: aBinaryBlock! !
+	^ self initialValues: #() recurrence: aBinaryBlock! !
 
 !Sequence class methodsFor: 'examples' stamp: 'len 12/4/2015 22:39'!
 sigma
@@ -25078,15 +25090,19 @@ to: aDomain dynamic: aBlock
 to: aDomain evaluating: aBlock
 	^ self from: NN to: aDomain evaluating: aBlock! !
 
-!Sequence class methodsFor: 'intance creation' stamp: 'len 7/6/2016 23:51'!
-to: aDomain recurrence: aBlock
+!Sequence class methodsFor: 'intance creation' stamp: 'len 10/10/2016 21:07'!
+to: aDomain initialValues: anArray recurrence: aBlock
 	| cache |
-	cache _ OrderedCollection new.
+	cache _ OrderedCollection withAll: anArray.
 	^ self to: aDomain evaluating:
 			[:n|
 			"(n isInteger and: [n > 0]) ifFalse: [DomainError signal]."
 			[cache size < n] whileTrue: [cache add: (aBlock value: cache value: cache size + 1)].
 			cache at: n]! !
+
+!Sequence class methodsFor: 'intance creation' stamp: 'len 10/10/2016 21:08'!
+to: aDomain recurrence: aBlock
+	^ self to: aDomain initialValues: #() recurrence: aBlock! !
 
 !Sequence class methodsFor: 'intance creation' stamp: 'len 7/6/2016 23:51'!
 to: aDomain streamming: aBlock
