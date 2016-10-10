@@ -1,6 +1,16 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 9 October 2016 at 9:17:04.680174 pm'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 10 October 2016 at 9:37:34.550146 am'!
 'Description Please enter a description for this package'!
-!provides: 'MathematicsTests' 1 10!
+!provides: 'MathematicsTests' 1 11!
+!classDefinition: #AbelianGroupTest category: #MathematicsTests!
+TestCase subclass: #AbelianGroupTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'MathematicsTests'!
+!classDefinition: 'AbelianGroupTest class' category: #MathematicsTests!
+AbelianGroupTest class
+	instanceVariableNames: ''!
+
 !classDefinition: #AffineGeometryTest category: #MathematicsTests!
 TestCase subclass: #AffineGeometryTest
 	instanceVariableNames: ''
@@ -434,6 +444,54 @@ testTranspositionZ2	565 per second.
 Timings giving in [1] on computers with 0.8ghz - 1ghz intel cpus: general purpose system 20s-100s, tuned systems 2.3s-10s. For bigger coefficients: singular 28s, pari 77s.
 
 [1] R.J. Fateman, Comparing the speed of sparse polynomial multiplication.!
+
+!AbelianGroupTest methodsFor: 'as yet unclassified' stamp: 'len 10/10/2016 09:23'!
+testAbelianGroup: G
+	| zero a b c |
+	zero _ G zero.
+	a _ G atRandomBits: 100.
+	b _ G atRandomBits: 100.
+	c _ G atRandomBits: 100.
+	self assert: zero + a = a.
+	self assert: a + zero = a.
+	self assert: a + b = (b + a). "commutativity"
+	self assert: (a + b + c) = (a + (b + c)). "associativity"! !
+
+!AbelianGroupTest methodsFor: 'as yet unclassified' stamp: 'len 10/10/2016 09:24'!
+testAbelianGroupHomomorphism: phi
+	| G H a b |
+	G _ phi domain.
+	H _ phi codomain.
+	a _ G atRandomBits: 100.
+	b _ G atRandomBits: 100.
+	self assert: (phi value: G zero) = H zero.
+	self assert: (phi value: a + b) = ((phi value: a) + (phi value: b))! !
+
+!AbelianGroupTest methodsFor: 'as yet unclassified' stamp: 'len 10/10/2016 09:31'!
+testDirectSum
+	| G |
+	G _ ZZ ê (ZZ mod: (2 to: 10) atRandom).
+	self testAbelianGroup: G.
+	self testAbelianGroupHomomorphism: (G projection: 2 atRandom).
+	self testAbelianGroupHomomorphism: (G embedding: 2 atRandom)! !
+
+!AbelianGroupTest methodsFor: 'as yet unclassified' stamp: 'len 10/10/2016 09:29'!
+testIntegerTuples
+	| G |
+	G _ ZZ ** (1 to: 10) atRandom.
+	self testAbelianGroup: G.
+	self testAbelianGroupHomomorphism: (G projection: (1 to: G rank) atRandom)! !
+
+!AbelianGroupTest methodsFor: 'as yet unclassified' stamp: 'len 10/10/2016 09:27'!
+testIntegers
+	self testAbelianGroup: ZZ! !
+
+!AbelianGroupTest methodsFor: 'as yet unclassified' stamp: 'len 10/10/2016 09:27'!
+testModularIntegers
+	| G |
+	G _ ZZ mod: (2 to: 10) atRandom.
+	self testAbelianGroup: G.
+	self testAbelianGroupHomomorphism: G projection! !
 
 !AffineGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:54'!
 testAffineHull
