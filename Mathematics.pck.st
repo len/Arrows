@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 10 October 2016 at 5:49:12.69796 pm'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 10 October 2016 at 8:22:22.252076 pm'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 210!
+!provides: 'Mathematics' 1 211!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
 	instanceVariableNames: 'numerator shift'
@@ -1651,16 +1651,6 @@ Domain subclass: #AlgebraicSet
 AlgebraicSet class
 	instanceVariableNames: ''!
 
-!classDefinition: #Quadric category: #'Mathematics-Lattices'!
-AlgebraicSet subclass: #Quadric
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Lattices'!
-!classDefinition: 'Quadric class' category: #'Mathematics-Lattices'!
-Quadric class
-	instanceVariableNames: ''!
-
 !classDefinition: #Scheme category: #'Mathematics-Geometry-Algebraic-Schemes'!
 Domain subclass: #Scheme
 	instanceVariableNames: ''
@@ -1981,8 +1971,18 @@ RingHomomorphism subclass: #FieldHomomorphism
 FieldHomomorphism class
 	instanceVariableNames: ''!
 
+!classDefinition: #ModuleHomomorphism category: #'Mathematics-Modules-Support'!
+AbelianGroupHomomorphism subclass: #ModuleHomomorphism
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Modules-Support'!
+!classDefinition: 'ModuleHomomorphism class' category: #'Mathematics-Modules-Support'!
+ModuleHomomorphism class
+	instanceVariableNames: ''!
+
 !classDefinition: #LinearMap category: #'Mathematics-Modules-Support'!
-AbelianGroupHomomorphism subclass: #LinearMap
+ModuleHomomorphism subclass: #LinearMap
 	instanceVariableNames: 'domainBasis codomainBasis matrix'
 	classVariableNames: ''
 	poolDictionaries: ''
@@ -3756,7 +3756,7 @@ Chain complexes form a cateogory with chain maps as morphisms.!
 !Domain commentStamp: '<historical>' prior: 0!
 My instances are mathematical structures, such as groups, rings, fields, vector spaces, modules, etc.
 
-Domains are connected by Morphisms, which in many cases are Functions. From the point of view of category theory, Domains and Functions are respectively 'objects' and 'morphisms' of (small) categories.
+Domains are connected by morphisms, which in many cases are Functions. From the point of view of category theory, Domains and Functions are respectively 'objects' and 'morphisms' of (small) categories.
 
 Domains often have an underlying set: the set of elements. The cardinality of a domain can be finite or infinite, and countable or uncountable (see Aleph and >>size). When the underlying set is finite, #asSet returns a Smalltalk Set. When it is countable, it is possible to iterate over its element (see >>do:).  Also, when it makes sense to take elements at random, #atRandom:, #atRandom:bits: or similar messages are implemented.
 
@@ -3770,7 +3770,7 @@ Examples:
 	ZZ ◊ QQ polynomials.
 	QQ**3 ê QQ asSelfVectorSpace.
 
-Domains, as categorical objects, can have subobjects. Groups have subgroups, vector spaces have subspaces, rings have subrings and ideals, etc. In general, there is an #ambient object, and there is a protocol for inclusion testing: #<, #<=, #>=, #>.
+Domains, as categorical objects, can have subobjects: groups have subgroups, vector spaces have subspaces, rings have subrings and ideals, etc. In general, there is an #ambient object, and there is a protocol for inclusion testing: #<, #<=, #>=, #>.
 
 Some domains, such as field extensions and localizations, have associated canonical embeddings, and should implement #embed: and #embedding. Other domains, such as quotient objects, have canonical projections and should implement #project: and #projection. N-ary products and coproducts should implement #projection: for the i-th projection map (and coproducts also implement #embedding: for the i-th coprojection).
 
@@ -3938,7 +3938,7 @@ My instances are quotients of a ring by a maximal ideal. They are special cases 
 My instances are fields of order p prime, i.e. the residue field Z/<p> of integers modulo p.!
 
 !AlgebraicExtension commentStamp: '<historical>' prior: 0!
-My instances are (finite) algebraic extensions E/F of a field F. They are defined by an irreducible polynomial f with coefficients in F, and is isomorphic to F[x]/<f>.
+My instances are (finite) algebraic extensions E/F of a field F. They are defined by an irreducible polynomial f with coefficients in F, and are isomorphic to F[x]/<f>.
 
 Example:
 	QQ extension: QQ polynomials x**4 - 2
@@ -4061,7 +4061,9 @@ TODO:
 My instances are cartesian products. See Domain>>,.
 
 Example:
-  (ZZ, QQ)
+	(ZZ, QQ)
+
+Note that message #◊ is often used for the direct product (of rings or groups, for example), but #, always gives the cartesian product of the underlying sets.
 
 References:
 	https://en.wikipedia.org/wiki/Cartesian_product
@@ -4152,12 +4154,12 @@ Examples:
 	SymmetricGroup on: #(a b c).!
 
 !LinearGroup commentStamp: '<historical>' prior: 0!
-My instances are groups of linear transformations acting on a vector space. They are subgroups of the general linear group GL(V).
+My instances are groups of linear transformations acting on an R-module V. They are subgroups of the general linear group GL(V).
 
-These groups act naturally on the domain vector space by the action g^v |-> g(v).!
+These groups act naturally on the domain R-module by the action g^v |-> g(v).!
 
 !GeneralLinearGroup commentStamp: '<historical>' prior: 0!
-My instances are the general linear group GL(V) of automorphisms of a vector space V. The elements are invertible linear transformations from V to itself (see LinearMap, LinearGroup).
+My instances are the general linear group GL(V) of automorphisms of an R-module V. The elements are invertible linear transformations from V to itself (see LinearMap, LinearGroup).
 
 Examples (two equivalent ways to create GL(V):
 	GeneralLinearGroup on: QQ ** 3.
@@ -4168,19 +4170,19 @@ My instances are O(V), the Orthogonal Group of a vector space V. This is the gro
 !
 
 !MatrixGroup commentStamp: '<historical>' prior: 0!
-My instances are groups of nxn (non-singular) matrices acting on the tuple space K^n. They are subgroups of the general linear matrix group GL(n,K) of nxn invertible matrices with coefficients in the field K.
+My instances are groups of nxn (non-singular) matrices acting on the R-module of n-tuples R^n. They are subgroups of the general linear matrix group GL(n,R) of nxn invertible matrices with coefficients in the commutative ring R.
 
-These groups act naturally on the vector space K^n by the action A^v |-> A*v. (Or the corresponding left action).!
+These groups act naturally on the n-tuples module R^n by the action A^v |-> A*v. (Or the corresponding left action).!
 
 !GeneralLinearMatrixGroup commentStamp: '<historical>' prior: 0!
-My instances are the general linear (matrix) group GL(n,K) of nxn invertible matrices with coefficients in K, acting on the tuple space K^n.
+My instances are the general linear (matrix) group GL(n,R) of nxn invertible matrices with coefficients in the ring R, acting on the R-module of n-tuples R^n.
 
 Example:
 	GeneralLinearMatrixGroup on: QQ ** 3
 !
 
 !SpecialLinearMatrixGroup commentStamp: '<historical>' prior: 0!
-My instances are SL(V), the Special Linear Group of a vector space V. This is the group of unimodular automorphisms (transformations of determinant 1).!
+My instances are SL(n,R), the Special Linear Group of the R-module of n-tuples. This is the group of matrices of determinant 1.!
 
 !AffineGroup commentStamp: '<historical>' prior: 0!
 My instances are groups of (invertible) affine maps acting on an affine space. They are subgroups of the general affine group GA(V).!
@@ -4318,7 +4320,7 @@ An algebraic set is called 'irreducible' (or an algebraic variety) if it cannot 
 
 If I is a prime ideal, then V(I) is irreducible. There's an one-to-ono correspondence between prime ideals and irreducible algebraic sets (or algebraic varieties). The maximal ideals correspond to points.
 
-Algebraic sets are equiped with the Zariski topology. The closed subsets are varieties V(I).!
+Algebraic sets are equipped with the Zariski topology. The closed subsets are varieties V(I).!
 
 !Scheme commentStamp: '<historical>' prior: 0!
 My instances are schemes over a commutative ring.
@@ -4334,18 +4336,12 @@ References:
 My instances are affine schemes.
 
 Example:
-	| R x y |
+	| R x y I |
 	R _ ZZ polynomialsIn: #(x y).
 	x _ R x.
 	y _ R y.
-	AffineScheme ideal: R * (x**2 + (y**2) - 1)
-
-Or equivalently:
-	| R x y |
-	R _ ZZ polynomialsIn: #(x y).
-	x _ R x.
-	y _ R y.
-	(R / (R * (x**2 + (y**2) - 1))) spec
+	I _ R * (x**2 + (y**2) - 1).
+	(R / I) spec
 !
 
 !AffineSpace commentStamp: '<historical>' prior: 0!
@@ -4425,7 +4421,7 @@ References:
 !
 
 !LinearMap commentStamp: '<historical>' prior: 0!
-My instances are linear transformations between spaces of finite dimension, i.e. morphisms of vector spaces or free modules.
+My instances are linear transformations between finite rank free modules (or finite dimensional vector spaces).
 
 Example:
 	| V S |
@@ -23276,9 +23272,9 @@ from: aDomain to: anotherDomain evaluating: anExpression
 newFrom: aFunction
 	^ self from: aFunction domain to: aFunction codomain evaluating: aFunction! !
 
-!AbelianGroupHomomorphism methodsFor: 'as yet unclassified' stamp: 'len 10/10/2016 16:36'!
+!AbelianGroupHomomorphism methodsFor: 'as yet unclassified' stamp: 'len 10/10/2016 20:08'!
 = anObject
-	(anObject isKindOf: RingHomomorphism) ifFalse: [^ super = anObject].
+	(anObject isKindOf: self species) ifFalse: [^ super = anObject].
 	(anObject domain = self domain and: [anObject codomain = self codomain])
 		ifFalse: [^ false].
 	^ (self domain generators ifNil: [self domain]) allSatisfy: [:each| (self value: each) = (anObject value: each)]! !
@@ -23287,16 +23283,14 @@ newFrom: aFunction
 is: aSymbol
 	^ aSymbol == #AbelianGroupHomomorphism or: [super is: aSymbol]! !
 
+!AbelianGroupHomomorphism methodsFor: 'as yet unclassified' stamp: 'len 10/10/2016 20:09'!
+isIdentity
+	self isEndomorphism ifFalse: [^ false].
+	^ (self domain generators ifNil: [self domain]) allSatisfy: [:each| (self value: each) = each]! !
+
 !AbelianGroupHomomorphism methodsFor: 'as yet unclassified' stamp: 'len 10/10/2016 08:49'!
 species
 	^ AbelianGroupHomomorphism! !
-
-!RingHomomorphism methodsFor: 'as yet unclassified' stamp: 'len 10/10/2016 16:36'!
-= anObject
-	(anObject isKindOf: RingHomomorphism) ifFalse: [^ super = anObject].
-	(anObject domain = self domain and: [anObject codomain = self codomain])
-		ifFalse: [^ false].
-	^ (self domain generators ifNil: [self domain]) allSatisfy: [:each| (self value: each) = (anObject value: each)]! !
 
 !RingHomomorphism methodsFor: 'as yet unclassified' stamp: 'len 10/10/2016 09:14'!
 is: aSymbol
@@ -23317,13 +23311,6 @@ spec
 species
 	^ RingHomomorphism! !
 
-!FieldHomomorphism methodsFor: 'as yet unclassified' stamp: 'len 10/10/2016 16:37'!
-= anObject
-	(anObject isKindOf: FieldHomomorphism) ifFalse: [^ super = anObject].
-	(anObject domain = self domain and: [anObject codomain = self codomain])
-		ifFalse: [^ false].
-	^ (self domain generators ifNil: [self domain]) allSatisfy: [:each| (self value: each) = (anObject value: each)]! !
-
 !FieldHomomorphism methodsFor: 'as yet unclassified' stamp: 'len 10/10/2016 09:14'!
 is: aSymbol
 	^ aSymbol == #FieldHomomorphism or: [super is: aSymbol]! !
@@ -23331,6 +23318,14 @@ is: aSymbol
 !FieldHomomorphism methodsFor: 'as yet unclassified' stamp: 'len 10/10/2016 08:35'!
 species
 	^ FieldHomomorphism! !
+
+!ModuleHomomorphism methodsFor: 'as yet unclassified' stamp: 'len 10/10/2016 20:00'!
+is: aSymbol
+	^ aSymbol == #ModuleHomomorphism or: [super is: aSymbol]! !
+
+!ModuleHomomorphism methodsFor: 'as yet unclassified' stamp: 'len 10/10/2016 20:02'!
+species
+	^ ModuleHomomorphism! !
 
 !LinearMap methodsFor: 'arithmetic' stamp: 'len 1/8/2016 06:32'!
 * anObject
@@ -23533,10 +23528,6 @@ inverse
 
 	^ self domain dimension = self codomain dimension ifTrue: [self leftInverse]! !
 
-!LinearMap methodsFor: 'testing' stamp: 'len 8/30/2016 20:23'!
-is: aSymbol
-	^ aSymbol == #ModuleHomomorphism or: [super is: aSymbol]! !
-
 !LinearMap methodsFor: 'testing' stamp: 'len 9/1/97 23:23'!
 isConstant
 	"Answer true if the receiver is a constant transformation."
@@ -23547,8 +23538,9 @@ isConstant
 isIdempotent
 	^ self @ self = self! !
 
-!LinearMap methodsFor: 'testing' stamp: 'len 2/11/2016 03:45'!
+!LinearMap methodsFor: 'testing' stamp: 'len 10/10/2016 20:10'!
 isIdentity
+	self flag: #fix. "unnecesary method, implemented in AbelianGroupHomomorphism"
 	self isEndomorphism ifFalse: [^ false].
 	self domainBasis do: [:each| (self value: each) = each ifFalse: [^ false]].
 	^ true! !
@@ -23666,6 +23658,10 @@ rightInverse
 	"Answer a right inverse (or section) of the receiver.
 	Answer nil if the receiver is not an epimorphism."
 	^ properties at: #rightInverse ifAbsentPut: [self computeRightInverse]! !
+
+!LinearMap methodsFor: 'private' stamp: 'len 10/10/2016 20:02'!
+species
+	^ LinearMap! !
 
 !LinearMap methodsFor: 'eigenvalues' stamp: 'len 2/6/2016 21:29'!
 spectrum
@@ -23905,12 +23901,12 @@ image
 	"Answer the image of the receiver."
 	^ self domain collect: [:each| self value: each]! !
 
-!GroupHomomorphism methodsFor: 'arithmetic' stamp: 'len 8/1/2016 09:17'!
+!GroupHomomorphism methodsFor: 'arithmetic' stamp: 'len 10/10/2016 20:03'!
 inverse
 	"Answer the compositional inverse of the receiver."
 	^ self class
 		from: self codomain to: self domain
-		evaluating: [ :each | self domain detect: [ :one | (self value: one) = each]]! !
+		evaluating: [:each| self domain detect: [:one| (self value: one) = each]]! !
 
 !GroupHomomorphism methodsFor: 'testing' stamp: 'len 8/30/2016 20:23'!
 is: aSymbol
@@ -36680,7 +36676,7 @@ copy: aString replaceAll: oldSubstring with: newSubstring
 		collect: [:each| (each includesSubString: 'http') ifTrue: [each] ifFalse: [each copyReplaceTokens: oldSubstring with: newSubstring]]
 		andFold: [:a :b| a, Character lf asString, b]! !
 
-!DocumentationGenerator methodsFor: 'as yet unclassified' stamp: 'len 9/3/2016 07:17'!
+!DocumentationGenerator methodsFor: 'as yet unclassified' stamp: 'len 10/10/2016 18:08'!
 escape: aString
 	| output |
 	output _ aString.
@@ -36689,6 +36685,7 @@ escape: aString
 		(output includes: each) ifTrue: [output _ output copyReplaceAll: each asString with: '\', each asString]].
 	output _ output copyReplaceAll: Character tab asString with: '&nbsp;&nbsp;&nbsp;&nbsp;'.
 	output _ output copyReplaceAll: Character oplus asString with: '&oplus;'.
+	output _ output copyReplaceAll: '_' with: '&larr;'.
 	^ output! !
 
 !DocumentationGenerator methodsFor: 'as yet unclassified' stamp: 'len 10/9/2016 21:22'!
