@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 10 October 2016 at 9:14:37.572151 pm'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 11 October 2016 at 8:24:56.85218 am'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 212!
+!provides: 'Mathematics' 1 213!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
 	instanceVariableNames: 'numerator shift'
@@ -2221,16 +2221,6 @@ Function subclass: #SimplicialMap
 SimplicialMap class
 	instanceVariableNames: ''!
 
-!classDefinition: #Identity category: #'Mathematics-Kernel'!
-Morphism subclass: #Identity
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Kernel'!
-!classDefinition: 'Identity class' category: #'Mathematics-Kernel'!
-Identity class
-	instanceVariableNames: ''!
-
 !classDefinition: #Functor category: #'Mathematics-Kernel-Categories'!
 Morphism subclass: #Functor
 	instanceVariableNames: ''
@@ -3788,7 +3778,7 @@ Subclasses most frequently reimplement the following messages:
 - #atRandom::bits:
 - #printOn:
 - #product: and #coproduct:
-- #->, #id and #to:evaluating:
+- #to:evaluating:, #-> and #id
 
 References:
 	https://en.wikipedia.org/wiki/Algebraic_structure
@@ -4333,7 +4323,9 @@ References:
 	https://en.wikipedia.org/wiki/Scheme_(mathematics)!
 
 !AffineScheme commentStamp: '<historical>' prior: 0!
-My instances are affine schemes.
+My instances are affine schemes. They are the spectra of commutative rings (their coordinate rings), and their morphisms are induced by ring homomorphisms. Affine schemes form a category opposite to the category of commutative rings (the Spec functor reverses arrows).
+
+The simplest of all affine schemes is AffineSpace.
 
 Example:
 	| R x y I |
@@ -4345,7 +4337,11 @@ Example:
 !
 
 !AffineSpace commentStamp: '<historical>' prior: 0!
-My instances are affine spaces R^n as schemes, i.e. Spec(R[x1,...,xn]) for some commutative ring R.!
+My instances are affine spaces R^n as schemes, i.e. Spec(R[x1,...,xn]) for some commutative ring R.
+
+Example (the affine plane as scheme):
+	AffineSpace new: 2 over: ZZ
+!
 
 !Spectrum commentStamp: '<historical>' prior: 0!
 My instances are spectra of commutative rings. Given a commutative ring R, the spectrum of R denoted Spec(R) is the set of all prime ideals of R.
@@ -4478,7 +4474,7 @@ My instances are bilinear forms, i.e. functions from VxV to F where V is a vecto
 	B(v, w+cw`) = B(v, w) + cB(v, w`)
 !
 
-!Sequence commentStamp: 'len 10/10/2016 21:13' prior: 0!
+!Sequence commentStamp: 'len 10/10/2016 21:18' prior: 0!
 My instances are functions with domain the natural numbers (1,2,...). They can be evaluated at an index (#value: and #at:), and can also be iterated over like Smalltalk collections (#do:, #collect:, #select, etc).
 
 Example (the Fibonacci sequence):
@@ -4487,7 +4483,7 @@ Example (the Fibonacci sequence):
 Example (the harmonic numbers):
 	Sequence to: QQ evaluating: [:n| (1 to: n) sum: [:k| 1/k]].
 
-Each sequence has an associated generating series, which is the formal power series whose coefficients are the sequence (see PowerSeries):
+Each sequence has an associated generating series, which is the formal power series with coefficients given by the sequence (see PowerSeries):
 	Sequence fibonacci generatingSeries
 and Dirichlet series (see DirichletSeries):
 	Sequence fibonacci dirichletSeries
@@ -4551,9 +4547,6 @@ A RealRootFunction with two or more defining polynomials is equivalent to the on
 A chain map between two chain complexes (Ci,di) and (C`i,d`i) is a sequence of homomorphisms fi:Ci->C`i that commutes with the boundary operator in the two complexes: d`i @ fi = f{i-1} @ di. They send cycles to cycles and boundaries to boundaries, and this descends to a map in homology fi* : Hi -> H`i.
 
 Chain maps are morphisms in the category of chain complexes.!
-
-!Identity commentStamp: '<historical>' prior: 0!
-My instances are identity morphisms.!
 
 !GroupRandomGenerator commentStamp: '<historical>' prior: 0!
 I am the Product Replacement Algorithm for generating random elements in a group from a set of generators. Essentially, it performs a random walk on a Cayley graph.!
@@ -11924,10 +11917,18 @@ generators: aCollection
 hash
 	^ self isFinite ifTrue: [self size hash] ifFalse: [super hash]! !
 
-!Domain methodsFor: 'morphisms' stamp: 'len 8/31/2016 03:42'!
+!Domain methodsFor: 'morphisms' stamp: 'len 10/11/2016 08:21'!
 id
 	"Answer the identity morphism."
-	^ Identity on: self! !
+	| answer |
+	answer _ self to: self evaluating: [:x| x].
+	answer properties
+		at: #isIdentity put: true;
+		at: #leftInverse put: answer;
+		at: #rightInverse put: answer;
+"		at: #kernel put: self null;"
+		at: #image put: self.
+	^ answer! !
 
 !Domain methodsFor: 'testing' stamp: 'len 6/23/2016 07:04'!
 includes: anElement
@@ -23049,9 +23050,9 @@ isBimorphism
 isEndomorphism
 	^ self domain = self codomain! !
 
-!Morphism methodsFor: 'testing' stamp: 'len 8/8/2016 06:38'!
+!Morphism methodsFor: 'testing' stamp: 'len 10/11/2016 08:16'!
 isIdentity
-	^ false! !
+	^ properties at: #isIdentity ifAbsent: [false]! !
 
 !Morphism methodsFor: 'testing' stamp: 'len 8/8/2016 06:02'!
 isInvertible
@@ -23158,16 +23159,14 @@ new
 	self domain do: [:each| (self value: each) = (aFunction value: each) ifFalse: [^ false]].
 	^ true! !
 
-!Function methodsFor: 'operations' stamp: 'len 10/10/2016 15:12'!
+!Function methodsFor: 'operations' stamp: 'len 10/11/2016 08:16'!
 @ aFunction
 	"Answer the composition of the receiver with the argument."
-	aFunction class == Identity ifTrue: [^ self].
 	self domain >= aFunction codomain ifFalse: [DomainError signal: 'domains don''t match'].
 	^ self species from: aFunction domain to: self codomain evaluating: [:x| self value: (aFunction value: x)]! !
 
-!Function methodsFor: 'operations' stamp: 'len 9/21/2016 16:51'!
+!Function methodsFor: 'operations' stamp: 'len 10/11/2016 08:15'!
 • aFunction
-	aFunction class == Identity ifTrue: [^ self].
 	self codomain <= aFunction domain ifFalse: [DomainError signal: 'domains don''t match'].
 	^ self species from: self domain to: aFunction codomain evaluating: [:x| aFunction value: (self value: x)]! !
 
@@ -25999,67 +25998,6 @@ polynomials: aPolynomialSet index: anInteger
 	anInteger-th root function for the polynomials in aPolynomialSet."
 
 	^ self new polynomials: aPolynomialSet; index: anInteger! !
-
-!Identity methodsFor: 'comparing' stamp: 'len 4/23/2016 03:52'!
-= aFunction
-	^ self domain = aFunction domain and: [self codomain = aFunction codomain and: [aFunction isIdentity]]! !
-
-!Identity methodsFor: 'operations' stamp: 'len 10/10/2016 15:12'!
-@ aFunction
-	"Answer the composition of the receiver with the argument."
-	^ aFunction! !
-
-!Identity methodsFor: 'operations' stamp: 'len 9/21/2016 16:52'!
-• aFunction
-	^ aFunction! !
-
-!Identity methodsFor: 'accessing' stamp: 'len 4/19/2016 04:57'!
-codomain
-	^ self domain! !
-
-!Identity methodsFor: 'private' stamp: 'len 4/19/2016 04:57'!
-domain: aDomain
-	properties at: #domain put: aDomain! !
-
-!Identity methodsFor: 'testing' stamp: 'len 2/9/2016 04:20'!
-hasLeftInverse
-	^ true! !
-
-!Identity methodsFor: 'testing' stamp: 'len 2/9/2016 04:20'!
-hasRightInverse
-	^ true! !
-
-!Identity methodsFor: 'testing' stamp: 'len 2/9/2016 04:21'!
-isEpimorphism
-	^ true! !
-
-!Identity methodsFor: 'testing' stamp: 'len 2/9/2016 06:03'!
-isIdentity
-	^ true! !
-
-!Identity methodsFor: 'testing' stamp: 'len 2/9/2016 04:22'!
-isMonomorphism
-	^ true! !
-
-!Identity methodsFor: 'operations' stamp: 'len 2/9/2016 04:20'!
-leftInverse
-	^ self! !
-
-!Identity methodsFor: 'printing' stamp: 'len 4/21/2016 00:21'!
-printOn: aStream
-	aStream nextPutAll: 'id'! !
-
-!Identity methodsFor: 'operations' stamp: 'len 2/9/2016 04:20'!
-rightInverse
-	^ self! !
-
-!Identity methodsFor: 'operations' stamp: 'len 2/9/2016 04:01'!
-value: anObject
-	^ anObject! !
-
-!Identity class methodsFor: 'instance creation' stamp: 'len 4/19/2016 04:56'!
-on: aDomain
-	^ self new domain: aDomain! !
 
 !Functor methodsFor: 'as yet unclassified' stamp: 'len 10/9/2016 08:50'!
 arrowPrintOn: aStream
@@ -36692,7 +36630,7 @@ copy: aString replaceAll: oldSubstring with: newSubstring
 		collect: [:each| (each includesSubString: 'http') ifTrue: [each] ifFalse: [each copyReplaceTokens: oldSubstring with: newSubstring]]
 		andFold: [:a :b| a, Character lf asString, b]! !
 
-!DocumentationGenerator methodsFor: 'as yet unclassified' stamp: 'len 10/10/2016 18:08'!
+!DocumentationGenerator methodsFor: 'as yet unclassified' stamp: 'len 10/10/2016 21:21'!
 escape: aString
 	| output |
 	output _ aString.
@@ -36701,7 +36639,7 @@ escape: aString
 		(output includes: each) ifTrue: [output _ output copyReplaceAll: each asString with: '\', each asString]].
 	output _ output copyReplaceAll: Character tab asString with: '&nbsp;&nbsp;&nbsp;&nbsp;'.
 	output _ output copyReplaceAll: Character oplus asString with: '&oplus;'.
-	output _ output copyReplaceAll: '_' with: '&larr;'.
+	output _ output copyReplaceAll: ' _ ' with: ' &larr; '.
 	^ output! !
 
 !DocumentationGenerator methodsFor: 'as yet unclassified' stamp: 'len 10/9/2016 21:22'!
