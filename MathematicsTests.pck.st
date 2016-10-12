@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 10 October 2016 at 10:00:43.218726 am'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 12 October 2016 at 9:08:41.950899 pm'!
 'Description Please enter a description for this package'!
-!provides: 'MathematicsTests' 1 12!
+!provides: 'MathematicsTests' 1 13!
 !classDefinition: #AbelianGroupTest category: #MathematicsTests!
 TestCase subclass: #AbelianGroupTest
 	instanceVariableNames: ''
@@ -179,6 +179,16 @@ TestCase subclass: #RootSystemTest
 	category: 'MathematicsTests'!
 !classDefinition: 'RootSystemTest class' category: #MathematicsTests!
 RootSystemTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #SchemeTest category: #MathematicsTests!
+TestCase subclass: #SchemeTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'MathematicsTests'!
+!classDefinition: 'SchemeTest class' category: #MathematicsTests!
+SchemeTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #SemialgebraicGeometryTest category: #MathematicsTests!
@@ -3990,6 +4000,53 @@ testWeylGroupAndSimpleRoots
 	R _ self rootSystem1.
 	W _ R weylGroup.
 	R roots do: [:r| self assert: (W anySatisfy: [:w| R simpleRoots includes: (w value: r)])]! !
+
+!SchemeTest methodsFor: 'as yet unclassified' stamp: 'len 10/12/2016 20:56'!
+testAffineSchemeCreation
+	| A x y z X Y |
+	A _ AffineSpace new: 3 over: QQ.
+	x _ A coordinateRing x.
+	y _ A coordinateRing y.
+	z _ A coordinateRing z.
+	X _ A subscheme: x - y.
+	Y _ X subscheme: {x**2 - (z**3). y**3 - (z**4)}.
+	self assert: X ambient = A.
+	"Y is defined as subscheme of X, so it contains the equations of X plus the two new equations, but its ambient space is still A (not X):"
+	self assert: Y ambient = A! !
+
+!SchemeTest methodsFor: 'as yet unclassified' stamp: 'len 10/12/2016 20:39'!
+testAffineSpace
+	| K A |
+	K _ Field GF: 23.
+	A _ AffineSpace new: 3 over: K.
+	self assert: A dimension = 3.
+	self assert: A scalars = K.
+	self assert: A coordinateRing = (K polynomialsIn: 3).
+	self assert: A ambient = A! !
+
+!SchemeTest methodsFor: 'as yet unclassified' stamp: 'len 10/12/2016 21:05'!
+testDifference
+	| A x y C X2 D O |
+	A _ AffineSpace new: 2 over: QQ.
+	x _ A coordinateRing x.
+	y _ A coordinateRing y.
+	C _ A subscheme: x * y. "union of x-axis and y-axis"
+	X2 _ A subscheme: x**2. "y-axis with double multiplicity"
+	D _ X2 \ C. "y-axis with multiplicity 1"
+	self assert: D ideal = (A coordinateRing * x).
+	O _ A subscheme: {x. y}.
+	D _ C \ O.
+	self assert: D = C! !
+
+!SchemeTest methodsFor: 'as yet unclassified' stamp: 'len 10/12/2016 20:39'!
+testProjectiveSpace
+	| K P |
+	K _ Field GF: 23.
+	P _ ProjectiveSpace new: 3 over: K.
+	self assert: P dimension = 3.
+	self assert: P scalars = K.
+	self assert: P coordinateRing = (K polynomialsIn: 4).
+	self assert: P ambient = P! !
 
 !SemialgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 7/15/2016 18:37'!
 testCAD
