@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 11 October 2016 at 8:24:56.85218 am'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 12 October 2016 at 4:43:47.787467 pm'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 213!
+!provides: 'Mathematics' 1 214!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
 	instanceVariableNames: 'numerator shift'
@@ -1709,6 +1709,16 @@ Scheme subclass: #ProjectiveScheme
 	category: 'Mathematics-Geometry-Algebraic-Schemes'!
 !classDefinition: 'ProjectiveScheme class' category: #'Mathematics-Geometry-Algebraic-Schemes'!
 ProjectiveScheme class
+	instanceVariableNames: ''!
+
+!classDefinition: #ProjectiveCurve category: #'Mathematics-Geometry-Algebraic-Schemes'!
+ProjectiveScheme subclass: #ProjectiveCurve
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Geometry-Algebraic-Schemes'!
+!classDefinition: 'ProjectiveCurve class' category: #'Mathematics-Geometry-Algebraic-Schemes'!
+ProjectiveCurve class
 	instanceVariableNames: ''!
 
 !classDefinition: #ProjectiveSpace category: #'Mathematics-Geometry-Algebraic-Schemes'!
@@ -3760,9 +3770,9 @@ Examples:
 	ZZ ◊ QQ polynomials.
 	QQ**3 ê QQ asSelfVectorSpace.
 
-Domains, as categorical objects, can have subobjects: groups have subgroups, vector spaces have subspaces, rings have subrings and ideals, etc. In general, there is an #ambient object, and there is a protocol for inclusion testing: #<, #<=, #>=, #>.
+Domains, as categorical objects, can have subobjects: groups have subgroups, vector spaces have subspaces, rings have subrings and ideals, schemes have subschemes, etc. In general, there is an #ambient overobject, and there is a protocol for inclusion testing: #<, #<=, #>=, #>.
 
-Some domains, such as field extensions and localizations, have associated canonical embeddings, and should implement #embed: and #embedding. Other domains, such as quotient objects, have canonical projections and should implement #project: and #projection. N-ary products and coproducts should implement #projection: for the i-th projection map (and coproducts also implement #embedding: for the i-th coprojection).
+Some domains, such as field extensions and localizations, have associated canonical embeddings or inclusion maps, and should implement #embed: (the embedding implemented as a message) and #embedding (which returns the embedding reified as an instance of some subclass of Morphism). Other domains, such as quotient objects, have canonical projections and should implement #project: and #projection. N-ary products and coproducts should implement #projection: for the i-th projection map (and coproducts also implement #embedding: for the i-th coprojection).
 
 Examples:
 	(ZZ ◊ QQ) projection: 2.
@@ -3775,10 +3785,11 @@ Subclasses most frequently reimplement the following messages:
 - #includes:
 - #size
 - #do:
-- #atRandom::bits:
+- #atRandom:bits:
 - #printOn:
 - #product: and #coproduct:
 - #to:evaluating:, #-> and #id
+- #automorphisms
 
 References:
 	https://en.wikipedia.org/wiki/Algebraic_structure
@@ -4041,6 +4052,17 @@ My instances are (finite) algebraic extensions E/F of a field F seen as an F-vec
 Example:
 	QQ extension: QQ polynomials x**4 - 2 :: asVectorSpace
 !
+
+!DivisorsGroup commentStamp: '<historical>' prior: 0!
+TODO:
+- Div^d(E) := subgroup of Div(E) of divisors of degree d
+- Princ(E) := subgropu of Div^0(E) of principal divisors
+- Pic^0(E) := Div^0(E) / Princ(E)
+- Abel-Jacobi map Pic^0(E) -> E(K)
+- equality: D1 = D2 iff D1 - D2 is a principal divisor
+- a divisors of degree zero is principal iff the Abel-Jacobi map sends it to the zero point in the curve
+- divisor reduction: red(D) := (AJ([D])) - (0)
+- Miller's algorithm!
 
 !ExteriorPower commentStamp: 'len 8/1/2016 23:59' prior: 0!
 TODO:
@@ -4378,7 +4400,7 @@ My instances are abstract simplicial complexes. These are combinatorial objects 
 Also can be seen as a subset of the power set of some set V, often V={1,...,n}, closed under inclusion.!
 
 !Morphism commentStamp: '<historical>' prior: 0!
-I'm an abstract superclass for functions and other morphisms.
+I'm an abstract superclass for Functions and other morphisms.
 
 Examples (three equivalent ways to construct a homomorphism):
 	QQ**3 to: QQ**3 evaluating: [:v| (v x - v y, v x, v z)].
@@ -4392,10 +4414,10 @@ References:
 !Function commentStamp: '<historical>' prior: 0!
 My instances are functions, i.e. maps from a mathematical structure (domain) to another structure (codomain). Evaluated at elements of the domain (>>#value:) they produce elements of the codomain. See Domain.
 
-In general a Function is a morphism of sets. If the function preserves some mathematical structure, it is called a morphism of some category corresponding to the preserved structure. For example linear maps are morphisms of vector spaces, continuous functions are morphisms of topological spaces, and group homomorphisms are morphisms of groups.
-
 Example:
 	Function from: ZZ to: ZZ evaluating: [:x| x squared + 1].
+
+In general a Function is a morphism of sets. If the function preserves some mathematical structure, it is called a morphism of some category corresponding to the preserved structure. For example linear maps are morphisms of vector spaces or modules, continuous functions are morphisms of topological spaces, and group homomorphisms are morphisms of groups.
 
 Examples (three equivalent ways to construct homomorphisms):
 	"These constructions are similar to the explicit construction above, but they return not arbitrary functions but homomorphisms of the corresponding category (in this case linear maps, i.e. morphisms of vector spaces):"
@@ -4403,7 +4425,7 @@ Examples (three equivalent ways to construct homomorphisms):
 	QQ**3 -> (QQ**3) evaluating: [:v| (v x - v y, v x, v z)].
 	(QQ**3) endomorphisms evaluating: [:v| (v x - v y, v x, v z)].
 
-In general, functions are defined by a domain, a codomain, and an expression that can be evaluated at elements of the domain and answers elements of the codomain. One such expression can be a Smalltalk block, another Function, or in general any Smalltalk object that admits evaluation, such as polynomials:
+In general, functions are defined by specifying a domain, a codomain, and an expression that can be evaluated at elements of the domain and produces elements of the codomain. One such expression can be a Smalltalk block, another Function, or more generally any Smalltalk object that admits evaluation (#value:), such as polynomials:
 
 Examples (two ways to define the Frobenius endomorphism):
 	(ZZ mod: 6) endomorphisms evaluating: [:x| x**6].
@@ -12197,8 +12219,9 @@ product: anAbelianGroup
 		ifTrue: [self ê anAbelianGroup]
 		ifFalse: [super product: anAbelianGroup]! !
 
-!AbelianGroup methodsFor: 'morphisms' stamp: 'len 10/10/2016 08:49'!
+!AbelianGroup methodsFor: 'morphisms' stamp: 'len 10/11/2016 09:06'!
 to: anAbelianGroup evaluating: aBlock
+	anAbelianGroup isAbelianGroup ifFalse: [^ super to: anAbelianGroup evaluating: aBlock].
 	^ AbelianGroupHomomorphism from: self to: anAbelianGroup evaluating: aBlock! !
 
 !AbelianGroup methodsFor: 'accessing' stamp: 'len 7/15/2016 04:16'!
@@ -12934,10 +12957,9 @@ spec
 	self isCommutative ifFalse: [DomainError signal: 'non-commutative ring'].
 	^ Spectrum on: self! !
 
-!Ring methodsFor: 'morphisms' stamp: 'len 10/4/2016 08:48'!
+!Ring methodsFor: 'morphisms' stamp: 'len 10/11/2016 09:08'!
 to: aRing evaluating: aBlock
-	"Answer the ring homomorphism to aRing evaluating as the given block."
-	(aRing isKindOf: Ring) ifFalse: [^ super to: aRing evaluating: aBlock].
+	aRing isRing ifFalse: [^ super to: aRing evaluating: aBlock].
 	^ RingHomomorphism from: self to: aRing evaluating: aBlock! !
 
 !Ring methodsFor: 'tuples' stamp: 'len 4/12/2016 02:51'!
@@ -13355,6 +13377,10 @@ embed: aGroupElement
 embedding
 	^ (Function from: self group to: self evaluating: [:g| self embed: g]) name: 'i' "should be a group homomorphism in Hom(Grp,Ab)?"! !
 
+!GroupRing methodsFor: 'accessing' stamp: 'len 10/11/2016 14:14'!
+generators
+	^ (self group generators ifNil: [^ nil]) apply: self embedding! !
+
 !GroupRing methodsFor: 'accessing' stamp: 'len 8/7/2016 08:36'!
 group
 	^ group! !
@@ -13690,10 +13716,9 @@ primeSubfield
 		ifTrue: [QQ]
 		ifFalse: [ZZ modPrime: self characteristic]! !
 
-!Field methodsFor: 'morphisms' stamp: 'len 10/4/2016 08:51'!
+!Field methodsFor: 'morphisms' stamp: 'len 10/11/2016 09:06'!
 to: aField evaluating: aBlock
-	"Answer the group homomorphism from the receiver to the argument."
-	(aField isKindOf: Field) ifFalse: [^ super to: aField evaluating: aBlock].
+	aField isField ifFalse: [^ super to: aField evaluating: aBlock].
 	^ FieldHomomorphism from: self to: aField evaluating: aBlock! !
 
 !Field methodsFor: 'accessing' stamp: 'len 7/17/2016 23:54'!
@@ -14009,6 +14034,10 @@ embed: aPolynomial
 embedding
 	"Answer the embedding map from the base polynomials ring into the receiver."
 	^ properties at: #embedding ifAbsentPut: [(self polynomials to: self evaluating: [:f| self embed: f]) name: 'i']! !
+
+!RationalFunctions methodsFor: 'accessing' stamp: 'len 10/11/2016 14:18'!
+generators
+	^ self integralDomain generators apply: self embedding! !
 
 !RationalFunctions methodsFor: 'accessing' stamp: 'len 11/27/2015 20:13'!
 indeterminates
@@ -15114,15 +15143,14 @@ scalars
 scalars: aRing
 	properties at: #scalars put: aRing! !
 
-!Module methodsFor: 'morphisms' stamp: 'len 10/10/2016 20:27'!
+!Module methodsFor: 'morphisms' stamp: 'len 10/11/2016 09:07'!
 to: aModule evaluating: aBlock
-	"Answer the module homomorphism from the receiver to the argument."
-	(aModule isKindOf: Module) ifFalse: [^ super to: aModule evaluating: aBlock].
+	aModule isModule ifFalse: [^ super to: aModule evaluating: aBlock].
 	^ ModuleHomomorphism from: self to: aModule evaluating: aBlock! !
 
-!FreeModule methodsFor: 'morphisms' stamp: 'len 10/10/2016 20:26'!
+!FreeModule methodsFor: 'morphisms' stamp: 'len 10/12/2016 10:41'!
 -> aModule
-	"Answer the morphisms that go from the receiver A to the argument B: Hom(A,B)."
+	"Answer Hom(A,B), the R-module of morphisms that go from the receiver A to the argument B."
 	(aModule isKindOf: ScalarModule)
 		ifTrue: [^ self dual].
 	^ LinearMaps from: self to: aModule! !
@@ -15421,10 +15449,9 @@ span: aCollection
 tensors: aPair
 	^ Tensors type: aPair on: self! !
 
-!FreeModule methodsFor: 'morphisms' stamp: 'len 10/10/2016 20:26'!
+!FreeModule methodsFor: 'morphisms' stamp: 'len 10/11/2016 09:07'!
 to: aModule evaluating: aBlock
-	"Answer the module homomorphism from the receiver to the argument."
-	(aModule isKindOf: FreeModule) ifFalse: [^ super to: aModule evaluating: aBlock].
+	aModule isFreeModule ifFalse: [^ super to: aModule evaluating: aBlock].
 	^ LinearMap from: self to: aModule evaluating: aBlock! !
 
 !FreeModule methodsFor: 'testing' stamp: 'len 7/15/2016 00:21'!
@@ -16468,6 +16495,12 @@ e: anInteger
 elementAt: aTuple
 	"Answer the vector with coordinates aTuple in the canonical basis (i.e, the standard basis)."
 	^ aTuple! !
+
+!TupleModule methodsFor: 'morphisms' stamp: 'len 10/11/2016 09:00'!
+embedding: i
+	^ (self scalars asSelfModule to: self evaluating: [:x|
+			self scalars tuple: dimension evaluating: [:k|
+				k = i ifTrue: [x] ifFalse: [scalars zero]]]) name: 'i', i printText sub! !
 
 !TupleModule methodsFor: 'elements' stamp: 'len 4/14/2016 06:45'!
 evaluating: aBlock
@@ -17815,10 +17848,9 @@ span: aCollection
 species
 	^ Group! !
 
-!Group methodsFor: 'morphisms' stamp: 'len 8/31/2016 03:55'!
+!Group methodsFor: 'morphisms' stamp: 'len 10/11/2016 09:07'!
 to: aGroup evaluating: aBlock
-	"Answer the group homomorphism from the receiver to the argument."
-	(aGroup isKindOf: Group) ifFalse: [^ super to: aGroup evaluating: aBlock].
+	aGroup isGroup ifFalse: [^ super to: aGroup evaluating: aBlock].
 	^ GroupHomomorphism from: self to: aGroup evaluating: aBlock! !
 
 !Group methodsFor: 'accessing' stamp: 'len 8/4/2016 22:33'!
