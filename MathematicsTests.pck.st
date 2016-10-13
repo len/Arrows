@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 12 October 2016 at 9:08:41.950899 pm'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 13 October 2016 at 2:03:35.792505 pm'!
 'Description Please enter a description for this package'!
-!provides: 'MathematicsTests' 1 13!
+!provides: 'MathematicsTests' 1 14!
 !classDefinition: #AbelianGroupTest category: #MathematicsTests!
 TestCase subclass: #AbelianGroupTest
 	instanceVariableNames: ''
@@ -2774,13 +2774,18 @@ testMinimalPolynomial
 	self assert: f | m characteristicPolynomial.
 	self assert: (f value: m) isZero! !
 
-!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:48'!
+!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 10/13/2016 14:02'!
 testMinor
-	| M A B |
-	M _ ZZ ** (4@3).
-	A _ M vectorAt: #(1 2 3 4 5 6 7 8 9 10 11 12).
-	B _ A minor: 2@3.
-	self assert: B columns = {(1, 7, 10). (2, 8, 11)}! !
+	| M A |
+	M _ ZZ ** (3@3).
+	A _ M vectorAt: #(1 2 3 4 5 6 7 8 9).
+	self assert: (A minor: 2@3) = -6! !
+
+!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 10/13/2016 10:23'!
+testMinors
+	| A |
+	A _ ZZ ** (2@3) vectorAt: (1 to: 6).
+	self assert: (A minors: 2) asArray = #(-3 -6 -3)! !
 
 !MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 7/19/2016 08:54'!
 testQRDecomposition
@@ -4047,6 +4052,17 @@ testProjectiveSpace
 	self assert: P scalars = K.
 	self assert: P coordinateRing = (K polynomialsIn: 4).
 	self assert: P ambient = P! !
+
+!SchemeTest methodsFor: 'as yet unclassified' stamp: 'len 10/13/2016 10:30'!
+testTwistedCubic
+	| P R M C |
+	P _ ProjectiveSpace new: 3 over: QQ.
+	R _ P coordinateRing.
+	"R indeterminateNames: #(u v w t)"
+	M _ R**(2@3) vectorAt: ((1,2,3,2,3,4) collect: [:i| R x: i]).
+	C _ P subscheme: (M minors: 2).
+	self assert: C dimension = 1. "try replacing the ideal with the saturated ideal"
+	self assert: C isNonsingular! !
 
 !SemialgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 7/15/2016 18:37'!
 testCAD

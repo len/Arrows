@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 12 October 2016 at 9:08:38.393686 pm'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 13 October 2016 at 2:03:28.960677 pm'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 215!
+!provides: 'Mathematics' 1 216!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
 	instanceVariableNames: 'numerator shift'
@@ -1661,18 +1661,8 @@ Scheme subclass: #AffineSpace
 AffineSpace class
 	instanceVariableNames: ''!
 
-!classDefinition: #AlgebraicScheme category: #'Mathematics-Geometry-Schemes'!
-Scheme subclass: #AlgebraicScheme
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Geometry-Schemes'!
-!classDefinition: 'AlgebraicScheme class' category: #'Mathematics-Geometry-Schemes'!
-AlgebraicScheme class
-	instanceVariableNames: ''!
-
 !classDefinition: #Curve category: #'Mathematics-Geometry-Schemes'!
-AlgebraicScheme subclass: #Curve
+Scheme subclass: #Curve
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
@@ -4302,24 +4292,9 @@ References:
 !
 
 !Scheme commentStamp: '<historical>' prior: 0!
-My instances are schemes over a commutative ring.
+My instances are schemes.
 
-A scheme is a space that locally looks like a particularilly simple ringed space: an affine scheme. More preciselly, a scheme is a locally ringed space with an open cover by affine schemes (the spectra of unital commutative rings).
-
-A morphism of schemes is a morphism of the underlying locally ringed spaces.
-
-References:
-	https://en.wikipedia.org/wiki/Scheme_(mathematics)!
-
-!AffineSpace commentStamp: '<historical>' prior: 0!
-My instances are affine spaces R^n as schemes, i.e. Spec(R[x1,...,xn]) for some commutative ring R.
-
-Example (the affine plane as scheme):
-	AffineSpace new: 2 over: ZZ
-!
-
-!AlgebraicScheme commentStamp: '<historical>' prior: 0!
-My instances are subschemes defined by a finite set of polynomial equations (i.e., a finitely generated ideal). They are the spectra of affine rings (quotient rings of multivariate polynomial rings).
+In general, my instances are defined by a finite set of polynomial equations (i.e., a finitely generated ideal). They are the spectra of affine rings (quotient rings of multivariate polynomial rings). Subclasses override behavior to represent schemes in other ways.
 
 Example:
 	| R x y I |
@@ -4328,6 +4303,13 @@ Example:
 	y _ R y.
 	I _ R * (x**2 + (y**2) - 1).
 	(R / I) spec
+!
+
+!AffineSpace commentStamp: '<historical>' prior: 0!
+My instances are affine spaces R^n as schemes, i.e. Spec(R[x1,...,xn]) for some commutative ring R.
+
+Example (the affine plane as scheme):
+	AffineSpace new: 2 over: ZZ
 !
 
 !ProjectiveSpace commentStamp: '<historical>' prior: 0!
@@ -14822,9 +14804,9 @@ findIrreducibleOfDegree: n
 	[(p _ self atRandom: random maxDegree: n) degree = n and: [p isIrreducible]] whileFalse.
 	^ p! !
 
-!PolynomialRing methodsFor: 'operations' stamp: 'len 11/24/2015 05:32'!
+!PolynomialRing methodsFor: 'operations' stamp: 'len 10/13/2016 13:13'!
 fractions
-	scalars isField ifFalse: [^ self error: 'scalars are not a field'].
+	scalars isField ifFalse: [^ DomainError signal: 'scalars are not a field'].
 	^ RationalFunctions polynomials: self! !
 
 !PolynomialRing methodsFor: 'accessing' stamp: 'len 10/2/2016 10:34'!
@@ -16828,25 +16810,25 @@ printOn: aStream
 	polynomials do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: ', '].
 	aStream nextPut: $)! !
 
-!DivisorsGroup methodsFor: 'as yet unclassified' stamp: 'len 10/5/2016 10:01'!
+!DivisorsGroup methodsFor: 'printing' stamp: 'len 10/5/2016 10:01'!
 printOn: aStream
 	aStream nextPutAll: 'Div' bold.
 	(self scalars isKindOf: Integers) ifFalse: [aStream print: self scalars printText sub].
 	aStream nextPut: $(; print: scheme; nextPut: $)! !
 
-!DivisorsGroup methodsFor: 'as yet unclassified' stamp: 'len 10/4/2016 12:11'!
+!DivisorsGroup methodsFor: 'accessing' stamp: 'len 10/4/2016 12:11'!
 scheme
 	^ scheme! !
 
-!DivisorsGroup methodsFor: 'as yet unclassified' stamp: 'len 10/4/2016 12:11'!
+!DivisorsGroup methodsFor: 'accessing-private' stamp: 'len 10/4/2016 12:11'!
 scheme: aScheme
 	scheme _ aScheme! !
 
-!DivisorsGroup class methodsFor: 'as yet unclassified' stamp: 'len 10/5/2016 10:00'!
+!DivisorsGroup class methodsFor: 'instance creation' stamp: 'len 10/5/2016 10:00'!
 on: aScheme
 	^ self on: aScheme over: ZZ! !
 
-!DivisorsGroup class methodsFor: 'as yet unclassified' stamp: 'len 10/5/2016 10:00'!
+!DivisorsGroup class methodsFor: 'instance creation' stamp: 'len 10/5/2016 10:00'!
 on: aScheme over: aRing
 	^ self new scheme: aScheme; scalars: aRing! !
 
@@ -21558,23 +21540,116 @@ printOn: aStream
 vectorFromPoint: aProjectiveMap
 	^ aProjectiveMap linearMap! !
 
+!Scheme methodsFor: 'operations' stamp: 'len 10/13/2016 10:41'!
+/\ aScheme
+	"Meet."
+	^ self ˜ aScheme! !
+
+!Scheme methodsFor: 'comparing' stamp: 'len 10/13/2016 13:30'!
+< aScheme
+	^ self ideal > aScheme ideal! !
+
+!Scheme methodsFor: 'comparing' stamp: 'len 10/13/2016 13:30'!
+<= aScheme
+	^ self ideal >= aScheme ideal! !
+
+!Scheme methodsFor: 'comparing' stamp: 'len 10/13/2016 13:30'!
+= anObject
+	^ (anObject isKindOf: Scheme) and: [self ambient = anObject ambient and: [self ideal = anObject ideal]]! !
+
+!Scheme methodsFor: 'operations' stamp: 'len 10/13/2016 13:23'!
+\ aScheme
+	"Answer the difference of the receiver with the argument, whose associated ideal is the ideal (colon) quotient of the respective ideals."
+	self ambient = aScheme ambient ifFalse: [^ DomainError signal: 'ambients don''t match'].
+	^ self species on: self ambient ideal: (self ideal colon: aScheme ideal)! !
+
+!Scheme methodsFor: 'operations' stamp: 'len 10/13/2016 10:41'!
+\/ aScheme
+	"Join."
+	^ self ™ aScheme! !
+
+!Scheme methodsFor: 'operations' stamp: 'len 10/13/2016 13:23'!
+˜ aScheme
+	"Answer the intersection of the receiver and the argument."
+	self ambient = aScheme ambient ifFalse: [^ DomainError signal: 'ambients don''t match'].
+	^ self species on: self ambient ideal: self ideal + aScheme ideal! !
+
+!Scheme methodsFor: 'operations' stamp: 'len 10/13/2016 13:23'!
+™ aScheme
+	"Answer the union of the receiver and the argument."
+	self ambient = aScheme ambient ifFalse: [^ DomainError signal: 'ambients don''t match'].
+	^ self species on: self ambient ideal: self ideal ˜ aScheme ideal
+
+"alternatively:
+	^ self class on: self ambient ideal: ideal * aScheme ideal
+although the intersection is harder to compute, it behaves better with radicalization, because the intersection of two radical ideals is radical and we don't need to compute radicals again"! !
+
+!Scheme methodsFor: 'accessing-private' stamp: 'len 10/13/2016 13:23'!
+ambient: aScheme
+	properties at: #ambient put: aScheme! !
+
 !Scheme methodsFor: 'accessing' stamp: 'len 10/4/2016 09:19'!
 codimension
 	^ self ambient dimension - self dimension! !
 
-!Scheme methodsFor: 'accessing' stamp: 'len 10/4/2016 09:19'!
-dimension
-	^ self subclassResponsibility! !
+!Scheme methodsFor: 'accessing' stamp: 'len 10/13/2016 13:23'!
+coordinateRing
+	^ self ideal quotient! !
 
-!Scheme methodsFor: 'as yet unclassified' stamp: 'len 10/4/2016 12:13'!
+!Scheme methodsFor: 'accessing' stamp: 'len 10/13/2016 13:23'!
+degree
+	^ self ideal degree! !
+
+!Scheme methodsFor: 'accessing' stamp: 'len 10/13/2016 13:23'!
+dimension
+	"This is the trascendence degree of the function field over the ground field."
+	| indeterminates G |
+	G _ self ideal groebnerBasis minimal.
+	indeterminates _ G indeterminates asSet copy.
+	G do: [:each|
+		indeterminates removeAllFoundIn: (G ordering headOf: each) indeterminates].
+	^ indeterminates size! !
+
+!Scheme methodsFor: 'operations' stamp: 'len 10/4/2016 12:13'!
 divisors
 	"Answer the divisors class group of the receiver."
 	^ DivisorsGroup on: self! !
 
-!Scheme methodsFor: 'as yet unclassified' stamp: 'len 10/5/2016 09:59'!
+!Scheme methodsFor: 'operations' stamp: 'len 10/5/2016 09:59'!
 divisorsOver: aRing
 	"Answer the divisors class group of the receiver."
 	^ DivisorsGroup on: self over: aRing! !
+
+!Scheme methodsFor: 'morphisms' stamp: 'len 10/13/2016 13:23'!
+embedding
+	"Answer the inclusion map into the ambient scheme."
+	^ self to: self ambient inducedBy: self coordinateRing embedding! !
+
+!Scheme methodsFor: 'accessing' stamp: 'len 10/13/2016 13:23'!
+equations
+	"Answer a polynomial system defining the receiver."
+	| answer zero |
+	answer _ PolynomialSystem new.
+	zero _ self scalars zero.
+	self ideal generators do: [:each| answer add: (each eq: zero)].
+	^ answer! !
+
+!Scheme methodsFor: 'accessing' stamp: 'len 10/13/2016 13:23'!
+functionField
+	"Answer the function field (or field of rational functions) of the receiver. This is the fractions field of the coordinate ring and it's noted K(V) (analogous to the coordinate ring noted K[V])."
+	^ self coordinateRing fractions! !
+
+!Scheme methodsFor: 'comparing' stamp: 'len 10/13/2016 13:23'!
+hash
+	^ self ideal hash! !
+
+!Scheme methodsFor: 'accessing' stamp: 'len 10/13/2016 13:23'!
+ideal
+	^ properties at: #ideal! !
+
+!Scheme methodsFor: 'accessing-private' stamp: 'len 10/13/2016 13:23'!
+ideal: aPolynomialIdeal
+	properties at: #ideal put: aPolynomialIdeal! !
 
 !Scheme methodsFor: 'testing' stamp: 'len 10/12/2016 18:32'!
 isAffine
@@ -21585,10 +21660,29 @@ isConnected
 	"Answer true if the receiver as a topological space is connected."
 	^ properties at: #isConnected! !
 
-!Scheme methodsFor: 'testing' stamp: 'len 8/28/2016 02:51'!
+!Scheme methodsFor: 'testing' stamp: 'len 10/13/2016 13:23'!
+isEmpty
+	"Answer true if the receiver is empty. 
+	Ref. Algorithmic Algebra, B. Mishra, pag. 142-145."
+	self flag: #fix. "should only test if the basis is {1}, and only works on an agebraically closed field"
+	self ideal groebnerBasis
+		do: [:each | (each isConstant and: [each isZero not]) ifTrue: [^ true]].
+	(self scalars isField and: [self scalars isAlgebraicallyClosed])
+		ifFalse: [self error: 'the ground field is not algebraically closed'].
+	^ false! !
+
+!Scheme methodsFor: 'testing' stamp: 'len 10/13/2016 13:23'!
+isFinite
+	"This works for any Groebner basis, no matter the ordering."
+	"Does this work for schemes?"
+	self ideal ring indeterminates do: [:x|
+		(self ideal groebnerBasis anySatisfy: [:f| | d m | m _ f leadingMonomial. d _ m degree. d > 0 and: [d = (m degreeIn: x)]])
+			ifFalse: [^ false]].
+	^ true! !
+
+!Scheme methodsFor: 'testing' stamp: 'len 10/13/2016 13:23'!
 isIrreducible
-	"Answer true if the receiver as a topological space is irreducible."
-	^ properties at: #isIrreducible! !
+	^ self ideal isPrime "IFF. Alternatively, iif the coordinate ring is an integral domain"! !
 
 !Scheme methodsFor: 'testing' stamp: 'len 10/12/2016 19:40'!
 isNoetherian
@@ -21610,20 +21704,54 @@ isProjective
 isSaturated
 	^ properties at: #isSaturated! !
 
-!Scheme methodsFor: 'as yet unclassified' stamp: 'len 10/12/2016 20:49'!
+!Scheme methodsFor: 'printing' stamp: 'len 10/13/2016 13:23'!
+printOn: aStream
+	self isAffine
+		ifTrue:
+			[aStream nextPutAll: 'Spec '; print: self coordinateRing]
+		ifFalse:
+			[self isProjective
+				ifTrue: [aStream nextPutAll: 'Proj '; print: self coordinateRing]
+				ifFalse: [super printOn: aStream]]! !
+
+!Scheme methodsFor: 'operations' stamp: 'len 10/13/2016 13:23'!
+product: aScheme
+	^ self species on: (self ambient product: aScheme ambient) ideal: (self ideal product: aScheme ideal)! !
+
+!Scheme methodsFor: 'operations' stamp: 'len 10/13/2016 13:23'!
+project: anIndeterminate
+	"Answer the projection of the receiver by eliminating the given indeterminate."
+	^ self species on: self ambient ideal: (self ideal eliminate: anIndeterminate)! !
+
+!Scheme methodsFor: 'operations' stamp: 'len 10/13/2016 13:23'!
+projectiveClosure
+	"The projective closure of an affine variety is the projective variety corresponding to the homogenized ideal."
+	(self scalars isField and: [self scalars isAlgebraicallyClosed])
+		ifFalse: [self error: 'not over an algebraically closed ground field']. "otherwise the variety obtained can be bigger than the actual projective closure"
+	^ self class on: self ambient projectiveClosure ideal: self ideal homogenized! !
+
+!Scheme methodsFor: 'accessing' stamp: 'len 10/13/2016 13:23'!
+scalars
+	^ self ambient scalars! !
+
+!Scheme methodsFor: 'private' stamp: 'len 10/13/2016 13:32'!
+species
+	^ Scheme! !
+
+!Scheme methodsFor: 'operations' stamp: 'len 10/13/2016 13:32'!
 subscheme: anObject
 	| I |
 	I _ (anObject isKindOf: Ideal)
 		ifTrue: [anObject] ifFalse: [self coordinateRing * anObject].
-	I generators size = 1 ifFalse: [^ AlgebraicScheme on: self ideal: I].
+	I generators size = 1 ifFalse: [^ Scheme on: self ideal: I].
 	self dimension = 2 ifFalse: [^ Curve on: self ideal: I].
 	^ PlaneCurve on: self ideal: I! !
 
-!Scheme methodsFor: 'as yet unclassified' stamp: 'len 9/26/2016 06:49'!
-terminalObject
-	^ ZZ spec! !
+!Scheme class methodsFor: 'instance creation' stamp: 'len 10/13/2016 13:28'!
+on: aScheme ideal: anIdeal
+	^ self new ambient: aScheme; ideal: anIdeal! !
 
-!AffineSpace methodsFor: 'as yet unclassified' stamp: 'len 10/12/2016 21:06'!
+!AffineSpace methodsFor: 'comparing' stamp: 'len 10/12/2016 21:06'!
 = anObject
 	^ (anObject isKindOf: AffineSpace) and: [self coordinateRing = anObject coordinateRing]! !
 
@@ -21648,7 +21776,7 @@ coordinateRing: aPolynomialRing
 dimension
 	^ self coordinateRing rank! !
 
-!AffineSpace methodsFor: 'as yet unclassified' stamp: 'len 10/12/2016 21:06'!
+!AffineSpace methodsFor: 'comparing' stamp: 'len 10/12/2016 21:06'!
 hash
 	^ self coordinateRing hash! !
 
@@ -21695,122 +21823,9 @@ coordinateRing: aPolynomialRing
 new: dimension over: aCommutativeRing
 	^ self new coordinateRing: (aCommutativeRing polynomialsIn: dimension)! !
 
-!AlgebraicScheme methodsFor: 'comparing' stamp: 'len 8/27/2016 20:47'!
-< anAffineScheme
-	^ self ideal > anAffineScheme ideal! !
-
-!AlgebraicScheme methodsFor: 'comparing' stamp: 'len 8/27/2016 20:43'!
-<= anAffineScheme
-	^ self ideal >= anAffineScheme ideal! !
-
-!AlgebraicScheme methodsFor: 'comparing' stamp: 'len 10/12/2016 19:34'!
-= anObject
-	^ (anObject isKindOf: AlgebraicScheme) and: [self ambient = anObject ambient and: [self ideal = anObject ideal]]! !
-
-!AlgebraicScheme methodsFor: 'operations' stamp: 'len 10/12/2016 18:38'!
-\ aScheme
-	"Answer the difference of the receiver with the argument, whose associated ideal is the ideal (colon) quotient of the respective ideals."
-	self ambient = aScheme ambient ifFalse: [^ DomainError signal: 'ambients don''t match'].
-	^ self species on: self ambient ideal: (self ideal colon: aScheme ideal)! !
-
-!AlgebraicScheme methodsFor: 'operations' stamp: 'len 10/12/2016 18:39'!
-˜ aScheme
-	"Answer the intersection of the receiver and the argument."
-	self ambient = aScheme ambient ifFalse: [^ DomainError signal: 'ambients don''t match'].
-	^ self species on: self ambient ideal: self ideal + aScheme ideal! !
-
-!AlgebraicScheme methodsFor: 'operations' stamp: 'len 10/12/2016 18:39'!
-™ aScheme
-	"Answer the union of the receiver and the argument."
-	self ambient = aScheme ambient ifFalse: [^ DomainError signal: 'ambients don''t match'].
-	^ self species ideal: self ideal ˜ aScheme ideal! !
-
-!AlgebraicScheme methodsFor: 'operations' stamp: 'len 9/26/2016 13:44'!
-affineSpaceIn: n
-	"Answer the affine n-space over the receiver."
-	^ AffineSpace new: n over: self coordinateRing
-"	^ (self coordinateRing polynomialsIn: n) spec"! !
-
-!AlgebraicScheme methodsFor: 'accessing' stamp: 'len 9/26/2016 16:46'!
-ambient
-	^ AffineSpace coordinateRing: self ideal ring! !
-
-!AlgebraicScheme methodsFor: 'accessing-private' stamp: 'len 10/12/2016 18:33'!
-ambient: aScheme
-	properties at: #ambient put: aScheme! !
-
-!AlgebraicScheme methodsFor: 'accessing' stamp: 'len 9/22/2016 07:59'!
-coordinateRing
-	^ self ideal quotient! !
-
-!AlgebraicScheme methodsFor: 'accessing' stamp: 'len 8/27/2016 21:27'!
-degree
-	^ self ideal degree! !
-
-!AlgebraicScheme methodsFor: 'accessing' stamp: 'len 8/27/2016 21:26'!
+!Curve methodsFor: 'as yet unclassified' stamp: 'len 10/13/2016 13:38'!
 dimension
-	"This is the trascendence degree of the function field over the ground field."
-	| indeterminates G |
-	G _ self ideal groebnerBasis minimal.
-	indeterminates _ G indeterminates asSet copy.
-	G do: [:each|
-		indeterminates removeAllFoundIn: (G ordering headOf: each) indeterminates].
-	^ indeterminates size! !
-
-!AlgebraicScheme methodsFor: 'as yet unclassified' stamp: 'len 10/12/2016 18:54'!
-embedding
-	"Answer the inclusion map into the ambient scheme."
-	^ self to: self ambient inducedBy: self coordinateRing embedding! !
-
-!AlgebraicScheme methodsFor: 'accessing' stamp: 'len 8/27/2016 20:41'!
-functionField
-	"Answer the function field (or field of rational functions) of the receiver. This is the fractions field of the coordinate ring and it's noted K(V) (analogous to the coordinate ring noted K[V])."
-	^ self coordinateRing fractions! !
-
-!AlgebraicScheme methodsFor: 'comparing' stamp: 'len 8/27/2016 20:44'!
-hash
-	^ self ideal hash! !
-
-!AlgebraicScheme methodsFor: 'accessing' stamp: 'len 8/27/2016 21:28'!
-ideal
-	^ properties at: #ideal! !
-
-!AlgebraicScheme methodsFor: 'accessing-private' stamp: 'len 8/27/2016 21:28'!
-ideal: aPolynomialIdeal
-	properties at: #ideal put: aPolynomialIdeal! !
-
-!AlgebraicScheme methodsFor: 'printing' stamp: 'len 10/12/2016 18:36'!
-printOn: aStream
-	self isAffine
-		ifTrue: [aStream nextPutAll: 'Spec '; print: self coordinateRing. ^ self].
-	self isProjective
-		ifTrue: [aStream nextPutAll: 'Proj '; print: self coordinateRing. ^ self].
-	self error: 'no affine nor projective scheme?'! !
-
-!AlgebraicScheme methodsFor: 'operations' stamp: 'len 10/12/2016 18:39'!
-project: anIndeterminate
-	"Answer the projection of the receiver by eliminating the given indeterminate."
-	^ self species on: self ambient ideal: (self ideal eliminate: anIndeterminate)! !
-
-!AlgebraicScheme methodsFor: 'operations' stamp: 'len 10/12/2016 18:40'!
-projectiveClosure
-	"The projective closure of an affine variety is the projective variety corresponding to the homogenized ideal."
-	(self scalars isField and: [self scalars isAlgebraicallyClosed])
-		ifFalse: [self error: 'the ground field is not algebraically closed']. "otherwise the variety obtained can be bigger than the actual projective closure"
-	^ self class on: self ambient projectiveClosure ideal: self ideal homogenized! !
-
-!AlgebraicScheme methodsFor: 'accessing' stamp: 'len 10/12/2016 19:31'!
-scalars
-	^ self ambient scalars! !
-
-!AlgebraicScheme methodsFor: 'private' stamp: 'len 10/12/2016 18:27'!
-species
-	^ AlgebraicScheme! !
-
-!AlgebraicScheme class methodsFor: 'instance creation' stamp: 'len 10/12/2016 19:13'!
-on: aScheme ideal: anIdeal
-	aScheme isProjective ifTrue: [anIdeal isHomogeneous ifFalse: [DomainError signal: 'non-homogeneous ideal']].
-	^ self new ambient: aScheme; ideal: anIdeal! !
+	^ 1! !
 
 !PlaneCurve methodsFor: 'as yet unclassified' stamp: 'len 10/12/2016 18:29'!
 = aPlaneCurve
@@ -26617,7 +26632,7 @@ degree
 squared
 	^ self * self! !
 
-!Divisor methodsFor: 'as yet unclassified' stamp: 'len 10/8/2016 19:49'!
+!Divisor methodsFor: 'accessing' stamp: 'len 10/8/2016 19:49'!
 degree
 	| answer |
 	answer _ 0.
@@ -27869,13 +27884,13 @@ characteristicPolynomial3
 	a add: C trace negated / i.
 	C _ C + (I * a last)] repeat! !
 
-!Matrix methodsFor: 'operations' stamp: 'len 11/5/2015 06:08'!
+!Matrix methodsFor: 'operations' stamp: 'len 10/13/2016 14:00'!
 cofactor: aPoint
 	"Answer the cofactor i@j of the receiver."
 
 	^ (aPoint x + aPoint y) even
-		ifTrue: [(self minor: aPoint) determinant]
-		ifFalse: [(self minor: aPoint) determinant negated]! !
+		ifTrue: [self minor: aPoint]
+		ifFalse: [(self minor: aPoint) negated]! !
 
 !Matrix methodsFor: 'subspaces' stamp: 'len 2/22/2016 06:07'!
 coimage
@@ -28240,15 +28255,26 @@ minimalPolynomial
 minimalPolynomial2
 	^ self characteristicPolynomial squareFree! !
 
-!Matrix methodsFor: 'operations' stamp: 'len 12/12/2015 21:28'!
+!Matrix methodsFor: 'operations' stamp: 'len 10/13/2016 14:00'!
 minor: aPoint
-	"Answer the matrix obtained removing the column y and the row x from the receiver, where aPoint is x@y."
-	^ self scalars ** (self numberOfRows - 1 @ (self numberOfColumns - 1))
+	"Answer the i@j-minor, i.e. the determinant of the matrix obtained by removing row i and column j from the receiver."
+	^ (self scalars ** (self numberOfRows - 1 @ (self numberOfColumns - 1))
 		evaluating: [:i :j|
 			| x y |
 			i < aPoint x ifTrue: [x _ i] ifFalse: [x _ i + 1].
 			j < aPoint y ifTrue: [y _ j] ifFalse: [y _ j + 1].
-			self at: x@y]! !
+			self at: x@y]) determinant! !
+
+!Matrix methodsFor: 'operations' stamp: 'len 10/13/2016 10:20'!
+minors: k
+	"Answer the list of all the k-minors of the receiver, i.e. the determinants of all matrices obtained by deleting m - k rows and n - k columns."
+	| M answer |
+	answer _ OrderedCollection new.
+	M _ self scalars ** (k @ k).
+	(1 to: self numberOfRows) combinations: k atATimeDo: [:rows|
+		(1 to: self numberOfColumns) combinations: k atATimeDo: [:columns|
+			answer add: (M evaluating: [:i :j| self at: (rows at: i) @ (columns at: j)]) determinant]].
+	^ answer! !
 
 !Matrix methodsFor: 'arithmetic' stamp: 'len 3/23/2016 00:23'!
 negated
@@ -28281,7 +28307,7 @@ printBitsOn: aStream
 		row do: [:bit| aStream nextPut: (bit isZero ifTrue: [$0] ifFalse: [$1])].
 		aStream nextPut: $]] separatedBy: [aStream cr]! !
 
-!Matrix methodsFor: 'printing' stamp: 'len 7/16/2016 23:09'!
+!Matrix methodsFor: 'printing' stamp: 'len 10/13/2016 10:01'!
 printOn: aStream
 	| pads string pad |
 	aStream cr.
@@ -28289,16 +28315,16 @@ printOn: aStream
 	pads _ (1 to: self numberOfColumns) collect: [:each| 0].
 	self rows do: [:each|
 		1 to: each dimension do: [ :index |
-			pads at: index put: ((pads at: index) max: (each at: index) printString size)]].
+			pads at: index put: ((pads at: index) max: (each at: index) printText size)]].
 	self rows do: [:each|
 		aStream nextPut: $[.
 		1 to: each size - 1 do: [ :index |
-			string _ (each at: index) printString.
+			string _ (each at: index) printText.
 			pad _ (pads at: index) - string size.
 			pad // 2 timesRepeat: [aStream space].
 			aStream nextPutAll: string.
 			pad // 2 + (pad \\ 2) + 3 timesRepeat: [aStream space]].
-		string _ (each at: each size) printString.
+		string _ (each at: each size) printText.
 		pad _ (pads at: each size) - string size.
 		pad // 2 timesRepeat: [aStream space].
 		aStream nextPutAll: string.
