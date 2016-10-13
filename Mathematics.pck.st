@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 13 October 2016 at 2:03:28.960677 pm'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 13 October 2016 at 8:28:42.831423 pm'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 216!
+!provides: 'Mathematics' 1 217!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
 	instanceVariableNames: 'numerator shift'
@@ -1681,13 +1681,13 @@ Curve subclass: #PlaneCurve
 PlaneCurve class
 	instanceVariableNames: ''!
 
-!classDefinition: #EllipticCurve category: #'Mathematics-ETC'!
+!classDefinition: #EllipticCurve category: #'Mathematics-Geometry-Schemes'!
 PlaneCurve subclass: #EllipticCurve
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-ETC'!
-!classDefinition: 'EllipticCurve class' category: #'Mathematics-ETC'!
+	category: 'Mathematics-Geometry-Schemes'!
+!classDefinition: 'EllipticCurve class' category: #'Mathematics-Geometry-Schemes'!
 EllipticCurve class
 	instanceVariableNames: ''!
 
@@ -3491,16 +3491,6 @@ Object subclass: #ElementaryTensorOld
 ElementaryTensorOld class
 	instanceVariableNames: ''!
 
-!classDefinition: #EllipticCurveElement category: #'Mathematics-ETC'!
-Object subclass: #EllipticCurveElement
-	instanceVariableNames: 'curve point'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-ETC'!
-!classDefinition: 'EllipticCurveElement class' category: #'Mathematics-ETC'!
-EllipticCurveElement class
-	instanceVariableNames: ''!
-
 !classDefinition: #GaussianElimination2 category: #'Mathematics-ETC'!
 Object subclass: #GaussianElimination2
 	instanceVariableNames: 'matrix extension subreducer pivots columns inverse determinant'
@@ -4294,7 +4284,7 @@ References:
 !Scheme commentStamp: '<historical>' prior: 0!
 My instances are schemes.
 
-In general, my instances are defined by a finite set of polynomial equations (i.e., a finitely generated ideal). They are the spectra of affine rings (quotient rings of multivariate polynomial rings). Subclasses override behavior to represent schemes in other ways.
+In general, my instances are defined by a finite set of polynomial equations (or a finitely generated ideal). They are the spectra of affine rings (quotient rings of multivariate polynomial rings). Subclasses can override behavior to represent schemes in other ways.
 
 Example:
 	| R x y I |
@@ -4308,12 +4298,23 @@ Example:
 !AffineSpace commentStamp: '<historical>' prior: 0!
 My instances are affine spaces R^n as schemes, i.e. Spec(R[x1,...,xn]) for some commutative ring R.
 
-Example (the affine plane as scheme):
-	AffineSpace new: 2 over: ZZ
+Example (the rational affine plane):
+	AffineSpace new: 2 over: QQ.
+
+Or equivalently:
+	QQ polynomialsIn: #(x y) :: spec.
+
+Note that his differs from the classical affine plane in that the 'points' include not only the closed points (a1,a2,..,an), but also all lines and other irreducible curves. And the morphisms are of course morphisms of schemes, not just the classical (linear) affine maps.
 !
 
 !ProjectiveSpace commentStamp: '<historical>' prior: 0!
-My instances are projective spaces RP^n as schemes, i.e. Proj(R[x1,...,xn]) for some graded commutative ring R.!
+My instances are projective spaces RP^n as schemes, i.e. Proj(R[x1,...,xn]) for some commutative ring R.
+
+Example (the rational projective plane):
+	ProjectiveSpace new: 2 over: QQ.
+
+Or equivalently:
+	QQ polynomialsIn: #(x y z) :: proj.!
 
 !AlgebraicSet commentStamp: '<historical>' prior: 0!
 My instances are sets of zeros of multivariate polynomials in an algebraically closed field. They are geometric manifestations of solutions of systems of polynomial equations.
@@ -11914,6 +11915,11 @@ includesAllOf: aCollection
 	aCollection do: [:each| (self includes: each) ifFalse: [^ false]].
 	^ true! !
 
+!Domain methodsFor: 'morphisms' stamp: 'len 10/13/2016 15:13'!
+inclusion
+	"Answer the inclusion monomorphism from the receiver into its ambient object."
+	^ self ambient id restrictedTo: self! !
+
 !Domain methodsFor: 'initialization' stamp: 'len 11/23/2015 03:03'!
 initialize
 	properties _ IdentityDictionary new! !
@@ -12342,9 +12348,9 @@ generators
 	"Answer a generators set of the receiver."
 	^ generators! !
 
-!Ideal methodsFor: 'accessing-private' stamp: 'pdm 3/22/98 17:19'!
+!Ideal methodsFor: 'accessing-private' stamp: 'len 10/13/2016 20:07'!
 generators: aCollection 
-	generators _ aCollection! !
+	generators _ aCollection asSet! !
 
 !Ideal methodsFor: 'comparing' stamp: 'len 9/26/2016 16:55'!
 hash
@@ -12939,9 +12945,9 @@ valuation
 zero
 	^ properties at: #zero ifAbsentPut: [self one - self one]! !
 
-!Ring methodsFor: 'operations' stamp: 'len 9/26/2016 17:05'!
+!Ring methodsFor: 'operations' stamp: 'len 10/13/2016 20:05'!
 zeroIdeal
-	^ self * self zero! !
+	^ self * #()! !
 
 !GaussianIntegers methodsFor: 'testing' stamp: 'len 6/5/2016 06:10'!
 includes: anObject
@@ -21588,6 +21594,11 @@ although the intersection is harder to compute, it behaves better with radicaliz
 ambient: aScheme
 	properties at: #ambient put: aScheme! !
 
+!Scheme methodsFor: 'accessing' stamp: 'len 10/13/2016 19:48'!
+arithmeticGenus
+	"self ambient isOrdinatyProjectiveSpace ifFalse: [^ self error: 'not ordinary projective space']."
+	self notYetImplemented! !
+
 !Scheme methodsFor: 'accessing' stamp: 'len 10/4/2016 09:19'!
 codimension
 	^ self ambient dimension - self dimension! !
@@ -21600,14 +21611,14 @@ coordinateRing
 degree
 	^ self ideal degree! !
 
-!Scheme methodsFor: 'accessing' stamp: 'len 10/13/2016 13:23'!
+!Scheme methodsFor: 'accessing' stamp: 'len 10/13/2016 19:46'!
 dimension
-	"This is the trascendence degree of the function field over the ground field."
+	"Answer the dimension of the highest dimensional component of the receiver.
+	This is the trascendence degree of the function field over the ground field."
 	| indeterminates G |
 	G _ self ideal groebnerBasis minimal.
 	indeterminates _ G indeterminates asSet copy.
-	G do: [:each|
-		indeterminates removeAllFoundIn: (G ordering headOf: each) indeterminates].
+	G do: [:each| indeterminates removeAllFoundIn: (G ordering headOf: each) indeterminates].
 	^ indeterminates size! !
 
 !Scheme methodsFor: 'operations' stamp: 'len 10/4/2016 12:13'!
@@ -21660,16 +21671,17 @@ isConnected
 	"Answer true if the receiver as a topological space is connected."
 	^ properties at: #isConnected! !
 
-!Scheme methodsFor: 'testing' stamp: 'len 10/13/2016 13:23'!
+!Scheme methodsFor: 'testing' stamp: 'len 10/13/2016 19:50'!
 isEmpty
-	"Answer true if the receiver is empty. 
+	"Answer true if the receiver has no points over any algebraic closure of its base field.
 	Ref. Algorithmic Algebra, B. Mishra, pag. 142-145."
 	self flag: #fix. "should only test if the basis is {1}, and only works on an agebraically closed field"
+	"warning: this tests wether the ideal is trivial, but it should be interpreted separately wether the receiver is affine or projective"
 	self ideal groebnerBasis
-		do: [:each | (each isConstant and: [each isZero not]) ifTrue: [^ true]].
-	(self scalars isField and: [self scalars isAlgebraicallyClosed])
+		do: [:each| (each isConstant and: [each isZero not]) ifTrue: [^ true]].
+"	(self scalars isField and: [self scalars isAlgebraicallyClosed])
 		ifFalse: [self error: 'the ground field is not algebraically closed'].
-	^ false! !
+"	^ false! !
 
 !Scheme methodsFor: 'testing' stamp: 'len 10/13/2016 13:23'!
 isFinite
@@ -21680,9 +21692,18 @@ isFinite
 			ifFalse: [^ false]].
 	^ true! !
 
-!Scheme methodsFor: 'testing' stamp: 'len 10/13/2016 13:23'!
+!Scheme methodsFor: 'testing' stamp: 'len 10/13/2016 19:22'!
+isHypersurface
+	^ self codimension = 1! !
+
+!Scheme methodsFor: 'testing' stamp: 'len 10/13/2016 20:17'!
 isIrreducible
+	self flag: #fix. "magma does it differently"
 	^ self ideal isPrime "IFF. Alternatively, iif the coordinate ring is an integral domain"! !
+
+!Scheme methodsFor: 'testing' stamp: 'len 10/13/2016 19:23'!
+isLinear
+	^ self ideal generators allSatisfy: [:each| each isLinear]! !
 
 !Scheme methodsFor: 'testing' stamp: 'len 10/12/2016 19:40'!
 isNoetherian
@@ -21700,9 +21721,18 @@ isPlanar
 isProjective
 	^ self ambient isProjective! !
 
+!Scheme methodsFor: 'testing' stamp: 'len 10/13/2016 20:17'!
+isReduced
+	^ self ideal isRadical! !
+
 !Scheme methodsFor: 'testing' stamp: 'len 10/12/2016 19:28'!
 isSaturated
 	^ properties at: #isSaturated! !
+
+!Scheme methodsFor: 'testing' stamp: 'len 10/13/2016 19:53'!
+isSingular
+	"Answer true iff the receiver has s singular point or fails to be equidimensional over an algebraic closure of its base field."
+	^ self isNonsingular not! !
 
 !Scheme methodsFor: 'printing' stamp: 'len 10/13/2016 13:23'!
 printOn: aStream
@@ -21730,6 +21760,10 @@ projectiveClosure
 		ifFalse: [self error: 'not over an algebraically closed ground field']. "otherwise the variety obtained can be bigger than the actual projective closure"
 	^ self class on: self ambient projectiveClosure ideal: self ideal homogenized! !
 
+!Scheme methodsFor: 'operations' stamp: 'len 10/13/2016 20:16'!
+reduced
+	^ self class on: self ambient ideal: self ideal radical! !
+
 !Scheme methodsFor: 'accessing' stamp: 'len 10/13/2016 13:23'!
 scalars
 	^ self ambient scalars! !
@@ -21738,14 +21772,15 @@ scalars
 species
 	^ Scheme! !
 
-!Scheme methodsFor: 'operations' stamp: 'len 10/13/2016 13:32'!
+!Scheme methodsFor: 'operations' stamp: 'len 10/13/2016 20:03'!
 subscheme: anObject
 	| I |
 	I _ (anObject isKindOf: Ideal)
-		ifTrue: [anObject] ifFalse: [self coordinateRing * anObject].
-	I generators size = 1 ifFalse: [^ Scheme on: self ideal: I].
-	self dimension = 2 ifFalse: [^ Curve on: self ideal: I].
-	^ PlaneCurve on: self ideal: I! !
+		ifTrue: [anObject] ifFalse: [self ambient coordinateRing * anObject].
+	I _ self ideal + I.
+	I generators size = 1 ifFalse: [^ Scheme on: self ambient ideal: I].
+	self dimension = 2 ifFalse: [^ Curve on: self ambient ideal: I].
+	^ PlaneCurve on: self ambient ideal: I! !
 
 !Scheme class methodsFor: 'instance creation' stamp: 'len 10/13/2016 13:28'!
 on: aScheme ideal: anIdeal
@@ -21863,20 +21898,20 @@ polynomial: aPolynomial
 discriminant
 	^ (self a**3 * 4 + (self b**2 * 27)) * (-16)! !
 
-!EllipticCurve methodsFor: 'testing' stamp: 'len 11/3/2015 01:19'!
-isSingular
-	^ self discriminant == 0! !
+!EllipticCurve methodsFor: 'testing' stamp: 'len 10/13/2016 20:14'!
+isNonsingular
+	^ self discriminant ~= 0! !
 
-!EllipticCurve class methodsFor: 'instance creation' stamp: 'len 10/12/2016 18:41'!
+!EllipticCurve class methodsFor: 'instance creation' stamp: 'len 10/13/2016 20:11'!
 over: aField a: a b: b
 	"Answer the curve y^2 = x^3 + ax + b homogenized."
 	| P x y z ideal |
 	P _ aField polynomialsIn: #(x y z).
 	x _ P x. y _ P y. z _ P z.
 	ideal _ P * (x**3 + (x * (z**2) * a) + (z**3*b) - (y**2*z)).
-	^ self on: P spec ideal: ideal! !
+	^ self on: P proj ideal: ideal! !
 
-!ProjectiveSpace methodsFor: 'as yet unclassified' stamp: 'len 10/12/2016 21:06'!
+!ProjectiveSpace methodsFor: 'comparing' stamp: 'len 10/12/2016 21:06'!
 = anObject
 	^ (anObject isKindOf: ProjectiveSpace) and: [self coordinateRing = anObject coordinateRing]! !
 
@@ -21896,7 +21931,7 @@ coordinateRing: aPolynomialRing
 dimension
 	^ self coordinateRing rank - 1! !
 
-!ProjectiveSpace methodsFor: 'as yet unclassified' stamp: 'len 10/12/2016 21:07'!
+!ProjectiveSpace methodsFor: 'comparing' stamp: 'len 10/12/2016 21:07'!
 hash
 	^ self coordinateRing hash! !
 
@@ -23445,14 +23480,6 @@ computeRightInverse
 corank
 	^ self cokernel dimension! !
 
-!LinearMap methodsFor: 'operations' stamp: 'len 2/13/2016 19:08'!
-corestrictedTo: aLinearSubspace
-	"Answer a linear transformation like the receiver but with codomain restricted to aLinearSubspace."
-	^ self class
-		from: self domain
-		to: aLinearSubspace
-		evaluating: [:each | self value: each]! !
-
 !LinearMap methodsFor: 'operations' stamp: 'len 1/8/2016 06:33'!
 determinant
 	^ matrix determinant! !
@@ -23643,14 +23670,6 @@ projective
 !LinearMap methodsFor: 'operations' stamp: 'len 1/8/2016 06:35'!
 rank
 	^ matrix rank! !
-
-!LinearMap methodsFor: 'operations' stamp: 'len 2/13/2016 19:08'!
-restrictedTo: aLinearSubspace 
-	"Answer a linear transformation like the receiver but with domain restricted to aLinearSubspace."
-	^ self class
-		from: aLinearSubspace
-		to: self codomain
-		evaluating: [:each | self value: each]! !
 
 !LinearMap methodsFor: 'arithmetic' stamp: 'len 8/25/2016 00:49'!
 rightInverse

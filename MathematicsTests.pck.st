@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 13 October 2016 at 2:03:35.792505 pm'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 13 October 2016 at 8:30:16.47345 pm'!
 'Description Please enter a description for this package'!
-!provides: 'MathematicsTests' 1 14!
+!provides: 'MathematicsTests' 1 15!
 !classDefinition: #AbelianGroupTest category: #MathematicsTests!
 TestCase subclass: #AbelianGroupTest
 	instanceVariableNames: ''
@@ -4052,6 +4052,18 @@ testProjectiveSpace
 	self assert: P scalars = K.
 	self assert: P coordinateRing = (K polynomialsIn: 4).
 	self assert: P ambient = P! !
+
+!SchemeTest methodsFor: 'as yet unclassified' stamp: 'len 10/13/2016 20:22'!
+testReduced
+	| A R x y z X |
+	A _ AffineSpace new: 3 over: QQ.
+	R _ A coordinateRing.
+	x _ R x.
+	y _ R y.
+	z _ R z.
+	X _ A subscheme: {x*(y**3). x**2*z}.
+	self assert: X isReduced not.
+	self assert: X reduced = (A subscheme: {x*y. x*z})! !
 
 !SchemeTest methodsFor: 'as yet unclassified' stamp: 'len 10/13/2016 10:30'!
 testTwistedCubic
