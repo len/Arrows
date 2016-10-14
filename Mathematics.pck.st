@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 14 October 2016 at 11:01:12.06334 am'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 14 October 2016 at 10:47:26.443306 pm'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 218!
+!provides: 'Mathematics' 1 219!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
 	instanceVariableNames: 'numerator shift'
@@ -101,13 +101,13 @@ OrderedTuple subclass: #Tuple
 Tuple class
 	instanceVariableNames: ''!
 
-!classDefinition: #BitArray category: #'Mathematics-ETC'!
+!classDefinition: #BitArray category: #'Mathematics-Etc'!
 ArrayedCollection subclass: #BitArray
 	instanceVariableNames: 'bytes length'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-ETC'!
-!classDefinition: 'BitArray class' category: #'Mathematics-ETC'!
+	category: 'Mathematics-Etc'!
+!classDefinition: 'BitArray class' category: #'Mathematics-Etc'!
 BitArray class
 	instanceVariableNames: ''!
 
@@ -381,36 +381,6 @@ Domain subclass: #HomSet
 HomSet class
 	instanceVariableNames: ''!
 
-!classDefinition: #Category category: #'Mathematics-Kernel-Categories'!
-Domain subclass: #Category
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Kernel-Categories'!
-!classDefinition: 'Category class' category: #'Mathematics-Kernel-Categories'!
-Category class
-	instanceVariableNames: ''!
-
-!classDefinition: #AbelianGroups category: #'Mathematics-Kernel-Categories'!
-Category subclass: #AbelianGroups
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Kernel-Categories'!
-!classDefinition: 'AbelianGroups class' category: #'Mathematics-Kernel-Categories'!
-AbelianGroups class
-	instanceVariableNames: ''!
-
-!classDefinition: #Modules category: #'Mathematics-Kernel-Categories'!
-AbelianGroups subclass: #Modules
-	instanceVariableNames: 'scalars'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Kernel-Categories'!
-!classDefinition: 'Modules class' category: #'Mathematics-Kernel-Categories'!
-Modules class
-	instanceVariableNames: ''!
-
 !classDefinition: #ComplexBox category: #'Mathematics-Kernel-Misc'!
 Domain subclass: #ComplexBox
 	instanceVariableNames: 'real imaginary'
@@ -671,13 +641,13 @@ QuotientRing subclass: #ModularIntegers
 ModularIntegers class
 	instanceVariableNames: ''!
 
-!classDefinition: #CoordinateRing category: #'Mathematics-Geometry-Algebraic'!
+!classDefinition: #CoordinateRing category: #'Mathematics-Etc-Geometry-Algebraic'!
 QuotientRing subclass: #CoordinateRing
 	instanceVariableNames: 'variety'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Geometry-Algebraic'!
-!classDefinition: 'CoordinateRing class' category: #'Mathematics-Geometry-Algebraic'!
+	category: 'Mathematics-Etc-Geometry-Algebraic'!
+!classDefinition: 'CoordinateRing class' category: #'Mathematics-Etc-Geometry-Algebraic'!
 CoordinateRing class
 	instanceVariableNames: ''!
 
@@ -741,23 +711,23 @@ FractionField subclass: #Rationals
 Rationals class
 	instanceVariableNames: ''!
 
-!classDefinition: #RationalFunctions category: #'Mathematics-Polynomials-Domains'!
-FractionField subclass: #RationalFunctions
+!classDefinition: #RationalFunctionField category: #'Mathematics-Polynomials-Domains'!
+FractionField subclass: #RationalFunctionField
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Polynomials-Domains'!
-!classDefinition: 'RationalFunctions class' category: #'Mathematics-Polynomials-Domains'!
-RationalFunctions class
+!classDefinition: 'RationalFunctionField class' category: #'Mathematics-Polynomials-Domains'!
+RationalFunctionField class
 	instanceVariableNames: ''!
 
-!classDefinition: #FunctionField2 category: #'Mathematics-Geometry-Algebraic'!
+!classDefinition: #FunctionField2 category: #'Mathematics-Etc-Geometry-Algebraic'!
 FractionField subclass: #FunctionField2
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Geometry-Algebraic'!
-!classDefinition: 'FunctionField2 class' category: #'Mathematics-Geometry-Algebraic'!
+	category: 'Mathematics-Etc-Geometry-Algebraic'!
+!classDefinition: 'FunctionField2 class' category: #'Mathematics-Etc-Geometry-Algebraic'!
 FunctionField2 class
 	instanceVariableNames: ''!
 
@@ -891,13 +861,13 @@ Ring subclass: #PuiseuxSeriesRing
 PuiseuxSeriesRing class
 	instanceVariableNames: ''!
 
-!classDefinition: #SymmetricPolynomialRing category: #'Mathematics-ETC'!
+!classDefinition: #SymmetricPolynomialRing category: #'Mathematics-Etc'!
 Ring subclass: #SymmetricPolynomialRing
 	instanceVariableNames: 'polynomials'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-ETC'!
-!classDefinition: 'SymmetricPolynomialRing class' category: #'Mathematics-ETC'!
+	category: 'Mathematics-Etc'!
+!classDefinition: 'SymmetricPolynomialRing class' category: #'Mathematics-Etc'!
 SymmetricPolynomialRing class
 	instanceVariableNames: ''!
 
@@ -1051,16 +1021,6 @@ VectorSpace subclass: #Tensors
 Tensors class
 	instanceVariableNames: ''!
 
-!classDefinition: #HomogeneousPolynomialSpace category: #'Mathematics-Polynomials-Domains'!
-VectorSpace subclass: #HomogeneousPolynomialSpace
-	instanceVariableNames: 'polynomials degree'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Polynomials-Domains'!
-!classDefinition: 'HomogeneousPolynomialSpace class' category: #'Mathematics-Polynomials-Domains'!
-HomogeneousPolynomialSpace class
-	instanceVariableNames: ''!
-
 !classDefinition: #PolynomialSpace category: #'Mathematics-Polynomials-Domains'!
 VectorSpace subclass: #PolynomialSpace
 	instanceVariableNames: 'polynomials degree'
@@ -1081,23 +1041,23 @@ VectorSpace subclass: #AlgebraicExtensionSpace
 AlgebraicExtensionSpace class
 	instanceVariableNames: ''!
 
-!classDefinition: #LieAlgebra category: #'Mathematics-Lie'!
+!classDefinition: #LieAlgebra category: #'Mathematics-Etc-Lie'!
 VectorSpace subclass: #LieAlgebra
 	instanceVariableNames: 'space'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Lie'!
-!classDefinition: 'LieAlgebra class' category: #'Mathematics-Lie'!
+	category: 'Mathematics-Etc-Lie'!
+!classDefinition: 'LieAlgebra class' category: #'Mathematics-Etc-Lie'!
 LieAlgebra class
 	instanceVariableNames: ''!
 
-!classDefinition: #LieAlgebraIdeal category: #'Mathematics-Lie'!
+!classDefinition: #LieAlgebraIdeal category: #'Mathematics-Etc-Lie'!
 LieAlgebra subclass: #LieAlgebraIdeal
 	instanceVariableNames: 'subspace'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Lie'!
-!classDefinition: 'LieAlgebraIdeal class' category: #'Mathematics-Lie'!
+	category: 'Mathematics-Etc-Lie'!
+!classDefinition: 'LieAlgebraIdeal class' category: #'Mathematics-Etc-Lie'!
 LieAlgebraIdeal class
 	instanceVariableNames: ''!
 
@@ -1111,6 +1071,16 @@ FreeModule subclass: #TensorProductSpace
 TensorProductSpace class
 	instanceVariableNames: ''!
 
+!classDefinition: #HomogeneousPolynomialModule category: #'Mathematics-Polynomials-Domains'!
+FreeModule subclass: #HomogeneousPolynomialModule
+	instanceVariableNames: 'polynomials degree'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Polynomials-Domains'!
+!classDefinition: 'HomogeneousPolynomialModule class' category: #'Mathematics-Polynomials-Domains'!
+HomogeneousPolynomialModule class
+	instanceVariableNames: ''!
+
 !classDefinition: #SyzygyModule category: #'Mathematics-Polynomials-Domains'!
 FreeModule subclass: #SyzygyModule
 	instanceVariableNames: 'polynomials'
@@ -1121,23 +1091,23 @@ FreeModule subclass: #SyzygyModule
 SyzygyModule class
 	instanceVariableNames: ''!
 
-!classDefinition: #DivisorsGroup category: #'Mathematics-Geometry-Schemes'!
+!classDefinition: #DivisorsGroup category: #'Mathematics-Geometry-Algebraic'!
 FreeModule subclass: #DivisorsGroup
 	instanceVariableNames: 'scheme'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Geometry-Schemes'!
-!classDefinition: 'DivisorsGroup class' category: #'Mathematics-Geometry-Schemes'!
+	category: 'Mathematics-Geometry-Algebraic'!
+!classDefinition: 'DivisorsGroup class' category: #'Mathematics-Geometry-Algebraic'!
 DivisorsGroup class
 	instanceVariableNames: ''!
 
-!classDefinition: #ExteriorPower category: #'Mathematics-ETC'!
+!classDefinition: #ExteriorPower category: #'Mathematics-Etc'!
 FreeModule subclass: #ExteriorPower
 	instanceVariableNames: 'space degree'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-ETC'!
-!classDefinition: 'ExteriorPower class' category: #'Mathematics-ETC'!
+	category: 'Mathematics-Etc'!
+!classDefinition: 'ExteriorPower class' category: #'Mathematics-Etc'!
 ExteriorPower class
 	instanceVariableNames: ''!
 
@@ -1511,13 +1481,13 @@ Group subclass: #UnitsGroup
 UnitsGroup class
 	instanceVariableNames: ''!
 
-!classDefinition: #CoxeterGroup category: #'Mathematics-Lie'!
+!classDefinition: #CoxeterGroup category: #'Mathematics-Etc-Lie'!
 Group subclass: #CoxeterGroup
 	instanceVariableNames: 'diagram'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Lie'!
-!classDefinition: 'CoxeterGroup class' category: #'Mathematics-Lie'!
+	category: 'Mathematics-Etc-Lie'!
+!classDefinition: 'CoxeterGroup class' category: #'Mathematics-Etc-Lie'!
 CoxeterGroup class
 	instanceVariableNames: ''!
 
@@ -1641,74 +1611,64 @@ ProjectiveLinearSpace subclass: #ProjectiveMaps
 ProjectiveMaps class
 	instanceVariableNames: ''!
 
-!classDefinition: #Scheme category: #'Mathematics-Geometry-Schemes'!
+!classDefinition: #Scheme category: #'Mathematics-Geometry-Algebraic'!
 Domain subclass: #Scheme
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Geometry-Schemes'!
-!classDefinition: 'Scheme class' category: #'Mathematics-Geometry-Schemes'!
+	category: 'Mathematics-Geometry-Algebraic'!
+!classDefinition: 'Scheme class' category: #'Mathematics-Geometry-Algebraic'!
 Scheme class
 	instanceVariableNames: ''!
 
-!classDefinition: #AffineSpace category: #'Mathematics-Geometry-Schemes'!
+!classDefinition: #AffineSpace category: #'Mathematics-Geometry-Algebraic'!
 Scheme subclass: #AffineSpace
 	instanceVariableNames: 'coordinateRing'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Geometry-Schemes'!
-!classDefinition: 'AffineSpace class' category: #'Mathematics-Geometry-Schemes'!
+	category: 'Mathematics-Geometry-Algebraic'!
+!classDefinition: 'AffineSpace class' category: #'Mathematics-Geometry-Algebraic'!
 AffineSpace class
 	instanceVariableNames: ''!
 
-!classDefinition: #Curve category: #'Mathematics-Geometry-Schemes'!
+!classDefinition: #Curve category: #'Mathematics-Geometry-Algebraic'!
 Scheme subclass: #Curve
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Geometry-Schemes'!
-!classDefinition: 'Curve class' category: #'Mathematics-Geometry-Schemes'!
+	category: 'Mathematics-Geometry-Algebraic'!
+!classDefinition: 'Curve class' category: #'Mathematics-Geometry-Algebraic'!
 Curve class
 	instanceVariableNames: ''!
 
-!classDefinition: #PlaneCurve category: #'Mathematics-Geometry-Schemes'!
+!classDefinition: #PlaneCurve category: #'Mathematics-Geometry-Algebraic'!
 Curve subclass: #PlaneCurve
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Geometry-Schemes'!
-!classDefinition: 'PlaneCurve class' category: #'Mathematics-Geometry-Schemes'!
+	category: 'Mathematics-Geometry-Algebraic'!
+!classDefinition: 'PlaneCurve class' category: #'Mathematics-Geometry-Algebraic'!
 PlaneCurve class
 	instanceVariableNames: ''!
 
-!classDefinition: #EllipticCurve category: #'Mathematics-Geometry-Schemes'!
+!classDefinition: #EllipticCurve category: #'Mathematics-Geometry-Algebraic'!
 PlaneCurve subclass: #EllipticCurve
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Geometry-Schemes'!
-!classDefinition: 'EllipticCurve class' category: #'Mathematics-Geometry-Schemes'!
+	category: 'Mathematics-Geometry-Algebraic'!
+!classDefinition: 'EllipticCurve class' category: #'Mathematics-Geometry-Algebraic'!
 EllipticCurve class
 	instanceVariableNames: ''!
 
-!classDefinition: #ProjectiveSpace category: #'Mathematics-Geometry-Schemes'!
+!classDefinition: #ProjectiveSpace category: #'Mathematics-Geometry-Algebraic'!
 Scheme subclass: #ProjectiveSpace
 	instanceVariableNames: 'coordinateRing'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Geometry-Schemes'!
-!classDefinition: 'ProjectiveSpace class' category: #'Mathematics-Geometry-Schemes'!
-ProjectiveSpace class
-	instanceVariableNames: ''!
-
-!classDefinition: #AlgebraicSet category: #'Mathematics-Geometry-Algebraic'!
-Domain subclass: #AlgebraicSet
-	instanceVariableNames: 'space ideal'
-	classVariableNames: ''
-	poolDictionaries: ''
 	category: 'Mathematics-Geometry-Algebraic'!
-!classDefinition: 'AlgebraicSet class' category: #'Mathematics-Geometry-Algebraic'!
-AlgebraicSet class
+!classDefinition: 'ProjectiveSpace class' category: #'Mathematics-Geometry-Algebraic'!
+ProjectiveSpace class
 	instanceVariableNames: ''!
 
 !classDefinition: #SemialgebraicSet category: #'Mathematics-Geometry-Semialgebraic'!
@@ -1719,116 +1679,6 @@ Domain subclass: #SemialgebraicSet
 	category: 'Mathematics-Geometry-Semialgebraic'!
 !classDefinition: 'SemialgebraicSet class' category: #'Mathematics-Geometry-Semialgebraic'!
 SemialgebraicSet class
-	instanceVariableNames: ''!
-
-!classDefinition: #Cone category: #'Mathematics-Geometry-Polytopes'!
-Domain subclass: #Cone
-	instanceVariableNames: 'vectors'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Geometry-Polytopes'!
-!classDefinition: 'Cone class' category: #'Mathematics-Geometry-Polytopes'!
-Cone class
-	instanceVariableNames: ''!
-
-!classDefinition: #ConicalHull category: #'Mathematics-Geometry-Polytopes'!
-Domain subclass: #ConicalHull
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Geometry-Polytopes'!
-!classDefinition: 'ConicalHull class' category: #'Mathematics-Geometry-Polytopes'!
-ConicalHull class
-	instanceVariableNames: ''!
-
-!classDefinition: #ConvexHull category: #'Mathematics-Geometry-Polytopes'!
-Domain subclass: #ConvexHull
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Geometry-Polytopes'!
-!classDefinition: 'ConvexHull class' category: #'Mathematics-Geometry-Polytopes'!
-ConvexHull class
-	instanceVariableNames: ''!
-
-!classDefinition: #Halfspace category: #'Mathematics-Geometry-Polytopes'!
-Domain subclass: #Halfspace
-	instanceVariableNames: 'inequality'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Geometry-Polytopes'!
-!classDefinition: 'Halfspace class' category: #'Mathematics-Geometry-Polytopes'!
-Halfspace class
-	instanceVariableNames: ''!
-
-!classDefinition: #Polyhedron category: #'Mathematics-Geometry-Polytopes'!
-Domain subclass: #Polyhedron
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Geometry-Polytopes'!
-!classDefinition: 'Polyhedron class' category: #'Mathematics-Geometry-Polytopes'!
-Polyhedron class
-	instanceVariableNames: ''!
-
-!classDefinition: #Polytope category: #'Mathematics-Geometry-Polytopes'!
-Polyhedron subclass: #Polytope
-	instanceVariableNames: 'space points'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Geometry-Polytopes'!
-!classDefinition: 'Polytope class' category: #'Mathematics-Geometry-Polytopes'!
-Polytope class
-	instanceVariableNames: ''!
-
-!classDefinition: #Polygon category: #'Mathematics-Geometry-Polytopes'!
-Polytope subclass: #Polygon
-	instanceVariableNames: 'vertices'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Geometry-Polytopes'!
-!classDefinition: 'Polygon class' category: #'Mathematics-Geometry-Polytopes'!
-Polygon class
-	instanceVariableNames: ''!
-
-!classDefinition: #LineSegment category: #'Mathematics-Geometry-Polytopes'!
-Polygon subclass: #LineSegment
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Geometry-Polytopes'!
-!classDefinition: 'LineSegment class' category: #'Mathematics-Geometry-Polytopes'!
-LineSegment class
-	instanceVariableNames: ''!
-
-!classDefinition: #DirectedLineSegment category: #'Mathematics-Geometry-Polytopes'!
-LineSegment subclass: #DirectedLineSegment
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Geometry-Polytopes'!
-!classDefinition: 'DirectedLineSegment class' category: #'Mathematics-Geometry-Polytopes'!
-DirectedLineSegment class
-	instanceVariableNames: ''!
-
-!classDefinition: #Quadrangle category: #'Mathematics-Geometry-Polytopes'!
-Polygon subclass: #Quadrangle
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Geometry-Polytopes'!
-!classDefinition: 'Quadrangle class' category: #'Mathematics-Geometry-Polytopes'!
-Quadrangle class
-	instanceVariableNames: ''!
-
-!classDefinition: #Triangle category: #'Mathematics-Geometry-Polytopes'!
-Polygon subclass: #Triangle
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Geometry-Polytopes'!
-!classDefinition: 'Triangle class' category: #'Mathematics-Geometry-Polytopes'!
-Triangle class
 	instanceVariableNames: ''!
 
 !classDefinition: #SemistandardTableaux category: #'Mathematics-Combinatorics'!
@@ -1861,44 +1711,194 @@ Domain subclass: #SimplicialComplex
 SimplicialComplex class
 	instanceVariableNames: ''!
 
-!classDefinition: #CoxeterSystem category: #'Mathematics-Lie'!
-Domain subclass: #CoxeterSystem
-	instanceVariableNames: 'group generators matrix diagram'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Lie'!
-!classDefinition: 'CoxeterSystem class' category: #'Mathematics-Lie'!
-CoxeterSystem class
-	instanceVariableNames: ''!
-
-!classDefinition: #MetricSpace category: #'Mathematics-ETC'!
+!classDefinition: #MetricSpace category: #'Mathematics-Etc'!
 Domain subclass: #MetricSpace
 	instanceVariableNames: 'elements distance'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-ETC'!
-!classDefinition: 'MetricSpace class' category: #'Mathematics-ETC'!
+	category: 'Mathematics-Etc'!
+!classDefinition: 'MetricSpace class' category: #'Mathematics-Etc'!
 MetricSpace class
 	instanceVariableNames: ''!
 
-!classDefinition: #Presheaf category: #'Mathematics-Topology'!
+!classDefinition: #CoxeterSystem category: #'Mathematics-Etc-Lie'!
+Domain subclass: #CoxeterSystem
+	instanceVariableNames: 'group generators matrix diagram'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Etc-Lie'!
+!classDefinition: 'CoxeterSystem class' category: #'Mathematics-Etc-Lie'!
+CoxeterSystem class
+	instanceVariableNames: ''!
+
+!classDefinition: #Presheaf category: #'Mathematics-Etc-Topology'!
 Domain subclass: #Presheaf
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Topology'!
-!classDefinition: 'Presheaf class' category: #'Mathematics-Topology'!
+	category: 'Mathematics-Etc-Topology'!
+!classDefinition: 'Presheaf class' category: #'Mathematics-Etc-Topology'!
 Presheaf class
 	instanceVariableNames: ''!
 
-!classDefinition: #TopologicalSpace category: #'Mathematics-Topology'!
+!classDefinition: #TopologicalSpace category: #'Mathematics-Etc-Topology'!
 Domain subclass: #TopologicalSpace
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Topology'!
-!classDefinition: 'TopologicalSpace class' category: #'Mathematics-Topology'!
+	category: 'Mathematics-Etc-Topology'!
+!classDefinition: 'TopologicalSpace class' category: #'Mathematics-Etc-Topology'!
 TopologicalSpace class
+	instanceVariableNames: ''!
+
+!classDefinition: #AlgebraicSet category: #'Mathematics-Etc-Geometry-Algebraic'!
+Domain subclass: #AlgebraicSet
+	instanceVariableNames: 'space ideal'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Etc-Geometry-Algebraic'!
+!classDefinition: 'AlgebraicSet class' category: #'Mathematics-Etc-Geometry-Algebraic'!
+AlgebraicSet class
+	instanceVariableNames: ''!
+
+!classDefinition: #Category category: #'Mathematics-Etc-Categories'!
+Domain subclass: #Category
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Etc-Categories'!
+!classDefinition: 'Category class' category: #'Mathematics-Etc-Categories'!
+Category class
+	instanceVariableNames: ''!
+
+!classDefinition: #AbelianGroups category: #'Mathematics-Etc-Categories'!
+Category subclass: #AbelianGroups
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Etc-Categories'!
+!classDefinition: 'AbelianGroups class' category: #'Mathematics-Etc-Categories'!
+AbelianGroups class
+	instanceVariableNames: ''!
+
+!classDefinition: #Modules category: #'Mathematics-Etc-Categories'!
+AbelianGroups subclass: #Modules
+	instanceVariableNames: 'scalars'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Etc-Categories'!
+!classDefinition: 'Modules class' category: #'Mathematics-Etc-Categories'!
+Modules class
+	instanceVariableNames: ''!
+
+!classDefinition: #Cone category: #'Mathematics-Etc-Geometry-Polytopes'!
+Domain subclass: #Cone
+	instanceVariableNames: 'vectors'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Etc-Geometry-Polytopes'!
+!classDefinition: 'Cone class' category: #'Mathematics-Etc-Geometry-Polytopes'!
+Cone class
+	instanceVariableNames: ''!
+
+!classDefinition: #ConicalHull category: #'Mathematics-Etc-Geometry-Polytopes'!
+Domain subclass: #ConicalHull
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Etc-Geometry-Polytopes'!
+!classDefinition: 'ConicalHull class' category: #'Mathematics-Etc-Geometry-Polytopes'!
+ConicalHull class
+	instanceVariableNames: ''!
+
+!classDefinition: #ConvexHull category: #'Mathematics-Etc-Geometry-Polytopes'!
+Domain subclass: #ConvexHull
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Etc-Geometry-Polytopes'!
+!classDefinition: 'ConvexHull class' category: #'Mathematics-Etc-Geometry-Polytopes'!
+ConvexHull class
+	instanceVariableNames: ''!
+
+!classDefinition: #Halfspace category: #'Mathematics-Etc-Geometry-Polytopes'!
+Domain subclass: #Halfspace
+	instanceVariableNames: 'inequality'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Etc-Geometry-Polytopes'!
+!classDefinition: 'Halfspace class' category: #'Mathematics-Etc-Geometry-Polytopes'!
+Halfspace class
+	instanceVariableNames: ''!
+
+!classDefinition: #Polyhedron category: #'Mathematics-Etc-Geometry-Polytopes'!
+Domain subclass: #Polyhedron
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Etc-Geometry-Polytopes'!
+!classDefinition: 'Polyhedron class' category: #'Mathematics-Etc-Geometry-Polytopes'!
+Polyhedron class
+	instanceVariableNames: ''!
+
+!classDefinition: #Polytope category: #'Mathematics-Etc-Geometry-Polytopes'!
+Polyhedron subclass: #Polytope
+	instanceVariableNames: 'space points'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Etc-Geometry-Polytopes'!
+!classDefinition: 'Polytope class' category: #'Mathematics-Etc-Geometry-Polytopes'!
+Polytope class
+	instanceVariableNames: ''!
+
+!classDefinition: #Polygon category: #'Mathematics-Etc-Geometry-Polytopes'!
+Polytope subclass: #Polygon
+	instanceVariableNames: 'vertices'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Etc-Geometry-Polytopes'!
+!classDefinition: 'Polygon class' category: #'Mathematics-Etc-Geometry-Polytopes'!
+Polygon class
+	instanceVariableNames: ''!
+
+!classDefinition: #LineSegment category: #'Mathematics-Etc-Geometry-Polytopes'!
+Polygon subclass: #LineSegment
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Etc-Geometry-Polytopes'!
+!classDefinition: 'LineSegment class' category: #'Mathematics-Etc-Geometry-Polytopes'!
+LineSegment class
+	instanceVariableNames: ''!
+
+!classDefinition: #DirectedLineSegment category: #'Mathematics-Etc-Geometry-Polytopes'!
+LineSegment subclass: #DirectedLineSegment
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Etc-Geometry-Polytopes'!
+!classDefinition: 'DirectedLineSegment class' category: #'Mathematics-Etc-Geometry-Polytopes'!
+DirectedLineSegment class
+	instanceVariableNames: ''!
+
+!classDefinition: #Quadrangle category: #'Mathematics-Etc-Geometry-Polytopes'!
+Polygon subclass: #Quadrangle
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Etc-Geometry-Polytopes'!
+!classDefinition: 'Quadrangle class' category: #'Mathematics-Etc-Geometry-Polytopes'!
+Quadrangle class
+	instanceVariableNames: ''!
+
+!classDefinition: #Triangle category: #'Mathematics-Etc-Geometry-Polytopes'!
+Polygon subclass: #Triangle
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Etc-Geometry-Polytopes'!
+!classDefinition: 'Triangle class' category: #'Mathematics-Etc-Geometry-Polytopes'!
+Triangle class
 	instanceVariableNames: ''!
 
 !classDefinition: #Morphism category: #'Mathematics-Kernel'!
@@ -2131,36 +2131,6 @@ Function subclass: #ProjectiveMap
 ProjectiveMap class
 	instanceVariableNames: ''!
 
-!classDefinition: #MoebiusTransformation category: #'Mathematics-Geometry-Projective'!
-ProjectiveMap subclass: #MoebiusTransformation
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Geometry-Projective'!
-!classDefinition: 'MoebiusTransformation class' category: #'Mathematics-Geometry-Projective'!
-MoebiusTransformation class
-	instanceVariableNames: ''!
-
-!classDefinition: #PolynomialFunction category: #'Mathematics-Geometry-Algebraic'!
-Function subclass: #PolynomialFunction
-	instanceVariableNames: 'domain representative'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Geometry-Algebraic'!
-!classDefinition: 'PolynomialFunction class' category: #'Mathematics-Geometry-Algebraic'!
-PolynomialFunction class
-	instanceVariableNames: ''!
-
-!classDefinition: #PolynomialMap category: #'Mathematics-Geometry-Algebraic'!
-Function subclass: #PolynomialMap
-	instanceVariableNames: 'domain codomain components'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Geometry-Algebraic'!
-!classDefinition: 'PolynomialMap class' category: #'Mathematics-Geometry-Algebraic'!
-PolynomialMap class
-	instanceVariableNames: ''!
-
 !classDefinition: #RationalMap category: #'Mathematics-Geometry-Algebraic'!
 Function subclass: #RationalMap
 	instanceVariableNames: 'domain codomain components'
@@ -2201,34 +2171,44 @@ Function subclass: #SimplicialMap
 SimplicialMap class
 	instanceVariableNames: ''!
 
-!classDefinition: #Functor category: #'Mathematics-Kernel-Categories'!
-Morphism subclass: #Functor
-	instanceVariableNames: ''
+!classDefinition: #PolynomialFunction category: #'Mathematics-Etc-Geometry-Algebraic'!
+Function subclass: #PolynomialFunction
+	instanceVariableNames: 'domain representative'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Kernel-Categories'!
-!classDefinition: 'Functor class' category: #'Mathematics-Kernel-Categories'!
-Functor class
+	category: 'Mathematics-Etc-Geometry-Algebraic'!
+!classDefinition: 'PolynomialFunction class' category: #'Mathematics-Etc-Geometry-Algebraic'!
+PolynomialFunction class
 	instanceVariableNames: ''!
 
-!classDefinition: #SchemeMorphism category: #'Mathematics-Geometry-Schemes'!
-Morphism subclass: #SchemeMorphism
-	instanceVariableNames: ''
+!classDefinition: #PolynomialMap category: #'Mathematics-Etc-Geometry-Algebraic'!
+Function subclass: #PolynomialMap
+	instanceVariableNames: 'domain codomain components'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Geometry-Schemes'!
-!classDefinition: 'SchemeMorphism class' category: #'Mathematics-Geometry-Schemes'!
-SchemeMorphism class
+	category: 'Mathematics-Etc-Geometry-Algebraic'!
+!classDefinition: 'PolynomialMap class' category: #'Mathematics-Etc-Geometry-Algebraic'!
+PolynomialMap class
 	instanceVariableNames: ''!
 
-!classDefinition: #PresheafMorphism category: #'Mathematics-Topology'!
+!classDefinition: #PresheafMorphism category: #'Mathematics-Etc-Topology'!
 Morphism subclass: #PresheafMorphism
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Topology'!
-!classDefinition: 'PresheafMorphism class' category: #'Mathematics-Topology'!
+	category: 'Mathematics-Etc-Topology'!
+!classDefinition: 'PresheafMorphism class' category: #'Mathematics-Etc-Topology'!
 PresheafMorphism class
+	instanceVariableNames: ''!
+
+!classDefinition: #Functor category: #'Mathematics-Etc-Categories'!
+Morphism subclass: #Functor
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Etc-Categories'!
+!classDefinition: 'Functor class' category: #'Mathematics-Etc-Categories'!
+Functor class
 	instanceVariableNames: ''!
 
 !classDefinition: #RandomGenerator category: #'Mathematics-Kernel'!
@@ -2249,66 +2229,6 @@ RandomGenerator subclass: #GroupRandomGenerator
 	category: 'Mathematics-Groups'!
 !classDefinition: 'GroupRandomGenerator class' category: #'Mathematics-Groups'!
 GroupRandomGenerator class
-	instanceVariableNames: ''!
-
-!classDefinition: #Element category: #'Mathematics-Kernel-Elements'!
-Object subclass: #Element
-	instanceVariableNames: 'value'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Kernel-Elements'!
-!classDefinition: 'Element class' category: #'Mathematics-Kernel-Elements'!
-Element class
-	instanceVariableNames: ''!
-
-!classDefinition: #GroupElement category: #'Mathematics-Kernel-Elements'!
-Element subclass: #GroupElement
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Kernel-Elements'!
-!classDefinition: 'GroupElement class' category: #'Mathematics-Kernel-Elements'!
-GroupElement class
-	instanceVariableNames: ''!
-
-!classDefinition: #GroupAdditiveElement category: #'Mathematics-Kernel-Elements'!
-GroupElement subclass: #GroupAdditiveElement
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Kernel-Elements'!
-!classDefinition: 'GroupAdditiveElement class' category: #'Mathematics-Kernel-Elements'!
-GroupAdditiveElement class
-	instanceVariableNames: ''!
-
-!classDefinition: #GroupCompositiveElement category: #'Mathematics-Kernel-Elements'!
-GroupElement subclass: #GroupCompositiveElement
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Kernel-Elements'!
-!classDefinition: 'GroupCompositiveElement class' category: #'Mathematics-Kernel-Elements'!
-GroupCompositiveElement class
-	instanceVariableNames: ''!
-
-!classDefinition: #RingElement category: #'Mathematics-Kernel-Elements'!
-Element subclass: #RingElement
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Kernel-Elements'!
-!classDefinition: 'RingElement class' category: #'Mathematics-Kernel-Elements'!
-RingElement class
-	instanceVariableNames: ''!
-
-!classDefinition: #RingCompositiveElement category: #'Mathematics-Kernel-Elements'!
-RingElement subclass: #RingCompositiveElement
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Kernel-Elements'!
-!classDefinition: 'RingCompositiveElement class' category: #'Mathematics-Kernel-Elements'!
-RingCompositiveElement class
 	instanceVariableNames: ''!
 
 !classDefinition: #FormalFraction category: #'Mathematics-Kernel-Support'!
@@ -2361,13 +2281,13 @@ FormalSum subclass: #FreePolynomial
 FreePolynomial class
 	instanceVariableNames: ''!
 
-!classDefinition: #Divisor category: #'Mathematics-Geometry-Schemes'!
+!classDefinition: #Divisor category: #'Mathematics-Geometry-Algebraic'!
 FormalSum subclass: #Divisor
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Geometry-Schemes'!
-!classDefinition: 'Divisor class' category: #'Mathematics-Geometry-Schemes'!
+	category: 'Mathematics-Geometry-Algebraic'!
+!classDefinition: 'Divisor class' category: #'Mathematics-Geometry-Algebraic'!
 Divisor class
 	instanceVariableNames: ''!
 
@@ -3101,26 +3021,6 @@ Object subclass: #ProjectiveFrame
 ProjectiveFrame class
 	instanceVariableNames: ''!
 
-!classDefinition: #SchemePoint category: #'Mathematics-Geometry-Schemes'!
-Object subclass: #SchemePoint
-	instanceVariableNames: 'morphism'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Geometry-Schemes'!
-!classDefinition: 'SchemePoint class' category: #'Mathematics-Geometry-Schemes'!
-SchemePoint class
-	instanceVariableNames: ''!
-
-!classDefinition: #PolynomialSystem category: #'Mathematics-Geometry-Algebraic'!
-Object subclass: #PolynomialSystem
-	instanceVariableNames: 'equations'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Geometry-Algebraic'!
-!classDefinition: 'PolynomialSystem class' category: #'Mathematics-Geometry-Algebraic'!
-PolynomialSystem class
-	instanceVariableNames: ''!
-
 !classDefinition: #CylindricalAlgebraicDecomposition category: #'Mathematics-Geometry-Semialgebraic'!
 Object subclass: #CylindricalAlgebraicDecomposition
 	instanceVariableNames: 'polynomials components'
@@ -3371,184 +3271,254 @@ Object subclass: #DiscretePalette
 DiscretePalette class
 	instanceVariableNames: ''!
 
-!classDefinition: #CoxeterDiagram category: #'Mathematics-Lie'!
-Object subclass: #CoxeterDiagram
-	instanceVariableNames: 'matrix'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Lie'!
-!classDefinition: 'CoxeterDiagram class' category: #'Mathematics-Lie'!
-CoxeterDiagram class
-	instanceVariableNames: ''!
-
-!classDefinition: #RootSystem category: #'Mathematics-Lie'!
-Object subclass: #RootSystem
-	instanceVariableNames: 'roots ambient'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Lie'!
-!classDefinition: 'RootSystem class' category: #'Mathematics-Lie'!
-RootSystem class
-	instanceVariableNames: ''!
-
-!classDefinition: #Expression category: #'Mathematics-Expressions'!
-Object subclass: #Expression
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Expressions'!
-!classDefinition: 'Expression class' category: #'Mathematics-Expressions'!
-Expression class
-	instanceVariableNames: ''!
-
-!classDefinition: #ConstantExpression category: #'Mathematics-Expressions'!
-Expression subclass: #ConstantExpression
-	instanceVariableNames: 'constant'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Expressions'!
-!classDefinition: 'ConstantExpression class' category: #'Mathematics-Expressions'!
-ConstantExpression class
-	instanceVariableNames: ''!
-
-!classDefinition: #FunctionExpression category: #'Mathematics-Expressions'!
-Expression subclass: #FunctionExpression
-	instanceVariableNames: 'function arguments'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Expressions'!
-!classDefinition: 'FunctionExpression class' category: #'Mathematics-Expressions'!
-FunctionExpression class
-	instanceVariableNames: ''!
-
-!classDefinition: #PowerExpression category: #'Mathematics-Expressions'!
-Expression subclass: #PowerExpression
-	instanceVariableNames: 'base exponent'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Expressions'!
-!classDefinition: 'PowerExpression class' category: #'Mathematics-Expressions'!
-PowerExpression class
-	instanceVariableNames: ''!
-
-!classDefinition: #ProductExpression category: #'Mathematics-Expressions'!
-Expression subclass: #ProductExpression
-	instanceVariableNames: 'factors'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Expressions'!
-!classDefinition: 'ProductExpression class' category: #'Mathematics-Expressions'!
-ProductExpression class
-	instanceVariableNames: ''!
-
-!classDefinition: #SumExpression category: #'Mathematics-Expressions'!
-Expression subclass: #SumExpression
-	instanceVariableNames: 'terms'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Expressions'!
-!classDefinition: 'SumExpression class' category: #'Mathematics-Expressions'!
-SumExpression class
-	instanceVariableNames: ''!
-
-!classDefinition: #VariableExpression category: #'Mathematics-Expressions'!
-Expression subclass: #VariableExpression
-	instanceVariableNames: 'name'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Expressions'!
-!classDefinition: 'VariableExpression class' category: #'Mathematics-Expressions'!
-VariableExpression class
-	instanceVariableNames: ''!
-
-!classDefinition: #DocumentationGenerator category: #'Mathematics-ETC'!
+!classDefinition: #DocumentationGenerator category: #'Mathematics-Etc'!
 Object subclass: #DocumentationGenerator
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-ETC'!
-!classDefinition: 'DocumentationGenerator class' category: #'Mathematics-ETC'!
+	category: 'Mathematics-Etc'!
+!classDefinition: 'DocumentationGenerator class' category: #'Mathematics-Etc'!
 DocumentationGenerator class
 	instanceVariableNames: ''!
 
-!classDefinition: #ElementaryTensorOld category: #'Mathematics-ETC'!
+!classDefinition: #ElementaryTensorOld category: #'Mathematics-Etc'!
 Object subclass: #ElementaryTensorOld
 	instanceVariableNames: 'left right'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-ETC'!
-!classDefinition: 'ElementaryTensorOld class' category: #'Mathematics-ETC'!
+	category: 'Mathematics-Etc'!
+!classDefinition: 'ElementaryTensorOld class' category: #'Mathematics-Etc'!
 ElementaryTensorOld class
 	instanceVariableNames: ''!
 
-!classDefinition: #GaussianElimination2 category: #'Mathematics-ETC'!
+!classDefinition: #GaussianElimination2 category: #'Mathematics-Etc'!
 Object subclass: #GaussianElimination2
 	instanceVariableNames: 'matrix extension subreducer pivots columns inverse determinant'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-ETC'!
-!classDefinition: 'GaussianElimination2 class' category: #'Mathematics-ETC'!
+	category: 'Mathematics-Etc'!
+!classDefinition: 'GaussianElimination2 class' category: #'Mathematics-Etc'!
 GaussianElimination2 class
 	instanceVariableNames: ''!
 
-!classDefinition: #Knapsack category: #'Mathematics-ETC'!
+!classDefinition: #Knapsack category: #'Mathematics-Etc'!
 Object subclass: #Knapsack
 	instanceVariableNames: 'maximumWeight'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-ETC'!
-!classDefinition: 'Knapsack class' category: #'Mathematics-ETC'!
+	category: 'Mathematics-Etc'!
+!classDefinition: 'Knapsack class' category: #'Mathematics-Etc'!
 Knapsack class
 	instanceVariableNames: ''!
 
-!classDefinition: #Maxel category: #'Mathematics-ETC'!
+!classDefinition: #Maxel category: #'Mathematics-Etc'!
 Object subclass: #Maxel
 	instanceVariableNames: 'pixels'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-ETC'!
-!classDefinition: 'Maxel class' category: #'Mathematics-ETC'!
+	category: 'Mathematics-Etc'!
+!classDefinition: 'Maxel class' category: #'Mathematics-Etc'!
 Maxel class
 	instanceVariableNames: ''!
 
-!classDefinition: #OEIS category: #'Mathematics-ETC'!
+!classDefinition: #OEIS category: #'Mathematics-Etc'!
 Object subclass: #OEIS
 	instanceVariableNames: 'entries'
 	classVariableNames: 'Default'
 	poolDictionaries: ''
-	category: 'Mathematics-ETC'!
-!classDefinition: 'OEIS class' category: #'Mathematics-ETC'!
+	category: 'Mathematics-Etc'!
+!classDefinition: 'OEIS class' category: #'Mathematics-Etc'!
 OEIS class
 	instanceVariableNames: ''!
 
-!classDefinition: #Pixel category: #'Mathematics-ETC'!
+!classDefinition: #Pixel category: #'Mathematics-Etc'!
 Object subclass: #Pixel
 	instanceVariableNames: 'row column'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-ETC'!
-!classDefinition: 'Pixel class' category: #'Mathematics-ETC'!
+	category: 'Mathematics-Etc'!
+!classDefinition: 'Pixel class' category: #'Mathematics-Etc'!
 Pixel class
 	instanceVariableNames: ''!
 
-!classDefinition: #SturmChain category: #'Mathematics-ETC'!
+!classDefinition: #SturmChain category: #'Mathematics-Etc'!
 Object subclass: #SturmChain
 	instanceVariableNames: 'chain'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-ETC'!
-!classDefinition: 'SturmChain class' category: #'Mathematics-ETC'!
+	category: 'Mathematics-Etc'!
+!classDefinition: 'SturmChain class' category: #'Mathematics-Etc'!
 SturmChain class
 	instanceVariableNames: ''!
 
-!classDefinition: #TensorOld category: #'Mathematics-ETC'!
+!classDefinition: #TensorOld category: #'Mathematics-Etc'!
 Object subclass: #TensorOld
 	instanceVariableNames: 'contents'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-ETC'!
-!classDefinition: 'TensorOld class' category: #'Mathematics-ETC'!
+	category: 'Mathematics-Etc'!
+!classDefinition: 'TensorOld class' category: #'Mathematics-Etc'!
 TensorOld class
+	instanceVariableNames: ''!
+
+!classDefinition: #CoxeterDiagram category: #'Mathematics-Etc-Lie'!
+Object subclass: #CoxeterDiagram
+	instanceVariableNames: 'matrix'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Etc-Lie'!
+!classDefinition: 'CoxeterDiagram class' category: #'Mathematics-Etc-Lie'!
+CoxeterDiagram class
+	instanceVariableNames: ''!
+
+!classDefinition: #RootSystem category: #'Mathematics-Etc-Lie'!
+Object subclass: #RootSystem
+	instanceVariableNames: 'roots ambient'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Etc-Lie'!
+!classDefinition: 'RootSystem class' category: #'Mathematics-Etc-Lie'!
+RootSystem class
+	instanceVariableNames: ''!
+
+!classDefinition: #Expression category: #'Mathematics-Etc-Expressions'!
+Object subclass: #Expression
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Etc-Expressions'!
+!classDefinition: 'Expression class' category: #'Mathematics-Etc-Expressions'!
+Expression class
+	instanceVariableNames: ''!
+
+!classDefinition: #ConstantExpression category: #'Mathematics-Etc-Expressions'!
+Expression subclass: #ConstantExpression
+	instanceVariableNames: 'constant'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Etc-Expressions'!
+!classDefinition: 'ConstantExpression class' category: #'Mathematics-Etc-Expressions'!
+ConstantExpression class
+	instanceVariableNames: ''!
+
+!classDefinition: #FunctionExpression category: #'Mathematics-Etc-Expressions'!
+Expression subclass: #FunctionExpression
+	instanceVariableNames: 'function arguments'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Etc-Expressions'!
+!classDefinition: 'FunctionExpression class' category: #'Mathematics-Etc-Expressions'!
+FunctionExpression class
+	instanceVariableNames: ''!
+
+!classDefinition: #PowerExpression category: #'Mathematics-Etc-Expressions'!
+Expression subclass: #PowerExpression
+	instanceVariableNames: 'base exponent'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Etc-Expressions'!
+!classDefinition: 'PowerExpression class' category: #'Mathematics-Etc-Expressions'!
+PowerExpression class
+	instanceVariableNames: ''!
+
+!classDefinition: #ProductExpression category: #'Mathematics-Etc-Expressions'!
+Expression subclass: #ProductExpression
+	instanceVariableNames: 'factors'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Etc-Expressions'!
+!classDefinition: 'ProductExpression class' category: #'Mathematics-Etc-Expressions'!
+ProductExpression class
+	instanceVariableNames: ''!
+
+!classDefinition: #SumExpression category: #'Mathematics-Etc-Expressions'!
+Expression subclass: #SumExpression
+	instanceVariableNames: 'terms'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Etc-Expressions'!
+!classDefinition: 'SumExpression class' category: #'Mathematics-Etc-Expressions'!
+SumExpression class
+	instanceVariableNames: ''!
+
+!classDefinition: #VariableExpression category: #'Mathematics-Etc-Expressions'!
+Expression subclass: #VariableExpression
+	instanceVariableNames: 'name'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Etc-Expressions'!
+!classDefinition: 'VariableExpression class' category: #'Mathematics-Etc-Expressions'!
+VariableExpression class
+	instanceVariableNames: ''!
+
+!classDefinition: #PolynomialSystem category: #'Mathematics-Etc-Geometry-Algebraic'!
+Object subclass: #PolynomialSystem
+	instanceVariableNames: 'equations'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Etc-Geometry-Algebraic'!
+!classDefinition: 'PolynomialSystem class' category: #'Mathematics-Etc-Geometry-Algebraic'!
+PolynomialSystem class
+	instanceVariableNames: ''!
+
+!classDefinition: #Element category: #'Mathematics-Etc-Elements'!
+Object subclass: #Element
+	instanceVariableNames: 'value'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Etc-Elements'!
+!classDefinition: 'Element class' category: #'Mathematics-Etc-Elements'!
+Element class
+	instanceVariableNames: ''!
+
+!classDefinition: #GroupElement category: #'Mathematics-Etc-Elements'!
+Element subclass: #GroupElement
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Etc-Elements'!
+!classDefinition: 'GroupElement class' category: #'Mathematics-Etc-Elements'!
+GroupElement class
+	instanceVariableNames: ''!
+
+!classDefinition: #GroupAdditiveElement category: #'Mathematics-Etc-Elements'!
+GroupElement subclass: #GroupAdditiveElement
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Etc-Elements'!
+!classDefinition: 'GroupAdditiveElement class' category: #'Mathematics-Etc-Elements'!
+GroupAdditiveElement class
+	instanceVariableNames: ''!
+
+!classDefinition: #GroupCompositiveElement category: #'Mathematics-Etc-Elements'!
+GroupElement subclass: #GroupCompositiveElement
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Etc-Elements'!
+!classDefinition: 'GroupCompositiveElement class' category: #'Mathematics-Etc-Elements'!
+GroupCompositiveElement class
+	instanceVariableNames: ''!
+
+!classDefinition: #RingElement category: #'Mathematics-Etc-Elements'!
+Element subclass: #RingElement
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Etc-Elements'!
+!classDefinition: 'RingElement class' category: #'Mathematics-Etc-Elements'!
+RingElement class
+	instanceVariableNames: ''!
+
+!classDefinition: #RingCompositiveElement category: #'Mathematics-Etc-Elements'!
+RingElement subclass: #RingCompositiveElement
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Etc-Elements'!
+!classDefinition: 'RingCompositiveElement class' category: #'Mathematics-Etc-Elements'!
+RingCompositiveElement class
 	instanceVariableNames: ''!
 
 
@@ -3941,7 +3911,7 @@ References:
 !Rationals commentStamp: '<historical>' prior: 0!
 My singletion global instance QQ is the field of rational numbers.!
 
-!RationalFunctions commentStamp: '<historical>' prior: 0!
+!RationalFunctionField commentStamp: '<historical>' prior: 0!
 My instances are rational functions, i.e. the field of fractions of a given polynomial ring.
 
 Example:
@@ -4065,9 +4035,6 @@ My instances are finitely-generated vector spaces. My subclasses might define co
 Examples of vector spaces are tuples, matrices and linear transformations.
 !
 
-!HomogeneousPolynomialSpace commentStamp: '<historical>' prior: 0!
-My instances are modules of multivariate homogeneous polynomials of degree d in n variables, for fixed d and n.!
-
 !PolynomialSpace commentStamp: '<historical>' prior: 0!
 My instances are vector spaces of univariate polynomials of degree <= n, for a fixed n.!
 
@@ -4077,6 +4044,9 @@ My instances are (finite) algebraic extensions E/F of a field F seen as an F-vec
 Example:
 	QQ extension: QQ polynomials x**4 - 2 :: asVectorSpace
 !
+
+!HomogeneousPolynomialModule commentStamp: '<historical>' prior: 0!
+My instances are modules of multivariate homogeneous polynomials of degree d in n variables, for fixed d and n.!
 
 !DivisorsGroup commentStamp: '<historical>' prior: 0!
 TODO:
@@ -4304,19 +4274,6 @@ Example (the rational projective plane):
 Or equivalently:
 	QQ polynomialsIn: #(x y z) :: proj.!
 
-!AlgebraicSet commentStamp: '<historical>' prior: 0!
-My instances are sets of zeros of multivariate polynomials in an algebraically closed field. They are geometric manifestations of solutions of systems of polynomial equations.
-
-Given a an ideal I, the algebraic set consisting of the zeros of all polynomials in I is denoted V(I). Conversely, every algebraic set has an associated ideal I(V) that consists of all polynomials that vanish at all the points of the algebraic set.
-
-If I is radical, then I(V(I)) = I. There is a one-to-one correspondence between radical ideals and algebraic sets.
-
-An algebraic set is called 'irreducible' (or an algebraic variety) if it cannot be decomposed as the union of other algebraic sets. 
-
-If I is a prime ideal, then V(I) is irreducible. There's an one-to-ono correspondence between prime ideals and irreducible algebraic sets (or algebraic varieties). The maximal ideals correspond to points.
-
-Algebraic sets are equipped with the Zariski topology. The closed subsets are varieties V(I).!
-
 !SemialgebraicSet commentStamp: '<historical>' prior: 0!
 My instances are semialgebraic sets, i.e. subsets of R^n expressable as finite union and intersection of sets of the form:
 	{(x1,...,xn) | sign(f(x1,...,xn)) = s}
@@ -4339,6 +4296,19 @@ My instances are abstract simplicial complexes. These are combinatorial objects 
 - the intersection of two simplices is either empty or a common face of both simplices.
 
 Also can be seen as a subset of the power set of some set V, often V={1,...,n}, closed under inclusion.!
+
+!AlgebraicSet commentStamp: '<historical>' prior: 0!
+My instances are sets of zeros of multivariate polynomials in an algebraically closed field. They are geometric manifestations of solutions of systems of polynomial equations.
+
+Given a an ideal I, the algebraic set consisting of the zeros of all polynomials in I is denoted V(I). Conversely, every algebraic set has an associated ideal I(V) that consists of all polynomials that vanish at all the points of the algebraic set.
+
+If I is radical, then I(V(I)) = I. There is a one-to-one correspondence between radical ideals and algebraic sets.
+
+An algebraic set is called 'irreducible' (or an algebraic variety) if it cannot be decomposed as the union of other algebraic sets. 
+
+If I is a prime ideal, then V(I) is irreducible. There's an one-to-ono correspondence between prime ideals and irreducible algebraic sets (or algebraic varieties). The maximal ideals correspond to points.
+
+Algebraic sets are equipped with the Zariski topology. The closed subsets are varieties V(I).!
 
 !Morphism commentStamp: '<historical>' prior: 0!
 I'm an abstract superclass for Functions and other morphisms.
@@ -4490,12 +4460,6 @@ References:
 !ProjectiveMap commentStamp: '<historical>' prior: 0!
 My instances are projective transformations from a projective space P(V) to another P(W). These transformations map points to points and lines to lines, etc, preserving incidence. Projective transformation, projective collineation and homography are synonyms.!
 
-!PolynomialFunction commentStamp: '<historical>' prior: 0!
-My instances are polynomial functions on an algebraic variety.!
-
-!PolynomialMap commentStamp: '<historical>' prior: 0!
-My instances are polynomial maps between algebraic varieties.!
-
 !RationalMap commentStamp: '<historical>' prior: 0!
 My instances are rational maps between algebraic varieties.!
 
@@ -4511,6 +4475,12 @@ A chain map between two chain complexes (Ci,di) and (C`i,d`i) is a sequence of h
 
 Chain maps are morphisms in the category of chain complexes.!
 
+!PolynomialFunction commentStamp: '<historical>' prior: 0!
+My instances are polynomial functions on an algebraic variety.!
+
+!PolynomialMap commentStamp: '<historical>' prior: 0!
+My instances are polynomial maps between algebraic varieties.!
+
 !GroupRandomGenerator commentStamp: '<historical>' prior: 0!
 I am the Product Replacement Algorithm for generating random elements in a group from a set of generators. Essentially, it performs a random walk on a Cayley graph.!
 
@@ -4518,9 +4488,7 @@ I am the Product Replacement Algorithm for generating random elements in a group
 My instances are elements of a fraction field, i.e. fractions with numerator and denominator in a given integral domain. See class FractionField.!
 
 !RationalFunction commentStamp: '<historical>' prior: 0!
-My instances are rational functions, i.e. fractions where the numerator and denominator are polynomials.
-
-For examples see RationalFunctions.!
+My instances are rational functions, i.e. fractions where the numerator and denominator are polynomials. They are elements of the field of fractions of a polynomial ring over a field (see RationalFunctionField).!
 
 !FormalSum commentStamp: '<historical>' prior: 0!
 My instances are formal linear combinations of arbitrary objects.!
@@ -4651,10 +4619,10 @@ For examples, see PolynomialRing.
 !
 
 !MultivariatePolynomial commentStamp: '<historical>' prior: 0!
-My instances are polynomials in sparse representation. The coefficients of a sparse polynomial are stored as a SparseTuple indexed by monomials.!
+My instances are multivariate polynomials in sparse representation. The coefficients are stored as a SparseTuple indexed by monomials.!
 
 !UnivariatePolynomial commentStamp: '<historical>' prior: 0!
-My instances are univariate polynomials in dense representation. The coefficients of a dense polynomial are stored as a Tuple indexed by degree.!
+My instances are univariate polynomials in dense representation. The coefficients of a dense polynomial are stored as a Tuple indexed by degree (the first element of the coefficients tuple corresponds to the independent coefficient of the polynomial).!
 
 !MultiPolynomialDivision commentStamp: '<historical>' prior: 0!
 I am the multivariate polynomial division algorithm for polynomials over a field.
@@ -4787,20 +4755,6 @@ Output: the shortest distance from the source node to the target node, or a shor
 The initial precomputation takes time O(|V|^3). Afterwards, it's possible to compute distances in time O(log |V|) and shortest paths of length k in O(k log |V|). The O(log |V|) comes from the dictionary lookup operation, a lookup in a hash table.
 
 While (after initial precomputation) Dijkstra's algorithm is able to efficiently compute distances from a fixed source node, Floyd-Warshall's computes distances from any two arbitrary nodes. However, for sparse graphs with non-negative edge weights a better choice is to use Dijkstra's algorithm with binary heaps, which gives a time complexity of O(|V| |E| log |V|).!
-
-!PolynomialSystem commentStamp: '<historical>' prior: 0!
-My instances represent systems of polynomial equations.
-
-Example:
-	| Qxy x y |
-	Qxy _ Rationals new polynomialsIn: #(x y).
-	x _ Qxy x.
-	y _ Qxy y.
-	PolynomialSystem new
-		add: (x*x eq: 1);
-		add: (y*y - (x*x) eq: 3);
-		yourself
-!
 
 !CylindricalAlgebraicDecomposition commentStamp: '<historical>' prior: 0!
 My instances decompose R^n into connected components (SemialgebraicCells) such that a given set of polynomials keeps sign-invariant over each of the components. This decomposition is called Cylindrical Algebraic Decomposition (CAD), and what is obtainded is called a Cell Complex of R^n. Each of the components is a SemialgebraicCell (or SemialgebraicInterval in R^1).
@@ -5015,6 +4969,20 @@ Output: an extended characteristic set (or ascending chain, or Wu characteristic
 I am the Gaussian Elimination algorithm.
 
 Given a matrix M with coefficients in a field, my instances perform Gaussian reduction on the matrix to compute linear dependency of the columns, rank, determinant, inverse matrix, etc.!
+
+!PolynomialSystem commentStamp: '<historical>' prior: 0!
+My instances represent systems of polynomial equations.
+
+Example:
+	| Qxy x y |
+	Qxy _ Rationals new polynomialsIn: #(x y).
+	x _ Qxy x.
+	y _ Qxy y.
+	PolynomialSystem new
+		add: (x*x eq: 1);
+		add: (y*y - (x*x) eq: 3);
+		yourself
+!
 
 !Object methodsFor: '*mathematics' stamp: 'len 11/19/2015 17:01'!
 isInfinity
@@ -12160,34 +12128,6 @@ printOn: aStream
 from: aDomain to: anotherDomain
 	^ self new domain: aDomain; codomain: anotherDomain! !
 
-!Category methodsFor: 'as yet unclassified' stamp: 'len 10/9/2016 08:48'!
-isAbelian
-	^ false! !
-
-!AbelianGroups methodsFor: 'as yet unclassified' stamp: 'len 10/9/2016 08:48'!
-isAbelian
-	^ true! !
-
-!AbelianGroups methodsFor: 'as yet unclassified' stamp: 'len 10/9/2016 08:49'!
-printOn: aStream
-	aStream nextPutAll: 'Ab'! !
-
-!Modules methodsFor: 'as yet unclassified' stamp: 'len 10/9/2016 08:46'!
-printOn: aStream
-	aStream print: scalars; nextPutAll: (scalars isField ifTrue: ['-Vect'] ifFalse: ['-Mod'])! !
-
-!Modules methodsFor: 'as yet unclassified' stamp: 'len 10/9/2016 08:43'!
-scalars
-	^ scalars! !
-
-!Modules methodsFor: 'as yet unclassified' stamp: 'len 10/9/2016 08:44'!
-scalars: aCommutativeRing
-	scalars _ aCommutativeRing! !
-
-!Modules class methodsFor: 'as yet unclassified' stamp: 'len 10/9/2016 08:47'!
-over: aCommutativeRing
-	^ self new scalars: aCommutativeRing! !
-
 !ComplexBox methodsFor: 'accessing' stamp: 'len 1/16/2016 05:56'!
 area
 	^ self measure! !
@@ -14881,81 +14821,82 @@ initialize
 	super initialize.
 	Smalltalk at: #CC put: self new! !
 
-!FractionField methodsFor: 'comparing' stamp: 'len 12/14/2015 01:58'!
+!FractionField methodsFor: 'comparing' stamp: 'len 10/14/2016 21:56'!
 = anObject
 	self == anObject ifTrue: [^ true].
-	^ (anObject isKindOf: FractionField) and: [anObject integralDomain = self integralDomain]! !
+	^ (anObject isKindOf: FractionField) and: [anObject integers = self integers]! !
 
-!FractionField methodsFor: 'random' stamp: 'len 4/19/2016 21:12'!
+!FractionField methodsFor: 'random' stamp: 'len 10/14/2016 21:56'!
 atRandom: aRandom
 	| a b |
-	a _ self embedding value: (self integralDomain atRandom: aRandom).
-	[b _ self embedding value: (self integralDomain  atRandom: aRandom). b isZero] whileTrue.
+	a _ self embedding value: (self integers atRandom: aRandom).
+	[b _ self embedding value: (self integers atRandom: aRandom). b isZero] whileTrue.
 	^ a / b! !
 
-!FractionField methodsFor: 'random' stamp: 'len 4/22/2016 22:00'!
+!FractionField methodsFor: 'random' stamp: 'len 10/14/2016 21:56'!
 atRandom: aRandom bits: bitSize
 	| a b |
-	bitSize < 2 ifTrue: [^ self embedding value: (self integralDomain atRandom: aRandom bits: bitSize)].
-	a _ self embedding value: (self integralDomain atRandom: aRandom bits: bitSize / 2).
-	[b _ self embedding value: (self integralDomain  atRandom: aRandom bits: bitSize / 2). b isZero] whileTrue.
+	bitSize < 2 ifTrue: [^ self embedding value: (self integers atRandom: aRandom bits: bitSize)].
+	a _ self embedding value: (self integers atRandom: aRandom bits: bitSize / 2).
+	[b _ self embedding value: (self integers atRandom: aRandom bits: bitSize / 2). b isZero] whileTrue.
 	^ a / b! !
 
-!FractionField methodsFor: 'accessing' stamp: 'len 10/14/2016 08:54'!
+!FractionField methodsFor: 'accessing' stamp: 'len 10/14/2016 21:56'!
 characteristic
-	^ self integralDomain characteristic! !
+	^ self integers characteristic! !
 
-!FractionField methodsFor: 'morphisms' stamp: 'len 4/19/2016 21:11'!
+!FractionField methodsFor: 'morphisms' stamp: 'len 10/14/2016 21:56'!
 embed: anObject
-	^ FormalFraction numerator: anObject denominator: self integralDomain one! !
+	^ FormalFraction numerator: anObject denominator: self integers one! !
 
-!FractionField methodsFor: 'morphisms' stamp: 'len 10/10/2016 08:56'!
+!FractionField methodsFor: 'morphisms' stamp: 'len 10/14/2016 21:56'!
 embedding
-	"Answer the embedding map from the integral domain into the receiver."
-	^ properties at: #embedding ifAbsentPut: [(self integralDomain to: self evaluating: [:x| self embed: x]) name: 'i']! !
+	"Answer the embedding map from the integers ring into the receiver."
+	^ properties at: #embedding ifAbsentPut: [(self integers to: self evaluating: [:x| self embed: x]) name: 'i']! !
 
-!FractionField methodsFor: 'accessing' stamp: 'len 10/14/2016 08:55'!
+!FractionField methodsFor: 'accessing' stamp: 'len 10/14/2016 21:57'!
 generators
-	^ self integralDomain generators apply: self embedding! !
+	^ self integers generators apply: self embedding! !
 
-!FractionField methodsFor: 'comparing' stamp: 'len 11/30/2015 23:19'!
+!FractionField methodsFor: 'comparing' stamp: 'len 10/14/2016 21:57'!
 hash
-	^ self class hash + self integralDomain hash! !
+	^ self class hash + self integers hash! !
 
-!FractionField methodsFor: 'testing' stamp: 'len 4/19/2016 21:12'!
+!FractionField methodsFor: 'testing' stamp: 'len 10/14/2016 21:57'!
 includes: anObject
 	^ (anObject isKindOf: FormalFraction)
-		and: [(self integralDomain includes: anObject numerator)
-			and: [self integralDomain includes: anObject denominator]]! !
+		and: [(self integers includes: anObject numerator)
+			and: [self integers includes: anObject denominator]]! !
 
-!FractionField methodsFor: 'accessing' stamp: 'len 4/19/2016 21:10'!
-integralDomain
-	^ properties at: #integralDomain! !
+!FractionField methodsFor: 'accessing' stamp: 'len 10/14/2016 21:58'!
+integers
+	"Answer the ring of integers of the receiver."
+	^ properties at: #integers! !
 
-!FractionField methodsFor: 'accessing-private' stamp: 'len 4/19/2016 21:11'!
-integralDomain: aRing
-	properties at: #integralDomain put: aRing! !
+!FractionField methodsFor: 'accessing-private' stamp: 'len 10/14/2016 21:59'!
+integers: anIntegralDomain
+	properties at: #integers put: anIntegralDomain! !
 
 !FractionField methodsFor: 'testing' stamp: 'len 3/9/2016 04:35'!
 isFractionField
 	^ true! !
 
-!FractionField methodsFor: 'elements' stamp: 'len 4/19/2016 21:12'!
+!FractionField methodsFor: 'elements' stamp: 'len 10/14/2016 21:57'!
 one
-	^ self embedding value: self integralDomain one! !
+	^ self embed: self integers one! !
 
-!FractionField methodsFor: 'printing' stamp: 'len 4/21/2016 00:06'!
+!FractionField methodsFor: 'printing' stamp: 'len 10/14/2016 21:57'!
 printOn: aStream
-	aStream nextPutAll: 'Frac('; print: self integralDomain; nextPut: $)
-"	aStream nextPutAll: 'Quot('; print: integralDomain; nextPut: $)"! !
+	aStream nextPutAll: 'Frac('; print: self integers; nextPut: $)
+"	aStream nextPutAll: 'Quot('; print: integers; nextPut: $)"! !
 
-!FractionField methodsFor: 'elements' stamp: 'len 4/19/2016 21:12'!
+!FractionField methodsFor: 'elements' stamp: 'len 10/14/2016 21:57'!
 zero
-	^ self embedding value: self integralDomain zero! !
+	^ self embed: self integers zero! !
 
-!FractionField class methodsFor: 'instance creation' stamp: 'len 11/27/2015 19:45'!
+!FractionField class methodsFor: 'instance creation' stamp: 'len 10/14/2016 21:59'!
 over: anIntegralDomain
-	^ self new integralDomain: anIntegralDomain! !
+	^ self new integers: anIntegralDomain! !
 
 !Rationals methodsFor: 'comparing' stamp: 'len 6/1/2016 23:56'!
 <= aDomain
@@ -14977,10 +14918,6 @@ algebraicClosure
 automorphisms
 	^ Group compositive elements: {self id}! !
 
-!Rationals methodsFor: 'accessing' stamp: 'len 11/5/2015 17:35'!
-characteristic
-	^ 0! !
-
 !Rationals methodsFor: 'iterating' stamp: 'len 12/21/2015 22:42'!
 do: aBlock
 	"Iterate over the rational numbers by breadth-first traversal of the Calkin-Wilf tree. This is an extension of the Calkin-Wilf sequence to include 0 and the negative numbers."
@@ -14991,9 +14928,9 @@ do: aBlock
 embed: anInteger
 	^ anInteger "because in Smalltalk Fractions of denominator 1 are always reduced to their Integer numerator"! !
 
-!Rationals methodsFor: 'morphisms' stamp: 'len 10/10/2016 08:58'!
+!Rationals methodsFor: 'morphisms' stamp: 'len 10/14/2016 21:58'!
 embedding
-	^ properties at: #embedding ifAbsentPut: [(self integralDomain to: self evaluating: [:x| x]) name: 'i'] "because in Smalltalk Fractions of denominator 1 are always reduced to their Integer numerator"! !
+	^ properties at: #embedding ifAbsentPut: [(self integers to: self evaluating: [:x| x]) name: 'i'] "because in Smalltalk Fractions of denominator 1 are always reduced to their Integer numerator"! !
 
 !Rationals methodsFor: 'comparing' stamp: 'len 6/28/2016 09:27'!
 hash
@@ -15003,8 +14940,8 @@ hash
 includes: anObject
 	^ anObject isNumber and: [anObject isRational or: [anObject isFloat]]! !
 
-!Rationals methodsFor: 'accessing' stamp: 'len 7/15/2016 18:29'!
-integralDomain
+!Rationals methodsFor: 'accessing' stamp: 'len 10/14/2016 22:01'!
+integers
 	^ ZZ! !
 
 !Rationals methodsFor: 'testing' stamp: 'len 11/7/2015 22:05'!
@@ -15066,27 +15003,27 @@ initialize
 	super initialize.
 	Smalltalk at: #QQ put: self new! !
 
-!RationalFunctions methodsFor: 'morphisms' stamp: 'len 1/2/2016 04:14'!
+!RationalFunctionField methodsFor: 'morphisms' stamp: 'len 1/2/2016 04:14'!
 embed: aPolynomial
 	^ RationalFunction numerator: aPolynomial denominator: self polynomials one! !
 
-!RationalFunctions methodsFor: 'accessing' stamp: 'len 11/27/2015 20:13'!
+!RationalFunctionField methodsFor: 'accessing' stamp: 'len 11/27/2015 20:13'!
 indeterminates
 	^ self polynomials indeterminates! !
 
-!RationalFunctions methodsFor: 'testing' stamp: 'len 11/27/2015 20:13'!
+!RationalFunctionField methodsFor: 'testing' stamp: 'len 11/27/2015 20:13'!
 isUnivariate
 	^ self polynomials isUnivariate! !
 
-!RationalFunctions methodsFor: 'accessing' stamp: 'len 11/27/2015 20:12'!
+!RationalFunctionField methodsFor: 'accessing' stamp: 'len 10/14/2016 21:57'!
 polynomials
-	^ self integralDomain! !
+	^ self integers! !
 
-!RationalFunctions methodsFor: 'accessing-private' stamp: 'len 11/27/2015 20:12'!
+!RationalFunctionField methodsFor: 'accessing-private' stamp: 'len 10/14/2016 21:59'!
 polynomials: aPolynomials
-	self integralDomain: aPolynomials! !
+	self integers: aPolynomials! !
 
-!RationalFunctions methodsFor: 'printing' stamp: 'len 7/11/2016 01:12'!
+!RationalFunctionField methodsFor: 'printing' stamp: 'len 7/11/2016 01:12'!
 printOn: aStream
 	aStream print: self scalars.
 	aStream nextPut: $(.
@@ -15095,19 +15032,23 @@ printOn: aStream
 		separatedBy: [aStream nextPut: $,].
 	aStream nextPut: $)! !
 
-!RationalFunctions methodsFor: 'accessing' stamp: 'len 11/27/2015 20:14'!
+!RationalFunctionField methodsFor: 'accessing' stamp: 'len 10/14/2016 17:46'!
+rank
+	^ self polynomials rank! !
+
+!RationalFunctionField methodsFor: 'accessing' stamp: 'len 11/27/2015 20:14'!
 scalars
 	^ self polynomials scalars! !
 
-!RationalFunctions methodsFor: 'elements' stamp: 'len 4/16/2016 07:11'!
+!RationalFunctionField methodsFor: 'elements' stamp: 'len 4/16/2016 07:11'!
 x
 	^ self embed: self polynomials x! !
 
-!RationalFunctions methodsFor: 'elements' stamp: 'len 7/8/2016 23:37'!
+!RationalFunctionField methodsFor: 'elements' stamp: 'len 7/8/2016 23:37'!
 x: anIndeterminate
 	^ self embed: (self polynomials x: anIndeterminate)! !
 
-!RationalFunctions class methodsFor: 'instance creation' stamp: 'len 11/11/2015 01:23'!
+!RationalFunctionField class methodsFor: 'instance creation' stamp: 'len 11/11/2015 01:23'!
 polynomials: aPolynomials
 	^ self new polynomials: aPolynomials! !
 
@@ -15115,9 +15056,9 @@ polynomials: aPolynomials
 printOn: aStream
 	aStream print: self variety groundField; nextPut: $(; print: self variety; nextPut: $)! !
 
-!FunctionField2 methodsFor: 'accessing' stamp: 'len 6/3/2016 23:24'!
+!FunctionField2 methodsFor: 'accessing' stamp: 'len 10/14/2016 21:59'!
 variety
-	^ self integralDomain variety! !
+	^ self integers variety! !
 
 !Reals methodsFor: 'accessing' stamp: 'len 8/6/2016 03:45'!
 characteristic
@@ -15905,10 +15846,10 @@ findIrreducibleOfDegree: n
 	[(p _ self atRandom: random maxDegree: n) degree = n and: [p isIrreducible]] whileFalse.
 	^ p! !
 
-!PolynomialRing methodsFor: 'operations' stamp: 'len 10/13/2016 13:13'!
+!PolynomialRing methodsFor: 'operations' stamp: 'len 10/14/2016 17:51'!
 fractions
 	scalars isField ifFalse: [^ DomainError signal: 'scalars are not a field'].
-	^ RationalFunctions polynomials: self! !
+	^ RationalFunctionField polynomials: self! !
 
 !PolynomialRing methodsFor: 'accessing' stamp: 'len 10/2/2016 10:34'!
 generators
@@ -17786,24 +17727,6 @@ vectorSpace: aVectorSpace
 type: aPair on: aVectorSpace
 	^ self new type: aPair; vectorSpace: aVectorSpace! !
 
-!HomogeneousPolynomialSpace methodsFor: 'basis' stamp: 'len 6/24/2016 05:47'!
-dimension
-	| n |
-	n _ polynomials rank.
-	^ degree + n - 1 choose: degree! !
-
-!HomogeneousPolynomialSpace methodsFor: 'basis' stamp: 'len 6/24/2016 05:51'!
-e: anInteger
-	^ self ordering e: anInteger degree: degree! !
-
-!HomogeneousPolynomialSpace methodsFor: 'accessing' stamp: 'len 6/24/2016 05:51'!
-ordering
-	^ polynomials ordering! !
-
-!HomogeneousPolynomialSpace methodsFor: 'printing' stamp: 'len 7/6/2016 08:39'!
-printOn: aStream
-	aStream print: polynomials; nextPutAll: degree printString sub! !
-
 !PolynomialSpace methodsFor: 'basis' stamp: 'len 4/12/2016 08:08'!
 coordinatesOf: aPolynomial
 	| coefficients |
@@ -17905,6 +17828,24 @@ scalars
 !TensorProductSpace class methodsFor: 'as yet unclassified' stamp: 'len 6/19/2016 02:42'!
 left: aVectorSpace right: anotherVectorSpace
 	^ self new left: aVectorSpace; right: anotherVectorSpace! !
+
+!HomogeneousPolynomialModule methodsFor: 'basis' stamp: 'len 6/24/2016 05:51'!
+e: anInteger
+	^ self ordering e: anInteger degree: degree! !
+
+!HomogeneousPolynomialModule methodsFor: 'accessing' stamp: 'len 6/24/2016 05:51'!
+ordering
+	^ polynomials ordering! !
+
+!HomogeneousPolynomialModule methodsFor: 'printing' stamp: 'len 7/6/2016 08:39'!
+printOn: aStream
+	aStream print: polynomials; nextPutAll: degree printString sub! !
+
+!HomogeneousPolynomialModule methodsFor: 'basis' stamp: 'len 10/14/2016 20:05'!
+rank
+	| n |
+	n _ polynomials rank.
+	^ degree + n - 1 choose: degree! !
 
 !SyzygyModule methodsFor: 'as yet unclassified' stamp: 'len 7/10/2016 00:00'!
 printOn: aStream
@@ -21680,14 +21621,18 @@ isFinite
 isHypersurface
 	^ self codimension = 1! !
 
+!Scheme methodsFor: 'testing' stamp: 'len 10/14/2016 18:13'!
+isIntegral
+	^ self isReduced and: [self isIrreducible]! !
+
 !Scheme methodsFor: 'testing' stamp: 'len 10/13/2016 20:17'!
 isIrreducible
 	self flag: #fix. "magma does it differently"
 	^ self ideal isPrime "IFF. Alternatively, iif the coordinate ring is an integral domain"! !
 
-!Scheme methodsFor: 'testing' stamp: 'len 10/13/2016 19:23'!
+!Scheme methodsFor: 'testing' stamp: 'len 10/14/2016 22:37'!
 isLinear
-	^ self ideal generators allSatisfy: [:each| each isLinear]! !
+	^ self reduced ideal generators allSatisfy: [:each| each isLinear]! !
 
 !Scheme methodsFor: 'testing' stamp: 'len 10/12/2016 19:40'!
 isNoetherian
@@ -21717,6 +21662,11 @@ isSaturated
 isSingular
 	"Answer true iff the receiver has s singular point or fails to be equidimensional over an algebraic closure of its base field."
 	^ self isNonsingular not! !
+
+!Scheme methodsFor: 'testing' stamp: 'len 10/14/2016 22:31'!
+isSmooth
+	"Synonym of 'nonsingular'."
+	^ self isNonsingular! !
 
 !Scheme methodsFor: 'printing' stamp: 'len 10/13/2016 13:23'!
 printOn: aStream
@@ -21950,254 +21900,6 @@ coordinateRing: aPolynomialRing
 !ProjectiveSpace class methodsFor: 'instance creation' stamp: 'len 8/27/2016 19:02'!
 new: dimension over: aCommutativeRing
 	^ self new coordinateRing: (aCommutativeRing polynomialsIn: dimension+1)! !
-
-!AlgebraicSet methodsFor: 'operations' stamp: 'len 9/1/2016 07:52'!
-/\ anAlgebraicSet
-	"Meet."
-	^ self ˜ anAlgebraicSet! !
-
-!AlgebraicSet methodsFor: 'comparing' stamp: 'len 12/14/2015 18:25'!
-< anAlgebraicSet
-	^ self ideal > anAlgebraicSet ideal! !
-
-!AlgebraicSet methodsFor: 'comparing' stamp: 'len 12/14/2015 18:25'!
-<= anAlgebraicSet
-	^ self ideal >= anAlgebraicSet ideal! !
-
-!AlgebraicSet methodsFor: 'comparing' stamp: 'len 12/14/2015 18:26'!
-= anObject
-	^ anObject species = self species and: [self ideal = anObject ideal]! !
-
-!AlgebraicSet methodsFor: 'operations' stamp: 'len 12/26/2015 19:51'!
-\ anAlgebraicSet
-	"Answer the difference of the receiver with the argument, whose associated ideal is the ideal (colon) quotient of the respective ideals."
-	^ self class on: space ideal: (ideal colon: anAlgebraicSet ideal)! !
-
-!AlgebraicSet methodsFor: 'operations' stamp: 'len 9/1/2016 07:49'!
-\/ anAlgebraicSet
-	"Join."
-	^ self ™ anAlgebraicSet! !
-
-!AlgebraicSet methodsFor: 'operations' stamp: 'len 9/1/2016 07:52'!
-˜ anAlgebraicSet
-	^ self class on: space ideal: ideal + anAlgebraicSet ideal! !
-
-!AlgebraicSet methodsFor: 'operations' stamp: 'len 9/1/2016 07:48'!
-™ anAlgebraicSet
-	^ self class on: space ideal: ideal ˜ anAlgebraicSet ideal
-
-"alternatively:
-	^ self class on: space ideal: ideal * anAlgebraicSet ideal
-although the intersection is harder to compute, it behaves better with radicalization, because the intersection of two radical ideals is radical and we don't need to compute radicals again"! !
-
-!AlgebraicSet methodsFor: 'morphisms' stamp: 'len 3/4/2016 07:56'!
-apply: aPolynomialMap
-	"Answer the receiver transformed by the given regular map."
-	^ self notYetImplemented! !
-
-!AlgebraicSet methodsFor: 'accessing' stamp: 'len 6/4/2016 03:36'!
-coordinateRing
-	"Answer the corodinate ring of the receiver, noted K[V], the ring of morphisms from V to K are polynomial functions in K[X] restricted to V. This is isomorphic to K[X] / I(V).
-	Elements of the coordinate ring act as functions on the algebraic set, just as elements of the original polynomial ring act as functions on the (affine or projective) space of their variables."
-	self isAffine ifFalse: [self error: 'only affine varieties have coordinate rings'].
-	^ CoordinateRing on: self! !
-
-!AlgebraicSet methodsFor: 'accessing' stamp: 'len 12/15/2015 20:43'!
-degree
-	^ ideal degree! !
-
-!AlgebraicSet methodsFor: 'accessing' stamp: 'len 7/4/2016 06:32'!
-dimension
-	"This is the trascendence degree of the function field over the ground field."
-	| indeterminates G |
-	G _ ideal groebnerBasis minimal.
-	indeterminates _ G indeterminates asSet copy.
-	G do: [:each|
-		indeterminates removeAllFoundIn: (G ordering headOf: each) indeterminates].
-	^ indeterminates size! !
-
-!AlgebraicSet methodsFor: 'accessing' stamp: 'len 6/3/2016 20:27'!
-equations
-	"Answer a polynomial system defining the receiver."
-	| answer zero |
-	answer _ PolynomialSystem new.
-	zero _ self groundField zero.
-	ideal generators do: [:each| answer add: (each eq: zero)].
-	^ answer! !
-
-!AlgebraicSet methodsFor: 'accessing' stamp: 'len 6/3/2016 23:24'!
-functionField
-	"Answer the function field (or field of rational functions) of the receiver. This is the fractions field of the coordinate ring and it's noted K(V) (analogous to the coordinate ring noted K[V])."
-	^ self coordinateRing fractions! !
-
-!AlgebraicSet methodsFor: 'accessing' stamp: 'len 12/15/2015 22:45'!
-groundField
-	^ space scalars! !
-
-!AlgebraicSet methodsFor: 'comparing' stamp: 'len 12/14/2015 18:26'!
-hash
-	^ self ideal hash! !
-
-!AlgebraicSet methodsFor: 'morphisms' stamp: 'len 8/25/2016 06:23'!
-id
-	"Answer the identity morphism. This is a polynomial mapping."
-	^ self notYetImplemented! !
-
-!AlgebraicSet methodsFor: 'accessing' stamp: 'len 11/22/2015 02:20'!
-ideal
-	^ ideal! !
-
-!AlgebraicSet methodsFor: 'accessing-private' stamp: 'len 12/15/2015 22:10'!
-ideal: anIdeal
-	ideal _ anIdeal radical! !
-
-!AlgebraicSet methodsFor: 'testing' stamp: 'len 9/6/2016 04:00'!
-includes: aPoint
-	"Answer true if the receiver includes the argument."
-	| p |
-	(space includes: aPoint) ifFalse: [^ false].
-	p _ space coordinatesOf: aPoint.
-	^ ideal generators allSatisfy: [:each | (each value: p) isZero]! !
-
-!AlgebraicSet methodsFor: 'testing' stamp: 'len 8/30/2016 05:48'!
-isAffine
-	^ space isKindOf: AffineLinearSpace! !
-
-!AlgebraicSet methodsFor: 'testing' stamp: 'len 7/4/2016 06:32'!
-isEmpty
-	"Answer true if the receiver is empty. 
-	Ref. Algorithmic Algebra, B. Mishra, pag. 142-145."
-	self flag: #fix. "should only test if the basis is {1}, and only works on an agebraically closed field"
-	ideal groebnerBasis
-		do: [:each | (each isConstant and: [each isZero not]) ifTrue: [^ true]].
-	self space scalars isAlgebraicallyClosed ifFalse: [self error: 'the ground field is not algebraically closed'].
-	^ false! !
-
-!AlgebraicSet methodsFor: 'testing' stamp: 'len 9/26/2016 16:47'!
-isFinite
-	"This works for any Groebner basis, no matter the ordering."
-	ideal ring indeterminates do: [:x|
-		(ideal groebnerBasis anySatisfy: [:f| | d m | m _ f leadingMonomial. d _ m degree. d > 0 and: [d = (m degreeIn: x)]])
-			ifFalse: [^ false]].
-	^ true! !
-
-!AlgebraicSet methodsFor: 'testing' stamp: 'len 8/27/2016 17:56'!
-isIrreducible
-	^ ideal isPrime "IFF. Alternatively, iif the coordinate ring is an integral domain"! !
-
-!AlgebraicSet methodsFor: 'testing' stamp: 'len 8/30/2016 05:45'!
-isProjective
-	^ space isKindOf: ProjectiveLinearSpace! !
-
-!AlgebraicSet methodsFor: 'testing' stamp: 'len 12/15/2015 20:34'!
-isVariety
-	^ self isIrreducible! !
-
-!AlgebraicSet methodsFor: 'printing' stamp: 'len 4/21/2016 00:10'!
-printOn: aStream
-	aStream nextPutAll: 'V('.
-	ideal generators do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: ', '].
-	aStream nextPut: $)! !
-
-!AlgebraicSet methodsFor: 'operations' stamp: 'len 6/4/2016 00:32'!
-product: anAlgebraicSet
-	^ self class on: (space product: anAlgebraicSet space) ideal: (self ideal product: anAlgebraicSet ideal)! !
-
-!AlgebraicSet methodsFor: 'morphisms' stamp: 'len 12/16/2015 22:13'!
-project: anIndeterminate
-	"Answer the projection of the receiver by eliminating the given indeterminate."
-	^ self class ideal: (ideal eliminate: anIndeterminate)! !
-
-!AlgebraicSet methodsFor: 'operations' stamp: 'len 6/10/2016 05:41'!
-projectiveClosure
-	"The projective closure of an affine variety is the projective variety corresponding to the homogenized ideal."
-	self groundField isAlgebraicallyClosed ifFalse: [self error: 'the ground field is not algebraically closed']. "otherwise the variety obtained can be bigger than the actual projective closure"
-	self isAffine ifFalse: [self error: 'only affine varieties can be projectivized'].
-	^ self class on: space projectiveClosure ideal: ideal homogenized! !
-
-!AlgebraicSet methodsFor: 'accessing' stamp: 'len 12/15/2015 22:07'!
-space
-	^ space! !
-
-!AlgebraicSet methodsFor: 'accessing-private' stamp: 'len 12/15/2015 22:07'!
-space: anAffineSpace
-	space _ anAffineSpace! !
-
-!AlgebraicSet methodsFor: 'private' stamp: 'len 3/6/2016 07:36'!
-species
-	^ AlgebraicSet! !
-
-!AlgebraicSet class methodsFor: 'examples' stamp: 'len 6/1/2016 20:53'!
-ellipticCurve
-	"This is a projective variety, an elliptic curve in P**2."
-	| C Cxyz x y z |
-	C _ AlgebraicNumbers new.
-	Cxyz _ C polynomialsIn: 3.
-	x _ Cxyz x.
-	y _ Cxyz y.
-	z _ Cxyz z.
-	^ self ideal: Cxyz * {(x**3) - (x * (z**2)) - (y**2 * z)}! !
-
-!AlgebraicSet class methodsFor: 'instance creation' stamp: 'len 5/13/2016 07:33'!
-equation: aPolynomialEquation
-	| g |
-	g _ aPolynomialEquation polynomial.
-	^ self ideal: g species * g! !
-
-!AlgebraicSet class methodsFor: 'examples' stamp: 'len 5/13/2016 07:32'!
-example
-	"This is an algebraic set that is not empty, it is irrededucible and cannot be written as the union of two proper algebraic subsets, thus it it an affine algebraic variety."
-	| C Cxy x y |
-	C _ AlgebraicNumbers new.
-	Cxy _ C polynomialsIn: #(x y).
-	x _ Cxy x.
-	y _ Cxy y.
-	^ self ideal: Cxy * {x + y - 1}! !
-
-!AlgebraicSet class methodsFor: 'instance creation' stamp: 'len 9/26/2016 16:47'!
-ideal: anIdeal
-	| K n |
-	K _ anIdeal ring scalars algebraicClosure.
-	n _ anIdeal ring rank.
-	^ anIdeal isHomogeneous
-		ifTrue: [self on: (K ** n) projective ideal: anIdeal]
-		ifFalse: [self on: (K ** n) asAffineSpace ideal: anIdeal]! !
-
-!AlgebraicSet class methodsFor: 'examples' stamp: 'len 6/1/2016 20:53'!
-kleinQuartic
-	"This is a projective variety, a curve in P**2(C)."
-	| C Cxyz x y z |
-	C _ AlgebraicNumbers new.
-	Cxyz _ C polynomialsIn: 3.
-	x _ Cxyz x.
-	y _ Cxyz y.
-	z _ Cxyz z.
-	^ self ideal: Cxyz * {x**3*y + (y**3*z) + (z**3*x)}! !
-
-!AlgebraicSet class methodsFor: 'instance creation' stamp: 'len 2/3/2016 21:17'!
-on: anAffineOrProjectiveSpace ideal: anIdeal
-	^ self new space: anAffineOrProjectiveSpace; ideal: anIdeal! !
-
-!AlgebraicSet class methodsFor: 'examples' stamp: 'len 4/17/2016 06:45'!
-twistedCubic
-	"This is the twisted cubic affine variety, parameterized by (x, x**2, x**3) in C**3."
-	| C Cxyz x y z |
-	C _ AlgebraicNumbers new.
-	Cxyz _ C polynomialsIn: #(x y z).
-	x _ Cxyz x.
-	y _ Cxyz y.
-	z _ Cxyz z.
-	^ self ideal: Cxyz * {y - (x**2). z - (x**3)}! !
-
-!AlgebraicSet class methodsFor: 'examples' stamp: 'len 6/1/2016 20:53'!
-unitCircle
-	"This is the (complex) unit circle affine algebraic variety."
-	| C Cxy x y |
-	C _ AlgebraicNumbers new.
-	Cxy _ C polynomialsIn: 2.
-	x _ Cxy x.
-	y _ Cxy y.
-	^ self ideal: Cxy * {x**2 + (y**2) - 1}! !
 
 !SemialgebraicSet methodsFor: 'operations' stamp: 'len 9/1/2016 07:54'!
 /\ aSemialgebraicSet
@@ -22503,182 +22205,6 @@ sphere
 	^ self cad: {x squared + y squared + z squared - 1}
 		:: select: [ :each | each sample norm2 = 1]! !
 
-!Polytope methodsFor: 'arithmetic' stamp: 'len 4/17/2016 03:29'!
-* aPolytope
-	^ self notYetImplemented! !
-
-!Polytope methodsFor: 'arithmetic' stamp: 'len 4/17/2016 03:32'!
-+ aPolytope
-	"Answer the Minkowski sum of the receiver and the argument."
-	
-	| newPoints |
-	newPoints _ OrderedCollection new: self points size * aPolytope points size.
-	self points do: [:p|
-		aPolytope points do: [:q|
-			newPoints add: p+q]].
-	^ self class points: newPoints! !
-
-!Polytope methodsFor: 'arithmetic' stamp: 'len 9/1/2016 08:06'!
-˜ aPolytope
-	^ self notYetImplemented! !
-
-!Polytope methodsFor: 'as yet unclassified' stamp: 'len 4/17/2016 04:40'!
-boundary
-	^ self notYetImplemented! !
-
-!Polytope methodsFor: 'as yet unclassified' stamp: 'len 4/17/2016 04:40'!
-interior
-	^ self notYetImplemented! !
-
-!Polytope methodsFor: 'accessing' stamp: 'len 4/17/2016 03:27'!
-points
-	^ points! !
-
-!Polytope methodsFor: 'accessing' stamp: 'len 4/17/2016 03:27'!
-points: aCollection
-	points _ aCollection! !
-
-!Polytope methodsFor: 'as yet unclassified' stamp: 'len 4/17/2016 04:40'!
-relativeInterior
-	^ self notYetImplemented! !
-
-!Polytope methodsFor: 'accessing' stamp: 'len 4/17/2016 03:53'!
-space
-	^ space! !
-
-!Polytope methodsFor: 'accessing' stamp: 'len 4/17/2016 03:54'!
-space: aVectorSpace
-	space _ aVectorSpace! !
-
-!Polytope class methodsFor: 'instance creation' stamp: 'len 4/17/2016 03:36'!
-points: aCollection
-	^ self new points: aCollection! !
-
-!Polygon methodsFor: 'accessing' stamp: 'len 1/12/2016 19:28'!
-area
-	^ self notYetImplemented! !
-
-!Polygon methodsFor: 'testing' stamp: 'len 1/12/2016 19:30'!
-boundaryIncludes: aPoint
-	^ self edges anySatisfy: [:any| any includes: aPoint]! !
-
-!Polygon methodsFor: 'accessing' stamp: 'len 1/12/2016 19:27'!
-edges
-	^ (1 to: vertices size)
-		collect:
-			[:i| (LineSegment from: (vertices at: i) to: (vertices at: i \\ vertices size + 1))]! !
-
-!Polygon methodsFor: 'testing' stamp: 'len 1/12/2016 19:29'!
-includes: aPoint
-	^ self notYetImplemented! !
-
-!Polygon methodsFor: 'testing' stamp: 'len 1/12/2016 19:31'!
-isConvex
-	^ self notYetImplemented! !
-
-!Polygon methodsFor: 'testing' stamp: 'len 1/12/2016 20:10'!
-isSimple
-	^ self notYetImplemented! !
-
-!Polygon methodsFor: 'accessing' stamp: 'len 1/12/2016 19:28'!
-perimeter
-	vertices isEmpty ifTrue: [^ 0].
-	^ self edges sum: [:each| each length]! !
-
-!Polygon methodsFor: 'printing' stamp: 'len 1/12/2016 19:43'!
-printOn: aStream
-	aStream nextPut: $[.
-	vertices do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: ', '].
-	aStream nextPut: $]! !
-
-!Polygon methodsFor: 'accessing' stamp: 'len 1/12/2016 19:23'!
-vertices
-	^ vertices! !
-
-!Polygon methodsFor: 'accessing-private' stamp: 'len 1/12/2016 19:22'!
-vertices: aCollection
-	vertices _ aCollection! !
-
-!Polygon class methodsFor: 'instance creation' stamp: 'len 3/23/2016 21:26'!
-vertices: aCollection
-	^ self new vertices: aCollection! !
-
-!LineSegment methodsFor: 'accessing' stamp: 'len 2/27/2016 08:07'!
-direction
-	^ vertices first - vertices second! !
-
-!LineSegment methodsFor: 'testing' stamp: 'len 1/12/2016 19:39'!
-includes: aPoint
-	^ self notYetImplemented! !
-
-!LineSegment methodsFor: 'accessing' stamp: 'len 1/12/2016 19:20'!
-length
-	^ self direction norm! !
-
-!LineSegment methodsFor: 'accessing' stamp: 'len 2/27/2016 08:08'!
-midpoint
-	^ vertices sum / 2! !
-
-!LineSegment class methodsFor: 'instance creation' stamp: 'len 3/23/2016 21:24'!
-from: aPoint to: anotherPoint
-	^ self new vertices: {aPoint. anotherPoint}! !
-
-!DirectedLineSegment methodsFor: 'as yet unclassified' stamp: 'len 1/12/2016 19:35'!
-= aLineSegment
-	aLineSegment class = self class ifFalse: [^ false].
-	^ self p1 = aLineSegment p1 and: [self p2 = aLineSegment p2]! !
-
-!Quadrangle methodsFor: 'as yet unclassified' stamp: 'len 1/12/2016 19:59'!
-bimedians
-	^ self notYetImplemented! !
-
-!Quadrangle methodsFor: 'as yet unclassified' stamp: 'len 1/12/2016 19:59'!
-maltitudes
-	^ self notYetImplemented! !
-
-!Triangle methodsFor: 'as yet unclassified' stamp: 'len 1/12/2016 19:57'!
-altitudes
-	^ self notYetImplemented! !
-
-!Triangle methodsFor: 'as yet unclassified' stamp: 'len 1/12/2016 20:00'!
-centroid
-	^ self notYetImplemented! !
-
-!Triangle methodsFor: 'as yet unclassified' stamp: 'len 1/12/2016 20:00'!
-circumcenter
-	^ self notYetImplemented! !
-
-!Triangle methodsFor: 'as yet unclassified' stamp: 'len 1/12/2016 20:00'!
-incenter
-	^ self notYetImplemented! !
-
-!Triangle methodsFor: 'as yet unclassified' stamp: 'len 1/12/2016 19:57'!
-internalAngleBisectors
-	^ self notYetImplemented! !
-
-!Triangle methodsFor: 'as yet unclassified' stamp: 'len 1/12/2016 19:56'!
-medians
-	| edges |
-	edges _ self edges.
-	^ OrderedCollection new
-		add: (LineSegment from: (edges at: 1) midpoint to: (vertices at: 3));
-		add: (LineSegment from: (edges at: 2) midpoint to: (vertices at: 1));
-		add: (LineSegment from: (edges at: 3) midpoint to: (vertices at: 2));
-		yourself
-	! !
-
-!Triangle methodsFor: 'as yet unclassified' stamp: 'len 1/12/2016 20:00'!
-ninePointCenter
-	^ self notYetImplemented! !
-
-!Triangle methodsFor: 'as yet unclassified' stamp: 'len 1/12/2016 20:00'!
-orthocenter
-	^ self notYetImplemented! !
-
-!Triangle methodsFor: 'as yet unclassified' stamp: 'len 1/12/2016 19:57'!
-perpendicularBisectors
-	^ self notYetImplemented! !
-
 !SemistandardTableaux methodsFor: 'as yet unclassified' stamp: 'len 8/1/2016 02:31'!
 alphabet
 	^ alphabet! !
@@ -22966,6 +22492,458 @@ base
 !TopologicalSpace methodsFor: 'as yet unclassified' stamp: 'len 10/3/2016 10:08'!
 isOpen: aSubset
 	^ self subclassResponsibility! !
+
+!AlgebraicSet methodsFor: 'operations' stamp: 'len 9/1/2016 07:52'!
+/\ anAlgebraicSet
+	"Meet."
+	^ self ˜ anAlgebraicSet! !
+
+!AlgebraicSet methodsFor: 'comparing' stamp: 'len 12/14/2015 18:25'!
+< anAlgebraicSet
+	^ self ideal > anAlgebraicSet ideal! !
+
+!AlgebraicSet methodsFor: 'comparing' stamp: 'len 12/14/2015 18:25'!
+<= anAlgebraicSet
+	^ self ideal >= anAlgebraicSet ideal! !
+
+!AlgebraicSet methodsFor: 'comparing' stamp: 'len 12/14/2015 18:26'!
+= anObject
+	^ anObject species = self species and: [self ideal = anObject ideal]! !
+
+!AlgebraicSet methodsFor: 'operations' stamp: 'len 12/26/2015 19:51'!
+\ anAlgebraicSet
+	"Answer the difference of the receiver with the argument, whose associated ideal is the ideal (colon) quotient of the respective ideals."
+	^ self class on: space ideal: (ideal colon: anAlgebraicSet ideal)! !
+
+!AlgebraicSet methodsFor: 'operations' stamp: 'len 9/1/2016 07:49'!
+\/ anAlgebraicSet
+	"Join."
+	^ self ™ anAlgebraicSet! !
+
+!AlgebraicSet methodsFor: 'operations' stamp: 'len 9/1/2016 07:52'!
+˜ anAlgebraicSet
+	^ self class on: space ideal: ideal + anAlgebraicSet ideal! !
+
+!AlgebraicSet methodsFor: 'operations' stamp: 'len 9/1/2016 07:48'!
+™ anAlgebraicSet
+	^ self class on: space ideal: ideal ˜ anAlgebraicSet ideal
+
+"alternatively:
+	^ self class on: space ideal: ideal * anAlgebraicSet ideal
+although the intersection is harder to compute, it behaves better with radicalization, because the intersection of two radical ideals is radical and we don't need to compute radicals again"! !
+
+!AlgebraicSet methodsFor: 'morphisms' stamp: 'len 3/4/2016 07:56'!
+apply: aPolynomialMap
+	"Answer the receiver transformed by the given regular map."
+	^ self notYetImplemented! !
+
+!AlgebraicSet methodsFor: 'accessing' stamp: 'len 6/4/2016 03:36'!
+coordinateRing
+	"Answer the corodinate ring of the receiver, noted K[V], the ring of morphisms from V to K are polynomial functions in K[X] restricted to V. This is isomorphic to K[X] / I(V).
+	Elements of the coordinate ring act as functions on the algebraic set, just as elements of the original polynomial ring act as functions on the (affine or projective) space of their variables."
+	self isAffine ifFalse: [self error: 'only affine varieties have coordinate rings'].
+	^ CoordinateRing on: self! !
+
+!AlgebraicSet methodsFor: 'accessing' stamp: 'len 12/15/2015 20:43'!
+degree
+	^ ideal degree! !
+
+!AlgebraicSet methodsFor: 'accessing' stamp: 'len 7/4/2016 06:32'!
+dimension
+	"This is the trascendence degree of the function field over the ground field."
+	| indeterminates G |
+	G _ ideal groebnerBasis minimal.
+	indeterminates _ G indeterminates asSet copy.
+	G do: [:each|
+		indeterminates removeAllFoundIn: (G ordering headOf: each) indeterminates].
+	^ indeterminates size! !
+
+!AlgebraicSet methodsFor: 'accessing' stamp: 'len 6/3/2016 20:27'!
+equations
+	"Answer a polynomial system defining the receiver."
+	| answer zero |
+	answer _ PolynomialSystem new.
+	zero _ self groundField zero.
+	ideal generators do: [:each| answer add: (each eq: zero)].
+	^ answer! !
+
+!AlgebraicSet methodsFor: 'accessing' stamp: 'len 6/3/2016 23:24'!
+functionField
+	"Answer the function field (or field of rational functions) of the receiver. This is the fractions field of the coordinate ring and it's noted K(V) (analogous to the coordinate ring noted K[V])."
+	^ self coordinateRing fractions! !
+
+!AlgebraicSet methodsFor: 'accessing' stamp: 'len 12/15/2015 22:45'!
+groundField
+	^ space scalars! !
+
+!AlgebraicSet methodsFor: 'comparing' stamp: 'len 12/14/2015 18:26'!
+hash
+	^ self ideal hash! !
+
+!AlgebraicSet methodsFor: 'morphisms' stamp: 'len 8/25/2016 06:23'!
+id
+	"Answer the identity morphism. This is a polynomial mapping."
+	^ self notYetImplemented! !
+
+!AlgebraicSet methodsFor: 'accessing' stamp: 'len 11/22/2015 02:20'!
+ideal
+	^ ideal! !
+
+!AlgebraicSet methodsFor: 'accessing-private' stamp: 'len 12/15/2015 22:10'!
+ideal: anIdeal
+	ideal _ anIdeal radical! !
+
+!AlgebraicSet methodsFor: 'testing' stamp: 'len 9/6/2016 04:00'!
+includes: aPoint
+	"Answer true if the receiver includes the argument."
+	| p |
+	(space includes: aPoint) ifFalse: [^ false].
+	p _ space coordinatesOf: aPoint.
+	^ ideal generators allSatisfy: [:each | (each value: p) isZero]! !
+
+!AlgebraicSet methodsFor: 'testing' stamp: 'len 8/30/2016 05:48'!
+isAffine
+	^ space isKindOf: AffineLinearSpace! !
+
+!AlgebraicSet methodsFor: 'testing' stamp: 'len 7/4/2016 06:32'!
+isEmpty
+	"Answer true if the receiver is empty. 
+	Ref. Algorithmic Algebra, B. Mishra, pag. 142-145."
+	self flag: #fix. "should only test if the basis is {1}, and only works on an agebraically closed field"
+	ideal groebnerBasis
+		do: [:each | (each isConstant and: [each isZero not]) ifTrue: [^ true]].
+	self space scalars isAlgebraicallyClosed ifFalse: [self error: 'the ground field is not algebraically closed'].
+	^ false! !
+
+!AlgebraicSet methodsFor: 'testing' stamp: 'len 9/26/2016 16:47'!
+isFinite
+	"This works for any Groebner basis, no matter the ordering."
+	ideal ring indeterminates do: [:x|
+		(ideal groebnerBasis anySatisfy: [:f| | d m | m _ f leadingMonomial. d _ m degree. d > 0 and: [d = (m degreeIn: x)]])
+			ifFalse: [^ false]].
+	^ true! !
+
+!AlgebraicSet methodsFor: 'testing' stamp: 'len 8/27/2016 17:56'!
+isIrreducible
+	^ ideal isPrime "IFF. Alternatively, iif the coordinate ring is an integral domain"! !
+
+!AlgebraicSet methodsFor: 'testing' stamp: 'len 8/30/2016 05:45'!
+isProjective
+	^ space isKindOf: ProjectiveLinearSpace! !
+
+!AlgebraicSet methodsFor: 'testing' stamp: 'len 12/15/2015 20:34'!
+isVariety
+	^ self isIrreducible! !
+
+!AlgebraicSet methodsFor: 'printing' stamp: 'len 4/21/2016 00:10'!
+printOn: aStream
+	aStream nextPutAll: 'V('.
+	ideal generators do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: ', '].
+	aStream nextPut: $)! !
+
+!AlgebraicSet methodsFor: 'operations' stamp: 'len 6/4/2016 00:32'!
+product: anAlgebraicSet
+	^ self class on: (space product: anAlgebraicSet space) ideal: (self ideal product: anAlgebraicSet ideal)! !
+
+!AlgebraicSet methodsFor: 'morphisms' stamp: 'len 12/16/2015 22:13'!
+project: anIndeterminate
+	"Answer the projection of the receiver by eliminating the given indeterminate."
+	^ self class ideal: (ideal eliminate: anIndeterminate)! !
+
+!AlgebraicSet methodsFor: 'operations' stamp: 'len 6/10/2016 05:41'!
+projectiveClosure
+	"The projective closure of an affine variety is the projective variety corresponding to the homogenized ideal."
+	self groundField isAlgebraicallyClosed ifFalse: [self error: 'the ground field is not algebraically closed']. "otherwise the variety obtained can be bigger than the actual projective closure"
+	self isAffine ifFalse: [self error: 'only affine varieties can be projectivized'].
+	^ self class on: space projectiveClosure ideal: ideal homogenized! !
+
+!AlgebraicSet methodsFor: 'accessing' stamp: 'len 12/15/2015 22:07'!
+space
+	^ space! !
+
+!AlgebraicSet methodsFor: 'accessing-private' stamp: 'len 12/15/2015 22:07'!
+space: anAffineSpace
+	space _ anAffineSpace! !
+
+!AlgebraicSet methodsFor: 'private' stamp: 'len 3/6/2016 07:36'!
+species
+	^ AlgebraicSet! !
+
+!AlgebraicSet class methodsFor: 'examples' stamp: 'len 6/1/2016 20:53'!
+ellipticCurve
+	"This is a projective variety, an elliptic curve in P**2."
+	| C Cxyz x y z |
+	C _ AlgebraicNumbers new.
+	Cxyz _ C polynomialsIn: 3.
+	x _ Cxyz x.
+	y _ Cxyz y.
+	z _ Cxyz z.
+	^ self ideal: Cxyz * {(x**3) - (x * (z**2)) - (y**2 * z)}! !
+
+!AlgebraicSet class methodsFor: 'instance creation' stamp: 'len 5/13/2016 07:33'!
+equation: aPolynomialEquation
+	| g |
+	g _ aPolynomialEquation polynomial.
+	^ self ideal: g species * g! !
+
+!AlgebraicSet class methodsFor: 'examples' stamp: 'len 5/13/2016 07:32'!
+example
+	"This is an algebraic set that is not empty, it is irrededucible and cannot be written as the union of two proper algebraic subsets, thus it it an affine algebraic variety."
+	| C Cxy x y |
+	C _ AlgebraicNumbers new.
+	Cxy _ C polynomialsIn: #(x y).
+	x _ Cxy x.
+	y _ Cxy y.
+	^ self ideal: Cxy * {x + y - 1}! !
+
+!AlgebraicSet class methodsFor: 'instance creation' stamp: 'len 9/26/2016 16:47'!
+ideal: anIdeal
+	| K n |
+	K _ anIdeal ring scalars algebraicClosure.
+	n _ anIdeal ring rank.
+	^ anIdeal isHomogeneous
+		ifTrue: [self on: (K ** n) projective ideal: anIdeal]
+		ifFalse: [self on: (K ** n) asAffineSpace ideal: anIdeal]! !
+
+!AlgebraicSet class methodsFor: 'examples' stamp: 'len 6/1/2016 20:53'!
+kleinQuartic
+	"This is a projective variety, a curve in P**2(C)."
+	| C Cxyz x y z |
+	C _ AlgebraicNumbers new.
+	Cxyz _ C polynomialsIn: 3.
+	x _ Cxyz x.
+	y _ Cxyz y.
+	z _ Cxyz z.
+	^ self ideal: Cxyz * {x**3*y + (y**3*z) + (z**3*x)}! !
+
+!AlgebraicSet class methodsFor: 'instance creation' stamp: 'len 2/3/2016 21:17'!
+on: anAffineOrProjectiveSpace ideal: anIdeal
+	^ self new space: anAffineOrProjectiveSpace; ideal: anIdeal! !
+
+!AlgebraicSet class methodsFor: 'examples' stamp: 'len 4/17/2016 06:45'!
+twistedCubic
+	"This is the twisted cubic affine variety, parameterized by (x, x**2, x**3) in C**3."
+	| C Cxyz x y z |
+	C _ AlgebraicNumbers new.
+	Cxyz _ C polynomialsIn: #(x y z).
+	x _ Cxyz x.
+	y _ Cxyz y.
+	z _ Cxyz z.
+	^ self ideal: Cxyz * {y - (x**2). z - (x**3)}! !
+
+!AlgebraicSet class methodsFor: 'examples' stamp: 'len 6/1/2016 20:53'!
+unitCircle
+	"This is the (complex) unit circle affine algebraic variety."
+	| C Cxy x y |
+	C _ AlgebraicNumbers new.
+	Cxy _ C polynomialsIn: 2.
+	x _ Cxy x.
+	y _ Cxy y.
+	^ self ideal: Cxy * {x**2 + (y**2) - 1}! !
+
+!Category methodsFor: 'as yet unclassified' stamp: 'len 10/9/2016 08:48'!
+isAbelian
+	^ false! !
+
+!AbelianGroups methodsFor: 'as yet unclassified' stamp: 'len 10/9/2016 08:48'!
+isAbelian
+	^ true! !
+
+!AbelianGroups methodsFor: 'as yet unclassified' stamp: 'len 10/9/2016 08:49'!
+printOn: aStream
+	aStream nextPutAll: 'Ab'! !
+
+!Modules methodsFor: 'as yet unclassified' stamp: 'len 10/9/2016 08:46'!
+printOn: aStream
+	aStream print: scalars; nextPutAll: (scalars isField ifTrue: ['-Vect'] ifFalse: ['-Mod'])! !
+
+!Modules methodsFor: 'as yet unclassified' stamp: 'len 10/9/2016 08:43'!
+scalars
+	^ scalars! !
+
+!Modules methodsFor: 'as yet unclassified' stamp: 'len 10/9/2016 08:44'!
+scalars: aCommutativeRing
+	scalars _ aCommutativeRing! !
+
+!Modules class methodsFor: 'as yet unclassified' stamp: 'len 10/9/2016 08:47'!
+over: aCommutativeRing
+	^ self new scalars: aCommutativeRing! !
+
+!Polytope methodsFor: 'arithmetic' stamp: 'len 4/17/2016 03:29'!
+* aPolytope
+	^ self notYetImplemented! !
+
+!Polytope methodsFor: 'arithmetic' stamp: 'len 4/17/2016 03:32'!
++ aPolytope
+	"Answer the Minkowski sum of the receiver and the argument."
+	
+	| newPoints |
+	newPoints _ OrderedCollection new: self points size * aPolytope points size.
+	self points do: [:p|
+		aPolytope points do: [:q|
+			newPoints add: p+q]].
+	^ self class points: newPoints! !
+
+!Polytope methodsFor: 'arithmetic' stamp: 'len 9/1/2016 08:06'!
+˜ aPolytope
+	^ self notYetImplemented! !
+
+!Polytope methodsFor: 'as yet unclassified' stamp: 'len 4/17/2016 04:40'!
+boundary
+	^ self notYetImplemented! !
+
+!Polytope methodsFor: 'as yet unclassified' stamp: 'len 4/17/2016 04:40'!
+interior
+	^ self notYetImplemented! !
+
+!Polytope methodsFor: 'accessing' stamp: 'len 4/17/2016 03:27'!
+points
+	^ points! !
+
+!Polytope methodsFor: 'accessing' stamp: 'len 4/17/2016 03:27'!
+points: aCollection
+	points _ aCollection! !
+
+!Polytope methodsFor: 'as yet unclassified' stamp: 'len 4/17/2016 04:40'!
+relativeInterior
+	^ self notYetImplemented! !
+
+!Polytope methodsFor: 'accessing' stamp: 'len 4/17/2016 03:53'!
+space
+	^ space! !
+
+!Polytope methodsFor: 'accessing' stamp: 'len 4/17/2016 03:54'!
+space: aVectorSpace
+	space _ aVectorSpace! !
+
+!Polytope class methodsFor: 'instance creation' stamp: 'len 4/17/2016 03:36'!
+points: aCollection
+	^ self new points: aCollection! !
+
+!Polygon methodsFor: 'accessing' stamp: 'len 1/12/2016 19:28'!
+area
+	^ self notYetImplemented! !
+
+!Polygon methodsFor: 'testing' stamp: 'len 1/12/2016 19:30'!
+boundaryIncludes: aPoint
+	^ self edges anySatisfy: [:any| any includes: aPoint]! !
+
+!Polygon methodsFor: 'accessing' stamp: 'len 1/12/2016 19:27'!
+edges
+	^ (1 to: vertices size)
+		collect:
+			[:i| (LineSegment from: (vertices at: i) to: (vertices at: i \\ vertices size + 1))]! !
+
+!Polygon methodsFor: 'testing' stamp: 'len 1/12/2016 19:29'!
+includes: aPoint
+	^ self notYetImplemented! !
+
+!Polygon methodsFor: 'testing' stamp: 'len 1/12/2016 19:31'!
+isConvex
+	^ self notYetImplemented! !
+
+!Polygon methodsFor: 'testing' stamp: 'len 1/12/2016 20:10'!
+isSimple
+	^ self notYetImplemented! !
+
+!Polygon methodsFor: 'accessing' stamp: 'len 1/12/2016 19:28'!
+perimeter
+	vertices isEmpty ifTrue: [^ 0].
+	^ self edges sum: [:each| each length]! !
+
+!Polygon methodsFor: 'printing' stamp: 'len 1/12/2016 19:43'!
+printOn: aStream
+	aStream nextPut: $[.
+	vertices do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: ', '].
+	aStream nextPut: $]! !
+
+!Polygon methodsFor: 'accessing' stamp: 'len 1/12/2016 19:23'!
+vertices
+	^ vertices! !
+
+!Polygon methodsFor: 'accessing-private' stamp: 'len 1/12/2016 19:22'!
+vertices: aCollection
+	vertices _ aCollection! !
+
+!Polygon class methodsFor: 'instance creation' stamp: 'len 3/23/2016 21:26'!
+vertices: aCollection
+	^ self new vertices: aCollection! !
+
+!LineSegment methodsFor: 'accessing' stamp: 'len 2/27/2016 08:07'!
+direction
+	^ vertices first - vertices second! !
+
+!LineSegment methodsFor: 'testing' stamp: 'len 1/12/2016 19:39'!
+includes: aPoint
+	^ self notYetImplemented! !
+
+!LineSegment methodsFor: 'accessing' stamp: 'len 1/12/2016 19:20'!
+length
+	^ self direction norm! !
+
+!LineSegment methodsFor: 'accessing' stamp: 'len 2/27/2016 08:08'!
+midpoint
+	^ vertices sum / 2! !
+
+!LineSegment class methodsFor: 'instance creation' stamp: 'len 3/23/2016 21:24'!
+from: aPoint to: anotherPoint
+	^ self new vertices: {aPoint. anotherPoint}! !
+
+!DirectedLineSegment methodsFor: 'as yet unclassified' stamp: 'len 1/12/2016 19:35'!
+= aLineSegment
+	aLineSegment class = self class ifFalse: [^ false].
+	^ self p1 = aLineSegment p1 and: [self p2 = aLineSegment p2]! !
+
+!Quadrangle methodsFor: 'as yet unclassified' stamp: 'len 1/12/2016 19:59'!
+bimedians
+	^ self notYetImplemented! !
+
+!Quadrangle methodsFor: 'as yet unclassified' stamp: 'len 1/12/2016 19:59'!
+maltitudes
+	^ self notYetImplemented! !
+
+!Triangle methodsFor: 'as yet unclassified' stamp: 'len 1/12/2016 19:57'!
+altitudes
+	^ self notYetImplemented! !
+
+!Triangle methodsFor: 'as yet unclassified' stamp: 'len 1/12/2016 20:00'!
+centroid
+	^ self notYetImplemented! !
+
+!Triangle methodsFor: 'as yet unclassified' stamp: 'len 1/12/2016 20:00'!
+circumcenter
+	^ self notYetImplemented! !
+
+!Triangle methodsFor: 'as yet unclassified' stamp: 'len 1/12/2016 20:00'!
+incenter
+	^ self notYetImplemented! !
+
+!Triangle methodsFor: 'as yet unclassified' stamp: 'len 1/12/2016 19:57'!
+internalAngleBisectors
+	^ self notYetImplemented! !
+
+!Triangle methodsFor: 'as yet unclassified' stamp: 'len 1/12/2016 19:56'!
+medians
+	| edges |
+	edges _ self edges.
+	^ OrderedCollection new
+		add: (LineSegment from: (edges at: 1) midpoint to: (vertices at: 3));
+		add: (LineSegment from: (edges at: 2) midpoint to: (vertices at: 1));
+		add: (LineSegment from: (edges at: 3) midpoint to: (vertices at: 2));
+		yourself
+	! !
+
+!Triangle methodsFor: 'as yet unclassified' stamp: 'len 1/12/2016 20:00'!
+ninePointCenter
+	^ self notYetImplemented! !
+
+!Triangle methodsFor: 'as yet unclassified' stamp: 'len 1/12/2016 20:00'!
+orthocenter
+	^ self notYetImplemented! !
+
+!Triangle methodsFor: 'as yet unclassified' stamp: 'len 1/12/2016 19:57'!
+perpendicularBisectors
+	^ self notYetImplemented! !
 
 !Morphism methodsFor: 'operations' stamp: 'len 10/10/2016 15:12'!
 @ aMorphism
@@ -25673,149 +25651,6 @@ linearMap: aLinearMap
 	"Answer the homography with associated linear transformation aLinearMap."
 	^ self new linearMap: aLinearMap! !
 
-!PolynomialFunction methodsFor: 'operations' stamp: 'len 7/7/2016 20:45'!
-* anObject
-	(anObject isKindOf: PolynomialFunction)
-		ifFalse: [^ self class from: domain representative: (domain ideal reduce: representative * anObject)].
-	^ self class from: domain representative: (domain ideal reduce: representative * anObject representative)! !
-
-!PolynomialFunction methodsFor: 'operations' stamp: 'len 7/7/2016 20:45'!
-+ aPolynomialFunction
-	^ self class from: domain representative: (domain ideal reduce: representative + aPolynomialFunction representative)! !
-
-!PolynomialFunction methodsFor: 'comparing' stamp: 'len 3/4/2016 07:47'!
-= aPolynomialFunction
-	^ self domain ideal includes: self representative - aPolynomialFunction representative! !
-
-!PolynomialFunction methodsFor: 'accessing' stamp: 'len 12/15/2015 20:13'!
-codomain
-	^ domain groundField! !
-
-!PolynomialFunction methodsFor: 'accessing' stamp: 'len 12/15/2015 20:12'!
-domain
-	^ domain! !
-
-!PolynomialFunction methodsFor: 'accessing-private' stamp: 'len 12/16/2015 23:10'!
-domain: anAlgebraicVariety
-	domain _ anAlgebraicVariety! !
-
-!PolynomialFunction methodsFor: 'comparing' stamp: 'len 3/4/2016 07:47'!
-hash
-	^ self domain hash! !
-
-!PolynomialFunction methodsFor: 'operations' stamp: 'len 3/4/2016 19:54'!
-negated
-	^ self class from: domain representative: representative negated "no need to compute remainder again, right?"! !
-
-!PolynomialFunction methodsFor: 'printing' stamp: 'len 4/21/2016 00:22'!
-printOn: aStream
-	aStream nextPut: $[; print: representative; nextPut: $]! !
-
-!PolynomialFunction methodsFor: 'accessing' stamp: 'len 12/15/2015 20:14'!
-representative
-	^ representative! !
-
-!PolynomialFunction methodsFor: 'accessing-private' stamp: 'len 12/15/2015 20:13'!
-representative: aPolynomial
-	representative _ aPolynomial! !
-
-!PolynomialFunction methodsFor: 'evaluating' stamp: 'len 6/4/2016 05:23'!
-value: aPoint
-	^ representative value: (domain space coordinatesOf: aPoint)! !
-
-!PolynomialFunction class methodsFor: 'instance creation' stamp: 'len 12/15/2015 20:12'!
-from: anAlgebraicVariety representative: aPolynomial
-	^ self new domain: anAlgebraicVariety; representative: aPolynomial! !
-
-!PolynomialMap methodsFor: 'operations' stamp: 'len 3/4/2016 19:42'!
-* anObject
-	^ self class from: domain to: codomain components: components * anObject! !
-
-!PolynomialMap methodsFor: 'operations' stamp: 'len 3/4/2016 19:41'!
-+ aPolynomialMap
-	(domain = aPolynomialMap domain and: [codomain = aPolynomialMap codomain])
-		ifFalse: [^ DomainError signal].
-	^ self class from: domain to: codomain components: components + aPolynomialMap components! !
-
-!PolynomialMap methodsFor: 'comparing' stamp: 'len 3/4/2016 07:53'!
-= aPolynomialMap
-	^ self domain = aPolynomialMap domain and: [self codomain = aPolynomialMap codomain and: [components = aPolynomialMap components]]! !
-
-!PolynomialMap methodsFor: 'operations' stamp: 'len 9/21/2016 16:57'!
-@ aPolynomialMap
-	self domain = aPolynomialMap codomain ifFalse: [^ DomainError signal].
-	(aPolynomialMap isKindOf: PolynomialFunction)
-		ifTrue: [^ PolynomialFunction from: self domain representative: (self domain ideal reduce: (aPolynomialMap representative value: components))].
-	^ self notYetImplemented! !
-
-!PolynomialMap methodsFor: 'operations' stamp: 'len 9/21/2016 16:57'!
-• aPolynomialMap
-	self codomain = aPolynomialMap domain ifFalse: [^ DomainError signal].
-	(aPolynomialMap isKindOf: PolynomialFunction)
-		ifTrue: [^ PolynomialFunction from: self domain representative: (self domain ideal reduce: (aPolynomialMap representative value: components))].
-	^ self notYetImplemented! !
-
-!PolynomialMap methodsFor: 'accessing' stamp: 'len 12/15/2015 19:59'!
-codomain
-	^ codomain! !
-
-!PolynomialMap methodsFor: 'accessing-private' stamp: 'len 12/15/2015 19:59'!
-codomain: anAlgebraicVariety
-	codomain _ anAlgebraicVariety! !
-
-!PolynomialMap methodsFor: 'accessing-private' stamp: 'len 6/4/2016 05:29'!
-components: anArray
-	components _ anArray! !
-
-!PolynomialMap methodsFor: 'accessing' stamp: 'len 12/15/2015 19:59'!
-domain
-	^ domain! !
-
-!PolynomialMap methodsFor: 'accessing-private' stamp: 'len 12/15/2015 19:59'!
-domain: anAlgebraicVariety
-	domain _ anAlgebraicVariety! !
-
-!PolynomialMap methodsFor: 'comparing' stamp: 'len 3/4/2016 07:53'!
-hash
-	^ components hash! !
-
-!PolynomialMap methodsFor: 'accessing' stamp: 'len 3/4/2016 07:44'!
-identity
-	^ self notYetImplemented! !
-
-!PolynomialMap methodsFor: 'accessing' stamp: 'len 12/18/2015 23:27'!
-jacobian
-	"Answer the Jacobian matrix of the receiver."
-	| R |
-	R _ self components first species.
-	^ R ** (codomain dimension @ domain dimension) evaluating: [:i :j| (components at: i) derivativeIn: j]! !
-
-!PolynomialMap methodsFor: 'operations' stamp: 'len 3/4/2016 07:45'!
-leftInverse
-	^ self notYetImplemented! !
-
-!PolynomialMap methodsFor: 'operations' stamp: 'len 3/4/2016 07:52'!
-negated
-	^ self class from: domain to: codomain components: components negated! !
-
-!PolynomialMap methodsFor: 'printing' stamp: 'len 4/21/2016 00:22'!
-printOn: aStream 
-	aStream nextPut: $[.
-	components
-		do: [:each| aStream print: each]
-		separatedBy: [aStream nextPutAll: ', '].
-	aStream nextPut: $]! !
-
-!PolynomialMap methodsFor: 'evaluating' stamp: 'len 6/4/2016 05:27'!
-value: aPoint
-	| t |
-	t _ self domain space coordinatesOf: aPoint.
-	^ self codomain space pointAt: (components collect: [:each| each representative value: t])! !
-
-!PolynomialMap class methodsFor: 'instance creation' stamp: 'len 12/15/2015 20:04'!
-from: anAlgebraicVariety to: anotherAlgebraicVariety components: aTupleOfPolynomials
-	^ self new domain: anAlgebraicVariety; codomain: anotherAlgebraicVariety; components: aTupleOfPolynomials! !
-
 !RationalMap methodsFor: 'arithmetic' stamp: 'len 3/16/2016 05:27'!
 * anObject
 	^ self class from: domain to: codomain components: components * anObject! !
@@ -26002,6 +25837,149 @@ polynomials: aPolynomialSet index: anInteger
 
 	^ self new polynomials: aPolynomialSet; index: anInteger! !
 
+!PolynomialFunction methodsFor: 'operations' stamp: 'len 7/7/2016 20:45'!
+* anObject
+	(anObject isKindOf: PolynomialFunction)
+		ifFalse: [^ self class from: domain representative: (domain ideal reduce: representative * anObject)].
+	^ self class from: domain representative: (domain ideal reduce: representative * anObject representative)! !
+
+!PolynomialFunction methodsFor: 'operations' stamp: 'len 7/7/2016 20:45'!
++ aPolynomialFunction
+	^ self class from: domain representative: (domain ideal reduce: representative + aPolynomialFunction representative)! !
+
+!PolynomialFunction methodsFor: 'comparing' stamp: 'len 3/4/2016 07:47'!
+= aPolynomialFunction
+	^ self domain ideal includes: self representative - aPolynomialFunction representative! !
+
+!PolynomialFunction methodsFor: 'accessing' stamp: 'len 12/15/2015 20:13'!
+codomain
+	^ domain groundField! !
+
+!PolynomialFunction methodsFor: 'accessing' stamp: 'len 12/15/2015 20:12'!
+domain
+	^ domain! !
+
+!PolynomialFunction methodsFor: 'accessing-private' stamp: 'len 12/16/2015 23:10'!
+domain: anAlgebraicVariety
+	domain _ anAlgebraicVariety! !
+
+!PolynomialFunction methodsFor: 'comparing' stamp: 'len 3/4/2016 07:47'!
+hash
+	^ self domain hash! !
+
+!PolynomialFunction methodsFor: 'operations' stamp: 'len 3/4/2016 19:54'!
+negated
+	^ self class from: domain representative: representative negated "no need to compute remainder again, right?"! !
+
+!PolynomialFunction methodsFor: 'printing' stamp: 'len 4/21/2016 00:22'!
+printOn: aStream
+	aStream nextPut: $[; print: representative; nextPut: $]! !
+
+!PolynomialFunction methodsFor: 'accessing' stamp: 'len 12/15/2015 20:14'!
+representative
+	^ representative! !
+
+!PolynomialFunction methodsFor: 'accessing-private' stamp: 'len 12/15/2015 20:13'!
+representative: aPolynomial
+	representative _ aPolynomial! !
+
+!PolynomialFunction methodsFor: 'evaluating' stamp: 'len 6/4/2016 05:23'!
+value: aPoint
+	^ representative value: (domain space coordinatesOf: aPoint)! !
+
+!PolynomialFunction class methodsFor: 'instance creation' stamp: 'len 12/15/2015 20:12'!
+from: anAlgebraicVariety representative: aPolynomial
+	^ self new domain: anAlgebraicVariety; representative: aPolynomial! !
+
+!PolynomialMap methodsFor: 'operations' stamp: 'len 3/4/2016 19:42'!
+* anObject
+	^ self class from: domain to: codomain components: components * anObject! !
+
+!PolynomialMap methodsFor: 'operations' stamp: 'len 3/4/2016 19:41'!
++ aPolynomialMap
+	(domain = aPolynomialMap domain and: [codomain = aPolynomialMap codomain])
+		ifFalse: [^ DomainError signal].
+	^ self class from: domain to: codomain components: components + aPolynomialMap components! !
+
+!PolynomialMap methodsFor: 'comparing' stamp: 'len 3/4/2016 07:53'!
+= aPolynomialMap
+	^ self domain = aPolynomialMap domain and: [self codomain = aPolynomialMap codomain and: [components = aPolynomialMap components]]! !
+
+!PolynomialMap methodsFor: 'operations' stamp: 'len 9/21/2016 16:57'!
+@ aPolynomialMap
+	self domain = aPolynomialMap codomain ifFalse: [^ DomainError signal].
+	(aPolynomialMap isKindOf: PolynomialFunction)
+		ifTrue: [^ PolynomialFunction from: self domain representative: (self domain ideal reduce: (aPolynomialMap representative value: components))].
+	^ self notYetImplemented! !
+
+!PolynomialMap methodsFor: 'operations' stamp: 'len 9/21/2016 16:57'!
+• aPolynomialMap
+	self codomain = aPolynomialMap domain ifFalse: [^ DomainError signal].
+	(aPolynomialMap isKindOf: PolynomialFunction)
+		ifTrue: [^ PolynomialFunction from: self domain representative: (self domain ideal reduce: (aPolynomialMap representative value: components))].
+	^ self notYetImplemented! !
+
+!PolynomialMap methodsFor: 'accessing' stamp: 'len 12/15/2015 19:59'!
+codomain
+	^ codomain! !
+
+!PolynomialMap methodsFor: 'accessing-private' stamp: 'len 12/15/2015 19:59'!
+codomain: anAlgebraicVariety
+	codomain _ anAlgebraicVariety! !
+
+!PolynomialMap methodsFor: 'accessing-private' stamp: 'len 6/4/2016 05:29'!
+components: anArray
+	components _ anArray! !
+
+!PolynomialMap methodsFor: 'accessing' stamp: 'len 12/15/2015 19:59'!
+domain
+	^ domain! !
+
+!PolynomialMap methodsFor: 'accessing-private' stamp: 'len 12/15/2015 19:59'!
+domain: anAlgebraicVariety
+	domain _ anAlgebraicVariety! !
+
+!PolynomialMap methodsFor: 'comparing' stamp: 'len 3/4/2016 07:53'!
+hash
+	^ components hash! !
+
+!PolynomialMap methodsFor: 'accessing' stamp: 'len 3/4/2016 07:44'!
+identity
+	^ self notYetImplemented! !
+
+!PolynomialMap methodsFor: 'accessing' stamp: 'len 12/18/2015 23:27'!
+jacobian
+	"Answer the Jacobian matrix of the receiver."
+	| R |
+	R _ self components first species.
+	^ R ** (codomain dimension @ domain dimension) evaluating: [:i :j| (components at: i) derivativeIn: j]! !
+
+!PolynomialMap methodsFor: 'operations' stamp: 'len 3/4/2016 07:45'!
+leftInverse
+	^ self notYetImplemented! !
+
+!PolynomialMap methodsFor: 'operations' stamp: 'len 3/4/2016 07:52'!
+negated
+	^ self class from: domain to: codomain components: components negated! !
+
+!PolynomialMap methodsFor: 'printing' stamp: 'len 4/21/2016 00:22'!
+printOn: aStream 
+	aStream nextPut: $[.
+	components
+		do: [:each| aStream print: each]
+		separatedBy: [aStream nextPutAll: ', '].
+	aStream nextPut: $]! !
+
+!PolynomialMap methodsFor: 'evaluating' stamp: 'len 6/4/2016 05:27'!
+value: aPoint
+	| t |
+	t _ self domain space coordinatesOf: aPoint.
+	^ self codomain space pointAt: (components collect: [:each| each representative value: t])! !
+
+!PolynomialMap class methodsFor: 'instance creation' stamp: 'len 12/15/2015 20:04'!
+from: anAlgebraicVariety to: anotherAlgebraicVariety components: aTupleOfPolynomials
+	^ self new domain: anAlgebraicVariety; codomain: anotherAlgebraicVariety; components: aTupleOfPolynomials! !
+
 !Functor methodsFor: 'as yet unclassified' stamp: 'len 10/9/2016 08:50'!
 arrowPrintOn: aStream
 	aStream print: self domain; nextPutAll: ' => '; print: self codomain! !
@@ -26071,155 +26049,6 @@ next
 	g` _ self domain operation value: ({g. state at: i} shuffledBy: random).
 	state size < 10 ifTrue: [state add: g`] ifFalse: [state at: i put: g`].
 	^ g`! !
-
-!Element methodsFor: 'comparing' stamp: 'len 8/4/2016 03:21'!
-= anObject
-	"Comparison is delegated to the value of the node.
-	Argument and receiver are reversed to dereference through other Elements."
-	^ anObject = value! !
-
-!Element methodsFor: 'comparing' stamp: 'len 6/23/2016 02:24'!
-hash
-	^ value hash! !
-
-!Element methodsFor: 'printing' stamp: 'len 6/23/2016 02:25'!
-printOn: aStream
-	aStream print: value! !
-
-!Element methodsFor: 'private' stamp: 'len 6/23/2016 02:23'!
-setValue: anObject
-	value _ anObject! !
-
-!Element methodsFor: 'accessing' stamp: 'len 6/23/2016 02:23'!
-value
-	^ value! !
-
-!Element class methodsFor: 'instance creation' stamp: 'len 6/23/2016 02:24'!
-on: anObject
-	^ self new setValue: anObject! !
-
-!GroupElement methodsFor: 'arithmetic' stamp: 'len 6/23/2016 02:47'!
-* anObject
-	^ self class on: value * anObject value! !
-
-!GroupElement methodsFor: 'arithmetic' stamp: 'len 7/8/2016 05:38'!
-** anInteger
-	anInteger = 1 ifTrue: [^ self].
-	anInteger = 0 ifTrue: [^ self one].
-	anInteger < 0
-		ifTrue: [^ (self ** anInteger negated) reciprocal].
-	^ (self * self ** (anInteger // 2)) * (self ** (anInteger \\ 2))! !
-
-!GroupElement methodsFor: 'arithmetic' stamp: 'len 6/23/2016 02:45'!
-/ anObject
-	^ self * anObject reciprocal! !
-
-!GroupElement methodsFor: 'arithmetic' stamp: 'len 6/23/2016 04:48'!
-identity
-	^ self one! !
-
-!GroupElement methodsFor: 'arithmetic' stamp: 'len 6/23/2016 04:48'!
-inverse
-	^ self reciprocal! !
-
-!GroupElement methodsFor: 'arithmetic' stamp: 'len 6/23/2016 04:48'!
-one
-	^ self class on: value one! !
-
-!GroupElement methodsFor: 'arithmetic' stamp: 'len 6/23/2016 02:47'!
-reciprocal
-	^ self class on: value reciprocal! !
-
-!GroupAdditiveElement methodsFor: 'arithmetic' stamp: 'len 6/23/2016 02:28'!
-* anObject
-	anObject class == self class ifTrue: [^ self class on: self value + anObject value].
-	^ self class on: self value * anObject "?"! !
-
-!GroupAdditiveElement methodsFor: 'arithmetic' stamp: 'len 6/23/2016 02:35'!
-** anInteger
-	^ self class on: value * anInteger! !
-
-!GroupAdditiveElement methodsFor: 'arithmetic' stamp: 'len 6/23/2016 04:50'!
-one
-	^ self class on: value zero! !
-
-!GroupAdditiveElement methodsFor: 'arithmetic' stamp: 'len 6/23/2016 04:50'!
-reciprocal
-	^ self class on: value negated! !
-
-!GroupCompositiveElement methodsFor: 'arithmetic' stamp: 'len 6/23/2016 02:16'!
-* anObject
-	anObject class == self class ifTrue: [^ self class on: self value @ anObject value].
-	^ self class on: self value * anObject! !
-
-!GroupCompositiveElement methodsFor: 'arithmetic' stamp: 'len 6/23/2016 02:37'!
-** anInteger
-	^ self class on: value @@ anInteger! !
-
-!GroupCompositiveElement methodsFor: 'arithmetic' stamp: 'len 6/23/2016 04:49'!
-one
-	^ self class on: value identity! !
-
-!GroupCompositiveElement methodsFor: 'arithmetic' stamp: 'len 6/23/2016 04:50'!
-reciprocal
-	^ self class on: value inverse! !
-
-!RingElement methodsFor: 'arithmetic' stamp: 'len 6/23/2016 04:47'!
-* anObject
-	^ self class on: value * anObject value! !
-
-!RingElement methodsFor: 'arithmetic' stamp: 'len 7/8/2016 05:42'!
-** anInteger
-	"Answer the receiver raised to the power anInteger."
-	anInteger = 1 ifTrue: [^ self].
-	anInteger = 0 ifTrue: [^ self one].
-	anInteger < 0 ifTrue: [^ self reciprocal ** anInteger negated].
-	^ self squared ** (anInteger // 2) * (self ** (anInteger \\ 2))! !
-
-!RingElement methodsFor: 'arithmetic' stamp: 'len 6/23/2016 02:46'!
-+ anObject
-	^ self class on: value + anObject value! !
-
-!RingElement methodsFor: 'arithmetic' stamp: 'len 6/23/2016 02:46'!
-- anObject
-	^ self + anObject negated! !
-
-!RingElement methodsFor: 'arithmetic' stamp: 'len 6/23/2016 02:46'!
-/ anObject
-	^ self * anObject reciprocal! !
-
-!RingElement methodsFor: 'arithmetic' stamp: 'len 6/23/2016 02:47'!
-negated
-	^ self class on: value negated! !
-
-!RingElement methodsFor: 'arithmetic' stamp: 'len 8/29/2016 16:48'!
-one
-	^ self class on: value one! !
-
-!RingElement methodsFor: 'arithmetic' stamp: 'len 6/23/2016 04:47'!
-reciprocal
-	^ self class on: value reciprocal! !
-
-!RingElement methodsFor: 'arithmetic' stamp: 'len 8/29/2016 16:48'!
-zero
-	^ self class on: value zero! !
-
-!RingCompositiveElement methodsFor: 'arithmetic' stamp: 'len 6/23/2016 04:46'!
-* anObject
-	anObject class == self class ifTrue: [^ self class on: self value @ anObject value].
-	^ self class on: self value * anObject! !
-
-!RingCompositiveElement methodsFor: 'arithmetic' stamp: 'len 6/23/2016 02:43'!
-** anInteger
-	^ self class on: value @@ anInteger! !
-
-!RingCompositiveElement methodsFor: 'arithmetic' stamp: 'len 8/29/2016 16:48'!
-one
-	^ self class on: value identity! !
-
-!RingCompositiveElement methodsFor: 'arithmetic' stamp: 'len 6/23/2016 04:46'!
-reciprocal
-	^ self class on: value inverse! !
 
 !FormalFraction methodsFor: 'arithmetic' stamp: 'len 4/5/2016 18:02'!
 * anObject
@@ -34373,115 +34202,6 @@ new
 on: aProjectiveSpace
 	^ self new space: aProjectiveSpace! !
 
-!SchemePoint methodsFor: 'as yet unclassified' stamp: 'len 10/3/2016 09:06'!
-scheme
-	^ morphism codomain! !
-
-!PolynomialSystem methodsFor: 'accessing' stamp: 'pdm 4/19/98 23:08'!
-, anObject
-	"Answer a copy of the receiver concatenated with the argument."
-	| answer |
-	answer _ self copy.
-	anObject class == self class
-		ifTrue: [answer addAll: anObject]
-		ifFalse: [answer add: anObject].
-	^ answer! !
-
-!PolynomialSystem methodsFor: 'accessing' stamp: 'len 5/13/2016 07:36'!
-add: aPolynomialEquation 
-	^ equations add: aPolynomialEquation! !
-
-!PolynomialSystem methodsFor: 'accessing' stamp: 'pdm 3/9/98 16:37'!
-addAll: aCollection 
-	"Add all the elements in argument to the equations of the 
-	receiver. Answer the argument."
-	aCollection do: [:each | self add: each].
-	^ aCollection! !
-
-!PolynomialSystem methodsFor: 'copying' stamp: 'pdm 3/9/98 16:37'!
-copy
-	"Answer a copy of the receiver."
-	^ self class new addAll: self;
-	 yourself! !
-
-!PolynomialSystem methodsFor: 'enumerating' stamp: 'len 5/13/2016 07:36'!
-do: aBlock 
-	equations do: aBlock! !
-
-!PolynomialSystem methodsFor: 'accessing' stamp: 'len 6/3/2016 02:45'!
-ideal
-	| generators R |
-	generators _ equations collect: [:each| each polynomial].
-	R _ generators anyOne species.
-	^ R * generators! !
-
-!PolynomialSystem methodsFor: 'initialization' stamp: 'len 5/13/2016 07:37'!
-initialize
-	equations _ OrderedCollection new! !
-
-!PolynomialSystem methodsFor: 'testing' stamp: 'len 12/23/2015 00:13'!
-isHomogeneous
-	^ equations allSatisfy: [:each| each isHomogeneous]! !
-
-!PolynomialSystem methodsFor: 'testing' stamp: 'len 11/26/2015 23:51'!
-isInconsistent
-	^ self solutions isEmpty! !
-
-!PolynomialSystem methodsFor: 'testing' stamp: 'len 5/13/2016 07:36'!
-isOverdetermined
-	^ equations size > self indeterminates size! !
-
-!PolynomialSystem methodsFor: 'testing' stamp: 'len 11/26/2015 23:52'!
-isPositiveDimensional
-	^ self solutions isEmpty not and: [self solutions isFinite not]! !
-
-!PolynomialSystem methodsFor: 'testing' stamp: 'pdm 3/9/98 16:37'!
-isSolution: anObject 
-	"Answer true if the argument is a solutions of the receiver."
-	self do: [:each | (each isSolution: anObject)
-			ifFalse: [^ false]].
-	^ true! !
-
-!PolynomialSystem methodsFor: 'testing' stamp: 'len 11/26/2015 23:51'!
-isZeroDimensional
-	^ self solutions isFinite! !
-
-!PolynomialSystem methodsFor: 'printing' stamp: 'len 6/3/2016 02:47'!
-printOn: aStream 
-	aStream nextPut: ${.
-	equations do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: '; '].
-	aStream nextPut: $}! !
-
-!PolynomialSystem methodsFor: 'accessing' stamp: 'len 6/3/2016 02:45'!
-solutions
-	"Answer the set of solutions of the receiver (an algebraic set)."
-	^ self ideal variety! !
-
-!PolynomialSystem class methodsFor: 'examples' stamp: 'len 7/15/2016 18:35'!
-cyclic: n
-	"Answer the cyclic n-root polynomial system, commonly used for benchmarks in computer algebra."
-	| Q P answer f |
-	Q _ QQ.
-	P _ Q polynomialsIn: n.
-	answer _ self new.
-	0 to: n-2 do: [:k|
-		f _ P zero.
-		1 to: n do: [:i|
-			| m |
-			m _ P one.
-			i to: i+k do: [:j| m _ m * (P x: j \\ n + 1)].
-			f _ f + m].
-		answer add: (f eq: P zero)].
-	f _ P one.
-	1 to: n do: [:i| f _ f * (P x: i)].
-	f _ f - P one.
-	answer add: (f eq: P zero).
-	^ answer! !
-
-!PolynomialSystem class methodsFor: 'instance creation' stamp: 'len 10/22/97 01:00'!
-new
-	^ super new initialize! !
-
 !CylindricalAlgebraicDecomposition methodsFor: 'accessing' stamp: 'len 5/30/2016 03:40'!
 components
 	components isNil ifTrue: [self decompose].
@@ -36214,410 +35934,6 @@ colors: anArray
 default
 	^ self colors: (#("brightGreen" periwinkle seaGreen hotPink lightYellow cyan lightPink lightOrange  "lightGreen" "lightRed"  "mustard" ) collect: [:each| Color exactColorNamed: each]) "shuffled"! !
 
-!CoxeterDiagram methodsFor: 'as yet unclassified' stamp: 'len 2/11/2016 22:11'!
-gramMatrix
-	^ matrix collect: [:x| -2 * (Float pi / x) cos]! !
-
-!CoxeterDiagram methodsFor: 'as yet unclassified' stamp: 'len 2/11/2016 22:14'!
-isConnected
-	^ self notYetImplemented! !
-
-!CoxeterDiagram methodsFor: 'as yet unclassified' stamp: 'len 2/11/2016 22:14'!
-isElliptic
-	^ self notYetImplemented! !
-
-!CoxeterDiagram methodsFor: 'as yet unclassified' stamp: 'len 2/11/2016 22:41'!
-isHyperbolic
-	^ (self gramMatrix spectrum count: [:each| each negative]) = 1! !
-
-!CoxeterDiagram methodsFor: 'as yet unclassified' stamp: 'len 2/11/2016 22:22'!
-isLannerDiagram
-	^ self isConnected and: [self isElliptic not and: [self gramMatrix determinant < 0]]! !
-
-!CoxeterDiagram methodsFor: 'as yet unclassified' stamp: 'len 2/11/2016 22:23'!
-isParabolic
-	| spectrum |
-	spectrum _ self gramMatrix spectrum.
-	^ (spectrum occurrencesOf: 0) = 1 and: [spectrum allSatisfy: [:each| each >= 0]]! !
-
-!RootSystem methodsFor: 'accessing' stamp: 'len 5/23/2016 05:00'!
-ambient
-	"Answer the ambient space of the receiver."
-	^ ambient! !
-
-!RootSystem methodsFor: 'accessing-private' stamp: 'len 5/23/2016 05:00'!
-ambient: aVectorSpace
-	ambient _ aVectorSpace! !
-
-!RootSystem methodsFor: 'roots' stamp: 'len 5/23/2016 05:00'!
-coroots
-	^ roots collect: [:v| v * 2 / (ambient innerProduct value: {v.v})]! !
-
-!RootSystem methodsFor: 'operations' stamp: 'len 5/23/2016 04:59'!
-coxeterElement
-	| O answer |
-	O _ ambient automorphisms orthogonal.
-	answer _ ambient id.
-	self simpleRoots do: [:each| answer _ answer @ (O reflectionAt: each)].
-	^ answer! !
-
-!RootSystem methodsFor: 'operations' stamp: 'len 5/23/2016 04:59'!
-coxeterMatrix
-	"Answer the Coxeter matrix of the receiver.
-	Given a basis a_i of simple roots, the Coxeter matrix m_ij is defined by <a_i,a_j> = -2 cos(pi / m_ij)."
-	| S |
-	S _ self normalized simpleRoots.
-	^ ambient scalars ** (S size @ S size)
-		evaluating: [:i :j| Float pi / ((ambient innerProduct value: {(S at: i). (S at: j)}) / -2) arcCos]! !
-
-!RootSystem methodsFor: 'operations' stamp: 'len 6/18/2016 17:14'!
-coxeterNumber
-	^ self weylGroup orderOf: self coxeterElement! !
-
-!RootSystem methodsFor: 'roots' stamp: 'len 1/6/2016 05:01'!
-degreeOf: aPositiveRoot
-	"Answer the degree of the given positive root."
-	^ (self simpleRoots coordinatesOf: aPositiveRoot) asArray sum! !
-
-!RootSystem methodsFor: 'operations' stamp: 'len 5/23/2016 04:59'!
-dual
-	^ self class on: ambient roots: self coroots! !
-
-!RootSystem methodsFor: 'operations' stamp: 'len 2/11/2016 20:59'!
-exponents
-	"Answer the 'sequence of exponents' of the root system."
-	| h |
-	self flag: #fix. "complex eigenvalues, but how about finite fields?"
-	h _ self coxeterNumber.
-	^ self coxeterElement eigenvalues collect: [:each| each log / (Float pi * 2 i / h)]! !
-
-!RootSystem methodsFor: 'testing' stamp: 'len 5/23/2016 04:59'!
-isCrystallographic
-	^ self roots allSatisfy: [:x|
-		self coroots allSatisfy: [:y|
-			(ambient innerProduct value: {x. y}) isInteger]]! !
-
-!RootSystem methodsFor: 'testing' stamp: 'len 2/11/2016 21:16'!
-isIntegral
-	^ self isCrystallographic! !
-
-!RootSystem methodsFor: 'testing' stamp: 'len 2/11/2016 20:46'!
-isIrreducible
-	^ self coxeterDiagram isConnected! !
-
-!RootSystem methodsFor: 'testing' stamp: 'len 5/23/2016 05:01'!
-isNormalized
-	^ roots allSatisfy: [:each| (ambient innerProduct value: {each.each}) = 2]! !
-
-!RootSystem methodsFor: 'operations' stamp: 'len 5/20/2016 23:59'!
-lattice
-	"Answer the root lattice, the Z-submodule spanned by roots of the receiver."
-	^ Lattice basis: self simpleRoots! !
-
-!RootSystem methodsFor: 'roots' stamp: 'len 1/6/2016 03:52'!
-negativeRoots
-	^ self positiveRoots negated! !
-
-!RootSystem methodsFor: 'operations' stamp: 'len 5/23/2016 05:01'!
-normalized
-	^ self class on: ambient roots: (roots collect: [:x| x * (2 / (ambient innerProduct value: {x.x}))])! !
-
-!RootSystem methodsFor: 'roots' stamp: 'len 6/25/2016 23:08'!
-positiveRoots
-	| answer |
-	answer _ Set new.
-	roots do: [:a| (answer includes: a negated)
-		ifFalse:
-			[answer add: a.
-			answer copy do: [:b| (roots includes: a+b) ifTrue: [answer add: b]]]].
-	^ answer! !
-
-!RootSystem methodsFor: 'roots' stamp: 'len 1/6/2016 04:51'!
-positiveRootsSorted
-	^ self positiveRoots asSortedCollection: [:a :b| (self simpleRoots coordinatesOf: b - a) asArray allSatisfy: [:each| each positive]]! !
-
-!RootSystem methodsFor: 'operations' stamp: 'len 2/10/2016 23:01'!
-positiveWeylChamber
-	"Answer the positive Weyl chamber that is choosen in the receiver to define the positive roots."
-	^ self notYetImplemented! !
-
-!RootSystem methodsFor: 'printing' stamp: 'len 2/11/2016 01:34'!
-printOn: aStream
-	aStream nextPut: ${.
-	roots do: [:each| aStream print: each] separatedBy: [aStream nextPut: $,].
-	aStream nextPut: $}! !
-
-!RootSystem methodsFor: 'accessing' stamp: 'len 5/23/2016 04:59'!
-rank
-	^ ambient dimension! !
-
-!RootSystem methodsFor: 'accessing' stamp: 'len 1/6/2016 04:46'!
-roots
-	^ roots! !
-
-!RootSystem methodsFor: 'accessing-private' stamp: 'len 2/11/2016 19:21'!
-roots: aCollection
-	roots _ aCollection! !
-
-!RootSystem methodsFor: 'roots' stamp: 'len 5/23/2016 04:59'!
-simpleRoots
-	| answer |
-	answer _ LinearBasis on: ambient.
-	self positiveRoots do: [:v|
-		(answer generates: v) ifFalse: [answer add: v].
-		answer size = self rank ifTrue: [^ answer]].
-	^ answer! !
-
-!RootSystem methodsFor: 'operations' stamp: 'len 1/7/2016 05:07'!
-weightLattice
-	"Answer the lattice spanned by the weights of the receiver. This lattice is invariant under the Weyl group and also under the map v -> -v. Also, the root lattice is contained in the weight lattice."
-	^ Lattice basis: self weights! !
-
-!RootSystem methodsFor: 'operations' stamp: 'len 1/7/2016 05:42'!
-weights
-	"Answer the fundamental weights of the receiver.
-	A vector v is integral iff it can be expressed as integer linear combination of the fundamental weights."
-	^ self notYetImplemented! !
-
-!RootSystem methodsFor: 'operations' stamp: 'len 4/19/2016 03:43'!
-weylAction
-	| W |
-	W _ self weylGroup.
-	W name: 'W'.
-	^ GroupAction from: (W, self roots) to: self roots evaluating: [:each| each first value: each second]! !
-
-!RootSystem methodsFor: 'operations' stamp: 'len 6/18/2016 17:22'!
-weylGroup
-	"Answer the Weyl group of the root system, i.e. the (finite) group of isometries of the ambient vector space generated by reflections through hyperplanes perpendicular to the roots. The Weyl group W(R) is the subgroup of GL(V) (and more specifically O(V)) generated by the reflections {s_r} that act on each root r by -1: s_r(r) = -r."
-	| O W |
-	O _ ambient automorphisms orthogonal.
-	W _ Group compositive generators: (self roots collect: [:each| O reflectionAt: each]).
-"	W name: 'W'."
-	^ W! !
-
-!RootSystem methodsFor: 'operations' stamp: 'len 1/6/2016 00:00'!
-weylVector
-	^ self positiveRoots sum / 2! !
-
-!RootSystem class methodsFor: 'examples' stamp: 'len 7/14/2016 00:09'!
-A: V
-	| roots |
-	roots _ Set new.
-	1 to: V dimension do: [:i|
-		i to: V dimension do: [:j|
-			roots add: (V e: i) - (V e: j)]].
-	^ self on: V roots: roots! !
-
-!RootSystem class methodsFor: 'examples' stamp: 'len 7/14/2016 00:09'!
-B: V
-	| roots |
-	roots _ Set new.
-	1 to: V dimension do: [:i|
-		roots add: (V e: i).
-		i to: V dimension do: [:j|
-			roots add: (V e: i) - (V e: j); add: (V e: i) + (V e: j)]].
-	^ self on: V roots: roots! !
-
-!RootSystem class methodsFor: 'examples' stamp: 'len 7/14/2016 00:09'!
-C: V
-	| roots |
-	roots _ Set new.
-	1 to: V dimension do: [:i|
-		roots add: (V e: i)*2.
-		i to: V dimension do: [:j|
-			roots add: (V e: i) - (V e: j); add: (V e: i) + (V e: j)]].
-	^ self on: V roots: roots! !
-
-!RootSystem class methodsFor: 'examples' stamp: 'len 7/14/2016 00:09'!
-D: V
-	| roots |
-	roots _ Set new.
-	1 to: V dimension do: [:i|
-		i to: V dimension do: [:j|
-			roots add: (V e: i) - (V e: j); add: (V e: i) + (V e: j)]].
-	^ self on: V roots: roots! !
-
-!RootSystem class methodsFor: 'examples' stamp: 'len 7/15/2016 18:37'!
-example1
-	"This is a normalized root system in R^n. The Weyl group associated to it is the symmetric group S_n."
-	| V roots |
-	V _ QQ ** 3.
-	roots _ Set new.
-	1 to: V dimension do: [:i|
-		1 to: i-1 do: [:j|
-			roots add: (V e: i) - (V e: j); add: (V e: j) - (V e: i)]].
-	^ RootSystem on: V roots: roots! !
-
-!RootSystem class methodsFor: 'examples' stamp: 'len 4/29/2016 07:51'!
-example2
-	"This is a normalized root system in R^n. The Weyl group associated to it is the hyperoctahedral group."
-	| V roots |
-	V _ RealAlgebraicNumbers new ** 3.
-	roots _ Set new.
-	1 to: V dimension do: [:i|
-		1 to: i-1 do: [:j|
-			roots
-				add: (V e: i) * (RealAlgebraicNumber sqrt: 2);
-				add: (V e: i) * (RealAlgebraicNumber sqrt: 2) negated;
-				add: (V e: i) - (V e: j);
-				add: (V e: j) - (V e: i);
-				add: (V e: i) + (V e: j);
-				add: ((V e: i) + (V e: j)) negated]].
-	^ RootSystem on: V roots: roots! !
-
-!RootSystem class methodsFor: 'examples' stamp: 'len 7/15/2016 18:37'!
-example3
-	"This is a normalized root system in R^n. The Weyl group associated to it is an index 2 subgroup of the hyperoctahedral group."
-	| V roots |
-	V _ QQ ** 3.
-	roots _ Set new.
-	1 to: 3 do: [:i|
-		1 to: i-1 do: [:j|
-			roots
-				add: (V e: i) - (V e: j);
-				add: (V e: j) - (V e: i);
-				add: (V e: i) + (V e: j);
-				add: ((V e: i) + (V e: j)) negated]].
-	^ RootSystem on: V roots: roots! !
-
-!RootSystem class methodsFor: 'examples' stamp: 'len 7/15/2016 18:37'!
-hexagonal
-	^ self A: QQ ** 2! !
-
-!RootSystem class methodsFor: 'instance creation' stamp: 'len 5/23/2016 05:00'!
-on: aVectorSpace roots: aCollection
-	^ self new ambient: aVectorSpace; roots: aCollection! !
-
-!Expression methodsFor: 'as yet unclassified' stamp: 'len 3/22/2016 21:16'!
-* anExpression
-	| expression |
-	expression _ (anExpression isKindOf: Expression)
-		ifTrue: [anExpression] ifFalse: [ConstantExpression new constant: anExpression].
-	(expression isKindOf: ConstantExpression)
-		ifTrue: [expression value = 0 ifTrue: [^ expression].
-					expression value = 1 ifTrue: [^ self]].
-	^ ProductExpression new factors: {self. expression}! !
-
-!Expression methodsFor: 'as yet unclassified' stamp: 'len 3/22/2016 18:29'!
-+ anExpression
-	| expression |
-	expression _ (anExpression isKindOf: Expression)
-		ifTrue: [anExpression] ifFalse: [ConstantExpression new constant: anExpression].
-	^ SumExpression new terms: {self. expression}! !
-
-!Expression methodsFor: 'as yet unclassified' stamp: 'len 3/22/2016 18:22'!
-- anExpression
-	^ self + anExpression negated! !
-
-!Expression methodsFor: 'as yet unclassified' stamp: 'len 3/22/2016 18:24'!
-negated
-	^ self * -1! !
-
-!Expression methodsFor: 'as yet unclassified' stamp: 'len 3/22/2016 18:37'!
-value
-	^ self value: Dictionary new! !
-
-!Expression methodsFor: 'as yet unclassified' stamp: 'len 3/22/2016 18:37'!
-value: aDictionary
-	^ self subclassResponsibility! !
-
-!Expression class methodsFor: 'as yet unclassified' stamp: 'len 7/27/2016 00:02'!
-constant: anObject
-	^ ConstantExpression constant: anObject! !
-
-!ConstantExpression methodsFor: 'as yet unclassified' stamp: 'len 3/22/2016 21:09'!
-* anExpression
-	constant isZero ifTrue: [^ self].
-	constant = 1 ifTrue: [^ anExpression].
-	^ super * anExpression! !
-
-!ConstantExpression methodsFor: 'as yet unclassified' stamp: 'len 3/22/2016 21:07'!
-+ anExpression
-	constant isZero ifTrue: [^ anExpression].
-	^ super + anExpression! !
-
-!ConstantExpression methodsFor: 'as yet unclassified' stamp: 'len 3/22/2016 18:29'!
-constant: anObject
-	constant _ anObject! !
-
-!ConstantExpression methodsFor: 'as yet unclassified' stamp: 'len 3/22/2016 18:29'!
-printOn: aStream
-	aStream print: constant! !
-
-!ConstantExpression methodsFor: 'as yet unclassified' stamp: 'len 3/22/2016 18:36'!
-value: aDictionary
-	^ constant! !
-
-!ConstantExpression class methodsFor: 'as yet unclassified' stamp: 'len 7/27/2016 00:02'!
-constant: anObject
-	^ self new constant: anObject! !
-
-!FunctionExpression methodsFor: 'as yet unclassified' stamp: 'len 3/22/2016 18:20'!
-arguments: aCollection
-	arguments _ aCollection! !
-
-!FunctionExpression methodsFor: 'as yet unclassified' stamp: 'len 3/22/2016 18:20'!
-function: aFunction
-	function _ aFunction! !
-
-!FunctionExpression methodsFor: 'as yet unclassified' stamp: 'len 3/22/2016 18:17'!
-printOn: aStream
-	aStream print: function; nextPut: $(.
-	arguments do: [:each| aStream print: each] separatedBy: [aStream nextPut: $,].
-	aStream nextPut: $)! !
-
-!FunctionExpression methodsFor: 'as yet unclassified' stamp: 'len 3/22/2016 18:38'!
-value: aDictionary
-	^ function value: (arguments collect: [:each| each value: aDictionary])! !
-
-!PowerExpression methodsFor: 'as yet unclassified' stamp: 'len 7/27/2016 00:01'!
-printOn: aStream
-	aStream nextPut: $(; print: base; nextPut: $).
-	exponent printString = '1'
-		ifTrue: [^ self].
-	aStream isText
-		ifTrue: [aStream nextPutAll: exponent super. ^ self].
-	aStream nextPut: $^.
-	exponent size = 1
-		ifTrue: [aStream nextPutAll: exponent]
-		ifFalse: [aStream nextPut: ${; nextPutAll: exponent; nextPut: $}]! !
-
-!ProductExpression methodsFor: 'as yet unclassified' stamp: 'len 3/22/2016 18:20'!
-factors: aCollection
-	factors _ aCollection! !
-
-!ProductExpression methodsFor: 'as yet unclassified' stamp: 'len 3/22/2016 21:12'!
-printOn: aStream
-	factors do: [:each| each printString isAlphaNumeric ifTrue: [aStream print: each] ifFalse: [aStream nextPut: $(; print: each; nextPut: $)]]! !
-
-!ProductExpression methodsFor: 'as yet unclassified' stamp: 'len 3/22/2016 18:37'!
-value: aDictionary
-	^ factors product: [:each| each value: aDictionary]! !
-
-!SumExpression methodsFor: 'as yet unclassified' stamp: 'len 3/22/2016 18:15'!
-printOn: aStream
-	terms do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: ' + ']! !
-
-!SumExpression methodsFor: 'as yet unclassified' stamp: 'len 3/22/2016 18:19'!
-terms: aCollection
-	terms _ aCollection! !
-
-!SumExpression methodsFor: 'as yet unclassified' stamp: 'len 3/22/2016 18:38'!
-value: aDictionary
-	^ terms sum: [:each| each value: aDictionary]! !
-
-!VariableExpression methodsFor: 'as yet unclassified' stamp: 'len 3/22/2016 18:25'!
-name: aString
-	name _ aString! !
-
-!VariableExpression methodsFor: 'as yet unclassified' stamp: 'len 3/22/2016 18:25'!
-printOn: aStream
-	aStream nextPutAll: name! !
-
-!VariableExpression methodsFor: 'as yet unclassified' stamp: 'len 3/22/2016 18:36'!
-value: aDictionary
-	^ aDictionary at: name ifAbsent: [self]! !
-
 !DocumentationGenerator methodsFor: 'as yet unclassified' stamp: 'len 8/18/2016 03:30'!
 copy: aString replaceAll: oldSubstring with: newSubstring
 	^ aString lines
@@ -36636,11 +35952,11 @@ escape: aString
 	output _ output copyReplaceAll: ' _ ' with: ' &larr; '.
 	^ output! !
 
-!DocumentationGenerator methodsFor: 'as yet unclassified' stamp: 'len 10/9/2016 21:22'!
+!DocumentationGenerator methodsFor: 'as yet unclassified' stamp: 'len 10/14/2016 22:44'!
 generate
 	| blacklist classes |
-	blacklist _ #('Mathematics-Kernel-Elements' 'Mathematics-Geometry-Polytopes' 'Mathematics-Morphic' 'Mathematics-Lie' 'Mathematics-Expressions' 'Mathematics-ETC' 'Mathematics-Kernel-Categories').
-	classes _ Object withAllSubclasses select: [:each| each class ~= Metaclass and: [(each allSuperclasses includes: Morph) not and: [(each category beginsWith: 'Mathematics-') and: [(blacklist includes: each category) not]]]].
+	blacklist _ #('Etc' 'Morphic').
+	classes _ Object withAllSubclasses select: [:each| each class ~= Metaclass and: [(each allSuperclasses includes: Morph) not and: [(each category beginsWith: 'Mathematics-') and: [(blacklist noneSatisfy: [:one| each category includesSubString: one])]]]].
 	self generateForClasses: classes! !
 
 !DocumentationGenerator methodsFor: 'as yet unclassified' stamp: 'len 8/18/2016 02:57'!
@@ -37305,6 +36621,664 @@ space
 !TensorOld class methodsFor: 'instance creation' stamp: 'len 12/3/97 02:01'!
 new
 	^ super new initialize! !
+
+!CoxeterDiagram methodsFor: 'as yet unclassified' stamp: 'len 2/11/2016 22:11'!
+gramMatrix
+	^ matrix collect: [:x| -2 * (Float pi / x) cos]! !
+
+!CoxeterDiagram methodsFor: 'as yet unclassified' stamp: 'len 2/11/2016 22:14'!
+isConnected
+	^ self notYetImplemented! !
+
+!CoxeterDiagram methodsFor: 'as yet unclassified' stamp: 'len 2/11/2016 22:14'!
+isElliptic
+	^ self notYetImplemented! !
+
+!CoxeterDiagram methodsFor: 'as yet unclassified' stamp: 'len 2/11/2016 22:41'!
+isHyperbolic
+	^ (self gramMatrix spectrum count: [:each| each negative]) = 1! !
+
+!CoxeterDiagram methodsFor: 'as yet unclassified' stamp: 'len 2/11/2016 22:22'!
+isLannerDiagram
+	^ self isConnected and: [self isElliptic not and: [self gramMatrix determinant < 0]]! !
+
+!CoxeterDiagram methodsFor: 'as yet unclassified' stamp: 'len 2/11/2016 22:23'!
+isParabolic
+	| spectrum |
+	spectrum _ self gramMatrix spectrum.
+	^ (spectrum occurrencesOf: 0) = 1 and: [spectrum allSatisfy: [:each| each >= 0]]! !
+
+!RootSystem methodsFor: 'accessing' stamp: 'len 5/23/2016 05:00'!
+ambient
+	"Answer the ambient space of the receiver."
+	^ ambient! !
+
+!RootSystem methodsFor: 'accessing-private' stamp: 'len 5/23/2016 05:00'!
+ambient: aVectorSpace
+	ambient _ aVectorSpace! !
+
+!RootSystem methodsFor: 'roots' stamp: 'len 5/23/2016 05:00'!
+coroots
+	^ roots collect: [:v| v * 2 / (ambient innerProduct value: {v.v})]! !
+
+!RootSystem methodsFor: 'operations' stamp: 'len 5/23/2016 04:59'!
+coxeterElement
+	| O answer |
+	O _ ambient automorphisms orthogonal.
+	answer _ ambient id.
+	self simpleRoots do: [:each| answer _ answer @ (O reflectionAt: each)].
+	^ answer! !
+
+!RootSystem methodsFor: 'operations' stamp: 'len 5/23/2016 04:59'!
+coxeterMatrix
+	"Answer the Coxeter matrix of the receiver.
+	Given a basis a_i of simple roots, the Coxeter matrix m_ij is defined by <a_i,a_j> = -2 cos(pi / m_ij)."
+	| S |
+	S _ self normalized simpleRoots.
+	^ ambient scalars ** (S size @ S size)
+		evaluating: [:i :j| Float pi / ((ambient innerProduct value: {(S at: i). (S at: j)}) / -2) arcCos]! !
+
+!RootSystem methodsFor: 'operations' stamp: 'len 6/18/2016 17:14'!
+coxeterNumber
+	^ self weylGroup orderOf: self coxeterElement! !
+
+!RootSystem methodsFor: 'roots' stamp: 'len 1/6/2016 05:01'!
+degreeOf: aPositiveRoot
+	"Answer the degree of the given positive root."
+	^ (self simpleRoots coordinatesOf: aPositiveRoot) asArray sum! !
+
+!RootSystem methodsFor: 'operations' stamp: 'len 5/23/2016 04:59'!
+dual
+	^ self class on: ambient roots: self coroots! !
+
+!RootSystem methodsFor: 'operations' stamp: 'len 2/11/2016 20:59'!
+exponents
+	"Answer the 'sequence of exponents' of the root system."
+	| h |
+	self flag: #fix. "complex eigenvalues, but how about finite fields?"
+	h _ self coxeterNumber.
+	^ self coxeterElement eigenvalues collect: [:each| each log / (Float pi * 2 i / h)]! !
+
+!RootSystem methodsFor: 'testing' stamp: 'len 5/23/2016 04:59'!
+isCrystallographic
+	^ self roots allSatisfy: [:x|
+		self coroots allSatisfy: [:y|
+			(ambient innerProduct value: {x. y}) isInteger]]! !
+
+!RootSystem methodsFor: 'testing' stamp: 'len 2/11/2016 21:16'!
+isIntegral
+	^ self isCrystallographic! !
+
+!RootSystem methodsFor: 'testing' stamp: 'len 2/11/2016 20:46'!
+isIrreducible
+	^ self coxeterDiagram isConnected! !
+
+!RootSystem methodsFor: 'testing' stamp: 'len 5/23/2016 05:01'!
+isNormalized
+	^ roots allSatisfy: [:each| (ambient innerProduct value: {each.each}) = 2]! !
+
+!RootSystem methodsFor: 'operations' stamp: 'len 5/20/2016 23:59'!
+lattice
+	"Answer the root lattice, the Z-submodule spanned by roots of the receiver."
+	^ Lattice basis: self simpleRoots! !
+
+!RootSystem methodsFor: 'roots' stamp: 'len 1/6/2016 03:52'!
+negativeRoots
+	^ self positiveRoots negated! !
+
+!RootSystem methodsFor: 'operations' stamp: 'len 5/23/2016 05:01'!
+normalized
+	^ self class on: ambient roots: (roots collect: [:x| x * (2 / (ambient innerProduct value: {x.x}))])! !
+
+!RootSystem methodsFor: 'roots' stamp: 'len 6/25/2016 23:08'!
+positiveRoots
+	| answer |
+	answer _ Set new.
+	roots do: [:a| (answer includes: a negated)
+		ifFalse:
+			[answer add: a.
+			answer copy do: [:b| (roots includes: a+b) ifTrue: [answer add: b]]]].
+	^ answer! !
+
+!RootSystem methodsFor: 'roots' stamp: 'len 1/6/2016 04:51'!
+positiveRootsSorted
+	^ self positiveRoots asSortedCollection: [:a :b| (self simpleRoots coordinatesOf: b - a) asArray allSatisfy: [:each| each positive]]! !
+
+!RootSystem methodsFor: 'operations' stamp: 'len 2/10/2016 23:01'!
+positiveWeylChamber
+	"Answer the positive Weyl chamber that is choosen in the receiver to define the positive roots."
+	^ self notYetImplemented! !
+
+!RootSystem methodsFor: 'printing' stamp: 'len 2/11/2016 01:34'!
+printOn: aStream
+	aStream nextPut: ${.
+	roots do: [:each| aStream print: each] separatedBy: [aStream nextPut: $,].
+	aStream nextPut: $}! !
+
+!RootSystem methodsFor: 'accessing' stamp: 'len 5/23/2016 04:59'!
+rank
+	^ ambient dimension! !
+
+!RootSystem methodsFor: 'accessing' stamp: 'len 1/6/2016 04:46'!
+roots
+	^ roots! !
+
+!RootSystem methodsFor: 'accessing-private' stamp: 'len 2/11/2016 19:21'!
+roots: aCollection
+	roots _ aCollection! !
+
+!RootSystem methodsFor: 'roots' stamp: 'len 5/23/2016 04:59'!
+simpleRoots
+	| answer |
+	answer _ LinearBasis on: ambient.
+	self positiveRoots do: [:v|
+		(answer generates: v) ifFalse: [answer add: v].
+		answer size = self rank ifTrue: [^ answer]].
+	^ answer! !
+
+!RootSystem methodsFor: 'operations' stamp: 'len 1/7/2016 05:07'!
+weightLattice
+	"Answer the lattice spanned by the weights of the receiver. This lattice is invariant under the Weyl group and also under the map v -> -v. Also, the root lattice is contained in the weight lattice."
+	^ Lattice basis: self weights! !
+
+!RootSystem methodsFor: 'operations' stamp: 'len 1/7/2016 05:42'!
+weights
+	"Answer the fundamental weights of the receiver.
+	A vector v is integral iff it can be expressed as integer linear combination of the fundamental weights."
+	^ self notYetImplemented! !
+
+!RootSystem methodsFor: 'operations' stamp: 'len 4/19/2016 03:43'!
+weylAction
+	| W |
+	W _ self weylGroup.
+	W name: 'W'.
+	^ GroupAction from: (W, self roots) to: self roots evaluating: [:each| each first value: each second]! !
+
+!RootSystem methodsFor: 'operations' stamp: 'len 6/18/2016 17:22'!
+weylGroup
+	"Answer the Weyl group of the root system, i.e. the (finite) group of isometries of the ambient vector space generated by reflections through hyperplanes perpendicular to the roots. The Weyl group W(R) is the subgroup of GL(V) (and more specifically O(V)) generated by the reflections {s_r} that act on each root r by -1: s_r(r) = -r."
+	| O W |
+	O _ ambient automorphisms orthogonal.
+	W _ Group compositive generators: (self roots collect: [:each| O reflectionAt: each]).
+"	W name: 'W'."
+	^ W! !
+
+!RootSystem methodsFor: 'operations' stamp: 'len 1/6/2016 00:00'!
+weylVector
+	^ self positiveRoots sum / 2! !
+
+!RootSystem class methodsFor: 'examples' stamp: 'len 7/14/2016 00:09'!
+A: V
+	| roots |
+	roots _ Set new.
+	1 to: V dimension do: [:i|
+		i to: V dimension do: [:j|
+			roots add: (V e: i) - (V e: j)]].
+	^ self on: V roots: roots! !
+
+!RootSystem class methodsFor: 'examples' stamp: 'len 7/14/2016 00:09'!
+B: V
+	| roots |
+	roots _ Set new.
+	1 to: V dimension do: [:i|
+		roots add: (V e: i).
+		i to: V dimension do: [:j|
+			roots add: (V e: i) - (V e: j); add: (V e: i) + (V e: j)]].
+	^ self on: V roots: roots! !
+
+!RootSystem class methodsFor: 'examples' stamp: 'len 7/14/2016 00:09'!
+C: V
+	| roots |
+	roots _ Set new.
+	1 to: V dimension do: [:i|
+		roots add: (V e: i)*2.
+		i to: V dimension do: [:j|
+			roots add: (V e: i) - (V e: j); add: (V e: i) + (V e: j)]].
+	^ self on: V roots: roots! !
+
+!RootSystem class methodsFor: 'examples' stamp: 'len 7/14/2016 00:09'!
+D: V
+	| roots |
+	roots _ Set new.
+	1 to: V dimension do: [:i|
+		i to: V dimension do: [:j|
+			roots add: (V e: i) - (V e: j); add: (V e: i) + (V e: j)]].
+	^ self on: V roots: roots! !
+
+!RootSystem class methodsFor: 'examples' stamp: 'len 7/15/2016 18:37'!
+example1
+	"This is a normalized root system in R^n. The Weyl group associated to it is the symmetric group S_n."
+	| V roots |
+	V _ QQ ** 3.
+	roots _ Set new.
+	1 to: V dimension do: [:i|
+		1 to: i-1 do: [:j|
+			roots add: (V e: i) - (V e: j); add: (V e: j) - (V e: i)]].
+	^ RootSystem on: V roots: roots! !
+
+!RootSystem class methodsFor: 'examples' stamp: 'len 4/29/2016 07:51'!
+example2
+	"This is a normalized root system in R^n. The Weyl group associated to it is the hyperoctahedral group."
+	| V roots |
+	V _ RealAlgebraicNumbers new ** 3.
+	roots _ Set new.
+	1 to: V dimension do: [:i|
+		1 to: i-1 do: [:j|
+			roots
+				add: (V e: i) * (RealAlgebraicNumber sqrt: 2);
+				add: (V e: i) * (RealAlgebraicNumber sqrt: 2) negated;
+				add: (V e: i) - (V e: j);
+				add: (V e: j) - (V e: i);
+				add: (V e: i) + (V e: j);
+				add: ((V e: i) + (V e: j)) negated]].
+	^ RootSystem on: V roots: roots! !
+
+!RootSystem class methodsFor: 'examples' stamp: 'len 7/15/2016 18:37'!
+example3
+	"This is a normalized root system in R^n. The Weyl group associated to it is an index 2 subgroup of the hyperoctahedral group."
+	| V roots |
+	V _ QQ ** 3.
+	roots _ Set new.
+	1 to: 3 do: [:i|
+		1 to: i-1 do: [:j|
+			roots
+				add: (V e: i) - (V e: j);
+				add: (V e: j) - (V e: i);
+				add: (V e: i) + (V e: j);
+				add: ((V e: i) + (V e: j)) negated]].
+	^ RootSystem on: V roots: roots! !
+
+!RootSystem class methodsFor: 'examples' stamp: 'len 7/15/2016 18:37'!
+hexagonal
+	^ self A: QQ ** 2! !
+
+!RootSystem class methodsFor: 'instance creation' stamp: 'len 5/23/2016 05:00'!
+on: aVectorSpace roots: aCollection
+	^ self new ambient: aVectorSpace; roots: aCollection! !
+
+!Expression methodsFor: 'as yet unclassified' stamp: 'len 3/22/2016 21:16'!
+* anExpression
+	| expression |
+	expression _ (anExpression isKindOf: Expression)
+		ifTrue: [anExpression] ifFalse: [ConstantExpression new constant: anExpression].
+	(expression isKindOf: ConstantExpression)
+		ifTrue: [expression value = 0 ifTrue: [^ expression].
+					expression value = 1 ifTrue: [^ self]].
+	^ ProductExpression new factors: {self. expression}! !
+
+!Expression methodsFor: 'as yet unclassified' stamp: 'len 3/22/2016 18:29'!
++ anExpression
+	| expression |
+	expression _ (anExpression isKindOf: Expression)
+		ifTrue: [anExpression] ifFalse: [ConstantExpression new constant: anExpression].
+	^ SumExpression new terms: {self. expression}! !
+
+!Expression methodsFor: 'as yet unclassified' stamp: 'len 3/22/2016 18:22'!
+- anExpression
+	^ self + anExpression negated! !
+
+!Expression methodsFor: 'as yet unclassified' stamp: 'len 3/22/2016 18:24'!
+negated
+	^ self * -1! !
+
+!Expression methodsFor: 'as yet unclassified' stamp: 'len 3/22/2016 18:37'!
+value
+	^ self value: Dictionary new! !
+
+!Expression methodsFor: 'as yet unclassified' stamp: 'len 3/22/2016 18:37'!
+value: aDictionary
+	^ self subclassResponsibility! !
+
+!Expression class methodsFor: 'as yet unclassified' stamp: 'len 7/27/2016 00:02'!
+constant: anObject
+	^ ConstantExpression constant: anObject! !
+
+!ConstantExpression methodsFor: 'as yet unclassified' stamp: 'len 3/22/2016 21:09'!
+* anExpression
+	constant isZero ifTrue: [^ self].
+	constant = 1 ifTrue: [^ anExpression].
+	^ super * anExpression! !
+
+!ConstantExpression methodsFor: 'as yet unclassified' stamp: 'len 3/22/2016 21:07'!
++ anExpression
+	constant isZero ifTrue: [^ anExpression].
+	^ super + anExpression! !
+
+!ConstantExpression methodsFor: 'as yet unclassified' stamp: 'len 3/22/2016 18:29'!
+constant: anObject
+	constant _ anObject! !
+
+!ConstantExpression methodsFor: 'as yet unclassified' stamp: 'len 3/22/2016 18:29'!
+printOn: aStream
+	aStream print: constant! !
+
+!ConstantExpression methodsFor: 'as yet unclassified' stamp: 'len 3/22/2016 18:36'!
+value: aDictionary
+	^ constant! !
+
+!ConstantExpression class methodsFor: 'as yet unclassified' stamp: 'len 7/27/2016 00:02'!
+constant: anObject
+	^ self new constant: anObject! !
+
+!FunctionExpression methodsFor: 'as yet unclassified' stamp: 'len 3/22/2016 18:20'!
+arguments: aCollection
+	arguments _ aCollection! !
+
+!FunctionExpression methodsFor: 'as yet unclassified' stamp: 'len 3/22/2016 18:20'!
+function: aFunction
+	function _ aFunction! !
+
+!FunctionExpression methodsFor: 'as yet unclassified' stamp: 'len 3/22/2016 18:17'!
+printOn: aStream
+	aStream print: function; nextPut: $(.
+	arguments do: [:each| aStream print: each] separatedBy: [aStream nextPut: $,].
+	aStream nextPut: $)! !
+
+!FunctionExpression methodsFor: 'as yet unclassified' stamp: 'len 3/22/2016 18:38'!
+value: aDictionary
+	^ function value: (arguments collect: [:each| each value: aDictionary])! !
+
+!PowerExpression methodsFor: 'as yet unclassified' stamp: 'len 7/27/2016 00:01'!
+printOn: aStream
+	aStream nextPut: $(; print: base; nextPut: $).
+	exponent printString = '1'
+		ifTrue: [^ self].
+	aStream isText
+		ifTrue: [aStream nextPutAll: exponent super. ^ self].
+	aStream nextPut: $^.
+	exponent size = 1
+		ifTrue: [aStream nextPutAll: exponent]
+		ifFalse: [aStream nextPut: ${; nextPutAll: exponent; nextPut: $}]! !
+
+!ProductExpression methodsFor: 'as yet unclassified' stamp: 'len 3/22/2016 18:20'!
+factors: aCollection
+	factors _ aCollection! !
+
+!ProductExpression methodsFor: 'as yet unclassified' stamp: 'len 3/22/2016 21:12'!
+printOn: aStream
+	factors do: [:each| each printString isAlphaNumeric ifTrue: [aStream print: each] ifFalse: [aStream nextPut: $(; print: each; nextPut: $)]]! !
+
+!ProductExpression methodsFor: 'as yet unclassified' stamp: 'len 3/22/2016 18:37'!
+value: aDictionary
+	^ factors product: [:each| each value: aDictionary]! !
+
+!SumExpression methodsFor: 'as yet unclassified' stamp: 'len 3/22/2016 18:15'!
+printOn: aStream
+	terms do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: ' + ']! !
+
+!SumExpression methodsFor: 'as yet unclassified' stamp: 'len 3/22/2016 18:19'!
+terms: aCollection
+	terms _ aCollection! !
+
+!SumExpression methodsFor: 'as yet unclassified' stamp: 'len 3/22/2016 18:38'!
+value: aDictionary
+	^ terms sum: [:each| each value: aDictionary]! !
+
+!VariableExpression methodsFor: 'as yet unclassified' stamp: 'len 3/22/2016 18:25'!
+name: aString
+	name _ aString! !
+
+!VariableExpression methodsFor: 'as yet unclassified' stamp: 'len 3/22/2016 18:25'!
+printOn: aStream
+	aStream nextPutAll: name! !
+
+!VariableExpression methodsFor: 'as yet unclassified' stamp: 'len 3/22/2016 18:36'!
+value: aDictionary
+	^ aDictionary at: name ifAbsent: [self]! !
+
+!PolynomialSystem methodsFor: 'accessing' stamp: 'pdm 4/19/98 23:08'!
+, anObject
+	"Answer a copy of the receiver concatenated with the argument."
+	| answer |
+	answer _ self copy.
+	anObject class == self class
+		ifTrue: [answer addAll: anObject]
+		ifFalse: [answer add: anObject].
+	^ answer! !
+
+!PolynomialSystem methodsFor: 'accessing' stamp: 'len 5/13/2016 07:36'!
+add: aPolynomialEquation 
+	^ equations add: aPolynomialEquation! !
+
+!PolynomialSystem methodsFor: 'accessing' stamp: 'pdm 3/9/98 16:37'!
+addAll: aCollection 
+	"Add all the elements in argument to the equations of the 
+	receiver. Answer the argument."
+	aCollection do: [:each | self add: each].
+	^ aCollection! !
+
+!PolynomialSystem methodsFor: 'copying' stamp: 'pdm 3/9/98 16:37'!
+copy
+	"Answer a copy of the receiver."
+	^ self class new addAll: self;
+	 yourself! !
+
+!PolynomialSystem methodsFor: 'enumerating' stamp: 'len 5/13/2016 07:36'!
+do: aBlock 
+	equations do: aBlock! !
+
+!PolynomialSystem methodsFor: 'accessing' stamp: 'len 6/3/2016 02:45'!
+ideal
+	| generators R |
+	generators _ equations collect: [:each| each polynomial].
+	R _ generators anyOne species.
+	^ R * generators! !
+
+!PolynomialSystem methodsFor: 'initialization' stamp: 'len 5/13/2016 07:37'!
+initialize
+	equations _ OrderedCollection new! !
+
+!PolynomialSystem methodsFor: 'testing' stamp: 'len 12/23/2015 00:13'!
+isHomogeneous
+	^ equations allSatisfy: [:each| each isHomogeneous]! !
+
+!PolynomialSystem methodsFor: 'testing' stamp: 'len 11/26/2015 23:51'!
+isInconsistent
+	^ self solutions isEmpty! !
+
+!PolynomialSystem methodsFor: 'testing' stamp: 'len 5/13/2016 07:36'!
+isOverdetermined
+	^ equations size > self indeterminates size! !
+
+!PolynomialSystem methodsFor: 'testing' stamp: 'len 11/26/2015 23:52'!
+isPositiveDimensional
+	^ self solutions isEmpty not and: [self solutions isFinite not]! !
+
+!PolynomialSystem methodsFor: 'testing' stamp: 'pdm 3/9/98 16:37'!
+isSolution: anObject 
+	"Answer true if the argument is a solutions of the receiver."
+	self do: [:each | (each isSolution: anObject)
+			ifFalse: [^ false]].
+	^ true! !
+
+!PolynomialSystem methodsFor: 'testing' stamp: 'len 11/26/2015 23:51'!
+isZeroDimensional
+	^ self solutions isFinite! !
+
+!PolynomialSystem methodsFor: 'printing' stamp: 'len 6/3/2016 02:47'!
+printOn: aStream 
+	aStream nextPut: ${.
+	equations do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: '; '].
+	aStream nextPut: $}! !
+
+!PolynomialSystem methodsFor: 'accessing' stamp: 'len 6/3/2016 02:45'!
+solutions
+	"Answer the set of solutions of the receiver (an algebraic set)."
+	^ self ideal variety! !
+
+!PolynomialSystem class methodsFor: 'examples' stamp: 'len 7/15/2016 18:35'!
+cyclic: n
+	"Answer the cyclic n-root polynomial system, commonly used for benchmarks in computer algebra."
+	| Q P answer f |
+	Q _ QQ.
+	P _ Q polynomialsIn: n.
+	answer _ self new.
+	0 to: n-2 do: [:k|
+		f _ P zero.
+		1 to: n do: [:i|
+			| m |
+			m _ P one.
+			i to: i+k do: [:j| m _ m * (P x: j \\ n + 1)].
+			f _ f + m].
+		answer add: (f eq: P zero)].
+	f _ P one.
+	1 to: n do: [:i| f _ f * (P x: i)].
+	f _ f - P one.
+	answer add: (f eq: P zero).
+	^ answer! !
+
+!PolynomialSystem class methodsFor: 'instance creation' stamp: 'len 10/22/97 01:00'!
+new
+	^ super new initialize! !
+
+!Element methodsFor: 'comparing' stamp: 'len 8/4/2016 03:21'!
+= anObject
+	"Comparison is delegated to the value of the node.
+	Argument and receiver are reversed to dereference through other Elements."
+	^ anObject = value! !
+
+!Element methodsFor: 'comparing' stamp: 'len 6/23/2016 02:24'!
+hash
+	^ value hash! !
+
+!Element methodsFor: 'printing' stamp: 'len 6/23/2016 02:25'!
+printOn: aStream
+	aStream print: value! !
+
+!Element methodsFor: 'private' stamp: 'len 6/23/2016 02:23'!
+setValue: anObject
+	value _ anObject! !
+
+!Element methodsFor: 'accessing' stamp: 'len 6/23/2016 02:23'!
+value
+	^ value! !
+
+!Element class methodsFor: 'instance creation' stamp: 'len 6/23/2016 02:24'!
+on: anObject
+	^ self new setValue: anObject! !
+
+!GroupElement methodsFor: 'arithmetic' stamp: 'len 6/23/2016 02:47'!
+* anObject
+	^ self class on: value * anObject value! !
+
+!GroupElement methodsFor: 'arithmetic' stamp: 'len 7/8/2016 05:38'!
+** anInteger
+	anInteger = 1 ifTrue: [^ self].
+	anInteger = 0 ifTrue: [^ self one].
+	anInteger < 0
+		ifTrue: [^ (self ** anInteger negated) reciprocal].
+	^ (self * self ** (anInteger // 2)) * (self ** (anInteger \\ 2))! !
+
+!GroupElement methodsFor: 'arithmetic' stamp: 'len 6/23/2016 02:45'!
+/ anObject
+	^ self * anObject reciprocal! !
+
+!GroupElement methodsFor: 'arithmetic' stamp: 'len 6/23/2016 04:48'!
+identity
+	^ self one! !
+
+!GroupElement methodsFor: 'arithmetic' stamp: 'len 6/23/2016 04:48'!
+inverse
+	^ self reciprocal! !
+
+!GroupElement methodsFor: 'arithmetic' stamp: 'len 6/23/2016 04:48'!
+one
+	^ self class on: value one! !
+
+!GroupElement methodsFor: 'arithmetic' stamp: 'len 6/23/2016 02:47'!
+reciprocal
+	^ self class on: value reciprocal! !
+
+!GroupAdditiveElement methodsFor: 'arithmetic' stamp: 'len 6/23/2016 02:28'!
+* anObject
+	anObject class == self class ifTrue: [^ self class on: self value + anObject value].
+	^ self class on: self value * anObject "?"! !
+
+!GroupAdditiveElement methodsFor: 'arithmetic' stamp: 'len 6/23/2016 02:35'!
+** anInteger
+	^ self class on: value * anInteger! !
+
+!GroupAdditiveElement methodsFor: 'arithmetic' stamp: 'len 6/23/2016 04:50'!
+one
+	^ self class on: value zero! !
+
+!GroupAdditiveElement methodsFor: 'arithmetic' stamp: 'len 6/23/2016 04:50'!
+reciprocal
+	^ self class on: value negated! !
+
+!GroupCompositiveElement methodsFor: 'arithmetic' stamp: 'len 6/23/2016 02:16'!
+* anObject
+	anObject class == self class ifTrue: [^ self class on: self value @ anObject value].
+	^ self class on: self value * anObject! !
+
+!GroupCompositiveElement methodsFor: 'arithmetic' stamp: 'len 6/23/2016 02:37'!
+** anInteger
+	^ self class on: value @@ anInteger! !
+
+!GroupCompositiveElement methodsFor: 'arithmetic' stamp: 'len 6/23/2016 04:49'!
+one
+	^ self class on: value identity! !
+
+!GroupCompositiveElement methodsFor: 'arithmetic' stamp: 'len 6/23/2016 04:50'!
+reciprocal
+	^ self class on: value inverse! !
+
+!RingElement methodsFor: 'arithmetic' stamp: 'len 6/23/2016 04:47'!
+* anObject
+	^ self class on: value * anObject value! !
+
+!RingElement methodsFor: 'arithmetic' stamp: 'len 7/8/2016 05:42'!
+** anInteger
+	"Answer the receiver raised to the power anInteger."
+	anInteger = 1 ifTrue: [^ self].
+	anInteger = 0 ifTrue: [^ self one].
+	anInteger < 0 ifTrue: [^ self reciprocal ** anInteger negated].
+	^ self squared ** (anInteger // 2) * (self ** (anInteger \\ 2))! !
+
+!RingElement methodsFor: 'arithmetic' stamp: 'len 6/23/2016 02:46'!
++ anObject
+	^ self class on: value + anObject value! !
+
+!RingElement methodsFor: 'arithmetic' stamp: 'len 6/23/2016 02:46'!
+- anObject
+	^ self + anObject negated! !
+
+!RingElement methodsFor: 'arithmetic' stamp: 'len 6/23/2016 02:46'!
+/ anObject
+	^ self * anObject reciprocal! !
+
+!RingElement methodsFor: 'arithmetic' stamp: 'len 6/23/2016 02:47'!
+negated
+	^ self class on: value negated! !
+
+!RingElement methodsFor: 'arithmetic' stamp: 'len 8/29/2016 16:48'!
+one
+	^ self class on: value one! !
+
+!RingElement methodsFor: 'arithmetic' stamp: 'len 6/23/2016 04:47'!
+reciprocal
+	^ self class on: value reciprocal! !
+
+!RingElement methodsFor: 'arithmetic' stamp: 'len 8/29/2016 16:48'!
+zero
+	^ self class on: value zero! !
+
+!RingCompositiveElement methodsFor: 'arithmetic' stamp: 'len 6/23/2016 04:46'!
+* anObject
+	anObject class == self class ifTrue: [^ self class on: self value @ anObject value].
+	^ self class on: self value * anObject! !
+
+!RingCompositiveElement methodsFor: 'arithmetic' stamp: 'len 6/23/2016 02:43'!
+** anInteger
+	^ self class on: value @@ anInteger! !
+
+!RingCompositiveElement methodsFor: 'arithmetic' stamp: 'len 8/29/2016 16:48'!
+one
+	^ self class on: value identity! !
+
+!RingCompositiveElement methodsFor: 'arithmetic' stamp: 'len 6/23/2016 04:46'!
+reciprocal
+	^ self class on: value inverse! !
 BitTuple initialize!
 Digraph initialize!
 Naturals initialize!
