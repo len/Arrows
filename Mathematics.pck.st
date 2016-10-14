@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 13 October 2016 at 8:28:42.831423 pm'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 14 October 2016 at 11:01:12.06334 am'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 217!
+!provides: 'Mathematics' 1 218!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
 	instanceVariableNames: 'numerator shift'
@@ -371,23 +371,173 @@ Object subclass: #Domain
 Domain class
 	instanceVariableNames: ''!
 
-!classDefinition: #AbelianGroup category: #'Mathematics-Kernel-Domains'!
+!classDefinition: #HomSet category: #'Mathematics-Kernel'!
+Domain subclass: #HomSet
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Kernel'!
+!classDefinition: 'HomSet class' category: #'Mathematics-Kernel'!
+HomSet class
+	instanceVariableNames: ''!
+
+!classDefinition: #Category category: #'Mathematics-Kernel-Categories'!
+Domain subclass: #Category
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Kernel-Categories'!
+!classDefinition: 'Category class' category: #'Mathematics-Kernel-Categories'!
+Category class
+	instanceVariableNames: ''!
+
+!classDefinition: #AbelianGroups category: #'Mathematics-Kernel-Categories'!
+Category subclass: #AbelianGroups
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Kernel-Categories'!
+!classDefinition: 'AbelianGroups class' category: #'Mathematics-Kernel-Categories'!
+AbelianGroups class
+	instanceVariableNames: ''!
+
+!classDefinition: #Modules category: #'Mathematics-Kernel-Categories'!
+AbelianGroups subclass: #Modules
+	instanceVariableNames: 'scalars'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Kernel-Categories'!
+!classDefinition: 'Modules class' category: #'Mathematics-Kernel-Categories'!
+Modules class
+	instanceVariableNames: ''!
+
+!classDefinition: #ComplexBox category: #'Mathematics-Kernel-Misc'!
+Domain subclass: #ComplexBox
+	instanceVariableNames: 'real imaginary'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Kernel-Misc'!
+!classDefinition: 'ComplexBox class' category: #'Mathematics-Kernel-Misc'!
+ComplexBox class
+	instanceVariableNames: ''!
+
+!classDefinition: #ComplexDisk category: #'Mathematics-Kernel-Misc'!
+Domain subclass: #ComplexDisk
+	instanceVariableNames: 'center radius'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Kernel-Misc'!
+!classDefinition: 'ComplexDisk class' category: #'Mathematics-Kernel-Misc'!
+ComplexDisk class
+	instanceVariableNames: ''!
+
+!classDefinition: #RealBox category: #'Mathematics-Kernel-Misc'!
+Domain subclass: #RealBox
+	instanceVariableNames: 'components'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Kernel-Misc'!
+!classDefinition: 'RealBox class' category: #'Mathematics-Kernel-Misc'!
+RealBox class
+	instanceVariableNames: ''!
+
+!classDefinition: #RealInterval category: #'Mathematics-Kernel-Misc'!
+Domain subclass: #RealInterval
+	instanceVariableNames: 'left right rightOpen leftOpen'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Kernel-Misc'!
+!classDefinition: 'RealInterval class' category: #'Mathematics-Kernel-Misc'!
+RealInterval class
+	instanceVariableNames: ''!
+
+!classDefinition: #SemialgebraicInterval category: #'Mathematics-Geometry-Semialgebraic'!
+RealInterval subclass: #SemialgebraicInterval
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Geometry-Semialgebraic'!
+!classDefinition: 'SemialgebraicInterval class' category: #'Mathematics-Geometry-Semialgebraic'!
+SemialgebraicInterval class
+	instanceVariableNames: ''!
+
+!classDefinition: #CartesianProduct category: #'Mathematics-Sets'!
+Domain subclass: #CartesianProduct
+	instanceVariableNames: 'components'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Sets'!
+!classDefinition: 'CartesianProduct class' category: #'Mathematics-Sets'!
+CartesianProduct class
+	instanceVariableNames: ''!
+
+!classDefinition: #EquivalenceClass category: #'Mathematics-Sets'!
+Domain subclass: #EquivalenceClass
+	instanceVariableNames: 'representative'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Sets'!
+!classDefinition: 'EquivalenceClass class' category: #'Mathematics-Sets'!
+EquivalenceClass class
+	instanceVariableNames: ''!
+
+!classDefinition: #EquivalenceRelation category: #'Mathematics-Sets'!
+Domain subclass: #EquivalenceRelation
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Sets'!
+!classDefinition: 'EquivalenceRelation class' category: #'Mathematics-Sets'!
+EquivalenceRelation class
+	instanceVariableNames: ''!
+
+!classDefinition: #FormalSet category: #'Mathematics-Sets'!
+Domain subclass: #FormalSet
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Sets'!
+!classDefinition: 'FormalSet class' category: #'Mathematics-Sets'!
+FormalSet class
+	instanceVariableNames: ''!
+
+!classDefinition: #Naturals category: #'Mathematics-Sets'!
+Domain subclass: #Naturals
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Sets'!
+!classDefinition: 'Naturals class' category: #'Mathematics-Sets'!
+Naturals class
+	instanceVariableNames: ''!
+
+!classDefinition: #QuotientSet category: #'Mathematics-Sets'!
+Domain subclass: #QuotientSet
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Sets'!
+!classDefinition: 'QuotientSet class' category: #'Mathematics-Sets'!
+QuotientSet class
+	instanceVariableNames: ''!
+
+!classDefinition: #AbelianGroup category: #'Mathematics-Abelian'!
 Domain subclass: #AbelianGroup
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Kernel-Domains'!
-!classDefinition: 'AbelianGroup class' category: #'Mathematics-Kernel-Domains'!
+	category: 'Mathematics-Abelian'!
+!classDefinition: 'AbelianGroup class' category: #'Mathematics-Abelian'!
 AbelianGroup class
 	instanceVariableNames: ''!
 
-!classDefinition: #DirectSum category: #'Mathematics-Kernel-Domains'!
+!classDefinition: #DirectSum category: #'Mathematics-Abelian'!
 AbelianGroup subclass: #DirectSum
 	instanceVariableNames: 'components'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Kernel-Domains'!
-!classDefinition: 'DirectSum class' category: #'Mathematics-Kernel-Domains'!
+	category: 'Mathematics-Abelian'!
+!classDefinition: 'DirectSum class' category: #'Mathematics-Abelian'!
 DirectSum class
 	instanceVariableNames: ''!
 
@@ -401,13 +551,13 @@ AbelianGroup subclass: #Ideal
 Ideal class
 	instanceVariableNames: ''!
 
-!classDefinition: #IntegerIdeal category: #'Mathematics-Kernel-Domains-Concrete'!
+!classDefinition: #IntegerIdeal category: #'Mathematics-Rings'!
 Ideal subclass: #IntegerIdeal
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Kernel-Domains-Concrete'!
-!classDefinition: 'IntegerIdeal class' category: #'Mathematics-Kernel-Domains-Concrete'!
+	category: 'Mathematics-Rings'!
+!classDefinition: 'IntegerIdeal class' category: #'Mathematics-Rings'!
 IntegerIdeal class
 	instanceVariableNames: ''!
 
@@ -441,33 +591,23 @@ AbelianGroup subclass: #Ring
 Ring class
 	instanceVariableNames: ''!
 
-!classDefinition: #GaussianIntegers category: #'Mathematics-Kernel-Domains-Concrete'!
+!classDefinition: #GaussianIntegers category: #'Mathematics-Kernel-Misc'!
 Ring subclass: #GaussianIntegers
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Kernel-Domains-Concrete'!
-!classDefinition: 'GaussianIntegers class' category: #'Mathematics-Kernel-Domains-Concrete'!
+	category: 'Mathematics-Kernel-Misc'!
+!classDefinition: 'GaussianIntegers class' category: #'Mathematics-Kernel-Misc'!
 GaussianIntegers class
 	instanceVariableNames: ''!
 
-!classDefinition: #Integers category: #'Mathematics-Kernel-Domains-Concrete'!
-Ring subclass: #Integers
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Kernel-Domains-Concrete'!
-!classDefinition: 'Integers class' category: #'Mathematics-Kernel-Domains-Concrete'!
-Integers class
-	instanceVariableNames: ''!
-
-!classDefinition: #PAdicIntegers category: #'Mathematics-Kernel-Domains-Concrete'!
+!classDefinition: #PAdicIntegers category: #'Mathematics-Kernel-Misc'!
 Ring subclass: #PAdicIntegers
 	instanceVariableNames: 'p'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Kernel-Domains-Concrete'!
-!classDefinition: 'PAdicIntegers class' category: #'Mathematics-Kernel-Domains-Concrete'!
+	category: 'Mathematics-Kernel-Misc'!
+!classDefinition: 'PAdicIntegers class' category: #'Mathematics-Kernel-Misc'!
 PAdicIntegers class
 	instanceVariableNames: ''!
 
@@ -501,6 +641,16 @@ Ring subclass: #GroupRing
 GroupRing class
 	instanceVariableNames: ''!
 
+!classDefinition: #Integers category: #'Mathematics-Rings'!
+Ring subclass: #Integers
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Rings'!
+!classDefinition: 'Integers class' category: #'Mathematics-Rings'!
+Integers class
+	instanceVariableNames: ''!
+
 !classDefinition: #QuotientRing category: #'Mathematics-Rings'!
 Ring subclass: #QuotientRing
 	instanceVariableNames: 'ideal'
@@ -511,13 +661,13 @@ Ring subclass: #QuotientRing
 QuotientRing class
 	instanceVariableNames: ''!
 
-!classDefinition: #ModularIntegers category: #'Mathematics-Kernel-Domains-Concrete'!
+!classDefinition: #ModularIntegers category: #'Mathematics-Rings'!
 QuotientRing subclass: #ModularIntegers
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Kernel-Domains-Concrete'!
-!classDefinition: 'ModularIntegers class' category: #'Mathematics-Kernel-Domains-Concrete'!
+	category: 'Mathematics-Rings'!
+!classDefinition: 'ModularIntegers class' category: #'Mathematics-Rings'!
 ModularIntegers class
 	instanceVariableNames: ''!
 
@@ -541,44 +691,34 @@ Ring subclass: #Field
 Field class
 	instanceVariableNames: ''!
 
-!classDefinition: #ComplexNumbers category: #'Mathematics-Kernel-Domains-Concrete'!
-Field subclass: #ComplexNumbers
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Kernel-Domains-Concrete'!
-!classDefinition: 'ComplexNumbers class' category: #'Mathematics-Kernel-Domains-Concrete'!
-ComplexNumbers class
-	instanceVariableNames: ''!
-
-!classDefinition: #ExtendedComplexNumbers category: #'Mathematics-Kernel-Domains-Concrete'!
+!classDefinition: #ExtendedComplexNumbers category: #'Mathematics-Kernel-Misc'!
 Field subclass: #ExtendedComplexNumbers
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Kernel-Domains-Concrete'!
-!classDefinition: 'ExtendedComplexNumbers class' category: #'Mathematics-Kernel-Domains-Concrete'!
+	category: 'Mathematics-Kernel-Misc'!
+!classDefinition: 'ExtendedComplexNumbers class' category: #'Mathematics-Kernel-Misc'!
 ExtendedComplexNumbers class
 	instanceVariableNames: ''!
 
-!classDefinition: #PAdicNumbers category: #'Mathematics-Kernel-Domains-Concrete'!
+!classDefinition: #PAdicNumbers category: #'Mathematics-Kernel-Misc'!
 Field subclass: #PAdicNumbers
 	instanceVariableNames: 'p'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Kernel-Domains-Concrete'!
-!classDefinition: 'PAdicNumbers class' category: #'Mathematics-Kernel-Domains-Concrete'!
+	category: 'Mathematics-Kernel-Misc'!
+!classDefinition: 'PAdicNumbers class' category: #'Mathematics-Kernel-Misc'!
 PAdicNumbers class
 	instanceVariableNames: ''!
 
-!classDefinition: #Reals category: #'Mathematics-Kernel-Domains-Concrete'!
-Field subclass: #Reals
+!classDefinition: #ComplexNumbers category: #'Mathematics-Fields'!
+Field subclass: #ComplexNumbers
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Kernel-Domains-Concrete'!
-!classDefinition: 'Reals class' category: #'Mathematics-Kernel-Domains-Concrete'!
-Reals class
+	category: 'Mathematics-Fields'!
+!classDefinition: 'ComplexNumbers class' category: #'Mathematics-Fields'!
+ComplexNumbers class
 	instanceVariableNames: ''!
 
 !classDefinition: #FractionField category: #'Mathematics-Fields'!
@@ -591,13 +731,13 @@ Field subclass: #FractionField
 FractionField class
 	instanceVariableNames: ''!
 
-!classDefinition: #Rationals category: #'Mathematics-Kernel-Domains-Concrete'!
+!classDefinition: #Rationals category: #'Mathematics-Fields'!
 FractionField subclass: #Rationals
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Kernel-Domains-Concrete'!
-!classDefinition: 'Rationals class' category: #'Mathematics-Kernel-Domains-Concrete'!
+	category: 'Mathematics-Fields'!
+!classDefinition: 'Rationals class' category: #'Mathematics-Fields'!
 Rationals class
 	instanceVariableNames: ''!
 
@@ -611,14 +751,24 @@ FractionField subclass: #RationalFunctions
 RationalFunctions class
 	instanceVariableNames: ''!
 
-!classDefinition: #FunctionField category: #'Mathematics-Geometry-Algebraic'!
-FractionField subclass: #FunctionField
+!classDefinition: #FunctionField2 category: #'Mathematics-Geometry-Algebraic'!
+FractionField subclass: #FunctionField2
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Geometry-Algebraic'!
-!classDefinition: 'FunctionField class' category: #'Mathematics-Geometry-Algebraic'!
-FunctionField class
+!classDefinition: 'FunctionField2 class' category: #'Mathematics-Geometry-Algebraic'!
+FunctionField2 class
+	instanceVariableNames: ''!
+
+!classDefinition: #Reals category: #'Mathematics-Fields'!
+Field subclass: #Reals
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Fields'!
+!classDefinition: 'Reals class' category: #'Mathematics-Fields'!
+Reals class
 	instanceVariableNames: ''!
 
 !classDefinition: #ResidueField category: #'Mathematics-Fields'!
@@ -801,18 +951,18 @@ FreeAbelianGroup subclass: #Lattice
 Lattice class
 	instanceVariableNames: ''!
 
-!classDefinition: #LinearMaps category: #'Mathematics-Modules'!
-FreeModule subclass: #LinearMaps
+!classDefinition: #HomModule category: #'Mathematics-Modules'!
+FreeModule subclass: #HomModule
 	instanceVariableNames: 'domain codomain'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Modules'!
-!classDefinition: 'LinearMaps class' category: #'Mathematics-Modules'!
-LinearMaps class
+!classDefinition: 'HomModule class' category: #'Mathematics-Modules'!
+HomModule class
 	instanceVariableNames: ''!
 
 !classDefinition: #DualModule category: #'Mathematics-Modules'!
-LinearMaps subclass: #DualModule
+HomModule subclass: #DualModule
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
@@ -991,103 +1141,63 @@ FreeModule subclass: #ExteriorPower
 ExteriorPower class
 	instanceVariableNames: ''!
 
-!classDefinition: #CartesianProduct category: #'Mathematics-Kernel-Domains'!
-Domain subclass: #CartesianProduct
-	instanceVariableNames: 'components'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Kernel-Domains'!
-!classDefinition: 'CartesianProduct class' category: #'Mathematics-Kernel-Domains'!
-CartesianProduct class
-	instanceVariableNames: ''!
-
-!classDefinition: #EquivalenceClass category: #'Mathematics-Kernel-Domains'!
-Domain subclass: #EquivalenceClass
-	instanceVariableNames: 'representative'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Kernel-Domains'!
-!classDefinition: 'EquivalenceClass class' category: #'Mathematics-Kernel-Domains'!
-EquivalenceClass class
-	instanceVariableNames: ''!
-
-!classDefinition: #EquivalenceRelation category: #'Mathematics-Kernel-Domains'!
-Domain subclass: #EquivalenceRelation
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Kernel-Domains'!
-!classDefinition: 'EquivalenceRelation class' category: #'Mathematics-Kernel-Domains'!
-EquivalenceRelation class
-	instanceVariableNames: ''!
-
-!classDefinition: #FormalSet category: #'Mathematics-Kernel-Domains'!
-Domain subclass: #FormalSet
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Kernel-Domains'!
-!classDefinition: 'FormalSet class' category: #'Mathematics-Kernel-Domains'!
-FormalSet class
-	instanceVariableNames: ''!
-
-!classDefinition: #Magma category: #'Mathematics-Kernel-Domains'!
+!classDefinition: #Magma category: #'Mathematics-Abstract'!
 Domain subclass: #Magma
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Kernel-Domains'!
-!classDefinition: 'Magma class' category: #'Mathematics-Kernel-Domains'!
+	category: 'Mathematics-Abstract'!
+!classDefinition: 'Magma class' category: #'Mathematics-Abstract'!
 Magma class
 	instanceVariableNames: ''!
 
-!classDefinition: #Quasigroup category: #'Mathematics-Kernel-Domains'!
+!classDefinition: #Quasigroup category: #'Mathematics-Abstract'!
 Magma subclass: #Quasigroup
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Kernel-Domains'!
-!classDefinition: 'Quasigroup class' category: #'Mathematics-Kernel-Domains'!
+	category: 'Mathematics-Abstract'!
+!classDefinition: 'Quasigroup class' category: #'Mathematics-Abstract'!
 Quasigroup class
 	instanceVariableNames: ''!
 
-!classDefinition: #Loop category: #'Mathematics-Kernel-Domains'!
+!classDefinition: #Loop category: #'Mathematics-Abstract'!
 Quasigroup subclass: #Loop
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Kernel-Domains'!
-!classDefinition: 'Loop class' category: #'Mathematics-Kernel-Domains'!
+	category: 'Mathematics-Abstract'!
+!classDefinition: 'Loop class' category: #'Mathematics-Abstract'!
 Loop class
 	instanceVariableNames: ''!
 
-!classDefinition: #Semigroup category: #'Mathematics-Kernel-Domains'!
+!classDefinition: #Semigroup category: #'Mathematics-Abstract'!
 Magma subclass: #Semigroup
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Kernel-Domains'!
-!classDefinition: 'Semigroup class' category: #'Mathematics-Kernel-Domains'!
+	category: 'Mathematics-Abstract'!
+!classDefinition: 'Semigroup class' category: #'Mathematics-Abstract'!
 Semigroup class
 	instanceVariableNames: ''!
 
-!classDefinition: #Monoid category: #'Mathematics-Kernel-Domains'!
+!classDefinition: #Monoid category: #'Mathematics-Abstract'!
 Semigroup subclass: #Monoid
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Kernel-Domains'!
-!classDefinition: 'Monoid class' category: #'Mathematics-Kernel-Domains'!
+	category: 'Mathematics-Abstract'!
+!classDefinition: 'Monoid class' category: #'Mathematics-Abstract'!
 Monoid class
 	instanceVariableNames: ''!
 
-!classDefinition: #FreeMonoid category: #'Mathematics-Kernel-Domains-Concrete'!
+!classDefinition: #FreeMonoid category: #'Mathematics-Abstract'!
 Monoid subclass: #FreeMonoid
 	instanceVariableNames: 'symbols'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Kernel-Domains-Concrete'!
-!classDefinition: 'FreeMonoid class' category: #'Mathematics-Kernel-Domains-Concrete'!
+	category: 'Mathematics-Abstract'!
+!classDefinition: 'FreeMonoid class' category: #'Mathematics-Abstract'!
 FreeMonoid class
 	instanceVariableNames: ''!
 
@@ -1419,116 +1529,6 @@ Monoid subclass: #Monomials
 	category: 'Mathematics-Monomials'!
 !classDefinition: 'Monomials class' category: #'Mathematics-Monomials'!
 Monomials class
-	instanceVariableNames: ''!
-
-!classDefinition: #Morphisms category: #'Mathematics-Kernel-Domains'!
-Domain subclass: #Morphisms
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Kernel-Domains'!
-!classDefinition: 'Morphisms class' category: #'Mathematics-Kernel-Domains'!
-Morphisms class
-	instanceVariableNames: ''!
-
-!classDefinition: #QuotientSet category: #'Mathematics-Kernel-Domains'!
-Domain subclass: #QuotientSet
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Kernel-Domains'!
-!classDefinition: 'QuotientSet class' category: #'Mathematics-Kernel-Domains'!
-QuotientSet class
-	instanceVariableNames: ''!
-
-!classDefinition: #Category category: #'Mathematics-Kernel-Categories'!
-Domain subclass: #Category
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Kernel-Categories'!
-!classDefinition: 'Category class' category: #'Mathematics-Kernel-Categories'!
-Category class
-	instanceVariableNames: ''!
-
-!classDefinition: #AbelianGroups category: #'Mathematics-Kernel-Categories'!
-Category subclass: #AbelianGroups
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Kernel-Categories'!
-!classDefinition: 'AbelianGroups class' category: #'Mathematics-Kernel-Categories'!
-AbelianGroups class
-	instanceVariableNames: ''!
-
-!classDefinition: #Modules category: #'Mathematics-Kernel-Categories'!
-AbelianGroups subclass: #Modules
-	instanceVariableNames: 'scalars'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Kernel-Categories'!
-!classDefinition: 'Modules class' category: #'Mathematics-Kernel-Categories'!
-Modules class
-	instanceVariableNames: ''!
-
-!classDefinition: #ComplexBox category: #'Mathematics-Kernel-Domains-Concrete'!
-Domain subclass: #ComplexBox
-	instanceVariableNames: 'real imaginary'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Kernel-Domains-Concrete'!
-!classDefinition: 'ComplexBox class' category: #'Mathematics-Kernel-Domains-Concrete'!
-ComplexBox class
-	instanceVariableNames: ''!
-
-!classDefinition: #ComplexDisk category: #'Mathematics-Kernel-Domains-Concrete'!
-Domain subclass: #ComplexDisk
-	instanceVariableNames: 'center radius'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Kernel-Domains-Concrete'!
-!classDefinition: 'ComplexDisk class' category: #'Mathematics-Kernel-Domains-Concrete'!
-ComplexDisk class
-	instanceVariableNames: ''!
-
-!classDefinition: #Naturals category: #'Mathematics-Kernel-Domains-Concrete'!
-Domain subclass: #Naturals
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Kernel-Domains-Concrete'!
-!classDefinition: 'Naturals class' category: #'Mathematics-Kernel-Domains-Concrete'!
-Naturals class
-	instanceVariableNames: ''!
-
-!classDefinition: #RealBox category: #'Mathematics-Kernel-Domains-Concrete'!
-Domain subclass: #RealBox
-	instanceVariableNames: 'components'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Kernel-Domains-Concrete'!
-!classDefinition: 'RealBox class' category: #'Mathematics-Kernel-Domains-Concrete'!
-RealBox class
-	instanceVariableNames: ''!
-
-!classDefinition: #RealInterval category: #'Mathematics-Kernel-Domains-Concrete'!
-Domain subclass: #RealInterval
-	instanceVariableNames: 'left right rightOpen leftOpen'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Kernel-Domains-Concrete'!
-!classDefinition: 'RealInterval class' category: #'Mathematics-Kernel-Domains-Concrete'!
-RealInterval class
-	instanceVariableNames: ''!
-
-!classDefinition: #SemialgebraicInterval category: #'Mathematics-Geometry-Semialgebraic'!
-RealInterval subclass: #SemialgebraicInterval
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Geometry-Semialgebraic'!
-!classDefinition: 'SemialgebraicInterval class' category: #'Mathematics-Geometry-Semialgebraic'!
-SemialgebraicInterval class
 	instanceVariableNames: ''!
 
 !classDefinition: #RightCoset category: #'Mathematics-Groups'!
@@ -1921,13 +1921,13 @@ Morphism subclass: #Function
 Function class
 	instanceVariableNames: ''!
 
-!classDefinition: #AbelianGroupHomomorphism category: #'Mathematics-Kernel-Support'!
+!classDefinition: #AbelianGroupHomomorphism category: #'Mathematics-Abelian'!
 Function subclass: #AbelianGroupHomomorphism
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Kernel-Support'!
-!classDefinition: 'AbelianGroupHomomorphism class' category: #'Mathematics-Kernel-Support'!
+	category: 'Mathematics-Abelian'!
+!classDefinition: 'AbelianGroupHomomorphism class' category: #'Mathematics-Abelian'!
 AbelianGroupHomomorphism class
 	instanceVariableNames: ''!
 
@@ -2219,16 +2219,6 @@ Morphism subclass: #SchemeMorphism
 	category: 'Mathematics-Geometry-Schemes'!
 !classDefinition: 'SchemeMorphism class' category: #'Mathematics-Geometry-Schemes'!
 SchemeMorphism class
-	instanceVariableNames: ''!
-
-!classDefinition: #AffineSchemeMorphism category: #'Mathematics-Geometry-Schemes'!
-SchemeMorphism subclass: #AffineSchemeMorphism
-	instanceVariableNames: 'oposite'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Geometry-Schemes'!
-!classDefinition: 'AffineSchemeMorphism class' category: #'Mathematics-Geometry-Schemes'!
-AffineSchemeMorphism class
 	instanceVariableNames: ''!
 
 !classDefinition: #PresheafMorphism category: #'Mathematics-Topology'!
@@ -3759,6 +3749,81 @@ References:
 	https://en.wikipedia.org/wiki/Coproduct
 !
 
+!HomSet commentStamp: '<historical>' prior: 0!
+My instances are Hom(A,B) objects for domain A and codomain B, i.e. sets of all morphisms from A to B.!
+
+!RealBox commentStamp: '<historical>' prior: 0!
+My instances are boxes in R^n built by the cartesian product of one-dimensional intervals (instances of RealInterval).
+
+Example:
+	RealBox new
+		add: (RealInterval closed: -1 closed: 1);
+		add: (RealInterval open: 3 open: 4);
+		add: (RealInterval closed: 0 open: Infinity positive);
+		yourself.
+!
+
+!RealInterval commentStamp: '<historical>' prior: 0!
+My instances are real intervals in the real line. Each of my instances can have finite or infinite and open or closed bounds.
+
+For some examples try this:
+	RealInterval open: 1 closed: 2.
+	RealInterval open: 0 open: Infinity positive.
+	RealInterval closed: -1 closed: 1.
+	RealInterval open: Infinity negative open: Infinity positive.
+!
+
+!SemialgebraicInterval commentStamp: '<historical>' prior: 0!
+My instances are components of a cell complex of R^1. See SemialgebraicCell.
+!
+
+!CartesianProduct commentStamp: '<historical>' prior: 0!
+My instances are cartesian products. See Domain>>,.
+
+Example:
+	(ZZ, QQ)
+
+Note that message #× is often used for the direct product (of rings or groups, for example), but #, always gives the cartesian product of the underlying sets.
+
+References:
+	https://en.wikipedia.org/wiki/Cartesian_product
+!
+
+!EquivalenceClass commentStamp: '<historical>' prior: 0!
+Given a set X and an equivalence relation ~, the equivalence class of an element a is the set of elements equivalent to a: [a] = {x in X such that x ~ a}. An member of an equivalence class is called a 'representative'.
+
+Elements of quotient objects (elements of QuotientRings, QuotientSpaces, etc) are polymorphic with EquivalenceClass.
+
+See EquivalenceRelation.
+
+References:
+	https://en.wikipedia.org/wiki/Equivalence_class!
+
+!EquivalenceRelation commentStamp: '<historical>' prior: 0!
+An equivalence relation on X is a binary relation ~ on X with the following properties:
+- For every element a in X, a ~ a (reflexivity);
+- For every two elements a, b in X, if a ~ b then b ~ a (symmetry);
+- For every three elements a, b, c in X, if a ~ b and b ~ c then a ~ c (transitivity).
+
+See EquivalenceClass.
+
+References:
+	https://en.wikipedia.org/wiki/Equivalence_relation!
+
+!FormalSet commentStamp: '<historical>' prior: 0!
+My instances are mathematical sets, i.e. objects in the category of sets. They arise when seeing a Smalltalk Set as a mathematical set, or when seeing any other Domain as a set (as applying the forgetful functor to the cateogry of sets).
+
+Examples:
+	#(1 2 3) asSet as: FormalSet.
+	ZZ as: FormalSet.
+!
+
+!Naturals commentStamp: '<historical>' prior: 0!
+My singletion global instance NN is the set of natural numbers 1, 2, 3, ...!
+
+!QuotientSet commentStamp: '<historical>' prior: 0!
+My instances are quotients of a set by an equivalence relation. The elements are equivalence classes. See EquivalenceRelation and EquivalenceClass.!
+
 !AbelianGroup commentStamp: '<historical>' prior: 0!
 My instances are additive (abelian, commutative) groups. Subclasses are structures that build up from an abelian group, such as modules, vector spaces, rings, ideals, etc.
 
@@ -3810,9 +3875,6 @@ Rings can also be made into fields by 'adding the missing multiplicative inverse
 References:
 	https://en.wikipedia.org/wiki/Ring_(mathematics)!
 
-!Integers commentStamp: '<historical>' prior: 0!
-My singletion global instance ZZ is the ring of integer numbers.!
-
 !GroupRing commentStamp: '<historical>' prior: 0!
 My instances are group rings. Given a ring R and a group G, the group ring R[G] can be seen as a ring or as a free R-module with basis one-to-one with G. As a ring, its addition law is that of the free module, and the multiplication extends by linearity the given group law on the basis.
 
@@ -3822,6 +3884,9 @@ Categorically, the group ring construction is left adjoint to the group of units
 
 References:
 	https://en.wikipedia.org/wiki/Group_ring!
+
+!Integers commentStamp: '<historical>' prior: 0!
+My singletion global instance ZZ is the ring of integer numbers.!
 
 !QuotientRing commentStamp: '<historical>' prior: 0!
 My instances are quotient rings (also called factor rings, difference rings or residue class rings). 
@@ -3856,14 +3921,11 @@ A field is a nonzero commutative division ring, or equivalently a ring whose non
 References:
 	https://en.wikipedia.org/wiki/Field_(mathematics)!
 
-!ComplexNumbers commentStamp: '<historical>' prior: 0!
-I'm the field of complex numbers.!
-
 !ExtendedComplexNumbers commentStamp: '<historical>' prior: 0!
 I'm the field of complex numbers extended with the point a infinity.!
 
-!Reals commentStamp: '<historical>' prior: 0!
-I'm the field of real numbers.!
+!ComplexNumbers commentStamp: '<historical>' prior: 0!
+I'm the field of complex numbers.!
 
 !FractionField commentStamp: '<historical>' prior: 0!
 My instances are fields of fractions (ratios, quotients) with numerator and (nonzero) denominator in an integral domain. See Ring>>fractions.
@@ -3889,8 +3951,11 @@ Example:
 	(F x: 1) / (F x: 2)
 !
 
-!FunctionField commentStamp: '<historical>' prior: 0!
+!FunctionField2 commentStamp: '<historical>' prior: 0!
 My instances are fields of fractions of coordinate rings of (affine) algebraic varieties.!
+
+!Reals commentStamp: '<historical>' prior: 0!
+I'm the field of real numbers.!
 
 !ResidueField commentStamp: '<historical>' prior: 0!
 My instances are quotients of a ring by a maximal ideal. They are special cases of quotient rings (and thus, they are polynorphic with QuotientRing).!
@@ -3958,7 +4023,7 @@ TODO:
 !Lattice commentStamp: '<historical>' prior: 0!
 A lattice is the set of integer linear combinations of a basis of a real vector space. This is a subgroup of the vector space (as abelian group) isomorphic to Z^n.!
 
-!LinearMaps commentStamp: '<historical>' prior: 0!
+!HomModule commentStamp: '<historical>' prior: 0!
 My instances are R-modules (or K-vector spaces) of linear transformations from a R-module (or K-vector space) A to another one B, i.e. Hom(A,B), the space of module homomorphisms between two R-modules.
 
 Example:
@@ -4028,47 +4093,6 @@ TODO:
 TODO:
 - elements: k-vectors (ExteriorProduct or ExteriorVector?)
 - ExteriorAlgebra as a graded algebra, direct sum of /\^i(V) for i in [1..n]!
-
-!CartesianProduct commentStamp: '<historical>' prior: 0!
-My instances are cartesian products. See Domain>>,.
-
-Example:
-	(ZZ, QQ)
-
-Note that message #× is often used for the direct product (of rings or groups, for example), but #, always gives the cartesian product of the underlying sets.
-
-References:
-	https://en.wikipedia.org/wiki/Cartesian_product
-!
-
-!EquivalenceClass commentStamp: '<historical>' prior: 0!
-Given a set X and an equivalence relation ~, the equivalence class of an element a is the set of elements equivalent to a: [a] = {x in X such that x ~ a}. An member of an equivalence class is called a 'representative'.
-
-Elements of quotient objects (elements of QuotientRings, QuotientSpaces, etc) are polymorphic with EquivalenceClass.
-
-See EquivalenceRelation.
-
-References:
-	https://en.wikipedia.org/wiki/Equivalence_class!
-
-!EquivalenceRelation commentStamp: '<historical>' prior: 0!
-An equivalence relation on X is a binary relation ~ on X with the following properties:
-- For every element a in X, a ~ a (reflexivity);
-- For every two elements a, b in X, if a ~ b then b ~ a (symmetry);
-- For every three elements a, b, c in X, if a ~ b and b ~ c then a ~ c (transitivity).
-
-See EquivalenceClass.
-
-References:
-	https://en.wikipedia.org/wiki/Equivalence_relation!
-
-!FormalSet commentStamp: '<historical>' prior: 0!
-My instances are mathematical sets, i.e. objects in the category of sets. They arise when seeing a Smalltalk Set as a mathematical set, or when seeing any other Domain as a set (as applying the forgetful functor to the cateogry of sets).
-
-Examples:
-	#(1 2 3) asSet as: FormalSet.
-	ZZ as: FormalSet.
-!
 
 !Magma commentStamp: '<historical>' prior: 0!
 My instances are magmas. They consist of a set and a binary operation, with no other requirements.!
@@ -4192,40 +4216,6 @@ References:
 !Monomials commentStamp: '<historical>' prior: 0!
 My instances are (commutative) monoids of monomials in n indeterminates.!
 
-!Morphisms commentStamp: '<historical>' prior: 0!
-My instances are Hom(A,B) objects for domain A and codomain B.!
-
-!QuotientSet commentStamp: '<historical>' prior: 0!
-My instances are quotients of a set by an equivalence relation. The elements are equivalence classes. See EquivalenceRelation and EquivalenceClass.!
-
-!Naturals commentStamp: '<historical>' prior: 0!
-My singletion global instance NN is the set of natural numbers 1, 2, 3, ...!
-
-!RealBox commentStamp: '<historical>' prior: 0!
-My instances are boxes in R^n built by the cartesian product of one-dimensional intervals (instances of RealInterval).
-
-Example:
-	RealBox new
-		add: (RealInterval closed: -1 closed: 1);
-		add: (RealInterval open: 3 open: 4);
-		add: (RealInterval closed: 0 open: Infinity positive);
-		yourself.
-!
-
-!RealInterval commentStamp: '<historical>' prior: 0!
-My instances are real intervals in the real line. Each of my instances can have finite or infinite and open or closed bounds.
-
-For some examples try this:
-	RealInterval open: 1 closed: 2.
-	RealInterval open: 0 open: Infinity positive.
-	RealInterval closed: -1 closed: 1.
-	RealInterval open: Infinity negative open: Infinity positive.
-!
-
-!SemialgebraicInterval commentStamp: '<historical>' prior: 0!
-My instances are components of a cell complex of R^1. See SemialgebraicCell.
-!
-
 !RightCoset commentStamp: 'len 8/14/2016 06:04' prior: 0!
 My instances are right cosets of a subgroup H of a group G: {Hg : g in G}.!
 
@@ -4282,9 +4272,7 @@ References:
 !
 
 !Scheme commentStamp: '<historical>' prior: 0!
-My instances are schemes.
-
-In general, my instances are defined by a finite set of polynomial equations (or a finitely generated ideal). They are the spectra of affine rings (quotient rings of multivariate polynomial rings). Subclasses can override behavior to represent schemes in other ways.
+My instances are schemes (with some compromises). My instances are defined by a finite set of polynomial equations (or a finitely generated ideal). They are the spectra of affine rings (quotient rings of multivariate polynomial rings). Subclasses can override behavior to represent schemes in other ways.
 
 Example:
 	| R x y I |
@@ -4355,7 +4343,7 @@ Also can be seen as a subset of the power set of some set V, often V={1,...,n}, 
 !Morphism commentStamp: '<historical>' prior: 0!
 I'm an abstract superclass for Functions and other morphisms.
 
-Examples (three equivalent ways to construct a homomorphism):
+Examples (three equivalent ways to construct a vector space homomorphism):
 	QQ**3 to: QQ**3 evaluating: [:v| (v x - v y, v x, v z)].
 	QQ**3 -> (QQ**3) evaluating: [:v| (v x - v y, v x, v z)].
 	(QQ**3) endomorphisms evaluating: [:v| (v x - v y, v x, v z)].
@@ -4372,7 +4360,7 @@ Example:
 
 In general a Function is a morphism of sets. If the function preserves some mathematical structure, it is called a morphism of some category corresponding to the preserved structure. For example linear maps are morphisms of vector spaces or modules, continuous functions are morphisms of topological spaces, and group homomorphisms are morphisms of groups.
 
-Examples (three equivalent ways to construct homomorphisms):
+Example (three equivalent ways to construct homomorphisms):
 	"These constructions are similar to the explicit construction above, but they return not arbitrary functions but homomorphisms of the corresponding category (in this case linear maps, i.e. morphisms of vector spaces):"
 	QQ**3 to: QQ**3 evaluating: [:v| (v x - v y, v x, v z)].
 	QQ**3 -> (QQ**3) evaluating: [:v| (v x - v y, v x, v z)].
@@ -4380,7 +4368,7 @@ Examples (three equivalent ways to construct homomorphisms):
 
 In general, functions are defined by specifying a domain, a codomain, and an expression that can be evaluated at elements of the domain and produces elements of the codomain. One such expression can be a Smalltalk block, another Function, or more generally any Smalltalk object that admits evaluation (#value:), such as polynomials:
 
-Examples (two ways to define the Frobenius endomorphism):
+Example (two ways to define the Frobenius endomorphism):
 	(ZZ mod: 6) endomorphisms evaluating: [:x| x**6].
 	(ZZ mod: 6) endomorphisms evaluating: (ZZ mod: 6) polynomials x ** 6.
 
@@ -11689,10 +11677,10 @@ printOn: aStream
 	"Answer the cartesian set product of the receiver with the argument."
 	^ self cartesian: aDomain! !
 
-!Domain methodsFor: 'morphisms' stamp: 'len 9/2/2016 05:38'!
+!Domain methodsFor: 'morphisms' stamp: 'len 10/14/2016 08:59'!
 -> aDomain
 	"Answer the morphisms that go from the receiver A to the argument B: Hom(A,B)."
-	^ Morphisms from: self to: aDomain! !
+	^ HomSet from: self to: aDomain! !
 
 !Domain methodsFor: 'operations' stamp: 'len 4/27/2016 02:49'!
 / anEquivalenceRelation
@@ -12121,6 +12109,1118 @@ new
 !Domain class methodsFor: 'instance creation' stamp: 'len 4/23/2016 03:40'!
 newFrom: anObject
 	^ self new elements: anObject! !
+
+!HomSet methodsFor: 'accessing' stamp: 'len 4/19/2016 04:51'!
+codomain
+	^ properties at: #codomain! !
+
+!HomSet methodsFor: 'accessing-private' stamp: 'len 4/19/2016 04:52'!
+codomain: aDomain
+	properties at: #codomain put: aDomain! !
+
+!HomSet methodsFor: 'accessing' stamp: 'len 4/19/2016 04:51'!
+domain
+	^ properties at: #domain! !
+
+!HomSet methodsFor: 'accessing-private' stamp: 'len 4/19/2016 04:52'!
+domain: aDomain
+	properties at: #domain put: aDomain! !
+
+!HomSet methodsFor: 'elements' stamp: 'len 8/31/2016 03:37'!
+evaluating: aBlock
+	^ self domain to: self codomain evaluating: aBlock! !
+
+!HomSet methodsFor: 'elements' stamp: 'len 8/31/2016 03:41'!
+identity
+	^ self isEndomorphisms ifTrue: [self domain id]! !
+
+!HomSet methodsFor: 'testing' stamp: 'len 10/4/2016 09:02'!
+includes: aMorphism
+	^ (aMorphism isKindOf: Morphism) and: [aMorphism domain = self domain and: [aMorphism codomain = self codomain]]! !
+
+!HomSet methodsFor: 'testing' stamp: 'len 4/19/2016 04:53'!
+isEndomorphisms
+	^ self domain = self codomain! !
+
+!HomSet methodsFor: 'elements' stamp: 'len 4/23/2016 03:47'!
+newFrom: anObject
+	^ self evaluating: anObject! !
+
+!HomSet methodsFor: 'operations' stamp: 'len 8/25/2016 21:11'!
+opposite
+	^ self class from: self domain to: self codomain! !
+
+!HomSet methodsFor: 'printing' stamp: 'len 10/5/2016 10:01'!
+printOn: aStream
+	self isEndomorphisms
+		ifTrue: [aStream nextPutAll: 'Endo' bold; nextPut: $(; print: self domain; nextPut: $)]
+		ifFalse: [aStream nextPutAll: 'Hom' bold; nextPut: $(; print: self domain; nextPut: $,; print: self codomain; nextPut: $)]! !
+
+!HomSet class methodsFor: 'instance creation' stamp: 'len 4/19/2016 04:53'!
+from: aDomain to: anotherDomain
+	^ self new domain: aDomain; codomain: anotherDomain! !
+
+!Category methodsFor: 'as yet unclassified' stamp: 'len 10/9/2016 08:48'!
+isAbelian
+	^ false! !
+
+!AbelianGroups methodsFor: 'as yet unclassified' stamp: 'len 10/9/2016 08:48'!
+isAbelian
+	^ true! !
+
+!AbelianGroups methodsFor: 'as yet unclassified' stamp: 'len 10/9/2016 08:49'!
+printOn: aStream
+	aStream nextPutAll: 'Ab'! !
+
+!Modules methodsFor: 'as yet unclassified' stamp: 'len 10/9/2016 08:46'!
+printOn: aStream
+	aStream print: scalars; nextPutAll: (scalars isField ifTrue: ['-Vect'] ifFalse: ['-Mod'])! !
+
+!Modules methodsFor: 'as yet unclassified' stamp: 'len 10/9/2016 08:43'!
+scalars
+	^ scalars! !
+
+!Modules methodsFor: 'as yet unclassified' stamp: 'len 10/9/2016 08:44'!
+scalars: aCommutativeRing
+	scalars _ aCommutativeRing! !
+
+!Modules class methodsFor: 'as yet unclassified' stamp: 'len 10/9/2016 08:47'!
+over: aCommutativeRing
+	^ self new scalars: aCommutativeRing! !
+
+!ComplexBox methodsFor: 'accessing' stamp: 'len 1/16/2016 05:56'!
+area
+	^ self measure! !
+
+!ComplexBox methodsFor: 'accessing' stamp: 'len 1/16/2016 05:59'!
+closure
+	^ self class real: real closure imaginary: imaginary closure! !
+
+!ComplexBox methodsFor: 'testing' stamp: 'len 1/16/2016 05:50'!
+closureIncludes: aComplex
+	^ (real closureIncludes: aComplex real) and: [imaginary closureIncludes: aComplex imaginary]! !
+
+!ComplexBox methodsFor: 'accessing' stamp: 'len 1/11/2016 02:58'!
+imaginary
+	^ imaginary! !
+
+!ComplexBox methodsFor: 'accessing-private' stamp: 'len 1/11/2016 02:53'!
+imaginary: aRealInterval
+	imaginary _ aRealInterval! !
+
+!ComplexBox methodsFor: 'testing' stamp: 'len 1/11/2016 02:54'!
+includes: aComplex
+	^ (real includes: aComplex real) and: [imaginary includes: aComplex imaginary]! !
+
+!ComplexBox methodsFor: 'testing' stamp: 'len 1/16/2016 05:52'!
+intersects: aComplexBox
+	^ (real intersects: aComplexBox real) and: [imaginary intersects: aComplexBox imaginary]! !
+
+!ComplexBox methodsFor: 'testing' stamp: 'len 1/11/2016 03:40'!
+isBounded
+	^ real isBounded and: [imaginary isBounded]! !
+
+!ComplexBox methodsFor: 'testing' stamp: 'len 1/11/2016 03:40'!
+isClosed
+	^ real isClosed and: [imaginary isClosed]! !
+
+!ComplexBox methodsFor: 'testing' stamp: 'len 1/11/2016 03:41'!
+isOpen
+	^ real isOpen and: [imaginary isOpen]! !
+
+!ComplexBox methodsFor: 'accessing' stamp: 'len 1/11/2016 02:55'!
+measure
+	^ real measure * imaginary measure! !
+
+!ComplexBox methodsFor: 'accessing' stamp: 'len 1/15/2016 07:21'!
+midpoint
+	^ Complex real: real midpoint imaginary: imaginary midpoint! !
+
+!ComplexBox methodsFor: 'printing' stamp: 'len 1/11/2016 02:57'!
+printOn: aStream
+	aStream print: real; nextPutAll: ' + '; print: imaginary; nextPut: $i! !
+
+!ComplexBox methodsFor: 'accessing' stamp: 'len 6/5/2016 06:20'!
+quarters
+	| imaginaries reals |
+	reals _ self real halves.
+	imaginaries _ self imaginary halves.
+	^ {self class real: (reals at: 1) imaginary: (imaginaries at: 1).
+		self class real: (reals at: 1) imaginary: (imaginaries at: 2).
+		self class real: (reals at: 2) imaginary: (imaginaries at: 1).
+		self class real: (reals at: 2) imaginary: (imaginaries at: 2)}! !
+
+!ComplexBox methodsFor: 'accessing' stamp: 'len 6/5/2016 04:08'!
+radius2
+	^ real length squared + imaginary length squared / 4! !
+
+!ComplexBox methodsFor: 'accessing' stamp: 'len 1/11/2016 02:58'!
+real
+	^ real! !
+
+!ComplexBox methodsFor: 'accessing-private' stamp: 'len 1/11/2016 02:53'!
+real: aRealInterval
+	real _ aRealInterval! !
+
+!ComplexBox methodsFor: 'accessing' stamp: 'len 1/11/2016 03:42'!
+sample
+	"Answer a sample point in the receiver."
+	^ Complex real: real sample imaginary: imaginary sample! !
+
+!ComplexBox methodsFor: 'accessing' stamp: 'len 6/5/2016 21:42'!
+width
+	^ real length min: imaginary length! !
+
+!ComplexBox class methodsFor: 'instance creation' stamp: 'len 6/4/2016 21:53'!
+center: aComplex radius: aNumber
+	^ self
+		real: (RealInterval closed: aComplex real - aNumber closed: aComplex real + aNumber)
+		imaginary: (RealInterval closed: aComplex imaginary - aNumber closed: aComplex imaginary + aNumber)! !
+
+!ComplexBox class methodsFor: 'instance creation' stamp: 'len 1/11/2016 03:43'!
+real: aRealInterval imaginary: anotherRealInterval
+	^ self new real: aRealInterval; imaginary: anotherRealInterval! !
+
+!ComplexBox class methodsFor: 'instance creation' stamp: 'len 6/5/2016 04:07'!
+with: aComplex with: anotherComplex
+	^ self
+		real: (RealInterval with: aComplex real with: anotherComplex real)
+		imaginary: (RealInterval with: aComplex imaginary with: anotherComplex imaginary)! !
+
+!ComplexDisk methodsFor: 'arithmetic' stamp: 'len 6/5/2016 20:46'!
+* aDisk
+	^ self class center: aDisk center * self center radius: self radius * aDisk radius! !
+
+!ComplexDisk methodsFor: 'arithmetic' stamp: 'len 6/30/2016 04:37'!
++ aDisk
+	^ self class center: aDisk center + self center radius: self radius + aDisk radius! !
+
+!ComplexDisk methodsFor: 'accessing' stamp: 'len 1/13/2016 22:30'!
+center
+	^ center! !
+
+!ComplexDisk methodsFor: 'accessing-private' stamp: 'len 6/5/2016 20:47'!
+center: aComplex
+	center _ aComplex! !
+
+!ComplexDisk methodsFor: 'accessing' stamp: 'len 6/30/2016 04:43'!
+enclosingBox
+	"Answer a ComplexBox that encloses the receiver."
+	^ ComplexBox center: self center radius: self radius! !
+
+!ComplexDisk methodsFor: 'testing' stamp: 'len 6/5/2016 20:44'!
+includes: anObject
+	^ (anObject - center) norm2 <= radius squared! !
+
+!ComplexDisk methodsFor: 'testing' stamp: 'len 6/5/2016 04:13'!
+intersects: aBall
+	self flag: #fix.
+	^ (aBall center - center) norm2 <= (self radius + aBall radius) squared! !
+
+!ComplexDisk methodsFor: 'accessing' stamp: 'len 1/15/2016 07:21'!
+midpoint
+	^ self center! !
+
+!ComplexDisk methodsFor: 'printing' stamp: 'len 6/5/2016 20:42'!
+printOn: aStream
+	aStream nextPutAll: 'D('; print: self center; nextPut: $,; print: self radius; nextPut: $)! !
+
+!ComplexDisk methodsFor: 'accessing' stamp: 'len 6/5/2016 20:42'!
+radius
+	^ radius! !
+
+!ComplexDisk methodsFor: 'accessing-private' stamp: 'len 6/5/2016 20:47'!
+radius: aNumber
+	radius _ aNumber! !
+
+!ComplexDisk class methodsFor: 'instance creation' stamp: 'len 6/5/2016 20:47'!
+center: aComplex radius: aNumber
+	^ self new center: aComplex; radius: aNumber! !
+
+!RealBox methodsFor: 'comparing' stamp: 'len 12/19/97 22:06'!
+= anObject
+	"Answer true if the receiver equals the argument."
+
+	self size = anObject size ifFalse: [^ false].
+	1 to: self size do: [ :each | (self at: each) = (anObject at: each) ifFalse: [^ false]].
+	^ true! !
+
+!RealBox methodsFor: 'accessing' stamp: 'len 1/11/2016 02:33'!
+add: aRealInterval
+	^ components add: aRealInterval! !
+
+!RealBox methodsFor: 'accessing' stamp: 'len 12/13/97 15:21'!
+addAll: aCollection
+	"Add the elements in the argument to the receiver. Answer the argument."
+
+	aCollection do: [ :each | self add: each].
+	^ aCollection! !
+
+!RealBox methodsFor: 'accessing' stamp: 'len 1/11/2016 02:33'!
+at: anInteger
+	"Answer the anInteger-th component of the receiver."
+	^ components at: anInteger! !
+
+!RealBox methodsFor: 'accessing' stamp: 'len 1/11/2016 02:34'!
+cartesian: aBox
+	"Answer the cartesian product of the receiver by the argument."
+	^ self copy addAll: aBox; yourself! !
+
+!RealBox methodsFor: 'accessing-private' stamp: 'len 1/11/2016 02:37'!
+components
+	^ components! !
+
+!RealBox methodsFor: 'accessing-private' stamp: 'len 1/11/2016 02:37'!
+components: aCollection
+	components _ aCollection! !
+
+!RealBox methodsFor: 'accessing' stamp: 'len 1/11/2016 02:35'!
+dimension
+	^ components inject: 0 into: [:sum :each| sum + each]! !
+
+!RealBox methodsFor: 'enumerating' stamp: 'len 1/11/2016 02:38'!
+do: aBlock
+	"Enumerate the components of the receiver."
+	components do: aBlock! !
+
+!RealBox methodsFor: 'accessing' stamp: 'len 1/11/2016 02:35'!
+first
+	^ self at: 1! !
+
+!RealBox methodsFor: 'comparing' stamp: 'len 6/28/2016 09:28'!
+hash
+	"Answer the hash value of the receiver."
+
+	^ self size = 0
+		ifTrue: [0]
+		ifFalse: [self first hash hashMultiply + self last hash hashMultiply + self size hash]! !
+
+!RealBox methodsFor: 'testing' stamp: 'len 1/11/2016 02:40'!
+includes: aTuple
+	1 to: self size do: [:each|
+		((self at: each) includes: (aTuple at: each)) ifFalse: [^ false]].
+	^ true! !
+
+!RealBox methodsFor: 'initialization' stamp: 'len 1/11/2016 02:38'!
+initialize
+	components _ OrderedCollection new: 3! !
+
+!RealBox methodsFor: 'testing' stamp: 'len 1/11/2016 02:40'!
+isBounded
+	self do: [:each| each isBounded ifFalse: [^ false]].
+	^ true! !
+
+!RealBox methodsFor: 'testing' stamp: 'len 1/11/2016 02:40'!
+isClosed
+	self do: [:each| each isClosed ifFalse: [^ false]].
+	^ true! !
+
+!RealBox methodsFor: 'testing' stamp: 'len 1/11/2016 02:41'!
+isOpen
+	self do: [ :each | each isOpen ifFalse: [^ false]].
+	^ true! !
+
+!RealBox methodsFor: 'accessing' stamp: 'len 1/11/2016 02:35'!
+last
+	^ self at: self size! !
+
+!RealBox methodsFor: 'accessing' stamp: 'len 1/11/2016 02:36'!
+measure
+	^ components inject: 1 into: [:measure :each| measure * each measure]! !
+
+!RealBox methodsFor: 'accessing' stamp: 'len 1/15/2016 07:20'!
+midpoint
+	^ Tuple withAll: ((1 to: self size) collect: [:each| each midpoint])! !
+
+!RealBox methodsFor: 'printing' stamp: 'len 6/7/2016 00:51'!
+printOn: aStream
+	components do: [:each| aStream print: each] separatedBy: [aStream nextPut: Character times]! !
+
+!RealBox methodsFor: 'accessing' stamp: 'len 1/11/2016 02:36'!
+sample
+	"Answer a sample point in the receiver."
+	^ Tuple new: self size evaluating: [:each| (self at: each) sample]! !
+
+!RealBox methodsFor: 'accessing' stamp: 'len 1/11/2016 02:37'!
+size
+	^ components size! !
+
+!RealBox class methodsFor: 'instance creation' stamp: 'len 12/13/97 02:52'!
+new
+	^ super new initialize! !
+
+!RealInterval methodsFor: 'arithmetic' stamp: 'len 12/13/97 03:19'!
+* anInterval
+	"Answer the product of the receiver by the argument."
+
+	| l1l2 l1r2 r1l2 r1r2 |
+	l1l2 _ self left * anInterval left.
+	l1r2 _ self left * anInterval right.
+	r1l2 _ self right * anInterval left.
+	r1r2 _ self right * anInterval right.
+	^ self copy
+		left: ((l1l2 min: l1r2) min: (r1l2 min: r1r2));
+		right: ((l1l2 max: l1r2) max: (r1l2 max: r1r2))! !
+
+!RealInterval methodsFor: 'arithmetic' stamp: 'len 12/13/97 03:20'!
++ anInterval
+	"Answer the sum of the receiver and the argument."
+
+	^ self copy
+		left: self left + anInterval left;
+		right: self right + anInterval right! !
+
+!RealInterval methodsFor: 'arithmetic' stamp: 'len 12/13/97 03:36'!
+- anInterval
+	"Answer the difference of the receiver and the argument."
+
+	^ self + anInterval negated! !
+
+!RealInterval methodsFor: 'arithmetic' stamp: 'len 12/13/97 02:14'!
+/ anInterval
+	"Answer the quotient of the receiver by the argument."
+
+	^ self * anInterval reciprocal! !
+
+!RealInterval methodsFor: 'comparing' stamp: 'len 1/16/2016 05:57'!
+= anInterval
+	^ left = anInterval left and: [right = anInterval right and: [self isLeftOpen = anInterval isLeftOpen and: [self isRightOpen = anInterval isRightOpen]]]! !
+
+!RealInterval methodsFor: 'operations' stamp: 'len 1/11/2016 02:41'!
+cartesian: anInterval
+	"Answer the cartesian product of the receiver by the argument."
+	| answer |
+	answer _ RealBox new add: self; yourself.
+	anInterval do: [:each| answer add: each].
+	^ answer! !
+
+!RealInterval methodsFor: 'converting' stamp: 'len 12/13/97 02:31'!
+close
+	"Answer a closed inverval with the same bounds that the receiver."
+
+	self isClosed ifFalse: [^ self copy leftOpen: false; rightOpen: false]! !
+
+!RealInterval methodsFor: 'converting' stamp: 'len 12/13/97 02:40'!
+closeLeft
+	"Answer a closed left interval with the same bounds that the receiver."
+
+	self isLeftClosed ifFalse: [^ self copy leftOpen: false]! !
+
+!RealInterval methodsFor: 'converting' stamp: 'len 12/13/97 02:35'!
+closeRight
+	"Answer a closed right interval with the same bounds that the receiver."
+
+	self isRightClosed ifFalse: [^ self copy rightOpen: false]! !
+
+!RealInterval methodsFor: 'operations' stamp: 'len 1/16/2016 05:59'!
+closure
+	^ self class closed: left closed: right! !
+
+!RealInterval methodsFor: 'testing' stamp: 'len 3/31/2016 17:54'!
+closureIncludes: anObject
+	(anObject is: #Tuple) ifTrue: [^ anObject dimension = 1 and: [self includes: anObject first]].
+	^ anObject between: left and: right! !
+
+!RealInterval methodsFor: 'accessing' stamp: 'len 12/19/97 22:10'!
+dimension
+	"Answer the dimension of the receiver."
+
+	self isEmpty ifTrue: [^ Infinity negative].
+	self left = self right ifTrue: [^ 0].
+	^ 1! !
+
+!RealInterval methodsFor: 'accessing' stamp: 'len 6/5/2016 06:26'!
+halves
+	| m |
+	m _ self midpoint.
+	^ {self copy right: m; rightOpen: false . self copy left: m; leftOpen: true}! !
+
+!RealInterval methodsFor: 'comparing' stamp: 'len 6/28/2016 09:30'!
+hash
+	^ self left hash hashMultiply + self right hash + self isRightOpen hash + self isLeftOpen hash hashMultiply! !
+
+!RealInterval methodsFor: 'constants' stamp: 'len 12/13/97 03:20'!
+identity
+	"Answer the identity element for the receiver."
+
+	^ self copy left: 1; right: 1! !
+
+!RealInterval methodsFor: 'testing' stamp: 'len 3/31/2016 17:54'!
+includes: anObject
+	(anObject is: #Tuple) ifTrue: [^ anObject dimension = 1 and: [self includes: (anObject at: 1)]].
+	(self left > anObject or: [self right < anObject])
+		ifTrue: [^ false].
+	(self left < anObject and: [self right > anObject])
+		ifTrue: [^ true].
+	((self isLeftClosed and: [anObject = self left])
+	or: [self isRightClosed and: [anObject = self right]])
+		ifTrue: [^ true].
+	^ false! !
+
+!RealInterval methodsFor: 'accessing' stamp: 'len 12/13/97 03:22'!
+inf
+	"Answer the infimun of the receiver."
+
+	^ self left! !
+
+!RealInterval methodsFor: 'operations' stamp: 'len 6/2/2016 07:29'!
+interior
+	^ self class open: left open: right! !
+
+!RealInterval methodsFor: 'testing' stamp: 'len 6/4/2016 21:43'!
+intersects: anInterval
+	"Answer true if the receiver overlaps the argument."
+	self right < anInterval left ifTrue: [^ false].
+	self left > anInterval right ifTrue: [^ false].
+	self right = anInterval left ifTrue: [^ self isRightClosed and: [anInterval isLeftClosed]].
+	self left = anInterval right ifTrue: [^ self isLeftClosed and: [anInterval isRightClosed]].
+	^ true! !
+
+!RealInterval methodsFor: 'testing' stamp: 'len 12/13/97 03:29'!
+isBounded
+	"Answer true if the receiver is bounded."
+
+	^ self isLeftBounded and: [self isRightBounded]! !
+
+!RealInterval methodsFor: 'testing' stamp: 'len 12/13/97 02:36'!
+isClosed
+	"Answer true if the receiver is closed."
+
+	^ self isLeftClosed and: [self isRightClosed]! !
+
+!RealInterval methodsFor: 'testing' stamp: 'len 12/13/97 03:23'!
+isEmpty
+	"Answer true if the receiver is empty."
+
+	^ self isLeftBounded
+		ifTrue: [self right < self left]
+		ifFalse: [self left > self right]! !
+
+!RealInterval methodsFor: 'testing' stamp: 'len 6/2/2016 05:16'!
+isFinite
+	^ left = right and: [leftOpen not | rightOpen not]! !
+
+!RealInterval methodsFor: 'testing' stamp: 'len 12/13/97 02:14'!
+isHalfOpen
+	"Answer true if the receiver is hald-open."
+
+	^ self isClosed not and: [self isOpen not]! !
+
+!RealInterval methodsFor: 'testing' stamp: 'len 12/13/97 02:23'!
+isLeftBounded
+	"Answer true if the receiver is left bounded."
+
+	^ self left isInfinity not! !
+
+!RealInterval methodsFor: 'testing' stamp: 'len 12/13/97 02:33'!
+isLeftClosed
+	"Answer true if the receiver is left closed."
+
+	^ self isLeftOpen not! !
+
+!RealInterval methodsFor: 'testing' stamp: 'len 12/13/97 02:36'!
+isLeftOpen
+	"Answer true if the receiver is left open."
+
+	^ leftOpen! !
+
+!RealInterval methodsFor: 'testing' stamp: 'len 12/13/97 02:38'!
+isOpen
+	"Answer true if the receiver is open."
+
+	^ self isLeftOpen and: [self isRightOpen]! !
+
+!RealInterval methodsFor: 'testing' stamp: 'len 12/13/97 02:24'!
+isRightBounded
+	"Answer true if the receiver is right bounded."
+
+	^ self right isInfinity not! !
+
+!RealInterval methodsFor: 'testing' stamp: 'len 12/13/97 02:35'!
+isRightClosed
+	"Answer true if the receiver is right closed."
+
+	^ self isRightOpen not! !
+
+!RealInterval methodsFor: 'testing' stamp: 'len 12/13/97 02:37'!
+isRightOpen
+	"Answer true if the receiver is open right."
+
+	^ rightOpen! !
+
+!RealInterval methodsFor: 'accessing' stamp: 'len 12/13/97 03:21'!
+left
+	"Answer the left bound of the receiver."
+
+	^ left! !
+
+!RealInterval methodsFor: 'accessing-private' stamp: 'len 12/13/97 03:18'!
+left: aNumber
+	left _ aNumber! !
+
+!RealInterval methodsFor: 'accessing-private' stamp: 'len 12/13/97 02:30'!
+leftOpen: aBoolean
+	leftOpen _ aBoolean! !
+
+!RealInterval methodsFor: 'accessing' stamp: 'len 1/16/2016 05:56'!
+length
+	^ self measure! !
+
+!RealInterval methodsFor: 'accessing' stamp: 'len 12/13/97 03:24'!
+max
+	"Answer the maximum of the receiver."
+
+	self isRightOpen ifTrue: [^ self error: 'there''s not maximum'].
+	^ self right! !
+
+!RealInterval methodsFor: 'accessing' stamp: 'len 1/11/2016 02:43'!
+measure
+	^ self right - self left! !
+
+!RealInterval methodsFor: 'accessing' stamp: 'len 1/15/2016 07:19'!
+midpoint
+	^ left + right / 2! !
+
+!RealInterval methodsFor: 'accessing' stamp: 'len 12/13/97 03:23'!
+min
+	"Answer the minimum of the receiver."
+
+	self isLeftOpen ifTrue: [^ self error: 'there''s not minimun'].
+	^ self left! !
+
+!RealInterval methodsFor: 'arithmetic' stamp: 'len 12/13/97 03:20'!
+negated
+	"Answer the additive inverse of the receiver."
+
+	^ self copy
+		right: self left negated;
+		left: self right negated;
+		leftOpen: self isRightOpen;
+		rightOpen: self isLeftOpen! !
+
+!RealInterval methodsFor: 'constants' stamp: 'len 12/13/97 03:20'!
+null
+	"Answer the null element for the receiver."
+
+	^ self copy left: 0; right: 0! !
+
+!RealInterval methodsFor: 'converting' stamp: 'len 12/13/97 02:32'!
+open
+	"Answer an open inverval with the same bounds that the receiver."
+
+	self isOpen ifFalse: [^ self copy leftOpen: true; rightOpen: true]! !
+
+!RealInterval methodsFor: 'converting' stamp: 'len 12/13/97 02:38'!
+openLeft
+	"Answer an open left interval with the same bounds that the receiver."
+
+	self isLeftOpen ifFalse: [^ self copy leftOpen: true]! !
+
+!RealInterval methodsFor: 'converting' stamp: 'len 12/13/97 02:39'!
+openRight
+	"Answer an open right interval with the same bounds that the receiver."
+
+	self isRightOpen ifFalse: [^ self copy rightOpen: true]! !
+
+!RealInterval methodsFor: 'printing' stamp: 'len 12/13/97 03:23'!
+printOn: aStream
+	"Print a representation of the receiver in the stream aStream."
+
+	aStream
+		nextPut: (self isLeftOpen ifTrue: [ $( ] ifFalse: [ $[ ]);
+		print: self left;
+		nextPutAll: ', ';
+		print: self right;
+		nextPut: (self isRightOpen ifTrue: [ $) ] ifFalse: [ $] ])! !
+
+!RealInterval methodsFor: 'arithmetic' stamp: 'len 1/16/2016 05:48'!
+reciprocal
+	"Answer the multiplicative inverse of the receiver."
+	(self closureIncludes: 0) ifTrue: [^ ZeroDivide signal].
+	^ self copy
+		left: self right reciprocal;
+		right: self left reciprocal! !
+
+!RealInterval methodsFor: 'accessing' stamp: 'len 12/13/97 03:21'!
+right
+	"Answer the right bound of the receiver."
+
+	^ right! !
+
+!RealInterval methodsFor: 'accessing-private' stamp: 'len 12/13/97 03:21'!
+right: aNumber
+	right _ aNumber! !
+
+!RealInterval methodsFor: 'accessing-private' stamp: 'len 12/13/97 02:32'!
+rightOpen: aBoolean
+	rightOpen _ aBoolean! !
+
+!RealInterval methodsFor: 'accessing' stamp: 'len 12/15/97 20:56'!
+sample
+	"Answer a sample point in the receiver."
+
+	self isEmpty ifTrue: [^ self error: 'empty interval'].
+	self isLeftClosed ifTrue: [^ Tuple with: self left].
+	self isRightClosed ifTrue: [^ Tuple with: self right].
+	(self isLeftBounded and: [self isRightBounded])
+		ifTrue: [^ Tuple with: self left + self right / 2].
+	self isLeftBounded ifTrue: [^ Tuple with: self left + 1].
+	self isRightBounded ifTrue: [^ Tuple with: self right - 1].
+	^ Tuple with: 0! !
+
+!RealInterval methodsFor: 'initialization' stamp: 'len 12/13/97 03:18'!
+setLeftBound: leftBound rightBound: rightBound leftOpen: leftOpenBool rightOpen: rightOpenBool
+	left _ leftBound.
+	right _ rightBound.
+	"If the interval is left-closed or right-closed and two points are
+	the same, then the interval is a single point... so it's closed."
+	((leftOpenBool & rightOpenBool) not and: [left = right])
+		ifTrue: [leftOpen _ false.
+				rightOpen _ false]
+		ifFalse: [leftOpen _ leftOpenBool.
+				rightOpen _ rightOpenBool]! !
+
+!RealInterval methodsFor: 'testing' stamp: 'len 12/13/97 03:23'!
+sign
+	"Answer 1 if the receiver is greater than 0, -1 if less than 0, else 0."
+
+	self left > 0 ifTrue: [^ 1].
+	self right < 0 ifTrue: [^ -1].
+	^ 0! !
+
+!RealInterval methodsFor: 'arithmetic' stamp: 'len 1/16/2016 06:58'!
+squared
+	^ self * self! !
+
+!RealInterval methodsFor: 'accessing' stamp: 'len 12/13/97 03:24'!
+sup
+	"Answer the supremum of the receiver."
+
+	^ self right! !
+
+!RealInterval class methodsFor: 'instance creation' stamp: 'len 12/13/97 02:29'!
+closed: left closed: right
+	"Answer a new [left, right] interval."
+
+	^ self new setLeftBound: left rightBound: right leftOpen: false rightOpen: false! !
+
+!RealInterval class methodsFor: 'instance creation' stamp: 'len 12/13/97 02:30'!
+closed: left open: right
+	"Answer a new [left, right) interval."
+
+	^ self new setLeftBound: left rightBound: right leftOpen: false rightOpen: true! !
+
+!RealInterval class methodsFor: 'instance creation' stamp: 'len 12/13/97 02:30'!
+open: left closed: right
+	"Answer a new (left, right] interval."
+
+	^ self new setLeftBound: left rightBound: right leftOpen: true rightOpen: false! !
+
+!RealInterval class methodsFor: 'instance creation' stamp: 'len 12/13/97 02:30'!
+open: left open: right
+	"Answer a new (left, right) interval."
+
+	^ self new setLeftBound: left rightBound: right leftOpen: true rightOpen: true! !
+
+!SemialgebraicInterval methodsFor: 'operations' stamp: 'len 1/8/98 20:35'!
+boundary
+	"Answer the boundary of the receiver."
+
+	^ SemialgebraicSet new
+		add: (self class between: self left and: self left);
+		add: (self class between: self right and: self right);
+		yourself! !
+
+!SemialgebraicInterval methodsFor: 'operations' stamp: 'len 1/8/98 20:29'!
+closure
+	"Answer the closure of the receiver."
+
+	^ self boundary copy add: self; yourself! !
+
+!SemialgebraicInterval methodsFor: 'operations' stamp: 'len 1/16/98 21:58'!
+interior
+	"Answer the interior of the receiver."
+
+	^ self closure copyWithoutAll: self boundary! !
+
+!SemialgebraicInterval methodsFor: 'testing' stamp: 'len 2/6/98 13:33'!
+isCylindricalOver: aCell
+	"Answer true if the receiver is cylindrical over aCell."
+
+	^ self = aCell! !
+
+!SemialgebraicInterval methodsFor: 'accessing' stamp: 'len 1/17/98 13:49'!
+polynomials
+	"Answer the polynomials defining the receiver."
+
+	| answer |
+	answer _ Set new.
+	self left isInfinity ifFalse: [answer add: self left polynomial].
+	self right isInfinity ifFalse: [answer add: self right polynomial].
+	^ answer! !
+
+!SemialgebraicInterval methodsFor: 'printing' stamp: 'len 6/2/2016 02:09'!
+printOn: aStream
+	"aStream nextPut: ${; print: self sentence; nextPut: $}"
+	self dimension >= 0
+		ifFalse: [aStream nextPut: Character emptySet. ^ self].
+	self dimension = 0
+		ifTrue: [aStream nextPut: ${; print: self sample; nextPut: $}. ^ self].
+	super printOn: aStream! !
+
+!SemialgebraicInterval methodsFor: 'accessing' stamp: 'len 2/6/98 12:38'!
+projection
+	"Answer the projection of the receiver."
+	^ nil! !
+
+!SemialgebraicInterval methodsFor: 'accessing' stamp: 'len 6/1/2016 23:32'!
+rank
+	"Answer the number of indeterminates involved to define the receiver."
+	^ 1! !
+
+!SemialgebraicInterval methodsFor: 'accessing' stamp: 'len 1/17/2016 01:50'!
+sample
+	"Answer a sample point in the receiver."
+
+	self isEmpty ifTrue: [^ self error: 'empty interval'].
+	self left = self right ifTrue: [^ Tuple with: self left].
+	(self isLeftBounded and: [self isRightBounded])
+		ifTrue: [[self left rightBound <= self right leftBound]
+					whileFalse: [self left refineWith: self right].
+				^ Tuple with: self left rightBound + self right leftBound / 2].
+	self isLeftBounded ifTrue: [^ Tuple with: self left rightBound + 1].
+	self isRightBounded ifTrue: [^ Tuple with: self right leftBound - 1].
+	^ Tuple with: 0! !
+
+!SemialgebraicInterval methodsFor: 'accessing' stamp: 'len 3/18/2016 06:44'!
+sentence
+	"Answer a quantifier-free defining sentence for the receiver."
+
+	| answer sample sign sentence |
+	sample _ self sample.
+	self polynomials do: [:each|
+		sentence :=
+			(sign _ (each value: sample) sign) = 0
+				ifTrue: [each eq: 0]
+				ifFalse: [sign = -1 ifTrue: [each lneq: 0] ifFalse: [each gneq: 0]].
+		answer _ answer isNil ifTrue: [sentence] ifFalse: [answer & sentence]].
+	^ answer! !
+
+!SemialgebraicInterval class methodsFor: 'instance creation' stamp: 'len 12/20/97 02:35'!
+between: leftBound and: rightBound
+	"Answer a new instance of the receiver representing the
+	univariate cell which is bounded by the given bounds."
+
+	(leftBound = rightBound or: [leftBound isInfinity and: [rightBound isInfinity]])
+		ifTrue: [^ self closed: leftBound closed: rightBound].
+	leftBound isInfinity
+		ifTrue: [^ self closed: leftBound open: rightBound].
+	rightBound isInfinity
+		ifTrue: [^ self open: leftBound closed: rightBound].
+	^ self open: leftBound open: rightBound! !
+
+!CartesianProduct methodsFor: 'comparing' stamp: 'len 12/9/2015 04:51'!
+= anObject
+	^ (anObject isKindOf: CartesianProduct) and: [anObject components = components]! !
+
+!CartesianProduct methodsFor: 'accessing' stamp: 'len 2/16/2016 07:29'!
+arity
+	^ components size! !
+
+!CartesianProduct methodsFor: 'accessing' stamp: 'len 2/12/2016 04:11'!
+at: anInteger
+	^ components at: anInteger! !
+
+!CartesianProduct methodsFor: 'random' stamp: 'len 4/19/2016 20:28'!
+atRandom: aRandom
+	^ components collect: [:each| each atRandom: aRandom]! !
+
+!CartesianProduct methodsFor: 'random' stamp: 'len 4/19/2016 20:28'!
+atRandom: aRandom bits: bitSize
+	| n |
+	n _ bitSize / components size.
+	^ components collect: [:each| each atRandom: aRandom bits: n]! !
+
+!CartesianProduct methodsFor: 'operations' stamp: 'len 4/21/2016 05:08'!
+cartesian: aDomain
+	^ aDomain class == self class
+		ifTrue: [self class components: components, aDomain components]
+		ifFalse: [self class components: (components copyWith: aDomain)]! !
+
+!CartesianProduct methodsFor: 'accessing-private' stamp: 'len 11/10/2015 22:13'!
+components
+	^ components! !
+
+!CartesianProduct methodsFor: 'accessing-private' stamp: 'len 6/11/2016 16:46'!
+components: anArray
+	components _ anArray as: Tuple! !
+
+!CartesianProduct methodsFor: 'iterating' stamp: 'len 7/29/2016 06:53'!
+do: aBlock
+	(self components allSatisfy: [:each| each isFinite])
+		ifFalse: [^ self upTo: self size rank: self arity do: aBlock].
+	self upToComponent: self arity do: aBlock! !
+
+!CartesianProduct methodsFor: 'comparing' stamp: 'len 11/10/2015 23:19'!
+hash
+	^ components hash! !
+
+!CartesianProduct methodsFor: 'testing' stamp: 'len 4/8/2016 02:33'!
+includes: anObject
+	components size = anObject size ifFalse: [^ false].
+	1 to: components size do: [:i|
+		((components at: i) includes: (anObject at: i))
+			ifFalse: [^ false]].
+	^ true! !
+
+!CartesianProduct methodsFor: 'testing' stamp: 'len 4/22/2016 13:42'!
+isProduct
+	^ true! !
+
+!CartesianProduct methodsFor: 'printing' stamp: 'len 6/7/2016 00:50'!
+printOn: aStream
+	components do: [:each| aStream print: each] separatedBy: [aStream nextPut: Character times]! !
+
+!CartesianProduct methodsFor: 'morphisms' stamp: 'len 10/10/2016 08:41'!
+projection: i
+	^ (self to: (self at: i) evaluating: [:x| x at: i]) name: Character pi asText, i printText sub! !
+
+!CartesianProduct methodsFor: 'accessing' stamp: 'len 2/12/2016 20:09'!
+size
+	^ components product: [:each| each size]! !
+
+!CartesianProduct methodsFor: 'iterating' stamp: 'len 7/29/2016 06:55'!
+upTo: max rank: n do: aBlock
+	| k |
+	self notYetImplemented.
+	n = 0 ifTrue: [^ aBlock value: Tuple new].
+	k _ 1.
+	(self at: n) upTo: max do: [:s|
+		self upTo: k rank: n-1 do: [:p|
+			aBlock value: (p,s).
+			"(self at: n) upTo: k-1 do: [:t| (p includes: s) ifTrue: [aBlock value: (p,t)]]"].
+		k _ k + 1]! !
+
+!CartesianProduct methodsFor: 'iterating' stamp: 'len 7/25/2016 06:22'!
+upToComponent: k do: aBlock
+	k = 0 ifTrue: [aBlock value: Tuple new. ^ self].
+	self upToComponent: k-1 do: [:each| (self at: k) do: [:last| aBlock value: each,last]]! !
+
+!CartesianProduct class methodsFor: 'instance creation' stamp: 'len 11/10/2015 22:17'!
+components: anArray
+	^ self new components: anArray! !
+
+!EquivalenceClass methodsFor: 'comparing' stamp: 'len 4/25/2016 09:14'!
+= anEquivalenceClass
+	^ anEquivalenceClass includes: self representative! !
+
+!EquivalenceClass methodsFor: 'iterating' stamp: 'len 4/25/2016 09:33'!
+do: aBlock
+	self relation domain do: [:each| (self relation includes: {each. self representative}) ifTrue: [aBlock value: each]]! !
+
+!EquivalenceClass methodsFor: 'comparing' stamp: 'len 4/25/2016 09:13'!
+hash
+	^ self class hash! !
+
+!EquivalenceClass methodsFor: 'testing' stamp: 'len 4/24/2016 04:40'!
+includes: anElement
+	^ self relation includes: {anElement. self representative}! !
+
+!EquivalenceClass methodsFor: 'printing' stamp: 'len 4/24/2016 04:37'!
+printOn: aStream
+	aStream nextPut: $[; print: self representative; nextPut: $]! !
+
+!EquivalenceClass methodsFor: 'accessing' stamp: 'len 4/24/2016 04:39'!
+relation
+	^ properties at: #relation! !
+
+!EquivalenceClass methodsFor: 'accessing-private' stamp: 'len 4/24/2016 04:38'!
+relation: anEquivalenceRelation
+	properties at: #relation put: anEquivalenceRelation! !
+
+!EquivalenceClass methodsFor: 'accessing' stamp: 'len 4/25/2016 08:40'!
+representative
+	^ representative! !
+
+!EquivalenceClass methodsFor: 'accessing-private' stamp: 'len 4/25/2016 08:40'!
+representative: anElement
+	representative _ anElement! !
+
+!EquivalenceClass class methodsFor: 'instance creation' stamp: 'len 4/25/2016 09:23'!
+representative: anElement relation: anEquivalenceRelation
+	^ self new representative: anElement; relation: anEquivalenceRelation! !
+
+!EquivalenceRelation methodsFor: 'accessing-private' stamp: 'len 4/25/2016 08:47'!
+block: aBlock
+	properties at: #block put: aBlock! !
+
+!EquivalenceRelation methodsFor: 'iterating' stamp: 'len 4/25/2016 08:55'!
+do: aBlock
+	self domain do: [:x|
+		self domain do: [:y|
+			| r |
+			(self includes: (r _ {x.y})) ifTrue: [aBlock value: r]]]! !
+
+!EquivalenceRelation methodsFor: 'accessing' stamp: 'len 4/25/2016 08:49'!
+domain
+	^ properties at: #domain! !
+
+!EquivalenceRelation methodsFor: 'accessing-private' stamp: 'len 4/25/2016 08:49'!
+domain: aDomain
+	properties at: #domain put: aDomain! !
+
+!EquivalenceRelation methodsFor: 'testing' stamp: 'len 4/25/2016 09:23'!
+includes: anArray
+	^ (properties at: #block) valueWithArguments: anArray! !
+
+!EquivalenceRelation methodsFor: 'testing' stamp: 'len 4/24/2016 04:25'!
+isReflexive
+	^ true! !
+
+!EquivalenceRelation methodsFor: 'testing' stamp: 'len 4/24/2016 04:24'!
+isSymmetric
+	^ true! !
+
+!EquivalenceRelation methodsFor: 'testing' stamp: 'len 4/24/2016 04:25'!
+isTransitive
+	^ true! !
+
+!EquivalenceRelation methodsFor: 'printing' stamp: 'len 4/25/2016 09:27'!
+printOn: aStream
+	((properties includesKey: #name) or: [properties includesKey: #elements])
+		ifTrue: [^ super printOn: aStream].
+	aStream nextPut: $~! !
+
+!EquivalenceRelation class methodsFor: 'instance creation' stamp: 'len 4/25/2016 08:48'!
+on: aDomain evaluating: aBlock
+	^ self new domain: aDomain; block: aBlock! !
+
+!FormalSet methodsFor: 'operations' stamp: 'len 8/9/2016 23:30'!
+/ anEquivalenceRelation
+	| relation |
+	relation _ anEquivalenceRelation isBlock ifTrue: [EquivalenceRelation on: self evaluating: anEquivalenceRelation] ifFalse: [anEquivalenceRelation].
+	^ QuotientSet by: relation! !
+
+!FormalSet methodsFor: 'morphisms' stamp: 'len 8/15/2016 03:26'!
+automorphisms
+	^ SymmetricGroup on: self! !
+
+!FormalSet methodsFor: 'operations' stamp: 'len 9/1/2016 07:51'!
+coproduct: aFormalSet
+	"The coproduct in the category of sets is the disjoint union."
+	^ self species newFrom: ((self elements collect: [:each| (each, 0)]) ™ (aFormalSet elements collect: [:each| (each, 1)]))! !
+
+!FormalSet methodsFor: 'accessing' stamp: 'len 8/14/2016 05:28'!
+null
+	"Answer the empty set, i.e. the null object in the category of sets."
+	^ self class newFrom: (Set new: 0)! !
+
+!FormalSet methodsFor: 'morphisms' stamp: 'len 8/31/2016 03:36'!
+to: aDomain evaluating: aBlock
+	^ Function from: self to: aDomain evaluating: aBlock! !
+
+!Naturals methodsFor: 'comparing' stamp: 'len 12/14/2015 01:55'!
+= anObject
+	^ self class == anObject class! !
+
+!Naturals methodsFor: 'random' stamp: 'len 6/30/2016 00:34'!
+atRandom: aRandom bits: bitSize
+	^ (aRandom nextBits: bitSize truncated) + 1! !
+
+!Naturals methodsFor: 'iterating' stamp: 'len 12/3/2015 20:12'!
+do: aBlock
+	| n |
+	n _ 1.
+	[aBlock value: n. n _ n + 1] repeat! !
+
+!Naturals methodsFor: 'comparing' stamp: 'len 12/14/2015 01:55'!
+hash
+	^ self class hash! !
+
+!Naturals methodsFor: 'accessing' stamp: 'len 2/13/2016 20:41'!
+identity
+	^ 1! !
+
+!Naturals methodsFor: 'testing' stamp: 'len 2/13/2016 20:41'!
+isCommutative
+	^ true! !
+
+!Naturals methodsFor: 'testing' stamp: 'len 12/3/2015 20:12'!
+isCountable
+	^ true! !
+
+!Naturals methodsFor: 'testing' stamp: 'len 12/5/2015 02:09'!
+isFinite
+	^ false! !
+
+!Naturals methodsFor: 'testing' stamp: 'len 2/11/2016 22:19'!
+isReal
+	^ true! !
+
+!Naturals methodsFor: 'printing' stamp: 'len 6/8/2016 21:05'!
+printOn: aStream
+	aStream nextPut: Character NN! !
+
+!Naturals methodsFor: 'accessing' stamp: 'len 4/24/2016 02:58'!
+size
+	^ Aleph new! !
+
+!Naturals methodsFor: 'morphisms' stamp: 'len 9/17/2016 06:52'!
+to: aDomain evaluating: aBlock
+	"Answer a sequence with values in aDomain."
+	^ Sequence to: aDomain evaluating: aBlock! !
+
+!Naturals class methodsFor: 'initialization' stamp: 'len 8/5/2016 21:33'!
+initialize
+	super initialize.
+	Smalltalk at: #NN put: self new! !
+
+!QuotientSet methodsFor: 'accessing' stamp: 'len 4/26/2016 07:26'!
+base
+	^ self relation domain! !
+
+!QuotientSet methodsFor: 'iterating' stamp: 'len 8/14/2016 06:17'!
+do: aBlock
+	| visited |
+	visited _ Set new.
+	self base do: [:each|
+		| x |
+		x _ self project: each.
+		visited add: x ifAbsent: [aBlock value: x]]! !
+
+!QuotientSet methodsFor: 'testing' stamp: 'len 8/10/2016 01:01'!
+isQuotient
+	^ true! !
+
+!QuotientSet methodsFor: 'printing' stamp: 'len 4/25/2016 09:25'!
+printOn: aStream
+	aStream print: self relation domain; nextPut: $/; print: self relation
+"	| domain |
+	domain _ self relation domain.
+	(domain printString allSatisfy: [:each|each isAlphaNumeric])
+		ifTrue: [aStream print: domain]
+		ifFalse: [aStream nextPut: $(; print: domain; nextPut: $)].
+	aStream nextPut: $/; print: self relation"! !
+
+!QuotientSet methodsFor: 'morphisms' stamp: 'len 4/24/2016 04:46'!
+project: anElement
+	^ EquivalenceClass representative: anElement relation: self relation! !
+
+!QuotientSet methodsFor: 'morphisms' stamp: 'len 10/10/2016 08:52'!
+projection
+	^ (Function from: self base to: self evaluating: [:v| self project: v]) name: Character pi asString! !
+
+!QuotientSet methodsFor: 'accessing' stamp: 'len 4/24/2016 04:40'!
+relation
+	^ properties at: #relation! !
+
+!QuotientSet methodsFor: 'accessing-private' stamp: 'len 4/25/2016 08:53'!
+relation: anEquivalenceRelation
+	properties at: #relation put: anEquivalenceRelation! !
+
+!QuotientSet class methodsFor: 'instance creation' stamp: 'len 4/25/2016 21:02'!
+by: anEquivalenceRelation
+	^ self new relation: anEquivalenceRelation! !
 
 !AbelianGroup methodsFor: 'operations' stamp: 'len 10/9/2016 20:58'!
  anAbelianGroup
@@ -12981,113 +14081,6 @@ size
 zero
 	^ 0! !
 
-!Integers methodsFor: 'operations' stamp: 'len 12/5/2015 23:51'!
-* anIntegerOrArray
-	^ (self includes: anIntegerOrArray)
-			ifTrue: [IntegerIdeal on: self generators: {anIntegerOrArray}]
-			ifFalse: [IntegerIdeal on: self generators: anIntegerOrArray]! !
-
-!Integers methodsFor: 'operations' stamp: 'len 6/29/2016 03:47'!
-/ anIdeal
-	^ ModularIntegers by: (anIdeal isInteger ifTrue: [self * anIdeal] ifFalse: [anIdeal])! !
-
-!Integers methodsFor: 'comparing' stamp: 'len 6/1/2016 23:56'!
-<= aDomain
-	^ aDomain isRing and: [(aDomain includes: 1) and: [aDomain includes: 0]]! !
-
-!Integers methodsFor: 'comparing' stamp: 'len 11/10/2015 23:14'!
-= anObject
-	^ anObject class == self class! !
-
-!Integers methodsFor: 'random' stamp: 'len 4/19/2016 22:12'!
-atRandom: aRandom bits: bitSize
-	| n |
-	bitSize isInfinity ifTrue: [^ self error: 'infinite bitsize'].
-	bitSize < 1 ifTrue: [^ self error: 'bitsize should be > 1'].
-	n _ 2**(bitSize truncated - 1).
-	^ (0-n to: n) atRandom: aRandom! !
-
-!Integers methodsFor: 'accessing' stamp: 'len 11/5/2015 17:34'!
-characteristic
-	^ 0! !
-
-!Integers methodsFor: 'iterating' stamp: 'len 11/10/2015 17:57'!
-do: aBlock
-	| i |
-	aBlock value: 0.
-	i _ 1.
-	[ aBlock value: i; value: i negated. i _ i + 1 ] repeat! !
-
-!Integers methodsFor: 'operations' stamp: 'len 7/15/2016 18:31'!
-fractions
-	^ QQ! !
-
-!Integers methodsFor: 'operations' stamp: 'len 6/30/2016 02:37'!
-freeModuleIn: aCollection
-	"Answer the free abelian group in the given indeterminates (a Z-module)."
-	^ FreeAbelianGroup on: aCollection! !
-
-!Integers methodsFor: 'comparing' stamp: 'len 12/14/2015 01:59'!
-hash
-	^ self class hash! !
-
-!Integers methodsFor: 'testing' stamp: 'len 11/23/2015 02:37'!
-includes: anObject
-	^ anObject isInteger! !
-
-!Integers methodsFor: 'testing' stamp: 'len 11/7/2015 21:58'!
-isCountable
-	^ true! !
-
-!Integers methodsFor: 'testing' stamp: 'len 11/4/2015 21:52'!
-isEuclidean
-	^ true! !
-
-!Integers methodsFor: 'testing' stamp: 'len 11/7/2015 21:58'!
-isFinite
-	^ false! !
-
-!Integers methodsFor: 'testing' stamp: 'len 12/28/2015 04:34'!
-isInvertible: anElement
-	^ anElement == 1 or: [anElement == -1]! !
-
-!Integers methodsFor: 'testing' stamp: 'len 2/11/2016 22:19'!
-isReal
-	^ true! !
-
-!Integers methodsFor: 'testing' stamp: 'len 5/12/2016 23:13'!
-isUnit: anInteger
-	^ anInteger = 1 or: [anInteger = -1]! !
-
-!Integers methodsFor: 'operations' stamp: 'len 8/10/2016 06:08'!
-modPrime: anInteger
-	^ PrimeField new: anInteger! !
-
-!Integers methodsFor: 'elements' stamp: 'len 11/5/2015 19:19'!
-one
-	^ 1! !
-
-!Integers methodsFor: 'printing' stamp: 'len 6/8/2016 21:35'!
-printOn: aStream
-	aStream nextPut: Character ZZ! !
-
-!Integers methodsFor: 'accessing' stamp: 'len 4/24/2016 02:58'!
-size
-	^ Aleph new! !
-
-!Integers methodsFor: 'accessing' stamp: 'len 7/17/2016 23:53'!
-valuation
-	^ Function from: self to: self evaluating: [:x| x abs]! !
-
-!Integers methodsFor: 'elements' stamp: 'len 11/3/2015 20:50'!
-zero
-	^ 0! !
-
-!Integers class methodsFor: 'initialization' stamp: 'len 8/5/2016 21:32'!
-initialize
-	super initialize.
-	Smalltalk at: #ZZ put: self new! !
-
 !PAdicIntegers methodsFor: 'testing' stamp: 'len 12/7/2015 01:29'!
 isIntegralDomain
 	^ true! !
@@ -13389,6 +14382,113 @@ scalars: aRing
 on: aGroup over: aRing
 	^ self new group: aGroup; scalars: aRing! !
 
+!Integers methodsFor: 'operations' stamp: 'len 12/5/2015 23:51'!
+* anIntegerOrArray
+	^ (self includes: anIntegerOrArray)
+			ifTrue: [IntegerIdeal on: self generators: {anIntegerOrArray}]
+			ifFalse: [IntegerIdeal on: self generators: anIntegerOrArray]! !
+
+!Integers methodsFor: 'operations' stamp: 'len 6/29/2016 03:47'!
+/ anIdeal
+	^ ModularIntegers by: (anIdeal isInteger ifTrue: [self * anIdeal] ifFalse: [anIdeal])! !
+
+!Integers methodsFor: 'comparing' stamp: 'len 6/1/2016 23:56'!
+<= aDomain
+	^ aDomain isRing and: [(aDomain includes: 1) and: [aDomain includes: 0]]! !
+
+!Integers methodsFor: 'comparing' stamp: 'len 11/10/2015 23:14'!
+= anObject
+	^ anObject class == self class! !
+
+!Integers methodsFor: 'random' stamp: 'len 4/19/2016 22:12'!
+atRandom: aRandom bits: bitSize
+	| n |
+	bitSize isInfinity ifTrue: [^ self error: 'infinite bitsize'].
+	bitSize < 1 ifTrue: [^ self error: 'bitsize should be > 1'].
+	n _ 2**(bitSize truncated - 1).
+	^ (0-n to: n) atRandom: aRandom! !
+
+!Integers methodsFor: 'accessing' stamp: 'len 11/5/2015 17:34'!
+characteristic
+	^ 0! !
+
+!Integers methodsFor: 'iterating' stamp: 'len 11/10/2015 17:57'!
+do: aBlock
+	| i |
+	aBlock value: 0.
+	i _ 1.
+	[ aBlock value: i; value: i negated. i _ i + 1 ] repeat! !
+
+!Integers methodsFor: 'operations' stamp: 'len 7/15/2016 18:31'!
+fractions
+	^ QQ! !
+
+!Integers methodsFor: 'operations' stamp: 'len 6/30/2016 02:37'!
+freeModuleIn: aCollection
+	"Answer the free abelian group in the given indeterminates (a Z-module)."
+	^ FreeAbelianGroup on: aCollection! !
+
+!Integers methodsFor: 'comparing' stamp: 'len 12/14/2015 01:59'!
+hash
+	^ self class hash! !
+
+!Integers methodsFor: 'testing' stamp: 'len 11/23/2015 02:37'!
+includes: anObject
+	^ anObject isInteger! !
+
+!Integers methodsFor: 'testing' stamp: 'len 11/7/2015 21:58'!
+isCountable
+	^ true! !
+
+!Integers methodsFor: 'testing' stamp: 'len 11/4/2015 21:52'!
+isEuclidean
+	^ true! !
+
+!Integers methodsFor: 'testing' stamp: 'len 11/7/2015 21:58'!
+isFinite
+	^ false! !
+
+!Integers methodsFor: 'testing' stamp: 'len 12/28/2015 04:34'!
+isInvertible: anElement
+	^ anElement == 1 or: [anElement == -1]! !
+
+!Integers methodsFor: 'testing' stamp: 'len 2/11/2016 22:19'!
+isReal
+	^ true! !
+
+!Integers methodsFor: 'testing' stamp: 'len 5/12/2016 23:13'!
+isUnit: anInteger
+	^ anInteger = 1 or: [anInteger = -1]! !
+
+!Integers methodsFor: 'operations' stamp: 'len 8/10/2016 06:08'!
+modPrime: anInteger
+	^ PrimeField new: anInteger! !
+
+!Integers methodsFor: 'elements' stamp: 'len 11/5/2015 19:19'!
+one
+	^ 1! !
+
+!Integers methodsFor: 'printing' stamp: 'len 6/8/2016 21:35'!
+printOn: aStream
+	aStream nextPut: Character ZZ! !
+
+!Integers methodsFor: 'accessing' stamp: 'len 4/24/2016 02:58'!
+size
+	^ Aleph new! !
+
+!Integers methodsFor: 'accessing' stamp: 'len 7/17/2016 23:53'!
+valuation
+	^ Function from: self to: self evaluating: [:x| x abs]! !
+
+!Integers methodsFor: 'elements' stamp: 'len 11/3/2015 20:50'!
+zero
+	^ 0! !
+
+!Integers class methodsFor: 'initialization' stamp: 'len 8/5/2016 21:32'!
+initialize
+	super initialize.
+	Smalltalk at: #ZZ put: self new! !
+
 !QuotientRing methodsFor: 'comparing' stamp: 'len 12/14/2015 01:57'!
 = anObject
 	self == anObject ifTrue: [^ true].
@@ -13565,9 +14665,9 @@ tupleClass
 	self flag: #fix.
 	^ self modulus = 2 ifTrue: [^ BitTuple] ifFalse: [Tuple] "ModularTuple"! !
 
-!CoordinateRing methodsFor: 'operations' stamp: 'len 6/3/2016 23:22'!
+!CoordinateRing methodsFor: 'operations' stamp: 'len 10/14/2016 08:50'!
 fractions
-	^ FunctionField over: self! !
+	^ FunctionField2 over: self! !
 
 !CoordinateRing methodsFor: 'testing' stamp: 'len 3/5/2016 07:25'!
 includes: anObject
@@ -13707,6 +14807,31 @@ GF: q
 	f _ P findIrreducibleOfDegree: n.
 	^ (F extension: f) name: 'GF(',p printString,'^',n printString,')'! !
 
+!ExtendedComplexNumbers methodsFor: 'testing' stamp: 'len 8/5/2016 21:49'!
+includes: anObject
+	^ anObject isComplex or: [anObject isInfinity]! !
+
+!ExtendedComplexNumbers methodsFor: 'testing' stamp: 'len 8/5/2016 21:55'!
+isComplex
+	^ true! !
+
+!ExtendedComplexNumbers methodsFor: 'printing' stamp: 'len 8/5/2016 21:48'!
+printOn: aStream
+	aStream nextPut: Character CC; nextPutAll: ' U {'; nextPut: Character infinity; nextPut: $}
+"	aStream nextPut: Character CC; nextPutAll: Character infinity asString sub"! !
+
+!PAdicNumbers methodsFor: 'as yet unclassified' stamp: 'len 7/17/2016 23:33'!
+p: aPrime
+	p _ aPrime! !
+
+!PAdicNumbers methodsFor: 'as yet unclassified' stamp: 'len 7/17/2016 23:33'!
+printOn: aStream
+	aStream nextPut: Character QQ; nextPutAll: p printString sub! !
+
+!PAdicNumbers class methodsFor: 'as yet unclassified' stamp: 'len 7/17/2016 23:33'!
+p: aPrime
+	^ self new p: aPrime! !
+
 !ComplexNumbers methodsFor: 'accessing' stamp: 'len 8/6/2016 03:44'!
 characteristic
 	^ 0! !
@@ -13756,60 +14881,6 @@ initialize
 	super initialize.
 	Smalltalk at: #CC put: self new! !
 
-!ExtendedComplexNumbers methodsFor: 'testing' stamp: 'len 8/5/2016 21:49'!
-includes: anObject
-	^ anObject isComplex or: [anObject isInfinity]! !
-
-!ExtendedComplexNumbers methodsFor: 'testing' stamp: 'len 8/5/2016 21:55'!
-isComplex
-	^ true! !
-
-!ExtendedComplexNumbers methodsFor: 'printing' stamp: 'len 8/5/2016 21:48'!
-printOn: aStream
-	aStream nextPut: Character CC; nextPutAll: ' U {'; nextPut: Character infinity; nextPut: $}
-"	aStream nextPut: Character CC; nextPutAll: Character infinity asString sub"! !
-
-!PAdicNumbers methodsFor: 'as yet unclassified' stamp: 'len 7/17/2016 23:33'!
-p: aPrime
-	p _ aPrime! !
-
-!PAdicNumbers methodsFor: 'as yet unclassified' stamp: 'len 7/17/2016 23:33'!
-printOn: aStream
-	aStream nextPut: Character QQ; nextPutAll: p printString sub! !
-
-!PAdicNumbers class methodsFor: 'as yet unclassified' stamp: 'len 7/17/2016 23:33'!
-p: aPrime
-	^ self new p: aPrime! !
-
-!Reals methodsFor: 'accessing' stamp: 'len 8/6/2016 03:45'!
-characteristic
-	^ 0! !
-
-!Reals methodsFor: 'iterating' stamp: 'len 8/6/2016 03:50'!
-do: aBlock
-	^ self shouldNotImplement! !
-
-!Reals methodsFor: 'testing' stamp: 'len 8/5/2016 21:50'!
-includes: anObject
-	^ anObject isReal! !
-
-!Reals methodsFor: 'testing' stamp: 'len 8/5/2016 21:55'!
-isReal
-	^ true! !
-
-!Reals methodsFor: 'printing' stamp: 'len 8/5/2016 21:35'!
-printOn: aStream
-	aStream nextPut: Character RR! !
-
-!Reals methodsFor: 'accessing' stamp: 'len 8/6/2016 03:45'!
-size
-	^ Aleph new: 1! !
-
-!Reals class methodsFor: 'initialization' stamp: 'len 8/5/2016 21:33'!
-initialize
-	super initialize.
-	Smalltalk at: #RR put: self new! !
-
 !FractionField methodsFor: 'comparing' stamp: 'len 12/14/2015 01:58'!
 = anObject
 	self == anObject ifTrue: [^ true].
@@ -13830,6 +14901,10 @@ atRandom: aRandom bits: bitSize
 	[b _ self embedding value: (self integralDomain  atRandom: aRandom bits: bitSize / 2). b isZero] whileTrue.
 	^ a / b! !
 
+!FractionField methodsFor: 'accessing' stamp: 'len 10/14/2016 08:54'!
+characteristic
+	^ self integralDomain characteristic! !
+
 !FractionField methodsFor: 'morphisms' stamp: 'len 4/19/2016 21:11'!
 embed: anObject
 	^ FormalFraction numerator: anObject denominator: self integralDomain one! !
@@ -13838,6 +14913,10 @@ embed: anObject
 embedding
 	"Answer the embedding map from the integral domain into the receiver."
 	^ properties at: #embedding ifAbsentPut: [(self integralDomain to: self evaluating: [:x| self embed: x]) name: 'i']! !
+
+!FractionField methodsFor: 'accessing' stamp: 'len 10/14/2016 08:55'!
+generators
+	^ self integralDomain generators apply: self embedding! !
 
 !FractionField methodsFor: 'comparing' stamp: 'len 11/30/2015 23:19'!
 hash
@@ -13987,22 +15066,9 @@ initialize
 	super initialize.
 	Smalltalk at: #QQ put: self new! !
 
-!RationalFunctions methodsFor: 'accessing' stamp: 'len 7/8/2016 23:38'!
-characteristic
-	^ self scalars characteristic! !
-
 !RationalFunctions methodsFor: 'morphisms' stamp: 'len 1/2/2016 04:14'!
 embed: aPolynomial
 	^ RationalFunction numerator: aPolynomial denominator: self polynomials one! !
-
-!RationalFunctions methodsFor: 'morphisms' stamp: 'len 10/10/2016 08:57'!
-embedding
-	"Answer the embedding map from the base polynomials ring into the receiver."
-	^ properties at: #embedding ifAbsentPut: [(self polynomials to: self evaluating: [:f| self embed: f]) name: 'i']! !
-
-!RationalFunctions methodsFor: 'accessing' stamp: 'len 10/11/2016 14:18'!
-generators
-	^ self integralDomain generators apply: self embedding! !
 
 !RationalFunctions methodsFor: 'accessing' stamp: 'len 11/27/2015 20:13'!
 indeterminates
@@ -14045,13 +15111,42 @@ x: anIndeterminate
 polynomials: aPolynomials
 	^ self new polynomials: aPolynomials! !
 
-!FunctionField methodsFor: 'printing' stamp: 'len 6/3/2016 23:24'!
+!FunctionField2 methodsFor: 'printing' stamp: 'len 6/3/2016 23:24'!
 printOn: aStream
 	aStream print: self variety groundField; nextPut: $(; print: self variety; nextPut: $)! !
 
-!FunctionField methodsFor: 'accessing' stamp: 'len 6/3/2016 23:24'!
+!FunctionField2 methodsFor: 'accessing' stamp: 'len 6/3/2016 23:24'!
 variety
 	^ self integralDomain variety! !
+
+!Reals methodsFor: 'accessing' stamp: 'len 8/6/2016 03:45'!
+characteristic
+	^ 0! !
+
+!Reals methodsFor: 'iterating' stamp: 'len 8/6/2016 03:50'!
+do: aBlock
+	^ self shouldNotImplement! !
+
+!Reals methodsFor: 'testing' stamp: 'len 8/5/2016 21:50'!
+includes: anObject
+	^ anObject isReal! !
+
+!Reals methodsFor: 'testing' stamp: 'len 8/5/2016 21:55'!
+isReal
+	^ true! !
+
+!Reals methodsFor: 'printing' stamp: 'len 8/5/2016 21:35'!
+printOn: aStream
+	aStream nextPut: Character RR! !
+
+!Reals methodsFor: 'accessing' stamp: 'len 8/6/2016 03:45'!
+size
+	^ Aleph new: 1! !
+
+!Reals class methodsFor: 'initialization' stamp: 'len 8/5/2016 21:33'!
+initialize
+	super initialize.
+	Smalltalk at: #RR put: self new! !
 
 !ResidueField methodsFor: 'comparing' stamp: 'len 12/14/2015 01:57'!
 = anObject
@@ -15113,12 +16208,12 @@ to: aModule evaluating: aBlock
 	aModule isModule ifFalse: [^ super to: aModule evaluating: aBlock].
 	^ ModuleHomomorphism from: self to: aModule evaluating: aBlock! !
 
-!FreeModule methodsFor: 'morphisms' stamp: 'len 10/12/2016 10:41'!
+!FreeModule methodsFor: 'morphisms' stamp: 'len 10/14/2016 09:00'!
 -> aModule
 	"Answer Hom(A,B), the R-module of morphisms that go from the receiver A to the argument B."
 	(aModule isKindOf: ScalarModule)
 		ifTrue: [^ self dual].
-	^ LinearMaps from: self to: aModule! !
+	^ HomModule from: self to: aModule! !
 
 !FreeModule methodsFor: 'operations' stamp: 'len 10/7/2016 08:40'!
 / aSubmodule
@@ -15786,38 +16881,38 @@ matrix: aMatrix
 	"Answer a lattice with generator matrix aMatrix."
 	^ self basis: aMatrix rowSpace basis! !
 
-!LinearMaps methodsFor: 'converting' stamp: 'len 8/25/2016 21:07'!
+!HomModule methodsFor: 'converting' stamp: 'len 8/25/2016 21:07'!
 asAffineSpace
 	self isVectorSpace ifFalse: [DomainError signal: 'not a vector space'].
 	^ AffineMaps representative: self zero direction: self! !
 
-!LinearMaps methodsFor: 'converting' stamp: 'len 5/22/2016 03:48'!
+!HomModule methodsFor: 'converting' stamp: 'len 5/22/2016 03:48'!
 asLieAlgebra
 	^ LieAlgebra on: self bracket: (Function from: (self cartesian: self) to: self evaluating: [:each| each first @ each second - (each second @ each first)])! !
 
-!LinearMaps methodsFor: 'accessing' stamp: 'len 11/7/2015 04:34'!
+!HomModule methodsFor: 'accessing' stamp: 'len 11/7/2015 04:34'!
 codomain
 	^ codomain! !
 
-!LinearMaps methodsFor: 'accessing-private' stamp: 'len 11/7/2015 04:31'!
+!HomModule methodsFor: 'accessing-private' stamp: 'len 11/7/2015 04:31'!
 codomain: aVectorSpace
 	codomain _ aVectorSpace! !
 
-!LinearMaps methodsFor: 'basis' stamp: 'len 12/10/2015 03:48'!
+!HomModule methodsFor: 'basis' stamp: 'len 12/10/2015 03:48'!
 coordinatesOf: aLinearMap
 	"Answer the coordinates of aLinearMap with respect to the domain and codomain basis."
 
 	^ self matrices coordinatesOf: (self matrixOf: aLinearMap)! !
 
-!LinearMaps methodsFor: 'accessing' stamp: 'len 11/7/2015 04:34'!
+!HomModule methodsFor: 'accessing' stamp: 'len 11/7/2015 04:34'!
 domain
 	^ domain! !
 
-!LinearMaps methodsFor: 'accessing-private' stamp: 'len 11/7/2015 04:31'!
+!HomModule methodsFor: 'accessing-private' stamp: 'len 11/7/2015 04:31'!
 domain: aVectorSpace
 	domain _ aVectorSpace! !
 
-!LinearMaps methodsFor: 'basis' stamp: 'len 1/5/2016 03:28'!
+!HomModule methodsFor: 'basis' stamp: 'len 1/5/2016 03:28'!
 e: anInteger
 	"Answer the anInteger-th canonic vector."
 	^ LinearMap
@@ -15825,33 +16920,33 @@ e: anInteger
 		to: self codomain basis
 		matrix: (self matrices e: anInteger)! !
 
-!LinearMaps methodsFor: 'elements' stamp: 'len 1/5/2016 03:21'!
+!HomModule methodsFor: 'elements' stamp: 'len 1/5/2016 03:21'!
 evaluating: aBlock
 	^ LinearMap from: domain to: codomain evaluating: aBlock! !
 
-!LinearMaps methodsFor: 'elements' stamp: 'len 2/11/2016 20:50'!
+!HomModule methodsFor: 'elements' stamp: 'len 2/11/2016 20:50'!
 identity
 	^ self matrix: self matrices identity! !
 
-!LinearMaps methodsFor: 'testing' stamp: 'len 8/23/2016 21:58'!
+!HomModule methodsFor: 'testing' stamp: 'len 8/23/2016 21:58'!
 includes: aLinearMap
 	^ (aLinearMap isKindOf: LinearMap) and: [aLinearMap domain = self domain and: [aLinearMap codomain = self codomain]]! !
 
-!LinearMaps methodsFor: 'testing' stamp: 'len 2/13/2016 00:19'!
+!HomModule methodsFor: 'testing' stamp: 'len 2/13/2016 00:19'!
 isEndomorphisms
 	^ domain = codomain! !
 
-!LinearMaps methodsFor: 'private' stamp: 'len 1/5/2016 03:20'!
+!HomModule methodsFor: 'private' stamp: 'len 1/5/2016 03:20'!
 matrices
 	"Answer the vector space of the matrices associated to the transformations of the receiver."
 	^ self scalars ** (self codomain dimension @ self domain dimension)! !
 
-!LinearMaps methodsFor: 'elements' stamp: 'len 2/11/2016 06:04'!
+!HomModule methodsFor: 'elements' stamp: 'len 2/11/2016 06:04'!
 matrix: aMatrix
 	"Answer the linear transformation associated to the given matrix in the canonical basis for the domain and codomain vector spaces."
 	^ LinearMap from: domain basis to: codomain basis matrix: aMatrix! !
 
-!LinearMaps methodsFor: 'private' stamp: 'len 1/5/2016 03:20'!
+!HomModule methodsFor: 'private' stamp: 'len 1/5/2016 03:20'!
 matrixOf: aLinearMap
 	"Answer the matrix associated to aLinearTransformation with respect to the domain and codomain basis."
 	| answer |
@@ -15860,43 +16955,44 @@ matrixOf: aLinearMap
 		answer addRow: (self codomain coordinatesOf: (aLinearMap value: each))].
 	^ answer transposed! !
 
-!LinearMaps methodsFor: 'elements' stamp: 'len 4/23/2016 03:56'!
+!HomModule methodsFor: 'elements' stamp: 'len 4/23/2016 03:56'!
 newFrom: anObject
 	(anObject isBlock or: [anObject is: #Function]) ifTrue: [^ self evaluating: anObject].
 	(anObject is: #Matrix) ifTrue: [^ self matrix: anObject].
 	(self scalars includes: anObject) ifTrue: [^ self scalar: anObject].
 	DomainError signal! !
 
-!LinearMaps methodsFor: 'operations' stamp: 'len 10/9/2016 08:35'!
+!HomModule methodsFor: 'operations' stamp: 'len 10/9/2016 08:35'!
 opposite
 	^ self class from: self domain to: self codomain! !
 
-!LinearMaps methodsFor: 'printing' stamp: 'len 8/1/2016 09:02'!
+!HomModule methodsFor: 'printing' stamp: 'len 10/14/2016 09:02'!
 printOn: aStream
-	"Delegate in order to print the standard notation:"
-	(Morphisms from: self domain to: self codomain) printOn: aStream! !
+	self isEndomorphisms
+		ifTrue: [aStream nextPutAll: 'Endo' bold; nextPutAll: self scalars printText sub; nextPut: $(; print: self domain; nextPut: $)]
+		ifFalse: [aStream nextPutAll: 'Hom' bold; nextPutAll: self scalars printText sub; nextPut: $(; print: self domain; nextPut: $,; print: self codomain; nextPut: $)]! !
 
-!LinearMaps methodsFor: 'operations' stamp: 'len 8/25/2016 21:17'!
+!HomModule methodsFor: 'operations' stamp: 'len 8/25/2016 21:17'!
 projective
 	"Answer the projective subspace induced by the receiver, consisting of the 1-dimension subspaces."
 	self isVectorSpace ifFalse: [^ DomainError signal: 'not a vector space'].
 	^ ProjectiveMaps on: self! !
 
-!LinearMaps methodsFor: 'basis' stamp: 'len 10/5/2016 09:32'!
+!HomModule methodsFor: 'basis' stamp: 'len 10/5/2016 09:32'!
 rank
 	^ self domain rank * self codomain rank! !
 
-!LinearMaps methodsFor: 'elements' stamp: 'len 2/11/2016 20:10'!
+!HomModule methodsFor: 'elements' stamp: 'len 2/11/2016 20:10'!
 scalar: aNumber
 	^ self evaluating: [:x| x * aNumber]! !
 
-!LinearMaps methodsFor: 'accessing' stamp: 'len 11/7/2015 03:43'!
+!HomModule methodsFor: 'accessing' stamp: 'len 11/7/2015 03:43'!
 scalars
 	"Answer the algebraic ambient of scalars."
 
 	^ self domain scalars! !
 
-!LinearMaps class methodsFor: 'instance creation' stamp: 'len 11/7/2015 03:40'!
+!HomModule class methodsFor: 'instance creation' stamp: 'len 11/7/2015 03:40'!
 from: aVectorSpace to: anotherVectorSpace
 	^ self new
 		domain: aVectorSpace;
@@ -16861,206 +17957,6 @@ space
 !ExteriorPower methodsFor: 'as yet unclassified' stamp: 'len 8/1/2016 23:50'!
 space: aFreeModule
 	space _ aFreeModule! !
-
-!CartesianProduct methodsFor: 'comparing' stamp: 'len 12/9/2015 04:51'!
-= anObject
-	^ (anObject isKindOf: CartesianProduct) and: [anObject components = components]! !
-
-!CartesianProduct methodsFor: 'accessing' stamp: 'len 2/16/2016 07:29'!
-arity
-	^ components size! !
-
-!CartesianProduct methodsFor: 'accessing' stamp: 'len 2/12/2016 04:11'!
-at: anInteger
-	^ components at: anInteger! !
-
-!CartesianProduct methodsFor: 'random' stamp: 'len 4/19/2016 20:28'!
-atRandom: aRandom
-	^ components collect: [:each| each atRandom: aRandom]! !
-
-!CartesianProduct methodsFor: 'random' stamp: 'len 4/19/2016 20:28'!
-atRandom: aRandom bits: bitSize
-	| n |
-	n _ bitSize / components size.
-	^ components collect: [:each| each atRandom: aRandom bits: n]! !
-
-!CartesianProduct methodsFor: 'operations' stamp: 'len 4/21/2016 05:08'!
-cartesian: aDomain
-	^ aDomain class == self class
-		ifTrue: [self class components: components, aDomain components]
-		ifFalse: [self class components: (components copyWith: aDomain)]! !
-
-!CartesianProduct methodsFor: 'accessing-private' stamp: 'len 11/10/2015 22:13'!
-components
-	^ components! !
-
-!CartesianProduct methodsFor: 'accessing-private' stamp: 'len 6/11/2016 16:46'!
-components: anArray
-	components _ anArray as: Tuple! !
-
-!CartesianProduct methodsFor: 'iterating' stamp: 'len 7/29/2016 06:53'!
-do: aBlock
-	(self components allSatisfy: [:each| each isFinite])
-		ifFalse: [^ self upTo: self size rank: self arity do: aBlock].
-	self upToComponent: self arity do: aBlock! !
-
-!CartesianProduct methodsFor: 'comparing' stamp: 'len 11/10/2015 23:19'!
-hash
-	^ components hash! !
-
-!CartesianProduct methodsFor: 'testing' stamp: 'len 4/8/2016 02:33'!
-includes: anObject
-	components size = anObject size ifFalse: [^ false].
-	1 to: components size do: [:i|
-		((components at: i) includes: (anObject at: i))
-			ifFalse: [^ false]].
-	^ true! !
-
-!CartesianProduct methodsFor: 'testing' stamp: 'len 4/22/2016 13:42'!
-isProduct
-	^ true! !
-
-!CartesianProduct methodsFor: 'printing' stamp: 'len 6/7/2016 00:50'!
-printOn: aStream
-	components do: [:each| aStream print: each] separatedBy: [aStream nextPut: Character times]! !
-
-!CartesianProduct methodsFor: 'morphisms' stamp: 'len 10/10/2016 08:41'!
-projection: i
-	^ (self to: (self at: i) evaluating: [:x| x at: i]) name: Character pi asText, i printText sub! !
-
-!CartesianProduct methodsFor: 'accessing' stamp: 'len 2/12/2016 20:09'!
-size
-	^ components product: [:each| each size]! !
-
-!CartesianProduct methodsFor: 'iterating' stamp: 'len 7/29/2016 06:55'!
-upTo: max rank: n do: aBlock
-	| k |
-	self notYetImplemented.
-	n = 0 ifTrue: [^ aBlock value: Tuple new].
-	k _ 1.
-	(self at: n) upTo: max do: [:s|
-		self upTo: k rank: n-1 do: [:p|
-			aBlock value: (p,s).
-			"(self at: n) upTo: k-1 do: [:t| (p includes: s) ifTrue: [aBlock value: (p,t)]]"].
-		k _ k + 1]! !
-
-!CartesianProduct methodsFor: 'iterating' stamp: 'len 7/25/2016 06:22'!
-upToComponent: k do: aBlock
-	k = 0 ifTrue: [aBlock value: Tuple new. ^ self].
-	self upToComponent: k-1 do: [:each| (self at: k) do: [:last| aBlock value: each,last]]! !
-
-!CartesianProduct class methodsFor: 'instance creation' stamp: 'len 11/10/2015 22:17'!
-components: anArray
-	^ self new components: anArray! !
-
-!EquivalenceClass methodsFor: 'comparing' stamp: 'len 4/25/2016 09:14'!
-= anEquivalenceClass
-	^ anEquivalenceClass includes: self representative! !
-
-!EquivalenceClass methodsFor: 'iterating' stamp: 'len 4/25/2016 09:33'!
-do: aBlock
-	self relation domain do: [:each| (self relation includes: {each. self representative}) ifTrue: [aBlock value: each]]! !
-
-!EquivalenceClass methodsFor: 'comparing' stamp: 'len 4/25/2016 09:13'!
-hash
-	^ self class hash! !
-
-!EquivalenceClass methodsFor: 'testing' stamp: 'len 4/24/2016 04:40'!
-includes: anElement
-	^ self relation includes: {anElement. self representative}! !
-
-!EquivalenceClass methodsFor: 'printing' stamp: 'len 4/24/2016 04:37'!
-printOn: aStream
-	aStream nextPut: $[; print: self representative; nextPut: $]! !
-
-!EquivalenceClass methodsFor: 'accessing' stamp: 'len 4/24/2016 04:39'!
-relation
-	^ properties at: #relation! !
-
-!EquivalenceClass methodsFor: 'accessing-private' stamp: 'len 4/24/2016 04:38'!
-relation: anEquivalenceRelation
-	properties at: #relation put: anEquivalenceRelation! !
-
-!EquivalenceClass methodsFor: 'accessing' stamp: 'len 4/25/2016 08:40'!
-representative
-	^ representative! !
-
-!EquivalenceClass methodsFor: 'accessing-private' stamp: 'len 4/25/2016 08:40'!
-representative: anElement
-	representative _ anElement! !
-
-!EquivalenceClass class methodsFor: 'instance creation' stamp: 'len 4/25/2016 09:23'!
-representative: anElement relation: anEquivalenceRelation
-	^ self new representative: anElement; relation: anEquivalenceRelation! !
-
-!EquivalenceRelation methodsFor: 'accessing-private' stamp: 'len 4/25/2016 08:47'!
-block: aBlock
-	properties at: #block put: aBlock! !
-
-!EquivalenceRelation methodsFor: 'iterating' stamp: 'len 4/25/2016 08:55'!
-do: aBlock
-	self domain do: [:x|
-		self domain do: [:y|
-			| r |
-			(self includes: (r _ {x.y})) ifTrue: [aBlock value: r]]]! !
-
-!EquivalenceRelation methodsFor: 'accessing' stamp: 'len 4/25/2016 08:49'!
-domain
-	^ properties at: #domain! !
-
-!EquivalenceRelation methodsFor: 'accessing-private' stamp: 'len 4/25/2016 08:49'!
-domain: aDomain
-	properties at: #domain put: aDomain! !
-
-!EquivalenceRelation methodsFor: 'testing' stamp: 'len 4/25/2016 09:23'!
-includes: anArray
-	^ (properties at: #block) valueWithArguments: anArray! !
-
-!EquivalenceRelation methodsFor: 'testing' stamp: 'len 4/24/2016 04:25'!
-isReflexive
-	^ true! !
-
-!EquivalenceRelation methodsFor: 'testing' stamp: 'len 4/24/2016 04:24'!
-isSymmetric
-	^ true! !
-
-!EquivalenceRelation methodsFor: 'testing' stamp: 'len 4/24/2016 04:25'!
-isTransitive
-	^ true! !
-
-!EquivalenceRelation methodsFor: 'printing' stamp: 'len 4/25/2016 09:27'!
-printOn: aStream
-	((properties includesKey: #name) or: [properties includesKey: #elements])
-		ifTrue: [^ super printOn: aStream].
-	aStream nextPut: $~! !
-
-!EquivalenceRelation class methodsFor: 'instance creation' stamp: 'len 4/25/2016 08:48'!
-on: aDomain evaluating: aBlock
-	^ self new domain: aDomain; block: aBlock! !
-
-!FormalSet methodsFor: 'operations' stamp: 'len 8/9/2016 23:30'!
-/ anEquivalenceRelation
-	| relation |
-	relation _ anEquivalenceRelation isBlock ifTrue: [EquivalenceRelation on: self evaluating: anEquivalenceRelation] ifFalse: [anEquivalenceRelation].
-	^ QuotientSet by: relation! !
-
-!FormalSet methodsFor: 'morphisms' stamp: 'len 8/15/2016 03:26'!
-automorphisms
-	^ SymmetricGroup on: self! !
-
-!FormalSet methodsFor: 'operations' stamp: 'len 9/1/2016 07:51'!
-coproduct: aFormalSet
-	"The coproduct in the category of sets is the disjoint union."
-	^ self species newFrom: ((self elements collect: [:each| (each, 0)]) ™ (aFormalSet elements collect: [:each| (each, 1)]))! !
-
-!FormalSet methodsFor: 'accessing' stamp: 'len 8/14/2016 05:28'!
-null
-	"Answer the empty set, i.e. the null object in the category of sets."
-	^ self class newFrom: (Set new: 0)! !
-
-!FormalSet methodsFor: 'morphisms' stamp: 'len 8/31/2016 03:36'!
-to: aDomain evaluating: aBlock
-	^ Function from: self to: aDomain evaluating: aBlock! !
 
 !Magma methodsFor: 'copying' stamp: 'len 5/1/2016 23:33'!
 copyEmpty
@@ -19436,918 +20332,6 @@ x: anInteger
 new: anInteger
 	^ self new rank: anInteger! !
 
-!Morphisms methodsFor: 'accessing' stamp: 'len 4/19/2016 04:51'!
-codomain
-	^ properties at: #codomain! !
-
-!Morphisms methodsFor: 'accessing-private' stamp: 'len 4/19/2016 04:52'!
-codomain: aDomain
-	properties at: #codomain put: aDomain! !
-
-!Morphisms methodsFor: 'accessing' stamp: 'len 4/19/2016 04:51'!
-domain
-	^ properties at: #domain! !
-
-!Morphisms methodsFor: 'accessing-private' stamp: 'len 4/19/2016 04:52'!
-domain: aDomain
-	properties at: #domain put: aDomain! !
-
-!Morphisms methodsFor: 'elements' stamp: 'len 8/31/2016 03:37'!
-evaluating: aBlock
-	^ self domain to: self codomain evaluating: aBlock! !
-
-!Morphisms methodsFor: 'elements' stamp: 'len 8/31/2016 03:41'!
-identity
-	^ self isEndomorphisms ifTrue: [self domain id]! !
-
-!Morphisms methodsFor: 'testing' stamp: 'len 10/4/2016 09:02'!
-includes: aMorphism
-	^ (aMorphism isKindOf: Morphism) and: [aMorphism domain = self domain and: [aMorphism codomain = self codomain]]! !
-
-!Morphisms methodsFor: 'testing' stamp: 'len 4/19/2016 04:53'!
-isEndomorphisms
-	^ self domain = self codomain! !
-
-!Morphisms methodsFor: 'elements' stamp: 'len 4/23/2016 03:47'!
-newFrom: anObject
-	^ self evaluating: anObject! !
-
-!Morphisms methodsFor: 'operations' stamp: 'len 8/25/2016 21:11'!
-opposite
-	^ self class from: self domain to: self codomain! !
-
-!Morphisms methodsFor: 'printing' stamp: 'len 10/5/2016 10:01'!
-printOn: aStream
-	self isEndomorphisms
-		ifTrue: [aStream nextPutAll: 'Endo' bold; nextPut: $(; print: self domain; nextPut: $)]
-		ifFalse: [aStream nextPutAll: 'Hom' bold; nextPut: $(; print: self domain; nextPut: $,; print: self codomain; nextPut: $)]! !
-
-!Morphisms class methodsFor: 'instance creation' stamp: 'len 4/19/2016 04:53'!
-from: aDomain to: anotherDomain
-	^ self new domain: aDomain; codomain: anotherDomain! !
-
-!QuotientSet methodsFor: 'accessing' stamp: 'len 4/26/2016 07:26'!
-base
-	^ self relation domain! !
-
-!QuotientSet methodsFor: 'iterating' stamp: 'len 8/14/2016 06:17'!
-do: aBlock
-	| visited |
-	visited _ Set new.
-	self base do: [:each|
-		| x |
-		x _ self project: each.
-		visited add: x ifAbsent: [aBlock value: x]]! !
-
-!QuotientSet methodsFor: 'testing' stamp: 'len 8/10/2016 01:01'!
-isQuotient
-	^ true! !
-
-!QuotientSet methodsFor: 'printing' stamp: 'len 4/25/2016 09:25'!
-printOn: aStream
-	aStream print: self relation domain; nextPut: $/; print: self relation
-"	| domain |
-	domain _ self relation domain.
-	(domain printString allSatisfy: [:each|each isAlphaNumeric])
-		ifTrue: [aStream print: domain]
-		ifFalse: [aStream nextPut: $(; print: domain; nextPut: $)].
-	aStream nextPut: $/; print: self relation"! !
-
-!QuotientSet methodsFor: 'morphisms' stamp: 'len 4/24/2016 04:46'!
-project: anElement
-	^ EquivalenceClass representative: anElement relation: self relation! !
-
-!QuotientSet methodsFor: 'morphisms' stamp: 'len 10/10/2016 08:52'!
-projection
-	^ (Function from: self base to: self evaluating: [:v| self project: v]) name: Character pi asString! !
-
-!QuotientSet methodsFor: 'accessing' stamp: 'len 4/24/2016 04:40'!
-relation
-	^ properties at: #relation! !
-
-!QuotientSet methodsFor: 'accessing-private' stamp: 'len 4/25/2016 08:53'!
-relation: anEquivalenceRelation
-	properties at: #relation put: anEquivalenceRelation! !
-
-!QuotientSet class methodsFor: 'instance creation' stamp: 'len 4/25/2016 21:02'!
-by: anEquivalenceRelation
-	^ self new relation: anEquivalenceRelation! !
-
-!Category methodsFor: 'as yet unclassified' stamp: 'len 10/9/2016 08:48'!
-isAbelian
-	^ false! !
-
-!AbelianGroups methodsFor: 'as yet unclassified' stamp: 'len 10/9/2016 08:48'!
-isAbelian
-	^ true! !
-
-!AbelianGroups methodsFor: 'as yet unclassified' stamp: 'len 10/9/2016 08:49'!
-printOn: aStream
-	aStream nextPutAll: 'Ab'! !
-
-!Modules methodsFor: 'as yet unclassified' stamp: 'len 10/9/2016 08:46'!
-printOn: aStream
-	aStream print: scalars; nextPutAll: (scalars isField ifTrue: ['-Vect'] ifFalse: ['-Mod'])! !
-
-!Modules methodsFor: 'as yet unclassified' stamp: 'len 10/9/2016 08:43'!
-scalars
-	^ scalars! !
-
-!Modules methodsFor: 'as yet unclassified' stamp: 'len 10/9/2016 08:44'!
-scalars: aCommutativeRing
-	scalars _ aCommutativeRing! !
-
-!Modules class methodsFor: 'as yet unclassified' stamp: 'len 10/9/2016 08:47'!
-over: aCommutativeRing
-	^ self new scalars: aCommutativeRing! !
-
-!ComplexBox methodsFor: 'accessing' stamp: 'len 1/16/2016 05:56'!
-area
-	^ self measure! !
-
-!ComplexBox methodsFor: 'accessing' stamp: 'len 1/16/2016 05:59'!
-closure
-	^ self class real: real closure imaginary: imaginary closure! !
-
-!ComplexBox methodsFor: 'testing' stamp: 'len 1/16/2016 05:50'!
-closureIncludes: aComplex
-	^ (real closureIncludes: aComplex real) and: [imaginary closureIncludes: aComplex imaginary]! !
-
-!ComplexBox methodsFor: 'accessing' stamp: 'len 1/11/2016 02:58'!
-imaginary
-	^ imaginary! !
-
-!ComplexBox methodsFor: 'accessing-private' stamp: 'len 1/11/2016 02:53'!
-imaginary: aRealInterval
-	imaginary _ aRealInterval! !
-
-!ComplexBox methodsFor: 'testing' stamp: 'len 1/11/2016 02:54'!
-includes: aComplex
-	^ (real includes: aComplex real) and: [imaginary includes: aComplex imaginary]! !
-
-!ComplexBox methodsFor: 'testing' stamp: 'len 1/16/2016 05:52'!
-intersects: aComplexBox
-	^ (real intersects: aComplexBox real) and: [imaginary intersects: aComplexBox imaginary]! !
-
-!ComplexBox methodsFor: 'testing' stamp: 'len 1/11/2016 03:40'!
-isBounded
-	^ real isBounded and: [imaginary isBounded]! !
-
-!ComplexBox methodsFor: 'testing' stamp: 'len 1/11/2016 03:40'!
-isClosed
-	^ real isClosed and: [imaginary isClosed]! !
-
-!ComplexBox methodsFor: 'testing' stamp: 'len 1/11/2016 03:41'!
-isOpen
-	^ real isOpen and: [imaginary isOpen]! !
-
-!ComplexBox methodsFor: 'accessing' stamp: 'len 1/11/2016 02:55'!
-measure
-	^ real measure * imaginary measure! !
-
-!ComplexBox methodsFor: 'accessing' stamp: 'len 1/15/2016 07:21'!
-midpoint
-	^ Complex real: real midpoint imaginary: imaginary midpoint! !
-
-!ComplexBox methodsFor: 'printing' stamp: 'len 1/11/2016 02:57'!
-printOn: aStream
-	aStream print: real; nextPutAll: ' + '; print: imaginary; nextPut: $i! !
-
-!ComplexBox methodsFor: 'accessing' stamp: 'len 6/5/2016 06:20'!
-quarters
-	| imaginaries reals |
-	reals _ self real halves.
-	imaginaries _ self imaginary halves.
-	^ {self class real: (reals at: 1) imaginary: (imaginaries at: 1).
-		self class real: (reals at: 1) imaginary: (imaginaries at: 2).
-		self class real: (reals at: 2) imaginary: (imaginaries at: 1).
-		self class real: (reals at: 2) imaginary: (imaginaries at: 2)}! !
-
-!ComplexBox methodsFor: 'accessing' stamp: 'len 6/5/2016 04:08'!
-radius2
-	^ real length squared + imaginary length squared / 4! !
-
-!ComplexBox methodsFor: 'accessing' stamp: 'len 1/11/2016 02:58'!
-real
-	^ real! !
-
-!ComplexBox methodsFor: 'accessing-private' stamp: 'len 1/11/2016 02:53'!
-real: aRealInterval
-	real _ aRealInterval! !
-
-!ComplexBox methodsFor: 'accessing' stamp: 'len 1/11/2016 03:42'!
-sample
-	"Answer a sample point in the receiver."
-	^ Complex real: real sample imaginary: imaginary sample! !
-
-!ComplexBox methodsFor: 'accessing' stamp: 'len 6/5/2016 21:42'!
-width
-	^ real length min: imaginary length! !
-
-!ComplexBox class methodsFor: 'instance creation' stamp: 'len 6/4/2016 21:53'!
-center: aComplex radius: aNumber
-	^ self
-		real: (RealInterval closed: aComplex real - aNumber closed: aComplex real + aNumber)
-		imaginary: (RealInterval closed: aComplex imaginary - aNumber closed: aComplex imaginary + aNumber)! !
-
-!ComplexBox class methodsFor: 'instance creation' stamp: 'len 1/11/2016 03:43'!
-real: aRealInterval imaginary: anotherRealInterval
-	^ self new real: aRealInterval; imaginary: anotherRealInterval! !
-
-!ComplexBox class methodsFor: 'instance creation' stamp: 'len 6/5/2016 04:07'!
-with: aComplex with: anotherComplex
-	^ self
-		real: (RealInterval with: aComplex real with: anotherComplex real)
-		imaginary: (RealInterval with: aComplex imaginary with: anotherComplex imaginary)! !
-
-!ComplexDisk methodsFor: 'arithmetic' stamp: 'len 6/5/2016 20:46'!
-* aDisk
-	^ self class center: aDisk center * self center radius: self radius * aDisk radius! !
-
-!ComplexDisk methodsFor: 'arithmetic' stamp: 'len 6/30/2016 04:37'!
-+ aDisk
-	^ self class center: aDisk center + self center radius: self radius + aDisk radius! !
-
-!ComplexDisk methodsFor: 'accessing' stamp: 'len 1/13/2016 22:30'!
-center
-	^ center! !
-
-!ComplexDisk methodsFor: 'accessing-private' stamp: 'len 6/5/2016 20:47'!
-center: aComplex
-	center _ aComplex! !
-
-!ComplexDisk methodsFor: 'accessing' stamp: 'len 6/30/2016 04:43'!
-enclosingBox
-	"Answer a ComplexBox that encloses the receiver."
-	^ ComplexBox center: self center radius: self radius! !
-
-!ComplexDisk methodsFor: 'testing' stamp: 'len 6/5/2016 20:44'!
-includes: anObject
-	^ (anObject - center) norm2 <= radius squared! !
-
-!ComplexDisk methodsFor: 'testing' stamp: 'len 6/5/2016 04:13'!
-intersects: aBall
-	self flag: #fix.
-	^ (aBall center - center) norm2 <= (self radius + aBall radius) squared! !
-
-!ComplexDisk methodsFor: 'accessing' stamp: 'len 1/15/2016 07:21'!
-midpoint
-	^ self center! !
-
-!ComplexDisk methodsFor: 'printing' stamp: 'len 6/5/2016 20:42'!
-printOn: aStream
-	aStream nextPutAll: 'D('; print: self center; nextPut: $,; print: self radius; nextPut: $)! !
-
-!ComplexDisk methodsFor: 'accessing' stamp: 'len 6/5/2016 20:42'!
-radius
-	^ radius! !
-
-!ComplexDisk methodsFor: 'accessing-private' stamp: 'len 6/5/2016 20:47'!
-radius: aNumber
-	radius _ aNumber! !
-
-!ComplexDisk class methodsFor: 'instance creation' stamp: 'len 6/5/2016 20:47'!
-center: aComplex radius: aNumber
-	^ self new center: aComplex; radius: aNumber! !
-
-!Naturals methodsFor: 'comparing' stamp: 'len 12/14/2015 01:55'!
-= anObject
-	^ self class == anObject class! !
-
-!Naturals methodsFor: 'random' stamp: 'len 6/30/2016 00:34'!
-atRandom: aRandom bits: bitSize
-	^ (aRandom nextBits: bitSize truncated) + 1! !
-
-!Naturals methodsFor: 'iterating' stamp: 'len 12/3/2015 20:12'!
-do: aBlock
-	| n |
-	n _ 1.
-	[aBlock value: n. n _ n + 1] repeat! !
-
-!Naturals methodsFor: 'comparing' stamp: 'len 12/14/2015 01:55'!
-hash
-	^ self class hash! !
-
-!Naturals methodsFor: 'accessing' stamp: 'len 2/13/2016 20:41'!
-identity
-	^ 1! !
-
-!Naturals methodsFor: 'testing' stamp: 'len 2/13/2016 20:41'!
-isCommutative
-	^ true! !
-
-!Naturals methodsFor: 'testing' stamp: 'len 12/3/2015 20:12'!
-isCountable
-	^ true! !
-
-!Naturals methodsFor: 'testing' stamp: 'len 12/5/2015 02:09'!
-isFinite
-	^ false! !
-
-!Naturals methodsFor: 'testing' stamp: 'len 2/11/2016 22:19'!
-isReal
-	^ true! !
-
-!Naturals methodsFor: 'printing' stamp: 'len 6/8/2016 21:05'!
-printOn: aStream
-	aStream nextPut: Character NN! !
-
-!Naturals methodsFor: 'accessing' stamp: 'len 4/24/2016 02:58'!
-size
-	^ Aleph new! !
-
-!Naturals methodsFor: 'morphisms' stamp: 'len 9/17/2016 06:52'!
-to: aDomain evaluating: aBlock
-	"Answer a sequence with values in aDomain."
-	^ Sequence to: aDomain evaluating: aBlock! !
-
-!Naturals class methodsFor: 'initialization' stamp: 'len 8/5/2016 21:33'!
-initialize
-	super initialize.
-	Smalltalk at: #NN put: self new! !
-
-!RealBox methodsFor: 'comparing' stamp: 'len 12/19/97 22:06'!
-= anObject
-	"Answer true if the receiver equals the argument."
-
-	self size = anObject size ifFalse: [^ false].
-	1 to: self size do: [ :each | (self at: each) = (anObject at: each) ifFalse: [^ false]].
-	^ true! !
-
-!RealBox methodsFor: 'accessing' stamp: 'len 1/11/2016 02:33'!
-add: aRealInterval
-	^ components add: aRealInterval! !
-
-!RealBox methodsFor: 'accessing' stamp: 'len 12/13/97 15:21'!
-addAll: aCollection
-	"Add the elements in the argument to the receiver. Answer the argument."
-
-	aCollection do: [ :each | self add: each].
-	^ aCollection! !
-
-!RealBox methodsFor: 'accessing' stamp: 'len 1/11/2016 02:33'!
-at: anInteger
-	"Answer the anInteger-th component of the receiver."
-	^ components at: anInteger! !
-
-!RealBox methodsFor: 'accessing' stamp: 'len 1/11/2016 02:34'!
-cartesian: aBox
-	"Answer the cartesian product of the receiver by the argument."
-	^ self copy addAll: aBox; yourself! !
-
-!RealBox methodsFor: 'accessing-private' stamp: 'len 1/11/2016 02:37'!
-components
-	^ components! !
-
-!RealBox methodsFor: 'accessing-private' stamp: 'len 1/11/2016 02:37'!
-components: aCollection
-	components _ aCollection! !
-
-!RealBox methodsFor: 'accessing' stamp: 'len 1/11/2016 02:35'!
-dimension
-	^ components inject: 0 into: [:sum :each| sum + each]! !
-
-!RealBox methodsFor: 'enumerating' stamp: 'len 1/11/2016 02:38'!
-do: aBlock
-	"Enumerate the components of the receiver."
-	components do: aBlock! !
-
-!RealBox methodsFor: 'accessing' stamp: 'len 1/11/2016 02:35'!
-first
-	^ self at: 1! !
-
-!RealBox methodsFor: 'comparing' stamp: 'len 6/28/2016 09:28'!
-hash
-	"Answer the hash value of the receiver."
-
-	^ self size = 0
-		ifTrue: [0]
-		ifFalse: [self first hash hashMultiply + self last hash hashMultiply + self size hash]! !
-
-!RealBox methodsFor: 'testing' stamp: 'len 1/11/2016 02:40'!
-includes: aTuple
-	1 to: self size do: [:each|
-		((self at: each) includes: (aTuple at: each)) ifFalse: [^ false]].
-	^ true! !
-
-!RealBox methodsFor: 'initialization' stamp: 'len 1/11/2016 02:38'!
-initialize
-	components _ OrderedCollection new: 3! !
-
-!RealBox methodsFor: 'testing' stamp: 'len 1/11/2016 02:40'!
-isBounded
-	self do: [:each| each isBounded ifFalse: [^ false]].
-	^ true! !
-
-!RealBox methodsFor: 'testing' stamp: 'len 1/11/2016 02:40'!
-isClosed
-	self do: [:each| each isClosed ifFalse: [^ false]].
-	^ true! !
-
-!RealBox methodsFor: 'testing' stamp: 'len 1/11/2016 02:41'!
-isOpen
-	self do: [ :each | each isOpen ifFalse: [^ false]].
-	^ true! !
-
-!RealBox methodsFor: 'accessing' stamp: 'len 1/11/2016 02:35'!
-last
-	^ self at: self size! !
-
-!RealBox methodsFor: 'accessing' stamp: 'len 1/11/2016 02:36'!
-measure
-	^ components inject: 1 into: [:measure :each| measure * each measure]! !
-
-!RealBox methodsFor: 'accessing' stamp: 'len 1/15/2016 07:20'!
-midpoint
-	^ Tuple withAll: ((1 to: self size) collect: [:each| each midpoint])! !
-
-!RealBox methodsFor: 'printing' stamp: 'len 6/7/2016 00:51'!
-printOn: aStream
-	components do: [:each| aStream print: each] separatedBy: [aStream nextPut: Character times]! !
-
-!RealBox methodsFor: 'accessing' stamp: 'len 1/11/2016 02:36'!
-sample
-	"Answer a sample point in the receiver."
-	^ Tuple new: self size evaluating: [:each| (self at: each) sample]! !
-
-!RealBox methodsFor: 'accessing' stamp: 'len 1/11/2016 02:37'!
-size
-	^ components size! !
-
-!RealBox class methodsFor: 'instance creation' stamp: 'len 12/13/97 02:52'!
-new
-	^ super new initialize! !
-
-!RealInterval methodsFor: 'arithmetic' stamp: 'len 12/13/97 03:19'!
-* anInterval
-	"Answer the product of the receiver by the argument."
-
-	| l1l2 l1r2 r1l2 r1r2 |
-	l1l2 _ self left * anInterval left.
-	l1r2 _ self left * anInterval right.
-	r1l2 _ self right * anInterval left.
-	r1r2 _ self right * anInterval right.
-	^ self copy
-		left: ((l1l2 min: l1r2) min: (r1l2 min: r1r2));
-		right: ((l1l2 max: l1r2) max: (r1l2 max: r1r2))! !
-
-!RealInterval methodsFor: 'arithmetic' stamp: 'len 12/13/97 03:20'!
-+ anInterval
-	"Answer the sum of the receiver and the argument."
-
-	^ self copy
-		left: self left + anInterval left;
-		right: self right + anInterval right! !
-
-!RealInterval methodsFor: 'arithmetic' stamp: 'len 12/13/97 03:36'!
-- anInterval
-	"Answer the difference of the receiver and the argument."
-
-	^ self + anInterval negated! !
-
-!RealInterval methodsFor: 'arithmetic' stamp: 'len 12/13/97 02:14'!
-/ anInterval
-	"Answer the quotient of the receiver by the argument."
-
-	^ self * anInterval reciprocal! !
-
-!RealInterval methodsFor: 'comparing' stamp: 'len 1/16/2016 05:57'!
-= anInterval
-	^ left = anInterval left and: [right = anInterval right and: [self isLeftOpen = anInterval isLeftOpen and: [self isRightOpen = anInterval isRightOpen]]]! !
-
-!RealInterval methodsFor: 'operations' stamp: 'len 1/11/2016 02:41'!
-cartesian: anInterval
-	"Answer the cartesian product of the receiver by the argument."
-	| answer |
-	answer _ RealBox new add: self; yourself.
-	anInterval do: [:each| answer add: each].
-	^ answer! !
-
-!RealInterval methodsFor: 'converting' stamp: 'len 12/13/97 02:31'!
-close
-	"Answer a closed inverval with the same bounds that the receiver."
-
-	self isClosed ifFalse: [^ self copy leftOpen: false; rightOpen: false]! !
-
-!RealInterval methodsFor: 'converting' stamp: 'len 12/13/97 02:40'!
-closeLeft
-	"Answer a closed left interval with the same bounds that the receiver."
-
-	self isLeftClosed ifFalse: [^ self copy leftOpen: false]! !
-
-!RealInterval methodsFor: 'converting' stamp: 'len 12/13/97 02:35'!
-closeRight
-	"Answer a closed right interval with the same bounds that the receiver."
-
-	self isRightClosed ifFalse: [^ self copy rightOpen: false]! !
-
-!RealInterval methodsFor: 'operations' stamp: 'len 1/16/2016 05:59'!
-closure
-	^ self class closed: left closed: right! !
-
-!RealInterval methodsFor: 'testing' stamp: 'len 3/31/2016 17:54'!
-closureIncludes: anObject
-	(anObject is: #Tuple) ifTrue: [^ anObject dimension = 1 and: [self includes: anObject first]].
-	^ anObject between: left and: right! !
-
-!RealInterval methodsFor: 'accessing' stamp: 'len 12/19/97 22:10'!
-dimension
-	"Answer the dimension of the receiver."
-
-	self isEmpty ifTrue: [^ Infinity negative].
-	self left = self right ifTrue: [^ 0].
-	^ 1! !
-
-!RealInterval methodsFor: 'accessing' stamp: 'len 6/5/2016 06:26'!
-halves
-	| m |
-	m _ self midpoint.
-	^ {self copy right: m; rightOpen: false . self copy left: m; leftOpen: true}! !
-
-!RealInterval methodsFor: 'comparing' stamp: 'len 6/28/2016 09:30'!
-hash
-	^ self left hash hashMultiply + self right hash + self isRightOpen hash + self isLeftOpen hash hashMultiply! !
-
-!RealInterval methodsFor: 'constants' stamp: 'len 12/13/97 03:20'!
-identity
-	"Answer the identity element for the receiver."
-
-	^ self copy left: 1; right: 1! !
-
-!RealInterval methodsFor: 'testing' stamp: 'len 3/31/2016 17:54'!
-includes: anObject
-	(anObject is: #Tuple) ifTrue: [^ anObject dimension = 1 and: [self includes: (anObject at: 1)]].
-	(self left > anObject or: [self right < anObject])
-		ifTrue: [^ false].
-	(self left < anObject and: [self right > anObject])
-		ifTrue: [^ true].
-	((self isLeftClosed and: [anObject = self left])
-	or: [self isRightClosed and: [anObject = self right]])
-		ifTrue: [^ true].
-	^ false! !
-
-!RealInterval methodsFor: 'accessing' stamp: 'len 12/13/97 03:22'!
-inf
-	"Answer the infimun of the receiver."
-
-	^ self left! !
-
-!RealInterval methodsFor: 'operations' stamp: 'len 6/2/2016 07:29'!
-interior
-	^ self class open: left open: right! !
-
-!RealInterval methodsFor: 'testing' stamp: 'len 6/4/2016 21:43'!
-intersects: anInterval
-	"Answer true if the receiver overlaps the argument."
-	self right < anInterval left ifTrue: [^ false].
-	self left > anInterval right ifTrue: [^ false].
-	self right = anInterval left ifTrue: [^ self isRightClosed and: [anInterval isLeftClosed]].
-	self left = anInterval right ifTrue: [^ self isLeftClosed and: [anInterval isRightClosed]].
-	^ true! !
-
-!RealInterval methodsFor: 'testing' stamp: 'len 12/13/97 03:29'!
-isBounded
-	"Answer true if the receiver is bounded."
-
-	^ self isLeftBounded and: [self isRightBounded]! !
-
-!RealInterval methodsFor: 'testing' stamp: 'len 12/13/97 02:36'!
-isClosed
-	"Answer true if the receiver is closed."
-
-	^ self isLeftClosed and: [self isRightClosed]! !
-
-!RealInterval methodsFor: 'testing' stamp: 'len 12/13/97 03:23'!
-isEmpty
-	"Answer true if the receiver is empty."
-
-	^ self isLeftBounded
-		ifTrue: [self right < self left]
-		ifFalse: [self left > self right]! !
-
-!RealInterval methodsFor: 'testing' stamp: 'len 6/2/2016 05:16'!
-isFinite
-	^ left = right and: [leftOpen not | rightOpen not]! !
-
-!RealInterval methodsFor: 'testing' stamp: 'len 12/13/97 02:14'!
-isHalfOpen
-	"Answer true if the receiver is hald-open."
-
-	^ self isClosed not and: [self isOpen not]! !
-
-!RealInterval methodsFor: 'testing' stamp: 'len 12/13/97 02:23'!
-isLeftBounded
-	"Answer true if the receiver is left bounded."
-
-	^ self left isInfinity not! !
-
-!RealInterval methodsFor: 'testing' stamp: 'len 12/13/97 02:33'!
-isLeftClosed
-	"Answer true if the receiver is left closed."
-
-	^ self isLeftOpen not! !
-
-!RealInterval methodsFor: 'testing' stamp: 'len 12/13/97 02:36'!
-isLeftOpen
-	"Answer true if the receiver is left open."
-
-	^ leftOpen! !
-
-!RealInterval methodsFor: 'testing' stamp: 'len 12/13/97 02:38'!
-isOpen
-	"Answer true if the receiver is open."
-
-	^ self isLeftOpen and: [self isRightOpen]! !
-
-!RealInterval methodsFor: 'testing' stamp: 'len 12/13/97 02:24'!
-isRightBounded
-	"Answer true if the receiver is right bounded."
-
-	^ self right isInfinity not! !
-
-!RealInterval methodsFor: 'testing' stamp: 'len 12/13/97 02:35'!
-isRightClosed
-	"Answer true if the receiver is right closed."
-
-	^ self isRightOpen not! !
-
-!RealInterval methodsFor: 'testing' stamp: 'len 12/13/97 02:37'!
-isRightOpen
-	"Answer true if the receiver is open right."
-
-	^ rightOpen! !
-
-!RealInterval methodsFor: 'accessing' stamp: 'len 12/13/97 03:21'!
-left
-	"Answer the left bound of the receiver."
-
-	^ left! !
-
-!RealInterval methodsFor: 'accessing-private' stamp: 'len 12/13/97 03:18'!
-left: aNumber
-	left _ aNumber! !
-
-!RealInterval methodsFor: 'accessing-private' stamp: 'len 12/13/97 02:30'!
-leftOpen: aBoolean
-	leftOpen _ aBoolean! !
-
-!RealInterval methodsFor: 'accessing' stamp: 'len 1/16/2016 05:56'!
-length
-	^ self measure! !
-
-!RealInterval methodsFor: 'accessing' stamp: 'len 12/13/97 03:24'!
-max
-	"Answer the maximum of the receiver."
-
-	self isRightOpen ifTrue: [^ self error: 'there''s not maximum'].
-	^ self right! !
-
-!RealInterval methodsFor: 'accessing' stamp: 'len 1/11/2016 02:43'!
-measure
-	^ self right - self left! !
-
-!RealInterval methodsFor: 'accessing' stamp: 'len 1/15/2016 07:19'!
-midpoint
-	^ left + right / 2! !
-
-!RealInterval methodsFor: 'accessing' stamp: 'len 12/13/97 03:23'!
-min
-	"Answer the minimum of the receiver."
-
-	self isLeftOpen ifTrue: [^ self error: 'there''s not minimun'].
-	^ self left! !
-
-!RealInterval methodsFor: 'arithmetic' stamp: 'len 12/13/97 03:20'!
-negated
-	"Answer the additive inverse of the receiver."
-
-	^ self copy
-		right: self left negated;
-		left: self right negated;
-		leftOpen: self isRightOpen;
-		rightOpen: self isLeftOpen! !
-
-!RealInterval methodsFor: 'constants' stamp: 'len 12/13/97 03:20'!
-null
-	"Answer the null element for the receiver."
-
-	^ self copy left: 0; right: 0! !
-
-!RealInterval methodsFor: 'converting' stamp: 'len 12/13/97 02:32'!
-open
-	"Answer an open inverval with the same bounds that the receiver."
-
-	self isOpen ifFalse: [^ self copy leftOpen: true; rightOpen: true]! !
-
-!RealInterval methodsFor: 'converting' stamp: 'len 12/13/97 02:38'!
-openLeft
-	"Answer an open left interval with the same bounds that the receiver."
-
-	self isLeftOpen ifFalse: [^ self copy leftOpen: true]! !
-
-!RealInterval methodsFor: 'converting' stamp: 'len 12/13/97 02:39'!
-openRight
-	"Answer an open right interval with the same bounds that the receiver."
-
-	self isRightOpen ifFalse: [^ self copy rightOpen: true]! !
-
-!RealInterval methodsFor: 'printing' stamp: 'len 12/13/97 03:23'!
-printOn: aStream
-	"Print a representation of the receiver in the stream aStream."
-
-	aStream
-		nextPut: (self isLeftOpen ifTrue: [ $( ] ifFalse: [ $[ ]);
-		print: self left;
-		nextPutAll: ', ';
-		print: self right;
-		nextPut: (self isRightOpen ifTrue: [ $) ] ifFalse: [ $] ])! !
-
-!RealInterval methodsFor: 'arithmetic' stamp: 'len 1/16/2016 05:48'!
-reciprocal
-	"Answer the multiplicative inverse of the receiver."
-	(self closureIncludes: 0) ifTrue: [^ ZeroDivide signal].
-	^ self copy
-		left: self right reciprocal;
-		right: self left reciprocal! !
-
-!RealInterval methodsFor: 'accessing' stamp: 'len 12/13/97 03:21'!
-right
-	"Answer the right bound of the receiver."
-
-	^ right! !
-
-!RealInterval methodsFor: 'accessing-private' stamp: 'len 12/13/97 03:21'!
-right: aNumber
-	right _ aNumber! !
-
-!RealInterval methodsFor: 'accessing-private' stamp: 'len 12/13/97 02:32'!
-rightOpen: aBoolean
-	rightOpen _ aBoolean! !
-
-!RealInterval methodsFor: 'accessing' stamp: 'len 12/15/97 20:56'!
-sample
-	"Answer a sample point in the receiver."
-
-	self isEmpty ifTrue: [^ self error: 'empty interval'].
-	self isLeftClosed ifTrue: [^ Tuple with: self left].
-	self isRightClosed ifTrue: [^ Tuple with: self right].
-	(self isLeftBounded and: [self isRightBounded])
-		ifTrue: [^ Tuple with: self left + self right / 2].
-	self isLeftBounded ifTrue: [^ Tuple with: self left + 1].
-	self isRightBounded ifTrue: [^ Tuple with: self right - 1].
-	^ Tuple with: 0! !
-
-!RealInterval methodsFor: 'initialization' stamp: 'len 12/13/97 03:18'!
-setLeftBound: leftBound rightBound: rightBound leftOpen: leftOpenBool rightOpen: rightOpenBool
-	left _ leftBound.
-	right _ rightBound.
-	"If the interval is left-closed or right-closed and two points are
-	the same, then the interval is a single point... so it's closed."
-	((leftOpenBool & rightOpenBool) not and: [left = right])
-		ifTrue: [leftOpen _ false.
-				rightOpen _ false]
-		ifFalse: [leftOpen _ leftOpenBool.
-				rightOpen _ rightOpenBool]! !
-
-!RealInterval methodsFor: 'testing' stamp: 'len 12/13/97 03:23'!
-sign
-	"Answer 1 if the receiver is greater than 0, -1 if less than 0, else 0."
-
-	self left > 0 ifTrue: [^ 1].
-	self right < 0 ifTrue: [^ -1].
-	^ 0! !
-
-!RealInterval methodsFor: 'arithmetic' stamp: 'len 1/16/2016 06:58'!
-squared
-	^ self * self! !
-
-!RealInterval methodsFor: 'accessing' stamp: 'len 12/13/97 03:24'!
-sup
-	"Answer the supremum of the receiver."
-
-	^ self right! !
-
-!RealInterval class methodsFor: 'instance creation' stamp: 'len 12/13/97 02:29'!
-closed: left closed: right
-	"Answer a new [left, right] interval."
-
-	^ self new setLeftBound: left rightBound: right leftOpen: false rightOpen: false! !
-
-!RealInterval class methodsFor: 'instance creation' stamp: 'len 12/13/97 02:30'!
-closed: left open: right
-	"Answer a new [left, right) interval."
-
-	^ self new setLeftBound: left rightBound: right leftOpen: false rightOpen: true! !
-
-!RealInterval class methodsFor: 'instance creation' stamp: 'len 12/13/97 02:30'!
-open: left closed: right
-	"Answer a new (left, right] interval."
-
-	^ self new setLeftBound: left rightBound: right leftOpen: true rightOpen: false! !
-
-!RealInterval class methodsFor: 'instance creation' stamp: 'len 12/13/97 02:30'!
-open: left open: right
-	"Answer a new (left, right) interval."
-
-	^ self new setLeftBound: left rightBound: right leftOpen: true rightOpen: true! !
-
-!SemialgebraicInterval methodsFor: 'operations' stamp: 'len 1/8/98 20:35'!
-boundary
-	"Answer the boundary of the receiver."
-
-	^ SemialgebraicSet new
-		add: (self class between: self left and: self left);
-		add: (self class between: self right and: self right);
-		yourself! !
-
-!SemialgebraicInterval methodsFor: 'operations' stamp: 'len 1/8/98 20:29'!
-closure
-	"Answer the closure of the receiver."
-
-	^ self boundary copy add: self; yourself! !
-
-!SemialgebraicInterval methodsFor: 'operations' stamp: 'len 1/16/98 21:58'!
-interior
-	"Answer the interior of the receiver."
-
-	^ self closure copyWithoutAll: self boundary! !
-
-!SemialgebraicInterval methodsFor: 'testing' stamp: 'len 2/6/98 13:33'!
-isCylindricalOver: aCell
-	"Answer true if the receiver is cylindrical over aCell."
-
-	^ self = aCell! !
-
-!SemialgebraicInterval methodsFor: 'accessing' stamp: 'len 1/17/98 13:49'!
-polynomials
-	"Answer the polynomials defining the receiver."
-
-	| answer |
-	answer _ Set new.
-	self left isInfinity ifFalse: [answer add: self left polynomial].
-	self right isInfinity ifFalse: [answer add: self right polynomial].
-	^ answer! !
-
-!SemialgebraicInterval methodsFor: 'printing' stamp: 'len 6/2/2016 02:09'!
-printOn: aStream
-	"aStream nextPut: ${; print: self sentence; nextPut: $}"
-	self dimension >= 0
-		ifFalse: [aStream nextPut: Character emptySet. ^ self].
-	self dimension = 0
-		ifTrue: [aStream nextPut: ${; print: self sample; nextPut: $}. ^ self].
-	super printOn: aStream! !
-
-!SemialgebraicInterval methodsFor: 'accessing' stamp: 'len 2/6/98 12:38'!
-projection
-	"Answer the projection of the receiver."
-	^ nil! !
-
-!SemialgebraicInterval methodsFor: 'accessing' stamp: 'len 6/1/2016 23:32'!
-rank
-	"Answer the number of indeterminates involved to define the receiver."
-	^ 1! !
-
-!SemialgebraicInterval methodsFor: 'accessing' stamp: 'len 1/17/2016 01:50'!
-sample
-	"Answer a sample point in the receiver."
-
-	self isEmpty ifTrue: [^ self error: 'empty interval'].
-	self left = self right ifTrue: [^ Tuple with: self left].
-	(self isLeftBounded and: [self isRightBounded])
-		ifTrue: [[self left rightBound <= self right leftBound]
-					whileFalse: [self left refineWith: self right].
-				^ Tuple with: self left rightBound + self right leftBound / 2].
-	self isLeftBounded ifTrue: [^ Tuple with: self left rightBound + 1].
-	self isRightBounded ifTrue: [^ Tuple with: self right leftBound - 1].
-	^ Tuple with: 0! !
-
-!SemialgebraicInterval methodsFor: 'accessing' stamp: 'len 3/18/2016 06:44'!
-sentence
-	"Answer a quantifier-free defining sentence for the receiver."
-
-	| answer sample sign sentence |
-	sample _ self sample.
-	self polynomials do: [:each|
-		sentence :=
-			(sign _ (each value: sample) sign) = 0
-				ifTrue: [each eq: 0]
-				ifFalse: [sign = -1 ifTrue: [each lneq: 0] ifFalse: [each gneq: 0]].
-		answer _ answer isNil ifTrue: [sentence] ifFalse: [answer & sentence]].
-	^ answer! !
-
-!SemialgebraicInterval class methodsFor: 'instance creation' stamp: 'len 12/20/97 02:35'!
-between: leftBound and: rightBound
-	"Answer a new instance of the receiver representing the
-	univariate cell which is bounded by the given bounds."
-
-	(leftBound = rightBound or: [leftBound isInfinity and: [rightBound isInfinity]])
-		ifTrue: [^ self closed: leftBound closed: rightBound].
-	leftBound isInfinity
-		ifTrue: [^ self closed: leftBound open: rightBound].
-	rightBound isInfinity
-		ifTrue: [^ self open: leftBound closed: rightBound].
-	^ self open: leftBound open: rightBound! !
-
 !RightCoset methodsFor: 'arithmetic' stamp: 'len 2/13/2016 06:55'!
 * aCoset
 	^ self class on: subgroup representative: representative * aCoset representative! !
@@ -21256,10 +21240,10 @@ evaluating: aBlock
 identity
 	^ self evaluating: [:x| x]! !
 
-!AffineMaps methodsFor: 'printing' stamp: 'len 8/25/2016 21:08'!
+!AffineMaps methodsFor: 'printing' stamp: 'len 10/14/2016 09:00'!
 printOn: aStream
 	"Delegate in order to print the standard notation:"
-	(Morphisms from: self domain to: self codomain) printOn: aStream! !
+	(HomSet from: self domain to: self codomain) printOn: aStream! !
 
 !AffineMaps methodsFor: 'elements' stamp: 'len 8/25/2016 21:10'!
 scalar: aNumber
@@ -21537,10 +21521,10 @@ evaluating: aBlock
 identity
 	^ self evaluating: [:x| x]! !
 
-!ProjectiveMaps methodsFor: 'printing' stamp: 'len 8/25/2016 21:15'!
+!ProjectiveMaps methodsFor: 'printing' stamp: 'len 10/14/2016 09:00'!
 printOn: aStream
 	"Delegate in order to print the standard notation:"
-	(Morphisms from: self domain to: self codomain) printOn: aStream! !
+	(HomSet from: self domain to: self codomain) printOn: aStream! !
 
 !ProjectiveMaps methodsFor: 'as yet unclassified' stamp: 'len 8/25/2016 21:23'!
 vectorFromPoint: aProjectiveMap
@@ -21631,11 +21615,6 @@ divisorsOver: aRing
 	"Answer the divisors class group of the receiver."
 	^ DivisorsGroup on: self over: aRing! !
 
-!Scheme methodsFor: 'morphisms' stamp: 'len 10/13/2016 13:23'!
-embedding
-	"Answer the inclusion map into the ambient scheme."
-	^ self to: self ambient inducedBy: self coordinateRing embedding! !
-
 !Scheme methodsFor: 'accessing' stamp: 'len 10/13/2016 13:23'!
 equations
 	"Answer a polynomial system defining the receiver."
@@ -21661,6 +21640,11 @@ ideal
 !Scheme methodsFor: 'accessing-private' stamp: 'len 10/13/2016 13:23'!
 ideal: aPolynomialIdeal
 	properties at: #ideal put: aPolynomialIdeal! !
+
+!Scheme methodsFor: 'morphisms' stamp: 'len 10/14/2016 09:28'!
+inclusion
+	"Answer the inclusion map into the ambient scheme."
+	^ self to: self ambient inducedBy: self coordinateRing embedding! !
 
 !Scheme methodsFor: 'testing' stamp: 'len 10/12/2016 18:32'!
 isAffine
@@ -21764,6 +21748,13 @@ projectiveClosure
 reduced
 	^ self class on: self ambient ideal: self ideal radical! !
 
+!Scheme methodsFor: 'operations' stamp: 'len 10/14/2016 09:49'!
+relativeSubscheme: anObject
+	| I |
+	I _ (anObject isKindOf: Ideal)
+		ifTrue: [anObject] ifFalse: [self coordinateRing * anObject].
+	^ self species on: self ideal: I! !
+
 !Scheme methodsFor: 'accessing' stamp: 'len 10/13/2016 13:23'!
 scalars
 	^ self ambient scalars! !
@@ -21772,15 +21763,16 @@ scalars
 species
 	^ Scheme! !
 
-!Scheme methodsFor: 'operations' stamp: 'len 10/13/2016 20:03'!
+!Scheme methodsFor: 'operations' stamp: 'len 10/14/2016 09:49'!
 subscheme: anObject
 	| I |
 	I _ (anObject isKindOf: Ideal)
 		ifTrue: [anObject] ifFalse: [self ambient coordinateRing * anObject].
-	I _ self ideal + I.
+	^ self species on: self ambient ideal: self ideal + I
+	"this is wrong:
 	I generators size = 1 ifFalse: [^ Scheme on: self ambient ideal: I].
 	self dimension = 2 ifFalse: [^ Curve on: self ambient ideal: I].
-	^ PlaneCurve on: self ambient ideal: I! !
+	^ PlaneCurve on: self ambient ideal: I"! !
 
 !Scheme class methodsFor: 'instance creation' stamp: 'len 10/13/2016 13:28'!
 on: aScheme ideal: anIdeal
@@ -21898,9 +21890,9 @@ polynomial: aPolynomial
 discriminant
 	^ (self a**3 * 4 + (self b**2 * 27)) * (-16)! !
 
-!EllipticCurve methodsFor: 'testing' stamp: 'len 10/13/2016 20:14'!
+!EllipticCurve methodsFor: 'testing' stamp: 'len 10/14/2016 09:32'!
 isNonsingular
-	^ self discriminant ~= 0! !
+	^ self discriminant isZero not! !
 
 !EllipticCurve class methodsFor: 'instance creation' stamp: 'len 10/13/2016 20:11'!
 over: aField a: a b: b
@@ -26013,26 +26005,6 @@ polynomials: aPolynomialSet index: anInteger
 !Functor methodsFor: 'as yet unclassified' stamp: 'len 10/9/2016 08:50'!
 arrowPrintOn: aStream
 	aStream print: self domain; nextPutAll: ' => '; print: self codomain! !
-
-!AffineSchemeMorphism methodsFor: 'as yet unclassified' stamp: 'len 10/4/2016 09:43'!
-codomain
-	^ oposite domain spec! !
-
-!AffineSchemeMorphism methodsFor: 'as yet unclassified' stamp: 'len 10/4/2016 09:43'!
-domain
-	^ oposite codomain spec! !
-
-!AffineSchemeMorphism methodsFor: 'as yet unclassified' stamp: 'len 10/4/2016 09:43'!
-oposite
-	^ oposite! !
-
-!AffineSchemeMorphism methodsFor: 'as yet unclassified' stamp: 'len 10/4/2016 09:43'!
-oposite: aRingHomomorphism
-	oposite _ aRingHomomorphism! !
-
-!AffineSchemeMorphism class methodsFor: 'as yet unclassified' stamp: 'len 10/4/2016 09:43'!
-oposite: aRingHomomorphism
-	^ self new oposite: aRingHomomorphism! !
 
 !RandomGenerator methodsFor: 'accessing' stamp: 'len 4/19/2016 22:03'!
 bits: anInteger
@@ -37335,8 +37307,8 @@ new
 	^ super new initialize! !
 BitTuple initialize!
 Digraph initialize!
+Naturals initialize!
 Integers initialize!
 ComplexNumbers initialize!
-Reals initialize!
 Rationals initialize!
-Naturals initialize!
+Reals initialize!
