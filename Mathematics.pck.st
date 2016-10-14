@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 14 October 2016 at 10:47:26.443306 pm'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 14 October 2016 at 11:03:23.56864 pm'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 219!
+!provides: 'Mathematics' 1 220!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
 	instanceVariableNames: 'numerator shift'
@@ -15003,54 +15003,46 @@ initialize
 	super initialize.
 	Smalltalk at: #QQ put: self new! !
 
-!RationalFunctionField methodsFor: 'morphisms' stamp: 'len 1/2/2016 04:14'!
+!RationalFunctionField methodsFor: 'morphisms' stamp: 'len 10/14/2016 22:59'!
 embed: aPolynomial
-	^ RationalFunction numerator: aPolynomial denominator: self polynomials one! !
+	^ RationalFunction numerator: aPolynomial denominator: self integers one! !
 
-!RationalFunctionField methodsFor: 'accessing' stamp: 'len 11/27/2015 20:13'!
+!RationalFunctionField methodsFor: 'accessing' stamp: 'len 10/14/2016 22:59'!
 indeterminates
-	^ self polynomials indeterminates! !
+	^ self integers indeterminates! !
 
-!RationalFunctionField methodsFor: 'testing' stamp: 'len 11/27/2015 20:13'!
+!RationalFunctionField methodsFor: 'testing' stamp: 'len 10/14/2016 22:59'!
 isUnivariate
-	^ self polynomials isUnivariate! !
+	^ self integers isUnivariate! !
 
-!RationalFunctionField methodsFor: 'accessing' stamp: 'len 10/14/2016 21:57'!
-polynomials
-	^ self integers! !
-
-!RationalFunctionField methodsFor: 'accessing-private' stamp: 'len 10/14/2016 21:59'!
-polynomials: aPolynomials
-	self integers: aPolynomials! !
-
-!RationalFunctionField methodsFor: 'printing' stamp: 'len 7/11/2016 01:12'!
+!RationalFunctionField methodsFor: 'printing' stamp: 'len 10/14/2016 22:59'!
 printOn: aStream
 	aStream print: self scalars.
 	aStream nextPut: $(.
-	self polynomials ordering indeterminates
-		do: [:i| aStream print: (self polynomials x: i)]
+	self integers ordering indeterminates
+		do: [:i| aStream print: (self integers x: i)]
 		separatedBy: [aStream nextPut: $,].
 	aStream nextPut: $)! !
 
-!RationalFunctionField methodsFor: 'accessing' stamp: 'len 10/14/2016 17:46'!
+!RationalFunctionField methodsFor: 'accessing' stamp: 'len 10/14/2016 23:00'!
 rank
-	^ self polynomials rank! !
+	^ self integers rank! !
 
-!RationalFunctionField methodsFor: 'accessing' stamp: 'len 11/27/2015 20:14'!
+!RationalFunctionField methodsFor: 'accessing' stamp: 'len 10/14/2016 23:00'!
 scalars
-	^ self polynomials scalars! !
+	^ self integers scalars! !
 
-!RationalFunctionField methodsFor: 'elements' stamp: 'len 4/16/2016 07:11'!
+!RationalFunctionField methodsFor: 'elements' stamp: 'len 10/14/2016 23:00'!
 x
-	^ self embed: self polynomials x! !
+	^ self embed: self integers x! !
 
-!RationalFunctionField methodsFor: 'elements' stamp: 'len 7/8/2016 23:37'!
+!RationalFunctionField methodsFor: 'elements' stamp: 'len 10/14/2016 23:00'!
 x: anIndeterminate
-	^ self embed: (self polynomials x: anIndeterminate)! !
+	^ self embed: (self integers x: anIndeterminate)! !
 
-!RationalFunctionField class methodsFor: 'instance creation' stamp: 'len 11/11/2015 01:23'!
-polynomials: aPolynomials
-	^ self new polynomials: aPolynomials! !
+!RationalFunctionField class methodsFor: 'instance creation' stamp: 'len 10/14/2016 23:02'!
+over: aPolynomialRing
+	^ super over: ((aPolynomialRing isKindOf: PolynomialRing) ifTrue: [aPolynomialRing] ifFalse: [aPolynomialRing polynomials])! !
 
 !FunctionField2 methodsFor: 'printing' stamp: 'len 6/3/2016 23:24'!
 printOn: aStream
@@ -15846,10 +15838,10 @@ findIrreducibleOfDegree: n
 	[(p _ self atRandom: random maxDegree: n) degree = n and: [p isIrreducible]] whileFalse.
 	^ p! !
 
-!PolynomialRing methodsFor: 'operations' stamp: 'len 10/14/2016 17:51'!
+!PolynomialRing methodsFor: 'operations' stamp: 'len 10/14/2016 23:02'!
 fractions
 	scalars isField ifFalse: [^ DomainError signal: 'scalars are not a field'].
-	^ RationalFunctionField polynomials: self! !
+	^ RationalFunctionField over: self! !
 
 !PolynomialRing methodsFor: 'accessing' stamp: 'len 10/2/2016 10:34'!
 generators
@@ -23282,6 +23274,13 @@ newFrom: aFunction
 	(anObject domain = self domain and: [anObject codomain = self codomain])
 		ifFalse: [^ false].
 	^ (self domain generators ifNil: [self domain]) allSatisfy: [:each| (self value: each) = (anObject value: each)]! !
+
+!AbelianGroupHomomorphism methodsFor: 'as yet unclassified' stamp: 'len 10/14/2016 22:51'!
+ê anAbelianGroupHomomorphism
+	^ self class
+		from: self domain ê anAbelianGroupHomomorphism domain
+		to: self codomain ê anAbelianGroupHomomorphism codomain
+		evaluating: [:x| Tuple with: (self value: (x at: 1)) with: (anAbelianGroupHomomorphism value: (x at: 2))]! !
 
 !AbelianGroupHomomorphism methodsFor: 'as yet unclassified' stamp: 'len 10/10/2016 09:14'!
 is: aSymbol
