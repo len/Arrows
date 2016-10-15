@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 13 October 2016 at 8:30:16.47345 pm'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 15 October 2016 at 10:49:20.573014 am'!
 'Description Please enter a description for this package'!
-!provides: 'MathematicsTests' 1 15!
+!provides: 'MathematicsTests' 1 16!
 !classDefinition: #AbelianGroupTest category: #MathematicsTests!
 TestCase subclass: #AbelianGroupTest
 	instanceVariableNames: ''
@@ -179,16 +179,6 @@ TestCase subclass: #RootSystemTest
 	category: 'MathematicsTests'!
 !classDefinition: 'RootSystemTest class' category: #MathematicsTests!
 RootSystemTest class
-	instanceVariableNames: ''!
-
-!classDefinition: #SchemeTest category: #MathematicsTests!
-TestCase subclass: #SchemeTest
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'MathematicsTests'!
-!classDefinition: 'SchemeTest class' category: #MathematicsTests!
-SchemeTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #SemialgebraicGeometryTest category: #MathematicsTests!
@@ -555,105 +545,124 @@ testAffineMapInverse
 	self assert: (f @ f inverse) isIdentity.
 	self assert: (f inverse @ f) isIdentity! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:55'!
-testAlgebraicSetDegree
-	"Twisted cubic in P^3 with homogeneous coordinates x,y,w,z."
-	| Qx x y z w V |
-	Qx _ QQ polynomialsIn: #(x y z w).
-	x _ Qx x.
-	y _ Qx y.
-	z _ Qx z.
-	w _ Qx x: #w.
-	V _ (Qx * {x**2 - (y*w). x*z - (y**2)}) variety.
-	"At this point V is still reducible, it is the union of a line x=y=0 and the twisted cubic:"
-	self assert: V degree = 4.
-	"To cut out C, we impose an additional equation x**3 - (z * (w**2)) = 0:"
-	V _ (Qx * {x**2 - (y*w). x*z - (y**2). x**3 - (z*(w**2))}) variety.
-	"But we get the twisted cubic (in some sense) 'counted with multiplicity 2', so the degree is 6"
-	self assert: V degree = 6! !
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/12/2016 20:56'!
+testAffineSchemeCreation
+	| A x y z X Y |
+	A _ AffineSpace new: 3 over: QQ.
+	x _ A coordinateRing x.
+	y _ A coordinateRing y.
+	z _ A coordinateRing z.
+	X _ A subscheme: x - y.
+	Y _ X subscheme: {x**2 - (z**3). y**3 - (z**4)}.
+	self assert: X ambient = A.
+	"Y is defined as subscheme of X, so it contains the equations of X plus the two new equations, but its ambient space is still A (not X):"
+	self assert: Y ambient = A! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:55'!
-testAlgebraicSetEmpty
-	| Qxyz V |
-	Qxyz _ QQ polynomialsIn: #(x y z).
-	V _ (Qxyz * {Qxyz continuantOfOrder: 2. Qxyz continuantOfOrder: 3}) variety.
-	self assert: V isEmpty! !
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/12/2016 20:39'!
+testAffineSpace
+	| K A |
+	K _ Field GF: 23.
+	A _ AffineSpace new: 3 over: K.
+	self assert: A dimension = 3.
+	self assert: A scalars = K.
+	self assert: A coordinateRing = (K polynomialsIn: 3).
+	self assert: A ambient = A! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:55'!
-testAlgebraicSetFinite
-	| Qxy x y V |
-	Qxy _ QQ polynomialsIn: #(x y).
-	x _ Qxy x.
-	y _ Qxy y.
-	V _ (Qxy * {x*x - 1. y*y - (x*x) - 3}) variety.
-	self assert: V isFinite! !
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/12/2016 21:05'!
+testDifference
+	| A x y C X2 D O |
+	A _ AffineSpace new: 2 over: QQ.
+	x _ A coordinateRing x.
+	y _ A coordinateRing y.
+	C _ A subscheme: x * y. "union of x-axis and y-axis"
+	X2 _ A subscheme: x**2. "y-axis with double multiplicity"
+	D _ X2 \ C. "y-axis with multiplicity 1"
+	self assert: D ideal = (A coordinateRing * x).
+	O _ A subscheme: {x. y}.
+	D _ C \ O.
+	self assert: D = C! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 9/1/2016 08:00'!
-testAlgebraicSetIntersection
-	| Qxy x y V V` W |
-	Qxy _ QQ polynomialsIn: #(x y).
-	x _ Qxy x.
-	y _ Qxy y.
-	V _ (Qxy * {y}) variety.
-	V` _ (Qxy * {x*x - 1}) variety.
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/15/2016 09:59'!
+testEmpty
+	| A X |
+	A _ QQ polynomialsIn: #(x y z).
+	X _ A / {A continuantOfOrder: 2. A continuantOfOrder: 3} :: spec.
+	self assert: X isEmpty! !
+
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/15/2016 10:05'!
+testEqualVarietiesDifferentIdeals
+	| A x I I` V V` |
+	A _ QQ polynomials.
+	x _ A x.
+	I _ A * {x}.
+	I` _ A * {x**2}.
+	V _ I variety.
+	V` _ I` variety.
+	self assert: V = V`.
+	self assert: I ~= I`! !
+
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/15/2016 10:06'!
+testEqualVarietiesDifferentIdeals2
+	| A x y I I` V V` |
+	A _ QQ polynomialsIn: #(x y).
+	x _ A x.
+	y _ A y.
+	I _ A * {x. y}.
+	I` _ A * {x**2. y}.
+	V _ I variety.
+	V` _ I` variety.
+	self assert: V = V`.
+	self assert: I ~= I`! !
+
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/15/2016 09:55'!
+testFinite
+	| A x y X |
+	A _ QQ polynomialsIn: #(x y).
+	x _ A x.
+	y _ A y.
+	X _ A / {x*x - 1. y*y - (x*x) - 3} :: spec.
+	self assert: X isFinite! !
+
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/15/2016 09:56'!
+testIntersection
+	| A x y V V` W |
+	A _ QQ polynomialsIn: #(x y).
+	x _ A x.
+	y _ A y.
+	V _ A / {y} :: spec.
+	V` _ A / {x*x - 1} :: spec.
 	W _ V ˜ V`.
 	self assert: (W includes: (1, 0)).
 	self assert: (W includes: (0, 1)) not! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:55'!
-testAlgebraicSetNotEmpty
-	| Qxy x y V |
-	Qxy _ QQ polynomialsIn: #(x y).
-	x _ Qxy x.
-	y _ Qxy y.
-	V _ (Qxy * {x*x - 1. y*y - (x*x) - 3}) variety.
-	self assert: V isEmpty not! !
-
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:55'!
-testAlgebraicSetNotFinite
-	| Qxy x y V |
-	Qxy _ QQ polynomialsIn: #(x y).
-	x _ Qxy x.
-	y _ Qxy y.
-	V _ (Qxy * {y*y - (x*x) - 3}) variety.
-	self assert: V isFinite not! !
-
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:55'!
-testEqualVarietiesDifferentIdeals
-	| Qx x I I` V V` |
-	Qx _ QQ polynomials.
-	x _ Qx x.
-	I _ Qx * {x}.
-	I` _ Qx * {x**2}.
-	V _ I variety.
-	V` _ I` variety.
-	self assert: V = V`.
-	self assert: I ~= I`! !
-
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:55'!
-testEqualVarietiesDifferentIdeals2
-	| Qx x y I I` V V` |
-	Qx _ QQ polynomialsIn: #(x y).
-	x _ Qx x.
-	y _ Qx y.
-	I _ Qx * {x. y}.
-	I` _ Qx * {x**2. y}.
-	V _ I variety.
-	V` _ I` variety.
-	self assert: V = V`.
-	self assert: I ~= I`! !
-
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:55'!
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/15/2016 10:08'!
 testLinearSubspaceAsAlgebraicVariety
 	| S V |
 	S _ QQ ** 3 grassmannian: 2 :: atRandomBits: 10.
 	V _ S asAlgebraicVariety.
 	self assert: V dimension = S dimension.
 	self assert: (V includes: (S e: 1)).
-	self assert: (V includes: (S e: 2))
-! !
+	self assert: (V includes: (S e: 2))! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:55'!
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/15/2016 09:57'!
+testNotEmpty
+	| A x y X |
+	A _ QQ polynomialsIn: #(x y).
+	x _ A x.
+	y _ A y.
+	X _ A  / {x*x - 1. y*y - (x*x) - 3} :: spec.
+	self assert: X isEmpty not! !
+
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/15/2016 09:57'!
+testNotFinite
+	| A x y X |
+	A _ QQ polynomialsIn: #(x y).
+	x _ A x.
+	y _ A y.
+	X _ A / {y*y - (x*x) - 3} :: spec.
+	self assert: X isFinite not! !
+
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/15/2016 10:08'!
 testPolynomialSystem
 	| Qxy x y V system |
 	Qxy _ QQ polynomialsIn: #(x y).
@@ -665,6 +674,56 @@ testPolynomialSystem
 	V _ system solutions.
 	self assert: (V includes: (1, 0)).
 	self assert: (V includes: (0, 1)) not! !
+
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/12/2016 20:39'!
+testProjectiveSpace
+	| K P |
+	K _ Field GF: 23.
+	P _ ProjectiveSpace new: 3 over: K.
+	self assert: P dimension = 3.
+	self assert: P scalars = K.
+	self assert: P coordinateRing = (K polynomialsIn: 4).
+	self assert: P ambient = P! !
+
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/13/2016 20:22'!
+testReduced
+	| A R x y z X |
+	A _ AffineSpace new: 3 over: QQ.
+	R _ A coordinateRing.
+	x _ R x.
+	y _ R y.
+	z _ R z.
+	X _ A subscheme: {x*(y**3). x**2*z}.
+	self assert: X isReduced not.
+	self assert: X reduced = (A subscheme: {x*y. x*z})! !
+
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/13/2016 10:30'!
+testTwistedCubic
+	| P R M C |
+	P _ ProjectiveSpace new: 3 over: QQ.
+	R _ P coordinateRing.
+	"R indeterminateNames: #(u v w t)"
+	M _ R**(2@3) vectorAt: ((1,2,3,2,3,4) collect: [:i| R x: i]).
+	C _ P subscheme: (M minors: 2).
+	self assert: C dimension = 1. "try replacing the ideal with the saturated ideal"
+	self assert: C isNonsingular! !
+
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/15/2016 09:54'!
+testTwistedCubicDegree
+	"Twisted cubic in P^3 with homogeneous coordinates x,y,w,z."
+	| A x y z w X |
+	A _ QQ polynomialsIn: #(x y z w).
+	x _ A x.
+	y _ A y.
+	z _ A z.
+	w _ A x: #w.
+	X _ A / {x**2 - (y*w). x*z - (y**2)} :: spec.
+	"At this point C is still reducible, it is the union of a line x=y=0 and the twisted cubic:"
+	self assert: X degree = 4.
+	"To cut out C, we impose an additional equation x**3 - (z * (w**2)) = 0:"
+	X _ A / {x**2 - (y*w). x*z - (y**2). x**3 - (z*(w**2))} :: spec.
+	"But we get the twisted cubic (in some sense) 'counted with multiplicity 2', so the degree is 6"
+	self assert: X degree = 6! !
 
 !AlgebraicNumbersTest methodsFor: 'as yet unclassified' stamp: 'len 6/4/2016 22:00'!
 testArithmetic
@@ -4005,76 +4064,6 @@ testWeylGroupAndSimpleRoots
 	R _ self rootSystem1.
 	W _ R weylGroup.
 	R roots do: [:r| self assert: (W anySatisfy: [:w| R simpleRoots includes: (w value: r)])]! !
-
-!SchemeTest methodsFor: 'as yet unclassified' stamp: 'len 10/12/2016 20:56'!
-testAffineSchemeCreation
-	| A x y z X Y |
-	A _ AffineSpace new: 3 over: QQ.
-	x _ A coordinateRing x.
-	y _ A coordinateRing y.
-	z _ A coordinateRing z.
-	X _ A subscheme: x - y.
-	Y _ X subscheme: {x**2 - (z**3). y**3 - (z**4)}.
-	self assert: X ambient = A.
-	"Y is defined as subscheme of X, so it contains the equations of X plus the two new equations, but its ambient space is still A (not X):"
-	self assert: Y ambient = A! !
-
-!SchemeTest methodsFor: 'as yet unclassified' stamp: 'len 10/12/2016 20:39'!
-testAffineSpace
-	| K A |
-	K _ Field GF: 23.
-	A _ AffineSpace new: 3 over: K.
-	self assert: A dimension = 3.
-	self assert: A scalars = K.
-	self assert: A coordinateRing = (K polynomialsIn: 3).
-	self assert: A ambient = A! !
-
-!SchemeTest methodsFor: 'as yet unclassified' stamp: 'len 10/12/2016 21:05'!
-testDifference
-	| A x y C X2 D O |
-	A _ AffineSpace new: 2 over: QQ.
-	x _ A coordinateRing x.
-	y _ A coordinateRing y.
-	C _ A subscheme: x * y. "union of x-axis and y-axis"
-	X2 _ A subscheme: x**2. "y-axis with double multiplicity"
-	D _ X2 \ C. "y-axis with multiplicity 1"
-	self assert: D ideal = (A coordinateRing * x).
-	O _ A subscheme: {x. y}.
-	D _ C \ O.
-	self assert: D = C! !
-
-!SchemeTest methodsFor: 'as yet unclassified' stamp: 'len 10/12/2016 20:39'!
-testProjectiveSpace
-	| K P |
-	K _ Field GF: 23.
-	P _ ProjectiveSpace new: 3 over: K.
-	self assert: P dimension = 3.
-	self assert: P scalars = K.
-	self assert: P coordinateRing = (K polynomialsIn: 4).
-	self assert: P ambient = P! !
-
-!SchemeTest methodsFor: 'as yet unclassified' stamp: 'len 10/13/2016 20:22'!
-testReduced
-	| A R x y z X |
-	A _ AffineSpace new: 3 over: QQ.
-	R _ A coordinateRing.
-	x _ R x.
-	y _ R y.
-	z _ R z.
-	X _ A subscheme: {x*(y**3). x**2*z}.
-	self assert: X isReduced not.
-	self assert: X reduced = (A subscheme: {x*y. x*z})! !
-
-!SchemeTest methodsFor: 'as yet unclassified' stamp: 'len 10/13/2016 10:30'!
-testTwistedCubic
-	| P R M C |
-	P _ ProjectiveSpace new: 3 over: QQ.
-	R _ P coordinateRing.
-	"R indeterminateNames: #(u v w t)"
-	M _ R**(2@3) vectorAt: ((1,2,3,2,3,4) collect: [:i| R x: i]).
-	C _ P subscheme: (M minors: 2).
-	self assert: C dimension = 1. "try replacing the ideal with the saturated ideal"
-	self assert: C isNonsingular! !
 
 !SemialgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 7/15/2016 18:37'!
 testCAD
