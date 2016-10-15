@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 14 October 2016 at 11:03:23.56864 pm'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 15 October 2016 at 10:49:03.242353 am'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 220!
+!provides: 'Mathematics' 1 221!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
 	instanceVariableNames: 'numerator shift'
@@ -1081,16 +1081,6 @@ FreeModule subclass: #HomogeneousPolynomialModule
 HomogeneousPolynomialModule class
 	instanceVariableNames: ''!
 
-!classDefinition: #SyzygyModule category: #'Mathematics-Polynomials-Domains'!
-FreeModule subclass: #SyzygyModule
-	instanceVariableNames: 'polynomials'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Polynomials-Domains'!
-!classDefinition: 'SyzygyModule class' category: #'Mathematics-Polynomials-Domains'!
-SyzygyModule class
-	instanceVariableNames: ''!
-
 !classDefinition: #DivisorsGroup category: #'Mathematics-Geometry-Algebraic'!
 FreeModule subclass: #DivisorsGroup
 	instanceVariableNames: 'scheme'
@@ -1109,6 +1099,16 @@ FreeModule subclass: #ExteriorPower
 	category: 'Mathematics-Etc'!
 !classDefinition: 'ExteriorPower class' category: #'Mathematics-Etc'!
 ExteriorPower class
+	instanceVariableNames: ''!
+
+!classDefinition: #SyzygyModule category: #'Mathematics-Etc'!
+FreeModule subclass: #SyzygyModule
+	instanceVariableNames: 'polynomials'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Etc'!
+!classDefinition: 'SyzygyModule class' category: #'Mathematics-Etc'!
+SyzygyModule class
 	instanceVariableNames: ''!
 
 !classDefinition: #Magma category: #'Mathematics-Abstract'!
@@ -13678,10 +13678,10 @@ saturation: anIdeal
 squareFree
 	^ self class on: self ring generators: (self generators collect: [:each| each squareFree])! !
 
-!PolynomialIdeal methodsFor: 'accessing' stamp: 'len 12/31/2015 22:28'!
+!PolynomialIdeal methodsFor: 'accessing' stamp: 'len 10/15/2016 10:48'!
 variety
 	"Answer the algebraic variety that is the set of zeroes of all polynomials in the receiver."
-	^ AlgebraicSet ideal: self! !
+	^ self isHomogeneous ifTrue: [(self ring / self radical) proj] ifFalse: [(self ring / self radical) spec]! !
 
 !PolynomialIdeal class methodsFor: 'examples' stamp: 'len 7/15/2016 18:35'!
 cyclic: n
@@ -13769,10 +13769,18 @@ species
 "	n isInfinity ifTrue: [^ InfiniteTupleSpace over: self]."
 	^ n isPoint ifTrue: [MatrixModule new: n over: self] ifFalse: [TupleModule new: n over: self]! !
 
-!Ring methodsFor: 'operations' stamp: 'len 9/26/2016 16:51'!
+!Ring methodsFor: 'operations' stamp: 'len 10/15/2016 10:29'!
 / anIdeal
-	self = anIdeal ring ifFalse: [^ DomainError signal: 'the ideal doesn''t belong to the receiver ring'].
-	^ QuotientRing by: anIdeal! !
+	"Answer the quotient by the given ideal.
+	For convenience, the argument can be a single element or a collection of elements as well."
+	| I |
+	(anIdeal isKindOf: Ideal)
+		ifTrue:
+			[self = anIdeal ring ifFalse: [^ DomainError signal: 'the ideal doesn''t belong to the receiver ring'].
+			I _ anIdeal]
+		ifFalse:
+			[I _ self * anIdeal].
+	^ QuotientRing by: I! !
 
 !Ring methodsFor: 'operations' stamp: 'len 10/9/2016 21:11'!
 × aRing
@@ -17302,9 +17310,9 @@ annihilator
 	"Answer the annihilator of the receiver, i.e. the space of all linear forms that are 0 at all vectors in the receiver."
 	^ self class basis: (self basis extended dual copyFrom: self dimension + 1 to: self ambient dimension)! !
 
-!Submodule methodsFor: 'converting' stamp: 'len 6/9/2016 06:16'!
+!Submodule methodsFor: 'converting' stamp: 'len 10/15/2016 10:07'!
 asAlgebraicVariety
-	^ AlgebraicSet on: self ambient asAffineSpace ideal: self equations asPolynomialSystem ideal! !
+	^ self equations asPolynomialSystem ideal variety! !
 
 !Submodule methodsFor: 'basis' stamp: 'len 11/7/2015 03:50'!
 basis
@@ -17839,12 +17847,6 @@ rank
 	n _ polynomials rank.
 	^ degree + n - 1 choose: degree! !
 
-!SyzygyModule methodsFor: 'as yet unclassified' stamp: 'len 7/10/2016 00:00'!
-printOn: aStream
-	aStream nextPutAll: 'Syz('.
-	polynomials do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: ', '].
-	aStream nextPut: $)! !
-
 !DivisorsGroup methodsFor: 'printing' stamp: 'len 10/5/2016 10:01'!
 printOn: aStream
 	aStream nextPutAll: 'Div' bold.
@@ -17890,6 +17892,12 @@ space
 !ExteriorPower methodsFor: 'as yet unclassified' stamp: 'len 8/1/2016 23:50'!
 space: aFreeModule
 	space _ aFreeModule! !
+
+!SyzygyModule methodsFor: 'as yet unclassified' stamp: 'len 7/10/2016 00:00'!
+printOn: aStream
+	aStream nextPutAll: 'Syz('.
+	polynomials do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: ', '].
+	aStream nextPut: $)! !
 
 !Magma methodsFor: 'copying' stamp: 'len 5/1/2016 23:33'!
 copyEmpty
@@ -21574,6 +21582,13 @@ ideal
 ideal: aPolynomialIdeal
 	properties at: #ideal put: aPolynomialIdeal! !
 
+!Scheme methodsFor: 'testing' stamp: 'len 10/15/2016 10:24'!
+includes: aPoint
+	"Answer true if the receiver includes the argument."
+	(self ambient includes: aPoint) ifFalse: [^ false].
+	"p _ self ambient coordinatesOf: aPoint."
+	^ self ideal generators allSatisfy: [:each| (each value: aPoint) isZero]! !
+
 !Scheme methodsFor: 'morphisms' stamp: 'len 10/14/2016 09:28'!
 inclusion
 	"Answer the inclusion map into the ambient scheme."
@@ -21754,6 +21769,10 @@ ideal
 	"Answer the defining ideal of the receiver, considered as a subscheme of itself."
 	^ self coordinateRing zeroIdeal! !
 
+!AffineSpace methodsFor: 'testing' stamp: 'len 10/15/2016 10:25'!
+includes: aPoint
+	^ (aPoint isKindOf: Tuple) and: [aPoint size = self dimension and: [aPoint allSatisfy: [:each| self scalars includes: each]]]! !
+
 !AffineSpace methodsFor: 'testing' stamp: 'len 10/12/2016 18:47'!
 isAffine
 	^ true! !
@@ -21868,6 +21887,10 @@ dimension
 !ProjectiveSpace methodsFor: 'comparing' stamp: 'len 10/12/2016 21:07'!
 hash
 	^ self coordinateRing hash! !
+
+!ProjectiveSpace methodsFor: 'testing' stamp: 'len 10/15/2016 10:26'!
+includes: aPoint
+	^ (aPoint isKindOf: Tuple) and: [aPoint size = self dimension and: [aPoint isZero not and: [aPoint allSatisfy: [:each| self scalars includes: each]]]]! !
 
 !ProjectiveSpace methodsFor: 'testing' stamp: 'len 10/12/2016 18:48'!
 isAffine
@@ -23153,6 +23176,14 @@ new
 	"Answer the composition of the receiver with the argument."
 	self domain >= aFunction codomain ifFalse: [DomainError signal: 'domains don''t match'].
 	^ self species from: aFunction domain to: self codomain evaluating: [:x| self value: (aFunction value: x)]! !
+
+!Function methodsFor: 'operations' stamp: 'len 10/15/2016 10:44'!
+× aFunction
+	"Answer the cartesian product of the receiver with the argument."
+	^ Function
+		from: (self domain, aFunction domain)
+		to: (self codomain, aFunction codomain)
+		evaluating: [:each| Tuple with: (self value: (each at: 1)) with: (aFunction value: (each at: 2))]! !
 
 !Function methodsFor: 'operations' stamp: 'len 10/11/2016 08:15'!
 • aFunction
