@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 16 October 2016 at 3:00:46.513516 pm'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 16 October 2016 at 7:42:50.507243 pm'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 222!
+!provides: 'Mathematics' 1 223!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
 	instanceVariableNames: 'numerator shift'
@@ -762,7 +762,7 @@ PrimeField class
 	instanceVariableNames: ''!
 
 !classDefinition: #AlgebraicExtension category: #'Mathematics-Number Fields'!
-Field subclass: #AlgebraicExtension
+ResidueField subclass: #AlgebraicExtension
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
@@ -2323,12 +2323,22 @@ Quaternion class
 
 !classDefinition: #Residue category: #'Mathematics-Kernel-Support'!
 Object subclass: #Residue
-	instanceVariableNames: 'representative ideal'
+	instanceVariableNames: 'representative parent'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Kernel-Support'!
 !classDefinition: 'Residue class' category: #'Mathematics-Kernel-Support'!
 Residue class
+	instanceVariableNames: ''!
+
+!classDefinition: #AlgebraicExtensionElement category: #'Mathematics-Number Fields'!
+Residue subclass: #AlgebraicExtensionElement
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Number Fields'!
+!classDefinition: 'AlgebraicExtensionElement class' category: #'Mathematics-Number Fields'!
+AlgebraicExtensionElement class
 	instanceVariableNames: ''!
 
 !classDefinition: #SLP category: #'Mathematics-Kernel-Support'!
@@ -14475,10 +14485,6 @@ do: aBlock
 		visited add: (q _ self project: each) ifPresent: [^ self].
 		aBlock value: q]! !
 
-!QuotientRing methodsFor: 'private' stamp: 'len 3/29/2016 23:45'!
-elementClass
-	^ properties at: #elementClass ifAbsentPut: [Residue]! !
-
 !QuotientRing methodsFor: 'accessing' stamp: 'len 10/10/2016 16:29'!
 generators
 	^ (self base generators ifNil: [^ nil]) apply: self projection! !
@@ -14495,9 +14501,9 @@ ideal
 ideal: anIdeal
 	ideal _ anIdeal! !
 
-!QuotientRing methodsFor: 'testing' stamp: 'len 9/26/2016 16:49'!
+!QuotientRing methodsFor: 'testing' stamp: 'len 10/16/2016 15:09'!
 includes: anObject
-	anObject class = self elementClass ifFalse: [^ false].
+	(anObject isKindOf: Residue) ifFalse: [^ false].
 	^ ideal ring includes: anObject representative! !
 
 !QuotientRing methodsFor: 'testing' stamp: 'len 9/26/2016 16:49'!
@@ -14546,9 +14552,9 @@ printOn: aStream
 proj
 	^ AlgebraicScheme on: self base proj ideal: self ideal! !
 
-!QuotientRing methodsFor: 'morphisms' stamp: 'len 7/7/2016 20:46'!
+!QuotientRing methodsFor: 'morphisms' stamp: 'len 10/16/2016 15:59'!
 project: anElement
-	^ self elementClass representative: (ideal reduce: anElement) ideal: ideal! !
+	^ Residue in: self representative: (ideal reduce: anElement)! !
 
 !QuotientRing methodsFor: 'morphisms' stamp: 'len 10/6/2016 09:53'!
 projection
@@ -14587,6 +14593,10 @@ characteristic
 elementClass
 	^ ModularInteger! !
 
+!ModularIntegers methodsFor: 'testing' stamp: 'len 10/16/2016 15:24'!
+includes: anObject
+	^ anObject class = ModularInteger and: [anObject modulus = self modulus]! !
+
 !ModularIntegers methodsFor: 'testing' stamp: 'len 5/12/2016 23:20'!
 isField
 	^ properties at: #isField ifAbsentPut: [self modulus isPrime]! !
@@ -14594,6 +14604,10 @@ isField
 !ModularIntegers methodsFor: 'testing' stamp: 'len 5/12/2016 23:34'!
 isUnit: anElement
 	^ (anElement representative gcd: self modulus) = 1! !
+
+!ModularIntegers methodsFor: 'morphisms' stamp: 'len 10/16/2016 15:23'!
+project: anElement
+	^ ModularInteger representative: (ideal reduce: anElement) modulo: self modulus! !
 
 !ModularIntegers methodsFor: 'accessing' stamp: 'len 4/25/2016 00:27'!
 size
@@ -15127,10 +15141,6 @@ do: aBlock
 		visited add: (q _ self project: each) ifPresent: [^ self].
 		aBlock value: q]! !
 
-!ResidueField methodsFor: 'private' stamp: 'len 3/29/2016 23:45'!
-elementClass
-	^ properties at: #elementClass ifAbsentPut: [Residue]! !
-
 !ResidueField methodsFor: 'comparing' stamp: 'len 12/14/2015 01:57'!
 hash
 	^ ideal hash! !
@@ -15143,9 +15153,9 @@ ideal
 ideal: anIdeal
 	ideal _ anIdeal! !
 
-!ResidueField methodsFor: 'testing' stamp: 'len 9/26/2016 16:51'!
+!ResidueField methodsFor: 'testing' stamp: 'len 10/16/2016 15:26'!
 includes: anObject
-	anObject class = self elementClass ifFalse: [^ false].
+	(anObject isKindOf: Residue) ifFalse: [^ false].
 	^ ideal ring includes: anObject representative! !
 
 !ResidueField methodsFor: 'testing' stamp: 'len 8/10/2016 01:01'!
@@ -15172,9 +15182,9 @@ printOn: aStream
 		ifFalse: [aStream print: ideal ring].
 	aStream nextPut: $/; print: ideal! !
 
-!ResidueField methodsFor: 'morphisms' stamp: 'len 7/7/2016 20:46'!
+!ResidueField methodsFor: 'morphisms' stamp: 'len 10/16/2016 15:59'!
 project: anElement
-	^ self elementClass representative: (ideal reduce: anElement) ideal: ideal! !
+	^ Residue in: self representative: (ideal reduce: anElement)! !
 
 !ResidueField methodsFor: 'morphisms' stamp: 'len 10/6/2016 09:53'!
 projection
@@ -15219,14 +15229,18 @@ computePrimitiveRoot
 			a >= m ifTrue: [self error: 'no primitive element, the modulus is not prime']].
 	^ a! !
 
-!PrimeField methodsFor: 'private' stamp: 'len 8/10/2016 06:16'!
-elementClass
-	^ ModularInteger! !
+!PrimeField methodsFor: 'testing' stamp: 'len 10/16/2016 15:26'!
+includes: anObject
+	^ anObject class = ModularInteger and: [anObject modulus = self modulus]! !
 
 !PrimeField methodsFor: 'accessing' stamp: 'len 8/10/2016 06:04'!
 primitiveRoot
 	"When the receiver is a field Z/<p>, answer a primitive root modulo p."
 	^ properties at: #primitiveRoot ifAbsentPut: [self computePrimitiveRoot]! !
+
+!PrimeField methodsFor: 'morphisms' stamp: 'len 10/16/2016 15:26'!
+project: anElement
+	^ ModularInteger representative: (ideal reduce: anElement) modulo: self modulus! !
 
 !PrimeField methodsFor: 'accessing' stamp: 'len 8/10/2016 06:03'!
 size
@@ -15241,10 +15255,6 @@ tupleClass
 new: aPrime
 	^ self by: ZZ * aPrime! !
 
-!AlgebraicExtension methodsFor: 'converting' stamp: 'len 3/19/2016 03:18'!
-asQuotientRing
-	^ properties at: #quotientRing ifAbsentPut: [self baseField polynomials mod: self polynomial]! !
-
 !AlgebraicExtension methodsFor: 'converting' stamp: 'len 10/16/2016 14:43'!
 asVectorSpace
 	^ self as: AlgebraicExtensionSpace
@@ -15256,14 +15266,6 @@ asVectorSpace
 "
 	QQ extension: QQ polynomials x**4 - 2 :: asVectorSpace
 "! !
-
-!AlgebraicExtension methodsFor: 'random' stamp: 'len 4/18/2016 04:01'!
-atRandom: aRandomGenerator
-	^ self asQuotientRing atRandom: aRandomGenerator! !
-
-!AlgebraicExtension methodsFor: 'random' stamp: 'len 4/19/2016 22:54'!
-atRandom: aRandomGenerator bits: bitSize
-	^ self asQuotientRing atRandom: aRandomGenerator bits: bitSize! !
 
 !AlgebraicExtension methodsFor: 'morphisms' stamp: 'len 10/5/2016 09:51'!
 automorphisms
@@ -15294,14 +15296,10 @@ characteristicPolynomialOf: anElement
 degree
 	^ self polynomial degree! !
 
-!AlgebraicExtension methodsFor: 'iterating' stamp: 'len 3/19/2016 04:22'!
-do: aBlock
-	self asQuotientRing do: aBlock! !
-
-!AlgebraicExtension methodsFor: 'morphisms' stamp: 'len 9/26/2016 16:47'!
+!AlgebraicExtension methodsFor: 'morphisms' stamp: 'len 10/16/2016 15:11'!
 embed: aNumber
 	"This is the field homomorphism that embeds the base field into the receiver."
-	^ self asQuotientRing project: (self asQuotientRing ideal ring embed: aNumber)! !
+	^ self project: (self ideal ring embed: aNumber)! !
 
 !AlgebraicExtension methodsFor: 'morphisms' stamp: 'len 10/10/2016 08:55'!
 embedding
@@ -15318,14 +15316,6 @@ embeddings
 embeddingsIn: aField
 	^ (self polynomial rootsIn: aField)
 		collect: [:x| self to: aField evaluating: [:alpha| alpha representative value: x]]! !
-
-!AlgebraicExtension methodsFor: 'testing' stamp: 'len 3/18/2016 22:34'!
-includes: anObject
-	^ self asQuotientRing includes: anObject! !
-
-!AlgebraicExtension methodsFor: 'testing' stamp: 'len 3/19/2016 04:07'!
-isField
-	^ true! !
 
 !AlgebraicExtension methodsFor: 'testing' stamp: 'len 5/14/2016 06:54'!
 isGlobalField
@@ -15353,18 +15343,22 @@ normOf: anElement
 one
 	^ self embed: self baseField one! !
 
-!AlgebraicExtension methodsFor: 'accessing' stamp: 'len 3/18/2016 22:31'!
+!AlgebraicExtension methodsFor: 'accessing' stamp: 'len 10/16/2016 15:13'!
 polynomial
-	^ properties at: #polynomial! !
+	^ self ideal generator! !
 
-!AlgebraicExtension methodsFor: 'accessing-private' stamp: 'len 5/12/2016 10:04'!
+!AlgebraicExtension methodsFor: 'accessing-private' stamp: 'len 10/16/2016 15:13'!
 polynomial: aPolynomial
-	properties at: #polynomial put: aPolynomial! !
+	self ideal: aPolynomial species * aPolynomial! !
 
 !AlgebraicExtension methodsFor: 'printing' stamp: 'len 10/5/2016 09:50'!
 printOn: aStream
 	(properties includesKey: #name) ifTrue: [^ super printOn: aStream].
 	aStream print: self baseField; nextPut: $(; print: self polynomial; nextPut: $)! !
+
+!AlgebraicExtension methodsFor: 'morphisms' stamp: 'len 10/16/2016 19:42'!
+project: anElement
+	^ AlgebraicExtensionElement in: self representative: (ideal reduce: anElement)! !
 
 !AlgebraicExtension methodsFor: 'accessing' stamp: 'len 3/19/2016 04:24'!
 size
@@ -15381,10 +15375,10 @@ traceOf: anElement
 	f _ self minimalPolynomialOf: anElement.
 	^ (f coefficientAtDegree: f degree - 1) / f leadingCoefficient! !
 
-!AlgebraicExtension methodsFor: 'accessing' stamp: 'len 9/26/2016 16:47'!
+!AlgebraicExtension methodsFor: 'accessing' stamp: 'len 10/16/2016 15:12'!
 x
 	"Answer the transcendental element of the receiver."
-	^ self asQuotientRing project: self asQuotientRing ideal ring x! !
+	^ self project: self ideal ring x! !
 
 !AlgebraicExtension class methodsFor: 'instance creation' stamp: 'len 5/12/2016 10:05'!
 polynomial: aPolynomial
@@ -15395,9 +15389,10 @@ polynomial: aPolynomial
 adjoint
 	^ adjoint! !
 
-!NumberField methodsFor: 'accessing-private' stamp: 'len 1/11/2016 02:03'!
+!NumberField methodsFor: 'accessing-private' stamp: 'len 10/16/2016 15:15'!
 adjoint: anAlgebraicNumber
-	adjoint _ anAlgebraicNumber! !
+	adjoint _ anAlgebraicNumber.
+	self polynomial: anAlgebraicNumber minimalPolynomial! !
 
 !NumberField methodsFor: 'operations' stamp: 'len 1/10/2016 22:34'!
 archimedeanPlaces
@@ -15446,10 +15441,6 @@ isTotallyReal
 !NumberField methodsFor: 'operations' stamp: 'len 1/10/2016 22:34'!
 nonArchimedeanPlaces
 	^ self notYetImplemented! !
-
-!NumberField methodsFor: 'accessing' stamp: 'len 3/19/2016 09:17'!
-polynomial
-	^ self adjoint minimalPolynomial! !
 
 !NumberField methodsFor: 'morphisms' stamp: 'len 6/4/2016 21:16'!
 preferedEmbedding
@@ -26618,10 +26609,6 @@ representative: anInteger
 zero
 	^ self class representative: 0 modulo: modulus! !
 
-!ModularInteger class methodsFor: 'instance creation' stamp: 'len 3/29/2016 23:52'!
-representative: anInteger ideal: anIdeal
-	^ self representative: anInteger modulo: anIdeal generator! !
-
 !ModularInteger class methodsFor: 'instance creation' stamp: 'len 4/25/2016 00:27'!
 representative: anInteger modulo: anotherInteger
 	^ self new representative: anInteger; modulus: anotherInteger! !
@@ -26953,10 +26940,10 @@ j
 k
 	^ Quaternion a: 0 b: 0 c: 0 d: 1! !
 
-!Residue methodsFor: 'arithmetic' stamp: 'len 3/22/2016 02:44'!
+!Residue methodsFor: 'arithmetic' stamp: 'len 10/16/2016 15:57'!
 * anObject
-	anObject isInteger ifTrue: [^ self project: representative * anObject].
-	^ self project: representative * anObject representative! !
+	anObject isInteger ifTrue: [^ parent project: representative * anObject].
+	^ parent project: representative * anObject representative! !
 
 !Residue methodsFor: 'arithmetic' stamp: 'len 7/8/2016 05:41'!
 ** anInteger
@@ -26966,9 +26953,9 @@ k
 	anInteger < 0 ifTrue: [^ (self ** anInteger negated) reciprocal].
 	^ self squared ** (anInteger // 2) * (self ** (anInteger \\ 2))! !
 
-!Residue methodsFor: 'arithmetic' stamp: 'len 3/22/2016 02:44'!
+!Residue methodsFor: 'arithmetic' stamp: 'len 10/16/2016 15:57'!
 + aResidue
-	^ self project: representative + aResidue representative! !
+	^ parent project: representative + aResidue representative! !
 
 !Residue methodsFor: 'converting' stamp: 'len 11/23/2015 06:20'!
 , aTuple
@@ -26988,9 +26975,9 @@ k
 "	^ (self - aResidue) isZero"
 	^ representative = aResidue representative! !
 
-!Residue methodsFor: 'converting' stamp: 'len 3/22/2016 02:48'!
+!Residue methodsFor: 'converting' stamp: 'len 10/16/2016 15:56'!
 adaptToInteger: rcvr andSend: selector
-	^ (self class representative: rcvr modulo: ideal) perform: selector with: self! !
+	^ (self class in: parent representative: rcvr) perform: selector with: self! !
 
 !Residue methodsFor: 'accessing' stamp: 'len 12/28/2015 20:32'!
 bitSize
@@ -27013,21 +27000,17 @@ conjugatesDo: aBlock
 	alpha _ alpha ** self ideal ring characteristic.
 	alpha = self] whileFalse! !
 
-!Residue methodsFor: 'comparing' stamp: 'len 3/22/2016 02:46'!
+!Residue methodsFor: 'comparing' stamp: 'len 10/16/2016 15:56'!
 hash
-	^ ideal hash! !
+	^ parent hash! !
 
-!Residue methodsFor: 'accessing' stamp: 'len 3/22/2016 02:30'!
+!Residue methodsFor: 'accessing' stamp: 'len 10/16/2016 15:56'!
 ideal
-	^ ideal! !
+	^ parent ideal! !
 
-!Residue methodsFor: 'accessing-private' stamp: 'len 3/22/2016 02:30'!
-ideal: anIdeal
-	ideal _ anIdeal! !
-
-!Residue methodsFor: 'testing' stamp: 'len 3/22/2016 02:49'!
+!Residue methodsFor: 'testing' stamp: 'len 10/16/2016 15:57'!
 includes: aRingElement
-	^ self = (self project: aRingElement)! !
+	^ self = (parent project: aRingElement)! !
 
 !Residue methodsFor: 'testing' stamp: 'len 1/2/2016 22:34'!
 isUnit
@@ -27038,29 +27021,29 @@ isZero
 	"^ (ideal remainderOf: representative) isZero"
 	^ representative isZero! !
 
-!Residue methodsFor: 'accessing' stamp: 'len 4/25/2016 00:30'!
+!Residue methodsFor: 'accessing' stamp: 'len 10/16/2016 15:56'!
 modulus
-	^ ideal generator! !
+	^ self ideal generator! !
 
-!Residue methodsFor: 'arithmetic' stamp: 'len 3/22/2016 02:45'!
+!Residue methodsFor: 'arithmetic' stamp: 'len 10/16/2016 15:57'!
 negated
-	^ self project: representative negated! !
+	^ parent project: representative negated! !
 
-!Residue methodsFor: 'constants' stamp: 'len 3/22/2016 02:47'!
+!Residue methodsFor: 'constants' stamp: 'len 10/16/2016 15:57'!
 one
-	^ self project: representative one! !
+	^ parent one! !
+
+!Residue methodsFor: 'accessing-private' stamp: 'len 10/16/2016 16:01'!
+parent: aQuotientRing
+	parent _ aQuotientRing! !
 
 !Residue methodsFor: 'printing' stamp: 'len 12/21/2015 22:51'!
 printOn: aStream
 	aStream print: representative"; nextPutAll: ' mod '; print: ideal"! !
 
-!Residue methodsFor: 'private' stamp: 'len 7/7/2016 20:46'!
-project: aRepresentative
-	^ self class representative: (ideal reduce: aRepresentative) ideal: ideal! !
-
-!Residue methodsFor: 'arithmetic' stamp: 'len 3/22/2016 02:46'!
+!Residue methodsFor: 'arithmetic' stamp: 'len 10/16/2016 15:57'!
 reciprocal
-	^ self project: ((self ideal inverseOf: representative) ifNil: [^ self error: 'not invertible'])! !
+	^ parent project: ((self ideal inverseOf: representative) ifNil: [^ self error: 'not invertible'])! !
 
 !Residue methodsFor: 'accessing' stamp: 'len 11/25/2015 03:11'!
 representative
@@ -27074,13 +27057,34 @@ representative: anObject
 squared
 	^ self * self! !
 
-!Residue methodsFor: 'constants' stamp: 'len 3/22/2016 02:47'!
+!Residue methodsFor: 'constants' stamp: 'len 10/16/2016 15:58'!
 zero
-	^ self project: representative zero! !
+	^ parent zero! !
 
-!Residue class methodsFor: 'instance creation' stamp: 'len 3/29/2016 23:46'!
-representative: anObject ideal: anIdeal
-	^ self new representative: anObject; ideal: anIdeal! !
+!Residue class methodsFor: 'instance creation' stamp: 'len 10/16/2016 15:58'!
+in: aQuotientRing representative: anObject
+	^ self new parent: aQuotientRing; representative: anObject! !
+
+!AlgebraicExtensionElement methodsFor: 'as yet unclassified' stamp: 'len 10/16/2016 18:18'!
+characteristicPolynomial
+	^ (self parent asVectorSpace endomorphisms evaluating: [:x| x * self]) characteristicPolynomial! !
+
+!AlgebraicExtensionElement methodsFor: 'as yet unclassified' stamp: 'len 10/16/2016 18:18'!
+minimalPolynomial
+	^ (self parent asVectorSpace endomorphisms evaluating: [:x| x * self]) minimalPolynomial! !
+
+!AlgebraicExtensionElement methodsFor: 'as yet unclassified' stamp: 'len 10/16/2016 18:17'!
+norm
+	| f |
+	f _ self minimalPolynomial.
+	^ f independentCoefficient / f leadingCoefficient * (f degree even ifTrue: [1] ifFalse: [-1])! !
+
+!AlgebraicExtensionElement methodsFor: 'as yet unclassified' stamp: 'len 10/16/2016 18:20'!
+trace
+	"Answer the absolute trace of the receiver."
+	| f |
+	f _ self minimalPolynomial.
+	^ (f coefficientAtDegree: f degree - 1) / f leadingCoefficient! !
 
 !SLP methodsFor: 'as yet unclassified' stamp: 'len 7/26/2016 23:37'!
 * aSLP
@@ -30160,14 +30164,15 @@ eq: anObject
 
 	^ PolynomialEquation polynomial: self - anObject! !
 
-!Polynomial methodsFor: 'arithmetic' stamp: 'len 7/8/2016 23:53'!
-exactDivideBy: aPolynomial
+!Polynomial methodsFor: 'arithmetic' stamp: 'len 10/16/2016 16:02'!
+exactDivideBy2: aPolynomial
 	"Answer the exact division of the receiver by the argument.
 	Apply the Schonhage-Jabelean algorithm, for polynomials of degree at most 2n and n with coefficients in a field. When necesary conditions don't hold, do the ordinary division.
 	Ref: 'Algorithms With Exact Divisions Made Faster', Arnold Schonhage,
 	INRIA Research Report Nro. 2381, Algorithms Seminar 1993-1994, p. 51."
 
 	| shift f g m n h l k cg q |
+	self flag: #fix. "this has some bug"
 	self isZero
 		ifTrue: [^ self].
 	aPolynomial isConstant
@@ -30207,6 +30212,20 @@ exactDivideBy: aPolynomial
 			f at: i+j+1 put: (f at: i+j+1) - (qi*(g at: j+1))]].
 
 	^ self species coefficients: q! !
+
+!Polynomial methodsFor: 'arithmetic' stamp: 'len 10/16/2016 18:00'!
+exactDivideBy: aPolynomial
+	"Answer the exact division of the receiver by the argument."
+
+	self isZero
+		ifTrue: [^ self].
+	aPolynomial isConstant
+		ifTrue: [| lc | lc _ aPolynomial leadingCoefficient. ^ self coefficientsApply: [:each| each / lc]].
+	(self isUnivariate and: [aPolynomial isUnivariate])
+		ifFalse: [^ (MultiPolynomialDivision divide: self by: {aPolynomial}) quotient].
+	self scalars isField
+		ifFalse: [^ (PolynomialPseudoDivision divide: self by: aPolynomial) exactQuotient].
+	^ (PolynomialDivision divide: self by: aPolynomial) quotient! !
 
 !Polynomial methodsFor: 'arithmetic' stamp: 'len 3/23/2016 04:40'!
 exactDivideByMonomial: aMonomial
@@ -30708,10 +30727,11 @@ prs: aPolynomial
 			r _ f0 \\ f1].
 	^ answer! !
 
-!Polynomial methodsFor: 'arithmetic' stamp: 'len 12/16/2015 03:11'!
+!Polynomial methodsFor: 'arithmetic' stamp: 'len 10/16/2016 17:19'!
 pseudoDivideBy: aPolynomial
 	"Answer a pseudo-division algorithm to divide the receiver by aPolynomial."
 	self isUnivariate ifFalse: [^ DomainError signal: 'polynomial is not univariate'].
+	self scalars isUFD ifFalse: [^ DomainError signal: 'polynomial not over a UFD'].
 	^ PolynomialPseudoDivision divide: self by: aPolynomial! !
 
 !Polynomial methodsFor: 'arithmetic' stamp: 'len 12/11/2015 07:06'!

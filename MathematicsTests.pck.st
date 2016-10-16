@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 16 October 2016 at 3:00:43.835153 pm'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 16 October 2016 at 7:42:53.467451 pm'!
 'Description Please enter a description for this package'!
-!provides: 'MathematicsTests' 1 17!
+!provides: 'MathematicsTests' 1 18!
 !classDefinition: #AbelianGroupTest category: #MathematicsTests!
 TestCase subclass: #AbelianGroupTest
 	instanceVariableNames: ''
@@ -1849,13 +1849,13 @@ testFunctionNewFrom
 	g _ f as: Function. "degrade it to a simple Function, not a LinearMap any more"
 	self assert: (g as: LinearMap) = f! !
 
-!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 3/19/2016 04:09'!
+!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 10/16/2016 15:12'!
 testGaloisFields
 	| GF pi x one a |
 	GF _ Field GF: 3**3.
 	self assert: GF isField.
 	self assert: GF characteristic = 3.
-	pi _ GF asQuotientRing projection.
+	pi _ GF projection.
 	x _ pi domain x.
 	one _ pi domain one.
 	a _ pi value: x**2 + one.
