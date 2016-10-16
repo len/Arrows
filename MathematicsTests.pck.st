@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 15 October 2016 at 10:49:20.573014 am'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 16 October 2016 at 3:00:43.835153 pm'!
 'Description Please enter a description for this package'!
-!provides: 'MathematicsTests' 1 16!
+!provides: 'MathematicsTests' 1 17!
 !classDefinition: #AbelianGroupTest category: #MathematicsTests!
 TestCase subclass: #AbelianGroupTest
 	instanceVariableNames: ''
@@ -81,16 +81,6 @@ TestCase subclass: #GroupTest
 GroupTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #LinearAlgebraTest category: #MathematicsTests!
-TestCase subclass: #LinearAlgebraTest
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'MathematicsTests'!
-!classDefinition: 'LinearAlgebraTest class' category: #MathematicsTests!
-LinearAlgebraTest class
-	instanceVariableNames: ''!
-
 !classDefinition: #LinearGroupsTest category: #MathematicsTests!
 TestCase subclass: #LinearGroupsTest
 	instanceVariableNames: ''
@@ -119,6 +109,16 @@ TestCase subclass: #MatrixTest
 	category: 'MathematicsTests'!
 !classDefinition: 'MatrixTest class' category: #MathematicsTests!
 MatrixTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #ModuleTest category: #MathematicsTests!
+TestCase subclass: #ModuleTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'MathematicsTests'!
+!classDefinition: 'ModuleTest class' category: #MathematicsTests!
+ModuleTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #MonomialTest category: #MathematicsTests!
@@ -1661,546 +1661,6 @@ testSymmetricOrder
 	G _ Group symmetric: (1 to: 4).
 	self assert: G order = 4 factorial! !
 
-!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:57'!
-testAnnihilator
-	| V v S S0 |
-	V _ QQ ** 3.
-	v _ (1,-2,1).
-	S _ V span: {v}.
-	S0 _ S annihilator.
-	self assert: S0 dimension = S codimension.
-	S0 basis do: [:f| self assert: (f value: v) isZero]! !
-
-!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 9/1/2016 08:00'!
-testAnnihilatorProperties
-	| V S T |
-	V _ QQ ** 5.
-	S _ (V grassmannian: 4) atRandomBits: 100.
-	T _ (S grassmannian: 2) atRandomBits: 100.
-	T _ V span: T basis. "hack, otherwise T ambient = S"
-	self assert: T <= S.
-	self assert: T annihilator >= S annihilator. "reverses inclusions"
-	self assert: (S + T) annihilator = (S annihilator ˜ T annihilator).
-	self assert: S dimension + S annihilator dimension = V dimension.
-	self assert: V annihilator isTrivial.
-"	self assert: S annihilator annihilator = S dual dual"! !
-
-!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 7/15/2016 18:26'!
-testAnnihilatorZ2
-	| V v S S0 |
-	V _ (ZZ modPrime: 2) ** 4.
-	[(v _ V atRandom) isZero] whileTrue.
-	S _ V span: {v}.
-	S0 _ S annihilator.
-	self assert: S0 dimension = S codimension.
-	S0 basis do: [:f| self assert: (f value: v) isZero]! !
-
-!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:57'!
-testFirstIsomorphismTheorem
-	| V S T f phi |
-	V _ QQ ** 5.
-	S _ V grassmannian: (1 to: V dimension) atRandom :: atRandomBits: 50.
-	T _ V grassmannian: (1 to: V dimension) atRandom :: atRandomBits: 50.
-	f _ S -> T :: atRandomBits: 50.
-	phi _ S / f kernel -> f image evaluating: [:x| f value: x representative].
-	self assert: phi isIsomorphism! !
-
-!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 7/11/2016 01:26'!
-testFreeModule: M
-	| c t v x y |
-	x _ M atRandomBits: 10 * M rank.
-	self assert: x = (M elementAt: (M coordinatesOf: x)).
-	y _ M atRandomBits: 10 * M rank.
-	c _ M scalars atRandomBits: 20.
-	v _ x * c + y.
-	t _ (M coordinatesOf: x) * c + (M coordinatesOf: y).
-	self assert: v = (M elementAt: t)! !
-
-!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:57'!
-testGrassmannian
-	| G S |
-	G _ QQ**3 grassmannian: 2.
-	S _ G atRandomBits: 20.
-	self assert: S dimension = 2.
-	self assert: (G includes: S).
-	self assert: (G dual includes: S perp dual)! !
-
-!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:57'!
-testLinearBasisCoordinatesOf
-	| V basis c |
-	V _ QQ ** 3.
-	basis _ LinearBasis on: V vectors: {(-1,0,0). (0,0,2)}.
-	c _ basis coordinatesOf: (1,0,4).
-	self assert: c = (-1,2)! !
-
-!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:57'!
-testLinearBasisCoordinatesOf2
-	| V basis c |
-	V _ QQ ** 3.
-	basis _ LinearBasis on: V vectors: {(-1,0,0). (0,0,2)}.
-	c _ basis coordinatesOf: (1,1,4).
-	self assert: c isNil! !
-
-!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:57'!
-testLinearBasisDual
-	| V basis B Bdual I |
-	V _ QQ ** 3.
-	basis _ LinearBasis on: V vectors: {(-1,0,0). (0,1,2). (0,1,1)}.
-	B _ basis matrix.
-	Bdual _ basis dual matrix.
-	I _ B species identity.
-	self assert: B determinant = (1 / Bdual determinant).
-	self assert: B transposed * Bdual = I! !
-
-!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:57'!
-testLinearForm1
-	| V f |
-	V _ QQ ** 3.
-	f _ LinearForm from: V evaluating: [:v| v x + v y - v z].
-	self assert: (f value: (1,1,1)) = 1.
-	self assert: (f value: (2,2,1)) = 3.
-	self assert: (f value: (3,1, -1)) = 5! !
-
-!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:58'!
-testLinearForm2
-	| V f |
-	V _ QQ ** 3.
-	f _ LinearForm from: V evaluating: [:v| v x + v y - v z].
-	self assert: f domain = V.
-	self assert: f kernel dimension = 2.
-	self assert: f image dimension = 1! !
-
-!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:58'!
-testLinearFormAsPolynomial
-	| V f x |
-	V _ QQ ** 5 atRandom.
-	f _ V dual atRandomBits: 100.
-	x _ V atRandomBits: 100.
-	self assert: (f value: x) = (f asPolynomial value: x).
-	self assert: f asPolynomial asLinearForm = f! !
-
-!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 3/30/2016 22:54'!
-testLinearFormZ2
-	| V f |
-	V _ (Field GF: 2) ** 4.
-	f _ LinearForm from: V evaluating: [:v| v sum].
-	self assert: f domain = V.
-	self assert: f kernel dimension = 3.
-	self assert: f image dimension = 1.
-	self assert: (f kernel includes: (1,1,1,1) % 2)! !
-
-!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:58'!
-testLinearMap
-	| V S f |
-	V _ QQ ** 3.
-	S _ V span: {(1, 1, 1). (2, 0, -2)}.
-	f _ LinearMap projectionOn: S.
-	self assert: (f value: (2, 2, 2)) = (2, 2,  2).
-	self assert: (f value: (1, 0, -1)) = (1, 0,  -1)! !
-
-!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/24/2016 22:18'!
-testLinearMapComposition
-	| X Y Z f g x |
-	X _ QQ ** 3.
-	Y _ QQ ** 5.
-	Z _ QQ ** 4.
-	f _ X -> Y atRandomBits: 1000.
-	g _ Y -> Z atRandomBits: 1000.
-	x _ X atRandomBits: 1000.
-	self assert: (X -> Z includes: g @ f).
-	self assert: (g @ f value: x) = (g value: (f value: x)).
-	self should: [f @ g] raise: DomainError! !
-
-!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/24/2016 22:19'!
-testLinearMapCompositionError
-	| X Y Z f g |
-	X _ QQ ** 3.
-	Y _ QQ ** 5.
-	Z _ QQ ** 4.
-	f _ X -> Y atRandomBits: 1000.
-	g _ Y -> Z atRandomBits: 1000.
-	self should: [f @ g] raise: DomainError! !
-
-!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:58'!
-testLinearMapFiber
-	| f w v |
-	f _ QQ ** 6 atRandom -> (QQ ** 6 atRandom) atRandomBits: 100.
-	w _ f image atRandomBits: 100.
-	v _ (f fiberAt: w) atRandomBits: 100.
-"	Transcript show: w; nextPutAll: ' <- '; show: v; newLine."
-	self assert: (f value: v) = w! !
-
-!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:58'!
-testLinearMapImage
-	| V W f image v w |
-	V _ QQ ** 5 atRandom.
-	W _ QQ ** 5 atRandom.
-	f _ V -> W :: atRandomBits: 1000.
-	image _ f image.
-	v _ V atRandomBits: 100.
-	w _ f value: v.
-	self assert: (image includes: w)! !
-
-!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:58'!
-testLinearMapImage2
-	| V S f image |
-	V _ QQ ** 3.
-	S _ V span: {(1, 1, 1). (2, 0, -2)}.
-	f _ LinearMap projectionOn: S.
-	image _ f image.
-	self assert: (image includes: (f value: (S atRandomBits: 100))).
-	self assert: (image includes: (f value: (V atRandomBits: 100)))! !
-
-!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/24/2016 19:15'!
-testLinearMapInverse
-	| V f |
-	V _ QQ ** 3.
-	f _ V automorphisms atRandomBits: 1000.
-	self assert: (f @ f inverse) isIdentity.
-	self assert: (f inverse @ f) isIdentity! !
-
-!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:58'!
-testLinearMapKernel
-	| V W f kernel v |
-	V _ QQ ** 5 atRandom.
-	W _ QQ ** 5 atRandom.
-	f _ V -> W :: atRandomBits: 1000.
-	kernel _ f kernel.
-	v _ kernel atRandomBits: 100.
-	self assert: (f value: v) isZero! !
-
-!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:58'!
-testLinearMapKernel2
-	| V S f kernel |
-	V _ QQ ** 3.
-	S _ V span: {(1, 1, 1). (2, 0, -2)}.
-	f _ LinearMap projectionOn: S.
-	kernel _ f kernel.
-	self assert: (kernel apply: f) isTrivial.
-	self assert: kernel dimension = 1! !
-
-!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 7/7/2016 20:40'!
-testLinearMapKernelZ2
-	| V f kernel |
-	V _ (Field GF: 2) ** 3.
-	f _ LinearForm from: V evaluating: [:v| v sum].
-	kernel _ f kernel.
-	self assert: (kernel apply: f) isTrivial.
-	self assert: kernel dimension = 2.
-	self assert: (kernel includes: (0,1,1) % 2)! !
-
-!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/24/2016 21:38'!
-testLinearMapLeftInverse
-	| V W f |
-	V _ QQ ** 3.
-	W _ QQ ** 5.
-	[f _ V -> W atRandomBits: 1000. f rank = 3] whileFalse.
-	self assert: (f leftInverse @ f) = V id! !
-
-!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/24/2016 21:38'!
-testLinearMapRightInverse
-	| V W f |
-	V _ QQ ** 5.
-	W _ QQ ** 3.
-	[f _ V -> W atRandomBits: 1000. f rank = 3] whileFalse.
-	self assert: (f @ f rightInverse) = W id! !
-
-!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 7/7/2016 20:49'!
-testLinearMapZ2
-	| V f kernel v |
-	V _ (Field GF: 2) ** (5 atRandom + 1).
-	[f _ (V -> V) atRandom.
-	(kernel _ f kernel) isTrivial or: [kernel = V]] whileTrue. "find one with non-trivial kernel"
-	[v _ V atRandom. kernel includes: v] whileTrue.
-	self assert: (f value: v) isZero not.
-	v _ kernel atRandom.
-	self assert: (f value: v) isZero! !
-
-!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:58'!
-testLinearSystem
-	| V  x y z system |
-	V _ QQ ** 3.
-	x _ V dual e: 1.
-	y _ V dual e: 2.
-	z _ V dual e: 3.
-	system _ (x*3 + (y*2) - z eq: 1), (x*2 - (y*2) + (z*4) eq: -2), (x*(-1) + (y/2) - z eq: 0).
-	self assert: (system isSolution: (1, -2, -2))! !
-
-!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:59'!
-testLinearSystemSolver
-	| V  x y z system |
-	V _ QQ ** 3.
-	x _ V dual e: 1.
-	y _ V dual e: 2.
-	z _ V dual e: 3.
-	system _ (x*3 + (y*2) - z eq: 1), (x*2 - (y*2) + (z*4) eq: -2), (x*(-1) + (y/2) - z eq: 0).
-	self assert: (system solutions includes: (1, -2, -2))! !
-
-!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:59'!
-testLinearSystemSolver2
-	| V  x y z system f1 f2 |
-	V _ QQ ** 3.
-	x _ V dual e: 1.
-	y _ V dual e: 2.
-	z _ V dual e: 3.
-	f1 _ x*3 + (y*2) - z.
-	f2 _ x*2 - (y*2) + (z*4).
-	system _ (f1 eq: 1), (f2 eq: -2), (f1*2 eq: 2).
-	self assert: system kernel dimension = 1.
-	self assert: (system solutions includes: (1, -2, -2))! !
-
-!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:59'!
-testLinearSystemSolver3
-	| V  x y z system f1 f2 |
-	V _ QQ ** (2@2).
-	x _ V dual e: 1.
-	y _ V dual e: 2.
-	z _ V dual e: 3.
-	f1 _ x*3 + (y*2) - z.
-	f2 _ x*2 - (y*2) + (z*4).
-	system _ (f1 eq: 1), (f2 eq: -2), (f1*2 eq: 2).
-	self assert: system kernel dimension = 2.
-	self assert: (system solutions includes: (V vectorAt: (1, -2, -2, 0)))! !
-
-!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:59'!
-testMatricesQ
-	self testFreeModule: (QQ ** (5 atRandom @ 5 atRandom))! !
-
-!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:46'!
-testMatricesZ
-	self testFreeModule: (ZZ ** (5 atRandom @ 5 atRandom))! !
-
-!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:46'!
-testMatricesZ2
-	self testFreeModule: ((ZZ mod: 2) ** (5 atRandom @ 5 atRandom))! !
-
-!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:46'!
-testMatricesZ4
-	self testFreeModule: ((ZZ mod: 4) ** (5 atRandom @ 5 atRandom))! !
-
-!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:59'!
-testMatrixTraceAsLinearMap
-	| F f |
-	F _ QQ ** (3@3) :: dual. "linear forms"
-	f _ F evaluating: [:x| x trace].
-	self assert: f = ((F x: 1) + (F x: 5) + (F x: 9))! !
-
-!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:59'!
-testOrthogonalProjection
-	| V S p v |
-	V _ QQ ** 3.
-	S _ V span: {(1, 1, 0). (1, 0, 0)}.
-	p _ S projection.
-	v _ (78, 21, 139).
-	self assert: (p value: v) = (p value: (p value: v)). "idempotent at v"
-	self assert: p isIdempotent.
-	self assert: p kernel = S perp.
-	self assert: p image = S.
-	self assert: (S apply: p) = S! !
-
-!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:59'!
-testOrthogonalization
-	| V B |
-	V _ QQ ** 3.
-	B _ LinearBasis on: V vectors: {(1, 1, 0). (1, 0, 0)}.
-	self assert: B orthogonalized isOrthogonal.
-	self assert: B extended orthogonalized isOrthogonal! !
-
-!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:59'!
-testOrthonormalization
-	| V B |
-	V _ QQ ** 3.
-	B _ LinearBasis on: V vectors: {(1, 1, 0). (1, 0, 0)}.
-	self assert: B orthonormalized isOrthonormal.
-	self assert: B extended orthonormalized isOrthonormal! !
-
-!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:59'!
-testPerp
-	| V S p perp |
-	V _ QQ ** 3.
-	S _ V span: {(1, 1, 1). (2, 0, -2)}.
-	perp _ S perp.
-	self assert: perp dimension = 1.
-	self assert: (V innerProduct value: {perp basis first. S basis first}) isZero.
-	self assert: (V innerProduct value: {perp basis first. S basis second}) isZero.
-	p _ S projection.
-	self assert: p kernel = perp! !
-
-!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 9/1/2016 08:00'!
-testPerpProperties
-	| V S T |
-	V _ QQ ** 3.
-	S _ V span: {(1, 1, 1). (2, 0, -2)}.
-	T _ V span: {(1, -1, -3)}. "subspace of S"
-	self assert: S + S perp = V.
-	self assert: T + T perp = V.
-	self assert: (S ˜ S perp) isTrivial.
-	self assert: S <= S perp perp.
-	self assert: S perp < T perp "because S > T"! !
-
-!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:46'!
-testPerpZ2
-	| V S perp |
-	V _ (ZZ modPrime: 2) ** 3.
-	S _ V span: {(1,1,1) % 2}.
-	perp _ S perp.
-	self assert: perp dimension = 2.
-	self assert: (V innerProduct value: {S basis first. perp basis first}) isZero.
-	self assert: (V innerProduct value: {S basis first. perp basis second}) isZero! !
-
-!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:02'!
-testQuotient
-	| V S Q |
-	V _ QQ ** 5.
-	S _ V grassmannian: (1 to: V dimension) atRandom :: atRandomBits: 50.
-	Q _ V/S.
-	self assert: Q dimension = (V dimension - S dimension).
-	self assert: (Q includes: S + (V atRandomBits: 50)).
-	self assert: (V / V null) dimension = V dimension.
-	self assert: (V / V) dimension = 0! !
-
-!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 10/6/2016 10:36'!
-testQuotientMaps
-	| V S Q pi v s |
-	V _ QQ ** 5.
-	S _ V grassmannian: (1 to: V dimension) atRandom :: atRandomBits: 50.
-	Q _ V/S.
-	pi _ Q projection.
-	v _ V atRandomBits: 100.
-	s _ pi value: v.
-	self assert: (Q includes: s).
-	self assert: (V includes: (pi section value: s)).
-	self assert: s = (pi value: (pi section value: s))! !
-
-!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 9/1/2016 08:00'!
-testSecondIsomorphismTheorem
-	| V S T |
-	V _ QQ ** 5.
-	S _ V grassmannian: (1 to: V dimension) atRandom :: atRandomBits: 50.
-	T _ V grassmannian: (1 to: V dimension) atRandom :: atRandomBits: 50.
-	self assert: (S+T)/T ~ (S/(S ˜ T))
-"	f _ S -> T :: atRandomBits: 10.
-	phi _ S / f kernel -> f image evaluating: [:x| f value: x representative].
-	self assert: phi isIsomorphism"! !
-
-!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:02'!
-testSubspaceInclusion
-	| V S P v w |
-	V _ QQ ** 3.
-	[v _ V atRandomBits: 10. v isZero] whileTrue.
-	S _ V span: {v}.
-	[w _ V atRandomBits: 10. S includes: w] whileTrue.
-	P _ V span: {v-w. w}.
-	self assert: S < P.
-	self assert: P > S.
-	self assert: S ~= P.
-	self assert: P ~= S.
-	self assert: (S > P) not.
-	self assert: (P < S) not! !
-
-!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 9/1/2016 08:01'!
-testSubspaceIntersection
-	| V S T T` |
-	V _ QQ ** 3.
-	S _ V span: {(1, 1, 1). (2, 0, -2)}.
-	self assert: S ˜ V = S.
-	self assert: S ˜ S = S.
-	T _ V span: {(3,1,-1)}.
-	self assert: S ˜ T = T.
-	T` _ V span: {(3,1,-1). (0,1,0)}.
-	self assert: S ˜ T` = T! !
-
-!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:02'!
-testSubspaceOfSubspace
-	| V S s T t |
-	V _ QQ ** 3.
-	S _ (V grassmannian: 2) atRandomBits: 100.
-	T _ (S grassmannian: 1) atRandomBits: 100.
-	self assert: S < V.
-	self assert: T < S.
-	self assert: T < V.
-	[s _ S atRandomBits: 100. T includes: s] whileTrue.
-	[t _ T atRandomBits: 100. t isZero] whileTrue.
-	self assert: (S includes: s).
-	self assert: (S includes: t).
-	self assert: (T includes: t)! !
-
-!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:02'!
-testSubspaceSum
-	| V v w S T P |
-	V _ QQ ** 3.
-	[v _ V atRandomBits: 10. v isZero not] whileFalse.
-	[w _ V atRandomBits: 10. w isZero not and: [v ~= w]] whileFalse.
-	S _ V span: {v}.
-	T _ V span: {w}.
-	P _ V span: {v. w}.
-	self assert: S + T = P.
-	T _ V span: {v - w. v + w}.
-	self assert: S + T = P! !
-
-!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:03'!
-testSubspaceSystem
-	| V S |
-	V _ QQ ** 3.
-	S _ V span: {(1, 1, 1). (2, 0, -2)}.
-	self assert: S equations kernel = S! !
-
-!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:03'!
-testTensorProductAssociativity
-	| V1 V2 V3 |
-	V1 _ QQ ** 2.
-	V2 _ QQ ** 3.
-	V3 _ QQ ** 4.
-	self assert: (V1 ’ V2) ’ V3 ~ (V1 ’ (V2 ’ V3))! !
-
-!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:03'!
-testTensorProductCommutativity
-	| V W |
-	V _ QQ ** 3.
-	W _ QQ ** 4.
-	self assert: V ’ W ~ (W ’ V)! !
-
-!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:03'!
-testTensorProductOfLinearForms
-	| V W f g t v |
-	V _ QQ ** 3.
-	W _ V dual.
-	f _ W atRandomBits: 10.
-	g _ W atRandomBits: 10.
-	t _ f ’ g.
-	v _ V atRandomBits: 10.
-	self assert: (t value: v) = ((f value: v) * (g value: v))! !
-
-!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:03'!
-testThirdsomorphismTheorem
-	| V S T |
-	V _ QQ ** 5.
-	S _ V grassmannian: (1 to: V dimension) atRandom :: atRandomBits: 50.
-	T _ S grassmannian: (1 to: S dimension) atRandom :: atRandomBits: 50.
-	self assert: (V/T)/(S/T) ~ (V/S)! !
-
-!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:03'!
-testTuplesQ
-	self testFreeModule: (QQ ** 5 atRandom)! !
-
-!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:03'!
-testTuplesRationalFunctionsQ
-	| F |
-	F _ QQ polynomials fractions.
-	self testFreeModule: (F ** 3 atRandom)! !
-
-!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:46'!
-testTuplesZ
-	self testFreeModule: (ZZ ** 5 atRandom)! !
-
-!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:46'!
-testTuplesZ2
-	self testFreeModule: ((ZZ mod: 2) ** 5 atRandom)! !
-
-!LinearAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:46'!
-testTuplesZ4
-	self testFreeModule: ((ZZ mod: 4) ** 5 atRandom)! !
-
 !LinearGroupsTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:03'!
 testGeneralLinearAtRandom
 	| V G |
@@ -2350,18 +1810,12 @@ testExtendedEuclid
 testFieldAutomorphisms
 	self assert: QQ automorphisms isTrivial! !
 
-!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 3/5/2016 04:55'!
-testFreeAbelianGroup
-	| A x0 x y0 y |
-	A _ FreeAbelianGroup on: #(a b c).
-	x0 _ (-2,-1,3).
-	x _ A elementAt: x0.
-	y0 _ (1,1,1).
-	y _ A elementAt: y0.
-	self assert: x+y = (A elementAt: x0+y0).
-	self assert: x*2-y = (A elementAt: x0*2-y0).
-	self assert: (x-y-(x-y)) isZero.
-	self assert: (A coordinatesOf: x) = x0! !
+!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 10/16/2016 13:28'!
+testFormalSetEquals
+	| A B |
+	A _ QQ ** (10@10) :: asFormalSet.
+	B _ (QQ ** (10@10)) asRing asFormalSet.
+	self assert: A = B! !
 
 !MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 8/24/2016 20:53'!
 testFunctionComposition
@@ -2943,6 +2397,593 @@ testTransposed
 	A _ ZZ ** (6 atRandom @ 6 atRandom) :: atRandomBits: 1000.
 	self assert: A columns = A transposed rows.
 	self assert: A transposed transposed = A! !
+
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 10/16/2016 09:58'!
+newFreeModule
+	^ self newFreeModuleOver: {ZZ. QQ. ZZ mod: 10 atRandom + 1} atRandom! !
+
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 10/16/2016 09:57'!
+newFreeModuleOver: scalars
+	| M |
+	M _ 2 atRandom = 1 ifTrue: [scalars ** 4 atRandom] ifFalse: [scalars ** (4 atRandom @ 4 atRandom)].
+	3 atRandom = 1 ifTrue: [^ M dual].
+	3 atRandom = 1 ifTrue: [^ M endomorphisms].
+	^ M! !
+
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:57'!
+testAnnihilator
+	| V v S S0 |
+	V _ QQ ** 3.
+	v _ (1,-2,1).
+	S _ V span: {v}.
+	S0 _ S annihilator.
+	self assert: S0 dimension = S codimension.
+	S0 basis do: [:f| self assert: (f value: v) isZero]! !
+
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 9/1/2016 08:00'!
+testAnnihilatorProperties
+	| V S T |
+	V _ QQ ** 5.
+	S _ (V grassmannian: 4) atRandomBits: 100.
+	T _ (S grassmannian: 2) atRandomBits: 100.
+	T _ V span: T basis. "hack, otherwise T ambient = S"
+	self assert: T <= S.
+	self assert: T annihilator >= S annihilator. "reverses inclusions"
+	self assert: (S + T) annihilator = (S annihilator ˜ T annihilator).
+	self assert: S dimension + S annihilator dimension = V dimension.
+	self assert: V annihilator isTrivial.
+"	self assert: S annihilator annihilator = S dual dual"! !
+
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 7/15/2016 18:26'!
+testAnnihilatorZ2
+	| V v S S0 |
+	V _ (ZZ modPrime: 2) ** 4.
+	[(v _ V atRandom) isZero] whileTrue.
+	S _ V span: {v}.
+	S0 _ S annihilator.
+	self assert: S0 dimension = S codimension.
+	S0 basis do: [:f| self assert: (f value: v) isZero]! !
+
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 10/16/2016 09:57'!
+testDirectSum
+	| M N S |
+	M _ self newFreeModule.
+	N _ self newFreeModuleOver: M scalars.
+	S _ M  N.
+	self testFreeModule: S.
+	self testLinearMap: (S projection: 2 atRandom).
+	self testLinearMap: (S embedding: 2 atRandom)! !
+
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 10/16/2016 09:20'!
+testFirstIsomorphismTheorem
+	| V S T f phi |
+	V _ QQ ** 5.
+	S _ V grassmannian: (1 to: V dimension) atRandom :: atRandomBits: 50.
+	T _ V grassmannian: (1 to: V dimension) atRandom :: atRandomBits: 50.
+	f _ S -> T :: atRandomBits: 50.
+	phi _ S / f kernel to: f image evaluating: [:x| f value: x representative].
+	self assert: phi isIsomorphism! !
+
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 10/15/2016 17:28'!
+testFreeAbelianGroup
+	| A x0 x y0 y |
+	A _ FreeAbelianGroup on: #(a b c).
+	x0 _ (-2,-1,3).
+	x _ A elementAt: x0.
+	y0 _ (1,1,1).
+	y _ A elementAt: y0.
+	self assert: x+y = (A elementAt: x0+y0).
+	self assert: x*2-y = (A elementAt: x0*2-y0).
+	self assert: (x-y-(x-y)) isZero.
+	self assert: (A coordinatesOf: x) = x0! !
+
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 10/16/2016 08:55'!
+testFreeModule: M
+	| c t v x y |
+	x _ M atRandomBits: 10 * M rank.
+	self assert: x = (M elementAt: (M coordinatesOf: x)).
+	y _ M atRandomBits: 10 * M rank.
+	c _ M scalars atRandomBits: 20.
+	v _ x * c + y.
+	t _ (M coordinatesOf: x) * c + (M coordinatesOf: y).
+	self assert: v = (M elementAt: t).
+	self testLinearMap: M basis coordinatesOf! !
+
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:57'!
+testGrassmannian
+	| G S |
+	G _ QQ**3 grassmannian: 2.
+	S _ G atRandomBits: 20.
+	self assert: S dimension = 2.
+	self assert: (G includes: S).
+	self assert: (G dual includes: S perp dual)! !
+
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:57'!
+testLinearBasisCoordinatesOf
+	| V basis c |
+	V _ QQ ** 3.
+	basis _ LinearBasis on: V vectors: {(-1,0,0). (0,0,2)}.
+	c _ basis coordinatesOf: (1,0,4).
+	self assert: c = (-1,2)! !
+
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:57'!
+testLinearBasisCoordinatesOf2
+	| V basis c |
+	V _ QQ ** 3.
+	basis _ LinearBasis on: V vectors: {(-1,0,0). (0,0,2)}.
+	c _ basis coordinatesOf: (1,1,4).
+	self assert: c isNil! !
+
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:57'!
+testLinearBasisDual
+	| V basis B Bdual I |
+	V _ QQ ** 3.
+	basis _ LinearBasis on: V vectors: {(-1,0,0). (0,1,2). (0,1,1)}.
+	B _ basis matrix.
+	Bdual _ basis dual matrix.
+	I _ B species identity.
+	self assert: B determinant = (1 / Bdual determinant).
+	self assert: B transposed * Bdual = I! !
+
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:57'!
+testLinearForm1
+	| V f |
+	V _ QQ ** 3.
+	f _ LinearForm from: V evaluating: [:v| v x + v y - v z].
+	self assert: (f value: (1,1,1)) = 1.
+	self assert: (f value: (2,2,1)) = 3.
+	self assert: (f value: (3,1, -1)) = 5! !
+
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:58'!
+testLinearForm2
+	| V f |
+	V _ QQ ** 3.
+	f _ LinearForm from: V evaluating: [:v| v x + v y - v z].
+	self assert: f domain = V.
+	self assert: f kernel dimension = 2.
+	self assert: f image dimension = 1! !
+
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:58'!
+testLinearFormAsPolynomial
+	| V f x |
+	V _ QQ ** 5 atRandom.
+	f _ V dual atRandomBits: 100.
+	x _ V atRandomBits: 100.
+	self assert: (f value: x) = (f asPolynomial value: x).
+	self assert: f asPolynomial asLinearForm = f! !
+
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 3/30/2016 22:54'!
+testLinearFormZ2
+	| V f |
+	V _ (Field GF: 2) ** 4.
+	f _ LinearForm from: V evaluating: [:v| v sum].
+	self assert: f domain = V.
+	self assert: f kernel dimension = 3.
+	self assert: f image dimension = 1.
+	self assert: (f kernel includes: (1,1,1,1) % 2)! !
+
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:58'!
+testLinearMap
+	| V S f |
+	V _ QQ ** 3.
+	S _ V span: {(1, 1, 1). (2, 0, -2)}.
+	f _ LinearMap projectionOn: S.
+	self assert: (f value: (2, 2, 2)) = (2, 2,  2).
+	self assert: (f value: (1, 0, -1)) = (1, 0,  -1)! !
+
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 10/16/2016 09:17'!
+testLinearMap: f
+	| a1 a2 b1 b2 x |
+	a1 _ f domain atRandomBits: 20.
+	a2 _ f domain atRandomBits: 20.
+	b1 _ f value: a1.
+	b2 _ f value: a2.
+	self assert: (f value: f domain zero) isZero.
+	x _ f domain scalars atRandomBits: 20.
+	self assert: (f value: a1 * x + a2) = (b1 * x + b2)! !
+
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 8/24/2016 22:18'!
+testLinearMapComposition
+	| X Y Z f g x |
+	X _ QQ ** 3.
+	Y _ QQ ** 5.
+	Z _ QQ ** 4.
+	f _ X -> Y atRandomBits: 1000.
+	g _ Y -> Z atRandomBits: 1000.
+	x _ X atRandomBits: 1000.
+	self assert: (X -> Z includes: g @ f).
+	self assert: (g @ f value: x) = (g value: (f value: x)).
+	self should: [f @ g] raise: DomainError! !
+
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 8/24/2016 22:19'!
+testLinearMapCompositionError
+	| X Y Z f g |
+	X _ QQ ** 3.
+	Y _ QQ ** 5.
+	Z _ QQ ** 4.
+	f _ X -> Y atRandomBits: 1000.
+	g _ Y -> Z atRandomBits: 1000.
+	self should: [f @ g] raise: DomainError! !
+
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:58'!
+testLinearMapFiber
+	| f w v |
+	f _ QQ ** 6 atRandom -> (QQ ** 6 atRandom) atRandomBits: 100.
+	w _ f image atRandomBits: 100.
+	v _ (f fiberAt: w) atRandomBits: 100.
+"	Transcript show: w; nextPutAll: ' <- '; show: v; newLine."
+	self assert: (f value: v) = w! !
+
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:58'!
+testLinearMapImage
+	| V W f image v w |
+	V _ QQ ** 5 atRandom.
+	W _ QQ ** 5 atRandom.
+	f _ V -> W :: atRandomBits: 1000.
+	image _ f image.
+	v _ V atRandomBits: 100.
+	w _ f value: v.
+	self assert: (image includes: w)! !
+
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:58'!
+testLinearMapImage2
+	| V S f image |
+	V _ QQ ** 3.
+	S _ V span: {(1, 1, 1). (2, 0, -2)}.
+	f _ LinearMap projectionOn: S.
+	image _ f image.
+	self assert: (image includes: (f value: (S atRandomBits: 100))).
+	self assert: (image includes: (f value: (V atRandomBits: 100)))! !
+
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 8/24/2016 19:15'!
+testLinearMapInverse
+	| V f |
+	V _ QQ ** 3.
+	f _ V automorphisms atRandomBits: 1000.
+	self assert: (f @ f inverse) isIdentity.
+	self assert: (f inverse @ f) isIdentity! !
+
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:58'!
+testLinearMapKernel
+	| V W f kernel v |
+	V _ QQ ** 5 atRandom.
+	W _ QQ ** 5 atRandom.
+	f _ V -> W :: atRandomBits: 1000.
+	kernel _ f kernel.
+	v _ kernel atRandomBits: 100.
+	self assert: (f value: v) isZero! !
+
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:58'!
+testLinearMapKernel2
+	| V S f kernel |
+	V _ QQ ** 3.
+	S _ V span: {(1, 1, 1). (2, 0, -2)}.
+	f _ LinearMap projectionOn: S.
+	kernel _ f kernel.
+	self assert: (kernel apply: f) isTrivial.
+	self assert: kernel dimension = 1! !
+
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 7/7/2016 20:40'!
+testLinearMapKernelZ2
+	| V f kernel |
+	V _ (Field GF: 2) ** 3.
+	f _ LinearForm from: V evaluating: [:v| v sum].
+	kernel _ f kernel.
+	self assert: (kernel apply: f) isTrivial.
+	self assert: kernel dimension = 2.
+	self assert: (kernel includes: (0,1,1) % 2)! !
+
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 8/24/2016 21:38'!
+testLinearMapLeftInverse
+	| V W f |
+	V _ QQ ** 3.
+	W _ QQ ** 5.
+	[f _ V -> W atRandomBits: 1000. f rank = 3] whileFalse.
+	self assert: (f leftInverse @ f) = V id! !
+
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 8/24/2016 21:38'!
+testLinearMapRightInverse
+	| V W f |
+	V _ QQ ** 5.
+	W _ QQ ** 3.
+	[f _ V -> W atRandomBits: 1000. f rank = 3] whileFalse.
+	self assert: (f @ f rightInverse) = W id! !
+
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 7/7/2016 20:49'!
+testLinearMapZ2
+	| V f kernel v |
+	V _ (Field GF: 2) ** (5 atRandom + 1).
+	[f _ (V -> V) atRandom.
+	(kernel _ f kernel) isTrivial or: [kernel = V]] whileTrue. "find one with non-trivial kernel"
+	[v _ V atRandom. kernel includes: v] whileTrue.
+	self assert: (f value: v) isZero not.
+	v _ kernel atRandom.
+	self assert: (f value: v) isZero! !
+
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:58'!
+testLinearSystem
+	| V  x y z system |
+	V _ QQ ** 3.
+	x _ V dual e: 1.
+	y _ V dual e: 2.
+	z _ V dual e: 3.
+	system _ (x*3 + (y*2) - z eq: 1), (x*2 - (y*2) + (z*4) eq: -2), (x*(-1) + (y/2) - z eq: 0).
+	self assert: (system isSolution: (1, -2, -2))! !
+
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:59'!
+testLinearSystemSolver
+	| V  x y z system |
+	V _ QQ ** 3.
+	x _ V dual e: 1.
+	y _ V dual e: 2.
+	z _ V dual e: 3.
+	system _ (x*3 + (y*2) - z eq: 1), (x*2 - (y*2) + (z*4) eq: -2), (x*(-1) + (y/2) - z eq: 0).
+	self assert: (system solutions includes: (1, -2, -2))! !
+
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:59'!
+testLinearSystemSolver2
+	| V  x y z system f1 f2 |
+	V _ QQ ** 3.
+	x _ V dual e: 1.
+	y _ V dual e: 2.
+	z _ V dual e: 3.
+	f1 _ x*3 + (y*2) - z.
+	f2 _ x*2 - (y*2) + (z*4).
+	system _ (f1 eq: 1), (f2 eq: -2), (f1*2 eq: 2).
+	self assert: system kernel dimension = 1.
+	self assert: (system solutions includes: (1, -2, -2))! !
+
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:59'!
+testLinearSystemSolver3
+	| V  x y z system f1 f2 |
+	V _ QQ ** (2@2).
+	x _ V dual e: 1.
+	y _ V dual e: 2.
+	z _ V dual e: 3.
+	f1 _ x*3 + (y*2) - z.
+	f2 _ x*2 - (y*2) + (z*4).
+	system _ (f1 eq: 1), (f2 eq: -2), (f1*2 eq: 2).
+	self assert: system kernel dimension = 2.
+	self assert: (system solutions includes: (V vectorAt: (1, -2, -2, 0)))! !
+
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:59'!
+testMatricesQ
+	self testFreeModule: (QQ ** (5 atRandom @ 5 atRandom))! !
+
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:46'!
+testMatricesZ
+	self testFreeModule: (ZZ ** (5 atRandom @ 5 atRandom))! !
+
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:46'!
+testMatricesZ2
+	self testFreeModule: ((ZZ mod: 2) ** (5 atRandom @ 5 atRandom))! !
+
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:46'!
+testMatricesZ4
+	self testFreeModule: ((ZZ mod: 4) ** (5 atRandom @ 5 atRandom))! !
+
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:59'!
+testMatrixTraceAsLinearMap
+	| F f |
+	F _ QQ ** (3@3) :: dual. "linear forms"
+	f _ F evaluating: [:x| x trace].
+	self assert: f = ((F x: 1) + (F x: 5) + (F x: 9))! !
+
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:59'!
+testOrthogonalProjection
+	| V S p v |
+	V _ QQ ** 3.
+	S _ V span: {(1, 1, 0). (1, 0, 0)}.
+	p _ S projection.
+	v _ (78, 21, 139).
+	self assert: (p value: v) = (p value: (p value: v)). "idempotent at v"
+	self assert: p isIdempotent.
+	self assert: p kernel = S perp.
+	self assert: p image = S.
+	self assert: (S apply: p) = S! !
+
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:59'!
+testOrthogonalization
+	| V B |
+	V _ QQ ** 3.
+	B _ LinearBasis on: V vectors: {(1, 1, 0). (1, 0, 0)}.
+	self assert: B orthogonalized isOrthogonal.
+	self assert: B extended orthogonalized isOrthogonal! !
+
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:59'!
+testOrthonormalization
+	| V B |
+	V _ QQ ** 3.
+	B _ LinearBasis on: V vectors: {(1, 1, 0). (1, 0, 0)}.
+	self assert: B orthonormalized isOrthonormal.
+	self assert: B extended orthonormalized isOrthonormal! !
+
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:59'!
+testPerp
+	| V S p perp |
+	V _ QQ ** 3.
+	S _ V span: {(1, 1, 1). (2, 0, -2)}.
+	perp _ S perp.
+	self assert: perp dimension = 1.
+	self assert: (V innerProduct value: {perp basis first. S basis first}) isZero.
+	self assert: (V innerProduct value: {perp basis first. S basis second}) isZero.
+	p _ S projection.
+	self assert: p kernel = perp! !
+
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 9/1/2016 08:00'!
+testPerpProperties
+	| V S T |
+	V _ QQ ** 3.
+	S _ V span: {(1, 1, 1). (2, 0, -2)}.
+	T _ V span: {(1, -1, -3)}. "subspace of S"
+	self assert: S + S perp = V.
+	self assert: T + T perp = V.
+	self assert: (S ˜ S perp) isTrivial.
+	self assert: S <= S perp perp.
+	self assert: S perp < T perp "because S > T"! !
+
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:46'!
+testPerpZ2
+	| V S perp |
+	V _ (ZZ modPrime: 2) ** 3.
+	S _ V span: {(1,1,1) % 2}.
+	perp _ S perp.
+	self assert: perp dimension = 2.
+	self assert: (V innerProduct value: {S basis first. perp basis first}) isZero.
+	self assert: (V innerProduct value: {S basis first. perp basis second}) isZero! !
+
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 10/16/2016 09:42'!
+testQuotient
+	| M S Q |
+	M _ self newFreeModule.
+	S _ M grassmannian: (1 to: M rank) atRandom :: atRandomBits: M rank * 10.
+	Q _ M/S.
+	self assert: Q rank = (M rank - S rank).
+	self assert: (Q includes: S + (M atRandomBits: M rank * 10)).
+	self assert: (M / M null) rank = M rank.
+	self assert: (M / M) rank = 0! !
+
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 10/6/2016 10:36'!
+testQuotientMaps
+	| V S Q pi v s |
+	V _ QQ ** 5.
+	S _ V grassmannian: (1 to: V dimension) atRandom :: atRandomBits: 50.
+	Q _ V/S.
+	pi _ Q projection.
+	v _ V atRandomBits: 100.
+	s _ pi value: v.
+	self assert: (Q includes: s).
+	self assert: (V includes: (pi section value: s)).
+	self assert: s = (pi value: (pi section value: s))! !
+
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 9/1/2016 08:00'!
+testSecondIsomorphismTheorem
+	| V S T |
+	V _ QQ ** 5.
+	S _ V grassmannian: (1 to: V dimension) atRandom :: atRandomBits: 50.
+	T _ V grassmannian: (1 to: V dimension) atRandom :: atRandomBits: 50.
+	self assert: (S+T)/T ~ (S/(S ˜ T))
+"	f _ S -> T :: atRandomBits: 10.
+	phi _ S / f kernel -> f image evaluating: [:x| f value: x representative].
+	self assert: phi isIsomorphism"! !
+
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:02'!
+testSubspaceInclusion
+	| V S P v w |
+	V _ QQ ** 3.
+	[v _ V atRandomBits: 10. v isZero] whileTrue.
+	S _ V span: {v}.
+	[w _ V atRandomBits: 10. S includes: w] whileTrue.
+	P _ V span: {v-w. w}.
+	self assert: S < P.
+	self assert: P > S.
+	self assert: S ~= P.
+	self assert: P ~= S.
+	self assert: (S > P) not.
+	self assert: (P < S) not! !
+
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 9/1/2016 08:01'!
+testSubspaceIntersection
+	| V S T T` |
+	V _ QQ ** 3.
+	S _ V span: {(1, 1, 1). (2, 0, -2)}.
+	self assert: S ˜ V = S.
+	self assert: S ˜ S = S.
+	T _ V span: {(3,1,-1)}.
+	self assert: S ˜ T = T.
+	T` _ V span: {(3,1,-1). (0,1,0)}.
+	self assert: S ˜ T` = T! !
+
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:02'!
+testSubspaceOfSubspace
+	| V S s T t |
+	V _ QQ ** 3.
+	S _ (V grassmannian: 2) atRandomBits: 100.
+	T _ (S grassmannian: 1) atRandomBits: 100.
+	self assert: S < V.
+	self assert: T < S.
+	self assert: T < V.
+	[s _ S atRandomBits: 100. T includes: s] whileTrue.
+	[t _ T atRandomBits: 100. t isZero] whileTrue.
+	self assert: (S includes: s).
+	self assert: (S includes: t).
+	self assert: (T includes: t)! !
+
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:02'!
+testSubspaceSum
+	| V v w S T P |
+	V _ QQ ** 3.
+	[v _ V atRandomBits: 10. v isZero not] whileFalse.
+	[w _ V atRandomBits: 10. w isZero not and: [v ~= w]] whileFalse.
+	S _ V span: {v}.
+	T _ V span: {w}.
+	P _ V span: {v. w}.
+	self assert: S + T = P.
+	T _ V span: {v - w. v + w}.
+	self assert: S + T = P! !
+
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:03'!
+testSubspaceSystem
+	| V S |
+	V _ QQ ** 3.
+	S _ V span: {(1, 1, 1). (2, 0, -2)}.
+	self assert: S equations kernel = S! !
+
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:03'!
+testTensorProductAssociativity
+	| V1 V2 V3 |
+	V1 _ QQ ** 2.
+	V2 _ QQ ** 3.
+	V3 _ QQ ** 4.
+	self assert: (V1 ’ V2) ’ V3 ~ (V1 ’ (V2 ’ V3))! !
+
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:03'!
+testTensorProductCommutativity
+	| V W |
+	V _ QQ ** 3.
+	W _ QQ ** 4.
+	self assert: V ’ W ~ (W ’ V)! !
+
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 10/16/2016 08:49'!
+testTensorProductOfLinearForms
+	| V W f g t v |
+	V _ QQ ** 3.
+	W _ V dual.
+	f _ W atRandomBits: 10.
+	g _ W atRandomBits: 10.
+	t _ f ’ g.
+	v _ V domain atRandomBits: 10.
+	self assert: (t value: v) = ((f value: v) * (g value: v))! !
+
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 10/16/2016 09:19'!
+testThirdIsomorphismTheorem
+	| V S T |
+	V _ QQ ** 5.
+	S _ V grassmannian: (1 to: V dimension) atRandom :: atRandomBits: 50.
+	T _ S grassmannian: (1 to: S dimension) atRandom :: atRandomBits: 50.
+	self assert: (V/T)/(S/T) ~ (V/S)! !
+
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:03'!
+testTuplesQ
+	self testFreeModule: (QQ ** 5 atRandom)! !
+
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:03'!
+testTuplesRationalFunctionsQ
+	| F |
+	F _ QQ polynomials fractions.
+	self testFreeModule: (F ** 3 atRandom)! !
+
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:46'!
+testTuplesZ
+	self testFreeModule: (ZZ ** 5 atRandom)! !
+
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:46'!
+testTuplesZ2
+	self testFreeModule: ((ZZ mod: 2) ** 5 atRandom)! !
+
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:46'!
+testTuplesZ4
+	self testFreeModule: ((ZZ mod: 4) ** 5 atRandom)! !
 
 !MonomialTest methodsFor: 'as yet unclassified' stamp: 'len 7/3/2016 02:06'!
 testMonomialDivision
