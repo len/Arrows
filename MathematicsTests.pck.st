@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 16 October 2016 at 7:42:53.467451 pm'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 16 October 2016 at 9:34:18.71156 pm'!
 'Description Please enter a description for this package'!
-!provides: 'MathematicsTests' 1 18!
+!provides: 'MathematicsTests' 1 19!
 !classDefinition: #AbelianGroupTest category: #MathematicsTests!
 TestCase subclass: #AbelianGroupTest
 	instanceVariableNames: ''
@@ -684,6 +684,27 @@ testProjectiveSpace
 	self assert: P scalars = K.
 	self assert: P coordinateRing = (K polynomialsIn: 4).
 	self assert: P ambient = P! !
+
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/16/2016 21:33'!
+testRationalMap
+	"Example from Magma handbook Scheme_map-creation (H118E32)."
+	| A t B x y f X |
+	A _ QQ polynomialsIn: #(t) :: spec.
+	t _ A functionField x: #t.
+
+	B _ QQ polynomialsIn: #(x y) :: spec.
+	x _ B functionField x.
+	y _ B functionField y.
+
+	f _ RationalMap from: A to: B components: {t**3 + t. (t**2 - 3)}.
+
+	self assert: f domain = A.
+	self assert: f codomain = B.
+
+	x _ B coordinateRing x.
+	y _ B coordinateRing y.
+	X _ B subscheme: {x**2*-1 + (y**3) + (y**2*11) + (y*40) + 48}.
+	self assert: f image = X! !
 
 !AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/13/2016 20:22'!
 testReduced

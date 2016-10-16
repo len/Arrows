@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 16 October 2016 at 7:42:50.507243 pm'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 16 October 2016 at 9:34:21.47488 pm'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 223!
+!provides: 'Mathematics' 1 224!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
 	instanceVariableNames: 'numerator shift'
@@ -2113,7 +2113,7 @@ ProjectiveMap class
 
 !classDefinition: #RationalMap category: #'Mathematics-Geometry-Algebraic'!
 Function subclass: #RationalMap
-	instanceVariableNames: 'domain codomain components'
+	instanceVariableNames: 'components'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Geometry-Algebraic'!
@@ -15049,13 +15049,21 @@ scalars
 size
 	^ Aleph new * self scalars size! !
 
-!RationalFunctionField methodsFor: 'elements' stamp: 'len 10/14/2016 23:00'!
+!RationalFunctionField methodsFor: 'elements' stamp: 'len 10/16/2016 20:12'!
 x
-	^ self embed: self integers x! !
+	^ self x: 1! !
 
 !RationalFunctionField methodsFor: 'elements' stamp: 'len 10/14/2016 23:00'!
 x: anIndeterminate
 	^ self embed: (self integers x: anIndeterminate)! !
+
+!RationalFunctionField methodsFor: 'elements' stamp: 'len 10/16/2016 20:12'!
+y
+	^ self x: 2! !
+
+!RationalFunctionField methodsFor: 'elements' stamp: 'len 10/16/2016 20:13'!
+z
+	^ self x: 3! !
 
 !RationalFunctionField class methodsFor: 'instance creation' stamp: 'len 10/14/2016 23:02'!
 over: aPolynomialRing
@@ -25676,82 +25684,51 @@ linearMap: aLinearMap
 	"Answer the homography with associated linear transformation aLinearMap."
 	^ self new linearMap: aLinearMap! !
 
-!RationalMap methodsFor: 'arithmetic' stamp: 'len 3/16/2016 05:27'!
+!RationalMap methodsFor: 'arithmetic' stamp: 'len 10/16/2016 20:04'!
 * anObject
-	^ self class from: domain to: codomain components: components * anObject! !
+	^ self class from: self domain to: self codomain components: components * anObject! !
 
-!RationalMap methodsFor: 'arithmetic' stamp: 'len 3/16/2016 05:33'!
+!RationalMap methodsFor: 'arithmetic' stamp: 'len 10/16/2016 20:03'!
 + aRationalParametrization
-	(domain = aRationalParametrization domain and: [codomain = aRationalParametrization codomain])
+	(self domain = aRationalParametrization domain and: [self codomain = aRationalParametrization codomain])
 		ifFalse: [^ DomainError signal].
-	^ self class from: domain to: codomain components: components + aRationalParametrization components! !
+	^ self class from: self domain to: self codomain components: components + aRationalParametrization components! !
 
-!RationalMap methodsFor: 'accessing' stamp: 'len 3/16/2016 05:26'!
-codomain
-	^ codomain! !
+!RationalMap methodsFor: 'accessing' stamp: 'len 10/16/2016 20:43'!
+at: anInteger
+	^ components at: anInteger! !
 
-!RationalMap methodsFor: 'accessing' stamp: 'len 3/16/2016 05:26'!
-domain
-	^ domain! !
+!RationalMap methodsFor: 'accessing-private' stamp: 'len 10/16/2016 20:02'!
+components: anArray 
+	components _ anArray! !
 
-!RationalMap methodsFor: 'accessing' stamp: 'len 8/2/2016 09:49'!
-equations
-	"Answer the parametric equations."
-	^ self notYetImplemented! !
-
-!RationalMap methodsFor: 'accessing' stamp: 'len 7/19/2016 01:04'!
-implicit
-	| normal tindets y n generators g ordering basis answer |
-	self flag: #fix.
-	normal _ self copy normalize.
-	tindets _ normal parameters asSortedCollection.
-	y _ tindets last + 1.
-	n _ self size.
+!RationalMap methodsFor: 'accessing' stamp: 'len 10/16/2016 21:30'!
+image
+	"Answer the image of the receiver. This is a subscheme of the codomain.
+	Performs ideal elimination (a Groebner basis computation with the lexicographical order)."
+	| A B m n P t permutation map generators g I |
+	A _ self domain coordinateRing.
+	B _ self codomain coordinateRing.
+	m _ A rank.
+	n _ B rank.
+	P _ self domain scalars polynomialsIn: n + m + 1.
+	permutation _ n+1 to: n+m.
+	map _ A to: P evaluating: [:f| (f as: P) permutedBy: permutation].
+	t _ P x: P rank.
 	generators _ OrderedCollection new.
-	1 to: n do: [:each | generators add: (normal at: each) denominator * (Polynomial x: each) - (normal at: each) numerator].
-	normal do: [:each | g _ g isNil
-					ifTrue: [each denominator]
-					ifFalse: [g * each denominator]].
-	generators add: g identity - (g * (Polynomial x: y)).
-	ordering _ MonomialOrdering lex: (1 to: n), tindets , {y}.
-	ordering _ ordering inverse.
-	basis _ (GroebnerBasis from: generators ordering: ordering) minimal.
-	answer _ PolynomialSystem new.
-	basis do: [:each | ((each degreeIn: y)
-			= 0 and: [(tindets detect: [:one | (each degreeIn: one)
-					> 0]
-				ifNone: []) isNil])
-			ifTrue: [answer add: (each eq: each null)]].
-	^ answer! !
+	g _ P one.
+	1 to: n do: [:i| | numerator denominator |
+		numerator _ map value: (self at: i) numerator.
+		denominator _ map value: (self at: i) denominator.
+		generators add: denominator * (P x: i) - numerator.
+		g _ g * denominator].
+	generators add: P one - (g * t).
+	I _ P * generators eliminateAll: (n+1 to: P rank).
+	^ self codomain subscheme: (I generators collect: [:f| f as: B])! !
 
-!RationalMap methodsFor: 'accessing' stamp: 'len 8/2/2016 02:06'!
-implicit2
-	| normal tindets y n generators g ordering basis answer |
-	self flag: #fix.
-	normal _ self copy normalize.
-	tindets _ normal parameters asSortedCollection.
-	y _ tindets last + 1.
-	n _ self size.
-	generators _ OrderedCollection new.
-	1 to: n do: [:each | generators add: (normal at: each) denominator * (Polynomial x: each) - (normal at: each) numerator].
-	normal do: [:each | g _ g isNil
-					ifTrue: [each denominator]
-					ifFalse: [g * each denominator]].
-	generators add: g identity - (g * (Polynomial x: y)).
-	ordering _ MonomialOrdering lex: (1 to: n), tindets , {y}.
-	ordering _ ordering inverse.
-	basis _ (GroebnerBasis from: generators ordering: ordering) minimal.
-	answer _ PolynomialSystem new.
-	basis do: [:each | ((each degreeIn: y)
-			= 0 and: [(tindets detect: [:one | (each degreeIn: one)
-					> 0]
-				ifNone: []) isNil])
-			ifTrue: [answer add: (each eq: each null)]].
-	^ answer! !
-
-!RationalMap methodsFor: 'arithmetic' stamp: 'len 3/16/2016 05:37'!
+!RationalMap methodsFor: 'arithmetic' stamp: 'len 10/16/2016 20:04'!
 negated
-	^ self class from: domain to: codomain components: components negated! !
+	^ self class from: self domain to: self codomain components: components negated! !
 
 !RationalMap methodsFor: 'private' stamp: 'len 12/14/2015 22:54'!
 normalize
@@ -25761,15 +25738,6 @@ normalize
 	indets _ indets asSortedCollection.
 	max _ self size max: indets last.
 	1 to: indets size do: [:each | self rename: (indets at: each) to: max + each]! !
-
-!RationalMap methodsFor: 'accessing' stamp: 'len 8/2/2016 02:10'!
-parameters
-	"this is the set of indeterminates present in the components, i.e. the parameters of the rational parametrization"
-	| answer |
-	answer _ Set new.
-	components do: [:each|
-		each indeterminates do: [:any| ((each numerator degreeIn: any) > 0 or: [(each numerator degreeIn: any) > 0]) ifTrue: [answer add: any]]].
-	^ answer! !
 
 !RationalMap methodsFor: 'printing' stamp: 'len 4/21/2016 00:22'!
 printOn: aStream 
@@ -25783,6 +25751,10 @@ printOn: aStream
 rename: anInteger to: anotherInteger 
 	"Rename the anInteger-th indeterminate of the receiver to anotherInteger. "
 	components _ components collect: [:each| each rename: anInteger to: anotherInteger]! !
+
+!RationalMap methodsFor: 'accessing' stamp: 'len 10/16/2016 20:43'!
+size
+	^ components size! !
 
 !RationalMap class methodsFor: 'instance creation' stamp: 'len 3/16/2016 05:38'!
 from: domain to: codomain components: anArrayOfRationalFunctions
@@ -26200,7 +26172,7 @@ valuation
 		^ self class numerator: self numerator * anObject numerator denominator: self denominator * anObject denominator].
 	^ self class numerator: self numerator * anObject denominator: self denominator! !
 
-!RationalFunction methodsFor: 'arithmetic' stamp: 'len 10/16/2016 09:09'!
+!RationalFunction methodsFor: 'arithmetic' stamp: 'len 10/16/2016 20:52'!
 + anObject
 	"Answer the sum of the receiver and the argument."
 
@@ -26219,7 +26191,7 @@ valuation
 			numerator: self numerator * anObject denominator + (self denominator * anObject numerator)
 			denominator: self denominator * anObject denominator].
 
-	^ self numerator + (self denominator * anObject) / self denominator! !
+	^ self class numerator: self numerator + (self denominator * anObject) denominator: self denominator! !
 
 !RationalFunction methodsFor: 'comparing' stamp: 'len 12/28/2015 04:43'!
 = anObject
@@ -29336,10 +29308,10 @@ left: aVector right: anotherVector
 		(exponents at: i) > (aMonomial at: i) ifTrue: [^ false]].
 	^ true! !
 
-!Monomial methodsFor: 'accessing' stamp: 'len 7/2/2016 23:00'!
+!Monomial methodsFor: 'accessing' stamp: 'len 10/16/2016 21:17'!
 at: anIndeterminate
 	"Answer the exponent of the anInteger-th indeterminate."
-	anIndeterminate > exponents size ifTrue: [^ 0].
+	(anIndeterminate > exponents size or: [anIndeterminate <= 0]) ifTrue: [^ 0].
 	^ exponents at: anIndeterminate! !
 
 !Monomial methodsFor: 'accessing-private' stamp: 'len 5/22/2016 22:59'!
@@ -29449,10 +29421,14 @@ lcm: aMonomial
 	exponents size >= aMonomial exponents size ifFalse: [^ aMonomial lcm: self].
 	^ self class exponents: (exponents withIndexCollect: [:each :i| each max: (aMonomial at: i)])! !
 
-!Monomial methodsFor: 'operations' stamp: 'len 7/4/2016 03:20'!
+!Monomial methodsFor: 'operations' stamp: 'len 10/16/2016 21:25'!
 permutedBy: aPermutation
 	"Permute the variables of the receiver. The argument can be an Array (permutation in 'image format'). For example given a monomial in x,z,y, #(1 2 3) doesn't change anything, #(2 1 3) exchanges variables x and y."
-	^ self class exponents: ((1 to: exponents size) collect: [:i| self at: (aPermutation at: i)])! !
+	| answer |
+	answer _ self class identity.
+	exponents withIndexDo: [:exp :i|
+		answer _ answer * (self class x: (aPermutation at: i) to: exp)].
+	^ answer! !
 
 !Monomial methodsFor: 'printing' stamp: 'len 6/7/2016 21:48'!
 printExponent: anInteger on: aStream
