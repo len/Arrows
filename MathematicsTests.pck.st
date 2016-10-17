@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 16 October 2016 at 9:34:18.71156 pm'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 17 October 2016 at 11:30:42.748807 am'!
 'Description Please enter a description for this package'!
-!provides: 'MathematicsTests' 1 19!
+!provides: 'MathematicsTests' 1 22!
 !classDefinition: #AbelianGroupTest category: #MathematicsTests!
 TestCase subclass: #AbelianGroupTest
 	instanceVariableNames: ''
@@ -685,26 +685,54 @@ testProjectiveSpace
 	self assert: P coordinateRing = (K polynomialsIn: 4).
 	self assert: P ambient = P! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/16/2016 21:33'!
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/17/2016 11:30'!
 testRationalMap
 	"Example from Magma handbook Scheme_map-creation (H118E32)."
-	| A t B x y f X |
-	A _ QQ polynomialsIn: #(t) :: spec.
-	t _ A functionField x: #t.
+	| A1 A2 x y f X |
+	A1 _ AffineSpace new: #(t) over: QQ.
+	A2 _ AffineSpace new: #(x y) over: QQ.
 
-	B _ QQ polynomialsIn: #(x y) :: spec.
-	x _ B functionField x.
-	y _ B functionField y.
+	f _ A1 to: A2 evaluatingWithArguments: [:t| {t**3 + t. (t**2 - 3)}].
 
-	f _ RationalMap from: A to: B components: {t**3 + t. (t**2 - 3)}.
+	self assert: f domain = A1.
+	self assert: f codomain = A2.
 
-	self assert: f domain = A.
-	self assert: f codomain = B.
-
-	x _ B coordinateRing x.
-	y _ B coordinateRing y.
-	X _ B subscheme: {x**2*-1 + (y**3) + (y**2*11) + (y*40) + 48}.
+	x _ A2 coordinateRing x.
+	y _ A2 coordinateRing y.
+	X _ A2 subscheme: {x**2*-1 + (y**3) + (y**2*11) + (y*40) + 48}.
 	self assert: f image = X! !
+
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/17/2016 10:40'!
+testRationalMap2
+	"Example from Cox's IVA pag. 234. Parametrization of the tangent surface of the twisted cubic."
+	| A2 A3 x y z f X |
+	A2 _ AffineSpace new: #(t u) over: QQ.
+	A3 _ AffineSpace new: 3 over: QQ.
+
+	f _ A2 to: A3 evaluatingWithArguments: [:t :u| {t + u. t**2 + (t*u*2). t**3 + (t**2*u*3)}].
+
+	x _ A3 coordinateRing x.
+	y _ A3 coordinateRing y.
+	z _ A3 coordinateRing z.
+	X _ A3 subscheme: {x**3*z - (x*y**2*(3/4)) - (x*y*z*(3/2)) + (y**3) + (z**2*(1/4))}.
+	self assert: f image = X! !
+
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/17/2016 11:24'!
+testRationalMapLinearMapConversion
+	| A2 A3 V2 V3 f f` p f`` |
+	A2 _ AffineSpace new: 2 over: QQ.
+	A3 _ AffineSpace new: 3 over: QQ.
+	V2 _ QQ**2.
+	V3 _ QQ**3.
+
+	f _ V2 -> V3 :: atRandomBits: 100.
+	f` _ f as: A2 -> A3.
+
+	p _ V2 atRandomBits: 100.
+	self assert: (f value: p) = (f` value: p).
+
+	f`` _ f` as: V2 -> V3.
+	self assert: f = f``! !
 
 !AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/13/2016 20:22'!
 testReduced
@@ -1526,13 +1554,13 @@ testAlternatingOrder
 	A _ Group alternating: (1 to: 3).
 	self assert: A order = (3 factorial / 2)! !
 
-!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 5/16/2016 05:28'!
+!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 10/17/2016 10:55'!
 testCauchyFrobeniusLemma
 	"Also called Brunside's lemma, Burnside counting theorem, or orbit-counting theorem."
 	| X G phi sum |
 	X _ 1 to: 3.
 	G _ Group alternating: X.
-	phi _ GroupAction from: (G, X) to: X evaluating: [:each| each first value: each second].
+	phi _ GroupAction from: (G, X) to: X evaluatingWithArguments: [:f :x| f value: x].
 	sum _ G elements sum: [:g| (phi fixedPointsOf: g) size].
 	self assert: phi orbits size * G order = sum! !
 
@@ -1654,14 +1682,14 @@ testModularIntegersUnits
 	U _ R units.
 	self assert: U size = (Sequence phi value: m)! !
 
-!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 5/2/2016 02:35'!
+!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 10/17/2016 10:55'!
 testOrbitStabilizerTheorem
-	| X G phi x |
+	| X G phi p |
 	X _ 1 to: 4.
 	G _ Group alternating: X.
-	phi _ GroupAction from: (G, X) to: X evaluating: [:each| each first value: each second].
-	x _ X atRandom.
-	self assert: (phi stabilizerOf: x) order * (phi orbitOf: x) size = G order! !
+	phi _ GroupAction from: (G, X) to: X evaluatingWithArguments: [:f :x| f value: x].
+	p _ X atRandom.
+	self assert: (phi stabilizerOf: p) order * (phi orbitOf: p) size = G order! !
 
 !GroupTest methodsFor: 'as yet unclassified' stamp: 'len 10/7/2016 06:41'!
 testQuotientGroup
