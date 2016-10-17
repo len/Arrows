@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 16 October 2016 at 9:34:21.47488 pm'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 17 October 2016 at 11:15:47.696008 am'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 224!
+!provides: 'Mathematics' 1 225!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
 	instanceVariableNames: 'numerator shift'
@@ -4252,7 +4252,7 @@ Example (the rational affine plane):
 Or equivalently:
 	QQ polynomialsIn: #(x y) :: spec.
 
-Note that his differs from the classical affine plane in that the 'points' include not only the closed points (a1,a2,..,an), but also all lines and other irreducible curves. And the morphisms are of course morphisms of schemes, not just the classical (linear) affine maps.
+Note that his differs from the classical affine plane. The morphisms are of course morphisms of schemes, not just the classical (linear) affine maps.
 !
 
 !ProjectiveSpace commentStamp: '<historical>' prior: 0!
@@ -12047,6 +12047,10 @@ to: aDomain evaluating: aBlock
 	"Answer a morphism to the specified codomain (in the same category), evaluating as the given block."
 	^ Function from: self to: aDomain evaluating: aBlock! !
 
+!Domain methodsFor: 'morphisms' stamp: 'len 10/17/2016 10:34'!
+to: aDomain evaluatingWithArguments: aBlock
+	^ self to: aDomain evaluating: [:each| aBlock valueWithArguments: each asArray]! !
+
 !Domain methodsFor: 'iterating' stamp: 'len 8/1/2016 03:53'!
 upTo: maximumNumberOfElements
 	| answer |
@@ -13167,9 +13171,9 @@ by: anEquivalenceRelation
 ê anAbelianGroup
 	^ DirectSum components: {self. anAbelianGroup}! !
 
-!AbelianGroup methodsFor: 'accessing' stamp: 'len 10/9/2016 09:09'!
+!AbelianGroup methodsFor: 'accessing' stamp: 'len 10/17/2016 10:48'!
 addition
-	^ ((self, self) to: self evaluating: [:each| each first + each second]) name: '+'! !
+	^ ((self, self) to: self evaluatingWithArguments: [:x :y| x + y]) name: '+'! !
 
 !AbelianGroup methodsFor: 'accessing' stamp: 'len 10/9/2016 09:00'!
 additionInverseMap
@@ -13915,9 +13919,9 @@ isUnit: anElement
 mod: anObject
 	^ self / (self * anObject)! !
 
-!Ring methodsFor: 'accessing' stamp: 'len 10/9/2016 09:01'!
+!Ring methodsFor: 'accessing' stamp: 'len 10/17/2016 10:48'!
 multiplication
-	^ ((self, self) to: self evaluating: [:each| each first * each second]) name: '*'! !
+	^ ((self, self) to: self evaluatingWithArguments: [:x :y| x * y]) name: '*'! !
 
 !Ring methodsFor: 'accessing' stamp: 'len 10/9/2016 09:01'!
 multiplicationInverseMap
@@ -16134,9 +16138,9 @@ isModule
 printOn: aStream
 	aStream nextPutAll: 'a '; print: self scalars; nextPutAll: '-module'! !
 
-!Module methodsFor: 'accessing' stamp: 'len 10/9/2016 09:01'!
+!Module methodsFor: 'accessing' stamp: 'len 10/17/2016 10:49'!
 scalarAction
-	^ (self, self scalars) to: self evaluating: [:each| each first * each second]! !
+	^ (self, self scalars) to: self evaluatingWithArguments: [:x :y| x * y]! !
 
 !Module methodsFor: 'accessing' stamp: 'len 2/14/2016 18:01'!
 scalars
@@ -17917,9 +17921,9 @@ multiplicationTable2
 		table addMorph: column proportionalWidth: p].
 	^ table! !
 
-!Magma methodsFor: 'accessing' stamp: 'len 10/9/2016 09:03'!
+!Magma methodsFor: 'accessing' stamp: 'len 10/17/2016 10:47'!
 operation
-	^ properties at: #operation ifAbsentPut: [((self, self) to: self evaluating: [:each| each first * each second]) name: '*']! !
+	^ properties at: #operation ifAbsentPut: [((self, self) to: self evaluatingWithArguments: [:x :y| x * y]) name: '*']! !
 
 !Magma methodsFor: 'accessing-private' stamp: 'len 10/7/2016 07:02'!
 operation: aFunction
@@ -18055,13 +18059,13 @@ abelianization
 additiveInverseMap
 	^ (self to: self evaluating: [:each| each negated]) name: '-id'! !
 
-!Group methodsFor: 'private' stamp: 'len 4/19/2016 03:41'!
+!Group methodsFor: 'private' stamp: 'len 10/17/2016 10:44'!
 additiveOperation
-	^ (GroupAction from: (self, self) to: self evaluating: [:each| each first + each second]) name: '+'! !
+	^ (GroupAction from: (self, self) to: self evaluatingWithArguments: [:x :y| x + y]) name: '+'! !
 
-!Group methodsFor: 'morphisms' stamp: 'len 5/22/2016 03:44'!
+!Group methodsFor: 'morphisms' stamp: 'len 10/17/2016 10:50'!
 adjointAction
-	^ GroupAction from: (self, self) to: self evaluating: [:each| self operation value: {self operation value: {each first. each second}. self inverseMap value: each first}]! !
+	^ GroupAction from: (self, self) to: self evaluatingWithArguments: [:x :y| self operation value: {self operation value: {x. y}. self inverseMap value: x}]! !
 
 !Group methodsFor: 'random' stamp: 'len 5/29/2016 18:03'!
 atRandom: aRandom bits: bitSize
@@ -18162,9 +18166,9 @@ commutator: aSubgroup
 compositiveInverseMap
 	^ (self to: self evaluating: [:each| each inverse]) name: 'inverse'! !
 
-!Group methodsFor: 'private' stamp: 'len 4/19/2016 03:41'!
+!Group methodsFor: 'private' stamp: 'len 10/17/2016 10:45'!
 compositiveOperation
-	^ (GroupAction from: (self, self) to: self evaluating: [:each| each first @ each second]) name: '@'! !
+	^ (GroupAction from: (self, self) to: self evaluatingWithArguments: [:x :y| x @ y]) name: '@'! !
 
 !Group methodsFor: 'private' stamp: 'len 5/1/2016 23:23'!
 computeExponent
@@ -18210,9 +18214,9 @@ conjugate: x with: y
 	op _ self operation.
 	^ op value: {op value: {self inverseMap value: y. x}. y}! !
 
-!Group methodsFor: 'morphisms' stamp: 'len 4/19/2016 03:41'!
+!Group methodsFor: 'morphisms' stamp: 'len 10/17/2016 10:51'!
 conjugation
-	^ GroupAction from: (self, self) to: self evaluating: [:each| self conjugate: each first with: each second]! !
+	^ GroupAction from: (self, self) to: self evaluatingWithArguments: [:x :y| self conjugate: x with: y]! !
 
 !Group methodsFor: 'operations' stamp: 'len 10/9/2016 21:15'!
 coproduct: aGroup
@@ -18461,9 +18465,11 @@ isTrivial
 	"Answer true if the receiver is the trivial group {id}."
 	^ self order = 1! !
 
-!Group methodsFor: 'morphisms' stamp: 'len 5/22/2016 03:42'!
+!Group methodsFor: 'morphisms' stamp: 'len 10/17/2016 10:52'!
 leftAction
-	^ GroupAction from: (self, self) to: self evaluating: [:each| self operation value: {each first. each second}]! !
+	self flag: #fix. "check this, is this right?"
+	^ self operation
+	"^ GroupAction from: (self, self) to: self evaluating: [:each| self operation value: {each first. each second}]"! !
 
 !Group methodsFor: 'morphisms-series' stamp: 'len 5/1/2016 23:03'!
 lowerCentralSeriesDo: aBlock
@@ -18478,9 +18484,9 @@ lowerCentralSeriesDo: aBlock
 multiplicativeInverseMap
 	^ (self to: self evaluating: [:each| each reciprocal]) name: 'x^-1'! !
 
-!Group methodsFor: 'private' stamp: 'len 4/19/2016 03:41'!
+!Group methodsFor: 'private' stamp: 'len 10/17/2016 10:45'!
 multiplicativeOperation
-	^ (GroupAction from: (self, self) to: self evaluating: [:each| each first * each second]) name: '*'! !
+	^ (GroupAction from: (self, self) to: self evaluatingWithArguments: [:x :y| x * y]) name: '*'! !
 
 !Group methodsFor: 'operations-endo' stamp: 'len 7/27/2016 06:22'!
 normalClosureOf: aSubset
@@ -18594,18 +18600,19 @@ raise: anElement to: anInteger
 random
 	^ GroupRandomGenerator on: self! !
 
-!Group methodsFor: 'morphisms' stamp: 'len 5/22/2016 03:41'!
+!Group methodsFor: 'morphisms' stamp: 'len 10/17/2016 10:52'!
 rightAction
-	^ GroupAction from: (self, self) to: self evaluating: [:each| self operation value: {each second. self inverseMap value: each first}]! !
+	^ GroupAction from: (self, self) to: self evaluatingWithArguments: [:x :y| self operation value: {y. self inverseMap value: x}]! !
 
 !Group methodsFor: 'morphisms' stamp: 'len 5/16/2016 04:14'!
 rightCosetAction
 	self flag: #fix."nil"
 	^ GroupAction from: (self, nil "set of subgroups?") to: nil "set of right cosets" evaluating: [:each| each first * each second]! !
 
-!Group methodsFor: 'morphisms' stamp: 'len 4/19/2016 03:42'!
+!Group methodsFor: 'morphisms' stamp: 'len 10/17/2016 10:54'!
 rightRegularAction
-	^ GroupAction from: (self, self) to: self evaluating: [:each| each first * each second]! !
+	self flag: #fix. "is this right?"
+	^ GroupAction from: (self, self) to: self evaluatingWithArguments: [:x :y| x * y]! !
 
 !Group methodsFor: 'iterating' stamp: 'len 5/1/2016 23:45'!
 select: aBlock
@@ -18779,9 +18786,9 @@ inverseMap
 isProduct
 	^ true! !
 
-!DirectProductGroup methodsFor: 'accessing' stamp: 'len 10/9/2016 09:03'!
+!DirectProductGroup methodsFor: 'accessing' stamp: 'len 10/17/2016 10:46'!
 operation
-	^ GroupAction from: (self, self) to: self evaluating: [:x| x first withIndexCollect: [:xi :i| (self at: i) operation value: {xi. x second at: i}]]! !
+	^ GroupAction from: (self, self) to: self evaluatingWithArguments: [:x :y| x withIndexCollect: [:xi :i| (self at: i) operation value: {xi. y at: i}]]! !
 
 !DirectProductGroup methodsFor: 'printing' stamp: 'len 6/11/2016 21:02'!
 printOn: aStream
@@ -19057,10 +19064,10 @@ left: aGroup right: anotherGroup action: anAction
 	self generators ifNotNil: [:generators| ^ anObject includesAllOf: generators].
 	^ super = anObject! !
 
-!PermutationGroup methodsFor: 'accessing' stamp: 'len 5/6/2016 02:49'!
+!PermutationGroup methodsFor: 'accessing' stamp: 'len 10/17/2016 11:02'!
 action
 	"Answer the natural action that sends (s, x) to s(x)."
-	^ GroupAction from: (self, space) to: space evaluating: [:each| each first value: each second]! !
+	^ GroupAction from: (self, space) to: space evaluatingWithArguments: [:s :x| s value: x]! !
 
 !PermutationGroup methodsFor: 'accessing' stamp: 'len 5/23/2016 19:34'!
 ambient
@@ -19301,10 +19308,10 @@ printOn: aStream
 size
 	^ self degree factorial! !
 
-!LinearGroup methodsFor: 'accessing' stamp: 'len 5/6/2016 02:47'!
+!LinearGroup methodsFor: 'accessing' stamp: 'len 10/17/2016 11:07'!
 action
-	"Answer the natural action that sends (f, v) to f(v)."
-	^ GroupAction from: (self, space) to: space evaluating: [:each| each first value: each second]! !
+	"Answer the natural action that sends (f, x) to f(x)."
+	^ GroupAction from: (self, space) to: space evaluatingWithArguments: [:f :x| f value: x]! !
 
 !LinearGroup methodsFor: 'operations' stamp: 'len 3/18/2016 03:33'!
 affine
@@ -19359,12 +19366,13 @@ identity
 isFinite
 	^ self scalars isFinite or: [super isFinite]! !
 
-!LinearGroup methodsFor: 'invariants' stamp: 'len 8/2/2016 10:26'!
+!LinearGroup methodsFor: 'invariants' stamp: 'len 10/17/2016 11:02'!
 polynomialAction
 	"Answer the action of the receiver on the polynomial ring K[x1...xn]."
 	| R |
+	self flag: #fix. "Assumes the transformations that constitute the receiver are between tuple spaces, otherwise we would need to take coordinates or work with the coordinate ring K[V]."
 	R _ self space coordinateRing.
-	^ GroupAction from: (self, R) to: R evaluating: [:each| each second @ each first]! !
+	^ GroupAction from: (self, R) to: R evaluatingWithArguments: [:f :g| g @ f]! !
 
 !LinearGroup methodsFor: 'printing' stamp: 'len 5/25/2016 05:09'!
 printOn: aStream
@@ -19666,18 +19674,18 @@ identity
 isFinite
 	^ self scalars isFinite or: [super isFinite]! !
 
-!MatrixGroup methodsFor: 'accessing' stamp: 'len 8/5/2016 23:22'!
+!MatrixGroup methodsFor: 'accessing' stamp: 'len 10/17/2016 11:07'!
 leftAction
-	"Answer the natural action that sends (M, x) to x*M."
-	^ GroupAction from: (self, space) to: space evaluating: [:each| each second * each first]! !
+	"Answer the natural action that sends (A, x) to x*A."
+	^ GroupAction from: (self, space) to: space evaluatingWithArguments: [:A :x| x * A]! !
 
-!MatrixGroup methodsFor: 'invariants' stamp: 'len 8/2/2016 10:24'!
+!MatrixGroup methodsFor: 'invariants' stamp: 'len 10/17/2016 10:59'!
 polynomialAction
 	"Answer the action of the receiver on the polynomial ring K[x1...xn]."
 	| R X |
 	R _ space coordinateRing.
 	X _ R tuple: R rank evaluating: [:i| R x: i].
-	^ GroupAction from: (self, R) to: R evaluating: [:each| each second value: each first * X]! !
+	^ GroupAction from: (self, R) to: R evaluating: [:A :f| f value: A * X]! !
 
 !MatrixGroup methodsFor: 'printing' stamp: 'len 6/7/2016 21:47'!
 printOn: aStream
@@ -19699,10 +19707,10 @@ reynolds
 	action _ self polynomialAction.
 	^ self space coordinateRing to: self invariantsRing evaluating: [:p| (self sum: [:g| action value: {g. p}]) / order]! !
 
-!MatrixGroup methodsFor: 'accessing' stamp: 'len 8/5/2016 23:21'!
+!MatrixGroup methodsFor: 'accessing' stamp: 'len 10/17/2016 11:08'!
 rightAction
-	"Answer the natural action that sends (M, x) to M*x."
-	^ GroupAction from: (self, space) to: space evaluating: [:each| each first * each second]! !
+	"Answer the natural action that sends (A, x) to A*x."
+	^ GroupAction from: (self, space) to: space evaluatingWithArguments: [:A :x| A * x]! !
 
 !MatrixGroup methodsFor: 'accessing' stamp: 'len 2/13/2016 07:45'!
 scalars
@@ -19895,10 +19903,10 @@ isCommutative
 shortName
 	^ 'SZ'! !
 
-!AffineGroup methodsFor: 'accessing' stamp: 'len 5/6/2016 02:47'!
+!AffineGroup methodsFor: 'accessing' stamp: 'len 10/17/2016 11:04'!
 action
-	"Answer the natural action that sends (f, p) to f(p)."
-	^ GroupAction from: (self, space) to: space evaluating: [:each| each first value: each second]! !
+	"Answer the natural action that sends (f, x) to f(x)."
+	^ GroupAction from: (self, space) to: space evaluatingWithArguments: [:f :x| f value: x]! !
 
 !AffineGroup methodsFor: 'accessing' stamp: 'len 5/23/2016 19:47'!
 ambient
@@ -20040,10 +20048,10 @@ linear
 shortName
 	^ 'SE'! !
 
-!ProjectiveGroup methodsFor: 'as yet unclassified' stamp: 'len 5/6/2016 02:49'!
+!ProjectiveGroup methodsFor: 'as yet unclassified' stamp: 'len 10/17/2016 11:03'!
 action
 	"Answer the natural action that sends (f, p) to f(p)."
-	^ GroupAction from: (self, space) to: space evaluating: [:each| each first value: each second]! !
+	^ GroupAction from: (self, space) to: space evaluatingWithArguments: [:f :p| f value: p]! !
 
 !ProjectiveGroup methodsFor: 'as yet unclassified' stamp: 'len 2/12/2016 22:02'!
 linear
@@ -21716,6 +21724,10 @@ subscheme: anObject
 	self dimension = 2 ifFalse: [^ Curve on: self ambient ideal: I].
 	^ PlaneCurve on: self ambient ideal: I"! !
 
+!Scheme methodsFor: 'morphisms' stamp: 'len 10/17/2016 08:58'!
+to: aScheme evaluating: aBlock
+	^ RationalMap from: self to: aScheme evaluating: aBlock! !
+
 !Scheme class methodsFor: 'instance creation' stamp: 'len 10/15/2016 11:13'!
 on: aScheme ideal: anIdeal
 	| answer |
@@ -23217,6 +23229,10 @@ forwardDifference: n at: h
 hash
 	^ self domain hash hashMultiply + self codomain hash! !
 
+!Function methodsFor: 'testing' stamp: 'len 10/17/2016 09:37'!
+is: aSymbol
+	^ aSymbol == #Function or: [super is: aSymbol]! !
+
 !Function methodsFor: 'testing' stamp: 'len 4/16/2016 18:53'!
 isBiyective
 	^ self isInjective and: [self isSurjective]! !
@@ -23285,14 +23301,9 @@ evaluating: anExpression
 from: aDomain to: anotherDomain evaluating: anExpression
 	^ self new domain: aDomain; codomain: anotherDomain; expression: anExpression! !
 
-!Function class methodsFor: 'instance creation' stamp: 'len 10/15/2016 16:50'!
-from: aDomain to: anotherDomain evaluating: anExpression inverseEvaluating: inverseExpression
-	| answer inverse |
-	answer _ self from: aDomain to: anotherDomain evaluating: anExpression.
-	inverse _ self from: anotherDomain to: aDomain evaluating: inverseExpression.
-	answer properties at: #leftInverse put: inverse.
-	inverse properties at: #rightInverse put: answer.
-	^ answer! !
+!Function class methodsFor: 'instance creation' stamp: 'len 10/17/2016 10:43'!
+from: aDomain to: aCodomain evaluatingWithArguments: aBlock
+	^ self from: aDomain to: aCodomain evaluating: [:each| aBlock valueWithArguments: each asArray]! !
 
 !Function class methodsFor: 'instance creation' stamp: 'len 10/2/2016 09:31'!
 newFrom: aFunction
@@ -24006,10 +24017,10 @@ value: anElement
 by: anElement in: aGroup
 	^ self new domain: aGroup; codomain: aGroup; element: anElement! !
 
-!GroupRepresentation methodsFor: 'accessing' stamp: 'len 8/1/2016 08:52'!
+!GroupRepresentation methodsFor: 'accessing' stamp: 'len 10/17/2016 10:54'!
 action
 	"Answer the associated group action on the representation space."
-	^ GroupAction from: (self domain, self space) to: self space evaluating: [:each| (self value: each first) value: each second]! !
+	^ GroupAction from: (self domain, self space) to: self space evaluatingWithArguments: [:x :y| (self value: x) value: y]! !
 
 !GroupRepresentation methodsFor: 'invariants' stamp: 'len 8/25/2016 04:16'!
 character
@@ -25726,18 +25737,17 @@ image
 	I _ P * generators eliminateAll: (n+1 to: P rank).
 	^ self codomain subscheme: (I generators collect: [:f| f as: B])! !
 
+!RationalMap methodsFor: 'testing' stamp: 'len 10/17/2016 09:39'!
+isLinear
+	^ components allSatisfy: [:each| each isLinear]! !
+
+!RationalMap methodsFor: 'testing' stamp: 'len 10/17/2016 10:38'!
+isPolynomial
+	^ components allSatisfy: [:each| each denominator isConstant]! !
+
 !RationalMap methodsFor: 'arithmetic' stamp: 'len 10/16/2016 20:04'!
 negated
 	^ self class from: self domain to: self codomain components: components negated! !
-
-!RationalMap methodsFor: 'private' stamp: 'len 12/14/2015 22:54'!
-normalize
-	| max indets |
-	indets _ Set new.
-	self do: [:each | indets addAll: each indeterminates].
-	indets _ indets asSortedCollection.
-	max _ self size max: indets last.
-	1 to: indets size do: [:each | self rename: (indets at: each) to: max + each]! !
 
 !RationalMap methodsFor: 'printing' stamp: 'len 4/21/2016 00:22'!
 printOn: aStream 
@@ -25747,18 +25757,23 @@ printOn: aStream
 		separatedBy: [aStream nextPutAll: ', '].
 	aStream nextPut: $)! !
 
-!RationalMap methodsFor: 'private' stamp: 'len 7/11/2016 05:42'!
-rename: anInteger to: anotherInteger 
-	"Rename the anInteger-th indeterminate of the receiver to anotherInteger. "
-	components _ components collect: [:each| each rename: anInteger to: anotherInteger]! !
-
 !RationalMap methodsFor: 'accessing' stamp: 'len 10/16/2016 20:43'!
 size
 	^ components size! !
 
+!RationalMap methodsFor: 'evaluating' stamp: 'len 10/17/2016 09:16'!
+value: aPoint
+	^ (components collect: [:each| each value: aPoint]) as: Tuple! !
+
 !RationalMap class methodsFor: 'instance creation' stamp: 'len 3/16/2016 05:38'!
 from: domain to: codomain components: anArrayOfRationalFunctions
 	^ self new domain: domain; codomain: codomain; components: anArrayOfRationalFunctions! !
+
+!RationalMap class methodsFor: 'instance creation' stamp: 'len 10/17/2016 09:31'!
+from: aDomain to: aCodomain evaluating: anExpression
+	| F |
+	F _ aDomain ambient functionField. "ambient or aDomain?"
+	^ self from: aDomain to: aCodomain components: (anExpression value: (Tuple new: aDomain ambient dimension evaluating: [:i| F x: i]))! !
 
 !RealRootFunction methodsFor: 'as yet unclassified' stamp: 'len 5/30/2016 06:44'!
 = aPolynomialRootFunction
@@ -26199,10 +26214,10 @@ valuation
 		ifTrue: [^ self numerator * anObject denominator = (self denominator * anObject numerator)].
 	^ self numerator = (anObject * self denominator)! !
 
-!RationalFunction methodsFor: 'converting' stamp: 'len 11/11/2015 04:46'!
+!RationalFunction methodsFor: 'converting' stamp: 'len 10/17/2016 09:33'!
 adaptToNumber: rcvr andSend: selector
 	"If I am involved in arithmetic with an Number, convert it to a RationalFunction."
-	self notYetImplemented! !
+	^ (self one * rcvr) perform: selector with: self! !
 
 !RationalFunction methodsFor: 'operations' stamp: 'len 11/28/2015 06:35'!
 degree
@@ -26231,6 +26246,10 @@ derivativeOfOrder: anInteger
 !RationalFunction methodsFor: 'accessing' stamp: 'pdm 3/22/98 20:53'!
 indeterminates
 	^ Set new addAll: self numerator indeterminates; addAll: self denominator indeterminates; yourself! !
+
+!RationalFunction methodsFor: 'testing' stamp: 'len 10/17/2016 09:39'!
+isLinear
+	^ denominator isLinear and: [denominator isConstant]! !
 
 !RationalFunction methodsFor: 'roots and poles' stamp: 'len 2/12/2016 02:56'!
 poles
@@ -36784,12 +36803,12 @@ weights
 	A vector v is integral iff it can be expressed as integer linear combination of the fundamental weights."
 	^ self notYetImplemented! !
 
-!RootSystem methodsFor: 'operations' stamp: 'len 4/19/2016 03:43'!
+!RootSystem methodsFor: 'operations' stamp: 'len 10/17/2016 11:03'!
 weylAction
 	| W |
 	W _ self weylGroup.
 	W name: 'W'.
-	^ GroupAction from: (W, self roots) to: self roots evaluating: [:each| each first value: each second]! !
+	^ GroupAction from: (W, self roots) to: self roots evaluatingWithArguments: [:f :x| f value: x]! !
 
 !RootSystem methodsFor: 'operations' stamp: 'len 6/18/2016 17:22'!
 weylGroup
