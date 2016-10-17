@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 17 October 2016 at 11:30:42.748807 am'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 17 October 2016 at 7:53:53.234554 pm'!
 'Description Please enter a description for this package'!
-!provides: 'MathematicsTests' 1 22!
+!provides: 'MathematicsTests' 1 23!
 !classDefinition: #AbelianGroupTest category: #MathematicsTests!
 TestCase subclass: #AbelianGroupTest
 	instanceVariableNames: ''
@@ -558,7 +558,7 @@ testAffineSchemeCreation
 	"Y is defined as subscheme of X, so it contains the equations of X plus the two new equations, but its ambient space is still A (not X):"
 	self assert: Y ambient = A! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/12/2016 20:39'!
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/17/2016 13:55'!
 testAffineSpace
 	| K A |
 	K _ Field GF: 23.
@@ -566,7 +566,8 @@ testAffineSpace
 	self assert: A dimension = 3.
 	self assert: A scalars = K.
 	self assert: A coordinateRing = (K polynomialsIn: 3).
-	self assert: A ambient = A! !
+	self assert: A ambient = A.
+	self assert: A coordinateRing spec = A! !
 
 !AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/12/2016 21:05'!
 testDifference
@@ -675,7 +676,7 @@ testPolynomialSystem
 	self assert: (V includes: (1, 0)).
 	self assert: (V includes: (0, 1)) not! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/12/2016 20:39'!
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/17/2016 13:54'!
 testProjectiveSpace
 	| K P |
 	K _ Field GF: 23.
@@ -683,7 +684,8 @@ testProjectiveSpace
 	self assert: P dimension = 3.
 	self assert: P scalars = K.
 	self assert: P coordinateRing = (K polynomialsIn: 4).
-	self assert: P ambient = P! !
+	self assert: P ambient = P.
+	self assert: P coordinateRing proj = P! !
 
 !AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/17/2016 11:30'!
 testRationalMap
@@ -2312,12 +2314,12 @@ testKernelImageTheorem
 	A _ QQ ** (n @ n) atRandomBits: 100.
 	self assert: A kernel dimension + A image dimension = n! !
 
-!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:47'!
+!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 10/17/2016 16:45'!
 testKroneckerProduct
 	| A B C |
-	A _ ZZ ** (2@2) vectorAt: (1,2,3,4).
-	B _ ZZ ** (2@2) vectorAt: (0,5,6,7).
-	C _ ZZ ** (4@4) vectorAt: (0, 5, 0, 10, 6, 7, 12, 14, 0, 15, 0, 20, 18, 21, 24, 28).
+	A _ ZZ ** (2@2) elementAt: (1,2,3,4).
+	B _ ZZ ** (2@2) elementAt: (0,5,6,7).
+	C _ ZZ ** (4@4) elementAt: (0, 5, 0, 10, 6, 7, 12, 14, 0, 15, 0, 20, 18, 21, 24, 28).
 	self assert: (A kronecker: B) = C! !
 
 !MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 8/24/2016 19:23'!
@@ -2336,17 +2338,17 @@ testMinimalPolynomial
 	self assert: f | m characteristicPolynomial.
 	self assert: (f value: m) isZero! !
 
-!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 10/13/2016 14:02'!
+!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 10/17/2016 16:45'!
 testMinor
 	| M A |
 	M _ ZZ ** (3@3).
-	A _ M vectorAt: #(1 2 3 4 5 6 7 8 9).
+	A _ M elementAt: #(1 2 3 4 5 6 7 8 9).
 	self assert: (A minor: 2@3) = -6! !
 
-!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 10/13/2016 10:23'!
+!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 10/17/2016 16:45'!
 testMinors
 	| A |
-	A _ ZZ ** (2@3) vectorAt: (1 to: 6).
+	A _ ZZ ** (2@3) elementAt: (1 to: 6).
 	self assert: (A minors: 2) asArray = #(-3 -6 -3)! !
 
 !MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 7/19/2016 08:54'!
@@ -2526,7 +2528,7 @@ testFreeAbelianGroup
 	self assert: (x-y-(x-y)) isZero.
 	self assert: (A coordinatesOf: x) = x0! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 10/16/2016 08:55'!
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 10/17/2016 16:41'!
 testFreeModule: M
 	| c t v x y |
 	x _ M atRandomBits: 10 * M rank.
@@ -2536,7 +2538,7 @@ testFreeModule: M
 	v _ x * c + y.
 	t _ (M coordinatesOf: x) * c + (M coordinatesOf: y).
 	self assert: v = (M elementAt: t).
-	self testLinearMap: M basis coordinatesOf! !
+	self testLinearMap: M basis coordinatesMap! !
 
 !ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:57'!
 testGrassmannian
@@ -2782,7 +2784,7 @@ testLinearSystemSolver2
 	self assert: system kernel dimension = 1.
 	self assert: (system solutions includes: (1, -2, -2))! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:59'!
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 10/17/2016 16:45'!
 testLinearSystemSolver3
 	| V  x y z system f1 f2 |
 	V _ QQ ** (2@2).
@@ -2793,7 +2795,7 @@ testLinearSystemSolver3
 	f2 _ x*2 - (y*2) + (z*4).
 	system _ (f1 eq: 1), (f2 eq: -2), (f1*2 eq: 2).
 	self assert: system kernel dimension = 2.
-	self assert: (system solutions includes: (V vectorAt: (1, -2, -2, 0)))! !
+	self assert: (system solutions includes: (V elementAt: (1, -2, -2, 0)))! !
 
 !ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:59'!
 testMatricesQ
