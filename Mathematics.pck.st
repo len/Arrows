@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 18 October 2016 at 9:29:22.677502 pm'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 18 October 2016 at 10:57:51.431909 pm'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 229!
+!provides: 'Mathematics' 1 235!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
 	instanceVariableNames: 'numerator shift'
@@ -81,14 +81,14 @@ OrderedTuple subclass: #BitTuple
 BitTuple class
 	instanceVariableNames: ''!
 
-!classDefinition: #ModularTuple category: #'Mathematics-Kernel-Tuples'!
-OrderedTuple subclass: #ModularTuple
+!classDefinition: #IntegerResidueClassTuple category: #'Mathematics-Kernel-Tuples'!
+OrderedTuple subclass: #IntegerResidueClassTuple
 	instanceVariableNames: 'representatives modulus'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Kernel-Tuples'!
-!classDefinition: 'ModularTuple class' category: #'Mathematics-Kernel-Tuples'!
-ModularTuple class
+!classDefinition: 'IntegerResidueClassTuple class' category: #'Mathematics-Kernel-Tuples'!
+IntegerResidueClassTuple class
 	instanceVariableNames: ''!
 
 !classDefinition: #Tuple category: #'Mathematics-Kernel-Tuples'!
@@ -641,14 +641,24 @@ Ring subclass: #QuotientRing
 QuotientRing class
 	instanceVariableNames: ''!
 
-!classDefinition: #ModularIntegers category: #'Mathematics-Rings'!
-QuotientRing subclass: #ModularIntegers
+!classDefinition: #IntegerQuotientRing category: #'Mathematics-Rings'!
+QuotientRing subclass: #IntegerQuotientRing
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Rings'!
-!classDefinition: 'ModularIntegers class' category: #'Mathematics-Rings'!
-ModularIntegers class
+!classDefinition: 'IntegerQuotientRing class' category: #'Mathematics-Rings'!
+IntegerQuotientRing class
+	instanceVariableNames: ''!
+
+!classDefinition: #PrimeField category: #'Mathematics-Fields'!
+IntegerQuotientRing subclass: #PrimeField
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Fields'!
+!classDefinition: 'PrimeField class' category: #'Mathematics-Fields'!
+PrimeField class
 	instanceVariableNames: ''!
 
 !classDefinition: #AlgebraicExtension category: #'Mathematics-Fields'!
@@ -689,16 +699,6 @@ NumberField subclass: #QuadraticField
 	category: 'Mathematics-Fields'!
 !classDefinition: 'QuadraticField class' category: #'Mathematics-Fields'!
 QuadraticField class
-	instanceVariableNames: ''!
-
-!classDefinition: #PrimeField category: #'Mathematics-Fields'!
-QuotientRing subclass: #PrimeField
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Fields'!
-!classDefinition: 'PrimeField class' category: #'Mathematics-Fields'!
-PrimeField class
 	instanceVariableNames: ''!
 
 !classDefinition: #AlgebraicNumbers category: #'Mathematics-Fields'!
@@ -2211,14 +2211,14 @@ FormalSum subclass: #SimplicialChain
 SimplicialChain class
 	instanceVariableNames: ''!
 
-!classDefinition: #ModularInteger category: #'Mathematics-Kernel-Support'!
-Object subclass: #ModularInteger
+!classDefinition: #IntegerResidueClass category: #'Mathematics-Kernel-Support'!
+Object subclass: #IntegerResidueClass
 	instanceVariableNames: 'representative modulus'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Kernel-Support'!
-!classDefinition: 'ModularInteger class' category: #'Mathematics-Kernel-Support'!
-ModularInteger class
+!classDefinition: 'IntegerResidueClass class' category: #'Mathematics-Kernel-Support'!
+IntegerResidueClass class
 	instanceVariableNames: ''!
 
 !classDefinition: #Quaternion category: #'Mathematics-Kernel-Support'!
@@ -2231,18 +2231,18 @@ Object subclass: #Quaternion
 Quaternion class
 	instanceVariableNames: ''!
 
-!classDefinition: #Residue category: #'Mathematics-Kernel-Support'!
-Object subclass: #Residue
+!classDefinition: #ResidueClass category: #'Mathematics-Kernel-Support'!
+Object subclass: #ResidueClass
 	instanceVariableNames: 'representative parent'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Kernel-Support'!
-!classDefinition: 'Residue class' category: #'Mathematics-Kernel-Support'!
-Residue class
+!classDefinition: 'ResidueClass class' category: #'Mathematics-Kernel-Support'!
+ResidueClass class
 	instanceVariableNames: ''!
 
 !classDefinition: #AlgebraicExtensionElement category: #'Mathematics-Fields'!
-Residue subclass: #AlgebraicExtensionElement
+ResidueClass subclass: #AlgebraicExtensionElement
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
@@ -3792,10 +3792,10 @@ References:
 !Integers commentStamp: '<historical>' prior: 0!
 My singletion global instance ZZ is the ring of integer numbers.!
 
-!QuotientRing commentStamp: '<historical>' prior: 0!
+!QuotientRing commentStamp: 'len 10/18/2016 22:57' prior: 0!
 My instances are quotient rings (also called factor rings, difference rings or residue class rings). 
 
-Given a commutative ring R and a two-sided-ideal I of R, the quotient ring R/I is the set of cosets of I in R by the equivalence relation a ~ b if a - b is in I. If the ideal is maximal, the resulting quotient ring is a field (see ResidueField). If it's only prime, the quotient ring is an integral domain.
+Given a commutative ring R and a two-sided-ideal I of R, the quotient ring R/I is the set of cosets of I in R by the equivalence relation a ~ b if a - b is in I. If the ideal is maximal, the resulting quotient ring is a field. If it's only prime, the quotient ring is an integral domain.
 
 Example:
 	| I |
@@ -3805,8 +3805,11 @@ Example:
 References:
 	https://en.wikipedia.org/wiki/Quotient_ring!
 
-!ModularIntegers commentStamp: '<historical>' prior: 0!
+!IntegerQuotientRing commentStamp: '<historical>' prior: 0!
 My instances are rings of integers mod m, i.e. Z/<m>.!
+
+!PrimeField commentStamp: '<historical>' prior: 0!
+My instances are fields of order p prime, i.e. the residue field Z/<p> of integers modulo p.!
 
 !AlgebraicExtension commentStamp: '<historical>' prior: 0!
 My instances are (finite) algebraic extensions E/F of a field F. They are defined by an irreducible polynomial f with coefficients in F, and are isomorphic to F[x]/<f>.
@@ -3821,9 +3824,6 @@ My instances are number fields, i.e. finite (and thus algebraic) field extension
 Example:
 	QQ adjoint: RealAlgebraicNumber sqrt2
 !
-
-!PrimeField commentStamp: '<historical>' prior: 0!
-My instances are fields of order p prime, i.e. the residue field Z/<p> of integers modulo p.!
 
 !AlgebraicNumbers commentStamp: '<historical>' prior: 0!
 I'm the field of (complex) algebraic numbers, i.e. the algebraic closure of Q.!
@@ -4385,8 +4385,8 @@ A simplicial k-chain is a formal linear combination of k-simplices.!
 My instances are quaternions. Quaternions constitute an example of non-commutative field.
 !
 
-!Residue commentStamp: '<historical>' prior: 0!
-My instances are elements of a quotient ring, i.e. residue classes modulo an ideal. See QuotientRing and ResidueField.!
+!ResidueClass commentStamp: '<historical>' prior: 0!
+My instances are elements of a quotient ring, i.e. residue classes modulo an ideal. See QuotientRing.!
 
 !Word commentStamp: '<historical>' prior: 0!
 A word is a (non-commutative) formal product of a finite ordered list of objects.!
@@ -4975,9 +4975,9 @@ isRational
 squareRoot
 	^ RealAlgebraicNumber sqrt: self! !
 
-!Integer methodsFor: '*mathematics' stamp: 'len 3/30/2016 21:59'!
+!Integer methodsFor: '*mathematics' stamp: 'len 10/18/2016 22:46'!
 % anInteger
-	^ ModularInteger representative: self \\ anInteger modulo: anInteger! !
+	^ IntegerResidueClass representative: self \\ anInteger modulo: anInteger! !
 
 !Integer methodsFor: '*mathematics' stamp: 'len 8/1/2016 08:54'!
 | anInteger
@@ -6784,11 +6784,11 @@ newFrom: anObject
 	anObject isInteger ifTrue: [^ self fromInteger: anObject].
 	^ super newFrom: anObject! !
 
-!ModularTuple methodsFor: 'arithmetic' stamp: 'len 6/29/2016 06:01'!
+!IntegerResidueClassTuple methodsFor: 'arithmetic' stamp: 'len 6/29/2016 06:01'!
 * aNumber
 	^ self class representatives: (representatives collect: [:each| each * aNumber \\ modulus]) modulus: modulus! !
 
-!ModularTuple methodsFor: 'arithmetic' stamp: 'len 6/29/2016 05:59'!
+!IntegerResidueClassTuple methodsFor: 'arithmetic' stamp: 'len 6/29/2016 05:59'!
 + aTuple
 	| a an b bn c |
 	(an _ self size) <= (bn _ aTuple size) ifFalse: [^ aTuple + self].
@@ -6800,57 +6800,57 @@ newFrom: anObject
 	c replaceFrom: an+1 to: bn with: b startingAt: an+1.
 	^ self class representatives: c modulus: modulus! !
 
-!ModularTuple methodsFor: 'comparing' stamp: 'len 6/30/2016 06:51'!
+!IntegerResidueClassTuple methodsFor: 'comparing' stamp: 'len 6/30/2016 06:51'!
 = aTuple
 	self class = aTuple class ifFalse: [^ super = aTuple].
 	^ modulus = aTuple modulus and: [representatives = aTuple representatives]! !
 
-!ModularTuple methodsFor: 'accessing-private' stamp: 'len 6/29/2016 05:50'!
+!IntegerResidueClassTuple methodsFor: 'accessing-private' stamp: 'len 6/29/2016 05:50'!
 arrayClass
 	modulus <= 255 ifTrue: [^ ByteArray].
 	modulus <= 16rFFFFFFFF ifTrue: [^ WordArray].
 	^ Array! !
 
-!ModularTuple methodsFor: 'accessing' stamp: 'len 4/25/2016 00:28'!
+!IntegerResidueClassTuple methodsFor: 'accessing' stamp: 'len 4/25/2016 00:28'!
 at: anInteger
 	^ (representatives at: anInteger ifAbsent: [0]) % modulus! !
 
-!ModularTuple methodsFor: 'accessing' stamp: 'len 4/25/2016 00:28'!
-at: anInteger put: aModularInteger
-	aModularInteger isInteger ifTrue: [^ representatives at: anInteger put: aModularInteger \\ modulus].
-	representatives at: anInteger put: aModularInteger representative.
-	^ aModularInteger! !
+!IntegerResidueClassTuple methodsFor: 'accessing' stamp: 'len 10/18/2016 22:55'!
+at: anInteger put: anIntegerResidueClass
+	anIntegerResidueClass isInteger ifTrue: [^ representatives at: anInteger put: anIntegerResidueClass \\ modulus].
+	representatives at: anInteger put: anIntegerResidueClass representative.
+	^ anIntegerResidueClass! !
 
-!ModularTuple methodsFor: 'comparing' stamp: 'len 6/30/2016 06:52'!
+!IntegerResidueClassTuple methodsFor: 'comparing' stamp: 'len 6/30/2016 06:52'!
 hash
 	^ representatives hash! !
 
-!ModularTuple methodsFor: 'accessing-private' stamp: 'len 4/25/2016 00:28'!
+!IntegerResidueClassTuple methodsFor: 'accessing-private' stamp: 'len 4/25/2016 00:28'!
 modulus
 	^ modulus! !
 
-!ModularTuple methodsFor: 'accessing-private' stamp: 'len 4/25/2016 00:28'!
+!IntegerResidueClassTuple methodsFor: 'accessing-private' stamp: 'len 4/25/2016 00:28'!
 modulus: anInteger
 	modulus _ anInteger! !
 
-!ModularTuple methodsFor: 'arithmetic' stamp: 'len 6/29/2016 06:00'!
+!IntegerResidueClassTuple methodsFor: 'arithmetic' stamp: 'len 6/29/2016 06:00'!
 negated
 	^ self class representatives: (representatives collect: [:each| modulus - each]) modulus: modulus! !
 
-!ModularTuple methodsFor: 'printing' stamp: 'len 6/30/2016 06:56'!
+!IntegerResidueClassTuple methodsFor: 'printing' stamp: 'len 6/30/2016 06:56'!
 printOn: aStream
 	modulus > 16 ifTrue: [^ super printOn: aStream].
 	1 to: self size do: [:i| (representatives at: i) printOn: aStream base: 16]! !
 
-!ModularTuple methodsFor: 'accessing-private' stamp: 'len 3/31/2016 07:43'!
+!IntegerResidueClassTuple methodsFor: 'accessing-private' stamp: 'len 3/31/2016 07:43'!
 representatives
 	^ representatives! !
 
-!ModularTuple methodsFor: 'accessing-private' stamp: 'len 3/31/2016 07:43'!
+!IntegerResidueClassTuple methodsFor: 'accessing-private' stamp: 'len 3/31/2016 07:43'!
 representatives: anArray
 	representatives _ anArray! !
 
-!ModularTuple methodsFor: 'accessing' stamp: 'len 3/31/2016 07:47'!
+!IntegerResidueClassTuple methodsFor: 'accessing' stamp: 'len 3/31/2016 07:47'!
 size
 	^ representatives size! !
 
@@ -14397,9 +14397,9 @@ on: aGroup over: aRing
 			ifTrue: [IntegerIdeal on: self generators: {anIntegerOrArray}]
 			ifFalse: [IntegerIdeal on: self generators: anIntegerOrArray]! !
 
-!Integers methodsFor: 'operations' stamp: 'len 6/29/2016 03:47'!
+!Integers methodsFor: 'operations' stamp: 'len 10/18/2016 22:49'!
 / anIdeal
-	^ ModularIntegers by: (anIdeal isInteger ifTrue: [self * anIdeal] ifFalse: [anIdeal])! !
+	^ IntegerQuotientRing by: (anIdeal isInteger ifTrue: [self * anIdeal] ifFalse: [anIdeal])! !
 
 !Integers methodsFor: 'comparing' stamp: 'len 6/1/2016 23:56'!
 <= aDomain
@@ -14631,9 +14631,9 @@ ideal
 ideal: anIdeal
 	ideal _ anIdeal! !
 
-!QuotientRing methodsFor: 'testing' stamp: 'len 10/16/2016 15:09'!
+!QuotientRing methodsFor: 'testing' stamp: 'len 10/18/2016 22:47'!
 includes: anObject
-	(anObject isKindOf: Residue) ifFalse: [^ false].
+	(anObject isKindOf: ResidueClass) ifFalse: [^ false].
 	^ ideal ring includes: anObject representative! !
 
 !QuotientRing methodsFor: 'testing' stamp: 'len 9/26/2016 16:49'!
@@ -14682,9 +14682,9 @@ printOn: aStream
 proj
 	^ AlgebraicScheme on: self base proj ideal: self ideal! !
 
-!QuotientRing methodsFor: 'morphisms' stamp: 'len 10/16/2016 15:59'!
+!QuotientRing methodsFor: 'morphisms' stamp: 'len 10/18/2016 22:47'!
 project: anElement
-	^ Residue in: self representative: (ideal reduce: anElement)! !
+	^ ResidueClass in: self representative: (ideal reduce: anElement)! !
 
 !QuotientRing methodsFor: 'morphisms' stamp: 'len 10/6/2016 09:53'!
 projection
@@ -14707,46 +14707,73 @@ zero
 by: anIdeal
 	^ self new ideal: anIdeal! !
 
-!ModularIntegers methodsFor: 'random' stamp: 'len 4/25/2016 00:26'!
+!IntegerQuotientRing methodsFor: 'random' stamp: 'len 4/25/2016 00:26'!
 atRandom: aRandom
 	^ self project: (self modulus atRandom: aRandom) - 1! !
 
-!ModularIntegers methodsFor: 'random' stamp: 'len 4/19/2016 22:14'!
+!IntegerQuotientRing methodsFor: 'random' stamp: 'len 4/19/2016 22:14'!
 atRandom: aRandom bits: bitSize
 	^ self atRandom: aRandom! !
 
-!ModularIntegers methodsFor: 'accessing' stamp: 'len 4/25/2016 00:26'!
+!IntegerQuotientRing methodsFor: 'accessing' stamp: 'len 4/25/2016 00:26'!
 characteristic
 	^ self modulus! !
 
-!ModularIntegers methodsFor: 'private' stamp: 'len 4/15/2016 21:10'!
-elementClass
-	^ ModularInteger! !
-
-!ModularIntegers methodsFor: 'testing' stamp: 'len 10/16/2016 15:24'!
+!IntegerQuotientRing methodsFor: 'testing' stamp: 'len 10/18/2016 22:46'!
 includes: anObject
-	^ anObject class = ModularInteger and: [anObject modulus = self modulus]! !
+	^ anObject class = IntegerResidueClass and: [anObject modulus = self modulus]! !
 
-!ModularIntegers methodsFor: 'testing' stamp: 'len 5/12/2016 23:20'!
+!IntegerQuotientRing methodsFor: 'testing' stamp: 'len 5/12/2016 23:20'!
 isField
 	^ properties at: #isField ifAbsentPut: [self modulus isPrime]! !
 
-!ModularIntegers methodsFor: 'testing' stamp: 'len 5/12/2016 23:34'!
+!IntegerQuotientRing methodsFor: 'testing' stamp: 'len 5/12/2016 23:34'!
 isUnit: anElement
 	^ (anElement representative gcd: self modulus) = 1! !
 
-!ModularIntegers methodsFor: 'morphisms' stamp: 'len 10/16/2016 15:23'!
+!IntegerQuotientRing methodsFor: 'morphisms' stamp: 'len 10/18/2016 22:47'!
 project: anElement
-	^ ModularInteger representative: (ideal reduce: anElement) modulo: self modulus! !
+	^ IntegerResidueClass representative: (ideal reduce: anElement) modulo: self modulus! !
 
-!ModularIntegers methodsFor: 'accessing' stamp: 'len 4/25/2016 00:27'!
+!IntegerQuotientRing methodsFor: 'accessing' stamp: 'len 4/25/2016 00:27'!
 size
 	^ self modulus! !
 
-!ModularIntegers methodsFor: 'private' stamp: 'len 4/25/2016 00:27'!
+!IntegerQuotientRing methodsFor: 'private' stamp: 'len 10/18/2016 22:56'!
 tupleClass
 	self flag: #fix.
-	^ self modulus = 2 ifTrue: [^ BitTuple] ifFalse: [Tuple] "ModularTuple"! !
+	^ self modulus = 2 ifTrue: [^ BitTuple] ifFalse: [Tuple] "IntegerResidueClassTuple"! !
+
+!PrimeField methodsFor: 'private' stamp: 'len 8/10/2016 06:01'!
+computePrimitiveRoot
+	"When the receiver is a field Z/<p>, answer a primitive root modulo p."
+	| m a order primeFactors |
+	m _ self modulus.
+	order _ m - 1.
+	primeFactors _ order factors asSet.
+	a _ 2.
+	[primeFactors anySatisfy: [:pi| (a raisedTo: order / pi modulo: m) = 1]]
+		whileTrue:
+			[a _ a + 1.
+			a >= m ifTrue: [self error: 'no primitive element, the modulus is not prime']].
+	^ a! !
+
+!PrimeField methodsFor: 'testing' stamp: 'len 10/18/2016 20:46'!
+isField
+	^ true! !
+
+!PrimeField methodsFor: 'testing' stamp: 'len 10/18/2016 22:41'!
+isUnit: anElement
+	^ anElement isZero not! !
+
+!PrimeField methodsFor: 'accessing' stamp: 'len 8/10/2016 06:04'!
+primitiveRoot
+	"When the receiver is a field Z/<p>, answer a primitive root modulo p."
+	^ properties at: #primitiveRoot ifAbsentPut: [self computePrimitiveRoot]! !
+
+!PrimeField class methodsFor: 'as yet unclassified' stamp: 'len 8/10/2016 06:09'!
+new: aPrime
+	^ self by: ZZ * aPrime! !
 
 !AlgebraicExtension methodsFor: 'converting' stamp: 'len 10/16/2016 14:43'!
 asVectorSpace
@@ -14971,62 +14998,6 @@ polynomial: aPolynomial
 !QuadraticField class methodsFor: 'instance creation' stamp: 'len 5/20/2016 02:43'!
 sqrt: anInteger
 	^ self adjoint: (AlgebraicNumber sqrt: anInteger)! !
-
-!PrimeField methodsFor: 'random' stamp: 'len 8/10/2016 06:02'!
-atRandom: aRandom
-	^ self project: (self modulus atRandom: aRandom) - 1! !
-
-!PrimeField methodsFor: 'random' stamp: 'len 10/10/2016 09:00'!
-atRandom: aRandom bits: bitSize
-	^ self atRandom: aRandom! !
-
-!PrimeField methodsFor: 'accessing' stamp: 'len 8/10/2016 06:02'!
-characteristic
-	^ self modulus! !
-
-!PrimeField methodsFor: 'private' stamp: 'len 8/10/2016 06:01'!
-computePrimitiveRoot
-	"When the receiver is a field Z/<p>, answer a primitive root modulo p."
-	| m a order primeFactors |
-	m _ self modulus.
-	order _ m - 1.
-	primeFactors _ order factors asSet.
-	a _ 2.
-	[primeFactors anySatisfy: [:pi| (a raisedTo: order / pi modulo: m) = 1]]
-		whileTrue:
-			[a _ a + 1.
-			a >= m ifTrue: [self error: 'no primitive element, the modulus is not prime']].
-	^ a! !
-
-!PrimeField methodsFor: 'testing' stamp: 'len 10/16/2016 15:26'!
-includes: anObject
-	^ anObject class = ModularInteger and: [anObject modulus = self modulus]! !
-
-!PrimeField methodsFor: 'testing' stamp: 'len 10/18/2016 20:46'!
-isField
-	^ true! !
-
-!PrimeField methodsFor: 'accessing' stamp: 'len 8/10/2016 06:04'!
-primitiveRoot
-	"When the receiver is a field Z/<p>, answer a primitive root modulo p."
-	^ properties at: #primitiveRoot ifAbsentPut: [self computePrimitiveRoot]! !
-
-!PrimeField methodsFor: 'morphisms' stamp: 'len 10/16/2016 15:26'!
-project: anElement
-	^ ModularInteger representative: (ideal reduce: anElement) modulo: self modulus! !
-
-!PrimeField methodsFor: 'accessing' stamp: 'len 8/10/2016 06:03'!
-size
-	^ self modulus! !
-
-!PrimeField methodsFor: 'tuples' stamp: 'len 8/10/2016 06:05'!
-tupleClass
-	self flag: #fix.
-	^ self modulus = 2 ifTrue: [^ BitTuple] ifFalse: [Tuple] "ModularTuple"! !
-
-!PrimeField class methodsFor: 'as yet unclassified' stamp: 'len 8/10/2016 06:09'!
-new: aPrime
-	^ self by: ZZ * aPrime! !
 
 !AlgebraicNumbers methodsFor: 'comparing' stamp: 'len 12/26/2015 20:05'!
 = anObject
@@ -25973,112 +25944,112 @@ dimension
 isCycle
 	^ self boundary isZero! !
 
-!ModularInteger methodsFor: 'arithmetic' stamp: 'len 4/25/2016 00:23'!
-* aModularInteger
-	aModularInteger isInteger ifTrue: [^ self class representative: representative * aModularInteger \\ modulus modulo: modulus].
-	^ self class representative: representative * aModularInteger representative \\ modulus modulo: modulus! !
+!IntegerResidueClass methodsFor: 'arithmetic' stamp: 'len 10/18/2016 22:53'!
+* anIntegerResidueClass
+	anIntegerResidueClass isInteger ifTrue: [^ self class representative: representative * anIntegerResidueClass \\ modulus modulo: modulus].
+	^ self class representative: representative * anIntegerResidueClass representative \\ modulus modulo: modulus! !
 
-!ModularInteger methodsFor: 'arithmetic' stamp: 'len 7/8/2016 05:40'!
+!IntegerResidueClass methodsFor: 'arithmetic' stamp: 'len 7/8/2016 05:40'!
 ** anInteger
 	anInteger = 1 ifTrue: [^ self].
 	anInteger = 0 ifTrue: [^ self one].
 	anInteger < 0 ifTrue: [^ self reciprocal ** anInteger negated].
 	^ (self * self ** (anInteger // 2)) * (self ** (anInteger \\ 2))! !
 
-!ModularInteger methodsFor: 'arithmetic' stamp: 'len 4/25/2016 00:24'!
-+ aModularInteger
+!IntegerResidueClass methodsFor: 'arithmetic' stamp: 'len 10/18/2016 22:53'!
++ anIntegerResidueClass
 	| r |
-	aModularInteger isInteger ifTrue: [^ self class representative: representative + aModularInteger \\ modulus modulo: modulus].
-	r _ representative + aModularInteger representative.
+	anIntegerResidueClass isInteger ifTrue: [^ self class representative: representative + anIntegerResidueClass \\ modulus modulo: modulus].
+	r _ representative + anIntegerResidueClass representative.
 	r >= modulus ifTrue: [r _ r - modulus].
 	^ self class representative: r modulo: modulus! !
 
-!ModularInteger methodsFor: 'copying' stamp: 'len 4/25/2016 00:24'!
+!IntegerResidueClass methodsFor: 'copying' stamp: 'len 4/25/2016 00:24'!
 , aTuple
 	^ ((modulus = 2 ifTrue: [BitTuple] ifFalse: [Tuple]) withAll: {self}), aTuple! !
 
-!ModularInteger methodsFor: 'arithmetic' stamp: 'len 4/25/2016 00:25'!
-- aModularInteger
+!IntegerResidueClass methodsFor: 'arithmetic' stamp: 'len 10/18/2016 22:54'!
+- anIntegerResidueClass
 	| r |
-	aModularInteger isInteger ifTrue: [^ self class representative: representative - aModularInteger \\ modulus modulo: modulus].
-	r _ representative + (modulus - aModularInteger representative).
+	anIntegerResidueClass isInteger ifTrue: [^ self class representative: representative - anIntegerResidueClass \\ modulus modulo: modulus].
+	r _ representative + (modulus - anIntegerResidueClass representative).
 	r >= modulus ifTrue: [r _ r - modulus].
 	^ self class representative: r modulo: modulus! !
 
-!ModularInteger methodsFor: 'arithmetic' stamp: 'len 3/29/2016 20:47'!
-/ aModularInteger
-	^ self * aModularInteger reciprocal! !
+!IntegerResidueClass methodsFor: 'arithmetic' stamp: 'len 10/18/2016 22:54'!
+/ anIntegerResidueClass
+	^ self * anIntegerResidueClass reciprocal! !
 
-!ModularInteger methodsFor: 'comparing' stamp: 'len 4/25/2016 00:25'!
-= aModularInteger
-	aModularInteger class = self class ifFalse: [^ false].
-	aModularInteger == self ifTrue: [^ true].
-	^ aModularInteger representative = representative and: [aModularInteger modulus = modulus]! !
+!IntegerResidueClass methodsFor: 'comparing' stamp: 'len 10/18/2016 22:54'!
+= anIntegerResidueClass
+	anIntegerResidueClass class = self class ifFalse: [^ false].
+	anIntegerResidueClass == self ifTrue: [^ true].
+	^ anIntegerResidueClass representative = representative and: [anIntegerResidueClass modulus = modulus]! !
 
-!ModularInteger methodsFor: 'converting' stamp: 'len 4/25/2016 00:24'!
+!IntegerResidueClass methodsFor: 'converting' stamp: 'len 4/25/2016 00:24'!
 adaptToInteger: rcvr andSend: selector
 	^ (self class representative: rcvr \\ modulus modulo: modulus) perform: selector with: self! !
 
-!ModularInteger methodsFor: 'accessing' stamp: 'len 4/21/2016 05:55'!
+!IntegerResidueClass methodsFor: 'accessing' stamp: 'len 4/21/2016 05:55'!
 bitSize
 	^ representative bitSize! !
 
-!ModularInteger methodsFor: 'comparing' stamp: 'len 3/29/2016 20:48'!
+!IntegerResidueClass methodsFor: 'comparing' stamp: 'len 3/29/2016 20:48'!
 hash
 	^ representative hash! !
 
-!ModularInteger methodsFor: 'accessing' stamp: 'len 7/15/2016 18:28'!
+!IntegerResidueClass methodsFor: 'accessing' stamp: 'len 7/15/2016 18:28'!
 ideal
 	^ ZZ * modulus! !
 
-!ModularInteger methodsFor: 'testing' stamp: 'len 4/25/2016 00:22'!
+!IntegerResidueClass methodsFor: 'testing' stamp: 'len 4/25/2016 00:22'!
 isQuadraticResidue
 	(#(-1 0) includes: (representative jacobi: modulus))
 		ifTrue: [^ false].
 	^ self notYetImplemented! !
 
-!ModularInteger methodsFor: 'testing' stamp: 'len 3/30/2016 00:03'!
+!IntegerResidueClass methodsFor: 'testing' stamp: 'len 3/30/2016 00:03'!
 isZero
 	^ representative = 0! !
 
-!ModularInteger methodsFor: 'accessing' stamp: 'len 4/25/2016 00:26'!
+!IntegerResidueClass methodsFor: 'accessing' stamp: 'len 4/25/2016 00:26'!
 modulus
 	^ modulus! !
 
-!ModularInteger methodsFor: 'accessing-private' stamp: 'len 4/25/2016 00:27'!
+!IntegerResidueClass methodsFor: 'accessing-private' stamp: 'len 4/25/2016 00:27'!
 modulus: anInteger
 	modulus _ anInteger! !
 
-!ModularInteger methodsFor: 'arithmetic' stamp: 'len 4/25/2016 00:24'!
+!IntegerResidueClass methodsFor: 'arithmetic' stamp: 'len 4/25/2016 00:24'!
 negated
 	representative = 0 ifTrue: [^ self].
 	^ self class representative: modulus - representative modulo: modulus! !
 
-!ModularInteger methodsFor: 'arithmetic' stamp: 'len 4/25/2016 00:23'!
+!IntegerResidueClass methodsFor: 'arithmetic' stamp: 'len 4/25/2016 00:23'!
 one
 	^ self class representative: 1 modulo: modulus! !
 
-!ModularInteger methodsFor: 'printing' stamp: 'len 3/29/2016 20:49'!
+!IntegerResidueClass methodsFor: 'printing' stamp: 'len 3/29/2016 20:49'!
 printOn: aStream
 	aStream print: representative! !
 
-!ModularInteger methodsFor: 'arithmetic' stamp: 'len 4/25/2016 00:24'!
+!IntegerResidueClass methodsFor: 'arithmetic' stamp: 'len 4/25/2016 00:24'!
 reciprocal
 	^ self class representative: (representative reciprocalModulo: modulus) modulo: modulus! !
 
-!ModularInteger methodsFor: 'accessing' stamp: 'len 3/29/2016 20:49'!
+!IntegerResidueClass methodsFor: 'accessing' stamp: 'len 3/29/2016 20:49'!
 representative
 	^ representative! !
 
-!ModularInteger methodsFor: 'accessing-private' stamp: 'len 3/29/2016 23:52'!
+!IntegerResidueClass methodsFor: 'accessing-private' stamp: 'len 3/29/2016 23:52'!
 representative: anInteger
 	representative _ anInteger! !
 
-!ModularInteger methodsFor: 'arithmetic' stamp: 'len 4/25/2016 00:25'!
+!IntegerResidueClass methodsFor: 'arithmetic' stamp: 'len 4/25/2016 00:25'!
 zero
 	^ self class representative: 0 modulo: modulus! !
 
-!ModularInteger class methodsFor: 'instance creation' stamp: 'len 4/25/2016 00:27'!
+!IntegerResidueClass class methodsFor: 'instance creation' stamp: 'len 4/25/2016 00:27'!
 representative: anInteger modulo: anotherInteger
 	^ self new representative: anInteger; modulus: anotherInteger! !
 
@@ -26313,12 +26284,12 @@ j
 k
 	^ Quaternion a: 0 b: 0 c: 0 d: 1! !
 
-!Residue methodsFor: 'arithmetic' stamp: 'len 10/16/2016 15:57'!
+!ResidueClass methodsFor: 'arithmetic' stamp: 'len 10/16/2016 15:57'!
 * anObject
 	anObject isInteger ifTrue: [^ parent project: representative * anObject].
 	^ parent project: representative * anObject representative! !
 
-!Residue methodsFor: 'arithmetic' stamp: 'len 7/8/2016 05:41'!
+!ResidueClass methodsFor: 'arithmetic' stamp: 'len 7/8/2016 05:41'!
 ** anInteger
 	"Answer the receiver raised to the power anInteger."
 	anInteger = 1 ifTrue: [^ self].
@@ -26326,45 +26297,45 @@ k
 	anInteger < 0 ifTrue: [^ (self ** anInteger negated) reciprocal].
 	^ self squared ** (anInteger // 2) * (self ** (anInteger \\ 2))! !
 
-!Residue methodsFor: 'arithmetic' stamp: 'len 10/16/2016 15:57'!
+!ResidueClass methodsFor: 'arithmetic' stamp: 'len 10/16/2016 15:57'!
 + aResidue
 	^ parent project: representative + aResidue representative! !
 
-!Residue methodsFor: 'converting' stamp: 'len 11/23/2015 06:20'!
+!ResidueClass methodsFor: 'converting' stamp: 'len 11/23/2015 06:20'!
 , aTuple
 	^ (Tuple withAll: {self}), aTuple! !
 
-!Residue methodsFor: 'arithmetic' stamp: 'len 3/22/2016 02:44'!
+!ResidueClass methodsFor: 'arithmetic' stamp: 'len 3/22/2016 02:44'!
 - aResidue
 	^ self + aResidue negated! !
 
-!Residue methodsFor: 'arithmetic' stamp: 'len 3/22/2016 02:45'!
+!ResidueClass methodsFor: 'arithmetic' stamp: 'len 3/22/2016 02:45'!
 / aResidue
 	^ self * aResidue reciprocal! !
 
-!Residue methodsFor: 'comparing' stamp: 'len 3/29/2016 20:52'!
+!ResidueClass methodsFor: 'comparing' stamp: 'len 3/29/2016 20:52'!
 = aResidue
 	aResidue class = self class ifFalse: [^ false].
 "	^ (self - aResidue) isZero"
 	^ representative = aResidue representative! !
 
-!Residue methodsFor: 'converting' stamp: 'len 10/16/2016 15:56'!
+!ResidueClass methodsFor: 'converting' stamp: 'len 10/16/2016 15:56'!
 adaptToInteger: rcvr andSend: selector
 	^ (self class in: parent representative: rcvr) perform: selector with: self! !
 
-!Residue methodsFor: 'accessing' stamp: 'len 12/28/2015 20:32'!
+!ResidueClass methodsFor: 'accessing' stamp: 'len 12/28/2015 20:32'!
 bitSize
 	^ representative bitSize! !
 
-!Residue methodsFor: 'conjugation' stamp: 'len 9/26/2016 16:53'!
+!ResidueClass methodsFor: 'conjugation' stamp: 'len 9/26/2016 16:53'!
 conjugated
 	^ self ** self ideal ring characteristic! !
 
-!Residue methodsFor: 'conjugation' stamp: 'len 4/20/2016 20:23'!
+!ResidueClass methodsFor: 'conjugation' stamp: 'len 4/20/2016 20:23'!
 conjugates
 	^ Iterator on: [:aBlock| self conjugatesDo: aBlock]! !
 
-!Residue methodsFor: 'conjugation' stamp: 'len 9/26/2016 16:53'!
+!ResidueClass methodsFor: 'conjugation' stamp: 'len 9/26/2016 16:53'!
 conjugatesDo: aBlock
 	"Iterate over the conjugancy class of the receiver, i.e. all the conjugates including the receiver."
 	| alpha |
@@ -26373,68 +26344,68 @@ conjugatesDo: aBlock
 	alpha _ alpha ** self ideal ring characteristic.
 	alpha = self] whileFalse! !
 
-!Residue methodsFor: 'comparing' stamp: 'len 10/16/2016 15:56'!
+!ResidueClass methodsFor: 'comparing' stamp: 'len 10/16/2016 15:56'!
 hash
 	^ parent hash! !
 
-!Residue methodsFor: 'accessing' stamp: 'len 10/16/2016 15:56'!
+!ResidueClass methodsFor: 'accessing' stamp: 'len 10/16/2016 15:56'!
 ideal
 	^ parent ideal! !
 
-!Residue methodsFor: 'testing' stamp: 'len 10/16/2016 15:57'!
+!ResidueClass methodsFor: 'testing' stamp: 'len 10/16/2016 15:57'!
 includes: aRingElement
 	^ self = (parent project: aRingElement)! !
 
-!Residue methodsFor: 'testing' stamp: 'len 1/2/2016 22:34'!
+!ResidueClass methodsFor: 'testing' stamp: 'len 1/2/2016 22:34'!
 isUnit
 	^ (self ideal inverseOf: representative) notNil! !
 
-!Residue methodsFor: 'testing' stamp: 'len 11/25/2015 03:10'!
+!ResidueClass methodsFor: 'testing' stamp: 'len 11/25/2015 03:10'!
 isZero
 	"^ (ideal remainderOf: representative) isZero"
 	^ representative isZero! !
 
-!Residue methodsFor: 'accessing' stamp: 'len 10/16/2016 15:56'!
+!ResidueClass methodsFor: 'accessing' stamp: 'len 10/16/2016 15:56'!
 modulus
 	^ self ideal generator! !
 
-!Residue methodsFor: 'arithmetic' stamp: 'len 10/16/2016 15:57'!
+!ResidueClass methodsFor: 'arithmetic' stamp: 'len 10/16/2016 15:57'!
 negated
 	^ parent project: representative negated! !
 
-!Residue methodsFor: 'constants' stamp: 'len 10/16/2016 15:57'!
+!ResidueClass methodsFor: 'constants' stamp: 'len 10/16/2016 15:57'!
 one
 	^ parent one! !
 
-!Residue methodsFor: 'accessing-private' stamp: 'len 10/16/2016 16:01'!
+!ResidueClass methodsFor: 'accessing-private' stamp: 'len 10/16/2016 16:01'!
 parent: aQuotientRing
 	parent _ aQuotientRing! !
 
-!Residue methodsFor: 'printing' stamp: 'len 12/21/2015 22:51'!
+!ResidueClass methodsFor: 'printing' stamp: 'len 12/21/2015 22:51'!
 printOn: aStream
 	aStream print: representative"; nextPutAll: ' mod '; print: ideal"! !
 
-!Residue methodsFor: 'arithmetic' stamp: 'len 10/16/2016 15:57'!
+!ResidueClass methodsFor: 'arithmetic' stamp: 'len 10/16/2016 15:57'!
 reciprocal
 	^ parent project: ((self ideal inverseOf: representative) ifNil: [^ self error: 'not invertible'])! !
 
-!Residue methodsFor: 'accessing' stamp: 'len 11/25/2015 03:11'!
+!ResidueClass methodsFor: 'accessing' stamp: 'len 11/25/2015 03:11'!
 representative
 	^ representative! !
 
-!Residue methodsFor: 'accessing-private' stamp: 'len 11/25/2015 03:12'!
+!ResidueClass methodsFor: 'accessing-private' stamp: 'len 11/25/2015 03:12'!
 representative: anObject
 	representative _ anObject! !
 
-!Residue methodsFor: 'arithmetic' stamp: 'len 6/4/2016 18:04'!
+!ResidueClass methodsFor: 'arithmetic' stamp: 'len 6/4/2016 18:04'!
 squared
 	^ self * self! !
 
-!Residue methodsFor: 'constants' stamp: 'len 10/16/2016 15:58'!
+!ResidueClass methodsFor: 'constants' stamp: 'len 10/16/2016 15:58'!
 zero
 	^ parent zero! !
 
-!Residue class methodsFor: 'instance creation' stamp: 'len 10/16/2016 15:58'!
+!ResidueClass class methodsFor: 'instance creation' stamp: 'len 10/16/2016 15:58'!
 in: aQuotientRing representative: anObject
 	^ self new parent: aQuotientRing; representative: anObject! !
 
