@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 17 October 2016 at 7:54:30.589346 pm'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 18 October 2016 at 2:06:18.415254 pm'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 226!
+!provides: 'Mathematics' 1 227!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
 	instanceVariableNames: 'numerator shift'
@@ -4403,8 +4403,8 @@ My instances are bilinear forms, i.e. functions from VxV to F where V is a vecto
 	B(v, w+cw`) = B(v, w) + cB(v, w`)
 !
 
-!Sequence commentStamp: 'len 10/10/2016 21:18' prior: 0!
-My instances are functions with domain the natural numbers (1,2,...). They can be evaluated at an index (#value: and #at:), and can also be iterated over like Smalltalk collections (#do:, #collect:, #select, etc).
+!Sequence commentStamp: '<historical>' prior: 0!
+My instances are functions with domain the natural numbers {1,2,...}. They can be evaluated at an index (#value: and #at:), and can also be iterated over like Smalltalk collections (#do:, #collect:, #select, etc).
 
 Example (the Fibonacci sequence):
 	Sequence initialValues: #(0 1) recurrence: [:f :n| (f at: n-1) + (f at: n-2)].
@@ -4987,6 +4987,14 @@ isInfinity
 !Object methodsFor: '*mathematics' stamp: 'len 8/5/2016 21:51'!
 isReal
 	"Answer true if the receiver is a real number."
+	^ false! !
+
+!Magnitude methodsFor: '*mathematics' stamp: 'len 10/18/2016 13:58'!
+isFinite
+	^ self isInfinite not! !
+
+!Magnitude methodsFor: '*mathematics' stamp: 'len 10/18/2016 13:57'!
+isInfinite
 	^ false! !
 
 !Number methodsFor: '*mathematics' stamp: 'len 11/19/2015 17:23'!
@@ -6158,9 +6166,9 @@ sqrt: aNumber
 		minimalPolynomial: QQ polynomials x squared - aNumber
  		bounds: (RealInterval open: 0 open: (aNumber max: 1))! !
 
-!ContinuedFraction methodsFor: 'converting' stamp: 'len 3/27/2016 04:47'!
+!ContinuedFraction methodsFor: 'converting' stamp: 'len 10/18/2016 14:05'!
 asFraction
-	coefficients size isInfinity ifTrue: [self error: 'infinite continued fraction'].
+	self isInfinite ifTrue: [self error: 'infinite continued fraction'].
 	^ self convergentAt: coefficients size! !
 
 !ContinuedFraction methodsFor: 'accessing' stamp: 'len 12/2/2015 00:07'!
@@ -6217,21 +6225,25 @@ fromFraction: aFraction
 			coefficients add: a].
 	coefficients _ Tuple withAll: coefficients asArray! !
 
-!ContinuedFraction methodsFor: 'testing' stamp: 'len 12/4/2015 01:48'!
+!ContinuedFraction methodsFor: 'testing' stamp: 'len 10/18/2016 14:05'!
 isFinite
-	^ coefficients size isInfinity not! !
+	^ coefficients size isInfinite not! !
+
+!ContinuedFraction methodsFor: 'testing' stamp: 'len 10/18/2016 13:50'!
+isInfinite
+	^ self isFinite not! !
 
 !ContinuedFraction methodsFor: 'arithmetic' stamp: 'len 12/3/2015 02:17'!
 negated
 	^ self class coefficients: coefficients negated! !
 
-!ContinuedFraction methodsFor: 'printing' stamp: 'len 12/4/2015 00:48'!
+!ContinuedFraction methodsFor: 'printing' stamp: 'len 10/18/2016 13:49'!
 printOn: aStream base: base
 	| separator |
 	aStream nextPut: $[.
 	separator _ $;.
 	(1 to: (coefficients size min: 10)) do: [:i| (coefficients at: i) printOn: aStream base: base] separatedBy: [aStream nextPut: separator. separator _ $,].
-	coefficients size isInfinity ifTrue: [aStream nextPutAll: '...'].
+	coefficients size isInfinite ifTrue: [aStream nextPutAll: '...'].
 	aStream nextPut: $]! !
 
 !ContinuedFraction methodsFor: 'arithmetic' stamp: 'len 12/4/2015 01:45'!
@@ -6333,10 +6345,6 @@ isCountable
 	^ order = 0! !
 
 !Aleph methodsFor: 'testing' stamp: 'len 4/22/2016 04:54'!
-isFinite
-	^ false! !
-
-!Aleph methodsFor: 'testing' stamp: 'len 4/22/2016 04:54'!
 isInfinite
 	^ true! !
 
@@ -6432,6 +6440,10 @@ errorUndetermined
 !Infinity methodsFor: 'comparing' stamp: 'len 6/28/2016 09:19'!
 hash
 	^ self sign hash + self class hash! !
+
+!Infinity methodsFor: 'testing' stamp: 'len 10/18/2016 14:00'!
+isInfinite
+	^ true! !
 
 !Infinity methodsFor: 'testing' stamp: 'len 11/19/2015 17:00'!
 isInfinity
@@ -14363,10 +14375,10 @@ on: aGroup over: aRing
 = anObject
 	^ anObject class == self class! !
 
-!Integers methodsFor: 'random' stamp: 'len 4/19/2016 22:12'!
+!Integers methodsFor: 'random' stamp: 'len 10/18/2016 13:59'!
 atRandom: aRandom bits: bitSize
 	| n |
-	bitSize isInfinity ifTrue: [^ self error: 'infinite bitsize'].
+	bitSize isInfinite ifTrue: [^ self error: 'infinite bitsize'].
 	bitSize < 1 ifTrue: [^ self error: 'bitsize should be > 1'].
 	n _ 2**(bitSize truncated - 1).
 	^ (0-n to: n) atRandom: aRandom! !
@@ -24794,9 +24806,9 @@ collect: aBlock
 convolution: aSequence
 	^ self species to: self codomain evaluating: [:n| (0 to: n-1) sum: [:i| (self at: self startIndex + i) * (aSequence at: aSequence startIndex+n-1-i)]]! !
 
-!Sequence methodsFor: 'copying' stamp: 'len 12/4/2015 00:55'!
+!Sequence methodsFor: 'copying' stamp: 'len 10/18/2016 14:02'!
 copyFrom: start to: end
-	end isInfinity
+	end isInfinite
 		ifTrue: [^ self shift: 1 - start].
 	^ (start to: end) collect: [:i| self at: i]! !
 
