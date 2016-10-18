@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 18 October 2016 at 9:08:50.299511 pm'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 18 October 2016 at 9:29:22.677502 pm'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 228!
+!provides: 'Mathematics' 1 229!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
 	instanceVariableNames: 'numerator shift'
@@ -1521,16 +1521,6 @@ Domain subclass: #AffineLinearSpace
 AffineLinearSpace class
 	instanceVariableNames: ''!
 
-!classDefinition: #AffineMaps category: #'Mathematics-Geometry-Affine'!
-AffineLinearSpace subclass: #AffineMaps
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Geometry-Affine'!
-!classDefinition: 'AffineMaps class' category: #'Mathematics-Geometry-Affine'!
-AffineMaps class
-	instanceVariableNames: ''!
-
 !classDefinition: #ProjectiveLinearSpace category: #'Mathematics-Geometry-Projective'!
 Domain subclass: #ProjectiveLinearSpace
 	instanceVariableNames: 'vectorSpace'
@@ -1539,16 +1529,6 @@ Domain subclass: #ProjectiveLinearSpace
 	category: 'Mathematics-Geometry-Projective'!
 !classDefinition: 'ProjectiveLinearSpace class' category: #'Mathematics-Geometry-Projective'!
 ProjectiveLinearSpace class
-	instanceVariableNames: ''!
-
-!classDefinition: #ProjectiveMaps category: #'Mathematics-Geometry-Projective'!
-ProjectiveLinearSpace subclass: #ProjectiveMaps
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Geometry-Projective'!
-!classDefinition: 'ProjectiveMaps class' category: #'Mathematics-Geometry-Projective'!
-ProjectiveMaps class
 	instanceVariableNames: ''!
 
 !classDefinition: #Scheme category: #'Mathematics-Geometry-Algebraic'!
@@ -16668,12 +16648,6 @@ printOn: aStream
 		ifTrue: [aStream nextPutAll: 'Endo' bold; nextPutAll: self scalars printText sub; nextPut: $(; print: self domain; nextPut: $)]
 		ifFalse: [aStream nextPutAll: 'Hom' bold; nextPutAll: self scalars printText sub; nextPut: $(; print: self domain; nextPut: $,; print: self codomain; nextPut: $)]! !
 
-!HomModule methodsFor: 'operations' stamp: 'len 8/25/2016 21:17'!
-projective
-	"Answer the projective subspace induced by the receiver, consisting of the 1-dimension subspaces."
-	self isVectorSpace ifFalse: [^ DomainError signal: 'not a vector space'].
-	^ ProjectiveMaps on: self! !
-
 !HomModule methodsFor: 'basis' stamp: 'len 10/5/2016 09:32'!
 rank
 	^ self domain rank * self codomain rank! !
@@ -20691,11 +20665,6 @@ isIrreducible
 - anObject
 	^ self + anObject negated! !
 
-!AffineLinearSpace methodsFor: 'morphisms' stamp: 'len 9/2/2016 05:38'!
--> aDomain
-	"Answer the morphisms that go from the receiver A to the argument B: Hom(A,B)."
-	^ AffineMaps from: self to: aDomain! !
-
 !AffineLinearSpace methodsFor: 'operations' stamp: 'len 8/30/2016 05:47'!
 / aLinearSubspace
 	direction >= aLinearSubspace ifFalse: [DomainError signal: 'not a linear subspace'].
@@ -20912,35 +20881,6 @@ to: anAffineSpace evaluating: aBlock
 !AffineLinearSpace class methodsFor: 'instance creation' stamp: 'len 6/4/2016 04:22'!
 representative: aVector direction: aVectorSpace
 	^ self new direction: aVectorSpace; representative: aVector! !
-
-!AffineMaps methodsFor: 'accessing' stamp: 'len 8/25/2016 21:08'!
-codomain
-	^ self direction codomain asAffineSpace! !
-
-!AffineMaps methodsFor: 'accessing' stamp: 'len 8/25/2016 21:08'!
-domain
-	^ self direction domain asAffineSpace! !
-
-!AffineMaps methodsFor: 'elements' stamp: 'len 8/25/2016 21:09'!
-evaluating: aBlock
-	^ AffineMap from: self domain to: self codomain evaluating: aBlock! !
-
-!AffineMaps methodsFor: 'elements' stamp: 'len 8/25/2016 21:09'!
-identity
-	^ self evaluating: [:x| x]! !
-
-!AffineMaps methodsFor: 'printing' stamp: 'len 10/14/2016 09:00'!
-printOn: aStream
-	"Delegate in order to print the standard notation:"
-	(HomSet from: self domain to: self codomain) printOn: aStream! !
-
-!AffineMaps methodsFor: 'elements' stamp: 'len 8/25/2016 21:10'!
-scalar: aNumber
-	^ self evaluating: [:x| x * aNumber]! !
-
-!AffineMaps methodsFor: 'elements' stamp: 'len 8/25/2016 21:10'!
-translation: aVector
-	^ self evaluating: [:x| x + aVector]! !
 
 !ProjectiveLinearSpace methodsFor: 'operations' stamp: 'len 11/20/2015 22:06'!
 + aProjectiveSubspace
@@ -21193,31 +21133,6 @@ on: aVectorSpace
 	the projective space P(V) over a vector space V."
 
 	^ self new vectorSpace: aVectorSpace! !
-
-!ProjectiveMaps methodsFor: 'accessing' stamp: 'len 8/25/2016 21:14'!
-codomain
-	^ vectorSpace codomain projective! !
-
-!ProjectiveMaps methodsFor: 'accessing' stamp: 'len 8/25/2016 21:14'!
-domain
-	^ vectorSpace domain projective! !
-
-!ProjectiveMaps methodsFor: 'elements' stamp: 'len 8/25/2016 21:19'!
-evaluating: aBlock
-	^ ProjectiveMap from: self domain to: self codomain evaluating: aBlock! !
-
-!ProjectiveMaps methodsFor: 'elements' stamp: 'len 8/25/2016 21:20'!
-identity
-	^ self evaluating: [:x| x]! !
-
-!ProjectiveMaps methodsFor: 'printing' stamp: 'len 10/14/2016 09:00'!
-printOn: aStream
-	"Delegate in order to print the standard notation:"
-	(HomSet from: self domain to: self codomain) printOn: aStream! !
-
-!ProjectiveMaps methodsFor: 'as yet unclassified' stamp: 'len 8/25/2016 21:23'!
-vectorFromPoint: aProjectiveMap
-	^ aProjectiveMap linearMap! !
 
 !Scheme methodsFor: 'operations' stamp: 'len 10/13/2016 10:41'!
 /\ aScheme
