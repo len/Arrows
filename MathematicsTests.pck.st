@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 17 October 2016 at 7:53:53.234554 pm'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 18 October 2016 at 9:13:44.786816 pm'!
 'Description Please enter a description for this package'!
-!provides: 'MathematicsTests' 1 23!
+!provides: 'MathematicsTests' 1 24!
 !classDefinition: #AbelianGroupTest category: #MathematicsTests!
 TestCase subclass: #AbelianGroupTest
 	instanceVariableNames: ''
@@ -558,10 +558,10 @@ testAffineSchemeCreation
 	"Y is defined as subscheme of X, so it contains the equations of X plus the two new equations, but its ambient space is still A (not X):"
 	self assert: Y ambient = A! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/17/2016 13:55'!
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/18/2016 20:58'!
 testAffineSpace
 	| K A |
-	K _ Field GF: 23.
+	K _ PrimeField new: 23.
 	A _ AffineSpace new: 3 over: K.
 	self assert: A dimension = 3.
 	self assert: A scalars = K.
@@ -569,7 +569,7 @@ testAffineSpace
 	self assert: A ambient = A.
 	self assert: A coordinateRing spec = A! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/12/2016 21:05'!
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/17/2016 22:29'!
 testDifference
 	| A x y C X2 D O |
 	A _ AffineSpace new: 2 over: QQ.
@@ -581,7 +581,8 @@ testDifference
 	self assert: D ideal = (A coordinateRing * x).
 	O _ A subscheme: {x. y}.
 	D _ C \ O.
-	self assert: D = C! !
+	self assert: D = C.
+	self assert: (C \ A) isEmpty "removing the ambient space removes all"! !
 
 !AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/15/2016 09:59'!
 testEmpty
@@ -676,10 +677,10 @@ testPolynomialSystem
 	self assert: (V includes: (1, 0)).
 	self assert: (V includes: (0, 1)) not! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/17/2016 13:54'!
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/18/2016 20:58'!
 testProjectiveSpace
 	| K P |
-	K _ Field GF: 23.
+	K _ PrimeField new: 23.
 	P _ ProjectiveSpace new: 3 over: K.
 	self assert: P dimension = 3.
 	self assert: P scalars = K.
@@ -878,10 +879,10 @@ testSum
 	sqrt5 _ AlgebraicNumber sqrt: 5.
 	self assert: sqrt3 + sqrt5 + sqrt2 - sqrt3 - sqrt5 = sqrt2! !
 
-!CodesTest methodsFor: 'as yet unclassified' stamp: 'len 6/25/2016 05:24'!
+!CodesTest methodsFor: 'as yet unclassified' stamp: 'len 10/18/2016 20:58'!
 testDual
 	| F C |
-	F _ Field GF: 2.
+	F _ PrimeField new: 2.
 	C _ LinearCode subspace: (F**5 span: {(0,0,0,0,0) % 2. (1,1,1,1,1) % 2}).
 	self assert: C dual size = (C ambient size / C size).
 	C dual do: [:v|
@@ -939,10 +940,10 @@ testParityCheckMatrix
 	M _ H7 parityCheckMatrix.
 	self assert: (M * H7 atRandom) isZero! !
 
-!CodesTest methodsFor: 'as yet unclassified' stamp: 'len 6/25/2016 03:31'!
+!CodesTest methodsFor: 'as yet unclassified' stamp: 'len 10/18/2016 20:58'!
 testSelfDual
 	| F C |
-	F _ Field GF: 2.
+	F _ PrimeField new: 2.
 	"{00,11} is the smallest self-dual code"
 	C _ LinearCode subspace: (F**2 span: {(0,0) % 2. (1,1) % 2}).
 	self assert: C isSelfDual.
@@ -968,10 +969,10 @@ testSingletonBoundTrtracode
 	"Any linear [n,k,d] code satisfies k + d <= n + 1."
 	self testSingletonBound: LinearCode tetracode! !
 
-!CodesTest methodsFor: 'as yet unclassified' stamp: 'len 7/15/2016 18:24'!
+!CodesTest methodsFor: 'as yet unclassified' stamp: 'len 10/18/2016 20:58'!
 testTetracode
 	| F C P x y |
-	F _ Field GF: 3.
+	F _ PrimeField new: 3.
 	C _ LinearCode subspace: (F**4 span: {(1,1,1,0) % 3. (0,1,2,1) % 3}).
 	self assert: C isSelfDual.
 	self assert: C minimumDistance = 3.
@@ -980,11 +981,11 @@ testTetracode
 	y _ P y.
 	self assert: C weightEnumerator = (x**4 + (x*(y**3)*8))! !
 
-!CodesTest methodsFor: 'as yet unclassified' stamp: 'len 6/25/2016 05:32'!
+!CodesTest methodsFor: 'as yet unclassified' stamp: 'len 10/18/2016 20:57'!
 testWeightEnumerator
 	"From youtube, Neil Sloane 'error correcting codes, group theory and invariant theory part 1' 19:30."
 	| F C w x y |
-	F _ Field GF: 2.
+	F _ PrimeField new: 2.
 	C _ LinearCode subspace: (F**5 span: {(0,0,0,0,0) % 2. (1,1,1,1,1) % 2}).
 	w _ C weightEnumerator.
 	x _ w species x.
@@ -1023,10 +1024,10 @@ testGroebnerCyclic3Lexicographic
 	G _ GroebnerBasis from: I generators ordering: (MonomialOrdering lex: 3).
 	self testGroebnerBasis: G ideal: I! !
 
-!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 7/8/2016 01:49'!
+!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 10/18/2016 20:57'!
 testGroebnerCyclic3OverZ2
 	| I G |
-	I _ PolynomialIdeal cyclic: 3 over: (Field GF: 2).
+	I _ PolynomialIdeal cyclic: 3 over: (PrimeField new: 2).
 	G _ I groebnerBasis.
 	self testGroebnerBasis: G ideal: I! !
 
@@ -1762,10 +1763,10 @@ testBitParity
 	v _ 1 << 3000 :: atRandom.
 	self assert: ((v printStringBase: 2 :: count: [:x| x = $1]) bitAnd: 1) = v bitParity! !
 
-!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 3/30/2016 22:59'!
+!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 10/18/2016 20:59'!
 testBitTupleBug
 	| Z2 |
-	Z2 _ Field GF: 2.
+	Z2 _ PrimeField new: 2.
 	self assert: ((1,0,0) % 2 :: sum = Z2 one).
 	self assert: ((0,1,0) % 2 :: sum = Z2 one).
 	self assert: ((1,1,0) % 2 :: sum = Z2 zero).
@@ -1792,10 +1793,10 @@ testCRT
 	crt _ CRT mod: #(2 5 7).
 	self assert: (crt solutionFor: #(0 2 0)) = 42! !
 
-!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 7/25/2016 23:29'!
+!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 10/18/2016 20:59'!
 testCartesianProduct
 	| P x |
-	P _ CartesianProduct components: {Field GF: 3. Field GF: 4. SymmetricGroup new: 5}.
+	P _ CartesianProduct components: {PrimeField new: 3. Ring GF: 4. SymmetricGroup new: 5}.
 	self assert: P elements size = (3*4*5 factorial).
 	x _ Tuple newFrom: {(P at: 1) atRandom. (P at: 2) atRandom. (P at: 3) atRandom}.
 	self assert: (P elements includes: x)! !
@@ -1900,10 +1901,10 @@ testFunctionNewFrom
 	g _ f as: Function. "degrade it to a simple Function, not a LinearMap any more"
 	self assert: (g as: LinearMap) = f! !
 
-!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 10/16/2016 15:12'!
+!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 10/18/2016 20:59'!
 testGaloisFields
 	| GF pi x one a |
-	GF _ Field GF: 3**3.
+	GF _ Ring GF: 3**3.
 	self assert: GF isField.
 	self assert: GF characteristic = 3.
 	pi _ GF projection.
@@ -1944,17 +1945,17 @@ testIteratorCovering
 	self assert: (F**3 upTo: 3**3) asSet size = (3**3).
 	self assert: (ZZ**3 upTo: 100) asSet size = 100! !
 
-!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 7/25/2016 23:50'!
+!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 10/18/2016 21:00'!
 testIteratorCovering2
 	| F |
-	F _ Field GF: 9.
+	F _ Ring GF: 9.
 	self assert: ((F**3) upTo: 9**3) asSet size = (9**3).
 	self assert: ((F**3) upTo: 9**3+100) asSet size = (9**3)! !
 
-!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 7/28/2016 23:56'!
+!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 10/18/2016 21:00'!
 testIteratorCovering3
 	| F |
-	F _ Field GF: 3.
+	F _ Ring GF: 3.
 	self assert: ((F**4) upTo: 3**4) asSet size = (3**4).
 	self assert: ((F**4) upTo: 3**4+100) asSet size = (3**4)! !
 
@@ -2603,10 +2604,10 @@ testLinearFormAsPolynomial
 	self assert: (f value: x) = (f asPolynomial value: x).
 	self assert: f asPolynomial asLinearForm = f! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 3/30/2016 22:54'!
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 10/18/2016 21:00'!
 testLinearFormZ2
 	| V f |
-	V _ (Field GF: 2) ** 4.
+	V _ (PrimeField new: 2) ** 4.
 	f _ LinearForm from: V evaluating: [:v| v sum].
 	self assert: f domain = V.
 	self assert: f kernel dimension = 3.
@@ -2714,10 +2715,10 @@ testLinearMapKernel2
 	self assert: (kernel apply: f) isTrivial.
 	self assert: kernel dimension = 1! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 7/7/2016 20:40'!
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 10/18/2016 21:00'!
 testLinearMapKernelZ2
 	| V f kernel |
-	V _ (Field GF: 2) ** 3.
+	V _ (PrimeField new: 2) ** 3.
 	f _ LinearForm from: V evaluating: [:v| v sum].
 	kernel _ f kernel.
 	self assert: (kernel apply: f) isTrivial.
@@ -2740,10 +2741,10 @@ testLinearMapRightInverse
 	[f _ V -> W atRandomBits: 1000. f rank = 3] whileFalse.
 	self assert: (f @ f rightInverse) = W id! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 7/7/2016 20:49'!
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 10/18/2016 21:00'!
 testLinearMapZ2
 	| V f kernel v |
-	V _ (Field GF: 2) ** (5 atRandom + 1).
+	V _ (PrimeField new: 2) ** (5 atRandom + 1).
 	[f _ (V -> V) atRandom.
 	(kernel _ f kernel) isTrivial or: [kernel = V]] whileTrue. "find one with non-trivial kernel"
 	[v _ V atRandom. kernel includes: v] whileTrue.
@@ -3293,13 +3294,13 @@ testDivision: F
 testDivisionQ
 	self testDivision: QQ! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 3/31/2016 07:02'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 10/18/2016 21:01'!
 testDivisionZ2
-	self testDivision: (Field GF: 2)! !
+	self testDivision: (PrimeField new: 2)! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 7/4/2016 04:39'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 10/18/2016 21:01'!
 testDivisionZ65535
-	self testDivision: (Field GF: 2**17 - 1)! !
+	self testDivision: (PrimeField new: 2**17 - 1)! !
 
 !PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:50'!
 testDomainError
@@ -3359,9 +3360,9 @@ testEvaluationHomomorphismMultivariate
 	self assert: (f*g value: a) = ((f value: a) * (g value: a)).
 	self assert: (f**3 value: a) = ((f value: a)**3)! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 3/31/2016 06:58'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 10/18/2016 21:01'!
 testEvaluationHomomorphismZ2
-	self testEvaluationHomomorphism: (Field GF: 2)! !
+	self testEvaluationHomomorphism: (PrimeField new: 2)! !
 
 !PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:51'!
 testEvaluationHomomorphismZm
@@ -3369,10 +3370,10 @@ testEvaluationHomomorphismZm
 	self testEvaluationHomomorphism: (ZZ mod: 2**13 - 2).
 	self testEvaluationHomomorphism: (ZZ mod: 2**31 - 2)! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:51'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 10/18/2016 21:02'!
 testEvaluationHomomorphismZp
-	self testEvaluationHomomorphism: (Field GF: 3).
-	self testEvaluationHomomorphism: (Field GF: 5).
+	self testEvaluationHomomorphism: (PrimeField new: 3).
+	self testEvaluationHomomorphism: (PrimeField new: 5).
 	self testEvaluationHomomorphism: (ZZ modPrime: 2**13 - 1).
 	self testEvaluationHomomorphism: (ZZ modPrime: 2**31 - 1)! !
 
@@ -4448,14 +4449,14 @@ katsura5
 		y**2 + (x*z*2) + (y*t*2) + (z*u*2) - z.
 		y*z*2 + (x*t*2) + (y*u*2) - t}! !
 
-!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 7/4/2016 08:36'!
+!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 10/18/2016 20:56'!
 modularCyclic: n
-	^ self cyclic: n over: (Field GF: 32003)! !
+	^ self cyclic: n over: (Ring GF: 32003)! !
 
-!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 7/4/2016 08:40'!
+!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 10/18/2016 20:56'!
 modularKatsura2
 	| P x y |
-	P _ (Field GF: 32003) polynomialsIn: #(x y).
+	P _ (Ring GF: 32003) polynomialsIn: #(x y).
 	x _ P x.
 	y _ P y.
 	^ P * {x + (y*2) - 1. x**2 + (y**2 * 2) - x}! !
@@ -4508,11 +4509,11 @@ testModularKatsura2
 test1000Factorial
 	1000 factorial! !
 
-!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 7/25/2016 23:51'!
+!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 10/18/2016 21:00'!
 testFiniteField
 	"Benchmark Polynomial>>#= and Residue#>>="
 	| F |
-	F _ Field GF: 9.
+	F _ Ring GF: 9.
 	((F**3) upTo: 9**3) asSet size = (9**3) ifFalse: [self halt]! !
 
 !PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:49'!
@@ -4602,10 +4603,10 @@ testPolynomialMultiplication2OverZ
 	g _ P atRandomBits: 100 maxDegree: 50.
 	100 timesRepeat: [f * g]! !
 
-!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 4/19/2016 04:20'!
+!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 10/18/2016 21:00'!
 testPolynomialMultiplication2OverZ2
 	| P f g |
-	P _ Field GF: 2 :: polynomials.
+	P _ PrimeField new: 2 :: polynomials.
 	f _ P atRandomBits: 100 maxDegree: 50.
 	g _ P atRandomBits: 100 maxDegree: 50.
 	100 timesRepeat: [f * g]! !
@@ -4618,10 +4619,10 @@ testPolynomialMultiplicationOverZ
 	f _ x - 1.
 	1 to: 9 do: [:i| f _ x - i * f * f]! !
 
-!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 3/31/2016 08:54'!
+!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 10/18/2016 21:01'!
 testPolynomialMultiplicationOverZ2
 	| P x f |
-	P _ Field GF: 2 :: polynomials.
+	P _ PrimeField new: 2 :: polynomials.
 	x _ P x.
 	f _ x - (1 % 2).
 	1 to: 9 do: [:i| f _ x - (i % 2) * f * f]! !
@@ -4680,10 +4681,10 @@ testRealAlgebraicNumberSquare
 	sqrt2 _ RealAlgebraicNumber sqrt2.
 	10 timesRepeat: [sqrt2 squared]! !
 
-!SmallMatrixBenchmark methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:54'!
+!SmallMatrixBenchmark methodsFor: 'as yet unclassified' stamp: 'len 10/18/2016 21:02'!
 setUp
 	integerMatrix _ ZZ ** (64@64) :: atRandomBits: 10000.
-	binaryMatrix _ (Field GF: 2) ** (64@64) :: atRandom! !
+	binaryMatrix _ (PrimeField new: 2) ** (64@64) :: atRandom! !
 
 !SmallMatrixBenchmark methodsFor: 'as yet unclassified' stamp: 'len 7/8/2016 02:48'!
 testAdditionZ
