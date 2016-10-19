@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 19 October 2016 at 9:31:03.097566 am'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 19 October 2016 at 10:52:06.710586 pm'!
 'Description Please enter a description for this package'!
-!provides: 'MathematicsTests' 1 25!
+!provides: 'MathematicsTests' 1 27!
 !classDefinition: #AbelianGroupTest category: #MathematicsTests!
 TestCase subclass: #AbelianGroupTest
 	instanceVariableNames: ''
@@ -2634,6 +2634,18 @@ testLinearMap: f
 	x _ f domain scalars atRandomBits: 20.
 	self assert: (f value: a1 * x + a2) = (b1 * x + b2)! !
 
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 10/19/2016 22:49'!
+testLinearMapAdjoint
+	| V W f f` phi |
+	V _ self newFreeModuleOver: QQ.
+	W _ self newFreeModuleOver: QQ.
+	f _ V -> W :: atRandomBits: 50.
+	f` _ f adjoint.
+	self assert: f` domain = f codomain dual.
+	self assert: f` codomain = f domain dual.
+	phi _ W dual atRandomBits: 20.
+	self assert: (f` value: phi) = (phi @ f)! !
+
 !ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 8/24/2016 22:18'!
 testLinearMapComposition
 	| X Y Z f g x |
@@ -2656,18 +2668,6 @@ testLinearMapCompositionError
 	f _ X -> Y atRandomBits: 1000.
 	g _ Y -> Z atRandomBits: 1000.
 	self should: [f @ g] raise: DomainError! !
-
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 10/19/2016 09:30'!
-testLinearMapDual
-	| V W f f` phi |
-	V _ self newFreeModuleOver: QQ.
-	W _ self newFreeModuleOver: QQ.
-	f _ V -> W :: atRandomBits: 50.
-	f` _ f dual.
-	self assert: f` domain = f codomain dual.
-	self assert: f` codomain = f domain dual.
-	phi _ W dual atRandomBits: 20.
-	self assert: (f` value: phi) = (phi @ f)! !
 
 !ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:58'!
 testLinearMapFiber

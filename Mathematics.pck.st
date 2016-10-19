@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 19 October 2016 at 9:31:00.471033 am'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 19 October 2016 at 10:48:40.998932 pm'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 236!
+!provides: 'Mathematics' 1 237!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
 	instanceVariableNames: 'numerator shift'
@@ -22855,9 +22855,12 @@ species
 		to: aLinearMap codomain
 		evaluating: [:each| aLinearMap value: (self value: each)]! !
 
-!LinearMap methodsFor: 'operations' stamp: 'len 12/16/2015 22:03'!
+!LinearMap methodsFor: 'operations' stamp: 'len 10/19/2016 22:46'!
 adjoint
-	^ self class from: domainBasis dual to: codomainBasis dual matrix: matrix! !
+	"Answer the transpose (or dual, or adjoint) of the receiver.
+	The assignment of a linear map f:V->W to its dual f*:W*->V* produces an injective linear map between Hom(V,W) and Hom(W*,V*).
+	This is the 'operator adjoint', not to be confused with the 'Hilbert adjoint' that is defined for an operator in an inner product space."
+	^ self class from: codomainBasis dual to: domainBasis dual matrix: matrix adjoint! !
 
 !LinearMap methodsFor: 'spectrum' stamp: 'len 2/6/2016 21:37'!
 algebraicMultiplicityAt: anEigenvalue
@@ -22933,12 +22936,6 @@ domainBasis
 !LinearMap methodsFor: 'accessing-private' stamp: 'len 1/25/98 19:58'!
 domainBasis: aLinearBasis
 	domainBasis _ aLinearBasis! !
-
-!LinearMap methodsFor: 'operations' stamp: 'len 10/19/2016 09:28'!
-dual
-	"Answer the transpose (or dual, or adjoint) of the receiver.
-	This is the 'operator adjoint', not to be confused with the 'Hilbert adjoint' that is defined for an operator in an inner product space."
-	^ self class from: codomainBasis dual to: domainBasis dual matrix: matrix adjoint! !
 
 !LinearMap methodsFor: 'spectrum' stamp: 'len 2/6/2016 21:25'!
 eigenspaceAt: anEigenvalue
