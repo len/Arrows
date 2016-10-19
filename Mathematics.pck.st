@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 18 October 2016 at 10:57:51.431909 pm'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 19 October 2016 at 9:31:00.471033 am'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 235!
+!provides: 'Mathematics' 1 236!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
 	instanceVariableNames: 'numerator shift'
@@ -22934,11 +22934,11 @@ domainBasis
 domainBasis: aLinearBasis
 	domainBasis _ aLinearBasis! !
 
-!LinearMap methodsFor: 'operations' stamp: 'len 2/6/2016 22:14'!
+!LinearMap methodsFor: 'operations' stamp: 'len 10/19/2016 09:28'!
 dual
 	"Answer the transpose (or dual, or adjoint) of the receiver.
 	This is the 'operator adjoint', not to be confused with the 'Hilbert adjoint' that is defined for an operator in an inner product space."
-	^ self class from: domainBasis dual to: codomainBasis dual matrix: matrix adjoint! !
+	^ self class from: codomainBasis dual to: domainBasis dual matrix: matrix adjoint! !
 
 !LinearMap methodsFor: 'spectrum' stamp: 'len 2/6/2016 21:25'!
 eigenspaceAt: anEigenvalue
