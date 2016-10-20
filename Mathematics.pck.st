@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 19 October 2016 at 10:48:40.998932 pm'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 20 October 2016 at 6:08:18.745877 am'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 237!
+!provides: 'Mathematics' 1 238!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
 	instanceVariableNames: 'numerator shift'
@@ -1541,9 +1541,19 @@ Domain subclass: #Scheme
 Scheme class
 	instanceVariableNames: ''!
 
+!classDefinition: #AffineScheme category: #'Mathematics-Geometry-Algebraic'!
+Scheme subclass: #AffineScheme
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Geometry-Algebraic'!
+!classDefinition: 'AffineScheme class' category: #'Mathematics-Geometry-Algebraic'!
+AffineScheme class
+	instanceVariableNames: ''!
+
 !classDefinition: #AffineSpace category: #'Mathematics-Geometry-Algebraic'!
-Scheme subclass: #AffineSpace
-	instanceVariableNames: 'coordinateRing'
+AffineScheme subclass: #AffineSpace
+	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Geometry-Algebraic'!
@@ -13285,14 +13295,15 @@ do: aBlock
 		ifFalse:
 			[ring do: [:each| generators do: [:g| aBlock value: each * g; value: g * each]]]! !
 
-!Ideal methodsFor: 'accessing' stamp: 'len 9/26/2016 16:56'!
+!Ideal methodsFor: 'accessing' stamp: 'len 10/19/2016 23:44'!
 generator
 	| generator |
 	generators size = 1 ifTrue: [^ generators anyOne].
 	generators size = 0 ifTrue: [^ ring zero].
 	ring isPID ifFalse: [^ self error: 'not a principal ideal domain'].
 	generators do: [:each| generator _ generator isNil ifTrue: [each] ifFalse: [generator gcd: each]].
-	generators _ {generator}! !
+	generators _ {generator}.
+	^ generator! !
 
 !Ideal methodsFor: 'accessing' stamp: 'pdm 3/22/98 17:24'!
 generators
@@ -13463,6 +13474,15 @@ degree
 					ifFalse: [count _ count + 1]]].
 	^ count! !
 
+!PolynomialIdeal methodsFor: 'accessing' stamp: 'len 10/20/2016 05:56'!
+dimension
+	"Answer the Krull dimension of the quotient by this ideal."
+	| indeterminates G |
+	G _ self groebnerBasis minimal.
+	indeterminates _ G indeterminates asSet copy.
+	G do: [:each| indeterminates removeAllFoundIn: (G ordering headOf: each) indeterminates].
+	^ indeterminates size! !
+
 !PolynomialIdeal methodsFor: 'operations' stamp: 'len 8/2/2016 02:19'!
 eliminate: anIndeterminate
 	"Answer the elimination ideal computed by eliminating anIndeterminate."
@@ -13539,9 +13559,10 @@ isRadical
 isSquareFree
 	^ self = self squareFree! !
 
-!PolynomialIdeal methodsFor: 'testing' stamp: 'len 7/6/2016 06:16'!
+!PolynomialIdeal methodsFor: 'testing' stamp: 'len 10/20/2016 05:55'!
 isTrivial
-	"Answer true if the receiver is <1>."
+	"Answer true if the receiver is <1>.
+	Ref. Algorithmic Algebra, B. Mishra, pag. 142-145."
 	(self generators anySatisfy: [:g| g isConstant]) ifTrue: [^ true].
 	^ self groebnerBasis anySatisfy: [:g| g isConstant]! !
 
@@ -13734,6 +13755,15 @@ cyclotomicRing: n
 	phi _ Fx cyclotomic: n. "cyclotomic polynomial of order n"
 	^ Fx mod: phi "answer the quotient ring modulo <phi>"! !
 
+!Ring methodsFor: 'accessing' stamp: 'len 10/20/2016 03:30'!
+dimension
+	"Answer the Krull dimension of the receiver."
+	self isField ifTrue: [^ 0].
+	self isPID ifTrue: [^ 1].
+	self isIntegralDomain ifTrue: [^ 1].
+	self isDedekindDomain ifTrue: [^ 1].
+	^ properties at: #dimension! !
+
 !Ring methodsFor: 'operations' stamp: 'len 10/18/2016 20:50'!
 extension: aPolynomial
 	"Answer the algebraic extension of the receiver defined by the given irreducible polynomial."
@@ -13818,8 +13848,11 @@ isIntegrallyClosedDomain
 	"A ring is an integrally closed domain if it is an integral domain whose integral closure in its field of fractions is the ring itself."
 	^ properties at: #isIntegrallyClosedDomain ifAbsent: [self isUFD]! !
 
-!Ring methodsFor: 'testing' stamp: 'len 11/28/2015 23:41'!
+!Ring methodsFor: 'testing' stamp: 'len 10/20/2016 03:40'!
 isNoetherian
+	self isField ifTrue: [^ true].
+	self isPID ifTrue: [^ true].
+	self isDedekindDomain ifTrue: [^ true].
 	^ properties at: #isNoetherian! !
 
 !Ring methodsFor: 'testing' stamp: 'len 11/28/2015 23:49'!
@@ -13899,10 +13932,11 @@ polynomialsIn: anIntegerOrCollection ordering: aMonomialOrdering
 product: aRing
 	^ self × aRing! !
 
-!Ring methodsFor: 'operations' stamp: 'len 10/12/2016 18:47'!
+!Ring methodsFor: 'operations' stamp: 'len 10/19/2016 23:21'!
 spec
 	"Answer the spectrum of the receiver, Spec(R)."
-	self notYetImplemented! !
+	self isCommutative ifFalse: [^ DomainError signal: 'not a commutative ring'].
+	^ AffineScheme coordinateRing: self! !
 
 !Ring methodsFor: 'morphisms' stamp: 'len 10/11/2016 09:08'!
 to: aRing evaluating: aBlock
@@ -14421,6 +14455,11 @@ atRandom: aRandom bits: bitSize
 characteristic
 	^ 0! !
 
+!Integers methodsFor: 'accessing' stamp: 'len 10/20/2016 03:32'!
+dimension
+	"Answer the Krull dimension of the receiver."
+	^ 1! !
+
 !Integers methodsFor: 'iterating' stamp: 'len 11/10/2015 17:57'!
 do: aBlock
 	| i |
@@ -14456,6 +14495,10 @@ isEuclidean
 !Integers methodsFor: 'testing' stamp: 'len 11/7/2015 21:58'!
 isFinite
 	^ false! !
+
+!Integers methodsFor: 'testing' stamp: 'len 10/20/2016 03:38'!
+isNoetherian
+	^ true! !
 
 !Integers methodsFor: 'testing' stamp: 'len 2/11/2016 22:19'!
 isReal
@@ -14605,6 +14648,13 @@ conjugation
 	"Answer the companion automorphism of the receiver, i.e. the Frobenius automorphism."
 	^ self frobenius! !
 
+!QuotientRing methodsFor: 'accessing' stamp: 'len 10/20/2016 03:31'!
+dimension
+	"Answer the Krull dimension of the receiver."
+	self flag: #fix. "move this from the ideal to a PolynomialQuotientRing or AffineAlgebra"
+	(self ideal isKindOf: PolynomialIdeal) ifTrue: [^ self ideal dimension].
+	^ super dimension! !
+
 !QuotientRing methodsFor: 'iterating' stamp: 'len 9/26/2016 16:49'!
 do: aBlock
 	| visited |
@@ -14654,6 +14704,11 @@ isField
 isIntegralDomain
 	^ properties at: #isIntegralDomain ifAbsentPut: [(ideal ring isTrivial not and: [ideal ring isCommutative and: [ideal isPrime]]) or: [self isIntegrallyClosedDomain]]! !
 
+!QuotientRing methodsFor: 'testing' stamp: 'len 10/20/2016 03:38'!
+isNoetherian
+	self flag: #fix. "is this an IFF? if the base ring is Noetherian the quotient by a two-sided ideal is Noetherian, but the other way?"
+	^ self base isNoetherian! !
+
 !QuotientRing methodsFor: 'testing' stamp: 'len 8/10/2016 01:01'!
 isQuotient
 	^ true! !
@@ -14678,10 +14733,6 @@ printOn: aStream
 		ifFalse: [aStream print: ideal ring].
 	aStream nextPut: $/; print: ideal! !
 
-!QuotientRing methodsFor: 'operations' stamp: 'len 10/12/2016 18:49'!
-proj
-	^ AlgebraicScheme on: self base proj ideal: self ideal! !
-
 !QuotientRing methodsFor: 'morphisms' stamp: 'len 10/18/2016 22:47'!
 project: anElement
 	^ ResidueClass in: self representative: (ideal reduce: anElement)! !
@@ -14694,10 +14745,6 @@ projection
 !QuotientRing methodsFor: 'accessing' stamp: 'len 8/24/2016 19:04'!
 relation
 	^ EquivalenceRelation on: self base evaluating: [:a :b| ideal includes: a - b]! !
-
-!QuotientRing methodsFor: 'operations' stamp: 'len 10/12/2016 18:46'!
-spec
-	^ AlgebraicScheme on: self base spec ideal: self ideal! !
 
 !QuotientRing methodsFor: 'accessing' stamp: 'len 9/26/2016 16:50'!
 zero
@@ -15407,6 +15454,12 @@ determinantOfOrder: n
 	n = 0 ifTrue: [^ self zero].
 	^ (self ** (n@n) evaluating: [:i :j| self x: n * (j - 1) + i]) determinant! !
 
+!PolynomialRing methodsFor: 'accessing' stamp: 'len 10/20/2016 03:34'!
+dimension
+	"Answer the Krull dimension of the receiver."
+	self scalars isNoetherian ifTrue: [^ self scalars dimension + self rank].
+	^ super dimension! !
+
 !PolynomialRing methodsFor: 'iterating' stamp: 'len 12/21/2015 23:09'!
 do: aBlock
 	| k |
@@ -15528,7 +15581,7 @@ isIntegralDomain
 	scalars isIntegralDomain ifTrue: [^ true].
 	^ super isIntegralDomain! !
 
-!PolynomialRing methodsFor: 'testing' stamp: 'len 11/29/2015 00:27'!
+!PolynomialRing methodsFor: 'testing' stamp: 'len 10/20/2016 03:35'!
 isNoetherian
 	scalars isNoetherian ifTrue: [^ true]. "Hilber's basis theorem"
 	^ super isNoetherian! !
@@ -21110,49 +21163,15 @@ on: aVectorSpace
 	"Meet."
 	^ self ˜ aScheme! !
 
-!Scheme methodsFor: 'comparing' stamp: 'len 10/13/2016 13:30'!
-< aScheme
-	^ self ideal > aScheme ideal! !
-
-!Scheme methodsFor: 'comparing' stamp: 'len 10/13/2016 13:30'!
-<= aScheme
-	^ self ideal >= aScheme ideal! !
-
-!Scheme methodsFor: 'comparing' stamp: 'len 10/13/2016 13:30'!
-= anObject
-	^ (anObject isKindOf: Scheme) and: [self ambient = anObject ambient and: [self ideal = anObject ideal]]! !
-
-!Scheme methodsFor: 'operations' stamp: 'len 10/13/2016 13:23'!
-\ aScheme
-	"Answer the difference of the receiver with the argument, whose associated ideal is the ideal (colon) quotient of the respective ideals."
-	self ambient = aScheme ambient ifFalse: [^ DomainError signal: 'ambients don''t match'].
-	^ self species on: self ambient ideal: (self ideal colon: aScheme ideal)! !
-
 !Scheme methodsFor: 'operations' stamp: 'len 10/13/2016 10:41'!
 \/ aScheme
 	"Join."
 	^ self ™ aScheme! !
 
-!Scheme methodsFor: 'operations' stamp: 'len 10/13/2016 13:23'!
-˜ aScheme
-	"Answer the intersection of the receiver and the argument."
-	self ambient = aScheme ambient ifFalse: [^ DomainError signal: 'ambients don''t match'].
-	^ self species on: self ambient ideal: self ideal + aScheme ideal! !
-
-!Scheme methodsFor: 'operations' stamp: 'len 10/13/2016 13:23'!
-™ aScheme
-	"Answer the union of the receiver and the argument."
-	self ambient = aScheme ambient ifFalse: [^ DomainError signal: 'ambients don''t match'].
-	^ self species on: self ambient ideal: self ideal ˜ aScheme ideal
-
-"alternatively:
-	^ self class on: self ambient ideal: ideal * aScheme ideal
-although the intersection is harder to compute, it behaves better with radicalization, because the intersection of two radical ideals is radical and we don't need to compute radicals again"! !
-
-!Scheme methodsFor: 'operations' stamp: 'len 10/17/2016 16:03'!
-apply: aRationalMap
+!Scheme methodsFor: 'operations' stamp: 'len 10/19/2016 23:13'!
+apply: aMorphism
 	"Answer the image of aRationalMap applied to the receiver, assuming the receiver is a subscheme of the domain of aRationalMap."
-	^ (aRationalMap restrictedTo: self) image! !
+	^ (aMorphism restrictedTo: self) image! !
 
 !Scheme methodsFor: 'accessing' stamp: 'len 10/13/2016 19:48'!
 arithmeticGenus
@@ -21163,23 +21182,9 @@ arithmeticGenus
 codimension
 	^ self ambient dimension - self dimension! !
 
-!Scheme methodsFor: 'accessing' stamp: 'len 10/13/2016 13:23'!
-coordinateRing
-	^ self ideal quotient! !
-
-!Scheme methodsFor: 'accessing' stamp: 'len 10/13/2016 13:23'!
-degree
-	^ self ideal degree! !
-
-!Scheme methodsFor: 'accessing' stamp: 'len 10/13/2016 19:46'!
+!Scheme methodsFor: 'accessing' stamp: 'len 10/19/2016 23:15'!
 dimension
-	"Answer the dimension of the highest dimensional component of the receiver.
-	This is the trascendence degree of the function field over the ground field."
-	| indeterminates G |
-	G _ self ideal groebnerBasis minimal.
-	indeterminates _ G indeterminates asSet copy.
-	G do: [:each| indeterminates removeAllFoundIn: (G ordering headOf: each) indeterminates].
-	^ indeterminates size! !
+	^ self subclassResponsibility! !
 
 !Scheme methodsFor: 'operations' stamp: 'len 10/4/2016 12:13'!
 divisors
@@ -21191,40 +21196,6 @@ divisorsOver: aRing
 	"Answer the divisors class group of the receiver."
 	^ DivisorsGroup on: self over: aRing! !
 
-!Scheme methodsFor: 'accessing' stamp: 'len 10/13/2016 13:23'!
-equations
-	"Answer a polynomial system defining the receiver."
-	| answer zero |
-	answer _ PolynomialSystem new.
-	zero _ self scalars zero.
-	self ideal generators do: [:each| answer add: (each eq: zero)].
-	^ answer! !
-
-!Scheme methodsFor: 'accessing' stamp: 'len 10/13/2016 13:23'!
-functionField
-	"Answer the function field (or field of rational functions) of the receiver. This is the fractions field of the coordinate ring and it's noted K(V) (analogous to the coordinate ring noted K[V])."
-	^ self coordinateRing fractions! !
-
-!Scheme methodsFor: 'comparing' stamp: 'len 10/13/2016 13:23'!
-hash
-	^ self ideal hash! !
-
-!Scheme methodsFor: 'accessing' stamp: 'len 10/13/2016 13:23'!
-ideal
-	^ properties at: #ideal! !
-
-!Scheme methodsFor: 'testing' stamp: 'len 10/15/2016 10:24'!
-includes: aPoint
-	"Answer true if the receiver includes the argument."
-	(self ambient includes: aPoint) ifFalse: [^ false].
-	"p _ self ambient coordinatesOf: aPoint."
-	^ self ideal generators allSatisfy: [:each| (each value: aPoint) isZero]! !
-
-!Scheme methodsFor: 'morphisms' stamp: 'len 10/14/2016 09:28'!
-inclusion
-	"Answer the inclusion map into the ambient scheme."
-	^ self to: self ambient inducedBy: self coordinateRing embedding! !
-
 !Scheme methodsFor: 'testing' stamp: 'len 10/12/2016 18:32'!
 isAffine
 	^ self ambient isAffine! !
@@ -21234,27 +21205,6 @@ isConnected
 	"Answer true if the receiver as a topological space is connected."
 	^ properties at: #isConnected! !
 
-!Scheme methodsFor: 'testing' stamp: 'len 10/13/2016 19:50'!
-isEmpty
-	"Answer true if the receiver has no points over any algebraic closure of its base field.
-	Ref. Algorithmic Algebra, B. Mishra, pag. 142-145."
-	self flag: #fix. "should only test if the basis is {1}, and only works on an agebraically closed field"
-	"warning: this tests wether the ideal is trivial, but it should be interpreted separately wether the receiver is affine or projective"
-	self ideal groebnerBasis
-		do: [:each| (each isConstant and: [each isZero not]) ifTrue: [^ true]].
-"	(self scalars isField and: [self scalars isAlgebraicallyClosed])
-		ifFalse: [self error: 'the ground field is not algebraically closed'].
-"	^ false! !
-
-!Scheme methodsFor: 'testing' stamp: 'len 10/13/2016 13:23'!
-isFinite
-	"This works for any Groebner basis, no matter the ordering."
-	"Does this work for schemes?"
-	self ideal ring indeterminates do: [:x|
-		(self ideal groebnerBasis anySatisfy: [:f| | d m | m _ f leadingMonomial. d _ m degree. d > 0 and: [d = (m degreeIn: x)]])
-			ifFalse: [^ false]].
-	^ true! !
-
 !Scheme methodsFor: 'testing' stamp: 'len 10/13/2016 19:22'!
 isHypersurface
 	^ self codimension = 1! !
@@ -21262,15 +21212,6 @@ isHypersurface
 !Scheme methodsFor: 'testing' stamp: 'len 10/14/2016 18:13'!
 isIntegral
 	^ self isReduced and: [self isIrreducible]! !
-
-!Scheme methodsFor: 'testing' stamp: 'len 10/13/2016 20:17'!
-isIrreducible
-	self flag: #fix. "magma does it differently"
-	^ self ideal isPrime "IFF. Alternatively, iif the coordinate ring is an integral domain"! !
-
-!Scheme methodsFor: 'testing' stamp: 'len 10/14/2016 22:37'!
-isLinear
-	^ self reduced ideal generators allSatisfy: [:each| each isLinear]! !
 
 !Scheme methodsFor: 'testing' stamp: 'len 10/12/2016 19:40'!
 isNoetherian
@@ -21293,10 +21234,6 @@ isPlanar
 !Scheme methodsFor: 'testing' stamp: 'len 10/12/2016 18:32'!
 isProjective
 	^ self ambient isProjective! !
-
-!Scheme methodsFor: 'testing' stamp: 'len 10/13/2016 20:17'!
-isReduced
-	^ self ideal isRadical! !
 
 !Scheme methodsFor: 'testing' stamp: 'len 10/12/2016 19:28'!
 isSaturated
@@ -21321,66 +21258,9 @@ isSmoothAt: aPoint
 	"Synonym of 'nonsingular'."
 	^ self isNonsingularAt: aPoint! !
 
-!Scheme methodsFor: 'printing' stamp: 'len 10/13/2016 13:23'!
-printOn: aStream
-	self isAffine
-		ifTrue:
-			[aStream nextPutAll: 'Spec '; print: self coordinateRing]
-		ifFalse:
-			[self isProjective
-				ifTrue: [aStream nextPutAll: 'Proj '; print: self coordinateRing]
-				ifFalse: [super printOn: aStream]]! !
-
-!Scheme methodsFor: 'operations' stamp: 'len 10/13/2016 13:23'!
-product: aScheme
-	^ self species on: (self ambient product: aScheme ambient) ideal: (self ideal product: aScheme ideal)! !
-
-!Scheme methodsFor: 'operations' stamp: 'len 10/13/2016 13:23'!
-project: anIndeterminate
-	"Answer the projection of the receiver by eliminating the given indeterminate."
-	^ self species on: self ambient ideal: (self ideal eliminate: anIndeterminate)! !
-
-!Scheme methodsFor: 'operations' stamp: 'len 10/18/2016 15:55'!
-projectiveClosure
-	"The projective closure of an affine variety is the projective variety corresponding to the homogenized ideal."
-	(self scalars isField and: [self scalars isAlgebraicallyClosed])
-		ifFalse: [self error: 'not over an algebraically closed ground field']. "otherwise the variety obtained can be bigger than the actual projective closure"
-	self isAffine ifFalse: [self error: 'only affine varieties can be projectivized'].
-	^ self class on: self ambient projectiveClosure ideal: self ideal homogenized! !
-
-!Scheme methodsFor: 'operations' stamp: 'len 10/13/2016 20:16'!
-reduced
-	^ self class on: self ambient ideal: self ideal radical! !
-
-!Scheme methodsFor: 'operations' stamp: 'len 10/14/2016 09:49'!
-relativeSubscheme: anObject
-	| I |
-	I _ (anObject isKindOf: Ideal)
-		ifTrue: [anObject] ifFalse: [self coordinateRing * anObject].
-	^ self species on: self ideal: I! !
-
 !Scheme methodsFor: 'accessing' stamp: 'len 10/13/2016 13:23'!
 scalars
 	^ self ambient scalars! !
-
-!Scheme methodsFor: 'private' stamp: 'len 10/13/2016 13:32'!
-species
-	^ Scheme! !
-
-!Scheme methodsFor: 'operations' stamp: 'len 10/14/2016 09:49'!
-subscheme: anObject
-	| I |
-	I _ (anObject isKindOf: Ideal)
-		ifTrue: [anObject] ifFalse: [self ambient coordinateRing * anObject].
-	^ self species on: self ambient ideal: self ideal + I
-	"this is wrong:
-	I generators size = 1 ifFalse: [^ Scheme on: self ambient ideal: I].
-	self dimension = 2 ifFalse: [^ Curve on: self ambient ideal: I].
-	^ PlaneCurve on: self ambient ideal: I"! !
-
-!Scheme methodsFor: 'morphisms' stamp: 'len 10/17/2016 08:58'!
-to: aScheme evaluating: aBlock
-	^ RationalMap from: self to: aScheme evaluating: aBlock! !
 
 !Scheme class methodsFor: 'examples' stamp: 'len 10/18/2016 15:51'!
 kleinQuartic
@@ -21392,15 +21272,6 @@ kleinQuartic
 	z _ P coordinateRing z.
 	^ P subscheme: {x**3*y + (y**3*z) + (z**3*x)}! !
 
-!Scheme class methodsFor: 'instance creation' stamp: 'len 10/15/2016 11:13'!
-on: aScheme ideal: anIdeal
-	| answer |
-	answer _ self new.
-	answer properties
-		at: #ambient put: aScheme;
-		at: #ideal put: anIdeal.
-	^ answer! !
-
 !Scheme class methodsFor: 'examples' stamp: 'len 10/18/2016 15:53'!
 twistedCubic
 	"This is the twisted cubic affine variety, parameterized by (x, x**2, x**3) in C**3."
@@ -21411,9 +21282,174 @@ twistedCubic
 	z _ A coordinateRing z.
 	^ A subscheme: {y - (x**2). z - (x**3)}! !
 
-!AffineSpace methodsFor: 'comparing' stamp: 'len 10/12/2016 21:06'!
+!AffineScheme methodsFor: 'comparing' stamp: 'len 10/19/2016 23:12'!
+< aScheme
+	^ self ideal > aScheme ideal! !
+
+!AffineScheme methodsFor: 'comparing' stamp: 'len 10/19/2016 23:12'!
+<= aScheme
+	^ self ideal >= aScheme ideal! !
+
+!AffineScheme methodsFor: 'comparing' stamp: 'len 10/19/2016 22:57'!
 = anObject
-	^ (anObject isKindOf: AffineSpace) and: [self coordinateRing = anObject coordinateRing]! !
+	^ (anObject isKindOf: AffineScheme) and: [self coordinateRing = anObject coordinateRing]! !
+
+!AffineScheme methodsFor: 'operations' stamp: 'len 10/19/2016 23:35'!
+\ aScheme
+	"Answer the difference of the receiver with the argument, whose associated ideal is the ideal (colon) quotient of the respective ideals."
+	self ambient = aScheme ambient ifFalse: [^ DomainError signal: 'ambients don''t match'].
+	^ self ambient subscheme: (self ideal colon: aScheme ideal)! !
+
+!AffineScheme methodsFor: 'operations' stamp: 'len 10/19/2016 23:34'!
+˜ aScheme
+	"Answer the intersection of the receiver and the argument."
+	self ambient = aScheme ambient ifFalse: [^ DomainError signal: 'ambients don''t match'].
+	^ self ambient subscheme: self ideal + aScheme ideal! !
+
+!AffineScheme methodsFor: 'operations' stamp: 'len 10/19/2016 23:34'!
+™ aScheme
+	"Answer the union of the receiver and the argument."
+	self ambient = aScheme ambient ifFalse: [^ DomainError signal: 'ambients don''t match'].
+	^ self ambient subscheme: self ideal ˜ aScheme ideal
+
+"alternatively:
+	^ self class on: self ambient ideal: ideal * aScheme ideal
+although the intersection is harder to compute, it behaves better with radicalization, because the intersection of two radical ideals is radical and we don't need to compute radicals again"! !
+
+!AffineScheme methodsFor: 'accessing' stamp: 'len 10/19/2016 23:24'!
+ambient
+	^ self coordinateRing isQuotient
+		ifTrue: [self coordinateRing base spec]
+		ifFalse: [self]! !
+
+!AffineScheme methodsFor: 'operations' stamp: 'len 10/19/2016 23:13'!
+apply: aRationalMap
+	"Answer the image of aRationalMap applied to the receiver, assuming the receiver is a subscheme of the domain of aRationalMap."
+	^ (aRationalMap restrictedTo: self) image! !
+
+!AffineScheme methodsFor: 'accessing' stamp: 'len 10/19/2016 22:58'!
+coordinateRing
+	^ properties at: #coordinateRing! !
+
+!AffineScheme methodsFor: 'accessing-private' stamp: 'len 10/19/2016 23:22'!
+coordinateRing: aRing
+	properties at: #coordinateRing put: aRing! !
+
+!AffineScheme methodsFor: 'accessing' stamp: 'len 10/19/2016 23:15'!
+degree
+	^ self ideal degree! !
+
+!AffineScheme methodsFor: 'accessing' stamp: 'len 10/20/2016 04:19'!
+dimension
+	"Answer the dimension of the highest dimensional component of the receiver.
+	This is the Krull dimension of the coordinate ring."
+	^ self coordinateRing dimension! !
+
+!AffineScheme methodsFor: 'accessing' stamp: 'len 10/19/2016 23:16'!
+functionField
+	"Answer the function field (or field of rational functions) of the receiver. This is the fractions field of the coordinate ring and it's noted K(V) (analogous to the coordinate ring noted K[V])."
+	^ self coordinateRing fractions! !
+
+!AffineScheme methodsFor: 'comparing' stamp: 'len 10/19/2016 23:26'!
+hash
+	^ self coordinateRing hash! !
+
+!AffineScheme methodsFor: 'accessing' stamp: 'len 10/19/2016 23:00'!
+ideal
+	^ self coordinateRing isQuotient
+		ifTrue: [self coordinateRing ideal]
+		ifFalse: [self coordinateRing zeroIdeal]! !
+
+!AffineScheme methodsFor: 'testing' stamp: 'len 10/19/2016 23:07'!
+includes: aPoint
+	"Answer true if the receiver includes the argument."
+	(self ambient includes: aPoint) ifFalse: [^ false].
+	"p _ self ambient coordinatesOf: aPoint."
+	^ self ideal generators allSatisfy: [:each| (each value: aPoint) isZero]! !
+
+!AffineScheme methodsFor: 'morphisms' stamp: 'len 10/19/2016 23:16'!
+inclusion
+	"Answer the inclusion map into the ambient scheme."
+	^ self to: self ambient inducedBy: self coordinateRing embedding! !
+
+!AffineScheme methodsFor: 'testing' stamp: 'len 10/19/2016 22:59'!
+isAffine
+	^ true! !
+
+!AffineScheme methodsFor: 'testing' stamp: 'len 10/19/2016 23:04'!
+isEmpty
+	"Answer true if the receiver has no points over any algebraic closure of its base field.
+	Ref. Algorithmic Algebra, B. Mishra, pag. 142-145."
+	self ideal isTrivial ifTrue: [^ true].
+"	(self scalars isField and: [self scalars isAlgebraicallyClosed])
+		ifFalse: [self error: 'the ground field is not algebraically closed'].
+"	^ false! !
+
+!AffineScheme methodsFor: 'testing' stamp: 'len 10/19/2016 23:08'!
+isFinite
+	"This works for any Groebner basis, no matter the ordering."
+	"Does this work for non integral schemes?"
+	self ideal ring indeterminates do: [:x|
+		(self ideal groebnerBasis anySatisfy: [:f| | d m | m _ f leadingMonomial. d _ m degree. d > 0 and: [d = (m degreeIn: x)]])
+			ifFalse: [^ false]].
+	^ true! !
+
+!AffineScheme methodsFor: 'testing' stamp: 'len 10/19/2016 23:09'!
+isIrreducible
+	self flag: #fix. "magma does it differently"
+	^ self ideal isPrime "IFF. Alternatively, iif the coordinate ring is an integral domain"! !
+
+!AffineScheme methodsFor: 'testing' stamp: 'len 10/19/2016 23:09'!
+isLinear
+	^ self reduced ideal generators allSatisfy: [:each| each isLinear]! !
+
+!AffineScheme methodsFor: 'testing' stamp: 'len 10/19/2016 23:10'!
+isReduced
+	^ self ideal isRadical! !
+
+!AffineScheme methodsFor: 'printing' stamp: 'len 10/19/2016 22:57'!
+printOn: aStream
+		aStream nextPutAll: 'Spec '; print: self coordinateRing! !
+
+!AffineScheme methodsFor: 'operations' stamp: 'len 10/19/2016 23:35'!
+project: anIndeterminate
+	"Answer the projection of the receiver by eliminating the given indeterminate."
+	^ self ambient subscheme: (self ideal eliminate: anIndeterminate)! !
+
+!AffineScheme methodsFor: 'operations' stamp: 'len 10/19/2016 23:28'!
+projectiveClosure
+	"The projective closure of an affine variety is the projective variety corresponding to the homogenized ideal."
+	(self scalars isField and: [self scalars isAlgebraicallyClosed])
+		ifFalse: [self error: 'not over an algebraically closed ground field']. "otherwise the variety obtained can be bigger than the actual projective closure"
+	self notYetImplemented
+"	^ self class on: self ambient projectiveClosure ideal: self ideal homogenized"! !
+
+!AffineScheme methodsFor: 'operations' stamp: 'len 10/19/2016 23:35'!
+reduced
+	^ self ambient subscheme: self ideal radical! !
+
+!AffineScheme methodsFor: 'operations' stamp: 'len 10/19/2016 23:32'!
+relativeSubscheme: anObject
+	| I |
+	I _ (anObject isKindOf: Ideal)
+		ifTrue: [anObject] ifFalse: [self coordinateRing * anObject].
+	^ (self coordinateRing / I) spec! !
+
+!AffineScheme methodsFor: 'private' stamp: 'len 10/19/2016 23:11'!
+species
+	^ AffineScheme! !
+
+!AffineScheme methodsFor: 'operations' stamp: 'len 10/20/2016 04:14'!
+subscheme: anObject
+	^ self ambient relativeSubscheme: anObject! !
+
+!AffineScheme methodsFor: 'morphisms' stamp: 'len 10/19/2016 23:12'!
+to: aScheme evaluating: aBlock
+	^ RationalMap from: self to: aScheme evaluating: aBlock! !
+
+!AffineScheme class methodsFor: 'instance creation' stamp: 'len 10/19/2016 23:20'!
+coordinateRing: aRing
+	^ self new coordinateRing: aRing! !
 
 !AffineSpace methodsFor: 'accessing' stamp: 'len 8/27/2016 19:03'!
 ambient
@@ -21424,22 +21460,6 @@ automorphisms
 	"Answer the general affine group GA(A)."
 	^ GeneralAffineGroup on: self! !
 
-!AffineSpace methodsFor: 'accessing' stamp: 'len 8/27/2016 18:56'!
-coordinateRing
-	^ coordinateRing! !
-
-!AffineSpace methodsFor: 'accessing-private' stamp: 'len 8/27/2016 18:56'!
-coordinateRing: aPolynomialRing
-	coordinateRing _ aPolynomialRing! !
-
-!AffineSpace methodsFor: 'accessing' stamp: 'len 8/27/2016 19:46'!
-dimension
-	^ self coordinateRing rank! !
-
-!AffineSpace methodsFor: 'comparing' stamp: 'len 10/12/2016 21:06'!
-hash
-	^ self coordinateRing hash! !
-
 !AffineSpace methodsFor: 'accessing' stamp: 'len 9/26/2016 17:04'!
 ideal
 	"Answer the defining ideal of the receiver, considered as a subscheme of itself."
@@ -21448,14 +21468,6 @@ ideal
 !AffineSpace methodsFor: 'testing' stamp: 'len 10/15/2016 10:25'!
 includes: aPoint
 	^ (aPoint isKindOf: Tuple) and: [aPoint size = self dimension and: [aPoint allSatisfy: [:each| self scalars includes: each]]]! !
-
-!AffineSpace methodsFor: 'testing' stamp: 'len 10/12/2016 18:47'!
-isAffine
-	^ true! !
-
-!AffineSpace methodsFor: 'testing' stamp: 'len 10/12/2016 18:48'!
-isProjective
-	^ false! !
 
 !AffineSpace methodsFor: 'morphisms' stamp: 'len 8/31/2016 08:28'!
 motions
@@ -21470,6 +21482,11 @@ printOn: aStream
 projectiveClosure
 	^ ProjectiveSpace new: self dimension over: self scalars! !
 
+!AffineSpace methodsFor: 'accessing' stamp: 'len 10/20/2016 03:43'!
+rank
+	"Answer the number of affine coordinates, i.e. the number of indeterminates of the coordinate ring. This can be different from the Krull dimension, for example Spec Z[x] has rank 1 and Krull dimension 2."
+	^ self coordinateRing rank! !
+
 !AffineSpace methodsFor: 'morphisms' stamp: 'len 8/31/2016 08:28'!
 rigidMotions
 	"Answer the special Euclidean group SE(A), the group of direct isometries, i.e. isometries preserving orientation, also called 'rigid motions'. This is a subgroup of the Euclidean group of motions (see >>motions) which in turn is a subgroup of the general affine group GA(A)."
@@ -21479,13 +21496,9 @@ rigidMotions
 scalars
 	^ self coordinateRing scalars! !
 
-!AffineSpace class methodsFor: 'instance creation' stamp: 'len 8/27/2016 19:24'!
-coordinateRing: aPolynomialRing
-	^ self new coordinateRing: aPolynomialRing! !
-
-!AffineSpace class methodsFor: 'instance creation' stamp: 'len 8/27/2016 18:56'!
-new: dimension over: aCommutativeRing
-	^ self new coordinateRing: (aCommutativeRing polynomialsIn: dimension)! !
+!AffineSpace class methodsFor: 'instance creation' stamp: 'len 10/20/2016 04:10'!
+new: rank over: aCommutativeRing
+	^ self coordinateRing: (aCommutativeRing polynomialsIn: rank)! !
 
 !Curve methodsFor: 'as yet unclassified' stamp: 'len 10/13/2016 13:38'!
 dimension
@@ -21556,9 +21569,9 @@ coordinateRing
 coordinateRing: aPolynomialRing
 	coordinateRing _ aPolynomialRing! !
 
-!ProjectiveSpace methodsFor: 'accessing' stamp: 'len 8/27/2016 19:47'!
+!ProjectiveSpace methodsFor: 'accessing' stamp: 'len 10/20/2016 04:11'!
 dimension
-	^ self coordinateRing rank - 1! !
+	^ self coordinateRing dimension - 1! !
 
 !ProjectiveSpace methodsFor: 'comparing' stamp: 'len 10/12/2016 21:07'!
 hash
@@ -21580,6 +21593,10 @@ isProjective
 printOn: aStream
 	aStream print: self scalars; nextPut: Character PP; nextPutAll: self dimension printString super! !
 
+!ProjectiveSpace methodsFor: 'accessing' stamp: 'len 10/20/2016 04:11'!
+rank
+	^ self coordinateRing rank - 1! !
+
 !ProjectiveSpace methodsFor: 'accessing' stamp: 'len 8/27/2016 19:47'!
 scalars
 	^ self coordinateRing scalars! !
@@ -21588,9 +21605,9 @@ scalars
 coordinateRing: aPolynomialRing
 	^ self new coordinateRing: aPolynomialRing! !
 
-!ProjectiveSpace class methodsFor: 'instance creation' stamp: 'len 8/27/2016 19:02'!
-new: dimension over: aCommutativeRing
-	^ self new coordinateRing: (aCommutativeRing polynomialsIn: dimension+1)! !
+!ProjectiveSpace class methodsFor: 'instance creation' stamp: 'len 10/20/2016 04:10'!
+new: rank over: aCommutativeRing
+	^ self new coordinateRing: (aCommutativeRing polynomialsIn: rank+1)! !
 
 !SemialgebraicSet methodsFor: 'operations' stamp: 'len 9/1/2016 07:54'!
 /\ aSemialgebraicSet
@@ -24831,10 +24848,6 @@ value: aVector
 	| v |
 	v _ basis coordinatesOf: aVector.
 	^ v dot: (matrix * v)! !
-
-!QuadraticForm methodsFor: 'accessing' stamp: 'len 6/9/2016 00:22'!
-zeros
-	^ Quadric on: self domain ideal: self asPolynomial asIdeal! !
 
 !QuadraticForm class methodsFor: 'instance creation' stamp: 'len 1/8/2016 05:19'!
 from: aLinearBasis matrix: aMatrix
