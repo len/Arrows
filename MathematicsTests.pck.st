@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 20 October 2016 at 6:08:15.303895 am'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 21 October 2016 at 5:36:18.258712 pm'!
 'Description Please enter a description for this package'!
-!provides: 'MathematicsTests' 1 28!
+!provides: 'MathematicsTests' 1 29!
 !classDefinition: #AbelianGroupTest category: #MathematicsTests!
 TestCase subclass: #AbelianGroupTest
 	instanceVariableNames: ''
@@ -677,6 +677,19 @@ testPolynomialSystem
 	self assert: (V includes: (1, 0)).
 	self assert: (V includes: (0, 1)) not! !
 
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/21/2016 17:30'!
+testProjectiveClosrure
+	"From Magma Handbook example Scheme_projective-closure (H118E23)."
+	| A1 u v X PX X2 |
+	A1 _ AffineSpace new: #(u v) over: (ZZ modPrime: 5).
+	u _ A1 coordinateRing x: #u.
+	v _ A1 coordinateRing x: #v.
+	X _ A1 subscheme: u**2 - (v**5).
+	PX _ X projectiveClosure.
+	self assert: (PX affinePatch: 3) = X.
+	X2 _ PX affinePatch: 2.
+	self assert: X2 projectiveClosure = X projectiveClosure! !
+
 !AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/18/2016 20:58'!
 testProjectiveSpace
 	| K P |
@@ -748,6 +761,14 @@ testReduced
 	X _ A subscheme: {x*(y**3). x**2*z}.
 	self assert: X isReduced not.
 	self assert: X reduced = (A subscheme: {x*y. x*z})! !
+
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/20/2016 09:57'!
+testSpecZ
+	self assert: ZZ spec >= (ZZ mod: 2) spec.
+	self assert: (ZZ mod: 10) spec >= (ZZ mod: 5) spec.
+	self deny: (ZZ mod: 10) spec >= (ZZ mod: 3) spec.
+	self assert: (ZZ mod: 10) spec ˜ (ZZ mod: 15) spec = (ZZ mod: 5) spec.
+	self assert: (ZZ mod: 10) spec ™ (ZZ mod: 15) spec = (ZZ mod: 30) spec! !
 
 !AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/13/2016 10:30'!
 testTwistedCubic
