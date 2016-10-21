@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 21 October 2016 at 5:36:18.258712 pm'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 21 October 2016 at 10:13:35.398702 pm'!
 'Description Please enter a description for this package'!
-!provides: 'MathematicsTests' 1 29!
+!provides: 'MathematicsTests' 1 30!
 !classDefinition: #AbelianGroupTest category: #MathematicsTests!
 TestCase subclass: #AbelianGroupTest
 	instanceVariableNames: ''
@@ -179,16 +179,6 @@ TestCase subclass: #RootSystemTest
 	category: 'MathematicsTests'!
 !classDefinition: 'RootSystemTest class' category: #MathematicsTests!
 RootSystemTest class
-	instanceVariableNames: ''!
-
-!classDefinition: #SemialgebraicGeometryTest category: #MathematicsTests!
-TestCase subclass: #SemialgebraicGeometryTest
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'MathematicsTests'!
-!classDefinition: 'SemialgebraicGeometryTest class' category: #MathematicsTests!
-SemialgebraicGeometryTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #SequenceTest category: #MathematicsTests!
@@ -637,12 +627,12 @@ testIntersection
 	self assert: (W includes: (1, 0)).
 	self assert: (W includes: (0, 1)) not! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/15/2016 10:08'!
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/21/2016 21:45'!
 testLinearSubspaceAsAlgebraicVariety
 	| S V |
 	S _ QQ ** 3 grassmannian: 2 :: atRandomBits: 10.
 	V _ S asAlgebraicVariety.
-	self assert: V dimension = S dimension.
+	self assert: V dimension + 1 = S dimension. "because it's projective"
 	self assert: (V includes: (S e: 1)).
 	self assert: (V includes: (S e: 2))! !
 
@@ -663,19 +653,6 @@ testNotFinite
 	y _ A y.
 	X _ A / {y*y - (x*x) - 3} :: spec.
 	self assert: X isFinite not! !
-
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/15/2016 10:08'!
-testPolynomialSystem
-	| Qxy x y V system |
-	Qxy _ QQ polynomialsIn: #(x y).
-	x _ Qxy x.
-	y _ Qxy y.
-	system _ PolynomialSystem new.
-	system add: (y eq: 0).
-	system add: (x*x - 1 eq: 0).
-	V _ system solutions.
-	self assert: (V includes: (1, 0)).
-	self assert: (V includes: (0, 1)) not! !
 
 !AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/21/2016 17:30'!
 testProjectiveClosrure
@@ -4200,48 +4177,6 @@ testWeylGroupAndSimpleRoots
 	R _ self rootSystem1.
 	W _ R weylGroup.
 	R roots do: [:r| self assert: (W anySatisfy: [:w| R simpleRoots includes: (w value: r)])]! !
-
-!SemialgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 7/15/2016 18:37'!
-testCAD
-	| Qxy x y S |
-	Qxy _ QQ polynomialsIn: #(x y).
-	x _ Qxy x.
-	y _ Qxy y.
-	S _ SemialgebraicSet cad: {x squared + y squared - 4. (x - 1) * (y - 1) - 1}.
-	self assert: S cells size = 13.
-	self assert: (S cells count: [:each| each dimension = 0]) = 2.
-	self assert: (S cells count: [:each| each dimension = 1]) = 6.
-	self assert: (S cells count: [:each| each dimension = 2]) = 5! !
-
-!SemialgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 6/2/2016 03:56'!
-testDimension
-	self assert: SemialgebraicSet circle dimension = 2.
-	self assert: SemialgebraicSet circunference dimension = 1.
-	self assert: SemialgebraicSet sphere dimension = 2.
-	self assert: SemialgebraicSet ball dimension = 3! !
-
-!SemialgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 6/3/2016 20:06'!
-testOpenClosed
-	| S |
-	S _ SemialgebraicSet circle.
-	self assert: S isOpen.
-	self assert: S isClosed not.
-	S _ SemialgebraicSet circunference.
-	self assert: S isClosed.
-	self assert: S isOpen not.
-	S _ SemialgebraicSet ball.
-	self assert: S isOpen.
-	self assert: S isClosed not.
-	S _ SemialgebraicSet sphere.
-	self assert: S isClosed.
-	self assert: S isOpen not! !
-
-!SemialgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 6/2/2016 04:39'!
-testSentence
-	| S f |
-	S _ SemialgebraicSet sphere.
-	f _ S sentence.
-	self assert: (S cells allSatisfy: [:each| f isSolution: each sample])! !
 
 !SequenceTest methodsFor: 'as yet unclassified' stamp: 'len 8/6/2016 00:54'!
 testBellNumbers
