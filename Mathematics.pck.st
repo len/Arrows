@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 21 October 2016 at 10:02:58.915961 pm'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 22 October 2016 at 9:40:41.897633 pm'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 240!
+!provides: 'Mathematics' 1 243!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
 	instanceVariableNames: 'numerator shift'
@@ -651,18 +651,18 @@ IntegerQuotientRing subclass: #PrimeField
 PrimeField class
 	instanceVariableNames: ''!
 
-!classDefinition: #AlgebraicExtension category: #'Mathematics-Fields'!
-QuotientRing subclass: #AlgebraicExtension
+!classDefinition: #AlgebraicExtensionField category: #'Mathematics-Fields'!
+QuotientRing subclass: #AlgebraicExtensionField
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Fields'!
-!classDefinition: 'AlgebraicExtension class' category: #'Mathematics-Fields'!
-AlgebraicExtension class
+!classDefinition: 'AlgebraicExtensionField class' category: #'Mathematics-Fields'!
+AlgebraicExtensionField class
 	instanceVariableNames: ''!
 
 !classDefinition: #NumberField category: #'Mathematics-Fields'!
-AlgebraicExtension subclass: #NumberField
+AlgebraicExtensionField subclass: #NumberField
 	instanceVariableNames: 'adjoint'
 	classVariableNames: ''
 	poolDictionaries: ''
@@ -743,7 +743,7 @@ Reals class
 
 !classDefinition: #PolynomialRing category: #'Mathematics-Polynomials-Domains'!
 Ring subclass: #PolynomialRing
-	instanceVariableNames: 'scalars rank'
+	instanceVariableNames: 'space'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Polynomials-Domains'!
@@ -851,6 +851,16 @@ Module subclass: #FreeModule
 FreeModule class
 	instanceVariableNames: ''!
 
+!classDefinition: #AlgebraicExtensionSpace category: #'Mathematics-Fields'!
+FreeModule subclass: #AlgebraicExtensionSpace
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Fields'!
+!classDefinition: 'AlgebraicExtensionSpace class' category: #'Mathematics-Fields'!
+AlgebraicExtensionSpace class
+	instanceVariableNames: ''!
+
 !classDefinition: #DirectSumModule category: #'Mathematics-Modules'!
 FreeModule subclass: #DirectSumModule
 	instanceVariableNames: 'components'
@@ -951,44 +961,14 @@ FreeModule subclass: #TupleModule
 TupleModule class
 	instanceVariableNames: ''!
 
-!classDefinition: #VectorSpace category: #'Mathematics-Modules'!
-FreeModule subclass: #VectorSpace
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Modules'!
-!classDefinition: 'VectorSpace class' category: #'Mathematics-Modules'!
-VectorSpace class
-	instanceVariableNames: ''!
-
-!classDefinition: #AlgebraicExtensionSpace category: #'Mathematics-Fields'!
-VectorSpace subclass: #AlgebraicExtensionSpace
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Fields'!
-!classDefinition: 'AlgebraicExtensionSpace class' category: #'Mathematics-Fields'!
-AlgebraicExtensionSpace class
-	instanceVariableNames: ''!
-
 !classDefinition: #BilinearForms category: #'Mathematics-Multilinear'!
-VectorSpace subclass: #BilinearForms
+FreeModule subclass: #BilinearForms
 	instanceVariableNames: 'vectorSpace domain'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Multilinear'!
 !classDefinition: 'BilinearForms class' category: #'Mathematics-Multilinear'!
 BilinearForms class
-	instanceVariableNames: ''!
-
-!classDefinition: #PolynomialSpace category: #'Mathematics-Polynomials-Domains'!
-VectorSpace subclass: #PolynomialSpace
-	instanceVariableNames: 'polynomials degree'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Polynomials-Domains'!
-!classDefinition: 'PolynomialSpace class' category: #'Mathematics-Polynomials-Domains'!
-PolynomialSpace class
 	instanceVariableNames: ''!
 
 !classDefinition: #TensorProductModule category: #'Mathematics-Multilinear'!
@@ -1019,6 +999,16 @@ FreeModule subclass: #HomogeneousPolynomialModule
 	category: 'Mathematics-Polynomials-Domains'!
 !classDefinition: 'HomogeneousPolynomialModule class' category: #'Mathematics-Polynomials-Domains'!
 HomogeneousPolynomialModule class
+	instanceVariableNames: ''!
+
+!classDefinition: #PolynomialFiltrationModule category: #'Mathematics-Polynomials-Domains'!
+FreeModule subclass: #PolynomialFiltrationModule
+	instanceVariableNames: 'polynomials degree'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Polynomials-Domains'!
+!classDefinition: 'PolynomialFiltrationModule class' category: #'Mathematics-Polynomials-Domains'!
+PolynomialFiltrationModule class
 	instanceVariableNames: ''!
 
 !classDefinition: #DivisorsGroup category: #'Mathematics-Geometry-Algebraic'!
@@ -1561,18 +1551,8 @@ AffineScheme subclass: #AffineSpace
 AffineSpace class
 	instanceVariableNames: ''!
 
-!classDefinition: #ProjectiveScheme category: #'Mathematics-Geometry-Algebraic'!
-Scheme subclass: #ProjectiveScheme
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Geometry-Algebraic'!
-!classDefinition: 'ProjectiveScheme class' category: #'Mathematics-Geometry-Algebraic'!
-ProjectiveScheme class
-	instanceVariableNames: ''!
-
 !classDefinition: #Curve category: #'Mathematics-Geometry-Algebraic'!
-ProjectiveScheme subclass: #Curve
+Scheme subclass: #Curve
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
@@ -1599,6 +1579,16 @@ PlaneCurve subclass: #EllipticCurve
 	category: 'Mathematics-Geometry-Algebraic'!
 !classDefinition: 'EllipticCurve class' category: #'Mathematics-Geometry-Algebraic'!
 EllipticCurve class
+	instanceVariableNames: ''!
+
+!classDefinition: #ProjectiveScheme category: #'Mathematics-Geometry-Algebraic'!
+Scheme subclass: #ProjectiveScheme
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Geometry-Algebraic'!
+!classDefinition: 'ProjectiveScheme class' category: #'Mathematics-Geometry-Algebraic'!
+ProjectiveScheme class
 	instanceVariableNames: ''!
 
 !classDefinition: #ProjectiveSpace category: #'Mathematics-Geometry-Algebraic'!
@@ -3677,7 +3667,7 @@ My instances are rings of integers mod m, i.e. Z/<m>.!
 !PrimeField commentStamp: '<historical>' prior: 0!
 My instances are fields of order p prime, i.e. the residue field Z/<p> of integers modulo p.!
 
-!AlgebraicExtension commentStamp: '<historical>' prior: 0!
+!AlgebraicExtensionField commentStamp: '<historical>' prior: 0!
 My instances are (finite) algebraic extensions E/F of a field F. They are defined by an irreducible polynomial f with coefficients in F, and are isomorphic to F[x]/<f>.
 
 Example:
@@ -3707,18 +3697,20 @@ I'm the field of real algebraic numbers, i.e. real zeros of polynomials with int
 I'm the field of real numbers.!
 
 !PolynomialRing commentStamp: '<historical>' prior: 0!
-My instances are polynomial rings in one or many indeterminates.
+My instances are polynomial rings R[x1,...,xn] in one or many indeterminates over a commutative ring R, or rings of polynomial functions R[M] on a finite-rank R-module M.
+
+The number of indeterimnates is called the rank of the polynomial ring. The indeterminates are referred by index (positive integer numbers).
 
 Example:
 	"Polynomial in Z[x]"
 	| R x |
 	R _ ZZ polynomials.
 	x _ R x.
-	x**2 - x + 1
+	x**2 - x + 3
 
 Example:
-	"Polynomial in Z[x] by tuple of coefficients"
-	ZZ polynomials coefficients: #(3 -2 1)
+	"Same polynomial in Z[x] by tuple of coefficients"
+	ZZ polynomials coefficients: #(3 -1 1)
 
 Example:
 	"Polynomial in Q[x,y]"
@@ -3727,6 +3719,19 @@ Example:
 	x _ R x: 1.
 	y _ R x: 2.
 	(x - y) ** 2
+
+Polynomial rings have an associated monomial ordering. This is used for defining the leading term of a polynomial, multivariate division and the computation of Groebner bases.
+
+Although polynomials are symbolic objects, not functions, they can be seen as functions on an associated space, a free R-module of the same rank as the number of indeterminates. The space of R[x1,...,xn] is R^n (the n-tuples with coefficients in R). In general, choosing a basis for a finite-rank R-module M, this construction gives R[M], the polynomial functions on M. The indeterminates represent the coordinate functions of M for the choosen basis. This is equivalent to S(M*), the symmetric algebra on the dual of M.
+
+Example:
+	"The determinant polynomial of 2x2 matrices, evaluated at some random matrix:"
+	| M P A det |
+	M _ QQ**(2@2).
+	P _ M coordinateRing.
+	det _ (P x: 1) * (P x: 4) - ((P x: 3) * (P x: 2)).
+	A _ M atRandomBits: 20.
+	{A. det value: A}
 !
 
 !ExtendedComplexNumbers commentStamp: '<historical>' prior: 0!
@@ -3738,6 +3743,13 @@ My instances are right R-modules.
 
 !FreeModule commentStamp: '<historical>' prior: 0!
 My instances are free right R-modules, i.e. right R-modules with a basis. They are isomorphic to R^n.!
+
+!AlgebraicExtensionSpace commentStamp: '<historical>' prior: 0!
+My instances are (finite) algebraic extensions E/F of a field F seen as an F-vector space.
+
+Example:
+	QQ extension: QQ polynomials x**4 - 2 :: asVectorSpace
+!
 
 !FreeAbelianGroup commentStamp: '<historical>' prior: 0!
 My instances are abelian groups with a basis, i.e. free Z-modules. They are isomorphic to Z^n.
@@ -3785,24 +3797,11 @@ Example:
 !TupleModule commentStamp: '<historical>' prior: 0!
 My instances are modules (or vector spaces) of n-tuples over a given ring (or field).!
 
-!VectorSpace commentStamp: '<historical>' prior: 0!
-My instances are finitely-generated vector spaces. My subclasses might define concrete vector spaces by specifying a standard basis, so that it's possible to compute with it.
-
-Examples of vector spaces are tuples, matrices and linear transformations.
-!
-
-!AlgebraicExtensionSpace commentStamp: '<historical>' prior: 0!
-My instances are (finite) algebraic extensions E/F of a field F seen as an F-vector space.
-
-Example:
-	QQ extension: QQ polynomials x**4 - 2 :: asVectorSpace
-!
-
-!PolynomialSpace commentStamp: '<historical>' prior: 0!
-My instances are vector spaces of univariate polynomials of degree <= n, for a fixed n.!
-
 !HomogeneousPolynomialModule commentStamp: '<historical>' prior: 0!
-My instances are modules of multivariate homogeneous polynomials of degree d in n variables, for fixed d and n.!
+My instances are submodules of homogeneous polynomials of a given fixed degree, in a multivariate polynomial ring R[x1,...,xn]. They define a grading (see PolynomialRing>>gradingAt:).!
+
+!PolynomialFiltrationModule commentStamp: '<historical>' prior: 0!
+My instances are submodules of univariate polynomials of degree <= n for a fixed n, in the ring of univariate polynomials R[x]. They define a filtration (see PolynomialRing>>filtrationAt:).!
 
 !DivisorsGroup commentStamp: '<historical>' prior: 0!
 TODO:
@@ -3875,10 +3874,10 @@ Examples:
 	SymmetricGroup new: 3.
 	SymmetricGroup on: #(a b c).!
 
-!LinearGroup commentStamp: '<historical>' prior: 0!
+!LinearGroup commentStamp: 'len 10/22/2016 18:06' prior: 0!
 My instances are groups of linear transformations acting on an R-module V. They are subgroups of the general linear group GL(V).
 
-These groups act naturally on the domain R-module by the action g^v |-> g(v).!
+These groups act naturally on the domain R-module by the action g^v |-> g(v). They also act by composition on the R[V], the polynomial ring on V (see >>polynomialAction).!
 
 !GeneralLinearGroup commentStamp: '<historical>' prior: 0!
 My instances are the general linear group GL(V) of automorphisms of an R-module V. The elements are invertible linear transformations from V to itself (see LinearMap, LinearGroup).
@@ -13369,12 +13368,12 @@ dimension
 	self isDedekindDomain ifTrue: [^ 1].
 	^ properties at: #dimension! !
 
-!Ring methodsFor: 'operations' stamp: 'len 10/18/2016 20:50'!
+!Ring methodsFor: 'operations' stamp: 'len 10/21/2016 22:24'!
 extension: aPolynomial
 	"Answer the algebraic extension of the receiver defined by the given irreducible polynomial."
 	self isField ifFalse: [DomainError signal: 'not a field'].
 	aPolynomial scalars = self ifFalse: [DomainError signal: 'polynomial coefficients not from this field'].
-	^ AlgebraicExtension polynomial: aPolynomial! !
+	^ AlgebraicExtensionField polynomial: aPolynomial! !
 
 !Ring methodsFor: 'operations' stamp: 'len 10/18/2016 20:53'!
 fractions
@@ -13793,13 +13792,17 @@ indeterminates
 isUnivariate
 	^ self integers isUnivariate! !
 
-!RationalFunctionField methodsFor: 'printing' stamp: 'len 10/14/2016 22:59'!
+!RationalFunctionField methodsFor: 'printing' stamp: 'len 10/22/2016 18:22'!
 printOn: aStream
 	aStream print: self scalars.
 	aStream nextPut: $(.
-	self integers ordering indeterminates
-		do: [:i| aStream print: (self integers x: i)]
-		separatedBy: [aStream nextPut: $,].
+	(self space isKindOf: TupleModule)
+		ifTrue:
+			[self integers ordering indeterminates
+				do: [:i| aStream print: (self integers x: i)]
+				separatedBy: [aStream nextPut: $,]]
+		ifFalse:
+			[aStream print: self space].
 	aStream nextPut: $)! !
 
 !RationalFunctionField methodsFor: 'accessing' stamp: 'len 10/14/2016 23:00'!
@@ -13813,6 +13816,10 @@ scalars
 !RationalFunctionField methodsFor: 'accessing' stamp: 'len 10/16/2016 09:01'!
 size
 	^ Aleph new * self scalars size! !
+
+!RationalFunctionField methodsFor: 'accessing' stamp: 'len 10/22/2016 18:20'!
+space
+	^ self integers space! !
 
 !RationalFunctionField methodsFor: 'elements' stamp: 'len 10/16/2016 20:12'!
 x
@@ -14418,7 +14425,7 @@ primitiveRoot
 new: aPrime
 	^ self by: ZZ * aPrime! !
 
-!AlgebraicExtension methodsFor: 'converting' stamp: 'len 10/16/2016 14:43'!
+!AlgebraicExtensionField methodsFor: 'converting' stamp: 'len 10/16/2016 14:43'!
 asVectorSpace
 	^ self as: AlgebraicExtensionSpace
 "	^ (self as: FreeModule)
@@ -14430,124 +14437,124 @@ asVectorSpace
 	QQ extension: QQ polynomials x**4 - 2 :: asVectorSpace
 "! !
 
-!AlgebraicExtension methodsFor: 'morphisms' stamp: 'len 10/5/2016 09:51'!
+!AlgebraicExtensionField methodsFor: 'morphisms' stamp: 'len 10/5/2016 09:51'!
 automorphisms
 	"Answer the Galous group of the receiver (assuming the receiver is a Galois extension)."
 	self isFinite ifTrue: [^ Group compositive generators: {self frobenius}].
 	self flag: #fix. "This is actually isomorphic to the Galois group, not the actual Galois group, it should act on elements of the extension and it's not the full symmetric group."
 	^ SymmetricGroup on: (self embeddings collect: [:each| each value: self x])! !
 
-!AlgebraicExtension methodsFor: 'accessing' stamp: 'len 3/19/2016 03:21'!
+!AlgebraicExtensionField methodsFor: 'accessing' stamp: 'len 3/19/2016 03:21'!
 baseField
 	^ self polynomial scalars! !
 
-!AlgebraicExtension methodsFor: 'accessing' stamp: 'len 3/19/2016 04:18'!
+!AlgebraicExtensionField methodsFor: 'accessing' stamp: 'len 3/19/2016 04:18'!
 characteristic
 	^ self baseField characteristic! !
 
-!AlgebraicExtension methodsFor: 'elements-operations' stamp: 'len 6/21/2016 05:39'!
+!AlgebraicExtensionField methodsFor: 'elements-operations' stamp: 'len 6/21/2016 05:39'!
 characteristicPolynomialOf2: anElement
 	| x |
 	x _ AlgebraicNumbers new polynomials x.
 	^ (self embeddings product: [:each| x - (each value: anElement)]) as: self baseField polynomials! !
 
-!AlgebraicExtension methodsFor: 'elements-operations' stamp: 'len 6/4/2016 17:39'!
+!AlgebraicExtensionField methodsFor: 'elements-operations' stamp: 'len 6/4/2016 17:39'!
 characteristicPolynomialOf: anElement
 	^ (self asVectorSpace endomorphisms evaluating: [:x| x * anElement]) characteristicPolynomial! !
 
-!AlgebraicExtension methodsFor: 'accessing' stamp: 'len 3/18/2016 22:31'!
+!AlgebraicExtensionField methodsFor: 'accessing' stamp: 'len 3/18/2016 22:31'!
 degree
 	^ self polynomial degree! !
 
-!AlgebraicExtension methodsFor: 'morphisms' stamp: 'len 10/16/2016 15:11'!
+!AlgebraicExtensionField methodsFor: 'morphisms' stamp: 'len 10/16/2016 15:11'!
 embed: aNumber
 	"This is the field homomorphism that embeds the base field into the receiver."
 	^ self project: (self ideal ring embed: aNumber)! !
 
-!AlgebraicExtension methodsFor: 'morphisms' stamp: 'len 10/10/2016 08:55'!
+!AlgebraicExtensionField methodsFor: 'morphisms' stamp: 'len 10/10/2016 08:55'!
 embedding
 	"Answer the field homomorphism that embeds the base field into the receiver."
 	^ properties at: #embedding ifAbsentPut: [(self baseField to: self evaluating: [:x| self embed: x]) name: 'i']! !
 
-!AlgebraicExtension methodsFor: 'morphisms' stamp: 'len 6/4/2016 19:30'!
+!AlgebraicExtensionField methodsFor: 'morphisms' stamp: 'len 6/4/2016 19:30'!
 embeddings
 	"Answer the n distinct embeddings of the receiver in the algebraic closure of the base field, where n is the degree of the receiver. In the case of number fields, the embeddings go to the complex algebraic numbers.
 	When the receiver is a Galois extension, the embeddings send each element to one of its conjugates, and their images are the same."
 	^ properties at: #embeddings ifAbsentPut: [self embeddingsIn: self baseField algebraicClosure]! !
 
-!AlgebraicExtension methodsFor: 'morphisms' stamp: 'len 8/31/2016 05:43'!
+!AlgebraicExtensionField methodsFor: 'morphisms' stamp: 'len 8/31/2016 05:43'!
 embeddingsIn: aField
 	^ (self polynomial rootsIn: aField)
 		collect: [:x| self to: aField evaluating: [:alpha| alpha representative value: x]]! !
 
-!AlgebraicExtension methodsFor: 'testing' stamp: 'len 10/18/2016 20:47'!
+!AlgebraicExtensionField methodsFor: 'testing' stamp: 'len 10/18/2016 20:47'!
 isField
 	^ true! !
 
-!AlgebraicExtension methodsFor: 'testing' stamp: 'len 5/14/2016 06:54'!
+!AlgebraicExtensionField methodsFor: 'testing' stamp: 'len 5/14/2016 06:54'!
 isGlobalField
 	^ true! !
 
-!AlgebraicExtension methodsFor: 'elements-operations' stamp: 'len 6/21/2016 05:38'!
+!AlgebraicExtensionField methodsFor: 'elements-operations' stamp: 'len 6/21/2016 05:38'!
 minimalPolynomialOf2: anElement
 	^ (self preferedEmbedding value: anElement) minimalPolynomial! !
 
-!AlgebraicExtension methodsFor: 'elements-operations' stamp: 'len 6/4/2016 23:56'!
+!AlgebraicExtensionField methodsFor: 'elements-operations' stamp: 'len 6/4/2016 23:56'!
 minimalPolynomialOf: anElement
 	^ (self asVectorSpace endomorphisms evaluating: [:x| x * anElement]) minimalPolynomial
 "	| x |
 	x _ self polynomials x.
 	^ anElement conjugates product: [:each| x - each] :: as: self baseField polynomials"! !
 
-!AlgebraicExtension methodsFor: 'elements-operations' stamp: 'len 6/21/2016 05:29'!
+!AlgebraicExtensionField methodsFor: 'elements-operations' stamp: 'len 6/21/2016 05:29'!
 normOf: anElement
 	"Answer the absolute norm of anElement."
 	| f |
 	f _ self minimalPolynomialOf: anElement.
 	^ f independentCoefficient / f leadingCoefficient * (f degree even ifTrue: [1] ifFalse: [-1])! !
 
-!AlgebraicExtension methodsFor: 'accessing' stamp: 'len 3/18/2016 22:41'!
+!AlgebraicExtensionField methodsFor: 'accessing' stamp: 'len 3/18/2016 22:41'!
 one
 	^ self embed: self baseField one! !
 
-!AlgebraicExtension methodsFor: 'accessing' stamp: 'len 10/16/2016 15:13'!
+!AlgebraicExtensionField methodsFor: 'accessing' stamp: 'len 10/16/2016 15:13'!
 polynomial
 	^ self ideal generator! !
 
-!AlgebraicExtension methodsFor: 'accessing-private' stamp: 'len 10/16/2016 15:13'!
+!AlgebraicExtensionField methodsFor: 'accessing-private' stamp: 'len 10/16/2016 15:13'!
 polynomial: aPolynomial
 	self ideal: aPolynomial species * aPolynomial! !
 
-!AlgebraicExtension methodsFor: 'printing' stamp: 'len 10/5/2016 09:50'!
+!AlgebraicExtensionField methodsFor: 'printing' stamp: 'len 10/5/2016 09:50'!
 printOn: aStream
 	(properties includesKey: #name) ifTrue: [^ super printOn: aStream].
 	aStream print: self baseField; nextPut: $(; print: self polynomial; nextPut: $)! !
 
-!AlgebraicExtension methodsFor: 'morphisms' stamp: 'len 10/16/2016 19:42'!
+!AlgebraicExtensionField methodsFor: 'morphisms' stamp: 'len 10/16/2016 19:42'!
 project: anElement
 	^ AlgebraicExtensionElement in: self representative: (ideal reduce: anElement)! !
 
-!AlgebraicExtension methodsFor: 'accessing' stamp: 'len 3/19/2016 04:24'!
+!AlgebraicExtensionField methodsFor: 'accessing' stamp: 'len 3/19/2016 04:24'!
 size
 	^ self baseField size ** self degree! !
 
-!AlgebraicExtension methodsFor: 'elements-operations' stamp: 'len 6/4/2016 23:54'!
+!AlgebraicExtensionField methodsFor: 'elements-operations' stamp: 'len 6/4/2016 23:54'!
 symmetricFunction: i of: anElement
 	^ self notYetImplemented! !
 
-!AlgebraicExtension methodsFor: 'elements-operations' stamp: 'len 6/21/2016 05:30'!
+!AlgebraicExtensionField methodsFor: 'elements-operations' stamp: 'len 6/21/2016 05:30'!
 traceOf: anElement
 	"Answer the absolute trace of anElement."
 	| f |
 	f _ self minimalPolynomialOf: anElement.
 	^ (f coefficientAtDegree: f degree - 1) / f leadingCoefficient! !
 
-!AlgebraicExtension methodsFor: 'accessing' stamp: 'len 10/16/2016 15:12'!
+!AlgebraicExtensionField methodsFor: 'accessing' stamp: 'len 10/16/2016 15:12'!
 x
 	"Answer the transcendental element of the receiver."
 	^ self project: self ideal ring x! !
 
-!AlgebraicExtension class methodsFor: 'instance creation' stamp: 'len 5/12/2016 10:05'!
+!AlgebraicExtensionField class methodsFor: 'instance creation' stamp: 'len 5/12/2016 10:05'!
 polynomial: aPolynomial
 	"Answer a new algebraic field extension K(f) where f is the given polynomial in K[x]. The polynomial must be irreducible, otherwise there would be zero divisors."
 	^ self new polynomial: aPolynomial! !
@@ -14905,10 +14912,10 @@ initialize
 	self scalars <= aDomain scalars ifFalse: [^ false].
 	^ true! !
 
-!PolynomialRing methodsFor: 'comparing' stamp: 'len 7/19/2016 01:12'!
+!PolynomialRing methodsFor: 'comparing' stamp: 'len 10/22/2016 18:09'!
 = anObject
 	self == anObject ifTrue: [^ true].
-	^ (anObject isKindOf: PolynomialRing) and: [anObject scalars = scalars and: [anObject rank = rank]]! !
+	^ (anObject isKindOf: PolynomialRing) and: [self scalars = anObject scalars and: [self rank = anObject rank]]! !
 
 !PolynomialRing methodsFor: 'comparing' stamp: 'len 7/19/2016 01:12'!
 > aDomain
@@ -14952,23 +14959,19 @@ asUnivariateIn: anIndeterminate
 	anIndeterminate = self indeterminates last ifFalse: [^ self error: 'bad indeterminate'].
 	^ self asUnivariate! !
 
-!PolynomialRing methodsFor: 'converting' stamp: 'len 6/11/2016 22:30'!
-asVectorSpaceMaxDegree: n
-	^ PolynomialSpace new polynomials: self; degree: n! !
-
-!PolynomialRing methodsFor: 'random' stamp: 'len 7/5/2016 02:51'!
+!PolynomialRing methodsFor: 'random' stamp: 'len 10/22/2016 18:16'!
 atRandom: aRandom bits: bitSize
-	^ self atRandom: aRandom bits: bitSize maxDegree: (bitSize**(1/rank) min: bitSize - 1) truncated! !
+	^ self atRandom: aRandom bits: bitSize maxDegree: (bitSize**(1/self rank) min: bitSize - 1) truncated! !
 
-!PolynomialRing methodsFor: 'random' stamp: 'len 7/5/2016 02:48'!
+!PolynomialRing methodsFor: 'random' stamp: 'len 10/22/2016 18:12'!
 atRandom: aRandom bits: bitSize maxDegree: d
 	| answer term n |
 	self isUnivariate
-		ifTrue: [^ self coefficients: (scalars ** (d+1) atRandom: aRandom bits: bitSize)].
+		ifTrue: [^ self coefficients: (self scalars ** (d+1) atRandom: aRandom bits: bitSize)].
 	answer _ self zero.
-	n _ 2**rank.
+	n _ 2 ** self rank.
 	n timesRepeat:
-		[term _ ((1 to: d) product: [:i| self x: (rank atRandom: aRandom) to: (2 atRandom: aRandom) - 1]) * (scalars atRandom: aRandom bits: bitSize/(rank*d)).
+		[term _ ((1 to: d) product: [:i| self x: (self rank atRandom: aRandom) to: (2 atRandom: aRandom) - 1]) * (self scalars atRandom: aRandom bits: bitSize/(self rank*d)).
 		answer _ answer + term].
 	^ answer! !
 
@@ -14993,11 +14996,11 @@ atRandomMaxDegree: d
 	self isUnivariate ifFalse: [^ self notYetImplemented].
 	^ self coefficients: (self scalars ** (d+1)) atRandom! !
 
-!PolynomialRing methodsFor: 'accessing' stamp: 'len 11/5/2015 17:35'!
+!PolynomialRing methodsFor: 'accessing' stamp: 'len 10/22/2016 18:08'!
 characteristic
-	^ scalars characteristic! !
+	^ space characteristic! !
 
-!PolynomialRing methodsFor: 'examples' stamp: 'len 3/1/2016 22:32'!
+!PolynomialRing methodsFor: 'examples' stamp: 'len 10/22/2016 18:12'!
 chebyshevOfOrder: n
 	"Answer the n-th Chebyshev polynomial."
 
@@ -15006,12 +15009,12 @@ chebyshevOfOrder: n
 	c _ (1 bitShift: n - 1).
 	m _ 4.
 	k _ n - 1.
-	answer _ self coefficient: scalars one * c degree: n.
+	answer _ self coefficient: self scalars one * c degree: n.
 	n - 1 to: 1 by: -2 do: [ :each |
 		c _ ((c * (each + 1) * each) / (k * m)) negated.
 		m _ m + 4.
 		k _ k - 1.
-		c = 0 ifFalse: [answer _ answer + (self coefficient: scalars one * c degree: each - 1)]].
+		c = 0 ifFalse: [answer _ answer + (self coefficient: self scalars one * c degree: each - 1)]].
 	^ answer! !
 
 !PolynomialRing methodsFor: 'elements' stamp: 'len 7/9/2016 03:28'!
@@ -15114,16 +15117,16 @@ do: aBlock
 embed: aScalar
 	^ self constant: aScalar! !
 
-!PolynomialRing methodsFor: 'morphisms' stamp: 'len 10/10/2016 08:56'!
+!PolynomialRing methodsFor: 'morphisms' stamp: 'len 10/22/2016 18:12'!
 embedding
 	"Answer the embedding map from the base ring into the receiver."
-	^ properties at: #embedding ifAbsentPut: [(RingHomomorphism from: scalars to: self evaluating: [:x| self constant: x]) name: 'i']! !
+	^ properties at: #embedding ifAbsentPut: [(RingHomomorphism from: self scalars to: self evaluating: [:x| self constant: x]) name: 'i']! !
 
 !PolynomialRing methodsFor: 'elements' stamp: 'len 10/21/2016 21:33'!
 evaluating: aBlock
 	^ aBlock value: (Tuple new: self rank evaluating: [:i| self x: i])! !
 
-!PolynomialRing methodsFor: 'operations' stamp: 'len 10/4/2016 09:02'!
+!PolynomialRing methodsFor: 'morphisms' stamp: 'len 10/4/2016 09:02'!
 expansion: anInteger
 	"Answer the canonical embedding into the polynomials in n+anInteger indeterminates.
 	Perhaps this should be called 'embedding' instead of 'expansion'."
@@ -15142,10 +15145,15 @@ fibonacciOfOrder: n
 	n = 1 ifTrue: [^ self one].
 	^ (self fibonacciOfOrder: n - 1) - (self x * (self fibonacciOfOrder: n - 2))! !
 
-!PolynomialRing methodsFor: 'elements' stamp: 'len 8/10/2016 06:26'!
+!PolynomialRing methodsFor: 'operations' stamp: 'len 10/22/2016 18:56'!
+filtrationAt: anInteger
+	"Answer the module of polynomials of degree <= anInteger."
+	^ PolynomialFiltrationModule new polynomials: self; degree: anInteger! !
+
+!PolynomialRing methodsFor: 'elements' stamp: 'len 10/22/2016 18:10'!
 findIrreducibleOfDegree: n
 	| one x p random |
-	one _ scalars one.
+	one _ self scalars one.
 	x _ self x.
 	1 to: n-1 do: [:k|
 		p _ x**n + (x**k) + one.
@@ -15155,22 +15163,27 @@ findIrreducibleOfDegree: n
 	[(p _ self atRandom: random maxDegree: n) degree = n and: [p isIrreducible]] whileFalse.
 	^ p! !
 
-!PolynomialRing methodsFor: 'operations' stamp: 'len 10/14/2016 23:02'!
+!PolynomialRing methodsFor: 'operations' stamp: 'len 10/22/2016 18:11'!
 fractions
-	scalars isField ifFalse: [^ DomainError signal: 'scalars are not a field'].
+	self scalars isField ifFalse: [^ DomainError signal: 'scalars are not a field'].
 	^ RationalFunctionField over: self! !
 
 !PolynomialRing methodsFor: 'accessing' stamp: 'len 10/2/2016 10:34'!
 generators
 	^ (1 to: self rank) collect: [:i| self x: i]! !
 
+!PolynomialRing methodsFor: 'operations' stamp: 'len 10/22/2016 18:57'!
+gradingAt: anInteger
+	"Answer the module of homogeneous polynomials of degree = anInteger."
+	^ HomogeneousPolynomialModule new polynomials: self; degree: anInteger! !
+
 !PolynomialRing methodsFor: 'testing' stamp: 'len 6/4/2016 05:13'!
 has: anIndeterminate
 	^ self indeterminates includes: anIndeterminate! !
 
-!PolynomialRing methodsFor: 'comparing' stamp: 'len 6/28/2016 09:23'!
+!PolynomialRing methodsFor: 'comparing' stamp: 'len 10/22/2016 18:09'!
 hash
-	^ scalars hash + rank! !
+	^ self scalars hash + self rank! !
 
 !PolynomialRing methodsFor: 'testing' stamp: 'len 6/1/2016 23:50'!
 includes: anObject
@@ -15189,9 +15202,9 @@ indeterminateNames
 indeterminateNames: aCollection
 	properties at: #indeterminateNames put: aCollection! !
 
-!PolynomialRing methodsFor: 'accessing' stamp: 'len 6/4/2016 05:12'!
+!PolynomialRing methodsFor: 'accessing' stamp: 'len 10/22/2016 18:16'!
 indeterminates
-	^ 1 to: rank! !
+	^ 1 to: self rank! !
 
 !PolynomialRing methodsFor: 'elements' stamp: 'len 12/19/2015 03:38'!
 interpolate: aCollection
@@ -15208,45 +15221,41 @@ interpolate: aCollection
 		answer _ p * a value + answer].
 	^ answer! !
 
-!PolynomialRing methodsFor: 'testing' stamp: 'len 11/4/2015 21:52'!
+!PolynomialRing methodsFor: 'testing' stamp: 'len 10/22/2016 18:10'!
 isCommutative
-	^ scalars isCommutative! !
+	^ true! !
 
-!PolynomialRing methodsFor: 'testing' stamp: 'len 11/4/2015 21:51'!
+!PolynomialRing methodsFor: 'testing' stamp: 'len 10/22/2016 18:11'!
 isEuclidean
-	^ scalars isEuclidean! !
+	^ self scalars isEuclidean! !
 
-!PolynomialRing methodsFor: 'testing' stamp: 'len 11/29/2015 00:16'!
+!PolynomialRing methodsFor: 'testing' stamp: 'len 10/22/2016 18:08'!
 isGCDDomain
-	^ scalars isField or: [scalars isUFD]! !
+	^ self scalars isField or: [self scalars isUFD]! !
 
-!PolynomialRing methodsFor: 'testing' stamp: 'len 11/29/2015 00:26'!
+!PolynomialRing methodsFor: 'testing' stamp: 'len 10/22/2016 18:09'!
 isIntegralDomain
-	scalars isIntegralDomain ifTrue: [^ true].
+	self scalars isIntegralDomain ifTrue: [^ true].
 	^ super isIntegralDomain! !
 
-!PolynomialRing methodsFor: 'testing' stamp: 'len 10/20/2016 03:35'!
+!PolynomialRing methodsFor: 'testing' stamp: 'len 10/22/2016 18:10'!
 isNoetherian
-	scalars isNoetherian ifTrue: [^ true]. "Hilber's basis theorem"
+	self scalars isNoetherian ifTrue: [^ true]. "Hilber's basis theorem"
 	^ super isNoetherian! !
 
-!PolynomialRing methodsFor: 'testing' stamp: 'len 12/8/2015 06:10'!
+!PolynomialRing methodsFor: 'testing' stamp: 'len 10/22/2016 18:09'!
 isPID
 	"Univariate polynomials over a field are principal ideal domains."
-	^ scalars isField and: [self isUnivariate]! !
+	^ self scalars isField and: [self isUnivariate]! !
 
-!PolynomialRing methodsFor: 'testing' stamp: 'len 11/4/2015 21:51'!
-isRing
-	^ scalars isRing! !
-
-!PolynomialRing methodsFor: 'testing' stamp: 'len 11/29/2015 00:26'!
+!PolynomialRing methodsFor: 'testing' stamp: 'len 10/22/2016 18:11'!
 isUFD
-	scalars isUFD ifTrue: [^ true]. "proof based on Gauss lemma"
+	self scalars isUFD ifTrue: [^ true]. "proof based on Gauss lemma"
 	^ super isUFD! !
 
-!PolynomialRing methodsFor: 'testing' stamp: 'len 7/9/2016 03:25'!
+!PolynomialRing methodsFor: 'testing' stamp: 'len 10/22/2016 18:16'!
 isUnivariate
-	^ rank = 1! !
+	^ self rank = 1! !
 
 !PolynomialRing methodsFor: 'operations' stamp: 'len 12/28/2015 20:20'!
 modPrime: anObject
@@ -15277,9 +15286,9 @@ newFrom: aPolynomial
 			ifTrue: [aPolynomial asSparsePolynomial coefficients]
 			ifFalse: [aPolynomial coefficients])! !
 
-!PolynomialRing methodsFor: 'elements' stamp: 'len 11/3/2015 20:21'!
+!PolynomialRing methodsFor: 'elements' stamp: 'len 10/22/2016 18:08'!
 one
-	^ self constant: scalars one! !
+	^ self constant: self scalars one! !
 
 !PolynomialRing methodsFor: 'accessing' stamp: 'len 7/3/2016 04:18'!
 ordering
@@ -15293,21 +15302,25 @@ ordering: aMonomialOrdering
 		ifFalse: [aMonomialOrdering].
 	properties at: #ordering put: ordering! !
 
-!PolynomialRing methodsFor: 'converting' stamp: 'len 4/24/2016 06:37'!
+!PolynomialRing methodsFor: 'converting' stamp: 'len 10/22/2016 18:13'!
 over: aRing
-	^ self copy scalars: aRing! !
+	^ self copy space: (self space over: aRing)! !
 
 !PolynomialRing methodsFor: 'private' stamp: 'len 7/19/2016 01:08'!
 polynomialClass
 	^ properties at: #polynomialClass ifAbsent: [self isUnivariate ifTrue: [UnivariatePolynomial] ifFalse: [MultivariatePolynomial]]! !
 
-!PolynomialRing methodsFor: 'printing' stamp: 'len 4/21/2016 00:10'!
+!PolynomialRing methodsFor: 'printing' stamp: 'len 10/22/2016 17:03'!
 printOn: aStream
-	aStream print: scalars.
+	aStream print: self scalars.
 	aStream nextPut: $[.
-	self ordering indeterminates
-		do: [:i| aStream print: (self x: i)]
-		separatedBy: [aStream nextPut: $,].
+	(self space isKindOf: TupleModule)
+		ifTrue:
+			[self ordering indeterminates
+				do: [:i| aStream print: (self x: i)]
+				separatedBy: [aStream nextPut: $,]]
+		ifFalse:
+			[aStream print: self space].
 	aStream nextPut: $]! !
 
 !PolynomialRing methodsFor: 'operations' stamp: 'len 9/26/2016 06:46'!
@@ -15315,7 +15328,7 @@ proj
 	"Answer the projective space associated to the receiver, Proj(R)."
 	^ ProjectiveSpace coordinateRing: self! !
 
-!PolynomialRing methodsFor: 'morphisms' stamp: 'len 10/4/2016 09:03'!
+!PolynomialRing methodsFor: 'morphisms' stamp: 'len 10/22/2016 16:38'!
 projection: anInteger
 	"Answer the canonical projection on the polynomials in anInteger indeterminates."
 	| codomain |
@@ -15323,26 +15336,26 @@ projection: anInteger
 	codomain _ (self scalars polynomialsIn: anInteger).
 	^ self to: codomain evaluating: [:aPolynomial| aPolynomial as: codomain]! !
 
-!PolynomialRing methodsFor: 'accessing' stamp: 'len 6/4/2016 05:13'!
+!PolynomialRing methodsFor: 'accessing' stamp: 'len 10/22/2016 18:16'!
 rank
 	"The rank of a polynomial ring is the number of indeterminates. Univariate polynomials have rank 1."
-	^ rank! !
+	^ space rank! !
 
-!PolynomialRing methodsFor: 'accessing-private' stamp: 'len 6/4/2016 05:12'!
-rank: anInteger
-	rank _ anInteger! !
-
-!PolynomialRing methodsFor: 'accessing' stamp: 'len 11/2/2015 16:09'!
+!PolynomialRing methodsFor: 'accessing' stamp: 'len 10/22/2016 18:09'!
 scalars
-	^ scalars! !
-
-!PolynomialRing methodsFor: 'accessing-private' stamp: 'len 11/9/2015 04:16'!
-scalars: aRing
-	scalars _ aRing! !
+	^ space scalars! !
 
 !PolynomialRing methodsFor: 'accessing' stamp: 'len 4/24/2016 02:59'!
 size
 	^ Aleph new * self scalars size! !
+
+!PolynomialRing methodsFor: 'accessing' stamp: 'len 10/22/2016 18:16'!
+space
+	^ space! !
+
+!PolynomialRing methodsFor: 'accessing-private' stamp: 'len 10/22/2016 18:17'!
+space: aFreeModule
+	space _ aFreeModule! !
 
 !PolynomialRing methodsFor: 'operations' stamp: 'len 9/26/2016 06:46'!
 spec
@@ -15366,9 +15379,9 @@ x
 x: anIndeterminate
 	^ self x: anIndeterminate to: 1! !
 
-!PolynomialRing methodsFor: 'elements' stamp: 'len 3/26/2016 02:44'!
+!PolynomialRing methodsFor: 'elements' stamp: 'len 10/22/2016 18:12'!
 x: anIndeterminate to: n
-	^ self coefficient: scalars one x: anIndeterminate to: n! !
+	^ self coefficient: self scalars one x: anIndeterminate to: n! !
 
 !PolynomialRing methodsFor: 'elements' stamp: 'len 4/6/2016 07:03'!
 xTo: degree
@@ -15386,13 +15399,21 @@ z
 zero
 	^ self constant: self scalars zero! !
 
-!PolynomialRing class methodsFor: 'instance creation' stamp: 'len 6/4/2016 05:11'!
+!PolynomialRing class methodsFor: 'instance creation' stamp: 'len 10/22/2016 18:14'!
 new: anInteger over: aRing
-	^ self new scalars: aRing; rank: anInteger! !
+	^ self new space: aRing ** anInteger! !
 
-!PolynomialRing class methodsFor: 'instance creation' stamp: 'len 5/20/2016 03:25'!
+!PolynomialRing class methodsFor: 'instance creation' stamp: 'len 10/22/2016 18:14'!
 new: anInteger over: aRing ordering: aMonomialOrdering
-	^ self new rank: anInteger; scalars: aRing; ordering: aMonomialOrdering! !
+	^ self new space: aRing ** anInteger; ordering: aMonomialOrdering! !
+
+!PolynomialRing class methodsFor: 'instance creation' stamp: 'len 10/22/2016 18:14'!
+on: aFreeModule
+	^ self new space: aFreeModule! !
+
+!PolynomialRing class methodsFor: 'instance creation' stamp: 'len 10/22/2016 18:15'!
+on: aFreeModule ordering: aMonomialOrdering
+	^ self new space: aFreeModule; ordering: aMonomialOrdering! !
 
 !LaurentSeriesRing methodsFor: 'as yet unclassified' stamp: 'len 8/4/2016 03:53'!
 printOn: aStream
@@ -15676,10 +15697,10 @@ basis: aLinearBasis
 codimension
 	^ self ambient dimension - self dimension! !
 
-!FreeModule methodsFor: 'basis' stamp: 'len 7/10/2016 23:06'!
+!FreeModule methodsFor: 'basis' stamp: 'len 10/22/2016 16:58'!
 coordinateRing
 	"The coordinate ring of a R-module of rank n (or K-vector space of dimension n) is the polynomial ring R[x1..xn] (K[x1..xn]."
-	^ self scalars polynomialsIn: self rank! !
+	^ (self scalars polynomialsIn: self rank) space: self! !
 
 !FreeModule methodsFor: 'basis' stamp: 'len 2/28/2016 07:45'!
 coordinateSpace
@@ -15830,6 +15851,11 @@ projective
 	self isVectorSpace ifFalse: [^ DomainError signal: 'not a vector space'].
 	^ ProjectiveLinearSpace on: self! !
 
+!FreeModule methodsFor: 'operations' stamp: 'len 10/22/2016 21:28'!
+projectivization
+	"Answer the projective space induced by the receiver, consisting of the 1-dimensional subspaces."
+	^ self coordinateRing proj! !
+
 !FreeModule methodsFor: 'basis' stamp: 'len 2/24/2016 02:24'!
 rank
 	^ self basis size! !
@@ -15887,6 +15913,22 @@ new: anInteger over: aRing
 !FreeModule class methodsFor: 'instance creation' stamp: 'len 10/16/2016 14:16'!
 on: aCollection over: aRing
 	^ self new scalars: aRing; basis: (aCollection collect: [:each| FormalSum with: each])! !
+
+!AlgebraicExtensionSpace methodsFor: 'basis' stamp: 'len 6/4/2016 18:08'!
+coordinatesOf: aVector
+	^ self scalars tuple: self dimension evaluating: [:i| aVector representative coefficientAtDegree: i-1]! !
+
+!AlgebraicExtensionSpace methodsFor: 'basis' stamp: 'len 6/4/2016 18:19'!
+e: anInteger
+	^ self elements x ** (anInteger - 1)! !
+
+!AlgebraicExtensionSpace methodsFor: 'basis' stamp: 'len 10/22/2016 21:35'!
+rank
+	^ self elements degree! !
+
+!AlgebraicExtensionSpace methodsFor: 'accessing' stamp: 'len 6/4/2016 17:53'!
+scalars
+	^ self elements baseField! !
 
 !DirectSumModule methodsFor: 'accessing' stamp: 'len 2/16/2016 07:31'!
 arity
@@ -16975,34 +17017,6 @@ zero
 new: anInteger over: aRing
 	^ self new rank: anInteger; scalars: aRing! !
 
-!VectorSpace methodsFor: 'converting' stamp: 'len 10/7/2016 09:01'!
-asSubspaceOf: aVectorSpace
-	^ super asSubmoduleOf: aVectorSpace! !
-
-!VectorSpace methodsFor: 'basis' stamp: 'len 7/15/2016 00:45'!
-dimension
-	^ self basis size! !
-
-!VectorSpace methodsFor: 'basis' stamp: 'len 7/15/2016 00:45'!
-rank
-	^ self dimension! !
-
-!AlgebraicExtensionSpace methodsFor: 'basis' stamp: 'len 6/4/2016 18:08'!
-coordinatesOf: aVector
-	^ self scalars tuple: self dimension evaluating: [:i| aVector representative coefficientAtDegree: i-1]! !
-
-!AlgebraicExtensionSpace methodsFor: 'basis' stamp: 'len 6/4/2016 17:52'!
-dimension
-	^ self elements degree! !
-
-!AlgebraicExtensionSpace methodsFor: 'basis' stamp: 'len 6/4/2016 18:19'!
-e: anInteger
-	^ self elements x ** (anInteger - 1)! !
-
-!AlgebraicExtensionSpace methodsFor: 'accessing' stamp: 'len 6/4/2016 17:53'!
-scalars
-	^ self elements baseField! !
-
 !BilinearForms methodsFor: 'operations' stamp: 'len 1/8/2016 06:55'!
 alternate
 	"Answer the subspace of alternating bilinear forms."
@@ -17016,10 +17030,6 @@ codomain
 coordinatesOf: aBilinearForm
 	"Answer the coordinates of aBilinearForm with respect to the domain canonical basis."
 	^ self matrices coordinatesOf: (self matrixOf: aBilinearForm)! !
-
-!BilinearForms methodsFor: 'basis' stamp: 'len 1/8/2016 06:49'!
-dimension
-	^ vectorSpace dimension squared! !
 
 !BilinearForms methodsFor: 'accessing' stamp: 'len 4/19/2016 03:39'!
 domain
@@ -17056,6 +17066,10 @@ newFrom: anObject
 printOn: aStream
 	aStream nextPutAll: 'Bil('; print: vectorSpace; nextPut: $)! !
 
+!BilinearForms methodsFor: 'basis' stamp: 'len 10/22/2016 21:35'!
+rank
+	^ vectorSpace rank squared! !
+
 !BilinearForms methodsFor: 'accessing' stamp: 'len 1/8/2016 06:53'!
 scalars
 	^ vectorSpace scalars! !
@@ -17072,52 +17086,6 @@ vectorSpace: aVectorSpace
 !BilinearForms class methodsFor: 'instance creation' stamp: 'len 1/8/2016 06:50'!
 on: aVectorSpace
 	^ self new vectorSpace: aVectorSpace! !
-
-!PolynomialSpace methodsFor: 'basis' stamp: 'len 4/12/2016 08:08'!
-coordinatesOf: aPolynomial
-	| coefficients |
-	coefficients _ aPolynomial coefficients.
-	^ coefficients, ((1 to: self dimension - coefficients size) collect: [:each| self scalars zero])! !
-
-!PolynomialSpace methodsFor: 'accessing' stamp: 'len 7/10/2016 07:39'!
-degree
-	^ degree! !
-
-!PolynomialSpace methodsFor: 'accessing-private' stamp: 'len 4/6/2016 07:07'!
-degree: anInteger
-	degree _ anInteger! !
-
-!PolynomialSpace methodsFor: 'morphisms' stamp: 'len 10/4/2016 12:14'!
-differential
-	^ self to: self evaluating: [:f| f derivative]! !
-
-!PolynomialSpace methodsFor: 'basis' stamp: 'len 4/6/2016 07:06'!
-dimension
-	^ degree + 1! !
-
-!PolynomialSpace methodsFor: 'basis' stamp: 'len 4/6/2016 07:03'!
-e: anInteger
-	^ polynomials xTo: anInteger - 1! !
-
-!PolynomialSpace methodsFor: 'basis' stamp: 'len 7/10/2016 07:39'!
-elementAt: aTuple
-	^ polynomials coefficients: aTuple! !
-
-!PolynomialSpace methodsFor: 'morphisms' stamp: 'len 6/19/2016 04:18'!
-integral: a to: b
-	^ self dual evaluating: [:f| f integral: a to: b]! !
-
-!PolynomialSpace methodsFor: 'accessing-private' stamp: 'len 4/6/2016 07:07'!
-polynomials: aPolynomials
-	polynomials _ aPolynomials! !
-
-!PolynomialSpace methodsFor: 'printing' stamp: 'len 6/7/2016 21:44'!
-printOn: aStream
-	aStream print: polynomials; nextPutAll: ('<', (degree+1) printString) sub! !
-
-!PolynomialSpace methodsFor: 'accessing' stamp: 'len 4/6/2016 07:04'!
-scalars
-	^ polynomials scalars! !
 
 !TensorProductModule methodsFor: 'as yet unclassified' stamp: 'len 10/16/2016 05:40'!
 e: anInteger
@@ -17221,6 +17189,52 @@ rank
 	| n |
 	n _ polynomials rank.
 	^ degree + n - 1 choose: degree! !
+
+!PolynomialFiltrationModule methodsFor: 'basis' stamp: 'len 4/12/2016 08:08'!
+coordinatesOf: aPolynomial
+	| coefficients |
+	coefficients _ aPolynomial coefficients.
+	^ coefficients, ((1 to: self dimension - coefficients size) collect: [:each| self scalars zero])! !
+
+!PolynomialFiltrationModule methodsFor: 'accessing' stamp: 'len 7/10/2016 07:39'!
+degree
+	^ degree! !
+
+!PolynomialFiltrationModule methodsFor: 'accessing-private' stamp: 'len 4/6/2016 07:07'!
+degree: anInteger
+	degree _ anInteger! !
+
+!PolynomialFiltrationModule methodsFor: 'morphisms' stamp: 'len 10/4/2016 12:14'!
+differential
+	^ self to: self evaluating: [:f| f derivative]! !
+
+!PolynomialFiltrationModule methodsFor: 'basis' stamp: 'len 4/6/2016 07:03'!
+e: anInteger
+	^ polynomials xTo: anInteger - 1! !
+
+!PolynomialFiltrationModule methodsFor: 'basis' stamp: 'len 7/10/2016 07:39'!
+elementAt: aTuple
+	^ polynomials coefficients: aTuple! !
+
+!PolynomialFiltrationModule methodsFor: 'morphisms' stamp: 'len 6/19/2016 04:18'!
+integral: a to: b
+	^ self dual evaluating: [:f| f integral: a to: b]! !
+
+!PolynomialFiltrationModule methodsFor: 'accessing-private' stamp: 'len 4/6/2016 07:07'!
+polynomials: aPolynomials
+	polynomials _ aPolynomials! !
+
+!PolynomialFiltrationModule methodsFor: 'printing' stamp: 'len 6/7/2016 21:44'!
+printOn: aStream
+	aStream print: polynomials; nextPutAll: ('<', (degree+1) printString) sub! !
+
+!PolynomialFiltrationModule methodsFor: 'basis' stamp: 'len 10/22/2016 18:33'!
+rank
+	^ degree + 1! !
+
+!PolynomialFiltrationModule methodsFor: 'accessing' stamp: 'len 4/6/2016 07:04'!
+scalars
+	^ polynomials scalars! !
 
 !DivisorsGroup methodsFor: 'printing' stamp: 'len 10/5/2016 10:01'!
 printOn: aStream
@@ -18773,11 +18787,10 @@ identity
 isFinite
 	^ self scalars isFinite or: [super isFinite]! !
 
-!LinearGroup methodsFor: 'invariants' stamp: 'len 10/17/2016 11:02'!
+!LinearGroup methodsFor: 'invariants' stamp: 'len 10/22/2016 17:56'!
 polynomialAction
-	"Answer the action of the receiver on the polynomial ring K[x1...xn]."
+	"Answer the action of the receiver on K[V], the coordinate ring of the associated space V."
 	| R |
-	self flag: #fix. "Assumes the transformations that constitute the receiver are between tuple spaces, otherwise we would need to take coordinates or work with the coordinate ring K[V]."
 	R _ self space coordinateRing.
 	^ GroupAction from: (self, R) to: R evaluatingWithArguments: [:f :g| g @ f]! !
 
@@ -18786,7 +18799,7 @@ printOn: aStream
 	self class = LinearGroup ifTrue: [^ super printOn: aStream].
 	aStream nextPutAll: self shortName bold; nextPut: $(; print: space; nextPut: $)! !
 
-!LinearGroup methodsFor: 'invariants' stamp: 'len 8/2/2016 10:27'!
+!LinearGroup methodsFor: 'invariants' stamp: 'len 10/22/2016 17:57'!
 reynolds
 	"Answer the Reynolds operator. Properties:
 	- K-linear map S -> S^G;
@@ -18795,7 +18808,7 @@ reynolds
 	| order action |
 	order _ self size.
 	action _ self polynomialAction.
-	^ self space coordinateRing -> self invariantsRing evaluating: [:p| (self sum: [:g| action value: {g. p}]) / order]! !
+	^ self space coordinateRing to: self invariantsRing evaluating: [:p| (self sum: [:g| action value: {g. p}]) / order]! !
 
 !LinearGroup methodsFor: 'accessing' stamp: 'len 2/11/2016 20:15'!
 scalars
@@ -19086,11 +19099,11 @@ leftAction
 	"Answer the natural action that sends (A, x) to x*A."
 	^ GroupAction from: (self, space) to: space evaluatingWithArguments: [:A :x| x * A]! !
 
-!MatrixGroup methodsFor: 'invariants' stamp: 'len 10/17/2016 10:59'!
+!MatrixGroup methodsFor: 'invariants' stamp: 'len 10/22/2016 17:58'!
 polynomialAction
 	"Answer the action of the receiver on the polynomial ring K[x1...xn]."
 	| R X |
-	R _ space coordinateRing.
+	R _ self space coordinateRing.
 	X _ R tuple: R rank evaluating: [:i| R x: i].
 	^ GroupAction from: (self, R) to: R evaluating: [:A :f| f value: A * X]! !
 
@@ -20287,11 +20300,11 @@ H7
 generator: aPolynomial
 	^ self new: aPolynomial degree generator: aPolynomial! !
 
-!PolynomialCode class methodsFor: 'instance creation' stamp: 'len 6/29/2016 21:52'!
+!PolynomialCode class methodsFor: 'instance creation' stamp: 'len 10/22/2016 18:55'!
 new: n generator: aPolynomial
 	| V W subspace |
-	V _ aPolynomial species asVectorSpaceMaxDegree: n - 1.
-	W _ aPolynomial species asVectorSpaceMaxDegree: n - aPolynomial degree - 1.
+	V _ aPolynomial species filtrationAt: n - 1.
+	W _ aPolynomial species filtrationAt: n - aPolynomial degree - 1.
 	subspace _ V span: (W collect: [:f| aPolynomial * f]).
 	^ (self subspace: subspace) generator: aPolynomial! !
 
@@ -20322,11 +20335,11 @@ isIrreducible
 		ifTrue: [^ self class representative: representative * aScalar direction: direction].
 	^ super * aScalar "if it's not a scalar"! !
 
-!AffineLinearSpace methodsFor: 'operations' stamp: 'len 8/30/2016 05:47'!
+!AffineLinearSpace methodsFor: 'operations' stamp: 'len 10/22/2016 21:36'!
 + anObject
 	(anObject isKindOf: AffineLinearSpace)
 		ifTrue: [^ self class representative: representative + anObject representative direction: direction + anObject direction].
-	(anObject isKindOf: VectorSpace)
+	(anObject isKindOf: FreeModule)
 		ifTrue: [^ self class representative: representative direction: direction + anObject].
 	(direction ambient includes: anObject)
 		ifTrue: [^ self class representative: representative + anObject direction: direction].
@@ -20901,11 +20914,10 @@ ideal
 		ifTrue: [self coordinateRing ideal]
 		ifFalse: [self coordinateRing zeroIdeal]! !
 
-!Scheme methodsFor: 'testing' stamp: 'len 10/20/2016 16:08'!
+!Scheme methodsFor: 'testing' stamp: 'len 10/22/2016 18:24'!
 includes: aPoint
 	"Answer true if the receiver includes the argument."
 	(self ambient includes: aPoint) ifFalse: [^ false].
-	"p _ self ambient coordinatesOf: aPoint."
 	^ self ideal generators allSatisfy: [:each| (each value: aPoint) isZero]! !
 
 !Scheme methodsFor: 'morphisms' stamp: 'len 10/20/2016 16:09'!
@@ -21101,9 +21113,9 @@ ideal
 	"Answer the defining ideal of the receiver, considered as a subscheme of itself."
 	^ self coordinateRing zeroIdeal! !
 
-!AffineSpace methodsFor: 'testing' stamp: 'len 10/20/2016 15:20'!
+!AffineSpace methodsFor: 'testing' stamp: 'len 10/22/2016 18:22'!
 includes: aPoint
-	^ (aPoint isKindOf: Tuple) and: [aPoint size = self rank and: [aPoint allSatisfy: [:each| self scalars includes: each]]]! !
+	^ self coordinateRing space includes: aPoint! !
 
 !AffineSpace methodsFor: 'morphisms' stamp: 'len 8/31/2016 08:28'!
 motions
@@ -21135,57 +21147,6 @@ scalars
 !AffineSpace class methodsFor: 'instance creation' stamp: 'len 10/20/2016 04:10'!
 new: rank over: aCommutativeRing
 	^ self coordinateRing: (aCommutativeRing polynomialsIn: rank)! !
-
-!ProjectiveScheme methodsFor: 'operations' stamp: 'len 10/21/2016 17:15'!
-affinePatch: i
-	"Answer the i-th affine patch of the receiver."
-	| answer |
-	answer _ (self ideal affinizedIn: i) quotient spec.
-	answer properties at: #projectiveClosure put: self.
-	"add projectiveClosureMap"
-	^ answer! !
-
-!ProjectiveScheme methodsFor: 'accessing' stamp: 'len 10/20/2016 10:27'!
-ambient
-	^ self coordinateRing isQuotient
-		ifTrue: [self coordinateRing base proj]
-		ifFalse: [self]! !
-
-!ProjectiveScheme methodsFor: 'accessing' stamp: 'len 10/20/2016 22:42'!
-degree
-	^ self ideal degree! !
-
-!ProjectiveScheme methodsFor: 'accessing' stamp: 'len 10/20/2016 15:25'!
-dimension
-	self flag: #fix. "is this right for projective schemes or should use the Hilbert series?"
-	^ self coordinateRing dimension - 1! !
-
-!ProjectiveScheme methodsFor: 'testing' stamp: 'len 10/20/2016 15:22'!
-isAffine
-	^ false! !
-
-!ProjectiveScheme methodsFor: 'testing' stamp: 'len 10/20/2016 15:21'!
-isProjective
-	^ true! !
-
-!ProjectiveScheme methodsFor: 'printing' stamp: 'len 10/20/2016 15:27'!
-printOn: aStream
-		aStream nextPutAll: 'Proj '; print: self coordinateRing! !
-
-!ProjectiveScheme methodsFor: 'operations' stamp: 'len 10/20/2016 16:01'!
-relativeSubscheme: anObject
-	| I |
-	I _ (anObject isKindOf: Ideal)
-		ifTrue: [anObject] ifFalse: [self coordinateRing * anObject].
-	^ (self coordinateRing / I) proj! !
-
-!ProjectiveScheme methodsFor: 'private' stamp: 'len 10/20/2016 10:29'!
-species
-	^ ProjectiveScheme! !
-
-!ProjectiveScheme class methodsFor: 'instance creation' stamp: 'len 10/20/2016 15:31'!
-coordinateRing: aRing
-	^ self new coordinateRing: aRing! !
 
 !Curve methodsFor: 'as yet unclassified' stamp: 'len 10/13/2016 13:38'!
 dimension
@@ -21243,6 +21204,57 @@ over: aField a: a b: b
 	x _ P x. y _ P y. z _ P z.
 	ideal _ P * (x**3 + (x * (z**2) * a) + (z**3*b) - (y**2*z)).
 	^ self on: P proj ideal: ideal! !
+
+!ProjectiveScheme methodsFor: 'operations' stamp: 'len 10/21/2016 17:15'!
+affinePatch: i
+	"Answer the i-th affine patch of the receiver."
+	| answer |
+	answer _ (self ideal affinizedIn: i) quotient spec.
+	answer properties at: #projectiveClosure put: self.
+	"add projectiveClosureMap"
+	^ answer! !
+
+!ProjectiveScheme methodsFor: 'accessing' stamp: 'len 10/20/2016 10:27'!
+ambient
+	^ self coordinateRing isQuotient
+		ifTrue: [self coordinateRing base proj]
+		ifFalse: [self]! !
+
+!ProjectiveScheme methodsFor: 'accessing' stamp: 'len 10/20/2016 22:42'!
+degree
+	^ self ideal degree! !
+
+!ProjectiveScheme methodsFor: 'accessing' stamp: 'len 10/20/2016 15:25'!
+dimension
+	self flag: #fix. "is this right for projective schemes or should use the Hilbert series?"
+	^ self coordinateRing dimension - 1! !
+
+!ProjectiveScheme methodsFor: 'testing' stamp: 'len 10/20/2016 15:22'!
+isAffine
+	^ false! !
+
+!ProjectiveScheme methodsFor: 'testing' stamp: 'len 10/20/2016 15:21'!
+isProjective
+	^ true! !
+
+!ProjectiveScheme methodsFor: 'printing' stamp: 'len 10/20/2016 15:27'!
+printOn: aStream
+		aStream nextPutAll: 'Proj '; print: self coordinateRing! !
+
+!ProjectiveScheme methodsFor: 'operations' stamp: 'len 10/20/2016 16:01'!
+relativeSubscheme: anObject
+	| I |
+	I _ (anObject isKindOf: Ideal)
+		ifTrue: [anObject] ifFalse: [self coordinateRing * anObject].
+	^ (self coordinateRing / I) proj! !
+
+!ProjectiveScheme methodsFor: 'private' stamp: 'len 10/20/2016 10:29'!
+species
+	^ ProjectiveScheme! !
+
+!ProjectiveScheme class methodsFor: 'instance creation' stamp: 'len 10/20/2016 15:31'!
+coordinateRing: aRing
+	^ self new coordinateRing: aRing! !
 
 !ProjectiveSpace methodsFor: 'accessing' stamp: 'len 8/27/2016 19:03'!
 ambient
@@ -21332,13 +21344,13 @@ chains: p
 	"Answer the p-chain group."
 	^ FreeAbelianGroup on: (self faces: p) asArray! !
 
-!SimplicialComplex methodsFor: 'homology' stamp: 'len 6/12/2016 06:12'!
+!SimplicialComplex methodsFor: 'homology' stamp: 'len 10/22/2016 21:36'!
 chains: p over: anAbelianGroup
 	"Answer the p-chain group."
 	(anAbelianGroup isKindOf: Integers)
 		ifTrue: [^ self chains: p].
-	anAbelianGroup isField
-		ifTrue: [^ VectorSpace on: (self faces: p) asArray over: anAbelianGroup].
+"	anAbelianGroup isField
+		ifTrue: [^ FreeModule on: (self faces: p) asArray over: anAbelianGroup]."
 	anAbelianGroup isRing
 		ifTrue: [^ FreeModule on: (self faces: p) asArray over: anAbelianGroup].
 	DomainError signal! !
@@ -30067,16 +30079,21 @@ value4: anObject in: anIndeterminate
 		reverseDo: [:each| answer _ anObject * answer + (one * each)].
 	^ answer! !
 
-!Polynomial methodsFor: 'operations' stamp: 'len 7/4/2016 01:47'!
+!Polynomial methodsFor: 'operations' stamp: 'len 10/22/2016 17:01'!
 value: anObject
 	"Answer the value of the receiver at the argument. For multivariate polynomials, a Tuple or Array is expected."
-	| answer |
-	((anObject is: #Tuple) or: [anObject is: #Array])
-		ifFalse: [^ self value: anObject in: self leadingIndeterminate].
-	anObject size = self species rank ifFalse: [self error: 'the arity of the argument should match the number of indeterminates'].
-	answer _ (anObject at: 1) zero.
+	| coordinates answer |
+	coordinates _ (self parent space ambient includes: anObject)
+		ifTrue:
+			[self parent space coordinatesOf: anObject]
+		ifFalse:
+			[((anObject is: #Tuple) or: [anObject is: #Array])
+				ifFalse: [^ self value: anObject in: self leadingIndeterminate].
+			anObject size = self species rank ifFalse: [self error: 'the arity of the argument should match the number of indeterminates'].
+			anObject].
+	answer _ (coordinates at: 1) zero.
 	self monomialsAndCoefficientsDo: [:key :value|
-		answer _ (key isIdentity ifTrue: [value] ifFalse: [(key value: anObject) * value]) + answer].
+		answer _ (key isIdentity ifTrue: [value] ifFalse: [(key value: coordinates) * value]) + answer].
 	^ answer! !
 
 !Polynomial methodsFor: 'operations' stamp: 'len 3/30/2016 03:56'!
@@ -33427,7 +33444,7 @@ generate: aString references: tokens except: currentToken
 	output _ output copyReplaceAll: Character lf asString with: '  ', Character lf asString.
 	^ output! !
 
-!DocumentationGenerator methodsFor: 'as yet unclassified' stamp: 'len 9/3/2016 07:20'!
+!DocumentationGenerator methodsFor: 'as yet unclassified' stamp: 'len 10/21/2016 22:08'!
 generateForClasses: classes
 	| tokens |
 	tokens _ classes collect: [:each| each name].
@@ -33464,12 +33481,13 @@ generateForClasses: classes
 			i _ i + 1].
 		class allSubclassesWithLevelDo: [:subclass :level|
 			| generated |
-			(level+i)*2 timesRepeat: [output nextPutAll: '&nbsp;'].
-			generated _ subclass == class
-				ifTrue: ['**', subclass name, '**']
-				ifFalse: [self generate: subclass name references: tokens].
-			output nextPutAll: generated.
-			output nextPutAll: '  '; lf] startingLevel: 0.
+			(classes includes: subclass) ifTrue:
+				[(level+i)*2 timesRepeat: [output nextPutAll: '&nbsp;'].
+				generated _ subclass == class
+					ifTrue: ['**', subclass name, '**']
+					ifFalse: [self generate: subclass name references: tokens].
+				output nextPutAll: generated.
+				output nextPutAll: '  '; lf]] startingLevel: 0.
 		file _ self path,class name,'.md' :: asFileEntry.
 		file assureExistence; fileContents: output contents]! !
 
