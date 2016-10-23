@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 23 October 2016 at 9:50:36.751434 pm'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 23 October 2016 at 10:17:06.885501 pm'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 246!
+!provides: 'Mathematics' 1 247!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
 	instanceVariableNames: 'numerator shift'
@@ -22226,10 +22226,10 @@ isZero
 	^ (self value: self domain one) = self codomain zero
 "	^ self codomain isTrivial"! !
 
-!RingHomomorphism methodsFor: 'as yet unclassified' stamp: 'len 10/23/2016 12:27'!
+!RingHomomorphism methodsFor: 'as yet unclassified' stamp: 'len 10/23/2016 22:00'!
 spec
 	"This is the Spec functor. Answer the affine scheme homomorphism induced by the receiver, i.e. given a ring homomorphism f:R->S, Spec(f) is a scheme homomorphism Spec(S)->Spec(R)."
-	^ self codomain spec to: self domain spec evaluating: self! !
+	^ self notYetImplemented! !
 
 !RingHomomorphism methodsFor: 'as yet unclassified' stamp: 'len 10/10/2016 08:35'!
 species
@@ -22253,6 +22253,14 @@ kernel
 	generators add: P one - t.
 	I _ P * generators eliminateAll: (n+1 to: P rank).
 	^ properties at: #kernel put: A * (I generators collect: [:each| each as: A])! !
+
+!PolynomialRingHomomorphism methodsFor: 'printing' stamp: 'len 10/23/2016 22:14'!
+printOn: aStream
+	aStream nextPut: $(.
+	(1 to: self domain rank)
+		do: [:i| aStream print: (self value: (self domain x: i))]
+		separatedBy: [aStream nextPutAll: ', '].
+	aStream nextPut: $)! !
 
 !ModuleHomomorphism methodsFor: 'as yet unclassified' stamp: 'len 10/10/2016 20:00'!
 is: aSymbol
@@ -24588,6 +24596,13 @@ linearMap: aLinearMap
 	(self domain = aRationalParametrization domain and: [self codomain = aRationalParametrization codomain])
 		ifFalse: [^ DomainError signal].
 	^ self class from: self domain to: self codomain components: components + aRationalParametrization components! !
+
+!RationalMap methodsFor: 'converting' stamp: 'len 10/23/2016 22:15'!
+asRingHomomorphism
+	"Answer the induced ring homomorphism between the coordinate rings.
+	This is the adjoint of the Spec functor."
+	self isPolynomial ifFalse: [DomainError signal: 'not a polynomial map'].
+	^ self codomain coordinateRing to: self domain coordinateRing evaluating: [:f| f value: components]! !
 
 !RationalMap methodsFor: 'accessing' stamp: 'len 10/16/2016 20:43'!
 at: anInteger
