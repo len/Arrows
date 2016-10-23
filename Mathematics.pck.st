@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 23 October 2016 at 12:21:10.023538 pm'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 23 October 2016 at 4:39:40.518385 pm'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 244!
+!provides: 'Mathematics' 1 245!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
 	instanceVariableNames: 'numerator shift'
@@ -121,13 +121,13 @@ SequenceableCollection subclass: #LinearBasis
 LinearBasis class
 	instanceVariableNames: ''!
 
-!classDefinition: #GroebnerBasis category: #'Mathematics-Polynomials-Domains'!
+!classDefinition: #GroebnerBasis category: #'Mathematics-Polynomials'!
 SequenceableCollection subclass: #GroebnerBasis
 	instanceVariableNames: 'polynomials ordering isMinimal'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Polynomials-Domains'!
-!classDefinition: 'GroebnerBasis class' category: #'Mathematics-Polynomials-Domains'!
+	category: 'Mathematics-Polynomials'!
+!classDefinition: 'GroebnerBasis class' category: #'Mathematics-Polynomials'!
 GroebnerBasis class
 	instanceVariableNames: ''!
 
@@ -521,23 +521,23 @@ Ideal subclass: #IntegerIdeal
 IntegerIdeal class
 	instanceVariableNames: ''!
 
-!classDefinition: #PolynomialIdeal category: #'Mathematics-Polynomials-Domains'!
+!classDefinition: #PolynomialIdeal category: #'Mathematics-Polynomials'!
 Ideal subclass: #PolynomialIdeal
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Polynomials-Domains'!
-!classDefinition: 'PolynomialIdeal class' category: #'Mathematics-Polynomials-Domains'!
+	category: 'Mathematics-Polynomials'!
+!classDefinition: 'PolynomialIdeal class' category: #'Mathematics-Polynomials'!
 PolynomialIdeal class
 	instanceVariableNames: ''!
 
-!classDefinition: #MonomialIdeal category: #'Mathematics-Polynomials-Domains'!
+!classDefinition: #MonomialIdeal category: #'Mathematics-Polynomials'!
 PolynomialIdeal subclass: #MonomialIdeal
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Polynomials-Domains'!
-!classDefinition: 'MonomialIdeal class' category: #'Mathematics-Polynomials-Domains'!
+	category: 'Mathematics-Polynomials'!
+!classDefinition: 'MonomialIdeal class' category: #'Mathematics-Polynomials'!
 MonomialIdeal class
 	instanceVariableNames: ''!
 
@@ -571,13 +571,13 @@ FractionRing subclass: #Rationals
 Rationals class
 	instanceVariableNames: ''!
 
-!classDefinition: #RationalFunctionField category: #'Mathematics-Polynomials-Domains'!
+!classDefinition: #RationalFunctionField category: #'Mathematics-Polynomials'!
 FractionRing subclass: #RationalFunctionField
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Polynomials-Domains'!
-!classDefinition: 'RationalFunctionField class' category: #'Mathematics-Polynomials-Domains'!
+	category: 'Mathematics-Polynomials'!
+!classDefinition: 'RationalFunctionField class' category: #'Mathematics-Polynomials'!
 RationalFunctionField class
 	instanceVariableNames: ''!
 
@@ -691,13 +691,13 @@ NumberField subclass: #QuadraticField
 QuadraticField class
 	instanceVariableNames: ''!
 
-!classDefinition: #PolynomialQuotientRing category: #'Mathematics-Polynomials-Domains'!
+!classDefinition: #PolynomialQuotientRing category: #'Mathematics-Polynomials'!
 QuotientRing subclass: #PolynomialQuotientRing
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Polynomials-Domains'!
-!classDefinition: 'PolynomialQuotientRing class' category: #'Mathematics-Polynomials-Domains'!
+	category: 'Mathematics-Polynomials'!
+!classDefinition: 'PolynomialQuotientRing class' category: #'Mathematics-Polynomials'!
 PolynomialQuotientRing class
 	instanceVariableNames: ''!
 
@@ -741,13 +741,13 @@ Ring subclass: #Reals
 Reals class
 	instanceVariableNames: ''!
 
-!classDefinition: #PolynomialRing category: #'Mathematics-Polynomials-Domains'!
+!classDefinition: #PolynomialRing category: #'Mathematics-Polynomials'!
 Ring subclass: #PolynomialRing
 	instanceVariableNames: 'space'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Polynomials-Domains'!
-!classDefinition: 'PolynomialRing class' category: #'Mathematics-Polynomials-Domains'!
+	category: 'Mathematics-Polynomials'!
+!classDefinition: 'PolynomialRing class' category: #'Mathematics-Polynomials'!
 PolynomialRing class
 	instanceVariableNames: ''!
 
@@ -991,23 +991,23 @@ FreeModule subclass: #TensorsModule
 TensorsModule class
 	instanceVariableNames: ''!
 
-!classDefinition: #HomogeneousPolynomialModule category: #'Mathematics-Polynomials-Domains'!
+!classDefinition: #HomogeneousPolynomialModule category: #'Mathematics-Polynomials'!
 FreeModule subclass: #HomogeneousPolynomialModule
 	instanceVariableNames: 'polynomials degree'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Polynomials-Domains'!
-!classDefinition: 'HomogeneousPolynomialModule class' category: #'Mathematics-Polynomials-Domains'!
+	category: 'Mathematics-Polynomials'!
+!classDefinition: 'HomogeneousPolynomialModule class' category: #'Mathematics-Polynomials'!
 HomogeneousPolynomialModule class
 	instanceVariableNames: ''!
 
-!classDefinition: #PolynomialFiltrationModule category: #'Mathematics-Polynomials-Domains'!
+!classDefinition: #PolynomialFiltrationModule category: #'Mathematics-Polynomials'!
 FreeModule subclass: #PolynomialFiltrationModule
 	instanceVariableNames: 'polynomials degree'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Polynomials-Domains'!
-!classDefinition: 'PolynomialFiltrationModule class' category: #'Mathematics-Polynomials-Domains'!
+	category: 'Mathematics-Polynomials'!
+!classDefinition: 'PolynomialFiltrationModule class' category: #'Mathematics-Polynomials'!
 PolynomialFiltrationModule class
 	instanceVariableNames: ''!
 
@@ -1849,6 +1849,16 @@ AbelianGroupHomomorphism subclass: #RingHomomorphism
 	category: 'Mathematics-Rings'!
 !classDefinition: 'RingHomomorphism class' category: #'Mathematics-Rings'!
 RingHomomorphism class
+	instanceVariableNames: ''!
+
+!classDefinition: #PolynomialRingHomomorphism category: #'Mathematics-Polynomials'!
+RingHomomorphism subclass: #PolynomialRingHomomorphism
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Polynomials'!
+!classDefinition: 'PolynomialRingHomomorphism class' category: #'Mathematics-Polynomials'!
+PolynomialRingHomomorphism class
 	instanceVariableNames: ''!
 
 !classDefinition: #ModuleHomomorphism category: #'Mathematics-Modules-Support'!
@@ -11701,6 +11711,10 @@ domain: aDomain
 evaluating: aBlock
 	^ self domain to: self codomain evaluating: aBlock! !
 
+!HomSet methodsFor: 'elements' stamp: 'len 10/23/2016 16:05'!
+evaluatingWithArguments: aBlock
+	^ self domain to: self codomain evaluatingWithArguments: aBlock! !
+
 !HomSet methodsFor: 'elements' stamp: 'len 8/31/2016 03:41'!
 identity
 	^ self isEndomorphisms ifTrue: [self domain id]! !
@@ -15385,6 +15399,11 @@ spec
 symmetric: r
 	"Answer the r-th symmetric polynomial whose terms are all monomials formed by the product of r distinct indeterminates."
 	^ ((1 to: self rank) combinations: r) sum: [:each| each product: [:i| self x: i]]! !
+
+!PolynomialRing methodsFor: 'morphisms' stamp: 'len 10/23/2016 12:31'!
+to: aRing evaluating: aBlock
+	(aRing isKindOf: PolynomialRing) ifFalse: [^ super to: aRing evaluating: aBlock].
+	^ PolynomialRingHomomorphism from: self to: aRing evaluating: aBlock! !
 
 !PolynomialRing methodsFor: 'accessing' stamp: 'len 7/17/2016 23:54'!
 valuation
@@ -22183,14 +22202,33 @@ isZero
 	^ (self value: self domain one) = self codomain zero
 "	^ self codomain isTrivial"! !
 
-!RingHomomorphism methodsFor: 'as yet unclassified' stamp: 'len 10/3/2016 09:01'!
+!RingHomomorphism methodsFor: 'as yet unclassified' stamp: 'len 10/23/2016 12:27'!
 spec
-	"This is the Spec functor. Answer the scheme homomorphism induced by the receiver, i.e. given a ring homomorphism f:R->S, Spec(f) is a scheme homomorphism Spec(S)->Spec(R)."
-	self notYetImplemented! !
+	"This is the Spec functor. Answer the affine scheme homomorphism induced by the receiver, i.e. given a ring homomorphism f:R->S, Spec(f) is a scheme homomorphism Spec(S)->Spec(R)."
+	^ self codomain spec to: self domain spec evaluating: self! !
 
 !RingHomomorphism methodsFor: 'as yet unclassified' stamp: 'len 10/10/2016 08:35'!
 species
 	^ RingHomomorphism! !
+
+!PolynomialRingHomomorphism methodsFor: 'operations' stamp: 'len 10/23/2016 16:34'!
+kernel
+	| A B m n P t permutation map generators I |
+	properties at: #kernel ifPresent: [:anIdeal| ^ anIdeal].
+	A _ self domain.
+	B _ self codomain.
+	n _ A rank.
+	m _ B rank.
+	P _ self codomain scalars polynomialsIn: n + m + 1.
+	permutation _ n+1 to: n+m.
+	map _ A to: P evaluating: [:f| (f as: P) permutedBy: permutation].
+	t _ P x: P rank.
+	generators _ OrderedCollection new.
+	1 to: n do: [:i|
+		generators add: (P x: i) - (map value: (self value: (A x: i)))].
+	generators add: P one - t.
+	I _ P * generators eliminateAll: (n+1 to: P rank).
+	^ properties at: #kernel put: A * (I generators collect: [:each| each as: A])! !
 
 !ModuleHomomorphism methodsFor: 'as yet unclassified' stamp: 'len 10/10/2016 20:00'!
 is: aSymbol
@@ -24535,9 +24573,9 @@ at: anInteger
 components: anArray 
 	components _ anArray! !
 
-!RationalMap methodsFor: 'accessing' stamp: 'len 10/16/2016 21:30'!
+!RationalMap methodsFor: 'accessing' stamp: 'len 10/23/2016 12:26'!
 image
-	"Answer the image of the receiver. This is a subscheme of the codomain.
+	"Answer the (Zeriski-closure of the) image of the receiver. This is a subscheme of the codomain.
 	Performs ideal elimination (a Groebner basis computation with the lexicographical order)."
 	| A B m n P t permutation map generators g I |
 	A _ self domain coordinateRing.

@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 23 October 2016 at 12:21:12.720776 pm'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 23 October 2016 at 4:39:43.761165 pm'!
 'Description Please enter a description for this package'!
-!provides: 'MathematicsTests' 1 31!
+!provides: 'MathematicsTests' 1 32!
 !classDefinition: #AbelianGroupTest category: #MathematicsTests!
 TestCase subclass: #AbelianGroupTest
 	instanceVariableNames: ''
@@ -1234,6 +1234,17 @@ testMultivariateDivisionExample
 	F _ {x**2 - (y*z). y**2 - (z*x). z**2 - (x*y)}.
 	f _ x**3 + (y**3 * 3).
 	self assert: (f divideBy: F ordering: (MonomialOrdering tlex: #(1 2 3))) remainder = (y**3 * 4)! !
+
+!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 10/23/2016 16:37'!
+testPolynomialRingHomomorphismKernel
+	| A B x y phi |
+	A _ QQ polynomialsIn: #(x y z).
+	B _ QQ polynomialsIn: #(x y).
+	x _ B x.
+	y _ B y.
+	phi _ A to: B evaluating: [:f| f value: {x-y. x. y}].
+	self assert: phi kernel = (A * (A x - A y + A z)).
+	self assert: (phi value: (phi kernel atRandomBits: 15)) isZero! !
 
 !CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:57'!
 testRadicalMembership
