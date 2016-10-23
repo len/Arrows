@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 22 October 2016 at 9:40:41.897633 pm'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 23 October 2016 at 12:21:10.023538 pm'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 243!
+!provides: 'Mathematics' 1 244!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
 	instanceVariableNames: 'numerator shift'
@@ -13082,6 +13082,15 @@ degree
 					ifFalse: [count _ count + 1]]].
 	^ count! !
 
+!PolynomialIdeal methodsFor: 'accessing' stamp: 'len 10/23/2016 11:59'!
+depth
+	^ self notYetImplemented! !
+
+!PolynomialIdeal methodsFor: 'accessing' stamp: 'len 10/23/2016 11:59'!
+dimension
+	"Answer the Krull dimension of the quotient ring of the base ring by the receiver."
+	^ self quotient dimension! !
+
 !PolynomialIdeal methodsFor: 'operations' stamp: 'len 8/2/2016 02:19'!
 eliminate: anIndeterminate
 	"Answer the elimination ideal computed by eliminating anIndeterminate."
@@ -13121,6 +13130,10 @@ generators: aCollection
 groebnerBasis
 	"Answer a Groebner basis of the receiver."
 	^ properties at: #groebnerBasis ifAbsentPut: [GroebnerBasis from: self generators]! !
+
+!PolynomialIdeal methodsFor: 'accessing' stamp: 'len 10/23/2016 11:59'!
+height
+	^ self notYetImplemented! !
 
 !PolynomialIdeal methodsFor: 'operations' stamp: 'len 9/26/2016 16:58'!
 homogenized
@@ -14649,11 +14662,17 @@ polynomial: aPolynomial
 sqrt: anInteger
 	^ self adjoint: (AlgebraicNumber sqrt: anInteger)! !
 
-!PolynomialQuotientRing methodsFor: 'accessing' stamp: 'len 10/20/2016 10:46'!
+!PolynomialQuotientRing methodsFor: 'accessing' stamp: 'len 10/23/2016 12:13'!
 dimension
 	"Answer the Krull dimension of the receiver."
+	"Derksen, Kemper, 'Computational Invariant Theory', 2002, Algorithm 1.2.4 (Dimension of an ideal)."
 	| indeterminates G |
-	G _ self ideal groebnerBasis minimal.
+	G _ self ideal ring ordering isGraded
+		ifTrue: [self ideal groebnerBasis]
+		ifFalse: [GroebnerBasis from: self ideal generators ordering: #trlex].
+	G _ G minimal. "is this necesary?"
+	(G anySatisfy: [:any| any isConstant and: [any isZero not]])
+		ifTrue: [^ Infinity negative]. "or should it define it as -1 ?"
 	indeterminates _ G indeterminates asSet copy.
 	G do: [:each| indeterminates removeAllFoundIn: (G ordering headOf: each) indeterminates].
 	^ indeterminates size! !

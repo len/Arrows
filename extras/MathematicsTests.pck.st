@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 21 October 2016 at 10:13:35.398702 pm'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 23 October 2016 at 12:21:12.720776 pm'!
 'Description Please enter a description for this package'!
-!provides: 'MathematicsTests' 1 30!
+!provides: 'MathematicsTests' 1 31!
 !classDefinition: #AbelianGroupTest category: #MathematicsTests!
 TestCase subclass: #AbelianGroupTest
 	instanceVariableNames: ''
@@ -747,7 +747,7 @@ testSpecZ
 	self assert: (ZZ mod: 10) spec ˜ (ZZ mod: 15) spec = (ZZ mod: 5) spec.
 	self assert: (ZZ mod: 10) spec ™ (ZZ mod: 15) spec = (ZZ mod: 30) spec! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/13/2016 10:30'!
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/23/2016 12:06'!
 testTwistedCubic
 	| P R M C |
 	P _ ProjectiveSpace new: 3 over: QQ.
@@ -755,10 +755,10 @@ testTwistedCubic
 	"R indeterminateNames: #(u v w t)"
 	M _ R**(2@3) vectorAt: ((1,2,3,2,3,4) collect: [:i| R x: i]).
 	C _ P subscheme: (M minors: 2).
-	self assert: C dimension = 1. "try replacing the ideal with the saturated ideal"
+	self assert: C dimension = 1.
 	self assert: C isNonsingular! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/15/2016 09:54'!
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/23/2016 12:09'!
 testTwistedCubicDegree
 	"Twisted cubic in P^3 with homogeneous coordinates x,y,w,z."
 	| A x y z w X |
@@ -767,11 +767,11 @@ testTwistedCubicDegree
 	y _ A y.
 	z _ A z.
 	w _ A x: #w.
-	X _ A / {x**2 - (y*w). x*z - (y**2)} :: spec.
-	"At this point C is still reducible, it is the union of a line x=y=0 and the twisted cubic:"
+	X _ A / {x**2 - (y*w). x*z - (y**2)} :: proj.
+	"At this point X is still reducible, it is the union of a line x=y=0 and the twisted cubic:"
 	self assert: X degree = 4.
-	"To cut out C, we impose an additional equation x**3 - (z * (w**2)) = 0:"
-	X _ A / {x**2 - (y*w). x*z - (y**2). x**3 - (z*(w**2))} :: spec.
+	"To cut out X, we impose an additional equation x**3 - (z * (w**2)) = 0:"
+	X _ A / {x**2 - (y*w). x*z - (y**2). x**3 - (z*(w**2))} :: proj.
 	"But we get the twisted cubic (in some sense) 'counted with multiplicity 2', so the degree is 6"
 	self assert: X degree = 6! !
 
@@ -2053,12 +2053,12 @@ testPermutationProduct3
 	self assert: a*b = (Permutation cycle: #(1 2 4)).
 	self assert: b*a = (Permutation cycle: #(1 3 2))! !
 
-!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:05'!
+!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 10/22/2016 18:55'!
 testPolynomialVectorSpace
 	| Qx V S x |
 	Qx _ QQ polynomials.
 	x _ Qx x.
-	V _ Qx asVectorSpaceMaxDegree: 5.
+	V _ Qx filtrationAt: 5.
 	S _ V span: {Qx one. x**2. x*2}.
 	self assert: (S includes: x**2 + 2).
 	self deny: (S includes: x**3 + 2).
