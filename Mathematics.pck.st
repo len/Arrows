@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 23 October 2016 at 4:39:40.518385 pm'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 23 October 2016 at 9:50:36.751434 pm'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 245!
+!provides: 'Mathematics' 1 246!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
 	instanceVariableNames: 'numerator shift'
@@ -12831,8 +12831,8 @@ components: anArray
 	generators do: [:a| anElementOrIdeal generators do: [:b| newGenerators add: a*b]].
 	^ self class on: ring generators: newGenerators! !
 
-!Ideal methodsFor: 'operations' stamp: 'len 9/26/2016 16:52'!
-+ anIdeal 
+!Ideal methodsFor: 'operations' stamp: 'len 10/23/2016 16:59'!
++ anIdeal
 	anIdeal ring = ring ifFalse: [^ DomainError signal: 'ideals from different rings'].
 	^ self class on: ring generators: (generators asSet copy addAll: anIdeal generators; yourself)! !
 
@@ -12880,6 +12880,16 @@ apply: aMorphism
 	aMorphism domain = ring
 		ifTrue: [^ aMorphism codomain * (generators collect: aMorphism)].
 	^ DomainError signal! !
+
+!Ideal methodsFor: 'converting' stamp: 'len 10/23/2016 16:56'!
+as: aRing
+	self ring species = aRing species
+		ifFalse: [^ super as: aRing].
+	^ self class on: aRing generators: (self generators collect: [:each| each as: aRing])! !
+
+!Ideal methodsFor: 'converting' stamp: 'len 10/23/2016 21:09'!
+asIdeal
+	^ self! !
 
 !Ideal methodsFor: 'accessing' stamp: 'len 10/20/2016 15:03'!
 codimension
@@ -13045,9 +13055,11 @@ remainderAtRandom: aRandom
 	self flag: #fix." "this is wrong, both groebner basis should at least use the same ordering"
 "	^ self groebner reduced = anObject groebner reduced"! !
 
-!PolynomialIdeal methodsFor: 'operations' stamp: 'len 9/26/2016 16:58'!
+!PolynomialIdeal methodsFor: 'operations' stamp: 'len 10/23/2016 18:26'!
 ˜ anIdeal
 	| R R` t T TminusOne G1 G2 G` G |
+	self isZero ifTrue: [^ self].
+	anIdeal isZero ifTrue: [^ anIdeal].
 	R _ self ring.
 	R` _ R scalars polynomialsIn: R rank + 1 ordering: #lex.
 	t _ R` rank. "index of last indeterminate"
@@ -13055,7 +13067,7 @@ remainderAtRandom: aRandom
 	TminusOne _ T - T one.
 	G1 _ generators collect: [:f| T*(f as: R`)].
 	G2 _ anIdeal generators collect: [:g| TminusOne*(g as: R`)].
-	G` _ GroebnerBasis from: G1, G2.
+	G` _ GroebnerBasis from: G1, G2 ordering: R` ordering.
 	G _ GroebnerBasis new ordering: (MonomialOrdering lex: R rank).
 	G` do: [:each| (each has: t) ifFalse: [G add: (each as: R)]].
 	^ self species on: R generators: G! !
@@ -13149,16 +13161,15 @@ groebnerBasis
 height
 	^ self notYetImplemented! !
 
-!PolynomialIdeal methodsFor: 'operations' stamp: 'len 9/26/2016 16:58'!
+!PolynomialIdeal methodsFor: 'operations' stamp: 'len 10/23/2016 18:03'!
 homogenized
 	"Answer the homogenization of the receiver introducing a new indeterminate."
-	| R R` ordering G |
+	| R R` G ordering |
 	R _ self ring.
 	R` _ R scalars polynomialsIn: R rank + 1.
 	"Must use a graded monomial ordering such as tlex or trevlex:"
-	self flag: #fix.
-	ordering _ MonomialOrdering trevlex: R rank. "should it be R`?"
-	G _ GroebnerBasis from: generators ordering: ordering.
+	ordering _ MonomialOrdering trevlex: R rank.
+	G _ GroebnerBasis from: self generators ordering: ordering.
 	^ R` * (G collect: [:each| (each as: R`) homogenizedIn: R` rank])! !
 
 !PolynomialIdeal methodsFor: 'testing' stamp: 'len 7/9/2016 08:19'!
@@ -13231,11 +13242,24 @@ remainderAtRandom: aRandom
 	ring isUnivariate ifFalse: [^ self error: 'not yet implemented'].
 	^ ring coefficients: ((0 to: self generator degree - 1) collect: [:i| ring scalars atRandom: aRandom])! !
 
-!PolynomialIdeal methodsFor: 'operations' stamp: 'len 3/15/2016 18:05'!
+!PolynomialIdeal methodsFor: 'operations' stamp: 'len 10/23/2016 16:52'!
+saturation
+	"Answer the saturation ideal I:I^infinity of the receiver I."
+	^ self saturation: self! !
+
+!PolynomialIdeal methodsFor: 'operations' stamp: 'len 10/23/2016 21:08'!
 saturation: anIdeal
-	"Answer the saturation I:J^infinity of the receiver I with the argument J."
-	"Cox IVA 205p"
-	self notYetImplemented! !
+	"Answer the saturation ideal I:J^infinity of the receiver I with the argument J."
+	"Cox IVA 205p
+	Derksen, Kemper, CIT 16p"
+	| P t J |
+	P _ self ring scalars polynomialsIn: self ring rank + 1.
+	t _ P x: P rank.
+	J _ self as: P.
+	(anIdeal asIdeal as: P) generators do: [:each|
+		J _ J + (P * (t * each - P one)).
+		J _ J eliminate: P rank].
+	^ J as: self ring! !
 
 !PolynomialIdeal methodsFor: 'operations' stamp: 'len 9/26/2016 16:59'!
 squareFree
@@ -14676,14 +14700,14 @@ polynomial: aPolynomial
 sqrt: anInteger
 	^ self adjoint: (AlgebraicNumber sqrt: anInteger)! !
 
-!PolynomialQuotientRing methodsFor: 'accessing' stamp: 'len 10/23/2016 12:13'!
+!PolynomialQuotientRing methodsFor: 'accessing' stamp: 'len 10/23/2016 21:13'!
 dimension
 	"Answer the Krull dimension of the receiver."
 	"Derksen, Kemper, 'Computational Invariant Theory', 2002, Algorithm 1.2.4 (Dimension of an ideal)."
 	| indeterminates G |
 	G _ self ideal ring ordering isGraded
 		ifTrue: [self ideal groebnerBasis]
-		ifFalse: [GroebnerBasis from: self ideal generators ordering: #trlex].
+		ifFalse: [GroebnerBasis from: self ideal generators ordering: (MonomialOrdering trevlex: self base rank)].
 	G _ G minimal. "is this necesary?"
 	(G anySatisfy: [:any| any isConstant and: [any isZero not]])
 		ifTrue: [^ Infinity negative]. "or should it define it as -1 ?"
@@ -30837,13 +30861,14 @@ squareFreeFactorization
 					q _ q // gcd - p derivative]].
 	^ answer add: p withOccurrences: count; yourself! !
 
-!MultiPolynomialDivision methodsFor: 'private' stamp: 'len 7/7/2016 04:11'!
+!MultiPolynomialDivision methodsFor: 'private' stamp: 'len 10/23/2016 18:13'!
 divide
 	"Perform the division algorithm computing quotients and remainder."
 	| p s zero fi q headp headfi t heads i |
 	zero _ dividend zero.
 	quotients _ (1 to: divisors size) collect: [:each| zero].
 	remainder _ zero.
+	divisors isEmpty ifTrue: [^ self].
 	s _ divisors size.
 	p _ dividend.
 	heads _ Array new: divisors size.
@@ -31830,7 +31855,7 @@ isZero
 negated
 	^ self class coefficients: coefficients negated! !
 
-!PowerSeries methodsFor: 'printing' stamp: 'len 7/7/2016 08:00'!
+!PowerSeries methodsFor: 'printing' stamp: 'len 10/23/2016 21:49'!
 printOn: aStream
 	| P f n |
 	n _ coefficients printLimit.
