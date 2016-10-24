@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 23 October 2016 at 10:17:06.885501 pm'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 24 October 2016 at 9:55:30.955952 pm'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 247!
+!provides: 'Mathematics' 1 248!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
 	instanceVariableNames: 'numerator shift'
@@ -259,6 +259,16 @@ RectangleLikeMorph subclass: #HistogramMorph
 	category: 'Mathematics-Morphic'!
 !classDefinition: 'HistogramMorph class' category: #'Mathematics-Morphic'!
 HistogramMorph class
+	instanceVariableNames: ''!
+
+!classDefinition: #ImplicitFunctionPlotMorph category: #'Mathematics-Morphic'!
+RectangleLikeMorph subclass: #ImplicitFunctionPlotMorph
+	instanceVariableNames: 'function form image box'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Morphic'!
+!classDefinition: 'ImplicitFunctionPlotMorph class' category: #'Mathematics-Morphic'!
+ImplicitFunctionPlotMorph class
 	instanceVariableNames: ''!
 
 !classDefinition: #MultiplicationTableMorph category: #'Mathematics-Morphic'!
@@ -1541,6 +1551,26 @@ Scheme subclass: #AffineScheme
 AffineScheme class
 	instanceVariableNames: ''!
 
+!classDefinition: #AffineCurve category: #'Mathematics-Geometry-Algebraic'!
+AffineScheme subclass: #AffineCurve
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Geometry-Algebraic'!
+!classDefinition: 'AffineCurve class' category: #'Mathematics-Geometry-Algebraic'!
+AffineCurve class
+	instanceVariableNames: ''!
+
+!classDefinition: #AffinePlaneCurve category: #'Mathematics-Geometry-Algebraic'!
+AffineCurve subclass: #AffinePlaneCurve
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Geometry-Algebraic'!
+!classDefinition: 'AffinePlaneCurve class' category: #'Mathematics-Geometry-Algebraic'!
+AffinePlaneCurve class
+	instanceVariableNames: ''!
+
 !classDefinition: #AffineSpace category: #'Mathematics-Geometry-Algebraic'!
 AffineScheme subclass: #AffineSpace
 	instanceVariableNames: ''
@@ -1551,36 +1581,6 @@ AffineScheme subclass: #AffineSpace
 AffineSpace class
 	instanceVariableNames: ''!
 
-!classDefinition: #Curve category: #'Mathematics-Geometry-Algebraic'!
-Scheme subclass: #Curve
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Geometry-Algebraic'!
-!classDefinition: 'Curve class' category: #'Mathematics-Geometry-Algebraic'!
-Curve class
-	instanceVariableNames: ''!
-
-!classDefinition: #PlaneCurve category: #'Mathematics-Geometry-Algebraic'!
-Curve subclass: #PlaneCurve
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Geometry-Algebraic'!
-!classDefinition: 'PlaneCurve class' category: #'Mathematics-Geometry-Algebraic'!
-PlaneCurve class
-	instanceVariableNames: ''!
-
-!classDefinition: #EllipticCurve category: #'Mathematics-Geometry-Algebraic'!
-PlaneCurve subclass: #EllipticCurve
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Geometry-Algebraic'!
-!classDefinition: 'EllipticCurve class' category: #'Mathematics-Geometry-Algebraic'!
-EllipticCurve class
-	instanceVariableNames: ''!
-
 !classDefinition: #ProjectiveScheme category: #'Mathematics-Geometry-Algebraic'!
 Scheme subclass: #ProjectiveScheme
 	instanceVariableNames: ''
@@ -1589,6 +1589,36 @@ Scheme subclass: #ProjectiveScheme
 	category: 'Mathematics-Geometry-Algebraic'!
 !classDefinition: 'ProjectiveScheme class' category: #'Mathematics-Geometry-Algebraic'!
 ProjectiveScheme class
+	instanceVariableNames: ''!
+
+!classDefinition: #ProjectiveCurve category: #'Mathematics-Geometry-Algebraic'!
+ProjectiveScheme subclass: #ProjectiveCurve
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Geometry-Algebraic'!
+!classDefinition: 'ProjectiveCurve class' category: #'Mathematics-Geometry-Algebraic'!
+ProjectiveCurve class
+	instanceVariableNames: ''!
+
+!classDefinition: #ProjectivePlaneCurve category: #'Mathematics-Geometry-Algebraic'!
+ProjectiveCurve subclass: #ProjectivePlaneCurve
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Geometry-Algebraic'!
+!classDefinition: 'ProjectivePlaneCurve class' category: #'Mathematics-Geometry-Algebraic'!
+ProjectivePlaneCurve class
+	instanceVariableNames: ''!
+
+!classDefinition: #EllipticCurve category: #'Mathematics-Geometry-Algebraic'!
+ProjectivePlaneCurve subclass: #EllipticCurve
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Geometry-Algebraic'!
+!classDefinition: 'EllipticCurve class' category: #'Mathematics-Geometry-Algebraic'!
+EllipticCurve class
 	instanceVariableNames: ''!
 
 !classDefinition: #ProjectiveSpace category: #'Mathematics-Geometry-Algebraic'!
@@ -3616,7 +3646,7 @@ Rings can be commutative or non-commutative. Some specific kinds of commutative 
 
 Rings can be constructed from existing rings by taking quotients by an ideal (see QuotientRing), by making transcendental extensions (see PolynomialRing), etc.
 
-Rings can also be made into fields by 'adding the missing multiplicative inverses' (or localization), for example by constructing the fractions of an integral domain (see FractionField).
+Rings can also be made into fields by 'adding the missing multiplicative inverses' (or localization), for example by constructing the fractions of an integral domain (see FractionRing).
 
 References:
 	https://en.wikipedia.org/wiki/Ring_(mathematics)!
@@ -4030,6 +4060,9 @@ Example:
 	(R / I) spec
 !
 
+!AffinePlaneCurve commentStamp: '<historical>' prior: 0!
+My instances are affine plane algebraic curves, i.e. schemes of dimension 1 over the affine plane.!
+
 !AffineSpace commentStamp: '<historical>' prior: 0!
 My instances are affine spaces R^n as schemes, i.e. Spec R[x1,...,xn] for some commutative ring R.
 
@@ -4043,11 +4076,11 @@ Note that this differs from the classical affine plane. The morphisms are of cou
 
 Note also that the dimension of an affine space as scheme is the Krull dimension of the polynomial ring, and this is can be bigger than the number of indeterminates (see >>rank). For affine spaces over fields, the dimension and the rank are equal (because fields have Krull dimension 0).!
 
-!Curve commentStamp: '<historical>' prior: 0!
+!ProjectiveCurve commentStamp: '<historical>' prior: 0!
 My instances are algebraic curves, i.e. projective schemes of dimension 1.!
 
-!PlaneCurve commentStamp: '<historical>' prior: 0!
-My instances are plane algebraic curves, i.e. schemes of dimension 1 over the projective plane.!
+!ProjectivePlaneCurve commentStamp: '<historical>' prior: 0!
+My instances are projective plane algebraic curves, i.e. schemes of dimension 1 over the projective plane.!
 
 !EllipticCurve commentStamp: '<historical>' prior: 0!
 My instances are elliptic curves, i.e. plane algebraic curves of genus 1.!
@@ -10452,6 +10485,66 @@ new: binCount samples: aCollection
 	aCollection do: [:each| answer addValue: each].
 	^ answer! !
 
+!ImplicitFunctionPlotMorph methodsFor: 'as yet unclassified' stamp: 'len 10/24/2016 21:38'!
+box: aRectangle
+	box _ aRectangle.
+	image _ nil.
+	self redrawNeeded! !
+
+!ImplicitFunctionPlotMorph methodsFor: 'as yet unclassified' stamp: 'len 10/24/2016 21:40'!
+buildImage
+	| lastRow |
+	image _ Form extent: self morphExtent depth: Display depth.
+	lastRow _ nil.
+	1 to: image height do: [:j|
+		| y row lastSign |
+		y _ j asFloat / image height * box height - box bottom.
+		row _ Array new: image width.
+		lastSign _ nil.
+		1 to: image width do: [:i|
+			| x sign |
+			x _ i asFloat / image width * box width - box right.
+			sign _ (function value: (x,y)) sign.
+			((lastSign notNil and: [lastSign ~= sign])
+				or: [lastRow notNil and: [(lastRow at: i) ~= sign]])
+					ifTrue: [image colorAt: i@(image height - j + 1) put: color].
+			row at: i put: sign.
+			lastSign _ sign].
+		lastRow _ row]! !
+
+!ImplicitFunctionPlotMorph methodsFor: 'as yet unclassified' stamp: 'len 10/24/2016 21:19'!
+drawOn: aCanvas
+	image isNil ifTrue: [self buildImage].
+	aCanvas image: image at: 0@0! !
+
+!ImplicitFunctionPlotMorph methodsFor: 'as yet unclassified' stamp: 'len 10/24/2016 21:38'!
+function: aFunction
+	function _ aFunction.
+	image _ nil.
+	self redrawNeeded! !
+
+!ImplicitFunctionPlotMorph methodsFor: 'as yet unclassified' stamp: 'len 10/24/2016 21:47'!
+initialize
+	super initialize.
+	extent _ 150@150.
+	color _ Color lightGray.
+	box _ -1@-1 extent: 2@2! !
+
+!ImplicitFunctionPlotMorph methodsFor: 'as yet unclassified' stamp: 'len 10/24/2016 20:55'!
+morphExtent: aPoint
+	image _ nil.
+	super morphExtent: aPoint! !
+
+!ImplicitFunctionPlotMorph class methodsFor: 'as yet unclassified' stamp: 'len 10/24/2016 21:36'!
+example
+	"
+	self example
+	"
+	| function |
+	"Descartes folium"
+	function _ Function from: QQ**2 to: QQ evaluatingWithArguments: [:x :y| x**3 + (y**3) - (3*x*y)].
+	^ self new function: function! !
+
 !MultiplicationTableMorph methodsFor: 'as yet unclassified' stamp: 'len 7/31/2016 05:20'!
 drawOn: aCanvas
 	| h w |
@@ -11327,8 +11420,9 @@ anySatisfy: aBlock
 	self do: [:each| (aBlock value: each) ifTrue: [^ true]].
 	^ false! !
 
-!Domain methodsFor: 'morphisms' stamp: 'len 6/24/2016 05:34'!
+!Domain methodsFor: 'morphisms' stamp: 'len 10/24/2016 12:43'!
 apply: aMorphism
+	"Answer the pushforward of the receiver by aMorphism."
 	^ self collect: aMorphism! !
 
 !Domain methodsFor: 'converting' stamp: 'len 7/25/2016 22:14'!
@@ -11655,13 +11749,16 @@ species
 	"Answer a class appropiate for the subobjects of the receiver."
 	^ self class! !
 
-!Domain methodsFor: 'morphisms' stamp: 'len 8/31/2016 05:41'!
+!Domain methodsFor: 'morphisms' stamp: 'len 10/24/2016 12:40'!
 to: aDomain evaluating: aBlock
-	"Answer a morphism to the specified codomain (in the same category), evaluating as the given block."
+	"Answer a morphism to the specified codomain (in the same category), evaluating as the given block.
+	Example: ZZ to: ZZ evaluating: [:x| x squared]."
 	^ Function from: self to: aDomain evaluating: aBlock! !
 
-!Domain methodsFor: 'morphisms' stamp: 'len 10/17/2016 10:34'!
+!Domain methodsFor: 'morphisms' stamp: 'len 10/24/2016 12:40'!
 to: aDomain evaluatingWithArguments: aBlock
+	"When the receiver is N-ary, this method allows to define morphisms by N-ary blocks.
+	Example: ZZ × ZZ to: ZZ evaluatingWithArguments: [:a :b| a * b]."
 	^ self to: aDomain evaluating: [:each| aBlock valueWithArguments: each asArray]! !
 
 !Domain methodsFor: 'iterating' stamp: 'len 8/1/2016 03:53'!
@@ -12929,9 +13026,14 @@ generators
 	"Answer a generators set of the receiver."
 	^ generators! !
 
-!Ideal methodsFor: 'accessing-private' stamp: 'len 10/13/2016 20:07'!
-generators: aCollection 
-	generators _ aCollection asSet! !
+!Ideal methodsFor: 'accessing-private' stamp: 'len 10/24/2016 11:25'!
+generators: aCollection
+	generators _ aCollection asSet.
+	(generators size > 1 and: [ring isPID])
+		ifTrue:
+			[| generator |
+			generators do: [:each| generator _ generator isNil ifTrue: [each] ifFalse: [generator gcd: each]].
+			generators _ {generator}]! !
 
 !Ideal methodsFor: 'comparing' stamp: 'len 9/26/2016 16:55'!
 hash
@@ -13014,7 +13116,7 @@ ring: aRing
 on: aRing generators: aCollection
 	^ self new ring: aRing; generators: aCollection! !
 
-!IntegerIdeal methodsFor: 'morphisms' stamp: 'len 9/26/2016 16:55'!
+!IntegerIdeal methodsFor: 'operations' stamp: 'len 9/26/2016 16:55'!
 ˜ anIdeal
 	^ ring * (self generator lcm: anIdeal generator)! !
 
@@ -13039,7 +13141,7 @@ quotient
 	"Answer the quotient ring of the base ring by the receiver."
 	^ IntegerQuotientRing by: self! !
 
-!IntegerIdeal methodsFor: 'morphisms' stamp: 'len 9/26/2016 16:55'!
+!IntegerIdeal methodsFor: 'operations' stamp: 'len 9/26/2016 16:55'!
 radical
 	^ ring * (self generator factors asSet inject: 1 into: [:x :each| x*each])! !
 
@@ -13191,6 +13293,10 @@ isHomogeneous
 !PolynomialIdeal methodsFor: 'testing' stamp: 'len 12/15/2015 03:19'!
 isRadical
 	^ self = self radical! !
+
+!PolynomialIdeal methodsFor: 'testing' stamp: 'len 10/24/2016 15:34'!
+isSaturated
+	^ self = self saturation! !
 
 !PolynomialIdeal methodsFor: 'testing' stamp: 'len 7/9/2016 05:20'!
 isSquareFree
@@ -15179,9 +15285,13 @@ embedding
 	"Answer the embedding map from the base ring into the receiver."
 	^ properties at: #embedding ifAbsentPut: [(RingHomomorphism from: self scalars to: self evaluating: [:x| self constant: x]) name: 'i']! !
 
-!PolynomialRing methodsFor: 'elements' stamp: 'len 10/21/2016 21:33'!
+!PolynomialRing methodsFor: 'elements' stamp: 'len 10/24/2016 20:43'!
 evaluating: aBlock
-	^ aBlock value: (Tuple new: self rank evaluating: [:i| self x: i])! !
+	^ aBlock value: (self generators as: Tuple)! !
+
+!PolynomialRing methodsFor: 'elements' stamp: 'len 10/24/2016 20:38'!
+evaluatingWithArguments: aBlock
+	^ aBlock valueWithArguments: self generators! !
 
 !PolynomialRing methodsFor: 'morphisms' stamp: 'len 10/4/2016 09:02'!
 expansion: anInteger
@@ -20933,8 +21043,9 @@ apply: aMorphism
 codimension
 	^ self ambient dimension - self dimension! !
 
-!Scheme methodsFor: 'accessing' stamp: 'len 10/20/2016 16:05'!
+!Scheme methodsFor: 'accessing' stamp: 'len 10/24/2016 20:28'!
 coordinateRing
+	"Answer the global coordinate ring, if defined."
 	^ properties at: #coordinateRing! !
 
 !Scheme methodsFor: 'accessing-private' stamp: 'len 10/20/2016 16:06'!
@@ -20995,6 +21106,10 @@ isAffine
 isConnected
 	"Answer true if the receiver as a topological space is connected."
 	^ properties at: #isConnected! !
+
+!Scheme methodsFor: 'testing' stamp: 'len 10/24/2016 19:11'!
+isEquidimensional
+	self notYetImplemented! !
 
 !Scheme methodsFor: 'testing' stamp: 'len 10/13/2016 19:22'!
 isHypersurface
@@ -21066,6 +21181,14 @@ isSmoothAt: aPoint
 project: anIndeterminate
 	"Answer the projection of the receiver by eliminating the given indeterminate."
 	^ self ambient subscheme: (self ideal eliminate: anIndeterminate)! !
+
+!Scheme methodsFor: 'operations' stamp: 'len 10/24/2016 19:59'!
+rationalPoints
+	^ Iterator on: self performing: #rationalPointsDo:! !
+
+!Scheme methodsFor: 'operations' stamp: 'len 10/24/2016 19:58'!
+rationalPointsDo: aBlock
+	self ambient rationalPointsDo: [:each| (self includes: each) ifTrue: [aBlock value: each]]! !
 
 !Scheme methodsFor: 'operations' stamp: 'len 10/20/2016 16:11'!
 reduced
@@ -21146,6 +21269,10 @@ projectiveClosure
 	"Answer the projective closure of the receiver. If the receiver is an affine patch of a projective scheme, answer the original projective scheme. Otherwise the projective closure will be a projective scheme over the projective closure of the ambient space of the receiver, and the receiver will be the last affine patch."
 	^ properties at: #projectiveClosure ifAbsentPut: [self ideal homogenized quotient proj]! !
 
+!AffineScheme methodsFor: 'as yet unclassified' stamp: 'len 10/24/2016 19:07'!
+rationalPointsDo: aBlock
+	self ambient rationalPointsDo: [:each| (self includes: each) ifTrue: [aBlock value: each]]! !
+
 !AffineScheme methodsFor: 'operations' stamp: 'len 10/19/2016 23:32'!
 relativeSubscheme: anObject
 	| I |
@@ -21160,6 +21287,36 @@ species
 !AffineScheme class methodsFor: 'instance creation' stamp: 'len 10/19/2016 23:20'!
 coordinateRing: aRing
 	^ self new coordinateRing: aRing! !
+
+!AffineCurve methodsFor: 'as yet unclassified' stamp: 'len 10/24/2016 18:34'!
+dimension
+	^ 1! !
+
+!AffinePlaneCurve methodsFor: 'morphic' stamp: 'len 10/24/2016 21:43'!
+plot
+	^ self plot: (-5@-5 extent: 10@10)! !
+
+!AffinePlaneCurve methodsFor: 'morphic' stamp: 'len 10/24/2016 21:43'!
+plot: aRectangle
+	^ ImplicitFunctionPlotMorph new function: self polynomial; box: aRectangle! !
+
+!AffinePlaneCurve methodsFor: 'accessing' stamp: 'len 10/24/2016 20:12'!
+polynomial
+	^ self ideal generator! !
+
+!AffinePlaneCurve class methodsFor: 'examples' stamp: 'len 10/24/2016 21:45'!
+descartesFolium
+	^ self polynomial: ((QQ polynomialsIn: #(x y)) evaluatingWithArguments: [:x :y| x**3 + (y**3) - (3*x*y)])
+! !
+
+!AffinePlaneCurve class methodsFor: 'examples' stamp: 'len 10/24/2016 21:45'!
+iminus
+	^ self polynomial: ((QQ polynomialsIn: #(x y)) evaluatingWithArguments: [:x :y| x**3 + (y**3) - x - (2*y) - 1])
+! !
+
+!AffinePlaneCurve class methodsFor: 'instance creation' stamp: 'len 10/24/2016 20:12'!
+polynomial: aPolynomial
+	^ self coordinateRing: aPolynomial parent / aPolynomial! !
 
 !AffineSpace methodsFor: 'accessing' stamp: 'len 8/27/2016 19:03'!
 ambient
@@ -21197,6 +21354,14 @@ rank
 	"Answer the number of affine coordinates, i.e. the number of indeterminates of the coordinate ring. This can be different from the Krull dimension, for example Spec Z[x] has rank 1 and Krull dimension 2."
 	^ self coordinateRing rank! !
 
+!AffineSpace methodsFor: 'operations' stamp: 'len 10/24/2016 19:04'!
+rationalPoints
+	^ self scalars ** self rank! !
+
+!AffineSpace methodsFor: 'operations' stamp: 'len 10/24/2016 19:06'!
+rationalPointsDo: aBlock
+	self scalars ** self rank do: aBlock! !
+
 !AffineSpace methodsFor: 'morphisms' stamp: 'len 8/31/2016 08:28'!
 rigidMotions
 	"Answer the special Euclidean group SE(A), the group of direct isometries, i.e. isometries preserving orientation, also called 'rigid motions'. This is a subgroup of the Euclidean group of motions (see >>motions) which in turn is a subgroup of the general affine group GA(A)."
@@ -21209,63 +21374,6 @@ scalars
 !AffineSpace class methodsFor: 'instance creation' stamp: 'len 10/20/2016 04:10'!
 new: rank over: aCommutativeRing
 	^ self coordinateRing: (aCommutativeRing polynomialsIn: rank)! !
-
-!Curve methodsFor: 'as yet unclassified' stamp: 'len 10/13/2016 13:38'!
-dimension
-	^ 1! !
-
-!PlaneCurve methodsFor: 'as yet unclassified' stamp: 'len 10/12/2016 18:29'!
-= aPlaneCurve
-	(aPlaneCurve isKindOf: PlaneCurve) ifFalse: [^ super = aPlaneCurve].
-	^ self polynomial = aPlaneCurve polynomial "should be up to multiplication by a constant"! !
-
-!PlaneCurve methodsFor: 'as yet unclassified' stamp: 'len 8/29/2016 16:46'!
-components
-	^ self polynomial factors collect: [:each| self class polynomial: each]! !
-
-!PlaneCurve methodsFor: 'as yet unclassified' stamp: 'len 8/29/2016 16:45'!
-degree
-	^ self polynomial degree! !
-
-!PlaneCurve methodsFor: 'as yet unclassified' stamp: 'len 8/31/2016 08:14'!
-isSingularAt: aPoint
-	^ self polynomial gradient allSatisfy: [:each| (each value: aPoint) isZero]! !
-
-!PlaneCurve methodsFor: 'as yet unclassified' stamp: 'len 8/29/2016 16:42'!
-polynomial
-	^ self ideal generator! !
-
-!PlaneCurve methodsFor: 'as yet unclassified' stamp: 'len 10/12/2016 18:28'!
-tangentAt: aPoint
-	| g P |
-	g _ self polynomial.
-	P _ g parent.
-	^ PlaneCurve polynomial: (P indeterminates inject: P zero into: [:sum :i| (P x: i) - (aPoint at: i) * ((g derivativeIn: i) value: aPoint) + sum])! !
-
-!PlaneCurve class methodsFor: 'instance creation' stamp: 'len 10/12/2016 18:42'!
-polynomial: aPolynomial
-	^ self on: aPolynomial parent spec ideal: aPolynomial parent * aPolynomial! !
-
-!EllipticCurve methodsFor: 'operations' stamp: 'len 2/3/2016 20:28'!
-discriminant
-	^ (self a**3 * 4 + (self b**2 * 27)) * (-16)! !
-
-!EllipticCurve methodsFor: 'accessing' stamp: 'len 10/21/2016 13:42'!
-genus
-	^ 1! !
-
-!EllipticCurve methodsFor: 'testing' stamp: 'len 10/14/2016 09:32'!
-isNonsingular
-	^ self discriminant isZero not! !
-
-!EllipticCurve class methodsFor: 'instance creation' stamp: 'len 10/13/2016 20:11'!
-over: aField a: a b: b
-	"Answer the curve y^2 = x^3 + ax + b homogenized."
-	| P x y z ideal |
-	P _ aField polynomialsIn: #(x y z).
-	x _ P x. y _ P y. z _ P z.
-	ideal _ P * (x**3 + (x * (z**2) * a) + (z**3*b) - (y**2*z)).
-	^ self on: P proj ideal: ideal! !
 
 !ProjectiveScheme methodsFor: 'operations' stamp: 'len 10/21/2016 17:15'!
 affinePatch: i
@@ -21318,6 +21426,69 @@ species
 coordinateRing: aRing
 	^ self new coordinateRing: aRing! !
 
+!ProjectiveCurve methodsFor: 'as yet unclassified' stamp: 'len 10/13/2016 13:38'!
+dimension
+	^ 1! !
+
+!ProjectivePlaneCurve methodsFor: 'as yet unclassified' stamp: 'len 10/24/2016 20:13'!
+arithmeticGenus
+	| n |
+	n _ self polynomial "totalDegree" degree.
+	^ n - 1 * (n - 2) / 2! !
+
+!ProjectivePlaneCurve methodsFor: 'as yet unclassified' stamp: 'len 8/29/2016 16:46'!
+components
+	^ self polynomial factors collect: [:each| self class polynomial: each]! !
+
+!ProjectivePlaneCurve methodsFor: 'as yet unclassified' stamp: 'len 8/29/2016 16:45'!
+degree
+	^ self polynomial degree! !
+
+!ProjectivePlaneCurve methodsFor: 'as yet unclassified' stamp: 'len 10/24/2016 20:13'!
+isNonsingular
+	^ (self ambient coordinateRing * (self polynomial gradient, self polynomial)) dimension <= 0! !
+
+!ProjectivePlaneCurve methodsFor: 'as yet unclassified' stamp: 'len 8/31/2016 08:14'!
+isSingularAt: aPoint
+	^ self polynomial gradient allSatisfy: [:each| (each value: aPoint) isZero]! !
+
+!ProjectivePlaneCurve methodsFor: 'as yet unclassified' stamp: 'len 10/24/2016 20:13'!
+polynomial
+	^ self ideal generator! !
+
+!ProjectivePlaneCurve methodsFor: 'as yet unclassified' stamp: 'len 10/24/2016 18:33'!
+tangentAt: aPoint
+	| g P |
+	g _ self polynomial.
+	P _ g parent.
+	^ ProjectivePlaneCurve polynomial: (P indeterminates inject: P zero into: [:sum :i| (P x: i) - (aPoint at: i) * ((g derivativeIn: i) value: aPoint) + sum])! !
+
+!ProjectivePlaneCurve class methodsFor: 'instance creation' stamp: 'len 10/24/2016 20:12'!
+polynomial: aPolynomial
+	^ self coordinateRing: aPolynomial parent / aPolynomial! !
+
+!EllipticCurve methodsFor: 'operations' stamp: 'len 2/3/2016 20:28'!
+discriminant
+	^ (self a**3 * 4 + (self b**2 * 27)) * (-16)! !
+
+!EllipticCurve methodsFor: 'accessing' stamp: 'len 10/21/2016 13:42'!
+genus
+	^ 1! !
+
+!EllipticCurve methodsFor: 'testing' stamp: 'len 10/14/2016 09:32'!
+isNonsingular
+	^ self discriminant isZero not! !
+
+!EllipticCurve class methodsFor: 'instance creation' stamp: 'len 10/24/2016 20:19'!
+a: a b: b over: aField
+	"Answer the curve y^2 = x^3 + ax + b homogenized."
+	^ self polynomial: ((aField polynomialsIn: #(x y z)) evaluatingWithArguments: [:x :y :z| x**3 + (x * (z**2) * a) + (z**3*b) - (y**2*z)])! !
+
+!EllipticCurve class methodsFor: 'instance creation' stamp: 'len 10/24/2016 20:19'!
+over: aField a: a b: b
+	"Answer the curve y^2 = x^3 + ax + b homogenized."
+	^ self polynomial: ((aField polynomialsIn: #(x y z)) evaluatingWithArguments: [:x :y :z| x**3 + (x * (z**2) * a) + (z**3*b) - (y**2*z)])! !
+
 !ProjectiveSpace methodsFor: 'accessing' stamp: 'len 8/27/2016 19:03'!
 ambient
 	^ self! !
@@ -21337,6 +21508,10 @@ printOn: aStream
 !ProjectiveSpace methodsFor: 'accessing' stamp: 'len 10/20/2016 16:19'!
 rank
 	^ self coordinateRing rank! !
+
+!ProjectiveSpace methodsFor: 'operations' stamp: 'len 10/24/2016 20:01'!
+rationalPointsDo: aBlock
+	self scalars ** self rank do: [:each| each isZero ifFalse: [aBlock value: each homogeneous]]! !
 
 !ProjectiveSpace methodsFor: 'accessing' stamp: 'len 8/27/2016 19:47'!
 scalars
@@ -24674,10 +24849,10 @@ projectiveClosure
 		to: self codomain projectiveClosure
 		components: (components collect: [:each| each homogenized])! !
 
-!RationalMap methodsFor: 'operations' stamp: 'len 10/17/2016 15:59'!
+!RationalMap methodsFor: 'operations' stamp: 'len 10/24/2016 11:38'!
 pullback: aScheme
-	"Answer the preimage scheme of aScheme."
-	self notYetImplemented! !
+	"Answer the preimage of the codomain subscheme aScheme, which is a subscheme of the domain."
+	^ self domain subscheme: (aScheme ideal apply: self asRingHomomorphism)! !
 
 !RationalMap methodsFor: 'accessing' stamp: 'len 10/16/2016 20:43'!
 size
@@ -24691,11 +24866,11 @@ value: aPoint
 from: domain to: codomain components: anArrayOfRationalFunctions
 	^ self new domain: domain; codomain: codomain; components: anArrayOfRationalFunctions! !
 
-!RationalMap class methodsFor: 'instance creation' stamp: 'len 10/17/2016 09:31'!
+!RationalMap class methodsFor: 'instance creation' stamp: 'len 10/24/2016 12:35'!
 from: aDomain to: aCodomain evaluating: anExpression
 	| F |
-	F _ aDomain ambient functionField. "ambient or aDomain?"
-	^ self from: aDomain to: aCodomain components: (anExpression value: (Tuple new: aDomain ambient dimension evaluating: [:i| F x: i]))! !
+	F _ aDomain functionField. "ambient or aDomain?"
+	^ self from: aDomain to: aCodomain components: (anExpression value: (Tuple new: aDomain ambient rank evaluating: [:i| F x: i]))! !
 
 !PolynomialFunction methodsFor: 'operations' stamp: 'len 7/7/2016 20:45'!
 * anObject
@@ -24910,9 +25085,9 @@ next
 	state size < 10 ifTrue: [state add: g`] ifFalse: [state at: i put: g`].
 	^ g`! !
 
-!FormalFraction methodsFor: 'arithmetic' stamp: 'len 4/5/2016 18:02'!
+!FormalFraction methodsFor: 'arithmetic' stamp: 'len 10/24/2016 12:06'!
 * anObject
-	(anObject isRational or: [anObject isKindOf: FormalFraction])
+	((anObject isNumber and: [anObject isRational]) or: [anObject isKindOf: FormalFraction])
 		ifTrue: [^ self class numerator: numerator * anObject numerator denominator: denominator * anObject denominator].
 	^ self class numerator: numerator * anObject denominator: denominator! !
 
@@ -24971,14 +25146,19 @@ numerator
 one
 	^ self class numerator: numerator one denominator: denominator one! !
 
-!FormalFraction methodsFor: 'printing' stamp: 'len 11/28/2015 06:44'!
+!FormalFraction methodsFor: 'printing' stamp: 'len 10/24/2016 12:21'!
 printOn: aStream
 	| string |
+	self denominator = self denominator one ifTrue: [aStream print: self numerator. ^ self].
 	aStream print: self numerator; nextPutAll: ' / '.
 	string _ self denominator printString.
 	((string includes: $+) or: [string includes: $-])
 		ifTrue: [aStream nextPut: $(; print: self denominator; nextPut: $)]
 		ifFalse: [aStream print: self denominator]! !
+
+!FormalFraction methodsFor: 'arithmetic' stamp: 'len 10/24/2016 12:05'!
+reciprocal
+	^ self class numerator: self denominator denominator: self numerator! !
 
 !FormalFraction methodsFor: 'private' stamp: 'len 7/11/2016 01:18'!
 reduce
@@ -25095,11 +25275,8 @@ poles
 polesIn: aField
 	^ denominator rootsIn: aField! !
 
-!RationalFunction methodsFor: 'printing' stamp: 'len 7/11/2016 01:14'!
+!RationalFunction methodsFor: 'printing' stamp: 'len 10/24/2016 12:19'!
 printOn: aStream
-	"Print a representation of the reseiver on the stream aStream."
-
-	| |
 	self denominator = self denominator one ifTrue: [aStream print: self numerator. ^ self].
 	self numerator terms size > 1
 		ifTrue: [aStream nextPut: $(; print: self numerator; nextPut: $)]
@@ -25700,21 +25877,21 @@ k
 	anInteger < 0 ifTrue: [^ (self ** anInteger negated) reciprocal].
 	^ self squared ** (anInteger // 2) * (self ** (anInteger \\ 2))! !
 
-!ResidueClass methodsFor: 'arithmetic' stamp: 'len 10/16/2016 15:57'!
-+ aResidue
-	^ parent project: representative + aResidue representative! !
+!ResidueClass methodsFor: 'arithmetic' stamp: 'len 10/24/2016 12:02'!
++ aResidueClass
+	^ parent project: representative + aResidueClass representative! !
 
 !ResidueClass methodsFor: 'converting' stamp: 'len 11/23/2015 06:20'!
 , aTuple
 	^ (Tuple withAll: {self}), aTuple! !
 
-!ResidueClass methodsFor: 'arithmetic' stamp: 'len 3/22/2016 02:44'!
-- aResidue
-	^ self + aResidue negated! !
+!ResidueClass methodsFor: 'arithmetic' stamp: 'len 10/24/2016 12:02'!
+- aResidueClass
+	^ self + aResidueClass negated! !
 
-!ResidueClass methodsFor: 'arithmetic' stamp: 'len 3/22/2016 02:45'!
-/ aResidue
-	^ self * aResidue reciprocal! !
+!ResidueClass methodsFor: 'arithmetic' stamp: 'len 10/24/2016 12:02'!
+/ aResidueClass
+	^ self * aResidueClass reciprocal! !
 
 !ResidueClass methodsFor: 'comparing' stamp: 'len 3/29/2016 20:52'!
 = aResidue
@@ -25746,6 +25923,10 @@ conjugatesDo: aBlock
 	[aBlock value: alpha.
 	alpha _ alpha ** self ideal ring characteristic.
 	alpha = self] whileFalse! !
+
+!ResidueClass methodsFor: 'arithmetic' stamp: 'len 10/24/2016 12:02'!
+gcd: aResidueClass
+	^ parent project: (representative gcd: aResidueClass representative)! !
 
 !ResidueClass methodsFor: 'comparing' stamp: 'len 10/16/2016 15:56'!
 hash
