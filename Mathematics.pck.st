@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 25 October 2016 at 6:14:32.747323 am'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 25 October 2016 at 7:00:03.394446 am'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 249!
+!provides: 'Mathematics' 1 250!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
 	instanceVariableNames: 'numerator shift'
@@ -21170,6 +21170,15 @@ coordinateRing
 coordinateRing: aCommutativeRing
 	properties at: #coordinateRing put: aCommutativeRing! !
 
+!Scheme methodsFor: 'operations' stamp: 'len 10/25/2016 06:25'!
+decomposition
+	"Answer the irreducible components of the receiver."
+	| primes |
+	primes _ self ideal associatedPrimes.
+	"If the scheme is projective, remove the primes containing the irrelevant ideal:"
+	self isProjective ifTrue: [primes _ primes reject: [:each| self ambient coordinateRing generators anySatisfy: [:xi| each includes: xi]]].
+	^ primes collect: [:each| self subscheme: each]! !
+
 !Scheme methodsFor: 'accessing' stamp: 'len 10/19/2016 23:15'!
 dimension
 	^ self subclassResponsibility! !
@@ -21250,15 +21259,15 @@ isLinear
 isNoetherian
 	^ self coordinateRing isNoetherian! !
 
-!Scheme methodsFor: 'testing' stamp: 'len 10/25/2016 06:10'!
+!Scheme methodsFor: 'testing' stamp: 'len 10/25/2016 06:40'!
 isNonsingular
-	^ properties at: #isNonsingular! !
+	"Synonym of 'smooth'."
+	^ self isSmooth! !
 
-!Scheme methodsFor: 'testing' stamp: 'len 10/15/2016 11:32'!
+!Scheme methodsFor: 'testing' stamp: 'len 10/25/2016 06:41'!
 isNonsingularAt: aPoint
-	properties at: #isNonsingular ifPresent: [:aBoolean| aBoolean ifTrue: [^ true]].
-	"test whether the jacobian matrix of the list of the ideal generators evaluated at aPoint has corank r where r is the dimension of the receiver."
-	self notYetImplemented! !
+	"Synonym of 'smooth'."
+	^ self isSmoothAt: aPoint! !
 
 !Scheme methodsFor: 'testing' stamp: 'len 10/12/2016 19:32'!
 isPlanar
@@ -21276,24 +21285,26 @@ isReduced
 isSaturated
 	^ properties at: #isSaturated! !
 
-!Scheme methodsFor: 'testing' stamp: 'len 10/13/2016 19:53'!
+!Scheme methodsFor: 'testing' stamp: 'len 10/25/2016 06:42'!
 isSingular
 	"Answer true iff the receiver has s singular point or fails to be equidimensional over an algebraic closure of its base field."
-	^ self isNonsingular not! !
+	"Synonym for 'not smooth'."
+	^ self isSmooth not! !
 
-!Scheme methodsFor: 'testing' stamp: 'len 10/15/2016 11:32'!
+!Scheme methodsFor: 'testing' stamp: 'len 10/25/2016 06:40'!
 isSingularAt: aPoint
-	^ (self isNonsingularAt: aPoint) not! !
+	"Synonym of 'not smooth'."
+	^ (self isSmoothAt: aPoint) not! !
 
-!Scheme methodsFor: 'testing' stamp: 'len 10/14/2016 22:31'!
+!Scheme methodsFor: 'testing' stamp: 'len 10/25/2016 06:43'!
 isSmooth
-	"Synonym of 'nonsingular'."
-	^ self isNonsingular! !
+	^ properties at: #isSmooth! !
 
-!Scheme methodsFor: 'testing' stamp: 'len 10/15/2016 11:32'!
+!Scheme methodsFor: 'testing' stamp: 'len 10/25/2016 06:51'!
 isSmoothAt: aPoint
-	"Synonym of 'nonsingular'."
-	^ self isNonsingularAt: aPoint! !
+	properties at: #isSmooth ifPresent: [:aBoolean| aBoolean ifTrue: [^ true]].
+	"(self includes: aPoint) ifFalse: [self error: 'point not in this scheme']."
+	^ self jacobianIdeal generators anySatisfy: [:each| (each value: aPoint) isZero not]! !
 
 !Scheme methodsFor: 'operations' stamp: 'len 10/25/2016 06:07'!
 jacobianIdeal
@@ -21383,13 +21394,13 @@ isFinite
 			ifFalse: [^ false]].
 	^ true! !
 
-!AffineScheme methodsFor: 'testing' stamp: 'len 10/25/2016 06:10'!
-isNonsingular
-	^ properties at: #isNonsingular ifAbsentPut: [self jacobianIdeal dimension < 0]! !
-
 !AffineScheme methodsFor: 'testing' stamp: 'len 10/20/2016 15:22'!
 isProjective
 	^ false! !
+
+!AffineScheme methodsFor: 'testing' stamp: 'len 10/25/2016 06:45'!
+isSmooth
+	^ properties at: #isSmooth ifAbsentPut: [self jacobianIdeal dimension < 0]! !
 
 !AffineScheme methodsFor: 'printing' stamp: 'len 10/19/2016 22:57'!
 printOn: aStream
@@ -21534,13 +21545,13 @@ dimension
 isAffine
 	^ false! !
 
-!ProjectiveScheme methodsFor: 'testing' stamp: 'len 10/25/2016 06:11'!
-isNonsingular
-	^ properties at: #isNonsingular ifAbsentPut: [self jacobianIdeal dimension <= 0]! !
-
 !ProjectiveScheme methodsFor: 'testing' stamp: 'len 10/20/2016 15:21'!
 isProjective
 	^ true! !
+
+!ProjectiveScheme methodsFor: 'testing' stamp: 'len 10/25/2016 06:46'!
+isSmooth
+	^ properties at: #isSmooth ifAbsentPut: [self jacobianIdeal dimension <= 0]! !
 
 !ProjectiveScheme methodsFor: 'printing' stamp: 'len 10/20/2016 15:27'!
 printOn: aStream
