@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 25 October 2016 at 7:00:03.394446 am'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 25 October 2016 at 4:06:01.622572 pm'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 250!
+!provides: 'Mathematics' 1 251!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
 	instanceVariableNames: 'numerator shift'
@@ -79,6 +79,16 @@ OrderedTuple subclass: #BitTuple
 	category: 'Mathematics-Kernel-Tuples'!
 !classDefinition: 'BitTuple class' category: #'Mathematics-Kernel-Tuples'!
 BitTuple class
+	instanceVariableNames: ''!
+
+!classDefinition: #HomogeneousTuple category: #'Mathematics-Kernel-Tuples'!
+OrderedTuple subclass: #HomogeneousTuple
+	instanceVariableNames: 'coordinates'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Kernel-Tuples'!
+!classDefinition: 'HomogeneousTuple class' category: #'Mathematics-Kernel-Tuples'!
+HomogeneousTuple class
 	instanceVariableNames: ''!
 
 !classDefinition: #IntegerResidueClassTuple category: #'Mathematics-Kernel-Tuples'!
@@ -911,6 +921,16 @@ FreeAbelianGroup subclass: #Lattice
 Lattice class
 	instanceVariableNames: ''!
 
+!classDefinition: #DivisorsGroup category: #'Mathematics-Geometry-Algebraic'!
+FreeAbelianGroup subclass: #DivisorsGroup
+	instanceVariableNames: 'scheme rationals'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Geometry-Algebraic'!
+!classDefinition: 'DivisorsGroup class' category: #'Mathematics-Geometry-Algebraic'!
+DivisorsGroup class
+	instanceVariableNames: ''!
+
 !classDefinition: #HomModule category: #'Mathematics-Modules'!
 FreeModule subclass: #HomModule
 	instanceVariableNames: 'domain codomain'
@@ -1029,16 +1049,6 @@ FreeModule subclass: #PolynomialFiltrationModule
 	category: 'Mathematics-Polynomials'!
 !classDefinition: 'PolynomialFiltrationModule class' category: #'Mathematics-Polynomials'!
 PolynomialFiltrationModule class
-	instanceVariableNames: ''!
-
-!classDefinition: #DivisorsGroup category: #'Mathematics-Geometry-Algebraic'!
-FreeModule subclass: #DivisorsGroup
-	instanceVariableNames: 'scheme'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Geometry-Algebraic'!
-!classDefinition: 'DivisorsGroup class' category: #'Mathematics-Geometry-Algebraic'!
-DivisorsGroup class
 	instanceVariableNames: ''!
 
 !classDefinition: #ExteriorPower category: #'Mathematics-Etc'!
@@ -2931,16 +2941,6 @@ Object subclass: #BarycentricFrame
 BarycentricFrame class
 	instanceVariableNames: ''!
 
-!classDefinition: #HomogeneousTuple category: #'Mathematics-Geometry-Projective'!
-Object subclass: #HomogeneousTuple
-	instanceVariableNames: 'coordinates'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Geometry-Projective'!
-!classDefinition: 'HomogeneousTuple class' category: #'Mathematics-Geometry-Projective'!
-HomogeneousTuple class
-	instanceVariableNames: ''!
-
 !classDefinition: #ProjectiveChart category: #'Mathematics-Geometry-Projective'!
 Object subclass: #ProjectiveChart
 	instanceVariableNames: 'frame index origin'
@@ -3811,6 +3811,17 @@ TODO:
 !Lattice commentStamp: '<historical>' prior: 0!
 A lattice is the set of integer linear combinations of a basis of a real vector space. This is a subgroup of the vector space (as abelian group) isomorphic to Z^n.!
 
+!DivisorsGroup commentStamp: '<historical>' prior: 0!
+TODO:
+- Div^d(E) := subgroup of Div(E) of divisors of degree d
+- Princ(E) := subgropu of Div^0(E) of principal divisors
+- Pic^0(E) := Div^0(E) / Princ(E)
+- Abel-Jacobi map Pic^0(E) -> E(K)
+- equality: D1 = D2 iff D1 - D2 is a principal divisor
+- a divisors of degree zero is principal iff the Abel-Jacobi map sends it to the zero point in the curve
+- divisor reduction: red(D) := (AJ([D])) - (0)
+- Miller's algorithm!
+
 !HomModule commentStamp: '<historical>' prior: 0!
 My instances are R-modules (or K-vector spaces) of linear transformations from a R-module (or K-vector space) A to another one B, i.e. Hom(A,B), the space of module homomorphisms between two R-modules.
 
@@ -3852,17 +3863,6 @@ My instances are submodules of homogeneous polynomials of a given fixed degree, 
 
 !PolynomialFiltrationModule commentStamp: '<historical>' prior: 0!
 My instances are submodules of univariate polynomials of degree <= n for a fixed n, in the ring of univariate polynomials R[x]. They define a filtration (see PolynomialRing>>filtrationAt:).!
-
-!DivisorsGroup commentStamp: '<historical>' prior: 0!
-TODO:
-- Div^d(E) := subgroup of Div(E) of divisors of degree d
-- Princ(E) := subgropu of Div^0(E) of principal divisors
-- Pic^0(E) := Div^0(E) / Princ(E)
-- Abel-Jacobi map Pic^0(E) -> E(K)
-- equality: D1 = D2 iff D1 - D2 is a principal divisor
-- a divisors of degree zero is principal iff the Abel-Jacobi map sends it to the zero point in the curve
-- divisor reduction: red(D) := (AJ([D])) - (0)
-- Miller's algorithm!
 
 !ExteriorPower commentStamp: 'len 8/1/2016 23:59' prior: 0!
 TODO:
@@ -6271,6 +6271,10 @@ dot: aTuple
 	2 to: (self size min: aTuple size) do: [:i| answer _ answer + ((self at: i) * (aTuple at: i))].
 	^ answer! !
 
+!OrderedTuple methodsFor: 'converting' stamp: 'len 10/25/2016 14:21'!
+h
+	^ self homogeneous! !
+
 !OrderedTuple methodsFor: 'converting' stamp: 'len 3/29/2016 18:59'!
 homogeneous
 	^ HomogeneousTuple coordinates: self! !
@@ -6533,6 +6537,97 @@ new: n fromInteger: anInteger
 newFrom: anObject
 	anObject isInteger ifTrue: [^ self fromInteger: anObject].
 	^ super newFrom: anObject! !
+
+!HomogeneousTuple methodsFor: 'comparing' stamp: 'len 6/29/2016 05:24'!
+= aHomogeneousTuple
+	| index |
+	index _ self firstNonZero.
+	(aHomogeneousTuple at: index) isZero ifTrue: [^ false].
+	^ self coordinates / (self at: index) = (aHomogeneousTuple coordinates / (aHomogeneousTuple at: index))! !
+
+!HomogeneousTuple methodsFor: 'converting' stamp: 'len 11/7/97 01:42'!
+affinized
+	"Answer the affinization of the receiver."
+
+	^ self affinizedIn: self size! !
+
+!HomogeneousTuple methodsFor: 'converting' stamp: 'len 12/13/2015 23:39'!
+affinizedIn: anInteger
+	"Answer the affinization of the receiver with respect to the anInteger-th coordinate."
+
+	| scalar |
+	scalar _ self at: anInteger.
+	^ Tuple
+		new: self coordinates size - 1
+		evaluating: [:i| (i < anInteger ifTrue: [self at: i] ifFalse: [self at: i + 1]) / scalar]! !
+
+!HomogeneousTuple methodsFor: 'converting' stamp: 'len 11/8/2015 00:18'!
+asTuple
+	"Answer a Tuple with the coordinates of the receiver."
+
+	^ self coordinates! !
+
+!HomogeneousTuple methodsFor: 'accessing' stamp: 'len 11/20/2015 16:14'!
+at: anInteger
+	"Answer the anInteger-th coordinate of the receiver."
+
+	^ coordinates at: anInteger! !
+
+!HomogeneousTuple methodsFor: 'accessing' stamp: 'len 11/9/2015 07:14'!
+coordinates
+	^ coordinates! !
+
+!HomogeneousTuple methodsFor: 'accessing-private' stamp: 'len 1/5/98 20:31'!
+coordinates: aTuple
+	coordinates _ aTuple! !
+
+!HomogeneousTuple methodsFor: 'private' stamp: 'len 6/29/2016 05:23'!
+firstNonZero
+	^ (1 to: self size) detect: [ :each | (self at: each) isZero not]! !
+
+!HomogeneousTuple methodsFor: 'comparing' stamp: 'len 6/29/2016 05:24'!
+hash
+	^ (coordinates / (self at: self firstNonZero)) hash! !
+
+!HomogeneousTuple methodsFor: 'printing' stamp: 'len 6/29/2016 05:25'!
+printOn: aStream
+	aStream nextPut: $[.
+	self coordinates do: [:each| each printOn: aStream] separatedBy: [aStream nextPut: $:].
+	aStream nextPut: $]! !
+
+!HomogeneousTuple methodsFor: 'accessing' stamp: 'len 11/20/2015 16:14'!
+size
+	^ coordinates size! !
+
+!HomogeneousTuple methodsFor: 'accessing' stamp: 'len 11/20/2015 16:14'!
+x
+	"Answer the x coordinate of the receiver."
+
+	^ coordinates x! !
+
+!HomogeneousTuple methodsFor: 'accessing' stamp: 'len 11/20/2015 16:14'!
+y
+	"Answer the y coordinate of the receiver."
+
+	^ coordinates y! !
+
+!HomogeneousTuple methodsFor: 'accessing' stamp: 'len 11/20/2015 16:14'!
+z
+	"Answer the z coordinate of the receiver."
+
+	^ coordinates z! !
+
+!HomogeneousTuple class methodsFor: 'instance creation' stamp: 'len 11/28/97 02:43'!
+coordinates: aTuple
+	"Answer a new instance of the receiver with the given coordinates."
+
+	^ self new coordinates: aTuple! !
+
+!HomogeneousTuple class methodsFor: 'instance creation' stamp: 'len 11/28/97 02:04'!
+x: x y: y z: z
+	"Answer a new instance of the receiver with the given coordinates."
+
+	^ self coordinates: (Tuple x: x y: y z: z)! !
 
 !IntegerResidueClassTuple methodsFor: 'arithmetic' stamp: 'len 6/29/2016 06:01'!
 * aNumber
@@ -13144,9 +13239,9 @@ generators
 	"Answer a generators set of the receiver."
 	^ generators! !
 
-!Ideal methodsFor: 'accessing-private' stamp: 'len 10/24/2016 11:25'!
+!Ideal methodsFor: 'accessing-private' stamp: 'len 10/25/2016 15:10'!
 generators: aCollection
-	generators _ aCollection asSet.
+	generators _ aCollection asSet reject: [:each| each isZero].
 	(generators size > 1 and: [ring isPID])
 		ifTrue:
 			[| generator |
@@ -14924,30 +15019,40 @@ polynomial: aPolynomial
 sqrt: anInteger
 	^ self adjoint: (AlgebraicNumber sqrt: anInteger)! !
 
-!PolynomialQuotientRing methodsFor: 'accessing' stamp: 'len 10/23/2016 21:13'!
+!PolynomialQuotientRing methodsFor: 'accessing' stamp: 'len 10/25/2016 15:59'!
 dimension
 	"Answer the Krull dimension of the receiver."
 	"Derksen, Kemper, 'Computational Invariant Theory', 2002, Algorithm 1.2.4 (Dimension of an ideal)."
-	| indeterminates G |
+	| G leadingMonomials |
+	self ideal isZero ifTrue: [^ self base dimension].
 	G _ self ideal ring ordering isGraded
 		ifTrue: [self ideal groebnerBasis]
 		ifFalse: [GroebnerBasis from: self ideal generators ordering: (MonomialOrdering trevlex: self base rank)].
 	G _ G minimal. "is this necesary?"
 	(G anySatisfy: [:any| any isConstant and: [any isZero not]])
-		ifTrue: [^ Infinity negative]. "or should it define it as -1 ?"
-	indeterminates _ G indeterminates asSet copy.
-	G do: [:each| indeterminates removeAllFoundIn: (G ordering headOf: each) indeterminates].
-	^ indeterminates size! !
+		ifTrue: [^ -1]. "or should it define it as -infinity ?"
+	
+	leadingMonomials _ Set new.
+	G do: [:each| leadingMonomials add: (G ordering headOf: each)].
+	1 to: self base rank do: [:k|
+		((self base indeterminates combinations: k)
+			anySatisfy: [:combination|
+				leadingMonomials allSatisfy: [:monomial| combination includesAnyOf: monomial indeterminates]])
+			ifTrue: [^ self base rank - k]].
+	self error: 'this shouldnt be reached'! !
 
 !PolynomialQuotientRing methodsFor: 'accessing' stamp: 'len 10/20/2016 10:51'!
 indeterminates
 	^ self base indeterminates! !
 
-!PolynomialQuotientRing methodsFor: 'operations' stamp: 'len 10/20/2016 16:27'!
+!PolynomialQuotientRing methodsFor: 'operations' stamp: 'len 10/25/2016 10:14'!
 proj
 	"Answer the projective spectrum of the receiver, Proj(R)."
-	self isCommutative ifFalse: [^ DomainError signal: 'not a commutative ring'].
 	self ideal isHomogeneous ifFalse: [^ DomainError signal: 'not a quotient by an homogeneous ideal, not properly graded'].
+	(self ideal generators size = 1 and: [self ideal isZero not])
+		ifTrue: [self base rank = 3
+			ifTrue: [^ ProjectivePlaneCurve coordinateRing: self]
+			ifFalse: [^ ProjectiveCurve coordinateRing: self]].
 	^ ProjectiveScheme coordinateRing: self! !
 
 !PolynomialQuotientRing methodsFor: 'accessing' stamp: 'len 10/20/2016 10:51'!
@@ -14957,6 +15062,15 @@ rank
 !PolynomialQuotientRing methodsFor: 'accessing' stamp: 'len 10/20/2016 10:51'!
 scalars
 	^ self base scalars! !
+
+!PolynomialQuotientRing methodsFor: 'operations' stamp: 'len 10/25/2016 10:14'!
+spec
+	"Answer the spectrum of the receiver, Spec(R)."
+	(self ideal generators size = 1 and: [self ideal isZero not])
+		ifTrue: [self base rank = 2
+			ifTrue: [^ AffinePlaneCurve coordinateRing: self]
+			ifFalse: [^ AffineCurve coordinateRing: self]].
+	^ super spec! !
 
 !PolynomialQuotientRing methodsFor: 'elements' stamp: 'len 10/20/2016 10:50'!
 x
@@ -16567,6 +16681,36 @@ matrix: aMatrix
 	"Answer a lattice with generator matrix aMatrix."
 	^ self basis: aMatrix rowSpace basis! !
 
+!DivisorsGroup methodsFor: 'printing' stamp: 'len 10/25/2016 14:46'!
+printOn: aStream
+	aStream nextPutAll: 'Div' bold.
+	(rationals = scheme ambient scalars) ifFalse: [aStream nextPutAll: rationals printText sub].
+	aStream nextPut: $(; print: scheme; nextPut: $)! !
+
+!DivisorsGroup methodsFor: 'accessing' stamp: 'len 10/25/2016 14:47'!
+rationals
+	^ rationals! !
+
+!DivisorsGroup methodsFor: 'accessing-private' stamp: 'len 10/25/2016 14:47'!
+rationals: aRing
+	rationals _ aRing! !
+
+!DivisorsGroup methodsFor: 'accessing' stamp: 'len 10/4/2016 12:11'!
+scheme
+	^ scheme! !
+
+!DivisorsGroup methodsFor: 'accessing-private' stamp: 'len 10/4/2016 12:11'!
+scheme: aScheme
+	scheme _ aScheme! !
+
+!DivisorsGroup class methodsFor: 'instance creation' stamp: 'len 10/25/2016 14:45'!
+on: aScheme
+	^ self on: aScheme over: aScheme ambient scalars! !
+
+!DivisorsGroup class methodsFor: 'instance creation' stamp: 'len 10/25/2016 14:45'!
+on: aScheme over: aRing
+	^ self new scheme: aScheme; rationals: aRing! !
+
 !HomModule methodsFor: 'accessing' stamp: 'len 11/7/2015 04:34'!
 codomain
 	^ codomain! !
@@ -17525,28 +17669,6 @@ rank
 !PolynomialFiltrationModule methodsFor: 'accessing' stamp: 'len 4/6/2016 07:04'!
 scalars
 	^ polynomials scalars! !
-
-!DivisorsGroup methodsFor: 'printing' stamp: 'len 10/5/2016 10:01'!
-printOn: aStream
-	aStream nextPutAll: 'Div' bold.
-	(self scalars isKindOf: Integers) ifFalse: [aStream print: self scalars printText sub].
-	aStream nextPut: $(; print: scheme; nextPut: $)! !
-
-!DivisorsGroup methodsFor: 'accessing' stamp: 'len 10/4/2016 12:11'!
-scheme
-	^ scheme! !
-
-!DivisorsGroup methodsFor: 'accessing-private' stamp: 'len 10/4/2016 12:11'!
-scheme: aScheme
-	scheme _ aScheme! !
-
-!DivisorsGroup class methodsFor: 'instance creation' stamp: 'len 10/5/2016 10:00'!
-on: aScheme
-	^ self on: aScheme over: ZZ! !
-
-!DivisorsGroup class methodsFor: 'instance creation' stamp: 'len 10/5/2016 10:00'!
-on: aScheme over: aRing
-	^ self new scheme: aScheme; scalars: aRing! !
 
 !ExteriorPower methodsFor: 'as yet unclassified' stamp: 'len 8/1/2016 23:50'!
 degree
@@ -21157,6 +21279,12 @@ apply: aMorphism
 	"Answer the image of aRationalMap applied to the receiver, assuming the receiver is a subscheme of the domain of aMorphism."
 	^ (aMorphism restrictedTo: self) image! !
 
+!Scheme methodsFor: 'accessing' stamp: 'len 10/25/2016 10:11'!
+arithmeticGenus
+	"Answer the arithmetic genus of the receiver."
+	"self ambient isOrdinatyProjectiveSpace ifFalse: [^ self error: 'not ordinary projective space']."
+	self notYetImplemented! !
+
 !Scheme methodsFor: 'accessing' stamp: 'len 10/4/2016 09:19'!
 codimension
 	^ self ambient dimension - self dimension! !
@@ -21198,10 +21326,9 @@ functionField
 	"Answer the function field (or field of rational functions) of the receiver. This is the fractions field of the coordinate ring and it's noted K(V) (analogous to the coordinate ring noted K[V])."
 	^ self coordinateRing fractions! !
 
-!Scheme methodsFor: 'accessing' stamp: 'len 10/20/2016 22:41'!
+!Scheme methodsFor: 'accessing' stamp: 'len 10/25/2016 10:11'!
 genus
-	"Answer the arithmetic genus of the receiver."
-	"self ambient isOrdinatyProjectiveSpace ifFalse: [^ self error: 'not ordinary projective space']."
+	"Answer the geometric genus of the receiver."
 	self notYetImplemented! !
 
 !Scheme methodsFor: 'comparing' stamp: 'len 10/20/2016 16:06'!
@@ -21281,9 +21408,9 @@ isProjective
 isReduced
 	^ self ideal isRadical! !
 
-!Scheme methodsFor: 'testing' stamp: 'len 10/12/2016 19:28'!
+!Scheme methodsFor: 'testing' stamp: 'len 10/25/2016 10:16'!
 isSaturated
-	^ properties at: #isSaturated! !
+	^ properties at: #isSaturated ifAbsentPut: [self ideal isSaturated]! !
 
 !Scheme methodsFor: 'testing' stamp: 'len 10/25/2016 06:42'!
 isSingular
@@ -21300,20 +21427,28 @@ isSingularAt: aPoint
 isSmooth
 	^ properties at: #isSmooth! !
 
-!Scheme methodsFor: 'testing' stamp: 'len 10/25/2016 06:51'!
+!Scheme methodsFor: 'testing' stamp: 'len 10/25/2016 14:15'!
 isSmoothAt: aPoint
 	properties at: #isSmooth ifPresent: [:aBoolean| aBoolean ifTrue: [^ true]].
-	"(self includes: aPoint) ifFalse: [self error: 'point not in this scheme']."
+	(self includes: aPoint) ifFalse: [DomainError signal: 'point not in this scheme'].
 	^ self jacobianIdeal generators anySatisfy: [:each| (each value: aPoint) isZero not]! !
 
-!Scheme methodsFor: 'operations' stamp: 'len 10/25/2016 06:07'!
+!Scheme methodsFor: 'operations' stamp: 'len 10/25/2016 10:19'!
 jacobianIdeal
 	| R generators J |
 	R _ self ambient coordinateRing.
 	generators _  self ideal generators asArray.
-	J _ self ambient coordinateRing ** (R rank @ generators size)
+	J _ R ** (R rank @ generators size)
 		evaluating: [:i :j| (generators at: j) derivativeIn: i].
 	^ R * (generators, ((J minors: self codimension) collect: [:each| self ideal reduce: each]))! !
+
+!Scheme methodsFor: 'operations' stamp: 'len 10/25/2016 09:48'!
+jacobianMatrix
+	| R generators |
+	R _ self ambient coordinateRing.
+	generators _  self ideal generators asArray.
+	^ R ** (R rank @ generators size)
+		evaluating: [:i :j| (generators at: j) derivativeIn: i]! !
 
 !Scheme methodsFor: 'operations' stamp: 'len 10/20/2016 16:11'!
 project: anIndeterminate
@@ -21426,9 +21561,14 @@ relativeSubscheme: anObject
 species
 	^ AffineScheme! !
 
-!AffineScheme class methodsFor: 'instance creation' stamp: 'len 10/19/2016 23:20'!
+!AffineScheme class methodsFor: 'instance creation' stamp: 'len 10/25/2016 10:06'!
 coordinateRing: aRing
 	^ self new coordinateRing: aRing! !
+
+!AffineScheme class methodsFor: 'instance creation' stamp: 'len 10/25/2016 09:39'!
+newFrom: anObject
+	(anObject isKindOf: AffineScheme) ifTrue: [^ self coordinateRing: anObject coordinateRing].
+	^ super newFrom: anObject! !
 
 !AffineCurve methodsFor: 'as yet unclassified' stamp: 'len 10/24/2016 18:34'!
 dimension
@@ -21549,7 +21689,7 @@ isAffine
 isProjective
 	^ true! !
 
-!ProjectiveScheme methodsFor: 'testing' stamp: 'len 10/25/2016 06:46'!
+!ProjectiveScheme methodsFor: 'testing' stamp: 'len 10/25/2016 14:54'!
 isSmooth
 	^ properties at: #isSmooth ifAbsentPut: [self jacobianIdeal dimension <= 0]! !
 
@@ -21568,9 +21708,14 @@ relativeSubscheme: anObject
 species
 	^ ProjectiveScheme! !
 
-!ProjectiveScheme class methodsFor: 'instance creation' stamp: 'len 10/20/2016 15:31'!
+!ProjectiveScheme class methodsFor: 'instance creation' stamp: 'len 10/25/2016 10:03'!
 coordinateRing: aRing
 	^ self new coordinateRing: aRing! !
+
+!ProjectiveScheme class methodsFor: 'instance creation' stamp: 'len 10/25/2016 10:12'!
+newFrom: anObject
+	(anObject isKindOf: ProjectiveScheme) ifTrue: [^ self coordinateRing: anObject coordinateRing].
+	^ super newFrom: anObject! !
 
 !ProjectiveCurve methodsFor: 'as yet unclassified' stamp: 'len 10/13/2016 13:38'!
 dimension
@@ -21589,14 +21734,6 @@ components
 !ProjectivePlaneCurve methodsFor: 'as yet unclassified' stamp: 'len 8/29/2016 16:45'!
 degree
 	^ self polynomial degree! !
-
-!ProjectivePlaneCurve methodsFor: 'as yet unclassified' stamp: 'len 10/24/2016 20:13'!
-isNonsingular
-	^ (self ambient coordinateRing * (self polynomial gradient, self polynomial)) dimension <= 0! !
-
-!ProjectivePlaneCurve methodsFor: 'as yet unclassified' stamp: 'len 8/31/2016 08:14'!
-isSingularAt: aPoint
-	^ self polynomial gradient allSatisfy: [:each| (each value: aPoint) isZero]! !
 
 !ProjectivePlaneCurve methodsFor: 'as yet unclassified' stamp: 'len 10/24/2016 20:13'!
 polynomial
@@ -21621,8 +21758,8 @@ discriminant
 genus
 	^ 1! !
 
-!EllipticCurve methodsFor: 'testing' stamp: 'len 10/14/2016 09:32'!
-isNonsingular
+!EllipticCurve methodsFor: 'testing' stamp: 'len 10/25/2016 14:11'!
+isSmooth
 	^ self discriminant isZero not! !
 
 !EllipticCurve class methodsFor: 'instance creation' stamp: 'len 10/24/2016 20:19'!
@@ -21643,9 +21780,9 @@ ambient
 dimension
 	^ self coordinateRing dimension - 1! !
 
-!ProjectiveSpace methodsFor: 'testing' stamp: 'len 10/20/2016 16:19'!
+!ProjectiveSpace methodsFor: 'testing' stamp: 'len 10/25/2016 07:42'!
 includes: aPoint
-	^ (aPoint isKindOf: Tuple) and: [aPoint size = self rank and: [aPoint isZero not and: [aPoint allSatisfy: [:each| self scalars includes: each]]]]! !
+	^ (aPoint is: #Tuple) and: [aPoint size = self rank and: [aPoint isZero not and: [aPoint allSatisfy: [:each| self scalars includes: each]]]]! !
 
 !ProjectiveSpace methodsFor: 'printing' stamp: 'len 10/20/2016 16:19'!
 printOn: aStream
@@ -32995,97 +33132,6 @@ span
 !AffineFrame class methodsFor: 'instance creation' stamp: 'len 1/3/2016 03:43'!
 origin: aPoint basis: aLinearBasis
 	^ self new origin: aPoint; basis: aLinearBasis! !
-
-!HomogeneousTuple methodsFor: 'comparing' stamp: 'len 6/29/2016 05:24'!
-= aHomogeneousTuple
-	| index |
-	index _ self firstNonZero.
-	(aHomogeneousTuple at: index) isZero ifTrue: [^ false].
-	^ self coordinates / (self at: index) = (aHomogeneousTuple coordinates / (aHomogeneousTuple at: index))! !
-
-!HomogeneousTuple methodsFor: 'converting' stamp: 'len 11/7/97 01:42'!
-affinized
-	"Answer the affinization of the receiver."
-
-	^ self affinizedIn: self size! !
-
-!HomogeneousTuple methodsFor: 'converting' stamp: 'len 12/13/2015 23:39'!
-affinizedIn: anInteger
-	"Answer the affinization of the receiver with respect to the anInteger-th coordinate."
-
-	| scalar |
-	scalar _ self at: anInteger.
-	^ Tuple
-		new: self coordinates size - 1
-		evaluating: [:i| (i < anInteger ifTrue: [self at: i] ifFalse: [self at: i + 1]) / scalar]! !
-
-!HomogeneousTuple methodsFor: 'converting' stamp: 'len 11/8/2015 00:18'!
-asTuple
-	"Answer a Tuple with the coordinates of the receiver."
-
-	^ self coordinates! !
-
-!HomogeneousTuple methodsFor: 'accessing' stamp: 'len 11/20/2015 16:14'!
-at: anInteger
-	"Answer the anInteger-th coordinate of the receiver."
-
-	^ coordinates at: anInteger! !
-
-!HomogeneousTuple methodsFor: 'accessing' stamp: 'len 11/9/2015 07:14'!
-coordinates
-	^ coordinates! !
-
-!HomogeneousTuple methodsFor: 'accessing-private' stamp: 'len 1/5/98 20:31'!
-coordinates: aTuple
-	coordinates _ aTuple! !
-
-!HomogeneousTuple methodsFor: 'private' stamp: 'len 6/29/2016 05:23'!
-firstNonZero
-	^ (1 to: self size) detect: [ :each | (self at: each) isZero not]! !
-
-!HomogeneousTuple methodsFor: 'comparing' stamp: 'len 6/29/2016 05:24'!
-hash
-	^ (coordinates / (self at: self firstNonZero)) hash! !
-
-!HomogeneousTuple methodsFor: 'printing' stamp: 'len 6/29/2016 05:25'!
-printOn: aStream
-	aStream nextPut: $[.
-	self coordinates do: [:each| each printOn: aStream] separatedBy: [aStream nextPut: $:].
-	aStream nextPut: $]! !
-
-!HomogeneousTuple methodsFor: 'accessing' stamp: 'len 11/20/2015 16:14'!
-size
-	^ coordinates size! !
-
-!HomogeneousTuple methodsFor: 'accessing' stamp: 'len 11/20/2015 16:14'!
-x
-	"Answer the x coordinate of the receiver."
-
-	^ coordinates x! !
-
-!HomogeneousTuple methodsFor: 'accessing' stamp: 'len 11/20/2015 16:14'!
-y
-	"Answer the y coordinate of the receiver."
-
-	^ coordinates y! !
-
-!HomogeneousTuple methodsFor: 'accessing' stamp: 'len 11/20/2015 16:14'!
-z
-	"Answer the z coordinate of the receiver."
-
-	^ coordinates z! !
-
-!HomogeneousTuple class methodsFor: 'instance creation' stamp: 'len 11/28/97 02:43'!
-coordinates: aTuple
-	"Answer a new instance of the receiver with the given coordinates."
-
-	^ self new coordinates: aTuple! !
-
-!HomogeneousTuple class methodsFor: 'instance creation' stamp: 'len 11/28/97 02:04'!
-x: x y: y z: z
-	"Answer a new instance of the receiver with the given coordinates."
-
-	^ self coordinates: (Tuple x: x y: y z: z)! !
 
 !ProjectiveChart methodsFor: 'accessing' stamp: 'len 8/30/2016 05:48'!
 affine
