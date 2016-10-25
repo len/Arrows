@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 23 October 2016 at 9:50:56.284939 pm'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 25 October 2016 at 4:08:00.758869 pm'!
 'Description Please enter a description for this package'!
-!provides: 'MathematicsTests' 1 33!
+!provides: 'MathematicsTests' 1 34!
 !classDefinition: #AbelianGroupTest category: #MathematicsTests!
 TestCase subclass: #AbelianGroupTest
 	instanceVariableNames: ''
@@ -574,6 +574,19 @@ testDifference
 	self assert: D = C.
 	self assert: (C \ A) isEmpty "removing the ambient space removes all"! !
 
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/25/2016 14:09'!
+testEllipticCurvesAreSmooth
+	| R x y C |
+	R _ QQ polynomialsIn: #(x y z).
+	x _ R x.
+	y _ R y.
+	C _ R / (x**3 - (x*3) + 3 - (y**2) homogenizedIn: 3) :: proj.
+	self assert: C isSmooth.
+	C _ R / (x**3 + x - (y**2) homogenizedIn: 3) :: proj.
+	self assert: C isSmooth.
+	C _ R / (x**3 - x - (y**2) homogenizedIn: 3) :: proj.
+	self assert: C isSmooth! !
+
 !AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/15/2016 09:59'!
 testEmpty
 	| A X |
@@ -667,6 +680,15 @@ testProjectiveClosrure
 	X2 _ PX affinePatch: 2.
 	self assert: X2 projectiveClosure = X projectiveClosure! !
 
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/24/2016 20:42'!
+testProjectivePlaneCurveArithmeticGenus
+	| R f C |
+	R _  (ZZ/5) polynomialsIn: 3.
+	f _ R evaluatingWithArguments: [:x :y :z| y**2*(z**7) - (x**9) - (x*(z**8))].
+	C _ ProjectivePlaneCurve polynomial: f.
+	self assert: C arithmeticGenus = 28.
+	"self assert: C genus = 4"! !
+
 !AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/18/2016 20:58'!
 testProjectiveSpace
 	| K P |
@@ -727,6 +749,13 @@ testRationalMapLinearMapConversion
 	f`` _ f` as: V2 -> V3.
 	self assert: f = f``! !
 
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/25/2016 07:41'!
+testRationalPointsOverFiniteField
+	| P C |
+	P _ ProjectiveSpace new: 2 over: ZZ/7.
+	C _ P subscheme: (P coordinateRing evaluatingWithArguments: [:x :y :z| x**3 + (y**3) - (z**3)]).
+	self assert: C rationalPoints asSet size = 9! !
+
 !AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/13/2016 20:22'!
 testReduced
 	| A R x y z X |
@@ -739,6 +768,64 @@ testReduced
 	self assert: X isReduced not.
 	self assert: X reduced = (A subscheme: {x*y. x*z})! !
 
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/25/2016 14:23'!
+testSingularCubics
+	| R x y C |
+	R _ QQ polynomialsIn: #(x y z).
+	x _ R x.
+	y _ R y.
+	C _ R / (x**3 - (y**2) homogenizedIn: 3) :: proj.
+	self assert: (C isSmoothAt: (1,1,1)h).
+	self assert: (C isSmoothAt: (0,0,1)h) not.
+	self assert: C isSingular.
+	C _ R / (x**3 + (x**2) - (y**2) homogenizedIn: 3) :: proj.
+	self assert: C isSingular! !
+
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/25/2016 06:38'!
+testSmoothness
+	| R C |
+	R _ QQ polynomialsIn: #(x y).
+	"cuspidal curve:"
+	C _ (R / (R evaluatingWithArguments: [:x :y| y**2 - (x**3)])) spec.
+	self assert: C isSmooth not.
+	self assert: C isNonsingular not.
+	self assert: C isSingular.
+	self assert: (C isSmoothAt: (1,1)).
+	self assert: (C isSmoothAt: (0,0)) not! !
+
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/25/2016 07:15'!
+testSmoothnessOverCC
+	| P R C |
+	P _ ProjectiveSpace new: 2 over: CC.
+	R _ P coordinateRing.
+	C _ P subscheme: (R evaluatingWithArguments: [:x :y :z| x]).
+	self assert: C isSingular not.
+	C _ P subscheme: (R evaluatingWithArguments: [:x :y :z| y**2*z - (x**3)]).
+	self assert: C isSingular.
+	C _ P subscheme: (R evaluatingWithArguments: [:x :y :z| y**2*z - (x**3) + (z**3)]).
+	self assert: C isSingular not! !
+
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/25/2016 07:13'!
+testSmoothnessOverFiniteField
+	| P R C |
+	P _ ProjectiveSpace new: 2 over: ZZ/19.
+	R _ P coordinateRing.
+	C _ P subscheme: (R evaluatingWithArguments: [:x :y :z| x**3 + (y**3) + (z**3)]).
+	self assert: C isSingular not.
+	C _ P subscheme: (R evaluatingWithArguments: [:x :y :z| x**4 - (x*(z**3))]).
+	self assert: C isSingular.
+	C _ P subscheme: (R evaluatingWithArguments: [:x :y :z| x**5 + (y**5*19) + (z**5)]).
+	self assert: C isSingular.
+	C _ P subscheme: (R evaluatingWithArguments: [:x :y :z| x**5 + (y**5*9) + (z**5)]).
+	self assert: C isSingular not! !
+
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/25/2016 07:04'!
+testSmoothnessOverQQ
+	| P C |
+	P _ ProjectiveSpace new: 2 over: QQ.
+	C _ P subscheme: (P coordinateRing evaluatingWithArguments: [:x :y :z| x**3 - (y**2*z)]).
+	self assert: C isSingular! !
+
 !AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/20/2016 09:57'!
 testSpecZ
 	self assert: ZZ spec >= (ZZ mod: 2) spec.
@@ -747,7 +834,7 @@ testSpecZ
 	self assert: (ZZ mod: 10) spec ˜ (ZZ mod: 15) spec = (ZZ mod: 5) spec.
 	self assert: (ZZ mod: 10) spec ™ (ZZ mod: 15) spec = (ZZ mod: 30) spec! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/23/2016 12:06'!
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/25/2016 06:13'!
 testTwistedCubic
 	| P R M C |
 	P _ ProjectiveSpace new: 3 over: QQ.
@@ -756,7 +843,7 @@ testTwistedCubic
 	M _ R**(2@3) vectorAt: ((1,2,3,2,3,4) collect: [:i| R x: i]).
 	C _ P subscheme: (M minors: 2).
 	self assert: C dimension = 1.
-	self assert: C isNonsingular! !
+	self assert: C isSmooth! !
 
 !AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/23/2016 12:09'!
 testTwistedCubicDegree
@@ -1202,11 +1289,11 @@ testIdealRadical
 	J _ R * {x. y}.
 	self assert: I radical = J! !
 
-!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 7/9/2016 03:46'!
+!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 10/24/2016 15:48'!
 testIdealRadicalZeroDimNotPerfectField
-	"Counterexample that shows how Seidenberg algorithm fails over a non-perfect field."
-	self flag: #fix.
-"	| p F R t x y I |
+	"Counterexample that shows how Seidenberg algorithm fails over a non-perfect field.
+	From Becker and Weispfenning 'Groebner Bases', Springer-Verlag, 1993. Example 8.16."
+	| p F R t x y I |
 	p _ #(3 5 7 11) atRandom.
 	F _ (Integers new modPrime: p) polynomialsIn: #(t) :: fractions.
 	R _ F polynomialsIn: #(x y).
@@ -1216,7 +1303,7 @@ testIdealRadicalZeroDimNotPerfectField
 	I _ R * {x**p - t. y**p - t}.
 	self assert: (I includes: x**p - (y**p)).
 	self deny: (I includes: x - y).
-	self assert: (I radical includes: x - y)"! !
+	self assert: (I radical includes: x - y)! !
 
 !CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:57'!
 testIdealRadicalZeroDimPerfectField
@@ -1242,14 +1329,69 @@ testIdealSaturation
 	S _ R * {y. x**5}.
 	self assert: (I saturation: J) = S! !
 
-!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 10/20/2016 06:03'!
+!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 10/25/2016 15:02'!
 testKrullDimension
 	| R I Q |
 	R _ QQ polynomialsIn: #(x y).
 	self assert: R dimension = 2.
 	I _ R * {R x. R y}.
 	Q _ R / I.
-	self assert: Q dimension = 0! !
+	self assert: Q dimension = 0.
+	I _ R * R zero. "zero ideal"
+	Q _ R / I.
+	self assert: Q dimension = 2! !
+
+!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 10/25/2016 16:00'!
+testKrullDimension2
+	"Example from SageMath."
+	| R x y I |
+	R _ QQ polynomialsIn: #(x y).
+	x _ R x.
+	y _ R y.
+	I _ R * {x*y. x*y + 1}.
+	self assert: (R / I) dimension < 0.
+	I _ R * {x*(x*y + 1). y*(x*y + 1)}.
+	self assert: (R / I) dimension = 1.
+	I _ R * {x**3*y. x*(y**2)}.
+	self assert: (R / I) dimension = 1! !
+
+!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 10/25/2016 15:18'!
+testKrullDimensionFiniteField
+	"Example from SageMath."
+	| R x y I Q |
+	R _ ZZ/32003 polynomialsIn: #(x y z).
+	self assert: R dimension = 3.
+	x _ R x.
+	y _ R y.
+	I _ R * {x**2 - y. x**3}.
+	Q _ R / I.
+	self assert: Q dimension = 1! !
+
+!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 10/25/2016 15:59'!
+testKrullDimensionFiniteField2
+	"Example from SageMath."
+	| R x y I |
+	R _ ZZ/2147483659 polynomialsIn: #(x y).
+	x _ R x.
+	y _ R y.
+	I _ R * {x*y. x*y + 1}.
+	self assert: (R / I) dimension < 0.
+	I _ R * {x*(x*y + 1). y*(x*y + 1)}.
+	self assert: (R / I) dimension = 1.
+	I _ R * {x**3*y. x*(y**2)}.
+	self assert: (R / I) dimension = 1! !
+
+!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 10/25/2016 15:07'!
+testKrullDimensionOverZZ
+	| R I Q |
+	R _ ZZ polynomialsIn: #(x y).
+	self assert: R dimension = 3.
+"	I _ R * {R x. R y}.
+	Q _ R / I.
+	self assert: Q dimension = 0.
+"	I _ R * R zero. "zero ideal"
+	Q _ R / I.
+	self assert: Q dimension = 3! !
 
 !CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:57'!
 testMultivariateDivisionExample
