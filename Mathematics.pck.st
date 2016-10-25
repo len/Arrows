@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 24 October 2016 at 9:55:30.955952 pm'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 25 October 2016 at 6:14:32.747323 am'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 248!
+!provides: 'Mathematics' 1 249!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
 	instanceVariableNames: 'numerator shift'
@@ -259,6 +259,16 @@ RectangleLikeMorph subclass: #HistogramMorph
 	category: 'Mathematics-Morphic'!
 !classDefinition: 'HistogramMorph class' category: #'Mathematics-Morphic'!
 HistogramMorph class
+	instanceVariableNames: ''!
+
+!classDefinition: #ImplicitFunctionPlot3DMorph category: #'Mathematics-Morphic'!
+RectangleLikeMorph subclass: #ImplicitFunctionPlot3DMorph
+	instanceVariableNames: 'function form image box transformation lastMousePosition'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Morphic'!
+!classDefinition: 'ImplicitFunctionPlot3DMorph class' category: #'Mathematics-Morphic'!
+ImplicitFunctionPlot3DMorph class
 	instanceVariableNames: ''!
 
 !classDefinition: #ImplicitFunctionPlotMorph category: #'Mathematics-Morphic'!
@@ -9921,7 +9931,7 @@ privateAddEdgeFrom: source to: target label: label
 	self addMorphBack: morph.
 	^ morph! !
 
-!GraphMorph methodsFor: 'as yet unclassified' stamp: 'len 7/9/2016 22:53'!
+!GraphMorph methodsFor: 'geometry' stamp: 'len 7/9/2016 22:53'!
 privateExtent: aPoint
 	^ (super privateExtent: aPoint) ifTrue: [self startStepping]; yourself! !
 
@@ -10484,6 +10494,114 @@ new: binCount samples: aCollection
 	answer _ self new: binCount min: aCollection min max: aCollection max.
 	aCollection do: [:each| answer addValue: each].
 	^ answer! !
+
+!ImplicitFunctionPlot3DMorph methodsFor: 'as yet unclassified' stamp: 'len 10/25/2016 04:35'!
+box: aRectangle
+	box _ aRectangle.
+	image _ nil.
+	self redrawNeeded! !
+
+!ImplicitFunctionPlot3DMorph methodsFor: 'as yet unclassified' stamp: 'len 10/25/2016 05:28'!
+buildImage
+	image _ Form extent: self morphExtent depth: Display depth.
+	1.0 to: image width count: 2 do: [:k|
+		| z |
+		z _ k asFloat / image width * box width - box right.
+		self drawImplicitFunction: [:xy| function value: (transformation value: xy,z)] color: color].
+"	1.0 to: image width count: 20 do: [:k|
+		| z |
+		z _ k asFloat / image width * box width - box right.
+		self drawImplicitFunction: [:xy| function value: xy,z]].
+"! !
+
+!ImplicitFunctionPlot3DMorph methodsFor: 'as yet unclassified' stamp: 'len 10/25/2016 05:02'!
+drawImplicitFunction: aFunction color: aColor
+	| lastRow |
+	lastRow _ nil.
+	1 to: image height do: [:j|
+		| y row lastSign |
+		y _ j asFloat / image height * box height - box bottom.
+		row _ Array new: image width.
+		lastSign _ nil.
+		1 to: image width do: [:i|
+			| x sign |
+			x _ i asFloat / image width * box width - box right.
+			sign _ (aFunction value: (x,y)) sign.
+			((lastSign notNil and: [lastSign ~= sign])
+				or: [lastRow notNil and: [(lastRow at: i) ~= sign]])
+					ifTrue: [image colorAt: i@(image height - j + 1) put: aColor].
+			row at: i put: sign.
+			lastSign _ sign].
+		lastRow _ row]! !
+
+!ImplicitFunctionPlot3DMorph methodsFor: 'as yet unclassified' stamp: 'len 10/25/2016 04:35'!
+drawOn: aCanvas
+	image isNil ifTrue: [self buildImage].
+	aCanvas image: image at: 0@0! !
+
+!ImplicitFunctionPlot3DMorph methodsFor: 'as yet unclassified' stamp: 'len 10/25/2016 04:36'!
+function: aFunction
+	function _ aFunction.
+	image _ nil.
+	self redrawNeeded! !
+
+!ImplicitFunctionPlot3DMorph methodsFor: 'as yet unclassified' stamp: 'len 10/25/2016 05:08'!
+handlesMouseDown: aMouseButtonEvent
+	"Do I want to receive mouseDown events (mouseDown:, mouseMove:, mouseUp:)?"
+	^true! !
+
+!ImplicitFunctionPlot3DMorph methodsFor: 'as yet unclassified' stamp: 'len 10/25/2016 05:23'!
+initialize
+	super initialize.
+	extent _ 150@150.
+	color _ Color lightGray alpha: 0.5.
+	box _ -1@-1 extent: 2@2.
+	transformation _ (QQ**3) asAffineSpace id! !
+
+!ImplicitFunctionPlot3DMorph methodsFor: 'as yet unclassified' stamp: 'len 10/25/2016 04:35'!
+morphExtent: aPoint
+	image _ nil.
+	super morphExtent: aPoint! !
+
+!ImplicitFunctionPlot3DMorph methodsFor: 'as yet unclassified' stamp: 'len 10/25/2016 05:08'!
+mouseButton1Down: aMouseButtonEvent localPosition: localEventPosition
+	super mouseButton1Down: aMouseButtonEvent localPosition: localEventPosition.
+	lastMousePosition _ localEventPosition! !
+
+!ImplicitFunctionPlot3DMorph methodsFor: 'as yet unclassified' stamp: 'len 10/25/2016 05:10'!
+mouseMove: aMouseMoveEvent localPosition: localEventPosition
+	lastMousePosition isNil
+		ifFalse:
+			[aMouseMoveEvent shiftPressed
+				ifTrue:
+					[| bounds d |
+					bounds _ self morphLocalBounds.
+					d _ (localEventPosition dist: lastMousePosition) / (bounds width min: bounds height).
+					localEventPosition y >= lastMousePosition y ifTrue: [d _ d negated].
+					self scalePlotBy: 2.0 ** d]
+				ifFalse: [self rotatePlotBy: lastMousePosition - localEventPosition]].
+	lastMousePosition _ localEventPosition! !
+
+!ImplicitFunctionPlot3DMorph methodsFor: 'as yet unclassified' stamp: 'len 10/25/2016 05:26'!
+rotatePlotBy: aPoint
+	| xSpeed ySpeed |
+	xSpeed _ Float pi / self morphLocalBounds width.
+	ySpeed _ Float pi / self morphLocalBounds height.
+"	self dimension = 2 ifTrue: [self nodesDo: [:each| |p pp| p _ each x. pp _ p x @ p y rotatedBy: aPoint y * ySpeed negated + (aPoint x * xSpeed). each x: (pp x, pp y)]. ^ self]."
+	transformation _ transformation @ (transformation parent evaluating: [:p| | xz yz |
+		xz _ p x @ p z.
+		xz _ xz rotatedBy: aPoint x * xSpeed.
+		yz _ p y @ xz y.
+		yz _ yz rotatedBy: aPoint y * ySpeed.
+		(xz x, yz x, yz y)]).
+	image _ nil.
+	self redrawNeeded! !
+
+!ImplicitFunctionPlot3DMorph methodsFor: 'as yet unclassified' stamp: 'len 10/25/2016 05:26'!
+scalePlotBy: aFactor
+	transformation _ transformation * aFactor.
+	image _ nil.
+	self redrawNeeded! !
 
 !ImplicitFunctionPlotMorph methodsFor: 'as yet unclassified' stamp: 'len 10/24/2016 21:38'!
 box: aRectangle
@@ -12658,7 +12776,7 @@ on: aDomain evaluating: aBlock
 	relation _ anEquivalenceRelation isBlock ifTrue: [EquivalenceRelation on: self evaluating: anEquivalenceRelation] ifFalse: [anEquivalenceRelation].
 	^ QuotientSet by: relation! !
 
-!FormalSet methodsFor: 'as yet unclassified' stamp: 'len 10/16/2016 13:25'!
+!FormalSet methodsFor: 'comparing' stamp: 'len 10/16/2016 13:25'!
 = anObject
 	(anObject isKindOf: FormalSet) ifFalse: [^ super = anObject].
 	^ self elements = anObject elements! !
@@ -21034,9 +21152,9 @@ on: aVectorSpace
 	^ self class on: self ambient ideal: ideal * aScheme ideal
 although the intersection is harder to compute, it behaves better with radicalization, because the intersection of two radical ideals is radical and we don't need to compute radicals again"! !
 
-!Scheme methodsFor: 'operations' stamp: 'len 10/19/2016 23:13'!
+!Scheme methodsFor: 'operations' stamp: 'len 10/24/2016 22:28'!
 apply: aMorphism
-	"Answer the image of aRationalMap applied to the receiver, assuming the receiver is a subscheme of the domain of aRationalMap."
+	"Answer the image of aRationalMap applied to the receiver, assuming the receiver is a subscheme of the domain of aMorphism."
 	^ (aMorphism restrictedTo: self) image! !
 
 !Scheme methodsFor: 'accessing' stamp: 'len 10/4/2016 09:19'!
@@ -21132,7 +21250,7 @@ isLinear
 isNoetherian
 	^ self coordinateRing isNoetherian! !
 
-!Scheme methodsFor: 'testing' stamp: 'len 10/12/2016 19:28'!
+!Scheme methodsFor: 'testing' stamp: 'len 10/25/2016 06:10'!
 isNonsingular
 	^ properties at: #isNonsingular! !
 
@@ -21176,6 +21294,15 @@ isSmooth
 isSmoothAt: aPoint
 	"Synonym of 'nonsingular'."
 	^ self isNonsingularAt: aPoint! !
+
+!Scheme methodsFor: 'operations' stamp: 'len 10/25/2016 06:07'!
+jacobianIdeal
+	| R generators J |
+	R _ self ambient coordinateRing.
+	generators _  self ideal generators asArray.
+	J _ self ambient coordinateRing ** (R rank @ generators size)
+		evaluating: [:i :j| (generators at: j) derivativeIn: i].
+	^ R * (generators, ((J minors: self codimension) collect: [:each| self ideal reduce: each]))! !
 
 !Scheme methodsFor: 'operations' stamp: 'len 10/20/2016 16:11'!
 project: anIndeterminate
@@ -21256,6 +21383,10 @@ isFinite
 			ifFalse: [^ false]].
 	^ true! !
 
+!AffineScheme methodsFor: 'testing' stamp: 'len 10/25/2016 06:10'!
+isNonsingular
+	^ properties at: #isNonsingular ifAbsentPut: [self jacobianIdeal dimension < 0]! !
+
 !AffineScheme methodsFor: 'testing' stamp: 'len 10/20/2016 15:22'!
 isProjective
 	^ false! !
@@ -21269,7 +21400,7 @@ projectiveClosure
 	"Answer the projective closure of the receiver. If the receiver is an affine patch of a projective scheme, answer the original projective scheme. Otherwise the projective closure will be a projective scheme over the projective closure of the ambient space of the receiver, and the receiver will be the last affine patch."
 	^ properties at: #projectiveClosure ifAbsentPut: [self ideal homogenized quotient proj]! !
 
-!AffineScheme methodsFor: 'as yet unclassified' stamp: 'len 10/24/2016 19:07'!
+!AffineScheme methodsFor: 'operations' stamp: 'len 10/24/2016 19:07'!
 rationalPointsDo: aBlock
 	self ambient rationalPointsDo: [:each| (self includes: each) ifTrue: [aBlock value: each]]! !
 
@@ -21402,6 +21533,10 @@ dimension
 !ProjectiveScheme methodsFor: 'testing' stamp: 'len 10/20/2016 15:22'!
 isAffine
 	^ false! !
+
+!ProjectiveScheme methodsFor: 'testing' stamp: 'len 10/25/2016 06:11'!
+isNonsingular
+	^ properties at: #isNonsingular ifAbsentPut: [self jacobianIdeal dimension <= 0]! !
 
 !ProjectiveScheme methodsFor: 'testing' stamp: 'len 10/20/2016 15:21'!
 isProjective
