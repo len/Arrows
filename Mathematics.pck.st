@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 27 October 2016 at 2:28:17.186069 pm'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 27 October 2016 at 2:43:01.682662 pm'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 252!
+!provides: 'Mathematics' 1 253!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
 	instanceVariableNames: 'numerator shift'
@@ -479,16 +479,6 @@ Domain subclass: #EquivalenceRelation
 	category: 'Mathematics-Sets'!
 !classDefinition: 'EquivalenceRelation class' category: #'Mathematics-Sets'!
 EquivalenceRelation class
-	instanceVariableNames: ''!
-
-!classDefinition: #FormalSet category: #'Mathematics-Sets'!
-Domain subclass: #FormalSet
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Sets'!
-!classDefinition: 'FormalSet class' category: #'Mathematics-Sets'!
-FormalSet class
 	instanceVariableNames: ''!
 
 !classDefinition: #Naturals category: #'Mathematics-Sets'!
@@ -3615,14 +3605,6 @@ See EquivalenceClass.
 
 References:
 	https://en.wikipedia.org/wiki/Equivalence_relation!
-
-!FormalSet commentStamp: '<historical>' prior: 0!
-My instances are mathematical sets, i.e. objects in the category of sets. They arise when seeing a Smalltalk Set as a mathematical set, or when seeing any other Domain as a set (as applying the forgetful functor to the cateogry of sets).
-
-Examples:
-	#(1 2 3) asSet as: FormalSet.
-	ZZ as: FormalSet.
-!
 
 !Naturals commentStamp: '<historical>' prior: 0!
 My singletion global instance NN is the set of natural numbers 1, 2, 3, ...!
@@ -11598,11 +11580,13 @@ printOn: aStream
 	"Answer true if the receiver is a subobject of aDomain (inclusion)."
 	^ self = aDomain or: [self < aDomain]! !
 
-!Domain methodsFor: 'comparing' stamp: 'len 10/9/2016 08:55'!
+!Domain methodsFor: 'comparing' stamp: 'len 10/27/2016 14:37'!
 = aDomain
 	self == aDomain ifTrue: [^ true].
 	self size = aDomain size ifFalse: [^ false].
 	self isFinite ifTrue: [^ self asSet = aDomain asSet].
+	properties at: #elements ifPresent: [:aCollectionOrDomain| ^ aDomain = aCollectionOrDomain].
+	aDomain properties at: #elements ifPresent: [:aCollectionOrDomain| ^ self = aCollectionOrDomain].
 	^ super = aDomain! !
 
 !Domain methodsFor: 'comparing' stamp: 'len 8/12/2016 21:49'!
@@ -11666,9 +11650,9 @@ asArray
 	properties at: #elements ifPresent: [:aCollectionOrDomain| ^ aCollectionOrDomain asArray].
 	^ (Iterator on: self performing: #do:) asArray! !
 
-!Domain methodsFor: 'converting' stamp: 'len 10/16/2016 13:27'!
+!Domain methodsFor: 'converting' stamp: 'len 10/27/2016 14:40'!
 asFormalSet
-	^ (properties at: #elements ifAbsent: [self]) as: FormalSet! !
+	^ (properties at: #elements ifAbsent: [self]) as: Domain! !
 
 !Domain methodsFor: 'converting' stamp: 'len 4/25/2016 20:58'!
 asSet
@@ -11697,22 +11681,27 @@ atRandomBits: bitSize
 	"Answer an element of the receiver of at most n bits (as measured by #bitSize). The total number of elements that could be returned shouldn't exceed 2^n."
 	^ Random withDefaultDo: [:aRandom| self atRandom: aRandom bits: bitSize]! !
 
+!Domain methodsFor: 'morphisms' stamp: 'len 10/27/2016 14:38'!
+automorphisms
+	^ SymmetricGroup on: self! !
+
 !Domain methodsFor: 'operations' stamp: 'len 10/16/2016 14:54'!
 cartesian: aDomain
 	"Answer the cartesian set product of the receiver with the argument."
 	^ CartesianProduct components: {self. aDomain}! !
 
-!Domain methodsFor: 'iterating' stamp: 'len 8/31/2016 03:33'!
+!Domain methodsFor: 'iterating' stamp: 'len 10/27/2016 14:40'!
 collect: aBlock
 	| elements |
 	elements _ Set new.
 	self do: [:each| elements add: (aBlock value: each)].
-	^ elements as: FormalSet! !
+	^ elements as: Domain! !
 
-!Domain methodsFor: 'operations' stamp: 'len 4/18/2016 23:31'!
+!Domain methodsFor: 'operations' stamp: 'len 10/27/2016 14:39'!
 coproduct: aDomain
 	"Answer the categorical sum (or coproduct) of the receiver with the argument."
-	^ self subclassResponsibility! !
+	"The coproduct in the category of sets is the disjoint union."
+	^ self species newFrom: ((self elements collect: [:each| (each, 0)]) ™ (aDomain elements collect: [:each| (each, 1)]))! !
 
 !Domain methodsFor: 'copying' stamp: 'len 5/1/2016 23:35'!
 copyEmpty
@@ -11922,10 +11911,11 @@ name
 name: aString
 	properties at: #name put: aString! !
 
-!Domain methodsFor: 'accessing' stamp: 'len 6/13/2016 00:48'!
+!Domain methodsFor: 'accessing' stamp: 'len 10/27/2016 14:39'!
 null
 	"Answer the null or zero object in the category of the receiver, i.e. an object that is both intial and terminal. For example {id} in the case of groups (the trivial group)."
-	^ properties at: #null! !
+	"The null object in the category of sets is the empty set."
+	^ properties at: #null ifAbsent: [self class newFrom: (Set new: 0)]! !
 
 !Domain methodsFor: 'copying' stamp: 'len 3/19/2016 22:41'!
 postCopy
@@ -11969,12 +11959,12 @@ propertyAt: aSymbol ifAbsentPut: aBlock
 propertyAt: aSymbol put: anObject
 	^ properties at: aSymbol put: anObject! !
 
-!Domain methodsFor: 'iterating' stamp: 'len 8/31/2016 03:34'!
+!Domain methodsFor: 'iterating' stamp: 'len 10/27/2016 14:40'!
 select: aBlock
 	| elements |
 	elements _ Set new.
 	self do: [:each| (aBlock value: each) ifTrue: [elements add: each]].
-	^ elements as: FormalSet! !
+	^ elements as: Domain! !
 
 !Domain methodsFor: 'accessing' stamp: 'len 10/16/2016 13:23'!
 size
@@ -12887,35 +12877,6 @@ printOn: aStream
 !EquivalenceRelation class methodsFor: 'instance creation' stamp: 'len 4/25/2016 08:48'!
 on: aDomain evaluating: aBlock
 	^ self new domain: aDomain; block: aBlock! !
-
-!FormalSet methodsFor: 'operations' stamp: 'len 8/9/2016 23:30'!
-/ anEquivalenceRelation
-	| relation |
-	relation _ anEquivalenceRelation isBlock ifTrue: [EquivalenceRelation on: self evaluating: anEquivalenceRelation] ifFalse: [anEquivalenceRelation].
-	^ QuotientSet by: relation! !
-
-!FormalSet methodsFor: 'comparing' stamp: 'len 10/16/2016 13:25'!
-= anObject
-	(anObject isKindOf: FormalSet) ifFalse: [^ super = anObject].
-	^ self elements = anObject elements! !
-
-!FormalSet methodsFor: 'morphisms' stamp: 'len 8/15/2016 03:26'!
-automorphisms
-	^ SymmetricGroup on: self! !
-
-!FormalSet methodsFor: 'operations' stamp: 'len 9/1/2016 07:51'!
-coproduct: aFormalSet
-	"The coproduct in the category of sets is the disjoint union."
-	^ self species newFrom: ((self elements collect: [:each| (each, 0)]) ™ (aFormalSet elements collect: [:each| (each, 1)]))! !
-
-!FormalSet methodsFor: 'accessing' stamp: 'len 8/14/2016 05:28'!
-null
-	"Answer the empty set, i.e. the null object in the category of sets."
-	^ self class newFrom: (Set new: 0)! !
-
-!FormalSet methodsFor: 'morphisms' stamp: 'len 8/31/2016 03:36'!
-to: aDomain evaluating: aBlock
-	^ Function from: self to: aDomain evaluating: aBlock! !
 
 !Naturals methodsFor: 'comparing' stamp: 'len 12/14/2015 01:55'!
 = anObject
@@ -23528,9 +23489,9 @@ cyclesDo: aBlock
 		next ~= first] whileTrue.
 		aBlock value: cycle]! !
 
-!Permutation methodsFor: 'accessing' stamp: 'len 8/31/2016 03:34'!
+!Permutation methodsFor: 'accessing' stamp: 'len 10/27/2016 14:40'!
 domain
-	^ map keys as: FormalSet! !
+	^ map keys as: Domain! !
 
 !Permutation methodsFor: 'testing' stamp: 'len 10/1/97 19:09'!
 even
@@ -23848,9 +23809,9 @@ changesDo: aBlock
 degree
 	^ map size! !
 
-!StandardPermutation methodsFor: 'accessing' stamp: 'len 8/31/2016 03:34'!
+!StandardPermutation methodsFor: 'accessing' stamp: 'len 10/27/2016 14:40'!
 domain
-	^ (1 to: map size) as: FormalSet! !
+	^ (1 to: map size) as: Domain! !
 
 !StandardPermutation methodsFor: 'arithmetic' stamp: 'len 6/29/2016 00:24'!
 identity
