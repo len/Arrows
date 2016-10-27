@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 25 October 2016 at 4:08:00.758869 pm'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 27 October 2016 at 6:51:13.781216 pm'!
 'Description Please enter a description for this package'!
-!provides: 'MathematicsTests' 1 34!
+!provides: 'MathematicsTests' 1 35!
 !classDefinition: #AbelianGroupTest category: #MathematicsTests!
 TestCase subclass: #AbelianGroupTest
 	instanceVariableNames: ''
@@ -535,6 +535,18 @@ testAffineMapInverse
 	self assert: (f @ f inverse) isIdentity.
 	self assert: (f inverse @ f) isIdentity! !
 
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/27/2016 09:23'!
+tesRingHomomorphismSpec
+	| A B x y phi |
+	A _ QQ polynomialsIn: #(x y z).
+	B _ QQ polynomialsIn: #(x y).
+	x _ B x.
+	y _ B y.
+	phi _ A to: B evaluating: [:f| f value: {x-y. x. y}].
+	self assert: phi spec domain = B spec.
+	self assert: phi spec codomain = A spec.
+	self assert: phi spec asRingHomomorphism = phi! !
+
 !AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/12/2016 20:56'!
 testAffineSchemeCreation
 	| A x y z X Y |
@@ -749,12 +761,12 @@ testRationalMapLinearMapConversion
 	f`` _ f` as: V2 -> V3.
 	self assert: f = f``! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/25/2016 07:41'!
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/27/2016 15:41'!
 testRationalPointsOverFiniteField
 	| P C |
 	P _ ProjectiveSpace new: 2 over: ZZ/7.
 	C _ P subscheme: (P coordinateRing evaluatingWithArguments: [:x :y :z| x**3 + (y**3) - (z**3)]).
-	self assert: C rationalPoints asSet size = 9! !
+	self assert: C points size = 9! !
 
 !AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/13/2016 20:22'!
 testReduced
@@ -1171,6 +1183,42 @@ testGroebnerTrivial
 	y _ Qx y.
 	I _ Qx * {x + y. x**2 - 1. y**2 - (x*2)}.
 	self assert: I groebnerBasis minimal isTrivial! !
+
+!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 10/27/2016 18:43'!
+testHilbertSeriesOfPolynomialIdeal
+	"Derksen, Kemper 'Computational Invariant Theory', Example 1.4.9."
+	| t R x y z w I H |
+	t _ QQ polynomials fractions x.
+	R _ QQ polynomialsIn: #(x y z w) "ordering: #lex".
+	x _ R x.
+	y _ R y.
+	z _ R z.
+	w _ R x: 4.
+	I _ R * {x*z - (y**2). x*w - (y*z). y*w - (z**2)}.
+	H _ I hilbertSeriesAt: t.
+	self assert: H = (t**2 * 3 - (t**3 * 2) / ((1 - t) ** 4))! !
+
+!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 10/27/2016 18:47'!
+testHilbertSeriesOfPolynomialQuotient
+	"Derksen, Kemper 'Computational Invariant Theory', Example 1.4.9."
+	| t R x y z w I H |
+	t _ QQ polynomials fractions x.
+	R _ QQ polynomialsIn: #(x y z w) "ordering: #lex".
+	x _ R x.
+	y _ R y.
+	z _ R z.
+	w _ R x: 4.
+	I _ R * {x*z - (y**2). x*w - (y*z). y*w - (z**2)}.
+	H _ (R/I) hilbertSeriesAt: t.
+	self assert: H = (1 + (2*t) / (1 - t) squared)! !
+
+!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 10/27/2016 18:41'!
+testHilbertSeriesOfPolynomialRing
+	| t R H |
+	t _ QQ polynomials fractions x.
+	R _ QQ polynomialsIn: 4.
+	H _ R hilbertSeriesAt: t.
+	self assert: H = ((1 - t) ** -4)! !
 
 !CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 10/23/2016 18:13'!
 testIdealColon
@@ -3255,22 +3303,6 @@ testMonomialLCM
 	b _ x*y*y.
 	self assert: (a lcm: b) = (x*x*y*y)! !
 
-!MonomialTest methodsFor: 'as yet unclassified' stamp: 'len 10/23/2016 21:47'!
-testMonomialOrdering2
-	"Examples from Macaulay2 documentation."
-	| R a b c d f |
-	R _ ZZ polynomialsIn: #(a b c d).
-	a _ R x: 1.
-	b _ R x: 2.
-	c _ R x: 3.
-	d _ R x: 4.
-
-	f _ a + (b**100) + (c*d).
-
-	self assert: (f orderedBy: #lex) printString = 'a + b^{100} + cd'.
-	self assert: (f orderedBy: #trevlex) printString = 'b^{100} + cd + a'.
-	self assert: (f orderedBy: #tlex) printString = 'b^{100} + cd + a'! !
-
 !MonomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:48'!
 testMonomialOrderings
 	| P x y z f grlex lex revlex |
@@ -3289,6 +3321,36 @@ testMonomialOrderings
 	self assert: (f orderedBy: lex) leadingCoefficient = 10.
 	self assert: (f orderedBy: grlex) leadingCoefficient = -7.
 	self assert: (f orderedBy: revlex) leadingCoefficient = 11! !
+
+!MonomialTest methodsFor: 'as yet unclassified' stamp: 'len 10/27/2016 08:44'!
+testMonomialOrderings2
+	"Examples from Macaulay2 documentation."
+	| R a b c d f |
+	R _ ZZ polynomialsIn: #(a b c d).
+	a _ R x: 1.
+	b _ R x: 2.
+	c _ R x: 3.
+	d _ R x: 4.
+
+	f _ a + (b**100) + (c*d).
+
+	self assert: (f orderedBy: #lex) printString = 'a + b^{100} + cd'.
+	self assert: (f orderedBy: #trevlex) printString = 'b^{100} + cd + a'.
+	self assert: (f orderedBy: #tlex) printString = 'b^{100} + cd + a'! !
+
+!MonomialTest methodsFor: 'as yet unclassified' stamp: 'len 10/27/2016 08:44'!
+testMonomialOrderings3
+	"Examples from Derksen, Kemper 'Computational Invariant Theory' 1.1.1."
+	| P x1 x2 x3 x4 f |
+	P _ ZZ polynomialsIn: 4.
+	x1 _ P x: 1.
+	x2 _ P x: 2.
+	x3 _ P x: 3.
+	x4 _ P x: 4.
+	f _ x1 + (x2*x4) + (x3**2).
+	self assert: (f orderedBy: #lex) leadingTerm = x1.
+	self assert: (f orderedBy: #tlex) leadingTerm = (x2*x4).
+	self assert: (f orderedBy: #trevlex) leadingTerm = (x3**2)! !
 
 !MonomialTest methodsFor: 'as yet unclassified' stamp: 'len 7/3/2016 02:10'!
 testMonomialOrderingsExample
@@ -3339,9 +3401,9 @@ testMonomialProduct
 	self assert: ((x*y*y) at: 2) = 2.
 	self assert: (x*y*x*x*y) degree = 5! !
 
-!MonomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:48'!
+!MonomialTest methodsFor: 'as yet unclassified' stamp: 'len 10/27/2016 08:47'!
 testWeightedMonomialOrderings
-	| P x y z f grlex lex revlex |
+	| P x y z f lex tlex trevlex revlex |
 	P _ ZZ polynomialsIn: 3.
 
 	x _ P x.
@@ -3351,11 +3413,13 @@ testWeightedMonomialOrderings
 	f _ 10*x - (7*(y**4)) + (11*(y**3)*z).
 
 	lex _ WeightedMonomialOrdering lex: (1 to: 3).
-	grlex _ WeightedMonomialOrdering tlex: (1 to: 3).
-	revlex _ WeightedMonomialOrdering revlex: (1 to: 3).
+	tlex _ WeightedMonomialOrdering tlex: (1 to: 3).
+	trevlex _ WeightedMonomialOrdering trevlex: (1 to: 3).
+	revlex _ WeightedMonomialOrdering trevlex: (1 to: 3).
 
 	self assert: (f orderedBy: lex) leadingCoefficient = 10.
-	self assert: (f orderedBy: grlex) leadingCoefficient = -7.
+	self assert: (f orderedBy: tlex) leadingCoefficient = -7.
+	self assert: (f orderedBy: trevlex) leadingCoefficient = 11.
 	self assert: (f orderedBy: revlex) leadingCoefficient = 11! !
 
 !NumberFieldTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:07'!
