@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 27 October 2016 at 2:43:01.682662 pm'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 27 October 2016 at 3:43:26.864711 pm'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 253!
+!provides: 'Mathematics' 1 254!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
 	instanceVariableNames: 'numerator shift'
@@ -1519,16 +1519,6 @@ PolynomialCode subclass: #CyclicCode
 	category: 'Mathematics-Codes'!
 !classDefinition: 'CyclicCode class' category: #'Mathematics-Codes'!
 CyclicCode class
-	instanceVariableNames: ''!
-
-!classDefinition: #PointSet category: #'Mathematics-Schemes'!
-Domain subclass: #PointSet
-	instanceVariableNames: 'scheme scalars'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Schemes'!
-!classDefinition: 'PointSet class' category: #'Mathematics-Schemes'!
-PointSet class
 	instanceVariableNames: ''!
 
 !classDefinition: #Scheme category: #'Mathematics-Schemes'!
@@ -7685,6 +7675,17 @@ findLast: aBlock
 	last := 0.
 	self do: [ :el | (aBlock value: el) ifTrue: [last := index].  index := index + 1].
 	^last! !
+
+!Iterator methodsFor: 'copying' stamp: 'len 10/27/2016 15:39'!
+first: n
+	"Answer the first n elements of the receiver.
+	Raise an error if there are not enough elements."
+	| answer |
+	answer _ self species new: n.
+	self do: [:each|
+		answer size = n ifTrue: [^ answer].
+		answer add: each].
+	^ self error: 'not enough elements'! !
 
 !Iterator methodsFor: 'accessing'!
 identityIndexOf: anElement 
@@ -20793,6 +20794,14 @@ coordinateRing
 coordinateRing: aCommutativeRing
 	properties at: #coordinateRing put: aCommutativeRing! !
 
+!Scheme methodsFor: 'points' stamp: 'len 10/27/2016 15:26'!
+countPoints
+	^ self countPointsOver: self ambient scalars! !
+
+!Scheme methodsFor: 'points' stamp: 'len 10/27/2016 15:25'!
+countPointsOver: aRing
+	^ (self pointsOver: aRing) size! !
+
 !Scheme methodsFor: 'operations' stamp: 'len 10/25/2016 06:25'!
 decomposition
 	"Answer the irreducible components of the receiver."
@@ -20950,6 +20959,19 @@ neighborhoodAt: aPoint
 	"Answer an affine subscheme isomorphic to a neighborhood if the given point."
 	self notYetImplemented! !
 
+!Scheme methodsFor: 'points' stamp: 'len 10/27/2016 15:05'!
+points
+	^ self pointsOver: self ambient scalars! !
+
+!Scheme methodsFor: 'points' stamp: 'len 10/27/2016 15:17'!
+pointsOver: aRing
+	^ Iterator on: [:aBlock| self pointsOver: aRing do: aBlock]! !
+
+!Scheme methodsFor: 'points' stamp: 'len 10/27/2016 15:21'!
+pointsOver: aRing do: aBlock
+	"Naive iteration over the aRing-rational points of the receiver."
+	self ambient pointsOver: aRing do: [:each| (self includes: each) ifTrue: [aBlock value: each]]! !
+
 !Scheme methodsFor: 'operations' stamp: 'len 10/27/2016 09:54'!
 primaryComponents
 	"Answer the irredundant primary components of the receiver."
@@ -20964,14 +20986,6 @@ primeComponents
 project: anIndeterminate
 	"Answer the projection of the receiver by eliminating the given indeterminate."
 	^ self ambient subscheme: (self ideal eliminate: anIndeterminate)! !
-
-!Scheme methodsFor: 'operations' stamp: 'len 10/24/2016 19:59'!
-rationalPoints
-	^ Iterator on: self performing: #rationalPointsDo:! !
-
-!Scheme methodsFor: 'operations' stamp: 'len 10/24/2016 19:58'!
-rationalPointsDo: aBlock
-	self ambient rationalPointsDo: [:each| (self includes: each) ifTrue: [aBlock value: each]]! !
 
 !Scheme methodsFor: 'operations' stamp: 'len 10/20/2016 16:11'!
 reduced
@@ -21063,10 +21077,6 @@ projectiveClosure
 	"Answer the projective closure of the receiver. If the receiver is an affine patch of a projective scheme, answer the original projective scheme. Otherwise the projective closure will be a projective scheme over the projective closure of the ambient space of the receiver, and the receiver will be the last affine patch."
 	^ properties at: #projectiveClosure ifAbsentPut: [self ideal homogenized quotient proj]! !
 
-!AffineScheme methodsFor: 'operations' stamp: 'len 10/24/2016 19:07'!
-rationalPointsDo: aBlock
-	self ambient rationalPointsDo: [:each| (self includes: each) ifTrue: [aBlock value: each]]! !
-
 !AffineScheme methodsFor: 'operations' stamp: 'len 10/19/2016 23:32'!
 relativeSubscheme: anObject
 	| I |
@@ -21140,6 +21150,19 @@ motions
 	"Answer the Euclidean group E(A), the group of isometries, i.e. distance-preserving morphisms, also called 'motionss'. This is a subgroup of the general affine group GA(A)."
 	^ EuclideanGroup on: self! !
 
+!AffineSpace methodsFor: 'operations' stamp: 'len 10/27/2016 15:13'!
+points
+	"Answer the set of rational points on the receiver."
+	^ self scalars ** self rank! !
+
+!AffineSpace methodsFor: 'points' stamp: 'len 10/27/2016 15:24'!
+pointsOver: aRing
+	^ aRing ** self rank! !
+
+!AffineSpace methodsFor: 'points' stamp: 'len 10/27/2016 15:24'!
+pointsOver: aRing do: aBlock
+	^ (self pointsOver: aRing) do: aBlock! !
+
 !AffineSpace methodsFor: 'printing' stamp: 'len 10/20/2016 15:20'!
 printOn: aStream
 	aStream print: self scalars; nextPutAll: self rank printString super! !
@@ -21152,14 +21175,6 @@ projectiveClosure
 rank
 	"Answer the number of affine coordinates, i.e. the number of indeterminates of the coordinate ring. This can be different from the Krull dimension, for example Spec Z[x] has rank 1 and Krull dimension 2."
 	^ self coordinateRing rank! !
-
-!AffineSpace methodsFor: 'operations' stamp: 'len 10/24/2016 19:04'!
-rationalPoints
-	^ self scalars ** self rank! !
-
-!AffineSpace methodsFor: 'operations' stamp: 'len 10/24/2016 19:06'!
-rationalPointsDo: aBlock
-	self scalars ** self rank do: aBlock! !
 
 !AffineSpace methodsFor: 'morphisms' stamp: 'len 8/31/2016 08:28'!
 rigidMotions
@@ -21301,6 +21316,16 @@ dimension
 includes: aPoint
 	^ (aPoint is: #Tuple) and: [aPoint size = self rank and: [aPoint isZero not and: [aPoint allSatisfy: [:each| self scalars includes: each]]]]! !
 
+!ProjectiveSpace methodsFor: 'points' stamp: 'len 10/27/2016 15:34'!
+pointsOver: aRing do: aBlock
+	| points |
+	points _ Set new.
+	aRing ** self rank do: [:each|
+		each isZero ifFalse:
+			[| p |
+			p _ each homogeneous.
+			points add: p ifAbsent: [aBlock value: p]]]! !
+
 !ProjectiveSpace methodsFor: 'printing' stamp: 'len 10/20/2016 16:19'!
 printOn: aStream
 	aStream print: self scalars; nextPut: Character PP; nextPutAll: (self rank - 1) printString super! !
@@ -21308,10 +21333,6 @@ printOn: aStream
 !ProjectiveSpace methodsFor: 'accessing' stamp: 'len 10/20/2016 16:19'!
 rank
 	^ self coordinateRing rank! !
-
-!ProjectiveSpace methodsFor: 'operations' stamp: 'len 10/24/2016 20:01'!
-rationalPointsDo: aBlock
-	self scalars ** self rank do: [:each| each isZero ifFalse: [aBlock value: each homogeneous]]! !
 
 !ProjectiveSpace methodsFor: 'accessing' stamp: 'len 8/27/2016 19:47'!
 scalars
