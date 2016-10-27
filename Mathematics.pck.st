@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 27 October 2016 at 3:43:26.864711 pm'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 27 October 2016 at 6:49:26.286512 pm'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 254!
+!provides: 'Mathematics' 1 255!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
 	instanceVariableNames: 'numerator shift'
@@ -11536,6 +11536,12 @@ printOn: aStream
 	aStream print: self arrows first domain.
 	self arrows allButFirstDo: [:each| aStream nextPutAll: '  '; print: each codomain].! !
 
+!Domain methodsFor: 'converting' stamp: 'len 10/27/2016 18:49'!
+!! anObject
+	"Coerce anObject to an element of the receiver."
+	anObject species == self ifTrue: [^ anObject].
+	^ self newFrom: anObject! !
+
 !Domain methodsFor: 'operations' stamp: 'len 4/18/2016 23:30'!
 * aDomain
 	"This is a convenience method for doing categorical products. Subclasses can reimplement it to mean something different from the categorical product in order to match customary notation."
@@ -13461,6 +13467,17 @@ groebnerBasis
 height
 	^ self notYetImplemented! !
 
+!PolynomialIdeal methodsFor: 'operations' stamp: 'len 10/27/2016 18:42'!
+hilbertSeries
+	"Answer the Hilbert series of the receiver."
+	^ self hilbertSeriesAt: (QQ polynomialsIn: #(t)) fractions x! !
+
+!PolynomialIdeal methodsFor: 'operations' stamp: 'len 10/27/2016 18:41'!
+hilbertSeriesAt: t
+	"Answer the Hilbert series of the receiver."
+	self isHomogeneous ifFalse: [^ self notYetImplemented].
+	^ self initial hilbertSeriesAt: t! !
+
 !PolynomialIdeal methodsFor: 'operations' stamp: 'len 10/23/2016 18:03'!
 homogenized
 	"Answer the homogenization of the receiver introducing a new indeterminate."
@@ -13635,6 +13652,19 @@ katsura5
 		x*y*2 + (y*z*2) + (z*t*2) + (t*u*2) - y.
 		y**2 + (x*z*2) + (y*t*2) + (z*u*2) - z.
 		y*z*2 + (x*t*2) + (y*u*2) - t}! !
+
+!MonomialIdeal methodsFor: 'operations' stamp: 'len 10/27/2016 18:25'!
+hilbertSeriesAt: t
+	"Answer the Hilbert series of the receiver."
+	| n m J int |
+	self isZero ifTrue: [^ t zero].
+	n _ self ring rank.
+	m _ self generators asArray last.
+	J _ self class on: self ring generators: (self generators copyWithout: m).
+	int _ self class on: self ring generators: (J generators collect: [:each| each lcm: m]).
+	^ t ** m degree / ((1 to: n) product: [:i| 1 - (t ** (self ring gradings at: i))])
+		+ (J hilbertSeriesAt: t)
+		- (int hilbertSeriesAt: t)! !
 
 !MonomialIdeal methodsFor: 'operations' stamp: 'len 7/9/2016 05:16'!
 radical
@@ -15026,6 +15056,16 @@ dimension
 			ifTrue: [^ self base rank - k]].
 	self error: 'this shouldnt be reached'! !
 
+!PolynomialQuotientRing methodsFor: 'operations' stamp: 'len 10/27/2016 18:44'!
+hilbertSeries
+	"Answer the Hilbert series of the receiver."
+	^ self hilbertSeriesAt: (QQ polynomialsIn: #(t)) fractions x! !
+
+!PolynomialQuotientRing methodsFor: 'operations' stamp: 'len 10/27/2016 18:45'!
+hilbertSeriesAt: t
+	"Answer the Hilbert series of the receiver."
+	^ (self base hilbertSeriesAt: t) - (self ideal hilbertSeriesAt: t)! !
+
 !PolynomialQuotientRing methodsFor: 'accessing' stamp: 'len 10/20/2016 10:51'!
 indeterminates
 	^ self base indeterminates! !
@@ -15529,9 +15569,9 @@ fibonacciOfOrder: n
 	n = 1 ifTrue: [^ self one].
 	^ (self fibonacciOfOrder: n - 1) - (self x * (self fibonacciOfOrder: n - 2))! !
 
-!PolynomialRing methodsFor: 'operations' stamp: 'len 10/22/2016 18:56'!
+!PolynomialRing methodsFor: 'operations' stamp: 'len 10/27/2016 17:25'!
 filtrationAt: anInteger
-	"Answer the module of polynomials of degree <= anInteger."
+	"Answer the submodule of polynomials of degree <= anInteger."
 	^ PolynomialFiltrationModule new polynomials: self; degree: anInteger! !
 
 !PolynomialRing methodsFor: 'elements' stamp: 'len 10/22/2016 18:10'!
@@ -15556,10 +15596,15 @@ fractions
 generators
 	^ (1 to: self rank) collect: [:i| self x: i]! !
 
-!PolynomialRing methodsFor: 'operations' stamp: 'len 10/22/2016 18:57'!
+!PolynomialRing methodsFor: 'operations' stamp: 'len 10/27/2016 17:25'!
 gradingAt: anInteger
-	"Answer the module of homogeneous polynomials of degree = anInteger."
+	"Answer the submodule of homogeneous polynomials of degree = anInteger."
 	^ HomogeneousPolynomialModule new polynomials: self; degree: anInteger! !
+
+!PolynomialRing methodsFor: 'accessing' stamp: 'len 10/27/2016 17:24'!
+gradings
+	"Answer the degrees of the indeterminates of the receiver."
+	^ (1 to: self rank) collect: [:i| 1]! !
 
 !PolynomialRing methodsFor: 'testing' stamp: 'len 6/4/2016 05:13'!
 has: anIndeterminate
@@ -15568,6 +15613,14 @@ has: anIndeterminate
 !PolynomialRing methodsFor: 'comparing' stamp: 'len 10/22/2016 18:09'!
 hash
 	^ self scalars hash + self rank! !
+
+!PolynomialRing methodsFor: 'operations' stamp: 'len 10/27/2016 18:32'!
+hilbertSeries
+	^ self hilbertSeriesAt: (QQ polynomialsIn: #(t)) fractions x! !
+
+!PolynomialRing methodsFor: 'operations' stamp: 'len 10/27/2016 18:32'!
+hilbertSeriesAt: t
+	^ (self gradings product: [:d| 1 - (t ** d)]) reciprocal! !
 
 !PolynomialRing methodsFor: 'testing' stamp: 'len 6/1/2016 23:50'!
 includes: anObject
@@ -25401,9 +25454,10 @@ next
 		ifTrue: [^ self class numerator: numerator * anObject numerator denominator: denominator * anObject denominator].
 	^ self class numerator: numerator * anObject denominator: denominator! !
 
-!FormalFraction methodsFor: 'arithmetic' stamp: 'len 3/30/2016 03:38'!
+!FormalFraction methodsFor: 'arithmetic' stamp: 'len 10/27/2016 18:31'!
 ** anInteger
 	anInteger = 1 ifTrue: [^ self].
+	anInteger < 0 ifTrue: [^ self reciprocal ** anInteger negated].
 	^ self class
 		numerator: numerator ** anInteger
 		denominator: denominator ** anInteger! !
