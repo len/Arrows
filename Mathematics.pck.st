@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 28 October 2016 at 5:31:47.273615 pm'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 28 October 2016 at 8:39:01.999601 pm'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 256!
+!provides: 'Mathematics' 1 257!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
 	instanceVariableNames: 'numerator shift'
@@ -22831,6 +22831,34 @@ value: anObject
 evaluating: anExpression
 	^ self new expression: anExpression! !
 
+!Function class methodsFor: 'examples' stamp: 'len 10/28/2016 19:10'!
+exampleFrobenius1
+	^ (ZZ mod: 6) endomorphisms evaluating: [:x| x**6]! !
+
+!Function class methodsFor: 'examples' stamp: 'len 10/28/2016 19:10'!
+exampleFrobenius2
+	^ (ZZ mod: 6) endomorphisms evaluating: (ZZ mod: 6) polynomials x ** 6! !
+
+!Function class methodsFor: 'examples' stamp: 'len 10/28/2016 19:08'!
+exampleFunction
+	^ Function from: ZZ to: ZZ evaluating: [:x| x squared + 1]! !
+
+!Function class methodsFor: 'examples' stamp: 'len 10/28/2016 19:09'!
+exampleMorphism1
+	^ QQ**3 to: QQ**3 evaluating: [:v| (v x - v y, v x, v z)]! !
+
+!Function class methodsFor: 'examples' stamp: 'len 10/28/2016 19:09'!
+exampleMorphism2
+	^ QQ**3 -> (QQ**3) evaluating: [:v| (v x - v y, v x, v z)]! !
+
+!Function class methodsFor: 'examples' stamp: 'len 10/28/2016 19:09'!
+exampleMorphism3
+	^ (QQ**3) endomorphisms evaluating: [:v| (v x - v y, v x, v z)]! !
+
+!Function class methodsFor: 'examples' stamp: 'len 10/28/2016 19:11'!
+examples
+	^ #(exampleFunction exampleMorphism1 exampleMorphism2 exampleMorphism3 exampleFrobenius1 exampleFrobenius2)! !
+
 !Function class methodsFor: 'instance creation' stamp: 'len 10/10/2016 13:59'!
 from: aDomain to: anotherDomain evaluating: anExpression
 	^ self new domain: aDomain; codomain: anotherDomain; expression: anExpression! !
@@ -32688,16 +32716,16 @@ update: k
 basis: aCollection
 	^ self new basis: aCollection! !
 
-!LLL class methodsFor: 'instance creation' stamp: 'len 12/9/2015 01:59'!
+!LLL class methodsFor: 'examples' stamp: 'len 10/28/2016 18:21'!
 example
 	| b1 b2 b3 lll |
 	b1 _ (1, 1, 1).
 	b2 _ (-1, 0, 2).
 	b3 _ (3, 5, 6).
 	lll _ self basis: { b1. b2. b3 }.
-	^ lll reducedBasis inspect! !
+	^ lll reducedBasis! !
 
-!LLL class methodsFor: 'instance creation' stamp: 'len 12/6/2015 19:30'!
+!LLL class methodsFor: 'examples' stamp: 'len 12/6/2015 19:30'!
 example2
 	"Find polynomial x^2 - x - 1 that has the golden ratio phi as root."
 	| r b1 b2 b3 lll |
@@ -33887,7 +33915,7 @@ copy: aString replaceAll: oldSubstring with: newSubstring
 		collect: [:each| (each includesSubString: 'http') ifTrue: [each] ifFalse: [each copyReplaceTokens: oldSubstring with: newSubstring]]
 		andFold: [:a :b| a, Character lf asString, b]! !
 
-!DocumentationGenerator methodsFor: 'as yet unclassified' stamp: 'len 10/10/2016 21:21'!
+!DocumentationGenerator methodsFor: 'as yet unclassified' stamp: 'len 10/28/2016 20:37'!
 escape: aString
 	| output |
 	output _ aString.
@@ -33895,8 +33923,14 @@ escape: aString
 "	'\[]*_{}()#<>' do: [:each|"
 		(output includes: each) ifTrue: [output _ output copyReplaceAll: each asString with: '\', each asString]].
 	output _ output copyReplaceAll: Character tab asString with: '&nbsp;&nbsp;&nbsp;&nbsp;'.
-	output _ output copyReplaceAll: Character oplus asString with: '&oplus;'.
 	output _ output copyReplaceAll: ' _ ' with: ' &larr; '.
+	output _ output copyReplaceAll: '^ ' with: '&uarr; '.
+	output _ output copyReplaceAll: Character otimes asString with: '&otimes;'.
+	output _ output copyReplaceAll: Character oplus asString with: '&oplus;'.
+	output _ output copyReplaceAll: Character infinity asString with: '&infin;'.
+	output _ output copyReplaceAll: Character emptySet asString with: '&empty;'.
+	output _ output copyReplaceAll: Character cup asString with: '&cup;'.
+	output _ output copyReplaceAll: Character cap asString with: '&cap;'.
 	^ output! !
 
 !DocumentationGenerator methodsFor: 'as yet unclassified' stamp: 'len 10/14/2016 22:44'!
@@ -33922,7 +33956,25 @@ generate: aString references: tokens except: currentToken
 	output _ output copyReplaceAll: Character lf asString with: '  ', Character lf asString.
 	^ output! !
 
-!DocumentationGenerator methodsFor: 'as yet unclassified' stamp: 'len 10/21/2016 22:08'!
+!DocumentationGenerator methodsFor: 'as yet unclassified' stamp: 'len 10/28/2016 20:25'!
+generateExampleClass: aClass selector: aSymbol references: tokens except: currentToken
+	| imageFileName source result md canvas textMorph |
+	source _ aClass class compiledMethodAt: aSymbol :: getSource.
+	md _ self generate: source references: tokens except: currentToken.
+	md _ md, Character lf asString.
+"	md _ '```smalltalk', Character lf asString, source, Character lf asString, '```'."
+	imageFileName _ aClass name, '-', aSymbol, '.jpg'.
+	result _ aClass perform: aSymbol.
+	textMorph _ (TextModelMorph withModel: (TextModel withText: result printText)) wrapFlag: false; findA: InnerTextMorph.
+	textMorph color: Color black.
+	canvas _ BitBltCanvas depth: 32 over: (textMorph morphPosition extent: textMorph morphExtent).
+	canvas fillRectangle: (0@0 extent: textMorph morphExtent + (10@10)) color: Color white. "yellow muchLighter."
+	canvas fullDraw: textMorph.
+	canvas form writeJPEGfileNamed: self path, imageFileName.
+	md _ md, Character lf asString, '&nbsp;&nbsp;&nbsp;&nbsp;!![](doc/', imageFileName, ')'.
+	^ md! !
+
+!DocumentationGenerator methodsFor: 'as yet unclassified' stamp: 'len 10/28/2016 19:15'!
 generateForClasses: classes
 	| tokens |
 	tokens _ classes collect: [:each| each name].
@@ -33939,6 +33991,11 @@ generateForClasses: classes
 		output lf; lf.
 		class hasComment ifTrue: [output nextPutAll: (self generate: class comment references: tokens except: class name); lf; lf].
 		output nextPutAll: '***'; lf.
+		(class class selectors includes: #examples)
+			ifTrue:
+				[class examples do: [:exampleSelector|
+					output nextPutAll: (self generateExampleClass: class selector: exampleSelector references: tokens except: class name); lf; lf].
+				output nextPutAll: '***'; lf].
 "		class organization categories do: [:category|
 			((category includesSubString: 'private') or: [category includesSubString: 'initializ'])
 				ifFalse:
