@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 28 October 2016 at 10:04:48.746422 pm'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 29 October 2016 at 8:43:38.457952 am'!
 'Description Please enter a description for this package'!
-!provides: 'Documentation' 1 0!
+!provides: 'Documentation' 1 1!
 !classDefinition: #DocumentationGenerator category: #Documentation!
 Object subclass: #DocumentationGenerator
 	instanceVariableNames: ''
@@ -36,6 +36,20 @@ escape: aString
 	output _ output copyReplaceAll: Character cap asString with: '&cap;'.
 	^ output! !
 
+!DocumentationGenerator methodsFor: 'as yet unclassified' stamp: 'len 10/28/2016 22:55'!
+escapeCode: aString
+	| output |
+	output _ aString.
+	output _ output copyReplaceAll: ' _ ' with: ' &larr; '.
+	output _ output copyReplaceAll: '^ ' with: '&uarr; '.
+	output _ output copyReplaceAll: Character otimes asString with: '&otimes;'.
+	output _ output copyReplaceAll: Character oplus asString with: '&oplus;'.
+	output _ output copyReplaceAll: Character infinity asString with: '&infin;'.
+	output _ output copyReplaceAll: Character emptySet asString with: '&empty;'.
+	output _ output copyReplaceAll: Character cup asString with: '&cup;'.
+	output _ output copyReplaceAll: Character cap asString with: '&cap;'.
+	^ output! !
+
 !DocumentationGenerator methodsFor: 'as yet unclassified' stamp: 'len 10/14/2016 22:44'!
 generate
 	| blacklist classes |
@@ -59,13 +73,13 @@ generate: aString references: tokens except: currentToken
 	output _ output copyReplaceAll: Character lf asString with: '  ', Character lf asString.
 	^ output! !
 
-!DocumentationGenerator methodsFor: 'as yet unclassified' stamp: 'len 10/28/2016 20:25'!
+!DocumentationGenerator methodsFor: 'as yet unclassified' stamp: 'len 10/28/2016 23:06'!
 generateExampleClass: aClass selector: aSymbol references: tokens except: currentToken
 	| imageFileName source result md canvas textMorph |
 	source _ aClass class compiledMethodAt: aSymbol :: getSource.
-	md _ self generate: source references: tokens except: currentToken.
-	md _ md, Character lf asString.
-"	md _ '```smalltalk', Character lf asString, source, Character lf asString, '```'."
+	"md _ self generate: source references: tokens except: currentToken.
+	md _ md, Character lf asString."
+	md _ '<pre><code>', (self escapeCode: source), '</code></pre>'.
 	imageFileName _ aClass name, '-', aSymbol, '.jpg'.
 	result _ aClass perform: aSymbol.
 	textMorph _ (TextModelMorph withModel: (TextModel withText: result printText)) wrapFlag: false; findA: InnerTextMorph.
@@ -77,12 +91,12 @@ generateExampleClass: aClass selector: aSymbol references: tokens except: curren
 	md _ md, Character lf asString, '&nbsp;&nbsp;&nbsp;&nbsp;!![](doc/', imageFileName, ')'.
 	^ md! !
 
-!DocumentationGenerator methodsFor: 'as yet unclassified' stamp: 'len 10/28/2016 19:15'!
+!DocumentationGenerator methodsFor: 'as yet unclassified' stamp: 'len 10/29/2016 08:17'!
 generateForClasses: classes
 	| tokens |
 	tokens _ classes collect: [:each| each name].
 	classes do: [:class|
-		| output i file |
+		| output i file examples |
 		output _ '' writeStream.
 		class withAllSuperclasses reversed do: [:each|
 			| generated |
@@ -94,10 +108,12 @@ generateForClasses: classes
 		output lf; lf.
 		class hasComment ifTrue: [output nextPutAll: (self generate: class comment references: tokens except: class name); lf; lf].
 		output nextPutAll: '***'; lf.
-		(class class selectors includes: #examples)
-			ifTrue:
-				[class examples do: [:exampleSelector|
-					output nextPutAll: (self generateExampleClass: class selector: exampleSelector references: tokens except: class name); lf; lf].
+		
+		examples _ class class organization listAtCategoryNamed: #examples.
+		examples _ examples select: [:each| each isUnary].
+		examples notEmpty ifTrue:
+			[examples do: [:exampleSelector|
+				output nextPutAll: (self generateExampleClass: class selector: exampleSelector references: tokens except: class name); lf; lf].
 				output nextPutAll: '***'; lf].
 "		class organization categories do: [:category|
 			((category includesSubString: 'private') or: [category includesSubString: 'initializ'])
