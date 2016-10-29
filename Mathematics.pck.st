@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 28 October 2016 at 8:39:01.999601 pm'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 29 October 2016 at 8:43:33.709661 am'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 257!
+!provides: 'Mathematics' 1 259!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
 	instanceVariableNames: 'numerator shift'
@@ -3031,16 +3031,6 @@ Object subclass: #DiscretePalette
 DiscretePalette class
 	instanceVariableNames: ''!
 
-!classDefinition: #DocumentationGenerator category: #'Mathematics-Etc'!
-Object subclass: #DocumentationGenerator
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Etc'!
-!classDefinition: 'DocumentationGenerator class' category: #'Mathematics-Etc'!
-DocumentationGenerator class
-	instanceVariableNames: ''!
-
 !classDefinition: #ElementaryTensorOld category: #'Mathematics-Etc'!
 Object subclass: #ElementaryTensorOld
 	instanceVariableNames: 'left right'
@@ -3466,7 +3456,7 @@ Chain complexes form a cateogory with chain maps as morphisms.!
 !Domain commentStamp: '<historical>' prior: 0!
 My instances are mathematical structures, such as groups, rings, fields, vector spaces, modules, etc.
 
-Domains are connected by morphisms, which in many cases are Functions. From the point of view of category theory, Domains and Functions are respectively 'objects' and 'morphisms' of (small) categories.
+Domains are connected by Morphisms, which in many cases are Functions. From the point of view of category theory, Domains and Functions are respectively 'objects' and 'morphisms' of (small) categories.
 
 Domains often have an underlying set: the set of elements. The cardinality of a domain can be finite or infinite, and countable or uncountable (see Aleph and >>size). When the underlying set is finite, #asSet returns a Smalltalk Set. When it is countable, it is possible to iterate over its element (see >>do:).  Also, when it makes sense to take elements at random, #atRandom:, #atRandom:bits: or similar messages are implemented.
 
@@ -3509,8 +3499,8 @@ References:
 	https://en.wikipedia.org/wiki/Coproduct
 !
 
-!HomSet commentStamp: '<historical>' prior: 0!
-My instances are Hom(A,B) objects for domain A and codomain B, i.e. sets of all morphisms from A to B.!
+!HomSet commentStamp: 'len 10/28/2016 22:23' prior: 0!
+My instances are Hom(A,B), Hom-Set objects for domain A and codomain B, i.e. sets of all morphisms from A to B. When A = B, this is noted Endo(A), the set of endomorphisms.!
 
 !RealBox commentStamp: '<historical>' prior: 0!
 My instances are boxes in R^n built by the cartesian product of one-dimensional intervals (instances of RealInterval).
@@ -4021,7 +4011,7 @@ Or equivalently:
 
 Note that this differs from the classical affine plane. The morphisms are of course morphisms of schemes, not just the classical (linear) affine maps.
 
-Note also that the dimension of an affine space as scheme is the Krull dimension of the polynomial ring, and this is can be bigger than the number of indeterminates (see >>rank). For affine spaces over fields, the dimension and the rank are equal (because fields have Krull dimension 0).!
+Note also that the dimension of an affine space as scheme is the Krull dimension of the polynomial ring, and this can be bigger than the number of indeterminates (see >>rank). For affine spaces over fields, the dimension and the rank are equal (because fields have Krull dimension 0).!
 
 !ProjectiveCurve commentStamp: '<historical>' prior: 0!
 My instances are algebraic curves, i.e. projective schemes of dimension 1.!
@@ -4077,7 +4067,7 @@ References:
 !
 
 !Morphism commentStamp: '<historical>' prior: 0!
-I'm an abstract superclass for Functions and other morphisms.
+I'm an abstract superclass for Functions and other morphisms. See subclasses, and Domain and HomSet.
 
 Examples (three equivalent ways to construct a vector space homomorphism):
 	QQ**3 to: QQ**3 evaluating: [:v| (v x - v y, v x, v z)].
@@ -4089,7 +4079,7 @@ References:
 !
 
 !Function commentStamp: '<historical>' prior: 0!
-My instances are functions, i.e. maps from a mathematical structure (domain) to another structure (codomain). Evaluated at elements of the domain (>>#value:) they produce elements of the codomain. See Domain.
+My instances are functions, i.e. maps from a mathematical structure (domain) to another structure (codomain). Evaluated at elements of the domain (>>#value:) they produce elements of the codomain. See Domain and HomSet.
 
 Example:
 	Function from: ZZ to: ZZ evaluating: [:x| x squared + 1].
@@ -8564,7 +8554,7 @@ values
 	"Answer the set of vertices of the receievr ('values', as opposed to 'nodes' which are GraphNodes)."
 	^ self nodes collect: [:each| each value]! !
 
-!AbstractGraph class methodsFor: 'examples' stamp: 'len 7/20/2016 19:17'!
+!AbstractGraph class methodsFor: 'example graphs' stamp: 'len 7/20/2016 19:17'!
 C: n
 	"Answer the cycle of n vertices 1 -> 2 -> ... -> n -> 1."
 	| C |
@@ -8573,7 +8563,7 @@ C: n
 	n >= 1 ifTrue: [C addEdge: n -> 1]. "the extremal case of n = 1 is just a loop"
 	^ C! !
 
-!AbstractGraph class methodsFor: 'examples' stamp: 'len 7/14/2016 00:12'!
+!AbstractGraph class methodsFor: 'example graphs' stamp: 'len 7/14/2016 00:12'!
 K: n
 	"Answer the n-complete graph."
 	| K |
@@ -8582,12 +8572,12 @@ K: n
 	1 to: n do: [:i| 1 to: i do: [:j| i ~= j ifTrue: [K addEdge: i->j]]].
 	^ K! !
 
-!AbstractGraph class methodsFor: 'examples' stamp: 'len 7/13/2016 22:40'!
+!AbstractGraph class methodsFor: 'example graphs' stamp: 'len 7/13/2016 22:40'!
 N: n
 	"Answer the null graph with n vertices {1..n}."
 	^ self unordered addAll: (1 to: n); yourself! !
 
-!AbstractGraph class methodsFor: 'examples' stamp: 'len 7/20/2016 19:16'!
+!AbstractGraph class methodsFor: 'example graphs' stamp: 'len 7/20/2016 19:16'!
 P: n
 	"Answer the path of n vertices 1 -> 2 -> ... -> n."
 	| P |
@@ -8596,7 +8586,7 @@ P: n
 	1 to: n-1 do: [:i| P addEdge: i->(i+1)].
 	^ P! !
 
-!AbstractGraph class methodsFor: 'examples' stamp: 'len 7/13/2016 22:40'!
+!AbstractGraph class methodsFor: 'example graphs' stamp: 'len 7/13/2016 22:40'!
 S: n
 	"Answer the star graph of n vertices."
 	| S |
@@ -8604,7 +8594,7 @@ S: n
 	2 to: n do: [:i| S addEdge: 1 -> i].
 	^ S! !
 
-!AbstractGraph class methodsFor: 'examples' stamp: 'len 7/13/2016 22:40'!
+!AbstractGraph class methodsFor: 'example graphs' stamp: 'len 7/13/2016 22:40'!
 W: n
 	"Answer the wheel graph of n vertices."
 	| W |
@@ -8612,11 +8602,11 @@ W: n
 	2 to: n do: [:i| W addEdge: 1 -> i; addEdge: i -> (i=n ifTrue: [2] ifFalse: [i+1])].
 	^ W! !
 
-!AbstractGraph class methodsFor: 'examples' stamp: 'len 7/13/2016 22:40'!
+!AbstractGraph class methodsFor: 'example graphs' stamp: 'len 7/13/2016 22:40'!
 cube
 	^ self cube: 3! !
 
-!AbstractGraph class methodsFor: 'examples' stamp: 'len 7/13/2016 22:40'!
+!AbstractGraph class methodsFor: 'example graphs' stamp: 'len 7/13/2016 22:40'!
 cube: n
 	"Answer an n-cube."
 	| G H |
@@ -8625,21 +8615,21 @@ cube: n
 	n - 1 timesRepeat: [H _ H cartesian: G].
 	^ H! !
 
-!AbstractGraph class methodsFor: 'examples' stamp: 'len 7/13/2016 22:40'!
+!AbstractGraph class methodsFor: 'example graphs' stamp: 'len 7/13/2016 22:40'!
 desargues
 	"Answer the Desargues graph."
 	^ self petersen: 10 order: 3! !
 
-!AbstractGraph class methodsFor: 'examples' stamp: 'len 7/13/2016 22:40'!
+!AbstractGraph class methodsFor: 'example graphs' stamp: 'len 7/13/2016 22:40'!
 dodecahedron
 	^ self petersen: 10 order: 2! !
 
-!AbstractGraph class methodsFor: 'examples' stamp: 'len 7/13/2016 22:41'!
+!AbstractGraph class methodsFor: 'example graphs' stamp: 'len 7/13/2016 22:41'!
 durer
 	"Answer the Durer graph."
 	^ self petersen: 6 order: 2! !
 
-!AbstractGraph class methodsFor: 'examples' stamp: 'len 7/13/2016 22:46'!
+!AbstractGraph class methodsFor: 'example graphs' stamp: 'len 7/13/2016 22:46'!
 exampleImplicitGraph
 	"Graph exampleImplicitGraph. BUG : There is a problem when you don't  
 	test classes without subclasses, maybe a problem in the block creation  
@@ -8650,14 +8640,14 @@ exampleImplicitGraph
 		do: [:class| "class subclasses isEmpty ifFalse: ["tree add: class"]"].
 	^ tree! !
 
-!AbstractGraph class methodsFor: 'examples' stamp: 'len 7/13/2016 22:46'!
+!AbstractGraph class methodsFor: 'example graphs' stamp: 'len 7/13/2016 22:46'!
 exampleImplicitGraph2
 	| forest |
 	forest := self implicitCollection: [:class | class ~= ProtoObject ifTrue: [{class superclass}] ifFalse:[#()]].
 	(Smalltalk organization listAtCategoryNamed: 'Mathematics-Graphs') do: [:className| forest add: (Smalltalk at: className)].
 	^ forest! !
 
-!AbstractGraph class methodsFor: 'examples' stamp: 'len 7/13/2016 22:47'!
+!AbstractGraph class methodsFor: 'example graphs' stamp: 'len 7/13/2016 22:47'!
 exampleImplicitGraph3
 	"Graph exampleImplicitGraph3"
 	| tree |
@@ -8665,7 +8655,7 @@ exampleImplicitGraph3
 	RootedDigraph withAllSuperclasses do: [:class| tree add: class].
 	^tree! !
 
-!AbstractGraph class methodsFor: 'examples' stamp: 'len 7/13/2016 23:54'!
+!AbstractGraph class methodsFor: 'example graphs' stamp: 'len 7/13/2016 23:54'!
 icosahedron
 	^ self unordered addEdges:
 		{1->2. 2->3. 3->1.
@@ -8674,12 +8664,12 @@ icosahedron
 		10->11. 11->12. 12->10.
 		10->4. 10->5. 10->6. 11->6. 11->7. 11->8. 12->8. 12->9. 12->4}; yourself! !
 
-!AbstractGraph class methodsFor: 'examples' stamp: 'len 7/13/2016 22:41'!
+!AbstractGraph class methodsFor: 'example graphs' stamp: 'len 7/13/2016 22:41'!
 moebiusKantor
 	"Answer the Moebius-Kantor graph."
 	^ self petersen: 8 order: 3! !
 
-!AbstractGraph class methodsFor: 'examples' stamp: 'len 7/13/2016 22:41'!
+!AbstractGraph class methodsFor: 'example graphs' stamp: 'len 7/13/2016 22:41'!
 nauru
 	"Answer the Nauru graph."
 	^ self petersen: 12 order: 5! !
@@ -8688,18 +8678,18 @@ nauru
 new
 	^ self error: 'Graphs should not be created with new.'! !
 
-!AbstractGraph class methodsFor: 'examples' stamp: 'len 7/13/2016 23:54'!
+!AbstractGraph class methodsFor: 'example graphs' stamp: 'len 7/13/2016 23:54'!
 octahedron
 	^ self unordered addEdges: {1->2. 2->3. 3->1. 1->4. 2->4. 2->5. 3->5. 3->6. 1->6. 4->5. 5->6. 6->4}; yourself! !
 
-!AbstractGraph class methodsFor: 'examples' stamp: 'len 7/13/2016 23:54'!
+!AbstractGraph class methodsFor: 'example graphs' stamp: 'len 7/13/2016 23:54'!
 petersen
 	^ self unordered addEdges:
 		{1->2. 2->3. 3->4. 4->5. 5->1.
 		1->6. 2->7. 3->8. 4->9. 5->10.
 		6->8. 6->9. 7->9. 7->10. 8->10}; yourself! !
 
-!AbstractGraph class methodsFor: 'examples' stamp: 'len 7/13/2016 23:55'!
+!AbstractGraph class methodsFor: 'example graphs' stamp: 'len 7/13/2016 23:55'!
 petersen: n order: k
 	"Answer the generalized Petersen graph G(n,k)."
 	| G |
@@ -8709,16 +8699,16 @@ petersen: n order: k
 		G addEdges: {i->(i+1\\n). i->(i+n). i+n->(i+k\\n+n)}].
 	^ G ! !
 
-!AbstractGraph class methodsFor: 'examples' stamp: 'len 7/13/2016 22:41'!
+!AbstractGraph class methodsFor: 'example graphs' stamp: 'len 7/13/2016 22:41'!
 prism: n
 	"Answer an n-prism."
 	^ self petersen: n order: 1! !
 
-!AbstractGraph class methodsFor: 'examples' stamp: 'len 7/13/2016 23:55'!
+!AbstractGraph class methodsFor: 'example graphs' stamp: 'len 7/13/2016 23:55'!
 square
 	^ self unordered addEdges: {1 -> 2. 2 -> 3. 3 -> 4. 4 -> 1}; yourself! !
 
-!AbstractGraph class methodsFor: 'examples' stamp: 'len 7/13/2016 23:55'!
+!AbstractGraph class methodsFor: 'example graphs' stamp: 'len 7/13/2016 23:55'!
 triangle
 	^ self unordered addEdges: {1->2. 2->3. 3->1}; yourself! !
 
@@ -9360,7 +9350,7 @@ walkPre: preBlock post: postBlock
 	"Recursively walk the tree(s).  Apply preBlock to each node, then walk the subtree below node, then apply postBlock to the node."
 	self rootNodes do: [ :root | root walkPre: preBlock post: postBlock]! !
 
-!RootedDigraph class methodsFor: 'examples' stamp: 'timestamp) (no'!
+!RootedDigraph class methodsFor: 'example graphs' stamp: 'timestamp) (no'!
 exampleDAG
 	"RootedGraph exampleDAG."
 	| d |
@@ -9374,12 +9364,12 @@ exampleDAG
 	d addEdge: #n2 -> #n3.
 	^d! !
 
-!RootedDigraph class methodsFor: 'examples' stamp: 'len 2/12/2003 22:59'!
+!RootedDigraph class methodsFor: 'example graphs' stamp: 'len 2/12/2003 22:59'!
 exampleForest
 	"RootedGraph exampleForest"
 	^self unordered roots: (Set with: Number with: Stream) children: [ :class | class subclasses]! !
 
-!RootedDigraph class methodsFor: 'examples' stamp: 'timestamp) (no'!
+!RootedDigraph class methodsFor: 'example graphs' stamp: 'timestamp) (no'!
 exampleImplicitLargeTree
 	"RootedGraph exampleImplicitLargeTree"
 	^(self
@@ -9389,12 +9379,12 @@ exampleImplicitLargeTree
 					ifTrue: [#()]
 					ifFalse: [class subclasses asSortedCollection: [ :x :y | x name < y name]]]) 		buildFromRoots: (Array with: Object)! !
 
-!RootedDigraph class methodsFor: 'examples' stamp: 'timestamp) (no'!
+!RootedDigraph class methodsFor: 'example graphs' stamp: 'timestamp) (no'!
 exampleImplicitSmallTree
 	"RootedGraph exampleImplicitSmallTree"
 	^(self implicitCollection: [ :class | class subclasses]) buildFromRoots: (Set with: Number)! !
 
-!RootedDigraph class methodsFor: 'examples' stamp: 'len 2/12/2003 22:58'!
+!RootedDigraph class methodsFor: 'example graphs' stamp: 'len 2/12/2003 22:58'!
 exampleLargeTree
 	"RootedGraph exampleLargeTree"
 	^self ordered roots: (Array with: Object) children:
@@ -9402,7 +9392,7 @@ exampleLargeTree
 					ifTrue: [#()]
 					ifFalse: [class subclasses asSortedCollection: [ :x :y | x name < y name]]]! !
 
-!RootedDigraph class methodsFor: 'examples' stamp: 'len 2/20/2016 06:36'!
+!RootedDigraph class methodsFor: 'example graphs' stamp: 'len 2/20/2016 06:36'!
 exampleMediumLabelledTree
 	"RootedGraph exampleMediumLabelledTree"
 	^self unorderedLabeled
@@ -9413,15 +9403,15 @@ exampleMediumLabelledTree
 					ifTrue: [trg isBits ifTrue: [#variableByte] ifFalse: [#variable]]
 					ifFalse: [#normal]]! !
 
-!RootedDigraph class methodsFor: 'examples' stamp: 'len 2/25/2016 20:44'!
+!RootedDigraph class methodsFor: 'example graphs' stamp: 'len 2/25/2016 20:44'!
 exampleMediumTree
 	^self unordered roots: (Set with: Collection) children: [ :class | class subclasses]! !
 
-!RootedDigraph class methodsFor: 'examples' stamp: 'len 2/14/2003 23:43'!
+!RootedDigraph class methodsFor: 'example graphs' stamp: 'len 2/14/2003 23:43'!
 exampleMediumTree2
 	^self unordered roots: (Set with: Collection) children: [ :class | class subclasses]! !
 
-!RootedDigraph class methodsFor: 'examples' stamp: 'len 2/20/2016 06:36'!
+!RootedDigraph class methodsFor: 'example graphs' stamp: 'len 2/20/2016 06:36'!
 exampleSmallLabelledTree
 	"RootedGraph exampleSmallLabelledTree"
 	^self unorderedLabeled
@@ -9429,7 +9419,7 @@ exampleSmallLabelledTree
 		children: [ :class | class subclasses]
 		label: [ :src :trg | trg category]! !
 
-!RootedDigraph class methodsFor: 'examples' stamp: 'len 2/20/2016 06:36'!
+!RootedDigraph class methodsFor: 'example graphs' stamp: 'len 2/20/2016 06:36'!
 exampleSmallLabelledTree2
 	"RootedGraph exampleSmallLabelledTree2"
 	^self unorderedLabeled
@@ -9440,12 +9430,12 @@ exampleSmallLabelledTree2
 					ifTrue: [trg isBits ifTrue: [#variableByte] ifFalse: [#variable]]
 					ifFalse: [#normal]]! !
 
-!RootedDigraph class methodsFor: 'examples' stamp: 'len 2/12/2003 22:42'!
+!RootedDigraph class methodsFor: 'example graphs' stamp: 'len 2/12/2003 22:42'!
 exampleSmallTree
 	"RootedGraph exampleSmallTree"
 	^self unordered roots: (Set with: Number) children: [ :class | class subclasses]! !
 
-!RootedDigraph class methodsFor: 'examples' stamp: 'len 2/18/2003 22:09'!
+!RootedDigraph class methodsFor: 'example graphs' stamp: 'len 2/18/2003 22:09'!
 exampleSmallTree2
 	"RootedGraph exampleSmallTree2"
 	^self unordered roots: (Set with: Magnitude) childrenMsg: #subclasses! !
@@ -12038,6 +12028,63 @@ upTo: max do: aBlock
 		aBlock value: each.
 		k _ k+1]! !
 
+!Domain class methodsFor: 'examples' stamp: 'len 10/29/2016 07:50'!
+example1VectorSpace
+	"The vector space of 3-tuples with rational coefficients."
+	^ QQ ** 3! !
+
+!Domain class methodsFor: 'examples' stamp: 'len 10/29/2016 07:50'!
+example1VectorSpace2
+	"The vector space of 3x3 matrices with complex coefficients."
+	^ CC ** (3@3)! !
+
+!Domain class methodsFor: 'examples' stamp: 'len 10/29/2016 07:59'!
+example2ModuleDirectSum
+	"The direct sum of the module of 3x3 matrices with coefficients in Z/6Z
+	plus the one-dimensional module of Z/6Z scalars."
+	^ ZZ/6 ** (3@3)  (ZZ/6) asSelfModule! !
+
+!Domain class methodsFor: 'examples' stamp: 'len 10/29/2016 08:05'!
+example3DirectProductOfGroups
+	"The direct product of the group of permutations of
+	the symbols {#a, #b, #c} by the group of alternating
+	permutations of {1,2,3,4}."
+	^ (SymmetricGroup on: #(a b c)) × (AlternatingGroup new: 4)! !
+
+!Domain class methodsFor: 'examples' stamp: 'len 10/29/2016 07:58'!
+example41Polynomials
+	"Polynomials in two variables with integer coefficients."
+	^ ZZ polynomialsIn: #(a b)! !
+
+!Domain class methodsFor: 'examples' stamp: 'len 10/29/2016 08:06'!
+example42PolynomialQuotient
+	"The quotient of a polynomial ring by an ideal."
+	| R x y z I |
+	R _ ZZ polynomialsIn: #(x y z).
+	x _ R x: 1.
+	y _ R x: 2.
+	z _ R x: 3.
+	I _ R * {(x**2) - y. (x**3) - z}.
+	^ R / I! !
+
+!Domain class methodsFor: 'examples' stamp: 'len 10/29/2016 08:09'!
+example5GL
+	"The group GL(Q^3), invertible linear maps
+	on the vector space of 3-tuples with rational coefficients.
+	This is the automorphisms group of the vector space"
+	^ (QQ ** 3) automorphisms! !
+
+!Domain class methodsFor: 'examples' stamp: 'len 10/29/2016 08:09'!
+example5GLAsMatrixGroup
+	"The group GL(Q^3) as a matrix group."
+	^ (QQ ** 3) automorphisms asMatrixGroup! !
+
+!Domain class methodsFor: 'examples' stamp: 'len 10/29/2016 08:11'!
+example5GLAsMatrixGroupAction
+	"The action of the group GL(Q^3) as a matrix group
+	The action is matrix multiplication by a 3-tuple."
+	^ (QQ ** 3) automorphisms asMatrixGroup action! !
+
 !Domain class methodsFor: 'instance creation' stamp: 'len 11/23/2015 05:05'!
 new
 	^ super new initialize! !
@@ -12095,6 +12142,12 @@ printOn: aStream
 	self isEndomorphisms
 		ifTrue: [aStream nextPutAll: 'Endo' bold; nextPut: $(; print: self domain; nextPut: $)]
 		ifFalse: [aStream nextPutAll: 'Hom' bold; nextPut: $(; print: self domain; nextPut: $,; print: self codomain; nextPut: $)]! !
+
+!HomSet class methodsFor: 'examples' stamp: 'len 10/29/2016 07:42'!
+exampleHomSet
+	"The object Hom(N,Z), the functions from the natural numbers to the integers.
+	This is the space of sequences. (See class Sequence)."
+	^ NN -> ZZ! !
 
 !HomSet class methodsFor: 'instance creation' stamp: 'len 4/19/2016 04:53'!
 from: aDomain to: anotherDomain
@@ -15942,9 +15995,9 @@ new: anInteger over: aRing
 new: anInteger over: aRing ordering: aMonomialOrdering
 	^ self new space: aRing ** anInteger; ordering: aMonomialOrdering! !
 
-!PolynomialRing class methodsFor: 'instance creation' stamp: 'len 10/22/2016 18:14'!
+!PolynomialRing class methodsFor: 'instance creation' stamp: 'len 10/28/2016 21:46'!
 on: aFreeModule
-	^ self new space: aFreeModule! !
+	^ self on: aFreeModule ordering: #trevlex! !
 
 !PolynomialRing class methodsFor: 'instance creation' stamp: 'len 10/22/2016 18:15'!
 on: aFreeModule ordering: aMonomialOrdering
@@ -16273,10 +16326,10 @@ coordinateNames
 coordinateNames: aCollection
 	^ properties at: #coordinateNames put: aCollection! !
 
-!FreeModule methodsFor: 'basis' stamp: 'len 10/22/2016 16:58'!
+!FreeModule methodsFor: 'basis' stamp: 'len 10/28/2016 21:48'!
 coordinateRing
 	"The coordinate ring of a R-module of rank n (or K-vector space of dimension n) is the polynomial ring R[x1..xn] (K[x1..xn]."
-	^ (self scalars polynomialsIn: self rank) space: self! !
+	^ PolynomialRing on: self! !
 
 !FreeModule methodsFor: 'basis' stamp: 'len 2/28/2016 07:45'!
 coordinateSpace
@@ -20756,9 +20809,9 @@ tetracode
 	"Answer the tetracode, a self dual code of minimum distance 3."
 	^ self subspace: ((PrimeField new: 3) ** 4 span: {(1,1,1,0) % 3. (0,1,2,1) % 3})! !
 
-!CyclicCode2 methodsFor: 'converting' stamp: 'len 5/17/2016 21:26'!
+!CyclicCode2 methodsFor: 'converting' stamp: 'len 10/29/2016 08:28'!
 asIdeal
-	^ generator ideal! !
+	^ generator asIdeal! !
 
 !CyclicCode2 methodsFor: 'accessing' stamp: 'len 5/18/2016 07:24'!
 checkPolynomial
@@ -20807,7 +20860,7 @@ includes: aCodeword
 isIrreducible
 	^ generator isIrreducible! !
 
-!CyclicCode2 class methodsFor: 'examples' stamp: 'len 10/18/2016 20:57'!
+!CyclicCode2 class methodsFor: 'examples-todo' stamp: 'len 10/18/2016 20:57'!
 H7
 	"Answer the Hamming code of length 7."
 	| F Fx x |
@@ -21733,23 +21786,23 @@ starOf: aCollection
 vertices
 	^ self faces: 0! !
 
-!SimplicialComplex class methodsFor: 'examples' stamp: 'len 4/21/2016 03:58'!
+!SimplicialComplex class methodsFor: 'examples-todo' stamp: 'len 4/21/2016 03:58'!
 cylinder
 	^ self notYetImplemented! !
 
-!SimplicialComplex class methodsFor: 'examples' stamp: 'len 4/21/2016 03:57'!
+!SimplicialComplex class methodsFor: 'examples-todo' stamp: 'len 4/21/2016 03:57'!
 kleinBottle
 	^ self notYetImplemented! !
 
-!SimplicialComplex class methodsFor: 'examples' stamp: 'len 4/21/2016 03:58'!
+!SimplicialComplex class methodsFor: 'examples-todo' stamp: 'len 4/21/2016 03:58'!
 moebiusStrip
 	^ self notYetImplemented! !
 
-!SimplicialComplex class methodsFor: 'examples' stamp: 'len 4/21/2016 04:06'!
+!SimplicialComplex class methodsFor: 'examples-todo' stamp: 'len 4/21/2016 04:06'!
 sphere: n
 	^ self notYetImplemented! !
 
-!SimplicialComplex class methodsFor: 'examples' stamp: 'len 4/21/2016 03:57'!
+!SimplicialComplex class methodsFor: 'examples-todo' stamp: 'len 4/21/2016 03:57'!
 torus
 	^ self notYetImplemented! !
 
@@ -22664,6 +22717,26 @@ rightInverse
 section
 	^ self rightInverse! !
 
+!Morphism class methodsFor: 'examples' stamp: 'len 10/29/2016 07:40'!
+example1Projection
+	"Algebraic structures often come equipped with some canonical morphisms.
+	Here we construct the direct product of the ring of rational integers with the field of rational numbers, and get the projection to the second component."
+	^ (ZZ × QQ) projection: 2! !
+
+!Morphism class methodsFor: 'examples' stamp: 'len 10/29/2016 07:40'!
+example2Embedding
+	"Here we construct Q[x], the ring of univariate polynomials over the rational numbers.
+	It comes equipped with a canonical embedding from the rational numbers to the constant polynomials."
+	| R phi F psi |
+	R _ QQ polynomials.
+	phi _ R embedding.
+	"Then we construct its field of fractions (Q(x), the rational functions),
+	that comes with a cannonical embedding from the polynomial ring to the rational functions with denominator 1."
+	F _ R fractions.
+	psi _ F embedding.
+	"Finally we compose them to get an embedding from the rational numbers Q to the field of univariate rational functions Q(x), that sends a number to a constant rational function."
+	^ psi @ phi! !
+
 !Morphism class methodsFor: 'instance creation' stamp: 'len 8/8/2016 05:53'!
 new
 	^ super new initialize! !
@@ -22831,33 +22904,44 @@ value: anObject
 evaluating: anExpression
 	^ self new expression: anExpression! !
 
-!Function class methodsFor: 'examples' stamp: 'len 10/28/2016 19:10'!
-exampleFrobenius1
-	^ (ZZ mod: 6) endomorphisms evaluating: [:x| x**6]! !
+!Function class methodsFor: 'examples' stamp: 'len 10/29/2016 07:39'!
+example1Function
+	"The function 'x^2 + 1' with domain the ring of rational integers
+	and codomain the set of natural numbers."
+	^ Function from: ZZ to: NN evaluating: [:x| x squared + 1]! !
 
-!Function class methodsFor: 'examples' stamp: 'len 10/28/2016 19:10'!
-exampleFrobenius2
-	^ (ZZ mod: 6) endomorphisms evaluating: (ZZ mod: 6) polynomials x ** 6! !
-
-!Function class methodsFor: 'examples' stamp: 'len 10/28/2016 19:08'!
-exampleFunction
-	^ Function from: ZZ to: ZZ evaluating: [:x| x squared + 1]! !
-
-!Function class methodsFor: 'examples' stamp: 'len 10/28/2016 19:09'!
-exampleMorphism1
+!Function class methodsFor: 'examples' stamp: 'len 10/29/2016 07:38'!
+example2Morphism1
+	"This is the most common way to define morphisms.
+	QQ**3 is the vector space of 3-tuples with rational coefficients,
+	and this defines a linear map on it (an endomorphism)
+	by sending the message #to:evaluating: to the vector space."
 	^ QQ**3 to: QQ**3 evaluating: [:v| (v x - v y, v x, v z)]! !
 
-!Function class methodsFor: 'examples' stamp: 'len 10/28/2016 19:09'!
-exampleMorphism2
+!Function class methodsFor: 'examples' stamp: 'len 10/29/2016 07:38'!
+example2Morphism2
+	"Here's another way to define the same morphism,
+	by creating Hom(Q^3, Q^3) and sending the message #evaluating: to it."
 	^ QQ**3 -> (QQ**3) evaluating: [:v| (v x - v y, v x, v z)]! !
 
-!Function class methodsFor: 'examples' stamp: 'len 10/28/2016 19:09'!
-exampleMorphism3
+!Function class methodsFor: 'examples' stamp: 'len 10/29/2016 07:38'!
+example2Morphism3
+	"And yet a third way. Here Hom(Q^3, Q^3) is created
+	by sending the message #endomorphisms to the vector space."
 	^ (QQ**3) endomorphisms evaluating: [:v| (v x - v y, v x, v z)]! !
 
-!Function class methodsFor: 'examples' stamp: 'len 10/28/2016 19:11'!
-examples
-	^ #(exampleFunction exampleMorphism1 exampleMorphism2 exampleMorphism3 exampleFrobenius1 exampleFrobenius2)! !
+!Function class methodsFor: 'examples' stamp: 'len 10/29/2016 07:37'!
+example3Frobenius1
+	"One way to define the Frobenius ring homomorphism."
+	^ (ZZ mod: 6) endomorphisms evaluating: [:x| x**6]! !
+
+!Function class methodsFor: 'examples' stamp: 'len 10/29/2016 07:37'!
+example3Frobenius2
+	"The Frobenius ring homomorphism defined by a polynomial."
+	| R x |
+	R _ ZZ mod: 6.
+	x _ R polynomials x.
+	^ R endomorphisms evaluating: x ** 6! !
 
 !Function class methodsFor: 'instance creation' stamp: 'len 10/10/2016 13:59'!
 from: aDomain to: anotherDomain evaluating: anExpression
@@ -32436,7 +32520,7 @@ indeterminate
 negated
 	^ self class coefficients: coefficients negated! !
 
-!DirichletSeries methodsFor: 'printing' stamp: 'len 12/28/2015 21:44'!
+!DirichletSeries methodsFor: 'printing' stamp: 'len 10/29/2016 08:31'!
 printOn: aStream
 	| c n first |
 	first _ true.
@@ -32450,7 +32534,7 @@ printOn: aStream
 								c _ c negated]
 					ifFalse: [first ifFalse: [aStream nextPutAll: ' + ']].
 				c printOn: aStream. first _ false.
-				n > 1 ifTrue: [aStream nextPutAll: '/('; print: n; nextPutAll: '^x)']]].
+				n > 1 ifTrue: [aStream nextPut: $/; print: n; nextPutAll: 'x' super]]].
 	aStream nextPutAll: ' + ...'! !
 
 !DirichletSeries methodsFor: 'accessing' stamp: 'len 12/28/2015 19:26'!
@@ -32725,7 +32809,7 @@ example
 	lll _ self basis: { b1. b2. b3 }.
 	^ lll reducedBasis! !
 
-!LLL class methodsFor: 'examples' stamp: 'len 12/6/2015 19:30'!
+!LLL class methodsFor: 'examples' stamp: 'len 10/29/2016 08:33'!
 example2
 	"Find polynomial x^2 - x - 1 that has the golden ratio phi as root."
 	| r b1 b2 b3 lll |
@@ -32734,7 +32818,7 @@ example2
 	b2 _ (0, 1, 0, (10000 * r)).
 	b3 _ (0, 0, 1, 10000).
 	lll _ self basis: { b1. b2. b3 }.
-	^ lll run inspect! !
+	^ lll reducedBasis! !
 
 !LatticeCovering methodsFor: 'accessing' stamp: 'len 1/1/2016 00:40'!
 normalizedThinkness
@@ -33908,127 +33992,6 @@ colors: anArray
 !DiscretePalette class methodsFor: 'as yet unclassified' stamp: 'len 5/2/2016 07:36'!
 default
 	^ self colors: (#("brightGreen" periwinkle seaGreen hotPink lightYellow cyan lightPink lightOrange  "lightGreen" "lightRed"  "mustard" ) collect: [:each| Color exactColorNamed: each]) "shuffled"! !
-
-!DocumentationGenerator methodsFor: 'as yet unclassified' stamp: 'len 8/18/2016 03:30'!
-copy: aString replaceAll: oldSubstring with: newSubstring
-	^ aString lines
-		collect: [:each| (each includesSubString: 'http') ifTrue: [each] ifFalse: [each copyReplaceTokens: oldSubstring with: newSubstring]]
-		andFold: [:a :b| a, Character lf asString, b]! !
-
-!DocumentationGenerator methodsFor: 'as yet unclassified' stamp: 'len 10/28/2016 20:37'!
-escape: aString
-	| output |
-	output _ aString.
-	'\[]*{}#<>' do: [:each|
-"	'\[]*_{}()#<>' do: [:each|"
-		(output includes: each) ifTrue: [output _ output copyReplaceAll: each asString with: '\', each asString]].
-	output _ output copyReplaceAll: Character tab asString with: '&nbsp;&nbsp;&nbsp;&nbsp;'.
-	output _ output copyReplaceAll: ' _ ' with: ' &larr; '.
-	output _ output copyReplaceAll: '^ ' with: '&uarr; '.
-	output _ output copyReplaceAll: Character otimes asString with: '&otimes;'.
-	output _ output copyReplaceAll: Character oplus asString with: '&oplus;'.
-	output _ output copyReplaceAll: Character infinity asString with: '&infin;'.
-	output _ output copyReplaceAll: Character emptySet asString with: '&empty;'.
-	output _ output copyReplaceAll: Character cup asString with: '&cup;'.
-	output _ output copyReplaceAll: Character cap asString with: '&cap;'.
-	^ output! !
-
-!DocumentationGenerator methodsFor: 'as yet unclassified' stamp: 'len 10/14/2016 22:44'!
-generate
-	| blacklist classes |
-	blacklist _ #('Etc' 'Morphic').
-	classes _ Object withAllSubclasses select: [:each| each class ~= Metaclass and: [(each allSuperclasses includes: Morph) not and: [(each category beginsWith: 'Mathematics-') and: [(blacklist noneSatisfy: [:one| each category includesSubString: one])]]]].
-	self generateForClasses: classes! !
-
-!DocumentationGenerator methodsFor: 'as yet unclassified' stamp: 'len 8/18/2016 02:57'!
-generate: comment references: tokens
-	^ self generate: comment references: tokens except: nil! !
-
-!DocumentationGenerator methodsFor: 'as yet unclassified' stamp: 'len 9/3/2016 07:12'!
-generate: aString references: tokens except: currentToken
-	| output |
-	output _ self escape: aString.
-	tokens do: [:each|
-		output _ self copy: output replaceAll: each with: '[',each,'](',each,')'.
-		(tokens includes: each, 's') ifFalse:
-			[output _ self copy: output replaceAll: each, 's' with: '[',each,'s](',each,')']]
-				without: currentToken.
-	output _ output copyReplaceAll: Character lf asString with: '  ', Character lf asString.
-	^ output! !
-
-!DocumentationGenerator methodsFor: 'as yet unclassified' stamp: 'len 10/28/2016 20:25'!
-generateExampleClass: aClass selector: aSymbol references: tokens except: currentToken
-	| imageFileName source result md canvas textMorph |
-	source _ aClass class compiledMethodAt: aSymbol :: getSource.
-	md _ self generate: source references: tokens except: currentToken.
-	md _ md, Character lf asString.
-"	md _ '```smalltalk', Character lf asString, source, Character lf asString, '```'."
-	imageFileName _ aClass name, '-', aSymbol, '.jpg'.
-	result _ aClass perform: aSymbol.
-	textMorph _ (TextModelMorph withModel: (TextModel withText: result printText)) wrapFlag: false; findA: InnerTextMorph.
-	textMorph color: Color black.
-	canvas _ BitBltCanvas depth: 32 over: (textMorph morphPosition extent: textMorph morphExtent).
-	canvas fillRectangle: (0@0 extent: textMorph morphExtent + (10@10)) color: Color white. "yellow muchLighter."
-	canvas fullDraw: textMorph.
-	canvas form writeJPEGfileNamed: self path, imageFileName.
-	md _ md, Character lf asString, '&nbsp;&nbsp;&nbsp;&nbsp;!![](doc/', imageFileName, ')'.
-	^ md! !
-
-!DocumentationGenerator methodsFor: 'as yet unclassified' stamp: 'len 10/28/2016 19:15'!
-generateForClasses: classes
-	| tokens |
-	tokens _ classes collect: [:each| each name].
-	classes do: [:class|
-		| output i file |
-		output _ '' writeStream.
-		class withAllSuperclasses reversed do: [:each|
-			| generated |
-			generated _ each == class
-				ifTrue: ['**', each name, '**']
-				ifFalse: [self generate: each name references: tokens].
-			output nextPutAll: generated]
-			separatedBy: [output nextPutAll: ' > '].
-		output lf; lf.
-		class hasComment ifTrue: [output nextPutAll: (self generate: class comment references: tokens except: class name); lf; lf].
-		output nextPutAll: '***'; lf.
-		(class class selectors includes: #examples)
-			ifTrue:
-				[class examples do: [:exampleSelector|
-					output nextPutAll: (self generateExampleClass: class selector: exampleSelector references: tokens except: class name); lf; lf].
-				output nextPutAll: '***'; lf].
-"		class organization categories do: [:category|
-			((category includesSubString: 'private') or: [category includesSubString: 'initializ'])
-				ifFalse:
-					[output nextPutAll: '*', category withBlanksTrimmed, '*  '; lf.
-					(class organization listAtCategoryNamed: category)
-						do: [:selector|
-							| methodComment |
-							output nextPutAll: '&nbsp;&nbsp;**',(self escape: (class sourceCodeAt: selector) lines first withBlanksTrimmed),'**  '; lf.
-							(methodComment _ class firstCommentAt: selector) isEmpty
-								ifFalse: [methodComment lines do: [:line| output nextPutAll: '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', (self escape: line withBlanksTrimmed), '  '; lf]].
-							output lf]]].
-		output nextPutAll: '***'; lf."
-		i _ 0.
-		class allSuperclasses reversed do: [:each|
-			i*2 timesRepeat: [output nextPutAll: '&nbsp;'].
-			output nextPutAll: (self generate: each name references: tokens).
-			output nextPutAll: '  '; lf.
-			i _ i + 1].
-		class allSubclassesWithLevelDo: [:subclass :level|
-			| generated |
-			(classes includes: subclass) ifTrue:
-				[(level+i)*2 timesRepeat: [output nextPutAll: '&nbsp;'].
-				generated _ subclass == class
-					ifTrue: ['**', subclass name, '**']
-					ifFalse: [self generate: subclass name references: tokens].
-				output nextPutAll: generated.
-				output nextPutAll: '  '; lf]] startingLevel: 0.
-		file _ self path,class name,'.md' :: asFileEntry.
-		file assureExistence; fileContents: output contents]! !
-
-!DocumentationGenerator methodsFor: 'as yet unclassified' stamp: 'len 8/11/2016 21:58'!
-path
-	^ '/home/guest/cuis/Cuis-Mathematics.wiki/doc/'! !
 
 !ElementaryTensorOld methodsFor: 'arithmetic' stamp: 'len 11/9/2015 03:09'!
 * anObject
