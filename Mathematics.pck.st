@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 29 October 2016 at 8:43:33.709661 am'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 30 October 2016 at 4:34:19.310577 pm'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 259!
+!provides: 'Mathematics' 1 260!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
 	instanceVariableNames: 'numerator shift'
@@ -3627,7 +3627,7 @@ References:
 My singletion global instance ZZ is the ring of integer numbers.!
 
 !LocalizationRing commentStamp: '<historical>' prior: 0!
-My instances are localizations of a given ring R away from a given prime ideal I. The elements are the formal fractions a / b with a in R and b in R \ I.!
+My instances are localizations of a given ring R away from a given prime ideal I. The elements are FormalFractions a / b with a in R and b in R \ I.!
 
 !FractionField commentStamp: '<historical>' prior: 0!
 My instances are fields of fractions (ratios, quotients) with numerator and (nonzero) denominator in an integral domain. See Ring>>fractions.
@@ -3653,21 +3653,16 @@ Example:
 	(F x: 1) / (F x: 2)
 !
 
-!QuotientRing commentStamp: 'len 10/18/2016 22:57' prior: 0!
+!QuotientRing commentStamp: '<historical>' prior: 0!
 My instances are quotient rings (also called factor rings, difference rings or residue class rings). 
 
 Given a commutative ring R and a two-sided-ideal I of R, the quotient ring R/I is the set of cosets of I in R by the equivalence relation a ~ b if a - b is in I. If the ideal is maximal, the resulting quotient ring is a field. If it's only prime, the quotient ring is an integral domain.
-
-Example:
-	| I |
-	I _ ZZ * 3.
-	(ZZ/I) elements.
 
 References:
 	https://en.wikipedia.org/wiki/Quotient_ring!
 
 !IntegerQuotientRing commentStamp: '<historical>' prior: 0!
-My instances are rings of integers mod m, i.e. Z/<m>.!
+My instances are rings of residue classes of integers modulo m, i.e. Z/<m>.!
 
 !PrimeField commentStamp: '<historical>' prior: 0!
 My instances are fields of order p prime, i.e. the residue field Z/<p> of integers modulo p.!
@@ -4233,8 +4228,10 @@ My instances are polynomial maps between algebraic varieties.!
 !GroupRandomGenerator commentStamp: '<historical>' prior: 0!
 I am the Product Replacement Algorithm for generating random elements in a group from a set of generators. Essentially, it performs a random walk on a Cayley graph.!
 
-!FormalFraction commentStamp: '<historical>' prior: 0!
-My instances are elements of a fraction field, i.e. fractions with numerator and denominator in a given integral domain. See class FractionField.!
+!FormalFraction commentStamp: 'len 10/29/2016 10:46' prior: 0!
+My instances are elements of the form a / b, with a and b in a commutative ring R, and satisfying the equivalence relation: (a / b) = (a` / b`) iff a*b` = a`*b.
+
+They are elements of ring localizations or fraction fields. See LocalizationRing and FractionField.!
 
 !RationalFunction commentStamp: '<historical>' prior: 0!
 My instances are rational functions, i.e. fractions where the numerator and denominator are polynomials. They are elements of the field of fractions of a polynomial ring over a field (see RationalFunctionField).!
@@ -7279,7 +7276,7 @@ printOn: aStream
 	polynomials do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: '. '].
 	aStream nextPut: $}! !
 
-!GroebnerBasis methodsFor: 'operations' stamp: 'len 9/7/2016 02:44'!
+!GroebnerBasis methodsFor: 'operations' stamp: 'len 10/29/2016 16:37'!
 reduce: aPolynomial 
 	"Answer the remainder of the argument when divided by the receiver."
 	| division |
@@ -7297,9 +7294,8 @@ reduced
 	minimal isReduced ifFalse: [self halt].
 	^ minimal! !
 
-!GroebnerBasis methodsFor: 'testing' stamp: 'len 7/7/2016 05:08'!
+!GroebnerBasis methodsFor: 'testing' stamp: 'len 10/29/2016 16:36'!
 reduces: aPolynomial
-	self isEmpty ifTrue: [^ false].
 	^ (self reduce: aPolynomial) isZero! !
 
 !GroebnerBasis methodsFor: 'accessing' stamp: 'len 11/20/2015 05:10'!
@@ -7408,9 +7404,10 @@ from4: aCollection ordering: aMonomialOrdering
 			newPolynomials allButFirstDo: [:each| (basis reduce: each) isZero ifFalse: [basis add: each]]].
 	^ basis! !
 
-!GroebnerBasis class methodsFor: 'instance creation' stamp: 'len 3/16/2016 04:30'!
+!GroebnerBasis class methodsFor: 'instance creation' stamp: 'len 10/29/2016 16:31'!
 from: aCollection
 	"Answer a new instance of the receiver representing a Groebner basis obtainded from aCollection of generators."
+	aCollection isEmpty ifTrue: [^ self new].
 	^ self from: aCollection ordering: aCollection anyOne species ordering! !
 
 !GroebnerBasis class methodsFor: 'instance creation' stamp: 'len 10/27/2016 08:51'!
@@ -13199,21 +13196,21 @@ zero
 components: anArray
 	^ self new components: anArray! !
 
-!Ideal methodsFor: 'operations' stamp: 'len 9/26/2016 16:54'!
+!Ideal methodsFor: 'operations' stamp: 'len 10/30/2016 15:14'!
 * anElementOrIdeal
 	"The product is included in the intersection: I*J <= I /\ J.
 	When the ideals are comaximal, the equality holds."
 	| newGenerators |
-	(ring includes: anElementOrIdeal) ifTrue: [^ self class on: ring generators: generators * anElementOrIdeal].
-	anElementOrIdeal ring = ring ifFalse: [^ DomainError signal: 'ideal from different rings'].
+	(self ring includes: anElementOrIdeal) ifTrue: [^ self class on: self ring generators: (self generators collect: [:each| each * anElementOrIdeal])].
+	anElementOrIdeal ring = self ring ifFalse: [^ DomainError signal: 'ideal from different rings'].
 	newGenerators _ Set new.
-	generators do: [:a| anElementOrIdeal generators do: [:b| newGenerators add: a*b]].
-	^ self class on: ring generators: newGenerators! !
+	self generators do: [:a| anElementOrIdeal generators do: [:b| newGenerators add: a*b]].
+	^ self class on: self ring generators: newGenerators! !
 
-!Ideal methodsFor: 'operations' stamp: 'len 10/23/2016 16:59'!
+!Ideal methodsFor: 'operations' stamp: 'len 10/29/2016 11:33'!
 + anIdeal
-	anIdeal ring = ring ifFalse: [^ DomainError signal: 'ideals from different rings'].
-	^ self class on: ring generators: (generators asSet copy addAll: anIdeal generators; yourself)! !
+	anIdeal ring = self ring ifFalse: [^ DomainError signal: 'ideals from different rings'].
+	^ self class on: self ring generators: (self generators asSet copy addAll: anIdeal generators; yourself)! !
 
 !Ideal methodsFor: 'operations' stamp: 'len 9/1/2016 07:54'!
 /\ anIdeal
@@ -13225,11 +13222,11 @@ components: anArray
 	"Answer true if the receiver is strictly included in the argument."
 	^ self ~= anIdeal and: [self <= anIdeal]! !
 
-!Ideal methodsFor: 'comparing' stamp: 'len 8/24/2016 22:01'!
+!Ideal methodsFor: 'comparing' stamp: 'len 10/29/2016 11:26'!
 <= anIdeal
 	"Answer true if the receiver is included in the argument."
 	self == anIdeal ifTrue: [^ true].
-	generators do: [:each | (anIdeal includes: each) ifFalse: [^ false]].
+	self generators do: [:each| (anIdeal includes: each) ifFalse: [^ false]].
 	^ true! !
 
 !Ideal methodsFor: 'comparing' stamp: 'len 11/28/2015 06:07'!
@@ -13243,21 +13240,21 @@ components: anArray
 	"Join."
 	^ self + anIdeal! !
 
-!Ideal methodsFor: 'operations' stamp: 'len 9/26/2016 16:55'!
+!Ideal methodsFor: 'operations' stamp: 'len 10/29/2016 11:38'!
 ˜ anIdeal
-	^ ring * (self generator lcm: anIdeal generator)! !
+	^ self ring * (self generator lcm: anIdeal generator)! !
 
-!Ideal methodsFor: 'operations' stamp: 'len 9/26/2016 16:54'!
+!Ideal methodsFor: 'operations' stamp: 'len 10/29/2016 11:37'!
 annihilator
-	^ (ring * ring zero) colon: self! !
+	^ self ring zeroIdeal colon: self! !
 
-!Ideal methodsFor: 'morphisms' stamp: 'len 10/5/2016 10:29'!
+!Ideal methodsFor: 'morphisms' stamp: 'len 10/29/2016 11:36'!
 apply: aMorphism
 	"Apply a ring homomorphism phi to the receiver, sending each generator g to phi(g)."
 	aMorphism isBlock
-		ifTrue: [^ ring * (generators collect: aMorphism)].
-	aMorphism domain = ring
-		ifTrue: [^ aMorphism codomain * (generators collect: aMorphism)].
+		ifTrue: [^ self ring * (self generators collect: aMorphism)].
+	aMorphism domain = self ring
+		ifTrue: [^ aMorphism codomain * (self generators collect: aMorphism)].
 	^ DomainError signal! !
 
 !Ideal methodsFor: 'converting' stamp: 'len 10/23/2016 16:56'!
@@ -13280,18 +13277,18 @@ colon: anIdeal
 	"Answer the colon quotient I:J of the receiver I with the argument J."
 	^ self subclassResponsibility! !
 
-!Ideal methodsFor: 'copying' stamp: 'len 9/26/2016 16:52'!
+!Ideal methodsFor: 'copying' stamp: 'len 10/29/2016 11:36'!
 copy
 	"Answer a copy of the receiver."
-	^ self class on: ring generators: self generators copy! !
+	^ self class on: self ring generators: self generators copy! !
 
-!Ideal methodsFor: 'iterating' stamp: 'len 9/26/2016 16:52'!
+!Ideal methodsFor: 'iterating' stamp: 'len 10/29/2016 11:33'!
 do: aBlock
-	ring isCommutative
+	self ring isCommutative
 		ifTrue:
-			[ring do: [:each| generators do: [:g| aBlock value: each * g]]]
+			[self ring do: [:each| self generators do: [:g| aBlock value: each * g]]]
 		ifFalse:
-			[ring do: [:each| generators do: [:g| aBlock value: each * g; value: g * each]]]! !
+			[self ring do: [:each| self generators do: [:g| aBlock value: each * g; value: g * each]]]! !
 
 !Ideal methodsFor: 'accessing' stamp: 'len 10/19/2016 23:44'!
 generator
@@ -13317,9 +13314,9 @@ generators: aCollection
 			generators do: [:each| generator _ generator isNil ifTrue: [each] ifFalse: [generator gcd: each]].
 			generators _ {generator}]! !
 
-!Ideal methodsFor: 'comparing' stamp: 'len 9/26/2016 16:55'!
+!Ideal methodsFor: 'comparing' stamp: 'len 10/29/2016 16:23'!
 hash
-	^ ring hash + self class hash! !
+	^ self ring hash! !
 
 !Ideal methodsFor: 'testing' stamp: 'len 9/26/2016 16:57'!
 includes: anObject
@@ -13327,12 +13324,12 @@ includes: anObject
 	self isZero ifTrue: [^ anObject isZero].
 	^ (self reduce: anObject) isZero! !
 
-!Ideal methodsFor: 'operations-elements' stamp: 'len 9/26/2016 16:54'!
+!Ideal methodsFor: 'operations-elements' stamp: 'len 10/29/2016 11:37'!
 inverseOf: anObject
 	| euclid |
-	ring isEuclidean ifFalse: [^ nil].
+	self ring isEuclidean ifFalse: [^ nil].
 	euclid _ ExtendedEuclid on: {anObject. self generator}.
-	euclid gcd = ring one ifFalse: [^ nil].
+	euclid gcd = self ring one ifFalse: [^ nil].
 	^ euclid combination first! !
 
 !Ideal methodsFor: 'testing' stamp: 'len 1/4/2016 03:29'!
@@ -13348,27 +13345,26 @@ isOne
 isPrime
 	^ properties at: #isPrime! !
 
-!Ideal methodsFor: 'testing' stamp: 'len 9/26/2016 16:54'!
+!Ideal methodsFor: 'testing' stamp: 'len 10/29/2016 11:36'!
 isPrincipal
-	generators size = 1 ifTrue: [^ true].
-	ring isPID ifTrue: [^ true].
+	self generators size = 1 ifTrue: [^ true].
+	self ring isPID ifTrue: [^ true].
 	^ properties at: #isPrincipal! !
 
 !Ideal methodsFor: 'testing' stamp: 'len 9/26/2016 16:58'!
 isProper
 	^ self ~= self ring! !
 
-!Ideal methodsFor: 'testing' stamp: 'len 8/30/2016 06:58'!
+!Ideal methodsFor: 'testing' stamp: 'len 10/29/2016 11:34'!
 isZero
 	"Answer true if the receiver is the zero ideal {0}."
-	generators do: [:each | each isZero ifFalse: [^ false]].
-	^ true! !
+	^ self generators allSatisfy: [:each| each isZero]! !
 
-!Ideal methodsFor: 'printing' stamp: 'len 9/26/2016 16:58'!
+!Ideal methodsFor: 'printing' stamp: 'len 10/29/2016 11:35'!
 printOn: aStream
 	self isZero ifTrue: [aStream nextPut: ${; print: self ring zero; nextPut: $}. ^ self].
 	aStream nextPut: $<.
-	generators do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: ', '].
+	self generators do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: ', '].
 	aStream nextPut: $>! !
 
 !Ideal methodsFor: 'operations' stamp: 'len 4/25/2016 21:02'!
@@ -13398,9 +13394,9 @@ ring: aRing
 on: aRing generators: aCollection
 	^ self new ring: aRing; generators: aCollection! !
 
-!IntegerIdeal methodsFor: 'operations' stamp: 'len 9/26/2016 16:55'!
+!IntegerIdeal methodsFor: 'operations' stamp: 'len 10/29/2016 11:38'!
 ˜ anIdeal
-	^ ring * (self generator lcm: anIdeal generator)! !
+	^ self ring * (self generator lcm: anIdeal generator)! !
 
 !IntegerIdeal methodsFor: 'random' stamp: 'len 4/19/2016 20:05'!
 atRandom: aRandom bits: bitSize
@@ -13423,9 +13419,9 @@ quotient
 	"Answer the quotient ring of the base ring by the receiver."
 	^ IntegerQuotientRing by: self! !
 
-!IntegerIdeal methodsFor: 'operations' stamp: 'len 9/26/2016 16:55'!
+!IntegerIdeal methodsFor: 'operations' stamp: 'len 10/29/2016 11:38'!
 radical
-	^ ring * (self generator factors asSet inject: 1 into: [:x :each| x*each])! !
+	^ self ring * (self generator factors asSet inject: 1 into: [:x :each| x*each])! !
 
 !IntegerIdeal methodsFor: 'random' stamp: 'len 4/19/2016 22:57'!
 remainderAtRandom: aRandom
@@ -13439,22 +13435,16 @@ remainderAtRandom: aRandom
 	self flag: #fix." "this is wrong, both groebner basis should at least use the same ordering"
 "	^ self groebner reduced = anObject groebner reduced"! !
 
-!PolynomialIdeal methodsFor: 'operations' stamp: 'len 10/23/2016 18:26'!
+!PolynomialIdeal methodsFor: 'operations' stamp: 'len 10/30/2016 15:15'!
 ˜ anIdeal
-	| R R` t T TminusOne G1 G2 G` G |
+	| R R` t T |
 	self isZero ifTrue: [^ self].
 	anIdeal isZero ifTrue: [^ anIdeal].
 	R _ self ring.
-	R` _ R scalars polynomialsIn: R rank + 1 ordering: #lex.
+	R` _ R scalars polynomialsIn: R rank + 1.
 	t _ R` rank. "index of last indeterminate"
 	T _ R` x: t.
-	TminusOne _ T - T one.
-	G1 _ generators collect: [:f| T*(f as: R`)].
-	G2 _ anIdeal generators collect: [:g| TminusOne*(g as: R`)].
-	G` _ GroebnerBasis from: G1, G2 ordering: R` ordering.
-	G _ GroebnerBasis new ordering: (MonomialOrdering lex: R rank).
-	G` do: [:each| (each has: t) ifFalse: [G add: (each as: R)]].
-	^ self species on: R generators: G! !
+	^ ((self as: R`) * T + ((anIdeal as: R`) * (T - R` one)) eliminate: t) as: R! !
 
 !PolynomialIdeal methodsFor: 'operations' stamp: 'len 10/21/2016 17:27'!
 affinizedIn: anIndeterminate
@@ -13468,12 +13458,15 @@ affinizedIn: anIndeterminate
 atRandom: aRandom bits: bitSize
 	^ self generators sum: [:each| each * (self ring atRandom: aRandom bits: bitSize / self generators size)]! !
 
-!PolynomialIdeal methodsFor: 'operations' stamp: 'len 9/26/2016 16:58'!
+!PolynomialIdeal methodsFor: 'operations' stamp: 'len 10/29/2016 16:59'!
 colon: anIdeal
-	"Answer the colon quotient I:J of the receiver I with the argument J."
+	"Answer the colon quotient I:J of the receiver I with the argument J.
+	This is defined as I:J := {r in R | rJ <= I}."
 	"Cox IVA 205p"
+	"Derksen, Kemper, 'Computational Invariant Theory', 16p."
 	| answer |
-	answer _ self ring * self ring one. "<1>"
+	self ring isIntegralDomain ifFalse: [^ self error: 'not over an integral domain'].
+	answer _ self ring asIdeal. "<1>"
 	anIdeal generators do: [:g|
 		answer _ answer ˜ (self ring * ((self ring * g ˜ self) groebnerBasis apply: [:h| h / g]))].
 	^ answer! !
@@ -13521,14 +13514,14 @@ output: univariate eliminant g(xi) or there's no eliminant
 where n is minimal, then output eliminant g(xi) = sum akxi^k
 "! !
 
-!PolynomialIdeal methodsFor: 'operations' stamp: 'len 9/26/2016 16:56'!
+!PolynomialIdeal methodsFor: 'operations' stamp: 'len 10/29/2016 11:38'!
 eliminateAll: aCollection
 	"Answer the elimination ideal for the indeterminates in aCollection = {xi}, i.e. the subideal of polynomials without indeterminates {xi}."
 	| indeterminates ordering G |
-	indeterminates _ aCollection asArray , (ring ordering indeterminates reject: [:each| aCollection includes: each]).
+	indeterminates _ aCollection asArray , (self ring ordering indeterminates reject: [:each| aCollection includes: each]).
 	ordering _ MonomialOrdering lex: indeterminates.
-	G _ GroebnerBasis from: generators ordering: ordering.
-	^ self class on: ring generators: (G minimal asArray select: [:each| (aCollection noneSatisfy:[:none| each has: none])])! !
+	G _ GroebnerBasis from: self generators ordering: ordering.
+	^ self class on: self ring generators: (G minimal asArray select: [:each| (aCollection noneSatisfy:[:none| each has: none])])! !
 
 !PolynomialIdeal methodsFor: 'accessing-private' stamp: 'len 7/4/2016 06:33'!
 generators: aCollection
@@ -13579,9 +13572,9 @@ initial
 	"Answer the initial ideal, i.e. the ideal of all leading monomials of the receiver."
 	^ MonomialIdeal on: self ring generators: self groebnerBasis initial! !
 
-!PolynomialIdeal methodsFor: 'testing' stamp: 'len 12/15/2015 21:13'!
+!PolynomialIdeal methodsFor: 'testing' stamp: 'len 10/29/2016 11:32'!
 isHomogeneous
-	^ generators allSatisfy: [:each| each isHomogeneous]! !
+	^ self generators allSatisfy: [:each| each isHomogeneous]! !
 
 !PolynomialIdeal methodsFor: 'testing' stamp: 'len 12/15/2015 03:19'!
 isRadical
@@ -13629,17 +13622,18 @@ radicalIncludes: aPolynomial
 	X add: (aPolynomial as: R`) * t - R` one.
 	^ (R` * X) isTrivial! !
 
-!PolynomialIdeal methodsFor: 'operations-elements' stamp: 'len 10/6/2016 09:35'!
+!PolynomialIdeal methodsFor: 'operations-elements' stamp: 'len 10/29/2016 16:40'!
 reduce: aPolynomial
 	"Answer the normal form of anElement with respect to the receiver."
+	self isZero ifTrue: [^ aPolynomial].
 	self isUnivariate ifTrue: [^ aPolynomial \\ self generator].
 	^ self groebnerBasis reduce: aPolynomial! !
 
-!PolynomialIdeal methodsFor: 'random' stamp: 'len 9/26/2016 16:56'!
+!PolynomialIdeal methodsFor: 'random' stamp: 'len 10/29/2016 11:38'!
 remainderAtRandom: aRandom
 	self isPrincipal ifFalse: [^ self error: 'not yet implemented'].
-	ring isUnivariate ifFalse: [^ self error: 'not yet implemented'].
-	^ ring coefficients: ((0 to: self generator degree - 1) collect: [:i| ring scalars atRandom: aRandom])! !
+	self ring isUnivariate ifFalse: [^ self error: 'not yet implemented'].
+	^ self ring coefficients: ((0 to: self generator degree - 1) collect: [:i| self ring scalars atRandom: aRandom])! !
 
 !PolynomialIdeal methodsFor: 'operations' stamp: 'len 10/23/2016 16:52'!
 saturation
@@ -13757,11 +13751,11 @@ species
 % anObject
 	^ self mod: anObject! !
 
-!Ring methodsFor: 'operations' stamp: 'len 12/5/2015 23:51'!
+!Ring methodsFor: 'operations' stamp: 'len 10/30/2016 15:46'!
 * anElementOrArray
-	^ (self includes: anElementOrArray)
-			ifTrue: [Ideal on: self generators: {anElementOrArray}]
-			ifFalse: [Ideal on: self generators: anElementOrArray]! !
+	^ ((anElementOrArray isCollection) and: [(self includes: anElementOrArray) not])
+			ifTrue: [self idealClass on: self generators: anElementOrArray]
+			ifFalse: [self idealClass on: self generators: {anElementOrArray}]! !
 
 !Ring methodsFor: 'operations' stamp: 'len 10/7/2016 08:44'!
 ** n
@@ -13864,6 +13858,10 @@ frobenius
 	p _ self characteristic.
 	^ self to: self evaluating: self polynomials x ** p! !
 
+!Ring methodsFor: 'private' stamp: 'len 10/30/2016 15:44'!
+idealClass
+	^ Ideal! !
+
 !Ring methodsFor: 'testing' stamp: 'len 10/18/2016 20:38'!
 isAlgebraicallyClosed
 	^ properties at: #isAlgebraicallyClosed ifAbsent: [false]! !
@@ -13956,6 +13954,18 @@ isUFD
 isUnit: anElement
 	self isDivisionRing ifTrue: [^ anElement isZero not].
 	^ self subclassResponsibility! !
+
+!Ring methodsFor: 'operations' stamp: 'len 10/29/2016 10:33'!
+localization: aPrimeIdeal
+	"Answer the localization of the receiver away from aPrimeIdeal."
+	| P |
+	P _ (aPrimeIdeal isKindOf: Ideal)
+		ifTrue:
+			[self = aPrimeIdeal ring ifFalse: [DomainError signal: 'ideal belongs to a different ring'].
+			aPrimeIdeal]
+		ifFalse:
+			[self * aPrimeIdeal].
+	^ LocalizationRing away: P! !
 
 !Ring methodsFor: 'operations' stamp: 'len 11/22/2015 06:26'!
 mod: anObject
@@ -14254,12 +14264,6 @@ scalars: aRing
 on: aGroup over: aRing
 	^ self new group: aGroup; scalars: aRing! !
 
-!Integers methodsFor: 'operations' stamp: 'len 12/5/2015 23:51'!
-* anIntegerOrArray
-	^ (self includes: anIntegerOrArray)
-			ifTrue: [IntegerIdeal on: self generators: {anIntegerOrArray}]
-			ifFalse: [IntegerIdeal on: self generators: anIntegerOrArray]! !
-
 !Integers methodsFor: 'comparing' stamp: 'len 6/1/2016 23:56'!
 <= aDomain
 	^ aDomain isRing and: [(aDomain includes: 1) and: [aDomain includes: 0]]! !
@@ -14307,6 +14311,10 @@ freeModuleIn: aCollection
 !Integers methodsFor: 'comparing' stamp: 'len 12/14/2015 01:59'!
 hash
 	^ self class hash! !
+
+!Integers methodsFor: 'private' stamp: 'len 10/30/2016 15:47'!
+idealClass
+	^ IntegerIdeal! !
 
 !Integers methodsFor: 'testing' stamp: 'len 11/23/2015 02:37'!
 includes: anObject
@@ -14365,6 +14373,20 @@ initialize
 	super initialize.
 	Smalltalk at: #ZZ put: self new! !
 
+!LocalizationRing methodsFor: 'comparing' stamp: 'len 10/29/2016 10:16'!
+< aRing
+	"Answer true if the receiver is strictly included in the argument."
+	^ self ~= aRing and: [self <= aRing]! !
+
+!LocalizationRing methodsFor: 'comparing' stamp: 'len 10/29/2016 10:14'!
+<= aRing
+	"Answer true if the receiver is included in the argument."
+	self == aRing ifTrue: [^ true].
+	(aRing isKindOf: Ring) ifFalse: [^ false].
+	(aRing isKindOf: LocalizationRing)
+		ifTrue: [^ self integers = aRing integers and: [self ideal >= aRing ideal]].
+	^ super <= aRing! !
+
 !LocalizationRing methodsFor: 'comparing' stamp: 'len 10/28/2016 17:01'!
 = anObject
 	self == anObject ifTrue: [^ true].
@@ -14402,9 +14424,9 @@ embedding
 generators
 	^ (self integers generators ifNil: [^ nil]) apply: self embedding! !
 
-!LocalizationRing methodsFor: 'comparing' stamp: 'len 10/28/2016 16:38'!
+!LocalizationRing methodsFor: 'comparing' stamp: 'len 10/29/2016 10:17'!
 hash
-	^ self class hash + self integers hash! !
+	^ self ideal hash + self integers hash! !
 
 !LocalizationRing methodsFor: 'accessing' stamp: 'len 10/28/2016 17:02'!
 ideal
@@ -14414,9 +14436,9 @@ ideal
 ideal: anIdeal
 	properties at: #ideal put: anIdeal! !
 
-!LocalizationRing methodsFor: 'testing' stamp: 'len 10/28/2016 16:33'!
+!LocalizationRing methodsFor: 'testing' stamp: 'len 10/29/2016 16:03'!
 includes: anObject
-	^ (anObject isKindOf: FormalFraction) and: [(self ideal ring includes: anObject numerator) and: [(self ideal includes: anObject denominator) not]]! !
+	^ (anObject is: #Fraction) and: [(self ideal ring includes: anObject numerator) and: [(self ideal includes: anObject denominator) not]]! !
 
 !LocalizationRing methodsFor: 'accessing' stamp: 'len 10/28/2016 16:33'!
 integers
@@ -14456,14 +14478,19 @@ zero
 away: anIdeal
 	^ self new propertyAt: #ideal put: anIdeal; yourself! !
 
+!LocalizationRing class methodsFor: 'examples' stamp: 'len 10/29/2016 10:34'!
+exampleZZLocalizedAwayFrom2
+	"Answer the localization of the integers away from <2>, this is the ring of fractions with odd denominator."
+	^ ZZ localization: 2! !
+
 !FractionField methodsFor: 'comparing' stamp: 'len 10/28/2016 16:59'!
 = anObject
 	self == anObject ifTrue: [^ true].
 	^ (anObject isKindOf: FractionField) and: [anObject integers = self integers]! !
 
-!FractionField methodsFor: 'testing' stamp: 'len 10/14/2016 21:57'!
+!FractionField methodsFor: 'testing' stamp: 'len 10/29/2016 16:03'!
 includes: anObject
-	^ (anObject isKindOf: FormalFraction)
+	^ (anObject is: #Fraction)
 		and: [(self integers includes: anObject numerator)
 			and: [self integers includes: anObject denominator]]! !
 
@@ -14874,6 +14901,24 @@ zero
 !QuotientRing class methodsFor: 'instance creation' stamp: 'len 11/28/2015 05:54'!
 by: anIdeal
 	^ self new ideal: anIdeal! !
+
+!QuotientRing class methodsFor: 'examples' stamp: 'len 10/29/2016 10:25'!
+exampleZ6
+	"The quotient ring of residue classes of integers modulo 6."
+	| I |
+	I _ ZZ * 6.
+	^ ZZ/I "alternatively, you can just write ZZ/6 or ZZ mod: 6."! !
+
+!QuotientRing class methodsFor: 'examples' stamp: 'len 10/29/2016 10:25'!
+exampleZ6Elements
+	"The elements of the quotient ring of residue classes of integers modulo 6."
+	^ (ZZ/6) elements! !
+
+!QuotientRing class methodsFor: 'examples' stamp: 'len 10/29/2016 10:25'!
+exampleZ6Projection
+	"The canonical projection from the integers ring Z
+	to the quotient ring of residue classes of modulo 6."
+	^ (ZZ/6) projection! !
 
 !IntegerQuotientRing methodsFor: 'random' stamp: 'len 4/25/2016 00:26'!
 atRandom: aRandom
@@ -15444,12 +15489,6 @@ initialize
 	super initialize.
 	Smalltalk at: #RR put: self new! !
 
-!PolynomialRing methodsFor: 'operations' stamp: 'len 12/5/2015 23:52'!
-* aPolynomialOrArray
-	^ (self includes: aPolynomialOrArray)
-			ifTrue: [PolynomialIdeal on: self generators: {aPolynomialOrArray}]
-			ifFalse: [PolynomialIdeal on: self generators: aPolynomialOrArray]! !
-
 !PolynomialRing methodsFor: 'comparing' stamp: 'len 7/19/2016 01:12'!
 < aDomain
 	(aDomain isKindOf: PolynomialRing) ifFalse: [^ false].
@@ -15760,6 +15799,10 @@ hilbertSeries
 !PolynomialRing methodsFor: 'operations' stamp: 'len 10/27/2016 18:32'!
 hilbertSeriesAt: t
 	^ (self gradings product: [:d| 1 - (t ** d)]) reciprocal! !
+
+!PolynomialRing methodsFor: 'private' stamp: 'len 10/30/2016 15:48'!
+idealClass
+	^ PolynomialIdeal! !
 
 !PolynomialRing methodsFor: 'testing' stamp: 'len 6/1/2016 23:50'!
 includes: anObject
@@ -25664,9 +25707,9 @@ next
 	state size < 10 ifTrue: [state add: g`] ifFalse: [state at: i put: g`].
 	^ g`! !
 
-!FormalFraction methodsFor: 'arithmetic' stamp: 'len 10/24/2016 12:06'!
+!FormalFraction methodsFor: 'arithmetic' stamp: 'len 10/29/2016 16:06'!
 * anObject
-	((anObject isNumber and: [anObject isRational]) or: [anObject isKindOf: FormalFraction])
+	(anObject is: #Fraction)
 		ifTrue: [^ self class numerator: numerator * anObject numerator denominator: denominator * anObject denominator].
 	^ self class numerator: numerator * anObject denominator: denominator! !
 
@@ -25692,9 +25735,9 @@ next
 / anObject
 	^ self * anObject reciprocal! !
 
-!FormalFraction methodsFor: 'comparing' stamp: 'len 4/5/2016 18:02'!
+!FormalFraction methodsFor: 'comparing' stamp: 'len 10/29/2016 16:06'!
 = aFormalFraction
-	^ (aFormalFraction isKindOf: FormalFraction) and: [numerator * aFormalFraction denominator = (denominator * aFormalFraction numerator)]! !
+	^ (aFormalFraction is: #Fraction) and: [numerator * aFormalFraction denominator = (denominator * aFormalFraction numerator)]! !
 
 !FormalFraction methodsFor: 'accessing' stamp: 'len 12/28/2015 20:31'!
 bitSize
@@ -25707,6 +25750,10 @@ denominator
 !FormalFraction methodsFor: 'comparing' stamp: 'len 11/28/2015 06:36'!
 hash
 	^ 0! !
+
+!FormalFraction methodsFor: 'testing' stamp: 'len 10/29/2016 16:04'!
+is: aSymbol
+	^ aSymbol = #Fraction or: [super is: aSymbol]! !
 
 !FormalFraction methodsFor: 'testing' stamp: 'len 11/28/2015 06:36'!
 isZero
@@ -31654,14 +31701,14 @@ squareFreeFactorization
 					q _ q // gcd - p derivative]].
 	^ answer add: p withOccurrences: count; yourself! !
 
-!MultiPolynomialDivision methodsFor: 'private' stamp: 'len 10/27/2016 08:51'!
+!MultiPolynomialDivision methodsFor: 'private' stamp: 'len 10/29/2016 16:37'!
 divide
 	"Perform the division algorithm computing quotients and remainder."
 	| p s zero fi q headp headfi t heads i |
 	zero _ dividend zero.
 	quotients _ (1 to: divisors size) collect: [:each| zero].
+	divisors isEmpty ifTrue: [remainder _ dividend. ^ self].
 	remainder _ zero.
-	divisors isEmpty ifTrue: [^ self].
 	s _ divisors size.
 	p _ dividend.
 	heads _ Array new: divisors size.
