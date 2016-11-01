@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 1 November 2016 at 8:00:28.754869 am'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 1 November 2016 at 10:44:19.05345 am'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 262!
+!provides: 'Mathematics' 1 263!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
 	instanceVariableNames: 'numerator shift'
@@ -3989,7 +3989,9 @@ References:
 !
 
 !Scheme commentStamp: '<historical>' prior: 0!
-My instances are schemes.!
+My instances are schemes.
+
+The implementation has some limitations. It can represent closed subschemes of affine and projective space defined by polynomial equations. Some other schemes can also be represented (such as Spec(Z) and its closed subschemes Spec(Z/<m>)), but some the functionality is limited. Also, many operations require the base ring to be a field.!
 
 !AffineScheme commentStamp: '<historical>' prior: 0!
 My instances are affine schemes, i.e. spectra of commutative rings noted Spec R. The ring R is the associated 'coordinate ring' of the scheme.
@@ -15247,10 +15249,10 @@ hilbertSeriesAt: t
 indeterminates
 	^ self base indeterminates! !
 
-!PolynomialQuotientRing methodsFor: 'operations' stamp: 'len 10/25/2016 10:14'!
+!PolynomialQuotientRing methodsFor: 'operations' stamp: 'len 11/1/2016 10:25'!
 proj
 	"Answer the projective spectrum of the receiver, Proj(R)."
-	self ideal isHomogeneous ifFalse: [^ DomainError signal: 'not a quotient by an homogeneous ideal, not properly graded'].
+	self ideal isHomogeneous ifFalse: [^ DomainError signal: 'not a quotient by a homogeneous ideal, not properly graded'].
 	(self ideal generators size = 1 and: [self ideal isZero not])
 		ifTrue: [self base rank = 3
 			ifTrue: [^ ProjectivePlaneCurve coordinateRing: self]
@@ -21180,9 +21182,9 @@ isConnected
 	"Answer true if the receiver as a topological space is connected."
 	^ properties at: #isConnected! !
 
-!Scheme methodsFor: 'testing' stamp: 'len 10/27/2016 10:14'!
+!Scheme methodsFor: 'testing' stamp: 'len 11/1/2016 09:52'!
 isEquidimensional
-	^ self singularSubscheme dimension < 0! !
+	^ self singular dimension < 0! !
 
 !Scheme methodsFor: 'testing' stamp: 'len 10/13/2016 19:22'!
 isHypersurface
@@ -21242,32 +21244,16 @@ isSingularAt: aPoint
 	"Synonym of 'not smooth'."
 	^ (self isSmoothAt: aPoint) not! !
 
-!Scheme methodsFor: 'testing' stamp: 'len 10/25/2016 06:43'!
+!Scheme methodsFor: 'testing' stamp: 'len 11/1/2016 10:12'!
 isSmooth
-	^ properties at: #isSmooth! !
+	"Answer true if the receiver is nonsingular."
+	^ properties at: #isSmooth ifAbsentPut: [self singular dimension < 0]! !
 
-!Scheme methodsFor: 'testing' stamp: 'len 10/25/2016 14:15'!
+!Scheme methodsFor: 'testing' stamp: 'len 11/1/2016 10:14'!
 isSmoothAt: aPoint
 	properties at: #isSmooth ifPresent: [:aBoolean| aBoolean ifTrue: [^ true]].
 	(self includes: aPoint) ifFalse: [DomainError signal: 'point not in this scheme'].
-	^ self jacobianIdeal generators anySatisfy: [:each| (each value: aPoint) isZero not]! !
-
-!Scheme methodsFor: 'operations' stamp: 'len 10/27/2016 09:48'!
-jacobianIdeal
-	| R generators J |
-	R _ self ambient coordinateRing.
-	generators _  self ideal generators asArray.
-	J _ R ** (R rank @ generators size) "the jacobian matrix"
-		evaluating: [:i :j| (generators at: j) derivativeIn: i].
-	^ R * (generators, ((J minors: self codimension) collect: [:each| self ideal reduce: each]))! !
-
-!Scheme methodsFor: 'operations' stamp: 'len 10/25/2016 09:48'!
-jacobianMatrix
-	| R generators |
-	R _ self ambient coordinateRing.
-	generators _  self ideal generators asArray.
-	^ R ** (R rank @ generators size)
-		evaluating: [:i :j| (generators at: j) derivativeIn: i]! !
+	^ (self singular includes: aPoint) not! !
 
 !Scheme methodsFor: 'points' stamp: 'len 10/27/2016 15:05'!
 points
@@ -21297,16 +21283,24 @@ project: anIndeterminate
 	"Answer the projection of the receiver by eliminating the given indeterminate."
 	^ self ambient subscheme: (self ideal eliminate: anIndeterminate)! !
 
-!Scheme methodsFor: 'operations' stamp: 'len 10/20/2016 16:11'!
+!Scheme methodsFor: 'operations' stamp: 'len 11/1/2016 10:19'!
 reduced
-	^ self ambient subscheme: self ideal radical! !
+	"Answer the reduced subscheme of the receiver."
+	^ properties at: #reducedSubscheme ifAbsentPut: [self ambient subscheme: self ideal radical]! !
 
-!Scheme methodsFor: 'operations' stamp: 'len 10/27/2016 09:57'!
-singularSubscheme
+!Scheme methodsFor: 'operations' stamp: 'len 11/1/2016 10:17'!
+singular
 	"Answer the subscheme defined by the appropriately sized minors of the jacobian matrix of the receiver.
 	If the receiver is not equidimensional, its lower-dimensional components will be contained in this scheme whether they are singular or not.
-	(See Eisenbud Commutative Algebra Ch.20, re Fitting ideal.)"
-	^ self subscheme: self jacobianIdeal! !
+	(See Eisenbud 'Commutative Algebra' Ch. 20, re Fitting ideal.)"
+	| R generators J |
+	properties at: #singularSubscheme ifPresent: [:aScheme| ^ aScheme].
+	R _ self ambient coordinateRing.
+	generators _  self ideal generators asArray.
+	J _ R ** (R rank @ generators size) "the jacobian matrix"
+		evaluating: [:i :j| (generators at: j) derivativeIn: i].
+	^ properties at: #singularSubscheme put:
+		(self subscheme: R * (generators, ((J minors: self codimension) collect: [:each| self ideal reduce: each])))! !
 
 !Scheme methodsFor: 'operations' stamp: 'len 10/20/2016 16:11'!
 subscheme: anObject
@@ -21373,10 +21367,6 @@ isFinite
 !AffineScheme methodsFor: 'testing' stamp: 'len 10/20/2016 15:22'!
 isProjective
 	^ false! !
-
-!AffineScheme methodsFor: 'testing' stamp: 'len 10/25/2016 06:45'!
-isSmooth
-	^ properties at: #isSmooth ifAbsentPut: [self jacobianIdeal dimension < 0]! !
 
 !AffineScheme methodsFor: 'printing' stamp: 'len 10/19/2016 22:57'!
 printOn: aStream
@@ -21572,10 +21562,6 @@ isAffine
 !ProjectiveScheme methodsFor: 'testing' stamp: 'len 10/20/2016 15:21'!
 isProjective
 	^ true! !
-
-!ProjectiveScheme methodsFor: 'testing' stamp: 'len 10/25/2016 14:54'!
-isSmooth
-	^ properties at: #isSmooth ifAbsentPut: [self jacobianIdeal dimension <= 0]! !
 
 !ProjectiveScheme methodsFor: 'printing' stamp: 'len 10/20/2016 15:27'!
 printOn: aStream
@@ -25213,7 +25199,7 @@ from: aLinearBasis matrix: aMatrix
 		ifFalse: [^ DomainError signal].
 	^ self class from: self domain to: self codomain components: components + aRationalMap components! !
 
-!RationalMap methodsFor: 'comparing' stamp: 'len 11/1/2016 07:49'!
+!RationalMap methodsFor: 'comparing' stamp: 'len 11/1/2016 10:42'!
 = aRationalMap
 	| I |
 	(aRationalMap isKindOf: RationalMap) ifFalse: [^ super = aRationalMap].
@@ -25226,6 +25212,11 @@ from: aLinearBasis matrix: aMatrix
 		(I includes: f numerator * g denominator - (f denominator * g numerator))
 			ifFalse: [^ false]].
 	^ true! !
+
+!RationalMap methodsFor: 'arithmetic' stamp: 'len 11/1/2016 10:36'!
+@ aRationalMap
+	self domain >= aRationalMap codomain ifFalse: [DomainError signal: 'domains don''t match'].
+	^ self class from: aRationalMap domain to: self codomain components: (self components collect: [:each| each value: aRationalMap components])! !
 
 !RationalMap methodsFor: 'converting' stamp: 'len 11/1/2016 07:54'!
 asRingHomomorphism
