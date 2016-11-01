@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 1 November 2016 at 5:56:02.241782 am'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 1 November 2016 at 8:00:28.754869 am'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 261!
+!provides: 'Mathematics' 1 262!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
 	instanceVariableNames: 'numerator shift'
@@ -25207,28 +25207,42 @@ from: aLinearBasis matrix: aMatrix
 * anObject
 	^ self class from: self domain to: self codomain components: components * anObject! !
 
-!RationalMap methodsFor: 'arithmetic' stamp: 'len 10/16/2016 20:03'!
-+ aRationalParametrization
-	(self domain = aRationalParametrization domain and: [self codomain = aRationalParametrization codomain])
+!RationalMap methodsFor: 'arithmetic' stamp: 'len 11/1/2016 07:49'!
++ aRationalMap
+	(self domain = aRationalMap domain and: [self codomain = aRationalMap codomain])
 		ifFalse: [^ DomainError signal].
-	^ self class from: self domain to: self codomain components: components + aRationalParametrization components! !
+	^ self class from: self domain to: self codomain components: components + aRationalMap components! !
 
-!RationalMap methodsFor: 'converting' stamp: 'len 10/23/2016 22:15'!
+!RationalMap methodsFor: 'comparing' stamp: 'len 11/1/2016 07:49'!
+= aRationalMap
+	| I |
+	(aRationalMap isKindOf: RationalMap) ifFalse: [^ super = aRationalMap].
+	(self domain = aRationalMap domain and: [self codomain = aRationalMap codomain])
+		ifFalse: [^ false].
+	I _ self domain ideal.
+	1 to: self size do: [:i| | f g |
+		f _ self at: i.
+		g _ aRationalMap at: i.
+		(I includes: f numerator * g denominator - (f denominator * g numerator))
+			ifFalse: [^ false]].
+	^ true! !
+
+!RationalMap methodsFor: 'converting' stamp: 'len 11/1/2016 07:54'!
 asRingHomomorphism
 	"Answer the induced ring homomorphism between the coordinate rings.
 	This is the adjoint of the Spec functor."
 	self isPolynomial ifFalse: [DomainError signal: 'not a polynomial map'].
-	^ self codomain coordinateRing to: self domain coordinateRing evaluating: [:f| f value: components]! !
+	^ self codomain coordinateRing to: self domain coordinateRing evaluating: [:f| f value: self components]! !
 
-!RationalMap methodsFor: 'accessing' stamp: 'len 10/16/2016 20:43'!
-at: anInteger
-	^ components at: anInteger! !
+!RationalMap methodsFor: 'accessing' stamp: 'len 11/1/2016 07:54'!
+components
+	^ components! !
 
 !RationalMap methodsFor: 'accessing-private' stamp: 'len 10/16/2016 20:02'!
 components: anArray 
 	components _ anArray! !
 
-!RationalMap methodsFor: 'accessing' stamp: 'len 10/31/2016 12:51'!
+!RationalMap methodsFor: 'accessing' stamp: 'len 11/1/2016 07:59'!
 image
 	"Answer the (Zeriski closure of the) image of the receiver. This is a subscheme of the codomain.
 	Performs ideal elimination (a Groebner basis computation with the lexicographical order)."
@@ -25244,8 +25258,8 @@ image
 	generators _ OrderedCollection new.
 	g _ P one.
 	1 to: n do: [:i| | numerator denominator |
-		numerator _ map value: (self at: i) numerator.
-		denominator _ map value: (self at: i) denominator.
+		numerator _ map value: (self components at: i) numerator.
+		denominator _ map value: (self components at: i) denominator.
 		generators add: denominator * (P x: i) - numerator.
 		g _ g * denominator].
 	generators add: P one - (g * t).
@@ -25281,22 +25295,19 @@ printOn: aStream
 		ifFalse: [Tuple])
 			withAll: components) printOn: aStream! !
 
-!RationalMap methodsFor: 'operations' stamp: 'len 10/17/2016 16:07'!
+!RationalMap methodsFor: 'operations' stamp: 'len 11/1/2016 07:56'!
 projectiveClosure
-	self flag: #fix.
+	(self domain isAffine and: [self codomain isAffine])
+		ifFalse: [^ self error: 'not an affine rational map'].
 	^ self class
 		from: self domain projectiveClosure
 		to: self codomain projectiveClosure
 		components: (components collect: [:each| each homogenized])! !
 
-!RationalMap methodsFor: 'operations' stamp: 'len 10/24/2016 11:38'!
+!RationalMap methodsFor: 'operations' stamp: 'len 11/1/2016 07:57'!
 pullback: aScheme
-	"Answer the preimage of the codomain subscheme aScheme, which is a subscheme of the domain."
+	"Answer the preimage of aScheme. The argument is a subscheme of the codomain, and the answer is a subscheme of the domain."
 	^ self domain subscheme: (aScheme ideal apply: self asRingHomomorphism)! !
-
-!RationalMap methodsFor: 'accessing' stamp: 'len 10/16/2016 20:43'!
-size
-	^ components size! !
 
 !RationalMap methodsFor: 'evaluating' stamp: 'len 10/31/2016 13:53'!
 value: aPoint
@@ -25306,10 +25317,10 @@ value: aPoint
 from: domain to: codomain components: anArrayOfRationalFunctions
 	^ self new domain: domain; codomain: codomain; components: anArrayOfRationalFunctions! !
 
-!RationalMap class methodsFor: 'instance creation' stamp: 'len 10/24/2016 12:35'!
+!RationalMap class methodsFor: 'instance creation' stamp: 'len 11/1/2016 07:41'!
 from: aDomain to: aCodomain evaluating: anExpression
 	| F |
-	F _ aDomain functionField. "ambient or aDomain?"
+	F _ aDomain ambient functionField.
 	^ self from: aDomain to: aCodomain components: (anExpression value: (Tuple new: aDomain ambient rank evaluating: [:i| F x: i]))! !
 
 !AffineMap methodsFor: 'arithmetic' stamp: 'len 5/14/2016 09:06'!
