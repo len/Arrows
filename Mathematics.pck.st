@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 1 November 2016 at 10:44:19.05345 am'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 1 November 2016 at 7:00:09.856296 pm'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 263!
+!provides: 'Mathematics' 1 264!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
 	instanceVariableNames: 'numerator shift'
@@ -4224,8 +4224,8 @@ Example:
 	f minimalPolynomial
 !
 
-!RationalMap commentStamp: '<historical>' prior: 0!
-My instances are rational maps between schemes. They are partial functions, defined in a dense open set.!
+!RationalMap commentStamp: 'len 11/1/2016 17:02' prior: 0!
+My instances are rational maps between Schemes. They are morphisms of schemes that are partial functions, defined in a dense open subset of the domain.!
 
 !ChainMap commentStamp: '<historical>' prior: 0!
 A chain map between two chain complexes (Ci,di) and (C`i,d`i) is a sequence of homomorphisms fi:Ci->C`i that commutes with the boundary operator in the two complexes: d`i @ fi = f{i-1} @ di. They send cycles to cycles and boundaries to boundaries, and this descends to a map in homology fi* : Hi -> H`i.
@@ -15735,12 +15735,8 @@ embedding
 	"Answer the embedding map from the base ring into the receiver."
 	^ properties at: #embedding ifAbsentPut: [(RingHomomorphism from: self scalars to: self evaluating: [:x| self constant: x]) name: 'i']! !
 
-!PolynomialRing methodsFor: 'elements' stamp: 'len 10/24/2016 20:43'!
+!PolynomialRing methodsFor: 'elements' stamp: 'len 11/1/2016 18:48'!
 evaluating: aBlock
-	^ aBlock value: (self generators as: Tuple)! !
-
-!PolynomialRing methodsFor: 'elements' stamp: 'len 10/24/2016 20:38'!
-evaluatingWithArguments: aBlock
 	^ aBlock valueWithArguments: self generators! !
 
 !PolynomialRing methodsFor: 'morphisms' stamp: 'len 10/4/2016 09:02'!
@@ -15915,7 +15911,7 @@ monomial: aMonomial
 new
 	^ self polynomialClass new parent: self! !
 
-!PolynomialRing methodsFor: 'elements' stamp: 'len 10/21/2016 21:34'!
+!PolynomialRing methodsFor: 'elements' stamp: 'len 11/1/2016 18:50'!
 newFrom: aPolynomial
 	(aPolynomial isKindOf: Polynomial) ifFalse: [^ self evaluating: aPolynomial].
 	(aPolynomial indeterminates allSatisfy: [:each| self has: each])
@@ -21425,14 +21421,14 @@ plot: aRectangle
 polynomial
 	^ self ideal generator! !
 
-!AffinePlaneCurve class methodsFor: 'examples' stamp: 'len 10/24/2016 21:45'!
+!AffinePlaneCurve class methodsFor: 'examples' stamp: 'len 11/1/2016 18:48'!
 descartesFolium
-	^ self polynomial: ((QQ polynomialsIn: #(x y)) evaluatingWithArguments: [:x :y| x**3 + (y**3) - (3*x*y)])
+	^ self polynomial: ((QQ polynomialsIn: #(x y)) evaluating: [:x :y| x**3 + (y**3) - (3*x*y)])
 ! !
 
-!AffinePlaneCurve class methodsFor: 'examples' stamp: 'len 10/24/2016 21:45'!
+!AffinePlaneCurve class methodsFor: 'examples' stamp: 'len 11/1/2016 18:49'!
 iminus
-	^ self polynomial: ((QQ polynomialsIn: #(x y)) evaluatingWithArguments: [:x :y| x**3 + (y**3) - x - (2*y) - 1])
+	^ self polynomial: ((QQ polynomialsIn: #(x y)) evaluating: [:x :y| x**3 + (y**3) - x - (2*y) - 1])
 ! !
 
 !AffinePlaneCurve class methodsFor: 'instance creation' stamp: 'len 10/24/2016 20:12'!
@@ -21632,15 +21628,15 @@ genus
 isSmooth
 	^ self discriminant isZero not! !
 
-!EllipticCurve class methodsFor: 'instance creation' stamp: 'len 10/24/2016 20:19'!
+!EllipticCurve class methodsFor: 'instance creation' stamp: 'len 11/1/2016 18:50'!
 a: a b: b over: aField
 	"Answer the curve y^2 = x^3 + ax + b homogenized."
-	^ self polynomial: ((aField polynomialsIn: #(x y z)) evaluatingWithArguments: [:x :y :z| x**3 + (x * (z**2) * a) + (z**3*b) - (y**2*z)])! !
+	^ self polynomial: ((aField polynomialsIn: #(x y z)) evaluating: [:x :y :z| x**3 + (x * (z**2) * a) + (z**3*b) - (y**2*z)])! !
 
-!EllipticCurve class methodsFor: 'instance creation' stamp: 'len 10/24/2016 20:19'!
+!EllipticCurve class methodsFor: 'instance creation' stamp: 'len 11/1/2016 18:51'!
 over: aField a: a b: b
 	"Answer the curve y^2 = x^3 + ax + b homogenized."
-	^ self polynomial: ((aField polynomialsIn: #(x y z)) evaluatingWithArguments: [:x :y :z| x**3 + (x * (z**2) * a) + (z**3*b) - (y**2*z)])! !
+	^ self polynomial: ((aField polynomialsIn: #(x y z)) evaluating: [:x :y :z| x**3 + (x * (z**2) * a) + (z**3*b) - (y**2*z)])! !
 
 !ProjectiveSpace methodsFor: 'operations' stamp: 'len 10/31/2016 13:14'!
 affinePatch: i
@@ -22750,9 +22746,9 @@ isBimorphism
 isEndomorphism
 	^ self domain = self codomain! !
 
-!Morphism methodsFor: 'testing' stamp: 'len 10/11/2016 08:16'!
+!Morphism methodsFor: 'testing' stamp: 'len 11/1/2016 10:56'!
 isIdentity
-	^ properties at: #isIdentity ifAbsent: [false]! !
+	^ properties at: #isIdentity ifAbsentPut: [self = self domain id]! !
 
 !Morphism methodsFor: 'testing' stamp: 'len 8/8/2016 06:02'!
 isInvertible
@@ -22997,11 +22993,15 @@ species
 squared
 	^ self * self! !
 
-!Function methodsFor: 'evaluating' stamp: 'len 10/10/2016 14:01'!
+!Function methodsFor: 'operations' stamp: 'len 10/10/2016 14:01'!
 value: anObject
 "	(self domain includes: anObject) ifFalse: [^ anObject apply: self]."
 	self flag: #fix. "check argument"
 	^ (properties at: #expression) value: anObject! !
+
+!Function methodsFor: 'operations' stamp: 'len 11/1/2016 18:47'!
+valueWithArguments: anArray
+	^ self value: (anArray as: Tuple)! !
 
 !Function class methodsFor: 'instance creation' stamp: 'len 10/10/2016 13:59'!
 evaluating: anExpression
@@ -23777,7 +23777,7 @@ inverse
 kernel
 	^ self domain null! !
 
-!Conjugation methodsFor: 'evaluating' stamp: 'len 2/12/2016 06:36'!
+!Conjugation methodsFor: 'operations' stamp: 'len 2/12/2016 06:36'!
 value: anElement
 	| op |
 	op _ self domain operation.
@@ -24684,7 +24684,7 @@ sum
 	"Answer the indefinite sum of the receiver."
 	^ self species to: self codomain evaluating: [:i| (1 to: i) sum: [:k| self at: k]]! !
 
-!Sequence methodsFor: 'evaluating' stamp: 'len 12/4/2015 04:00'!
+!Sequence methodsFor: 'operations' stamp: 'len 12/4/2015 04:00'!
 value: aNumber
 	^ self at: aNumber asInteger! !
 
@@ -25177,7 +25177,7 @@ rank
 scalars
 	^ basis ambient scalars! !
 
-!QuadraticForm methodsFor: 'evaluating' stamp: 'len 5/31/2016 06:36'!
+!QuadraticForm methodsFor: 'operations' stamp: 'len 5/31/2016 06:36'!
 value: aVector
 	| v |
 	v _ basis coordinatesOf: aVector.
@@ -25300,9 +25300,23 @@ pullback: aScheme
 	"Answer the preimage of aScheme. The argument is a subscheme of the codomain, and the answer is a subscheme of the domain."
 	^ self domain subscheme: (aScheme ideal apply: self asRingHomomorphism)! !
 
-!RationalMap methodsFor: 'evaluating' stamp: 'len 10/31/2016 13:53'!
+!RationalMap methodsFor: 'operations' stamp: 'len 10/31/2016 13:53'!
 value: aPoint
 	^ (components collect: [:each| each value: aPoint]) as: (self codomain isProjective ifTrue: [HomogeneousTuple] ifFalse: [Tuple])! !
+
+!RationalMap class methodsFor: 'examples' stamp: 'len 11/1/2016 16:51'!
+example1TwistedCubicTangentParametrization
+	"Example from Cox's 'Ideals, Varieties and Algorithms' pag. 234.
+	Parametrization of the tangent surface of the twisted cubic."
+	| A2 A3 |
+	A2 _ AffineSpace new: #(t u) over: QQ.
+	A3 _ AffineSpace new: 3 over: QQ.
+	^ A2 to: A3 evaluatingWithArguments: [:t :u| {t + u. t**2 + (t*u*2). t**3 + (t**2*u*3)}]! !
+
+!RationalMap class methodsFor: 'examples' stamp: 'len 11/1/2016 16:51'!
+example2TwistedCubicTangent
+	"The tangent surface of the twisted cubic."
+	^ self example1TwistedCubicTangentParametrization image! !
 
 !RationalMap class methodsFor: 'instance creation' stamp: 'len 3/16/2016 05:38'!
 from: domain to: codomain components: anArrayOfRationalFunctions
@@ -25624,7 +25638,7 @@ representative
 representative: aPolynomial
 	representative _ aPolynomial! !
 
-!PolynomialFunction methodsFor: 'evaluating' stamp: 'len 6/4/2016 05:23'!
+!PolynomialFunction methodsFor: 'operations' stamp: 'len 6/4/2016 05:23'!
 value: aPoint
 	^ representative value: (domain space coordinatesOf: aPoint)! !
 
@@ -25711,7 +25725,7 @@ printOn: aStream
 		separatedBy: [aStream nextPutAll: ', '].
 	aStream nextPut: $]! !
 
-!PolynomialMap methodsFor: 'evaluating' stamp: 'len 6/4/2016 05:27'!
+!PolynomialMap methodsFor: 'operations' stamp: 'len 6/4/2016 05:27'!
 value: aPoint
 	| t |
 	t _ self domain space coordinatesOf: aPoint.
@@ -26625,25 +26639,14 @@ adaptToNumber: rcvr andSend: selector
 degree
 	^ self numerator degree - self denominator degree! !
 
-!RationalFunction methodsFor: 'operations' stamp: 'len 9/3/97 23:49'!
+!RationalFunction methodsFor: 'operations' stamp: 'len 11/1/2016 18:43'!
 derivative
 	"Answer the derivative of the receiver."
 
 	| num gcd |
-	num _
-		self denominator * self numerator derivative
-		- (self numerator * self denominator derivative).
+	num _ self denominator * self numerator derivative - (self numerator * self denominator derivative).
 	gcd _ self denominator gcd: num.
 	^ self class numerator: num // gcd denominator: (self denominator // gcd) squared * gcd! !
-
-!RationalFunction methodsFor: 'operations' stamp: 'len 9/3/97 23:35'!
-derivativeOfOrder: anInteger
-	"Answer the anInteger-th derivative of the receiver."
-
-	| answer |
-	answer _ self.
-	anInteger timesRepeat: [answer _ answer derivative].
-	^ answer! !
 
 !RationalFunction methodsFor: 'accessing' stamp: 'pdm 3/22/98 20:53'!
 indeterminates
@@ -26711,11 +26714,13 @@ rootsIn: aField
 scalars
 	^ numerator scalars! !
 
-!RationalFunction methodsFor: 'operations' stamp: 'len 11/24/2015 06:19'!
+!RationalFunction methodsFor: 'operations' stamp: 'len 11/1/2016 18:41'!
 value: anObject
-	"Answer the result of evaluating the receiver at the argument."
-
 	^ (self numerator value: anObject) / (self denominator value: anObject)! !
+
+!RationalFunction methodsFor: 'operations' stamp: 'len 11/1/2016 18:41'!
+valueWithArguments: anArray
+	^ self value: anArray! !
 
 !PAdicNumber methodsFor: 'accessing' stamp: 'len 12/8/2015 03:24'!
 norm
@@ -27004,6 +27009,10 @@ leadingCoefficient
 !PolynomialResidueClass methodsFor: 'as yet unclassified' stamp: 'len 11/1/2016 05:18'!
 value: anObject
 	^ representative value: anObject! !
+
+!PolynomialResidueClass methodsFor: 'as yet unclassified' stamp: 'len 11/1/2016 18:57'!
+valueWithArguments: anArray
+	^ representative valueWithArguments: anArray! !
 
 !AlgebraicNumber methodsFor: 'arithmetic' stamp: 'len 6/5/2016 20:58'!
 * aNumber
@@ -31159,6 +31168,10 @@ value: anObject in: anIndeterminate
 	(self asUnivariateIn: anIndeterminate) denseCoefficients
 		reverseDo: [:each| answer _ anObject * answer + (one * each)].
 	^ answer! !
+
+!Polynomial methodsFor: 'operations' stamp: 'len 11/1/2016 18:40'!
+valueWithArguments: anArray
+	^ self value: anArray! !
 
 !Polynomial methodsFor: 'constants' stamp: 'len 11/26/2015 03:20'!
 zero
