@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 27 October 2016 at 6:51:13.781216 pm'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 1 November 2016 at 5:58:09.381733 am'!
 'Description Please enter a description for this package'!
-!provides: 'MathematicsTests' 1 35!
+!provides: 'MathematicsTests' 1 36!
 !classDefinition: #AbelianGroupTest category: #MathematicsTests!
 TestCase subclass: #AbelianGroupTest
 	instanceVariableNames: ''
@@ -520,11 +520,11 @@ testAffineMapComposition
 	self assert: (g @ f value: x) = (g value: (f value: x)).
 	self should: [f @ g] raise: DomainError! !
 
-!AffineGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:55'!
+!AffineGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/27/2016 19:48'!
 testAffineMapEvaluating
-	| A f |
-	A _ (QQ ** 3) asAffineSpace.
-	f _ AffineMap from: A to: A evaluating: [:p| p*2 - (1,0,0)].
+	| V f |
+	V _ QQ ** 3.
+	f _ AffineMap from: V to: V evaluating: [:p| p*2 - (1,0,0)].
 	self assert: (f value: (1,2,3)) = (1,4,6)! !
 
 !AffineGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 8/24/2016 19:17'!
@@ -679,11 +679,11 @@ testNotFinite
 	X _ A / {y*y - (x*x) - 3} :: spec.
 	self assert: X isFinite not! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/21/2016 17:30'!
-testProjectiveClosrure
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 11/1/2016 05:24'!
+testProjectiveClosure
 	"From Magma Handbook example Scheme_projective-closure (H118E23)."
 	| A1 u v X PX X2 |
-	A1 _ AffineSpace new: #(u v) over: (ZZ modPrime: 5).
+	A1 _ AffineSpace new: #(u v) over: ZZ/5.
 	u _ A1 coordinateRing x: #u.
 	v _ A1 coordinateRing x: #v.
 	X _ A1 subscheme: u**2 - (v**5).
@@ -691,6 +691,20 @@ testProjectiveClosrure
 	self assert: (PX affinePatch: 3) = X.
 	X2 _ PX affinePatch: 2.
 	self assert: X2 projectiveClosure = X projectiveClosure! !
+
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 11/1/2016 05:31'!
+testProjectiveEmbedding
+	| A1 u v X PX affinePointsEmbedded projectivePoints |
+	A1 _ AffineSpace new: #(u v) over: ZZ/5.
+	u _ A1 coordinateRing x: #u.
+	v _ A1 coordinateRing x: #v.
+	X _ A1 subscheme: u**2 - (v**5).
+	PX _ X projectiveClosure.
+	affinePointsEmbedded _ X points asSet apply: X projectiveEmbedding.
+	projectivePoints _ PX points asSet.
+	self assert: projectivePoints >= affinePointsEmbedded.
+	"the projective scheme has one more point at infinity:"
+	self assert: affinePointsEmbedded size + 1 = projectivePoints size! !
 
 !AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/24/2016 20:42'!
 testProjectivePlaneCurveArithmeticGenus
@@ -744,7 +758,7 @@ testRationalMap2
 	X _ A3 subscheme: {x**3*z - (x*y**2*(3/4)) - (x*y*z*(3/2)) + (y**3) + (z**2*(1/4))}.
 	self assert: f image = X! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/17/2016 11:24'!
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/31/2016 11:08'!
 testRationalMapLinearMapConversion
 	| A2 A3 V2 V3 f f` p f`` |
 	A2 _ AffineSpace new: 2 over: QQ.
@@ -768,7 +782,7 @@ testRationalPointsOverFiniteField
 	C _ P subscheme: (P coordinateRing evaluatingWithArguments: [:x :y :z| x**3 + (y**3) - (z**3)]).
 	self assert: C points size = 9! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/13/2016 20:22'!
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/31/2016 11:08'!
 testReduced
 	| A R x y z X |
 	A _ AffineSpace new: 3 over: QQ.
@@ -780,15 +794,15 @@ testReduced
 	self assert: X isReduced not.
 	self assert: X reduced = (A subscheme: {x*y. x*z})! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/25/2016 14:23'!
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/31/2016 13:14'!
 testSingularCubics
 	| R x y C |
 	R _ QQ polynomialsIn: #(x y z).
 	x _ R x.
 	y _ R y.
 	C _ R / (x**3 - (y**2) homogenizedIn: 3) :: proj.
-	self assert: (C isSmoothAt: (1,1,1)h).
-	self assert: (C isSmoothAt: (0,0,1)h) not.
+	self assert: (C isSmoothAt: (1,1,1) asHomogeneousTuple).
+	self assert: (C isSmoothAt: (0,0,1) asHomogeneousTuple) not.
 	self assert: C isSingular.
 	C _ R / (x**3 + (x**2) - (y**2) homogenizedIn: 3) :: proj.
 	self assert: C isSingular! !
@@ -1090,15 +1104,6 @@ testWeightEnumerator
 	self assert: w = (x**5 + (y**5)).
 	self assert: C dual weightEnumerator = (x**5 + (x**3*(y**2)*10) + (y**4*x*5))! !
 
-!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:56'!
-testEliminationIdeal
-	"Example from Cox IVA 123 p. NOTE: this is a little slow."
-	| Qx x y z I |
-	Qx _ QQ polynomialsIn: #(x y z).
-	x _ Qx x. y _ Qx y. z _ Qx z.
-	I _ Qx * {x**2 + y + z - 1. x + (y**2) + z - 1. x + y + (z**2) - 1}.
-	self assert: (I eliminateAll: #(1 2)) generator = (z**6 - (z**4*4) + (z**3*4) - (z**2))! !
-
 !CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 7/8/2016 20:11'!
 testGroebnerBasis: G ideal: I
 	| g |
@@ -1220,7 +1225,7 @@ testHilbertSeriesOfPolynomialRing
 	H _ R hilbertSeriesAt: t.
 	self assert: H = ((1 - t) ** -4)! !
 
-!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 10/23/2016 18:13'!
+!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 11/1/2016 05:32'!
 testIdealColon
 	| R x y z I J |
 	R _ QQ polynomialsIn: #(x y z).
@@ -1233,6 +1238,29 @@ testIdealColon
 	self assert: (R asIdeal colon: I) = R asIdeal.
 	J _ R * {I atRandomBits: 10. I atRandomBits: 10}. "J <= I"
 	self assert: (I colon: J) = R asIdeal! !
+
+!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 10/29/2016 17:20'!
+testIdealColon2
+	"Example from Cox IVA 205p."
+	| R x y z I J Q |
+	R _ QQ polynomialsIn: #(x y z).
+	x _ R x.
+	y _ R y.
+	z _ R z.
+	I _ R * {x*z - (y**2). x**3 - (y*z)}.
+	J _ R * {x. y}.
+	Q _ I colon: J.
+	self assert: Q = ((I colon: R * x) ˜ (I colon: R * y)).
+	self assert: Q = (R * {x*z - (y**2). x**3 - (y*z). x**2*y - (z**2)})! !
+
+!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 10/30/2016 15:17'!
+testIdealElimination
+	"Example from Cox IVA 123 p. NOTE: this is a little slow."
+	| Qx x y z I |
+	Qx _ QQ polynomialsIn: #(x y z).
+	x _ Qx x. y _ Qx y. z _ Qx z.
+	I _ Qx * {x**2 + y + z - 1. x + (y**2) + z - 1. x + y + (z**2) - 1}.
+	self assert: (I eliminateAll: #(1 2)) generator = (z**6 - (z**4*4) + (z**3*4) - (z**2))! !
 
 !CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:56'!
 testIdealHomogenization
@@ -4061,6 +4089,14 @@ testRealRoots
 	self assert: (roots occurrencesOf: 1/2) = 2.
 	self assert: (roots occurrencesOf: 2) = 1! !
 
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 11/1/2016 04:46'!
+testRemainderInconsistency
+	"In Sage these two give the same result."
+	| x x` |
+	x _ ZZ polynomials x.
+	x` _ QQ polynomials x.
+	self assert: (x \\ (x negated + 1)) leadingCoefficient = (x` \\ (x` negated + 1)) leadingCoefficient! !
+
 !PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:53'!
 testResultant
 	| Zx x f g f` g` h |
@@ -4218,10 +4254,10 @@ testDesarguesTheorem
 	"X,Y,Z are collinear"
 	self assert: (X+Y+Z) isLine! !
 
-!ProjectiveGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 12/14/2015 22:46'!
+!ProjectiveGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/31/2016 13:13'!
 testHomogeneousTuples
-	self assert: (1,2,3) homogeneous = (2,4,6) homogeneous.
-	self assert: (1,2,3) homogeneous ~= (-2,4,6) homogeneous! !
+	self assert: (1,2,3) asHomogeneousTuple = (2,4,6) asHomogeneousTuple.
+	self assert: (1,2,3) asHomogeneousTuple ~= (-2,4,6) asHomogeneousTuple! !
 
 !ProjectiveGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 9/1/2016 08:01'!
 testPappusHexagonTheorem
@@ -4247,7 +4283,7 @@ testPappusHexagonTheorem
 	"X,Y,Z are collinear:"
 	self assert: (X+Y+Z) isLine! !
 
-!ProjectiveGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:11'!
+!ProjectiveGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/31/2016 13:13'!
 testProjectiveSpaceBasic
 	| V P p0 p1 p2 p3 |
 	V _ QQ ** 3.
@@ -4255,17 +4291,17 @@ testProjectiveSpaceBasic
 	p0 _ P project: (1,1,0).
 	p1 _ P project: (0,1,1).
 	p2 _ P project: (2,0,2).
-	p3 _ P pointAt: (-1,-1,0) homogeneous.
-	self assert: (P coordinatesOf: p2) = (1,0,1) homogeneous.
+	p3 _ P pointAt: (-1,-1,0) asHomogeneousTuple.
+	self assert: (P coordinatesOf: p2) = (1,0,1) asHomogeneousTuple.
 	self assert: p3 = p0.
 	self assert: (p0 + p1) dimension = 1! !
 
-!RingTest methodsFor: 'as yet unclassified' stamp: 'len 10/10/2016 09:57'!
+!RingTest methodsFor: 'as yet unclassified' stamp: 'len 11/1/2016 01:02'!
 newQuotientRing
 	| R I |
 	2 atRandom = 1 ifTrue: [^ ZZ mod: (2 to: 10) atRandom].
 	R _ ZZ polynomials.
-	I _ R * (R atRandomBits: 100 maxDegree: 5).
+	I _ R * (R atRandomBits: 10 maxDegree: 5).
 	^ R / I! !
 
 !RingTest methodsFor: 'as yet unclassified' stamp: 'len 10/10/2016 09:56'!
@@ -4292,6 +4328,32 @@ testKrullDimension
 	R _ QQ polynomialsIn: #(x y).
 	I _ R * {R x ** 2 + (R y ** 2) - 1}.
 	self assert: (R / I) dimension = 1! !
+
+!RingTest methodsFor: 'as yet unclassified' stamp: 'len 10/29/2016 11:17'!
+testLocalizationInclusions
+	| Z2 Z3 Z6 |
+	Z2 _ ZZ localization: 2.
+	Z3 _ ZZ localization: 3.
+	Z6 _ ZZ localization: 6.
+	self assert: Z6 >= Z2.
+	self assert: Z6 >= Z3.
+	self deny: Z3 >= Z2.
+	self deny: Z2 >= Z3.
+	self deny: Z2 >= Z6! !
+
+!RingTest methodsFor: 'as yet unclassified' stamp: 'len 10/29/2016 11:20'!
+testLocalizationMaximalIdeal
+	| Z2 |
+	Z2 _ ZZ localization: 2.
+	self assert: Z2 maximalIdeal = (Z2 * 2)! !
+
+!RingTest methodsFor: 'as yet unclassified' stamp: 'len 10/29/2016 10:57'!
+testLocalizationOfZAwayFrom2
+	| L |
+	L _ ZZ localization: 2.
+	self assert: (L includes: 1/3).
+	self assert: (L includes: 3/2) not.
+	self assert: (L atRandomBits: 10) denominator odd! !
 
 !RingTest methodsFor: 'as yet unclassified' stamp: 'len 10/6/2016 20:34'!
 testMatrixRing
@@ -4325,12 +4387,12 @@ testQuotientRing
 	self testRing: Q.
 	self testRingHomomorphism: Q projection! !
 
-!RingTest methodsFor: 'as yet unclassified' stamp: 'len 10/6/2016 20:32'!
+!RingTest methodsFor: 'as yet unclassified' stamp: 'len 11/1/2016 01:00'!
 testQuotientRing2
 	| Q pi f g |
 	Q _ self newQuotientRing.
-	f _ Q base atRandomBits: 100.
-	g _ Q ideal atRandomBits: 100.
+	f _ Q base atRandomBits: 10.
+	g _ Q ideal atRandomBits: 10.
 	pi _ Q projection.
 	self assert: (pi value: g) isZero.
 	self assert: (Q includes: (pi value: f)).
@@ -4358,13 +4420,13 @@ testRing: R
 	self assert: (a * b * c) = (a * (b * c)). "associativity of multiplication"
 	R isCommutative ifTrue: [self assert: a * b = (b * a)]. "commutativity of multiplication"! !
 
-!RingTest methodsFor: 'as yet unclassified' stamp: 'len 10/6/2016 20:17'!
+!RingTest methodsFor: 'as yet unclassified' stamp: 'len 11/1/2016 00:59'!
 testRingHomomorphism: phi
 	| R S a b |
 	R _ phi domain.
 	S _ phi codomain.
-	a _ R atRandomBits: 100.
-	b _ R atRandomBits: 100.
+	a _ R atRandomBits: 10.
+	b _ R atRandomBits: 10.
 	self assert: (phi value: R zero) = S zero.
 	self assert: (phi value: R one) = S one.
 	self assert: (phi value: a + b) = ((phi value: a) + (phi value: b)).
@@ -4449,10 +4511,10 @@ testDirichletConvolution
 	self assert: ((Sequence phi dirichlet: Sequence one) beginsWith: #(1 2 3 4 5)).
 	self assert: ((Sequence moebius dirichlet: Sequence one) beginsWith: #(1 0 0 0 0))! !
 
-!SequenceTest methodsFor: 'as yet unclassified' stamp: 'len 4/11/2016 23:09'!
+!SequenceTest methodsFor: 'as yet unclassified' stamp: 'len 10/31/2016 04:14'!
 testLinearRecursiveSequenceBug
 	| F |
-	F _ LinearRecursiveSequence fibonacci.
+	F _ CFiniteSequence fibonacci.
 	self assert: ((F - F) at: 1) = 0! !
 
 !SequenceTest methodsFor: 'as yet unclassified' stamp: 'len 12/28/2015 05:56'!
@@ -4462,28 +4524,28 @@ testPowerSeries
 	cos _ PowerSeries cos.
 	self assert: ((cos squared + sin squared) coefficients beginsWith: #(1 0 0 0 0 0 0 0 0))! !
 
-!SequenceTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:54'!
+!SequenceTest methodsFor: 'as yet unclassified' stamp: 'len 10/31/2016 04:14'!
 testRecursive
 	| f g |
 	f _ Sequence fibonacci.
-	g _ LinearRecursiveSequence to: ZZ evaluating: f maxOrder: 5.
+	g _ CFiniteSequence to: ZZ evaluating: f maxOrder: 5.
 	self assert: (f equals: g upTo: 20).
 	self assert: g order = 2.
 	self assert: g characteristicPolynomial denseCoefficients asArray = #(-1 -1 1)! !
 
-!SequenceTest methodsFor: 'as yet unclassified' stamp: 'len 12/27/2015 03:53'!
+!SequenceTest methodsFor: 'as yet unclassified' stamp: 'len 10/31/2016 04:13'!
 testRecursive2
 	| a b c |
-	a _ LinearRecursiveSequence fibonacci.
-	b _ LinearRecursiveSequence lucasNumbers.
+	a _ CFiniteSequence fibonacci.
+	b _ CFiniteSequence lucasNumbers.
 	c _ a + (b*2) - (b+b).
 	self assert: a = c! !
 
-!SequenceTest methodsFor: 'as yet unclassified' stamp: 'len 12/27/2015 01:37'!
+!SequenceTest methodsFor: 'as yet unclassified' stamp: 'len 10/31/2016 04:13'!
 testRecursiveConvolution
 	| a b c a` b` c` |
-	a _ LinearRecursiveSequence fibonacci.
-	b _ LinearRecursiveSequence lucasNumbers.
+	a _ CFiniteSequence fibonacci.
+	b _ CFiniteSequence lucasNumbers.
 	a` _ Sequence evaluating: [:i| a at: i].
 	b` _ Sequence evaluating: [:i| b at: i].
 
@@ -4492,77 +4554,77 @@ testRecursiveConvolution
 	
 	self assert: (c equals: c` upTo: 20)! !
 
-!SequenceTest methodsFor: 'as yet unclassified' stamp: 'len 8/6/2016 00:47'!
+!SequenceTest methodsFor: 'as yet unclassified' stamp: 'len 10/31/2016 04:14'!
 testRecursiveEquals
 	| a b c |
-	a _ LinearRecursiveSequence fibonacci.
-	b _ LinearRecursiveSequence to: ZZ evaluating: [:i| a at: i] maxOrder: 10.
-	c _ LinearRecursiveSequence lucasNumbers.
+	a _ CFiniteSequence fibonacci.
+	b _ CFiniteSequence to: ZZ evaluating: [:i| a at: i] maxOrder: 10.
+	c _ CFiniteSequence lucasNumbers.
 	self assert: a = b.
 	self assert: a ~= c! !
 
-!SequenceTest methodsFor: 'as yet unclassified' stamp: 'len 12/27/2015 01:42'!
+!SequenceTest methodsFor: 'as yet unclassified' stamp: 'len 10/31/2016 04:13'!
 testRecursiveIndefiniteSumation
 	| a c a` c` |
-	a _ LinearRecursiveSequence fibonacci.
+	a _ CFiniteSequence fibonacci.
 	a` _ Sequence evaluating: [:i| a at: i].
 
 	c _ a sum.
 	c` _ a` sum.
-	self assert: (c isKindOf: LinearRecursiveSequence).
+	self assert: (c isKindOf: CFiniteSequence).
 	self assert: (c equals: c` upTo: 20)! !
 
-!SequenceTest methodsFor: 'as yet unclassified' stamp: 'len 12/27/2015 02:07'!
+!SequenceTest methodsFor: 'as yet unclassified' stamp: 'len 10/31/2016 04:13'!
 testRecursiveMinimal
 	| a f |
-	a _ LinearRecursiveSequence initialValues: #(0 1 1) coefficients: #(0 1 1).
-	f _ LinearRecursiveSequence fibonacci.
+	a _ CFiniteSequence initialValues: #(0 1 1) coefficients: #(0 1 1).
+	f _ CFiniteSequence fibonacci.
 	self assert: a isMinimal not.
 	self assert: a order = 3.
 	self assert: a minimal order = 2.
 	self assert: a minimalPolynomial = f characteristicPolynomial! !
 
-!SequenceTest methodsFor: 'as yet unclassified' stamp: 'len 12/27/2015 19:26'!
+!SequenceTest methodsFor: 'as yet unclassified' stamp: 'len 10/31/2016 04:13'!
 testRecursiveProduct
 	| a b c c` |
-	a _ LinearRecursiveSequence fibonacci.
-	b _ LinearRecursiveSequence pellNumbers.
+	a _ CFiniteSequence fibonacci.
+	b _ CFiniteSequence pellNumbers.
 	c _ a * b.
 	c` _ Sequence evaluating: [:i| (a at: i) * (b at: i)].
-	self assert: (c isKindOf: LinearRecursiveSequence).
+	self assert: (c isKindOf: CFiniteSequence).
 	self assert: (c equals: c` upTo: 20).
 	self assert: c order = 4! !
 
-!SequenceTest methodsFor: 'as yet unclassified' stamp: 'len 12/27/2015 01:42'!
+!SequenceTest methodsFor: 'as yet unclassified' stamp: 'len 10/31/2016 04:13'!
 testRecursiveScalarMultiplication
 	| a c a` c` |
-	a _ LinearRecursiveSequence fibonacci.
+	a _ CFiniteSequence fibonacci.
 	a` _ Sequence evaluating: [:i| a at: i].
 
 	c _ a * 7.
 	c` _ a` * 7.
-	self assert: (c isKindOf: LinearRecursiveSequence).
+	self assert: (c isKindOf: CFiniteSequence).
 	self assert: (c equals: c` upTo: 20)! !
 
-!SequenceTest methodsFor: 'as yet unclassified' stamp: 'len 12/27/2015 01:38'!
+!SequenceTest methodsFor: 'as yet unclassified' stamp: 'len 10/31/2016 04:13'!
 testRecursiveShiftLeft
 	| a c a` c` |
-	a _ LinearRecursiveSequence fibonacci.
+	a _ CFiniteSequence fibonacci.
 	a` _ Sequence evaluating: [:i| a at: i].
 
 	c _ a << 5.
 	c` _ a` << 5.
-	self assert: (c isKindOf: LinearRecursiveSequence).
+	self assert: (c isKindOf: CFiniteSequence).
 	self assert: (c equals: c` upTo: 20)! !
 
-!SequenceTest methodsFor: 'as yet unclassified' stamp: 'len 12/27/2015 01:39'!
+!SequenceTest methodsFor: 'as yet unclassified' stamp: 'len 10/31/2016 04:14'!
 testRecursiveSum
 	| a b c c` |
-	a _ LinearRecursiveSequence fibonacci.
-	b _ LinearRecursiveSequence lucasNumbers.
+	a _ CFiniteSequence fibonacci.
+	b _ CFiniteSequence lucasNumbers.
 	c _ a + b.
 	c` _ Sequence evaluating: [:i| (a at: i) + (b at: i)].
-	self assert: (c isKindOf: LinearRecursiveSequence).
+	self assert: (c isKindOf: CFiniteSequence).
 	self assert: (c equals: c` upTo: 20)! !
 
 !SimplicesTest methodsFor: 'as yet unclassified' stamp: 'len 6/12/2016 21:08'!
