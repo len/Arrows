@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 30 October 2016 at 4:34:19.310577 pm'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 1 November 2016 at 5:56:02.241782 am'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 260!
+!provides: 'Mathematics' 1 261!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
 	instanceVariableNames: 'numerator shift'
@@ -81,16 +81,6 @@ OrderedTuple subclass: #BitTuple
 BitTuple class
 	instanceVariableNames: ''!
 
-!classDefinition: #HomogeneousTuple category: #'Mathematics-Modules-Tuples'!
-OrderedTuple subclass: #HomogeneousTuple
-	instanceVariableNames: 'coordinates'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Modules-Tuples'!
-!classDefinition: 'HomogeneousTuple class' category: #'Mathematics-Modules-Tuples'!
-HomogeneousTuple class
-	instanceVariableNames: ''!
-
 !classDefinition: #IntegerResidueClassTuple category: #'Mathematics-Modules-Tuples'!
 OrderedTuple subclass: #IntegerResidueClassTuple
 	instanceVariableNames: 'representatives modulus'
@@ -111,6 +101,16 @@ OrderedTuple subclass: #Tuple
 Tuple class
 	instanceVariableNames: ''!
 
+!classDefinition: #HomogeneousTuple category: #'Mathematics-Modules-Tuples'!
+Tuple subclass: #HomogeneousTuple
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Modules-Tuples'!
+!classDefinition: 'HomogeneousTuple class' category: #'Mathematics-Modules-Tuples'!
+HomogeneousTuple class
+	instanceVariableNames: ''!
+
 !classDefinition: #BitArray category: #'Mathematics-Etc'!
 ArrayedCollection subclass: #BitArray
 	instanceVariableNames: 'bytes length'
@@ -121,13 +121,13 @@ ArrayedCollection subclass: #BitArray
 BitArray class
 	instanceVariableNames: ''!
 
-!classDefinition: #LinearBasis category: #'Mathematics-Modules-Support'!
+!classDefinition: #LinearBasis category: #'Mathematics-Modules'!
 SequenceableCollection subclass: #LinearBasis
 	instanceVariableNames: 'ambient vectors'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Modules-Support'!
-!classDefinition: 'LinearBasis class' category: #'Mathematics-Modules-Support'!
+	category: 'Mathematics-Modules'!
+!classDefinition: 'LinearBasis class' category: #'Mathematics-Modules'!
 LinearBasis class
 	instanceVariableNames: ''!
 
@@ -641,18 +641,18 @@ Ring subclass: #LocalizationRing
 LocalizationRing class
 	instanceVariableNames: ''!
 
-!classDefinition: #FractionField category: #'Mathematics-Rings'!
-LocalizationRing subclass: #FractionField
+!classDefinition: #FractionRing category: #'Mathematics-Rings'!
+LocalizationRing subclass: #FractionRing
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Rings'!
-!classDefinition: 'FractionField class' category: #'Mathematics-Rings'!
-FractionField class
+!classDefinition: 'FractionRing class' category: #'Mathematics-Rings'!
+FractionRing class
 	instanceVariableNames: ''!
 
 !classDefinition: #Rationals category: #'Mathematics-Fields'!
-FractionField subclass: #Rationals
+FractionRing subclass: #Rationals
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
@@ -662,7 +662,7 @@ Rationals class
 	instanceVariableNames: ''!
 
 !classDefinition: #RationalFunctionField category: #'Mathematics-Polynomials'!
-FractionField subclass: #RationalFunctionField
+FractionRing subclass: #RationalFunctionField
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
@@ -1121,23 +1121,23 @@ Magma subclass: #Semigroup
 Semigroup class
 	instanceVariableNames: ''!
 
-!classDefinition: #Monoid category: #'Mathematics-Abstract'!
+!classDefinition: #Monoid category: #'Mathematics-Monoids'!
 Semigroup subclass: #Monoid
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Abstract'!
-!classDefinition: 'Monoid class' category: #'Mathematics-Abstract'!
+	category: 'Mathematics-Monoids'!
+!classDefinition: 'Monoid class' category: #'Mathematics-Monoids'!
 Monoid class
 	instanceVariableNames: ''!
 
-!classDefinition: #FreeMonoid category: #'Mathematics-Abstract'!
+!classDefinition: #FreeMonoid category: #'Mathematics-Monoids'!
 Monoid subclass: #FreeMonoid
 	instanceVariableNames: 'symbols'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Abstract'!
-!classDefinition: 'FreeMonoid class' category: #'Mathematics-Abstract'!
+	category: 'Mathematics-Monoids'!
+!classDefinition: 'FreeMonoid class' category: #'Mathematics-Monoids'!
 FreeMonoid class
 	instanceVariableNames: ''!
 
@@ -1891,33 +1891,33 @@ RingHomomorphism subclass: #PolynomialRingHomomorphism
 PolynomialRingHomomorphism class
 	instanceVariableNames: ''!
 
-!classDefinition: #ModuleHomomorphism category: #'Mathematics-Modules-Support'!
+!classDefinition: #ModuleHomomorphism category: #'Mathematics-Modules'!
 AbelianGroupHomomorphism subclass: #ModuleHomomorphism
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Modules-Support'!
-!classDefinition: 'ModuleHomomorphism class' category: #'Mathematics-Modules-Support'!
+	category: 'Mathematics-Modules'!
+!classDefinition: 'ModuleHomomorphism class' category: #'Mathematics-Modules'!
 ModuleHomomorphism class
 	instanceVariableNames: ''!
 
-!classDefinition: #LinearMap category: #'Mathematics-Modules-Support'!
+!classDefinition: #LinearMap category: #'Mathematics-Modules'!
 ModuleHomomorphism subclass: #LinearMap
 	instanceVariableNames: 'domainBasis codomainBasis matrix'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Modules-Support'!
-!classDefinition: 'LinearMap class' category: #'Mathematics-Modules-Support'!
+	category: 'Mathematics-Modules'!
+!classDefinition: 'LinearMap class' category: #'Mathematics-Modules'!
 LinearMap class
 	instanceVariableNames: ''!
 
-!classDefinition: #LinearForm category: #'Mathematics-Modules-Support'!
+!classDefinition: #LinearForm category: #'Mathematics-Modules'!
 LinearMap subclass: #LinearForm
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Modules-Support'!
-!classDefinition: 'LinearForm class' category: #'Mathematics-Modules-Support'!
+	category: 'Mathematics-Modules'!
+!classDefinition: 'LinearForm class' category: #'Mathematics-Modules'!
 LinearForm class
 	instanceVariableNames: ''!
 
@@ -1991,24 +1991,14 @@ Permutation subclass: #StandardPermutation
 StandardPermutation class
 	instanceVariableNames: ''!
 
-!classDefinition: #SemilinearMap category: #'Mathematics-Modules-Support'!
+!classDefinition: #SemilinearMap category: #'Mathematics-Modules'!
 Function subclass: #SemilinearMap
 	instanceVariableNames: 'domainBasis codomainBasis matrix automorphism'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Modules-Support'!
-!classDefinition: 'SemilinearMap class' category: #'Mathematics-Modules-Support'!
+	category: 'Mathematics-Modules'!
+!classDefinition: 'SemilinearMap class' category: #'Mathematics-Modules'!
 SemilinearMap class
-	instanceVariableNames: ''!
-
-!classDefinition: #SesquilinearForm category: #'Mathematics-Modules-Support'!
-Function subclass: #SesquilinearForm
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Modules-Support'!
-!classDefinition: 'SesquilinearForm class' category: #'Mathematics-Modules-Support'!
-SesquilinearForm class
 	instanceVariableNames: ''!
 
 !classDefinition: #BilinearForm category: #'Mathematics-Multilinear'!
@@ -2031,14 +2021,14 @@ Function subclass: #Sequence
 Sequence class
 	instanceVariableNames: ''!
 
-!classDefinition: #LinearRecursiveSequence category: #'Mathematics-Sequences'!
-Sequence subclass: #LinearRecursiveSequence
+!classDefinition: #CFiniteSequence category: #'Mathematics-Sequences'!
+Sequence subclass: #CFiniteSequence
 	instanceVariableNames: 'coefficients initialValues'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Sequences'!
-!classDefinition: 'LinearRecursiveSequence class' category: #'Mathematics-Sequences'!
-LinearRecursiveSequence class
+!classDefinition: 'CFiniteSequence class' category: #'Mathematics-Sequences'!
+CFiniteSequence class
 	instanceVariableNames: ''!
 
 !classDefinition: #QuadraticForm category: #'Mathematics-Lattices'!
@@ -2121,6 +2111,16 @@ Function subclass: #PolynomialMap
 PolynomialMap class
 	instanceVariableNames: ''!
 
+!classDefinition: #EllipticCurveIsogeny category: #'Mathematics-Elliptic Curves'!
+Morphism subclass: #EllipticCurveIsogeny
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Elliptic Curves'!
+!classDefinition: 'EllipticCurveIsogeny class' category: #'Mathematics-Elliptic Curves'!
+EllipticCurveIsogeny class
+	instanceVariableNames: ''!
+
 !classDefinition: #PresheafMorphism category: #'Mathematics-Etc-Topology'!
 Morphism subclass: #PresheafMorphism
 	instanceVariableNames: ''
@@ -2151,94 +2151,14 @@ RandomGenerator subclass: #GroupRandomGenerator
 GroupRandomGenerator class
 	instanceVariableNames: ''!
 
-!classDefinition: #FormalFraction category: #'Mathematics-Kernel-Support'!
-Object subclass: #FormalFraction
-	instanceVariableNames: 'numerator denominator'
+!classDefinition: #Equation category: #'Mathematics-Kernel-Support'!
+Object subclass: #Equation
+	instanceVariableNames: 'function'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Kernel-Support'!
-!classDefinition: 'FormalFraction class' category: #'Mathematics-Kernel-Support'!
-FormalFraction class
-	instanceVariableNames: ''!
-
-!classDefinition: #RationalFunction category: #'Mathematics-Polynomials'!
-FormalFraction subclass: #RationalFunction
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Polynomials'!
-!classDefinition: 'RationalFunction class' category: #'Mathematics-Polynomials'!
-RationalFunction class
-	instanceVariableNames: ''!
-
-!classDefinition: #PAdicNumber category: #'Mathematics-Etc-Misc'!
-FormalFraction subclass: #PAdicNumber
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Etc-Misc'!
-!classDefinition: 'PAdicNumber class' category: #'Mathematics-Etc-Misc'!
-PAdicNumber class
-	instanceVariableNames: ''!
-
-!classDefinition: #FormalSum category: #'Mathematics-Kernel-Support'!
-Object subclass: #FormalSum
-	instanceVariableNames: 'coefficients'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Kernel-Support'!
-!classDefinition: 'FormalSum class' category: #'Mathematics-Kernel-Support'!
-FormalSum class
-	instanceVariableNames: ''!
-
-!classDefinition: #FreePolynomial category: #'Mathematics-Kernel-Support'!
-FormalSum subclass: #FreePolynomial
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Kernel-Support'!
-!classDefinition: 'FreePolynomial class' category: #'Mathematics-Kernel-Support'!
-FreePolynomial class
-	instanceVariableNames: ''!
-
-!classDefinition: #Tensor category: #'Mathematics-Multilinear'!
-FormalSum subclass: #Tensor
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Multilinear'!
-!classDefinition: 'Tensor class' category: #'Mathematics-Multilinear'!
-Tensor class
-	instanceVariableNames: ''!
-
-!classDefinition: #Divisor category: #'Mathematics-Schemes'!
-FormalSum subclass: #Divisor
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Schemes'!
-!classDefinition: 'Divisor class' category: #'Mathematics-Schemes'!
-Divisor class
-	instanceVariableNames: ''!
-
-!classDefinition: #SimplicialChain category: #'Mathematics-Homology'!
-FormalSum subclass: #SimplicialChain
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Homology'!
-!classDefinition: 'SimplicialChain class' category: #'Mathematics-Homology'!
-SimplicialChain class
-	instanceVariableNames: ''!
-
-!classDefinition: #IntegerResidueClass category: #'Mathematics-Kernel-Support'!
-Object subclass: #IntegerResidueClass
-	instanceVariableNames: 'representative modulus'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Kernel-Support'!
-!classDefinition: 'IntegerResidueClass class' category: #'Mathematics-Kernel-Support'!
-IntegerResidueClass class
+!classDefinition: 'Equation class' category: #'Mathematics-Kernel-Support'!
+Equation class
 	instanceVariableNames: ''!
 
 !classDefinition: #Quaternion category: #'Mathematics-Kernel-Support'!
@@ -2251,26 +2171,6 @@ Object subclass: #Quaternion
 Quaternion class
 	instanceVariableNames: ''!
 
-!classDefinition: #ResidueClass category: #'Mathematics-Kernel-Support'!
-Object subclass: #ResidueClass
-	instanceVariableNames: 'representative parent'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Kernel-Support'!
-!classDefinition: 'ResidueClass class' category: #'Mathematics-Kernel-Support'!
-ResidueClass class
-	instanceVariableNames: ''!
-
-!classDefinition: #AlgebraicExtensionElement category: #'Mathematics-Fields'!
-ResidueClass subclass: #AlgebraicExtensionElement
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Fields'!
-!classDefinition: 'AlgebraicExtensionElement class' category: #'Mathematics-Fields'!
-AlgebraicExtensionElement class
-	instanceVariableNames: ''!
-
 !classDefinition: #SLP category: #'Mathematics-Kernel-Support'!
 Object subclass: #SLP
 	instanceVariableNames: 'word'
@@ -2281,13 +2181,13 @@ Object subclass: #SLP
 SLP class
 	instanceVariableNames: ''!
 
-!classDefinition: #Word category: #'Mathematics-Kernel-Support'!
+!classDefinition: #Word category: #'Mathematics-Monoids'!
 Object subclass: #Word
 	instanceVariableNames: 'syllables'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Kernel-Support'!
-!classDefinition: 'Word class' category: #'Mathematics-Kernel-Support'!
+	category: 'Mathematics-Monoids'!
+!classDefinition: 'Word class' category: #'Mathematics-Monoids'!
 Word class
 	instanceVariableNames: ''!
 
@@ -2331,6 +2231,76 @@ Object subclass: #SchreierTree
 SchreierTree class
 	instanceVariableNames: ''!
 
+!classDefinition: #FormalFraction category: #'Mathematics-Rings'!
+Object subclass: #FormalFraction
+	instanceVariableNames: 'numerator denominator'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Rings'!
+!classDefinition: 'FormalFraction class' category: #'Mathematics-Rings'!
+FormalFraction class
+	instanceVariableNames: ''!
+
+!classDefinition: #RationalFunction category: #'Mathematics-Polynomials'!
+FormalFraction subclass: #RationalFunction
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Polynomials'!
+!classDefinition: 'RationalFunction class' category: #'Mathematics-Polynomials'!
+RationalFunction class
+	instanceVariableNames: ''!
+
+!classDefinition: #PAdicNumber category: #'Mathematics-Etc-Misc'!
+FormalFraction subclass: #PAdicNumber
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Etc-Misc'!
+!classDefinition: 'PAdicNumber class' category: #'Mathematics-Etc-Misc'!
+PAdicNumber class
+	instanceVariableNames: ''!
+
+!classDefinition: #IntegerResidueClass category: #'Mathematics-Rings'!
+Object subclass: #IntegerResidueClass
+	instanceVariableNames: 'representative modulus'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Rings'!
+!classDefinition: 'IntegerResidueClass class' category: #'Mathematics-Rings'!
+IntegerResidueClass class
+	instanceVariableNames: ''!
+
+!classDefinition: #ResidueClass category: #'Mathematics-Rings'!
+Object subclass: #ResidueClass
+	instanceVariableNames: 'representative parent'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Rings'!
+!classDefinition: 'ResidueClass class' category: #'Mathematics-Rings'!
+ResidueClass class
+	instanceVariableNames: ''!
+
+!classDefinition: #AlgebraicExtensionElement category: #'Mathematics-Fields'!
+ResidueClass subclass: #AlgebraicExtensionElement
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Fields'!
+!classDefinition: 'AlgebraicExtensionElement class' category: #'Mathematics-Fields'!
+AlgebraicExtensionElement class
+	instanceVariableNames: ''!
+
+!classDefinition: #PolynomialResidueClass category: #'Mathematics-Polynomials'!
+ResidueClass subclass: #PolynomialResidueClass
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Polynomials'!
+!classDefinition: 'PolynomialResidueClass class' category: #'Mathematics-Polynomials'!
+PolynomialResidueClass class
+	instanceVariableNames: ''!
+
 !classDefinition: #AlgebraicNumber category: #'Mathematics-Fields'!
 Object subclass: #AlgebraicNumber
 	instanceVariableNames: 'polynomial irreducible approximation radius'
@@ -2339,6 +2309,56 @@ Object subclass: #AlgebraicNumber
 	category: 'Mathematics-Fields'!
 !classDefinition: 'AlgebraicNumber class' category: #'Mathematics-Fields'!
 AlgebraicNumber class
+	instanceVariableNames: ''!
+
+!classDefinition: #FormalSum category: #'Mathematics-Modules'!
+Object subclass: #FormalSum
+	instanceVariableNames: 'coefficients'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Modules'!
+!classDefinition: 'FormalSum class' category: #'Mathematics-Modules'!
+FormalSum class
+	instanceVariableNames: ''!
+
+!classDefinition: #FreePolynomial category: #'Mathematics-Rings'!
+FormalSum subclass: #FreePolynomial
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Rings'!
+!classDefinition: 'FreePolynomial class' category: #'Mathematics-Rings'!
+FreePolynomial class
+	instanceVariableNames: ''!
+
+!classDefinition: #Tensor category: #'Mathematics-Multilinear'!
+FormalSum subclass: #Tensor
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Multilinear'!
+!classDefinition: 'Tensor class' category: #'Mathematics-Multilinear'!
+Tensor class
+	instanceVariableNames: ''!
+
+!classDefinition: #Divisor category: #'Mathematics-Schemes'!
+FormalSum subclass: #Divisor
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Schemes'!
+!classDefinition: 'Divisor class' category: #'Mathematics-Schemes'!
+Divisor class
+	instanceVariableNames: ''!
+
+!classDefinition: #SimplicialChain category: #'Mathematics-Homology'!
+FormalSum subclass: #SimplicialChain
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Homology'!
+!classDefinition: 'SimplicialChain class' category: #'Mathematics-Homology'!
+SimplicialChain class
 	instanceVariableNames: ''!
 
 !classDefinition: #Matrix category: #'Mathematics-Modules-Matrices'!
@@ -3627,9 +3647,9 @@ References:
 My singletion global instance ZZ is the ring of integer numbers.!
 
 !LocalizationRing commentStamp: '<historical>' prior: 0!
-My instances are localizations of a given ring R away from a given prime ideal I. The elements are FormalFractions a / b with a in R and b in R \ I.!
+My instances are localizations of a given commutative ring R away from a given prime ideal I. The elements are FormalFractions a / b with a in R and b in R \ I.!
 
-!FractionField commentStamp: '<historical>' prior: 0!
+!FractionRing commentStamp: '<historical>' prior: 0!
 My instances are fields of fractions (ratios, quotients) with numerator and (nonzero) denominator in an integral domain. See Ring>>fractions.
 
 For example, the field of fractions of the integers is the rational numbers:
@@ -3764,7 +3784,7 @@ A lattice is the set of integer linear combinations of a basis of a real vector 
 !DivisorsGroup commentStamp: '<historical>' prior: 0!
 TODO:
 - Div^d(E) := subgroup of Div(E) of divisors of degree d
-- Princ(E) := subgropu of Div^0(E) of principal divisors
+- Princ(E) := subgroup of Div^0(E) of principal divisors
 - Pic^0(E) := Div^0(E) / Princ(E)
 - Abel-Jacobi map Pic^0(E) -> E(K)
 - equality: D1 = D2 iff D1 - D2 is a principal divisor
@@ -4017,7 +4037,7 @@ My instances are projective plane algebraic curves, i.e. schemes of dimension 1 
 !EllipticCurve commentStamp: '<historical>' prior: 0!
 My instances are elliptic curves, i.e. plane algebraic curves of genus 1.!
 
-!ProjectiveSpace commentStamp: 'len 10/20/2016 06:54' prior: 0!
+!ProjectiveSpace commentStamp: '<historical>' prior: 0!
 My instances are projective spaces RP^n as schemes, i.e. Proj R[x1,...,xn] for some commutative ring R.
 
 Example (the rational projective plane):
@@ -4173,7 +4193,7 @@ and Dirichlet series (see DirichletSeries):
 	Sequence fibonacci dirichletSeries
 !
 
-!LinearRecursiveSequence commentStamp: '<historical>' prior: 0!
+!CFiniteSequence commentStamp: '<historical>' prior: 0!
 My instances are constant-recursive (or C-recursive or C-finite) sequences, i.e. sequences satisfying homogeneous linear recurrences with constant coefficients:
 	a(n) = c_1 a(n-1) + ... + c_d a(n-d)
 
@@ -4203,7 +4223,7 @@ Example:
 !
 
 !RationalMap commentStamp: '<historical>' prior: 0!
-My instances are rational maps between algebraic varieties.!
+My instances are rational maps between schemes. They are partial functions, defined in a dense open set.!
 
 !ChainMap commentStamp: '<historical>' prior: 0!
 A chain map between two chain complexes (Ci,di) and (C`i,d`i) is a sequence of homomorphisms fi:Ci->C`i that commutes with the boundary operator in the two complexes: d`i @ fi = f{i-1} @ di. They send cycles to cycles and boundaries to boundaries, and this descends to a map in homology fi* : Hi -> H`i.
@@ -4228,6 +4248,13 @@ My instances are polynomial maps between algebraic varieties.!
 !GroupRandomGenerator commentStamp: '<historical>' prior: 0!
 I am the Product Replacement Algorithm for generating random elements in a group from a set of generators. Essentially, it performs a random walk on a Cayley graph.!
 
+!Quaternion commentStamp: 'len 11/20/2015 00:39' prior: 0!
+My instances are quaternions. Quaternions constitute an example of non-commutative field.
+!
+
+!Word commentStamp: '<historical>' prior: 0!
+A word is a (non-commutative) formal product of a finite ordered list of objects.!
+
 !FormalFraction commentStamp: 'len 10/29/2016 10:46' prior: 0!
 My instances are elements of the form a / b, with a and b in a commutative ring R, and satisfying the equivalence relation: (a / b) = (a` / b`) iff a*b` = a`*b.
 
@@ -4235,6 +4262,20 @@ They are elements of ring localizations or fraction fields. See LocalizationRing
 
 !RationalFunction commentStamp: '<historical>' prior: 0!
 My instances are rational functions, i.e. fractions where the numerator and denominator are polynomials. They are elements of the field of fractions of a polynomial ring over a field (see RationalFunctionField).!
+
+!ResidueClass commentStamp: '<historical>' prior: 0!
+My instances are elements of a quotient ring, i.e. residue classes modulo an ideal. See QuotientRing.!
+
+!AlgebraicNumber commentStamp: '<historical>' prior: 0!
+My instances are complex algebraic numbers, i.e. zeroes of polynomials with integer coefficients.
+
+Structure:
+ polynomial		Polynomial -- a square-free polynomial that is zero at the receiver
+ irreducible	Boolean -- true if the polynomial is the minimal polynomial
+ approximation	Fraction/Float -- a rational approximation of the receiver
+ radius			Fraction/Float -- the absolute error of the approximation, and it's guaranteed that the polynomial has no other roots around the approximation value within this radius
+
+!
 
 !FormalSum commentStamp: '<historical>' prior: 0!
 My instances are formal linear combinations of arbitrary objects.!
@@ -4249,27 +4290,6 @@ My instances are Weil divisors, i.e. formal sums (with integer coefficients) of 
 
 !SimplicialChain commentStamp: '<historical>' prior: 0!
 A simplicial k-chain is a formal linear combination of k-simplices.!
-
-!Quaternion commentStamp: 'len 11/20/2015 00:39' prior: 0!
-My instances are quaternions. Quaternions constitute an example of non-commutative field.
-!
-
-!ResidueClass commentStamp: '<historical>' prior: 0!
-My instances are elements of a quotient ring, i.e. residue classes modulo an ideal. See QuotientRing.!
-
-!Word commentStamp: '<historical>' prior: 0!
-A word is a (non-commutative) formal product of a finite ordered list of objects.!
-
-!AlgebraicNumber commentStamp: '<historical>' prior: 0!
-My instances are complex algebraic numbers, i.e. zeroes of polynomials with integer coefficients.
-
-Structure:
- polynomial		Polynomial -- a square-free polynomial that is zero at the receiver
- irreducible	Boolean -- true if the polynomial is the minimal polynomial
- approximation	Fraction/Float -- a rational approximation of the receiver
- radius			Fraction/Float -- the absolute error of the approximation, and it's guaranteed that the polynomial has no other roots around the approximation value within this radius
-
-!
 
 !LinearEquation commentStamp: '<historical>' prior: 0!
 My instances are linear equations, i.e. expressions of the form
@@ -4684,6 +4704,11 @@ squareRoot
 % anInteger
 	^ IntegerResidueClass representative: self \\ anInteger modulo: anInteger! !
 
+!Integer methodsFor: '*mathematics' stamp: 'len 11/1/2016 00:23'!
+/// anInteger
+	"Answer the exact division of the receiver by the argument."
+	^ self // anInteger! !
+
 !Integer methodsFor: '*mathematics' stamp: 'len 8/1/2016 08:54'!
 | anInteger
 	"Answer true if the receiver divides anInteger."
@@ -4846,6 +4871,10 @@ factors2
 		p _ p + 2].
 	(p = n or: [n = 1]) ifFalse: [answer add: n].
 	^ answer! !
+
+!Integer methodsFor: '*mathematics' stamp: 'len 11/1/2016 00:56'!
+is: aSymbol
+	^ aSymbol = #Fraction or: [aSymbol = #Integer or: [super is: aSymbol]]! !
 
 !Integer methodsFor: '*mathematics' stamp: 'len 11/19/2015 17:21'!
 isRational
@@ -6192,6 +6221,10 @@ apply: aMorphism
 	"Apply a homomorphism to the coefficients of the receiver."
 	^ self collect: aMorphism! !
 
+!OrderedTuple methodsFor: 'converting' stamp: 'len 10/31/2016 13:48'!
+asHomogeneousTuple
+	^ HomogeneousTuple withAll: self! !
+
 !OrderedTuple methodsFor: 'accessing' stamp: 'len 3/29/2016 18:54'!
 bitSize
 	| answer |
@@ -6226,17 +6259,13 @@ dot: aTuple
 	2 to: (self size min: aTuple size) do: [:i| answer _ answer + ((self at: i) * (aTuple at: i))].
 	^ answer! !
 
-!OrderedTuple methodsFor: 'converting' stamp: 'len 10/25/2016 14:21'!
-h
-	^ self homogeneous! !
-
-!OrderedTuple methodsFor: 'converting' stamp: 'len 3/29/2016 18:59'!
-homogeneous
-	^ HomogeneousTuple coordinates: self! !
-
-!OrderedTuple methodsFor: 'converting' stamp: 'len 3/29/2016 19:00'!
+!OrderedTuple methodsFor: 'converting' stamp: 'len 10/31/2016 13:11'!
 homogenized
-	^ HomogeneousTuple coordinates: (self, self first one)! !
+	^ self homogenizedIn: self size + 1! !
+
+!OrderedTuple methodsFor: 'converting' stamp: 'len 10/31/2016 13:48'!
+homogenizedIn: anInteger
+	^ HomogeneousTuple withAll: (self copyFrom: 1 to: anInteger - 1), self first one, (self copyFrom: anInteger to: self size)! !
 
 !OrderedTuple methodsFor: 'accessing' stamp: 'len 3/29/2016 19:05'!
 indices
@@ -6493,97 +6522,6 @@ newFrom: anObject
 	anObject isInteger ifTrue: [^ self fromInteger: anObject].
 	^ super newFrom: anObject! !
 
-!HomogeneousTuple methodsFor: 'comparing' stamp: 'len 6/29/2016 05:24'!
-= aHomogeneousTuple
-	| index |
-	index _ self firstNonZero.
-	(aHomogeneousTuple at: index) isZero ifTrue: [^ false].
-	^ self coordinates / (self at: index) = (aHomogeneousTuple coordinates / (aHomogeneousTuple at: index))! !
-
-!HomogeneousTuple methodsFor: 'converting' stamp: 'len 11/7/97 01:42'!
-affinized
-	"Answer the affinization of the receiver."
-
-	^ self affinizedIn: self size! !
-
-!HomogeneousTuple methodsFor: 'converting' stamp: 'len 12/13/2015 23:39'!
-affinizedIn: anInteger
-	"Answer the affinization of the receiver with respect to the anInteger-th coordinate."
-
-	| scalar |
-	scalar _ self at: anInteger.
-	^ Tuple
-		new: self coordinates size - 1
-		evaluating: [:i| (i < anInteger ifTrue: [self at: i] ifFalse: [self at: i + 1]) / scalar]! !
-
-!HomogeneousTuple methodsFor: 'converting' stamp: 'len 11/8/2015 00:18'!
-asTuple
-	"Answer a Tuple with the coordinates of the receiver."
-
-	^ self coordinates! !
-
-!HomogeneousTuple methodsFor: 'accessing' stamp: 'len 11/20/2015 16:14'!
-at: anInteger
-	"Answer the anInteger-th coordinate of the receiver."
-
-	^ coordinates at: anInteger! !
-
-!HomogeneousTuple methodsFor: 'accessing' stamp: 'len 11/9/2015 07:14'!
-coordinates
-	^ coordinates! !
-
-!HomogeneousTuple methodsFor: 'accessing-private' stamp: 'len 1/5/98 20:31'!
-coordinates: aTuple
-	coordinates _ aTuple! !
-
-!HomogeneousTuple methodsFor: 'private' stamp: 'len 6/29/2016 05:23'!
-firstNonZero
-	^ (1 to: self size) detect: [ :each | (self at: each) isZero not]! !
-
-!HomogeneousTuple methodsFor: 'comparing' stamp: 'len 6/29/2016 05:24'!
-hash
-	^ (coordinates / (self at: self firstNonZero)) hash! !
-
-!HomogeneousTuple methodsFor: 'printing' stamp: 'len 6/29/2016 05:25'!
-printOn: aStream
-	aStream nextPut: $[.
-	self coordinates do: [:each| each printOn: aStream] separatedBy: [aStream nextPut: $:].
-	aStream nextPut: $]! !
-
-!HomogeneousTuple methodsFor: 'accessing' stamp: 'len 11/20/2015 16:14'!
-size
-	^ coordinates size! !
-
-!HomogeneousTuple methodsFor: 'accessing' stamp: 'len 11/20/2015 16:14'!
-x
-	"Answer the x coordinate of the receiver."
-
-	^ coordinates x! !
-
-!HomogeneousTuple methodsFor: 'accessing' stamp: 'len 11/20/2015 16:14'!
-y
-	"Answer the y coordinate of the receiver."
-
-	^ coordinates y! !
-
-!HomogeneousTuple methodsFor: 'accessing' stamp: 'len 11/20/2015 16:14'!
-z
-	"Answer the z coordinate of the receiver."
-
-	^ coordinates z! !
-
-!HomogeneousTuple class methodsFor: 'instance creation' stamp: 'len 11/28/97 02:43'!
-coordinates: aTuple
-	"Answer a new instance of the receiver with the given coordinates."
-
-	^ self new coordinates: aTuple! !
-
-!HomogeneousTuple class methodsFor: 'instance creation' stamp: 'len 11/28/97 02:04'!
-x: x y: y z: z
-	"Answer a new instance of the receiver with the given coordinates."
-
-	^ self coordinates: (Tuple x: x y: y z: z)! !
-
 !IntegerResidueClassTuple methodsFor: 'arithmetic' stamp: 'len 6/29/2016 06:01'!
 * aNumber
 	^ self class representatives: (representatives collect: [:each| each * aNumber \\ modulus]) modulus: modulus! !
@@ -6768,6 +6706,46 @@ new: anInteger
 !Tuple class methodsFor: 'instance creation' stamp: 'len 3/26/2016 23:24'!
 withAll: anArray
 	^ self basicNew elements: anArray asArray! !
+
+!HomogeneousTuple methodsFor: 'comparing' stamp: 'len 10/31/2016 14:03'!
+= aHomogeneousTuple
+	| index |
+	index _ self firstNonZero.
+	(aHomogeneousTuple at: index) isZero ifTrue: [^ false].
+	^ self asTuple / (self at: index) = (aHomogeneousTuple asTuple / (aHomogeneousTuple at: index))! !
+
+!HomogeneousTuple methodsFor: 'converting' stamp: 'len 10/31/2016 13:47'!
+affinized
+	"Answer the affinization of the receiver."
+	^ self affinizedIn: self size! !
+
+!HomogeneousTuple methodsFor: 'converting' stamp: 'len 10/31/2016 13:46'!
+affinizedIn: anInteger
+	"Answer the affinization of the receiver with respect to the anInteger-th coordinate."
+	| scalar |
+	scalar _ self at: anInteger.
+	^ Tuple
+		new: self coordinates size - 1
+		evaluating: [:i| (i < anInteger ifTrue: [self at: i] ifFalse: [self at: i + 1]) / scalar]! !
+
+!HomogeneousTuple methodsFor: 'converting' stamp: 'len 10/31/2016 13:47'!
+asTuple
+	"Answer a Tuple with the coordinates of the receiver."
+	^ Tuple withAll: self! !
+
+!HomogeneousTuple methodsFor: 'private' stamp: 'len 10/31/2016 13:45'!
+firstNonZero
+	^ (1 to: self size) detect: [:one| (self at: one) isZero not]! !
+
+!HomogeneousTuple methodsFor: 'comparing' stamp: 'len 10/31/2016 14:02'!
+hash
+	^ (self asTuple / (self at: self firstNonZero)) hash! !
+
+!HomogeneousTuple methodsFor: 'printing' stamp: 'len 10/31/2016 13:49'!
+printOn: aStream
+	aStream nextPut: $[.
+	self do: [:each| each printOn: aStream] separatedBy: [aStream nextPut: $:].
+	aStream nextPut: $]! !
 
 !BitArray methodsFor: 'arithmetic' stamp: 'len 12/21/2015 22:15'!
 * aBitArray
@@ -11864,8 +11842,8 @@ isField
 isFinite
 	^ properties at: #isFinite ifAbsent: [self size isInfinite not]! !
 
-!Domain methodsFor: 'testing-domains' stamp: 'len 3/9/2016 04:35'!
-isFractionField
+!Domain methodsFor: 'testing-domains' stamp: 'len 10/31/2016 15:23'!
+isFractionRing
 	^ false! !
 
 !Domain methodsFor: 'testing-domains' stamp: 'len 2/5/2016 20:23'!
@@ -13427,16 +13405,9 @@ radical
 remainderAtRandom: aRandom
 	^ (self generator abs atRandom: aRandom) - 1! !
 
-!PolynomialIdeal methodsFor: 'comparing' stamp: 'len 4/5/2016 17:38'!
-= anObject
-	^ super = anObject
-"	self == anObject ifTrue: [^ true].
-	self species == anObject species ifFalse: [^ false].
-	self flag: #fix." "this is wrong, both groebner basis should at least use the same ordering"
-"	^ self groebner reduced = anObject groebner reduced"! !
-
-!PolynomialIdeal methodsFor: 'operations' stamp: 'len 10/30/2016 15:15'!
+!PolynomialIdeal methodsFor: 'operations' stamp: 'len 10/31/2016 03:25'!
 ˜ anIdeal
+	"To compute the intersection we introduce a new variable t, then eliminate it from the ideal I*t + J*(1-t)."
 	| R R` t T |
 	self isZero ifTrue: [^ self].
 	anIdeal isZero ifTrue: [^ anIdeal].
@@ -13446,12 +13417,12 @@ remainderAtRandom: aRandom
 	T _ R` x: t.
 	^ ((self as: R`) * T + ((anIdeal as: R`) * (T - R` one)) eliminate: t) as: R! !
 
-!PolynomialIdeal methodsFor: 'operations' stamp: 'len 10/21/2016 17:27'!
+!PolynomialIdeal methodsFor: 'operations' stamp: 'len 10/31/2016 12:38'!
 affinizedIn: anIndeterminate
 	"Answer the dehomogenization of the receiver removing the given indeterminate."
 	| R R` |
 	R _ self ring.
-	R` _ R scalars polynomialsIn: R rank - 1.
+	R` _ R copyWithout: anIndeterminate.
 	^ R` * (self generators collect: [:each| (each affinizedIn: anIndeterminate) as: R`])! !
 
 !PolynomialIdeal methodsFor: 'random' stamp: 'len 9/26/2016 16:58'!
@@ -13494,17 +13465,12 @@ dimension
 	"Answer the Krull dimension of the quotient ring of the base ring by the receiver."
 	^ self quotient dimension! !
 
-!PolynomialIdeal methodsFor: 'operations' stamp: 'len 8/2/2016 02:19'!
+!PolynomialIdeal methodsFor: 'operations' stamp: 'len 10/31/2016 03:27'!
 eliminate: anIndeterminate
 	"Answer the elimination ideal computed by eliminating anIndeterminate."
 	^ self eliminateAll: {anIndeterminate}
-	
-"	| G indets |
-	G _ self groebnerBasis.
-	(G anySatisfy: [:f| indets _ (G ordering headOf: f) indeterminates. indets size = 1 and: [indets includes: anIndeterminate]]) ifFalse: [^ self error: 'there''s no eliminant'].
-	self notYetImplemented"
 
-	"algorithm to compute eliminants:
+"Alternative algorithm to compute eliminants:
 input: ideal I in K[x1..xn] and indet xi
 output: univariate eliminant g(xi) or there's no eliminant
 1. compute groebner basis G of I in any monomial ordering
@@ -13514,14 +13480,14 @@ output: univariate eliminant g(xi) or there's no eliminant
 where n is minimal, then output eliminant g(xi) = sum akxi^k
 "! !
 
-!PolynomialIdeal methodsFor: 'operations' stamp: 'len 10/29/2016 11:38'!
+!PolynomialIdeal methodsFor: 'operations' stamp: 'len 10/31/2016 03:28'!
 eliminateAll: aCollection
 	"Answer the elimination ideal for the indeterminates in aCollection = {xi}, i.e. the subideal of polynomials without indeterminates {xi}."
 	| indeterminates ordering G |
 	indeterminates _ aCollection asArray , (self ring ordering indeterminates reject: [:each| aCollection includes: each]).
 	ordering _ MonomialOrdering lex: indeterminates.
 	G _ GroebnerBasis from: self generators ordering: ordering.
-	^ self class on: self ring generators: (G minimal asArray select: [:each| (aCollection noneSatisfy:[:none| each has: none])])! !
+	^ self ring * (G minimal asArray select: [:each| (aCollection noneSatisfy: [:none| each has: none])])! !
 
 !PolynomialIdeal methodsFor: 'accessing-private' stamp: 'len 7/4/2016 06:33'!
 generators: aCollection
@@ -13571,6 +13537,11 @@ includes: aPolynomial
 initial
 	"Answer the initial ideal, i.e. the ideal of all leading monomials of the receiver."
 	^ MonomialIdeal on: self ring generators: self groebnerBasis initial! !
+
+!PolynomialIdeal methodsFor: 'operations-elements' stamp: 'len 10/31/2016 17:47'!
+inverseOf: anObject
+	anObject = self ring one ifTrue: [^ anObject].
+	^ super inverseOf: anObject! !
 
 !PolynomialIdeal methodsFor: 'testing' stamp: 'len 10/29/2016 11:32'!
 isHomogeneous
@@ -13832,10 +13803,19 @@ extension: aPolynomial
 	aPolynomial scalars = self ifFalse: [DomainError signal: 'polynomial coefficients not from this field'].
 	^ AlgebraicExtensionField polynomial: aPolynomial! !
 
-!Ring methodsFor: 'operations' stamp: 'len 10/28/2016 16:58'!
+!Ring methodsFor: 'operations' stamp: 'len 10/31/2016 05:46'!
+extensionDegree: anInteger
+	"Answer the algebraic extension of the receiver of the given degree. Choose any irreducible polynomial."
+	^ self extension: (self polynomials findIrreducibleOfDegree: anInteger)! !
+
+!Ring methodsFor: 'private' stamp: 'len 11/1/2016 00:33'!
+fractionClass
+	^ FormalFraction! !
+
+!Ring methodsFor: 'operations' stamp: 'len 10/31/2016 15:22'!
 fractions
 	"Answer the fraction ring of the receiver. If the receiver is an integral domain, the fraction ring will be a field."
-	^ FractionField over: self! !
+	^ FractionRing over: self! !
 
 !Ring methodsFor: 'operations' stamp: 'len 1/20/2016 13:42'!
 freeAlgebra
@@ -13955,7 +13935,7 @@ isUnit: anElement
 	self isDivisionRing ifTrue: [^ anElement isZero not].
 	^ self subclassResponsibility! !
 
-!Ring methodsFor: 'operations' stamp: 'len 10/29/2016 10:33'!
+!Ring methodsFor: 'operations' stamp: 'len 11/1/2016 05:53'!
 localization: aPrimeIdeal
 	"Answer the localization of the receiver away from aPrimeIdeal."
 	| P |
@@ -14055,19 +14035,17 @@ zero
 zeroIdeal
 	^ self * #()! !
 
-!Ring class methodsFor: 'examples' stamp: 'len 10/18/2016 20:51'!
+!Ring class methodsFor: 'examples' stamp: 'len 10/31/2016 05:46'!
 GF: q
 	"Answer the Galois field of order q = p^n."
-	| factors n p F P f |
+	| factors n p F |
 	factors _ q factors.
 	factors asSet size = 1 ifFalse: [^ self error: 'not power of a prime'].
 	n _ factors size.
 	p _ factors anyOne.
 	F _ ZZ modPrime: p.
 	n = 1 ifTrue: [^ F].
-	P _ F polynomials.
-	f _ P findIrreducibleOfDegree: n.
-	^ (F extension: f) name: 'GF(',p printString,'^',n printString,')'! !
+	^ (F extensionDegree: n) name: 'GF(',p printString,'^',n printString,')'! !
 
 !FreeAlgebra methodsFor: 'comparing' stamp: 'len 8/25/2016 08:22'!
 = anObject
@@ -14299,6 +14277,10 @@ do: aBlock
 	i _ 1.
 	[ aBlock value: i; value: i negated. i _ i + 1 ] repeat! !
 
+!Integers methodsFor: 'private' stamp: 'len 11/1/2016 00:34'!
+fractionClass
+	^ Fraction! !
+
 !Integers methodsFor: 'operations' stamp: 'len 7/15/2016 18:31'!
 fractions
 	^ QQ! !
@@ -14378,7 +14360,7 @@ initialize
 	"Answer true if the receiver is strictly included in the argument."
 	^ self ~= aRing and: [self <= aRing]! !
 
-!LocalizationRing methodsFor: 'comparing' stamp: 'len 10/29/2016 10:14'!
+!LocalizationRing methodsFor: 'comparing' stamp: 'len 11/1/2016 05:53'!
 <= aRing
 	"Answer true if the receiver is included in the argument."
 	self == aRing ifTrue: [^ true].
@@ -14387,7 +14369,7 @@ initialize
 		ifTrue: [^ self integers = aRing integers and: [self ideal >= aRing ideal]].
 	^ super <= aRing! !
 
-!LocalizationRing methodsFor: 'comparing' stamp: 'len 10/28/2016 17:01'!
+!LocalizationRing methodsFor: 'comparing' stamp: 'len 11/1/2016 05:53'!
 = anObject
 	self == anObject ifTrue: [^ true].
 	^ (anObject isKindOf: LocalizationRing) and: [self ideal = anObject ideal]! !
@@ -14411,9 +14393,9 @@ atRandom: aRandom bits: bitSize
 characteristic
 	^ self integers characteristic! !
 
-!LocalizationRing methodsFor: 'morphisms' stamp: 'len 10/28/2016 16:38'!
+!LocalizationRing methodsFor: 'morphisms' stamp: 'len 11/1/2016 00:35'!
 embed: anObject
-	^ FormalFraction numerator: anObject denominator: self integers one! !
+	^ self integers fractionClass numerator: anObject denominator: self integers one! !
 
 !LocalizationRing methodsFor: 'morphisms' stamp: 'len 10/28/2016 16:38'!
 embedding
@@ -14444,6 +14426,10 @@ includes: anObject
 integers
 	^ self ideal ring! !
 
+!LocalizationRing methodsFor: 'testing' stamp: 'len 10/31/2016 11:27'!
+isCommutative
+	^ true! !
+
 !LocalizationRing methodsFor: 'testing' stamp: 'len 10/28/2016 16:38'!
 isField
 	^ self integers isIntegralDomain and: [self ideal isZero]! !
@@ -14470,6 +14456,10 @@ over: aRing
 printOn: aStream
 	aStream print: self integers; nextPutAll: self maximalIdeal printText sub! !
 
+!LocalizationRing methodsFor: 'accessing' stamp: 'len 10/31/2016 14:04'!
+x: anInteger
+	^ self embed: (self integers x: anInteger)! !
+
 !LocalizationRing methodsFor: 'accessing' stamp: 'len 10/28/2016 16:39'!
 zero
 	^ self embed: self integers zero! !
@@ -14478,44 +14468,45 @@ zero
 away: anIdeal
 	^ self new propertyAt: #ideal put: anIdeal; yourself! !
 
-!LocalizationRing class methodsFor: 'examples' stamp: 'len 10/29/2016 10:34'!
+!LocalizationRing class methodsFor: 'examples' stamp: 'len 10/31/2016 14:42'!
 exampleZZLocalizedAwayFrom2
-	"Answer the localization of the integers away from <2>, this is the ring of fractions with odd denominator."
+	"Answer the localization of the integers away from <2>.
+	This is the ring of fractions with odd denominator."
 	^ ZZ localization: 2! !
 
-!FractionField methodsFor: 'comparing' stamp: 'len 10/28/2016 16:59'!
+!FractionRing methodsFor: 'comparing' stamp: 'len 10/31/2016 15:20'!
 = anObject
 	self == anObject ifTrue: [^ true].
-	^ (anObject isKindOf: FractionField) and: [anObject integers = self integers]! !
+	^ (anObject isKindOf: FractionRing) and: [anObject integers = self integers]! !
 
-!FractionField methodsFor: 'testing' stamp: 'len 10/29/2016 16:03'!
+!FractionRing methodsFor: 'testing' stamp: 'len 10/29/2016 16:03'!
 includes: anObject
 	^ (anObject is: #Fraction)
 		and: [(self integers includes: anObject numerator)
 			and: [self integers includes: anObject denominator]]! !
 
-!FractionField methodsFor: 'testing' stamp: 'len 10/28/2016 16:59'!
+!FractionRing methodsFor: 'testing' stamp: 'len 10/31/2016 15:21'!
 isField
+	^ self integers isIntegralDomain! !
+
+!FractionRing methodsFor: 'testing' stamp: 'len 10/31/2016 15:21'!
+isFractionRing
 	^ true! !
 
-!FractionField methodsFor: 'testing' stamp: 'len 10/28/2016 16:59'!
-isFractionField
-	^ true! !
-
-!FractionField methodsFor: 'converting' stamp: 'len 10/28/2016 17:10'!
+!FractionRing methodsFor: 'converting' stamp: 'len 10/28/2016 17:10'!
 over: aRing
 	"Change the base ring."
 	^ self class over: (self integers over: aRing)! !
 
-!FractionField methodsFor: 'printing' stamp: 'len 10/20/2016 11:00'!
+!FractionRing methodsFor: 'printing' stamp: 'len 10/20/2016 11:00'!
 printOn: aStream
 	aStream nextPutAll: 'Frac('; print: self integers; nextPut: $)! !
 
-!FractionField class methodsFor: 'instance creation' stamp: 'len 10/28/2016 17:05'!
+!FractionRing class methodsFor: 'instance creation' stamp: 'len 10/28/2016 17:05'!
 away: anIdeal
 	^ self shouldNotImplement! !
 
-!FractionField class methodsFor: 'instance creation' stamp: 'len 10/28/2016 17:05'!
+!FractionRing class methodsFor: 'instance creation' stamp: 'len 10/31/2016 14:59'!
 over: anIntegralDomain
 	^ super away: anIntegralDomain zeroIdeal! !
 
@@ -14829,9 +14820,9 @@ ideal
 ideal: anIdeal
 	ideal _ anIdeal! !
 
-!QuotientRing methodsFor: 'testing' stamp: 'len 10/18/2016 22:47'!
+!QuotientRing methodsFor: 'testing' stamp: 'len 11/1/2016 05:12'!
 includes: anObject
-	(anObject isKindOf: ResidueClass) ifFalse: [^ false].
+	(anObject is: #ResidueClass) ifFalse: [^ false].
 	^ ideal ring includes: anObject representative! !
 
 !QuotientRing methodsFor: 'testing' stamp: 'len 9/26/2016 16:49'!
@@ -14881,9 +14872,9 @@ printOn: aStream
 		ifFalse: [aStream print: ideal ring].
 	aStream nextPut: $/; print: ideal! !
 
-!QuotientRing methodsFor: 'morphisms' stamp: 'len 10/18/2016 22:47'!
+!QuotientRing methodsFor: 'morphisms' stamp: 'len 11/1/2016 05:10'!
 project: anElement
-	^ ResidueClass in: self representative: (ideal reduce: anElement)! !
+	^ self residueClassClass in: self representative: (ideal reduce: anElement)! !
 
 !QuotientRing methodsFor: 'morphisms' stamp: 'len 10/6/2016 09:53'!
 projection
@@ -14893,6 +14884,10 @@ projection
 !QuotientRing methodsFor: 'accessing' stamp: 'len 8/24/2016 19:04'!
 relation
 	^ EquivalenceRelation on: self base evaluating: [:a :b| ideal includes: a - b]! !
+
+!QuotientRing methodsFor: 'private' stamp: 'len 11/1/2016 05:20'!
+residueClassClass
+	^ ResidueClass! !
 
 !QuotientRing methodsFor: 'accessing' stamp: 'len 9/26/2016 16:50'!
 zero
@@ -15093,9 +15088,9 @@ printOn: aStream
 	(properties includesKey: #name) ifTrue: [^ super printOn: aStream].
 	aStream print: self baseField; nextPut: $(; print: self polynomial; nextPut: $)! !
 
-!AlgebraicExtensionField methodsFor: 'morphisms' stamp: 'len 10/16/2016 19:42'!
-project: anElement
-	^ AlgebraicExtensionElement in: self representative: (ideal reduce: anElement)! !
+!AlgebraicExtensionField methodsFor: 'private' stamp: 'len 11/1/2016 05:14'!
+residueClassClass
+	^ AlgebraicExtensionElement! !
 
 !AlgebraicExtensionField methodsFor: 'accessing' stamp: 'len 3/19/2016 04:24'!
 size
@@ -15234,6 +15229,10 @@ dimension
 			ifTrue: [^ self base rank - k]].
 	self error: 'this shouldnt be reached'! !
 
+!PolynomialQuotientRing methodsFor: 'private' stamp: 'len 11/1/2016 05:01'!
+fractionClass
+	^ RationalFunction! !
+
 !PolynomialQuotientRing methodsFor: 'operations' stamp: 'len 10/27/2016 18:44'!
 hilbertSeries
 	"Answer the Hilbert series of the receiver."
@@ -15262,13 +15261,17 @@ proj
 rank
 	^ self base rank! !
 
+!PolynomialQuotientRing methodsFor: 'private' stamp: 'len 11/1/2016 05:15'!
+residueClassClass
+	^ PolynomialResidueClass! !
+
 !PolynomialQuotientRing methodsFor: 'accessing' stamp: 'len 10/20/2016 10:51'!
 scalars
 	^ self base scalars! !
 
-!PolynomialQuotientRing methodsFor: 'operations' stamp: 'len 10/25/2016 10:14'!
+!PolynomialQuotientRing methodsFor: 'operations' stamp: 'len 10/31/2016 05:33'!
 spec
-	"Answer the spectrum of the receiver, Spec(R)."
+	"Answer the spectrum of the receiver, Spec(R/I) as subscheme of Spec(R)."
 	(self ideal generators size = 1 and: [self ideal isZero not])
 		ifTrue: [self base rank = 2
 			ifTrue: [^ AffinePlaneCurve coordinateRing: self]
@@ -15669,6 +15672,17 @@ continuantOfOrder: n
 	n = 1 ifTrue: [^ self x: 1].
 	^ (self continuantOfOrder: n - 1) * (self x: n) + (self continuantOfOrder: n - 2)! !
 
+!PolynomialRing methodsFor: 'converting' stamp: 'len 10/31/2016 12:40'!
+copyWithout: anIndeterminate
+	"Answer a polynomial ring like the receiver but with one less indeterminate.
+	Keep monomial ordering. Also keep indeterminate names if present."
+	^ self indeterminateNames
+		ifNil: [self scalars polynomialsIn: self rank - 1 ordering: (self ordering copyWithout: anIndeterminate)]
+		ifNotNil: [:indeterminates|
+			self scalars
+				polynomialsIn: (indeterminates copyWithoutIndex: anIndeterminate)
+				ordering: (self ordering copyWithout: anIndeterminate)]! !
+
 !PolynomialRing methodsFor: 'examples' stamp: 'len 11/28/2015 07:25'!
 cyclotomic: n
 	"Answer the n-th cyclotomic polynomial."
@@ -15763,6 +15777,10 @@ findIrreducibleOfDegree: n
 	random _ Random new.
 	[(p _ self atRandom: random maxDegree: n) degree = n and: [p isIrreducible]] whileFalse.
 	^ p! !
+
+!PolynomialRing methodsFor: 'private' stamp: 'len 11/1/2016 00:36'!
+fractionClass
+	^ RationalFunction! !
 
 !PolynomialRing methodsFor: 'operations' stamp: 'len 10/28/2016 11:10'!
 fractions
@@ -15983,7 +16001,7 @@ space
 space: aFreeModule
 	space _ aFreeModule! !
 
-!PolynomialRing methodsFor: 'operations' stamp: 'len 9/26/2016 06:46'!
+!PolynomialRing methodsFor: 'operations' stamp: 'len 10/31/2016 05:33'!
 spec
 	"Answer the spectrum of the receiver, Spec(R)."
 	^ AffineSpace coordinateRing: self! !
@@ -16050,9 +16068,14 @@ on: aFreeModule ordering: aMonomialOrdering
 characteristic
 	^ self scalars characteristic! !
 
-!PowerSeriesRing methodsFor: 'as yet unclassified' stamp: 'len 10/28/2016 14:19'!
+!PowerSeriesRing methodsFor: 'morphisms' stamp: 'len 10/31/2016 04:00'!
 embed: aPolynomial
-	^ self notYetImplemented! !
+	^ PowerSeries fromPolynomial: aPolynomial! !
+
+!PowerSeriesRing methodsFor: 'morphisms' stamp: 'len 10/31/2016 04:01'!
+embedding
+	"Answer the embedding map from the polynomial ring into the receiver."
+	^ properties at: #embedding ifAbsentPut: [(self polynomials to: self evaluating: [:x| self embed: x]) name: 'i']! !
 
 !PowerSeriesRing methodsFor: 'accessing' stamp: 'len 10/28/2016 14:27'!
 generators
@@ -16065,6 +16088,10 @@ isLocal
 !PowerSeriesRing methodsFor: 'testing' stamp: 'len 10/28/2016 14:17'!
 isMultivariate
 	^ self polynomials isMultivariate! !
+
+!PowerSeriesRing methodsFor: 'accessing' stamp: 'len 10/31/2016 04:02'!
+maximalIdeal
+	self notYetImplemented! !
 
 !PowerSeriesRing methodsFor: 'accessing' stamp: 'len 4/15/2016 20:49'!
 one
@@ -21108,6 +21135,11 @@ divisorsOver: aRing
 	"Answer the divisors class group of the receiver."
 	^ DivisorsGroup on: self over: aRing! !
 
+!Scheme methodsFor: 'morphisms' stamp: 'len 10/31/2016 11:17'!
+embedding
+	"Answer the inclusion map into the ambient scheme."
+	^ self to: self ambient inducedBy: self coordinateRing embedding! !
+
 !Scheme methodsFor: 'accessing' stamp: 'len 10/20/2016 16:05'!
 functionField
 	"Answer the function field (or field of rational functions) of the receiver. This is the fractions field of the coordinate ring and it's noted K(V) (analogous to the coordinate ring noted K[V])."
@@ -21237,11 +21269,6 @@ jacobianMatrix
 	^ R ** (R rank @ generators size)
 		evaluating: [:i :j| (generators at: j) derivativeIn: i]! !
 
-!Scheme methodsFor: 'operations' stamp: 'len 10/26/2016 09:36'!
-neighborhoodAt: aPoint
-	"Answer an affine subscheme isomorphic to a neighborhood if the given point."
-	self notYetImplemented! !
-
 !Scheme methodsFor: 'points' stamp: 'len 10/27/2016 15:05'!
 points
 	^ self pointsOver: self ambient scalars! !
@@ -21355,10 +21382,22 @@ isSmooth
 printOn: aStream
 		aStream nextPutAll: 'Spec '; print: self coordinateRing! !
 
-!AffineScheme methodsFor: 'operations' stamp: 'len 10/21/2016 17:29'!
+!AffineScheme methodsFor: 'accessing' stamp: 'len 10/31/2016 13:15'!
 projectiveClosure
 	"Answer the projective closure of the receiver. If the receiver is an affine patch of a projective scheme, answer the original projective scheme. Otherwise the projective closure will be a projective scheme over the projective closure of the ambient space of the receiver, and the receiver will be the last affine patch."
-	^ properties at: #projectiveClosure ifAbsentPut: [self ideal homogenized quotient proj]! !
+	^ self projectiveEmbedding codomain! !
+
+!AffineScheme methodsFor: 'morphisms' stamp: 'len 10/31/2016 13:37'!
+projectiveEmbedding
+	"Answer the map that sends the receiver to its projective closure. If the receiver is an affine patch of a projective scheme, answer the map to the original projective scheme. Otherwise the projective closure will be a projective scheme over the projective closure of the ambient space of the receiver, and the receiver will be the last affine patch."
+	| P map patches |
+	properties at: #projectiveEmbedding ifPresent: [:aRationalMap| ^ aRationalMap].
+	P _ self ideal homogenized quotient proj.
+	map _ self to: P evaluating: [:x| x homogenizedIn: P ambient rank].
+	patches _ Array new: P ambient rank.
+	patches at: patches size put: self.
+	P properties at: #affinePatches put: patches.
+	^ properties at: #projectiveEmbedding put: map! !
 
 !AffineScheme methodsFor: 'operations' stamp: 'len 10/19/2016 23:32'!
 relativeSubscheme: anObject
@@ -21380,7 +21419,7 @@ newFrom: anObject
 	(anObject isKindOf: AffineScheme) ifTrue: [^ self coordinateRing: anObject coordinateRing].
 	^ super newFrom: anObject! !
 
-!AffineCurve methodsFor: 'as yet unclassified' stamp: 'len 10/24/2016 18:34'!
+!AffineCurve methodsFor: 'accessing' stamp: 'len 10/24/2016 18:34'!
 dimension
 	^ 1! !
 
@@ -21433,7 +21472,7 @@ motions
 	"Answer the Euclidean group E(A), the group of isometries, i.e. distance-preserving morphisms, also called 'motionss'. This is a subgroup of the general affine group GA(A)."
 	^ EuclideanGroup on: self! !
 
-!AffineSpace methodsFor: 'operations' stamp: 'len 10/27/2016 15:13'!
+!AffineSpace methodsFor: 'points' stamp: 'len 10/27/2016 15:13'!
 points
 	"Answer the set of rational points on the receiver."
 	^ self scalars ** self rank! !
@@ -21450,9 +21489,16 @@ pointsOver: aRing do: aBlock
 printOn: aStream
 	aStream print: self scalars; nextPutAll: self rank printString super! !
 
-!AffineSpace methodsFor: 'operations' stamp: 'len 10/21/2016 16:51'!
-projectiveClosure
-	^ ProjectiveSpace new: self rank over: self scalars! !
+!AffineSpace methodsFor: 'morphisms' stamp: 'len 10/31/2016 13:35'!
+projectiveEmbedding
+	| P map patches |
+	properties at: #projectiveEmbedding ifPresent: [:aRationalMap| ^ aRationalMap].
+	P _ ProjectiveSpace new: self rank over: self scalars.
+	map _ self to: P evaluating: [:x| x homogenizedIn: P rank].
+	patches _ Array new: P ambient rank.
+	patches at: patches size put: self.
+	P properties at: #affinePatches put: patches.
+	^ properties at: #projectiveEmbedding put: map! !
 
 !AffineSpace methodsFor: 'accessing' stamp: 'len 10/20/2016 03:43'!
 rank
@@ -21472,14 +21518,27 @@ scalars
 new: rank over: aRing
 	^ self coordinateRing: (aRing polynomialsIn: rank)! !
 
-!ProjectiveScheme methodsFor: 'operations' stamp: 'len 10/21/2016 17:15'!
+!ProjectiveScheme methodsFor: 'operations' stamp: 'len 10/31/2016 13:17'!
 affinePatch: i
 	"Answer the i-th affine patch of the receiver."
-	| answer |
-	answer _ (self ideal affinizedIn: i) quotient spec.
-	answer properties at: #projectiveClosure put: self.
-	"add projectiveClosureMap"
-	^ answer! !
+	| patches answer map |
+	patches _ properties at: #affinePatches ifAbsentPut: [Array new: self ambient rank].
+	(patches at: i) ifNotNil: [:anAffineScheme| ^ anAffineScheme].
+	answer _ (self ambient affinePatch: i) subscheme: (self ideal affinizedIn: i).
+	map _ answer to: self evaluating: [:x| x homogenizedIn: i].
+	answer properties at: #projectiveEmbedding put: map.
+	^ patches at: i put: answer! !
+
+!ProjectiveScheme methodsFor: 'operations' stamp: 'len 10/31/2016 11:52'!
+affinePatchAt: aPoint
+	"Answer an affine patch centered at the given point, isomorphic to a neighborhood of the point."
+	(self includes: aPoint) ifFalse: [^ self error: 'point not in this scheme'].
+	self notYetImplemented! !
+
+!ProjectiveScheme methodsFor: 'operations' stamp: 'len 10/31/2016 13:19'!
+affinePatches
+	"Answer all the standard affine patches of the receiver."
+	^ (1 to: self ambient rank) collect: [:i| self affinePatch: i]! !
 
 !ProjectiveScheme methodsFor: 'accessing' stamp: 'len 10/20/2016 10:27'!
 ambient
@@ -21542,11 +21601,11 @@ newFrom: anObject
 	(anObject isKindOf: ProjectiveScheme) ifTrue: [^ self coordinateRing: anObject coordinateRing].
 	^ super newFrom: anObject! !
 
-!ProjectiveCurve methodsFor: 'as yet unclassified' stamp: 'len 10/13/2016 13:38'!
+!ProjectiveCurve methodsFor: 'accessing' stamp: 'len 10/13/2016 13:38'!
 dimension
 	^ 1! !
 
-!ProjectivePlaneCurve methodsFor: 'as yet unclassified' stamp: 'len 10/24/2016 20:13'!
+!ProjectivePlaneCurve methodsFor: 'accessing' stamp: 'len 10/24/2016 20:13'!
 arithmeticGenus
 	| n |
 	n _ self polynomial "totalDegree" degree.
@@ -21556,7 +21615,7 @@ arithmeticGenus
 components
 	^ self polynomial factors collect: [:each| self class polynomial: each]! !
 
-!ProjectivePlaneCurve methodsFor: 'as yet unclassified' stamp: 'len 8/29/2016 16:45'!
+!ProjectivePlaneCurve methodsFor: 'accessing' stamp: 'len 8/29/2016 16:45'!
 degree
 	^ self polynomial degree! !
 
@@ -21597,6 +21656,18 @@ over: aField a: a b: b
 	"Answer the curve y^2 = x^3 + ax + b homogenized."
 	^ self polynomial: ((aField polynomialsIn: #(x y z)) evaluatingWithArguments: [:x :y :z| x**3 + (x * (z**2) * a) + (z**3*b) - (y**2*z)])! !
 
+!ProjectiveSpace methodsFor: 'operations' stamp: 'len 10/31/2016 13:14'!
+affinePatch: i
+	"Answer the i-th affine patch of the receiver."
+	| patches R answer map |
+	patches _ properties at: #affinePatches ifAbsentPut: [Array new: self rank].
+	(patches at: i) ifNotNil: [:anAffineSpace| ^ anAffineSpace].
+	R _ self coordinateRing.
+	answer _ (R copyWithout: i) spec.
+	map _ answer to: self evaluating: [:x| x homogenizedIn: i].
+	answer properties at: #projectiveEmbedding put: map.
+	^ patches at: i put: answer! !
+
 !ProjectiveSpace methodsFor: 'accessing' stamp: 'len 8/27/2016 19:03'!
 ambient
 	^ self! !
@@ -21609,14 +21680,14 @@ dimension
 includes: aPoint
 	^ (aPoint is: #Tuple) and: [aPoint size = self rank and: [aPoint isZero not and: [aPoint allSatisfy: [:each| self scalars includes: each]]]]! !
 
-!ProjectiveSpace methodsFor: 'points' stamp: 'len 10/27/2016 15:34'!
+!ProjectiveSpace methodsFor: 'points' stamp: 'len 10/31/2016 13:13'!
 pointsOver: aRing do: aBlock
 	| points |
 	points _ Set new.
 	aRing ** self rank do: [:each|
 		each isZero ifFalse:
 			[| p |
-			p _ each homogeneous.
+			p _ each asHomogeneousTuple.
 			points add: p ifAbsent: [aBlock value: p]]]! !
 
 !ProjectiveSpace methodsFor: 'printing' stamp: 'len 10/20/2016 16:19'!
@@ -21631,9 +21702,12 @@ rank
 scalars
 	^ self coordinateRing scalars! !
 
-!ProjectiveSpace class methodsFor: 'instance creation' stamp: 'len 10/28/2016 10:39'!
+!ProjectiveSpace class methodsFor: 'instance creation' stamp: 'len 10/31/2016 13:27'!
 new: rank over: aRing
-	^ self coordinateRing: (aRing polynomialsIn: rank+1)! !
+	^ self coordinateRing:
+		(rank isInteger
+			ifTrue: [aRing polynomialsIn: rank+1]
+			ifFalse: [aRing polynomialsIn: rank])! !
 
 !SemistandardTableaux methodsFor: 'as yet unclassified' stamp: 'len 8/1/2016 02:31'!
 alphabet
@@ -22180,11 +22254,11 @@ collinear: aProjectiveSubspace
 	"Answer true if the receiver and the argument are within a line."
 	^ (self + aProjectiveSubspace) dimension <= 1! !
 
-!ProjectiveLinearSpace methodsFor: 'coordinates' stamp: 'len 11/21/2015 07:02'!
+!ProjectiveLinearSpace methodsFor: 'coordinates' stamp: 'len 10/31/2016 13:13'!
 coordinatesOf: anObject
 	"Answer the coordinates of the argument in the receiver."
 
-	^ (vectorSpace coordinatesOf: (self vectorFromPoint: anObject)) homogeneous! !
+	^ (vectorSpace coordinatesOf: (self vectorFromPoint: anObject)) asHomogeneousTuple! !
 
 !ProjectiveLinearSpace methodsFor: 'testing' stamp: 'len 1/5/2016 00:04'!
 coplanar: aProjectiveSubspace
@@ -23029,16 +23103,21 @@ species
 is: aSymbol
 	^ aSymbol == #RingHomomorphism or: [super is: aSymbol]! !
 
+!RingHomomorphism methodsFor: 'as yet unclassified' stamp: 'len 10/31/2016 03:59'!
+isLocal
+	"A ring homomorphism is local if it is a homomorphism of local rings and carries the maximal ideal to the maximal ideal."
+	^ self domain isLocal and: [self codomain isLocal and: [(self domain maximalIdeal apply: self) = self codomain maximalIdeal]]! !
+
 !RingHomomorphism methodsFor: 'as yet unclassified' stamp: 'len 10/5/2016 10:27'!
 isZero
 	"A ring homomorphism to a non-trivial ring cannot be zero, because 1 maps to 1."
 	^ (self value: self domain one) = self codomain zero
 "	^ self codomain isTrivial"! !
 
-!RingHomomorphism methodsFor: 'as yet unclassified' stamp: 'len 10/23/2016 22:00'!
+!RingHomomorphism methodsFor: 'as yet unclassified' stamp: 'len 10/23/2016 21:57'!
 spec
 	"This is the Spec functor. Answer the affine scheme homomorphism induced by the receiver, i.e. given a ring homomorphism f:R->S, Spec(f) is a scheme homomorphism Spec(S)->Spec(R)."
-	^ self notYetImplemented! !
+	^ self codomain spec to: self domain spec evaluating: [:aPoint| aPoint collect: [:each| self value: each]]! !
 
 !RingHomomorphism methodsFor: 'as yet unclassified' stamp: 'len 10/10/2016 08:35'!
 species
@@ -24843,7 +24922,7 @@ to: aDomain streamming: aBlock
 			[cache size < n] whileTrue: [cache add: aBlock value].
 			cache at: n]! !
 
-!LinearRecursiveSequence methodsFor: 'operations' stamp: 'len 12/24/2015 03:35'!
+!CFiniteSequence methodsFor: 'operations' stamp: 'len 12/24/2015 03:35'!
 * anObject
 	(anObject isKindOf: self class)
 		ifTrue: [^ self class to: self codomain evaluating: super * anObject maxOrder: self order * anObject order].
@@ -24851,21 +24930,21 @@ to: aDomain streamming: aBlock
 		ifTrue: [^ self class to: self codomain evaluating: super * anObject maxOrder: self order].
 	^ super * anObject! !
 
-!LinearRecursiveSequence methodsFor: 'operations' stamp: 'len 12/24/2015 03:29'!
+!CFiniteSequence methodsFor: 'operations' stamp: 'len 12/24/2015 03:29'!
 + aSequence
 	(aSequence isKindOf: self class) ifFalse: [^ super + aSequence].
 	^ self class to: self codomain evaluating: super + aSequence maxOrder: self order + aSequence order! !
 
-!LinearRecursiveSequence methodsFor: 'comparing' stamp: 'len 8/6/2016 00:41'!
+!CFiniteSequence methodsFor: 'comparing' stamp: 'len 10/31/2016 04:14'!
 = aSequence
 	| f g |
-	(aSequence isKindOf: LinearRecursiveSequence)
+	(aSequence isKindOf: CFiniteSequence)
 		ifFalse: [^ super = aSequence].
 	f _ self minimal.
 	g _ aSequence minimal.
 	^ f coefficients = g coefficients and: [f initialValues = g initialValues]! !
 
-!LinearRecursiveSequence methodsFor: 'accessing' stamp: 'len 4/11/2016 23:07'!
+!CFiniteSequence methodsFor: 'accessing' stamp: 'len 4/11/2016 23:07'!
 at: n
 	self order = 0 ifTrue: [^ self codomain zero].
 	n <= initialValues size ifTrue: [^ initialValues at: n].
@@ -24875,24 +24954,24 @@ at: n
 		answer _ (self at: n - self order + i - 1) * (coefficients at: i) + answer].
 	^ answer"! !
 
-!LinearRecursiveSequence methodsFor: 'accessing' stamp: 'len 12/27/2015 01:41'!
+!CFiniteSequence methodsFor: 'accessing' stamp: 'len 12/27/2015 01:41'!
 characteristicPolynomial
 	^ self codomain polynomials coefficients: (coefficients negated copyWith: self codomain one)! !
 
-!LinearRecursiveSequence methodsFor: 'accessing' stamp: 'len 12/27/2015 03:49'!
+!CFiniteSequence methodsFor: 'accessing' stamp: 'len 12/27/2015 03:49'!
 coefficients
 	^ coefficients! !
 
-!LinearRecursiveSequence methodsFor: 'accessing-private' stamp: 'len 12/3/2015 23:02'!
+!CFiniteSequence methodsFor: 'accessing-private' stamp: 'len 12/3/2015 23:02'!
 coefficients: anArray
 	coefficients _ anArray! !
 
-!LinearRecursiveSequence methodsFor: 'operations' stamp: 'len 12/24/2015 03:28'!
+!CFiniteSequence methodsFor: 'operations' stamp: 'len 12/24/2015 03:28'!
 convolution: aSequence
 	(aSequence isKindOf: self class) ifFalse: [^ super convolution: aSequence].
 	^ self class to: self codomain evaluating: (super convolution: aSequence) maxOrder: self order * aSequence order! !
 
-!LinearRecursiveSequence methodsFor: 'series' stamp: 'len 3/23/2016 00:02'!
+!CFiniteSequence methodsFor: 'series' stamp: 'len 3/23/2016 00:02'!
 generatingFunction
 	| r s |
 	"Answer the generating function of the receiver, which is a rational function that equals its ordinary generating series."
@@ -24902,102 +24981,102 @@ generatingFunction
 			(self at: j+1) - ((1 to: j) sum: [:i| (s coefficientAtDegree: i) * (self at: j-i+1)])]).
 	^ RationalFunction numerator: r denominator: s! !
 
-!LinearRecursiveSequence methodsFor: 'accessing' stamp: 'len 12/27/2015 03:49'!
+!CFiniteSequence methodsFor: 'accessing' stamp: 'len 12/27/2015 03:49'!
 initialValues
 	^ initialValues! !
 
-!LinearRecursiveSequence methodsFor: 'accessing-private' stamp: 'len 12/29/2015 02:16'!
+!CFiniteSequence methodsFor: 'accessing-private' stamp: 'len 12/29/2015 02:16'!
 initialValues: anArray
 	initialValues _ anArray.
 	(initialValues isKindOf: Tuple) ifFalse: [initialValues _ Tuple withAll: initialValues]! !
 
-!LinearRecursiveSequence methodsFor: 'testing' stamp: 'len 12/27/2015 02:08'!
+!CFiniteSequence methodsFor: 'testing' stamp: 'len 12/27/2015 02:08'!
 isMinimal
 	^ self minimalPolynomial = self characteristicPolynomial! !
 
-!LinearRecursiveSequence methodsFor: 'testing' stamp: 'len 4/11/2016 23:10'!
+!CFiniteSequence methodsFor: 'testing' stamp: 'len 4/11/2016 23:10'!
 isZero
 	^ self minimal order = 0! !
 
-!LinearRecursiveSequence methodsFor: 'accessing' stamp: 'len 12/30/2015 04:03'!
+!CFiniteSequence methodsFor: 'accessing' stamp: 'len 12/30/2015 04:03'!
 matrix
 	^ properties at: #matrix ifAbsentPut: [self characteristicPolynomial companion transposed]! !
 
-!LinearRecursiveSequence methodsFor: 'operations' stamp: 'len 12/27/2015 19:17'!
+!CFiniteSequence methodsFor: 'operations' stamp: 'len 12/27/2015 19:17'!
 minimal
 	^ properties at: #minimal ifAbsentPut: [self class to: self codomain evaluating: self maxOrder: self order]! !
 
-!LinearRecursiveSequence methodsFor: 'accessing' stamp: 'len 12/27/2015 02:08'!
+!CFiniteSequence methodsFor: 'accessing' stamp: 'len 12/27/2015 02:08'!
 minimalPolynomial
 	^ self minimal characteristicPolynomial! !
 
-!LinearRecursiveSequence methodsFor: 'operations' stamp: 'len 12/24/2015 03:31'!
+!CFiniteSequence methodsFor: 'operations' stamp: 'len 12/24/2015 03:31'!
 negated
 	^ self class to: self codomain evaluating: super negated maxOrder: self order! !
 
-!LinearRecursiveSequence methodsFor: 'accessing' stamp: 'len 12/28/2015 23:45'!
+!CFiniteSequence methodsFor: 'accessing' stamp: 'len 12/28/2015 23:45'!
 order
 	^ coefficients size! !
 
-!LinearRecursiveSequence methodsFor: 'printing' stamp: 'len 12/27/2015 01:25'!
+!CFiniteSequence methodsFor: 'printing' stamp: 'len 12/27/2015 01:25'!
 printLimit
 	^ self order + 10 min: super printLimit! !
 
-!LinearRecursiveSequence methodsFor: 'operations' stamp: 'len 12/27/2015 01:54'!
+!CFiniteSequence methodsFor: 'operations' stamp: 'len 12/27/2015 01:54'!
 shift: anInteger
 	anInteger > 0 ifTrue: [^ super shift: anInteger].
 	^ self class to: self codomain evaluating: (super shift: anInteger) maxOrder: self order squared! !
 
-!LinearRecursiveSequence methodsFor: 'operations' stamp: 'len 12/24/2015 03:39'!
+!CFiniteSequence methodsFor: 'operations' stamp: 'len 12/24/2015 03:39'!
 squared
 	| n |
 	n _ self order.
 	^ self class to: self codomain evaluating: super squared maxOrder: n*(n-1)/2! !
 
-!LinearRecursiveSequence methodsFor: 'accessing' stamp: 'len 12/27/2015 01:44'!
+!CFiniteSequence methodsFor: 'accessing' stamp: 'len 12/27/2015 01:44'!
 startIndex
 	^ 1! !
 
-!LinearRecursiveSequence methodsFor: 'operations' stamp: 'len 12/27/2015 19:49'!
+!CFiniteSequence methodsFor: 'operations' stamp: 'len 12/27/2015 19:49'!
 sum
 	"Answer the indefinite sum of the receiver."
 	^ self class to: self codomain evaluating: super sum maxOrder: self order squared! !
 
-!LinearRecursiveSequence class methodsFor: 'examples' stamp: 'len 12/27/2015 03:42'!
+!CFiniteSequence class methodsFor: 'examples' stamp: 'len 10/31/2016 04:14'!
 fibonacci
-	^ LinearRecursiveSequence initialValues: #(0 1) coefficients: #(1 1)! !
+	^ CFiniteSequence initialValues: #(0 1) coefficients: #(1 1)! !
 
-!LinearRecursiveSequence class methodsFor: 'examples' stamp: 'len 7/15/2016 18:34'!
+!CFiniteSequence class methodsFor: 'examples' stamp: 'len 7/15/2016 18:34'!
 geometric: aNumber
 	(aNumber isInteger or: [aNumber isFraction])
 		ifFalse: [^ DomainError signal: 'argument is not rational'].
 	^ self to: QQ initialValues: #(1) coefficients: {aNumber}! !
 
-!LinearRecursiveSequence class methodsFor: 'examples' stamp: 'len 7/15/2016 18:34'!
+!CFiniteSequence class methodsFor: 'examples' stamp: 'len 7/15/2016 18:34'!
 identity
 	^ self to: QQ initialValues: #(1 2) coefficients: #(-1 2)! !
 
-!LinearRecursiveSequence class methodsFor: 'instance creation' stamp: 'len 7/15/2016 18:27'!
+!CFiniteSequence class methodsFor: 'instance creation' stamp: 'len 7/15/2016 18:27'!
 initialValues: anArray coefficients: anotherArray
 	^ self to: ZZ initialValues: anArray coefficients: anotherArray! !
 
-!LinearRecursiveSequence class methodsFor: 'examples' stamp: 'len 12/24/2015 03:01'!
+!CFiniteSequence class methodsFor: 'examples' stamp: 'len 10/31/2016 04:14'!
 jacobsthalNumbers
-	^ LinearRecursiveSequence initialValues: #(0 1) coefficients: #(2 1)! !
+	^ CFiniteSequence initialValues: #(0 1) coefficients: #(2 1)! !
 
-!LinearRecursiveSequence class methodsFor: 'examples' stamp: 'len 12/24/2015 03:01'!
+!CFiniteSequence class methodsFor: 'examples' stamp: 'len 10/31/2016 04:14'!
 lucasNumbers
-	^ LinearRecursiveSequence initialValues: #(2 1) coefficients: #(1 1)! !
+	^ CFiniteSequence initialValues: #(2 1) coefficients: #(1 1)! !
 
-!LinearRecursiveSequence class methodsFor: 'examples' stamp: 'len 12/24/2015 03:01'!
+!CFiniteSequence class methodsFor: 'examples' stamp: 'len 10/31/2016 04:14'!
 pellNumbers
-	^ LinearRecursiveSequence initialValues: #(0 1) coefficients: #(1 2)! !
+	^ CFiniteSequence initialValues: #(0 1) coefficients: #(1 2)! !
 
-!LinearRecursiveSequence class methodsFor: 'instance creation' stamp: 'len 12/27/2015 19:42'!
+!CFiniteSequence class methodsFor: 'instance creation' stamp: 'len 12/27/2015 19:42'!
 to: codomain constant: anObject
 	^ self to: codomain initialValues: {anObject} coefficients: {anObject one}! !
 
-!LinearRecursiveSequence class methodsFor: 'instance creation' stamp: 'len 8/6/2016 00:46'!
+!CFiniteSequence class methodsFor: 'instance creation' stamp: 'len 8/6/2016 00:46'!
 to: codomain evaluating: aBlock maxOrder: n
 	| initialValues bm f |
 	initialValues _ (1 to: 2*n) collect: aBlock.
@@ -25007,22 +25086,22 @@ to: codomain evaluating: aBlock maxOrder: n
 	f _ bm minimalPolynomial.
 	^ self to: codomain initialValues: (initialValues copyFrom: 1 to: f degree) minimalPolynomial:f! !
 
-!LinearRecursiveSequence class methodsFor: 'instance creation' stamp: 'len 3/30/2016 03:54'!
+!CFiniteSequence class methodsFor: 'instance creation' stamp: 'len 3/30/2016 03:54'!
 to: codomain initialValues: anArray characteristicPolynomial: aPolynomial
 	^ self to: codomain initialValues: anArray coefficients: aPolynomial tail negated coefficients! !
 
-!LinearRecursiveSequence class methodsFor: 'instance creation' stamp: 'len 12/27/2015 03:39'!
+!CFiniteSequence class methodsFor: 'instance creation' stamp: 'len 12/27/2015 03:39'!
 to: codomain initialValues: anArray coefficients: anotherArray
 	^ self new initialValues: anArray; coefficients: anotherArray! !
 
-!LinearRecursiveSequence class methodsFor: 'instance creation' stamp: 'len 12/27/2015 19:17'!
+!CFiniteSequence class methodsFor: 'instance creation' stamp: 'len 12/27/2015 19:17'!
 to: codomain initialValues: anArray minimalPolynomial: aPolynomial
 	| answer |
 	answer _ self to: codomain initialValues: anArray characteristicPolynomial: aPolynomial.
 	answer properties at: #minimal put: answer.
 	^ answer! !
 
-!LinearRecursiveSequence class methodsFor: 'instance creation' stamp: 'len 12/30/2015 05:45'!
+!CFiniteSequence class methodsFor: 'instance creation' stamp: 'len 12/30/2015 05:45'!
 to: codomain initialValues: initialArray periodic: periodArray
 	| coefficients |
 	coefficients _ Array new: initialArray size + periodArray size.
@@ -25030,7 +25109,7 @@ to: codomain initialValues: initialArray periodic: periodArray
 	coefficients at: initialArray size + 1 put: periodArray first one.
 	^ self to: codomain initialValues: initialArray, periodArray coefficients: coefficients! !
 
-!LinearRecursiveSequence class methodsFor: 'instance creation' stamp: 'len 12/27/2015 03:41'!
+!CFiniteSequence class methodsFor: 'instance creation' stamp: 'len 12/27/2015 03:41'!
 to: codomain periodic: anArray
 	| coefficients |
 	coefficients _ Array new: anArray size.
@@ -25149,9 +25228,9 @@ at: anInteger
 components: anArray 
 	components _ anArray! !
 
-!RationalMap methodsFor: 'accessing' stamp: 'len 10/23/2016 12:26'!
+!RationalMap methodsFor: 'accessing' stamp: 'len 10/31/2016 12:51'!
 image
-	"Answer the (Zeriski-closure of the) image of the receiver. This is a subscheme of the codomain.
+	"Answer the (Zeriski closure of the) image of the receiver. This is a subscheme of the codomain.
 	Performs ideal elimination (a Groebner basis computation with the lexicographical order)."
 	| A B m n P t permutation map generators g I |
 	A _ self domain coordinateRing.
@@ -25195,13 +25274,12 @@ isRegular
 negated
 	^ self class from: self domain to: self codomain components: components negated! !
 
-!RationalMap methodsFor: 'printing' stamp: 'len 4/21/2016 00:22'!
+!RationalMap methodsFor: 'printing' stamp: 'len 10/31/2016 13:53'!
 printOn: aStream 
-	aStream nextPut: $(.
-	components
-		do: [:each| aStream print: each]
-		separatedBy: [aStream nextPutAll: ', '].
-	aStream nextPut: $)! !
+	((self codomain isProjective
+		ifTrue: [HomogeneousTuple]
+		ifFalse: [Tuple])
+			withAll: components) printOn: aStream! !
 
 !RationalMap methodsFor: 'operations' stamp: 'len 10/17/2016 16:07'!
 projectiveClosure
@@ -25220,9 +25298,9 @@ pullback: aScheme
 size
 	^ components size! !
 
-!RationalMap methodsFor: 'evaluating' stamp: 'len 10/17/2016 09:16'!
+!RationalMap methodsFor: 'evaluating' stamp: 'len 10/31/2016 13:53'!
 value: aPoint
-	^ (components collect: [:each| each value: aPoint]) as: Tuple! !
+	^ (components collect: [:each| each value: aPoint]) as: (self codomain isProjective ifTrue: [HomogeneousTuple] ifFalse: [Tuple])! !
 
 !RationalMap class methodsFor: 'instance creation' stamp: 'len 3/16/2016 05:38'!
 from: domain to: codomain components: anArrayOfRationalFunctions
@@ -25707,570 +25785,17 @@ next
 	state size < 10 ifTrue: [state add: g`] ifFalse: [state at: i put: g`].
 	^ g`! !
 
-!FormalFraction methodsFor: 'arithmetic' stamp: 'len 10/29/2016 16:06'!
-* anObject
-	(anObject is: #Fraction)
-		ifTrue: [^ self class numerator: numerator * anObject numerator denominator: denominator * anObject denominator].
-	^ self class numerator: numerator * anObject denominator: denominator! !
+!Equation methodsFor: 'as yet unclassified' stamp: 'len 10/31/2016 06:21'!
+plot: aRectangle
+	^ ImplicitFunctionPlotMorph new function: function; box: aRectangle! !
 
-!FormalFraction methodsFor: 'arithmetic' stamp: 'len 10/27/2016 18:31'!
-** anInteger
-	anInteger = 1 ifTrue: [^ self].
-	anInteger < 0 ifTrue: [^ self reciprocal ** anInteger negated].
-	^ self class
-		numerator: numerator ** anInteger
-		denominator: denominator ** anInteger! !
-
-!FormalFraction methodsFor: 'arithmetic' stamp: 'len 11/28/2015 06:33'!
-+ anObject
-	^ self class
-			numerator: numerator * anObject denominator + (denominator * anObject numerator)
-			denominator: denominator * self denominator! !
-
-!FormalFraction methodsFor: 'arithmetic' stamp: 'len 11/28/2015 06:34'!
-- anObject
-	^ self + anObject negated! !
-
-!FormalFraction methodsFor: 'arithmetic' stamp: 'len 11/28/2015 06:34'!
-/ anObject
-	^ self * anObject reciprocal! !
-
-!FormalFraction methodsFor: 'comparing' stamp: 'len 10/29/2016 16:06'!
-= aFormalFraction
-	^ (aFormalFraction is: #Fraction) and: [numerator * aFormalFraction denominator = (denominator * aFormalFraction numerator)]! !
-
-!FormalFraction methodsFor: 'accessing' stamp: 'len 12/28/2015 20:31'!
-bitSize
-	^ numerator bitSize + denominator bitSize! !
-
-!FormalFraction methodsFor: 'accessing' stamp: 'len 11/28/2015 06:28'!
-denominator
-	^ denominator! !
-
-!FormalFraction methodsFor: 'comparing' stamp: 'len 11/28/2015 06:36'!
-hash
-	^ 0! !
-
-!FormalFraction methodsFor: 'testing' stamp: 'len 10/29/2016 16:04'!
-is: aSymbol
-	^ aSymbol = #Fraction or: [super is: aSymbol]! !
-
-!FormalFraction methodsFor: 'testing' stamp: 'len 11/28/2015 06:36'!
-isZero
-	^ numerator isZero! !
-
-!FormalFraction methodsFor: 'arithmetic' stamp: 'len 11/28/2015 06:42'!
-negated 
-	^ self class
-		numerator: numerator negated
-		denominator: denominator! !
-
-!FormalFraction methodsFor: 'accessing' stamp: 'len 11/28/2015 06:28'!
-numerator
-	^ numerator! !
-
-!FormalFraction methodsFor: 'constants' stamp: 'len 11/28/2015 06:38'!
-one
-	^ self class numerator: numerator one denominator: denominator one! !
-
-!FormalFraction methodsFor: 'printing' stamp: 'len 10/24/2016 12:21'!
+!Equation methodsFor: 'as yet unclassified' stamp: 'len 10/31/2016 06:20'!
 printOn: aStream
-	| string |
-	self denominator = self denominator one ifTrue: [aStream print: self numerator. ^ self].
-	aStream print: self numerator; nextPutAll: ' / '.
-	string _ self denominator printString.
-	((string includes: $+) or: [string includes: $-])
-		ifTrue: [aStream nextPut: $(; print: self denominator; nextPut: $)]
-		ifFalse: [aStream print: self denominator]! !
-
-!FormalFraction methodsFor: 'arithmetic' stamp: 'len 10/24/2016 12:05'!
-reciprocal
-	^ self class numerator: self denominator denominator: self numerator! !
-
-!FormalFraction methodsFor: 'private' stamp: 'len 7/11/2016 01:18'!
-reduce
-	| gcd |
-	numerator isZero ifTrue: [denominator _ numerator one. ^ self].
-	gcd _ numerator gcd: denominator.
-	numerator _ numerator / gcd.
-	denominator _ denominator / gcd! !
-
-!FormalFraction methodsFor: 'private' stamp: 'len 11/28/2015 06:33'!
-setNumerator: anObject denominator: anotherObject
-	numerator _ anObject.
-	denominator _ anotherObject.
-	self reduce! !
-
-!FormalFraction methodsFor: 'arithmetic' stamp: 'len 11/28/2015 06:38'!
-squared
-	^ self class
-		numerator: self numerator squared
-		denominator: self denominator squared! !
-
-!FormalFraction methodsFor: 'constants' stamp: 'len 11/28/2015 06:38'!
-zero
-	^ self class numerator: numerator zero denominator: denominator one! !
-
-!FormalFraction class methodsFor: 'instance creation' stamp: 'len 11/28/2015 06:30'!
-numerator: anObject denominator: anotherObject
-	^ self new setNumerator: anObject denominator: anotherObject! !
-
-!RationalFunction methodsFor: 'arithmetic' stamp: 'len 12/28/2015 19:41'!
-* anObject
-	"Answer the multiplication of the receiver and the argument."
-
-	anObject class = self class ifTrue: [
-"		g1 _ self numerator gcd: anObject denominator.
-		g2 _ self denominator gcd: anObject numerator.
-		newNumerator _ self numerator // g1 * (anObject numerator // g2).
-		newDenominator _ self denominator // g2 * (anObject denominator // g1).
-		^ (newDenominator = 1 or: [newNumerator isNull])
-			ifTrue: [newNumerator]
-			ifFalse: [self class numerator: newNumerator denominator: newDenominator]"
-		^ self class numerator: self numerator * anObject numerator denominator: self denominator * anObject denominator].
-	^ self class numerator: self numerator * anObject denominator: self denominator! !
-
-!RationalFunction methodsFor: 'arithmetic' stamp: 'len 10/16/2016 20:52'!
-+ anObject
-	"Answer the sum of the receiver and the argument."
-
-	anObject class = self class ifTrue: [
-		"denGcd _ self denominator gcd: anObject denominator.
-		rden1  _ self denominator // denGcd.
-		rden2 _ anObject denominator // denGcd.
-		crossProduct _ self numerator * rden2 + (anObject numerator * rden1).
-		crossGcd _ crossProduct gcd: denGcd.
-		((newDen _ denGcd // crossGcd * rden1 * rden2) = 1 or: [crossProduct isNull])
-			ifTrue: [^ crossProduct // crossGcd].
-		^ self class
-			numerator: crossProduct // crossGcd
-			denominator: newDen"
-		^ self class
-			numerator: self numerator * anObject denominator + (self denominator * anObject numerator)
-			denominator: self denominator * anObject denominator].
-
-	^ self class numerator: self numerator + (self denominator * anObject) denominator: self denominator! !
-
-!RationalFunction methodsFor: 'comparing' stamp: 'len 12/28/2015 04:43'!
-= anObject
-	anObject class == self class
-		ifTrue: [^ self numerator * anObject denominator = (self denominator * anObject numerator)].
-	^ self numerator = (anObject * self denominator)! !
-
-!RationalFunction methodsFor: 'converting' stamp: 'len 10/17/2016 09:33'!
-adaptToNumber: rcvr andSend: selector
-	"If I am involved in arithmetic with an Number, convert it to a RationalFunction."
-	^ (self one * rcvr) perform: selector with: self! !
-
-!RationalFunction methodsFor: 'operations' stamp: 'len 11/28/2015 06:35'!
-degree
-	^ self numerator degree - self denominator degree! !
-
-!RationalFunction methodsFor: 'operations' stamp: 'len 9/3/97 23:49'!
-derivative
-	"Answer the derivative of the receiver."
-
-	| num gcd |
-	num _
-		self denominator * self numerator derivative
-		- (self numerator * self denominator derivative).
-	gcd _ self denominator gcd: num.
-	^ self class numerator: num // gcd denominator: (self denominator // gcd) squared * gcd! !
-
-!RationalFunction methodsFor: 'operations' stamp: 'len 9/3/97 23:35'!
-derivativeOfOrder: anInteger
-	"Answer the anInteger-th derivative of the receiver."
-
-	| answer |
-	answer _ self.
-	anInteger timesRepeat: [answer _ answer derivative].
-	^ answer! !
-
-!RationalFunction methodsFor: 'accessing' stamp: 'pdm 3/22/98 20:53'!
-indeterminates
-	^ Set new addAll: self numerator indeterminates; addAll: self denominator indeterminates; yourself! !
-
-!RationalFunction methodsFor: 'testing' stamp: 'len 10/17/2016 09:39'!
-isLinear
-	^ denominator isLinear and: [denominator isConstant]! !
-
-!RationalFunction methodsFor: 'roots and poles' stamp: 'len 10/27/2016 21:39'!
-orderAt: aPoint
-	^ (numerator multiplicityAt: aPoint) - (denominator multiplicityAt: aPoint)! !
-
-!RationalFunction methodsFor: 'roots and poles' stamp: 'len 2/12/2016 02:56'!
-poles
-	^ denominator roots! !
-
-!RationalFunction methodsFor: 'roots and poles' stamp: 'len 2/12/2016 02:56'!
-polesIn: aField
-	^ denominator rootsIn: aField! !
-
-!RationalFunction methodsFor: 'printing' stamp: 'len 10/24/2016 12:19'!
-printOn: aStream
-	self denominator = self denominator one ifTrue: [aStream print: self numerator. ^ self].
-	self numerator terms size > 1
-		ifTrue: [aStream nextPut: $(; print: self numerator; nextPut: $)]
-		ifFalse: [aStream print: self numerator].
-	aStream nextPutAll: ' / '.
-	self denominator terms size > 1
-		ifTrue: [aStream nextPut: $(; print: self denominator; nextPut: $)]
-		ifFalse: [aStream print: self denominator]! !
-
-!RationalFunction methodsFor: 'arithmetic' stamp: 'len 4/16/2016 07:19'!
-reciprocal 
-	"Answer the multiplicative inverse of the receiver."
-
-	| mult |
-	mult _ self numerator leadingCoefficient reciprocal.
-"	self numerator isConstant ifTrue: [^ denominator * mult]."
-	^ self class numerator: denominator * mult denominator: numerator * mult! !
-
-!RationalFunction methodsFor: 'private' stamp: 'len 7/11/2016 01:17'!
-reduce
-	"Reduce the receiver dividing the numerator and the denominator
-	by them GCD and making the denominator monic."
-	| gcd mult num den |
-	(num _ numerator) isZero ifTrue: [denominator _ num one. ^ num].
-	den _ denominator.
-	gcd _ num gcd: den.
-	num _ num // gcd.
-	den _ den // gcd.
-	mult _ den leadingCoefficient reciprocal.
-	numerator _ num * mult.
-	denominator _ den * mult! !
-
-!RationalFunction methodsFor: 'roots and poles' stamp: 'len 2/12/2016 02:56'!
-roots
-	^ numerator roots! !
-
-!RationalFunction methodsFor: 'roots and poles' stamp: 'len 2/12/2016 02:56'!
-rootsIn: aField
-	^ numerator rootsIn: aField! !
-
-!RationalFunction methodsFor: 'accessing' stamp: 'len 11/19/2015 19:23'!
-scalars
-	^ numerator scalars! !
-
-!RationalFunction methodsFor: 'operations' stamp: 'len 11/24/2015 06:19'!
-value: anObject
-	"Answer the result of evaluating the receiver at the argument."
-
-	^ (self numerator value: anObject) / (self denominator value: anObject)! !
-
-!PAdicNumber methodsFor: 'accessing' stamp: 'len 12/8/2015 03:24'!
-norm
-	^ self isZero ifTrue: [0] ifFalse: [self p ** self valuation negated]! !
-
-!PAdicNumber methodsFor: 'accessing' stamp: 'len 12/7/2015 03:44'!
-p
-	^ self numerator p! !
-
-!PAdicNumber methodsFor: 'accessing' stamp: 'len 12/7/2015 03:43'!
-valuation
-	^ self numerator valuation - self denominator valuation! !
-
-!FormalSum methodsFor: 'arithmetic' stamp: 'len 3/5/2016 04:40'!
-* aNumber
-	^ self species coefficients: coefficients * aNumber! !
-
-!FormalSum methodsFor: 'arithmetic' stamp: 'len 10/15/2016 21:44'!
-+ aFormalSum
-	^ self species coefficients: coefficients + aFormalSum coefficients! !
-
-!FormalSum methodsFor: 'arithmetic' stamp: 'len 10/15/2016 21:44'!
-- aFormalSum
-	^ self + aFormalSum negated! !
-
-!FormalSum methodsFor: 'arithmetic' stamp: 'len 3/2/2016 05:59'!
-/ aNumber
-	^ self * aNumber reciprocal! !
-
-!FormalSum methodsFor: 'comparing' stamp: 'len 10/15/2016 21:44'!
-= aFormalSum
-	^ coefficients = aFormalSum coefficients! !
-
-!FormalSum methodsFor: 'accessing' stamp: 'len 3/5/2016 04:50'!
-coefficientAt: anElement
-	^ coefficients at: anElement ifAbsent: []! !
-
-!FormalSum methodsFor: 'accessing' stamp: 'len 3/2/2016 06:00'!
-coefficientAt: anElement add: aNumber
-	^ coefficients at: anElement add: aNumber! !
-
-!FormalSum methodsFor: 'accessing' stamp: 'len 3/2/2016 06:00'!
-coefficientAt: anElement put: aNumber
-	^ coefficients at: anElement put: aNumber! !
-
-!FormalSum methodsFor: 'accessing' stamp: 'len 2/28/2016 04:29'!
-coefficients
-	^ coefficients! !
-
-!FormalSum methodsFor: 'accessing' stamp: 'len 3/1/2016 03:39'!
-coefficients: aSparseTuple
-	coefficients _ aSparseTuple! !
-
-!FormalSum methodsFor: 'comparing' stamp: 'len 2/28/2016 04:32'!
-hash
-	^ coefficients hash! !
-
-!FormalSum methodsFor: 'testing' stamp: 'len 2/28/2016 04:23'!
-isZero
-	^ coefficients isEmpty! !
-
-!FormalSum methodsFor: 'arithmetic' stamp: 'len 3/5/2016 04:40'!
-negated
-	^ self species coefficients: coefficients negated! !
-
-!FormalSum methodsFor: 'printing' stamp: 'len 4/25/2016 06:46'!
-printCoefficient: c on: aStream
-	"Print the coefficient of the receiver on the stream aStream."
-
-	| string numeric |
-	string _ c printString.
-	string first = $-
-		ifTrue: [aStream nextPut: $-. string _ c negated printString].
-	numeric _ string allSatisfy: [:each| each isDigit].
-	aStream nextPutAll:
-		((numeric or: [string first = $(]) ifTrue: [string] ifFalse: ['(', string, ')'])! !
-
-!FormalSum methodsFor: 'printing' stamp: 'len 4/25/2016 06:47'!
-printOn2: aStream
-	| elements |
-	self flag: #fix. "copy form Polynomial"
-	self isZero ifTrue: [aStream nextPutAll: '0'. ^ self].
-	elements _ coefficients keys asSortedCollection: [:a :b| a printString <= b printString].
-	aStream print: (coefficients at: elements first); print: elements first.
-	elements allButFirstDo: 
-		[:each| | coefficient |
-		(coefficient _ coefficients at: each) < 0
-			ifTrue: [aStream nextPutAll: ' - '; print: coefficient negated; print: each]
-			ifFalse: [coefficient  > 0
-				ifTrue: [aStream nextPutAll: ' + '; print: coefficient; print: each]]]! !
-
-!FormalSum methodsFor: 'printing' stamp: 'len 7/2/2016 16:46'!
-printOn: aStream
-	| elements c |
-	self isZero ifTrue: [aStream nextPutAll: '0'. ^ self].
-	elements _ coefficients keys asSortedCollection: [:a :b| a printString <= b printString].
-	c _ self coefficientAt: elements first.
-	c printString first = $-
-		ifTrue: [c _ c negated. aStream nextPut: $-].
-	c ~= c one ifTrue: [self printCoefficient: c on: aStream].
-	((elements first isKindOf: Word) and: [elements first isEmpty])
-		ifFalse: [aStream print: elements first].
-	elements allButFirst do: [:each|
-		c _ self coefficientAt: each.
-		c printString first = $-
-			ifTrue: [aStream nextPutAll: ' - '. c _ c negated]
-			ifFalse: [aStream nextPutAll: ' + '].
-		c ~= c one ifTrue: [self printCoefficient: c on: aStream].
-		((each isKindOf: Word) and: [each isEmpty])
-			ifFalse: [aStream print: each]]! !
-
-!FormalSum methodsFor: 'accessing' stamp: 'len 10/15/2016 17:28'!
-value
-	| answer |
-	answer _ nil.
-	coefficients keysAndValuesDo: [:key :value|
-		answer _ answer ifNil: [value == 1 ifTrue: [key value] ifFalse: [key value * value]] ifNotNil: [key value * value + answer]].
-	^ answer! !
-
-!FormalSum class methodsFor: 'instance creation' stamp: 'len 2/28/2016 04:30'!
-coefficients: aDictionary
-	^ self new coefficients: aDictionary! !
-
-!FormalSum class methodsFor: 'instance creation' stamp: 'len 3/1/2016 03:41'!
-new
-	^ super new coefficients: SparseTuple new! !
-
-!FormalSum class methodsFor: 'instance creation' stamp: 'len 2/28/2016 04:47'!
-with: anElement
-	^ self with: anElement times: 1! !
-
-!FormalSum class methodsFor: 'instance creation' stamp: 'len 3/1/2016 03:42'!
-with: anElement times: n
-	^ self coefficients: (SparseTuple new at: anElement put: n; yourself)! !
-
-!FreePolynomial methodsFor: 'arithmetic' stamp: 'len 3/23/2016 07:25'!
-* anObject
-	((self scalars includes: anObject) or: [anObject isInteger])
-		ifTrue: [^ self coefficientsApply: [:each| each * anObject]].
-	((anObject isKindOf: Polynomial) and: [anObject scalars includes: self])
-		ifTrue: [^ anObject coefficientsApply: [:each| self * each]].
-	(self species includes: anObject)
-		ifTrue:
-			[^ self species coefficients: (coefficients convolution: anObject coefficients)].
-	(anObject isKindOf: Word)
-		ifTrue: [^ self mapMonomials: [:each| each*anObject]].
-	^ DomainError signal! !
-
-!FreePolynomial methodsFor: 'arithmetic' stamp: 'len 7/8/2016 05:38'!
-** anInteger
-	"Answer the receiver raised to the power anInteger."
-	(anInteger isInteger and: [anInteger >= 0])
-		ifFalse: [^ self error: 'undefinted'].
-	anInteger = 0 ifTrue: [^ self one].
-	anInteger = 1 ifTrue: [^ self].
-	^ self squared ** (anInteger // 2) * (self ** (anInteger \\ 2))! !
-
-!FreePolynomial methodsFor: 'accessing' stamp: 'len 3/3/2016 05:27'!
-degree
-	"Answer the total degree of the receiver."
-	self isZero ifTrue: [^ Infinity negative].
-	^ self monomials max: [:each| each length]! !
-
-!FreePolynomial methodsFor: 'arithmetic' stamp: 'len 3/2/2016 05:35'!
-squared
-	^ self * self! !
-
-!Tensor class methodsFor: 'instance creation' stamp: 'len 10/16/2016 05:30'!
-simple: anArray
-	^ self with: (anArray class = SimpleTensor ifTrue: [anArray] ifFalse: [SimpleTensor components: anArray])! !
-
-!Divisor methodsFor: 'comparing' stamp: 'len 10/17/2016 17:03'!
-= anObject
-	^ (anObject isKindOf: Divisor) and: [(self - anObject) isPrincipal]! !
-
-!Divisor methodsFor: 'comparing' stamp: 'len 10/27/2016 10:26'!
->= aDivisor
-	^ (self - aDivisor) isEffective! !
-
-!Divisor methodsFor: 'accessing' stamp: 'len 10/27/2016 10:33'!
-degree
-	| answer |
-	answer _ 0.
-	self coefficients do: [:each| answer _ answer + each].
-	^ answer! !
-
-!Divisor methodsFor: 'testing' stamp: 'len 10/27/2016 10:27'!
-isEffective
-	^ self coefficients allSatisfy: [:each| each positive]! !
-
-!SimplicialChain methodsFor: 'operations' stamp: 'len 3/5/2016 04:52'!
-boundary
-	"The boundary of a chain is the linear combination of the boundary of the simplices in the chain. The boundary of a k-chain is a (k-1)-chain."
-	| answer |
-	answer _ self species new.
-	self coefficients keysAndValuesDo: [:key :value| answer _ answer + (key boundary * value)].
-	^ answer! !
-
-!SimplicialChain methodsFor: 'accessing' stamp: 'len 2/29/2016 07:15'!
-dimension
-	^ (coefficients anyIfNone: [^ -1]) dimension! !
-
-!SimplicialChain methodsFor: 'testing' stamp: 'len 2/23/2016 03:33'!
-isCycle
-	^ self boundary isZero! !
-
-!IntegerResidueClass methodsFor: 'arithmetic' stamp: 'len 10/18/2016 22:53'!
-* anIntegerResidueClass
-	anIntegerResidueClass isInteger ifTrue: [^ self class representative: representative * anIntegerResidueClass \\ modulus modulo: modulus].
-	^ self class representative: representative * anIntegerResidueClass representative \\ modulus modulo: modulus! !
-
-!IntegerResidueClass methodsFor: 'arithmetic' stamp: 'len 7/8/2016 05:40'!
-** anInteger
-	anInteger = 1 ifTrue: [^ self].
-	anInteger = 0 ifTrue: [^ self one].
-	anInteger < 0 ifTrue: [^ self reciprocal ** anInteger negated].
-	^ (self * self ** (anInteger // 2)) * (self ** (anInteger \\ 2))! !
-
-!IntegerResidueClass methodsFor: 'arithmetic' stamp: 'len 10/18/2016 22:53'!
-+ anIntegerResidueClass
-	| r |
-	anIntegerResidueClass isInteger ifTrue: [^ self class representative: representative + anIntegerResidueClass \\ modulus modulo: modulus].
-	r _ representative + anIntegerResidueClass representative.
-	r >= modulus ifTrue: [r _ r - modulus].
-	^ self class representative: r modulo: modulus! !
-
-!IntegerResidueClass methodsFor: 'copying' stamp: 'len 4/25/2016 00:24'!
-, aTuple
-	^ ((modulus = 2 ifTrue: [BitTuple] ifFalse: [Tuple]) withAll: {self}), aTuple! !
-
-!IntegerResidueClass methodsFor: 'arithmetic' stamp: 'len 10/18/2016 22:54'!
-- anIntegerResidueClass
-	| r |
-	anIntegerResidueClass isInteger ifTrue: [^ self class representative: representative - anIntegerResidueClass \\ modulus modulo: modulus].
-	r _ representative + (modulus - anIntegerResidueClass representative).
-	r >= modulus ifTrue: [r _ r - modulus].
-	^ self class representative: r modulo: modulus! !
-
-!IntegerResidueClass methodsFor: 'arithmetic' stamp: 'len 10/18/2016 22:54'!
-/ anIntegerResidueClass
-	^ self * anIntegerResidueClass reciprocal! !
-
-!IntegerResidueClass methodsFor: 'comparing' stamp: 'len 10/18/2016 22:54'!
-= anIntegerResidueClass
-	anIntegerResidueClass class = self class ifFalse: [^ false].
-	anIntegerResidueClass == self ifTrue: [^ true].
-	^ anIntegerResidueClass representative = representative and: [anIntegerResidueClass modulus = modulus]! !
-
-!IntegerResidueClass methodsFor: 'converting' stamp: 'len 4/25/2016 00:24'!
-adaptToInteger: rcvr andSend: selector
-	^ (self class representative: rcvr \\ modulus modulo: modulus) perform: selector with: self! !
-
-!IntegerResidueClass methodsFor: 'accessing' stamp: 'len 4/21/2016 05:55'!
-bitSize
-	^ representative bitSize! !
-
-!IntegerResidueClass methodsFor: 'comparing' stamp: 'len 3/29/2016 20:48'!
-hash
-	^ representative hash! !
-
-!IntegerResidueClass methodsFor: 'accessing' stamp: 'len 7/15/2016 18:28'!
-ideal
-	^ ZZ * modulus! !
-
-!IntegerResidueClass methodsFor: 'testing' stamp: 'len 4/25/2016 00:22'!
-isQuadraticResidue
-	(#(-1 0) includes: (representative jacobi: modulus))
-		ifTrue: [^ false].
-	^ self notYetImplemented! !
-
-!IntegerResidueClass methodsFor: 'testing' stamp: 'len 3/30/2016 00:03'!
-isZero
-	^ representative = 0! !
-
-!IntegerResidueClass methodsFor: 'accessing' stamp: 'len 4/25/2016 00:26'!
-modulus
-	^ modulus! !
-
-!IntegerResidueClass methodsFor: 'accessing-private' stamp: 'len 4/25/2016 00:27'!
-modulus: anInteger
-	modulus _ anInteger! !
-
-!IntegerResidueClass methodsFor: 'arithmetic' stamp: 'len 4/25/2016 00:24'!
-negated
-	representative = 0 ifTrue: [^ self].
-	^ self class representative: modulus - representative modulo: modulus! !
-
-!IntegerResidueClass methodsFor: 'arithmetic' stamp: 'len 4/25/2016 00:23'!
-one
-	^ self class representative: 1 modulo: modulus! !
-
-!IntegerResidueClass methodsFor: 'printing' stamp: 'len 3/29/2016 20:49'!
-printOn: aStream
-	aStream print: representative! !
-
-!IntegerResidueClass methodsFor: 'arithmetic' stamp: 'len 4/25/2016 00:24'!
-reciprocal
-	^ self class representative: (representative reciprocalModulo: modulus) modulo: modulus! !
-
-!IntegerResidueClass methodsFor: 'accessing' stamp: 'len 3/29/2016 20:49'!
-representative
-	^ representative! !
-
-!IntegerResidueClass methodsFor: 'accessing-private' stamp: 'len 3/29/2016 23:52'!
-representative: anInteger
-	representative _ anInteger! !
-
-!IntegerResidueClass methodsFor: 'arithmetic' stamp: 'len 4/25/2016 00:25'!
-zero
-	^ self class representative: 0 modulo: modulus! !
-
-!IntegerResidueClass class methodsFor: 'instance creation' stamp: 'len 4/25/2016 00:27'!
-representative: anInteger modulo: anotherInteger
-	^ self new representative: anInteger; modulus: anotherInteger! !
+	aStream print: function; nextPutAll: ' = 0'! !
+
+!Equation methodsFor: 'as yet unclassified' stamp: 'len 10/31/2016 06:20'!
+satisfies: aPoint
+	^ (function value: aPoint) isZero! !
 
 !Quaternion methodsFor: 'arithmetic' stamp: 'len 11/11/2015 05:29'!
 * anObject
@@ -26502,156 +26027,6 @@ j
 !Quaternion class methodsFor: 'examples' stamp: 'len 5/3/98 00:20'!
 k
 	^ Quaternion a: 0 b: 0 c: 0 d: 1! !
-
-!ResidueClass methodsFor: 'arithmetic' stamp: 'len 10/16/2016 15:57'!
-* anObject
-	anObject isInteger ifTrue: [^ parent project: representative * anObject].
-	^ parent project: representative * anObject representative! !
-
-!ResidueClass methodsFor: 'arithmetic' stamp: 'len 7/8/2016 05:41'!
-** anInteger
-	"Answer the receiver raised to the power anInteger."
-	anInteger = 1 ifTrue: [^ self].
-	anInteger = 0 ifTrue: [^ self one].
-	anInteger < 0 ifTrue: [^ (self ** anInteger negated) reciprocal].
-	^ self squared ** (anInteger // 2) * (self ** (anInteger \\ 2))! !
-
-!ResidueClass methodsFor: 'arithmetic' stamp: 'len 10/24/2016 12:02'!
-+ aResidueClass
-	^ parent project: representative + aResidueClass representative! !
-
-!ResidueClass methodsFor: 'converting' stamp: 'len 11/23/2015 06:20'!
-, aTuple
-	^ (Tuple withAll: {self}), aTuple! !
-
-!ResidueClass methodsFor: 'arithmetic' stamp: 'len 10/24/2016 12:02'!
-- aResidueClass
-	^ self + aResidueClass negated! !
-
-!ResidueClass methodsFor: 'arithmetic' stamp: 'len 10/24/2016 12:02'!
-/ aResidueClass
-	^ self * aResidueClass reciprocal! !
-
-!ResidueClass methodsFor: 'comparing' stamp: 'len 3/29/2016 20:52'!
-= aResidue
-	aResidue class = self class ifFalse: [^ false].
-"	^ (self - aResidue) isZero"
-	^ representative = aResidue representative! !
-
-!ResidueClass methodsFor: 'converting' stamp: 'len 10/16/2016 15:56'!
-adaptToInteger: rcvr andSend: selector
-	^ (self class in: parent representative: rcvr) perform: selector with: self! !
-
-!ResidueClass methodsFor: 'accessing' stamp: 'len 12/28/2015 20:32'!
-bitSize
-	^ representative bitSize! !
-
-!ResidueClass methodsFor: 'conjugation' stamp: 'len 9/26/2016 16:53'!
-conjugated
-	^ self ** self ideal ring characteristic! !
-
-!ResidueClass methodsFor: 'conjugation' stamp: 'len 4/20/2016 20:23'!
-conjugates
-	^ Iterator on: [:aBlock| self conjugatesDo: aBlock]! !
-
-!ResidueClass methodsFor: 'conjugation' stamp: 'len 9/26/2016 16:53'!
-conjugatesDo: aBlock
-	"Iterate over the conjugancy class of the receiver, i.e. all the conjugates including the receiver."
-	| alpha |
-	alpha _ self.
-	[aBlock value: alpha.
-	alpha _ alpha ** self ideal ring characteristic.
-	alpha = self] whileFalse! !
-
-!ResidueClass methodsFor: 'arithmetic' stamp: 'len 10/24/2016 12:02'!
-gcd: aResidueClass
-	^ parent project: (representative gcd: aResidueClass representative)! !
-
-!ResidueClass methodsFor: 'comparing' stamp: 'len 10/16/2016 15:56'!
-hash
-	^ parent hash! !
-
-!ResidueClass methodsFor: 'accessing' stamp: 'len 10/16/2016 15:56'!
-ideal
-	^ parent ideal! !
-
-!ResidueClass methodsFor: 'testing' stamp: 'len 10/16/2016 15:57'!
-includes: aRingElement
-	^ self = (parent project: aRingElement)! !
-
-!ResidueClass methodsFor: 'testing' stamp: 'len 1/2/2016 22:34'!
-isUnit
-	^ (self ideal inverseOf: representative) notNil! !
-
-!ResidueClass methodsFor: 'testing' stamp: 'len 11/25/2015 03:10'!
-isZero
-	"^ (ideal remainderOf: representative) isZero"
-	^ representative isZero! !
-
-!ResidueClass methodsFor: 'accessing' stamp: 'len 10/16/2016 15:56'!
-modulus
-	^ self ideal generator! !
-
-!ResidueClass methodsFor: 'arithmetic' stamp: 'len 10/16/2016 15:57'!
-negated
-	^ parent project: representative negated! !
-
-!ResidueClass methodsFor: 'constants' stamp: 'len 10/16/2016 15:57'!
-one
-	^ parent one! !
-
-!ResidueClass methodsFor: 'accessing-private' stamp: 'len 10/16/2016 16:01'!
-parent: aQuotientRing
-	parent _ aQuotientRing! !
-
-!ResidueClass methodsFor: 'printing' stamp: 'len 12/21/2015 22:51'!
-printOn: aStream
-	aStream print: representative"; nextPutAll: ' mod '; print: ideal"! !
-
-!ResidueClass methodsFor: 'arithmetic' stamp: 'len 10/16/2016 15:57'!
-reciprocal
-	^ parent project: ((self ideal inverseOf: representative) ifNil: [^ self error: 'not invertible'])! !
-
-!ResidueClass methodsFor: 'accessing' stamp: 'len 11/25/2015 03:11'!
-representative
-	^ representative! !
-
-!ResidueClass methodsFor: 'accessing-private' stamp: 'len 11/25/2015 03:12'!
-representative: anObject
-	representative _ anObject! !
-
-!ResidueClass methodsFor: 'arithmetic' stamp: 'len 6/4/2016 18:04'!
-squared
-	^ self * self! !
-
-!ResidueClass methodsFor: 'constants' stamp: 'len 10/16/2016 15:58'!
-zero
-	^ parent zero! !
-
-!ResidueClass class methodsFor: 'instance creation' stamp: 'len 10/16/2016 15:58'!
-in: aQuotientRing representative: anObject
-	^ self new parent: aQuotientRing; representative: anObject! !
-
-!AlgebraicExtensionElement methodsFor: 'as yet unclassified' stamp: 'len 10/16/2016 18:18'!
-characteristicPolynomial
-	^ (self parent asVectorSpace endomorphisms evaluating: [:x| x * self]) characteristicPolynomial! !
-
-!AlgebraicExtensionElement methodsFor: 'as yet unclassified' stamp: 'len 10/16/2016 18:18'!
-minimalPolynomial
-	^ (self parent asVectorSpace endomorphisms evaluating: [:x| x * self]) minimalPolynomial! !
-
-!AlgebraicExtensionElement methodsFor: 'as yet unclassified' stamp: 'len 10/16/2016 18:17'!
-norm
-	| f |
-	f _ self minimalPolynomial.
-	^ f independentCoefficient / f leadingCoefficient * (f degree even ifTrue: [1] ifFalse: [-1])! !
-
-!AlgebraicExtensionElement methodsFor: 'as yet unclassified' stamp: 'len 10/16/2016 18:20'!
-trace
-	"Answer the absolute trace of the receiver."
-	| f |
-	f _ self minimalPolynomial.
-	^ (f coefficientAtDegree: f degree - 1) / f leadingCoefficient! !
 
 !SLP methodsFor: 'as yet unclassified' stamp: 'len 7/26/2016 23:37'!
 * aSLP
@@ -27089,6 +26464,545 @@ traceInverse: aPoint
 root: aPoint generators: anArray action: aGroupAction
 	^ self new root: aPoint generators: anArray action: aGroupAction! !
 
+!FormalFraction methodsFor: 'arithmetic' stamp: 'len 10/29/2016 16:06'!
+* anObject
+	(anObject is: #Fraction)
+		ifTrue: [^ self class numerator: numerator * anObject numerator denominator: denominator * anObject denominator].
+	^ self class numerator: numerator * anObject denominator: denominator! !
+
+!FormalFraction methodsFor: 'arithmetic' stamp: 'len 10/27/2016 18:31'!
+** anInteger
+	anInteger = 1 ifTrue: [^ self].
+	anInteger < 0 ifTrue: [^ self reciprocal ** anInteger negated].
+	^ self class
+		numerator: numerator ** anInteger
+		denominator: denominator ** anInteger! !
+
+!FormalFraction methodsFor: 'arithmetic' stamp: 'len 11/28/2015 06:33'!
++ anObject
+	^ self class
+			numerator: numerator * anObject denominator + (denominator * anObject numerator)
+			denominator: denominator * self denominator! !
+
+!FormalFraction methodsFor: 'arithmetic' stamp: 'len 11/28/2015 06:34'!
+- anObject
+	^ self + anObject negated! !
+
+!FormalFraction methodsFor: 'arithmetic' stamp: 'len 11/28/2015 06:34'!
+/ anObject
+	^ self * anObject reciprocal! !
+
+!FormalFraction methodsFor: 'comparing' stamp: 'len 10/29/2016 16:06'!
+= aFormalFraction
+	^ (aFormalFraction is: #Fraction) and: [numerator * aFormalFraction denominator = (denominator * aFormalFraction numerator)]! !
+
+!FormalFraction methodsFor: 'accessing' stamp: 'len 12/28/2015 20:31'!
+bitSize
+	^ numerator bitSize + denominator bitSize! !
+
+!FormalFraction methodsFor: 'accessing' stamp: 'len 11/28/2015 06:28'!
+denominator
+	^ denominator! !
+
+!FormalFraction methodsFor: 'comparing' stamp: 'len 11/28/2015 06:36'!
+hash
+	^ 0! !
+
+!FormalFraction methodsFor: 'testing' stamp: 'len 10/29/2016 16:04'!
+is: aSymbol
+	^ aSymbol = #Fraction or: [super is: aSymbol]! !
+
+!FormalFraction methodsFor: 'testing' stamp: 'len 11/28/2015 06:36'!
+isZero
+	^ numerator isZero! !
+
+!FormalFraction methodsFor: 'arithmetic' stamp: 'len 11/28/2015 06:42'!
+negated 
+	^ self class
+		numerator: numerator negated
+		denominator: denominator! !
+
+!FormalFraction methodsFor: 'accessing' stamp: 'len 11/28/2015 06:28'!
+numerator
+	^ numerator! !
+
+!FormalFraction methodsFor: 'constants' stamp: 'len 11/28/2015 06:38'!
+one
+	^ self class numerator: numerator one denominator: denominator one! !
+
+!FormalFraction methodsFor: 'printing' stamp: 'len 10/24/2016 12:21'!
+printOn: aStream
+	| string |
+	self denominator = self denominator one ifTrue: [aStream print: self numerator. ^ self].
+	aStream print: self numerator; nextPutAll: ' / '.
+	string _ self denominator printString.
+	((string includes: $+) or: [string includes: $-])
+		ifTrue: [aStream nextPut: $(; print: self denominator; nextPut: $)]
+		ifFalse: [aStream print: self denominator]! !
+
+!FormalFraction methodsFor: 'arithmetic' stamp: 'len 10/24/2016 12:05'!
+reciprocal
+	^ self class numerator: self denominator denominator: self numerator! !
+
+!FormalFraction methodsFor: 'private' stamp: 'len 11/1/2016 00:26'!
+reduce
+	| gcd |
+	numerator isZero ifTrue: [denominator _ numerator one. ^ self].
+	gcd _ numerator gcd: denominator.
+	numerator _ numerator /// gcd.
+	denominator _ denominator /// gcd! !
+
+!FormalFraction methodsFor: 'private' stamp: 'len 11/28/2015 06:33'!
+setNumerator: anObject denominator: anotherObject
+	numerator _ anObject.
+	denominator _ anotherObject.
+	self reduce! !
+
+!FormalFraction methodsFor: 'arithmetic' stamp: 'len 11/28/2015 06:38'!
+squared
+	^ self class
+		numerator: self numerator squared
+		denominator: self denominator squared! !
+
+!FormalFraction methodsFor: 'constants' stamp: 'len 11/28/2015 06:38'!
+zero
+	^ self class numerator: numerator zero denominator: denominator one! !
+
+!FormalFraction class methodsFor: 'instance creation' stamp: 'len 11/28/2015 06:30'!
+numerator: anObject denominator: anotherObject
+	^ self new setNumerator: anObject denominator: anotherObject! !
+
+!RationalFunction methodsFor: 'arithmetic' stamp: 'len 12/28/2015 19:41'!
+* anObject
+	"Answer the multiplication of the receiver and the argument."
+
+	anObject class = self class ifTrue: [
+"		g1 _ self numerator gcd: anObject denominator.
+		g2 _ self denominator gcd: anObject numerator.
+		newNumerator _ self numerator // g1 * (anObject numerator // g2).
+		newDenominator _ self denominator // g2 * (anObject denominator // g1).
+		^ (newDenominator = 1 or: [newNumerator isNull])
+			ifTrue: [newNumerator]
+			ifFalse: [self class numerator: newNumerator denominator: newDenominator]"
+		^ self class numerator: self numerator * anObject numerator denominator: self denominator * anObject denominator].
+	^ self class numerator: self numerator * anObject denominator: self denominator! !
+
+!RationalFunction methodsFor: 'arithmetic' stamp: 'len 10/16/2016 20:52'!
++ anObject
+	"Answer the sum of the receiver and the argument."
+
+	anObject class = self class ifTrue: [
+		"denGcd _ self denominator gcd: anObject denominator.
+		rden1  _ self denominator // denGcd.
+		rden2 _ anObject denominator // denGcd.
+		crossProduct _ self numerator * rden2 + (anObject numerator * rden1).
+		crossGcd _ crossProduct gcd: denGcd.
+		((newDen _ denGcd // crossGcd * rden1 * rden2) = 1 or: [crossProduct isNull])
+			ifTrue: [^ crossProduct // crossGcd].
+		^ self class
+			numerator: crossProduct // crossGcd
+			denominator: newDen"
+		^ self class
+			numerator: self numerator * anObject denominator + (self denominator * anObject numerator)
+			denominator: self denominator * anObject denominator].
+
+	^ self class numerator: self numerator + (self denominator * anObject) denominator: self denominator! !
+
+!RationalFunction methodsFor: 'comparing' stamp: 'len 11/1/2016 05:04'!
+= anObject
+	(anObject is: #Fraction)
+		ifTrue: [^ self numerator * anObject denominator = (self denominator * anObject numerator)].
+	^ self numerator = (anObject * self denominator)! !
+
+!RationalFunction methodsFor: 'converting' stamp: 'len 10/17/2016 09:33'!
+adaptToNumber: rcvr andSend: selector
+	"If I am involved in arithmetic with an Number, convert it to a RationalFunction."
+	^ (self one * rcvr) perform: selector with: self! !
+
+!RationalFunction methodsFor: 'operations' stamp: 'len 11/28/2015 06:35'!
+degree
+	^ self numerator degree - self denominator degree! !
+
+!RationalFunction methodsFor: 'operations' stamp: 'len 9/3/97 23:49'!
+derivative
+	"Answer the derivative of the receiver."
+
+	| num gcd |
+	num _
+		self denominator * self numerator derivative
+		- (self numerator * self denominator derivative).
+	gcd _ self denominator gcd: num.
+	^ self class numerator: num // gcd denominator: (self denominator // gcd) squared * gcd! !
+
+!RationalFunction methodsFor: 'operations' stamp: 'len 9/3/97 23:35'!
+derivativeOfOrder: anInteger
+	"Answer the anInteger-th derivative of the receiver."
+
+	| answer |
+	answer _ self.
+	anInteger timesRepeat: [answer _ answer derivative].
+	^ answer! !
+
+!RationalFunction methodsFor: 'accessing' stamp: 'pdm 3/22/98 20:53'!
+indeterminates
+	^ Set new addAll: self numerator indeterminates; addAll: self denominator indeterminates; yourself! !
+
+!RationalFunction methodsFor: 'testing' stamp: 'len 10/17/2016 09:39'!
+isLinear
+	^ denominator isLinear and: [denominator isConstant]! !
+
+!RationalFunction methodsFor: 'roots and poles' stamp: 'len 10/27/2016 21:39'!
+orderAt: aPoint
+	^ (numerator multiplicityAt: aPoint) - (denominator multiplicityAt: aPoint)! !
+
+!RationalFunction methodsFor: 'roots and poles' stamp: 'len 2/12/2016 02:56'!
+poles
+	^ denominator roots! !
+
+!RationalFunction methodsFor: 'roots and poles' stamp: 'len 2/12/2016 02:56'!
+polesIn: aField
+	^ denominator rootsIn: aField! !
+
+!RationalFunction methodsFor: 'printing' stamp: 'len 10/24/2016 12:19'!
+printOn: aStream
+	self denominator = self denominator one ifTrue: [aStream print: self numerator. ^ self].
+	self numerator terms size > 1
+		ifTrue: [aStream nextPut: $(; print: self numerator; nextPut: $)]
+		ifFalse: [aStream print: self numerator].
+	aStream nextPutAll: ' / '.
+	self denominator terms size > 1
+		ifTrue: [aStream nextPut: $(; print: self denominator; nextPut: $)]
+		ifFalse: [aStream print: self denominator]! !
+
+!RationalFunction methodsFor: 'arithmetic' stamp: 'len 4/16/2016 07:19'!
+reciprocal 
+	"Answer the multiplicative inverse of the receiver."
+
+	| mult |
+	mult _ self numerator leadingCoefficient reciprocal.
+"	self numerator isConstant ifTrue: [^ denominator * mult]."
+	^ self class numerator: denominator * mult denominator: numerator * mult! !
+
+!RationalFunction methodsFor: 'private' stamp: 'len 11/1/2016 05:02'!
+reduce
+	"Reduce the receiver dividing the numerator and the denominator
+	by them GCD and making the denominator monic."
+	| gcd mult num den |
+	(num _ numerator) isZero ifTrue: [denominator _ num one. ^ num].
+	den _ denominator.
+	gcd _ num gcd: den.
+	num _ num /// gcd.
+	den _ den /// gcd.
+	mult _ den leadingCoefficient reciprocal.
+	numerator _ num * mult.
+	denominator _ den * mult! !
+
+!RationalFunction methodsFor: 'roots and poles' stamp: 'len 2/12/2016 02:56'!
+roots
+	^ numerator roots! !
+
+!RationalFunction methodsFor: 'roots and poles' stamp: 'len 2/12/2016 02:56'!
+rootsIn: aField
+	^ numerator rootsIn: aField! !
+
+!RationalFunction methodsFor: 'accessing' stamp: 'len 11/19/2015 19:23'!
+scalars
+	^ numerator scalars! !
+
+!RationalFunction methodsFor: 'operations' stamp: 'len 11/24/2015 06:19'!
+value: anObject
+	"Answer the result of evaluating the receiver at the argument."
+
+	^ (self numerator value: anObject) / (self denominator value: anObject)! !
+
+!PAdicNumber methodsFor: 'accessing' stamp: 'len 12/8/2015 03:24'!
+norm
+	^ self isZero ifTrue: [0] ifFalse: [self p ** self valuation negated]! !
+
+!PAdicNumber methodsFor: 'accessing' stamp: 'len 12/7/2015 03:44'!
+p
+	^ self numerator p! !
+
+!PAdicNumber methodsFor: 'accessing' stamp: 'len 12/7/2015 03:43'!
+valuation
+	^ self numerator valuation - self denominator valuation! !
+
+!IntegerResidueClass methodsFor: 'arithmetic' stamp: 'len 10/18/2016 22:53'!
+* anIntegerResidueClass
+	anIntegerResidueClass isInteger ifTrue: [^ self class representative: representative * anIntegerResidueClass \\ modulus modulo: modulus].
+	^ self class representative: representative * anIntegerResidueClass representative \\ modulus modulo: modulus! !
+
+!IntegerResidueClass methodsFor: 'arithmetic' stamp: 'len 7/8/2016 05:40'!
+** anInteger
+	anInteger = 1 ifTrue: [^ self].
+	anInteger = 0 ifTrue: [^ self one].
+	anInteger < 0 ifTrue: [^ self reciprocal ** anInteger negated].
+	^ (self * self ** (anInteger // 2)) * (self ** (anInteger \\ 2))! !
+
+!IntegerResidueClass methodsFor: 'arithmetic' stamp: 'len 10/18/2016 22:53'!
++ anIntegerResidueClass
+	| r |
+	anIntegerResidueClass isInteger ifTrue: [^ self class representative: representative + anIntegerResidueClass \\ modulus modulo: modulus].
+	r _ representative + anIntegerResidueClass representative.
+	r >= modulus ifTrue: [r _ r - modulus].
+	^ self class representative: r modulo: modulus! !
+
+!IntegerResidueClass methodsFor: 'copying' stamp: 'len 4/25/2016 00:24'!
+, aTuple
+	^ ((modulus = 2 ifTrue: [BitTuple] ifFalse: [Tuple]) withAll: {self}), aTuple! !
+
+!IntegerResidueClass methodsFor: 'arithmetic' stamp: 'len 10/18/2016 22:54'!
+- anIntegerResidueClass
+	| r |
+	anIntegerResidueClass isInteger ifTrue: [^ self class representative: representative - anIntegerResidueClass \\ modulus modulo: modulus].
+	r _ representative + (modulus - anIntegerResidueClass representative).
+	r >= modulus ifTrue: [r _ r - modulus].
+	^ self class representative: r modulo: modulus! !
+
+!IntegerResidueClass methodsFor: 'arithmetic' stamp: 'len 10/18/2016 22:54'!
+/ anIntegerResidueClass
+	^ self * anIntegerResidueClass reciprocal! !
+
+!IntegerResidueClass methodsFor: 'comparing' stamp: 'len 10/18/2016 22:54'!
+= anIntegerResidueClass
+	anIntegerResidueClass class = self class ifFalse: [^ false].
+	anIntegerResidueClass == self ifTrue: [^ true].
+	^ anIntegerResidueClass representative = representative and: [anIntegerResidueClass modulus = modulus]! !
+
+!IntegerResidueClass methodsFor: 'converting' stamp: 'len 4/25/2016 00:24'!
+adaptToInteger: rcvr andSend: selector
+	^ (self class representative: rcvr \\ modulus modulo: modulus) perform: selector with: self! !
+
+!IntegerResidueClass methodsFor: 'accessing' stamp: 'len 4/21/2016 05:55'!
+bitSize
+	^ representative bitSize! !
+
+!IntegerResidueClass methodsFor: 'comparing' stamp: 'len 3/29/2016 20:48'!
+hash
+	^ representative hash! !
+
+!IntegerResidueClass methodsFor: 'accessing' stamp: 'len 7/15/2016 18:28'!
+ideal
+	^ ZZ * modulus! !
+
+!IntegerResidueClass methodsFor: 'testing' stamp: 'len 4/25/2016 00:22'!
+isQuadraticResidue
+	(#(-1 0) includes: (representative jacobi: modulus))
+		ifTrue: [^ false].
+	^ self notYetImplemented! !
+
+!IntegerResidueClass methodsFor: 'testing' stamp: 'len 3/30/2016 00:03'!
+isZero
+	^ representative = 0! !
+
+!IntegerResidueClass methodsFor: 'accessing' stamp: 'len 4/25/2016 00:26'!
+modulus
+	^ modulus! !
+
+!IntegerResidueClass methodsFor: 'accessing-private' stamp: 'len 4/25/2016 00:27'!
+modulus: anInteger
+	modulus _ anInteger! !
+
+!IntegerResidueClass methodsFor: 'arithmetic' stamp: 'len 4/25/2016 00:24'!
+negated
+	representative = 0 ifTrue: [^ self].
+	^ self class representative: modulus - representative modulo: modulus! !
+
+!IntegerResidueClass methodsFor: 'arithmetic' stamp: 'len 4/25/2016 00:23'!
+one
+	^ self class representative: 1 modulo: modulus! !
+
+!IntegerResidueClass methodsFor: 'printing' stamp: 'len 3/29/2016 20:49'!
+printOn: aStream
+	aStream print: representative! !
+
+!IntegerResidueClass methodsFor: 'arithmetic' stamp: 'len 4/25/2016 00:24'!
+reciprocal
+	^ self class representative: (representative reciprocalModulo: modulus) modulo: modulus! !
+
+!IntegerResidueClass methodsFor: 'accessing' stamp: 'len 3/29/2016 20:49'!
+representative
+	^ representative! !
+
+!IntegerResidueClass methodsFor: 'accessing-private' stamp: 'len 3/29/2016 23:52'!
+representative: anInteger
+	representative _ anInteger! !
+
+!IntegerResidueClass methodsFor: 'arithmetic' stamp: 'len 4/25/2016 00:25'!
+zero
+	^ self class representative: 0 modulo: modulus! !
+
+!IntegerResidueClass class methodsFor: 'instance creation' stamp: 'len 4/25/2016 00:27'!
+representative: anInteger modulo: anotherInteger
+	^ self new representative: anInteger; modulus: anotherInteger! !
+
+!ResidueClass methodsFor: 'arithmetic' stamp: 'len 10/16/2016 15:57'!
+* anObject
+	anObject isInteger ifTrue: [^ parent project: representative * anObject].
+	^ parent project: representative * anObject representative! !
+
+!ResidueClass methodsFor: 'arithmetic' stamp: 'len 7/8/2016 05:41'!
+** anInteger
+	"Answer the receiver raised to the power anInteger."
+	anInteger = 1 ifTrue: [^ self].
+	anInteger = 0 ifTrue: [^ self one].
+	anInteger < 0 ifTrue: [^ (self ** anInteger negated) reciprocal].
+	^ self squared ** (anInteger // 2) * (self ** (anInteger \\ 2))! !
+
+!ResidueClass methodsFor: 'arithmetic' stamp: 'len 10/24/2016 12:02'!
++ aResidueClass
+	^ parent project: representative + aResidueClass representative! !
+
+!ResidueClass methodsFor: 'converting' stamp: 'len 11/23/2015 06:20'!
+, aTuple
+	^ (Tuple withAll: {self}), aTuple! !
+
+!ResidueClass methodsFor: 'arithmetic' stamp: 'len 10/24/2016 12:02'!
+- aResidueClass
+	^ self + aResidueClass negated! !
+
+!ResidueClass methodsFor: 'arithmetic' stamp: 'len 10/24/2016 12:02'!
+/ aResidueClass
+	^ self * aResidueClass reciprocal! !
+
+!ResidueClass methodsFor: 'arithmetic' stamp: 'len 11/1/2016 00:22'!
+/// aResidueClass
+	"Answer the exact division of the receiver by the argument."
+	^ parent project: representative /// aResidueClass representative! !
+
+!ResidueClass methodsFor: 'comparing' stamp: 'len 3/29/2016 20:52'!
+= aResidue
+	aResidue class = self class ifFalse: [^ false].
+"	^ (self - aResidue) isZero"
+	^ representative = aResidue representative! !
+
+!ResidueClass methodsFor: 'converting' stamp: 'len 10/16/2016 15:56'!
+adaptToInteger: rcvr andSend: selector
+	^ (self class in: parent representative: rcvr) perform: selector with: self! !
+
+!ResidueClass methodsFor: 'accessing' stamp: 'len 12/28/2015 20:32'!
+bitSize
+	^ representative bitSize! !
+
+!ResidueClass methodsFor: 'conjugation' stamp: 'len 9/26/2016 16:53'!
+conjugated
+	^ self ** self ideal ring characteristic! !
+
+!ResidueClass methodsFor: 'conjugation' stamp: 'len 4/20/2016 20:23'!
+conjugates
+	^ Iterator on: [:aBlock| self conjugatesDo: aBlock]! !
+
+!ResidueClass methodsFor: 'conjugation' stamp: 'len 9/26/2016 16:53'!
+conjugatesDo: aBlock
+	"Iterate over the conjugancy class of the receiver, i.e. all the conjugates including the receiver."
+	| alpha |
+	alpha _ self.
+	[aBlock value: alpha.
+	alpha _ alpha ** self ideal ring characteristic.
+	alpha = self] whileFalse! !
+
+!ResidueClass methodsFor: 'arithmetic' stamp: 'len 10/24/2016 12:02'!
+gcd: aResidueClass
+	^ parent project: (representative gcd: aResidueClass representative)! !
+
+!ResidueClass methodsFor: 'comparing' stamp: 'len 10/16/2016 15:56'!
+hash
+	^ parent hash! !
+
+!ResidueClass methodsFor: 'accessing' stamp: 'len 10/16/2016 15:56'!
+ideal
+	^ parent ideal! !
+
+!ResidueClass methodsFor: 'testing' stamp: 'len 10/16/2016 15:57'!
+includes: aRingElement
+	^ self = (parent project: aRingElement)! !
+
+!ResidueClass methodsFor: 'testing' stamp: 'len 11/1/2016 05:13'!
+is: aSymbol
+	^ aSymbol = #ResidueClass or: [super is: aSymbol]! !
+
+!ResidueClass methodsFor: 'testing' stamp: 'len 1/2/2016 22:34'!
+isUnit
+	^ (self ideal inverseOf: representative) notNil! !
+
+!ResidueClass methodsFor: 'testing' stamp: 'len 11/25/2015 03:10'!
+isZero
+	"^ (ideal remainderOf: representative) isZero"
+	^ representative isZero! !
+
+!ResidueClass methodsFor: 'accessing' stamp: 'len 10/16/2016 15:56'!
+modulus
+	^ self ideal generator! !
+
+!ResidueClass methodsFor: 'arithmetic' stamp: 'len 10/16/2016 15:57'!
+negated
+	^ parent project: representative negated! !
+
+!ResidueClass methodsFor: 'constants' stamp: 'len 10/16/2016 15:57'!
+one
+	^ parent one! !
+
+!ResidueClass methodsFor: 'accessing-private' stamp: 'len 10/16/2016 16:01'!
+parent: aQuotientRing
+	parent _ aQuotientRing! !
+
+!ResidueClass methodsFor: 'printing' stamp: 'len 12/21/2015 22:51'!
+printOn: aStream
+	aStream print: representative"; nextPutAll: ' mod '; print: ideal"! !
+
+!ResidueClass methodsFor: 'arithmetic' stamp: 'len 10/16/2016 15:57'!
+reciprocal
+	^ parent project: ((self ideal inverseOf: representative) ifNil: [^ self error: 'not invertible'])! !
+
+!ResidueClass methodsFor: 'accessing' stamp: 'len 11/25/2015 03:11'!
+representative
+	^ representative! !
+
+!ResidueClass methodsFor: 'accessing-private' stamp: 'len 11/25/2015 03:12'!
+representative: anObject
+	representative _ anObject! !
+
+!ResidueClass methodsFor: 'arithmetic' stamp: 'len 6/4/2016 18:04'!
+squared
+	^ self * self! !
+
+!ResidueClass methodsFor: 'constants' stamp: 'len 10/16/2016 15:58'!
+zero
+	^ parent zero! !
+
+!ResidueClass class methodsFor: 'instance creation' stamp: 'len 10/16/2016 15:58'!
+in: aQuotientRing representative: anObject
+	^ self new parent: aQuotientRing; representative: anObject! !
+
+!AlgebraicExtensionElement methodsFor: 'as yet unclassified' stamp: 'len 10/16/2016 18:18'!
+characteristicPolynomial
+	^ (self parent asVectorSpace endomorphisms evaluating: [:x| x * self]) characteristicPolynomial! !
+
+!AlgebraicExtensionElement methodsFor: 'as yet unclassified' stamp: 'len 10/16/2016 18:18'!
+minimalPolynomial
+	^ (self parent asVectorSpace endomorphisms evaluating: [:x| x * self]) minimalPolynomial! !
+
+!AlgebraicExtensionElement methodsFor: 'as yet unclassified' stamp: 'len 10/16/2016 18:17'!
+norm
+	| f |
+	f _ self minimalPolynomial.
+	^ f independentCoefficient / f leadingCoefficient * (f degree even ifTrue: [1] ifFalse: [-1])! !
+
+!AlgebraicExtensionElement methodsFor: 'as yet unclassified' stamp: 'len 10/16/2016 18:20'!
+trace
+	"Answer the absolute trace of the receiver."
+	| f |
+	f _ self minimalPolynomial.
+	^ (f coefficientAtDegree: f degree - 1) / f leadingCoefficient! !
+
+!PolynomialResidueClass methodsFor: 'as yet unclassified' stamp: 'len 11/1/2016 05:16'!
+leadingCoefficient
+	^ representative leadingCoefficient! !
+
+!PolynomialResidueClass methodsFor: 'as yet unclassified' stamp: 'len 11/1/2016 05:18'!
+value: anObject
+	^ representative value: anObject! !
+
 !AlgebraicNumber methodsFor: 'arithmetic' stamp: 'len 6/5/2016 20:58'!
 * aNumber
 	| roots |
@@ -27429,6 +27343,206 @@ sqrt: anIntegerOrFraction
 	^ self
 		minimalPolynomial: QQ polynomials x squared - anIntegerOrFraction
  		approximation: anIntegerOrFraction sqrt radius: 0.00001! !
+
+!FormalSum methodsFor: 'arithmetic' stamp: 'len 3/5/2016 04:40'!
+* aNumber
+	^ self species coefficients: coefficients * aNumber! !
+
+!FormalSum methodsFor: 'arithmetic' stamp: 'len 10/15/2016 21:44'!
++ aFormalSum
+	^ self species coefficients: coefficients + aFormalSum coefficients! !
+
+!FormalSum methodsFor: 'arithmetic' stamp: 'len 10/15/2016 21:44'!
+- aFormalSum
+	^ self + aFormalSum negated! !
+
+!FormalSum methodsFor: 'arithmetic' stamp: 'len 3/2/2016 05:59'!
+/ aNumber
+	^ self * aNumber reciprocal! !
+
+!FormalSum methodsFor: 'comparing' stamp: 'len 10/15/2016 21:44'!
+= aFormalSum
+	^ coefficients = aFormalSum coefficients! !
+
+!FormalSum methodsFor: 'accessing' stamp: 'len 3/5/2016 04:50'!
+coefficientAt: anElement
+	^ coefficients at: anElement ifAbsent: []! !
+
+!FormalSum methodsFor: 'accessing' stamp: 'len 3/2/2016 06:00'!
+coefficientAt: anElement add: aNumber
+	^ coefficients at: anElement add: aNumber! !
+
+!FormalSum methodsFor: 'accessing' stamp: 'len 3/2/2016 06:00'!
+coefficientAt: anElement put: aNumber
+	^ coefficients at: anElement put: aNumber! !
+
+!FormalSum methodsFor: 'accessing' stamp: 'len 2/28/2016 04:29'!
+coefficients
+	^ coefficients! !
+
+!FormalSum methodsFor: 'accessing' stamp: 'len 3/1/2016 03:39'!
+coefficients: aSparseTuple
+	coefficients _ aSparseTuple! !
+
+!FormalSum methodsFor: 'comparing' stamp: 'len 2/28/2016 04:32'!
+hash
+	^ coefficients hash! !
+
+!FormalSum methodsFor: 'testing' stamp: 'len 2/28/2016 04:23'!
+isZero
+	^ coefficients isEmpty! !
+
+!FormalSum methodsFor: 'arithmetic' stamp: 'len 3/5/2016 04:40'!
+negated
+	^ self species coefficients: coefficients negated! !
+
+!FormalSum methodsFor: 'printing' stamp: 'len 4/25/2016 06:46'!
+printCoefficient: c on: aStream
+	"Print the coefficient of the receiver on the stream aStream."
+
+	| string numeric |
+	string _ c printString.
+	string first = $-
+		ifTrue: [aStream nextPut: $-. string _ c negated printString].
+	numeric _ string allSatisfy: [:each| each isDigit].
+	aStream nextPutAll:
+		((numeric or: [string first = $(]) ifTrue: [string] ifFalse: ['(', string, ')'])! !
+
+!FormalSum methodsFor: 'printing' stamp: 'len 4/25/2016 06:47'!
+printOn2: aStream
+	| elements |
+	self flag: #fix. "copy form Polynomial"
+	self isZero ifTrue: [aStream nextPutAll: '0'. ^ self].
+	elements _ coefficients keys asSortedCollection: [:a :b| a printString <= b printString].
+	aStream print: (coefficients at: elements first); print: elements first.
+	elements allButFirstDo: 
+		[:each| | coefficient |
+		(coefficient _ coefficients at: each) < 0
+			ifTrue: [aStream nextPutAll: ' - '; print: coefficient negated; print: each]
+			ifFalse: [coefficient  > 0
+				ifTrue: [aStream nextPutAll: ' + '; print: coefficient; print: each]]]! !
+
+!FormalSum methodsFor: 'printing' stamp: 'len 7/2/2016 16:46'!
+printOn: aStream
+	| elements c |
+	self isZero ifTrue: [aStream nextPutAll: '0'. ^ self].
+	elements _ coefficients keys asSortedCollection: [:a :b| a printString <= b printString].
+	c _ self coefficientAt: elements first.
+	c printString first = $-
+		ifTrue: [c _ c negated. aStream nextPut: $-].
+	c ~= c one ifTrue: [self printCoefficient: c on: aStream].
+	((elements first isKindOf: Word) and: [elements first isEmpty])
+		ifFalse: [aStream print: elements first].
+	elements allButFirst do: [:each|
+		c _ self coefficientAt: each.
+		c printString first = $-
+			ifTrue: [aStream nextPutAll: ' - '. c _ c negated]
+			ifFalse: [aStream nextPutAll: ' + '].
+		c ~= c one ifTrue: [self printCoefficient: c on: aStream].
+		((each isKindOf: Word) and: [each isEmpty])
+			ifFalse: [aStream print: each]]! !
+
+!FormalSum methodsFor: 'accessing' stamp: 'len 10/15/2016 17:28'!
+value
+	| answer |
+	answer _ nil.
+	coefficients keysAndValuesDo: [:key :value|
+		answer _ answer ifNil: [value == 1 ifTrue: [key value] ifFalse: [key value * value]] ifNotNil: [key value * value + answer]].
+	^ answer! !
+
+!FormalSum class methodsFor: 'instance creation' stamp: 'len 2/28/2016 04:30'!
+coefficients: aDictionary
+	^ self new coefficients: aDictionary! !
+
+!FormalSum class methodsFor: 'instance creation' stamp: 'len 3/1/2016 03:41'!
+new
+	^ super new coefficients: SparseTuple new! !
+
+!FormalSum class methodsFor: 'instance creation' stamp: 'len 2/28/2016 04:47'!
+with: anElement
+	^ self with: anElement times: 1! !
+
+!FormalSum class methodsFor: 'instance creation' stamp: 'len 3/1/2016 03:42'!
+with: anElement times: n
+	^ self coefficients: (SparseTuple new at: anElement put: n; yourself)! !
+
+!FreePolynomial methodsFor: 'arithmetic' stamp: 'len 3/23/2016 07:25'!
+* anObject
+	((self scalars includes: anObject) or: [anObject isInteger])
+		ifTrue: [^ self coefficientsApply: [:each| each * anObject]].
+	((anObject isKindOf: Polynomial) and: [anObject scalars includes: self])
+		ifTrue: [^ anObject coefficientsApply: [:each| self * each]].
+	(self species includes: anObject)
+		ifTrue:
+			[^ self species coefficients: (coefficients convolution: anObject coefficients)].
+	(anObject isKindOf: Word)
+		ifTrue: [^ self mapMonomials: [:each| each*anObject]].
+	^ DomainError signal! !
+
+!FreePolynomial methodsFor: 'arithmetic' stamp: 'len 7/8/2016 05:38'!
+** anInteger
+	"Answer the receiver raised to the power anInteger."
+	(anInteger isInteger and: [anInteger >= 0])
+		ifFalse: [^ self error: 'undefinted'].
+	anInteger = 0 ifTrue: [^ self one].
+	anInteger = 1 ifTrue: [^ self].
+	^ self squared ** (anInteger // 2) * (self ** (anInteger \\ 2))! !
+
+!FreePolynomial methodsFor: 'accessing' stamp: 'len 3/3/2016 05:27'!
+degree
+	"Answer the total degree of the receiver."
+	self isZero ifTrue: [^ Infinity negative].
+	^ self monomials max: [:each| each length]! !
+
+!FreePolynomial methodsFor: 'arithmetic' stamp: 'len 3/2/2016 05:35'!
+squared
+	^ self * self! !
+
+!Tensor class methodsFor: 'instance creation' stamp: 'len 10/16/2016 05:30'!
+simple: anArray
+	^ self with: (anArray class = SimpleTensor ifTrue: [anArray] ifFalse: [SimpleTensor components: anArray])! !
+
+!Divisor methodsFor: 'comparing' stamp: 'len 10/17/2016 17:03'!
+= anObject
+	^ (anObject isKindOf: Divisor) and: [(self - anObject) isPrincipal]! !
+
+!Divisor methodsFor: 'comparing' stamp: 'len 10/27/2016 10:26'!
+>= aDivisor
+	^ (self - aDivisor) isEffective! !
+
+!Divisor methodsFor: 'accessing' stamp: 'len 10/27/2016 10:33'!
+degree
+	| answer |
+	answer _ 0.
+	self coefficients do: [:each| answer _ answer + each].
+	^ answer! !
+
+!Divisor methodsFor: 'testing' stamp: 'len 10/27/2016 10:27'!
+isEffective
+	^ self coefficients allSatisfy: [:each| each positive]! !
+
+!Divisor methodsFor: 'accessing' stamp: 'len 11/1/2016 04:24'!
+support
+	| answer |
+	answer _ nil. "should start from the empty variety"
+	self coefficients keysDo: [:each| answer _ answer ifNil: [each] ifNotNil: [answer ™ each]].
+	^ answer! !
+
+!SimplicialChain methodsFor: 'operations' stamp: 'len 3/5/2016 04:52'!
+boundary
+	"The boundary of a chain is the linear combination of the boundary of the simplices in the chain. The boundary of a k-chain is a (k-1)-chain."
+	| answer |
+	answer _ self species new.
+	self coefficients keysAndValuesDo: [:key :value| answer _ answer + (key boundary * value)].
+	^ answer! !
+
+!SimplicialChain methodsFor: 'accessing' stamp: 'len 2/29/2016 07:15'!
+dimension
+	^ (coefficients anyIfNone: [^ -1]) dimension! !
+
+!SimplicialChain methodsFor: 'testing' stamp: 'len 2/23/2016 03:33'!
+isCycle
+	^ self boundary isZero! !
 
 !Matrix methodsFor: 'arithmetic' stamp: 'len 3/28/2016 01:23'!
 * anObject
@@ -29469,6 +29583,10 @@ x: i to: k
 comparisonBlock
 	^ [:a :b| self is: a gneq: b]! !
 
+!MonomialOrdering methodsFor: 'copying' stamp: 'len 10/31/2016 12:37'!
+copyWithout: anIndeterminate
+	^ self copy indeterminates: (indeterminates copyWithout: indeterminates size)! !
+
 !MonomialOrdering methodsFor: 'accessing' stamp: 'len 7/4/2016 00:40'!
 indeterminates
 	^ indeterminates! !
@@ -29665,6 +29783,10 @@ type
 		new: self rank
 		weights: (self weights copy addAll: aMonomialOrdering weights; yourself)! !
 
+!WeightedMonomialOrdering methodsFor: 'copying' stamp: 'len 10/31/2016 12:29'!
+copyWithout: anIndeterminate
+	^ (super copyWithout: anIndeterminate) weights: (weights copyWithoutIndex: anIndeterminate)! !
+
 !WeightedMonomialOrdering methodsFor: 'arithmetic' stamp: 'len 7/3/2016 02:23'!
 inverse
 	^ self class
@@ -29807,11 +29929,10 @@ trevlex: aCollection
 		ifTrue: [^ self species coefficients: self coefficients - anObject coefficients].
 	^ self + anObject negated! !
 
-!Polynomial methodsFor: 'arithmetic' stamp: 'len 3/23/2016 04:40'!
+!Polynomial methodsFor: 'arithmetic' stamp: 'len 11/1/2016 00:25'!
 / anObject
 	(anObject isKindOf: Monomial)
-		ifTrue:
-			[^ self exactDivideByMonomial: anObject].
+		ifTrue: [^ self exactDivideByMonomial: anObject].
 	(self species includes: anObject)
 		ifTrue: [^ self exactDivideBy: anObject].
 	(self scalars includes: anObject)
@@ -29825,6 +29946,15 @@ trevlex: aCollection
 	(self scalars includes: anObject)
 		ifTrue: [^ self coefficientsApply: [:each| each // anObject]].
 	^ (self divideBy: anObject) quotient! !
+
+!Polynomial methodsFor: 'arithmetic' stamp: 'len 11/1/2016 00:24'!
+/// anObject
+	"Answer the exact quotient of the division of the receiver by the argument."
+	(anObject isKindOf: Monomial)
+		ifTrue: [^ self exactDivideByMonomial: anObject].
+	(self scalars includes: anObject)
+		ifTrue: [^ self coefficientsApply: [:each| each /// anObject]].
+	^ self exactDivideBy: anObject! !
 
 !Polynomial methodsFor: 'comparing' stamp: 'len 3/1/2016 17:55'!
 = anObject
@@ -29993,7 +30123,7 @@ coefficientsApply: aMorphism
 		ifFalse: [self species over: aMorphism codomain].
 	^ newSpecies coefficients: (self coefficients collect: aMorphism)! !
 
-!Polynomial methodsFor: 'factorization' stamp: 'len 3/9/2016 02:03'!
+!Polynomial methodsFor: 'factorization' stamp: 'len 10/31/2016 15:21'!
 content
 	"Answer the GCD of the coefficients of the receiver.
 	In a field, it is convenient to define the content as 1.
@@ -30002,7 +30132,7 @@ content
 	self isZero ifTrue: [^ self scalars zero].
 	self scalars isField
 		ifTrue:
-			[self scalars isFractionField
+			[self scalars isFractionRing
 				ifTrue:
 					[| c |
 					c _ self coefficients inject: self scalars one into: [:lcm :each| lcm lcm: each denominator].
@@ -32596,9 +32726,9 @@ squared
 coefficients: aSequence
 	^ self new coefficients: aSequence! !
 
-!DirichletSeries class methodsFor: 'examples' stamp: 'len 12/28/2015 21:30'!
+!DirichletSeries class methodsFor: 'examples' stamp: 'len 10/31/2016 04:14'!
 zeta
-	^ self coefficients: (LinearRecursiveSequence constant: 1)! !
+	^ self coefficients: (CFiniteSequence constant: 1)! !
 
 !PowerSeries methodsFor: 'arithmetic' stamp: 'len 12/27/2015 16:11'!
 * anObject
@@ -32618,10 +32748,10 @@ zeta
 	anInteger < 0 ifTrue: [^ (self ** anInteger negated) reciprocal].
 	^ self squared ** (anInteger // 2) * (self ** (anInteger \\ 2))! !
 
-!PowerSeries methodsFor: 'arithmetic' stamp: 'len 12/30/2015 05:45'!
+!PowerSeries methodsFor: 'arithmetic' stamp: 'len 10/31/2016 04:14'!
 + anObject
 	(self scalars includes: anObject)
-		ifTrue: [^ self class coefficients: coefficients + (LinearRecursiveSequence to: self scalars initialValues: {anObject} periodic: {anObject zero})].
+		ifTrue: [^ self class coefficients: coefficients + (CFiniteSequence to: self scalars initialValues: {anObject} periodic: {anObject zero})].
 	(anObject isKindOf: self class)
 		ifTrue: [^ self class coefficients: coefficients + anObject coefficients].
 	(anObject isKindOf: Polynomial)
@@ -32652,9 +32782,9 @@ coefficients
 coefficients: aSequence
 	coefficients _ aSequence! !
 
-!PowerSeries methodsFor: 'operations' stamp: 'len 12/27/2015 19:44'!
+!PowerSeries methodsFor: 'operations' stamp: 'len 10/31/2016 04:14'!
 derivative
-	^ self class coefficients: coefficients << 1 * LinearRecursiveSequence identity! !
+	^ self class coefficients: coefficients << 1 * CFiniteSequence identity! !
 
 !PowerSeries methodsFor: 'iterating' stamp: 'len 3/1/2016 22:14'!
 do: aBlock
@@ -32758,9 +32888,9 @@ cos
 exp
 	^ self coefficients: (Sequence to: QQ evaluating: [:n| 1 / n factorial])! !
 
-!PowerSeries class methodsFor: 'instance creation' stamp: 'len 3/30/2016 03:58'!
+!PowerSeries class methodsFor: 'instance creation' stamp: 'len 10/31/2016 04:14'!
 fromPolynomial: aPolynomial
-	^ self coefficients: (LinearRecursiveSequence to: aPolynomial scalars initialValues: aPolynomial denseCoefficients periodic: {aPolynomial scalars zero})! !
+	^ self coefficients: (CFiniteSequence to: aPolynomial scalars initialValues: aPolynomial denseCoefficients periodic: {aPolynomial scalars zero})! !
 
 !PowerSeries class methodsFor: 'examples' stamp: 'len 7/15/2016 18:36'!
 sin
@@ -34875,7 +35005,7 @@ origin
 origin: anObject
 	origin _ anObject! !
 
-!ProjectiveChart methodsFor: 'coordinates' stamp: 'len 1/3/2016 05:19'!
+!ProjectiveChart methodsFor: 'coordinates' stamp: 'len 10/31/2016 13:12'!
 pointAt: aTuple
 	"Answer the point with coordinates aTuple in the receiver."
 	| extended |
@@ -34885,7 +35015,7 @@ pointAt: aTuple
 	extended at: index put: frame space scalars one.
 	self index + 1 to: aTuple dimension + 1 do: [:i|
 		extended at: i put: (aTuple at: i - 1)].
-	^ frame pointAt: extended homogeneous! !
+	^ frame pointAt: extended asHomogeneousTuple! !
 
 !ProjectiveChart methodsFor: 'printing' stamp: 'len 6/2/2016 18:55'!
 printOn: aStream
@@ -34923,7 +35053,7 @@ computeUnit
 	self do: [:each| unit _ unit + (self space vectorFromPoint: each)].
 	unit _ self space project: unit! !
 
-!ProjectiveFrame methodsFor: 'coordinates' stamp: 'len 11/22/2015 05:38'!
+!ProjectiveFrame methodsFor: 'coordinates' stamp: 'len 10/31/2016 13:12'!
 coordinatesOf: anObject
 	"Answer the coordinates of the argument in the receiver."
 
@@ -34934,7 +35064,7 @@ coordinatesOf: anObject
 	ucoords _ linear coordinatesOf: (self space vectorFromPoint: self unit).
 	1 to: coords size do: [ :each |
 		coords at: each put: (coords at: each) / (ucoords at: each)].
-	^ coords homogeneous! !
+	^ coords asHomogeneousTuple! !
 
 !ProjectiveFrame methodsFor: 'accessing' stamp: 'len 11/8/2015 00:03'!
 dimension
