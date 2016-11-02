@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 2 November 2016 at 8:33:34.268392 am'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 2 November 2016 at 9:17:26.540163 am'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 266!
+!provides: 'Mathematics' 1 267!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
 	instanceVariableNames: 'numerator shift'
@@ -3473,7 +3473,7 @@ A bounded chain complex is one where only a finite number of Ci are not {0}.
 
 Chain complexes form a cateogory with chain maps as morphisms.!
 
-!Domain commentStamp: 'len 11/2/2016 08:31' prior: 0!
+!Domain commentStamp: 'len 11/2/2016 08:45' prior: 0!
 My instances are mathematical structures, such as groups, rings, fields, vector spaces, modules, etc.
 
 Domains are connected by Morphisms, which in many cases are Functions. From the point of view of category theory, Domains and Functions are respectively 'objects' and 'morphisms' of (small) categories.
@@ -3492,7 +3492,7 @@ Examples:
 
 Domains, as categorical objects, can have subobjects: groups have subgroups, vector spaces have subspaces, rings have subrings and ideals, schemes have subschemes, etc. In general, there is an #ambient overobject, and there is a protocol for inclusion testing: #<, #<=, #>=, #>.
 
-Some domains, such as field extensions and localizations, have associated canonical embeddings or inclusion maps, and should implement #embed: (the embedding implemented as a message) and #embedding (which returns the embedding reified as an instance of some subclass of Morphism). Other domains, such as quotient objects, have canonical projections and should implement #project: and #projection. N-ary products and coproducts should implement #projection: for the i-th projection map (and coproducts also implement #embedding: for the i-th coprojection).
+Some domains, such as field extensions and localizations, have associated canonical embeddings (monomorphisms), and should implement #embed: (the embedding implemented as a message) and #embedding (which returns the embedding reified as an instance of some subclass of Morphism). Other domains, such as quotient objects, have canonical projections (epimorphisms) and should implement #project: and #projection. N-ary products and coproducts should implement #projection: for the i-th projection map (and coproducts also implement #embedding: for the i-th coprojection).
 
 Examples:
 	(ZZ × QQ) projection: 2.
@@ -3500,7 +3500,7 @@ Examples:
 
 Given two domains A and B in the same category, the set of morphisms between them Hom(A,B) is obtained by sending the message 'A hom: B' (so #hom: is the Hom(A,-) functor). The identity morphism is returned by the message #id. And a morphism from A to B can be constructed by sending 'A to: B evaluating: [:x| ...]'.
 
-Canonical morphisms can be retrieved by sending the message #. For example, 'ZZ  QQ polynomials' is the canonical ring morphism that sends an integer to a constant polynomial. In order for this to work, the messages #to: and #from: must be reimplemented in subclasses to answer canonical morphisms when such morphisms are known, and call super otherwise. See examples in Morphism class.
+Morphisms uniquely determined by their domain and codomain can be retrieved by sending the message #. For example, for any ring R, 'ZZ  R' is the canonical ring homomorphism that sends an integer n to the unit of R times n. In order for this mechanism to work, subclasses must reimplement the messages #to: and #from: to answer canonical morphisms when such morphisms are known, and call super otherwise. See examples in Morphism class.
 
 Subclasses most frequently reimplement the following messages:
 - #= and #<=
@@ -11855,6 +11855,10 @@ isCoproduct
 isCountable
 	^ self isFinite or: [self size isCountable]! !
 
+!Domain methodsFor: 'testing' stamp: 'len 11/2/2016 08:54'!
+isEmpty
+	^ self size = 0! !
+
 !Domain methodsFor: 'testing-domains' stamp: 'len 2/5/2016 20:22'!
 isField
 	^ false! !
@@ -11879,9 +11883,11 @@ isGroup
 isInfinite
 	^ self isFinite not! !
 
-!Domain methodsFor: 'testing' stamp: 'len 4/22/2016 14:02'!
+!Domain methodsFor: 'testing' stamp: 'len 11/2/2016 08:58'!
 isInitial
-	^ properties at: #isInitial ifAbsent: [self size = 0]! !
+	"Answer true if the receiver is an initial object.
+	The empty set is the initial object in the category of sets. Subclasses can override."
+	^ properties at: #isInitial ifAbsent: [self isEmpty]! !
 
 !Domain methodsFor: 'testing-domains' stamp: 'len 2/5/2016 20:23'!
 isModule
@@ -11913,8 +11919,10 @@ isRing
 isSemigroup
 	^ self isMonoid! !
 
-!Domain methodsFor: 'testing' stamp: 'len 4/22/2016 14:05'!
+!Domain methodsFor: 'testing' stamp: 'len 11/2/2016 08:58'!
 isTerminal
+	"Answer true if the receiver is a terminal object.
+	In the category of sets, the singletons (sets with one element) are the terminal objects. Subclasses can override."
 	^ properties at: #isTerminal ifAbsent: [self size = 1]! !
 
 !Domain methodsFor: 'testing-domains' stamp: 'len 2/5/2016 20:24'!
@@ -13106,14 +13114,15 @@ isAbelian
 isAbelianGroup
 	^ true! !
 
-!AbelianGroup methodsFor: 'testing' stamp: 'len 11/2/2016 03:39'!
+!AbelianGroup methodsFor: 'testing' stamp: 'len 11/2/2016 08:56'!
 isInitial
 	"In the category of abelian groups the trivial group is the zero object (both initial and terminal).
-	But in the category of rings, the initial object is Z (the integers ring), so this is overriden."
+	But in the category of commutative rings with unit, the initial object is Z (the integers ring), so this is overriden in Ring."
 	^ self isTrivial! !
 
-!AbelianGroup methodsFor: 'testing' stamp: 'len 4/22/2016 14:03'!
+!AbelianGroup methodsFor: 'testing' stamp: 'len 11/2/2016 09:00'!
 isTerminal
+	"In the category of abelian groups the trivial group is the zero object (both initial and terminal)."
 	^ self isTrivial! !
 
 !AbelianGroup methodsFor: 'testing' stamp: 'len 2/28/2016 07:25'!
@@ -13913,9 +13922,9 @@ isGCDDomain
 	"A GCD domain is an integral domain with the property that any two non-zero elements have GCD (or equivalently any two non-zero elements have a LCM)."
 	^ properties at: #isGCDDomain! !
 
-!Ring methodsFor: 'testing' stamp: 'len 11/2/2016 03:33'!
+!Ring methodsFor: 'testing' stamp: 'len 11/2/2016 08:56'!
 isInitial
-	"Redefined in Integers."
+	"In the cateogry of commutative rings with unit, the integers are the initial object. Redefined in Integers."
 	^ false! !
 
 !Ring methodsFor: 'testing' stamp: 'len 11/28/2015 23:51'!
@@ -15850,8 +15859,9 @@ fractions
 	self scalars isField ifFalse: [^ DomainError signal: 'scalars are not a field'].
 	^ RationalFunctionField over: self! !
 
-!PolynomialRing methodsFor: 'morphisms' stamp: 'len 11/2/2016 03:25'!
+!PolynomialRing methodsFor: 'morphisms' stamp: 'len 11/2/2016 09:03'!
 from: aDomain
+	aDomain = self scalars ifTrue: [^ self embedding].
 	aDomain  self scalars ifNotNil: [:aMorphism| ^ self embedding @ aMorphism].
 	^ super from: aDomain! !
 
@@ -16570,10 +16580,6 @@ isFreeAbelianGroup
 !FreeModule methodsFor: 'testing' stamp: 'len 2/28/2016 07:54'!
 isFreeModule
 	^ true! !
-
-!FreeModule methodsFor: 'testing' stamp: 'len 7/14/2016 23:58'!
-isInitial
-	^ self isTrivial! !
 
 !FreeModule methodsFor: 'testing' stamp: 'len 7/14/2016 23:58'!
 isTrivial
@@ -22935,10 +22941,10 @@ example2Embedding
 	"Finally we compose them to get an embedding from the rational numbers Q to the field of univariate rational functions Q(x), that sends a number to a constant rational function."
 	^ psi @ phi! !
 
-!Morphism class methodsFor: 'examples' stamp: 'len 11/2/2016 08:32'!
+!Morphism class methodsFor: 'examples' stamp: 'len 11/2/2016 08:34'!
 example3CanonicalMorphism
 	"Canonical morphisms can be retrieved through the message #. For example, Z (the ring of integers) is the initial object in the category of commutative rings with unit, i.e. there's a canonical morphism from Z to any commutative ring:"
-	^ ZZ  QQ polynomialsIn: #(x y z)! !
+	^ ZZ  (QQ polynomialsIn: #(x y z))! !
 
 !Morphism class methodsFor: 'examples' stamp: 'len 11/2/2016 08:32'!
 example4CanonicalMorphism
@@ -22948,6 +22954,17 @@ example4CanonicalMorphism
 	x _ R x.
 	I _ R * (x squared + 1).
 	^ R  (R / I)! !
+
+!Morphism class methodsFor: 'examples' stamp: 'len 11/2/2016 09:14'!
+example5CanonicalMorphism
+	"The message # can be sent to a Morphism with a Domain as argument, or to a Domain with a Morphism as argument. This yields canonical constructions.
+	For example, given an arbitrary ring homomorphism, we can send it *canonically* to a quotient of its codomain."
+	| R phi x I |
+	R _ (ZZ/5) polynomials. "univariate polynomials over Z/<5>"
+	phi _ R frobenius. "the Frobenius endomorphism"
+	x _ R x.
+	I _ R * (x squared + 1).
+	^ phi  (R / I)! !
 
 !Morphism class methodsFor: 'instance creation' stamp: 'len 8/8/2016 05:53'!
 new
@@ -23134,11 +23151,11 @@ example2Morphism1
 	by sending the message #to:evaluating: to the vector space."
 	^ QQ**3 to: QQ**3 evaluating: [:v| (v x - v y, v x, v z)]! !
 
-!Function class methodsFor: 'examples' stamp: 'len 10/29/2016 07:38'!
+!Function class methodsFor: 'examples' stamp: 'len 11/2/2016 08:35'!
 example2Morphism2
 	"Here's another way to define the same morphism,
 	by creating Hom(Q^3, Q^3) and sending the message #evaluating: to it."
-	^ QQ**3 -> (QQ**3) evaluating: [:v| (v x - v y, v x, v z)]! !
+	^ (QQ**3 hom: QQ**3) evaluating: [:v| (v x - v y, v x, v z)]! !
 
 !Function class methodsFor: 'examples' stamp: 'len 10/29/2016 07:38'!
 example2Morphism3
