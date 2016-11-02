@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 1 November 2016 at 5:58:09.381733 am'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 2 November 2016 at 9:17:29.379829 am'!
 'Description Please enter a description for this package'!
-!provides: 'MathematicsTests' 1 36!
+!provides: 'MathematicsTests' 1 37!
 !classDefinition: #AbelianGroupTest category: #MathematicsTests!
 TestCase subclass: #AbelianGroupTest
 	instanceVariableNames: ''
@@ -507,16 +507,16 @@ testAffineMapCollinearity
 	p1` _ f value: p1. p2` _ f value: p2. p3` _ f value: p3.
 	self assert: (A span: {p1`.p2`.p3`}) isLine! !
 
-!AffineGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 8/25/2016 21:04'!
+!AffineGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 11/2/2016 03:56'!
 testAffineMapComposition
 	| X Y Z f g x |
 	X _ QQ ** 3 :: asAffineSpace.
 	Y _ QQ ** 5 :: asAffineSpace.
 	Z _ QQ ** 4 :: asAffineSpace.
-	f _ X -> Y atRandomBits: 1000.
-	g _ Y -> Z atRandomBits: 1000.
+	f _ (X hom: Y) atRandomBits: 1000.
+	g _ (Y hom: Z) atRandomBits: 1000.
 	x _ X atRandomBits: 1000.
-	self assert: (X -> Z includes: g @ f).
+	self assert: ((X hom: Z) includes: g @ f).
 	self assert: (g @ f value: x) = (g value: (f value: x)).
 	self should: [f @ g] raise: DomainError! !
 
@@ -706,11 +706,11 @@ testProjectiveEmbedding
 	"the projective scheme has one more point at infinity:"
 	self assert: affinePointsEmbedded size + 1 = projectivePoints size! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/24/2016 20:42'!
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 11/1/2016 18:49'!
 testProjectivePlaneCurveArithmeticGenus
 	| R f C |
 	R _  (ZZ/5) polynomialsIn: 3.
-	f _ R evaluatingWithArguments: [:x :y :z| y**2*(z**7) - (x**9) - (x*(z**8))].
+	f _ R evaluating: [:x :y :z| y**2*(z**7) - (x**9) - (x*(z**8))].
 	C _ ProjectivePlaneCurve polynomial: f.
 	self assert: C arithmeticGenus = 28.
 	"self assert: C genus = 4"! !
@@ -758,7 +758,7 @@ testRationalMap2
 	X _ A3 subscheme: {x**3*z - (x*y**2*(3/4)) - (x*y*z*(3/2)) + (y**3) + (z**2*(1/4))}.
 	self assert: f image = X! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/31/2016 11:08'!
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 11/2/2016 03:56'!
 testRationalMapLinearMapConversion
 	| A2 A3 V2 V3 f f` p f`` |
 	A2 _ AffineSpace new: 2 over: QQ.
@@ -766,20 +766,20 @@ testRationalMapLinearMapConversion
 	V2 _ QQ**2.
 	V3 _ QQ**3.
 
-	f _ V2 -> V3 :: atRandomBits: 100.
-	f` _ f as: A2 -> A3.
+	f _ V2 hom: V3 :: atRandomBits: 100.
+	f` _ f as: (A2 hom: A3).
 
 	p _ V2 atRandomBits: 100.
 	self assert: (f value: p) = (f` value: p).
 
-	f`` _ f` as: V2 -> V3.
+	f`` _ f` as: (V2 hom: V3).
 	self assert: f = f``! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/27/2016 15:41'!
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 11/1/2016 18:49'!
 testRationalPointsOverFiniteField
 	| P C |
 	P _ ProjectiveSpace new: 2 over: ZZ/7.
-	C _ P subscheme: (P coordinateRing evaluatingWithArguments: [:x :y :z| x**3 + (y**3) - (z**3)]).
+	C _ P subscheme: (P coordinateRing evaluating: [:x :y :z| x**3 + (y**3) - (z**3)]).
 	self assert: C points size = 9! !
 
 !AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/31/2016 11:08'!
@@ -807,49 +807,49 @@ testSingularCubics
 	C _ R / (x**3 + (x**2) - (y**2) homogenizedIn: 3) :: proj.
 	self assert: C isSingular! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/25/2016 06:38'!
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 11/1/2016 18:49'!
 testSmoothness
 	| R C |
 	R _ QQ polynomialsIn: #(x y).
 	"cuspidal curve:"
-	C _ (R / (R evaluatingWithArguments: [:x :y| y**2 - (x**3)])) spec.
+	C _ (R / (R evaluating: [:x :y| y**2 - (x**3)])) spec.
 	self assert: C isSmooth not.
 	self assert: C isNonsingular not.
 	self assert: C isSingular.
 	self assert: (C isSmoothAt: (1,1)).
 	self assert: (C isSmoothAt: (0,0)) not! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/25/2016 07:15'!
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 11/1/2016 18:50'!
 testSmoothnessOverCC
 	| P R C |
 	P _ ProjectiveSpace new: 2 over: CC.
 	R _ P coordinateRing.
-	C _ P subscheme: (R evaluatingWithArguments: [:x :y :z| x]).
+	C _ P subscheme: (R evaluating: [:x :y :z| x]).
 	self assert: C isSingular not.
-	C _ P subscheme: (R evaluatingWithArguments: [:x :y :z| y**2*z - (x**3)]).
+	C _ P subscheme: (R evaluating: [:x :y :z| y**2*z - (x**3)]).
 	self assert: C isSingular.
-	C _ P subscheme: (R evaluatingWithArguments: [:x :y :z| y**2*z - (x**3) + (z**3)]).
+	C _ P subscheme: (R evaluating: [:x :y :z| y**2*z - (x**3) + (z**3)]).
 	self assert: C isSingular not! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/25/2016 07:13'!
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 11/1/2016 18:50'!
 testSmoothnessOverFiniteField
 	| P R C |
 	P _ ProjectiveSpace new: 2 over: ZZ/19.
 	R _ P coordinateRing.
-	C _ P subscheme: (R evaluatingWithArguments: [:x :y :z| x**3 + (y**3) + (z**3)]).
+	C _ P subscheme: (R evaluating: [:x :y :z| x**3 + (y**3) + (z**3)]).
 	self assert: C isSingular not.
-	C _ P subscheme: (R evaluatingWithArguments: [:x :y :z| x**4 - (x*(z**3))]).
+	C _ P subscheme: (R evaluating: [:x :y :z| x**4 - (x*(z**3))]).
 	self assert: C isSingular.
-	C _ P subscheme: (R evaluatingWithArguments: [:x :y :z| x**5 + (y**5*19) + (z**5)]).
+	C _ P subscheme: (R evaluating: [:x :y :z| x**5 + (y**5*19) + (z**5)]).
 	self assert: C isSingular.
-	C _ P subscheme: (R evaluatingWithArguments: [:x :y :z| x**5 + (y**5*9) + (z**5)]).
+	C _ P subscheme: (R evaluating: [:x :y :z| x**5 + (y**5*9) + (z**5)]).
 	self assert: C isSingular not! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/25/2016 07:04'!
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 11/1/2016 18:50'!
 testSmoothnessOverQQ
 	| P C |
 	P _ ProjectiveSpace new: 2 over: QQ.
-	C _ P subscheme: (P coordinateRing evaluatingWithArguments: [:x :y :z| x**3 - (y**2*z)]).
+	C _ P subscheme: (P coordinateRing evaluating: [:x :y :z| x**3 - (y**2*z)]).
 	self assert: C isSingular! !
 
 !AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/20/2016 09:57'!
@@ -1983,12 +1983,12 @@ testOrthogonalAtRandom
 	self assert: (G atRandomBits: 100) isOrthogonal.
 	self assert: (G includes: (G atRandomBits: 100))! !
 
-!LinearGroupsTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:04'!
+!LinearGroupsTest methodsFor: 'as yet unclassified' stamp: 'len 11/2/2016 03:58'!
 testRotationsBy90Degrees
 	"Group of rotations by 90 degrees in the plane, isomorphic to Z/4Z."
 	| V G |
 	V _ QQ ** 2.
-	G _ (LinearGroup on: V) generators: {V -> V vectorAt: (0, 1, -1, 0)}.
+	G _ (LinearGroup on: V) generators: {V endomorphisms vectorAt: (0, 1, -1, 0)}.
 	self assert: G size = 4.
 	self assert: G isCyclic.
 	self flag: #todo.
@@ -2750,6 +2750,16 @@ testAnnihilatorZ2
 	self assert: S0 dimension = S codimension.
 	S0 basis do: [:f| self assert: (f value: v) isZero]! !
 
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 11/2/2016 08:20'!
+testCanonicalMorphisms
+	| V W |
+	V _ QQ**3.
+	W _ V span: {(1,2,3)}.
+	self assert: (V null  W) isZero. "canonical morphism from initial object"
+	self assert: (V  W null) isZero. "canonical morphism to terminal object"
+	self assert: ((W  W null) value: (1,2,3)) isZero.
+	self assert: (W  V value: (2,4,6)) = (2,4,6). "canonical morphism to overobject"! !
+
 !ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 10/16/2016 09:57'!
 testDirectSum
 	| M N S |
@@ -2760,13 +2770,13 @@ testDirectSum
 	self testLinearMap: (S projection: 2 atRandom).
 	self testLinearMap: (S embedding: 2 atRandom)! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 10/16/2016 09:20'!
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 11/2/2016 03:59'!
 testFirstIsomorphismTheorem
 	| V S T f phi |
 	V _ QQ ** 5.
 	S _ V grassmannian: (1 to: V dimension) atRandom :: atRandomBits: 50.
 	T _ V grassmannian: (1 to: V dimension) atRandom :: atRandomBits: 50.
-	f _ S -> T :: atRandomBits: 50.
+	f _ S hom: T :: atRandomBits: 50.
 	phi _ S / f kernel to: f image evaluating: [:x| f value: x representative].
 	self assert: phi isIsomorphism! !
 
@@ -2888,56 +2898,56 @@ testLinearMap: f
 	x _ f domain scalars atRandomBits: 20.
 	self assert: (f value: a1 * x + a2) = (b1 * x + b2)! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 10/19/2016 22:49'!
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 11/2/2016 03:59'!
 testLinearMapAdjoint
 	| V W f f` phi |
 	V _ self newFreeModuleOver: QQ.
 	W _ self newFreeModuleOver: QQ.
-	f _ V -> W :: atRandomBits: 50.
+	f _ V hom: W :: atRandomBits: 50.
 	f` _ f adjoint.
 	self assert: f` domain = f codomain dual.
 	self assert: f` codomain = f domain dual.
 	phi _ W dual atRandomBits: 20.
 	self assert: (f` value: phi) = (phi @ f)! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 8/24/2016 22:18'!
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 11/2/2016 04:00'!
 testLinearMapComposition
 	| X Y Z f g x |
 	X _ QQ ** 3.
 	Y _ QQ ** 5.
 	Z _ QQ ** 4.
-	f _ X -> Y atRandomBits: 1000.
-	g _ Y -> Z atRandomBits: 1000.
+	f _ (X hom: Y) atRandomBits: 1000.
+	g _ (Y hom: Z) atRandomBits: 1000.
 	x _ X atRandomBits: 1000.
-	self assert: (X -> Z includes: g @ f).
+	self assert: ((X hom: Z) includes: g @ f).
 	self assert: (g @ f value: x) = (g value: (f value: x)).
 	self should: [f @ g] raise: DomainError! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 8/24/2016 22:19'!
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 11/2/2016 04:00'!
 testLinearMapCompositionError
 	| X Y Z f g |
 	X _ QQ ** 3.
 	Y _ QQ ** 5.
 	Z _ QQ ** 4.
-	f _ X -> Y atRandomBits: 1000.
-	g _ Y -> Z atRandomBits: 1000.
+	f _ (X hom: Y) atRandomBits: 1000.
+	g _ (Y hom: Z) atRandomBits: 1000.
 	self should: [f @ g] raise: DomainError! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:58'!
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 11/2/2016 04:00'!
 testLinearMapFiber
 	| f w v |
-	f _ QQ ** 6 atRandom -> (QQ ** 6 atRandom) atRandomBits: 100.
+	f _ (QQ ** 6 atRandom hom: QQ ** 6 atRandom) atRandomBits: 100.
 	w _ f image atRandomBits: 100.
 	v _ (f fiberAt: w) atRandomBits: 100.
 "	Transcript show: w; nextPutAll: ' <- '; show: v; newLine."
 	self assert: (f value: v) = w! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:58'!
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 11/2/2016 04:00'!
 testLinearMapImage
 	| V W f image v w |
 	V _ QQ ** 5 atRandom.
 	W _ QQ ** 5 atRandom.
-	f _ V -> W :: atRandomBits: 1000.
+	f _ (V hom: W) atRandomBits: 1000.
 	image _ f image.
 	v _ V atRandomBits: 100.
 	w _ f value: v.
@@ -2961,12 +2971,12 @@ testLinearMapInverse
 	self assert: (f @ f inverse) isIdentity.
 	self assert: (f inverse @ f) isIdentity! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:58'!
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 11/2/2016 04:01'!
 testLinearMapKernel
 	| V W f kernel v |
 	V _ QQ ** 5 atRandom.
 	W _ QQ ** 5 atRandom.
-	f _ V -> W :: atRandomBits: 1000.
+	f _ (V hom: W) atRandomBits: 1000.
 	kernel _ f kernel.
 	v _ kernel atRandomBits: 100.
 	self assert: (f value: v) isZero! !
@@ -2991,27 +3001,27 @@ testLinearMapKernelZ2
 	self assert: kernel dimension = 2.
 	self assert: (kernel includes: (0,1,1) % 2)! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 8/24/2016 21:38'!
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 11/2/2016 04:01'!
 testLinearMapLeftInverse
 	| V W f |
 	V _ QQ ** 3.
 	W _ QQ ** 5.
-	[f _ V -> W atRandomBits: 1000. f rank = 3] whileFalse.
+	[f _ (V hom: W) atRandomBits: 1000. f rank = 3] whileFalse.
 	self assert: (f leftInverse @ f) = V id! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 8/24/2016 21:38'!
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 11/2/2016 04:01'!
 testLinearMapRightInverse
 	| V W f |
 	V _ QQ ** 5.
 	W _ QQ ** 3.
-	[f _ V -> W atRandomBits: 1000. f rank = 3] whileFalse.
+	[f _ (V hom: W) atRandomBits: 1000. f rank = 3] whileFalse.
 	self assert: (f @ f rightInverse) = W id! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 10/18/2016 21:00'!
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 11/2/2016 04:01'!
 testLinearMapZ2
 	| V f kernel v |
 	V _ (PrimeField new: 2) ** (5 atRandom + 1).
-	[f _ (V -> V) atRandom.
+	[f _ V endomorphisms atRandom.
 	(kernel _ f kernel) isTrivial or: [kernel = V]] whileTrue. "find one with non-trivial kernel"
 	[v _ V atRandom. kernel includes: v] whileTrue.
 	self assert: (f value: v) isZero not.
@@ -4309,6 +4319,15 @@ newRing
 	2 atRandom = 1 ifTrue: [^ {ZZ. QQ. ZZ mod: (2 to: 10) atRandom} atRandom polynomialsIn: (1 to: 3) atRandom].
 	2 atRandom = 1 ifTrue: [^ self newQuotientRing].
 	^ ZZ! !
+
+!RingTest methodsFor: 'as yet unclassified' stamp: 'len 11/2/2016 08:18'!
+testCanonicalMorphisms
+	| R x Q |
+	R _ QQ polynomials.
+	x _ R x.
+	Q _ R / (x**2 + 1).
+	self assert: (ZZ  R value: 4) = (R embed: 4). "canonical morphism from initial object"
+	self assert: (R  Q value: x**2 + 2) = Q one. "canonical morphism to quotient object"! !
 
 !RingTest methodsFor: 'as yet unclassified' stamp: 'len 10/10/2016 09:58'!
 testDirectProduct
