@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 1 November 2016 at 7:00:09.856296 pm'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 2 November 2016 at 4:50:22.356836 am'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 264!
+!provides: 'Mathematics' 1 265!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
 	instanceVariableNames: 'numerator shift'
@@ -3498,7 +3498,9 @@ Examples:
 	(ZZ × QQ) projection: 2.
 	QQ polynomials fractions embedding.
 
-Given two domains A and B in the same category, the set of morphisms between them Hom(A,B) is obtained by sending the message 'A -> B' (so #-> is the Hom(A,-) functor). The identity morphism is returned by the message #id. And a morphism from A to B can be constructed by sending 'A to: B evaluating: [:x| ...]'.
+Given two domains A and B in the same category, the set of morphisms between them Hom(A,B) is obtained by sending the message 'A hom: B' (so #hom: is the Hom(A,-) functor). The identity morphism is returned by the message #id. And a morphism from A to B can be constructed by sending 'A to: B evaluating: [:x| ...]'.
+
+Canonical morphisms can be retrieved by sending the message #. For example, 'ZZ  QQ polynomials' is the canonical ring morphism that sends the an integer to a constant polynomial. In order for this to work, the messages #to: and #from: must be reimplemented in subclasses to answer canonical morphisms when such morphisms are known, and call super otherwise. See examples in Morphism class.
 
 Subclasses most frequently reimplement the following messages:
 - #= and #<=
@@ -3508,7 +3510,7 @@ Subclasses most frequently reimplement the following messages:
 - #atRandom:bits:
 - #printOn:
 - #product: and #coproduct:
-- #to:evaluating:, #-> and #id
+- #to:evaluating:, #hom:, #id, #to:, #from:
 - #automorphisms
 
 References:
@@ -11528,6 +11530,15 @@ printOn: aStream
 	aStream print: self arrows first domain.
 	self arrows allButFirstDo: [:each| aStream nextPutAll: '  '; print: each codomain].! !
 
+!Domain methodsFor: 'morphisms' stamp: 'len 11/2/2016 03:52'!
+ aCodomain
+	"Answer the canonical morphism from the receiver to aCodomain.
+	If the argument is a morphism, answer the composition with the canonical morphism to its domain."
+	(aCodomain isKindOf: Morphism)
+		ifTrue: [^ self  aCodomain domain ifNotNil: [:aMorphism| aCodomain @ aMorphism]].
+	(self to: aCodomain) ifNotNil: [:aMorphism| ^ aMorphism].
+	^ aCodomain from: self! !
+
 !Domain methodsFor: 'converting' stamp: 'len 10/27/2016 18:49'!
 !! anObject
 	"Coerce anObject to an element of the receiver."
@@ -11555,11 +11566,6 @@ printOn: aStream
 , aDomain
 	"Answer the cartesian set product of the receiver with the argument."
 	^ self cartesian: aDomain! !
-
-!Domain methodsFor: 'morphisms' stamp: 'len 10/14/2016 08:59'!
--> aDomain
-	"Answer the morphisms that go from the receiver A to the argument B: Hom(A,B)."
-	^ HomSet from: self to: aDomain! !
 
 !Domain methodsFor: 'operations' stamp: 'len 4/27/2016 02:49'!
 / anEquivalenceRelation
@@ -11748,9 +11754,16 @@ elements
 elements: aCollection
 	properties at: #elements put: aCollection! !
 
-!Domain methodsFor: 'morphisms' stamp: 'len 1/5/2016 04:02'!
+!Domain methodsFor: 'morphisms' stamp: 'len 11/2/2016 03:57'!
 endomorphisms
-	^ self -> self! !
+	^ self hom: self! !
+
+!Domain methodsFor: 'morphisms' stamp: 'len 11/2/2016 04:17'!
+from: aDomain
+	"Answer the canonical morphism from aDomain to the receiver."
+	self = aDomain ifTrue: [^ self id].
+	self >= aDomain ifTrue: [^ aDomain id restrictedTo: self].
+	^ nil! !
 
 !Domain methodsFor: 'accessing' stamp: 'len 10/6/2016 10:26'!
 generator
@@ -11774,6 +11787,11 @@ generators: aCollection
 !Domain methodsFor: 'comparing' stamp: 'len 4/23/2016 00:41'!
 hash
 	^ self isFinite ifTrue: [self size hash] ifFalse: [super hash]! !
+
+!Domain methodsFor: 'morphisms' stamp: 'len 11/1/2016 19:16'!
+hom: aCodomain
+	"Answer the morphisms that go from the receiver A to the argument B: Hom(A,B)."
+	^ HomSet from: self to: aCodomain! !
 
 !Domain methodsFor: 'morphisms' stamp: 'len 10/11/2016 08:21'!
 id
@@ -11974,6 +11992,13 @@ species
 	"Answer a class appropiate for the subobjects of the receiver."
 	^ self class! !
 
+!Domain methodsFor: 'morphisms' stamp: 'len 11/2/2016 04:11'!
+to: aCodomain
+	"Answer the canonical morphism from the receiver to aCodomain."
+	self = aCodomain ifTrue: [^ self id].
+	self <= aCodomain ifTrue: [^ aCodomain id restrictedTo: self].
+	^ nil! !
+
 !Domain methodsFor: 'morphisms' stamp: 'len 10/24/2016 12:40'!
 to: aDomain evaluating: aBlock
 	"Answer a morphism to the specified codomain (in the same category), evaluating as the given block.
@@ -12120,11 +12145,11 @@ printOn: aStream
 		ifTrue: [aStream nextPutAll: 'Endo' bold; nextPut: $(; print: self domain; nextPut: $)]
 		ifFalse: [aStream nextPutAll: 'Hom' bold; nextPut: $(; print: self domain; nextPut: $,; print: self codomain; nextPut: $)]! !
 
-!HomSet class methodsFor: 'examples' stamp: 'len 10/29/2016 07:42'!
+!HomSet class methodsFor: 'examples' stamp: 'len 11/2/2016 03:58'!
 exampleHomSet
 	"The object Hom(N,Z), the functions from the natural numbers to the integers.
 	This is the space of sequences. (See class Sequence)."
-	^ NN -> ZZ! !
+	^ NN hom: ZZ! !
 
 !HomSet class methodsFor: 'instance creation' stamp: 'len 4/19/2016 04:53'!
 from: aDomain to: anotherDomain
@@ -13009,6 +13034,11 @@ do: aBlock
 		x _ self project: each.
 		visited add: x ifAbsent: [aBlock value: x]]! !
 
+!QuotientSet methodsFor: 'morphisms' stamp: 'len 11/2/2016 03:26'!
+from: aDomain
+	aDomain  self base ifNotNil: [:aMorphism| ^ self projection @ aMorphism].
+	^ super from: aDomain! !
+
 !QuotientSet methodsFor: 'testing' stamp: 'len 8/10/2016 01:01'!
 isQuotient
 	^ true! !
@@ -13075,8 +13105,10 @@ isAbelian
 isAbelianGroup
 	^ true! !
 
-!AbelianGroup methodsFor: 'testing' stamp: 'len 11/28/2015 09:09'!
+!AbelianGroup methodsFor: 'testing' stamp: 'len 11/2/2016 03:39'!
 isInitial
+	"In the category of abelian groups the trivial group is the zero object (both initial and terminal).
+	But in the category of rings, the initial object is Z (the integers ring), so this is overriden."
 	^ self isTrivial! !
 
 !AbelianGroup methodsFor: 'testing' stamp: 'len 4/22/2016 14:03'!
@@ -13880,10 +13912,10 @@ isGCDDomain
 	"A GCD domain is an integral domain with the property that any two non-zero elements have GCD (or equivalently any two non-zero elements have a LCM)."
 	^ properties at: #isGCDDomain! !
 
-!Ring methodsFor: 'testing' stamp: 'len 10/18/2016 19:53'!
+!Ring methodsFor: 'testing' stamp: 'len 11/2/2016 03:33'!
 isInitial
-"	^ self isField not and: [self isTrivial]"
-	^ self isTrivial! !
+	"Redefined in Integers."
+	^ false! !
 
 !Ring methodsFor: 'testing' stamp: 'len 11/28/2015 23:51'!
 isIntegralDomain
@@ -13923,8 +13955,13 @@ isPerfectField
 isRing
 	^ true! !
 
-!Ring methodsFor: 'testing' stamp: 'len 11/28/2015 09:10'!
+!Ring methodsFor: 'testing' stamp: 'len 11/2/2016 03:36'!
+isTerminal
+	^ self isTrivial! !
+
+!Ring methodsFor: 'testing' stamp: 'len 11/2/2016 03:36'!
 isTrivial
+	"The trivial ring is the zero ring with a single element 0 = 1."
 	^ self size = 1! !
 
 !Ring methodsFor: 'testing' stamp: 'len 11/28/2015 23:49'!
@@ -14189,6 +14226,11 @@ embed: aGroupElement
 embedding
 	^ (Function from: self group to: self evaluating: [:g| self embed: g]) name: 'i' "should be a group homomorphism in Hom(Grp,Ab)?"! !
 
+!GroupRing methodsFor: 'morphisms' stamp: 'len 11/2/2016 03:25'!
+from: aDomain
+	aDomain  self group ifNotNil: [:aMorphism| ^ self embedding @ aMorphism].
+	^ super from: aDomain! !
+
 !GroupRing methodsFor: 'accessing' stamp: 'len 10/11/2016 14:14'!
 generators
 	^ (self group generators ifNil: [^ nil]) apply: self embedding! !
@@ -14316,6 +14358,10 @@ isEuclidean
 isFinite
 	^ false! !
 
+!Integers methodsFor: 'testing' stamp: 'len 11/2/2016 03:33'!
+isInitial
+	^ true! !
+
 !Integers methodsFor: 'testing' stamp: 'len 10/20/2016 03:38'!
 isNoetherian
 	^ true! !
@@ -14343,6 +14389,13 @@ printOn: aStream
 !Integers methodsFor: 'accessing' stamp: 'len 4/24/2016 02:58'!
 size
 	^ Aleph new! !
+
+!Integers methodsFor: 'morphisms' stamp: 'len 11/1/2016 19:20'!
+to: aCodomain
+	"Answer the canonical morphism from the receiver to aCodomain."
+	aCodomain isRing
+		ifTrue: [^ self to: aCodomain evaluating: [:x| aCodomain one * x]].
+	^ super to: aCodomain! !
 
 !Integers methodsFor: 'accessing' stamp: 'len 7/17/2016 23:53'!
 valuation
@@ -14403,6 +14456,11 @@ embed: anObject
 embedding
 	"Answer the embedding map from the integers ring into the receiver."
 	^ properties at: #embedding ifAbsentPut: [(self integers to: self evaluating: [:x| self embed: x]) name: 'i']! !
+
+!LocalizationRing methodsFor: 'morphisms' stamp: 'len 11/2/2016 03:25'!
+from: aDomain
+	aDomain  self integers ifNotNil: [:aMorphism| ^ self embedding @ aMorphism].
+	^ super from: aDomain! !
 
 !LocalizationRing methodsFor: 'accessing' stamp: 'len 10/28/2016 16:38'!
 generators
@@ -14805,6 +14863,11 @@ do: aBlock
 		| q |
 		visited add: (q _ self project: each) ifPresent: [^ self].
 		aBlock value: q]! !
+
+!QuotientRing methodsFor: 'morphisms' stamp: 'len 11/2/2016 03:26'!
+from: aDomain
+	aDomain  self base ifNotNil: [:aMorphism| ^ self projection @ aMorphism].
+	^ super from: aDomain! !
 
 !QuotientRing methodsFor: 'accessing' stamp: 'len 10/10/2016 16:29'!
 generators
@@ -15786,6 +15849,11 @@ fractions
 	self scalars isField ifFalse: [^ DomainError signal: 'scalars are not a field'].
 	^ RationalFunctionField over: self! !
 
+!PolynomialRing methodsFor: 'morphisms' stamp: 'len 11/2/2016 03:25'!
+from: aDomain
+	aDomain  self scalars ifNotNil: [:aMorphism| ^ self embedding @ aMorphism].
+	^ super from: aDomain! !
+
 !PolynomialRing methodsFor: 'accessing' stamp: 'len 10/2/2016 10:34'!
 generators
 	^ (1 to: self rank) collect: [:i| self x: i]! !
@@ -16261,17 +16329,15 @@ scalars
 scalars: aRing
 	properties at: #scalars put: aRing! !
 
+!Module methodsFor: 'morphisms' stamp: 'len 11/2/2016 03:43'!
+to: aCodomain
+	(self isTrivial and: [aCodomain isAbelianGroup]) ifTrue: [^ self to: aCodomain evaluating: [:x| aCodomain zero]].
+	^ super to: aCodomain! !
+
 !Module methodsFor: 'morphisms' stamp: 'len 10/11/2016 09:07'!
 to: aModule evaluating: aBlock
 	aModule isModule ifFalse: [^ super to: aModule evaluating: aBlock].
 	^ ModuleHomomorphism from: self to: aModule evaluating: aBlock! !
-
-!FreeModule methodsFor: 'morphisms' stamp: 'len 10/14/2016 09:00'!
--> aModule
-	"Answer Hom(A,B), the R-module of morphisms that go from the receiver A to the argument B."
-	(aModule isKindOf: ScalarModule)
-		ifTrue: [^ self dual].
-	^ HomModule from: self to: aModule! !
 
 !FreeModule methodsFor: 'operations' stamp: 'len 10/7/2016 08:40'!
 / aSubmodule
@@ -16450,6 +16516,13 @@ grassmannian: r
 !FreeModule methodsFor: 'comparing' stamp: 'len 7/14/2016 23:22'!
 hash
 	^ self scalars hash + self rank hashMultiply! !
+
+!FreeModule methodsFor: 'morphisms' stamp: 'len 11/1/2016 19:15'!
+hom: aModule
+	"Answer Hom(A,B), the R-module of morphisms that go from the receiver A to the argument B."
+	(aModule isKindOf: ScalarModule)
+		ifTrue: [^ self dual].
+	^ HomModule from: self to: aModule! !
 
 !FreeModule methodsFor: 'operations' stamp: 'len 10/27/2016 19:46'!
 hull: aCollection
@@ -17362,6 +17435,11 @@ coordinatesOf: anAffineSubspace
 e: anInteger
 	^ AffineSubspace representative: (subspace perp e: anInteger) direction: subspace! !
 
+!QuotientModule methodsFor: 'morphisms' stamp: 'len 11/2/2016 03:26'!
+from: aDomain
+	aDomain  self base ifNotNil: [:aMorphism| ^ self projection @ aMorphism].
+	^ super from: aDomain! !
+
 !QuotientModule methodsFor: 'testing' stamp: 'len 10/27/2016 19:46'!
 includes: anObject
 	^ (anObject isKindOf: AffineSubspace) and: [anObject direction = subspace]! !
@@ -18041,9 +18119,9 @@ multiplicationTable2
 operation
 	^ properties at: #operation ifAbsentPut: [((self, self) to: self evaluatingWithArguments: [:x :y| x * y]) name: '*']! !
 
-!Magma methodsFor: 'accessing-private' stamp: 'len 10/7/2016 07:02'!
+!Magma methodsFor: 'accessing-private' stamp: 'len 11/2/2016 03:59'!
 operation: aFunction
-	properties at: #operation put: (aFunction as: (self, self) -> self)! !
+	properties at: #operation put: (aFunction as: ((self, self) hom: self))! !
 
 !Loop methodsFor: 'accessing' stamp: 'len 4/23/2016 03:38'!
 identity
@@ -18487,9 +18565,9 @@ innerAutomorphisms
 inverseMap
 	^ properties at: #inverseMap ifAbsentPut: [self defaultInverseMap]! !
 
-!Group methodsFor: 'accessing-private' stamp: 'len 5/1/2016 22:37'!
+!Group methodsFor: 'accessing-private' stamp: 'len 11/2/2016 03:57'!
 inverseMap: aFunction
-	properties at: #inverseMap put: (aFunction as: self -> self)! !
+	properties at: #inverseMap put: (aFunction as: (self hom: self))! !
 
 !Group methodsFor: 'testing' stamp: 'len 1/6/2016 05:47'!
 isAbelian
@@ -18750,6 +18828,11 @@ span: aCollection
 !Group methodsFor: 'private' stamp: 'len 5/1/2016 23:40'!
 species
 	^ Group! !
+
+!Group methodsFor: 'morphisms' stamp: 'len 11/2/2016 03:44'!
+to: aCodomain
+	(self isTrivial and: [aCodomain isGroup]) ifTrue: [^ self to: aCodomain evaluating: [:x| aCodomain identity]].
+	^ super to: aCodomain! !
 
 !Group methodsFor: 'morphisms' stamp: 'len 10/11/2016 09:07'!
 to: aGroup evaluating: aBlock
@@ -19027,13 +19110,13 @@ buildProjection
 		at: #rightInverse put: (self to: self base evaluating: [:each| each representative]).
 	^ answer! !
 
-!QuotientGroup methodsFor: 'private' stamp: 'len 10/7/2016 07:05'!
+!QuotientGroup methodsFor: 'private' stamp: 'len 11/2/2016 04:04'!
 defaultInverseMap
-	^ self base inverseMap as: self -> self! !
+	^ self base inverseMap as: self endomorphisms! !
 
-!QuotientGroup methodsFor: 'private' stamp: 'len 10/7/2016 07:04'!
+!QuotientGroup methodsFor: 'private' stamp: 'len 11/2/2016 04:04'!
 defaultOperation
-	^ self base operation as: (self, self) -> self! !
+	^ self base operation as: ((self, self) hom: self)! !
 
 !QuotientGroup methodsFor: 'iterating' stamp: 'len 6/27/2016 23:22'!
 do: aBlock
@@ -19041,6 +19124,11 @@ do: aBlock
 	visited _ Set2 new.
 	base do: [:each| | x |
 		visited add: (x _ self project: each) ifAbsent: [aBlock value: x]]! !
+
+!QuotientGroup methodsFor: 'morphisms' stamp: 'len 11/2/2016 03:25'!
+from: aDomain
+	aDomain  self base ifNotNil: [:aMorphism| ^ self projection @ aMorphism].
+	^ super from: aDomain! !
 
 !QuotientGroup methodsFor: 'accessing' stamp: 'len 2/8/2016 05:01'!
 identity
@@ -19200,15 +19288,15 @@ ambient
 	"Answer the ambient group."
 	^ SymmetricGroup on: space! !
 
-!PermutationGroup methodsFor: 'converting' stamp: 'len 5/25/2016 05:21'!
+!PermutationGroup methodsFor: 'converting' stamp: 'len 11/2/2016 04:02'!
 asLinearGroupOver: aRing
 	"Return a linear group over aRing isomorphic to the receiver.
 	Assume the space of the receiver is an interval (1 to: n)."
 	| n V |
 	n _ self degree.
-	V _ aRing**n.
+	V _ aRing ** n.
 	^ (LinearGroup on: V)
-		generators: (self generators collect: [:g| V -> V evaluating: [:x| x withIndexCollect: [:xi :i| x at: (g value: i)]]])! !
+		generators: (self generators collect: [:g| V to: V evaluating: [:x| x withIndexCollect: [:xi :i| x at: (g value: i)]]])! !
 
 !PermutationGroup methodsFor: 'converting' stamp: 'len 7/15/2016 18:28'!
 asMatrixGroup
@@ -20576,13 +20664,13 @@ ambient
 	"Answer the ambient vector space."
 	^ self asVectorSpace ambient! !
 
-!LinearCode methodsFor: 'converting' stamp: 'len 10/6/2016 10:05'!
+!LinearCode methodsFor: 'converting' stamp: 'len 11/2/2016 03:58'!
 asLattice
 	"A linear code in a finite field or ring can be lifted to a lattice."
 	| S F lift |
 	S _ self asVectorSpace.
 	F _ S scalars.
-	lift _ S -> (S apply: F projection section) evaluating: [:each| each apply: F section].
+	lift _ S to: (S apply: F projection section) evaluating: [:each| each apply: F section].
 	^ Lattice basis: (S basis apply: lift)! !
 
 !LinearCode methodsFor: 'converting' stamp: 'len 3/31/2016 02:33'!
@@ -22146,11 +22234,6 @@ representative: aVector direction: aVectorSpace
 + aProjectiveSubspace
 	^ self class on: vectorSpace + aProjectiveSubspace vectorSpace! !
 
-!ProjectiveLinearSpace methodsFor: 'morphisms' stamp: 'len 9/2/2016 05:39'!
--> aProjectiveSpace
-	"Answer the morphisms that go from the receiver A to the argument B: Hom(A,B)."
-	^ (vectorSpace -> aProjectiveSpace vectorSpace) projective! !
-
 !ProjectiveLinearSpace methodsFor: 'operations' stamp: 'len 9/1/2016 07:54'!
 /\ aProjectiveSubspace
 	"Meet."
@@ -22285,6 +22368,11 @@ frame
 !ProjectiveLinearSpace methodsFor: 'comparing' stamp: 'len 6/28/2016 09:26'!
 hash
 	^ vectorSpace hash + self class hash! !
+
+!ProjectiveLinearSpace methodsFor: 'morphisms' stamp: 'len 11/1/2016 19:15'!
+hom: aProjectiveSpace
+	"Answer the morphisms that go from the receiver A to the argument B: Hom(A,B)."
+	^ (vectorSpace hom: aProjectiveSpace vectorSpace) projective! !
 
 !ProjectiveLinearSpace methodsFor: 'morphisms' stamp: 'len 8/25/2016 06:25'!
 id
@@ -22644,6 +22732,11 @@ orthocenter
 perpendicularBisectors
 	^ self notYetImplemented! !
 
+!Morphism methodsFor: 'operations' stamp: 'len 11/2/2016 03:55'!
+ aCodomain
+	"Answer the composition with the canonical morphism from the codomain of the receiver to aCodomain."
+	^ self codomain  aCodomain ifNotNil: [:aMorphism| aMorphism @ self]! !
+
 !Morphism methodsFor: 'operations' stamp: 'len 10/10/2016 15:12'!
 @ aMorphism
 	"Answer the composition of the receiver with the argument."
@@ -22734,6 +22827,10 @@ inverse
 	self isEndomorphism ifFalse: [self error: 'ambiguous inverse'].
 	^ self leftInverse! !
 
+!Morphism methodsFor: 'testing' stamp: 'len 11/2/2016 03:50'!
+is: aSymbol
+	^ aSymbol = #Morphism or: [super is: aSymbol]! !
+
 !Morphism methodsFor: 'testing' stamp: 'len 8/8/2016 06:02'!
 isAutomorphism
 	^ self isEndomorphism and: [self isIsomorphism]! !
@@ -22782,10 +22879,10 @@ name
 name: aString
 	properties at: #name put: aString! !
 
-!Morphism methodsFor: 'accessing' stamp: 'len 10/6/2016 15:42'!
+!Morphism methodsFor: 'accessing' stamp: 'len 11/2/2016 04:01'!
 parent
 	"A morphism f:A->B belongs to Hom(A,B)."
-	^ self domain -> self codomain! !
+	^ self domain hom: self codomain! !
 
 !Morphism methodsFor: 'printing' stamp: 'len 8/8/2016 05:51'!
 printOn: aStream
@@ -22908,9 +23005,9 @@ centralDifference: n at: h
 		to: self codomain
 		evaluating: [:x| (0 to: n) sum: [:i| (-1)**i * (n take: i) * (self value: x + ((n/2 - i)*h))]]! !
 
-!Function methodsFor: 'operations' stamp: 'len 4/19/2016 21:40'!
-corestrictedTo: aDomain
-	^ self species from: self domain to: aDomain evaluating: [:x| self value: x]! !
+!Function methodsFor: 'operations' stamp: 'len 11/2/2016 04:09'!
+corestrictedTo: aCodomain
+	^ self species from: self domain to: aCodomain evaluating: [:x| self value: x]! !
 
 !Function methodsFor: 'private' stamp: 'len 10/10/2016 14:05'!
 expression
@@ -25483,11 +25580,10 @@ from: anAffineFrame to: anotherAffineFrame matrix: aMatrix
 linearPart: aLinearMap translation: aVector
 	^ self new linearPart: aLinearMap; translation: aVector! !
 
-!ProjectiveMap methodsFor: 'comparing' stamp: 'len 2/22/2016 00:56'!
+!ProjectiveMap methodsFor: 'comparing' stamp: 'len 11/2/2016 04:03'!
 = aProjectiveMap
 	(aProjectiveMap isKindOf: ProjectiveMap) ifFalse: [^ false].
-	^ (linearMap domain -> linearMap codomain span: {linearMap})
-		= (aProjectiveMap linearMap domain -> aProjectiveMap linearMap codomain) span: {aProjectiveMap linearMap}! !
+	^ (linearMap parent span: {linearMap}) = (aProjectiveMap parent span: {aProjectiveMap linearMap})! !
 
 !ProjectiveMap methodsFor: 'arithmetic' stamp: 'len 1/5/2016 00:10'!
 @ aProjectiveMap
@@ -25512,9 +25608,9 @@ corestrictedTo: aProjectiveSubspace
 domain
 	^ ProjectiveLinearSpace on: linearMap domain! !
 
-!ProjectiveMap methodsFor: 'comparing' stamp: 'len 2/22/2016 00:57'!
+!ProjectiveMap methodsFor: 'comparing' stamp: 'len 11/2/2016 04:04'!
 hash
-	^ (linearMap domain -> linearMap codomain span: {linearMap}) hash! !
+	^ (linearMap parent span: {linearMap}) hash! !
 
 !ProjectiveMap methodsFor: 'accessing' stamp: 'len 8/30/2016 05:46'!
 image
