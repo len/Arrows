@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 2 November 2016 at 4:50:22.356836 am'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 2 November 2016 at 8:33:34.268392 am'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 265!
+!provides: 'Mathematics' 1 266!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
 	instanceVariableNames: 'numerator shift'
@@ -3473,7 +3473,7 @@ A bounded chain complex is one where only a finite number of Ci are not {0}.
 
 Chain complexes form a cateogory with chain maps as morphisms.!
 
-!Domain commentStamp: '<historical>' prior: 0!
+!Domain commentStamp: 'len 11/2/2016 08:31' prior: 0!
 My instances are mathematical structures, such as groups, rings, fields, vector spaces, modules, etc.
 
 Domains are connected by Morphisms, which in many cases are Functions. From the point of view of category theory, Domains and Functions are respectively 'objects' and 'morphisms' of (small) categories.
@@ -3482,7 +3482,7 @@ Domains often have an underlying set: the set of elements. The cardinality of a 
 
 Examples:
 	QQ**(3@3) atRandomBits: 100.
-	(ZZ mod: 5) asSet.
+	(ZZ/5) asSet.
 
 Domains can be built from other domains by composition (in the OOP sense), for example by taking products or coproducts (cartesian products, direct products, direct sums), quotients, localizations, extensions, duals, etc. These operations are also morphisms (functors, more precisely), and are mostly implemented as Smalltalk messages.
 
@@ -3500,7 +3500,7 @@ Examples:
 
 Given two domains A and B in the same category, the set of morphisms between them Hom(A,B) is obtained by sending the message 'A hom: B' (so #hom: is the Hom(A,-) functor). The identity morphism is returned by the message #id. And a morphism from A to B can be constructed by sending 'A to: B evaluating: [:x| ...]'.
 
-Canonical morphisms can be retrieved by sending the message #. For example, 'ZZ  QQ polynomials' is the canonical ring morphism that sends the an integer to a constant polynomial. In order for this to work, the messages #to: and #from: must be reimplemented in subclasses to answer canonical morphisms when such morphisms are known, and call super otherwise. See examples in Morphism class.
+Canonical morphisms can be retrieved by sending the message #. For example, 'ZZ  QQ polynomials' is the canonical ring morphism that sends an integer to a constant polynomial. In order for this to work, the messages #to: and #from: must be reimplemented in subclasses to answer canonical morphisms when such morphisms are known, and call super otherwise. See examples in Morphism class.
 
 Subclasses most frequently reimplement the following messages:
 - #= and #<=
@@ -4085,19 +4085,19 @@ References:
 	https://en.wikipedia.org/wiki/Projective_space
 !
 
-!Morphism commentStamp: '<historical>' prior: 0!
+!Morphism commentStamp: 'len 11/2/2016 08:29' prior: 0!
 I'm an abstract superclass for Functions and other morphisms. See subclasses, and Domain and HomSet.
 
 Examples (three equivalent ways to construct a vector space homomorphism):
 	QQ**3 to: QQ**3 evaluating: [:v| (v x - v y, v x, v z)].
-	QQ**3 -> (QQ**3) evaluating: [:v| (v x - v y, v x, v z)].
+	(QQ**3 hom: QQ**3) evaluating: [:v| (v x - v y, v x, v z)].
 	(QQ**3) endomorphisms evaluating: [:v| (v x - v y, v x, v z)].
 
 References:
 	https://en.wikipedia.org/wiki/Morphism
 !
 
-!Function commentStamp: '<historical>' prior: 0!
+!Function commentStamp: 'len 11/2/2016 08:28' prior: 0!
 My instances are functions, i.e. maps from a mathematical structure (domain) to another structure (codomain). Evaluated at elements of the domain (>>#value:) they produce elements of the codomain. See Domain and HomSet.
 
 Example:
@@ -4108,7 +4108,7 @@ In general a Function is a morphism of sets. If the function preserves some math
 Example (three equivalent ways to construct homomorphisms):
 	"These constructions are similar to the explicit construction above, but they return not arbitrary functions but homomorphisms of the corresponding category (in this case linear maps, i.e. morphisms of vector spaces):"
 	QQ**3 to: QQ**3 evaluating: [:v| (v x - v y, v x, v z)].
-	QQ**3 -> (QQ**3) evaluating: [:v| (v x - v y, v x, v z)].
+	(QQ**3 hom: QQ**3) evaluating: [:v| (v x - v y, v x, v z)].
 	(QQ**3) endomorphisms evaluating: [:v| (v x - v y, v x, v z)].
 
 In general, functions are defined by specifying a domain, a codomain, and an expression that can be evaluated at elements of the domain and produces elements of the codomain. One such expression can be a Smalltalk block, another Function, or more generally any Smalltalk object that admits evaluation (#value:), such as polynomials:
@@ -6914,12 +6914,13 @@ coordinatesMap
 		to: self coordinateSpace basis
 		matrix: (ambient scalars ** (self size @ self size)) identity! !
 
-!LinearBasis methodsFor: 'coordinates' stamp: 'len 5/23/2016 04:43'!
+!LinearBasis methodsFor: 'coordinates' stamp: 'len 11/2/2016 08:08'!
 coordinatesOf: anObject
 	"Answer the coordinates of anObject when expressed as a linear combination of the vectors of the receiver.
 	Answer nil if anObject is independent from the receiver."
 
 	| m reducer coords answer |
+	anObject isZero ifTrue: [^ self coordinateSpace zero].
 	1 to: self size do: [ :i |
 		(self at: i) = anObject ifTrue: [^ self coordinateSpace e: i]].
 	m _ self matrix rowAugmented: (ambient coordinatesOf: anObject).
@@ -16329,9 +16330,10 @@ scalars
 scalars: aRing
 	properties at: #scalars put: aRing! !
 
-!Module methodsFor: 'morphisms' stamp: 'len 11/2/2016 03:43'!
+!Module methodsFor: 'morphisms' stamp: 'len 11/2/2016 08:04'!
 to: aCodomain
-	(self isTrivial and: [aCodomain isAbelianGroup]) ifTrue: [^ self to: aCodomain evaluating: [:x| aCodomain zero]].
+	(aCodomain isAbelianGroup and: [self isTrivial or: [aCodomain isTrivial]])
+		ifTrue: [^ self to: aCodomain evaluating: [:x| aCodomain zero]].
 	^ super to: aCodomain! !
 
 !Module methodsFor: 'morphisms' stamp: 'len 10/11/2016 09:07'!
@@ -22933,6 +22935,20 @@ example2Embedding
 	"Finally we compose them to get an embedding from the rational numbers Q to the field of univariate rational functions Q(x), that sends a number to a constant rational function."
 	^ psi @ phi! !
 
+!Morphism class methodsFor: 'examples' stamp: 'len 11/2/2016 08:32'!
+example3CanonicalMorphism
+	"Canonical morphisms can be retrieved through the message #. For example, Z (the ring of integers) is the initial object in the category of commutative rings with unit, i.e. there's a canonical morphism from Z to any commutative ring:"
+	^ ZZ  QQ polynomialsIn: #(x y z)! !
+
+!Morphism class methodsFor: 'examples' stamp: 'len 11/2/2016 08:32'!
+example4CanonicalMorphism
+	"The quotient map from a polynomial ring R to a quotient by one of its ideals R/I is another example of canonical morphism."
+	| R x I |
+	R _ QQ polynomials.
+	x _ R x.
+	I _ R * (x squared + 1).
+	^ R  (R / I)! !
+
 !Morphism class methodsFor: 'instance creation' stamp: 'len 8/8/2016 05:53'!
 new
 	^ super new initialize! !
@@ -23178,6 +23194,17 @@ isIdentity
 	self isEndomorphism ifFalse: [^ false].
 	^ (self domain generators ifNil: [self domain]) allSatisfy: [:each| (self value: each) = each]! !
 
+!AbelianGroupHomomorphism methodsFor: 'as yet unclassified' stamp: 'len 11/2/2016 07:58'!
+isZero
+	^ self domain generators allSatisfy: [:each| (self value: each) isZero]! !
+
+!AbelianGroupHomomorphism methodsFor: 'as yet unclassified' stamp: 'len 11/2/2016 08:00'!
+printOn: aStream
+	self isIdentity ifTrue: [aStream nextPutAll: 'id'. ^ self].
+	self negated isIdentity ifTrue: [aStream nextPutAll: '-id'. ^ self].
+	self isZero ifTrue: [aStream nextPut: $0. ^ self].
+	super printOn: aStream! !
+
 !AbelianGroupHomomorphism methodsFor: 'as yet unclassified' stamp: 'len 10/10/2016 08:49'!
 species
 	^ AbelianGroupHomomorphism! !
@@ -23225,8 +23252,11 @@ kernel
 	I _ P * generators eliminateAll: (n+1 to: P rank).
 	^ properties at: #kernel put: A * (I generators collect: [:each| each as: A])! !
 
-!PolynomialRingHomomorphism methodsFor: 'printing' stamp: 'len 10/23/2016 22:14'!
+!PolynomialRingHomomorphism methodsFor: 'printing' stamp: 'len 11/2/2016 08:01'!
 printOn: aStream
+	self isIdentity ifTrue: [aStream nextPutAll: 'id'. ^ self].
+	self negated isIdentity ifTrue: [aStream nextPutAll: '-id'. ^ self].
+	self isZero ifTrue: [aStream nextPut: $0. ^ self].
 	aStream nextPut: $(.
 	(1 to: self domain rank)
 		do: [:i| aStream print: (self value: (self domain x: i))]
@@ -23533,10 +23563,11 @@ nullity
 	"Answer the dimension of the kernel of the receiver."
 	^ matrix numberOfRows - matrix rank! !
 
-!LinearMap methodsFor: 'printing' stamp: 'len 10/17/2016 16:44'!
+!LinearMap methodsFor: 'printing' stamp: 'len 11/2/2016 07:59'!
 printOn: aStream
 	self isIdentity ifTrue: [aStream nextPutAll: 'id'. ^ self].
 	self negated isIdentity ifTrue: [aStream nextPutAll: '-id'. ^ self].
+	self isZero ifTrue: [aStream nextPut: $0. ^ self].
 	aStream nextPut: $(.
 	matrix rows
 		do: [:each| aStream print: (domainBasis dual elementAt: each)]
