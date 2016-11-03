@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 2 November 2016 at 9:17:26.540163 am'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 3 November 2016 at 4:49:38.363109 am'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 267!
+!provides: 'Mathematics' 1 268!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
 	instanceVariableNames: 'numerator shift'
@@ -711,18 +711,18 @@ IntegerQuotientRing subclass: #PrimeField
 PrimeField class
 	instanceVariableNames: ''!
 
-!classDefinition: #AlgebraicExtensionField category: #'Mathematics-Fields'!
-QuotientRing subclass: #AlgebraicExtensionField
+!classDefinition: #ExtensionField category: #'Mathematics-Fields'!
+QuotientRing subclass: #ExtensionField
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Fields'!
-!classDefinition: 'AlgebraicExtensionField class' category: #'Mathematics-Fields'!
-AlgebraicExtensionField class
+!classDefinition: 'ExtensionField class' category: #'Mathematics-Fields'!
+ExtensionField class
 	instanceVariableNames: ''!
 
 !classDefinition: #NumberField category: #'Mathematics-Fields'!
-AlgebraicExtensionField subclass: #NumberField
+ExtensionField subclass: #NumberField
 	instanceVariableNames: 'adjoint'
 	classVariableNames: ''
 	poolDictionaries: ''
@@ -891,14 +891,14 @@ Module subclass: #FreeModule
 FreeModule class
 	instanceVariableNames: ''!
 
-!classDefinition: #AlgebraicExtensionSpace category: #'Mathematics-Fields'!
-FreeModule subclass: #AlgebraicExtensionSpace
+!classDefinition: #ExtensionSpace category: #'Mathematics-Fields'!
+FreeModule subclass: #ExtensionSpace
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Fields'!
-!classDefinition: 'AlgebraicExtensionSpace class' category: #'Mathematics-Fields'!
-AlgebraicExtensionSpace class
+!classDefinition: 'ExtensionSpace class' category: #'Mathematics-Fields'!
+ExtensionSpace class
 	instanceVariableNames: ''!
 
 !classDefinition: #DirectSumModule category: #'Mathematics-Modules'!
@@ -2281,14 +2281,14 @@ Object subclass: #ResidueClass
 ResidueClass class
 	instanceVariableNames: ''!
 
-!classDefinition: #AlgebraicExtensionElement category: #'Mathematics-Fields'!
-ResidueClass subclass: #AlgebraicExtensionElement
+!classDefinition: #ExtensionFieldElement category: #'Mathematics-Fields'!
+ResidueClass subclass: #ExtensionFieldElement
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Fields'!
-!classDefinition: 'AlgebraicExtensionElement class' category: #'Mathematics-Fields'!
-AlgebraicExtensionElement class
+!classDefinition: 'ExtensionFieldElement class' category: #'Mathematics-Fields'!
+ExtensionFieldElement class
 	instanceVariableNames: ''!
 
 !classDefinition: #PolynomialResidueClass category: #'Mathematics-Polynomials'!
@@ -3473,7 +3473,7 @@ A bounded chain complex is one where only a finite number of Ci are not {0}.
 
 Chain complexes form a cateogory with chain maps as morphisms.!
 
-!Domain commentStamp: 'len 11/2/2016 08:45' prior: 0!
+!Domain commentStamp: '<historical>' prior: 0!
 My instances are mathematical structures, such as groups, rings, fields, vector spaces, modules, etc.
 
 Domains are connected by Morphisms, which in many cases are Functions. From the point of view of category theory, Domains and Functions are respectively 'objects' and 'morphisms' of (small) categories.
@@ -3500,7 +3500,7 @@ Examples:
 
 Given two domains A and B in the same category, the set of morphisms between them Hom(A,B) is obtained by sending the message 'A hom: B' (so #hom: is the Hom(A,-) functor). The identity morphism is returned by the message #id. And a morphism from A to B can be constructed by sending 'A to: B evaluating: [:x| ...]'.
 
-Morphisms uniquely determined by their domain and codomain can be retrieved by sending the message #. For example, for any ring R, 'ZZ  R' is the canonical ring homomorphism that sends an integer n to the unit of R times n. In order for this mechanism to work, subclasses must reimplement the messages #to: and #from: to answer canonical morphisms when such morphisms are known, and call super otherwise. See examples in Morphism class.
+Morphisms uniquely determined by their domain and codomain can be retrieved by sending the message #. For example, for any ring R, 'ZZ  R' returns the canonical ring homomorphism that sends an integer n to n times the unit of R. In order for this mechanism to work, subclasses must reimplement the messages #to: and #from: to answer canonical morphisms when such morphisms are known, and call super otherwise. See examples in Morphism class.
 
 Subclasses most frequently reimplement the following messages:
 - #= and #<=
@@ -3689,8 +3689,8 @@ My instances are rings of residue classes of integers modulo m, i.e. Z/<m>.!
 !PrimeField commentStamp: '<historical>' prior: 0!
 My instances are fields of order p prime, i.e. the residue field Z/<p> of integers modulo p.!
 
-!AlgebraicExtensionField commentStamp: '<historical>' prior: 0!
-My instances are (finite) algebraic extensions E/F of a field F. They are defined by an irreducible polynomial f with coefficients in F, and are isomorphic to F[x]/<f>.
+!ExtensionField commentStamp: '<historical>' prior: 0!
+My instances are (finite) algebraic extensions E/F of a field F. They are defined by an irreducible polynomial f with coefficients in F, and are isomorphic to F[x]/<f>. An extension field E/F can also be viewed as a vector space over F.
 
 Example:
 	QQ extension: QQ polynomials x**4 - 2
@@ -3700,7 +3700,7 @@ Example:
 My instances are number fields, i.e. finite (and thus algebraic) field extensions of the rational numbers Q. Number fields can also be viewed as vector spaces over Q.
 
 Example:
-	QQ adjoint: RealAlgebraicNumber sqrt2
+	QQ adjoin: RealAlgebraicNumber sqrt2
 !
 
 !PolynomialQuotientRing commentStamp: '<historical>' prior: 0!
@@ -3766,7 +3766,7 @@ My instances are right R-modules.
 !FreeModule commentStamp: '<historical>' prior: 0!
 My instances are free right R-modules, i.e. right R-modules with a basis. They are isomorphic to R^n.!
 
-!AlgebraicExtensionSpace commentStamp: '<historical>' prior: 0!
+!ExtensionSpace commentStamp: '<historical>' prior: 0!
 My instances are (finite) algebraic extensions E/F of a field F seen as an F-vector space.
 
 Example:
@@ -3993,7 +3993,7 @@ References:
 !Scheme commentStamp: '<historical>' prior: 0!
 My instances are schemes.
 
-The implementation has some limitations. It can represent closed subschemes of affine and projective space defined by polynomial equations. Some other schemes can also be represented (such as Spec(Z) and its closed subschemes Spec(Z/<m>)), but some the functionality is limited. Also, many operations require the base ring to be a field.!
+The current implementation has some limitations. It can represent closed subschemes of affine and projective space defined by polynomial equations. Some other schemes can also be represented (such as Spec(Z) and its closed subschemes Spec(Z/<m>)), but the functionality is limited. Also, many operations require the base ring to be a field.!
 
 !AffineScheme commentStamp: '<historical>' prior: 0!
 My instances are affine schemes, i.e. spectra of commutative rings noted Spec R. The ring R is the associated 'coordinate ring' of the scheme.
@@ -4269,6 +4269,9 @@ My instances are rational functions, i.e. fractions where the numerator and deno
 
 !ResidueClass commentStamp: '<historical>' prior: 0!
 My instances are elements of a quotient ring, i.e. residue classes modulo an ideal. See QuotientRing.!
+
+!ExtensionFieldElement commentStamp: '<historical>' prior: 0!
+My instances are elements of finite algebraic field extensions. See ExtensionField.!
 
 !AlgebraicNumber commentStamp: '<historical>' prior: 0!
 My instances are complex algebraic numbers, i.e. zeroes of polynomials with integer coefficients.
@@ -13840,12 +13843,12 @@ dimension
 	self isDedekindDomain ifTrue: [^ 1].
 	^ properties at: #dimension! !
 
-!Ring methodsFor: 'operations' stamp: 'len 10/21/2016 22:24'!
+!Ring methodsFor: 'operations' stamp: 'len 11/2/2016 15:21'!
 extension: aPolynomial
 	"Answer the algebraic extension of the receiver defined by the given irreducible polynomial."
 	self isField ifFalse: [DomainError signal: 'not a field'].
 	aPolynomial scalars = self ifFalse: [DomainError signal: 'polynomial coefficients not from this field'].
-	^ AlgebraicExtensionField polynomial: aPolynomial! !
+	^ ExtensionField polynomial: aPolynomial! !
 
 !Ring methodsFor: 'operations' stamp: 'len 10/31/2016 05:46'!
 extensionDegree: anInteger
@@ -14936,9 +14939,9 @@ isReduced
 modulus
 	^ self ideal generator! !
 
-!QuotientRing methodsFor: 'accessing' stamp: 'len 9/26/2016 16:50'!
+!QuotientRing methodsFor: 'accessing' stamp: 'len 11/3/2016 04:31'!
 one
-	^ self project: ideal ring one! !
+	^ self project: self base one! !
 
 !QuotientRing methodsFor: 'printing' stamp: 'len 9/26/2016 16:50'!
 printOn: aStream
@@ -14964,9 +14967,9 @@ relation
 residueClassClass
 	^ ResidueClass! !
 
-!QuotientRing methodsFor: 'accessing' stamp: 'len 9/26/2016 16:50'!
+!QuotientRing methodsFor: 'accessing' stamp: 'len 11/3/2016 04:31'!
 zero
-	^ self project: ideal ring zero! !
+	^ self project: self base zero! !
 
 !QuotientRing class methodsFor: 'instance creation' stamp: 'len 11/28/2015 05:54'!
 by: anIdeal
@@ -15058,9 +15061,9 @@ primitiveRoot
 new: aPrime
 	^ self by: ZZ * aPrime! !
 
-!AlgebraicExtensionField methodsFor: 'converting' stamp: 'len 10/16/2016 14:43'!
+!ExtensionField methodsFor: 'converting' stamp: 'len 11/2/2016 15:22'!
 asVectorSpace
-	^ self as: AlgebraicExtensionSpace
+	^ self as: ExtensionSpace
 "	^ (self as: FreeModule)
 		scalars: self baseField;
 		coordinateBlock: [:aVector| self baseField tuple: self degree evaluating: [:i| aVector representative coefficientAtDegree: i-1]];
@@ -15070,124 +15073,81 @@ asVectorSpace
 	QQ extension: QQ polynomials x**4 - 2 :: asVectorSpace
 "! !
 
-!AlgebraicExtensionField methodsFor: 'morphisms' stamp: 'len 10/5/2016 09:51'!
+!ExtensionField methodsFor: 'morphisms' stamp: 'len 10/5/2016 09:51'!
 automorphisms
 	"Answer the Galous group of the receiver (assuming the receiver is a Galois extension)."
 	self isFinite ifTrue: [^ Group compositive generators: {self frobenius}].
 	self flag: #fix. "This is actually isomorphic to the Galois group, not the actual Galois group, it should act on elements of the extension and it's not the full symmetric group."
 	^ SymmetricGroup on: (self embeddings collect: [:each| each value: self x])! !
 
-!AlgebraicExtensionField methodsFor: 'accessing' stamp: 'len 3/19/2016 03:21'!
-baseField
-	^ self polynomial scalars! !
-
-!AlgebraicExtensionField methodsFor: 'accessing' stamp: 'len 3/19/2016 04:18'!
+!ExtensionField methodsFor: 'accessing' stamp: 'len 11/3/2016 04:35'!
 characteristic
-	^ self baseField characteristic! !
+	^ self scalars characteristic! !
 
-!AlgebraicExtensionField methodsFor: 'elements-operations' stamp: 'len 6/21/2016 05:39'!
-characteristicPolynomialOf2: anElement
-	| x |
-	x _ AlgebraicNumbers new polynomials x.
-	^ (self embeddings product: [:each| x - (each value: anElement)]) as: self baseField polynomials! !
-
-!AlgebraicExtensionField methodsFor: 'elements-operations' stamp: 'len 6/4/2016 17:39'!
-characteristicPolynomialOf: anElement
-	^ (self asVectorSpace endomorphisms evaluating: [:x| x * anElement]) characteristicPolynomial! !
-
-!AlgebraicExtensionField methodsFor: 'accessing' stamp: 'len 3/18/2016 22:31'!
+!ExtensionField methodsFor: 'accessing' stamp: 'len 3/18/2016 22:31'!
 degree
 	^ self polynomial degree! !
 
-!AlgebraicExtensionField methodsFor: 'morphisms' stamp: 'len 10/16/2016 15:11'!
+!ExtensionField methodsFor: 'morphisms' stamp: 'len 10/16/2016 15:11'!
 embed: aNumber
 	"This is the field homomorphism that embeds the base field into the receiver."
 	^ self project: (self ideal ring embed: aNumber)! !
 
-!AlgebraicExtensionField methodsFor: 'morphisms' stamp: 'len 10/10/2016 08:55'!
+!ExtensionField methodsFor: 'morphisms' stamp: 'len 11/3/2016 04:34'!
 embedding
 	"Answer the field homomorphism that embeds the base field into the receiver."
-	^ properties at: #embedding ifAbsentPut: [(self baseField to: self evaluating: [:x| self embed: x]) name: 'i']! !
+	^ properties at: #embedding ifAbsentPut: [(self scalars to: self evaluating: [:x| self embed: x]) name: 'i']! !
 
-!AlgebraicExtensionField methodsFor: 'morphisms' stamp: 'len 6/4/2016 19:30'!
+!ExtensionField methodsFor: 'morphisms' stamp: 'len 11/3/2016 04:35'!
 embeddings
 	"Answer the n distinct embeddings of the receiver in the algebraic closure of the base field, where n is the degree of the receiver. In the case of number fields, the embeddings go to the complex algebraic numbers.
 	When the receiver is a Galois extension, the embeddings send each element to one of its conjugates, and their images are the same."
-	^ properties at: #embeddings ifAbsentPut: [self embeddingsIn: self baseField algebraicClosure]! !
+	^ properties at: #embeddings ifAbsentPut: [self embeddingsIn: self scalars algebraicClosure]! !
 
-!AlgebraicExtensionField methodsFor: 'morphisms' stamp: 'len 8/31/2016 05:43'!
+!ExtensionField methodsFor: 'morphisms' stamp: 'len 8/31/2016 05:43'!
 embeddingsIn: aField
 	^ (self polynomial rootsIn: aField)
 		collect: [:x| self to: aField evaluating: [:alpha| alpha representative value: x]]! !
 
-!AlgebraicExtensionField methodsFor: 'testing' stamp: 'len 10/18/2016 20:47'!
+!ExtensionField methodsFor: 'testing' stamp: 'len 10/18/2016 20:47'!
 isField
 	^ true! !
 
-!AlgebraicExtensionField methodsFor: 'testing' stamp: 'len 5/14/2016 06:54'!
+!ExtensionField methodsFor: 'testing' stamp: 'len 5/14/2016 06:54'!
 isGlobalField
 	^ true! !
 
-!AlgebraicExtensionField methodsFor: 'elements-operations' stamp: 'len 6/21/2016 05:38'!
-minimalPolynomialOf2: anElement
-	^ (self preferedEmbedding value: anElement) minimalPolynomial! !
-
-!AlgebraicExtensionField methodsFor: 'elements-operations' stamp: 'len 6/4/2016 23:56'!
-minimalPolynomialOf: anElement
-	^ (self asVectorSpace endomorphisms evaluating: [:x| x * anElement]) minimalPolynomial
-"	| x |
-	x _ self polynomials x.
-	^ anElement conjugates product: [:each| x - each] :: as: self baseField polynomials"! !
-
-!AlgebraicExtensionField methodsFor: 'elements-operations' stamp: 'len 6/21/2016 05:29'!
-normOf: anElement
-	"Answer the absolute norm of anElement."
-	| f |
-	f _ self minimalPolynomialOf: anElement.
-	^ f independentCoefficient / f leadingCoefficient * (f degree even ifTrue: [1] ifFalse: [-1])! !
-
-!AlgebraicExtensionField methodsFor: 'accessing' stamp: 'len 3/18/2016 22:41'!
-one
-	^ self embed: self baseField one! !
-
-!AlgebraicExtensionField methodsFor: 'accessing' stamp: 'len 10/16/2016 15:13'!
+!ExtensionField methodsFor: 'accessing' stamp: 'len 10/16/2016 15:13'!
 polynomial
 	^ self ideal generator! !
 
-!AlgebraicExtensionField methodsFor: 'accessing-private' stamp: 'len 10/16/2016 15:13'!
+!ExtensionField methodsFor: 'accessing-private' stamp: 'len 10/16/2016 15:13'!
 polynomial: aPolynomial
 	self ideal: aPolynomial species * aPolynomial! !
 
-!AlgebraicExtensionField methodsFor: 'printing' stamp: 'len 10/5/2016 09:50'!
+!ExtensionField methodsFor: 'printing' stamp: 'len 11/3/2016 04:35'!
 printOn: aStream
 	(properties includesKey: #name) ifTrue: [^ super printOn: aStream].
-	aStream print: self baseField; nextPut: $(; print: self polynomial; nextPut: $)! !
+	aStream print: self scalars; nextPut: $(; print: self polynomial; nextPut: $)! !
 
-!AlgebraicExtensionField methodsFor: 'private' stamp: 'len 11/1/2016 05:14'!
+!ExtensionField methodsFor: 'private' stamp: 'len 11/2/2016 15:21'!
 residueClassClass
-	^ AlgebraicExtensionElement! !
+	^ ExtensionFieldElement! !
 
-!AlgebraicExtensionField methodsFor: 'accessing' stamp: 'len 3/19/2016 04:24'!
+!ExtensionField methodsFor: 'accessing' stamp: 'len 11/3/2016 04:32'!
+scalars
+	^ self base scalars! !
+
+!ExtensionField methodsFor: 'accessing' stamp: 'len 11/3/2016 04:36'!
 size
-	^ self baseField size ** self degree! !
+	^ self scalars size ** self degree! !
 
-!AlgebraicExtensionField methodsFor: 'elements-operations' stamp: 'len 6/4/2016 23:54'!
-symmetricFunction: i of: anElement
-	^ self notYetImplemented! !
-
-!AlgebraicExtensionField methodsFor: 'elements-operations' stamp: 'len 6/21/2016 05:30'!
-traceOf: anElement
-	"Answer the absolute trace of anElement."
-	| f |
-	f _ self minimalPolynomialOf: anElement.
-	^ (f coefficientAtDegree: f degree - 1) / f leadingCoefficient! !
-
-!AlgebraicExtensionField methodsFor: 'accessing' stamp: 'len 10/16/2016 15:12'!
+!ExtensionField methodsFor: 'accessing' stamp: 'len 11/3/2016 04:33'!
 x
 	"Answer the transcendental element of the receiver."
-	^ self project: self ideal ring x! !
+	^ self project: self base x! !
 
-!AlgebraicExtensionField class methodsFor: 'instance creation' stamp: 'len 5/12/2016 10:05'!
+!ExtensionField class methodsFor: 'instance creation' stamp: 'len 5/12/2016 10:05'!
 polynomial: aPolynomial
 	"Answer a new algebraic field extension K(f) where f is the given polynomial in K[x]. The polynomial must be irreducible, otherwise there would be zero divisors."
 	^ self new polynomial: aPolynomial! !
@@ -15204,10 +15164,6 @@ adjoint: anAlgebraicNumber
 !NumberField methodsFor: 'operations' stamp: 'len 1/10/2016 22:34'!
 archimedeanPlaces
 	^ self notYetImplemented! !
-
-!NumberField methodsFor: 'accessing' stamp: 'len 7/15/2016 18:35'!
-baseField
-	^ QQ! !
 
 !NumberField methodsFor: 'accessing' stamp: 'len 1/10/2016 22:35'!
 basis
@@ -15253,9 +15209,9 @@ nonArchimedeanPlaces
 preferedEmbedding
 	^ self embeddings detect: [:one| (one value: self x) = adjoint]! !
 
-!NumberField methodsFor: 'printing' stamp: 'len 4/21/2016 00:06'!
+!NumberField methodsFor: 'printing' stamp: 'len 11/3/2016 04:26'!
 printOn: aStream
-	aStream print: self baseField; nextPut: $(; print: adjoint; nextPut: $)! !
+	aStream print: self scalars; nextPut: $(; print: adjoint; nextPut: $)! !
 
 !NumberField methodsFor: 'morphisms' stamp: 'len 4/17/2016 06:43'!
 realEmbeddings
@@ -15264,6 +15220,10 @@ realEmbeddings
 !NumberField methodsFor: 'operations' stamp: 'len 1/11/2016 03:53'!
 regulator
 	^ self notYetImplemented! !
+
+!NumberField methodsFor: 'accessing' stamp: 'len 11/3/2016 04:41'!
+scalars
+	^ QQ! !
 
 !NumberField methodsFor: 'accessing' stamp: 'len 3/19/2016 09:33'!
 signature
@@ -15281,6 +15241,10 @@ polynomial: aPolynomial
 !QuadraticField class methodsFor: 'instance creation' stamp: 'len 5/20/2016 02:43'!
 sqrt: anInteger
 	^ self adjoint: (AlgebraicNumber sqrt: anInteger)! !
+
+!PolynomialQuotientRing methodsFor: 'accessing' stamp: 'len 11/3/2016 04:30'!
+characteristic
+	^ self base characteristic! !
 
 !PolynomialQuotientRing methodsFor: 'accessing' stamp: 'len 10/27/2016 08:51'!
 dimension
@@ -16692,21 +16656,21 @@ new: anInteger over: aRing
 on: aCollection over: aRing
 	^ self new scalars: aRing; basis: (aCollection collect: [:each| FormalSum with: each])! !
 
-!AlgebraicExtensionSpace methodsFor: 'basis' stamp: 'len 6/4/2016 18:08'!
+!ExtensionSpace methodsFor: 'basis' stamp: 'len 11/3/2016 04:45'!
 coordinatesOf: aVector
-	^ self scalars tuple: self dimension evaluating: [:i| aVector representative coefficientAtDegree: i-1]! !
+	^ self scalars tuple: self rank evaluating: [:i| aVector representative coefficientAtDegree: i-1]! !
 
-!AlgebraicExtensionSpace methodsFor: 'basis' stamp: 'len 6/4/2016 18:19'!
+!ExtensionSpace methodsFor: 'basis' stamp: 'len 6/4/2016 18:19'!
 e: anInteger
 	^ self elements x ** (anInteger - 1)! !
 
-!AlgebraicExtensionSpace methodsFor: 'basis' stamp: 'len 10/22/2016 21:35'!
+!ExtensionSpace methodsFor: 'basis' stamp: 'len 10/22/2016 21:35'!
 rank
 	^ self elements degree! !
 
-!AlgebraicExtensionSpace methodsFor: 'accessing' stamp: 'len 6/4/2016 17:53'!
+!ExtensionSpace methodsFor: 'accessing' stamp: 'len 11/3/2016 04:26'!
 scalars
-	^ self elements baseField! !
+	^ self elements scalars! !
 
 !DirectSumModule methodsFor: 'accessing' stamp: 'len 2/16/2016 07:31'!
 arity
@@ -21282,6 +21246,10 @@ isEquidimensional
 isHypersurface
 	^ self codimension = 1! !
 
+!Scheme methodsFor: 'testing' stamp: 'len 11/2/2016 12:10'!
+isInitial
+	^ false! !
+
 !Scheme methodsFor: 'testing' stamp: 'len 10/14/2016 18:13'!
 isIntegral
 	^ self isReduced and: [self isIrreducible]! !
@@ -21346,6 +21314,10 @@ isSmoothAt: aPoint
 	properties at: #isSmooth ifPresent: [:aBoolean| aBoolean ifTrue: [^ true]].
 	(self includes: aPoint) ifFalse: [DomainError signal: 'point not in this scheme'].
 	^ (self singular includes: aPoint) not! !
+
+!Scheme methodsFor: 'testing' stamp: 'len 11/2/2016 12:10'!
+isTerminal
+	^ false! !
 
 !Scheme methodsFor: 'points' stamp: 'len 10/27/2016 15:05'!
 points
@@ -21456,9 +21428,17 @@ isFinite
 			ifFalse: [^ false]].
 	^ true! !
 
+!AffineScheme methodsFor: 'testing' stamp: 'len 11/2/2016 12:10'!
+isInitial
+	^ self coordinateRing isTerminal! !
+
 !AffineScheme methodsFor: 'testing' stamp: 'len 10/20/2016 15:22'!
 isProjective
 	^ false! !
+
+!AffineScheme methodsFor: 'testing' stamp: 'len 11/2/2016 12:10'!
+isTerminal
+	^ self coordinateRing isInitial! !
 
 !AffineScheme methodsFor: 'printing' stamp: 'len 10/19/2016 22:57'!
 printOn: aStream
@@ -27093,6 +27073,10 @@ negated
 one
 	^ parent one! !
 
+!ResidueClass methodsFor: 'private' stamp: 'len 11/3/2016 04:43'!
+parent
+	^ parent! !
+
 !ResidueClass methodsFor: 'accessing-private' stamp: 'len 10/16/2016 16:01'!
 parent: aQuotientRing
 	parent _ aQuotientRing! !
@@ -27125,21 +27109,39 @@ zero
 in: aQuotientRing representative: anObject
 	^ self new parent: aQuotientRing; representative: anObject! !
 
-!AlgebraicExtensionElement methodsFor: 'as yet unclassified' stamp: 'len 10/16/2016 18:18'!
+!ExtensionFieldElement methodsFor: 'as yet unclassified' stamp: 'len 10/16/2016 18:18'!
 characteristicPolynomial
 	^ (self parent asVectorSpace endomorphisms evaluating: [:x| x * self]) characteristicPolynomial! !
 
-!AlgebraicExtensionElement methodsFor: 'as yet unclassified' stamp: 'len 10/16/2016 18:18'!
-minimalPolynomial
-	^ (self parent asVectorSpace endomorphisms evaluating: [:x| x * self]) minimalPolynomial! !
+!ExtensionFieldElement methodsFor: 'as yet unclassified' stamp: 'len 11/3/2016 04:37'!
+characteristicPolynomial2
+	| x |
+	x _ AlgebraicNumbers new polynomials x.
+	^ (self parent embeddings product: [:each| x - (each value: self)]) as: self parent base! !
 
-!AlgebraicExtensionElement methodsFor: 'as yet unclassified' stamp: 'len 10/16/2016 18:17'!
+!ExtensionFieldElement methodsFor: 'as yet unclassified' stamp: 'len 11/3/2016 04:38'!
+minimalPolynomial
+	^ (self parent asVectorSpace endomorphisms evaluating: [:x| x * self]) minimalPolynomial
+
+"	| x |
+	x _ self parent x.
+	^ self conjugates product: [:each| x - each] :: as: self parent base"! !
+
+!ExtensionFieldElement methodsFor: 'as yet unclassified' stamp: 'len 11/3/2016 04:41'!
+minimalPolynomial2
+	^ (self parent preferedEmbedding value: self) minimalPolynomial! !
+
+!ExtensionFieldElement methodsFor: 'as yet unclassified' stamp: 'len 10/16/2016 18:17'!
 norm
 	| f |
 	f _ self minimalPolynomial.
 	^ f independentCoefficient / f leadingCoefficient * (f degree even ifTrue: [1] ifFalse: [-1])! !
 
-!AlgebraicExtensionElement methodsFor: 'as yet unclassified' stamp: 'len 10/16/2016 18:20'!
+!ExtensionFieldElement methodsFor: 'as yet unclassified' stamp: 'len 11/3/2016 04:41'!
+symmetricFunction: i
+	^ self notYetImplemented! !
+
+!ExtensionFieldElement methodsFor: 'as yet unclassified' stamp: 'len 10/16/2016 18:20'!
 trace
 	"Answer the absolute trace of the receiver."
 	| f |
