@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 29 October 2016 at 8:43:38.457952 am'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 3 November 2016 at 8:58:30.847544 am'!
 'Description Please enter a description for this package'!
-!provides: 'Documentation' 1 1!
+!provides: 'Documentation' 1 2!
 !classDefinition: #DocumentationGenerator category: #Documentation!
 Object subclass: #DocumentationGenerator
 	instanceVariableNames: ''
@@ -18,7 +18,7 @@ copy: aString replaceAll: oldSubstring with: newSubstring
 		collect: [:each| (each includesSubString: 'http') ifTrue: [each] ifFalse: [each copyReplaceTokens: oldSubstring with: newSubstring]]
 		andFold: [:a :b| a, Character lf asString, b]! !
 
-!DocumentationGenerator methodsFor: 'as yet unclassified' stamp: 'len 10/28/2016 20:37'!
+!DocumentationGenerator methodsFor: 'as yet unclassified' stamp: 'len 11/2/2016 11:46'!
 escape: aString
 	| output |
 	output _ aString.
@@ -28,6 +28,10 @@ escape: aString
 	output _ output copyReplaceAll: Character tab asString with: '&nbsp;&nbsp;&nbsp;&nbsp;'.
 	output _ output copyReplaceAll: ' _ ' with: ' &larr; '.
 	output _ output copyReplaceAll: '^ ' with: '&uarr; '.
+	output _ output copyReplaceAll: Character arrowRight asString with: '&rarr;'.
+	output _ output copyReplaceAll: Character arrowLeft asString with: '&larr;'.
+	output _ output copyReplaceAll: Character arrowUp asString with: '&uarr;'.
+	output _ output copyReplaceAll: Character arrowDown asString with: '&darr;'.
 	output _ output copyReplaceAll: Character otimes asString with: '&otimes;'.
 	output _ output copyReplaceAll: Character oplus asString with: '&oplus;'.
 	output _ output copyReplaceAll: Character infinity asString with: '&infin;'.
@@ -36,12 +40,16 @@ escape: aString
 	output _ output copyReplaceAll: Character cap asString with: '&cap;'.
 	^ output! !
 
-!DocumentationGenerator methodsFor: 'as yet unclassified' stamp: 'len 10/28/2016 22:55'!
+!DocumentationGenerator methodsFor: 'as yet unclassified' stamp: 'len 11/2/2016 11:54'!
 escapeCode: aString
 	| output |
 	output _ aString.
 	output _ output copyReplaceAll: ' _ ' with: ' &larr; '.
 	output _ output copyReplaceAll: '^ ' with: '&uarr; '.
+	output _ output copyReplaceAll: Character arrowRight asString with: '&rarr;'.
+	output _ output copyReplaceAll: Character arrowLeft asString with: '&larr;'.
+	output _ output copyReplaceAll: Character arrowUp asString with: '&uarr;'.
+	output _ output copyReplaceAll: Character arrowDown asString with: '&darr;'.
 	output _ output copyReplaceAll: Character otimes asString with: '&otimes;'.
 	output _ output copyReplaceAll: Character oplus asString with: '&oplus;'.
 	output _ output copyReplaceAll: Character infinity asString with: '&infin;'.
