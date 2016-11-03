@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 2 November 2016 at 9:17:29.379829 am'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 3 November 2016 at 9:01:05.112204 am'!
 'Description Please enter a description for this package'!
-!provides: 'MathematicsTests' 1 37!
+!provides: 'MathematicsTests' 1 38!
 !classDefinition: #AbelianGroupTest category: #MathematicsTests!
 TestCase subclass: #AbelianGroupTest
 	instanceVariableNames: ''
@@ -1995,7 +1995,7 @@ testRotationsBy90Degrees
 	"test invariant ring K[x,y]^G = K[x^2+y^2, x^2y^2, x^3y-xy^3], isomorphic to K[a,b,c]/<c^2-a^2b+4b^2>"
 	"test hilbert series is 1-z^8 / ((1-z^2)^2(1-z^4)) = 1 + z^2 + 3z^4 + 3z^6 + ..."! !
 
-!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 7/20/2016 03:40'!
+!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 11/3/2016 04:39'!
 testAlgebraicExtension
 	| x E a b |
 	x _ QQ polynomials x.
@@ -2003,7 +2003,7 @@ testAlgebraicExtension
 	a _ E x.
 	self assert: (a**4) representative asScalar = 2.
 	b _ a**2 + (E embed: 3).
-	self assert: (E minimalPolynomialOf: b) = (x**2 - (x*6) + 7)! !
+	self assert: b minimalPolynomial = (x**2 - (x*6) + 7)! !
 
 !MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 7/2/2016 05:48'!
 testBitCount
@@ -2236,11 +2236,11 @@ testLatticeD4SelfDual
 	D4 _ Lattice D4.
 	self assert: D4 isSelfDual! !
 
-!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:05'!
+!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 11/3/2016 08:14'!
 testLatticeDual
 	| V basis lattice dualLattice I |
 	V _ QQ ** 3.
-	basis _ LinearBasis on: V vectors: {(-1,0,0). (0,1,2). (0,1,1)}.
+	basis _ LinearBasis on: V generators: {(-1,0,0). (0,1,2). (0,1,1)}.
 	lattice _ Lattice basis: basis.
 	dualLattice _ lattice dual.
 	I _ basis matrix species identity.
@@ -2248,11 +2248,11 @@ testLatticeDual
 	self assert: lattice determinant = (1 / dualLattice determinant).
 	self assert: lattice basis matrix * dualLattice basis matrix = I! !
 
-!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:05'!
+!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 11/3/2016 08:14'!
 testLatticeDual2
 	| V basis lattice dualLattice |
 	V _ QQ ** 3.
-	basis _ LinearBasis on: V vectors: {(-1,0,0). (0,1,2)}. "not full rank"
+	basis _ LinearBasis on: V generators: {(-1,0,0). (0,1,2)}. "not full rank"
 	lattice _ Lattice basis: basis.
 	dualLattice _ lattice dual.
 	self assert: lattice basis span = dualLattice basis span.
@@ -2814,27 +2814,27 @@ testGrassmannian
 	self assert: (G includes: S).
 	self assert: (G dual includes: S perp dual)! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:57'!
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 11/3/2016 08:14'!
 testLinearBasisCoordinatesOf
 	| V basis c |
 	V _ QQ ** 3.
-	basis _ LinearBasis on: V vectors: {(-1,0,0). (0,0,2)}.
+	basis _ LinearBasis on: V generators: {(-1,0,0). (0,0,2)}.
 	c _ basis coordinatesOf: (1,0,4).
 	self assert: c = (-1,2)! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:57'!
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 11/3/2016 08:14'!
 testLinearBasisCoordinatesOf2
 	| V basis c |
 	V _ QQ ** 3.
-	basis _ LinearBasis on: V vectors: {(-1,0,0). (0,0,2)}.
+	basis _ LinearBasis on: V generators: {(-1,0,0). (0,0,2)}.
 	c _ basis coordinatesOf: (1,1,4).
 	self assert: c isNil! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:57'!
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 11/3/2016 08:14'!
 testLinearBasisDual
 	| V basis B Bdual I |
 	V _ QQ ** 3.
-	basis _ LinearBasis on: V vectors: {(-1,0,0). (0,1,2). (0,1,1)}.
+	basis _ LinearBasis on: V generators: {(-1,0,0). (0,1,2). (0,1,1)}.
 	B _ basis matrix.
 	Bdual _ basis dual matrix.
 	I _ B species identity.
@@ -3110,19 +3110,19 @@ testOrthogonalProjection
 	self assert: p image = S.
 	self assert: (S apply: p) = S! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:59'!
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 11/3/2016 08:14'!
 testOrthogonalization
 	| V B |
 	V _ QQ ** 3.
-	B _ LinearBasis on: V vectors: {(1, 1, 0). (1, 0, 0)}.
+	B _ LinearBasis on: V generators: {(1, 1, 0). (1, 0, 0)}.
 	self assert: B orthogonalized isOrthogonal.
 	self assert: B extended orthogonalized isOrthogonal! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:59'!
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 11/3/2016 08:14'!
 testOrthonormalization
 	| V B |
 	V _ QQ ** 3.
-	B _ LinearBasis on: V vectors: {(1, 1, 0). (1, 0, 0)}.
+	B _ LinearBasis on: V generators: {(1, 1, 0). (1, 0, 0)}.
 	self assert: B orthonormalized isOrthonormal.
 	self assert: B extended orthonormalized isOrthonormal! !
 
@@ -3460,13 +3460,13 @@ testWeightedMonomialOrderings
 	self assert: (f orderedBy: trevlex) leadingCoefficient = 11.
 	self assert: (f orderedBy: revlex) leadingCoefficient = 11! !
 
-!NumberFieldTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:07'!
+!NumberFieldTest methodsFor: 'as yet unclassified' stamp: 'len 11/3/2016 04:40'!
 testQSqrt2
 	| E x |
 	x _ QQ polynomials x.
 	E _ QQ adjoin: RealAlgebraicNumber sqrt2.
-	self assert: (E minimalPolynomialOf: E x) = E polynomial.
-	self assert: (E minimalPolynomialOf: E x squared) = (x - 2)! !
+	self assert: E x minimalPolynomial = E polynomial.
+	self assert: E x squared minimalPolynomial = (x - 2)! !
 
 !NumberFieldTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:07'!
 testQSqrt2RealEmbeddings
