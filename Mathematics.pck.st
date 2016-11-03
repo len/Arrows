@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 3 November 2016 at 4:49:38.363109 am'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 3 November 2016 at 8:58:13.497629 am'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 268!
+!provides: 'Mathematics' 1 269!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
 	instanceVariableNames: 'numerator shift'
@@ -123,7 +123,7 @@ BitArray class
 
 !classDefinition: #LinearBasis category: #'Mathematics-Modules'!
 SequenceableCollection subclass: #LinearBasis
-	instanceVariableNames: 'ambient vectors'
+	instanceVariableNames: 'ambient generators'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Modules'!
@@ -889,16 +889,6 @@ Module subclass: #FreeModule
 	category: 'Mathematics-Modules'!
 !classDefinition: 'FreeModule class' category: #'Mathematics-Modules'!
 FreeModule class
-	instanceVariableNames: ''!
-
-!classDefinition: #ExtensionSpace category: #'Mathematics-Fields'!
-FreeModule subclass: #ExtensionSpace
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Fields'!
-!classDefinition: 'ExtensionSpace class' category: #'Mathematics-Fields'!
-ExtensionSpace class
 	instanceVariableNames: ''!
 
 !classDefinition: #DirectSumModule category: #'Mathematics-Modules'!
@@ -3765,13 +3755,6 @@ My instances are right R-modules.
 
 !FreeModule commentStamp: '<historical>' prior: 0!
 My instances are free right R-modules, i.e. right R-modules with a basis. They are isomorphic to R^n.!
-
-!ExtensionSpace commentStamp: '<historical>' prior: 0!
-My instances are (finite) algebraic extensions E/F of a field F seen as an F-vector space.
-
-Example:
-	QQ extension: QQ polynomials x**4 - 2 :: asVectorSpace
-!
 
 !FreeAbelianGroup commentStamp: '<historical>' prior: 0!
 My instances are abelian groups with a basis, i.e. free Z-modules. They are isomorphic to Z^n.
@@ -6834,29 +6817,29 @@ random: anInteger
 	1 to: answer size do: [:i| answer at: i put: 2 atRandom - 1].
 	^ answer! !
 
-!LinearBasis methodsFor: 'comparing' stamp: 'len 7/1/2016 21:35'!
+!LinearBasis methodsFor: 'comparing' stamp: 'len 11/3/2016 08:10'!
 = aLinearBasis
+	self flag: #fix. "maybe don't need this method"
 	self == aLinearBasis ifTrue: [^ true].
-	^ ambient = aLinearBasis ambient and: [vectors = aLinearBasis vectors]! !
+	^ ambient = aLinearBasis ambient and: [generators = aLinearBasis generators]! !
 
-!LinearBasis methodsFor: 'operations' stamp: 'len 7/14/2016 23:08'!
+!LinearBasis methodsFor: 'operations' stamp: 'len 11/3/2016 08:14'!
 ê aLinearBasis
 	| sum |
 	sum _ ambient ê aLinearBasis ambient.
-	^ self class on: sum vectors: (self vectors collect: [:each| Tuple with: each with: aLinearBasis ambient zero]), (aLinearBasis vectors collect: [:each| Tuple with: ambient zero with: each])! !
+	^ self class on: sum generators: (self generators collect: [:each| Tuple with: each with: aLinearBasis ambient zero]), (aLinearBasis generators collect: [:each| Tuple with: ambient zero with: each])! !
 
-!LinearBasis methodsFor: 'accessing' stamp: 'len 11/7/2015 01:53'!
+!LinearBasis methodsFor: 'accessing' stamp: 'len 11/3/2016 08:09'!
 add: anObject
-	^ vectors add: anObject! !
+	^ generators add: anObject! !
 
 !LinearBasis methodsFor: 'accessing' stamp: 'len 11/7/2015 01:37'!
 addAll: aCollection
 	aCollection do: [ :each | self add: each].
 	^ aCollection! !
 
-!LinearBasis methodsFor: 'accessing' stamp: 'len 5/23/2016 19:28'!
+!LinearBasis methodsFor: 'accessing' stamp: 'len 11/3/2016 08:08'!
 ambient
-	"Answer the ambient vector space."
 	^ ambient! !
 
 !LinearBasis methodsFor: 'accessing-private' stamp: 'len 5/23/2016 04:44'!
@@ -6872,13 +6855,13 @@ apply: aLinearMap
 			ifFalse: [answer add: vector]].
 	^ answer! !
 
-!LinearBasis methodsFor: 'accessing' stamp: 'len 11/7/2015 03:04'!
+!LinearBasis methodsFor: 'accessing' stamp: 'len 11/3/2016 08:09'!
 at: anInteger
-	^ vectors at: anInteger! !
+	^ generators at: anInteger! !
 
-!LinearBasis methodsFor: 'accessing' stamp: 'len 11/7/2015 03:05'!
+!LinearBasis methodsFor: 'accessing' stamp: 'len 11/3/2016 08:09'!
 at: anInteger put: anObject
-	^ vectors at: anInteger put: anObject! !
+	^ generators at: anInteger put: anObject! !
 
 !LinearBasis methodsFor: 'operations' stamp: 'len 5/23/2016 04:43'!
 changeTo: aLinearBasis
@@ -6946,9 +6929,9 @@ copyFrom: startIndex to: endIndex
 	startIndex to: endIndex do: [:i| answer add: (self at: i)].
 	^ answer! !
 
-!LinearBasis methodsFor: 'iterating' stamp: 'len 11/7/2015 01:58'!
+!LinearBasis methodsFor: 'iterating' stamp: 'len 11/3/2016 08:09'!
 do: aBlock 
-	vectors do: aBlock! !
+	generators do: aBlock! !
 
 !LinearBasis methodsFor: 'operations' stamp: 'len 5/23/2016 04:32'!
 dual
@@ -6995,6 +6978,14 @@ generates: anObject
 	self isEmpty ifTrue: [^ anObject isZero].
 	^ (self coordinatesOf: anObject) notNil! !
 
+!LinearBasis methodsFor: 'accessing-private' stamp: 'len 11/3/2016 08:11'!
+generators
+	^ generators! !
+
+!LinearBasis methodsFor: 'accessing-private' stamp: 'len 11/3/2016 08:11'!
+generators: aCollection
+	generators _ aCollection! !
+
 !LinearBasis methodsFor: 'operations' stamp: 'len 5/23/2016 04:32'!
 gramian
 	"Answer the Gramian of the receiver, or Gram matrix.
@@ -7003,17 +6994,17 @@ gramian
 		evaluating:
 			[:i :j| ambient innerProduct value: {(self at: i). (self at: j)}]! !
 
-!LinearBasis methodsFor: 'comparing' stamp: 'len 11/7/2015 01:57'!
+!LinearBasis methodsFor: 'comparing' stamp: 'len 11/3/2016 08:09'!
 hash
-	^ vectors hash! !
+	^ generators hash! !
 
-!LinearBasis methodsFor: 'testing' stamp: 'len 11/26/2015 02:39'!
+!LinearBasis methodsFor: 'testing' stamp: 'len 11/3/2016 08:10'!
 includes: anObject
-	^ vectors includes: anObject! !
+	^ generators includes: anObject! !
 
-!LinearBasis methodsFor: 'initialization' stamp: 'len 11/7/2015 01:58'!
+!LinearBasis methodsFor: 'initialization' stamp: 'len 11/3/2016 08:10'!
 initialize
-	vectors _ OrderedCollection new! !
+	generators _ OrderedCollection new! !
 
 !LinearBasis methodsFor: 'testing' stamp: 'len 11/7/2015 02:11'!
 isEmpty
@@ -7061,10 +7052,12 @@ orthonormalized
 	"Answer the receiver orthonormalized by the Gram-Schmidt process."
 	^ (GramSchmidt basis: self) orthonormalBasis! !
 
-!LinearBasis methodsFor: 'printing' stamp: 'len 12/10/2015 03:27'!
+!LinearBasis methodsFor: 'printing' stamp: 'len 11/3/2016 08:50'!
 printOn: aStream
 	aStream nextPut: ${.
-	vectors do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: '; '].
+	generators size isInfinite
+		ifTrue: [aStream print: generators]
+		ifFalse: [generators do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: '; ']].
 	aStream nextPut: $}! !
 
 !LinearBasis methodsFor: 'iterating' stamp: 'len 5/23/2016 04:43'!
@@ -7078,11 +7071,9 @@ select: aBlock
 	self do: [:each | (aBlock value: each) ifTrue: [newCollection add: each]].
 	^ newCollection! !
 
-!LinearBasis methodsFor: 'accessing' stamp: 'len 11/7/2015 01:54'!
+!LinearBasis methodsFor: 'accessing' stamp: 'len 11/3/2016 08:09'!
 size
-	"Answer the number of vectors in the receiver."
-
-	^ vectors size! !
+	^ generators size! !
 
 !LinearBasis methodsFor: 'accessing' stamp: 'len 10/7/2016 08:50'!
 span
@@ -7094,14 +7085,6 @@ vectorAt: aTuple
 	"Answer the vector with coordinates aTuple when expressed as a linear combination of the receiver."
 	^ self elementAt: aTuple! !
 
-!LinearBasis methodsFor: 'accessing-private' stamp: 'len 11/7/2015 01:56'!
-vectors
-	^ vectors! !
-
-!LinearBasis methodsFor: 'accessing-private' stamp: 'len 3/5/2016 01:31'!
-vectors: aCollection
-	vectors _ aCollection! !
-
 !LinearBasis class methodsFor: 'instance creation' stamp: 'len 8/21/97 00:37'!
 new
 	^ super new initialize! !
@@ -7110,14 +7093,13 @@ new
 on: aVectorSpace
 	^ self new ambient: aVectorSpace! !
 
-!LinearBasis class methodsFor: 'instance creation' stamp: 'len 10/17/2016 16:44'!
-on: aFreeModule matrix: aMatrix
-	^ self on: aFreeModule vectors: (aMatrix rows collect: [:each| aFreeModule elementAt: each])! !
+!LinearBasis class methodsFor: 'instance creation' stamp: 'len 11/3/2016 08:13'!
+on: aFreeModule generators: aCollection 
+	^ self basicNew ambient: aFreeModule; generators: aCollection! !
 
-!LinearBasis class methodsFor: 'instance creation' stamp: 'len 3/5/2016 01:31'!
-on: aVectorSpace vectors: aCollection 
-	"Answer a new instance of the receiver with the given vectors."
-	^ self on: aVectorSpace :: vectors: aCollection; yourself! !
+!LinearBasis class methodsFor: 'instance creation' stamp: 'len 11/3/2016 08:12'!
+on: aFreeModule matrix: aMatrix
+	^ self on: aFreeModule generators: (aMatrix rows collect: [:each| aFreeModule elementAt: each])! !
 
 !GroebnerBasis methodsFor: 'accessing' stamp: 'len 11/20/2015 05:09'!
 add: aPolynomial
@@ -15061,13 +15043,12 @@ primitiveRoot
 new: aPrime
 	^ self by: ZZ * aPrime! !
 
-!ExtensionField methodsFor: 'converting' stamp: 'len 11/2/2016 15:22'!
+!ExtensionField methodsFor: 'converting' stamp: 'len 11/3/2016 08:54'!
 asVectorSpace
-	^ self as: ExtensionSpace
-"	^ (self as: FreeModule)
-		scalars: self baseField;
-		coordinateBlock: [:aVector| self baseField tuple: self degree evaluating: [:i| aVector representative coefficientAtDegree: i-1]];
-		basis: ((1 to: self degree) collect: [:i| self x ** (i-1)])"
+	^ FreeModule
+		basis: ((1 to: self degree) collect: [:i| self x ** (i-1)])
+		coordinates: [:aVector| self scalars tuple: self degree evaluating: [:i| aVector representative coefficientAtDegree: i-1]]
+		over: self scalars
 
 "
 	QQ extension: QQ polynomials x**4 - 2 :: asVectorSpace
@@ -16414,15 +16395,15 @@ atRandom: aRandom bits: bitSize
 automorphisms
 	^ GeneralLinearGroup on: self! !
 
-!FreeModule methodsFor: 'basis' stamp: 'len 10/16/2016 14:48'!
+!FreeModule methodsFor: 'basis' stamp: 'len 11/3/2016 08:13'!
 basis
-	^ properties at: #basis ifAbsentPut: [LinearBasis on: self vectors: ((1 to: self rank) collect: [:i| self e: i])]! !
+	^ properties at: #basis ifAbsentPut: [LinearBasis on: self generators: ((1 to: self rank) collect: [:i| self e: i])]! !
 
-!FreeModule methodsFor: 'accessing-private' stamp: 'len 10/16/2016 14:47'!
+!FreeModule methodsFor: 'accessing-private' stamp: 'len 11/3/2016 08:13'!
 basis: aLinearBasis
 	properties at: #basis put:
 			((aLinearBasis isKindOf: LinearBasis)
-				ifTrue: [aLinearBasis] ifFalse: [LinearBasis on: self vectors: aLinearBasis])! !
+				ifTrue: [aLinearBasis] ifFalse: [LinearBasis on: self generators: aLinearBasis])! !
 
 !FreeModule methodsFor: 'basis' stamp: 'len 8/25/2016 21:02'!
 codimension
@@ -16445,9 +16426,9 @@ coordinateRing
 coordinateSpace
 	^ self scalars ** self rank! !
 
-!FreeModule methodsFor: 'basis' stamp: 'len 10/16/2016 14:00'!
+!FreeModule methodsFor: 'basis' stamp: 'len 11/3/2016 08:20'!
 coordinatesOf: anElement
-	^ (properties at: #coordinateBlock ifAbsentPut: [^ self scalars tuple: self generators size evaluating: [:i| (anElement coefficientAt: (self generators at: i) value) ifNil: [self scalars zero]]]) value: anElement! !
+	^ (properties at: #coordinatesBlock ifAbsent: [^ self scalars tuple: self generators size evaluating: [:i| (anElement coefficientAt: (self generators at: i) value) ifNil: [self scalars zero]]]) value: anElement! !
 
 !FreeModule methodsFor: 'basis' stamp: 'len 10/7/2016 08:46'!
 corank
@@ -16648,6 +16629,14 @@ vectorAt: aTuple
 zero
 	^ properties at: #zero ifAbsentPut: [| e | (e _ self e: 1) - e]! !
 
+!FreeModule class methodsFor: 'instance creation' stamp: 'len 11/3/2016 08:40'!
+basis: aLinearBasis
+	^ self new basis: aLinearBasis! !
+
+!FreeModule class methodsFor: 'instance creation' stamp: 'len 11/3/2016 08:38'!
+basis: aCollection coordinates: aBlock over: aRing
+	^ self new propertyAt: #coordinatesBlock put: aBlock; scalars: aRing; basis: aCollection! !
+
 !FreeModule class methodsFor: 'instance creation' stamp: 'len 6/30/2016 02:26'!
 new: anInteger over: aRing
 	^ self on: (1 to: anInteger) over: aRing! !
@@ -16655,22 +16644,6 @@ new: anInteger over: aRing
 !FreeModule class methodsFor: 'instance creation' stamp: 'len 10/16/2016 14:16'!
 on: aCollection over: aRing
 	^ self new scalars: aRing; basis: (aCollection collect: [:each| FormalSum with: each])! !
-
-!ExtensionSpace methodsFor: 'basis' stamp: 'len 11/3/2016 04:45'!
-coordinatesOf: aVector
-	^ self scalars tuple: self rank evaluating: [:i| aVector representative coefficientAtDegree: i-1]! !
-
-!ExtensionSpace methodsFor: 'basis' stamp: 'len 6/4/2016 18:19'!
-e: anInteger
-	^ self elements x ** (anInteger - 1)! !
-
-!ExtensionSpace methodsFor: 'basis' stamp: 'len 10/22/2016 21:35'!
-rank
-	^ self elements degree! !
-
-!ExtensionSpace methodsFor: 'accessing' stamp: 'len 11/3/2016 04:26'!
-scalars
-	^ self elements scalars! !
 
 !DirectSumModule methodsFor: 'accessing' stamp: 'len 2/16/2016 07:31'!
 arity
@@ -16936,12 +16909,12 @@ Adual: n
 	B add: (QQ tuple: n+1 evaluating: [:i| i=1 ifTrue: [n negated / (n+1)] ifFalse: [1 / (n+1)]]).
 	^ self basis: B! !
 
-!Lattice class methodsFor: 'examples' stamp: 'len 7/15/2016 18:32'!
+!Lattice class methodsFor: 'examples' stamp: 'len 11/3/2016 08:13'!
 D4
 	"Answer the D4 lattice, which is self-dual."
 	| V B |
 	V _ QQ ** 4.
-	B _ LinearBasis on: V vectors: {(1,0,0,0). (0,1,0,0). (0,0,1,0). (1,1,1,1)/2}.
+	B _ LinearBasis on: V generators: {(1,0,0,0). (0,1,0,0). (0,0,1,0). (1,1,1,1)/2}.
 	^ self basis: B! !
 
 !Lattice class methodsFor: 'examples' stamp: 'len 7/15/2016 18:33'!
@@ -16996,22 +16969,22 @@ Z: n
 basis: aLinearBasis
 	^ self new basis: aLinearBasis! !
 
-!Lattice class methodsFor: 'examples' stamp: 'len 7/15/2016 18:34'!
+!Lattice class methodsFor: 'examples' stamp: 'len 11/3/2016 08:14'!
 bcc
 	"Answer the body-centered cubic lattice (bcc).
 	D*_3 is equivalent to bcc."
 	| V B |
 	V _ QQ ** 3.
-	B _ LinearBasis on: V vectors: {(2,0,0). (0,2,0). (1,1,1)}.
+	B _ LinearBasis on: V generators: {(2,0,0). (0,2,0). (1,1,1)}.
 	^ self basis: B! !
 
-!Lattice class methodsFor: 'examples' stamp: 'len 7/15/2016 18:34'!
+!Lattice class methodsFor: 'examples' stamp: 'len 11/3/2016 08:14'!
 fcc
 	"Answer the face-centered cubic lattice (fcc).
 	Both A_3 and D_3 are equivalent to the fcc."
 	| V B |
 	V _ QQ ** 3.
-	B _ LinearBasis on: V vectors: {(-1,-1,0). (1,-1,0). (0,1,-1)}.
+	B _ LinearBasis on: V generators: {(-1,-1,0). (1,-1,0). (0,1,-1)}.
 	^ self basis: B! !
 
 !Lattice class methodsFor: 'instance creation' stamp: 'len 1/1/2016 00:36'!
@@ -17571,10 +17544,10 @@ isNonDegenerate
 isProper
 	^ self ~= self ambient! !
 
-!Submodule methodsFor: 'operations' stamp: 'len 5/23/2016 04:26'!
+!Submodule methodsFor: 'operations' stamp: 'len 11/3/2016 08:12'!
 perp
 	"Answer the orthogonal complement of the receiver."
-	^ self ambient span: (self annihilator basis vectors collect: [:f| f asVector])
+	^ self ambient span: (self annihilator basis generators collect: [:f| f asVector])
 
 "alternative:
 	| k n |
@@ -29314,13 +29287,13 @@ R
 matrix: aMatrix
 	matrix _ aMatrix! !
 
-!QRDecomposition methodsFor: 'as yet unclassified' stamp: 'len 7/19/2016 08:51'!
+!QRDecomposition methodsFor: 'as yet unclassified' stamp: 'len 11/3/2016 08:14'!
 run
 	| K n basis ortho |
 	K _ matrix scalars "algebraicClosure".
 	n _ matrix numberOfRows.
 	self flag: #fix. "we're assuming the columns are independent"
-	basis _ LinearBasis on: K ** n vectors: matrix columns.
+	basis _ LinearBasis on: K ** n generators: matrix columns.
 	ortho _ basis orthonormalized.
 	Q _ matrix species columns: ortho.
 "	zero _ K zero.
