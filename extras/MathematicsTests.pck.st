@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 3 November 2016 at 9:01:05.112204 am'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 6 November 2016 at 2:35:59.860104 pm'!
 'Description Please enter a description for this package'!
-!provides: 'MathematicsTests' 1 38!
+!provides: 'MathematicsTests' 1 39!
 !classDefinition: #AbelianGroupTest category: #MathematicsTests!
 TestCase subclass: #AbelianGroupTest
 	instanceVariableNames: ''
@@ -199,6 +199,16 @@ TestCase subclass: #SimplicesTest
 	category: 'MathematicsTests'!
 !classDefinition: 'SimplicesTest class' category: #MathematicsTests!
 SimplicesTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #TupleTest category: #MathematicsTests!
+TestCase subclass: #TupleTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'MathematicsTests'!
+!classDefinition: 'TupleTest class' category: #MathematicsTests!
+TupleTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #Benchmark category: #MathematicsTests!
@@ -1080,11 +1090,10 @@ testSingletonBoundTrtracode
 	"Any linear [n,k,d] code satisfies k + d <= n + 1."
 	self testSingletonBound: LinearCode tetracode! !
 
-!CodesTest methodsFor: 'as yet unclassified' stamp: 'len 10/18/2016 20:58'!
+!CodesTest methodsFor: 'as yet unclassified' stamp: 'len 11/6/2016 10:20'!
 testTetracode
-	| F C P x y |
-	F _ PrimeField new: 3.
-	C _ LinearCode subspace: (F**4 span: {(1,1,1,0) % 3. (0,1,2,1) % 3}).
+	| C P x y |
+	C _ LinearCode subspace: (ZZ/3 ** 4 span: {(1,1,1,0) % 3. (0,1,2,1) % 3}).
 	self assert: C isSelfDual.
 	self assert: C minimumDistance = 3.
 	P _ ZZ polynomialsIn: #(x y).
@@ -1821,36 +1830,43 @@ testCauchyFrobeniusLemma
 	sum _ G elements sum: [:g| (phi fixedPointsOf: g) size].
 	self assert: phi orbits size * G order = sum! !
 
-!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2016 19:35'!
+!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 11/6/2016 10:04'!
 testD3
 	| D S A |
 	D _ PermutationGroup dihedral: 2*3.
+	self testGroup: D.
 	S _ SymmetricGroup new: 3.
 	self assert: D = S.
 	A _ AlternatingGroup new: 3.
 	self assert: D commutator = A.
 	self assert: D center isTrivial! !
 
-!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 10/9/2016 21:13'!
+!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 11/6/2016 09:58'!
 testDirectProduct
 	| S A G g |
 	S _ self smallGroupAtRandom.
 	A _ self smallGroupAtRandom.
 	G _ S × A.
 	g _ G atRandom.
-	self assert: (G operation value: {g. G inverseMap value: g}) = G identity! !
+	self assert: (G operation value: {g. G inverseMap value: g}) = G identity.
+	self testGroup: G.
+	self testGroupHomomorphism: (G projection: 1).
+	self testGroupHomomorphism: (G projection: 2)! !
 
-!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 10/6/2016 20:26'!
+!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 11/6/2016 10:02'!
 testGroup: G
-	| e a b c |
+	| op inv e a b c |
 	e _ G identity.
+	op _ G operation.
+	inv _ G inverseMap.
 	a _ G atRandomBits: 100.
 	b _ G atRandomBits: 100.
 	c _ G atRandomBits: 100.
-	self assert: e * a = a.
-	self assert: a * e = a.
-	self assert: a * a reciprocal = e.
-	self assert: a reciprocal * a = e! !
+	self assert: (op value: {e. a}) = a.
+	self assert: (op value: {a. e}) = a.
+	self assert: (op value: {a. inv value: a}) = e.
+	self assert: (op value: {inv value: a. a}) = e.
+	self assert: (op value: {op value: {a. b}. c}) = (op value: {a. op value: {b. c}})! !
 
 !GroupTest methodsFor: 'as yet unclassified' stamp: 'len 10/7/2016 06:41'!
 testGroupHomomorphism: phi
@@ -1896,11 +1912,12 @@ testGroupRingIsARing
 	self assert: (a` * b` * c`) = (a` * (b` * c`)).
 	G isCommutative ifTrue: [self assert: a` * b` = (b` * a`)].! !
 
-!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 7/1/2016 05:09'!
+!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 11/6/2016 10:03'!
 testHessian
 	| H |
 	H _ PermutationGroup hessian.
-	self assert: H elements size = 216! !
+	self assert: H elements size = 216.
+	self testGroup: H! !
 
 !GroupTest methodsFor: 'as yet unclassified' stamp: 'len 5/2/2016 02:35'!
 testIsSolvable
@@ -1914,10 +1931,11 @@ testIsSolvableNot
 	G _ Group alternating: (1 to: 5).
 	self assert: G isSolvable not! !
 
-!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 5/22/2016 23:37'!
+!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 11/6/2016 10:03'!
 testKleinFour
 	| V S A |
 	V _ PermutationGroup klein.
+	self testGroup: V.
 	S _ SymmetricGroup new: 4.
 	self assert: (V isNormalIn: S).
 	A _ AlternatingGroup new: 4.
@@ -1931,13 +1949,14 @@ testLagrangeTheorem
 	H _ G span: (G random next: 3 atRandom) asSet.
 	self assert: H order | G order! !
 
-!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 7/15/2016 18:26'!
+!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 11/6/2016 10:05'!
 testModularIntegersUnits
 	| m R U |
 	m _ (2 to: 100) atRandom.
 	R _ ZZ mod: m.
 	U _ R units.
-	self assert: U size = (Sequence phi value: m)! !
+	self assert: U size = (Sequence phi value: m).
+"	self testGroup: U"! !
 
 !GroupTest methodsFor: 'as yet unclassified' stamp: 'len 10/17/2016 10:55'!
 testOrbitStabilizerTheorem
@@ -1948,13 +1967,14 @@ testOrbitStabilizerTheorem
 	p _ X atRandom.
 	self assert: (phi stabilizerOf: p) order * (phi orbitOf: p) size = G order! !
 
-!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 10/7/2016 06:41'!
+!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 11/6/2016 10:02'!
 testQuotientGroup
 	| G N Q pi h |
 	G _ Group integersMod: 6.
 	N _ G span: {3 % 6}.
 	Q _ G / N.
 	self assert: Q size = 3.
+	self testGroup: Q.
 	pi _ Q projection.
 	self assert: (Q includes: (pi value: G atRandom)).
 	h _ Q atRandom.
@@ -2017,42 +2037,18 @@ testBitParity
 	v _ 1 << 3000 :: atRandom.
 	self assert: ((v printStringBase: 2 :: count: [:x| x = $1]) bitAnd: 1) = v bitParity! !
 
-!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 10/18/2016 20:59'!
-testBitTupleBug
-	| Z2 |
-	Z2 _ PrimeField new: 2.
-	self assert: ((1,0,0) % 2 :: sum = Z2 one).
-	self assert: ((0,1,0) % 2 :: sum = Z2 one).
-	self assert: ((1,1,0) % 2 :: sum = Z2 zero).
-	self assert: ((1,1,1) % 2 :: sum = Z2 one)! !
-
-!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:46'!
-testBitTupleReversed
-	| v i |
-	v _ ZZ / 2 ** 100 atRandom :: atRandom.
-	i _ v size atRandom.
-	self assert: (v reversed at: i) = (v at: v size - i + 1).
-	self assert: v reversed reversed = v! !
-
-!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 7/1/2016 22:26'!
-testBitTupleSum
-	self assert: (BitTuple fromInteger: 2r1011101) sum representative = 1.
-	self assert: (BitTuple fromInteger: 2r10000100100010) sum representative = 0
-	
-	! !
-
 !MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 2/4/2016 19:50'!
 testCRT
 	| crt |
 	crt _ CRT mod: #(2 5 7).
 	self assert: (crt solutionFor: #(0 2 0)) = 42! !
 
-!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 10/18/2016 20:59'!
+!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 11/5/2016 10:30'!
 testCartesianProduct
 	| P x |
 	P _ CartesianProduct components: {PrimeField new: 3. Ring GF: 4. SymmetricGroup new: 5}.
 	self assert: P elements size = (3*4*5 factorial).
-	x _ Tuple newFrom: {(P at: 1) atRandom. (P at: 2) atRandom. (P at: 3) atRandom}.
+	x _ {(P at: 1) atRandom. (P at: 2) atRandom. (P at: 3) atRandom}.
 	self assert: (P elements includes: x)! !
 
 !MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 12/4/2015 01:46'!
@@ -2555,10 +2551,10 @@ testJordanNormalForm
 	B _ QQ ** (2@2) scalar: 4 :: at: 1@2 put: 1; yourself.
 	self assert: (jordan includes: B)! !
 
-!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:06'!
+!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 11/4/2016 10:26'!
 testKernel
 	| A S |
-	A _ QQ ** (3@6) rows: {(1, 0, -3, 0, 2, -8). (0, 1, 5, 0, -1, 4). (0, 0, 0, 1, 7, -9). (0, 0, 0, 0, 0, 0)}.
+	A _ QQ ** (4@6) rows: {(1, 0, -3, 0, 2, -8). (0, 1, 5, 0, -1, 4). (0, 0, 0, 1, 7, -9). (0, 0, 0, 0, 0, 0)}.
 	S _ QQ ** 6 span: {(3,-5,1,0,0,0). (-2,1,0,-7,1,0). (8,-4,0,9,0,1)}.
 	self assert: A kernel = S! !
 
@@ -2606,12 +2602,12 @@ testMinors
 	A _ ZZ ** (2@3) elementAt: (1 to: 6).
 	self assert: (A minors: 2) asArray = #(-3 -6 -3)! !
 
-!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 7/19/2016 08:54'!
+!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 11/5/2016 06:35'!
 testQRDecomposition
 	| n A QR Q R |
 	n _ 3.
 	[A _ QQ ** (n@n) :: atRandomBits: n*n. A isFullRank] whileFalse.
-	A _ A as: (A species over: RealAlgebraicNumbers new).
+	A _ A over: RealAlgebraicNumbers new.
 	QR _ A QR.
 	Q _ QR Q.
 	R _ QR R.
@@ -2830,14 +2826,14 @@ testLinearBasisCoordinatesOf2
 	c _ basis coordinatesOf: (1,1,4).
 	self assert: c isNil! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 11/3/2016 08:14'!
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 11/5/2016 07:17'!
 testLinearBasisDual
 	| V basis B Bdual I |
 	V _ QQ ** 3.
 	basis _ LinearBasis on: V generators: {(-1,0,0). (0,1,2). (0,1,1)}.
 	B _ basis matrix.
 	Bdual _ basis dual matrix.
-	I _ B species identity.
+	I _ B identity.
 	self assert: B determinant = (1 / Bdual determinant).
 	self assert: B transposed * Bdual = I! !
 
@@ -4682,6 +4678,76 @@ testSimplexNegation
 	S _ Simplex points: {1. 2. 3. 4}.
 	self assert: S negated negated = S.
 	self assert: S negated ~= S! !
+
+!TupleTest methodsFor: 'as yet unclassified' stamp: 'len 11/6/2016 11:35'!
+testBitTupleBug
+	| Z2 |
+	Z2 _ PrimeField new: 2.
+	self assert: ((1,0,0) % 2 :: sum = Z2 one).
+	self assert: ((0,1,0) % 2 :: sum = Z2 one).
+	self assert: ((1,1,0) % 2 :: sum = Z2 zero).
+	self assert: ((1,1,1) % 2 :: sum = Z2 one)! !
+
+!TupleTest methodsFor: 'as yet unclassified' stamp: 'len 11/6/2016 11:35'!
+testBitTupleReversed
+	| v i |
+	v _ ZZ / 2 ** 100 atRandom :: atRandom.
+	i _ v size atRandom.
+	self assert: (v reversed at: i) = (v at: v size - i + 1).
+	self assert: v reversed reversed = v! !
+
+!TupleTest methodsFor: 'as yet unclassified' stamp: 'len 11/6/2016 11:36'!
+testBitTupleSum
+	self assert: (BitTuple fromInteger: 2r1011101) sum representative = 1.
+	self assert: (BitTuple fromInteger: 2r10000100100010) sum representative = 0! !
+
+!TupleTest methodsFor: 'as yet unclassified' stamp: 'len 11/6/2016 11:31'!
+testMakeZero: aTuple
+	self assert: (aTuple * 0) isZero.
+	self assert: (0 * aTuple) isZero.
+	self assert: (aTuple + aTuple negated) isZero.
+	self assert: (aTuple - aTuple) isZero! !
+
+!TupleTest methodsFor: 'as yet unclassified' stamp: 'len 11/6/2016 11:39'!
+testModTupleConcatenation
+	self assert: (1,2,3) % 7, ((2,3,4) % 7) = ((1,2,3,2,3,4) % 7)! !
+
+!TupleTest methodsFor: 'as yet unclassified' stamp: 'len 11/6/2016 13:49'!
+testModTupleConvolution
+	| a b |
+	a _ (1,2,3).
+	b _ (2,3,4).
+	self assert: (a % 7 convolution: b % 7) = ((a convolution: b) % 7)! !
+
+!TupleTest methodsFor: 'as yet unclassified' stamp: 'len 11/6/2016 14:26'!
+testModTupleOperations
+	| a b modulus |
+	modulus _ 10 atRandom + 1.
+	a _ ZZ**5 atRandomBits: 30.
+	b _ ZZ**5 atRandomBits: 30.
+	#(+ - convolution: dot:) do: [:op|
+		self testTuple: a with: b operation: op modulo: modulus].
+	#(negated reversed copy sum product) do: [:op|
+		self testTuple: a operation: op modulo: modulus].! !
+
+!TupleTest methodsFor: 'as yet unclassified' stamp: 'len 11/6/2016 11:38'!
+testModTupleSum
+	| a b |
+	a _ ZZ tuple: ((1 to: 10) collect: [:i| 100 atRandom]).
+	b _ a % 7.
+	self assert: b sum = (a sum % 7)! !
+
+!TupleTest methodsFor: 'as yet unclassified' stamp: 'len 11/6/2016 14:24'!
+testTuple: a operation: aSymbol modulo: modulus
+	self assert: (a perform: aSymbol) % modulus = (a % modulus perform: aSymbol)! !
+
+!TupleTest methodsFor: 'as yet unclassified' stamp: 'len 11/6/2016 14:12'!
+testTuple: a with: b operation: aSymbol modulo: modulus
+	self assert: (a perform: aSymbol with: b) % modulus = (a % modulus perform: aSymbol with: b % modulus)! !
+
+!TupleTest methodsFor: 'as yet unclassified' stamp: 'len 11/6/2016 11:36'!
+testTupleSum
+	self assert: (1,2,3) sum = (1 + 2 + 3)! !
 
 !Benchmark methodsFor: 'as yet unclassified' stamp: 'len 3/1/2016 04:20'!
 run
