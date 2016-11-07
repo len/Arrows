@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 6 November 2016 at 2:34:52.069817 pm'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 7 November 2016 at 2:01:26.310582 pm'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 270!
+!provides: 'Mathematics' 1 271!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
 	instanceVariableNames: 'numerator shift'
@@ -389,6 +389,16 @@ Domain subclass: #HomSet
 	category: 'Mathematics-Kernel'!
 !classDefinition: 'HomSet class' category: #'Mathematics-Kernel'!
 HomSet class
+	instanceVariableNames: ''!
+
+!classDefinition: #PointSet category: #'Mathematics-Schemes'!
+HomSet subclass: #PointSet
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Schemes'!
+!classDefinition: 'PointSet class' category: #'Mathematics-Schemes'!
+PointSet class
 	instanceVariableNames: ''!
 
 !classDefinition: #ComplexBox category: #'Mathematics-Kernel-Support'!
@@ -1491,73 +1501,73 @@ Domain subclass: #Scheme
 Scheme class
 	instanceVariableNames: ''!
 
-!classDefinition: #AffineScheme category: #'Mathematics-Schemes'!
+!classDefinition: #AffineScheme category: #'Mathematics-Schemes-Affine'!
 Scheme subclass: #AffineScheme
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Schemes'!
-!classDefinition: 'AffineScheme class' category: #'Mathematics-Schemes'!
+	category: 'Mathematics-Schemes-Affine'!
+!classDefinition: 'AffineScheme class' category: #'Mathematics-Schemes-Affine'!
 AffineScheme class
 	instanceVariableNames: ''!
 
-!classDefinition: #AffineCurve category: #'Mathematics-Schemes'!
+!classDefinition: #AffineCurve category: #'Mathematics-Schemes-Affine'!
 AffineScheme subclass: #AffineCurve
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Schemes'!
-!classDefinition: 'AffineCurve class' category: #'Mathematics-Schemes'!
+	category: 'Mathematics-Schemes-Affine'!
+!classDefinition: 'AffineCurve class' category: #'Mathematics-Schemes-Affine'!
 AffineCurve class
 	instanceVariableNames: ''!
 
-!classDefinition: #AffinePlaneCurve category: #'Mathematics-Schemes'!
+!classDefinition: #AffinePlaneCurve category: #'Mathematics-Schemes-Affine'!
 AffineCurve subclass: #AffinePlaneCurve
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Schemes'!
-!classDefinition: 'AffinePlaneCurve class' category: #'Mathematics-Schemes'!
+	category: 'Mathematics-Schemes-Affine'!
+!classDefinition: 'AffinePlaneCurve class' category: #'Mathematics-Schemes-Affine'!
 AffinePlaneCurve class
 	instanceVariableNames: ''!
 
-!classDefinition: #AffineSpace category: #'Mathematics-Schemes'!
+!classDefinition: #AffineSpace category: #'Mathematics-Schemes-Affine'!
 AffineScheme subclass: #AffineSpace
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Schemes'!
-!classDefinition: 'AffineSpace class' category: #'Mathematics-Schemes'!
+	category: 'Mathematics-Schemes-Affine'!
+!classDefinition: 'AffineSpace class' category: #'Mathematics-Schemes-Affine'!
 AffineSpace class
 	instanceVariableNames: ''!
 
-!classDefinition: #ProjectiveScheme category: #'Mathematics-Schemes'!
+!classDefinition: #ProjectiveScheme category: #'Mathematics-Schemes-Projective'!
 Scheme subclass: #ProjectiveScheme
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Schemes'!
-!classDefinition: 'ProjectiveScheme class' category: #'Mathematics-Schemes'!
+	category: 'Mathematics-Schemes-Projective'!
+!classDefinition: 'ProjectiveScheme class' category: #'Mathematics-Schemes-Projective'!
 ProjectiveScheme class
 	instanceVariableNames: ''!
 
-!classDefinition: #ProjectiveCurve category: #'Mathematics-Schemes'!
+!classDefinition: #ProjectiveCurve category: #'Mathematics-Schemes-Projective'!
 ProjectiveScheme subclass: #ProjectiveCurve
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Schemes'!
-!classDefinition: 'ProjectiveCurve class' category: #'Mathematics-Schemes'!
+	category: 'Mathematics-Schemes-Projective'!
+!classDefinition: 'ProjectiveCurve class' category: #'Mathematics-Schemes-Projective'!
 ProjectiveCurve class
 	instanceVariableNames: ''!
 
-!classDefinition: #ProjectivePlaneCurve category: #'Mathematics-Schemes'!
+!classDefinition: #ProjectivePlaneCurve category: #'Mathematics-Schemes-Projective'!
 ProjectiveCurve subclass: #ProjectivePlaneCurve
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Schemes'!
-!classDefinition: 'ProjectivePlaneCurve class' category: #'Mathematics-Schemes'!
+	category: 'Mathematics-Schemes-Projective'!
+!classDefinition: 'ProjectivePlaneCurve class' category: #'Mathematics-Schemes-Projective'!
 ProjectivePlaneCurve class
 	instanceVariableNames: ''!
 
@@ -1571,13 +1581,13 @@ ProjectivePlaneCurve subclass: #EllipticCurve
 EllipticCurve class
 	instanceVariableNames: ''!
 
-!classDefinition: #ProjectiveSpace category: #'Mathematics-Schemes'!
+!classDefinition: #ProjectiveSpace category: #'Mathematics-Schemes-Projective'!
 ProjectiveScheme subclass: #ProjectiveSpace
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Schemes'!
-!classDefinition: 'ProjectiveSpace class' category: #'Mathematics-Schemes'!
+	category: 'Mathematics-Schemes-Projective'!
+!classDefinition: 'ProjectiveSpace class' category: #'Mathematics-Schemes-Projective'!
 ProjectiveSpace class
 	instanceVariableNames: ''!
 
@@ -2049,6 +2059,36 @@ Function subclass: #PolynomialMap
 	category: 'Mathematics-Etc-Geometry-Algebraic'!
 !classDefinition: 'PolynomialMap class' category: #'Mathematics-Etc-Geometry-Algebraic'!
 PolynomialMap class
+	instanceVariableNames: ''!
+
+!classDefinition: #RationalPoint category: #'Mathematics-Schemes'!
+Morphism subclass: #RationalPoint
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Schemes'!
+!classDefinition: 'RationalPoint class' category: #'Mathematics-Schemes'!
+RationalPoint class
+	instanceVariableNames: ''!
+
+!classDefinition: #AffinePoint category: #'Mathematics-Schemes-Affine'!
+RationalPoint subclass: #AffinePoint
+	instanceVariableNames: 'coordinates'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Schemes-Affine'!
+!classDefinition: 'AffinePoint class' category: #'Mathematics-Schemes-Affine'!
+AffinePoint class
+	instanceVariableNames: ''!
+
+!classDefinition: #ProjectivePoint category: #'Mathematics-Schemes-Projective'!
+RationalPoint subclass: #ProjectivePoint
+	instanceVariableNames: 'coordinates'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Schemes-Projective'!
+!classDefinition: 'ProjectivePoint class' category: #'Mathematics-Schemes-Projective'!
+ProjectivePoint class
 	instanceVariableNames: ''!
 
 !classDefinition: #EllipticCurveIsogeny category: #'Mathematics-Elliptic Curves'!
@@ -3507,6 +3547,9 @@ References:
 !HomSet commentStamp: 'len 10/28/2016 22:23' prior: 0!
 My instances are Hom(A,B), Hom-Set objects for domain A and codomain B, i.e. sets of all morphisms from A to B. When A = B, this is noted Endo(A), the set of endomorphisms.!
 
+!PointSet commentStamp: '<historical>' prior: 0!
+My instances are sets of S-points of a scheme X, noted X(S), where X and S are schemes over some base scheme or ring B. By definition, an S-point is a morphism from S to X over B. See also SchemePoint.!
+
 !RealBox commentStamp: '<historical>' prior: 0!
 My instances are boxes in R^n built by the cartesian product of one-dimensional intervals (instances of RealInterval).
 
@@ -4227,6 +4270,15 @@ My instances are polynomial functions on an algebraic variety.!
 
 !PolynomialMap commentStamp: '<historical>' prior: 0!
 My instances are polynomial maps between algebraic varieties.!
+
+!RationalPoint commentStamp: '<historical>' prior: 0!
+Instances of my subclasses are K-rational points on a scheme X, seen as morphisms Spec(K) -> X.!
+
+!AffinePoint commentStamp: '<historical>' prior: 0!
+My instances are K-rational points on an affine scheme X, seen as morphisms Spec(K) -> X.!
+
+!ProjectivePoint commentStamp: '<historical>' prior: 0!
+My instances are K-rational points on a projective scheme X, seen as morphisms Spec(K) -> X.!
 
 !GroupRandomGenerator commentStamp: '<historical>' prior: 0!
 I am the Product Replacement Algorithm for generating random elements in a group from a set of generators. Essentially, it performs a random walk on a Cayley graph.!
@@ -5252,8 +5304,10 @@ powerset
 	answer copy do: [:each| answer add: (each copyWith: e)].
 	^ answer! !
 
-!Set methodsFor: '*mathematics' stamp: 'len 11/6/2016 09:26'!
+!Set methodsFor: '*mathematics' stamp: 'len 11/7/2016 09:28'!
 printOn: aStream
+	(self isMemberOf: Set)
+		ifFalse: [^ super printOn: aStream].
 	aStream nextPut: ${.
 	self do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: ', '].
 	aStream nextPut: $}! !
@@ -10961,10 +11015,9 @@ printOn: aStream
 	(self to: aCodomain) ifNotNil: [:aMorphism| ^ aMorphism].
 	^ aCodomain from: self! !
 
-!Domain methodsFor: 'converting' stamp: 'len 10/27/2016 18:49'!
+!Domain methodsFor: 'converting' stamp: 'len 11/7/2016 09:00'!
 !! anObject
 	"Coerce anObject to an element of the receiver."
-	anObject species == self ifTrue: [^ anObject].
 	^ self newFrom: anObject! !
 
 !Domain methodsFor: 'operations' stamp: 'len 4/18/2016 23:30'!
@@ -11589,6 +11642,10 @@ exampleHomSet
 !HomSet class methodsFor: 'instance creation' stamp: 'len 4/19/2016 04:53'!
 from: aDomain to: anotherDomain
 	^ self new domain: aDomain; codomain: anotherDomain! !
+
+!PointSet methodsFor: 'as yet unclassified' stamp: 'len 11/7/2016 09:46'!
+do: aBlock
+	self codomain pointsOver: self domain coordinateRing do: aBlock! !
 
 !ComplexBox methodsFor: 'accessing' stamp: 'len 1/16/2016 05:56'!
 area
@@ -12680,10 +12737,11 @@ components: anArray
 	self generators do: [:each| (anIdeal includes: each) ifFalse: [^ false]].
 	^ true! !
 
-!Ideal methodsFor: 'comparing' stamp: 'len 11/28/2015 06:07'!
+!Ideal methodsFor: 'comparing' stamp: 'len 11/7/2016 09:04'!
 = anIdeal
 	self == anIdeal ifTrue: [^ true].
 	(anIdeal isKindOf: Ideal) ifFalse: [^ false].
+	self ring = anIdeal ring ifFalse: [^ false].
 	^ self <= anIdeal and: [anIdeal <= self]! !
 
 !Ideal methodsFor: 'operations' stamp: 'len 6/5/2016 22:46'!
@@ -20777,18 +20835,18 @@ isSmoothAt: aPoint
 isTerminal
 	^ false! !
 
-!Scheme methodsFor: 'points' stamp: 'len 10/27/2016 15:05'!
+!Scheme methodsFor: 'points' stamp: 'len 11/7/2016 09:43'!
 points
-	^ self pointsOver: self ambient scalars! !
+	^ PointSet from: self ambient scalars spec to: self! !
 
 !Scheme methodsFor: 'points' stamp: 'len 10/27/2016 15:17'!
 pointsOver: aRing
 	^ Iterator on: [:aBlock| self pointsOver: aRing do: aBlock]! !
 
-!Scheme methodsFor: 'points' stamp: 'len 10/27/2016 15:21'!
+!Scheme methodsFor: 'points' stamp: 'len 11/7/2016 09:45'!
 pointsOver: aRing do: aBlock
 	"Naive iteration over the aRing-rational points of the receiver."
-	self ambient pointsOver: aRing do: [:each| (self includes: each) ifTrue: [aBlock value: each]]! !
+	self ambient pointsOver: aRing do: [:each| (self includes: each coordinates) ifTrue: [aBlock value: (self pointAt: each coordinates)]]! !
 
 !Scheme methodsFor: 'operations' stamp: 'len 10/27/2016 09:54'!
 primaryComponents
@@ -20898,6 +20956,10 @@ isProjective
 isTerminal
 	^ self coordinateRing isInitial! !
 
+!AffineScheme methodsFor: 'points' stamp: 'len 11/7/2016 09:01'!
+pointAt: aTuple
+	^ AffinePoint on: self coordinates: aTuple! !
+
 !AffineScheme methodsFor: 'printing' stamp: 'len 10/19/2016 22:57'!
 printOn: aStream
 		aStream nextPutAll: 'Spec '; print: self coordinateRing! !
@@ -20925,6 +20987,11 @@ relativeSubscheme: anObject
 	I _ (anObject isKindOf: Ideal)
 		ifTrue: [anObject] ifFalse: [self coordinateRing * anObject].
 	^ (self coordinateRing / I) spec! !
+
+!AffineScheme methodsFor: 'accessing' stamp: 'len 11/7/2016 09:13'!
+scalars
+	"Answer the base ring of the receiver."
+	^ self ambient scalars! !
 
 !AffineScheme methodsFor: 'private' stamp: 'len 10/19/2016 23:11'!
 species
@@ -20992,18 +21059,9 @@ motions
 	"Answer the Euclidean group E(A), the group of isometries, i.e. distance-preserving morphisms, also called 'motionss'. This is a subgroup of the general affine group GA(A)."
 	^ EuclideanGroup on: self! !
 
-!AffineSpace methodsFor: 'points' stamp: 'len 10/27/2016 15:13'!
-points
-	"Answer the set of rational points on the receiver."
-	^ self scalars ** self rank! !
-
-!AffineSpace methodsFor: 'points' stamp: 'len 11/4/2016 10:03'!
-pointsOver: aRing
-	^ self coordinateRing space over: aRing! !
-
-!AffineSpace methodsFor: 'points' stamp: 'len 10/27/2016 15:24'!
+!AffineSpace methodsFor: 'points' stamp: 'len 11/7/2016 09:41'!
 pointsOver: aRing do: aBlock
-	^ (self pointsOver: aRing) do: aBlock! !
+	^ aRing ** self rank do: [:each| aBlock value: (self pointAt: each)]! !
 
 !AffineSpace methodsFor: 'printing' stamp: 'len 10/20/2016 15:20'!
 printOn: aStream
@@ -21030,8 +21088,9 @@ rigidMotions
 	"Answer the special Euclidean group SE(A), the group of direct isometries, i.e. isometries preserving orientation, also called 'rigid motions'. This is a subgroup of the Euclidean group of motions (see >>motions) which in turn is a subgroup of the general affine group GA(A)."
 	^ SpecialEuclideanGroup on: self! !
 
-!AffineSpace methodsFor: 'accessing' stamp: 'len 8/27/2016 19:47'!
+!AffineSpace methodsFor: 'accessing' stamp: 'len 11/7/2016 09:13'!
 scalars
+	"Answer the base ring of the receiver."
 	^ self coordinateRing scalars! !
 
 !AffineSpace class methodsFor: 'instance creation' stamp: 'len 10/28/2016 10:39'!
@@ -21093,6 +21152,10 @@ isAffine
 isProjective
 	^ true! !
 
+!ProjectiveScheme methodsFor: 'points' stamp: 'len 11/7/2016 13:35'!
+pointAt: aTuple
+	^ ProjectivePoint on: self coordinates: aTuple! !
+
 !ProjectiveScheme methodsFor: 'printing' stamp: 'len 10/20/2016 15:27'!
 printOn: aStream
 		aStream nextPutAll: 'Proj '; print: self coordinateRing! !
@@ -21103,6 +21166,11 @@ relativeSubscheme: anObject
 	I _ (anObject isKindOf: Ideal)
 		ifTrue: [anObject] ifFalse: [self coordinateRing * anObject].
 	^ (self coordinateRing / I) proj! !
+
+!ProjectiveScheme methodsFor: 'accessing' stamp: 'len 11/7/2016 09:13'!
+scalars
+	"Answer the base ring of the receiver."
+	^ self ambient scalars! !
 
 !ProjectiveScheme methodsFor: 'private' stamp: 'len 10/20/2016 10:29'!
 species
@@ -21196,15 +21264,19 @@ dimension
 includes: aPoint
 	^ (aPoint is: #Tuple) and: [aPoint size = self rank and: [aPoint isZero not and: [aPoint scalars = self scalars]]]! !
 
-!ProjectiveSpace methodsFor: 'points' stamp: 'len 10/31/2016 13:13'!
+!ProjectiveSpace methodsFor: 'points' stamp: 'len 11/7/2016 13:41'!
 pointsOver: aRing do: aBlock
-	| points |
+	| points one zero |
 	points _ Set new.
-	aRing ** self rank do: [:each|
-		each isZero ifFalse:
-			[| p |
-			p _ each asHomogeneousTuple.
-			points add: p ifAbsent: [aBlock value: p]]]! !
+	one _ aRing one.
+	zero _ aRing zero.
+	aRing ** (self rank - 1) do: [:each| | p |
+		each isZero
+			ifFalse:
+				[p _ self pointAt: (each, zero).
+				points add: p ifAbsent: [aBlock value: p]].
+		p _ self pointAt: (each, one).
+		points add: p ifAbsent: [aBlock value: p]]! !
 
 !ProjectiveSpace methodsFor: 'printing' stamp: 'len 11/5/2016 09:37'!
 printOn: aStream
@@ -21214,8 +21286,9 @@ printOn: aStream
 rank
 	^ self coordinateRing rank! !
 
-!ProjectiveSpace methodsFor: 'accessing' stamp: 'len 8/27/2016 19:47'!
+!ProjectiveSpace methodsFor: 'accessing' stamp: 'len 11/7/2016 09:13'!
 scalars
+	"Answer the base ring of the receiver."
 	^ self coordinateRing scalars! !
 
 !ProjectiveSpace class methodsFor: 'instance creation' stamp: 'len 10/31/2016 13:27'!
@@ -24888,12 +24961,9 @@ pullback: aScheme
 	"Answer the preimage of aScheme. The argument is a subscheme of the codomain, and the answer is a subscheme of the domain."
 	^ self domain subscheme: (aScheme ideal apply: self asRingHomomorphism)! !
 
-!RationalMap methodsFor: 'operations' stamp: 'len 11/6/2016 10:11'!
+!RationalMap methodsFor: 'operations' stamp: 'len 11/7/2016 13:56'!
 value: aPoint
-	| answer |
-	answer _ self codomain ambient scalars tuple: (components collect: [:each| each value: aPoint]).
-	self codomain isProjective ifTrue: [answer _ answer asHomogeneousTuple].
-	^ answer! !
+	^ self codomain pointAt: (aPoint scalars tuple: (components collect: [:each| each value: aPoint asTuple]))! !
 
 !RationalMap class methodsFor: 'examples' stamp: 'len 11/1/2016 16:51'!
 example1TwistedCubicTangentParametrization
@@ -25326,6 +25396,152 @@ value: aPoint
 !PolynomialMap class methodsFor: 'instance creation' stamp: 'len 12/15/2015 20:04'!
 from: anAlgebraicVariety to: anotherAlgebraicVariety components: aTupleOfPolynomials
 	^ self new domain: anAlgebraicVariety; codomain: anotherAlgebraicVariety; components: aTupleOfPolynomials! !
+
+!RationalPoint methodsFor: 'testing' stamp: 'len 11/7/2016 13:33'!
+isAffine
+	^ self codomain isAffine! !
+
+!RationalPoint methodsFor: 'testing' stamp: 'len 11/7/2016 08:27'!
+isNonsingular
+	^ self isSmooth! !
+
+!RationalPoint methodsFor: 'testing' stamp: 'len 11/7/2016 13:33'!
+isProjective
+	^ self codomain isProjective! !
+
+!RationalPoint methodsFor: 'testing' stamp: 'len 11/7/2016 08:27'!
+isSingular
+	^ self isSmooth not! !
+
+!RationalPoint methodsFor: 'testing' stamp: 'len 11/7/2016 13:17'!
+isSmooth
+	^ self codomain isSmoothAt: self coordinates! !
+
+!AffinePoint methodsFor: 'comparing' stamp: 'len 11/7/2016 03:31'!
+= anAffinePoint
+	^ self coordinates = anAffinePoint coordinates! !
+
+!AffinePoint methodsFor: 'converting' stamp: 'len 11/7/2016 13:44'!
+asRingHomomorphism
+	^ self codomain coordinateRing to: self domain coordinateRing evaluating: [:f| f value: self coordinates]! !
+
+!AffinePoint methodsFor: 'converting' stamp: 'len 11/7/2016 13:48'!
+asTuple
+	^ coordinates! !
+
+!AffinePoint methodsFor: 'accessing' stamp: 'len 11/7/2016 13:16'!
+coordinates
+	^ coordinates! !
+
+!AffinePoint methodsFor: 'accessing-private' stamp: 'len 11/7/2016 13:16'!
+coordinates: aTuple
+	coordinates _ aTuple! !
+
+!AffinePoint methodsFor: 'comparing' stamp: 'len 11/7/2016 03:32'!
+hash
+	^ self coordinates hash! !
+
+!AffinePoint methodsFor: 'accessing' stamp: 'len 11/7/2016 03:31'!
+ideal
+	"Answer the prime ideal defining the receiver."
+	^ properties at: #ideal! !
+
+!AffinePoint methodsFor: 'printing' stamp: 'len 11/7/2016 08:28'!
+printOn: aStream
+	aStream print: self coordinates! !
+
+!AffinePoint methodsFor: 'accessing' stamp: 'len 11/7/2016 13:31'!
+scalars
+	^ coordinates scalars! !
+
+!AffinePoint class methodsFor: 'instance creation' stamp: 'len 11/7/2016 08:59'!
+on: anAffineScheme coordinates: aTuple
+	^ self new domain: aTuple scalars spec; codomain: anAffineScheme; coordinates: aTuple! !
+
+!ProjectivePoint methodsFor: 'comparing' stamp: 'len 11/7/2016 13:21'!
+= aProjectivePoint
+	| index x y |
+	self class = aProjectivePoint class ifFalse: [^ super = aProjectivePoint].
+	coordinates size = aProjectivePoint coordinates size ifFalse: [^ false].
+	index _ self firstNonZero.
+	x _ coordinates at: index.
+	y _ aProjectivePoint coordinates at: index.
+	1 to: coordinates size do: [:i|
+		(coordinates at: i) * y = ((aProjectivePoint coordinates at: i) * x) ifFalse: [^ false]].
+	^ true! !
+
+!ProjectivePoint methodsFor: 'converting' stamp: 'len 11/7/2016 13:47'!
+affinized
+	"Answer the affinization of the receiver."
+	^ self affinizedIn: coordinates size! !
+
+!ProjectivePoint methodsFor: 'converting' stamp: 'len 11/7/2016 13:47'!
+affinizedIn: anInteger
+	"Answer the affinization of the receiver with respect to the anInteger-th coordinate."
+	| scalar |
+	scalar _ coordinates at: anInteger.
+	^ (self codomain affinePatch: anInteger) pointAt:
+		(self scalars
+			tuple: coordinates size - 1
+			evaluating: [:i| (i < anInteger ifTrue: [coordinates at: i] ifFalse: [coordinates at: i + 1]) / scalar])! !
+
+!ProjectivePoint methodsFor: 'converting' stamp: 'len 11/7/2016 13:47'!
+asTuple
+	^ coordinates! !
+
+!ProjectivePoint methodsFor: 'accessing' stamp: 'len 11/7/2016 13:16'!
+coordinates
+	^ coordinates! !
+
+!ProjectivePoint methodsFor: 'accessing-private' stamp: 'len 11/7/2016 13:17'!
+coordinates: aTuple
+	coordinates _ aTuple! !
+
+!ProjectivePoint methodsFor: 'private' stamp: 'len 11/7/2016 13:22'!
+firstNonZero
+	1 to: coordinates size do: [:i| (coordinates at: i) isZero ifFalse: [^ i]].
+	^ nil! !
+
+!ProjectivePoint methodsFor: 'comparing' stamp: 'len 11/7/2016 13:30'!
+hash
+	self scalars isField ifTrue: [^ self hashField].
+	self scalars isIntegralDomain ifTrue: [^ self hashIntegralDomain].
+	^ self scalars hash hashMultiply + self firstNonZero! !
+
+!ProjectivePoint methodsFor: 'comparing' stamp: 'len 11/7/2016 13:31'!
+hashField
+	| hash x |
+	hash _ 0.
+	x _ coordinates at: self firstNonZero.
+	1 to: coordinates size do: [:i | hash _ (hash + ((coordinates at: i) / x) hash) hashMultiply].
+	^hash! !
+
+!ProjectivePoint methodsFor: 'comparing' stamp: 'len 11/7/2016 13:31'!
+hashIntegralDomain
+	| Q hash x |
+	Q _ self scalars fractions.
+	hash _ 0.
+	x _ Q embed: (coordinates at: self firstNonZero).
+	1 to: coordinates size do: [:i | hash _ (hash + ((Q embed: (coordinates at: i)) / x) hash) hashMultiply].
+	^ hash! !
+
+!ProjectivePoint methodsFor: 'accessing' stamp: 'len 11/7/2016 08:29'!
+ideal
+	^ properties at: #ideal! !
+
+!ProjectivePoint methodsFor: 'printing' stamp: 'len 11/7/2016 13:29'!
+printOn: aStream
+	aStream nextPut: $(.
+	self coordinates do: [:each| aStream print: each] separatedBy: [aStream nextPut: $:].
+	aStream nextPut: $)! !
+
+!ProjectivePoint methodsFor: 'accessing' stamp: 'len 11/7/2016 13:30'!
+scalars
+	^ coordinates scalars! !
+
+!ProjectivePoint class methodsFor: 'instance creation' stamp: 'len 11/7/2016 13:17'!
+on: aProjectiveScheme coordinates: aTuple
+	^ self new domain: aTuple scalars spec; codomain: aProjectiveScheme; coordinates: aTuple! !
 
 !RandomGenerator methodsFor: 'accessing' stamp: 'len 4/19/2016 22:03'!
 bits: anInteger
@@ -27269,10 +27485,11 @@ anySatisfy: aBlock
 	self do:[:item | (aBlock value: item) ifTrue: [^ true]].
 	^ false! !
 
-!OrderedTuple methodsFor: 'operations' stamp: 'len 3/29/2016 18:54'!
+!OrderedTuple methodsFor: 'operations' stamp: 'len 11/7/2016 02:24'!
 apply: aMorphism
 	"Apply a homomorphism to the coefficients of the receiver."
-	^ self collect: aMorphism! !
+	aMorphism isBlock ifTrue: [^ self collect: aMorphism].
+	^ aMorphism codomain tuple: self size evaluating: [:i| aMorphism value: (self at: i)]! !
 
 !OrderedTuple methodsFor: 'converting' stamp: 'len 11/5/2016 09:46'!
 asArray
@@ -27281,6 +27498,10 @@ asArray
 !OrderedTuple methodsFor: 'converting' stamp: 'len 11/5/2016 09:24'!
 asHomogeneousTuple
 	^ HomogeneousTuple coefficients: self over: self scalars! !
+
+!OrderedTuple methodsFor: 'converting' stamp: 'len 11/7/2016 13:48'!
+asTuple
+	^ self! !
 
 !OrderedTuple methodsFor: 'accessing' stamp: 'len 11/5/2016 07:11'!
 at: index ifAbsent: exceptionBlock
@@ -27496,13 +27717,13 @@ z
 + aBitTuple
 	^ self class new: (self size max: aBitTuple size) fromInteger: (integer bitXor: aBitTuple asInteger)! !
 
-!BitTuple methodsFor: 'copying' stamp: 'len 7/2/2016 00:48'!
+!BitTuple methodsFor: 'copying' stamp: 'len 11/6/2016 15:30'!
 , anObject
 	((anObject is: #Tuple) or: [anObject is: #Array])
 		ifFalse: [^ self copyWith: anObject].
 	anObject class = self class
 		ifTrue: [^ self class new: size + anObject size fromInteger: (integer bitXor: (anObject asInteger bitShift: size))].
-	^ self , (anObject as: self class)! !
+	^ self , (self class coefficients: anObject)! !
 
 !BitTuple methodsFor: 'arithmetic' stamp: 'len 3/28/2016 06:51'!
 - aBitTuple
@@ -27695,10 +27916,10 @@ new: anInteger evaluating: aBlock
 new: n fromInteger: anInteger
 	^ self basicNew integer: anInteger size: n! !
 
-!BitTuple class methodsFor: 'instance creation' stamp: 'len 3/29/2016 18:22'!
+!BitTuple class methodsFor: 'instance creation' stamp: 'len 11/6/2016 15:30'!
 newFrom: anObject
 	anObject isInteger ifTrue: [^ self fromInteger: anObject].
-	^ super newFrom: anObject! !
+	^ self coefficients: anObject! !
 
 !IntegerResidueClassTuple methodsFor: 'arithmetic' stamp: 'len 11/6/2016 11:42'!
 * aNumber
@@ -28022,18 +28243,27 @@ affinizedIn: anInteger
 		tuple: self coordinates size - 1
 		evaluating: [:i| (i < anInteger ifTrue: [self at: i] ifFalse: [self at: i + 1]) / scalar]! !
 
-!HomogeneousTuple methodsFor: 'converting' stamp: 'len 11/5/2016 09:25'!
+!HomogeneousTuple methodsFor: 'operations' stamp: 'len 11/7/2016 02:25'!
+apply: aMorphism
+	^ (super apply: aMorphism) asHomogeneousTuple! !
+
+!HomogeneousTuple methodsFor: 'converting' stamp: 'len 11/7/2016 02:26'!
 asTuple
 	"Answer a Tuple with the coordinates of the receiver."
-	^ Tuple coefficients: coefficients over: scalars! !
+	^ self scalars tuple: coefficients! !
 
 !HomogeneousTuple methodsFor: 'private' stamp: 'len 10/31/2016 13:45'!
 firstNonZero
 	^ (1 to: self size) detect: [:one| (self at: one) isZero not]! !
 
-!HomogeneousTuple methodsFor: 'comparing' stamp: 'len 11/6/2016 08:46'!
+!HomogeneousTuple methodsFor: 'comparing' stamp: 'len 11/7/2016 02:32'!
 hash
 	| hash x |
+	self scalars isField
+		ifFalse:
+			[^ self scalars isIntegralDomain
+				ifTrue: [(self apply: self scalars fractions embedding) hash]
+				ifFalse: [self scalars hash hashMultiply + self firstNonZero]].
 	hash _ 0.
 	x _ self at: self firstNonZero.
 	1 to: self size do: [:i | hash _ (hash + ((self at: i) / x) hash) hashMultiply].
