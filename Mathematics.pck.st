@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 7 November 2016 at 2:01:26.310582 pm'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 10 November 2016 at 8:26:32.043422 am'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 271!
+!provides: 'Mathematics' 1 272!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
 	instanceVariableNames: 'numerator shift'
@@ -881,16 +881,6 @@ FreeAbelianGroup subclass: #Lattice
 Lattice class
 	instanceVariableNames: ''!
 
-!classDefinition: #DivisorsGroup category: #'Mathematics-Schemes'!
-FreeAbelianGroup subclass: #DivisorsGroup
-	instanceVariableNames: 'scheme rationals'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Schemes'!
-!classDefinition: 'DivisorsGroup class' category: #'Mathematics-Schemes'!
-DivisorsGroup class
-	instanceVariableNames: ''!
-
 !classDefinition: #HomModule category: #'Mathematics-Modules'!
 FreeModule subclass: #HomModule
 	instanceVariableNames: 'domain codomain'
@@ -1011,6 +1001,16 @@ FreeModule subclass: #PolynomialFiltrationModule
 PolynomialFiltrationModule class
 	instanceVariableNames: ''!
 
+!classDefinition: #DivisorsGroup category: #'Mathematics-Schemes'!
+FreeModule subclass: #DivisorsGroup
+	instanceVariableNames: 'scheme scalars'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Schemes'!
+!classDefinition: 'DivisorsGroup class' category: #'Mathematics-Schemes'!
+DivisorsGroup class
+	instanceVariableNames: ''!
+
 !classDefinition: #ExteriorPower category: #'Mathematics-Etc'!
 FreeModule subclass: #ExteriorPower
 	instanceVariableNames: 'space degree'
@@ -1029,6 +1029,16 @@ FreeModule subclass: #SyzygyModule
 	category: 'Mathematics-Etc'!
 !classDefinition: 'SyzygyModule class' category: #'Mathematics-Etc'!
 SyzygyModule class
+	instanceVariableNames: ''!
+
+!classDefinition: #EllipticCurveGroup category: #'Mathematics-Elliptic Curves'!
+AbelianGroup subclass: #EllipticCurveGroup
+	instanceVariableNames: 'curve scalars'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Elliptic Curves'!
+!classDefinition: 'EllipticCurveGroup class' category: #'Mathematics-Elliptic Curves'!
+EllipticCurveGroup class
 	instanceVariableNames: ''!
 
 !classDefinition: #Magma category: #'Mathematics-Abstract'!
@@ -1573,7 +1583,7 @@ ProjectivePlaneCurve class
 
 !classDefinition: #EllipticCurve category: #'Mathematics-Elliptic Curves'!
 ProjectivePlaneCurve subclass: #EllipticCurve
-	instanceVariableNames: ''
+	instanceVariableNames: 'equation'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Elliptic Curves'!
@@ -2001,6 +2011,16 @@ Function subclass: #RationalMap
 RationalMap class
 	instanceVariableNames: ''!
 
+!classDefinition: #EllipticCurveIsogeny category: #'Mathematics-Elliptic Curves'!
+Function subclass: #EllipticCurveIsogeny
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Elliptic Curves'!
+!classDefinition: 'EllipticCurveIsogeny class' category: #'Mathematics-Elliptic Curves'!
+EllipticCurveIsogeny class
+	instanceVariableNames: ''!
+
 !classDefinition: #ChainMap category: #'Mathematics-Homology'!
 Function subclass: #ChainMap
 	instanceVariableNames: ''
@@ -2091,14 +2111,14 @@ RationalPoint subclass: #ProjectivePoint
 ProjectivePoint class
 	instanceVariableNames: ''!
 
-!classDefinition: #EllipticCurveIsogeny category: #'Mathematics-Elliptic Curves'!
-Morphism subclass: #EllipticCurveIsogeny
+!classDefinition: #EllipticCurvePoint category: #'Mathematics-Elliptic Curves'!
+ProjectivePoint subclass: #EllipticCurvePoint
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Elliptic Curves'!
-!classDefinition: 'EllipticCurveIsogeny class' category: #'Mathematics-Elliptic Curves'!
-EllipticCurveIsogeny class
+!classDefinition: 'EllipticCurvePoint class' category: #'Mathematics-Elliptic Curves'!
+EllipticCurvePoint class
 	instanceVariableNames: ''!
 
 !classDefinition: #PresheafMorphism category: #'Mathematics-Etc-Topology'!
@@ -2941,14 +2961,14 @@ Object subclass: #FloydWarshall
 FloydWarshall class
 	instanceVariableNames: ''!
 
-!classDefinition: #WeierstrassModel category: #'Mathematics-Elliptic Curves'!
-Object subclass: #WeierstrassModel
-	instanceVariableNames: 'a1 a2 a3 a4 a6'
+!classDefinition: #WeierstrassEquation category: #'Mathematics-Elliptic Curves'!
+Object subclass: #WeierstrassEquation
+	instanceVariableNames: 'coefficients'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Elliptic Curves'!
-!classDefinition: 'WeierstrassModel class' category: #'Mathematics-Elliptic Curves'!
-WeierstrassModel class
+!classDefinition: 'WeierstrassEquation class' category: #'Mathematics-Elliptic Curves'!
+WeierstrassEquation class
 	instanceVariableNames: ''!
 
 !classDefinition: #YoungDiagram category: #'Mathematics-Combinatorics'!
@@ -3805,17 +3825,6 @@ TODO:
 !Lattice commentStamp: '<historical>' prior: 0!
 A lattice is the set of integer linear combinations of a basis of a real vector space. This is a subgroup of the vector space (as abelian group) isomorphic to Z^n.!
 
-!DivisorsGroup commentStamp: '<historical>' prior: 0!
-TODO:
-- Div^d(E) := subgroup of Div(E) of divisors of degree d
-- Princ(E) := subgroup of Div^0(E) of principal divisors
-- Pic^0(E) := Div^0(E) / Princ(E)
-- Abel-Jacobi map Pic^0(E) -> E(K)
-- equality: D1 = D2 iff D1 - D2 is a principal divisor
-- a divisors of degree zero is principal iff the Abel-Jacobi map sends it to the zero point in the curve
-- divisor reduction: red(D) := (AJ([D])) - (0)
-- Miller's algorithm!
-
 !HomModule commentStamp: '<historical>' prior: 0!
 My instances are R-modules (or K-vector spaces) of linear transformations from a R-module (or K-vector space) A to another one B, i.e. Hom(A,B), the space of module homomorphisms between two R-modules.
 
@@ -3858,10 +3867,24 @@ My instances are submodules of homogeneous polynomials of a given fixed degree, 
 !PolynomialFiltrationModule commentStamp: '<historical>' prior: 0!
 My instances are submodules of univariate polynomials of degree <= n for a fixed n, in the ring of univariate polynomials R[x]. They define a filtration (see PolynomialRing>>filtrationAt:).!
 
+!DivisorsGroup commentStamp: '<historical>' prior: 0!
+TODO:
+- Div^d(E) := subgroup of Div(E) of divisors of degree d
+- Princ(E) := subgroup of Div^0(E) of principal divisors
+- Pic^0(E) := Div^0(E) / Princ(E)
+- Abel-Jacobi map Pic^0(E) -> E(K)
+- equality: D1 = D2 iff D1 - D2 is a principal divisor
+- a divisors of degree zero is principal iff the Abel-Jacobi map sends it to the zero point in the curve
+- divisor reduction: red(D) := (AJ([D])) - (0)
+- Miller's algorithm!
+
 !ExteriorPower commentStamp: 'len 8/1/2016 23:59' prior: 0!
 TODO:
 - elements: k-vectors (ExteriorProduct or ExteriorVector?)
 - ExteriorAlgebra as a graded algebra, direct sum of /\^i(V) for i in [1..n]!
+
+!EllipticCurveGroup commentStamp: '<historical>' prior: 0!
+My instances are abelian groups E(K) consisting of the K-rational points of an elliptic curve E.!
 
 !Magma commentStamp: '<historical>' prior: 0!
 My instances are magmas. They consist of a set and a binary operation, with no other requirements.!
@@ -4015,10 +4038,10 @@ References:
 !Scheme commentStamp: '<historical>' prior: 0!
 My instances are schemes.
 
-The current implementation has some limitations. It can represent closed subschemes of affine and projective space defined by polynomial equations. Some other schemes can also be represented (such as Spec(Z) and its closed subschemes Spec(Z/<m>)), but the functionality is limited. Also, many operations require the base ring to be a field.!
+The current implementation has some limitations. It can represent closed subschemes of affine and projective space defined by polynomial equations. Some other schemes can also be represented (such as Spec(Z) and its closed subschemes Spec(Z/<m>)), but functionality is limited. Also, many operations require the base ring to be a field.!
 
 !AffineScheme commentStamp: '<historical>' prior: 0!
-My instances are affine schemes, i.e. spectra of commutative rings noted Spec R. The ring R is the associated 'coordinate ring' of the scheme.
+My instances are affine schemes, i.e. spectra of commutative rings noted Spec R. The ring R is the associated coordinate ring of the scheme.
 
 Example:
 	"Three ways to create Spec Z/<42>, a subscheme of Spec Z:"
@@ -4054,14 +4077,19 @@ Note that this differs from the classical affine plane. The morphisms are of cou
 
 Note also that the dimension of an affine space as scheme is the Krull dimension of the polynomial ring, and this can be bigger than the number of indeterminates (see >>rank). For affine spaces over fields, the dimension and the rank are equal (because fields have Krull dimension 0).!
 
+!ProjectiveScheme commentStamp: '<historical>' prior: 0!
+My instances are projective schemes, i.e. Proj R for some commutative graded ring R. The ring R is the associated homogeneous coordinate ring of the scheme.!
+
 !ProjectiveCurve commentStamp: '<historical>' prior: 0!
-My instances are algebraic curves, i.e. projective schemes of dimension 1.!
+My instances are projective algebraic curves, i.e. projective schemes of dimension 1.!
 
 !ProjectivePlaneCurve commentStamp: '<historical>' prior: 0!
 My instances are projective plane algebraic curves, i.e. schemes of dimension 1 over the projective plane.!
 
 !EllipticCurve commentStamp: '<historical>' prior: 0!
-My instances are elliptic curves, i.e. plane algebraic curves of genus 1.!
+My instances are elliptic curves, i.e. plane algebraic curves of genus 1. They can be defined by a Weierstrass equation (see WeierstrassEquation).
+
+Elliptic curves are abelian varieties, i.e. their K-rational points form an abelian group. See EllipticCurvePoint.!
 
 !ProjectiveSpace commentStamp: '<historical>' prior: 0!
 My instances are projective spaces RP^n as schemes, i.e. Proj R[x1,...,xn] for some commutative ring R.
@@ -4272,13 +4300,16 @@ My instances are polynomial functions on an algebraic variety.!
 My instances are polynomial maps between algebraic varieties.!
 
 !RationalPoint commentStamp: '<historical>' prior: 0!
-Instances of my subclasses are K-rational points on a scheme X, seen as morphisms Spec(K) -> X.!
+Instances of my subclasses are K-rational points on a Scheme X, seen as morphisms Spec(K) -> X.!
 
-!AffinePoint commentStamp: '<historical>' prior: 0!
+!AffinePoint commentStamp: 'len 11/9/2016 16:07' prior: 0!
 My instances are K-rational points on an affine scheme X, seen as morphisms Spec(K) -> X.!
 
 !ProjectivePoint commentStamp: '<historical>' prior: 0!
 My instances are K-rational points on a projective scheme X, seen as morphisms Spec(K) -> X.!
+
+!EllipticCurvePoint commentStamp: '<historical>' prior: 0!
+My instances are K-rational points on an elliptic curve E, seen as morphisms Spec(K) -> E. These objects implement the group law (with additive notation). The identity element (zero, or the point at infinity) is [0:1:0].!
 
 !GroupRandomGenerator commentStamp: '<historical>' prior: 0!
 I am the Product Replacement Algorithm for generating random elements in a group from a set of generators. Essentially, it performs a random walk on a Cayley graph.!
@@ -4569,6 +4600,13 @@ Output: the shortest distance from the source node to the target node, or a shor
 The initial precomputation takes time O(|V|^3). Afterwards, it's possible to compute distances in time O(log |V|) and shortest paths of length k in O(k log |V|). The O(log |V|) comes from the dictionary lookup operation, a lookup in a hash table.
 
 While (after initial precomputation) Dijkstra's algorithm is able to efficiently compute distances from a fixed source node, Floyd-Warshall's computes distances from any two arbitrary nodes. However, for sparse graphs with non-negative edge weights a better choice is to use Dijkstra's algorithm with binary heaps, which gives a time complexity of O(|V| |E| log |V|).!
+
+!WeierstrassEquation commentStamp: '<historical>' prior: 0!
+My instances are Weierstrass equations of the form
+	y^2 + a1 xy + a3 y = x^3 + a2 x^2 + a4 x + a0
+with coefficients (a1,a2,a3,a4,a6) in some field.
+
+When the discriminant is not zero, they define an elliptic curve. See EllipticCurve.!
 
 !Simplex commentStamp: '<historical>' prior: 0!
 My instances are (abstract) n-simplices.!
@@ -11643,9 +11681,13 @@ exampleHomSet
 from: aDomain to: anotherDomain
 	^ self new domain: aDomain; codomain: anotherDomain! !
 
-!PointSet methodsFor: 'as yet unclassified' stamp: 'len 11/7/2016 09:46'!
+!PointSet methodsFor: 'iterating' stamp: 'len 11/7/2016 16:25'!
 do: aBlock
-	self codomain pointsOver: self domain coordinateRing do: aBlock! !
+	self codomain pointsOver: self scalars do: aBlock! !
+
+!PointSet methodsFor: 'accessing' stamp: 'len 11/7/2016 16:25'!
+scalars
+	^ self domain coordinateRing! !
 
 !ComplexBox methodsFor: 'accessing' stamp: 'len 1/16/2016 05:56'!
 area
@@ -12625,6 +12667,10 @@ product: anAbelianGroup
 	^ anAbelianGroup isAbelianGroup
 		ifTrue: [self  anAbelianGroup]
 		ifFalse: [super product: anAbelianGroup]! !
+
+!AbelianGroup methodsFor: 'accessing' stamp: 'len 11/10/2016 08:00'!
+rank
+	^ properties at: #rank! !
 
 !AbelianGroup methodsFor: 'morphisms' stamp: 'len 10/11/2016 09:06'!
 to: anAbelianGroup evaluating: aBlock
@@ -16537,36 +16583,6 @@ matrix: aMatrix
 	"Answer a lattice with generator matrix aMatrix."
 	^ self basis: aMatrix rowSpace basis! !
 
-!DivisorsGroup methodsFor: 'printing' stamp: 'len 10/25/2016 14:46'!
-printOn: aStream
-	aStream nextPutAll: 'Div' bold.
-	(rationals = scheme ambient scalars) ifFalse: [aStream nextPutAll: rationals printText sub].
-	aStream nextPut: $(; print: scheme; nextPut: $)! !
-
-!DivisorsGroup methodsFor: 'accessing' stamp: 'len 10/25/2016 14:47'!
-rationals
-	^ rationals! !
-
-!DivisorsGroup methodsFor: 'accessing-private' stamp: 'len 10/25/2016 14:47'!
-rationals: aRing
-	rationals _ aRing! !
-
-!DivisorsGroup methodsFor: 'accessing' stamp: 'len 10/4/2016 12:11'!
-scheme
-	^ scheme! !
-
-!DivisorsGroup methodsFor: 'accessing-private' stamp: 'len 10/4/2016 12:11'!
-scheme: aScheme
-	scheme _ aScheme! !
-
-!DivisorsGroup class methodsFor: 'instance creation' stamp: 'len 10/25/2016 14:45'!
-on: aScheme
-	^ self on: aScheme over: aScheme ambient scalars! !
-
-!DivisorsGroup class methodsFor: 'instance creation' stamp: 'len 10/25/2016 14:45'!
-on: aScheme over: aRing
-	^ self new scheme: aScheme; rationals: aRing! !
-
 !HomModule methodsFor: 'accessing' stamp: 'len 11/7/2015 04:34'!
 codomain
 	^ codomain! !
@@ -17529,6 +17545,32 @@ rank
 scalars
 	^ polynomials scalars! !
 
+!DivisorsGroup methodsFor: 'printing' stamp: 'len 11/8/2016 06:54'!
+printOn: aStream
+	aStream nextPutAll: 'Div' bold.
+"	(rationals = scheme ambient scalars) ifFalse: [aStream nextPutAll: rationals printText sub].
+"	aStream nextPut: $(; print: scheme; nextPut: $)! !
+
+!DivisorsGroup methodsFor: 'accessing' stamp: 'len 11/8/2016 06:53'!
+scalars
+	^ scalars! !
+
+!DivisorsGroup methodsFor: 'accessing' stamp: 'len 10/4/2016 12:11'!
+scheme
+	^ scheme! !
+
+!DivisorsGroup methodsFor: 'accessing-private' stamp: 'len 10/4/2016 12:11'!
+scheme: aScheme
+	scheme _ aScheme! !
+
+!DivisorsGroup class methodsFor: 'instance creation' stamp: 'len 11/8/2016 06:57'!
+on: aScheme
+	^ self on: aScheme over: ZZ! !
+
+!DivisorsGroup class methodsFor: 'instance creation' stamp: 'len 11/8/2016 06:52'!
+on: aScheme over: aRing
+	^ self new scheme: aScheme; scalars: aRing! !
+
 !ExteriorPower methodsFor: 'as yet unclassified' stamp: 'len 8/1/2016 23:50'!
 degree
 	^ degree! !
@@ -17558,6 +17600,39 @@ printOn: aStream
 	aStream nextPutAll: 'Syz('.
 	polynomials do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: ', '].
 	aStream nextPut: $)! !
+
+!EllipticCurveGroup methodsFor: 'accessing' stamp: 'len 11/10/2016 08:06'!
+curve
+	^ curve! !
+
+!EllipticCurveGroup methodsFor: 'accessing-private' stamp: 'len 11/10/2016 08:11'!
+curve: anEllipticCurve
+	curve _ anEllipticCurve! !
+
+!EllipticCurveGroup methodsFor: 'iterating' stamp: 'len 11/10/2016 08:10'!
+do: aBlock
+	self curve pointsOver: self scalars do: aBlock! !
+
+!EllipticCurveGroup methodsFor: 'printing' stamp: 'len 11/10/2016 08:13'!
+printOn: aStream
+	aStream nextPutAll: 'E('; print: self scalars; nextPut: $)! !
+
+!EllipticCurveGroup methodsFor: 'accessing' stamp: 'len 11/10/2016 08:06'!
+scalars
+	^ scalars! !
+
+!EllipticCurveGroup methodsFor: 'accessing-private' stamp: 'len 11/10/2016 08:11'!
+scalars: aField
+	scalars _ aField! !
+
+!EllipticCurveGroup methodsFor: 'accessing' stamp: 'len 11/10/2016 08:10'!
+zero
+	"This is the point at infinity."
+	^ curve pointAt: (scalars tuple: {scalars zero. scalars one. scalars zero})! !
+
+!EllipticCurveGroup class methodsFor: 'instance creation' stamp: 'len 11/10/2016 08:11'!
+on: anEllipticCurve over: aField
+	^ self new curve: anEllipticCurve; scalars: aField! !
 
 !Magma methodsFor: 'copying' stamp: 'len 5/1/2016 23:33'!
 copyEmpty
@@ -20835,13 +20910,15 @@ isSmoothAt: aPoint
 isTerminal
 	^ false! !
 
-!Scheme methodsFor: 'points' stamp: 'len 11/7/2016 09:43'!
+!Scheme methodsFor: 'points' stamp: 'len 11/10/2016 08:16'!
 points
-	^ PointSet from: self ambient scalars spec to: self! !
+	"Answer the rational points of the receiver."
+	^ self pointsOver: self ambient scalars! !
 
-!Scheme methodsFor: 'points' stamp: 'len 10/27/2016 15:17'!
+!Scheme methodsFor: 'points' stamp: 'len 11/10/2016 08:16'!
 pointsOver: aRing
-	^ Iterator on: [:aBlock| self pointsOver: aRing do: aBlock]! !
+	"Answer the K-rational points of the receiver, where K is aRing."
+	^ PointSet from: aRing spec to: self! !
 
 !Scheme methodsFor: 'points' stamp: 'len 11/7/2016 09:45'!
 pointsOver: aRing do: aBlock
@@ -21185,13 +21262,19 @@ newFrom: anObject
 	(anObject isKindOf: ProjectiveScheme) ifTrue: [^ self coordinateRing: anObject coordinateRing].
 	^ super newFrom: anObject! !
 
+!ProjectiveCurve methodsFor: 'accessing' stamp: 'len 11/9/2016 08:05'!
+arithmeticGenus
+	self isIrreducible ifFalse: [^ self error: 'not irreducible'].
+	^ 1 - (self ideal hilbertPolynomial value: 0)! !
+
 !ProjectiveCurve methodsFor: 'accessing' stamp: 'len 10/13/2016 13:38'!
 dimension
 	^ 1! !
 
-!ProjectivePlaneCurve methodsFor: 'accessing' stamp: 'len 10/24/2016 20:13'!
+!ProjectivePlaneCurve methodsFor: 'accessing' stamp: 'len 11/9/2016 08:07'!
 arithmeticGenus
 	| n |
+	self isIrreducible ifFalse: [^ self error: 'not irreducible'].
 	n _ self polynomial "totalDegree" degree.
 	^ n - 1 * (n - 2) / 2! !
 
@@ -21222,23 +21305,44 @@ polynomial: aPolynomial
 discriminant
 	^ (self a**3 * 4 + (self b**2 * 27)) * (-16)! !
 
-!EllipticCurve methodsFor: 'accessing' stamp: 'len 10/21/2016 13:42'!
+!EllipticCurve methodsFor: 'accessing' stamp: 'len 11/9/2016 13:11'!
+equation
+	^ equation! !
+
+!EllipticCurve methodsFor: 'accessing-private' stamp: 'len 11/9/2016 13:19'!
+equation: aWeierstrassEquation
+	equation _ aWeierstrassEquation.
+	self coordinateRing: aWeierstrassEquation homogeneousPolynomial asIdeal quotient! !
+
+!EllipticCurve methodsFor: 'accessing' stamp: 'len 11/10/2016 08:03'!
 genus
+	"Answer the geometric genus of the receiver."
 	^ 1! !
 
 !EllipticCurve methodsFor: 'testing' stamp: 'len 10/25/2016 14:11'!
 isSmooth
 	^ self discriminant isZero not! !
 
-!EllipticCurve class methodsFor: 'instance creation' stamp: 'len 11/1/2016 18:50'!
-a: a b: b over: aField
-	"Answer the curve y^2 = x^3 + ax + b homogenized."
-	^ self polynomial: ((aField polynomialsIn: #(x y z)) evaluating: [:x :y :z| x**3 + (x * (z**2) * a) + (z**3*b) - (y**2*z)])! !
+!EllipticCurve methodsFor: 'points' stamp: 'len 11/9/2016 13:32'!
+pointAt: aTuple
+	^ EllipticCurvePoint on: self coordinates: aTuple! !
 
-!EllipticCurve class methodsFor: 'instance creation' stamp: 'len 11/1/2016 18:51'!
-over: aField a: a b: b
-	"Answer the curve y^2 = x^3 + ax + b homogenized."
-	^ self polynomial: ((aField polynomialsIn: #(x y z)) evaluating: [:x :y :z| x**3 + (x * (z**2) * a) + (z**3*b) - (y**2*z)])! !
+!EllipticCurve methodsFor: 'points' stamp: 'len 11/10/2016 08:17'!
+pointsOver: aField
+	"Answer the group of K-rational points of the receiver."
+	^ EllipticCurveGroup on: self over: aField! !
+
+!EllipticCurve methodsFor: 'printing' stamp: 'len 11/10/2016 08:19'!
+printOn: aStream
+	aStream nextPutAll: 'E : '; print: self equation! !
+
+!EllipticCurve class methodsFor: 'instance creation' stamp: 'len 11/9/2016 15:12'!
+coefficients: aTuple
+	^ self equation: (WeierstrassEquation coefficients: aTuple)! !
+
+!EllipticCurve class methodsFor: 'instance creation' stamp: 'len 11/9/2016 13:10'!
+equation: aWeierstrassEquation
+	^ self new equation: aWeierstrassEquation! !
 
 !ProjectiveSpace methodsFor: 'operations' stamp: 'len 10/31/2016 13:14'!
 affinePatch: i
@@ -24879,12 +24983,12 @@ from: aLinearBasis matrix: aMatrix
 	self domain >= aRationalMap codomain ifFalse: [DomainError signal: 'domains don''t match'].
 	^ self class from: aRationalMap domain to: self codomain components: (self components collect: [:each| each value: aRationalMap components])! !
 
-!RationalMap methodsFor: 'converting' stamp: 'len 11/1/2016 07:54'!
+!RationalMap methodsFor: 'converting' stamp: 'len 11/7/2016 16:29'!
 asRingHomomorphism
 	"Answer the induced ring homomorphism between the coordinate rings.
 	This is the adjoint of the Spec functor."
 	self isPolynomial ifFalse: [DomainError signal: 'not a polynomial map'].
-	^ self codomain coordinateRing to: self domain coordinateRing evaluating: [:f| f value: self components]! !
+	^ self codomain coordinateRing to: self domain coordinateRing evaluating: [:f| f value: components]! !
 
 !RationalMap methodsFor: 'accessing' stamp: 'len 11/1/2016 07:54'!
 components
@@ -24894,7 +24998,7 @@ components
 components: anArray 
 	components _ anArray! !
 
-!RationalMap methodsFor: 'accessing' stamp: 'len 11/1/2016 07:59'!
+!RationalMap methodsFor: 'accessing' stamp: 'len 11/7/2016 16:29'!
 image
 	"Answer the (Zeriski closure of the) image of the receiver. This is a subscheme of the codomain.
 	Performs ideal elimination (a Groebner basis computation with the lexicographical order)."
@@ -24910,8 +25014,8 @@ image
 	generators _ OrderedCollection new.
 	g _ P one.
 	1 to: n do: [:i| | numerator denominator |
-		numerator _ map value: (self components at: i) numerator.
-		denominator _ map value: (self components at: i) denominator.
+		numerator _ map value: (components at: i) numerator.
+		denominator _ map value: (components at: i) denominator.
 		generators add: denominator * (P x: i) - numerator.
 		g _ g * denominator].
 	generators add: P one - (g * t).
@@ -24940,12 +25044,17 @@ isRegular
 negated
 	^ self class from: self domain to: self codomain components: components negated! !
 
-!RationalMap methodsFor: 'printing' stamp: 'len 11/5/2016 10:35'!
+!RationalMap methodsFor: 'printing' stamp: 'len 11/7/2016 16:23'!
 printOn: aStream 
-	((self codomain isProjective
-		ifTrue: [HomogeneousTuple]
-		ifFalse: [Tuple])
-			coefficients: components over: self codomain ambient functionField) printOn: aStream! !
+	self codomain isProjective
+		ifTrue:
+			[aStream nextPut: $[.
+			components do: [:each| aStream print: each] separatedBy: [aStream nextPut: $:].
+			aStream nextPut: $]]
+		ifFalse:
+			[aStream nextPut: $(.
+			components do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: ', '].
+			aStream nextPut: $)]! !
 
 !RationalMap methodsFor: 'operations' stamp: 'len 11/1/2016 07:56'!
 projectiveClosure
@@ -24961,9 +25070,13 @@ pullback: aScheme
 	"Answer the preimage of aScheme. The argument is a subscheme of the codomain, and the answer is a subscheme of the domain."
 	^ self domain subscheme: (aScheme ideal apply: self asRingHomomorphism)! !
 
-!RationalMap methodsFor: 'operations' stamp: 'len 11/7/2016 13:56'!
+!RationalMap methodsFor: 'operations' stamp: 'len 11/7/2016 16:28'!
 value: aPoint
-	^ self codomain pointAt: (aPoint scalars tuple: (components collect: [:each| each value: aPoint asTuple]))! !
+	| tuple |
+	tuple _ aPoint scalars tuple: (components collect: [:each| each value: aPoint asTuple]).
+	(aPoint isKindOf: RationalPoint)
+		ifTrue: [^ self codomain pointAt: tuple].
+	^ tuple! !
 
 !RationalMap class methodsFor: 'examples' stamp: 'len 11/1/2016 16:51'!
 example1TwistedCubicTangentParametrization
@@ -25417,6 +25530,20 @@ isSingular
 isSmooth
 	^ self codomain isSmoothAt: self coordinates! !
 
+!RationalPoint methodsFor: 'accessing' stamp: 'len 11/7/2016 16:25'!
+scalars
+	^ self domain coordinateRing! !
+
+!AffinePoint methodsFor: 'arithmetic' stamp: 'len 11/9/2016 16:09'!
++ aTuple
+	"Answer the result of translating the receiver by a vector."
+	^ self shallowCopy coordinates: self coordinates + aTuple! !
+
+!AffinePoint methodsFor: 'arithmetic' stamp: 'len 11/9/2016 16:08'!
+- anAffinePoint
+	"The difference between two affine points is a vector (a tuple in this case, the difference between their coordinates)."
+	^ self coordinates - anAffinePoint coordinates! !
+
 !AffinePoint methodsFor: 'comparing' stamp: 'len 11/7/2016 03:31'!
 = anAffinePoint
 	^ self coordinates = anAffinePoint coordinates! !
@@ -25441,10 +25568,13 @@ coordinates: aTuple
 hash
 	^ self coordinates hash! !
 
-!AffinePoint methodsFor: 'accessing' stamp: 'len 11/7/2016 03:31'!
+!AffinePoint methodsFor: 'accessing' stamp: 'len 11/8/2016 07:15'!
 ideal
 	"Answer the prime ideal defining the receiver."
-	^ properties at: #ideal! !
+	| R |
+	self codomain scalars = self scalars ifFalse: [^ self error: 'not yet implemented'].
+	R _ self codomain ambient coordinateRing.
+	^ R * (R generators - self coordinates)! !
 
 !AffinePoint methodsFor: 'printing' stamp: 'len 11/7/2016 08:28'!
 printOn: aStream
@@ -25458,22 +25588,22 @@ scalars
 on: anAffineScheme coordinates: aTuple
 	^ self new domain: aTuple scalars spec; codomain: anAffineScheme; coordinates: aTuple! !
 
-!ProjectivePoint methodsFor: 'comparing' stamp: 'len 11/7/2016 13:21'!
+!ProjectivePoint methodsFor: 'comparing' stamp: 'len 11/8/2016 07:32'!
 = aProjectivePoint
 	| index x y |
 	self class = aProjectivePoint class ifFalse: [^ super = aProjectivePoint].
 	coordinates size = aProjectivePoint coordinates size ifFalse: [^ false].
-	index _ self firstNonZero.
+	index _ self lastNonZero.
 	x _ coordinates at: index.
 	y _ aProjectivePoint coordinates at: index.
 	1 to: coordinates size do: [:i|
 		(coordinates at: i) * y = ((aProjectivePoint coordinates at: i) * x) ifFalse: [^ false]].
 	^ true! !
 
-!ProjectivePoint methodsFor: 'converting' stamp: 'len 11/7/2016 13:47'!
+!ProjectivePoint methodsFor: 'converting' stamp: 'len 11/8/2016 07:33'!
 affinized
 	"Answer the affinization of the receiver."
-	^ self affinizedIn: coordinates size! !
+	^ self affinizedIn: self lastNonZero! !
 
 !ProjectivePoint methodsFor: 'converting' stamp: 'len 11/7/2016 13:47'!
 affinizedIn: anInteger
@@ -25497,43 +25627,56 @@ coordinates
 coordinates: aTuple
 	coordinates _ aTuple! !
 
-!ProjectivePoint methodsFor: 'private' stamp: 'len 11/7/2016 13:22'!
-firstNonZero
-	1 to: coordinates size do: [:i| (coordinates at: i) isZero ifFalse: [^ i]].
-	^ nil! !
-
-!ProjectivePoint methodsFor: 'comparing' stamp: 'len 11/7/2016 13:30'!
+!ProjectivePoint methodsFor: 'comparing' stamp: 'len 11/8/2016 07:33'!
 hash
 	self scalars isField ifTrue: [^ self hashField].
 	self scalars isIntegralDomain ifTrue: [^ self hashIntegralDomain].
-	^ self scalars hash hashMultiply + self firstNonZero! !
+	^ self scalars hash hashMultiply + self lastNonZero! !
 
-!ProjectivePoint methodsFor: 'comparing' stamp: 'len 11/7/2016 13:31'!
+!ProjectivePoint methodsFor: 'comparing' stamp: 'len 11/8/2016 07:33'!
 hashField
 	| hash x |
 	hash _ 0.
-	x _ coordinates at: self firstNonZero.
+	x _ coordinates at: self lastNonZero.
 	1 to: coordinates size do: [:i | hash _ (hash + ((coordinates at: i) / x) hash) hashMultiply].
 	^hash! !
 
-!ProjectivePoint methodsFor: 'comparing' stamp: 'len 11/7/2016 13:31'!
+!ProjectivePoint methodsFor: 'comparing' stamp: 'len 11/8/2016 07:33'!
 hashIntegralDomain
 	| Q hash x |
 	Q _ self scalars fractions.
 	hash _ 0.
-	x _ Q embed: (coordinates at: self firstNonZero).
+	x _ Q embed: (coordinates at: self lastNonZero).
 	1 to: coordinates size do: [:i | hash _ (hash + ((Q embed: (coordinates at: i)) / x) hash) hashMultiply].
 	^ hash! !
 
-!ProjectivePoint methodsFor: 'accessing' stamp: 'len 11/7/2016 08:29'!
+!ProjectivePoint methodsFor: 'accessing' stamp: 'len 11/8/2016 07:33'!
 ideal
-	^ properties at: #ideal! !
+	"Answer the prime ideal defining the receiver."
+	| R m am xm ai generators |
+	self codomain scalars = self scalars ifFalse: [^ self error: 'not yet implemented'].
+	R _ self codomain ambient coordinateRing.
+	generators _ OrderedCollection new: coordinates size.
+	m _ self lastNonZero.
+	am _ coordinates at: m.
+	xm _ R x: m.
+	1 to: m do: [:i|
+		ai _ coordinates at: i.
+		ai isZero ifTrue: [generators add: (R x: i)] ifFalse: [generators add: (R x: i) * am - (xm*ai)]].
+	m+1 to: coordinates size do: [:i|
+		generators add: (R x: i)].
+	^ R * generators! !
 
-!ProjectivePoint methodsFor: 'printing' stamp: 'len 11/7/2016 13:29'!
+!ProjectivePoint methodsFor: 'private' stamp: 'len 11/8/2016 07:32'!
+lastNonZero
+	coordinates size to: 1 by: -1 do: [:i| (coordinates at: i) isZero ifFalse: [^ i]].
+	^ nil! !
+
+!ProjectivePoint methodsFor: 'printing' stamp: 'len 11/7/2016 14:06'!
 printOn: aStream
-	aStream nextPut: $(.
+	aStream nextPut: $[.
 	self coordinates do: [:each| aStream print: each] separatedBy: [aStream nextPut: $:].
-	aStream nextPut: $)! !
+	aStream nextPut: $]! !
 
 !ProjectivePoint methodsFor: 'accessing' stamp: 'len 11/7/2016 13:30'!
 scalars
@@ -25542,6 +25685,60 @@ scalars
 !ProjectivePoint class methodsFor: 'instance creation' stamp: 'len 11/7/2016 13:17'!
 on: aProjectiveScheme coordinates: aTuple
 	^ self new domain: aTuple scalars spec; codomain: aProjectiveScheme; coordinates: aTuple! !
+
+!EllipticCurvePoint methodsFor: 'arithmetic' stamp: 'len 11/9/2016 16:13'!
+* anInteger
+	anInteger isInteger ifFalse: [^ DomainError signal].
+	anInteger = 1 ifTrue: [^ self].
+	anInteger = 0 ifTrue: [^ self zero].
+	anInteger < 0 ifTrue: [^ (self * anInteger negated) negated].
+	^ anInteger even
+		ifTrue: [self doubled * (anInteger // 2)]
+		ifFalse: [self doubled * (anInteger // 2) + self]! !
+
+!EllipticCurvePoint methodsFor: 'arithmetic' stamp: 'len 11/9/2016 16:11'!
++ aPoint
+	| W x y x` y` m answerX answerY |
+	aPoint isZero ifTrue: [^ self].
+	self isZero ifTrue: [^ aPoint].
+	W _ self codomain equation.
+	x _ self coordinates at: 1. y _ self coordinates at: 2.
+	x` _ aPoint coordinates at: 1. y` _ aPoint coordinates at: 2.
+	(x = x` and: [y = (y` negated - (W a1 * x`) - W a3)]) "self = aPoint negated"
+		ifTrue: [^ self zero].
+	m _ (x = x` and: [y = y`]) "self = aPoint"
+		ifTrue: [x squared * 3 + (W a2 * x * 2) + W a4 - (W a1 * y) / (y * 2 + (W a1 * x) + W a3)]
+		ifFalse: [y - y` / (x - x`)].
+	answerX _ x negated - x` - W a2 + (m*(m + W a1)).
+	answerY _ y negated - W a3 - (W a1 * answerX) + (m*(x - answerX)).
+	^ self shallowCopy coordinates: (self scalars tuple: {answerX. answerY. self scalars one})! !
+
+!EllipticCurvePoint methodsFor: 'arithmetic' stamp: 'len 11/9/2016 08:28'!
+- aPoint
+	^ self + aPoint negated! !
+
+!EllipticCurvePoint methodsFor: 'arithmetic' stamp: 'len 11/9/2016 15:03'!
+doubled
+	^ self + self! !
+
+!EllipticCurvePoint methodsFor: 'testing' stamp: 'len 11/9/2016 13:33'!
+isZero
+	^ (self coordinates at: 1) isZero and: [(self coordinates at: 3) isZero]! !
+
+!EllipticCurvePoint methodsFor: 'arithmetic' stamp: 'len 11/9/2016 16:21'!
+negated
+	| W x y |
+	self isZero ifTrue: [^ self].
+	W _ self codomain equation.
+	x _ self coordinates at: 1.
+	y _ self coordinates at: 2.
+	^ self shallowCopy coordinates: (self scalars tuple: {x. y negated + (W a1 * x) - W a3. self scalars one})! !
+
+!EllipticCurvePoint methodsFor: 'arithmetic' stamp: 'len 11/9/2016 15:19'!
+zero
+	| R |
+	R _ self scalars.
+	^ self shallowCopy coordinates: (R tuple: {R zero. R one. R zero})! !
 
 !RandomGenerator methodsFor: 'accessing' stamp: 'len 4/19/2016 22:03'!
 bits: anInteger
@@ -26662,6 +26859,10 @@ representative
 representative: anInteger
 	representative _ anInteger! !
 
+!IntegerResidueClass methodsFor: 'arithmetic' stamp: 'len 11/9/2016 15:16'!
+squared
+	^ self class representative: representative squared \\ modulus modulo: modulus! !
+
 !IntegerResidueClass methodsFor: 'arithmetic' stamp: 'len 4/25/2016 00:25'!
 zero
 	^ self class representative: 0 modulo: modulus! !
@@ -26800,9 +27001,9 @@ representative
 representative: anObject
 	representative _ anObject! !
 
-!ResidueClass methodsFor: 'arithmetic' stamp: 'len 6/4/2016 18:04'!
+!ResidueClass methodsFor: 'arithmetic' stamp: 'len 11/9/2016 15:15'!
 squared
-	^ self * self! !
+	^ parent project: representative squared! !
 
 !ResidueClass methodsFor: 'constants' stamp: 'len 10/16/2016 15:58'!
 zero
@@ -27457,6 +27658,11 @@ isCycle
 !OrderedTuple methodsFor: 'arithmetic' stamp: 'len 3/29/2016 18:46'!
 \\ aNumber
 	^ self collect: [:each| each \\ aNumber]! !
+
+!OrderedTuple methodsFor: 'converting' stamp: 'len 11/8/2016 07:19'!
+adaptToCollection: aCollection andSend: selector
+	self size = aCollection size ifFalse: [^ self error: 'sizes don''t match'].
+	^ aCollection withIndexCollect: [:each :index| each perform: selector with: (self at: index)]! !
 
 !OrderedTuple methodsFor: 'converting' stamp: 'len 3/29/2016 18:53'!
 adaptToNumber: aNumber andSend: selector
@@ -34342,25 +34548,93 @@ run
 graph: aGraph
 	^ self new graph: aGraph! !
 
-!WeierstrassModel methodsFor: 'as yet unclassified' stamp: 'len 10/26/2016 10:21'!
+!WeierstrassEquation methodsFor: 'invariants' stamp: 'len 11/9/2016 07:08'!
 a1
-	^ a1! !
+	^ coefficients at: 1! !
 
-!WeierstrassModel methodsFor: 'as yet unclassified' stamp: 'len 10/26/2016 10:21'!
+!WeierstrassEquation methodsFor: 'invariants' stamp: 'len 11/9/2016 07:08'!
 a2
-	^ a2! !
+	^ coefficients at: 2! !
 
-!WeierstrassModel methodsFor: 'as yet unclassified' stamp: 'len 10/26/2016 10:21'!
+!WeierstrassEquation methodsFor: 'invariants' stamp: 'len 11/9/2016 07:08'!
 a3
-	^ a3! !
+	^ coefficients at: 3! !
 
-!WeierstrassModel methodsFor: 'as yet unclassified' stamp: 'len 10/26/2016 10:21'!
+!WeierstrassEquation methodsFor: 'invariants' stamp: 'len 11/9/2016 07:08'!
 a4
-	^ a4! !
+	^ coefficients at: 4! !
 
-!WeierstrassModel methodsFor: 'as yet unclassified' stamp: 'len 10/26/2016 10:21'!
+!WeierstrassEquation methodsFor: 'invariants' stamp: 'len 11/9/2016 07:08'!
 a6
-	^ a6! !
+	^ coefficients at: 5! !
+
+!WeierstrassEquation methodsFor: 'invariants' stamp: 'len 11/9/2016 07:22'!
+b2
+	^ self a1 squared + (self a4 * 4)! !
+
+!WeierstrassEquation methodsFor: 'invariants' stamp: 'len 11/9/2016 07:23'!
+b4
+	^ self a4 * 2 + (self a1 * self a3)! !
+
+!WeierstrassEquation methodsFor: 'invariants' stamp: 'len 11/9/2016 07:23'!
+b6
+	^ self a3 squared + (self a6 * 4)! !
+
+!WeierstrassEquation methodsFor: 'invariants' stamp: 'len 11/9/2016 07:24'!
+b8
+	^ self a1 squared * self a6 + (self a2 * self a6 * 4) - (self a1 * self a3 * self a4) + (self a2 * self a3 squared) - self a4 squared! !
+
+!WeierstrassEquation methodsFor: 'invariants' stamp: 'len 11/9/2016 07:25'!
+c4
+	^ self b2 squared - (self b4 * 24)! !
+
+!WeierstrassEquation methodsFor: 'invariants' stamp: 'len 11/9/2016 07:26'!
+c6
+	^ (self b2 ** 3) negated + (self b2 * self b4 * 36) - (self b6 * 216)! !
+
+!WeierstrassEquation methodsFor: 'accessing-private' stamp: 'len 11/9/2016 07:08'!
+coefficients: aTuple
+	coefficients _ aTuple! !
+
+!WeierstrassEquation methodsFor: 'accessing' stamp: 'len 11/9/2016 13:01'!
+curve
+	^ EllipticCurve equation: self! !
+
+!WeierstrassEquation methodsFor: 'invariants' stamp: 'len 11/9/2016 07:27'!
+discriminant
+	^ (self b2 squared * self b8) negated - (self b4 ** 3 * 8) - (self b6 squared * 27) + (self b2 * self b4 * self b6 * 9)! !
+
+!WeierstrassEquation methodsFor: 'accessing' stamp: 'len 11/9/2016 13:20'!
+homogeneousPolynomial
+	^ (self polynomial as: (self scalars polynomialsIn: #(x y z))) homogenizedIn: 3! !
+
+!WeierstrassEquation methodsFor: 'invariants' stamp: 'len 11/9/2016 07:28'!
+j
+	^ self c4 ** 3 / self discriminant! !
+
+!WeierstrassEquation methodsFor: 'accessing' stamp: 'len 11/9/2016 13:17'!
+polynomial
+	^ (self scalars polynomialsIn: #(x y)) evaluating: [:x :y|
+			y**2 + (x*y * self a1) + (y * self a3) - (x**3) - (x**2 * self a2) - (x * self a4) - self a6]! !
+
+!WeierstrassEquation methodsFor: 'printing' stamp: 'len 11/9/2016 07:19'!
+printOn: aStream
+	| P x y |
+	P _ self scalars polynomialsIn: #(x y) ordering: (MonomialOrdering tlex: #(2 1)).
+	x _ P x.
+	y _ P y.
+	aStream print: y**2 + (x*y * self a1) + (y * self a3).
+	aStream
+		nextPutAll: ' = ';
+		print: (x**3) + (x**2 * self a2) + (x * self a4) + self a6! !
+
+!WeierstrassEquation methodsFor: 'accessing' stamp: 'len 11/9/2016 07:16'!
+scalars
+	^ coefficients scalars! !
+
+!WeierstrassEquation class methodsFor: 'instance creation' stamp: 'len 11/9/2016 07:08'!
+coefficients: aTuple
+	^ self new coefficients: aTuple! !
 
 !YoungDiagram methodsFor: 'as yet unclassified' stamp: 'len 8/1/2016 03:17'!
 hookLengthAt: aPoint
