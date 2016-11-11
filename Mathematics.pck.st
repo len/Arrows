@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 11 November 2016 at 5:16:07.620188 pm'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 11 November 2016 at 6:38:25.206274 pm'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 274!
+!provides: 'Mathematics' 1 275!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
 	instanceVariableNames: 'numerator shift'
@@ -27753,6 +27753,11 @@ adaptToNumber: aNumber andSend: selector
 adaptToRealAlgebraic: aNumber andSend: selector
 	^ self adaptToNumber: aNumber andSend: selector! !
 
+!OrderedTuple methodsFor: 'arithmetic' stamp: 'len 11/11/2016 18:21'!
+add: aTuple multipliedBy: aNumber startingAt: index
+	index to: (self size min: aTuple size) do: [:i|
+		self at: i put: (aTuple at: i) * aNumber + (self at: i)]! !
+
 !OrderedTuple methodsFor: 'iterating' stamp: 'len 11/5/2016 07:06'!
 allSatisfy: aBlock
 	"Evaluate aBlock with the elements of the receiver.
@@ -28257,6 +28262,16 @@ newFrom: anObject
 = aTuple
 	self class = aTuple class ifFalse: [^ super = aTuple halt].
 	^ modulus = aTuple modulus and: [representatives = aTuple representatives]! !
+
+!IntegerResidueClassTuple methodsFor: 'arithmetic' stamp: 'len 11/11/2016 18:27'!
+add: aTuple multipliedBy: aNumber startingAt: index
+	| representatives2 x |
+	(self class = aTuple class and: [modulus = aTuple modulus])
+		ifFalse: [^ super add: aTuple multipliedBy: aNumber startingAt: index].
+	representatives2 _ aTuple representatives.
+	x _ aNumber representative.
+	index to: (representatives size min: representatives2 size) do: [:i|
+		representatives at: i put: (representatives2 at: i) * x + (representatives at: i) \\ modulus]! !
 
 !IntegerResidueClassTuple methodsFor: 'accessing-private' stamp: 'len 6/29/2016 05:50'!
 arrayClass
@@ -29498,9 +29513,13 @@ addColumn: i multipliedBy: factor toColumn: j
 addRow: aTuple
 	^ rows add: aTuple! !
 
-!RowMatrix methodsFor: 'reduction-operations' stamp: 'len 3/23/2016 00:20'!
-addRow: i multipliedBy: factor toRow: j
-	rows at: j put: (rows at: i) * factor + (rows at: j)! !
+!RowMatrix methodsFor: 'reduction-operations' stamp: 'len 11/11/2016 18:36'!
+addRow: srcRow multipliedBy: factor toRow: dstRow
+	^ self addRow: srcRow multipliedBy: factor toRow: dstRow startingAt: 1! !
+
+!RowMatrix methodsFor: 'reduction-operations' stamp: 'len 11/11/2016 18:36'!
+addRow: srcRow multipliedBy: factor toRow: dstRow startingAt: columnIndex
+	(rows at: dstRow) add: (rows at: srcRow) multipliedBy: factor startingAt: columnIndex! !
 
 !RowMatrix methodsFor: 'accessing' stamp: 'len 3/23/2016 02:46'!
 at: i at: j
@@ -30074,14 +30093,10 @@ addPivot: aPoint
 	currentPivot _ aPoint.
 	^ pivots add: aPoint! !
 
-!MatrixReducer methodsFor: 'private' stamp: 'len 12/26/2015 05:52'!
+!MatrixReducer methodsFor: 'private' stamp: 'len 11/11/2016 18:12'!
 addRow: i0 multipliedBy: anObject toRow: i1
 	"Add a row multiplied by anObject to another row."
-	self currentPivot x to: matrix numberOfColumns do: [:j|
-		matrix
-			at: i1 @ j
-			put: (matrix at: i1 @ j) +
-				((matrix at: i0 @ j) * anObject)].
+	matrix addRow: i0 multipliedBy: anObject toRow: i1 startingAt: self currentPivot x.
 	extension notNil ifTrue: [extension addRow: i0 multipliedBy: anObject toRow: i1]! !
 
 !MatrixReducer methodsFor: 'accessing' stamp: 'len 11/6/2015 04:50'!
@@ -30140,15 +30155,15 @@ multiplyRow: i by: anObject
 	extension notNil ifTrue: [extension multiplyRow: i by: anObject].
 	determinantFactor _ determinantFactor * anObject! !
 
-!MatrixReducer methodsFor: 'private' stamp: 'len 3/5/2016 20:40'!
+!MatrixReducer methodsFor: 'private' stamp: 'len 11/11/2016 18:31'!
 nextPivot
 	"Advance the position to the next available pivot."
 	| col |
 	col _ currentPivot x + 1.
 	[col <= matrix numberOfColumns]
 		whileTrue:
-			[1 to: matrix numberOfRows do: [ :each |
-				((self pivots detect: [ :one | one y = each] ifNone: [])
+			[1 to: matrix numberOfRows do: [:each|
+				((self pivots detect: [:one| one y = each] ifNone: [])
 					notNil or: [(matrix at: each @ col) isZero])
 						ifFalse: [^ self addPivot: col @ each]].
 			col _ col + 1].
