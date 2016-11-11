@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 11 November 2016 at 4:42:45.252668 pm'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 11 November 2016 at 5:16:07.620188 pm'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 273!
+!provides: 'Mathematics' 1 274!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
 	instanceVariableNames: 'numerator shift'
@@ -28299,6 +28299,17 @@ copyFrom: start to: stop
 copyWith: anElement
 	^ self class representatives: (representatives copyWith: anElement representative) modulo: modulus! !
 
+!IntegerResidueClassTuple methodsFor: 'arithmetic' stamp: 'len 11/11/2016 16:52'!
+dot: aTuple
+	| representatives2 answer |
+	(aTuple class = self class and: [modulus = aTuple modulus])
+		ifFalse: [^ super dot: aTuple].
+	representatives2 _ aTuple representatives.
+	answer _ 0.
+	1 to: (representatives size min: representatives2 size) do: [:i|
+		answer _ (representatives at: i) * (representatives2 at: i) + answer \\ modulus].
+	^ answer % modulus! !
+
 !IntegerResidueClassTuple methodsFor: 'comparing' stamp: 'len 6/30/2016 06:52'!
 hash
 	^ representatives hash! !
@@ -28945,12 +28956,16 @@ dimension
 do: aBlock
 	self rowsDo: [:each| each do: aBlock ]! !
 
-!Matrix methodsFor: 'arithmetic' stamp: 'len 11/5/2016 07:02'!
+!Matrix methodsFor: 'arithmetic' stamp: 'len 11/11/2016 17:09'!
 dot: aMatrix
+	| rows columns |
 	self numberOfColumns = aMatrix numberOfRows ifFalse: [^ DomainError signal: 'matrices dimensions don''t match'].
 	self checkScalarsMatch: aMatrix.
-	^ self scalars ** (self numberOfRows @ aMatrix numberOfColumns)
-		evaluating: [:i :j| (self rowAt: i) dot: (aMatrix columnAt: j)]! !
+	rows _ self rows.
+	columns _ aMatrix columns.
+	^ self scalars
+		matrix: self numberOfRows @ aMatrix numberOfColumns
+		evaluating: [:i :j| (rows at: i) dot: (columns at: j)]! !
 
 !Matrix methodsFor: 'arithmetic' stamp: 'len 11/6/2016 09:47'!
 dotProductWithTuple: aTuple
