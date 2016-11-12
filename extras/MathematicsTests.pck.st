@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 6 November 2016 at 2:35:59.860104 pm'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 12 November 2016 at 9:18:58.823404 am'!
 'Description Please enter a description for this package'!
-!provides: 'MathematicsTests' 1 39!
+!provides: 'MathematicsTests' 1 40!
 !classDefinition: #AbelianGroupTest category: #MathematicsTests!
 TestCase subclass: #AbelianGroupTest
 	instanceVariableNames: ''
@@ -59,6 +59,16 @@ TestCase subclass: #CommutativeAlgebraTest
 	category: 'MathematicsTests'!
 !classDefinition: 'CommutativeAlgebraTest class' category: #MathematicsTests!
 CommutativeAlgebraTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #EllipticCurvesTest category: #MathematicsTests!
+TestCase subclass: #EllipticCurvesTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'MathematicsTests'!
+!classDefinition: 'EllipticCurvesTest class' category: #MathematicsTests!
+EllipticCurvesTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #GraphTest category: #MathematicsTests!
@@ -768,7 +778,7 @@ testRationalMap2
 	X _ A3 subscheme: {x**3*z - (x*y**2*(3/4)) - (x*y*z*(3/2)) + (y**3) + (z**2*(1/4))}.
 	self assert: f image = X! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 11/2/2016 03:56'!
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 11/7/2016 14:00'!
 testRationalMapLinearMapConversion
 	| A2 A3 V2 V3 f f` p f`` |
 	A2 _ AffineSpace new: 2 over: QQ.
@@ -1520,6 +1530,43 @@ testZeroIdeal
 	self assert: zero isZero.
 	self assert: (zero includes: 0).
 	self deny: (zero includes: 42)! !
+
+!EllipticCurvesTest methodsFor: 'as yet unclassified' stamp: 'len 11/11/2016 10:14'!
+testBInvariants
+	| W |
+	W _ WeierstrassEquation coefficients: (1,2,3,4,5).
+	self assert: W b2 = 9.
+	self assert: W b4 = 11.
+	self assert: W b6 = 29.
+	self assert: W b8 = 35! !
+
+!EllipticCurvesTest methodsFor: 'as yet unclassified' stamp: 'len 11/11/2016 10:30'!
+testCInvariants
+	| W |
+	W _ WeierstrassEquation coefficients: (0,-1,1,-10,-20).
+	self assert: W c4 = 496.
+	self assert: W c6 = 20008! !
+
+!EllipticCurvesTest methodsFor: 'as yet unclassified' stamp: 'len 11/11/2016 08:29'!
+testGroupLaw
+	| E P Q O |
+	E _ EllipticCurve cremona389a1.
+	P _ E pointAt: (-1,1).
+	Q _ E pointAt: (0,-1).
+	O _ E pointAt: (0,1,0).
+	self assert: P+Q = (E pointAt: (4,8)).
+	self assert: P-Q = (E pointAt: (1,0)).
+	self assert: 3*P - (5*Q) = (E pointAt: (328/361,(-2800/6859))).
+	self assert: O+P = P.
+	self assert: P+O = P.
+	self assert: P-P = O! !
+
+!EllipticCurvesTest methodsFor: 'as yet unclassified' stamp: 'len 11/9/2016 07:30'!
+testWeierstrassEquationInvariants
+	| W |
+	W _ WeierstrassEquation coefficients: (ZZ ** 5 atRandomBits: 100).
+	self assert: W b8 * 4 = (W b2 * W b6 - W b4 squared).
+	self assert: W discriminant * 1728 = (W c4 ** 3 - W c6 squared)! !
 
 !GraphTest methodsFor: 'as yet unclassified' stamp: 'len 7/23/2016 06:29'!
 testAutomorphismsK3
@@ -2375,20 +2422,18 @@ testYoungTableauxStandard
 	self assert: T weight = #(1 1 1 1 1 1 1 1).
 	self assert: T shape = #(4 3 1)! !
 
-!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 8/25/2016 06:50'!
+!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 11/11/2016 09:00'!
 testAdjugate
-	| M A I |
-	M _ QQ ** (3@3).
-	A _ M rows: { (2,1,1). (-1,0,1). (0,2,1) }.
-	I _ M identity.
+	| A I |
+	A _ Matrix rows: { (2,1,1). (-1,0,1). (0,2,1) }.
+	I _ A identity.
 	self assert: A * A adjugate = (I * A determinant)! !
 
-!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:05'!
+!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 11/11/2016 09:00'!
 testAdjugate2
-	| M A B |
-	M _ QQ ** (3@3).
-	A _ M rows: { (-3,2,-5). (-1,0,-2). (3,-4,1) }.
-	B _ M rows: { (-8,18,-4). (-5,12,-1). (4,-6,2) }.
+	| A B |
+	A _ Matrix rows: { (-3,2,-5). (-1,0,-2). (3,-4,1) }.
+	B _ Matrix rows: { (-8,18,-4). (-5,12,-1). (4,-6,2) }.
 	self assert: A adjugate = B! !
 
 !MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:05'!
@@ -4688,6 +4733,17 @@ testBitTupleBug
 	self assert: ((1,1,0) % 2 :: sum = Z2 zero).
 	self assert: ((1,1,1) % 2 :: sum = Z2 one)! !
 
+!TupleTest methodsFor: 'as yet unclassified' stamp: 'len 11/12/2016 08:48'!
+testBitTupleOperations
+	| n a b |
+	n _ 120 atRandom.
+	a _ ZZ**n atRandomBits: n*2.
+	b _ ZZ**n atRandomBits: n*2.
+	#(+ - convolution: dot: hadamard:) do: [:op|
+		self testTuple: a with: b operation: op modulo: 2].
+	#(negated reversed copy sum product) do: [:op|
+		self testTuple: a operation: op modulo: 2]! !
+
 !TupleTest methodsFor: 'as yet unclassified' stamp: 'len 11/6/2016 11:35'!
 testBitTupleReversed
 	| v i |
@@ -4719,13 +4775,13 @@ testModTupleConvolution
 	b _ (2,3,4).
 	self assert: (a % 7 convolution: b % 7) = ((a convolution: b) % 7)! !
 
-!TupleTest methodsFor: 'as yet unclassified' stamp: 'len 11/6/2016 14:26'!
+!TupleTest methodsFor: 'as yet unclassified' stamp: 'len 11/12/2016 08:48'!
 testModTupleOperations
 	| a b modulus |
 	modulus _ 10 atRandom + 1.
 	a _ ZZ**5 atRandomBits: 30.
 	b _ ZZ**5 atRandomBits: 30.
-	#(+ - convolution: dot:) do: [:op|
+	#(+ - convolution: dot: hadamard:) do: [:op|
 		self testTuple: a with: b operation: op modulo: modulus].
 	#(negated reversed copy sum product) do: [:op|
 		self testTuple: a operation: op modulo: modulus].! !
