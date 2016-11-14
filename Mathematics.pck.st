@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 12 November 2016 at 9:18:30.866889 am'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 14 November 2016 at 9:30:44.360997 am'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 276!
+!provides: 'Mathematics' 1 277!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
 	instanceVariableNames: 'numerator shift'
@@ -4314,6 +4314,11 @@ My instances are quaternions. Quaternions constitute an example of non-commutati
 !Word commentStamp: '<historical>' prior: 0!
 A word is a (non-commutative) formal product of a finite ordered list of objects.!
 
+!SchreierTree commentStamp: 'len 11/14/2016 08:17' prior: 0!
+My instances are Schreier trees.
+
+Given a finite group G with a generating set S acting on X, a Schreier tree with root x for S is a representation of the orbit of x: it's a tree rooted at x with the elements of x^G as its vertices, and its edges describing the elements of S needed to get from x to each vertex, i.e. each edge {i,j} in the tree with i closer to the root than j is labeled by a generator s in S moving i to j.!
+
 !FormalFraction commentStamp: 'len 10/29/2016 10:46' prior: 0!
 My instances are elements of the form a / b, with a and b in a commutative ring R, and satisfying the equivalence relation: (a / b) = (a` / b`) iff a*b` = a`*b.
 
@@ -4358,22 +4363,22 @@ My instances are n-tuples with coefficients in some ring R, i.e. finite ordered 
 
 Some subclasses implement special kinds of tuples for concrete rings, such as ZZ/m and ZZ/2. These special tuples have a compact representation that saves memory and allows fast arithmetic. Many parts of the system (such as linear algebra and polynomials) ultimately rely on tuples.
 
-Tuples should be created not by directly refering to the class, but by sending a message to the ring where the coefficients belong to. For example:
+Tuples are commonly created by sending a message to the ring where the coefficients belong to. For example:
 	"Two ways to create the 4-tuple (1,2,4,8) with integer coefficients:"
 	ZZ tuple: #(1 2 4 8).
 	ZZ tuple: 4 evaluating: [:i| i squared].
 
 It is also handy to create tuples by sending the message #, to a number. For example:
   (1,2,4,8)
-However, when created in this way, even if all the coefficients are Integers, the tuple will be considered a rational tuple (in the field of rational numbers QQ), so the above example is equivalent to:
+However, when created in this way, even if all the coefficients are Integers, the tuple will be considered a rational tuple (with coefficients in the field of rational numbers QQ), so the above example is equivalent to:
 	QQ tuple: #(1 2 4 8)
 !
 
-!ArrayTuple commentStamp: '<historical>' prior: 0!
-My instances are general n-tuples internally represented as an array. These are the tuples used by default for an arbitrary ring.!
+!ArrayTuple commentStamp: 'len 11/13/2016 07:23' prior: 0!
+My instances are general n-tuples internally represented as an Array. These are the tuples used by default for an arbitrary ring.!
 
-!BitTuple commentStamp: '<historical>' prior: 0!
-My instances are tuples of integer residue classes modulo 2, i.e. a binary tuple or a tuple of bits. The coefficients field is ZZ/2.
+!BitTuple commentStamp: 'len 11/13/2016 07:26' prior: 0!
+My instances are tuples of integer residue classes modulo 2, i.e. a binary tuple, a bit string, or a tuple of bits. The coefficients field is ZZ/2.
 
 Example:
 	"A handy way to create a binary tuple:"
@@ -12900,11 +12905,11 @@ includes: anObject
 	self isZero ifTrue: [^ anObject isZero].
 	^ (self reduce: anObject) isZero! !
 
-!Ideal methodsFor: 'operations-elements' stamp: 'len 10/29/2016 11:37'!
-inverseOf: anObject
+!Ideal methodsFor: 'operations-elements' stamp: 'len 11/14/2016 07:33'!
+inverseOf: anElement
 	| euclid |
 	self ring isEuclidean ifFalse: [^ nil].
-	euclid _ ExtendedEuclid on: {anObject. self generator}.
+	euclid _ ExtendedEuclid on: {anElement. self generator}.
 	euclid gcd = self ring one ifFalse: [^ nil].
 	^ euclid combination first! !
 
@@ -13136,10 +13141,10 @@ initial
 	"Answer the initial ideal, i.e. the ideal of all leading monomials of the receiver."
 	^ MonomialIdeal on: self ring generators: self groebnerBasis initial! !
 
-!PolynomialIdeal methodsFor: 'operations-elements' stamp: 'len 10/31/2016 17:47'!
-inverseOf: anObject
-	anObject = self ring one ifTrue: [^ anObject].
-	^ super inverseOf: anObject! !
+!PolynomialIdeal methodsFor: 'operations-elements' stamp: 'len 11/14/2016 07:32'!
+inverseOf: aPolynomial
+	aPolynomial = self ring one ifTrue: [^ aPolynomial].
+	^ super inverseOf: aPolynomial! !
 
 !PolynomialIdeal methodsFor: 'testing' stamp: 'len 10/29/2016 11:32'!
 isHomogeneous
@@ -18093,7 +18098,7 @@ derivedSeriesDo: aBlock
 	G order = G` order ifTrue: [^ self].
 	G _ G`] repeat! !
 
-!Group methodsFor: 'iterating' stamp: 'len 6/30/2016 18:57'!
+!Group methodsFor: 'iterating' stamp: 'len 11/14/2016 08:46'!
 do: aBlock
 	| generators current previous op |
 	properties at: #elements ifPresent: [:aCollection| aCollection do: aBlock. ^ self].
@@ -18103,6 +18108,7 @@ do: aBlock
 	generators _ self generators.
 	current _ generators asSet.
 	current do: aBlock.
+	current add: self identity ifAbsent: [aBlock value: self identity].
 	[previous _ current.
 	current _ current copy.
 	previous do: [:x|
@@ -18251,10 +18257,13 @@ isSolvable
 isTerminal
 	^ self isTrivial! !
 
-!Group methodsFor: 'testing' stamp: 'len 2/16/2016 05:28'!
+!Group methodsFor: 'testing' stamp: 'len 11/14/2016 08:56'!
 isTrivial
 	"Answer true if the receiver is the trivial group {id}."
-	^ self order = 1! !
+	| generators id |
+	generators _ properties at: #generators ifAbsent: [^ self order = 1].
+	id _ self identity.
+	^ generators noneSatisfy: [:one| one ~= id]! !
 
 !Group methodsFor: 'morphisms' stamp: 'len 10/17/2016 10:52'!
 leftAction
@@ -18363,11 +18372,13 @@ perfectCore
 presentation
 	^ properties at: #presentation! !
 
-!Group methodsFor: 'printing' stamp: 'len 5/13/2016 09:21'!
+!Group methodsFor: 'printing' stamp: 'len 11/14/2016 08:57'!
 printOn: aStream
 	| generators |
 	((properties includesKey: #name) or: [(generators _ self generators) isNil])
 		ifTrue: [^ super printOn: aStream].
+	generators isEmpty
+		ifTrue: [aStream nextPut: ${; print: self identity; nextPut: $}. ^ self].
 	aStream nextPut: $<.
 	generators do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: '; '].
 	aStream nextPut: $>! !
@@ -18885,25 +18896,23 @@ ambient
 	"Answer the ambient group."
 	^ SymmetricGroup on: space! !
 
-!PermutationGroup methodsFor: 'converting' stamp: 'len 11/2/2016 04:02'!
+!PermutationGroup methodsFor: 'converting' stamp: 'len 11/13/2016 08:03'!
 asLinearGroupOver: aRing
 	"Return a linear group over aRing isomorphic to the receiver.
 	Assume the space of the receiver is an interval (1 to: n)."
 	| n V |
 	n _ self degree.
 	V _ aRing ** n.
-	^ (LinearGroup on: V)
-		generators: (self generators collect: [:g| V to: V evaluating: [:x| x withIndexCollect: [:xi :i| x at: (g value: i)]]])! !
+	^ LinearGroup on: V generators: (self generators collect: [:g| V to: V evaluating: [:x| x withIndexCollect: [:xi :i| x at: (g value: i)]]])! !
 
-!PermutationGroup methodsFor: 'converting' stamp: 'len 7/15/2016 18:28'!
+!PermutationGroup methodsFor: 'converting' stamp: 'len 11/13/2016 08:00'!
 asMatrixGroup
 	"Return a matrix group isomorphic to the receiver.
 	Assume the space of the receiver is an interval (1 to: n)."
-	| Z2 n generators |
-	Z2 _ ZZ mod: 2.
+	| n generators |
 	n _ self degree.
-	generators _ self generators collect: [:g| Z2**(n@n) evaluating: [:i :j| (g at: i) = j ifTrue: [1] ifFalse: [0]]].
-	^ (MatrixGroup on: Z2**n) generators: generators! !
+	generators _ self generators collect: [:g| QQ matrix: n@n evaluating: [:i :j| (g at: i) = j ifTrue: [1] ifFalse: [0]]].
+	^ MatrixGroup on: QQ**n generators: generators! !
 
 !PermutationGroup methodsFor: 'private' stamp: 'len 6/24/2016 03:30'!
 computeSize
@@ -18927,6 +18936,11 @@ copyEmpty
 degree
 	^ self space size! !
 
+!PermutationGroup methodsFor: 'accessing' stamp: 'len 11/14/2016 08:42'!
+identity
+	self flag: #fix. "should set domain"
+	^ Permutation new! !
+
 !PermutationGroup methodsFor: 'testing' stamp: 'len 5/23/2016 19:35'!
 isSubgroupOfAn
 	"Monte Carlo test."
@@ -18938,9 +18952,10 @@ isSubgroupOfAn
 		[random next isPurple ifTrue: [^ true]].
 	^ false! !
 
-!PermutationGroup methodsFor: 'accessing' stamp: 'len 6/30/2016 03:19'!
+!PermutationGroup methodsFor: 'accessing' stamp: 'len 11/14/2016 09:15'!
 size
-	^ properties at: #size ifAbsentPut: [super size]"self computeSize]"! !
+	properties at: #elements ifPresent: [:aCollection| ^ aCollection size].
+	^ properties at: #size ifAbsentPut: [self computeSize]! !
 
 !PermutationGroup methodsFor: 'accessing' stamp: 'len 2/15/2016 21:52'!
 space
@@ -19224,6 +19239,10 @@ species
 on: aVectorSpace
 	^ self new space: aVectorSpace! !
 
+!LinearGroup class methodsFor: 'instance creation' stamp: 'len 11/13/2016 08:01'!
+on: aVectorSpace generators: aCollection
+	^ (self on: aVectorSpace) generators: aCollection! !
+
 !GeneralLinearGroup methodsFor: 'comparing' stamp: 'len 5/1/2016 06:34'!
 >= anObject
 	(anObject isKindOf: LinearGroup) ifTrue: [^ space >= anObject space].
@@ -19468,12 +19487,12 @@ do: aBlock
 	^ super do: aBlock
 "	matrices do: [:each| (self includes: each) ifTrue: [aBlock value: each]]"! !
 
-!MatrixGroup methodsFor: 'invariants' stamp: 'len 8/3/2016 08:15'!
+!MatrixGroup methodsFor: 'invariants' stamp: 'len 11/13/2016 07:56'!
 hilbertSeries
 	"This is the sum of dim(S_d ^G z^d for d>=0 (by Molien's formula, 1897), i.e. it counts the homogeneous polynomials of a given degree d that are invariants for the group."
 	| order |
 	order _ self size.
-	order | self scalars characteristic ifTrue: [self error: 'group order divides characteristic'].
+"	order | self scalars characteristic ifTrue: [self error: 'group order divides characteristic']."
 	^ (self elements sum: [:g| g characteristicPolynomial asRationalFunction reciprocal]) / order! !
 
 !MatrixGroup methodsFor: 'accessing' stamp: 'len 2/13/2016 07:40'!
@@ -23522,9 +23541,11 @@ space
 	"Answer the underlying set X of the action G x X -> X."
 	^ self codomain! !
 
-!GroupAction methodsFor: 'accessing' stamp: 'len 5/13/2016 02:26'!
+!GroupAction methodsFor: 'accessing' stamp: 'len 11/14/2016 09:30'!
 stabilizerOf: aPoint
 	"Answer the stabilizer subgroup (or isotropy group or little group) of aPoint, defined as the set of elements that 'fix' aPoint. The stabilizer of fixed points is the whole group, and the kernel of the action homomorphism G -> Sym(X) is the intersection of all stabilizers."
+	self group generators
+		ifNotNil: [:S| ^ (SchreierTree root: aPoint generators: S action: self) stabilizer].
 	^ self group select: [:each| (self value: {each. aPoint}) = aPoint]! !
 
 !GroupHomomorphism methodsFor: 'comparing' stamp: 'len 5/2/2016 09:35'!
@@ -26551,10 +26572,18 @@ root: aPoint generators: anArray action: aGroupAction
 				w at: x put: a]].
 	queue isEmpty] whileFalse! !
 
-!SchreierTree methodsFor: 'accessing' stamp: 'len 6/29/2016 08:57'!
+!SchreierTree methodsFor: 'accessing' stamp: 'len 11/14/2016 08:28'!
 stabilizer
 	"Answer the stabilizer of the root."
-	^ self notYetImplemented! !
+	| stabilizerGenerators id |
+	stabilizerGenerators _ Set2 new.
+	id _ action group identity.
+	self orbit do: [:i|
+		generators do: [:s|
+			| g |
+			g _ (self trace: i) * s * (self traceInverse: (s value: i)).
+			g = id ifFalse: [stabilizerGenerators add: g]]].
+	^ action group span: stabilizerGenerators! !
 
 !SchreierTree methodsFor: 'accessing' stamp: 'len 6/30/2016 09:43'!
 trace: aPoint
@@ -26571,9 +26600,9 @@ trace: aPoint
 			alpha _ w at: alpha].
 	^ u! !
 
-!SchreierTree methodsFor: 'accessing' stamp: 'len 6/30/2016 09:33'!
+!SchreierTree methodsFor: 'accessing' stamp: 'len 11/14/2016 07:57'!
 traceInverse: aPoint
-	"Calculate inverses of coset representatives. See 'the schreier-sims algorithm' pp 18. Assumes we're using a (strong) generating set that is closed under inversion. This makes backward pointers unnecesary."
+	"Calculate inverses of coset representatives. See 'The Schreier-Sims Algorithm' pp 18. Assumes we're using a (strong) generating set that is closed under inversion. This makes backward pointers unnecesary."
 	| alpha u |
 	u _ action group identity.
 	alpha _ aPoint.
@@ -26582,6 +26611,10 @@ traceInverse: aPoint
 			[u _ u * (v at: alpha) reciprocal.
 			alpha _ w at: alpha].
 	^ u! !
+
+!SchreierTree methodsFor: 'private' stamp: 'len 11/14/2016 08:26'!
+verify
+	^ self stabilizer generators allSatisfy: [:each| (each value: root) = root]! !
 
 !SchreierTree class methodsFor: 'instance creation' stamp: 'len 6/24/2016 03:07'!
 root: aPoint generators: anArray action: aGroupAction
@@ -28669,7 +28702,7 @@ scalars
 size
 	^ representatives size! !
 
-!IntegerResidueClassTuple class methodsFor: 'instance creation' stamp: 'len 11/6/2016 10:59'!
+!IntegerResidueClassTuple class methodsFor: 'instance creation' stamp: 'len 11/12/2016 17:19'!
 arrayClassForModulus: anInteger
 	anInteger <= 255 ifTrue: [^ ByteArray].
 	anInteger <= 16rFFFFFFFF ifTrue: [^ WordArray].
