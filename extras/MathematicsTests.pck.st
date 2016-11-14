@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 12 November 2016 at 9:18:58.823404 am'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 14 November 2016 at 9:31:39.611599 am'!
 'Description Please enter a description for this package'!
-!provides: 'MathematicsTests' 1 40!
+!provides: 'MathematicsTests' 1 41!
 !classDefinition: #AbelianGroupTest category: #MathematicsTests!
 TestCase subclass: #AbelianGroupTest
 	instanceVariableNames: ''
@@ -285,6 +285,17 @@ SparsePolynomialMultiplicationBenchmark class
 !GroebnerBasisBenchmark commentStamp: '<historical>' prior: 0!
 GroebnerBasisBenchmark new run
 
+testCyclic3	1,840 per second.
+testCyclic4	338 per second.
+testCyclic5	30.8 per second.
+testCyclic6	3.51 per second.
+testEliminationExample	132 per second
+testKatsura2	3,810 per second.
+testKatsura3	79.9 per second.
+testKatsura4	4.51 per second.
+testModularCyclic3	196 per second.
+testModularKatsura2	210 per second.
+
 testCyclic3	1,300 per second.
 testCyclic4	264 per second.
 testCyclic5	60.1 per second.
@@ -368,8 +379,36 @@ testElimination	0.911 per second.
 testKatsura2	1,260 per second.
 !
 
+!IntegersBenchmark commentStamp: '<historical>' prior: 0!
+IntegersBenchmark new run
+
+test1000Factorial	1,250 per second.
+!
+
 !PolynomialBenchmark commentStamp: '<historical>' prior: 0!
 PolynomialBenchmark new run
+
+testFiniteField	14.6 per second.
+testFiniteFieldPolynomialFactorization	58.4 per second.
+testMultivariatePolynomialAdditionOverZ	51.7 per second.
+testPolynomialAdditionOverZ	15.8 per second.
+testPolynomialAdditionOverZ2	94 per second.
+testPolynomialDivisionOverQ	1.66 per second.
+testPolynomialDivisionOverZ	1.67 per second.
+testPolynomialGCDOverQ	1.54 per second.
+testPolynomialGCDOverZ	2.22 per second.
+testPolynomialGCDOverZ2	7.01 per second.
+testPolynomialMultiplication2OverZ	78 per second.
+testPolynomialMultiplication2OverZ2	384 per second.
+testPolynomialMultiplicationOverZ	0.598 per second.
+testPolynomialMultiplicationOverZ2	2,220 per second.
+testPolynomialPseudoDivision	2,300 per second.
+testPolynomialPseudoRemainder	2,300 per second.
+testPolynomialRealRoots	27.3 per second.
+testRealAlgebraicNumberAddition	5.24 seconds.
+testRealAlgebraicNumberDivision	110 per second.
+testRealAlgebraicNumberProduct	132 per second.
+testRealAlgebraicNumberSquare	2,720 per second.
 
 testFiniteField	11.1 per second.
 testFiniteFieldPolynomialFactorization	58 per second.
@@ -440,6 +479,16 @@ testRealAlgebraicNumberSquare	1,820 per second!
 This benchmark tests some basic operations on 64x64 matrices.
 
 SmallMatrixBenchmark new run
+
+testAdditionZ	5,220 per second.
+testAdditionZ2	42,600 per second.
+testCopyZ	84,700 per second.
+testCopyZ2	210,000 per second.
+testMultiplicationZ	122 per second.
+testMultiplicationZ2	106 per second.
+testTranspositionZ	2,020 per second.
+testTranspositionZ2	603 per second.
+
 testAdditionZ	4,500 per second.
 testAdditionZ2	33,700 per second.
 testCopyZ	58,200 per second.
@@ -1842,7 +1891,7 @@ testActionOrbitOf
 	self assert: (G action orbitOf: 4) = #(4 6 5) asSet.
 	self assert: (G action orbitOf: 7) = #(7 8) asSet! !
 
-!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 6/29/2016 00:42'!
+!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 11/14/2016 08:44'!
 testActionStabilizerOf
 	| g1 g2 g3 id G |
 	g1 _ Permutation new: 8 cycles: #((1 3 2) (4 6 5)).
@@ -1866,6 +1915,22 @@ testAlternatingOrder
 	| A |
 	A _ Group alternating: (1 to: 3).
 	self assert: A order = (3 factorial / 2)! !
+
+!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 11/14/2016 09:06'!
+testBigOrder1
+	"Test fast computation of group order with Schreier-Sims algorithm.
+	This is Sym(10), with order 10!!."
+	| x y G |
+	x _ Permutation transpose: 2 with: 1.
+	y _ Permutation image: #(10 1 2 3 4 5 6 7 8 9).
+	G _ PermutationGroup new: 10 generators: {x. y}.
+	self assert: G order = 10 factorial! !
+
+!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 11/14/2016 09:07'!
+testBigOrder2
+	"Test fast computation of group order with Schreier-Sims algorithm.
+	This is the Mathieu group on 12 points, the second smallest of the 26 sporadic simple groups, with order 95040."
+	self assert: PermutationGroup M12 order = 95040! !
 
 !GroupTest methodsFor: 'as yet unclassified' stamp: 'len 10/17/2016 10:55'!
 testCauchyFrobeniusLemma
@@ -2033,6 +2098,13 @@ testSymmetricOrder
 	| G |
 	G _ Group symmetric: (1 to: 4).
 	self assert: G order = 4 factorial! !
+
+!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 11/14/2016 08:35'!
+testTrivial
+	| G |
+	G _ PermutationGroup new: 4 generators: #().
+	self assert: G size = 1.
+	self assert: G isTrivial! !
 
 !LinearGroupsTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:03'!
 testGeneralLinearAtRandom
