@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 14 November 2016 at 9:31:39.611599 am'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 15 November 2016 at 12:23:20.2616 pm'!
 'Description Please enter a description for this package'!
-!provides: 'MathematicsTests' 1 41!
+!provides: 'MathematicsTests' 1 42!
 !classDefinition: #AbelianGroupTest category: #MathematicsTests!
 TestCase subclass: #AbelianGroupTest
 	instanceVariableNames: ''
@@ -241,6 +241,16 @@ Benchmark subclass: #GroebnerBasisBenchmark
 GroebnerBasisBenchmark class
 	instanceVariableNames: ''!
 
+!classDefinition: #GroupBenchmark category: #MathematicsTests!
+Benchmark subclass: #GroupBenchmark
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'MathematicsTests'!
+!classDefinition: 'GroupBenchmark class' category: #MathematicsTests!
+GroupBenchmark class
+	instanceVariableNames: ''!
+
 !classDefinition: #IntegersBenchmark category: #MathematicsTests!
 Benchmark subclass: #IntegersBenchmark
 	instanceVariableNames: ''
@@ -377,6 +387,16 @@ old:
 testCyclic3	312 per second.
 testElimination	0.911 per second.
 testKatsura2	1,260 per second.
+!
+
+!GroupBenchmark commentStamp: '<historical>' prior: 0!
+GroupBenchmark new run
+
+testJ1Order	2.39 per second.
+testM12Order	57.4 per second.
+
+testJ1Order	2.51 per second.
+testM12Order	56.9 per second.
 !
 
 !IntegersBenchmark commentStamp: '<historical>' prior: 0!
@@ -5017,6 +5037,14 @@ testModularCyclic3
 !GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 7/4/2016 08:40'!
 testModularKatsura2
 	self modularKatsura2 :: groebnerBasis! !
+
+!GroupBenchmark methodsFor: 'as yet unclassified' stamp: 'len 11/15/2016 06:42'!
+testJ1Order
+	PermutationGroup J1 size! !
+
+!GroupBenchmark methodsFor: 'as yet unclassified' stamp: 'len 11/15/2016 06:43'!
+testM12Order
+	PermutationGroup M12 size! !
 
 !IntegersBenchmark methodsFor: 'as yet unclassified' stamp: 'len 7/3/2016 04:28'!
 test1000Factorial
