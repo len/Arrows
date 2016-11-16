@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 16 November 2016 at 10:11:43.048262 am'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 16 November 2016 at 6:23:35.009803 pm'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 280!
+!provides: 'Mathematics' 1 284!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
 	instanceVariableNames: 'numerator shift'
@@ -651,18 +651,18 @@ Ring subclass: #QuotientRing
 QuotientRing class
 	instanceVariableNames: ''!
 
-!classDefinition: #IntegerQuotientRing category: #'Mathematics-Rings'!
-QuotientRing subclass: #IntegerQuotientRing
+!classDefinition: #ModularIntegers category: #'Mathematics-Rings'!
+QuotientRing subclass: #ModularIntegers
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Rings'!
-!classDefinition: 'IntegerQuotientRing class' category: #'Mathematics-Rings'!
-IntegerQuotientRing class
+!classDefinition: 'ModularIntegers class' category: #'Mathematics-Rings'!
+ModularIntegers class
 	instanceVariableNames: ''!
 
 !classDefinition: #PrimeField category: #'Mathematics-Fields'!
-IntegerQuotientRing subclass: #PrimeField
+ModularIntegers subclass: #PrimeField
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
@@ -2261,14 +2261,14 @@ FormalFraction subclass: #PAdicNumber
 PAdicNumber class
 	instanceVariableNames: ''!
 
-!classDefinition: #IntegerResidueClass category: #'Mathematics-Rings'!
-Object subclass: #IntegerResidueClass
+!classDefinition: #ModularInteger category: #'Mathematics-Rings'!
+Object subclass: #ModularInteger
 	instanceVariableNames: 'representative modulus'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Rings'!
-!classDefinition: 'IntegerResidueClass class' category: #'Mathematics-Rings'!
-IntegerResidueClass class
+!classDefinition: 'ModularInteger class' category: #'Mathematics-Rings'!
+ModularInteger class
 	instanceVariableNames: ''!
 
 !classDefinition: #ResidueClass category: #'Mathematics-Rings'!
@@ -2401,14 +2401,14 @@ Tuple subclass: #BitTuple
 BitTuple class
 	instanceVariableNames: ''!
 
-!classDefinition: #IntegerResidueClassTuple category: #'Mathematics-Modules-Tuples'!
-Tuple subclass: #IntegerResidueClassTuple
+!classDefinition: #ModularTuple category: #'Mathematics-Modules-Tuples'!
+Tuple subclass: #ModularTuple
 	instanceVariableNames: 'representatives modulus'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Modules-Tuples'!
-!classDefinition: 'IntegerResidueClassTuple class' category: #'Mathematics-Modules-Tuples'!
-IntegerResidueClassTuple class
+!classDefinition: 'ModularTuple class' category: #'Mathematics-Modules-Tuples'!
+ModularTuple class
 	instanceVariableNames: ''!
 
 !classDefinition: #Matrix category: #'Mathematics-Modules-Matrices'!
@@ -3725,8 +3725,8 @@ Given a commutative ring R and a two-sided-ideal I of R, the quotient ring R/I i
 References:
 	https://en.wikipedia.org/wiki/Quotient_ring!
 
-!IntegerQuotientRing commentStamp: '<historical>' prior: 0!
-My instances are rings of residue classes of integers modulo m, i.e. Z/<m>.!
+!ModularIntegers commentStamp: '<historical>' prior: 0!
+My instances are rings of residue classes of integers modulo m, i.e. Z/<m>. Elements are instances of ModularInteger.!
 
 !PrimeField commentStamp: '<historical>' prior: 0!
 My instances are fields of order p prime, i.e. the residue field Z/<p> of integers modulo p.!
@@ -4333,6 +4333,9 @@ They are elements of ring localizations or fraction fields. See LocalizationRing
 !RationalFunction commentStamp: '<historical>' prior: 0!
 My instances are rational functions, i.e. fractions where the numerator and denominator are polynomials. They are elements of the field of fractions of a polynomial ring over a field (see RationalFunctionField).!
 
+!ModularInteger commentStamp: '<historical>' prior: 0!
+My instances are residue classes of integers modulo an integer m, i.e. elements of the quotient ring Z/<m> (see ModularIntegers). They are polymorphic with ResidueClass objects.!
+
 !ResidueClass commentStamp: '<historical>' prior: 0!
 My instances are elements of a quotient ring, i.e. residue classes modulo an ideal. See QuotientRing.!
 
@@ -4391,8 +4394,8 @@ Example:
 	(1,0,1,1,0,1,1,1) % 2
 !
 
-!IntegerResidueClassTuple commentStamp: '<historical>' prior: 0!
-My instances are n-tuples with coefficients in an integer residue class ring (or field) ZZ/m. See IntegerResidueClass, IntegerQuotientRing, PrimeField.
+!ModularTuple commentStamp: 'len 11/16/2016 18:22' prior: 0!
+My instances are n-tuples with coefficients in an integer residue class ring (or field) Z/<m>. See ModularInteger, ModularIntegers, PrimeField.
 
 Example:
 	"A handy way to create a tuple of integers modulo 3:"
@@ -4822,9 +4825,9 @@ isRational
 squareRoot
 	^ RealAlgebraicNumber sqrt: self! !
 
-!Integer methodsFor: '*mathematics' stamp: 'len 10/18/2016 22:46'!
+!Integer methodsFor: '*mathematics' stamp: 'len 11/16/2016 18:15'!
 % anInteger
-	^ IntegerResidueClass representative: self \\ anInteger modulo: anInteger! !
+	^ ModularInteger representative: self \\ anInteger modulo: anInteger! !
 
 !Integer methodsFor: '*mathematics' stamp: 'len 11/1/2016 00:23'!
 /// anInteger
@@ -13018,10 +13021,10 @@ isMaximal
 isPrime
 	^ properties at: #isPrime ifAbsentPut:[self isZero or: [self generator isPrime]]! !
 
-!IntegerIdeal methodsFor: 'operations' stamp: 'len 10/20/2016 10:41'!
+!IntegerIdeal methodsFor: 'operations' stamp: 'len 11/16/2016 18:15'!
 quotient
 	"Answer the quotient ring of the base ring by the receiver."
-	^ IntegerQuotientRing by: self! !
+	^ ModularIntegers by: self! !
 
 !IntegerIdeal methodsFor: 'operations' stamp: 'len 10/29/2016 11:38'!
 radical
@@ -14595,52 +14598,52 @@ exampleZ6Projection
 	to the quotient ring of residue classes of modulo 6."
 	^ (ZZ/6) projection! !
 
-!IntegerQuotientRing methodsFor: 'random' stamp: 'len 4/25/2016 00:26'!
+!ModularIntegers methodsFor: 'random' stamp: 'len 4/25/2016 00:26'!
 atRandom: aRandom
 	^ self project: (self modulus atRandom: aRandom) - 1! !
 
-!IntegerQuotientRing methodsFor: 'random' stamp: 'len 4/19/2016 22:14'!
+!ModularIntegers methodsFor: 'random' stamp: 'len 4/19/2016 22:14'!
 atRandom: aRandom bits: bitSize
 	^ self atRandom: aRandom! !
 
-!IntegerQuotientRing methodsFor: 'accessing' stamp: 'len 4/25/2016 00:26'!
+!ModularIntegers methodsFor: 'accessing' stamp: 'len 4/25/2016 00:26'!
 characteristic
 	^ self modulus! !
 
-!IntegerQuotientRing methodsFor: 'testing' stamp: 'len 10/18/2016 22:46'!
+!ModularIntegers methodsFor: 'testing' stamp: 'len 11/16/2016 18:15'!
 includes: anObject
-	^ anObject class = IntegerResidueClass and: [anObject modulus = self modulus]! !
+	^ anObject class = ModularInteger and: [anObject modulus = self modulus]! !
 
-!IntegerQuotientRing methodsFor: 'testing' stamp: 'len 5/12/2016 23:20'!
+!ModularIntegers methodsFor: 'testing' stamp: 'len 5/12/2016 23:20'!
 isField
 	^ properties at: #isField ifAbsentPut: [self modulus isPrime]! !
 
-!IntegerQuotientRing methodsFor: 'testing' stamp: 'len 5/12/2016 23:34'!
+!ModularIntegers methodsFor: 'testing' stamp: 'len 5/12/2016 23:34'!
 isUnit: anElement
 	^ (anElement representative gcd: self modulus) = 1! !
 
-!IntegerQuotientRing methodsFor: 'morphisms' stamp: 'len 10/18/2016 22:47'!
+!ModularIntegers methodsFor: 'morphisms' stamp: 'len 11/16/2016 18:15'!
 project: anElement
-	^ IntegerResidueClass representative: (ideal reduce: anElement) modulo: self modulus! !
+	^ ModularInteger representative: (ideal reduce: anElement) modulo: self modulus! !
 
-!IntegerQuotientRing methodsFor: 'accessing' stamp: 'len 4/25/2016 00:27'!
+!ModularIntegers methodsFor: 'accessing' stamp: 'len 4/25/2016 00:27'!
 size
 	^ self modulus! !
 
-!IntegerQuotientRing methodsFor: 'tuples' stamp: 'len 11/6/2016 11:20'!
+!ModularIntegers methodsFor: 'tuples' stamp: 'len 11/16/2016 10:45'!
 tuple: anArray
-	^ self modulus = 2 ifTrue: [BitTuple coefficients: anArray] ifFalse: [IntegerResidueClassTuple coefficients: anArray modulo: self modulus]! !
+	^ self modulus = 2 ifTrue: [BitTuple coefficients: anArray] ifFalse: [ModularTuple coefficients: anArray modulo: self modulus]! !
 
-!IntegerQuotientRing methodsFor: 'tuples' stamp: 'len 11/6/2016 11:09'!
+!ModularIntegers methodsFor: 'tuples' stamp: 'len 11/16/2016 10:45'!
 tuple: anInteger evaluating: aBlock
 	| modulus |
 	modulus _ self modulus.
 	modulus = 2 ifTrue: [^ BitTuple new: anInteger evaluating: aBlock].
-	^ IntegerResidueClassTuple new: anInteger modulo: modulus evaluating: aBlock! !
+	^ ModularTuple new: anInteger modulo: modulus evaluating: aBlock! !
 
-!IntegerQuotientRing methodsFor: 'tuples' stamp: 'len 11/6/2016 11:03'!
+!ModularIntegers methodsFor: 'tuples' stamp: 'len 11/16/2016 10:46'!
 tupleClass
-	^ self modulus = 2 ifTrue: [^ BitTuple] ifFalse: [IntegerResidueClassTuple]! !
+	^ self modulus = 2 ifTrue: [^ BitTuple] ifFalse: [ModularTuple]! !
 
 !PrimeField methodsFor: 'private' stamp: 'len 8/10/2016 06:01'!
 computePrimitiveRoot
@@ -19068,14 +19071,14 @@ hessian
 	s2 _ Permutation new: 9 cycles: #((4 5 6) (7 9 8)).
 	^ self on: (1 to: 9) generators: {s1. s2}! !
 
-!PermutationGroup class methodsFor: 'examples' stamp: 'len 11/10/2016 08:46'!
+!PermutationGroup class methodsFor: 'examples' stamp: 'len 11/16/2016 18:04'!
 klein
 	"Answer the Klein four-group (or Vierergruppe) as a permutation group."
 	| a b |
 	a _ Permutation image: #(2 1 4 3).
 	b _ Permutation image: #(3 4 1 2).
 	"c _ Permutation values: #(4 3 2 1)."
-	^ self on: (1 to: 4) generators: {a.b} :: name: 'V'! !
+	^ self on: (1 to: 4) generators: {a.b}! !
 
 !PermutationGroup class methodsFor: 'instance creation' stamp: 'len 5/2/2016 01:33'!
 new: n
@@ -22635,19 +22638,18 @@ isSplitMonomorphism
 leftInverse
 	^ self subclassResponsibility! !
 
-!Morphism methodsFor: 'printing' stamp: 'len 11/16/2016 08:33'!
+!Morphism methodsFor: 'printing' stamp: 'len 11/16/2016 18:08'!
 name
-	^ self printText! !
+	^ String streamContents: [:aStream| super printOn: aStream]! !
 
 !Morphism methodsFor: 'accessing' stamp: 'len 11/2/2016 04:01'!
 parent
 	"A morphism f:A->B belongs to Hom(A,B)."
 	^ self domain hom: self codomain! !
 
-!Morphism methodsFor: 'printing' stamp: 'len 11/16/2016 08:38'!
+!Morphism methodsFor: 'printing' stamp: 'len 11/16/2016 18:08'!
 printOn: aStream
-	super printOn: aStream.
-	aStream nextPut: $:.
+	aStream nextPutAll: self name; nextPut: $:.
 	self arrowPrintOn: aStream! !
 
 !Morphism methodsFor: 'accessing' stamp: 'len 8/8/2016 06:42'!
@@ -22862,9 +22864,9 @@ isTrivial
 leftInverse
 	^ properties at: #leftInverse! !
 
-!Function methodsFor: 'printing' stamp: 'len 11/16/2016 08:32'!
+!Function methodsFor: 'printing' stamp: 'len 11/16/2016 18:08'!
 name
-	^ properties at: #name ifAbsent: [self printString]! !
+	^ properties at: #name ifAbsent: [super name]! !
 
 !Function methodsFor: 'printing' stamp: 'len 11/16/2016 08:32'!
 name: aString
@@ -22878,18 +22880,11 @@ negated
 plot: aCollection
 	^ FunctionPlotMorph new evaluationPoints: aCollection; function: self! !
 
-!Function methodsFor: 'printing' stamp: 'len 11/16/2016 08:37'!
+!Function methodsFor: 'printing' stamp: 'len 11/16/2016 18:12'!
 printOn: aStream
 	(self expression isBlock not and: [(self expression isKindOf: Function) not])
-		ifTrue: [aStream print: self expression. ^ self].
-	(properties includesKey: #name)
-		ifTrue:
-			[| name |
-			name _ properties at: #name.
-			(name is: #Text) ifFalse: [name _ name italic].
-			aStream nextPutAll: name].
-	aStream nextPut: $:.
-	self arrowPrintOn: aStream! !
+		ifTrue: [aStream print: self expression]
+		ifFalse: [super printOn: aStream]! !
 
 !Function methodsFor: 'accessing' stamp: 'len 11/16/2016 08:35'!
 properties
@@ -26994,118 +26989,118 @@ p
 valuation
 	^ self numerator valuation - self denominator valuation! !
 
-!IntegerResidueClass methodsFor: 'arithmetic' stamp: 'len 10/18/2016 22:53'!
-* anIntegerResidueClass
-	anIntegerResidueClass isInteger ifTrue: [^ self class representative: representative * anIntegerResidueClass \\ modulus modulo: modulus].
-	^ self class representative: representative * anIntegerResidueClass representative \\ modulus modulo: modulus! !
+!ModularInteger methodsFor: 'arithmetic' stamp: 'len 11/16/2016 18:19'!
+* aModularInteger
+	aModularInteger isInteger ifTrue: [^ self class representative: representative * aModularInteger \\ modulus modulo: modulus].
+	^ self class representative: representative * aModularInteger representative \\ modulus modulo: modulus! !
 
-!IntegerResidueClass methodsFor: 'arithmetic' stamp: 'len 7/8/2016 05:40'!
+!ModularInteger methodsFor: 'arithmetic' stamp: 'len 7/8/2016 05:40'!
 ** anInteger
 	anInteger = 1 ifTrue: [^ self].
 	anInteger = 0 ifTrue: [^ self one].
 	anInteger < 0 ifTrue: [^ self reciprocal ** anInteger negated].
 	^ (self * self ** (anInteger // 2)) * (self ** (anInteger \\ 2))! !
 
-!IntegerResidueClass methodsFor: 'arithmetic' stamp: 'len 10/18/2016 22:53'!
-+ anIntegerResidueClass
+!ModularInteger methodsFor: 'arithmetic' stamp: 'len 11/16/2016 18:20'!
++ aModularInteger
 	| r |
-	anIntegerResidueClass isInteger ifTrue: [^ self class representative: representative + anIntegerResidueClass \\ modulus modulo: modulus].
-	r _ representative + anIntegerResidueClass representative.
+	aModularInteger isInteger ifTrue: [^ self class representative: representative + aModularInteger \\ modulus modulo: modulus].
+	r _ representative + aModularInteger representative.
 	r >= modulus ifTrue: [r _ r - modulus].
 	^ self class representative: r modulo: modulus! !
 
-!IntegerResidueClass methodsFor: 'copying' stamp: 'len 11/6/2016 11:13'!
+!ModularInteger methodsFor: 'copying' stamp: 'len 11/16/2016 10:46'!
 , aTuple
 	^ (modulus = 2
 		ifTrue: [BitTuple new: 1 fromInteger: representative]
-		ifFalse: [(IntegerResidueClassTuple new: 1 modulo: modulus) at: 1 put: self; yourself]), aTuple! !
+		ifFalse: [(ModularTuple new: 1 modulo: modulus) at: 1 put: self; yourself]), aTuple! !
 
-!IntegerResidueClass methodsFor: 'arithmetic' stamp: 'len 10/18/2016 22:54'!
-- anIntegerResidueClass
+!ModularInteger methodsFor: 'arithmetic' stamp: 'len 11/16/2016 18:20'!
+- aModularInteger
 	| r |
-	anIntegerResidueClass isInteger ifTrue: [^ self class representative: representative - anIntegerResidueClass \\ modulus modulo: modulus].
-	r _ representative + (modulus - anIntegerResidueClass representative).
+	aModularInteger isInteger ifTrue: [^ self class representative: representative - aModularInteger \\ modulus modulo: modulus].
+	r _ representative + (modulus - aModularInteger representative).
 	r >= modulus ifTrue: [r _ r - modulus].
 	^ self class representative: r modulo: modulus! !
 
-!IntegerResidueClass methodsFor: 'arithmetic' stamp: 'len 10/18/2016 22:54'!
-/ anIntegerResidueClass
-	^ self * anIntegerResidueClass reciprocal! !
+!ModularInteger methodsFor: 'arithmetic' stamp: 'len 11/16/2016 18:20'!
+/ aModularInteger
+	^ self * aModularInteger reciprocal! !
 
-!IntegerResidueClass methodsFor: 'comparing' stamp: 'len 10/18/2016 22:54'!
-= anIntegerResidueClass
-	anIntegerResidueClass class = self class ifFalse: [^ false].
-	anIntegerResidueClass == self ifTrue: [^ true].
-	^ anIntegerResidueClass representative = representative and: [anIntegerResidueClass modulus = modulus]! !
+!ModularInteger methodsFor: 'comparing' stamp: 'len 11/16/2016 18:21'!
+= aModularInteger
+	ModularInteger == aModularInteger class ifFalse: [^ false].
+	self == aModularInteger ifTrue: [^ true].
+	^ aModularInteger representative = representative and: [aModularInteger modulus = modulus]! !
 
-!IntegerResidueClass methodsFor: 'converting' stamp: 'len 4/25/2016 00:24'!
+!ModularInteger methodsFor: 'converting' stamp: 'len 4/25/2016 00:24'!
 adaptToInteger: rcvr andSend: selector
 	^ (self class representative: rcvr \\ modulus modulo: modulus) perform: selector with: self! !
 
-!IntegerResidueClass methodsFor: 'accessing' stamp: 'len 4/21/2016 05:55'!
+!ModularInteger methodsFor: 'accessing' stamp: 'len 4/21/2016 05:55'!
 bitSize
 	^ representative bitSize! !
 
-!IntegerResidueClass methodsFor: 'comparing' stamp: 'len 3/29/2016 20:48'!
+!ModularInteger methodsFor: 'comparing' stamp: 'len 3/29/2016 20:48'!
 hash
 	^ representative hash! !
 
-!IntegerResidueClass methodsFor: 'accessing' stamp: 'len 7/15/2016 18:28'!
+!ModularInteger methodsFor: 'accessing' stamp: 'len 7/15/2016 18:28'!
 ideal
 	^ ZZ * modulus! !
 
-!IntegerResidueClass methodsFor: 'testing' stamp: 'len 4/25/2016 00:22'!
+!ModularInteger methodsFor: 'testing' stamp: 'len 4/25/2016 00:22'!
 isQuadraticResidue
 	(#(-1 0) includes: (representative jacobi: modulus))
 		ifTrue: [^ false].
 	^ self notYetImplemented! !
 
-!IntegerResidueClass methodsFor: 'testing' stamp: 'len 3/30/2016 00:03'!
+!ModularInteger methodsFor: 'testing' stamp: 'len 3/30/2016 00:03'!
 isZero
 	^ representative = 0! !
 
-!IntegerResidueClass methodsFor: 'accessing' stamp: 'len 4/25/2016 00:26'!
+!ModularInteger methodsFor: 'accessing' stamp: 'len 4/25/2016 00:26'!
 modulus
 	^ modulus! !
 
-!IntegerResidueClass methodsFor: 'accessing-private' stamp: 'len 4/25/2016 00:27'!
+!ModularInteger methodsFor: 'accessing-private' stamp: 'len 4/25/2016 00:27'!
 modulus: anInteger
 	modulus _ anInteger! !
 
-!IntegerResidueClass methodsFor: 'arithmetic' stamp: 'len 4/25/2016 00:24'!
+!ModularInteger methodsFor: 'arithmetic' stamp: 'len 4/25/2016 00:24'!
 negated
 	representative = 0 ifTrue: [^ self].
 	^ self class representative: modulus - representative modulo: modulus! !
 
-!IntegerResidueClass methodsFor: 'arithmetic' stamp: 'len 4/25/2016 00:23'!
+!ModularInteger methodsFor: 'arithmetic' stamp: 'len 4/25/2016 00:23'!
 one
 	^ self class representative: 1 modulo: modulus! !
 
-!IntegerResidueClass methodsFor: 'printing' stamp: 'len 3/29/2016 20:49'!
+!ModularInteger methodsFor: 'printing' stamp: 'len 3/29/2016 20:49'!
 printOn: aStream
 	aStream print: representative! !
 
-!IntegerResidueClass methodsFor: 'arithmetic' stamp: 'len 4/25/2016 00:24'!
+!ModularInteger methodsFor: 'arithmetic' stamp: 'len 4/25/2016 00:24'!
 reciprocal
 	^ self class representative: (representative reciprocalModulo: modulus) modulo: modulus! !
 
-!IntegerResidueClass methodsFor: 'accessing' stamp: 'len 3/29/2016 20:49'!
+!ModularInteger methodsFor: 'accessing' stamp: 'len 3/29/2016 20:49'!
 representative
 	^ representative! !
 
-!IntegerResidueClass methodsFor: 'accessing-private' stamp: 'len 3/29/2016 23:52'!
+!ModularInteger methodsFor: 'accessing-private' stamp: 'len 3/29/2016 23:52'!
 representative: anInteger
 	representative _ anInteger! !
 
-!IntegerResidueClass methodsFor: 'arithmetic' stamp: 'len 11/9/2016 15:16'!
+!ModularInteger methodsFor: 'arithmetic' stamp: 'len 11/9/2016 15:16'!
 squared
 	^ self class representative: representative squared \\ modulus modulo: modulus! !
 
-!IntegerResidueClass methodsFor: 'arithmetic' stamp: 'len 4/25/2016 00:25'!
+!ModularInteger methodsFor: 'arithmetic' stamp: 'len 4/25/2016 00:25'!
 zero
 	^ self class representative: 0 modulo: modulus! !
 
-!IntegerResidueClass class methodsFor: 'instance creation' stamp: 'len 4/25/2016 00:27'!
+!ModularInteger class methodsFor: 'instance creation' stamp: 'len 4/25/2016 00:27'!
 representative: anInteger modulo: anotherInteger
 	^ self new representative: anInteger; modulus: anotherInteger! !
 
@@ -27843,10 +27838,10 @@ dimension
 isCycle
 	^ self boundary isZero! !
 
-!Tuple methodsFor: 'operations' stamp: 'len 11/6/2016 11:17'!
+!Tuple methodsFor: 'operations' stamp: 'len 11/16/2016 10:46'!
 % anInteger
 	anInteger = 2 ifTrue: [^ BitTuple new: self size evaluating: [:i| (self at: i) % 2]].
-	^ IntegerResidueClassTuple new: self size modulo: anInteger evaluating: [:i| (self at: i) % anInteger]! !
+	^ ModularTuple new: self size modulo: anInteger evaluating: [:i| (self at: i) % anInteger]! !
 
 !Tuple methodsFor: 'operations' stamp: 'len 11/5/2016 06:17'!
 * anObject
@@ -28631,7 +28626,7 @@ newFrom: anObject
 	anObject isInteger ifTrue: [^ self fromInteger: anObject].
 	^ self coefficients: anObject! !
 
-!IntegerResidueClassTuple methodsFor: 'operations' stamp: 'len 11/12/2016 08:23'!
+!ModularTuple methodsFor: 'operations' stamp: 'len 11/12/2016 08:23'!
 * aNumber
 	| x array |
 	x _ aNumber isInteger ifTrue: [aNumber] ifFalse: [aNumber representative].
@@ -28639,7 +28634,7 @@ newFrom: anObject
 	1 to: self size do: [:i| array at: i put: (array at: i) * x \\ modulus].
 	^ self class representatives: array modulo: modulus! !
 
-!IntegerResidueClassTuple methodsFor: 'operations' stamp: 'len 11/6/2016 14:18'!
+!ModularTuple methodsFor: 'operations' stamp: 'len 11/6/2016 14:18'!
 + aTuple
 	| a an b bn c |
 	(an _ self size) <= (bn _ aTuple size) ifFalse: [^ aTuple + self].
@@ -28651,7 +28646,7 @@ newFrom: anObject
 	c replaceFrom: an+1 to: bn with: b startingAt: an+1.
 	^ self class representatives: c modulo: modulus! !
 
-!IntegerResidueClassTuple methodsFor: 'copying' stamp: 'len 11/6/2016 11:25'!
+!ModularTuple methodsFor: 'copying' stamp: 'len 11/6/2016 11:25'!
 , anObject
 	modulus = anObject modulus ifFalse: [^ DomainError signal].
 	self class = anObject class
@@ -28659,12 +28654,12 @@ newFrom: anObject
 			[^ self class representatives: representatives, anObject representatives modulo: modulus].
 	^ self class representatives: (representatives copyWith: anObject representative) modulo: modulus! !
 
-!IntegerResidueClassTuple methodsFor: 'comparing' stamp: 'len 11/6/2016 13:59'!
+!ModularTuple methodsFor: 'comparing' stamp: 'len 11/6/2016 13:59'!
 = aTuple
 	self class = aTuple class ifFalse: [^ super = aTuple halt].
 	^ modulus = aTuple modulus and: [representatives = aTuple representatives]! !
 
-!IntegerResidueClassTuple methodsFor: 'operations' stamp: 'len 11/11/2016 18:27'!
+!ModularTuple methodsFor: 'operations' stamp: 'len 11/11/2016 18:27'!
 add: aTuple multipliedBy: aNumber startingAt: index
 	| representatives2 x |
 	(self class = aTuple class and: [modulus = aTuple modulus])
@@ -28674,23 +28669,23 @@ add: aTuple multipliedBy: aNumber startingAt: index
 	index to: (representatives size min: representatives2 size) do: [:i|
 		representatives at: i put: (representatives2 at: i) * x + (representatives at: i) \\ modulus]! !
 
-!IntegerResidueClassTuple methodsFor: 'accessing-private' stamp: 'len 6/29/2016 05:50'!
+!ModularTuple methodsFor: 'accessing-private' stamp: 'len 6/29/2016 05:50'!
 arrayClass
 	modulus <= 255 ifTrue: [^ ByteArray].
 	modulus <= 16rFFFFFFFF ifTrue: [^ WordArray].
 	^ Array! !
 
-!IntegerResidueClassTuple methodsFor: 'accessing' stamp: 'len 4/25/2016 00:28'!
+!ModularTuple methodsFor: 'accessing' stamp: 'len 4/25/2016 00:28'!
 at: anInteger
 	^ (representatives at: anInteger ifAbsent: [0]) % modulus! !
 
-!IntegerResidueClassTuple methodsFor: 'accessing' stamp: 'len 10/18/2016 22:55'!
-at: anInteger put: anIntegerResidueClass
-	anIntegerResidueClass isInteger ifTrue: [^ representatives at: anInteger put: anIntegerResidueClass \\ modulus].
-	representatives at: anInteger put: anIntegerResidueClass representative.
-	^ anIntegerResidueClass! !
+!ModularTuple methodsFor: 'accessing' stamp: 'len 11/16/2016 18:23'!
+at: anInteger put: aModularInteger
+	aModularInteger isInteger ifTrue: [^ representatives at: anInteger put: aModularInteger \\ modulus].
+	representatives at: anInteger put: aModularInteger representative.
+	^ aModularInteger! !
 
-!IntegerResidueClassTuple methodsFor: 'operations' stamp: 'len 11/6/2016 11:49'!
+!ModularTuple methodsFor: 'operations' stamp: 'len 11/6/2016 11:49'!
 convolution: aTuple
 	| array |
 	self isEmpty ifTrue: [^ self].
@@ -28703,19 +28698,19 @@ convolution: aTuple
 			array at: index put: xi*yj + (array at: index) \\ modulus]].
 	^ self class representatives: array modulo: modulus! !
 
-!IntegerResidueClassTuple methodsFor: 'copying' stamp: 'len 11/6/2016 11:44'!
+!ModularTuple methodsFor: 'copying' stamp: 'len 11/6/2016 11:44'!
 copy
 	^ self class representatives: representatives copy modulo: modulus! !
 
-!IntegerResidueClassTuple methodsFor: 'copying' stamp: 'len 11/6/2016 11:43'!
+!ModularTuple methodsFor: 'copying' stamp: 'len 11/6/2016 11:43'!
 copyFrom: start to: stop
 	^ self class representatives: (representatives copyFrom: start to: stop) modulo: modulus! !
 
-!IntegerResidueClassTuple methodsFor: 'copying' stamp: 'len 11/6/2016 11:45'!
+!ModularTuple methodsFor: 'copying' stamp: 'len 11/6/2016 11:45'!
 copyWith: anElement
 	^ self class representatives: (representatives copyWith: anElement representative) modulo: modulus! !
 
-!IntegerResidueClassTuple methodsFor: 'operations' stamp: 'len 11/11/2016 16:52'!
+!ModularTuple methodsFor: 'operations' stamp: 'len 11/11/2016 16:52'!
 dot: aTuple
 	| representatives2 answer |
 	(aTuple class = self class and: [modulus = aTuple modulus])
@@ -28726,13 +28721,13 @@ dot: aTuple
 		answer _ (representatives at: i) * (representatives2 at: i) + answer \\ modulus].
 	^ answer % modulus! !
 
-!IntegerResidueClassTuple methodsFor: 'accessing' stamp: 'len 11/12/2016 09:02'!
+!ModularTuple methodsFor: 'accessing' stamp: 'len 11/12/2016 09:02'!
 firstNonZero
 	"Answer the index of the first non-zero entry, or 0."
 	1 to: representatives size do: [:i| (representatives at: i) = 0 ifFalse: [^ i]].
 	^ 0! !
 
-!IntegerResidueClassTuple methodsFor: 'operations' stamp: 'len 11/12/2016 08:27'!
+!ModularTuple methodsFor: 'operations' stamp: 'len 11/12/2016 08:27'!
 hadamard: aTuple
 	| array representatives2 |
 	(self class = aTuple class and: [modulus = aTuple modulus])
@@ -28742,93 +28737,93 @@ hadamard: aTuple
 	1 to: array size do: [:i| array at: i put: (representatives at: i) * (representatives2 at: i) \\ modulus].
 	^ self class representatives: array modulo: modulus! !
 
-!IntegerResidueClassTuple methodsFor: 'comparing' stamp: 'len 6/30/2016 06:52'!
+!ModularTuple methodsFor: 'comparing' stamp: 'len 6/30/2016 06:52'!
 hash
 	^ representatives hash! !
 
-!IntegerResidueClassTuple methodsFor: 'accessing' stamp: 'len 11/12/2016 09:02'!
+!ModularTuple methodsFor: 'accessing' stamp: 'len 11/12/2016 09:02'!
 lastNonZero
 	"Answer the index of the last non-zero entry, or 0."
 	representatives size to: 1 by: -1 do: [:i| (representatives at: i) = 0 ifFalse: [^ i]].
 	^ 0! !
 
-!IntegerResidueClassTuple methodsFor: 'accessing-private' stamp: 'len 4/25/2016 00:28'!
+!ModularTuple methodsFor: 'accessing-private' stamp: 'len 4/25/2016 00:28'!
 modulus
 	^ modulus! !
 
-!IntegerResidueClassTuple methodsFor: 'accessing-private' stamp: 'len 4/25/2016 00:28'!
+!ModularTuple methodsFor: 'accessing-private' stamp: 'len 4/25/2016 00:28'!
 modulus: anInteger
 	modulus _ anInteger! !
 
-!IntegerResidueClassTuple methodsFor: 'operations' stamp: 'len 11/12/2016 08:23'!
+!ModularTuple methodsFor: 'operations' stamp: 'len 11/12/2016 08:23'!
 negated
 	| array |
 	array _ representatives copy.
 	1 to: self size do: [:i| array at: i put: (array at: i) negated \\ modulus].
 	^ self class representatives: array modulo: modulus! !
 
-!IntegerResidueClassTuple methodsFor: 'operations' stamp: 'len 11/11/2016 08:44'!
+!ModularTuple methodsFor: 'operations' stamp: 'len 11/16/2016 18:16'!
 polynomialValue: anObject
 	| x answer |
 	x _ ((anObject is: #Tuple) or: [anObject isKindOf: Array])
 		ifTrue: [anObject at: 1] ifFalse: [anObject].
-	((x isKindOf: IntegerResidueClass) and: [x modulus = modulus])
+	((x isKindOf: ModularInteger) and: [x modulus = modulus])
 		ifFalse: [^ super polynomialValue: anObject].
 	x _ anObject representative.
 	answer _ 0.
 	representatives reverseDo: [:each| answer _ x * answer + each \\ modulus].
 	^ answer % modulus! !
 
-!IntegerResidueClassTuple methodsFor: 'printing' stamp: 'len 6/30/2016 06:56'!
+!ModularTuple methodsFor: 'printing' stamp: 'len 6/30/2016 06:56'!
 printOn: aStream
 	modulus > 16 ifTrue: [^ super printOn: aStream].
 	1 to: self size do: [:i| (representatives at: i) printOn: aStream base: 16]! !
 
-!IntegerResidueClassTuple methodsFor: 'accessing-private' stamp: 'len 3/31/2016 07:43'!
+!ModularTuple methodsFor: 'accessing-private' stamp: 'len 3/31/2016 07:43'!
 representatives
 	^ representatives! !
 
-!IntegerResidueClassTuple methodsFor: 'accessing-private' stamp: 'len 11/6/2016 14:04'!
+!ModularTuple methodsFor: 'accessing-private' stamp: 'len 11/6/2016 14:04'!
 representatives: anArray
 	representatives _ anArray.
 	representatives do: [:each| (each between: 0 and: modulus) ifFalse: [self halt]]! !
 
-!IntegerResidueClassTuple methodsFor: 'operations' stamp: 'len 11/6/2016 14:27'!
+!ModularTuple methodsFor: 'operations' stamp: 'len 11/6/2016 14:27'!
 reversed
 	^ self class representatives: representatives reversed modulo: modulus! !
 
-!IntegerResidueClassTuple methodsFor: 'accessing' stamp: 'len 11/5/2016 03:50'!
+!ModularTuple methodsFor: 'accessing' stamp: 'len 11/5/2016 03:50'!
 scalars
 	^ ZZ / modulus! !
 
-!IntegerResidueClassTuple methodsFor: 'accessing' stamp: 'len 3/31/2016 07:47'!
+!ModularTuple methodsFor: 'accessing' stamp: 'len 3/31/2016 07:47'!
 size
 	^ representatives size! !
 
-!IntegerResidueClassTuple class methodsFor: 'instance creation' stamp: 'len 11/12/2016 17:19'!
+!ModularTuple class methodsFor: 'instance creation' stamp: 'len 11/12/2016 17:19'!
 arrayClassForModulus: anInteger
 	anInteger <= 255 ifTrue: [^ ByteArray].
 	anInteger <= 16rFFFFFFFF ifTrue: [^ WordArray].
 	^ Array! !
 
-!IntegerResidueClassTuple class methodsFor: 'instance creation' stamp: 'len 11/6/2016 11:20'!
+!ModularTuple class methodsFor: 'instance creation' stamp: 'len 11/6/2016 11:20'!
 coefficients: anArray modulo: anInteger
 	^ self new: anArray size modulo: anInteger evaluating: [:i| anArray at: i]! !
 
-!IntegerResidueClassTuple class methodsFor: 'instance creation' stamp: 'len 11/6/2016 11:11'!
+!ModularTuple class methodsFor: 'instance creation' stamp: 'len 11/6/2016 11:11'!
 new: anInteger modulo: modulus
 	| array |
 	array _ (self arrayClassForModulus: modulus) new: anInteger.
 	^ self representatives: array modulo: modulus! !
 
-!IntegerResidueClassTuple class methodsFor: 'instance creation' stamp: 'len 11/6/2016 11:16'!
+!ModularTuple class methodsFor: 'instance creation' stamp: 'len 11/6/2016 11:16'!
 new: anInteger modulo: modulus evaluating: aBlock
 	| array |
 	array _ (self arrayClassForModulus: modulus) new: anInteger.
 	1 to: anInteger do: [:i| array at: i put: (aBlock value: i) representative].
 	^ self representatives: array modulo: modulus! !
 
-!IntegerResidueClassTuple class methodsFor: 'instance creation' stamp: 'len 11/6/2016 14:03'!
+!ModularTuple class methodsFor: 'instance creation' stamp: 'len 11/6/2016 14:03'!
 representatives: anArray modulo: anInteger
 	^ self basicNew modulus: anInteger; representatives: anArray! !
 
