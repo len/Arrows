@@ -1,4 +1,4 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 3 November 2016 at 8:58:30.847544 am'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 16 November 2016 at 8:19:16.746494 am'!
 'Description Please enter a description for this package'!
 !provides: 'Documentation' 1 2!
 !classDefinition: #DocumentationGenerator category: #Documentation!

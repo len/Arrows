@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 21 October 2016 at 10:03:27.330734 pm'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 15 November 2016 at 2:22:44.836674 pm'!
 'Description This package implements Tarski''s first-order theory of the reals with the Collin''s CAD (Cylindrical Algebraic Decomposition) algorithm.'!
-!provides: 'Tarski' 1 1!
+!provides: 'Tarski' 1 2!
 !requires: 'Mathematics' 1 240 nil!
 !classDefinition: #SemialgebraicGeometryTest category: #'Tarski-Tests'!
 TestCase subclass: #SemialgebraicGeometryTest
@@ -474,19 +474,19 @@ rank
 	"Answer the number of indeterminates involved to define the receiver."
 	^ 1! !
 
-!SemialgebraicInterval methodsFor: 'accessing' stamp: 'len 1/17/2016 01:50'!
+!SemialgebraicInterval methodsFor: 'accessing' stamp: 'len 11/5/2016 09:59'!
 sample
 	"Answer a sample point in the receiver."
 
 	self isEmpty ifTrue: [^ self error: 'empty interval'].
-	self left = self right ifTrue: [^ Tuple with: self left].
+	self left = self right ifTrue: [^ self left].
 	(self isLeftBounded and: [self isRightBounded])
 		ifTrue: [[self left rightBound <= self right leftBound]
 					whileFalse: [self left refineWith: self right].
-				^ Tuple with: self left rightBound + self right leftBound / 2].
-	self isLeftBounded ifTrue: [^ Tuple with: self left rightBound + 1].
-	self isRightBounded ifTrue: [^ Tuple with: self right leftBound - 1].
-	^ Tuple with: 0! !
+				^ self left rightBound + self right leftBound / 2].
+	self isLeftBounded ifTrue: [^ self left rightBound + 1].
+	self isRightBounded ifTrue: [^ self right leftBound - 1].
+	^ 0! !
 
 !SemialgebraicInterval methodsFor: 'accessing' stamp: 'len 3/18/2016 06:44'!
 sentence
@@ -707,11 +707,11 @@ isOpen
 polynomials
 	^ self cells inject: Set new into: [:answer :each| answer addAll: each polynomials; yourself]! !
 
-!SemialgebraicSet methodsFor: 'printing' stamp: 'len 6/2/2016 05:18'!
+!SemialgebraicSet methodsFor: 'printing' stamp: 'len 11/10/2016 08:47'!
 printOn: aStream
 	"aStream nextPut: ${; print: self sentence; nextPut: $}"	
 	self isEmpty ifTrue: [aStream nextPut: Character emptySet].
-	self cells do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: ' U ' bold]! !
+	self cells do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: ' U ']! !
 
 !SemialgebraicSet methodsFor: 'accessing' stamp: 'len 6/1/2016 22:58'!
 projectionAt: anInteger
@@ -978,13 +978,13 @@ dimension
 	
 	^ polynomials anyOne species rank! !
 
-!CylindricalAlgebraicDecomposition methodsFor: 'enumerating' stamp: 'len 12/12/97 20:11'!
+!CylindricalAlgebraicDecomposition methodsFor: 'iterating' stamp: 'len 12/12/97 20:11'!
 do: aBlock
 	"Enumerate the components of the receiver."
 
 	self components do: aBlock! !
 
-!CylindricalAlgebraicDecomposition methodsFor: 'private' stamp: 'len 5/30/2016 05:39'!
+!CylindricalAlgebraicDecomposition methodsFor: 'private' stamp: 'len 11/5/2016 10:07'!
 phi
 	"Answer a set of polynomials in n-1 indeterminates which completly characterize the connected maximal F-delineable subsets of R^{n-1}. (where F is the polynomial set of the receiver and n is the number of indeterminates). See >>decompose."
 
@@ -1002,7 +1002,7 @@ phi
 			g _ (self polynomials at: j) asUnivariate.
 			0 to: (f degree min: g degree) do: [:m|
 				answer add: (f psc: m with: g)]]].
-	^ answer select: [:each| each isZero not] :: collect: [ :each | each / each leadingCoefficient] :: asArray! !
+	^ ((answer select: [:each| each isZero not]) collect: [:each| each / each leadingCoefficient]) asArray! !
 
 !CylindricalAlgebraicDecomposition methodsFor: 'accessing' stamp: 'len 12/12/97 23:32'!
 polynomials
@@ -1014,6 +1014,12 @@ polynomials
 polynomials: aPolynomialSet
 	polynomials _ aPolynomialSet.
 	aPolynomialSet isEmpty ifTrue: [self error: 'empty polynomial set']. "when could it be empty?"! !
+
+!CylindricalAlgebraicDecomposition methodsFor: 'printing' stamp: 'len 11/5/2016 10:11'!
+printOn: aStream
+	aStream nextPutAll: 'CAD in '; print: RR; nextPutAll: self dimension printString super; nextPutAll: ' of {'.
+	self polynomials do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: ', '].
+	aStream nextPut: $}! !
 
 !CylindricalAlgebraicDecomposition class methodsFor: 'instance creation' stamp: 'len 5/30/2016 05:47'!
 polynomials: aPolynomialSet
@@ -1321,12 +1327,12 @@ prenex
 
 	^ self reduced normalized privatePrenex! !
 
-!BooleanConnective methodsFor: 'printing' stamp: 'len 6/2/2016 01:40'!
+!BooleanConnective methodsFor: 'printing' stamp: 'len 11/10/2016 08:44'!
 printOn: aStream
 	left class = self class
 		ifTrue: [aStream print: left]
 		ifFalse: [aStream nextPut: $(; print: left; nextPut: $)].
-	aStream space; nextPutAll: self operatorName bold; space.
+	aStream space; nextPutAll: self operatorName; space.
 	right class = self class
 		ifTrue: [aStream print: right]
 		ifFalse: [aStream nextPut: $(; print: right; nextPut: $)]
