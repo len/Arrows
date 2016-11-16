@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 15 November 2016 at 2:22:44.836674 pm'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 16 November 2016 at 10:12:02.701382 am'!
 'Description This package implements Tarski''s first-order theory of the reals with the Collin''s CAD (Cylindrical Algebraic Decomposition) algorithm.'!
-!provides: 'Tarski' 1 2!
+!provides: 'Tarski' 1 3!
 !requires: 'Mathematics' 1 240 nil!
 !classDefinition: #SemialgebraicGeometryTest category: #'Tarski-Tests'!
 TestCase subclass: #SemialgebraicGeometryTest
@@ -602,7 +602,7 @@ collect: aBlock
 complement
 	^ self notYetImplemented! !
 
-!SemialgebraicSet methodsFor: 'accessing' stamp: 'len 8/26/2016 06:55'!
+!SemialgebraicSet methodsFor: 'accessing' stamp: 'len 11/16/2016 10:09'!
 connectivityGraph
 	"Answer the connectivity graph of the cell complex of the receiver."
 	| answer |

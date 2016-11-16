@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 15 November 2016 at 12:23:20.2616 pm'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 16 November 2016 at 10:11:55.309924 am'!
 'Description Please enter a description for this package'!
-!provides: 'MathematicsTests' 1 42!
+!provides: 'MathematicsTests' 1 43!
 !classDefinition: #AbelianGroupTest category: #MathematicsTests!
 TestCase subclass: #AbelianGroupTest
 	instanceVariableNames: ''
@@ -294,6 +294,9 @@ SparsePolynomialMultiplicationBenchmark class
 
 !GroebnerBasisBenchmark commentStamp: '<historical>' prior: 0!
 GroebnerBasisBenchmark new run
+
+[self new modularCyclic: 7 :: groebnerBasis] bench
+ '165 seconds.' 
 
 testCyclic3	1,840 per second.
 testCyclic4	338 per second.
@@ -1637,7 +1640,7 @@ testWeierstrassEquationInvariants
 	self assert: W b8 * 4 = (W b2 * W b6 - W b4 squared).
 	self assert: W discriminant * 1728 = (W c4 ** 3 - W c6 squared)! !
 
-!GraphTest methodsFor: 'as yet unclassified' stamp: 'len 7/23/2016 06:29'!
+!GraphTest methodsFor: 'as yet unclassified' stamp: 'len 11/16/2016 10:04'!
 testAutomorphismsK3
 	"Aut(K3) = Sym(3)"
 	| G A |
@@ -1646,7 +1649,7 @@ testAutomorphismsK3
 	self assert: A = A ambient
 ! !
 
-!GraphTest methodsFor: 'as yet unclassified' stamp: 'len 7/23/2016 06:42'!
+!GraphTest methodsFor: 'as yet unclassified' stamp: 'len 11/16/2016 10:08'!
 testAutomorphismsP3
 	"Aut(P3) = {id, (1 3)}"
 	| G A |
@@ -1654,7 +1657,7 @@ testAutomorphismsP3
 	A _ G automorphisms.
 	self assert: A = (PermutationGroup new: 3 generators: {Permutation image: #(3 2 1)})! !
 
-!GraphTest methodsFor: 'as yet unclassified' stamp: 'len 7/20/2016 19:31'!
+!GraphTest methodsFor: 'as yet unclassified' stamp: 'len 11/16/2016 10:05'!
 testCartesianProduct
 	| G H |
 	G _ Graph unordered addEdge: 1 -> 2; yourself.
@@ -1662,7 +1665,7 @@ testCartesianProduct
 	self assert: H size = 4.
 	self assert: H numberOfEdges = 4! !
 
-!GraphTest methodsFor: 'as yet unclassified' stamp: 'len 7/14/2016 00:17'!
+!GraphTest methodsFor: 'as yet unclassified' stamp: 'len 11/16/2016 10:08'!
 testChromaticNumber
 	| G |
 	G _ Graph unordered add: 1; add: 2; add: 3; yourself. 
@@ -1674,27 +1677,27 @@ testChromaticNumber
 	self assert: (Graph W: 5) chromaticNumber = 3.
 	self assert: (Graph S: 6) chromaticNumber = 2! !
 
-!GraphTest methodsFor: 'as yet unclassified' stamp: 'len 7/15/2016 18:25'!
+!GraphTest methodsFor: 'as yet unclassified' stamp: 'len 11/16/2016 10:05'!
 testChromaticPolynomialComplete
 	| x |
 	x _ ZZ polynomials x.
 	self assert: (Graph K: 3) chromaticPolynomial = (x*(x-1)*(x-2))! !
 
-!GraphTest methodsFor: 'as yet unclassified' stamp: 'len 7/15/2016 18:25'!
+!GraphTest methodsFor: 'as yet unclassified' stamp: 'len 11/16/2016 10:05'!
 testChromaticPolynomialCylic
 	| x n |
 	x _ ZZ polynomials x.
 	n _ 4 atRandom.
 	self assert: (Graph C: n) chromaticPolynomial = (x-1**n + ((-1)**n * (x-1)))! !
 
-!GraphTest methodsFor: 'as yet unclassified' stamp: 'len 7/20/2016 19:15'!
+!GraphTest methodsFor: 'as yet unclassified' stamp: 'len 11/16/2016 10:04'!
 testChromaticPolynomialPath
 	| x n |
 	x _ ZZ polynomials x.
 	n _ 4 atRandom + 1.
 	self assert: (Graph P: n) chromaticPolynomial = (x-1**(n-1)*x)! !
 
-!GraphTest methodsFor: 'as yet unclassified' stamp: 'len 9/1/2016 07:53'!
+!GraphTest methodsFor: 'as yet unclassified' stamp: 'len 11/16/2016 10:03'!
 testComplement
 	| G H |
 	G _ Graph unordered addEdges: {#a -> #b. #b -> #c. #d -> #e}; yourself.
@@ -1703,7 +1706,7 @@ testComplement
 	self assert: (G ˜ H) isEdgeless.
 	self assert: H complement = G! !
 
-!GraphTest methodsFor: 'as yet unclassified' stamp: 'len 5/25/2016 03:46'!
+!GraphTest methodsFor: 'as yet unclassified' stamp: 'len 11/16/2016 10:08'!
 testConnectedComponents
 	| G |
 	G _ Graph unordered addEdges: {#a -> #b. #b -> #c. #d -> #e}; yourself.
@@ -1758,7 +1761,7 @@ testIsComplete
 	G addEdge: #c -> #b.
 	self assert: G isComplete! !
 
-!GraphTest methodsFor: 'as yet unclassified' stamp: 'len 5/25/2016 03:46'!
+!GraphTest methodsFor: 'as yet unclassified' stamp: 'len 11/16/2016 10:03'!
 testIsConnected
 	| G |
 	G _ Graph unordered addEdges: {#a -> #b. #b -> #c. #d -> #e}; yourself.
@@ -1794,7 +1797,7 @@ testIsSimple2
 	G addEdge: #c -> #c.
 	self assert: G isSimple not "a graph with a loop is not simple"! !
 
-!GraphTest methodsFor: 'as yet unclassified' stamp: 'len 7/23/2016 06:59'!
+!GraphTest methodsFor: 'as yet unclassified' stamp: 'len 11/16/2016 10:08'!
 testIsomorphism
 	| G H |
 	G _ Graph unordered.
@@ -1808,7 +1811,7 @@ testIsomorphism
 	H _ H shuffled.
 	self deny: G ~ H! !
 
-!GraphTest methodsFor: 'as yet unclassified' stamp: 'len 7/13/2016 21:47'!
+!GraphTest methodsFor: 'as yet unclassified' stamp: 'len 11/16/2016 10:04'!
 testPetersenGraph
 	| G |
 	G _ Graph petersen.
@@ -1838,7 +1841,7 @@ testTransposed
 	self assert: (T hasEdge: #b -> #c) not.
 	self assert: (T hasEdge: #c -> #b)! !
 
-!GraphTest methodsFor: 'as yet unclassified' stamp: 'len 7/15/2016 18:25'!
+!GraphTest methodsFor: 'as yet unclassified' stamp: 'len 11/16/2016 10:05'!
 testTuttePolynomial
 	| G P x y T |
 	G _ Graph ordered addEdges: {1->2. 2->3. 3->4. 4->1. 1->3}; yourself.
@@ -1848,7 +1851,7 @@ testTuttePolynomial
 	T _ x*(x**2 + (x+y)) + (x**2 + (x+y)) + (x*y + (y**2)).
 	self assert: G tuttePolynomial = T! !
 
-!GraphTest methodsFor: 'as yet unclassified' stamp: 'len 7/15/2016 18:26'!
+!GraphTest methodsFor: 'as yet unclassified' stamp: 'len 11/16/2016 10:05'!
 testTuttePolynomial2
 	| G P x y T |
 	G _ Graph ordered addEdges: {1->2. 2->3. 3->4. 4->1. 1->3}; yourself.
@@ -1858,7 +1861,7 @@ testTuttePolynomial2
 	T _ x*(x**2 + (x+y)) + (x**2 + (x+y)) + (x*y + (y**2)).
 	self assert: G tuttePolynomial = T! !
 
-!GraphTest methodsFor: 'as yet unclassified' stamp: 'len 7/15/2016 18:26'!
+!GraphTest methodsFor: 'as yet unclassified' stamp: 'len 11/16/2016 10:08'!
 testTuttePolynomialK3
 	| G P x y T |
 	G _ Graph K: 3.
@@ -1868,7 +1871,7 @@ testTuttePolynomialK3
 	T _ x**2 + x + y.
 	self assert: G tuttePolynomial = T! !
 
-!GraphTest methodsFor: 'as yet unclassified' stamp: 'len 7/15/2016 18:26'!
+!GraphTest methodsFor: 'as yet unclassified' stamp: 'len 11/16/2016 10:08'!
 testTuttePolynomialK4
 	| G P x y T |
 	G _ Graph K: 4.
@@ -1878,7 +1881,7 @@ testTuttePolynomialK4
 	T _ x**3 + (x**2*3) + (x*2) + (x*y*4) + (y*2) + (y**2*3) + (y**3).
 	self assert: G tuttePolynomial = T! !
 
-!GraphTest methodsFor: 'as yet unclassified' stamp: 'len 7/13/2016 21:48'!
+!GraphTest methodsFor: 'as yet unclassified' stamp: 'len 11/16/2016 10:08'!
 testUndirectedEdgeContraction
 	| G |
 	G _ Graph ordered addEdges: {1->2. 2->3. 3->4. 4->1. 1->3}; yourself.
