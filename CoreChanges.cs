@@ -1,4 +1,4 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2835] on 8 July 2016 at 5:58:37.871231 am'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 17 November 2016 at 10:20:33 am'!
 !classDefinition: #Dictionary2 category: #'Collections-Unordered'!
 Dictionary subclass: #Dictionary2
 	instanceVariableNames: ''
@@ -12,14 +12,24 @@ Set subclass: #Set2
 	poolDictionaries: ''
 	category: 'Collections-Unordered'!
 
-!StrikeFont methodsFor: 'character shapes' stamp: 'len 6/7/2016 06:20'!
-takeAllGlyphFor: aCharacter from: sourceCharacter in: aFont
-	self takeGlyphFor: aCharacter from: sourceCharacter in: aFont.
-	self derivativeFonts do: [:each|
-		(aFont derivativeFonts detect: [:one| one emphasis = each emphasis] ifNone: [])
-			ifNotNil: [:otherFont| each takeGlyphFor: aCharacter from: sourceCharacter in: otherFont]].
-! !
+!Fraction methodsFor: 'testing' stamp: 'len 10/29/2016 16:05'!
+is: aSymbol
+	^ aSymbol = #Fraction or: [super is: aSymbol]! !
 
+
+!Character class methodsFor: 'accessing mathematical symbols' stamp: 'len 10/28/2016 20:36'!
+cap
+	"
+	Character cap
+	"
+	^ self value: 16r98! !
+
+!Character class methodsFor: 'accessing mathematical symbols' stamp: 'len 10/28/2016 20:36'!
+cup
+	"
+	Character cup
+	"
+	^ self value: 16r99! !
 
 !Character class methodsFor: 'accessing mathematical symbols' stamp: 'len 6/15/2016 23:40'!
 nAryProduct
@@ -57,9 +67,9 @@ ring
 	^ self value: 16r95! !
 
 
-!Collection methodsFor: 'enumerating' stamp: 'len 2/17/2016 06:27'!
+!Collection methodsFor: 'enumerating' stamp: 'len 9/1/2016 07:49'!
 symmetricDifference: aSet 
-	^ (self difference: aSet) union: (aSet difference: self)! !
+	^ (self difference: aSet) ô (aSet difference: self)! !
 
 !Collection methodsFor: 'statistics' stamp: 'len 4/29/2016 21:58'!
 argmax: aBlock
@@ -84,16 +94,6 @@ copyWithoutIndex: index
 shuffledBy: aGenerator
 	"To answer a mutable collection when receiver is, for example, an Interval."
 	^ (self collect: [ :each | each ]) shuffleBy: aGenerator! !
-
-
-!Array methodsFor: 'accessing' stamp: 'len 7/4/2016 04:15'!
-at2: index
-	<primitive: 60>
-	^ nil! !
-
-!Array methodsFor: 'accessing' stamp: 'len 7/4/2016 04:16'!
-at2: index ifAbsent: exceptionBlock
-	^ (self at2: index) ifNil: [exceptionBlock value]! !
 
 
 !String methodsFor: 'testing' stamp: 'len 3/22/2016 21:11'!
@@ -207,50 +207,26 @@ scanFor: anObject
 	^ 0  "No match AND no empty slot"! !
 
 
-!Integer methodsFor: 'arithmetic' stamp: 'len 2/27/2016 04:34'!
-karatsuba2: anInteger
-	| high1 high2 low1 low2 m m2 mask z0 z1 z2 |
-	m _ self highBit max: anInteger highBit.
-	m < 1600 ifTrue: [^ self * anInteger].
-	m2 _ m // 2 alignedTo: 256.
-	mask _ (1 bitShift: m2) - 1.
-	low1 _ self bitAnd: mask. high1 _ self bitShift: m2 negated.
-	low2 _ anInteger bitAnd: mask. high2 _ anInteger bitShift: m2 negated.
-	z0 _ low1 karatsuba2: low2.
-	z1 _ low1 + high1 karatsuba2: low2 + high2.
-	z2 _ high1 karatsuba2: high2.
-	^ (z2 bitShift: m2*2) + (z1 - z2 - z0 bitShift: m2) + z0! !
-
-!Integer methodsFor: 'arithmetic' stamp: 'len 2/27/2016 05:12'!
-karatsuba: anInteger
-	"Karatsuba-Ofman algorithm. Integer multiplication in O(n^log(3)) ~ O(n^1.58)."
-	| high1 high2 low1 low2 z0 z1 z2 middle middleBytes n |
-	n _ self highBit min: anInteger highBit.
-	n < 2000 ifTrue: [^ self * anInteger].
-	middle _ n // 2 alignedTo: 256.
-	middleBytes _ middle // 8.
-	low1 _ self digitCopyFrom: 1 to: middleBytes.
-	high1 _ self bitShift: middle negated.
-	low2 _ anInteger digitCopyFrom: 1 to: middleBytes.
-	high2 _ anInteger bitShift: middle negated.
-	z0 _ low1 karatsuba: low2.
-	z1 _ low1 + high1 karatsuba: low2 + high2.
-	z2 _ high1 karatsuba: high2.
-	^ (z2 bitShift: middle*2) + (z1 - z2 - z0 bitShift: middle) + z0! !
+!StrikeFont methodsFor: 'character shapes' stamp: 'len 6/7/2016 06:20'!
+takeAllGlyphFor: aCharacter from: sourceCharacter in: aFont
+	self takeGlyphFor: aCharacter from: sourceCharacter in: aFont.
+	self derivativeFonts do: [:each|
+		(aFont derivativeFonts detect: [:one| one emphasis = each emphasis] ifNone: [])
+			ifNotNil: [:otherFont| each takeGlyphFor: aCharacter from: sourceCharacter in: otherFont]].
+! !
 
 
-!LargePositiveInteger methodsFor: 'arithmetic' stamp: 'len 2/27/2016 04:16'!
-digitCopyFrom: start to: stop
-	| n answer |
-	n _ stop - start + 1.
-	answer _ LargePositiveInteger new: n.
-	answer replaceFrom: 1 to: n with: self startingAt: start.
-	^ answer! !
+!HaloMorph methodsFor: 'stepping' stamp: 'len 7/25/2016 21:39'!
+step
+	(target isNil or: [target isInWorld not]) ifTrue: [self delete]! !
 
+!HaloMorph methodsFor: 'stepping' stamp: 'len 7/25/2016 21:41'!
+stepTime
+	^ 100! !
 
-!Morph methodsFor: 'halos and balloon help' stamp: 'len 6/12/2016 09:45'!
-skipsHalo
-	^false! !
+!HaloMorph methodsFor: 'stepping' stamp: 'len 7/25/2016 21:38'!
+wantsSteps
+	^ true! !
 
 
 !BitBltCanvas methodsFor: 'drawing-ovals' stamp: 'len 2/18/2016 06:42'!
@@ -321,61 +297,6 @@ errors
 	)! !
 
 
-!StrikeFont methodsFor: 'character shapes' stamp: 'len 6/7/2016 06:02'!
-takeGlyphFor: aCharacter from: sourceCharacter in: aFont
-	"Copy characterForm over the glyph for the argument, character."
-	| characterForm r newForm |
-	characterForm _ aFont glyphAt: sourceCharacter.
-	r _ 0@(0 max: aFont ascent - self ascent) extent: characterForm width @ glyphs height.
-	(newForm _ Form extent: characterForm width @ glyphs height depth: glyphs depth)
-		fillWhite;
-		copyBits: r
-		from: characterForm
-		at: 0@0
-		clippingBox: newForm boundingBox
-		rule: Form over.
-	self glyphAt: aCharacter put: newForm! !
-
-
-!StrikeFont class methodsFor: 'instance creation' stamp: 'len 6/15/2016 19:48'!
-install: aString
-"
-StrikeFont install: 'DejaVu'.
-StrikeFont buildLargerPunctuation: 'DejaVu'.
-Character initialize
-
-StrikeFont install: 'DejaVu Sans Mono'.
-StrikeFont buildLargerPunctuation: 'DejaVu Sans Mono'.
-Character initialize
-"
-"
-StrikeFont install: 'Inconsolata'
-StrikeFont install: '#PilGi'
-StrikeFont install: 'Optima'
-StrikeFont install: 'Herculanum'
-StrikeFont install: 'Papyrus'
-StrikeFont install: 'Handwriting - Dakota'
-StrikeFont install: 'Times New Roman'
-StrikeFont install: 'Apple Chancery'
-StrikeFont install: 'Cochin'
-StrikeFont install: 'Cracked'
-StrikeFont install: 'Zapfino'
-StrikeFont install: 'Brush Script MT'
-StrikeFont install: 'Chalkboard'
-"
-	| fontDict |
-	fontDict _ Dictionary new.
-	"Just try a lot of sizes. Will ignore missing files."
-	1 to: 200 do: [ :s |
-		(self create: aString size: s bold: true italic: true boldItalic: false) ifNotNil: [ :font |
-			fontDict
-				at: s
-				put: font ]].
-	fontDict notEmpty ifTrue: [
-		AvailableFonts at: aString put: fontDict ].
-"	Preferences restoreDefaultFonts"! !
-
-
 !Workspace methodsFor: 'binding' stamp: 'len 11/23/2015 03:28'!
 bindingOf: aString
 	mustDeclareVariables ifTrue: [^ nil].
@@ -395,23 +316,28 @@ openOn: anObject
 	^ self openOn: anObject withLabel: label! !
 
 
-!Categorizer methodsFor: 'accessing' stamp: 'len 7/4/2016 04:57'!
-listAtCategoryNumber: anInteger 
-	"Answer the array of elements stored at the position indexed by anInteger.  Answer nil if anInteger is larger than the number of categories."
+!Fraction methodsFor: 'comparing' stamp: 'len 10/29/2016 16:03'!
+= aNumber
+	self == aNumber ifTrue: [ ^ true ].
+	aNumber isFraction
+		ifTrue: [numerator = 0 ifTrue: [^ aNumber numerator = 0].
+				^ (numerator * aNumber denominator) =
+					(aNumber numerator * denominator)
+				"Note: used to just compare num and denom,
+					but this fails for improper fractions"].
+	^ aNumber adaptToFraction: self andSend: #=! !
 
-	| firstIndex lastIndex |
-	(anInteger < 1 or: [anInteger > categoryStops size])
-		ifTrue: [^ nil].
-	firstIndex _ self firstIndexOfCategoryNumber: anInteger.
-	lastIndex _  self lastIndexOfCategoryNumber: anInteger.
-	^(elementArray copyFrom: firstIndex to: lastIndex) asSortedCollection! !
+
+!Duration methodsFor: 'ansi protocol' stamp: 'len 6/28/2016 09:12'!
+hash
+	^seconds bitXor: nanos! !
 
 
-!Character methodsFor: 'testing' stamp: 'len 6/11/2016 17:13'!
+!Character methodsFor: 'testing' stamp: 'len 11/16/2016 08:10'!
 isSpecial
 	"Answer whether the receiver is one of the special characters that can be used as binary operator."
 
-	^'+-/\*~<>=@,%|&?!!éèêûü◊∑' includes: self! !
+	^'+-/\*~<>=@,%|&?!!êëíìîïñóòô◊∑' includes: self! !
 
 
 !Character class methodsFor: 'accessing mathematical symbols' stamp: 'len 6/15/2016 23:32'!
@@ -520,7 +446,7 @@ otimes
 	^ self value: 16r92! !
 
 
-!String class methodsFor: 'initialization' stamp: 'len 6/15/2016 23:49'!
+!String class methodsFor: 'initialization' stamp: 'len 11/17/2016 10:16:17'!
 initialize
 	"
 	String initialize
@@ -552,7 +478,7 @@ initialize
 	newOrder _ Array new: 256.
 	order _ -1.
 	newOrder at: 0+1 put:  (order _ order+1).
-	32 to: 64 do: [ :c |
+	28 to: 64 do: [ :c |
 		newOrder at: c + 1 put: (order _ order+1)].
 	#(92 124 126 183 215) do: [ :c | "\|~∑◊"
 		newOrder at: c + 1 put: (order _ order+1)].
@@ -573,13 +499,13 @@ initialize
 	CaseSensitiveOrder _ newOrder asByteArray.
 
 	"a table for translating to lower case"
-	LowercasingTable _ String withAll: (Character allCharacters collect: [:c | c asLowercase]).
+	LowercasingTable _ String withAll: (Character characterTable collect: [:c | c asLowercase]).
 
 	"a table for translating to upper case"
-	UppercasingTable _ String withAll: (Character allCharacters collect: [:c | c asUppercase]).
+	UppercasingTable _ String withAll: (Character characterTable collect: [:c | c asUppercase]).
 
 	"a table for testing tokenish (for fast numArgs)"
-	Tokenish _ String withAll: (Character allCharacters collect:
+	Tokenish _ String withAll: (Character characterTable collect:
 									[:c | c tokenish ifTrue: [c] ifFalse: [$~]]).
 
 	"CR and LF--characters that terminate a line"
@@ -592,23 +518,6 @@ initialize
 	CSNonSeparators _ CSSeparators complement! !
 
 
-!Interval methodsFor: 'printing' stamp: 'len 6/28/2016 08:23'!
-printOn: aStream
-	| s |
-	aStream
-	 print: start;
-	 nextPutAll: ' to: ';
-	 print: stop.
-	s _ self increment.
-	s ~= 1 ifTrue: [aStream nextPutAll: ' by: '; print: s]! !
-
-!Interval methodsFor: 'printing' stamp: 'len 6/28/2016 08:24'!
-storeOn: aStream 
-	"This is possible because we know numbers store and print the same."
-	
-	aStream nextPut: $(; print: self; nextPut:$)! !
-
-
 !Dictionary methodsFor: 'printing' stamp: 'len 6/22/2016 16:36'!
 printElementsOn: aStream
 	aStream nextPut: $(.
@@ -617,32 +526,79 @@ printElementsOn: aStream
 	aStream nextPut: $)! !
 
 
-!Complex methodsFor: 'printing' stamp: 'len 3/6/2016 21:07'!
+!TextAnchor methodsFor: 'copying' stamp: 'len 6/24/2016 22:08'!
+postCopy
+
+"	anchoredFormOrMorph _ anchoredFormOrMorph copy"! !
+
+
+!Form methodsFor: 'fileIn/Out' stamp: 'len 8/1/2016 08:13'!
 printOn: aStream
-	real printOn: aStream.
-"	imaginary isZero ifTrue: [^ self]."
-	aStream nextPut: Character space.
-	0 <= imaginary
-		ifTrue: [aStream nextPut: $+]
-		ifFalse: [aStream nextPut: $-].
-	aStream nextPut: Character space.
-	imaginary abs printOn: aStream.
-	aStream nextPut: Character space.
-	aStream nextPut: $i
-! !
+	aStream isText
+		ifTrue:
+			[aStream withAttribute: (TextAnchor new anchoredFormOrMorph: self) do: [aStream nextPut: $*].
+			^ self].
+	aStream
+		nextPutAll: self class name;
+		nextPut: $(; print: width;
+		nextPut: $x; print: height;
+		nextPut: $x; print: depth;
+		nextPut: $)! !
 
 
-!Duration methodsFor: 'ansi protocol' stamp: 'len 6/28/2016 09:12'!
-hash
-	^seconds bitXor: nanos! !
+!StrikeFont methodsFor: 'character shapes' stamp: 'len 6/7/2016 06:02'!
+takeGlyphFor: aCharacter from: sourceCharacter in: aFont
+	"Copy characterForm over the glyph for the argument, character."
+	| characterForm r newForm |
+	characterForm _ aFont glyphAt: sourceCharacter.
+	r _ 0@(0 max: aFont ascent - self ascent) extent: characterForm width @ glyphs height.
+	(newForm _ Form extent: characterForm width @ glyphs height depth: glyphs depth)
+		fillWhite;
+		copyBits: r
+		from: characterForm
+		at: 0@0
+		clippingBox: newForm boundingBox
+		rule: Form over.
+	self glyphAt: aCharacter put: newForm! !
 
 
-!MenuMorph methodsFor: 'keyboard control' stamp: 'len 6/11/2016 20:40'!
-keyboardFocusChange: aBoolean
-	"Notify change due to green border for keyboard focus"
+!StrikeFont class methodsFor: 'instance creation' stamp: 'len 6/15/2016 19:48'!
+install: aString
+"
+StrikeFont install: 'DejaVu'.
+StrikeFont buildLargerPunctuation: 'DejaVu'.
+Character initialize
 
-	aBoolean ifFalse: [self deleteIfPopUp: nil].
-	self redrawNeeded! !
+StrikeFont install: 'DejaVu Sans Mono'.
+StrikeFont buildLargerPunctuation: 'DejaVu Sans Mono'.
+Character initialize
+"
+"
+StrikeFont install: 'Inconsolata'
+StrikeFont install: '#PilGi'
+StrikeFont install: 'Optima'
+StrikeFont install: 'Herculanum'
+StrikeFont install: 'Papyrus'
+StrikeFont install: 'Handwriting - Dakota'
+StrikeFont install: 'Times New Roman'
+StrikeFont install: 'Apple Chancery'
+StrikeFont install: 'Cochin'
+StrikeFont install: 'Cracked'
+StrikeFont install: 'Zapfino'
+StrikeFont install: 'Brush Script MT'
+StrikeFont install: 'Chalkboard'
+"
+	| fontDict |
+	fontDict _ Dictionary new.
+	"Just try a lot of sizes. Will ignore missing files."
+	1 to: 200 do: [ :s |
+		(self create: aString size: s bold: true italic: true boldItalic: false) ifNotNil: [ :font |
+			fontDict
+				at: s
+				put: font ]].
+	fontDict notEmpty ifTrue: [
+		AvailableFonts at: aString put: fontDict ].
+"	Preferences restoreDefaultFonts"! !
 
 
 !MessageSetWindow methodsFor: 'GUI building' stamp: 'len 6/30/2016 07:20'!
@@ -710,62 +666,12 @@ buildMorphicWindow
 		addAdjusterAndMorph: bottomMorph proportionalHeight: 0.2! !
 
 
-!FillInTheBlankMorph methodsFor: 'initialization' stamp: 'len 6/9/2016 21:08'!
-createAcceptButton
-	"create the [accept] button"
-	| result |
-	result _ PluggableButtonMorph new
-		 model: self;
-		 color: Theme current acceptButton;
-		 label: 'Accept';
-		 action: #acceptClicked.
-	result morphExtent: 93 @ Theme current buttonHeight.
-	self addMorph: result position: 29 @ (extent y - result morphHeight - 14).
-	^ result! !
+!MenuMorph methodsFor: 'keyboard control' stamp: 'len 6/11/2016 20:40'!
+keyboardFocusChange: aBoolean
+	"Notify change due to green border for keyboard focus"
 
-!FillInTheBlankMorph methodsFor: 'initialization' stamp: 'len 6/9/2016 21:09'!
-createCancelButton
-	"create the [cancel] button"
-	| result |
-	result _ PluggableButtonMorph new
-		 model: self;
-		 color: Theme current cancelButton;
-		 label: 'Cancel';
-		 action: #cancelClicked.
-	result morphExtent: 93 @ Theme current buttonHeight.
-	self addMorph: result position: 149 @ (extent y - result morphHeight - 14).
-	^ result! !
-
-!FillInTheBlankMorph methodsFor: 'initialization' stamp: 'len 6/11/2016 08:40'!
-createTextPaneExtent: answerExtent acceptBoolean: acceptBoolean
-	"create the textPane"
-	| result |
-
-	self flag: #todo. "Integrate this method with the Theme system. --cbr"
-
-	result _ TextModelMorph
-				textProvider: self
-				textGetter: #response
-				textSetter: #response:
-				selectionGetter: #selectionInterval.
-	result morphExtent: answerExtent.
-	result hasUnacceptedEdits: true.
-	result acceptOnCR: acceptBoolean.
-	result morphExtent: extent x - 28 @ (Theme current buttonHeight + 1).
-	self addMorph: result position: 14@25.
-	^ result! !
-
-!FillInTheBlankMorph methodsFor: 'initialization' stamp: 'len 6/9/2016 21:01'!
-initialize
-	super initialize.
-	extent _  271 @ (Theme current buttonPaneHeight * 4).
-	responseUponCancel _ ''! !
-
-
-!TextAnchor methodsFor: 'copying' stamp: 'len 6/24/2016 22:08'!
-postCopy
-
-"	anchoredFormOrMorph _ anchoredFormOrMorph copy"! !
+	aBoolean ifFalse: [self deleteIfPopUp: nil].
+	self redrawNeeded! !
 
 
 !Theme methodsFor: 'other options' stamp: 'len 6/9/2016 20:57'!
@@ -889,55 +795,5 @@ shout
 		#tempBar 				-> #gray.
 		#tempVars 				-> #(gray muchDarker).
 	}! !
-
-!methodMoveToSomePackage: Integer #bitParity!
-Integer removeSelectorIfInBaseSystem: #bitParity!
-!methodRemoval: Character class #HH!
-Character class removeSelector: #HH!
-!methodRemoval: Character class #bullet!
-Character class removeSelector: #bullet!
-!methodRemoval: Character class #circle!
-Character class removeSelector: #circle!
-!methodRemoval: Character class #contourIntegral!
-Character class removeSelector: #contourIntegral!
-!methodRemoval: Character class #doesNotExist!
-Character class removeSelector: #doesNotExist!
-!methodRemoval: Character class #greaterNotEqual!
-Character class removeSelector: #greaterNotEqual!
-!methodRemoval: Character class #greaterOrEqual!
-Character class removeSelector: #greaterOrEqual!
-!methodRemoval: Character class #greaterOverEqual!
-Character class removeSelector: #greaterOverEqual!
-!methodRemoval: Character class #identical!
-Character class removeSelector: #identical!
-!methodRemoval: Character class #lessNotEqual!
-Character class removeSelector: #lessNotEqual!
-!methodRemoval: Character class #lessOrEqual!
-Character class removeSelector: #lessOrEqual!
-!methodRemoval: Character class #lessOverEqual!
-Character class removeSelector: #lessOverEqual!
-!methodRemoval: Character class #notEqual!
-Character class removeSelector: #notEqual!
-!methodRemoval: Character class #notIdentical!
-Character class removeSelector: #notIdentical!
-!methodRemoval: Character class #strictlyEquivalent!
-Character class removeSelector: #strictlyEquivalent!
-!methodRemoval: Character class #summation!
-Character class removeSelector: #summation!
-
-!Metaclass reorganize!
-('accessing' allInstances category isMeta name soleInstance theMetaClass theNonMetaClass)
-('class hierarchy' addObsoleteSubclass: addSubclass: obsoleteSubclasses removeObsoleteSubclass: removeSubclass: subclasses subclassesDo: subclassesDoGently:)
-('compiling' acceptsLoggingOfCompilation bindingOf: possibleVariablesFor:continuedFrom: wantsChangeSetLogging wantsRecompilationProgressReported)
-('copying' postCopy)
-('enumerating' allInstancesDo:)
-('fileIn/Out' definition fileOutInitializerOn: fileOutOn:moveSource:toFile: fileOutOn:moveSource:toFile:initializing: nonTrivial objectForDataStream: storeDataOn:)
-('initialization' adoptInstance:from: instanceVariableNames:)
-('instance creation' new)
-('instance variables' addInstVarName: removeInstVarName:)
-('pool variables' classPool)
-('testing' canZapMethodDictionary isObsolete)
-('private' replaceObsoleteInstanceWith:)
-!
 
 String initialize!
