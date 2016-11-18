@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 16 November 2016 at 10:11:55.309924 am'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 18 November 2016 at 8:59:17 pm'!
 'Description Please enter a description for this package'!
-!provides: 'MathematicsTests' 1 43!
+!provides: 'MathematicsTests' 1 44!
 !classDefinition: #AbelianGroupTest category: #MathematicsTests!
 TestCase subclass: #AbelianGroupTest
 	instanceVariableNames: ''
@@ -261,6 +261,16 @@ Benchmark subclass: #IntegersBenchmark
 IntegersBenchmark class
 	instanceVariableNames: ''!
 
+!classDefinition: #ModularMatrixBenchmark category: #MathematicsTests!
+Benchmark subclass: #ModularMatrixBenchmark
+	instanceVariableNames: 'matrix'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'MathematicsTests'!
+!classDefinition: 'ModularMatrixBenchmark class' category: #MathematicsTests!
+ModularMatrixBenchmark class
+	instanceVariableNames: ''!
+
 !classDefinition: #PolynomialBenchmark category: #MathematicsTests!
 Benchmark subclass: #PolynomialBenchmark
 	instanceVariableNames: ''
@@ -295,7 +305,43 @@ SparsePolynomialMultiplicationBenchmark class
 !GroebnerBasisBenchmark commentStamp: '<historical>' prior: 0!
 GroebnerBasisBenchmark new run
 
+testCyclic3	1,750 per second.
+testCyclic4	368 per second.
+testCyclic5	92.4 per second.
+testCyclic6	11.5 per second.
+testEliminationExample	586 per second.
+testKatsura2	5,400 per second.
+testKatsura3	671 per second.
+testKatsura4	11.6 per second.
+testModularCyclic3	1,640 per second.
+testModularKatsura2	4,900 per second.
+testModularKatsura3	617 per second.
+testModularKatsura4	7.84 per second.
+
+testCyclic3	1,830 per second.
+testCyclic4	380 per second.
+testCyclic5	96 per second.
+testCyclic6	12.5 per second.
+testEliminationExample	603 per second.
+testKatsura2	5,600 per second.
+testKatsura3	706 per second.
+testKatsura4	12 per second.
+testModularCyclic3	1,680 per second.
+testModularKatsura2	201 per second.
+
+testCyclic3	1,780 per second. (spur 32 bits)
+testCyclic4	354 per second.
+testCyclic5	26.8 per second.
+testCyclic6	12.2 per second.
+testEliminationExample	614 per second.
+testKatsura2	5,540 per second.
+testKatsura3	130 per second.
+testKatsura4	10.7 per second.
+testModularCyclic3	177 per second.
+testModularKatsura2	194 per second.
+
 [self new modularCyclic: 7 :: groebnerBasis] bench
+ '3.63 per second.' (spur 32 bits)
  '165 seconds.' 
 
 testCyclic3	1,840 per second.
@@ -395,6 +441,9 @@ testKatsura2	1,260 per second.
 !GroupBenchmark commentStamp: '<historical>' prior: 0!
 GroupBenchmark new run
 
+testJ1Order	3.95 per second. (spur 32 bits)
+testM12Order	86.7 per second.
+
 testJ1Order	2.39 per second.
 testM12Order	57.4 per second.
 
@@ -405,11 +454,40 @@ testM12Order	56.9 per second.
 !IntegersBenchmark commentStamp: '<historical>' prior: 0!
 IntegersBenchmark new run
 
+test1000Factorial	5,620 per second. (spur 32 bits)
+
 test1000Factorial	1,250 per second.
 !
 
+!ModularMatrixBenchmark commentStamp: 'len 11/17/2016 15:36:27' prior: 0!
+ModularMatrixBenchmark new run
+
+ 'testGaussianElimination	1.75 per second.' !
+
 !PolynomialBenchmark commentStamp: '<historical>' prior: 0!
 PolynomialBenchmark new run
+
+testFiniteField	17.5 per second. (spur 32 bits)
+testFiniteFieldPolynomialFactorization	81.3 per second.
+testMultivariatePolynomialAdditionOverZ	86.8 per second.
+testPolynomialAdditionOverZ	31.2 per second.
+testPolynomialAdditionOverZ2	135 per second.
+testPolynomialDivisionOverQ	2.57 per second.
+testPolynomialDivisionOverZ	2.64 per second.
+testPolynomialGCDOverQ	2.44 per second.
+testPolynomialGCDOverZ	3.51 per second.
+testPolynomialGCDOverZ2	9.86 per second.
+testPolynomialMultiplication2OverZ	105 per second.
+testPolynomialMultiplication2OverZ2	627 per second.
+testPolynomialMultiplicationOverZ	2.72 per second.
+testPolynomialMultiplicationOverZ2	3,400 per second.
+testPolynomialPseudoDivision	3,660 per second.
+testPolynomialPseudoRemainder	3,640 per second.
+testPolynomialRealRoots	38.7 per second.
+testRealAlgebraicNumberAddition	5.27 seconds.
+testRealAlgebraicNumberDivision	148 per second.
+testRealAlgebraicNumberProduct	170 per second.
+testRealAlgebraicNumberSquare	3,970 per second.
 
 testFiniteField	14.6 per second.
 testFiniteFieldPolynomialFactorization	58.4 per second.
@@ -502,6 +580,15 @@ testRealAlgebraicNumberSquare	1,820 per second!
 This benchmark tests some basic operations on 64x64 matrices.
 
 SmallMatrixBenchmark new run
+
+testAdditionZ	7,840 per second. (spur 32 bits)
+testAdditionZ2	86,600 per second.
+testCopyZ	144,000 per second.
+testCopyZ2	471,000 per second.
+testMultiplicationZ	171 per second.
+testMultiplicationZ2	159 per second.
+testTranspositionZ	4,390 per second.
+testTranspositionZ2	1,010 per second.
 
 testAdditionZ	5,220 per second.
 testAdditionZ2	42,600 per second.
@@ -886,15 +973,15 @@ testReduced
 	self assert: X isReduced not.
 	self assert: X reduced = (A subscheme: {x*y. x*z})! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/31/2016 13:14'!
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 11/18/2016 20:51:53'!
 testSingularCubics
 	| R x y C |
 	R _ QQ polynomialsIn: #(x y z).
 	x _ R x.
 	y _ R y.
 	C _ R / (x**3 - (y**2) homogenizedIn: 3) :: proj.
-	self assert: (C isSmoothAt: (1,1,1) asHomogeneousTuple).
-	self assert: (C isSmoothAt: (0,0,1) asHomogeneousTuple) not.
+	self assert: (C isSmoothAt: (1,1,1)).
+	self assert: (C isSmoothAt: (0,0,1)) not.
 	self assert: C isSingular.
 	C _ R / (x**3 + (x**2) - (y**2) homogenizedIn: 3) :: proj.
 	self assert: C isSingular! !
@@ -4923,6 +5010,10 @@ setUp
 tearDown
 	^ self! !
 
+!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 11/17/2016 16:44:50'!
+binaryCyclic: n
+	^ self cyclic: n over: (PrimeField new: 2)! !
+
 !GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 7/15/2016 18:31'!
 cyclic: n
 	^ self cyclic: n over: QQ! !
@@ -4940,27 +5031,39 @@ cyclic: n over: scalars
 	generators add: singles product - 1.
 	^ P * generators! !
 
-!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:43'!
+!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 11/18/2016 09:37:11'!
 katsura2
+	^ self katsura2Over: QQ! !
+
+!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 11/18/2016 09:35:30'!
+katsura2Over: aField
 	| P x y |
-	P _ QQ polynomialsIn: #(x y).
+	P _ aField polynomialsIn: #(x y).
 	x _ P x.
 	y _ P y.
 	^ P * {x + (y*2) - 1. x**2 + (y**2 * 2) - x}! !
 
-!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:44'!
+!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 11/18/2016 09:37:02'!
 katsura3
+	^ self katsura3Over: QQ! !
+
+!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 11/18/2016 09:35:43'!
+katsura3Over: aField
 	| P x y z |
-	P _ QQ polynomialsIn: #(x y z).
+	P _ aField polynomialsIn: #(x y z).
 	x _ P x: #x.
 	y _ P x: #y.
 	z _ P x: #z.
 	^ P * {x + (y*2) + (z*2) - 1. x**2 + (y**2 * 2) + (z**2 * 2) - x. x*y*2 + (y*z*2) - y}! !
 
-!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:44'!
+!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 11/18/2016 09:36:51'!
 katsura4
+	^ self katsura4Over: QQ! !
+
+!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 11/18/2016 09:35:54'!
+katsura4Over: aField
 	| P x y z t |
-	P _ QQ polynomialsIn: #(x y z t).
+	P _ aField polynomialsIn: #(x y z t).
 	x _ P x: #x.
 	y _ P x: #y.
 	z _ P x: #z.
@@ -4970,10 +5073,14 @@ katsura4
 		x*y*2 + (y*z*2) + (z*t*2) - y.
 		y**2 + (x*z*2) + (y*t*2) - z}! !
 
-!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:44'!
+!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 11/18/2016 09:36:41'!
 katsura5
+	^ self katsura5Over: QQ! !
+
+!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 11/18/2016 09:36:02'!
+katsura5Over: aField
 	| P x y z t u |
-	P _ QQ polynomialsIn: #(x y z t u).
+	P _ aField polynomialsIn: #(x y z t u).
 	x _ P x: #x.
 	y _ P x: #y.
 	z _ P x: #z.
@@ -4985,17 +5092,21 @@ katsura5
 		y**2 + (x*z*2) + (y*t*2) + (z*u*2) - z.
 		y*z*2 + (x*t*2) + (y*u*2) - t}! !
 
-!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 10/18/2016 20:56'!
+!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 11/17/2016 15:14:12'!
 modularCyclic: n
-	^ self cyclic: n over: (Ring GF: 32003)! !
+	^ self cyclic: n over: (PrimeField new: 32003)! !
 
-!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 10/18/2016 20:56'!
+!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 11/18/2016 09:36:24'!
 modularKatsura2
-	| P x y |
-	P _ (Ring GF: 32003) polynomialsIn: #(x y).
-	x _ P x.
-	y _ P y.
-	^ P * {x + (y*2) - 1. x**2 + (y**2 * 2) - x}! !
+	^ self katsura2Over: (PrimeField new: 32003)! !
+
+!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 11/18/2016 09:37:26'!
+modularKatsura3
+	^ self katsura3Over: (PrimeField new: 32003)! !
+
+!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 11/18/2016 09:37:29'!
+modularKatsura4
+	^ self katsura4Over: (PrimeField new: 32003)! !
 
 !GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 7/4/2016 06:32'!
 testCyclic3
@@ -5041,6 +5152,14 @@ testModularCyclic3
 testModularKatsura2
 	self modularKatsura2 :: groebnerBasis! !
 
+!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 11/18/2016 09:37:58'!
+testModularKatsura3
+	self modularKatsura3 :: groebnerBasis! !
+
+!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 11/18/2016 09:38:01'!
+testModularKatsura4
+	self modularKatsura4 :: groebnerBasis! !
+
 !GroupBenchmark methodsFor: 'as yet unclassified' stamp: 'len 11/15/2016 06:42'!
 testJ1Order
 	PermutationGroup J1 size! !
@@ -5052,6 +5171,17 @@ testM12Order
 !IntegersBenchmark methodsFor: 'as yet unclassified' stamp: 'len 7/3/2016 04:28'!
 test1000Factorial
 	1000 factorial! !
+
+!ModularMatrixBenchmark methodsFor: 'as yet unclassified' stamp: 'len 11/17/2016 15:36:13'!
+setUp
+	| random F |
+	random _ Random seed: 1234.
+	F _ ZZ/32003.
+	matrix _ F matrix: 300@300 evaluating: [:i :j| F atRandom: random]! !
+
+!ModularMatrixBenchmark methodsFor: 'as yet unclassified' stamp: 'len 11/17/2016 15:35:23'!
+testGaussianElimination
+	matrix reducer reduced! !
 
 !PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 10/18/2016 21:00'!
 testFiniteField
