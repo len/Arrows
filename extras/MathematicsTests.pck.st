@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 18 November 2016 at 8:59:17 pm'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 19 November 2016 at 6:42:34 pm'!
 'Description Please enter a description for this package'!
-!provides: 'MathematicsTests' 1 44!
+!provides: 'MathematicsTests' 1 45!
 !classDefinition: #AbelianGroupTest category: #MathematicsTests!
 TestCase subclass: #AbelianGroupTest
 	instanceVariableNames: ''
@@ -301,9 +301,45 @@ Benchmark subclass: #SparsePolynomialMultiplicationBenchmark
 SparsePolynomialMultiplicationBenchmark class
 	instanceVariableNames: ''!
 
+!classDefinition: #CASBenchmark category: #MathematicsTests!
+Object subclass: #CASBenchmark
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'MathematicsTests'!
+!classDefinition: 'CASBenchmark class' category: #MathematicsTests!
+CASBenchmark class
+	instanceVariableNames: ''!
+
 
 !GroebnerBasisBenchmark commentStamp: '<historical>' prior: 0!
 GroebnerBasisBenchmark new run
+
+testCyclic3	1,940 per second.
+testCyclic4	551 per second.
+testCyclic5	85.5 per second.
+testCyclic6	20.7 per second.
+testEliminationExample	682 per second.
+testKatsura2	5,610 per second.
+testKatsura3	703 per second.
+testKatsura4	6.55 per second.
+testModularCyclic3	1,830 per second.
+testModularKatsura2	5,540 per second.
+testModularKatsura3	678 per second.
+testModularKatsura4	9.87 per second.
+
+testCyclic3	1,760 per second.
+testCyclic4	490 per second.
+testCyclic5	69.5 per second.
+testCyclic6	19.3 per second.
+testEliminationExample	685 per second.
+testKatsura2	5,500 per second.
+testKatsura3	655 per second.
+testKatsura4	5.85 per second.
+testModularCyclic3	1,710 per second.
+testModularKatsura2	5,360 per second.
+testModularKatsura3	637 per second.
+testModularKatsura4	8.02 per second.
 
 testCyclic3	1,750 per second.
 testCyclic4	368 per second.
@@ -613,6 +649,39 @@ testTranspositionZ2	565 per second.
 Timings giving in [1] on computers with 0.8ghz - 1ghz intel cpus: general purpose system 20s-100s, tuned systems 2.3s-10s. For bigger coefficients: singular 28s, pari 77s.
 
 [1] R.J. Fateman, Comparing the speed of sparse polynomial multiplication.!
+
+!CASBenchmark commentStamp: '<historical>' prior: 0!
+These benchmarks show some of the fundamental bottlenecks for a computational algebra system in pure Smalltalk. Many important algorithms end up doing these operations.
+
+To run the benchmarks, just doIt:
+self new run
+
+Cuis 4.5 with Cog 4.5 #9 (r3370, 2015-06-04), 32 bits, Intel i5-3210M @ 2.5Ghz, cache 3072 KB, 4990 bobomips, running inside virtualbox
+testEqualsBytes	40,600 per second.
+testEqualsWords	36,100 per second.
+testHashBytes	245,000 per second.
+testHashWords	23,500 per second.
+testModularConvolutionBytes	20.6 per second.
+testModularConvolutionWords	16.9 per second.
+testModularDotProductBytes	36,900 per second.
+testModularDotProductWords	30,400 per second.
+testModularSumBytes	26,200 per second.
+testModularSumWords	21,600 per second.
+testPermutationCompositionWords	31,400 per second.
+
+Cuis 5.0 with Cog 5.0-201611161032, 32 bits, Intel i5-3210M @ 2.5Ghz, cache 3072 KB, 4990 bobomips, running inside virtualbox
+testEqualsBytes	59,900 per second.
+testEqualsWords	49,600 per second.
+testHashBytes	249,000 per second.
+testHashWords	23,000 per second.
+testModularConvolutionBytes	27.2 per second.
+testModularConvolutionWords	23.9 per second.
+testModularDotProductBytes	41,000 per second.
+testModularDotProductWords	37,000 per second.
+testModularSumBytes	37,900 per second.
+testModularSumWords	34,100 per second.
+testPermutationCompositionWords	51,900 per second.
+!
 
 !AbelianGroupTest methodsFor: 'as yet unclassified' stamp: 'len 10/10/2016 09:23'!
 testAbelianGroup: G
@@ -1297,11 +1366,11 @@ testGroebnerCyclic3
 	G _ I groebnerBasis.
 	self testGroebnerBasis: G ideal: I! !
 
-!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 7/8/2016 20:09'!
+!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 11/19/2016 10:00:07'!
 testGroebnerCyclic3Lexicographic
 	| I G |
-	I _ PolynomialIdeal cyclic: 3.
-	G _ GroebnerBasis from: I generators ordering: (MonomialOrdering lex: 3).
+	I _ (PolynomialIdeal cyclic: 3) orderedBy: #lex.
+	G _ GroebnerBasis from: I generators.
 	self testGroebnerBasis: G ideal: I! !
 
 !CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 10/18/2016 20:57'!
@@ -1311,18 +1380,18 @@ testGroebnerCyclic3OverZ2
 	G _ I groebnerBasis.
 	self testGroebnerBasis: G ideal: I! !
 
-!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 7/8/2016 20:09'!
+!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 11/19/2016 10:00:41'!
 testGroebnerCyclic3TotalLexicographic
 	| I G |
-	I _ PolynomialIdeal cyclic: 3.
-	G _ GroebnerBasis from: I generators ordering: (MonomialOrdering tlex: 3).
+	I _ (PolynomialIdeal cyclic: 3) orderedBy: #tlex.
+	G _ GroebnerBasis from: I generators.
 	self testGroebnerBasis: G ideal: I! !
 
-!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 7/8/2016 20:09'!
+!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 11/19/2016 10:00:58'!
 testGroebnerCyclic3TotalReverseLexicographic
 	| I G |
-	I _ PolynomialIdeal cyclic: 3.
-	G _ GroebnerBasis from: I generators ordering: (MonomialOrdering trevlex: 3).
+	I _ (PolynomialIdeal cyclic: 3) orderedBy: #trevlex.
+	G _ GroebnerBasis from: I generators.
 	self testGroebnerBasis: G ideal: I! !
 
 !CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 7/8/2016 01:48'!
@@ -5407,3 +5476,140 @@ setUp
 !SparsePolynomialMultiplicationBenchmark methodsFor: 'as yet unclassified' stamp: 'len 6/5/2016 08:44'!
 testProduct
 	p * pPlusOne! !
+
+!CASBenchmark methodsFor: 'as yet unclassified' stamp: 'len 11/19/2016 11:05:43'!
+run
+	| output |
+	output _ WriteStream on: (String new: 1000).
+	(self class selectors asArray select: [:each|
+		(each beginsWith: 'test') and: [each numArgs isZero]]) sort
+		do: [:each|
+			output nextPutAll: each; tab.
+			"self setUp."
+			Smalltalk garbageCollect.
+			[output nextPutAll: (self perform: each)] on: Error do: [output nextPutAll: 'FAILED'].
+			"self tearDown"]
+		separatedBy: [output newLine].
+	^ output contents! !
+
+!CASBenchmark methodsFor: 'as yet unclassified' stamp: 'len 11/19/2016 18:35:51'!
+testConvolution: a with: b into: c modulo: m
+	c atAllPut: 0.
+	1 to: a size do: [:i|
+		1 to: b size do: [:j| | index |
+			index _ i+j-1.
+			c at: index put: (a at: i) * (b at: j) + (c at: index) \\ m]].
+	^ c! !
+
+!CASBenchmark methodsFor: 'as yet unclassified' stamp: 'len 11/19/2016 18:02:38'!
+testDotProduct: a with: b modulo: m
+	| answer |
+	answer _ 0.
+	1 to: a size do: [:i| answer _ (a at: i) * (b at: i) + answer \\ m].
+	^ answer! !
+
+!CASBenchmark methodsFor: 'as yet unclassified' stamp: 'len 11/19/2016 17:55:38'!
+testEqualsBytes
+	| random a b |
+	random _ Random seed: 1234.
+	a _ ((1 to: 1000) collect: [:each| (random nextInteger: 256) - 1]) asByteArray.
+	b _ a copy.
+	^ [a = b] bench! !
+
+!CASBenchmark methodsFor: 'as yet unclassified' stamp: 'len 11/19/2016 17:57:31'!
+testEqualsWords
+	| random a b |
+	random _ Random seed: 1234.
+	a _ ((1 to: 1000) collect: [:each| (random nextInteger: 256) - 1]) asWordArray.
+	b _ a copy.
+	^ [a = b] bench! !
+
+!CASBenchmark methodsFor: 'as yet unclassified' stamp: 'len 11/19/2016 17:57:05'!
+testHashBytes
+	| random a |
+	random _ Random seed: 1234.
+	a _ ((1 to: 1000) collect: [:each| (random nextInteger: 256) - 1]) asByteArray.
+	^ [a hash] bench! !
+
+!CASBenchmark methodsFor: 'as yet unclassified' stamp: 'len 11/19/2016 17:57:21'!
+testHashWords
+	| random a |
+	random _ Random seed: 1234.
+	a _ ((1 to: 1000) collect: [:each| (random nextInteger: 256) - 1]) asWordArray.
+	^ [a hash] bench! !
+
+!CASBenchmark methodsFor: 'as yet unclassified' stamp: 'len 11/19/2016 18:01:16'!
+testModularConvolutionBytes
+	| random p a b c |
+	p _ 251.
+	random _ Random seed: 1234.
+	a _ ((1 to: 1000) collect: [:each| (random nextInteger: p) - 1]) asByteArray.
+	b _ ((1 to: 1000) collect: [:each| (random nextInteger: p) - 1]) asByteArray.
+	c _ ByteArray new: 2000.
+	^ [self testConvolution: a with: b into: c modulo: p] bench! !
+
+!CASBenchmark methodsFor: 'as yet unclassified' stamp: 'len 11/19/2016 17:59:23'!
+testModularConvolutionWords
+	| random p a b c |
+	p _ 32003.
+	random _ Random seed: 1234.
+	a _ ((1 to: 1000) collect: [:each| (random nextInteger: p) - 1]) asWordArray.
+	b _ ((1 to: 1000) collect: [:each| (random nextInteger: p) - 1]) asWordArray.
+	c _ WordArray new: 2000.
+	^ [self testConvolution: a with: b into: c modulo: p] bench! !
+
+!CASBenchmark methodsFor: 'as yet unclassified' stamp: 'len 11/19/2016 18:03:18'!
+testModularDotProductBytes
+	| random p a b |
+	p _ 251.
+	random _ Random seed: 1234.
+	a _ ((1 to: 1000) collect: [:each| (random nextInteger: p) - 1]) asByteArray.
+	b _ ((1 to: 1000) collect: [:each| (random nextInteger: p) - 1]) asByteArray.
+	^ [self testDotProduct: a with: b modulo: p] bench! !
+
+!CASBenchmark methodsFor: 'as yet unclassified' stamp: 'len 11/19/2016 18:03:50'!
+testModularDotProductWords
+	| random p a b |
+	p _ 32003.
+	random _ Random seed: 1234.
+	a _ ((1 to: 1000) collect: [:each| (random nextInteger: p) - 1]) asWordArray.
+	b _ ((1 to: 1000) collect: [:each| (random nextInteger: p) - 1]) asWordArray.
+	^ [self testDotProduct: a with: b modulo: p] bench! !
+
+!CASBenchmark methodsFor: 'as yet unclassified' stamp: 'len 11/19/2016 18:01:23'!
+testModularSumBytes
+	| random p a b c |
+	p _ 251.
+	random _ Random seed: 1234.
+	a _ ((1 to: 1000) collect: [:each| (random nextInteger: p) - 1]) asByteArray.
+	b _ ((1 to: 1000) collect: [:each| (random nextInteger: p) - 1]) asByteArray.
+	c _ ByteArray new: 1000.
+	^ [self testSum: a with: b into: c modulo: p] bench! !
+
+!CASBenchmark methodsFor: 'as yet unclassified' stamp: 'len 11/19/2016 17:59:15'!
+testModularSumWords
+	| random p a b c |
+	p _ 32003.
+	random _ Random seed: 1234.
+	a _ ((1 to: 1000) collect: [:each| (random nextInteger: p) - 1]) asWordArray.
+	b _ ((1 to: 1000) collect: [:each| (random nextInteger: p) - 1]) asWordArray.
+	c _ WordArray new: 1000.
+	^ [self testSum: a with: b into: c modulo: p] bench! !
+
+!CASBenchmark methodsFor: 'as yet unclassified' stamp: 'len 11/19/2016 11:11:08'!
+testPermutate: a with: b into: c
+	1 to: a size do: [:i| c at: i put: (a at: (b at: i))]! !
+
+!CASBenchmark methodsFor: 'as yet unclassified' stamp: 'len 11/19/2016 11:11:52'!
+testPermutationCompositionWords
+	| n a b c |
+	n _ 1000.
+	a _ (1 to: n) shuffled asWordArray.
+	b _ (1 to: n) shuffled asWordArray.
+	c _ WordArray new: n.
+	^ [self testPermutate: a with: b into: c] bench! !
+
+!CASBenchmark methodsFor: 'as yet unclassified' stamp: 'len 11/19/2016 10:57:34'!
+testSum: a with: b into: c modulo: m
+	1 to: a size do: [:i| c at: i put: (a at: i) + (b at: i) \\ m].
+	^ c! !

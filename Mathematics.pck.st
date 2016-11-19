@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 18 November 2016 at 8:59:14 pm'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 19 November 2016 at 6:42:11 pm'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 285!
+!provides: 'Mathematics' 1 286!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
 	instanceVariableNames: 'numerator shift'
@@ -2613,7 +2613,7 @@ SimpleTensor class
 
 !classDefinition: #Monomial category: #'Mathematics-Monomials'!
 Object subclass: #Monomial
-	instanceVariableNames: 'exponents'
+	instanceVariableNames: 'exponents degree'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Monomials'!
@@ -2693,7 +2693,7 @@ Polynomial class
 
 !classDefinition: #MultivariatePolynomial category: #'Mathematics-Polynomials'!
 Polynomial subclass: #MultivariatePolynomial
-	instanceVariableNames: 'coefficients'
+	instanceVariableNames: 'coefficients head'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Polynomials'!
@@ -6828,18 +6828,18 @@ isTrivial
 	^ polynomials size = 1 and: [polynomials first isConstant and: [polynomials first isMonic]]
 "	^ polynomials anySatisfy: [:f| f isConstant]"! !
 
-!GroebnerBasis methodsFor: 'operations' stamp: 'len 11/18/2016 08:16:30'!
+!GroebnerBasis methodsFor: 'operations' stamp: 'len 11/18/2016 21:14:06'!
 minimal
 	"Answer the minimal Groebner basis of the receiver."
 	| heads goods answer |
 	isMinimal == true ifTrue: [^ self].
-	heads _ polynomials collect: [:each| ordering leadingMonomialOf: each].
+	heads _ polynomials collect: [:each| each leadingMonomial].
 	goods _ (1 to: heads size) asSet.
 	heads withIndexDo: [:head :i|
 		(goods anySatisfy: [:one| i ~= one and: [(heads at: one) | head]])
 			ifTrue: [goods remove: i]].
 	answer _ self class new ordering: ordering.
-	goods do: [:i| | f | answer add: (f _ polynomials at: i) / (ordering leadingCoefficientOf: f)].
+	goods do: [:i| | f | answer add: (f _ polynomials at: i) / f leadingCoefficient].
 	answer isMinimal: true.
 	^ answer! !
 
@@ -7034,7 +7034,7 @@ from: aCollection
 	aCollection isEmpty ifTrue: [^ self new].
 	^ self from: aCollection ordering: aCollection anyOne species ordering! !
 
-!GroebnerBasis class methodsFor: 'instance creation' stamp: 'len 11/18/2016 08:50:45'!
+!GroebnerBasis class methodsFor: 'instance creation' stamp: 'len 11/18/2016 21:15:02'!
 from: aCollection ordering: aMonomialOrdering 
 	"Buchberger algorithm.
 	Answer a Groebner basis obtainded from the given polynomials and ordering."
@@ -7047,11 +7047,11 @@ from: aCollection ordering: aMonomialOrdering
 	S _ Set2 new.
 	1 to: G size do: [:i| | fi hi ci |
 		fi _ G at: i.
-		hi _ i = (heads size + 1) ifTrue: [heads add: (aMonomialOrdering leadingMonomialOf: fi)] ifFalse: [heads at: i].
+		hi _ i = (heads size + 1) ifTrue: [heads add: fi leadingMonomial] ifFalse: [heads at: i].
 		ci _ fi coefficientAt: hi.
 		i+1 to: G size do: [:k| | fk hk ck lcm r |
 			fk _ G at: k.
-			hk _ k = (heads size + 1) ifTrue: [heads add: (aMonomialOrdering leadingMonomialOf: fk)] ifFalse: [heads at: k].
+			hk _ k = (heads size + 1) ifTrue: [heads add: fk leadingMonomial] ifFalse: [heads at: k].
 			lcm _ hi lcm: hk.
 			"Buchberger criterium 1 and 2:"
 			(lcm ~= (hi * hk) and: [((1 to: i-1) noneSatisfy: [:j| (heads at: j) | lcm])])
@@ -15928,14 +15928,15 @@ output: univariate eliminant g(xi) or there's no eliminant
 where n is minimal, then output eliminant g(xi) = sum akxi^k
 "! !
 
-!PolynomialIdeal methodsFor: 'operations' stamp: 'len 10/31/2016 03:28'!
+!PolynomialIdeal methodsFor: 'operations' stamp: 'len 11/19/2016 10:08:55'!
 eliminateAll: aCollection
 	"Answer the elimination ideal for the indeterminates in aCollection = {xi}, i.e. the subideal of polynomials without indeterminates {xi}."
-	| indeterminates ordering G |
+	| indeterminates ordering G newGenerators |
 	indeterminates _ aCollection asArray , (self ring ordering indeterminates reject: [:each| aCollection includes: each]).
 	ordering _ MonomialOrdering lex: indeterminates.
-	G _ GroebnerBasis from: self generators ordering: ordering.
-	^ self ring * (G minimal asArray select: [:each| (aCollection noneSatisfy: [:none| each has: none])])! !
+	G _ (self groebnerBasisWithOrdering: ordering) minimal.
+	newGenerators _ G asArray select: [:each| (aCollection noneSatisfy: [:none| each has: none])].
+	^ self ring * (newGenerators collect: [:each| each as: self ring])! !
 
 !PolynomialIdeal methodsFor: 'accessing-private' stamp: 'len 7/4/2016 06:33'!
 generators: aCollection
@@ -15947,6 +15948,10 @@ generators: aCollection
 groebnerBasis
 	"Answer a Groebner basis of the receiver."
 	^ properties at: #groebnerBasis ifAbsentPut: [GroebnerBasis from: self generators]! !
+
+!PolynomialIdeal methodsFor: 'accessing' stamp: 'len 11/19/2016 10:12:43'!
+groebnerBasisWithOrdering: aMonomialOrdering
+	^ (self orderedBy: aMonomialOrdering) groebnerBasis! !
 
 !PolynomialIdeal methodsFor: 'accessing' stamp: 'len 10/23/2016 11:59'!
 height
@@ -15963,7 +15968,7 @@ hilbertSeriesAt: t
 	self isHomogeneous ifFalse: [^ self notYetImplemented].
 	^ self initial hilbertSeriesAt: t! !
 
-!PolynomialIdeal methodsFor: 'operations' stamp: 'len 10/23/2016 18:03'!
+!PolynomialIdeal methodsFor: 'operations' stamp: 'len 11/19/2016 10:07:54'!
 homogenized
 	"Answer the homogenization of the receiver introducing a new indeterminate."
 	| R R` G ordering |
@@ -15971,7 +15976,7 @@ homogenized
 	R` _ R scalars polynomialsIn: R rank + 1.
 	"Must use a graded monomial ordering such as tlex or trevlex:"
 	ordering _ MonomialOrdering trevlex: R rank.
-	G _ GroebnerBasis from: self generators ordering: ordering.
+	G _ self groebnerBasisWithOrdering: ordering.
 	^ R` * (G collect: [:each| (each as: R`) homogenizedIn: R` rank])! !
 
 !PolynomialIdeal methodsFor: 'testing' stamp: 'len 7/9/2016 08:19'!
@@ -16017,6 +16022,10 @@ isTrivial
 !PolynomialIdeal methodsFor: 'testing' stamp: 'len 9/26/2016 16:59'!
 isUnivariate
 	^ self ring isUnivariate! !
+
+!PolynomialIdeal methodsFor: 'converting' stamp: 'len 11/19/2016 09:59:35'!
+orderedBy: aMonomialOrdering
+	^ self as: (self ring orderedBy: aMonomialOrdering)! !
 
 !PolynomialIdeal methodsFor: 'operations' stamp: 'len 10/20/2016 10:43'!
 quotient
@@ -17688,7 +17697,7 @@ sqrt: anInteger
 characteristic
 	^ self base characteristic! !
 
-!PolynomialQuotientRing methodsFor: 'accessing' stamp: 'len 10/27/2016 08:51'!
+!PolynomialQuotientRing methodsFor: 'accessing' stamp: 'len 11/19/2016 10:10:37'!
 dimension
 	"Answer the Krull dimension of the receiver."
 	"Derksen, Kemper, 'Computational Invariant Theory', 2002, Algorithm 1.2.4 (Dimension of an ideal)."
@@ -17696,7 +17705,7 @@ dimension
 	self ideal isZero ifTrue: [^ self base dimension].
 	G _ self ideal ring ordering isGraded
 		ifTrue: [self ideal groebnerBasis]
-		ifFalse: [GroebnerBasis from: self ideal generators ordering: (MonomialOrdering trevlex: self base rank)].
+		ifFalse: [self ideal groebnerBasisWithOrdering: #trevlex].
 	G _ G minimal. "is this necesary?"
 	(G anySatisfy: [:any| any isConstant and: [any isZero not]])
 		ifTrue: [^ -1]. "or should it define it as -infinity ?"
@@ -21510,9 +21519,9 @@ iminus
 	^ self polynomial: ((QQ polynomialsIn: #(x y)) evaluating: [:x :y| x**3 + (y**3) - x - (2*y) - 1])
 ! !
 
-!AffinePlaneCurve class methodsFor: 'instance creation' stamp: 'len 10/24/2016 20:12'!
+!AffinePlaneCurve class methodsFor: 'instance creation' stamp: 'len 11/18/2016 21:03:15'!
 polynomial: aPolynomial
-	^ self coordinateRing: aPolynomial parent / aPolynomial! !
+	^ self coordinateRing: aPolynomial species / aPolynomial! !
 
 !AffineSpace methodsFor: 'accessing' stamp: 'len 8/27/2016 19:03'!
 ambient
@@ -31030,11 +31039,10 @@ copyWithout: anIndeterminate
 
 	^ self copy at: anIndeterminate put: 0; yourself! !
 
-!Monomial methodsFor: 'operations' stamp: 'len 6/6/2016 04:25'!
+!Monomial methodsFor: 'operations' stamp: 'len 11/19/2016 10:20:23'!
 degree
 	"Answer the total degree of the receiver."
-	exponents isEmpty ifTrue: [^ 0].
-	^ exponents sum! !
+	^ degree ifNil: [degree _ exponents isEmpty ifTrue: [0] ifFalse: [exponents sum]]! !
 
 !Monomial methodsFor: 'operations' stamp: 'len 3/17/2016 00:25'!
 degreeIn: anIndeterminate
@@ -32197,10 +32205,6 @@ monic
 monomials
 	^ Iterator on: self performing: #monomialsDo:! !
 
-!Polynomial methodsFor: 'accessing monomials' stamp: 'len 3/1/2016 19:48'!
-monomialsSorted
-	^ self monomials asSortedCollection: self species ordering comparisonBlock! !
-
 !Polynomial methodsFor: 'roots' stamp: 'len 11/24/2015 06:15'!
 multiplicityAt: anObject
 	"Answer the multiplicity of anObject as zero of the receiver."
@@ -32321,12 +32325,12 @@ printCoefficient: coefficient on: aStream
 		ifTrue: [aStream print: c]
 		ifFalse: [aStream nextPut: $(; print: c; nextPut: $)]! !
 
-!Polynomial methodsFor: 'printing' stamp: 'len 6/25/2016 01:46'!
+!Polynomial methodsFor: 'printing' stamp: 'len 11/18/2016 21:02:45'!
 printOn: aStream
 	| monomials leadingMonomial c |
 	self isBroken ifTrue: [aStream nextPutAll: '(broken) '].
 	self isConstant ifTrue: [aStream print: self leadingCoefficient. ^ self].
-	monomials _ self monomialsSorted.
+	monomials _ self monomials asSortedCollection: self species ordering comparisonBlock.
 	c _ self coefficientAt: (leadingMonomial _ monomials first).
 	(c printString first = $- or: [c isNumber and: [c negative]])
 		ifTrue: [c _ c negated. aStream nextPut: $-].
@@ -32751,13 +32755,13 @@ value4: anObject in: anIndeterminate
 		reverseDo: [:each| answer _ anObject * answer + (one * each)].
 	^ answer! !
 
-!Polynomial methodsFor: 'operations' stamp: 'len 10/22/2016 17:01'!
+!Polynomial methodsFor: 'operations' stamp: 'len 11/18/2016 21:04:10'!
 value: anObject
 	"Answer the value of the receiver at the argument. For multivariate polynomials, a Tuple or Array is expected."
 	| coordinates answer |
-	coordinates _ (self parent space ambient includes: anObject)
+	coordinates _ (self species space ambient includes: anObject)
 		ifTrue:
-			[self parent space coordinatesOf: anObject]
+			[self species space coordinatesOf: anObject]
 		ifFalse:
 			[((anObject is: #Tuple) or: [anObject is: #Array])
 				ifFalse: [^ self value: anObject in: self leadingIndeterminate].
@@ -32893,6 +32897,10 @@ homogeneousComponentAt: anInteger
 
 	^ self species coefficients: (coefficients selectByKey: [ :each | each degree = anInteger])! !
 
+!MultivariatePolynomial methodsFor: 'accessing monomials' stamp: 'len 11/19/2016 10:17:24'!
+leadingMonomial
+	^ head ifNil: [head _ super leadingMonomial]! !
+
 !MultivariatePolynomial methodsFor: 'iterating' stamp: 'len 3/23/2016 05:08'!
 monomialsAndCoefficientsDo: aBlock
 	coefficients keysAndValuesDo: aBlock! !
@@ -32921,6 +32929,10 @@ oddIn: anIndeterminate
 				monomial at: anIndeterminate put: d // 2.
 				answer coefficientAt: monomial add: value]].
 	^ answer! !
+
+!MultivariatePolynomial methodsFor: 'copying' stamp: 'len 11/19/2016 10:15:58'!
+postCopy
+	head _ nil! !
 
 !MultivariatePolynomial methodsFor: 'operations' stamp: 'len 3/22/2016 23:39'!
 shift: anInteger in: anIndeterminate
@@ -33445,7 +33457,7 @@ squareFreeFactorization
 					q _ q // gcd - p derivative]].
 	^ answer add: p withOccurrences: count; yourself! !
 
-!MultiPolynomialDivision methodsFor: 'private' stamp: 'len 10/29/2016 16:37'!
+!MultiPolynomialDivision methodsFor: 'private' stamp: 'len 11/18/2016 21:16:11'!
 divide
 	"Perform the division algorithm computing quotients and remainder."
 	| p s zero fi q headp headfi t heads i |
@@ -33457,10 +33469,10 @@ divide
 	p _ dividend.
 	heads _ Array new: divisors size.
 	[p isZero] whileFalse:
-		[headp _ self ordering leadingMonomialOf: p.
+		[headp _ p leadingMonomial.
 		t _ p termAt: headp.
 		i _ 1.
-		[headfi _ (heads at: i) ifNil: [heads at: i put: (self ordering leadingMonomialOf: (fi _ divisors at: i))].
+		[headfi _ (heads at: i) ifNil: [heads at: i put: (fi _ divisors at: i) leadingMonomial].
 		(headfi | headp) or: [(i _ i + 1) > s]] whileFalse.
 		i <= s "i.e. found fi such that headfi | headp"
 			ifTrue:
