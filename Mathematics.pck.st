@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 20 November 2016 at 2:43:00 pm'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 20 November 2016 at 3:33:36 pm'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 287!
+!provides: 'Mathematics' 1 288!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
 	instanceVariableNames: 'numerator shift'
@@ -83,7 +83,7 @@ LinearBasis class
 
 !classDefinition: #GroebnerBasis category: #'Mathematics-Polynomials'!
 SequenceableCollection subclass: #GroebnerBasis
-	instanceVariableNames: 'polynomials ordering isMinimal'
+	instanceVariableNames: 'polynomials isMinimal'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Polynomials'!
@@ -2743,7 +2743,7 @@ IntegerPolynomialFactorizer class
 
 !classDefinition: #MultiPolynomialDivision category: #'Mathematics-Polynomials-Algorithms'!
 Object subclass: #MultiPolynomialDivision
-	instanceVariableNames: 'dividend divisors ordering quotients remainder'
+	instanceVariableNames: 'dividend divisors quotients remainder'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Polynomials-Algorithms'!
@@ -6768,25 +6768,22 @@ apply: aMorphism
 at: anInteger
 	^ polynomials at: anInteger! !
 
-!GroebnerBasis methodsFor: 'operations' stamp: 'len 6/22/2016 03:51'!
-coordinatesOf: aPolynomial 
-	^ (MultiPolynomialDivision
-		divide: aPolynomial
-		by: self
-		ordering: self ordering) quotients! !
+!GroebnerBasis methodsFor: 'operations' stamp: 'len 11/20/2016 15:24:03'!
+coordinatesOf: aPolynomial
+	^ (MultiPolynomialDivision divide: aPolynomial by: self) quotients! !
 
-!GroebnerBasis methodsFor: 'copying' stamp: 'len 11/24/2015 00:00'!
+!GroebnerBasis methodsFor: 'copying' stamp: 'len 11/20/2016 15:27:46'!
 copy
 	"Answer a copy of the reciever."
-	^ self class new polynomials: polynomials copy; ordering: ordering; isMinimal: isMinimal! !
+	^ self class new polynomials: polynomials copy; isMinimal: isMinimal! !
 
-!GroebnerBasis methodsFor: 'copying' stamp: 'len 7/8/2016 20:57'!
+!GroebnerBasis methodsFor: 'copying' stamp: 'len 11/20/2016 15:32:11'!
 copyEmpty
-	^ self class new ordering: ordering! !
+	^ self class new! !
 
-!GroebnerBasis methodsFor: 'copying' stamp: 'len 11/23/2015 23:54'!
+!GroebnerBasis methodsFor: 'copying' stamp: 'len 11/20/2016 15:28:43'!
 copyWithout: aPolynomial
-	^ self class new ordering: ordering; polynomials: (polynomials copyWithout: aPolynomial)! !
+	^ self class new polynomials: (polynomials copyWithout: aPolynomial)! !
 
 !GroebnerBasis methodsFor: 'iterating' stamp: 'len 11/20/2015 05:20'!
 do: aBlock
@@ -6796,15 +6793,15 @@ do: aBlock
 first
 	^ self at: 1! !
 
-!GroebnerBasis methodsFor: 'accessing' stamp: 'len 11/21/2015 00:25'!
+!GroebnerBasis methodsFor: 'accessing' stamp: 'len 11/20/2016 15:29:07'!
 indeterminates
-	^ ordering indeterminates! !
+	^ self anyOne species indeterminates! !
 
-!GroebnerBasis methodsFor: 'operations' stamp: 'len 7/7/2016 07:34'!
+!GroebnerBasis methodsFor: 'operations' stamp: 'len 11/20/2016 15:27:35'!
 initial
 	"Answer the Groebner basis made of all leading monomials of polynomials in the receiver."
 	| answer |
-	answer _ self class new ordering: ordering.
+	answer _ self class new.
 	self do: [:each| | lt | lt _ each leadingTerm. (answer reduces: lt) ifFalse: [answer add: lt]].
 	^ answer! !
 
@@ -6852,7 +6849,7 @@ isTrivial
 	^ polynomials size = 1 and: [polynomials first isConstant and: [polynomials first isMonic]]
 "	^ polynomials anySatisfy: [:f| f isConstant]"! !
 
-!GroebnerBasis methodsFor: 'operations' stamp: 'len 11/18/2016 21:14:06'!
+!GroebnerBasis methodsFor: 'operations' stamp: 'len 11/20/2016 15:27:58'!
 minimal
 	"Answer the minimal Groebner basis of the receiver."
 	| heads goods answer |
@@ -6862,20 +6859,15 @@ minimal
 	heads withIndexDo: [:head :i|
 		(goods anySatisfy: [:one| i ~= one and: [(heads at: one) | head]])
 			ifTrue: [goods remove: i]].
-	answer _ self class new ordering: ordering.
+	answer _ self class new.
 	goods do: [:i| | f | answer add: (f _ polynomials at: i) / f leadingCoefficient].
 	answer isMinimal: true.
 	^ answer! !
 
-!GroebnerBasis methodsFor: 'accessing' stamp: 'pdm 3/9/98 16:30'!
+!GroebnerBasis methodsFor: 'accessing' stamp: 'len 11/20/2016 15:31:37'!
 ordering
 	"Answer the monomial ordering of the receiver."
-	^ ordering! !
-
-!GroebnerBasis methodsFor: 'accessing-private' stamp: 'pdm 8/17/1998 20:48'!
-ordering: aMonomialOrdering 
-	"Change the monomial ordering of the receiver."
-	ordering _ aMonomialOrdering! !
+	^ self anyOne species ordering! !
 
 !GroebnerBasis methodsFor: 'operations' stamp: 'len 6/22/2016 03:52'!
 polynomialAt: aTuple
@@ -6891,14 +6883,11 @@ printOn: aStream
 	polynomials do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: '. '].
 	aStream nextPut: $}! !
 
-!GroebnerBasis methodsFor: 'operations' stamp: 'len 10/29/2016 16:37'!
+!GroebnerBasis methodsFor: 'operations' stamp: 'len 11/20/2016 15:23:41'!
 reduce: aPolynomial 
 	"Answer the remainder of the argument when divided by the receiver."
 	| division |
-	division _ MultiPolynomialDivision
-		divide: aPolynomial
-		by: self
-		ordering: self ordering.
+	division _ MultiPolynomialDivision divide: aPolynomial by: self.
 "	division verify ifFalse: [self halt]."
 	^ division remainder! !
 
@@ -6921,17 +6910,17 @@ size
 species
 	^ Array! !
 
-!GroebnerBasis methodsFor: 'private' stamp: 'len 10/27/2016 08:50'!
+!GroebnerBasis methodsFor: 'private' stamp: 'len 11/20/2016 15:28:33'!
 verify
 	1 to: self size do: [:i|
 		| fi hi ci |
 		fi _ self at: i.
-		hi _ ordering leadingMonomialOf: fi.
+		hi _ fi leadingMonomial.
 		ci _ fi coefficientAt: hi.
 		i+1 to: self size do: [:j|
 			| fj hj cj lcm |
 			fj _ self at: j.
-			hj _ ordering leadingMonomialOf: fj.
+			hj _ fj leadingMonomial.
 			cj _ fj coefficientAt: hj.
 			lcm _ hi lcm: hj.
 			(self reduces: fi * (lcm / hi) / ci - (fj * (lcm / hj) / cj))
@@ -7052,19 +7041,14 @@ from5: aCollection ordering: aMonomialOrdering
 "	G verify ifFalse: [self halt]."
 	^ G! !
 
-!GroebnerBasis class methodsFor: 'instance creation' stamp: 'len 10/29/2016 16:31'!
+!GroebnerBasis class methodsFor: 'instance creation' stamp: 'len 11/20/2016 15:30:31'!
 from: aCollection
-	"Answer a new instance of the receiver representing a Groebner basis obtainded from aCollection of generators."
-	aCollection isEmpty ifTrue: [^ self new].
-	^ self from: aCollection ordering: aCollection anyOne species ordering! !
-
-!GroebnerBasis class methodsFor: 'instance creation' stamp: 'len 11/20/2016 11:39:17'!
-from: aCollection ordering: aMonomialOrdering 
 	"Buchberger algorithm.
-	Answer a Groebner basis obtainded from the given polynomials and ordering."
+	Answer a Groebner basis obtainded from the given polynomials with the specified ordering."
 	| G S heads |
+	G _ self new.
+	aCollection isEmpty ifTrue: [^ G].
 	aCollection anyOne scalars isField ifFalse: [^ DomainError signal: 'not over a field'].
-	G _ self new ordering: aMonomialOrdering; yourself.
 	S _ aCollection asSortedCollection: [:a :b| a leadingMonomial degree <= b leadingMonomial degree].
 	heads _ OrderedCollection new.
 	[S do: [:f| (G reduces: f) ifFalse: [G add: f]].
@@ -31846,17 +31830,14 @@ descendentPower: n
 		ifFalse: [(self - (self scalars one * mid) descendentPower: mid + 1) *
 				(self descendentPower: mid)]! !
 
-!Polynomial methodsFor: 'arithmetic' stamp: 'len 7/8/2016 23:53'!
+!Polynomial methodsFor: 'arithmetic' stamp: 'len 11/20/2016 15:24:53'!
 divideBy: aPolynomial
 	"Answer a division algorithm to divide the receiver by aPolynomial."
+	aPolynomial isCollection ifTrue: [^ MultiPolynomialDivision divide: self by: aPolynomial].
 	self scalars isField ifFalse: [^ self pseudoDivideBy: aPolynomial].
 	^ (self isUnivariate and: [aPolynomial isUnivariate])
 		ifTrue: [PolynomialDivision divide: self by: aPolynomial]
 		ifFalse: [MultiPolynomialDivision divide: self by: {aPolynomial}]! !
-
-!Polynomial methodsFor: 'arithmetic' stamp: 'len 3/15/2016 21:28'!
-divideBy: anArray ordering: aMonomialOrdering
-	^ MultiPolynomialDivision divide: self by: anArray ordering: aMonomialOrdering! !
 
 !Polynomial methodsFor: 'remainder sequences' stamp: 'len 3/9/2016 00:07'!
 eprs: aPolynomial
@@ -33554,18 +33535,6 @@ dividend
 divisors
 	^ divisors! !
 
-!MultiPolynomialDivision methodsFor: 'accessing' stamp: 'len 2/5/98 01:06'!
-ordering
-	"Answer the monomial ordering used by the receiver."
-
-	^ ordering! !
-
-!MultiPolynomialDivision methodsFor: 'accessing' stamp: 'len 2/5/98 01:06'!
-ordering: aMonomialOrdering
-	"Change the monomial ordering used by the receiver."
-
-	ordering _ aMonomialOrdering! !
-
 !MultiPolynomialDivision methodsFor: 'printing' stamp: 'len 1/24/98 12:49'!
 printOn: aStream
 	"Print a representation of the receiver on the stream aStream."
@@ -33593,7 +33562,7 @@ remainder
 	remainder isNil ifTrue: [self divide].
 	^ remainder! !
 
-!MultiPolynomialDivision methodsFor: 'private' stamp: 'len 10/27/2016 08:51'!
+!MultiPolynomialDivision methodsFor: 'private' stamp: 'len 11/20/2016 15:18:59'!
 verify
 	| total |
 	total _ self remainder.
@@ -33601,21 +33570,15 @@ verify
 	total = self dividend ifFalse: [^ false halt].
 
 	self divisors with: self quotients do: [:f :q|
-		(q isZero not and: [ordering is: (ordering leadingMonomialOf: f*q) gneq: (ordering leadingMonomialOf: self dividend)])
+		(q isZero not and: [(f*q) leadingMonomial > self dividend leadingMonomial])
 			ifTrue: [^ false halt]].
-	
-	self remainder monomials do: [:each| (divisors noneSatisfy: [:f| (ordering leadingMonomialOf: f) | each]) ifFalse: [^ false halt]].
-	^ true ! !
 
-!MultiPolynomialDivision class methodsFor: 'instance creation' stamp: 'len 3/9/2016 21:46'!
+	self remainder monomials do: [:each| (divisors noneSatisfy: [:f| f leadingMonomial | each]) ifFalse: [^ false halt]].
+	^ true! !
+
+!MultiPolynomialDivision class methodsFor: 'instance creation' stamp: 'len 11/20/2016 15:19:29'!
 divide: aPolynomial by: anArrayOfPolynomials
-	^ self divide: aPolynomial by: anArrayOfPolynomials ordering: aPolynomial species ordering "default ordering"! !
-
-!MultiPolynomialDivision class methodsFor: 'instance creation' stamp: 'len 3/9/2016 07:49'!
-divide: aPolynomial by: anArrayOfPolynomials ordering: aMonomialOrdering
-	^ self new
-		ordering: aMonomialOrdering;
-		divide: aPolynomial by: anArrayOfPolynomials! !
+	^ self new divide: aPolynomial by: anArrayOfPolynomials! !
 
 !PolynomialDivision methodsFor: 'private' stamp: 'len 6/30/2016 07:25'!
 divide

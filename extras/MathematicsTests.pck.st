@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 20 November 2016 at 2:44:11 pm'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 20 November 2016 at 3:33:39 pm'!
 'Description Please enter a description for this package'!
-!provides: 'MathematicsTests' 1 46!
+!provides: 'MathematicsTests' 1 47!
 !classDefinition: #AbelianGroupTest category: #MathematicsTests!
 TestCase subclass: #AbelianGroupTest
 	instanceVariableNames: ''
@@ -1731,16 +1731,16 @@ testKrullDimensionOverZZ
 	Q _ R / I.
 	self assert: Q dimension = 3! !
 
-!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:57'!
+!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 11/20/2016 15:20:32'!
 testMultivariateDivisionExample
 	| P x y z F f |
-	P _ QQ polynomialsIn: #(x y z) ordering: #lex.
+	P _ QQ polynomialsIn: #(x y z) ordering: #tlex.
 	x _ P x.
 	y _ P y.
 	z _ P z.
 	F _ {x**2 - (y*z). y**2 - (z*x). z**2 - (x*y)}.
 	f _ x**3 + (y**3 * 3).
-	self assert: (f divideBy: F ordering: (MonomialOrdering tlex: #(1 2 3))) remainder = (y**3 * 4)! !
+	self assert: (f divideBy: F) remainder = (y**3 * 4)! !
 
 !CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 10/23/2016 16:37'!
 testPolynomialRingHomomorphismKernel
@@ -4228,47 +4228,47 @@ testInterpolation2
 	self assert: (f value: 2) = 4.
 	self assert: (f value: 3) = 9! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:52'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 11/20/2016 15:21:25'!
 testMultivariateDivision
 	"Example from Cox IVA 62 p."
 	| Zxy x y f f1 f2 division |
-	Zxy _ ZZ polynomialsIn: #(x y).
+	Zxy _ ZZ polynomialsIn: #(x y) ordering: (MonomialOrdering lex: #(2 1)).
 	x _ Zxy x.
 	y _ Zxy y.
 	f _ x*(y**2)+1.
 	f1 _ x*y+1.
 	f2 _ y+1.
-	division _ f divideBy: {f1. f2} ordering: (MonomialOrdering lex: #(2 1)).
+	division _ f divideBy: {f1. f2}.
 	self assert: division quotients = {y. y one negated}.
 	self assert: division remainder = (y one * 2).
 	self assert: division verify! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:52'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 11/20/2016 15:21:46'!
 testMultivariateDivision2
 	"Example from Cox IVA 63 p."
 	| Zxy x y f f1 f2 division |
-	Zxy _ ZZ polynomialsIn: #(x y).
+	Zxy _ ZZ polynomialsIn: #(x y) ordering: (MonomialOrdering lex: #(2 1)).
 	x _ Zxy x.
 	y _ Zxy y.
 	f _ x**2*y + (x*(y**2)) + (y**2).
 	f1 _ x*y-1.
 	f2 _ y**2-1.
-	division _ f divideBy: {f1. f2} ordering: (MonomialOrdering lex: #(2 1)).
+	division _ f divideBy: {f1. f2}.
 	self assert: division quotients = {x+y. y one}.
 	self assert: division remainder = (x+y+1).
 	self assert: division verify! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:52'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 11/20/2016 15:22:04'!
 testMultivariateDivision3
 	"Example from Cox IVA 67 p."
 	| Zxy x y f f1 f2 division |
-	Zxy _ ZZ polynomialsIn: #(x y).
+	Zxy _ ZZ polynomialsIn: #(x y) ordering: (MonomialOrdering lex: #(2 1)).
 	x _ Zxy x.
 	y _ Zxy y.
 	f _ x**2*y + (x*(y**2)) + (y**2).
 	f1 _ x*y-1.
 	f2 _ y**2-1.
-	division _ f divideBy: {f2. f1} ordering: (MonomialOrdering lex: #(2 1)).
+	division _ f divideBy: {f2. f1}.
 	self assert: division quotients = {x+1. x}.
 	self assert: division remainder = (x*2+1).
 	self assert: division verify! !
