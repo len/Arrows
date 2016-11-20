@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 19 November 2016 at 6:42:11 pm'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 20 November 2016 at 2:43:00 pm'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 286!
+!provides: 'Mathematics' 1 287!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
 	instanceVariableNames: 'numerator shift'
@@ -139,6 +139,16 @@ Collection subclass: #Iterator
 	category: 'Mathematics-Kernel-Support'!
 !classDefinition: 'Iterator class' category: #'Mathematics-Kernel-Support'!
 Iterator class
+	instanceVariableNames: ''!
+
+!classDefinition: #MonomialTuple category: #'Mathematics-Modules-Tuples'!
+Collection subclass: #MonomialTuple
+	instanceVariableNames: 'scalars associations'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Modules-Tuples'!
+!classDefinition: 'MonomialTuple class' category: #'Mathematics-Modules-Tuples'!
+MonomialTuple class
 	instanceVariableNames: ''!
 
 !classDefinition: #SparseTuple category: #'Mathematics-Modules-Tuples'!
@@ -843,7 +853,7 @@ CoxeterGroup class
 
 !classDefinition: #Monomials category: #'Mathematics-Monomials'!
 Monoid subclass: #Monomials
-	instanceVariableNames: 'rank'
+	instanceVariableNames: 'rank ordering'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Monomials'!
@@ -1193,7 +1203,7 @@ Reals class
 
 !classDefinition: #PolynomialRing category: #'Mathematics-Polynomials'!
 Ring subclass: #PolynomialRing
-	instanceVariableNames: 'space'
+	instanceVariableNames: 'space monomials'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Polynomials'!
@@ -2613,7 +2623,7 @@ SimpleTensor class
 
 !classDefinition: #Monomial category: #'Mathematics-Monomials'!
 Object subclass: #Monomial
-	instanceVariableNames: 'exponents degree'
+	instanceVariableNames: 'exponents parent'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Monomials'!
@@ -3734,7 +3744,12 @@ References:
 	https://en.wikipedia.org/wiki/Unit_(ring_theory)!
 
 !Monomials commentStamp: '<historical>' prior: 0!
-My instances are (commutative) monoids of monomials in n indeterminates.!
+My instances are (commutative) monoids of monomials in n indeterminates. Elements are instances of Monomial.
+
+The number of indeterminates is called the rank. The indeterminates are referred by index (positive integer numbers), and can be given names that are used when printing.
+
+Monomials have an associated monomial ordering. See MonomialOrdering.
+!
 
 !CartesianProduct commentStamp: '<historical>' prior: 0!
 My instances are cartesian products. See Domain>>,.
@@ -4485,7 +4500,7 @@ The algorithm performs O(2n^3/3) field operations for nxn matrices, but due to e
 My instances are QR factorizations of a given real or complex matrix A, such that A = Q*R where Q is unitary (orthogonal) and R is upper triangular. Morover, if A is nonsingular, the diagonal of R may be taken to be positive, in which case the factorization is unique.!
 
 !Monomial commentStamp: '<historical>' prior: 0!
-My instances are (commutative) power products of one or many variables. They form a monoid (see Monomials). Also, their formal linear combinations over a ring are Polynomials.!
+My instances are (commutative) power products of one or many variables. They form a monoid (see Monomials). Their formal linear combinations over a ring are Polynomials (see also PolynomialRing).!
 
 !MonomialOrdering commentStamp: '<historical>' prior: 0!
 My instances are monomial orderings.
@@ -4847,6 +4862,10 @@ adaptToRealAlgebraic: rcvr andSend: selector
 bitSize
 	^ numerator bitSize + denominator bitSize! !
 
+!Fraction methodsFor: '*mathematics' stamp: 'len 11/19/2016 20:51:11'!
+height
+	^ numerator abs max: denominator abs! !
+
 !Fraction methodsFor: '*mathematics' stamp: 'len 11/19/2015 17:20'!
 isRational
 	^ true! !
@@ -5026,6 +5045,11 @@ factors2
 		p _ p + 2].
 	(p = n or: [n = 1]) ifFalse: [answer add: n].
 	^ answer! !
+
+!Integer methodsFor: '*mathematics' stamp: 'len 11/19/2016 21:03:03'!
+height
+	self = 0 ifTrue: [^ 1].
+	^ self abs! !
 
 !Integer methodsFor: '*mathematics' stamp: 'len 11/1/2016 00:56'!
 is: aSymbol
@@ -6790,7 +6814,7 @@ initialize
 	polynomials _ OrderedCollection new.
 	isMinimal _ false! !
 
-!GroebnerBasis methodsFor: 'testing' stamp: 'len 7/7/2016 02:22'!
+!GroebnerBasis methodsFor: 'testing' stamp: 'len 11/20/2016 11:07:31'!
 isMinimal
 	"A Groebner basis G is minimal when for all p in G:
 	1. LC(p) = 1;
@@ -6798,9 +6822,9 @@ isMinimal
 	| one |
 	one _ self first scalars one.
 	"Check all polynomials are monic:"
-	self do: [:each| (ordering leadingCoefficientOf: each) ~= one ifTrue: [^ false]].
+	self do: [:each| each leadingCoefficient ~= one ifTrue: [^ false]].
 	self do: [:each| "Check if the basis without it still generates its leading term:"
-		((self copyWithout: each) reduces: (ordering leadingTermOf: each))
+		((self copyWithout: each) reduces: each leadingTerm)
 				ifTrue: [^ false]].
 	^ true! !
 
@@ -6808,7 +6832,7 @@ isMinimal
 isMinimal: aBoolean
 	isMinimal _ aBoolean! !
 
-!GroebnerBasis methodsFor: 'testing' stamp: 'len 7/7/2016 02:23'!
+!GroebnerBasis methodsFor: 'testing' stamp: 'len 11/20/2016 11:07:52'!
 isReduced
 	"A Groebner basis G is reduced when for all p in G:
 	1. LC(p) = 1;
@@ -6816,7 +6840,7 @@ isReduced
 	| one subBasis |
 	one _ self first scalars one.
 	"Check all polynomials are monic:"
-	self do: [:each| (ordering leadingCoefficientOf: each) ~= one ifTrue: [^ false]].
+	self do: [:each| each leadingCoefficient ~= one ifTrue: [^ false]].
 	self do: [:each| "Check if the basis without it still generates its monomials:"
 		subBasis _ self copyWithout: each.
 		each terms do: [:other| (subBasis reduces: other) ifTrue: [^ false]]].
@@ -7034,14 +7058,14 @@ from: aCollection
 	aCollection isEmpty ifTrue: [^ self new].
 	^ self from: aCollection ordering: aCollection anyOne species ordering! !
 
-!GroebnerBasis class methodsFor: 'instance creation' stamp: 'len 11/18/2016 21:15:02'!
+!GroebnerBasis class methodsFor: 'instance creation' stamp: 'len 11/20/2016 11:39:17'!
 from: aCollection ordering: aMonomialOrdering 
 	"Buchberger algorithm.
 	Answer a Groebner basis obtainded from the given polynomials and ordering."
 	| G S heads |
 	aCollection anyOne scalars isField ifFalse: [^ DomainError signal: 'not over a field'].
 	G _ self new ordering: aMonomialOrdering; yourself.
-	S _ aCollection asSortedCollection: [:a :b| (aMonomialOrdering leadingMonomialOf: a) degree <= (aMonomialOrdering leadingMonomialOf: b) degree].
+	S _ aCollection asSortedCollection: [:a :b| a leadingMonomial degree <= b leadingMonomial degree].
 	heads _ OrderedCollection new.
 	[S do: [:f| (G reduces: f) ifFalse: [G add: f]].
 	S _ Set2 new.
@@ -7281,6 +7305,30 @@ on: aBlock
 !Iterator class methodsFor: 'instance creation' stamp: 'len 2/14/2016 21:45'!
 on: anObject performing: aSymbol
 	^ self new block: [:aBlock| anObject perform: aSymbol with: aBlock]! !
+
+!MonomialTuple methodsFor: 'as yet unclassified' stamp: 'len 11/20/2016 10:27:12'!
+associations: aCollection
+	associations _ aCollection! !
+
+!MonomialTuple methodsFor: 'as yet unclassified' stamp: 'len 11/20/2016 10:36:07'!
+at: aMonomial
+	^ self at: aMonomial ifAbsent: [scalars zero]! !
+
+!MonomialTuple methodsFor: 'as yet unclassified' stamp: 'len 11/20/2016 10:44:32'!
+at: aMonomial add: aNumber
+	associations findBinaryIndex: [:each| each key compareWith: aMonomial] do: [:index| | association | (association _ associations at: index) value: (association value + aNumber)] ifNone: [:low :high| ]! !
+
+!MonomialTuple methodsFor: 'as yet unclassified' stamp: 'len 11/20/2016 10:35:53'!
+at: aMonomial ifAbsent: exceptionBlock
+	^ associations findBinary: [:each| each key compareWith: aMonomial] do: [:each| each value] ifNone: exceptionBlock! !
+
+!MonomialTuple methodsFor: 'as yet unclassified' stamp: 'len 11/20/2016 10:26:33'!
+scalars
+	^ scalars! !
+
+!MonomialTuple methodsFor: 'as yet unclassified' stamp: 'len 11/20/2016 10:26:40'!
+scalars: aRing
+	scalars _ aRing! !
 
 !SparseTuple methodsFor: 'operations' stamp: 'len 11/18/2016 09:51:39'!
 * aNumber
@@ -14997,13 +15045,17 @@ matrix: aMatrix
 = anObject
 	^ (anObject isKindOf: Monomials) and: [anObject rank = rank]! !
 
-!Monomials methodsFor: 'random' stamp: 'len 7/15/2016 18:20'!
+!Monomials methodsFor: 'random' stamp: 'len 11/20/2016 12:17:38'!
 atRandom: aRandom bits: bitSize
-	^ Monomial exponents: ((NN ** self rank atRandom: aRandom bits: bitSize) collect: [:x| x - 1]) asArray! !
+	^ self exponents: ((NN ** self rank atRandom: aRandom bits: bitSize) collect: [:x| x - 1]) asArray! !
 
-!Monomials methodsFor: 'iterating' stamp: 'len 7/15/2016 18:20'!
+!Monomials methodsFor: 'iterating' stamp: 'len 11/20/2016 12:17:48'!
 do: aBlock
-	NN ** self rank do: [:each| aBlock value: (Monomial exponents: (each collect: [:x| x - 1]) asArray)]! !
+	NN ** self rank do: [:each| aBlock value: (self exponents: (each collect: [:x| x - 1]) asArray)]! !
+
+!Monomials methodsFor: 'elements' stamp: 'len 11/20/2016 12:03:22'!
+exponents: anArray
+	^ (Monomial exponents: anArray) parent: self! !
 
 !Monomials methodsFor: 'accessing' stamp: 'len 6/30/2016 00:36'!
 generators
@@ -15013,9 +15065,9 @@ generators
 hash
 	^ self rank + self class hash! !
 
-!Monomials methodsFor: 'accessing' stamp: 'len 6/30/2016 00:29'!
+!Monomials methodsFor: 'accessing' stamp: 'len 11/20/2016 12:02:36'!
 identity
-	^ Monomial new: rank! !
+	^ (Monomial new: rank) parent: self! !
 
 !Monomials methodsFor: 'testing' stamp: 'len 6/30/2016 00:12'!
 includes: aMonomial
@@ -15049,23 +15101,29 @@ isFinite
 isUnivariate
 	^ self rank = 1! !
 
-!Monomials methodsFor: 'accessing' stamp: 'len 7/4/2016 01:28'!
-ordering
-	^ properties at: #ordering ifAbsentPut: [MonomialOrdering tlex: self rank]! !
+!Monomials methodsFor: 'elements' stamp: 'len 11/20/2016 12:15:32'!
+newFrom: aMonomial
+	^ self exponents: aMonomial exponents! !
 
-!Monomials methodsFor: 'accessing' stamp: 'len 7/4/2016 01:29'!
+!Monomials methodsFor: 'converting' stamp: 'len 11/20/2016 12:04:14'!
+orderedBy: aMonomialOrdering
+	^ self copy ordering: aMonomialOrdering! !
+
+!Monomials methodsFor: 'accessing' stamp: 'len 11/20/2016 11:03:52'!
+ordering
+	^ ordering! !
+
+!Monomials methodsFor: 'accessing-private' stamp: 'len 11/20/2016 11:03:31'!
 ordering: aMonomialOrdering
-	| ordering |
 	ordering _ aMonomialOrdering isSymbol
 		ifTrue: [MonomialOrdering perform: (aMonomialOrdering,':') asSymbol with: self rank]
-		ifFalse: [aMonomialOrdering].
-	properties at: #ordering put: ordering! !
+		ifFalse: [aMonomialOrdering]! !
 
-!Monomials methodsFor: 'printing' stamp: 'len 6/28/2016 23:38'!
+!Monomials methodsFor: 'printing' stamp: 'len 11/20/2016 13:50:16'!
 printOn: aStream
 	aStream nextPut: $[.
 	self indeterminates
-		do: [:i| aStream print: (Monomial x: i)]
+		do: [:i| aStream print: (self x: i)]
 		separatedBy: [aStream nextPut: $,].
 	aStream nextPutAll: ']*'! !
 
@@ -15077,13 +15135,21 @@ rank
 rank: anInteger
 	rank _ anInteger! !
 
-!Monomials methodsFor: 'elements' stamp: 'len 6/30/2016 00:37'!
+!Monomials methodsFor: 'elements' stamp: 'len 11/20/2016 12:03:09'!
 x: anInteger
-	^ Monomial x: anInteger! !
+	^ (Monomial x: anInteger) parent: self! !
 
-!Monomials class methodsFor: 'as yet unclassified' stamp: 'len 6/30/2016 00:08'!
+!Monomials methodsFor: 'elements' stamp: 'len 11/20/2016 12:03:31'!
+x: anInteger to: exponent
+	^ (Monomial x: anInteger to: exponent) parent: self! !
+
+!Monomials class methodsFor: 'instance creation' stamp: 'len 11/20/2016 11:03:07'!
 new: anInteger
-	^ self new rank: anInteger! !
+	^ self new: anInteger ordering: #trevlex! !
+
+!Monomials class methodsFor: 'instance creation' stamp: 'len 11/20/2016 11:02:53'!
+new: anInteger ordering: aMonomialOrdering
+	^ self new rank: anInteger; ordering: aMonomialOrdering! !
 
 !CartesianProduct methodsFor: 'comparing' stamp: 'len 12/9/2015 04:51'!
 = anObject
@@ -17697,7 +17763,7 @@ sqrt: anInteger
 characteristic
 	^ self base characteristic! !
 
-!PolynomialQuotientRing methodsFor: 'accessing' stamp: 'len 11/19/2016 10:10:37'!
+!PolynomialQuotientRing methodsFor: 'accessing' stamp: 'len 11/20/2016 11:09:41'!
 dimension
 	"Answer the Krull dimension of the receiver."
 	"Derksen, Kemper, 'Computational Invariant Theory', 2002, Algorithm 1.2.4 (Dimension of an ideal)."
@@ -17711,7 +17777,7 @@ dimension
 		ifTrue: [^ -1]. "or should it define it as -infinity ?"
 	
 	leadingMonomials _ Set new.
-	G do: [:each| leadingMonomials add: (G ordering leadingMonomialOf: each)].
+	G do: [:each| leadingMonomials add: each leadingMonomial].
 	1 to: self base rank do: [:k|
 		((self base indeterminates combinations: k)
 			anySatisfy: [:combination|
@@ -18120,15 +18186,15 @@ coefficient: aNumber monomial: aMonomial
 			coefficients _ self scalars tuple: n evaluating: [:i| i=n ifTrue: [aNumber] ifFalse: [zero]]].
 	^ (self polynomialClass coefficients: coefficients) parent: self! !
 
-!PolynomialRing methodsFor: 'elements' stamp: 'len 5/20/2016 03:38'!
+!PolynomialRing methodsFor: 'elements' stamp: 'len 11/20/2016 12:07:22'!
 coefficient: aNumber x: anIndeterminate to: anInteger
 	| i |
 	i _ anIndeterminate isInteger
 		ifTrue: [anIndeterminate]
 		ifFalse: [self indeterminateNames indexOf: anIndeterminate ifAbsent: [^ self error: 'unknown indeterminate']].
-	^ self coefficient: aNumber monomial: (Monomial x: i to: anInteger)! !
+	^ self coefficient: aNumber monomial: (monomials x: i to: anInteger)! !
 
-!PolynomialRing methodsFor: 'elements' stamp: 'len 11/18/2016 20:43:39'!
+!PolynomialRing methodsFor: 'elements' stamp: 'len 11/20/2016 12:06:59'!
 coefficients: aTuple
 	| tuple |
 	self isUnivariate ifFalse: [^ (MultivariatePolynomial coefficients: aTuple) parent: self].
@@ -18139,7 +18205,7 @@ coefficients: aTuple
 				[| n |
 				n _ 0.
 				aTuple keysDo: [:each| n _ n max: each degree].
-				self scalars tuple: n+1 evaluating: [:i| aTuple at: (Monomial x: 1 to: i-1)]]
+				self scalars tuple: n+1 evaluating: [:i| aTuple at: (monomials x: 1 to: i-1)]]
 			ifFalse: [self scalars tuple: aTuple]].
 	^ (UnivariatePolynomial coefficients: tuple) parent: self! !
 
@@ -18148,10 +18214,10 @@ completion
 	"Answer the ring of power series, i.e. the completion of the receiver at 0."
 	^ PowerSeriesRing polynomials: self! !
 
-!PolynomialRing methodsFor: 'elements' stamp: 'len 7/9/2016 03:31'!
+!PolynomialRing methodsFor: 'elements' stamp: 'len 11/20/2016 13:51:14'!
 constant: aNumber
 	self isUnivariate ifTrue: [^ self coefficients: (self scalars tuple: {aNumber})].
-	^ self coefficient: aNumber monomial: Monomial identity! !
+	^ self coefficient: aNumber monomial: monomials identity! !
 
 !PolynomialRing methodsFor: 'examples' stamp: 'len 6/1/2016 21:03'!
 continuantOfOrder: n
@@ -18327,9 +18393,10 @@ indeterminate
 indeterminateNames
 	^ space coordinateNames! !
 
-!PolynomialRing methodsFor: 'accessing' stamp: 'len 10/28/2016 14:32'!
+!PolynomialRing methodsFor: 'accessing' stamp: 'len 11/20/2016 13:54:16'!
 indeterminateNames: aCollection
-	space coordinateNames: aCollection! !
+	space coordinateNames: aCollection.
+	monomials indeterminateNames: aCollection! !
 
 !PolynomialRing methodsFor: 'accessing' stamp: 'len 10/22/2016 18:16'!
 indeterminates
@@ -18401,6 +18468,15 @@ modPrime: anObject
 monomial: aMonomial
 	^ self coefficient: self scalars one monomial: aMonomial! !
 
+!PolynomialRing methodsFor: 'accessing' stamp: 'len 11/20/2016 14:15:52'!
+monomials
+	"Answer the monoid of monomials of the receiver."
+	^ monomials! !
+
+!PolynomialRing methodsFor: 'accessing-private' stamp: 'len 11/20/2016 12:08:58'!
+monomials: aMonomials
+	monomials _ aMonomials! !
+
 !PolynomialRing methodsFor: 'elements' stamp: 'len 11/18/2016 20:43:34'!
 new
 	^ (self isUnivariate
@@ -18408,15 +18484,17 @@ new
 		ifFalse: [MultivariatePolynomial coefficients: (SparseTuple over: self scalars)])
 			parent: self! !
 
-!PolynomialRing methodsFor: 'elements' stamp: 'len 11/1/2016 18:50'!
+!PolynomialRing methodsFor: 'elements' stamp: 'len 11/20/2016 14:23:32'!
 newFrom: aPolynomial
+	| coefficients |
 	(aPolynomial isKindOf: Polynomial) ifFalse: [^ self evaluating: aPolynomial].
 	(aPolynomial indeterminates allSatisfy: [:each| self has: each])
 		ifFalse: [self halt].
-	^ self coefficients:
-		(((aPolynomial isKindOf: UnivariatePolynomial) and: [self isUnivariate not])
+	coefficients _ ((aPolynomial isKindOf: UnivariatePolynomial) and: [self isUnivariate not])
 			ifTrue: [aPolynomial asSparsePolynomial coefficients]
-			ifFalse: [aPolynomial coefficients])! !
+			ifFalse: [aPolynomial coefficients].
+	coefficients _ coefficients copy associationsDo: [:each| each key: (each key as: self monomials)].
+	^ self coefficients: coefficients! !
 
 !PolynomialRing methodsFor: 'elements' stamp: 'len 10/22/2016 18:08'!
 one
@@ -18426,17 +18504,13 @@ one
 orderedBy: aMonomialOrdering
 	^ self copy ordering: aMonomialOrdering! !
 
-!PolynomialRing methodsFor: 'accessing' stamp: 'len 7/3/2016 04:18'!
+!PolynomialRing methodsFor: 'accessing' stamp: 'len 11/20/2016 12:07:07'!
 ordering
-	^ properties at: #ordering ifAbsentPut: [MonomialOrdering tlex: self rank]! !
+	^ monomials ordering! !
 
-!PolynomialRing methodsFor: 'accessing' stamp: 'len 7/2/2016 23:41'!
+!PolynomialRing methodsFor: 'accessing-private' stamp: 'len 11/20/2016 12:06:41'!
 ordering: aMonomialOrdering
-	| ordering |
-	ordering _ aMonomialOrdering isSymbol
-		ifTrue: [MonomialOrdering perform: (aMonomialOrdering,':') asSymbol with: self rank]
-		ifFalse: [aMonomialOrdering].
-	properties at: #ordering put: ordering! !
+	monomials ordering: aMonomialOrdering! !
 
 !PolynomialRing methodsFor: 'converting' stamp: 'len 10/22/2016 18:13'!
 over: aRing
@@ -18543,21 +18617,21 @@ z
 zero
 	^ self constant: self scalars zero! !
 
-!PolynomialRing class methodsFor: 'instance creation' stamp: 'len 10/22/2016 18:14'!
+!PolynomialRing class methodsFor: 'instance creation' stamp: 'len 11/20/2016 10:55:59'!
 new: anInteger over: aRing
-	^ self new space: aRing ** anInteger! !
+	^ self on: aRing ** anInteger! !
 
-!PolynomialRing class methodsFor: 'instance creation' stamp: 'len 10/22/2016 18:14'!
+!PolynomialRing class methodsFor: 'instance creation' stamp: 'len 11/20/2016 10:55:51'!
 new: anInteger over: aRing ordering: aMonomialOrdering
-	^ self new space: aRing ** anInteger; ordering: aMonomialOrdering! !
+	^ self on: aRing ** anInteger ordering: aMonomialOrdering! !
 
-!PolynomialRing class methodsFor: 'instance creation' stamp: 'len 10/28/2016 21:46'!
+!PolynomialRing class methodsFor: 'instance creation' stamp: 'len 11/20/2016 12:08:41'!
 on: aFreeModule
-	^ self on: aFreeModule ordering: #trevlex! !
+	^ self new space: aFreeModule; monomials: (Monomials new: aFreeModule rank)! !
 
-!PolynomialRing class methodsFor: 'instance creation' stamp: 'len 10/22/2016 18:15'!
+!PolynomialRing class methodsFor: 'instance creation' stamp: 'len 11/20/2016 12:08:01'!
 on: aFreeModule ordering: aMonomialOrdering
-	^ self new space: aFreeModule; ordering: aMonomialOrdering! !
+	^ self new space: aFreeModule; monomials: (Monomials new: aFreeModule rank ordering: aMonomialOrdering)! !
 
 !PowerSeriesRing methodsFor: 'accessing' stamp: 'len 10/28/2016 14:17'!
 characteristic
@@ -30913,27 +30987,26 @@ components: anArray
 left: aVector right: anotherVector
 	^ self components: {aVector. anotherVector}! !
 
-!Monomial methodsFor: 'operations' stamp: 'len 6/29/2016 05:14'!
+!Monomial methodsFor: 'operations' stamp: 'len 11/20/2016 11:58:13'!
 * aMonomial
 	| a an b bn c |
-"	^ self class exponents: exponents + aMonomial exponents"
 	(an _ self lastIndeterminate) <= (bn _ aMonomial lastIndeterminate)
 		ifTrue: [a _ exponents. b _ aMonomial exponents]
 		ifFalse: [| t | a _ aMonomial exponents. b _ exponents. t _ an. an _ bn. bn _ t].
 	c _ Array new: bn.
 	1 to: an do: [:i| c at: i put: (a at: i) + (b at: i)].
 	c replaceFrom: an+1 to: bn with: b startingAt: an+1.
-	^ self class exponents: c! !
+	^ self species exponents: c! !
 
-!Monomial methodsFor: 'operations' stamp: 'len 10/26/2016 09:18'!
+!Monomial methodsFor: 'operations' stamp: 'len 11/20/2016 11:58:25'!
 ** anInteger
-	^ self class exponents: exponents * anInteger! !
+	^ self species exponents: exponents * anInteger! !
 
-!Monomial methodsFor: 'operations' stamp: 'len 6/29/2016 04:14'!
+!Monomial methodsFor: 'operations' stamp: 'len 11/20/2016 12:00:14'!
 / aMonomial
 	"Answer the exact division of the receiver by the argument."
 "	^ self class exponents: exponents - aMonomial exponents"
-	^ self class exponents: ((1 to: (self lastIndeterminate max: aMonomial lastIndeterminate)) collect: [:i| (self at: i) - (aMonomial at: i)])! !
+	^ self species exponents: ((1 to: (self lastIndeterminate max: aMonomial lastIndeterminate)) collect: [:i| (self at: i) - (aMonomial at: i)])! !
 
 !Monomial methodsFor: 'comparing' stamp: 'len 10/22/97 23:58'!
 < aMonomialLiteral
@@ -30956,17 +31029,9 @@ left: aVector right: anotherVector
 	1 to: n do: [:i| (exponents at: i) = (exponents2 at: i) ifFalse: [^ false]].
 	^ true! !
 
-!Monomial methodsFor: 'comparing' stamp: 'len 6/6/2016 07:03'!
+!Monomial methodsFor: 'comparing' stamp: 'len 11/20/2016 11:59:05'!
 > aMonomial
-	"Answer true if the receiver is greater than the argument in the total lexicographic ordering."
-
-	| n m |
-	(n _ self degree) > (m _ aMonomial degree) ifTrue: [^ true].
-	n < m ifTrue: [^ false].
-	1 to: (self lastIndeterminate max: aMonomial lastIndeterminate) do: [:i|
-		(self at: i) < (aMonomial at: i) ifTrue: [^ false].
-		(self at: i) > (aMonomial at: i) ifTrue: [^ true]].
-	^ false! !
+	^ self ordering is: self gneq: aMonomial! !
 
 !Monomial methodsFor: 'comparing' stamp: 'len 3/16/2016 20:52'!
 >= aMonomial
@@ -30981,10 +31046,10 @@ left: aVector right: anotherVector
 		(exponents at: i) > (aMonomial at: i) ifTrue: [^ false]].
 	^ true! !
 
-!Monomial methodsFor: 'operations' stamp: 'len 10/21/2016 17:25'!
+!Monomial methodsFor: 'operations' stamp: 'len 11/20/2016 11:59:35'!
 affinizedIn: anIndeterminate
 	exponents size < anIndeterminate ifTrue: [^ self].
-	^ self class exponents: (exponents copyWithoutIndex: anIndeterminate)! !
+	^ self species exponents: (exponents copyWithoutIndex: anIndeterminate)! !
 
 !Monomial methodsFor: 'accessing' stamp: 'len 10/16/2016 21:17'!
 at: anIndeterminate
@@ -31002,7 +31067,7 @@ at: anIndeterminate put: anInteger
 bitSize
 	^ exponents inject: 0 into: [:x :each| x + each bitSize]! !
 
-!Monomial methodsFor: 'operations' stamp: 'len 6/6/2016 07:11'!
+!Monomial methodsFor: 'operations' stamp: 'len 11/20/2016 11:59:47'!
 complete: anInteger in: anIndeterminate
 	"Answer a copy of the receiver of degree anInteger completing with a power of the indeterminate anotherInteger."
 
@@ -31011,27 +31076,25 @@ complete: anInteger in: anIndeterminate
 	d _ (anInteger - n + (self at: anIndeterminate)).
 	anIndeterminate <= exponents size
 		ifTrue: [^ self copy at: anIndeterminate put: d; yourself].
-	^ self class exponents:
-		((Array new: anIndeterminate)
-			replaceFrom: 1 to: exponents size with: exponents;
-			from: exponents size + 1 to: anIndeterminate - 1 put: 0;
-			at: anIndeterminate put: d;
-			yourself)! !
+	^ self species
+		exponents:
+			((Array new: anIndeterminate)
+				replaceFrom: 1 to: exponents size with: exponents;
+				from: exponents size + 1 to: anIndeterminate - 1 put: 0;
+				at: anIndeterminate put: d;
+				yourself)! !
 
-!Monomial methodsFor: 'copying' stamp: 'len 3/17/2016 00:21'!
-copy
-	^ self class exponents: exponents copy! !
-
-!Monomial methodsFor: 'copying' stamp: 'len 6/6/2016 07:06'!
+!Monomial methodsFor: 'copying' stamp: 'len 11/20/2016 11:59:20'!
 copyWith: anIndeterminate to: anInteger
 	anIndeterminate <= exponents size
 		ifTrue: [^ self copy at: anIndeterminate put: anInteger; yourself].
-	^ self class exponents:
-		((Array new: anIndeterminate)
-			replaceFrom: 1 to: exponents size with: exponents;
-			from: exponents size + 1 to: anIndeterminate - 1 put: 0;
-			at: anIndeterminate put: anInteger;
-			yourself)! !
+	^ self species
+		exponents:
+			((Array new: anIndeterminate)
+				replaceFrom: 1 to: exponents size with: exponents;
+				from: exponents size + 1 to: anIndeterminate - 1 put: 0;
+				at: anIndeterminate put: anInteger;
+				yourself)! !
 
 !Monomial methodsFor: 'copying' stamp: 'len 3/17/2016 00:21'!
 copyWithout: anIndeterminate
@@ -31039,10 +31102,10 @@ copyWithout: anIndeterminate
 
 	^ self copy at: anIndeterminate put: 0; yourself! !
 
-!Monomial methodsFor: 'operations' stamp: 'len 11/19/2016 10:20:23'!
+!Monomial methodsFor: 'operations' stamp: 'len 11/20/2016 14:31:25'!
 degree
 	"Answer the total degree of the receiver."
-	^ degree ifNil: [degree _ exponents isEmpty ifTrue: [0] ifFalse: [exponents sum]]! !
+	^ exponents isEmpty ifTrue: [0] ifFalse: [exponents sum]! !
 
 !Monomial methodsFor: 'operations' stamp: 'len 3/17/2016 00:25'!
 degreeIn: anIndeterminate
@@ -31058,11 +31121,11 @@ exponents
 exponents: anArray
 	exponents _ anArray! !
 
-!Monomial methodsFor: 'operations' stamp: 'len 6/6/2016 08:43'!
+!Monomial methodsFor: 'operations' stamp: 'len 11/20/2016 11:58:53'!
 gcd: aMonomial
 	"Answer the greatest common divisor of the receiver and the argument."
 	exponents size <= aMonomial exponents size ifFalse: [^ aMonomial gcd: self].
-	^ self class exponents: (exponents withIndexCollect: [:each :i| each min: (aMonomial at: i)])! !
+	^ self species exponents: (exponents withIndexCollect: [:each :i| each min: (aMonomial at: i)])! !
 
 !Monomial methodsFor: 'testing' stamp: 'len 12/5/2015 22:34'!
 has: anIndeterminate
@@ -31092,20 +31155,40 @@ lastIndeterminate
 	"Answer the leading indeterminate of the receiver (the last indeterminate effectively present)."
 	^ exponents findLast: [:one| one ~= 0]! !
 
-!Monomial methodsFor: 'operations' stamp: 'len 6/6/2016 08:44'!
+!Monomial methodsFor: 'operations' stamp: 'len 11/20/2016 11:58:37'!
 lcm: aMonomial
 	"Answer the least common multiple of the receiver and the argument."
 	exponents size >= aMonomial exponents size ifFalse: [^ aMonomial lcm: self].
-	^ self class exponents: (exponents withIndexCollect: [:each :i| each max: (aMonomial at: i)])! !
+	^ self species exponents: (exponents withIndexCollect: [:each :i| each max: (aMonomial at: i)])! !
 
-!Monomial methodsFor: 'operations' stamp: 'len 10/16/2016 21:25'!
+!Monomial methodsFor: 'converting' stamp: 'len 11/20/2016 12:17:14'!
+orderedBy: aMonomialOrdering
+	^ self as: (self species orderedBy: aMonomialOrdering)! !
+
+!Monomial methodsFor: 'accessing' stamp: 'len 11/20/2016 11:56:47'!
+ordering
+	^ parent ordering! !
+
+!Monomial methodsFor: 'accessing' stamp: 'len 11/20/2016 11:47:32'!
+parent
+	^ parent! !
+
+!Monomial methodsFor: 'accessing-private' stamp: 'len 11/20/2016 11:47:44'!
+parent: aMonomials
+	parent _ aMonomials! !
+
+!Monomial methodsFor: 'operations' stamp: 'len 11/20/2016 14:24:58'!
 permutedBy: aPermutation
 	"Permute the variables of the receiver. The argument can be an Array (permutation in 'image format'). For example given a monomial in x,z,y, #(1 2 3) doesn't change anything, #(2 1 3) exchanges variables x and y."
 	| answer |
-	answer _ self class identity.
+	answer _ self species identity.
 	exponents withIndexDo: [:exp :i|
-		answer _ answer * (self class x: (aPermutation at: i) to: exp)].
+		answer _ answer * (self species x: (aPermutation at: i) to: exp)].
 	^ answer! !
+
+!Monomial methodsFor: 'copying' stamp: 'len 11/20/2016 11:55:49'!
+postCopy
+	exponents _ exponents copy! !
 
 !Monomial methodsFor: 'printing' stamp: 'len 6/7/2016 21:48'!
 printExponent: anInteger on: aStream
@@ -31129,39 +31212,27 @@ printIndeterminate: indeterminate on: aStream
 		ifTrue: [aStream nextPut: $x; nextPutAll: indeterminate printString sub]
 		ifFalse:[aStream nextPutAll: '{x', indeterminate printString, '}']! !
 
-!Monomial methodsFor: 'printing' stamp: 'len 6/30/2016 00:16'!
+!Monomial methodsFor: 'printing' stamp: 'len 11/20/2016 13:47:00'!
 printOn: aStream
 	self degree = 0 ifTrue: [aStream print: 1. ^ self].
-	(self indeterminates select: [:each| (self at: each) ~= 0])
-		asSortedCollection do: [:each|
-			self printIndeterminate: each on: aStream.
-			self printExponent: (self degreeIn: each) on: aStream]! !
-
-!Monomial methodsFor: 'printing' stamp: 'len 6/6/2016 08:36'!
-printOn: aStream as: aPolynomials
-	self degree = 0 ifTrue: [aStream print: 1. ^ self].
-	(aPolynomials ordering indeterminates select: [:i| (self at: i) ~= 0])
+	(self ordering indeterminates select: [:i| (self at: i) ~= 0])
 		do: [:i|
 			| x |
-			x _ aPolynomials indeterminateNames ifNil: [i] ifNotNil: [:names| names at: i ifAbsent: [i]].
+			x _ self parent indeterminateNames ifNil: [i] ifNotNil: [:names| names at: i ifAbsent: [i]].
 			self printIndeterminate: x on: aStream.
 			self printExponent: (self at: i) on: aStream]! !
 
-!Monomial methodsFor: 'printing' stamp: 'len 6/30/2016 00:17'!
-printOn: aStream withNames: namesDictionary
-	self degree = 0 ifTrue: [aStream print: 1. ^ self].
-	(self indeterminates select: [:each| (self at: each) ~= 0])
-		asSortedCollection do: [:each|
-			self printIndeterminate: each on: aStream withNames: namesDictionary.
-			self printExponent: (self degreeIn: each) on: aStream]! !
-
-!Monomial methodsFor: 'operations' stamp: 'len 5/23/2016 00:04'!
+!Monomial methodsFor: 'operations' stamp: 'len 11/20/2016 11:59:56'!
 root: anInteger
-	^ self class exponents: exponents / anInteger! !
+	^ self species exponents: exponents / anInteger! !
 
 !Monomial methodsFor: 'operations' stamp: 'len 6/6/2016 04:28'!
 root: anInteger in: anIndeterminate
 	^ self copy at: anIndeterminate put: (self at: anIndeterminate) / anInteger; yourself! !
+
+!Monomial methodsFor: 'private' stamp: 'len 11/20/2016 12:22:21'!
+species
+	^ parent! !
 
 !Monomial methodsFor: 'operations' stamp: 'len 6/6/2016 04:29'!
 value: anObject
@@ -31175,38 +31246,30 @@ value: anObject
 without: anIndeterminate
 	^ (self has: anIndeterminate) ifFalse: [self] ifTrue: [self copyWithout: anIndeterminate]! !
 
-!Monomial class methodsFor: 'instance creation' stamp: 'len 6/29/2016 03:58'!
+!Monomial class methodsFor: 'instance creation' stamp: 'len 11/20/2016 12:01:21'!
 exponents: anArray
-	^ self basicNew exponents: anArray "(anArray as: Tuple)"! !
+	^ self basicNew exponents: anArray! !
 
 !Monomial class methodsFor: 'instance creation' stamp: 'len 6/6/2016 02:43'!
 identity
 	"Answer the identity monomial (i.e., the monomial without indeterminates, or with all exponents 0)."
 	^ self new: 0! !
 
-!Monomial class methodsFor: 'instance creation' stamp: 'len 6/6/2016 02:45'!
-new
-	^ self new: 0! !
-
-!Monomial class methodsFor: 'instance creation' stamp: 'len 6/6/2016 02:45'!
+!Monomial class methodsFor: 'instance creation' stamp: 'len 11/20/2016 11:25:52'!
 new: anInteger
 	^ self exponents: ((Array new: anInteger) atAllPut: 0; yourself)! !
 
-!Monomial class methodsFor: 'instance creation' stamp: 'len 11/6/2015 04:08'!
+!Monomial class methodsFor: 'instance creation' stamp: 'len 11/20/2016 11:25:14'!
 x: i
 	"Answer a new instance of the receiver with only one indeterminate: the argument."
 
 	^ self x: i to: 1! !
 
-!Monomial class methodsFor: 'instance creation' stamp: 'len 6/6/2016 02:46'!
+!Monomial class methodsFor: 'instance creation' stamp: 'len 11/20/2016 11:25:37'!
 x: i to: k
 	"Answer a new instance of the receiver with only one indeterminate, xi, raised to n."
 
 	^ (self new: i) at: i put: k; yourself! !
-
-!MonomialOrdering methodsFor: 'accessing' stamp: 'len 3/1/2016 19:49'!
-comparisonBlock
-	^ [:a :b| self is: a gneq: b]! !
 
 !MonomialOrdering methodsFor: 'copying' stamp: 'len 10/31/2016 12:37'!
 copyWithout: anIndeterminate
@@ -31235,10 +31298,6 @@ isLocal
 	"Answer true if the receiver is a local ordering."
 	^ false! !
 
-!MonomialOrdering methodsFor: 'ordering' stamp: 'len 3/16/2016 07:21'!
-leadingCoefficientOf: aPolynomial
-	^ aPolynomial coefficientAt: (self leadingMonomialOf: aPolynomial)! !
-
 !MonomialOrdering methodsFor: 'ordering' stamp: 'len 3/16/2016 07:19'!
 leadingMonomialOf: aPolynomial
 	"Answer the leading (head) monomial of aPolynomial according to this ordering."
@@ -31248,11 +31307,7 @@ leadingMonomialOf: aPolynomial
 			ifTrue: [each] ifFalse: [answer]].
 	^ answer! !
 
-!MonomialOrdering methodsFor: 'ordering' stamp: 'len 3/16/2016 07:21'!
-leadingTermOf: aPolynomial
-	^ aPolynomial termAt: (self leadingMonomialOf: aPolynomial)! !
-
-!MonomialOrdering methodsFor: 'printing' stamp: 'len 7/4/2016 06:26'!
+!MonomialOrdering methodsFor: 'printing' stamp: 'len 11/20/2016 12:11:04'!
 printOn: aStream
 	self type isNil
 		ifTrue: [super printOn: aStream]
@@ -31710,15 +31765,6 @@ asUnivariateIn: anIndeterminate
 bitSize
 	^ self coefficients bitSize! !
 
-!Polynomial methodsFor: 'roots' stamp: 'len 3/1/2016 19:19'!
-cauchyRootBound
-	| max a0 an |
-	max _ 0.
-	self coefficients do: [:each| max _ max max: each abs].
-	a0 _ self independentCoefficient abs.
-	an _ self leadingCoefficient abs.
-	^ Array with: a0 / (a0 + max) with: an + max / an! !
-
 !Polynomial methodsFor: 'accessing indeterminates' stamp: 'len 3/25/2016 03:53'!
 classIndeterminate
 	"Answer the 'class' of the polynomial, i.e. the index of the last indeterminate present in the receiver."
@@ -31726,10 +31772,10 @@ classIndeterminate
 	self species rank to: 1 by: -1 do: [:i| (self has: i) ifTrue: [^ i]].
 	^ 0! !
 
-!Polynomial methodsFor: 'accessing coefficients' stamp: 'len 3/22/2016 23:29'!
+!Polynomial methodsFor: 'accessing coefficients' stamp: 'len 11/20/2016 14:16:38'!
 coefficientAtDegree: anInteger
 	"Answer the coefficient of the degree given by the argument. For univiariate polynomials."
-	^ self coefficientAt: (Monomial x: self leadingIndeterminate to: anInteger)! !
+	^ self coefficientAt: (self species monomials x: self leadingIndeterminate to: anInteger)! !
 
 !Polynomial methodsFor: 'accessing coefficients' stamp: 'len 5/20/2016 06:21'!
 coefficientAtDegree: anInteger in: anotherInteger
@@ -31965,11 +32011,11 @@ homogenizedIn: anIndeterminate
 	degree _ self degree.
 	^ self monomialsApply: [:each| each complete: degree in: anIndeterminate]! !
 
-!Polynomial methodsFor: 'accessing coefficients' stamp: 'len 3/1/2016 16:31'!
+!Polynomial methodsFor: 'accessing coefficients' stamp: 'len 11/20/2016 14:16:51'!
 independentCoefficient
 	"Answer the coefficient of the constant monomial of the receiver."
 
-	^ self coefficientAt: Monomial identity! !
+	^ self coefficientAt: self species monomials identity! !
 
 !Polynomial methodsFor: 'accessing indeterminates' stamp: 'len 12/21/2015 03:19'!
 indeterminates
@@ -32174,9 +32220,11 @@ leadingIndeterminate
 	indeterminates reverseDo: [:i| (self has: i) ifTrue: [^ i]].
 	^ indeterminates first! !
 
-!Polynomial methodsFor: 'accessing monomials' stamp: 'len 10/27/2016 08:51'!
+!Polynomial methodsFor: 'accessing monomials' stamp: 'len 11/20/2016 11:40:44'!
 leadingMonomial
-	^ self species ordering leadingMonomialOf: self! !
+	| answer |
+	self monomialsDo: [:each| (answer isNil or: [each > answer]) ifTrue: [answer _ each]].
+	^ answer! !
 
 !Polynomial methodsFor: 'accessing terms' stamp: 'len 3/1/2016 22:11'!
 leadingTerm
@@ -32204,20 +32252,6 @@ monic
 !Polynomial methodsFor: 'accessing monomials' stamp: 'len 3/23/2016 04:12'!
 monomials
 	^ Iterator on: self performing: #monomialsDo:! !
-
-!Polynomial methodsFor: 'roots' stamp: 'len 11/24/2015 06:15'!
-multiplicityAt: anObject
-	"Answer the multiplicity of anObject as zero of the receiver."
-
-	| answer f |
-	self isZero ifTrue: [^ Infinity positive].
-	answer _ 0.
-	f _ self.
-	[(f value: anObject) isZero]
-		whileTrue:
-			[answer _ answer + 1.
-			f _ f derivative].
-	^ answer! !
 
 !Polynomial methodsFor: 'arithmetic' stamp: 'len 3/23/2016 05:54'!
 multiplyByMonomial: aMonomial
@@ -32325,24 +32359,24 @@ printCoefficient: coefficient on: aStream
 		ifTrue: [aStream print: c]
 		ifFalse: [aStream nextPut: $(; print: c; nextPut: $)]! !
 
-!Polynomial methodsFor: 'printing' stamp: 'len 11/18/2016 21:02:45'!
+!Polynomial methodsFor: 'printing' stamp: 'len 11/20/2016 13:47:58'!
 printOn: aStream
 	| monomials leadingMonomial c |
 	self isBroken ifTrue: [aStream nextPutAll: '(broken) '].
 	self isConstant ifTrue: [aStream print: self leadingCoefficient. ^ self].
-	monomials _ self monomials asSortedCollection: self species ordering comparisonBlock.
+	monomials _ self monomials asSortedCollection reversed.
 	c _ self coefficientAt: (leadingMonomial _ monomials first).
 	(c printString first = $- or: [c isNumber and: [c negative]])
 		ifTrue: [c _ c negated. aStream nextPut: $-].
 	(c ~= c one or: [leadingMonomial degree = 0]) ifTrue: [self printCoefficient: c on: aStream].
-	leadingMonomial degree > 0 ifTrue: [leadingMonomial printOn: aStream as: self species].
+	leadingMonomial degree > 0 ifTrue: [aStream print: leadingMonomial].
 	monomials allButFirst do: [:m|
 		c _ self coefficientAt: m.
 		(c printString first = $- or: [c isNumber and: [c negative]])
 			ifTrue: [aStream nextPutAll: ' - '. c _ c negated]
 			ifFalse: [aStream nextPutAll: ' + '].
 		(c ~= c one or: [m degree = 0]) ifTrue: [self printCoefficient: c on: aStream].
-		m degree > 0 ifTrue: [m printOn: aStream as: self species]]! !
+		m degree > 0 ifTrue: [aStream print: m]]! !
 
 !Polynomial methodsFor: 'remainder sequences' stamp: 'len 3/9/2016 00:08'!
 prs: aPolynomial
@@ -32480,68 +32514,20 @@ reversedIn: anIndeterminate
 	n _ self degreeIn: anIndeterminate.
 	^ self monomialsApply: [:each| each copy at: anIndeterminate put: n - (each degreeIn: anIndeterminate); yourself]! !
 
-!Polynomial methodsFor: 'roots' stamp: 'len 2/26/2016 03:40'!
-roots
-	"Answer the roots (counted with multiplicity) in the coefficients ring or field."
-	^ self rootsIn: self scalars! !
-
-!Polynomial methodsFor: 'roots' stamp: 'len 9/26/2016 17:57'!
-rootsIn: aField
-	"Answer the roots (conted with multiplicaity) in the given domain."
-	(aField isField and: [aField isFinite and: [aField characteristic even not]]) ifTrue: [^ (FiniteFieldRootFinder polynomial: self) roots].
-	(aField isKindOf: Rationals) ifTrue: [^ (RationalRootFinder polynomial: self) roots].
-	((aField isKindOf: AlgebraicNumbers) or: [aField isKindOf: ComplexNumbers]) ifTrue: [^ (ComplexRootFinder polynomial: self) roots].
-	((aField isKindOf: RealAlgebraicNumbers) or: [aField isKindOf: Reals]) ifTrue: [^ (RealRootFinder polynomial: self) roots].
-	(aField isKindOf: Integers) ifTrue: [^ (RationalRootFinder polynomial: self) roots select: [:each| each isInteger]].
-	self flag: #fix. "count multiplicity, implement more efficient algorithm"
-	aField isFinite ifTrue: [^ aField elements select: [:each| (self value: each) isZero]].
-	^ self error: 'unknown domain'! !
-
 !Polynomial methodsFor: 'accessing' stamp: 'len 10/6/2016 15:34'!
 scalars
 	^ parent scalars! !
 
-!Polynomial methodsFor: 'operations' stamp: 'len 3/24/2016 03:02'!
+!Polynomial methodsFor: 'operations' stamp: 'len 11/20/2016 14:16:58'!
 shift: anInteger in: anIndeterminate
 	"Answer the receiver shifted anInteger places as univariate polynomial in the given indeterminate."
-	^ self multiplyByMonomial: (Monomial x: anIndeterminate to: anInteger)! !
+	^ self multiplyByMonomial: (self species monomials x: anIndeterminate to: anInteger)! !
 
 !Polynomial methodsFor: 'factorization' stamp: 'len 3/1/2016 16:25'!
 sign
 	"Answer the sign of the receiver, i.e. the sign if its head coefficient."
 
 	^ self leadingCoefficient sign! !
-
-!Polynomial methodsFor: 'roots' stamp: 'len 2/26/2016 03:42'!
-signature
-	"Answer the signature (r1,r2) of the receiver, where r1 is the number of real roots and 2*r2 is the number of non-real roots. Assume the receiver's coefficients are integers. Throw an error if the receiver is not square-free.
-	Ref: COHEN Algorithm 4.1.11 (Sturm)."
-	| A B g h s n t r1 d R |
-	self isZero ifTrue: [^ #(0 0)].
-	A _ self primitive.
-	B _ self derivative primitive.
-	g _ 1.
-	h _ 1.
-	s _ A sign.
-	n _ A degree.
-	t _ n even ifTrue: [s negated] ifFalse: [s].
-	r1 _ 1.
-	[d _ A degree - B degree.
-	R _ A pseudoRem: B.
-	R isZero ifTrue: [^ self error: 'polynomial is not square-free'].
-	(d odd or: [B leadingCoefficient > 0])
-		ifTrue: [R _ R negated].
-	"Use Sturm:"
-	R sign ~= s ifTrue: [s _ s negated. r1 _ r1 - 1].
-	R sign ~= ((-1) ** R degree * t) ifTrue: [t _ t negated. r1 _ r1 + 1].
-	"Finished?"
-	R isConstant]
-		whileFalse:
-			[A _ B.
-			B _ R / (h ** d * g).
-			g _ A leadingCoefficient abs.
-			h _ h ** (1 - d) * (g ** d)].
-	^ {r1. n - r1 / 2}! !
 
 !Polynomial methodsFor: 'private' stamp: 'len 10/6/2016 15:40'!
 species
@@ -32791,43 +32777,6 @@ valueWithArguments: anArray
 zero
 	^ self species zero! !
 
-!Polynomial methodsFor: 'roots' stamp: 'len 11/11/2016 09:31'!
-zeroAddition: aPolynomial
-	"Answer a polynomial whose zeros are the addition of the receiver zeros with the zeros of the argument."
-	| f g R R` y X Y C |
-	self degree <= aPolynomial degree
-		ifTrue: [f _ self. g _ aPolynomial]
-		ifFalse: [g _ self. f _ aPolynomial].
-	R _ self species.
-	y _ R rank + 1.
-	R` _ self scalars polynomialsIn: R rank + 1.
-	X _ R` x: R indeterminate.
-	Y _ R` x: y.
-	C _ f companion apply: R embedding.
-	^ (((g value: X - Y) asUnivariateIn: y) value: C) determinant! !
-
-!Polynomial methodsFor: 'roots' stamp: 'len 3/30/2016 03:57'!
-zeroNegation
-	"Answer a polynomial whose zeros are the receiver zeros negated."
-
-	^ self species coefficients: (self denseCoefficients withIndexCollect: [:each :i| i odd ifTrue: [each negated] ifFalse: [each]])! !
-
-!Polynomial methodsFor: 'roots' stamp: 'len 11/11/2016 09:36'!
-zeroProduct: aPolynomial
-	"Answer a polynomial whose zeros are the product of the receiver zeros by the zeros of the argument."
-	| f g C |
-	self degree <= aPolynomial degree
-		ifTrue: [f _ self. g _ aPolynomial]
-		ifFalse: [g _ self. f _ aPolynomial].
-	C _ f companion apply: self species embedding.
-	^ (g homogenized asUnivariate value: C) determinant! !
-
-!Polynomial methodsFor: 'roots' stamp: 'len 11/22/97 23:36'!
-zeroReciprocal
-	"Answer a polynomial whose zeros are the reciprocals of the receiver's zeros."
-
-	^ self reversed! !
-
 !MultivariatePolynomial methodsFor: 'accessing coefficients' stamp: 'len 3/22/2016 23:27'!
 coefficientAt: aMonomial
 	"Answer the coefficient of the monomial given by the argument."
@@ -32979,6 +32928,15 @@ asSparsePolynomial
 	self monomialsAndCoefficientsDo: [:key :value| sparseTuple at: key put: value].
 	^ MultivariatePolynomial coefficients: sparseTuple! !
 
+!UnivariatePolynomial methodsFor: 'roots' stamp: 'len 11/20/2016 10:21:40'!
+cauchyRootBound
+	| max a0 an |
+	max _ 0.
+	self coefficients do: [:each| max _ max max: each abs].
+	a0 _ self independentCoefficient abs.
+	an _ self leadingCoefficient abs.
+	^ Array with: a0 / (a0 + max) with: an + max / an! !
+
 !UnivariatePolynomial methodsFor: 'accessing coefficients' stamp: 'len 3/23/2016 04:08'!
 coefficientAt: aMonomial
 	^ self coefficientAtDegree: aMonomial degree! !
@@ -33088,30 +33046,44 @@ isZero
 leadingCoefficient
 	^ self coefficientAtDegree: self degree! !
 
-!UnivariatePolynomial methodsFor: 'iterating' stamp: 'len 11/5/2016 06:52'!
+!UnivariatePolynomial methodsFor: 'iterating' stamp: 'len 11/20/2016 14:14:52'!
 monomialsAndCoefficientsDo: aBlock
 	| x |
 	x _ self species indeterminate.
-	coefficients withIndexDo: [:value :index| value isZero ifFalse: [aBlock value: (Monomial x: x to: index-1) value: value]]! !
+	coefficients withIndexDo: [:value :index| value isZero ifFalse: [aBlock value: (self species monomials x: x to: index-1) value: value]]! !
 
-!UnivariatePolynomial methodsFor: 'iterating' stamp: 'len 5/19/2016 07:29'!
+!UnivariatePolynomial methodsFor: 'iterating' stamp: 'len 11/20/2016 14:15:07'!
 monomialsApply: aBlock
 	| x monomials n newCoefficients |
 	x _ self species indeterminate.
 	monomials _ (1 to: coefficients size) collect: [:i|
-		(aBlock value: (Monomial x: x to: i-1)) -> (coefficients at: i)].
+		(aBlock value: (self species monomials x: x to: i-1)) -> (coefficients at: i)].
 	n _ monomials max: [:each| each key degree].
 	newCoefficients _ Array new: n+1 :: atAllPut: self scalars zero.
 	monomials do: [:each| newCoefficients at: each key degree + 1 add: each value].
 	^ self species coefficients: newCoefficients ! !
 
-!UnivariatePolynomial methodsFor: 'iterating' stamp: 'len 3/26/2016 23:50'!
+!UnivariatePolynomial methodsFor: 'iterating' stamp: 'len 11/20/2016 14:15:14'!
 monomialsDo: aBlock
 	| x |
 	x _ self species indeterminate.
 	1 to: coefficients size do: [:i|
 		(coefficients at: i) isZero
-			ifFalse: [aBlock value: (Monomial x: x to: i-1)]]! !
+			ifFalse: [aBlock value: (self species monomials x: x to: i-1)]]! !
+
+!UnivariatePolynomial methodsFor: 'roots' stamp: 'len 11/20/2016 10:21:45'!
+multiplicityAt: anObject
+	"Answer the multiplicity of anObject as zero of the receiver."
+
+	| answer f |
+	self isZero ifTrue: [^ Infinity positive].
+	answer _ 0.
+	f _ self.
+	[(f value: anObject) isZero]
+		whileTrue:
+			[answer _ answer + 1.
+			f _ f derivative].
+	^ answer! !
 
 !UnivariatePolynomial methodsFor: 'arithmetic' stamp: 'len 3/23/2016 05:55'!
 multiplyByMonomial: aMonomial
@@ -33218,6 +33190,23 @@ reversed
 
 	^ self species coefficients: coefficients reversed! !
 
+!UnivariatePolynomial methodsFor: 'roots' stamp: 'len 11/20/2016 10:21:50'!
+roots
+	"Answer the roots (counted with multiplicity) in the coefficients ring or field."
+	^ self rootsIn: self scalars! !
+
+!UnivariatePolynomial methodsFor: 'roots' stamp: 'len 11/20/2016 10:21:56'!
+rootsIn: aField
+	"Answer the roots (conted with multiplicaity) in the given domain."
+	(aField isField and: [aField isFinite and: [aField characteristic even not]]) ifTrue: [^ (FiniteFieldRootFinder polynomial: self) roots].
+	(aField isKindOf: Rationals) ifTrue: [^ (RationalRootFinder polynomial: self) roots].
+	((aField isKindOf: AlgebraicNumbers) or: [aField isKindOf: ComplexNumbers]) ifTrue: [^ (ComplexRootFinder polynomial: self) roots].
+	((aField isKindOf: RealAlgebraicNumbers) or: [aField isKindOf: Reals]) ifTrue: [^ (RealRootFinder polynomial: self) roots].
+	(aField isKindOf: Integers) ifTrue: [^ (RationalRootFinder polynomial: self) roots select: [:each| each isInteger]].
+	self flag: #fix. "count multiplicity, implement more efficient algorithm"
+	aField isFinite ifTrue: [^ aField elements select: [:each| (self value: each) isZero]].
+	^ self error: 'unknown domain'! !
+
 !UnivariatePolynomial methodsFor: 'operations' stamp: 'len 3/29/2016 18:17'!
 shift: anInteger
 	| n |
@@ -33225,6 +33214,37 @@ shift: anInteger
 	n _ self degree + anInteger.
 	n >= 0 ifFalse: [^ self zero].
 	^ self species coefficients: coefficients >>> anInteger! !
+
+!UnivariatePolynomial methodsFor: 'roots' stamp: 'len 11/20/2016 10:22:00'!
+signature
+	"Answer the signature (r1,r2) of the receiver, where r1 is the number of real roots and 2*r2 is the number of non-real roots. Assume the receiver's coefficients are integers. Throw an error if the receiver is not square-free.
+	Ref: COHEN Algorithm 4.1.11 (Sturm)."
+	| A B g h s n t r1 d R |
+	self isZero ifTrue: [^ #(0 0)].
+	A _ self primitive.
+	B _ self derivative primitive.
+	g _ 1.
+	h _ 1.
+	s _ A sign.
+	n _ A degree.
+	t _ n even ifTrue: [s negated] ifFalse: [s].
+	r1 _ 1.
+	[d _ A degree - B degree.
+	R _ A pseudoRem: B.
+	R isZero ifTrue: [^ self error: 'polynomial is not square-free'].
+	(d odd or: [B leadingCoefficient > 0])
+		ifTrue: [R _ R negated].
+	"Use Sturm:"
+	R sign ~= s ifTrue: [s _ s negated. r1 _ r1 - 1].
+	R sign ~= ((-1) ** R degree * t) ifTrue: [t _ t negated. r1 _ r1 + 1].
+	"Finished?"
+	R isConstant]
+		whileFalse:
+			[A _ B.
+			B _ R / (h ** d * g).
+			g _ A leadingCoefficient abs.
+			h _ h ** (1 - d) * (g ** d)].
+	^ {r1. n - r1 / 2}! !
 
 !UnivariatePolynomial methodsFor: 'operations' stamp: 'len 11/12/2016 07:51'!
 subresultant: i with: aPolynomial
@@ -33290,6 +33310,43 @@ sylvester: aPolynomial
 value: anObject
 	"Evaluate the receiver at the given argument using Horner's method."
 	^ coefficients polynomialValue: anObject! !
+
+!UnivariatePolynomial methodsFor: 'roots' stamp: 'len 11/20/2016 10:22:06'!
+zeroAddition: aPolynomial
+	"Answer a polynomial whose zeros are the addition of the receiver zeros with the zeros of the argument."
+	| f g R R` y X Y C |
+	self degree <= aPolynomial degree
+		ifTrue: [f _ self. g _ aPolynomial]
+		ifFalse: [g _ self. f _ aPolynomial].
+	R _ self species.
+	y _ R rank + 1.
+	R` _ self scalars polynomialsIn: R rank + 1.
+	X _ R` x: R indeterminate.
+	Y _ R` x: y.
+	C _ f companion apply: R embedding.
+	^ (((g value: X - Y) asUnivariateIn: y) value: C) determinant! !
+
+!UnivariatePolynomial methodsFor: 'roots' stamp: 'len 11/20/2016 10:22:10'!
+zeroNegation
+	"Answer a polynomial whose zeros are the receiver zeros negated."
+
+	^ self species coefficients: (self denseCoefficients withIndexCollect: [:each :i| i odd ifTrue: [each negated] ifFalse: [each]])! !
+
+!UnivariatePolynomial methodsFor: 'roots' stamp: 'len 11/20/2016 10:22:14'!
+zeroProduct: aPolynomial
+	"Answer a polynomial whose zeros are the product of the receiver zeros by the zeros of the argument."
+	| f g C |
+	self degree <= aPolynomial degree
+		ifTrue: [f _ self. g _ aPolynomial]
+		ifFalse: [g _ self. f _ aPolynomial].
+	C _ f companion apply: self species embedding.
+	^ (g homogenized asUnivariate value: C) determinant! !
+
+!UnivariatePolynomial methodsFor: 'roots' stamp: 'len 11/20/2016 10:22:25'!
+zeroReciprocal
+	"Answer a polynomial whose zeros are the reciprocals of the receiver's zeros."
+
+	^ self reversed! !
 
 !UnivariatePolynomial class methodsFor: 'instance creation' stamp: 'len 11/18/2016 20:45:15'!
 coefficients: aTuple

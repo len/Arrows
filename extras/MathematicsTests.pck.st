@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 19 November 2016 at 6:42:34 pm'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 20 November 2016 at 2:44:11 pm'!
 'Description Please enter a description for this package'!
-!provides: 'MathematicsTests' 1 45!
+!provides: 'MathematicsTests' 1 46!
 !classDefinition: #AbelianGroupTest category: #MathematicsTests!
 TestCase subclass: #AbelianGroupTest
 	instanceVariableNames: ''
@@ -314,6 +314,19 @@ CASBenchmark class
 
 !GroebnerBasisBenchmark commentStamp: '<historical>' prior: 0!
 GroebnerBasisBenchmark new run
+
+testCyclic3	1,810 per second.
+testCyclic4	551 per second.
+testCyclic5	84.6 per second.
+testCyclic6	20.5 per second.
+testEliminationExample	689 per second.
+testKatsura2	5,650 per second.
+testKatsura3	705 per second.
+testKatsura4	6.61 per second.
+testModularCyclic3	1,880 per second.
+testModularKatsura2	5,530 per second.
+testModularKatsura3	676 per second.
+testModularKatsura4	9.91 per second.
 
 testCyclic3	1,940 per second.
 testCyclic4	551 per second.
@@ -667,6 +680,7 @@ testModularDotProductBytes	36,900 per second.
 testModularDotProductWords	30,400 per second.
 testModularSumBytes	26,200 per second.
 testModularSumWords	21,600 per second.
+testPermutationCompositionArray	33,900 per second.
 testPermutationCompositionWords	31,400 per second.
 
 Cuis 5.0 with Cog 5.0-201611161032, 32 bits, Intel i5-3210M @ 2.5Ghz, cache 3072 KB, 4990 bobomips, running inside virtualbox
@@ -680,6 +694,7 @@ testModularDotProductBytes	41,000 per second.
 testModularDotProductWords	37,000 per second.
 testModularSumBytes	37,900 per second.
 testModularSumWords	34,100 per second.
+testPermutationCompositionArray	69,100 per second.
 testPermutationCompositionWords	51,900 per second.
 !
 
@@ -3605,30 +3620,33 @@ testTuplesZ2
 testTuplesZ4
 	self testFreeModule: ((ZZ mod: 4) ** 5 atRandom)! !
 
-!MonomialTest methodsFor: 'as yet unclassified' stamp: 'len 7/3/2016 02:06'!
+!MonomialTest methodsFor: 'as yet unclassified' stamp: 'len 11/20/2016 11:18:05'!
 testMonomialDivision
-	| x y |
-	x _ Monomial x: 1.
-	self assert: x*x = (Monomial x: 1 to: 2).
-	y _ Monomial x: 2.
+	| M x y |
+	M _ Monomials new: 2.
+	x _ M x: 1.
+	self assert: x*x = (M x: 1 to: 2).
+	y _ M x: 2.
 	self assert: x*x*y / (x*y) = x.
 	self assert: x*y*x / x = (x*y).
 	self assert: x*y*x*y / (x*y) = (x*y)! !
 
-!MonomialTest methodsFor: 'as yet unclassified' stamp: 'len 7/3/2016 02:07'!
+!MonomialTest methodsFor: 'as yet unclassified' stamp: 'len 11/20/2016 11:18:30'!
 testMonomialGCD
-	| x y a b |
-	x _ Monomial x: 1.
-	y _ Monomial x: 2.
+	| M x y a b |
+	M _ Monomials new: 2.
+	x _ M x: 1.
+	y _ M x: 2.
 	a _ x*x*y*y*y.
 	b _ x*x*x*y*y.
 	self assert: (a gcd: b) = (x*x*y*y)! !
 
-!MonomialTest methodsFor: 'as yet unclassified' stamp: 'len 7/3/2016 02:07'!
+!MonomialTest methodsFor: 'as yet unclassified' stamp: 'len 11/20/2016 11:18:48'!
 testMonomialLCM
-	| x y a b |
-	x _ Monomial x: 1.
-	y _ Monomial x: 2.
+	| M x y a b |
+	M _ Monomials new: 2.
+	x _ M x: 1.
+	y _ M x: 2.
 	a _ x*x.
 	b _ x*y*y.
 	self assert: (a lcm: b) = (x*x*y*y)! !
@@ -3682,50 +3700,51 @@ testMonomialOrderings3
 	self assert: (f orderedBy: #tlex) leadingTerm = (x2*x4).
 	self assert: (f orderedBy: #trevlex) leadingTerm = (x3**2)! !
 
-!MonomialTest methodsFor: 'as yet unclassified' stamp: 'len 7/3/2016 02:10'!
+!MonomialTest methodsFor: 'as yet unclassified' stamp: 'len 11/20/2016 12:13:59'!
 testMonomialOrderingsExample
-	| a b grlex lex grevlex |
+	| a b lex tlex trevlex |
 	a _ Monomial exponents: #(3 2 8).
 	b _ Monomial exponents: #(2 9 2).
 	
-	lex _ MonomialOrdering lex: 3.
-	grlex _ MonomialOrdering tlex: 3.
-	grevlex _ MonomialOrdering trevlex: 3.
+	lex _ Monomials new: 3 ordering: #lex.
+	tlex _ Monomials new: 3 ordering: #tlex.
+	trevlex _ Monomials new: 3 ordering: #trevlex.
 
-	self assert: (lex is: a gneq: b).
-	self assert: (grlex is: a gneq: b).
-	self assert: (grevlex is: b gneq: a)! !
+	self assert: (a as: lex) > (b as: lex).
+	self assert: (a as: tlex) > (b as: tlex).
+	self assert: (a as: trevlex) < (b as: trevlex)! !
 
-!MonomialTest methodsFor: 'as yet unclassified' stamp: 'len 7/4/2016 03:41'!
+!MonomialTest methodsFor: 'as yet unclassified' stamp: 'len 11/20/2016 12:18:17'!
 testMonomialOrderingsOfIndeterminates
-	| x y z |
-	x _ Monomial x: 1.
-	y _ Monomial x: 2.
-	z _ Monomial x: 3.
+	| M x y z |
+	M _ Monomials new: 3.
+	x _ M x: 1.
+	y _ M x: 2.
+	z _ M x: 3.
 	{MonomialOrdering lex: 3.
 	MonomialOrdering revlex: 3.
 	MonomialOrdering tlex: 3.
 	MonomialOrdering trevlex: 3} do: [:ordering| 
-		self assert: (ordering is: x gneq: y).
-		self assert: (ordering is: y gneq: z)]! !
+		self assert: (x orderedBy: ordering) > (y orderedBy: ordering).
+		self assert: (y orderedBy: ordering) > (z orderedBy: ordering)]! !
 
-!MonomialTest methodsFor: 'as yet unclassified' stamp: 'len 7/4/2016 03:44'!
+!MonomialTest methodsFor: 'as yet unclassified' stamp: 'len 11/20/2016 12:12:11'!
 testMonomialOrderingsOfIndeterminatesReordered
-	| x y z ordering |
-	x _ Monomial x: 1.
-	y _ Monomial x: 2.
-	z _ Monomial x: 3.
-	ordering _ MonomialOrdering lex: #(2 1 3).
-	self assert: (ordering is: y gneq: x).
-	self assert: (ordering is: x gneq: z).
-! !
+	| M x y z |
+	M _ Monomials new: 3 ordering: (MonomialOrdering lex: #(2 1 3)).
+	x _ M x: 1.
+	y _ M x: 2.
+	z _ M x: 3.
+	self assert: y > x.
+	self assert: x > z! !
 
-!MonomialTest methodsFor: 'as yet unclassified' stamp: 'len 7/3/2016 02:07'!
+!MonomialTest methodsFor: 'as yet unclassified' stamp: 'len 11/20/2016 11:30:47'!
 testMonomialProduct
-	| x y |
-	x _ Monomial x: 1.
-	self assert: x*x = (Monomial x: 1 to: 2).
-	y _ Monomial x: 2.
+	| M x y |
+	M _ Monomials new: 2.
+	x _ M x: 1.
+	self assert: x*x = (M x: 1 to: 2).
+	y _ M x: 2.
 	self assert: x*y = (y*x).
 	self assert: x*y*y = (x*(y*y)).
 	self assert: ((x*y*y) at: 2) = 2.
@@ -5596,9 +5615,18 @@ testModularSumWords
 	c _ WordArray new: 1000.
 	^ [self testSum: a with: b into: c modulo: p] bench! !
 
-!CASBenchmark methodsFor: 'as yet unclassified' stamp: 'len 11/19/2016 11:11:08'!
+!CASBenchmark methodsFor: 'as yet unclassified' stamp: 'len 11/19/2016 19:09:54'!
 testPermutate: a with: b into: c
-	1 to: a size do: [:i| c at: i put: (a at: (b at: i))]! !
+	1 to: a size do: [:i| c at: i put: (b at: (a at: i))]! !
+
+!CASBenchmark methodsFor: 'as yet unclassified' stamp: 'len 11/19/2016 19:08:57'!
+testPermutationCompositionArray
+	| n a b c |
+	n _ 1000.
+	a _ (1 to: n) shuffled.
+	b _ (1 to: n) shuffled.
+	c _ Array new: n.
+	^ [self testPermutate: a with: b into: c] bench! !
 
 !CASBenchmark methodsFor: 'as yet unclassified' stamp: 'len 11/19/2016 11:11:52'!
 testPermutationCompositionWords
