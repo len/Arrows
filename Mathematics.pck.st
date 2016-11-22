@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 20 November 2016 at 3:33:36 pm'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 22 November 2016 at 9:19:51 am'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 288!
+!provides: 'Mathematics' 1 289!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
 	instanceVariableNames: 'numerator shift'
@@ -2623,7 +2623,7 @@ SimpleTensor class
 
 !classDefinition: #Monomial category: #'Mathematics-Monomials'!
 Object subclass: #Monomial
-	instanceVariableNames: 'exponents parent'
+	instanceVariableNames: 'exponents parent degree'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Monomials'!
@@ -4504,6 +4504,12 @@ My instances are (commutative) power products of one or many variables. They for
 
 !MonomialOrdering commentStamp: '<historical>' prior: 0!
 My instances are monomial orderings.
+
+A monomial ordering is a total order on the set of all monomials in a given polynomial ring, satisfying the properties:
+- respects multiplication: if u <= v, then u*w <= v*w for any other monomial w;
+- 1 <= u for any monomial u.
+
+Orderings are used in the computation of Groebner bases. See GroebnerBasis.
 !
 
 !LexicographicOrdering commentStamp: '<historical>' prior: 0!
@@ -5364,12 +5370,12 @@ at: anInteger add: anObject
 combinations: r
 	^ Iterator on: [:aBlock| self combinations: r atATimeDo: aBlock]! !
 
-!SequenceableCollection methodsFor: '*mathematics' stamp: 'len 3/24/2016 02:52'!
+!SequenceableCollection methodsFor: '*mathematics' stamp: 'len 11/22/2016 05:40:12'!
 convolution: aCollection
 	| answer |
 	self isEmpty ifTrue: [^ self].
 	aCollection isEmpty ifTrue: [^ aCollection].
-	answer _ self species new: self size + aCollection size.
+	answer _ self species new: self size + aCollection size - 1.
 	answer atAllPut: (self at: 1) - (self at: 1).
 	1 to: self size do: [:i|
 		1 to: aCollection size do: [:k|
@@ -7290,29 +7296,165 @@ on: aBlock
 on: anObject performing: aSymbol
 	^ self new block: [:aBlock| anObject perform: aSymbol with: aBlock]! !
 
-!MonomialTuple methodsFor: 'as yet unclassified' stamp: 'len 11/20/2016 10:27:12'!
+!MonomialTuple methodsFor: 'operations' stamp: 'len 11/20/2016 16:56:16'!
+* aNumber
+	^ self collect: [:each| each*aNumber]! !
+
+!MonomialTuple methodsFor: 'operations' stamp: 'len 11/21/2016 09:07:44'!
++ aMonomialTuple
+	| newAssociations stream1 stream2 |
+	newAssociations _ OrderedCollection new: self size + aMonomialTuple size.
+	stream1 _ associations readStream.
+	stream2 _ aMonomialTuple associations readStream.
+	[stream1 atEnd or: [stream2 atEnd]]
+		whileFalse:
+			[| cmp |
+			cmp _ stream1 peek key compare: stream2 peek key.
+			cmp < 0
+				ifTrue: [newAssociations add: stream1 next]
+				ifFalse: [cmp > 0
+					ifTrue: [newAssociations add: stream2 next]
+					ifFalse:
+						[| a b newValue |
+						a _ stream1 next.
+						b _ stream2 next.
+						(newValue _ a value + b value) isZero
+							ifFalse: [newAssociations add: (a copy value: newValue)]]]].
+	[stream1 atEnd] whileFalse: [newAssociations add: stream1 next].
+	[stream2 atEnd] whileFalse: [newAssociations add: stream2 next].
+	^ self class associations: newAssociations over: scalars! !
+
+!MonomialTuple methodsFor: 'operations' stamp: 'len 11/20/2016 16:55:37'!
+- aMonomialTuple
+	^ self + aMonomialTuple negated! !
+
+!MonomialTuple methodsFor: 'comparing' stamp: 'len 11/21/2016 09:14:40'!
+= aMonomialTuple
+	self size = aMonomialTuple size ifFalse: [^ false].
+	self == aMonomialTuple ifTrue: [^ true].
+	^ associations = aMonomialTuple associations! !
+
+!MonomialTuple methodsFor: 'accessing-private' stamp: 'len 11/21/2016 08:30:05'!
+associations
+	^ associations! !
+
+!MonomialTuple methodsFor: 'accessing-private' stamp: 'len 11/20/2016 10:27:12'!
 associations: aCollection
 	associations _ aCollection! !
 
-!MonomialTuple methodsFor: 'as yet unclassified' stamp: 'len 11/20/2016 10:36:07'!
+!MonomialTuple methodsFor: 'iterating' stamp: 'len 11/20/2016 17:02:42'!
+associationsDo: aBlock
+	associations do: aBlock! !
+
+!MonomialTuple methodsFor: 'accessing' stamp: 'len 11/20/2016 10:36:07'!
 at: aMonomial
 	^ self at: aMonomial ifAbsent: [scalars zero]! !
 
-!MonomialTuple methodsFor: 'as yet unclassified' stamp: 'len 11/20/2016 10:44:32'!
+!MonomialTuple methodsFor: 'accessing' stamp: 'len 11/20/2016 10:44:32'!
 at: aMonomial add: aNumber
 	associations findBinaryIndex: [:each| each key compareWith: aMonomial] do: [:index| | association | (association _ associations at: index) value: (association value + aNumber)] ifNone: [:low :high| ]! !
 
-!MonomialTuple methodsFor: 'as yet unclassified' stamp: 'len 11/20/2016 10:35:53'!
+!MonomialTuple methodsFor: 'accessing' stamp: 'len 11/21/2016 09:11:09'!
 at: aMonomial ifAbsent: exceptionBlock
-	^ associations findBinary: [:each| each key compareWith: aMonomial] do: [:each| each value] ifNone: exceptionBlock! !
+	^ associations findBinary: [:each| each key compare: aMonomial] do: [:each| each value] ifNone: exceptionBlock! !
 
-!MonomialTuple methodsFor: 'as yet unclassified' stamp: 'len 11/20/2016 10:26:33'!
+!MonomialTuple methodsFor: 'accessing' stamp: 'len 11/20/2016 17:04:43'!
+at: key ifPresent: presentBlock
+	"Lookup the given key in the receiver. If it is present, answer the value of evaluating the given block with the value associated with the key. Otherwise, answer nil."
+
+	| v |
+	v _ self at: key ifAbsent: [ ^ nil ].
+	^ presentBlock value: v! !
+
+!MonomialTuple methodsFor: 'accessing' stamp: 'len 11/21/2016 09:11:27'!
+at: aMonomial put: aNumber
+	associations findBinaryIndex: [:each| each key compare: aMonomial] do: [:index| | association | (association _ associations at: index) value: aNumber] ifNone: [:low :high| ]! !
+
+!MonomialTuple methodsFor: 'iterating' stamp: 'len 11/21/2016 08:48:14'!
+collect: aBlock
+	| newAssociations |
+	newAssociations _ OrderedCollection new: associations size.
+	associations do: [:each| | newValue |
+		(newValue _ aBlock value: each value) isZero ifFalse: [newAssociations add: (each copy value: newValue)]].
+	^ self class associations: newAssociations over: scalars! !
+
+!MonomialTuple methodsFor: 'iterating' stamp: 'len 11/21/2016 08:50:46'!
+collectNoZero: aBlock
+	^ self class associations: (associations collect: [:each| each copy value: (aBlock value: each value)]) over: scalars! !
+
+!MonomialTuple methodsFor: 'operations' stamp: 'len 11/21/2016 13:04:43'!
+convolution2: aMonomialTuple
+	| a b answer temp |
+	self size <= aMonomialTuple size
+		ifTrue: [a _ associations. b _ aMonomialTuple associations]
+		ifFalse: [a _ aMonomialTuple associations. b _ associations].
+	answer _ self class over: scalars.
+	temp _ Array new: b size.
+	a do: [:each|
+		1 to: b size do: [:i| | other | other _ b at: i. temp at: i put: other key * each key -> (other value * each value)].
+		answer _ answer + (self class associations: temp over: scalars)].
+	^ answer! !
+
+!MonomialTuple methodsFor: 'operations' stamp: 'len 11/22/2016 05:40:33'!
+convolution: aMonomialTuple
+	| dictionary newAssociations |
+	dictionary _ Dictionary2 new: self size + aMonomialTuple size.
+	self associationsDo: [:each|
+		aMonomialTuple associationsDo: [:other|
+			dictionary at: each key * other key add: each value * other value]].
+	newAssociations _ OrderedCollection new: dictionary size.
+	dictionary associationsDo: [:each| each value isZero ifFalse: [newAssociations add: each]].
+	^ self class associations: newAssociations asSortedCollection over: scalars! !
+
+!MonomialTuple methodsFor: 'iterating' stamp: 'len 11/20/2016 17:14:49'!
+do: aBlock
+	self associationsDo: [:each| aBlock value: each value]! !
+
+!MonomialTuple methodsFor: 'operations' stamp: 'len 11/21/2016 09:10:08'!
+dot: aMonomialTuple
+	| answer |
+	self size <= aMonomialTuple size ifFalse: [^ aMonomialTuple dot: self].
+	answer _ scalars zero.
+	associations do: [:each| aMonomialTuple at: each key ifPresent: [:value2| answer _ answer + (each value*value2)]].
+	^ answer! !
+
+!MonomialTuple methodsFor: 'comparing' stamp: 'len 11/21/2016 09:18:00'!
+hash
+	^ associations hash! !
+
+!MonomialTuple methodsFor: 'operations' stamp: 'len 11/20/2016 17:05:41'!
+negated
+	^ self class associations: (associations collect: [:each| each copy value: each value negated]) over: scalars! !
+
+!MonomialTuple methodsFor: 'printing' stamp: 'len 11/20/2016 17:15:30'!
+printOn: aStream
+	aStream nextPut: $(.
+	associations do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: ', '].
+	aStream nextPut: $)! !
+
+!MonomialTuple methodsFor: 'accessing' stamp: 'len 11/20/2016 10:26:33'!
 scalars
 	^ scalars! !
 
-!MonomialTuple methodsFor: 'as yet unclassified' stamp: 'len 11/20/2016 10:26:40'!
+!MonomialTuple methodsFor: 'accessing-private' stamp: 'len 11/20/2016 10:26:40'!
 scalars: aRing
 	scalars _ aRing! !
+
+!MonomialTuple methodsFor: 'accessing' stamp: 'len 11/21/2016 08:55:19'!
+size
+	^ associations size! !
+
+!MonomialTuple class methodsFor: 'instance creation' stamp: 'len 11/20/2016 16:51:57'!
+associations: aCollection over: aRing
+	^ self basicNew scalars: aRing; associations: aCollection! !
+
+!MonomialTuple class methodsFor: 'instance creation' stamp: 'len 11/20/2016 17:06:55'!
+new: anInteger over: aRing
+	^ self basicNew scalars: aRing; associations: (OrderedCollection new: anInteger)! !
+
+!MonomialTuple class methodsFor: 'instance creation' stamp: 'len 11/20/2016 16:52:13'!
+over: aRing
+	^ self basicNew scalars: aRing; associations: OrderedCollection new! !
 
 !SparseTuple methodsFor: 'operations' stamp: 'len 11/18/2016 09:51:39'!
 * aNumber
@@ -7491,6 +7633,10 @@ withIndexDo: elementAndIndexBlock
 !SparseTuple methodsFor: 'accessing' stamp: 'len 11/18/2016 09:58:02'!
 zero
 	^ self class over: scalars! !
+
+!SparseTuple class methodsFor: 'as yet unclassified' stamp: 'len 11/21/2016 11:00:54'!
+associations: aCollection over: aRing
+	^ self coefficients: (aCollection as: Dictionary2) over: aRing! !
 
 !SparseTuple class methodsFor: 'as yet unclassified' stamp: 'len 11/18/2016 10:00:47'!
 coefficients: aDictionary over: aRing
@@ -15037,8 +15183,9 @@ atRandom: aRandom bits: bitSize
 do: aBlock
 	NN ** self rank do: [:each| aBlock value: (self exponents: (each collect: [:x| x - 1]) asArray)]! !
 
-!Monomials methodsFor: 'elements' stamp: 'len 11/20/2016 12:03:22'!
+!Monomials methodsFor: 'elements' stamp: 'len 11/21/2016 14:13:50'!
 exponents: anArray
+	anArray size = rank ifFalse: [self halt].
 	^ (Monomial exponents: anArray) parent: self! !
 
 !Monomials methodsFor: 'accessing' stamp: 'len 6/30/2016 00:36'!
@@ -15085,9 +15232,16 @@ isFinite
 isUnivariate
 	^ self rank = 1! !
 
-!Monomials methodsFor: 'elements' stamp: 'len 11/20/2016 12:15:32'!
+!Monomials methodsFor: 'elements' stamp: 'len 11/21/2016 14:17:29'!
 newFrom: aMonomial
-	^ self exponents: aMonomial exponents! !
+	| exponents n |
+	exponents _ aMonomial exponents.
+	(n _ exponents size) = rank
+		ifFalse:
+			[n > rank
+				ifTrue: [exponents _ exponents copyFrom: 1 to: rank]
+				ifFalse: [exponents _ exponents, (ByteArray new: rank - n) "hack"]].
+	^ self exponents: exponents! !
 
 !Monomials methodsFor: 'converting' stamp: 'len 11/20/2016 12:04:14'!
 orderedBy: aMonomialOrdering
@@ -15119,13 +15273,13 @@ rank
 rank: anInteger
 	rank _ anInteger! !
 
-!Monomials methodsFor: 'elements' stamp: 'len 11/20/2016 12:03:09'!
+!Monomials methodsFor: 'elements' stamp: 'len 11/21/2016 14:03:21'!
 x: anInteger
-	^ (Monomial x: anInteger) parent: self! !
+	^ self x: anInteger to: 1! !
 
-!Monomials methodsFor: 'elements' stamp: 'len 11/20/2016 12:03:31'!
+!Monomials methodsFor: 'elements' stamp: 'len 11/21/2016 14:03:10'!
 x: anInteger to: exponent
-	^ (Monomial x: anInteger to: exponent) parent: self! !
+	^ ((Monomial new: rank) at: anInteger put: exponent; yourself) parent: self! !
 
 !Monomials class methodsFor: 'instance creation' stamp: 'len 11/20/2016 11:03:07'!
 new: anInteger
@@ -18081,17 +18235,16 @@ asMultivariate
 		ifTrue: [answer indeterminateNames: self scalars indeterminateNames, self indeterminateNames].
 	^ answer! !
 
-!PolynomialRing methodsFor: 'converting' stamp: 'len 5/20/2016 23:16'!
+!PolynomialRing methodsFor: 'converting' stamp: 'len 11/21/2016 19:18:05'!
 asUnivariate
 	self isUnivariate ifTrue: [^ self].
 	self indeterminateNames notNil
-		ifTrue: [^ self scalars polynomialsIn: self indeterminateNames allButLast :: polynomialsIn: {self indeterminateNames last}].
-	^ self scalars polynomialsIn: self rank - 1 :: polynomials! !
+		ifTrue: [^ (self scalars polynomialsIn: self indeterminateNames allButLast) polynomialsIn: {self indeterminateNames last}].
+	^ (self scalars polynomialsIn: self rank - 1) polynomials! !
 
-!PolynomialRing methodsFor: 'converting' stamp: 'len 5/23/2016 04:09'!
+!PolynomialRing methodsFor: 'converting' stamp: 'len 11/21/2016 19:31:43'!
 asUnivariateIn: anIndeterminate
-	(self indeterminates includes: anIndeterminate) ifFalse: [^ self error: 'indeterminate not found'].
-	anIndeterminate = self indeterminates last ifFalse: [^ self error: 'bad indeterminate'].
+	anIndeterminate = self rank ifFalse: [^ self error: 'bad indeterminate'].
 	^ self asUnivariate! !
 
 !PolynomialRing methodsFor: 'random' stamp: 'len 10/22/2016 18:16'!
@@ -18468,12 +18621,12 @@ new
 		ifFalse: [MultivariatePolynomial coefficients: (SparseTuple over: self scalars)])
 			parent: self! !
 
-!PolynomialRing methodsFor: 'elements' stamp: 'len 11/20/2016 14:23:32'!
+!PolynomialRing methodsFor: 'elements' stamp: 'len 11/21/2016 19:34:02'!
 newFrom: aPolynomial
 	| coefficients |
 	(aPolynomial isKindOf: Polynomial) ifFalse: [^ self evaluating: aPolynomial].
-	(aPolynomial indeterminates allSatisfy: [:each| self has: each])
-		ifFalse: [self halt].
+	(aPolynomial indeterminates allSatisfy: [:each| each <= self rank])
+		ifFalse: [self error: 'unknown indeterminates are present'].
 	coefficients _ ((aPolynomial isKindOf: UnivariatePolynomial) and: [self isUnivariate not])
 			ifTrue: [aPolynomial asSparsePolynomial coefficients]
 			ifFalse: [aPolynomial coefficients].
@@ -20724,13 +20877,13 @@ automorphisms
 	The automorphisms of a code and it's dual are the same."
 	self notYetImplemented! !
 
-!LinearCode methodsFor: 'accessing' stamp: 'len 7/15/2016 18:27'!
+!LinearCode methodsFor: 'accessing' stamp: 'len 11/21/2016 14:00:50'!
 completeWeightEnumerator
 	"Answer the complete weight enumerator polynomial."
 	| F P |
 	F _ self ambient scalars elements asArray.
 	P _ ZZ polynomialsIn: F size.
-	^ self elements sum: [:each| P monomial: (Monomial exponents: (F collect: [:i| each occurrencesOf: i]))]! !
+	^ self elements sum: [:each| P monomial: (P monomials exponents: (F collect: [:i| each occurrencesOf: i]))]! !
 
 !LinearCode methodsFor: 'private' stamp: 'len 2/15/2016 20:35'!
 computeMinimumDistance
@@ -27405,8 +27558,9 @@ one
 printOn: aStream
 	aStream print: representative! !
 
-!ModularInteger methodsFor: 'arithmetic' stamp: 'len 4/25/2016 00:24'!
+!ModularInteger methodsFor: 'arithmetic' stamp: 'len 11/21/2016 16:09:07'!
 reciprocal
+	representative = 1 ifTrue: [^ self].
 	^ self class representative: (representative reciprocalModulo: modulus) modulo: modulus! !
 
 !ModularInteger methodsFor: 'accessing' stamp: 'len 3/29/2016 20:49'!
@@ -28607,16 +28761,17 @@ coefficients: anArray
 collect: aBlock
 	^ self class coefficients: (coefficients collect: aBlock) over: scalars! !
 
-!ArrayTuple methodsFor: 'operations' stamp: 'len 11/6/2016 11:46'!
+!ArrayTuple methodsFor: 'operations' stamp: 'len 11/22/2016 05:47:05'!
 convolution: aTuple
 	| array |
 	self isEmpty ifTrue: [^ self].
 	aTuple isEmpty ifTrue: [^ aTuple].
-	array _ Array new: self size + aTuple size.
+	array _ Array new: self size + aTuple size - 1.
 	array atAllPut: self scalars zero.
 	self withIndexDo: [:xi :i|
-		aTuple withIndexDo: [:yj :j|
-			array at: i+j-1 add: xi*yj]].
+		xi isZero ifFalse:
+			[aTuple withIndexDo: [:yj :j|
+				array at: i+j-1 add: xi*yj]]].
 	^ self class coefficients: array over: self scalars! !
 
 !ArrayTuple methodsFor: 'copying' stamp: 'len 11/5/2016 03:58'!
@@ -28823,7 +28978,7 @@ at: anInteger put: aBit
 		ifFalse: [integer _ integer bitXor: 1 << (anInteger - 1)].
 	^ bit! !
 
-!BitTuple methodsFor: 'operations' stamp: 'len 11/18/2016 08:23:24'!
+!BitTuple methodsFor: 'operations' stamp: 'len 11/22/2016 05:39:06'!
 convolution: aBitTuple
 	| a b c |
 	a _ integer.
@@ -28832,7 +28987,7 @@ convolution: aBitTuple
 	1 to: a highBit do: [:i|
 		(a bitAt: i) = 1 ifTrue: [c _ c bitXor: b].
 		b _ b bitShift: 1].
-	^ self class new: self size + aBitTuple size fromInteger: c! !
+	^ self class new: self size + aBitTuple size - 1 fromInteger: c! !
 
 !BitTuple methodsFor: 'copying' stamp: 'len 7/2/2016 00:49'!
 copyFrom: start to: stop 
@@ -29053,17 +29208,18 @@ at: anInteger put: aModularInteger
 	representatives at: anInteger put: aModularInteger representative.
 	^ aModularInteger! !
 
-!ModularTuple methodsFor: 'operations' stamp: 'len 11/6/2016 11:49'!
+!ModularTuple methodsFor: 'operations' stamp: 'len 11/22/2016 05:50:23'!
 convolution: aTuple
 	| array |
 	self isEmpty ifTrue: [^ self].
 	aTuple isEmpty ifTrue: [^ aTuple].
-	array _ representatives class new: self size + aTuple size.
+	array _ representatives class new: self size + aTuple size - 1.
 	array atAllPut: 0. "in case it's Array"
 	representatives withIndexDo: [:xi :i|
-		aTuple representatives withIndexDo: [:yj :j| | index |
-			index _ i+j-1.
-			array at: index put: xi*yj + (array at: index) \\ modulus]].
+		xi = 0 ifFalse:
+			[aTuple representatives withIndexDo: [:yj :j| | index |
+				index _ i+j-1.
+				array at: index put: xi*yj + (array at: index) \\ modulus]]].
 	^ self class representatives: array modulo: modulus! !
 
 !ModularTuple methodsFor: 'copying' stamp: 'len 11/6/2016 11:44'!
@@ -30971,57 +31127,59 @@ components: anArray
 left: aVector right: anotherVector
 	^ self components: {aVector. anotherVector}! !
 
-!Monomial methodsFor: 'operations' stamp: 'len 11/20/2016 11:58:13'!
+!Monomial methodsFor: 'operations' stamp: 'len 11/21/2016 15:59:47'!
 * aMonomial
-	| a an b bn c |
-	(an _ self lastIndeterminate) <= (bn _ aMonomial lastIndeterminate)
-		ifTrue: [a _ exponents. b _ aMonomial exponents]
-		ifFalse: [| t | a _ aMonomial exponents. b _ exponents. t _ an. an _ bn. bn _ t].
+	| b bn c |
+	b _ aMonomial exponents.
+	bn _ aMonomial exponents size.
+	exponents size = bn ifFalse: [^ self error: 'not same size'].
 	c _ Array new: bn.
-	1 to: an do: [:i| c at: i put: (a at: i) + (b at: i)].
-	c replaceFrom: an+1 to: bn with: b startingAt: an+1.
+	1 to: bn do: [:i| c at: i put: (exponents at: i) + (b at: i)].
 	^ self species exponents: c! !
 
 !Monomial methodsFor: 'operations' stamp: 'len 11/20/2016 11:58:25'!
 ** anInteger
 	^ self species exponents: exponents * anInteger! !
 
-!Monomial methodsFor: 'operations' stamp: 'len 11/20/2016 12:00:14'!
+!Monomial methodsFor: 'operations' stamp: 'len 11/21/2016 19:01:49'!
 / aMonomial
 	"Answer the exact division of the receiver by the argument."
-"	^ self class exponents: exponents - aMonomial exponents"
-	^ self species exponents: ((1 to: (self lastIndeterminate max: aMonomial lastIndeterminate)) collect: [:i| (self at: i) - (aMonomial at: i)])! !
+	| b bn c |
+	b _ aMonomial exponents.
+	bn _ aMonomial exponents size.
+	exponents size = bn ifFalse: [^ self error: 'not same size'].
+	c _ Array new: bn.
+	1 to: bn do: [:i| c at: i put: (exponents at: i) - (b at: i)].
+	^ self species exponents: c! !
 
-!Monomial methodsFor: 'comparing' stamp: 'len 10/22/97 23:58'!
-< aMonomialLiteral
-	"Answer the receiver is below the argument."
+!Monomial methodsFor: 'comparing' stamp: 'len 11/20/2016 16:44:54'!
+< aMonomial
+	^ (self >= aMonomial) not! !
 
-	^ (self >= aMonomialLiteral) not! !
+!Monomial methodsFor: 'comparing' stamp: 'len 11/20/2016 16:44:09'!
+<= aMonomial
+	self == aMonomial ifTrue: [^ true].
+	^ (self > aMonomial) not! !
 
-!Monomial methodsFor: 'comparing' stamp: 'len 10/23/97 00:00'!
-<= aMonomialLiteral
-	"Answer the receiver is below or equal to the argument."
-
-	^ (self > aMonomialLiteral) not! !
-
-!Monomial methodsFor: 'comparing' stamp: 'len 6/6/2016 07:03'!
+!Monomial methodsFor: 'comparing' stamp: 'len 11/21/2016 19:44:36'!
 = aMonomial
-	| exponents2 n |
+	| b |
+	self == aMonomial ifTrue: [^ true].
 	aMonomial isInteger ifTrue: [^ self degree = aMonomial].
-	(n _ self lastIndeterminate) = aMonomial lastIndeterminate ifFalse: [^ false].
-	exponents2 _ aMonomial exponents.
-	1 to: n do: [:i| (exponents at: i) = (exponents2 at: i) ifFalse: [^ false]].
+"	^ exponents = aMonomial exponents"
+	b _ aMonomial exponents.
+	exponents size = b size ifFalse: [^ false].
+	1 to: exponents size do: [:i| (exponents at: i) = (b at: i) ifFalse: [^ false]].
 	^ true! !
 
-!Monomial methodsFor: 'comparing' stamp: 'len 11/20/2016 11:59:05'!
+!Monomial methodsFor: 'comparing' stamp: 'len 11/21/2016 08:36:58'!
 > aMonomial
-	^ self ordering is: self gneq: aMonomial! !
+	^ (self compare: aMonomial) > 0! !
 
-!Monomial methodsFor: 'comparing' stamp: 'len 3/16/2016 20:52'!
+!Monomial methodsFor: 'comparing' stamp: 'len 11/21/2016 11:19:23'!
 >= aMonomial
-	"Answer true if the receiver is greater than or equal to the argument in the total lexicographic ordering."
-
-	^ self = aMonomial or: [self > aMonomial]! !
+	self == aMonomial ifTrue: [^ true].
+	^ (self compare: aMonomial) >= 0! !
 
 !Monomial methodsFor: 'testing' stamp: 'len 7/3/2016 00:29'!
 | aMonomial
@@ -31030,55 +31188,41 @@ left: aVector right: anotherVector
 		(exponents at: i) > (aMonomial at: i) ifTrue: [^ false]].
 	^ true! !
 
-!Monomial methodsFor: 'operations' stamp: 'len 11/20/2016 11:59:35'!
+!Monomial methodsFor: 'operations' stamp: 'len 11/21/2016 19:07:12'!
 affinizedIn: anIndeterminate
-	exponents size < anIndeterminate ifTrue: [^ self].
-	^ self species exponents: (exponents copyWithoutIndex: anIndeterminate)! !
+	| newExponents |
+	newExponents _ Array new: exponents size.
+	newExponents replaceFrom: 1 to: anIndeterminate - 1 with: exponents.
+	newExponents replaceFrom: anIndeterminate to: exponents size - 1 with: exponents startingAt: anIndeterminate + 1.
+	newExponents at: exponents size put: 0.
+	^ self species exponents: newExponents! !
 
-!Monomial methodsFor: 'accessing' stamp: 'len 10/16/2016 21:17'!
+!Monomial methodsFor: 'accessing' stamp: 'len 11/21/2016 15:56:16'!
 at: anIndeterminate
-	"Answer the exponent of the anInteger-th indeterminate."
-	(anIndeterminate > exponents size or: [anIndeterminate <= 0]) ifTrue: [^ 0].
 	^ exponents at: anIndeterminate! !
 
-!Monomial methodsFor: 'accessing-private' stamp: 'len 5/22/2016 22:59'!
+!Monomial methodsFor: 'accessing-private' stamp: 'len 11/21/2016 15:56:24'!
 at: anIndeterminate put: anInteger
-	"Set the exponent of the anInteger-th indeterminate to anotherInteger. Answer anotherInteger."
-	anIndeterminate isInteger ifFalse: [self error: 'not integer indeterminate'].
 	^ exponents at: anIndeterminate put: anInteger! !
 
 !Monomial methodsFor: 'accessing' stamp: 'len 3/16/2016 20:03'!
 bitSize
 	^ exponents inject: 0 into: [:x :each| x + each bitSize]! !
 
-!Monomial methodsFor: 'operations' stamp: 'len 11/20/2016 11:59:47'!
+!Monomial methodsFor: 'comparing' stamp: 'len 11/21/2016 08:35:34'!
+compare: aMonomial
+	^ self ordering compare: self with: aMonomial! !
+
+!Monomial methodsFor: 'operations' stamp: 'len 11/21/2016 19:12:45'!
 complete: anInteger in: anIndeterminate
 	"Answer a copy of the receiver of degree anInteger completing with a power of the indeterminate anotherInteger."
-
-	| n d |
+	| n |
 	(n _ self degree) = anInteger ifTrue: [^ self].
-	d _ (anInteger - n + (self at: anIndeterminate)).
-	anIndeterminate <= exponents size
-		ifTrue: [^ self copy at: anIndeterminate put: d; yourself].
-	^ self species
-		exponents:
-			((Array new: anIndeterminate)
-				replaceFrom: 1 to: exponents size with: exponents;
-				from: exponents size + 1 to: anIndeterminate - 1 put: 0;
-				at: anIndeterminate put: d;
-				yourself)! !
+	^ self copy at: anIndeterminate put: anInteger - n + (self at: anIndeterminate); yourself! !
 
-!Monomial methodsFor: 'copying' stamp: 'len 11/20/2016 11:59:20'!
+!Monomial methodsFor: 'copying' stamp: 'len 11/21/2016 19:14:31'!
 copyWith: anIndeterminate to: anInteger
-	anIndeterminate <= exponents size
-		ifTrue: [^ self copy at: anIndeterminate put: anInteger; yourself].
-	^ self species
-		exponents:
-			((Array new: anIndeterminate)
-				replaceFrom: 1 to: exponents size with: exponents;
-				from: exponents size + 1 to: anIndeterminate - 1 put: 0;
-				at: anIndeterminate put: anInteger;
-				yourself)! !
+	^ self copy at: anIndeterminate put: anInteger; yourself! !
 
 !Monomial methodsFor: 'copying' stamp: 'len 3/17/2016 00:21'!
 copyWithout: anIndeterminate
@@ -31086,10 +31230,10 @@ copyWithout: anIndeterminate
 
 	^ self copy at: anIndeterminate put: 0; yourself! !
 
-!Monomial methodsFor: 'operations' stamp: 'len 11/20/2016 14:31:25'!
+!Monomial methodsFor: 'operations' stamp: 'len 11/19/2016 10:20:23'!
 degree
 	"Answer the total degree of the receiver."
-	^ exponents isEmpty ifTrue: [0] ifFalse: [exponents sum]! !
+	^ degree ifNil: [degree _ exponents isEmpty ifTrue: [0] ifFalse: [exponents sum]]! !
 
 !Monomial methodsFor: 'operations' stamp: 'len 3/17/2016 00:25'!
 degreeIn: anIndeterminate
@@ -31115,11 +31259,14 @@ gcd: aMonomial
 has: anIndeterminate
 	^ (self at: anIndeterminate) ~= 0! !
 
-!Monomial methodsFor: 'comparing' stamp: 'len 6/11/2016 08:05'!
+!Monomial methodsFor: 'comparing' stamp: 'len 11/22/2016 08:29:50'!
 hash
 	| answer |
-	answer _ 0.
-	exponents do: [:each| each == 0 ifFalse: [answer _ answer hashMultiply + each]].
+	answer _ self lastIndeterminate.
+	1 to: exponents size do: [:i|
+		| e |
+		(e _ exponents at: i) = 0
+			ifFalse: [answer _ answer hashMultiply + e]]. "(e bitXor: i hashMultiply)]]."
 	^ answer! !
 
 !Monomial methodsFor: 'accessing' stamp: 'len 6/6/2016 08:40'!
@@ -31161,18 +31308,19 @@ parent
 parent: aMonomials
 	parent _ aMonomials! !
 
-!Monomial methodsFor: 'operations' stamp: 'len 11/20/2016 14:24:58'!
+!Monomial methodsFor: 'operations' stamp: 'len 11/22/2016 08:45:09'!
 permutedBy: aPermutation
 	"Permute the variables of the receiver. The argument can be an Array (permutation in 'image format'). For example given a monomial in x,z,y, #(1 2 3) doesn't change anything, #(2 1 3) exchanges variables x and y."
 	| answer |
 	answer _ self species identity.
 	exponents withIndexDo: [:exp :i|
-		answer _ answer * (self species x: (aPermutation at: i) to: exp)].
+		exp = 0 ifFalse: [answer _ answer * (self species x: (aPermutation at: i) to: exp)]].
 	^ answer! !
 
-!Monomial methodsFor: 'copying' stamp: 'len 11/20/2016 11:55:49'!
+!Monomial methodsFor: 'copying' stamp: 'len 11/21/2016 11:07:43'!
 postCopy
-	exponents _ exponents copy! !
+	exponents _ exponents copy.
+	degree _ nil! !
 
 !Monomial methodsFor: 'printing' stamp: 'len 6/7/2016 21:48'!
 printExponent: anInteger on: aStream
@@ -31249,11 +31397,14 @@ x: i
 
 	^ self x: i to: 1! !
 
-!Monomial class methodsFor: 'instance creation' stamp: 'len 11/20/2016 11:25:37'!
+!Monomial class methodsFor: 'instance creation' stamp: 'len 11/21/2016 12:48:29'!
 x: i to: k
 	"Answer a new instance of the receiver with only one indeterminate, xi, raised to n."
-
 	^ (self new: i) at: i put: k; yourself! !
+
+!MonomialOrdering methodsFor: 'ordering' stamp: 'len 11/21/2016 08:42:01'!
+compare: aMonomial with: anotherMonomial
+	^ self subclassResponsibility! !
 
 !MonomialOrdering methodsFor: 'copying' stamp: 'len 10/31/2016 12:37'!
 copyWithout: anIndeterminate
@@ -31267,11 +31418,6 @@ indeterminates
 indeterminates: anArray
 	indeterminates _ anArray! !
 
-!MonomialOrdering methodsFor: 'ordering' stamp: 'len 7/2/2016 23:29'!
-is: aMonomial gneq: anotherMonomial
-	"Answer true if the first argument is greater than the second."
-	^ self subclassResponsibility! !
-
 !MonomialOrdering methodsFor: 'testing' stamp: 'len 10/28/2016 10:43'!
 isGraded
 	"Answer true if the receiver is a graded (also called total) ordering."
@@ -31282,22 +31428,15 @@ isLocal
 	"Answer true if the receiver is a local ordering."
 	^ false! !
 
-!MonomialOrdering methodsFor: 'ordering' stamp: 'len 3/16/2016 07:19'!
-leadingMonomialOf: aPolynomial
-	"Answer the leading (head) monomial of aPolynomial according to this ordering."
-	| answer |
-	aPolynomial monomialsDo: [:each|
-		answer _ (answer isNil or: [self is: each gneq: answer])
-			ifTrue: [each] ifFalse: [answer]].
-	^ answer! !
-
-!MonomialOrdering methodsFor: 'printing' stamp: 'len 11/20/2016 12:11:04'!
+!MonomialOrdering methodsFor: 'printing' stamp: 'len 11/21/2016 14:01:44'!
 printOn: aStream
+	| M |
 	self type isNil
 		ifTrue: [super printOn: aStream]
 		ifFalse: [aStream nextPutAll: self type].
+	M _ Monomials new: indeterminates max.
 	aStream nextPut: $[.
-	self indeterminates do: [:i| aStream print: (Monomial x: i)] separatedBy: [aStream nextPut: $,].
+	self indeterminates do: [:i| aStream print: (M x: i)] separatedBy: [aStream nextPut: $,].
 	aStream nextPut: $]! !
 
 !MonomialOrdering methodsFor: 'accessing' stamp: 'len 7/4/2016 00:40'!
@@ -31307,11 +31446,6 @@ rank
 !MonomialOrdering methodsFor: 'accessing' stamp: 'len 7/2/2016 23:33'!
 type
 	^ nil! !
-
-!MonomialOrdering methodsFor: 'ordering' stamp: 'len 7/7/2016 05:36'!
-value: aMonomial value: anotherMonomial
-	"Answer true if the first argument is greater than the second."
-	^ self subclassResponsibility! !
 
 !MonomialOrdering class methodsFor: 'instance creation' stamp: 'len 7/4/2016 00:51'!
 indeterminates: anArray
@@ -31338,37 +31472,41 @@ tlex: anArray
 trevlex: anArray
 	^ TotalReverseLexicographicOrdering indeterminates: anArray! !
 
-!LexicographicOrdering methodsFor: 'ordering' stamp: 'len 7/4/2016 00:41'!
-is: aMonomial gneq: anotherMonomial
-	"Answer true if the first argument is greater than the second."
-	| e1 e2 |
-	e1 _ aMonomial "exponents".
-	e2 _ anotherMonomial "exponents".
+!LexicographicOrdering methodsFor: 'ordering' stamp: 'len 11/21/2016 13:40:59'!
+compare: aMonomial with: anotherMonomial
+	| e1 e2 n1 n2 |
+	e1 _ aMonomial exponents.
+	e2 _ anotherMonomial exponents.
+	n1 _ e1 size.
+	n2 _ e2 size.
 	1 to: indeterminates size do: [:i|
 		| xi a b |
-		a _ e1 at: (xi _ indeterminates at: i).
-		b _ e2 at: xi.
-		a > b ifTrue: [^ true].
-		a = b ifFalse: [^ false]].
-	^ false! !
+		xi _ indeterminates at: i.
+		a _ xi <= n1 ifTrue: [e1 at: xi] ifFalse: [0].
+		b _ xi <= n2 ifTrue: [e2 at: xi] ifFalse: [0].
+		a > b ifTrue: [^ 1].
+		a = b ifFalse: [^ -1]].
+	^ 0! !
 
 !LexicographicOrdering methodsFor: 'accessing' stamp: 'len 7/2/2016 23:26'!
 type
 	^ #lex! !
 
-!ReverseLexicographicOrdering methodsFor: 'ordering' stamp: 'len 7/8/2016 20:07'!
-is: aMonomial gneq: anotherMonomial
-	"Answer true if the first argument is greater than the second."
-	| e1 e2 |
-	e1 _ aMonomial "exponents".
-	e2 _ anotherMonomial "exponents".
+!ReverseLexicographicOrdering methodsFor: 'ordering' stamp: 'len 11/21/2016 13:42:07'!
+compare: aMonomial with: anotherMonomial
+	| e1 e2 n1 n2 |
+	e1 _ aMonomial exponents.
+	e2 _ anotherMonomial exponents.
+	n1 _ e1 size.
+	n2 _ e2 size.
 	indeterminates size to: 1 by: -1 do: [:i|
 		| xi a b |
-		a _ e1 at: (xi _ indeterminates at: i).
-		b _ e2 at: xi.
-		a < b ifTrue: [^ true].
-		a = b ifFalse: [^ false]].
-	^ false! !
+		xi _ indeterminates at: i.
+		a _ xi <= n1 ifTrue: [e1 at: xi] ifFalse: [0].
+		b _ xi <= n2 ifTrue: [e2 at: xi] ifFalse: [0].
+		a < b ifTrue: [^ 1].
+		a = b ifFalse: [^ -1]].
+	^ 0! !
 
 !ReverseLexicographicOrdering methodsFor: 'testing' stamp: 'len 10/28/2016 10:44'!
 isLocal
@@ -31378,23 +31516,25 @@ isLocal
 type
 	^ #revlex! !
 
-!TotalLexicographicOrdering methodsFor: 'ordering' stamp: 'len 7/4/2016 00:42'!
-is: aMonomial gneq: anotherMonomial
-	"Answer true if the first argument is greater than the second."
-	| d1 d2 e1 e2 |
-	(d1 _ aMonomial degree) > (d2 _ anotherMonomial degree) ifTrue: [^ true].
-	d1 = d2 ifFalse: [^ false].
-	e1 _ aMonomial "exponents".
-	e2 _ anotherMonomial "exponents".
+!TotalLexicographicOrdering methodsFor: 'ordering' stamp: 'len 11/21/2016 13:43:16'!
+compare: aMonomial with: anotherMonomial
+	| d1 d2 e1 e2 n1 n2 |
+	(d1 _ aMonomial degree) > (d2 _ anotherMonomial degree) ifTrue: [^ 1].
+	d1 = d2 ifFalse: [^ -1].
+	e1 _ aMonomial exponents.
+	e2 _ anotherMonomial exponents.
+	n1 _ e1 size.
+	n2 _ e2 size.
 	1 to: indeterminates size do: [:i|
 		| xi a b |
-		a _ e1 at: (xi _ indeterminates at: i).
-		b _ e2 at: xi.
-		a > b ifTrue: [^ true].
-		a = b ifFalse: [^ false]].
-	^ false! !
+		xi _ indeterminates at: i.
+		a _ xi <= n1 ifTrue: [e1 at: xi] ifFalse: [0].
+		b _ xi <= n2 ifTrue: [e2 at: xi] ifFalse: [0].
+		a > b ifTrue: [^ 1].
+		a = b ifFalse: [^ -1]].
+	^ 0! !
 
-!TotalLexicographicOrdering methodsFor: 'as yet unclassified' stamp: 'len 7/6/2016 08:27'!
+!TotalLexicographicOrdering methodsFor: 'testing' stamp: 'len 7/6/2016 08:27'!
 isGraded
 	^ true! !
 
@@ -31402,23 +31542,25 @@ isGraded
 type
 	^ #tlex! !
 
-!TotalReverseLexicographicOrdering methodsFor: 'ordering' stamp: 'len 7/4/2016 00:42'!
-is: aMonomial gneq: anotherMonomial
-	"Answer true if the first argument is greater than the second."
-	| d1 d2 e1 e2 |
-	(d1 _ aMonomial degree) > (d2 _ anotherMonomial degree) ifTrue: [^ true].
-	d1 = d2 ifFalse: [^ false].
-	e1 _ aMonomial "exponents".
-	e2 _ anotherMonomial "exponents".
+!TotalReverseLexicographicOrdering methodsFor: 'ordering' stamp: 'len 11/21/2016 12:20:07'!
+compare: aMonomial with: anotherMonomial
+	| d1 d2 n1 n2 e1 e2 |
+	(d1 _ aMonomial degree) > (d2 _ anotherMonomial degree) ifTrue: [^ 1].
+	d1 = d2 ifFalse: [^ -1].
+	e1 _ aMonomial exponents.
+	e2 _ anotherMonomial exponents.
+	n1 _ e1 size.
+	n2 _ e2 size.
 	indeterminates size to: 1 by: -1 do: [:i|
 		| xi a b |
-		a _ e1 at: (xi _ indeterminates at: i).
-		b _ e2 at: xi.
-		a < b ifTrue: [^ true].
-		a = b ifFalse: [^ false]].
-	^ false! !
+		xi _ indeterminates at: i.
+		a _ xi <= n1 ifTrue: [e1 at: xi] ifFalse: [0].
+		b _ xi <= n2 ifTrue: [e2 at: xi] ifFalse: [0].
+		a < b ifTrue: [^ 1].
+		a = b ifFalse: [^ -1]].
+	^ 0! !
 
-!TotalReverseLexicographicOrdering methodsFor: 'as yet unclassified' stamp: 'len 7/6/2016 08:27'!
+!TotalReverseLexicographicOrdering methodsFor: 'testing' stamp: 'len 7/6/2016 08:27'!
 isGraded
 	^ true! !
 
@@ -31447,19 +31589,8 @@ type
 		new: self rank
 		weights: (self weights copy addAll: aMonomialOrdering weights; yourself)! !
 
-!WeightedMonomialOrdering methodsFor: 'copying' stamp: 'len 10/31/2016 12:29'!
-copyWithout: anIndeterminate
-	^ (super copyWithout: anIndeterminate) weights: (weights copyWithoutIndex: anIndeterminate)! !
-
-!WeightedMonomialOrdering methodsFor: 'arithmetic' stamp: 'len 7/3/2016 02:23'!
-inverse
-	^ self class
-		new: self rank
-		weights: (self weights collect: [:each| each reversed])! !
-
-!WeightedMonomialOrdering methodsFor: 'ordering' stamp: 'len 7/4/2016 00:43'!
-is: aMonomial gneq: anotherMonomial
-	"Answer true if the first argument is greater than the second."
+!WeightedMonomialOrdering methodsFor: 'ordering' stamp: 'len 11/21/2016 08:41:23'!
+compare: aMonomial with: anotherMonomial
 	| t1 t2 |
 	t1 _ FloatArray new: indeterminates size.
 	t2 _ t1 copy.
@@ -31470,8 +31601,18 @@ is: aMonomial gneq: anotherMonomial
 		| a b |
 		a _ w dot: t1.
 		b _ w dot: t2.
-		a = b ifFalse: [^ a > b]].
-	^ false! !
+		a = b ifFalse: [^ a > b ifTrue: [1] ifFalse: [-1]]].
+	^ 0! !
+
+!WeightedMonomialOrdering methodsFor: 'copying' stamp: 'len 10/31/2016 12:29'!
+copyWithout: anIndeterminate
+	^ (super copyWithout: anIndeterminate) weights: (weights copyWithoutIndex: anIndeterminate)! !
+
+!WeightedMonomialOrdering methodsFor: 'arithmetic' stamp: 'len 7/3/2016 02:23'!
+inverse
+	^ self class
+		new: self rank
+		weights: (self weights collect: [:each| each reversed])! !
 
 !WeightedMonomialOrdering methodsFor: 'ordering' stamp: 'len 10/27/2016 08:49'!
 leadingMonomialOf: aPolynomial
@@ -31708,7 +31849,7 @@ asScalar
 	self coefficients do: [:each| each isZero ifFalse: [^ each]].
 	^ self species scalars zero! !
 
-!Polynomial methodsFor: 'converting' stamp: 'len 6/6/2016 04:41'!
+!Polynomial methodsFor: 'converting' stamp: 'len 11/22/2016 08:36:04'!
 asUnivariate
 	"Answer the receiver as univariate in the last indeterminate, e.g. go from R[x,y,z] to R[x,y][z]."
 	| term n d newCoefficients newSpecies |
@@ -31720,30 +31861,16 @@ asUnivariate
 	newCoefficients _ Array new: d+1.
 	newCoefficients atAllPut: newSpecies scalars zero.
 	self monomialsAndCoefficientsDo: [:key :value|
-		term _ newSpecies scalars coefficient: value monomial: (key without: n).
+		term _ newSpecies scalars coefficient: value monomial: ((key without: n) as: newSpecies scalars monomials).
 		newCoefficients at: (key degreeIn: n)+1 add: term].
 	^ newSpecies coefficients: newCoefficients! !
 
-!Polynomial methodsFor: 'converting' stamp: 'len 5/30/2016 03:02'!
+!Polynomial methodsFor: 'converting' stamp: 'len 11/21/2016 19:31:15'!
 asUnivariateIn: anIndeterminate
 	"Answer the receiver as univariate in the given indeterminate, e.g. go from R[x,y,z] to R[x,y][z]."
-	| |
 	(self species isUnivariate and: [self species indeterminate = anIndeterminate]) ifTrue: [^ self].
-	"(self isUnivariateIn: anIndeterminate) ifTrue: [^ self]."
-	(self species indeterminates includes: anIndeterminate) ifFalse: [self error: 'unknown indeterminate'].
 	anIndeterminate = self species rank ifFalse: [self error: 'bad indeterminate'].
-	^ self asUnivariate
-"	newScalars _ self scalars polynomialsIn: self species rank - 1.
-	(self species indeterminates copyWithout: anIndeterminate).
-	newSpecies _ newScalars polynomialsIn: {anIndeterminate}.
-	(n _ self degreeIn: anIndeterminate) < 0
-		ifTrue: [^ newSpecies zero].
-	newCoefficients _ Array new: n+1.
-	newCoefficients atAllPut: newScalars zero.
-	self monomialsAndCoefficientsDo: [:key :value|
-		term _ newScalars coefficient: value monomial: (key copyWithout: anIndeterminate).
-		newCoefficients at: (key degreeIn: anIndeterminate)+1 add: term].
-	^ newSpecies coefficients: newCoefficients"! !
+	^ self asUnivariate! !
 
 !Polynomial methodsFor: 'accessing' stamp: 'len 3/1/2016 16:01'!
 bitSize
@@ -32034,10 +32161,11 @@ is: aSymbol
 isBinomial
 	^ self coefficients size = 2! !
 
-!Polynomial methodsFor: 'printing' stamp: 'len 3/26/2016 23:12'!
+!Polynomial methodsFor: 'printing' stamp: 'len 11/22/2016 08:22:30'!
 isBroken
 	self monomials do: [:each|
-		each indeterminates do: [:i| (self species has: i) ifFalse: [^ true]]].
+		each indeterminates do: [:i| (self species has: i) ifFalse: [^ true]].
+		each exponents size = self species rank ifFalse: [^ true]].
 	^ self coefficients anySatisfy: [:any| (self species scalars includes: any) not]! !
 
 !Polynomial methodsFor: 'testing' stamp: 'len 11/11/2015 03:24'!
@@ -33070,11 +33198,11 @@ multiplicityAt: anObject
 multiplyByMonomial: aMonomial
 	^ self shift: aMonomial degree! !
 
-!UnivariatePolynomial methodsFor: 'accessing-private' stamp: 'len 11/12/2016 08:59'!
+!UnivariatePolynomial methodsFor: 'accessing-private' stamp: 'len 11/22/2016 08:48:49'!
 normalize
 	| n |
-	n _ coefficients lastNonZero.
-	n < coefficients size ifTrue: [coefficients _ coefficients copyFrom: 1 to: n]! !
+	(n _ coefficients lastNonZero) < coefficients size
+		ifTrue: [coefficients _ coefficients copyFrom: 1 to: n]! !
 
 !UnivariatePolynomial methodsFor: 'operations' stamp: 'len 3/27/2016 03:09'!
 odd
@@ -33495,7 +33623,7 @@ squareFreeFactorization
 					q _ q // gcd - p derivative]].
 	^ answer add: p withOccurrences: count; yourself! !
 
-!MultiPolynomialDivision methodsFor: 'private' stamp: 'len 11/18/2016 21:16:11'!
+!MultiPolynomialDivision methodsFor: 'private' stamp: 'len 11/21/2016 16:07:01'!
 divide
 	"Perform the division algorithm computing quotients and remainder."
 	| p s zero fi q headp headfi t heads i |
@@ -33515,7 +33643,7 @@ divide
 		i <= s "i.e. found fi such that headfi | headp"
 			ifTrue:
 				[fi _ divisors at: i.
-				q _ t / headfi / (fi coefficientAt: headfi).
+				q _ t / headfi * (fi coefficientAt: headfi) reciprocal.
 				quotients at: i put: (quotients at: i) + q.
 				p _ p - (fi * q)]
 			ifFalse:
