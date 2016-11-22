@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 22 November 2016 at 9:19:51 am'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 22 November 2016 at 3:02:28 pm'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 289!
+!provides: 'Mathematics' 1 290!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
 	instanceVariableNames: 'numerator shift'
@@ -2659,6 +2659,16 @@ MonomialOrdering subclass: #ReverseLexicographicOrdering
 	category: 'Mathematics-Monomials-Orderings'!
 !classDefinition: 'ReverseLexicographicOrdering class' category: #'Mathematics-Monomials-Orderings'!
 ReverseLexicographicOrdering class
+	instanceVariableNames: ''!
+
+!classDefinition: #TotalInverseLexicographicOrdering category: #'Mathematics-Monomials-Orderings'!
+MonomialOrdering subclass: #TotalInverseLexicographicOrdering
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Monomials-Orderings'!
+!classDefinition: 'TotalInverseLexicographicOrdering class' category: #'Mathematics-Monomials-Orderings'!
+TotalInverseLexicographicOrdering class
 	instanceVariableNames: ''!
 
 !classDefinition: #TotalLexicographicOrdering category: #'Mathematics-Monomials-Orderings'!
@@ -17379,7 +17389,7 @@ y
 z
 	^ self x: 3! !
 
-!RationalFunctionField class methodsFor: 'instance creation' stamp: 'len 10/28/2016 17:07'!
+!RationalFunctionField class methodsFor: 'instance creation' stamp: 'len 11/22/2016 14:59:58'!
 over: aPolynomialRing
 	| R |
 	R _ (aPolynomialRing isKindOf: PolynomialRing) ifTrue: [aPolynomialRing] ifFalse: [aPolynomialRing polynomials].
@@ -18807,7 +18817,7 @@ one
 polynomials
 	^ polynomials! !
 
-!PowerSeriesRing methodsFor: 'accessing-private' stamp: 'len 10/28/2016 11:13'!
+!PowerSeriesRing methodsFor: 'accessing-private' stamp: 'len 11/22/2016 14:59:48'!
 polynomials: aPolynomialRing
 "	aPolynomialRing isUnivariate ifFalse: [self error: 'multivariate power series not yet supported']."
 	polynomials _ aPolynomialRing ordering isLocal
@@ -18828,7 +18838,7 @@ scalars
 zero
 	^ self fromPolynomial: self polynomials zero! !
 
-!PowerSeriesRing class methodsFor: 'instance creation' stamp: 'len 10/28/2016 10:41'!
+!PowerSeriesRing class methodsFor: 'instance creation' stamp: 'len 11/22/2016 14:59:54'!
 new: anInteger over: aRing
 	^ self polynomials: (aRing polynomialsIn: anInteger ordering: #revlex) "revlex is a local ordering"! !
 
@@ -31188,11 +31198,11 @@ left: aVector right: anotherVector
 		(exponents at: i) > (aMonomial at: i) ifTrue: [^ false]].
 	^ true! !
 
-!Monomial methodsFor: 'operations' stamp: 'len 11/21/2016 19:07:12'!
+!Monomial methodsFor: 'operations' stamp: 'len 11/22/2016 15:01:22'!
 affinizedIn: anIndeterminate
 	| newExponents |
 	newExponents _ Array new: exponents size.
-	newExponents replaceFrom: 1 to: anIndeterminate - 1 with: exponents.
+	newExponents replaceFrom: 1 to: anIndeterminate - 1 with: exponents startingAt: 1.
 	newExponents replaceFrom: anIndeterminate to: exponents size - 1 with: exponents startingAt: anIndeterminate + 1.
 	newExponents at: exponents size put: 0.
 	^ self species exponents: newExponents! !
@@ -31460,9 +31470,13 @@ lex: anArray
 new: anInteger
 	^ self indeterminates: (1 to: anInteger) asArray! !
 
-!MonomialOrdering class methodsFor: 'examples' stamp: 'len 7/4/2016 00:45'!
+!MonomialOrdering class methodsFor: 'examples' stamp: 'len 11/22/2016 14:54:43'!
 revlex: anArray
 	^ ReverseLexicographicOrdering indeterminates: anArray! !
+
+!MonomialOrdering class methodsFor: 'examples' stamp: 'len 11/22/2016 14:58:56'!
+tinvlex: anArray
+	^ TotalInverseLexicographicOrdering indeterminates: anArray! !
 
 !MonomialOrdering class methodsFor: 'examples' stamp: 'len 7/4/2016 00:45'!
 tlex: anArray
@@ -31512,9 +31526,39 @@ compare: aMonomial with: anotherMonomial
 isLocal
 	^ true! !
 
-!ReverseLexicographicOrdering methodsFor: 'accessing' stamp: 'len 7/3/2016 00:41'!
+!ReverseLexicographicOrdering methodsFor: 'accessing' stamp: 'len 11/22/2016 14:55:05'!
 type
 	^ #revlex! !
+
+!TotalInverseLexicographicOrdering methodsFor: 'ordering' stamp: 'len 11/22/2016 14:57:27'!
+compare: aMonomial with: anotherMonomial
+	| d1 d2 e1 e2 n1 n2 |
+	(d1 _ aMonomial degree) > (d2 _ anotherMonomial degree) ifTrue: [^ 1].
+	d1 = d2 ifFalse: [^ -1].
+	e1 _ aMonomial exponents.
+	e2 _ anotherMonomial exponents.
+	n1 _ e1 size.
+	n2 _ e2 size.
+	1 to: indeterminates size do: [:i|
+		| xi a b |
+		xi _ indeterminates at: i.
+		a _ xi <= n1 ifTrue: [e1 at: xi] ifFalse: [0].
+		b _ xi <= n2 ifTrue: [e2 at: xi] ifFalse: [0].
+		a < b ifTrue: [^ 1].
+		a = b ifFalse: [^ -1]].
+	^ 0! !
+
+!TotalInverseLexicographicOrdering methodsFor: 'testing' stamp: 'len 11/22/2016 14:56:05'!
+isGraded
+	^ true! !
+
+!TotalInverseLexicographicOrdering methodsFor: 'testing' stamp: 'len 11/22/2016 14:56:02'!
+isLocal
+	^ true! !
+
+!TotalInverseLexicographicOrdering methodsFor: 'accessing' stamp: 'len 11/22/2016 14:56:16'!
+type
+	^ #tinvlex! !
 
 !TotalLexicographicOrdering methodsFor: 'ordering' stamp: 'len 11/21/2016 13:43:16'!
 compare: aMonomial with: anotherMonomial
@@ -34607,7 +34651,7 @@ parent
 parent: aPowerSeriesRing
 	parent _ aPowerSeriesRing! !
 
-!PowerSeries methodsFor: 'printing' stamp: 'len 10/23/2016 21:49'!
+!PowerSeries methodsFor: 'printing' stamp: 'len 11/22/2016 14:59:43'!
 printOn: aStream
 	| P f n |
 	n _ coefficients printLimit.
