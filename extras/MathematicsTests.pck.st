@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 20 November 2016 at 3:33:39 pm'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 28 November 2016 at 8:26:00 pm'!
 'Description Please enter a description for this package'!
-!provides: 'MathematicsTests' 1 47!
+!provides: 'MathematicsTests' 1 48!
 !classDefinition: #AbelianGroupTest category: #MathematicsTests!
 TestCase subclass: #AbelianGroupTest
 	instanceVariableNames: ''
@@ -293,7 +293,7 @@ SmallMatrixBenchmark class
 
 !classDefinition: #SparsePolynomialMultiplicationBenchmark category: #MathematicsTests!
 Benchmark subclass: #SparsePolynomialMultiplicationBenchmark
-	instanceVariableNames: 'p pPlusOne'
+	instanceVariableNames: 'p pPlusOne pBigCoefficients pBigExponents pBigCoefficientsPlusOne pBigExponentsPlusOne'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'MathematicsTests'!
@@ -312,71 +312,73 @@ CASBenchmark class
 	instanceVariableNames: ''!
 
 
-!GroebnerBasisBenchmark commentStamp: '<historical>' prior: 0!
+!GroebnerBasisBenchmark commentStamp: 'len 11/28/2016 11:02:13' prior: 0!
 GroebnerBasisBenchmark new run
 
-testCyclic3	1,810 per second.
-testCyclic4	551 per second.
-testCyclic5	84.6 per second.
-testCyclic6	20.5 per second.
-testEliminationExample	689 per second.
-testKatsura2	5,650 per second.
-testKatsura3	705 per second.
-testKatsura4	6.61 per second.
-testModularCyclic3	1,880 per second.
-testModularKatsura2	5,530 per second.
-testModularKatsura3	676 per second.
-testModularKatsura4	9.91 per second.
+testCyclic3	2,230 per second. (polynomials as sorted dictionaries monomial -> coefficient)
+testCyclic4	512 per second.
+testCyclic5	121 per second.
+testCyclic6	28.7 per second.
+testEliminationExample	867 per second.
+testKatsura2	6,700 per second.
+testKatsura3	860 per second.
+testKatsura4	11 per second.
+testModularCyclic3	2,320 per second.
+testModularKatsura2	6,960 per second.
+testModularKatsura3	858 per second.
+testModularKatsura4	12.1 per second.
 
-testCyclic3	1,940 per second.
-testCyclic4	551 per second.
-testCyclic5	85.5 per second.
-testCyclic6	20.7 per second.
-testEliminationExample	682 per second.
-testKatsura2	5,610 per second.
-testKatsura3	703 per second.
-testKatsura4	6.55 per second.
-testModularCyclic3	1,830 per second.
-testModularKatsura2	5,540 per second.
-testModularKatsura3	678 per second.
-testModularKatsura4	9.87 per second.
+testCyclic3	2,270 per second. (polynomials as dictionaries monomial -> coefficient)
+testCyclic4	511 per second.
+testCyclic5	118 per second.
+testCyclic6	26.1 per second.
+testEliminationExample	816 per second.
+testKatsura2	6,750 per second.
+testKatsura3	866 per second.
+testKatsura4	11.8 per second.
+testModularCyclic3	2,410 per second.
+testModularKatsura2	6,780 per second.
+testModularKatsura3	844 per second.
+testModularKatsura4	13.3 per second.
 
-testCyclic3	1,760 per second.
-testCyclic4	490 per second.
-testCyclic5	69.5 per second.
-testCyclic6	19.3 per second.
-testEliminationExample	685 per second.
-testKatsura2	5,500 per second.
-testKatsura3	655 per second.
-testKatsura4	5.85 per second.
-testModularCyclic3	1,710 per second.
-testModularKatsura2	5,360 per second.
-testModularKatsura3	637 per second.
-testModularKatsura4	8.02 per second.
+testCyclic3	2,240 per second. (with Groebner bases kept sorted, GroebnerBasis>>initialize)
+testCyclic4	520 per second.
+testCyclic5	120 per second.
+testCyclic6	26 per second.
+testEliminationExample	720 per second.
+testKatsura2	6,730 per second.
+testKatsura3	755 per second.
+testKatsura4	34.9 per second.
+testModularCyclic3	2,310 per second.
+testModularKatsura2	6,720 per second.
+testModularKatsura3	727 per second.
+testModularKatsura4	33 per second.
 
-testCyclic3	1,750 per second.
-testCyclic4	368 per second.
-testCyclic5	92.4 per second.
-testCyclic6	11.5 per second.
-testEliminationExample	586 per second.
-testKatsura2	5,400 per second.
-testKatsura3	671 per second.
-testKatsura4	11.6 per second.
-testModularCyclic3	1,640 per second.
-testModularKatsura2	4,900 per second.
-testModularKatsura3	617 per second.
-testModularKatsura4	7.84 per second.
+testCyclic3	2,140 per second. (reverted Monomial>>hash)
+testCyclic4	676 per second.
+testCyclic5	112 per second.
+testCyclic6	36.2 per second.
+testEliminationExample	773 per second.
+testKatsura2	6,430 per second.
+testKatsura3	821 per second.
+testKatsura4	7.72 per second.
+testModularCyclic3	2,220 per second.
+testModularKatsura2	6,490 per second.
+testModularKatsura3	797 per second.
+testModularKatsura4	12.6 per second.
 
-testCyclic3	1,830 per second.
-testCyclic4	380 per second.
-testCyclic5	96 per second.
-testCyclic6	12.5 per second.
-testEliminationExample	603 per second.
-testKatsura2	5,600 per second.
-testKatsura3	706 per second.
-testKatsura4	12 per second.
-testModularCyclic3	1,680 per second.
-testModularKatsura2	201 per second.
+testCyclic3	2,240 per second. (defined Monomial>>hash as 'exponents hash')
+testCyclic4	682 per second.
+testCyclic5	116 per second.
+testCyclic6	40.4 per second.
+testEliminationExample	827 per second.
+testKatsura2	6,650 per second.
+testKatsura3	857 per second.
+testKatsura4	7.82 per second.
+testModularCyclic3	2,370 per second.
+testModularKatsura2	6,840 per second.
+testModularKatsura3	861 per second.
+testModularKatsura4	13.6 per second.
 
 testCyclic3	1,780 per second. (spur 32 bits)
 testCyclic4	354 per second.
@@ -392,17 +394,6 @@ testModularKatsura2	194 per second.
 [self new modularCyclic: 7 :: groebnerBasis] bench
  '3.63 per second.' (spur 32 bits)
  '165 seconds.' 
-
-testCyclic3	1,840 per second.
-testCyclic4	338 per second.
-testCyclic5	30.8 per second.
-testCyclic6	3.51 per second.
-testEliminationExample	132 per second
-testKatsura2	3,810 per second.
-testKatsura3	79.9 per second.
-testKatsura4	4.51 per second.
-testModularCyclic3	196 per second.
-testModularKatsura2	210 per second.
 
 testCyclic3	1,300 per second.
 testCyclic4	264 per second.
@@ -500,21 +491,48 @@ testJ1Order	2.51 per second.
 testM12Order	56.9 per second.
 !
 
-!IntegersBenchmark commentStamp: '<historical>' prior: 0!
-IntegersBenchmark new run
+!IntegersBenchmark commentStamp: 'len 11/22/2016 11:57:33' prior: 0!
+self new run
 
 test1000Factorial	5,620 per second. (spur 32 bits)
 
 test1000Factorial	1,250 per second.
 !
 
-!ModularMatrixBenchmark commentStamp: 'len 11/17/2016 15:36:27' prior: 0!
-ModularMatrixBenchmark new run
+!ModularMatrixBenchmark commentStamp: 'len 11/22/2016 11:56:29' prior: 0!
+Some tests on a 300x300 matrix over Z/32003.
 
- 'testGaussianElimination	1.75 per second.' !
+self new run
 
-!PolynomialBenchmark commentStamp: '<historical>' prior: 0!
+testAddition	203 per second.
+testGaussianElimination	1.81 per second.
+testSquared	1.32 per second.
+testTransposition	66.9 per second.!
+
+!PolynomialBenchmark commentStamp: 'len 11/28/2016 20:15:00' prior: 0!
 PolynomialBenchmark new run
+
+testFiniteField	17.1 per second.
+testFiniteFieldPolynomialFactorization	97.8 per second.
+testMultivariatePolynomialAdditionOverZ	93.9 per second.
+testPolynomialAdditionOverZ	32.6 per second.
+testPolynomialAdditionOverZ2	136 per second.
+testPolynomialDivisionOverQ	2.63 per second.
+testPolynomialDivisionOverZ	2.74 per second.
+testPolynomialGCDOverQ	2.88 per second.
+testPolynomialGCDOverZ	4.3 per second.
+testPolynomialGCDOverZ2	11.3 per second.
+testPolynomialMultiplication2OverZ	163 per second.
+testPolynomialMultiplication2OverZ2	628 per second.
+testPolynomialMultiplicationOverZ	2.7 per second.
+testPolynomialMultiplicationOverZ2	3,760 per second.
+testPolynomialPseudoDivision	4,110 per second.
+testPolynomialPseudoRemainder	4,080 per second.
+testPolynomialRealRoots	39.7 per second.
+testRealAlgebraicNumberAddition	5.44 seconds.
+testRealAlgebraicNumberDivision	154 per second.
+testRealAlgebraicNumberProduct	177 per second.
+testRealAlgebraicNumberSquare	4,200 per second.
 
 testFiniteField	17.5 per second. (spur 32 bits)
 testFiniteFieldPolynomialFactorization	81.3 per second.
@@ -625,10 +643,10 @@ testRealAlgebraicNumberDivision	70.8 per second.
 testRealAlgebraicNumberProduct	81.7 per second.
 testRealAlgebraicNumberSquare	1,820 per second!
 
-!SmallMatrixBenchmark commentStamp: '<historical>' prior: 0!
+!SmallMatrixBenchmark commentStamp: 'len 11/22/2016 11:53:34' prior: 0!
 This benchmark tests some basic operations on 64x64 matrices.
 
-SmallMatrixBenchmark new run
+self new run
 
 testAdditionZ	7,840 per second. (spur 32 bits)
 testAdditionZ2	86,600 per second.
@@ -658,10 +676,22 @@ testTranspositionZ	1,580 per second.
 testTranspositionZ2	565 per second.
 !
 
-!SparsePolynomialMultiplicationBenchmark commentStamp: 'len 6/5/2016 08:50' prior: 0!
-Timings giving in [1] on computers with 0.8ghz - 1ghz intel cpus: general purpose system 20s-100s, tuned systems 2.3s-10s. For bigger coefficients: singular 28s, pari 77s.
+!SparsePolynomialMultiplicationBenchmark commentStamp: 'len 11/28/2016 20:17:54' prior: 0!
+Timings giving in [1] on computers with 0.8ghz - 1ghz intel cpus: general purpose system 20s-100s, tuned systems 2.3s-10s. For big coefficients: singular 28s, pari 77s.
 
-[1] R.J. Fateman, Comparing the speed of sparse polynomial multiplication.!
+[1] R.J. Fateman, Comparing the speed of sparse polynomial multiplication.
+
+
+self new run
+
+testBigCoefficientsProduct	8.39 seconds. (polynomials as sorted dictionaries monomial -> coefficient)
+testBigExponentsProduct	9.86 seconds.
+testProduct	0.328 per second.
+
+testBigCoefficientsProduct	10.5 seconds. (polynomials as dictionaries monomial -> coefficient)
+testBigExponentsProduct	10.2 seconds.
+testProduct	0.289 per second.
+!
 
 !CASBenchmark commentStamp: '<historical>' prior: 0!
 These benchmarks show some of the fundamental bottlenecks for a computational algebra system in pure Smalltalk. Many important algorithms end up doing these operations.
@@ -3620,6 +3650,13 @@ testTuplesZ2
 testTuplesZ4
 	self testFreeModule: ((ZZ mod: 4) ** 5 atRandom)! !
 
+!MonomialTest methodsFor: 'as yet unclassified' stamp: 'len 11/22/2016 08:31:09'!
+testHash
+	| m1 m2 |
+	m1 _ Monomial exponents: #(1 2 0).
+	m2 _ Monomial exponents: #(1 2 0 0 0 0 0).
+	self assert: m1 hash = m2 hash! !
+
 !MonomialTest methodsFor: 'as yet unclassified' stamp: 'len 11/20/2016 11:18:05'!
 testMonomialDivision
 	| M x y |
@@ -3651,9 +3688,9 @@ testMonomialLCM
 	b _ x*y*y.
 	self assert: (a lcm: b) = (x*x*y*y)! !
 
-!MonomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:48'!
+!MonomialTest methodsFor: 'as yet unclassified' stamp: 'len 11/22/2016 14:48:06'!
 testMonomialOrderings
-	| P x y z f grlex lex revlex |
+	| P x y z f tlex lex trevlex |
 	P _ ZZ polynomialsIn: 3.
 
 	x _ P x.
@@ -3663,12 +3700,12 @@ testMonomialOrderings
 	f _ 10*x - (7*(y**4)) + (11*(y**3)*z).
 
 	lex _ MonomialOrdering lex: 3.
-	grlex _ MonomialOrdering tlex: 3.
-	revlex _ MonomialOrdering revlex: 3.
+	tlex _ MonomialOrdering tlex: 3.
+	trevlex _ MonomialOrdering trevlex: 3.
 
 	self assert: (f orderedBy: lex) leadingCoefficient = 10.
-	self assert: (f orderedBy: grlex) leadingCoefficient = -7.
-	self assert: (f orderedBy: revlex) leadingCoefficient = 11! !
+	self assert: (f orderedBy: tlex) leadingCoefficient = -7.
+	self assert: (f orderedBy: trevlex) leadingCoefficient = 11! !
 
 !MonomialTest methodsFor: 'as yet unclassified' stamp: 'len 10/27/2016 08:44'!
 testMonomialOrderings2
@@ -3714,7 +3751,7 @@ testMonomialOrderingsExample
 	self assert: (a as: tlex) > (b as: tlex).
 	self assert: (a as: trevlex) < (b as: trevlex)! !
 
-!MonomialTest methodsFor: 'as yet unclassified' stamp: 'len 11/20/2016 12:18:17'!
+!MonomialTest methodsFor: 'as yet unclassified' stamp: 'len 11/22/2016 14:54:50'!
 testMonomialOrderingsOfIndeterminates
 	| M x y z |
 	M _ Monomials new: 3.
@@ -3930,13 +3967,13 @@ testDomainError
 	self should: [f + g] raise: DomainError.
 	self should: [f * g] raise: DomainError! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:50'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 11/25/2016 10:33:07'!
 testEPRS
 	"Example from Zippel."
 	| a b eprs |
 	a _ ZZ polynomials coefficients: #(1 0 1 0 -3 -3 8 2 -5) reversed.
 	b _ ZZ polynomials coefficients: #(3 0 5 0 -4 -9 21) reversed.
-	eprs _ a eprs: b :: collect: [:each| each denseCoefficients reversed asArray] :: asArray.
+	eprs _ a eprs: b :: collect: [:each| each coefficients reversed asArray] :: asArray.
 	self assert: eprs = #((1 0 1 0 -3 -3 8 2 -5)
 		(3 0 5 0 -4 -9 21)
 		(-15 0 3 0 -9) 
@@ -4279,13 +4316,13 @@ testMultivariateGCDBug
 	x _ QQ polynomialsIn: 3 :: x.
 	self assert: (x**2 gcd: x) = x! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:53'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 11/25/2016 10:33:02'!
 testPPRS
 	"Example from Zippel."
 	| a b pprs |
 	a _ ZZ polynomials coefficients: #(1 0 1 0 -3 -3 8 2 -5) reversed.
 	b _ ZZ polynomials coefficients: #(3 0 5 0 -4 -9 21) reversed.
-	pprs _ a pprs: b :: collect: [:each| each denseCoefficients reversed asArray] :: asArray.
+	pprs _ a pprs: b :: collect: [:each| each coefficients reversed asArray] :: asArray.
 	self assert: pprs = #((1 0 1 0 -3 -3 8 2 -5) 
 		(3 0 5 0 -4 -9 21)
 		(-5 0 1 0 -3)
@@ -4442,13 +4479,13 @@ testResultant2
 	g _ 3 * (x - 7).
 	self assert: (f resultant: g) = ((2 ** 1) * (3**2) * (5 - 7) * (11 - 7))! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:53'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 11/25/2016 10:32:56'!
 testSPRS
 	"Example from Zippel."
 	| a b sprs |
 	a _ ZZ polynomials coefficients: #(1 0 1 0 -3 -3 8 2 -5) reversed.
 	b _ ZZ polynomials coefficients: #(3 0 5 0 -4 -9 21) reversed.
-	sprs _ a sprs: b :: collect: [:each| each denseCoefficients reversed asArray] :: asArray.
+	sprs _ a sprs: b :: collect: [:each| each coefficients reversed asArray] :: asArray.
 	self assert: sprs = #((1 0 1 0 -3 -3 8 2 -5)
 		#(3 0 5 0 -4 -9 21)
 		#(15 0 -3 0 9)
@@ -4854,14 +4891,14 @@ testPowerSeries
 	cos _ PowerSeries cos.
 	self assert: ((cos squared + sin squared) coefficients beginsWith: #(1 0 0 0 0 0 0 0 0))! !
 
-!SequenceTest methodsFor: 'as yet unclassified' stamp: 'len 10/31/2016 04:14'!
+!SequenceTest methodsFor: 'as yet unclassified' stamp: 'len 11/25/2016 10:32:36'!
 testRecursive
 	| f g |
 	f _ Sequence fibonacci.
 	g _ CFiniteSequence to: ZZ evaluating: f maxOrder: 5.
 	self assert: (f equals: g upTo: 20).
 	self assert: g order = 2.
-	self assert: g characteristicPolynomial denseCoefficients asArray = #(-1 -1 1)! !
+	self assert: g characteristicPolynomial coefficients asArray = #(-1 -1 1)! !
 
 !SequenceTest methodsFor: 'as yet unclassified' stamp: 'len 10/31/2016 04:13'!
 testRecursive2
@@ -5267,9 +5304,21 @@ setUp
 	F _ ZZ/32003.
 	matrix _ F matrix: 300@300 evaluating: [:i :j| F atRandom: random]! !
 
+!ModularMatrixBenchmark methodsFor: 'as yet unclassified' stamp: 'len 11/22/2016 11:55:20'!
+testAddition
+	matrix + matrix! !
+
 !ModularMatrixBenchmark methodsFor: 'as yet unclassified' stamp: 'len 11/17/2016 15:35:23'!
 testGaussianElimination
 	matrix reducer reduced! !
+
+!ModularMatrixBenchmark methodsFor: 'as yet unclassified' stamp: 'len 11/22/2016 11:54:33'!
+testSquared
+	matrix squared! !
+
+!ModularMatrixBenchmark methodsFor: 'as yet unclassified' stamp: 'len 11/22/2016 11:55:03'!
+testTransposition
+	matrix transposed! !
 
 !PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 10/18/2016 21:00'!
 testFiniteField
@@ -5480,7 +5529,7 @@ testTranspositionZ
 testTranspositionZ2
 	binaryMatrix transposed! !
 
-!SparsePolynomialMultiplicationBenchmark methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:54'!
+!SparsePolynomialMultiplicationBenchmark methodsFor: 'as yet unclassified' stamp: 'len 11/22/2016 11:48:08'!
 setUp
 	| P x y z |
 	P _ ZZ polynomialsIn: #(x y z).
@@ -5488,9 +5537,19 @@ setUp
 	y _ P y.
 	z _ P z.
 	p _ (1+x+y+z)**20.
-	"p _ 10000000001*(1+x+y+z)**20." "big coefficients"
-	"p _ 1 + (x**2147483647) + (y**2147483647) + (z**2147483647) ** 20." "big exponents"
-	pPlusOne _ p + 1! !
+	pBigCoefficients _ 10000000001*(1+x+y+z)**20. "big coefficients"
+	pBigExponents _ 1 + (x**2147483647) + (y**2147483647) + (z**2147483647) ** 20. "big exponents"
+	pPlusOne _ p + 1.
+	pBigCoefficientsPlusOne _ pBigCoefficients + 1.
+	pBigExponentsPlusOne _ pBigExponents + 1! !
+
+!SparsePolynomialMultiplicationBenchmark methodsFor: 'as yet unclassified' stamp: 'len 11/22/2016 11:48:43'!
+testBigCoefficientsProduct
+	pBigCoefficients * pBigCoefficientsPlusOne! !
+
+!SparsePolynomialMultiplicationBenchmark methodsFor: 'as yet unclassified' stamp: 'len 11/22/2016 11:49:00'!
+testBigExponentsProduct
+	pBigExponents * pBigExponentsPlusOne! !
 
 !SparsePolynomialMultiplicationBenchmark methodsFor: 'as yet unclassified' stamp: 'len 6/5/2016 08:44'!
 testProduct

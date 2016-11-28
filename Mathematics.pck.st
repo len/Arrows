@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 22 November 2016 at 3:02:28 pm'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 28 November 2016 at 8:26:04 pm'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 290!
+!provides: 'Mathematics' 1 291!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
 	instanceVariableNames: 'numerator shift'
@@ -141,14 +141,14 @@ Collection subclass: #Iterator
 Iterator class
 	instanceVariableNames: ''!
 
-!classDefinition: #MonomialTuple category: #'Mathematics-Modules-Tuples'!
-Collection subclass: #MonomialTuple
+!classDefinition: #MonomialIndexedTuple category: #'Mathematics-Modules-Tuples'!
+Collection subclass: #MonomialIndexedTuple
 	instanceVariableNames: 'scalars associations'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Modules-Tuples'!
-!classDefinition: 'MonomialTuple class' category: #'Mathematics-Modules-Tuples'!
-MonomialTuple class
+!classDefinition: 'MonomialIndexedTuple class' category: #'Mathematics-Modules-Tuples'!
+MonomialIndexedTuple class
 	instanceVariableNames: ''!
 
 !classDefinition: #SparseTuple category: #'Mathematics-Modules-Tuples'!
@@ -2451,6 +2451,16 @@ Tuple subclass: #ModularTuple
 ModularTuple class
 	instanceVariableNames: ''!
 
+!classDefinition: #PolynomialTuple category: #'Mathematics-Modules-Tuples'!
+Tuple subclass: #PolynomialTuple
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Modules-Tuples'!
+!classDefinition: 'PolynomialTuple class' category: #'Mathematics-Modules-Tuples'!
+PolynomialTuple class
+	instanceVariableNames: ''!
+
 !classDefinition: #Matrix category: #'Mathematics-Modules-Matrices'!
 Object subclass: #Matrix
 	instanceVariableNames: ''
@@ -2713,7 +2723,7 @@ Polynomial class
 
 !classDefinition: #MultivariatePolynomial category: #'Mathematics-Polynomials'!
 Polynomial subclass: #MultivariatePolynomial
-	instanceVariableNames: 'coefficients head'
+	instanceVariableNames: 'coefficients'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Polynomials'!
@@ -2729,6 +2739,26 @@ Polynomial subclass: #UnivariatePolynomial
 	category: 'Mathematics-Polynomials'!
 !classDefinition: 'UnivariatePolynomial class' category: #'Mathematics-Polynomials'!
 UnivariatePolynomial class
+	instanceVariableNames: ''!
+
+!classDefinition: #Buchberger category: #'Mathematics-Polynomials-Algorithms'!
+Object subclass: #Buchberger
+	instanceVariableNames: 'generators basis'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Polynomials-Algorithms'!
+!classDefinition: 'Buchberger class' category: #'Mathematics-Polynomials-Algorithms'!
+Buchberger class
+	instanceVariableNames: ''!
+
+!classDefinition: #ExtendedBuchberger category: #'Mathematics-Polynomials-Algorithms'!
+Buchberger subclass: #ExtendedBuchberger
+	instanceVariableNames: 'matrix'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Polynomials-Algorithms'!
+!classDefinition: 'ExtendedBuchberger class' category: #'Mathematics-Polynomials-Algorithms'!
+ExtendedBuchberger class
 	instanceVariableNames: ''!
 
 !classDefinition: #FiniteFieldPolynomialFactorizer category: #'Mathematics-Polynomials-Algorithms'!
@@ -3487,6 +3517,11 @@ Example:
 
 !Iterator commentStamp: '<historical>' prior: 0!
 An Iterator is a read-only collection that evaluates a block to yield the elements of the collection.!
+
+!MonomialIndexedTuple commentStamp: '<historical>' prior: 0!
+My instances are tuples indexed by monomials.
+
+Internally, they are represented by a list of associations monomial -> value. The list is kept sorted by the given monomial ordering.!
 
 !Graph commentStamp: '<historical>' prior: 0!
 Instances of my subclasses are (directed or undirected) graphs. See subclasses.!
@@ -4987,20 +5022,6 @@ count: aBlock
 !Integer methodsFor: '*mathematics' stamp: 'len 11/19/2015 18:29'!
 denominator
 	^ 1! !
-
-!Integer methodsFor: '*mathematics' stamp: 'len 7/16/97 02:13'!
-descendentPower: n
-	"Answer the descendent power of the receiver raised to the argument."
-	| mid |
-	n = 0 ifTrue: [^ 1].
-	n = 1 ifTrue: [^ self].
-	n negative ifTrue: [^ (self descendentPower: n negated) reciprocal].
-	mid _ n bitShift: -1.
-	^ n even ifTrue: [
-		(self - mid descendentPower: mid) * (self descendentPower: mid)
-	] ifFalse: [
-		(self - mid descendentPower: mid + 1) * (self descendentPower: mid)
-	]! !
 
 !Integer methodsFor: '*mathematics' stamp: 'len 6/27/2016 23:20'!
 divisors
@@ -6821,9 +6842,10 @@ initial
 	self do: [:each| | lt | lt _ each leadingTerm. (answer reduces: lt) ifFalse: [answer add: lt]].
 	^ answer! !
 
-!GroebnerBasis methodsFor: 'initialization' stamp: 'len 11/18/2016 05:39:57'!
+!GroebnerBasis methodsFor: 'initialization' stamp: 'len 11/24/2016 11:16:14'!
 initialize
-"	polynomials _ SortedCollection sortBlock: [:a :b| ordering is: (ordering leadingMonomialOf: a) gneq: (ordering leadingMonomialOf: b)]."
+"	polynomials _ SortedCollection sortBlock: [:a :b| a degree <= b degree]."
+"	polynomials _ SortedCollection sortBlock: [:a :b| a leadingMonomial <= b leadingMonomial]."
 	polynomials _ OrderedCollection new.
 	isMinimal _ false! !
 
@@ -6943,6 +6965,40 @@ verify
 				ifFalse: [^ false halt]]].
 	^ true! !
 
+!GroebnerBasis class methodsFor: 'instance creation' stamp: 'len 11/23/2016 10:15:07'!
+from2: aCollection
+	"Buchberger algorithm.
+	Answer a Groebner basis obtainded from the given polynomials with the specified ordering."
+	| G S heads |
+	G _ self new.
+	aCollection isEmpty ifTrue: [^ G].
+	aCollection anyOne scalars isField ifFalse: [^ DomainError signal: 'not over a field'].
+	S _ aCollection asSortedCollection: [:a :b| a leadingMonomial degree <= b leadingMonomial degree].
+	heads _ OrderedCollection new.
+	[S do: [:f| (G reduces: f) ifFalse: [G add: f]].
+	S _ Set2 new.
+	1 to: G size do: [:i| | fi hi ci |
+		fi _ G at: i.
+		hi _ i = (heads size + 1) ifTrue: [heads add: fi leadingMonomial] ifFalse: [heads at: i].
+		ci _ fi coefficientAt: hi.
+		i+1 to: G size do: [:k| | fk hk ck lcm r |
+			fk _ G at: k.
+			hk _ k = (heads size + 1) ifTrue: [heads add: fk leadingMonomial] ifFalse: [heads at: k].
+			lcm _ hi lcm: hk.
+			"Buchberger criterium 1 and 2:"
+			(lcm ~= (hi * hk) and: [((1 to: i-1) noneSatisfy: [:j| (heads at: j) | lcm])])
+				ifTrue:
+					[ck _ fk coefficientAt: hk.
+					r _ G reduce: fi * (lcm / hi) / ci - (fk * (lcm / hk) / ck).
+					r isZero
+"						ifTrue: [Display fill: (i@k*4 extent: 3@3) fillColor: Color red]"
+						ifFalse: [
+"							Display fill: (i@k*4 extent: 3@3) fillColor: Color green."
+							S add: r]]]].
+	S isEmpty] whileFalse.
+"	G verify ifFalse: [self halt]."
+	^ G! !
+
 !GroebnerBasis class methodsFor: 'instance creation' stamp: 'len 10/27/2016 08:50'!
 from2: aCollection ordering: aMonomialOrdering 
 	"Buchberger algorithm.
@@ -7057,28 +7113,34 @@ from5: aCollection ordering: aMonomialOrdering
 "	G verify ifFalse: [self halt]."
 	^ G! !
 
-!GroebnerBasis class methodsFor: 'instance creation' stamp: 'len 11/20/2016 15:30:31'!
+!GroebnerBasis class methodsFor: 'instance creation' stamp: 'len 11/24/2016 11:52:11'!
 from: aCollection
 	"Buchberger algorithm.
 	Answer a Groebner basis obtainded from the given polynomials with the specified ordering."
-	| G S heads |
+	^ self new addAll: (Buchberger new generators: aCollection; basis); yourself! !
+
+!GroebnerBasis class methodsFor: 'instance creation' stamp: 'len 11/24/2016 11:49:14'!
+fromOld: aCollection
+	"Buchberger algorithm.
+	Answer a Groebner basis obtainded from the given polynomials with the specified ordering."
+	| G S |
 	G _ self new.
 	aCollection isEmpty ifTrue: [^ G].
 	aCollection anyOne scalars isField ifFalse: [^ DomainError signal: 'not over a field'].
-	S _ aCollection asSortedCollection: [:a :b| a leadingMonomial degree <= b leadingMonomial degree].
-	heads _ OrderedCollection new.
-	[S do: [:f| (G reduces: f) ifFalse: [G add: f]].
+	S _ aCollection.
+	[S _ S asSortedCollection: [:a :b| a leadingMonomial <= b leadingMonomial].
+	S do: [:f| (G reduces: f) ifFalse: [G add: f]].
 	S _ Set2 new.
 	1 to: G size do: [:i| | fi hi ci |
 		fi _ G at: i.
-		hi _ i = (heads size + 1) ifTrue: [heads add: fi leadingMonomial] ifFalse: [heads at: i].
+		hi _ fi leadingMonomial.
 		ci _ fi coefficientAt: hi.
 		i+1 to: G size do: [:k| | fk hk ck lcm r |
 			fk _ G at: k.
-			hk _ k = (heads size + 1) ifTrue: [heads add: fk leadingMonomial] ifFalse: [heads at: k].
+			hk _ fk leadingMonomial.
 			lcm _ hi lcm: hk.
 			"Buchberger criterium 1 and 2:"
-			(lcm ~= (hi * hk) and: [((1 to: i-1) noneSatisfy: [:j| (heads at: j) | lcm])])
+			(lcm ~= (hi * hk) and: [((1 to: i-1) noneSatisfy: [:j| (G at: j) leadingMonomial | lcm])])
 				ifTrue:
 					[ck _ fk coefficientAt: hk.
 					r _ G reduce: fi * (lcm / hi) / ci - (fk * (lcm / hk) / ck).
@@ -7306,14 +7368,15 @@ on: aBlock
 on: anObject performing: aSymbol
 	^ self new block: [:aBlock| anObject perform: aSymbol with: aBlock]! !
 
-!MonomialTuple methodsFor: 'operations' stamp: 'len 11/20/2016 16:56:16'!
+!MonomialIndexedTuple methodsFor: 'operations' stamp: 'len 11/20/2016 16:56:16'!
 * aNumber
 	^ self collect: [:each| each*aNumber]! !
 
-!MonomialTuple methodsFor: 'operations' stamp: 'len 11/21/2016 09:07:44'!
+!MonomialIndexedTuple methodsFor: 'operations' stamp: 'len 11/28/2016 10:48:35'!
 + aMonomialTuple
 	| newAssociations stream1 stream2 |
 	newAssociations _ OrderedCollection new: self size + aMonomialTuple size.
+	newAssociations resetTo: 1.
 	stream1 _ associations readStream.
 	stream2 _ aMonomialTuple associations readStream.
 	[stream1 atEnd or: [stream2 atEnd]]
@@ -7321,54 +7384,76 @@ on: anObject performing: aSymbol
 			[| cmp |
 			cmp _ stream1 peek key compare: stream2 peek key.
 			cmp < 0
-				ifTrue: [newAssociations add: stream1 next]
+				ifTrue: [newAssociations add: stream1 next copy]
 				ifFalse: [cmp > 0
-					ifTrue: [newAssociations add: stream2 next]
+					ifTrue: [newAssociations add: stream2 next copy]
 					ifFalse:
 						[| a b newValue |
 						a _ stream1 next.
 						b _ stream2 next.
 						(newValue _ a value + b value) isZero
 							ifFalse: [newAssociations add: (a copy value: newValue)]]]].
-	[stream1 atEnd] whileFalse: [newAssociations add: stream1 next].
-	[stream2 atEnd] whileFalse: [newAssociations add: stream2 next].
+	[stream1 atEnd] whileFalse: [newAssociations add: stream1 next copy].
+	[stream2 atEnd] whileFalse: [newAssociations add: stream2 next copy].
 	^ self class associations: newAssociations over: scalars! !
 
-!MonomialTuple methodsFor: 'operations' stamp: 'len 11/20/2016 16:55:37'!
+!MonomialIndexedTuple methodsFor: 'operations' stamp: 'len 11/20/2016 16:55:37'!
 - aMonomialTuple
 	^ self + aMonomialTuple negated! !
 
-!MonomialTuple methodsFor: 'comparing' stamp: 'len 11/21/2016 09:14:40'!
+!MonomialIndexedTuple methodsFor: 'operations' stamp: 'len 11/28/2016 19:02:06'!
+/ aNumber
+	self flag: #fix.
+	^ self collectNoZero: [:each| each / aNumber] "this could be low, could take reciprocal many times"! !
+
+!MonomialIndexedTuple methodsFor: 'operations' stamp: 'len 11/28/2016 18:59:06'!
+// aNumber
+	^ self collect: [:each| each // aNumber]! !
+
+!MonomialIndexedTuple methodsFor: 'comparing' stamp: 'len 11/21/2016 09:14:40'!
 = aMonomialTuple
 	self size = aMonomialTuple size ifFalse: [^ false].
 	self == aMonomialTuple ifTrue: [^ true].
 	^ associations = aMonomialTuple associations! !
 
-!MonomialTuple methodsFor: 'accessing-private' stamp: 'len 11/21/2016 08:30:05'!
+!MonomialIndexedTuple methodsFor: 'operations' stamp: 'len 11/28/2016 18:59:11'!
+\\ aNumber
+	^ self collect: [:each| each \\ aNumber]! !
+
+!MonomialIndexedTuple methodsFor: 'accessing-private' stamp: 'len 11/21/2016 08:30:05'!
 associations
 	^ associations! !
 
-!MonomialTuple methodsFor: 'accessing-private' stamp: 'len 11/20/2016 10:27:12'!
+!MonomialIndexedTuple methodsFor: 'accessing-private' stamp: 'len 11/28/2016 20:06:04'!
 associations: aCollection
+	(aCollection class == OrderedCollection) ifFalse: [^ self error: 'not an OrderedCollection'].
 	associations _ aCollection! !
 
-!MonomialTuple methodsFor: 'iterating' stamp: 'len 11/20/2016 17:02:42'!
+!MonomialIndexedTuple methodsFor: 'iterating' stamp: 'len 11/20/2016 17:02:42'!
 associationsDo: aBlock
 	associations do: aBlock! !
 
-!MonomialTuple methodsFor: 'accessing' stamp: 'len 11/20/2016 10:36:07'!
+!MonomialIndexedTuple methodsFor: 'accessing' stamp: 'len 11/20/2016 10:36:07'!
 at: aMonomial
 	^ self at: aMonomial ifAbsent: [scalars zero]! !
 
-!MonomialTuple methodsFor: 'accessing' stamp: 'len 11/20/2016 10:44:32'!
+!MonomialIndexedTuple methodsFor: 'accessing' stamp: 'len 11/28/2016 09:05:54'!
 at: aMonomial add: aNumber
-	associations findBinaryIndex: [:each| each key compareWith: aMonomial] do: [:index| | association | (association _ associations at: index) value: (association value + aNumber)] ifNone: [:low :high| ]! !
+	associations isEmpty ifTrue: [aNumber isZero ifFalse: [associations add: aMonomial -> aNumber]. ^ self].
+	associations
+		findBinaryIndex: [:each| (each key compare: aMonomial) negated]
+		do: [:index| | association newValue |
+			association _ associations at: index.
+			(newValue _ association value + aNumber) isZero
+				ifTrue: [associations removeIndex: index]
+				ifFalse: [association value: newValue "associations at: index put: aMonomial -> newValue"]]
+		ifNone: [:low :high| aNumber isZero ifFalse: [associations add: aMonomial -> aNumber beforeIndex: high]]! !
 
-!MonomialTuple methodsFor: 'accessing' stamp: 'len 11/21/2016 09:11:09'!
+!MonomialIndexedTuple methodsFor: 'accessing' stamp: 'len 11/26/2016 08:01:58'!
 at: aMonomial ifAbsent: exceptionBlock
-	^ associations findBinary: [:each| each key compare: aMonomial] do: [:each| each value] ifNone: exceptionBlock! !
+	^ associations findBinary: [:each| (each key compare: aMonomial) negated] do: [:each| each value] ifNone: [:high :low| exceptionBlock value]! !
 
-!MonomialTuple methodsFor: 'accessing' stamp: 'len 11/20/2016 17:04:43'!
+!MonomialIndexedTuple methodsFor: 'accessing' stamp: 'len 11/20/2016 17:04:43'!
 at: key ifPresent: presentBlock
 	"Lookup the given key in the receiver. If it is present, answer the value of evaluating the given block with the value associated with the key. Otherwise, answer nil."
 
@@ -7376,23 +7461,29 @@ at: key ifPresent: presentBlock
 	v _ self at: key ifAbsent: [ ^ nil ].
 	^ presentBlock value: v! !
 
-!MonomialTuple methodsFor: 'accessing' stamp: 'len 11/21/2016 09:11:27'!
+!MonomialIndexedTuple methodsFor: 'accessing' stamp: 'len 11/27/2016 08:32:12'!
 at: aMonomial put: aNumber
-	associations findBinaryIndex: [:each| each key compare: aMonomial] do: [:index| | association | (association _ associations at: index) value: aNumber] ifNone: [:low :high| ]! !
+	associations isEmpty ifTrue: [aNumber isZero ifFalse: [associations add: aMonomial -> aNumber]. ^ self].
+	associations
+		findBinaryIndex: [:each| (each key compare: aMonomial) negated]
+		do: [:index| aNumber isZero ifTrue: [associations removeIndex: index] ifFalse: [(associations at: index) value: aNumber]]
+		ifNone: [:low :high| aNumber isZero ifFalse: [associations add: aMonomial -> aNumber beforeIndex: high]].
+	^ aNumber! !
 
-!MonomialTuple methodsFor: 'iterating' stamp: 'len 11/21/2016 08:48:14'!
+!MonomialIndexedTuple methodsFor: 'iterating' stamp: 'len 11/28/2016 09:03:42'!
 collect: aBlock
 	| newAssociations |
 	newAssociations _ OrderedCollection new: associations size.
 	associations do: [:each| | newValue |
-		(newValue _ aBlock value: each value) isZero ifFalse: [newAssociations add: (each copy value: newValue)]].
+		(newValue _ aBlock value: each value) isZero
+			ifFalse: [newAssociations add: (each copy value: newValue)]].
 	^ self class associations: newAssociations over: scalars! !
 
-!MonomialTuple methodsFor: 'iterating' stamp: 'len 11/21/2016 08:50:46'!
+!MonomialIndexedTuple methodsFor: 'iterating' stamp: 'len 11/21/2016 08:50:46'!
 collectNoZero: aBlock
 	^ self class associations: (associations collect: [:each| each copy value: (aBlock value: each value)]) over: scalars! !
 
-!MonomialTuple methodsFor: 'operations' stamp: 'len 11/21/2016 13:04:43'!
+!MonomialIndexedTuple methodsFor: 'operations' stamp: 'len 11/21/2016 13:04:43'!
 convolution2: aMonomialTuple
 	| a b answer temp |
 	self size <= aMonomialTuple size
@@ -7405,7 +7496,20 @@ convolution2: aMonomialTuple
 		answer _ answer + (self class associations: temp over: scalars)].
 	^ answer! !
 
-!MonomialTuple methodsFor: 'operations' stamp: 'len 11/22/2016 05:40:33'!
+!MonomialIndexedTuple methodsFor: 'operations' stamp: 'len 11/28/2016 11:05:35'!
+convolution3: aMonomialTuple
+	| dictionary newAssociations |
+	dictionary _ Dictionary2 new: self size + aMonomialTuple size.
+	self associationsDo: [:each|
+		aMonomialTuple associationsDo: [:other|
+			dictionary at: each key * other key add: each value * other value]].
+	newAssociations _ OrderedCollection new: dictionary size.
+	newAssociations resetTo: 1.
+	dictionary associationsDo: [:each| each value isZero ifFalse: [newAssociations add: each]].
+	newAssociations sort.
+	^ self class associations: newAssociations over: scalars! !
+
+!MonomialIndexedTuple methodsFor: 'operations' stamp: 'len 11/28/2016 20:04:06'!
 convolution: aMonomialTuple
 	| dictionary newAssociations |
 	dictionary _ Dictionary2 new: self size + aMonomialTuple size.
@@ -7413,14 +7517,24 @@ convolution: aMonomialTuple
 		aMonomialTuple associationsDo: [:other|
 			dictionary at: each key * other key add: each value * other value]].
 	newAssociations _ OrderedCollection new: dictionary size.
+	newAssociations resetTo: 1.
 	dictionary associationsDo: [:each| each value isZero ifFalse: [newAssociations add: each]].
-	^ self class associations: newAssociations asSortedCollection over: scalars! !
+	newAssociations sort.
+	^ self class associations: newAssociations over: scalars! !
 
-!MonomialTuple methodsFor: 'iterating' stamp: 'len 11/20/2016 17:14:49'!
+!MonomialIndexedTuple methodsFor: 'copying' stamp: 'len 11/28/2016 09:27:34'!
+copy
+	^ self class associations: (associations collect: [:each| each copy]) over: scalars! !
+
+!MonomialIndexedTuple methodsFor: 'operations' stamp: 'len 11/24/2016 15:06:53'!
+dividedByMonomial: aMonomial
+	^ self class associations: (associations collect: [:each| each key / aMonomial -> each value]) over: scalars! !
+
+!MonomialIndexedTuple methodsFor: 'iterating' stamp: 'len 11/20/2016 17:14:49'!
 do: aBlock
 	self associationsDo: [:each| aBlock value: each value]! !
 
-!MonomialTuple methodsFor: 'operations' stamp: 'len 11/21/2016 09:10:08'!
+!MonomialIndexedTuple methodsFor: 'operations' stamp: 'len 11/21/2016 09:10:08'!
 dot: aMonomialTuple
 	| answer |
 	self size <= aMonomialTuple size ifFalse: [^ aMonomialTuple dot: self].
@@ -7428,41 +7542,61 @@ dot: aMonomialTuple
 	associations do: [:each| aMonomialTuple at: each key ifPresent: [:value2| answer _ answer + (each value*value2)]].
 	^ answer! !
 
-!MonomialTuple methodsFor: 'comparing' stamp: 'len 11/21/2016 09:18:00'!
+!MonomialIndexedTuple methodsFor: 'comparing' stamp: 'len 11/21/2016 09:18:00'!
 hash
 	^ associations hash! !
 
-!MonomialTuple methodsFor: 'operations' stamp: 'len 11/20/2016 17:05:41'!
+!MonomialIndexedTuple methodsFor: 'testing' stamp: 'len 11/26/2016 07:38:01'!
+isZero
+	^ associations isEmpty! !
+
+!MonomialIndexedTuple methodsFor: 'iterating' stamp: 'len 11/26/2016 07:40:36'!
+keysAndValuesDo: aBlock
+	associations do: [:each| aBlock value: each key value: each value]! !
+
+!MonomialIndexedTuple methodsFor: 'iterating' stamp: 'len 11/26/2016 07:40:24'!
+keysDo: aBlock
+	associations do: [:each| aBlock value: each key]! !
+
+!MonomialIndexedTuple methodsFor: 'accessing' stamp: 'len 11/28/2016 18:51:33'!
+lastKey
+	^ associations isEmpty ifFalse: [associations last key]! !
+
+!MonomialIndexedTuple methodsFor: 'operations' stamp: 'len 11/24/2016 15:06:37'!
+multipliedByMonomial: aMonomial
+	^ self class associations: (associations collect: [:each| each key * aMonomial -> each value]) over: scalars! !
+
+!MonomialIndexedTuple methodsFor: 'operations' stamp: 'len 11/20/2016 17:05:41'!
 negated
 	^ self class associations: (associations collect: [:each| each copy value: each value negated]) over: scalars! !
 
-!MonomialTuple methodsFor: 'printing' stamp: 'len 11/20/2016 17:15:30'!
+!MonomialIndexedTuple methodsFor: 'printing' stamp: 'len 11/20/2016 17:15:30'!
 printOn: aStream
 	aStream nextPut: $(.
 	associations do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: ', '].
 	aStream nextPut: $)! !
 
-!MonomialTuple methodsFor: 'accessing' stamp: 'len 11/20/2016 10:26:33'!
+!MonomialIndexedTuple methodsFor: 'accessing' stamp: 'len 11/20/2016 10:26:33'!
 scalars
 	^ scalars! !
 
-!MonomialTuple methodsFor: 'accessing-private' stamp: 'len 11/20/2016 10:26:40'!
+!MonomialIndexedTuple methodsFor: 'accessing-private' stamp: 'len 11/20/2016 10:26:40'!
 scalars: aRing
 	scalars _ aRing! !
 
-!MonomialTuple methodsFor: 'accessing' stamp: 'len 11/21/2016 08:55:19'!
+!MonomialIndexedTuple methodsFor: 'accessing' stamp: 'len 11/21/2016 08:55:19'!
 size
 	^ associations size! !
 
-!MonomialTuple class methodsFor: 'instance creation' stamp: 'len 11/20/2016 16:51:57'!
+!MonomialIndexedTuple class methodsFor: 'instance creation' stamp: 'len 11/20/2016 16:51:57'!
 associations: aCollection over: aRing
 	^ self basicNew scalars: aRing; associations: aCollection! !
 
-!MonomialTuple class methodsFor: 'instance creation' stamp: 'len 11/20/2016 17:06:55'!
+!MonomialIndexedTuple class methodsFor: 'instance creation' stamp: 'len 11/20/2016 17:06:55'!
 new: anInteger over: aRing
 	^ self basicNew scalars: aRing; associations: (OrderedCollection new: anInteger)! !
 
-!MonomialTuple class methodsFor: 'instance creation' stamp: 'len 11/20/2016 16:52:13'!
+!MonomialIndexedTuple class methodsFor: 'instance creation' stamp: 'len 11/20/2016 16:52:13'!
 over: aRing
 	^ self basicNew scalars: aRing; associations: OrderedCollection new! !
 
@@ -7547,7 +7681,27 @@ collectNoZero: aBlock
 	"The result of aBlock must never be zero."
 	^ self copy associationsDo: [:each| each value: (aBlock value: each value)]! !
 
-!SparseTuple methodsFor: 'operations' stamp: 'len 11/18/2016 10:11:28'!
+!SparseTuple methodsFor: 'operations' stamp: 'len 11/24/2016 15:27:09'!
+convolution2: aSparseTuple
+	| answer |
+	answer _ self class new: self size + aSparseTuple size over: scalars.
+	self associationsDo: [:each|
+		aSparseTuple associationsDo: [:other|
+			answer at: each key * other key add: each value * other value]].
+	^ answer! !
+
+!SparseTuple methodsFor: 'operations' stamp: 'len 11/24/2016 21:18:39'!
+convolution3: aSparseTuple
+	| dictionary noZeroesDictionary |
+	dictionary _ Dictionary2 new: self size + aSparseTuple size.
+	self associationsDo: [:each|
+		aSparseTuple associationsDo: [:other|
+			dictionary at: each key * other key add: each value * other value]].
+	noZeroesDictionary _ Dictionary2 new: dictionary size.
+	dictionary associationsDo: [:each| each value isZero ifFalse: [noZeroesDictionary add: each]].
+	^ self class coefficients: noZeroesDictionary over: scalars! !
+
+!SparseTuple methodsFor: 'operations' stamp: 'len 11/24/2016 21:18:45'!
 convolution: aSparseTuple
 	| answer |
 	answer _ self class new: self size + aSparseTuple size over: scalars.
@@ -15287,9 +15441,9 @@ rank: anInteger
 x: anInteger
 	^ self x: anInteger to: 1! !
 
-!Monomials methodsFor: 'elements' stamp: 'len 11/21/2016 14:03:10'!
+!Monomials methodsFor: 'elements' stamp: 'len 11/24/2016 10:59:05'!
 x: anInteger to: exponent
-	^ ((Monomial new: rank) at: anInteger put: exponent; yourself) parent: self! !
+	^ (Monomial new: rank x: anInteger to: exponent) parent: self! !
 
 !Monomials class methodsFor: 'instance creation' stamp: 'len 11/20/2016 11:03:07'!
 new: anInteger
@@ -16104,7 +16258,7 @@ colon: anIdeal
 		answer _ answer ˜ (self ring * ((self ring * g ˜ self) groebnerBasis apply: [:h| h / g]))].
 	^ answer! !
 
-!PolynomialIdeal methodsFor: 'accessing' stamp: 'len 7/4/2016 06:33'!
+!PolynomialIdeal methodsFor: 'accessing' stamp: 'len 11/23/2016 05:31:37'!
 degree
 	"Answer the degree of the ideal, i.e. the number of monomials that are not multiple of any leading monomial in the Groebner basis."
 	| G count leadingMonomials |
@@ -16114,8 +16268,8 @@ degree
 	count _ 0.
 	G do: [:each|
 		each monomialsDo: [:monomial|
-			(leadingMonomials anySatisfy: [:lm| lm | monomial])
-					ifFalse: [count _ count + 1]]].
+			(leadingMonomials noneSatisfy: [:lm| lm | monomial])
+					ifTrue: [count _ count + 1]]].
 	^ count! !
 
 !PolynomialIdeal methodsFor: 'accessing' stamp: 'len 10/23/2016 11:59'!
@@ -16142,12 +16296,12 @@ output: univariate eliminant g(xi) or there's no eliminant
 where n is minimal, then output eliminant g(xi) = sum akxi^k
 "! !
 
-!PolynomialIdeal methodsFor: 'operations' stamp: 'len 11/19/2016 10:08:55'!
+!PolynomialIdeal methodsFor: 'operations' stamp: 'len 11/24/2016 11:24:50'!
 eliminateAll: aCollection
 	"Answer the elimination ideal for the indeterminates in aCollection = {xi}, i.e. the subideal of polynomials without indeterminates {xi}."
 	| indeterminates ordering G newGenerators |
 	indeterminates _ aCollection asArray , (self ring ordering indeterminates reject: [:each| aCollection includes: each]).
-	ordering _ MonomialOrdering lex: indeterminates.
+	ordering _ MonomialOrdering lex: indeterminates.	"if the ideal is homogeneous, should use use tlex?"
 	G _ (self groebnerBasisWithOrdering: ordering) minimal.
 	newGenerators _ G asArray select: [:each| (aCollection noneSatisfy: [:none| each has: none])].
 	^ self ring * (newGenerators collect: [:each| each as: self ring])! !
@@ -16176,11 +16330,11 @@ hilbertSeries
 	"Answer the Hilbert series of the receiver."
 	^ self hilbertSeriesAt: (QQ polynomialsIn: #(t)) fractions x! !
 
-!PolynomialIdeal methodsFor: 'operations' stamp: 'len 10/27/2016 18:41'!
+!PolynomialIdeal methodsFor: 'operations' stamp: 'len 11/24/2016 11:20:12'!
 hilbertSeriesAt: t
 	"Answer the Hilbert series of the receiver."
 	self isHomogeneous ifFalse: [^ self notYetImplemented].
-	^ self initial hilbertSeriesAt: t! !
+	^ self leadingIdeal hilbertSeriesAt: t! !
 
 !PolynomialIdeal methodsFor: 'operations' stamp: 'len 11/19/2016 10:07:54'!
 homogenized
@@ -16199,11 +16353,6 @@ includes: aPolynomial
 	Answer true if the receiver includes aPolynomial.
 	This works on any Groebner basis (any monomial ordering)."
 	^ (self reduce: aPolynomial) isZero! !
-
-!PolynomialIdeal methodsFor: 'operations' stamp: 'len 9/26/2016 16:59'!
-initial
-	"Answer the initial ideal, i.e. the ideal of all leading monomials of the receiver."
-	^ MonomialIdeal on: self ring generators: self groebnerBasis initial! !
 
 !PolynomialIdeal methodsFor: 'operations-elements' stamp: 'len 11/14/2016 07:32'!
 inverseOf: aPolynomial
@@ -16236,6 +16385,11 @@ isTrivial
 !PolynomialIdeal methodsFor: 'testing' stamp: 'len 9/26/2016 16:59'!
 isUnivariate
 	^ self ring isUnivariate! !
+
+!PolynomialIdeal methodsFor: 'operations' stamp: 'len 11/24/2016 11:21:31'!
+leadingIdeal
+	"Answer the initial ideal, i.e. the ideal of all leading monomials of the receiver."
+	^ MonomialIdeal on: self ring generators: self groebnerBasis initial! !
 
 !PolynomialIdeal methodsFor: 'converting' stamp: 'len 11/19/2016 09:59:35'!
 orderedBy: aMonomialOrdering
@@ -18319,12 +18473,12 @@ chebyshevOfOrder: n
 coefficient: aNumber degree: anInteger
 	^ self coefficients: (self scalars tuple: {aNumber}) >>> anInteger! !
 
-!PolynomialRing methodsFor: 'elements' stamp: 'len 11/18/2016 20:43:29'!
+!PolynomialRing methodsFor: 'elements' stamp: 'len 11/26/2016 07:39:17'!
 coefficient: aNumber monomial: aMonomial
 	| coefficients |
 	self isUnivariate
 		ifFalse:
-			[coefficients _ SparseTuple over: self scalars.
+			[coefficients _ MonomialIndexedTuple over: self scalars.
 			coefficients at: aMonomial put: aNumber]
 		ifTrue:
 			[| n zero |
@@ -18341,13 +18495,13 @@ coefficient: aNumber x: anIndeterminate to: anInteger
 		ifFalse: [self indeterminateNames indexOf: anIndeterminate ifAbsent: [^ self error: 'unknown indeterminate']].
 	^ self coefficient: aNumber monomial: (monomials x: i to: anInteger)! !
 
-!PolynomialRing methodsFor: 'elements' stamp: 'len 11/20/2016 12:06:59'!
+!PolynomialRing methodsFor: 'elements' stamp: 'len 11/26/2016 07:39:10'!
 coefficients: aTuple
 	| tuple |
 	self isUnivariate ifFalse: [^ (MultivariatePolynomial coefficients: aTuple) parent: self].
 	tuple _ aTuple class = self scalars tupleClass
 		ifTrue: [aTuple]
-		ifFalse: [(aTuple isKindOf: SparseTuple)
+		ifFalse: [(aTuple isKindOf: MonomialIndexedTuple)
 			ifTrue:
 				[| n |
 				n _ 0.
@@ -18624,24 +18778,28 @@ monomials
 monomials: aMonomials
 	monomials _ aMonomials! !
 
-!PolynomialRing methodsFor: 'elements' stamp: 'len 11/18/2016 20:43:34'!
+!PolynomialRing methodsFor: 'elements' stamp: 'len 11/26/2016 07:39:00'!
 new
 	^ (self isUnivariate
 		ifTrue: [UnivariatePolynomial coefficients: (self scalars tuple: #())]
-		ifFalse: [MultivariatePolynomial coefficients: (SparseTuple over: self scalars)])
+		ifFalse: [MultivariatePolynomial coefficients: (MonomialIndexedTuple over: self scalars)])
 			parent: self! !
 
-!PolynomialRing methodsFor: 'elements' stamp: 'len 11/21/2016 19:34:02'!
+!PolynomialRing methodsFor: 'elements' stamp: 'len 11/28/2016 09:59:22'!
 newFrom: aPolynomial
-	| coefficients |
+	| associations |
 	(aPolynomial isKindOf: Polynomial) ifFalse: [^ self evaluating: aPolynomial].
 	(aPolynomial indeterminates allSatisfy: [:each| each <= self rank])
 		ifFalse: [self error: 'unknown indeterminates are present'].
-	coefficients _ ((aPolynomial isKindOf: UnivariatePolynomial) and: [self isUnivariate not])
-			ifTrue: [aPolynomial asSparsePolynomial coefficients]
-			ifFalse: [aPolynomial coefficients].
-	coefficients _ coefficients copy associationsDo: [:each| each key: (each key as: self monomials)].
-	^ self coefficients: coefficients! !
+	((aPolynomial isKindOf: UnivariatePolynomial) and: [self isUnivariate not])
+		ifTrue:
+			[associations _ OrderedCollection new: aPolynomial coefficients size.
+			aPolynomial coefficients withIndexDo: [:coefficient :i|
+				associations add: (monomials x: 1 to: i-1) -> coefficient]]
+		ifFalse:
+			[associations _ aPolynomial coefficients associations collect: [:each| each copy key: (each key as: self monomials)]].
+	associations sort.
+	^ self coefficients: (MonomialIndexedTuple associations: associations over: self scalars)! !
 
 !PolynomialRing methodsFor: 'elements' stamp: 'len 10/22/2016 18:08'!
 one
@@ -28261,7 +28419,7 @@ over: aRing with: anElement
 over: aRing with: anElement times: anScalar
 	^ self coefficients: ((SparseTuple over: aRing) at: anElement put: anScalar; yourself)! !
 
-!FreePolynomial methodsFor: 'arithmetic' stamp: 'len 11/18/2016 20:32:26'!
+!FreePolynomial methodsFor: 'arithmetic' stamp: 'len 11/25/2016 10:03:02'!
 * anObject
 	((self scalars includes: anObject) or: [anObject isInteger])
 		ifTrue: [^ self class coefficients: self coefficients * anObject].
@@ -28439,10 +28597,14 @@ adaptToNumber: aNumber andSend: selector
 adaptToRealAlgebraic: aNumber andSend: selector
 	^ self adaptToNumber: aNumber andSend: selector! !
 
-!Tuple methodsFor: 'operations' stamp: 'len 11/11/2016 18:21'!
-add: aTuple multipliedBy: aNumber startingAt: index
-	index to: (self size min: aTuple size) do: [:i|
+!Tuple methodsFor: 'operations' stamp: 'len 11/23/2016 09:43:40'!
+addFrom: startIndex to: stopIndex with: aTuple by: aNumber
+	startIndex to: stopIndex do: [:i|
 		self at: i put: (aTuple at: i) * aNumber + (self at: i)]! !
+
+!Tuple methodsFor: 'operations' stamp: 'len 11/23/2016 09:43:18'!
+addFrom: startIndex with: aTuple by: aNumber
+	self addFrom: startIndex to: (self size min: aTuple size) with: aTuple by: aNumber! !
 
 !Tuple methodsFor: 'iterating' stamp: 'len 11/5/2016 07:06'!
 allSatisfy: aBlock
@@ -28580,6 +28742,13 @@ hash
 	1 to: self size do: [:i | hash _ (hash + (self at: i) hash) hashMultiply].
 	^hash! !
 
+!Tuple methodsFor: 'operations' stamp: 'len 11/27/2016 13:25:12'!
+height
+	| answer |
+	answer _ 1.
+	self do: [:each| answer _ answer max: each height].
+	^ answer! !
+
 !Tuple methodsFor: 'converting' stamp: 'len 10/31/2016 13:11'!
 homogenized
 	^ self homogenizedIn: self size + 1! !
@@ -28648,15 +28817,13 @@ norm2
 over: aRing
 	self scalars = aRing ifFalse: [^ aRing tuple: self]! !
 
-!Tuple methodsFor: 'operations' stamp: 'len 11/11/2016 08:45'!
+!Tuple methodsFor: 'operations' stamp: 'len 11/23/2016 05:43:12'!
 polynomialValue: anObject
 	"Evaluate the receiver (as an univariate polynomial) at the given argument using Horner's method."
-	| x answer one |
-	x _ ((anObject is: #Tuple) or: [anObject isKindOf: Array])
-		ifTrue: [anObject at: 1] ifFalse: [anObject].
-	answer _ x zero.
-	one _ x one.
-	self reverseDo: [:each| answer _ x * answer + (one * each)].
+	| answer one |
+	answer _ anObject zero.
+	one _ anObject one.
+	self reverseDo: [:each| answer _ anObject * answer + (one * each)].
 	^ answer! !
 
 !Tuple methodsFor: 'printing' stamp: 'len 3/29/2016 19:04'!
@@ -29067,13 +29234,10 @@ parity
 	[n = 0] whileFalse: [parity _ parity bitXor: (n bitAnd: 1). n _ n >> 1].
 	^ parity! !
 
-!BitTuple methodsFor: 'operations' stamp: 'len 11/11/2016 08:55'!
+!BitTuple methodsFor: 'operations' stamp: 'len 11/23/2016 05:42:05'!
 polynomialValue: anObject
-	| x |
-	x _ ((anObject is: #Tuple) or: [anObject isKindOf: Array])
-		ifTrue: [anObject at: 1] ifFalse: [anObject].
-	Zero = x ifTrue: [^ self at: 1].
-	One = x ifFalse: [^ super polynomialValue: anObject].
+	Zero = anObject ifTrue: [^ self at: 1].
+	One = anObject ifFalse: [^ super polynomialValue: anObject].
 	^ self sum! !
 
 !BitTuple methodsFor: 'printing' stamp: 'len 3/28/2016 04:52'!
@@ -29192,14 +29356,14 @@ newFrom: anObject
 	self class = aTuple class ifFalse: [^ super = aTuple halt].
 	^ modulus = aTuple modulus and: [representatives = aTuple representatives]! !
 
-!ModularTuple methodsFor: 'operations' stamp: 'len 11/11/2016 18:27'!
-add: aTuple multipliedBy: aNumber startingAt: index
+!ModularTuple methodsFor: 'operations' stamp: 'len 11/23/2016 09:42:52'!
+addFrom: startIndex to: stopIndex with: aTuple by: aNumber
 	| representatives2 x |
 	(self class = aTuple class and: [modulus = aTuple modulus])
-		ifFalse: [^ super add: aTuple multipliedBy: aNumber startingAt: index].
+		ifFalse: [^ super addFrom: startIndex to: stopIndex with: aTuple by: aNumber].
 	representatives2 _ aTuple representatives.
 	x _ aNumber representative.
-	index to: (representatives size min: representatives2 size) do: [:i|
+	startIndex to: stopIndex do: [:i|
 		representatives at: i put: (representatives2 at: i) * x + (representatives at: i) \\ modulus]! !
 
 !ModularTuple methodsFor: 'accessing-private' stamp: 'len 6/29/2016 05:50'!
@@ -29296,12 +29460,10 @@ negated
 	1 to: self size do: [:i| array at: i put: (array at: i) negated \\ modulus].
 	^ self class representatives: array modulo: modulus! !
 
-!ModularTuple methodsFor: 'operations' stamp: 'len 11/16/2016 18:16'!
+!ModularTuple methodsFor: 'operations' stamp: 'len 11/23/2016 05:42:34'!
 polynomialValue: anObject
 	| x answer |
-	x _ ((anObject is: #Tuple) or: [anObject isKindOf: Array])
-		ifTrue: [anObject at: 1] ifFalse: [anObject].
-	((x isKindOf: ModularInteger) and: [x modulus = modulus])
+	((anObject isKindOf: ModularInteger) and: [anObject modulus = modulus])
 		ifFalse: [^ super polynomialValue: anObject].
 	x _ anObject representative.
 	answer _ 0.
@@ -29716,9 +29878,11 @@ diagonalDo: aBlock
 dimension
 	^ self numberOfRows @ self numberOfColumns! !
 
-!Matrix methodsFor: 'iterating' stamp: 'len 7/8/2016 04:30'!
+!Matrix methodsFor: 'iterating' stamp: 'len 11/27/2016 13:24:03'!
 do: aBlock
-	self rowsDo: [:each| each do: aBlock ]! !
+	1 to: self numberOfRows do: [:i|
+		1 to: self numberOfColumns do: [:j|
+			aBlock value: (self at: i at: j)]]! !
 
 !Matrix methodsFor: 'arithmetic' stamp: 'len 11/11/2016 17:09'!
 dot: aMatrix
@@ -29760,6 +29924,13 @@ hash
 	1 to: self numberOfRows do: [:i|
 		1 to: self numberOfColumns do: [:j|
 			answer _ answer hashMultiply + (self at: i@j) hash]].
+	^ answer! !
+
+!Matrix methodsFor: 'operations' stamp: 'len 11/27/2016 13:24:56'!
+height
+	| answer |
+	answer _ 1.
+	self do: [:each| answer _ answer max: each height].
 	^ answer! !
 
 !Matrix methodsFor: 'constants' stamp: 'len 11/5/2016 03:37'!
@@ -30258,21 +30429,21 @@ new
 - aMatrix
 	^ self class rows: rows - aMatrix rows! !
 
-!RowMatrix methodsFor: 'reduction-operations' stamp: 'len 3/23/2016 00:17'!
-addColumn: i multipliedBy: factor toColumn: j
-	rows do: [:each| each at: j put: (each at: i) * factor + (each at: j)]! !
+!RowMatrix methodsFor: 'reduction-operations' stamp: 'len 11/23/2016 09:39:13'!
+addColumn: i by: aNumber toColumn: j
+	rows do: [:each| each at: j put: (each at: i) * aNumber + (each at: j)]! !
 
 !RowMatrix methodsFor: 'accessing' stamp: 'len 3/23/2016 00:19'!
 addRow: aTuple
 	^ rows add: aTuple! !
 
-!RowMatrix methodsFor: 'reduction-operations' stamp: 'len 11/11/2016 18:36'!
-addRow: srcRow multipliedBy: factor toRow: dstRow
-	^ self addRow: srcRow multipliedBy: factor toRow: dstRow startingAt: 1! !
+!RowMatrix methodsFor: 'reduction-operations' stamp: 'len 11/23/2016 09:40:41'!
+addRow: srcRow by: aNumber toRow: dstRow
+	self addRow: srcRow by: aNumber toRow: dstRow startingAt:1! !
 
-!RowMatrix methodsFor: 'reduction-operations' stamp: 'len 11/11/2016 18:36'!
-addRow: srcRow multipliedBy: factor toRow: dstRow startingAt: columnIndex
-	(rows at: dstRow) add: (rows at: srcRow) multipliedBy: factor startingAt: columnIndex! !
+!RowMatrix methodsFor: 'reduction-operations' stamp: 'len 11/23/2016 09:42:07'!
+addRow: srcRow by: aNumber toRow: dstRow startingAt: columnIndex
+	(rows at: dstRow) addFrom: columnIndex with: (rows at: srcRow) by: aNumber! !
 
 !RowMatrix methodsFor: 'accessing' stamp: 'len 3/23/2016 02:46'!
 at: i at: j
@@ -30293,6 +30464,10 @@ columnAt: j
 !RowMatrix methodsFor: 'copying' stamp: 'len 11/5/2016 03:41'!
 copy
 	^ self class rows: (rows collect: [ :each | each copy])! !
+
+!RowMatrix methodsFor: 'iterating' stamp: 'len 11/27/2016 13:23:25'!
+do: aBlock
+	self rowsDo: [:each| each do: aBlock]! !
 
 !RowMatrix methodsFor: 'testing' stamp: 'len 3/23/2016 00:19'!
 isZero
@@ -30652,7 +30827,7 @@ matrix
 matrix: aMatrix
 	matrix _ aMatrix! !
 
-!HermiteNormalForm2 methodsFor: 'as yet unclassified' stamp: 'len 11/12/2016 09:07'!
+!HermiteNormalForm2 methodsFor: 'as yet unclassified' stamp: 'len 11/23/2016 09:39:38'!
 reduceStep2: i k: k
 	| j0 b |
 	"2. Row finished?"
@@ -30669,9 +30844,9 @@ reduceStep2: i k: k
 	1 to: k-1 do: [:j| | q |
 "		q _ ((matrix at: i@j) / b) rounded."
 		q _ (matrix at: i@j) // b.
-		matrix addColumn: k multipliedBy: q negated toColumn: j]] repeat! !
+		matrix addColumn: k by: q negated toColumn: j]] repeat! !
 
-!HermiteNormalForm2 methodsFor: 'as yet unclassified' stamp: 'len 11/12/2016 09:07'!
+!HermiteNormalForm2 methodsFor: 'as yet unclassified' stamp: 'len 11/23/2016 09:40:09'!
 reduceStep: i k: k
 	| j0 b |
 	"2. Row finished?"
@@ -30688,9 +30863,9 @@ reduceStep: i k: k
 	1 to: k-1 do: [:j| | q |
 "		q _ ((matrix at: i@j) / b) rounded."
 		q _ (matrix at: i@j) // b.
-		matrix addColumn: k multipliedBy: q negated toColumn: j]] repeat! !
+		matrix addColumn: k by: q negated toColumn: j]] repeat! !
 
-!HermiteNormalForm2 methodsFor: 'as yet unclassified' stamp: 'len 3/21/2016 05:02'!
+!HermiteNormalForm2 methodsFor: 'as yet unclassified' stamp: 'len 11/23/2016 09:40:17'!
 run
 	| n m i k l b |
 	m _ matrix numberOfRows.
@@ -30709,7 +30884,7 @@ run
 			[k+1 to: n do: [:j| | q |
 			"	q _ ((matrix at: i@j) / b) floor." "or rounded or truncated?"
 				q _ (matrix at: i@j) // b.
-				matrix addColumn: k multipliedBy: q negated toColumn: j]].
+				matrix addColumn: k by: q negated toColumn: j]].
 	"6. Finished?"
 	i = l] whileFalse: [i _ i - 1. k _ k - 1].
 	^ matrix copyFrom: 1@k to: m@n! !
@@ -30841,11 +31016,10 @@ addPivot: aPoint
 	currentPivot _ aPoint.
 	^ pivots add: aPoint! !
 
-!MatrixReducer methodsFor: 'private' stamp: 'len 11/11/2016 18:12'!
-addRow: i0 multipliedBy: anObject toRow: i1
-	"Add a row multiplied by anObject to another row."
-	matrix addRow: i0 multipliedBy: anObject toRow: i1 startingAt: self currentPivot x.
-	extension notNil ifTrue: [extension addRow: i0 multipliedBy: anObject toRow: i1]! !
+!MatrixReducer methodsFor: 'private' stamp: 'len 11/23/2016 09:41:41'!
+addRow: i0 by: aNumber toRow: i1
+	matrix addRow: i0 by: aNumber toRow: i1 startingAt: self currentPivot x.
+	extension notNil ifTrue: [extension addRow: i0 by: aNumber toRow: i1]! !
 
 !MatrixReducer methodsFor: 'accessing' stamp: 'len 11/6/2015 04:50'!
 currentPivot
@@ -30969,7 +31143,7 @@ on: aMatrix
 on: aMatrix extension: anotherMatrix
 	^ self new matrix: aMatrix extension: anotherMatrix! !
 
-!GaussBareiss methodsFor: 'private' stamp: 'len 12/26/2015 05:51'!
+!GaussBareiss methodsFor: 'private' stamp: 'len 11/23/2016 09:40:55'!
 reduceStep
 	"Perform one step reduction of the matrix using the current pivot."
 	| row col pivot value |
@@ -30980,9 +31154,9 @@ reduceStep
 		(i = row or: [(value _ matrix at: i @ col) isZero])
 			ifFalse:
 				[self multiplyRow: i by: pivot.
-				self addRow: row multipliedBy: value negated toRow: i]]! !
+				self addRow: row by: value negated toRow: i]]! !
 
-!GaussianElimination methodsFor: 'private' stamp: 'len 12/26/2015 05:51'!
+!GaussianElimination methodsFor: 'private' stamp: 'len 11/23/2016 09:41:05'!
 reduceStep
 	"Perform one step in the reduction of the matrix using the current pivot."
 	| row col value |
@@ -30991,7 +31165,7 @@ reduceStep
 	self multiplyRow: row by: (matrix at: row @ col) reciprocal.
 	1 to: matrix numberOfRows do: [ :each |
 		(each = row or: [(value _ matrix at: each @ col) isZero])
-			ifFalse: [self addRow: row multipliedBy: value negated toRow: each]]! !
+			ifFalse: [self addRow: row by: value negated toRow: each]]! !
 
 !QRDecomposition methodsFor: 'as yet unclassified' stamp: 'len 3/21/2016 22:11'!
 Q
@@ -31211,10 +31385,6 @@ affinizedIn: anIndeterminate
 at: anIndeterminate
 	^ exponents at: anIndeterminate! !
 
-!Monomial methodsFor: 'accessing-private' stamp: 'len 11/21/2016 15:56:24'!
-at: anIndeterminate put: anInteger
-	^ exponents at: anIndeterminate put: anInteger! !
-
 !Monomial methodsFor: 'accessing' stamp: 'len 3/16/2016 20:03'!
 bitSize
 	^ exponents inject: 0 into: [:x :each| x + each bitSize]! !
@@ -31223,22 +31393,21 @@ bitSize
 compare: aMonomial
 	^ self ordering compare: self with: aMonomial! !
 
-!Monomial methodsFor: 'operations' stamp: 'len 11/21/2016 19:12:45'!
+!Monomial methodsFor: 'operations' stamp: 'len 11/24/2016 10:49:18'!
 complete: anInteger in: anIndeterminate
 	"Answer a copy of the receiver of degree anInteger completing with a power of the indeterminate anotherInteger."
 	| n |
 	(n _ self degree) = anInteger ifTrue: [^ self].
-	^ self copy at: anIndeterminate put: anInteger - n + (self at: anIndeterminate); yourself! !
+	^ self species exponents: (exponents copy at: anIndeterminate put: anInteger - n + (self at: anIndeterminate); yourself)! !
 
-!Monomial methodsFor: 'copying' stamp: 'len 11/21/2016 19:14:31'!
+!Monomial methodsFor: 'copying' stamp: 'len 11/24/2016 10:48:41'!
 copyWith: anIndeterminate to: anInteger
-	^ self copy at: anIndeterminate put: anInteger; yourself! !
+	^ self species exponents: (exponents copy at: anIndeterminate put: anInteger; yourself)! !
 
-!Monomial methodsFor: 'copying' stamp: 'len 3/17/2016 00:21'!
+!Monomial methodsFor: 'copying' stamp: 'len 11/24/2016 10:48:58'!
 copyWithout: anIndeterminate
 	"Answer a copy of the receiver with the given indeterminate removed."
-
-	^ self copy at: anIndeterminate put: 0; yourself! !
+	^ self species exponents: (exponents copy at: anIndeterminate put: 0; yourself)! !
 
 !Monomial methodsFor: 'operations' stamp: 'len 11/19/2016 10:20:23'!
 degree
@@ -31368,9 +31537,9 @@ printOn: aStream
 root: anInteger
 	^ self species exponents: exponents / anInteger! !
 
-!Monomial methodsFor: 'operations' stamp: 'len 6/6/2016 04:28'!
+!Monomial methodsFor: 'operations' stamp: 'len 11/24/2016 10:49:56'!
 root: anInteger in: anIndeterminate
-	^ self copy at: anIndeterminate put: (self at: anIndeterminate) / anInteger; yourself! !
+	^ self species exponents: (exponents copy at: anIndeterminate put: (self at: anIndeterminate) / anInteger; yourself)! !
 
 !Monomial methodsFor: 'private' stamp: 'len 11/20/2016 12:22:21'!
 species
@@ -31392,25 +31561,23 @@ without: anIndeterminate
 exponents: anArray
 	^ self basicNew exponents: anArray! !
 
-!Monomial class methodsFor: 'instance creation' stamp: 'len 6/6/2016 02:43'!
-identity
-	"Answer the identity monomial (i.e., the monomial without indeterminates, or with all exponents 0)."
-	^ self new: 0! !
+!Monomial class methodsFor: 'instance creation' stamp: 'len 11/24/2016 10:58:05'!
+new
+	^ self shouldNotImplement! !
 
 !Monomial class methodsFor: 'instance creation' stamp: 'len 11/20/2016 11:25:52'!
 new: anInteger
 	^ self exponents: ((Array new: anInteger) atAllPut: 0; yourself)! !
 
-!Monomial class methodsFor: 'instance creation' stamp: 'len 11/20/2016 11:25:14'!
-x: i
-	"Answer a new instance of the receiver with only one indeterminate: the argument."
+!Monomial class methodsFor: 'instance creation' stamp: 'len 11/24/2016 10:54:53'!
+new: anInteger x: i
+	"Answer a new instance of the receiver with only one indeterminate: the argument i."
+	^ self new: anInteger x: i to: 1! !
 
-	^ self x: i to: 1! !
-
-!Monomial class methodsFor: 'instance creation' stamp: 'len 11/21/2016 12:48:29'!
-x: i to: k
+!Monomial class methodsFor: 'instance creation' stamp: 'len 11/24/2016 10:54:37'!
+new: anInteger x: i to: k
 	"Answer a new instance of the receiver with only one indeterminate, xi, raised to n."
-	^ (self new: i) at: i put: k; yourself! !
+	^ self exponents: ((Array new: anInteger) atAllPut: 0; at: i put: k; yourself)! !
 
 !MonomialOrdering methodsFor: 'ordering' stamp: 'len 11/21/2016 08:42:01'!
 compare: aMonomial with: anotherMonomial
@@ -31743,17 +31910,16 @@ trevlex: aCollection
 % anInteger
 	^ (self species over: (self scalars % anInteger)) coefficients: self coefficients % anInteger! !
 
-!Polynomial methodsFor: 'arithmetic' stamp: 'len 3/23/2016 07:25'!
+!Polynomial methodsFor: 'arithmetic' stamp: 'len 11/28/2016 11:04:41'!
 * anObject
+	(anObject isInteger or: [self scalars includes: anObject])
+		ifTrue: [^ self species coefficients: self coefficients * anObject].
 	(self species includes: anObject)
-		ifTrue:
-			[^ self species coefficients: (self coefficients convolution: anObject coefficients)].
-	((self scalars includes: anObject) or: [anObject isInteger])
-		ifTrue: [^ self coefficientsApply: [:each| each * anObject]].
+		ifTrue: [^ self species coefficients: (self coefficients convolution: anObject coefficients)].
 	(anObject isKindOf: Monomial)
-		ifTrue: [^ self multiplyByMonomial: anObject].
+		ifTrue: [^ self multipliedByMonomial: anObject].
 	((anObject isKindOf: Polynomial) and: [anObject scalars includes: self])
-		ifTrue: [^ anObject coefficientsApply: [:each| self * each]].
+		ifTrue: [^ anObject * self].
 	^ DomainError signal! !
 
 !Polynomial methodsFor: 'arithmetic' stamp: 'len 7/8/2016 05:40'!
@@ -31778,31 +31944,31 @@ trevlex: aCollection
 		ifTrue: [^ self species coefficients: self coefficients - anObject coefficients].
 	^ self + anObject negated! !
 
-!Polynomial methodsFor: 'arithmetic' stamp: 'len 11/1/2016 00:25'!
+!Polynomial methodsFor: 'arithmetic' stamp: 'len 11/28/2016 10:21:05'!
 / anObject
 	(anObject isKindOf: Monomial)
-		ifTrue: [^ self exactDivideByMonomial: anObject].
+		ifTrue: [^ self dividedByMonomial: anObject].
 	(self species includes: anObject)
 		ifTrue: [^ self exactDivideBy: anObject].
 	(self scalars includes: anObject)
-		ifTrue: [^ self coefficientsApply: [:each| each / anObject]]. "warning: this could be slow, potentially computing reciprocal for each coefficient"
+		ifTrue: [^ self species coefficients: self coefficients / anObject].
 	^ self * anObject reciprocal! !
 
-!Polynomial methodsFor: 'arithmetic' stamp: 'len 3/22/2016 23:26'!
+!Polynomial methodsFor: 'arithmetic' stamp: 'len 11/28/2016 10:22:28'!
 // anObject
 	"Answer the quotient of the division of the receiver by the argument."
 
 	(self scalars includes: anObject)
-		ifTrue: [^ self coefficientsApply: [:each| each // anObject]].
+		ifTrue: [^ self species coefficients: self coefficients // anObject].
 	^ (self divideBy: anObject) quotient! !
 
-!Polynomial methodsFor: 'arithmetic' stamp: 'len 11/1/2016 00:24'!
+!Polynomial methodsFor: 'arithmetic' stamp: 'len 11/28/2016 10:22:55'!
 /// anObject
 	"Answer the exact quotient of the division of the receiver by the argument."
 	(anObject isKindOf: Monomial)
-		ifTrue: [^ self exactDivideByMonomial: anObject].
+		ifTrue: [^ self dividedByMonomial: anObject].
 	(self scalars includes: anObject)
-		ifTrue: [^ self coefficientsApply: [:each| each /// anObject]].
+		ifTrue: [^ self species coefficients: self coefficients /// anObject].
 	^ self exactDivideBy: anObject! !
 
 !Polynomial methodsFor: 'comparing' stamp: 'len 3/1/2016 17:55'!
@@ -31815,12 +31981,12 @@ trevlex: aCollection
 	anObject isBlock ifTrue: [^ [:x| self value: (anObject value: x)]].
 	^ self value: anObject! !
 
-!Polynomial methodsFor: 'arithmetic' stamp: 'len 3/22/2016 23:26'!
+!Polynomial methodsFor: 'arithmetic' stamp: 'len 11/28/2016 10:23:13'!
 \\ anObject
 	"Answer the remainder of the division of the receiver by the argument."
 
 	(self scalars includes: anObject)
-		ifTrue: [^ self coefficientsApply: [:each| each \\ anObject]].
+		ifTrue: [^ self species coefficients: self coefficients \\ anObject].
 	^ (self divideBy: anObject) remainder! !
 
 !Polynomial methodsFor: 'testing' stamp: 'len 12/27/2015 02:44'!
@@ -31845,11 +32011,14 @@ affinizedIn: anIndeterminate
 	"Answer the affinization of the receiver in the given indeterminate."
 	^ self monomialsApply: [:each| each affinizedIn: anIndeterminate]! !
 
-!Polynomial methodsFor: 'operations' stamp: 'len 7/8/2016 04:37'!
+!Polynomial methodsFor: 'operations' stamp: 'len 11/28/2016 10:32:53'!
 apply: aMorphism
-	"Apply a homomorphism to the coefficients of the receiver."
-	(aMorphism isBlock or: [aMorphism domain = self scalars]) ifTrue: [^ self coefficientsApply: aMorphism].
-	^ DomainError signal! !
+	"Answer a new polynomial with coefficients obtainted by applying aMorphism to the coefficients of the receiver. This morphism is a ring homomorphism from the scalars ring.
+	If aMorphism is a block we assume the species doesn't change, i.e. the block must evaluate to values within the scalars ring of the receiver."
+
+	aMorphism isBlock
+		ifTrue: [^ self species coefficients: (self coefficients collect: aMorphism)].
+	^ (self species over: aMorphism codomain) coefficients: (self coefficients apply: aMorphism)! !
 
 !Polynomial methodsFor: 'converting' stamp: 'len 6/1/2016 20:17'!
 asBilinearForm
@@ -31867,7 +32036,7 @@ asLinearForm
 	self isLinear ifFalse: [^ self error: 'not a linear polynomial'].
 	^ (self scalars ** self species rank) dual evaluating: self! !
 
-!Polynomial methodsFor: 'converting' stamp: 'len 7/19/2016 01:12'!
+!Polynomial methodsFor: 'converting' stamp: 'len 11/28/2016 08:57:10'!
 asMultivariate
 	"Convert a polynomial in R[x][y][z] to a polynomial in R[x,y,z]."
 	| R R` answer |
@@ -31932,24 +32101,7 @@ coefficientAtDegree: anInteger
 	"Answer the coefficient of the degree given by the argument. For univiariate polynomials."
 	^ self coefficientAt: (self species monomials x: self leadingIndeterminate to: anInteger)! !
 
-!Polynomial methodsFor: 'accessing coefficients' stamp: 'len 5/20/2016 06:21'!
-coefficientAtDegree: anInteger in: anotherInteger
-	"Answer the coefficient of degree anInteger looking at the receiver as univariate in the anotherInteger-th indeterminate."
-	self flag: #fix. "slow and ugly"
-	^ (self asUnivariateIn: anotherInteger) coefficientAtDegree: anInteger! !
-
-!Polynomial methodsFor: 'iterating' stamp: 'len 9/26/2016 16:41'!
-coefficientsApply: aMorphism
-	"Answer a new polynomial with coefficients obtainted by applying aMorphism to the coefficients of the receiver. This morphism is a ring homomorphism from the scalars ring.
-	If aMorphism is a block we assume the species doesn't change, i.e. the block must evaluate to values within the scalars ring of the receiver."
-
-	| newSpecies |
-	newSpecies _ aMorphism isBlock
-		ifTrue: [self species]
-		ifFalse: [self species over: aMorphism codomain].
-	^ newSpecies coefficients: (self coefficients collect: aMorphism)! !
-
-!Polynomial methodsFor: 'factorization' stamp: 'len 10/31/2016 15:21'!
+!Polynomial methodsFor: 'factorization' stamp: 'len 11/28/2016 09:15:07'!
 content
 	"Answer the GCD of the coefficients of the receiver.
 	In a field, it is convenient to define the content as 1.
@@ -31958,12 +32110,12 @@ content
 	self isZero ifTrue: [^ self scalars zero].
 	self scalars isField
 		ifTrue:
-			[self scalars isFractionRing
+			[^ self scalars isFractionRing
 				ifTrue:
 					[| c |
 					c _ self coefficients inject: self scalars one into: [:lcm :each| lcm lcm: each denominator].
-					^ (self coefficients inject: self scalars zero into: [:gcd :each | gcd gcd: each * c]) / c]
-				ifFalse: [^ self scalars one]].
+					(self coefficients inject: self scalars zero into: [:gcd :each| gcd gcd: each * c]) / c]
+				ifFalse: [self scalars one]].
 	answer _ self scalars zero.
 	self coefficients do: [:each| answer _ answer gcd: each].
 	^ answer! !
@@ -31986,20 +32138,6 @@ degreeIn: anIndeterminate
 	"Answer the degree of the receiver in the given indeterminate."
 	self isZero ifTrue: [^ Infinity negative].
 	^ self monomials max: [:each| each degreeIn: anIndeterminate]! !
-
-!Polynomial methodsFor: 'operations' stamp: 'len 12/19/2015 20:22'!
-descendentPower: n
-	"Answer the descendent power of the recever raised to the integer argument."
-	| mid |
-	n = 0 ifTrue: [^ self one].
-	n = 1 ifTrue: [^ self].
-	n negative ifTrue: [^ (self descendentPower: n negated) reciprocal].
-	mid _ n bitShift: -1.
-	^ n even
-		ifTrue: [(self - (self scalars one * mid) descendentPower: mid) *
-				(self descendentPower: mid)]
-		ifFalse: [(self - (self scalars one * mid) descendentPower: mid + 1) *
-				(self descendentPower: mid)]! !
 
 !Polynomial methodsFor: 'arithmetic' stamp: 'len 11/20/2016 15:24:53'!
 divideBy: aPolynomial
@@ -32026,7 +32164,7 @@ eprs: aPolynomial
 			r _ f0 pseudoRem: f1].
 	^ answer! !
 
-!Polynomial methodsFor: 'arithmetic' stamp: 'len 10/16/2016 16:02'!
+!Polynomial methodsFor: 'arithmetic' stamp: 'len 11/28/2016 10:25:11'!
 exactDivideBy2: aPolynomial
 	"Answer the exact division of the receiver by the argument.
 	Apply the Schonhage-Jabelean algorithm, for polynomials of degree at most 2n and n with coefficients in a field. When necesary conditions don't hold, do the ordinary division.
@@ -32038,7 +32176,7 @@ exactDivideBy2: aPolynomial
 	self isZero
 		ifTrue: [^ self].
 	aPolynomial isConstant
-		ifTrue: [| lc | lc _ aPolynomial leadingCoefficient. ^ self coefficientsApply: [:each| each / lc]].
+		ifTrue: [^ self / aPolynomial leadingCoefficient].
 	(self isUnivariate and: [aPolynomial isUnivariate])
 		ifFalse: [^ (MultiPolynomialDivision divide: self by: {aPolynomial}) quotient].
 	self scalars isField
@@ -32075,23 +32213,19 @@ exactDivideBy2: aPolynomial
 
 	^ self species coefficients: q! !
 
-!Polynomial methodsFor: 'arithmetic' stamp: 'len 10/16/2016 18:00'!
+!Polynomial methodsFor: 'arithmetic' stamp: 'len 11/28/2016 10:25:30'!
 exactDivideBy: aPolynomial
 	"Answer the exact division of the receiver by the argument."
 
 	self isZero
 		ifTrue: [^ self].
 	aPolynomial isConstant
-		ifTrue: [| lc | lc _ aPolynomial leadingCoefficient. ^ self coefficientsApply: [:each| each / lc]].
+		ifTrue: [^ self / aPolynomial leadingCoefficient].
 	(self isUnivariate and: [aPolynomial isUnivariate])
 		ifFalse: [^ (MultiPolynomialDivision divide: self by: {aPolynomial}) quotient].
 	self scalars isField
 		ifFalse: [^ (PolynomialPseudoDivision divide: self by: aPolynomial) exactQuotient].
 	^ (PolynomialDivision divide: self by: aPolynomial) quotient! !
-
-!Polynomial methodsFor: 'arithmetic' stamp: 'len 3/23/2016 04:40'!
-exactDivideByMonomial: aMonomial
-	^ self monomialsApply: [:each| each / aMonomial]! !
 
 !Polynomial methodsFor: 'factorization' stamp: 'len 2/24/2016 22:52'!
 factorizer
@@ -32139,13 +32273,13 @@ has: anIndeterminate
 hash
 	^ self coefficients hash! !
 
-!Polynomial methodsFor: 'operations' stamp: 'len 6/1/2016 21:01'!
+!Polynomial methodsFor: 'operations' stamp: 'len 11/23/2016 05:19:25'!
 hessian
 	"Answer the Hessian matrix of the receiver."
 	| n |
 	self flag: #fix. "optimize"
 	n _ self species rank.
-	^ self species ** (n @ n) evaluating: [:i :j| (self derivativeIn: i) derivativeIn: j]! !
+	^ self species matrix: n @ n evaluating: [:i :j| (self derivativeIn: i) derivativeIn: j]! !
 
 !Polynomial methodsFor: 'operations' stamp: 'len 5/20/2016 03:43'!
 homogenized
@@ -32359,12 +32493,6 @@ lcm: aPolynomial
 leadingCoefficient
 	^ self isZero ifTrue: [self scalars zero] ifFalse: [self coefficientAt: self leadingMonomial]! !
 
-!Polynomial methodsFor: 'accessing coefficients' stamp: 'len 5/20/2016 06:21'!
-leadingCoefficientIn: anIndeterminate
-	"Answer the leading coefficient of the receiver as univariate polynomial in the given indeterminate."
-	self flag: #fix. "slow and ugly"
-	^ (self asUnivariateIn: anIndeterminate) leadingCoefficient! !
-
 !Polynomial methodsFor: 'accessing indeterminates' stamp: 'len 6/6/2016 08:37'!
 leadingIndeterminate
 	"Answer the main (or leading) indeterminate of the receiver (according to a monomial ordering)."
@@ -32406,10 +32534,6 @@ monic
 monomials
 	^ Iterator on: self performing: #monomialsDo:! !
 
-!Polynomial methodsFor: 'arithmetic' stamp: 'len 3/23/2016 05:54'!
-multiplyByMonomial: aMonomial
-	^ self monomialsApply: [:each| each * aMonomial]! !
-
 !Polynomial methodsFor: 'arithmetic' stamp: 'len 3/30/2016 02:32'!
 negated
 	"Answer the additive inverse of the receiver."
@@ -32445,10 +32569,10 @@ normMax
 one
 	^ self species one! !
 
-!Polynomial methodsFor: 'converting' stamp: 'len 10/28/2016 10:51'!
+!Polynomial methodsFor: 'converting' stamp: 'len 11/28/2016 09:58:08'!
 orderedBy: aMonomialOrdering
 	"Answer a copy of the receiver with a different monomial ordering."
-	^ self copy parent: (parent orderedBy: aMonomialOrdering)! !
+	^ self as: (self species orderedBy: aMonomialOrdering)! !
 
 !Polynomial methodsFor: 'accessing-private' stamp: 'len 10/6/2016 15:34'!
 parent
@@ -32493,13 +32617,11 @@ pprs: aPolynomial
 			r _ (f0 pseudoRem: f1) primitive].
 	^ answer! !
 
-!Polynomial methodsFor: 'factorization' stamp: 'len 3/23/2016 05:23'!
+!Polynomial methodsFor: 'factorization' stamp: 'len 11/28/2016 10:26:05'!
 primitive
 	"Answer the primitive part of the receiver."
-	| content |
 	self isZero ifTrue: [^ self]. self flag: #fix. "is this right?"
-	content _ self content.
-	^ self coefficientsApply: [:each| each / content]! !
+	^ self / self content! !
 
 !Polynomial methodsFor: 'printing' stamp: 'len 6/25/2016 01:45'!
 printCoefficient: coefficient on: aStream
@@ -32634,47 +32756,13 @@ raisedTo: anInteger modulo: anObject
 	anInteger = 1 ifTrue: [^ self \\ anObject].
 	^ (self squared \\ anObject raisedTo: anInteger // 2 modulo: anObject) * (self raisedTo: anInteger \\ 2 modulo: anObject) \\ anObject! !
 
-!Polynomial methodsFor: 'arithmetic' stamp: 'len 2/14/2016 21:05'!
+!Polynomial methodsFor: 'arithmetic' stamp: 'len 11/28/2016 10:27:32'!
 reciprocal
-	self isConstant ifTrue: [^ self coefficientsApply: [:each| each reciprocal]]. "assuming we're in a field"
 	^ self asRationalFunction reciprocal! !
-
-!Polynomial methodsFor: 'operations' stamp: 'len 6/1/2016 20:43'!
-rename: anInteger to: anotherInteger
-	"Rename the anInteger-th indeterminate of the receiver to anotherInteger."
-	(self indeterminates includes: anotherInteger) ifFalse: [^ self error: 'unknown indeterminate'].
-	^ self value: ((1 to: self species rank) collect: [:i| self species x: (i = anInteger ifTrue: [anotherInteger] ifFalse: [i])])! !
-
-!Polynomial methodsFor: 'deprecated' stamp: 'len 7/8/2016 05:45'!
-resultant: aPolynomial in: anIndeterminate
-	"Answer the resultant of the receiver with aPolynomial in the anInteger-th indeterminate."
-
-	self flag: #fix. self flag: #deprecated.
-	(self degreeIn: anIndeterminate) = 0
-		ifTrue: [^ aPolynomial ** self degree].
-	(aPolynomial degreeIn: anIndeterminate) = 0 ifTrue: [
-		^ (self degree even or: [aPolynomial degree even])
-			ifTrue: [(self ** aPolynomial degree)]
-			ifFalse: [(self ** aPolynomial degree) negated]].
-
-	^ (self sylvester: aPolynomial in: anIndeterminate) determinant! !
-
-!Polynomial methodsFor: 'operations' stamp: 'len 3/22/2016 23:19'!
-reversedIn: anIndeterminate
-	"Answer the reverse of the receiver as univariate polynomial in the given indeterminate."
-
-	| n |
-	n _ self degreeIn: anIndeterminate.
-	^ self monomialsApply: [:each| each copy at: anIndeterminate put: n - (each degreeIn: anIndeterminate); yourself]! !
 
 !Polynomial methodsFor: 'accessing' stamp: 'len 10/6/2016 15:34'!
 scalars
 	^ parent scalars! !
-
-!Polynomial methodsFor: 'operations' stamp: 'len 11/20/2016 14:16:58'!
-shift: anInteger in: anIndeterminate
-	"Answer the receiver shifted anInteger places as univariate polynomial in the given indeterminate."
-	^ self multiplyByMonomial: (self species monomials x: anIndeterminate to: anInteger)! !
 
 !Polynomial methodsFor: 'factorization' stamp: 'len 3/1/2016 16:25'!
 sign
@@ -32783,62 +32871,6 @@ squareFreeFactorizationOLD
 squared
 	^ self * self! !
 
-!Polynomial methodsFor: 'deprecated' stamp: 'len 7/8/2016 05:46'!
-subresultant: i with: aPolynomial in: anIndeterminate
-	"Answer the i-th subresultant of the receiver with the aPolynomial in the given indeterminate."
-
-	| lambda mu n m c matrix tuple t |
-	self flag: #fix. self flag: #deprecated.
-	m _ self degreeIn: anIndeterminate.
-	n _ aPolynomial degreeIn: anIndeterminate.
-	lambda _ m min: n.
-	mu _ (m max: n) - 1.
-	i = lambda
-		ifTrue:
-			[self degree + 1 < aPolynomial degree
-				ifTrue: [c _ self]
-				ifFalse:
-					[aPolynomial degree + 1 < self degree
-						ifTrue: [c _ aPolynomial] ifFalse: [^ nil]].
-			^ c * ((c leadingCoefficientIn: anIndeterminate) ** ((m - n) abs - 1))].
-	(i between: lambda and: mu) ifTrue: [^ self zero].
-	(i between: 0 and: lambda - 1) ifFalse: [self error: 'index out of range'].
-	t _ m + n - (2*i).
-	matrix _ (self scalars ** (t@t)) new.
-	tuple _ self scalars tuple: m + n - (2*i) evaluating: [:each|
-				self coefficientAtDegree: m - each + 1 in: anIndeterminate].
-	n - i timesRepeat: [matrix addRow: tuple. tuple _ tuple shift: 1].
-	tuple _ self scalars tuple: m + n - (2*i) evaluating: [ :each |
-				aPolynomial coefficientAtDegree: n - each + 1 in: anIndeterminate].
-	m - i timesRepeat: [matrix addRow: tuple. tuple _ tuple shift: 1].
-	1 to: n - i do: [:each|
-		matrix atRow: each column: m + n - (2*i)
-				put: (self shift: n - i - each in: anIndeterminate)].
-	1 to: m - i do: [:each|
-		matrix atRow: n - i + each column: m + n - (2*i)
-				put: (aPolynomial shift: m - i - each in: anIndeterminate)].
-	^ matrix determinant! !
-
-!Polynomial methodsFor: 'deprecated' stamp: 'len 11/11/2016 09:03'!
-sylvester: aPolynomial in: anIndeterminate
-	"Answer the Sylvester matrix of the receiver with the argument in the anInteger-th indeterminate.
-	If p,q polynomials of degrees m and n:
-		det S(p,q) = res (p,q)
-		deg (gcd(p,q)) = m - n + rank (S(p,q))
-	Also the kernel of the transposed Sylvester matrix gives all solutions of the Bezout equation:
-		f*p + g*q = 0
-	"
-	| m n rows p q |
-	self flag: #fix. self flag: #deprecated.
-	m _ self degreeIn: anIndeterminate.
-	n _ aPolynomial degreeIn: anIndeterminate.
-	rows _ OrderedCollection new: m+n.
-	p _ self scalars tuple: ((1 to: m+n) collect: [:i| self coefficientAtDegree: m-i+1 in: anIndeterminate ]).
-	n timesRepeat: [rows add: p. p _ p shift: 1].
-	q _ self scalars tuple: ((1 to: m+n) collect: [:i| aPolynomial coefficientAtDegree: n-i+1 in: anIndeterminate]).
-	m timesRepeat: [rows add: q. q _ q shift: 1].
-	^ Matrix rows: rows! !
-
 !Polynomial methodsFor: 'accessing terms' stamp: 'len 3/1/2016 22:08'!
 tail
 	^ self - self leadingTerm! !
@@ -32847,54 +32879,15 @@ tail
 termAt: aMonomial
 	^ self species coefficient: (self coefficientAt: aMonomial) monomial: aMonomial! !
 
-!Polynomial methodsFor: 'accessing terms' stamp: 'len 3/22/2016 23:33'!
+!Polynomial methodsFor: 'accessing terms' stamp: 'len 11/26/2016 11:55:52'!
 terms
-	self flag: #fix.
-	^ self monomials collect: [:each| self termAt: each] "inefficient"! !
+	^ Iterator on: self do: #termsDo:! !
 
-!Polynomial methodsFor: 'operations' stamp: 'len 7/8/2016 05:46'!
-value2: anObject in: anIndeterminate
-	"Answer the value of the receiver at the argument, as univariate polynomial in the given indeterminate.
-	Use Horner's method, doing n multiplications and n additions for a dense polynomial of degree n."
-	| answer f lastDegree monomials one |
-	self isZero ifTrue: [^ anObject zero].
-	"(self has: anIndeterminate) ifFalse: [^ self]."
-	one _ anObject one.
-	answer _ anObject zero.
-	f _ self asUnivariateIn: anIndeterminate.
-	monomials _ f monomials asSortedCollection: [:a :b| a degree > b degree].
-	lastDegree _ monomials first degree + 1.
-	monomials do: [:monomial|
-		| coefficient |
-		coefficient _ f coefficientAt: monomial.
-		answer _ answer * (anObject ** (lastDegree - (lastDegree _ monomial degree))) + (one * coefficient)].
-	lastDegree = 0 ifFalse: [answer _ answer * (anObject ** lastDegree)].
-	^ answer! !
+!Polynomial methodsFor: 'iterating' stamp: 'len 11/26/2016 11:56:50'!
+termsDo: aBlock
+	self monomialsAndCoefficientsDo: [:monomial :coefficient| aBlock value: (self species coefficient: coefficient monomial: monomial)]! !
 
-!Polynomial methodsFor: 'operations' stamp: 'len 7/8/2016 05:47'!
-value3: anObject in: anIndeterminate
-	"Answer the value of the receiver at the argument, as univariate polynomial in the given indeterminate."
-	| answer v |
-	self isZero ifTrue: [^ anObject zero].
-	"(self has: anIndeterminate) ifFalse: [^ self]."
-	answer _ nil.
-	(self asUnivariateIn: anIndeterminate) monomialsAndCoefficientsDo: [:key :value|
-		v _ (anObject ** key degree) * value.
-		answer _ answer isNil ifTrue: [v] ifFalse: [answer + v]].
-	^ answer! !
-
-!Polynomial methodsFor: 'operations' stamp: 'len 3/30/2016 03:56'!
-value4: anObject in: anIndeterminate
-	"Answer the value of the receiver at the argument, as univariate polynomial in the given indeterminate."
-	| answer one |
-	self isZero ifTrue: [^ anObject zero].
-	answer _ anObject zero.
-	one _ anObject one.
-	(self asUnivariateIn: anIndeterminate) denseCoefficients
-		reverseDo: [:each| answer _ anObject * answer + (one * each)].
-	^ answer! !
-
-!Polynomial methodsFor: 'operations' stamp: 'len 11/18/2016 21:04:10'!
+!Polynomial methodsFor: 'operations' stamp: 'len 11/23/2016 05:44:44'!
 value: anObject
 	"Answer the value of the receiver at the argument. For multivariate polynomials, a Tuple or Array is expected."
 	| coordinates answer |
@@ -32903,23 +32896,12 @@ value: anObject
 			[self species space coordinatesOf: anObject]
 		ifFalse:
 			[((anObject is: #Tuple) or: [anObject is: #Array])
-				ifFalse: [^ self value: anObject in: self leadingIndeterminate].
+				ifFalse: [^ self error: 'argument should be tuple or array'].
 			anObject size = self species rank ifFalse: [self error: 'the arity of the argument should match the number of indeterminates'].
 			anObject].
 	answer _ (coordinates at: 1) zero.
 	self monomialsAndCoefficientsDo: [:key :value|
 		answer _ (key isIdentity ifTrue: [value] ifFalse: [(key value: coordinates) * value]) + answer].
-	^ answer! !
-
-!Polynomial methodsFor: 'operations' stamp: 'len 3/30/2016 03:56'!
-value: anObject in: anIndeterminate
-	"Answer the value of the receiver at the argument, as univariate polynomial in the given indeterminate."
-	| answer one |
-	self isZero ifTrue: [^ anObject zero].
-	answer _ anObject zero.
-	one _ anObject one.
-	(self asUnivariateIn: anIndeterminate) denseCoefficients
-		reverseDo: [:each| answer _ anObject * answer + (one * each)].
 	^ answer! !
 
 !Polynomial methodsFor: 'operations' stamp: 'len 11/1/2016 18:40'!
@@ -32951,7 +32933,7 @@ coefficients
 coefficients: aSparseTuple
 	coefficients _ aSparseTuple! !
 
-!MultivariatePolynomial methodsFor: 'accessing coefficients' stamp: 'len 5/20/2016 01:45'!
+!MultivariatePolynomial methodsFor: 'accessing coefficients' stamp: 'len 11/25/2016 10:31:40'!
 denseCoefficients
 	"Answer a dense array of the receivers coefficients ordered by degree.
 	Makes sense for univariate polynomails."
@@ -32959,7 +32941,7 @@ denseCoefficients
 	self isZero ifTrue: [^ #()].
 	answer _ Array new: self degree+1.
 	answer atAllPut: self scalars zero.
-	coefficients keysAndValuesDo: [:key :value|
+	self monomialsAndCoefficientsDo: [:key :value|
 		answer at: key degree + 1 put: value].
 	^ answer! !
 
@@ -32969,23 +32951,27 @@ density
 	self isZero ifTrue: [^ 0].
 	^ coefficients size / (self monomials max: [:each| each degree])! !
 
-!MultivariatePolynomial methodsFor: 'operations' stamp: 'len 3/22/2016 23:37'!
+!MultivariatePolynomial methodsFor: 'operations' stamp: 'len 11/25/2016 10:27:22'!
 derivativeIn: anIndeterminate
 	| answer |
 	answer _ self species new.
-	coefficients keysAndValuesDo: [:key :value| | degree |
+	self monomialsAndCoefficientsDo: [:key :value| | degree |
 		degree _ key degreeIn: anIndeterminate.
 		degree > 0
 			ifTrue:
-				[answer coefficientAt: (key copy at: anIndeterminate put: degree - 1; yourself) put: value * degree]].
+				[answer coefficientAt: (key species exponents: (key exponents copy at: anIndeterminate put: degree - 1; yourself)) put: value * degree]].
 	^ answer! !
 
-!MultivariatePolynomial methodsFor: 'operations' stamp: 'len 3/22/2016 23:38'!
+!MultivariatePolynomial methodsFor: 'arithmetic' stamp: 'len 11/28/2016 10:07:13'!
+dividedByMonomial: aMonomial
+	^ self species coefficients: (self coefficients dividedByMonomial: aMonomial)! !
+
+!MultivariatePolynomial methodsFor: 'operations' stamp: 'len 11/25/2016 10:28:47'!
 evenIn: anIndeterminate
 	"Decompose the receiver in the form f(x^2)x + g(x^2) and answer g(x), where 'x' is the given indeterminate."
 	| answer monomial d |
 	answer _ self species new.
-	coefficients keysAndValuesDo: [:key :value|
+	self monomialsAndCoefficientsDo: [:key :value|
 		(d _ key degreeIn: anIndeterminate) even
 			ifTrue:
 				[monomial _ key copy.
@@ -32999,32 +32985,36 @@ homogeneousComponentAt: anInteger
 
 	^ self species coefficients: (coefficients selectByKey: [ :each | each degree = anInteger])! !
 
-!MultivariatePolynomial methodsFor: 'accessing monomials' stamp: 'len 11/19/2016 10:17:24'!
+!MultivariatePolynomial methodsFor: 'accessing monomials' stamp: 'len 11/28/2016 18:51:48'!
 leadingMonomial
-	^ head ifNil: [head _ super leadingMonomial]! !
+	^ coefficients lastKey! !
 
 !MultivariatePolynomial methodsFor: 'iterating' stamp: 'len 3/23/2016 05:08'!
 monomialsAndCoefficientsDo: aBlock
 	coefficients keysAndValuesDo: aBlock! !
 
-!MultivariatePolynomial methodsFor: 'iterating' stamp: 'len 3/23/2016 04:17'!
+!MultivariatePolynomial methodsFor: 'iterating' stamp: 'len 11/28/2016 10:14:46'!
 monomialsApply: aBlock
-	| answer |
-	answer _ self species new.
+	| newCoefficients |
+	newCoefficients _ MonomialIndexedTuple new: coefficients size over: self scalars.
 	coefficients keysAndValuesDo: [:monomial :coefficient|
-		answer coefficientAt: (aBlock value: monomial) add: coefficient].
-	^ answer! !
+		newCoefficients at: (aBlock value: monomial) add: coefficient].
+	^ self species coefficients: newCoefficients! !
 
 !MultivariatePolynomial methodsFor: 'iterating' stamp: 'len 3/22/2016 23:37'!
 monomialsDo: aBlock
 	coefficients keysDo: aBlock! !
 
-!MultivariatePolynomial methodsFor: 'operations' stamp: 'len 3/22/2016 23:39'!
+!MultivariatePolynomial methodsFor: 'arithmetic' stamp: 'len 11/28/2016 10:04:48'!
+multipliedByMonomial: aMonomial
+	^ self species coefficients: (self coefficients multipliedByMonomial: aMonomial)! !
+
+!MultivariatePolynomial methodsFor: 'operations' stamp: 'len 11/25/2016 10:29:38'!
 oddIn: anIndeterminate
 	"Decompose the receiver in the form f(x^2)x + g(x^2) and answer f(x), where 'x' is the given indeterminate."
 	| answer monomial d |
 	answer _ self species new.
-	coefficients keysAndValuesDo: [:key :value|
+	self monomialsAndCoefficientsDo: [:key :value|
 		(d _ key degreeIn: anIndeterminate) odd
 			ifTrue:
 				[monomial _ key copy.
@@ -33032,17 +33022,13 @@ oddIn: anIndeterminate
 				answer coefficientAt: monomial add: value]].
 	^ answer! !
 
-!MultivariatePolynomial methodsFor: 'copying' stamp: 'len 11/19/2016 10:15:58'!
-postCopy
-	head _ nil! !
-
-!MultivariatePolynomial methodsFor: 'operations' stamp: 'len 3/22/2016 23:39'!
+!MultivariatePolynomial methodsFor: 'operations' stamp: 'len 11/25/2016 10:29:49'!
 shift: anInteger in: anIndeterminate
 	"Answer the receiver shifted anInteger places as univariate polynomial in the given indeterminate."
 
 	| answer monomial d |
 	answer _ self species new.
-	coefficients keysAndValuesDo: [:key :value|
+	self monomialsAndCoefficientsDo: [:key :value|
 		d _ (key degreeIn: anIndeterminate) + anInteger.
 		d negative ifFalse:
 			[monomial _ key copy.
@@ -33073,13 +33059,6 @@ new
 !UnivariatePolynomial methodsFor: 'operations' stamp: 'len 7/9/2016 03:05'!
 >> anInteger
 	^ self << anInteger negated! !
-
-!UnivariatePolynomial methodsFor: 'converting' stamp: 'len 11/18/2016 20:45:03'!
-asSparsePolynomial
-	| sparseTuple |
-	sparseTuple _ SparseTuple over: self scalars.
-	self monomialsAndCoefficientsDo: [:key :value| sparseTuple at: key put: value].
-	^ MultivariatePolynomial coefficients: sparseTuple! !
 
 !UnivariatePolynomial methodsFor: 'roots' stamp: 'len 11/20/2016 10:21:40'!
 cauchyRootBound
@@ -33162,14 +33141,14 @@ discriminant0
 	n _ self degree.
 	^ (-1) ** (n*(n-1)/2) / (self leadingCoefficient ** (2*n-1)) * (self resultant: self derivative)! !
 
+!UnivariatePolynomial methodsFor: 'arithmetic' stamp: 'len 11/28/2016 10:07:03'!
+dividedByMonomial: aMonomial
+	^ self shift: aMonomial degree negated! !
+
 !UnivariatePolynomial methodsFor: 'operations' stamp: 'len 3/27/2016 03:10'!
 even
 	"Decompose the receiver in the form f(x^2)x + g(x^2) and answer g(x)."
 	^ self species coefficients: ((1 to: self coefficients size by: 2) collect: [:each| coefficients at: each])! !
-
-!UnivariatePolynomial methodsFor: 'arithmetic' stamp: 'len 3/23/2016 04:40'!
-exactDivideByMonomial: aMonomial
-	^ self shift: aMonomial degree negated! !
 
 !UnivariatePolynomial methodsFor: 'testing' stamp: 'len 3/26/2016 23:08'!
 has: anIndeterminate
@@ -33238,8 +33217,8 @@ multiplicityAt: anObject
 			f _ f derivative].
 	^ answer! !
 
-!UnivariatePolynomial methodsFor: 'arithmetic' stamp: 'len 3/23/2016 05:55'!
-multiplyByMonomial: aMonomial
+!UnivariatePolynomial methodsFor: 'arithmetic' stamp: 'len 11/28/2016 10:05:30'!
+multipliedByMonomial: aMonomial
 	^ self shift: aMonomial degree! !
 
 !UnivariatePolynomial methodsFor: 'accessing-private' stamp: 'len 11/22/2016 08:48:49'!
@@ -33253,7 +33232,7 @@ odd
 	"Decompose the receiver in the form f(x^2)x + g(x^2) and answer f(x)."
 	^ self species coefficients: ((2 to: self coefficients size by: 2) collect: [:each| coefficients at: each])! !
 
-!UnivariatePolynomial methodsFor: 'operations' stamp: 'len 11/12/2016 07:50'!
+!UnivariatePolynomial methodsFor: 'operations' stamp: 'len 11/25/2016 10:37:59'!
 psc2: anInteger with: aPolynomial
 	"Answer the anInteger-th principal subresultant coefficient of the receiver with aPolynomial."
 
@@ -33263,7 +33242,7 @@ psc2: anInteger with: aPolynomial
 	m _ f degree.
 	n _ g degree.
 	t _ m + n - anInteger - anInteger.
-	t = 0 ifTrue: [^ f one].
+	t = 0 ifTrue: [^ f scalars one].
 	matrix _ RowMatrix new.
 	tuple _ self scalars tuple: t evaluating: [:i| f coefficientAtDegree: m - i + 1].
 	n - anInteger timesRepeat: [matrix addRow: tuple. tuple _ tuple shift: 1].
@@ -33277,23 +33256,23 @@ psc3: i with: aPolynomial
 	self flag: #fix. "user version 2, more efficient, but must test"
 	^ (self subresultant: i with: aPolynomial) leadingCoefficient "WTF, sometimes subresultant returns nil, SemialgebraicSet circle"! !
 
-!UnivariatePolynomial methodsFor: 'operations' stamp: 'len 11/12/2016 07:50'!
+!UnivariatePolynomial methodsFor: 'operations' stamp: 'len 11/24/2016 12:12:18'!
 psc: anInteger with: aPolynomial
 	"Answer the anInteger-th principal subresultant coefficient of the receiver with aPolynomial."
 
-	| f g n m t matrix tuple |
+	| f g n m t rows tuple |
 	f _ self.
 	g _ aPolynomial.
 	m _ f degree.
 	n _ g degree.
 	t _ m + n - anInteger - anInteger.
 	t <= 0 ifTrue: [^ self scalars one].
-	matrix _ RowMatrix new.
+	rows _ OrderedCollection new: t.
 	tuple _ self scalars tuple: t evaluating: [:i| f coefficientAtDegree: m - i + 1].
-	n - anInteger timesRepeat: [matrix addRow: tuple. tuple _ tuple shift: 1].
+	n - anInteger timesRepeat: [rows add: tuple. tuple _ tuple shift: 1].
 	tuple _ self scalars tuple: t evaluating: [:i| g coefficientAtDegree: n - i + 1].
-	m - anInteger timesRepeat: [matrix addRow: tuple. tuple _ tuple shift: 1].
-	^ matrix determinant! !
+	m - anInteger timesRepeat: [rows add: tuple. tuple _ tuple shift: 1].
+	^ (Matrix rows: rows) determinant! !
 
 !UnivariatePolynomial methodsFor: 'operations' stamp: 'len 7/9/2016 03:07'!
 resultant2: aPolynomial
@@ -33399,11 +33378,10 @@ signature
 			h _ h ** (1 - d) * (g ** d)].
 	^ {r1. n - r1 / 2}! !
 
-!UnivariatePolynomial methodsFor: 'operations' stamp: 'len 11/12/2016 07:51'!
+!UnivariatePolynomial methodsFor: 'operations' stamp: 'len 11/23/2016 05:04:20'!
 subresultant: i with: aPolynomial
 	"Answer the i-th subresultant of the receiver with aPolynomial."
 	| lambda mu n m c matrix tuple |
-	self isUnivariate ifFalse: [^ DomainError signal: 'polynomial is not univariate'].
 	m _ self degree.
 	n _ aPolynomial degree.
 	lambda _ m min: n.
@@ -33440,7 +33418,7 @@ subresultantChain: aPolynomial
 		answer add: (self subresultant: i with: aPolynomial)].
 	^ answer! !
 
-!UnivariatePolynomial methodsFor: 'operations' stamp: 'len 11/11/2016 09:07'!
+!UnivariatePolynomial methodsFor: 'operations' stamp: 'len 11/24/2016 12:14:05'!
 sylvester: aPolynomial
 	"Answer the Sylvester matrix of the receiver with the argument.
 	If p,q polynomials of degrees m and n:
@@ -33449,20 +33427,23 @@ sylvester: aPolynomial
 	Also the kernel of the transposed Sylvester matrix gives all solutions of the Bezout equation:
 		f*p + g*q = 0
 	"
-	| m n rows p q |
+	| m n rows tuple |
 	m _ self degree.
 	n _ aPolynomial degree.
 	rows _ OrderedCollection new: m+n.
-	p _ self scalars tuple: ((1 to: m+n) collect: [:i| self coefficientAtDegree: m-i+1]).
-	n timesRepeat: [rows add: p. p _ p shift: 1].
-	q _ self scalars tuple: ((1 to: m+n) collect: [:i| aPolynomial coefficientAtDegree: n-i+1]).
-	m timesRepeat: [rows add: q. q _ q shift: 1].
+	tuple _ self scalars tuple: m+n evaluating: [:i| self coefficientAtDegree: m-i+1].
+	n timesRepeat: [rows add: tuple. tuple _ tuple shift: 1].
+	tuple _ self scalars tuple: m+n evaluating: [:i| aPolynomial coefficientAtDegree: n-i+1].
+	m timesRepeat: [rows add: tuple. tuple _ tuple shift: 1].
 	^ Matrix rows: rows! !
 
-!UnivariatePolynomial methodsFor: 'operations' stamp: 'len 11/11/2016 08:56'!
+!UnivariatePolynomial methodsFor: 'operations' stamp: 'len 11/23/2016 05:41:40'!
 value: anObject
 	"Evaluate the receiver at the given argument using Horner's method."
-	^ coefficients polynomialValue: anObject! !
+	| x |
+	x _ ((anObject is: #Tuple) or: [anObject isKindOf: Array])
+		ifTrue: [anObject at: 1] ifFalse: [anObject].
+	^ coefficients polynomialValue: x! !
 
 !UnivariatePolynomial methodsFor: 'roots' stamp: 'len 11/20/2016 10:22:06'!
 zeroAddition: aPolynomial
@@ -33479,11 +33460,11 @@ zeroAddition: aPolynomial
 	C _ f companion apply: R embedding.
 	^ (((g value: X - Y) asUnivariateIn: y) value: C) determinant! !
 
-!UnivariatePolynomial methodsFor: 'roots' stamp: 'len 11/20/2016 10:22:10'!
+!UnivariatePolynomial methodsFor: 'roots' stamp: 'len 11/25/2016 10:32:20'!
 zeroNegation
 	"Answer a polynomial whose zeros are the receiver zeros negated."
 
-	^ self species coefficients: (self denseCoefficients withIndexCollect: [:each :i| i odd ifTrue: [each negated] ifFalse: [each]])! !
+	^ self species coefficients: (self coefficients withIndexCollect: [:each :i| i odd ifTrue: [each negated] ifFalse: [each]])! !
 
 !UnivariatePolynomial methodsFor: 'roots' stamp: 'len 11/20/2016 10:22:14'!
 zeroProduct: aPolynomial
@@ -33501,14 +33482,60 @@ zeroReciprocal
 
 	^ self reversed! !
 
-!UnivariatePolynomial class methodsFor: 'instance creation' stamp: 'len 11/18/2016 20:45:15'!
+!UnivariatePolynomial class methodsFor: 'instance creation' stamp: 'len 11/26/2016 07:38:50'!
 coefficients: aTuple
-	(aTuple isKindOf: SparseTuple) ifTrue: [self halt].
+	(aTuple isKindOf: MonomialIndexedTuple) ifTrue: [self halt].
 	^ self basicNew coefficients: aTuple! !
 
 !UnivariatePolynomial class methodsFor: 'instance creation' stamp: 'len 3/23/2016 05:20'!
 new
 	^ self shouldNotImplement! !
+
+!Buchberger methodsFor: 'as yet unclassified' stamp: 'len 11/24/2016 11:57:11'!
+basis
+	"Buchberger algorithm.
+	Answer a Groebner basis obtainded from the given polynomials with the specified ordering."
+	| S |
+	basis ifNotNil: [^ basis].
+	basis _ OrderedCollection new.
+	generators isEmpty ifTrue: [^ basis].
+	generators anyOne scalars isField ifFalse: [^ DomainError signal: 'not over a field'].
+	S _ generators.
+	[S _ S asSortedCollection: [:a :b| a leadingMonomial <= b leadingMonomial].
+	S do: [:f| (self reduce: f) isZero ifFalse: [basis add: f]].
+	S _ Set2 new.
+	1 to: basis size do: [:i| | fi hi ci |
+		fi _ basis at: i.
+		hi _ fi leadingMonomial.
+		ci _ fi coefficientAt: hi.
+		i+1 to: basis size do: [:k| | fk hk ck lcm r |
+			fk _ basis at: k.
+			hk _ fk leadingMonomial.
+			lcm _ hi lcm: hk.
+			"Buchberger criterium 1 and 2:"
+			(lcm ~= (hi * hk) and: [((1 to: i-1) noneSatisfy: [:j| (basis at: j) leadingMonomial | lcm])])
+				ifTrue:
+					[ck _ fk coefficientAt: hk.
+					r _ self reduce: fi * (lcm / hi) / ci - (fk * (lcm / hk) / ck).
+					r isZero
+"						ifTrue: [Display fill: (i@k*4 extent: 3@3) fillColor: Color red]"
+						ifFalse: [
+"							Display fill: (i@k*4 extent: 3@3) fillColor: Color green."
+							S add: r]]]].
+	S isEmpty] whileFalse.
+	^ basis! !
+
+!Buchberger methodsFor: 'as yet unclassified' stamp: 'len 11/24/2016 11:44:11'!
+generators: aCollection
+	generators _ aCollection! !
+
+!Buchberger methodsFor: 'as yet unclassified' stamp: 'len 11/24/2016 11:50:12'!
+reduce: aPolynomial 
+	"Answer the remainder of the argument when divided by the receiver."
+	| division |
+	division _ MultiPolynomialDivision divide: aPolynomial by: basis.
+"	division verify ifFalse: [self halt]."
+	^ division remainder! !
 
 !FiniteFieldPolynomialFactorizer methodsFor: 'private' stamp: 'len 3/23/2016 08:34'!
 distinctDegreeFactorization: aPolynomial
@@ -33667,8 +33694,61 @@ squareFreeFactorization
 					q _ q // gcd - p derivative]].
 	^ answer add: p withOccurrences: count; yourself! !
 
-!MultiPolynomialDivision methodsFor: 'private' stamp: 'len 11/21/2016 16:07:01'!
+!MultiPolynomialDivision methodsFor: 'private' stamp: 'len 11/24/2016 11:36:40'!
 divide
+	"Perform the division algorithm computing quotients and remainder."
+	| p s zero fi q headp headfi t i |
+	zero _ dividend zero.
+	quotients _ (1 to: divisors size) collect: [:each| zero].
+	divisors isEmpty ifTrue: [remainder _ dividend. ^ self].
+	remainder _ zero.
+	s _ divisors size.
+	p _ dividend.
+	[p isZero] whileFalse:
+		[headp _ p leadingMonomial.
+		t _ p termAt: headp.
+		i _ 1.
+		[headfi _ (fi _ divisors at: i) leadingMonomial.
+		(headfi | headp) or: [(i _ i + 1) > s]] whileFalse.
+		i <= s "i.e. found fi such that headfi | headp"
+			ifTrue:
+				[q _ t / headfi * (fi coefficientAt: headfi) reciprocal.
+				quotients at: i put: (quotients at: i) + q.
+				p _ p - (fi * q)]
+			ifFalse:
+				[remainder _ remainder + t.
+				p _ p - t]]! !
+
+!MultiPolynomialDivision methodsFor: 'private' stamp: 'len 11/23/2016 10:06:31'!
+divide2
+	"Perform the division algorithm computing quotients and remainder."
+	| p s zero fi q headp headfi t heads i inverses |
+	zero _ dividend zero.
+	quotients _ (1 to: divisors size) collect: [:each| zero].
+	divisors isEmpty ifTrue: [remainder _ dividend. ^ self].
+	remainder _ zero.
+	s _ divisors size.
+	p _ dividend.
+	heads _ Array new: divisors size.
+	inverses _ Array new: divisors size.
+	[p isZero] whileFalse:
+		[headp _ p leadingMonomial.
+		t _ p termAt: headp.
+		i _ 1.
+		[headfi _ (heads at: i) ifNil: [heads at: i put: (fi _ divisors at: i) leadingMonomial].
+		(headfi | headp) or: [(i _ i + 1) > s]] whileFalse.
+		i <= s "i.e. found fi such that headfi | headp"
+			ifTrue:
+				[fi _ divisors at: i.
+				q _ t / headfi * ((inverses at: i) ifNil: [inverses at: i put: (fi coefficientAt: headfi) reciprocal]).
+				quotients at: i put: (quotients at: i) + q.
+				p _ p - (fi * q)]
+			ifFalse:
+				[remainder _ remainder + t.
+				p _ p - t]]! !
+
+!MultiPolynomialDivision methodsFor: 'private' stamp: 'len 11/23/2016 10:09:55'!
+divide3
 	"Perform the division algorithm computing quotients and remainder."
 	| p s zero fi q headp headfi t heads i |
 	zero _ dividend zero.
@@ -34706,9 +34786,9 @@ cos
 exp
 	^ self coefficients: (Sequence to: QQ evaluating: [:n| 1 / n factorial])! !
 
-!PowerSeries class methodsFor: 'instance creation' stamp: 'len 10/31/2016 04:14'!
+!PowerSeries class methodsFor: 'instance creation' stamp: 'len 11/25/2016 10:32:44'!
 fromPolynomial: aPolynomial
-	^ self coefficients: (CFiniteSequence to: aPolynomial scalars initialValues: aPolynomial denseCoefficients periodic: {aPolynomial scalars zero})! !
+	^ self coefficients: (CFiniteSequence to: aPolynomial scalars initialValues: aPolynomial coefficients periodic: {aPolynomial scalars zero})! !
 
 !PowerSeries class methodsFor: 'examples' stamp: 'len 7/15/2016 18:36'!
 sin
@@ -36782,7 +36862,7 @@ killColumn
 	piv x + 1 to: matrix numberOfRows do: [:i | self killRow: i]
 ! !
 
-!GaussianElimination2 methodsFor: 'computing' stamp: 'len 12/22/2015 20:38'!
+!GaussianElimination2 methodsFor: 'computing' stamp: 'len 11/23/2016 09:41:15'!
 killRow: i
 	| piv r coef pos  j a |
 	piv _ pivots last.
@@ -36802,10 +36882,10 @@ killRow: i
 	columns position: pos.
 
 	"Do the same on the inverse"
-	inverse addRow: r multipliedBy: coef toRow: i.
+	inverse addRow: r by: coef toRow: i.
 
 	"Do the same on the extension, if any"
-	extension notNil ifTrue: [extension addRow: r multipliedBy: coef toRow: i]! !
+	extension notNil ifTrue: [extension addRow: r by: coef toRow: i]! !
 
 !GaussianElimination2 methodsFor: 'inquiries'!
 leftInverse
