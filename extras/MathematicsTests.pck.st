@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 28 November 2016 at 8:26:00 pm'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 1 December 2016 at 6:43:57 pm'!
 'Description Please enter a description for this package'!
-!provides: 'MathematicsTests' 1 48!
+!provides: 'MathematicsTests' 1 49!
 !classDefinition: #AbelianGroupTest category: #MathematicsTests!
 TestCase subclass: #AbelianGroupTest
 	instanceVariableNames: ''
@@ -312,8 +312,34 @@ CASBenchmark class
 	instanceVariableNames: ''!
 
 
-!GroebnerBasisBenchmark commentStamp: 'len 11/28/2016 11:02:13' prior: 0!
+!GroebnerBasisBenchmark commentStamp: 'len 11/30/2016 22:03:47' prior: 0!
 GroebnerBasisBenchmark new run
+
+testCyclic3	2,340 per second. (changed Integer>>hash, Monomial>>hash, removed Set2/Dic2)
+testCyclic4	537 per second.
+testCyclic5	126 per second.
+testCyclic6	29.8 per second.
+testEliminationExample	904 per second.
+testKatsura2	7,030 per second.
+testKatsura3	950 per second.
+testKatsura4	10.8 per second.
+testModularCyclic3	2,530 per second.
+testModularKatsura2	7,780 per second.
+testModularKatsura3	1,030 per second.
+testModularKatsura4	15.7 per second.' 
+
+testCyclic3	2,260 per second. (modular inversion using extended euclid)
+testCyclic4	520 per second.
+testCyclic5	124 per second.
+testCyclic6	28.9 per second.
+testEliminationExample	897 per second.
+testKatsura2	6,690 per second.
+testKatsura3	869 per second.
+testKatsura4	10.6 per second.
+testModularCyclic3	2,430 per second.
+testModularKatsura2	7,470 per second.
+testModularKatsura3	1,050 per second.
+testModularKatsura4	15.5 per second.
 
 testCyclic3	2,230 per second. (polynomials as sorted dictionaries monomial -> coefficient)
 testCyclic4	512 per second.
@@ -499,10 +525,15 @@ test1000Factorial	5,620 per second. (spur 32 bits)
 test1000Factorial	1,250 per second.
 !
 
-!ModularMatrixBenchmark commentStamp: 'len 11/22/2016 11:56:29' prior: 0!
+!ModularMatrixBenchmark commentStamp: '<historical>' prior: 0!
 Some tests on a 300x300 matrix over Z/32003.
 
 self new run
+
+testAddition	387 per second.
+testGaussianElimination	1.82 per second.
+testSquared	1.43 per second.
+testTransposition	89.7 per second.
 
 testAddition	203 per second.
 testGaussianElimination	1.81 per second.
@@ -676,7 +707,7 @@ testTranspositionZ	1,580 per second.
 testTranspositionZ2	565 per second.
 !
 
-!SparsePolynomialMultiplicationBenchmark commentStamp: 'len 11/28/2016 20:17:54' prior: 0!
+!SparsePolynomialMultiplicationBenchmark commentStamp: 'len 11/30/2016 22:00:58' prior: 0!
 Timings giving in [1] on computers with 0.8ghz - 1ghz intel cpus: general purpose system 20s-100s, tuned systems 2.3s-10s. For big coefficients: singular 28s, pari 77s.
 
 [1] R.J. Fateman, Comparing the speed of sparse polynomial multiplication.
@@ -3938,6 +3969,14 @@ testDiscriminant
 	g _ x**3 + 1.
 	self assert: (f*g) discriminant = (f discriminant * g discriminant * (f resultant: g) squared)! !
 
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 11/28/2016 22:09:14'!
+testDiscriminant2
+	| Zx x f |
+	Zx _ ZZ polynomials.
+	x _ Zx x.
+	f _ x**2 - x - 36042.
+	self assert: f discriminant = 144169 "this is a prime, although looks like a square :)"! !
+
 !PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 7/4/2016 04:33'!
 testDivision: F
 	| Fx f g |
@@ -5217,19 +5256,19 @@ katsura5Over: aField
 		y**2 + (x*z*2) + (y*t*2) + (z*u*2) - z.
 		y*z*2 + (x*t*2) + (y*u*2) - t}! !
 
-!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 11/17/2016 15:14:12'!
+!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 12/1/2016 18:36:52'!
 modularCyclic: n
 	^ self cyclic: n over: (PrimeField new: 32003)! !
 
-!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 11/18/2016 09:36:24'!
+!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 12/1/2016 18:36:57'!
 modularKatsura2
 	^ self katsura2Over: (PrimeField new: 32003)! !
 
-!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 11/18/2016 09:37:26'!
+!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 12/1/2016 18:37:02'!
 modularKatsura3
 	^ self katsura3Over: (PrimeField new: 32003)! !
 
-!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 11/18/2016 09:37:29'!
+!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 12/1/2016 18:37:06'!
 modularKatsura4
 	^ self katsura4Over: (PrimeField new: 32003)! !
 
@@ -5297,11 +5336,12 @@ testM12Order
 test1000Factorial
 	1000 factorial! !
 
-!ModularMatrixBenchmark methodsFor: 'as yet unclassified' stamp: 'len 11/17/2016 15:36:13'!
+!ModularMatrixBenchmark methodsFor: 'as yet unclassified' stamp: 'len 12/1/2016 18:30:09'!
 setUp
 	| random F |
 	random _ Random seed: 1234.
 	F _ ZZ/32003.
+"	F _ SmallPrimeField new: 32003."
 	matrix _ F matrix: 300@300 evaluating: [:i :j| F atRandom: random]! !
 
 !ModularMatrixBenchmark methodsFor: 'as yet unclassified' stamp: 'len 11/22/2016 11:55:20'!
