@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 28 November 2016 at 8:26:04 pm'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 1 December 2016 at 6:41:33 pm'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 291!
+!provides: 'Mathematics' 1 292!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
 	instanceVariableNames: 'numerator shift'
@@ -159,6 +159,66 @@ Collection subclass: #SparseTuple
 	category: 'Mathematics-Modules-Tuples'!
 !classDefinition: 'SparseTuple class' category: #'Mathematics-Modules-Tuples'!
 SparseTuple class
+	instanceVariableNames: ''!
+
+!classDefinition: #Tuple category: #'Mathematics-Modules-Tuples'!
+Collection subclass: #Tuple
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Modules-Tuples'!
+!classDefinition: 'Tuple class' category: #'Mathematics-Modules-Tuples'!
+Tuple class
+	instanceVariableNames: ''!
+
+!classDefinition: #ArrayTuple category: #'Mathematics-Modules-Tuples'!
+Tuple subclass: #ArrayTuple
+	instanceVariableNames: 'coefficients scalars'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Modules-Tuples'!
+!classDefinition: 'ArrayTuple class' category: #'Mathematics-Modules-Tuples'!
+ArrayTuple class
+	instanceVariableNames: ''!
+
+!classDefinition: #HomogeneousTuple category: #'Mathematics-Modules-Tuples'!
+ArrayTuple subclass: #HomogeneousTuple
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Modules-Tuples'!
+!classDefinition: 'HomogeneousTuple class' category: #'Mathematics-Modules-Tuples'!
+HomogeneousTuple class
+	instanceVariableNames: ''!
+
+!classDefinition: #BitTuple category: #'Mathematics-Modules-Tuples'!
+Tuple subclass: #BitTuple
+	instanceVariableNames: 'integer size'
+	classVariableNames: 'One Zero'
+	poolDictionaries: ''
+	category: 'Mathematics-Modules-Tuples'!
+!classDefinition: 'BitTuple class' category: #'Mathematics-Modules-Tuples'!
+BitTuple class
+	instanceVariableNames: ''!
+
+!classDefinition: #ModularTuple category: #'Mathematics-Modules-Tuples'!
+Tuple subclass: #ModularTuple
+	instanceVariableNames: 'representatives scalars'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Modules-Tuples'!
+!classDefinition: 'ModularTuple class' category: #'Mathematics-Modules-Tuples'!
+ModularTuple class
+	instanceVariableNames: ''!
+
+!classDefinition: #PolynomialTuple category: #'Mathematics-Modules-Tuples'!
+Tuple subclass: #PolynomialTuple
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Modules-Tuples'!
+!classDefinition: 'PolynomialTuple class' category: #'Mathematics-Modules-Tuples'!
+PolynomialTuple class
 	instanceVariableNames: ''!
 
 !classDefinition: #Graph category: #'Mathematics-Graphs'!
@@ -1083,7 +1143,7 @@ ProductRing class
 
 !classDefinition: #QuotientRing category: #'Mathematics-Rings'!
 Ring subclass: #QuotientRing
-	instanceVariableNames: 'ideal'
+	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Rings'!
@@ -1093,7 +1153,7 @@ QuotientRing class
 
 !classDefinition: #ModularIntegers category: #'Mathematics-Rings'!
 QuotientRing subclass: #ModularIntegers
-	instanceVariableNames: ''
+	instanceVariableNames: 'modulus'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Rings'!
@@ -1109,6 +1169,16 @@ ModularIntegers subclass: #PrimeField
 	category: 'Mathematics-Fields'!
 !classDefinition: 'PrimeField class' category: #'Mathematics-Fields'!
 PrimeField class
+	instanceVariableNames: ''!
+
+!classDefinition: #SmallPrimeField category: #'Mathematics-Fields'!
+PrimeField subclass: #SmallPrimeField
+	instanceVariableNames: 'expTable logTable'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Fields'!
+!classDefinition: 'SmallPrimeField class' category: #'Mathematics-Fields'!
+SmallPrimeField class
 	instanceVariableNames: ''!
 
 !classDefinition: #ExtensionField category: #'Mathematics-Fields'!
@@ -2291,16 +2361,6 @@ FormalFraction subclass: #PAdicNumber
 PAdicNumber class
 	instanceVariableNames: ''!
 
-!classDefinition: #ModularInteger category: #'Mathematics-Rings'!
-Object subclass: #ModularInteger
-	instanceVariableNames: 'representative modulus'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Rings'!
-!classDefinition: 'ModularInteger class' category: #'Mathematics-Rings'!
-ModularInteger class
-	instanceVariableNames: ''!
-
 !classDefinition: #ResidueClass category: #'Mathematics-Rings'!
 Object subclass: #ResidueClass
 	instanceVariableNames: 'representative parent'
@@ -2309,6 +2369,16 @@ Object subclass: #ResidueClass
 	category: 'Mathematics-Rings'!
 !classDefinition: 'ResidueClass class' category: #'Mathematics-Rings'!
 ResidueClass class
+	instanceVariableNames: ''!
+
+!classDefinition: #ModularInteger category: #'Mathematics-Rings'!
+ResidueClass subclass: #ModularInteger
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Rings'!
+!classDefinition: 'ModularInteger class' category: #'Mathematics-Rings'!
+ModularInteger class
 	instanceVariableNames: ''!
 
 !classDefinition: #ExtensionFieldElement category: #'Mathematics-Fields'!
@@ -2399,66 +2469,6 @@ Object subclass: #SparseBitTuple
 	category: 'Mathematics-Modules-Tuples'!
 !classDefinition: 'SparseBitTuple class' category: #'Mathematics-Modules-Tuples'!
 SparseBitTuple class
-	instanceVariableNames: ''!
-
-!classDefinition: #Tuple category: #'Mathematics-Modules-Tuples'!
-Object subclass: #Tuple
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Modules-Tuples'!
-!classDefinition: 'Tuple class' category: #'Mathematics-Modules-Tuples'!
-Tuple class
-	instanceVariableNames: ''!
-
-!classDefinition: #ArrayTuple category: #'Mathematics-Modules-Tuples'!
-Tuple subclass: #ArrayTuple
-	instanceVariableNames: 'coefficients scalars'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Modules-Tuples'!
-!classDefinition: 'ArrayTuple class' category: #'Mathematics-Modules-Tuples'!
-ArrayTuple class
-	instanceVariableNames: ''!
-
-!classDefinition: #HomogeneousTuple category: #'Mathematics-Modules-Tuples'!
-ArrayTuple subclass: #HomogeneousTuple
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Modules-Tuples'!
-!classDefinition: 'HomogeneousTuple class' category: #'Mathematics-Modules-Tuples'!
-HomogeneousTuple class
-	instanceVariableNames: ''!
-
-!classDefinition: #BitTuple category: #'Mathematics-Modules-Tuples'!
-Tuple subclass: #BitTuple
-	instanceVariableNames: 'integer size'
-	classVariableNames: 'One Zero'
-	poolDictionaries: ''
-	category: 'Mathematics-Modules-Tuples'!
-!classDefinition: 'BitTuple class' category: #'Mathematics-Modules-Tuples'!
-BitTuple class
-	instanceVariableNames: ''!
-
-!classDefinition: #ModularTuple category: #'Mathematics-Modules-Tuples'!
-Tuple subclass: #ModularTuple
-	instanceVariableNames: 'representatives modulus'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Modules-Tuples'!
-!classDefinition: 'ModularTuple class' category: #'Mathematics-Modules-Tuples'!
-ModularTuple class
-	instanceVariableNames: ''!
-
-!classDefinition: #PolynomialTuple category: #'Mathematics-Modules-Tuples'!
-Tuple subclass: #PolynomialTuple
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Modules-Tuples'!
-!classDefinition: 'PolynomialTuple class' category: #'Mathematics-Modules-Tuples'!
-PolynomialTuple class
 	instanceVariableNames: ''!
 
 !classDefinition: #Matrix category: #'Mathematics-Modules-Matrices'!
@@ -3523,6 +3533,41 @@ My instances are tuples indexed by monomials.
 
 Internally, they are represented by a list of associations monomial -> value. The list is kept sorted by the given monomial ordering.!
 
+!Tuple commentStamp: '<historical>' prior: 0!
+My instances are n-tuples with coefficients in some ring R, i.e. finite ordered lists of n elements of R indexed by integers 1 to n. They are the elements of the R-module R^n.
+
+Some subclasses implement special kinds of tuples for concrete rings, such as ZZ/m and ZZ/2. These special tuples have a compact representation that saves memory and allows fast arithmetic. Many parts of the system (such as linear algebra and polynomials) ultimately rely on tuples.
+
+Tuples are commonly created by sending a message to the ring where the coefficients belong to. For example:
+	"Two ways to create the 4-tuple (1,2,4,8) with integer coefficients:"
+	ZZ tuple: #(1 2 4 8).
+	ZZ tuple: 4 evaluating: [:i| i squared].
+
+It is also handy to create tuples by sending the message #, to a number. For example:
+  (1,2,4,8)
+However, when created in this way, even if all the coefficients are Integers, the tuple will be considered a rational tuple (with coefficients in the field of rational numbers QQ), so the above example is equivalent to:
+	QQ tuple: #(1 2 4 8)
+!
+
+!ArrayTuple commentStamp: 'len 11/13/2016 07:23' prior: 0!
+My instances are general n-tuples internally represented as an Array. These are the tuples used by default for an arbitrary ring.!
+
+!BitTuple commentStamp: 'len 11/13/2016 07:26' prior: 0!
+My instances are tuples of integer residue classes modulo 2, i.e. a binary tuple, a bit string, or a tuple of bits. The coefficients field is ZZ/2.
+
+Example:
+	"A handy way to create a binary tuple:"
+	(1,0,1,1,0,1,1,1) % 2
+!
+
+!ModularTuple commentStamp: 'len 11/16/2016 18:22' prior: 0!
+My instances are n-tuples with coefficients in an integer residue class ring (or field) Z/<m>. See ModularInteger, ModularIntegers, PrimeField.
+
+Example:
+	"A handy way to create a tuple of integers modulo 3:"
+	(1,2,3,4) % 3
+!
+
 !Graph commentStamp: '<historical>' prior: 0!
 Instances of my subclasses are (directed or undirected) graphs. See subclasses.!
 
@@ -3887,7 +3932,7 @@ Rings can be commutative or non-commutative. Some specific kinds of commutative 
 
 Rings can be constructed from existing rings by taking quotients by an ideal (see QuotientRing), by making transcendental extensions (see PolynomialRing), etc.
 
-Rings can also be made into fields by 'adding the missing multiplicative inverses' (or localization), for example by constructing the fractions of an integral domain (see FractionRing).
+Rings can also be made into fields by 'adding the missing multiplicative inverses' (or localization), for example by constructing the fractions of an integral domain (see FractionRing and LocalizationRing).
 
 References:
 	https://en.wikipedia.org/wiki/Ring_(mathematics)!
@@ -3944,10 +3989,18 @@ References:
 	https://en.wikipedia.org/wiki/Quotient_ring!
 
 !ModularIntegers commentStamp: '<historical>' prior: 0!
-My instances are rings of residue classes of integers modulo m, i.e. Z/<m>. Elements are instances of ModularInteger.!
+My instances are rings of residue classes of integers modulo m, i.e. Z/m. Elements are instances of ModularInteger.!
 
 !PrimeField commentStamp: '<historical>' prior: 0!
-My instances are fields of order p prime, i.e. the residue field Z/<p> of integers modulo p.!
+My instances are fields of order p prime, i.e. the residue field Z/p of integers modulo p.!
+
+!SmallPrimeField commentStamp: '<historical>' prior: 0!
+My instances are prime fields Z/p for small primes p, such that it is feasable to build exponentiation and logarithmic tables and accelerate arithmetic through table lookups.
+
+The initialization of the tables is very fast. The main concern is memory usage. For a field Z/p, each of the two tables have p-1 elements. They are WordArrays (32 bits per entry), so a field Z/p uses about 8*(p-1) bytes of memory. For example, Z/65537 uses 524K of memory, and Z/1048583 (a 20-bits modulus) uses about 8M.
+
+The speedup over direct computation without tables is big. For example, computing inverses becomes about 15 to 50 times faster using table lookups.
+!
 
 !ExtensionField commentStamp: '<historical>' prior: 0!
 My instances are (finite) algebraic extensions E/F of a field F. They are defined by an irreducible polynomial f with coefficients in F, and are isomorphic to F[x]/<f>. An extension field E/F can also be viewed as a vector space over F.
@@ -4423,11 +4476,11 @@ They are elements of ring localizations or fraction fields. See LocalizationRing
 !RationalFunction commentStamp: '<historical>' prior: 0!
 My instances are rational functions, i.e. fractions where the numerator and denominator are polynomials. They are elements of the field of fractions of a polynomial ring over a field (see RationalFunctionField).!
 
-!ModularInteger commentStamp: '<historical>' prior: 0!
-My instances are residue classes of integers modulo an integer m, i.e. elements of the quotient ring Z/<m> (see ModularIntegers). They are polymorphic with ResidueClass objects.!
-
 !ResidueClass commentStamp: '<historical>' prior: 0!
 My instances are elements of a quotient ring, i.e. residue classes modulo an ideal. See QuotientRing.!
+
+!ModularInteger commentStamp: '<historical>' prior: 0!
+My instances are residue classes of integers modulo an integer m, i.e. elements of the quotient ring Z/<m> (see ModularIntegers).!
 
 !ExtensionFieldElement commentStamp: '<historical>' prior: 0!
 My instances are elements of finite algebraic field extensions. See ExtensionField.!
@@ -4456,41 +4509,6 @@ My instances are Weil divisors, i.e. formal sums (with integer coefficients) of 
 
 !SimplicialChain commentStamp: '<historical>' prior: 0!
 A simplicial k-chain is a formal linear combination of k-simplices.!
-
-!Tuple commentStamp: '<historical>' prior: 0!
-My instances are n-tuples with coefficients in some ring R, i.e. finite ordered lists of n elements of R indexed by integers 1 to n. They are the elements of the R-module R^n.
-
-Some subclasses implement special kinds of tuples for concrete rings, such as ZZ/m and ZZ/2. These special tuples have a compact representation that saves memory and allows fast arithmetic. Many parts of the system (such as linear algebra and polynomials) ultimately rely on tuples.
-
-Tuples are commonly created by sending a message to the ring where the coefficients belong to. For example:
-	"Two ways to create the 4-tuple (1,2,4,8) with integer coefficients:"
-	ZZ tuple: #(1 2 4 8).
-	ZZ tuple: 4 evaluating: [:i| i squared].
-
-It is also handy to create tuples by sending the message #, to a number. For example:
-  (1,2,4,8)
-However, when created in this way, even if all the coefficients are Integers, the tuple will be considered a rational tuple (with coefficients in the field of rational numbers QQ), so the above example is equivalent to:
-	QQ tuple: #(1 2 4 8)
-!
-
-!ArrayTuple commentStamp: 'len 11/13/2016 07:23' prior: 0!
-My instances are general n-tuples internally represented as an Array. These are the tuples used by default for an arbitrary ring.!
-
-!BitTuple commentStamp: 'len 11/13/2016 07:26' prior: 0!
-My instances are tuples of integer residue classes modulo 2, i.e. a binary tuple, a bit string, or a tuple of bits. The coefficients field is ZZ/2.
-
-Example:
-	"A handy way to create a binary tuple:"
-	(1,0,1,1,0,1,1,1) % 2
-!
-
-!ModularTuple commentStamp: 'len 11/16/2016 18:22' prior: 0!
-My instances are n-tuples with coefficients in an integer residue class ring (or field) Z/<m>. See ModularInteger, ModularIntegers, PrimeField.
-
-Example:
-	"A handy way to create a tuple of integers modulo 3:"
-	(1,2,3,4) % 3
-!
 
 !LinearEquation commentStamp: '<historical>' prior: 0!
 My instances are linear equations, i.e. expressions of the form
@@ -4597,16 +4615,12 @@ if aSum < bSum, then a < b; if aSum > bSum, then a > b; if aSum = bSum, we conti
 Theorem: For any monomial ordering in a finite number of variables, there is a collection of weights that models the ordering. So, with this idea we can contruct any ordering.
 !
 
-!Polynomial commentStamp: '<historical>' prior: 0!
-My instances are polynomials in one or many indeterminates, with coefficients in a commutative ring.
-
-Subclasses implement particular representations, such as dense univariate polynomials (represented as arrays of coefficients) or sparse polynomials (representad as dictionaries monomial -> coefficient).
-
-For examples, see PolynomialRing.
+!Polynomial commentStamp: 'len 11/29/2016 11:16:23' prior: 0!
+My instances are polynomials in one or many indeterminates, with coefficients in a commutative ring. Subclasses implement particular representations. See also PolynomialRing.
 !
 
 !MultivariatePolynomial commentStamp: '<historical>' prior: 0!
-My instances are multivariate polynomials in sparse representation. The coefficients are stored as a SparseTuple indexed by monomials.!
+My instances are multivariate polynomials in sparse (or distributed) representation. The coefficients are stored as a MonomialIndexedTuple.!
 
 !UnivariatePolynomial commentStamp: '<historical>' prior: 0!
 My instances are univariate polynomials in dense representation. The coefficients of a dense polynomial are stored as a Tuple indexed by degree (the first element of the coefficients tuple corresponds to the independent coefficient of the polynomial).!
@@ -4757,8 +4771,8 @@ Input: x_1...x_k, k elements in an Euclidean domain, and m_1,...,m_k pairwise co
 Output: x such that x = x_i (mod m_i) for 1<=i<=k.
 !
 
-!ExtendedEuclid commentStamp: 'len 3/21/2016 03:16' prior: 0!
-I am the Euclid's extended algorithm.
+!ExtendedEuclid commentStamp: '<historical>' prior: 0!
+I am the extended Euclidean algorithm.
 
 Input: an array of two elements in an Euclidean domain {a. b}
 Output: the GCD of a with b, and {u. v} such that a*u + b*v = (a,b).
@@ -4818,6 +4832,20 @@ isInfinity
 isReal
 	"Answer true if the receiver is a real number."
 	^ false! !
+
+!Class methodsFor: '*mathematics' stamp: 'len 12/1/2016 09:03:19'!
+newSubclass
+	"Answer a new subclass of the receiver. The new subclass will be unnamed and uncategorized, and if no instances exist it can be subject of garbage collection."
+	| newMetaclass |
+	newMetaclass _ Metaclass new.
+	newMetaclass
+		superclass: self class
+		methodDictionary: MethodDictionary new
+		format: self class format.
+	^ newMetaclass new
+		superclass: self
+		methodDictionary: MethodDictionary new
+		format: self format! !
 
 !Magnitude methodsFor: '*mathematics' stamp: 'len 10/18/2016 13:58'!
 isFinite
@@ -4925,9 +4953,9 @@ isRational
 squareRoot
 	^ RealAlgebraicNumber sqrt: self! !
 
-!Integer methodsFor: '*mathematics' stamp: 'len 11/16/2016 18:15'!
+!Integer methodsFor: '*mathematics' stamp: 'len 11/30/2016 19:22:10'!
 % anInteger
-	^ ModularInteger representative: self \\ anInteger modulo: anInteger! !
+	^ ZZ / anInteger project: self! !
 
 !Integer methodsFor: '*mathematics' stamp: 'len 11/1/2016 00:23'!
 /// anInteger
@@ -5023,11 +5051,11 @@ count: aBlock
 denominator
 	^ 1! !
 
-!Integer methodsFor: '*mathematics' stamp: 'len 6/27/2016 23:20'!
+!Integer methodsFor: '*mathematics' stamp: 'len 11/30/2016 14:44:07'!
 divisors
 	"Answer the collection of positive divisors of the receiver including 1 and self."
 	| answer |
-	answer _ Set2 new.
+	answer _ Set new.
 	self divisorsDo: [:each| answer add: each].
 	^ answer! !
 
@@ -5220,6 +5248,24 @@ stirling: anInteger
 	self = anInteger ifTrue: [^ self Stirling: anInteger].
 	self+1 = anInteger ifTrue: [^ self take: 2].
 	^ (self-1) * (self-1 stirling: anInteger) + (self-1 stirling: anInteger-1)! !
+
+!Integer methodsFor: '*mathematics' stamp: 'len 11/30/2016 13:09:55'!
+xgcd: anInteger
+	"Extended Euclidean algorithm."
+	| a b s t s` t` r r` |
+	a _ self. b _ anInteger.
+	s _ 0. s` _ 1.
+	t _ 1. t` _ 0.
+	r _ a abs. r` _ b abs.
+	[r == 0]
+		whileFalse:
+			[ | q temp |
+			q _ r` // r.
+			temp _ r. r _ r` - (q * r). r` _ temp.
+			temp _ s. s _ s` - (q * s). s` _ temp.
+			temp _ t. t _ t` - (q * t). t` _ temp].
+	s` _ s` * b sign. t` _ t` * a sign.
+	^ {r`. t`. s`} "r` is the gcd"! !
 
 !SmallInteger methodsFor: '*mathematics' stamp: 'len 11/12/2016 08:38'!
 bitCount
@@ -5507,6 +5553,41 @@ printOn: aStream
 	aStream nextPut: ${.
 	self do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: ', '].
 	aStream nextPut: $}! !
+
+!Dictionary methodsFor: '*mathematics' stamp: 'len 11/30/2016 14:47:44'!
+at: key add: value
+	| index assoc |
+	index _ self findElementOrNil: key.
+	assoc _ array at: index.
+	assoc
+		ifNil:
+			[value isZero ifFalse: [self atNewIndex: index put: (Association key: key value: value)]]
+		ifNotNil:
+			[|newValue|
+			newValue _ assoc value + value.
+			assoc value: newValue.
+			^ newValue].
+	^ value! !
+
+!Dictionary methodsFor: '*mathematics' stamp: 'len 11/30/2016 14:47:14'!
+at: key addAndRemoveIfZero: value
+	| index assoc |
+	index _ self findElementOrNil: key.
+	assoc _ array at: index.
+	assoc
+		ifNil:
+			[value isZero ifFalse: [self atNewIndex: index put: (Association key: key value: value)]]
+		ifNotNil:
+			[|newValue|
+			newValue _ assoc value + value.
+			newValue isZero
+				ifTrue:
+					[array at: index put: nil.
+					tally _ tally - 1.
+					self fixCollisionsFrom: index]
+				ifFalse: [assoc value: newValue].
+			^ newValue].
+	^ value! !
 
 !Point methodsFor: '*mathematics' stamp: 'len 2/25/2016 17:01'!
 norm
@@ -6965,7 +7046,7 @@ verify
 				ifFalse: [^ false halt]]].
 	^ true! !
 
-!GroebnerBasis class methodsFor: 'instance creation' stamp: 'len 11/23/2016 10:15:07'!
+!GroebnerBasis class methodsFor: 'instance creation' stamp: 'len 11/30/2016 14:43:41'!
 from2: aCollection
 	"Buchberger algorithm.
 	Answer a Groebner basis obtainded from the given polynomials with the specified ordering."
@@ -6976,7 +7057,7 @@ from2: aCollection
 	S _ aCollection asSortedCollection: [:a :b| a leadingMonomial degree <= b leadingMonomial degree].
 	heads _ OrderedCollection new.
 	[S do: [:f| (G reduces: f) ifFalse: [G add: f]].
-	S _ Set2 new.
+	S _ Set new.
 	1 to: G size do: [:i| | fi hi ci |
 		fi _ G at: i.
 		hi _ i = (heads size + 1) ifTrue: [heads add: fi leadingMonomial] ifFalse: [heads at: i].
@@ -6999,14 +7080,14 @@ from2: aCollection
 "	G verify ifFalse: [self halt]."
 	^ G! !
 
-!GroebnerBasis class methodsFor: 'instance creation' stamp: 'len 10/27/2016 08:50'!
+!GroebnerBasis class methodsFor: 'instance creation' stamp: 'len 11/30/2016 14:45:57'!
 from2: aCollection ordering: aMonomialOrdering 
 	"Buchberger algorithm.
 	Answer a Groebner basis obtainded from the given polynomials and ordering."
 	| basis newPolynomials rem lcm fi hi ci fk hk ck heads start |
 	aCollection anyOne scalars isField ifFalse: [^ DomainError signal: 'not over a field'].
 	basis _ self new ordering: aMonomialOrdering; addAll: aCollection; yourself.
-	heads _ Dictionary2 new.
+	heads _ Dictionary new.
 	start _ 1.
 	[newPolynomials _ OrderedCollection new.
 	1 to: basis size do: [:i|
@@ -7028,13 +7109,13 @@ from2: aCollection ordering: aMonomialOrdering
 			newPolynomials allButFirstDo: [:each| (basis reduce: each) isZero ifFalse: [basis add: each]]].
 	^ basis! !
 
-!GroebnerBasis class methodsFor: 'instance creation' stamp: 'len 10/27/2016 08:50'!
+!GroebnerBasis class methodsFor: 'instance creation' stamp: 'len 11/30/2016 14:46:00'!
 from3: aCollection ordering: aMonomialOrdering 
 	"Answer a new instance of the receiver representing a Groebner basis obtainded from aCollection of polynomials operating with the ordering aMonomialOrdering."
 	| basis fi hi ci fk hk ck lcm rem heads start i |
 	aCollection anyOne scalars isField ifFalse: [^ DomainError signal: 'not over a field'].
 	basis _ self new ordering: aMonomialOrdering; addAll: aCollection; yourself.
-	heads _ Dictionary2 new.
+	heads _ Dictionary new.
 	start _ 1.
 	i _ 0.
 	[(i _ i + 1) <= basis size] whileTrue:
@@ -7050,14 +7131,14 @@ from3: aCollection ordering: aMonomialOrdering
 			rem isZero ifFalse: ["Display fill: (i@k*4 extent: 3@3) fillColor: Color yellow." basis add: rem]]]].
 	^ basis! !
 
-!GroebnerBasis class methodsFor: 'instance creation' stamp: 'len 10/27/2016 08:51'!
+!GroebnerBasis class methodsFor: 'instance creation' stamp: 'len 11/30/2016 14:46:04'!
 from4: aCollection ordering: aMonomialOrdering 
 	"Buchberger algorithm.
 	Answer a Groebner basis obtainded from the given polynomials and ordering."
 	| basis newPolynomials rem lcm fi hi ci fk hk ck heads start pairsDone |
 	aCollection anyOne scalars isField ifFalse: [^ DomainError signal: 'not over a field'].
 	basis _ self new ordering: aMonomialOrdering; addAll: aCollection; yourself.
-	heads _ Dictionary2 new.
+	heads _ Dictionary new.
 	start _ 1.
 	pairsDone _ Set new.
 	[newPolynomials _ OrderedCollection new.
@@ -7080,7 +7161,7 @@ from4: aCollection ordering: aMonomialOrdering
 			newPolynomials allButFirstDo: [:each| (basis reduce: each) isZero ifFalse: [basis add: each]]].
 	^ basis! !
 
-!GroebnerBasis class methodsFor: 'instance creation' stamp: 'len 11/18/2016 08:35:22'!
+!GroebnerBasis class methodsFor: 'instance creation' stamp: 'len 11/30/2016 14:43:45'!
 from5: aCollection ordering: aMonomialOrdering 
 	"Buchberger algorithm.
 	Answer a Groebner basis obtainded from the given polynomials and ordering."
@@ -7090,7 +7171,7 @@ from5: aCollection ordering: aMonomialOrdering
 	S _ aCollection asSortedCollection: [:a :b| (aMonomialOrdering leadingMonomialOf: a) degree <= (aMonomialOrdering leadingMonomialOf: b) degree].
 	heads _ OrderedCollection new.
 	[S do: [:f| (G reduces: f) ifFalse: [G add: f]].
-	S _ Set2 new.
+	S _ Set new.
 	1 to: G size do: [:i| | fi hi ci |
 		fi _ G at: i.
 		hi _ i = (heads size + 1) ifTrue: [heads add: (aMonomialOrdering leadingMonomialOf: fi)] ifFalse: [heads at: i].
@@ -7119,7 +7200,7 @@ from: aCollection
 	Answer a Groebner basis obtainded from the given polynomials with the specified ordering."
 	^ self new addAll: (Buchberger new generators: aCollection; basis); yourself! !
 
-!GroebnerBasis class methodsFor: 'instance creation' stamp: 'len 11/24/2016 11:49:14'!
+!GroebnerBasis class methodsFor: 'instance creation' stamp: 'len 11/30/2016 14:43:49'!
 fromOld: aCollection
 	"Buchberger algorithm.
 	Answer a Groebner basis obtainded from the given polynomials with the specified ordering."
@@ -7130,7 +7211,7 @@ fromOld: aCollection
 	S _ aCollection.
 	[S _ S asSortedCollection: [:a :b| a leadingMonomial <= b leadingMonomial].
 	S do: [:f| (G reduces: f) ifFalse: [G add: f]].
-	S _ Set2 new.
+	S _ Set new.
 	1 to: G size do: [:i| | fi hi ci |
 		fi _ G at: i.
 		hi _ fi leadingMonomial.
@@ -7153,7 +7234,7 @@ fromOld: aCollection
 "	G verify ifFalse: [self halt]."
 	^ G! !
 
-!GroebnerBasis class methodsFor: 'instance creation' stamp: 'len 11/18/2016 08:50:40'!
+!GroebnerBasis class methodsFor: 'instance creation' stamp: 'len 11/30/2016 14:43:52'!
 fromOriginal: aCollection ordering: aMonomialOrdering 
 	"Buchberger algorithm.
 	Answer a Groebner basis obtainded from the given polynomials and ordering."
@@ -7163,7 +7244,7 @@ fromOriginal: aCollection ordering: aMonomialOrdering
 	S _ aCollection.
 	heads _ OrderedCollection new.
 	[S do: [:f| (G reduces: f) ifFalse: [G add: f]].
-	S _ Set2 new.
+	S _ Set new.
 	1 to: G size do: [:i| | fi hi ci |
 		fi _ G at: i.
 		hi _ i = (heads size + 1) ifTrue: [heads add: (aMonomialOrdering leadingMonomialOf: fi)] ifFalse: [heads at: i].
@@ -7372,39 +7453,22 @@ on: anObject performing: aSymbol
 * aNumber
 	^ self collect: [:each| each*aNumber]! !
 
-!MonomialIndexedTuple methodsFor: 'operations' stamp: 'len 11/28/2016 10:48:35'!
+!MonomialIndexedTuple methodsFor: 'operations' stamp: 'len 11/29/2016 10:24:36'!
 + aMonomialTuple
-	| newAssociations stream1 stream2 |
+	| newAssociations |
 	newAssociations _ OrderedCollection new: self size + aMonomialTuple size.
 	newAssociations resetTo: 1.
-	stream1 _ associations readStream.
-	stream2 _ aMonomialTuple associations readStream.
-	[stream1 atEnd or: [stream2 atEnd]]
-		whileFalse:
-			[| cmp |
-			cmp _ stream1 peek key compare: stream2 peek key.
-			cmp < 0
-				ifTrue: [newAssociations add: stream1 next copy]
-				ifFalse: [cmp > 0
-					ifTrue: [newAssociations add: stream2 next copy]
-					ifFalse:
-						[| a b newValue |
-						a _ stream1 next.
-						b _ stream2 next.
-						(newValue _ a value + b value) isZero
-							ifFalse: [newAssociations add: (a copy value: newValue)]]]].
-	[stream1 atEnd] whileFalse: [newAssociations add: stream1 next copy].
-	[stream2 atEnd] whileFalse: [newAssociations add: stream2 next copy].
+	self sum: associations with: aMonomialTuple associations into: newAssociations.
 	^ self class associations: newAssociations over: scalars! !
 
 !MonomialIndexedTuple methodsFor: 'operations' stamp: 'len 11/20/2016 16:55:37'!
 - aMonomialTuple
 	^ self + aMonomialTuple negated! !
 
-!MonomialIndexedTuple methodsFor: 'operations' stamp: 'len 11/28/2016 19:02:06'!
+!MonomialIndexedTuple methodsFor: 'operations' stamp: 'len 11/28/2016 22:03:32'!
 / aNumber
 	self flag: #fix.
-	^ self collectNoZero: [:each| each / aNumber] "this could be low, could take reciprocal many times"! !
+	^ self collectNoZero: [:each| each / aNumber] "this could be slow, could take reciprocal many times"! !
 
 !MonomialIndexedTuple methodsFor: 'operations' stamp: 'len 11/28/2016 18:59:06'!
 // aNumber
@@ -7424,9 +7488,9 @@ on: anObject performing: aSymbol
 associations
 	^ associations! !
 
-!MonomialIndexedTuple methodsFor: 'accessing-private' stamp: 'len 11/28/2016 20:06:04'!
+!MonomialIndexedTuple methodsFor: 'accessing-private' stamp: 'len 11/29/2016 08:52:12'!
 associations: aCollection
-	(aCollection class == OrderedCollection) ifFalse: [^ self error: 'not an OrderedCollection'].
+"	(aCollection class == OrderedCollection) ifFalse: [^ self error: 'not an OrderedCollection']."
 	associations _ aCollection! !
 
 !MonomialIndexedTuple methodsFor: 'iterating' stamp: 'len 11/20/2016 17:02:42'!
@@ -7483,6 +7547,25 @@ collect: aBlock
 collectNoZero: aBlock
 	^ self class associations: (associations collect: [:each| each copy value: (aBlock value: each value)]) over: scalars! !
 
+!MonomialIndexedTuple methodsFor: 'operations' stamp: 'len 11/29/2016 09:52:02'!
+convolution22: aMonomialTuple
+	| a b b` c1 c2 c t |
+	self size <= aMonomialTuple size
+		ifTrue: [a _ associations. b _ aMonomialTuple associations]
+		ifFalse: [a _ aMonomialTuple associations. b _ associations].
+	c1 _ OrderedCollection new: a size + b size.
+	c2 _ OrderedCollection new: a size + b size.
+	c _ c1.
+	b` _ Array new: b size.
+	a do: [:ai|
+		1 to: b size do: [:i| | bi |
+			bi _ b at: i.
+			b` at: i put: ai key * bi key -> (ai value * bi value)].
+		t _ c1 == c ifTrue: [c2] ifFalse: [c1].
+		t resetTo: 1.
+		c _ self sum: c with: b` into: t].
+	^ self class associations: c over: scalars! !
+
 !MonomialIndexedTuple methodsFor: 'operations' stamp: 'len 11/21/2016 13:04:43'!
 convolution2: aMonomialTuple
 	| a b answer temp |
@@ -7496,10 +7579,10 @@ convolution2: aMonomialTuple
 		answer _ answer + (self class associations: temp over: scalars)].
 	^ answer! !
 
-!MonomialIndexedTuple methodsFor: 'operations' stamp: 'len 11/28/2016 11:05:35'!
+!MonomialIndexedTuple methodsFor: 'operations' stamp: 'len 11/30/2016 14:46:11'!
 convolution3: aMonomialTuple
 	| dictionary newAssociations |
-	dictionary _ Dictionary2 new: self size + aMonomialTuple size.
+	dictionary _ Dictionary new: self size + aMonomialTuple size.
 	self associationsDo: [:each|
 		aMonomialTuple associationsDo: [:other|
 			dictionary at: each key * other key add: each value * other value]].
@@ -7509,10 +7592,42 @@ convolution3: aMonomialTuple
 	newAssociations sort.
 	^ self class associations: newAssociations over: scalars! !
 
-!MonomialIndexedTuple methodsFor: 'operations' stamp: 'len 11/28/2016 20:04:06'!
+!MonomialIndexedTuple methodsFor: 'operations' stamp: 'len 11/30/2016 14:46:15'!
+convolution4: aMonomialTuple
+	| a b c |
+	self size <= aMonomialTuple size
+		ifTrue: [a _ associations. b _ aMonomialTuple associations]
+		ifFalse: [a _ aMonomialTuple associations. b _ associations].
+	(a size < 25 and: [a size * 2 < b size])
+		ifTrue:
+			[| c1 c2 b` t |
+			c1 _ OrderedCollection new: a size + b size.
+			c2 _ OrderedCollection new: a size + b size.
+			c _ c1.
+			b` _ Array new: b size.
+			a do: [:ai|
+				1 to: b size do: [:i| | bi |
+					bi _ b at: i.
+					b` at: i put: ai key * bi key -> (ai value * bi value)].
+				t _ c1 == c ifTrue: [c2] ifFalse: [c1].
+				t resetTo: 1.
+				c _ self sum: c with: b` into: t]]
+		ifFalse: "if the sizes are not right, it's faster to use a hash table"
+			[| dictionary |
+			dictionary _ Dictionary new: a size + b size.
+			a do: [:ai|
+				b do: [:bi|
+				dictionary at: ai key * bi key add: ai value * bi value]].
+			c _ OrderedCollection new: dictionary size.
+			c resetTo: 1.
+			dictionary associationsDo: [:each| each value isZero ifFalse: [c add: each]].
+			c sort].
+	^ self class associations: c over: scalars! !
+
+!MonomialIndexedTuple methodsFor: 'operations' stamp: 'len 11/30/2016 14:46:18'!
 convolution: aMonomialTuple
 	| dictionary newAssociations |
-	dictionary _ Dictionary2 new: self size + aMonomialTuple size.
+	dictionary _ Dictionary new: self size + aMonomialTuple size.
 	self associationsDo: [:each|
 		aMonomialTuple associationsDo: [:other|
 			dictionary at: each key * other key add: each value * other value]].
@@ -7526,17 +7641,19 @@ convolution: aMonomialTuple
 copy
 	^ self class associations: (associations collect: [:each| each copy]) over: scalars! !
 
-!MonomialIndexedTuple methodsFor: 'operations' stamp: 'len 11/24/2016 15:06:53'!
+!MonomialIndexedTuple methodsFor: 'operations' stamp: 'len 11/29/2016 09:30:44'!
 dividedByMonomial: aMonomial
+	"The monomial ordering is preserved by this operation."
 	^ self class associations: (associations collect: [:each| each key / aMonomial -> each value]) over: scalars! !
 
 !MonomialIndexedTuple methodsFor: 'iterating' stamp: 'len 11/20/2016 17:14:49'!
 do: aBlock
 	self associationsDo: [:each| aBlock value: each value]! !
 
-!MonomialIndexedTuple methodsFor: 'operations' stamp: 'len 11/21/2016 09:10:08'!
+!MonomialIndexedTuple methodsFor: 'operations' stamp: 'len 11/29/2016 09:30:09'!
 dot: aMonomialTuple
 	| answer |
+	self flag: #fix. "optimize"
 	self size <= aMonomialTuple size ifFalse: [^ aMonomialTuple dot: self].
 	answer _ scalars zero.
 	associations do: [:each| aMonomialTuple at: each key ifPresent: [:value2| answer _ answer + (each value*value2)]].
@@ -7562,8 +7679,9 @@ keysDo: aBlock
 lastKey
 	^ associations isEmpty ifFalse: [associations last key]! !
 
-!MonomialIndexedTuple methodsFor: 'operations' stamp: 'len 11/24/2016 15:06:37'!
+!MonomialIndexedTuple methodsFor: 'operations' stamp: 'len 11/29/2016 09:30:48'!
 multipliedByMonomial: aMonomial
+	"The monomial ordering is preserved by this operation."
 	^ self class associations: (associations collect: [:each| each key * aMonomial -> each value]) over: scalars! !
 
 !MonomialIndexedTuple methodsFor: 'operations' stamp: 'len 11/20/2016 17:05:41'!
@@ -7587,6 +7705,29 @@ scalars: aRing
 !MonomialIndexedTuple methodsFor: 'accessing' stamp: 'len 11/21/2016 08:55:19'!
 size
 	^ associations size! !
+
+!MonomialIndexedTuple methodsFor: 'private' stamp: 'len 11/29/2016 09:52:21'!
+sum: someAssociations with: otherAssociations into: newAssociations
+	| stream1 stream2 |
+	stream1 _ someAssociations readStream.
+	stream2 _ otherAssociations readStream.
+	[stream1 atEnd or: [stream2 atEnd]]
+		whileFalse:
+			[| cmp |
+			cmp _ stream1 peek key compare: stream2 peek key.
+			cmp < 0
+				ifTrue: [newAssociations add: stream1 next copy]
+				ifFalse: [cmp > 0
+					ifTrue: [newAssociations add: stream2 next copy]
+					ifFalse:
+						[| a b newValue |
+						a _ stream1 next.
+						b _ stream2 next.
+						(newValue _ a value + b value) isZero
+							ifFalse: [newAssociations add: (a copy value: newValue)]]]].
+	[stream1 atEnd] whileFalse: [newAssociations add: stream1 next copy].
+	[stream2 atEnd] whileFalse: [newAssociations add: stream2 next copy].
+	^ newAssociations! !
 
 !MonomialIndexedTuple class methodsFor: 'instance creation' stamp: 'len 11/20/2016 16:51:57'!
 associations: aCollection over: aRing
@@ -7690,14 +7831,14 @@ convolution2: aSparseTuple
 			answer at: each key * other key add: each value * other value]].
 	^ answer! !
 
-!SparseTuple methodsFor: 'operations' stamp: 'len 11/24/2016 21:18:39'!
+!SparseTuple methodsFor: 'operations' stamp: 'len 11/30/2016 14:46:27'!
 convolution3: aSparseTuple
 	| dictionary noZeroesDictionary |
-	dictionary _ Dictionary2 new: self size + aSparseTuple size.
+	dictionary _ Dictionary new: self size + aSparseTuple size.
 	self associationsDo: [:each|
 		aSparseTuple associationsDo: [:other|
 			dictionary at: each key * other key add: each value * other value]].
-	noZeroesDictionary _ Dictionary2 new: dictionary size.
+	noZeroesDictionary _ Dictionary new: dictionary size.
 	dictionary associationsDo: [:each| each value isZero ifFalse: [noZeroesDictionary add: each]].
 	^ self class coefficients: noZeroesDictionary over: scalars! !
 
@@ -7798,21 +7939,1032 @@ withIndexDo: elementAndIndexBlock
 zero
 	^ self class over: scalars! !
 
-!SparseTuple class methodsFor: 'as yet unclassified' stamp: 'len 11/21/2016 11:00:54'!
+!SparseTuple class methodsFor: 'as yet unclassified' stamp: 'len 11/30/2016 14:46:31'!
 associations: aCollection over: aRing
-	^ self coefficients: (aCollection as: Dictionary2) over: aRing! !
+	^ self coefficients: (aCollection as: Dictionary) over: aRing! !
 
 !SparseTuple class methodsFor: 'as yet unclassified' stamp: 'len 11/18/2016 10:00:47'!
 coefficients: aDictionary over: aRing
 	^ self basicNew coefficients: aDictionary; scalars: aRing! !
 
-!SparseTuple class methodsFor: 'as yet unclassified' stamp: 'len 11/18/2016 10:11:45'!
+!SparseTuple class methodsFor: 'as yet unclassified' stamp: 'len 11/30/2016 14:46:35'!
 new: anInteger over: aRing
-	^ self coefficients: (Dictionary2 new: anInteger) over: aRing! !
+	^ self coefficients: (Dictionary new: anInteger) over: aRing! !
 
-!SparseTuple class methodsFor: 'as yet unclassified' stamp: 'len 11/18/2016 10:00:58'!
+!SparseTuple class methodsFor: 'as yet unclassified' stamp: 'len 11/30/2016 14:46:41'!
 over: aRing
-	^ self coefficients: Dictionary2 new over: aRing! !
+	^ self coefficients: Dictionary new over: aRing! !
+
+!Tuple methodsFor: 'operations' stamp: 'len 12/1/2016 16:52:32'!
+% anInteger
+	| ring |
+	self flag: #fix. "optimize. this is slow because creates lots of residue class objects"
+	ring _ ZZ / anInteger.
+	anInteger = 2 ifTrue: [^ BitTuple new: self size evaluating: [:i| ring project: (self at: i)]].
+	^ ModularTuple new: self size over: ring evaluating: [:i| ring project: (self at: i)]! !
+
+!Tuple methodsFor: 'operations' stamp: 'len 11/5/2016 06:17'!
+* anObject
+	(anObject is: #Tuple)
+		ifTrue: [^ self scalars tuple: (self size min: anObject size) evaluating: [:i| (self at: i) * (anObject at: i)]].
+	^ self collect: [:each| each * anObject]! !
+
+!Tuple methodsFor: 'operations' stamp: 'len 11/6/2016 14:21'!
+- aTuple
+	^ self + aTuple negated! !
+
+!Tuple methodsFor: 'operations' stamp: 'len 3/29/2016 18:50'!
+/ aNumber
+	^ self collect: [:each| each / aNumber]! !
+
+!Tuple methodsFor: 'operations' stamp: 'len 3/29/2016 18:50'!
+// aNumber
+	^ self collect: [:each| each // aNumber]! !
+
+!Tuple methodsFor: 'operations' stamp: 'len 3/29/2016 19:02'!
+<< anInteger
+	^ self >> anInteger negated! !
+
+!Tuple methodsFor: 'operations' stamp: 'len 3/29/2016 18:45'!
+<<< anInteger
+	^ self >>> anInteger negated! !
+
+!Tuple methodsFor: 'comparing' stamp: 'len 11/12/2016 09:16'!
+= anObject
+	self == anObject ifTrue: [^ true].
+	(anObject isKindOf: Tuple) ifFalse: [^ false].
+	self size = anObject size ifFalse: [^ false].
+	1 to: self size do: [:i|
+		(self at: i) = (anObject at: i) ifFalse: [^ false]].
+	^ true! !
+
+!Tuple methodsFor: 'operations' stamp: 'len 3/29/2016 19:02'!
+>> anInteger
+	^ self shift: anInteger! !
+
+!Tuple methodsFor: 'operations' stamp: 'len 11/5/2016 06:56'!
+>>> anInteger
+	anInteger == 0 ifTrue: [^ self].
+	anInteger < 0 ifTrue: [^ self copyFrom: anInteger negated + 1 to: self size].
+	^ (self scalars tuple: anInteger constant: self scalars zero), self! !
+
+!Tuple methodsFor: 'operations' stamp: 'len 3/29/2016 18:46'!
+\\ aNumber
+	^ self collect: [:each| each \\ aNumber]! !
+
+!Tuple methodsFor: 'converting' stamp: 'len 11/8/2016 07:19'!
+adaptToCollection: aCollection andSend: selector
+	self size = aCollection size ifFalse: [^ self error: 'sizes don''t match'].
+	^ aCollection withIndexCollect: [:each :index| each perform: selector with: (self at: index)]! !
+
+!Tuple methodsFor: 'converting' stamp: 'len 3/29/2016 18:53'!
+adaptToNumber: aNumber andSend: selector
+	selector == #* ifTrue:[^ self collect: [:each| aNumber * each]].
+	^ super adaptToNumber: aNumber andSend: selector! !
+
+!Tuple methodsFor: 'converting' stamp: 'len 4/8/2016 22:34'!
+adaptToRealAlgebraic: aNumber andSend: selector
+	^ self adaptToNumber: aNumber andSend: selector! !
+
+!Tuple methodsFor: 'operations' stamp: 'len 11/23/2016 09:43:40'!
+addFrom: startIndex to: stopIndex with: aTuple by: aNumber
+	startIndex to: stopIndex do: [:i|
+		self at: i put: (aTuple at: i) * aNumber + (self at: i)]! !
+
+!Tuple methodsFor: 'operations' stamp: 'len 11/23/2016 09:43:18'!
+addFrom: startIndex with: aTuple by: aNumber
+	self addFrom: startIndex to: (self size min: aTuple size) with: aTuple by: aNumber! !
+
+!Tuple methodsFor: 'iterating' stamp: 'len 11/5/2016 07:06'!
+allSatisfy: aBlock
+	"Evaluate aBlock with the elements of the receiver.
+	If aBlock returns false for any element return false.
+	Otherwise return true."
+
+	self do: [:each | (aBlock value: each) ifFalse: [^ false]].
+	^ true! !
+
+!Tuple methodsFor: 'iterating' stamp: 'len 11/5/2016 09:09'!
+anySatisfy: aBlock
+	"Evaluate aBlock with the elements of the receiver.
+	If aBlock returns true for any element return true.
+	Otherwise return false"
+
+	self do:[:item | (aBlock value: item) ifTrue: [^ true]].
+	^ false! !
+
+!Tuple methodsFor: 'operations' stamp: 'len 11/7/2016 02:24'!
+apply: aMorphism
+	"Apply a homomorphism to the coefficients of the receiver."
+	aMorphism isBlock ifTrue: [^ self collect: aMorphism].
+	^ aMorphism codomain tuple: self size evaluating: [:i| aMorphism value: (self at: i)]! !
+
+!Tuple methodsFor: 'converting' stamp: 'len 11/5/2016 09:46'!
+asArray
+	^ self as: Array! !
+
+!Tuple methodsFor: 'converting' stamp: 'len 11/5/2016 09:24'!
+asHomogeneousTuple
+	^ HomogeneousTuple coefficients: self over: self scalars! !
+
+!Tuple methodsFor: 'converting' stamp: 'len 11/7/2016 13:48'!
+asTuple
+	^ self! !
+
+!Tuple methodsFor: 'accessing' stamp: 'len 11/18/2016 20:21:46'!
+at: index ifAbsent: exceptionBlock
+	"Answer the element at my position index. If I do not contain an element
+	at index, answer the result of evaluating the argument, exceptionBlock."
+
+	(index between: 1 and: self size) ifTrue: [^ self at: index].
+	^ exceptionBlock value! !
+
+!Tuple methodsFor: 'accessing' stamp: 'len 3/29/2016 18:54'!
+bitSize
+	| answer |
+	answer _ 0.
+	self do: [:each| answer _ answer + each bitSize].
+	^ answer! !
+
+!Tuple methodsFor: 'iterating' stamp: 'len 11/5/2016 06:46'!
+collect: aBlock
+	^ self scalars tuple: self size evaluating: [:i| aBlock value: (self at: i)]! !
+
+!Tuple methodsFor: 'operations' stamp: 'len 3/29/2016 18:54'!
+conjugated
+	^ self collect: [:each| each conjugated]! !
+
+!Tuple methodsFor: 'iterating' stamp: 'len 11/5/2016 09:43'!
+count: aBlock
+	| count |
+	count _ 0.
+	self do: [:each| (aBlock value: each) ifTrue: [count _ count + 1]].
+	^ count! !
+
+!Tuple methodsFor: 'accessing' stamp: 'len 3/29/2016 19:05'!
+dimension
+	^ self size! !
+
+!Tuple methodsFor: 'iterating' stamp: 'len 11/5/2016 06:46'!
+do: aBlock
+	1 to: self size do: [:each| aBlock value: (self at: each)]! !
+
+!Tuple methodsFor: 'iterating' stamp: 'len 11/5/2016 09:26'!
+do: elementBlock separatedBy: separatorBlock
+	| beforeFirst | 
+	"Evaluate the elementBlock for all elements in the receiver,
+	and evaluate the separatorBlock between."
+
+	beforeFirst _ true.
+	self do: [ :element |
+		beforeFirst
+			ifTrue: [beforeFirst _ false]
+			ifFalse: [separatorBlock value].
+		elementBlock value: element]! !
+
+!Tuple methodsFor: 'operations' stamp: 'len 4/6/2016 07:18'!
+dot: aTuple
+	| answer |
+	answer _ (self at: 1) * (aTuple at: 1).
+	2 to: (self size min: aTuple size) do: [:i| answer _ answer + ((self at: i) * (aTuple at: i))].
+	^ answer! !
+
+!Tuple methodsFor: 'iterating' stamp: 'len 11/12/2016 08:51'!
+findFirst: aBlock
+	"Return the index of my first element for which aBlock evaluates as true."
+
+	| index |
+	index _ 0.
+	[(index _ index + 1) <= self size] whileTrue:
+		[(aBlock value: (self at: index)) ifTrue: [^index]].
+	^ 0! !
+
+!Tuple methodsFor: 'iterating' stamp: 'len 11/5/2016 07:05'!
+findLast: aBlock
+	"Return the index of my last element for which aBlock evaluates as true."
+
+	| index |
+	index _ self size + 1.
+	[(index _ index - 1) >= 1] whileTrue:
+		[(aBlock value: (self at: index)) ifTrue: [^index]].
+	^ 0! !
+
+!Tuple methodsFor: 'accessing' stamp: 'len 11/5/2016 09:26'!
+first
+	^ self at: 1! !
+
+!Tuple methodsFor: 'accessing' stamp: 'len 11/12/2016 09:03'!
+firstNonZero
+	"Answer the index of the first non-zero entry, or 0."
+	1 to: self size do: [:i| (self at: i) isZero ifFalse: [^ i]].
+	^ 0! !
+
+!Tuple methodsFor: 'operations' stamp: 'len 11/12/2016 08:18'!
+hadamard: aTuple
+	"Answer the entrywise product with the argument, also called Hadamard product."
+	^ self scalars tuple: (self size min: aTuple size) evaluating: [:i| (self at: i) * (aTuple at: i)]! !
+
+!Tuple methodsFor: 'comparing' stamp: 'len 11/5/2016 09:41'!
+hash
+	| hash |
+	hash _ 0.
+	1 to: self size do: [:i | hash _ (hash + (self at: i) hash) hashMultiply].
+	^hash! !
+
+!Tuple methodsFor: 'operations' stamp: 'len 11/27/2016 13:25:12'!
+height
+	| answer |
+	answer _ 1.
+	self do: [:each| answer _ answer max: each height].
+	^ answer! !
+
+!Tuple methodsFor: 'converting' stamp: 'len 10/31/2016 13:11'!
+homogenized
+	^ self homogenizedIn: self size + 1! !
+
+!Tuple methodsFor: 'converting' stamp: 'len 11/18/2016 20:55:03'!
+homogenizedIn: anInteger
+	^ HomogeneousTuple coefficients: (self copyFrom: 1 to: anInteger - 1), self scalars one, (self copyFrom: anInteger to: self size) over: self scalars! !
+
+!Tuple methodsFor: 'testing' stamp: 'len 11/5/2016 09:45'!
+includes: anObject 
+	"Answer whether anObject is one of the receiver's elements."
+
+	self do: [:each| each = anObject ifTrue: [^ true]].
+	^ false! !
+
+!Tuple methodsFor: 'iterating' stamp: 'len 11/5/2016 06:48'!
+inject: thisValue into: binaryBlock 
+	| nextValue |
+	nextValue _ thisValue.
+	self do: [:each | nextValue _ binaryBlock value: nextValue value: each].
+	^ nextValue! !
+
+!Tuple methodsFor: 'testing' stamp: 'len 3/29/2016 19:04'!
+is: aSymbol
+	^ aSymbol == #Tuple or: [super is: aSymbol]! !
+
+!Tuple methodsFor: 'testing' stamp: 'len 11/5/2016 07:12'!
+isEmpty
+	^ self size = 0! !
+
+!Tuple methodsFor: 'testing' stamp: 'len 7/9/2016 02:49'!
+isOrdered
+	^ true! !
+
+!Tuple methodsFor: 'testing' stamp: 'len 7/9/2016 02:50'!
+isSparse
+	^ false! !
+
+!Tuple methodsFor: 'testing' stamp: 'len 3/29/2016 19:04'!
+isZero
+	^ self allSatisfy: [:each| each isZero]! !
+
+!Tuple methodsFor: 'testing' stamp: 'len 12/1/2016 17:05:22'!
+isZeroAt: anInteger
+	^ (self at: anInteger) isZero! !
+
+!Tuple methodsFor: 'accessing' stamp: 'len 11/6/2016 04:32'!
+last
+	^ self at: self size! !
+
+!Tuple methodsFor: 'accessing' stamp: 'len 11/12/2016 09:03'!
+lastNonZero
+	"Answer the index of the last non-zero entry, or 0."
+	self size to: 1 by: -1 do: [:i| (self at: i) isZero ifFalse: [^ i]].
+	^ 0! !
+
+!Tuple methodsFor: 'operations' stamp: 'len 3/29/2016 18:56'!
+negated
+	^ self collect: [:each| each negated]! !
+
+!Tuple methodsFor: 'operations' stamp: 'len 3/29/2016 19:03'!
+norm
+	^ self norm2 squareRoot! !
+
+!Tuple methodsFor: 'operations' stamp: 'len 3/29/2016 19:03'!
+norm2
+	^ self dot: self! !
+
+!Tuple methodsFor: 'converting' stamp: 'len 11/11/2016 09:30'!
+over: aRing
+	self scalars = aRing ifFalse: [^ aRing tuple: self]! !
+
+!Tuple methodsFor: 'operations' stamp: 'len 11/23/2016 05:43:12'!
+polynomialValue: anObject
+	"Evaluate the receiver (as an univariate polynomial) at the given argument using Horner's method."
+	| answer one |
+	answer _ anObject zero.
+	one _ anObject one.
+	self reverseDo: [:each| answer _ anObject * answer + (one * each)].
+	^ answer! !
+
+!Tuple methodsFor: 'printing' stamp: 'len 3/29/2016 19:04'!
+printOn: aStream
+	aStream nextPut: $(.
+	self do: [:x| aStream print: x] separatedBy: [aStream nextPutAll: ','].
+	aStream nextPut: $)! !
+
+!Tuple methodsFor: 'iterating' stamp: 'len 11/6/2016 14:22'!
+product
+	^ self product: [:each| each]! !
+
+!Tuple methodsFor: 'iterating' stamp: 'len 11/5/2016 06:50'!
+product: aBlock
+	^ self inject: self scalars one into: [:nextValue :each| nextValue * each]! !
+
+!Tuple methodsFor: 'iterating' stamp: 'len 11/5/2016 06:47'!
+reverseDo: aBlock
+	self size to: 1 by: -1 do: [:each| aBlock value: (self at: each)]! !
+
+!Tuple methodsFor: 'iterating' stamp: 'len 11/6/2016 14:22'!
+sum
+	^ self sum: [:each| each]! !
+
+!Tuple methodsFor: 'iterating' stamp: 'len 11/5/2016 06:50'!
+sum: aBlock
+	^ self inject: self scalars zero into: [:nextValue :each| nextValue + each]! !
+
+!Tuple methodsFor: 'operations' stamp: 'len 11/5/2016 09:27'!
+support
+	^ (1 to: self size) reject: [:each| (self at: each) isZero]! !
+
+!Tuple methodsFor: 'operations' stamp: 'len 11/12/2016 08:41'!
+weight
+	"Answer the Hamming weight of the receiver, i.e. the number of entries that are not zero."
+	^ self count: [:each| each isZero not]! !
+
+!Tuple methodsFor: 'iterating' stamp: 'len 11/5/2016 06:59'!
+withIndexCollect: aBlock
+	^ self scalars tuple: self size evaluating: [:i| aBlock value: (self at: i) value: i]! !
+
+!Tuple methodsFor: 'iterating' stamp: 'len 11/5/2016 06:47'!
+withIndexDo: aBlock
+	1 to: self size do: [:index| aBlock value: (self at: index) value: index]! !
+
+!Tuple methodsFor: 'operations' stamp: 'len 11/5/2016 06:15'!
+wrap: n
+	"Perform a cyclic right shift."
+	^ self scalars tuple: self size evaluating: [:i| (self at: i-1-n \\ self size + 1)]! !
+
+!Tuple methodsFor: 'accessing' stamp: 'len 3/29/2016 19:06'!
+x
+	^ self at: 1! !
+
+!Tuple methodsFor: 'accessing' stamp: 'len 3/29/2016 19:06'!
+y
+	^ self at: 2! !
+
+!Tuple methodsFor: 'accessing' stamp: 'len 3/29/2016 19:06'!
+z
+	^ self at: 3! !
+
+!ArrayTuple methodsFor: 'operations' stamp: 'len 11/5/2016 06:11'!
++ aTuple
+	| zero |
+	self size = aTuple size ifTrue: [^ scalars tuple: self size evaluating: [:i| (self at: i) + (aTuple at: i)]].
+	zero _ (self at: 1 ifAbsent: [aTuple at: 1]) zero.
+	^ scalars tuple: (self size max: aTuple size) evaluating: [:i| (self at: i ifAbsent: [zero]) + (aTuple at: i ifAbsent: [zero])]! !
+
+!ArrayTuple methodsFor: 'copying' stamp: 'len 11/5/2016 04:02'!
+, anObject
+	((anObject is: #Tuple) or: [anObject is: #Array])
+		ifTrue: [^ self class coefficients: (coefficients, anObject asArray) over: scalars].
+	^ self class coefficients: (coefficients copyWith: anObject) over: scalars! !
+
+!ArrayTuple methodsFor: 'operations' stamp: 'len 11/5/2016 06:12'!
+- aTuple
+	| zero |
+	self size = aTuple size ifTrue: [^ scalars tuple: self size evaluating: [:i| (self at: i) - (aTuple at: i)]].
+	zero _ (self at: 1 ifAbsent: [aTuple at: 1]) zero.
+	^ scalars tuple: (self size max: aTuple size) evaluating: [:i| (self at: i ifAbsent: [zero]) - (aTuple at: i ifAbsent: [zero])]! !
+
+!ArrayTuple methodsFor: 'iterating' stamp: 'len 11/5/2016 06:08'!
+allSatisfy: aBlock
+	^ coefficients allSatisfy: aBlock! !
+
+!ArrayTuple methodsFor: 'iterating' stamp: 'len 11/5/2016 09:08'!
+anySatisfy: aBlock
+	^ coefficients anySatisfy: aBlock! !
+
+!ArrayTuple methodsFor: 'converting' stamp: 'len 11/5/2016 03:58'!
+asArray
+	^ coefficients! !
+
+!ArrayTuple methodsFor: 'accessing' stamp: 'len 11/5/2016 03:57'!
+at: anInteger
+	^ coefficients at: anInteger! !
+
+!ArrayTuple methodsFor: 'accessing' stamp: 'len 11/5/2016 03:58'!
+at: anInteger ifAbsent: aBlock
+	^ coefficients at: anInteger ifAbsent: aBlock! !
+
+!ArrayTuple methodsFor: 'accessing-private' stamp: 'len 11/5/2016 03:58'!
+at: anInteger put: anObject
+	^ coefficients at: anInteger put: anObject! !
+
+!ArrayTuple methodsFor: 'initialization' stamp: 'len 11/5/2016 03:56'!
+coefficients: anArray
+	coefficients _ anArray! !
+
+!ArrayTuple methodsFor: 'iterating' stamp: 'len 11/5/2016 06:08'!
+collect: aBlock
+	^ self class coefficients: (coefficients collect: aBlock) over: scalars! !
+
+!ArrayTuple methodsFor: 'operations' stamp: 'len 11/22/2016 05:47:05'!
+convolution: aTuple
+	| array |
+	self isEmpty ifTrue: [^ self].
+	aTuple isEmpty ifTrue: [^ aTuple].
+	array _ Array new: self size + aTuple size - 1.
+	array atAllPut: self scalars zero.
+	self withIndexDo: [:xi :i|
+		xi isZero ifFalse:
+			[aTuple withIndexDo: [:yj :j|
+				array at: i+j-1 add: xi*yj]]].
+	^ self class coefficients: array over: self scalars! !
+
+!ArrayTuple methodsFor: 'copying' stamp: 'len 11/5/2016 03:58'!
+copy
+	^ self class coefficients: coefficients copy over: scalars! !
+
+!ArrayTuple methodsFor: 'copying' stamp: 'len 11/5/2016 03:58'!
+copyFrom: start to: stop
+	^ self class coefficients: (coefficients copyFrom: start to: stop) over: scalars! !
+
+!ArrayTuple methodsFor: 'copying' stamp: 'len 11/5/2016 10:43'!
+copyWith: anElement
+	^ self class coefficients: (coefficients copyWith: anElement) over: scalars! !
+
+!ArrayTuple methodsFor: 'iterating' stamp: 'len 11/5/2016 03:58'!
+do: aBlock
+	coefficients do: aBlock! !
+
+!ArrayTuple methodsFor: 'iterating' stamp: 'len 11/12/2016 09:00'!
+findFirst: aBlock
+	^ coefficients findFirst: aBlock! !
+
+!ArrayTuple methodsFor: 'iterating' stamp: 'len 11/5/2016 06:07'!
+findLast: aBlock
+	^ coefficients findLast: aBlock! !
+
+!ArrayTuple methodsFor: 'testing' stamp: 'len 11/5/2016 03:58'!
+includes: anObject
+	^ coefficients includes: anObject! !
+
+!ArrayTuple methodsFor: 'accessing' stamp: 'len 12/21/2015 22:49'!
+last
+	^ self at: self size! !
+
+!ArrayTuple methodsFor: 'iterating' stamp: 'len 11/5/2016 06:10'!
+reverseDo: aBlock
+	coefficients reverseDo: aBlock! !
+
+!ArrayTuple methodsFor: 'operations' stamp: 'len 11/5/2016 06:06'!
+reversed
+	^ self class coefficients: coefficients reversed over: scalars! !
+
+!ArrayTuple methodsFor: 'accessing' stamp: 'len 11/5/2016 05:57'!
+scalars
+	^ scalars! !
+
+!ArrayTuple methodsFor: 'accessing-private' stamp: 'len 11/5/2016 05:57'!
+scalars: aRing
+	scalars _ aRing! !
+
+!ArrayTuple methodsFor: 'operations' stamp: 'len 11/5/2016 09:03'!
+shift: anInteger
+	| newElements zero n |
+	anInteger == 0 ifTrue: [^ self].
+	newElements _ Array new: self size.
+	zero _ (self at: 1) - (self at: 1).
+	n _ self size min: anInteger max: self size negated.
+	n > 0
+		ifTrue:
+			[1 to: n do: [:i| newElements at: i put: zero].
+			1+n to: self size do: [:i| newElements at: i put: (self at: i-n)]]
+		ifFalse:
+			[self size + n + 1 to: self size do: [:i| newElements at: i put: zero].
+			1 to: self size + n do: [ :i | newElements at: i put: (self at: i-n)]].
+	^ self class coefficients: newElements over: scalars! !
+
+!ArrayTuple methodsFor: 'accessing' stamp: 'len 11/5/2016 03:57'!
+size
+	^ coefficients size! !
+
+!ArrayTuple methodsFor: 'accessing-private' stamp: 'len 11/5/2016 03:57'!
+swap: i with: j
+	coefficients swap: i with: j! !
+
+!ArrayTuple methodsFor: 'iterating' stamp: 'len 11/5/2016 03:57'!
+withIndexDo: aBlock
+	coefficients withIndexDo: aBlock! !
+
+!ArrayTuple methodsFor: 'operations' stamp: 'len 4/10/2016 06:44'!
+wrap: n
+	"Perform a cyclic right shift."
+	| newElements |
+	newElements _ Array new: self size.
+	0 to: self size - 1 do: [:i| newElements at: i+1 put: (self at: i-n \\ self size + 1) ].
+	^ self class withAll: newElements! !
+
+!ArrayTuple class methodsFor: 'instance creation' stamp: 'len 11/5/2016 03:57'!
+coefficients: anArray over: aRing
+	^ self basicNew coefficients: anArray asArray; scalars: aRing! !
+
+!ArrayTuple class methodsFor: 'instance creation' stamp: 'len 11/5/2016 07:13'!
+new
+	^ self shouldNotImplement! !
+
+!ArrayTuple class methodsFor: 'instance creation' stamp: 'len 11/5/2016 03:55'!
+new: anInteger over: aRing
+	^ self coefficients: (Array new: anInteger) over: aRing! !
+
+!HomogeneousTuple methodsFor: 'comparing' stamp: 'len 11/6/2016 08:49'!
+= aHomogeneousTuple
+	| index x y |
+	(aHomogeneousTuple is: #Tuple) ifFalse: [^ false].
+	aHomogeneousTuple size = self size ifFalse: [^ false].
+	index _ self firstNonZero.
+	x _ self at: index.
+	y _ aHomogeneousTuple at: index.
+	1 to: self size do: [:i| (self at: i) * y = ((aHomogeneousTuple at: i) * x) ifFalse: [^ false]].
+	^ true! !
+
+!HomogeneousTuple methodsFor: 'converting' stamp: 'len 10/31/2016 13:47'!
+affinized
+	"Answer the affinization of the receiver."
+	^ self affinizedIn: self size! !
+
+!HomogeneousTuple methodsFor: 'converting' stamp: 'len 11/5/2016 06:16'!
+affinizedIn: anInteger
+	"Answer the affinization of the receiver with respect to the anInteger-th coordinate."
+	| scalar |
+	scalar _ self at: anInteger.
+	^ self scalars
+		tuple: self coordinates size - 1
+		evaluating: [:i| (i < anInteger ifTrue: [self at: i] ifFalse: [self at: i + 1]) / scalar]! !
+
+!HomogeneousTuple methodsFor: 'operations' stamp: 'len 11/7/2016 02:25'!
+apply: aMorphism
+	^ (super apply: aMorphism) asHomogeneousTuple! !
+
+!HomogeneousTuple methodsFor: 'converting' stamp: 'len 11/7/2016 02:26'!
+asTuple
+	"Answer a Tuple with the coordinates of the receiver."
+	^ self scalars tuple: coefficients! !
+
+!HomogeneousTuple methodsFor: 'comparing' stamp: 'len 11/7/2016 02:32'!
+hash
+	| hash x |
+	self scalars isField
+		ifFalse:
+			[^ self scalars isIntegralDomain
+				ifTrue: [(self apply: self scalars fractions embedding) hash]
+				ifFalse: [self scalars hash hashMultiply + self firstNonZero]].
+	hash _ 0.
+	x _ self at: self firstNonZero.
+	1 to: self size do: [:i | hash _ (hash + ((self at: i) / x) hash) hashMultiply].
+	^hash! !
+
+!HomogeneousTuple methodsFor: 'printing' stamp: 'len 10/31/2016 13:49'!
+printOn: aStream
+	aStream nextPut: $[.
+	self do: [:each| each printOn: aStream] separatedBy: [aStream nextPut: $:].
+	aStream nextPut: $]! !
+
+!BitTuple methodsFor: 'operations' stamp: 'len 3/29/2016 06:16'!
+* aBit
+	^ ((aBit isInteger and: [aBit even]) or: [aBit isZero]) ifTrue: [self zero] ifFalse: [self]! !
+
+!BitTuple methodsFor: 'operations' stamp: 'len 7/2/2016 00:51'!
++ aBitTuple
+	^ self class new: (self size max: aBitTuple size) fromInteger: (integer bitXor: aBitTuple asInteger)! !
+
+!BitTuple methodsFor: 'copying' stamp: 'len 11/6/2016 15:30'!
+, anObject
+	((anObject is: #Tuple) or: [anObject is: #Array])
+		ifFalse: [^ self copyWith: anObject].
+	anObject class = self class
+		ifTrue: [^ self class new: size + anObject size fromInteger: (integer bitXor: (anObject asInteger bitShift: size))].
+	^ self , (self class coefficients: anObject)! !
+
+!BitTuple methodsFor: 'operations' stamp: 'len 3/28/2016 06:51'!
+- aBitTuple
+	^ self + aBitTuple! !
+
+!BitTuple methodsFor: 'comparing' stamp: 'len 6/30/2016 06:49'!
+= aTuple
+	self class = aTuple class ifFalse: [^ super = aTuple].
+	^ size = aTuple size and: [integer = aTuple asInteger]! !
+
+!BitTuple methodsFor: 'operations' stamp: 'len 7/2/2016 00:48'!
+>>> anInteger
+	^ self class new: (size + anInteger max: 0) fromInteger: (integer bitShift: anInteger)! !
+
+!BitTuple methodsFor: 'iterating' stamp: 'len 11/5/2016 09:14'!
+anySatisfy: aBlock
+	"Optimized. There are only two possible elements that could satisfy aBlock (1 or 0)."
+	self isEmpty ifTrue: [^ false].
+	(self isZero not and: [aBlock value: One]) ifTrue: [^ true].
+	^ (aBlock value: Zero) and: [super anySatisfy: [:any| any = Zero]]! !
+
+!BitTuple methodsFor: 'converting' stamp: 'len 3/28/2016 04:45'!
+asInteger
+	^ integer! !
+
+!BitTuple methodsFor: 'accessing' stamp: 'len 3/29/2016 06:09'!
+at: anInteger
+	^ (integer bitAt: anInteger) = 1 ifTrue: [One] ifFalse: [Zero]! !
+
+!BitTuple methodsFor: 'accessing' stamp: 'len 11/5/2016 09:21'!
+at: anInteger put: aBit
+	| bit |
+	anInteger > size ifTrue: [self error: 'index out of bounds'].
+	bit _ aBit.
+	bit isInteger ifTrue: [bit _ bit % 2].
+	(Zero = bit or: [One = bit]) ifFalse: [DomainError signal].
+	(self at: anInteger) = bit
+		ifFalse: [integer _ integer bitXor: 1 << (anInteger - 1)].
+	^ bit! !
+
+!BitTuple methodsFor: 'operations' stamp: 'len 11/22/2016 05:39:06'!
+convolution: aBitTuple
+	| a b c |
+	a _ integer.
+	b _ aBitTuple asInteger.
+	c _ 0.
+	1 to: a highBit do: [:i|
+		(a bitAt: i) = 1 ifTrue: [c _ c bitXor: b].
+		b _ b bitShift: 1].
+	^ self class new: self size + aBitTuple size - 1 fromInteger: c! !
+
+!BitTuple methodsFor: 'copying' stamp: 'len 7/2/2016 00:49'!
+copyFrom: start to: stop 
+	"Answer a copy of a subset of the receiver, starting from element at 
+	index start until element at index stop."
+
+	| newSize |
+	newSize _ stop - start + 1 max: 0.
+	start = 1 ifTrue: [^ self class new: newSize fromInteger: integer].
+	^ self class new: newSize fromInteger: (integer bitShift: 1 - start)! !
+
+!BitTuple methodsFor: 'copying' stamp: 'len 11/5/2016 09:23'!
+copyWith: aBit
+	| answer |
+	answer _ self copy size: self size + 1.
+	aBit = One ifTrue: [answer at: self size + 1 put: One. ^ answer].
+	aBit = Zero ifFalse: [DomainError signal].
+	^ answer! !
+
+!BitTuple methodsFor: 'operations' stamp: 'len 7/2/2016 00:44'!
+dot: aBitTuple
+	^ (integer bitAnd: aBitTuple asInteger) bitParity = 0 ifTrue: [Zero] ifFalse: [One]
+
+"	^ self hadamard: aBitTuple :: sum
+"
+
+"	| x |
+	x _ self asInteger bitAnd: aBitTuple asInteger.
+	[x > 1]
+		whileTrue: [x _ x >> (x highBit // 2) bitAnd: x].
+	^ x"! !
+
+!BitTuple methodsFor: 'operations' stamp: 'len 11/12/2016 08:19'!
+hadamard: aBitTuple
+	"Answer the entrywise product with the argument, also called Hadamard product."
+	^ self class new: (self size min: aBitTuple size) fromInteger: (integer bitAnd: aBitTuple asInteger)! !
+
+!BitTuple methodsFor: 'comparing' stamp: 'len 6/30/2016 06:50'!
+hash
+	^ integer hash! !
+
+!BitTuple methodsFor: 'initialization' stamp: 'len 3/28/2016 05:41'!
+integer: anInteger size: anotherInteger
+	integer _ anInteger.
+	size _ anotherInteger! !
+
+!BitTuple methodsFor: 'testing' stamp: 'len 12/1/2016 17:06:32'!
+isZeroAt: anInteger
+	^ (integer bitAt: anInteger) == 0! !
+
+!BitTuple methodsFor: 'operations' stamp: 'len 3/28/2016 07:30'!
+negated
+	^ self! !
+
+!BitTuple methodsFor: 'operations' stamp: 'len 3/28/2016 07:27'!
+norm
+	^ self sum! !
+
+!BitTuple methodsFor: 'operations' stamp: 'len 3/28/2016 07:27'!
+norm2
+	^ self sum! !
+
+!BitTuple methodsFor: 'operations' stamp: 'len 7/1/2016 22:58'!
+parity
+	"Answer 1 if the receiver has an odd number of bits on, 0 if it has an even number of bits on."
+	| n parity |
+	integer = 0 ifTrue: [^ 0].
+"	n _ integer >> (integer lowBit - 1). skip initial zeros, we could also skip chunks of zeros in the middle"
+	n _ integer.
+	parity _ 0.
+	[n = 0] whileFalse: [parity _ parity bitXor: (n bitAnd: 1). n _ n >> 1].
+	^ parity! !
+
+!BitTuple methodsFor: 'operations' stamp: 'len 11/23/2016 05:42:05'!
+polynomialValue: anObject
+	Zero = anObject ifTrue: [^ self at: 1].
+	One = anObject ifFalse: [^ super polynomialValue: anObject].
+	^ self sum! !
+
+!BitTuple methodsFor: 'printing' stamp: 'len 3/28/2016 04:52'!
+printOn: aStream
+	1 to: self size do: [:i| aStream print: (self at: i)]! !
+
+!BitTuple methodsFor: 'operations' stamp: 'len 7/2/2016 06:01'!
+reversed
+	^ self class new: self size fromInteger: (integer bitReverse: self size)! !
+
+!BitTuple methodsFor: 'accessing' stamp: 'len 11/5/2016 07:10'!
+scalars
+	self flag: #fix. "inefficient"
+	^ ZZ/2! !
+
+!BitTuple methodsFor: 'operations' stamp: 'len 7/2/2016 00:49'!
+shift: anInteger
+	^ self class new: size fromInteger: (integer bitShift: anInteger)! !
+
+!BitTuple methodsFor: 'accessing' stamp: 'len 3/28/2016 06:49'!
+size
+	^ size! !
+
+!BitTuple methodsFor: 'initialization' stamp: 'len 11/5/2016 09:22'!
+size: anInteger
+	size _ anInteger! !
+
+!BitTuple methodsFor: 'operations' stamp: 'len 7/2/2016 00:39'!
+sum
+	"Answer the sum of the bits, i.e. the parity."
+	^ integer bitParity = 0 ifTrue: [Zero] ifFalse: [One]! !
+
+!BitTuple methodsFor: 'operations' stamp: 'len 11/12/2016 08:41'!
+weight
+	"Answer the Hamming weight of the receiver, i.e. the number of entries that are not zero."
+	^ self asInteger bitCount! !
+
+!BitTuple methodsFor: 'operations' stamp: 'len 7/2/2016 00:49'!
+zero
+	^ self class new: self size fromInteger: 0! !
+
+!BitTuple class methodsFor: 'instance creation' stamp: 'len 11/5/2016 07:09'!
+coefficients: anArray
+	| answer |
+	answer _ self new: anArray size.
+	anArray withIndexDo: [:each :i| answer at: i put: each].
+	^ answer! !
+
+!BitTuple class methodsFor: 'instance creation' stamp: 'len 7/2/2016 00:50'!
+fromInteger: anInteger
+	^ self new: anInteger highBit fromInteger: anInteger! !
+
+!BitTuple class methodsFor: 'initialization' stamp: 'len 7/15/2016 18:24'!
+initialize
+	| Z2 |
+	super initialize.
+	Z2 _ ZZ modPrime: 2.
+	One _ Z2 one.
+	Zero _ Z2 zero! !
+
+!BitTuple class methodsFor: 'instance creation' stamp: 'len 11/5/2016 07:09'!
+new
+	^ self shouldNotImplement! !
+
+!BitTuple class methodsFor: 'instance creation' stamp: 'len 7/2/2016 00:50'!
+new: anInteger
+	^ self new: anInteger fromInteger: 0! !
+
+!BitTuple class methodsFor: 'instance creation' stamp: 'len 7/2/2016 00:50'!
+new: anInteger evaluating: aBlock
+	| integer |
+	integer _ 0.
+	anInteger to: 1 by: -1 do:
+		[:i| integer _ (integer bitShift: 1) bitXor: (aBlock value: i) representative].
+	^ self new: anInteger fromInteger: integer! !
+
+!BitTuple class methodsFor: 'instance creation' stamp: 'len 7/2/2016 00:47'!
+new: n fromInteger: anInteger
+	^ self basicNew integer: anInteger size: n! !
+
+!BitTuple class methodsFor: 'instance creation' stamp: 'len 11/6/2016 15:30'!
+newFrom: anObject
+	anObject isInteger ifTrue: [^ self fromInteger: anObject].
+	^ self coefficients: anObject! !
+
+!ModularTuple methodsFor: 'operations' stamp: 'len 12/1/2016 16:40:57'!
+* aNumber
+	| modulus x array |
+	x _ aNumber isInteger ifTrue: [aNumber] ifFalse: [aNumber representative].
+	modulus _ scalars modulus.
+	array _ representatives copy.
+	1 to: self size do: [:i| array at: i put: (array at: i) * x \\ modulus].
+	^ self class representatives: array over: scalars! !
+
+!ModularTuple methodsFor: 'operations' stamp: 'len 12/1/2016 16:33:24'!
++ aTuple
+	| modulus a an b bn c |
+	(an _ self size) <= (bn _ aTuple size) ifFalse: [^ aTuple + self].
+	modulus _ scalars modulus.
+	a _ representatives.
+	b _ aTuple representatives.
+	c _ representatives class new: bn.
+	1 to: an do: [:i|
+		c at: i put: (a at: i) + (b at: i) \\ modulus].
+	c replaceFrom: an+1 to: bn with: b startingAt: an+1.
+	^ self class representatives: c over: scalars! !
+
+!ModularTuple methodsFor: 'copying' stamp: 'len 12/1/2016 16:35:01'!
+, anObject
+	self class = anObject class
+		ifTrue:
+			[scalars = anObject scalars ifFalse: [^ DomainError signal].
+			^ self class representatives: representatives, anObject representatives over: scalars].
+	scalars modulus = anObject modulus ifFalse: [^ DomainError signal].
+	^ self class representatives: (representatives copyWith: anObject representative) over: scalars! !
+
+!ModularTuple methodsFor: 'comparing' stamp: 'len 12/1/2016 16:42:00'!
+= aTuple
+	self class = aTuple class ifFalse: [^ super = aTuple halt].
+	^ scalars = aTuple scalars and: [representatives = aTuple representatives]! !
+
+!ModularTuple methodsFor: 'operations' stamp: 'len 12/1/2016 16:37:25'!
+addFrom: startIndex to: stopIndex with: aTuple by: aNumber
+	| modulus representatives2 x |
+	(self class = aTuple class and: [scalars = aTuple scalars])
+		ifFalse: [^ super addFrom: startIndex to: stopIndex with: aTuple by: aNumber].
+	modulus _ scalars modulus.
+	representatives2 _ aTuple representatives.
+	x _ aNumber representative.
+	startIndex to: stopIndex do: [:i|
+		representatives at: i put: (representatives2 at: i) * x + (representatives at: i) \\ modulus]! !
+
+!ModularTuple methodsFor: 'accessing' stamp: 'len 12/1/2016 16:35:34'!
+at: anInteger
+	^ scalars representative: (representatives at: anInteger ifAbsent: [^ scalars zero])! !
+
+!ModularTuple methodsFor: 'accessing' stamp: 'len 12/1/2016 16:35:55'!
+at: anInteger put: aModularInteger
+	aModularInteger isInteger ifTrue: [^ representatives at: anInteger put: aModularInteger \\ scalars modulus].
+	representatives at: anInteger put: aModularInteger representative.
+	^ aModularInteger! !
+
+!ModularTuple methodsFor: 'operations' stamp: 'len 12/1/2016 16:41:43'!
+convolution: aTuple
+	| modulus array |
+	self isEmpty ifTrue: [^ self].
+	aTuple isEmpty ifTrue: [^ aTuple].
+	modulus _ scalars modulus.
+	array _ representatives class new: self size + aTuple size - 1.
+	array atAllPut: 0. "in case it's Array"
+	representatives withIndexDo: [:xi :i|
+		xi = 0 ifFalse:
+			[aTuple representatives withIndexDo: [:yj :j| | index |
+				index _ i+j-1.
+				array at: index put: xi*yj + (array at: index) \\ modulus]]].
+	^ self class representatives: array over: scalars! !
+
+!ModularTuple methodsFor: 'copying' stamp: 'len 12/1/2016 16:43:47'!
+copy
+	^ self class representatives: representatives copy over: scalars! !
+
+!ModularTuple methodsFor: 'copying' stamp: 'len 12/1/2016 16:36:08'!
+copyFrom: start to: stop
+	^ self class representatives: (representatives copyFrom: start to: stop) over: scalars! !
+
+!ModularTuple methodsFor: 'copying' stamp: 'len 12/1/2016 16:33:41'!
+copyWith: anElement
+	^ self class representatives: (representatives copyWith: anElement representative) over: scalars! !
+
+!ModularTuple methodsFor: 'operations' stamp: 'len 12/1/2016 16:42:49'!
+dot: aTuple
+	| modulus representatives2 answer |
+	(aTuple class = self class and: [scalars = aTuple scalars])
+		ifFalse: [^ super dot: aTuple].
+	modulus _ scalars modulus.
+	representatives2 _ aTuple representatives.
+	answer _ 0.
+	1 to: (representatives size min: representatives2 size) do: [:i|
+		answer _ (representatives at: i) * (representatives2 at: i) + answer \\ modulus].
+	^ scalars representative: answer! !
+
+!ModularTuple methodsFor: 'accessing' stamp: 'len 11/12/2016 09:02'!
+firstNonZero
+	"Answer the index of the first non-zero entry, or 0."
+	1 to: representatives size do: [:i| (representatives at: i) = 0 ifFalse: [^ i]].
+	^ 0! !
+
+!ModularTuple methodsFor: 'operations' stamp: 'len 12/1/2016 16:39:42'!
+hadamard: aTuple
+	| modulus array representatives2 |
+	(self class = aTuple class and: [scalars = aTuple scalars])
+		ifFalse: [^ super hadamard: aTuple].
+	modulus _ scalars modulus.
+	array _ representatives class new: (self size min: aTuple size).
+	representatives2 _ aTuple representatives.
+	1 to: array size do: [:i| array at: i put: (representatives at: i) * (representatives2 at: i) \\ modulus].
+	^ self class representatives: array over: scalars! !
+
+!ModularTuple methodsFor: 'comparing' stamp: 'len 6/30/2016 06:52'!
+hash
+	^ representatives hash! !
+
+!ModularTuple methodsFor: 'testing' stamp: 'len 12/1/2016 17:05:46'!
+isZeroAt: anInteger
+	^ (representatives at: anInteger) == 0! !
+
+!ModularTuple methodsFor: 'accessing' stamp: 'len 11/12/2016 09:02'!
+lastNonZero
+	"Answer the index of the last non-zero entry, or 0."
+	representatives size to: 1 by: -1 do: [:i| (representatives at: i) = 0 ifFalse: [^ i]].
+	^ 0! !
+
+!ModularTuple methodsFor: 'accessing-private' stamp: 'len 12/1/2016 16:38:58'!
+modulus
+	^ scalars modulus! !
+
+!ModularTuple methodsFor: 'operations' stamp: 'len 12/1/2016 16:41:10'!
+negated
+	| modulus array |
+	array _ representatives copy.
+	modulus _ scalars modulus.
+	1 to: self size do: [:i| array at: i put: (array at: i) negated \\ modulus].
+	^ self class representatives: array over: scalars! !
+
+!ModularTuple methodsFor: 'operations' stamp: 'len 12/1/2016 16:45:01'!
+polynomialValue: anObject
+	| modulus x answer |
+	((anObject isKindOf: ModularInteger) and: [anObject modulus = (modulus _ self modulus)])
+		ifFalse: [^ super polynomialValue: anObject].
+	x _ anObject representative.
+	answer _ 0.
+	representatives reverseDo: [:each| answer _ x * answer + each \\ modulus].
+	^ scalars representative: answer! !
+
+!ModularTuple methodsFor: 'printing' stamp: 'len 12/1/2016 16:40:08'!
+printOn: aStream
+	self modulus > 16 ifTrue: [^ super printOn: aStream].
+	1 to: self size do: [:i| (representatives at: i) printOn: aStream base: 16]! !
+
+!ModularTuple methodsFor: 'accessing-private' stamp: 'len 3/31/2016 07:43'!
+representatives
+	^ representatives! !
+
+!ModularTuple methodsFor: 'accessing-private' stamp: 'len 12/1/2016 16:36:25'!
+representatives: anArray
+	representatives _ anArray
+"	representatives do: [:each| (each between: 0 and: modulus) ifFalse: [self halt]]"! !
+
+!ModularTuple methodsFor: 'operations' stamp: 'len 12/1/2016 16:36:42'!
+reversed
+	^ self class representatives: representatives reversed over: scalars! !
+
+!ModularTuple methodsFor: 'accessing' stamp: 'len 12/1/2016 16:36:02'!
+scalars
+	^ scalars! !
+
+!ModularTuple methodsFor: 'accessing-private' stamp: 'len 12/1/2016 16:53:30'!
+scalars: aModularIntegers
+	scalars _ aModularIntegers! !
+
+!ModularTuple methodsFor: 'accessing' stamp: 'len 3/31/2016 07:47'!
+size
+	^ representatives size! !
+
+!ModularTuple class methodsFor: 'instance creation' stamp: 'len 11/12/2016 17:19'!
+arrayClassForModulus: anInteger
+	anInteger <= 255 ifTrue: [^ ByteArray].
+	anInteger <= 16rFFFFFFFF ifTrue: [^ WordArray].
+	^ Array! !
+
+!ModularTuple class methodsFor: 'instance creation' stamp: 'len 12/1/2016 16:48:12'!
+coefficients: anArray over: aModularIntegers
+	^ self new: anArray size over: aModularIntegers evaluating: [:i| anArray at: i]! !
+
+!ModularTuple class methodsFor: 'instance creation' stamp: 'len 12/1/2016 16:47:15'!
+new: anInteger over: aModularIntegers
+	| array |
+	array _ (self arrayClassForModulus: aModularIntegers modulus) new: anInteger.
+	^ self representatives: array over: aModularIntegers! !
+
+!ModularTuple class methodsFor: 'instance creation' stamp: 'len 12/1/2016 16:47:41'!
+new: anInteger over: aModularIntegers evaluating: aBlock
+	| array |
+	array _ (self arrayClassForModulus: aModularIntegers modulus) new: anInteger.
+	1 to: anInteger do: [:i| array at: i put: (aBlock value: i) representative].
+	^ self representatives: array over: aModularIntegers! !
+
+!ModularTuple class methodsFor: 'instance creation' stamp: 'len 12/1/2016 16:46:28'!
+representatives: anArray over: aModularIntegers
+	^ self basicNew scalars: aModularIntegers; representatives: anArray! !
 
 !Graph methodsFor: 'operations' stamp: 'len 9/1/2016 07:48'!
 + aGraphOrEdge
@@ -9258,13 +10410,13 @@ isTree
 			visited add: neighbor]].
 	^true! !
 
-!RootedDigraph methodsFor: 'iterating' stamp: 'len 6/27/2016 23:23'!
+!RootedDigraph methodsFor: 'iterating' stamp: 'len 11/30/2016 14:44:37'!
 markDo: aBlock
 	"Visit each node in the graph once, applying aBlock.
 	A node is only visited after at least one of its predecessors, but not necessarily after all the predecessors."
 	| todo visited |
-	todo _ self rootNodes as: Set2.
-	visited _ Set2 new.
+	todo _ self rootNodes as: Set.
+	visited _ Set new.
 	[todo isEmpty] whileFalse:
 		[| node |
 		node _ todo anyOne.
@@ -9304,7 +10456,7 @@ reduce
 	
 	self rootNodes do: [ :root | self reduceStep: root with: OrderedCollection new]! !
 
-!RootedDigraph methodsFor: 'operations' stamp: 'len 6/27/2016 23:24'!
+!RootedDigraph methodsFor: 'operations' stamp: 'len 11/30/2016 14:44:48'!
 reduceSlow
 	"Remove all redundant edges to form the transitive reduction.
 
@@ -9313,13 +10465,13 @@ reduceSlow
 	This version sometimes builds huge sets!!"
 	
 	| seqSet |
-	seqSet _ Set2 accumulate: [ :incBlock |
+	seqSet _ Set accumulate: [ :incBlock |
 				self rootNodes do: [ :root | incBlock value: (Array with: root)]].
 
 	[seqSet isEmpty] whileFalse:
 		[| newSeqSet |
 "Transcript show: seqSet size printString ; cr."
-		newSeqSet _ Set2 new.
+		newSeqSet _ Set new.
 		seqSet do: [ :seq || tail |
 			tail _ seq last.
 			tail neighborsDo: [ :neighbor |
@@ -9597,19 +10749,19 @@ digraph: aDigraph
 edgeAtRandom: aRandom
 	^ (digraph edgeAtRandom: aRandom) as: MutualAssociation! !
 
-!UndirectedGraph methodsFor: 'iterating' stamp: 'len 7/13/2016 23:16'!
+!UndirectedGraph methodsFor: 'iterating' stamp: 'len 11/30/2016 14:45:13'!
 edgesAndLabelsDo: aBinaryBlock
 	| visited |
-	visited _ Set2 new.
+	visited _ Set new.
 	digraph edgesAndLabelsDo: [:each :label|
 		(visited includes: each value -> each key)
 			ifFalse: [aBinaryBlock value: (each as: MutualAssociation) value: label].
 		visited add: each]! !
 
-!UndirectedGraph methodsFor: 'iterating' stamp: 'len 7/13/2016 23:16'!
+!UndirectedGraph methodsFor: 'iterating' stamp: 'len 11/30/2016 14:45:17'!
 edgesDo: aBlock
 	| visited |
-	visited _ Set2 new.
+	visited _ Set new.
 	digraph edgesDo: [:each|
 		(visited includes: each value -> each key)
 			ifFalse: [aBlock value: (each as: MutualAssociation)].
@@ -9622,19 +10774,19 @@ flowPolynomial
 	x _ ZZ polynomials x.
 	^ (-1)**(self size + self numberOfEdges + self components size) * (self tuttePolynomial value: {0. 1 - x})! !
 
-!UndirectedGraph methodsFor: 'iterating' stamp: 'len 7/20/2016 23:43'!
+!UndirectedGraph methodsFor: 'iterating' stamp: 'len 11/30/2016 14:45:20'!
 fullEdgesAndLabelsDo: aBinaryBlock
 	| visited |
-	visited _ Set2 new.
+	visited _ Set new.
 	digraph fullEdgesAndLabelsDo: [:each :label|
 		(visited includes: each value -> each key)
 			ifFalse: [aBinaryBlock value: (each as: MutualAssociation) value: label].
 		visited add: each]! !
 
-!UndirectedGraph methodsFor: 'iterating' stamp: 'len 7/20/2016 23:43'!
+!UndirectedGraph methodsFor: 'iterating' stamp: 'len 11/30/2016 14:45:25'!
 fullEdgesDo: aBlock
 	| visited |
-	visited _ Set2 new.
+	visited _ Set new.
 	digraph fullEdgesDo: [:each|
 		(visited includes: each value -> each key)
 			ifFalse: [aBlock value: (each as: MutualAssociation)].
@@ -13233,11 +14385,11 @@ commutator
 	This is the smallest normal subgroup of G such that the quotient G / [G,G] is commutative."
 	^ self commutator: self! !
 
-!Group methodsFor: 'operations-endo' stamp: 'len 7/27/2016 07:52'!
+!Group methodsFor: 'operations-endo' stamp: 'len 11/30/2016 14:43:56'!
 commutator2: aGroup
 	"Answer the commutator group [G,H] of the receiver G with the argument H."
 	| op inverseMap generators |
-	generators _ Set2 new.
+	generators _ Set new.
 	op _ self operation.
 	inverseMap _ self inverseMap.
 	self generators do: [:x|
@@ -13280,7 +14432,7 @@ computeExponent
 	self do: [:each| answer _ answer max: (self orderOf: each)].
 	^ answer! !
 
-!Group methodsFor: 'private' stamp: 'len 8/30/2016 19:48'!
+!Group methodsFor: 'private' stamp: 'len 11/30/2016 14:43:59'!
 computeGenerators
 	"The receiver is a finite group represented explicitly as a set of its elements, or at least can be iterated over. This method computes a set of generators."
 	| n op generators elements |
@@ -13288,7 +14440,7 @@ computeGenerators
 	n _ self order.
 	op _ self operation.
 	generators _ OrderedCollection new.
-	elements _ Set2 with: self identity.
+	elements _ Set with: self identity.
 	self elements do: [:g|
 		elements size = n ifTrue: [^ generators].
 		(elements includes: g)
@@ -14033,10 +15185,10 @@ defaultInverseMap
 defaultOperation
 	^ self base operation as: ((self, self) hom: self)! !
 
-!QuotientGroup methodsFor: 'iterating' stamp: 'len 6/27/2016 23:22'!
+!QuotientGroup methodsFor: 'iterating' stamp: 'len 11/30/2016 14:44:16'!
 do: aBlock
 	| visited |
-	visited _ Set2 new.
+	visited _ Set new.
 	base do: [:each| | x |
 		visited add: (x _ self project: each) ifAbsent: [aBlock value: x]]! !
 
@@ -14515,12 +15667,13 @@ do: aBlock
 	^ super do: aBlock
 "	space endomorphisms do: [:each| (self includes: each) ifTrue: [aBlock value: each]]"! !
 
-!LinearGroup methodsFor: 'invariants' stamp: 'len 8/3/2016 08:15'!
+!LinearGroup methodsFor: 'invariants' stamp: 'len 11/29/2016 10:59:14'!
 hilbertSeries
-	"This is the sum of dim(S_d ^G z^d for d>=0 (by Molien's formula, 1897), i.e. it counts the homogeneous polynomials of a given degree d that are invariants for the group."
+	"Answer the Hilbert series of the invariant ring of the receiver.
+	This is the sum of dim(S_d ^G z^d for d>=0 (by Molien's formula, 1897), i.e. it counts the homogeneous polynomials of a given degree d that are invariants for the group."
 	| order |
 	order _ self size.
-	order | self scalars characteristic ifTrue: [self error: 'group order divides characteristic'].
+	self scalars characteristic | order ifTrue: [self error: 'group order divisible by characteristic'].
 	^ (self elements sum: [:g| g characteristicPolynomial asRationalFunction reciprocal]) / order! !
 
 !LinearGroup methodsFor: 'accessing' stamp: 'len 2/11/2016 20:01'!
@@ -14826,12 +15979,13 @@ do: aBlock
 	^ super do: aBlock
 "	matrices do: [:each| (self includes: each) ifTrue: [aBlock value: each]]"! !
 
-!MatrixGroup methodsFor: 'invariants' stamp: 'len 11/13/2016 07:56'!
+!MatrixGroup methodsFor: 'invariants' stamp: 'len 11/29/2016 10:59:00'!
 hilbertSeries
-	"This is the sum of dim(S_d ^G z^d for d>=0 (by Molien's formula, 1897), i.e. it counts the homogeneous polynomials of a given degree d that are invariants for the group."
+	"Answer the Hilbert series of the invariant ring of the receiver.
+	This is the sum of dim(S_d ^G z^d for d>=0 (by Molien's formula, 1897), i.e. it counts the homogeneous polynomials of a given degree d that are invariants for the group."
 	| order |
 	order _ self size.
-"	order | self scalars characteristic ifTrue: [self error: 'group order divides characteristic']."
+	self scalars characteristic | order ifTrue: [self error: 'group order divisible by characteristic'].
 	^ (self elements sum: [:g| g characteristicPolynomial asRationalFunction reciprocal]) / order! !
 
 !MatrixGroup methodsFor: 'accessing' stamp: 'len 2/13/2016 07:40'!
@@ -14864,7 +16018,7 @@ printOn: aStream
 		ifFalse:
 			[aStream nextPutAll: self shortName; nextPut: $(; print: self scalars; nextPut: $,; print: space dimension; nextPut: $)]! !
 
-!MatrixGroup methodsFor: 'invariants' stamp: 'len 10/4/2016 12:28'!
+!MatrixGroup methodsFor: 'invariants' stamp: 'len 11/29/2016 10:56:28'!
 reynolds
 	"Answer the Reynolds operator. Properties:
 	- K-linear map S -> S^G;
@@ -16196,9 +17350,11 @@ on: aRing generators: aCollection
 atRandom: aRandom bits: bitSize
 	^ ((0-bitSize//2 to: bitSize//2) atRandom: aRandom) * self generator! !
 
-!IntegerIdeal methodsFor: 'operations-elements' stamp: 'len 12/8/2015 01:03'!
+!IntegerIdeal methodsFor: 'operations-elements' stamp: 'len 11/30/2016 19:08:55'!
 inverseOf: anInteger
-	^ anInteger reciprocalModulo: self generator! !
+	| result |
+	result _ anInteger xgcd: self generator.
+	^ (result at: 1) = 1 ifTrue: [result at: 2]! !
 
 !IntegerIdeal methodsFor: 'testing' stamp: 'len 1/4/2016 03:30'!
 isMaximal
@@ -17095,6 +18251,13 @@ scalars: aRing
 on: aGroup over: aRing
 	^ self new group: aGroup; scalars: aRing! !
 
+!Integers methodsFor: 'operations' stamp: 'len 11/30/2016 19:32:08'!
+/ anInteger
+	anInteger isInteger ifFalse: [^ super / anInteger].
+	^ anInteger isPrime
+		ifTrue: [PrimeField new: anInteger]
+		ifFalse: [ModularIntegers new: anInteger]! !
+
 !Integers methodsFor: 'comparing' stamp: 'len 6/1/2016 23:56'!
 <= aDomain
 	^ aDomain isRing and: [(aDomain includes: 1) and: [aDomain includes: 0]]! !
@@ -17626,34 +18789,34 @@ zero
 components: anArray
 	^ self new components: anArray! !
 
-!QuotientRing methodsFor: 'comparing' stamp: 'len 12/14/2015 01:57'!
+!QuotientRing methodsFor: 'comparing' stamp: 'len 11/29/2016 14:44:16'!
 = anObject
 	self == anObject ifTrue: [^ true].
 	(anObject isKindOf: QuotientRing) ifFalse: [^ false].
-	^ ideal = anObject ideal! !
+	^ self ideal = anObject ideal! !
 
-!QuotientRing methodsFor: 'random' stamp: 'len 4/19/2016 23:05'!
+!QuotientRing methodsFor: 'random' stamp: 'len 11/29/2016 14:42:30'!
 atRandom: aRandom
-	^ self project: (ideal remainderAtRandom: aRandom)
-"	^ self project: (ideal ring atRandom: aRandom)"! !
+	^ self project: (self ideal remainderAtRandom: aRandom)
+"	^ self project: (self base atRandom: aRandom)"! !
 
-!QuotientRing methodsFor: 'random' stamp: 'len 10/7/2016 07:12'!
+!QuotientRing methodsFor: 'random' stamp: 'len 11/29/2016 14:42:15'!
 atRandom: aRandom bits: bitSize
 "	^ self atRandom: aRandom"
-	^ self project: (ideal ring atRandom: aRandom bits: bitSize)! !
+	^ self project: (self base atRandom: aRandom bits: bitSize)! !
 
-!QuotientRing methodsFor: 'accessing' stamp: 'len 9/26/2016 16:49'!
+!QuotientRing methodsFor: 'accessing' stamp: 'len 11/29/2016 14:43:58'!
 base
-	^ ideal ring! !
+	^ self ideal ring! !
 
-!QuotientRing methodsFor: 'private' stamp: 'len 10/10/2016 08:52'!
+!QuotientRing methodsFor: 'private' stamp: 'len 11/29/2016 14:41:57'!
 buildProjection
 	"Answer the natural projection, or quotient map, or canonical homomorphism. This takes elements from the base ring to the corresponding residue class in the quotient ring."
 	| answer |
 	answer _ self base to: self evaluating: [:each| self project: each].
 	answer name: Character pi asString.
 	answer properties
-		at: #kernel put: ideal;
+		at: #kernel put: self ideal;
 		at: #image put: self;
 		at: #rightInverse put: (self to: self base evaluating: [:each| each representative]).
 	^ answer! !
@@ -17663,12 +18826,12 @@ conjugation
 	"Answer the companion automorphism of the receiver, i.e. the Frobenius automorphism."
 	^ self frobenius! !
 
-!QuotientRing methodsFor: 'iterating' stamp: 'len 9/26/2016 16:49'!
+!QuotientRing methodsFor: 'iterating' stamp: 'len 11/30/2016 14:44:20'!
 do: aBlock
 	| visited |
 	self flag: #fix. "does this work in any ring? depends on ring|#do:"
-	visited _ Set2 new.
-	ideal ring do: [:each|
+	visited _ Set new.
+	self base do: [:each|
 		| q |
 		visited add: (q _ self project: each) ifPresent: [^ self].
 		aBlock value: q]! !
@@ -17682,40 +18845,44 @@ from: aDomain
 generators
 	^ (self base generators ifNil: [^ nil]) apply: self projection! !
 
-!QuotientRing methodsFor: 'comparing' stamp: 'len 12/14/2015 01:57'!
+!QuotientRing methodsFor: 'comparing' stamp: 'len 11/29/2016 14:41:43'!
 hash
-	^ ideal hash! !
+	^ self ideal hash! !
 
-!QuotientRing methodsFor: 'accessing' stamp: 'len 11/21/2015 17:14'!
+!QuotientRing methodsFor: 'accessing' stamp: 'len 11/29/2016 21:39:49'!
 ideal
-	^ ideal! !
+	^ properties at: #ideal! !
 
-!QuotientRing methodsFor: 'accessing-private' stamp: 'len 11/21/2015 17:13'!
+!QuotientRing methodsFor: 'accessing-private' stamp: 'len 11/29/2016 21:39:38'!
 ideal: anIdeal
-	ideal _ anIdeal! !
+	properties at: #ideal put: anIdeal! !
 
-!QuotientRing methodsFor: 'testing' stamp: 'len 11/1/2016 05:12'!
+!QuotientRing methodsFor: 'testing' stamp: 'len 11/29/2016 14:41:38'!
 includes: anObject
 	(anObject is: #ResidueClass) ifFalse: [^ false].
-	^ ideal ring includes: anObject representative! !
+	^ self base includes: anObject representative! !
 
-!QuotientRing methodsFor: 'testing' stamp: 'len 9/26/2016 16:49'!
+!QuotientRing methodsFor: 'morphisms' stamp: 'len 11/30/2016 19:02:26'!
+inverseOf: anElement
+	^ self project: ((self ideal inverseOf: anElement representative) ifNil: [^ nil])! !
+
+!QuotientRing methodsFor: 'testing' stamp: 'len 11/29/2016 14:41:50'!
 isCommutative
-	ideal ring isCommutative ifTrue: [^ true]. "if the ring is not commutative, we dont know if the quotient is or not"
+	self base isCommutative ifTrue: [^ true]. "if the ring is not commutative, we dont know if the quotient is or not"
 	^ super isCommutative! !
 
-!QuotientRing methodsFor: 'testing' stamp: 'len 9/26/2016 16:49'!
+!QuotientRing methodsFor: 'testing' stamp: 'len 11/29/2016 14:44:04'!
 isEuclidean
-	^ ideal ring isEuclidean! !
+	^ self base isEuclidean! !
 
-!QuotientRing methodsFor: 'testing' stamp: 'len 9/26/2016 16:50'!
+!QuotientRing methodsFor: 'testing' stamp: 'len 11/29/2016 14:43:15'!
 isField
 	"Answer true if the receiver forms a residue field."
-	^ properties at: #isField ifAbsentPut: [ideal ring isTrivial not and: [ideal ring isCommutative and: [ideal isMaximal]]]! !
+	^ properties at: #isField ifAbsentPut: [self base isTrivial not and: [self base isCommutative and: [self ideal isMaximal]]]! !
 
-!QuotientRing methodsFor: 'testing' stamp: 'len 9/26/2016 16:50'!
+!QuotientRing methodsFor: 'testing' stamp: 'len 11/29/2016 14:42:56'!
 isIntegralDomain
-	^ properties at: #isIntegralDomain ifAbsentPut: [(ideal ring isTrivial not and: [ideal ring isCommutative and: [ideal isPrime]]) or: [self isIntegrallyClosedDomain]]! !
+	^ properties at: #isIntegralDomain ifAbsentPut: [(self base isTrivial not and: [self base isCommutative and: [self ideal isPrime]]) or: [self isIntegrallyClosedDomain]]! !
 
 !QuotientRing methodsFor: 'testing' stamp: 'len 10/20/2016 03:38'!
 isNoetherian
@@ -17726,46 +18893,51 @@ isNoetherian
 isQuotient
 	^ true! !
 
-!QuotientRing methodsFor: 'testing' stamp: 'len 11/23/2015 21:34'!
+!QuotientRing methodsFor: 'testing' stamp: 'len 11/29/2016 14:43:46'!
 isReduced
 	"A quotient ring is reduced iff the ideal is radical."
-	^ ideal isRadical! !
+	^ self ideal isRadical! !
 
 !QuotientRing methodsFor: 'accessing' stamp: 'len 4/25/2016 00:30'!
 modulus
 	^ self ideal generator! !
 
-!QuotientRing methodsFor: 'accessing' stamp: 'len 11/3/2016 04:31'!
+!QuotientRing methodsFor: 'accessing' stamp: 'len 11/30/2016 18:59:01'!
 one
-	^ self project: self base one! !
+	^ self representative: self base one! !
 
-!QuotientRing methodsFor: 'printing' stamp: 'len 9/26/2016 16:50'!
+!QuotientRing methodsFor: 'printing' stamp: 'len 11/29/2016 14:43:38'!
 printOn: aStream
-	(ideal ring printString includes: $/)
-		ifTrue: [aStream nextPut: $(; print: ideal ring; nextPut: $)]
-		ifFalse: [aStream print: ideal ring].
-	aStream nextPut: $/; print: ideal! !
+	(self base printString includes: $/)
+		ifTrue: [aStream nextPut: $(; print: self base; nextPut: $)]
+		ifFalse: [aStream print: self base].
+	aStream nextPut: $/; print: self ideal! !
 
-!QuotientRing methodsFor: 'morphisms' stamp: 'len 11/1/2016 05:10'!
+!QuotientRing methodsFor: 'morphisms' stamp: 'len 11/30/2016 18:46:25'!
 project: anElement
-	^ self residueClassClass in: self representative: (ideal reduce: anElement)! !
+	^ self representative: (self ideal reduce: anElement)! !
 
 !QuotientRing methodsFor: 'morphisms' stamp: 'len 10/6/2016 09:53'!
 projection
 	"Answer the natural projection, or quotient map, or canonical homomorphism. This takes elements from the base ring to the corresponding residue class in the quotient ring."
 	^ properties at: #projection ifAbsentPut: [self buildProjection]! !
 
-!QuotientRing methodsFor: 'accessing' stamp: 'len 8/24/2016 19:04'!
+!QuotientRing methodsFor: 'accessing' stamp: 'len 11/29/2016 14:42:06'!
 relation
-	^ EquivalenceRelation on: self base evaluating: [:a :b| ideal includes: a - b]! !
+	^ EquivalenceRelation on: self base evaluating: [:a :b| self ideal includes: a - b]! !
+
+!QuotientRing methodsFor: 'private' stamp: 'len 11/30/2016 18:45:20'!
+representative: anElement
+	"Answer the residue class corresponding to the given representative (which is already reduced)."
+	^ self residueClassClass in: self representative: anElement! !
 
 !QuotientRing methodsFor: 'private' stamp: 'len 11/1/2016 05:20'!
 residueClassClass
 	^ ResidueClass! !
 
-!QuotientRing methodsFor: 'accessing' stamp: 'len 11/3/2016 04:31'!
+!QuotientRing methodsFor: 'accessing' stamp: 'len 11/30/2016 18:58:54'!
 zero
-	^ self project: self base zero! !
+	^ self representative: self base zero! !
 
 !QuotientRing class methodsFor: 'instance creation' stamp: 'len 11/28/2015 05:54'!
 by: anIdeal
@@ -17797,9 +18969,22 @@ atRandom: aRandom
 atRandom: aRandom bits: bitSize
 	^ self atRandom: aRandom! !
 
+!ModularIntegers methodsFor: 'accessing' stamp: 'len 11/29/2016 21:40:34'!
+base
+	^ ZZ! !
+
 !ModularIntegers methodsFor: 'accessing' stamp: 'len 4/25/2016 00:26'!
 characteristic
 	^ self modulus! !
+
+!ModularIntegers methodsFor: 'accessing' stamp: 'len 11/29/2016 21:40:59'!
+ideal
+	^ properties at: #ideal ifAbsentPut: [ZZ * modulus]! !
+
+!ModularIntegers methodsFor: 'accessing-private' stamp: 'len 11/29/2016 21:47:35'!
+ideal: anIdeal
+	super ideal: anIdeal.
+	self modulus: anIdeal generator! !
 
 !ModularIntegers methodsFor: 'testing' stamp: 'len 11/16/2016 18:15'!
 includes: anObject
@@ -17813,28 +18998,44 @@ isField
 isUnit: anElement
 	^ (anElement representative gcd: self modulus) = 1! !
 
-!ModularIntegers methodsFor: 'morphisms' stamp: 'len 11/16/2016 18:15'!
-project: anElement
-	^ ModularInteger representative: (ideal reduce: anElement) modulo: self modulus! !
+!ModularIntegers methodsFor: 'accessing' stamp: 'len 11/29/2016 21:41:18'!
+modulus
+	^ modulus! !
+
+!ModularIntegers methodsFor: 'accessing-private' stamp: 'len 11/29/2016 21:47:19'!
+modulus: anInteger
+	modulus _ anInteger! !
+
+!ModularIntegers methodsFor: 'morphisms' stamp: 'len 11/30/2016 18:48:51'!
+project: anInteger
+	^ self representative: anInteger \\ modulus! !
+
+!ModularIntegers methodsFor: 'private' stamp: 'len 11/30/2016 18:48:20'!
+residueClassClass
+	^ ModularInteger! !
 
 !ModularIntegers methodsFor: 'accessing' stamp: 'len 4/25/2016 00:27'!
 size
 	^ self modulus! !
 
-!ModularIntegers methodsFor: 'tuples' stamp: 'len 11/16/2016 10:45'!
+!ModularIntegers methodsFor: 'tuples' stamp: 'len 12/1/2016 16:48:26'!
 tuple: anArray
-	^ self modulus = 2 ifTrue: [BitTuple coefficients: anArray] ifFalse: [ModularTuple coefficients: anArray modulo: self modulus]! !
+	^ self modulus = 2 ifTrue: [BitTuple coefficients: anArray] ifFalse: [ModularTuple coefficients: anArray over: self]! !
 
-!ModularIntegers methodsFor: 'tuples' stamp: 'len 11/16/2016 10:45'!
+!ModularIntegers methodsFor: 'tuples' stamp: 'len 12/1/2016 16:49:37'!
 tuple: anInteger evaluating: aBlock
 	| modulus |
 	modulus _ self modulus.
 	modulus = 2 ifTrue: [^ BitTuple new: anInteger evaluating: aBlock].
-	^ ModularTuple new: anInteger modulo: modulus evaluating: aBlock! !
+	^ ModularTuple new: anInteger over: self evaluating: aBlock! !
 
 !ModularIntegers methodsFor: 'tuples' stamp: 'len 11/16/2016 10:46'!
 tupleClass
 	^ self modulus = 2 ifTrue: [^ BitTuple] ifFalse: [ModularTuple]! !
+
+!ModularIntegers class methodsFor: 'instance creation' stamp: 'len 11/29/2016 21:46:49'!
+new: anInteger
+	^ self new modulus: anInteger! !
 
 !PrimeField methodsFor: 'private' stamp: 'len 8/10/2016 06:01'!
 computePrimitiveRoot
@@ -17850,6 +19051,18 @@ computePrimitiveRoot
 			a >= m ifTrue: [self error: 'no primitive element, the modulus is not prime']].
 	^ a! !
 
+!PrimeField methodsFor: 'as yet unclassified' stamp: 'len 11/30/2016 19:10:05'!
+inverseOf: anElement
+	^ self representative: ((self inverseOfRepresentative: anElement representative) ifNil: [^ nil])! !
+
+!PrimeField methodsFor: 'as yet unclassified' stamp: 'len 11/30/2016 19:12:00'!
+inverseOfRepresentative: anInteger
+	| result |
+	anInteger == 0 ifTrue: [^ nil].
+	anInteger == 1 ifTrue: [^ 1].
+	result _ anInteger xgcd: modulus.
+	^ (result at: 2) \\ modulus! !
+
 !PrimeField methodsFor: 'testing' stamp: 'len 10/18/2016 20:46'!
 isField
 	^ true! !
@@ -17863,9 +19076,30 @@ primitiveRoot
 	"When the receiver is a field Z/<p>, answer a primitive root modulo p."
 	^ properties at: #primitiveRoot ifAbsentPut: [self computePrimitiveRoot]! !
 
-!PrimeField class methodsFor: 'as yet unclassified' stamp: 'len 8/10/2016 06:09'!
-new: aPrime
-	^ self by: ZZ * aPrime! !
+!SmallPrimeField methodsFor: 'as yet unclassified' stamp: 'len 11/30/2016 10:06:00'!
+computeTables
+	| g x |
+	expTable _ WordArray new: self modulus - 1.
+	logTable _ WordArray new: self modulus - 1.
+	g _ self primitiveRoot.
+	x _ 1.
+	1 to: self modulus - 1 do: [:i|
+		"g^n -> n:"
+		logTable at: x put: i - 1. "g^n -> n"
+		x _ x * g \\ self modulus.
+		"n -> g^n:"
+		expTable at: i put: x]! !
+
+!SmallPrimeField methodsFor: 'as yet unclassified' stamp: 'len 11/30/2016 19:12:33'!
+inverseOfRepresentative: anInteger
+	anInteger == 0 ifTrue: [^ nil].
+	anInteger == 1 ifTrue: [^ 1].
+	^ expTable at: modulus - 1 - (logTable at: anInteger)! !
+
+!SmallPrimeField methodsFor: 'as yet unclassified' stamp: 'len 11/30/2016 09:43:55'!
+modulus: anInteger
+	super modulus: anInteger.
+	self computeTables! !
 
 !ExtensionField methodsFor: 'converting' stamp: 'len 11/3/2016 08:54'!
 asVectorSpace
@@ -22338,9 +23572,9 @@ euler
 	"Answer the Euler characteristic of the receiver."
 	^ (0 to: self dimension) sum: [:p| self elements count: [:each| each dimension = p]]! !
 
-!SimplicialComplex methodsFor: 'subobjects' stamp: 'len 6/27/2016 23:25'!
+!SimplicialComplex methodsFor: 'subobjects' stamp: 'len 11/30/2016 14:45:09'!
 faces: m
-	^ Set2 accumulate: [:aBlock| self faces: m do: aBlock]! !
+	^ Set accumulate: [:aBlock| self faces: m do: aBlock]! !
 
 !SimplicialComplex methodsFor: 'subobjects' stamp: 'len 6/11/2016 22:45'!
 faces: m do: aBlock
@@ -23713,14 +24947,14 @@ kernel
 	^ self group select: [:g| self space allSatisfy: [:x| (self value: {g.x}) = x]]
 	"^ self asPermutationRepresentation kernel"! !
 
-!GroupAction methodsFor: 'accessing' stamp: 'len 6/27/2016 23:20'!
+!GroupAction methodsFor: 'accessing' stamp: 'len 11/30/2016 14:44:04'!
 orbitOf: aPoint
 	"Answer the set of points to which aPoint can be 'moved' by elements of the group G.
 	All the orbits form a partition of the underlying set (space) X, and it's written X/G and called the quotient of the action. In geometric situations it may be called the orbit space, and in algebraic situations it is called the space of coinvariants (in contrast with the space of invariants, that are the fixed points)."
 	| answer generators |
 	(generators _ self group generators) isNil
 		ifTrue:
-			[answer _ Set2 new.
+			[answer _ Set new.
 			self group do: [:each| answer add: (self value: {each. aPoint})].
 			^ answer].
 	^ (SchreierTree root: aPoint generators: generators action: self) orbit! !
@@ -25978,11 +27212,11 @@ cycles
 	"Answer the cycles of the receiver."
 	^ Iterator on: self performing: #cyclesDo:! !
 
-!Permutation methodsFor: 'iterating' stamp: 'len 6/28/2016 07:34'!
+!Permutation methodsFor: 'iterating' stamp: 'len 11/30/2016 14:44:11'!
 cyclesDo: aBlock
 	"Iterate over the cycles of the receiver."
 	| left first next cycle |
-	left _ self changes copyAs: Set2.
+	left _ self changes copyAs: Set.
 	[left size > 0] whileTrue: [
 		cycle _ PermutationCycle new.
 		first _ left anyOne.
@@ -26183,10 +27417,10 @@ keys: anArray values: anotherArray
 	anArray with: anotherArray do: [:x :y| answer at: x put: y].
 	^ answer! !
 
-!Permutation class methodsFor: 'instance creation' stamp: 'len 6/28/2016 07:13'!
+!Permutation class methodsFor: 'instance creation' stamp: 'len 11/30/2016 14:46:22'!
 new
 	"Answer a new instance of the receiver representing the identity permutation."
-	^ super new map: Dictionary2 new! !
+	^ super new map: Dictionary new! !
 
 !Permutation class methodsFor: 'instance creation' stamp: 'len 7/4/2016 05:01'!
 new: anInteger
@@ -26611,11 +27845,11 @@ bits: anInteger
 	anInteger >= 1 ifFalse: [^ self error: 'bitsize must be >= 1'].
 	bits _ anInteger! !
 
-!RandomGenerator methodsFor: 'generating' stamp: 'len 6/27/2016 23:22'!
+!RandomGenerator methodsFor: 'generating' stamp: 'len 11/30/2016 14:44:24'!
 distinct: n
 	"Answer n distinct elements choosen at random."
 	| answer |
-	answer _ Set2 new: n.
+	answer _ Set new: n.
 	[answer size < n] whileTrue: [answer add: self next].
 	^ answer! !
 
@@ -27289,16 +28523,16 @@ strongGeneratingSet
 orbit
 	^ orbit! !
 
-!SchreierTree methodsFor: 'initialization' stamp: 'len 11/14/2016 14:08'!
+!SchreierTree methodsFor: 'initialization' stamp: 'len 11/30/2016 14:45:01'!
 root: aPoint generators: anArray action: aGroupAction
 	| queue |
 	root _ aPoint.
 	generators _ anArray.
 	action _ aGroupAction.
-	v _ Dictionary2 new. "Schreier vector"
-	w _ Dictionary2 new. "backward pointers"
-	inverses _ Dictionary2 new. "inverses of the Schreier generators from v"
-	orbit _ Set2 with: aPoint.
+	v _ Dictionary new. "Schreier vector"
+	w _ Dictionary new. "backward pointers"
+	inverses _ Dictionary new. "inverses of the Schreier generators from v"
+	orbit _ Set with: aPoint.
 	v at: aPoint put: nil. "-1"
 	w at: aPoint put: nil. "-1"
 	queue _ OrderedCollection with: aPoint.
@@ -27316,11 +28550,11 @@ root: aPoint generators: anArray action: aGroupAction
 				w at: x put: a]].
 	queue isEmpty] whileFalse! !
 
-!SchreierTree methodsFor: 'accessing' stamp: 'len 11/14/2016 08:28'!
+!SchreierTree methodsFor: 'accessing' stamp: 'len 11/30/2016 14:45:05'!
 stabilizer
 	"Answer the stabilizer of the root."
 	| stabilizerGenerators id |
-	stabilizerGenerators _ Set2 new.
+	stabilizerGenerators _ Set new.
 	id _ action group identity.
 	self orbit do: [:i|
 		generators do: [:s|
@@ -27635,128 +28869,12 @@ p
 valuation
 	^ self numerator valuation - self denominator valuation! !
 
-!ModularInteger methodsFor: 'arithmetic' stamp: 'len 11/16/2016 18:19'!
-* aModularInteger
-	aModularInteger isInteger ifTrue: [^ self class representative: representative * aModularInteger \\ modulus modulo: modulus].
-	^ self class representative: representative * aModularInteger representative \\ modulus modulo: modulus! !
-
-!ModularInteger methodsFor: 'arithmetic' stamp: 'len 7/8/2016 05:40'!
-** anInteger
-	anInteger = 1 ifTrue: [^ self].
-	anInteger = 0 ifTrue: [^ self one].
-	anInteger < 0 ifTrue: [^ self reciprocal ** anInteger negated].
-	^ (self * self ** (anInteger // 2)) * (self ** (anInteger \\ 2))! !
-
-!ModularInteger methodsFor: 'arithmetic' stamp: 'len 11/16/2016 18:20'!
-+ aModularInteger
-	| r |
-	aModularInteger isInteger ifTrue: [^ self class representative: representative + aModularInteger \\ modulus modulo: modulus].
-	r _ representative + aModularInteger representative.
-	r >= modulus ifTrue: [r _ r - modulus].
-	^ self class representative: r modulo: modulus! !
-
-!ModularInteger methodsFor: 'copying' stamp: 'len 11/16/2016 10:46'!
-, aTuple
-	^ (modulus = 2
-		ifTrue: [BitTuple new: 1 fromInteger: representative]
-		ifFalse: [(ModularTuple new: 1 modulo: modulus) at: 1 put: self; yourself]), aTuple! !
-
-!ModularInteger methodsFor: 'arithmetic' stamp: 'len 11/16/2016 18:20'!
-- aModularInteger
-	| r |
-	aModularInteger isInteger ifTrue: [^ self class representative: representative - aModularInteger \\ modulus modulo: modulus].
-	r _ representative + (modulus - aModularInteger representative).
-	r >= modulus ifTrue: [r _ r - modulus].
-	^ self class representative: r modulo: modulus! !
-
-!ModularInteger methodsFor: 'arithmetic' stamp: 'len 11/16/2016 18:20'!
-/ aModularInteger
-	^ self * aModularInteger reciprocal! !
-
-!ModularInteger methodsFor: 'comparing' stamp: 'len 11/16/2016 18:21'!
-= aModularInteger
-	ModularInteger == aModularInteger class ifFalse: [^ false].
-	self == aModularInteger ifTrue: [^ true].
-	^ aModularInteger representative = representative and: [aModularInteger modulus = modulus]! !
-
-!ModularInteger methodsFor: 'converting' stamp: 'len 4/25/2016 00:24'!
-adaptToInteger: rcvr andSend: selector
-	^ (self class representative: rcvr \\ modulus modulo: modulus) perform: selector with: self! !
-
-!ModularInteger methodsFor: 'accessing' stamp: 'len 4/21/2016 05:55'!
-bitSize
-	^ representative bitSize! !
-
-!ModularInteger methodsFor: 'comparing' stamp: 'len 3/29/2016 20:48'!
-hash
-	^ representative hash! !
-
-!ModularInteger methodsFor: 'accessing' stamp: 'len 7/15/2016 18:28'!
-ideal
-	^ ZZ * modulus! !
-
-!ModularInteger methodsFor: 'testing' stamp: 'len 4/25/2016 00:22'!
-isQuadraticResidue
-	(#(-1 0) includes: (representative jacobi: modulus))
-		ifTrue: [^ false].
-	^ self notYetImplemented! !
-
-!ModularInteger methodsFor: 'testing' stamp: 'len 3/30/2016 00:03'!
-isZero
-	^ representative = 0! !
-
-!ModularInteger methodsFor: 'accessing' stamp: 'len 4/25/2016 00:26'!
-modulus
-	^ modulus! !
-
-!ModularInteger methodsFor: 'accessing-private' stamp: 'len 4/25/2016 00:27'!
-modulus: anInteger
-	modulus _ anInteger! !
-
-!ModularInteger methodsFor: 'arithmetic' stamp: 'len 4/25/2016 00:24'!
-negated
-	representative = 0 ifTrue: [^ self].
-	^ self class representative: modulus - representative modulo: modulus! !
-
-!ModularInteger methodsFor: 'arithmetic' stamp: 'len 4/25/2016 00:23'!
-one
-	^ self class representative: 1 modulo: modulus! !
-
-!ModularInteger methodsFor: 'printing' stamp: 'len 3/29/2016 20:49'!
-printOn: aStream
-	aStream print: representative! !
-
-!ModularInteger methodsFor: 'arithmetic' stamp: 'len 11/21/2016 16:09:07'!
-reciprocal
-	representative = 1 ifTrue: [^ self].
-	^ self class representative: (representative reciprocalModulo: modulus) modulo: modulus! !
-
-!ModularInteger methodsFor: 'accessing' stamp: 'len 3/29/2016 20:49'!
-representative
-	^ representative! !
-
-!ModularInteger methodsFor: 'accessing-private' stamp: 'len 3/29/2016 23:52'!
-representative: anInteger
-	representative _ anInteger! !
-
-!ModularInteger methodsFor: 'arithmetic' stamp: 'len 11/9/2016 15:16'!
-squared
-	^ self class representative: representative squared \\ modulus modulo: modulus! !
-
-!ModularInteger methodsFor: 'arithmetic' stamp: 'len 4/25/2016 00:25'!
-zero
-	^ self class representative: 0 modulo: modulus! !
-
-!ModularInteger class methodsFor: 'instance creation' stamp: 'len 4/25/2016 00:27'!
-representative: anInteger modulo: anotherInteger
-	^ self new representative: anInteger; modulus: anotherInteger! !
-
-!ResidueClass methodsFor: 'arithmetic' stamp: 'len 10/16/2016 15:57'!
+!ResidueClass methodsFor: 'operations' stamp: 'len 10/16/2016 15:57'!
 * anObject
 	anObject isInteger ifTrue: [^ parent project: representative * anObject].
 	^ parent project: representative * anObject representative! !
 
-!ResidueClass methodsFor: 'arithmetic' stamp: 'len 7/8/2016 05:41'!
+!ResidueClass methodsFor: 'operations' stamp: 'len 7/8/2016 05:41'!
 ** anInteger
 	"Answer the receiver raised to the power anInteger."
 	anInteger = 1 ifTrue: [^ self].
@@ -27764,7 +28882,7 @@ representative: anInteger modulo: anotherInteger
 	anInteger < 0 ifTrue: [^ (self ** anInteger negated) reciprocal].
 	^ self squared ** (anInteger // 2) * (self ** (anInteger \\ 2))! !
 
-!ResidueClass methodsFor: 'arithmetic' stamp: 'len 10/24/2016 12:02'!
+!ResidueClass methodsFor: 'operations' stamp: 'len 10/24/2016 12:02'!
 + aResidueClass
 	^ parent project: representative + aResidueClass representative! !
 
@@ -27772,28 +28890,28 @@ representative: anInteger modulo: anotherInteger
 , aTuple
 	^ (parent tuple: 1 evaluating: [:i| self]), aTuple! !
 
-!ResidueClass methodsFor: 'arithmetic' stamp: 'len 10/24/2016 12:02'!
+!ResidueClass methodsFor: 'operations' stamp: 'len 10/24/2016 12:02'!
 - aResidueClass
 	^ self + aResidueClass negated! !
 
-!ResidueClass methodsFor: 'arithmetic' stamp: 'len 10/24/2016 12:02'!
+!ResidueClass methodsFor: 'operations' stamp: 'len 10/24/2016 12:02'!
 / aResidueClass
 	^ self * aResidueClass reciprocal! !
 
-!ResidueClass methodsFor: 'arithmetic' stamp: 'len 11/1/2016 00:22'!
+!ResidueClass methodsFor: 'operations' stamp: 'len 11/1/2016 00:22'!
 /// aResidueClass
 	"Answer the exact division of the receiver by the argument."
 	^ parent project: representative /// aResidueClass representative! !
 
-!ResidueClass methodsFor: 'comparing' stamp: 'len 3/29/2016 20:52'!
-= aResidue
-	aResidue class = self class ifFalse: [^ false].
+!ResidueClass methodsFor: 'comparing' stamp: 'len 11/30/2016 19:14:07'!
+= aResidueClass
+	aResidueClass class == self class ifFalse: [^ false].
 "	^ (self - aResidue) isZero"
-	^ representative = aResidue representative! !
+	^ representative = aResidueClass representative! !
 
-!ResidueClass methodsFor: 'converting' stamp: 'len 10/16/2016 15:56'!
+!ResidueClass methodsFor: 'converting' stamp: 'len 11/30/2016 19:15:50'!
 adaptToInteger: rcvr andSend: selector
-	^ (self class in: parent representative: rcvr) perform: selector with: self! !
+	^ parent project: (rcvr perform: selector with: representative)! !
 
 !ResidueClass methodsFor: 'accessing' stamp: 'len 12/28/2015 20:32'!
 bitSize
@@ -27816,7 +28934,7 @@ conjugatesDo: aBlock
 	alpha _ alpha ** self ideal ring characteristic.
 	alpha = self] whileFalse! !
 
-!ResidueClass methodsFor: 'arithmetic' stamp: 'len 10/24/2016 12:02'!
+!ResidueClass methodsFor: 'operations' stamp: 'len 10/24/2016 12:02'!
 gcd: aResidueClass
 	^ parent project: (representative gcd: aResidueClass representative)! !
 
@@ -27845,11 +28963,11 @@ isZero
 	"^ (ideal remainderOf: representative) isZero"
 	^ representative isZero! !
 
-!ResidueClass methodsFor: 'accessing' stamp: 'len 10/16/2016 15:56'!
+!ResidueClass methodsFor: 'accessing' stamp: 'len 11/30/2016 19:16:51'!
 modulus
-	^ self ideal generator! !
+	^ parent modulus! !
 
-!ResidueClass methodsFor: 'arithmetic' stamp: 'len 10/16/2016 15:57'!
+!ResidueClass methodsFor: 'operations' stamp: 'len 10/16/2016 15:57'!
 negated
 	^ parent project: representative negated! !
 
@@ -27869,9 +28987,9 @@ parent: aQuotientRing
 printOn: aStream
 	aStream print: representative"; nextPutAll: ' mod '; print: ideal"! !
 
-!ResidueClass methodsFor: 'arithmetic' stamp: 'len 10/16/2016 15:57'!
+!ResidueClass methodsFor: 'operations' stamp: 'len 11/30/2016 19:02:39'!
 reciprocal
-	^ parent project: ((self ideal inverseOf: representative) ifNil: [^ self error: 'not invertible'])! !
+	^ parent inverseOf: self! !
 
 !ResidueClass methodsFor: 'accessing' stamp: 'len 11/25/2015 03:11'!
 representative
@@ -27881,7 +28999,7 @@ representative
 representative: anObject
 	representative _ anObject! !
 
-!ResidueClass methodsFor: 'arithmetic' stamp: 'len 11/9/2016 15:15'!
+!ResidueClass methodsFor: 'operations' stamp: 'len 11/9/2016 15:15'!
 squared
 	^ parent project: representative squared! !
 
@@ -27892,6 +29010,87 @@ zero
 !ResidueClass class methodsFor: 'instance creation' stamp: 'len 10/16/2016 15:58'!
 in: aQuotientRing representative: anObject
 	^ self new parent: aQuotientRing; representative: anObject! !
+
+!ModularInteger methodsFor: 'operations' stamp: 'len 7/8/2016 05:40'!
+** anInteger
+	anInteger = 1 ifTrue: [^ self].
+	anInteger = 0 ifTrue: [^ self one].
+	anInteger < 0 ifTrue: [^ self reciprocal ** anInteger negated].
+	^ (self * self ** (anInteger // 2)) * (self ** (anInteger \\ 2))! !
+
+!ModularInteger methodsFor: 'operations' stamp: 'len 11/30/2016 19:19:44'!
++ aModularInteger
+	| modulus r |
+	aModularInteger isInteger ifTrue: [^ parent project: representative + aModularInteger].
+	modulus _ self modulus.
+	r _ representative + aModularInteger representative.
+	r >= modulus ifTrue: [r _ r - modulus].
+	^ self class in: parent representative: r! !
+
+!ModularInteger methodsFor: 'copying' stamp: 'len 12/1/2016 16:48:56'!
+, aTuple
+	^ (self modulus = 2
+		ifTrue: [BitTuple new: 1 fromInteger: representative]
+		ifFalse: [(ModularTuple new: 1 over: parent) at: 1 put: self; yourself]), aTuple! !
+
+!ModularInteger methodsFor: 'operations' stamp: 'len 11/30/2016 19:20:24'!
+- aModularInteger
+	| modulus r |
+	aModularInteger isInteger ifTrue: [^ parent project: representative - aModularInteger].
+	modulus _ self modulus.
+	r _ representative + modulus - aModularInteger representative.
+	r >= modulus ifTrue: [r _ r - modulus].
+	^ self class in: parent representative: r! !
+
+!ModularInteger methodsFor: 'operations' stamp: 'len 11/16/2016 18:20'!
+/ aModularInteger
+	^ self * aModularInteger reciprocal! !
+
+!ModularInteger methodsFor: 'comparing' stamp: 'len 11/30/2016 19:14:29'!
+= aModularInteger
+	ModularInteger == aModularInteger class ifFalse: [^ false].
+	self == aModularInteger ifTrue: [^ true].
+	^ aModularInteger representative = representative and: [aModularInteger modulus = self modulus]! !
+
+!ModularInteger methodsFor: 'accessing' stamp: 'len 4/21/2016 05:55'!
+bitSize
+	^ representative bitSize! !
+
+!ModularInteger methodsFor: 'comparing' stamp: 'len 3/29/2016 20:48'!
+hash
+	^ representative hash! !
+
+!ModularInteger methodsFor: 'testing' stamp: 'len 11/30/2016 18:54:21'!
+isQuadraticResidue
+	(#(-1 0) includes: (representative jacobi: self modulus))
+		ifTrue: [^ false].
+	^ self notYetImplemented! !
+
+!ModularInteger methodsFor: 'testing' stamp: 'len 3/30/2016 00:03'!
+isZero
+	^ representative = 0! !
+
+!ModularInteger methodsFor: 'operations' stamp: 'len 11/30/2016 18:56:38'!
+negated
+	representative = 0 ifTrue: [^ self].
+	^ self class in: parent representative: self modulus - representative! !
+
+!ModularInteger methodsFor: 'printing' stamp: 'len 3/29/2016 20:49'!
+printOn: aStream
+	aStream print: representative! !
+
+!ModularInteger methodsFor: 'operations' stamp: 'len 11/30/2016 19:13:01'!
+reciprocal
+	representative == 1 ifTrue: [^ self].
+	^ parent inverseOf: self! !
+
+!ModularInteger methodsFor: 'accessing' stamp: 'len 3/29/2016 20:49'!
+representative
+	^ representative! !
+
+!ModularInteger methodsFor: 'accessing-private' stamp: 'len 3/29/2016 23:52'!
+representative: anInteger
+	representative _ anInteger! !
 
 !ExtensionFieldElement methodsFor: 'as yet unclassified' stamp: 'len 10/16/2016 18:18'!
 characteristicPolynomial
@@ -28529,1000 +29728,6 @@ support
 support: aSet
 	support _ aSet! !
 
-!Tuple methodsFor: 'operations' stamp: 'len 11/16/2016 10:46'!
-% anInteger
-	anInteger = 2 ifTrue: [^ BitTuple new: self size evaluating: [:i| (self at: i) % 2]].
-	^ ModularTuple new: self size modulo: anInteger evaluating: [:i| (self at: i) % anInteger]! !
-
-!Tuple methodsFor: 'operations' stamp: 'len 11/5/2016 06:17'!
-* anObject
-	(anObject is: #Tuple)
-		ifTrue: [^ self scalars tuple: (self size min: anObject size) evaluating: [:i| (self at: i) * (anObject at: i)]].
-	^ self collect: [:each| each * anObject]! !
-
-!Tuple methodsFor: 'operations' stamp: 'len 11/6/2016 14:21'!
-- aTuple
-	^ self + aTuple negated! !
-
-!Tuple methodsFor: 'operations' stamp: 'len 3/29/2016 18:50'!
-/ aNumber
-	^ self collect: [:each| each / aNumber]! !
-
-!Tuple methodsFor: 'operations' stamp: 'len 3/29/2016 18:50'!
-// aNumber
-	^ self collect: [:each| each // aNumber]! !
-
-!Tuple methodsFor: 'operations' stamp: 'len 3/29/2016 19:02'!
-<< anInteger
-	^ self >> anInteger negated! !
-
-!Tuple methodsFor: 'operations' stamp: 'len 3/29/2016 18:45'!
-<<< anInteger
-	^ self >>> anInteger negated! !
-
-!Tuple methodsFor: 'comparing' stamp: 'len 11/12/2016 09:16'!
-= anObject
-	self == anObject ifTrue: [^ true].
-	(anObject isKindOf: Tuple) ifFalse: [^ false].
-	self size = anObject size ifFalse: [^ false].
-	1 to: self size do: [:i|
-		(self at: i) = (anObject at: i) ifFalse: [^ false]].
-	^ true! !
-
-!Tuple methodsFor: 'operations' stamp: 'len 3/29/2016 19:02'!
->> anInteger
-	^ self shift: anInteger! !
-
-!Tuple methodsFor: 'operations' stamp: 'len 11/5/2016 06:56'!
->>> anInteger
-	anInteger == 0 ifTrue: [^ self].
-	anInteger < 0 ifTrue: [^ self copyFrom: anInteger negated + 1 to: self size].
-	^ (self scalars tuple: anInteger constant: self scalars zero), self! !
-
-!Tuple methodsFor: 'operations' stamp: 'len 3/29/2016 18:46'!
-\\ aNumber
-	^ self collect: [:each| each \\ aNumber]! !
-
-!Tuple methodsFor: 'converting' stamp: 'len 11/8/2016 07:19'!
-adaptToCollection: aCollection andSend: selector
-	self size = aCollection size ifFalse: [^ self error: 'sizes don''t match'].
-	^ aCollection withIndexCollect: [:each :index| each perform: selector with: (self at: index)]! !
-
-!Tuple methodsFor: 'converting' stamp: 'len 3/29/2016 18:53'!
-adaptToNumber: aNumber andSend: selector
-	selector == #* ifTrue:[^ self collect: [:each| aNumber * each]].
-	^ super adaptToNumber: aNumber andSend: selector! !
-
-!Tuple methodsFor: 'converting' stamp: 'len 4/8/2016 22:34'!
-adaptToRealAlgebraic: aNumber andSend: selector
-	^ self adaptToNumber: aNumber andSend: selector! !
-
-!Tuple methodsFor: 'operations' stamp: 'len 11/23/2016 09:43:40'!
-addFrom: startIndex to: stopIndex with: aTuple by: aNumber
-	startIndex to: stopIndex do: [:i|
-		self at: i put: (aTuple at: i) * aNumber + (self at: i)]! !
-
-!Tuple methodsFor: 'operations' stamp: 'len 11/23/2016 09:43:18'!
-addFrom: startIndex with: aTuple by: aNumber
-	self addFrom: startIndex to: (self size min: aTuple size) with: aTuple by: aNumber! !
-
-!Tuple methodsFor: 'iterating' stamp: 'len 11/5/2016 07:06'!
-allSatisfy: aBlock
-	"Evaluate aBlock with the elements of the receiver.
-	If aBlock returns false for any element return false.
-	Otherwise return true."
-
-	self do: [:each | (aBlock value: each) ifFalse: [^ false]].
-	^ true! !
-
-!Tuple methodsFor: 'iterating' stamp: 'len 11/5/2016 09:09'!
-anySatisfy: aBlock
-	"Evaluate aBlock with the elements of the receiver.
-	If aBlock returns true for any element return true.
-	Otherwise return false"
-
-	self do:[:item | (aBlock value: item) ifTrue: [^ true]].
-	^ false! !
-
-!Tuple methodsFor: 'operations' stamp: 'len 11/7/2016 02:24'!
-apply: aMorphism
-	"Apply a homomorphism to the coefficients of the receiver."
-	aMorphism isBlock ifTrue: [^ self collect: aMorphism].
-	^ aMorphism codomain tuple: self size evaluating: [:i| aMorphism value: (self at: i)]! !
-
-!Tuple methodsFor: 'converting' stamp: 'len 11/5/2016 09:46'!
-asArray
-	^ self as: Array! !
-
-!Tuple methodsFor: 'converting' stamp: 'len 11/5/2016 09:24'!
-asHomogeneousTuple
-	^ HomogeneousTuple coefficients: self over: self scalars! !
-
-!Tuple methodsFor: 'converting' stamp: 'len 11/7/2016 13:48'!
-asTuple
-	^ self! !
-
-!Tuple methodsFor: 'accessing' stamp: 'len 11/18/2016 20:21:46'!
-at: index ifAbsent: exceptionBlock
-	"Answer the element at my position index. If I do not contain an element
-	at index, answer the result of evaluating the argument, exceptionBlock."
-
-	(index between: 1 and: self size) ifTrue: [^ self at: index].
-	^ exceptionBlock value! !
-
-!Tuple methodsFor: 'accessing' stamp: 'len 3/29/2016 18:54'!
-bitSize
-	| answer |
-	answer _ 0.
-	self do: [:each| answer _ answer + each bitSize].
-	^ answer! !
-
-!Tuple methodsFor: 'iterating' stamp: 'len 11/5/2016 06:46'!
-collect: aBlock
-	^ self scalars tuple: self size evaluating: [:i| aBlock value: (self at: i)]! !
-
-!Tuple methodsFor: 'operations' stamp: 'len 3/29/2016 18:54'!
-conjugated
-	^ self collect: [:each| each conjugated]! !
-
-!Tuple methodsFor: 'iterating' stamp: 'len 11/5/2016 09:43'!
-count: aBlock
-	| count |
-	count _ 0.
-	self do: [:each| (aBlock value: each) ifTrue: [count _ count + 1]].
-	^ count! !
-
-!Tuple methodsFor: 'accessing' stamp: 'len 3/29/2016 19:05'!
-dimension
-	^ self size! !
-
-!Tuple methodsFor: 'iterating' stamp: 'len 11/5/2016 06:46'!
-do: aBlock
-	1 to: self size do: [:each| aBlock value: (self at: each)]! !
-
-!Tuple methodsFor: 'iterating' stamp: 'len 11/5/2016 09:26'!
-do: elementBlock separatedBy: separatorBlock
-	| beforeFirst | 
-	"Evaluate the elementBlock for all elements in the receiver,
-	and evaluate the separatorBlock between."
-
-	beforeFirst _ true.
-	self do: [ :element |
-		beforeFirst
-			ifTrue: [beforeFirst _ false]
-			ifFalse: [separatorBlock value].
-		elementBlock value: element]! !
-
-!Tuple methodsFor: 'operations' stamp: 'len 4/6/2016 07:18'!
-dot: aTuple
-	| answer |
-	answer _ (self at: 1) * (aTuple at: 1).
-	2 to: (self size min: aTuple size) do: [:i| answer _ answer + ((self at: i) * (aTuple at: i))].
-	^ answer! !
-
-!Tuple methodsFor: 'iterating' stamp: 'len 11/12/2016 08:51'!
-findFirst: aBlock
-	"Return the index of my first element for which aBlock evaluates as true."
-
-	| index |
-	index _ 0.
-	[(index _ index + 1) <= self size] whileTrue:
-		[(aBlock value: (self at: index)) ifTrue: [^index]].
-	^ 0! !
-
-!Tuple methodsFor: 'iterating' stamp: 'len 11/5/2016 07:05'!
-findLast: aBlock
-	"Return the index of my last element for which aBlock evaluates as true."
-
-	| index |
-	index _ self size + 1.
-	[(index _ index - 1) >= 1] whileTrue:
-		[(aBlock value: (self at: index)) ifTrue: [^index]].
-	^ 0! !
-
-!Tuple methodsFor: 'accessing' stamp: 'len 11/5/2016 09:26'!
-first
-	^ self at: 1! !
-
-!Tuple methodsFor: 'accessing' stamp: 'len 11/12/2016 09:03'!
-firstNonZero
-	"Answer the index of the first non-zero entry, or 0."
-	1 to: self size do: [:i| (self at: i) isZero ifFalse: [^ i]].
-	^ 0! !
-
-!Tuple methodsFor: 'operations' stamp: 'len 11/12/2016 08:18'!
-hadamard: aTuple
-	"Answer the entrywise product with the argument, also called Hadamard product."
-	^ self scalars tuple: (self size min: aTuple size) evaluating: [:i| (self at: i) * (aTuple at: i)]! !
-
-!Tuple methodsFor: 'comparing' stamp: 'len 11/5/2016 09:41'!
-hash
-	| hash |
-	hash _ 0.
-	1 to: self size do: [:i | hash _ (hash + (self at: i) hash) hashMultiply].
-	^hash! !
-
-!Tuple methodsFor: 'operations' stamp: 'len 11/27/2016 13:25:12'!
-height
-	| answer |
-	answer _ 1.
-	self do: [:each| answer _ answer max: each height].
-	^ answer! !
-
-!Tuple methodsFor: 'converting' stamp: 'len 10/31/2016 13:11'!
-homogenized
-	^ self homogenizedIn: self size + 1! !
-
-!Tuple methodsFor: 'converting' stamp: 'len 11/18/2016 20:55:03'!
-homogenizedIn: anInteger
-	^ HomogeneousTuple coefficients: (self copyFrom: 1 to: anInteger - 1), self scalars one, (self copyFrom: anInteger to: self size) over: self scalars! !
-
-!Tuple methodsFor: 'testing' stamp: 'len 11/5/2016 09:45'!
-includes: anObject 
-	"Answer whether anObject is one of the receiver's elements."
-
-	self do: [:each| each = anObject ifTrue: [^ true]].
-	^ false! !
-
-!Tuple methodsFor: 'iterating' stamp: 'len 11/5/2016 06:48'!
-inject: thisValue into: binaryBlock 
-	| nextValue |
-	nextValue _ thisValue.
-	self do: [:each | nextValue _ binaryBlock value: nextValue value: each].
-	^ nextValue! !
-
-!Tuple methodsFor: 'testing' stamp: 'len 3/29/2016 19:04'!
-is: aSymbol
-	^ aSymbol == #Tuple or: [super is: aSymbol]! !
-
-!Tuple methodsFor: 'testing' stamp: 'len 11/5/2016 07:12'!
-isEmpty
-	^ self size = 0! !
-
-!Tuple methodsFor: 'testing' stamp: 'len 7/9/2016 02:49'!
-isOrdered
-	^ true! !
-
-!Tuple methodsFor: 'testing' stamp: 'len 7/9/2016 02:50'!
-isSparse
-	^ false! !
-
-!Tuple methodsFor: 'testing' stamp: 'len 3/29/2016 19:04'!
-isZero
-	^ self allSatisfy: [:each| each isZero]! !
-
-!Tuple methodsFor: 'accessing' stamp: 'len 11/6/2016 04:32'!
-last
-	^ self at: self size! !
-
-!Tuple methodsFor: 'accessing' stamp: 'len 11/12/2016 09:03'!
-lastNonZero
-	"Answer the index of the last non-zero entry, or 0."
-	self size to: 1 by: -1 do: [:i| (self at: i) isZero ifFalse: [^ i]].
-	^ 0! !
-
-!Tuple methodsFor: 'operations' stamp: 'len 3/29/2016 18:56'!
-negated
-	^ self collect: [:each| each negated]! !
-
-!Tuple methodsFor: 'operations' stamp: 'len 3/29/2016 19:03'!
-norm
-	^ self norm2 squareRoot! !
-
-!Tuple methodsFor: 'operations' stamp: 'len 3/29/2016 19:03'!
-norm2
-	^ self dot: self! !
-
-!Tuple methodsFor: 'converting' stamp: 'len 11/11/2016 09:30'!
-over: aRing
-	self scalars = aRing ifFalse: [^ aRing tuple: self]! !
-
-!Tuple methodsFor: 'operations' stamp: 'len 11/23/2016 05:43:12'!
-polynomialValue: anObject
-	"Evaluate the receiver (as an univariate polynomial) at the given argument using Horner's method."
-	| answer one |
-	answer _ anObject zero.
-	one _ anObject one.
-	self reverseDo: [:each| answer _ anObject * answer + (one * each)].
-	^ answer! !
-
-!Tuple methodsFor: 'printing' stamp: 'len 3/29/2016 19:04'!
-printOn: aStream
-	aStream nextPut: $(.
-	self do: [:x| aStream print: x] separatedBy: [aStream nextPutAll: ','].
-	aStream nextPut: $)! !
-
-!Tuple methodsFor: 'iterating' stamp: 'len 11/6/2016 14:22'!
-product
-	^ self product: [:each| each]! !
-
-!Tuple methodsFor: 'iterating' stamp: 'len 11/5/2016 06:50'!
-product: aBlock
-	^ self inject: self scalars one into: [:nextValue :each| nextValue * each]! !
-
-!Tuple methodsFor: 'iterating' stamp: 'len 11/5/2016 06:47'!
-reverseDo: aBlock
-	self size to: 1 by: -1 do: [:each| aBlock value: (self at: each)]! !
-
-!Tuple methodsFor: 'iterating' stamp: 'len 11/6/2016 14:22'!
-sum
-	^ self sum: [:each| each]! !
-
-!Tuple methodsFor: 'iterating' stamp: 'len 11/5/2016 06:50'!
-sum: aBlock
-	^ self inject: self scalars zero into: [:nextValue :each| nextValue + each]! !
-
-!Tuple methodsFor: 'operations' stamp: 'len 11/5/2016 09:27'!
-support
-	^ (1 to: self size) reject: [:each| (self at: each) isZero]! !
-
-!Tuple methodsFor: 'operations' stamp: 'len 11/12/2016 08:41'!
-weight
-	"Answer the Hamming weight of the receiver, i.e. the number of entries that are not zero."
-	^ self count: [:each| each isZero not]! !
-
-!Tuple methodsFor: 'iterating' stamp: 'len 11/5/2016 06:59'!
-withIndexCollect: aBlock
-	^ self scalars tuple: self size evaluating: [:i| aBlock value: (self at: i) value: i]! !
-
-!Tuple methodsFor: 'iterating' stamp: 'len 11/5/2016 06:47'!
-withIndexDo: aBlock
-	1 to: self size do: [:index| aBlock value: (self at: index) value: index]! !
-
-!Tuple methodsFor: 'operations' stamp: 'len 11/5/2016 06:15'!
-wrap: n
-	"Perform a cyclic right shift."
-	^ self scalars tuple: self size evaluating: [:i| (self at: i-1-n \\ self size + 1)]! !
-
-!Tuple methodsFor: 'accessing' stamp: 'len 3/29/2016 19:06'!
-x
-	^ self at: 1! !
-
-!Tuple methodsFor: 'accessing' stamp: 'len 3/29/2016 19:06'!
-y
-	^ self at: 2! !
-
-!Tuple methodsFor: 'accessing' stamp: 'len 3/29/2016 19:06'!
-z
-	^ self at: 3! !
-
-!ArrayTuple methodsFor: 'operations' stamp: 'len 11/5/2016 06:11'!
-+ aTuple
-	| zero |
-	self size = aTuple size ifTrue: [^ scalars tuple: self size evaluating: [:i| (self at: i) + (aTuple at: i)]].
-	zero _ (self at: 1 ifAbsent: [aTuple at: 1]) zero.
-	^ scalars tuple: (self size max: aTuple size) evaluating: [:i| (self at: i ifAbsent: [zero]) + (aTuple at: i ifAbsent: [zero])]! !
-
-!ArrayTuple methodsFor: 'copying' stamp: 'len 11/5/2016 04:02'!
-, anObject
-	((anObject is: #Tuple) or: [anObject is: #Array])
-		ifTrue: [^ self class coefficients: (coefficients, anObject asArray) over: scalars].
-	^ self class coefficients: (coefficients copyWith: anObject) over: scalars! !
-
-!ArrayTuple methodsFor: 'operations' stamp: 'len 11/5/2016 06:12'!
-- aTuple
-	| zero |
-	self size = aTuple size ifTrue: [^ scalars tuple: self size evaluating: [:i| (self at: i) - (aTuple at: i)]].
-	zero _ (self at: 1 ifAbsent: [aTuple at: 1]) zero.
-	^ scalars tuple: (self size max: aTuple size) evaluating: [:i| (self at: i ifAbsent: [zero]) - (aTuple at: i ifAbsent: [zero])]! !
-
-!ArrayTuple methodsFor: 'iterating' stamp: 'len 11/5/2016 06:08'!
-allSatisfy: aBlock
-	^ coefficients allSatisfy: aBlock! !
-
-!ArrayTuple methodsFor: 'iterating' stamp: 'len 11/5/2016 09:08'!
-anySatisfy: aBlock
-	^ coefficients anySatisfy: aBlock! !
-
-!ArrayTuple methodsFor: 'converting' stamp: 'len 11/5/2016 03:58'!
-asArray
-	^ coefficients! !
-
-!ArrayTuple methodsFor: 'accessing' stamp: 'len 11/5/2016 03:57'!
-at: anInteger
-	^ coefficients at: anInteger! !
-
-!ArrayTuple methodsFor: 'accessing' stamp: 'len 11/5/2016 03:58'!
-at: anInteger ifAbsent: aBlock
-	^ coefficients at: anInteger ifAbsent: aBlock! !
-
-!ArrayTuple methodsFor: 'accessing-private' stamp: 'len 11/5/2016 03:58'!
-at: anInteger put: anObject
-	^ coefficients at: anInteger put: anObject! !
-
-!ArrayTuple methodsFor: 'initialization' stamp: 'len 11/5/2016 03:56'!
-coefficients: anArray
-	coefficients _ anArray! !
-
-!ArrayTuple methodsFor: 'iterating' stamp: 'len 11/5/2016 06:08'!
-collect: aBlock
-	^ self class coefficients: (coefficients collect: aBlock) over: scalars! !
-
-!ArrayTuple methodsFor: 'operations' stamp: 'len 11/22/2016 05:47:05'!
-convolution: aTuple
-	| array |
-	self isEmpty ifTrue: [^ self].
-	aTuple isEmpty ifTrue: [^ aTuple].
-	array _ Array new: self size + aTuple size - 1.
-	array atAllPut: self scalars zero.
-	self withIndexDo: [:xi :i|
-		xi isZero ifFalse:
-			[aTuple withIndexDo: [:yj :j|
-				array at: i+j-1 add: xi*yj]]].
-	^ self class coefficients: array over: self scalars! !
-
-!ArrayTuple methodsFor: 'copying' stamp: 'len 11/5/2016 03:58'!
-copy
-	^ self class coefficients: coefficients copy over: scalars! !
-
-!ArrayTuple methodsFor: 'copying' stamp: 'len 11/5/2016 03:58'!
-copyFrom: start to: stop
-	^ self class coefficients: (coefficients copyFrom: start to: stop) over: scalars! !
-
-!ArrayTuple methodsFor: 'copying' stamp: 'len 11/5/2016 10:43'!
-copyWith: anElement
-	^ self class coefficients: (coefficients copyWith: anElement) over: scalars! !
-
-!ArrayTuple methodsFor: 'iterating' stamp: 'len 11/5/2016 03:58'!
-do: aBlock
-	coefficients do: aBlock! !
-
-!ArrayTuple methodsFor: 'iterating' stamp: 'len 11/12/2016 09:00'!
-findFirst: aBlock
-	^ coefficients findFirst: aBlock! !
-
-!ArrayTuple methodsFor: 'iterating' stamp: 'len 11/5/2016 06:07'!
-findLast: aBlock
-	^ coefficients findLast: aBlock! !
-
-!ArrayTuple methodsFor: 'testing' stamp: 'len 11/5/2016 03:58'!
-includes: anObject
-	^ coefficients includes: anObject! !
-
-!ArrayTuple methodsFor: 'accessing' stamp: 'len 12/21/2015 22:49'!
-last
-	^ self at: self size! !
-
-!ArrayTuple methodsFor: 'iterating' stamp: 'len 11/5/2016 06:10'!
-reverseDo: aBlock
-	coefficients reverseDo: aBlock! !
-
-!ArrayTuple methodsFor: 'operations' stamp: 'len 11/5/2016 06:06'!
-reversed
-	^ self class coefficients: coefficients reversed over: scalars! !
-
-!ArrayTuple methodsFor: 'accessing' stamp: 'len 11/5/2016 05:57'!
-scalars
-	^ scalars! !
-
-!ArrayTuple methodsFor: 'accessing-private' stamp: 'len 11/5/2016 05:57'!
-scalars: aRing
-	scalars _ aRing! !
-
-!ArrayTuple methodsFor: 'operations' stamp: 'len 11/5/2016 09:03'!
-shift: anInteger
-	| newElements zero n |
-	anInteger == 0 ifTrue: [^ self].
-	newElements _ Array new: self size.
-	zero _ (self at: 1) - (self at: 1).
-	n _ self size min: anInteger max: self size negated.
-	n > 0
-		ifTrue:
-			[1 to: n do: [:i| newElements at: i put: zero].
-			1+n to: self size do: [:i| newElements at: i put: (self at: i-n)]]
-		ifFalse:
-			[self size + n + 1 to: self size do: [:i| newElements at: i put: zero].
-			1 to: self size + n do: [ :i | newElements at: i put: (self at: i-n)]].
-	^ self class coefficients: newElements over: scalars! !
-
-!ArrayTuple methodsFor: 'accessing' stamp: 'len 11/5/2016 03:57'!
-size
-	^ coefficients size! !
-
-!ArrayTuple methodsFor: 'accessing-private' stamp: 'len 11/5/2016 03:57'!
-swap: i with: j
-	coefficients swap: i with: j! !
-
-!ArrayTuple methodsFor: 'iterating' stamp: 'len 11/5/2016 03:57'!
-withIndexDo: aBlock
-	coefficients withIndexDo: aBlock! !
-
-!ArrayTuple methodsFor: 'operations' stamp: 'len 4/10/2016 06:44'!
-wrap: n
-	"Perform a cyclic right shift."
-	| newElements |
-	newElements _ Array new: self size.
-	0 to: self size - 1 do: [:i| newElements at: i+1 put: (self at: i-n \\ self size + 1) ].
-	^ self class withAll: newElements! !
-
-!ArrayTuple class methodsFor: 'instance creation' stamp: 'len 11/5/2016 03:57'!
-coefficients: anArray over: aRing
-	^ self basicNew coefficients: anArray asArray; scalars: aRing! !
-
-!ArrayTuple class methodsFor: 'instance creation' stamp: 'len 11/5/2016 07:13'!
-new
-	^ self shouldNotImplement! !
-
-!ArrayTuple class methodsFor: 'instance creation' stamp: 'len 11/5/2016 03:55'!
-new: anInteger over: aRing
-	^ self coefficients: (Array new: anInteger) over: aRing! !
-
-!HomogeneousTuple methodsFor: 'comparing' stamp: 'len 11/6/2016 08:49'!
-= aHomogeneousTuple
-	| index x y |
-	(aHomogeneousTuple is: #Tuple) ifFalse: [^ false].
-	aHomogeneousTuple size = self size ifFalse: [^ false].
-	index _ self firstNonZero.
-	x _ self at: index.
-	y _ aHomogeneousTuple at: index.
-	1 to: self size do: [:i| (self at: i) * y = ((aHomogeneousTuple at: i) * x) ifFalse: [^ false]].
-	^ true! !
-
-!HomogeneousTuple methodsFor: 'converting' stamp: 'len 10/31/2016 13:47'!
-affinized
-	"Answer the affinization of the receiver."
-	^ self affinizedIn: self size! !
-
-!HomogeneousTuple methodsFor: 'converting' stamp: 'len 11/5/2016 06:16'!
-affinizedIn: anInteger
-	"Answer the affinization of the receiver with respect to the anInteger-th coordinate."
-	| scalar |
-	scalar _ self at: anInteger.
-	^ self scalars
-		tuple: self coordinates size - 1
-		evaluating: [:i| (i < anInteger ifTrue: [self at: i] ifFalse: [self at: i + 1]) / scalar]! !
-
-!HomogeneousTuple methodsFor: 'operations' stamp: 'len 11/7/2016 02:25'!
-apply: aMorphism
-	^ (super apply: aMorphism) asHomogeneousTuple! !
-
-!HomogeneousTuple methodsFor: 'converting' stamp: 'len 11/7/2016 02:26'!
-asTuple
-	"Answer a Tuple with the coordinates of the receiver."
-	^ self scalars tuple: coefficients! !
-
-!HomogeneousTuple methodsFor: 'comparing' stamp: 'len 11/7/2016 02:32'!
-hash
-	| hash x |
-	self scalars isField
-		ifFalse:
-			[^ self scalars isIntegralDomain
-				ifTrue: [(self apply: self scalars fractions embedding) hash]
-				ifFalse: [self scalars hash hashMultiply + self firstNonZero]].
-	hash _ 0.
-	x _ self at: self firstNonZero.
-	1 to: self size do: [:i | hash _ (hash + ((self at: i) / x) hash) hashMultiply].
-	^hash! !
-
-!HomogeneousTuple methodsFor: 'printing' stamp: 'len 10/31/2016 13:49'!
-printOn: aStream
-	aStream nextPut: $[.
-	self do: [:each| each printOn: aStream] separatedBy: [aStream nextPut: $:].
-	aStream nextPut: $]! !
-
-!BitTuple methodsFor: 'operations' stamp: 'len 3/29/2016 06:16'!
-* aBit
-	^ ((aBit isInteger and: [aBit even]) or: [aBit isZero]) ifTrue: [self zero] ifFalse: [self]! !
-
-!BitTuple methodsFor: 'operations' stamp: 'len 7/2/2016 00:51'!
-+ aBitTuple
-	^ self class new: (self size max: aBitTuple size) fromInteger: (integer bitXor: aBitTuple asInteger)! !
-
-!BitTuple methodsFor: 'copying' stamp: 'len 11/6/2016 15:30'!
-, anObject
-	((anObject is: #Tuple) or: [anObject is: #Array])
-		ifFalse: [^ self copyWith: anObject].
-	anObject class = self class
-		ifTrue: [^ self class new: size + anObject size fromInteger: (integer bitXor: (anObject asInteger bitShift: size))].
-	^ self , (self class coefficients: anObject)! !
-
-!BitTuple methodsFor: 'operations' stamp: 'len 3/28/2016 06:51'!
-- aBitTuple
-	^ self + aBitTuple! !
-
-!BitTuple methodsFor: 'comparing' stamp: 'len 6/30/2016 06:49'!
-= aTuple
-	self class = aTuple class ifFalse: [^ super = aTuple].
-	^ size = aTuple size and: [integer = aTuple asInteger]! !
-
-!BitTuple methodsFor: 'operations' stamp: 'len 7/2/2016 00:48'!
->>> anInteger
-	^ self class new: (size + anInteger max: 0) fromInteger: (integer bitShift: anInteger)! !
-
-!BitTuple methodsFor: 'iterating' stamp: 'len 11/5/2016 09:14'!
-anySatisfy: aBlock
-	"Optimized. There are only two possible elements that could satisfy aBlock (1 or 0)."
-	self isEmpty ifTrue: [^ false].
-	(self isZero not and: [aBlock value: One]) ifTrue: [^ true].
-	^ (aBlock value: Zero) and: [super anySatisfy: [:any| any = Zero]]! !
-
-!BitTuple methodsFor: 'converting' stamp: 'len 3/28/2016 04:45'!
-asInteger
-	^ integer! !
-
-!BitTuple methodsFor: 'accessing' stamp: 'len 3/29/2016 06:09'!
-at: anInteger
-	^ (integer bitAt: anInteger) = 1 ifTrue: [One] ifFalse: [Zero]! !
-
-!BitTuple methodsFor: 'accessing' stamp: 'len 11/5/2016 09:21'!
-at: anInteger put: aBit
-	| bit |
-	anInteger > size ifTrue: [self error: 'index out of bounds'].
-	bit _ aBit.
-	bit isInteger ifTrue: [bit _ bit % 2].
-	(Zero = bit or: [One = bit]) ifFalse: [DomainError signal].
-	(self at: anInteger) = bit
-		ifFalse: [integer _ integer bitXor: 1 << (anInteger - 1)].
-	^ bit! !
-
-!BitTuple methodsFor: 'operations' stamp: 'len 11/22/2016 05:39:06'!
-convolution: aBitTuple
-	| a b c |
-	a _ integer.
-	b _ aBitTuple asInteger.
-	c _ 0.
-	1 to: a highBit do: [:i|
-		(a bitAt: i) = 1 ifTrue: [c _ c bitXor: b].
-		b _ b bitShift: 1].
-	^ self class new: self size + aBitTuple size - 1 fromInteger: c! !
-
-!BitTuple methodsFor: 'copying' stamp: 'len 7/2/2016 00:49'!
-copyFrom: start to: stop 
-	"Answer a copy of a subset of the receiver, starting from element at 
-	index start until element at index stop."
-
-	| newSize |
-	newSize _ stop - start + 1 max: 0.
-	start = 1 ifTrue: [^ self class new: newSize fromInteger: integer].
-	^ self class new: newSize fromInteger: (integer bitShift: 1 - start)! !
-
-!BitTuple methodsFor: 'copying' stamp: 'len 11/5/2016 09:23'!
-copyWith: aBit
-	| answer |
-	answer _ self copy size: self size + 1.
-	aBit = One ifTrue: [answer at: self size + 1 put: One. ^ answer].
-	aBit = Zero ifFalse: [DomainError signal].
-	^ answer! !
-
-!BitTuple methodsFor: 'operations' stamp: 'len 7/2/2016 00:44'!
-dot: aBitTuple
-	^ (integer bitAnd: aBitTuple asInteger) bitParity = 0 ifTrue: [Zero] ifFalse: [One]
-
-"	^ self hadamard: aBitTuple :: sum
-"
-
-"	| x |
-	x _ self asInteger bitAnd: aBitTuple asInteger.
-	[x > 1]
-		whileTrue: [x _ x >> (x highBit // 2) bitAnd: x].
-	^ x"! !
-
-!BitTuple methodsFor: 'operations' stamp: 'len 11/12/2016 08:19'!
-hadamard: aBitTuple
-	"Answer the entrywise product with the argument, also called Hadamard product."
-	^ self class new: (self size min: aBitTuple size) fromInteger: (integer bitAnd: aBitTuple asInteger)! !
-
-!BitTuple methodsFor: 'comparing' stamp: 'len 6/30/2016 06:50'!
-hash
-	^ integer hash! !
-
-!BitTuple methodsFor: 'initialization' stamp: 'len 3/28/2016 05:41'!
-integer: anInteger size: anotherInteger
-	integer _ anInteger.
-	size _ anotherInteger! !
-
-!BitTuple methodsFor: 'operations' stamp: 'len 3/28/2016 07:30'!
-negated
-	^ self! !
-
-!BitTuple methodsFor: 'operations' stamp: 'len 3/28/2016 07:27'!
-norm
-	^ self sum! !
-
-!BitTuple methodsFor: 'operations' stamp: 'len 3/28/2016 07:27'!
-norm2
-	^ self sum! !
-
-!BitTuple methodsFor: 'operations' stamp: 'len 7/1/2016 22:58'!
-parity
-	"Answer 1 if the receiver has an odd number of bits on, 0 if it has an even number of bits on."
-	| n parity |
-	integer = 0 ifTrue: [^ 0].
-"	n _ integer >> (integer lowBit - 1). skip initial zeros, we could also skip chunks of zeros in the middle"
-	n _ integer.
-	parity _ 0.
-	[n = 0] whileFalse: [parity _ parity bitXor: (n bitAnd: 1). n _ n >> 1].
-	^ parity! !
-
-!BitTuple methodsFor: 'operations' stamp: 'len 11/23/2016 05:42:05'!
-polynomialValue: anObject
-	Zero = anObject ifTrue: [^ self at: 1].
-	One = anObject ifFalse: [^ super polynomialValue: anObject].
-	^ self sum! !
-
-!BitTuple methodsFor: 'printing' stamp: 'len 3/28/2016 04:52'!
-printOn: aStream
-	1 to: self size do: [:i| aStream print: (self at: i)]! !
-
-!BitTuple methodsFor: 'operations' stamp: 'len 7/2/2016 06:01'!
-reversed
-	^ self class new: self size fromInteger: (integer bitReverse: self size)! !
-
-!BitTuple methodsFor: 'accessing' stamp: 'len 11/5/2016 07:10'!
-scalars
-	self flag: #fix. "inefficient"
-	^ ZZ/2! !
-
-!BitTuple methodsFor: 'operations' stamp: 'len 7/2/2016 00:49'!
-shift: anInteger
-	^ self class new: size fromInteger: (integer bitShift: anInteger)! !
-
-!BitTuple methodsFor: 'accessing' stamp: 'len 3/28/2016 06:49'!
-size
-	^ size! !
-
-!BitTuple methodsFor: 'initialization' stamp: 'len 11/5/2016 09:22'!
-size: anInteger
-	size _ anInteger! !
-
-!BitTuple methodsFor: 'operations' stamp: 'len 7/2/2016 00:39'!
-sum
-	"Answer the sum of the bits, i.e. the parity."
-	^ integer bitParity = 0 ifTrue: [Zero] ifFalse: [One]! !
-
-!BitTuple methodsFor: 'operations' stamp: 'len 11/12/2016 08:41'!
-weight
-	"Answer the Hamming weight of the receiver, i.e. the number of entries that are not zero."
-	^ self asInteger bitCount! !
-
-!BitTuple methodsFor: 'operations' stamp: 'len 7/2/2016 00:49'!
-zero
-	^ self class new: self size fromInteger: 0! !
-
-!BitTuple class methodsFor: 'instance creation' stamp: 'len 11/5/2016 07:09'!
-coefficients: anArray
-	| answer |
-	answer _ self new: anArray size.
-	anArray withIndexDo: [:each :i| answer at: i put: each].
-	^ answer! !
-
-!BitTuple class methodsFor: 'instance creation' stamp: 'len 7/2/2016 00:50'!
-fromInteger: anInteger
-	^ self new: anInteger highBit fromInteger: anInteger! !
-
-!BitTuple class methodsFor: 'initialization' stamp: 'len 7/15/2016 18:24'!
-initialize
-	| Z2 |
-	super initialize.
-	Z2 _ ZZ modPrime: 2.
-	One _ Z2 one.
-	Zero _ Z2 zero! !
-
-!BitTuple class methodsFor: 'instance creation' stamp: 'len 11/5/2016 07:09'!
-new
-	^ self shouldNotImplement! !
-
-!BitTuple class methodsFor: 'instance creation' stamp: 'len 7/2/2016 00:50'!
-new: anInteger
-	^ self new: anInteger fromInteger: 0! !
-
-!BitTuple class methodsFor: 'instance creation' stamp: 'len 7/2/2016 00:50'!
-new: anInteger evaluating: aBlock
-	| integer |
-	integer _ 0.
-	anInteger to: 1 by: -1 do:
-		[:i| integer _ (integer bitShift: 1) bitXor: (aBlock value: i) representative].
-	^ self new: anInteger fromInteger: integer! !
-
-!BitTuple class methodsFor: 'instance creation' stamp: 'len 7/2/2016 00:47'!
-new: n fromInteger: anInteger
-	^ self basicNew integer: anInteger size: n! !
-
-!BitTuple class methodsFor: 'instance creation' stamp: 'len 11/6/2016 15:30'!
-newFrom: anObject
-	anObject isInteger ifTrue: [^ self fromInteger: anObject].
-	^ self coefficients: anObject! !
-
-!ModularTuple methodsFor: 'operations' stamp: 'len 11/12/2016 08:23'!
-* aNumber
-	| x array |
-	x _ aNumber isInteger ifTrue: [aNumber] ifFalse: [aNumber representative].
-	array _ representatives copy.
-	1 to: self size do: [:i| array at: i put: (array at: i) * x \\ modulus].
-	^ self class representatives: array modulo: modulus! !
-
-!ModularTuple methodsFor: 'operations' stamp: 'len 11/6/2016 14:18'!
-+ aTuple
-	| a an b bn c |
-	(an _ self size) <= (bn _ aTuple size) ifFalse: [^ aTuple + self].
-	a _ representatives.
-	b _ aTuple representatives.
-	c _ representatives class new: bn.
-	1 to: an do: [:i|
-		c at: i put: (a at: i) + (b at: i) \\ modulus].
-	c replaceFrom: an+1 to: bn with: b startingAt: an+1.
-	^ self class representatives: c modulo: modulus! !
-
-!ModularTuple methodsFor: 'copying' stamp: 'len 11/6/2016 11:25'!
-, anObject
-	modulus = anObject modulus ifFalse: [^ DomainError signal].
-	self class = anObject class
-		ifTrue:
-			[^ self class representatives: representatives, anObject representatives modulo: modulus].
-	^ self class representatives: (representatives copyWith: anObject representative) modulo: modulus! !
-
-!ModularTuple methodsFor: 'comparing' stamp: 'len 11/6/2016 13:59'!
-= aTuple
-	self class = aTuple class ifFalse: [^ super = aTuple halt].
-	^ modulus = aTuple modulus and: [representatives = aTuple representatives]! !
-
-!ModularTuple methodsFor: 'operations' stamp: 'len 11/23/2016 09:42:52'!
-addFrom: startIndex to: stopIndex with: aTuple by: aNumber
-	| representatives2 x |
-	(self class = aTuple class and: [modulus = aTuple modulus])
-		ifFalse: [^ super addFrom: startIndex to: stopIndex with: aTuple by: aNumber].
-	representatives2 _ aTuple representatives.
-	x _ aNumber representative.
-	startIndex to: stopIndex do: [:i|
-		representatives at: i put: (representatives2 at: i) * x + (representatives at: i) \\ modulus]! !
-
-!ModularTuple methodsFor: 'accessing-private' stamp: 'len 6/29/2016 05:50'!
-arrayClass
-	modulus <= 255 ifTrue: [^ ByteArray].
-	modulus <= 16rFFFFFFFF ifTrue: [^ WordArray].
-	^ Array! !
-
-!ModularTuple methodsFor: 'accessing' stamp: 'len 4/25/2016 00:28'!
-at: anInteger
-	^ (representatives at: anInteger ifAbsent: [0]) % modulus! !
-
-!ModularTuple methodsFor: 'accessing' stamp: 'len 11/16/2016 18:23'!
-at: anInteger put: aModularInteger
-	aModularInteger isInteger ifTrue: [^ representatives at: anInteger put: aModularInteger \\ modulus].
-	representatives at: anInteger put: aModularInteger representative.
-	^ aModularInteger! !
-
-!ModularTuple methodsFor: 'operations' stamp: 'len 11/22/2016 05:50:23'!
-convolution: aTuple
-	| array |
-	self isEmpty ifTrue: [^ self].
-	aTuple isEmpty ifTrue: [^ aTuple].
-	array _ representatives class new: self size + aTuple size - 1.
-	array atAllPut: 0. "in case it's Array"
-	representatives withIndexDo: [:xi :i|
-		xi = 0 ifFalse:
-			[aTuple representatives withIndexDo: [:yj :j| | index |
-				index _ i+j-1.
-				array at: index put: xi*yj + (array at: index) \\ modulus]]].
-	^ self class representatives: array modulo: modulus! !
-
-!ModularTuple methodsFor: 'copying' stamp: 'len 11/6/2016 11:44'!
-copy
-	^ self class representatives: representatives copy modulo: modulus! !
-
-!ModularTuple methodsFor: 'copying' stamp: 'len 11/6/2016 11:43'!
-copyFrom: start to: stop
-	^ self class representatives: (representatives copyFrom: start to: stop) modulo: modulus! !
-
-!ModularTuple methodsFor: 'copying' stamp: 'len 11/6/2016 11:45'!
-copyWith: anElement
-	^ self class representatives: (representatives copyWith: anElement representative) modulo: modulus! !
-
-!ModularTuple methodsFor: 'operations' stamp: 'len 11/11/2016 16:52'!
-dot: aTuple
-	| representatives2 answer |
-	(aTuple class = self class and: [modulus = aTuple modulus])
-		ifFalse: [^ super dot: aTuple].
-	representatives2 _ aTuple representatives.
-	answer _ 0.
-	1 to: (representatives size min: representatives2 size) do: [:i|
-		answer _ (representatives at: i) * (representatives2 at: i) + answer \\ modulus].
-	^ answer % modulus! !
-
-!ModularTuple methodsFor: 'accessing' stamp: 'len 11/12/2016 09:02'!
-firstNonZero
-	"Answer the index of the first non-zero entry, or 0."
-	1 to: representatives size do: [:i| (representatives at: i) = 0 ifFalse: [^ i]].
-	^ 0! !
-
-!ModularTuple methodsFor: 'operations' stamp: 'len 11/12/2016 08:27'!
-hadamard: aTuple
-	| array representatives2 |
-	(self class = aTuple class and: [modulus = aTuple modulus])
-		ifFalse: [^ super hadamard: aTuple].
-	array _ representatives class new: (self size min: aTuple size).
-	representatives2 _ aTuple representatives.
-	1 to: array size do: [:i| array at: i put: (representatives at: i) * (representatives2 at: i) \\ modulus].
-	^ self class representatives: array modulo: modulus! !
-
-!ModularTuple methodsFor: 'comparing' stamp: 'len 6/30/2016 06:52'!
-hash
-	^ representatives hash! !
-
-!ModularTuple methodsFor: 'accessing' stamp: 'len 11/12/2016 09:02'!
-lastNonZero
-	"Answer the index of the last non-zero entry, or 0."
-	representatives size to: 1 by: -1 do: [:i| (representatives at: i) = 0 ifFalse: [^ i]].
-	^ 0! !
-
-!ModularTuple methodsFor: 'accessing-private' stamp: 'len 4/25/2016 00:28'!
-modulus
-	^ modulus! !
-
-!ModularTuple methodsFor: 'accessing-private' stamp: 'len 4/25/2016 00:28'!
-modulus: anInteger
-	modulus _ anInteger! !
-
-!ModularTuple methodsFor: 'operations' stamp: 'len 11/12/2016 08:23'!
-negated
-	| array |
-	array _ representatives copy.
-	1 to: self size do: [:i| array at: i put: (array at: i) negated \\ modulus].
-	^ self class representatives: array modulo: modulus! !
-
-!ModularTuple methodsFor: 'operations' stamp: 'len 11/23/2016 05:42:34'!
-polynomialValue: anObject
-	| x answer |
-	((anObject isKindOf: ModularInteger) and: [anObject modulus = modulus])
-		ifFalse: [^ super polynomialValue: anObject].
-	x _ anObject representative.
-	answer _ 0.
-	representatives reverseDo: [:each| answer _ x * answer + each \\ modulus].
-	^ answer % modulus! !
-
-!ModularTuple methodsFor: 'printing' stamp: 'len 6/30/2016 06:56'!
-printOn: aStream
-	modulus > 16 ifTrue: [^ super printOn: aStream].
-	1 to: self size do: [:i| (representatives at: i) printOn: aStream base: 16]! !
-
-!ModularTuple methodsFor: 'accessing-private' stamp: 'len 3/31/2016 07:43'!
-representatives
-	^ representatives! !
-
-!ModularTuple methodsFor: 'accessing-private' stamp: 'len 11/6/2016 14:04'!
-representatives: anArray
-	representatives _ anArray.
-	representatives do: [:each| (each between: 0 and: modulus) ifFalse: [self halt]]! !
-
-!ModularTuple methodsFor: 'operations' stamp: 'len 11/6/2016 14:27'!
-reversed
-	^ self class representatives: representatives reversed modulo: modulus! !
-
-!ModularTuple methodsFor: 'accessing' stamp: 'len 11/5/2016 03:50'!
-scalars
-	^ ZZ / modulus! !
-
-!ModularTuple methodsFor: 'accessing' stamp: 'len 3/31/2016 07:47'!
-size
-	^ representatives size! !
-
-!ModularTuple class methodsFor: 'instance creation' stamp: 'len 11/12/2016 17:19'!
-arrayClassForModulus: anInteger
-	anInteger <= 255 ifTrue: [^ ByteArray].
-	anInteger <= 16rFFFFFFFF ifTrue: [^ WordArray].
-	^ Array! !
-
-!ModularTuple class methodsFor: 'instance creation' stamp: 'len 11/6/2016 11:20'!
-coefficients: anArray modulo: anInteger
-	^ self new: anArray size modulo: anInteger evaluating: [:i| anArray at: i]! !
-
-!ModularTuple class methodsFor: 'instance creation' stamp: 'len 11/6/2016 11:11'!
-new: anInteger modulo: modulus
-	| array |
-	array _ (self arrayClassForModulus: modulus) new: anInteger.
-	^ self representatives: array modulo: modulus! !
-
-!ModularTuple class methodsFor: 'instance creation' stamp: 'len 11/6/2016 11:16'!
-new: anInteger modulo: modulus evaluating: aBlock
-	| array |
-	array _ (self arrayClassForModulus: modulus) new: anInteger.
-	1 to: anInteger do: [:i| array at: i put: (aBlock value: i) representative].
-	^ self representatives: array modulo: modulus! !
-
-!ModularTuple class methodsFor: 'instance creation' stamp: 'len 11/6/2016 14:03'!
-representatives: anArray modulo: anInteger
-	^ self basicNew modulus: anInteger; representatives: anArray! !
-
 !Matrix methodsFor: 'arithmetic' stamp: 'len 11/5/2016 03:09'!
 * anObject
 	(anObject is: #Matrix) ifTrue: [^ self dot: anObject].
@@ -29823,6 +30028,15 @@ copyFrom: aPoint to: anotherPoint
 		matrix: anotherPoint - start
 		evaluating: [:i :j| self at: start + (i@j)]! !
 
+!Matrix methodsFor: 'operations' stamp: 'len 11/30/2016 21:33:16'!
+denominator
+	"Answer the smallest positive integer that multiplied by the receiver gives a rational matrix."
+	| answer |
+	(self scalars isKindOf: Rationals) ifFalse: [DomainError signal: 'not a rational matrix'].
+	answer _ 1.
+	self do: [:each| answer _ answer lcm: each denominator].
+	^ answer! !
+
 !Matrix methodsFor: 'operations' stamp: 'len 3/17/2016 04:46'!
 determinant
 	self scalars isField
@@ -30077,6 +30291,10 @@ isZero
 	self do: [:each| each isZero ifFalse: [^ false]].
 	^ true! !
 
+!Matrix methodsFor: 'testing' stamp: 'len 12/1/2016 17:03:47'!
+isZeroAt: aPoint
+	^ (self at: aPoint) isZero! !
+
 !Matrix methodsFor: 'reduction' stamp: 'len 3/21/2016 09:38'!
 jordan
 	"Answer the Jordan blocks of the receiver's Jordan Normal Form."
@@ -30324,6 +30542,12 @@ zero
 columns: anArray
 	^ ColumnMatrix rows: anArray! !
 
+!Matrix class methodsFor: 'instance creation' stamp: 'len 11/29/2016 11:46:49'!
+diagonal: aTuple
+	| zero |
+	zero _ aTuple scalars zero.
+	^ self rows: ((1 to: aTuple size) collect: [:i| aTuple scalars tuple: aTuple size evaluating: [:j| j = i ifTrue: [aTuple at: i] ifFalse: [zero]]])! !
+
 !Matrix class methodsFor: 'instance creation' stamp: 'len 11/11/2016 08:58'!
 rows: anArray
 	^ RowMatrix rows: anArray! !
@@ -30384,6 +30608,10 @@ copy
 isZero
 	^ columns allSatisfy: [:each| each isZero]! !
 
+!ColumnMatrix methodsFor: 'testing' stamp: 'len 12/1/2016 17:05:02'!
+isZeroAt: aPoint
+	^ (columns at: aPoint y) isZeroAt: aPoint x! !
+
 !ColumnMatrix methodsFor: 'arithmetic' stamp: 'len 11/5/2016 03:43'!
 negated
 	^ self class columns: columns negated! !
@@ -30437,9 +30665,9 @@ addColumn: i by: aNumber toColumn: j
 addRow: aTuple
 	^ rows add: aTuple! !
 
-!RowMatrix methodsFor: 'reduction-operations' stamp: 'len 11/23/2016 09:40:41'!
+!RowMatrix methodsFor: 'reduction-operations' stamp: 'len 12/1/2016 17:54:40'!
 addRow: srcRow by: aNumber toRow: dstRow
-	self addRow: srcRow by: aNumber toRow: dstRow startingAt:1! !
+	self addRow: srcRow by: aNumber toRow: dstRow startingAt: 1! !
 
 !RowMatrix methodsFor: 'reduction-operations' stamp: 'len 11/23/2016 09:42:07'!
 addRow: srcRow by: aNumber toRow: dstRow startingAt: columnIndex
@@ -30472,6 +30700,10 @@ do: aBlock
 !RowMatrix methodsFor: 'testing' stamp: 'len 3/23/2016 00:19'!
 isZero
 	^ rows allSatisfy: [:each| each isZero]! !
+
+!RowMatrix methodsFor: 'testing' stamp: 'len 12/1/2016 17:04:49'!
+isZeroAt: aPoint
+	^ (rows at: aPoint x) isZeroAt: aPoint y! !
 
 !RowMatrix methodsFor: 'reduction-operations' stamp: 'len 3/23/2016 00:19'!
 multiplyColumn: i by: factor
@@ -31077,7 +31309,7 @@ multiplyRow: i by: anObject
 	extension notNil ifTrue: [extension multiplyRow: i by: anObject].
 	determinantFactor _ determinantFactor * anObject! !
 
-!MatrixReducer methodsFor: 'private' stamp: 'len 11/11/2016 18:31'!
+!MatrixReducer methodsFor: 'private' stamp: 'len 12/1/2016 17:03:16'!
 nextPivot
 	"Advance the position to the next available pivot."
 	| col |
@@ -31085,8 +31317,7 @@ nextPivot
 	[col <= matrix numberOfColumns]
 		whileTrue:
 			[1 to: matrix numberOfRows do: [:each|
-				((self pivots detect: [:one| one y = each] ifNone: [])
-					notNil or: [(matrix at: each @ col) isZero])
+				((self pivots anySatisfy: [:one| one y = each]) or: [matrix isZeroAt: each @ col])
 						ifFalse: [^ self addPivot: col @ each]].
 			col _ col + 1].
 	^ nil! !
@@ -31156,16 +31387,16 @@ reduceStep
 				[self multiplyRow: i by: pivot.
 				self addRow: row by: value negated toRow: i]]! !
 
-!GaussianElimination methodsFor: 'private' stamp: 'len 11/23/2016 09:41:05'!
+!GaussianElimination methodsFor: 'private' stamp: 'len 12/1/2016 18:21:30'!
 reduceStep
 	"Perform one step in the reduction of the matrix using the current pivot."
-	| row col value |
+	| row col |
 	row _ self currentPivot y.
 	col _ self currentPivot x.
 	self multiplyRow: row by: (matrix at: row @ col) reciprocal.
-	1 to: matrix numberOfRows do: [ :each |
-		(each = row or: [(value _ matrix at: each @ col) isZero])
-			ifFalse: [self addRow: row by: value negated toRow: each]]! !
+	1 to: matrix numberOfRows do: [:each|
+		(each = row or: [matrix isZeroAt: each @ col])
+			ifFalse: [self addRow: row by: (matrix at: each @ col) negated toRow: each]]! !
 
 !QRDecomposition methodsFor: 'as yet unclassified' stamp: 'len 3/21/2016 22:11'!
 Q
@@ -31438,14 +31669,14 @@ gcd: aMonomial
 has: anIndeterminate
 	^ (self at: anIndeterminate) ~= 0! !
 
-!Monomial methodsFor: 'comparing' stamp: 'len 11/22/2016 08:29:50'!
+!Monomial methodsFor: 'comparing' stamp: 'len 11/30/2016 21:59:33'!
 hash
 	| answer |
 	answer _ self lastIndeterminate.
 	1 to: exponents size do: [:i|
 		| e |
 		(e _ exponents at: i) = 0
-			ifFalse: [answer _ answer hashMultiply + e]]. "(e bitXor: i hashMultiply)]]."
+			ifFalse: [answer _ answer hashMultiply + e hash]].
 	^ answer! !
 
 !Monomial methodsFor: 'accessing' stamp: 'len 6/6/2016 08:40'!
@@ -32634,20 +32865,20 @@ printCoefficient: coefficient on: aStream
 		ifTrue: [aStream print: c]
 		ifFalse: [aStream nextPut: $(; print: c; nextPut: $)]! !
 
-!Polynomial methodsFor: 'printing' stamp: 'len 11/20/2016 13:47:58'!
+!Polynomial methodsFor: 'printing' stamp: 'len 11/29/2016 11:51:14'!
 printOn: aStream
 	| monomials leadingMonomial c |
 	self isBroken ifTrue: [aStream nextPutAll: '(broken) '].
 	self isConstant ifTrue: [aStream print: self leadingCoefficient. ^ self].
 	monomials _ self monomials asSortedCollection reversed.
 	c _ self coefficientAt: (leadingMonomial _ monomials first).
-	(c printString first = $- or: [c isNumber and: [c negative]])
+	(c printString first = $- or: [(c isKindOf: Number) and: [c negative]])
 		ifTrue: [c _ c negated. aStream nextPut: $-].
 	(c ~= c one or: [leadingMonomial degree = 0]) ifTrue: [self printCoefficient: c on: aStream].
 	leadingMonomial degree > 0 ifTrue: [aStream print: leadingMonomial].
 	monomials allButFirst do: [:m|
 		c _ self coefficientAt: m.
-		(c printString first = $- or: [c isNumber and: [c negative]])
+		(c printString first = $- or: [(c isKindOf: Number) and: [c negative]])
 			ifTrue: [aStream nextPutAll: ' - '. c _ c negated]
 			ifFalse: [aStream nextPutAll: ' + '].
 		(c ~= c one or: [m degree = 0]) ifTrue: [self printCoefficient: c on: aStream].
@@ -32879,9 +33110,9 @@ tail
 termAt: aMonomial
 	^ self species coefficient: (self coefficientAt: aMonomial) monomial: aMonomial! !
 
-!Polynomial methodsFor: 'accessing terms' stamp: 'len 11/26/2016 11:55:52'!
+!Polynomial methodsFor: 'accessing terms' stamp: 'len 11/29/2016 11:49:38'!
 terms
-	^ Iterator on: self do: #termsDo:! !
+	^ Iterator on: self performing: #termsDo:! !
 
 !Polynomial methodsFor: 'iterating' stamp: 'len 11/26/2016 11:56:50'!
 termsDo: aBlock
@@ -32917,10 +33148,6 @@ coefficientAt: aMonomial
 	"Answer the coefficient of the monomial given by the argument."
 	^ coefficients at: aMonomial ifAbsent: [self scalars zero]! !
 
-!MultivariatePolynomial methodsFor: 'accessing coefficients' stamp: 'len 3/28/2016 03:55'!
-coefficientAt: aMonomial add: value
-	^ coefficients at: aMonomial add: value! !
-
 !MultivariatePolynomial methodsFor: 'accessing coefficients' stamp: 'len 6/24/2016 21:35'!
 coefficientAt: aMonomial put: value
 	^ coefficients at: aMonomial put: value! !
@@ -32929,9 +33156,9 @@ coefficientAt: aMonomial put: value
 coefficients
 	^ coefficients! !
 
-!MultivariatePolynomial methodsFor: 'accessing-private' stamp: 'len 3/22/2016 23:33'!
-coefficients: aSparseTuple
-	coefficients _ aSparseTuple! !
+!MultivariatePolynomial methodsFor: 'accessing-private' stamp: 'len 11/29/2016 11:19:12'!
+coefficients: aMonomialIndexedTuple
+	coefficients _ aMonomialIndexedTuple! !
 
 !MultivariatePolynomial methodsFor: 'accessing coefficients' stamp: 'len 11/25/2016 10:31:40'!
 denseCoefficients
@@ -32966,25 +33193,6 @@ derivativeIn: anIndeterminate
 dividedByMonomial: aMonomial
 	^ self species coefficients: (self coefficients dividedByMonomial: aMonomial)! !
 
-!MultivariatePolynomial methodsFor: 'operations' stamp: 'len 11/25/2016 10:28:47'!
-evenIn: anIndeterminate
-	"Decompose the receiver in the form f(x^2)x + g(x^2) and answer g(x), where 'x' is the given indeterminate."
-	| answer monomial d |
-	answer _ self species new.
-	self monomialsAndCoefficientsDo: [:key :value|
-		(d _ key degreeIn: anIndeterminate) even
-			ifTrue:
-				[monomial _ key copy.
-				monomial at: anIndeterminate put: d // 2.
-				answer coefficientAt: monomial add: value]].
-	^ answer! !
-
-!MultivariatePolynomial methodsFor: 'operations' stamp: 'len 3/22/2016 23:37'!
-homogeneousComponentAt: anInteger
-	"Answer the receiver's homogeneous component of degree anInteger."
-
-	^ self species coefficients: (coefficients selectByKey: [ :each | each degree = anInteger])! !
-
 !MultivariatePolynomial methodsFor: 'accessing monomials' stamp: 'len 11/28/2016 18:51:48'!
 leadingMonomial
 	^ coefficients lastKey! !
@@ -33009,36 +33217,9 @@ monomialsDo: aBlock
 multipliedByMonomial: aMonomial
 	^ self species coefficients: (self coefficients multipliedByMonomial: aMonomial)! !
 
-!MultivariatePolynomial methodsFor: 'operations' stamp: 'len 11/25/2016 10:29:38'!
-oddIn: anIndeterminate
-	"Decompose the receiver in the form f(x^2)x + g(x^2) and answer f(x), where 'x' is the given indeterminate."
-	| answer monomial d |
-	answer _ self species new.
-	self monomialsAndCoefficientsDo: [:key :value|
-		(d _ key degreeIn: anIndeterminate) odd
-			ifTrue:
-				[monomial _ key copy.
-				monomial at: anIndeterminate put: d // 2.
-				answer coefficientAt: monomial add: value]].
-	^ answer! !
-
-!MultivariatePolynomial methodsFor: 'operations' stamp: 'len 11/25/2016 10:29:49'!
-shift: anInteger in: anIndeterminate
-	"Answer the receiver shifted anInteger places as univariate polynomial in the given indeterminate."
-
-	| answer monomial d |
-	answer _ self species new.
-	self monomialsAndCoefficientsDo: [:key :value|
-		d _ (key degreeIn: anIndeterminate) + anInteger.
-		d negative ifFalse:
-			[monomial _ key copy.
-			monomial at: anIndeterminate put: d.
-			answer coefficientAt: monomial add: value]].
-	^ answer! !
-
-!MultivariatePolynomial class methodsFor: 'instance creation' stamp: 'len 3/26/2016 22:56'!
-coefficients: aSparseTuple
-	^ self basicNew coefficients: aSparseTuple! !
+!MultivariatePolynomial class methodsFor: 'instance creation' stamp: 'len 11/29/2016 11:19:26'!
+coefficients: aMonomialIndexedTuple
+	^ self basicNew coefficients: aMonomialIndexedTuple! !
 
 !MultivariatePolynomial class methodsFor: 'instance creation' stamp: 'len 11/18/2016 20:44:55'!
 new
@@ -33491,7 +33672,7 @@ coefficients: aTuple
 new
 	^ self shouldNotImplement! !
 
-!Buchberger methodsFor: 'as yet unclassified' stamp: 'len 11/24/2016 11:57:11'!
+!Buchberger methodsFor: 'as yet unclassified' stamp: 'len 11/30/2016 13:49:09'!
 basis
 	"Buchberger algorithm.
 	Answer a Groebner basis obtainded from the given polynomials with the specified ordering."
@@ -33503,7 +33684,7 @@ basis
 	S _ generators.
 	[S _ S asSortedCollection: [:a :b| a leadingMonomial <= b leadingMonomial].
 	S do: [:f| (self reduce: f) isZero ifFalse: [basis add: f]].
-	S _ Set2 new.
+	S _ Set new.
 	1 to: basis size do: [:i| | fi hi ci |
 		fi _ basis at: i.
 		hi _ fi leadingMonomial.
@@ -34322,7 +34503,7 @@ multiplicityAt: aRoot fourier: fourier
 			[((fourier add: fourier last derivative) value: aRoot) isZero ifFalse: [^ count]. count _ count + 1].
 	^ count! !
 
-!RationalRootFinder methodsFor: 'accessing' stamp: 'len 6/28/2016 19:23'!
+!RationalRootFinder methodsFor: 'accessing' stamp: 'len 11/30/2016 14:44:29'!
 roots
 	"Separate the (real) rational roots of the polynomial."
 	| roots f n k tau visited fourier |
@@ -34331,7 +34512,7 @@ roots
 	n _ f degree.
 	(k _ f lowestDegree) > 0 ifTrue: [roots add: 0 withOccurrences: k. f _ f shift: k negated].
 	f isConstant ifTrue: [^ roots].
-	visited _ Set2 new.
+	visited _ Set new.
 	fourier _ OrderedCollection with: f.
 	f independentCoefficient divisorsDo: [:each|
 		f leadingCoefficient divisorsDo: [:one|
@@ -34867,13 +35048,13 @@ isTransitive
 		each neighborsDo: [:other| (other hasEdgeTo: self) ifFalse: [^ false]]].
 	^ true! !
 
-!GraphNode methodsFor: 'iterating' stamp: 'len 6/27/2016 23:19'!
+!GraphNode methodsFor: 'iterating' stamp: 'len 11/30/2016 14:43:32'!
 markDo: aBlock
 	"Visit each node in the graph once, applying aBlock.
 	A node is only visited after at least one of its predecessors, but not necessarily after all the predecessors."
 	| todo visited |
-	todo _ Set2 with: self.
-	visited _ Set2 new.
+	todo _ Set with: self.
+	visited _ Set new.
 	[todo isEmpty] whileFalse:
 		[| node |
 		node _ todo anyOne.
@@ -35283,11 +35464,11 @@ graph: aGraph source: aNode
 	source _ aNode.
 	self run! !
 
-!Dijkstra methodsFor: 'private' stamp: 'len 6/27/2016 23:12'!
+!Dijkstra methodsFor: 'private' stamp: 'len 11/30/2016 14:45:52'!
 run
 	| queue u estimate |
-	predecessor _ Dictionary2 new.
-	distance _ Dictionary2 new.
+	predecessor _ Dictionary new.
+	distance _ Dictionary new.
 	graph nodesDo: [:each |
 		distance at: each put: Float infinity.
 		predecessor at: each put: nil].
@@ -37602,10 +37783,10 @@ printOn: aStream
 !VariableExpression methodsFor: 'as yet unclassified' stamp: 'len 3/22/2016 18:36'!
 value: aDictionary
 	^ aDictionary at: name ifAbsent: [self]! !
+BitTuple initialize!
 Digraph initialize!
 Naturals initialize!
 Integers initialize!
 Rationals initialize!
 ComplexNumbers initialize!
 Reals initialize!
-BitTuple initialize!
