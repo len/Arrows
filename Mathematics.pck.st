@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 1 December 2016 at 6:41:33 pm'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 2 December 2016 at 11:19:31 am'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 292!
+!provides: 'Mathematics' 1 293!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
 	instanceVariableNames: 'numerator shift'
@@ -3691,7 +3691,7 @@ References:
 My instances are Hom(A,B), Hom-Set objects for domain A and codomain B, i.e. sets of all morphisms from A to B. When A = B, this is noted Endo(A), the set of endomorphisms.!
 
 !PointSet commentStamp: '<historical>' prior: 0!
-My instances are sets of S-points of a scheme X, noted X(S), where X and S are schemes over some base scheme or ring B. By definition, an S-point is a morphism from S to X over B. See also SchemePoint.!
+My instances are sets of S-points of a scheme X, noted X(S), where X and S are schemes over some base scheme or ring B. By definition, an S-point is a morphism from S to X over B. See also RationalPoint.!
 
 !RealBox commentStamp: '<historical>' prior: 0!
 My instances are boxes in R^n built by the cartesian product of one-dimensional intervals (instances of RealInterval).
@@ -4181,8 +4181,8 @@ My instances are affine schemes, i.e. spectra of commutative rings noted Spec R.
 
 Example:
 	"Three ways to create Spec Z/<42>, a subscheme of Spec Z:"
-	AffineScheme coordinateRing: (ZZ mod: 42).
-	(ZZ mod: 42) spec.
+	AffineScheme coordinateRing: (ZZ/42).
+	(ZZ/42) spec.
 	ZZ spec subscheme: 42.
 
 Another example of affine scheme is affine space (see subclass AffineSpace). The integral (reduced and irreducible) closed subschemes of affine space are the classical affine algebraic varieties, and their coordinate rings are quotients of multivariate polynomial rings by prime ideals.
@@ -4283,13 +4283,13 @@ References:
 	https://en.wikipedia.org/wiki/Morphism
 !
 
-!Function commentStamp: 'len 11/2/2016 08:28' prior: 0!
+!Function commentStamp: '<historical>' prior: 0!
 My instances are functions, i.e. maps from a mathematical structure (domain) to another structure (codomain). Evaluated at elements of the domain (>>#value:) they produce elements of the codomain. See Domain and HomSet.
 
 Example:
 	Function from: ZZ to: ZZ evaluating: [:x| x squared + 1].
 
-In general a Function is a morphism of sets. If the function preserves some mathematical structure, it is called a morphism of some category corresponding to the preserved structure. For example linear maps are morphisms of vector spaces or modules, continuous functions are morphisms of topological spaces, and group homomorphisms are morphisms of groups.
+A Function is a morphism of sets. If the function preserves some mathematical structure, it is called a morphism of some category corresponding to the preserved structure. For example linear maps are morphisms of vector spaces or modules, continuous functions are morphisms of topological spaces, and group homomorphisms are morphisms of groups.
 
 Example (three equivalent ways to construct homomorphisms):
 	"These constructions are similar to the explicit construction above, but they return not arbitrary functions but homomorphisms of the corresponding category (in this case linear maps, i.e. morphisms of vector spaces):"
@@ -4300,8 +4300,8 @@ Example (three equivalent ways to construct homomorphisms):
 In general, functions are defined by specifying a domain, a codomain, and an expression that can be evaluated at elements of the domain and produces elements of the codomain. One such expression can be a Smalltalk block, another Function, or more generally any Smalltalk object that admits evaluation (#value:), such as polynomials:
 
 Example (two ways to define the Frobenius endomorphism):
-	(ZZ mod: 6) endomorphisms evaluating: [:x| x**6].
-	(ZZ mod: 6) endomorphisms evaluating: (ZZ mod: 6) polynomials x ** 6.
+	(ZZ/6) endomorphisms evaluating: [:x| x**6].
+	(ZZ/6) endomorphisms evaluating: (ZZ/6) polynomials x ** 6.
 
 Note that functions defined by polynomials or other symbolic expressions, as opposed to functions defined by Smalltalk blocks, are printed more explicitly (as a formula).
 
@@ -4393,12 +4393,12 @@ Power series whose coefficients are linear recursive sequences are closed under:
 - derivation
 
 Example:
-	LinearRecursiveSequence fibonacci.
-	LinearRecursiveSequence fibonacci generatingFunction
+	CFiniteSequence fibonacci.
+	CFiniteSequence fibonacci generatingFunction
 
 Example:
 	| f |
-	f _ LinearRecursiveSequence fibonacci * LinearRecursiveSequence pellNumbers.
+	f _ CFiniteSequence fibonacci * CFiniteSequence pellNumbers.
 	f minimalPolynomial
 !
 
@@ -4928,6 +4928,12 @@ adaptToRealAlgebraic: rcvr andSend: selector
 !Float methodsFor: '*mathematics' stamp: 'len 2/25/2016 17:17'!
 squareRoot
 	^ self sqrt! !
+
+!Fraction methodsFor: '*mathematics' stamp: 'len 12/1/2016 21:12:07'!
+% anInteger
+	| R |
+	R _ ZZ / anInteger.
+	^ (R project: numerator) / (R project: denominator)! !
 
 !Fraction methodsFor: '*mathematics' stamp: 'len 1/13/2016 03:55'!
 adaptToAlgebraic: rcvr andSend: selector
@@ -8727,11 +8733,11 @@ coefficients: anArray
 fromInteger: anInteger
 	^ self new: anInteger highBit fromInteger: anInteger! !
 
-!BitTuple class methodsFor: 'initialization' stamp: 'len 7/15/2016 18:24'!
+!BitTuple class methodsFor: 'initialization' stamp: 'len 12/2/2016 11:18:19'!
 initialize
 	| Z2 |
 	super initialize.
-	Z2 _ ZZ modPrime: 2.
+	Z2 _ ZZ / 2.
 	One _ Z2 one.
 	Zero _ Z2 zero! !
 
@@ -14992,12 +14998,12 @@ symmetric: aCollection
 			generators add: (Permutation transpose: xi with: (X at: j))]].
 	^ self compositive generators: generators; name: 'Sym(', aCollection printText, ')'! !
 
-!Group class methodsFor: 'examples' stamp: 'len 7/15/2016 18:26'!
+!Group class methodsFor: 'examples' stamp: 'len 12/2/2016 11:02:18'!
 unitsModulo: m
 	"Answer the multiplicative group of units of integers modulo m."
 	| elements element Zm pi |
 	elements _ Set new.
-	Zm _ ZZ mod: m.
+	Zm _ ZZ/m.
 	pi _ Zm projection.
 	1 to: m - 1 do: [:each|
 		(element _ pi value: each) isUnit
@@ -17755,13 +17761,13 @@ conjugation
 	"Answer the companion automorphism of the receiver."
 	^ self id! !
 
-!Ring methodsFor: 'operations' stamp: 'len 10/18/2016 20:48'!
+!Ring methodsFor: 'operations' stamp: 'len 12/2/2016 11:13:43'!
 cyclotomicRing: n
 	"Answer the n-th cyclotomic ring on the receiver."
 	| Fx phi |
 	Fx _ self polynomials.
 	phi _ Fx cyclotomic: n. "cyclotomic polynomial of order n"
-	^ Fx mod: phi "answer the quotient ring modulo <phi>"! !
+	^ Fx / phi "answer the quotient ring modulo <phi>"! !
 
 !Ring methodsFor: 'accessing' stamp: 'len 10/20/2016 03:30'!
 dimension
@@ -20019,15 +20025,16 @@ new
 		ifFalse: [MultivariatePolynomial coefficients: (MonomialIndexedTuple over: self scalars)])
 			parent: self! !
 
-!PolynomialRing methodsFor: 'elements' stamp: 'len 11/28/2016 09:59:22'!
+!PolynomialRing methodsFor: 'elements' stamp: 'len 12/2/2016 10:20:06'!
 newFrom: aPolynomial
 	| associations |
 	(aPolynomial isKindOf: Polynomial) ifFalse: [^ self evaluating: aPolynomial].
 	(aPolynomial indeterminates allSatisfy: [:each| each <= self rank])
 		ifFalse: [self error: 'unknown indeterminates are present'].
-	((aPolynomial isKindOf: UnivariatePolynomial) and: [self isUnivariate not])
+	(aPolynomial isKindOf: UnivariatePolynomial)
 		ifTrue:
-			[associations _ OrderedCollection new: aPolynomial coefficients size.
+			[self isUnivariate ifTrue: [^ self coefficients: aPolynomial coefficients].
+			associations _ OrderedCollection new: aPolynomial coefficients size.
 			aPolynomial coefficients withIndexDo: [:coefficient :i|
 				associations add: (monomials x: 1 to: i-1) -> coefficient]]
 		ifFalse:
@@ -22487,12 +22494,12 @@ G12
 	A addRow: (0,0,0,0,0,1, 1,1,2,2,1,0) % 3.
 	^ self matrix: A! !
 
-!LinearCode class methodsFor: 'examples' stamp: 'len 11/16/2016 10:08'!
+!LinearCode class methodsFor: 'examples' stamp: 'len 12/2/2016 11:11:11'!
 G24
 	"Answer the extended binary Golary code [24,12,8].
 	Its generator matrix is I|A, where I is the 12x12 identity matrix and A is the complement of the adjacency matrix of the icosahedron."
 	| F A |
-	F _ ZZ mod: 2.
+	F _ ZZ / 2.
 	A _ Graph icosahedron adjacencyMatrix: (1 to: 12).
 	A _ A apply: (Function from: A scalars to: F evaluating: [:x| x = 0 ifTrue: [F one] ifFalse: [F zero]]).
 	^ self matrix: A identity | A! !
@@ -24834,16 +24841,16 @@ example2Morphism3
 	by sending the message #endomorphisms to the vector space."
 	^ (QQ**3) endomorphisms evaluating: [:v| (v x - v y, v x, v z)]! !
 
-!Function class methodsFor: 'examples' stamp: 'len 10/29/2016 07:37'!
+!Function class methodsFor: 'examples' stamp: 'len 12/2/2016 11:08:54'!
 example3Frobenius1
 	"One way to define the Frobenius ring homomorphism."
-	^ (ZZ mod: 6) endomorphisms evaluating: [:x| x**6]! !
+	^ (ZZ / 6) endomorphisms evaluating: [:x| x**6]! !
 
-!Function class methodsFor: 'examples' stamp: 'len 10/29/2016 07:37'!
+!Function class methodsFor: 'examples' stamp: 'len 12/2/2016 11:08:57'!
 example3Frobenius2
 	"The Frobenius ring homomorphism defined by a polynomial."
 	| R x |
-	R _ ZZ mod: 6.
+	R _ ZZ / 6.
 	x _ R polynomials x.
 	^ R endomorphisms evaluating: x ** 6! !
 
@@ -25882,6 +25889,10 @@ fromHalf: aVectorSpace evaluating: aBlock
 >> anInteger
 	^ self shift: anInteger! !
 
+!Sequence methodsFor: 'converting' stamp: 'len 12/2/2016 09:57:05'!
+asStream
+	^ ReadStream on: self! !
+
 !Sequence methodsFor: 'accessing' stamp: 'len 10/10/2016 14:06'!
 at: anInteger
 	^ anInteger >= 0 ifTrue: [super value: anInteger]! !
@@ -26023,10 +26034,6 @@ printStringBase: base
 product
 	"Answer the indefinite product of the receiver."
 	^ self species to: self codomain evaluating: [:i| (1 to: i) collect: [:k| self at: k] andFold: [:a :b| a*b]]! !
-
-!Sequence methodsFor: 'converting' stamp: 'len 4/24/2016 04:55'!
-readStream
-	^ ReadStream on: self! !
 
 !Sequence methodsFor: 'iterating' stamp: 'len 12/3/2015 23:16'!
 select: aBlock
@@ -26507,13 +26514,13 @@ asBilinearForm
 	"Answer the bilinear form associated with the receiver (assuming the characteristic is not 2). This is, via the polarization identity: B(v,w) = (Q(v+w) - Q(v-w)) / 4."
 	^ BilinearForm from: basis matrix: matrix! !
 
-!QuadraticForm methodsFor: 'converting' stamp: 'len 11/5/2016 05:47'!
+!QuadraticForm methodsFor: 'converting' stamp: 'len 12/2/2016 09:33:04'!
 asPolynomial
 	| n P x |
 	n _ self domain dimension.
 	P _ self scalars polynomialsIn: n.
 	x _ P tuple: n evaluating: [:i| P x: i].	
-	^ x dot: matrix * x! !
+	^ x dot: (matrix apply: P embedding) * x! !
 
 !QuadraticForm methodsFor: 'accessing' stamp: 'len 1/8/2016 05:21'!
 basis
@@ -29051,6 +29058,52 @@ in: aQuotientRing representative: anObject
 	ModularInteger == aModularInteger class ifFalse: [^ false].
 	self == aModularInteger ifTrue: [^ true].
 	^ aModularInteger representative = representative and: [aModularInteger modulus = self modulus]! !
+
+!ModularInteger methodsFor: 'converting' stamp: 'len 12/2/2016 09:43:47'!
+asRational
+	"Answer the rational reconstruction of the receiver, or nil if it doesn't exist."
+	| N |
+	N _ (self modulus // 2) sqrtFloor.
+	^ self asRationalMaxNumerator: N maxDenominator: N! !
+
+!ModularInteger methodsFor: 'converting' stamp: 'len 12/1/2016 22:06:18'!
+asRational: T
+	"Answer the rational reconstruction of the receiver, or nil if not found.
+	This is the MQRR (Maximal Quotient Rational Reconstruction) algorithm.
+	The parameter T > 0 bounds the size of the possible outputs. If u is the representative of the receiver and m is the modulus, the algorithm returns a rational n/d = u mod m, d > 0, gcd(n,d) = 1 and T*|n|*d < m, or fails.
+	The algorithm is almost optimal in the sense that requires that the modulus be only a modest number bits longer than 2*|n|*d. The time complexity is O(log^2 m).
+	Reference: 'Maximal Quotient Rational Reconstruction: An Almost Optimal Algorithm for Rational Reconstructoin', Michael Monagan."
+	| T` n d t0 r0 t1 r1 temp answer |
+	representative == 0 ifTrue: [^ self modulus > T ifTrue: [0]].
+	n _ 0. d _ 0.
+	t0 _ 0. r0 _ self modulus.
+	t1 _ 1. r1 _ representative.
+	T` _ T.
+	[r1 ~~ 0 and: [r0 > T`]]
+		whileTrue:
+			[| q |
+			(q _ r0 // r1) > T`
+				ifTrue: [n _ r1. d _ t1. T` _ q].
+			temp _ r0 - (q * r1). r0 _ r1. r1 _ temp.
+			temp _ t0 - (q * t1). t0 _ t1. t1 _ temp].
+	^ (d ~~ 0 and: [(answer _ n/d) numerator abs = n abs]) ifTrue: [answer]! !
+
+!ModularInteger methodsFor: 'converting' stamp: 'len 12/1/2016 22:06:40'!
+asRationalMaxNumerator: N maxDenominator: D
+	"Answer the rational reconstruction of the receiver, or nil if it doesn't exist."
+	| n d t0 r0 t1 r1 temp answer |
+	representative == 0 ifTrue: [^ 0].
+	t0 _ 0. r0 _ self modulus.
+	t1 _ 1. r1 _ representative.
+	[r1 > N]
+		whileTrue:
+			[| q |
+			q _ r0 // r1.
+			temp _ r0 - (q * r1). r0 _ r1. r1 _ temp.
+			temp _ t0 - (q * t1). t0 _ t1. t1 _ temp].
+	n _ r1. d _ t1.
+	d <= 0 ifTrue: [n _ n negated. d _ d negated].
+	^ (d <= D and: [(answer _ n/d) numerator abs = n abs]) ifTrue: [answer]! !
 
 !ModularInteger methodsFor: 'accessing' stamp: 'len 4/21/2016 05:55'!
 bitSize
@@ -32751,11 +32804,6 @@ lowestDegree
 	"Answer the lowest degree of the receiver's monomials (for univariate polynomials)."
 
 	^ self isZero ifTrue: [Infinity negative] ifFalse: [self monomials min: [:each| each degree]]! !
-
-!Polynomial methodsFor: 'arithmetic' stamp: 'len 1/2/2016 04:12'!
-mod: aPolynomial
-	self species = aPolynomial species ifFalse: [DomainError signal].
-	^ (self species mod: aPolynomial) project: self! !
 
 !Polynomial methodsFor: 'converting' stamp: 'len 11/17/2016 19:02:41'!
 monic

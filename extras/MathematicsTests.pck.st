@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 1 December 2016 at 6:43:57 pm'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 2 December 2016 at 11:19:36 am'!
 'Description Please enter a description for this package'!
-!provides: 'MathematicsTests' 1 49!
+!provides: 'MathematicsTests' 1 50!
 !classDefinition: #AbelianGroupTest category: #MathematicsTests!
 TestCase subclass: #AbelianGroupTest
 	instanceVariableNames: ''
@@ -283,7 +283,7 @@ PolynomialBenchmark class
 
 !classDefinition: #SmallMatrixBenchmark category: #MathematicsTests!
 Benchmark subclass: #SmallMatrixBenchmark
-	instanceVariableNames: 'integerMatrix binaryMatrix'
+	instanceVariableNames: 'integerMatrix binaryMatrix modularMatrix'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'MathematicsTests'!
@@ -674,10 +674,23 @@ testRealAlgebraicNumberDivision	70.8 per second.
 testRealAlgebraicNumberProduct	81.7 per second.
 testRealAlgebraicNumberSquare	1,820 per second!
 
-!SmallMatrixBenchmark commentStamp: 'len 11/22/2016 11:53:34' prior: 0!
-This benchmark tests some basic operations on 64x64 matrices.
+!SmallMatrixBenchmark commentStamp: 'len 12/2/2016 09:27:43' prior: 0!
+This benchmark tests some basic operations on 64x64 matrices over Z, Z/2Z, and Z/32003Z.
 
 self new run
+
+testAdditionZ	7,960 per second.
+testAdditionZ2	85,700 per second.
+testAdditionZp	7,710 per second.
+testCopyZ	162,000 per second.
+testCopyZ2	477,000 per second.
+testCopyZp	181,000 per second.
+testMultiplicationZ	174 per second.
+testMultiplicationZ2	161 per second.
+testMultiplicationZp	130 per second.
+testTranspositionZ	4,600 per second.
+testTranspositionZ2	1,090 per second.
+testTranspositionZp	2,110 per second.
 
 testAdditionZ	7,840 per second. (spur 32 bits)
 testAdditionZ2	86,600 per second.
@@ -781,10 +794,10 @@ testAbelianGroupHomomorphism: phi
 	self assert: (phi value: G zero) = H zero.
 	self assert: (phi value: a + b) = ((phi value: a) + (phi value: b))! !
 
-!AbelianGroupTest methodsFor: 'as yet unclassified' stamp: 'len 10/10/2016 09:31'!
+!AbelianGroupTest methodsFor: 'as yet unclassified' stamp: 'len 12/2/2016 11:04:50'!
 testDirectSum
 	| G |
-	G _ ZZ  (ZZ mod: (2 to: 10) atRandom).
+	G _ ZZ  (ZZ / (2 to: 10) atRandom).
 	self testAbelianGroup: G.
 	self testAbelianGroupHomomorphism: (G projection: 2 atRandom).
 	self testAbelianGroupHomomorphism: (G embedding: 2 atRandom)! !
@@ -800,10 +813,10 @@ testIntegerTuples
 testIntegers
 	self testAbelianGroup: ZZ! !
 
-!AbelianGroupTest methodsFor: 'as yet unclassified' stamp: 'len 10/10/2016 09:27'!
+!AbelianGroupTest methodsFor: 'as yet unclassified' stamp: 'len 12/2/2016 11:04:54'!
 testModularIntegers
 	| G |
-	G _ ZZ mod: (2 to: 10) atRandom.
+	G _ ZZ / (2 to: 10) atRandom.
 	self testAbelianGroup: G.
 	self testAbelianGroupHomomorphism: G projection! !
 
@@ -1176,13 +1189,13 @@ testSmoothnessOverQQ
 	C _ P subscheme: (P coordinateRing evaluating: [:x :y :z| x**3 - (y**2*z)]).
 	self assert: C isSingular! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/20/2016 09:57'!
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 12/2/2016 11:08:49'!
 testSpecZ
-	self assert: ZZ spec >= (ZZ mod: 2) spec.
-	self assert: (ZZ mod: 10) spec >= (ZZ mod: 5) spec.
-	self deny: (ZZ mod: 10) spec >= (ZZ mod: 3) spec.
-	self assert: (ZZ mod: 10) spec ˜ (ZZ mod: 15) spec = (ZZ mod: 5) spec.
-	self assert: (ZZ mod: 10) spec ™ (ZZ mod: 15) spec = (ZZ mod: 30) spec! !
+	self assert: ZZ spec >= (ZZ / 2) spec.
+	self assert: (ZZ / 10) spec >= (ZZ / 5) spec.
+	self deny: (ZZ / 10) spec >= (ZZ / 3) spec.
+	self assert: (ZZ / 10) spec ˜ (ZZ / 15) spec = (ZZ / 5) spec.
+	self assert: (ZZ / 10) spec ™ (ZZ / 15) spec = (ZZ / 30) spec! !
 
 !AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/25/2016 06:13'!
 testTwistedCubic
@@ -1688,13 +1701,13 @@ testIdealRadical
 	J _ R * {x. y}.
 	self assert: I radical = J! !
 
-!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 10/24/2016 15:48'!
+!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 12/2/2016 11:18:14'!
 testIdealRadicalZeroDimNotPerfectField
 	"Counterexample that shows how Seidenberg algorithm fails over a non-perfect field.
 	From Becker and Weispfenning 'Groebner Bases', Springer-Verlag, 1993. Example 8.16."
 	| p F R t x y I |
 	p _ #(3 5 7 11) atRandom.
-	F _ (Integers new modPrime: p) polynomialsIn: #(t) :: fractions.
+	F _ (ZZ / p) polynomialsIn: #(t) :: fractions.
 	R _ F polynomialsIn: #(x y).
 	t _ F x: #t.
 	x _ R x.
@@ -2316,11 +2329,11 @@ testLagrangeTheorem
 	H _ G span: (G random next: 3 atRandom) asSet.
 	self assert: H order | G order! !
 
-!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 11/6/2016 10:05'!
+!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 12/2/2016 11:10:56'!
 testModularIntegersUnits
 	| m R U |
 	m _ (2 to: 100) atRandom.
-	R _ ZZ mod: m.
+	R _ ZZ / m.
 	U _ R units.
 	self assert: U size = (Sequence phi value: m).
 "	self testGroup: U"! !
@@ -2562,10 +2575,10 @@ testIntegerDivisors
 	self assert: 12 numberOfDivisors = 6.
 	self assert: 12 divisors size = 6! !
 
-!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 7/25/2016 23:54'!
+!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 12/2/2016 11:11:24'!
 testIteratorCovering
 	| F |
-	F _ ZZ mod: 3.
+	F _ ZZ / 3.
 	self assert: (F**3 upTo: 3**3) asSet size = (3**3).
 	self assert: (ZZ**3 upTo: 100) asSet size = 100! !
 
@@ -2629,10 +2642,10 @@ testLatticeDual2
 	self assert: lattice determinant = (1 / dualLattice determinant).
 	self assert: (lattice basis matrix * dualLattice basis matrix) isIdentity! !
 
-!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:47'!
+!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 12/2/2016 11:17:48'!
 testModularIntegersField
 	| F a b |
-	F _ ZZ modPrime: 7.
+	F _ ZZ / 7.
 	self assert: F isField.
 	self assert: F characteristic = 7.
 	a _ F projection value: 3.
@@ -3072,9 +3085,9 @@ testTransposed
 	self assert: A columns = A transposed rows.
 	self assert: A transposed transposed = A! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 10/16/2016 09:58'!
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 12/2/2016 11:11:38'!
 newFreeModule
-	^ self newFreeModuleOver: {ZZ. QQ. ZZ mod: 10 atRandom + 1} atRandom! !
+	^ self newFreeModuleOver: {ZZ. QQ. ZZ / (10 atRandom + 1)} atRandom! !
 
 !ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 10/16/2016 09:57'!
 newFreeModuleOver: scalars
@@ -3108,10 +3121,10 @@ testAnnihilatorProperties
 	self assert: V annihilator isTrivial.
 "	self assert: S annihilator annihilator = S dual dual"! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 7/15/2016 18:26'!
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 12/2/2016 11:17:43'!
 testAnnihilatorZ2
 	| V v S S0 |
-	V _ (ZZ modPrime: 2) ** 4.
+	V _ (ZZ / 2) ** 4.
 	[(v _ V atRandom) isZero] whileTrue.
 	S _ V span: {v}.
 	S0 _ S annihilator.
@@ -3450,13 +3463,13 @@ testMatricesQ
 testMatricesZ
 	self testFreeModule: (ZZ ** (5 atRandom @ 5 atRandom))! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:46'!
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 12/2/2016 11:11:58'!
 testMatricesZ2
-	self testFreeModule: ((ZZ mod: 2) ** (5 atRandom @ 5 atRandom))! !
+	self testFreeModule: ((ZZ / 2) ** (5 atRandom @ 5 atRandom))! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:46'!
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 12/2/2016 11:12:02'!
 testMatricesZ4
-	self testFreeModule: ((ZZ mod: 4) ** (5 atRandom @ 5 atRandom))! !
+	self testFreeModule: ((ZZ / 4) ** (5 atRandom @ 5 atRandom))! !
 
 !ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:59'!
 testMatrixTraceAsLinearMap
@@ -3518,10 +3531,10 @@ testPerpProperties
 	self assert: S <= S perp perp.
 	self assert: S perp < T perp "because S > T"! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:46'!
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 12/2/2016 11:17:38'!
 testPerpZ2
 	| V S perp |
-	V _ (ZZ modPrime: 2) ** 3.
+	V _ (ZZ / 2) ** 3.
 	S _ V span: {(1,1,1) % 2}.
 	perp _ S perp.
 	self assert: perp dimension = 2.
@@ -3673,13 +3686,13 @@ testTuplesRationalFunctionsQ
 testTuplesZ
 	self testFreeModule: (ZZ ** 5 atRandom)! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:46'!
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 12/2/2016 11:12:06'!
 testTuplesZ2
-	self testFreeModule: ((ZZ mod: 2) ** 5 atRandom)! !
+	self testFreeModule: ((ZZ / 2) ** 5 atRandom)! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:46'!
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 12/2/2016 11:12:11'!
 testTuplesZ4
-	self testFreeModule: ((ZZ mod: 4) ** 5 atRandom)! !
+	self testFreeModule: ((ZZ / 4) ** 5 atRandom)! !
 
 !MonomialTest methodsFor: 'as yet unclassified' stamp: 'len 11/22/2016 08:31:09'!
 testHash
@@ -3891,10 +3904,10 @@ testArithmetic
 	self assert: (f*g + (x - 1) \\ g) = (x - 1)
 ! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:49'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 12/2/2016 11:17:24'!
 testArithmeticZ2
 	| x f g |
-	x _ ZZ modPrime: 2 :: polynomials x.
+	x _ ZZ / 2 :: polynomials x.
 	f _ x**2 + (x*2) - 1.
 	g _ x**2 - (x*2) + 1.
 	self assert: f+g = (x**2 * 2).
@@ -3905,10 +3918,10 @@ testArithmeticZ2
 	self assert: (f*g + (x - 1) \\ g) = (x - 1)
 ! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:50'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 12/2/2016 11:12:40'!
 testArithmeticZ3
 	| x f g |
-	x _ ZZ mod: 3 :: polynomials x.
+	x _ ZZ / 3 :: polynomials x.
 	f _ x**2 + (x*2) - 1.
 	g _ x**2 - (x*2) + 1.
 	self assert: f+g = (x**2 * 2).
@@ -4059,18 +4072,18 @@ testEvaluationHomomorphismMultivariate
 testEvaluationHomomorphismZ2
 	self testEvaluationHomomorphism: (PrimeField new: 2)! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:51'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 12/2/2016 11:13:08'!
 testEvaluationHomomorphismZm
-	self testEvaluationHomomorphism: (ZZ mod: 2 + 100 atRandom).
-	self testEvaluationHomomorphism: (ZZ mod: 2**13 - 2).
-	self testEvaluationHomomorphism: (ZZ mod: 2**31 - 2)! !
+	self testEvaluationHomomorphism: ZZ / (2 + 100 atRandom).
+	self testEvaluationHomomorphism: ZZ / (2**13 - 2).
+	self testEvaluationHomomorphism: ZZ / (2**31 - 2)! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 10/18/2016 21:02'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 12/2/2016 11:17:17'!
 testEvaluationHomomorphismZp
 	self testEvaluationHomomorphism: (PrimeField new: 3).
 	self testEvaluationHomomorphism: (PrimeField new: 5).
-	self testEvaluationHomomorphism: (ZZ modPrime: 2**13 - 1).
-	self testEvaluationHomomorphism: (ZZ modPrime: 2**31 - 1)! !
+	self testEvaluationHomomorphism: (PrimeField new: 2**13 - 1).
+	self testEvaluationHomomorphism: (PrimeField new: 2**31 - 1)! !
 
 !PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:51'!
 testEvaluationMultivariate
@@ -4146,10 +4159,10 @@ testExtendedEuclidBug
 	f2 _ x - 1.
 	self assert: (ExtendedEuclid on: {f1. f2}) gcd = (f1 gcd: f2)! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:52'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 12/2/2016 11:16:47'!
 testFiniteFieldFactorization
 	| F Fx x one f factors |
-	F _ ZZ modPrime: 3.
+	F _ ZZ / 3.
 	Fx _ F polynomials.
 	x _ Fx x.
 	one _ Fx one.
@@ -4161,10 +4174,10 @@ testFiniteFieldFactorization
 	self assert: (factors occurrencesOf: x + one) = 1.
 	self assert: (factors inject: Fx one into: [:a :b|a*b]) = f! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:52'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 12/2/2016 11:16:50'!
 testFiniteFieldFactorization2
 	| Z3 x f factors |
-	Z3 _ ZZ modPrime: 3.
+	Z3 _ ZZ / 3.
 	x _ Z3 polynomials x.
 	f _ (x-1)**2*(x-2).
 	factors _ f factors.
@@ -4172,10 +4185,10 @@ testFiniteFieldFactorization2
 	self assert: (factors occurrencesOf: x-1) = 2.
 	self assert: (factors occurrencesOf: x-2) = 1! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:52'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 12/2/2016 11:13:13'!
 testFiniteFieldFactorizationZ2
 	| Z2 x f factors |
-	Z2 _ ZZ mod: 2.
+	Z2 _ ZZ / 2.
 	x _ Z2 polynomials x.
 	f _ x**24 - 1.
 	factors _ f factors.
@@ -4183,11 +4196,11 @@ testFiniteFieldFactorizationZ2
 	self assert: (factors occurrencesOf: x+1) = 8.
 	self assert: (factors occurrencesOf: x**2+x+1) = 8! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:52'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 12/2/2016 11:16:43'!
 testFiniteFieldIrreduciblePolynomials
 	"Z/<3>[x] has 8 irreducible monic polynomials of degree 3, out of 27 monic polynomials of degree 3."
 	| F Fx f count |
-	F _ ZZ modPrime: 3.
+	F _ ZZ / 3.
 	Fx _ F polynomials.
 	count _ 0.
 	(F ** 3) do: [:each|
@@ -4200,20 +4213,20 @@ testFiniteFieldIrreduciblePolynomials
 				[self assert: f factors size > 1]].
 	self assert: count = 8! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:52'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 12/2/2016 11:16:38'!
 testFiniteFieldIsIrreducible
 	| F Fx x f |
-	F _ ZZ modPrime: 3.
+	F _ ZZ / 3.
 	Fx _ F polynomials.
 	x _ Fx x.
 	f _ x**3 + (x*2) + 1.
 	self assert: f factors size = 1.
 	self assert: f isIrreducible! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:52'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 12/2/2016 11:16:34'!
 testFiniteFieldRoots
 	| Z3 x f roots |
-	Z3 _ ZZ modPrime: 3.
+	Z3 _ ZZ / 3.
 	x _ Z3 polynomials x.
 	f _ (x-1)**2*(x-2).
 	roots _ f roots.
@@ -4221,10 +4234,10 @@ testFiniteFieldRoots
 	self assert: (roots occurrencesOf: (Z3 project: 1)) = 2.
 	self assert: (roots occurrencesOf: (Z3 project: 2)) = 1! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:52'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 12/2/2016 11:16:31'!
 testFiniteFieldSFF
 	| F Fx x one f factors |
-	F _ ZZ modPrime: 3.
+	F _ ZZ / 3.
 	Fx _ F polynomials.
 	x _ Fx x.
 	one _ Fx one.
@@ -4440,9 +4453,9 @@ testPseudoDivisionUnivariate2
 testPseudoDivisionZ
 	self testPseudoDivision: ZZ! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:53'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 12/2/2016 11:13:22'!
 testPseudoDivisionZ6
-	self testPseudoDivision: (ZZ mod: 6)! !
+	self testPseudoDivision: ZZ / 6! !
 
 !PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:53'!
 testPseudoRemainder
@@ -4693,17 +4706,17 @@ testProjectiveSpaceBasic
 	self assert: p3 = p0.
 	self assert: (p0 + p1) dimension = 1! !
 
-!RingTest methodsFor: 'as yet unclassified' stamp: 'len 11/1/2016 01:02'!
+!RingTest methodsFor: 'as yet unclassified' stamp: 'len 12/2/2016 11:13:56'!
 newQuotientRing
 	| R I |
-	2 atRandom = 1 ifTrue: [^ ZZ mod: (2 to: 10) atRandom].
+	2 atRandom = 1 ifTrue: [^ ZZ / (2 to: 10) atRandom].
 	R _ ZZ polynomials.
 	I _ R * (R atRandomBits: 10 maxDegree: 5).
 	^ R / I! !
 
-!RingTest methodsFor: 'as yet unclassified' stamp: 'len 10/10/2016 09:56'!
+!RingTest methodsFor: 'as yet unclassified' stamp: 'len 12/2/2016 11:14:00'!
 newRing
-	2 atRandom = 1 ifTrue: [^ {ZZ. QQ. ZZ mod: (2 to: 10) atRandom} atRandom polynomialsIn: (1 to: 3) atRandom].
+	2 atRandom = 1 ifTrue: [^ {ZZ. QQ. ZZ / (2 to: 10) atRandom} atRandom polynomialsIn: (1 to: 3) atRandom].
 	2 atRandom = 1 ifTrue: [^ self newQuotientRing].
 	^ ZZ! !
 
@@ -4765,10 +4778,10 @@ testLocalizationOfZAwayFrom2
 testMatrixRing
 	self testRing: (ZZ ** (5@5)) asRing! !
 
-!RingTest methodsFor: 'as yet unclassified' stamp: 'len 10/7/2016 06:12'!
+!RingTest methodsFor: 'as yet unclassified' stamp: 'len 12/2/2016 11:14:10'!
 testModularIntegers
 	| Zm |
-	Zm _ ZZ mod: 10 atRandom + 1.
+	Zm _ ZZ / (10 atRandom + 1).
 	self testRing: Zm.
 	self testRingHomomorphism: Zm projection! !
 
@@ -5367,10 +5380,10 @@ testFiniteField
 	F _ Ring GF: 9.
 	((F**3) upTo: 9**3) asSet size = (9**3) ifFalse: [self halt]! !
 
-!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:49'!
+!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 12/2/2016 11:17:35'!
 testFiniteFieldPolynomialFactorization
 	| F Fx x one f |
-	F _ ZZ modPrime: 3.
+	F _ ZZ / 3.
 	Fx _ F polynomials.
 	x _ Fx x.
 	one _ Fx one.
@@ -5393,10 +5406,10 @@ testPolynomialAdditionOverZ
 	g _ P atRandomBits: 100 maxDegree: 50.
 	10000 timesRepeat: [f + g]! !
 
-!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:49'!
+!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 12/2/2016 11:17:31'!
 testPolynomialAdditionOverZ2
 	| P f g |
-	P _ ZZ modPrime: 2 :: polynomials.
+	P _ ZZ / 2 :: polynomials.
 	f _ P atRandomDegree: 50.
 	g _ P atRandomDegree: 50.
 	10000 timesRepeat: [f + g]! !
@@ -5437,10 +5450,10 @@ testPolynomialGCDOverZ
 	g _ x**6 - 1 ** 5.
 	2000 timesRepeat: [f gcd: g]! !
 
-!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:49'!
+!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 12/2/2016 11:17:28'!
 testPolynomialGCDOverZ2
 	| P x f g |
-	P _ ZZ modPrime: 2 :: polynomials.
+	P _ ZZ / 2 :: polynomials.
 	x _ P x.
 	f _ x**4 - 1 ** 5.
 	g _ x**6 - 1 ** 5.
@@ -5532,10 +5545,11 @@ testRealAlgebraicNumberSquare
 	sqrt2 _ RealAlgebraicNumber sqrt2.
 	10 timesRepeat: [sqrt2 squared]! !
 
-!SmallMatrixBenchmark methodsFor: 'as yet unclassified' stamp: 'len 10/18/2016 21:02'!
+!SmallMatrixBenchmark methodsFor: 'as yet unclassified' stamp: 'len 12/2/2016 09:23:51'!
 setUp
 	integerMatrix _ ZZ ** (64@64) :: atRandomBits: 10000.
-	binaryMatrix _ (PrimeField new: 2) ** (64@64) :: atRandom! !
+	binaryMatrix _ (PrimeField new: 2) ** (64@64) :: atRandom.
+	modularMatrix _ (PrimeField new: 32003) ** (64@64) :: atRandom! !
 
 !SmallMatrixBenchmark methodsFor: 'as yet unclassified' stamp: 'len 7/8/2016 02:48'!
 testAdditionZ
@@ -5545,6 +5559,10 @@ testAdditionZ
 testAdditionZ2
 	binaryMatrix + binaryMatrix! !
 
+!SmallMatrixBenchmark methodsFor: 'as yet unclassified' stamp: 'len 12/2/2016 09:24:56'!
+testAdditionZp
+	modularMatrix + modularMatrix! !
+
 !SmallMatrixBenchmark methodsFor: 'as yet unclassified' stamp: 'len 7/8/2016 02:49'!
 testCopyZ
 	integerMatrix copy! !
@@ -5552,6 +5570,10 @@ testCopyZ
 !SmallMatrixBenchmark methodsFor: 'as yet unclassified' stamp: 'len 7/8/2016 02:50'!
 testCopyZ2
 	binaryMatrix copy! !
+
+!SmallMatrixBenchmark methodsFor: 'as yet unclassified' stamp: 'len 12/2/2016 09:24:46'!
+testCopyZp
+	modularMatrix copy! !
 
 !SmallMatrixBenchmark methodsFor: 'as yet unclassified' stamp: 'len 7/8/2016 02:49'!
 testMultiplicationZ
@@ -5561,6 +5583,10 @@ testMultiplicationZ
 testMultiplicationZ2
 	binaryMatrix * binaryMatrix! !
 
+!SmallMatrixBenchmark methodsFor: 'as yet unclassified' stamp: 'len 12/2/2016 09:24:37'!
+testMultiplicationZp
+	modularMatrix * modularMatrix! !
+
 !SmallMatrixBenchmark methodsFor: 'as yet unclassified' stamp: 'len 7/8/2016 02:49'!
 testTranspositionZ
 	integerMatrix transposed! !
@@ -5568,6 +5594,10 @@ testTranspositionZ
 !SmallMatrixBenchmark methodsFor: 'as yet unclassified' stamp: 'len 7/8/2016 02:58'!
 testTranspositionZ2
 	binaryMatrix transposed! !
+
+!SmallMatrixBenchmark methodsFor: 'as yet unclassified' stamp: 'len 12/2/2016 09:24:25'!
+testTranspositionZp
+	modularMatrix transposed! !
 
 !SparsePolynomialMultiplicationBenchmark methodsFor: 'as yet unclassified' stamp: 'len 11/22/2016 11:48:08'!
 setUp
