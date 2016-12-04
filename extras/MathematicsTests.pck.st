@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 2 December 2016 at 11:19:36 am'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 4 December 2016 at 10:02:19 pm'!
 'Description Please enter a description for this package'!
-!provides: 'MathematicsTests' 1 50!
+!provides: 'MathematicsTests' 1 51!
 !classDefinition: #AbelianGroupTest category: #MathematicsTests!
 TestCase subclass: #AbelianGroupTest
 	instanceVariableNames: ''
