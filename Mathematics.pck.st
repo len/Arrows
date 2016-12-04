@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 2 December 2016 at 11:19:31 am'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 4 December 2016 at 10:00:22 pm'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 293!
+!provides: 'Mathematics' 1 294!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
 	instanceVariableNames: 'numerator shift'
@@ -911,6 +911,16 @@ Group subclass: #CoxeterGroup
 CoxeterGroup class
 	instanceVariableNames: ''!
 
+!classDefinition: #IdealMonoid category: #'Mathematics-Rings'!
+Monoid subclass: #IdealMonoid
+	instanceVariableNames: 'ring'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Rings'!
+!classDefinition: 'IdealMonoid class' category: #'Mathematics-Rings'!
+IdealMonoid class
+	instanceVariableNames: ''!
+
 !classDefinition: #Monomials category: #'Mathematics-Monomials'!
 Monoid subclass: #Monomials
 	instanceVariableNames: 'rank ordering'
@@ -1289,16 +1299,6 @@ Ring subclass: #PowerSeriesRing
 	category: 'Mathematics-Sequences'!
 !classDefinition: 'PowerSeriesRing class' category: #'Mathematics-Sequences'!
 PowerSeriesRing class
-	instanceVariableNames: ''!
-
-!classDefinition: #ExtendedComplexNumbers category: #'Mathematics-Etc-Misc'!
-Ring subclass: #ExtendedComplexNumbers
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Etc-Misc'!
-!classDefinition: 'ExtendedComplexNumbers class' category: #'Mathematics-Etc-Misc'!
-ExtendedComplexNumbers class
 	instanceVariableNames: ''!
 
 !classDefinition: #GaussianIntegers category: #'Mathematics-Etc-Misc'!
@@ -3833,6 +3833,9 @@ Categorically, this construction is a functor from the cateogory of rings to the
 References:
 	https://en.wikipedia.org/wiki/Unit_(ring_theory)!
 
+!IdealMonoid commentStamp: '<historical>' prior: 0!
+My instances are monoids of ideals in a given Ring. Elements are Ideals or subclasses.!
+
 !Monomials commentStamp: '<historical>' prior: 0!
 My instances are (commutative) monoids of monomials in n indeterminates. Elements are instances of Monomial.
 
@@ -3925,7 +3928,7 @@ My instances are rings with unit, i.e. structures with a set R of elements, a di
 - R is a monoid under multiplication;
 - multiplication is distributive with respect to addition.
 
-The idea of 'ring' appears naturally in mathematics when considering the endomorphisms of abelian groups (or other abelian categories) under composition.
+The idea of 'ring' appears naturally in mathematics when considering the endomorphisms of abelian groups (or other abelian categories) under composition. In some sense, that's the essence of rings.
 
 Rings can be commutative or non-commutative. Some specific kinds of commutative rings are given with the following class of inclusions:
 	commutative rings > integral domains > integrity closed domains > unique factorization domains > principal ideal domains > euclidean domains > fields > finite fields.
@@ -3981,9 +3984,9 @@ Example:
 My instances are direct products of rings. Elements are tuples, and multiplication and addition are defined component wise.!
 
 !QuotientRing commentStamp: '<historical>' prior: 0!
-My instances are quotient rings (also called factor rings, difference rings or residue class rings). 
+My instances are quotient rings (also called factor rings, difference rings or residue class rings).
 
-Given a commutative ring R and a two-sided-ideal I of R, the quotient ring R/I is the set of cosets of I in R by the equivalence relation a ~ b if a - b is in I. If the ideal is maximal, the resulting quotient ring is a field. If it's only prime, the quotient ring is an integral domain.
+Given a commutative ring R and an ideal I of R, the quotient ring R/I (read 'R modulo I' or 'R mod I') is the set of cosets of I in R by the equivalence relation a ~ b if a - b is in I. If the ideal is maximal, the resulting quotient ring is a field. If it's only prime, the quotient ring is an integral domain.
 
 References:
 	https://en.wikipedia.org/wiki/Quotient_ring!
@@ -4068,9 +4071,6 @@ Example:
 	A _ M atRandomBits: 30.
 	A printText, ' -> ', (det value: A) printText
 !
-
-!ExtendedComplexNumbers commentStamp: '<historical>' prior: 0!
-I'm the field of complex numbers extended with the point a infinity.!
 
 !Module commentStamp: 'len 6/23/2016 01:23' prior: 0!
 My instances are right R-modules.
@@ -5130,6 +5130,10 @@ is: aSymbol
 isRational
 	^ true! !
 
+!Integer methodsFor: '*mathematics' stamp: 'len 12/4/2016 15:14:11'!
+isZero
+	^ self == 0! !
+
 !Integer methodsFor: '*mathematics' stamp: 'len 8/20/97 02:25'!
 jacobi: m
 	"Answer the Jacobi symbol of the receiver and the argument."
@@ -5204,23 +5208,35 @@ partitionsDo: aBlock
 		(each size > 0 and: [each size < 2 or: [(each at: 2) > (each at: 1)]])
 			ifTrue: [aBlock value: (each copy at: 1 put: (each at: 1) + 1; yourself)]]! !
 
-!Integer methodsFor: '*mathematics' stamp: 'len 9/17/97 02:05'!
+!Integer methodsFor: '*mathematics' stamp: 'len 12/3/2016 13:17:26'!
 pollard
 	"Answer a non trivial factor of the receiver.
-	The Pollard method is used."
+	Pollard's p-1 algorithm is used. This works well to find a prime factor p such that p - 1 is smooth."
 
-	| interval a x y p count |
-
-	interval _ 1 to: self abs.
-	a _ interval atRandom.
-	x _ interval atRandom.
+	| N a x y p count |
+	N _ self abs.
+	a _ N atRandom.
+	x _ N atRandom.
 	y _ x.
 	count _ 1.
 	[x _ x squared + a \\ self.
 	y _ (y squared + a \\ self) squared + a \\ self.
 	(p _ y - x gcd: self) = 1
 		ifFalse: [^ Array with: p with: count].
-	count _ count + 1. true] whileTrue.! !
+	count _ count + 1] repeat! !
+
+!Integer methodsFor: '*mathematics' stamp: 'len 12/3/2016 13:25:38'!
+pollard: L
+	"Answer a nontrivial factor of the receiver, or nil if fail.
+	This is Pollard's p-1 algorithm. It works well with numbers divisible by a prime p such that p - 1 is smooth with some small factor q^k where k*q <= L."
+	| N A F |
+	N _ self abs.
+	A _ (2 to: N-1) atRandom.
+	1 to: L do: [:i|
+		A _ A raisedTo: i modulo: N.
+		(F _ A - 1 gcd: N) = 1
+			ifFalse: [^ F]].
+	^ nil! !
 
 !Integer methodsFor: '*mathematics' stamp: 'len 12/13/2015 01:49'!
 primeSignature
@@ -5241,6 +5257,41 @@ primitiveRoot
 			a >= self ifTrue: [self error: 'no primitive element, the modulo is not prime']].
 	^ a! !
 
+!Integer methodsFor: '*mathematics' stamp: 'len 12/4/2016 13:11:44'!
+reciprocalModulo2: n
+	"Answer an integer x such that self * x \\ n = 1, with 0 < x < n, or nil if it doesn't exist."
+	| xgcd |
+	self == 0 ifTrue: [^ nil].
+	self == 1 ifTrue: [^ 1].
+	xgcd _ self xgcd: n.
+	^ (xgcd at: 1) == 1 ifTrue: [^ (xgcd at: 2) \\ n]! !
+
+!Integer methodsFor: '*mathematics' stamp: 'sqr 1/14/2014 01:30'!
+reciprocalModulo: mod
+	"Answer an integer x such that self * x \\ n = 1, with 0 < x < n, or nil if x does not exist.
+	The algorithm is a non extended euclidean modular inversion called NINV.
+	It is described in this article:
+		'Using an RSA Accelerator for Modular Inversion'
+	by Martin Seysen. See http://www.iacr.org/archive/ches2005/017.pdf"
+
+	| receiver u v f fPlusN b result result2 |
+	mod > 1 ifFalse: [^nil].
+	receiver := (self >= mod or: [self < 0])
+		ifTrue: [self \\ mod] ifFalse: [self].
+	b := mod highBit + 1.
+	f := 1 bitShift: b.
+	v := (receiver bitShift: b) + 1.
+	u := mod bitShift: b.
+	fPlusN := f + mod.
+	[v >= fPlusN] whileTrue:
+		[v := u \\\ (u := v)].
+	result := v - f.
+	result2 := result + mod.
+	result2 > 0 ifFalse: [^nil].
+	^result positive
+		ifTrue: [result]
+		ifFalse: [result2]! !
+
 !Integer methodsFor: '*mathematics' stamp: 'len 2/13/2016 06:13'!
 squareRoot
 	^ RealAlgebraicNumber sqrt: self! !
@@ -5255,9 +5306,10 @@ stirling: anInteger
 	self+1 = anInteger ifTrue: [^ self take: 2].
 	^ (self-1) * (self-1 stirling: anInteger) + (self-1 stirling: anInteger-1)! !
 
-!Integer methodsFor: '*mathematics' stamp: 'len 11/30/2016 13:09:55'!
+!Integer methodsFor: '*mathematics' stamp: 'len 12/4/2016 13:07:08'!
 xgcd: anInteger
-	"Extended Euclidean algorithm."
+	"Extended Euclidean algorithm.
+	Answer an array {x. u. v} where self * u + (anInteger * v) = x, and x = (self gcd: anInteger)."
 	| a b s t s` t` r r` |
 	a _ self. b _ anInteger.
 	s _ 0. s` _ 1.
@@ -5271,7 +5323,7 @@ xgcd: anInteger
 			temp _ s. s _ s` - (q * s). s` _ temp.
 			temp _ t. t _ t` - (q * t). t` _ temp].
 	s` _ s` * b sign. t` _ t` * a sign.
-	^ {r`. t`. s`} "r` is the gcd"! !
+	^ {r`. t`. s`}! !
 
 !SmallInteger methodsFor: '*mathematics' stamp: 'len 11/12/2016 08:38'!
 bitCount
@@ -8650,6 +8702,10 @@ integer: anInteger size: anotherInteger
 	integer _ anInteger.
 	size _ anotherInteger! !
 
+!BitTuple methodsFor: 'testing' stamp: 'len 12/4/2016 15:19:45'!
+isZero
+	^ integer == 0! !
+
 !BitTuple methodsFor: 'testing' stamp: 'len 12/1/2016 17:06:32'!
 isZeroAt: anInteger
 	^ (integer bitAt: anInteger) == 0! !
@@ -8883,6 +8939,11 @@ hadamard: aTuple
 hash
 	^ representatives hash! !
 
+!ModularTuple methodsFor: 'testing' stamp: 'len 12/4/2016 15:19:18'!
+isZero
+	1 to: representatives size do: [:each| each == 0 ifFalse: [^ false]].
+	^ true! !
+
 !ModularTuple methodsFor: 'testing' stamp: 'len 12/1/2016 17:05:46'!
 isZeroAt: anInteger
 	^ (representatives at: anInteger) == 0! !
@@ -8944,6 +9005,11 @@ scalars: aModularIntegers
 !ModularTuple methodsFor: 'accessing' stamp: 'len 3/31/2016 07:47'!
 size
 	^ representatives size! !
+
+!ModularTuple methodsFor: 'operations' stamp: 'len 12/3/2016 09:13:11'!
+weight
+	"Answer the Hamming weight of the receiver, i.e. the number of entries that are not zero."
+	^ representatives count: [:each| each ~~ 0]! !
 
 !ModularTuple class methodsFor: 'instance creation' stamp: 'len 11/12/2016 17:19'!
 arrayClassForModulus: anInteger
@@ -16495,6 +16561,42 @@ matrix: aMatrix
 			m > 3 ifTrue: [graph addEdgeFrom: i to: j label: m]]].
 	^ self diagram: graph! !
 
+!IdealMonoid methodsFor: 'comparing' stamp: 'len 12/2/2016 11:53:54'!
+= anObject
+	^ (anObject isKindOf: IdealMonoid) and: [anObject ring = ring]! !
+
+!IdealMonoid methodsFor: 'comparing' stamp: 'len 12/2/2016 11:54:02'!
+hash
+	^ ring hash! !
+
+!IdealMonoid methodsFor: 'accessing' stamp: 'len 12/2/2016 11:51:21'!
+identity
+	^ ring * ring one! !
+
+!IdealMonoid methodsFor: 'testing' stamp: 'len 12/2/2016 11:50:25'!
+includes: anIdeal
+	^ (anIdeal isKindOf: Ideal) and: [anIdeal ring = ring]! !
+
+!IdealMonoid methodsFor: 'testing' stamp: 'len 12/2/2016 11:52:17'!
+isCommutative
+	^ ring isCommutative! !
+
+!IdealMonoid methodsFor: 'printing' stamp: 'len 12/2/2016 11:51:01'!
+printOn: aStream
+	aStream nextPutAll: 'Ideals('; print: ring; nextPut: $)! !
+
+!IdealMonoid methodsFor: 'accessing' stamp: 'len 12/2/2016 11:50:01'!
+ring
+	^ ring! !
+
+!IdealMonoid methodsFor: 'accessing-private' stamp: 'len 12/2/2016 11:49:57'!
+ring: aRing
+	ring _ aRing! !
+
+!IdealMonoid class methodsFor: 'instance creation' stamp: 'len 12/2/2016 11:54:33'!
+on: aRing
+	^ self new ring: aRing! !
+
 !Monomials methodsFor: 'comparing' stamp: 'len 6/30/2016 00:21'!
 = anObject
 	^ (anObject isKindOf: Monomials) and: [anObject rank = rank]! !
@@ -17286,9 +17388,12 @@ inverseOf: anElement
 	euclid gcd = self ring one ifFalse: [^ nil].
 	^ euclid combination first! !
 
-!Ideal methodsFor: 'testing' stamp: 'len 1/4/2016 03:29'!
+!Ideal methodsFor: 'testing' stamp: 'len 12/2/2016 11:43:52'!
 isMaximal
-	^ properties at: #isMaximal! !
+	self ring isPID ifFalse: [^ properties at: #isMaximal].
+	(self ring isField not and: [self isZero])
+		ifTrue: [^ false].
+	^ self isPrime! !
 
 !Ideal methodsFor: 'testing' stamp: 'len 9/26/2016 16:57'!
 isOne
@@ -17299,9 +17404,9 @@ isOne
 isPrime
 	^ properties at: #isPrime! !
 
-!Ideal methodsFor: 'testing' stamp: 'len 10/29/2016 11:36'!
+!Ideal methodsFor: 'testing' stamp: 'len 12/2/2016 11:34:14'!
 isPrincipal
-	self generators size = 1 ifTrue: [^ true].
+	self generators size <= 1 ifTrue: [^ true].
 	self ring isPID ifTrue: [^ true].
 	^ properties at: #isPrincipal! !
 
@@ -17823,6 +17928,10 @@ frobenius
 !Ring methodsFor: 'private' stamp: 'len 10/30/2016 15:44'!
 idealClass
 	^ Ideal! !
+
+!Ring methodsFor: 'operations' stamp: 'len 12/2/2016 11:55:05'!
+ideals
+	^ IdealMonoid on: self! !
 
 !Ring methodsFor: 'testing' stamp: 'len 10/18/2016 20:38'!
 isAlgebraicallyClosed
@@ -19456,10 +19565,6 @@ conjugation
 do: aBlock
 	^ self shouldNotImplement! !
 
-!ComplexNumbers methodsFor: 'converting' stamp: 'len 8/5/2016 21:53'!
-extended
-	^ ExtendedComplexNumbers new! !
-
 !ComplexNumbers methodsFor: 'testing' stamp: 'len 8/5/2016 21:50'!
 includes: anObject
 	^ anObject isComplex! !
@@ -20252,23 +20357,6 @@ over: aRing
 !PowerSeriesRing class methodsFor: 'instance creation' stamp: 'len 10/28/2016 10:41'!
 polynomials: aPolynomialRing
 	^ self new polynomials: aPolynomialRing! !
-
-!ExtendedComplexNumbers methodsFor: 'testing' stamp: 'len 8/5/2016 21:49'!
-includes: anObject
-	^ anObject isComplex or: [anObject isInfinity]! !
-
-!ExtendedComplexNumbers methodsFor: 'testing' stamp: 'len 8/5/2016 21:55'!
-isComplex
-	^ true! !
-
-!ExtendedComplexNumbers methodsFor: 'testing' stamp: 'len 10/18/2016 20:43'!
-isField
-	^ true! !
-
-!ExtendedComplexNumbers methodsFor: 'printing' stamp: 'len 8/5/2016 21:48'!
-printOn: aStream
-	aStream nextPut: Character CC; nextPutAll: ' U {'; nextPut: Character infinity; nextPut: $}
-"	aStream nextPut: Character CC; nextPutAll: Character infinity asString sub"! !
 
 !GaussianIntegers methodsFor: 'testing' stamp: 'len 6/5/2016 06:10'!
 includes: anObject
@@ -22435,12 +22523,12 @@ tannerGraph
 					G addEdgeFrom: subcode to: digit]]].
 	^ G! !
 
-!LinearCode methodsFor: 'accessing' stamp: 'len 7/15/2016 18:27'!
+!LinearCode methodsFor: 'accessing' stamp: 'len 12/3/2016 09:12:28'!
 weight
 	"Answer the Hamming weight function."
 	| V |
 	V _ self ambient.
-	^ Function from: V to: ZZ evaluating: [:x| (V coordinatesOf: x) asArray count: [:each| each isZero not]]! !
+	^ Function from: V to: ZZ evaluating: [:x| (V coordinatesOf: x) weight]! !
 
 !LinearCode methodsFor: 'accessing' stamp: 'len 2/15/2016 20:44'!
 weightDistribution
@@ -29113,15 +29201,15 @@ bitSize
 hash
 	^ representative hash! !
 
-!ModularInteger methodsFor: 'testing' stamp: 'len 11/30/2016 18:54:21'!
+!ModularInteger methodsFor: 'testing' stamp: 'len 12/2/2016 12:14:17'!
 isQuadraticResidue
-	(#(-1 0) includes: (representative jacobi: self modulus))
+	(#(-1 0) identityIncludes: (representative jacobi: self modulus))
 		ifTrue: [^ false].
 	^ self notYetImplemented! !
 
-!ModularInteger methodsFor: 'testing' stamp: 'len 3/30/2016 00:03'!
+!ModularInteger methodsFor: 'testing' stamp: 'len 12/4/2016 15:16:58'!
 isZero
-	^ representative = 0! !
+	^ representative == 0! !
 
 !ModularInteger methodsFor: 'operations' stamp: 'len 11/30/2016 18:56:38'!
 negated
