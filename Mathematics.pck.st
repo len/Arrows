@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 4 December 2016 at 10:33:28 pm'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 5 December 2016 at 10:25:03 am'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 295!
+!provides: 'Mathematics' 1 296!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
 	instanceVariableNames: 'numerator shift'
@@ -2221,14 +2221,14 @@ RationalPoint subclass: #ProjectivePoint
 ProjectivePoint class
 	instanceVariableNames: ''!
 
-!classDefinition: #Cusp category: #'Mathematics-Schemes-Projective'!
-ProjectivePoint subclass: #Cusp
+!classDefinition: #ProjectiveLinePoint category: #'Mathematics-Schemes-Projective'!
+ProjectivePoint subclass: #ProjectiveLinePoint
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Schemes-Projective'!
-!classDefinition: 'Cusp class' category: #'Mathematics-Schemes-Projective'!
-Cusp class
+!classDefinition: 'ProjectiveLinePoint class' category: #'Mathematics-Schemes-Projective'!
+ProjectiveLinePoint class
 	instanceVariableNames: ''!
 
 !classDefinition: #EllipticCurvePoint category: #'Mathematics-Elliptic Curves'!
@@ -4257,7 +4257,7 @@ Or equivalently:
 	QQ polynomialsIn: #(x y z) :: proj.!
 
 !ProjectiveLine commentStamp: '<historical>' prior: 0!
-My instances are projective lines, i.e. P^1(R) for some commutative ring R. My points are Cusps, and they behave like a field. For example, the complex projective line is the Riemann sphere: the extended complex plane that includes the point at infinity.!
+My instances are projective lines, i.e. P^1(R) for some commutative ring R. They are essentially the underlying ring R extended with an additional point at infinity. For example, the complex projective line is the Riemann sphere: the extended complex plane that includes the point at infinity. See also ProjectiveLinePoint.!
 
 !SimplicialComplex commentStamp: '<historical>' prior: 0!
 My instances are abstract simplicial complexes. These are combinatorial objects consisting of a collection of simplices (the 'faces' of the simplicial complex) with the following properties:
@@ -4470,8 +4470,8 @@ My instances are K-rational points on an affine scheme X, seen as morphisms Spec
 !ProjectivePoint commentStamp: '<historical>' prior: 0!
 My instances are K-rational points on a projective scheme X, seen as morphisms Spec(K) -> X.!
 
-!Cusp commentStamp: '<historical>' prior: 0!
-My instances are cusps, i.e. points in the projective line P^1(K) for some field K. See ProjectiveLine.!
+!ProjectiveLinePoint commentStamp: '<historical>' prior: 0!
+My instances are points on the projective line P^1(R) for some ring R. See ProjectiveLine.!
 
 !EllipticCurvePoint commentStamp: '<historical>' prior: 0!
 My instances are K-rational points on an elliptic curve E, seen as morphisms Spec(K) -> E. These objects implement the group law (with additive notation). The identity element (zero, or the point at infinity) is [0:1:0].!
@@ -23608,9 +23608,9 @@ one
 	R _ self scalars.
 	^ self pointAt: (R tuple: {R one. R one})! !
 
-!ProjectiveLine methodsFor: 'points' stamp: 'len 12/4/2016 22:25:12'!
+!ProjectiveLine methodsFor: 'points' stamp: 'len 12/5/2016 10:24:19'!
 pointAt: aTuple
-	^ Cusp on: self coordinates: aTuple! !
+	^ ProjectiveLinePoint on: self coordinates: aTuple! !
 
 !ProjectiveLine methodsFor: 'accessing' stamp: 'len 12/4/2016 22:26:25'!
 zero
@@ -27904,13 +27904,13 @@ scalars
 on: aProjectiveScheme coordinates: aTuple
 	^ self new codomain: aProjectiveScheme; coordinates: aTuple! !
 
-!Cusp methodsFor: 'arithmetic' stamp: 'len 12/4/2016 22:19:10'!
+!ProjectiveLinePoint methodsFor: 'arithmetic' stamp: 'len 12/4/2016 22:19:10'!
 * aCusp
 	self isInfinity ifTrue: [aCusp isZero ifTrue: [self error: 'undefined'] ifFalse: [^ self]].
 	aCusp isInfinity ifTrue: [self isZero ifTrue: [self error: 'undefined'] ifFalse: [^ aCusp]].
 	^ self shallowCopy coordinates: (self scalars tuple: {self value * aCusp value. self scalars one})! !
 
-!Cusp methodsFor: 'arithmetic' stamp: 'len 12/4/2016 22:23:41'!
+!ProjectiveLinePoint methodsFor: 'arithmetic' stamp: 'len 12/4/2016 22:23:41'!
 ** anInteger
 	"Answer the receiver raised to the power anInteger."
 	anInteger = 1 ifTrue: [^ self].
@@ -27918,58 +27918,58 @@ on: aProjectiveScheme coordinates: aTuple
 	anInteger < 0 ifTrue: [^ self reciprocal ** anInteger negated].
 	^ (self squared ** (anInteger // 2)) * (self ** (anInteger \\ 2))! !
 
-!Cusp methodsFor: 'arithmetic' stamp: 'len 12/4/2016 22:17:25'!
+!ProjectiveLinePoint methodsFor: 'arithmetic' stamp: 'len 12/4/2016 22:17:25'!
 + aCusp
 	self isInfinity ifTrue: [^ self].
 	aCusp isInfinity ifTrue: [^ aCusp].
 	^ self shallowCopy coordinates: (self scalars tuple: {self value + aCusp value. self scalars one})! !
 
-!Cusp methodsFor: 'arithmetic' stamp: 'len 12/4/2016 22:17:46'!
+!ProjectiveLinePoint methodsFor: 'arithmetic' stamp: 'len 12/4/2016 22:17:46'!
 - aCusp
 	^ self + aCusp negated! !
 
-!Cusp methodsFor: 'arithmetic' stamp: 'len 12/4/2016 22:19:44'!
+!ProjectiveLinePoint methodsFor: 'arithmetic' stamp: 'len 12/4/2016 22:19:44'!
 / aCusp
 	^ self * aCusp reciprocal! !
 
-!Cusp methodsFor: 'accessing' stamp: 'len 12/4/2016 22:21:04'!
+!ProjectiveLinePoint methodsFor: 'accessing' stamp: 'len 12/4/2016 22:21:04'!
 infinity
 	^ self shallowCopy coordinates: (self scalars tuple: {self scalars one. self scalars zero})! !
 
-!Cusp methodsFor: 'testing' stamp: 'len 12/4/2016 22:09:36'!
+!ProjectiveLinePoint methodsFor: 'testing' stamp: 'len 12/4/2016 22:09:36'!
 isInfinity
 	^ (self coordinates at: 2) isZero! !
 
-!Cusp methodsFor: 'arithmetic' stamp: 'len 12/4/2016 22:13:31'!
+!ProjectiveLinePoint methodsFor: 'arithmetic' stamp: 'len 12/4/2016 22:13:31'!
 isZero
 	^ self isInfinity not and: [self value isZero]! !
 
-!Cusp methodsFor: 'arithmetic' stamp: 'len 12/4/2016 22:16:53'!
+!ProjectiveLinePoint methodsFor: 'arithmetic' stamp: 'len 12/4/2016 22:16:53'!
 negated
 	self isInfinity ifTrue: [^ self].
 	^ self shallowCopy coordinates: (self scalars tuple: {self value negated. self scalars one})! !
 
-!Cusp methodsFor: 'accessing' stamp: 'len 12/4/2016 22:23:56'!
+!ProjectiveLinePoint methodsFor: 'accessing' stamp: 'len 12/4/2016 22:23:56'!
 one
 	^ self shallowCopy coordinates: (self scalars tuple: {self scalars one. self scalars one})! !
 
-!Cusp methodsFor: 'printing' stamp: 'len 12/4/2016 22:13:13'!
+!ProjectiveLinePoint methodsFor: 'printing' stamp: 'len 12/4/2016 22:13:13'!
 printOn: aStream
 	self isInfinity
 		ifTrue: [aStream nextPut: Character infinity]
 		ifFalse: [aStream print: self value]! !
 
-!Cusp methodsFor: 'arithmetic' stamp: 'len 12/4/2016 22:20:17'!
+!ProjectiveLinePoint methodsFor: 'arithmetic' stamp: 'len 12/4/2016 22:20:17'!
 reciprocal
 	self isInfinity ifTrue: [^ self zero].
 	self isZero ifTrue: [^ self infinity].
 	^ self shallowCopy coordinates: (self scalars tuple: {self value reciprocal. self scalars one})! !
 
-!Cusp methodsFor: 'accessing' stamp: 'len 12/4/2016 22:10:21'!
+!ProjectiveLinePoint methodsFor: 'accessing' stamp: 'len 12/4/2016 22:10:21'!
 value
 	^ self coordinates at: 1! !
 
-!Cusp methodsFor: 'accessing' stamp: 'len 12/4/2016 22:21:41'!
+!ProjectiveLinePoint methodsFor: 'accessing' stamp: 'len 12/4/2016 22:21:41'!
 zero
 	^ self shallowCopy coordinates: (self scalars tuple: {self scalars zero. self scalars one})! !
 
