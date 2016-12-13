@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 13 December 2016 at 5:49:34 am'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 13 December 2016 at 9:12:37 pm'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 301!
+!provides: 'Mathematics' 1 303!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
 	instanceVariableNames: 'numerator shift'
@@ -4311,8 +4311,8 @@ Example:
 	QQ extension: QQ polynomials x**4 - 2
 !
 
-!GaloisField commentStamp: 'len 12/12/2016 08:48:18' prior: 0!
-My instances are finite nonprime fields, i.e. fields GF(p^r) with r >= 2. See also PrimeField.!
+!GaloisField commentStamp: '<historical>' prior: 0!
+My instances are finite nonprime fields, i.e. fields GF(p^r) with r >= 2. These are finite algebraic extensions of prime fields. See also PrimeField.!
 
 !NumberField commentStamp: '<historical>' prior: 0!
 My instances are number fields, i.e. finite (and thus algebraic) field extensions of the rational numbers Q. Number fields can also be viewed as vector spaces over Q.
@@ -4377,12 +4377,12 @@ Example:
 	A printText, ' -> ', (det value: A) printText
 !
 
-!Module commentStamp: 'len 6/23/2016 01:23' prior: 0!
-My instances are right R-modules.
+!Module commentStamp: '<historical>' prior: 0!
+My instances are commutative R-modules.
 !
 
 !FreeModule commentStamp: '<historical>' prior: 0!
-My instances are free right R-modules, i.e. right R-modules with a basis. They are isomorphic to R^n.!
+My instances are free commutative R-modules, i.e. R-modules with a basis. They are isomorphic to R^n.!
 
 !FreeAbelianGroup commentStamp: '<historical>' prior: 0!
 My instances are abelian groups with a basis, i.e. free Z-modules. They are isomorphic to Z^n.
@@ -7093,7 +7093,7 @@ changeTo: aLinearBasis
 	self do: [:each| matrix addRow: (aLinearBasis coordinatesOf: each)].
 	^ matrix transposed! !
 
-!LinearBasis methodsFor: 'iterating' stamp: 'len 5/23/2016 04:32'!
+!LinearBasis methodsFor: 'enumerating' stamp: 'len 5/23/2016 04:32'!
 collect: aBlock
 	"Answer a copy of the receiver with the vectors mapped by aBlock."
 
@@ -7151,7 +7151,7 @@ copyFrom: startIndex to: endIndex
 	startIndex to: endIndex do: [:i| answer add: (self at: i)].
 	^ answer! !
 
-!LinearBasis methodsFor: 'iterating' stamp: 'len 11/3/2016 08:09'!
+!LinearBasis methodsFor: 'enumerating' stamp: 'len 11/3/2016 08:09'!
 do: aBlock 
 	generators do: aBlock! !
 
@@ -7280,7 +7280,7 @@ printOn: aStream
 		ifFalse: [generators do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: '; ']].
 	aStream nextPut: $}! !
 
-!LinearBasis methodsFor: 'iterating' stamp: 'len 5/23/2016 04:43'!
+!LinearBasis methodsFor: 'enumerating' stamp: 'len 5/23/2016 04:43'!
 select: aBlock 
 	"Evaluate aBlock with each of the receiver's elements as the argument. 
 	Collect into a new collection like the receiver, only those elements for 
@@ -7329,7 +7329,7 @@ add: aPolynomial
 addAll: aCollection
 	^ polynomials addAll: aCollection! !
 
-!GroebnerBasis methodsFor: 'iterating' stamp: 'len 7/8/2016 20:57'!
+!GroebnerBasis methodsFor: 'enumerating' stamp: 'len 7/8/2016 20:57'!
 apply: aMorphism
 	| answer |
 	answer _ self copyEmpty.
@@ -7357,7 +7357,7 @@ copyEmpty
 copyWithout: aPolynomial
 	^ self class new polynomials: (polynomials copyWithout: aPolynomial)! !
 
-!GroebnerBasis methodsFor: 'iterating' stamp: 'len 11/20/2015 05:20'!
+!GroebnerBasis methodsFor: 'enumerating' stamp: 'len 11/20/2015 05:20'!
 do: aBlock
 	polynomials do: aBlock! !
 
@@ -7947,7 +7947,7 @@ associations: aCollection
 "	(aCollection class == OrderedCollection) ifFalse: [^ self error: 'not an OrderedCollection']."
 	associations _ aCollection! !
 
-!MonomialIndexedTuple methodsFor: 'iterating' stamp: 'len 11/20/2016 17:02:42'!
+!MonomialIndexedTuple methodsFor: 'enumerating' stamp: 'len 11/20/2016 17:02:42'!
 associationsDo: aBlock
 	associations do: aBlock! !
 
@@ -7988,7 +7988,7 @@ at: aMonomial put: aNumber
 		ifNone: [:low :high| aNumber isZero ifFalse: [associations add: aMonomial -> aNumber beforeIndex: high]].
 	^ aNumber! !
 
-!MonomialIndexedTuple methodsFor: 'iterating' stamp: 'len 11/28/2016 09:03:42'!
+!MonomialIndexedTuple methodsFor: 'enumerating' stamp: 'len 11/28/2016 09:03:42'!
 collect: aBlock
 	| newAssociations |
 	newAssociations _ OrderedCollection new: associations size.
@@ -7997,7 +7997,7 @@ collect: aBlock
 			ifFalse: [newAssociations add: (each copy value: newValue)]].
 	^ self class associations: newAssociations over: scalars! !
 
-!MonomialIndexedTuple methodsFor: 'iterating' stamp: 'len 11/21/2016 08:50:46'!
+!MonomialIndexedTuple methodsFor: 'enumerating' stamp: 'len 11/21/2016 08:50:46'!
 collectNoZero: aBlock
 	^ self class associations: (associations collect: [:each| each copy value: (aBlock value: each value)]) over: scalars! !
 
@@ -8100,7 +8100,7 @@ dividedByMonomial: aMonomial
 	"The monomial ordering is preserved by this operation."
 	^ self class associations: (associations collect: [:each| each key / aMonomial -> each value]) over: scalars! !
 
-!MonomialIndexedTuple methodsFor: 'iterating' stamp: 'len 11/20/2016 17:14:49'!
+!MonomialIndexedTuple methodsFor: 'enumerating' stamp: 'len 11/20/2016 17:14:49'!
 do: aBlock
 	self associationsDo: [:each| aBlock value: each value]! !
 
@@ -8121,11 +8121,11 @@ hash
 isZero
 	^ associations isEmpty! !
 
-!MonomialIndexedTuple methodsFor: 'iterating' stamp: 'len 11/26/2016 07:40:36'!
+!MonomialIndexedTuple methodsFor: 'enumerating' stamp: 'len 11/26/2016 07:40:36'!
 keysAndValuesDo: aBlock
 	associations do: [:each| aBlock value: each key value: each value]! !
 
-!MonomialIndexedTuple methodsFor: 'iterating' stamp: 'len 11/26/2016 07:40:24'!
+!MonomialIndexedTuple methodsFor: 'enumerating' stamp: 'len 11/26/2016 07:40:24'!
 keysDo: aBlock
 	associations do: [:each| aBlock value: each key]! !
 
@@ -8224,7 +8224,7 @@ over: aRing
 = aSparseTuple
 	^ coefficients = aSparseTuple coefficients! !
 
-!SparseTuple methodsFor: 'iterating' stamp: 'len 11/18/2016 09:54:31'!
+!SparseTuple methodsFor: 'enumreating' stamp: 'len 11/18/2016 09:54:31'!
 associationsDo: aBlock
 	coefficients associationsDo: aBlock! !
 
@@ -8264,14 +8264,14 @@ coefficients
 coefficients: aDictionary
 	coefficients _ aDictionary! !
 
-!SparseTuple methodsFor: 'iterating' stamp: 'len 11/18/2016 17:43:53'!
+!SparseTuple methodsFor: 'enumreating' stamp: 'len 11/18/2016 17:43:53'!
 collect: aBlock 
 	| answer |
 	answer _ self species new: self size over: self scalars.
 	self associationsDo: [:each| answer at: each key put: (aBlock value: each value)].
 	^ answer! !
 
-!SparseTuple methodsFor: 'iterating' stamp: 'len 11/18/2016 09:54:10'!
+!SparseTuple methodsFor: 'enumreating' stamp: 'len 11/18/2016 09:54:10'!
 collectNoZero: aBlock
 	"The result of aBlock must never be zero."
 	^ self copy associationsDo: [:each| each value: (aBlock value: each value)]! !
@@ -8305,7 +8305,7 @@ convolution: aSparseTuple
 			answer at: each key * other key add: each value * other value]].
 	^ answer! !
 
-!SparseTuple methodsFor: 'iterating' stamp: 'len 11/18/2016 20:24:16'!
+!SparseTuple methodsFor: 'enumreating' stamp: 'len 11/18/2016 20:24:16'!
 do: aBlock
 	coefficients do: aBlock! !
 
@@ -8349,11 +8349,11 @@ isZero
 keys
 	^ coefficients keys! !
 
-!SparseTuple methodsFor: 'iterating' stamp: 'len 11/18/2016 17:45:00'!
+!SparseTuple methodsFor: 'enumreating' stamp: 'len 11/18/2016 17:45:00'!
 keysAndValuesDo: aBlock
 	coefficients keysAndValuesDo: aBlock! !
 
-!SparseTuple methodsFor: 'iterating' stamp: 'len 11/18/2016 17:45:38'!
+!SparseTuple methodsFor: 'enumreating' stamp: 'len 11/18/2016 17:45:38'!
 keysDo: aBlock
 	coefficients keysDo: aBlock! !
 
@@ -8384,7 +8384,7 @@ scalars: aRing
 size
 	^ coefficients size! !
 
-!SparseTuple methodsFor: 'iterating' stamp: 'len 11/18/2016 09:57:30'!
+!SparseTuple methodsFor: 'enumreating' stamp: 'len 11/18/2016 09:57:30'!
 withIndexDo: elementAndIndexBlock 
 	"Just like with:do: except that the iteration index supplies the second argument to the block."
 	coefficients keysAndValuesDo: [:key :value| elementAndIndexBlock value: value value: key]! !
@@ -8489,7 +8489,7 @@ addFrom: startIndex to: stopIndex with: aTuple by: aNumber
 addFrom: startIndex with: aTuple by: aNumber
 	self addFrom: startIndex to: (self size min: aTuple size) with: aTuple by: aNumber! !
 
-!Tuple methodsFor: 'iterating' stamp: 'len 11/5/2016 07:06'!
+!Tuple methodsFor: 'enumerating' stamp: 'len 11/5/2016 07:06'!
 allSatisfy: aBlock
 	"Evaluate aBlock with the elements of the receiver.
 	If aBlock returns false for any element return false.
@@ -8498,7 +8498,7 @@ allSatisfy: aBlock
 	self do: [:each | (aBlock value: each) ifFalse: [^ false]].
 	^ true! !
 
-!Tuple methodsFor: 'iterating' stamp: 'len 11/5/2016 09:09'!
+!Tuple methodsFor: 'enumerating' stamp: 'len 11/5/2016 09:09'!
 anySatisfy: aBlock
 	"Evaluate aBlock with the elements of the receiver.
 	If aBlock returns true for any element return true.
@@ -8540,7 +8540,7 @@ bitSize
 	self do: [:each| answer _ answer + each bitSize].
 	^ answer! !
 
-!Tuple methodsFor: 'iterating' stamp: 'len 11/5/2016 06:46'!
+!Tuple methodsFor: 'enumerating' stamp: 'len 11/5/2016 06:46'!
 collect: aBlock
 	^ self scalars tuple: self size evaluating: [:i| aBlock value: (self at: i)]! !
 
@@ -8548,7 +8548,7 @@ collect: aBlock
 conjugated
 	^ self collect: [:each| each conjugated]! !
 
-!Tuple methodsFor: 'iterating' stamp: 'len 11/5/2016 09:43'!
+!Tuple methodsFor: 'enumerating' stamp: 'len 11/5/2016 09:43'!
 count: aBlock
 	| count |
 	count _ 0.
@@ -8559,11 +8559,11 @@ count: aBlock
 dimension
 	^ self size! !
 
-!Tuple methodsFor: 'iterating' stamp: 'len 11/5/2016 06:46'!
+!Tuple methodsFor: 'enumerating' stamp: 'len 11/5/2016 06:46'!
 do: aBlock
 	1 to: self size do: [:each| aBlock value: (self at: each)]! !
 
-!Tuple methodsFor: 'iterating' stamp: 'len 11/5/2016 09:26'!
+!Tuple methodsFor: 'enumerating' stamp: 'len 11/5/2016 09:26'!
 do: elementBlock separatedBy: separatorBlock
 	| beforeFirst | 
 	"Evaluate the elementBlock for all elements in the receiver,
@@ -8583,7 +8583,7 @@ dot: aTuple
 	2 to: (self size min: aTuple size) do: [:i| answer _ answer + ((self at: i) * (aTuple at: i))].
 	^ answer! !
 
-!Tuple methodsFor: 'iterating' stamp: 'len 11/12/2016 08:51'!
+!Tuple methodsFor: 'enumerating' stamp: 'len 11/12/2016 08:51'!
 findFirst: aBlock
 	"Return the index of my first element for which aBlock evaluates as true."
 
@@ -8593,7 +8593,7 @@ findFirst: aBlock
 		[(aBlock value: (self at: index)) ifTrue: [^index]].
 	^ 0! !
 
-!Tuple methodsFor: 'iterating' stamp: 'len 11/5/2016 07:05'!
+!Tuple methodsFor: 'enumerating' stamp: 'len 11/5/2016 07:05'!
 findLast: aBlock
 	"Return the index of my last element for which aBlock evaluates as true."
 
@@ -8647,7 +8647,7 @@ includes: anObject
 	self do: [:each| each = anObject ifTrue: [^ true]].
 	^ false! !
 
-!Tuple methodsFor: 'iterating' stamp: 'len 11/5/2016 06:48'!
+!Tuple methodsFor: 'enumerating' stamp: 'len 11/5/2016 06:48'!
 inject: thisValue into: binaryBlock 
 	| nextValue |
 	nextValue _ thisValue.
@@ -8719,25 +8719,29 @@ printOn: aStream
 	self do: [:x| aStream print: x] separatedBy: [aStream nextPutAll: ','].
 	aStream nextPut: $)! !
 
-!Tuple methodsFor: 'iterating' stamp: 'len 11/6/2016 14:22'!
+!Tuple methodsFor: 'enumerating' stamp: 'len 11/6/2016 14:22'!
 product
 	^ self product: [:each| each]! !
 
-!Tuple methodsFor: 'iterating' stamp: 'len 11/5/2016 06:50'!
+!Tuple methodsFor: 'enumerating' stamp: 'len 12/13/2016 09:55:53'!
 product: aBlock
-	^ self inject: self scalars one into: [:nextValue :each| nextValue * each]! !
+	^ self inject: self scalars one into: [:nextValue :each| nextValue * (aBlock value: each)]! !
 
-!Tuple methodsFor: 'iterating' stamp: 'len 11/5/2016 06:47'!
+!Tuple methodsFor: 'converting' stamp: 'len 12/13/2016 16:49:22'!
+readStream
+	^ ReadStream on: self! !
+
+!Tuple methodsFor: 'enumerating' stamp: 'len 11/5/2016 06:47'!
 reverseDo: aBlock
 	self size to: 1 by: -1 do: [:each| aBlock value: (self at: each)]! !
 
-!Tuple methodsFor: 'iterating' stamp: 'len 11/6/2016 14:22'!
+!Tuple methodsFor: 'enumerating' stamp: 'len 11/6/2016 14:22'!
 sum
 	^ self sum: [:each| each]! !
 
-!Tuple methodsFor: 'iterating' stamp: 'len 11/5/2016 06:50'!
+!Tuple methodsFor: 'enumerating' stamp: 'len 12/13/2016 09:55:29'!
 sum: aBlock
-	^ self inject: self scalars zero into: [:nextValue :each| nextValue + each]! !
+	^ self inject: self scalars zero into: [:nextValue :each| nextValue + (aBlock value: each)]! !
 
 !Tuple methodsFor: 'operations' stamp: 'len 11/5/2016 09:27'!
 support
@@ -8748,11 +8752,11 @@ weight
 	"Answer the Hamming weight of the receiver, i.e. the number of entries that are not zero."
 	^ self count: [:each| each isZero not]! !
 
-!Tuple methodsFor: 'iterating' stamp: 'len 11/5/2016 06:59'!
+!Tuple methodsFor: 'enumerating' stamp: 'len 11/5/2016 06:59'!
 withIndexCollect: aBlock
 	^ self scalars tuple: self size evaluating: [:i| aBlock value: (self at: i) value: i]! !
 
-!Tuple methodsFor: 'iterating' stamp: 'len 11/5/2016 06:47'!
+!Tuple methodsFor: 'enumerating' stamp: 'len 11/5/2016 06:47'!
 withIndexDo: aBlock
 	1 to: self size do: [:index| aBlock value: (self at: index) value: index]! !
 
@@ -8793,11 +8797,11 @@ z
 	zero _ (self at: 1 ifAbsent: [aTuple at: 1]) zero.
 	^ scalars tuple: (self size max: aTuple size) evaluating: [:i| (self at: i ifAbsent: [zero]) - (aTuple at: i ifAbsent: [zero])]! !
 
-!ArrayTuple methodsFor: 'iterating' stamp: 'len 11/5/2016 06:08'!
+!ArrayTuple methodsFor: 'enumerating' stamp: 'len 11/5/2016 06:08'!
 allSatisfy: aBlock
 	^ coefficients allSatisfy: aBlock! !
 
-!ArrayTuple methodsFor: 'iterating' stamp: 'len 11/5/2016 09:08'!
+!ArrayTuple methodsFor: 'enumerating' stamp: 'len 11/5/2016 09:08'!
 anySatisfy: aBlock
 	^ coefficients anySatisfy: aBlock! !
 
@@ -8821,7 +8825,7 @@ at: anInteger put: anObject
 coefficients: anArray
 	coefficients _ anArray! !
 
-!ArrayTuple methodsFor: 'iterating' stamp: 'len 11/5/2016 06:08'!
+!ArrayTuple methodsFor: 'enumerating' stamp: 'len 11/5/2016 06:08'!
 collect: aBlock
 	^ self class coefficients: (coefficients collect: aBlock) over: scalars! !
 
@@ -8850,15 +8854,15 @@ copyFrom: start to: stop
 copyWith: anElement
 	^ self class coefficients: (coefficients copyWith: anElement) over: scalars! !
 
-!ArrayTuple methodsFor: 'iterating' stamp: 'len 11/5/2016 03:58'!
+!ArrayTuple methodsFor: 'enumerating' stamp: 'len 11/5/2016 03:58'!
 do: aBlock
 	coefficients do: aBlock! !
 
-!ArrayTuple methodsFor: 'iterating' stamp: 'len 11/12/2016 09:00'!
+!ArrayTuple methodsFor: 'enumerating' stamp: 'len 11/12/2016 09:00'!
 findFirst: aBlock
 	^ coefficients findFirst: aBlock! !
 
-!ArrayTuple methodsFor: 'iterating' stamp: 'len 11/5/2016 06:07'!
+!ArrayTuple methodsFor: 'enumerating' stamp: 'len 11/5/2016 06:07'!
 findLast: aBlock
 	^ coefficients findLast: aBlock! !
 
@@ -8870,7 +8874,7 @@ includes: anObject
 last
 	^ self at: self size! !
 
-!ArrayTuple methodsFor: 'iterating' stamp: 'len 11/5/2016 06:10'!
+!ArrayTuple methodsFor: 'enumerating' stamp: 'len 11/5/2016 06:10'!
 reverseDo: aBlock
 	coefficients reverseDo: aBlock! !
 
@@ -8910,7 +8914,7 @@ size
 swap: i with: j
 	coefficients swap: i with: j! !
 
-!ArrayTuple methodsFor: 'iterating' stamp: 'len 11/5/2016 03:57'!
+!ArrayTuple methodsFor: 'enumerating' stamp: 'len 11/5/2016 03:57'!
 withIndexDo: aBlock
 	coefficients withIndexDo: aBlock! !
 
@@ -9016,7 +9020,7 @@ printOn: aStream
 >>> anInteger
 	^ self class new: (size + anInteger max: 0) fromInteger: (integer bitShift: anInteger)! !
 
-!BitTuple methodsFor: 'iterating' stamp: 'len 11/5/2016 09:14'!
+!BitTuple methodsFor: 'enumerating' stamp: 'len 11/5/2016 09:14'!
 anySatisfy: aBlock
 	"Optimized. There are only two possible elements that could satisfy aBlock (1 or 0)."
 	self isEmpty ifTrue: [^ false].
@@ -9581,7 +9585,7 @@ adjacencyMatrix: vertices
 	"Answer the adjacency matrix of the receiver, using the vertex ordering given by the argument."
 	^ ZZ ** (vertices size @ vertices size) evaluating: [:i :j| self multiplicityFrom: (vertices at: i) to: (vertices at: j)]! !
 
-!Graph methodsFor: 'iterating' stamp: 'len 7/23/2016 04:06'!
+!Graph methodsFor: 'enumerating' stamp: 'len 7/23/2016 04:06'!
 apply: aMorphism
 	"Answer a new graph like the receiver but with vertices values mapped by aMorphism."
 	^ self collect: aMorphism! !
@@ -9840,7 +9844,7 @@ clusteringCoefficient
 	self nodesDo: [:node | node degree > 1 ifTrue: [sum _ sum + node clusteringCoefficient]].
 	^ (sum / self order) asFloat! !
 
-!Graph methodsFor: 'iterating' stamp: 'len 7/13/2016 22:03'!
+!Graph methodsFor: 'enumerating' stamp: 'len 7/13/2016 22:03'!
 collect: aBlock
 	"Answer a new graph like the receiver but with vertices values mapped by aBlock."
 	| answer |
@@ -9849,7 +9853,7 @@ collect: aBlock
 	self edgesDo: [:each| answer addEdgeFrom: (aBlock value: each key) to: (aBlock value: each value)].
 	^ answer! !
 
-!Graph methodsFor: 'iterating' stamp: 'len 7/20/2016 23:50'!
+!Graph methodsFor: 'enumerating' stamp: 'len 7/20/2016 23:50'!
 collect: aBlock labels: labelBlock
 	"Answer a new graph like the receiver but with vertices values mapped by aBlock."
 	| answer |
@@ -9894,7 +9898,7 @@ diameter
 distanceFrom: source to: target
 	^ (Dijkstra graph: self source: source) distanceTo: target! !
 
-!Graph methodsFor: 'iterating' stamp: 'len 7/20/2016 23:34'!
+!Graph methodsFor: 'enumerating' stamp: 'len 7/20/2016 23:34'!
 do: aBlock
 	"Iterate over the vertices of the receiver (the values, not GraphNodes)."
 	self nodesDo: [:each| aBlock value: each value]! !
@@ -10137,7 +10141,7 @@ removeEdgeFrom: src to: dest
 	pre: the edge must be in the graph."
 	^self removeEdgeFrom: src to: dest ifAbsent: [self errorNotFound: src -> dest]! !
 
-!Graph methodsFor: 'iterating' stamp: 'len 7/20/2016 23:54'!
+!Graph methodsFor: 'enumerating' stamp: 'len 7/20/2016 23:54'!
 select: aBlock
 	"Answer the subgraph of the receiver whose vertices satisfy aBlock."
 	| answer |
@@ -10505,7 +10509,7 @@ complement
 		self nodesDo: [:y| (neighbors includes: y) ifFalse: [answer addEdgeFrom: x to: y]]].
 	^ answer! !
 
-!Digraph methodsFor: 'iterating' stamp: 'len 7/13/2016 22:25'!
+!Digraph methodsFor: 'enumerating' stamp: 'len 7/13/2016 22:25'!
 componentsDo: aBlock
 	"Iterate over the Strongly Connected Components of the receiver."
 	| component remainingNodes node |
@@ -10541,19 +10545,19 @@ edgeAtRandom: aRandom
 	self edgesDo: [:each| (count _ count - 1) > 0 ifFalse: [^ each]].
 	self error: 'inconsitency problem, edge not found'! !
 
-!Digraph methodsFor: 'iterating' stamp: 'len 7/20/2016 23:39'!
+!Digraph methodsFor: 'enumerating' stamp: 'len 7/20/2016 23:39'!
 edgesAndLabelsDo: aBinaryBlock
 	self nodesDo: [:node| node neighborsAndLabelsDo: [:n :label| aBinaryBlock value: (Association key: node value value: n value) value: label]]! !
 
-!Digraph methodsFor: 'iterating' stamp: 'len 7/20/2016 23:39'!
+!Digraph methodsFor: 'enumerating' stamp: 'len 7/20/2016 23:39'!
 edgesDo: aBlock
 	self nodesDo: [:node| node neighborsDo: [:n| aBlock value: (Association key: node value value: n value)]]! !
 
-!Digraph methodsFor: 'iterating' stamp: 'len 7/20/2016 23:39'!
+!Digraph methodsFor: 'enumerating' stamp: 'len 7/20/2016 23:39'!
 fullEdgesAndLabelsDo: aBinaryBlock
 	self nodesDo: [:node| node neighborsAndLabelsDo: [:n :label| aBinaryBlock value: (Association key: node value: n) value: label]]! !
 
-!Digraph methodsFor: 'iterating' stamp: 'len 7/20/2016 23:39'!
+!Digraph methodsFor: 'enumerating' stamp: 'len 7/20/2016 23:39'!
 fullEdgesDo: aBlock
 	self nodesDo: [:node| node neighborsDo: [:n| aBlock value: (Association key: node value: n)]]! !
 
@@ -10621,7 +10625,7 @@ nodeCreator: n
 nodes
 	^ nodes! !
 
-!Digraph methodsFor: 'iterating' stamp: 'len 7/20/2016 23:42'!
+!Digraph methodsFor: 'enumerating' stamp: 'len 7/20/2016 23:42'!
 nodesDo: aBlock
 	self isImplicit
 		ifTrue: [nodes asOrderedCollection do: aBlock]
@@ -10774,7 +10778,7 @@ addRoot: anObject
 	roots add: node value.
 	^ node! !
 
-!RootedDigraph methodsFor: 'iterating' stamp: 'timestamp) (no'!
+!RootedDigraph methodsFor: 'enumerating' stamp: 'timestamp) (no'!
 breadthFirstDo: aBlock
 	"Evaluate aBlock for each set of nodes at a given depth in the graph.
 	A node is at depth n if the longest path to that node from a root has n steps.
@@ -10794,7 +10798,7 @@ buildFromRoots: rootCollection
 	self roots: rootCollection.
 	self markDo: [ :junk ]! !
 
-!RootedDigraph methodsFor: 'iterating' stamp: 'len 7/21/2016 00:02'!
+!RootedDigraph methodsFor: 'enumerating' stamp: 'len 7/21/2016 00:02'!
 collect: aBlock
 	"Answer a new graph like the receiver but with vertices values mapped by aBlock.
 	Note that aBlock is evaluated on the nodes, not the values."
@@ -10805,7 +10809,7 @@ collect: aBlock
 	self edgesDo: [:each| answer addEdgeFrom: (aBlock value: each key) to: (aBlock value: each value)].
 	^ answer! !
 
-!RootedDigraph methodsFor: 'iterating' stamp: 'len 7/21/2016 00:02'!
+!RootedDigraph methodsFor: 'enumerating' stamp: 'len 7/21/2016 00:02'!
 collect: aBlock labels: labelBlock
 	"Answer a new graph like the receiver but with vertices values mapped by aBlock.
 	Note that aBlock is evaluated on the nodes, not the values."
@@ -10832,7 +10836,7 @@ findRoots
 	roots _ self values.
 	self nodesDo: [:node| node neighborsDo: [:n| roots remove: n value ifAbsent: []]]! !
 
-!RootedDigraph methodsFor: 'iterating' stamp: 'len 2/17/2016 01:20'!
+!RootedDigraph methodsFor: 'enumerating' stamp: 'len 2/17/2016 01:20'!
 frontier
 	"Return a DAGFrontier object, capable of iterating over this DAG."
 	^ DAGFrontier on: self! !
@@ -10878,7 +10882,7 @@ isTree
 			visited add: neighbor]].
 	^true! !
 
-!RootedDigraph methodsFor: 'iterating' stamp: 'len 11/30/2016 14:44:37'!
+!RootedDigraph methodsFor: 'enumerating' stamp: 'len 11/30/2016 14:44:37'!
 markDo: aBlock
 	"Visit each node in the graph once, applying aBlock.
 	A node is only visited after at least one of its predecessors, but not necessarily after all the predecessors."
@@ -10896,7 +10900,7 @@ markDo: aBlock
 					ifFalse: [todo add: child]].
 		todo remove: node]! !
 
-!RootedDigraph methodsFor: 'iterating' stamp: 'len 6/24/2016 17:11'!
+!RootedDigraph methodsFor: 'enumerating' stamp: 'len 6/24/2016 17:11'!
 preOrderDo: aBlock 
 	"Walk the graph, evaluating aBlock for each node.  Evaluate each node before its successors, but in no particular order when there is a choice.
 	pre: self isCyclic not"
@@ -11069,7 +11073,7 @@ roots: rootNodes childrenMsg: msg
 test
 	^ #[1 2 3 4]! !
 
-!RootedDigraph methodsFor: 'iterating' stamp: 'len 2/14/2003 20:06'!
+!RootedDigraph methodsFor: 'enumerating' stamp: 'len 2/14/2003 20:06'!
 walkPre: preBlock post: postBlock
 	"Recursively walk the tree(s).  Apply preBlock to each node, then walk the subtree below node, then apply postBlock to the node."
 	self rootNodes do: [ :root | root walkPre: preBlock post: postBlock]! !
@@ -11197,7 +11201,7 @@ atRandom: aRandom
 complement
 	^ self class digraph: digraph complement! !
 
-!UndirectedGraph methodsFor: 'iterating' stamp: 'len 7/13/2016 22:58'!
+!UndirectedGraph methodsFor: 'enumerating' stamp: 'len 7/13/2016 22:58'!
 componentsDo: aBlock
 	digraph componentsDo: [:each| aBlock value: (self class digraph: each)]! !
 
@@ -11217,7 +11221,7 @@ digraph: aDigraph
 edgeAtRandom: aRandom
 	^ (digraph edgeAtRandom: aRandom) as: MutualAssociation! !
 
-!UndirectedGraph methodsFor: 'iterating' stamp: 'len 11/30/2016 14:45:13'!
+!UndirectedGraph methodsFor: 'enumerating' stamp: 'len 11/30/2016 14:45:13'!
 edgesAndLabelsDo: aBinaryBlock
 	| visited |
 	visited _ Set new.
@@ -11226,7 +11230,7 @@ edgesAndLabelsDo: aBinaryBlock
 			ifFalse: [aBinaryBlock value: (each as: MutualAssociation) value: label].
 		visited add: each]! !
 
-!UndirectedGraph methodsFor: 'iterating' stamp: 'len 11/30/2016 14:45:17'!
+!UndirectedGraph methodsFor: 'enumerating' stamp: 'len 11/30/2016 14:45:17'!
 edgesDo: aBlock
 	| visited |
 	visited _ Set new.
@@ -11242,7 +11246,7 @@ flowPolynomial
 	x _ ZZ polynomials x.
 	^ (-1)**(self size + self numberOfEdges + self components size) * (self tuttePolynomial value: {0. 1 - x})! !
 
-!UndirectedGraph methodsFor: 'iterating' stamp: 'len 11/30/2016 14:45:20'!
+!UndirectedGraph methodsFor: 'enumerating' stamp: 'len 11/30/2016 14:45:20'!
 fullEdgesAndLabelsDo: aBinaryBlock
 	| visited |
 	visited _ Set new.
@@ -11251,7 +11255,7 @@ fullEdgesAndLabelsDo: aBinaryBlock
 			ifFalse: [aBinaryBlock value: (each as: MutualAssociation) value: label].
 		visited add: each]! !
 
-!UndirectedGraph methodsFor: 'iterating' stamp: 'len 11/30/2016 14:45:25'!
+!UndirectedGraph methodsFor: 'enumerating' stamp: 'len 11/30/2016 14:45:25'!
 fullEdgesDo: aBlock
 	| visited |
 	visited _ Set new.
@@ -11288,7 +11292,7 @@ isTransitive
 nodes
 	^ digraph nodes! !
 
-!UndirectedGraph methodsFor: 'iterating' stamp: 'len 7/13/2016 22:53'!
+!UndirectedGraph methodsFor: 'enumerating' stamp: 'len 7/13/2016 22:53'!
 nodesDo: aBlock
 	digraph nodesDo: aBlock! !
 
@@ -11691,11 +11695,11 @@ edgeClass
 edges
 	^ Iterator on: self performing: #edgesDo:! !
 
-!GraphMorph methodsFor: 'iterating' stamp: 'len 2/29/2016 21:44'!
+!GraphMorph methodsFor: 'enumerating' stamp: 'len 2/29/2016 21:44'!
 edgesAndLabelsDo: aBlock
 	graph edgesAndLabelsDo: [:each :label| aBlock value: (self edgeAt: each) value: label]! !
 
-!GraphMorph methodsFor: 'iterating' stamp: 'len 2/15/2003 19:02'!
+!GraphMorph methodsFor: 'enumerating' stamp: 'len 2/15/2003 19:02'!
 edgesDo: aBlock
 	edgeToMorph do: aBlock! !
 
@@ -11786,7 +11790,7 @@ nodeAt: anObject ifAbsent: exceptionBlock
 nodeClass
 	^ GraphNodeMorph! !
 
-!GraphMorph methodsFor: 'iterating' stamp: 'len 2/15/2003 18:58'!
+!GraphMorph methodsFor: 'enumerating' stamp: 'len 2/15/2003 18:58'!
 nodesDo: aBlock
 	nodeToMorph do: aBlock! !
 
@@ -13557,7 +13561,7 @@ printOn: aStream
 	"Answer the intersection of the receiver and the argument."
 	^ self select: [:each| aCollection includes: each]! !
 
-!Domain methodsFor: 'iterating' stamp: 'len 5/1/2016 23:22'!
+!Domain methodsFor: 'enumerating' stamp: 'len 5/1/2016 23:22'!
 allSatisfy: aBlock
 	self do: [:each| (aBlock value: each) ifFalse: [^ false]].
 	^ true! !
@@ -13568,7 +13572,7 @@ ambient
 	Answer the ambient domain of which the receiver is a subobject."
 	^ properties at: #ambient ifAbsent: [self]! !
 
-!Domain methodsFor: 'iterating' stamp: 'len 5/1/2016 23:21'!
+!Domain methodsFor: 'enumerating' stamp: 'len 5/1/2016 23:21'!
 anySatisfy: aBlock
 	self do: [:each| (aBlock value: each) ifTrue: [^ true]].
 	^ false! !
@@ -13623,12 +13627,24 @@ cartesian: aDomain
 	"Answer the cartesian set product of the receiver with the argument."
 	^ CartesianProduct components: {self. aDomain}! !
 
-!Domain methodsFor: 'iterating' stamp: 'len 10/27/2016 14:40'!
+!Domain methodsFor: 'enumerating' stamp: 'len 10/27/2016 14:40'!
 collect: aBlock
 	| elements |
 	elements _ Set new.
 	self do: [:each| elements add: (aBlock value: each)].
 	^ elements as: Domain! !
+
+!Domain methodsFor: 'testing' stamp: 'len 12/13/2016 07:34:03'!
+contains: anElement
+	"Answer true if the receiver contains the given element of its ambient.
+	This is similar to >>includes: but less checks are needed, because the element is not an arbitrary object."
+	^ self elements includes: anElement! !
+
+!Domain methodsFor: 'testing' stamp: 'len 12/13/2016 07:34:43'!
+containsAllOf: aCollection 
+	"Answer whether all the elements of aCollection are in the receiver."
+	aCollection do: [:each| (self contains: each) ifFalse: [^ false]].
+	^ true! !
 
 !Domain methodsFor: 'operations' stamp: 'len 12/8/2016 20:33:44'!
 coproduct: aDomain
@@ -13640,14 +13656,14 @@ coproduct: aDomain
 copyEmpty
 	^ self species new! !
 
-!Domain methodsFor: 'iterating' stamp: 'len 7/29/2016 06:45'!
+!Domain methodsFor: 'enumerating' stamp: 'len 7/29/2016 06:45'!
 detect: aBlock
 	"Evaluate aBlock with each of the receiver's elements as the argument. 
 	Answer the first element for which aBlock evaluates to true."
 
 	^ self detect: aBlock ifNone: [self error: 'Element is not in the domain']! !
 
-!Domain methodsFor: 'iterating' stamp: 'len 9/3/2016 07:19'!
+!Domain methodsFor: 'enumerating' stamp: 'len 9/3/2016 07:19'!
 detect: aBlock ifNone: exceptionBlock
 	"Evaluate aBlock with each of the receiver's elements as the argument. 
 	Answer the first element for which aBlock evaluates to true. If none 
@@ -13656,11 +13672,11 @@ detect: aBlock ifNone: exceptionBlock
 	self do: [:each | (aBlock value: each) ifTrue: [^each]].
 	^ exceptionBlock value! !
 
-!Domain methodsFor: 'iterating' stamp: 'len 7/29/2016 06:44'!
+!Domain methodsFor: 'enumerating' stamp: 'len 7/29/2016 06:44'!
 do: aBlock
 	(properties at: #elements ifAbsent: [self subclassResponsibility]) do: aBlock! !
 
-!Domain methodsFor: 'iterating' stamp: 'len 4/25/2016 09:44'!
+!Domain methodsFor: 'enumerating' stamp: 'len 4/25/2016 09:44'!
 do: elementBlock separatedBy: separatorBlock
 	| beforeFirst | 
 	"Evaluate the elementBlock for all elements in the receiver,
@@ -13912,7 +13928,7 @@ propertyAt: aSymbol ifAbsentPut: aBlock
 propertyAt: aSymbol put: anObject
 	^ properties at: aSymbol put: anObject! !
 
-!Domain methodsFor: 'iterating' stamp: 'len 10/27/2016 14:40'!
+!Domain methodsFor: 'enumerating' stamp: 'len 10/27/2016 14:40'!
 select: aBlock
 	| elements |
 	elements _ Set new.
@@ -13947,7 +13963,7 @@ to: aDomain evaluatingWithArguments: aBlock
 	Example: ZZ × ZZ to: ZZ evaluatingWithArguments: [:a :b| a * b]."
 	^ self to: aDomain evaluating: [:each| aBlock valueWithArguments: each asArray]! !
 
-!Domain methodsFor: 'iterating' stamp: 'len 8/1/2016 03:53'!
+!Domain methodsFor: 'enumerating' stamp: 'len 8/1/2016 03:53'!
 upTo: maximumNumberOfElements
 	| answer |
 	answer _ OrderedCollection new.
@@ -13956,7 +13972,7 @@ upTo: maximumNumberOfElements
 		answer add: each].
 	^ answer! !
 
-!Domain methodsFor: 'iterating' stamp: 'len 7/25/2016 23:46'!
+!Domain methodsFor: 'enumerating' stamp: 'len 7/25/2016 23:46'!
 upTo: max do: aBlock
 	"Iterate over the elements of the receiver, just like #do:, but stop after max elements."
 	| k |
@@ -14091,7 +14107,7 @@ exampleHomSet
 from: aDomain to: anotherDomain
 	^ self new domain: aDomain; codomain: anotherDomain! !
 
-!PointSet methodsFor: 'iterating' stamp: 'len 11/7/2016 16:25'!
+!PointSet methodsFor: 'enumerating' stamp: 'len 11/7/2016 16:25'!
 do: aBlock
 	self codomain pointsOver: self scalars do: aBlock! !
 
@@ -14991,7 +15007,7 @@ centralizerOf: aCollection
 	op _ self operation.
 	^ self select: [:x| aCollection allSatisfy: [:y| (op value: {x. y}) = (op value: {y. x})]]! !
 
-!Group methodsFor: 'iterating' stamp: 'len 5/1/2016 23:44'!
+!Group methodsFor: 'enumerating' stamp: 'len 5/1/2016 23:44'!
 collect: aBlock
 	"Answer the subgroup resulting of mapping the elements of the receiver by aBlock."
 	| elements |
@@ -15177,7 +15193,7 @@ derivedSeriesDo: aBlock
 	G order = G` order ifTrue: [^ self].
 	G _ G`] repeat! !
 
-!Group methodsFor: 'iterating' stamp: 'len 11/14/2016 08:46'!
+!Group methodsFor: 'enumerating' stamp: 'len 11/14/2016 08:46'!
 do: aBlock
 	| generators current previous op |
 	properties at: #elements ifPresent: [:aCollection| aCollection do: aBlock. ^ self].
@@ -15504,7 +15520,7 @@ rightRegularAction
 	self flag: #fix. "is this right?"
 	^ GroupAction from: (self, self) to: self evaluatingWithArguments: [:x :y| x * y]! !
 
-!Group methodsFor: 'iterating' stamp: 'len 5/1/2016 23:45'!
+!Group methodsFor: 'enumerating' stamp: 'len 5/1/2016 23:45'!
 select: aBlock
 	"Answer the subgroup resulting of the selection by aBlock."
 	| elements |
@@ -15625,15 +15641,15 @@ defaultInverseMap
 defaultOperation
 	^ self compositiveOperation! !
 
-!PermutationGroup methodsFor: 'comparing' stamp: 'len 7/27/2016 06:41'!
+!PermutationGroup methodsFor: 'comparing' stamp: 'len 12/13/2016 07:35:29'!
 = anObject
 	self == anObject ifTrue: [^ true].
 	(anObject isKindOf: self species)
 		ifFalse: [^ super = anObject].
 	self generators ifNotNil: [:g1| anObject generators ifNotNil: [:g2| g1 asSet = g2 asSet ifTrue: [^ true]]].
 	self size = anObject size ifFalse: [^ false].
-	anObject generators ifNotNil: [:generators| ^ self includesAllOf: generators].
-	self generators ifNotNil: [:generators| ^ anObject includesAllOf: generators].
+	anObject generators ifNotNil: [:generators| ^ self containsAllOf: generators].
+	self generators ifNotNil: [:generators| ^ anObject containsAllOf: generators].
 	^ super = anObject! !
 
 !PermutationGroup methodsFor: 'accessing' stamp: 'len 10/17/2016 11:02'!
@@ -15693,6 +15709,10 @@ generators: aCollection
 !PermutationGroup methodsFor: 'accessing' stamp: 'len 11/14/2016 14:03'!
 identity
 	^ properties at: #identity ifAbsentPut: [self isStandard ifTrue: [StandardPermutation new: self degree] ifFalse: [Permutation new]]! !
+
+!PermutationGroup methodsFor: 'testing' stamp: 'len 12/13/2016 07:30:26'!
+includes: aPermutation
+	^ (aPermutation isKindOf: Permutation) and: [aPermutation domain <= space and: [self contains: aPermutation]]! !
 
 !PermutationGroup methodsFor: 'testing' stamp: 'len 11/14/2016 13:46'!
 isStandard
@@ -15839,15 +15859,16 @@ computeGenerators
 	1 to: X size - 2 do: [:i| answer add: (Permutation cycle: {i. i+1. i+2})].
 	^ answer! !
 
-!AlternatingGroup methodsFor: 'iterating' stamp: 'len 6/28/2016 06:10'!
+!AlternatingGroup methodsFor: 'testing' stamp: 'len 12/13/2016 07:31:33'!
+contains: aPermutation
+	"Answer true if the receiver contains the given element of its ambient."
+	^ aPermutation even! !
+
+!AlternatingGroup methodsFor: 'enumerating' stamp: 'len 6/28/2016 06:10'!
 do: aBlock
 	| domain |
 	domain _ self space asArray.
 	domain permutationsDo: [:each| |p| (p _ Permutation keys: domain values: each) even ifTrue: [aBlock value: p]]! !
-
-!AlternatingGroup methodsFor: 'testing' stamp: 'len 6/29/2016 00:26'!
-includes: aPermutation
-	^ (aPermutation is: #Permutation) and: ["aPermutation domain <= space and: ["aPermutation even]! !
 
 !AlternatingGroup methodsFor: 'testing' stamp: 'len 2/16/2016 05:54'!
 isSimple
@@ -15894,15 +15915,16 @@ computeGenerators
 	^ answer
 "alternatively: Coxeter generators, the set of (i,i+1) all the adjacent transpositions"! !
 
-!SymmetricGroup methodsFor: 'iterating' stamp: 'len 6/28/2016 06:10'!
+!SymmetricGroup methodsFor: 'testing' stamp: 'len 12/13/2016 07:31:06'!
+contains: aPermutation
+	"Answer true if the receiver contains the given element of its ambient."
+	^ true! !
+
+!SymmetricGroup methodsFor: 'enumerating' stamp: 'len 6/28/2016 06:10'!
 do: aBlock
 	| domain |
 	domain _ self space asArray.
 	domain permutationsDo: [:each| aBlock value: (Permutation keys: domain values: each)]! !
-
-!SymmetricGroup methodsFor: 'testing' stamp: 'len 2/15/2016 21:51'!
-includes: aPermutation
-	^ (aPermutation isKindOf: Permutation) and: [aPermutation domain <= space]! !
 
 !SymmetricGroup methodsFor: 'testing' stamp: 'len 2/16/2016 05:55'!
 isAlmostSimple
@@ -15944,7 +15966,7 @@ copyEmpty
 degree
 	^ space dimension! !
 
-!LinearGroup methodsFor: 'iterating' stamp: 'len 6/23/2016 07:02'!
+!LinearGroup methodsFor: 'enumerating' stamp: 'len 6/23/2016 07:02'!
 do: aBlock
 	self flag: #fix.
 	^ super do: aBlock
@@ -15962,6 +15984,10 @@ hilbertSeries
 !LinearGroup methodsFor: 'accessing' stamp: 'len 2/11/2016 20:01'!
 identity
 	^ space id! !
+
+!LinearGroup methodsFor: 'testing' stamp: 'len 12/13/2016 07:23:01'!
+includes: aLinearMap
+	^ (space endomorphisms includes: aLinearMap) and: [aLinearMap determinant isZero not and: [self contains: aLinearMap]]! !
 
 !LinearGroup methodsFor: 'testing' stamp: 'len 2/22/2016 00:27'!
 isFinite
@@ -16057,9 +16083,10 @@ commutator
 		ifFalse: [^ SpecialLinearGroup on: space].
 	^ properties at: #commutator ifAbsentPut: [super commutator]! !
 
-!GeneralLinearGroup methodsFor: 'testing' stamp: 'len 5/22/2016 22:17'!
-includes: aLinearMap
-	^ (space endomorphisms includes: aLinearMap) and: [aLinearMap determinant isZero not]! !
+!GeneralLinearGroup methodsFor: 'testing' stamp: 'len 12/13/2016 07:30:58'!
+contains: aLinearMap
+	"Answer true if the receiver contains the given element of its ambient."
+	^ true! !
 
 !GeneralLinearGroup methodsFor: 'operations' stamp: 'len 2/11/2016 20:17'!
 orthogonal
@@ -16111,14 +16138,15 @@ atRandom: aRandom bits: bitSize
 			answer _ answer @ (self reflectionAt: v)].
 	^ answer! !
 
+!OrthogonalGroup methodsFor: 'testing' stamp: 'len 12/13/2016 07:24:32'!
+contains: aLinearMap
+	"Answer true if the receiver contains the given element of its ambient."
+	^ aLinearMap isOrthogonal! !
+
 !OrthogonalGroup methodsFor: 'operations' stamp: 'len 2/11/2016 22:07'!
 coxeter: aMatrix
 	"Answer the geometric Coxeter group associated with the Coxeter matrix aMatrix."
 	^ self notYetImplemented! !
-
-!OrthogonalGroup methodsFor: 'testing' stamp: 'len 5/22/2016 22:17'!
-includes: aLinearMap
-	^ (space endomorphisms includes: aLinearMap) and: [aLinearMap isOrthogonal]! !
 
 !OrthogonalGroup methodsFor: 'elements' stamp: 'len 2/11/2016 20:05'!
 reflectionAt: aVector
@@ -16145,19 +16173,20 @@ atRandom: aRandom
 atRandom: aRandom bits: bitSize
 	^ space endomorphisms scalar: (space scalars atRandom: aRandom bits: bitSize / space dimension)! !
 
+!ScalarGroup methodsFor: 'testing' stamp: 'len 12/13/2016 07:24:48'!
+contains: aLinearMap
+	"Answer true if the receiver contains the given element of its ambient."
+	^ aLinearMap isScalar! !
+
 !ScalarGroup methodsFor: 'accessing' stamp: 'len 2/12/2016 02:17'!
 dimension
 	^ 1! !
 
-!ScalarGroup methodsFor: 'iterating' stamp: 'len 2/11/2016 20:11'!
+!ScalarGroup methodsFor: 'enumerating' stamp: 'len 2/11/2016 20:11'!
 do: aBlock
 	| endos |
 	endos _ space endomorphisms.
 	self scalars do: [:each| aBlock value: (endos scalar: each)]! !
-
-!ScalarGroup methodsFor: 'testing' stamp: 'len 5/22/2016 22:18'!
-includes: aLinearMap
-	^ (space endomorphisms includes: aLinearMap) and: [aLinearMap isScalar]! !
 
 !ScalarGroup methodsFor: 'testing' stamp: 'len 2/12/2016 02:19'!
 isCommutative
@@ -16179,9 +16208,10 @@ asMatrixGroup
 center
 	^ SpecialScalarGroup on: space! !
 
-!SpecialLinearGroup methodsFor: 'testing' stamp: 'len 5/22/2016 22:18'!
-includes: aLinearMap
-	^ (space endomorphisms includes: aLinearMap) and: [aLinearMap determinant = space scalars one]! !
+!SpecialLinearGroup methodsFor: 'testing' stamp: 'len 12/13/2016 07:25:07'!
+contains: aLinearMap
+	"Answer true if the receiver contains the given element of its ambient."
+	^ aLinearMap determinant = space scalars one! !
 
 !SpecialLinearGroup methodsFor: 'printing' stamp: 'len 2/11/2016 20:13'!
 shortName
@@ -16195,9 +16225,10 @@ affine
 asMatrixGroup
 	^ SpecialOrthogonalMatrixGroup on: space coordinateSpace! !
 
-!SpecialOrthogonalGroup methodsFor: 'testing' stamp: 'len 5/22/2016 22:18'!
-includes: aLinearMap
-	^ (space endomorphisms includes: aLinearMap) and: [aLinearMap isOrthogonal and: [aLinearMap determinant = self scalars one]]! !
+!SpecialOrthogonalGroup methodsFor: 'testing' stamp: 'len 12/13/2016 07:25:39'!
+contains: aLinearMap
+	"Answer true if the receiver contains the given element of its ambient."
+	^ aLinearMap isOrthogonal and: [aLinearMap determinant = self scalars one]! !
 
 !SpecialOrthogonalGroup methodsFor: 'printing' stamp: 'len 2/11/2016 20:20'!
 shortName
@@ -16207,10 +16238,10 @@ shortName
 asMatrixGroup
 	^ SpecialScalarMatrixGroup on: space coordinateSpace! !
 
-!SpecialScalarGroup methodsFor: 'testing' stamp: 'len 5/22/2016 22:30'!
-includes: aLinearMap
-	self flag: #fix. "what? this is just {id}?"
-	^ (space endomorphisms includes: aLinearMap) and: [aLinearMap isScalar and: [aLinearMap determinant = space scalars one]]! !
+!SpecialScalarGroup methodsFor: 'testing' stamp: 'len 12/13/2016 07:27:01'!
+contains: aLinearMap
+	"Answer true if the receiver contains the given element of its ambient."
+	^ aLinearMap isScalar and: [aLinearMap determinant = space scalars one]! !
 
 !SpecialScalarGroup methodsFor: 'testing' stamp: 'len 2/12/2016 19:01'!
 isCommutative
@@ -16394,7 +16425,7 @@ commutator
 degree
 	^ self matrices degree! !
 
-!LinearTransformationsGroup methodsFor: 'iterating' stamp: 'len 12/8/2016 08:51:07'!
+!LinearTransformationsGroup methodsFor: 'enumerating' stamp: 'len 12/8/2016 08:51:07'!
 do: aBlock
 	| basis |
 	basis _ self basis.
@@ -16490,7 +16521,7 @@ components
 components: anArray
 	components _ anArray! !
 
-!DirectProductGroup methodsFor: 'iterating' stamp: 'len 7/29/2016 06:51'!
+!DirectProductGroup methodsFor: 'enumerating' stamp: 'len 7/29/2016 06:51'!
 do: aBlock
 	self asCartesianProduct do: aBlock! !
 
@@ -16639,7 +16670,7 @@ atRandom: aRandom
 atRandom: aRandom bits: bitSize
 	^ self project: (self asCartesianProduct atRandom: aRandom bits: bitSize)! !
 
-!SemidirectProductGroup methodsFor: 'iterating' stamp: 'len 2/12/2016 06:57'!
+!SemidirectProductGroup methodsFor: 'enumerating' stamp: 'len 2/12/2016 06:57'!
 do: aBlock
 	left do: [:g| right do: [:h| aBlock value: (self project: {g.h})]]! !
 
@@ -16714,7 +16745,7 @@ degree
 degree: anInteger
 	properties at: #degree put: anInteger! !
 
-!MatrixGroup methodsFor: 'iterating' stamp: 'len 6/23/2016 07:03'!
+!MatrixGroup methodsFor: 'enumerating' stamp: 'len 6/23/2016 07:03'!
 do: aBlock
 	self flag: #fix.
 	^ super do: aBlock
@@ -16732,6 +16763,10 @@ hilbertSeries
 !MatrixGroup methodsFor: 'accessing' stamp: 'len 12/8/2016 11:04:58'!
 identity
 	^ self scalars matrix: self degree @ self degree scalar: self scalars one! !
+
+!MatrixGroup methodsFor: 'testing' stamp: 'len 12/13/2016 07:16:17'!
+includes: aMatrix
+	^ (aMatrix isKindOf: Matrix) and: [aMatrix isSquare and: [aMatrix numberOfColumns = self degree and: [aMatrix scalars <= self scalars and: [aMatrix determinant isZero not and: [self contains: aMatrix]]]]]! !
 
 !MatrixGroup methodsFor: 'testing' stamp: 'len 2/22/2016 00:27'!
 isFinite
@@ -16862,9 +16897,10 @@ commutator
 		ifFalse: [^ SpecialLinearMatrixGroup new: self degree over: self scalars].
 	^ properties at: #commutator! !
 
-!GeneralLinearMatrixGroup methodsFor: 'testing' stamp: 'len 12/8/2016 11:14:46'!
-includes: aMatrix
-	^ (aMatrix isKindOf: Matrix) and: [aMatrix isSquare and: [aMatrix numberOfColumns = self degree and: [aMatrix scalars <= self scalars and: [aMatrix determinant isZero not]]]]! !
+!GeneralLinearMatrixGroup methodsFor: 'testing' stamp: 'len 12/13/2016 07:13:03'!
+contains: aMatrix
+	"Answer true if the receiver contains the given element of its ambient."
+	^ true! !
 
 !GeneralLinearMatrixGroup methodsFor: 'operations' stamp: 'len 12/8/2016 11:08:32'!
 orthogonal
@@ -16888,9 +16924,10 @@ special
 	"Answer the special linear group SL(n) which is a subgroup of the receiver."
 	^ SpecialLinearMatrixGroup new: self degree over: self scalars! !
 
-!OrthogonalMatrixGroup methodsFor: 'testing' stamp: 'len 12/8/2016 11:15:07'!
-includes: aMatrix
-	^ (self ambient includes: aMatrix) and: [aMatrix isOrthogonal]! !
+!OrthogonalMatrixGroup methodsFor: 'testing' stamp: 'len 12/13/2016 07:13:52'!
+contains: aMatrix
+	"Answer true if the receiver contains the given element of its ambient."
+	^ aMatrix isOrthogonal! !
 
 !OrthogonalMatrixGroup methodsFor: 'printing' stamp: 'len 2/11/2016 05:14'!
 shortName
@@ -16908,17 +16945,18 @@ atRandom: aRandom
 atRandom: aRandom bits: bitSize
 	^ self scalars matrix: self degree @ self degree scalar: (self scalars atRandom: aRandom bits: bitSize / self degree)! !
 
+!ScalarMatrixGroup methodsFor: 'testing' stamp: 'len 12/13/2016 07:14:27'!
+contains: aMatrix
+	"Answer true if the receiver contains the given element of its ambient."
+	^ aMatrix isScalar! !
+
 !ScalarMatrixGroup methodsFor: 'accessing' stamp: 'len 2/12/2016 02:18'!
 dimension
 	^ 1! !
 
-!ScalarMatrixGroup methodsFor: 'iterating' stamp: 'len 12/8/2016 11:16:31'!
+!ScalarMatrixGroup methodsFor: 'enumerating' stamp: 'len 12/8/2016 11:16:31'!
 do: aBlock
 	self scalars do: [:each| aBlock value: (self scalars matrix: self degree scalar: each)]! !
-
-!ScalarMatrixGroup methodsFor: 'testing' stamp: 'len 12/8/2016 11:16:03'!
-includes: aMatrix
-	^ (self ambient includes: aMatrix) and: [aMatrix isScalar]! !
 
 !ScalarMatrixGroup methodsFor: 'testing' stamp: 'len 12/8/2016 11:16:42'!
 isCommutative
@@ -16940,21 +16978,28 @@ asAlgebraicVariety
 center
 	^ SpecialScalarMatrixGroup new: self degree over: self scalars! !
 
-!SpecialLinearMatrixGroup methodsFor: 'testing' stamp: 'len 12/8/2016 11:16:50'!
-includes: aMatrix
-	^ (self ambient includes: aMatrix) and: [aMatrix determinant = self scalars one]! !
+!SpecialLinearMatrixGroup methodsFor: 'testing' stamp: 'len 12/13/2016 07:17:15'!
+contains: aMatrix
+	"Answer true if the receiver contains the given element of its ambient."
+	^ aMatrix determinant = self scalars one! !
 
 !SpecialLinearMatrixGroup methodsFor: 'printing' stamp: 'len 2/11/2016 05:20'!
 shortName
 	^ 'SL'! !
 
-!SpecialOrthogonalMatrixGroup methodsFor: 'testing' stamp: 'len 12/8/2016 11:17:05'!
-includes: aMatrix
-	^ (self ambient includes: aMatrix) and: [aMatrix isOrthogonal and: [aMatrix determinant = self scalars one]]! !
+!SpecialOrthogonalMatrixGroup methodsFor: 'testing' stamp: 'len 12/13/2016 07:17:40'!
+contains: aMatrix
+	"Answer true if the receiver contains the given element of its ambient."
+	^ aMatrix isOrthogonal and: [aMatrix determinant = self scalars one]! !
 
 !SpecialOrthogonalMatrixGroup methodsFor: 'printing' stamp: 'len 2/11/2016 05:20'!
 shortName
 	^ 'SO'! !
+
+!SpecialScalarMatrixGroup methodsFor: 'testing' stamp: 'len 12/13/2016 07:18:30'!
+contains: aMatrix
+	"Answer true if the receiver contains the given element of its ambient."
+	^ aMatrix isScalar and: [aMatrix determinant = self scalars one]! !
 
 !SpecialScalarMatrixGroup methodsFor: 'testing' stamp: 'len 12/8/2016 11:17:14'!
 isCommutative
@@ -17154,7 +17199,7 @@ printOn: aStream
 printOn: aStream
 	aStream nextPut: Character Gamma; nextPutAll: '1' super; nextPut: $(; print: self level; nextPut: $)! !
 
-!UnitGroup methodsFor: 'iterating' stamp: 'len 5/12/2016 23:17'!
+!UnitGroup methodsFor: 'enumerating' stamp: 'len 5/12/2016 23:17'!
 do: aBlock
 	ring do: [:each| (self includes: each) ifTrue: [aBlock value: each]]! !
 
@@ -17271,7 +17316,7 @@ defaultInverseMap
 defaultOperation
 	^ self base operation as: ((self, self) hom: self)! !
 
-!QuotientGroup methodsFor: 'iterating' stamp: 'len 11/30/2016 14:44:16'!
+!QuotientGroup methodsFor: 'enumerating' stamp: 'len 11/30/2016 14:44:16'!
 do: aBlock
 	| visited |
 	visited _ Set new.
@@ -17423,7 +17468,7 @@ on: aRing
 atRandom: aRandom bits: bitSize
 	^ self exponents: ((NN ** self rank atRandom: aRandom bits: bitSize) collect: [:x| x - 1]) asArray! !
 
-!Monomials methodsFor: 'iterating' stamp: 'len 11/20/2016 12:17:48'!
+!Monomials methodsFor: 'enumerating' stamp: 'len 11/20/2016 12:17:48'!
 do: aBlock
 	NN ** self rank do: [:each| aBlock value: (self exponents: (each collect: [:x| x - 1]) asArray)]! !
 
@@ -17569,7 +17614,7 @@ components
 components: anArray
 	components _ anArray! !
 
-!CartesianProduct methodsFor: 'iterating' stamp: 'len 7/29/2016 06:53'!
+!CartesianProduct methodsFor: 'enumerating' stamp: 'len 7/29/2016 06:53'!
 do: aBlock
 	(self components allSatisfy: [:each| each isFinite])
 		ifFalse: [^ self upTo: self size rank: self arity do: aBlock].
@@ -17603,7 +17648,7 @@ projection: i
 size
 	^ components product: [:each| each size]! !
 
-!CartesianProduct methodsFor: 'iterating' stamp: 'len 11/5/2016 10:29'!
+!CartesianProduct methodsFor: 'enumerating' stamp: 'len 11/5/2016 10:29'!
 upTo: max rank: n do: aBlock
 	| k |
 	self notYetImplemented.
@@ -17615,7 +17660,7 @@ upTo: max rank: n do: aBlock
 			"(self at: n) upTo: k-1 do: [:t| (p includes: s) ifTrue: [aBlock value: (p,t)]]"].
 		k _ k + 1]! !
 
-!CartesianProduct methodsFor: 'iterating' stamp: 'len 11/5/2016 07:14'!
+!CartesianProduct methodsFor: 'enumerating' stamp: 'len 11/5/2016 07:14'!
 upToComponent: k do: aBlock
 	k = 0 ifTrue: [aBlock value: Array new. ^ self].
 	self upToComponent: k-1 do: [:each| (self at: k) do: [:last| aBlock value: each,{last}]]! !
@@ -17628,7 +17673,7 @@ components: anArray
 = anEquivalenceClass
 	^ anEquivalenceClass includes: self representative! !
 
-!EquivalenceClass methodsFor: 'iterating' stamp: 'len 4/25/2016 09:33'!
+!EquivalenceClass methodsFor: 'enumerating' stamp: 'len 4/25/2016 09:33'!
 do: aBlock
 	self relation domain do: [:each| (self relation includes: {each. self representative}) ifTrue: [aBlock value: each]]! !
 
@@ -17668,7 +17713,7 @@ representative: anElement relation: anEquivalenceRelation
 block: aBlock
 	properties at: #block put: aBlock! !
 
-!EquivalenceRelation methodsFor: 'iterating' stamp: 'len 4/25/2016 08:55'!
+!EquivalenceRelation methodsFor: 'enumerating' stamp: 'len 4/25/2016 08:55'!
 do: aBlock
 	self domain do: [:x|
 		self domain do: [:y|
@@ -17717,7 +17762,7 @@ on: aDomain evaluating: aBlock
 atRandom: aRandom bits: bitSize
 	^ (aRandom nextBits: bitSize truncated) + 1! !
 
-!Naturals methodsFor: 'iterating' stamp: 'len 12/3/2015 20:12'!
+!Naturals methodsFor: 'enumerating' stamp: 'len 12/3/2015 20:12'!
 do: aBlock
 	| n |
 	n _ 1.
@@ -17769,7 +17814,7 @@ initialize
 base
 	^ self relation domain! !
 
-!QuotientSet methodsFor: 'iterating' stamp: 'len 8/14/2016 06:17'!
+!QuotientSet methodsFor: 'enumerating' stamp: 'len 8/14/2016 06:17'!
 do: aBlock
 	| visited |
 	visited _ Set new.
@@ -18035,12 +18080,17 @@ colon: anIdeal
 	"Answer the colon quotient I:J of the receiver I with the argument J."
 	^ self subclassResponsibility! !
 
+!Ideal methodsFor: 'testing' stamp: 'len 12/13/2016 07:40:07'!
+contains: anObject
+	self isZero ifTrue: [^ anObject isZero].
+	^ (self reduce: anObject) isZero! !
+
 !Ideal methodsFor: 'copying' stamp: 'len 10/29/2016 11:36'!
 copy
 	"Answer a copy of the receiver."
 	^ self class on: self ring generators: self generators copy! !
 
-!Ideal methodsFor: 'iterating' stamp: 'len 10/29/2016 11:33'!
+!Ideal methodsFor: 'enumerating' stamp: 'len 10/29/2016 11:33'!
 do: aBlock
 	self ring isCommutative
 		ifTrue:
@@ -18076,11 +18126,9 @@ generators: aCollection
 hash
 	^ self ring hash! !
 
-!Ideal methodsFor: 'testing' stamp: 'len 9/26/2016 16:57'!
-includes: anObject
-	(self ring includes: anObject) ifFalse: [^ false].
-	self isZero ifTrue: [^ anObject isZero].
-	^ (self reduce: anObject) isZero! !
+!Ideal methodsFor: 'testing' stamp: 'len 12/13/2016 07:40:27'!
+includes: anElement
+	^ (self ring includes: anElement) and: [self contains: anElement]! !
 
 !Ideal methodsFor: 'operations-elements' stamp: 'len 11/14/2016 07:33'!
 inverseOf: anElement
@@ -18227,6 +18275,13 @@ colon: anIdeal
 		answer _ answer • (self ring * ((self ring * g • self) groebnerBasis apply: [:h| h / g]))].
 	^ answer! !
 
+!PolynomialIdeal methodsFor: 'testing' stamp: 'len 12/13/2016 07:38:25'!
+contains: aPolynomial 
+	"(Ideal Membership Problem)
+	Answer true if the receiver includes aPolynomial.
+	This works on any Groebner basis (any monomial ordering)."
+	^ (self reduce: aPolynomial) isZero! !
+
 !PolynomialIdeal methodsFor: 'accessing' stamp: 'len 11/23/2016 05:31:37'!
 degree
 	"Answer the degree of the ideal, i.e. the number of monomials that are not multiple of any leading monomial in the Groebner basis."
@@ -18315,13 +18370,6 @@ homogenized
 	ordering _ MonomialOrdering trevlex: R rank.
 	G _ self groebnerBasisWithOrdering: ordering.
 	^ R` * (G collect: [:each| (each as: R`) homogenizedIn: R` rank])! !
-
-!PolynomialIdeal methodsFor: 'testing' stamp: 'len 7/9/2016 08:19'!
-includes: aPolynomial 
-	"(Ideal Membership Problem)
-	Answer true if the receiver includes aPolynomial.
-	This works on any Groebner basis (any monomial ordering)."
-	^ (self reduce: aPolynomial) isZero! !
 
 !PolynomialIdeal methodsFor: 'operations-elements' stamp: 'len 11/14/2016 07:32'!
 inverseOf: aPolynomial
@@ -18745,6 +18793,12 @@ localization: aPrimeIdeal
 			[self * aPrimeIdeal].
 	^ LocalizationRing away: P! !
 
+!Ring methodsFor: 'tuples and matrices' stamp: 'len 12/13/2016 10:15:36'!
+matrix: dimension coefficients: aCollection
+	| stream |
+	stream _ aCollection readStream.
+	^ self matrix: dimension evaluating: [:i :j| stream next]! !
+
 !Ring methodsFor: 'tuples and matrices' stamp: 'len 12/11/2016 07:40:21'!
 matrix: dimension evaluating: aBlock
 	| n m |
@@ -19103,7 +19157,7 @@ dimension
 	"Answer the Krull dimension of the receiver."
 	^ 1! !
 
-!Integers methodsFor: 'iterating' stamp: 'len 11/10/2015 17:57'!
+!Integers methodsFor: 'enumerating' stamp: 'len 11/10/2015 17:57'!
 do: aBlock
 	| i |
 	aBlock value: 0.
@@ -19379,7 +19433,7 @@ algebraicClosure
 automorphisms
 	^ CompositiveGroup new elements: {self id}! !
 
-!Rationals methodsFor: 'iterating' stamp: 'len 12/21/2015 22:42'!
+!Rationals methodsFor: 'enumerating' stamp: 'len 12/21/2015 22:42'!
 do: aBlock
 	"Iterate over the rational numbers by breadth-first traversal of the Calkin-Wilf tree. This is an extension of the Calkin-Wilf sequence to include 0 and the negative numbers."
 	aBlock value: 0.
@@ -19430,7 +19484,7 @@ isReal
 one
 	^ 1! !
 
-!Rationals methodsFor: 'iterating' stamp: 'len 12/21/2015 22:42'!
+!Rationals methodsFor: 'enumerating' stamp: 'len 12/21/2015 22:42'!
 positiveDo: aBlock
 	"Iterate over the rational numbers by breadth-first traversal of the Calkin-Wilf tree."
 	| q |
@@ -19564,7 +19618,7 @@ components
 components: anArray
 	components _ anArray! !
 
-!ProductRing methodsFor: 'iterating' stamp: 'len 8/29/2016 04:11'!
+!ProductRing methodsFor: 'enumerating' stamp: 'len 8/29/2016 04:11'!
 do: aBlock
 	self asCartesianProduct do: aBlock! !
 
@@ -19643,7 +19697,7 @@ conjugation
 	"Answer the companion automorphism of the receiver, i.e. the Frobenius automorphism."
 	^ self frobenius! !
 
-!QuotientRing methodsFor: 'iterating' stamp: 'len 11/30/2016 14:44:20'!
+!QuotientRing methodsFor: 'enumerating' stamp: 'len 11/30/2016 14:44:20'!
 do: aBlock
 	| visited |
 	self flag: #fix. "does this work in any ring? depends on ring|#do:"
@@ -20370,7 +20424,7 @@ characteristic
 conjugation
 	^ self to: self evaluating: [:x| x conjugated]! !
 
-!ComplexNumbers methodsFor: 'iterating' stamp: 'len 8/6/2016 03:50'!
+!ComplexNumbers methodsFor: 'enumerating' stamp: 'len 8/6/2016 03:50'!
 do: aBlock
 	^ self shouldNotImplement! !
 
@@ -20475,7 +20529,7 @@ zero
 characteristic
 	^ 0! !
 
-!Reals methodsFor: 'iterating' stamp: 'len 8/6/2016 03:50'!
+!Reals methodsFor: 'enumerating' stamp: 'len 8/6/2016 03:50'!
 do: aBlock
 	^ self shouldNotImplement! !
 
@@ -20728,7 +20782,7 @@ dimension
 	self scalars isNoetherian ifTrue: [^ self scalars dimension + self rank].
 	^ super dimension! !
 
-!PolynomialRing methodsFor: 'iterating' stamp: 'len 12/21/2015 23:09'!
+!PolynomialRing methodsFor: 'enumerating' stamp: 'len 12/21/2015 23:09'!
 do: aBlock
 	| k |
 	self scalars isFinite ifFalse: [^ self notYetImplemented].
@@ -21430,7 +21484,7 @@ dimension
 	"Custom notation for vector spaces."
 	^ self rank! !
 
-!FreeModule methodsFor: 'iterating' stamp: 'len 7/19/2016 23:46'!
+!FreeModule methodsFor: 'enumerating' stamp: 'len 7/19/2016 23:46'!
 do: aBlock
 	self coordinateSpace do: [:each| aBlock value: (self elementAt: each)]! !
 
@@ -22637,7 +22691,7 @@ atRandom: aRandom bits: bitSize
 coordinatesOf: aTuple
 	^ aTuple! !
 
-!TupleModule methodsFor: 'iterating' stamp: 'len 10/15/2016 17:08'!
+!TupleModule methodsFor: 'enumerating' stamp: 'len 10/15/2016 17:08'!
 do: aBlock
 	self upTo: scalars size rank: rank do: aBlock! !
 
@@ -22715,7 +22769,7 @@ scalars
 scalars: aRing
 	scalars _ aRing! !
 
-!TupleModule methodsFor: 'iterating' stamp: 'len 7/26/2016 00:19'!
+!TupleModule methodsFor: 'enumerating' stamp: 'len 7/26/2016 00:19'!
 upTo: max rank: n do: aBlock
 	| k |
 	n = 0 ifTrue: [^ aBlock value: (scalars tuple: #())].
@@ -23040,7 +23094,7 @@ curve
 curve: anEllipticCurve
 	curve _ anEllipticCurve! !
 
-!EllipticCurveGroup methodsFor: 'iterating' stamp: 'len 11/10/2016 08:10'!
+!EllipticCurveGroup methodsFor: 'enumerating' stamp: 'len 11/10/2016 08:10'!
 do: aBlock
 	self curve pointsOver: self scalars do: aBlock! !
 
@@ -23246,7 +23300,7 @@ distanceGraph: d
 				ifTrue: [G addEdgeFrom: x to: y]]].
 	^ G! !
 
-!LinearCode methodsFor: 'iterating' stamp: 'len 5/12/2016 07:08'!
+!LinearCode methodsFor: 'enumerating' stamp: 'len 5/12/2016 07:08'!
 do: aBlock
 	self asVectorSpace do: aBlock! !
 
@@ -23493,7 +23547,7 @@ checkPolynomial
 dimension
 	^ self length - generator degree! !
 
-!CyclicCode2 methodsFor: 'iterating' stamp: 'len 5/18/2016 06:30'!
+!CyclicCode2 methodsFor: 'enumerating' stamp: 'len 5/18/2016 06:30'!
 do: aBlock
 	self asIdeal do: aBlock! !
 
@@ -24732,7 +24786,7 @@ direction
 direction: aVectorSpace
 	direction _ aVectorSpace! !
 
-!AffineSubspace methodsFor: 'iterating' stamp: 'len 6/4/2016 04:30'!
+!AffineSubspace methodsFor: 'enumerating' stamp: 'len 6/4/2016 04:30'!
 do: aBlock
 	direction do: [:each| aBlock value: each + representative]! !
 
@@ -26914,7 +26968,7 @@ binomialTransform2
 codomain
 	^ properties at: #codomain ifAbsent: [ZZ]! !
 
-!Sequence methodsFor: 'iterating' stamp: 'len 12/3/2015 20:34'!
+!Sequence methodsFor: 'enumerating' stamp: 'len 12/3/2015 20:34'!
 collect: aBlock
 	^ self species evaluating: [:i| aBlock value: (self at: i)]! !
 
@@ -26928,7 +26982,7 @@ copyFrom: start to: end
 		ifTrue: [^ self shift: 1 - start].
 	^ (start to: end) collect: [:i| self at: i]! !
 
-!Sequence methodsFor: 'iterating' stamp: 'len 4/25/2016 07:08'!
+!Sequence methodsFor: 'enumerating' stamp: 'len 4/25/2016 07:08'!
 count: aBlock
 	^ (self collect: [:each| (aBlock value: each) ifTrue: [1] ifFalse: [0]]) sum! !
 
@@ -26948,7 +27002,7 @@ dirichletSeries
 	"Answer the Dirichlet series generating function of the receiver."
 	^ DirichletSeries coefficients: self! !
 
-!Sequence methodsFor: 'iterating' stamp: 'len 12/27/2015 03:45'!
+!Sequence methodsFor: 'enumerating' stamp: 'len 12/27/2015 03:45'!
 do: aBlock
 	1 to: self size do: [:each| aBlock value: (self at: each)]! !
 
@@ -27026,7 +27080,7 @@ product
 	"Answer the indefinite product of the receiver."
 	^ self species to: self codomain evaluating: [:i| (1 to: i) collect: [:k| self at: k] andFold: [:a :b| a*b]]! !
 
-!Sequence methodsFor: 'iterating' stamp: 'len 12/3/2015 23:16'!
+!Sequence methodsFor: 'enumerating' stamp: 'len 12/3/2015 23:16'!
 select: aBlock
 	^ self species evaluating: [:i|
 		| k j value |
@@ -27072,7 +27126,7 @@ sum
 value: aNumber
 	^ self at: aNumber asInteger! !
 
-!Sequence methodsFor: 'iterating' stamp: 'len 3/27/2016 04:44'!
+!Sequence methodsFor: 'enumerating' stamp: 'len 3/27/2016 04:44'!
 withIndexDo: aBlock
 	| i |
 	i _ 1.
@@ -28238,7 +28292,7 @@ changes
 	"Answer the elements changed by the receiver."
 	^ Iterator on: self performing: #changesDo:! !
 
-!Permutation methodsFor: 'iterating' stamp: 'len 6/28/2016 07:25'!
+!Permutation methodsFor: 'enumerating' stamp: 'len 6/28/2016 07:25'!
 changesDo: aBlock
 	map keysDo: aBlock! !
 
@@ -28261,7 +28315,7 @@ cycles
 	"Answer the cycles of the receiver."
 	^ Iterator on: self performing: #cyclesDo:! !
 
-!Permutation methodsFor: 'iterating' stamp: 'len 11/30/2016 14:44:11'!
+!Permutation methodsFor: 'enumerating' stamp: 'len 11/30/2016 14:44:11'!
 cyclesDo: aBlock
 	"Iterate over the cycles of the receiver."
 	| left first next cycle |
@@ -28520,7 +28574,7 @@ cycles
 	"Answer the cycles of the receiver."
 	^ {self}! !
 
-!PermutationCycle methodsFor: 'iterating' stamp: 'len 5/2/2016 04:42'!
+!PermutationCycle methodsFor: 'enumerating' stamp: 'len 5/2/2016 04:42'!
 cyclesDo: aBlock
 	"Iterate over the cycles of the receiver."
 	aBlock value: self! !
@@ -28586,7 +28640,7 @@ transpositions
 asPermutationIn: anArray
 	^ self species keys: anArray values: (map collect: [:each| anArray at: each])! !
 
-!StandardPermutation methodsFor: 'iterating' stamp: 'len 6/28/2016 07:35'!
+!StandardPermutation methodsFor: 'enumerating' stamp: 'len 6/28/2016 07:35'!
 changesDo: aBlock
 	1 to: map size do: [:i| (map at: i) = i ifFalse: [aBlock value: i]]! !
 
@@ -29497,7 +29551,7 @@ word: aWord
 = aWord
 	^ syllables = aWord syllables! !
 
-!Word methodsFor: 'iterating' stamp: 'len 3/3/2016 05:23'!
+!Word methodsFor: 'enumerating' stamp: 'len 3/3/2016 05:23'!
 do: aBinaryBlock
 	syllables do: [:each| aBinaryBlock value: each key value: each value]! !
 
@@ -31405,9 +31459,9 @@ characteristicPolynomial2
 	^ (P matrix: self dimension
 		evaluating: [:i :j| i == j ifTrue: [x - (P constant: (self at: i @ j))] ifFalse: [P constant: (self at: i @ j) negated]]) determinant! !
 
-!Matrix methodsFor: 'operations' stamp: 'len 11/5/2016 03:31'!
+!Matrix methodsFor: 'operations' stamp: 'len 12/13/2016 06:39:37'!
 characteristicPolynomial3
-	"COHEN Algorithm 2.2.7. (Characteristic Polynomial and Anjoint Matrix) O(n^4)."
+	"COHEN Algorithm 2.2.7. (Characteristic Polynomial and Adjoint Matrix) O(n^4)."
 	| n i I C a |
 	n _ self numberOfRows.
 	i _ 0. I _ self identity. C _ I. a _ OrderedCollection new: n.
@@ -31416,6 +31470,21 @@ characteristicPolynomial3
 		ifTrue:
 			[a add: (self * C) trace negated / n.
 			^ self scalars polynomials coefficients: a reversed. "adj _ (-1)**(n-1) * C"].
+	C _ self * C.
+	a add: C trace negated / i.
+	C _ C + (I * a last)] repeat! !
+
+!Matrix methodsFor: 'operations' stamp: 'len 12/13/2016 06:42:23'!
+characteristicPolynomialAndAdjoint
+	"COHEN Algorithm 2.2.7. (Characteristic Polynomial and Adjoint Matrix) O(n^4)."
+	| n i I C a |
+	n _ self numberOfRows.
+	i _ 0. I _ self identity. C _ I. a _ OrderedCollection new: n.
+	a add: self scalars one.
+	[(i _ i + 1) = n
+		ifTrue:
+			[a add: (self * C) trace negated / n.
+			^ {self scalars polynomials coefficients: a reversed. (-1)**(n-1) * C}].
 	C _ self * C.
 	a add: C trace negated / i.
 	C _ C + (I * a last)] repeat! !
@@ -31446,7 +31515,7 @@ coimage
 cokernel
 	^ self image perp! !
 
-!Matrix methodsFor: 'iterating' stamp: 'len 11/5/2016 03:32'!
+!Matrix methodsFor: 'enumerating' stamp: 'len 11/5/2016 03:32'!
 collect: aBlock
 	^ self scalars matrix: self dimension evaluating: [:i :j| aBlock value: (self at: i@j)]! !
 
@@ -31475,7 +31544,7 @@ columnSpace
 columns
 	^ (1 to: self numberOfColumns) collect: [:i| self columnAt: i]! !
 
-!Matrix methodsFor: 'iterating' stamp: 'len 11/4/2015 23:07'!
+!Matrix methodsFor: 'enumerating' stamp: 'len 11/4/2015 23:07'!
 columnsDo: aBlock
 	1 to: self numberOfColumns do: [ :i | aBlock value: (self columnAt: i) ]! !
 
@@ -31552,7 +31621,7 @@ diagonal
 		tuple: (self numberOfRows min: self numberOfColumns)
 		evaluating: [:i| self at: i@i]! !
 
-!Matrix methodsFor: 'iterating' stamp: 'len 1/7/2016 23:38'!
+!Matrix methodsFor: 'enumerating' stamp: 'len 1/7/2016 23:38'!
 diagonalDo: aBlock
 	| i |
 	i _ 1.
@@ -31562,7 +31631,7 @@ diagonalDo: aBlock
 dimension
 	^ self numberOfRows @ self numberOfColumns! !
 
-!Matrix methodsFor: 'iterating' stamp: 'len 11/27/2016 13:24:03'!
+!Matrix methodsFor: 'enumerating' stamp: 'len 11/27/2016 13:24:03'!
 do: aBlock
 	1 to: self numberOfRows do: [:i|
 		1 to: self numberOfColumns do: [:j|
@@ -31600,6 +31669,12 @@ hadamard: aMatrix
 	self checkDimensionMatch: aMatrix.
 	self checkScalarsMatch: aMatrix.
 	^ self scalars matrix: self dimension evaluating: [:i :j| (self at: i@j) * (aMatrix at: i@j)]! !
+
+!Matrix methodsFor: 'private' stamp: 'len 12/13/2016 09:51:35'!
+hadamardBound
+	"Answer a bound N on the determinant of the receiver such that |det A| < 2^N.
+	Assume the coefficients are real."
+	^ (self rows sum: [:row| (row sum: [:each| each squared])]) log2 min: (self columns sum: [:column| (column sum: [:each| each squared])]) log2! !
 
 !Matrix methodsFor: 'comparing' stamp: 'len 6/28/2016 09:33'!
 hash
@@ -32046,7 +32121,7 @@ at: i at: j
 at: i at: j put: anObject
 	^ (columns at: j) at: i put: anObject! !
 
-!ColumnMatrix methodsFor: 'iterating' stamp: 'len 11/5/2016 03:43'!
+!ColumnMatrix methodsFor: 'enumerating' stamp: 'len 11/5/2016 03:43'!
 collect: aBlock
 	^ self class columns: (columns collect: [:each| each collect: aBlock])! !
 
@@ -32066,7 +32141,7 @@ columns
 columns: anArray
 	columns _ anArray! !
 
-!ColumnMatrix methodsFor: 'iterating' stamp: 'len 3/23/2016 02:57'!
+!ColumnMatrix methodsFor: 'enumerating' stamp: 'len 3/23/2016 02:57'!
 columnsDo: aBlock
 	columns do: aBlock! !
 
@@ -32081,6 +32156,11 @@ isZero
 !ColumnMatrix methodsFor: 'testing' stamp: 'len 12/1/2016 17:05:02'!
 isZeroAt: aPoint
 	^ (columns at: aPoint y) isZeroAt: aPoint x! !
+
+!ColumnMatrix methodsFor: 'as yet unclassified' stamp: 'len 12/13/2016 07:45:09'!
+multiplyColumn: i by: factor
+	self flag: #fix. "this can be done inplace"
+	columns at: i put: (columns at: i) * factor! !
 
 !ColumnMatrix methodsFor: 'arithmetic' stamp: 'len 11/5/2016 03:43'!
 negated
@@ -32151,7 +32231,7 @@ at: i at: j
 at: i at: j put: anObject
 	^ (rows at: i) at: j put: anObject! !
 
-!RowMatrix methodsFor: 'iterating' stamp: 'len 11/5/2016 03:41'!
+!RowMatrix methodsFor: 'enumerating' stamp: 'len 11/5/2016 03:41'!
 collect: aBlock
 	^ self class rows: (rows collect: [:each| each collect: aBlock])! !
 
@@ -32163,7 +32243,7 @@ columnAt: j
 copy
 	^ self class rows: (rows collect: [ :each | each copy])! !
 
-!RowMatrix methodsFor: 'iterating' stamp: 'len 11/27/2016 13:23:25'!
+!RowMatrix methodsFor: 'enumerating' stamp: 'len 11/27/2016 13:23:25'!
 do: aBlock
 	self rowsDo: [:each| each do: aBlock]! !
 
@@ -32179,8 +32259,9 @@ isZeroAt: aPoint
 multiplyColumn: i by: factor
 	rows do: [:each| each at: i put: (each at: i) * factor]! !
 
-!RowMatrix methodsFor: 'reduction-operations' stamp: 'len 3/23/2016 00:18'!
+!RowMatrix methodsFor: 'reduction-operations' stamp: 'len 12/13/2016 07:46:48'!
 multiplyRow: i by: factor
+	self flag: #fix. "this can be done inplace"
 	rows at: i put: (rows at: i) * factor! !
 
 !RowMatrix methodsFor: 'arithmetic' stamp: 'len 11/5/2016 03:41'!
@@ -32216,7 +32297,7 @@ rows
 rows: anArray
 	rows _ anArray! !
 
-!RowMatrix methodsFor: 'iterating' stamp: 'len 3/23/2016 00:18'!
+!RowMatrix methodsFor: 'enumerating' stamp: 'len 3/23/2016 00:18'!
 rowsDo: aBlock
 	rows do: aBlock! !
 
@@ -32370,7 +32451,7 @@ ambient
 copy
 	^ self class new addAll: equations; yourself! !
 
-!LinearSystem methodsFor: 'iterating' stamp: 'len 11/20/2015 06:13'!
+!LinearSystem methodsFor: 'enumerating' stamp: 'len 11/20/2015 06:13'!
 do: aBlock 
 	equations do: aBlock! !
 
@@ -32548,7 +32629,7 @@ reduceStep2: i k: k
 		q _ (matrix at: i@j) // b.
 		matrix addColumn: k by: q negated toColumn: j]] repeat! !
 
-!HermiteNormalForm2 methodsFor: 'as yet unclassified' stamp: 'len 11/23/2016 09:40:09'!
+!HermiteNormalForm2 methodsFor: 'as yet unclassified' stamp: 'len 12/13/2016 07:46:06'!
 reduceStep: i k: k
 	| j0 b |
 	"2. Row finished?"
@@ -32567,7 +32648,7 @@ reduceStep: i k: k
 		q _ (matrix at: i@j) // b.
 		matrix addColumn: k by: q negated toColumn: j]] repeat! !
 
-!HermiteNormalForm2 methodsFor: 'as yet unclassified' stamp: 'len 11/23/2016 09:40:17'!
+!HermiteNormalForm2 methodsFor: 'as yet unclassified' stamp: 'len 12/13/2016 05:55:10'!
 run
 	| n m i k l b |
 	m _ matrix numberOfRows.
@@ -34579,7 +34660,7 @@ termAt: aMonomial
 terms
 	^ Iterator on: self performing: #termsDo:! !
 
-!Polynomial methodsFor: 'iterating' stamp: 'len 11/26/2016 11:56:50'!
+!Polynomial methodsFor: 'enumerating' stamp: 'len 11/26/2016 11:56:50'!
 termsDo: aBlock
 	self monomialsAndCoefficientsDo: [:monomial :coefficient| aBlock value: (self species coefficient: coefficient monomial: monomial)]! !
 
@@ -34662,11 +34743,11 @@ dividedByMonomial: aMonomial
 leadingMonomial
 	^ coefficients lastKey! !
 
-!MultivariatePolynomial methodsFor: 'iterating' stamp: 'len 3/23/2016 05:08'!
+!MultivariatePolynomial methodsFor: 'enumerating' stamp: 'len 3/23/2016 05:08'!
 monomialsAndCoefficientsDo: aBlock
 	coefficients keysAndValuesDo: aBlock! !
 
-!MultivariatePolynomial methodsFor: 'iterating' stamp: 'len 11/28/2016 10:14:46'!
+!MultivariatePolynomial methodsFor: 'enumerating' stamp: 'len 11/28/2016 10:14:46'!
 monomialsApply: aBlock
 	| newCoefficients |
 	newCoefficients _ MonomialIndexedTuple new: coefficients size over: self scalars.
@@ -34674,7 +34755,7 @@ monomialsApply: aBlock
 		newCoefficients at: (aBlock value: monomial) add: coefficient].
 	^ self species coefficients: newCoefficients! !
 
-!MultivariatePolynomial methodsFor: 'iterating' stamp: 'len 3/22/2016 23:37'!
+!MultivariatePolynomial methodsFor: 'enumerating' stamp: 'len 3/22/2016 23:37'!
 monomialsDo: aBlock
 	coefficients keysDo: aBlock! !
 
@@ -34824,13 +34905,13 @@ isZero
 leadingCoefficient
 	^ self coefficientAtDegree: self degree! !
 
-!UnivariatePolynomial methodsFor: 'iterating' stamp: 'len 11/20/2016 14:14:52'!
+!UnivariatePolynomial methodsFor: 'enumerating' stamp: 'len 11/20/2016 14:14:52'!
 monomialsAndCoefficientsDo: aBlock
 	| x |
 	x _ self species indeterminate.
 	coefficients withIndexDo: [:value :index| value isZero ifFalse: [aBlock value: (self species monomials x: x to: index-1) value: value]]! !
 
-!UnivariatePolynomial methodsFor: 'iterating' stamp: 'len 11/20/2016 14:15:07'!
+!UnivariatePolynomial methodsFor: 'enumerating' stamp: 'len 11/20/2016 14:15:07'!
 monomialsApply: aBlock
 	| x monomials n newCoefficients |
 	x _ self species indeterminate.
@@ -34841,7 +34922,7 @@ monomialsApply: aBlock
 	monomials do: [:each| newCoefficients at: each key degree + 1 add: each value].
 	^ self species coefficients: newCoefficients ! !
 
-!UnivariatePolynomial methodsFor: 'iterating' stamp: 'len 11/20/2016 14:15:14'!
+!UnivariatePolynomial methodsFor: 'enumerating' stamp: 'len 11/20/2016 14:15:14'!
 monomialsDo: aBlock
 	| x |
 	x _ self species indeterminate.
@@ -36340,11 +36421,6 @@ coefficients: aSequence
 derivative
 	^ self class coefficients: coefficients << 1 * CFiniteSequence identity! !
 
-!PowerSeries methodsFor: 'iterating' stamp: 'len 3/1/2016 22:14'!
-do: aBlock
-	self flag: #fix. "deprecated"
-	self terms do: aBlock! !
-
 !PowerSeries methodsFor: 'comparing' stamp: 'len 12/28/2015 19:45'!
 hash
 	^ coefficients hash! !
@@ -36523,7 +36599,7 @@ isTransitive
 		each neighborsDo: [:other| (other hasEdgeTo: self) ifFalse: [^ false]]].
 	^ true! !
 
-!GraphNode methodsFor: 'iterating' stamp: 'len 11/30/2016 14:43:32'!
+!GraphNode methodsFor: 'enumerating' stamp: 'len 11/30/2016 14:43:32'!
 markDo: aBlock
 	"Visit each node in the graph once, applying aBlock.
 	A node is only visited after at least one of its predecessors, but not necessarily after all the predecessors."
@@ -36578,7 +36654,7 @@ value
 value: anObject
 	value _ anObject! !
 
-!GraphNode methodsFor: 'iterating' stamp: 'len 2/14/2003 20:05'!
+!GraphNode methodsFor: 'enumerating' stamp: 'len 2/14/2003 20:05'!
 walkPre: preBlock post: postBlock
 	"Recursively walk the subtree rooted at me.  Apply preBlock to each node, then walk the subtree below node, then apply postBlock to the node."
 	preBlock value: self.
