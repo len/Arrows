@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 11 December 2016 at 8:49:46 pm'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 13 December 2016 at 5:49:34 am'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 300!
+!provides: 'Mathematics' 1 301!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
 	instanceVariableNames: 'numerator shift'
@@ -1329,6 +1329,16 @@ QuotientRing subclass: #ExtensionField
 	category: 'Mathematics-Fields'!
 !classDefinition: 'ExtensionField class' category: #'Mathematics-Fields'!
 ExtensionField class
+	instanceVariableNames: ''!
+
+!classDefinition: #GaloisField category: #'Mathematics-Fields'!
+ExtensionField subclass: #GaloisField
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Fields'!
+!classDefinition: 'GaloisField class' category: #'Mathematics-Fields'!
+GaloisField class
 	instanceVariableNames: ''!
 
 !classDefinition: #NumberField category: #'Mathematics-Fields'!
@@ -4275,25 +4285,23 @@ Example:
 My instances are direct products of rings. Elements are tuples, and multiplication and addition are defined component wise.!
 
 !QuotientRing commentStamp: '<historical>' prior: 0!
-My instances are quotient rings (also called factor rings, difference rings or residue class rings).
+My instances are quotient rings (also called factor rings, difference rings or residue class rings). The elements are residue classes. See also ResidueClass and subclasses.
 
-Given a commutative ring R and an ideal I of R, the quotient ring R/I (read 'R modulo I' or 'R mod I') is the set of cosets of I in R by the equivalence relation a ~ b if a - b is in I. If the ideal is maximal, the resulting quotient ring is a field. If it's only prime, the quotient ring is an integral domain.
+Given a commutative ring R and an ideal I of R, the quotient ring R/I (read 'R modulo I' or 'R mod I') is the set of cosets (residue clases) of I in R by the equivalence relation a ~ b if a - b is in I. If the ideal is maximal, the resulting quotient ring is a field. If it's only prime, the quotient ring is an integral domain.
 
 References:
 	https://en.wikipedia.org/wiki/Quotient_ring!
 
 !ModularIntegers commentStamp: '<historical>' prior: 0!
-My instances are rings of residue classes of integers modulo m, i.e. Z/m. Elements are instances of ModularInteger.!
+My instances are residue class rings of Z, i.e. rings Z/mZ of residue classes of integers modulo m. Elements are instances of ModularInteger.!
 
 !PrimeField commentStamp: '<historical>' prior: 0!
-My instances are fields of order p prime, i.e. the residue field Z/p of integers modulo p.!
+My instances are fields of order p prime, i.e. the residue class fields Z/pZ of integers modulo p.!
 
 !SmallPrimeField commentStamp: '<historical>' prior: 0!
-My instances are prime fields Z/p for small primes p, such that it is feasable to build exponentiation and logarithmic tables and accelerate arithmetic through table lookups.
+My instances are prime fields Z/pZ for small primes p, such that it is feasable to build exponentiation and logarithmic tables and accelerate arithmetic through table lookups.
 
-The initialization of the tables is very fast. The main concern is memory usage. For a field Z/p, each of the two tables have p-1 elements. They are WordArrays (32 bits per entry), so a field Z/p uses about 8*(p-1) bytes of memory. For example, Z/65537 uses 524K of memory, and Z/1048583 (a 20-bits modulus) uses about 8M.
-
-The speedup over direct computation without tables is big. For example, computing inverses becomes about 15 to 50 times faster using table lookups.
+The initialization of the tables is very fast. The main concern is memory usage. For a field Z/pZ, each of the two tables have p-1 elements. They are WordArrays (32 bits per entry), so a field Z/pZ uses about 8*(p-1) bytes of memory. For example, Z/65537 uses 524K of memory, and Z/1048583 (a 20-bits modulus) uses about 8M.
 !
 
 !ExtensionField commentStamp: '<historical>' prior: 0!
@@ -4302,6 +4310,9 @@ My instances are (finite) algebraic extensions E/F of a field F. They are define
 Example:
 	QQ extension: QQ polynomials x**4 - 2
 !
+
+!GaloisField commentStamp: 'len 12/12/2016 08:48:18' prior: 0!
+My instances are finite nonprime fields, i.e. fields GF(p^r) with r >= 2. See also PrimeField.!
 
 !NumberField commentStamp: '<historical>' prior: 0!
 My instances are number fields, i.e. finite (and thus algebraic) field extensions of the rational numbers Q. Number fields can also be viewed as vector spaces over Q.
@@ -4534,7 +4545,13 @@ Or equivalently:
 My instances are projective lines, i.e. P^1(R) for some commutative ring R. They are essentially the underlying ring R extended with an additional point at infinity. For example, the complex projective line is the Riemann sphere: the extended complex plane that includes the point at infinity. See also ProjectiveLinePoint.!
 
 !UpperHalfPlane commentStamp: '<historical>' prior: 0!
-I'm the upper half complex plane, i.e. the set of complex numbers with imaginary part > 0.!
+I'm the upper half complex plane H, i.e. the set of complex numbers with imaginary part > 0.
+
+This serves as a model of the hyperbolic plane, defining lines as:
+1. the intersection of the half-plane H and Euclidean lines orthogonal to the real axis, or
+2. the intersection of the half-plane H and Euclidean half-circles with center on the real axis.
+
+The group of isometries, as well as conformal automorphisms, is the general Moebius group. This is the group of Moebius transformations, i.e. transformations of the form z |-> (az + b) / (cz + d) with ad - cd ~= 0.!
 
 !SimplicialComplex commentStamp: '<historical>' prior: 0!
 My instances are abstract simplicial complexes. These are combinatorial objects consisting of a collection of simplices (the 'faces' of the simplicial complex) with the following properties:
@@ -4825,7 +4842,7 @@ My instances are rational functions, i.e. fractions where the numerator and deno
 My instances are elements of a quotient ring, i.e. residue classes modulo an ideal. See QuotientRing.!
 
 !ModularInteger commentStamp: '<historical>' prior: 0!
-My instances are residue classes of integers modulo an integer m, i.e. elements of the quotient ring Z/<m> (see ModularIntegers).!
+My instances are residue classes of integers modulo an integer m, i.e. elements of the quotient ring Z/mZ (see ModularIntegers).!
 
 !ExtensionFieldElement commentStamp: '<historical>' prior: 0!
 My instances are elements of finite algebraic field extensions. See ExtensionField.!
@@ -5318,14 +5335,14 @@ squareRoot
 	"Answer true if the receiver divides anInteger."
 	^ self ~= 0 and: [anInteger \\ self = 0]! !
 
-!Integer methodsFor: '*mathematics' stamp: 'len 12/4/2015 20:13'!
+!Integer methodsFor: '*mathematics' stamp: 'len 12/12/2016 09:35:38'!
 Stirling: anInteger
 	"Answer the Stirling number of the second kind S(n,k).
 	Stirling numbers of the second kind count the ways to partition a set of n things into k nonempty subsets."
 	(anInteger > self or: [self < 0]) ifTrue: [^ DomainError signal].
 	self = anInteger ifTrue: [^ 1].
 	anInteger = 0 ifTrue: [^ 0].
-	self+1 = anInteger ifTrue: [^ self take: 2].
+	self+1 = anInteger ifTrue: [^ self choose: 2].
 	anInteger = 2 ifTrue: [^ 2 ** (self-1) - 1].
 	^ anInteger*(self - 1 Stirling: anInteger) + (self - 1 Stirling: anInteger - 1)! !
 
@@ -5375,10 +5392,10 @@ bitSize
 	self negative ifTrue: [^ self negated highBit + 1].
 	^ self highBit! !
 
-!Integer methodsFor: '*mathematics' stamp: 'len 6/21/2016 04:18'!
+!Integer methodsFor: '*mathematics' stamp: 'len 12/12/2016 09:35:09'!
 choose: anInteger
 	"Answer the binomial coefficient (self anInteger)"
-	" 6 take: 3  "
+	" 6 choose: 3  "
 
 	(anInteger < 0 or: [anInteger > self]) ifTrue: [^0].
 	^(self - anInteger + 1 productTo: self) // anInteger factorial! !
@@ -5664,14 +5681,14 @@ reciprocalModulo: mod
 squareRoot
 	^ RealAlgebraicNumber sqrt: self! !
 
-!Integer methodsFor: '*mathematics' stamp: 'len 12/4/2015 20:04'!
+!Integer methodsFor: '*mathematics' stamp: 'len 12/12/2016 09:35:43'!
 stirling: anInteger
 	"Answer the Stirling number of the first kind s(n,k).
 	Stirling numbers of the first kind count the ways to arrange n objects into k cycles."
 	(anInteger > self or: [self < 0]) ifTrue: [^ DomainError signal].
 	anInteger = 1 ifTrue: [^ (self - 1) factorial].
 	self = anInteger ifTrue: [^ self Stirling: anInteger].
-	self+1 = anInteger ifTrue: [^ self take: 2].
+	self+1 = anInteger ifTrue: [^ self choose: 2].
 	^ (self-1) * (self-1 stirling: anInteger) + (self-1 stirling: anInteger-1)! !
 
 !Integer methodsFor: '*mathematics' stamp: 'len 12/4/2016 13:07:08'!
@@ -16951,6 +16968,10 @@ shortName
 ambient
 	^ ModularGroup new! !
 
+!CongruenceSubgroup methodsFor: 'accessing' stamp: 'len 12/12/2016 09:14:12'!
+complexAction
+	^ GroupAction from: (self, CC) to: CC evaluating: [:A :z| (A at: 1@1) * z + (A at: 1@2) / ((A at: 2@1) * z + (A at: 2@2))]! !
+
 !CongruenceSubgroup methodsFor: 'operations' stamp: 'len 12/11/2016 07:51:01'!
 curve
 	"Answer the modular curve associated to the receiver. This is the orbit space of H/G (the upper half plane modulo the receiver) compactified canonically by adding the cusps."
@@ -19856,11 +19877,17 @@ computePrimitiveRoot
 			a >= m ifTrue: [self error: 'no primitive element, the modulus is not prime']].
 	^ a! !
 
-!PrimeField methodsFor: 'as yet unclassified' stamp: 'len 11/30/2016 19:10:05'!
+!PrimeField methodsFor: 'operations' stamp: 'len 12/12/2016 08:43:14'!
+extension: aPolynomial
+	"Answer the Galois overfield of the receiver defined by the given irreducible polynomial."
+	aPolynomial scalars = self ifFalse: [DomainError signal: 'polynomial coefficients not from this field'].
+	^ GaloisField polynomial: aPolynomial! !
+
+!PrimeField methodsFor: 'morphisms' stamp: 'len 11/30/2016 19:10:05'!
 inverseOf: anElement
 	^ self representative: ((self inverseOfRepresentative: anElement representative) ifNil: [^ nil])! !
 
-!PrimeField methodsFor: 'as yet unclassified' stamp: 'len 11/30/2016 19:12:00'!
+!PrimeField methodsFor: 'private' stamp: 'len 11/30/2016 19:12:00'!
 inverseOfRepresentative: anInteger
 	| result |
 	anInteger == 0 ifTrue: [^ nil].
@@ -19881,7 +19908,7 @@ primitiveRoot
 	"When the receiver is a field Z/<p>, answer a primitive root modulo p."
 	^ properties at: #primitiveRoot ifAbsentPut: [self computePrimitiveRoot]! !
 
-!SmallPrimeField methodsFor: 'as yet unclassified' stamp: 'len 11/30/2016 10:06:00'!
+!SmallPrimeField methodsFor: 'private' stamp: 'len 11/30/2016 10:06:00'!
 computeTables
 	| g x |
 	expTable _ WordArray new: self modulus - 1.
@@ -19895,13 +19922,13 @@ computeTables
 		"n -> g^n:"
 		expTable at: i put: x]! !
 
-!SmallPrimeField methodsFor: 'as yet unclassified' stamp: 'len 11/30/2016 19:12:33'!
+!SmallPrimeField methodsFor: 'private' stamp: 'len 11/30/2016 19:12:33'!
 inverseOfRepresentative: anInteger
 	anInteger == 0 ifTrue: [^ nil].
 	anInteger == 1 ifTrue: [^ 1].
 	^ expTable at: modulus - 1 - (logTable at: anInteger)! !
 
-!SmallPrimeField methodsFor: 'as yet unclassified' stamp: 'len 11/30/2016 09:43:55'!
+!SmallPrimeField methodsFor: 'accessing-private' stamp: 'len 11/30/2016 09:43:55'!
 modulus: anInteger
 	super modulus: anInteger.
 	self computeTables! !
@@ -19997,6 +20024,41 @@ x
 polynomial: aPolynomial
 	"Answer a new algebraic field extension K(f) where f is the given polynomial in K[x]. The polynomial must be irreducible, otherwise there would be zero divisors."
 	^ self new polynomial: aPolynomial! !
+
+!GaloisField methodsFor: 'morphisms' stamp: 'len 12/12/2016 08:41:12'!
+automorphisms
+	"Answer the Galous group of the receiver."
+	^ CompositiveGroup new generators: {self frobenius}! !
+
+!GaloisField methodsFor: 'printing' stamp: 'len 12/12/2016 08:46:09'!
+printOn: aStream
+	aStream nextPutAll: 'GF('; print: self characteristic; nextPutAll: self degree printString super; nextPut: $)! !
+
+!GaloisField class methodsFor: 'examples' stamp: 'len 12/12/2016 17:08:40'!
+example1
+	^ GaloisField new: 8! !
+
+!GaloisField class methodsFor: 'examples' stamp: 'len 12/12/2016 17:08:33'!
+example2
+	^ GaloisField new: 5 to: 3! !
+
+!GaloisField class methodsFor: 'instance creation' stamp: 'len 12/12/2016 08:40:10'!
+new: q
+	"Answer the Galois field of order q = p^n."
+	| factors n p |
+	factors _ q factors.
+	factors asSet size = 1 ifFalse: [^ self error: 'not power of a prime'].
+	n _ factors size.
+	p _ factors anyOne.
+	^ self new: p to: n! !
+
+!GaloisField class methodsFor: 'instance creation' stamp: 'len 12/12/2016 08:39:55'!
+new: p to: n
+	"Answer the Galois field of order q = p^n."
+	| F |
+	F _ ZZ modPrime: p.
+	n = 1 ifTrue: [^ F].
+	^ self polynomial: (F polynomials findIrreducibleOfDegree: n)! !
 
 !NumberField methodsFor: 'accessing' stamp: 'len 11/12/2016 07:14'!
 adjoint
@@ -20111,6 +20173,10 @@ order: anInteger
 printOn: aStream
 	aStream print: self scalars; nextPut: $(; nextPut: Character zeta; nextPutAll: self order printString sub; nextPut: $)! !
 
+!CyclotomicField class methodsFor: 'examples' stamp: 'len 12/12/2016 17:12:54'!
+example
+	^ CyclotomicField new: 7! !
+
 !CyclotomicField class methodsFor: 'instance creation' stamp: 'len 12/10/2016 20:42:15'!
 new: anInteger
 	^ self new order: anInteger! !
@@ -20143,6 +20209,10 @@ printOn: aStream
 !QuadraticField methodsFor: 'as yet unclassified' stamp: 'len 12/10/2016 21:32:10'!
 sqrt: anInteger
 	self polynomial: QQ polynomials x squared - anInteger! !
+
+!QuadraticField class methodsFor: 'examples' stamp: 'len 12/12/2016 17:12:01'!
+example
+	^ QuadraticField sqrt: -5! !
 
 !QuadraticField class methodsFor: 'instance creation' stamp: 'len 12/10/2016 21:31:18'!
 sqrt: anInteger
@@ -25545,19 +25615,19 @@ new
 	self codomain <= aFunction domain ifFalse: [DomainError signal: 'domains don''t match'].
 	^ self species from: self domain to: aFunction codomain evaluating: [:x| aFunction value: (self value: x)]! !
 
-!Function methodsFor: 'operations' stamp: 'len 12/27/2015 22:08'!
+!Function methodsFor: 'operations' stamp: 'len 12/12/2016 09:35:23'!
 backwardDifference: n at: h
 	^ self species
 		from: self domain
 		to: self codomain
-		evaluating: [:x| (0 to: n) sum: [:i| (-1)**i * (n take: i) * (self value: x + (i*h))]]! !
+		evaluating: [:x| (0 to: n) sum: [:i| (-1)**i * (n choose: i) * (self value: x + (i*h))]]! !
 
-!Function methodsFor: 'operations' stamp: 'len 12/27/2015 22:09'!
+!Function methodsFor: 'operations' stamp: 'len 12/12/2016 09:35:28'!
 centralDifference: n at: h
 	^ self species
 		from: self domain
 		to: self codomain
-		evaluating: [:x| (0 to: n) sum: [:i| (-1)**i * (n take: i) * (self value: x + ((n/2 - i)*h))]]! !
+		evaluating: [:x| (0 to: n) sum: [:i| (-1)**i * (n choose: i) * (self value: x + ((n/2 - i)*h))]]! !
 
 !Function methodsFor: 'accessing' stamp: 'len 11/16/2016 08:32'!
 codomain
@@ -25587,12 +25657,12 @@ expression
 expression: anExpression
 	properties at: #expression put: ((anExpression isKindOf: Function) ifTrue: [anExpression expression] ifFalse: [anExpression])! !
 
-!Function methodsFor: 'operations' stamp: 'len 12/27/2015 22:08'!
+!Function methodsFor: 'operations' stamp: 'len 12/12/2016 09:35:33'!
 forwardDifference: n at: h
 	^ self species
 		from: self domain
 		to: self codomain
-		evaluating: [:x| (0 to: n) sum: [:i| (-1)**(n-i) * (n take: i) * (self value: x + ((n-i)*h))]]! !
+		evaluating: [:x| (0 to: n) sum: [:i| (-1)**(n-i) * (n choose: i) * (self value: x + ((n-i)*h))]]! !
 
 !Function methodsFor: 'comparing' stamp: 'len 8/6/2016 10:29'!
 hash
@@ -26831,14 +26901,14 @@ beginsWith: aSequenceableCollection
 bellSeries: p
 	^ PowerSeries coefficients: (self species to: self codomain evaluating: [:n| self at: p**(n-1)])! !
 
-!Sequence methodsFor: 'operations' stamp: 'len 8/6/2016 00:53'!
+!Sequence methodsFor: 'operations' stamp: 'len 12/12/2016 09:35:47'!
 binomialTransform
 	"The binomial transform is its own inverse, it's an involution."
-	^ self species to: self codomain evaluating: [:n| (0 to: n) sum: [:k| (-1)**(n-k) * (n take: k) * (self at: k)]]! !
+	^ self species to: self codomain evaluating: [:n| (0 to: n) sum: [:k| (-1)**(n-k) * (n choose: k) * (self at: k)]]! !
 
-!Sequence methodsFor: 'operations' stamp: 'len 12/27/2015 02:10'!
+!Sequence methodsFor: 'operations' stamp: 'len 12/12/2016 09:35:51'!
 binomialTransform2
-	^ self species to: self codomain evaluating: [:n| (0 to: n) sum: [:k| (n take: k) * (self at: k)]]! !
+	^ self species to: self codomain evaluating: [:n| (0 to: n) sum: [:k| (n choose: k) * (self at: k)]]! !
 
 !Sequence methodsFor: 'accessing' stamp: 'len 7/15/2016 18:29'!
 codomain
@@ -27031,6 +27101,11 @@ bbs: s p: p q: q
 bellNumbers
 	^ (Sequence evaluating: [:n| (0 to: n) sum: [:k| n Stirling: k]]) startIndex:0! !
 
+!Sequence class methodsFor: 'examples' stamp: 'len 12/12/2016 17:08:06'!
+bernoulli
+	"This is the sequence of Bernoulli numbers (starting at 1), computed via a recurrence."
+	^ Sequence to: QQ initialValues: #(1) recurrence: [:f :n| (n>4 and: [n even]) ifTrue: [0] ifFalse: [((0 to: n-2) sum: [:k| (n choose: k) * (f at: k+1)]) / n negated]]! !
+
 !Sequence class methodsFor: 'examples' stamp: 'len 7/15/2016 18:38'!
 calkinWilf
 	"Sequence that enumerates the positive rational numbers by a breadth-first traversal of the Calkin-Wilf tree."
@@ -27042,9 +27117,9 @@ calkinWilf
 			n-1 timesRepeat: [q _ 1 / (2 * q floor - q + 1)].
 			q]! !
 
-!Sequence class methodsFor: 'examples' stamp: 'len 12/4/2015 01:10'!
+!Sequence class methodsFor: 'examples' stamp: 'len 12/12/2016 09:35:56'!
 catalanNumbers
-	^ Sequence evaluating: [:n| (2*(n-1) take: n-1) / n]! !
+	^ Sequence evaluating: [:n| (2*(n-1) choose: n-1) / n]! !
 
 !Sequence class methodsFor: 'intance creation' stamp: 'len 7/15/2016 18:29'!
 constant: anInteger
@@ -27652,6 +27727,10 @@ from: aDomain to: aCodomain evaluating: anExpression
 	| F |
 	F _ aDomain ambient functionField.
 	^ self from: aDomain to: aCodomain components: (anExpression value: (F tuple: aDomain ambient rank evaluating: [:i| F x: i]))! !
+
+!EllipticCurveIsogeny methodsFor: 'as yet unclassified' stamp: 'len 12/12/2016 09:00:01'!
+kernelPolynomial
+	^ properties at: #kernelPolynomial ifAbsentPut: [self computeKernelPolynomial]! !
 
 !ModularForm methodsFor: 'as yet unclassified' stamp: 'len 12/11/2016 08:26:42'!
 codomain
