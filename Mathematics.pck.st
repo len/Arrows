@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 15 December 2016 at 8:30:00 am'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 16 December 2016 at 12:32:46 pm'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 304!
+!provides: 'Mathematics' 1 305!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
 	instanceVariableNames: 'numerator shift'
@@ -311,34 +311,14 @@ GraphMorph subclass: #SpringGraphMorph
 SpringGraphMorph class
 	instanceVariableNames: ''!
 
-!classDefinition: #ComplexFunctionPlotMorph category: #'Mathematics-Morphic'!
-RectangleLikeMorph subclass: #ComplexFunctionPlotMorph
+!classDefinition: #ComplexPlotMorph category: #'Mathematics-Morphic'!
+RectangleLikeMorph subclass: #ComplexPlotMorph
 	instanceVariableNames: 'function image box palette'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Morphic'!
-!classDefinition: 'ComplexFunctionPlotMorph class' category: #'Mathematics-Morphic'!
-ComplexFunctionPlotMorph class
-	instanceVariableNames: ''!
-
-!classDefinition: #ComplexPlaneToDiskPlotMorph category: #'Mathematics-Morphic'!
-RectangleLikeMorph subclass: #ComplexPlaneToDiskPlotMorph
-	instanceVariableNames: 'function image palette'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Morphic'!
-!classDefinition: 'ComplexPlaneToDiskPlotMorph class' category: #'Mathematics-Morphic'!
-ComplexPlaneToDiskPlotMorph class
-	instanceVariableNames: ''!
-
-!classDefinition: #UpperHalfPlaneToDiskPlotMorph category: #'Mathematics-Morphic'!
-ComplexPlaneToDiskPlotMorph subclass: #UpperHalfPlaneToDiskPlotMorph
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Morphic'!
-!classDefinition: 'UpperHalfPlaneToDiskPlotMorph class' category: #'Mathematics-Morphic'!
-UpperHalfPlaneToDiskPlotMorph class
+!classDefinition: 'ComplexPlotMorph class' category: #'Mathematics-Morphic'!
+ComplexPlotMorph class
 	instanceVariableNames: ''!
 
 !classDefinition: #FunctionPlotMorph category: #'Mathematics-Morphic'!
@@ -409,6 +389,16 @@ RectangleLikeMorph subclass: #ScatterPlotMorph
 	category: 'Mathematics-Morphic'!
 !classDefinition: 'ScatterPlotMorph class' category: #'Mathematics-Morphic'!
 ScatterPlotMorph class
+	instanceVariableNames: ''!
+
+!classDefinition: #UnitDiskPlotMorph category: #'Mathematics-Morphic'!
+RectangleLikeMorph subclass: #UnitDiskPlotMorph
+	instanceVariableNames: 'function image palette inverseMap'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Morphic'!
+!classDefinition: 'UnitDiskPlotMorph class' category: #'Mathematics-Morphic'!
+UnitDiskPlotMorph class
 	instanceVariableNames: ''!
 
 !classDefinition: #GraphEdgeMorph category: #'Mathematics-Graphs-Morphic'!
@@ -1021,44 +1011,24 @@ CongruenceSubgroup subclass: #Gamma1CongruenceSubgroup
 Gamma1CongruenceSubgroup class
 	instanceVariableNames: ''!
 
-!classDefinition: #GammaCongruenceSubgroup category: #'Mathematics-Etc-Modular'!
-CongruenceSubgroup subclass: #GammaCongruenceSubgroup
+!classDefinition: #PrincipalCongruenceSubgroup category: #'Mathematics-Etc-Modular'!
+CongruenceSubgroup subclass: #PrincipalCongruenceSubgroup
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Etc-Modular'!
-!classDefinition: 'GammaCongruenceSubgroup class' category: #'Mathematics-Etc-Modular'!
-GammaCongruenceSubgroup class
+!classDefinition: 'PrincipalCongruenceSubgroup class' category: #'Mathematics-Etc-Modular'!
+PrincipalCongruenceSubgroup class
 	instanceVariableNames: ''!
 
 !classDefinition: #ModularGroup category: #'Mathematics-Etc-Modular'!
-GammaCongruenceSubgroup subclass: #ModularGroup
+PrincipalCongruenceSubgroup subclass: #ModularGroup
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Etc-Modular'!
 !classDefinition: 'ModularGroup class' category: #'Mathematics-Etc-Modular'!
 ModularGroup class
-	instanceVariableNames: ''!
-
-!classDefinition: #GammaUpper0CongruenceSubgroup category: #'Mathematics-Etc-Modular'!
-CongruenceSubgroup subclass: #GammaUpper0CongruenceSubgroup
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Etc-Modular'!
-!classDefinition: 'GammaUpper0CongruenceSubgroup class' category: #'Mathematics-Etc-Modular'!
-GammaUpper0CongruenceSubgroup class
-	instanceVariableNames: ''!
-
-!classDefinition: #GammaUpper1CongruenceSubgroup category: #'Mathematics-Etc-Modular'!
-CongruenceSubgroup subclass: #GammaUpper1CongruenceSubgroup
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Etc-Modular'!
-!classDefinition: 'GammaUpper1CongruenceSubgroup class' category: #'Mathematics-Etc-Modular'!
-GammaUpper1CongruenceSubgroup class
 	instanceVariableNames: ''!
 
 !classDefinition: #UnitGroup category: #'Mathematics-Rings'!
@@ -1379,6 +1349,16 @@ Ring subclass: #ComplexNumbers
 	category: 'Mathematics-Fields'!
 !classDefinition: 'ComplexNumbers class' category: #'Mathematics-Fields'!
 ComplexNumbers class
+	instanceVariableNames: ''!
+
+!classDefinition: #NumberRing category: #'Mathematics-Fields'!
+Ring subclass: #NumberRing
+	instanceVariableNames: 'field'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Fields'!
+!classDefinition: 'NumberRing class' category: #'Mathematics-Fields'!
+NumberRing class
 	instanceVariableNames: ''!
 
 !classDefinition: #RealAlgebraicNumbers category: #'Mathematics-Fields'!
@@ -4118,7 +4098,7 @@ My instances are subgroups of SL(2,Z) associated with matrices of the form:
   [a b]   [1 *]
   [c d] = [0 1] (mod n).!
 
-!GammaCongruenceSubgroup commentStamp: '<historical>' prior: 0!
+!PrincipalCongruenceSubgroup commentStamp: '<historical>' prior: 0!
 My instances principal congruence subgroups of SL(2,Z), i.e. subgroups of SL(2,Z) associated with matrices of the form:
   [a b]   [1 0]
   [c d] = [0 1] (mod n).
@@ -4127,16 +4107,6 @@ They are the kernel of the quotient projection SL(2,Z) -> SL(2,Z/nZ) for some po
 
 !ModularGroup commentStamp: '<historical>' prior: 0!
 I'm the special linear group SL(2,Z).!
-
-!GammaUpper0CongruenceSubgroup commentStamp: '<historical>' prior: 0!
-My instances are subgroups of SL(2,Z) associated with matrices of the form:
-  [a b]   [* 9]
-  [c d] = [* *] (mod n).!
-
-!GammaUpper1CongruenceSubgroup commentStamp: '<historical>' prior: 0!
-My instances are subgroups of SL(2,Z) associated with matrices of the form:
-  [a b]   [1 0]
-  [c d] = [* 1] (mod n).!
 
 !UnitGroup commentStamp: '<historical>' prior: 0!
 My instances are sets of ring units. They have a group structure.
@@ -4314,6 +4284,9 @@ I'm the field of (complex) algebraic numbers, i.e. the algebraic closure of Q.!
 
 !ComplexNumbers commentStamp: '<historical>' prior: 0!
 I'm the field of complex numbers.!
+
+!NumberRing commentStamp: '<historical>' prior: 0!
+My instances are rings of integers of number fields.!
 
 !RealAlgebraicNumbers commentStamp: '<historical>' prior: 0!
 I'm the field of real algebraic numbers, i.e. real zeros of polynomials with integer or rational coefficients.!
@@ -4541,7 +4514,7 @@ This serves as a model of the hyperbolic plane, defining lines as:
 1. the intersection of the half-plane H and Euclidean lines orthogonal to the real axis, or
 2. the intersection of the half-plane H and Euclidean half-circles with center on the real axis.
 
-The group of isometries, as well as conformal automorphisms, is the general Moebius group. This is the group of Moebius transformations, i.e. transformations of the form z |-> (az + b) / (cz + d) with ad - cd ~= 0.!
+The group of hyperbolic isometries, as well as conformal automorphisms, is the general Moebius group. This is the group of Moebius transformations, i.e. transformations of the form z |-> (az + b) / (cz + d) with ad - cd ~= 0 (or without loss of generality ad - cd = 1).!
 
 !SimplicialComplex commentStamp: '<historical>' prior: 0!
 My instances are abstract simplicial complexes. These are combinatorial objects consisting of a collection of simplices (the 'faces' of the simplicial complex) with the following properties:
@@ -6062,20 +6035,20 @@ buildMathFont
 	"
 	#(5 6 7 8 9 10 11 12 13 14 17 22) do: [:pointSize| self buildMathFont: pointSize]! !
 
-!StrikeFont class methodsFor: '*mathematics-character shapes' stamp: 'len 12/11/2016 13:55:24'!
+!StrikeFont class methodsFor: '*mathematics-character shapes' stamp: 'len 12/15/2016 17:23:05'!
 buildMathFont: pointSize
 	| font normal slightlyLarger larger muchLarger |
 	font _ AbstractFont familyName: 'DejaVu Sans Mono' pointSize: pointSize.
 	normal _ AbstractFont familyName: 'DejaVu' pointSize: pointSize.
-	#(1 0) detect: [:one| (slightlyLarger _ (AbstractFont familyName: 'DejaVu' pointSize: pointSize+one)) notNil].
+"	#(1 0) detect: [:one| (slightlyLarger _ (AbstractFont familyName: 'DejaVu' pointSize: pointSize+one)) notNil]."
 	#(2 1 3 0) detect: [:one| (larger _ (AbstractFont familyName: 'DejaVu' pointSize: pointSize+one)) notNil].
 	#(4 3 2 1 0) detect: [:one| (muchLarger _ (AbstractFont familyName: 'DejaVu' pointSize: pointSize+one)) notNil].
 	"replace some math glyphs with their normal counterpart, because the monospaced glyphs are far too small (and some are missing):"
-	'ÄÅâäãåçéèêëíìîïñóòôöõú' do: [:each|
+	'ÄÅÇáÉÑÖÜâäãåçéèêëíìîïñóòôöõú' do: [:each|
 		font takeAllGlyphFor: each from: each in: normal].
-	'ÄÉÑÖÜâäãåçéè' do: [:each|
+"	'ÄÉÑÖÜâäãåçéè' do: [:each|
 		font takeAllGlyphFor: each from: each in: slightlyLarger].
-	'Äêëíìîïñóòôöõú' do: [:each|
+"	'Äêëíìîïñóòôöõú' do: [:each|
 		font takeAllGlyphFor: each from: each in: larger].
 	'Ä' do: [:each|
 		font takeAllGlyphFor: each from: each in: muchLarger].
@@ -11962,14 +11935,14 @@ step
 	self redrawNeeded.
 	maxDelta < 0.1 ifTrue: [self stopStepping]! !
 
-!ComplexFunctionPlotMorph methodsFor: 'as yet unclassified' stamp: 'len 12/6/2016 14:39:49'!
+!ComplexPlotMorph methodsFor: 'as yet unclassified' stamp: 'len 12/6/2016 14:39:49'!
 box: aRectangle
 	box _ aRectangle.
 	image _ nil.
 	self redrawNeeded.
 	self matchBoxRatio.! !
 
-!ComplexFunctionPlotMorph methodsFor: 'as yet unclassified' stamp: 'len 12/6/2016 16:53:54'!
+!ComplexPlotMorph methodsFor: 'as yet unclassified' stamp: 'len 12/6/2016 16:53:54'!
 buildImage
 	image _ Form extent: self morphExtent depth: Display depth.
 	1 to: image height do: [:j|
@@ -11981,18 +11954,18 @@ buildImage
 			z _ [function value: x + y i] on: ZeroDivide do: [Infinity projective].
 			image colorAt: i@(image height - j + 1) put: (palette at: z)]]! !
 
-!ComplexFunctionPlotMorph methodsFor: 'as yet unclassified' stamp: 'len 12/6/2016 09:56:06'!
+!ComplexPlotMorph methodsFor: 'as yet unclassified' stamp: 'len 12/6/2016 09:56:06'!
 drawOn: aCanvas
 	image isNil ifTrue: [self buildImage].
 	aCanvas image: image at: 0@0! !
 
-!ComplexFunctionPlotMorph methodsFor: 'as yet unclassified' stamp: 'len 12/6/2016 09:56:01'!
+!ComplexPlotMorph methodsFor: 'as yet unclassified' stamp: 'len 12/6/2016 09:56:01'!
 function: aFunction
 	function _ aFunction.
 	image _ nil.
 	self redrawNeeded! !
 
-!ComplexFunctionPlotMorph methodsFor: 'as yet unclassified' stamp: 'len 12/6/2016 16:53:31'!
+!ComplexPlotMorph methodsFor: 'as yet unclassified' stamp: 'len 12/6/2016 16:53:31'!
 initialize
 	super initialize.
 	extent _ 400@200.
@@ -12000,7 +11973,7 @@ initialize
 	box _ -2@0 extent: 4@2.
 	palette _ ComplexPalette default! !
 
-!ComplexFunctionPlotMorph methodsFor: 'as yet unclassified' stamp: 'len 12/6/2016 14:39:59'!
+!ComplexPlotMorph methodsFor: 'as yet unclassified' stamp: 'len 12/6/2016 14:39:59'!
 matchBoxRatio
 	| ratio |
 	((ratio _ box width / box height asFloat) - (extent x / extent y)) abs < 1
@@ -12009,94 +11982,40 @@ matchBoxRatio
 				ifTrue: [self morphExtent: extent x @ (extent x / ratio)]
 				ifFalse: [self morphExtent: extent y * ratio @ extent y]]! !
 
-!ComplexFunctionPlotMorph methodsFor: 'as yet unclassified' stamp: 'len 12/6/2016 14:40:16'!
+!ComplexPlotMorph methodsFor: 'as yet unclassified' stamp: 'len 12/6/2016 14:40:16'!
 morphExtent: aPoint
 	image _ nil.
 	super morphExtent: aPoint! !
 
-!ComplexFunctionPlotMorph methodsFor: 'as yet unclassified' stamp: 'len 12/6/2016 16:54:28'!
+!ComplexPlotMorph methodsFor: 'as yet unclassified' stamp: 'len 12/6/2016 16:54:28'!
 palette: aComplexPalette
 	palette _ aComplexPalette! !
 
-!ComplexFunctionPlotMorph class methodsFor: 'as yet unclassified' stamp: 'len 12/7/2016 16:38:49'!
+!ComplexPlotMorph class methodsFor: 'as yet unclassified' stamp: 'len 12/15/2016 18:30:54'!
+exampleBlaschkeProduct
+	| random A f |
+	random _ Random new.
+	A _ (1 to: 40) collect: [:each| Complex abs: random next arg: Float twoPi * random next].
+	f _ Function from: CC to: CC evaluating: [:z| A product: [:a| a abs / a * (a - z) / (1 - (a conjugated * z))]].
+	^ ComplexPlotMorph new box: (-1 @ -1 corner: 1 @ 1); palette: ComplexPalette phase; function: f! !
+
+!ComplexPlotMorph class methodsFor: 'as yet unclassified' stamp: 'len 12/7/2016 16:38:49'!
 exampleReciprocalSinus
 	| f |
 	f _ Function from: CC to: CC evaluating: [:z| 1/z :: sin].
 	^ self new box: (-2 @ -1 corner: 2 @ 1); palette: ComplexPalette default; function: f! !
 
-!ComplexFunctionPlotMorph class methodsFor: 'as yet unclassified' stamp: 'len 12/7/2016 16:37:24'!
+!ComplexPlotMorph class methodsFor: 'as yet unclassified' stamp: 'len 12/7/2016 16:37:24'!
 exampleRiemannZetaFunction
 	| f |
 	f _ Function from: CC to: CC evaluating: [:z| 1 to: 100 :: sum: [:n| n**z negated]].
 	^ self new morphExtent: 300@300; box: (-5@-5 corner: 5@5); palette: (ComplexPalette grid: 1@5); function: f! !
 
-!ComplexFunctionPlotMorph class methodsFor: 'as yet unclassified' stamp: 'len 12/7/2016 16:37:54'!
+!ComplexPlotMorph class methodsFor: 'as yet unclassified' stamp: 'len 12/7/2016 16:37:54'!
 exampleSinus
 	| f |
 	f _ Function from: CC to: CC evaluating: [:z| z sin].
 	^ self new box: (-2*Float pi @ -1.5 corner: 2*Float pi @ 1.5); palette: (ComplexPalette grid: 1@10); function: f! !
-
-!ComplexPlaneToDiskPlotMorph methodsFor: 'as yet unclassified' stamp: 'len 12/9/2016 16:37:13'!
-buildImage
-	image _ Form extent: self morphExtent depth: Display depth.
-	1 to: image height do: [:j|
-		| y |
-		y _ j asFloat / image height * 2 - 1.
-		1 to: image width do: [:i|
-			| x z c |
-			x _ i asFloat / image width * 2 - 1.
-			(x squared + y squared) sqrt < 1
-				ifTrue:
-					[| w |
-					z _ x + y i.
-					w _ [function value: z / (1 - z abs squared)] on: ZeroDivide do: [Infinity projective].
-"					w _ [function value: 1 + z / (1 - z) * 1 i] on: ZeroDivide do: [Infinity projective]."
-					image colorAt: i@j put: (palette at: w)]]]! !
-
-!ComplexPlaneToDiskPlotMorph methodsFor: 'as yet unclassified' stamp: 'len 12/9/2016 10:27:16'!
-drawOn: aCanvas
-	image isNil ifTrue: [self buildImage].
-	aCanvas image: image at: 0@0! !
-
-!ComplexPlaneToDiskPlotMorph methodsFor: 'as yet unclassified' stamp: 'len 12/9/2016 10:27:27'!
-function: aFunction
-	function _ aFunction.
-	image _ nil.
-	self redrawNeeded! !
-
-!ComplexPlaneToDiskPlotMorph methodsFor: 'as yet unclassified' stamp: 'len 12/9/2016 10:29:51'!
-initialize
-	super initialize.
-	extent _ 300@300.
-	color _ Color lightGray.
-	palette _ ComplexPalette default! !
-
-!ComplexPlaneToDiskPlotMorph methodsFor: 'as yet unclassified' stamp: 'len 12/9/2016 10:28:38'!
-morphExtent: aPoint
-	| side |
-	image _ nil.
-	side _ aPoint x min: aPoint y.
-	super morphExtent: side @ side! !
-
-!ComplexPlaneToDiskPlotMorph methodsFor: 'as yet unclassified' stamp: 'len 12/9/2016 10:27:55'!
-palette: aComplexPalette
-	palette _ aComplexPalette! !
-
-!UpperHalfPlaneToDiskPlotMorph methodsFor: 'as yet unclassified' stamp: 'len 12/9/2016 16:53:41'!
-buildImage
-	image _ Form extent: self morphExtent depth: Display depth.
-	1 to: image height do: [:j|
-		| y |
-		y _ j asFloat / image height * 2 - 1.
-		1 to: image width do: [:i|
-			| x z c |
-			x _ i asFloat / image width * 2 - 1.
-			(x squared + y squared) sqrt < 1
-				ifTrue:
-					[| w |
-					z _ x + y i.
-					w _ [function value: 1 + z / (1 - z) * 1 i] on: ZeroDivide do: [Infinity projective].
-					image colorAt: i@j put: (palette at: w)]]]! !
 
 !FunctionPlotMorph methodsFor: 'private' stamp: 'len 1/2/2016 06:07'!
 computeEvaluationPoints
@@ -12922,6 +12841,63 @@ timeDelayPlot: anArray dimension: m lag: r
 !ScatterPlotMorph class methodsFor: 'as yet unclassified' stamp: 'len 8/18/2016 06:39'!
 timeDelayPlot: anArray lag: r
 	^ self timeDelayPlot: anArray dimension: 3 lag: r! !
+
+!UnitDiskPlotMorph methodsFor: 'as yet unclassified' stamp: 'len 12/15/2016 18:43:01'!
+buildImage
+	image _ Form extent: self morphExtent depth: Display depth.
+	1 to: image height do: [:j|
+		| y |
+		y _ j asFloat / image height * 2 - 1.
+		1 to: image width do: [:i|
+			| x z c |
+			x _ i asFloat / image width * 2 - 1.
+			(x squared + y squared) sqrt < 1
+				ifTrue:
+					[| w |
+					z _ x + y i.
+					w _ [function value: (inverseMap value: z)] on: ZeroDivide do: [Infinity projective].
+					image colorAt: i@j put: (palette at: w)]]]! !
+
+!UnitDiskPlotMorph methodsFor: 'as yet unclassified' stamp: 'len 12/9/2016 10:27:16'!
+drawOn: aCanvas
+	image isNil ifTrue: [self buildImage].
+	aCanvas image: image at: 0@0! !
+
+!UnitDiskPlotMorph methodsFor: 'as yet unclassified' stamp: 'len 12/15/2016 18:41:22'!
+function: aFunction
+	function _ aFunction.
+"	function domain = HH
+		ifTrue: [self mapUpperHalfPlaneToUnitDisk]
+		ifFalse: [function domain = CC ifTrue: [self mapPlaneToUnitDisk]]."
+	image _ nil.
+	self redrawNeeded! !
+
+!UnitDiskPlotMorph methodsFor: 'as yet unclassified' stamp: 'len 12/15/2016 18:38:39'!
+initialize
+	super initialize.
+	extent _ 300@300.
+	color _ Color lightGray.
+	palette _ ComplexPalette default.
+	inverseMap _ [:z| z] "by default use the identity map"! !
+
+!UnitDiskPlotMorph methodsFor: 'as yet unclassified' stamp: 'len 12/15/2016 18:36:26'!
+mapPlaneToUnitDisk
+	inverseMap _ [:z| z / (1 - z abs squared)]! !
+
+!UnitDiskPlotMorph methodsFor: 'as yet unclassified' stamp: 'len 12/15/2016 18:37:30'!
+mapUpperHalfPlaneToUnitDisk
+	inverseMap _ [:z| 1 + z / (1 - z) * 1 i]! !
+
+!UnitDiskPlotMorph methodsFor: 'as yet unclassified' stamp: 'len 12/9/2016 10:28:38'!
+morphExtent: aPoint
+	| side |
+	image _ nil.
+	side _ aPoint x min: aPoint y.
+	super morphExtent: side @ side! !
+
+!UnitDiskPlotMorph methodsFor: 'as yet unclassified' stamp: 'len 12/9/2016 10:27:55'!
+palette: aComplexPalette
+	palette _ aComplexPalette! !
 
 !GraphEdgeMorph methodsFor: 'private' stamp: 'len 2/19/2016 19:04'!
 adjustBounds
@@ -15072,9 +15048,9 @@ commutator: aSubgroup
 compositiveInverseMap
 	^ (self to: self evaluating: [:each| each inverse]) name: 'inverse'! !
 
-!Group methodsFor: 'private' stamp: 'len 10/17/2016 10:45'!
+!Group methodsFor: 'private' stamp: 'len 12/15/2016 21:52:23'!
 compositiveOperation
-	^ (GroupAction from: (self, self) to: self evaluatingWithArguments: [:x :y| x @ y]) name: '@'! !
+	^ (GroupAction from: (self, self) to: self evaluatingWithArguments: [:x :y| x @ y]) name: 'î'! !
 
 !Group methodsFor: 'private' stamp: 'len 5/1/2016 23:23'!
 computeExponent
@@ -17550,6 +17526,10 @@ genus
 	^ self curve genus
 "(1 + projectiveIndex) / 12 - nu2 / 4 - nu3 / 4 - ncusps/2"! !
 
+!CongruenceSubgroup methodsFor: 'as yet unclassified' stamp: 'len 12/15/2016 23:14:57'!
+indexOf: aSubgroup
+	^ (aSubgroup isKindOf: CongruenceSubgroup) ifTrue: [aSubgroup index / self index] ifFalse: [super indexOf: aSubgroup]! !
+
 !CongruenceSubgroup methodsFor: 'accessing' stamp: 'len 12/7/2016 11:54:28'!
 level
 	^ properties at: #level! !
@@ -17636,19 +17616,19 @@ even
 printOn: aStream
 	aStream nextPut: Character Gamma; nextPutAll: '1' sub; nextPut: $(; print: self level; nextPut: $)! !
 
-!GammaCongruenceSubgroup methodsFor: 'as yet unclassified' stamp: 'len 12/8/2016 21:36:50'!
+!PrincipalCongruenceSubgroup methodsFor: 'as yet unclassified' stamp: 'len 12/15/2016 23:02:54'!
 * aGroup
-	(aGroup isKindOf: GammaCongruenceSubgroup)
+	(aGroup isKindOf: PrincipalCongruenceSubgroup)
 		ifFalse: [^ super * aGroup].
 	^ self class new: (self level gcd: aGroup level)! !
 
-!GammaCongruenceSubgroup methodsFor: 'as yet unclassified' stamp: 'len 12/8/2016 21:36:57'!
+!PrincipalCongruenceSubgroup methodsFor: 'as yet unclassified' stamp: 'len 12/15/2016 23:02:59'!
 ï aGroup
-	(aGroup isKindOf: GammaCongruenceSubgroup)
+	(aGroup isKindOf: PrincipalCongruenceSubgroup)
 		ifFalse: [^ super ï aGroup].
 	^ self class new: (self level lcm: aGroup level)! !
 
-!GammaCongruenceSubgroup methodsFor: 'as yet unclassified' stamp: 'len 12/10/2016 11:29:07'!
+!PrincipalCongruenceSubgroup methodsFor: 'as yet unclassified' stamp: 'len 12/10/2016 11:29:07'!
 index
 	"Answer the index of the receiver in the modular group."
 	| answer |
@@ -17656,7 +17636,7 @@ index
 	self level factors withOccurrencesDo: [:p :e| answer _ answer * (p ** (e*3 - 2) * (p*p - 1))].
 	^ answer! !
 
-!GammaCongruenceSubgroup methodsFor: 'as yet unclassified' stamp: 'len 12/10/2016 11:33:56'!
+!PrincipalCongruenceSubgroup methodsFor: 'as yet unclassified' stamp: 'len 12/10/2016 11:33:56'!
 numberOfCusps
 	| count |
 	self level = 1 ifTrue: [^ 1].
@@ -17665,13 +17645,14 @@ numberOfCusps
 	self level factors withOccurrencesDo: [:p :e| count _ count * (p ** (e*2) - (p ** (e*2 - 2)))].
 	^ count // 2! !
 
-!GammaCongruenceSubgroup methodsFor: 'as yet unclassified' stamp: 'len 12/10/2016 11:34:29'!
+!PrincipalCongruenceSubgroup methodsFor: 'as yet unclassified' stamp: 'len 12/10/2016 11:34:29'!
 numberOfIrregularCusps
 	^ 0! !
 
-!GammaCongruenceSubgroup methodsFor: 'as yet unclassified' stamp: 'len 12/8/2016 19:35:50'!
+!PrincipalCongruenceSubgroup methodsFor: 'as yet unclassified' stamp: 'len 12/15/2016 21:36:37'!
 printOn: aStream
-	aStream nextPut: Character Gamma; nextPut: $(; print: self level; nextPut: $)! !
+	aStream nextPut: Character Gamma.
+	self level ~= 1 ifTrue: [aStream nextPut: $(; print: self level; nextPut: $)]! !
 
 !ModularGroup methodsFor: 'as yet unclassified' stamp: 'len 12/11/2016 07:55:55'!
 R
@@ -17700,14 +17681,6 @@ level: anInteger
 !ModularGroup methodsFor: 'as yet unclassified' stamp: 'len 12/8/2016 19:36:34'!
 printOn: aStream
 	aStream nextPut: Character Gamma! !
-
-!GammaUpper0CongruenceSubgroup methodsFor: 'as yet unclassified' stamp: 'len 12/8/2016 21:40:10'!
-printOn: aStream
-	aStream nextPut: Character Gamma; nextPutAll: '0' super; nextPut: $(; print: self level; nextPut: $)! !
-
-!GammaUpper1CongruenceSubgroup methodsFor: 'as yet unclassified' stamp: 'len 12/8/2016 21:40:21'!
-printOn: aStream
-	aStream nextPut: Character Gamma; nextPutAll: '1' super; nextPut: $(; print: self level; nextPut: $)! !
 
 !UnitGroup methodsFor: 'enumerating' stamp: 'len 5/12/2016 23:17'!
 do: aBlock
@@ -19861,10 +19834,10 @@ discriminant
 	"The discriminant of an integral basis is independent of the choice of basis and it's called the discriminant of the field K and denoted d(K)."
 	^ properties at: #discriminant ifAbsentPut: [self integralBasis discriminant]! !
 
-!NumberField methodsFor: 'operations' stamp: 'len 1/10/2016 21:52'!
+!NumberField methodsFor: 'operations' stamp: 'len 12/15/2016 16:49:33'!
 integers
 	"Answer the ring of integers of the receiver."
-	^ self notYetImplemented! !
+	^ NumberRing on: self! !
 
 !NumberField methodsFor: 'accessing' stamp: 'len 1/11/2016 03:48'!
 integralBasis
@@ -19928,6 +19901,10 @@ discriminant
 	n _ self order.
 	phi _ n phi.
 	^ -1 ** (phi / 2) * (n ** phi) / (n factors asSet product: [:p| p ** (phi / (p - 1))])! !
+
+!CyclotomicField methodsFor: 'accessing' stamp: 'len 12/15/2016 08:33:38'!
+integralBasis
+	^ (0 to: self degree - 1) collect: [:k| self x ** k]! !
 
 !CyclotomicField methodsFor: 'testing' stamp: 'len 12/10/2016 20:13:22'!
 isAbelianExtension
@@ -20188,6 +20165,30 @@ zero
 initialize
 	super initialize.
 	Smalltalk at: #CC put: self new! !
+
+!NumberRing methodsFor: 'as yet unclassified' stamp: 'len 12/15/2016 08:50:57'!
+asModule
+	^ FreeModule basis: self basis coordinates: [:anElement| anElement representative coefficients] over: ZZ! !
+
+!NumberRing methodsFor: 'as yet unclassified' stamp: 'len 12/15/2016 08:46:44'!
+basis
+	^ self field integralBasis! !
+
+!NumberRing methodsFor: 'as yet unclassified' stamp: 'len 12/15/2016 08:36:58'!
+field
+	^ field! !
+
+!NumberRing methodsFor: 'as yet unclassified' stamp: 'len 12/15/2016 08:36:49'!
+field: aNumberField
+	field _ aNumberField! !
+
+!NumberRing methodsFor: 'as yet unclassified' stamp: 'len 12/15/2016 08:37:30'!
+printOn: aStream
+	aStream nextPutAll: 'O' italic; nextPut: $(; print: field; nextPut: $)! !
+
+!NumberRing class methodsFor: 'instance creation' stamp: 'len 12/15/2016 08:40:10'!
+on: aNumberField
+	^ self new field: aNumberField! !
 
 !RealAlgebraicNumbers methodsFor: 'comparing' stamp: 'len 6/1/2016 23:58'!
 < aDomain
@@ -29079,26 +29080,26 @@ inverse
 isCircular
 	^ self trace = 0! !
 
-!MoebiusMap methodsFor: 'testing' stamp: 'len 12/14/2016 10:33:53'!
+!MoebiusMap methodsFor: 'testing' stamp: 'len 12/15/2016 17:48:21'!
 isElliptic
-	^ self trace squared < 4! !
+	^ self traceSquared < 4! !
 
-!MoebiusMap methodsFor: 'testing' stamp: 'len 12/14/2016 10:29:39'!
+!MoebiusMap methodsFor: 'testing' stamp: 'len 12/15/2016 17:48:27'!
 isHyperbolic
-	^ self trace squared > 4! !
+	^ self traceSquared > 4! !
 
 !MoebiusMap methodsFor: 'testing' stamp: 'len 12/10/2016 12:04:59'!
 isIdentity
 	^ a = 1 and: [b = 0 and: [c = 0 and: [d = 1]]]! !
 
-!MoebiusMap methodsFor: 'testing' stamp: 'len 12/14/2016 10:34:29'!
+!MoebiusMap methodsFor: 'testing' stamp: 'len 12/15/2016 17:48:33'!
 isLoxodromic
 	| t |
-	^ (t _ self trace squared) < 0 or: [t > 4]! !
+	^ (t _ self traceSquared) < 0 or: [t > 4]! !
 
-!MoebiusMap methodsFor: 'testing' stamp: 'len 12/14/2016 10:29:12'!
+!MoebiusMap methodsFor: 'testing' stamp: 'len 12/15/2016 17:48:39'!
 isParabolic
-	^ self trace squared = 4! !
+	^ self traceSquared = 4! !
 
 !MoebiusMap methodsFor: 'printing' stamp: 'len 12/9/2016 16:08:40'!
 printOn: aStream
@@ -29118,6 +29119,10 @@ printOn: aStream
 !MoebiusMap methodsFor: 'operations' stamp: 'len 12/9/2016 21:50:06'!
 trace
 	^ a + d! !
+
+!MoebiusMap methodsFor: 'operations' stamp: 'len 12/15/2016 17:46:03'!
+traceSquared
+	^ (a + d) squared! !
 
 !MoebiusMap methodsFor: 'operations' stamp: 'len 12/9/2016 10:07:06'!
 value: anObject
@@ -29657,6 +29662,13 @@ x: i to: k
 î aCoset
 	^ self class on: subgroup representative: representative î aCoset representative! !
 
+!Coset methodsFor: 'testing' stamp: 'len 12/15/2016 21:49:42'!
+contains: anElement
+	| op inverseMap |
+	op _ subgroup operation.
+	inverseMap _ subgroup inverseMap.
+	^ subgroup contains: (op value: {anElement. inverseMap value: representative})! !
+
 !Coset methodsFor: 'enumerating' stamp: 'len 2/9/2016 07:04'!
 do: aBlock
 	"Enumerate the elements of the receiver."
@@ -29668,12 +29680,9 @@ do: aBlock
 hash
 	^ subgroup hash! !
 
-!Coset methodsFor: 'testing' stamp: 'len 2/9/2016 07:05'!
+!Coset methodsFor: 'testing' stamp: 'len 12/15/2016 21:50:32'!
 includes: anElement
-	| op inverseMap |
-	op _ subgroup operation.
-	inverseMap _ subgroup inverseMap.
-	^ subgroup includes: (op value: {anElement. inverseMap value: representative})! !
+	^ (subgroup ambient includes: anElement) and: [self contains: anElement]! !
 
 !Coset methodsFor: 'arithmetic' stamp: 'len 2/13/2016 06:55'!
 inverse
@@ -30393,6 +30402,10 @@ conjugatesDo: aBlock
 	alpha _ alpha ** self ideal ring characteristic.
 	alpha = self] whileFalse! !
 
+!ResidueClass methodsFor: 'testing' stamp: 'len 12/15/2016 21:47:05'!
+contains: aRingElement
+	^ self = (parent project: aRingElement)! !
+
 !ResidueClass methodsFor: 'operations' stamp: 'len 10/24/2016 12:02'!
 gcd: aResidueClass
 	^ parent project: (representative gcd: aResidueClass representative)! !
@@ -30405,9 +30418,9 @@ hash
 ideal
 	^ parent ideal! !
 
-!ResidueClass methodsFor: 'testing' stamp: 'len 10/16/2016 15:57'!
+!ResidueClass methodsFor: 'testing' stamp: 'len 12/15/2016 21:47:39'!
 includes: aRingElement
-	^ self = (parent project: aRingElement)! !
+	^ (parent base includes: aRingElement) and: [self contains: aRingElement]! !
 
 !ResidueClass methodsFor: 'testing' stamp: 'len 11/1/2016 05:13'!
 is: aSymbol
