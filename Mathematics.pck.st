@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 17 December 2016 at 10:55:10 pm'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 17 December 2016 at 11:05:57 pm'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 306!
+!provides: 'Mathematics' 1 307!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
 	instanceVariableNames: 'numerator shift'
@@ -6041,7 +6041,7 @@ buildMathFont
 	"
 	#(5 6 7 8 9 10 11 12 13 14 17 22) do: [:pointSize| self buildMathFont: pointSize]! !
 
-!StrikeFont class methodsFor: '*mathematics-character shapes' stamp: 'len 12/15/2016 17:23:05'!
+!StrikeFont class methodsFor: '*mathematics-character shapes' stamp: 'len 12/17/2016 23:01:08'!
 buildMathFont: pointSize
 	| font normal slightlyLarger larger muchLarger |
 	font _ AbstractFont familyName: 'DejaVu Sans Mono' pointSize: pointSize.
@@ -6050,7 +6050,7 @@ buildMathFont: pointSize
 	#(2 1 3 0) detect: [:one| (larger _ (AbstractFont familyName: 'DejaVu' pointSize: pointSize+one)) notNil].
 	#(4 3 2 1 0) detect: [:one| (muchLarger _ (AbstractFont familyName: 'DejaVu' pointSize: pointSize+one)) notNil].
 	"replace some math glyphs with their normal counterpart, because the monospaced glyphs are far too small (and some are missing):"
-	'€‚‡ƒ„…†‰Š‹Œ‘’“”•–—˜™š›œ' do: [:each|
+	'€‚ƒ…†‡ˆ‰Š‹Œ‘’“”•–—˜™š›œ' do: [:each|
 		font takeAllGlyphFor: each from: each in: normal].
 "	'€ƒ„…†‰Š‹Œ' do: [:each|
 		font takeAllGlyphFor: each from: each in: slightlyLarger].
@@ -19831,6 +19831,10 @@ primitiveRoot
 	"When the receiver is a field Z/<p>, answer a primitive root modulo p."
 	^ properties at: #primitiveRoot ifAbsentPut: [self computePrimitiveRoot]! !
 
+!PrimeField methodsFor: 'printing' stamp: 'len 12/17/2016 23:05:18'!
+printOn: aStream
+	aStream nextPut: Character FF; nextPutAll: self modulus printString sub! !
+
 !SmallPrimeField methodsFor: 'private' stamp: 'len 11/30/2016 10:06:00'!
 computeTables
 	| g x |
@@ -20124,9 +20128,9 @@ isAbelianExtension
 isGaloisExtension
 	^ true! !
 
-!GaloisField methodsFor: 'printing' stamp: 'len 12/17/2016 22:18:24'!
+!GaloisField methodsFor: 'printing' stamp: 'len 12/17/2016 23:04:02'!
 printOn: aStream
-	aStream nextPutAll: 'F' bold, self size printString sub
+	aStream nextPut: Character FF; nextPutAll: self size printString sub
 "	aStream nextPutAll: 'GF('; print: self characteristic; nextPutAll: self degree printString super; nextPut: $)"! !
 
 !GaloisField class methodsFor: 'examples' stamp: 'len 12/12/2016 17:08:40'!
