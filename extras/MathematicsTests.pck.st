@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 8 December 2016 at 9:58:46 pm'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 17 December 2016 at 10:55:13 pm'!
 'Description Please enter a description for this package'!
-!provides: 'MathematicsTests' 1 52!
+!provides: 'MathematicsTests' 1 53!
 !classDefinition: #AbelianGroupTest category: #MathematicsTests!
 TestCase subclass: #AbelianGroupTest
 	instanceVariableNames: ''
@@ -121,6 +121,16 @@ TestCase subclass: #MatrixTest
 MatrixTest class
 	instanceVariableNames: ''!
 
+!classDefinition: #ModularTest category: #MathematicsTests!
+TestCase subclass: #ModularTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'MathematicsTests'!
+!classDefinition: 'ModularTest class' category: #MathematicsTests!
+ModularTest class
+	instanceVariableNames: ''!
+
 !classDefinition: #ModuleTest category: #MathematicsTests!
 TestCase subclass: #ModuleTest
 	instanceVariableNames: ''
@@ -149,6 +159,16 @@ TestCase subclass: #NumberFieldTest
 	category: 'MathematicsTests'!
 !classDefinition: 'NumberFieldTest class' category: #MathematicsTests!
 NumberFieldTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #PAdicsTest category: #MathematicsTests!
+TestCase subclass: #PAdicsTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'MathematicsTests'!
+!classDefinition: 'PAdicsTest class' category: #MathematicsTests!
+PAdicsTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #PolynomialTest category: #MathematicsTests!
@@ -772,10 +792,10 @@ testPermutationCompositionArray	69,100 per second.
 testPermutationCompositionWords	51,900 per second.
 !
 
-!AbelianGroupTest methodsFor: 'as yet unclassified' stamp: 'len 10/10/2016 09:23'!
+!AbelianGroupTest methodsFor: 'as yet unclassified' stamp: 'len 12/17/2016 22:23:00'!
 testAbelianGroup: G
 	| zero a b c |
-	zero _ G zero.
+	zero _ G identity.
 	a _ G atRandomBits: 100.
 	b _ G atRandomBits: 100.
 	c _ G atRandomBits: 100.
@@ -784,39 +804,39 @@ testAbelianGroup: G
 	self assert: a + b = (b + a). "commutativity"
 	self assert: (a + b + c) = (a + (b + c)). "associativity"! !
 
-!AbelianGroupTest methodsFor: 'as yet unclassified' stamp: 'len 10/10/2016 09:24'!
+!AbelianGroupTest methodsFor: 'as yet unclassified' stamp: 'len 12/17/2016 22:24:08'!
 testAbelianGroupHomomorphism: phi
 	| G H a b |
 	G _ phi domain.
 	H _ phi codomain.
 	a _ G atRandomBits: 100.
 	b _ G atRandomBits: 100.
-	self assert: (phi value: G zero) = H zero.
+	self assert: (phi value: G identity) = H identity.
 	self assert: (phi value: a + b) = ((phi value: a) + (phi value: b))! !
 
-!AbelianGroupTest methodsFor: 'as yet unclassified' stamp: 'len 12/2/2016 11:04:50'!
+!AbelianGroupTest methodsFor: 'as yet unclassified' stamp: 'len 12/17/2016 22:22:20'!
 testDirectSum
 	| G |
-	G _ ZZ  (ZZ / (2 to: 10) atRandom).
+	G _ ZZ asAbelianGroup  (ZZ / (2 to: 10) atRandom) asAbelianGroup.
 	self testAbelianGroup: G.
 	self testAbelianGroupHomomorphism: (G projection: 2 atRandom).
 	self testAbelianGroupHomomorphism: (G embedding: 2 atRandom)! !
 
-!AbelianGroupTest methodsFor: 'as yet unclassified' stamp: 'len 10/10/2016 09:29'!
+!AbelianGroupTest methodsFor: 'as yet unclassified' stamp: 'len 12/17/2016 22:25:46'!
 testIntegerTuples
 	| G |
-	G _ ZZ ** (1 to: 10) atRandom.
+	G _ (ZZ ** (1 to: 10) atRandom) asAbelianGroup.
 	self testAbelianGroup: G.
 	self testAbelianGroupHomomorphism: (G projection: (1 to: G rank) atRandom)! !
 
-!AbelianGroupTest methodsFor: 'as yet unclassified' stamp: 'len 10/10/2016 09:27'!
+!AbelianGroupTest methodsFor: 'as yet unclassified' stamp: 'len 12/17/2016 22:26:09'!
 testIntegers
-	self testAbelianGroup: ZZ! !
+	self testAbelianGroup: ZZ asAbelianGroup! !
 
-!AbelianGroupTest methodsFor: 'as yet unclassified' stamp: 'len 12/2/2016 11:04:54'!
+!AbelianGroupTest methodsFor: 'as yet unclassified' stamp: 'len 12/17/2016 22:26:28'!
 testModularIntegers
 	| G |
-	G _ ZZ / (2 to: 10) atRandom.
+	G _ (ZZ / (2 to: 10) atRandom) asAbelianGroup.
 	self testAbelianGroup: G.
 	self testAbelianGroupHomomorphism: G projection! !
 
@@ -2430,10 +2450,10 @@ testCRT
 	crt _ CRT mod: #(2 5 7).
 	self assert: (crt solutionFor: #(0 2 0)) = 42! !
 
-!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 11/5/2016 10:30'!
+!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 12/16/2016 13:35:30'!
 testCartesianProduct
 	| P x |
-	P _ CartesianProduct components: {PrimeField new: 3. Ring GF: 4. SymmetricGroup new: 5}.
+	P _ CartesianProduct components: {PrimeField new: 3. GaloisField new: 4. SymmetricGroup new: 5}.
 	self assert: P elements size = (3*4*5 factorial).
 	x _ {(P at: 1) atRandom. (P at: 2) atRandom. (P at: 3) atRandom}.
 	self assert: (P elements includes: x)! !
@@ -2482,6 +2502,20 @@ testContinuedFractionsReciprocal
 	| x |
 	x _ ContinuedFraction fromFraction: 415/93.
 	self assert: x reciprocal asFraction = (93/415)! !
+
+!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 12/10/2016 20:30:38'!
+testCyclotomicPolynomials
+	| P |
+	P _ QQ polynomials.
+	1 to: 20 do: [:n| self assert: (P cyclotomic: n) degree = n phi]! !
+
+!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 12/10/2016 20:36:22'!
+testCyclotomicPolynomials2
+	| P x n |
+	P _ QQ polynomials.
+	x _ P x.
+	n _ 100 atRandom.
+	self assert: (n divisors product: [:d| P cyclotomic: d]) = (x**n - 1)! !
 
 !MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 3/21/2016 00:12'!
 testExtendedEuclid
@@ -2538,10 +2572,16 @@ testFunctionNewFrom
 	g _ f as: Function. "degrade it to a simple Function, not a LinearMap any more"
 	self assert: (g as: LinearMap) = f! !
 
-!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 10/18/2016 20:59'!
+!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 12/11/2016 20:01:51'!
+testFundamentalDiscriminant
+	self assert: ((1 to: 33) select: [:each| each isFundamentalDiscriminant]) =  #(1 5 8 12 13 17 21 24 28 29 33).
+	self assert: ((0 to: -31 by: -1) select: [:each| each isFundamentalDiscriminant]) = #(-3 -4 -7 -8 -11 -15 -19 -20 -23 -24 -31) 
+! !
+
+!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 12/16/2016 13:35:43'!
 testGaloisFields
 	| GF pi x one a |
-	GF _ Ring GF: 3**3.
+	GF _ GaloisField new: 3**3.
 	self assert: GF isField.
 	self assert: GF characteristic = 3.
 	pi _ GF projection.
@@ -2582,17 +2622,17 @@ testIteratorCovering
 	self assert: (F**3 upTo: 3**3) asSet size = (3**3).
 	self assert: (ZZ**3 upTo: 100) asSet size = 100! !
 
-!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 10/18/2016 21:00'!
+!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 12/16/2016 13:35:55'!
 testIteratorCovering2
 	| F |
-	F _ Ring GF: 9.
+	F _ GaloisField new: 9.
 	self assert: ((F**3) upTo: 9**3) asSet size = (9**3).
 	self assert: ((F**3) upTo: 9**3+100) asSet size = (9**3)! !
 
-!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 10/18/2016 21:00'!
+!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 12/16/2016 13:36:04'!
 testIteratorCovering3
 	| F |
-	F _ Ring GF: 3.
+	F _ GaloisField new: 3.
 	self assert: ((F**4) upTo: 3**4) asSet size = (3**4).
 	self assert: ((F**4) upTo: 3**4+100) asSet size = (3**4)! !
 
@@ -2619,14 +2659,14 @@ testLatticeD4SelfDual
 	D4 _ Lattice D4.
 	self assert: D4 isSelfDual! !
 
-!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 11/3/2016 08:14'!
+!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 12/11/2016 08:03:09'!
 testLatticeDual
 	| V basis lattice dualLattice I |
 	V _ QQ ** 3.
 	basis _ LinearBasis on: V generators: {(-1,0,0). (0,1,2). (0,1,1)}.
 	lattice _ Lattice basis: basis.
 	dualLattice _ lattice dual.
-	I _ basis matrix species identity.
+	I _ basis matrix identity.
 	self assert: lattice basis span = dualLattice basis span.
 	self assert: lattice determinant = (1 / dualLattice determinant).
 	self assert: lattice basis matrix * dualLattice basis matrix = I! !
@@ -2653,16 +2693,6 @@ testModularIntegersField
 	self assert: a * a reciprocal = F one.
 	self assert: a * 7 = F zero.
 	self assert: b ** (F size - 1) = F one "Euler's theorem"! !
-
-!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 3/27/2016 02:02'!
-testPAdicNorm
-	| x |
-	x _ PAdicInteger fromNatural: 7 p: 2.
-	self assert: x valuation = 0.
-	self assert: x norm = 1.
-	x _ x * 4.
-	self assert: x valuation = 2.
-	self assert: x norm = (1/4)! !
 
 !MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 7/2/2016 21:04'!
 testPartitions
@@ -3084,6 +3114,29 @@ testTransposed
 	A _ ZZ ** (6 atRandom @ 6 atRandom) :: atRandomBits: 1000.
 	self assert: A columns = A transposed rows.
 	self assert: A transposed transposed = A! !
+
+!ModularTest methodsFor: 'as yet unclassified' stamp: 'len 12/10/2016 12:56:12'!
+testGamma0Index
+	self assert: (1 to: 19 :: collect: [:each| Gamma0CongruenceSubgroup new: each :: index]) = #(1 3 4 6 6 12 8 12 12 18 12 24 14 24 24 24 18 36 20).
+	self assert: (Gamma0CongruenceSubgroup new: 32041) index = 32220! !
+
+!ModularTest methodsFor: 'as yet unclassified' stamp: 'len 12/10/2016 12:23:06'!
+testGamma0NumberOfCusps
+	| p |
+	self assert: (1 to: 19 :: collect: [:each| Gamma0CongruenceSubgroup new: each :: numberOfCusps]) =  #(1 2 2 3 2 4 2 4 4 4 2 6 2 4 4 6 2 8 2).
+	p _ 1.
+	100 timesRepeat: [self assert: (Gamma0CongruenceSubgroup new: (p _ p nextPrime)) numberOfCusps = 2]! !
+
+!ModularTest methodsFor: 'as yet unclassified' stamp: 'len 12/15/2016 23:02:48'!
+testGammaIndex
+	self assert: (1 to: 19 :: collect: [:each| PrincipalCongruenceSubgroup new: each :: index]) =  #(1 6 24 48 120 144 336 384 648 720 1320 1152 2184 2016 2880 3072 4896 3888 6840)! !
+
+!ModularTest methodsFor: 'as yet unclassified' stamp: 'len 12/15/2016 23:16:41'!
+testIndexOf
+	| G H |
+	G _ PrincipalCongruenceSubgroup new: 2.
+	H _ PrincipalCongruenceSubgroup new: 8.
+	self assert: (G indexOf: H) = 32 "according to GAP manual chap. 2, Gamma(2) has index 12"! !
 
 !ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 12/2/2016 11:11:38'!
 newFreeModule
@@ -3852,6 +3905,11 @@ testWeightedMonomialOrderings
 	self assert: (f orderedBy: trevlex) leadingCoefficient = 11.
 	self assert: (f orderedBy: revlex) leadingCoefficient = 11! !
 
+!NumberFieldTest methodsFor: 'as yet unclassified' stamp: 'len 12/10/2016 21:58:12'!
+testCyclotomicFieldDiscriminant
+	self assert: (CyclotomicField new: 20) discriminant = 4000000.
+	self assert: (CyclotomicField new: 18) discriminant = -19683! !
+
 !NumberFieldTest methodsFor: 'as yet unclassified' stamp: 'len 11/3/2016 04:40'!
 testQSqrt2
 	| E x |
@@ -3868,27 +3926,67 @@ testQSqrt2RealEmbeddings
 	roots _ (E polynomial rootsIn: RealAlgebraicNumbers new) asSet.
 	self assert: (embeddings collect: [:f| f value: E x]) asSet = roots! !
 
-!NumberFieldTest methodsFor: 'as yet unclassified' stamp: 'len 9/26/2016 18:00'!
+!NumberFieldTest methodsFor: 'as yet unclassified' stamp: 'len 12/14/2016 14:59:36'!
+testQuadraticFieldFundamentalDiscriminant
+	self assert: (QuadraticField sqrt: 102) discriminant = 408.
+	self assert: (QuadraticField sqrt: 720) discriminant = 5.
+	self assert: (QuadraticField sqrt: 2) discriminant = 8! !
+
+!NumberFieldTest methodsFor: 'as yet unclassified' stamp: 'len 12/10/2016 21:40:24'!
+testQuadraticFieldSqrt2
+	| E x |
+	E _ QuadraticField sqrt: 2.
+	x _ QQ polynomials x.
+	self assert: E x minimalPolynomial = E polynomial.
+	self assert: E x squared minimalPolynomial = (x - 2).
+	self assert: E discriminant = 8! !
+
+!NumberFieldTest methodsFor: 'as yet unclassified' stamp: 'len 12/10/2016 21:42:04'!
+testQuadraticFieldSqrtMinusFive
+	| E |
+	E _ QuadraticField sqrt: -5.
+	self assert: E x minimalPolynomial = E polynomial.
+	self assert: E x squared = (E embed: -5).
+	self assert: E x ** 4 = (E embed: 25).
+	self assert: E discriminant = -20! !
+
+!NumberFieldTest methodsFor: 'as yet unclassified' stamp: 'len 12/10/2016 22:02:25'!
+testSignature
+	self assert: (CyclotomicField new: 5) signature = #(0 2).
+	self assert: (CyclotomicField new: 2) signature = #(1 0)! !
+
+!NumberFieldTest methodsFor: 'as yet unclassified' stamp: 'len 12/10/2016 21:45:04'!
 testTotallyImaginary
 	| x E |
 	x _ QQ polynomials x.
 	E _ NumberField polynomial: x**2 + 2.
-	self assert: E isTotallyImaginary.
+	self assert: E isImaginary.
 	E _ NumberField polynomial: x**2 - 2.
-	self assert: E isTotallyImaginary not.
+	self assert: E isImaginary not.
 	E _ NumberField polynomial: x**4 - 2.
-	self assert: E isTotallyImaginary not! !
+	self assert: E isImaginary not! !
 
-!NumberFieldTest methodsFor: 'as yet unclassified' stamp: 'len 9/26/2016 17:59'!
+!NumberFieldTest methodsFor: 'as yet unclassified' stamp: 'len 12/10/2016 21:47:44'!
 testTotallyReal
 	| x E |
 	x _ QQ polynomials x.
 	E _ NumberField polynomial: x**2 + 2.
-	self assert: E isTotallyReal not.
+	self assert: E isReal not.
 	E _ NumberField polynomial: x**2 - 2.
-	self assert: E isTotallyReal.
+	self assert: E isReal.
 	E _ NumberField polynomial: x**4 - 2.
-	self assert: E isTotallyReal not! !
+	self assert: E isReal not! !
+
+!PAdicsTest methodsFor: 'as yet unclassified' stamp: 'len 12/17/2016 21:56:58'!
+testPAdicNorm
+	| Z7 x |
+	Z7 _ PAdicRing p: 2.
+	x _ Z7 embed: 7.
+	self assert: x valuation = 0.
+	self assert: x norm = 1.
+	x _ x * 4.
+	self assert: x valuation = 2.
+	self assert: x norm = (1/4)! !
 
 !PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:08'!
 testArithmetic
@@ -5373,11 +5471,11 @@ testSquared
 testTransposition
 	matrix transposed! !
 
-!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 10/18/2016 21:00'!
+!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 12/16/2016 13:36:15'!
 testFiniteField
 	"Benchmark Polynomial>>#= and Residue#>>="
 	| F |
-	F _ Ring GF: 9.
+	F _ GaloisField new: 9.
 	((F**3) upTo: 9**3) asSet size = (9**3) ifFalse: [self halt]! !
 
 !PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 12/2/2016 11:17:35'!

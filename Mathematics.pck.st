@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 16 December 2016 at 12:32:46 pm'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 17 December 2016 at 10:55:10 pm'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 305!
+!provides: 'Mathematics' 1 306!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
 	instanceVariableNames: 'numerator shift'
@@ -19,6 +19,26 @@ Number subclass: #RealAlgebraicNumber
 	category: 'Mathematics-Fields'!
 !classDefinition: 'RealAlgebraicNumber class' category: #'Mathematics-Fields'!
 RealAlgebraicNumber class
+	instanceVariableNames: ''!
+
+!classDefinition: #PAdicInteger category: #'Mathematics-Fields-PAdics'!
+Number subclass: #PAdicInteger
+	instanceVariableNames: 'parent digits'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Fields-PAdics'!
+!classDefinition: 'PAdicInteger class' category: #'Mathematics-Fields-PAdics'!
+PAdicInteger class
+	instanceVariableNames: ''!
+
+!classDefinition: #PAdicNumber category: #'Mathematics-Fields-PAdics'!
+Number subclass: #PAdicNumber
+	instanceVariableNames: 'numerator valuation'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Fields-PAdics'!
+!classDefinition: 'PAdicNumber class' category: #'Mathematics-Fields-PAdics'!
+PAdicNumber class
 	instanceVariableNames: ''!
 
 !classDefinition: #ContinuedFraction category: #'Mathematics-Sequences'!
@@ -1251,23 +1271,23 @@ QuotientRing subclass: #ModularIntegers
 ModularIntegers class
 	instanceVariableNames: ''!
 
-!classDefinition: #PrimeField category: #'Mathematics-Fields'!
+!classDefinition: #PrimeField category: #'Mathematics-Fields-Finite'!
 ModularIntegers subclass: #PrimeField
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Fields'!
-!classDefinition: 'PrimeField class' category: #'Mathematics-Fields'!
+	category: 'Mathematics-Fields-Finite'!
+!classDefinition: 'PrimeField class' category: #'Mathematics-Fields-Finite'!
 PrimeField class
 	instanceVariableNames: ''!
 
-!classDefinition: #SmallPrimeField category: #'Mathematics-Fields'!
+!classDefinition: #SmallPrimeField category: #'Mathematics-Fields-Finite'!
 PrimeField subclass: #SmallPrimeField
 	instanceVariableNames: 'expTable logTable'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Fields'!
-!classDefinition: 'SmallPrimeField class' category: #'Mathematics-Fields'!
+	category: 'Mathematics-Fields-Finite'!
+!classDefinition: 'SmallPrimeField class' category: #'Mathematics-Fields-Finite'!
 SmallPrimeField class
 	instanceVariableNames: ''!
 
@@ -1279,16 +1299,6 @@ QuotientRing subclass: #ExtensionField
 	category: 'Mathematics-Fields'!
 !classDefinition: 'ExtensionField class' category: #'Mathematics-Fields'!
 ExtensionField class
-	instanceVariableNames: ''!
-
-!classDefinition: #GaloisField category: #'Mathematics-Fields'!
-ExtensionField subclass: #GaloisField
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Fields'!
-!classDefinition: 'GaloisField class' category: #'Mathematics-Fields'!
-GaloisField class
 	instanceVariableNames: ''!
 
 !classDefinition: #NumberField category: #'Mathematics-Fields'!
@@ -1319,6 +1329,16 @@ NumberField subclass: #QuadraticField
 	category: 'Mathematics-Fields'!
 !classDefinition: 'QuadraticField class' category: #'Mathematics-Fields'!
 QuadraticField class
+	instanceVariableNames: ''!
+
+!classDefinition: #GaloisField category: #'Mathematics-Fields-Finite'!
+ExtensionField subclass: #GaloisField
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Fields-Finite'!
+!classDefinition: 'GaloisField class' category: #'Mathematics-Fields-Finite'!
+GaloisField class
 	instanceVariableNames: ''!
 
 !classDefinition: #PolynomialQuotientRing category: #'Mathematics-Polynomials'!
@@ -1381,6 +1401,26 @@ Ring subclass: #Reals
 Reals class
 	instanceVariableNames: ''!
 
+!classDefinition: #PAdicField category: #'Mathematics-Fields-PAdics'!
+Ring subclass: #PAdicField
+	instanceVariableNames: 'integers'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Fields-PAdics'!
+!classDefinition: 'PAdicField class' category: #'Mathematics-Fields-PAdics'!
+PAdicField class
+	instanceVariableNames: ''!
+
+!classDefinition: #PAdicRing category: #'Mathematics-Fields-PAdics'!
+Ring subclass: #PAdicRing
+	instanceVariableNames: 'p'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Fields-PAdics'!
+!classDefinition: 'PAdicRing class' category: #'Mathematics-Fields-PAdics'!
+PAdicRing class
+	instanceVariableNames: ''!
+
 !classDefinition: #PolynomialRing category: #'Mathematics-Polynomials'!
 Ring subclass: #PolynomialRing
 	instanceVariableNames: 'space monomials'
@@ -1401,34 +1441,14 @@ Ring subclass: #PowerSeriesRing
 PowerSeriesRing class
 	instanceVariableNames: ''!
 
-!classDefinition: #GaussianIntegers category: #'Mathematics-Etc-Misc'!
+!classDefinition: #GaussianIntegers category: #'Mathematics-Etc'!
 Ring subclass: #GaussianIntegers
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Etc-Misc'!
-!classDefinition: 'GaussianIntegers class' category: #'Mathematics-Etc-Misc'!
+	category: 'Mathematics-Etc'!
+!classDefinition: 'GaussianIntegers class' category: #'Mathematics-Etc'!
 GaussianIntegers class
-	instanceVariableNames: ''!
-
-!classDefinition: #PAdicIntegers category: #'Mathematics-Etc-Misc'!
-Ring subclass: #PAdicIntegers
-	instanceVariableNames: 'p'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Etc-Misc'!
-!classDefinition: 'PAdicIntegers class' category: #'Mathematics-Etc-Misc'!
-PAdicIntegers class
-	instanceVariableNames: ''!
-
-!classDefinition: #PAdicNumbers category: #'Mathematics-Etc-Misc'!
-Ring subclass: #PAdicNumbers
-	instanceVariableNames: 'p'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Etc-Misc'!
-!classDefinition: 'PAdicNumbers class' category: #'Mathematics-Etc-Misc'!
-PAdicNumbers class
 	instanceVariableNames: ''!
 
 !classDefinition: #SymmetricPolynomialRing category: #'Mathematics-Etc'!
@@ -2581,16 +2601,6 @@ FormalFraction subclass: #RationalFunction
 RationalFunction class
 	instanceVariableNames: ''!
 
-!classDefinition: #PAdicNumber category: #'Mathematics-Etc-Misc'!
-FormalFraction subclass: #PAdicNumber
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Etc-Misc'!
-!classDefinition: 'PAdicNumber class' category: #'Mathematics-Etc-Misc'!
-PAdicNumber class
-	instanceVariableNames: ''!
-
 !classDefinition: #ResidueClass category: #'Mathematics-Rings'!
 Object subclass: #ResidueClass
 	instanceVariableNames: 'representative parent'
@@ -3471,16 +3481,6 @@ Object subclass: #RootSystem
 RootSystem class
 	instanceVariableNames: ''!
 
-!classDefinition: #PAdicInteger category: #'Mathematics-Etc-Misc'!
-Object subclass: #PAdicInteger
-	instanceVariableNames: 'digits'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Etc-Misc'!
-!classDefinition: 'PAdicInteger class' category: #'Mathematics-Etc-Misc'!
-PAdicInteger class
-	instanceVariableNames: ''!
-
 !classDefinition: #ElementaryTensorOld category: #'Mathematics-Etc'!
 Object subclass: #ElementaryTensorOld
 	instanceVariableNames: 'left right'
@@ -4054,7 +4054,7 @@ My instances are the special Euclidean group SE(n) or E*(n), a subgroup of the E
 My instances are groups of Moebius transformations acting on some space, like the Riemann sphere P^1(C) or the upper half plane H or the extended upper half plane H U P^1(Q).!
 
 !AbelianGroup commentStamp: '<historical>' prior: 0!
-My instances are objects in the Ab category (the category of abelian groups), a subcategory of Grp (the category of groups).!
+My instances are abelian groups. They can be viewed as Z-modules. They are isomorphic to T x Z^n, where T is the torsion subgroup (the subgroup of elements of finite order), and n is called the rank of the group.!
 
 !DirectSumGroup commentStamp: '<historical>' prior: 0!
 My instances are direct sums of abelian groups.
@@ -4062,7 +4062,7 @@ My instances are direct sums of abelian groups.
 Direct sums are equipped with projection homomorphisms to the i-th component (>>projection:) and coprojections or embeddings from the i-th component (>>embedding:).!
 
 !FreeAbelianGroup commentStamp: '<historical>' prior: 0!
-My instances are abelian groups with a basis. They can be viewed also as free Z-modules. They are isomorphic to Z^n.!
+My instances are abelian groups with a basis. They can be viewed also as free Z-modules. They are isomorphic to Z^n (this is, they are torsion-free).!
 
 !Lattice commentStamp: '<historical>' prior: 0!
 A lattice is the set of integer linear combinations of a basis of a real vector space. This is a subgroup of the vector space (as abelian group) isomorphic to Z^n.!
@@ -4263,9 +4263,6 @@ Example:
 	QQ extension: QQ polynomials x**4 - 2
 !
 
-!GaloisField commentStamp: '<historical>' prior: 0!
-My instances are finite nonprime fields, i.e. fields GF(p^r) with r >= 2. These are finite algebraic extensions of prime fields. See also PrimeField.!
-
 !NumberField commentStamp: '<historical>' prior: 0!
 My instances are number fields, i.e. finite (and thus algebraic) field extensions of the rational numbers Q. Number fields can also be viewed as vector spaces over Q.
 
@@ -4275,6 +4272,9 @@ Example:
 
 !CyclotomicField commentStamp: '<historical>' prior: 0!
 My instances are cyclotomic fields, i.e. number fields obtained by adjoining a complex primitive root of unity to Q. The n-th cyclotomic field is obtained by adjoining a primitive n-th root of unity to the rational numbers.!
+
+!GaloisField commentStamp: '<historical>' prior: 0!
+My instances are finite nonprime fields, i.e. fields GF(p^r) with r >= 2. These are finite algebraic extensions of prime fields. See also PrimeField.!
 
 !PolynomialQuotientRing commentStamp: '<historical>' prior: 0!
 My instances are quotients of polynomial rings.!
@@ -4293,6 +4293,12 @@ I'm the field of real algebraic numbers, i.e. real zeros of polynomials with int
 
 !Reals commentStamp: '<historical>' prior: 0!
 I'm the field of real numbers.!
+
+!PAdicField commentStamp: '<historical>' prior: 0!
+My instances are fields of p-adic numbers Qp. See PAdicNumber.!
+
+!PAdicRing commentStamp: '<historical>' prior: 0!
+My instances are rings of p-adic integers Zp. See PAdicInteger.!
 
 !PolynomialRing commentStamp: 'len 11/18/2016 20:56:45' prior: 0!
 My instances are polynomial rings R[x1,...,xn] in one or many indeterminates over a commutative ring R, or rings of polynomial functions R[M] on a free R-module M of finite rank.
@@ -4375,7 +4381,7 @@ My instances are vector spaces of linear forms (see LinearForm), i.e linear maps
 !
 
 !MatrixModule commentStamp: '<historical>' prior: 0!
-My instances are modules (or vector spaces) of matrices of n rows by m columns over a given ring (or field).!
+My instances are ambient modules (or vector spaces) of matrices of n rows by m columns over a given ring (or field).!
 
 !QuotientModule commentStamp: '<historical>' prior: 0!
 My instances are quotient modules M/S (read "M mod S") of a given module M modulo a submodule S.
@@ -4397,7 +4403,7 @@ Example:
 !
 
 !TupleModule commentStamp: '<historical>' prior: 0!
-My instances are modules (or vector spaces) of n-tuples over a given ring (or field).!
+My instances are ambient modules (or vector spaces) of n-tuples over a given ring (or field).!
 
 !HomogeneousPolynomialModule commentStamp: '<historical>' prior: 0!
 My instances are submodules of homogeneous polynomials of a given fixed degree, in a multivariate polynomial ring R[x1,...,xn]. They define a grading (see PolynomialRing>>gradingAt:).!
@@ -4719,13 +4725,13 @@ A chain map between two chain complexes (Ci,di) and (C`i,d`i) is a sequence of h
 Chain maps are morphisms in the category of chain complexes.!
 
 !AffineMap commentStamp: '<historical>' prior: 0!
-My instances are affine transformations (affine maps or affinities).
+My instances are affine transformations (affine maps or affinities) defined over vector spaces (considered as affine spaces by 'forgetting the origin') or over affine spaces as schemes. See VectorSpace and AffineSpace.
 
 References:
 	https://en.wikipedia.org/wiki/Affine_transformation!
 
-!ProjectiveMap commentStamp: '<historical>' prior: 0!
-My instances are projective transformations from a projective space P(V) to another P(W). These transformations map points to points and lines to lines, etc, preserving incidence. Projective transformation, projective collineation and homography are synonyms.!
+!ProjectiveMap commentStamp: 'len 12/17/2016 10:19:47' prior: 0!
+My instances are projective transformations from a projective space P(V) to another P(W). These transformations map points to points and lines to lines, etc, preserving incidence. Projective transformation, projective collineation and homography are synonyms. See also AffineMap.!
 
 !PolynomialFunction commentStamp: '<historical>' prior: 0!
 My instances are polynomial functions on an algebraic variety.!
@@ -6568,6 +6574,157 @@ sqrt: aNumber
 	^ self
 		minimalPolynomial: QQ polynomials x squared - aNumber
  		bounds: (RealInterval open: 0 open: (aNumber max: 1))! !
+
+!PAdicInteger methodsFor: 'arithmetic' stamp: 'len 12/17/2016 22:38:42'!
+* aPAdicInteger
+	| newDigits p q |
+	p _ self p.
+	q _ 1.
+	aPAdicInteger isInteger
+		ifTrue:
+			[aPAdicInteger == 0 ifTrue: [^ self zero].
+			newDigits _ digits collect: [:each| q _ q * p. each * aPAdicInteger \\ q]]
+		ifFalse:
+			[newDigits _ digits with: aPAdicInteger digits collect: [:a :b| q _ q * p. a * b \\ q]].
+	^ self class in: parent digits: newDigits! !
+
+!PAdicInteger methodsFor: 'arithmetic' stamp: 'len 12/17/2016 21:18:16'!
++ aPAdicInteger
+	| newDigits p q |
+	p _ self p.
+	q _ 1.
+	newDigits _ digits with: aPAdicInteger digits collect: [:a :b| q _ q * p. a + b \\ q].
+	^ self class in: parent digits: newDigits! !
+
+!PAdicInteger methodsFor: 'arithmetic' stamp: 'len 12/17/2016 21:19:06'!
+- aPAdicInteger
+	| newDigits p q |
+	p _ self p.
+	q _ 1.
+	newDigits _ digits with: aPAdicInteger digits collect: [:a :b| q _ q * p. a - b \\ q].
+	^ self class in: parent digits: newDigits! !
+
+!PAdicInteger methodsFor: 'comparing' stamp: 'len 12/7/2015 03:01'!
+= aPAdicInteger
+	^ aPAdicInteger class == self class and: [digits = aPAdicInteger digits]! !
+
+!PAdicInteger methodsFor: 'accessing' stamp: 'len 7/17/2016 23:31'!
+at: anInteger
+	"Answer the digit corresponding to p^(anInteger-1)."
+	anInteger > digits size ifTrue: [^ digits last].
+	^ digits at: anInteger! !
+
+!PAdicInteger methodsFor: 'accessing-private' stamp: 'len 12/7/2015 02:54'!
+digits
+	^ digits! !
+
+!PAdicInteger methodsFor: 'initialization' stamp: 'len 12/17/2016 21:01:23'!
+digits: aSequence
+	digits _ aSequence
+"	| n |
+	digits _ ZZ tuple: anArray.
+	n _ (digits size to: 2 by: -1) detect: [:i| (digits at: i) representative ~= (digits at: i-1) representative] ifNone: [^ self].
+	n < digits size ifTrue: [digits _ digits copyFrom: 1 to: n]"! !
+
+!PAdicInteger methodsFor: 'comparing' stamp: 'len 12/7/2015 03:01'!
+hash
+	^ digits hash! !
+
+!PAdicInteger methodsFor: 'testing' stamp: 'len 12/7/2015 03:45'!
+isUniformizing
+	"Answer true if the receiver is a uniformizing element."
+	^ self valuation = 1! !
+
+!PAdicInteger methodsFor: 'testing' stamp: 'len 7/17/2016 23:30'!
+isZero
+	^ digits isZero! !
+
+!PAdicInteger methodsFor: 'arithmetic' stamp: 'len 12/17/2016 21:20:35'!
+negated
+	| newDigits p q |
+	p _ self p.
+	q _ 1.
+	newDigits _ digits collect: [:a| q _ q * p. a == 0 ifTrue: [a] ifFalse: [q - a]].
+	^ self class in: parent digits: newDigits! !
+
+!PAdicInteger methodsFor: 'accessing' stamp: 'len 12/8/2015 03:24'!
+norm
+	^ self isZero ifTrue: [0] ifFalse: [self p ** self valuation negated]! !
+
+!PAdicInteger methodsFor: 'constants' stamp: 'len 12/17/2016 21:25:08'!
+one
+	^ parent one! !
+
+!PAdicInteger methodsFor: 'accessing' stamp: 'len 12/17/2016 21:22:57'!
+p
+	^ parent p! !
+
+!PAdicInteger methodsFor: 'private' stamp: 'len 12/17/2016 20:59:36'!
+parent
+	^ parent! !
+
+!PAdicInteger methodsFor: 'initialization' stamp: 'len 12/17/2016 21:00:54'!
+parent: aPAdicIntegersRing
+	parent _ aPAdicIntegersRing! !
+
+!PAdicInteger methodsFor: 'printing' stamp: 'len 12/17/2016 21:04:05'!
+printOn: aStream
+	aStream nextPut: $(.
+	digits do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: ','].
+	aStream nextPutAll: '..)'! !
+
+!PAdicInteger methodsFor: 'arithmetic' stamp: 'len 12/17/2016 21:24:10'!
+reciprocal
+	| newDigits p q |
+	(digits at: 1) isZero ifTrue: [^ (ZeroDivide dividend: self one) signal].
+	p _ self p.
+	q _ 1.
+	newDigits _ digits collect: [:a| q _ q * p. a == 1 ifTrue: [a] ifFalse: [a reciprocalModulo2: q]].
+	^ self class in: parent digits: newDigits! !
+
+!PAdicInteger methodsFor: 'accessing' stamp: 'len 12/7/2015 02:55'!
+size
+	^ digits size! !
+
+!PAdicInteger methodsFor: 'accessing' stamp: 'len 12/17/2016 21:58:49'!
+valuation
+	self isZero ifTrue: [^ Infinity positive].
+	^ (digits findFirst: [:one| one ~~ 0]) - 1! !
+
+!PAdicInteger methodsFor: 'constants' stamp: 'len 12/17/2016 21:25:02'!
+zero
+	^ parent zero! !
+
+!PAdicInteger class methodsFor: 'instance creation' stamp: 'len 12/17/2016 20:55:17'!
+in: aPAdicIntegersRing digits: aSequence
+	^ self new parent: aPAdicIntegersRing; digits: aSequence! !
+
+!PAdicNumber methodsFor: 'accessing' stamp: 'len 12/17/2016 21:47:40'!
+denominator
+	^ numerator parent embed: self p ** self valuation! !
+
+!PAdicNumber methodsFor: 'as yet unclassified' stamp: 'len 12/17/2016 22:16:16'!
+embed: aNumber
+	aNumber isInteger ifTrue: [^ self integers embed: aNumber].
+	aNumber isFraction ifFalse: [self notYetImplemented].
+	self notYetImplemented! !
+
+!PAdicNumber methodsFor: 'accessing' stamp: 'len 12/8/2015 03:24'!
+norm
+	^ self isZero ifTrue: [0] ifFalse: [self p ** self valuation negated]! !
+
+!PAdicNumber methodsFor: 'accessing' stamp: 'len 12/17/2016 21:46:48'!
+numerator
+	^ numerator! !
+
+!PAdicNumber methodsFor: 'accessing' stamp: 'len 12/7/2015 03:44'!
+p
+	^ self numerator p! !
+
+!PAdicNumber methodsFor: 'accessing' stamp: 'len 12/17/2016 21:53:12'!
+valuation
+	"Answer the p-adic absolute value of the receiver."
+	^ valuation! !
 
 !ContinuedFraction methodsFor: 'converting' stamp: 'len 10/18/2016 14:05'!
 asFraction
@@ -13621,7 +13778,7 @@ collect: aBlock
 	self do: [:each| elements add: (aBlock value: each)].
 	^ elements as: Domain! !
 
-!Domain methodsFor: 'testing' stamp: 'len 12/13/2016 07:34:03'!
+!Domain methodsFor: 'testing' stamp: 'len 12/17/2016 22:32:08'!
 contains: anElement
 	"Answer true if the receiver contains the given element of its ambient.
 	This is similar to >>includes: but less checks are needed, because the element is not an arbitrary object."
@@ -13969,20 +14126,20 @@ upTo: max do: aBlock
 		aBlock value: each.
 		k _ k+1]! !
 
-!Domain class methodsFor: 'examples' stamp: 'len 10/29/2016 07:50'!
-example1VectorSpace
+!Domain class methodsFor: 'examples' stamp: 'len 12/17/2016 09:27:30'!
+example21VectorSpace
 	"The vector space of 3-tuples with rational coefficients."
 	^ QQ ** 3! !
 
-!Domain class methodsFor: 'examples' stamp: 'len 10/29/2016 07:50'!
-example1VectorSpace2
+!Domain class methodsFor: 'examples' stamp: 'len 12/17/2016 09:27:22'!
+example21VectorSpace2
 	"The vector space of 3x3 matrices with complex coefficients."
 	^ CC ** (3@3)! !
 
-!Domain class methodsFor: 'examples' stamp: 'len 10/29/2016 07:59'!
+!Domain class methodsFor: 'examples' stamp: 'len 12/17/2016 09:25:55'!
 example2ModuleDirectSum
 	"The direct sum of the module of 3x3 matrices with coefficients in Z/6Z
-	plus the one-dimensional module of Z/6Z scalars."
+	plus the rank 1 module of Z/6Z scalars."
 	^ ZZ/6 ** (3@3)  (ZZ/6) asSelfModule! !
 
 !Domain class methodsFor: 'examples' stamp: 'len 10/29/2016 08:05'!
@@ -15059,12 +15216,13 @@ computeExponent
 	self do: [:each| answer _ answer max: (self orderOf: each)].
 	^ answer! !
 
-!Group methodsFor: 'private' stamp: 'len 11/30/2016 14:43:59'!
+!Group methodsFor: 'private' stamp: 'len 12/17/2016 09:39:53'!
 computeGenerators
-	"The receiver is a finite group represented explicitly as a set of its elements, or at least can be iterated over. This method computes a set of generators."
+	"The receiver is a finite group represented explicitly as a set of its elements. This method computes a set of generators."
 	| n op generators elements |
 	(properties includesKey: #elements) ifFalse: [^ nil].
-	n _ self order.
+	n _ self size.
+	n isInfinite ifTrue: [^ nil].
 	op _ self operation.
 	generators _ OrderedCollection new.
 	elements _ Set with: self identity.
@@ -15351,14 +15509,14 @@ isSolvable
 isTerminal
 	^ self isTrivial! !
 
-!Group methodsFor: 'testing' stamp: 'len 12/14/2016 21:28:03'!
+!Group methodsFor: 'testing' stamp: 'len 12/16/2016 13:56:43'!
 isTrivial
 	"Answer true if the receiver is the trivial group {id}."
 	| generators id |
 	properties at: #elements ifPresent: [:aCollection| ^ aCollection size = 1].
 	generators _ self generators ifNil: [^ self size = 1].
 	id _ self identity.
-	^ generators noneSatisfy: [:one| one ~= id]! !
+	^ generators allSatisfy: [:each| each = id]! !
 
 !Group methodsFor: 'morphisms' stamp: 'len 10/17/2016 10:52'!
 leftAction
@@ -16811,10 +16969,9 @@ defaultOperation
 isAbelianGroup
 	^ true! !
 
-!AbelianGroup methodsFor: 'testing' stamp: 'len 12/14/2016 21:27:29'!
+!AbelianGroup methodsFor: 'testing' stamp: 'len 12/16/2016 13:50:51'!
 isInitial
-	"In the category of abelian groups the trivial group is the zero object (both initial and terminal).
-	But in the category of commutative rings with unit, the initial object is Z (the integers ring), so this is overriden in Ring."
+	"In the category of abelian groups the trivial group is the zero object (both initial and terminal)."
 	^ self isTrivial! !
 
 !AbelianGroup methodsFor: 'testing' stamp: 'len 12/14/2016 21:27:33'!
@@ -16835,9 +16992,14 @@ product: anAbelianGroup
 rank
 	^ properties at: #rank! !
 
-!AbelianGroup methodsFor: 'accessing' stamp: 'len 12/14/2016 21:29:07'!
+!AbelianGroup methodsFor: 'private' stamp: 'len 12/16/2016 12:37:21'!
+species
+	"Any subgroup of an abelian group is also abelian."
+	^ AbelianGroup! !
+
+!AbelianGroup methodsFor: 'accessing' stamp: 'len 12/16/2016 12:34:10'!
 torsion
-	"Answer the torsion subgroup of the receiver, i.e. the set of elements e such that exists non-zero integer m with e*m = 0."
+	"Answer the torsion subgroup of the receiver, i.e. the set of elements e such that exists nonzero integer m with e*m = 0."
 	^ properties at: #torsion! !
 
 !DirectSumGroup methodsFor: 'accessing' stamp: 'len 10/9/2016 10:41'!
@@ -16870,13 +17032,18 @@ components
 components: anArray
 	components _ anArray! !
 
-!DirectSumGroup methodsFor: 'morphisms' stamp: 'len 10/10/2016 08:39'!
-embedding: i
-	^ ((self at: i) to: self evaluating: [:x| components withIndexCollect: [:each :k| k = i ifTrue: [x] ifFalse: [each zero]]]) name: 'i', i printText sub! !
+!DirectSumGroup methodsFor: 'testing' stamp: 'len 12/16/2016 12:42:09'!
+contains: anElement
+	components with: anElement do: [:V :x| (V contains: x) ifFalse: [^ false]].
+	^ true! !
 
-!DirectSumGroup methodsFor: 'accessing' stamp: 'len 12/14/2016 22:09:51'!
+!DirectSumGroup methodsFor: 'morphisms' stamp: 'len 12/17/2016 22:25:26'!
+embedding: i
+	^ ((self at: i) to: self evaluating: [:x| components withIndexCollect: [:each :k| k = i ifTrue: [x] ifFalse: [each identity]]]) name: 'i', i printText sub! !
+
+!DirectSumGroup methodsFor: 'accessing' stamp: 'len 12/17/2016 22:23:22'!
 identity
-	^ components collect: [:each| each zero]! !
+	^ components collect: [:each| each identity]! !
 
 !DirectSumGroup methodsFor: 'testing' stamp: 'len 10/9/2016 10:45'!
 includes: anObject
@@ -16904,6 +17071,10 @@ projection: i
 size
 	^ components product: [:each| each size]! !
 
+!DirectSumGroup methodsFor: 'accessing' stamp: 'len 12/16/2016 12:41:26'!
+torsion
+	^ DirectSumGroup components: (components collect: [:each| each torsion])! !
+
 !DirectSumGroup class methodsFor: 'instance creation' stamp: 'len 10/10/2016 08:40'!
 components: anArray
 	^ self new components: anArray! !
@@ -16921,6 +17092,15 @@ presentation
 			commutators add: x * y * x reciprocal * y reciprocal]].
 	self flag: #fix. "generators are additive or multiplicative?"
 	^ GroupPresentation generators: self basis relators: commutators! !
+
+!FreeAbelianGroup methodsFor: 'private' stamp: 'len 12/16/2016 12:37:29'!
+species
+	"Any subgroup of a free abelian group is also free."
+	^ FreeAbelianGroup! !
+
+!FreeAbelianGroup methodsFor: 'accessing' stamp: 'len 12/16/2016 12:35:31'!
+torsion
+	^ self null! !
 
 !FreeAbelianGroup class methodsFor: 'instance creation' stamp: 'len 6/30/2016 02:27'!
 new: anInteger
@@ -18281,10 +18461,22 @@ by: anEquivalenceRelation
 × aRing
 	^ ProductRing components: {self. aRing}! !
 
+!Ring methodsFor: 'accessing' stamp: 'len 12/16/2016 13:25:15'!
+addition
+	^ ((self, self) to: self evaluatingWithArguments: [:x :y| x + y]) name: '+'! !
+
+!Ring methodsFor: 'accessing' stamp: 'len 12/16/2016 13:25:56'!
+additionInverseMap
+	^ (self to: self evaluating: [:each| each negated]) name: '-id'! !
+
 !Ring methodsFor: 'operations' stamp: 'len 10/18/2016 20:48'!
 algebraicClosure
 	self isAlgebraicallyClosed ifTrue: [^ self].
 	^ properties at: #algebraicClosure! !
+
+!Ring methodsFor: 'converting' stamp: 'len 12/17/2016 09:30:14'!
+asAbelianGroup
+	^ self as: AbelianGroup! !
 
 !Ring methodsFor: 'converting' stamp: 'len 8/29/2016 16:30'!
 asIdeal
@@ -18516,9 +18708,9 @@ multiplication
 multiplicationInverseMap
 	^ (self to: self evaluating: [:each| each reciprocal]) name: 'x^-1'! !
 
-!Ring methodsFor: 'accessing' stamp: 'len 11/23/2015 02:55'!
+!Ring methodsFor: 'accessing' stamp: 'len 12/16/2016 13:24:47'!
 one
-	^ properties at: #one! !
+	^ properties at: #one ifAbsentPut: [self generators anyOne one]! !
 
 !Ring methodsFor: 'accessing-private' stamp: 'len 5/29/2016 17:54'!
 one: anElement
@@ -18598,18 +18790,6 @@ zero
 !Ring methodsFor: 'operations' stamp: 'len 10/13/2016 20:05'!
 zeroIdeal
 	^ self * #()! !
-
-!Ring class methodsFor: 'examples' stamp: 'len 10/31/2016 05:46'!
-GF: q
-	"Answer the Galois field of order q = p^n."
-	| factors n p F |
-	factors _ q factors.
-	factors asSet size = 1 ifFalse: [^ self error: 'not power of a prime'].
-	n _ factors size.
-	p _ factors anyOne.
-	F _ ZZ modPrime: p.
-	n = 1 ifTrue: [^ F].
-	^ (F extensionDegree: n) name: 'GF(',p printString,'^',n printString,')'! !
 
 !FreeAlgebra methodsFor: 'comparing' stamp: 'len 8/25/2016 08:22'!
 = anObject
@@ -19768,50 +19948,6 @@ polynomial: aPolynomial
 	"Answer a new algebraic field extension K(f) where f is the given polynomial in K[x]. The polynomial must be irreducible, otherwise there would be zero divisors."
 	^ self new polynomial: aPolynomial! !
 
-!GaloisField methodsFor: 'morphisms' stamp: 'len 12/14/2016 11:14:22'!
-automorphisms
-	"Answer the Galous group of the receiver."
-	^ TransformationGroup new generators: {self frobenius}! !
-
-!GaloisField methodsFor: 'testing' stamp: 'len 12/14/2016 10:15:29'!
-isAbelianExtension
-	"Galois fields are Abelian extensions."
-	^ true! !
-
-!GaloisField methodsFor: 'testing' stamp: 'len 12/13/2016 21:47:29'!
-isGaloisExtension
-	^ true! !
-
-!GaloisField methodsFor: 'printing' stamp: 'len 12/12/2016 08:46:09'!
-printOn: aStream
-	aStream nextPutAll: 'GF('; print: self characteristic; nextPutAll: self degree printString super; nextPut: $)! !
-
-!GaloisField class methodsFor: 'examples' stamp: 'len 12/12/2016 17:08:40'!
-example1
-	^ GaloisField new: 8! !
-
-!GaloisField class methodsFor: 'examples' stamp: 'len 12/12/2016 17:08:33'!
-example2
-	^ GaloisField new: 5 to: 3! !
-
-!GaloisField class methodsFor: 'instance creation' stamp: 'len 12/12/2016 08:40:10'!
-new: q
-	"Answer the Galois field of order q = p^n."
-	| factors n p |
-	factors _ q factors.
-	factors asSet size = 1 ifFalse: [^ self error: 'not power of a prime'].
-	n _ factors size.
-	p _ factors anyOne.
-	^ self new: p to: n! !
-
-!GaloisField class methodsFor: 'instance creation' stamp: 'len 12/12/2016 08:39:55'!
-new: p to: n
-	"Answer the Galois field of order q = p^n."
-	| F |
-	F _ ZZ modPrime: p.
-	n = 1 ifTrue: [^ F].
-	^ self polynomial: (F polynomials findIrreducibleOfDegree: n)! !
-
 !NumberField methodsFor: 'accessing' stamp: 'len 11/12/2016 07:14'!
 adjoint
 	^ properties at: #adjoint ifAbsentPut: [(self polynomial rootsIn: CC) anyOne]! !
@@ -19973,6 +20109,51 @@ example
 !QuadraticField class methodsFor: 'instance creation' stamp: 'len 12/14/2016 14:57:22'!
 sqrt: anInteger
 	^ self new sqrt: anInteger! !
+
+!GaloisField methodsFor: 'morphisms' stamp: 'len 12/14/2016 11:14:22'!
+automorphisms
+	"Answer the Galous group of the receiver."
+	^ TransformationGroup new generators: {self frobenius}! !
+
+!GaloisField methodsFor: 'testing' stamp: 'len 12/14/2016 10:15:29'!
+isAbelianExtension
+	"Galois fields are Abelian extensions."
+	^ true! !
+
+!GaloisField methodsFor: 'testing' stamp: 'len 12/13/2016 21:47:29'!
+isGaloisExtension
+	^ true! !
+
+!GaloisField methodsFor: 'printing' stamp: 'len 12/17/2016 22:18:24'!
+printOn: aStream
+	aStream nextPutAll: 'F' bold, self size printString sub
+"	aStream nextPutAll: 'GF('; print: self characteristic; nextPutAll: self degree printString super; nextPut: $)"! !
+
+!GaloisField class methodsFor: 'examples' stamp: 'len 12/12/2016 17:08:40'!
+example1
+	^ GaloisField new: 8! !
+
+!GaloisField class methodsFor: 'examples' stamp: 'len 12/12/2016 17:08:33'!
+example2
+	^ GaloisField new: 5 to: 3! !
+
+!GaloisField class methodsFor: 'instance creation' stamp: 'len 12/12/2016 08:40:10'!
+new: q
+	"Answer the Galois field of order q = p^n."
+	| factors n p |
+	factors _ q factors.
+	factors asSet size = 1 ifFalse: [^ self error: 'not power of a prime'].
+	n _ factors size.
+	p _ factors anyOne.
+	^ self new: p to: n! !
+
+!GaloisField class methodsFor: 'instance creation' stamp: 'len 12/12/2016 08:39:55'!
+new: p to: n
+	"Answer the Galois field of order q = p^n."
+	| F |
+	F _ ZZ modPrime: p.
+	n = 1 ifTrue: [^ F].
+	^ self polynomial: (F polynomials findIrreducibleOfDegree: n)! !
 
 !PolynomialQuotientRing methodsFor: 'accessing' stamp: 'len 11/3/2016 04:30'!
 characteristic
@@ -20282,6 +20463,76 @@ size
 initialize
 	super initialize.
 	Smalltalk at: #RR put: self new! !
+
+!PAdicField methodsFor: 'as yet unclassified' stamp: 'len 12/17/2016 21:39:52'!
+characteristic
+	^ 0! !
+
+!PAdicField methodsFor: 'as yet unclassified' stamp: 'len 12/17/2016 21:37:58'!
+integers
+	^ integers! !
+
+!PAdicField methodsFor: 'as yet unclassified' stamp: 'len 10/18/2016 20:55'!
+isField
+	^ true! !
+
+!PAdicField methodsFor: 'as yet unclassified' stamp: 'len 12/17/2016 20:30:57'!
+p
+	^ self integers p! !
+
+!PAdicField methodsFor: 'as yet unclassified' stamp: 'len 12/17/2016 21:38:34'!
+p: aPrime
+	integers _ PAdicRing p: aPrime! !
+
+!PAdicField methodsFor: 'as yet unclassified' stamp: 'len 12/17/2016 22:21:17'!
+printOn: aStream
+	aStream print: QQ; nextPutAll: self p printString sub! !
+
+!PAdicField class methodsFor: 'instance creation' stamp: 'len 12/17/2016 21:36:49'!
+p: aPrime
+	^ self new p: aPrime! !
+
+!PAdicRing methodsFor: 'accessing' stamp: 'len 12/17/2016 20:31:49'!
+characteristic
+	^ 0! !
+
+!PAdicRing methodsFor: 'morphisms' stamp: 'len 12/17/2016 21:39:20'!
+embed: anInteger
+	| q digits max |
+	q _ 1.
+	max _ anInteger abs.
+	digits _ OrderedCollection new.
+	[q _ q * p.
+	digits add: anInteger \\ q.
+	q > max ifTrue: [^ PAdicInteger in: self digits: digits asArray]] repeat! !
+
+!PAdicRing methodsFor: 'testing' stamp: 'len 12/7/2015 01:29'!
+isIntegralDomain
+	^ true! !
+
+!PAdicRing methodsFor: 'accessing' stamp: 'len 12/17/2016 21:39:31'!
+one
+	^ self embed: 1! !
+
+!PAdicRing methodsFor: 'accessing' stamp: 'len 12/7/2015 01:16'!
+p
+	^ p! !
+
+!PAdicRing methodsFor: 'initialization' stamp: 'len 12/7/2015 01:16'!
+p: aPrime
+	p _ aPrime! !
+
+!PAdicRing methodsFor: 'printing' stamp: 'len 12/17/2016 22:21:27'!
+printOn: aStream
+	aStream print: ZZ; nextPutAll: p printString sub! !
+
+!PAdicRing methodsFor: 'accessing' stamp: 'len 12/17/2016 21:39:36'!
+zero
+	^ self embed: 0! !
+
+!PAdicRing class methodsFor: 'instance creation' stamp: 'len 12/7/2015 01:15'!
+p: aPrime
+	^ self new p: aPrime! !
 
 !PolynomialRing methodsFor: 'comparing' stamp: 'len 7/19/2016 01:12'!
 < aDomain
@@ -20981,54 +21232,6 @@ size
 zero
 	^ 0! !
 
-!PAdicIntegers methodsFor: 'testing' stamp: 'len 12/7/2015 01:29'!
-isIntegralDomain
-	^ true! !
-
-!PAdicIntegers methodsFor: 'elements' stamp: 'len 3/27/2016 02:02'!
-one
-	^ PAdicInteger fromNatural: 1 p: p! !
-
-!PAdicIntegers methodsFor: 'accessing' stamp: 'len 12/7/2015 01:16'!
-p
-	^ p! !
-
-!PAdicIntegers methodsFor: 'initialization' stamp: 'len 12/7/2015 01:16'!
-p: aPrime
-	p _ aPrime! !
-
-!PAdicIntegers methodsFor: 'printing' stamp: 'len 7/17/2016 23:05'!
-printOn: aStream
-	aStream nextPut: Character ZZ; nextPutAll: p printString sub! !
-
-!PAdicIntegers methodsFor: 'morphisms' stamp: 'len 7/17/2016 23:27'!
-project: anInteger
-	^ PAdicInteger fromNatural: anInteger p: p! !
-
-!PAdicIntegers methodsFor: 'elements' stamp: 'len 3/27/2016 02:03'!
-zero
-	^ PAdicInteger fromNatural: 0 p: p! !
-
-!PAdicIntegers class methodsFor: 'instance creation' stamp: 'len 12/7/2015 01:15'!
-p: aPrime
-	^ self new p: aPrime! !
-
-!PAdicNumbers methodsFor: 'as yet unclassified' stamp: 'len 10/18/2016 20:55'!
-isField
-	^ true! !
-
-!PAdicNumbers methodsFor: 'as yet unclassified' stamp: 'len 7/17/2016 23:33'!
-p: aPrime
-	p _ aPrime! !
-
-!PAdicNumbers methodsFor: 'as yet unclassified' stamp: 'len 7/17/2016 23:33'!
-printOn: aStream
-	aStream nextPut: Character QQ; nextPutAll: p printString sub! !
-
-!PAdicNumbers class methodsFor: 'as yet unclassified' stamp: 'len 7/17/2016 23:33'!
-p: aPrime
-	^ self new p: aPrime! !
-
 !SymmetricPolynomialRing methodsFor: 'as yet unclassified' stamp: 'len 8/2/2016 09:50'!
 generators
 	^ (1 to: self rank) collect: [:i| polynomials symmetric: i]! !
@@ -21100,13 +21303,43 @@ space: aVectorSpace
 new: anInteger over: aSpace
 	^ self new space: aSpace; rank: anInteger! !
 
+!Module methodsFor: 'accessing' stamp: 'len 12/16/2016 13:26:11'!
+addition
+	^ ((self, self) to: self evaluatingWithArguments: [:x :y| x + y]) name: '+'! !
+
+!Module methodsFor: 'accessing' stamp: 'len 12/16/2016 13:26:05'!
+additionInverseMap
+	^ (self to: self evaluating: [:each| each negated]) name: '-id'! !
+
+!Module methodsFor: 'converting' stamp: 'len 12/17/2016 22:27:41'!
+asAbelianGroup
+	^ self as: AbelianGroup! !
+
 !Module methodsFor: 'accessing' stamp: 'len 2/14/2016 18:05'!
 characteristic
 	^ self scalars characteristic! !
 
+!Module methodsFor: 'testing' stamp: 'len 12/16/2016 13:55:05'!
+isInitial
+	^ self isTrivial! !
+
 !Module methodsFor: 'testing' stamp: 'len 2/28/2016 07:54'!
 isModule
 	^ true! !
+
+!Module methodsFor: 'testing' stamp: 'len 12/16/2016 13:55:08'!
+isTerminal
+	^ self isTrivial! !
+
+!Module methodsFor: 'testing' stamp: 'len 12/16/2016 13:57:45'!
+isTrivial
+	"Answer true if the receiver is the trivial submodule {0}."
+	^ self generators allSatisfy: [:each| each isZero]! !
+
+!Module methodsFor: 'accessing' stamp: 'len 12/16/2016 13:54:33'!
+null
+	"Answer the trivial subgroup, i.e. the zero object in the category of R-modules."
+	^ self span: #()! !
 
 !Module methodsFor: 'printing' stamp: 'len 4/21/2016 00:00'!
 printOn: aStream
@@ -21116,9 +21349,9 @@ printOn: aStream
 scalarAction
 	^ (self, self scalars) to: self evaluatingWithArguments: [:x :y| x * y]! !
 
-!Module methodsFor: 'accessing' stamp: 'len 2/14/2016 18:01'!
+!Module methodsFor: 'accessing' stamp: 'len 12/16/2016 13:23:06'!
 scalars
-	^ properties at: #scalars! !
+	^ properties at: #scalars ifAbsentPut: [self generators anyOne scalars]! !
 
 !Module methodsFor: 'accessing-private' stamp: 'len 4/23/2016 06:00'!
 scalars: aRing
@@ -21134,6 +21367,15 @@ to: aCodomain
 to: aModule evaluating: aBlock
 	aModule isModule ifFalse: [^ super to: aModule evaluating: aBlock].
 	^ ModuleHomomorphism from: self to: aModule evaluating: aBlock! !
+
+!Module methodsFor: 'accessing' stamp: 'len 12/16/2016 13:16:00'!
+torsion
+	"Answer the torsion submodule of the receiver, i.e. the set of elements e such that exists nonzero integer m with e*m = 0."
+	^ properties at: #torsion! !
+
+!Module methodsFor: 'accessing' stamp: 'len 12/16/2016 13:22:48'!
+zero
+	^ properties at: #zero ifAbsentPut: [self generators anyOne * self scalars zero]! !
 
 !Ideal methodsFor: 'operations' stamp: 'len 10/30/2016 15:14'!
 * anElementOrIdeal
@@ -21771,6 +22013,10 @@ apply: aLinearMap
 	"Answer the receiver transformed by aLinearMap."
 	^ (self basis apply: aLinearMap) span! !
 
+!FreeModule methodsFor: 'converting' stamp: 'len 12/17/2016 22:30:21'!
+asAbelianGroup
+	^ (self as: FreeAbelianGroup) generators: self generators! !
+
 !FreeModule methodsFor: 'converting' stamp: 'len 10/27/2016 19:46'!
 asAffineSpace
 	self isVectorSpace ifFalse: [DomainError signal: 'not a vector space'].
@@ -22014,9 +22260,9 @@ to: aModule evaluating: aBlock
 	aModule isFreeModule ifFalse: [^ super to: aModule evaluating: aBlock].
 	^ LinearMap from: self to: aModule evaluating: aBlock! !
 
-!FreeModule methodsFor: 'testing' stamp: 'len 7/15/2016 00:21'!
+!FreeModule methodsFor: 'testing' stamp: 'len 12/16/2016 13:14:24'!
 torsion
-	"Free modules are torsionless."
+	"Free modules are torsion-free."
 	^ self null! !
 
 !FreeModule methodsFor: 'basis' stamp: 'len 7/15/2016 00:04'!
@@ -22125,6 +22371,10 @@ scalars
 !DirectSumModule methodsFor: 'accessing' stamp: 'len 2/16/2016 07:32'!
 size
 	^ components product: [:each| each size]! !
+
+!DirectSumModule methodsFor: 'accessing' stamp: 'len 12/17/2016 09:11:16'!
+torsion
+	^ DirectSumGroup components: (components collect: [:each| each torsion])! !
 
 !DirectSumModule class methodsFor: 'accessing-private' stamp: 'len 11/10/2015 22:58'!
 components: anArray
@@ -30325,18 +30575,6 @@ value: anObject
 valueWithArguments: anArray
 	^ self value: anArray! !
 
-!PAdicNumber methodsFor: 'accessing' stamp: 'len 12/8/2015 03:24'!
-norm
-	^ self isZero ifTrue: [0] ifFalse: [self p ** self valuation negated]! !
-
-!PAdicNumber methodsFor: 'accessing' stamp: 'len 12/7/2015 03:44'!
-p
-	^ self numerator p! !
-
-!PAdicNumber methodsFor: 'accessing' stamp: 'len 12/7/2015 03:43'!
-valuation
-	^ self numerator valuation - self denominator valuation! !
-
 !ResidueClass methodsFor: 'operations' stamp: 'len 10/16/2016 15:57'!
 * anObject
 	anObject isInteger ifTrue: [^ parent project: representative * anObject].
@@ -38485,102 +38723,6 @@ hexagonal
 !RootSystem class methodsFor: 'instance creation' stamp: 'len 5/23/2016 05:00'!
 on: aVectorSpace roots: aCollection
 	^ self new ambient: aVectorSpace; roots: aCollection! !
-
-!PAdicInteger methodsFor: 'arithmetic' stamp: 'len 11/12/2016 08:18'!
-* anObject
-	anObject isInteger
-		ifTrue: [^ self class digits: digits * anObject].
-	^ self class digits: (digits hadamard: anObject digits)! !
-
-!PAdicInteger methodsFor: 'arithmetic' stamp: 'len 7/17/2016 23:18'!
-+ aPAdicInteger
-	^ self class digits: digits + aPAdicInteger digits! !
-
-!PAdicInteger methodsFor: 'arithmetic' stamp: 'len 7/17/2016 23:24'!
-- aPAdicInteger
-	^ self class digits: self digits - aPAdicInteger digits! !
-
-!PAdicInteger methodsFor: 'comparing' stamp: 'len 12/7/2015 03:01'!
-= aPAdicInteger
-	^ aPAdicInteger class == self class and: [digits = aPAdicInteger digits]! !
-
-!PAdicInteger methodsFor: 'accessing' stamp: 'len 7/17/2016 23:31'!
-at: anInteger
-	"Answer the digit corresponding to p^(anInteger-1)."
-	anInteger > digits size ifTrue: [^ digits last].
-	^ digits at: anInteger! !
-
-!PAdicInteger methodsFor: 'accessing-private' stamp: 'len 12/7/2015 02:54'!
-digits
-	^ digits! !
-
-!PAdicInteger methodsFor: 'initialization' stamp: 'len 11/12/2016 08:50'!
-digits: anArray
-	| n |
-	digits _ ZZ tuple: anArray.
-	n _ (digits size to: 2 by: -1) detect: [:i| (digits at: i) representative ~= (digits at: i-1) representative] ifNone: [^ self].
-	n < digits size ifTrue: [digits _ digits copyFrom: 1 to: n]! !
-
-!PAdicInteger methodsFor: 'comparing' stamp: 'len 12/7/2015 03:01'!
-hash
-	^ digits hash! !
-
-!PAdicInteger methodsFor: 'testing' stamp: 'len 12/7/2015 03:45'!
-isUniformizing
-	"Answer true if the receiver is a uniformizing element."
-	^ self valuation = 1! !
-
-!PAdicInteger methodsFor: 'testing' stamp: 'len 7/17/2016 23:30'!
-isZero
-	^ digits isZero! !
-
-!PAdicInteger methodsFor: 'arithmetic' stamp: 'len 12/7/2015 03:02'!
-negated
-	^ self class digits: digits negated! !
-
-!PAdicInteger methodsFor: 'accessing' stamp: 'len 12/8/2015 03:24'!
-norm
-	^ self isZero ifTrue: [0] ifFalse: [self p ** self valuation negated]! !
-
-!PAdicInteger methodsFor: 'constants' stamp: 'len 12/7/2015 03:13'!
-one
-	^ self class fromNatural: 1 p: self p! !
-
-!PAdicInteger methodsFor: 'accessing' stamp: 'len 7/17/2016 23:10'!
-p
-	^ digits first modulus! !
-
-!PAdicInteger methodsFor: 'printing' stamp: 'len 12/7/2015 03:00'!
-printOn: aStream
-	aStream nextPut: $(.
-	digits do: [:each| aStream print: each representative] separatedBy: [aStream nextPutAll: ','].
-	aStream nextPutAll: '..)'! !
-
-!PAdicInteger methodsFor: 'accessing' stamp: 'len 12/7/2015 02:55'!
-size
-	^ digits size! !
-
-!PAdicInteger methodsFor: 'accessing' stamp: 'len 11/12/2016 08:58'!
-valuation
-	self isZero ifTrue: [^ Infinity positive].
-	^ digits firstNonZero - 1! !
-
-!PAdicInteger methodsFor: 'constants' stamp: 'len 12/7/2015 03:13'!
-zero
-	^ self class fromNatural: 0 p: self p! !
-
-!PAdicInteger class methodsFor: 'instance creation' stamp: 'len 7/17/2016 23:29'!
-digits: anArray
-	^ self new digits: anArray! !
-
-!PAdicInteger class methodsFor: 'instance creation' stamp: 'len 7/17/2016 23:27'!
-fromNatural: anInteger p: aPrime
-	| I digits |
-	I _ ZZ.
-	digits _ OrderedCollection new.
-	[I _ I * aPrime.
-	digits add: (ZZ/I project: anInteger).
-	I generator > anInteger ifTrue: [^ self digits: digits]] repeat! !
 
 !ElementaryTensorOld methodsFor: 'arithmetic' stamp: 'len 11/9/2015 03:09'!
 * anObject
