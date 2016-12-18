@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 17 December 2016 at 10:55:13 pm'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 18 December 2016 at 8:47:50 pm'!
 'Description Please enter a description for this package'!
-!provides: 'MathematicsTests' 1 53!
+!provides: 'MathematicsTests' 1 54!
 !classDefinition: #AbelianGroupTest category: #MathematicsTests!
 TestCase subclass: #AbelianGroupTest
 	instanceVariableNames: ''
@@ -3017,12 +3017,12 @@ testMinors
 	A _ ZZ ** (2@3) elementAt: (1 to: 6).
 	self assert: (A minors: 2) asArray = #(-3 -6 -3)! !
 
-!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 11/5/2016 06:35'!
+!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 12/18/2016 20:02:55'!
 testQRDecomposition
 	| n A QR Q R |
 	n _ 3.
 	[A _ QQ ** (n@n) :: atRandomBits: n*n. A isFullRank] whileFalse.
-	A _ A over: RealAlgebraicNumbers new.
+	A _ A over: RealAlgebraicNumbersField new.
 	QR _ A QR.
 	Q _ QR Q.
 	R _ QR R.
@@ -3918,12 +3918,12 @@ testQSqrt2
 	self assert: E x minimalPolynomial = E polynomial.
 	self assert: E x squared minimalPolynomial = (x - 2)! !
 
-!NumberFieldTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:07'!
+!NumberFieldTest methodsFor: 'as yet unclassified' stamp: 'len 12/18/2016 20:03:01'!
 testQSqrt2RealEmbeddings
 	| E embeddings roots |
 	E _ QQ adjoin: RealAlgebraicNumber sqrt2.
 	embeddings _ E realEmbeddings.
-	roots _ (E polynomial rootsIn: RealAlgebraicNumbers new) asSet.
+	roots _ (E polynomial rootsIn: RealAlgebraicNumbersField new) asSet.
 	self assert: (embeddings collect: [:f| f value: E x]) asSet = roots! !
 
 !NumberFieldTest methodsFor: 'as yet unclassified' stamp: 'len 12/14/2016 14:59:36'!
@@ -3977,10 +3977,10 @@ testTotallyReal
 	E _ NumberField polynomial: x**4 - 2.
 	self assert: E isReal not! !
 
-!PAdicsTest methodsFor: 'as yet unclassified' stamp: 'len 12/17/2016 21:56:58'!
+!PAdicsTest methodsFor: 'as yet unclassified' stamp: 'len 12/18/2016 20:19:54'!
 testPAdicNorm
 	| Z7 x |
-	Z7 _ PAdicRing p: 2.
+	Z7 _ PAdicIntegersRing p: 2.
 	x _ Z7 embed: 7.
 	self assert: x valuation = 0.
 	self assert: x norm = 1.
@@ -4586,10 +4586,10 @@ testRationalRootsBug
 	self assert: (roots occurrencesOf: -1) = 2.
 	self assert: (roots occurrencesOf: 2) = 1! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:10'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 12/18/2016 20:03:06'!
 testRealRoots
 	| R x f roots |
-	R _ RealAlgebraicNumbers new.
+	R _ RealAlgebraicNumbersField new.
 	x _ QQ polynomials x.
 	f _ (x-(1/2))**2*(x-2)*(x**2 + 1)*(x**2-2).
 	roots _ f rootsIn: R.
@@ -5607,10 +5607,10 @@ testPolynomialPseudoRemainder
 	b _ 3*(x**6) + (5*(x**4)) - (4*(x**2)) - (9*x) + 21.
 	20 timesRepeat: [a pseudoRem: b]! !
 
-!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:08'!
+!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 12/18/2016 20:03:53'!
 testPolynomialRealRoots
 	| R x f |
-	R _ RealAlgebraicNumbers new.
+	R _ RealAlgebraicNumbersField new.
 	x _ QQ polynomials x.
 	f _ (x-(1/2))**2*(x-2)*(x**2 + 1)*(x**2-2).
 	20 timesRepeat: [f rootsIn: R]! !

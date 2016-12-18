@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 17 December 2016 at 11:05:57 pm'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 18 December 2016 at 8:47:47 pm'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 307!
+!provides: 'Mathematics' 1 308!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
 	instanceVariableNames: 'numerator shift'
@@ -1191,16 +1191,6 @@ Ring subclass: #GroupRing
 GroupRing class
 	instanceVariableNames: ''!
 
-!classDefinition: #Integers category: #'Mathematics-Rings'!
-Ring subclass: #Integers
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Rings'!
-!classDefinition: 'Integers class' category: #'Mathematics-Rings'!
-Integers class
-	instanceVariableNames: ''!
-
 !classDefinition: #LocalizationRing category: #'Mathematics-Rings'!
 Ring subclass: #LocalizationRing
 	instanceVariableNames: ''
@@ -1221,14 +1211,14 @@ LocalizationRing subclass: #FractionRing
 FractionRing class
 	instanceVariableNames: ''!
 
-!classDefinition: #Rationals category: #'Mathematics-Fields'!
-FractionRing subclass: #Rationals
+!classDefinition: #RationalField category: #'Mathematics-Fields'!
+FractionRing subclass: #RationalField
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Fields'!
-!classDefinition: 'Rationals class' category: #'Mathematics-Fields'!
-Rationals class
+!classDefinition: 'RationalField class' category: #'Mathematics-Fields'!
+RationalField class
 	instanceVariableNames: ''!
 
 !classDefinition: #RationalFunctionField category: #'Mathematics-Polynomials'!
@@ -1261,18 +1251,18 @@ Ring subclass: #QuotientRing
 QuotientRing class
 	instanceVariableNames: ''!
 
-!classDefinition: #ModularIntegers category: #'Mathematics-Rings'!
-QuotientRing subclass: #ModularIntegers
+!classDefinition: #ModularIntegerRing category: #'Mathematics-Rings'!
+QuotientRing subclass: #ModularIntegerRing
 	instanceVariableNames: 'modulus'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Rings'!
-!classDefinition: 'ModularIntegers class' category: #'Mathematics-Rings'!
-ModularIntegers class
+!classDefinition: 'ModularIntegerRing class' category: #'Mathematics-Rings'!
+ModularIntegerRing class
 	instanceVariableNames: ''!
 
 !classDefinition: #PrimeField category: #'Mathematics-Fields-Finite'!
-ModularIntegers subclass: #PrimeField
+ModularIntegerRing subclass: #PrimeField
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
@@ -1351,54 +1341,74 @@ QuotientRing subclass: #PolynomialQuotientRing
 PolynomialQuotientRing class
 	instanceVariableNames: ''!
 
-!classDefinition: #AlgebraicNumbers category: #'Mathematics-Fields'!
-Ring subclass: #AlgebraicNumbers
+!classDefinition: #RationalIntegerRing category: #'Mathematics-Rings'!
+Ring subclass: #RationalIntegerRing
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Rings'!
+!classDefinition: 'RationalIntegerRing class' category: #'Mathematics-Rings'!
+RationalIntegerRing class
+	instanceVariableNames: ''!
+
+!classDefinition: #AlgebraicNumbersField category: #'Mathematics-Fields'!
+Ring subclass: #AlgebraicNumbersField
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Fields'!
-!classDefinition: 'AlgebraicNumbers class' category: #'Mathematics-Fields'!
-AlgebraicNumbers class
+!classDefinition: 'AlgebraicNumbersField class' category: #'Mathematics-Fields'!
+AlgebraicNumbersField class
 	instanceVariableNames: ''!
 
-!classDefinition: #ComplexNumbers category: #'Mathematics-Fields'!
-Ring subclass: #ComplexNumbers
+!classDefinition: #ComplexField category: #'Mathematics-Fields'!
+Ring subclass: #ComplexField
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Fields'!
-!classDefinition: 'ComplexNumbers class' category: #'Mathematics-Fields'!
-ComplexNumbers class
+!classDefinition: 'ComplexField class' category: #'Mathematics-Fields'!
+ComplexField class
 	instanceVariableNames: ''!
 
-!classDefinition: #NumberRing category: #'Mathematics-Fields'!
-Ring subclass: #NumberRing
+!classDefinition: #IntegerRing category: #'Mathematics-Fields'!
+Ring subclass: #IntegerRing
 	instanceVariableNames: 'field'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Fields'!
-!classDefinition: 'NumberRing class' category: #'Mathematics-Fields'!
-NumberRing class
+!classDefinition: 'IntegerRing class' category: #'Mathematics-Fields'!
+IntegerRing class
 	instanceVariableNames: ''!
 
-!classDefinition: #RealAlgebraicNumbers category: #'Mathematics-Fields'!
-Ring subclass: #RealAlgebraicNumbers
+!classDefinition: #QuadraticIntegerRing category: #'Mathematics-Fields'!
+IntegerRing subclass: #QuadraticIntegerRing
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Fields'!
-!classDefinition: 'RealAlgebraicNumbers class' category: #'Mathematics-Fields'!
-RealAlgebraicNumbers class
+!classDefinition: 'QuadraticIntegerRing class' category: #'Mathematics-Fields'!
+QuadraticIntegerRing class
 	instanceVariableNames: ''!
 
-!classDefinition: #Reals category: #'Mathematics-Fields'!
-Ring subclass: #Reals
+!classDefinition: #RealAlgebraicNumbersField category: #'Mathematics-Fields'!
+Ring subclass: #RealAlgebraicNumbersField
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Fields'!
-!classDefinition: 'Reals class' category: #'Mathematics-Fields'!
-Reals class
+!classDefinition: 'RealAlgebraicNumbersField class' category: #'Mathematics-Fields'!
+RealAlgebraicNumbersField class
+	instanceVariableNames: ''!
+
+!classDefinition: #RealField category: #'Mathematics-Fields'!
+Ring subclass: #RealField
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Fields'!
+!classDefinition: 'RealField class' category: #'Mathematics-Fields'!
+RealField class
 	instanceVariableNames: ''!
 
 !classDefinition: #PAdicField category: #'Mathematics-Fields-PAdics'!
@@ -1411,14 +1421,14 @@ Ring subclass: #PAdicField
 PAdicField class
 	instanceVariableNames: ''!
 
-!classDefinition: #PAdicRing category: #'Mathematics-Fields-PAdics'!
-Ring subclass: #PAdicRing
+!classDefinition: #PAdicIntegersRing category: #'Mathematics-Fields-PAdics'!
+Ring subclass: #PAdicIntegersRing
 	instanceVariableNames: 'p'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Fields-PAdics'!
-!classDefinition: 'PAdicRing class' category: #'Mathematics-Fields-PAdics'!
-PAdicRing class
+!classDefinition: 'PAdicIntegersRing class' category: #'Mathematics-Fields-PAdics'!
+PAdicIntegersRing class
 	instanceVariableNames: ''!
 
 !classDefinition: #PolynomialRing category: #'Mathematics-Polynomials'!
@@ -1439,16 +1449,6 @@ Ring subclass: #PowerSeriesRing
 	category: 'Mathematics-Sequences'!
 !classDefinition: 'PowerSeriesRing class' category: #'Mathematics-Sequences'!
 PowerSeriesRing class
-	instanceVariableNames: ''!
-
-!classDefinition: #GaussianIntegers category: #'Mathematics-Etc'!
-Ring subclass: #GaussianIntegers
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Etc'!
-!classDefinition: 'GaussianIntegers class' category: #'Mathematics-Etc'!
-GaussianIntegers class
 	instanceVariableNames: ''!
 
 !classDefinition: #SymmetricPolynomialRing category: #'Mathematics-Etc'!
@@ -4203,9 +4203,6 @@ Categorically, the group ring construction is left adjoint to the group of units
 References:
 	https://en.wikipedia.org/wiki/Group_ring!
 
-!Integers commentStamp: '<historical>' prior: 0!
-My singletion global instance ZZ is the ring of integer numbers.!
-
 !LocalizationRing commentStamp: '<historical>' prior: 0!
 My instances are localizations of a given commutative ring R away from a given prime ideal I. The elements are FormalFractions a / b with a in R and b in R \ I.!
 
@@ -4220,7 +4217,7 @@ The field of fractions is a particular case of the more general construction of 
 References:
 	https://en.wikipedia.org/wiki/Field_of_fractions!
 
-!Rationals commentStamp: '<historical>' prior: 0!
+!RationalField commentStamp: '<historical>' prior: 0!
 My singletion global instance QQ is the field of rational numbers.!
 
 !RationalFunctionField commentStamp: '<historical>' prior: 0!
@@ -4244,7 +4241,7 @@ Given a commutative ring R and an ideal I of R, the quotient ring R/I (read 'R m
 References:
 	https://en.wikipedia.org/wiki/Quotient_ring!
 
-!ModularIntegers commentStamp: '<historical>' prior: 0!
+!ModularIntegerRing commentStamp: '<historical>' prior: 0!
 My instances are residue class rings of Z, i.e. rings Z/mZ of residue classes of integers modulo m. Elements are instances of ModularInteger.!
 
 !PrimeField commentStamp: '<historical>' prior: 0!
@@ -4273,31 +4270,37 @@ Example:
 !CyclotomicField commentStamp: '<historical>' prior: 0!
 My instances are cyclotomic fields, i.e. number fields obtained by adjoining a complex primitive root of unity to Q. The n-th cyclotomic field is obtained by adjoining a primitive n-th root of unity to the rational numbers.!
 
+!QuadraticField commentStamp: '<historical>' prior: 0!
+My instances are quadratic number fields, i.e. number fields with defining quadratic polynomial of the form x^2 - d, with d a squarefree integer.!
+
 !GaloisField commentStamp: '<historical>' prior: 0!
 My instances are finite nonprime fields, i.e. fields GF(p^r) with r >= 2. These are finite algebraic extensions of prime fields. See also PrimeField.!
 
 !PolynomialQuotientRing commentStamp: '<historical>' prior: 0!
 My instances are quotients of polynomial rings.!
 
-!AlgebraicNumbers commentStamp: '<historical>' prior: 0!
+!RationalIntegerRing commentStamp: '<historical>' prior: 0!
+My singletion global instance ZZ is the ring of rational integers.!
+
+!AlgebraicNumbersField commentStamp: '<historical>' prior: 0!
 I'm the field of (complex) algebraic numbers, i.e. the algebraic closure of Q.!
 
-!ComplexNumbers commentStamp: '<historical>' prior: 0!
-I'm the field of complex numbers.!
+!ComplexField commentStamp: '<historical>' prior: 0!
+My singletion global instance CC is the field of complex numbers.!
 
-!NumberRing commentStamp: '<historical>' prior: 0!
-My instances are rings of integers of number fields.!
+!IntegerRing commentStamp: '<historical>' prior: 0!
+My instances are rings of integers of number fields (i.e. maximal orders). For the ring Z of rational integers see RationalIntegerRing.!
 
-!RealAlgebraicNumbers commentStamp: '<historical>' prior: 0!
-I'm the field of real algebraic numbers, i.e. real zeros of polynomials with integer or rational coefficients.!
+!RealAlgebraicNumbersField commentStamp: '<historical>' prior: 0!
+I'm the field of real algebraic numbers, i.e. real zeros of polynomials with rational coefficients.!
 
-!Reals commentStamp: '<historical>' prior: 0!
-I'm the field of real numbers.!
+!RealField commentStamp: '<historical>' prior: 0!
+My singletion global instance RR is the field of real numbers.!
 
 !PAdicField commentStamp: '<historical>' prior: 0!
 My instances are fields of p-adic numbers Qp. See PAdicNumber.!
 
-!PAdicRing commentStamp: '<historical>' prior: 0!
+!PAdicIntegersRing commentStamp: '<historical>' prior: 0!
 My instances are rings of p-adic integers Zp. See PAdicInteger.!
 
 !PolynomialRing commentStamp: 'len 11/18/2016 20:56:45' prior: 0!
@@ -5475,10 +5478,16 @@ isFundamentalDiscriminant
 isRational
 	^ true! !
 
-!Integer methodsFor: '*mathematics' stamp: 'len 12/11/2016 19:56:40'!
+!Integer methodsFor: '*mathematics' stamp: 'len 12/18/2016 13:06:48'!
 isSquareFree
+	"Answer true if the factorization of the receiver is squarefree."
 	self factorizationDo: [:p :e| e > 1 ifTrue: [^ false]].
-	^ true! !
+	^ true
+
+"
+The limit of the density of squarefree positive integers < n is 6 / pi^2 ~ 0.6079271:
+(1000 count: [100000 atRandom isSquareFree]) / 1000.0
+"! !
 
 !Integer methodsFor: '*mathematics' stamp: 'len 12/4/2016 15:14:11'!
 isZero
@@ -5603,7 +5612,7 @@ primeSignature
 	factors _ self factors.
 	^ (factors asSet asSortedCollection collect: [:each| factors occurrencesOf: each]) asArray! !
 
-!Integer methodsFor: '*mathematics' stamp: 'len 3/23/2016 20:58'!
+!Integer methodsFor: '*mathematics' stamp: 'len 12/18/2016 13:08:55'!
 primitiveRoot
 	"When the receiver is a prime p, answer a primitive root modulo p."
 	| a order primeFactors |
@@ -5613,7 +5622,7 @@ primitiveRoot
 	[primeFactors anySatisfy: [:pi| (a raisedTo: order / pi modulo: self) = 1]]
 		whileTrue:
 			[a _ a + 1.
-			a >= self ifTrue: [self error: 'no primitive element, the modulo is not prime']].
+			a >= self ifTrue: [self error: 'no primitive element, the modulus is not prime']].
 	^ a! !
 
 !Integer methodsFor: '*mathematics' stamp: 'len 12/14/2016 14:48:30'!
@@ -12148,8 +12157,9 @@ morphExtent: aPoint
 palette: aComplexPalette
 	palette _ aComplexPalette! !
 
-!ComplexPlotMorph class methodsFor: 'as yet unclassified' stamp: 'len 12/15/2016 18:30:54'!
+!ComplexPlotMorph class methodsFor: 'as yet unclassified' stamp: 'len 12/18/2016 10:59:09'!
 exampleBlaschkeProduct
+	"This is a phase plot of the Blaschke product defined by 40 randomly choosen numbers in the unit disk."
 	| random A f |
 	random _ Random new.
 	A _ (1 to: 40) collect: [:each| Complex abs: random next arg: Float twoPi * random next].
@@ -13055,6 +13065,15 @@ morphExtent: aPoint
 !UnitDiskPlotMorph methodsFor: 'as yet unclassified' stamp: 'len 12/9/2016 10:27:55'!
 palette: aComplexPalette
 	palette _ aComplexPalette! !
+
+!UnitDiskPlotMorph class methodsFor: 'examples' stamp: 'len 12/18/2016 10:58:38'!
+exampleBlaschkeProduct
+	"This is a phase plot of the Blaschke product defined by 40 randomly choosen numbers in the unit disk, plotted through a conformal mapping of the complex plane into the unit disk."
+	| random A f |
+	random _ Random new.
+	A _ (1 to: 40) collect: [:each| Complex abs: random next arg: Float twoPi * random next].
+	f _ Function from: CC to: CC evaluating: [:z| A product: [:a| a abs / a * (a - z) / (1 - (a conjugated * z))]].
+	^ UnitDiskPlotMorph new mapPlaneToUnitDisk; palette: ComplexPalette phase; function: f! !
 
 !GraphEdgeMorph methodsFor: 'private' stamp: 'len 2/19/2016 19:04'!
 adjustBounds
@@ -15625,11 +15644,13 @@ perfectCore
 presentation
 	^ properties at: #presentation! !
 
-!Group methodsFor: 'printing' stamp: 'len 11/14/2016 08:57'!
+!Group methodsFor: 'printing' stamp: 'len 12/18/2016 12:54:32'!
 printOn: aStream
 	| generators |
 	((properties includesKey: #name) or: [(generators _ self generators) isNil])
 		ifTrue: [^ super printOn: aStream].
+	"use the original printOn for wrapped objects:"
+	properties at: #elements ifPresent: [:elements| (elements isKindOf: Domain) ifTrue: [aStream print: elements. ^ self]].
 	generators isEmpty
 		ifTrue: [aStream nextPut: ${; print: self identity; nextPut: $}. ^ self].
 	aStream nextPut: $<.
@@ -16979,6 +17000,11 @@ isTerminal
 	"In the category of abelian groups the trivial group is the zero object (both initial and terminal)."
 	^ self isTrivial! !
 
+!AbelianGroup methodsFor: 'testing' stamp: 'len 12/18/2016 11:15:30'!
+isTorsion
+	"Answer true if the receiver is a torsion (or periodic) group, i.e. if all its elements have finite order."
+	^ self torsion = self! !
+
 !AbelianGroup methodsFor: 'testing' stamp: 'len 12/14/2016 21:27:40'!
 isTorsionFree
 	^ self torsion isTrivial! !
@@ -16997,9 +17023,9 @@ species
 	"Any subgroup of an abelian group is also abelian."
 	^ AbelianGroup! !
 
-!AbelianGroup methodsFor: 'accessing' stamp: 'len 12/16/2016 12:34:10'!
+!AbelianGroup methodsFor: 'accessing' stamp: 'len 12/18/2016 11:13:34'!
 torsion
-	"Answer the torsion subgroup of the receiver, i.e. the set of elements e such that exists nonzero integer m with e*m = 0."
+	"Answer the torsion subgroup of the receiver consisting of all elements that have finite order (the torsion elements)."
 	^ properties at: #torsion! !
 
 !DirectSumGroup methodsFor: 'accessing' stamp: 'len 10/9/2016 10:41'!
@@ -17384,6 +17410,11 @@ scalars
 !EllipticCurveGroup methodsFor: 'accessing-private' stamp: 'len 11/10/2016 08:11'!
 scalars: aField
 	scalars _ aField! !
+
+!EllipticCurveGroup methodsFor: 'accessing' stamp: 'len 12/18/2016 11:22:27'!
+torsion
+	"Answer the torsion subgroup of the receiver."
+	^ self notYetImplemented! !
 
 !EllipticCurveGroup class methodsFor: 'instance creation' stamp: 'len 11/10/2016 08:11'!
 on: anEllipticCurve over: aField
@@ -18429,10 +18460,6 @@ relation: anEquivalenceRelation
 by: anEquivalenceRelation
 	^ self new relation: anEquivalenceRelation! !
 
-!Ring methodsFor: 'operations' stamp: 'len 6/29/2016 03:48'!
-% anObject
-	^ self mod: anObject! !
-
 !Ring methodsFor: 'operations' stamp: 'len 10/30/2016 15:46'!
 * anElementOrArray
 	^ ((anElementOrArray isCollection) and: [(self includes: anElementOrArray) not])
@@ -18576,9 +18603,9 @@ isCommutative
 isCompositive
 	^ self multiplication name = '@'! !
 
-!Ring methodsFor: 'testing' stamp: 'len 11/28/2015 23:44'!
+!Ring methodsFor: 'testing' stamp: 'len 12/18/2016 15:01:17'!
 isDedekindDomain
-	"A Ddedekind domain is an integral domain in which every non-zero proper ideal factors into a product of prime ideals."
+	"A Dedekind domain is an integral domain in which every non-zero proper ideal factors into a product of prime ideals."
 	^ properties at: #isDedekindDomain! !
 
 !Ring methodsFor: 'testing' stamp: 'len 5/12/2016 23:33'!
@@ -18991,137 +19018,6 @@ scalars: aRing
 on: aGroup over: aRing
 	^ self new group: aGroup; scalars: aRing! !
 
-!Integers methodsFor: 'operations' stamp: 'len 11/30/2016 19:32:08'!
-/ anInteger
-	anInteger isInteger ifFalse: [^ super / anInteger].
-	^ anInteger isPrime
-		ifTrue: [PrimeField new: anInteger]
-		ifFalse: [ModularIntegers new: anInteger]! !
-
-!Integers methodsFor: 'comparing' stamp: 'len 6/1/2016 23:56'!
-<= aDomain
-	^ aDomain isRing and: [(aDomain includes: 1) and: [aDomain includes: 0]]! !
-
-!Integers methodsFor: 'comparing' stamp: 'len 11/10/2015 23:14'!
-= anObject
-	^ anObject class == self class! !
-
-!Integers methodsFor: 'random' stamp: 'len 10/20/2016 11:06'!
-atRandom: aRandom bits: bitSize
-	| n |
-	bitSize isInfinite ifTrue: [^ self error: 'infinite bitsize'].
-	bitSize < 0 ifTrue: [^ self error: 'negative bitsize'].
-"	bitSize = 0 ifTrue: [^ 0]."
-	self flag: #fix. "maybe this should be more like a flat gaussian distribution around 0?"
-	bitSize < 1 ifTrue: [^ 0].
-	n _ 2**(bitSize truncated - 1).
-	^ (0-n to: n) atRandom: aRandom! !
-
-!Integers methodsFor: 'accessing' stamp: 'len 11/5/2015 17:34'!
-characteristic
-	^ 0! !
-
-!Integers methodsFor: 'accessing' stamp: 'len 10/20/2016 03:32'!
-dimension
-	"Answer the Krull dimension of the receiver."
-	^ 1! !
-
-!Integers methodsFor: 'enumerating' stamp: 'len 11/10/2015 17:57'!
-do: aBlock
-	| i |
-	aBlock value: 0.
-	i _ 1.
-	[ aBlock value: i; value: i negated. i _ i + 1 ] repeat! !
-
-!Integers methodsFor: 'private' stamp: 'len 11/1/2016 00:34'!
-fractionClass
-	^ Fraction! !
-
-!Integers methodsFor: 'operations' stamp: 'len 7/15/2016 18:31'!
-fractions
-	^ QQ! !
-
-!Integers methodsFor: 'operations' stamp: 'len 6/30/2016 02:37'!
-freeModuleIn: aCollection
-	"Answer the free abelian group in the given indeterminates (a Z-module)."
-	^ FreeAbelianGroup on: aCollection! !
-
-!Integers methodsFor: 'comparing' stamp: 'len 12/14/2015 01:59'!
-hash
-	^ self class hash! !
-
-!Integers methodsFor: 'private' stamp: 'len 10/30/2016 15:47'!
-idealClass
-	^ IntegerIdeal! !
-
-!Integers methodsFor: 'testing' stamp: 'len 11/23/2015 02:37'!
-includes: anObject
-	^ anObject isInteger! !
-
-!Integers methodsFor: 'testing' stamp: 'len 11/7/2015 21:58'!
-isCountable
-	^ true! !
-
-!Integers methodsFor: 'testing' stamp: 'len 11/4/2015 21:52'!
-isEuclidean
-	^ true! !
-
-!Integers methodsFor: 'testing' stamp: 'len 11/7/2015 21:58'!
-isFinite
-	^ false! !
-
-!Integers methodsFor: 'testing' stamp: 'len 11/2/2016 03:33'!
-isInitial
-	^ true! !
-
-!Integers methodsFor: 'testing' stamp: 'len 10/20/2016 03:38'!
-isNoetherian
-	^ true! !
-
-!Integers methodsFor: 'testing' stamp: 'len 2/11/2016 22:19'!
-isReal
-	^ true! !
-
-!Integers methodsFor: 'testing' stamp: 'len 5/12/2016 23:13'!
-isUnit: anInteger
-	^ anInteger = 1 or: [anInteger = -1]! !
-
-!Integers methodsFor: 'operations' stamp: 'len 8/10/2016 06:08'!
-modPrime: anInteger
-	^ PrimeField new: anInteger! !
-
-!Integers methodsFor: 'elements' stamp: 'len 11/5/2015 19:19'!
-one
-	^ 1! !
-
-!Integers methodsFor: 'printing' stamp: 'len 12/8/2016 12:38:27'!
-printOn: aStream
-	aStream nextPut: Character ZZ! !
-
-!Integers methodsFor: 'accessing' stamp: 'len 4/24/2016 02:58'!
-size
-	^ Aleph new! !
-
-!Integers methodsFor: 'morphisms' stamp: 'len 11/1/2016 19:20'!
-to: aCodomain
-	"Answer the canonical morphism from the receiver to aCodomain."
-	aCodomain isRing
-		ifTrue: [^ self to: aCodomain evaluating: [:x| aCodomain one * x]].
-	^ super to: aCodomain! !
-
-!Integers methodsFor: 'accessing' stamp: 'len 7/17/2016 23:53'!
-valuation
-	^ Function from: self to: self evaluating: [:x| x abs]! !
-
-!Integers methodsFor: 'elements' stamp: 'len 11/3/2015 20:50'!
-zero
-	^ 0! !
-
-!Integers class methodsFor: 'initialization' stamp: 'len 8/5/2016 21:32'!
-initialize
-	super initialize.
-	Smalltalk at: #ZZ put: self new! !
-
 !LocalizationRing methodsFor: 'comparing' stamp: 'len 10/29/2016 10:16'!
 < aRing
 	"Answer true if the receiver is strictly included in the argument."
@@ -19282,111 +19178,115 @@ away: anIdeal
 over: anIntegralDomain
 	^ super away: anIntegralDomain zeroIdeal! !
 
-!Rationals methodsFor: 'comparing' stamp: 'len 6/1/2016 23:56'!
+!RationalField methodsFor: 'comparing' stamp: 'len 6/1/2016 23:56'!
 <= aDomain
 	^ aDomain isField and: [(aDomain includes: 1) and: [aDomain includes: 0]]! !
 
-!Rationals methodsFor: 'comparing' stamp: 'len 11/10/2015 23:14'!
+!RationalField methodsFor: 'comparing' stamp: 'len 11/10/2015 23:14'!
 = anObject
 	^ anObject class == self class! !
 
-!Rationals methodsFor: 'operations' stamp: 'len 5/18/2016 22:22'!
+!RationalField methodsFor: 'operations' stamp: 'len 12/18/2016 11:26:56'!
+adic: aPrime
+	^ PAdicField p: aPrime! !
+
+!RationalField methodsFor: 'operations' stamp: 'len 5/18/2016 22:22'!
 adjoin: anAlgebraicNumber
 	^ NumberField adjoint: anAlgebraicNumber! !
 
-!Rationals methodsFor: 'operations' stamp: 'len 4/17/2016 06:45'!
+!RationalField methodsFor: 'operations' stamp: 'len 12/18/2016 20:05:11'!
 algebraicClosure
-	^ AlgebraicNumbers new! !
+	^ AlgebraicNumbersField new! !
 
-!Rationals methodsFor: 'morphisms' stamp: 'len 12/14/2016 11:14:16'!
+!RationalField methodsFor: 'morphisms' stamp: 'len 12/14/2016 11:14:16'!
 automorphisms
 	^ TransformationGroup new elements: {self id}! !
 
-!Rationals methodsFor: 'enumerating' stamp: 'len 12/21/2015 22:42'!
+!RationalField methodsFor: 'enumerating' stamp: 'len 12/21/2015 22:42'!
 do: aBlock
 	"Iterate over the rational numbers by breadth-first traversal of the Calkin-Wilf tree. This is an extension of the Calkin-Wilf sequence to include 0 and the negative numbers."
 	aBlock value: 0.
 	self positiveDo: [:each| aBlock value: each; value: each negated]! !
 
-!Rationals methodsFor: 'morphisms' stamp: 'len 1/2/2016 04:15'!
+!RationalField methodsFor: 'morphisms' stamp: 'len 1/2/2016 04:15'!
 embed: anInteger
 	^ anInteger "because in Smalltalk Fractions of denominator 1 are always reduced to their Integer numerator"! !
 
-!Rationals methodsFor: 'morphisms' stamp: 'len 10/14/2016 21:58'!
+!RationalField methodsFor: 'morphisms' stamp: 'len 10/14/2016 21:58'!
 embedding
 	^ properties at: #embedding ifAbsentPut: [(self integers to: self evaluating: [:x| x]) name: 'i'] "because in Smalltalk Fractions of denominator 1 are always reduced to their Integer numerator"! !
 
-!Rationals methodsFor: 'comparing' stamp: 'len 6/28/2016 09:27'!
+!RationalField methodsFor: 'comparing' stamp: 'len 6/28/2016 09:27'!
 hash
 	^ self class hash! !
 
-!Rationals methodsFor: 'accessing' stamp: 'len 10/28/2016 17:08'!
+!RationalField methodsFor: 'accessing' stamp: 'len 10/28/2016 17:08'!
 ideal
 	^ ZZ zeroIdeal! !
 
-!Rationals methodsFor: 'testing' stamp: 'len 1/11/2016 05:56'!
+!RationalField methodsFor: 'testing' stamp: 'len 1/11/2016 05:56'!
 includes: anObject
 	^ anObject isNumber and: [anObject isRational or: [anObject isFloat]]! !
 
-!Rationals methodsFor: 'accessing' stamp: 'len 10/14/2016 22:01'!
+!RationalField methodsFor: 'accessing' stamp: 'len 10/14/2016 22:01'!
 integers
 	^ ZZ! !
 
-!Rationals methodsFor: 'testing' stamp: 'len 11/7/2015 22:05'!
+!RationalField methodsFor: 'testing' stamp: 'len 11/7/2015 22:05'!
 isCountable
 	^ true! !
 
-!Rationals methodsFor: 'testing' stamp: 'len 11/7/2015 22:05'!
+!RationalField methodsFor: 'testing' stamp: 'len 11/7/2015 22:05'!
 isFinite
 	^ false! !
 
-!Rationals methodsFor: 'testing' stamp: 'len 2/8/2016 20:26'!
+!RationalField methodsFor: 'testing' stamp: 'len 2/8/2016 20:26'!
 isPrime
 	"Q is a prime field (it has no proper subfields)."
 	^ true! !
 
-!Rationals methodsFor: 'testing' stamp: 'len 2/11/2016 22:19'!
+!RationalField methodsFor: 'testing' stamp: 'len 2/11/2016 22:19'!
 isReal
 	^ true! !
 
-!Rationals methodsFor: 'elements' stamp: 'len 11/2/2015 15:53'!
+!RationalField methodsFor: 'elements' stamp: 'len 11/2/2015 15:53'!
 one
 	^ 1! !
 
-!Rationals methodsFor: 'enumerating' stamp: 'len 12/21/2015 22:42'!
+!RationalField methodsFor: 'enumerating' stamp: 'len 12/21/2015 22:42'!
 positiveDo: aBlock
 	"Iterate over the rational numbers by breadth-first traversal of the Calkin-Wilf tree."
 	| q |
 	q _ 1.
 	[aBlock value: q. q _ 1 / (2 * q floor - q + 1)] repeat! !
 
-!Rationals methodsFor: 'printing' stamp: 'len 6/8/2016 21:05'!
+!RationalField methodsFor: 'printing' stamp: 'len 6/8/2016 21:05'!
 printOn: aStream
 	aStream nextPut: Character QQ! !
 
-!Rationals methodsFor: 'operations' stamp: 'len 4/17/2016 06:44'!
+!RationalField methodsFor: 'operations' stamp: 'len 12/18/2016 20:03:20'!
 realClosure
-	^ RealAlgebraicNumbers new! !
+	^ RealAlgebraicNumbersField new! !
 
-!Rationals methodsFor: 'accessing' stamp: 'len 4/24/2016 03:00'!
+!RationalField methodsFor: 'accessing' stamp: 'len 4/24/2016 03:00'!
 size
 	^ Aleph new! !
 
-!Rationals methodsFor: 'accessing' stamp: 'len 7/17/2016 23:53'!
+!RationalField methodsFor: 'accessing' stamp: 'len 7/17/2016 23:53'!
 valuation
 	"Answer the absolute value valuation."
 	^ Function from: self to: self evaluating: [:x| x abs]! !
 
-!Rationals methodsFor: 'accessing' stamp: 'len 7/15/2016 18:21'!
+!RationalField methodsFor: 'accessing' stamp: 'len 7/15/2016 18:21'!
 valuation: p
 	"Answer the p-adic valuation."
 	^ Function from: self to: NN evaluating: [:x| p / ((x numerator factors occurrencesOf: p) - (x denominator factors occurrencesOf: p))]! !
 
-!Rationals methodsFor: 'elements' stamp: 'len 11/2/2015 15:53'!
+!RationalField methodsFor: 'elements' stamp: 'len 11/2/2015 15:53'!
 zero
 	^ 0! !
 
-!Rationals class methodsFor: 'initialization' stamp: 'len 8/5/2016 21:33'!
+!RationalField class methodsFor: 'initialization' stamp: 'len 8/5/2016 21:33'!
 initialize
 	super initialize.
 	Smalltalk at: #QQ put: self new! !
@@ -19701,88 +19601,88 @@ exampleZ6Projection
 	to the quotient ring of residue classes of modulo 6."
 	^ (ZZ/6) projection! !
 
-!ModularIntegers methodsFor: 'random' stamp: 'len 4/25/2016 00:26'!
+!ModularIntegerRing methodsFor: 'random' stamp: 'len 4/25/2016 00:26'!
 atRandom: aRandom
 	^ self project: (self modulus atRandom: aRandom) - 1! !
 
-!ModularIntegers methodsFor: 'random' stamp: 'len 4/19/2016 22:14'!
+!ModularIntegerRing methodsFor: 'random' stamp: 'len 4/19/2016 22:14'!
 atRandom: aRandom bits: bitSize
 	^ self atRandom: aRandom! !
 
-!ModularIntegers methodsFor: 'accessing' stamp: 'len 11/29/2016 21:40:34'!
+!ModularIntegerRing methodsFor: 'accessing' stamp: 'len 11/29/2016 21:40:34'!
 base
 	^ ZZ! !
 
-!ModularIntegers methodsFor: 'accessing' stamp: 'len 4/25/2016 00:26'!
+!ModularIntegerRing methodsFor: 'accessing' stamp: 'len 4/25/2016 00:26'!
 characteristic
 	^ self modulus! !
 
-!ModularIntegers methodsFor: 'accessing' stamp: 'len 11/29/2016 21:40:59'!
+!ModularIntegerRing methodsFor: 'accessing' stamp: 'len 11/29/2016 21:40:59'!
 ideal
 	^ properties at: #ideal ifAbsentPut: [ZZ * modulus]! !
 
-!ModularIntegers methodsFor: 'accessing-private' stamp: 'len 11/29/2016 21:47:35'!
+!ModularIntegerRing methodsFor: 'accessing-private' stamp: 'len 11/29/2016 21:47:35'!
 ideal: anIdeal
 	super ideal: anIdeal.
 	self modulus: anIdeal generator! !
 
-!ModularIntegers methodsFor: 'testing' stamp: 'len 11/16/2016 18:15'!
+!ModularIntegerRing methodsFor: 'testing' stamp: 'len 11/16/2016 18:15'!
 includes: anObject
 	^ anObject class = ModularInteger and: [anObject modulus = self modulus]! !
 
-!ModularIntegers methodsFor: 'testing' stamp: 'len 5/12/2016 23:20'!
+!ModularIntegerRing methodsFor: 'testing' stamp: 'len 5/12/2016 23:20'!
 isField
 	^ properties at: #isField ifAbsentPut: [self modulus isPrime]! !
 
-!ModularIntegers methodsFor: 'testing' stamp: 'len 5/12/2016 23:34'!
+!ModularIntegerRing methodsFor: 'testing' stamp: 'len 5/12/2016 23:34'!
 isUnit: anElement
 	^ (anElement representative gcd: self modulus) = 1! !
 
-!ModularIntegers methodsFor: 'accessing' stamp: 'len 11/29/2016 21:41:18'!
+!ModularIntegerRing methodsFor: 'accessing' stamp: 'len 11/29/2016 21:41:18'!
 modulus
 	^ modulus! !
 
-!ModularIntegers methodsFor: 'accessing-private' stamp: 'len 11/29/2016 21:47:19'!
+!ModularIntegerRing methodsFor: 'accessing-private' stamp: 'len 11/29/2016 21:47:19'!
 modulus: anInteger
 	modulus _ anInteger! !
 
-!ModularIntegers methodsFor: 'printing' stamp: 'len 12/8/2016 10:50:20'!
+!ModularIntegerRing methodsFor: 'printing' stamp: 'len 12/8/2016 10:50:20'!
 printOn: aStream
 	aStream print: self base; nextPut: $/; print: self modulus; print: self base! !
 
-!ModularIntegers methodsFor: 'morphisms' stamp: 'len 11/30/2016 18:48:51'!
+!ModularIntegerRing methodsFor: 'morphisms' stamp: 'len 11/30/2016 18:48:51'!
 project: anInteger
 	^ self representative: anInteger \\ modulus! !
 
-!ModularIntegers methodsFor: 'private' stamp: 'len 11/30/2016 18:48:20'!
+!ModularIntegerRing methodsFor: 'private' stamp: 'len 11/30/2016 18:48:20'!
 residueClassClass
 	^ ModularInteger! !
 
-!ModularIntegers methodsFor: 'accessing' stamp: 'len 4/25/2016 00:27'!
+!ModularIntegerRing methodsFor: 'accessing' stamp: 'len 4/25/2016 00:27'!
 size
 	^ self modulus! !
 
-!ModularIntegers methodsFor: 'tuples' stamp: 'len 12/1/2016 16:48:26'!
+!ModularIntegerRing methodsFor: 'tuples' stamp: 'len 12/1/2016 16:48:26'!
 tuple: anArray
 	^ self modulus = 2 ifTrue: [BitTuple coefficients: anArray] ifFalse: [ModularTuple coefficients: anArray over: self]! !
 
-!ModularIntegers methodsFor: 'tuples' stamp: 'len 12/1/2016 16:49:37'!
+!ModularIntegerRing methodsFor: 'tuples' stamp: 'len 12/1/2016 16:49:37'!
 tuple: anInteger evaluating: aBlock
 	| modulus |
 	modulus _ self modulus.
 	modulus = 2 ifTrue: [^ BitTuple new: anInteger evaluating: aBlock].
 	^ ModularTuple new: anInteger over: self evaluating: aBlock! !
 
-!ModularIntegers methodsFor: 'tuples' stamp: 'len 11/16/2016 10:46'!
+!ModularIntegerRing methodsFor: 'tuples' stamp: 'len 11/16/2016 10:46'!
 tupleClass
 	^ self modulus = 2 ifTrue: [^ BitTuple] ifFalse: [ModularTuple]! !
 
-!ModularIntegers methodsFor: 'operations' stamp: 'len 12/9/2016 12:18:58'!
+!ModularIntegerRing methodsFor: 'operations' stamp: 'len 12/9/2016 12:18:58'!
 units
 	"Answer the multiplicative group of units of the receiver (i.e., elements that have multiplicative inverse)."
 	^ ModularIntegersUnitGroup on: self! !
 
-!ModularIntegers class methodsFor: 'instance creation' stamp: 'len 11/29/2016 21:46:49'!
+!ModularIntegerRing class methodsFor: 'instance creation' stamp: 'len 11/29/2016 21:46:49'!
 new: anInteger
 	^ self new modulus: anInteger! !
 
@@ -19974,10 +19874,10 @@ discriminant
 	"The discriminant of an integral basis is independent of the choice of basis and it's called the discriminant of the field K and denoted d(K)."
 	^ properties at: #discriminant ifAbsentPut: [self integralBasis discriminant]! !
 
-!NumberField methodsFor: 'operations' stamp: 'len 12/15/2016 16:49:33'!
+!NumberField methodsFor: 'operations' stamp: 'len 12/18/2016 20:25:29'!
 integers
 	"Answer the ring of integers of the receiver."
-	^ NumberRing on: self! !
+	^ IntegerRing on: self! !
 
 !NumberField methodsFor: 'accessing' stamp: 'len 1/11/2016 03:48'!
 integralBasis
@@ -20009,9 +19909,9 @@ preferedEmbedding
 printOn: aStream
 	aStream print: self scalars; nextPut: $(; print: self adjoint; nextPut: $)! !
 
-!NumberField methodsFor: 'morphisms' stamp: 'len 4/17/2016 06:43'!
+!NumberField methodsFor: 'morphisms' stamp: 'len 12/18/2016 20:03:36'!
 realEmbeddings
-	^ self embeddingsIn: RealAlgebraicNumbers new! !
+	^ self embeddingsIn: RealAlgebraicNumbersField new! !
 
 !NumberField methodsFor: 'operations' stamp: 'len 1/11/2016 03:53'!
 regulator
@@ -20086,6 +19986,11 @@ discriminant
 	| d |
 	^ (d _ self d) \\ 4 = 1 ifTrue: [d] ifFalse: [d*4]! !
 
+!QuadraticField methodsFor: 'as yet unclassified' stamp: 'len 12/18/2016 20:30:20'!
+integers
+	"Answer the ring of integers of the receiver."
+	^ QuadraticIntegerRing on: self! !
+
 !QuadraticField methodsFor: 'accessing' stamp: 'len 11/12/2016 07:31'!
 integralBasis
 	| w |
@@ -20102,9 +20007,12 @@ polynomial: aPolynomial
 printOn: aStream
 	aStream print: self scalars; nextPut: $(; nextPut: Character sqrt; print: self d; nextPut: $)! !
 
-!QuadraticField methodsFor: 'private' stamp: 'len 12/14/2016 22:03:58'!
+!QuadraticField methodsFor: 'private' stamp: 'len 12/18/2016 13:13:45'!
 sqrt: anInteger
-	self polynomial: QQ polynomials x squared - anInteger squareFree! !
+	| P d |
+	d _ anInteger squareFree.
+	P _ QQ polynomialsIn: {Character sqrt asString, d printString}.
+	self polynomial: P x squared - d! !
 
 !QuadraticField class methodsFor: 'examples' stamp: 'len 12/12/2016 17:12:01'!
 example
@@ -20250,220 +20158,379 @@ y
 z
 	^ self x: 3! !
 
-!AlgebraicNumbers methodsFor: 'comparing' stamp: 'len 12/26/2015 20:05'!
+!RationalIntegerRing methodsFor: 'operations' stamp: 'len 12/18/2016 20:08:24'!
+/ anInteger
+	anInteger isInteger ifFalse: [^ super / anInteger].
+	^ anInteger isPrime
+		ifTrue: [PrimeField new: anInteger]
+		ifFalse: [ModularIntegerRing new: anInteger]! !
+
+!RationalIntegerRing methodsFor: 'comparing' stamp: 'len 6/1/2016 23:56'!
+<= aDomain
+	^ aDomain isRing and: [(aDomain includes: 1) and: [aDomain includes: 0]]! !
+
+!RationalIntegerRing methodsFor: 'comparing' stamp: 'len 11/10/2015 23:14'!
 = anObject
 	^ anObject class == self class! !
 
-!AlgebraicNumbers methodsFor: 'comparing' stamp: 'len 4/19/2016 21:38'!
-> aDomain
-	^ (aDomain isKindOf: Rationals) or: [(aDomain isKindOf: Integers) or: [aDomain isKindOf: RealAlgebraicNumbers]]! !
+!RationalIntegerRing methodsFor: 'operations' stamp: 'len 12/18/2016 20:19:58'!
+adic: aPrime
+	^ PAdicIntegersRing p: aPrime! !
 
-!AlgebraicNumbers methodsFor: 'accessing' stamp: 'len 11/22/2015 01:41'!
+!RationalIntegerRing methodsFor: 'random' stamp: 'len 10/20/2016 11:06'!
+atRandom: aRandom bits: bitSize
+	| n |
+	bitSize isInfinite ifTrue: [^ self error: 'infinite bitsize'].
+	bitSize < 0 ifTrue: [^ self error: 'negative bitsize'].
+"	bitSize = 0 ifTrue: [^ 0]."
+	self flag: #fix. "maybe this should be more like a flat gaussian distribution around 0?"
+	bitSize < 1 ifTrue: [^ 0].
+	n _ 2**(bitSize truncated - 1).
+	^ (0-n to: n) atRandom: aRandom! !
+
+!RationalIntegerRing methodsFor: 'accessing' stamp: 'len 11/5/2015 17:34'!
 characteristic
 	^ 0! !
 
-!AlgebraicNumbers methodsFor: 'morphisms' stamp: 'len 10/4/2016 08:56'!
-conjugation
-	^ self to: self evaluating: [:x| x conjugated]! !
+!RationalIntegerRing methodsFor: 'accessing' stamp: 'len 10/20/2016 03:32'!
+dimension
+	"Answer the Krull dimension of the receiver."
+	^ 1! !
 
-!AlgebraicNumbers methodsFor: 'comparing' stamp: 'len 12/26/2015 20:05'!
+!RationalIntegerRing methodsFor: 'enumerating' stamp: 'len 11/10/2015 17:57'!
+do: aBlock
+	| i |
+	aBlock value: 0.
+	i _ 1.
+	[ aBlock value: i; value: i negated. i _ i + 1 ] repeat! !
+
+!RationalIntegerRing methodsFor: 'private' stamp: 'len 11/1/2016 00:34'!
+fractionClass
+	^ Fraction! !
+
+!RationalIntegerRing methodsFor: 'operations' stamp: 'len 7/15/2016 18:31'!
+fractions
+	^ QQ! !
+
+!RationalIntegerRing methodsFor: 'operations' stamp: 'len 6/30/2016 02:37'!
+freeModuleIn: aCollection
+	"Answer the free abelian group in the given indeterminates (a Z-module)."
+	^ FreeAbelianGroup on: aCollection! !
+
+!RationalIntegerRing methodsFor: 'comparing' stamp: 'len 12/14/2015 01:59'!
 hash
 	^ self class hash! !
 
-!AlgebraicNumbers methodsFor: 'testing' stamp: 'len 12/26/2015 19:57'!
+!RationalIntegerRing methodsFor: 'private' stamp: 'len 10/30/2016 15:47'!
+idealClass
+	^ IntegerIdeal! !
+
+!RationalIntegerRing methodsFor: 'testing' stamp: 'len 11/23/2015 02:37'!
 includes: anObject
-	^ anObject isInteger or: [anObject isFraction or: [anObject isKindOf: Complex]]! !
+	^ anObject isInteger! !
 
-!AlgebraicNumbers methodsFor: 'testing' stamp: 'len 12/15/2015 19:31'!
-isAlgebraicallyClosed
+!RationalIntegerRing methodsFor: 'testing' stamp: 'len 11/7/2015 21:58'!
+isCountable
 	^ true! !
 
-!AlgebraicNumbers methodsFor: 'testing' stamp: 'len 2/11/2016 22:19'!
-isComplex
+!RationalIntegerRing methodsFor: 'testing' stamp: 'len 11/4/2015 21:52'!
+isEuclidean
 	^ true! !
 
-!AlgebraicNumbers methodsFor: 'testing' stamp: 'len 10/18/2016 20:43'!
-isField
+!RationalIntegerRing methodsFor: 'testing' stamp: 'len 11/7/2015 21:58'!
+isFinite
+	^ false! !
+
+!RationalIntegerRing methodsFor: 'testing' stamp: 'len 11/2/2016 03:33'!
+isInitial
 	^ true! !
 
-!AlgebraicNumbers methodsFor: 'accessing' stamp: 'len 3/6/2016 21:08'!
+!RationalIntegerRing methodsFor: 'testing' stamp: 'len 10/20/2016 03:38'!
+isNoetherian
+	^ true! !
+
+!RationalIntegerRing methodsFor: 'testing' stamp: 'len 2/11/2016 22:19'!
+isReal
+	^ true! !
+
+!RationalIntegerRing methodsFor: 'testing' stamp: 'len 5/12/2016 23:13'!
+isUnit: anInteger
+	^ anInteger = 1 or: [anInteger = -1]! !
+
+!RationalIntegerRing methodsFor: 'operations' stamp: 'len 8/10/2016 06:08'!
+modPrime: anInteger
+	^ PrimeField new: anInteger! !
+
+!RationalIntegerRing methodsFor: 'elements' stamp: 'len 11/5/2015 19:19'!
 one
 	^ 1! !
 
-!AlgebraicNumbers methodsFor: 'printing' stamp: 'len 6/8/2016 21:05'!
+!RationalIntegerRing methodsFor: 'printing' stamp: 'len 12/8/2016 12:38:27'!
 printOn: aStream
-	aStream nextPut: Character CC! !
+	aStream nextPut: Character ZZ! !
 
-!AlgebraicNumbers methodsFor: 'accessing' stamp: 'len 4/29/2016 07:38'!
+!RationalIntegerRing methodsFor: 'accessing' stamp: 'len 4/24/2016 02:58'!
 size
-	^ Aleph new: 0! !
+	^ Aleph new! !
 
-!AlgebraicNumbers methodsFor: 'accessing' stamp: 'len 3/6/2016 21:08'!
+!RationalIntegerRing methodsFor: 'morphisms' stamp: 'len 11/1/2016 19:20'!
+to: aCodomain
+	"Answer the canonical morphism from the receiver to aCodomain."
+	aCodomain isRing
+		ifTrue: [^ self to: aCodomain evaluating: [:x| aCodomain one * x]].
+	^ super to: aCodomain! !
+
+!RationalIntegerRing methodsFor: 'accessing' stamp: 'len 7/17/2016 23:53'!
+valuation
+	^ Function from: self to: self evaluating: [:x| x abs]! !
+
+!RationalIntegerRing methodsFor: 'elements' stamp: 'len 11/3/2015 20:50'!
 zero
 	^ 0! !
 
-!ComplexNumbers methodsFor: 'accessing' stamp: 'len 8/6/2016 03:44'!
+!RationalIntegerRing class methodsFor: 'initialization' stamp: 'len 8/5/2016 21:32'!
+initialize
+	super initialize.
+	Smalltalk at: #ZZ put: self new! !
+
+!AlgebraicNumbersField methodsFor: 'comparing' stamp: 'len 12/26/2015 20:05'!
+= anObject
+	^ anObject class == self class! !
+
+!AlgebraicNumbersField methodsFor: 'comparing' stamp: 'len 12/18/2016 20:25:00'!
+> aDomain
+	^ (aDomain isKindOf: RationalField) or: [(aDomain isKindOf: RationalIntegerRing) or: [aDomain isKindOf: RealAlgebraicNumbersField]]! !
+
+!AlgebraicNumbersField methodsFor: 'accessing' stamp: 'len 11/22/2015 01:41'!
 characteristic
 	^ 0! !
 
-!ComplexNumbers methodsFor: 'accessing' stamp: 'len 10/4/2016 08:59'!
+!AlgebraicNumbersField methodsFor: 'morphisms' stamp: 'len 10/4/2016 08:56'!
 conjugation
 	^ self to: self evaluating: [:x| x conjugated]! !
 
-!ComplexNumbers methodsFor: 'enumerating' stamp: 'len 8/6/2016 03:50'!
-do: aBlock
-	^ self shouldNotImplement! !
+!AlgebraicNumbersField methodsFor: 'comparing' stamp: 'len 12/26/2015 20:05'!
+hash
+	^ self class hash! !
 
-!ComplexNumbers methodsFor: 'testing' stamp: 'len 8/5/2016 21:50'!
+!AlgebraicNumbersField methodsFor: 'testing' stamp: 'len 12/26/2015 19:57'!
 includes: anObject
-	^ anObject isComplex! !
+	^ anObject isInteger or: [anObject isFraction or: [anObject isKindOf: Complex]]! !
 
-!ComplexNumbers methodsFor: 'testing' stamp: 'len 8/12/2016 04:48'!
+!AlgebraicNumbersField methodsFor: 'testing' stamp: 'len 12/15/2015 19:31'!
 isAlgebraicallyClosed
 	^ true! !
 
-!ComplexNumbers methodsFor: 'testing' stamp: 'len 8/5/2016 21:55'!
+!AlgebraicNumbersField methodsFor: 'testing' stamp: 'len 2/11/2016 22:19'!
 isComplex
 	^ true! !
 
-!ComplexNumbers methodsFor: 'testing' stamp: 'len 10/18/2016 20:43'!
+!AlgebraicNumbersField methodsFor: 'testing' stamp: 'len 10/18/2016 20:43'!
 isField
 	^ true! !
 
-!ComplexNumbers methodsFor: 'accessing' stamp: 'len 8/6/2016 03:45'!
+!AlgebraicNumbersField methodsFor: 'accessing' stamp: 'len 3/6/2016 21:08'!
 one
 	^ 1! !
 
-!ComplexNumbers methodsFor: 'printing' stamp: 'len 8/5/2016 21:35'!
+!AlgebraicNumbersField methodsFor: 'printing' stamp: 'len 6/8/2016 21:05'!
 printOn: aStream
 	aStream nextPut: Character CC! !
 
-!ComplexNumbers methodsFor: 'accessing' stamp: 'len 8/6/2016 03:44'!
+!AlgebraicNumbersField methodsFor: 'accessing' stamp: 'len 4/29/2016 07:38'!
 size
-	^ Aleph new: 1! !
+	^ Aleph new: 0! !
 
-!ComplexNumbers methodsFor: 'accessing' stamp: 'len 8/6/2016 03:45'!
+!AlgebraicNumbersField methodsFor: 'accessing' stamp: 'len 3/6/2016 21:08'!
 zero
 	^ 0! !
 
-!ComplexNumbers class methodsFor: 'initialization' stamp: 'len 8/5/2016 21:34'!
+!ComplexField methodsFor: 'accessing' stamp: 'len 8/6/2016 03:44'!
+characteristic
+	^ 0! !
+
+!ComplexField methodsFor: 'accessing' stamp: 'len 10/4/2016 08:59'!
+conjugation
+	^ self to: self evaluating: [:x| x conjugated]! !
+
+!ComplexField methodsFor: 'enumerating' stamp: 'len 8/6/2016 03:50'!
+do: aBlock
+	^ self shouldNotImplement! !
+
+!ComplexField methodsFor: 'testing' stamp: 'len 8/5/2016 21:50'!
+includes: anObject
+	^ anObject isComplex! !
+
+!ComplexField methodsFor: 'testing' stamp: 'len 8/12/2016 04:48'!
+isAlgebraicallyClosed
+	^ true! !
+
+!ComplexField methodsFor: 'testing' stamp: 'len 8/5/2016 21:55'!
+isComplex
+	^ true! !
+
+!ComplexField methodsFor: 'testing' stamp: 'len 10/18/2016 20:43'!
+isField
+	^ true! !
+
+!ComplexField methodsFor: 'accessing' stamp: 'len 8/6/2016 03:45'!
+one
+	^ 1! !
+
+!ComplexField methodsFor: 'printing' stamp: 'len 8/5/2016 21:35'!
+printOn: aStream
+	aStream nextPut: Character CC! !
+
+!ComplexField methodsFor: 'accessing' stamp: 'len 8/6/2016 03:44'!
+size
+	^ Aleph new: 1! !
+
+!ComplexField methodsFor: 'accessing' stamp: 'len 8/6/2016 03:45'!
+zero
+	^ 0! !
+
+!ComplexField class methodsFor: 'initialization' stamp: 'len 8/5/2016 21:34'!
 initialize
 	super initialize.
 	Smalltalk at: #CC put: self new! !
 
-!NumberRing methodsFor: 'as yet unclassified' stamp: 'len 12/15/2016 08:50:57'!
+!IntegerRing methodsFor: 'as yet unclassified' stamp: 'len 12/15/2016 08:50:57'!
 asModule
 	^ FreeModule basis: self basis coordinates: [:anElement| anElement representative coefficients] over: ZZ! !
 
-!NumberRing methodsFor: 'as yet unclassified' stamp: 'len 12/15/2016 08:46:44'!
+!IntegerRing methodsFor: 'as yet unclassified' stamp: 'len 12/15/2016 08:46:44'!
 basis
 	^ self field integralBasis! !
 
-!NumberRing methodsFor: 'as yet unclassified' stamp: 'len 12/15/2016 08:36:58'!
+!IntegerRing methodsFor: 'as yet unclassified' stamp: 'len 12/15/2016 08:36:58'!
 field
 	^ field! !
 
-!NumberRing methodsFor: 'as yet unclassified' stamp: 'len 12/15/2016 08:36:49'!
+!IntegerRing methodsFor: 'as yet unclassified' stamp: 'len 12/15/2016 08:36:49'!
 field: aNumberField
 	field _ aNumberField! !
 
-!NumberRing methodsFor: 'as yet unclassified' stamp: 'len 12/15/2016 08:37:30'!
-printOn: aStream
-	aStream nextPutAll: 'O' italic; nextPut: $(; print: field; nextPut: $)! !
+!IntegerRing methodsFor: 'as yet unclassified' stamp: 'len 12/18/2016 15:02:54'!
+isDedekindDomain
+	"Rings of integers of number fields are Dedekind domains."
+	^ true! !
 
-!NumberRing class methodsFor: 'instance creation' stamp: 'len 12/15/2016 08:40:10'!
+!IntegerRing methodsFor: 'as yet unclassified' stamp: 'len 12/18/2016 15:03:32'!
+isPID
+	"A Dedekind domain is a UFD iff it is a PID."
+	^ self isUFD! !
+
+!IntegerRing methodsFor: 'as yet unclassified' stamp: 'len 12/18/2016 15:03:20'!
+isUFD
+	"A Dedekind domain is a UFD iff it is a PID."
+	^ self isPID! !
+
+!IntegerRing methodsFor: 'as yet unclassified' stamp: 'len 12/18/2016 14:54:33'!
+printOn: aStream
+	aStream nextPutAll: 'O' italic; nextPutAll: field printText sub
+"	aStream nextPutAll: 'O' italic; nextPut: $(; print: field; nextPut: $)"! !
+
+!IntegerRing class methodsFor: 'instance creation' stamp: 'len 12/15/2016 08:40:10'!
 on: aNumberField
 	^ self new field: aNumberField! !
 
-!RealAlgebraicNumbers methodsFor: 'comparing' stamp: 'len 6/1/2016 23:58'!
-< aDomain
-	^ ((aDomain isKindOf: Rationals) or: [aDomain isKindOf: Integers]) or: [super < aDomain]! !
+!QuadraticIntegerRing methodsFor: 'as yet unclassified' stamp: 'len 12/18/2016 20:28:58'!
+isPID
+	^ field classNumber = 1! !
 
-!RealAlgebraicNumbers methodsFor: 'comparing' stamp: 'len 11/10/2015 23:37'!
+!QuadraticIntegerRing methodsFor: 'as yet unclassified' stamp: 'len 12/18/2016 20:29:36'!
+printOn: aStream
+	aStream print: ZZ; nextPut: $[; print: field x; nextPut: $]! !
+
+!RealAlgebraicNumbersField methodsFor: 'comparing' stamp: 'len 12/18/2016 20:24:58'!
+< aDomain
+	^ ((aDomain isKindOf: RationalField) or: [aDomain isKindOf: RationalIntegerRing]) or: [super < aDomain]! !
+
+!RealAlgebraicNumbersField methodsFor: 'comparing' stamp: 'len 11/10/2015 23:37'!
 = anObject
 	^ anObject class == self class! !
 
-!RealAlgebraicNumbers methodsFor: 'comparing' stamp: 'len 4/19/2016 21:39'!
+!RealAlgebraicNumbersField methodsFor: 'comparing' stamp: 'len 12/18/2016 20:24:55'!
 > aDomain
-	^ (aDomain isKindOf: Rationals) or: [aDomain isKindOf: Integers]! !
+	^ (aDomain isKindOf: RationalField) or: [aDomain isKindOf: RationalIntegerRing]! !
 
-!RealAlgebraicNumbers methodsFor: 'operations' stamp: 'len 4/17/2016 06:45'!
+!RealAlgebraicNumbersField methodsFor: 'operations' stamp: 'len 12/18/2016 20:04:24'!
 algebraicClosure
-	^ AlgebraicNumbers new! !
+	^ AlgebraicNumbersField new! !
 
-!RealAlgebraicNumbers methodsFor: 'accessing' stamp: 'len 11/5/2015 17:35'!
+!RealAlgebraicNumbersField methodsFor: 'accessing' stamp: 'len 11/5/2015 17:35'!
 characteristic
 	^ 0! !
 
-!RealAlgebraicNumbers methodsFor: 'comparing' stamp: 'len 12/17/2015 03:54'!
+!RealAlgebraicNumbersField methodsFor: 'comparing' stamp: 'len 12/17/2015 03:54'!
 hash
 	^ self class hash! !
 
-!RealAlgebraicNumbers methodsFor: 'testing' stamp: 'len 1/10/2016 23:37'!
+!RealAlgebraicNumbersField methodsFor: 'testing' stamp: 'len 1/10/2016 23:37'!
 includes: anObject
 	^ (anObject isKindOf: RealAlgebraicNumber) or: [anObject isFraction or: [anObject isInteger]]! !
 
-!RealAlgebraicNumbers methodsFor: 'testing' stamp: 'len 1/6/2016 04:07'!
+!RealAlgebraicNumbersField methodsFor: 'testing' stamp: 'len 1/6/2016 04:07'!
 isCountable
 	^ true "this is the algebraic reals"! !
 
-!RealAlgebraicNumbers methodsFor: 'testing' stamp: 'len 10/18/2016 20:44'!
+!RealAlgebraicNumbersField methodsFor: 'testing' stamp: 'len 10/18/2016 20:44'!
 isField
 	^ true! !
 
-!RealAlgebraicNumbers methodsFor: 'testing' stamp: 'len 12/17/2015 03:55'!
+!RealAlgebraicNumbersField methodsFor: 'testing' stamp: 'len 12/17/2015 03:55'!
 isFinite
 	^ false! !
 
-!RealAlgebraicNumbers methodsFor: 'testing' stamp: 'len 2/11/2016 22:19'!
+!RealAlgebraicNumbersField methodsFor: 'testing' stamp: 'len 2/11/2016 22:19'!
 isReal
 	^ true! !
 
-!RealAlgebraicNumbers methodsFor: 'elements' stamp: 'len 2/11/2016 19:36'!
+!RealAlgebraicNumbersField methodsFor: 'elements' stamp: 'len 2/11/2016 19:36'!
 one
 	^ 1! !
 
-!RealAlgebraicNumbers methodsFor: 'printing' stamp: 'len 6/8/2016 21:05'!
+!RealAlgebraicNumbersField methodsFor: 'printing' stamp: 'len 6/8/2016 21:05'!
 printOn: aStream
 	aStream nextPut: Character RR! !
 
-!RealAlgebraicNumbers methodsFor: 'accessing' stamp: 'len 4/29/2016 07:38'!
+!RealAlgebraicNumbersField methodsFor: 'accessing' stamp: 'len 4/29/2016 07:38'!
 size
 	^ Aleph new: 0! !
 
-!RealAlgebraicNumbers methodsFor: 'elements' stamp: 'len 2/11/2016 19:36'!
+!RealAlgebraicNumbersField methodsFor: 'elements' stamp: 'len 2/11/2016 19:36'!
 zero
 	^ 0! !
 
-!Reals methodsFor: 'accessing' stamp: 'len 8/6/2016 03:45'!
+!RealField methodsFor: 'accessing' stamp: 'len 8/6/2016 03:45'!
 characteristic
 	^ 0! !
 
-!Reals methodsFor: 'enumerating' stamp: 'len 8/6/2016 03:50'!
+!RealField methodsFor: 'enumerating' stamp: 'len 8/6/2016 03:50'!
 do: aBlock
 	^ self shouldNotImplement! !
 
-!Reals methodsFor: 'testing' stamp: 'len 8/5/2016 21:50'!
+!RealField methodsFor: 'testing' stamp: 'len 8/5/2016 21:50'!
 includes: anObject
 	^ anObject isReal! !
 
-!Reals methodsFor: 'testing' stamp: 'len 10/18/2016 20:44'!
+!RealField methodsFor: 'testing' stamp: 'len 10/18/2016 20:44'!
 isField
 	^ true! !
 
-!Reals methodsFor: 'testing' stamp: 'len 8/5/2016 21:55'!
+!RealField methodsFor: 'testing' stamp: 'len 8/5/2016 21:55'!
 isReal
 	^ true! !
 
-!Reals methodsFor: 'printing' stamp: 'len 8/5/2016 21:35'!
+!RealField methodsFor: 'printing' stamp: 'len 8/5/2016 21:35'!
 printOn: aStream
 	aStream nextPut: Character RR! !
 
-!Reals methodsFor: 'accessing' stamp: 'len 8/6/2016 03:45'!
+!RealField methodsFor: 'accessing' stamp: 'len 8/6/2016 03:45'!
 size
 	^ Aleph new: 1! !
 
-!Reals class methodsFor: 'initialization' stamp: 'len 8/5/2016 21:33'!
+!RealField class methodsFor: 'initialization' stamp: 'len 8/5/2016 21:33'!
 initialize
 	super initialize.
 	Smalltalk at: #RR put: self new! !
@@ -20484,9 +20551,9 @@ isField
 p
 	^ self integers p! !
 
-!PAdicField methodsFor: 'as yet unclassified' stamp: 'len 12/17/2016 21:38:34'!
+!PAdicField methodsFor: 'as yet unclassified' stamp: 'len 12/18/2016 20:20:01'!
 p: aPrime
-	integers _ PAdicRing p: aPrime! !
+	integers _ PAdicIntegersRing p: aPrime! !
 
 !PAdicField methodsFor: 'as yet unclassified' stamp: 'len 12/17/2016 22:21:17'!
 printOn: aStream
@@ -20496,45 +20563,50 @@ printOn: aStream
 p: aPrime
 	^ self new p: aPrime! !
 
-!PAdicRing methodsFor: 'accessing' stamp: 'len 12/17/2016 20:31:49'!
+!PAdicIntegersRing methodsFor: 'accessing' stamp: 'len 12/17/2016 20:31:49'!
 characteristic
 	^ 0! !
 
-!PAdicRing methodsFor: 'morphisms' stamp: 'len 12/17/2016 21:39:20'!
-embed: anInteger
+!PAdicIntegersRing methodsFor: 'elements' stamp: 'len 12/18/2016 10:14:00'!
+digits: aSequence
+	^ PAdicInteger in: self digits: aSequence! !
+
+!PAdicIntegersRing methodsFor: 'morphisms' stamp: 'len 12/18/2016 10:13:37'!
+embed: aNumber
 	| q digits max |
+	aNumber isFraction ifTrue: [^ (self embed: aNumber numerator) / (self embed: aNumber denominator)].
 	q _ 1.
-	max _ anInteger abs.
+	max _ aNumber abs.
 	digits _ OrderedCollection new.
 	[q _ q * p.
-	digits add: anInteger \\ q.
-	q > max ifTrue: [^ PAdicInteger in: self digits: digits asArray]] repeat! !
+	digits add: aNumber \\ q.
+	q > max ifTrue: [^ self digits: digits asArray]] repeat! !
 
-!PAdicRing methodsFor: 'testing' stamp: 'len 12/7/2015 01:29'!
+!PAdicIntegersRing methodsFor: 'testing' stamp: 'len 12/7/2015 01:29'!
 isIntegralDomain
 	^ true! !
 
-!PAdicRing methodsFor: 'accessing' stamp: 'len 12/17/2016 21:39:31'!
+!PAdicIntegersRing methodsFor: 'accessing' stamp: 'len 12/17/2016 21:39:31'!
 one
 	^ self embed: 1! !
 
-!PAdicRing methodsFor: 'accessing' stamp: 'len 12/7/2015 01:16'!
+!PAdicIntegersRing methodsFor: 'accessing' stamp: 'len 12/7/2015 01:16'!
 p
 	^ p! !
 
-!PAdicRing methodsFor: 'initialization' stamp: 'len 12/7/2015 01:16'!
+!PAdicIntegersRing methodsFor: 'initialization' stamp: 'len 12/7/2015 01:16'!
 p: aPrime
 	p _ aPrime! !
 
-!PAdicRing methodsFor: 'printing' stamp: 'len 12/17/2016 22:21:27'!
+!PAdicIntegersRing methodsFor: 'printing' stamp: 'len 12/17/2016 22:21:27'!
 printOn: aStream
 	aStream print: ZZ; nextPutAll: p printString sub! !
 
-!PAdicRing methodsFor: 'accessing' stamp: 'len 12/17/2016 21:39:36'!
+!PAdicIntegersRing methodsFor: 'accessing' stamp: 'len 12/17/2016 21:39:36'!
 zero
 	^ self embed: 0! !
 
-!PAdicRing class methodsFor: 'instance creation' stamp: 'len 12/7/2015 01:15'!
+!PAdicIntegersRing class methodsFor: 'instance creation' stamp: 'len 12/7/2015 01:15'!
 p: aPrime
 	^ self new p: aPrime! !
 
@@ -21204,38 +21276,6 @@ over: aRing
 polynomials: aPolynomialRing
 	^ self new polynomials: aPolynomialRing! !
 
-!GaussianIntegers methodsFor: 'testing' stamp: 'len 6/5/2016 06:10'!
-includes: anObject
-	^ anObject isInteger or: [anObject isComplex and: [anObject real isInteger and: [anObject imaginary isInteger]]]! !
-
-!GaussianIntegers methodsFor: 'testing' stamp: 'len 6/5/2016 06:08'!
-isCountable
-	^ true! !
-
-!GaussianIntegers methodsFor: 'testing' stamp: 'len 6/5/2016 06:08'!
-isFinite
-	^ false! !
-
-!GaussianIntegers methodsFor: 'testing' stamp: 'len 6/5/2016 06:15'!
-isPID
-	^ true! !
-
-!GaussianIntegers methodsFor: 'accessing' stamp: 'len 6/5/2016 06:13'!
-one
-	^ 1! !
-
-!GaussianIntegers methodsFor: 'printing' stamp: 'len 6/8/2016 21:04'!
-printOn: aStream
-	aStream nextPutAll: Character ZZ asString, '[i]'! !
-
-!GaussianIntegers methodsFor: 'accessing' stamp: 'len 6/5/2016 06:14'!
-size
-	^ Aleph new: 0! !
-
-!GaussianIntegers methodsFor: 'accessing' stamp: 'len 6/5/2016 06:13'!
-zero
-	^ 0! !
-
 !SymmetricPolynomialRing methodsFor: 'as yet unclassified' stamp: 'len 8/2/2016 09:50'!
 generators
 	^ (1 to: self rank) collect: [:i| polynomials symmetric: i]! !
@@ -21344,6 +21384,11 @@ isTrivial
 null
 	"Answer the trivial subgroup, i.e. the zero object in the category of R-modules."
 	^ self span: #()! !
+
+!Module methodsFor: 'converting' stamp: 'len 12/18/2016 12:41:32'!
+over: aRing
+	"Answer the change of base ring of the receiver."
+	self notYetImplemented! !
 
 !Module methodsFor: 'printing' stamp: 'len 4/21/2016 00:00'!
 printOn: aStream
@@ -21608,10 +21653,10 @@ isMaximal
 isPrime
 	^ properties at: #isPrime ifAbsentPut:[self isZero or: [self generator isPrime]]! !
 
-!IntegerIdeal methodsFor: 'operations' stamp: 'len 11/16/2016 18:15'!
+!IntegerIdeal methodsFor: 'operations' stamp: 'len 12/18/2016 20:08:18'!
 quotient
 	"Answer the quotient ring of the base ring by the receiver."
-	^ ModularIntegers by: self! !
+	^ ModularIntegerRing by: self! !
 
 !IntegerIdeal methodsFor: 'operations' stamp: 'len 10/29/2016 11:38'!
 radical
@@ -22166,10 +22211,10 @@ isCountable
 isFinite
 	^ self generators isEmpty or: [self scalars isFinite]! !
 
-!FreeModule methodsFor: 'testing' stamp: 'len 7/15/2016 04:14'!
+!FreeModule methodsFor: 'testing' stamp: 'len 12/18/2016 20:24:53'!
 isFreeAbelianGroup
 	"Answer true if the receiver is a Z-module."
-	^ self scalars class = Integers! !
+	^ self scalars class = RationalIntegerRing! !
 
 !FreeModule methodsFor: 'testing' stamp: 'len 2/28/2016 07:54'!
 isFreeModule
@@ -22264,9 +22309,8 @@ to: aModule evaluating: aBlock
 	aModule isFreeModule ifFalse: [^ super to: aModule evaluating: aBlock].
 	^ LinearMap from: self to: aModule evaluating: aBlock! !
 
-!FreeModule methodsFor: 'testing' stamp: 'len 12/16/2016 13:14:24'!
+!FreeModule methodsFor: 'testing' stamp: 'len 12/18/2016 11:13:59'!
 torsion
-	"Free modules are torsion-free."
 	^ self null! !
 
 !FreeModule methodsFor: 'basis' stamp: 'len 7/15/2016 00:04'!
@@ -22354,6 +22398,11 @@ isCoproduct
 !DirectSumModule methodsFor: 'testing' stamp: 'len 10/15/2016 21:00'!
 isFreeModule
 	^ components allSatisfy: [:each| each isFreeModule]! !
+
+!DirectSumModule methodsFor: 'converting' stamp: 'len 12/18/2016 12:46:04'!
+over: aRing
+	"Answer the change of base ring of the receiver."
+	^ self class components: (components collect: [:each| each over: aRing])! !
 
 !DirectSumModule methodsFor: 'printing' stamp: 'len 10/10/2016 08:45'!
 printOn: aStream
@@ -22460,6 +22509,11 @@ newFrom: anObject
 opposite
 	^ self class from: self domain to: self codomain! !
 
+!HomModule methodsFor: 'converting' stamp: 'len 12/18/2016 12:44:37'!
+over: aRing
+	"Answer the change of base ring of the receiver."
+	^ self class from: (self domain over: aRing) to: (self codomain over: aRing)! !
+
 !HomModule methodsFor: 'printing' stamp: 'len 12/5/2016 11:56:23'!
 printOn: aStream
 	self isEndomorphisms
@@ -22509,6 +22563,11 @@ map
 	See LinearForm>>#asVector."
 	self flag: #fix. "this is not natural"
 	^ LinearMap from: domain to: self evaluating: [:v| self elementAt: (domain coordinatesOf: v)]! !
+
+!DualModule methodsFor: 'converting' stamp: 'len 12/18/2016 12:45:17'!
+over: aRing
+	"Answer the change of base ring of the receiver."
+	^ self class from: (self domain over: aRing)! !
 
 !DualModule methodsFor: 'printing' stamp: 'len 6/19/2016 00:25'!
 printOn: aStream
@@ -22807,6 +22866,11 @@ coordinatesOf: anObject
 e: anInteger
 	"Answer the anInteger-th canonic vector."
 	^ self scalars one! !
+
+!ScalarModule methodsFor: 'converting' stamp: 'len 12/18/2016 12:47:39'!
+over: aRing
+	"Answer the change of base ring of the receiver."
+	^ self class over: aRing! !
 
 !ScalarModule methodsFor: 'printing' stamp: 'len 4/21/2016 00:04'!
 printOn: aStream
@@ -24150,6 +24214,10 @@ isSmoothAt: aPoint
 isTerminal
 	^ false! !
 
+!Scheme methodsFor: 'operations' stamp: 'len 12/18/2016 11:45:13'!
+over: aRing
+	^ self class coordinateRing: (self coordinateRing over: aRing)! !
+
 !Scheme methodsFor: 'points' stamp: 'len 11/10/2016 08:16'!
 points
 	"Answer the rational points of the receiver."
@@ -24207,21 +24275,21 @@ subscheme: anObject
 to: aScheme evaluating: aBlock
 	^ RationalMap from: self to: aScheme evaluating: aBlock! !
 
-!Scheme class methodsFor: 'examples' stamp: 'len 10/18/2016 15:51'!
+!Scheme class methodsFor: 'examples' stamp: 'len 12/18/2016 20:04:56'!
 kleinQuartic
 	"This is a projective variety, a curve in P**2(C)."
 	| P x y z |
-	P _ ProjectiveSpace new: 2 over: AlgebraicNumbers new.
+	P _ ProjectiveSpace new: 2 over: QQ algebraicClosure.
 	x _ P coordinateRing x.
 	y _ P coordinateRing y.
 	z _ P coordinateRing z.
 	^ P subscheme: {x**3*y + (y**3*z) + (z**3*x)}! !
 
-!Scheme class methodsFor: 'examples' stamp: 'len 10/18/2016 15:53'!
+!Scheme class methodsFor: 'examples' stamp: 'len 12/18/2016 20:04:41'!
 twistedCubic
 	"This is the twisted cubic affine variety, parameterized by (x, x**2, x**3) in C**3."
 	| A x y z |
-	A _ AffineSpace new: #(x y z) over: AlgebraicNumbers new.
+	A _ AffineSpace new: #(x y z) over: QQ algebraicClosure.
 	x _ A coordinateRing x.
 	y _ A coordinateRing y.
 	z _ A coordinateRing z.
@@ -24541,6 +24609,12 @@ tangentAt: aPoint
 polynomial: aPolynomial
 	^ self coordinateRing: aPolynomial parent / aPolynomial! !
 
+!EllipticCurve methodsFor: 'operations' stamp: 'len 12/18/2016 20:09:07'!
+% anInteger
+	"Answer the reduction of the receiver modulo anInteger."
+	(self scalars isKindOf: RationalField) ifFalse: [^ DomainError signal: 'not over the rationals'].
+	^ self over: ZZ/anInteger! !
+
 !EllipticCurve methodsFor: 'operations' stamp: 'len 11/11/2016 10:02'!
 discriminant
 	^ self equation discriminant! !
@@ -24757,10 +24831,10 @@ chains: p
 	"Answer the p-chain group."
 	^ FreeAbelianGroup on: (self faces: p) asArray! !
 
-!SimplicialComplex methodsFor: 'homology' stamp: 'len 10/22/2016 21:36'!
+!SimplicialComplex methodsFor: 'homology' stamp: 'len 12/18/2016 20:24:50'!
 chains: p over: anAbelianGroup
 	"Answer the p-chain group."
-	(anAbelianGroup isKindOf: Integers)
+	(anAbelianGroup isKindOf: RationalIntegerRing)
 		ifTrue: [^ self chains: p].
 "	anAbelianGroup isField
 		ifTrue: [^ FreeModule on: (self faces: p) asArray over: anAbelianGroup]."
@@ -30866,10 +30940,10 @@ representative: anInteger
 characteristicPolynomial
 	^ (self parent asVectorSpace endomorphisms evaluating: [:x| x * self]) characteristicPolynomial! !
 
-!ExtensionFieldElement methodsFor: 'as yet unclassified' stamp: 'len 11/3/2016 04:37'!
+!ExtensionFieldElement methodsFor: 'as yet unclassified' stamp: 'len 12/18/2016 20:05:25'!
 characteristicPolynomial2
 	| x |
-	x _ AlgebraicNumbers new polynomials x.
+	x _ QQ algebraicClosure polynomials x.
 	^ (self parent embeddings product: [:each| x - (each value: self)]) as: self parent base! !
 
 !ExtensionFieldElement methodsFor: 'as yet unclassified' stamp: 'len 11/3/2016 04:38'!
@@ -31557,10 +31631,10 @@ support: aSet
 ’ aMatrix
 	^ self kronecker: aMatrix! !
 
-!Matrix methodsFor: 'reduction' stamp: 'len 7/16/2016 01:27'!
+!Matrix methodsFor: 'reduction' stamp: 'len 12/18/2016 20:25:02'!
 HNF
 	"Answer the Hermite normal form of the receiver."
-	(self scalars isKindOf: Integers) ifFalse: [^ DomainError signal: 'coefficients ring is not Z'].
+	(self scalars isKindOf: RationalIntegerRing) ifFalse: [^ DomainError signal: 'coefficients ring is not Z'].
 	^ HermiteNormalForm2 new matrix: self copy; run! !
 
 !Matrix methodsFor: 'reduction' stamp: 'len 3/21/2016 23:35'!
@@ -31813,11 +31887,11 @@ copyFrom: aPoint to: anotherPoint
 		matrix: anotherPoint - start
 		evaluating: [:i :j| self at: start + (i@j)]! !
 
-!Matrix methodsFor: 'operations' stamp: 'len 11/30/2016 21:33:16'!
+!Matrix methodsFor: 'operations' stamp: 'len 12/18/2016 20:09:27'!
 denominator
 	"Answer the smallest positive integer that multiplied by the receiver gives a rational matrix."
 	| answer |
-	(self scalars isKindOf: Rationals) ifFalse: [DomainError signal: 'not a rational matrix'].
+	(self scalars isKindOf: RationalField) ifFalse: [DomainError signal: 'not a rational matrix'].
 	answer _ 1.
 	self do: [:each| answer _ answer lcm: each denominator].
 	^ answer! !
@@ -33269,7 +33343,7 @@ reduceStep: i mod: R
 			c _ c + 1].
 	c > 0] whileTrue "8. Repeat stage i?"! !
 
-!SmithNormalForm methodsFor: 'private' stamp: 'len 7/16/2016 04:23'!
+!SmithNormalForm methodsFor: 'private' stamp: 'len 12/18/2016 20:25:05'!
 run
 	| n i R b k |
 	n _ matrix numberOfRows.
@@ -33277,7 +33351,7 @@ run
 	"1. Initialize i:"
 	i _ n.
 	R _ matrix determinant.
-	(matrix scalars isKindOf: Integers) ifTrue: [R _ R abs]. "not sure why take abs"
+	(matrix scalars isKindOf: RationalIntegerRing) ifTrue: [R _ R abs]. "not sure why take abs"
 	n = 1 ifTrue: [diagonal add: R. ^ self].
 	"2-9. Reduction:"
 	[[self reduceStep: i mod: R.
@@ -34610,11 +34684,11 @@ permutedBy: aPermutation
 	"Permute the variables of the receiver. The argument can be an Array (permutation in 'image format'). For example given a polynomial in x,z,y, #(1 2 3) doesn't change anything, #(2 1 3) exchanges variables x and y."
 	^ self monomialsApply: [:each| each permutedBy: aPermutation]! !
 
-!Polynomial methodsFor: 'arithmetic' stamp: 'len 12/20/2015 03:24'!
+!Polynomial methodsFor: 'arithmetic' stamp: 'len 12/18/2016 20:25:07'!
 pgcd: aPolynomial
 	"Answer the greatest common divisor of the receiver and aPolynomial using a probabilistic algorithm."
 	| f g maps samples n |
-	(self species scalars isKindOf: Integers) ifFalse: [^ DomainError signal: 'polynomial not in Z[x]'].
+	(self species scalars isKindOf: RationalIntegerRing) ifFalse: [^ DomainError signal: 'polynomial not in Z[x]'].
 	f _ self integerPrimitive.
 	g _ aPolynomial integerPrimitive.
 	n _ f degree max: g degree.
@@ -35300,14 +35374,14 @@ roots
 	"Answer the roots (counted with multiplicity) in the coefficients ring or field."
 	^ self rootsIn: self scalars! !
 
-!UnivariatePolynomial methodsFor: 'roots' stamp: 'len 11/20/2016 10:21:56'!
+!UnivariatePolynomial methodsFor: 'roots' stamp: 'len 12/18/2016 20:25:10'!
 rootsIn: aField
 	"Answer the roots (conted with multiplicaity) in the given domain."
 	(aField isField and: [aField isFinite and: [aField characteristic even not]]) ifTrue: [^ (FiniteFieldRootFinder polynomial: self) roots].
-	(aField isKindOf: Rationals) ifTrue: [^ (RationalRootFinder polynomial: self) roots].
-	((aField isKindOf: AlgebraicNumbers) or: [aField isKindOf: ComplexNumbers]) ifTrue: [^ (ComplexRootFinder polynomial: self) roots].
-	((aField isKindOf: RealAlgebraicNumbers) or: [aField isKindOf: Reals]) ifTrue: [^ (RealRootFinder polynomial: self) roots].
-	(aField isKindOf: Integers) ifTrue: [^ (RationalRootFinder polynomial: self) roots select: [:each| each isInteger]].
+	(aField isKindOf: RationalField) ifTrue: [^ (RationalRootFinder polynomial: self) roots].
+	((aField isKindOf: AlgebraicNumbersField) or: [aField isKindOf: ComplexField]) ifTrue: [^ (ComplexRootFinder polynomial: self) roots].
+	((aField isKindOf: RealAlgebraicNumbersField) or: [aField isKindOf: RealField]) ifTrue: [^ (RealRootFinder polynomial: self) roots].
+	(aField isKindOf: RationalIntegerRing) ifTrue: [^ (RationalRootFinder polynomial: self) roots select: [:each| each isInteger]].
 	self flag: #fix. "count multiplicity, implement more efficient algorithm"
 	aField isFinite ifTrue: [^ aField elements select: [:each| (self value: each) isZero]].
 	^ self error: 'unknown domain'! !
@@ -38050,7 +38124,7 @@ initialize
 new
 	^ super new initialize! !
 
-!ComplexPalette methodsFor: 'as yet unclassified' stamp: 'len 12/9/2016 16:39:28'!
+!ComplexPalette methodsFor: 'accessing' stamp: 'len 12/9/2016 16:39:28'!
 at: aNumber
 	aNumber isInfinite ifTrue: [^ infinityColor].
 	aNumber isZero ifTrue: [^ zeroColor].
@@ -38059,7 +38133,7 @@ at: aNumber
 		saturation: 1.0
 		luminance: ([luminanceBlock value: aNumber] on: Error do: [^ infinityColor])! !
 
-!ComplexPalette methodsFor: 'as yet unclassified' stamp: 'len 12/6/2016 16:43:01'!
+!ComplexPalette methodsFor: 'private' stamp: 'len 12/6/2016 16:43:01'!
 colorHue: hue saturation: saturation luminance: luma
 	| chroma x hf i r1 g1 b1 m | 
 
@@ -38084,28 +38158,21 @@ colorHue: hue saturation: saturation luminance: luma
 	b1 _ b1 + m min: 1.0 max: 0.0.
 	^ Color r: r1 g: g1 b: b1! !
 
-!ComplexPalette methodsFor: 'as yet unclassified' stamp: 'len 12/6/2016 16:48:54'!
-setDefault
-	hueBlock _ [:z| z arg radiansToDegrees \\ 360].
-	luminanceBlock _ [:z| 2.0 ** z abs negated].
-	zeroColor _ Color white.
-	infinityColor _ Color black! !
-
-!ComplexPalette methodsFor: 'as yet unclassified' stamp: 'len 12/7/2016 22:25:44'!
+!ComplexPalette methodsFor: 'initialization' stamp: 'len 12/7/2016 22:25:44'!
 setGrid: scalePoint
 	hueBlock _ [:z| z arg radiansToDegrees \\ 360].
 	luminanceBlock _ [:z| (z isZero ifTrue: [1.0] ifFalse: [(z arg / Float twoPi + 0.5 * scalePoint y + 0.999 \\ 1.0) * (z abs ln * scalePoint x \\ 1.0)]) * 0.4 + 0.2].
 	zeroColor _ Color white.
 	infinityColor _ Color black! !
 
-!ComplexPalette methodsFor: 'as yet unclassified' stamp: 'len 12/7/2016 16:20:20'!
+!ComplexPalette methodsFor: 'initialization' stamp: 'len 12/7/2016 16:20:20'!
 setLog
 	hueBlock _ [:z| z arg radiansToDegrees \\ 360].
 	luminanceBlock _ [:z| z isZero ifTrue: [1.0] ifFalse: [z abs min: 0.6 max: 0.0]].
 	zeroColor _ Color white.
 	infinityColor _ Color black! !
 
-!ComplexPalette methodsFor: 'as yet unclassified' stamp: 'len 12/7/2016 22:15:26'!
+!ComplexPalette methodsFor: 'initialization' stamp: 'len 12/7/2016 22:15:26'!
 setLogReversed
 "	hueBlock _ [:z| (z arg + Float pi) radiansToDegrees \\ 360]."
 	hueBlock _ [:z| z arg radiansToDegrees \\ 360].
@@ -38113,14 +38180,21 @@ setLogReversed
 	zeroColor _ Color black.
 	infinityColor _ Color white! !
 
-!ComplexPalette methodsFor: 'as yet unclassified' stamp: 'len 12/7/2016 21:53:50'!
+!ComplexPalette methodsFor: 'initialization' stamp: 'len 12/18/2016 11:01:21'!
+setMagnitude
+	hueBlock _ [:z| z arg radiansToDegrees \\ 360].
+	luminanceBlock _ [:z| 2.0 ** z abs negated].
+	zeroColor _ Color white.
+	infinityColor _ Color black! !
+
+!ComplexPalette methodsFor: 'initialization' stamp: 'len 12/7/2016 21:53:50'!
 setPhase
 	hueBlock _ [:z| z arg radiansToDegrees \\ 360].
 	luminanceBlock _ [:z| 0.5].
 	zeroColor _ Color white.
 	infinityColor _ Color black! !
 
-!ComplexPalette methodsFor: 'as yet unclassified' stamp: 'len 12/7/2016 22:15:20'!
+!ComplexPalette methodsFor: 'initialization' stamp: 'len 12/7/2016 22:15:20'!
 setReversed
 	hueBlock _ [:z| z arg radiansToDegrees \\ 360].
 "	hueBlock _ [:z| (z arg + Float pi) radiansToDegrees \\ 360]."
@@ -38128,16 +38202,16 @@ setReversed
 	zeroColor _ Color black.
 	infinityColor _ Color white! !
 
-!ComplexPalette methodsFor: 'as yet unclassified' stamp: 'len 12/7/2016 16:22:40'!
+!ComplexPalette methodsFor: 'initialization' stamp: 'len 12/7/2016 16:22:40'!
 setScaled: scale
 	hueBlock _ [:z| z arg radiansToDegrees \\ 360].
 	luminanceBlock _ [:z| 2.0 ** (z abs * scale negated)].
 	zeroColor _ Color white.
 	infinityColor _ Color black! !
 
-!ComplexPalette class methodsFor: 'as yet unclassified' stamp: 'len 12/6/2016 16:51:50'!
+!ComplexPalette class methodsFor: 'as yet unclassified' stamp: 'len 12/18/2016 11:00:55'!
 default
-	^ self basicNew setDefault! !
+	^ self phase! !
 
 !ComplexPalette class methodsFor: 'as yet unclassified' stamp: 'len 12/7/2016 22:06:31'!
 grid: scalePoint
@@ -38151,6 +38225,10 @@ log
 !ComplexPalette class methodsFor: 'as yet unclassified' stamp: 'len 12/7/2016 22:11:32'!
 logReversed
 	^ self basicNew setLogReversed! !
+
+!ComplexPalette class methodsFor: 'as yet unclassified' stamp: 'len 12/18/2016 11:00:45'!
+magnitude
+	^ self basicNew setMagnitude! !
 
 !ComplexPalette class methodsFor: 'as yet unclassified' stamp: 'len 12/6/2016 16:51:43'!
 new
@@ -38688,11 +38766,11 @@ example1
 			roots add: (V e: i) - (V e: j); add: (V e: j) - (V e: i)]].
 	^ RootSystem on: V roots: roots! !
 
-!RootSystem class methodsFor: 'examples' stamp: 'len 4/29/2016 07:51'!
+!RootSystem class methodsFor: 'examples' stamp: 'len 12/18/2016 20:03:48'!
 example2
 	"This is a normalized root system in R^n. The Weyl group associated to it is the hyperoctahedral group."
 	| V roots |
-	V _ RealAlgebraicNumbers new ** 3.
+	V _ RealAlgebraicNumbersField new ** 3.
 	roots _ Set new.
 	1 to: V dimension do: [:i|
 		1 to: i-1 do: [:j|
@@ -39606,8 +39684,8 @@ value: aDictionary
 BitTuple initialize!
 Digraph initialize!
 Naturals initialize!
-Integers initialize!
-Rationals initialize!
-ComplexNumbers initialize!
-Reals initialize!
+RationalField initialize!
+RationalIntegerRing initialize!
+ComplexField initialize!
+RealField initialize!
 UpperHalfPlane initialize!
