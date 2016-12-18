@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 18 December 2016 at 9:13:19 pm'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 18 December 2016 at 9:23:48 pm'!
 'Description Please enter a description for this package'!
-!provides: 'Documentation' 1 3!
+!provides: 'Documentation' 1 4!
 !classDefinition: #DocumentationGenerator category: #Documentation!
 Object subclass: #DocumentationGenerator
 	instanceVariableNames: ''
@@ -81,10 +81,13 @@ generate: aString references: tokens except: currentToken
 	output _ output copyReplaceAll: Character lf asString with: '  ', Character lf asString.
 	^ output! !
 
-!DocumentationGenerator methodsFor: 'as yet unclassified' stamp: 'len 12/18/2016 10:44:51'!
+!DocumentationGenerator methodsFor: 'as yet unclassified' stamp: 'len 12/18/2016 21:20:39'!
 generateExampleClass: aClass selector: aSymbol
-	| imageFileName source result md canvas textMorph |
+	| imageFileName source result md canvas textMorph readStream |
 	source _ aClass class compiledMethodAt: aSymbol :: getSource.
+	readStream _ source readStream.
+	readStream nextLine.
+	source _ String streamContents: [:writeStream| [readStream atEnd] whileFalse: [readStream peek = Character tab ifTrue: [readStream next]. writeStream nextPutAll: readStream nextLine; lf]].
 	md _ '<pre><code>', (self escapeCode: source), '</code></pre>'.
 	imageFileName _ aClass name, '-', aSymbol, '.jpg'.
 	result _ aClass perform: aSymbol.
@@ -98,24 +101,6 @@ generateExampleClass: aClass selector: aSymbol
 			canvas _ BitBltCanvas depth: 32 over: (textMorph morphPosition extent: textMorph morphExtent).
 			canvas fillRectangle: (0@0 extent: textMorph morphExtent + (10@10)) color: Color white. "yellow muchLighter."
 			canvas fullDraw: textMorph].
-	canvas form writeJPEGfileNamed: self path, imageFileName.
-	md _ md, Character lf asString, '&nbsp;&nbsp;&nbsp;&nbsp;!![](doc/', imageFileName, ')'.
-	^ md! !
-
-!DocumentationGenerator methodsFor: 'as yet unclassified' stamp: 'len 10/28/2016 23:06'!
-generateExampleClass: aClass selector: aSymbol references: tokens except: currentToken
-	| imageFileName source result md canvas textMorph |
-	source _ aClass class compiledMethodAt: aSymbol :: getSource.
-	"md _ self generate: source references: tokens except: currentToken.
-	md _ md, Character lf asString."
-	md _ '<pre><code>', (self escapeCode: source), '</code></pre>'.
-	imageFileName _ aClass name, '-', aSymbol, '.jpg'.
-	result _ aClass perform: aSymbol.
-	textMorph _ (TextModelMorph withModel: (TextModel withText: result printText)) wrapFlag: false; findA: InnerTextMorph.
-	textMorph color: Color black.
-	canvas _ BitBltCanvas depth: 32 over: (textMorph morphPosition extent: textMorph morphExtent).
-	canvas fillRectangle: (0@0 extent: textMorph morphExtent + (10@10)) color: Color white. "yellow muchLighter."
-	canvas fullDraw: textMorph.
 	canvas form writeJPEGfileNamed: self path, imageFileName.
 	md _ md, Character lf asString, '&nbsp;&nbsp;&nbsp;&nbsp;!![](doc/', imageFileName, ')'.
 	^ md! !
