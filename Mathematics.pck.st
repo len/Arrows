@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 18 December 2016 at 8:47:47 pm'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 18 December 2016 at 9:13:12 pm'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 308!
+!provides: 'Mathematics' 1 309!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
 	instanceVariableNames: 'numerator shift'
@@ -4203,8 +4203,8 @@ Categorically, the group ring construction is left adjoint to the group of units
 References:
 	https://en.wikipedia.org/wiki/Group_ring!
 
-!LocalizationRing commentStamp: '<historical>' prior: 0!
-My instances are localizations of a given commutative ring R away from a given prime ideal I. The elements are FormalFractions a / b with a in R and b in R \ I.!
+!LocalizationRing commentStamp: 'len 12/18/2016 21:06:08' prior: 0!
+My instances are localizations of a given commutative ring R away from a given prime ideal I. The elements are fractions a / b with a in R and b in R \ I.!
 
 !FractionRing commentStamp: '<historical>' prior: 0!
 My instances are fields of fractions (ratios, quotients) with numerator and (nonzero) denominator in an integral domain. See Ring>>fractions.
@@ -16537,9 +16537,9 @@ affine
 ambient
 	^ self! !
 
-!GeneralLinearGroup methodsFor: 'operations' stamp: 'len 4/17/2016 06:58'!
+!GeneralLinearGroup methodsFor: 'operations' stamp: 'len 12/18/2016 20:50:44'!
 asMatrixGroup
-	^ GeneralLinearMatrixGroup on: space coordinateSpace! !
+	^ GeneralLinearMatrixGroup new: space rank over: space scalars! !
 
 !GeneralLinearGroup methodsFor: 'random' stamp: 'len 8/30/2016 20:08'!
 atRandom: aRandom
@@ -19056,8 +19056,9 @@ atRandom: aRandom bits: bitSize
 characteristic
 	^ self integers characteristic! !
 
-!LocalizationRing methodsFor: 'morphisms' stamp: 'len 11/1/2016 00:35'!
+!LocalizationRing methodsFor: 'morphisms' stamp: 'len 12/18/2016 21:12:16'!
 embed: anObject
+	(self integers isKindOf: RationalIntegerRing) ifTrue: [^ anObject].
 	^ self integers fractionClass numerator: anObject denominator: self integers one! !
 
 !LocalizationRing methodsFor: 'morphisms' stamp: 'len 10/28/2016 16:38'!
@@ -19120,9 +19121,9 @@ over: aRing
 	"Change the base ring."
 	^ self class away: (self ideal over: aRing)! !
 
-!LocalizationRing methodsFor: 'printing' stamp: 'len 10/28/2016 16:42'!
+!LocalizationRing methodsFor: 'printing' stamp: 'len 12/18/2016 21:05:06'!
 printOn: aStream
-	aStream print: self integers; nextPutAll: self maximalIdeal printText sub! !
+	aStream print: self integers; nextPutAll: self maximalIdeal printString sub! !
 
 !LocalizationRing methodsFor: 'accessing' stamp: 'len 10/31/2016 14:04'!
 x: anInteger
@@ -20425,9 +20426,9 @@ isUFD
 	"A Dedekind domain is a UFD iff it is a PID."
 	^ self isPID! !
 
-!IntegerRing methodsFor: 'as yet unclassified' stamp: 'len 12/18/2016 14:54:33'!
+!IntegerRing methodsFor: 'as yet unclassified' stamp: 'len 12/18/2016 21:06:50'!
 printOn: aStream
-	aStream nextPutAll: 'O' italic; nextPutAll: field printText sub
+	aStream nextPutAll: 'O' italic; nextPutAll: field printString sub
 "	aStream nextPutAll: 'O' italic; nextPut: $(; print: field; nextPut: $)"! !
 
 !IntegerRing class methodsFor: 'instance creation' stamp: 'len 12/15/2016 08:40:10'!

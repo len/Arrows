@@ -1,6 +1,6 @@
-'From Cuis 4.2 of 25 July 2013 [latest update: #2847] on 16 November 2016 at 8:19:16.746494 am'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 18 December 2016 at 9:13:19 pm'!
 'Description Please enter a description for this package'!
-!provides: 'Documentation' 1 2!
+!provides: 'Documentation' 1 3!
 !classDefinition: #DocumentationGenerator category: #Documentation!
 Object subclass: #DocumentationGenerator
 	instanceVariableNames: ''
@@ -81,6 +81,27 @@ generate: aString references: tokens except: currentToken
 	output _ output copyReplaceAll: Character lf asString with: '  ', Character lf asString.
 	^ output! !
 
+!DocumentationGenerator methodsFor: 'as yet unclassified' stamp: 'len 12/18/2016 10:44:51'!
+generateExampleClass: aClass selector: aSymbol
+	| imageFileName source result md canvas textMorph |
+	source _ aClass class compiledMethodAt: aSymbol :: getSource.
+	md _ '<pre><code>', (self escapeCode: source), '</code></pre>'.
+	imageFileName _ aClass name, '-', aSymbol, '.jpg'.
+	result _ aClass perform: aSymbol.
+	(result isKindOf: Morph)
+		ifTrue:
+			[canvas _ BitBltCanvas depth: 32 over: (result morphPosition extent: result morphExtent).
+			canvas fullDraw: result]
+		ifFalse:
+			[textMorph _ (TextModelMorph withModel: (TextModel withText: result printText)) wrapFlag: false; findA: InnerTextMorph.
+			textMorph color: Color black.
+			canvas _ BitBltCanvas depth: 32 over: (textMorph morphPosition extent: textMorph morphExtent).
+			canvas fillRectangle: (0@0 extent: textMorph morphExtent + (10@10)) color: Color white. "yellow muchLighter."
+			canvas fullDraw: textMorph].
+	canvas form writeJPEGfileNamed: self path, imageFileName.
+	md _ md, Character lf asString, '&nbsp;&nbsp;&nbsp;&nbsp;!![](doc/', imageFileName, ')'.
+	^ md! !
+
 !DocumentationGenerator methodsFor: 'as yet unclassified' stamp: 'len 10/28/2016 23:06'!
 generateExampleClass: aClass selector: aSymbol references: tokens except: currentToken
 	| imageFileName source result md canvas textMorph |
@@ -99,7 +120,7 @@ generateExampleClass: aClass selector: aSymbol references: tokens except: curren
 	md _ md, Character lf asString, '&nbsp;&nbsp;&nbsp;&nbsp;!![](doc/', imageFileName, ')'.
 	^ md! !
 
-!DocumentationGenerator methodsFor: 'as yet unclassified' stamp: 'len 10/29/2016 08:17'!
+!DocumentationGenerator methodsFor: 'as yet unclassified' stamp: 'len 12/18/2016 20:49:19'!
 generateForClasses: classes
 	| tokens |
 	tokens _ classes collect: [:each| each name].
@@ -121,7 +142,7 @@ generateForClasses: classes
 		examples _ examples select: [:each| each isUnary].
 		examples notEmpty ifTrue:
 			[examples do: [:exampleSelector|
-				output nextPutAll: (self generateExampleClass: class selector: exampleSelector references: tokens except: class name); lf; lf].
+				output nextPutAll: (self generateExampleClass: class selector: exampleSelector); lf; lf].
 				output nextPutAll: '***'; lf].
 "		class organization categories do: [:category|
 			((category includesSubString: 'private') or: [category includesSubString: 'initializ'])
