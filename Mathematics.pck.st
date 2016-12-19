@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 18 December 2016 at 9:13:12 pm'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 19 December 2016 at 12:45:56 pm'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 309!
+!provides: 'Mathematics' 1 310!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
 	instanceVariableNames: 'numerator shift'
@@ -11,13 +11,13 @@ Number subclass: #DyadicFraction
 DyadicFraction class
 	instanceVariableNames: ''!
 
-!classDefinition: #RealAlgebraicNumber category: #'Mathematics-Fields'!
+!classDefinition: #RealAlgebraicNumber category: #'Mathematics-Fields-Embeddings'!
 Number subclass: #RealAlgebraicNumber
 	instanceVariableNames: 'polynomial irreducible bounds rightSign'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Fields'!
-!classDefinition: 'RealAlgebraicNumber class' category: #'Mathematics-Fields'!
+	category: 'Mathematics-Fields-Embeddings'!
+!classDefinition: 'RealAlgebraicNumber class' category: #'Mathematics-Fields-Embeddings'!
 RealAlgebraicNumber class
 	instanceVariableNames: ''!
 
@@ -331,6 +331,26 @@ GraphMorph subclass: #SpringGraphMorph
 SpringGraphMorph class
 	instanceVariableNames: ''!
 
+!classDefinition: #GraphNodeMorph category: #'Mathematics-Graphs-Morphic'!
+RectangleLikeMorph subclass: #GraphNodeMorph
+	instanceVariableNames: 'node x dx shape label labelMorph'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Graphs-Morphic'!
+!classDefinition: 'GraphNodeMorph class' category: #'Mathematics-Graphs-Morphic'!
+GraphNodeMorph class
+	instanceVariableNames: ''!
+
+!classDefinition: #SpringNodeMorph category: #'Mathematics-Graphs-Morphic'!
+GraphNodeMorph subclass: #SpringNodeMorph
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Graphs-Morphic'!
+!classDefinition: 'SpringNodeMorph class' category: #'Mathematics-Graphs-Morphic'!
+SpringNodeMorph class
+	instanceVariableNames: ''!
+
 !classDefinition: #ComplexPlotMorph category: #'Mathematics-Morphic'!
 RectangleLikeMorph subclass: #ComplexPlotMorph
 	instanceVariableNames: 'function image box palette'
@@ -439,26 +459,6 @@ GraphEdgeMorph subclass: #SpringEdgeMorph
 	category: 'Mathematics-Graphs-Morphic'!
 !classDefinition: 'SpringEdgeMorph class' category: #'Mathematics-Graphs-Morphic'!
 SpringEdgeMorph class
-	instanceVariableNames: ''!
-
-!classDefinition: #GraphNodeMorph category: #'Mathematics-Graphs-Morphic'!
-Morph subclass: #GraphNodeMorph
-	instanceVariableNames: 'node x dx extent color shape label labelMorph'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Graphs-Morphic'!
-!classDefinition: 'GraphNodeMorph class' category: #'Mathematics-Graphs-Morphic'!
-GraphNodeMorph class
-	instanceVariableNames: ''!
-
-!classDefinition: #SpringNodeMorph category: #'Mathematics-Graphs-Morphic'!
-GraphNodeMorph subclass: #SpringNodeMorph
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Graphs-Morphic'!
-!classDefinition: 'SpringNodeMorph class' category: #'Mathematics-Graphs-Morphic'!
-SpringNodeMorph class
 	instanceVariableNames: ''!
 
 !classDefinition: #Diagram category: #'Mathematics-Kernel'!
@@ -1351,16 +1351,6 @@ Ring subclass: #RationalIntegerRing
 RationalIntegerRing class
 	instanceVariableNames: ''!
 
-!classDefinition: #AlgebraicNumbersField category: #'Mathematics-Fields'!
-Ring subclass: #AlgebraicNumbersField
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Fields'!
-!classDefinition: 'AlgebraicNumbersField class' category: #'Mathematics-Fields'!
-AlgebraicNumbersField class
-	instanceVariableNames: ''!
-
 !classDefinition: #ComplexField category: #'Mathematics-Fields'!
 Ring subclass: #ComplexField
 	instanceVariableNames: ''
@@ -1381,6 +1371,16 @@ Ring subclass: #IntegerRing
 IntegerRing class
 	instanceVariableNames: ''!
 
+!classDefinition: #CyclotomicIntegerRing category: #'Mathematics-Fields'!
+IntegerRing subclass: #CyclotomicIntegerRing
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Fields'!
+!classDefinition: 'CyclotomicIntegerRing class' category: #'Mathematics-Fields'!
+CyclotomicIntegerRing class
+	instanceVariableNames: ''!
+
 !classDefinition: #QuadraticIntegerRing category: #'Mathematics-Fields'!
 IntegerRing subclass: #QuadraticIntegerRing
 	instanceVariableNames: ''
@@ -1391,16 +1391,6 @@ IntegerRing subclass: #QuadraticIntegerRing
 QuadraticIntegerRing class
 	instanceVariableNames: ''!
 
-!classDefinition: #RealAlgebraicNumbersField category: #'Mathematics-Fields'!
-Ring subclass: #RealAlgebraicNumbersField
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Fields'!
-!classDefinition: 'RealAlgebraicNumbersField class' category: #'Mathematics-Fields'!
-RealAlgebraicNumbersField class
-	instanceVariableNames: ''!
-
 !classDefinition: #RealField category: #'Mathematics-Fields'!
 Ring subclass: #RealField
 	instanceVariableNames: ''
@@ -1409,6 +1399,26 @@ Ring subclass: #RealField
 	category: 'Mathematics-Fields'!
 !classDefinition: 'RealField class' category: #'Mathematics-Fields'!
 RealField class
+	instanceVariableNames: ''!
+
+!classDefinition: #AlgebraicNumbersField category: #'Mathematics-Fields-Embeddings'!
+Ring subclass: #AlgebraicNumbersField
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Fields-Embeddings'!
+!classDefinition: 'AlgebraicNumbersField class' category: #'Mathematics-Fields-Embeddings'!
+AlgebraicNumbersField class
+	instanceVariableNames: ''!
+
+!classDefinition: #RealAlgebraicNumbersField category: #'Mathematics-Fields-Embeddings'!
+Ring subclass: #RealAlgebraicNumbersField
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Fields-Embeddings'!
+!classDefinition: 'RealAlgebraicNumbersField class' category: #'Mathematics-Fields-Embeddings'!
+RealAlgebraicNumbersField class
 	instanceVariableNames: ''!
 
 !classDefinition: #PAdicField category: #'Mathematics-Fields-PAdics'!
@@ -1491,14 +1501,14 @@ Module subclass: #Ideal
 Ideal class
 	instanceVariableNames: ''!
 
-!classDefinition: #IntegerIdeal category: #'Mathematics-Rings'!
-Ideal subclass: #IntegerIdeal
+!classDefinition: #RationalIntegerIdeal category: #'Mathematics-Rings'!
+Ideal subclass: #RationalIntegerIdeal
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Rings'!
-!classDefinition: 'IntegerIdeal class' category: #'Mathematics-Rings'!
-IntegerIdeal class
+!classDefinition: 'RationalIntegerIdeal class' category: #'Mathematics-Rings'!
+RationalIntegerIdeal class
 	instanceVariableNames: ''!
 
 !classDefinition: #PolynomialIdeal category: #'Mathematics-Polynomials'!
@@ -2641,13 +2651,13 @@ ResidueClass subclass: #PolynomialResidueClass
 PolynomialResidueClass class
 	instanceVariableNames: ''!
 
-!classDefinition: #AlgebraicNumber category: #'Mathematics-Fields'!
+!classDefinition: #AlgebraicNumber category: #'Mathematics-Fields-Embeddings'!
 Object subclass: #AlgebraicNumber
 	instanceVariableNames: 'polynomial irreducible approximation radius'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Fields'!
-!classDefinition: 'AlgebraicNumber class' category: #'Mathematics-Fields'!
+	category: 'Mathematics-Fields-Embeddings'!
+!classDefinition: 'AlgebraicNumber class' category: #'Mathematics-Fields-Embeddings'!
 AlgebraicNumber class
 	instanceVariableNames: ''!
 
@@ -4261,7 +4271,7 @@ Example:
 !
 
 !NumberField commentStamp: '<historical>' prior: 0!
-My instances are number fields, i.e. finite (and thus algebraic) field extensions of the rational numbers Q. Number fields can also be viewed as vector spaces over Q.
+My instances are algebraic number fields, i.e. finite (and thus algebraic) field extensions of the rational numbers Q. Number fields can also be viewed as vector spaces over Q.
 
 Example:
 	QQ adjoin: RealAlgebraicNumber sqrt2
@@ -4282,20 +4292,20 @@ My instances are quotients of polynomial rings.!
 !RationalIntegerRing commentStamp: '<historical>' prior: 0!
 My singletion global instance ZZ is the ring of rational integers.!
 
-!AlgebraicNumbersField commentStamp: '<historical>' prior: 0!
-I'm the field of (complex) algebraic numbers, i.e. the algebraic closure of Q.!
-
 !ComplexField commentStamp: '<historical>' prior: 0!
 My singletion global instance CC is the field of complex numbers.!
 
 !IntegerRing commentStamp: '<historical>' prior: 0!
 My instances are rings of integers of number fields (i.e. maximal orders). For the ring Z of rational integers see RationalIntegerRing.!
 
-!RealAlgebraicNumbersField commentStamp: '<historical>' prior: 0!
-I'm the field of real algebraic numbers, i.e. real zeros of polynomials with rational coefficients.!
-
 !RealField commentStamp: '<historical>' prior: 0!
 My singletion global instance RR is the field of real numbers.!
+
+!AlgebraicNumbersField commentStamp: '<historical>' prior: 0!
+I'm the field of (complex) algebraic numbers, i.e. the algebraic closure of Q.!
+
+!RealAlgebraicNumbersField commentStamp: '<historical>' prior: 0!
+I'm the field of real algebraic numbers, i.e. real zeros of polynomials with rational coefficients.!
 
 !PAdicField commentStamp: '<historical>' prior: 0!
 My instances are fields of p-adic numbers Qp. See PAdicNumber.!
@@ -4360,7 +4370,7 @@ Ideals are the ring theory analog of normal subgroups from group theory. They ar
 References:
 	https://en.wikipedia.org/wiki/Ideal_(ring_theory)!
 
-!IntegerIdeal commentStamp: '<historical>' prior: 0!
+!RationalIntegerIdeal commentStamp: '<historical>' prior: 0!
 My instances are ideals of integers. They are cyclic, i.e. they are all multiples of a given integer (the #generator).!
 
 !PolynomialIdeal commentStamp: '<historical>' prior: 0!
@@ -6050,10 +6060,11 @@ buildMathFont
 	"
 	#(5 6 7 8 9 10 11 12 13 14 17 22) do: [:pointSize| self buildMathFont: pointSize]! !
 
-!StrikeFont class methodsFor: '*mathematics-character shapes' stamp: 'len 12/17/2016 23:01:08'!
+!StrikeFont class methodsFor: '*mathematics-character shapes' stamp: 'len 12/18/2016 22:58:05'!
 buildMathFont: pointSize
 	| font normal slightlyLarger larger muchLarger |
 	font _ AbstractFont familyName: 'DejaVu Sans Mono' pointSize: pointSize.
+	font useLeftArrow.
 	normal _ AbstractFont familyName: 'DejaVu' pointSize: pointSize.
 "	#(1 0) detect: [:one| (slightlyLarger _ (AbstractFont familyName: 'DejaVu' pointSize: pointSize+one)) notNil]."
 	#(2 1 3 0) detect: [:one| (larger _ (AbstractFont familyName: 'DejaVu' pointSize: pointSize+one)) notNil].
@@ -12101,6 +12112,215 @@ step
 	self redrawNeeded.
 	maxDelta < 0.1 ifTrue: [self stopStepping]! !
 
+!GraphNodeMorph methodsFor: 'accessing' stamp: 'len 7/9/2016 22:39'!
+alpha
+	self dimension > 2 ifFalse: [^ 1.0].
+	(owner isNil or: [x z >= 0]) ifTrue: [^ 1.0].
+	^ (x z / owner morphExtent y + 1) squared min: 1.0 max: 0.0! !
+
+!GraphNodeMorph methodsFor: 'accessing' stamp: 'len 7/9/2016 22:25'!
+color
+	^ color! !
+
+!GraphNodeMorph methodsFor: 'accessing' stamp: 'len 7/9/2016 22:25'!
+color: aColor
+	color _ aColor! !
+
+!GraphNodeMorph methodsFor: 'moving' stamp: 'len 7/9/2016 22:40'!
+dampBy: aNumber
+	dx _ dx / aNumber! !
+
+!GraphNodeMorph methodsFor: 'accessing' stamp: 'len 7/9/2016 22:39'!
+dimension
+	^ x size! !
+
+!GraphNodeMorph methodsFor: 'accessing' stamp: 'len 11/5/2016 10:30'!
+dimension: anInteger
+	| n |
+	(n _ x size) = anInteger
+		ifTrue: [^ self].
+	n > anInteger
+		ifTrue:
+			[x _ x copyFrom: 1 to: anInteger.
+			dx _ dx copyFrom: 1 to: anInteger]
+		ifFalse:
+			[| z |
+			z _ QQ tuple: anInteger - n evaluating: [:i| 0].
+			x _ x, z.
+			dx _ dx, z]! !
+
+!GraphNodeMorph methodsFor: 'moving' stamp: 'len 7/9/2016 22:40'!
+doMove
+	| bounds delta |
+	x _ x + dx.
+	bounds _ owner morphLocalBounds.
+	self morphPosition: bounds center + ((x at: 1) @ (x at: 2)).
+	(bounds containsRect: self morphBounds)
+		ifFalse: [delta _ 2 * (self morphBounds amountToTranslateWithin: bounds).
+					x _ x + (delta x, delta y).
+					self morphPosition: bounds center + ((x at: 1) @ (x at: 2)).
+					dx _ dx * 0 "0@0"].
+	^ dx norm! !
+
+!GraphNodeMorph methodsFor: 'drawing' stamp: 'len 5/4/2016 06:37'!
+drawOn: aCanvas
+	(extent x abs < 2 and: [extent y abs < 2]) ifTrue: [^ self].
+	shape == #circle
+		ifTrue: [aCanvas fillEllipse: self morphLocalBounds color: self color. ^ self].
+	shape == #square
+		ifTrue: [aCanvas fillRectangle: self morphLocalBounds color: self color. ^ self].
+	shape == #squareFrame
+		ifTrue: [aCanvas frameRectangle: self morphLocalBounds borderWidth: 1 color: self color. ^ self].
+	shape == #circleFrame
+		ifTrue: [aCanvas frameEllipse: self morphLocalBounds borderWidth: 1 color: self color. ^ self].
+	"otherwise do nothing"
+	^ self! !
+
+!GraphNodeMorph methodsFor: 'accessing' stamp: 'len 7/9/2016 22:41'!
+dx
+	^ dx! !
+
+!GraphNodeMorph methodsFor: 'accessing' stamp: 'len 7/9/2016 22:41'!
+dx: aVector
+	dx _ aVector! !
+
+!GraphNodeMorph methodsFor: 'moving' stamp: 'len 7/9/2016 22:54'!
+freeze
+	dx _ dx * 0.0! !
+
+!GraphNodeMorph methodsFor: 'private' stamp: 'len 2/18/2016 21:42'!
+hideLabel
+	labelMorph notNil ifTrue: [labelMorph delete. labelMorph _ nil]! !
+
+!GraphNodeMorph methodsFor: 'initialization' stamp: 'len 7/9/2016 22:59'!
+initialize
+	super initialize.
+	self color: Color gray.
+	x _ (0,0).
+	dx _ x.
+	shape _ #circle.
+	extent _ 10@10! !
+
+!GraphNodeMorph methodsFor: 'accessing' stamp: 'len 2/18/2016 21:42'!
+label
+	^ label! !
+
+!GraphNodeMorph methodsFor: 'accessing' stamp: 'len 2/18/2016 21:43'!
+label: aString
+	label _ aString.
+	label notNil ifTrue: [self showLabel] ifFalse: [self hideLabel]! !
+
+!GraphNodeMorph methodsFor: 'accessing' stamp: 'len 2/12/2003 23:20'!
+node
+	^ node! !
+
+!GraphNodeMorph methodsFor: 'accessing' stamp: 'len 4/8/2016 23:02'!
+node: aGraphNode 
+	node _ aGraphNode.
+	self label: node value printText! !
+
+!GraphNodeMorph methodsFor: 'moving' stamp: 'len 7/9/2016 22:42'!
+perturbate: n
+	dx _ dx + (dx collect: [:xi| n atRandom - n])! !
+
+!GraphNodeMorph methodsFor: 'moving' stamp: 'len 7/9/2016 22:42'!
+perturbation
+	^ x collect: [:xi| 3 atRandom - 2]! !
+
+!GraphNodeMorph methodsFor: 'accessing' stamp: 'len 12/19/2016 12:38:16'!
+radius
+	^ extent x! !
+
+!GraphNodeMorph methodsFor: 'accessing' stamp: 'len 12/19/2016 12:39:19'!
+radius: aNumber
+	self morphExtent: aNumber @ aNumber! !
+
+!GraphNodeMorph methodsFor: 'accessing' stamp: 'len 2/18/2016 21:25'!
+shape
+	^ shape! !
+
+!GraphNodeMorph methodsFor: 'accessing' stamp: 'len 2/18/2016 21:31'!
+shape: aShapeSymbol
+	shape _ aShapeSymbol.
+	self redrawNeeded! !
+
+!GraphNodeMorph methodsFor: 'private' stamp: 'len 4/30/2016 06:55'!
+showLabel
+	(labelMorph notNil or: [label isNil]) ifTrue: [^ self].
+	labelMorph _ StringMorph contents: label font: Preferences standardMenuFont.
+	labelMorph color: Color white.
+	self addMorph: labelMorph.
+	labelMorph morphAlign: labelMorph morphBounds leftCenter with: self morphBounds rightCenter + (1@0)! !
+
+!GraphNodeMorph methodsFor: 'moving' stamp: 'len 7/9/2016 22:42'!
+translateBy: delta
+	dx _ dx + delta! !
+
+!GraphNodeMorph methodsFor: 'accessing' stamp: 'len 2/18/2016 21:07'!
+value
+	^ node value! !
+
+!GraphNodeMorph methodsFor: 'accessing' stamp: 'len 7/9/2016 22:14'!
+x
+	^ x! !
+
+!GraphNodeMorph methodsFor: 'accessing' stamp: 'len 7/9/2016 22:14'!
+x: aPoint
+	x _ aPoint! !
+
+!SpringNodeMorph methodsFor: 'event handling testing' stamp: 'len 7/9/2016 22:10'!
+aboutToBeGrabbedBy: aHand 
+	super aboutToBeGrabbedBy: aHand.
+	(owner isKindOf: GraphMorph) ifTrue: ["owner focusOn: node; stopStepping"]! !
+
+!SpringNodeMorph methodsFor: 'moving' stamp: 'len 2/25/2016 16:56'!
+approachPoint: aPoint
+	| dx` x1 x2 diff |
+	dx` _ dx - dx. "0@0."
+	x1 _ x.
+	x2 _ aPoint.
+	x1 = x2 ifTrue: [^ self].
+	diff _ x1 - x2.
+	dx` _ dx` + (diff / diff norm2).
+	dx` isZero ifFalse: [dx _ dx + (dx` / dx` norm * 2)]! !
+
+!SpringNodeMorph methodsFor: 'event handling testing' stamp: 'sam 2/10/2004 01:56'!
+handlesMouseDown: evt 
+	evt shiftPressed
+		ifFalse: [^ super handlesMouseDown: evt]
+		ifTrue: [^ true]! !
+
+!SpringNodeMorph methodsFor: 'private' stamp: 'len 2/29/2016 21:28'!
+nearbyNodesDo: aBlock
+	| count |
+	count _ 0.
+	node markDo: [:each |
+		count _ count + 1.
+		count > 40 ifTrue: [^ self].
+		aBlock value: (owner nodeAt: each)]! !
+
+!SpringNodeMorph methodsFor: 'moving' stamp: 'len 7/9/2016 22:15'!
+separateFromAllNodes
+	| dx` x1 x2 |
+	(owner isKindOf: SpringGraphMorph) ifFalse: [^ self].
+	dx` _ dx - dx. "0@0"
+	x1 _ x.
+	owner nodesDo: [:each|
+		x2 _ each x + each dx.
+		self == each
+			ifFalse:
+				[x1 = x2
+					ifTrue: [dx` _ dx` + self perturbation]
+					ifFalse:
+						[| diff |
+						diff _ x1 - x2.
+						dx` _ dx` + (diff / diff norm2)]]].
+	dx` isZero ifFalse: [dx _ dx + (dx` / dx` norm * 2)]! !
+
+!SpringNodeMorph methodsFor: 'event handling testing' stamp: 'len 2/18/2016 06:02'!
+wantsToBeDroppedInto: aMorph
+	^ aMorph isKindOf: SpringGraphMorph! !
+
 !ComplexPlotMorph methodsFor: 'as yet unclassified' stamp: 'len 12/6/2016 14:39:49'!
 box: aRectangle
 	box _ aRectangle.
@@ -13098,14 +13318,14 @@ color: aColor
 direction
 	^ (self targetPoint - self sourcePoint) normalized! !
 
-!GraphEdgeMorph methodsFor: 'drawing' stamp: 'len 7/14/2016 06:17'!
+!GraphEdgeMorph methodsFor: 'drawing' stamp: 'len 12/19/2016 12:10:13'!
 drawArcOn: aCanvas from: sourcePoint to: targetPoint
 	multiplicity odd
 		ifTrue: [aCanvas line: sourcePoint to: targetPoint width: width color: color].
 	1 to: multiplicity - (multiplicity \\ 2) do: [:i|
 		self drawCurveOn: aCanvas from: sourcePoint to: targetPoint curvature: i+1//2 * (i odd ifTrue: [1] ifFalse: [-1])]! !
 
-!GraphEdgeMorph methodsFor: 'drawing' stamp: 'len 7/14/2016 05:20'!
+!GraphEdgeMorph methodsFor: 'drawing' stamp: 'len 12/19/2016 12:29:46'!
 drawArrowOn: aCanvas from: aPoint to: anotherPoint
 	| sourcePoint targetPoint direction |
 	sourcePoint _ aPoint.
@@ -13117,8 +13337,8 @@ drawArrowOn: aCanvas from: aPoint to: anotherPoint
 			shift _ (direction rotatedBy: Float pi/2) * 4.
 			sourcePoint _ sourcePoint + shift.
 			targetPoint _ targetPoint + shift].
-	targetPoint _ targetPoint - (direction * target morphExtent x).
-	sourcePoint _ sourcePoint + (direction * source morphExtent x).
+	targetPoint _ targetPoint - (direction * target radius).
+	sourcePoint _ sourcePoint + (direction * source radius).
 	self drawArcOn: aCanvas from: sourcePoint to: targetPoint.
 	aCanvas line: targetPoint - (direction*3) - ((direction rotatedBy: Float pi / 4) * 4)
 		to: targetPoint width: width color: self color.
@@ -13305,223 +13525,6 @@ step
 !SpringEdgeMorph methodsFor: 'stepping' stamp: 'len 2/24/2016 21:12'!
 wantsSteps
 	^ false! !
-
-!GraphNodeMorph methodsFor: 'accessing' stamp: 'len 7/9/2016 22:39'!
-alpha
-	self dimension > 2 ifFalse: [^ 1.0].
-	(owner isNil or: [x z >= 0]) ifTrue: [^ 1.0].
-	^ (x z / owner morphExtent y + 1) squared min: 1.0 max: 0.0! !
-
-!GraphNodeMorph methodsFor: 'accessing' stamp: 'len 7/9/2016 22:25'!
-color
-	^ color! !
-
-!GraphNodeMorph methodsFor: 'accessing' stamp: 'len 7/9/2016 22:25'!
-color: aColor
-	color _ aColor! !
-
-!GraphNodeMorph methodsFor: 'moving' stamp: 'len 7/9/2016 22:40'!
-dampBy: aNumber
-	dx _ dx / aNumber! !
-
-!GraphNodeMorph methodsFor: 'accessing' stamp: 'len 7/9/2016 22:39'!
-dimension
-	^ x size! !
-
-!GraphNodeMorph methodsFor: 'accessing' stamp: 'len 11/5/2016 10:30'!
-dimension: anInteger
-	| n |
-	(n _ x size) = anInteger
-		ifTrue: [^ self].
-	n > anInteger
-		ifTrue:
-			[x _ x copyFrom: 1 to: anInteger.
-			dx _ dx copyFrom: 1 to: anInteger]
-		ifFalse:
-			[| z |
-			z _ QQ tuple: anInteger - n evaluating: [:i| 0].
-			x _ x, z.
-			dx _ dx, z]! !
-
-!GraphNodeMorph methodsFor: 'moving' stamp: 'len 7/9/2016 22:40'!
-doMove
-	| bounds delta |
-	x _ x + dx.
-	bounds _ owner morphLocalBounds.
-	self morphPosition: bounds center + ((x at: 1) @ (x at: 2)).
-	(bounds containsRect: self morphBounds)
-		ifFalse: [delta _ 2 * (self morphBounds amountToTranslateWithin: bounds).
-					x _ x + (delta x, delta y).
-					self morphPosition: bounds center + ((x at: 1) @ (x at: 2)).
-					dx _ dx * 0 "0@0"].
-	^ dx norm! !
-
-!GraphNodeMorph methodsFor: 'drawing' stamp: 'len 5/4/2016 06:37'!
-drawOn: aCanvas
-	(extent x abs < 2 and: [extent y abs < 2]) ifTrue: [^ self].
-	shape == #circle
-		ifTrue: [aCanvas fillEllipse: self morphLocalBounds color: self color. ^ self].
-	shape == #square
-		ifTrue: [aCanvas fillRectangle: self morphLocalBounds color: self color. ^ self].
-	shape == #squareFrame
-		ifTrue: [aCanvas frameRectangle: self morphLocalBounds borderWidth: 1 color: self color. ^ self].
-	shape == #circleFrame
-		ifTrue: [aCanvas frameEllipse: self morphLocalBounds borderWidth: 1 color: self color. ^ self].
-	"otherwise do nothing"
-	^ self! !
-
-!GraphNodeMorph methodsFor: 'accessing' stamp: 'len 7/9/2016 22:41'!
-dx
-	^ dx! !
-
-!GraphNodeMorph methodsFor: 'accessing' stamp: 'len 7/9/2016 22:41'!
-dx: aVector
-	dx _ aVector! !
-
-!GraphNodeMorph methodsFor: 'accessing' stamp: 'len 7/9/2016 22:30'!
-extent
-	^ extent! !
-
-!GraphNodeMorph methodsFor: 'accessing' stamp: 'len 7/9/2016 22:30'!
-extent: aPoint
-	extent _ aPoint! !
-
-!GraphNodeMorph methodsFor: 'moving' stamp: 'len 7/9/2016 22:54'!
-freeze
-	dx _ dx * 0.0! !
-
-!GraphNodeMorph methodsFor: 'private' stamp: 'len 2/18/2016 21:42'!
-hideLabel
-	labelMorph notNil ifTrue: [labelMorph delete. labelMorph _ nil]! !
-
-!GraphNodeMorph methodsFor: 'initialization' stamp: 'len 7/9/2016 22:59'!
-initialize
-	super initialize.
-	self color: Color gray.
-	x _ (0,0).
-	dx _ x.
-	shape _ #circle.
-	extent _ 10@10! !
-
-!GraphNodeMorph methodsFor: 'accessing' stamp: 'len 2/18/2016 21:42'!
-label
-	^ label! !
-
-!GraphNodeMorph methodsFor: 'accessing' stamp: 'len 2/18/2016 21:43'!
-label: aString
-	label _ aString.
-	label notNil ifTrue: [self showLabel] ifFalse: [self hideLabel]! !
-
-!GraphNodeMorph methodsFor: 'moving' stamp: 'len 7/9/2016 22:31'!
-morphExtent
-	^ extent! !
-
-!GraphNodeMorph methodsFor: 'accessing' stamp: 'len 2/12/2003 23:20'!
-node
-	^ node! !
-
-!GraphNodeMorph methodsFor: 'accessing' stamp: 'len 4/8/2016 23:02'!
-node: aGraphNode 
-	node _ aGraphNode.
-	self label: node value printText! !
-
-!GraphNodeMorph methodsFor: 'moving' stamp: 'len 7/9/2016 22:42'!
-perturbate: n
-	dx _ dx + (dx collect: [:xi| n atRandom - n])! !
-
-!GraphNodeMorph methodsFor: 'moving' stamp: 'len 7/9/2016 22:42'!
-perturbation
-	^ x collect: [:xi| 3 atRandom - 2]! !
-
-!GraphNodeMorph methodsFor: 'accessing' stamp: 'len 2/26/2016 03:13'!
-radius: aNumber
-	self morphExtent: aNumber @ aNumber! !
-
-!GraphNodeMorph methodsFor: 'accessing' stamp: 'len 2/18/2016 21:25'!
-shape
-	^ shape! !
-
-!GraphNodeMorph methodsFor: 'accessing' stamp: 'len 2/18/2016 21:31'!
-shape: aShapeSymbol
-	shape _ aShapeSymbol.
-	self redrawNeeded! !
-
-!GraphNodeMorph methodsFor: 'private' stamp: 'len 4/30/2016 06:55'!
-showLabel
-	(labelMorph notNil or: [label isNil]) ifTrue: [^ self].
-	labelMorph _ StringMorph contents: label font: Preferences standardMenuFont.
-	labelMorph color: Color white.
-	self addMorph: labelMorph.
-	labelMorph morphAlign: labelMorph morphBounds leftCenter with: self morphBounds rightCenter + (1@0)! !
-
-!GraphNodeMorph methodsFor: 'moving' stamp: 'len 7/9/2016 22:42'!
-translateBy: delta
-	dx _ dx + delta! !
-
-!GraphNodeMorph methodsFor: 'accessing' stamp: 'len 2/18/2016 21:07'!
-value
-	^ node value! !
-
-!GraphNodeMorph methodsFor: 'accessing' stamp: 'len 7/9/2016 22:14'!
-x
-	^ x! !
-
-!GraphNodeMorph methodsFor: 'accessing' stamp: 'len 7/9/2016 22:14'!
-x: aPoint
-	x _ aPoint! !
-
-!SpringNodeMorph methodsFor: 'event handling testing' stamp: 'len 7/9/2016 22:10'!
-aboutToBeGrabbedBy: aHand 
-	super aboutToBeGrabbedBy: aHand.
-	(owner isKindOf: GraphMorph) ifTrue: ["owner focusOn: node; stopStepping"]! !
-
-!SpringNodeMorph methodsFor: 'moving' stamp: 'len 2/25/2016 16:56'!
-approachPoint: aPoint
-	| dx` x1 x2 diff |
-	dx` _ dx - dx. "0@0."
-	x1 _ x.
-	x2 _ aPoint.
-	x1 = x2 ifTrue: [^ self].
-	diff _ x1 - x2.
-	dx` _ dx` + (diff / diff norm2).
-	dx` isZero ifFalse: [dx _ dx + (dx` / dx` norm * 2)]! !
-
-!SpringNodeMorph methodsFor: 'event handling testing' stamp: 'sam 2/10/2004 01:56'!
-handlesMouseDown: evt 
-	evt shiftPressed
-		ifFalse: [^ super handlesMouseDown: evt]
-		ifTrue: [^ true]! !
-
-!SpringNodeMorph methodsFor: 'private' stamp: 'len 2/29/2016 21:28'!
-nearbyNodesDo: aBlock
-	| count |
-	count _ 0.
-	node markDo: [:each |
-		count _ count + 1.
-		count > 40 ifTrue: [^ self].
-		aBlock value: (owner nodeAt: each)]! !
-
-!SpringNodeMorph methodsFor: 'moving' stamp: 'len 7/9/2016 22:15'!
-separateFromAllNodes
-	| dx` x1 x2 |
-	(owner isKindOf: SpringGraphMorph) ifFalse: [^ self].
-	dx` _ dx - dx. "0@0"
-	x1 _ x.
-	owner nodesDo: [:each|
-		x2 _ each x + each dx.
-		self == each
-			ifFalse:
-				[x1 = x2
-					ifTrue: [dx` _ dx` + self perturbation]
-					ifFalse:
-						[| diff |
-						diff _ x1 - x2.
-						dx` _ dx` + (diff / diff norm2)]]].
-	dx` isZero ifFalse: [dx _ dx + (dx` / dx` norm * 2)]! !
-
-!SpringNodeMorph methodsFor: 'event handling testing' stamp: 'len 2/18/2016 06:02'!
-wantsToBeDroppedInto: aMorph
-	^ aMorph isKindOf: SpringGraphMorph! !
 
 !Diagram methodsFor: 'accessing' stamp: 'len 6/13/2016 03:38'!
 arrows
@@ -15149,7 +15152,7 @@ cayleyGraph: generators
 cayleyGraphMorph
 	^ self cayleyGraphMorph: self generators! !
 
-!Group methodsFor: 'graphs' stamp: 'len 8/16/2016 04:03'!
+!Group methodsFor: 'graphs' stamp: 'len 12/19/2016 12:23:54'!
 cayleyGraphMorph: generators
 	"Answer the colored Cayley graph of the receiver for the given set of generators.
 	The set of generators is usually assumed to be symmetric (contains all inverses too) and to not contain the identity."
@@ -15157,11 +15160,11 @@ cayleyGraphMorph: generators
 	G _ self cayleyGraph: generators.
 	answer _ G asMorph.
 	colors _ AutomaticPalette new.
+	answer nodesDo: [:each| each color: Color transparent; radius: 0].
 	generators do: [:each| colors at: each].
-	generators do: [:each| (answer nodeAt: each) color: (colors at: each); morphExtent: 12@10].
+	generators do: [:each| (answer nodeAt: each) color: (colors at: each); radius: 10].
 	answer edgesAndLabelsDo: [:each :label| each hideLabel; color: (colors at: label)].
-	answer nodesDo: [:each| each color: Color transparent; morphExtent: 0@0].
-	(answer nodeAt: self identity) color: Color white; shape: #square; morphExtent: 10@10.
+	(answer nodeAt: self identity) color: Color white; shape: #square; radius: 10.
 	^ answer! !
 
 !Group methodsFor: 'operations-endo' stamp: 'len 5/1/2016 22:58'!
@@ -19889,6 +19892,10 @@ isImaginary
 	"Answer true if no embedding into the complex numbers has image contained in the real numbers."
 	^ self signature first = 0! !
 
+!NumberField methodsFor: 'testing' stamp: 'len 12/18/2016 21:55:27'!
+isMonogenic
+	^ properties at: #isMonogenic! !
+
 !NumberField methodsFor: 'testing' stamp: 'len 1/10/2016 23:15'!
 isQuadraticField
 	^ self degree = 2! !
@@ -19943,6 +19950,11 @@ discriminant
 	phi _ n phi.
 	^ -1 ** (phi / 2) * (n ** phi) / (n factors asSet product: [:p| p ** (phi / (p - 1))])! !
 
+!CyclotomicField methodsFor: 'as yet unclassified' stamp: 'len 12/18/2016 21:26:29'!
+integers
+	"Answer the ring of integers of the receiver."
+	^ CyclotomicIntegerRing on: self! !
+
 !CyclotomicField methodsFor: 'accessing' stamp: 'len 12/15/2016 08:33:38'!
 integralBasis
 	^ (0 to: self degree - 1) collect: [:k| self x ** k]! !
@@ -19954,6 +19966,10 @@ isAbelianExtension
 
 !CyclotomicField methodsFor: 'testing' stamp: 'len 12/10/2016 20:16:17'!
 isGaloisExtension
+	^ true! !
+
+!CyclotomicField methodsFor: 'testing' stamp: 'len 12/18/2016 21:54:02'!
+isMonogenic
 	^ true! !
 
 !CyclotomicField methodsFor: 'accessing' stamp: 'len 12/10/2016 20:41:22'!
@@ -19997,6 +20013,10 @@ integralBasis
 	| w |
 	w _ self x + (self embed: self discriminant) / (self embed: 2).
 	^ {self one. w}! !
+
+!QuadraticField methodsFor: 'as yet unclassified' stamp: 'len 12/18/2016 21:54:14'!
+isMonogenic
+	^ true! !
 
 !QuadraticField methodsFor: 'accessing-private' stamp: 'len 12/10/2016 21:27:04'!
 polynomial: aPolynomial
@@ -20222,9 +20242,9 @@ freeModuleIn: aCollection
 hash
 	^ self class hash! !
 
-!RationalIntegerRing methodsFor: 'private' stamp: 'len 10/30/2016 15:47'!
+!RationalIntegerRing methodsFor: 'private' stamp: 'len 12/18/2016 22:30:08'!
 idealClass
-	^ IntegerIdeal! !
+	^ RationalIntegerIdeal! !
 
 !RationalIntegerRing methodsFor: 'testing' stamp: 'len 11/23/2015 02:37'!
 includes: anObject
@@ -20293,58 +20313,6 @@ zero
 initialize
 	super initialize.
 	Smalltalk at: #ZZ put: self new! !
-
-!AlgebraicNumbersField methodsFor: 'comparing' stamp: 'len 12/26/2015 20:05'!
-= anObject
-	^ anObject class == self class! !
-
-!AlgebraicNumbersField methodsFor: 'comparing' stamp: 'len 12/18/2016 20:25:00'!
-> aDomain
-	^ (aDomain isKindOf: RationalField) or: [(aDomain isKindOf: RationalIntegerRing) or: [aDomain isKindOf: RealAlgebraicNumbersField]]! !
-
-!AlgebraicNumbersField methodsFor: 'accessing' stamp: 'len 11/22/2015 01:41'!
-characteristic
-	^ 0! !
-
-!AlgebraicNumbersField methodsFor: 'morphisms' stamp: 'len 10/4/2016 08:56'!
-conjugation
-	^ self to: self evaluating: [:x| x conjugated]! !
-
-!AlgebraicNumbersField methodsFor: 'comparing' stamp: 'len 12/26/2015 20:05'!
-hash
-	^ self class hash! !
-
-!AlgebraicNumbersField methodsFor: 'testing' stamp: 'len 12/26/2015 19:57'!
-includes: anObject
-	^ anObject isInteger or: [anObject isFraction or: [anObject isKindOf: Complex]]! !
-
-!AlgebraicNumbersField methodsFor: 'testing' stamp: 'len 12/15/2015 19:31'!
-isAlgebraicallyClosed
-	^ true! !
-
-!AlgebraicNumbersField methodsFor: 'testing' stamp: 'len 2/11/2016 22:19'!
-isComplex
-	^ true! !
-
-!AlgebraicNumbersField methodsFor: 'testing' stamp: 'len 10/18/2016 20:43'!
-isField
-	^ true! !
-
-!AlgebraicNumbersField methodsFor: 'accessing' stamp: 'len 3/6/2016 21:08'!
-one
-	^ 1! !
-
-!AlgebraicNumbersField methodsFor: 'printing' stamp: 'len 6/8/2016 21:05'!
-printOn: aStream
-	aStream nextPut: Character CC! !
-
-!AlgebraicNumbersField methodsFor: 'accessing' stamp: 'len 4/29/2016 07:38'!
-size
-	^ Aleph new: 0! !
-
-!AlgebraicNumbersField methodsFor: 'accessing' stamp: 'len 3/6/2016 21:08'!
-zero
-	^ 0! !
 
 !ComplexField methodsFor: 'accessing' stamp: 'len 8/6/2016 03:44'!
 characteristic
@@ -20435,13 +20403,104 @@ printOn: aStream
 on: aNumberField
 	^ self new field: aNumberField! !
 
+!CyclotomicIntegerRing methodsFor: 'as yet unclassified' stamp: 'len 12/18/2016 21:26:04'!
+printOn: aStream
+	aStream print: ZZ; nextPut: $[; print: field x; nextPut: $]! !
+
 !QuadraticIntegerRing methodsFor: 'as yet unclassified' stamp: 'len 12/18/2016 20:28:58'!
 isPID
 	^ field classNumber = 1! !
 
-!QuadraticIntegerRing methodsFor: 'as yet unclassified' stamp: 'len 12/18/2016 20:29:36'!
+!QuadraticIntegerRing methodsFor: 'as yet unclassified' stamp: 'len 12/18/2016 21:53:13'!
 printOn: aStream
-	aStream print: ZZ; nextPut: $[; print: field x; nextPut: $]! !
+	| a |
+	a _ field d \\ 4 = 1 ifTrue: [field x + field one / (field one * 2)] ifFalse: [field x].
+	aStream print: ZZ; nextPut: $[; print: a; nextPut: $]! !
+
+!RealField methodsFor: 'accessing' stamp: 'len 8/6/2016 03:45'!
+characteristic
+	^ 0! !
+
+!RealField methodsFor: 'enumerating' stamp: 'len 8/6/2016 03:50'!
+do: aBlock
+	^ self shouldNotImplement! !
+
+!RealField methodsFor: 'testing' stamp: 'len 8/5/2016 21:50'!
+includes: anObject
+	^ anObject isReal! !
+
+!RealField methodsFor: 'testing' stamp: 'len 10/18/2016 20:44'!
+isField
+	^ true! !
+
+!RealField methodsFor: 'testing' stamp: 'len 8/5/2016 21:55'!
+isReal
+	^ true! !
+
+!RealField methodsFor: 'printing' stamp: 'len 8/5/2016 21:35'!
+printOn: aStream
+	aStream nextPut: Character RR! !
+
+!RealField methodsFor: 'accessing' stamp: 'len 8/6/2016 03:45'!
+size
+	^ Aleph new: 1! !
+
+!RealField class methodsFor: 'initialization' stamp: 'len 8/5/2016 21:33'!
+initialize
+	super initialize.
+	Smalltalk at: #RR put: self new! !
+
+!AlgebraicNumbersField methodsFor: 'comparing' stamp: 'len 12/26/2015 20:05'!
+= anObject
+	^ anObject class == self class! !
+
+!AlgebraicNumbersField methodsFor: 'comparing' stamp: 'len 12/18/2016 20:25:00'!
+> aDomain
+	^ (aDomain isKindOf: RationalField) or: [(aDomain isKindOf: RationalIntegerRing) or: [aDomain isKindOf: RealAlgebraicNumbersField]]! !
+
+!AlgebraicNumbersField methodsFor: 'accessing' stamp: 'len 11/22/2015 01:41'!
+characteristic
+	^ 0! !
+
+!AlgebraicNumbersField methodsFor: 'morphisms' stamp: 'len 10/4/2016 08:56'!
+conjugation
+	^ self to: self evaluating: [:x| x conjugated]! !
+
+!AlgebraicNumbersField methodsFor: 'comparing' stamp: 'len 12/26/2015 20:05'!
+hash
+	^ self class hash! !
+
+!AlgebraicNumbersField methodsFor: 'testing' stamp: 'len 12/26/2015 19:57'!
+includes: anObject
+	^ anObject isInteger or: [anObject isFraction or: [anObject isKindOf: Complex]]! !
+
+!AlgebraicNumbersField methodsFor: 'testing' stamp: 'len 12/15/2015 19:31'!
+isAlgebraicallyClosed
+	^ true! !
+
+!AlgebraicNumbersField methodsFor: 'testing' stamp: 'len 2/11/2016 22:19'!
+isComplex
+	^ true! !
+
+!AlgebraicNumbersField methodsFor: 'testing' stamp: 'len 10/18/2016 20:43'!
+isField
+	^ true! !
+
+!AlgebraicNumbersField methodsFor: 'accessing' stamp: 'len 3/6/2016 21:08'!
+one
+	^ 1! !
+
+!AlgebraicNumbersField methodsFor: 'printing' stamp: 'len 6/8/2016 21:05'!
+printOn: aStream
+	aStream nextPut: Character CC! !
+
+!AlgebraicNumbersField methodsFor: 'accessing' stamp: 'len 4/29/2016 07:38'!
+size
+	^ Aleph new: 0! !
+
+!AlgebraicNumbersField methodsFor: 'accessing' stamp: 'len 3/6/2016 21:08'!
+zero
+	^ 0! !
 
 !RealAlgebraicNumbersField methodsFor: 'comparing' stamp: 'len 12/18/2016 20:24:58'!
 < aDomain
@@ -20502,39 +20561,6 @@ size
 !RealAlgebraicNumbersField methodsFor: 'elements' stamp: 'len 2/11/2016 19:36'!
 zero
 	^ 0! !
-
-!RealField methodsFor: 'accessing' stamp: 'len 8/6/2016 03:45'!
-characteristic
-	^ 0! !
-
-!RealField methodsFor: 'enumerating' stamp: 'len 8/6/2016 03:50'!
-do: aBlock
-	^ self shouldNotImplement! !
-
-!RealField methodsFor: 'testing' stamp: 'len 8/5/2016 21:50'!
-includes: anObject
-	^ anObject isReal! !
-
-!RealField methodsFor: 'testing' stamp: 'len 10/18/2016 20:44'!
-isField
-	^ true! !
-
-!RealField methodsFor: 'testing' stamp: 'len 8/5/2016 21:55'!
-isReal
-	^ true! !
-
-!RealField methodsFor: 'printing' stamp: 'len 8/5/2016 21:35'!
-printOn: aStream
-	aStream nextPut: Character RR! !
-
-!RealField methodsFor: 'accessing' stamp: 'len 8/6/2016 03:45'!
-size
-	^ Aleph new: 1! !
-
-!RealField class methodsFor: 'initialization' stamp: 'len 8/5/2016 21:33'!
-initialize
-	super initialize.
-	Smalltalk at: #RR put: self new! !
 
 !PAdicField methodsFor: 'as yet unclassified' stamp: 'len 12/17/2016 21:39:52'!
 characteristic
@@ -21632,38 +21658,38 @@ ring: aRing
 on: aRing generators: aCollection
 	^ self new ring: aRing; generators: aCollection! !
 
-!IntegerIdeal methodsFor: 'operations' stamp: 'len 12/8/2016 20:31:11'!
+!RationalIntegerIdeal methodsFor: 'operations' stamp: 'len 12/8/2016 20:31:11'!
 • anIdeal
 	^ self ring * (self generator lcm: anIdeal generator)! !
 
-!IntegerIdeal methodsFor: 'random' stamp: 'len 4/19/2016 20:05'!
+!RationalIntegerIdeal methodsFor: 'random' stamp: 'len 4/19/2016 20:05'!
 atRandom: aRandom bits: bitSize
 	^ ((0-bitSize//2 to: bitSize//2) atRandom: aRandom) * self generator! !
 
-!IntegerIdeal methodsFor: 'operations-elements' stamp: 'len 11/30/2016 19:08:55'!
+!RationalIntegerIdeal methodsFor: 'operations-elements' stamp: 'len 11/30/2016 19:08:55'!
 inverseOf: anInteger
 	| result |
 	result _ anInteger xgcd: self generator.
 	^ (result at: 1) = 1 ifTrue: [result at: 2]! !
 
-!IntegerIdeal methodsFor: 'testing' stamp: 'len 1/4/2016 03:30'!
+!RationalIntegerIdeal methodsFor: 'testing' stamp: 'len 1/4/2016 03:30'!
 isMaximal
 	^ self isPrime! !
 
-!IntegerIdeal methodsFor: 'testing' stamp: 'len 9/21/2016 17:38'!
+!RationalIntegerIdeal methodsFor: 'testing' stamp: 'len 9/21/2016 17:38'!
 isPrime
 	^ properties at: #isPrime ifAbsentPut:[self isZero or: [self generator isPrime]]! !
 
-!IntegerIdeal methodsFor: 'operations' stamp: 'len 12/18/2016 20:08:18'!
+!RationalIntegerIdeal methodsFor: 'operations' stamp: 'len 12/18/2016 20:08:18'!
 quotient
 	"Answer the quotient ring of the base ring by the receiver."
 	^ ModularIntegerRing by: self! !
 
-!IntegerIdeal methodsFor: 'operations' stamp: 'len 10/29/2016 11:38'!
+!RationalIntegerIdeal methodsFor: 'operations' stamp: 'len 10/29/2016 11:38'!
 radical
 	^ self ring * (self generator factors asSet inject: 1 into: [:x :each| x*each])! !
 
-!IntegerIdeal methodsFor: 'random' stamp: 'len 4/19/2016 22:57'!
+!RationalIntegerIdeal methodsFor: 'random' stamp: 'len 4/19/2016 22:57'!
 remainderAtRandom: aRandom
 	^ (self generator abs atRandom: aRandom) - 1! !
 
@@ -26209,14 +26235,14 @@ actionGraph: groupGenerators
 actionGraphMorph
 	^ self actionGraphMorph: self group generators! !
 
-!GroupAction methodsFor: 'graphs' stamp: 'len 8/16/2016 04:02'!
+!GroupAction methodsFor: 'graphs' stamp: 'len 12/19/2016 12:24:08'!
 actionGraphMorph: generators
 	| G answer colors |
 	G _ self actionGraph: generators.
 	answer _ G asMorph.
 	colors _ DiscretePalette default.
 	answer edgesAndLabelsDo: [:each :label| each hideLabel; color: (colors at: label)].
-	answer nodesDo: [:each| each color: Color transparent; morphExtent: 0@0].
+	answer nodesDo: [:each| each color: Color transparent; radius: 0].
 	^ answer! !
 
 !GroupAction methodsFor: 'converting' stamp: 'len 8/1/2016 08:48'!
@@ -38110,12 +38136,12 @@ run
 	R isEmpty] whileFalse.
 	^ characteristicSet _ G! !
 
-!AutomaticPalette methodsFor: 'as yet unclassified' stamp: 'len 7/31/2016 04:52'!
+!AutomaticPalette methodsFor: 'as yet unclassified' stamp: 'len 12/18/2016 23:10:48'!
 at: anObject
 	| i n |
 	i _ map at: anObject ifAbsentPut: [map size].
 	n _ map size.
-	^ Color h: i * 360.0 / (n + 1) s: 0.65 v: 0.95! !
+	^ Color h: i * 360.0 / (n + 1) + 90.0 \\ 360.0 s: 0.65 v: 0.95! !
 
 !AutomaticPalette methodsFor: 'as yet unclassified' stamp: 'len 7/31/2016 04:44'!
 initialize
