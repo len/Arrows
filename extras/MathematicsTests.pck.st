@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 18 December 2016 at 8:47:50 pm'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 20 December 2016 at 9:48:01 pm'!
 'Description Please enter a description for this package'!
-!provides: 'MathematicsTests' 1 54!
+!provides: 'MathematicsTests' 1 55!
 !classDefinition: #AbelianGroupTest category: #MathematicsTests!
 TestCase subclass: #AbelianGroupTest
 	instanceVariableNames: ''
@@ -864,7 +864,7 @@ testAffineMapCollinearity
 	p1` _ f value: p1. p2` _ f value: p2. p3` _ f value: p3.
 	self assert: (A span: {p1`.p2`.p3`}) isLine! !
 
-!AffineGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 11/2/2016 03:56'!
+!AffineGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 12/20/2016 11:39:54'!
 testAffineMapComposition
 	| X Y Z f g x |
 	X _ QQ ** 3 :: asAffineSpace.
@@ -873,9 +873,9 @@ testAffineMapComposition
 	f _ (X hom: Y) atRandomBits: 1000.
 	g _ (Y hom: Z) atRandomBits: 1000.
 	x _ X atRandomBits: 1000.
-	self assert: ((X hom: Z) includes: g @ f).
-	self assert: (g @ f value: x) = (g value: (f value: x)).
-	self should: [f @ g] raise: DomainError! !
+	self assert: ((X hom: Z) includes: g ” f).
+	self assert: (g ” f value: x) = (g value: (f value: x)).
+	self should: [f ” g] raise: DomainError! !
 
 !AffineGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/27/2016 19:48'!
 testAffineMapEvaluating
@@ -884,13 +884,13 @@ testAffineMapEvaluating
 	f _ AffineMap from: V to: V evaluating: [:p| p*2 - (1,0,0)].
 	self assert: (f value: (1,2,3)) = (1,4,6)! !
 
-!AffineGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 8/24/2016 19:17'!
+!AffineGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 12/20/2016 11:40:11'!
 testAffineMapInverse
 	| A f |
 	A _ (QQ ** 3) asAffineSpace.
 	f _ A automorphisms atRandomBits: 1000.
-	self assert: (f @ f inverse) isIdentity.
-	self assert: (f inverse @ f) isIdentity! !
+	self assert: (f ” f inverse) isIdentity.
+	self assert: (f inverse ” f) isIdentity! !
 
 !AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/27/2016 09:23'!
 tesRingHomomorphismSpec
@@ -2540,30 +2540,30 @@ testFormalSetEquals
 	B _ (QQ ** (10@10)) asRing asFormalSet.
 	self assert: A = B! !
 
-!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 8/24/2016 20:53'!
+!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 12/20/2016 11:48:35'!
 testFunctionComposition
 	| f g a |
 	f _ Function from: ZZ to: ZZ evaluating: [:x| x * 2].
 	g _ Function from: ZZ to: ZZ evaluating: [:x| x + 1].
 	a _ 1000 atRandom.
-	self assert: (f @ g value: a) = (f value: (g value: a)).
-	self assert: (g @ f value: a) = (g value: (f value: a))! !
+	self assert: (f ” g value: a) = (f value: (g value: a)).
+	self assert: (g ” f value: a) = (g value: (f value: a))! !
 
-!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 8/24/2016 20:54'!
+!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 12/20/2016 11:48:47'!
 testFunctionComposition2
 	| f g a |
 	f _ Function from: ZZ to: QQ evaluating: [:x| x / 2].
 	g _ Function from: QQ to: ZZ evaluating: [:x| x numerator].
 	a _ 1000 atRandom.
-	self assert: (f @ g value: a) = (f value: (g value: a)).
-	self assert: (g @ f value: a) = (g value: (f value: a))! !
+	self assert: (f ” g value: a) = (f value: (g value: a)).
+	self assert: (g ” f value: a) = (g value: (f value: a))! !
 
-!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 8/24/2016 21:19'!
+!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 12/20/2016 11:48:53'!
 testFunctionComposition3
 	| f g |
 	f _ Function from: ZZ to: QQ evaluating: [:x| x / 2].
 	g _ Function from: ZZ to: ZZ evaluating: [:x| x + 1].
-	self should: [g @ f] raise: DomainError! !
+	self should: [g ” f] raise: DomainError! !
 
 !MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 10/2/2016 09:37'!
 testFunctionNewFrom
@@ -3332,7 +3332,7 @@ testLinearMap: f
 	x _ f domain scalars atRandomBits: 20.
 	self assert: (f value: a1 * x + a2) = (b1 * x + b2)! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 11/2/2016 03:59'!
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 12/20/2016 11:50:13'!
 testLinearMapAdjoint
 	| V W f f` phi |
 	V _ self newFreeModuleOver: QQ.
@@ -3342,9 +3342,9 @@ testLinearMapAdjoint
 	self assert: f` domain = f codomain dual.
 	self assert: f` codomain = f domain dual.
 	phi _ W dual atRandomBits: 20.
-	self assert: (f` value: phi) = (phi @ f)! !
+	self assert: (f` value: phi) = (phi ” f)! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 11/2/2016 04:00'!
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 12/20/2016 12:05:24'!
 testLinearMapComposition
 	| X Y Z f g x |
 	X _ QQ ** 3.
@@ -3353,11 +3353,11 @@ testLinearMapComposition
 	f _ (X hom: Y) atRandomBits: 1000.
 	g _ (Y hom: Z) atRandomBits: 1000.
 	x _ X atRandomBits: 1000.
-	self assert: ((X hom: Z) includes: g @ f).
-	self assert: (g @ f value: x) = (g value: (f value: x)).
-	self should: [f @ g] raise: DomainError! !
+	self assert: ((X hom: Z) includes: g ” f).
+	self assert: (g ” f value: x) = (g value: (f value: x)).
+	self should: [f ” g] raise: DomainError! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 11/2/2016 04:00'!
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 12/20/2016 11:50:35'!
 testLinearMapCompositionError
 	| X Y Z f g |
 	X _ QQ ** 3.
@@ -3365,7 +3365,7 @@ testLinearMapCompositionError
 	Z _ QQ ** 4.
 	f _ (X hom: Y) atRandomBits: 1000.
 	g _ (Y hom: Z) atRandomBits: 1000.
-	self should: [f @ g] raise: DomainError! !
+	self should: [f ” g] raise: DomainError! !
 
 !ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 11/2/2016 04:00'!
 testLinearMapFiber
@@ -3397,13 +3397,13 @@ testLinearMapImage2
 	self assert: (image includes: (f value: (S atRandomBits: 100))).
 	self assert: (image includes: (f value: (V atRandomBits: 100)))! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 8/24/2016 19:15'!
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 12/20/2016 11:50:45'!
 testLinearMapInverse
 	| V f |
 	V _ QQ ** 3.
 	f _ V automorphisms atRandomBits: 1000.
-	self assert: (f @ f inverse) isIdentity.
-	self assert: (f inverse @ f) isIdentity! !
+	self assert: (f ” f inverse) isIdentity.
+	self assert: (f inverse ” f) isIdentity! !
 
 !ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 11/2/2016 04:01'!
 testLinearMapKernel
@@ -3435,21 +3435,21 @@ testLinearMapKernelZ2
 	self assert: kernel dimension = 2.
 	self assert: (kernel includes: (0,1,1) % 2)! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 11/2/2016 04:01'!
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 12/20/2016 11:50:51'!
 testLinearMapLeftInverse
 	| V W f |
 	V _ QQ ** 3.
 	W _ QQ ** 5.
 	[f _ (V hom: W) atRandomBits: 1000. f rank = 3] whileFalse.
-	self assert: (f leftInverse @ f) = V id! !
+	self assert: (f leftInverse ” f) = V id! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 11/2/2016 04:01'!
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 12/20/2016 11:50:57'!
 testLinearMapRightInverse
 	| V W f |
 	V _ QQ ** 5.
 	W _ QQ ** 3.
 	[f _ (V hom: W) atRandomBits: 1000. f rank = 3] whileFalse.
-	self assert: (f @ f rightInverse) = W id! !
+	self assert: (f ” f rightInverse) = W id! !
 
 !ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 11/2/2016 04:01'!
 testLinearMapZ2
