@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 20 December 2016 at 9:48:01 pm'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 22 December 2016 at 10:57:44 pm'!
 'Description Please enter a description for this package'!
-!provides: 'MathematicsTests' 1 55!
+!provides: 'MathematicsTests' 1 56!
 !classDefinition: #AbelianGroupTest category: #MathematicsTests!
 TestCase subclass: #AbelianGroupTest
 	instanceVariableNames: ''
@@ -822,23 +822,23 @@ testDirectSum
 	self testAbelianGroupHomomorphism: (G projection: 2 atRandom).
 	self testAbelianGroupHomomorphism: (G embedding: 2 atRandom)! !
 
-!AbelianGroupTest methodsFor: 'as yet unclassified' stamp: 'len 12/17/2016 22:25:46'!
+!AbelianGroupTest methodsFor: 'as yet unclassified' stamp: 'len 12/22/2016 22:53:25'!
 testIntegerTuples
-	| G |
-	G _ (ZZ ** (1 to: 10) atRandom) asAbelianGroup.
-	self testAbelianGroup: G.
-	self testAbelianGroupHomomorphism: (G projection: (1 to: G rank) atRandom)! !
+	| M |
+	M _ ZZ ** (1 to: 10) atRandom.
+	self testAbelianGroup: M asAbelianGroup.
+	self testAbelianGroupHomomorphism: (M projection: (1 to: M rank) atRandom) asAbelianGroupHomomorphism! !
 
 !AbelianGroupTest methodsFor: 'as yet unclassified' stamp: 'len 12/17/2016 22:26:09'!
 testIntegers
 	self testAbelianGroup: ZZ asAbelianGroup! !
 
-!AbelianGroupTest methodsFor: 'as yet unclassified' stamp: 'len 12/17/2016 22:26:28'!
+!AbelianGroupTest methodsFor: 'as yet unclassified' stamp: 'len 12/22/2016 22:52:08'!
 testModularIntegers
-	| G |
-	G _ (ZZ / (2 to: 10) atRandom) asAbelianGroup.
-	self testAbelianGroup: G.
-	self testAbelianGroupHomomorphism: G projection! !
+	| R |
+	R _ ZZ / (2 to: 10) atRandom.
+	self testAbelianGroup: R asAbelianGroup.
+	self testAbelianGroupHomomorphism: R projection asAbelianGroupHomomorphism! !
 
 !AffineGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:54'!
 testAffineHull
@@ -1062,6 +1062,13 @@ testProjectiveEmbedding
 	self assert: projectivePoints >= affinePointsEmbedded.
 	"the projective scheme has one more point at infinity:"
 	self assert: affinePointsEmbedded size + 1 = projectivePoints size! !
+
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 12/21/2016 21:21:05'!
+testProjectiveLineOverARing
+	| P |
+	P _ ProjectiveLine over: ZZ/6.
+	"P(Z/6Z) has 12 points: [0:1], [1:1], [2:1], [3:1], [4:1], [5:1], [1:2], [3:2], [5:2], [1:3], [2:3] and [1:0] (Henri Cohen, 'A Course in Computational Algebraic Number Theory', 478p)"
+	self assert: P points size = 12! !
 
 !AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 11/1/2016 18:49'!
 testProjectivePlaneCurveArithmeticGenus
@@ -2367,6 +2374,17 @@ testOrbitStabilizerTheorem
 	p _ X atRandom.
 	self assert: (phi stabilizerOf: p) order * (phi orbitOf: p) size = G order! !
 
+!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 12/22/2016 21:40:10'!
+testPermutationGroupHomomorphism
+	"Magma Handbook, Example H57E2."
+	| C15 h im |
+	C15 _ PermutationGroup cyclic: 15.
+	h _ C15 to: C15 evaluating: [:g| g ** 3].
+	im _ h image.
+	self assert: im space size = 15. "a permutation group acting on a set of cardinality 15"
+	self assert: im size = 5. "of order 5"
+	self assert: im isCyclic! !
+
 !GroupTest methodsFor: 'as yet unclassified' stamp: 'len 11/6/2016 10:02'!
 testQuotientGroup
 	| G N Q pi h |
@@ -2754,6 +2772,12 @@ testQuadraticForms
 	p _ V atRandomBits: 100.
 	self assert: (Q value: p) = (f value: p).
 	self assert: (f degree = 2 and: [f isHomogeneous])! !
+
+!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 12/21/2016 20:21:11'!
+testRadicalAndIsSquareFree
+	| n |
+	n _ (-1000 to: 1000) atRandom.
+	self assert: n isSquareFree = (n radical = n)! !
 
 !MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 6/4/2016 21:48'!
 testRealIntervalIntersects
@@ -3214,19 +3238,6 @@ testFirstIsomorphismTheorem
 	phi _ S / f kernel to: f image evaluating: [:x| f value: x representative].
 	self assert: phi isIsomorphism! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 10/15/2016 17:28'!
-testFreeAbelianGroup
-	| A x0 x y0 y |
-	A _ FreeAbelianGroup on: #(a b c).
-	x0 _ (-2,-1,3).
-	x _ A elementAt: x0.
-	y0 _ (1,1,1).
-	y _ A elementAt: y0.
-	self assert: x+y = (A elementAt: x0+y0).
-	self assert: x*2-y = (A elementAt: x0*2-y0).
-	self assert: (x-y-(x-y)) isZero.
-	self assert: (A coordinatesOf: x) = x0! !
-
 !ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 10/17/2016 16:41'!
 testFreeModule: M
 	| c t v x y |
@@ -3238,6 +3249,19 @@ testFreeModule: M
 	t _ (M coordinatesOf: x) * c + (M coordinatesOf: y).
 	self assert: v = (M elementAt: t).
 	self testLinearMap: M basis coordinatesMap! !
+
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 12/22/2016 22:54:44'!
+testFreeZModule
+	| A x0 x y0 y |
+	A _ FreeModule on: #(a b c) over: ZZ.
+	x0 _ (-2,-1,3).
+	x _ A elementAt: x0.
+	y0 _ (1,1,1).
+	y _ A elementAt: y0.
+	self assert: x+y = (A elementAt: x0+y0).
+	self assert: x*2-y = (A elementAt: x0*2-y0).
+	self assert: (x-y-(x-y)) isZero.
+	self assert: (A coordinatesOf: x) = x0! !
 
 !ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:57'!
 testGrassmannian
