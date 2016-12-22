@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 22 December 2016 at 10:56:52 pm'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 22 December 2016 at 11:19:07 pm'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 312!
+!provides: 'Mathematics' 1 313!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
 	instanceVariableNames: 'numerator shift'
@@ -14354,6 +14354,10 @@ do: aBlock
 scalars
 	^ self domain coordinateRing! !
 
+!PointSet methodsFor: 'accessing' stamp: 'len 12/22/2016 23:01:48'!
+size
+	^ properties at: #size ifAbsentPut: [self codomain pointsCountOver: self scalars]! !
+
 !ComplexBox methodsFor: 'accessing' stamp: 'len 1/16/2016 05:56'!
 area
 	^ self measure! !
@@ -24188,14 +24192,6 @@ coordinateRing
 coordinateRing: aCommutativeRing
 	properties at: #coordinateRing put: aCommutativeRing! !
 
-!Scheme methodsFor: 'points' stamp: 'len 10/27/2016 15:26'!
-countPoints
-	^ self countPointsOver: self ambient scalars! !
-
-!Scheme methodsFor: 'points' stamp: 'len 10/27/2016 15:25'!
-countPointsOver: aRing
-	^ (self pointsOver: aRing) size! !
-
 !Scheme methodsFor: 'operations' stamp: 'len 10/25/2016 06:25'!
 decomposition
 	"Answer the irreducible components of the receiver."
@@ -24354,14 +24350,22 @@ points
 	"Answer the rational points of the receiver."
 	^ self pointsOver: self ambient scalars! !
 
-!Scheme methodsFor: 'points' stamp: 'len 11/10/2016 08:16'!
+!Scheme methodsFor: 'points' stamp: 'len 12/22/2016 23:04:30'!
+pointsCountOver: aRing
+	"Naive count of rational points on the receiver."
+	| answer |
+	answer _ 0.
+	self pointsOver: aRing do: [:each| answer _ answer + 1].
+	^ answer! !
+
+!Scheme methodsFor: 'points' stamp: 'len 12/22/2016 23:04:41'!
 pointsOver: aRing
-	"Answer the K-rational points of the receiver, where K is aRing."
+	"Answer the K-rational points on the receiver, where K is aRing."
 	^ PointSet from: aRing spec to: self! !
 
-!Scheme methodsFor: 'points' stamp: 'len 11/7/2016 09:45'!
+!Scheme methodsFor: 'points' stamp: 'len 12/22/2016 23:04:54'!
 pointsOver: aRing do: aBlock
-	"Naive iteration over the aRing-rational points of the receiver."
+	"Naive enumeration of rational points on the receiver."
 	self ambient pointsOver: aRing do: [:each| (self includes: each coordinates) ifTrue: [aBlock value: (self pointAt: each coordinates)]]! !
 
 !Scheme methodsFor: 'operations' stamp: 'len 10/27/2016 09:54'!
@@ -24574,6 +24578,10 @@ includes: aPoint
 motions
 	"Answer the Euclidean group E(A), the group of isometries, i.e. distance-preserving morphisms, also called 'motionss'. This is a subgroup of the general affine group GA(A)."
 	^ EuclideanGroup on: self! !
+
+!AffineSpace methodsFor: 'points' stamp: 'len 12/22/2016 23:06:27'!
+pointsCountOver: aRing
+	^ aRing size ** self rank! !
 
 !AffineSpace methodsFor: 'points' stamp: 'len 11/7/2016 09:41'!
 pointsOver: aRing do: aBlock
@@ -24862,6 +24870,11 @@ dimension
 !ProjectiveSpace methodsFor: 'testing' stamp: 'len 11/5/2016 10:34'!
 includes: aPoint
 	^ (aPoint is: #Tuple) and: [aPoint size = self rank and: [aPoint isZero not and: [aPoint scalars = self scalars]]]! !
+
+!ProjectiveSpace methodsFor: 'points' stamp: 'len 12/22/2016 23:11:34'!
+pointsCountOver: aRing
+	aRing isField ifTrue: [^ aRing isFinite ifTrue: [^ self rank choose: 1 q: aRing size] ifFalse: [aRing size]].
+	self notYetImplemented! !
 
 !ProjectiveSpace methodsFor: 'points' stamp: 'len 11/7/2016 13:41'!
 pointsOver: aRing do: aBlock
