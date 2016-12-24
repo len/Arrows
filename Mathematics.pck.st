@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 22 December 2016 at 11:19:07 pm'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 24 December 2016 at 11:01:09 am'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 313!
+!provides: 'Mathematics' 1 314!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
 	instanceVariableNames: 'numerator shift'
@@ -1371,9 +1371,19 @@ Ring subclass: #ComplexField
 ComplexField class
 	instanceVariableNames: ''!
 
+!classDefinition: #Order category: #'Mathematics-Fields'!
+Ring subclass: #Order
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Fields'!
+!classDefinition: 'Order class' category: #'Mathematics-Fields'!
+Order class
+	instanceVariableNames: ''!
+
 !classDefinition: #IntegerRing category: #'Mathematics-Fields'!
-Ring subclass: #IntegerRing
-	instanceVariableNames: 'field'
+Order subclass: #IntegerRing
+	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Fields'!
@@ -1501,9 +1511,19 @@ Domain subclass: #Module
 Module class
 	instanceVariableNames: ''!
 
+!classDefinition: #FractionalIdeal category: #'Mathematics-Rings'!
+Module subclass: #FractionalIdeal
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Rings'!
+!classDefinition: 'FractionalIdeal class' category: #'Mathematics-Rings'!
+FractionalIdeal class
+	instanceVariableNames: ''!
+
 !classDefinition: #Ideal category: #'Mathematics-Rings'!
 Module subclass: #Ideal
-	instanceVariableNames: 'ring generators'
+	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Rings'!
@@ -4340,6 +4360,9 @@ My singletion global instance ZZ is the ring of rational integers.!
 
 !ComplexField commentStamp: '<historical>' prior: 0!
 My singletion global instance CC is the field of complex numbers.!
+
+!Order commentStamp: '<historical>' prior: 0!
+My instances are orders in a number field, i.e. subrings of a number field that as Z-modules are finitely generated and of maximal rank (with rank equal to the degree of the number field).!
 
 !IntegerRing commentStamp: '<historical>' prior: 0!
 My instances are rings of integers of number fields (i.e. maximal orders). For the ring Z of rational integers see RationalIntegerRing.!
@@ -20005,6 +20028,19 @@ isReal
 	"Answer true if every embedding into the complex numbers has image contained in the real numbers."
 	^ self signature second = 0! !
 
+!NumberField methodsFor: 'morphisms' stamp: 'len 12/23/2016 08:51:42'!
+isomorphismTo: aNumberField
+	"Field Isomorphism Problem. Answer an isomorphism to aNumberField if there's any, or nil.
+	Reference: Henri Cohen, 'A Course In Computational Algebraic Number Theory', Algorithm 4.5.5 and 4.5.6."
+	(self polynomial isIrreducible and: [self polynomial isPrimitive])
+		ifFalse: [^ self error: 'not irreducible and primitive defining polynomial'].
+	(aNumberField polynomial isIrreducible and: [aNumberField polynomial isPrimitive])
+		ifFalse: [^ self error: 'not irreducible and primitive defining polynomial'].
+	self polynomial degree = aNumberField polynomial degree
+		ifFalse: [^ nil].
+	"..."
+	self notYetImplemented! !
+
 !NumberField methodsFor: 'operations' stamp: 'len 1/10/2016 22:34'!
 nonArchimedeanPlaces
 	^ self notYetImplemented! !
@@ -20124,15 +20160,16 @@ polynomial: aPolynomial
 		ifFalse: [self error: 'malformed polynomial'].
 	super polynomial: aPolynomial! !
 
-!QuadraticField methodsFor: 'printing' stamp: 'len 12/10/2016 21:36:32'!
+!QuadraticField methodsFor: 'printing' stamp: 'len 12/23/2016 16:31:16'!
 printOn: aStream
-	aStream print: self scalars; nextPut: $(; nextPut: Character sqrt; print: self d; nextPut: $)! !
+	aStream print: self scalars; nextPut: $(; print: self x; nextPut: $)! !
 
-!QuadraticField methodsFor: 'private' stamp: 'len 12/18/2016 13:13:45'!
+!QuadraticField methodsFor: 'private' stamp: 'len 12/23/2016 16:30:50'!
 sqrt: anInteger
 	| P d |
 	d _ anInteger squareFree.
-	P _ QQ polynomialsIn: {Character sqrt asString, d printString}.
+	(d == 0 or: [d == 1]) ifTrue: [DomainError signal: 'not a quadratic field'].
+	P _ QQ polynomialsIn: {d == -1 ifTrue: ['i' italic] ifFalse: [Character sqrt asString, d printString]}.
 	self polynomial: P x squared - d! !
 
 !QuadraticField class methodsFor: 'examples' stamp: 'len 12/12/2016 17:12:01'!
@@ -20401,6 +20438,11 @@ to: aCodomain
 		ifTrue: [^ self to: aCodomain evaluating: [:x| aCodomain one * x]].
 	^ super to: aCodomain! !
 
+!RationalIntegerRing methodsFor: 'as yet unclassified' stamp: 'len 12/23/2016 10:19:17'!
+units
+	"Answer the multiplicative group of units of the receiver (i.e., elements that have multiplicative inverse)."
+	^ super units elements: {1. -1}! !
+
 !RationalIntegerRing methodsFor: 'accessing' stamp: 'len 7/17/2016 23:53'!
 valuation
 	^ Function from: self to: self evaluating: [:x| x abs]! !
@@ -20463,6 +20505,26 @@ initialize
 	super initialize.
 	Smalltalk at: #CC put: self new! !
 
+!Order methodsFor: 'as yet unclassified' stamp: 'len 12/23/2016 08:54:32'!
+asModule
+	^ FreeModule basis: self basis coordinates: [:anElement| anElement representative coefficients] over: ZZ! !
+
+!Order methodsFor: 'as yet unclassified' stamp: 'len 12/23/2016 08:54:16'!
+basis
+	^ properties at: #basis! !
+
+!Order methodsFor: 'as yet unclassified' stamp: 'len 12/23/2016 08:43:15'!
+field
+	^ properties at: #field! !
+
+!Order methodsFor: 'as yet unclassified' stamp: 'len 12/23/2016 08:43:24'!
+field: aNumberField
+	properties at: #field put: aNumberField! !
+
+!Order methodsFor: 'as yet unclassified' stamp: 'len 12/23/2016 08:43:06'!
+rank
+	^ self field degree! !
+
 !IntegerRing methodsFor: 'as yet unclassified' stamp: 'len 12/15/2016 08:50:57'!
 asModule
 	^ FreeModule basis: self basis coordinates: [:anElement| anElement representative coefficients] over: ZZ! !
@@ -20470,14 +20532,6 @@ asModule
 !IntegerRing methodsFor: 'as yet unclassified' stamp: 'len 12/15/2016 08:46:44'!
 basis
 	^ self field integralBasis! !
-
-!IntegerRing methodsFor: 'as yet unclassified' stamp: 'len 12/15/2016 08:36:58'!
-field
-	^ field! !
-
-!IntegerRing methodsFor: 'as yet unclassified' stamp: 'len 12/15/2016 08:36:49'!
-field: aNumberField
-	field _ aNumberField! !
 
 !IntegerRing methodsFor: 'as yet unclassified' stamp: 'len 12/18/2016 15:02:54'!
 isDedekindDomain
@@ -20494,27 +20548,42 @@ isUFD
 	"A Dedekind domain is a UFD iff it is a PID."
 	^ self isPID! !
 
-!IntegerRing methodsFor: 'as yet unclassified' stamp: 'len 12/18/2016 21:06:50'!
+!IntegerRing methodsFor: 'as yet unclassified' stamp: 'len 12/23/2016 08:44:22'!
 printOn: aStream
-	aStream nextPutAll: 'O' italic; nextPutAll: field printString sub
+	aStream nextPut: Character ZZ; nextPutAll: self field printString sub
 "	aStream nextPutAll: 'O' italic; nextPut: $(; print: field; nextPut: $)"! !
 
 !IntegerRing class methodsFor: 'instance creation' stamp: 'len 12/15/2016 08:40:10'!
 on: aNumberField
 	^ self new field: aNumberField! !
 
-!CyclotomicIntegerRing methodsFor: 'as yet unclassified' stamp: 'len 12/18/2016 21:26:04'!
+!CyclotomicIntegerRing methodsFor: 'as yet unclassified' stamp: 'len 12/23/2016 10:28:13'!
 printOn: aStream
-	aStream print: ZZ; nextPut: $[; print: field x; nextPut: $]! !
+	aStream print: ZZ; nextPut: $[; print: self field x; nextPut: $]! !
 
-!QuadraticIntegerRing methodsFor: 'as yet unclassified' stamp: 'len 12/18/2016 20:28:58'!
+!QuadraticIntegerRing methodsFor: 'as yet unclassified' stamp: 'len 12/23/2016 16:42:39'!
+isEuclidean
+	self field d negative ifFalse: [self notYetImplemented].
+	(#(-11 -7 -3 -2 -1) includes: self field d) ifFalse: [^ false].
+	self notYetImplemented! !
+
+!QuadraticIntegerRing methodsFor: 'as yet unclassified' stamp: 'len 12/23/2016 16:47:35'!
+isIntegralDomain
+	^ true! !
+
+!QuadraticIntegerRing methodsFor: 'as yet unclassified' stamp: 'len 12/23/2016 16:39:30'!
+isNormEuclidean
+	^ #(-11 -7 -3 -2 -1 2 3 5 6 7 11 13 17 19 21 29 33 37 41 57 73) includes: self field d! !
+
+!QuadraticIntegerRing methodsFor: 'as yet unclassified' stamp: 'len 12/23/2016 16:44:05'!
 isPID
-	^ field classNumber = 1! !
+	self field d negative ifTrue: [^ #(-1 -2 -3 -7 -11 -19 -43 -67 -163) includes: self field d].
+	^ self field classNumber = 1! !
 
-!QuadraticIntegerRing methodsFor: 'as yet unclassified' stamp: 'len 12/18/2016 21:53:13'!
+!QuadraticIntegerRing methodsFor: 'as yet unclassified' stamp: 'len 12/23/2016 10:28:04'!
 printOn: aStream
 	| a |
-	a _ field d \\ 4 = 1 ifTrue: [field x + field one / (field one * 2)] ifFalse: [field x].
+	a _ self field d \\ 4 = 1 ifTrue: [self field x + self field one / (self field one * 2)] ifFalse: [self field x].
 	aStream print: ZZ; nextPut: $[; print: a; nextPut: $]! !
 
 !RealField methodsFor: 'accessing' stamp: 'len 8/6/2016 03:45'!
@@ -21557,6 +21626,10 @@ torsion
 zero
 	^ properties at: #zero ifAbsentPut: [self generators anyOne * self scalars zero]! !
 
+!FractionalIdeal methodsFor: 'as yet unclassified' stamp: 'len 12/23/2016 09:05:59'!
+denominator
+	^ properties at: #denominator! !
+
 !Ideal methodsFor: 'operations' stamp: 'len 10/30/2016 15:14'!
 * anElementOrIdeal
 	"The product is included in the intersection: I*J <= I /\ J.
@@ -21657,29 +21730,26 @@ do: aBlock
 		ifFalse:
 			[self ring do: [:each| self generators do: [:g| aBlock value: each * g; value: g * each]]]! !
 
-!Ideal methodsFor: 'accessing' stamp: 'len 10/19/2016 23:44'!
+!Ideal methodsFor: 'accessing' stamp: 'len 12/23/2016 09:12:37'!
 generator
 	| generator |
-	generators size = 1 ifTrue: [^ generators anyOne].
-	generators size = 0 ifTrue: [^ ring zero].
-	ring isPID ifFalse: [^ self error: 'not a principal ideal domain'].
-	generators do: [:each| generator _ generator isNil ifTrue: [each] ifFalse: [generator gcd: each]].
-	generators _ {generator}.
+	self generators size = 1 ifTrue: [^ self generators anyOne].
+	self generators size = 0 ifTrue: [^ self ring zero].
+	self ring isPID ifFalse: [^ self error: 'not a principal ideal domain'].
+	self generators do: [:each| generator _ generator isNil ifTrue: [each] ifFalse: [generator gcd: each]].
+	self generators: {generator}.
 	^ generator! !
 
-!Ideal methodsFor: 'accessing' stamp: 'pdm 3/22/98 17:24'!
-generators
-	"Answer a generators set of the receiver."
-	^ generators! !
-
-!Ideal methodsFor: 'accessing-private' stamp: 'len 10/25/2016 15:10'!
+!Ideal methodsFor: 'accessing-private' stamp: 'len 12/23/2016 09:13:23'!
 generators: aCollection
+	| generators |
 	generators _ aCollection asSet reject: [:each| each isZero].
-	(generators size > 1 and: [ring isPID])
+	(generators size > 1 and: [self ring isPID])
 		ifTrue:
 			[| generator |
 			generators do: [:each| generator _ generator isNil ifTrue: [each] ifFalse: [generator gcd: each]].
-			generators _ {generator}]! !
+			generators _ {generator}].
+	super generators: generators! !
 
 !Ideal methodsFor: 'comparing' stamp: 'len 10/29/2016 16:23'!
 hash
@@ -21749,14 +21819,14 @@ reduce: anElement
 	"Answer the normal form of anElement with respect to the receiver. Subclasses should override."
 	^ anElement \\ self generator! !
 
-!Ideal methodsFor: 'accessing' stamp: 'len 9/26/2016 16:53'!
+!Ideal methodsFor: 'accessing' stamp: 'len 12/23/2016 09:14:09'!
 ring
 	"Answer the ring of this ideal."
-	^ ring! !
+	^ self scalars! !
 
-!Ideal methodsFor: 'accessing-private' stamp: 'len 9/26/2016 16:55'!
+!Ideal methodsFor: 'accessing-private' stamp: 'len 12/23/2016 09:14:16'!
 ring: aRing
-	ring _ aRing! !
+	self scalars: aRing! !
 
 !Ideal class methodsFor: 'instance creation' stamp: 'len 9/26/2016 16:55'!
 on: aRing generators: aCollection
@@ -22118,6 +22188,12 @@ radical
 !MonomialIdeal methodsFor: 'private' stamp: 'len 7/7/2016 07:39'!
 species
 	^ PolynomialIdeal! !
+
+!FreeModule methodsFor: 'elements' stamp: 'len 12/23/2016 08:33:49'!
+!! anObject
+	((anObject isKindOf: SequenceableCollection) and: [anObject size = self rank])
+		ifTrue: [^ self elementAt: anObject].
+	^ super !! anObject! !
 
 !FreeModule methodsFor: 'operations' stamp: 'len 10/7/2016 08:40'!
 / aSubmodule
@@ -24809,9 +24885,9 @@ pointAt: aTuple
 	aTuple size = 2 ifTrue: [^ EllipticCurvePoint on: self coordinates: aTuple, aTuple scalars one].
 	^ EllipticCurvePoint on: self coordinates: aTuple! !
 
-!EllipticCurve methodsFor: 'points' stamp: 'len 11/10/2016 08:17'!
+!EllipticCurve methodsFor: 'points' stamp: 'len 12/22/2016 23:19:49'!
 pointsOver: aField
-	"Answer the group of K-rational points of the receiver."
+	"Answer the group of K-rational points on the receiver."
 	^ EllipticCurveGroup on: self over: aField! !
 
 !EllipticCurve methodsFor: 'printing' stamp: 'len 12/11/2016 20:43:15'!
@@ -24871,24 +24947,31 @@ dimension
 includes: aPoint
 	^ (aPoint is: #Tuple) and: [aPoint size = self rank and: [aPoint isZero not and: [aPoint scalars = self scalars]]]! !
 
-!ProjectiveSpace methodsFor: 'points' stamp: 'len 12/22/2016 23:11:34'!
+!ProjectiveSpace methodsFor: 'points' stamp: 'len 12/23/2016 09:25:08'!
 pointsCountOver: aRing
 	aRing isField ifTrue: [^ aRing isFinite ifTrue: [^ self rank choose: 1 q: aRing size] ifFalse: [aRing size]].
+	aRing isFinite ifFalse: [^ aRing size].
+	(aRing isKindOf: ModularIntegerRing)
+		ifTrue:
+			[^ aRing modulus ** (self rank - 1) * (aRing modulus factors asSet product: [:p| (0 to: self rank - 1) sum: [:i| 1 / (p**i)]])].
 	self notYetImplemented! !
 
-!ProjectiveSpace methodsFor: 'points' stamp: 'len 11/7/2016 13:41'!
+!ProjectiveSpace methodsFor: 'points' stamp: 'len 12/23/2016 20:18:31'!
 pointsOver: aRing do: aBlock
-	| points one zero |
-	points _ Set new.
+	aRing isField ifTrue: [^ self pointsOverField: aRing do: aBlock].
+	(aRing isKindOf: RationalIntegerRing)
+		ifTrue: [^ self pointsOverIntegersDo: aBlock].
+	^ self notYetImplemented! !
+
+!ProjectiveSpace methodsFor: 'points-private' stamp: 'len 12/24/2016 10:31:59'!
+pointsOverField: aRing do: aBlock
+	| one zero |
 	one _ aRing one.
 	zero _ aRing zero.
-	aRing ** (self rank - 1) do: [:each| | p |
-		each isZero
-			ifFalse:
-				[p _ self pointAt: (each, zero).
-				points add: p ifAbsent: [aBlock value: p]].
-		p _ self pointAt: (each, one).
-		points add: p ifAbsent: [aBlock value: p]]! !
+	aRing ** (self rank - 1) do: [:each|
+		(each isZero not and: [(each at: (each findLast: [:xi| xi isZero not])) = one])
+			ifTrue: [aBlock value: (self pointAt: each, zero)].
+		aBlock value: (self pointAt: (each, one))].! !
 
 !ProjectiveSpace methodsFor: 'printing' stamp: 'len 11/5/2016 09:37'!
 printOn: aStream
