@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 24 December 2016 at 11:51:31 am'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 25 December 2016 at 9:23:41 pm'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 315!
+!provides: 'Mathematics' 1 316!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
 	instanceVariableNames: 'numerator shift'
@@ -481,13 +481,13 @@ Diagram subclass: #SubgroupSeries
 SubgroupSeries class
 	instanceVariableNames: ''!
 
-!classDefinition: #ChainComplex category: #'Mathematics-Homology'!
+!classDefinition: #ChainComplex category: #'Mathematics-Etc-Homology'!
 Diagram subclass: #ChainComplex
 	instanceVariableNames: 'arrows'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Homology'!
-!classDefinition: 'ChainComplex class' category: #'Mathematics-Homology'!
+	category: 'Mathematics-Etc-Homology'!
+!classDefinition: 'ChainComplex class' category: #'Mathematics-Etc-Homology'!
 ChainComplex class
 	instanceVariableNames: ''!
 
@@ -511,13 +511,13 @@ Domain subclass: #HomSet
 HomSet class
 	instanceVariableNames: ''!
 
-!classDefinition: #PointSet category: #'Mathematics-Schemes'!
+!classDefinition: #PointSet category: #'Mathematics-Geometry-Schemes'!
 HomSet subclass: #PointSet
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Schemes'!
-!classDefinition: 'PointSet class' category: #'Mathematics-Schemes'!
+	category: 'Mathematics-Geometry-Schemes'!
+!classDefinition: 'PointSet class' category: #'Mathematics-Geometry-Schemes'!
 PointSet class
 	instanceVariableNames: ''!
 
@@ -861,73 +861,73 @@ AffineGroup subclass: #SpecialEuclideanGroup
 SpecialEuclideanGroup class
 	instanceVariableNames: ''!
 
-!classDefinition: #MoebiusGroup category: #'Mathematics-Etc-Modular'!
+!classDefinition: #MoebiusGroup category: #'Mathematics-Etc-Modular Forms'!
 TransformationGroup subclass: #MoebiusGroup
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Etc-Modular'!
-!classDefinition: 'MoebiusGroup class' category: #'Mathematics-Etc-Modular'!
+	category: 'Mathematics-Etc-Modular Forms'!
+!classDefinition: 'MoebiusGroup class' category: #'Mathematics-Etc-Modular Forms'!
 MoebiusGroup class
 	instanceVariableNames: ''!
 
-!classDefinition: #ArithmeticGroup category: #'Mathematics-Etc-Modular-Groups'!
+!classDefinition: #ArithmeticGroup category: #'Mathematics-Etc-Modular Group'!
 TransformationGroup subclass: #ArithmeticGroup
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Etc-Modular-Groups'!
-!classDefinition: 'ArithmeticGroup class' category: #'Mathematics-Etc-Modular-Groups'!
+	category: 'Mathematics-Etc-Modular Group'!
+!classDefinition: 'ArithmeticGroup class' category: #'Mathematics-Etc-Modular Group'!
 ArithmeticGroup class
 	instanceVariableNames: ''!
 
-!classDefinition: #CongruenceSubgroup category: #'Mathematics-Etc-Modular-Groups'!
+!classDefinition: #CongruenceSubgroup category: #'Mathematics-Etc-Modular Group'!
 ArithmeticGroup subclass: #CongruenceSubgroup
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Etc-Modular-Groups'!
-!classDefinition: 'CongruenceSubgroup class' category: #'Mathematics-Etc-Modular-Groups'!
+	category: 'Mathematics-Etc-Modular Group'!
+!classDefinition: 'CongruenceSubgroup class' category: #'Mathematics-Etc-Modular Group'!
 CongruenceSubgroup class
 	instanceVariableNames: ''!
 
-!classDefinition: #Gamma0CongruenceSubgroup category: #'Mathematics-Etc-Modular-Groups'!
+!classDefinition: #Gamma0CongruenceSubgroup category: #'Mathematics-Etc-Modular Group'!
 CongruenceSubgroup subclass: #Gamma0CongruenceSubgroup
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Etc-Modular-Groups'!
-!classDefinition: 'Gamma0CongruenceSubgroup class' category: #'Mathematics-Etc-Modular-Groups'!
+	category: 'Mathematics-Etc-Modular Group'!
+!classDefinition: 'Gamma0CongruenceSubgroup class' category: #'Mathematics-Etc-Modular Group'!
 Gamma0CongruenceSubgroup class
 	instanceVariableNames: ''!
 
-!classDefinition: #Gamma1CongruenceSubgroup category: #'Mathematics-Etc-Modular-Groups'!
+!classDefinition: #Gamma1CongruenceSubgroup category: #'Mathematics-Etc-Modular Group'!
 CongruenceSubgroup subclass: #Gamma1CongruenceSubgroup
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Etc-Modular-Groups'!
-!classDefinition: 'Gamma1CongruenceSubgroup class' category: #'Mathematics-Etc-Modular-Groups'!
+	category: 'Mathematics-Etc-Modular Group'!
+!classDefinition: 'Gamma1CongruenceSubgroup class' category: #'Mathematics-Etc-Modular Group'!
 Gamma1CongruenceSubgroup class
 	instanceVariableNames: ''!
 
-!classDefinition: #PrincipalCongruenceSubgroup category: #'Mathematics-Etc-Modular-Groups'!
+!classDefinition: #PrincipalCongruenceSubgroup category: #'Mathematics-Etc-Modular Group'!
 CongruenceSubgroup subclass: #PrincipalCongruenceSubgroup
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Etc-Modular-Groups'!
-!classDefinition: 'PrincipalCongruenceSubgroup class' category: #'Mathematics-Etc-Modular-Groups'!
+	category: 'Mathematics-Etc-Modular Group'!
+!classDefinition: 'PrincipalCongruenceSubgroup class' category: #'Mathematics-Etc-Modular Group'!
 PrincipalCongruenceSubgroup class
 	instanceVariableNames: ''!
 
-!classDefinition: #ModularGroup category: #'Mathematics-Etc-Modular-Groups'!
+!classDefinition: #ModularGroup category: #'Mathematics-Etc-Modular Group'!
 PrincipalCongruenceSubgroup subclass: #ModularGroup
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Etc-Modular-Groups'!
-!classDefinition: 'ModularGroup class' category: #'Mathematics-Etc-Modular-Groups'!
+	category: 'Mathematics-Etc-Modular Group'!
+!classDefinition: 'ModularGroup class' category: #'Mathematics-Etc-Modular Group'!
 ModularGroup class
 	instanceVariableNames: ''!
 
@@ -981,13 +981,13 @@ FreeAbelianGroup subclass: #Lattice
 Lattice class
 	instanceVariableNames: ''!
 
-!classDefinition: #EllipticCurveGroup category: #'Mathematics-Elliptic Curves'!
+!classDefinition: #EllipticCurveGroup category: #'Mathematics-Geometry-Elliptic Curves'!
 AbelianGroup subclass: #EllipticCurveGroup
 	instanceVariableNames: 'curve scalars'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Elliptic Curves'!
-!classDefinition: 'EllipticCurveGroup class' category: #'Mathematics-Elliptic Curves'!
+	category: 'Mathematics-Geometry-Elliptic Curves'!
+!classDefinition: 'EllipticCurveGroup class' category: #'Mathematics-Geometry-Elliptic Curves'!
 EllipticCurveGroup class
 	instanceVariableNames: ''!
 
@@ -1081,13 +1081,13 @@ UnitGroup subclass: #ModularIntegersUnitGroup
 ModularIntegersUnitGroup class
 	instanceVariableNames: ''!
 
-!classDefinition: #DirichletGroup category: #'Mathematics-Etc-Modular'!
+!classDefinition: #DirichletGroup category: #'Mathematics-Etc-Modular Forms'!
 Group subclass: #DirichletGroup
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Etc-Modular'!
-!classDefinition: 'DirichletGroup class' category: #'Mathematics-Etc-Modular'!
+	category: 'Mathematics-Etc-Modular Forms'!
+!classDefinition: 'DirichletGroup class' category: #'Mathematics-Etc-Modular Forms'!
 DirichletGroup class
 	instanceVariableNames: ''!
 
@@ -1701,23 +1701,23 @@ FreeModule subclass: #PolynomialFiltrationModule
 PolynomialFiltrationModule class
 	instanceVariableNames: ''!
 
-!classDefinition: #DivisorsGroup category: #'Mathematics-Schemes'!
+!classDefinition: #DivisorsGroup category: #'Mathematics-Geometry-Schemes'!
 FreeModule subclass: #DivisorsGroup
 	instanceVariableNames: 'scheme scalars'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Schemes'!
-!classDefinition: 'DivisorsGroup class' category: #'Mathematics-Schemes'!
+	category: 'Mathematics-Geometry-Schemes'!
+!classDefinition: 'DivisorsGroup class' category: #'Mathematics-Geometry-Schemes'!
 DivisorsGroup class
 	instanceVariableNames: ''!
 
-!classDefinition: #ModularFormSpace category: #'Mathematics-Etc-Modular'!
+!classDefinition: #ModularFormSpace category: #'Mathematics-Etc-Modular Forms'!
 FreeModule subclass: #ModularFormSpace
 	instanceVariableNames: 'weight group'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Etc-Modular'!
-!classDefinition: 'ModularFormSpace class' category: #'Mathematics-Etc-Modular'!
+	category: 'Mathematics-Etc-Modular Forms'!
+!classDefinition: 'ModularFormSpace class' category: #'Mathematics-Etc-Modular Forms'!
 ModularFormSpace class
 	instanceVariableNames: ''!
 
@@ -1801,134 +1801,144 @@ PolynomialCode subclass: #CyclicCode
 CyclicCode class
 	instanceVariableNames: ''!
 
-!classDefinition: #Scheme category: #'Mathematics-Schemes'!
+!classDefinition: #Scheme category: #'Mathematics-Geometry-Schemes'!
 Domain subclass: #Scheme
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Schemes'!
-!classDefinition: 'Scheme class' category: #'Mathematics-Schemes'!
+	category: 'Mathematics-Geometry-Schemes'!
+!classDefinition: 'Scheme class' category: #'Mathematics-Geometry-Schemes'!
 Scheme class
 	instanceVariableNames: ''!
 
-!classDefinition: #AffineScheme category: #'Mathematics-Schemes-Affine'!
+!classDefinition: #AffineScheme category: #'Mathematics-Geometry-Affine'!
 Scheme subclass: #AffineScheme
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Schemes-Affine'!
-!classDefinition: 'AffineScheme class' category: #'Mathematics-Schemes-Affine'!
+	category: 'Mathematics-Geometry-Affine'!
+!classDefinition: 'AffineScheme class' category: #'Mathematics-Geometry-Affine'!
 AffineScheme class
 	instanceVariableNames: ''!
 
-!classDefinition: #AffineCurve category: #'Mathematics-Schemes-Affine'!
+!classDefinition: #AffineCurve category: #'Mathematics-Geometry-Affine'!
 AffineScheme subclass: #AffineCurve
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Schemes-Affine'!
-!classDefinition: 'AffineCurve class' category: #'Mathematics-Schemes-Affine'!
+	category: 'Mathematics-Geometry-Affine'!
+!classDefinition: 'AffineCurve class' category: #'Mathematics-Geometry-Affine'!
 AffineCurve class
 	instanceVariableNames: ''!
 
-!classDefinition: #AffinePlaneCurve category: #'Mathematics-Schemes-Affine'!
+!classDefinition: #AffinePlaneCurve category: #'Mathematics-Geometry-Affine'!
 AffineCurve subclass: #AffinePlaneCurve
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Schemes-Affine'!
-!classDefinition: 'AffinePlaneCurve class' category: #'Mathematics-Schemes-Affine'!
+	category: 'Mathematics-Geometry-Affine'!
+!classDefinition: 'AffinePlaneCurve class' category: #'Mathematics-Geometry-Affine'!
 AffinePlaneCurve class
 	instanceVariableNames: ''!
 
-!classDefinition: #AffineSpace category: #'Mathematics-Schemes-Affine'!
+!classDefinition: #AffineSpace category: #'Mathematics-Geometry-Affine'!
 AffineScheme subclass: #AffineSpace
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Schemes-Affine'!
-!classDefinition: 'AffineSpace class' category: #'Mathematics-Schemes-Affine'!
+	category: 'Mathematics-Geometry-Affine'!
+!classDefinition: 'AffineSpace class' category: #'Mathematics-Geometry-Affine'!
 AffineSpace class
 	instanceVariableNames: ''!
 
-!classDefinition: #ProjectiveScheme category: #'Mathematics-Schemes-Projective'!
+!classDefinition: #ProjectiveScheme category: #'Mathematics-Geometry-Projective'!
 Scheme subclass: #ProjectiveScheme
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Schemes-Projective'!
-!classDefinition: 'ProjectiveScheme class' category: #'Mathematics-Schemes-Projective'!
+	category: 'Mathematics-Geometry-Projective'!
+!classDefinition: 'ProjectiveScheme class' category: #'Mathematics-Geometry-Projective'!
 ProjectiveScheme class
 	instanceVariableNames: ''!
 
-!classDefinition: #ProjectiveCurve category: #'Mathematics-Schemes-Projective'!
+!classDefinition: #ProjectiveCurve category: #'Mathematics-Geometry-Projective'!
 ProjectiveScheme subclass: #ProjectiveCurve
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Schemes-Projective'!
-!classDefinition: 'ProjectiveCurve class' category: #'Mathematics-Schemes-Projective'!
+	category: 'Mathematics-Geometry-Projective'!
+!classDefinition: 'ProjectiveCurve class' category: #'Mathematics-Geometry-Projective'!
 ProjectiveCurve class
 	instanceVariableNames: ''!
 
-!classDefinition: #ProjectivePlaneCurve category: #'Mathematics-Schemes-Projective'!
+!classDefinition: #ProjectivePlaneCurve category: #'Mathematics-Geometry-Projective'!
 ProjectiveCurve subclass: #ProjectivePlaneCurve
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Schemes-Projective'!
-!classDefinition: 'ProjectivePlaneCurve class' category: #'Mathematics-Schemes-Projective'!
+	category: 'Mathematics-Geometry-Projective'!
+!classDefinition: 'ProjectivePlaneCurve class' category: #'Mathematics-Geometry-Projective'!
 ProjectivePlaneCurve class
 	instanceVariableNames: ''!
 
-!classDefinition: #EllipticCurve category: #'Mathematics-Elliptic Curves'!
+!classDefinition: #Conic category: #'Mathematics-Geometry-Projective'!
+ProjectivePlaneCurve subclass: #Conic
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Geometry-Projective'!
+!classDefinition: 'Conic class' category: #'Mathematics-Geometry-Projective'!
+Conic class
+	instanceVariableNames: ''!
+
+!classDefinition: #RationalCurve category: #'Mathematics-Geometry-Projective'!
+ProjectivePlaneCurve subclass: #RationalCurve
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Geometry-Projective'!
+!classDefinition: 'RationalCurve class' category: #'Mathematics-Geometry-Projective'!
+RationalCurve class
+	instanceVariableNames: ''!
+
+!classDefinition: #EllipticCurve category: #'Mathematics-Geometry-Elliptic Curves'!
 ProjectivePlaneCurve subclass: #EllipticCurve
 	instanceVariableNames: 'equation'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Elliptic Curves'!
-!classDefinition: 'EllipticCurve class' category: #'Mathematics-Elliptic Curves'!
+	category: 'Mathematics-Geometry-Elliptic Curves'!
+!classDefinition: 'EllipticCurve class' category: #'Mathematics-Geometry-Elliptic Curves'!
 EllipticCurve class
 	instanceVariableNames: ''!
 
-!classDefinition: #ProjectiveSpace category: #'Mathematics-Schemes-Projective'!
+!classDefinition: #ProjectiveSpace category: #'Mathematics-Geometry-Projective'!
 ProjectiveScheme subclass: #ProjectiveSpace
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Schemes-Projective'!
-!classDefinition: 'ProjectiveSpace class' category: #'Mathematics-Schemes-Projective'!
+	category: 'Mathematics-Geometry-Projective'!
+!classDefinition: 'ProjectiveSpace class' category: #'Mathematics-Geometry-Projective'!
 ProjectiveSpace class
 	instanceVariableNames: ''!
 
-!classDefinition: #ProjectiveLine category: #'Mathematics-Schemes-Projective'!
+!classDefinition: #ProjectiveLine category: #'Mathematics-Geometry-Projective'!
 ProjectiveSpace subclass: #ProjectiveLine
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Schemes-Projective'!
-!classDefinition: 'ProjectiveLine class' category: #'Mathematics-Schemes-Projective'!
+	category: 'Mathematics-Geometry-Projective'!
+!classDefinition: 'ProjectiveLine class' category: #'Mathematics-Geometry-Projective'!
 ProjectiveLine class
 	instanceVariableNames: ''!
 
-!classDefinition: #UpperHalfPlane category: #'Mathematics-Etc-Modular'!
+!classDefinition: #UpperHalfPlane category: #'Mathematics-Etc-Modular Forms'!
 Domain subclass: #UpperHalfPlane
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Etc-Modular'!
-!classDefinition: 'UpperHalfPlane class' category: #'Mathematics-Etc-Modular'!
+	category: 'Mathematics-Etc-Modular Forms'!
+!classDefinition: 'UpperHalfPlane class' category: #'Mathematics-Etc-Modular Forms'!
 UpperHalfPlane class
-	instanceVariableNames: ''!
-
-!classDefinition: #SimplicialComplex category: #'Mathematics-Homology'!
-Domain subclass: #SimplicialComplex
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Homology'!
-!classDefinition: 'SimplicialComplex class' category: #'Mathematics-Homology'!
-SimplicialComplex class
 	instanceVariableNames: ''!
 
 !classDefinition: #AffineSubspace category: #'Mathematics-Etc-Geometry-Affine'!
@@ -2101,6 +2111,16 @@ Domain subclass: #MetricSpace
 MetricSpace class
 	instanceVariableNames: ''!
 
+!classDefinition: #SimplicialComplex category: #'Mathematics-Etc-Homology'!
+Domain subclass: #SimplicialComplex
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Etc-Homology'!
+!classDefinition: 'SimplicialComplex class' category: #'Mathematics-Etc-Homology'!
+SimplicialComplex class
+	instanceVariableNames: ''!
+
 !classDefinition: #Morphism category: #'Mathematics-Kernel'!
 Object subclass: #Morphism
 	instanceVariableNames: ''
@@ -2161,13 +2181,13 @@ GroupHomomorphism subclass: #GroupRepresentation
 GroupRepresentation class
 	instanceVariableNames: ''!
 
-!classDefinition: #DirichletCharacter category: #'Mathematics-Etc-Modular'!
+!classDefinition: #DirichletCharacter category: #'Mathematics-Etc-Modular Forms'!
 GroupHomomorphism subclass: #DirichletCharacter
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Etc-Modular'!
-!classDefinition: 'DirichletCharacter class' category: #'Mathematics-Etc-Modular'!
+	category: 'Mathematics-Etc-Modular Forms'!
+!classDefinition: 'DirichletCharacter class' category: #'Mathematics-Etc-Modular Forms'!
 DirichletCharacter class
 	instanceVariableNames: ''!
 
@@ -2271,64 +2291,44 @@ Function subclass: #QuadraticForm
 QuadraticForm class
 	instanceVariableNames: ''!
 
-!classDefinition: #RationalMap category: #'Mathematics-Schemes'!
+!classDefinition: #RationalMap category: #'Mathematics-Geometry-Schemes'!
 Function subclass: #RationalMap
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Schemes'!
-!classDefinition: 'RationalMap class' category: #'Mathematics-Schemes'!
+	category: 'Mathematics-Geometry-Schemes'!
+!classDefinition: 'RationalMap class' category: #'Mathematics-Geometry-Schemes'!
 RationalMap class
 	instanceVariableNames: ''!
 
-!classDefinition: #EllipticCurveIsogeny category: #'Mathematics-Elliptic Curves'!
-Function subclass: #EllipticCurveIsogeny
+!classDefinition: #EllipticCurveIsogeny category: #'Mathematics-Geometry-Elliptic Curves'!
+RationalMap subclass: #EllipticCurveIsogeny
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Elliptic Curves'!
-!classDefinition: 'EllipticCurveIsogeny class' category: #'Mathematics-Elliptic Curves'!
+	category: 'Mathematics-Geometry-Elliptic Curves'!
+!classDefinition: 'EllipticCurveIsogeny class' category: #'Mathematics-Geometry-Elliptic Curves'!
 EllipticCurveIsogeny class
 	instanceVariableNames: ''!
 
-!classDefinition: #ModularForm category: #'Mathematics-Etc-Modular'!
+!classDefinition: #ModularForm category: #'Mathematics-Etc-Modular Forms'!
 Function subclass: #ModularForm
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Etc-Modular'!
-!classDefinition: 'ModularForm class' category: #'Mathematics-Etc-Modular'!
+	category: 'Mathematics-Etc-Modular Forms'!
+!classDefinition: 'ModularForm class' category: #'Mathematics-Etc-Modular Forms'!
 ModularForm class
 	instanceVariableNames: ''!
 
-!classDefinition: #EisensteinSeries category: #'Mathematics-Etc-Modular'!
+!classDefinition: #EisensteinSeries category: #'Mathematics-Etc-Modular Forms'!
 ModularForm subclass: #EisensteinSeries
 	instanceVariableNames: 'weight'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Etc-Modular'!
-!classDefinition: 'EisensteinSeries class' category: #'Mathematics-Etc-Modular'!
+	category: 'Mathematics-Etc-Modular Forms'!
+!classDefinition: 'EisensteinSeries class' category: #'Mathematics-Etc-Modular Forms'!
 EisensteinSeries class
-	instanceVariableNames: ''!
-
-!classDefinition: #ChainMap category: #'Mathematics-Homology'!
-Function subclass: #ChainMap
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Homology'!
-!classDefinition: 'ChainMap class' category: #'Mathematics-Homology'!
-ChainMap class
-	instanceVariableNames: ''!
-
-!classDefinition: #SimplicialMap category: #'Mathematics-Homology'!
-Function subclass: #SimplicialMap
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Homology'!
-!classDefinition: 'SimplicialMap class' category: #'Mathematics-Homology'!
-SimplicialMap class
 	instanceVariableNames: ''!
 
 !classDefinition: #AffineMap category: #'Mathematics-Etc-Geometry-Affine'!
@@ -2371,6 +2371,26 @@ Function subclass: #PolynomialMap
 PolynomialMap class
 	instanceVariableNames: ''!
 
+!classDefinition: #ChainMap category: #'Mathematics-Etc-Homology'!
+Function subclass: #ChainMap
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Etc-Homology'!
+!classDefinition: 'ChainMap class' category: #'Mathematics-Etc-Homology'!
+ChainMap class
+	instanceVariableNames: ''!
+
+!classDefinition: #SimplicialMap category: #'Mathematics-Etc-Homology'!
+Function subclass: #SimplicialMap
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Etc-Homology'!
+!classDefinition: 'SimplicialMap class' category: #'Mathematics-Etc-Homology'!
+SimplicialMap class
+	instanceVariableNames: ''!
+
 !classDefinition: #Permutation category: #'Mathematics-Groups-Permutations'!
 Morphism subclass: #Permutation
 	instanceVariableNames: 'map'
@@ -2401,73 +2421,73 @@ Permutation subclass: #StandardPermutation
 StandardPermutation class
 	instanceVariableNames: ''!
 
-!classDefinition: #RationalPoint category: #'Mathematics-Schemes'!
+!classDefinition: #RationalPoint category: #'Mathematics-Geometry-Schemes'!
 Morphism subclass: #RationalPoint
 	instanceVariableNames: 'codomain'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Schemes'!
-!classDefinition: 'RationalPoint class' category: #'Mathematics-Schemes'!
+	category: 'Mathematics-Geometry-Schemes'!
+!classDefinition: 'RationalPoint class' category: #'Mathematics-Geometry-Schemes'!
 RationalPoint class
 	instanceVariableNames: ''!
 
-!classDefinition: #AffinePoint category: #'Mathematics-Schemes-Affine'!
+!classDefinition: #AffinePoint category: #'Mathematics-Geometry-Affine'!
 RationalPoint subclass: #AffinePoint
 	instanceVariableNames: 'coordinates'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Schemes-Affine'!
-!classDefinition: 'AffinePoint class' category: #'Mathematics-Schemes-Affine'!
+	category: 'Mathematics-Geometry-Affine'!
+!classDefinition: 'AffinePoint class' category: #'Mathematics-Geometry-Affine'!
 AffinePoint class
 	instanceVariableNames: ''!
 
-!classDefinition: #ProjectivePoint category: #'Mathematics-Schemes-Projective'!
+!classDefinition: #ProjectivePoint category: #'Mathematics-Geometry-Projective'!
 RationalPoint subclass: #ProjectivePoint
 	instanceVariableNames: 'coordinates'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Schemes-Projective'!
-!classDefinition: 'ProjectivePoint class' category: #'Mathematics-Schemes-Projective'!
+	category: 'Mathematics-Geometry-Projective'!
+!classDefinition: 'ProjectivePoint class' category: #'Mathematics-Geometry-Projective'!
 ProjectivePoint class
 	instanceVariableNames: ''!
 
-!classDefinition: #ProjectiveLinePoint category: #'Mathematics-Schemes-Projective'!
+!classDefinition: #ProjectiveLinePoint category: #'Mathematics-Geometry-Projective'!
 ProjectivePoint subclass: #ProjectiveLinePoint
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Schemes-Projective'!
-!classDefinition: 'ProjectiveLinePoint class' category: #'Mathematics-Schemes-Projective'!
+	category: 'Mathematics-Geometry-Projective'!
+!classDefinition: 'ProjectiveLinePoint class' category: #'Mathematics-Geometry-Projective'!
 ProjectiveLinePoint class
 	instanceVariableNames: ''!
 
-!classDefinition: #EllipticCurvePoint category: #'Mathematics-Elliptic Curves'!
+!classDefinition: #EllipticCurvePoint category: #'Mathematics-Geometry-Elliptic Curves'!
 ProjectivePoint subclass: #EllipticCurvePoint
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Elliptic Curves'!
-!classDefinition: 'EllipticCurvePoint class' category: #'Mathematics-Elliptic Curves'!
+	category: 'Mathematics-Geometry-Elliptic Curves'!
+!classDefinition: 'EllipticCurvePoint class' category: #'Mathematics-Geometry-Elliptic Curves'!
 EllipticCurvePoint class
 	instanceVariableNames: ''!
 
-!classDefinition: #MoebiusMap category: #'Mathematics-Etc-Modular'!
+!classDefinition: #MoebiusMap category: #'Mathematics-Etc-Modular Forms'!
 Morphism subclass: #MoebiusMap
 	instanceVariableNames: 'a b c d'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Etc-Modular'!
-!classDefinition: 'MoebiusMap class' category: #'Mathematics-Etc-Modular'!
+	category: 'Mathematics-Etc-Modular Forms'!
+!classDefinition: 'MoebiusMap class' category: #'Mathematics-Etc-Modular Forms'!
 MoebiusMap class
 	instanceVariableNames: ''!
 
-!classDefinition: #ModularMap category: #'Mathematics-Etc-Modular'!
+!classDefinition: #ModularMap category: #'Mathematics-Etc-Modular Forms'!
 MoebiusMap subclass: #ModularMap
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Etc-Modular'!
-!classDefinition: 'ModularMap class' category: #'Mathematics-Etc-Modular'!
+	category: 'Mathematics-Etc-Modular Forms'!
+!classDefinition: 'ModularMap class' category: #'Mathematics-Etc-Modular Forms'!
 ModularMap class
 	instanceVariableNames: ''!
 
@@ -2721,23 +2741,23 @@ FormalSum subclass: #Tensor
 Tensor class
 	instanceVariableNames: ''!
 
-!classDefinition: #Divisor category: #'Mathematics-Schemes'!
+!classDefinition: #Divisor category: #'Mathematics-Geometry-Schemes'!
 FormalSum subclass: #Divisor
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Schemes'!
-!classDefinition: 'Divisor class' category: #'Mathematics-Schemes'!
+	category: 'Mathematics-Geometry-Schemes'!
+!classDefinition: 'Divisor class' category: #'Mathematics-Geometry-Schemes'!
 Divisor class
 	instanceVariableNames: ''!
 
-!classDefinition: #SimplicialChain category: #'Mathematics-Homology'!
+!classDefinition: #SimplicialChain category: #'Mathematics-Etc-Homology'!
 FormalSum subclass: #SimplicialChain
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Homology'!
-!classDefinition: 'SimplicialChain class' category: #'Mathematics-Homology'!
+	category: 'Mathematics-Etc-Homology'!
+!classDefinition: 'SimplicialChain class' category: #'Mathematics-Etc-Homology'!
 SimplicialChain class
 	instanceVariableNames: ''!
 
@@ -3331,54 +3351,44 @@ Object subclass: #LatticePacking
 LatticePacking class
 	instanceVariableNames: ''!
 
-!classDefinition: #WeierstrassEquation category: #'Mathematics-Elliptic Curves'!
+!classDefinition: #WeierstrassEquation category: #'Mathematics-Geometry-Elliptic Curves'!
 Object subclass: #WeierstrassEquation
 	instanceVariableNames: 'coefficients'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Elliptic Curves'!
-!classDefinition: 'WeierstrassEquation class' category: #'Mathematics-Elliptic Curves'!
+	category: 'Mathematics-Geometry-Elliptic Curves'!
+!classDefinition: 'WeierstrassEquation class' category: #'Mathematics-Geometry-Elliptic Curves'!
 WeierstrassEquation class
 	instanceVariableNames: ''!
 
-!classDefinition: #ManinSymbol category: #'Mathematics-Etc-Modular'!
+!classDefinition: #ManinSymbol category: #'Mathematics-Etc-Modular Forms'!
 Object subclass: #ManinSymbol
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Etc-Modular'!
-!classDefinition: 'ManinSymbol class' category: #'Mathematics-Etc-Modular'!
+	category: 'Mathematics-Etc-Modular Forms'!
+!classDefinition: 'ManinSymbol class' category: #'Mathematics-Etc-Modular Forms'!
 ManinSymbol class
 	instanceVariableNames: ''!
 
-!classDefinition: #ModularSymbol category: #'Mathematics-Etc-Modular'!
+!classDefinition: #ModularSymbol category: #'Mathematics-Etc-Modular Forms'!
 Object subclass: #ModularSymbol
 	instanceVariableNames: 'alpha beta'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Etc-Modular'!
-!classDefinition: 'ModularSymbol class' category: #'Mathematics-Etc-Modular'!
+	category: 'Mathematics-Etc-Modular Forms'!
+!classDefinition: 'ModularSymbol class' category: #'Mathematics-Etc-Modular Forms'!
 ModularSymbol class
 	instanceVariableNames: ''!
 
-!classDefinition: #FareySymbol category: #'Mathematics-Etc-Modular-Groups'!
+!classDefinition: #FareySymbol category: #'Mathematics-Etc-Modular Group'!
 Object subclass: #FareySymbol
 	instanceVariableNames: 'group fractions pairings'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Etc-Modular-Groups'!
-!classDefinition: 'FareySymbol class' category: #'Mathematics-Etc-Modular-Groups'!
+	category: 'Mathematics-Etc-Modular Group'!
+!classDefinition: 'FareySymbol class' category: #'Mathematics-Etc-Modular Group'!
 FareySymbol class
-	instanceVariableNames: ''!
-
-!classDefinition: #Simplex category: #'Mathematics-Homology'!
-Object subclass: #Simplex
-	instanceVariableNames: 'points'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Homology'!
-!classDefinition: 'Simplex class' category: #'Mathematics-Homology'!
-Simplex class
 	instanceVariableNames: ''!
 
 !classDefinition: #BerlekampMassey category: #'Mathematics-Algorithms'!
@@ -3759,6 +3769,16 @@ Expression subclass: #VariableExpression
 	category: 'Mathematics-Etc-Expressions'!
 !classDefinition: 'VariableExpression class' category: #'Mathematics-Etc-Expressions'!
 VariableExpression class
+	instanceVariableNames: ''!
+
+!classDefinition: #Simplex category: #'Mathematics-Etc-Homology'!
+Object subclass: #Simplex
+	instanceVariableNames: 'points'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Etc-Homology'!
+!classDefinition: 'Simplex class' category: #'Mathematics-Etc-Homology'!
+Simplex class
 	instanceVariableNames: ''!
 
 
@@ -4578,8 +4598,14 @@ My instances are projective algebraic curves, i.e. projective schemes of dimensi
 !ProjectivePlaneCurve commentStamp: '<historical>' prior: 0!
 My instances are projective plane algebraic curves, i.e. schemes of dimension 1 over the projective plane.!
 
+!Conic commentStamp: '<historical>' prior: 0!
+My instances are conics, i.e. projective plane curves of genus 0 and degree 2. They are defined by quadratic polynomials.!
+
+!RationalCurve commentStamp: '<historical>' prior: 0!
+My instances are rational curves, i.e. projective plane curves of genus 0 and degree 1. They are defined by linear polynomials.!
+
 !EllipticCurve commentStamp: '<historical>' prior: 0!
-My instances are elliptic curves, i.e. projective plane algebraic curves of genus 1. They can be defined by a Weierstrass equation (see WeierstrassEquation).
+My instances are elliptic curves, i.e. projective plane curves of genus 1. They can be defined by a Weierstrass equation (see WeierstrassEquation).
 
 Elliptic curves are abelian varieties, i.e. the sets E(K) of K-rational points form abelian groups. See EllipticCurvePoint and EllipticCurveGroup.!
 
@@ -4603,13 +4629,6 @@ This serves as a model of the hyperbolic plane, defining lines as:
 2. the intersection of the half-plane H and Euclidean half-circles with center on the real axis.
 
 The group of hyperbolic isometries, as well as conformal automorphisms, is the general Moebius group. This is the group of Moebius transformations, i.e. transformations of the form z |-> (az + b) / (cz + d) with ad - cd ~= 0 (or without loss of generality ad - cd = 1).!
-
-!SimplicialComplex commentStamp: '<historical>' prior: 0!
-My instances are abstract simplicial complexes. These are combinatorial objects consisting of a collection of simplices (the 'faces' of the simplicial complex) with the following properties:
-- every face of a simplex is also in the complex;
-- the intersection of two simplices is either empty or a common face of both simplices.
-
-Also can be seen as a subset of the power set of some set V, often V={1,...,n}, closed under inclusion.!
 
 !AffineSubspace commentStamp: '<historical>' prior: 0!
 My instances are affine subspaces contained in a given vector space, i.e. flats, or linear varieties, linear manifolds, or translated subspaces (cosets) of a vector space.
@@ -4638,6 +4657,13 @@ The morphisms are ProjectiveMaps (or projectivities).
 References:
 	https://en.wikipedia.org/wiki/Projective_space
 !
+
+!SimplicialComplex commentStamp: '<historical>' prior: 0!
+My instances are abstract simplicial complexes. These are combinatorial objects consisting of a collection of simplices (the 'faces' of the simplicial complex) with the following properties:
+- every face of a simplex is also in the complex;
+- the intersection of two simplices is either empty or a common face of both simplices.
+
+Also can be seen as a subset of the power set of some set V, often V={1,...,n}, closed under inclusion.!
 
 !Morphism commentStamp: 'len 11/2/2016 08:29' prior: 0!
 I'm an abstract superclass for Functions and other morphisms. See subclasses, and Domain and HomSet.
@@ -4782,8 +4808,12 @@ Example:
 	f minimalPolynomial
 !
 
-!RationalMap commentStamp: 'len 11/1/2016 17:02' prior: 0!
-My instances are rational maps between Schemes. They are morphisms of schemes that are partial functions, defined in a dense open subset of the domain.!
+!RationalMap commentStamp: '<historical>' prior: 0!
+My instances are rational maps between Schemes. They are defined by a tuple of rational functions, and they are partial functions defined in a dense open subset of the domain.
+
+A regular rational map is a morphism (by definition). A regular map is dominant (definition) if its image is demse in its codomain.
+
+The category of affine varieties or projective varieties with dominant rational maps and the category of function fields are contravariantly equivalent.!
 
 !EllipticCurveIsogeny commentStamp: '<historical>' prior: 0!
 My instances are scheme morphisms of elliptic curves E -> E` that send the origin of E to the origin of E`. They are homomorphisms of group schemes.!
@@ -4801,11 +4831,6 @@ A modular form f(z) can be seen as power series on a new variable q = e^(2 pi i 
 
 Given a group G, the set of modular forms of a given weight k form a finite-dimensional vector space M_k(G). See ModularFormSpace. The set of all modular forms of all weights is noted M_*(G) and it's a ring. All modular functions form a field.!
 
-!ChainMap commentStamp: '<historical>' prior: 0!
-A chain map between two chain complexes (Ci,di) and (C`i,d`i) is a sequence of homomorphisms fi:Ci->C`i that commutes with the boundary operator in the two complexes: d`i @ fi = f{i-1} @ di. They send cycles to cycles and boundaries to boundaries, and this descends to a map in homology fi* : Hi -> H`i.
-
-Chain maps are morphisms in the category of chain complexes.!
-
 !AffineMap commentStamp: '<historical>' prior: 0!
 My instances are affine transformations (affine maps or affinities) defined over vector spaces (considered as affine spaces by 'forgetting the origin') or over affine spaces as schemes. See VectorSpace and AffineSpace.
 
@@ -4820,6 +4845,11 @@ My instances are polynomial functions on an algebraic variety.!
 
 !PolynomialMap commentStamp: '<historical>' prior: 0!
 My instances are polynomial maps between algebraic varieties.!
+
+!ChainMap commentStamp: '<historical>' prior: 0!
+A chain map between two chain complexes (Ci,di) and (C`i,d`i) is a sequence of homomorphisms fi:Ci->C`i that commutes with the boundary operator in the two complexes: d`i @ fi = f{i-1} @ di. They send cycles to cycles and boundaries to boundaries, and this descends to a map in homology fi* : Hi -> H`i.
+
+Chain maps are morphisms in the category of chain complexes.!
 
 !Permutation commentStamp: '<historical>' prior: 0!
 My instances are bijective functions from a domain to itself. Permutations under composition form groups (see PermutationGroup).!
@@ -4843,8 +4873,10 @@ My instances are K-rational points on a projective scheme X, seen as morphisms S
 !ProjectiveLinePoint commentStamp: '<historical>' prior: 0!
 My instances are points on the projective line P^1(R) for some ring R. See ProjectiveLine.!
 
-!EllipticCurvePoint commentStamp: '<historical>' prior: 0!
-My instances are K-rational points on an elliptic curve E, seen as morphisms Spec(K) -> E. These objects implement the group law (with additive notation). The identity element (zero, or the point at infinity) is [0:1:0].!
+!EllipticCurvePoint commentStamp: 'len 12/25/2016 08:03:22' prior: 0!
+My instances are K-rational points on an elliptic curve E, seen as morphisms Spec(K) -> E. These objects implement the group law (with additive notation). The identity element (zero, or the point at infinity) is [0:1:0].
+
+Note that a point [a:b:1] is printed '(a,b)', and the point at infinity [0:1:0] is printed 'O'. This follows commonly used conventions.!
 
 !MoebiusMap commentStamp: '<historical>' prior: 0!
 My instances are transformations of the form
@@ -5171,9 +5203,6 @@ References
 	Chris A. Kurth, Ling Long, "Computations with finite index subgroups of PSL(2,Z) using Farey symbols".
 	John Voight, "Computational methods for modular and Shimura curves", lecture videos in youtube.!
 
-!Simplex commentStamp: '<historical>' prior: 0!
-My instances are (abstract) n-simplices.!
-
 !BerlekampMassey commentStamp: '<historical>' prior: 0!
 I am the Berlekamp-Massey algorithm. The initial purpose of this algorithm was to evaluate Binary BCH codes, but it has found many uses, including inverting matrices of constant diagonal, solving linear recurrences (synthesizing LFSRs with a specified output sequence), etc.
 
@@ -5234,6 +5263,9 @@ Output: an extended characteristic set (or ascending chain, or Wu characteristic
 I am the Gaussian Elimination algorithm.
 
 Given a matrix M with coefficients in a field, my instances perform Gaussian reduction on the matrix to compute linear dependency of the columns, rank, determinant, inverse matrix, etc.!
+
+!Simplex commentStamp: '<historical>' prior: 0!
+My instances are (abstract) n-simplices.!
 
 !Object methodsFor: '*mathematics' stamp: 'len 11/6/2016 09:07'!
 adaptToCollection: rcvr andSend: selector
@@ -17136,6 +17168,18 @@ printOn: aStream
 	aStream nextPut: Character Gamma.
 	self level ~= 1 ifTrue: [aStream nextPut: $(; print: self level; nextPut: $)]! !
 
+!ModularGroup methodsFor: 'as yet unclassified' stamp: 'len 12/24/2016 12:06:20'!
+S
+	^ ModularMap S! !
+
+!ModularGroup methodsFor: 'as yet unclassified' stamp: 'len 12/24/2016 12:06:24'!
+T
+	^ ModularMap T! !
+
+!ModularGroup methodsFor: 'as yet unclassified' stamp: 'len 12/24/2016 12:08:05'!
+T: n
+	^ ModularMap a: 1 b: n c: 0 d: 1! !
+
 !ModularGroup methodsFor: 'as yet unclassified' stamp: 'len 12/21/2016 16:06:26'!
 generators
 	^ {ModularMap T. ModularMap S}! !
@@ -17151,6 +17195,21 @@ level: anInteger
 !ModularGroup methodsFor: 'as yet unclassified' stamp: 'len 12/8/2016 19:36:34'!
 printOn: aStream
 	aStream nextPut: Character Gamma! !
+
+!ModularGroup methodsFor: 'as yet unclassified' stamp: 'len 12/24/2016 12:07:59'!
+reduce: aPoint
+	"Given a point in the upper half plane, return an element of the receiver that maps the point to a representative in the standard fundamental domain.
+	Reference: Henri Cohen, 'A Course in Computational Algebraic Number Theory', Algorithm 7.4.2."
+	| tau A n m |
+	tau _ aPoint.
+	A _ self identity.
+	[n _ tau real rounded.
+	tau _ tau - n.
+	A _ (self T: n negated) ” A.
+	m _ tau * tau conjugated.
+	m >= 1 ifTrue: [^ {tau. A}].
+	tau _ tau conjugated negated / m.
+	A _ self S ” A] repeat! !
 
 !LinearTransformationsGroup methodsFor: 'accessing' stamp: 'len 12/8/2016 09:02:47'!
 action
@@ -24813,6 +24872,10 @@ degree
 polynomial
 	^ self ideal generator! !
 
+!ProjectivePlaneCurve methodsFor: 'as yet unclassified' stamp: 'len 12/25/2016 11:57:45'!
+printOn: aStream
+	aStream print: self polynomial; nextPutAll: ' = 0'! !
+
 !ProjectivePlaneCurve methodsFor: 'as yet unclassified' stamp: 'len 10/24/2016 18:33'!
 tangentAt: aPoint
 	| g P |
@@ -24823,6 +24886,16 @@ tangentAt: aPoint
 !ProjectivePlaneCurve class methodsFor: 'instance creation' stamp: 'len 10/24/2016 20:12'!
 polynomial: aPolynomial
 	^ self coordinateRing: aPolynomial parent / aPolynomial! !
+
+!Conic methodsFor: 'as yet unclassified' stamp: 'len 12/25/2016 12:14:47'!
+genus
+	"Answer the geometric genus of the receiver."
+	^ 0! !
+
+!RationalCurve methodsFor: 'as yet unclassified' stamp: 'len 12/25/2016 12:14:55'!
+genus
+	"Answer the geometric genus of the receiver."
+	^ 0! !
 
 !EllipticCurve methodsFor: 'operations' stamp: 'len 12/18/2016 20:09:07'!
 % anInteger
@@ -24963,13 +25036,13 @@ pointsOver: aRing do: aBlock
 		ifTrue: [^ self pointsOverIntegersDo: aBlock].
 	^ self notYetImplemented! !
 
-!ProjectiveSpace methodsFor: 'points-private' stamp: 'len 12/24/2016 10:31:59'!
+!ProjectiveSpace methodsFor: 'points-private' stamp: 'len 12/25/2016 11:55:52'!
 pointsOverField: aRing do: aBlock
 	| one zero |
 	one _ aRing one.
 	zero _ aRing zero.
 	aRing ** (self rank - 1) do: [:each|
-		(each isZero not and: [(each at: (each findLast: [:xi| xi isZero not])) = one])
+		(each isZero not and: [(each at: each lastNonZero) = one])
 			ifTrue: [aBlock value: (self pointAt: each, zero)].
 		aBlock value: (self pointAt: (each, one))].! !
 
@@ -25035,182 +25108,6 @@ printOn: aStream
 initialize
 	super initialize.
 	Smalltalk at: #HH put: self new! !
-
-!SimplicialComplex methodsFor: 'operations' stamp: 'len 2/29/2016 08:26'!
-/ aFace
-	"Answer the link of the face aFace."
-	^ self notYetImplemented! !
-
-!SimplicialComplex methodsFor: 'homology' stamp: 'len 8/5/2016 19:28'!
-boundaries: i
-	^ (self boundaryMap: i) kernel! !
-
-!SimplicialComplex methodsFor: 'homology' stamp: 'len 10/4/2016 12:29'!
-boundaryMap: i
-	^ (self chains: i) to: (self chains: i-1) evaluating: [:x| x boundary]! !
-
-!SimplicialComplex methodsFor: 'subobjects' stamp: 'len 6/13/2016 01:09'!
-cells
-	^ self faces: self dimension! !
-
-!SimplicialComplex methodsFor: 'homology' stamp: 'len 6/12/2016 06:10'!
-chains: p
-	"Answer the p-chain group."
-	^ FreeAbelianGroup on: (self faces: p) asArray! !
-
-!SimplicialComplex methodsFor: 'homology' stamp: 'len 12/18/2016 20:24:50'!
-chains: p over: anAbelianGroup
-	"Answer the p-chain group."
-	(anAbelianGroup isKindOf: RationalIntegerRing)
-		ifTrue: [^ self chains: p].
-"	anAbelianGroup isField
-		ifTrue: [^ FreeModule on: (self faces: p) asArray over: anAbelianGroup]."
-	anAbelianGroup isRing
-		ifTrue: [^ FreeModule on: (self faces: p) asArray over: anAbelianGroup].
-	DomainError signal! !
-
-!SimplicialComplex methodsFor: 'operations' stamp: 'len 6/13/2016 09:43'!
-closedStarOf: aCollection
-	^ self closureOf: (self starOf: aCollection)! !
-
-!SimplicialComplex methodsFor: 'operations' stamp: 'len 6/11/2016 23:53'!
-closureOf: aCollection
-	| simplices |
-	simplices _ self elements copyAs: Set.
-	self elements do: [:each|
-		simplices addAll: each closure].
-	^ self class newFrom: simplices! !
-
-!SimplicialComplex methodsFor: 'homology' stamp: 'len 8/5/2016 19:26'!
-coboundaries: i
-	^ (self coboundaryMap: i-1) image! !
-
-!SimplicialComplex methodsFor: 'homology' stamp: 'len 10/4/2016 12:29'!
-coboundaryMap: i
-	^ (self cochains: i) to: (self cochains: i+1) evaluating: [:x| x boundary]! !
-
-!SimplicialComplex methodsFor: 'homology' stamp: 'len 6/12/2016 06:14'!
-cochains: p
-	"Answer the p-cochain group."
-	^ (self chains: p) dual! !
-
-!SimplicialComplex methodsFor: 'homology' stamp: 'len 6/12/2016 06:13'!
-cochains: p over: anAbelianGroup
-	"Answer the p-cochain group."
-	^ (self chains: p over: anAbelianGroup) dual! !
-
-!SimplicialComplex methodsFor: 'homology' stamp: 'len 8/5/2016 19:27'!
-cocycles: i
-	^ (self coboundaryMap: i) kernel! !
-
-!SimplicialComplex methodsFor: 'homology' stamp: 'len 8/5/2016 19:28'!
-cohomology: i
-	^ (self cocycles: i) / (self coboundaries: i)! !
-
-!SimplicialComplex methodsFor: 'operations' stamp: 'len 2/29/2016 08:25'!
-coskeleton: n
-	"Answer the n-coskeleton of the receiver."
-	^ self notYetImplemented! !
-
-!SimplicialComplex methodsFor: 'homology' stamp: 'len 8/5/2016 19:16'!
-cycles: i
-	^ (self boundaryMap: i-1) image! !
-
-!SimplicialComplex methodsFor: 'invariants' stamp: 'len 6/11/2016 22:52'!
-dimension
-	^ self elements max: [:each| each dimension]! !
-
-!SimplicialComplex methodsFor: 'subobjects' stamp: 'len 4/21/2016 04:37'!
-edges
-	^ self faces: 1! !
-
-!SimplicialComplex methodsFor: 'private' stamp: 'len 6/11/2016 22:53'!
-elements: aCollection
-	super elements: (aCollection collect: [:each| (each isKindOf: Simplex) ifTrue: [each] ifFalse: [each as: Simplex]])! !
-
-!SimplicialComplex methodsFor: 'invariants' stamp: 'len 6/11/2016 22:52'!
-euler
-	"Answer the Euler characteristic of the receiver."
-	^ (0 to: self dimension) sum: [:p| self elements count: [:each| each dimension = p]]! !
-
-!SimplicialComplex methodsFor: 'subobjects' stamp: 'len 11/30/2016 14:45:09'!
-faces: m
-	^ Set accumulate: [:aBlock| self faces: m do: aBlock]! !
-
-!SimplicialComplex methodsFor: 'subobjects' stamp: 'len 6/11/2016 22:45'!
-faces: m do: aBlock
-	"Iterate over the m-faces of the receiver."
-	self do: [:each| each faces: m do: aBlock]! !
-
-!SimplicialComplex methodsFor: 'subobjects' stamp: 'len 4/21/2016 04:37'!
-facets
-	^ self faces: self dimension - 1! !
-
-!SimplicialComplex methodsFor: 'homology' stamp: 'len 8/5/2016 19:28'!
-homology: i
-	^ (self cycles: i) / (self boundaries: i)! !
-
-!SimplicialComplex methodsFor: 'testing' stamp: 'len 6/13/2016 16:29'!
-isConnected
-	^ (self skeleton: 1) asGraph isConnected! !
-
-!SimplicialComplex methodsFor: 'operations' stamp: 'len 6/12/2016 08:43'!
-linkOf: aFace
-	"Answer the link of the face aFac, the complex of all faces of simplices in the star that do not intersect aFace."
-	^ self notYetImplemented! !
-
-!SimplicialComplex methodsFor: 'printing' stamp: 'len 4/23/2016 05:34'!
-printOn: aStream
-	aStream print: self dimension; nextPutAll: '-complex '.
-	self shortPrintOn: aStream! !
-
-!SimplicialComplex methodsFor: 'subobjects' stamp: 'len 4/21/2016 04:38'!
-ridges
-	^ self faces: self dimension - 2! !
-
-!SimplicialComplex methodsFor: 'printing' stamp: 'len 6/11/2016 23:13'!
-shortPrintOn: aStream
-	aStream nextPut: ${.
-	self elements do: [:each| each shortPrintOn: aStream] separatedBy: [aStream nextPut: $,].
-	aStream nextPut: $}
-	! !
-
-!SimplicialComplex methodsFor: 'operations' stamp: 'len 6/11/2016 23:54'!
-skeleton: n
-	"Answer the n-skeleton of the receiver."
-	^ self class newFrom: (self elements collect: [:each| each dimension <= n])! !
-
-!SimplicialComplex methodsFor: 'operations' stamp: 'len 6/11/2016 23:30'!
-starOf: aCollection
-	| simplices |
-	simplices _ Set new.
-	aCollection do: [:each|
-		self do: [:other| (each intersects: other) ifTrue: [simplices add: other]]].
-	^ self newFrom: simplices! !
-
-!SimplicialComplex methodsFor: 'subobjects' stamp: 'len 4/21/2016 04:37'!
-vertices
-	^ self faces: 0! !
-
-!SimplicialComplex class methodsFor: 'examples-todo' stamp: 'len 4/21/2016 03:58'!
-cylinder
-	^ self notYetImplemented! !
-
-!SimplicialComplex class methodsFor: 'examples-todo' stamp: 'len 4/21/2016 03:57'!
-kleinBottle
-	^ self notYetImplemented! !
-
-!SimplicialComplex class methodsFor: 'examples-todo' stamp: 'len 4/21/2016 03:58'!
-moebiusStrip
-	^ self notYetImplemented! !
-
-!SimplicialComplex class methodsFor: 'examples-todo' stamp: 'len 4/21/2016 04:06'!
-sphere: n
-	^ self notYetImplemented! !
-
-!SimplicialComplex class methodsFor: 'examples-todo' stamp: 'len 4/21/2016 03:57'!
-torus
-	^ self notYetImplemented! !
 
 !AffineSubspace methodsFor: 'operations' stamp: 'len 6/4/2016 04:24'!
 * aScalar
@@ -25946,6 +25843,182 @@ schlafliMatrix
 !CoxeterSystem methodsFor: 'as yet unclassified' stamp: 'len 4/18/2016 03:28'!
 simpleReflections
 	^ generators! !
+
+!SimplicialComplex methodsFor: 'operations' stamp: 'len 2/29/2016 08:26'!
+/ aFace
+	"Answer the link of the face aFace."
+	^ self notYetImplemented! !
+
+!SimplicialComplex methodsFor: 'homology' stamp: 'len 8/5/2016 19:28'!
+boundaries: i
+	^ (self boundaryMap: i) kernel! !
+
+!SimplicialComplex methodsFor: 'homology' stamp: 'len 10/4/2016 12:29'!
+boundaryMap: i
+	^ (self chains: i) to: (self chains: i-1) evaluating: [:x| x boundary]! !
+
+!SimplicialComplex methodsFor: 'subobjects' stamp: 'len 6/13/2016 01:09'!
+cells
+	^ self faces: self dimension! !
+
+!SimplicialComplex methodsFor: 'homology' stamp: 'len 6/12/2016 06:10'!
+chains: p
+	"Answer the p-chain group."
+	^ FreeAbelianGroup on: (self faces: p) asArray! !
+
+!SimplicialComplex methodsFor: 'homology' stamp: 'len 12/18/2016 20:24:50'!
+chains: p over: anAbelianGroup
+	"Answer the p-chain group."
+	(anAbelianGroup isKindOf: RationalIntegerRing)
+		ifTrue: [^ self chains: p].
+"	anAbelianGroup isField
+		ifTrue: [^ FreeModule on: (self faces: p) asArray over: anAbelianGroup]."
+	anAbelianGroup isRing
+		ifTrue: [^ FreeModule on: (self faces: p) asArray over: anAbelianGroup].
+	DomainError signal! !
+
+!SimplicialComplex methodsFor: 'operations' stamp: 'len 6/13/2016 09:43'!
+closedStarOf: aCollection
+	^ self closureOf: (self starOf: aCollection)! !
+
+!SimplicialComplex methodsFor: 'operations' stamp: 'len 6/11/2016 23:53'!
+closureOf: aCollection
+	| simplices |
+	simplices _ self elements copyAs: Set.
+	self elements do: [:each|
+		simplices addAll: each closure].
+	^ self class newFrom: simplices! !
+
+!SimplicialComplex methodsFor: 'homology' stamp: 'len 8/5/2016 19:26'!
+coboundaries: i
+	^ (self coboundaryMap: i-1) image! !
+
+!SimplicialComplex methodsFor: 'homology' stamp: 'len 10/4/2016 12:29'!
+coboundaryMap: i
+	^ (self cochains: i) to: (self cochains: i+1) evaluating: [:x| x boundary]! !
+
+!SimplicialComplex methodsFor: 'homology' stamp: 'len 6/12/2016 06:14'!
+cochains: p
+	"Answer the p-cochain group."
+	^ (self chains: p) dual! !
+
+!SimplicialComplex methodsFor: 'homology' stamp: 'len 6/12/2016 06:13'!
+cochains: p over: anAbelianGroup
+	"Answer the p-cochain group."
+	^ (self chains: p over: anAbelianGroup) dual! !
+
+!SimplicialComplex methodsFor: 'homology' stamp: 'len 8/5/2016 19:27'!
+cocycles: i
+	^ (self coboundaryMap: i) kernel! !
+
+!SimplicialComplex methodsFor: 'homology' stamp: 'len 8/5/2016 19:28'!
+cohomology: i
+	^ (self cocycles: i) / (self coboundaries: i)! !
+
+!SimplicialComplex methodsFor: 'operations' stamp: 'len 2/29/2016 08:25'!
+coskeleton: n
+	"Answer the n-coskeleton of the receiver."
+	^ self notYetImplemented! !
+
+!SimplicialComplex methodsFor: 'homology' stamp: 'len 8/5/2016 19:16'!
+cycles: i
+	^ (self boundaryMap: i-1) image! !
+
+!SimplicialComplex methodsFor: 'invariants' stamp: 'len 6/11/2016 22:52'!
+dimension
+	^ self elements max: [:each| each dimension]! !
+
+!SimplicialComplex methodsFor: 'subobjects' stamp: 'len 4/21/2016 04:37'!
+edges
+	^ self faces: 1! !
+
+!SimplicialComplex methodsFor: 'private' stamp: 'len 6/11/2016 22:53'!
+elements: aCollection
+	super elements: (aCollection collect: [:each| (each isKindOf: Simplex) ifTrue: [each] ifFalse: [each as: Simplex]])! !
+
+!SimplicialComplex methodsFor: 'invariants' stamp: 'len 6/11/2016 22:52'!
+euler
+	"Answer the Euler characteristic of the receiver."
+	^ (0 to: self dimension) sum: [:p| self elements count: [:each| each dimension = p]]! !
+
+!SimplicialComplex methodsFor: 'subobjects' stamp: 'len 11/30/2016 14:45:09'!
+faces: m
+	^ Set accumulate: [:aBlock| self faces: m do: aBlock]! !
+
+!SimplicialComplex methodsFor: 'subobjects' stamp: 'len 6/11/2016 22:45'!
+faces: m do: aBlock
+	"Iterate over the m-faces of the receiver."
+	self do: [:each| each faces: m do: aBlock]! !
+
+!SimplicialComplex methodsFor: 'subobjects' stamp: 'len 4/21/2016 04:37'!
+facets
+	^ self faces: self dimension - 1! !
+
+!SimplicialComplex methodsFor: 'homology' stamp: 'len 8/5/2016 19:28'!
+homology: i
+	^ (self cycles: i) / (self boundaries: i)! !
+
+!SimplicialComplex methodsFor: 'testing' stamp: 'len 6/13/2016 16:29'!
+isConnected
+	^ (self skeleton: 1) asGraph isConnected! !
+
+!SimplicialComplex methodsFor: 'operations' stamp: 'len 6/12/2016 08:43'!
+linkOf: aFace
+	"Answer the link of the face aFac, the complex of all faces of simplices in the star that do not intersect aFace."
+	^ self notYetImplemented! !
+
+!SimplicialComplex methodsFor: 'printing' stamp: 'len 4/23/2016 05:34'!
+printOn: aStream
+	aStream print: self dimension; nextPutAll: '-complex '.
+	self shortPrintOn: aStream! !
+
+!SimplicialComplex methodsFor: 'subobjects' stamp: 'len 4/21/2016 04:38'!
+ridges
+	^ self faces: self dimension - 2! !
+
+!SimplicialComplex methodsFor: 'printing' stamp: 'len 6/11/2016 23:13'!
+shortPrintOn: aStream
+	aStream nextPut: ${.
+	self elements do: [:each| each shortPrintOn: aStream] separatedBy: [aStream nextPut: $,].
+	aStream nextPut: $}
+	! !
+
+!SimplicialComplex methodsFor: 'operations' stamp: 'len 6/11/2016 23:54'!
+skeleton: n
+	"Answer the n-skeleton of the receiver."
+	^ self class newFrom: (self elements collect: [:each| each dimension <= n])! !
+
+!SimplicialComplex methodsFor: 'operations' stamp: 'len 6/11/2016 23:30'!
+starOf: aCollection
+	| simplices |
+	simplices _ Set new.
+	aCollection do: [:each|
+		self do: [:other| (each intersects: other) ifTrue: [simplices add: other]]].
+	^ self newFrom: simplices! !
+
+!SimplicialComplex methodsFor: 'subobjects' stamp: 'len 4/21/2016 04:37'!
+vertices
+	^ self faces: 0! !
+
+!SimplicialComplex class methodsFor: 'examples-todo' stamp: 'len 4/21/2016 03:58'!
+cylinder
+	^ self notYetImplemented! !
+
+!SimplicialComplex class methodsFor: 'examples-todo' stamp: 'len 4/21/2016 03:57'!
+kleinBottle
+	^ self notYetImplemented! !
+
+!SimplicialComplex class methodsFor: 'examples-todo' stamp: 'len 4/21/2016 03:58'!
+moebiusStrip
+	^ self notYetImplemented! !
+
+!SimplicialComplex class methodsFor: 'examples-todo' stamp: 'len 4/21/2016 04:06'!
+sphere: n
+	^ self notYetImplemented! !
+
+!SimplicialComplex class methodsFor: 'examples-todo' stamp: 'len 4/21/2016 03:57'!
+torus
+	^ self notYetImplemented! !
 
 !Morphism methodsFor: 'operations' stamp: 'len 12/20/2016 11:52:01'!
  aCodomain
@@ -28151,12 +28224,13 @@ from: aLinearBasis matrix: aMatrix
 		ifFalse: [^ DomainError signal].
 	^ self class from: self domain to: self codomain components: self components + aRationalMap components! !
 
-!RationalMap methodsFor: 'comparing' stamp: 'len 11/1/2016 10:42'!
+!RationalMap methodsFor: 'comparing' stamp: 'len 12/25/2016 20:48:50'!
 = aRationalMap
 	| I |
 	(aRationalMap isKindOf: RationalMap) ifFalse: [^ super = aRationalMap].
 	(self domain = aRationalMap domain and: [self codomain = aRationalMap codomain])
 		ifFalse: [^ false].
+	self flag: #fix. "the following is for domain and codomain projective, otherwise?"
 	I _ self domain ideal.
 	1 to: self size do: [:i| | f g |
 		f _ self at: i.
@@ -28176,6 +28250,11 @@ asRingHomomorphism
 	This is the adjoint of the Spec functor."
 	self isPolynomial ifFalse: [DomainError signal: 'not a polynomial map'].
 	^ self codomain coordinateRing to: self domain coordinateRing evaluating: [:f| f value: self components]! !
+
+!RationalMap methodsFor: 'accessing' stamp: 'len 12/25/2016 20:46:37'!
+at: anInteger
+	"Answer the anInteger-th component of the receiver (a rational function)."
+	^ self components at: anInteger! !
 
 !RationalMap methodsFor: 'accessing' stamp: 'len 12/24/2016 11:20:51'!
 components
@@ -28257,6 +28336,11 @@ pullback: aScheme
 	"Answer the preimage of aScheme. The argument is a subscheme of the codomain, and the answer is a subscheme of the domain."
 	^ self domain subscheme: (aScheme ideal apply: self asRingHomomorphism)! !
 
+!RationalMap methodsFor: 'accessing' stamp: 'len 12/25/2016 20:45:45'!
+size
+	"Answer the number of components of the receiver."
+	^ self codomain rank! !
+
 !RationalMap methodsFor: 'operations' stamp: 'len 12/24/2016 11:18:53'!
 value: aPoint
 	| tuple |
@@ -28290,6 +28374,19 @@ from: aDomain to: aCodomain evaluating: anExpression
 	| F |
 	F _ aDomain ambient functionField.
 	^ self from: aDomain to: aCodomain components: (anExpression value: (F tuple: aDomain ambient rank evaluating: [:i| F x: i]))! !
+
+!EllipticCurveIsogeny methodsFor: 'as yet unclassified' stamp: 'len 12/25/2016 08:38:31'!
+dual
+	"Answer the dual of the receiver. If the receiver is f:E->E` of degree n, its dual is an isogeny g:E`->E such that the compositions are [n] (multiplication by n)."
+	^ self notYetImplemented! !
+
+!EllipticCurveIsogeny methodsFor: 'as yet unclassified' stamp: 'len 12/25/2016 08:42:27'!
+isSurjective
+	^ self isZero not! !
+
+!EllipticCurveIsogeny methodsFor: 'as yet unclassified' stamp: 'len 12/25/2016 08:43:44'!
+isZero
+	^ self degree = 0! !
 
 !EllipticCurveIsogeny methodsFor: 'as yet unclassified' stamp: 'len 12/12/2016 09:00:01'!
 kernelPolynomial
@@ -37923,180 +38020,6 @@ r
 size
 	^ fractions size! !
 
-!Simplex methodsFor: 'comparing' stamp: 'len 6/13/2016 09:34'!
-< aSimplex
-	"Answer true if the receiver is strictly contained in aSimplex as a face."
-	^ aSimplex > self! !
-
-!Simplex methodsFor: 'comparing' stamp: 'len 6/13/2016 09:33'!
-<= aSimplex
-	"Answer true if the receiver is contained in aSimplex as a face."
-	^ aSimplex >= self! !
-
-!Simplex methodsFor: 'comparing' stamp: 'len 3/3/2016 23:32'!
-= aSimplex
-	| ip p |
-	points isEmpty ifTrue: [^ aSimplex points isEmpty].
-	p _ points first.
-	ip _ aSimplex points indexOf: p ifAbsent: [^ false].
-	points withIndexDo: [:each :i|
-		each = (aSimplex points atWrap: i+ip-1) ifFalse: [^ false]].
-	^ true! !
-
-!Simplex methodsFor: 'comparing' stamp: 'len 6/13/2016 09:33'!
-> aSimplex
-	"Answer true if the receiver strictly containes aSimplex as a face."
-	^ self dimension > aSimplex dimension and: [points includesAllOf: aSimplex points]! !
-
-!Simplex methodsFor: 'comparing' stamp: 'len 6/13/2016 09:33'!
->= aSimplex
-	"Answer true if the receiver containes aSimplex as a face."
-	^ self dimension >= aSimplex dimension and: [points includesAllOf: aSimplex points]! !
-
-!Simplex methodsFor: 'morphisms' stamp: 'len 12/8/2016 20:32:05'!
-• aSimplex
-	"Answer the face common to the receiver and aSimplex, which could be {}."
-	^ self class points: (self points • aSimplex points)! !
-
-!Simplex methodsFor: 'converting' stamp: 'len 11/16/2016 10:09'!
-asSkeletonGraph
-	| graph |
-	graph _ Graph unordered.
-	graph addAll: self facets.
-	self facets do: [:x|
-		self facets do: [:y|
-			graph addEdgeFrom: x to: y]].
-	^ graph! !
-
-!Simplex methodsFor: 'morphisms' stamp: 'len 11/18/2016 20:34:54'!
-boundary
-	"Answer the union of all facets of the receiver. The boundary of a n-simplex is a (n-1)-chain with coefficients 1 and -1."
-	| answer |
-	answer _ SimplicialChain over: ZZ.
-	1 to: points size do: [:i|
-		answer coefficientAt: (self class points: (points copyWithoutIndex: i)) add: (-1)**i].
-	^ answer! !
-
-!Simplex methodsFor: 'morphisms' stamp: 'len 6/11/2016 23:57'!
-closure
-	| simplices |
-	simplices _ Set with: self.
-	-1 to: self dimension do: [:i|
-		self faces: i do: [:each| simplices add: each]].
-	^ SimplicialComplex newFrom: simplices! !
-
-!Simplex methodsFor: 'accessing' stamp: 'len 2/23/2016 03:04'!
-dimension
-	^ points size - 1! !
-
-!Simplex methodsFor: 'subobjects' stamp: 'len 2/23/2016 02:02'!
-edges
-	^ self faces: 1! !
-
-!Simplex methodsFor: 'subobjects' stamp: 'len 6/13/2016 00:00'!
-faces
-	"Answer all faces of the receiver (including the empty set and the receiver)."
-	^ Iterator on: [:aBlock| self facesDo: aBlock]! !
-
-!Simplex methodsFor: 'subobjects' stamp: 'len 2/23/2016 02:00'!
-faces: m
-	^ Iterator on: [:aBlock| self faces: m do: aBlock]! !
-
-!Simplex methodsFor: 'subobjects' stamp: 'len 6/13/2016 00:40'!
-faces: m do: aBlock
-	"Iterate over the m-faces of the receiver."
-	m = -1 ifTrue: [^ aBlock value: (self class points: #())].
-	points isEmpty ifTrue: [^ self].
-	points combinations: m+1 atATimeDo: [:each|
-		aBlock value: (self class points: each copy)]! !
-
-!Simplex methodsFor: 'subobjects' stamp: 'len 6/12/2016 23:59'!
-facesDo: aBlock
-	"Iterate over all faces of the receiver (including the empty set and the receiver)."
-	-1 to: self dimension do: [:i| self faces: i do: aBlock]! !
-
-!Simplex methodsFor: 'subobjects' stamp: 'len 6/13/2016 00:09'!
-facets
-	"Answer the boundary faces of the receiver."
-	^ self faces: self dimension - 1! !
-
-!Simplex methodsFor: 'comparing' stamp: 'len 6/12/2016 21:37'!
-hash
-	^ points inject: self class hash into: [:sum :each| sum + each hash hashMultiply]! !
-
-!Simplex methodsFor: 'morphisms' stamp: 'len 6/13/2016 00:16'!
-interior
-	"Answer the interior of the receiver (sometimes called 'open simplex')."
-	^ (SimplicialChain with: self) - self boundary! !
-
-!Simplex methodsFor: 'testing' stamp: 'len 5/9/2016 21:05'!
-isTrivial
-	^ points isEmpty! !
-
-!Simplex methodsFor: 'arithmetic' stamp: 'len 6/13/2016 00:08'!
-negated
-	"Answer the oppositely oriented simplex."
-	^ self opposite! !
-
-!Simplex methodsFor: 'morphisms' stamp: 'len 6/13/2016 00:08'!
-opposite
-	"Answer the oppositely oriented simplex."
-	^ self class points: (points copy swap: 1 with: 2; yourself)! !
-
-!Simplex methodsFor: 'accessing' stamp: 'len 2/23/2016 01:38'!
-points
-	^ points! !
-
-!Simplex methodsFor: 'accessing-private' stamp: 'len 2/23/2016 01:38'!
-points: aCollection
-	points _ aCollection! !
-
-!Simplex methodsFor: 'printing' stamp: 'len 4/23/2016 05:25'!
-printOn: aStream
-"	aStream print: self dimension; nextPutAll: '-simplex '."
-	self shortPrintOn: aStream! !
-
-!Simplex methodsFor: 'subobjects' stamp: 'len 6/12/2016 23:59'!
-properFaces
-	"Answer all proper faces of the receiver of any dimension (including the empty set)."
-	^ Iterator on: [:aBlock| self properFacesDo: aBlock]! !
-
-!Simplex methodsFor: 'subobjects' stamp: 'len 6/12/2016 23:59'!
-properFacesDo: aBlock
-	"Iterate over all proper faces of the receiver (including the empty set)."
-	-1 to: self dimension - 1 do: [:i| self faces: i do: aBlock]! !
-
-!Simplex methodsFor: 'subobjects' stamp: 'len 2/27/2016 08:15'!
-ridges
-	^ self faces: self dimension - 2! !
-
-!Simplex methodsFor: 'printing' stamp: 'len 4/21/2016 04:05'!
-shortPrintOn: aStream
-	aStream nextPut: ${.
-	self points do: [:each| aStream print: each] separatedBy: [aStream nextPut: $,].
-	aStream nextPut: $}! !
-
-!Simplex methodsFor: 'subobjects' stamp: 'len 2/23/2016 02:01'!
-vertices
-	^ self faces: 0! !
-
-!Simplex methodsFor: 'accessing' stamp: 'len 2/23/2016 02:13'!
-volume
-	^ self notYetImplemented "see wikipedia"! !
-
-!Simplex class methodsFor: 'instance creation' stamp: 'len 6/13/2016 00:53'!
-new: n
-	"Answer the standard n-simplex {1,...,n}."
-	^ self points: (1 to: n+1)! !
-
-!Simplex class methodsFor: 'instance creation' stamp: 'len 4/23/2016 05:21'!
-newFrom: aCollection
-	^ self points: aCollection! !
-
-!Simplex class methodsFor: 'instance creation' stamp: 'len 3/1/2016 02:13'!
-points: aCollection
-	^ self new points: aCollection! !
-
 !BerlekampMassey methodsFor: 'as yet unclassified' stamp: 'len 3/22/2016 23:58'!
 run
 	| F Fx x C L N m B d b s |
@@ -39945,6 +39868,180 @@ printOn: aStream
 !VariableExpression methodsFor: 'as yet unclassified' stamp: 'len 3/22/2016 18:36'!
 value: aDictionary
 	^ aDictionary at: name ifAbsent: [self]! !
+
+!Simplex methodsFor: 'comparing' stamp: 'len 6/13/2016 09:34'!
+< aSimplex
+	"Answer true if the receiver is strictly contained in aSimplex as a face."
+	^ aSimplex > self! !
+
+!Simplex methodsFor: 'comparing' stamp: 'len 6/13/2016 09:33'!
+<= aSimplex
+	"Answer true if the receiver is contained in aSimplex as a face."
+	^ aSimplex >= self! !
+
+!Simplex methodsFor: 'comparing' stamp: 'len 3/3/2016 23:32'!
+= aSimplex
+	| ip p |
+	points isEmpty ifTrue: [^ aSimplex points isEmpty].
+	p _ points first.
+	ip _ aSimplex points indexOf: p ifAbsent: [^ false].
+	points withIndexDo: [:each :i|
+		each = (aSimplex points atWrap: i+ip-1) ifFalse: [^ false]].
+	^ true! !
+
+!Simplex methodsFor: 'comparing' stamp: 'len 6/13/2016 09:33'!
+> aSimplex
+	"Answer true if the receiver strictly containes aSimplex as a face."
+	^ self dimension > aSimplex dimension and: [points includesAllOf: aSimplex points]! !
+
+!Simplex methodsFor: 'comparing' stamp: 'len 6/13/2016 09:33'!
+>= aSimplex
+	"Answer true if the receiver containes aSimplex as a face."
+	^ self dimension >= aSimplex dimension and: [points includesAllOf: aSimplex points]! !
+
+!Simplex methodsFor: 'morphisms' stamp: 'len 12/8/2016 20:32:05'!
+• aSimplex
+	"Answer the face common to the receiver and aSimplex, which could be {}."
+	^ self class points: (self points • aSimplex points)! !
+
+!Simplex methodsFor: 'converting' stamp: 'len 11/16/2016 10:09'!
+asSkeletonGraph
+	| graph |
+	graph _ Graph unordered.
+	graph addAll: self facets.
+	self facets do: [:x|
+		self facets do: [:y|
+			graph addEdgeFrom: x to: y]].
+	^ graph! !
+
+!Simplex methodsFor: 'morphisms' stamp: 'len 11/18/2016 20:34:54'!
+boundary
+	"Answer the union of all facets of the receiver. The boundary of a n-simplex is a (n-1)-chain with coefficients 1 and -1."
+	| answer |
+	answer _ SimplicialChain over: ZZ.
+	1 to: points size do: [:i|
+		answer coefficientAt: (self class points: (points copyWithoutIndex: i)) add: (-1)**i].
+	^ answer! !
+
+!Simplex methodsFor: 'morphisms' stamp: 'len 6/11/2016 23:57'!
+closure
+	| simplices |
+	simplices _ Set with: self.
+	-1 to: self dimension do: [:i|
+		self faces: i do: [:each| simplices add: each]].
+	^ SimplicialComplex newFrom: simplices! !
+
+!Simplex methodsFor: 'accessing' stamp: 'len 2/23/2016 03:04'!
+dimension
+	^ points size - 1! !
+
+!Simplex methodsFor: 'subobjects' stamp: 'len 2/23/2016 02:02'!
+edges
+	^ self faces: 1! !
+
+!Simplex methodsFor: 'subobjects' stamp: 'len 6/13/2016 00:00'!
+faces
+	"Answer all faces of the receiver (including the empty set and the receiver)."
+	^ Iterator on: [:aBlock| self facesDo: aBlock]! !
+
+!Simplex methodsFor: 'subobjects' stamp: 'len 2/23/2016 02:00'!
+faces: m
+	^ Iterator on: [:aBlock| self faces: m do: aBlock]! !
+
+!Simplex methodsFor: 'subobjects' stamp: 'len 6/13/2016 00:40'!
+faces: m do: aBlock
+	"Iterate over the m-faces of the receiver."
+	m = -1 ifTrue: [^ aBlock value: (self class points: #())].
+	points isEmpty ifTrue: [^ self].
+	points combinations: m+1 atATimeDo: [:each|
+		aBlock value: (self class points: each copy)]! !
+
+!Simplex methodsFor: 'subobjects' stamp: 'len 6/12/2016 23:59'!
+facesDo: aBlock
+	"Iterate over all faces of the receiver (including the empty set and the receiver)."
+	-1 to: self dimension do: [:i| self faces: i do: aBlock]! !
+
+!Simplex methodsFor: 'subobjects' stamp: 'len 6/13/2016 00:09'!
+facets
+	"Answer the boundary faces of the receiver."
+	^ self faces: self dimension - 1! !
+
+!Simplex methodsFor: 'comparing' stamp: 'len 6/12/2016 21:37'!
+hash
+	^ points inject: self class hash into: [:sum :each| sum + each hash hashMultiply]! !
+
+!Simplex methodsFor: 'morphisms' stamp: 'len 6/13/2016 00:16'!
+interior
+	"Answer the interior of the receiver (sometimes called 'open simplex')."
+	^ (SimplicialChain with: self) - self boundary! !
+
+!Simplex methodsFor: 'testing' stamp: 'len 5/9/2016 21:05'!
+isTrivial
+	^ points isEmpty! !
+
+!Simplex methodsFor: 'arithmetic' stamp: 'len 6/13/2016 00:08'!
+negated
+	"Answer the oppositely oriented simplex."
+	^ self opposite! !
+
+!Simplex methodsFor: 'morphisms' stamp: 'len 6/13/2016 00:08'!
+opposite
+	"Answer the oppositely oriented simplex."
+	^ self class points: (points copy swap: 1 with: 2; yourself)! !
+
+!Simplex methodsFor: 'accessing' stamp: 'len 2/23/2016 01:38'!
+points
+	^ points! !
+
+!Simplex methodsFor: 'accessing-private' stamp: 'len 2/23/2016 01:38'!
+points: aCollection
+	points _ aCollection! !
+
+!Simplex methodsFor: 'printing' stamp: 'len 4/23/2016 05:25'!
+printOn: aStream
+"	aStream print: self dimension; nextPutAll: '-simplex '."
+	self shortPrintOn: aStream! !
+
+!Simplex methodsFor: 'subobjects' stamp: 'len 6/12/2016 23:59'!
+properFaces
+	"Answer all proper faces of the receiver of any dimension (including the empty set)."
+	^ Iterator on: [:aBlock| self properFacesDo: aBlock]! !
+
+!Simplex methodsFor: 'subobjects' stamp: 'len 6/12/2016 23:59'!
+properFacesDo: aBlock
+	"Iterate over all proper faces of the receiver (including the empty set)."
+	-1 to: self dimension - 1 do: [:i| self faces: i do: aBlock]! !
+
+!Simplex methodsFor: 'subobjects' stamp: 'len 2/27/2016 08:15'!
+ridges
+	^ self faces: self dimension - 2! !
+
+!Simplex methodsFor: 'printing' stamp: 'len 4/21/2016 04:05'!
+shortPrintOn: aStream
+	aStream nextPut: ${.
+	self points do: [:each| aStream print: each] separatedBy: [aStream nextPut: $,].
+	aStream nextPut: $}! !
+
+!Simplex methodsFor: 'subobjects' stamp: 'len 2/23/2016 02:01'!
+vertices
+	^ self faces: 0! !
+
+!Simplex methodsFor: 'accessing' stamp: 'len 2/23/2016 02:13'!
+volume
+	^ self notYetImplemented "see wikipedia"! !
+
+!Simplex class methodsFor: 'instance creation' stamp: 'len 6/13/2016 00:53'!
+new: n
+	"Answer the standard n-simplex {1,...,n}."
+	^ self points: (1 to: n+1)! !
+
+!Simplex class methodsFor: 'instance creation' stamp: 'len 4/23/2016 05:21'!
+newFrom: aCollection
+	^ self points: aCollection! !
+
+!Simplex class methodsFor: 'instance creation' stamp: 'len 3/1/2016 02:13'!
+points: aCollection
+	^ self new points: aCollection! !
 BitTuple initialize!
 Digraph initialize!
 Naturals initialize!
