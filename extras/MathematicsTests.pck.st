@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 22 December 2016 at 10:57:44 pm'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 26 December 2016 at 9:48:22 am'!
 'Description Please enter a description for this package'!
-!provides: 'MathematicsTests' 1 56!
+!provides: 'MathematicsTests' 1 57!
 !classDefinition: #AbelianGroupTest category: #MathematicsTests!
 TestCase subclass: #AbelianGroupTest
 	instanceVariableNames: ''
@@ -1063,12 +1063,13 @@ testProjectiveEmbedding
 	"the projective scheme has one more point at infinity:"
 	self assert: affinePointsEmbedded size + 1 = projectivePoints size! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 12/21/2016 21:21:05'!
-testProjectiveLineOverARing
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 12/23/2016 09:27:47'!
+testProjectiveLineOverRing
 	| P |
 	P _ ProjectiveLine over: ZZ/6.
 	"P(Z/6Z) has 12 points: [0:1], [1:1], [2:1], [3:1], [4:1], [5:1], [1:2], [3:2], [5:2], [1:3], [2:3] and [1:0] (Henri Cohen, 'A Course in Computational Algebraic Number Theory', 478p)"
-	self assert: P points size = 12! !
+	self assert: P points size = 12.
+	self assert: (Iterator on: P points performing: #do:) size = 12! !
 
 !AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 11/1/2016 18:49'!
 testProjectivePlaneCurveArithmeticGenus
@@ -1078,6 +1079,13 @@ testProjectivePlaneCurveArithmeticGenus
 	C _ ProjectivePlaneCurve polynomial: f.
 	self assert: C arithmeticGenus = 28.
 	"self assert: C genus = 4"! !
+
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 12/23/2016 09:30:59'!
+testProjectivePlaneOverFiniteField
+	| P |
+	P _ ProjectiveSpace new: 2 over: ZZ/5.
+	self assert: P points size = 31.
+	self assert: (Iterator on: P points performing: #do:) size = 31! !
 
 !AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/18/2016 20:58'!
 testProjectiveSpace
@@ -1122,6 +1130,27 @@ testRationalMap2
 	X _ A3 subscheme: {x**3*z - (x*y**2*(3/4)) - (x*y*z*(3/2)) + (y**3) + (z**2*(1/4))}.
 	self assert: f image = X! !
 
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 12/26/2016 09:15:15'!
+testRationalMapAffineExample
+	"From lecture notes MIT 18.782 Introduction to Arithmetic Geometry, Lecture #15, Fall 2013, 10/29/2013, Example 15.19."
+	| A2 x y X A1 phi phi2 phiInv |
+	A2 _ AffineSpace new: 2 over: CC.
+	x _ A2 coordinateRing x.
+	y _ A2 coordinateRing y.
+	X _ A2 subscheme: x**2 + (y**2) - 1.
+	A1 _ AffineSpace new: 1 over: CC.
+	phi _ X to: A1 evaluatingWithArguments: [:x0 :y0| {y0 / (x0 + 1)}].
+	phi2 _ X to: A1 evaluatingWithArguments: [:x0 :y0| {1 - x0 / y0}].
+	self assert: phi = phi2.
+	phiInv _ A1 to: X evaluatingWithArguments: [:t| {1 - (t**2) / (1 + (t**2)). t*2 / (1 + (t**2))}].
+	self assert: (phi ” phiInv) isIdentity.
+	self assert: phi isRegular not.
+	self assert: phi isDominant.
+"	self assert: phi isSurjective."
+	self assert: phiInv isRegular not.
+	self assert: phiInv isDominant.
+"	self assert: phiInv isSurjective not"! !
+
 !AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 11/7/2016 14:00'!
 testRationalMapLinearMapConversion
 	| A2 A3 V2 V3 f f` p f`` |
@@ -1139,12 +1168,13 @@ testRationalMapLinearMapConversion
 	f`` _ f` as: (V2 hom: V3).
 	self assert: f = f``! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 11/1/2016 18:49'!
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 12/23/2016 09:28:26'!
 testRationalPointsOverFiniteField
 	| P C |
 	P _ ProjectiveSpace new: 2 over: ZZ/7.
 	C _ P subscheme: (P coordinateRing evaluating: [:x :y :z| x**3 + (y**3) - (z**3)]).
-	self assert: C points size = 9! !
+	self assert: C points size = 9.
+	self assert: (Iterator on: C points performing: #do:) size = 9! !
 
 !AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/31/2016 11:08'!
 testReduced
