@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 25 December 2016 at 9:23:41 pm'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 26 December 2016 at 9:46:30 am'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 316!
+!provides: 'Mathematics' 1 317!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
 	instanceVariableNames: 'numerator shift'
@@ -21328,9 +21328,9 @@ new
 one
 	^ self constant: self scalars one! !
 
-!PolynomialRing methodsFor: 'converting' stamp: 'len 10/28/2016 10:51'!
+!PolynomialRing methodsFor: 'converting' stamp: 'len 12/26/2016 09:40:34'!
 orderedBy: aMonomialOrdering
-	^ self copy ordering: aMonomialOrdering! !
+	^ self copy monomials: (self monomials orderedBy: aMonomialOrdering)! !
 
 !PolynomialRing methodsFor: 'accessing' stamp: 'len 11/20/2016 12:07:07'!
 ordering
@@ -24272,9 +24272,9 @@ isIrreducible
 <= aScheme
 	^ self ideal >= aScheme ideal! !
 
-!Scheme methodsFor: 'comparing' stamp: 'len 10/20/2016 16:06'!
+!Scheme methodsFor: 'comparing' stamp: 'len 12/26/2016 09:14:36'!
 = anObject
-	^ (anObject isKindOf: self species) and: [self coordinateRing = anObject coordinateRing]! !
+	^ (anObject isKindOf: self species) and: [self ideal = anObject ideal]! !
 
 !Scheme methodsFor: 'operations' stamp: 'len 10/20/2016 16:07'!
 \ aScheme
@@ -24365,9 +24365,9 @@ genus
 	"Answer the geometric genus of the receiver."
 	self notYetImplemented! !
 
-!Scheme methodsFor: 'comparing' stamp: 'len 10/20/2016 16:06'!
+!Scheme methodsFor: 'comparing' stamp: 'len 12/26/2016 09:14:26'!
 hash
-	^ self coordinateRing hash! !
+	^ self ideal hash! !
 
 !Scheme methodsFor: 'accessing' stamp: 'len 10/20/2016 16:05'!
 ideal
@@ -28224,13 +28224,12 @@ from: aLinearBasis matrix: aMatrix
 		ifFalse: [^ DomainError signal].
 	^ self class from: self domain to: self codomain components: self components + aRationalMap components! !
 
-!RationalMap methodsFor: 'comparing' stamp: 'len 12/25/2016 20:48:50'!
+!RationalMap methodsFor: 'comparing' stamp: 'len 12/26/2016 09:12:42'!
 = aRationalMap
 	| I |
 	(aRationalMap isKindOf: RationalMap) ifFalse: [^ super = aRationalMap].
 	(self domain = aRationalMap domain and: [self codomain = aRationalMap codomain])
 		ifFalse: [^ false].
-	self flag: #fix. "the following is for domain and codomain projective, otherwise?"
 	I _ self domain ideal.
 	1 to: self size do: [:i| | f g |
 		f _ self at: i.
@@ -28264,13 +28263,13 @@ components
 components: anArray 
 	properties at: #components put: anArray asArray! !
 
-!RationalMap methodsFor: 'accessing' stamp: 'len 12/24/2016 11:20:13'!
+!RationalMap methodsFor: 'accessing' stamp: 'len 12/26/2016 09:45:04'!
 image
 	"Answer the (Zeriski closure of the) image of the receiver. This is a subscheme of the codomain.
 	Performs ideal elimination (a Groebner basis computation with the lexicographical order)."
 	| A B m n P t permutation map generators g I |
-	A _ self domain coordinateRing.
-	B _ self codomain coordinateRing.
+	A _ self domain ambient coordinateRing.
+	B _ self codomain ambient coordinateRing.
 	m _ A rank.
 	n _ B rank.
 	P _ self domain scalars polynomialsIn: n + m + 1.
