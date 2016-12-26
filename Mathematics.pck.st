@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 26 December 2016 at 9:46:30 am'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 26 December 2016 at 9:27:21 pm'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 317!
+!provides: 'Mathematics' 1 318!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
 	instanceVariableNames: 'numerator shift'
@@ -4561,7 +4561,7 @@ Example:
 	(ZZ/42) spec.
 	ZZ spec subscheme: 42.
 
-Another example of affine scheme is affine space (see subclass AffineSpace). The integral (reduced and irreducible) closed subschemes of affine space are the classical affine algebraic varieties, and their coordinate rings are quotients of multivariate polynomial rings by prime ideals.
+Another example of affine scheme is affine space (see subclass AffineSpace). The integral (reduced and irreducible) closed subschemes of affine space are the classical affine algebraic varieties, and their coordinate rings are quotients of multivariate polynomial rings by prime ideals (also called affine algebras).
 
 Example:
 	"The unit circle in the rational affine plane:"
@@ -4573,8 +4573,11 @@ Example:
 	(R / I) spec
 !
 
+!AffineCurve commentStamp: '<historical>' prior: 0!
+My instances are affine algebraic curves, i.e. schemes of dimension 1 over an affine space.!
+
 !AffinePlaneCurve commentStamp: '<historical>' prior: 0!
-My instances are affine plane algebraic curves, i.e. schemes of dimension 1 over the affine plane.!
+My instances are affine plane algebraic curves, i.e. schemes of dimension 1 over an affine plane.!
 
 !AffineSpace commentStamp: '<historical>' prior: 0!
 My instances are affine spaces R^n as schemes, i.e. Spec R[x1,...,xn] for some commutative ring R.
@@ -4593,10 +4596,10 @@ Note also that the dimension of an affine space as scheme is the Krull dimension
 My instances are projective schemes, i.e. Proj R for some commutative graded ring R. The ring R is the associated homogeneous coordinate ring of the scheme.!
 
 !ProjectiveCurve commentStamp: '<historical>' prior: 0!
-My instances are projective algebraic curves, i.e. projective schemes of dimension 1.!
+My instances are projective algebraic curves, i.e. projective schemes of dimension 1 over a projective space.!
 
 !ProjectivePlaneCurve commentStamp: '<historical>' prior: 0!
-My instances are projective plane algebraic curves, i.e. schemes of dimension 1 over the projective plane.!
+My instances are projective plane algebraic curves, i.e. schemes of dimension 1 over a projective plane.!
 
 !Conic commentStamp: '<historical>' prior: 0!
 My instances are conics, i.e. projective plane curves of genus 0 and degree 2. They are defined by quadratic polynomials.!
@@ -4610,7 +4613,7 @@ My instances are elliptic curves, i.e. projective plane curves of genus 1. They 
 Elliptic curves are abelian varieties, i.e. the sets E(K) of K-rational points form abelian groups. See EllipticCurvePoint and EllipticCurveGroup.!
 
 !ProjectiveSpace commentStamp: '<historical>' prior: 0!
-My instances are projective spaces RP^n as schemes, i.e. Proj R[x1,...,xn] for some commutative ring R.
+My instances are projective spaces P^nR as schemes, i.e. Proj R[x1,...,xn] for some commutative ring R.
 
 Example (the rational projective plane):
 	ProjectiveSpace new: 2 over: QQ.
@@ -5511,37 +5514,38 @@ count: aBlock
 denominator
 	^ 1! !
 
-!Integer methodsFor: '*mathematics' stamp: 'len 11/30/2016 14:44:07'!
+!Integer methodsFor: '*mathematics' stamp: 'len 12/26/2016 21:24:14'!
 divisors
 	"Answer the collection of positive divisors of the receiver including 1 and self."
-	| answer |
-	answer _ Set new.
-	self divisorsDo: [:each| answer add: each].
-	^ answer! !
+	^ Iterator on: self performing: #divisorsDo:! !
 
-!Integer methodsFor: '*mathematics' stamp: 'len 12/4/2015 23:25'!
+!Integer methodsFor: '*mathematics' stamp: 'len 12/26/2016 21:23:53'!
 divisorsDo: aBlock
 	"Iterate over the positive divisors of the receiver, including 1 and self."
-	| n |
+	| n sqrt |
 	n _ self abs.
-	1 to: (n bitShift: -2) + 1
-		do: [:k| n \\ k = 0 ifTrue: [aBlock value: k; value: n // k]]! !
+	sqrt _ n sqrtFloor.
+	1 to: sqrt - 1
+		do: [:k| n \\ k = 0 ifTrue: [aBlock value: k; value: n // k]].
+	n \\ sqrt = 0
+		ifTrue:
+			[aBlock value: sqrt.
+			sqrt * sqrt = n ifFalse: [aBlock value: n // sqrt]]! !
 
-!Integer methodsFor: '*mathematics' stamp: 'len 12/11/2016 19:54:22'!
+!Integer methodsFor: '*mathematics' stamp: 'len 12/26/2016 20:13:44'!
 factorizationDo: aBlock
-	| n p times |
+	| n times |
 	n _ self abs.
 	n <= 1 ifTrue: [^ self].
 	n even ifTrue:
 		[aBlock value: 2 value: (times _ n lowBit - 1).
 		n _ n bitShift: times negated].
-	p _ 3.
-	[p <= n] whileTrue:
-		[p isPrime ifTrue:
-			[times _ 0.
-			[n \\ p = 0] whileTrue: [times _ times + 1. n _ n // p].
-			times > 0 ifTrue: [aBlock value: p value: times]].
-		p _ p + 2]! !
+	Integer primesUpTo: n sqrtFloor + 1 do: [:p| "tests again 2, but who cares"
+		n == 1 ifTrue: [^ self].
+		times _ 0.
+		[n \\ p == 0] whileTrue: [times _ times + 1. n _ n // p].
+		times > 0 ifTrue: [aBlock value: p value: times]].
+	n == 1 ifFalse: [aBlock value: n value: 1]! !
 
 !Integer methodsFor: '*mathematics' stamp: 'len 12/11/2016 19:55:27'!
 factors
@@ -5549,29 +5553,6 @@ factors
 	| answer |
 	answer _ Bag new.
 	self factorizationDo: [:p :e| answer add: p withOccurrences: e].
-	^ answer! !
-
-!Integer methodsFor: '*mathematics' stamp: 'len 11/24/97 20:45'!
-factors2
-	"Answer a collection with the prime factors of the receiver."
-
-	| n p answer times |
-
-	n _ self abs.
-	n <= 1 ifTrue: [^ Bag new].
-	answer _ Bag new.
-	n even ifTrue: [
-		answer add: 2 withOccurrences: (times _ n lowBit - 1).
-		n _ n bitShift: times negated].
-
-	p _ 3.
-	[p <= (n // p)] whileTrue: [
-		p isPrime ifTrue: [
-			times _ 0.
-			[n \\ p = 0] whileTrue: [times _ times + 1. n _ n // p].
-			times > 0 ifTrue: [answer add: p withOccurrences: times]].
-		p _ p + 2].
-	(p = n or: [n = 1]) ifFalse: [answer add: n].
 	^ answer! !
 
 !Integer methodsFor: '*mathematics' stamp: 'len 11/19/2016 21:03:03'!
@@ -13985,6 +13966,11 @@ from: aDomain
 	self >= aDomain ifTrue: [^ aDomain id restrictedTo: self].
 	^ nil! !
 
+!Domain methodsFor: 'elements' stamp: 'len 12/26/2016 11:31:05'!
+generate: aBlock
+	"Answer the result of evaluating aBlock on the generators of the receiver."
+	^ aBlock valueWithArguments: self generators asArray! !
+
 !Domain methodsFor: 'accessing' stamp: 'len 10/6/2016 10:26'!
 generator
 	self generators size = 1 ifFalse: [self error: 'more than one generator'].
@@ -20328,6 +20314,11 @@ hilbertSeriesAt: t
 indeterminates
 	^ self base indeterminates! !
 
+!PolynomialQuotientRing methodsFor: 'operations' stamp: 'len 12/26/2016 10:52:16'!
+over: aRing
+	self base  (self base over: aRing) ifNotNil: [:aMorphism| ^ (self ideal apply: aMorphism) quotient].
+	DomainError signal: 'change of base ring failed'! !
+
 !PolynomialQuotientRing methodsFor: 'operations' stamp: 'len 11/1/2016 10:25'!
 proj
 	"Answer the projective spectrum of the receiver, Proj(R)."
@@ -21742,7 +21733,7 @@ denominator
 annihilator
 	^ self ring zeroIdeal colon: self! !
 
-!Ideal methodsFor: 'morphisms' stamp: 'len 10/29/2016 11:36'!
+!Ideal methodsFor: 'morphisms' stamp: 'len 12/26/2016 10:50:52'!
 apply: aMorphism
 	"Apply a ring homomorphism phi to the receiver, sending each generator g to phi(g)."
 	aMorphism isBlock
@@ -24892,6 +24883,17 @@ genus
 	"Answer the geometric genus of the receiver."
 	^ 0! !
 
+!Conic methodsFor: 'as yet unclassified' stamp: 'len 12/26/2016 11:28:39'!
+solve: d n: n
+	(d < 0 and: [n < 0]) ifTrue: [^ nil].
+	d abs > n abs ifTrue: [^ self solve: n n: d].
+	d = 1 ifTrue: [^ #(1 1 0)].
+	n = 1 ifTrue: [^ #(1 0 1)].
+	d = n negated ifTrue: [^ #(0 1 1)].
+	d = n ifTrue: [^ (self solve: -1 n: d) ifNotNil: [:xyz| [:x :y :z| {d*z. x. y}] valueWithArguments: xyz]].
+	(d isQuadraticResidueModulo: n) ifFalse: [^ nil].
+	"... last two steps"! !
+
 !RationalCurve methodsFor: 'as yet unclassified' stamp: 'len 12/25/2016 12:14:55'!
 genus
 	"Answer the geometric genus of the receiver."
@@ -24902,6 +24904,10 @@ genus
 	"Answer the reduction of the receiver modulo anInteger."
 	(self scalars isKindOf: RationalField) ifFalse: [^ DomainError signal: 'not over the rationals'].
 	^ self over: ZZ/anInteger! !
+
+!EllipticCurve methodsFor: 'operations' stamp: 'len 12/26/2016 10:30:56'!
+badPrimes
+	^ self discriminant factors asSet! !
 
 !EllipticCurve methodsFor: 'operations' stamp: 'len 11/11/2016 10:02'!
 discriminant
