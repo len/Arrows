@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 28 December 2016 at 12:30:00 pm'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 28 December 2016 at 10:05:16 pm'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 319!
+!provides: 'Mathematics' 1 320!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
 	instanceVariableNames: 'numerator shift'
@@ -28293,15 +28293,15 @@ from: aLinearBasis matrix: aMatrix
 	aMatrix isSymmetric ifFalse: [self error: 'matrix not symmetric'].
 	^ self new basis: aLinearBasis; matrix: aMatrix! !
 
-!RationalMap methodsFor: 'arithmetic' stamp: 'len 12/24/2016 11:18:47'!
+!RationalMap methodsFor: 'arithmetic' stamp: 'len 12/28/2016 21:51:25'!
 * anObject
-	^ self class from: self domain to: self codomain components: self components * anObject! !
+	^ self class from: self domain to: self codomain representatives: self representatives * anObject! !
 
-!RationalMap methodsFor: 'arithmetic' stamp: 'len 12/24/2016 11:19:02'!
+!RationalMap methodsFor: 'arithmetic' stamp: 'len 12/28/2016 21:51:44'!
 + aRationalMap
 	(self domain = aRationalMap domain and: [self codomain = aRationalMap codomain])
 		ifFalse: [^ DomainError signal].
-	^ self class from: self domain to: self codomain components: self components + aRationalMap components! !
+	^ self class from: self domain to: self codomain representatives: self representatives + aRationalMap representatives! !
 
 !RationalMap methodsFor: 'comparing' stamp: 'len 12/26/2016 09:12:42'!
 = aRationalMap
@@ -28317,32 +28317,24 @@ from: aLinearBasis matrix: aMatrix
 			ifFalse: [^ false]].
 	^ true! !
 
-!RationalMap methodsFor: 'arithmetic' stamp: 'len 12/20/2016 11:57:11'!
+!RationalMap methodsFor: 'arithmetic' stamp: 'len 12/28/2016 21:52:04'!
 ” aRationalMap
 	self domain >= aRationalMap codomain ifFalse: [DomainError signal: 'domains don''t match'].
-	^ self class from: aRationalMap domain to: self codomain components: (self components collect: [:each| each value: aRationalMap components])! !
+	^ self class from: aRationalMap domain to: self codomain representatives: (self representatives collect: [:each| each value: aRationalMap representatives])! !
 
-!RationalMap methodsFor: 'converting' stamp: 'len 12/24/2016 11:19:09'!
+!RationalMap methodsFor: 'converting' stamp: 'len 12/28/2016 21:53:22'!
 asRingHomomorphism
 	"Answer the induced ring homomorphism between the coordinate rings.
 	This is the adjoint of the Spec functor."
 	self isPolynomial ifFalse: [DomainError signal: 'not a polynomial map'].
-	^ self codomain coordinateRing to: self domain coordinateRing evaluating: [:f| f value: self components]! !
+	^ self codomain coordinateRing to: self domain coordinateRing evaluating: [:f| f value: self representatives]! !
 
-!RationalMap methodsFor: 'accessing' stamp: 'len 12/25/2016 20:46:37'!
+!RationalMap methodsFor: 'accessing' stamp: 'len 12/28/2016 21:54:27'!
 at: anInteger
-	"Answer the anInteger-th component of the receiver (a rational function)."
-	^ self components at: anInteger! !
+	"Answer the anInteger-th component of the receiver (a rational function, an element of the function field of the domain)."
+	^ self representatives at: anInteger! !
 
-!RationalMap methodsFor: 'accessing' stamp: 'len 12/28/2016 11:16:38'!
-components
-	^ self propertyAt: #components! !
-
-!RationalMap methodsFor: 'accessing-private' stamp: 'len 12/28/2016 11:16:31'!
-components: anArray 
-	self propertyAt: #components put: anArray asArray! !
-
-!RationalMap methodsFor: 'accessing' stamp: 'len 12/26/2016 09:45:04'!
+!RationalMap methodsFor: 'accessing' stamp: 'len 12/28/2016 21:55:13'!
 image
 	"Answer the (Zeriski closure of the) image of the receiver. This is a subscheme of the codomain.
 	Performs ideal elimination (a Groebner basis computation with the lexicographical order)."
@@ -28358,71 +28350,90 @@ image
 	generators _ OrderedCollection new.
 	g _ P one.
 	1 to: n do: [:i| | numerator denominator |
-		numerator _ map value: (self components at: i) numerator.
-		denominator _ map value: (self components at: i) denominator.
+		numerator _ map value: (self representatives at: i) numerator.
+		denominator _ map value: (self representatives at: i) denominator.
 		generators add: denominator * (P x: i) - numerator.
 		g _ g * denominator].
 	generators add: P one - (g * t).
 	I _ P * generators eliminateAll: (n+1 to: P rank).
 	^ self codomain subscheme: (I generators collect: [:f| f as: B])! !
 
+!RationalMap methodsFor: 'testing' stamp: 'len 12/28/2016 21:55:16'!
+isAffineLinear
+	^ self representatives allSatisfy: [:each| each isAffineLinear]! !
+
+!RationalMap methodsFor: 'testing' stamp: 'len 12/28/2016 21:55:19'!
+isConstant
+	^ self representatives allSatisfy: [:each| each isConstant]! !
+
 !RationalMap methodsFor: 'testing' stamp: 'len 10/17/2016 16:21'!
 isDominant
 	"Answer true if the closure of the image of the receiver is the whole codomain."
 	^ self image = self codomain! !
 
-!RationalMap methodsFor: 'testing' stamp: 'len 12/24/2016 11:20:23'!
+!RationalMap methodsFor: 'testing' stamp: 'len 12/28/2016 21:55:21'!
 isLinear
-	^ self components allSatisfy: [:each| each isLinear]! !
+	^ self representatives allSatisfy: [:each| each isLinear]! !
 
-!RationalMap methodsFor: 'testing' stamp: 'len 12/24/2016 11:19:52'!
+!RationalMap methodsFor: 'testing' stamp: 'len 12/28/2016 21:55:26'!
 isPolynomial
-	^ self components allSatisfy: [:each| each denominator isConstant]! !
+	^ self representatives allSatisfy: [:each| each denominator isConstant]! !
 
-!RationalMap methodsFor: 'testing' stamp: 'len 10/17/2016 16:20'!
+!RationalMap methodsFor: 'testing' stamp: 'len 12/28/2016 21:46:23'!
 isRegular
 	"Answer true if the receiver is defined at all points of its domain."
-	^ self isPolynomial! !
+	self domain isAffine ifTrue: [^ self isPolynomial].
+	self domain isProjective ifTrue: [^ self isConstant].
+	^ DomainError signal! !
 
-!RationalMap methodsFor: 'arithmetic' stamp: 'len 12/24/2016 11:18:41'!
+!RationalMap methodsFor: 'arithmetic' stamp: 'len 12/28/2016 21:52:16'!
 negated
-	^ self class from: self domain to: self codomain components: self components negated! !
+	^ self class from: self domain to: self codomain representatives: self representatives negated! !
 
-!RationalMap methodsFor: 'printing' stamp: 'len 12/24/2016 11:19:44'!
+!RationalMap methodsFor: 'printing' stamp: 'len 12/28/2016 21:55:32'!
 printOn: aStream 
 	self codomain isProjective
 		ifTrue:
 			[aStream nextPut: $[.
-			self components do: [:each| aStream print: each] separatedBy: [aStream nextPut: $:].
+			self representatives do: [:each| aStream print: each] separatedBy: [aStream nextPut: $:].
 			aStream nextPut: $]]
 		ifFalse:
 			[aStream nextPut: $(.
-			self components do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: ', '].
+			self representatives do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: ', '].
 			aStream nextPut: $)]! !
 
-!RationalMap methodsFor: 'operations' stamp: 'len 12/24/2016 11:20:00'!
+!RationalMap methodsFor: 'operations' stamp: 'len 12/28/2016 21:52:30'!
 projectiveClosure
 	(self domain isAffine and: [self codomain isAffine])
 		ifFalse: [^ self error: 'not an affine rational map'].
 	^ self class
 		from: self domain projectiveClosure
 		to: self codomain projectiveClosure
-		components: (self components collect: [:each| each homogenized])! !
+		representatives: (self representatives collect: [:each| each homogenized])! !
 
 !RationalMap methodsFor: 'operations' stamp: 'len 11/1/2016 07:57'!
 pullback: aScheme
 	"Answer the preimage of aScheme. The argument is a subscheme of the codomain, and the answer is a subscheme of the domain."
 	^ self domain subscheme: (aScheme ideal apply: self asRingHomomorphism)! !
 
+!RationalMap methodsFor: 'accessing' stamp: 'len 12/28/2016 21:43:15'!
+representatives
+	"Answer the array of representatives of the components of the receiver, i.e. formal fractions of polynomials or polynomials."
+	^ self propertyAt: #representatives! !
+
+!RationalMap methodsFor: 'accessing-private' stamp: 'len 12/28/2016 21:54:40'!
+representatives: anArray 
+	self propertyAt: #representatives put: anArray asArray! !
+
 !RationalMap methodsFor: 'accessing' stamp: 'len 12/25/2016 20:45:45'!
 size
 	"Answer the number of components of the receiver."
 	^ self codomain rank! !
 
-!RationalMap methodsFor: 'operations' stamp: 'len 12/24/2016 11:18:53'!
+!RationalMap methodsFor: 'operations' stamp: 'len 12/28/2016 21:55:41'!
 value: aPoint
 	| tuple |
-	tuple _ aPoint scalars tuple: (self components collect: [:each| each value: aPoint asTuple]).
+	tuple _ aPoint scalars tuple: (self representatives collect: [:each| each value: aPoint asTuple]).
 	(aPoint isKindOf: RationalPoint)
 		ifTrue: [^ self codomain pointAt: tuple].
 	^ tuple! !
@@ -28441,17 +28452,17 @@ example2TwistedCubicTangent
 	"The tangent surface of the twisted cubic."
 	^ self example1TwistedCubicTangentParametrization image! !
 
-!RationalMap class methodsFor: 'instance creation' stamp: 'len 11/4/2016 09:49'!
-from: aDomain to: aCodomain components: anArrayOfRationalFunctions
-	((aDomain isProjective or: [aCodomain isProjective]) and: [anArrayOfRationalFunctions anySatisfy: [:any| any isHomogeneous not]])
-		ifTrue: [^ self error: 'not homogeneous'].
-	^ self new domain: aDomain; codomain: aCodomain; components: anArrayOfRationalFunctions! !
-
-!RationalMap class methodsFor: 'instance creation' stamp: 'len 11/5/2016 05:47'!
+!RationalMap class methodsFor: 'instance creation' stamp: 'len 12/28/2016 21:52:41'!
 from: aDomain to: aCodomain evaluating: anExpression
 	| F |
 	F _ aDomain ambient functionField.
-	^ self from: aDomain to: aCodomain components: (anExpression value: (F tuple: aDomain ambient rank evaluating: [:i| F x: i]))! !
+	^ self from: aDomain to: aCodomain representatives: (anExpression value: (F tuple: aDomain ambient rank evaluating: [:i| F x: i]))! !
+
+!RationalMap class methodsFor: 'instance creation' stamp: 'len 12/28/2016 21:50:27'!
+from: aDomain to: aCodomain representatives: anArrayOfRationalFunctions
+	((aDomain isProjective or: [aCodomain isProjective]) and: [anArrayOfRationalFunctions anySatisfy: [:any| any isHomogeneous not]])
+		ifTrue: [^ self error: 'not homogeneous'].
+	^ self new domain: aDomain; codomain: aCodomain; representatives: anArrayOfRationalFunctions! !
 
 !EllipticCurveIsogeny methodsFor: 'as yet unclassified' stamp: 'len 12/25/2016 08:38:31'!
 dual
