@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 28 December 2016 at 10:05:16 pm'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 29 December 2016 at 8:30:51 am'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 320!
+!provides: 'Mathematics' 1 322!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
 	instanceVariableNames: 'numerator shift'
@@ -3461,6 +3461,16 @@ Object subclass: #NTT
 NTT class
 	instanceVariableNames: ''!
 
+!classDefinition: #TonelliShanks category: #'Mathematics-Algorithms'!
+Object subclass: #TonelliShanks
+	instanceVariableNames: 'p q e z'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Algorithms'!
+!classDefinition: 'TonelliShanks class' category: #'Mathematics-Algorithms'!
+TonelliShanks class
+	instanceVariableNames: ''!
+
 !classDefinition: #WuRittProcess category: #'Mathematics-Algorithms'!
 Object subclass: #WuRittProcess
 	instanceVariableNames: 'polynomials characteristicSet'
@@ -5255,6 +5265,11 @@ My instances are Number Theoretic Transforms, the analog of DFTs for the field o
 
 The (pseudo) number theoretic transform may be meaningful in the ring Z/<m> even when the modulo m is not prime, provided a principal root of order n exists.!
 
+!TonelliShanks commentStamp: 'len 12/29/2016 08:02:15' prior: 0!
+This is the Tonelli-Shanks algorithm for computing square roots in a prime field Z/pZ.
+
+Reference: Henri Cohen, 'A Course in Computational Algebraic Number Theory', Algorithm 1.5.1.!
+
 !WuRittProcess commentStamp: 'len 12/30/2015 05:43' prior: 0!
 I'm the Ritt-Wu process.
 
@@ -5628,7 +5643,7 @@ jacobiOld: n
 	^ (a - 1 * minusOne) lowBit > 2
 		ifTrue: [n jacobiOld: a] ifFalse: [(n jacobiOld: a) negated]! !
 
-!Integer methodsFor: '*mathematics' stamp: 'len 12/28/2016 09:09:16'!
+!Integer methodsFor: '*mathematics' stamp: 'len 12/29/2016 07:15:13'!
 kronecker: anInteger
 	"Answer the Kronecker symbol (a | b) for a, b integers. This is the Legendre symbol when b is an odd prime.
 	Reference: Henri Cohen, 'A Course in Computatational Algebraic Number Theory', Algorithm 1.4.10."
@@ -5643,8 +5658,7 @@ kronecker: anInteger
 	b _ b bitShift: v negated.
 	"v even ifTrue: [k _ 1] ifFalse: [k _ (-1) ** (a squared - 1 / 8)]."
 	v even ifTrue: [k _ 1] ifFalse: [k _ #(0 1 0 -1 0 -1 0 1) at: (a bitAnd: 7) + 1].
-	b < 0 ifTrue: [b _ b negated].
-	a < 0 ifTrue: [k _ k negated].
+	b < 0 ifTrue: [b _ b negated. a < 0 ifTrue: [k _ k negated]].
 	"3. Finished?"
 	[a == 0 ifTrue: [^ b == 1 "b is odd and > 0" ifTrue: [k] ifFalse: [0]].
 	v _ a lowBit - 1.
@@ -19922,6 +19936,16 @@ primitiveRoot
 printOn: aStream
 	aStream nextPut: Character FF; nextPutAll: self modulus printString sub! !
 
+!PrimeField methodsFor: 'morphisms' stamp: 'len 12/29/2016 08:04:45'!
+squareRootOf: anElement
+	^ self representative: ((self squareRootOfRepresentative: anElement representative) ifNil: [^ nil])! !
+
+!PrimeField methodsFor: 'private' stamp: 'len 12/29/2016 08:05:44'!
+squareRootOfRepresentative: anInteger
+	| algorithm |
+	algorithm _ self propertyAt: #squareRootAlgorithm ifAbsentPut: [TonelliShanks new modulus: self modulus].
+	^ algorithm squareRootOf: anInteger! !
+
 !SmallPrimeField methodsFor: 'private' stamp: 'len 11/30/2016 10:06:00'!
 computeTables
 	| g x |
@@ -31165,12 +31189,13 @@ zero
 in: aQuotientRing representative: anObject
 	^ self new parent: aQuotientRing; representative: anObject! !
 
-!ModularInteger methodsFor: 'operations' stamp: 'len 7/8/2016 05:40'!
+!ModularInteger methodsFor: 'operations' stamp: 'len 12/29/2016 08:28:33'!
 ** anInteger
-	anInteger = 1 ifTrue: [^ self].
+	^ self class in: parent representative: (representative raisedTo: anInteger modulo: self modulus)
+"	anInteger = 1 ifTrue: [^ self].
 	anInteger = 0 ifTrue: [^ self one].
 	anInteger < 0 ifTrue: [^ self reciprocal ** anInteger negated].
-	^ (self * self ** (anInteger // 2)) * (self ** (anInteger \\ 2))! !
+	^ (self * self ** (anInteger // 2)) * (self ** (anInteger \\ 2))"! !
 
 !ModularInteger methodsFor: 'operations' stamp: 'len 11/30/2016 19:19:44'!
 + aModularInteger
@@ -31266,11 +31291,10 @@ bitSize
 hash
 	^ representative hash! !
 
-!ModularInteger methodsFor: 'testing' stamp: 'len 12/26/2016 23:05:21'!
+!ModularInteger methodsFor: 'testing' stamp: 'len 12/29/2016 07:20:37'!
 isQuadraticResidue
-	(parent isKindOf: PrimeField) ifTrue: [^ (representative jacobi: self modulus) == 1].
-	(#(-1 0) identityIncludes: (representative jacobi: self modulus))
-		ifTrue: [^ false].
+	(representative kronecker: self modulus) ~= 1 ifTrue: [^ false].
+	(parent isKindOf: PrimeField) ifTrue: [^ true].
 	^ self notYetImplemented! !
 
 !ModularInteger methodsFor: 'testing' stamp: 'len 12/4/2016 15:16:58'!
@@ -31302,6 +31326,16 @@ representative
 !ModularInteger methodsFor: 'accessing-private' stamp: 'len 3/29/2016 23:52'!
 representative: anInteger
 	representative _ anInteger! !
+
+!ModularInteger methodsFor: 'operations' stamp: 'len 12/29/2016 08:26:24'!
+squareRoot
+	"Assuming the receiver is a quadratic residue, answer a square root."
+	| p |
+	representative == 0 ifTrue: [^ self].
+	p _ self modulus.
+	p == 2 ifTrue: [^ self].
+	(p bitAnd: 3) == 3 ifTrue: [^ self ** (p + 1 // 4)].
+	^ self parent squareRootOf: self! !
 
 !ExtensionFieldElement methodsFor: 'as yet unclassified' stamp: 'len 10/16/2016 18:18'!
 characteristicPolynomial
@@ -38361,6 +38395,32 @@ value: input
 modulo: anInteger
 	"anInteger must be prime"
 	^ self new modulus: anInteger! !
+
+!TonelliShanks methodsFor: 'as yet unclassified' stamp: 'len 12/29/2016 08:22:11'!
+modulus: anInteger
+	| n |
+	anInteger == 2 ifTrue: [self error: 'the modulus should be not 2'].
+	p _ anInteger.
+	e _ (p - 1) lowBit - 1.
+	q _ p - 1 bitShift: e negated.
+	"find generator of the multiplicative group of units (Z/pZ)*"
+	[n _ (p - 1) atRandom.
+	(n kronecker: p) == -1] whileFalse.
+	z _ n raisedTo: q modulo: p.! !
+
+!TonelliShanks methodsFor: 'as yet unclassified' stamp: 'len 12/29/2016 08:21:40'!
+squareRootOf: anInteger
+	| a y r x b m b` t |
+	anInteger == 0 ifTrue: [^ anInteger].
+	a _ anInteger.
+	y _ z. r _ e. x _ a raisedTo: q-1 // 2 modulo: p. b _ a*x squared \\ p. x _ a*x \\ p.
+	[b == 1 ifTrue: [^ x].
+	b` _ b. m _ 1. [(b` _ b` squared \\ p) == 1] whileFalse: [m _ m + 1].
+	(b raisedTo: (2 ** m) modulo: p) == 1 ifFalse: [self halt].
+	(m > 1 and: [(b raisedTo: (2 ** (m-1)) modulo: p) == 1]) ifTrue: [self halt].
+	m = r ifTrue: [^ nil]. "the input is not a quadratic residue modulo p"
+	t _ y. r - m - 1 timesRepeat: [t _ t squared \\ p]. "t _ y ** (2 ** (r - m - 1)) mod p"
+	y _ t squared \\ p. r _ m. x _ x * t \\ p. b _ b * y \\ p] repeat! !
 
 !WuRittProcess methodsFor: 'as yet unclassified' stamp: 'len 12/30/2015 05:31'!
 characteristicSet
