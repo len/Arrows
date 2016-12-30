@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 30 December 2016 at 11:25:07 am'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 30 December 2016 at 12:35:25 pm'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 323!
+!provides: 'Mathematics' 1 324!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
 	instanceVariableNames: 'numerator shift'
@@ -3131,16 +3131,6 @@ Object subclass: #PolynomialPseudoDivision
 PolynomialPseudoDivision class
 	instanceVariableNames: ''!
 
-!classDefinition: #ProbabilisticPolynomialFactorizer category: #'Mathematics-Polynomials-Algorithms'!
-Object subclass: #ProbabilisticPolynomialFactorizer
-	instanceVariableNames: 'polynomial factors irreducible done'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Polynomials-Algorithms'!
-!classDefinition: 'ProbabilisticPolynomialFactorizer class' category: #'Mathematics-Polynomials-Algorithms'!
-ProbabilisticPolynomialFactorizer class
-	instanceVariableNames: ''!
-
 !classDefinition: #RootFinder category: #'Mathematics-Polynomials-Algorithms'!
 Object subclass: #RootFinder
 	instanceVariableNames: 'polynomial'
@@ -3171,14 +3161,14 @@ RootFinder subclass: #FiniteFieldRootFinder
 FiniteFieldRootFinder class
 	instanceVariableNames: ''!
 
-!classDefinition: #NumericComplexRootFinder category: #'Mathematics-Polynomials-Algorithms'!
-RootFinder subclass: #NumericComplexRootFinder
+!classDefinition: #NumericalComplexRootFinder category: #'Mathematics-Polynomials-Algorithms'!
+RootFinder subclass: #NumericalComplexRootFinder
 	instanceVariableNames: 'tolerance'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Polynomials-Algorithms'!
-!classDefinition: 'NumericComplexRootFinder class' category: #'Mathematics-Polynomials-Algorithms'!
-NumericComplexRootFinder class
+!classDefinition: 'NumericalComplexRootFinder class' category: #'Mathematics-Polynomials-Algorithms'!
+NumericalComplexRootFinder class
 	instanceVariableNames: ''!
 
 !classDefinition: #RationalRootFinder category: #'Mathematics-Polynomials-Algorithms'!
@@ -5096,13 +5086,13 @@ Output: quotient and remander polynomials q,r in K[x] such that f = q*g + r, deg
 
 The algorithm performs O(n^2) arithmetic operations for dense polynomials of degree n.!
 
-!NumericComplexRootFinder commentStamp: '<historical>' prior: 0!
+!NumericalComplexRootFinder commentStamp: '<historical>' prior: 0!
 My instances separate complex roots of polynomials with real or complex coefficients. This is Newton's modified algorithm [1], and the convergence is quadratic. The polynomial is assumed to be squarefree.
 
 Input: a square-free polynomial of degree n with real or complex coefficients, and a desired minimum absolute error (tolerance);
 Output: a collection of the n complex roots of the polynomial.
 
-[1] "A Course In Computational Algebraic Number Theory", Cohen, Algorithm 3.6.6.!
+[1] "A Course in Computational Algebraic Number Theory", Cohen, Algorithm 3.6.6.!
 
 !DirichletSeries commentStamp: '<historical>' prior: 0!
 My instances are formal Dirichlet series, i.e. formal series in an indeterminate x of the form: sum a(n) * n^{-x} for n >= 1.
@@ -21600,14 +21590,15 @@ asProjectiveSpace
 	self rank = 1 ifTrue: [^ space projective].
 	^ self error: 'Grassmannian of rank > 1'! !
 
-!Grassmannian methodsFor: 'random' stamp: 'len 4/21/2016 16:58'!
+!Grassmannian methodsFor: 'random' stamp: 'len 12/30/2016 12:20:58'!
 atRandom: aRandom bits: bits
 	| basis |
 	basis _ LinearBasis on: space.
 	[basis size < rank]
 		whileTrue:
 			[ | v |
-			[v _ space atRandom: aRandom bits: bits / rank.
+			"take max the rank of the space, otherwise it might give always 0 and loop forever:"
+			[v _ space atRandom: aRandom bits: (bits / rank max: space rank).
 			basis generates: v] whileTrue.
 			basis add: v].
 	^ basis span! !
@@ -24371,6 +24362,11 @@ arithmeticGenus
 codimension
 	^ self ambient dimension - self dimension! !
 
+!Scheme methodsFor: 'testing' stamp: 'len 12/30/2016 12:32:26'!
+contains: aPoint
+	"Answer true if the receiver includes the argument, assuming it's a point in the ambient space."
+	^ self ideal generators allSatisfy: [:each| (each value: aPoint) isZero]! !
+
 !Scheme methodsFor: 'accessing' stamp: 'len 12/28/2016 11:32:28'!
 coordinateRing
 	"Answer the global coordinate ring, if defined."
@@ -24428,11 +24424,11 @@ ideal
 		ifTrue: [self coordinateRing ideal]
 		ifFalse: [self coordinateRing zeroIdeal]! !
 
-!Scheme methodsFor: 'testing' stamp: 'len 10/22/2016 18:24'!
+!Scheme methodsFor: 'testing' stamp: 'len 12/30/2016 12:32:39'!
 includes: aPoint
 	"Answer true if the receiver includes the argument."
 	(self ambient includes: aPoint) ifFalse: [^ false].
-	^ self ideal generators allSatisfy: [:each| (each value: aPoint) isZero]! !
+	^ self contains: aPoint! !
 
 !Scheme methodsFor: 'morphisms' stamp: 'len 12/30/2016 10:07:14'!
 inclusion
@@ -24559,10 +24555,10 @@ pointsOver: aRing
 	"Answer the K-rational points on the receiver, where K is aRing."
 	^ PointSet from: aRing spec to: self! !
 
-!Scheme methodsFor: 'points' stamp: 'len 12/22/2016 23:04:54'!
+!Scheme methodsFor: 'points' stamp: 'len 12/30/2016 12:33:46'!
 pointsOver: aRing do: aBlock
 	"Naive enumeration of rational points on the receiver."
-	self ambient pointsOver: aRing do: [:each| (self includes: each coordinates) ifTrue: [aBlock value: (self pointAt: each coordinates)]]! !
+	self ambient pointsOver: aRing do: [:each| (self contains: each coordinates) ifTrue: [aBlock value: (self pointAt: each coordinates)]]! !
 
 !Scheme methodsFor: 'operations' stamp: 'len 10/27/2016 09:54'!
 primaryComponents
@@ -36572,71 +36568,6 @@ divide: aPolynomial by: anotherPolynomial
 	"Answer a pseudo-division algorithm to divide aPolynomial by anotherPolynomial."
 	^ self new divide: aPolynomial by: anotherPolynomial! !
 
-!ProbabilisticPolynomialFactorizer methodsFor: 'private' stamp: 'len 12/2/2015 02:31'!
-computeIrreducibility
-	self subclassResponsibility! !
-
-!ProbabilisticPolynomialFactorizer methodsFor: 'accessing' stamp: 'len 12/2/2015 02:32'!
-done
-	^ done! !
-
-!ProbabilisticPolynomialFactorizer methodsFor: 'accessing-private' stamp: 'len 8/23/97 21:57'!
-done: aBoolean
-	done _ aBoolean! !
-
-!ProbabilisticPolynomialFactorizer methodsFor: 'operations' stamp: 'len 12/2/2015 02:31'!
-factorize
-	self subclassResponsibility! !
-
-!ProbabilisticPolynomialFactorizer methodsFor: 'accessing' stamp: 'len 12/2/2015 02:32'!
-factors
-	self factorize.
-	^ factors! !
-
-!ProbabilisticPolynomialFactorizer methodsFor: 'accessing' stamp: 'len 12/2/2015 02:32'!
-irreducible
-	"Answer a fraction 'q' representing that the polynomial is irreducible with probability of error less than 'q'."
-
-	^ irreducible! !
-
-!ProbabilisticPolynomialFactorizer methodsFor: 'accessing-private' stamp: 'len 8/23/97 17:46'!
-irreducible: anInteger
-	irreducible _ anInteger! !
-
-!ProbabilisticPolynomialFactorizer methodsFor: 'testing' stamp: 'len 8/23/97 17:53'!
-isIrreducible
-	"Answer true if the polynomial is irreducible."
-
-	(self irreducible = 0 or: [self irreducible = 1])
-		ifFalse: [self computeIrreducibility].
-	^ self irreducible = 1! !
-
-!ProbabilisticPolynomialFactorizer methodsFor: 'testing' stamp: 'len 12/2/2015 02:33'!
-isIrreducibleProbabilistic: anInteger
-	"Answer true if the polynomial is irreducible with probability of error less than '1/2^anInteger'."
-
-	^ self isIrreducible! !
-
-!ProbabilisticPolynomialFactorizer methodsFor: 'accessing' stamp: 'len 12/2/2015 02:32'!
-polynomial
-	^ polynomial! !
-
-!ProbabilisticPolynomialFactorizer methodsFor: 'initialization' stamp: 'len 12/2/2015 02:29'!
-polynomial: aPolynomial
-	polynomial _ aPolynomial.
-	factors _ Bag new.
-	done _ false! !
-
-!ProbabilisticPolynomialFactorizer methodsFor: 'printing' stamp: 'len 12/2/2015 02:33'!
-printOn: aStream
-	aStream nextPutAll: self class name; nextPutAll: ' on '; print: self polynomial! !
-
-!ProbabilisticPolynomialFactorizer class methodsFor: 'instance creation' stamp: 'len 11/6/97 21:12'!
-polynomial: aPolynomial
-	"Answer a new instance of the receiver to factorize aPolynomial."
-
-	^ self new polynomial: aPolynomial! !
-
 !RootFinder methodsFor: 'accessing' stamp: 'len 1/11/2016 04:30'!
 polynomial
 	^ polynomial! !
@@ -36781,22 +36712,22 @@ roots
 				ifTrue: [roots add: each independentCoefficient negated / each leadingCoefficient]].
 	^ roots! !
 
-!NumericComplexRootFinder methodsFor: 'private' stamp: 'len 1/13/2016 03:01'!
+!NumericalComplexRootFinder methodsFor: 'private' stamp: 'len 1/13/2016 03:01'!
 initialValue
 	^ 1.3 + 0.314159 i! !
 
-!NumericComplexRootFinder methodsFor: 'initialization' stamp: 'len 1/15/2016 06:09'!
+!NumericalComplexRootFinder methodsFor: 'initialization' stamp: 'len 1/15/2016 06:09'!
 initialize
 	super initialize.
 	tolerance _ 0.1! !
 
-!NumericComplexRootFinder methodsFor: 'accessing' stamp: 'len 1/13/2016 05:37'!
+!NumericalComplexRootFinder methodsFor: 'accessing' stamp: 'len 1/13/2016 05:37'!
 rootNear: aComplex
 "	[self roots do: [:each| (each approximation - aComplex) abs < epsilon ifTrue: [^ each]].
 	self roots do: [:each| each refine]] repeat"
 	^ self roots detectMin: [:each| (each approximation - aComplex) abs]! !
 
-!NumericComplexRootFinder methodsFor: 'private' stamp: 'len 6/5/2016 05:19'!
+!NumericalComplexRootFinder methodsFor: 'private' stamp: 'len 6/5/2016 05:19'!
 roots
 	| roots X P Q P` Q` n x v m c dx x1 v1 m1 realCoefficients |
 	X _ polynomial species x.
@@ -36841,19 +36772,19 @@ roots
 	n > 0] whileTrue.
 	^ roots! !
 
-!NumericComplexRootFinder methodsFor: 'accessing' stamp: 'len 1/15/2016 05:57'!
+!NumericalComplexRootFinder methodsFor: 'accessing' stamp: 'len 1/15/2016 05:57'!
 tolerance
 	^ tolerance! !
 
-!NumericComplexRootFinder methodsFor: 'accessing' stamp: 'len 1/15/2016 05:53'!
+!NumericalComplexRootFinder methodsFor: 'accessing' stamp: 'len 1/15/2016 05:53'!
 tolerance: aNumber
 	tolerance _ aNumber! !
 
-!NumericComplexRootFinder class methodsFor: 'instance creation' stamp: 'len 1/17/2016 01:40'!
+!NumericalComplexRootFinder class methodsFor: 'instance creation' stamp: 'len 1/17/2016 01:40'!
 polynomial: aPolynomial
 	^ self squareFreePolynomial: aPolynomial // (aPolynomial gcd: aPolynomial derivative)! !
 
-!NumericComplexRootFinder class methodsFor: 'instance creation' stamp: 'len 1/17/2016 01:41'!
+!NumericalComplexRootFinder class methodsFor: 'instance creation' stamp: 'len 1/17/2016 01:41'!
 squareFreePolynomial: aPolynomial
 	^ super polynomial: aPolynomial! !
 
