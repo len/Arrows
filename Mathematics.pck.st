@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 29 December 2016 at 8:30:51 am'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 30 December 2016 at 11:25:07 am'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 322!
+!provides: 'Mathematics' 1 323!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
 	instanceVariableNames: 'numerator shift'
@@ -1341,14 +1341,14 @@ ExtensionField subclass: #GaloisField
 GaloisField class
 	instanceVariableNames: ''!
 
-!classDefinition: #PolynomialQuotientRing category: #'Mathematics-Polynomials'!
-QuotientRing subclass: #PolynomialQuotientRing
+!classDefinition: #AffineRing category: #'Mathematics-Polynomials'!
+QuotientRing subclass: #AffineRing
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Polynomials'!
-!classDefinition: 'PolynomialQuotientRing class' category: #'Mathematics-Polynomials'!
-PolynomialQuotientRing class
+!classDefinition: 'AffineRing class' category: #'Mathematics-Polynomials'!
+AffineRing class
 	instanceVariableNames: ''!
 
 !classDefinition: #RationalIntegerRing category: #'Mathematics-Rings'!
@@ -4382,8 +4382,8 @@ My instances are quadratic number fields, i.e. number fields with defining quadr
 !GaloisField commentStamp: '<historical>' prior: 0!
 My instances are finite nonprime fields, i.e. fields GF(p^r) with r >= 2. These are finite algebraic extensions of prime fields. See also PrimeField.!
 
-!PolynomialQuotientRing commentStamp: '<historical>' prior: 0!
-My instances are quotients of polynomial rings.!
+!AffineRing commentStamp: '<historical>' prior: 0!
+My instances are quotients of polynomial rings. They are called affine rings or affine algebras because they are finitely-generated algebras and they are the coordinate rings of closed subschemes of affine space.!
 
 !RationalIntegerRing commentStamp: '<historical>' prior: 0!
 My singletion global instance ZZ is the ring of rational integers.!
@@ -4560,9 +4560,9 @@ References:
 !Scheme commentStamp: '<historical>' prior: 0!
 My instances are schemes.
 
-The current implementation has some limitations. It can represent closed subschemes of affine and projective space defined by polynomial equations. Some other schemes can also be represented (such as Spec(Z) and its closed subschemes Spec(Z/<m>)), but functionality is limited. Also, many operations require the base ring to be a field.!
+NOTE: The current implementation has some limitations. It can represent closed subschemes of affine and projective space defined by polynomial equations. Some other schemes can also be represented (such as Spec(Z) and its closed subschemes Spec(Z/<m>)), but functionality is limited. Also, many operations require the base ring to be a field.!
 
-!AffineScheme commentStamp: '<historical>' prior: 0!
+!AffineScheme commentStamp: 'len 12/30/2016 10:04:23' prior: 0!
 My instances are affine schemes, i.e. spectra of commutative rings noted Spec R. The ring R is the associated coordinate ring of the scheme.
 
 Example:
@@ -4571,7 +4571,7 @@ Example:
 	(ZZ/42) spec.
 	ZZ spec subscheme: 42.
 
-Another example of affine scheme is affine space (see subclass AffineSpace). The integral (reduced and irreducible) closed subschemes of affine space are the classical affine algebraic varieties, and their coordinate rings are quotients of multivariate polynomial rings by prime ideals (also called affine algebras).
+Another example of affine scheme is affine space (see subclass AffineSpace). The integral (reduced and irreducible) closed subschemes of affine space are the classical affine algebraic varieties, and their coordinate rings are quotients of multivariate polynomial rings by prime ideals (also called affine algebras or affine rings).
 
 Example:
 	"The unit circle in the rational affine plane:"
@@ -4644,13 +4644,11 @@ This serves as a model of the hyperbolic plane, defining lines as:
 The group of hyperbolic isometries, as well as conformal automorphisms, is the general Moebius group. This is the group of Moebius transformations, i.e. transformations of the form z |-> (az + b) / (cz + d) with ad - cd ~= 0 (or without loss of generality ad - cd = 1).!
 
 !AffineSubspace commentStamp: '<historical>' prior: 0!
-My instances are affine subspaces contained in a given vector space, i.e. flats, or linear varieties, linear manifolds, or translated subspaces (cosets) of a vector space.
+My instances are affine subspaces contained in a given vector space or module, i.e. flats, or linear varieties, linear manifolds, or translated subspaces or submodules (cosets).
 
-Affine spaces are essentially vector spaces where the origin 0 was "forgotten", i.e. there's no distinguished origin. Its elements are called points, not vectors, but they are the same Smalltalk objects as the elements of the associated vector space.
+They appear when considering the solutions of non-homogeneous linear systems, or the set of all the vectors in the domain of a linear map that are mapped to a given vector in the codomain of the transformation (which is called the fiber of the vector). They are also the elements of quotient spaces or quotient modules.
 
-They appear when considering the solutions of non-homogeneous linear systems, or the set of all the vectors in the domain of a linear map that are mapped to a given vector in the codomain of the transformation (which is called the fiber of the vector).
-
-The morphisms are AffineMaps (or affinities).
+They are closed subschemes of an affine space.
 
 Example:
 	| V S f |
@@ -13785,11 +13783,11 @@ printOn: aStream
 	"Answer the cartesian set product of the receiver with the argument."
 	^ self cartesian: aDomain! !
 
-!Domain methodsFor: 'operations' stamp: 'len 4/27/2016 02:49'!
+!Domain methodsFor: 'operations' stamp: 'len 12/30/2016 09:57:45'!
 / anEquivalenceRelation
 	| relation |
 	relation _ anEquivalenceRelation isBlock ifTrue: [EquivalenceRelation on: self evaluating: anEquivalenceRelation] ifFalse: [anEquivalenceRelation].
-	^ QuotientSet by: relation! !
+	^ QuotientSet mod: relation! !
 
 !Domain methodsFor: 'comparing' stamp: 'len 8/12/2016 21:51'!
 < aDomain
@@ -18645,8 +18643,8 @@ relation
 relation: anEquivalenceRelation
 	self propertyAt: #relation put: anEquivalenceRelation! !
 
-!QuotientSet class methodsFor: 'instance creation' stamp: 'len 4/25/2016 21:02'!
-by: anEquivalenceRelation
+!QuotientSet class methodsFor: 'instance creation' stamp: 'len 12/30/2016 09:57:52'!
+mod: anEquivalenceRelation
 	^ self new relation: anEquivalenceRelation! !
 
 !Ring methodsFor: 'elements' stamp: 'len 12/22/2016 22:42:16'!
@@ -18734,6 +18732,10 @@ dimension
 	self isIntegralDomain ifTrue: [^ 1].
 	self isDedekindDomain ifTrue: [^ 1].
 	^ self propertyAt: #dimension! !
+
+!Ring methodsFor: 'morphisms' stamp: 'len 12/30/2016 10:39:40'!
+embedding
+	^ ZZ to: self evaluating: [:x| self one * x]! !
 
 !Ring methodsFor: 'operations' stamp: 'len 11/2/2016 15:21'!
 extension: aPolynomial
@@ -19739,6 +19741,11 @@ isReduced
 	"A quotient ring is reduced iff the ideal is radical."
 	^ self ideal isRadical! !
 
+!QuotientRing methodsFor: 'testing' stamp: 'len 12/30/2016 10:32:46'!
+isTrivial
+	"The trivial ring is the zero ring with a single element 0 = 1."
+	^ self ideal isOne! !
+
 !QuotientRing methodsFor: 'accessing' stamp: 'len 4/25/2016 00:30'!
 modulus
 	^ self ideal generator! !
@@ -19780,10 +19787,6 @@ residueClassClass
 zero
 	^ self representative: self base zero! !
 
-!QuotientRing class methodsFor: 'instance creation' stamp: 'len 11/28/2015 05:54'!
-by: anIdeal
-	^ self new ideal: anIdeal! !
-
 !QuotientRing class methodsFor: 'examples' stamp: 'len 10/29/2016 10:25'!
 exampleZ6
 	"The quotient ring of residue classes of integers modulo 6."
@@ -19801,6 +19804,10 @@ exampleZ6Projection
 	"The canonical projection from the integers ring Z
 	to the quotient ring of residue classes of modulo 6."
 	^ (ZZ/6) projection! !
+
+!QuotientRing class methodsFor: 'instance creation' stamp: 'len 12/30/2016 09:58:33'!
+mod: anIdeal
+	^ self new ideal: anIdeal! !
 
 !ModularIntegerRing methodsFor: 'random' stamp: 'len 4/25/2016 00:26'!
 atRandom: aRandom
@@ -20309,11 +20316,11 @@ new: p to: n
 	n = 1 ifTrue: [^ F].
 	^ self polynomial: (F polynomials findIrreducibleOfDegree: n)! !
 
-!PolynomialQuotientRing methodsFor: 'accessing' stamp: 'len 11/3/2016 04:30'!
+!AffineRing methodsFor: 'accessing' stamp: 'len 11/3/2016 04:30'!
 characteristic
 	^ self base characteristic! !
 
-!PolynomialQuotientRing methodsFor: 'accessing' stamp: 'len 11/20/2016 11:09:41'!
+!AffineRing methodsFor: 'accessing' stamp: 'len 11/20/2016 11:09:41'!
 dimension
 	"Answer the Krull dimension of the receiver."
 	"Derksen, Kemper, 'Computational Invariant Theory', 2002, Algorithm 1.2.4 (Dimension of an ideal)."
@@ -20335,73 +20342,85 @@ dimension
 			ifTrue: [^ self base rank - k]].
 	self error: 'this shouldnt be reached'! !
 
-!PolynomialQuotientRing methodsFor: 'private' stamp: 'len 11/1/2016 05:01'!
+!AffineRing methodsFor: 'morphisms' stamp: 'len 12/30/2016 10:05:13'!
+embed: anObject
+	"Answer the embedding of an element of the coefficients ring into the receiver."
+	^ self project: (self base embed: anObject)! !
+
+!AffineRing methodsFor: 'morphisms' stamp: 'len 12/30/2016 10:05:09'!
+embedding
+	"Answer the embedding of the coefficients ring into the receiver."
+	^ self projection ” self base embedding! !
+
+!AffineRing methodsFor: 'private' stamp: 'len 11/1/2016 05:01'!
 fractionClass
 	^ RationalFunction! !
 
-!PolynomialQuotientRing methodsFor: 'operations' stamp: 'len 10/27/2016 18:44'!
+!AffineRing methodsFor: 'operations' stamp: 'len 10/27/2016 18:44'!
 hilbertSeries
 	"Answer the Hilbert series of the receiver."
 	^ self hilbertSeriesAt: (QQ polynomialsIn: #(t)) fractions x! !
 
-!PolynomialQuotientRing methodsFor: 'operations' stamp: 'len 10/27/2016 18:45'!
+!AffineRing methodsFor: 'operations' stamp: 'len 10/27/2016 18:45'!
 hilbertSeriesAt: t
 	"Answer the Hilbert series of the receiver."
 	^ (self base hilbertSeriesAt: t) - (self ideal hilbertSeriesAt: t)! !
 
-!PolynomialQuotientRing methodsFor: 'accessing' stamp: 'len 10/20/2016 10:51'!
+!AffineRing methodsFor: 'accessing' stamp: 'len 10/20/2016 10:51'!
 indeterminates
 	^ self base indeterminates! !
 
-!PolynomialQuotientRing methodsFor: 'operations' stamp: 'len 12/26/2016 10:52:16'!
+!AffineRing methodsFor: 'operations' stamp: 'len 12/26/2016 10:52:16'!
 over: aRing
 	self base  (self base over: aRing) ifNotNil: [:aMorphism| ^ (self ideal apply: aMorphism) quotient].
 	DomainError signal: 'change of base ring failed'! !
 
-!PolynomialQuotientRing methodsFor: 'operations' stamp: 'len 11/1/2016 10:25'!
+!AffineRing methodsFor: 'operations' stamp: 'len 12/30/2016 09:54:21'!
 proj
 	"Answer the projective spectrum of the receiver, Proj(R)."
 	self ideal isHomogeneous ifFalse: [^ DomainError signal: 'not a quotient by a homogeneous ideal, not properly graded'].
 	(self ideal generators size = 1 and: [self ideal isZero not])
 		ifTrue: [self base rank = 3
 			ifTrue: [^ ProjectivePlaneCurve coordinateRing: self]
-			ifFalse: [^ ProjectiveCurve coordinateRing: self]].
+			"ifFalse: [^ ProjectiveHypersurface coordinateRing: self]"].
 	^ ProjectiveScheme coordinateRing: self! !
 
-!PolynomialQuotientRing methodsFor: 'accessing' stamp: 'len 10/20/2016 10:51'!
+!AffineRing methodsFor: 'accessing' stamp: 'len 12/30/2016 09:47:01'!
 rank
+	"Answer the number of indeterminates in the receiver."
 	^ self base rank! !
 
-!PolynomialQuotientRing methodsFor: 'private' stamp: 'len 11/1/2016 05:15'!
+!AffineRing methodsFor: 'private' stamp: 'len 11/1/2016 05:15'!
 residueClassClass
 	^ PolynomialResidueClass! !
 
-!PolynomialQuotientRing methodsFor: 'accessing' stamp: 'len 10/20/2016 10:51'!
+!AffineRing methodsFor: 'accessing' stamp: 'len 12/30/2016 09:46:48'!
 scalars
+	"Answer the coefficients ring of the receiver."
 	^ self base scalars! !
 
-!PolynomialQuotientRing methodsFor: 'operations' stamp: 'len 10/31/2016 05:33'!
+!AffineRing methodsFor: 'operations' stamp: 'len 12/30/2016 09:53:48'!
 spec
 	"Answer the spectrum of the receiver, Spec(R/I) as subscheme of Spec(R)."
 	(self ideal generators size = 1 and: [self ideal isZero not])
 		ifTrue: [self base rank = 2
 			ifTrue: [^ AffinePlaneCurve coordinateRing: self]
-			ifFalse: [^ AffineCurve coordinateRing: self]].
+			"ifFalse: [^ AffineHypersurface coordinateRing: self]"].
 	^ super spec! !
 
-!PolynomialQuotientRing methodsFor: 'elements' stamp: 'len 10/20/2016 10:50'!
+!AffineRing methodsFor: 'elements' stamp: 'len 10/20/2016 10:50'!
 x
 	^ self x: 1! !
 
-!PolynomialQuotientRing methodsFor: 'elements' stamp: 'len 10/20/2016 10:50'!
+!AffineRing methodsFor: 'elements' stamp: 'len 10/20/2016 10:50'!
 x: anInteger
 	^ self project: (self base x: anInteger)! !
 
-!PolynomialQuotientRing methodsFor: 'elements' stamp: 'len 10/20/2016 10:50'!
+!AffineRing methodsFor: 'elements' stamp: 'len 10/20/2016 10:50'!
 y
 	^ self x: 2! !
 
-!PolynomialQuotientRing methodsFor: 'elements' stamp: 'len 10/20/2016 10:50'!
+!AffineRing methodsFor: 'elements' stamp: 'len 10/20/2016 10:50'!
 z
 	^ self x: 3! !
 
@@ -21893,10 +21912,10 @@ printOn: aStream
 	self generators do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: ', '].
 	aStream nextPut: $>! !
 
-!Ideal methodsFor: 'operations' stamp: 'len 4/25/2016 21:02'!
+!Ideal methodsFor: 'operations' stamp: 'len 12/30/2016 09:58:02'!
 quotient
 	"Answer the quotient ring of the base ring by the receiver."
-	^ QuotientRing by: self! !
+	^ QuotientRing mod: self! !
 
 !Ideal methodsFor: 'operations' stamp: 'len 2/13/2016 02:49'!
 radical
@@ -21942,10 +21961,10 @@ isMaximal
 isPrime
 	^ self propertyAt: #isPrime ifAbsentPut:[self isZero or: [self generator isPrime]]! !
 
-!RationalIntegerIdeal methodsFor: 'operations' stamp: 'len 12/18/2016 20:08:18'!
+!RationalIntegerIdeal methodsFor: 'operations' stamp: 'len 12/30/2016 09:58:09'!
 quotient
 	"Answer the quotient ring of the base ring by the receiver."
-	^ ModularIntegerRing by: self! !
+	^ ModularIntegerRing mod: self! !
 
 !RationalIntegerIdeal methodsFor: 'operations' stamp: 'len 10/29/2016 11:38'!
 radical
@@ -22129,10 +22148,10 @@ leadingIdeal
 orderedBy: aMonomialOrdering
 	^ self as: (self ring orderedBy: aMonomialOrdering)! !
 
-!PolynomialIdeal methodsFor: 'operations' stamp: 'len 10/20/2016 10:43'!
+!PolynomialIdeal methodsFor: 'operations' stamp: 'len 12/30/2016 09:58:06'!
 quotient
 	"Answer the quotient ring of the base ring by the receiver."
-	^ PolynomialQuotientRing by: self! !
+	^ AffineRing mod: self! !
 
 !PolynomialIdeal methodsFor: 'operations' stamp: 'len 7/9/2016 05:21'!
 radical
@@ -22366,6 +22385,11 @@ asAffineSpace
 	self isVectorSpace ifFalse: [DomainError signal: 'not a vector space'].
 	^ AffineSubspace representative: self zero direction: self! !
 
+!FreeModule methodsFor: 'converting' stamp: 'len 12/29/2016 08:40:41'!
+asAffineSubspace
+	self isVectorSpace ifFalse: [DomainError signal: 'not a vector space'].
+	^ AffineSubspace representative: self zero direction: self! !
+
 !FreeModule methodsFor: 'converting' stamp: 'len 7/15/2016 00:01'!
 asSubmoduleOf: aModule
 	self flag: #fix. "avoid computing linear independence again"
@@ -22580,7 +22604,7 @@ rotations
 size
 	^ self scalars size ** self rank! !
 
-!FreeModule methodsFor: 'operations' stamp: 'len 10/7/2016 08:51'!
+!FreeModule methodsFor: 'operations' stamp: 'len 12/30/2016 11:22:58'!
 span: aCollection
 	"Answer the subspace spanned by the vectors in aCollection."
 	| basis |
@@ -23152,8 +23176,8 @@ subspace: aLinearSubspace
 zero
 	^ AffineSubspace representative: subspace zero direction: subspace! !
 
-!QuotientModule class methodsFor: 'instance creation' stamp: 'len 11/22/2015 01:14'!
-by: aLinearSubspace
+!QuotientModule class methodsFor: 'instance creation' stamp: 'len 12/30/2016 09:58:45'!
+mod: aLinearSubspace
 	^ self new subspace: aLinearSubspace! !
 
 !ScalarModule methodsFor: 'basis' stamp: 'len 4/22/2016 21:55'!
@@ -23343,10 +23367,10 @@ projection
 	self propertyAt: #projection put: answer.
 	^ answer! !
 
-!Submodule methodsFor: 'operations' stamp: 'len 10/7/2016 08:40'!
+!Submodule methodsFor: 'operations' stamp: 'len 12/30/2016 09:58:14'!
 quotient
 	"Answer the quotient space of the ambient space by the receiver."
-	^ QuotientModule by: self! !
+	^ QuotientModule mod: self! !
 
 !Submodule methodsFor: 'operations' stamp: 'len 12/8/2016 20:29:15'!
 radical
@@ -24410,14 +24434,18 @@ includes: aPoint
 	(self ambient includes: aPoint) ifFalse: [^ false].
 	^ self ideal generators allSatisfy: [:each| (each value: aPoint) isZero]! !
 
-!Scheme methodsFor: 'morphisms' stamp: 'len 10/20/2016 16:09'!
+!Scheme methodsFor: 'morphisms' stamp: 'len 12/30/2016 10:07:14'!
 inclusion
-	"Answer the inclusion map into the ambient scheme."
+	"Answer the structure morphisms, i.e. the inclusion map into the ambient scheme."
 	^ self to: self ambient inducedBy: self coordinateRing embedding! !
 
 !Scheme methodsFor: 'testing' stamp: 'len 10/12/2016 18:32'!
 isAffine
 	^ self ambient isAffine! !
+
+!Scheme methodsFor: 'testing' stamp: 'len 12/30/2016 10:22:05'!
+isAffineSpace
+	^ false! !
 
 !Scheme methodsFor: 'testing' stamp: 'len 12/28/2016 11:32:49'!
 isConnected
@@ -24470,6 +24498,10 @@ isPlanar
 !Scheme methodsFor: 'testing' stamp: 'len 10/12/2016 18:32'!
 isProjective
 	^ self ambient isProjective! !
+
+!Scheme methodsFor: 'testing' stamp: 'len 12/30/2016 10:22:10'!
+isProjectiveSpace
+	^ false! !
 
 !Scheme methodsFor: 'testing' stamp: 'len 10/20/2016 16:10'!
 isReduced
@@ -24565,6 +24597,11 @@ singular
 		evaluating: [:i :j| (generators at: j) derivativeIn: i].
 	^ self propertyAt: #singularSubscheme put:
 		(self subscheme: R * (generators, ((J minors: self codimension) collect: [:each| self ideal reduce: each])))! !
+
+!Scheme methodsFor: 'morphisms' stamp: 'len 12/30/2016 10:09:56'!
+structureMap
+	"Answer the structure morphism."
+	^ self coordinateRing embedding spec! !
 
 !Scheme methodsFor: 'operations' stamp: 'len 10/20/2016 16:11'!
 subscheme: anObject
@@ -24681,9 +24718,29 @@ scalars
 species
 	^ AffineScheme! !
 
+!AffineScheme methodsFor: 'morphisms' stamp: 'len 12/30/2016 10:38:38'!
+structureMap
+	"Answer the structure morphism."
+	^ self coordinateRing embedding spec
+"	^ (self scalars  self coordinateRing) spec"! !
+
 !AffineScheme class methodsFor: 'instance creation' stamp: 'len 10/25/2016 10:06'!
 coordinateRing: aRing
 	^ self new coordinateRing: aRing! !
+
+!AffineScheme class methodsFor: 'examples' stamp: 'len 12/30/2016 10:28:59'!
+exampleCircle
+	"The unit circle in the rational affine plane:"
+	| R x y I |
+	R _ QQ polynomialsIn: #(x y).
+	x _ R x.
+	y _ R y.
+	I _ R * (x**2 + (y**2) - 1).
+	^ (R / I) spec! !
+
+!AffineScheme class methodsFor: 'examples' stamp: 'len 12/30/2016 10:28:13'!
+exampleZ42
+	^ (ZZ/42) spec! !
 
 !AffineScheme class methodsFor: 'instance creation' stamp: 'len 10/25/2016 09:39'!
 newFrom: anObject
@@ -24724,8 +24781,19 @@ polynomial: aPolynomial
 ambient
 	^ self! !
 
-!AffineSpace methodsFor: 'morphisms' stamp: 'len 8/31/2016 08:28'!
+!AffineSpace methodsFor: 'converting' stamp: 'len 12/30/2016 11:03:28'!
+asLinearSpace
+	"Answer the associated vector space or free module."
+	^ self coordinateRing space! !
+
+!AffineSpace methodsFor: 'morphisms' stamp: 'len 12/30/2016 10:56:32'!
 automorphisms
+	"Answer the general affine group GA(A)."
+	self flag: #fix. "this is not enough for schemes"
+	^ GeneralAffineGroup on: self! !
+
+!AffineSpace methodsFor: 'morphisms' stamp: 'len 12/30/2016 10:55:35'!
+collineations
 	"Answer the general affine group GA(A)."
 	^ GeneralAffineGroup on: self! !
 
@@ -24737,6 +24805,10 @@ ideal
 !AffineSpace methodsFor: 'testing' stamp: 'len 10/22/2016 18:22'!
 includes: aPoint
 	^ self coordinateRing space includes: aPoint! !
+
+!AffineSpace methodsFor: 'testing' stamp: 'len 12/30/2016 10:21:40'!
+isAffineSpace
+	^ true! !
 
 !AffineSpace methodsFor: 'morphisms' stamp: 'len 8/31/2016 08:28'!
 motions
@@ -24751,8 +24823,9 @@ pointsCountOver: aRing
 pointsOver: aRing do: aBlock
 	^ aRing ** self rank do: [:each| aBlock value: (self pointAt: each)]! !
 
-!AffineSpace methodsFor: 'printing' stamp: 'len 10/20/2016 15:20'!
+!AffineSpace methodsFor: 'printing' stamp: 'len 12/30/2016 11:17:23'!
 printOn: aStream
+"	aStream print: self asLinearSpace"
 	aStream print: self scalars; nextPutAll: self rank printString super! !
 
 !AffineSpace methodsFor: 'morphisms' stamp: 'len 12/28/2016 11:34:07'!
@@ -24784,6 +24857,11 @@ scalars
 !AffineSpace class methodsFor: 'instance creation' stamp: 'len 10/28/2016 10:39'!
 new: rank over: aRing
 	^ self coordinateRing: (aRing polynomialsIn: rank)! !
+
+!AffineSpace class methodsFor: 'instance creation' stamp: 'len 12/30/2016 11:03:06'!
+on: aLinearSpace
+	"Answer the affine space associated to a vector space or free module."
+	^ self coordinateRing: aLinearSpace coordinateRing! !
 
 !ProjectiveScheme methodsFor: 'operations' stamp: 'len 12/28/2016 11:34:25'!
 affinePatch: i
@@ -25103,6 +25181,11 @@ affinePatch: i
 ambient
 	^ self! !
 
+!ProjectiveSpace methodsFor: 'converting' stamp: 'len 12/30/2016 11:03:58'!
+asLinearSpace
+	"Answer the associated vector space or free module."
+	^ self coordinateRing space! !
+
 !ProjectiveSpace methodsFor: 'accessing' stamp: 'len 10/20/2016 04:11'!
 dimension
 	^ self coordinateRing dimension - 1! !
@@ -25110,6 +25193,10 @@ dimension
 !ProjectiveSpace methodsFor: 'testing' stamp: 'len 11/5/2016 10:34'!
 includes: aPoint
 	^ (aPoint is: #Tuple) and: [aPoint size = self rank and: [aPoint isZero not and: [aPoint scalars = self scalars]]]! !
+
+!ProjectiveSpace methodsFor: 'testing' stamp: 'len 12/30/2016 10:21:53'!
+isProjectiveSpace
+	^ true! !
 
 !ProjectiveSpace methodsFor: 'points' stamp: 'len 12/23/2016 09:25:08'!
 pointsCountOver: aRing
@@ -25137,8 +25224,10 @@ pointsOverField: aRing do: aBlock
 			ifTrue: [aBlock value: (self pointAt: each, zero)].
 		aBlock value: (self pointAt: (each, one))].! !
 
-!ProjectiveSpace methodsFor: 'printing' stamp: 'len 11/5/2016 09:37'!
+!ProjectiveSpace methodsFor: 'printing' stamp: 'len 12/30/2016 11:17:46'!
 printOn: aStream
+"	(self asLinearSpace isKindOf: TupleModule)
+		ifFalse: [aStream nextPut: Character PP; nextPut: $(; print: self asLinearSpace; nextPut: $). ^ self]."
 	aStream nextPut: Character PP; nextPutAll: (self rank - 1) printString super; print: self scalars! !
 
 !ProjectiveSpace methodsFor: 'accessing' stamp: 'len 10/20/2016 16:19'!
@@ -25156,6 +25245,11 @@ new: rank over: aRing
 		(rank isInteger
 			ifTrue: [aRing polynomialsIn: rank+1]
 			ifFalse: [aRing polynomialsIn: rank])! !
+
+!ProjectiveSpace class methodsFor: 'instance creation' stamp: 'len 12/30/2016 11:02:46'!
+on: aLinearSpace
+	"Answer the projective space associated to a vector space or free module."
+	^ self coordinateRing: aLinearSpace coordinateRing! !
 
 !ProjectiveLine methodsFor: 'points' stamp: 'len 12/5/2016 10:27:31'!
 embed: anElement
@@ -25265,10 +25359,9 @@ initialize
 	anAffineSubspace equations do: [ :each | system add: each].
 	^ system solutions! !
 
-!AffineSubspace methodsFor: 'accessing' stamp: 'len 6/4/2016 04:25'!
+!AffineSubspace methodsFor: 'accessing' stamp: 'len 12/29/2016 20:50:56'!
 ambient
-	"Answer the ambient affine space where the receiver lives."
-	^ self class representative: direction zero direction: direction ambient! !
+	^ direction ambient asAffineSpace! !
 
 !AffineSubspace methodsFor: 'morphisms' stamp: 'len 6/4/2016 04:26'!
 apply: aMap
@@ -29577,15 +29670,17 @@ isSmooth
 scalars
 	^ self domain coordinateRing! !
 
-!AffinePoint methodsFor: 'arithmetic' stamp: 'len 11/9/2016 16:09'!
+!AffinePoint methodsFor: 'arithmetic' stamp: 'len 12/30/2016 11:11:27'!
 + aTuple
 	"Answer the result of translating the receiver by a vector."
-	^ self shallowCopy coordinates: self coordinates + aTuple! !
+	^ self shallowCopy coordinates: self coordinates + aTuple
+"	^ self shallowCopy coordinates: self coordinates + (self codomain asLinearSpace coordinatesOf: aVector)"! !
 
-!AffinePoint methodsFor: 'arithmetic' stamp: 'len 11/9/2016 16:08'!
+!AffinePoint methodsFor: 'arithmetic' stamp: 'len 12/30/2016 11:11:58'!
 - anAffinePoint
-	"The difference between two affine points is a vector (a tuple in this case, the difference between their coordinates)."
-	^ self coordinates - anAffinePoint coordinates! !
+	"The difference between two affine points is a vector."
+	^ self coordinates - anAffinePoint coordinates
+"	^ self codomain asLinearSpace vectorAt: self coordinates - anAffinePoint coordinates"! !
 
 !AffinePoint methodsFor: 'comparing' stamp: 'len 11/7/2016 03:31'!
 = anAffinePoint
@@ -29598,6 +29693,10 @@ asRingHomomorphism
 !AffinePoint methodsFor: 'converting' stamp: 'len 11/7/2016 13:48'!
 asTuple
 	^ coordinates! !
+
+!AffinePoint methodsFor: 'converting' stamp: 'len 12/30/2016 11:16:27'!
+asVector
+	^ (self codomain ambient asLinearSpace over: self scalars) vectorAt: self coordinates! !
 
 !AffinePoint methodsFor: 'accessing' stamp: 'len 11/7/2016 13:16'!
 coordinates
@@ -29619,7 +29718,7 @@ ideal
 	R _ self codomain ambient coordinateRing.
 	^ R * (R generators - self coordinates)! !
 
-!AffinePoint methodsFor: 'printing' stamp: 'len 11/7/2016 08:28'!
+!AffinePoint methodsFor: 'printing' stamp: 'len 12/30/2016 11:16:43'!
 printOn: aStream
 	aStream print: self coordinates! !
 
@@ -29657,6 +29756,12 @@ affinizedIn: anInteger
 		(self scalars
 			tuple: coordinates size - 1
 			evaluating: [:i| (i < anInteger ifTrue: [coordinates at: i] ifFalse: [coordinates at: i + 1]) / scalar])! !
+
+!ProjectivePoint methodsFor: 'converting' stamp: 'len 12/30/2016 11:23:19'!
+asLinearSubspace
+	| V |
+	V _ self codomain ambient asLinearSpace over: self scalars.
+	^ V span: {V vectorAt: self coordinates}! !
 
 !ProjectivePoint methodsFor: 'converting' stamp: 'len 11/7/2016 13:47'!
 asTuple
