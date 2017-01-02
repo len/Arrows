@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 1 January 2017 at 10:15:11 pm'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 2 January 2017 at 10:35:02 am'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 326!
+!provides: 'Mathematics' 1 327!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
 	instanceVariableNames: 'numerator shift'
@@ -1473,7 +1473,7 @@ PAdicIntegersRing class
 
 !classDefinition: #PolynomialRing category: #'Mathematics-Polynomials'!
 Ring subclass: #PolynomialRing
-	instanceVariableNames: 'space monomials'
+	instanceVariableNames: 'monomials scalars'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Polynomials'!
@@ -4426,8 +4426,8 @@ My instances are fields of p-adic numbers Qp. See PAdicNumber.!
 !PAdicIntegersRing commentStamp: '<historical>' prior: 0!
 My instances are rings of p-adic integers Zp. See PAdicInteger.!
 
-!PolynomialRing commentStamp: 'len 11/18/2016 20:56:45' prior: 0!
-My instances are polynomial rings R[x1,...,xn] in one or many indeterminates over a commutative ring R, or rings of polynomial functions R[M] on a free R-module M of finite rank.
+!PolynomialRing commentStamp: '<historical>' prior: 0!
+My instances are polynomial rings R[x1,...,xn] in one or many indeterminates over a commutative ring R.
 
 The number of indeterimnates is called the rank of the polynomial ring. The indeterminates are referred by index (positive integer numbers).
 
@@ -4451,17 +4451,6 @@ Example:
 	(x - y) ** 2
 
 Polynomial rings have an associated monomial ordering. This is used for defining the leading term of a polynomial, multivariate division and the computation of Groebner bases.
-
-Although polynomials are symbolic objects (not functions), they can be seen as functions on an associated space, a free R-module of the same rank as the number of indeterminates. The space of R[x1,...,xn] is R^n (the n-tuples with coefficients in R). In general, choosing a basis for a finite-rank R-module M, this construction gives R[M], the polynomial functions on M. The indeterminates represent the coordinate functions of M for the choosen basis. This is equivalent to S(M*), the symmetric algebra on the dual of M.
-
-Example:
-	"The determinant polynomial of 2x2 matrices, evaluated at some random matrix:"
-	| M R A det |
-	M _ QQ**(2@2).
-	R _ M coordinateRing.
-	det _ (R x: 1) * (R x: 4) - ((R x: 3) * (R x: 2)).
-	A _ M atRandomBits: 30.
-	A printText, ' -> ', (det value: A) printText
 !
 
 !Grassmannian commentStamp: 'len 11/3/2016 09:19' prior: 0!
@@ -19577,10 +19566,6 @@ scalars
 size
 	^ Aleph new * self scalars size! !
 
-!RationalFunctionField methodsFor: 'accessing' stamp: 'len 10/22/2016 18:20'!
-space
-	^ self integers space! !
-
 !RationalFunctionField methodsFor: 'elements' stamp: 'len 10/16/2016 20:12'!
 x
 	^ self x: 1! !
@@ -21082,9 +21067,9 @@ atRandomMaxDegree: d
 	self isUnivariate ifFalse: [^ self notYetImplemented].
 	^ self coefficients: (self scalars ** (d+1)) atRandom! !
 
-!PolynomialRing methodsFor: 'accessing' stamp: 'len 10/22/2016 18:08'!
+!PolynomialRing methodsFor: 'accessing' stamp: 'len 1/2/2017 10:08:58'!
 characteristic
-	^ space characteristic! !
+	^ scalars characteristic! !
 
 !PolynomialRing methodsFor: 'examples' stamp: 'len 10/22/2016 18:12'!
 chebyshevOfOrder: n
@@ -21327,13 +21312,12 @@ indeterminate
 	"Answer the univariate indeterminate."
 	^ 1! !
 
-!PolynomialRing methodsFor: 'accessing' stamp: 'len 10/28/2016 14:32'!
+!PolynomialRing methodsFor: 'accessing' stamp: 'len 1/2/2017 10:09:22'!
 indeterminateNames
-	^ space coordinateNames! !
+	^ monomials indeterminateNames! !
 
-!PolynomialRing methodsFor: 'accessing' stamp: 'len 11/20/2016 13:54:16'!
+!PolynomialRing methodsFor: 'accessing' stamp: 'len 1/2/2017 10:09:14'!
 indeterminateNames: aCollection
-	space coordinateNames: aCollection.
 	monomials indeterminateNames: aCollection! !
 
 !PolynomialRing methodsFor: 'accessing' stamp: 'len 10/22/2016 18:16'!
@@ -21437,23 +21421,19 @@ ordering
 ordering: aMonomialOrdering
 	monomials ordering: aMonomialOrdering! !
 
-!PolynomialRing methodsFor: 'converting' stamp: 'len 10/22/2016 18:13'!
+!PolynomialRing methodsFor: 'converting' stamp: 'len 1/2/2017 10:10:38'!
 over: aRing
-	^ self copy space: (self space over: aRing)! !
+	^ self copy scalars: aRing! !
 
 !PolynomialRing methodsFor: 'private' stamp: 'len 12/28/2016 12:11:46'!
 polynomialClass
 	^ self propertyAt: #polynomialClass ifAbsent: [self isUnivariate ifTrue: [UnivariatePolynomial] ifFalse: [MultivariatePolynomial]]! !
 
-!PolynomialRing methodsFor: 'printing' stamp: 'len 10/28/2016 10:36'!
+!PolynomialRing methodsFor: 'printing' stamp: 'len 1/2/2017 10:23:51'!
 printIndeterminatesOn: aStream
-	(self space isKindOf: TupleModule)
-		ifTrue:
-			[self ordering indeterminates
-				do: [:i| aStream print: (self x: i)]
-				separatedBy: [aStream nextPut: $,]]
-		ifFalse:
-			[aStream print: self space]! !
+	self ordering indeterminates
+		do: [:i| aStream print: (self x: i)]
+		separatedBy: [aStream nextPut: $,]! !
 
 !PolynomialRing methodsFor: 'printing' stamp: 'len 10/28/2016 10:35'!
 printOn: aStream
@@ -21474,26 +21454,22 @@ projection: anInteger
 	codomain _ (self scalars polynomialsIn: anInteger).
 	^ self to: codomain evaluating: [:aPolynomial| aPolynomial as: codomain]! !
 
-!PolynomialRing methodsFor: 'accessing' stamp: 'len 10/22/2016 18:16'!
+!PolynomialRing methodsFor: 'accessing' stamp: 'len 1/2/2017 10:08:31'!
 rank
 	"The rank of a polynomial ring is the number of indeterminates. Univariate polynomials have rank 1."
-	^ space rank! !
+	^ monomials rank! !
 
-!PolynomialRing methodsFor: 'accessing' stamp: 'len 10/22/2016 18:09'!
+!PolynomialRing methodsFor: 'accessing' stamp: 'len 1/2/2017 10:08:53'!
 scalars
-	^ space scalars! !
+	^ scalars! !
+
+!PolynomialRing methodsFor: 'accessing-private' stamp: 'len 1/2/2017 10:10:53'!
+scalars: aRing
+	scalars _ aRing! !
 
 !PolynomialRing methodsFor: 'accessing' stamp: 'len 4/24/2016 02:59'!
 size
 	^ Aleph new * self scalars size! !
-
-!PolynomialRing methodsFor: 'accessing' stamp: 'len 10/22/2016 18:16'!
-space
-	^ space! !
-
-!PolynomialRing methodsFor: 'accessing-private' stamp: 'len 10/22/2016 18:17'!
-space: aFreeModule
-	space _ aFreeModule! !
 
 !PolynomialRing methodsFor: 'operations' stamp: 'len 10/31/2016 05:33'!
 spec
@@ -21542,21 +21518,13 @@ z
 zero
 	^ self constant: self scalars zero! !
 
-!PolynomialRing class methodsFor: 'instance creation' stamp: 'len 11/20/2016 10:55:59'!
+!PolynomialRing class methodsFor: 'instance creation' stamp: 'len 1/2/2017 10:11:59'!
 new: anInteger over: aRing
-	^ self on: aRing ** anInteger! !
+	^ self new monomials: (Monomials new: anInteger); scalars: aRing! !
 
-!PolynomialRing class methodsFor: 'instance creation' stamp: 'len 11/20/2016 10:55:51'!
+!PolynomialRing class methodsFor: 'instance creation' stamp: 'len 1/2/2017 10:12:29'!
 new: anInteger over: aRing ordering: aMonomialOrdering
-	^ self on: aRing ** anInteger ordering: aMonomialOrdering! !
-
-!PolynomialRing class methodsFor: 'instance creation' stamp: 'len 11/20/2016 12:08:41'!
-on: aFreeModule
-	^ self new space: aFreeModule; monomials: (Monomials new: aFreeModule rank)! !
-
-!PolynomialRing class methodsFor: 'instance creation' stamp: 'len 11/20/2016 12:08:01'!
-on: aFreeModule ordering: aMonomialOrdering
-	^ self new space: aFreeModule; monomials: (Monomials new: aFreeModule rank ordering: aMonomialOrdering)! !
+	^ self new monomials: (Monomials new: anInteger ordering: aMonomialOrdering); scalars: aRing! !
 
 !PowerSeriesRing methodsFor: 'accessing' stamp: 'len 10/28/2016 14:17'!
 characteristic
@@ -22475,10 +22443,10 @@ coordinateNames
 coordinateNames: aCollection
 	^ self propertyAt: #coordinateNames put: aCollection! !
 
-!FreeModule methodsFor: 'basis' stamp: 'len 10/28/2016 21:48'!
+!FreeModule methodsFor: 'basis' stamp: 'len 1/2/2017 10:32:38'!
 coordinateRing
 	"The coordinate ring of a R-module of rank n (or K-vector space of dimension n) is the polynomial ring R[x1..xn] (K[x1..xn]."
-	^ PolynomialRing on: self! !
+	^ self scalars polynomialsIn: (self coordinateNames ifNil: [self rank])! !
 
 !FreeModule methodsFor: 'basis' stamp: 'len 2/28/2016 07:45'!
 coordinateSpace
@@ -24078,10 +24046,20 @@ span: aCollection
 	p _ aCollection anyOne.
 	^ self class representative: p direction: (direction span: ((aCollection copyWithout: p) collect: [:each| each - p]))! !
 
+!AffineSubspace methodsFor: 'accessing' stamp: 'len 1/2/2017 09:58:26'!
+substraction
+	"Answer the substraction map on the receiver."
+	^ (self, self) to: self direction evaluatingWithArguments: [:a :b| a - b]! !
+
 !AffineSubspace methodsFor: 'morphisms' stamp: 'len 10/27/2016 19:47'!
 to: anAffineSpace evaluating: aBlock
 	(anAffineSpace isKindOf: AffineSubspace) ifFalse: [^ super to: anAffineSpace evaluating: aBlock].
 	^ AffineMap from: self to: anAffineSpace evaluating: aBlock! !
+
+!AffineSubspace methodsFor: 'accessing' stamp: 'len 1/2/2017 09:59:56'!
+translation
+	"Answer the translation map on the receiver."
+	^ (self, self direction) to: self evaluatingWithArguments: [:a :v| a + v]! !
 
 !AffineSubspace class methodsFor: 'instance creation' stamp: 'len 6/4/2016 04:22'!
 representative: aVector direction: aVectorSpace
@@ -24924,10 +24902,10 @@ base
 codimension
 	^ self ambient dimension - self dimension! !
 
-!Scheme methodsFor: 'testing' stamp: 'len 12/30/2016 12:32:26'!
-contains: aPoint
+!Scheme methodsFor: 'testing' stamp: 'len 1/2/2017 10:30:42'!
+contains: aTuple
 	"Answer true if the receiver includes the argument, assuming it's a point in the ambient space."
-	^ self ideal generators allSatisfy: [:each| (each value: aPoint) isZero]! !
+	^ self ideal generators allSatisfy: [:each| (each value: aTuple) isZero]! !
 
 !Scheme methodsFor: 'accessing' stamp: 'len 12/28/2016 11:32:28'!
 coordinateRing
@@ -24986,11 +24964,11 @@ ideal
 		ifTrue: [self coordinateRing ideal]
 		ifFalse: [self coordinateRing zeroIdeal]! !
 
-!Scheme methodsFor: 'testing' stamp: 'len 12/30/2016 12:32:39'!
-includes: aPoint
+!Scheme methodsFor: 'testing' stamp: 'len 1/2/2017 10:29:11'!
+includes: aTuple
 	"Answer true if the receiver includes the argument."
-	(self ambient includes: aPoint) ifFalse: [^ false].
-	^ self contains: aPoint! !
+	(self ambient includes: aTuple) ifFalse: [^ false].
+	^ self contains: aTuple! !
 
 !Scheme methodsFor: 'morphisms' stamp: 'len 12/30/2016 10:07:14'!
 inclusion
@@ -25348,9 +25326,9 @@ ideal
 	"Answer the defining ideal of the receiver, considered as a subscheme of itself."
 	^ self coordinateRing zeroIdeal! !
 
-!AffineSpace methodsFor: 'testing' stamp: 'len 10/22/2016 18:22'!
-includes: aPoint
-	^ self coordinateRing space includes: aPoint! !
+!AffineSpace methodsFor: 'testing' stamp: 'len 1/2/2017 10:28:49'!
+includes: aTuple
+	^ (aTuple isKindOf: Tuple) and: [aTuple size = self rank]! !
 
 !AffineSpace methodsFor: 'testing' stamp: 'len 12/30/2016 10:21:40'!
 isAffineSpace
@@ -25738,9 +25716,9 @@ automorphisms
 dimension
 	^ self coordinateRing dimension - 1! !
 
-!ProjectiveSpace methodsFor: 'testing' stamp: 'len 11/5/2016 10:34'!
-includes: aPoint
-	^ (aPoint is: #Tuple) and: [aPoint size = self rank and: [aPoint isZero not and: [aPoint scalars = self scalars]]]! !
+!ProjectiveSpace methodsFor: 'testing' stamp: 'len 1/2/2017 10:30:06'!
+includes: aTuple
+	^ (aTuple isKindOf: Tuple) and: [aTuple size = self rank]! !
 
 !ProjectiveSpace methodsFor: 'testing' stamp: 'len 12/30/2016 10:21:53'!
 isProjectiveSpace
@@ -35773,21 +35751,17 @@ terms
 termsDo: aBlock
 	self monomialsAndCoefficientsDo: [:monomial :coefficient| aBlock value: (self species coefficient: coefficient monomial: monomial)]! !
 
-!Polynomial methodsFor: 'operations' stamp: 'len 11/23/2016 05:44:44'!
+!Polynomial methodsFor: 'operations' stamp: 'len 1/2/2017 10:23:20'!
 value: anObject
 	"Answer the value of the receiver at the argument. For multivariate polynomials, a Tuple or Array is expected."
-	| coordinates answer |
-	coordinates _ (self species space ambient includes: anObject)
-		ifTrue:
-			[self species space coordinatesOf: anObject]
-		ifFalse:
-			[((anObject is: #Tuple) or: [anObject is: #Array])
-				ifFalse: [^ self error: 'argument should be tuple or array'].
-			anObject size = self species rank ifFalse: [self error: 'the arity of the argument should match the number of indeterminates'].
-			anObject].
-	answer _ (coordinates at: 1) zero.
+	| answer |
+	((anObject is: #Tuple) or: [anObject is: #Array])
+		ifFalse: [^ self error: 'argument should be tuple or array'].
+	anObject size = self species rank
+		ifFalse: [self error: 'the arity of the argument should match the number of indeterminates'].
+	answer _ (anObject at: 1) zero.
 	self monomialsAndCoefficientsDo: [:key :value|
-		answer _ (key isIdentity ifTrue: [value] ifFalse: [(key value: coordinates) * value]) + answer].
+		answer _ (key isIdentity ifTrue: [value] ifFalse: [(key value: anObject) * value]) + answer].
 	^ answer! !
 
 !Polynomial methodsFor: 'operations' stamp: 'len 11/1/2016 18:40'!
