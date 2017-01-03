@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 2 January 2017 at 10:35:02 am'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 3 January 2017 at 9:06:45 pm'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 327!
+!provides: 'Mathematics' 1 328!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
 	instanceVariableNames: 'numerator shift'
@@ -2283,7 +2283,7 @@ BilinearForm class
 
 !classDefinition: #AffineMap category: #'Mathematics-Geometry-Affine'!
 Function subclass: #AffineMap
-	instanceVariableNames: 'linearPart translation'
+	instanceVariableNames: 'domainFrame codomainFrame linearPart translation'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Geometry-Affine'!
@@ -4545,7 +4545,7 @@ TODO:
 !AffineSubspace commentStamp: '<historical>' prior: 0!
 My instances are affine subspaces contained in a given vector space or module, i.e. flats, or linear varieties, linear manifolds, or translated subspaces/submodules (cosets).
 
-As subobjects of an ambient affine linear space, they are also affine spaces. See AffineLinearSpace.
+They are subobjects of an ambient affine linear space A(V). See AffineLinearSpace.
 
 Affine subspaces appear when considering the solutions of non-homogeneous linear systems, or the set of all the vectors in the domain of a linear map that are mapped to a given vector in the codomain of the transformation (which is called the fiber of the vector). They are also the elements of quotient spaces or quotient modules.
 
@@ -4557,23 +4557,24 @@ Example:
 	f fiberAt: (1, 2, 3).
 !
 
-!AffineLinearSpace commentStamp: 'len 1/1/2017 22:06:52' prior: 0!
+!AffineLinearSpace commentStamp: '<historical>' prior: 0!
 My instances are affine spaces A(V) associated to a given vector space or free module V.
 
-They are quite literally 'vector spaces that have forgotten the origin'. The points are the same objects that are vectors or elements of V, but there's no distinguished origin it is no longer possible to take linear combinations (addition and scalar multiplication are not defined). However, it is possible to add a vector of the associated vector space to a point (i.e., a + v, translate a point 'a' by a given vector 'v'), and the difference a - b between two points is also well defined.
+They are quite literally 'vector spaces that have forgotten the origin'. The points are the same objects that play the role of vectors or elements of V, but since there's no distinguished origin it is no longer possible to take linear combinations (addition and scalar multiplication are not defined). However, it is possible to add a vector of the associated vector space to a point (i.e., a + v, translate a point 'a' by a given vector 'v'), and the difference a - b between two points is also well defined.
 
-The subobjects of affine linear spaces are AffineSubspaces. Their morphisms are AffineMaps.
+The morphisms of affine linear spaces are AffineMaps, and their subobjects are AffineSubspaces.
 
-Note that this definition of affine space differs from the scheme-theoretic definition. In fact, they belong to different categories, and have a different set of morphisms. See AffineSpace.!
+Note that this definition of affine space differs from the scheme-theoretic definition. In fact, they belong to different categories, and have a different set of morphisms. See AffineSpace.
+!
 
 !ProjectiveLinearSpace commentStamp: '<historical>' prior: 0!
 My instances are projective spaces P(V) formed by the projectivization of a given finite-dimensional K-vector space V.
 
-P(V) is isomorphic to the subspaces of dimension 1 in V. This is to say that the points of projective space P(V) are in correspondence with the lines through the origin in V (and projective lines are in correspondence with subspaces of dimension 2, and so on).
+The projective points in P(V) are in correspondence with the subspaces of dimension 1 in V (the lines through the origin), projective lines are in correspondence with subspaces of dimension 2 (planes through the origin in V), and so on.
 
 Projective space can also be viewed as the set quotient V-{0}/~ by the equivalence relation x ~ c*x where c is a constant in K. Or, as the grassmannian Gr(1,V).
 
-The morphisms are ProjectiveMaps (also called projectivities or homographies). The group of automorphisms of P(V) is the projective general linear group PGL(V).
+The morphisms are ProjectiveMaps, also called projectivities or homographies. The group of automorphisms of P(V) is the projective general linear group PGL(V).
 
 Note that this definition of projective space differs from the scheme-theoretic definition. In fact, they belong to different categories, and have a different set of morphisms. See ProjectiveSpace.
 
@@ -5610,6 +5611,10 @@ isFundamentalDiscriminant
 !Integer methodsFor: '*mathematics' stamp: 'len 11/19/2015 17:21'!
 isRational
 	^ true! !
+
+!Integer methodsFor: '*mathematics' stamp: 'len 1/2/2017 10:59:13'!
+isSquare
+	^ self sqrtFloor squared = self! !
 
 !Integer methodsFor: '*mathematics' stamp: 'len 12/18/2016 13:06:48'!
 isSquareFree
@@ -9007,9 +9012,9 @@ norm
 norm2
 	^ self dot: self! !
 
-!Tuple methodsFor: 'converting' stamp: 'len 11/11/2016 09:30'!
+!Tuple methodsFor: 'converting' stamp: 'len 1/3/2017 07:47:52'!
 over: aRing
-	self scalars = aRing ifFalse: [^ aRing tuple: self]! !
+	self scalars = aRing ifFalse: [^ aRing tuple: self size evaluating: [:i| aRing !! (self at: i)]]! !
 
 !Tuple methodsFor: 'operations' stamp: 'len 11/23/2016 05:43:12'!
 polynomialValue: anObject
@@ -16990,15 +16995,15 @@ special
 	"Answer the special Euclidean group SE(A), the group of direct isometries, i.e. isometries preserving orientation, also called 'rigid motions'. This is a subgroup of the receiver."
 	^ SpecialEuclideanGroup on: space! !
 
-!GeneralAffineGroup methodsFor: 'random' stamp: 'len 5/14/2016 09:08'!
+!GeneralAffineGroup methodsFor: 'random' stamp: 'len 1/3/2017 21:03:01'!
 atRandom: aRandom
-	^ AffineMap linearPart: (space direction automorphisms atRandom: aRandom) translation: (space atRandom: aRandom)! !
+	^ (space direction automorphisms atRandom: aRandom) translatedBy: (space atRandom: aRandom)! !
 
-!GeneralAffineGroup methodsFor: 'random' stamp: 'len 5/14/2016 09:08'!
+!GeneralAffineGroup methodsFor: 'random' stamp: 'len 1/3/2017 21:03:32'!
 atRandom: aRandom bits: bitSize
 	| n |
 	n _ bitSize sqrtFloor.
-	^ AffineMap linearPart: (space direction automorphisms atRandom: aRandom bits: bitSize - n) translation: (space atRandom: aRandom bits: n)! !
+	^ (self space asLinearSpace automorphisms atRandom: aRandom bits: bitSize - n) translatedBy: (self space asLinearSpace atRandom: aRandom bits: n)! !
 
 !GeneralAffineGroup methodsFor: 'operations' stamp: 'len 2/12/2016 18:28'!
 euclidean
@@ -20126,7 +20131,7 @@ discriminant
 	"The discriminant of an integral basis is independent of the choice of basis and it's called the discriminant of the field K and denoted d(K)."
 	^ self propertyAt: #discriminant ifAbsentPut: [self integralBasis discriminant]! !
 
-!NumberField methodsFor: 'operations' stamp: 'len 12/18/2016 20:25:29'!
+!NumberField methodsFor: 'accessing' stamp: 'len 12/18/2016 20:25:29'!
 integers
 	"Answer the ring of integers of the receiver."
 	^ IntegerRing on: self! !
@@ -20134,6 +20139,15 @@ integers
 !NumberField methodsFor: 'accessing' stamp: 'len 1/11/2016 03:48'!
 integralBasis
 	^ self notYetImplemented "COHEN 6.1.8"! !
+
+!NumberField methodsFor: 'testing' stamp: 'len 1/2/2017 10:53:30'!
+isCubic
+	^ self degree = 3! !
+
+!NumberField methodsFor: 'testing' stamp: 'len 1/2/2017 10:59:54'!
+isGaloisExtension
+	self degree = 3 ifTrue: [^ self polynomial discriminant isSquare].
+	self notYetImplemented! !
 
 !NumberField methodsFor: 'testing' stamp: 'len 12/10/2016 21:44:21'!
 isImaginary
@@ -20144,8 +20158,8 @@ isImaginary
 isMonogenic
 	^ self propertyAt: #isMonogenic! !
 
-!NumberField methodsFor: 'testing' stamp: 'len 1/10/2016 23:15'!
-isQuadraticField
+!NumberField methodsFor: 'testing' stamp: 'len 1/2/2017 10:53:25'!
+isQuadratic
 	^ self degree = 2! !
 
 !NumberField methodsFor: 'testing' stamp: 'len 12/10/2016 21:44:39'!
@@ -20211,7 +20225,7 @@ discriminant
 	phi _ n phi.
 	^ -1 ** (phi / 2) * (n ** phi) / (n factors asSet product: [:p| p ** (phi / (p - 1))])! !
 
-!CyclotomicField methodsFor: 'as yet unclassified' stamp: 'len 12/18/2016 21:26:29'!
+!CyclotomicField methodsFor: 'accessing' stamp: 'len 12/18/2016 21:26:29'!
 integers
 	"Answer the ring of integers of the receiver."
 	^ CyclotomicIntegerRing on: self! !
@@ -20264,7 +20278,7 @@ discriminant
 	| d |
 	^ (d _ self d) \\ 4 = 1 ifTrue: [d] ifFalse: [d*4]! !
 
-!QuadraticField methodsFor: 'as yet unclassified' stamp: 'len 12/18/2016 20:30:20'!
+!QuadraticField methodsFor: 'accessing' stamp: 'len 12/18/2016 20:30:20'!
 integers
 	"Answer the ring of integers of the receiver."
 	^ QuadraticIntegerRing on: self! !
@@ -20275,8 +20289,12 @@ integralBasis
 	w _ self x + (self embed: self discriminant) / (self embed: 2).
 	^ {self one. w}! !
 
-!QuadraticField methodsFor: 'as yet unclassified' stamp: 'len 12/18/2016 21:54:14'!
+!QuadraticField methodsFor: 'testing' stamp: 'len 12/18/2016 21:54:14'!
 isMonogenic
+	^ true! !
+
+!QuadraticField methodsFor: 'testing' stamp: 'len 1/2/2017 10:54:11'!
+isQuadratic
 	^ true! !
 
 !QuadraticField methodsFor: 'accessing-private' stamp: 'len 12/10/2016 21:27:04'!
@@ -20699,7 +20717,7 @@ printOn: aStream
 on: aNumberField
 	^ self new field: aNumberField! !
 
-!CyclotomicIntegerRing methodsFor: 'as yet unclassified' stamp: 'len 12/23/2016 10:28:13'!
+!CyclotomicIntegerRing methodsFor: 'printing' stamp: 'len 12/23/2016 10:28:13'!
 printOn: aStream
 	aStream print: ZZ; nextPut: $[; print: self field x; nextPut: $]! !
 
@@ -21617,7 +21635,7 @@ asProjectiveSpace
 	self rank = 1 ifTrue: [^ space projective].
 	^ self error: 'Grassmannian of rank > 1'! !
 
-!Grassmannian methodsFor: 'random' stamp: 'len 12/30/2016 12:20:58'!
+!Grassmannian methodsFor: 'random' stamp: 'len 1/3/2017 08:00:43'!
 atRandom: aRandom bits: bits
 	| basis |
 	basis _ LinearBasis on: space.
@@ -22398,9 +22416,8 @@ apply: aLinearMap
 asAbelianGroup
 	^ (self as: FreeAbelianGroup) generators: self generators! !
 
-!FreeModule methodsFor: 'converting' stamp: 'len 1/1/2017 21:51:51'!
+!FreeModule methodsFor: 'converting' stamp: 'len 1/3/2017 19:14:10'!
 asAffineSpace
-	self isVectorSpace ifFalse: [DomainError signal: 'not a vector space'].
 	^ AffineLinearSpace on: self! !
 
 !FreeModule methodsFor: 'converting' stamp: 'len 7/15/2016 00:01'!
@@ -23397,6 +23414,10 @@ rank
 scalars
 	^ self ambient scalars! !
 
+!Submodule methodsFor: 'operations' stamp: 'len 1/2/2017 18:57:14'!
+translatedBy: aVector
+	^ AffineSubspace representative: aVector direction: self! !
+
 !Submodule methodsFor: 'elements' stamp: 'len 5/23/2016 04:26'!
 zero
 	^ self ambient zero! !
@@ -23900,12 +23921,12 @@ printOn: aStream
 ambient
 	^ direction ambient asAffineSpace! !
 
-!AffineSubspace methodsFor: 'morphisms' stamp: 'len 6/4/2016 04:26'!
+!AffineSubspace methodsFor: 'morphisms' stamp: 'len 1/3/2017 19:08:01'!
 apply: aMap
 	"Answer the receiver transformed by anAffineMap."
 	(aMap isKindOf: AffineMap)
-		ifTrue: [^ self class representative: (aMap value: representative) direction: (direction apply: aMap linearPart)].
-	^ self class representative: (aMap value: representative) direction: (direction apply: aMap)! !
+		ifTrue: [^ self species representative: (aMap value: representative) direction: (direction apply: aMap linearPart)].
+	^ self species representative: (aMap value: representative) direction: (direction apply: aMap)! !
 
 !AffineSubspace methodsFor: 'random' stamp: 'len 6/4/2016 04:29'!
 atRandom: aRandom
@@ -23914,11 +23935,6 @@ atRandom: aRandom
 !AffineSubspace methodsFor: 'random' stamp: 'len 6/4/2016 04:30'!
 atRandom: aRandom bits: bitSize
 	^ (direction atRandom: aRandom bits: bitSize) + representative! !
-
-!AffineSubspace methodsFor: 'morphisms' stamp: 'len 8/31/2016 08:27'!
-automorphisms
-	"Answer the general affine group GA(A)."
-	^ GeneralAffineGroup on: self! !
 
 !AffineSubspace methodsFor: 'accessing' stamp: 'len 2/9/2016 21:23'!
 codimension
@@ -23959,11 +23975,6 @@ frame
 hash
 	^ self isEmpty ifTrue: [0] ifFalse: [direction hash]! !
 
-!AffineSubspace methodsFor: 'morphisms' stamp: 'len 8/25/2016 06:24'!
-id
-	"Answer the identity morphism."
-	^ AffineMap from: self to: self evaluating: [:x| x]! !
-
 !AffineSubspace methodsFor: 'testing' stamp: 'len 6/4/2016 04:32'!
 includes: anObject
 	^ self isEmpty not and: [direction includes: anObject - representative]! !
@@ -23992,11 +24003,6 @@ isPoint
 isZero
 	^ direction includes: representative! !
 
-!AffineSubspace methodsFor: 'morphisms' stamp: 'len 8/31/2016 08:28'!
-motions
-	"Answer the Euclidean group E(A), the group of isometries, i.e. distance-preserving morphisms, also called 'motionss'. This is a subgroup of the general affine group GA(A)."
-	^ EuclideanGroup on: self! !
-
 !AffineSubspace methodsFor: 'operations' stamp: 'len 6/4/2016 04:21'!
 negated
 	^ self class representative: representative negated direction: direction! !
@@ -24024,11 +24030,6 @@ representative
 representative: aPoint
 	representative _ aPoint! !
 
-!AffineSubspace methodsFor: 'morphisms' stamp: 'len 8/31/2016 08:28'!
-rigidMotions
-	"Answer the special Euclidean group SE(A), the group of direct isometries, i.e. isometries preserving orientation, also called 'rigid motions'. This is a subgroup of the Euclidean group of motions (see >>motions) which in turn is a subgroup of the general affine group GA(A)."
-	^ SpecialEuclideanGroup on: self! !
-
 !AffineSubspace methodsFor: 'accessing' stamp: 'len 2/9/2016 21:25'!
 scalars
 	^ direction scalars! !
@@ -24046,40 +24047,117 @@ span: aCollection
 	p _ aCollection anyOne.
 	^ self class representative: p direction: (direction span: ((aCollection copyWithout: p) collect: [:each| each - p]))! !
 
+!AffineSubspace methodsFor: 'as yet unclassified' stamp: 'len 1/3/2017 19:20:30'!
+species
+	^ AffineSubspace! !
+
 !AffineSubspace methodsFor: 'accessing' stamp: 'len 1/2/2017 09:58:26'!
 substraction
 	"Answer the substraction map on the receiver."
 	^ (self, self) to: self direction evaluatingWithArguments: [:a :b| a - b]! !
-
-!AffineSubspace methodsFor: 'morphisms' stamp: 'len 10/27/2016 19:47'!
-to: anAffineSpace evaluating: aBlock
-	(anAffineSpace isKindOf: AffineSubspace) ifFalse: [^ super to: anAffineSpace evaluating: aBlock].
-	^ AffineMap from: self to: anAffineSpace evaluating: aBlock! !
 
 !AffineSubspace methodsFor: 'accessing' stamp: 'len 1/2/2017 09:59:56'!
 translation
 	"Answer the translation map on the receiver."
 	^ (self, self direction) to: self evaluatingWithArguments: [:a :v| a + v]! !
 
-!AffineSubspace class methodsFor: 'instance creation' stamp: 'len 6/4/2016 04:22'!
-representative: aVector direction: aVectorSpace
-	^ self new direction: aVectorSpace; representative: aVector! !
+!AffineSubspace class methodsFor: 'instance creation' stamp: 'len 1/3/2017 19:10:25'!
+representative: aVector direction: aSubspace
+	(aSubspace includes: aVector) ifTrue: [^ AffineLinearSpace on: aSubspace].
+	^ self new direction: aSubspace; representative: aVector! !
 
-!AffineLinearSpace methodsFor: 'accessing' stamp: 'len 1/1/2017 21:25:07'!
-ambient
-	^ self! !
-
-!AffineLinearSpace methodsFor: 'converting' stamp: 'len 1/1/2017 21:31:43'!
+!AffineLinearSpace methodsFor: 'converting' stamp: 'len 1/3/2017 19:05:58'!
 asLinearSpace
-	^ direction! !
+	^ self direction! !
 
-!AffineLinearSpace methodsFor: 'printing' stamp: 'len 1/1/2017 16:13:06'!
+!AffineLinearSpace methodsFor: 'random' stamp: 'len 1/3/2017 18:55:01'!
+atRandom: aRandom
+	^ self asLinearSpace atRandom: aRandom! !
+
+!AffineLinearSpace methodsFor: 'random' stamp: 'len 1/3/2017 18:55:19'!
+atRandom: aRandom bits: bitSize
+	^ self asLinearSpace atRandom: aRandom bits: bitSize! !
+
+!AffineLinearSpace methodsFor: 'morphisms' stamp: 'len 1/3/2017 18:49:45'!
+automorphisms
+	"Answer the general affine group GA(A)."
+	^ GeneralAffineGroup on: self! !
+
+!AffineLinearSpace methodsFor: 'testing' stamp: 'len 1/3/2017 18:55:52'!
+contains: anObject
+	^ self asLinearSpace contains: anObject! !
+
+!AffineLinearSpace methodsFor: 'accessing' stamp: 'len 1/3/2017 18:57:27'!
+dimension
+	^ self asLinearSpace dimension! !
+
+!AffineLinearSpace methodsFor: 'enumerating' stamp: 'len 1/3/2017 18:52:19'!
+do: aBlock
+	self asLinearSpace do: aBlock! !
+
+!AffineLinearSpace methodsFor: 'accessing' stamp: 'len 1/3/2017 18:58:03'!
+frame
+	^ AffineFrame origin: self asLinearSpace zero basis: self asLinearSpace basis! !
+
+!AffineLinearSpace methodsFor: 'morphisms' stamp: 'len 1/3/2017 18:49:51'!
+id
+	"Answer the identity morphism."
+	^ AffineMap from: self to: self evaluating: [:x| x]! !
+
+!AffineLinearSpace methodsFor: 'testing' stamp: 'len 1/3/2017 18:55:43'!
+includes: anObject
+	^ self asLinearSpace includes: anObject! !
+
+!AffineLinearSpace methodsFor: 'morphisms' stamp: 'len 1/3/2017 18:49:55'!
+motions
+	"Answer the Euclidean group E(A), the group of isometries, i.e. distance-preserving morphisms, also called 'motionss'. This is a subgroup of the general affine group GA(A)."
+	^ EuclideanGroup on: self! !
+
+!AffineLinearSpace methodsFor: 'printing' stamp: 'len 1/3/2017 18:53:26'!
 printOn: aStream
 	aStream print: self asLinearSpace! !
 
-!AffineLinearSpace class methodsFor: 'instance creation' stamp: 'len 1/1/2017 21:57:28'!
+!AffineLinearSpace methodsFor: 'accessing' stamp: 'len 1/3/2017 18:57:32'!
+rank
+	^ self asLinearSpace rank! !
+
+!AffineLinearSpace methodsFor: 'morphisms' stamp: 'len 1/3/2017 18:50:00'!
+rigidMotions
+	"Answer the special Euclidean group SE(A), the group of direct isometries, i.e. isometries preserving orientation, also called 'rigid motions'. This is a subgroup of the Euclidean group of motions (see >>motions) which in turn is a subgroup of the general affine group GA(A)."
+	^ SpecialEuclideanGroup on: self! !
+
+!AffineLinearSpace methodsFor: 'accessing' stamp: 'len 1/3/2017 18:58:17'!
+scalars
+	^ self asLinearSpace scalars! !
+
+!AffineLinearSpace methodsFor: 'operations' stamp: 'len 1/3/2017 18:57:03'!
+span: aCollection
+	"Answer the affine subspace spanned by the points in aCollection."
+	^ self asLinearSpace hull: aCollection! !
+
+!AffineLinearSpace methodsFor: 'accessing' stamp: 'len 1/3/2017 18:58:27'!
+substraction
+	"Answer the substraction map on the receiver."
+	^ (self, self) to: self asLinearSpace evaluatingWithArguments: [:a :b| a - b]! !
+
+!AffineLinearSpace methodsFor: 'morphisms' stamp: 'len 1/3/2017 18:50:13'!
+to: anAffineSpace evaluating: aBlock
+	(anAffineSpace isKindOf: AffineLinearSpace) ifFalse: [^ super to: anAffineSpace evaluating: aBlock].
+	^ AffineMap from: self to: anAffineSpace evaluating: aBlock! !
+
+!AffineLinearSpace methodsFor: 'accessing' stamp: 'len 1/3/2017 18:58:40'!
+translation
+	"Answer the translation map on the receiver."
+	^ (self, self asLinearSpace) to: self evaluatingWithArguments: [:a :v| a + v]! !
+
+!AffineLinearSpace class methodsFor: 'instance creation' stamp: 'len 1/3/2017 19:09:03'!
 on: aFreeModule
+	"Answer the affine linear space A(V) associated to a given free module V."
 	^ self new direction: aFreeModule; representative: aFreeModule zero! !
+
+!AffineLinearSpace class methodsFor: 'instance creation' stamp: 'len 1/3/2017 19:20:18'!
+representative: aVector direction: aSubspace
+	self shouldNotImplement! !
 
 !ProjectiveLinearSpace methodsFor: 'operations' stamp: 'len 11/20/2015 22:06'!
 + aProjectiveSubspace
@@ -24131,6 +24209,11 @@ ambient
 asGrassmannian
 	"A projective space is the set of lines through the origin of a vector space, i.e. subspaces of dimension 1. That's the grassmannian Gr(1,V)."
 	^ vectorSpace grassmannian: 1! !
+
+!ProjectiveLinearSpace methodsFor: 'converting' stamp: 'len 1/3/2017 18:40:16'!
+asLinearSpace
+	"Answer the associated vector space or free module."
+	^ vectorSpace! !
 
 !ProjectiveLinearSpace methodsFor: 'random' stamp: 'len 4/19/2016 20:30'!
 atRandom: aRandom
@@ -27142,6 +27225,14 @@ adjoint
 algebraicMultiplicityAt: anEigenvalue
 	^ self characteristicPolynomial multiplicityAt: anEigenvalue! !
 
+!LinearMap methodsFor: 'as yet unclassified' stamp: 'len 1/3/2017 08:31:26'!
+asRationalMap
+	| P polynomials |
+	P _ self domain coordinateRing.
+	"use matrix in the standard basis:"
+	polynomials _ ((self class from: self domain to: self codomain evaluating: self) matrix over: P) * (P tuple: P rank evaluating: [:i| P x: i]).
+	^ RationalMap from: P spec to: self codomain coordinateRing spec polynomials: polynomials asArray! !
+
 !LinearMap methodsFor: 'accessing' stamp: 'len 2/8/2016 23:58'!
 automorphism
 	"Answer the field automorphism associated with the receiver, looking at the receiver as a semilinear transformation. This is the identity automorphism."
@@ -27399,6 +27490,10 @@ spectrum
 trace
 	^ matrix trace! !
 
+!LinearMap methodsFor: 'arithmetic' stamp: 'len 1/3/2017 20:57:47'!
+translatedBy: aVector
+	^ AffineMap from: self domain asAffineSpace frame to: self codomain asAffineSpace frame linearPart: self translation: aVector! !
+
 !LinearMap methodsFor: 'operations' stamp: 'len 11/6/2016 09:50'!
 value: aVector
 	(domainBasis isEmpty or: [codomainBasis isEmpty])
@@ -27406,12 +27501,12 @@ value: aVector
 	^ codomainBasis
 		elementAt: matrix * (domainBasis coordinatesOf: aVector)! !
 
-!LinearMap class methodsFor: 'instance creation' stamp: 'len 11/12/2016 07:43'!
-from: domain to: codomain evaluating: aBlock
+!LinearMap class methodsFor: 'instance creation' stamp: 'len 1/2/2017 20:17:25'!
+from: aDomain to: aCodomain evaluating: aBlock
 	"Answer a new instance of the receiver using the one argument block aBlock for evaluating each vector in the domainBasis."
 	| domainBasis codomainBasis matrix |
-	domainBasis _ domain basis.
-	codomainBasis _ codomain basis.
+	domainBasis _ (aDomain isKindOf: LinearBasis) ifTrue: [aDomain] ifFalse: [aDomain basis].
+	codomainBasis _ (aCodomain isKindOf: LinearBasis) ifTrue: [aCodomain] ifFalse: [aCodomain basis].
 	matrix _ RowMatrix new.
 	domainBasis do: [:each| matrix addRow: (codomainBasis coordinatesOf: (aBlock value: each))].
 	^ self from: domainBasis to: codomainBasis matrix: matrix transposed! !
@@ -27440,12 +27535,11 @@ projectionOn: aLinearSubspace
 	domain _ domainBasis span.
 	^ self from: domain to: domain evaluating: [:v| (basis includes: v) ifTrue: [v] ifFalse: [v-v]]! !
 
-!LinearForm methodsFor: 'converting' stamp: 'len 6/7/2016 07:22'!
+!LinearForm methodsFor: 'converting' stamp: 'len 1/3/2017 07:57:09'!
 asPolynomial
-	| coordinates P |
-	coordinates _ self coordinates.
-	P _ self domain scalars polynomialsIn: coordinates size.
-	^ (P tuple: P rank evaluating: [:i| P x: i]) dot: coordinates! !
+	| P |
+	P _ self domain coordinateRing.
+	^ (self class from: self domain evaluating: self) matrix asTuple dot: (P tuple: P rank evaluating: [:i| P x: i]) "use matrix in the standard basis"! !
 
 !LinearForm methodsFor: 'converting' stamp: 'len 5/23/2016 04:39'!
 asTuple
@@ -27460,11 +27554,6 @@ asVector
 	See DualSpace>>#map."
 	self flag: #fix. "this is not natural"
 	^ domainBasis ambient vectorAt: self asTuple! !
-
-!LinearForm methodsFor: 'accessing' stamp: 'len 5/23/2016 04:39'!
-coordinates
-	"Answer the coordinates of the receiver in the canonical basis."
-	^ (self restrictedTo: domainBasis ambient) matrix asTuple! !
 
 !LinearForm methodsFor: 'operations' stamp: 'len 8/20/97 21:03'!
 eq: anObject
@@ -27745,46 +27834,72 @@ fromHalf: aVectorSpace evaluating: aBlock
 						aBlock value: {(basis at: i). (basis at: j)}].
 	^ self from: basis matrix: matrix! !
 
-!AffineMap methodsFor: 'arithmetic' stamp: 'len 5/14/2016 09:06'!
+!AffineMap methodsFor: 'arithmetic' stamp: 'len 1/2/2017 20:20:18'!
 * aNumber
-	^ self class linearPart: linearPart * aNumber translation: translation * aNumber! !
+	^ self class from: domainFrame to: codomainFrame linearPart: linearPart * aNumber translation: translation * aNumber! !
 
-!AffineMap methodsFor: 'arithmetic' stamp: 'len 5/14/2016 09:07'!
+!AffineMap methodsFor: 'arithmetic' stamp: 'len 1/2/2017 20:24:40'!
 + anObject
 	(anObject isKindOf: AffineMap)
-		ifTrue: [^ self class linearPart: linearPart + anObject linearPart translation: translation + anObject translation].
+		ifTrue:
+			[(domainFrame = anObject domainFrame and: [codomainFrame = anObject codomainFrame])
+				ifTrue: [^ self class from: domainFrame to: codomainFrame linearPart: linearPart + anObject linearPart translation: translation + anObject translation].
+			(self domain = anObject domain and: [self codomain = anObject codomain])
+				ifTrue: [^ self class from: domainFrame to: codomainFrame evaluating: [:p| (self value: p) + (anObject value: p)]].
+			DomainError signal: 'domain or codomain don''t match'].
 	(self codomain includes: anObject)
-		ifTrue: [^ self class linearPart: linearPart translation: translation + anObject].
+		ifTrue: [^ self class from: domainFrame to: codomainFrame linearPart: linearPart translation: translation + anObject].
 	^ DomainError signal! !
 
-!AffineMap methodsFor: 'comparing' stamp: 'len 5/14/2016 09:09'!
+!AffineMap methodsFor: 'comparing' stamp: 'len 1/3/2017 20:59:17'!
 = anAffineMap
-	^ linearPart = anAffineMap linearPart and: [translation = anAffineMap translation]! !
+	^ (anAffineMap isKindOf: AffineMap) and: [self domain = anAffineMap domain and: [self codomain = anAffineMap codomain and: [self domainFrame basis allSatisfy: [:p| (self value: p) = (anAffineMap value: p)]]]]! !
 
 !AffineMap methodsFor: 'arithmetic' stamp: 'len 12/20/2016 11:53:51'!
 ” anAffineMap
 	self domain >= anAffineMap codomain ifFalse: [^ DomainError signal: 'domains don''t match'].
 	^ self class from: anAffineMap domain to: self codomain evaluating: [:x| self value: (anAffineMap value: x)]! !
 
+!AffineMap methodsFor: 'converting' stamp: 'len 1/3/2017 20:48:34'!
+asRationalMap
+	^ linearPart asRationalMap translatedBy: (linearPart codomain coordinatesOf: translation)! !
+
 !AffineMap methodsFor: 'accessing' stamp: 'len 5/14/2016 09:11'!
 bitSize
 	^ linearPart bitSize + translation bitSize! !
 
-!AffineMap methodsFor: 'accessing' stamp: 'len 1/1/2017 22:01:09'!
+!AffineMap methodsFor: 'accessing' stamp: 'len 1/2/2017 19:13:44'!
 codomain
-	^ linearPart codomain asAffineSpace! !
+	^ codomainFrame span! !
 
-!AffineMap methodsFor: 'accessing' stamp: 'len 1/1/2017 22:01:14'!
+!AffineMap methodsFor: 'accessing-private' stamp: 'len 1/2/2017 20:25:10'!
+codomainFrame
+	^ codomainFrame! !
+
+!AffineMap methodsFor: 'accessing-private' stamp: 'len 1/2/2017 19:16:32'!
+codomainFrame: anAffineFrame
+	codomainFrame _ anAffineFrame! !
+
+!AffineMap methodsFor: 'accessing' stamp: 'len 1/2/2017 19:13:33'!
 domain
-	^ linearPart domain asAffineSpace! !
+	^ domainFrame span! !
+
+!AffineMap methodsFor: 'accessing-private' stamp: 'len 1/2/2017 20:25:07'!
+domainFrame
+	^ domainFrame! !
+
+!AffineMap methodsFor: 'accessing-private' stamp: 'len 1/2/2017 19:16:29'!
+domainFrame: anAffineFrame
+	domainFrame _ anAffineFrame! !
 
 !AffineMap methodsFor: 'operations' stamp: 'len 5/14/2016 09:11'!
 fiberAt: aPoint
 	^ linearPart fiberAt: aPoint - translation! !
 
-!AffineMap methodsFor: 'comparing' stamp: 'len 10/27/2016 19:44'!
+!AffineMap methodsFor: 'comparing' stamp: 'len 1/2/2017 20:28:51'!
 hash
-	^ linearPart hash + translation hash! !
+	self domain isAmbient ifTrue: [^ (self value: self domain direction zero) hash].
+	^ 0! !
 
 !AffineMap methodsFor: 'operations' stamp: 'len 10/27/2016 19:47'!
 image
@@ -27819,11 +27934,11 @@ isIsometry
 isSurjective
 	^ linearPart isSurjective! !
 
-!AffineMap methodsFor: 'arithmetic' stamp: 'len 8/25/2016 00:48'!
+!AffineMap methodsFor: 'arithmetic' stamp: 'len 1/2/2017 19:57:14'!
 leftInverse
 	"Answer a left inverse (or retraction) of the receiver.
 	Answer nil if the receiver is not a monomorphism."
-	^ linearPart leftInverse ifNotNil: [:aLinearMap| self class linearPart: aLinearMap translation: (aLinearMap value: translation negated)]! !
+	^ linearPart leftInverse ifNotNil: [:aLinearMap| self class from: codomainFrame to: domainFrame linearPart: aLinearMap translation: (aLinearMap value: translation negated)]! !
 
 !AffineMap methodsFor: 'accessing-private' stamp: 'len 5/14/2016 09:06'!
 linearPart
@@ -27849,23 +27964,27 @@ matrix
 					ifTrue: [i <= b size ifTrue: [b at: i] ifFalse: [K one]]
 					ifFalse: [zero]]]! !
 
-!AffineMap methodsFor: 'arithmetic' stamp: 'len 5/14/2016 09:07'!
+!AffineMap methodsFor: 'arithmetic' stamp: 'len 1/2/2017 20:26:11'!
 negated
-	^ self class linearPart: linearPart negated translation: translation negated! !
+	^ self class from: domainFrame to: codomainFrame linearPart: linearPart negated translation: translation negated! !
 
-!AffineMap methodsFor: 'printing' stamp: 'len 5/14/2016 09:11'!
+!AffineMap methodsFor: 'printing' stamp: 'len 1/2/2017 18:49:37'!
 printOn: aStream
 	self isIdentity ifTrue: [aStream nextPutAll: 'id'. ^ self].
 	self negated isIdentity ifTrue: [aStream nextPutAll: '-id'. ^ self].
-	aStream print: linearPart; nextPutAll: ' + '; print: translation! !
+	aStream print: linearPart; nextPutAll: ' + '; print: self translation! !
 
-!AffineMap methodsFor: 'arithmetic' stamp: 'len 8/25/2016 00:49'!
+!AffineMap methodsFor: 'arithmetic' stamp: 'len 1/2/2017 20:26:29'!
 rightInverse
 	"Answer a right inverse (or section) of the receiver.
 	Answer nil if the receiver is not an epimorphism."
-	^ linearPart rightInverse ifNotNil: [:aLinearMap| self class linearPart: aLinearMap translation: (aLinearMap value: translation negated)]! !
+	^ linearPart rightInverse ifNotNil: [:aLinearMap| self class from: codomainFrame to: domainFrame linearPart: aLinearMap translation: (aLinearMap value: translation negated)]! !
 
-!AffineMap methodsFor: 'accessing-private' stamp: 'len 2/11/2016 21:38'!
+!AffineMap methodsFor: 'arithmetic' stamp: 'len 1/3/2017 20:54:25'!
+translatedBy: aVector
+	^ self class from: self domainFrame to: self codomainFrame linearPart: self linearPart translation: self translation + aVector! !
+
+!AffineMap methodsFor: 'accessing-private' stamp: 'len 1/2/2017 19:56:25'!
 translation
 	^ translation! !
 
@@ -27873,27 +27992,26 @@ translation
 translation: aVector
 	translation _ aVector! !
 
-!AffineMap methodsFor: 'operations' stamp: 'len 5/14/2016 09:10'!
+!AffineMap methodsFor: 'operations' stamp: 'len 1/2/2017 20:31:56'!
 value: aPoint
-	^ (linearPart value: aPoint) + translation! !
+	^ (linearPart value: aPoint - domainFrame origin) + (translation - codomainFrame origin)! !
 
-!AffineMap class methodsFor: 'instance creation' stamp: 'len 1/1/2017 16:09:52'!
-from: anAffineSpace to: anotherAffineSpace evaluating: aBlock
-	| linearMap translation |
-	translation _ aBlock value: anAffineSpace asLinearSpace zero.
-	linearMap _ LinearMap
-		from: anAffineSpace asLinearSpace
-		to: anotherAffineSpace asLinearSpace
-		evaluating: [:p| (aBlock value: p) - translation].
-	^ self linearPart: linearMap translation: translation! !
+!AffineMap class methodsFor: 'instance creation' stamp: 'len 1/3/2017 08:11:11'!
+from: aDomain to: aCodomain evaluating: aBlock
+	| domainFrame codomainFrame linearMap translation |
+	domainFrame _ (aDomain isKindOf: AffineFrame) ifTrue: [aDomain] ifFalse: [aDomain frame].
+	codomainFrame _ (aCodomain isKindOf: AffineFrame) ifTrue: [aCodomain] ifFalse: [aCodomain frame].
+	translation _ (aBlock value: domainFrame origin) - codomainFrame origin.
+	linearMap _ LinearMap from: domainFrame basis to: codomainFrame basis evaluating: [:v| (aBlock value: domainFrame origin + v) - translation].
+	^ self from: domainFrame to: codomainFrame linearPart: linearMap translation: translation! !
+
+!AffineMap class methodsFor: 'instance creation' stamp: 'len 1/2/2017 19:16:08'!
+from: anAffineFrame to: anotherAffineFrame linearPart: aLinearMap translation: aVector
+	^ self new domainFrame: anAffineFrame; codomainFrame: anotherAffineFrame; linearPart: aLinearMap; translation: aVector! !
 
 !AffineMap class methodsFor: 'instance creation' stamp: 'len 1/3/2016 04:38'!
 from: anAffineFrame to: anotherAffineFrame matrix: aMatrix
 	^ self notYetImplemented! !
-
-!AffineMap class methodsFor: 'instance creation' stamp: 'len 5/14/2016 09:06'!
-linearPart: aLinearMap translation: aVector
-	^ self new linearPart: aLinearMap; translation: aVector! !
 
 !ProjectiveMap methodsFor: 'comparing' stamp: 'len 11/2/2016 04:03'!
 = aProjectiveMap
@@ -28842,6 +28960,10 @@ size
 	"Answer the number of components of the receiver."
 	^ self codomain rank! !
 
+!RationalMap methodsFor: 'arithmetic' stamp: 'len 1/3/2017 20:50:20'!
+translatedBy: aPoint
+	^ self class from: self domain to: self codomain representatives: self representatives + aPoint! !
+
 !RationalMap methodsFor: 'operations' stamp: 'len 12/28/2016 21:55:41'!
 value: aPoint
 	| tuple |
@@ -28869,6 +28991,12 @@ from: aDomain to: aCodomain evaluating: anExpression
 	| F |
 	F _ aDomain ambient functionField.
 	^ self from: aDomain to: aCodomain representatives: (anExpression value: (F tuple: aDomain ambient rank evaluating: [:i| F x: i]))! !
+
+!RationalMap class methodsFor: 'instance creation' stamp: 'len 1/3/2017 08:30:11'!
+from: aDomain to: aCodomain polynomials: anArrayOfPolynomials
+	| F |
+	F _ aDomain ambient functionField.
+	^ self from: aDomain to: aCodomain representatives: (anArrayOfPolynomials collect: [:each| F embed: each])! !
 
 !RationalMap class methodsFor: 'instance creation' stamp: 'len 12/28/2016 21:50:27'!
 from: aDomain to: aCodomain representatives: anArrayOfRationalFunctions
@@ -29043,6 +29171,10 @@ a: a b: b c: c d: d
 !LinearFractionalMap class methodsFor: 'instance creation' stamp: 'len 12/10/2016 12:37:18'!
 matrix: aMatrix
 	^ self a: (aMatrix at: 1@1) b: (aMatrix at: 1@2) c: (aMatrix at: 2@1) d: (aMatrix at: 2@2)! !
+
+!ModularMap methodsFor: 'as yet unclassified' stamp: 'len 1/2/2017 11:20:36'!
+asMatrix
+	^ ZZ matrix: 2 coefficients: {a. b. c. d}! !
 
 !ModularMap methodsFor: 'as yet unclassified' stamp: 'len 12/14/2016 10:26:46'!
 isElliptic
@@ -32050,13 +32182,18 @@ squared
 simple: anArray
 	^ self with: (anArray class = SimpleTensor ifTrue: [anArray] ifFalse: [SimpleTensor components: anArray])! !
 
-!Divisor methodsFor: 'comparing' stamp: 'len 10/17/2016 17:03'!
+!Divisor methodsFor: 'comparing' stamp: 'len 1/2/2017 15:43:41'!
 = anObject
-	^ (anObject isKindOf: Divisor) and: [(self - anObject) isPrincipal]! !
+	^ (anObject isKindOf: Divisor) and: [self ~ anObject]! !
 
 !Divisor methodsFor: 'comparing' stamp: 'len 10/27/2016 10:26'!
 >= aDivisor
 	^ (self - aDivisor) isEffective! !
+
+!Divisor methodsFor: 'comparing' stamp: 'len 1/2/2017 15:43:29'!
+~ aDivisor
+	"Answer true if the receiver and the argument are linearly equivalent."
+	^ (self - aDivisor) isPrincipal! !
 
 !Divisor methodsFor: 'accessing' stamp: 'len 10/27/2016 10:33'!
 degree
@@ -32065,9 +32202,25 @@ degree
 	self coefficients do: [:each| answer _ answer + each].
 	^ answer! !
 
+!Divisor methodsFor: 'operations' stamp: 'len 1/2/2017 15:37:04'!
+gcd: aDivisor
+	| answer |
+	answer _ self class over: self scalars.
+	self coefficients keysAndValuesDo: [:key :value|
+		aDivisor coefficients at: key ifPresent: [:value2| answer at: key put: (value min: value2)]].
+	^ answer! !
+
 !Divisor methodsFor: 'testing' stamp: 'len 10/27/2016 10:27'!
 isEffective
 	^ self coefficients allSatisfy: [:each| each positive]! !
+
+!Divisor methodsFor: 'operations' stamp: 'len 1/2/2017 15:38:54'!
+lcm: aDivisor
+	| answer |
+	answer _ self copy.
+	aDivisor coefficients keysAndValuesDo: [:key :value|
+		answer coefficientAt: key put: ((self coefficientAt: key) max: value)].
+	^ answer! !
 
 !Divisor methodsFor: 'accessing' stamp: 'len 12/8/2016 20:33:48'!
 support
@@ -32483,6 +32636,12 @@ determinant2
 !Matrix methodsFor: 'operations' stamp: 'len 12/27/2015 02:24'!
 determinant3
 	^ (GaussianElimination on: self copy) determinant! !
+
+!Matrix methodsFor: 'operations' stamp: 'len 1/2/2017 11:15:52'!
+determinantx
+	(self numberOfRows = 2 and: [self numberOfColumns = 2])
+		ifTrue: [^ (self at: 1@1) * (self at: 2@2) - ((self at: 2@1) * (self at: 1@2))].
+	^ self determinant! !
 
 !Matrix methodsFor: 'accessing' stamp: 'len 4/22/2016 21:38'!
 diagonal
@@ -33975,9 +34134,9 @@ origin
 origin: aPoint
 	origin _ aPoint! !
 
-!AffineFrame methodsFor: 'coordinates' stamp: 'len 1/3/2016 03:40'!
+!AffineFrame methodsFor: 'coordinates' stamp: 'len 1/2/2017 19:11:58'!
 pointAt: aTuple
-	^ (basis vectorAt: aTuple) + origin! !
+	^ origin + (basis vectorAt: aTuple)! !
 
 !AffineFrame methodsFor: 'printing' stamp: 'len 1/3/2016 03:46'!
 printOn: aStream
