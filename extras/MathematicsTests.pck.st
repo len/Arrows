@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 26 December 2016 at 9:48:22 am'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 5 January 2017 at 8:16:16 pm'!
 'Description Please enter a description for this package'!
-!provides: 'MathematicsTests' 1 57!
+!provides: 'MathematicsTests' 1 58!
 !classDefinition: #AbelianGroupTest category: #MathematicsTests!
 TestCase subclass: #AbelianGroupTest
 	instanceVariableNames: ''
@@ -877,11 +877,11 @@ testAffineMapComposition
 	self assert: (g ” f value: x) = (g value: (f value: x)).
 	self should: [f ” g] raise: DomainError! !
 
-!AffineGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/27/2016 19:48'!
+!AffineGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 1/1/2017 21:59:16'!
 testAffineMapEvaluating
 	| V f |
 	V _ QQ ** 3.
-	f _ AffineMap from: V to: V evaluating: [:p| p*2 - (1,0,0)].
+	f _ AffineMap from: V asAffineSpace to: V asAffineSpace evaluating: [:p| p*2 - (1,0,0)].
 	self assert: (f value: (1,2,3)) = (1,4,6)! !
 
 !AffineGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 12/20/2016 11:40:11'!
@@ -2684,6 +2684,32 @@ testIteratorCovering3
 	self assert: ((F**4) upTo: 3**4) asSet size = (3**4).
 	self assert: ((F**4) upTo: 3**4+100) asSet size = (3**4)! !
 
+!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 12/26/2016 23:11:25'!
+testJacobiAndLegendreSymbols
+	| a p |
+	10 timesRepeat:
+		[p _ (1000 atRandom + 2) nextPrime. "an odd prime"
+		a _ 1000 atRandom - 1.
+		self assert: (a legendre: p) = (a jacobi: p)]! !
+
+!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 12/28/2016 08:34:47'!
+testKroneckerAndLegendreSymbols
+	| a p |
+	10 timesRepeat:
+		[p _ (1000 atRandom + 2) nextPrime. "an odd prime"
+		a _ 1000 atRandom - 1.
+		self assert: (a legendre: p) = (a kronecker: p)]! !
+
+!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 12/28/2016 08:51:30'!
+testKroneckerSymbol
+	| a b c |
+	a _ (-100 to: 100) atRandom.
+	b _ (-100 to: 100) atRandom.
+	self assert: ((a kronecker: b) = 0) = ((a gcd: b) ~= 1).
+	c _ (-100 to: 100) atRandom.
+	self assert: (a*b kronecker: c) = ((a kronecker: c) * (b kronecker: c)).
+	b*c = 0 ifFalse: [self assert: (a kronecker: b*c) = ((a kronecker: b) * (a kronecker: c))]! !
+
 !MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 12/23/2015 02:56'!
 testLLL
 	| b1 b2 b3 lll |
@@ -2729,6 +2755,10 @@ testLatticeDual2
 	self assert: lattice basis span = dualLattice basis span.
 	self assert: lattice determinant = (1 / dualLattice determinant).
 	self assert: (lattice basis matrix * dualLattice basis matrix) isIdentity! !
+
+!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 12/26/2016 23:13:26'!
+testLegendreSymbol
+	self assert: ((1 to: 10) collect: [:k| k legendre: 43]) = #(1 -1 -1 1 -1 1 -1 -1 1 1)! !
 
 !MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 12/2/2016 11:17:48'!
 testModularIntegersField
@@ -2803,6 +2833,13 @@ testQuadraticForms
 	self assert: (Q value: p) = (f value: p).
 	self assert: (f degree = 2 and: [f isHomogeneous])! !
 
+!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 12/29/2016 07:26:17'!
+testQuadraticResiduesModp
+	| F |
+	F _ PrimeField new: 1000 atRandom nextPrime.
+	self assert: F atRandom squared isQuadraticResidue.
+	self assert: ((1000 count: [F atRandom isQuadraticResidue]) between: 400 and: 600)! !
+
 !MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 12/21/2016 20:21:11'!
 testRadicalAndIsSquareFree
 	| n |
@@ -2819,6 +2856,15 @@ testRealIntervalIntersects
 	self assert: (I intersects: J).
 	J _ RealInterval closed: -2 closed: -1.
 	self assert: (I intersects: J) not! !
+
+!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 12/29/2016 08:24:12'!
+testSquareRootModp
+	| F a |
+	100 timesRepeat:
+		[F _ PrimeField new: (1000 atRandom + 1) nextPrime.
+		a _ F atRandom.
+		a _ a squared.
+		self assert: a squareRoot * a squareRoot = a]! !
 
 !MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 3/3/2016 23:22'!
 testWord
@@ -3196,12 +3242,13 @@ testIndexOf
 newFreeModule
 	^ self newFreeModuleOver: {ZZ. QQ. ZZ / (10 atRandom + 1)} atRandom! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 10/16/2016 09:57'!
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 12/30/2016 12:19:23'!
 newFreeModuleOver: scalars
 	| M |
 	M _ 2 atRandom = 1 ifTrue: [scalars ** 4 atRandom] ifFalse: [scalars ** (4 atRandom @ 4 atRandom)].
+	"don't let it get too big, or the test is too slow:"
+	(M rank < 5 and: [3 atRandom = 1]) ifTrue: [^ M endomorphisms].
 	3 atRandom = 1 ifTrue: [^ M dual].
-	3 atRandom = 1 ifTrue: [^ M endomorphisms].
 	^ M! !
 
 !ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:57'!
@@ -3888,7 +3935,7 @@ testMonomialOrderings3
 	self assert: (f orderedBy: #tlex) leadingTerm = (x2*x4).
 	self assert: (f orderedBy: #trevlex) leadingTerm = (x3**2)! !
 
-!MonomialTest methodsFor: 'as yet unclassified' stamp: 'len 11/20/2016 12:13:59'!
+!MonomialTest methodsFor: 'as yet unclassified' stamp: 'len 1/5/2017 16:38:47'!
 testMonomialOrderingsExample
 	| a b lex tlex trevlex |
 	a _ Monomial exponents: #(3 2 8).
@@ -4031,10 +4078,10 @@ testTotallyReal
 	E _ NumberField polynomial: x**4 - 2.
 	self assert: E isReal not! !
 
-!PAdicsTest methodsFor: 'as yet unclassified' stamp: 'len 12/18/2016 20:19:54'!
+!PAdicsTest methodsFor: 'as yet unclassified' stamp: 'len 1/5/2017 16:39:21'!
 testPAdicNorm
 	| Z7 x |
-	Z7 _ PAdicIntegersRing p: 2.
+	Z7 _ PAdicIntegerRing p: 2.
 	x _ Z7 embed: 7.
 	self assert: x valuation = 0.
 	self assert: x norm = 1.
