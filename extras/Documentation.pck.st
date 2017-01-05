@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 18 December 2016 at 9:23:48 pm'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 5 January 2017 at 8:15:04 pm'!
 'Description Please enter a description for this package'!
-!provides: 'Documentation' 1 4!
+!provides: 'Documentation' 1 5!
 !classDefinition: #DocumentationGenerator category: #Documentation!
 Object subclass: #DocumentationGenerator
 	instanceVariableNames: ''
@@ -11,6 +11,10 @@ Object subclass: #DocumentationGenerator
 DocumentationGenerator class
 	instanceVariableNames: ''!
 
+
+!DocumentationGenerator methodsFor: 'as yet unclassified' stamp: 'len 1/5/2017 09:21:27'!
+blacklist
+	^ #('Etc' 'Morphic')! !
 
 !DocumentationGenerator methodsFor: 'as yet unclassified' stamp: 'len 8/18/2016 03:30'!
 copy: aString replaceAll: oldSubstring with: newSubstring
@@ -58,12 +62,12 @@ escapeCode: aString
 	output _ output copyReplaceAll: Character cap asString with: '&cap;'.
 	^ output! !
 
-!DocumentationGenerator methodsFor: 'as yet unclassified' stamp: 'len 10/14/2016 22:44'!
+!DocumentationGenerator methodsFor: 'as yet unclassified' stamp: 'len 1/5/2017 09:22:21'!
 generate
-	| blacklist classes |
-	blacklist _ #('Etc' 'Morphic').
-	classes _ Object withAllSubclasses select: [:each| each class ~= Metaclass and: [(each allSuperclasses includes: Morph) not and: [(each category beginsWith: 'Mathematics-') and: [(blacklist noneSatisfy: [:one| each category includesSubString: one])]]]].
-	self generateForClasses: classes! !
+	| classes |
+	classes _ Object withAllSubclasses select: [:each| each class ~= Metaclass and: [(each allSuperclasses includes: Morph) not and: [(each category beginsWith: 'Mathematics-') and: [(self blacklist noneSatisfy: [:one| each category includesSubString: one])]]]].
+	self generateForClasses: classes.
+	self generateIndexByClassCategories! !
 
 !DocumentationGenerator methodsFor: 'as yet unclassified' stamp: 'len 8/18/2016 02:57'!
 generate: comment references: tokens
@@ -158,6 +162,20 @@ generateForClasses: classes
 				output nextPutAll: '  '; lf]] startingLevel: 0.
 		file _ self path,class name,'.md' :: asFileEntry.
 		file assureExistence; fileContents: output contents]! !
+
+!DocumentationGenerator methodsFor: 'as yet unclassified' stamp: 'len 1/5/2017 12:17:33'!
+generateIndexByClassCategories
+	| categories output file |
+	categories _ Smalltalk organization categories select: [:each| (each beginsWith: 'Mathematics-') and: [self blacklist noneSatisfy: [:one| each includesSubString: one]]].
+	output _ '' writeStream.
+	categories do: [:category|
+		output nextPutAll: '**', (category withoutPrefix: 'Mathematics-'), '**'; lf; lf.
+		(Smalltalk organization listAtCategoryNamed: category) do: [:each|
+			8 timesRepeat: [output nextPutAll: '&nbsp;'].
+			output nextPutAll: '[', each asString, '](', each asString, ')'; space]]
+		separatedBy: [output lf; lf].
+	file _ self path, 'index.md' :: asFileEntry.
+	file assureExistence; fileContents: output contents! !
 
 !DocumentationGenerator methodsFor: 'as yet unclassified' stamp: 'len 8/11/2016 21:58'!
 path
