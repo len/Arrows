@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 5 January 2017 at 8:31:52 pm'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 8 January 2017 at 5:55:18 pm'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 330!
+!provides: 'Mathematics' 1 331!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
 	instanceVariableNames: 'numerator shift'
@@ -113,7 +113,7 @@ GroebnerBasis class
 
 !classDefinition: #LinearBasis2 category: #'Mathematics-Etc-Modules-Bases'!
 SequenceableCollection subclass: #LinearBasis2
-	instanceVariableNames: 'generators'
+	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Etc-Modules-Bases'!
@@ -123,7 +123,7 @@ LinearBasis2 class
 
 !classDefinition: #AbsoluteLinearBasis category: #'Mathematics-Etc-Modules-Bases'!
 LinearBasis2 subclass: #AbsoluteLinearBasis
-	instanceVariableNames: 'ambient coordinateMap'
+	instanceVariableNames: 'ambient'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Etc-Modules-Bases'!
@@ -133,7 +133,7 @@ AbsoluteLinearBasis class
 
 !classDefinition: #RelativeLinearBasis category: #'Mathematics-Etc-Modules-Bases'!
 LinearBasis2 subclass: #RelativeLinearBasis
-	instanceVariableNames: 'parent matrix'
+	instanceVariableNames: 'parent generators matrix'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Etc-Modules-Bases'!
@@ -1891,8 +1891,18 @@ AffineScheme subclass: #AffineCurve
 AffineCurve class
 	instanceVariableNames: ''!
 
+!classDefinition: #AffineHypersurface category: #'Mathematics-Schemes-Affine'!
+AffineScheme subclass: #AffineHypersurface
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Schemes-Affine'!
+!classDefinition: 'AffineHypersurface class' category: #'Mathematics-Schemes-Affine'!
+AffineHypersurface class
+	instanceVariableNames: ''!
+
 !classDefinition: #AffinePlaneCurve category: #'Mathematics-Schemes-Affine'!
-AffineCurve subclass: #AffinePlaneCurve
+AffineHypersurface subclass: #AffinePlaneCurve
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
@@ -1931,8 +1941,18 @@ ProjectiveScheme subclass: #ProjectiveCurve
 ProjectiveCurve class
 	instanceVariableNames: ''!
 
+!classDefinition: #ProjectiveHypersurface category: #'Mathematics-Schemes-Projective'!
+ProjectiveScheme subclass: #ProjectiveHypersurface
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Schemes-Projective'!
+!classDefinition: 'ProjectiveHypersurface class' category: #'Mathematics-Schemes-Projective'!
+ProjectiveHypersurface class
+	instanceVariableNames: ''!
+
 !classDefinition: #ProjectivePlaneCurve category: #'Mathematics-Schemes-Projective'!
-ProjectiveCurve subclass: #ProjectivePlaneCurve
+ProjectiveHypersurface subclass: #ProjectivePlaneCurve
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
@@ -4443,7 +4463,7 @@ I'm the field of (complex) algebraic numbers, i.e. the algebraic closure of Q.!
 I'm the field of real algebraic numbers, i.e. real zeros of polynomials with rational coefficients.!
 
 !PAdicField commentStamp: '<historical>' prior: 0!
-My instances are fields of p-adic numbers Qp. See PAdicNumber.!
+My instances are fields of p-adic numbers Qp. These are fraction fields of rings of p-adic integers. See PAdicIntegerRing and PAdicNumber.!
 
 !PAdicIntegerRing commentStamp: '<historical>' prior: 0!
 My instances are rings of p-adic integers Zp. See PAdicInteger.!
@@ -4656,6 +4676,9 @@ Example:
 !AffineCurve commentStamp: '<historical>' prior: 0!
 My instances are affine algebraic curves, i.e. schemes of dimension 1 over an affine space.!
 
+!AffineHypersurface commentStamp: '<historical>' prior: 0!
+My instances are affine algebraic hypersurfaces, i.e. schemes of codimension 1 over an affine space. They can be defined by a single polynomial (the defining ideal is principal).!
+
 !AffinePlaneCurve commentStamp: '<historical>' prior: 0!
 My instances are affine plane algebraic curves, i.e. schemes of dimension 1 over an affine plane.!
 
@@ -4678,14 +4701,23 @@ My instances are projective schemes, i.e. Proj R for some commutative graded rin
 !ProjectiveCurve commentStamp: '<historical>' prior: 0!
 My instances are projective algebraic curves, i.e. projective schemes of dimension 1 over a projective space.!
 
+!ProjectiveHypersurface commentStamp: '<historical>' prior: 0!
+My instances are projective algebraic hypersurfaces, i.e. schemes of codimension 1 over a projective space. They can be defined by a single polynomial (the defining ideal is principal).!
+
 !ProjectivePlaneCurve commentStamp: '<historical>' prior: 0!
 My instances are projective plane algebraic curves, i.e. schemes of dimension 1 over a projective plane.!
 
 !Conic commentStamp: '<historical>' prior: 0!
-My instances are conics, i.e. projective plane curves of genus 0 and degree 2. They are defined by quadratic polynomials.!
+My instances are conics, i.e. projective plane curves of genus 0 and degree 2. They are defined by quadratic polynomials.
+
+Conics, together with rational curves (see RationalCurve), are the only curves of genus 0.
+
+As any genus 0 curve, a conic either has no rational points, or it has infinitely many.!
 
 !RationalCurve commentStamp: '<historical>' prior: 0!
-My instances are rational curves, i.e. projective plane curves of genus 0 and degree 1. They are defined by linear polynomials.!
+My instances are rational curves, i.e. projective plane curves of genus 0 and degree 1. They are defined by linear polynomials.
+
+Rational curves, together with Conics, are the only curves of genus 0.!
 
 !EllipticCurve commentStamp: '<historical>' prior: 0!
 My instances are elliptic curves, i.e. projective plane curves of genus 1. They can be defined by a Weierstrass equation (see WeierstrassEquation).
@@ -4877,6 +4909,9 @@ Example:
 	f minimalPolynomial
 !
 
+!QuadraticForm commentStamp: '<historical>' prior: 0!
+My instances are quadratic forms as homogeneous quadratic functions V->K from a finite dimensional K-vector space to its field of coefficients K. Given a basis of their domain, they can be represented as homogeneous quadratic polynomials or as symmetric matrices that define symmetric bilinear forms VxV->K.!
+
 !RationalMap commentStamp: '<historical>' prior: 0!
 My instances are rational maps between Schemes. They are defined by a tuple of rational functions, and they are partial functions defined in a dense open subset of the domain.
 
@@ -4924,7 +4959,7 @@ My instances are cycles. See Permutation>>cyclesDo:.
 !
 
 !StandardPermutation commentStamp: '<historical>' prior: 0!
-My instances are permutations whose domain is the set {1,2,...,n} for somo natural number n. They are more efficient than arbitrary permutations, and often it's worth to convert a permutation to a standard form (by choosing an ordering of its domain) before computing with it (see Permutation>>asStandard:).!
+My instances are permutations whose domains are sets {1,2,...,n} for somo natural number n. They are more efficient than arbitrary permutations, and often it's worth to convert permutations to a standard form (by choosing an ordering of their domain) before computing with them (see Permutation>>asStandard:).!
 
 !RationalPoint commentStamp: '<historical>' prior: 0!
 Instances of my subclasses are K-rational points on a Scheme X, seen as morphisms Spec(K) -> X.!
@@ -5462,9 +5497,9 @@ adaptToRealAlgebraic: rcvr andSend: selector
 bitSize
 	^ numerator bitSize + denominator bitSize! !
 
-!Fraction methodsFor: '*mathematics' stamp: 'len 11/19/2016 20:51:11'!
+!Fraction methodsFor: '*mathematics' stamp: 'len 1/8/2017 16:37:12'!
 height
-	^ numerator abs max: denominator abs! !
+	^ numerator abs max: denominator! !
 
 !Fraction methodsFor: '*mathematics' stamp: 'len 11/19/2015 17:20'!
 isRational
@@ -5636,13 +5671,13 @@ isFundamentalDiscriminant
 	r _ m \\ 4.
 	^ (r == 2 or: [r == 3]) and: [m isSquareFree]! !
 
+!Integer methodsFor: '*mathematics' stamp: 'len 1/7/2017 21:04:34'!
+isPerfectSquare
+	^ self sqrtFloor squared = self! !
+
 !Integer methodsFor: '*mathematics' stamp: 'len 11/19/2015 17:21'!
 isRational
 	^ true! !
-
-!Integer methodsFor: '*mathematics' stamp: 'len 1/2/2017 10:59:13'!
-isSquare
-	^ self sqrtFloor squared = self! !
 
 !Integer methodsFor: '*mathematics' stamp: 'len 12/18/2016 13:06:48'!
 isSquareFree
@@ -7470,15 +7505,14 @@ coordinatesMap
 		to: self coordinateSpace basis
 		matrix: (ambient scalars ** (self size @ self size)) identity! !
 
-!LinearBasis methodsFor: 'coordinates' stamp: 'len 11/2/2016 08:08'!
+!LinearBasis methodsFor: 'coordinates' stamp: 'len 1/8/2017 10:37:14'!
 coordinatesOf: anObject
 	"Answer the coordinates of anObject when expressed as a linear combination of the vectors of the receiver.
 	Answer nil if anObject is independent from the receiver."
 
 	| m reducer coords answer |
 	anObject isZero ifTrue: [^ self coordinateSpace zero].
-	1 to: self size do: [ :i |
-		(self at: i) = anObject ifTrue: [^ self coordinateSpace e: i]].
+	1 to: self size do: [:i| (self at: i) = anObject ifTrue: [^ self coordinateSpace e: i]].
 	m _ self matrix rowAugmented: (ambient coordinatesOf: anObject).
 	reducer _ m transposed reducer.
 	coords _ reducer reduced lastColumn.
@@ -8065,12 +8099,54 @@ fromOriginal: aCollection ordering: aMonomialOrdering
 "	G verify ifFalse: [self halt]."
 	^ G! !
 
-!LinearBasis2 methodsFor: 'as yet unclassified' stamp: 'len 10/28/2016 09:56'!
-= aLinearBasis
-	self == aLinearBasis ifTrue: [^ true].
-	^ self ambient = aLinearBasis ambient and: [generators = aLinearBasis generators]! !
+!LinearBasis2 methodsFor: 'operations' stamp: 'len 1/8/2017 11:16:01'!
+ê aLinearBasis
+	| sum |
+	sum _ self ambient ê aLinearBasis ambient.
+	^ RelativeLinearBasis on: sum basis generators: (self generators collect: [:each| {each. aLinearBasis ambient zero}]), (aLinearBasis generators collect: [:each| {self ambient zero. each}])! !
 
-!LinearBasis2 methodsFor: 'as yet unclassified' stamp: 'len 10/28/2016 09:55'!
+!LinearBasis2 methodsFor: 'accessing' stamp: 'len 1/8/2017 11:05:17'!
+at: anInteger
+	^ self subclassResponsibility! !
+
+!LinearBasis2 methodsFor: 'operations' stamp: 'len 1/8/2017 10:59:28'!
+changeTo: aLinearBasis
+	"Answer the matrix for changing from the receiver to aLinearBasis."
+	^ Matrix columns: (self generators collect: [:each| aLinearBasis coordinatesOf: each])! !
+
+!LinearBasis2 methodsFor: 'coordinates' stamp: 'len 1/8/2017 10:57:30'!
+coordinateSpace
+	^ self ambient scalars ** self size! !
+
+!LinearBasis2 methodsFor: 'coordinates' stamp: 'len 1/8/2017 10:58:10'!
+coordinatesInverseMap
+	"Answer the linear isomorphism mapping a Tuple to the vector with those coordinates in the receiver."
+	^ LinearMap
+		from: self coordinateSpace basis
+		to: self
+		matrix: (self ambient scalars matrix: self size scalar: self ambient scalars one)! !
+
+!LinearBasis2 methodsFor: 'coordinates' stamp: 'len 1/8/2017 10:57:21'!
+coordinatesMap
+	"Answer the linear isomorphism mapping a vector to its coordinates in the receiver."
+	^ LinearMap
+		from: self
+		to: self coordinateSpace basis
+		matrix: (self ambient scalars matrix: self size scalar: self ambient scalars one)! !
+
+!LinearBasis2 methodsFor: 'coordinates' stamp: 'len 1/8/2017 11:04:07'!
+coordinatesOf: aVector
+	^ self subclassResponsibility! !
+
+!LinearBasis2 methodsFor: 'as yet unclassified' stamp: 'len 1/8/2017 11:20:24'!
+copyFrom: startIndex to: endIndex
+	^ RelativeLinearBasis on: self parent generators: (super copyFrom: startIndex to: endIndex)! !
+
+!LinearBasis2 methodsFor: 'as yet unclassified' stamp: 'len 1/8/2017 11:13:17'!
+do: aBlock
+	^ 1 to: self size do: [:each| aBlock value: (self at: each)]! !
+
+!LinearBasis2 methodsFor: 'coordinates' stamp: 'len 10/28/2016 09:55'!
 elementAt: aTuple 
 	"Answer the element with coordinates aTuple when expressed as a linear combination of the generators of the receiver."
 	| answer |
@@ -8081,41 +8157,153 @@ elementAt: aTuple
 			ifFalse: [(self at: each) * (aTuple at: each) + answer]].
 	^ answer! !
 
-!AbsoluteLinearBasis methodsFor: 'as yet unclassified' stamp: 'len 10/28/2016 09:53'!
+!LinearBasis2 methodsFor: 'testing' stamp: 'len 1/8/2017 11:00:38'!
+generates: aVector
+	"Answer true if the argument is dependent to the receiver."
+	self isEmpty ifTrue: [^ aVector isZero].
+	^ (self coordinatesOf: aVector) notNil! !
+
+!LinearBasis2 methodsFor: 'accessing' stamp: 'len 1/8/2017 11:12:57'!
+generators
+	^ Iterator on: self performing: #do:! !
+
+!LinearBasis2 methodsFor: 'operations' stamp: 'len 1/8/2017 11:30:16'!
+gramian
+	"Answer the Gramian of the receiver, or Gram matrix.
+	If M is the generator matrix of the receiver (self matrix), then the Gramian is M * M transposed."
+	^ self ambient scalars
+		matrix: self size
+		evaluating:
+			[:i :j| self ambient innerProduct value: {(self at: i). (self at: j)}]! !
+
+!LinearBasis2 methodsFor: 'testing' stamp: 'len 1/8/2017 11:33:01'!
+isOrthogonal
+	self do: [:v|
+		self do: [:w|
+			(v ~~ w and: [(self ambient innerProduct value: {v.w}) isZero not])
+				ifTrue: [^ false]]].
+	^ true! !
+
+!LinearBasis2 methodsFor: 'testing' stamp: 'len 1/8/2017 11:33:13'!
+isOrthonormal
+	self isOrthogonal ifFalse: [^ false].
+	self do: [:v| (self ambient innerProduct value: {v.v}) = self ambient scalars one ifFalse: [^ false]].
+	^ true! !
+
+!LinearBasis2 methodsFor: 'operations' stamp: 'len 1/8/2017 11:31:19'!
+orthogonalized
+	"Answer the receiver orthogonalized by the Gram-Schmidt process."
+	^ (GramSchmidt basis: self) orthogonalBasis! !
+
+!LinearBasis2 methodsFor: 'operations' stamp: 'len 1/8/2017 11:31:25'!
+orthonormalized
+	"Answer the receiver orthonormalized by the Gram-Schmidt process."
+	^ (GramSchmidt basis: self) orthonormalBasis! !
+
+!LinearBasis2 methodsFor: 'as yet unclassified' stamp: 'len 1/8/2017 11:23:01'!
+select: aBlock
+	^ RelativeLinearBasis on: self parent generators: (super select: aBlock)! !
+
+!LinearBasis2 methodsFor: 'accessing' stamp: 'len 1/8/2017 11:05:24'!
+size
+	^ self subclassResponsibility! !
+
+!LinearBasis2 methodsFor: 'as yet unclassified' stamp: 'len 1/8/2017 11:17:00'!
+span
+	"Answer the subspace generated by the vectors of the receiver."
+	^ Submodule basis: self! !
+
+!LinearBasis2 methodsFor: 'as yet unclassified' stamp: 'len 1/8/2017 11:21:15'!
+species
+	^ Array! !
+
+!LinearBasis2 methodsFor: 'coordinates' stamp: 'len 1/8/2017 11:02:09'!
+vectorAt: aTuple 
+	"Answer the vector with coordinates aTuple when expressed as a linear combination of the receiver."
+	^ self elementAt: aTuple! !
+
+!AbsoluteLinearBasis methodsFor: 'accessing' stamp: 'len 10/28/2016 09:53'!
 ambient
 	^ ambient! !
 
-!RelativeLinearBasis methodsFor: 'as yet unclassified' stamp: 'len 10/28/2016 09:53'!
+!AbsoluteLinearBasis methodsFor: 'as yet unclassified' stamp: 'len 1/8/2017 11:27:53'!
+ambient: aFreeModule
+	ambient _ aFreeModule! !
+
+!AbsoluteLinearBasis methodsFor: 'accessing' stamp: 'len 1/8/2017 10:44:47'!
+at: anInteger
+	^ ambient e: anInteger! !
+
+!AbsoluteLinearBasis methodsFor: 'coordinates' stamp: 'len 1/8/2017 10:46:32'!
+coordinatesOf: aVector
+	^ ambient coordinatesOf: aVector! !
+
+!AbsoluteLinearBasis methodsFor: 'as yet unclassified' stamp: 'len 1/8/2017 11:27:17'!
+dual
+	^ self class on: self ambient dual! !
+
+!AbsoluteLinearBasis methodsFor: 'as yet unclassified' stamp: 'len 1/8/2017 11:28:53'!
+generates: aVector
+	"^ ambient includes: aVector"
+	^ true! !
+
+!AbsoluteLinearBasis methodsFor: 'accessing' stamp: 'len 1/8/2017 10:44:39'!
+size
+	^ ambient rank! !
+
+!AbsoluteLinearBasis class methodsFor: 'as yet unclassified' stamp: 'len 1/8/2017 11:27:36'!
+on: aFreeModule
+	^ self new ambient: aFreeModule! !
+
+!RelativeLinearBasis methodsFor: 'accessing' stamp: 'len 10/28/2016 09:53'!
 ambient
 	^ parent ambient! !
 
-!RelativeLinearBasis methodsFor: 'as yet unclassified' stamp: 'len 10/28/2016 09:46'!
+!RelativeLinearBasis methodsFor: 'accessing' stamp: 'len 10/28/2016 09:46'!
 at: anInteger
 	^ generators at: anInteger! !
 
-!RelativeLinearBasis methodsFor: 'as yet unclassified' stamp: 'len 10/28/2016 09:45'!
-generators: anArray
-	generators _ anArray! !
+!RelativeLinearBasis methodsFor: 'coordinates' stamp: 'len 1/8/2017 10:47:45'!
+coordinatesOf: aVector
+	^ matrix * (parent coordinatesOf: aVector)! !
 
-!RelativeLinearBasis methodsFor: 'as yet unclassified' stamp: 'len 10/28/2016 09:44'!
+!RelativeLinearBasis methodsFor: 'as yet unclassified' stamp: 'len 1/8/2017 11:26:59'!
+dual
+	^ RelativeLinearBasis on: self parent dual matrix: self matrix! !
+
+!RelativeLinearBasis methodsFor: 'accessing-private' stamp: 'len 1/8/2017 10:54:22'!
+generators: anArray
+	generators _ anArray.
+	matrix _ Matrix columns: (anArray collect: [:each| parent coordinatesOf: each])! !
+
+!RelativeLinearBasis methodsFor: 'accessing' stamp: 'len 10/28/2016 09:44'!
 matrix
 	^ matrix! !
 
-!RelativeLinearBasis methodsFor: 'as yet unclassified' stamp: 'len 10/28/2016 09:45'!
+!RelativeLinearBasis methodsFor: 'accessing-private' stamp: 'len 1/8/2017 10:55:07'!
 matrix: aMatrix
-	matrix _ aMatrix! !
+	matrix _ aMatrix.
+	generators _ matrix columns collect: [:each| parent elementAt: each]! !
 
-!RelativeLinearBasis methodsFor: 'as yet unclassified' stamp: 'len 10/28/2016 09:44'!
+!RelativeLinearBasis methodsFor: 'accessing' stamp: 'len 10/28/2016 09:44'!
 parent
 	^ parent! !
 
-!RelativeLinearBasis methodsFor: 'as yet unclassified' stamp: 'len 10/28/2016 09:44'!
+!RelativeLinearBasis methodsFor: 'accessing-private' stamp: 'len 10/28/2016 09:44'!
 parent: aLinearBasis
 	parent _ aLinearBasis! !
 
-!RelativeLinearBasis methodsFor: 'as yet unclassified' stamp: 'len 10/28/2016 09:46'!
+!RelativeLinearBasis methodsFor: 'accessing' stamp: 'len 10/28/2016 09:46'!
 size
 	^ generators size! !
+
+!RelativeLinearBasis class methodsFor: 'instance creation' stamp: 'len 1/8/2017 10:53:00'!
+on: aLinearBasis generators: aCollection
+	^ self new parent: aLinearBasis; generators: aCollection! !
+
+!RelativeLinearBasis class methodsFor: 'instance creation' stamp: 'len 1/8/2017 10:53:19'!
+on: aLinearBasis matrix: aMatrix
+	^ self new parent: aLinearBasis; matrix: aMatrix! !
 
 !KeyedSet methodsFor: 'accessing' stamp: 'len 2/26/2016 21:26'!
 at: anObject
@@ -18054,6 +18242,19 @@ special
 	"Answer the special linear group SL(n) which is a subgroup of the receiver."
 	^ SpecialLinearMatrixGroup new: self degree over: self scalars! !
 
+!GeneralLinearMatrixGroup methodsFor: 'converting' stamp: 'len 1/8/2017 16:42:37'!
+toAlgebraicVariety
+	| n P det V |
+	self scalars isField ifFalse: [self notYetImplemented].
+	n _ self degree.
+	P _ self scalars polynomialsIn: n squared + 1.
+	det _ (P matrix: n coefficients: P generators) determinant.
+	V _ P * (det * (P x: n squared + 1) - P one) :: variety.
+	^ Function
+		from: self to: V
+		evaluating: [:M| V !! (M asTuple, M determinant reciprocal)]
+		inverseEvaluating: [:p| p scalars matrix: n coefficients: p coordinates]! !
+
 !OrthogonalMatrixGroup methodsFor: 'testing' stamp: 'len 12/13/2016 07:13:52'!
 contains: aMatrix
 	"Answer true if the receiver contains the given element of its ambient."
@@ -19511,6 +19712,10 @@ integers
 isCountable
 	^ true! !
 
+!RationalField methodsFor: 'testing' stamp: 'len 1/8/2017 07:50:01'!
+isField
+	^ true! !
+
 !RationalField methodsFor: 'testing' stamp: 'len 11/7/2015 22:05'!
 isFinite
 	^ false! !
@@ -20252,9 +20457,9 @@ integralBasis
 isCubic
 	^ self degree = 3! !
 
-!NumberField methodsFor: 'testing' stamp: 'len 1/2/2017 10:59:54'!
+!NumberField methodsFor: 'testing' stamp: 'len 1/7/2017 21:04:57'!
 isGaloisExtension
-	self degree = 3 ifTrue: [^ self polynomial discriminant isSquare].
+	self degree = 3 ifTrue: [^ self polynomial discriminant isPerfectSquare].
 	self notYetImplemented! !
 
 !NumberField methodsFor: 'testing' stamp: 'len 12/10/2016 21:44:21'!
@@ -20514,14 +20719,14 @@ over: aRing
 	self base  (self base over: aRing) ifNotNil: [:aMorphism| ^ self class mod: (self ideal apply: aMorphism)].
 	DomainError signal: 'change of base ring failed'! !
 
-!AffineAlgebra methodsFor: 'operations' stamp: 'len 12/30/2016 09:54:21'!
+!AffineAlgebra methodsFor: 'operations' stamp: 'len 1/8/2017 17:23:17'!
 proj
 	"Answer the projective spectrum of the receiver, Proj(R)."
 	self ideal isHomogeneous ifFalse: [^ DomainError signal: 'not a quotient by a homogeneous ideal, not properly graded'].
 	(self ideal generators size = 1 and: [self ideal isZero not])
 		ifTrue: [self base rank = 3
 			ifTrue: [^ ProjectivePlaneCurve coordinateRing: self]
-			"ifFalse: [^ ProjectiveHypersurface coordinateRing: self]"].
+			ifFalse: [^ ProjectiveHypersurface coordinateRing: self]].
 	^ ProjectiveScheme coordinateRing: self! !
 
 !AffineAlgebra methodsFor: 'accessing' stamp: 'len 12/30/2016 09:47:01'!
@@ -20534,13 +20739,13 @@ scalars
 	"Answer the coefficients ring of the receiver."
 	^ self base scalars! !
 
-!AffineAlgebra methodsFor: 'operations' stamp: 'len 12/30/2016 09:53:48'!
+!AffineAlgebra methodsFor: 'operations' stamp: 'len 1/8/2017 17:18:48'!
 spec
 	"Answer the spectrum of the receiver, Spec(R/I) as subscheme of Spec(R)."
 	(self ideal generators size = 1 and: [self ideal isZero not])
 		ifTrue: [self base rank = 2
 			ifTrue: [^ AffinePlaneCurve coordinateRing: self]
-			"ifFalse: [^ AffineHypersurface coordinateRing: self]"].
+			ifFalse: [^ AffineHypersurface coordinateRing: self]].
 	^ super spec! !
 
 !AffineAlgebra methodsFor: 'elements' stamp: 'len 10/20/2016 10:50'!
@@ -20644,6 +20849,10 @@ isFinite
 
 !RationalIntegerRing methodsFor: 'testing' stamp: 'len 11/2/2016 03:33'!
 isInitial
+	^ true! !
+
+!RationalIntegerRing methodsFor: 'testing' stamp: 'len 1/8/2017 07:49:36'!
+isIntegralDomain
 	^ true! !
 
 !RationalIntegerRing methodsFor: 'testing' stamp: 'len 10/20/2016 03:38'!
@@ -21531,6 +21740,11 @@ isUFD
 !PolynomialRing methodsFor: 'testing' stamp: 'len 10/22/2016 18:16'!
 isUnivariate
 	^ self rank = 1! !
+
+!PolynomialRing methodsFor: 'operations' stamp: 'len 1/8/2017 08:16:39'!
+localization
+	"Answer the localization of the receiver at the point around 0, i.e. away from the maximal ideal <x1,...,xn>."
+	^ self localization: self * self generators! !
 
 !PolynomialRing methodsFor: 'operations' stamp: 'len 12/28/2016 12:21:08'!
 modPrime: anObject
@@ -22841,9 +23055,9 @@ components
 components: anArray
 	components _ anArray! !
 
-!DirectSumModule methodsFor: 'basis' stamp: 'len 10/16/2016 10:03'!
+!DirectSumModule methodsFor: 'basis' stamp: 'len 1/8/2017 10:50:44'!
 coordinatesOf: anArray
-	"Answer the coordinates of the argument in the canonic basis."
+	"Answer the coordinates of the argument in the canonical basis."
 	| answer |
 	components with: anArray do: [:V :v|
 		answer _ answer isNil ifTrue: [V coordinatesOf: v] ifFalse: [answer, (V coordinatesOf: v)]].
@@ -25499,6 +25713,23 @@ newFrom: anObject
 dimension
 	^ 1! !
 
+!AffineHypersurface methodsFor: 'accessing' stamp: 'len 1/8/2017 17:48:10'!
+degree
+	"The degree of a hypersurface is the total degree of the defining polynomial."
+	^ self polynomial degree! !
+
+!AffineHypersurface methodsFor: 'accessing' stamp: 'len 1/8/2017 17:17:24'!
+dimension
+	^ self ambient dimension - 1! !
+
+!AffineHypersurface methodsFor: 'accessing' stamp: 'len 1/8/2017 17:17:41'!
+polynomial
+	^ self ideal generator! !
+
+!AffineHypersurface class methodsFor: 'instance creation' stamp: 'len 1/8/2017 17:18:05'!
+polynomial: aPolynomial
+	^ self coordinateRing: aPolynomial species / aPolynomial! !
+
 !AffinePlaneCurve methodsFor: 'morphic' stamp: 'len 10/24/2016 21:43'!
 plot
 	^ self plot: (-5@-5 extent: 10@10)! !
@@ -25520,10 +25751,6 @@ descartesFolium
 iminus
 	^ self polynomial: ((QQ polynomialsIn: #(x y)) evaluating: [:x :y| x**3 + (y**3) - x - (2*y) - 1])
 ! !
-
-!AffinePlaneCurve class methodsFor: 'instance creation' stamp: 'len 11/18/2016 21:03:15'!
-polynomial: aPolynomial
-	^ self coordinateRing: aPolynomial species / aPolynomial! !
 
 !AffineSpace methodsFor: 'accessing' stamp: 'len 8/27/2016 19:03'!
 ambient
@@ -25676,6 +25903,23 @@ arithmeticGenus
 dimension
 	^ 1! !
 
+!ProjectiveHypersurface methodsFor: 'accessing' stamp: 'len 1/8/2017 17:39:24'!
+degree
+	"The degree of a projective hypersurface is the degree of the defining homogeneous polynomial."
+	^ self polynomial degree! !
+
+!ProjectiveHypersurface methodsFor: 'accessing' stamp: 'len 1/8/2017 17:21:47'!
+dimension
+	^ self ambient dimension - 1! !
+
+!ProjectiveHypersurface methodsFor: 'accessing' stamp: 'len 1/8/2017 17:21:37'!
+polynomial
+	^ self ideal generator! !
+
+!ProjectiveHypersurface class methodsFor: 'instance creation' stamp: 'len 1/8/2017 17:20:38'!
+polynomial: aPolynomial
+	^ self coordinateRing: aPolynomial parent / aPolynomial! !
+
 !ProjectivePlaneCurve methodsFor: 'accessing' stamp: 'len 11/9/2016 08:07'!
 arithmeticGenus
 	| n |
@@ -25687,28 +25931,16 @@ arithmeticGenus
 components
 	^ self polynomial factors collect: [:each| self class polynomial: each]! !
 
-!ProjectivePlaneCurve methodsFor: 'accessing' stamp: 'len 8/29/2016 16:45'!
-degree
-	^ self polynomial degree! !
-
-!ProjectivePlaneCurve methodsFor: 'as yet unclassified' stamp: 'len 10/24/2016 20:13'!
-polynomial
-	^ self ideal generator! !
-
 !ProjectivePlaneCurve methodsFor: 'as yet unclassified' stamp: 'len 12/25/2016 11:57:45'!
 printOn: aStream
 	aStream print: self polynomial; nextPutAll: ' = 0'! !
 
-!ProjectivePlaneCurve methodsFor: 'as yet unclassified' stamp: 'len 10/24/2016 18:33'!
+!ProjectivePlaneCurve methodsFor: 'as yet unclassified' stamp: 'len 1/8/2017 17:23:55'!
 tangentAt: aPoint
 	| g P |
 	g _ self polynomial.
 	P _ g parent.
-	^ ProjectivePlaneCurve polynomial: (P indeterminates inject: P zero into: [:sum :i| (P x: i) - (aPoint at: i) * ((g derivativeIn: i) value: aPoint) + sum])! !
-
-!ProjectivePlaneCurve class methodsFor: 'instance creation' stamp: 'len 10/24/2016 20:12'!
-polynomial: aPolynomial
-	^ self coordinateRing: aPolynomial parent / aPolynomial! !
+	^ RationalCurve polynomial: (P indeterminates inject: P zero into: [:sum :i| (P x: i) - (aPoint at: i) * ((g derivativeIn: i) value: aPoint) + sum])! !
 
 !Conic methodsFor: 'as yet unclassified' stamp: 'len 12/31/2016 10:26:38'!
 coefficients
@@ -25722,6 +25954,18 @@ genus
 	"Answer the geometric genus of the receiver."
 	^ 0! !
 
+!Conic methodsFor: 'as yet unclassified' stamp: 'len 1/7/2017 21:46:32'!
+isDiagonal
+	"Answer true if the reciever is in diagonal form, i.e. it is defined by a polynomial of the form ax^2 + by^2 + cz^2."
+	| coefficients |
+	coefficients _ self coefficients.
+	^ (coefficients at: 4) isZero and: [(coefficients at: 5) isZero and: [(coefficients at: 6) isZero]]! !
+
+!Conic methodsFor: 'as yet unclassified' stamp: 'len 1/7/2017 21:48:12'!
+isIrreducible
+	"In characteristic not 2, this is equivalent to the diagonal form having coefficients a,b,c all not 0."
+	^ super isIrreducible! !
+
 !Conic methodsFor: 'as yet unclassified' stamp: 'len 12/31/2016 10:07:42'!
 parametrization
 	"Answer a parametrization of the receiver as a regular map from the projective line."
@@ -25731,6 +25975,12 @@ parametrization
 	point _ self anyPoint.
 	P1 _ ProjectiveLine over: self scalars.
 	"..."! !
+
+!Conic methodsFor: 'as yet unclassified' stamp: 'len 1/7/2017 21:28:07'!
+pointsCountOver: aRing
+	"The number of Z/pZ-rational points of a curve of genus 0 is always p + 1."
+	(aRing isKindOf: PrimeField) ifTrue: [^ aRing characteristic + 1].
+	^ super pointsCountOver: aRing! !
 
 !Conic methodsFor: 'as yet unclassified' stamp: 'len 12/26/2016 11:28:39'!
 solve: d n: n
@@ -25743,10 +25993,21 @@ solve: d n: n
 	(d isQuadraticResidueModulo: n) ifFalse: [^ nil].
 	"... last two steps"! !
 
+!Conic methodsFor: 'as yet unclassified' stamp: 'len 1/7/2017 21:44:28'!
+toDiagonal
+	"Answer an isomorphism between the receiver and its diagonal form."
+	self notYetImplemented! !
+
 !RationalCurve methodsFor: 'as yet unclassified' stamp: 'len 12/25/2016 12:14:55'!
 genus
 	"Answer the geometric genus of the receiver."
 	^ 0! !
+
+!RationalCurve methodsFor: 'as yet unclassified' stamp: 'len 1/7/2017 21:28:19'!
+pointsCountOver: aRing
+	"The number of Z/pZ-rational points of a curve of genus 0 is always p + 1."
+	(aRing isKindOf: PrimeField) ifTrue: [^ aRing characteristic + 1].
+	^ super pointsCountOver: aRing! !
 
 !EllipticCurve methodsFor: 'operations' stamp: 'len 12/18/2016 20:09:07'!
 % anInteger
@@ -25754,8 +26015,9 @@ genus
 	(self scalars isKindOf: RationalField) ifFalse: [^ DomainError signal: 'not over the rationals'].
 	^ self over: ZZ/anInteger! !
 
-!EllipticCurve methodsFor: 'operations' stamp: 'len 12/26/2016 10:30:56'!
+!EllipticCurve methodsFor: 'operations' stamp: 'len 1/7/2017 21:32:02'!
 badPrimes
+	"Answer the set of primes for which the receiver doesn't have 'good reduction'."
 	^ self discriminant factors asSet! !
 
 !EllipticCurve methodsFor: 'operations' stamp: 'len 11/11/2016 10:02'!
@@ -26920,6 +27182,15 @@ example3Frobenius2
 !Function class methodsFor: 'instance creation' stamp: 'len 10/10/2016 13:59'!
 from: aDomain to: anotherDomain evaluating: anExpression
 	^ self new domain: aDomain; codomain: anotherDomain; expression: anExpression! !
+
+!Function class methodsFor: 'instance creation' stamp: 'len 1/8/2017 08:00:32'!
+from: aDomain to: anotherDomain evaluating: anExpression inverseEvaluating: anotherExpression
+	| answer inverse |
+	answer _ self from: aDomain to: anotherDomain evaluating: anExpression.
+	inverse _ self from: anotherDomain to: aDomain evaluating: anotherExpression.
+	answer propertyAt: #leftInverse put: inverse.
+	inverse propertyAt: #rightInverse put: answer.
+	^ answer! !
 
 !Function class methodsFor: 'instance creation' stamp: 'len 10/17/2016 10:43'!
 from: aDomain to: aCodomain evaluatingWithArguments: aBlock
@@ -28927,6 +29198,11 @@ codomain
 domain
 	^ basis span! !
 
+!QuadraticForm methodsFor: 'testing' stamp: 'len 1/7/2017 22:21:54'!
+isDiagonal
+	"Answer true if the receiver is in diagonal form."
+	^ matrix isDiagonal! !
+
 !QuadraticForm methodsFor: 'testing' stamp: 'len 1/8/2016 06:25'!
 isRegular
 	^ self asBilinearForm isNonDegenerate! !
@@ -30023,6 +30299,10 @@ coordinates: aTuple
 !AffinePoint methodsFor: 'comparing' stamp: 'len 11/7/2016 03:32'!
 hash
 	^ self coordinates hash! !
+
+!AffinePoint methodsFor: 'accessing' stamp: 'len 1/7/2017 22:07:07'!
+height
+	^ coordinates height! !
 
 !AffinePoint methodsFor: 'accessing' stamp: 'len 11/8/2016 07:15'!
 ideal
@@ -35406,14 +35686,17 @@ factorizer
 factors
 	^ self factorizer factors! !
 
-!Polynomial methodsFor: 'arithmetic' stamp: 'len 7/8/2016 23:53'!
+!Polynomial methodsFor: 'arithmetic' stamp: 'len 1/8/2017 07:55:11'!
 gcd: aPolynomial
 	"Answer the greatest common divisor of the receiver and aPolynomial."
 	| a b r |
+	self isZero ifTrue: [^ aPolynomial].
 	aPolynomial isZero ifTrue: [^ self].
 	(self isUnivariate and: [aPolynomial isUnivariate])
 		ifFalse: "Multivariate case:"
 			[self scalars isUFD ifFalse: [^ DomainError signal: 'not an UFD'].
+			(self isConstant or: [aPolynomial isConstant])
+				ifTrue: [^ self scalars isField ifTrue: [self one] ifFalse: [self species constant: (self content gcd: aPolynomial content)]].
 			a _ self asUnivariate.
 			b _ aPolynomial asUnivariate.
 			^ (((a primitive gcd: b primitive) * (a content gcd: b content)) asMultivariate as: self species) primitive].
