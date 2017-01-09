@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 8 January 2017 at 5:55:18 pm'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 9 January 2017 at 9:41:07 pm'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 331!
+!provides: 'Mathematics' 1 332!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
 	instanceVariableNames: 'numerator shift'
@@ -121,16 +121,6 @@ SequenceableCollection subclass: #LinearBasis2
 LinearBasis2 class
 	instanceVariableNames: ''!
 
-!classDefinition: #AbsoluteLinearBasis category: #'Mathematics-Etc-Modules-Bases'!
-LinearBasis2 subclass: #AbsoluteLinearBasis
-	instanceVariableNames: 'ambient'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Etc-Modules-Bases'!
-!classDefinition: 'AbsoluteLinearBasis class' category: #'Mathematics-Etc-Modules-Bases'!
-AbsoluteLinearBasis class
-	instanceVariableNames: ''!
-
 !classDefinition: #RelativeLinearBasis category: #'Mathematics-Etc-Modules-Bases'!
 LinearBasis2 subclass: #RelativeLinearBasis
 	instanceVariableNames: 'parent generators matrix'
@@ -139,6 +129,16 @@ LinearBasis2 subclass: #RelativeLinearBasis
 	category: 'Mathematics-Etc-Modules-Bases'!
 !classDefinition: 'RelativeLinearBasis class' category: #'Mathematics-Etc-Modules-Bases'!
 RelativeLinearBasis class
+	instanceVariableNames: ''!
+
+!classDefinition: #StandardLinearBasis category: #'Mathematics-Etc-Modules-Bases'!
+LinearBasis2 subclass: #StandardLinearBasis
+	instanceVariableNames: 'ambient'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Etc-Modules-Bases'!
+!classDefinition: 'StandardLinearBasis class' category: #'Mathematics-Etc-Modules-Bases'!
+StandardLinearBasis class
 	instanceVariableNames: ''!
 
 !classDefinition: #KeyedSet category: #'Mathematics-Kernel-Support'!
@@ -3915,6 +3915,15 @@ Example:
 	GroebnerBasis from: {f1. f2} ordering: grlex
 !
 
+!LinearBasis2 commentStamp: '<historical>' prior: 0!
+The instances of my subclasses are bases for free modules or vector spaces.!
+
+!RelativeLinearBasis commentStamp: '<historical>' prior: 0!
+My instances are linear bases defined relative to another basis by change of coordinates.!
+
+!StandardLinearBasis commentStamp: '<historical>' prior: 0!
+My instances are standard linear bases as defined by a particular ambient space. They always have full rank.!
+
 !Iterator commentStamp: '<historical>' prior: 0!
 An Iterator is a read-only collection that evaluates a block to yield the elements of the collection.!
 
@@ -4648,20 +4657,16 @@ References:
 !
 
 !Scheme commentStamp: '<historical>' prior: 0!
-My instances are schemes.
+My instances are closed subschemes of an affine or projective ambient space over an arbitrary commutative ring, defined by polynomial equations. See subclasses for particular kinds of schemes, and ambient spaces AffineSpace and ProjectiveSpace.
 
-NOTE: The current implementation has some limitations. It can represent closed subschemes of affine and projective space defined by polynomial equations. Some other schemes can also be represented (such as Spec(Z) and its closed subschemes Spec(Z/<m>)), but functionality is limited. Also, many operations require the base ring to be a field.!
+Their morphisms are rational maps (see RationalMap), and their subobjects are other schemes.
 
-!AffineScheme commentStamp: 'len 12/30/2016 10:04:23' prior: 0!
-My instances are affine schemes, i.e. spectra of commutative rings noted Spec R. The ring R is the associated coordinate ring of the scheme.
+See also RationalPoint and subclasses.!
 
-Example:
-	"Three ways to create Spec Z/<42>, a subscheme of Spec Z:"
-	AffineScheme coordinateRing: (ZZ/42).
-	(ZZ/42) spec.
-	ZZ spec subscheme: 42.
+!AffineScheme commentStamp: '<historical>' prior: 0!
+My instances are closed subschemes of an affine space over an arbitrary commutative ring (see AffineSpace). Their coordinate rings are quotients of multivariate polynomial rings by an ideal (also called affine algebras, see AffineAlgebra).
 
-Another example of affine scheme is affine space (see subclass AffineSpace). The integral (reduced and irreducible) closed subschemes of affine space are the classical affine algebraic varieties, and their coordinate rings are quotients of multivariate polynomial rings by prime ideals (also called affine algebras or affine rings).
+The integral (reduced and irreducible) closed subschemes of affine space over an algebraically closed field are the classical affine algebraic varieties.
 
 Example:
 	"The unit circle in the rational affine plane:"
@@ -4696,7 +4701,7 @@ Note that affine spaces defined as schemes differ from the classical affine spac
 Note also that the dimension of an affine space as scheme is the Krull dimension of its coordinate ring, and this can be bigger than the number of indeterminates (see >>rank). For affine spaces over fields, the dimension and the rank are equal (because fields have Krull dimension 0).!
 
 !ProjectiveScheme commentStamp: '<historical>' prior: 0!
-My instances are projective schemes, i.e. Proj R for some commutative graded ring R. The ring R is the associated homogeneous coordinate ring of the scheme.!
+My instances are projective closed subschemes of a projective space over an arbitrary ring (see ProjectiveSpace). Their coordinate rings are quotient rings of multivariate polynomial rings by a homogeneous ideal, i.e. graded affine algebras.!
 
 !ProjectiveCurve commentStamp: '<historical>' prior: 0!
 My instances are projective algebraic curves, i.e. projective schemes of dimension 1 over a projective space.!
@@ -4913,7 +4918,9 @@ Example:
 My instances are quadratic forms as homogeneous quadratic functions V->K from a finite dimensional K-vector space to its field of coefficients K. Given a basis of their domain, they can be represented as homogeneous quadratic polynomials or as symmetric matrices that define symmetric bilinear forms VxV->K.!
 
 !RationalMap commentStamp: '<historical>' prior: 0!
-My instances are rational maps between Schemes. They are defined by a tuple of rational functions, and they are partial functions defined in a dense open subset of the domain.
+My instances are rational maps between Schemes. They are defined by a tuple of rational functions.
+
+Rational maps are partial functions defined in a dense open subset of the domain. The scheme where the a rational map is undefined is called its base scheme (see >>base).
 
 A regular rational map is a morphism (by definition). A regular map is dominant (definition) if its image is demse in its codomain.
 
@@ -6060,11 +6067,6 @@ copyEmpty
 !Collection methodsFor: '*mathematics' stamp: 'len 2/13/2003 23:19'!
 copyEmpty: anInteger
 	^ self species new: anInteger! !
-
-!Collection methodsFor: '*mathematics' stamp: 'len 2/23/2016 22:55'!
-gather: aBlock
-	^ Array streamContents:
-		[:stream | self do: [:each | stream nextPutAll: (aBlock value: each)]]! !
 
 !Collection methodsFor: '*mathematics' stamp: 'len 6/23/2016 05:29'!
 isFinite
@@ -8222,39 +8224,6 @@ vectorAt: aTuple
 	"Answer the vector with coordinates aTuple when expressed as a linear combination of the receiver."
 	^ self elementAt: aTuple! !
 
-!AbsoluteLinearBasis methodsFor: 'accessing' stamp: 'len 10/28/2016 09:53'!
-ambient
-	^ ambient! !
-
-!AbsoluteLinearBasis methodsFor: 'as yet unclassified' stamp: 'len 1/8/2017 11:27:53'!
-ambient: aFreeModule
-	ambient _ aFreeModule! !
-
-!AbsoluteLinearBasis methodsFor: 'accessing' stamp: 'len 1/8/2017 10:44:47'!
-at: anInteger
-	^ ambient e: anInteger! !
-
-!AbsoluteLinearBasis methodsFor: 'coordinates' stamp: 'len 1/8/2017 10:46:32'!
-coordinatesOf: aVector
-	^ ambient coordinatesOf: aVector! !
-
-!AbsoluteLinearBasis methodsFor: 'as yet unclassified' stamp: 'len 1/8/2017 11:27:17'!
-dual
-	^ self class on: self ambient dual! !
-
-!AbsoluteLinearBasis methodsFor: 'as yet unclassified' stamp: 'len 1/8/2017 11:28:53'!
-generates: aVector
-	"^ ambient includes: aVector"
-	^ true! !
-
-!AbsoluteLinearBasis methodsFor: 'accessing' stamp: 'len 1/8/2017 10:44:39'!
-size
-	^ ambient rank! !
-
-!AbsoluteLinearBasis class methodsFor: 'as yet unclassified' stamp: 'len 1/8/2017 11:27:36'!
-on: aFreeModule
-	^ self new ambient: aFreeModule! !
-
 !RelativeLinearBasis methodsFor: 'accessing' stamp: 'len 10/28/2016 09:53'!
 ambient
 	^ parent ambient! !
@@ -8304,6 +8273,43 @@ on: aLinearBasis generators: aCollection
 !RelativeLinearBasis class methodsFor: 'instance creation' stamp: 'len 1/8/2017 10:53:19'!
 on: aLinearBasis matrix: aMatrix
 	^ self new parent: aLinearBasis; matrix: aMatrix! !
+
+!StandardLinearBasis methodsFor: 'accessing' stamp: 'len 10/28/2016 09:53'!
+ambient
+	^ ambient! !
+
+!StandardLinearBasis methodsFor: 'as yet unclassified' stamp: 'len 1/8/2017 11:27:53'!
+ambient: aFreeModule
+	ambient _ aFreeModule! !
+
+!StandardLinearBasis methodsFor: 'accessing' stamp: 'len 1/8/2017 10:44:47'!
+at: anInteger
+	^ ambient e: anInteger! !
+
+!StandardLinearBasis methodsFor: 'coordinates' stamp: 'len 1/8/2017 10:46:32'!
+coordinatesOf: aVector
+	^ ambient coordinatesOf: aVector! !
+
+!StandardLinearBasis methodsFor: 'as yet unclassified' stamp: 'len 1/8/2017 11:27:17'!
+dual
+	^ self class on: self ambient dual! !
+
+!StandardLinearBasis methodsFor: 'as yet unclassified' stamp: 'len 1/8/2017 11:28:53'!
+generates: aVector
+	"^ ambient includes: aVector"
+	^ true! !
+
+!StandardLinearBasis methodsFor: 'accessing' stamp: 'len 1/8/2017 10:44:39'!
+size
+	^ ambient rank! !
+
+!StandardLinearBasis methodsFor: 'as yet unclassified' stamp: 'len 1/8/2017 18:10:36'!
+span
+	^ ambient! !
+
+!StandardLinearBasis class methodsFor: 'as yet unclassified' stamp: 'len 1/8/2017 11:27:36'!
+on: aFreeModule
+	^ self new ambient: aFreeModule! !
 
 !KeyedSet methodsFor: 'accessing' stamp: 'len 2/26/2016 21:26'!
 at: anObject
@@ -18520,6 +18526,21 @@ on: aRing
 = anObject
 	^ (anObject isKindOf: Monomials) and: [anObject rank = rank]! !
 
+!Monomials methodsFor: 'enumerating' stamp: 'len 1/9/2017 21:30:55'!
+allMonomialsOfDegree: anInteger
+	| answer |
+	answer _ Set new.
+	anInteger partitionsDo: [:partition|
+		partition size <= self rank
+			ifTrue:
+				[((1 to: self rank) combinations: partition size) do: [:variables|
+					partition permutationsDo: [:exponents|
+						| monomial |
+						monomial _ self identity.
+						variables with: exponents do: [:i :r| monomial _ monomial * (self x: i to: r)].
+						answer add: monomial]]]].
+	^ answer asArray sort reverse! !
+
 !Monomials methodsFor: 'random' stamp: 'len 11/20/2016 12:17:38'!
 atRandom: aRandom bits: bitSize
 	^ self exponents: ((NN ** self rank atRandom: aRandom bits: bitSize) collect: [:x| x - 1]) asArray! !
@@ -18576,6 +18597,22 @@ isFinite
 !Monomials methodsFor: 'testing' stamp: 'len 7/4/2016 01:33'!
 isUnivariate
 	^ self rank = 1! !
+
+!Monomials methodsFor: 'as yet unclassified' stamp: 'len 1/9/2017 21:33:35'!
+monomialsOfDegree: n
+	"Answer all monomials of the given degree, sorted by the reverse of the monomial ordering of the receiver."
+	| answer |
+	answer _ Set new.
+	n partitions do: [:partition|
+		partition size <= self rank
+			ifTrue:
+				[((1 to: self rank) combinations: partition size) do: [:variables|
+					partition permutations do: [:exponents|
+						| monomial |
+						monomial _ self identity.
+						variables with: exponents do: [:i :r| monomial _ monomial * (self x: i to: r)].
+						answer add: monomial]]]].
+	^ answer asArray sort reverse! !
 
 !Monomials methodsFor: 'converting' stamp: 'len 11/20/2016 12:04:14'!
 orderedBy: aMonomialOrdering
@@ -19480,6 +19517,12 @@ scalars: aRing
 !GroupRing class methodsFor: 'instance creation' stamp: 'len 8/7/2016 08:39'!
 on: aGroup over: aRing
 	^ self new group: aGroup; scalars: aRing! !
+
+!LocalizationRing methodsFor: 'elements' stamp: 'len 1/8/2017 20:50:02'!
+!! anObject
+	(self integers includes: anObject)
+		ifTrue: [^ self embed: anObject].
+	^ super !! anObject! !
 
 !LocalizationRing methodsFor: 'comparing' stamp: 'len 10/29/2016 10:16'!
 < aRing
@@ -20636,9 +20679,14 @@ example
 sqrt: anInteger
 	^ self new sqrt: anInteger! !
 
-!AffineAlgebra methodsFor: 'converting' stamp: 'len 1/4/2017 18:17:08'!
+!AffineAlgebra methodsFor: 'converting' stamp: 'len 1/8/2017 22:02:04'!
 asModule
-	^ self notYetImplemented! !
+"	^ FreeModule
+		basis: ((1 to: self degree) collect: [:i| self x ** (i-1)])
+		coordinates: [:aVector| self scalars tuple: self degree evaluating: [:i| aVector representative coefficientAtDegree: i-1]]
+		over: self scalars
+"
+	self notYetImplemented! !
 
 !AffineAlgebra methodsFor: 'accessing' stamp: 'len 11/3/2016 04:30'!
 characteristic
@@ -21374,6 +21422,10 @@ new: anInteger over: aRing
 	"Answer true if the receiver is canonically isomorphic to the argument."
 	"R[x][y] ~ R[x,y]"
 	self notYetImplemented! !
+
+!PolynomialRing methodsFor: 'enumerating' stamp: 'len 1/9/2017 21:30:17'!
+allMonomialsOfDegree: anInteger
+	^ (self monomials allMonomialsOfDegree: anInteger) collect: [:each| self monomial: each]! !
 
 !PolynomialRing methodsFor: 'converting' stamp: 'len 5/21/2016 00:16'!
 asMultivariate
@@ -25495,6 +25547,10 @@ isSmoothAt: aPoint
 	(self includes: aPoint) ifFalse: [DomainError signal: 'point not in this scheme'].
 	^ (self singular includes: aPoint) not! !
 
+!Scheme methodsFor: 'testing' stamp: 'len 1/9/2017 16:28:50'!
+isSurface
+	^ self dimension = 2! !
+
 !Scheme methodsFor: 'testing' stamp: 'len 11/2/2016 12:10'!
 isTerminal
 	^ false! !
@@ -25608,6 +25664,10 @@ dimension
 !AffineScheme methodsFor: 'testing' stamp: 'len 10/19/2016 22:59'!
 isAffine
 	^ true! !
+
+!AffineScheme methodsFor: 'testing' stamp: 'len 1/9/2017 16:35:09'!
+isComplete
+	^ self isFinite! !
 
 !AffineScheme methodsFor: 'testing' stamp: 'len 10/19/2016 23:04'!
 isEmpty
@@ -25742,6 +25802,13 @@ plot: aRectangle
 polynomial
 	^ self ideal generator! !
 
+!AffinePlaneCurve methodsFor: 'operations' stamp: 'len 1/9/2017 17:37:22'!
+tangentAt: aPoint
+	| g P |
+	g _ self polynomial.
+	P _ g parent.
+	^ self ambient subscheme: (P indeterminates inject: P zero into: [:sum :i| (P x: i) - (aPoint at: i) * ((g derivativeIn: i) value: aPoint) + sum])! !
+
 !AffinePlaneCurve class methodsFor: 'examples' stamp: 'len 12/30/2016 15:01:27'!
 descartesFolium
 	"This is the 'Descartes folium'."
@@ -25857,6 +25924,10 @@ dimension
 isAffine
 	^ false! !
 
+!ProjectiveScheme methodsFor: 'testing' stamp: 'len 1/9/2017 16:34:57'!
+isComplete
+	^ true! !
+
 !ProjectiveScheme methodsFor: 'testing' stamp: 'len 10/20/2016 15:21'!
 isProjective
 	^ true! !
@@ -25920,22 +25991,18 @@ polynomial
 polynomial: aPolynomial
 	^ self coordinateRing: aPolynomial parent / aPolynomial! !
 
-!ProjectivePlaneCurve methodsFor: 'accessing' stamp: 'len 11/9/2016 08:07'!
+!ProjectivePlaneCurve methodsFor: 'accessing' stamp: 'len 1/9/2017 17:45:43'!
 arithmeticGenus
 	| n |
 	self isIrreducible ifFalse: [^ self error: 'not irreducible'].
-	n _ self polynomial "totalDegree" degree.
+	n _ self polynomial degree.
 	^ n - 1 * (n - 2) / 2! !
 
-!ProjectivePlaneCurve methodsFor: 'as yet unclassified' stamp: 'len 8/29/2016 16:46'!
-components
-	^ self polynomial factors collect: [:each| self class polynomial: each]! !
-
-!ProjectivePlaneCurve methodsFor: 'as yet unclassified' stamp: 'len 12/25/2016 11:57:45'!
+!ProjectivePlaneCurve methodsFor: 'printing' stamp: 'len 12/25/2016 11:57:45'!
 printOn: aStream
 	aStream print: self polynomial; nextPutAll: ' = 0'! !
 
-!ProjectivePlaneCurve methodsFor: 'as yet unclassified' stamp: 'len 1/8/2017 17:23:55'!
+!ProjectivePlaneCurve methodsFor: 'operations' stamp: 'len 1/8/2017 17:23:55'!
 tangentAt: aPoint
 	| g P |
 	g _ self polynomial.
@@ -26073,12 +26140,12 @@ divisionPolynomialNew: n
 		m _ n - 1 // 2.
 		^ (self divisionPolynomial: m+2) * ((self divisionPolynomial: m) ** 3) - (self divisionPolynomial"! !
 
-!EllipticCurve methodsFor: 'operations' stamp: 'len 12/28/2016 10:11:01'!
+!EllipticCurve methodsFor: 'operations' stamp: 'len 1/8/2017 20:55:09'!
 divisionPolynomials
 	"Answer the sequence of division polynomials.
 	Reference: Silverman, 'The Arithmetic of Elliptic Curves', Exercise 3.7, pag. 105."
 	| R x y phi1 phi2 phi3 phi4 a1 a3 b2 b4 b6 b8 |
-	R _ ZZ polynomialsIn: #(x y). x _ R x. y _ R y.
+	R _ self scalars polynomialsIn: #(x y). x _ R x. y _ R y.
 	a1 _ self equation a1.
 	a3 _ self equation a3.
 	b2 _ self equation b2.
@@ -26116,6 +26183,21 @@ genus
 !EllipticCurve methodsFor: 'testing' stamp: 'len 10/25/2016 14:11'!
 isSmooth
 	^ self discriminant isZero not! !
+
+!EllipticCurve methodsFor: 'operations' stamp: 'len 1/8/2017 21:07:11'!
+multiplicationBy: m
+	| F f omega phi psi x |
+	psi _ self divisionPolynomials.
+	f _ psi at: m.
+	x _ psi codomain x.
+"	y _ psi codomain y."
+	F _ self ambient functionField.
+	phi _ x * f squared - ((psi at: m+1) * (psi at: m-1)).
+	omega _ (psi at: m+2) * (psi at: m-1) squared - ((psi at: m-2) * (psi at: m+1) squared).
+	f _ f value: {F x. F y}.
+	omega _ (omega value: {F x. F y}) / (F y * 4).
+	phi _ phi value: {F x. F y}.
+	^ "self from: self to: self representatives:" {phi / f squared. omega / (f**3). F z}! !
 
 !EllipticCurve methodsFor: 'points' stamp: 'len 11/10/2016 10:29'!
 pointAt: aTuple
@@ -26249,6 +26331,14 @@ rank
 scalars
 	"Answer the base ring of the receiver."
 	^ self coordinateRing scalars! !
+
+!ProjectiveSpace methodsFor: 'morphisms' stamp: 'len 1/9/2017 21:31:38'!
+veronese: degree
+	"Answer the Veronese map of the given degree from the receiver."
+	| F monomials |
+	F _ self functionField.
+	monomials _ (F integers allMonomialsOfDegree: degree) collect: [:each| F embed: each].
+	^ RationalMap from: self to: (ProjectiveSpace new: monomials size - 1 over: self scalars) representatives: monomials! !
 
 !ProjectiveSpace class methodsFor: 'instance creation' stamp: 'len 10/31/2016 13:27'!
 new: rank over: aRing
@@ -29384,6 +29474,11 @@ size
 !RationalMap methodsFor: 'arithmetic' stamp: 'len 1/3/2017 20:50:20'!
 translatedBy: aPoint
 	^ self class from: self domain to: self codomain representatives: self representatives + aPoint! !
+
+!RationalMap methodsFor: 'accessing' stamp: 'len 1/9/2017 19:24:58'!
+undefinitionDomain
+	"Answer the subscheme of the domain where the receiver is undefined."
+	^ self domain subscheme: (self representatives collect: [:each| each denominator])! !
 
 !RationalMap methodsFor: 'operations' stamp: 'len 12/28/2016 21:55:41'!
 value: aPoint
