@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 9 January 2017 at 9:41:07 pm'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 11 January 2017 at 9:26:06 am'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 332!
+!provides: 'Mathematics' 1 333!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
 	instanceVariableNames: 'numerator shift'
@@ -9483,20 +9483,6 @@ new: anInteger over: aRing
 	1 to: self size do: [:i| (self at: i) * y = ((aHomogeneousTuple at: i) * x) ifFalse: [^ false]].
 	^ true! !
 
-!HomogeneousTuple methodsFor: 'converting' stamp: 'len 10/31/2016 13:47'!
-affinized
-	"Answer the affinization of the receiver."
-	^ self affinizedIn: self size! !
-
-!HomogeneousTuple methodsFor: 'converting' stamp: 'len 11/5/2016 06:16'!
-affinizedIn: anInteger
-	"Answer the affinization of the receiver with respect to the anInteger-th coordinate."
-	| scalar |
-	scalar _ self at: anInteger.
-	^ self scalars
-		tuple: self coordinates size - 1
-		evaluating: [:i| (i < anInteger ifTrue: [self at: i] ifFalse: [self at: i + 1]) / scalar]! !
-
 !HomogeneousTuple methodsFor: 'operations' stamp: 'len 11/7/2016 02:25'!
 apply: aMorphism
 	^ (super apply: aMorphism) asHomogeneousTuple! !
@@ -9505,6 +9491,20 @@ apply: aMorphism
 asTuple
 	"Answer a Tuple with the coordinates of the receiver."
 	^ self scalars tuple: coefficients! !
+
+!HomogeneousTuple methodsFor: 'converting' stamp: 'len 1/10/2017 16:26:22'!
+dehomogenized
+	"Answer the dehomogenization of the receiver."
+	^ self dehomogenizedIn: self size! !
+
+!HomogeneousTuple methodsFor: 'converting' stamp: 'len 1/10/2017 16:30:37'!
+dehomogenizedIn: anInteger
+	"Answer the dehomogenization of the receiver with respect to the anInteger-th coordinate."
+	| scalar |
+	scalar _ self at: anInteger.
+	^ self scalars
+		tuple: self coordinates size - 1
+		evaluating: [:i| (i < anInteger ifTrue: [self at: i] ifFalse: [self at: i + 1]) / scalar]! !
 
 !HomogeneousTuple methodsFor: 'comparing' stamp: 'len 11/7/2016 02:32'!
 hash
@@ -22427,14 +22427,6 @@ remainderAtRandom: aRandom
 	T _ R` x: t.
 	^ ((self as: R`) * T + ((anIdeal as: R`) * (T - R` one)) eliminate: t) as: R! !
 
-!PolynomialIdeal methodsFor: 'operations' stamp: 'len 10/31/2016 12:38'!
-affinizedIn: anIndeterminate
-	"Answer the dehomogenization of the receiver removing the given indeterminate."
-	| R R` |
-	R _ self ring.
-	R` _ R copyWithout: anIndeterminate.
-	^ R` * (self generators collect: [:each| (each affinizedIn: anIndeterminate) as: R`])! !
-
 !PolynomialIdeal methodsFor: 'random' stamp: 'len 9/26/2016 16:58'!
 atRandom: aRandom bits: bitSize
 	^ self generators sum: [:each| each * (self ring atRandom: aRandom bits: bitSize / self generators size)]! !
@@ -22472,6 +22464,14 @@ degree
 			(leadingMonomials noneSatisfy: [:lm| lm | monomial])
 					ifTrue: [count _ count + 1]]].
 	^ count! !
+
+!PolynomialIdeal methodsFor: 'operations' stamp: 'len 1/10/2017 16:29:15'!
+dehomogenizedIn: anIndeterminate
+	"Answer the dehomogenization of the receiver removing the given indeterminate."
+	| R R` |
+	R _ self ring.
+	R` _ R copyWithout: anIndeterminate.
+	^ R` * (self generators collect: [:each| (each dehomogenizedIn: anIndeterminate) as: R`])! !
 
 !PolynomialIdeal methodsFor: 'accessing' stamp: 'len 10/23/2016 11:59'!
 depth
@@ -25312,6 +25312,13 @@ isIrreducible
 	(anObject isKindOf: RationalPoint) ifTrue: [^ self pointAt: anObject coordinates].
 	DomainError signal! !
 
+!Scheme methodsFor: 'operations' stamp: 'len 1/10/2017 17:44:17'!
+- aScheme
+	"Answer the complement of the argument in the receiver.
+	This is the closure of the result of removing from the receiver *all* points in the intersection with the argument, irrespective of multiplicity. (See also the 'difference' >>\)."
+	self ambient = aScheme ambient ifFalse: [^ DomainError signal: 'ambients don''t match'].
+	^ self ambient subscheme: (self ideal saturation: aScheme ideal)! !
+
 !Scheme methodsFor: 'operations' stamp: 'len 12/8/2016 20:29:04'!
 /\ aScheme
 	"Meet."
@@ -25325,13 +25332,14 @@ isIrreducible
 <= aScheme
 	^ self ideal >= aScheme ideal! !
 
-!Scheme methodsFor: 'comparing' stamp: 'len 12/26/2016 09:14:36'!
+!Scheme methodsFor: 'comparing' stamp: 'len 1/10/2017 18:02:50'!
 = anObject
-	^ (anObject isKindOf: self species) and: [self ideal = anObject ideal]! !
+	^ (anObject isKindOf: self species) and: ["self ambient = anObject ambient and: ["self ideal = anObject ideal"]"]! !
 
-!Scheme methodsFor: 'operations' stamp: 'len 10/20/2016 16:07'!
+!Scheme methodsFor: 'operations' stamp: 'len 1/10/2017 17:45:21'!
 \ aScheme
-	"Answer the difference of the receiver with the argument, whose associated ideal is the ideal (colon) quotient of the respective ideals."
+	"Answer the difference of the receiver with the argument, whose associated ideal is the ideal (colon) quotient of the respective ideals.
+	This is the closure of the result of removing from the receiver the points in the intersection with the argument, counted with multiplicity. (See also the 'complement' >>-)."
 	self ambient = aScheme ambient ifFalse: [^ DomainError signal: 'ambients don''t match'].
 	^ self ambient subscheme: (self ideal colon: aScheme ideal)! !
 
@@ -25360,12 +25368,6 @@ although the intersection is harder to compute, it behaves better with radicaliz
 apply: aMorphism
 	"Answer the image of aRationalMap applied to the receiver, assuming the receiver is a subscheme of the domain of aMorphism."
 	^ (aMorphism restrictedTo: self) image! !
-
-!Scheme methodsFor: 'accessing' stamp: 'len 10/25/2016 10:11'!
-arithmeticGenus
-	"Answer the arithmetic genus of the receiver."
-	"self ambient isOrdinatyProjectiveSpace ifFalse: [^ self error: 'not ordinary projective space']."
-	self notYetImplemented! !
 
 !Scheme methodsFor: 'accessing' stamp: 'len 12/31/2016 09:35:48'!
 base
@@ -25413,10 +25415,12 @@ divisorsOver: aRing
 	"Answer the divisors class group of the receiver."
 	^ DivisorsGroup on: self over: aRing! !
 
-!Scheme methodsFor: 'morphisms' stamp: 'len 10/31/2016 11:17'!
+!Scheme methodsFor: 'morphisms' stamp: 'len 1/10/2017 18:40:04'!
 embedding
-	"Answer the inclusion map into the ambient scheme."
-	^ self to: self ambient inducedBy: self coordinateRing embedding! !
+	"Answer the embedding morphism associated to the receiver.
+	By default this is the canonical embedding into its ambient space.
+	When the receiver is an affine patch (or neighborhood at a point) of a projective scheme, this is the embedding into the projective space."
+	^ self propertyAt: #embedding ifAbsent: [self inclusion]! !
 
 !Scheme methodsFor: 'accessing' stamp: 'len 10/20/2016 16:05'!
 functionField
@@ -25443,11 +25447,6 @@ includes: aTuple
 	"Answer true if the receiver includes the argument."
 	(self ambient includes: aTuple) ifFalse: [^ false].
 	^ self contains: aTuple! !
-
-!Scheme methodsFor: 'morphisms' stamp: 'len 12/30/2016 10:07:14'!
-inclusion
-	"Answer the structure morphisms, i.e. the inclusion map into the ambient scheme."
-	^ self to: self ambient inducedBy: self coordinateRing embedding! !
 
 !Scheme methodsFor: 'testing' stamp: 'len 10/12/2016 18:32'!
 isAffine
@@ -25602,7 +25601,7 @@ reduced
 	"Answer the reduced subscheme of the receiver."
 	^ self propertyAt: #reducedSubscheme ifAbsentPut: [self ambient subscheme: self ideal radical]! !
 
-!Scheme methodsFor: 'operations' stamp: 'len 12/28/2016 11:32:43'!
+!Scheme methodsFor: 'operations' stamp: 'len 1/11/2017 08:51:20'!
 singular
 	"Answer the subscheme defined by the appropriately sized minors of the jacobian matrix of the receiver.
 	If the receiver is not equidimensional, its lower-dimensional components will be contained in this scheme whether they are singular or not.
@@ -25611,19 +25610,19 @@ singular
 	self propertyAt: #singularSubscheme ifPresent: [:aScheme| ^ aScheme].
 	R _ self ambient coordinateRing.
 	generators _  self ideal generators asArray.
-	J _ R ** (R rank @ generators size) "the jacobian matrix"
-		evaluating: [:i :j| (generators at: j) derivativeIn: i].
+	"the jacobian matrix:"
+	J _ R matrix: R rank @ generators size evaluating: [:i :j| (generators at: j) derivativeIn: i].
 	^ self propertyAt: #singularSubscheme put:
-		(self subscheme: R * (generators, ((J minors: self codimension) collect: [:each| self ideal reduce: each])))! !
+		(self subscheme: ((J minors: self codimension) collect: [:each| self ideal reduce: each]))! !
 
 !Scheme methodsFor: 'morphisms' stamp: 'len 12/31/2016 22:05:44'!
 structureMap
 	"Answer the structure morphism."
 	^ self subclassResponsibility! !
 
-!Scheme methodsFor: 'operations' stamp: 'len 10/20/2016 16:11'!
+!Scheme methodsFor: 'operations' stamp: 'len 1/11/2017 09:22:20'!
 subscheme: anObject
-	^ self ambient relativeSubscheme: anObject! !
+	^ self • (self ambient subscheme: anObject)! !
 
 !Scheme methodsFor: 'morphisms' stamp: 'len 10/20/2016 16:11'!
 to: aScheme evaluating: aBlock
@@ -25707,7 +25706,7 @@ pointAt: aTuple
 printOn: aStream
 		aStream nextPutAll: 'Spec '; print: self coordinateRing! !
 
-!AffineScheme methodsFor: 'accessing' stamp: 'len 10/31/2016 13:15'!
+!AffineScheme methodsFor: 'operations' stamp: 'len 10/31/2016 13:15'!
 projectiveClosure
 	"Answer the projective closure of the receiver. If the receiver is an affine patch of a projective scheme, answer the original projective scheme. Otherwise the projective closure will be a projective scheme over the projective closure of the ambient space of the receiver, and the receiver will be the last affine patch."
 	^ self projectiveEmbedding codomain! !
@@ -25724,13 +25723,6 @@ projectiveEmbedding
 	P propertyAt: #affinePatches put: patches.
 	^ self propertyAt: #projectiveEmbedding put: map! !
 
-!AffineScheme methodsFor: 'operations' stamp: 'len 10/19/2016 23:32'!
-relativeSubscheme: anObject
-	| I |
-	I _ (anObject isKindOf: Ideal)
-		ifTrue: [anObject] ifFalse: [self coordinateRing * anObject].
-	^ (self coordinateRing / I) spec! !
-
 !AffineScheme methodsFor: 'accessing' stamp: 'len 11/7/2016 09:13'!
 scalars
 	"Answer the base ring of the receiver."
@@ -25746,12 +25738,27 @@ structureMap
 	^ self coordinateRing embedding spec
 "	^ (self scalars  self coordinateRing) spec"! !
 
-!AffineScheme class methodsFor: 'instance creation' stamp: 'len 10/25/2016 10:06'!
-coordinateRing: aRing
-	^ self new coordinateRing: aRing! !
+!AffineScheme methodsFor: 'operations' stamp: 'len 1/10/2017 21:21:30'!
+tangentConeAt: aTuple
+	^ self ambient subscheme: (self translatedBy: aTuple negated) ideal leadingIdeal! !
 
-!AffineScheme class methodsFor: 'examples' stamp: 'len 12/30/2016 10:28:59'!
-exampleCircle
+!AffineScheme methodsFor: 'operations' stamp: 'len 1/11/2017 09:11:06'!
+tangentSpaceAt: aTuple
+	"Answer the affine tangent space of the receiver at the given point."
+	| R |
+	R _ self ambient coordinateRing.
+	^ self ambient subscheme: (self ideal generators collect: [:f| (1 to: R rank) sum: [:i| (R x: i) - (aTuple at: i) * ((f derivativeIn: i) value: aTuple)]])! !
+
+!AffineScheme methodsFor: 'operations' stamp: 'len 1/11/2017 08:11:34'!
+translatedBy: aTuple
+	"Answer a new affine scheme that is the translation of the receiver by aTuple.
+	Any point p on the receiver is mapped to p + aTuple."
+	| dx |
+	dx _ self ambient coordinateRing generators - aTuple.
+	^ self ambient subscheme: (self ideal apply: [:f| f value: dx])! !
+
+!AffineScheme class methodsFor: 'examples' stamp: 'len 1/11/2017 07:49:37'!
+circle
 	"The unit circle in the rational affine plane:"
 	| R x y I |
 	R _ QQ polynomialsIn: #(x y).
@@ -25760,9 +25767,9 @@ exampleCircle
 	I _ R * (x**2 + (y**2) - 1).
 	^ (R / I) spec! !
 
-!AffineScheme class methodsFor: 'examples' stamp: 'len 12/30/2016 10:28:13'!
-exampleZ42
-	^ (ZZ/42) spec! !
+!AffineScheme class methodsFor: 'instance creation' stamp: 'len 10/25/2016 10:06'!
+coordinateRing: aRing
+	^ self new coordinateRing: aRing! !
 
 !AffineScheme class methodsFor: 'instance creation' stamp: 'len 10/25/2016 09:39'!
 newFrom: anObject
@@ -25801,13 +25808,6 @@ plot: aRectangle
 !AffinePlaneCurve methodsFor: 'accessing' stamp: 'len 10/24/2016 20:12'!
 polynomial
 	^ self ideal generator! !
-
-!AffinePlaneCurve methodsFor: 'operations' stamp: 'len 1/9/2017 17:37:22'!
-tangentAt: aPoint
-	| g P |
-	g _ self polynomial.
-	P _ g parent.
-	^ self ambient subscheme: (P indeterminates inject: P zero into: [:sum :i| (P x: i) - (aPoint at: i) * ((g derivativeIn: i) value: aPoint) + sum])! !
 
 !AffinePlaneCurve class methodsFor: 'examples' stamp: 'len 12/30/2016 15:01:27'!
 descartesFolium
@@ -25869,26 +25869,27 @@ scalars
 	"Answer the base ring of the receiver."
 	^ self coordinateRing scalars! !
 
+!AffineSpace methodsFor: 'operations' stamp: 'len 1/11/2017 09:21:47'!
+subscheme: anObject
+	| I |
+	I _ (anObject isKindOf: Ideal)
+		ifTrue: [anObject] ifFalse: [self coordinateRing * anObject].
+	^ (self coordinateRing / I) spec! !
+
 !AffineSpace class methodsFor: 'instance creation' stamp: 'len 10/28/2016 10:39'!
 new: rank over: aRing
 	^ self coordinateRing: (aRing polynomialsIn: rank)! !
 
-!ProjectiveScheme methodsFor: 'operations' stamp: 'len 12/28/2016 11:34:25'!
+!ProjectiveScheme methodsFor: 'operations' stamp: 'len 1/10/2017 16:28:31'!
 affinePatch: i
 	"Answer the i-th affine patch of the receiver."
 	| patches answer map |
 	patches _ self propertyAt: #affinePatches ifAbsentPut: [Array new: self ambient rank].
 	(patches at: i) ifNotNil: [:anAffineScheme| ^ anAffineScheme].
-	answer _ (self ambient affinePatch: i) subscheme: (self ideal affinizedIn: i).
+	answer _ (self ambient affinePatch: i) subscheme: (self ideal dehomogenizedIn: i).
 	map _ answer to: self evaluating: [:x| x homogenizedIn: i].
 	answer propertyAt: #projectiveEmbedding put: map.
 	^ patches at: i put: answer! !
-
-!ProjectiveScheme methodsFor: 'operations' stamp: 'len 10/31/2016 11:52'!
-affinePatchAt: aPoint
-	"Answer an affine patch centered at the given point, isomorphic to a neighborhood of the point."
-	(self includes: aPoint) ifFalse: [^ self error: 'point not in this scheme'].
-	self notYetImplemented! !
 
 !ProjectiveScheme methodsFor: 'operations' stamp: 'len 10/31/2016 13:19'!
 affinePatches
@@ -25900,6 +25901,12 @@ ambient
 	^ self coordinateRing isQuotient
 		ifTrue: [self coordinateRing base proj]
 		ifFalse: [self]! !
+
+!ProjectiveScheme methodsFor: 'accessing' stamp: 'len 1/10/2017 21:15:14'!
+arithmeticGenus
+	"Answer the arithmetic genus of the receiver."
+	self ambient isOrdinaryProjectiveSpace ifFalse: [^ self error: 'not ordinary projective space'].
+	self notYetImplemented! !
 
 !ProjectiveScheme methodsFor: 'accessing' stamp: 'len 10/27/2016 21:44'!
 degree
@@ -25932,6 +25939,12 @@ isComplete
 isProjective
 	^ true! !
 
+!ProjectiveScheme methodsFor: 'operations' stamp: 'len 1/10/2017 16:55:02'!
+multiplicityAt: aTuple
+	| i |
+	i _ aTuple lastNonZero.
+	^ (self affinePatch: i) multiplicityAt: (aTuple dehomogenizedIn: i)! !
+
 !ProjectiveScheme methodsFor: 'points' stamp: 'len 11/7/2016 13:35'!
 pointAt: aTuple
 	^ ProjectivePoint on: self coordinates: aTuple! !
@@ -25939,13 +25952,6 @@ pointAt: aTuple
 !ProjectiveScheme methodsFor: 'printing' stamp: 'len 10/20/2016 15:27'!
 printOn: aStream
 		aStream nextPutAll: 'Proj '; print: self coordinateRing! !
-
-!ProjectiveScheme methodsFor: 'operations' stamp: 'len 10/20/2016 16:01'!
-relativeSubscheme: anObject
-	| I |
-	I _ (anObject isKindOf: Ideal)
-		ifTrue: [anObject] ifFalse: [self coordinateRing * anObject].
-	^ (self coordinateRing / I) proj! !
 
 !ProjectiveScheme methodsFor: 'accessing' stamp: 'len 11/7/2016 09:13'!
 scalars
@@ -25955,6 +25961,13 @@ scalars
 !ProjectiveScheme methodsFor: 'private' stamp: 'len 10/20/2016 10:29'!
 species
 	^ ProjectiveScheme! !
+
+!ProjectiveScheme methodsFor: 'operations' stamp: 'len 1/11/2017 09:14:35'!
+tangentSpaceAt: aTuple
+	"Answer the projective tangent space of the receiver at the given point."
+	| R |
+	R _ self ambient coordinateRing.
+	^ self ambient subscheme: (self ideal generators collect: [:f| (1 to: R rank) sum: [:i| (R x: i) * ((f derivativeIn: i) value: aTuple)]])! !
 
 !ProjectiveScheme class methodsFor: 'instance creation' stamp: 'len 10/25/2016 10:03'!
 coordinateRing: aRing
@@ -26001,13 +26014,6 @@ arithmeticGenus
 !ProjectivePlaneCurve methodsFor: 'printing' stamp: 'len 12/25/2016 11:57:45'!
 printOn: aStream
 	aStream print: self polynomial; nextPutAll: ' = 0'! !
-
-!ProjectivePlaneCurve methodsFor: 'operations' stamp: 'len 1/8/2017 17:23:55'!
-tangentAt: aPoint
-	| g P |
-	g _ self polynomial.
-	P _ g parent.
-	^ RationalCurve polynomial: (P indeterminates inject: P zero into: [:sum :i| (P x: i) - (aPoint at: i) * ((g derivativeIn: i) value: aPoint) + sum])! !
 
 !Conic methodsFor: 'as yet unclassified' stamp: 'len 12/31/2016 10:26:38'!
 coefficients
@@ -26242,14 +26248,13 @@ cremona389a1
 equation: aWeierstrassEquation
 	^ self new equation: aWeierstrassEquation! !
 
-!ProjectiveSpace methodsFor: 'operations' stamp: 'len 12/28/2016 11:34:39'!
+!ProjectiveSpace methodsFor: 'operations' stamp: 'len 1/10/2017 20:35:37'!
 affinePatch: i
 	"Answer the i-th affine patch of the receiver."
-	| patches R answer map |
+	| patches answer map |
 	patches _ self propertyAt: #affinePatches ifAbsentPut: [Array new: self rank].
 	(patches at: i) ifNotNil: [:anAffineSpace| ^ anAffineSpace].
-	R _ self coordinateRing.
-	answer _ (R copyWithout: i) spec.
+	answer _ (self coordinateRing copyWithout: i) spec.
 	map _ answer to: self evaluating: [:x| x homogenizedIn: i].
 	answer propertyAt: #projectiveEmbedding put: map.
 	^ patches at: i put: answer! !
@@ -26331,6 +26336,13 @@ rank
 scalars
 	"Answer the base ring of the receiver."
 	^ self coordinateRing scalars! !
+
+!ProjectiveSpace methodsFor: 'operations' stamp: 'len 1/11/2017 09:22:46'!
+subscheme: anObject
+	| I |
+	I _ (anObject isKindOf: Ideal)
+		ifTrue: [anObject] ifFalse: [self coordinateRing * anObject].
+	^ (self coordinateRing / I) proj! !
 
 !ProjectiveSpace methodsFor: 'morphisms' stamp: 'len 1/9/2017 21:31:38'!
 veronese: degree
@@ -27615,12 +27627,12 @@ kernel
 	I _ P * generators eliminateAll: (n+1 to: P rank).
 	^ self propertyAt: #kernel put: A * (I generators collect: [:each| each as: A])! !
 
-!PolynomialRingHomomorphism methodsFor: 'printing' stamp: 'len 11/2/2016 08:01'!
+!PolynomialRingHomomorphism methodsFor: 'printing' stamp: 'len 1/11/2017 07:55:38'!
 printOn: aStream
-	self isIdentity ifTrue: [aStream nextPutAll: 'id'. ^ self].
+"	self isIdentity ifTrue: [aStream nextPutAll: 'id'. ^ self].
 	self negated isIdentity ifTrue: [aStream nextPutAll: '-id'. ^ self].
 	self isZero ifTrue: [aStream nextPut: $0. ^ self].
-	aStream nextPut: $(.
+"	aStream nextPut: $(.
 	(1 to: self domain rank)
 		do: [:i| aStream print: (self value: (self domain x: i))]
 		separatedBy: [aStream nextPutAll: ', '].
@@ -29471,6 +29483,10 @@ size
 	"Answer the number of components of the receiver."
 	^ self codomain ambient rank! !
 
+!RationalMap methodsFor: 'private' stamp: 'len 1/10/2017 18:47:11'!
+species
+	^ RationalMap! !
+
 !RationalMap methodsFor: 'arithmetic' stamp: 'len 1/3/2017 20:50:20'!
 translatedBy: aPoint
 	^ self class from: self domain to: self codomain representatives: self representatives + aPoint! !
@@ -29849,12 +29865,12 @@ hash
 identity
 	^ self notYetImplemented! !
 
-!PolynomialMap methodsFor: 'accessing' stamp: 'len 12/18/2015 23:27'!
+!PolynomialMap methodsFor: 'accessing' stamp: 'len 1/11/2017 08:21:05'!
 jacobian
 	"Answer the Jacobian matrix of the receiver."
 	| R |
 	R _ self components first species.
-	^ R ** (codomain dimension @ domain dimension) evaluating: [:i :j| (components at: i) derivativeIn: j]! !
+	^ R matrix: codomain dimension @ domain dimension evaluating: [:i :j| (components at: i) derivativeIn: j]! !
 
 !PolynomialMap methodsFor: 'operations' stamp: 'len 3/4/2016 07:45'!
 leftInverse
@@ -30356,9 +30372,28 @@ isSingular
 isSmooth
 	^ self codomain isSmoothAt: self coordinates! !
 
+!RationalPoint methodsFor: 'accessing' stamp: 'len 1/10/2017 16:39:42'!
+multiplicity
+	^ self codomain multiplicityAt: self coordinates! !
+
+!RationalPoint methodsFor: 'accessing' stamp: 'len 1/10/2017 16:43:22'!
+neighborhood
+	"Answer an affine patch centered at the receiver."
+	^ self codomain neighborhoodAt: self coordinates! !
+
 !RationalPoint methodsFor: 'accessing' stamp: 'len 11/7/2016 16:25'!
 scalars
 	^ self domain coordinateRing! !
+
+!RationalPoint methodsFor: 'accessing' stamp: 'len 1/10/2017 21:10:30'!
+tangentCone
+	"Answer the tangent cone at this point."
+	^ self codomain tangentConeAt: self coordinates! !
+
+!RationalPoint methodsFor: 'accessing' stamp: 'len 1/10/2017 21:10:08'!
+tangentSpace
+	"Answer the tangent space at this point. Assume the receiver is not singular."
+	^ self codomain tangentSpaceAt: self coordinates! !
 
 !AffinePoint methodsFor: 'arithmetic' stamp: 'len 12/31/2016 21:07:03'!
 + aTuple
@@ -30399,6 +30434,11 @@ hash
 height
 	^ coordinates height! !
 
+!AffinePoint methodsFor: 'converting' stamp: 'len 1/10/2017 20:47:52'!
+homogenized
+	"Answer the corresponding point in the projective closure."
+	^ self codomain projectiveEmbedding value: self! !
+
 !AffinePoint methodsFor: 'accessing' stamp: 'len 11/8/2016 07:15'!
 ideal
 	"Answer the prime ideal defining the receiver."
@@ -30431,21 +30471,6 @@ on: anAffineScheme coordinates: aTuple
 		(coordinates at: i) * y = ((aProjectivePoint coordinates at: i) * x) ifFalse: [^ false]].
 	^ true! !
 
-!ProjectivePoint methodsFor: 'converting' stamp: 'len 11/12/2016 08:56'!
-affinized
-	"Answer the affinization of the receiver."
-	^ self affinizedIn: self coordinates lastNonZero! !
-
-!ProjectivePoint methodsFor: 'converting' stamp: 'len 11/7/2016 13:47'!
-affinizedIn: anInteger
-	"Answer the affinization of the receiver with respect to the anInteger-th coordinate."
-	| scalar |
-	scalar _ coordinates at: anInteger.
-	^ (self codomain affinePatch: anInteger) pointAt:
-		(self scalars
-			tuple: coordinates size - 1
-			evaluating: [:i| (i < anInteger ifTrue: [coordinates at: i] ifFalse: [coordinates at: i + 1]) / scalar])! !
-
 !ProjectivePoint methodsFor: 'converting' stamp: 'len 11/7/2016 13:47'!
 asTuple
 	^ coordinates! !
@@ -30457,6 +30482,21 @@ coordinates
 !ProjectivePoint methodsFor: 'accessing-private' stamp: 'len 11/7/2016 13:17'!
 coordinates: aTuple
 	coordinates _ aTuple! !
+
+!ProjectivePoint methodsFor: 'converting' stamp: 'len 1/10/2017 16:27:26'!
+dehomogenized
+	"Answer the dehomogenization of the receiver."
+	^ self dehomogenizedIn: self coordinates lastNonZero! !
+
+!ProjectivePoint methodsFor: 'converting' stamp: 'len 1/10/2017 16:27:57'!
+dehomogenizedIn: anInteger
+	"Answer the dehomogenization of the receiver with respect to the anInteger-th coordinate."
+	| scalar |
+	scalar _ coordinates at: anInteger.
+	^ (self codomain affinePatch: anInteger) pointAt:
+		(self scalars
+			tuple: coordinates size - 1
+			evaluating: [:i| (i < anInteger ifTrue: [coordinates at: i] ifFalse: [coordinates at: i + 1]) / scalar])! !
 
 !ProjectivePoint methodsFor: 'comparing' stamp: 'len 11/12/2016 08:56'!
 hash
@@ -30497,6 +30537,14 @@ ideal
 	m+1 to: coordinates size do: [:i|
 		generators add: (R x: i)].
 	^ R * generators! !
+
+!ProjectivePoint methodsFor: 'accessing' stamp: 'len 1/10/2017 21:42:42'!
+neighborhood
+	| a answer |
+	a _ self dehomogenized.
+	answer _ a codomain translatedBy: a coordinates negated.
+"	answer propertyAt: #embedding put: (a codomain projectiveEmbedding ” (a codomain ambient translationBy: a coordinates))."
+	^ answer! !
 
 !ProjectivePoint methodsFor: 'printing' stamp: 'len 11/7/2016 14:06'!
 printOn: aStream
@@ -33058,10 +33106,10 @@ affine
 		parallel add: (frame space vectorFromPoint: (frame at: i))].
 	^ AffineSubspace representative: origin direction: parallel span! !
 
-!ProjectiveChart methodsFor: 'coordinates' stamp: 'len 1/3/2016 05:20'!
+!ProjectiveChart methodsFor: 'coordinates' stamp: 'len 1/10/2017 16:28:15'!
 coordinatesOf: aPoint
 	"Answer the coordinates of the argument in the receiver. The argument is a linear subspace of dimension 1."
-	^ (frame coordinatesOf: aPoint) affinizedIn: index! !
+	^ (frame coordinatesOf: aPoint) dehomogenizedIn: index! !
 
 !ProjectiveChart methodsFor: 'accessing' stamp: 'len 1/3/2016 05:22'!
 frame
@@ -34916,15 +34964,6 @@ run
 		(exponents at: i) > (aMonomial at: i) ifTrue: [^ false]].
 	^ true! !
 
-!Monomial methodsFor: 'operations' stamp: 'len 11/22/2016 15:01:22'!
-affinizedIn: anIndeterminate
-	| newExponents |
-	newExponents _ Array new: exponents size.
-	newExponents replaceFrom: 1 to: anIndeterminate - 1 with: exponents startingAt: 1.
-	newExponents replaceFrom: anIndeterminate to: exponents size - 1 with: exponents startingAt: anIndeterminate + 1.
-	newExponents at: exponents size put: 0.
-	^ self species exponents: newExponents! !
-
 !Monomial methodsFor: 'accessing' stamp: 'len 11/21/2016 15:56:16'!
 at: anIndeterminate
 	^ exponents at: anIndeterminate! !
@@ -34963,6 +35002,15 @@ degreeIn: anIndeterminate
 	"Answer the degree of the receiver in the given indeterminate, i.e. the power to which the indeterminate appears in the receiver."
 
 	^ self at: anIndeterminate! !
+
+!Monomial methodsFor: 'operations' stamp: 'len 1/10/2017 16:31:07'!
+dehomogenizedIn: anIndeterminate
+	| newExponents |
+	newExponents _ Array new: exponents size.
+	newExponents replaceFrom: 1 to: anIndeterminate - 1 with: exponents startingAt: 1.
+	newExponents replaceFrom: anIndeterminate to: exponents size - 1 with: exponents startingAt: anIndeterminate + 1.
+	newExponents at: exponents size put: 0.
+	^ self species exponents: newExponents! !
 
 !Monomial methodsFor: 'accessing' stamp: 'len 3/16/2016 20:05'!
 exponents
@@ -35550,11 +35598,6 @@ adaptToNumber: rcvr andSend: selector
 	"If I am involved in arithmetic with a Number, convert it to a Polynomial."
 	^ (self species constant: rcvr) perform: selector with: self! !
 
-!Polynomial methodsFor: 'operations' stamp: 'len 10/21/2016 17:22'!
-affinizedIn: anIndeterminate
-	"Answer the affinization of the receiver in the given indeterminate."
-	^ self monomialsApply: [:each| each affinizedIn: anIndeterminate]! !
-
 !Polynomial methodsFor: 'operations' stamp: 'len 11/28/2016 10:32:53'!
 apply: aMorphism
 	"Answer a new polynomial with coefficients obtainted by applying aMorphism to the coefficients of the receiver. This morphism is a ring homomorphism from the scalars ring.
@@ -35682,6 +35725,11 @@ degreeIn: anIndeterminate
 	"Answer the degree of the receiver in the given indeterminate."
 	self isZero ifTrue: [^ Infinity negative].
 	^ self monomials max: [:each| each degreeIn: anIndeterminate]! !
+
+!Polynomial methodsFor: 'operations' stamp: 'len 1/10/2017 16:29:46'!
+dehomogenizedIn: anIndeterminate
+	"Answer the dehomogenization of the receiver in the given indeterminate."
+	^ self monomialsApply: [:each| each dehomogenizedIn: anIndeterminate]! !
 
 !Polynomial methodsFor: 'arithmetic' stamp: 'len 11/20/2016 15:24:53'!
 divideBy: aPolynomial
