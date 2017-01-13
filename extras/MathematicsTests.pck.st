@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 5 January 2017 at 8:16:16 pm'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 13 January 2017 at 9:24:52 pm'!
 'Description Please enter a description for this package'!
-!provides: 'MathematicsTests' 1 58!
+!provides: 'MathematicsTests' 1 59!
 !classDefinition: #AbelianGroupTest category: #MathematicsTests!
 TestCase subclass: #AbelianGroupTest
 	instanceVariableNames: ''
@@ -904,6 +904,14 @@ tesRingHomomorphismSpec
 	self assert: phi spec codomain = A spec.
 	self assert: phi spec asRingHomomorphism = phi! !
 
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 1/11/2017 14:09:31'!
+testAffinePlaneCurveMultiplicity
+	| A C |
+	A _ AffineSpace new: #(x y) over: QQ.
+	C _ A subscheme: (A coordinateRing generate: [:x :y| y**2 - (x**3)]).
+	self assert: (C multiplicityAt: (1,1)) = 1.
+	self assert: (C multiplicityAt: (0,0)) = 2! !
+
 !AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/12/2016 20:56'!
 testAffineSchemeCreation
 	| A x y z X Y |
@@ -928,7 +936,17 @@ testAffineSpace
 	self assert: A ambient = A.
 	self assert: A coordinateRing spec = A! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/17/2016 22:29'!
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 1/13/2017 17:31:25'!
+testAffineTangentSpace
+	| R C T |
+	R _ QQ polynomialsIn: #(x y).
+	C _ (R / (R generate: [:x :y| x**2 + (y**2) - 1])) spec.
+	T _ C tangentSpaceAt: (1,0).
+	self assert: (T satisfies: (1,0)).
+	self assert: (T satisfies: (1,42)).
+	self assert: T dimension = 1! !
+
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 1/12/2017 15:40:09'!
 testDifference
 	| A x y C X2 D O |
 	A _ AffineSpace new: 2 over: QQ.
@@ -936,12 +954,12 @@ testDifference
 	y _ A coordinateRing y.
 	C _ A subscheme: x * y. "union of x-axis and y-axis"
 	X2 _ A subscheme: x**2. "y-axis with double multiplicity"
-	D _ X2 \ C. "y-axis with multiplicity 1"
+	D _ X2 - C. "y-axis with multiplicity 1"
 	self assert: D ideal = (A coordinateRing * x).
 	O _ A subscheme: {x. y}.
-	D _ C \ O.
+	D _ C - O.
 	self assert: D = C.
-	self assert: (C \ A) isEmpty "removing the ambient space removes all"! !
+	self assert: (C - A) isEmpty "removing the ambient space removes all"! !
 
 !AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/25/2016 14:09'!
 testEllipticCurvesAreSmooth
@@ -963,9 +981,10 @@ testEmpty
 	X _ A / {A continuantOfOrder: 2. A continuantOfOrder: 3} :: spec.
 	self assert: X isEmpty! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/15/2016 10:05'!
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 1/13/2017 17:28:11'!
 testEqualVarietiesDifferentIdeals
 	| A x I I` V V` |
+	self notYetImplemented.
 	A _ QQ polynomials.
 	x _ A x.
 	I _ A * {x}.
@@ -997,7 +1016,7 @@ testFinite
 	X _ A / {x*x - 1. y*y - (x*x) - 3} :: spec.
 	self assert: X isFinite! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 12/8/2016 20:27:25'!
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 1/13/2017 17:28:49'!
 testIntersection
 	| A x y V V` W |
 	A _ QQ polynomialsIn: #(x y).
@@ -1006,17 +1025,17 @@ testIntersection
 	V _ A / {y} :: spec.
 	V` _ A / {x*x - 1} :: spec.
 	W _ V • V`.
-	self assert: (W includes: (1, 0)).
-	self assert: (W includes: (0, 1)) not! !
+	self assert: (W satisfies: (1, 0)).
+	self assert: (W satisfies: (0, 1)) not! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/21/2016 21:45'!
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 1/13/2017 17:29:15'!
 testLinearSubspaceAsAlgebraicVariety
 	| S V |
 	S _ QQ ** 3 grassmannian: 2 :: atRandomBits: 10.
 	V _ S asAlgebraicVariety.
 	self assert: V dimension + 1 = S dimension. "because it's projective"
-	self assert: (V includes: (S e: 1)).
-	self assert: (V includes: (S e: 2))! !
+	self assert: (V satisfies: (S e: 1)).
+	self assert: (V satisfies: (S e: 2))! !
 
 !AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/15/2016 09:57'!
 testNotEmpty
@@ -1036,7 +1055,7 @@ testNotFinite
 	X _ A / {y*y - (x*x) - 3} :: spec.
 	self assert: X isFinite not! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 11/1/2016 05:24'!
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 1/12/2017 14:44:51'!
 testProjectiveClosure
 	"From Magma Handbook example Scheme_projective-closure (H118E23)."
 	| A1 u v X PX X2 |
@@ -1045,8 +1064,8 @@ testProjectiveClosure
 	v _ A1 coordinateRing x: #v.
 	X _ A1 subscheme: u**2 - (v**5).
 	PX _ X projectiveClosure.
-	self assert: (PX affinePatch: 3) = X.
-	X2 _ PX affinePatch: 2.
+	self assert: (PX patch: 3) = X.
+	X2 _ PX patch: 2.
 	self assert: X2 projectiveClosure = X projectiveClosure! !
 
 !AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 11/1/2016 05:31'!
@@ -1086,6 +1105,18 @@ testProjectivePlaneOverFiniteField
 	P _ ProjectiveSpace new: 2 over: ZZ/5.
 	self assert: P points size = 31.
 	self assert: (Iterator on: P points performing: #do:) size = 31! !
+
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 1/12/2017 14:45:07'!
+testProjectiveSchemeAffinePatches
+	| E p a |
+	E _ EllipticCurve cremona37a.
+	p _ E !! (2,-3).
+	a _ p dehomogenizedIn: 2.
+	"the affine point is in the second standard affine patch:"
+	self assert: (E patch: 2) == a codomain.
+	"and when we homogenize again, the same projective embedding is used and come back to the same projective point on exactly the same projective curve:"
+	self assert: a homogenized = p.
+	self assert: a homogenized codomain == E! !
 
 !AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/18/2016 20:58'!
 testProjectiveSpace
@@ -1151,6 +1182,21 @@ testRationalMapAffineExample
 	self assert: phiInv isDominant.
 "	self assert: phiInv isSurjective not"! !
 
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 1/13/2017 21:19:54'!
+testRationalMapImage
+	| A X X` f |
+	A _ AffineSpace new: #(x y) over: QQ.
+	"circle centered at (0,0):"
+	X _ A subscheme: (A coordinateRing generate: [:x :y| x**2 + (y**2) - 1]).
+	"circle centered at: (1,2):"
+	X` _ A subscheme: (A coordinateRing generate: [:x :y| (x-1)**2 + ((y-2)**2) - 1]).
+	"translation by (1,2):"
+	f _ X to: A evaluatingWithArguments: [:x :y| {x+1. y+2}].
+	self assert: f image = X`.
+	"global translation by (1,2):"
+	f _ A to: A evaluatingWithArguments: [:x :y| {x+1. y+2}].
+	self assert: (X apply: f) = X`! !
+
 !AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 11/7/2016 14:00'!
 testRationalMapLinearMapConversion
 	| A2 A3 V2 V3 f f` p f`` |
@@ -1201,14 +1247,13 @@ testSingularCubics
 	C _ R / (x**3 + (x**2) - (y**2) homogenizedIn: 3) :: proj.
 	self assert: C isSingular! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 11/1/2016 18:49'!
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 1/13/2017 16:54:20'!
 testSmoothness
 	| R C |
 	R _ QQ polynomialsIn: #(x y).
 	"cuspidal curve:"
 	C _ (R / (R evaluating: [:x :y| y**2 - (x**3)])) spec.
 	self assert: C isSmooth not.
-	self assert: C isNonsingular not.
 	self assert: C isSingular.
 	self assert: (C isSmoothAt: (1,1)).
 	self assert: (C isSmoothAt: (0,0)) not! !
@@ -1246,8 +1291,17 @@ testSmoothnessOverQQ
 	C _ P subscheme: (P coordinateRing evaluating: [:x :y :z| x**3 - (y**2*z)]).
 	self assert: C isSingular! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 12/8/2016 20:32:51'!
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 1/13/2017 20:22:42'!
 testSpecZ
+	self assert: ZZ spec dimension = 1.
+	self assert: ZZ spec isNoetherian.
+	self assert: (ZZ spec includes: ZZ*5).
+	self deny: (ZZ spec includes: ZZ*6).
+	self assert: ZZ spec isInitial not.
+	self assert: ZZ spec isTerminal! !
+
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 1/13/2017 20:13:41'!
+testSpecZSubschemes
 	self assert: ZZ spec >= (ZZ / 2) spec.
 	self assert: (ZZ / 10) spec >= (ZZ / 5) spec.
 	self deny: (ZZ / 10) spec >= (ZZ / 3) spec.
@@ -4088,6 +4142,13 @@ testPAdicNorm
 	x _ x * 4.
 	self assert: x valuation = 2.
 	self assert: x norm = (1/4)! !
+
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 1/9/2017 21:38:34'!
+testAllMonomialsOfDegree
+	| d n |
+	n _ 5 atRandom.
+	d _ 5 atRandom.
+	self assert: (ZZ polynomialsIn: n :: allMonomialsOfDegree: d) size = (n+d-1 choose: d)! !
 
 !PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:08'!
 testArithmetic
