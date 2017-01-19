@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 17 January 2017 at 11:17:03 am'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 19 January 2017 at 8:44:06 pm'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 336!
+!provides: 'Mathematics' 1 337!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
 	instanceVariableNames: 'numerator shift'
@@ -101,14 +101,14 @@ SequenceableCollection subclass: #LinearBasis
 LinearBasis class
 	instanceVariableNames: ''!
 
-!classDefinition: #GroebnerBasis category: #'Mathematics-Polynomials'!
-SequenceableCollection subclass: #GroebnerBasis
+!classDefinition: #StandardBasis category: #'Mathematics-Polynomials'!
+SequenceableCollection subclass: #StandardBasis
 	instanceVariableNames: 'polynomials isMinimal'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Polynomials'!
-!classDefinition: 'GroebnerBasis class' category: #'Mathematics-Polynomials'!
-GroebnerBasis class
+!classDefinition: 'StandardBasis class' category: #'Mathematics-Polynomials'!
+StandardBasis class
 	instanceVariableNames: ''!
 
 !classDefinition: #LinearBasis2 category: #'Mathematics-Etc-Modules-Bases'!
@@ -1511,16 +1511,6 @@ Ring subclass: #PowerSeriesRing
 PowerSeriesRing class
 	instanceVariableNames: ''!
 
-!classDefinition: #LocalAffineRing category: #'Mathematics-Schemes-Affine-Rings'!
-Ring subclass: #LocalAffineRing
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Schemes-Affine-Rings'!
-!classDefinition: 'LocalAffineRing class' category: #'Mathematics-Schemes-Affine-Rings'!
-LocalAffineRing class
-	instanceVariableNames: ''!
-
 !classDefinition: #SymmetricPolynomialRing category: #'Mathematics-Etc'!
 Ring subclass: #SymmetricPolynomialRing
 	instanceVariableNames: 'polynomials'
@@ -1599,16 +1589,6 @@ PolynomialIdeal subclass: #MonomialIdeal
 	category: 'Mathematics-Polynomials'!
 !classDefinition: 'MonomialIdeal class' category: #'Mathematics-Polynomials'!
 MonomialIdeal class
-	instanceVariableNames: ''!
-
-!classDefinition: #AffineIdeal category: #'Mathematics-Schemes-Affine-Rings'!
-Ideal subclass: #AffineIdeal
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Schemes-Affine-Rings'!
-!classDefinition: 'AffineIdeal class' category: #'Mathematics-Schemes-Affine-Rings'!
-AffineIdeal class
 	instanceVariableNames: ''!
 
 !classDefinition: #FreeModule category: #'Mathematics-Modules'!
@@ -1921,8 +1901,18 @@ Domain subclass: #Scheme
 Scheme class
 	instanceVariableNames: ''!
 
+!classDefinition: #Spectrum category: #'Mathematics-Schemes'!
+Scheme subclass: #Spectrum
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Schemes'!
+!classDefinition: 'Spectrum class' category: #'Mathematics-Schemes'!
+Spectrum class
+	instanceVariableNames: ''!
+
 !classDefinition: #AffineScheme category: #'Mathematics-Schemes-Affine'!
-Scheme subclass: #AffineScheme
+Spectrum subclass: #AffineScheme
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
@@ -1931,28 +1921,8 @@ Scheme subclass: #AffineScheme
 AffineScheme class
 	instanceVariableNames: ''!
 
-!classDefinition: #AffineBasicOpenSubscheme category: #'Mathematics-Schemes-Affine'!
-AffineScheme subclass: #AffineBasicOpenSubscheme
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Schemes-Affine'!
-!classDefinition: 'AffineBasicOpenSubscheme class' category: #'Mathematics-Schemes-Affine'!
-AffineBasicOpenSubscheme class
-	instanceVariableNames: ''!
-
-!classDefinition: #AffineClosedSubscheme category: #'Mathematics-Schemes-Affine'!
-AffineScheme subclass: #AffineClosedSubscheme
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Schemes-Affine'!
-!classDefinition: 'AffineClosedSubscheme class' category: #'Mathematics-Schemes-Affine'!
-AffineClosedSubscheme class
-	instanceVariableNames: ''!
-
 !classDefinition: #AffineCurve category: #'Mathematics-Schemes-Affine'!
-AffineClosedSubscheme subclass: #AffineCurve
+AffineScheme subclass: #AffineCurve
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
@@ -1962,7 +1932,7 @@ AffineCurve class
 	instanceVariableNames: ''!
 
 !classDefinition: #AffineHypersurface category: #'Mathematics-Schemes-Affine'!
-AffineClosedSubscheme subclass: #AffineHypersurface
+AffineScheme subclass: #AffineHypersurface
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
@@ -1982,7 +1952,7 @@ AffinePlaneCurve class
 	instanceVariableNames: ''!
 
 !classDefinition: #AffineSpace category: #'Mathematics-Schemes-Affine'!
-AffineClosedSubscheme subclass: #AffineSpace
+AffineScheme subclass: #AffineSpace
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
@@ -2771,14 +2741,14 @@ ResidueClass subclass: #ExtensionFieldElement
 ExtensionFieldElement class
 	instanceVariableNames: ''!
 
-!classDefinition: #PolynomialFunction category: #'Mathematics-Schemes-Affine-Rings'!
-ResidueClass subclass: #PolynomialFunction
+!classDefinition: #RegularFunction category: #'Mathematics-Schemes-Affine-Rings'!
+ResidueClass subclass: #RegularFunction
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Schemes-Affine-Rings'!
-!classDefinition: 'PolynomialFunction class' category: #'Mathematics-Schemes-Affine-Rings'!
-PolynomialFunction class
+!classDefinition: 'RegularFunction class' category: #'Mathematics-Schemes-Affine-Rings'!
+RegularFunction class
 	instanceVariableNames: ''!
 
 !classDefinition: #AlgebraicNumber category: #'Mathematics-Fields-Algebraic'!
@@ -3131,24 +3101,34 @@ MonomialOrdering subclass: #LexicographicOrdering
 LexicographicOrdering class
 	instanceVariableNames: ''!
 
-!classDefinition: #ReverseLexicographicOrdering category: #'Mathematics-Monomials-Orderings'!
-MonomialOrdering subclass: #ReverseLexicographicOrdering
+!classDefinition: #LocalLexicographicOrdering category: #'Mathematics-Monomials-Orderings'!
+MonomialOrdering subclass: #LocalLexicographicOrdering
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Monomials-Orderings'!
-!classDefinition: 'ReverseLexicographicOrdering class' category: #'Mathematics-Monomials-Orderings'!
-ReverseLexicographicOrdering class
+!classDefinition: 'LocalLexicographicOrdering class' category: #'Mathematics-Monomials-Orderings'!
+LocalLexicographicOrdering class
 	instanceVariableNames: ''!
 
-!classDefinition: #TotalInverseLexicographicOrdering category: #'Mathematics-Monomials-Orderings'!
-MonomialOrdering subclass: #TotalInverseLexicographicOrdering
+!classDefinition: #LocalTotalLexicographicOrdering category: #'Mathematics-Monomials-Orderings'!
+MonomialOrdering subclass: #LocalTotalLexicographicOrdering
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Monomials-Orderings'!
-!classDefinition: 'TotalInverseLexicographicOrdering class' category: #'Mathematics-Monomials-Orderings'!
-TotalInverseLexicographicOrdering class
+!classDefinition: 'LocalTotalLexicographicOrdering class' category: #'Mathematics-Monomials-Orderings'!
+LocalTotalLexicographicOrdering class
+	instanceVariableNames: ''!
+
+!classDefinition: #LocalTotalReverseLexicographicOrdering category: #'Mathematics-Monomials-Orderings'!
+MonomialOrdering subclass: #LocalTotalReverseLexicographicOrdering
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Monomials-Orderings'!
+!classDefinition: 'LocalTotalReverseLexicographicOrdering class' category: #'Mathematics-Monomials-Orderings'!
+LocalTotalReverseLexicographicOrdering class
 	instanceVariableNames: ''!
 
 !classDefinition: #TotalLexicographicOrdering category: #'Mathematics-Monomials-Orderings'!
@@ -3967,22 +3947,14 @@ Example:
 	V _ QQ ** 3.
 	LinearBasis on: V generators: {(1, 2, 3). (3, 2, 3). (2, 0, 0)}!
 
-!GroebnerBasis commentStamp: '<historical>' prior: 0!
-My instances are Groebner bases.
+!StandardBasis commentStamp: '<historical>' prior: 0!
+My instances are standard bases of polynomial ideals. A standard basis is nothing but a special set of generators with the property that the leading monomials generate the leading ideal.
 
-Let polynomials f1..fm in F[x1,..,xn] and define an ideal I = <f1,...,fm>. For a fixed monomial ordering, a subset G = {g1,...,gm} of I is called a Groebner basis for I if every f in I is reducible by G, i.e. there exists g in G such that its leading monomial lm(g) divides lm(f).
+When the choosen monomial ordering is global (a well-ordering), these are Groebner bases, and they can be computed with Buchberger's algorithm. 
 
-When all fi's are linear, then a Groebner basis corresponds to "row echelon form" or "triangular system.". When they are univariate, then a Groebner basis corresponds to gcd(f1,...,fm). In general, a Groebner basis for an ideal I consists of all the "smallest polynomials" in I under the given monomial ordering.
- 
-Example:
-	| Qxy x y grlex f1 f2 |
-	Qxy _ QQ polynomialsIn: #(1 2).
-	x _ Qxy x.
-	y _ Qxy y.
-	grlex _ MonomialOrdering tlex: #(1 2).
-	f1 _ x**3 - (2*x*y).
-	f2 _ x**2*y - (2*y*y) + x.
-	GroebnerBasis from: {f1. f2} ordering: grlex
+For a fixed monomial ordering, a subset G = {g1,...,gm} of ideal I = <f1,...,fm> is called a Groebner basis for I if every f in I is reducible by G, i.e. there exists g in G such that its leading monomial LM(g) divides LM(f).
+
+When all generators {f1,...,fm} are linear, a Groebner basis corresponds to "row echelon form" or "triangular system"; when they are univariate, then a Groebner basis corresponds to gcd(f1,...,fm). In general, a Groebner basis for an ideal I consists of all the "smallest polynomials" in I under the given monomial ordering.
 !
 
 !LinearBasis2 commentStamp: '<historical>' prior: 0!
@@ -4722,19 +4694,18 @@ References:
 	https://en.wikipedia.org/wiki/Polynomial_code
 !
 
-!Scheme commentStamp: 'len 1/15/2017 21:24:12' prior: 0!
+!Scheme commentStamp: '<historical>' prior: 0!
 My instances are schemes. Subclasses implement particular kinds of schemes.
 
-The most important examples are closed subschemes of an affine or projective ambient space, defined by polynomial equations. See subclasses for particular kinds of schemes, and ambient spaces AffineSpace and ProjectiveSpace. Their morphisms are rational maps (see RationalMap). See also RationalPoint and subclasses.!
+An important class of schemes are those defined by polynomial equations in some ambient space. See subclasses AffineScheme and ProjectiveScheme, which are closed subschemes of an affine or projective space. Their morphisms are rational maps (see RationalMap). See also RationalPoint and subclasses.!
+
+!Spectrum commentStamp: '<historical>' prior: 0!
+My instances are affine schemes Spec R, i.e. the prime spectrum of an arbitrary commutative ring R. As a set, their elements are the prime ideals of the coordinate rings.!
 
 !AffineScheme commentStamp: '<historical>' prior: 0!
-My instances are affine schemes Spec R, i.e. the prime spectrum of an arbitrary commutative ring R. As a set, its elements are the prime ideals of the coordinate ring R.!
-
-!AffineBasicOpenSubscheme commentStamp: '<historical>' prior: 0!
-My instances are basic open sets (also called distinguished open sets) of an affine space. Their coordinate rings are localizations of a multivariate polynomial ring (the coordinate ring of the ambient space) at a polynomial.!
-
-!AffineClosedSubscheme commentStamp: '<historical>' prior: 0!
 My instances are closed subschemes of an affine space (see AffineSpace). Their coordinate rings are quotients of multivariate polynomial rings by an ideal (also called affine algebras, see AffineAlgebra).
+
+More generally, an affine scheme is any scheme that is the prime spectrum of an arbitrary commutative ring, but here we call that Spectrum and use AffineScheme to refer to closed subchemes of an affine space.
 
 The integral (reduced and irreducible) closed subschemes of affine space over an algebraically closed field are the classical affine algebraic varieties.
 
@@ -4768,7 +4739,7 @@ Or equivalently:
 
 Note that affine spaces defined as schemes differ from the classical affine spaces defined as 'vector spaces that have forgotten the origin'. The morphisms of this affine space are of course morphisms of schemes, not just the classical (linear) affine transformations. See AffineLinearSpace.
 
-Note also that the dimension of an affine space as scheme is the Krull dimension of its coordinate ring, and this can be bigger than the number of indeterminates (see >>rank). For affine spaces over fields, the dimension and the rank are equal (because fields have Krull dimension 0).!
+Note also that the dimension of an affine space as scheme is the Krull dimension of its coordinate ring, and this can be bigger than the number of indeterminates (see >>dimension and >>rank). For affine spaces over fields, the dimension and the rank are equal (because fields have Krull dimension 0).!
 
 !ProjectiveScheme commentStamp: '<historical>' prior: 0!
 My instances are projective closed subschemes of a projective space (see ProjectiveSpace). Their homogeneous coordinate rings are quotient rings of multivariate polynomial rings by a homogeneous ideal, i.e. graded affine algebras.!
@@ -5095,6 +5066,9 @@ My instances are residue classes of integers modulo an integer m, i.e. elements 
 !ExtensionFieldElement commentStamp: '<historical>' prior: 0!
 My instances are elements of finite algebraic field extensions. See ExtensionField.!
 
+!RegularFunction commentStamp: '<historical>' prior: 0!
+My instances are regular functions of a closed subscheme of affine or projective space, i.e. elements of the coordinate ring of the scheme. They are implemented as residue classes of polynomials modulo an ideal, i.e. elements of the quotient polynomial ring (see AffineAlgebra) that represents the coordinate ring of the scheme.!
+
 !AlgebraicNumber commentStamp: '<historical>' prior: 0!
 My instances are complex algebraic numbers, i.e. zeroes of polynomials with integer coefficients.
 
@@ -5178,7 +5152,7 @@ My instances are (commutative) power products of one or many variables. They for
 !MonomialOrdering commentStamp: '<historical>' prior: 0!
 My instances are monomial orderings.
 
-A monomial ordering is a total order on the set of all monomials in a given polynomial ring, satisfying the properties:
+A monomial ordering is a total order on the set of all monomials in n indeterminates, satisfying the properties:
 - respects multiplication: if u <= v, then u*w <= v*w for any other monomial w;
 - 1 <= u for any monomial u.
 
@@ -5191,6 +5165,15 @@ The lexicographic ordering is the 'dictionary' ordering.
 The lexicographic ordering has the property that for each subring S[x1..xn] <= R, and each polynomial f in R, f is in S iff its leading monomial is in S.
 
 Elimination by the lexicographic ordering produces elements of an ideal which are free of the first variable.!
+
+!LocalLexicographicOrdering commentStamp: '<historical>' prior: 0!
+The local lexicographic order (llex) is the negation of the global lexicographic order.!
+
+!LocalTotalLexicographicOrdering commentStamp: '<historical>' prior: 0!
+The local total lexicographic order (ltlex) is the negation of the global total lexicographic order (tlex).!
+
+!LocalTotalReverseLexicographicOrdering commentStamp: '<historical>' prior: 0!
+The local total reverse lexicographic order (ltrevlex) is the negation of the global total reverse lexicographic order (trevlex).!
 
 !TotalLexicographicOrdering commentStamp: '<historical>' prior: 0!
 The total (or graded) lexicographic ordering first compares the total degree of the monomials, and takes the monomial with largest total degree. If two monomials have the same total degree, the lexicographic ordering is used to break the tie.
@@ -5234,6 +5217,11 @@ My instances are multivariate polynomials in sparse (or distributed) representat
 
 !UnivariatePolynomial commentStamp: '<historical>' prior: 0!
 My instances are univariate polynomials in dense representation. The coefficients of a dense polynomial are stored as a Tuple indexed by degree (the first element of the coefficients tuple corresponds to the independent coefficient of the polynomial).!
+
+!ExtendedBuchberger commentStamp: '<historical>' prior: 0!
+This is the extended (and improved) Buchberger algorithm. Given generators {f1,...,fs}, in addition to a Groebner basis {g1,...,gr} it also computes a matrix A such that:
+	(g1,...,gr) = A * (f1,...,fs).
+!
 
 !MultiPolynomialDivision commentStamp: '<historical>' prior: 0!
 I am the multivariate polynomial division algorithm for polynomials over a field.
@@ -7769,55 +7757,55 @@ on: aFreeModule generators: aCollection
 on: aFreeModule matrix: aMatrix
 	^ self on: aFreeModule generators: (aMatrix rows collect: [:each| aFreeModule elementAt: each])! !
 
-!GroebnerBasis methodsFor: 'accessing' stamp: 'len 11/20/2015 05:09'!
+!StandardBasis methodsFor: 'accessing' stamp: 'len 11/20/2015 05:09'!
 add: aPolynomial
 	^ polynomials add: aPolynomial! !
 
-!GroebnerBasis methodsFor: 'accessing' stamp: 'len 11/20/2015 05:09'!
+!StandardBasis methodsFor: 'accessing' stamp: 'len 11/20/2015 05:09'!
 addAll: aCollection
 	^ polynomials addAll: aCollection! !
 
-!GroebnerBasis methodsFor: 'enumerating' stamp: 'len 7/8/2016 20:57'!
+!StandardBasis methodsFor: 'enumerating' stamp: 'len 7/8/2016 20:57'!
 apply: aMorphism
 	| answer |
 	answer _ self copyEmpty.
 	self do: [:each| answer add: (aMorphism value: each)].
 	^ answer! !
 
-!GroebnerBasis methodsFor: 'accessing' stamp: 'len 11/20/2015 05:58'!
+!StandardBasis methodsFor: 'accessing' stamp: 'len 11/20/2015 05:58'!
 at: anInteger
 	^ polynomials at: anInteger! !
 
-!GroebnerBasis methodsFor: 'operations' stamp: 'len 11/20/2016 15:24:03'!
+!StandardBasis methodsFor: 'operations' stamp: 'len 11/20/2016 15:24:03'!
 coordinatesOf: aPolynomial
 	^ (MultiPolynomialDivision divide: aPolynomial by: self) quotients! !
 
-!GroebnerBasis methodsFor: 'copying' stamp: 'len 11/20/2016 15:27:46'!
+!StandardBasis methodsFor: 'copying' stamp: 'len 11/20/2016 15:27:46'!
 copy
 	"Answer a copy of the reciever."
 	^ self class new polynomials: polynomials copy; isMinimal: isMinimal! !
 
-!GroebnerBasis methodsFor: 'copying' stamp: 'len 11/20/2016 15:32:11'!
+!StandardBasis methodsFor: 'copying' stamp: 'len 11/20/2016 15:32:11'!
 copyEmpty
 	^ self class new! !
 
-!GroebnerBasis methodsFor: 'copying' stamp: 'len 11/20/2016 15:28:43'!
+!StandardBasis methodsFor: 'copying' stamp: 'len 11/20/2016 15:28:43'!
 copyWithout: aPolynomial
 	^ self class new polynomials: (polynomials copyWithout: aPolynomial)! !
 
-!GroebnerBasis methodsFor: 'enumerating' stamp: 'len 11/20/2015 05:20'!
+!StandardBasis methodsFor: 'enumerating' stamp: 'len 11/20/2015 05:20'!
 do: aBlock
 	polynomials do: aBlock! !
 
-!GroebnerBasis methodsFor: 'accessing' stamp: 'len 11/21/2015 00:10'!
+!StandardBasis methodsFor: 'accessing' stamp: 'len 11/21/2015 00:10'!
 first
 	^ self at: 1! !
 
-!GroebnerBasis methodsFor: 'accessing' stamp: 'len 11/20/2016 15:29:07'!
+!StandardBasis methodsFor: 'accessing' stamp: 'len 11/20/2016 15:29:07'!
 indeterminates
 	^ self anyOne species indeterminates! !
 
-!GroebnerBasis methodsFor: 'operations' stamp: 'len 11/20/2016 15:27:35'!
+!StandardBasis methodsFor: 'operations' stamp: 'len 11/20/2016 15:27:35'!
 initial
 	"Answer the Groebner basis made of all leading monomials of polynomials in the receiver."
 	| answer |
@@ -7825,14 +7813,14 @@ initial
 	self do: [:each| | lt | lt _ each leadingTerm. (answer reduces: lt) ifFalse: [answer add: lt]].
 	^ answer! !
 
-!GroebnerBasis methodsFor: 'initialization' stamp: 'len 11/24/2016 11:16:14'!
+!StandardBasis methodsFor: 'initialization' stamp: 'len 11/24/2016 11:16:14'!
 initialize
 "	polynomials _ SortedCollection sortBlock: [:a :b| a degree <= b degree]."
 "	polynomials _ SortedCollection sortBlock: [:a :b| a leadingMonomial <= b leadingMonomial]."
 	polynomials _ OrderedCollection new.
 	isMinimal _ false! !
 
-!GroebnerBasis methodsFor: 'testing' stamp: 'len 11/20/2016 11:07:31'!
+!StandardBasis methodsFor: 'testing' stamp: 'len 11/20/2016 11:07:31'!
 isMinimal
 	"A Groebner basis G is minimal when for all p in G:
 	1. LC(p) = 1;
@@ -7846,11 +7834,11 @@ isMinimal
 				ifTrue: [^ false]].
 	^ true! !
 
-!GroebnerBasis methodsFor: 'accessing-private' stamp: 'len 11/24/2015 00:04'!
+!StandardBasis methodsFor: 'accessing-private' stamp: 'len 11/24/2015 00:04'!
 isMinimal: aBoolean
 	isMinimal _ aBoolean! !
 
-!GroebnerBasis methodsFor: 'testing' stamp: 'len 11/20/2016 11:07:52'!
+!StandardBasis methodsFor: 'testing' stamp: 'len 11/20/2016 11:07:52'!
 isReduced
 	"A Groebner basis G is reduced when for all p in G:
 	1. LC(p) = 1;
@@ -7864,13 +7852,13 @@ isReduced
 		each terms do: [:other| (subBasis reduces: other) ifTrue: [^ false]]].
 	^ true! !
 
-!GroebnerBasis methodsFor: 'testing' stamp: 'len 6/3/2016 04:17'!
+!StandardBasis methodsFor: 'testing' stamp: 'len 6/3/2016 04:17'!
 isTrivial
 	"Answer true if the basis is {1}."
 	^ polynomials size = 1 and: [polynomials first isConstant and: [polynomials first isMonic]]
 "	^ polynomials anySatisfy: [:f| f isConstant]"! !
 
-!GroebnerBasis methodsFor: 'operations' stamp: 'len 11/20/2016 15:27:58'!
+!StandardBasis methodsFor: 'operations' stamp: 'len 11/20/2016 15:27:58'!
 minimal
 	"Answer the minimal Groebner basis of the receiver."
 	| heads goods answer |
@@ -7885,26 +7873,26 @@ minimal
 	answer isMinimal: true.
 	^ answer! !
 
-!GroebnerBasis methodsFor: 'accessing' stamp: 'len 11/20/2016 15:31:37'!
+!StandardBasis methodsFor: 'accessing' stamp: 'len 11/20/2016 15:31:37'!
 ordering
 	"Answer the monomial ordering of the receiver."
 	^ self anyOne species ordering! !
 
-!GroebnerBasis methodsFor: 'operations' stamp: 'len 6/22/2016 03:52'!
+!StandardBasis methodsFor: 'operations' stamp: 'len 6/22/2016 03:52'!
 polynomialAt: aTuple
 	^ (1 to: aTuple size) sum: [:i| (self at: i) * (aTuple at: i)]! !
 
-!GroebnerBasis methodsFor: 'accessing-private' stamp: 'len 11/23/2015 23:51'!
+!StandardBasis methodsFor: 'accessing-private' stamp: 'len 11/23/2015 23:51'!
 polynomials: aCollection
 	polynomials _ aCollection! !
 
-!GroebnerBasis methodsFor: 'printing' stamp: 'len 11/24/2015 07:18'!
+!StandardBasis methodsFor: 'printing' stamp: 'len 11/24/2015 07:18'!
 printOn: aStream
 	aStream nextPut: ${.
 	polynomials do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: '. '].
 	aStream nextPut: $}! !
 
-!GroebnerBasis methodsFor: 'operations' stamp: 'len 11/20/2016 15:23:41'!
+!StandardBasis methodsFor: 'operations' stamp: 'len 11/20/2016 15:23:41'!
 reduce: aPolynomial 
 	"Answer the remainder of the argument when divided by the receiver."
 	| division |
@@ -7912,26 +7900,26 @@ reduce: aPolynomial
 "	division verify ifFalse: [self halt]."
 	^ division remainder! !
 
-!GroebnerBasis methodsFor: 'operations' stamp: 'len 7/7/2016 21:02'!
+!StandardBasis methodsFor: 'operations' stamp: 'len 7/7/2016 21:02'!
 reduced
 	| minimal |
 	minimal _ self minimal.
 	minimal isReduced ifFalse: [self halt].
 	^ minimal! !
 
-!GroebnerBasis methodsFor: 'testing' stamp: 'len 10/29/2016 16:36'!
+!StandardBasis methodsFor: 'testing' stamp: 'len 10/29/2016 16:36'!
 reduces: aPolynomial
 	^ (self reduce: aPolynomial) isZero! !
 
-!GroebnerBasis methodsFor: 'accessing' stamp: 'len 11/20/2015 05:10'!
+!StandardBasis methodsFor: 'accessing' stamp: 'len 11/20/2015 05:10'!
 size
 	^ polynomials size! !
 
-!GroebnerBasis methodsFor: 'private' stamp: 'len 3/6/2016 20:37'!
+!StandardBasis methodsFor: 'private' stamp: 'len 3/6/2016 20:37'!
 species
 	^ Array! !
 
-!GroebnerBasis methodsFor: 'private' stamp: 'len 11/20/2016 15:28:33'!
+!StandardBasis methodsFor: 'private' stamp: 'len 11/20/2016 15:28:33'!
 verify
 	1 to: self size do: [:i|
 		| fi hi ci |
@@ -7948,7 +7936,7 @@ verify
 				ifFalse: [^ false halt]]].
 	^ true! !
 
-!GroebnerBasis class methodsFor: 'instance creation' stamp: 'len 11/30/2016 14:43:41'!
+!StandardBasis class methodsFor: 'instance creation' stamp: 'len 11/30/2016 14:43:41'!
 from2: aCollection
 	"Buchberger algorithm.
 	Answer a Groebner basis obtainded from the given polynomials with the specified ordering."
@@ -7982,7 +7970,7 @@ from2: aCollection
 "	G verify ifFalse: [self halt]."
 	^ G! !
 
-!GroebnerBasis class methodsFor: 'instance creation' stamp: 'len 11/30/2016 14:45:57'!
+!StandardBasis class methodsFor: 'instance creation' stamp: 'len 11/30/2016 14:45:57'!
 from2: aCollection ordering: aMonomialOrdering 
 	"Buchberger algorithm.
 	Answer a Groebner basis obtainded from the given polynomials and ordering."
@@ -8011,7 +7999,7 @@ from2: aCollection ordering: aMonomialOrdering
 			newPolynomials allButFirstDo: [:each| (basis reduce: each) isZero ifFalse: [basis add: each]]].
 	^ basis! !
 
-!GroebnerBasis class methodsFor: 'instance creation' stamp: 'len 11/30/2016 14:46:00'!
+!StandardBasis class methodsFor: 'instance creation' stamp: 'len 11/30/2016 14:46:00'!
 from3: aCollection ordering: aMonomialOrdering 
 	"Answer a new instance of the receiver representing a Groebner basis obtainded from aCollection of polynomials operating with the ordering aMonomialOrdering."
 	| basis fi hi ci fk hk ck lcm rem heads start i |
@@ -8033,7 +8021,7 @@ from3: aCollection ordering: aMonomialOrdering
 			rem isZero ifFalse: ["Display fill: (i@k*4 extent: 3@3) fillColor: Color yellow." basis add: rem]]]].
 	^ basis! !
 
-!GroebnerBasis class methodsFor: 'instance creation' stamp: 'len 11/30/2016 14:46:04'!
+!StandardBasis class methodsFor: 'instance creation' stamp: 'len 11/30/2016 14:46:04'!
 from4: aCollection ordering: aMonomialOrdering 
 	"Buchberger algorithm.
 	Answer a Groebner basis obtainded from the given polynomials and ordering."
@@ -8063,7 +8051,7 @@ from4: aCollection ordering: aMonomialOrdering
 			newPolynomials allButFirstDo: [:each| (basis reduce: each) isZero ifFalse: [basis add: each]]].
 	^ basis! !
 
-!GroebnerBasis class methodsFor: 'instance creation' stamp: 'len 11/30/2016 14:43:45'!
+!StandardBasis class methodsFor: 'instance creation' stamp: 'len 11/30/2016 14:43:45'!
 from5: aCollection ordering: aMonomialOrdering 
 	"Buchberger algorithm.
 	Answer a Groebner basis obtainded from the given polynomials and ordering."
@@ -8096,13 +8084,13 @@ from5: aCollection ordering: aMonomialOrdering
 "	G verify ifFalse: [self halt]."
 	^ G! !
 
-!GroebnerBasis class methodsFor: 'instance creation' stamp: 'len 11/24/2016 11:52:11'!
+!StandardBasis class methodsFor: 'instance creation' stamp: 'len 11/24/2016 11:52:11'!
 from: aCollection
 	"Buchberger algorithm.
 	Answer a Groebner basis obtainded from the given polynomials with the specified ordering."
 	^ self new addAll: (Buchberger new generators: aCollection; basis); yourself! !
 
-!GroebnerBasis class methodsFor: 'instance creation' stamp: 'len 11/30/2016 14:43:49'!
+!StandardBasis class methodsFor: 'instance creation' stamp: 'len 11/30/2016 14:43:49'!
 fromOld: aCollection
 	"Buchberger algorithm.
 	Answer a Groebner basis obtainded from the given polynomials with the specified ordering."
@@ -8136,7 +8124,7 @@ fromOld: aCollection
 "	G verify ifFalse: [self halt]."
 	^ G! !
 
-!GroebnerBasis class methodsFor: 'instance creation' stamp: 'len 11/30/2016 14:43:52'!
+!StandardBasis class methodsFor: 'instance creation' stamp: 'len 11/30/2016 14:43:52'!
 fromOriginal: aCollection ordering: aMonomialOrdering 
 	"Buchberger algorithm.
 	Answer a Groebner basis obtainded from the given polynomials and ordering."
@@ -19356,11 +19344,11 @@ polynomialsIn: anIntegerOrCollection ordering: aMonomialOrdering
 product: aRing
 	^ self × aRing! !
 
-!Ring methodsFor: 'operations' stamp: 'len 1/13/2017 16:43:02'!
+!Ring methodsFor: 'operations' stamp: 'len 1/18/2017 22:14:05'!
 spec
 	"Answer the spectrum of the receiver, Spec(R)."
 	self isCommutative ifFalse: [^ DomainError signal: 'not a commutative ring'].
-	^ AffineScheme coordinateRing: self! !
+	^ Spectrum coordinateRing: self! !
 
 !Ring methodsFor: 'morphisms' stamp: 'len 12/22/2016 22:01:49'!
 to: aCodomain
@@ -19663,6 +19651,10 @@ embed: anObject
 embedding
 	"Answer the embedding map from the integers ring into the receiver."
 	^ self propertyAt: #embedding ifAbsentPut: [(self integers to: self evaluating: [:x| self embed: x]) name: 'i']! !
+
+!LocalizationRing methodsFor: 'operations' stamp: 'len 1/19/2017 07:19:45'!
+fractions
+	^ self integers fractions! !
 
 !LocalizationRing methodsFor: 'morphisms' stamp: 'len 12/20/2016 11:48:03'!
 from: aDomain
@@ -19969,13 +19961,13 @@ z
 new: anInteger over: aRing
 	^ self over: (aRing polynomialsIn: anInteger)! !
 
-!RationalFunctionField class methodsFor: 'instance creation' stamp: 'len 11/22/2016 14:59:58'!
+!RationalFunctionField class methodsFor: 'instance creation' stamp: 'len 1/19/2017 07:30:23'!
 over: aPolynomialRing
 	| R |
 	R _ (aPolynomialRing isKindOf: PolynomialRing) ifTrue: [aPolynomialRing] ifFalse: [aPolynomialRing polynomials].
 	R ordering isLocal
 		ifTrue: [aPolynomialRing]
-		ifFalse: [aPolynomialRing orderedBy: #revlex].
+		ifFalse: [aPolynomialRing orderedBy: #llex].
 	^ super over: R! !
 
 !ProductRing methodsFor: 'comparing' stamp: 'len 8/29/2016 04:13'!
@@ -20807,9 +20799,9 @@ dimension
 			ifTrue: [^ self base rank - k]].
 	self error: 'this shouldnt be reached'! !
 
-!AffineAlgebra methodsFor: 'private' stamp: 'len 1/12/2017 22:14:02'!
+!AffineAlgebra methodsFor: 'private' stamp: 'len 1/18/2017 22:52:12'!
 elementClass
-	^ PolynomialFunction! !
+	^ RegularFunction! !
 
 !AffineAlgebra methodsFor: 'morphisms' stamp: 'len 12/30/2016 10:05:13'!
 embed: anObject
@@ -20834,10 +20826,6 @@ hilbertSeries
 hilbertSeriesAt: t
 	"Answer the Hilbert series of the receiver."
 	^ (self base hilbertSeriesAt: t) - (self ideal hilbertSeriesAt: t)! !
-
-!AffineAlgebra methodsFor: 'private' stamp: 'len 1/12/2017 22:12:53'!
-idealClass
-	^ AffineIdeal! !
 
 !AffineAlgebra methodsFor: 'accessing' stamp: 'len 10/20/2016 10:51'!
 indeterminates
@@ -20880,14 +20868,14 @@ scalars
 	"Answer the coefficients ring of the receiver."
 	^ self base scalars! !
 
-!AffineAlgebra methodsFor: 'operations' stamp: 'len 1/13/2017 16:42:45'!
+!AffineAlgebra methodsFor: 'operations' stamp: 'len 1/18/2017 22:14:54'!
 spec
 	"Answer the spectrum of the receiver, Spec(R/I) as subscheme of Spec(R)."
 	(self ideal generators size = 1 and: [self ideal isZero not])
 		ifTrue: [self base rank = 2
 			ifTrue: [^ AffinePlaneCurve coordinateRing: self]
 			ifFalse: [^ AffineHypersurface coordinateRing: self]].
-	^ AffineClosedSubscheme coordinateRing: self! !
+	^ AffineScheme coordinateRing: self! !
 
 !AffineAlgebra methodsFor: 'elements' stamp: 'len 10/20/2016 10:50'!
 x
@@ -21113,6 +21101,10 @@ isField
 isReal
 	^ true! !
 
+!RealField methodsFor: 'accessing' stamp: 'len 1/19/2017 16:29:14'!
+one
+	^ 1! !
+
 !RealField methodsFor: 'printing' stamp: 'len 8/5/2016 21:35'!
 printOn: aStream
 	aStream nextPut: Character RR! !
@@ -21120,6 +21112,10 @@ printOn: aStream
 !RealField methodsFor: 'accessing' stamp: 'len 8/6/2016 03:45'!
 size
 	^ Aleph new: 1! !
+
+!RealField methodsFor: 'accessing' stamp: 'len 1/19/2017 16:29:18'!
+zero
+	^ 0! !
 
 !RealField class methodsFor: 'initialization' stamp: 'len 8/5/2016 21:33'!
 initialize
@@ -22070,12 +22066,12 @@ one
 polynomials
 	^ polynomials! !
 
-!PowerSeriesRing methodsFor: 'accessing-private' stamp: 'len 11/22/2016 14:59:48'!
+!PowerSeriesRing methodsFor: 'accessing-private' stamp: 'len 1/19/2017 07:30:06'!
 polynomials: aPolynomialRing
 "	aPolynomialRing isUnivariate ifFalse: [self error: 'multivariate power series not yet supported']."
 	polynomials _ aPolynomialRing ordering isLocal
 		ifTrue: [aPolynomialRing]
-		ifFalse: [aPolynomialRing orderedBy: #revlex]! !
+		ifFalse: [aPolynomialRing orderedBy: #llex]! !
 
 !PowerSeriesRing methodsFor: 'printing' stamp: 'len 10/28/2016 10:37'!
 printOn: aStream
@@ -22091,9 +22087,9 @@ scalars
 zero
 	^ self fromPolynomial: self polynomials zero! !
 
-!PowerSeriesRing class methodsFor: 'instance creation' stamp: 'len 11/22/2016 14:59:54'!
+!PowerSeriesRing class methodsFor: 'instance creation' stamp: 'len 1/19/2017 07:30:17'!
 new: anInteger over: aRing
-	^ self polynomials: (aRing polynomialsIn: anInteger ordering: #revlex) "revlex is a local ordering"! !
+	^ self polynomials: (aRing polynomialsIn: anInteger ordering: #llex) "llex is a local ordering"! !
 
 !PowerSeriesRing class methodsFor: 'instance creation' stamp: 'len 10/28/2016 10:31'!
 new: anInteger over: aRing ordering: aMonomialOrdering
@@ -22430,11 +22426,12 @@ isZero
 	"Answer true if the receiver is the zero ideal {0}."
 	^ self generators allSatisfy: [:each| each isZero]! !
 
-!Ideal methodsFor: 'printing' stamp: 'len 10/29/2016 11:35'!
+!Ideal methodsFor: 'printing' stamp: 'len 1/18/2017 21:01:13'!
 printOn: aStream
 	self isZero ifTrue: [aStream nextPut: ${; print: self ring zero; nextPut: $}. ^ self].
 	aStream nextPut: $<.
-	self generators do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: ', '].
+	(self generators asSortedCollection: [:a :b| a printString <= b printString])
+		do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: ', '].
 	aStream nextPut: $>! !
 
 !Ideal methodsFor: 'operations' stamp: 'len 1/13/2017 21:55:31'!
@@ -22519,6 +22516,15 @@ remainderAtRandom: aRandom
 atRandom: aRandom bits: bitSize
 	^ self generators sum: [:each| each * (self ring atRandom: aRandom bits: bitSize / self generators size)]! !
 
+!PolynomialIdeal methodsFor: 'accessing' stamp: 'len 1/19/2017 09:34:06'!
+basis
+	"Answer a standard basis of the receiver."
+	^ self propertyAt: #basis ifAbsentPut: [StandardBasis from: self generators]! !
+
+!PolynomialIdeal methodsFor: 'accessing' stamp: 'len 1/19/2017 09:33:43'!
+basisWithOrdering: aMonomialOrdering
+	^ (self orderedBy: aMonomialOrdering) basis! !
+
 !PolynomialIdeal methodsFor: 'operations' stamp: 'len 12/8/2016 20:28:28'!
 colon: anIdeal
 	"Answer the colon quotient I:J of the receiver I with the argument J.
@@ -22595,16 +22601,17 @@ eliminateAll: aCollection
 	newGenerators _ G asArray select: [:each| (aCollection noneSatisfy: [:none| each has: none])].
 	^ self ring * (newGenerators collect: [:each| each as: self ring])! !
 
-!PolynomialIdeal methodsFor: 'accessing-private' stamp: 'len 12/28/2016 12:09:25'!
+!PolynomialIdeal methodsFor: 'accessing-private' stamp: 'len 1/19/2017 09:30:47'!
 generators: aCollection
 	super generators: aCollection.
-	(aCollection isKindOf: GroebnerBasis)
+	(aCollection isKindOf: StandardBasis)
 		ifTrue: [self propertyAt: #groebnerBasis put: aCollection]! !
 
-!PolynomialIdeal methodsFor: 'accessing' stamp: 'len 12/28/2016 12:09:30'!
+!PolynomialIdeal methodsFor: 'accessing' stamp: 'len 1/19/2017 20:02:32'!
 groebnerBasis
 	"Answer a Groebner basis of the receiver."
-	^ self propertyAt: #groebnerBasis ifAbsentPut: [GroebnerBasis from: self generators]! !
+	self ring ordering isGlobal ifFalse: [^ self error: 'ordering is not global'].
+	^ self propertyAt: #groebnerBasis ifAbsentPut: [StandardBasis from: self generators]! !
 
 !PolynomialIdeal methodsFor: 'accessing' stamp: 'len 11/19/2016 10:12:43'!
 groebnerBasisWithOrdering: aMonomialOrdering
@@ -24179,6 +24186,10 @@ rank
 	n _ polynomials rank.
 	^ degree + n - 1 choose: degree! !
 
+!HomogeneousPolynomialModule methodsFor: 'accessing' stamp: 'len 1/19/2017 09:21:59'!
+scalars
+	^ polynomials scalars! !
+
 !PolynomialFiltrationModule methodsFor: 'basis' stamp: 'len 4/12/2016 08:08'!
 coordinatesOf: aPolynomial
 	| coefficients |
@@ -25504,6 +25515,15 @@ subscheme: anObject
 	This makes sense, for example, for closed subschemes of affine or projective space, and anObject can be an element or an ideal of the coordinate ring."
 	^ self • (self ambient subscheme: anObject)! !
 
+!Scheme class methodsFor: 'examples' stamp: 'len 1/19/2017 10:28:32'!
+cayleyCubic
+	"The Cayley cubic as projective surface.
+	This is the unique cubic surface that has 4 ordinary nodes.
+	It is a degeneration of the Clebsh cubic and has Sym(4) as its symmetry group."
+	| P |
+	P _ ProjectiveSpace new: #(x y z w) over: QQ.
+	^ P subscheme: (P coordinateRing generate: [:x :y :z :w| x*y*z + (x*y*w) + (x*z*w) + (y*z*w)])! !
+
 !Scheme class methodsFor: 'examples' stamp: 'len 1/12/2017 14:35:23'!
 circle
 	"The unit circle in the rational affine plane."
@@ -25513,6 +25533,23 @@ circle
 	y _ R y.
 	I _ R * (x**2 + (y**2) - 1).
 	^ (R / I) spec! !
+
+!Scheme class methodsFor: 'examples' stamp: 'len 1/19/2017 10:28:49'!
+clebschCubic
+	"The Clebsch cubic as affine scheme in Q^3.
+	This is the unique cubic surface that has Sym(5) as symmetry group."
+	| A x y z f |
+	A _ AffineSpace new: #(x y z) over: QQ.
+	x _ A coordinateRing x.
+	y _ A coordinateRing y.
+	z _ A coordinateRing z.
+	f _ x**3 + (y**3) + (z**3) * 81
+			+ (x**2*y + (x**2*z) + (x*(y**2)) + (x*(z**2)) + (y**2*z) + (y*(z**2)) * -189)
+			+ (x*y*z * 54)
+			+ (x*y + (x*z) + (y*z) * 126)
+			+ (x**2 + (y**2) + (z**2) * -9)
+			+ 1.
+	^ A subscheme: f! !
 
 !Scheme class methodsFor: 'examples' stamp: 'len 1/12/2017 14:42:03'!
 fermat: n
@@ -25541,118 +25578,120 @@ twistedCubic
 	z _ A coordinateRing z.
 	^ A subscheme: {y - (x**2). z - (x**3)}! !
 
-!AffineScheme methodsFor: 'comparing' stamp: 'len 1/13/2017 16:32:32'!
+!Scheme class methodsFor: 'examples' stamp: 'len 1/19/2017 10:31:10'!
+whitneyUmbrella
+	"This is Whitney's umbrella in affine space Q^3."
+	| A |
+	A _ AffineSpace new: #(x y z) over: QQ.
+	^ A subscheme: (A coordinateRing generate: [:x :y :z| x**2*y - (z**2)])! !
+
+!Spectrum methodsFor: 'comparing' stamp: 'len 1/13/2017 16:32:32'!
 = anObject
 	^ (anObject isKindOf: self species) and: [self coordinateRing = anObject coordinateRing]! !
 
-!AffineScheme methodsFor: 'accessing' stamp: 'len 1/13/2017 16:06:54'!
+!Spectrum methodsFor: 'accessing' stamp: 'len 1/13/2017 16:06:54'!
 base
 	"Answer the base scheme of the receiver."
 	^ self scalars spec! !
 
-!AffineScheme methodsFor: 'testing' stamp: 'len 1/13/2017 20:20:05'!
+!Spectrum methodsFor: 'testing' stamp: 'len 1/13/2017 20:20:05'!
 contains: anIdeal
 	"Answer true if the receiver contains the given point (a prime ideal of its coordinate ring)."
 	^ true! !
 
-!AffineScheme methodsFor: 'accessing' stamp: 'len 1/13/2017 16:59:19'!
+!Spectrum methodsFor: 'accessing' stamp: 'len 1/13/2017 16:59:19'!
 coordinateRing
 	"Answer the affine coordinate ring."
 	^ self propertyAt: #coordinateRing! !
 
-!AffineScheme methodsFor: 'accessing-private' stamp: 'len 1/13/2017 16:08:53'!
+!Spectrum methodsFor: 'accessing-private' stamp: 'len 1/13/2017 16:08:53'!
 coordinateRing: aCommutativeRing
 	self propertyAt: #coordinateRing put: aCommutativeRing! !
 
-!AffineScheme methodsFor: 'accessing' stamp: 'len 1/13/2017 16:01:28'!
+!Spectrum methodsFor: 'accessing' stamp: 'len 1/13/2017 16:01:28'!
 dimension
 	"Answer the dimension of the highest dimensional component of the receiver.
 	This is the Krull dimension of the coordinate ring."
 	^ self coordinateRing dimension! !
 
-!AffineScheme methodsFor: 'accessing' stamp: 'len 1/13/2017 16:07:24'!
-functionField
-	"Answer the function field (or field of rational functions) of the receiver. This is the fractions field of the coordinate ring and it's noted K(V) (analogous to the coordinate ring noted K[V])."
-	^ self coordinateRing fractions! !
-
-!AffineScheme methodsFor: 'comparing' stamp: 'len 1/13/2017 16:32:38'!
+!Spectrum methodsFor: 'comparing' stamp: 'len 1/13/2017 16:32:38'!
 hash
 	^ self coordinateRing hash! !
 
-!AffineScheme methodsFor: 'testing' stamp: 'len 1/13/2017 20:16:32'!
+!Spectrum methodsFor: 'testing' stamp: 'len 1/13/2017 20:16:32'!
 includes: anObject
 	^ (anObject isKindOf: Ideal) and: [anObject ring = self coordinateRing and: [anObject isPrime]]! !
 
-!AffineScheme methodsFor: 'testing' stamp: 'len 1/13/2017 16:02:42'!
+!Spectrum methodsFor: 'testing' stamp: 'len 1/13/2017 16:02:42'!
 isAffine
 	^ true! !
 
-!AffineScheme methodsFor: 'testing' stamp: 'len 1/13/2017 16:03:38'!
+!Spectrum methodsFor: 'testing' stamp: 'len 1/13/2017 16:03:38'!
 isInitial
 	^ self coordinateRing isTerminal! !
 
-!AffineScheme methodsFor: 'testing' stamp: 'len 1/13/2017 16:57:08'!
+!Spectrum methodsFor: 'testing' stamp: 'len 1/13/2017 16:57:08'!
 isNoetherian
 	^ self coordinateRing isNoetherian! !
 
-!AffineScheme methodsFor: 'testing' stamp: 'len 1/13/2017 16:03:42'!
+!Spectrum methodsFor: 'testing' stamp: 'len 1/13/2017 16:03:42'!
 isTerminal
 	^ self coordinateRing isInitial! !
 
-!AffineScheme methodsFor: 'converting' stamp: 'len 1/13/2017 16:10:18'!
+!Spectrum methodsFor: 'converting' stamp: 'len 1/13/2017 16:10:18'!
 over: aRing
 	^ self class coordinateRing: (self coordinateRing over: aRing)! !
 
-!AffineScheme methodsFor: 'printing' stamp: 'len 1/13/2017 16:02:35'!
+!Spectrum methodsFor: 'printing' stamp: 'len 1/13/2017 16:02:35'!
 printOn: aStream
 	aStream nextPutAll: 'Spec '; print: self coordinateRing! !
 
-!AffineScheme methodsFor: 'accessing' stamp: 'len 1/13/2017 16:01:47'!
+!Spectrum methodsFor: 'accessing' stamp: 'len 1/13/2017 16:01:47'!
 scalars
 	"Answer the base ring of the receiver."
 	^ self coordinateRing scalars! !
 
-!AffineScheme methodsFor: 'private' stamp: 'len 1/13/2017 16:03:58'!
+!Spectrum methodsFor: 'private' stamp: 'len 1/18/2017 22:13:59'!
 species
-	^ AffineScheme! !
+	^ Spectrum! !
 
-!AffineScheme class methodsFor: 'instance creation' stamp: 'len 1/13/2017 15:59:43'!
+!Spectrum class methodsFor: 'instance creation' stamp: 'len 1/13/2017 15:59:43'!
 coordinateRing: aRing
 	^ self new coordinateRing: aRing! !
 
-!AffineClosedSubscheme methodsFor: 'operations' stamp: 'len 1/13/2017 16:12:14'!
+!AffineScheme methodsFor: 'operations' stamp: 'len 1/13/2017 16:12:14'!
 - aScheme
 	"Answer the difference of the receiver with the argument, whose associated ideal is the ideal (colon) quotient of the respective ideals.
 	This is the closure of the result of removing from the receiver the points in the intersection with the argument, counted with multiplicity. (See also the 'complement' >>-)."
 	self ambient = aScheme ambient ifFalse: [^ DomainError signal: 'ambients don''t match'].
 	^ self ambient subscheme: (self ideal colon: aScheme ideal)! !
 
-!AffineClosedSubscheme methodsFor: 'comparing' stamp: 'len 1/13/2017 16:09:29'!
+!AffineScheme methodsFor: 'comparing' stamp: 'len 1/13/2017 16:09:29'!
 < aScheme
 	^ self ideal > aScheme ideal! !
 
-!AffineClosedSubscheme methodsFor: 'comparing' stamp: 'len 1/13/2017 16:09:34'!
+!AffineScheme methodsFor: 'comparing' stamp: 'len 1/13/2017 16:09:34'!
 <= aScheme
 	^ self ideal >= aScheme ideal! !
 
-!AffineClosedSubscheme methodsFor: 'comparing' stamp: 'len 1/13/2017 16:33:11'!
+!AffineScheme methodsFor: 'comparing' stamp: 'len 1/18/2017 22:14:38'!
 = anObject
-	^ (anObject isKindOf: AffineClosedSubscheme) and: [self ideal = anObject ideal]! !
+	^ (anObject isKindOf: AffineScheme) and: [self ideal = anObject ideal]! !
 
-!AffineClosedSubscheme methodsFor: 'operations' stamp: 'len 1/13/2017 16:12:29'!
+!AffineScheme methodsFor: 'operations' stamp: 'len 1/13/2017 16:12:29'!
 \ aScheme
 	"Answer the (closure of the) complement of the argument in the receiver.
 	This is the closure of the result of removing from the receiver *all* points in the intersection with the argument, irrespective of multiplicity. (See also the 'difference' >>\)."
 	self ambient = aScheme ambient ifFalse: [^ DomainError signal: 'ambients don''t match'].
 	^ self ambient subscheme: (self ideal saturation: aScheme ideal)! !
 
-!AffineClosedSubscheme methodsFor: 'operations' stamp: 'len 1/13/2017 16:35:55'!
+!AffineScheme methodsFor: 'operations' stamp: 'len 1/13/2017 16:35:55'!
 • aScheme
 	"Answer the intersection of the receiver and the argument."
 	self ambient = aScheme ambient ifFalse: [^ DomainError signal: 'ambients don''t match'].
 	^ self ambient subscheme: self ideal + aScheme ideal! !
 
-!AffineClosedSubscheme methodsFor: 'operations' stamp: 'len 1/13/2017 16:35:59'!
+!AffineScheme methodsFor: 'operations' stamp: 'len 1/13/2017 16:35:59'!
 – aScheme
 	"Answer the union of the receiver and the argument."
 	self ambient = aScheme ambient ifFalse: [^ DomainError signal: 'ambients don''t match'].
@@ -25662,34 +25701,39 @@ coordinateRing: aRing
 	^ self class on: self ambient ideal: ideal * aScheme ideal
 although the intersection is harder to compute, it behaves better with radicalization, because the intersection of two radical ideals is radical and we don't need to compute radicals again"! !
 
-!AffineClosedSubscheme methodsFor: 'accessing' stamp: 'len 1/13/2017 16:01:04'!
+!AffineScheme methodsFor: 'accessing' stamp: 'len 1/13/2017 16:01:04'!
 ambient
 	^ self coordinateRing base spec! !
 
-!AffineClosedSubscheme methodsFor: 'testing' stamp: 'len 1/13/2017 20:19:22'!
+!AffineScheme methodsFor: 'testing' stamp: 'len 1/13/2017 20:19:22'!
 contains: anIdeal
 	"Answer true if the receiver contains the given point (a prime ideal)."
 	^ self ideal >= anIdeal! !
 
-!AffineClosedSubscheme methodsFor: 'operations' stamp: 'len 1/13/2017 16:14:11'!
+!AffineScheme methodsFor: 'operations' stamp: 'len 1/13/2017 16:14:11'!
 decomposition
 	"Answer the irreducible components of the receiver."
 	^ self ideal associatedPrimes collect: [:each| self subscheme: each]! !
 
-!AffineClosedSubscheme methodsFor: 'comparing' stamp: 'len 1/13/2017 16:33:18'!
+!AffineScheme methodsFor: 'accessing' stamp: 'len 1/18/2017 22:18:20'!
+functionField
+	"Answer the function field (or field of rational functions) of the receiver. This is the fractions field of the coordinate ring and it's noted K(V) (analogous to the coordinate ring noted K[V])."
+	^ self coordinateRing fractions! !
+
+!AffineScheme methodsFor: 'comparing' stamp: 'len 1/13/2017 16:33:18'!
 hash
 	^ self ideal hash! !
 
-!AffineClosedSubscheme methodsFor: 'accessing' stamp: 'len 1/13/2017 16:08:24'!
+!AffineScheme methodsFor: 'accessing' stamp: 'len 1/13/2017 16:08:24'!
 ideal
 	"Answer the defining ideal of the receiver."
 	^ self coordinateRing ideal! !
 
-!AffineClosedSubscheme methodsFor: 'testing' stamp: 'len 1/9/2017 16:35:09'!
+!AffineScheme methodsFor: 'testing' stamp: 'len 1/9/2017 16:35:09'!
 isComplete
 	^ self isFinite! !
 
-!AffineClosedSubscheme methodsFor: 'testing' stamp: 'len 10/19/2016 23:04'!
+!AffineScheme methodsFor: 'testing' stamp: 'len 10/19/2016 23:04'!
 isEmpty
 	"Answer true if the receiver has no points over any algebraic closure of its base field.
 	Ref. Algorithmic Algebra, B. Mishra, pag. 142-145."
@@ -25698,11 +25742,11 @@ isEmpty
 		ifFalse: [self error: 'the ground field is not algebraically closed'].
 "	^ false! !
 
-!AffineClosedSubscheme methodsFor: 'testing' stamp: 'len 1/13/2017 16:55:16'!
+!AffineScheme methodsFor: 'testing' stamp: 'len 1/13/2017 16:55:16'!
 isEquidimensional
 	^ self singular dimension < 0! !
 
-!AffineClosedSubscheme methodsFor: 'testing' stamp: 'len 10/19/2016 23:08'!
+!AffineScheme methodsFor: 'testing' stamp: 'len 10/19/2016 23:08'!
 isFinite
 	"This works for any Groebner basis, no matter the ordering."
 	"Does this work for non integral schemes?"
@@ -25711,44 +25755,48 @@ isFinite
 			ifFalse: [^ false]].
 	^ true! !
 
-!AffineClosedSubscheme methodsFor: 'testing' stamp: 'len 1/13/2017 16:57:47'!
+!AffineScheme methodsFor: 'testing' stamp: 'len 1/13/2017 16:57:47'!
 isIrreducible
 	self flag: #fix. "magma does it differently"
 	^ self ideal isPrime "IFF. Alternatively, iif the coordinate ring is an integral domain"! !
 
-!AffineClosedSubscheme methodsFor: 'testing' stamp: 'len 1/13/2017 16:56:17'!
+!AffineScheme methodsFor: 'testing' stamp: 'len 1/13/2017 16:56:17'!
 isLinear
 	^ self reduced ideal generators allSatisfy: [:each| each isLinear]! !
 
-!AffineClosedSubscheme methodsFor: 'testing' stamp: 'len 1/13/2017 16:51:43'!
+!AffineScheme methodsFor: 'testing' stamp: 'len 1/13/2017 16:51:43'!
 isReduced
 	^ self ideal isRadical! !
 
-!AffineClosedSubscheme methodsFor: 'points' stamp: 'len 11/7/2016 09:01'!
+!AffineScheme methodsFor: 'operations' stamp: 'len 1/18/2017 22:07:39'!
+localRingAt: aTuple
+	^ (self translatedBy: aTuple negated) coordinateRing localization! !
+
+!AffineScheme methodsFor: 'points' stamp: 'len 11/7/2016 09:01'!
 pointAt: aTuple
 	^ AffinePoint on: self coordinates: aTuple! !
 
-!AffineClosedSubscheme methodsFor: 'operations' stamp: 'len 1/13/2017 16:14:39'!
+!AffineScheme methodsFor: 'operations' stamp: 'len 1/13/2017 16:14:39'!
 primaryComponents
 	"Answer the irredundant primary components of the receiver."
 	^ self ideal primaryComponents collect: [:each| self subscheme: each]! !
 
-!AffineClosedSubscheme methodsFor: 'operations' stamp: 'len 1/13/2017 16:14:48'!
+!AffineScheme methodsFor: 'operations' stamp: 'len 1/13/2017 16:14:48'!
 primeComponents
 	"Answer the irredundant prime components of the receiver."
 	^ self ideal primeComponents collect: [:each| self subscheme: each]! !
 
-!AffineClosedSubscheme methodsFor: 'operations' stamp: 'len 1/13/2017 16:17:30'!
+!AffineScheme methodsFor: 'operations' stamp: 'len 1/13/2017 16:17:30'!
 project: anIndeterminate
 	"Answer the projection of the receiver by eliminating the given indeterminate."
 	^ self ambient subscheme: (self ideal eliminate: anIndeterminate)! !
 
-!AffineClosedSubscheme methodsFor: 'operations' stamp: 'len 10/31/2016 13:15'!
+!AffineScheme methodsFor: 'operations' stamp: 'len 10/31/2016 13:15'!
 projectiveClosure
 	"Answer the projective closure of the receiver. If the receiver is an affine patch of a projective scheme, answer the original projective scheme. Otherwise the projective closure will be a projective scheme over the projective closure of the ambient space of the receiver, and the receiver will be the last affine patch."
 	^ self projectiveEmbedding codomain! !
 
-!AffineClosedSubscheme methodsFor: 'morphisms' stamp: 'len 1/11/2017 22:34:55'!
+!AffineScheme methodsFor: 'morphisms' stamp: 'len 1/11/2017 22:34:55'!
 projectiveEmbedding
 	"Answer the map that sends the receiver to its projective closure.
 	If the receiver was originally constructed as an affine patch of a projective scheme, answer the map to the original projective scheme. Otherwise, the projective closure will be constructed as a projective scheme over the projective closure of the ambient space of the receiver, and the receiver will be its last affine patch."
@@ -25761,17 +25809,17 @@ projectiveEmbedding
 	P propertyAt: #affinePatches put: patches.
 	^ self propertyAt: #projectiveEmbedding put: map! !
 
-!AffineClosedSubscheme methodsFor: 'operations' stamp: 'len 1/13/2017 16:36:50'!
+!AffineScheme methodsFor: 'operations' stamp: 'len 1/13/2017 16:36:50'!
 reduced
 	"Answer the reduced subscheme of the receiver."
 	^ self propertyAt: #reducedSubscheme ifAbsentPut: [self ambient subscheme: self ideal radical]! !
 
-!AffineClosedSubscheme methodsFor: 'testing' stamp: 'len 1/13/2017 16:39:08'!
+!AffineScheme methodsFor: 'testing' stamp: 'len 1/13/2017 16:39:08'!
 satisfies: aTuple
 	"Answer true if the defining equations of the receiver satisfy the argument, assuming it's the coordinates of a rational point in the ambient space."
 	^ self ideal generators allSatisfy: [:each| (each value: aTuple) isZero]! !
 
-!AffineClosedSubscheme methodsFor: 'operations' stamp: 'len 1/13/2017 17:14:05'!
+!AffineScheme methodsFor: 'operations' stamp: 'len 1/13/2017 17:14:05'!
 singular
 	"Answer the subscheme defined by the appropriately sized minors of the jacobian matrix of the receiver.
 	If the receiver is not equidimensional, its lower-dimensional components will be contained in this scheme whether they are singular or not.
@@ -25786,32 +25834,32 @@ singular
 	^ self propertyAt: #singularSubscheme put:
 		(self subscheme: ((J minors: self codimension) collect: [:each| self ideal reduce: each]))! !
 
-!AffineClosedSubscheme methodsFor: 'private' stamp: 'len 1/13/2017 15:57:57'!
+!AffineScheme methodsFor: 'private' stamp: 'len 1/18/2017 22:14:31'!
 species
-	^ AffineClosedSubscheme! !
+	^ AffineScheme! !
 
-!AffineClosedSubscheme methodsFor: 'morphisms' stamp: 'len 12/30/2016 10:38:38'!
+!AffineScheme methodsFor: 'morphisms' stamp: 'len 12/30/2016 10:38:38'!
 structureMap
 	"Answer the structure morphism."
 	^ self coordinateRing embedding spec
 "	^ (self scalars  self coordinateRing) spec"! !
 
-!AffineClosedSubscheme methodsFor: 'operations' stamp: 'len 1/10/2017 21:21:30'!
+!AffineScheme methodsFor: 'operations' stamp: 'len 1/10/2017 21:21:30'!
 tangentConeAt: aTuple
 	^ self ambient subscheme: (self translatedBy: aTuple negated) ideal leadingIdeal! !
 
-!AffineClosedSubscheme methodsFor: 'operations' stamp: 'len 1/11/2017 09:11:06'!
+!AffineScheme methodsFor: 'operations' stamp: 'len 1/11/2017 09:11:06'!
 tangentSpaceAt: aTuple
 	"Answer the affine tangent space of the receiver at the given point."
 	| R |
 	R _ self ambient coordinateRing.
 	^ self ambient subscheme: (self ideal generators collect: [:f| (1 to: R rank) sum: [:i| (R x: i) - (aTuple at: i) * ((f derivativeIn: i) value: aTuple)]])! !
 
-!AffineClosedSubscheme methodsFor: 'morphisms' stamp: 'len 1/13/2017 19:17:50'!
+!AffineScheme methodsFor: 'morphisms' stamp: 'len 1/13/2017 19:17:50'!
 to: aScheme evaluating: aBlock
 	^ RationalMap from: self to: aScheme evaluating: aBlock! !
 
-!AffineClosedSubscheme methodsFor: 'operations' stamp: 'len 1/11/2017 08:11:34'!
+!AffineScheme methodsFor: 'operations' stamp: 'len 1/11/2017 08:11:34'!
 translatedBy: aTuple
 	"Answer a new affine scheme that is the translation of the receiver by aTuple.
 	Any point p on the receiver is mapped to p + aTuple."
@@ -25819,9 +25867,9 @@ translatedBy: aTuple
 	dx _ self ambient coordinateRing generators - aTuple.
 	^ self ambient subscheme: (self ideal apply: [:f| f value: dx])! !
 
-!AffineClosedSubscheme class methodsFor: 'instance creation' stamp: 'len 1/13/2017 15:58:05'!
+!AffineScheme class methodsFor: 'instance creation' stamp: 'len 1/18/2017 22:14:47'!
 newFrom: anObject
-	(anObject isKindOf: AffineClosedSubscheme) ifTrue: [^ self coordinateRing: anObject coordinateRing].
+	(anObject isKindOf: AffineScheme) ifTrue: [^ self coordinateRing: anObject coordinateRing].
 	^ super newFrom: anObject! !
 
 !AffineCurve methodsFor: 'accessing' stamp: 'len 10/24/2016 18:34'!
@@ -26032,6 +26080,12 @@ isProjective
 !ProjectiveScheme methodsFor: 'testing' stamp: 'len 1/13/2017 17:10:33'!
 isReduced
 	^ self ideal isRadical! !
+
+!ProjectiveScheme methodsFor: 'operations' stamp: 'len 1/18/2017 22:11:52'!
+localRingAt: aTuple
+	| i |
+	i _ aTuple lastNonZero.
+	^ (self affinePatch: i) localRingAt: (aTuple dehomogenizedIn: i)! !
 
 !ProjectiveScheme methodsFor: 'operations' stamp: 'len 1/11/2017 19:28:19'!
 multiplicityAt: aTuple
@@ -30403,6 +30457,11 @@ isSingular
 isSmooth
 	^ self codomain isSmoothAt: self coordinates! !
 
+!RationalPoint methodsFor: 'accessing' stamp: 'len 1/18/2017 22:06:53'!
+localRing
+	"Answer the local ring at this point."
+	^ self codomain localRingAt: self coordinates! !
+
 !RationalPoint methodsFor: 'accessing' stamp: 'len 1/10/2017 16:39:42'!
 multiplicity
 	^ self codomain multiplicityAt: self coordinates! !
@@ -32258,15 +32317,15 @@ trace
 	f _ self minimalPolynomial.
 	^ (f coefficientAtDegree: f degree - 1) / f leadingCoefficient! !
 
-!PolynomialFunction methodsFor: 'as yet unclassified' stamp: 'len 11/1/2016 05:16'!
+!RegularFunction methodsFor: 'as yet unclassified' stamp: 'len 11/1/2016 05:16'!
 leadingCoefficient
 	^ representative leadingCoefficient! !
 
-!PolynomialFunction methodsFor: 'as yet unclassified' stamp: 'len 11/1/2016 05:18'!
+!RegularFunction methodsFor: 'as yet unclassified' stamp: 'len 11/1/2016 05:18'!
 value: anObject
 	^ representative value: anObject! !
 
-!PolynomialFunction methodsFor: 'as yet unclassified' stamp: 'len 11/1/2016 18:57'!
+!RegularFunction methodsFor: 'as yet unclassified' stamp: 'len 11/1/2016 18:57'!
 valueWithArguments: anArray
 	^ representative valueWithArguments: anArray! !
 
@@ -35267,6 +35326,11 @@ indeterminates
 indeterminates: anArray
 	indeterminates _ anArray! !
 
+!MonomialOrdering methodsFor: 'testing' stamp: 'len 1/19/2017 09:36:40'!
+isGlobal
+	"Answer true if the receiver is a global ordering (as opposed to a local ordering)."
+	^ self isLocal not! !
+
 !MonomialOrdering methodsFor: 'testing' stamp: 'len 10/28/2016 10:43'!
 isGraded
 	"Answer true if the receiver is a graded (also called total) ordering."
@@ -35305,17 +35369,21 @@ indeterminates: anArray
 lex: anArray
 	^ LexicographicOrdering indeterminates: anArray! !
 
+!MonomialOrdering class methodsFor: 'examples' stamp: 'len 1/19/2017 07:28:23'!
+llex: anArray
+	^ LocalLexicographicOrdering indeterminates: anArray! !
+
+!MonomialOrdering class methodsFor: 'examples' stamp: 'len 1/19/2017 08:04:39'!
+ltlex: anArray
+	^ LocalTotalLexicographicOrdering indeterminates: anArray! !
+
+!MonomialOrdering class methodsFor: 'examples' stamp: 'len 1/19/2017 07:32:56'!
+ltrevlex: anArray
+	^ LocalTotalReverseLexicographicOrdering indeterminates: anArray! !
+
 !MonomialOrdering class methodsFor: 'instance creation' stamp: 'len 7/4/2016 00:39'!
 new: anInteger
 	^ self indeterminates: (1 to: anInteger) asArray! !
-
-!MonomialOrdering class methodsFor: 'examples' stamp: 'len 11/22/2016 14:54:43'!
-revlex: anArray
-	^ ReverseLexicographicOrdering indeterminates: anArray! !
-
-!MonomialOrdering class methodsFor: 'examples' stamp: 'len 11/22/2016 14:58:56'!
-tinvlex: anArray
-	^ TotalInverseLexicographicOrdering indeterminates: anArray! !
 
 !MonomialOrdering class methodsFor: 'examples' stamp: 'len 7/4/2016 00:45'!
 tlex: anArray
@@ -35345,7 +35413,7 @@ compare: aMonomial with: anotherMonomial
 type
 	^ #lex! !
 
-!ReverseLexicographicOrdering methodsFor: 'ordering' stamp: 'len 11/21/2016 13:42:07'!
+!LocalLexicographicOrdering methodsFor: 'ordering' stamp: 'len 11/21/2016 13:42:07'!
 compare: aMonomial with: anotherMonomial
 	| e1 e2 n1 n2 |
 	e1 _ aMonomial exponents.
@@ -35361,18 +35429,34 @@ compare: aMonomial with: anotherMonomial
 		a = b ifFalse: [^ -1]].
 	^ 0! !
 
-!ReverseLexicographicOrdering methodsFor: 'testing' stamp: 'len 10/28/2016 10:44'!
+!LocalLexicographicOrdering methodsFor: 'testing' stamp: 'len 10/28/2016 10:44'!
 isLocal
 	^ true! !
 
-!ReverseLexicographicOrdering methodsFor: 'accessing' stamp: 'len 11/22/2016 14:55:05'!
+!LocalLexicographicOrdering methodsFor: 'accessing' stamp: 'len 1/19/2017 07:29:54'!
 type
-	^ #revlex! !
+	^ #llex! !
 
-!TotalInverseLexicographicOrdering methodsFor: 'ordering' stamp: 'len 11/22/2016 14:57:27'!
+!LocalTotalLexicographicOrdering methodsFor: 'ordering' stamp: 'len 1/19/2017 08:03:32'!
+compare: aMonomial with: anotherMonomial
+	^ (super compare: aMonomial with: anotherMonomial) * -1! !
+
+!LocalTotalLexicographicOrdering methodsFor: 'testing' stamp: 'len 1/19/2017 08:09:27'!
+isGraded
+	^ true! !
+
+!LocalTotalLexicographicOrdering methodsFor: 'testing' stamp: 'len 1/19/2017 08:03:51'!
+isLocal
+	^ true! !
+
+!LocalTotalLexicographicOrdering methodsFor: 'accessing' stamp: 'len 1/19/2017 08:04:13'!
+type
+	^ #ltlex! !
+
+!LocalTotalReverseLexicographicOrdering methodsFor: 'ordering' stamp: 'len 1/19/2017 08:20:39'!
 compare: aMonomial with: anotherMonomial
 	| d1 d2 e1 e2 n1 n2 |
-	(d1 _ aMonomial degree) > (d2 _ anotherMonomial degree) ifTrue: [^ 1].
+	(d1 _ aMonomial degree) < (d2 _ anotherMonomial degree) ifTrue: [^ 1].
 	d1 = d2 ifFalse: [^ -1].
 	e1 _ aMonomial exponents.
 	e2 _ anotherMonomial exponents.
@@ -35387,17 +35471,17 @@ compare: aMonomial with: anotherMonomial
 		a = b ifFalse: [^ -1]].
 	^ 0! !
 
-!TotalInverseLexicographicOrdering methodsFor: 'testing' stamp: 'len 11/22/2016 14:56:05'!
+!LocalTotalReverseLexicographicOrdering methodsFor: 'testing' stamp: 'len 11/22/2016 14:56:05'!
 isGraded
 	^ true! !
 
-!TotalInverseLexicographicOrdering methodsFor: 'testing' stamp: 'len 11/22/2016 14:56:02'!
+!LocalTotalReverseLexicographicOrdering methodsFor: 'testing' stamp: 'len 11/22/2016 14:56:02'!
 isLocal
 	^ true! !
 
-!TotalInverseLexicographicOrdering methodsFor: 'accessing' stamp: 'len 11/22/2016 14:56:16'!
+!LocalTotalReverseLexicographicOrdering methodsFor: 'accessing' stamp: 'len 1/19/2017 07:33:09'!
 type
-	^ #tinvlex! !
+	^ #ltrevlex! !
 
 !TotalLexicographicOrdering methodsFor: 'ordering' stamp: 'len 11/21/2016 13:43:16'!
 compare: aMonomial with: anotherMonomial
@@ -37118,15 +37202,33 @@ coefficients: aTuple
 new
 	^ self shouldNotImplement! !
 
-!Buchberger methodsFor: 'as yet unclassified' stamp: 'len 11/30/2016 13:49:09'!
+!Buchberger methodsFor: 'accessing' stamp: 'len 1/17/2017 11:20:22'!
 basis
+	"Answer a Groebner basis obtainded from the input polynomials with the specified ordering."
+	basis ifNil: [self run].
+	^ basis! !
+
+!Buchberger methodsFor: 'accessing' stamp: 'len 11/24/2016 11:44:11'!
+generators: aCollection
+	generators _ aCollection! !
+
+!Buchberger methodsFor: 'private' stamp: 'len 1/17/2017 11:22:38'!
+reduce: aPolynomial 
+	"Answer the remainder of the argument when divided by the basis computed so far."
+	| division |
+	division _ MultiPolynomialDivision divide: aPolynomial by: basis.
+"	division verify ifFalse: [self halt]."
+	^ division remainder! !
+
+!Buchberger methodsFor: 'private' stamp: 'len 1/19/2017 07:43:40'!
+run
 	"Buchberger algorithm.
-	Answer a Groebner basis obtainded from the given polynomials with the specified ordering."
+	Compute a Groebner basis from the input polynomials with the specified ordering."
 	| S |
-	basis ifNotNil: [^ basis].
 	basis _ OrderedCollection new.
 	generators isEmpty ifTrue: [^ basis].
 	generators anyOne scalars isField ifFalse: [^ DomainError signal: 'not over a field'].
+	generators anyOne species ordering isLocal ifTrue: [^ DomainError signal: 'not global monomial ordering'].
 	S _ generators.
 	[S _ S asSortedCollection: [:a :b| a leadingMonomial <= b leadingMonomial].
 	S do: [:f| (self reduce: f) isZero ifFalse: [basis add: f]].
@@ -37149,20 +37251,58 @@ basis
 						ifFalse: [
 "							Display fill: (i@k*4 extent: 3@3) fillColor: Color green."
 							S add: r]]]].
-	S isEmpty] whileFalse.
-	^ basis! !
+	S isEmpty] whileFalse! !
 
-!Buchberger methodsFor: 'as yet unclassified' stamp: 'len 11/24/2016 11:44:11'!
-generators: aCollection
-	generators _ aCollection! !
-
-!Buchberger methodsFor: 'as yet unclassified' stamp: 'len 11/24/2016 11:50:12'!
-reduce: aPolynomial 
-	"Answer the remainder of the argument when divided by the receiver."
+!ExtendedBuchberger methodsFor: 'private' stamp: 'len 1/17/2017 11:22:18'!
+divide: aPolynomial 
+	"Answer the division of the argument by the basis computed so far."
 	| division |
 	division _ MultiPolynomialDivision divide: aPolynomial by: basis.
 "	division verify ifFalse: [self halt]."
-	^ division remainder! !
+	^ division! !
+
+!ExtendedBuchberger methodsFor: 'accessing' stamp: 'len 1/17/2017 11:31:55'!
+matrix
+	matrix ifNil: [self run].
+	^ matrix! !
+
+!ExtendedBuchberger methodsFor: 'private' stamp: 'len 1/17/2017 11:41:47'!
+run
+	"Buchberger algorithm.
+	Compute a Groebner basis from the input polynomials with the specified ordering."
+	| R S rows |
+	R _ generators anyOne species.
+	basis _ OrderedCollection new.
+	rows _ OrderedCollection new.
+	generators isEmpty ifTrue: [^ basis].
+	generators anyOne scalars isField ifFalse: [^ DomainError signal: 'not over a field'].
+	S _ generators.
+	[S _ S asSortedCollection: [:a :b| a leadingMonomial <= b leadingMonomial].
+	S do: [:f| | division | (division _ self divide: f) remainder isZero ifFalse: [basis add: f. rows add: division quotients]].
+	S _ Set new.
+	1 to: basis size do: [:i| | fi hi ci |
+		fi _ basis at: i.
+		hi _ fi leadingMonomial.
+		ci _ fi coefficientAt: hi.
+		i+1 to: basis size do: [:k| | fk hk ck lcm r |
+			fk _ basis at: k.
+			hk _ fk leadingMonomial.
+			lcm _ hi lcm: hk.
+			"Buchberger criterium 1 and 2:"
+			(lcm ~= (hi * hk) and: [((1 to: i-1) noneSatisfy: [:j| (basis at: j) leadingMonomial | lcm])])
+				ifTrue:
+					[ck _ fk coefficientAt: hk.
+					r _ self reduce: fi * (lcm / hi) / ci - (fk * (lcm / hk) / ck).
+					r isZero
+"						ifTrue: [Display fill: (i@k*4 extent: 3@3) fillColor: Color red]"
+						ifFalse: [
+"							Display fill: (i@k*4 extent: 3@3) fillColor: Color green."
+							S add: r]]]].
+	S isEmpty] whileFalse.
+"	R _ generators anyOne species.
+	rows _ rows collect: [:each| R tuple: basis size evaluating: [:i| each at: i ifAbsent: [R zero]]].
+	matrix _ Matrix rows: rows"
+	matrix _ rows! !
 
 !FiniteFieldPolynomialFactorizer methodsFor: 'private' stamp: 'len 3/23/2016 08:34'!
 distinctDegreeFactorization: aPolynomial
@@ -38298,12 +38438,12 @@ parent
 parent: aPowerSeriesRing
 	parent _ aPowerSeriesRing! !
 
-!PowerSeries methodsFor: 'printing' stamp: 'len 12/11/2016 14:04:17'!
+!PowerSeries methodsFor: 'printing' stamp: 'len 1/19/2017 07:30:00'!
 printOn: aStream
 	| P f n |
 	n _ coefficients printLimit.
 	P _ coefficients codomain polynomials.
-	f _ P coefficients: (coefficients copyFrom: coefficients startIndex to: coefficients startIndex + n) :: orderedBy: #revlex.
+	f _ P coefficients: (coefficients copyFrom: coefficients startIndex to: coefficients startIndex + n) :: orderedBy: #llex.
 	aStream print: f; nextPutAll: ' + ', 'O' italic, '('; print: P x ** (n+1); nextPut: $)! !
 
 !PowerSeries methodsFor: 'arithmetic' stamp: 'len 10/28/2016 14:41'!
