@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 19 January 2017 at 8:44:06 pm'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 20 January 2017 at 9:42:25 am'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 337!
+!provides: 'Mathematics' 1 338!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
 	instanceVariableNames: 'numerator shift'
@@ -4546,7 +4546,7 @@ Example:
 	y _ R x: 2.
 	(x - y) ** 2
 
-Polynomial rings have an associated monomial ordering. This is used for defining the leading term of a polynomial, multivariate division and the computation of Groebner bases.
+Polynomial rings have an associated monomial ordering. This is used for defining the leading term of a polynomial, multivariate division (also called normal form or reduction) and the computation of Groebner bases and standard bases.
 !
 
 !Grassmannian commentStamp: 'len 11/3/2016 09:19' prior: 0!
@@ -8732,6 +8732,16 @@ multipliedByMonomial: aMonomial
 negated
 	^ self class associations: (associations collect: [:each| each copy value: each value negated]) over: scalars! !
 
+!MonomialIndexedTuple methodsFor: 'converting' stamp: 'len 1/20/2017 09:34:47'!
+over: aRing
+	| newAssociations |
+	self scalars = aRing ifTrue: [^ self].
+	newAssociations _ OrderedCollection new: associations size.
+	associations do: [:each| | newValue |
+		(newValue _ aRing !! each value) isZero
+			ifFalse: [newAssociations add: (each copy value: newValue)]].
+	^ self class associations: newAssociations over: aRing! !
+
 !MonomialIndexedTuple methodsFor: 'printing' stamp: 'len 11/20/2016 17:15:30'!
 printOn: aStream
 	aStream nextPut: $(.
@@ -8951,6 +8961,14 @@ keysDo: aBlock
 negated
 	^ self collectNoZero: [:each| each negated]! !
 
+!SparseTuple methodsFor: 'converting' stamp: 'len 1/20/2017 09:15:11'!
+over: aRing
+	| answer |
+	self scalars = aRing ifTrue: [^ self].
+	answer _ self species new: self size over: aRing.
+	self associationsDo: [:each| answer at: each key put: aRing !! each value].
+	^ answer! !
+
 !SparseTuple methodsFor: 'copying' stamp: 'len 11/18/2016 17:34:33'!
 postCopy
 	coefficients _ coefficients copy! !
@@ -8983,19 +9001,19 @@ withIndexDo: elementAndIndexBlock
 zero
 	^ self class over: scalars! !
 
-!SparseTuple class methodsFor: 'as yet unclassified' stamp: 'len 11/30/2016 14:46:31'!
+!SparseTuple class methodsFor: 'instance creation' stamp: 'len 11/30/2016 14:46:31'!
 associations: aCollection over: aRing
 	^ self coefficients: (aCollection as: Dictionary) over: aRing! !
 
-!SparseTuple class methodsFor: 'as yet unclassified' stamp: 'len 11/18/2016 10:00:47'!
+!SparseTuple class methodsFor: 'instance creation' stamp: 'len 11/18/2016 10:00:47'!
 coefficients: aDictionary over: aRing
 	^ self basicNew coefficients: aDictionary; scalars: aRing! !
 
-!SparseTuple class methodsFor: 'as yet unclassified' stamp: 'len 11/30/2016 14:46:35'!
+!SparseTuple class methodsFor: 'instance creation' stamp: 'len 11/30/2016 14:46:35'!
 new: anInteger over: aRing
 	^ self coefficients: (Dictionary new: anInteger) over: aRing! !
 
-!SparseTuple class methodsFor: 'as yet unclassified' stamp: 'len 11/30/2016 14:46:41'!
+!SparseTuple class methodsFor: 'instance creation' stamp: 'len 11/30/2016 14:46:41'!
 over: aRing
 	^ self coefficients: Dictionary new over: aRing! !
 
@@ -19131,10 +19149,10 @@ extensionDegree: anInteger
 fractionClass
 	^ FormalFraction! !
 
-!Ring methodsFor: 'operations' stamp: 'len 10/31/2016 15:22'!
+!Ring methodsFor: 'operations' stamp: 'len 1/20/2017 09:07:44'!
 fractions
 	"Answer the fraction ring of the receiver. If the receiver is an integral domain, the fraction ring will be a field."
-	^ FractionRing over: self! !
+	^ FractionRing on: self! !
 
 !Ring methodsFor: 'operations' stamp: 'len 1/20/2016 13:42'!
 freeAlgebra
@@ -19752,10 +19770,10 @@ isField
 isFractionRing
 	^ true! !
 
-!FractionRing methodsFor: 'converting' stamp: 'len 10/28/2016 17:10'!
+!FractionRing methodsFor: 'converting' stamp: 'len 1/20/2017 09:07:54'!
 over: aRing
 	"Change the base ring."
-	^ self class over: (self integers over: aRing)! !
+	^ self class on: (self integers over: aRing)! !
 
 !FractionRing methodsFor: 'printing' stamp: 'len 10/20/2016 11:00'!
 printOn: aStream
@@ -19765,8 +19783,8 @@ printOn: aStream
 away: anIdeal
 	^ self shouldNotImplement! !
 
-!FractionRing class methodsFor: 'instance creation' stamp: 'len 10/31/2016 14:59'!
-over: anIntegralDomain
+!FractionRing class methodsFor: 'instance creation' stamp: 'len 1/20/2017 09:06:34'!
+on: anIntegralDomain
 	^ super away: anIntegralDomain zeroIdeal! !
 
 !RationalField methodsFor: 'comparing' stamp: 'len 6/1/2016 23:56'!
@@ -19961,14 +19979,14 @@ z
 new: anInteger over: aRing
 	^ self over: (aRing polynomialsIn: anInteger)! !
 
-!RationalFunctionField class methodsFor: 'instance creation' stamp: 'len 1/19/2017 07:30:23'!
-over: aPolynomialRing
+!RationalFunctionField class methodsFor: 'instance creation' stamp: 'len 1/20/2017 09:07:14'!
+on: aPolynomialRing
 	| R |
 	R _ (aPolynomialRing isKindOf: PolynomialRing) ifTrue: [aPolynomialRing] ifFalse: [aPolynomialRing polynomials].
 	R ordering isLocal
 		ifTrue: [aPolynomialRing]
 		ifFalse: [aPolynomialRing orderedBy: #llex].
-	^ super over: R! !
+	^ super on: R! !
 
 !ProductRing methodsFor: 'comparing' stamp: 'len 8/29/2016 04:13'!
 = anObject
@@ -20170,6 +20188,10 @@ modulus
 !QuotientRing methodsFor: 'accessing' stamp: 'len 11/30/2016 18:59:01'!
 one
 	^ self representative: self base one! !
+
+!QuotientRing methodsFor: 'converting' stamp: 'len 1/20/2017 09:18:32'!
+over: aRing
+	^ (self ideal over: aRing) quotient! !
 
 !QuotientRing methodsFor: 'printing' stamp: 'len 11/29/2016 14:43:38'!
 printOn: aStream
@@ -20843,11 +20865,6 @@ orderedBy: aMonomialOrdering
 ordering
 	^ self base ordering! !
 
-!AffineAlgebra methodsFor: 'converting' stamp: 'len 1/5/2017 08:52:09'!
-over: aRing
-	self base  (self base over: aRing) ifNotNil: [:aMorphism| ^ self class mod: (self ideal apply: aMorphism)].
-	DomainError signal: 'change of base ring failed'! !
-
 !AffineAlgebra methodsFor: 'operations' stamp: 'len 1/8/2017 17:23:17'!
 proj
 	"Answer the projective spectrum of the receiver, Proj(R)."
@@ -21442,7 +21459,7 @@ zero
 new: anInteger over: aRing
 	^ self new degree: anInteger; scalars: aRing! !
 
-!PolynomialRing methodsFor: 'elements' stamp: 'len 12/22/2016 22:42:49'!
+!PolynomialRing methodsFor: 'elements' stamp: 'len 1/20/2017 09:31:54'!
 !! aPolynomial
 	| associations |
 	(aPolynomial isKindOf: Polynomial)
@@ -21450,6 +21467,8 @@ new: anInteger over: aRing
 			[aPolynomial isInteger ifTrue: [^ super !! aPolynomial].
 			(self scalars includes: aPolynomial) ifTrue: [^ self constant: aPolynomial].
 			^ self evaluating: aPolynomial].
+	(aPolynomial species rank = self rank and: [aPolynomial species scalars ~= self scalars])
+		ifTrue: [^ self coefficients: (aPolynomial coefficients over: self scalars)].
 	(aPolynomial indeterminates allSatisfy: [:each| each <= self rank])
 		ifFalse: [self error: 'unknown indeterminates are present'].
 	(aPolynomial isKindOf: UnivariatePolynomial)
@@ -21755,11 +21774,11 @@ findIrreducibleOfDegree: n
 fractionClass
 	^ RationalFunction! !
 
-!PolynomialRing methodsFor: 'operations' stamp: 'len 10/28/2016 11:10'!
+!PolynomialRing methodsFor: 'operations' stamp: 'len 1/20/2017 09:07:23'!
 fractions
 	"Answer the field of rational functions, i.e. the localization of the receiver at 0."
 	self scalars isField ifFalse: [^ DomainError signal: 'scalars are not a field'].
-	^ RationalFunctionField over: self! !
+	^ RationalFunctionField on: self! !
 
 !PolynomialRing methodsFor: 'morphisms' stamp: 'len 12/20/2016 11:59:34'!
 from: aDomain
@@ -22425,6 +22444,10 @@ isProper
 isZero
 	"Answer true if the receiver is the zero ideal {0}."
 	^ self generators allSatisfy: [:each| each isZero]! !
+
+!Ideal methodsFor: 'converting' stamp: 'len 1/20/2017 09:21:53'!
+over: aRing
+	^ self as: (self ring over: aRing)! !
 
 !Ideal methodsFor: 'printing' stamp: 'len 1/18/2017 21:01:13'!
 printOn: aStream
@@ -25486,6 +25509,15 @@ points
 	"Answer the rational points of the receiver."
 	^ self pointsOver: self ambient scalars! !
 
+!Scheme methodsFor: 'points' stamp: 'len 1/20/2017 09:40:05'!
+pointsCount
+	^ self pointsCountOver: self scalars! !
+
+!Scheme methodsFor: 'points' stamp: 'len 1/20/2017 09:23:15'!
+pointsCount: n
+	"If the receiver is defined over a prime field GF(q), answer the number of rational points over GF(q^k) for all k in 1..n."
+	^ (1 to: n) sum: [:k| self pointsCountOver: (self scalars extensionDegree: k)]! !
+
 !Scheme methodsFor: 'points' stamp: 'len 12/22/2016 23:04:30'!
 pointsCountOver: aRing
 	"Naive count of rational points on the receiver."
@@ -26098,6 +26130,10 @@ multiplicityAt: aTuple
 newPatch: i
 	^ (self ambient patch: i) subscheme: (self ideal dehomogenizedIn: i)! !
 
+!ProjectiveScheme methodsFor: 'converting' stamp: 'len 1/20/2017 09:11:44'!
+over: aRing
+	^ self class coordinateRing: (self coordinateRing over: aRing)! !
+
 !ProjectiveScheme methodsFor: 'accessing' stamp: 'len 1/12/2017 14:48:52'!
 patch: i
 	"Answer the i-th affine patch of the receiver."
@@ -26314,7 +26350,7 @@ pointsCountOver: aRing
 	(aRing isKindOf: PrimeField) ifTrue: [^ aRing characteristic + 1].
 	^ super pointsCountOver: aRing! !
 
-!EllipticCurve methodsFor: 'operations' stamp: 'len 12/18/2016 20:09:07'!
+!EllipticCurve methodsFor: 'converting' stamp: 'len 12/18/2016 20:09:07'!
 % anInteger
 	"Answer the reduction of the receiver modulo anInteger."
 	(self scalars isKindOf: RationalField) ifFalse: [^ DomainError signal: 'not over the rationals'].
@@ -26436,6 +26472,10 @@ multiplicationBy: m
 	omega _ (omega value: {F x. F y}) / (F y * 4).
 	phi _ phi value: {F x. F y}.
 	^ "self from: self to: self representatives:" {phi / f squared. omega / (f**3). F z}! !
+
+!EllipticCurve methodsFor: 'converting' stamp: 'len 1/20/2017 09:37:28'!
+over: aRing
+	^ self class equation: (self equation over: aRing)! !
 
 !EllipticCurve methodsFor: 'points' stamp: 'len 11/10/2016 10:29'!
 pointAt: aTuple
@@ -34137,9 +34177,9 @@ nullity
 one
 	^ self identity! !
 
-!Matrix methodsFor: 'converting' stamp: 'len 11/5/2016 06:38'!
+!Matrix methodsFor: 'converting' stamp: 'len 1/20/2017 09:09:29'!
 over: aRing
-	self scalars = aRing ifFalse: [^ self scalars matrix: self dimension evaluating: [:i :j| self at: i@j]]! !
+	self scalars = aRing ifFalse: [^ aRing matrix: self dimension evaluating: [:i :j| aRing !! (self at: i@j)]]! !
 
 !Matrix methodsFor: 'operations' stamp: 'len 11/5/2015 02:51'!
 permanent
@@ -36652,12 +36692,12 @@ terms
 termsDo: aBlock
 	self monomialsAndCoefficientsDo: [:monomial :coefficient| aBlock value: (self species coefficient: coefficient monomial: monomial)]! !
 
-!Polynomial methodsFor: 'operations' stamp: 'len 1/2/2017 10:23:20'!
+!Polynomial methodsFor: 'operations' stamp: 'len 1/19/2017 21:09:17'!
 value: anObject
 	"Answer the value of the receiver at the argument. For multivariate polynomials, a Tuple or Array is expected."
 	| answer |
-	((anObject is: #Tuple) or: [anObject is: #Array])
-		ifFalse: [^ self error: 'argument should be tuple or array'].
+"	((anObject is: #Tuple) or: [anObject is: #Array])
+		ifFalse: [^ self error: 'argument should be tuple or array']."
 	anObject size = self species rank
 		ifFalse: [self error: 'the arity of the argument should match the number of indeterminates'].
 	answer _ (anObject at: 1) zero.
@@ -39289,6 +39329,10 @@ homogeneousPolynomial
 !WeierstrassEquation methodsFor: 'invariants' stamp: 'len 11/9/2016 07:28'!
 j
 	^ self c4 ** 3 / self discriminant! !
+
+!WeierstrassEquation methodsFor: 'converting' stamp: 'len 1/20/2017 09:36:51'!
+over: aRing
+	^ self class coefficients: (coefficients over: aRing)! !
 
 !WeierstrassEquation methodsFor: 'accessing' stamp: 'len 11/9/2016 13:17'!
 polynomial
