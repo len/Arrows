@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 20 January 2017 at 9:42:25 am'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 22 January 2017 at 8:32:18 am'!
 'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 338!
+!provides: 'Mathematics' 1 340!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
 	instanceVariableNames: 'numerator shift'
@@ -2591,16 +2591,6 @@ Object subclass: #Quaternion
 Quaternion class
 	instanceVariableNames: ''!
 
-!classDefinition: #SLP category: #'Mathematics-Kernel-Support'!
-Object subclass: #SLP
-	instanceVariableNames: 'word'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Kernel-Support'!
-!classDefinition: 'SLP class' category: #'Mathematics-Kernel-Support'!
-SLP class
-	instanceVariableNames: ''!
-
 !classDefinition: #Word category: #'Mathematics-Monoids'!
 Object subclass: #Word
 	instanceVariableNames: 'syllables'
@@ -3731,6 +3721,16 @@ Object subclass: #Pixel
 Pixel class
 	instanceVariableNames: ''!
 
+!classDefinition: #SLP category: #'Mathematics-Etc'!
+Object subclass: #SLP
+	instanceVariableNames: 'word'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Etc'!
+!classDefinition: 'SLP class' category: #'Mathematics-Etc'!
+SLP class
+	instanceVariableNames: ''!
+
 !classDefinition: #SturmChain category: #'Mathematics-Etc'!
 Object subclass: #SturmChain
 	instanceVariableNames: 'chain'
@@ -3749,66 +3749,6 @@ Object subclass: #TensorOld
 	category: 'Mathematics-Etc'!
 !classDefinition: 'TensorOld class' category: #'Mathematics-Etc'!
 TensorOld class
-	instanceVariableNames: ''!
-
-!classDefinition: #Element category: #'Mathematics-Etc-Elements'!
-Object subclass: #Element
-	instanceVariableNames: 'value'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Etc-Elements'!
-!classDefinition: 'Element class' category: #'Mathematics-Etc-Elements'!
-Element class
-	instanceVariableNames: ''!
-
-!classDefinition: #GroupElement category: #'Mathematics-Etc-Elements'!
-Element subclass: #GroupElement
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Etc-Elements'!
-!classDefinition: 'GroupElement class' category: #'Mathematics-Etc-Elements'!
-GroupElement class
-	instanceVariableNames: ''!
-
-!classDefinition: #GroupAdditiveElement category: #'Mathematics-Etc-Elements'!
-GroupElement subclass: #GroupAdditiveElement
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Etc-Elements'!
-!classDefinition: 'GroupAdditiveElement class' category: #'Mathematics-Etc-Elements'!
-GroupAdditiveElement class
-	instanceVariableNames: ''!
-
-!classDefinition: #GroupCompositiveElement category: #'Mathematics-Etc-Elements'!
-GroupElement subclass: #GroupCompositiveElement
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Etc-Elements'!
-!classDefinition: 'GroupCompositiveElement class' category: #'Mathematics-Etc-Elements'!
-GroupCompositiveElement class
-	instanceVariableNames: ''!
-
-!classDefinition: #RingElement category: #'Mathematics-Etc-Elements'!
-Element subclass: #RingElement
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Etc-Elements'!
-!classDefinition: 'RingElement class' category: #'Mathematics-Etc-Elements'!
-RingElement class
-	instanceVariableNames: ''!
-
-!classDefinition: #RingCompositiveElement category: #'Mathematics-Etc-Elements'!
-RingElement subclass: #RingCompositiveElement
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Etc-Elements'!
-!classDefinition: 'RingCompositiveElement class' category: #'Mathematics-Etc-Elements'!
-RingCompositiveElement class
 	instanceVariableNames: ''!
 
 !classDefinition: #Expression category: #'Mathematics-Etc-Expressions'!
@@ -3944,7 +3884,7 @@ My instances are bases for free modules of finite rank.
 
 Example:
 	| V |
-	V _ QQ ** 3.
+	V _ QQ ^ 3.
 	LinearBasis on: V generators: {(1, 2, 3). (3, 2, 3). (2, 0, 0)}!
 
 !StandardBasis commentStamp: '<historical>' prior: 0!
@@ -4088,14 +4028,14 @@ Domains are connected by Morphisms, which in many cases are Functions. From the 
 Domains often have an underlying set: the set of elements. The cardinality of a domain can be finite or infinite, and countable or uncountable (see >>size and class Aleph). When the underlying set is finite, #asSet returns a Smalltalk Set. When it is countable, it is possible to enumerate it (see >>do:).  Also, when it makes sense to take elements at random, #atRandom:, #atRandom:bits: or similar messages are implemented.
 
 Examples:
-	QQ**(3@3) atRandomBits: 100.
+	QQ^(3@3) atRandomBits: 100.
 	(ZZ/5) asSet.
 
 Domains can be built from other domains, for example by taking products or coproducts (cartesian products, direct products, direct sums), quotients, localizations, extensions, duals, etc. These operations are also morphisms (functors, more precisely), and are mostly implemented as Smalltalk messages.
 
 Examples:
 	ZZ ◊ QQ polynomials.
-	QQ**3 ê QQ asSelfModule.
+	QQ^3 ê QQ asSelfModule.
 
 Domains, as categorical objects, can have subobjects: groups have subgroups, vector spaces have subspaces, rings have subrings and ideals, schemes have subschemes, etc. In general, there is an #ambient overobject, and there is a protocol for inclusion testing: #<, #<=, #>=, #>.
 
@@ -4227,8 +4167,8 @@ These groups act naturally on the domain R-module by the action g^v |-> g(v). Th
 My instances are the general linear group GL(V) of automorphisms of an R-module V. The elements are invertible linear transformations from V to itself (see LinearMap, LinearGroup).
 
 Examples (two equivalent ways to create GL(V):
-	GeneralLinearGroup on: QQ ** 3.
-	(QQ ** 3) automorphisms!
+	GeneralLinearGroup on: QQ ^ 3.
+	(QQ ^ 3) automorphisms!
 
 !OrthogonalGroup commentStamp: '<historical>' prior: 0!
 My instances are O(V), the Orthogonal Group of a vector space V. This is the group of automorphisms that preserve the inner product.
@@ -4309,7 +4249,7 @@ These groups act naturally on the module R^n of n-tuples by the action A^v |-> A
 My instances are the general linear (matrix) group GL(n,R) of nxn invertible matrices with coefficients in the ring R, acting on the R-module of n-tuples R^n.
 
 Example:
-	GeneralLinearMatrixGroup on: QQ ** 3
+	GeneralLinearMatrixGroup on: QQ ^ 3
 !
 
 !SpecialLinearMatrixGroup commentStamp: '<historical>' prior: 0!
@@ -4464,7 +4404,7 @@ The initialization of the tables is very fast. The main concern is memory usage.
 My instances are (finite) algebraic extensions E/F of a field F. They are defined by an irreducible polynomial f with coefficients in F, and are isomorphic to F[x]/<f>. An extension field E/F can also be viewed as a vector space over F.
 
 Example:
-	QQ extension: QQ polynomials x**4 - 2
+	QQ extension: QQ polynomials x^4 - 2
 !
 
 !FunctionField commentStamp: '<historical>' prior: 0!
@@ -4532,7 +4472,7 @@ Example:
 	| R x |
 	R _ ZZ polynomials.
 	x _ R x.
-	x**2 - x + 3
+	x^2 - x + 3
 
 Example:
 	"Same polynomial in Z[x] by tuple of coefficients"
@@ -4544,7 +4484,7 @@ Example:
 	R _ ZZ polynomialsIn: #(x y). "these are just names for printing"
 	x _ R x: 1.
 	y _ R x: 2.
-	(x - y) ** 2
+	(x - y) ^ 2
 
 Polynomial rings have an associated monomial ordering. This is used for defining the leading term of a polynomial, multivariate division (also called normal form or reduction) and the computation of Groebner bases and standard bases.
 !
@@ -4587,7 +4527,7 @@ My instances are free modules of formal sums of the elements of a finite set.!
 My instances are R-modules (or K-vector spaces) of linear transformations from a R-module (or K-vector space) A to another one B, i.e. Hom(A,B), the space of module homomorphisms between two R-modules. When A = B, it is noted End(A).
 
 Example:
-	QQ ** 3 hom: (QQ ** 2).
+	QQ ^ 3 hom: (QQ ^ 2).
 !
 
 !DualModule commentStamp: '<historical>' prior: 0!
@@ -4643,7 +4583,7 @@ Affine subspaces appear when considering the solutions of non-homogeneous linear
 
 Example:
 	| V S f |
-	V _ QQ ** 3.
+	V _ QQ ^ 3.
 	S _ V span: {(1, 1, 1). (2, 0, -2)}.
 	f _ LinearMap projectionOn: S.
 	f fiberAt: (1, 2, 3).
@@ -4715,7 +4655,7 @@ Example:
 	R _ QQ polynomialsIn: #(x y).
 	x _ R x.
 	y _ R y.
-	I _ R * (x**2 + (y**2) - 1).
+	I _ R * (x^2 + (y^2) - 1).
 	(R / I) spec
 !
 
@@ -4803,9 +4743,9 @@ Also can be seen as a subset of the power set of some set V, often V={1,...,n}, 
 I'm an abstract superclass for Functions and other morphisms. See subclasses, and Domain and HomSet.
 
 Examples (three equivalent ways to construct a vector space homomorphism):
-	QQ**3 to: QQ**3 evaluating: [:v| (v x - v y, v x, v z)].
-	(QQ**3 hom: QQ**3) evaluating: [:v| (v x - v y, v x, v z)].
-	(QQ**3) endomorphisms evaluating: [:v| (v x - v y, v x, v z)].
+	QQ^3 to: QQ^3 evaluating: [:v| (v x - v y, v x, v z)].
+	(QQ^3 hom: QQ^3) evaluating: [:v| (v x - v y, v x, v z)].
+	(QQ^3) endomorphisms evaluating: [:v| (v x - v y, v x, v z)].
 
 References:
 	https://en.wikipedia.org/wiki/Morphism
@@ -4821,15 +4761,15 @@ A Function is a morphism of sets. If the function preserves some mathematical st
 
 Example (three equivalent ways to construct homomorphisms):
 	"These constructions are similar to the explicit construction above, but they return not arbitrary functions but homomorphisms of the corresponding category (in this case linear maps, i.e. morphisms of vector spaces):"
-	QQ**3 to: QQ**3 evaluating: [:v| (v x - v y, v x, v z)].
-	(QQ**3 hom: QQ**3) evaluating: [:v| (v x - v y, v x, v z)].
-	(QQ**3) endomorphisms evaluating: [:v| (v x - v y, v x, v z)].
+	QQ^3 to: QQ^3 evaluating: [:v| (v x - v y, v x, v z)].
+	(QQ^3 hom: QQ^3) evaluating: [:v| (v x - v y, v x, v z)].
+	(QQ^3) endomorphisms evaluating: [:v| (v x - v y, v x, v z)].
 
 In general, functions are defined by specifying a domain, a codomain, and an expression that can be evaluated at elements of the domain and produces elements of the codomain. One such expression can be a Smalltalk block, another Function, or more generally any Smalltalk object that admits evaluation (#value:), such as polynomials:
 
 Example (two ways to define the Frobenius endomorphism):
-	(ZZ/6) endomorphisms evaluating: [:x| x**6].
-	(ZZ/6) endomorphisms evaluating: (ZZ/6) polynomials x ** 6.
+	(ZZ/6) endomorphisms evaluating: [:x| x^6].
+	(ZZ/6) endomorphisms evaluating: (ZZ/6) polynomials x ^ 6.
 
 Note that functions defined by polynomials or other symbolic expressions, as opposed to functions defined by Smalltalk blocks, are printed more explicitly (as a formula).
 
@@ -4882,7 +4822,7 @@ My instances are linear transformations between finite-rank free modules (or fin
 
 Example:
 	| V S |
-	V _ QQ ** 3.
+	V _ QQ ^ 3.
 	S _ V span: {(1, 1, 1). (2, 0, -2)}.
 	LinearMap projectionOn: S.
 !
@@ -5117,7 +5057,7 @@ The algorithm performs O(2mn^2) arithmetic operations.
 
 Example:
 	| V basis |
-	V _ Rationals new ** 3.
+	V _ Rationals new ^ 3.
 	basis _ LinearBasis generators: {(1, 1, 0). (0, 1, 1). (1, 0, 1)} on: V.
 	(GramSchmidt basis: basis) orthogonalBasis
 !
@@ -5466,13 +5406,13 @@ isFinite
 isInfinite
 	^ false! !
 
-!Number methodsFor: '*mathematics' stamp: 'len 11/19/2015 17:23'!
-** aNumber
-	^ self raisedTo: aNumber! !
-
 !Number methodsFor: '*mathematics' stamp: 'len 11/5/2016 10:31'!
 , anObject
 	^ (QQ tuple: {self}), anObject! !
+
+!Number methodsFor: '*mathematics' stamp: 'len 1/22/2017 08:16:31'!
+^ aNumber
+	^ self raisedTo: aNumber! !
 
 !Number methodsFor: '*mathematics' stamp: 'len 11/19/2015 18:42'!
 adaptToQuaternion: rcvr andSend: selector
@@ -5592,7 +5532,7 @@ Stirling: anInteger
 	self = anInteger ifTrue: [^ 1].
 	anInteger = 0 ifTrue: [^ 0].
 	self+1 = anInteger ifTrue: [^ self choose: 2].
-	anInteger = 2 ifTrue: [^ 2 ** (self-1) - 1].
+	anInteger = 2 ifTrue: [^ 2 ^ (self-1) - 1].
 	^ anInteger*(self - 1 Stirling: anInteger) + (self - 1 Stirling: anInteger - 1)! !
 
 !Integer methodsFor: '*mathematics' stamp: 'len 1/13/2016 03:56'!
@@ -5659,7 +5599,7 @@ choose: anInteger q: q
 	This counts the number of 'anInteger'-dimensional subspaces of a vector space of dimension 'self' over a finite field of order 'q' (power of a prime)."
 
 	(anInteger < 0 or: [anInteger > self]) ifTrue: [^0].
-	^ ((0 to: anInteger - 1) inject: 1 into: [:x :i| 1 - (q**(self-i)) * x]) / ((1 to: anInteger) inject: 1 into: [:x :i| 1 - (q**i) * x])! !
+	^ ((0 to: anInteger - 1) inject: 1 into: [:x :i| 1 - (q^(self-i)) * x]) / ((1 to: anInteger) inject: 1 into: [:x :i| 1 - (q^i) * x])! !
 
 !Integer methodsFor: '*mathematics' stamp: 'len 4/23/2016 19:35'!
 count: aBlock
@@ -5803,17 +5743,17 @@ kronecker: anInteger
 	(a even and: [b even]) ifTrue: [^ 0].
 	v _ b lowBit - 1.
 	b _ b bitShift: v negated.
-	"v even ifTrue: [k _ 1] ifFalse: [k _ (-1) ** (a squared - 1 / 8)]."
+	"v even ifTrue: [k _ 1] ifFalse: [k _ (-1) ^ (a squared - 1 / 8)]."
 	v even ifTrue: [k _ 1] ifFalse: [k _ #(0 1 0 -1 0 -1 0 1) at: (a bitAnd: 7) + 1].
 	b < 0 ifTrue: [b _ b negated. a < 0 ifTrue: [k _ k negated]].
 	"3. Finished?"
 	[a == 0 ifTrue: [^ b == 1 "b is odd and > 0" ifTrue: [k] ifFalse: [0]].
 	v _ a lowBit - 1.
 	a _ a bitShift: v negated.
-	"v odd ifTrue: [k _ (-1) ** (b squared - 1 / 8) * k]."
+	"v odd ifTrue: [k _ (-1) ^ (b squared - 1 / 8) * k]."
 	v odd ifTrue: [k _ (#(0 1 0 -1 0 -1 0 1) at: (b bitAnd: 7) + 1) * k].
 	"4. Apply reciprocity"
-	"k _ (-1) ** ((a - 1)*(b - 1)/4) * k."
+	"k _ (-1) ^ ((a - 1)*(b - 1)/4) * k."
 	((a bitAnd: b) bitAnd: 2) == 0 ifFalse: [k _ k negated].
 	r _ a abs.
 	a _ b \\ r.
@@ -6036,8 +5976,8 @@ bitParity
 	^ (16r6996 bitShift: n negated) bitAnd: 1
 "! !
 
-!Complex methodsFor: '*mathematics' stamp: 'len 11/19/2015 17:24'!
-** aNumber
+!Complex methodsFor: '*mathematics' stamp: 'len 1/22/2017 08:13:12'!
+^ aNumber
 	^ self raisedTo: aNumber! !
 
 !Complex methodsFor: '*mathematics' stamp: 'len 12/6/2016 13:18:52'!
@@ -6338,7 +6278,7 @@ buildMathFont
 	"
 	#(5 6 7 8 9 10 11 12 13 14 17 22) do: [:pointSize| self buildMathFont: pointSize]! !
 
-!StrikeFont class methodsFor: '*mathematics-character shapes' stamp: 'len 12/18/2016 22:58:05'!
+!StrikeFont class methodsFor: '*mathematics-character shapes' stamp: 'len 1/22/2017 08:04:24'!
 buildMathFont: pointSize
 	| font normal slightlyLarger larger muchLarger |
 	font _ AbstractFont familyName: 'DejaVu Sans Mono' pointSize: pointSize.
@@ -6348,7 +6288,7 @@ buildMathFont: pointSize
 	#(2 1 3 0) detect: [:one| (larger _ (AbstractFont familyName: 'DejaVu' pointSize: pointSize+one)) notNil].
 	#(4 3 2 1 0) detect: [:one| (muchLarger _ (AbstractFont familyName: 'DejaVu' pointSize: pointSize+one)) notNil].
 	"replace some math glyphs with their normal counterpart, because the monospaced glyphs are far too small (and some are missing):"
-	'ÄÅÇÉÖÜáàâäãåçéèêëíìîïñóòôöõú' do: [:each|
+	'ÄÅÇÉÖÜáàâäãåçéèêëíìîïñóòôöõúùû' do: [:each|
 		font takeAllGlyphFor: each from: each in: normal].
 "	'ÄÉÑÖÜâäãåçéè' do: [:each|
 		font takeAllGlyphFor: each from: each in: slightlyLarger].
@@ -6845,7 +6785,7 @@ phi
 	"Answer the Phidias number or Golden Ratio."
 	| x |
 	x _ QQ polynomials x.
-	^ self minimalPolynomial: x**2 - x - 1 bounds: (RealInterval open: 1 open: 2)! !
+	^ self minimalPolynomial: x^2 - x - 1 bounds: (RealInterval open: 1 open: 2)! !
 
 !RealAlgebraicNumber class methodsFor: 'instance creation' stamp: 'len 1/16/2016 06:40'!
 polynomial: aPolynomial bounds: aRealInterval
@@ -6947,7 +6887,7 @@ negated
 
 !PAdicInteger methodsFor: 'accessing' stamp: 'len 12/8/2015 03:24'!
 norm
-	^ self isZero ifTrue: [0] ifFalse: [self p ** self valuation negated]! !
+	^ self isZero ifTrue: [0] ifFalse: [self p ^ self valuation negated]! !
 
 !PAdicInteger methodsFor: 'constants' stamp: 'len 12/17/2016 21:25:08'!
 one
@@ -6999,7 +6939,7 @@ in: aPAdicIntegersRing digits: aSequence
 
 !PAdicNumber methodsFor: 'accessing' stamp: 'len 12/17/2016 21:47:40'!
 denominator
-	^ numerator parent embed: self p ** self valuation! !
+	^ numerator parent embed: self p ^ self valuation! !
 
 !PAdicNumber methodsFor: 'as yet unclassified' stamp: 'len 12/17/2016 22:16:16'!
 embed: aNumber
@@ -7009,7 +6949,7 @@ embed: aNumber
 
 !PAdicNumber methodsFor: 'accessing' stamp: 'len 12/8/2015 03:24'!
 norm
-	^ self isZero ifTrue: [0] ifFalse: [self p ** self valuation negated]! !
+	^ self isZero ifTrue: [0] ifFalse: [self p ^ self valuation negated]! !
 
 !PAdicNumber methodsFor: 'accessing' stamp: 'len 12/17/2016 21:46:48'!
 numerator
@@ -7169,11 +7109,6 @@ with: anObject with: anotherObject
 	anObject = 0 ifTrue: [^ self errorUndetermined].
 	^ self max: anObject! !
 
-!Aleph methodsFor: 'arithmetic' stamp: 'len 6/4/2016 19:12'!
-** aNumber
-	(aNumber isInteger and: [aNumber > 0]) ifTrue: [^ self].
-	DomainError signal: 'only integer positive exponents allowed'! !
-
 !Aleph methodsFor: 'comparing' stamp: 'len 4/22/2016 05:06'!
 < anObject
 	anObject class = self class ifTrue: [^ order < anObject order].
@@ -7182,6 +7117,11 @@ with: anObject with: anotherObject
 !Aleph methodsFor: 'comparing' stamp: 'len 4/22/2016 05:06'!
 = anObject
 	^ self class == anObject class and: [order = anObject order]! !
+
+!Aleph methodsFor: 'arithmetic' stamp: 'len 1/22/2017 08:12:39'!
+^ aNumber
+	(aNumber isInteger and: [aNumber > 0]) ifTrue: [^ self].
+	DomainError signal: 'only integer positive exponents allowed'! !
 
 !Aleph methodsFor: 'converting' stamp: 'len 4/22/2016 05:11'!
 adaptToNumber: rcvr andSend: selector
@@ -7233,10 +7173,6 @@ new: anInteger
 	anObject = 0 ifTrue: [^ self errorUndetermined].
 	^ self class sign: self sign * anObject sign! !
 
-!Infinity methodsFor: 'arithmetic' stamp: 'len 1/16/2016 06:05'!
-** aNumber
-	^ self raisedTo: aNumber! !
-
 !Infinity methodsFor: 'arithmetic' stamp: 'len 12/13/97 02:26'!
 + anObject
 	"Answer the sum of the receiver and the argument."
@@ -7278,6 +7214,10 @@ new: anInteger
 !Infinity methodsFor: 'comparing' stamp: 'len 11/9/2015 15:19'!
 >= aMagnitude
 	^ self > aMagnitude! !
+
+!Infinity methodsFor: 'arithmetic' stamp: 'len 1/22/2017 08:15:34'!
+^ aNumber
+	^ self raisedTo: aNumber! !
 
 !Infinity methodsFor: 'converting' stamp: 'len 11/11/2015 05:00'!
 adaptToNumber: rcvr andSend: selector
@@ -7543,7 +7483,7 @@ collect: aBlock
 
 !LinearBasis methodsFor: 'coordinates' stamp: 'len 5/23/2016 04:32'!
 coordinateSpace
-	^ ambient scalars ** self size! !
+	^ ambient scalars ^ self size! !
 
 !LinearBasis methodsFor: 'coordinates' stamp: 'len 10/17/2016 16:41'!
 coordinatesInverseMap
@@ -7551,7 +7491,7 @@ coordinatesInverseMap
 	^ LinearMap
 		from: self coordinateSpace basis
 		to: self
-		matrix: (ambient scalars ** (self size @ self size)) identity! !
+		matrix: (ambient scalars ^ (self size @ self size)) identity! !
 
 !LinearBasis methodsFor: 'coordinates' stamp: 'len 10/17/2016 16:41'!
 coordinatesMap
@@ -7559,7 +7499,7 @@ coordinatesMap
 	^ LinearMap
 		from: self
 		to: self coordinateSpace basis
-		matrix: (ambient scalars ** (self size @ self size)) identity! !
+		matrix: (ambient scalars ^ (self size @ self size)) identity! !
 
 !LinearBasis methodsFor: 'coordinates' stamp: 'len 1/17/2017 08:45:16'!
 coordinatesOf: anElement
@@ -8174,7 +8114,7 @@ changeTo: aLinearBasis
 
 !LinearBasis2 methodsFor: 'coordinates' stamp: 'len 1/8/2017 10:57:30'!
 coordinateSpace
-	^ self ambient scalars ** self size! !
+	^ self ambient scalars ^ self size! !
 
 !LinearBasis2 methodsFor: 'coordinates' stamp: 'len 1/8/2017 10:58:10'!
 coordinatesInverseMap
@@ -10208,14 +10148,14 @@ adjacencyMatrix
 	If the graph is labelled, use the labels as entries in the matrix."
 	| n matrix |
 	n _ self order.
-	matrix _ (ZZ ** (n@n)) zero.
+	matrix _ (ZZ ^ (n@n)) zero.
 	self edgesAndLabelsDo: [:edge :label| matrix at: edge key at: edge value add: (label ifNil: [1])].
 	^ matrix! !
 
 !Graph methodsFor: 'operations' stamp: 'len 7/19/2016 23:20'!
 adjacencyMatrix: vertices
 	"Answer the adjacency matrix of the receiver, using the vertex ordering given by the argument."
-	^ ZZ ** (vertices size @ vertices size) evaluating: [:i :j| self multiplicityFrom: (vertices at: i) to: (vertices at: j)]! !
+	^ ZZ ^ (vertices size @ vertices size) evaluating: [:i :j| self multiplicityFrom: (vertices at: i) to: (vertices at: j)]! !
 
 !Graph methodsFor: 'enumerating' stamp: 'len 7/23/2016 04:06'!
 apply: aMorphism
@@ -10458,7 +10398,7 @@ chromaticPolynomial
 !Graph methodsFor: 'operations' stamp: 'len 7/14/2016 06:50'!
 chromaticPolynomialAt: k
 	"The chromatic polynomial P(G,k) is a polynomial in k that counts the number of k-colorings of G. Answer the evaluation at k."
-	self isEdgeless ifTrue: [^ k ** self size].
+	self isEdgeless ifTrue: [^ k ^ self size].
 	self edgesDo: [:each|
 		each key = each value
 			ifFalse: [^ ((self - each) chromaticPolynomialAt: k) - ((self / each) chromaticPolynomialAt: k)]].
@@ -11876,7 +11816,7 @@ flowPolynomial
 	"The flow polynomial F(G,k) is a polynomial in k that counts the number of nowhere-zero k-flows of G."
 	| x |
 	x _ ZZ polynomials x.
-	^ (-1)**(self size + self numberOfEdges + self components size) * (self tuttePolynomial value: {0. 1 - x})! !
+	^ (-1)^(self size + self numberOfEdges + self components size) * (self tuttePolynomial value: {0. 1 - x})! !
 
 !UndirectedGraph methodsFor: 'enumerating' stamp: 'len 11/30/2016 14:45:20'!
 fullEdgesAndLabelsDo: aBinaryBlock
@@ -12406,7 +12346,7 @@ mouseMove: aMouseMoveEvent localPosition: localEventPosition
 					bounds _ self morphLocalBounds.
 					d _ (localEventPosition dist: lastMousePosition) / (bounds width min: bounds height).
 					localEventPosition y >= lastMousePosition y ifTrue: [d _ d negated].
-					self scaleEdgesBy: 2.0 ** d]
+					self scaleEdgesBy: 2.0 ^ d]
 				ifFalse: [self rotateNodesBy: lastMousePosition - localEventPosition]].
 	lastMousePosition _ localEventPosition! !
 
@@ -12866,7 +12806,7 @@ exampleReciprocalSinus
 !ComplexPlotMorph class methodsFor: 'as yet unclassified' stamp: 'len 12/7/2016 16:37:24'!
 exampleRiemannZetaFunction
 	| f |
-	f _ Function from: CC to: CC evaluating: [:z| 1 to: 100 :: sum: [:n| n**z negated]].
+	f _ Function from: CC to: CC evaluating: [:z| 1 to: 100 :: sum: [:n| n^z negated]].
 	^ self new morphExtent: 300@300; box: (-5@-5 corner: 5@5); palette: (ComplexPalette grid: 1@5); function: f! !
 
 !ComplexPlotMorph class methodsFor: 'as yet unclassified' stamp: 'len 12/7/2016 16:37:54'!
@@ -12984,7 +12924,7 @@ mouseMove: aMouseMoveEvent localPosition: localEventPosition
 					[| bounds anchor delta |
 					bounds _ self morphLocalBounds.
 					delta _ localEventPosition - lastMousePosition / (bounds width max: bounds height).
-					self scaleBy: 2.0 ** delta x negated @ (2.0 ** delta y) anchor: firstMousePosition]
+					self scaleBy: 2.0 ^ delta x negated @ (2.0 ^ delta y) anchor: firstMousePosition]
 				ifFalse:
 					[| bounds delta |
 					bounds _ self morphLocalBounds.
@@ -13192,7 +13132,7 @@ example2
 	HistogramMorph example2
 	"
 	| h S n |
-	S _ ZZ ** 4.
+	S _ ZZ ^ 4.
 	n _ 40.
 	h _ HistogramMorph new: 500 min: 0 max: n.
 	100000 timesRepeat: [h addValue: (S atRandom: n) bitSize].
@@ -13367,7 +13307,7 @@ initialize
 	extent _ 150@150.
 	color _ Color lightGray alpha: 0.5.
 	box _ -1@-1 extent: 2@2.
-	transformation _ (QQ**3) asAffineSpace id! !
+	transformation _ (QQ^3) asAffineSpace id! !
 
 !ImplicitFunctionPlot3DMorph methodsFor: 'as yet unclassified' stamp: 'len 10/25/2016 04:35'!
 morphExtent: aPoint
@@ -13389,7 +13329,7 @@ mouseMove: aMouseMoveEvent localPosition: localEventPosition
 					bounds _ self morphLocalBounds.
 					d _ (localEventPosition dist: lastMousePosition) / (bounds width min: bounds height).
 					localEventPosition y >= lastMousePosition y ifTrue: [d _ d negated].
-					self scalePlotBy: 2.0 ** d]
+					self scalePlotBy: 2.0 ^ d]
 				ifFalse: [self rotatePlotBy: lastMousePosition - localEventPosition]].
 	lastMousePosition _ localEventPosition! !
 
@@ -13471,7 +13411,7 @@ example
 	"
 	| function |
 	"Descartes folium"
-	function _ Function from: QQ**2 to: QQ evaluatingWithArguments: [:x :y| x**3 + (y**3) - (3*x*y)].
+	function _ Function from: QQ^2 to: QQ evaluatingWithArguments: [:x :y| x^3 + (y^3) - (3*x*y)].
 	^ self new function: function! !
 
 !MultiplicationTableMorph methodsFor: 'as yet unclassified' stamp: 'len 7/31/2016 05:20'!
@@ -13547,7 +13487,7 @@ applyRotationBy: aPoint
 	bounds _ self morphLocalBounds.
 	xSpeed _ Float pi / bounds width.
 	ySpeed _ Float pi / bounds height.
-	rotation _ (QQ**self dimension) endomorphisms evaluating: [:p|
+	rotation _ (QQ^self dimension) endomorphisms evaluating: [:p|
 		| xz yz |
 		xz _ p x @ p z.
 		xz _ xz rotatedBy: aPoint x * xSpeed.
@@ -13645,7 +13585,7 @@ mouseMove: aMouseMoveEvent localPosition: localEventPosition
 					bounds _ self morphLocalBounds.
 					d _ (localEventPosition dist: lastMousePosition) / (bounds width min: bounds height).
 					localEventPosition y >= lastMousePosition y ifTrue: [d _ d negated].
-					self applyScaleBy: 2.0 ** d]
+					self applyScaleBy: 2.0 ^ d]
 				ifFalse: [self applyRotationBy: lastMousePosition - localEventPosition]].
 	lastMousePosition _ localEventPosition! !
 
@@ -13654,7 +13594,7 @@ points: anArray
 	points _ anArray.
 	max _ points max: [:each| each max].
 	min _ points min: [:each| each min].
-	transformation _ QQ**self dimension :: id.
+	transformation _ QQ^self dimension :: id.
 	self redrawNeeded! !
 
 !ScatterPlotMorph methodsFor: 'as yet unclassified' stamp: 'len 8/21/2016 07:13'!
@@ -14111,13 +14051,6 @@ printOn: aStream
 	"This is a convenience method for doing categorical products. Subclasses can reimplement it to mean something different from the categorical product in order to match customary notation."
 	^ self product: aDomain! !
 
-!Domain methodsFor: 'operations' stamp: 'len 11/10/2015 22:47'!
-** anInteger
-	| components |
-	components _ Array new: anInteger.
-	components atAllPut: self.
-	^ CartesianProduct components: components! !
-
 !Domain methodsFor: 'operations' stamp: 'len 4/18/2016 23:30'!
 + aDomain
 	"This is a convenience method for doing coproducts. Subclasses can reimplement it to mean something different from the coproduct in order to match customary notation."
@@ -14164,6 +14097,13 @@ printOn: aStream
 >= aDomain
 	"Answer true if aDomain is a subobject of the receiver (inclusion)."
 	^ aDomain <= self! !
+
+!Domain methodsFor: 'operations' stamp: 'len 1/22/2017 08:13:22'!
+^ anInteger
+	| components |
+	components _ Array new: anInteger.
+	components atAllPut: self.
+	^ CartesianProduct components: components! !
 
 !Domain methodsFor: 'morphisms' stamp: 'len 11/6/2016 08:58'!
 | aMorphism
@@ -14647,23 +14587,23 @@ example1atRandom
 	"Taking an element at random from the Q-vector space of 3x3 matrices.
 	Use 100 bits to generate this element. Essentially, this can return
 	at most 2^100 different matrices."
-	^ QQ**(3@3) atRandomBits: 100! !
+	^ QQ^(3@3) atRandomBits: 100! !
 
 !Domain class methodsFor: 'examples' stamp: 'len 12/17/2016 09:27:30'!
 example21VectorSpace
 	"The vector space of 3-tuples with rational coefficients."
-	^ QQ ** 3! !
+	^ QQ ^ 3! !
 
 !Domain class methodsFor: 'examples' stamp: 'len 12/17/2016 09:27:22'!
 example21VectorSpace2
 	"The vector space of 3x3 matrices with complex coefficients."
-	^ CC ** (3@3)! !
+	^ CC ^ (3@3)! !
 
 !Domain class methodsFor: 'examples' stamp: 'len 12/17/2016 09:25:55'!
 example2ModuleDirectSum
 	"The direct sum of the module of 3x3 matrices with coefficients in Z/6Z
 	plus the rank 1 module of Z/6Z scalars."
-	^ ZZ/6 ** (3@3) ê (ZZ/6) asSelfModule! !
+	^ ZZ/6 ^ (3@3) ê (ZZ/6) asSelfModule! !
 
 !Domain class methodsFor: 'examples' stamp: 'len 10/29/2016 08:05'!
 example3DirectProductOfGroups
@@ -14685,7 +14625,7 @@ example42PolynomialQuotient
 	x _ R x: 1.
 	y _ R x: 2.
 	z _ R x: 3.
-	I _ R * {(x**2) - y. (x**3) - z}.
+	I _ R * {(x^2) - y. (x^3) - z}.
 	^ R / I! !
 
 !Domain class methodsFor: 'examples' stamp: 'len 12/20/2016 11:16:33'!
@@ -14693,7 +14633,7 @@ example5GL
 	"The group GL(Q^3) of invertible linear maps
 	on the vector space of 3-tuples with rational coefficients.
 	This is the automorphisms group of the vector space"
-	^ (QQ ** 3) automorphisms! !
+	^ (QQ ^ 3) automorphisms! !
 
 !Domain class methodsFor: 'examples' stamp: 'len 12/20/2016 11:17:23'!
 example5GLAsMatrixGroup
@@ -16115,7 +16055,7 @@ orderOf: anElement
 	e _ h.
 	id _ self identity.
 	factors asSet do: [:p|
-		e _ e / (p ** (factors occurrencesOf: p)).
+		e _ e / (p ^ (factors occurrencesOf: p)).
 		g1 _ self raise: anElement to: e.
 		[g1 = id] whileFalse: [g1 _ self raise: g1 to: p. e _ e*p]].
 	^ e! !
@@ -16647,7 +16587,7 @@ asLinearGroupOver: aRing
 	Assume the space of the receiver is an interval (1 to: n)."
 	| n V |
 	n _ self degree.
-	V _ aRing ** n.
+	V _ aRing ^ n.
 	^ LinearGroup on: V generators: (self generators collect: [:g| V to: V evaluating: [:x| x withIndexCollect: [:xi :i| x at: (g value: i)]]])! !
 
 !PermutationGroup methodsFor: 'converting' stamp: 'len 11/13/2016 08:00'!
@@ -16657,7 +16597,7 @@ asMatrixGroup
 	| n generators |
 	n _ self degree.
 	generators _ self generators collect: [:g| QQ matrix: n@n evaluating: [:i :j| (g at: i) = j ifTrue: [1] ifFalse: [0]]].
-	^ MatrixGroup on: QQ**n generators: generators! !
+	^ MatrixGroup on: QQ^n generators: generators! !
 
 !PermutationGroup methodsFor: 'private' stamp: 'len 6/24/2016 03:30'!
 computeSize
@@ -17083,7 +17023,7 @@ size
 		ifFalse: [^ super size].
 	q _ self space scalars size.
 	n _ self space dimension.
-	^ q ** (n*(n-1)/2) * ((1 to: n) inject: 1 into: [:x :k| q**k - 1 * x])! !
+	^ q ^ (n*(n-1)/2) * ((1 to: n) inject: 1 into: [:x :k| q^k - 1 * x])! !
 
 !GeneralLinearGroup methodsFor: 'operations' stamp: 'len 2/12/2016 18:58'!
 special
@@ -17472,7 +17412,7 @@ index
 	"Answer the index of the receiver in the modular group."
 	| answer |
 	answer _ 1.
-	self level factors withOccurrencesDo: [:p :e| answer _ answer * (p ** e + (p ** (e - 1)))].
+	self level factors withOccurrencesDo: [:p :e| answer _ answer * (p ^ e + (p ^ (e - 1)))].
 	^ answer
 	! !
 
@@ -17511,7 +17451,7 @@ index
 	"Answer the index of the receiver in the modular group."
 	| answer |
 	answer _ 1.
-	self level factors withOccurrencesDo: [:p :e| answer _ answer * (p ** (e*3 - 2) * (p*p - 1))].
+	self level factors withOccurrencesDo: [:p :e| answer _ answer * (p ^ (e*3 - 2) * (p*p - 1))].
 	^ answer! !
 
 !PrincipalCongruenceSubgroup methodsFor: 'as yet unclassified' stamp: 'len 12/10/2016 11:33:56'!
@@ -17520,7 +17460,7 @@ numberOfCusps
 	self level = 1 ifTrue: [^ 1].
 	self level = 2 ifTrue: [^ 3].
 	count _ 1.
-	self level factors withOccurrencesDo: [:p :e| count _ count * (p ** (e*2) - (p ** (e*2 - 2)))].
+	self level factors withOccurrencesDo: [:p :e| count _ count * (p ^ (e*2) - (p ^ (e*2 - 2)))].
 	^ count // 2! !
 
 !PrincipalCongruenceSubgroup methodsFor: 'as yet unclassified' stamp: 'len 12/10/2016 11:34:29'!
@@ -17988,8 +17928,8 @@ thetaSeries
 A: n
 	"Answer the lattice A_n = {(x0,...,xn) in Z^{n+1} : x0 + ... + xn = 0}."
 	| V t B |
-	V _ QQ ** (n+1).
-	t _ (-1,1), (QQ ** (n-1)) zero.
+	V _ QQ ^ (n+1).
+	t _ (-1,1), (QQ ^ (n-1)) zero.
 	B _ LinearBasis on: V.
 	n timesRepeat: [B add: t. t _ t >> 1].
 	^ self basis: B! !
@@ -17998,7 +17938,7 @@ A: n
 Adual: n
 	"Answer the dual of A_n."
 	| V B |
-	V _ QQ ** (n+1).
+	V _ QQ ^ (n+1).
 	B _ LinearBasis on: V.
 	1 to: n do: [:i| B add: (1, (V e: i) negated)].
 	B add: (QQ tuple: n+1 evaluating: [:i| i=1 ifTrue: [n negated / (n+1)] ifFalse: [1 / (n+1)]]).
@@ -18008,7 +17948,7 @@ Adual: n
 D4
 	"Answer the D4 lattice, which is self-dual."
 	| V B |
-	V _ QQ ** 4.
+	V _ QQ ^ 4.
 	B _ LinearBasis on: V generators: {(1,0,0,0). (0,1,0,0). (0,0,1,0). (1,1,1,1)/2}.
 	^ self basis: B! !
 
@@ -18016,11 +17956,11 @@ D4
 D: n
 	"Answer the checkboard lattice D_n = {(x1,...,xn) in Z^n : x0 + ... + xn is even}."
 	| V t0 t B |
-	V _ QQ ** n.
+	V _ QQ ^ n.
 	B _ LinearBasis on: V.
-	t0 _ (-1,-1), (QQ ** (n-2)) zero.
+	t0 _ (-1,-1), (QQ ^ (n-2)) zero.
 	B add: t0.
-	t _ (1,-1), (QQ ** (n-2)) zero.
+	t _ (1,-1), (QQ ^ (n-2)) zero.
 	n-1 timesRepeat: [B add: t. t _ t >> 1].
 	^ self basis: B! !
 
@@ -18028,7 +17968,7 @@ D: n
 Ddual: n
 	"Answer the dual of D_n."
 	| V B |
-	V _ QQ ** n.
+	V _ QQ ^ n.
 	B _ LinearBasis on: V.
 	1 to: n-1 do: [:i| B add: (V e: i)].
 	B add: (QQ tuple: n evaluating: [:i| 1/2]).
@@ -18037,7 +17977,7 @@ Ddual: n
 !Lattice class methodsFor: 'examples' stamp: 'len 7/15/2016 18:33'!
 E8
 	| V t0 t B answer |
-	V _ QQ ** 8.
+	V _ QQ ^ 8.
 	B _ LinearBasis on: V.
 	t0 _ (2,0,0,0,0,0,0,0).
 	B add: t0.
@@ -18050,15 +17990,15 @@ E8
 		at: #kissingNumber put: 240;
 		at: #CoxeterNumber put: 30;
 		at: #packingRadius put: 1/2 sqrt;
-		at: #density put: Float pi ** 4 / 384;
-		at: #thickness put: Float pi ** 4 / 24.
+		at: #density put: Float pi ^ 4 / 384;
+		at: #thickness put: Float pi ^ 4 / 24.
 	^ answer
 		! !
 
 !Lattice class methodsFor: 'examples' stamp: 'len 7/15/2016 18:34'!
 Z: n
 	"Answer the n-dimensional cubic or integer lattice Z^n."
-	^ self basis: (QQ ** n) basis! !
+	^ self basis: (QQ ^ n) basis! !
 
 !Lattice class methodsFor: 'instance creation' stamp: 'len 12/9/2015 02:18'!
 basis: aLinearBasis
@@ -18069,7 +18009,7 @@ bcc
 	"Answer the body-centered cubic lattice (bcc).
 	D*_3 is equivalent to bcc."
 	| V B |
-	V _ QQ ** 3.
+	V _ QQ ^ 3.
 	B _ LinearBasis on: V generators: {(2,0,0). (0,2,0). (1,1,1)}.
 	^ self basis: B! !
 
@@ -18078,7 +18018,7 @@ fcc
 	"Answer the face-centered cubic lattice (fcc).
 	Both A_3 and D_3 are equivalent to the fcc."
 	| V B |
-	V _ QQ ** 3.
+	V _ QQ ^ 3.
 	B _ LinearBasis on: V generators: {(-1,-1,0). (1,-1,0). (0,1,-1)}.
 	^ self basis: B! !
 
@@ -18250,7 +18190,7 @@ shortName
 
 !MatrixGroup methodsFor: 'accessing' stamp: 'len 12/8/2016 11:04:20'!
 space
-	^ self scalars ** self degree! !
+	^ self scalars ^ self degree! !
 
 !MatrixGroup methodsFor: 'private' stamp: 'len 2/12/2016 22:38'!
 species
@@ -18298,14 +18238,14 @@ ambient
 !GeneralLinearMatrixGroup methodsFor: 'random' stamp: 'len 12/8/2016 11:18:05'!
 atRandom: aRandom
 	| matrices answer |
-	matrices _ self scalars ** (self degree @ self degree).
+	matrices _ self scalars ^ (self degree @ self degree).
 	[(answer _ matrices atRandom: aRandom) isSingular] whileTrue.
 	^ answer! !
 
 !GeneralLinearMatrixGroup methodsFor: 'random' stamp: 'len 12/8/2016 11:18:20'!
 atRandom: aRandom bits: bitSize
 	| matrices answer |
-	matrices _ self scalars ** (self degree @ self degree).
+	matrices _ self scalars ^ (self degree @ self degree).
 	[(answer _ matrices atRandom: aRandom bits: bitSize) isSingular] whileTrue.
 	^ answer! !
 
@@ -18339,7 +18279,7 @@ size
 		ifFalse: [^ super size].
 	q _ self space scalars size.
 	n _ self space dimension .
-	^ q ** (n*(n-1)/2) * ((1 to: n) inject: 1 into: [:x :k| q**k - 1 * x])! !
+	^ q ^ (n*(n-1)/2) * ((1 to: n) inject: 1 into: [:x :k| q^k - 1 * x])! !
 
 !GeneralLinearMatrixGroup methodsFor: 'operations' stamp: 'len 12/8/2016 11:06:45'!
 special
@@ -18498,7 +18438,7 @@ decomposition
 	| answer |
 	answer _ OrderedCollection new.
 	self modulus factors withOccurrencesDo:
-		[:p :e| answer add: (self class new: p**e to: self codomain)].
+		[:p :e| answer add: (self class new: p^e to: self codomain)].
 	^ answer! !
 
 !DirichletGroup methodsFor: 'as yet unclassified' stamp: 'len 12/28/2016 11:30:54'!
@@ -18552,7 +18492,7 @@ presentation
 	relators _ OrderedCollection new.
 	diagram edgesAndLabelsDo: [:each :label|
 		label isInfinity
-			ifFalse: [relators add: (Word x: each key) * (Word x: each value) ** (label ifNil: [3])]].
+			ifFalse: [relators add: (Word x: each key) * (Word x: each value) ^ (label ifNil: [3])]].
 	^ GroupPresentation generators: generators relators: relators! !
 
 !CoxeterGroup class methodsFor: 'as yet unclassified' stamp: 'len 4/18/2016 01:25'!
@@ -18641,11 +18581,11 @@ allMonomialsOfDegree: anInteger
 
 !MonomialMonoid methodsFor: 'random' stamp: 'len 11/20/2016 12:17:38'!
 atRandom: aRandom bits: bitSize
-	^ self exponents: ((NN ** self rank atRandom: aRandom bits: bitSize) collect: [:x| x - 1]) asArray! !
+	^ self exponents: ((NN ^ self rank atRandom: aRandom bits: bitSize) collect: [:x| x - 1]) asArray! !
 
 !MonomialMonoid methodsFor: 'enumerating' stamp: 'len 11/20/2016 12:17:48'!
 do: aBlock
-	NN ** self rank do: [:each| aBlock value: (self exponents: (each collect: [:x| x - 1]) asArray)]! !
+	NN ^ self rank do: [:each| aBlock value: (self exponents: (each collect: [:x| x - 1]) asArray)]! !
 
 !MonomialMonoid methodsFor: 'elements' stamp: 'len 11/21/2016 14:13:50'!
 exponents: anArray
@@ -19053,11 +18993,6 @@ mod: anEquivalenceRelation
 			ifTrue: [self idealClass on: self generators: anElementOrArray]
 			ifFalse: [self idealClass on: self generators: {anElementOrArray}]! !
 
-!Ring methodsFor: 'operations' stamp: 'len 10/7/2016 08:44'!
-** n
-"	n isInfinity ifTrue: [^ InfiniteTupleSpace over: self]."
-	^ n isPoint ifTrue: [MatrixModule new: n over: self] ifFalse: [TupleModule new: n over: self]! !
-
 !Ring methodsFor: 'operations' stamp: 'len 10/20/2016 10:41'!
 / anIdeal
 	"Answer the quotient by the given ideal.
@@ -19070,6 +19005,11 @@ mod: anEquivalenceRelation
 		ifFalse:
 			[I _ self * anIdeal].
 	^ I quotient! !
+
+!Ring methodsFor: 'operations' stamp: 'len 1/22/2017 08:19:59'!
+^ n
+"	n isInfinity ifTrue: [^ InfiniteTupleSpace over: self]."
+	^ n isPoint ifTrue: [MatrixModule new: n over: self] ifFalse: [TupleModule new: n over: self]! !
 
 !Ring methodsFor: 'operations' stamp: 'len 10/18/2016 17:43'!
 ◊ aRing
@@ -19173,7 +19113,7 @@ frobenius
 	"Answer the Frobenius endomorphism, assuming the receiver is of characteristic p prime."
 	| p |
 	p _ self characteristic.
-	^ self to: self evaluating: self polynomials x ** p! !
+	^ self to: self evaluating: self polynomials x ^ p! !
 
 !Ring methodsFor: 'private' stamp: 'len 10/30/2016 15:44'!
 idealClass
@@ -20422,12 +20362,12 @@ asModule
 asVectorSpace
 	^ ExtensionFieldVectorSpace on: self
 "	^ FreeModule
-		basis: ((1 to: self degree) collect: [:i| self x ** (i-1)])
+		basis: ((1 to: self degree) collect: [:i| self x ^ (i-1)])
 		coordinates: [:aVector| self scalars tuple: self degree evaluating: [:i| aVector representative coefficientAtDegree: i-1]]
 		over: self scalars"
 
 "
-	QQ extension: QQ polynomials x**4 - 2 :: asVectorSpace
+	QQ extension: QQ polynomials x^4 - 2 :: asVectorSpace
 "! !
 
 !ExtensionField methodsFor: 'morphisms' stamp: 'len 12/14/2016 11:14:19'!
@@ -20506,7 +20446,7 @@ scalars
 
 !ExtensionField methodsFor: 'accessing' stamp: 'len 11/3/2016 04:36'!
 size
-	^ self scalars size ** self degree! !
+	^ self scalars size ^ self degree! !
 
 !ExtensionField methodsFor: 'accessing' stamp: 'len 11/3/2016 04:33'!
 x
@@ -20686,7 +20626,7 @@ discriminant
 	| n phi |
 	n _ self order.
 	phi _ n phi.
-	^ -1 ** (phi / 2) * (n ** phi) / (n factors asSet product: [:p| p ** (phi / (p - 1))])! !
+	^ -1 ^ (phi / 2) * (n ^ phi) / (n factors asSet product: [:p| p ^ (phi / (p - 1))])! !
 
 !CyclotomicField methodsFor: 'accessing' stamp: 'len 12/18/2016 21:26:29'!
 integers
@@ -20695,7 +20635,7 @@ integers
 
 !CyclotomicField methodsFor: 'accessing' stamp: 'len 12/15/2016 08:33:38'!
 integralBasis
-	^ (0 to: self degree - 1) collect: [:k| self x ** k]! !
+	^ (0 to: self degree - 1) collect: [:k| self x ^ k]! !
 
 !CyclotomicField methodsFor: 'testing' stamp: 'len 12/10/2016 20:13:22'!
 isAbelianExtension
@@ -20789,7 +20729,7 @@ sqrt: anInteger
 !AffineAlgebra methodsFor: 'converting' stamp: 'len 1/8/2017 22:02:04'!
 asModule
 "	^ FreeModule
-		basis: ((1 to: self degree) collect: [:i| self x ** (i-1)])
+		basis: ((1 to: self degree) collect: [:i| self x ^ (i-1)])
 		coordinates: [:aVector| self scalars tuple: self degree evaluating: [:i| aVector representative coefficientAtDegree: i-1]]
 		over: self scalars
 "
@@ -20937,7 +20877,7 @@ atRandom: aRandom bits: bitSize
 "	bitSize = 0 ifTrue: [^ 0]."
 	self flag: #fix. "maybe this should be more like a flat gaussian distribution around 0?"
 	bitSize < 1 ifTrue: [^ 0].
-	n _ 2**(bitSize truncated - 1).
+	n _ 2^(bitSize truncated - 1).
 	^ (0-n to: n) atRandom: aRandom! !
 
 !RationalIntegerRing methodsFor: 'accessing' stamp: 'len 11/5/2015 17:34'!
@@ -21449,7 +21389,7 @@ scalars: aRing
 
 !MatrixAlgebra methodsFor: 'accessing' stamp: 'len 1/5/2017 20:23:17'!
 size
-	^ self scalars size ** self degree squared! !
+	^ self scalars size ^ self degree squared! !
 
 !MatrixAlgebra methodsFor: 'accessing' stamp: 'len 1/5/2017 20:21:45'!
 zero
@@ -21549,15 +21489,15 @@ asUnivariateIn: anIndeterminate
 
 !PolynomialRing methodsFor: 'random' stamp: 'len 10/22/2016 18:16'!
 atRandom: aRandom bits: bitSize
-	^ self atRandom: aRandom bits: bitSize maxDegree: (bitSize**(1/self rank) min: bitSize - 1) truncated! !
+	^ self atRandom: aRandom bits: bitSize maxDegree: (bitSize^(1/self rank) min: bitSize - 1) truncated! !
 
 !PolynomialRing methodsFor: 'random' stamp: 'len 10/22/2016 18:12'!
 atRandom: aRandom bits: bitSize maxDegree: d
 	| answer term n |
 	self isUnivariate
-		ifTrue: [^ self coefficients: (self scalars ** (d+1) atRandom: aRandom bits: bitSize)].
+		ifTrue: [^ self coefficients: (self scalars ^ (d+1) atRandom: aRandom bits: bitSize)].
 	answer _ self zero.
-	n _ 2 ** self rank.
+	n _ 2 ^ self rank.
 	n timesRepeat:
 		[term _ ((1 to: d) product: [:i| self x: (self rank atRandom: aRandom) to: (2 atRandom: aRandom) - 1]) * (self scalars atRandom: aRandom bits: bitSize/(self rank*d)).
 		answer _ answer + term].
@@ -21566,7 +21506,7 @@ atRandom: aRandom bits: bitSize maxDegree: d
 !PolynomialRing methodsFor: 'random' stamp: 'len 8/10/2016 06:28'!
 atRandom: aRandom maxDegree: d
 	self isUnivariate ifFalse: [^ self notYetImplemented].
-	^ self coefficients: (self scalars ** (d+1) evaluating: [:i| self scalars atRandom: aRandom])! !
+	^ self coefficients: (self scalars ^ (d+1) evaluating: [:i| self scalars atRandom: aRandom])! !
 
 !PolynomialRing methodsFor: 'random' stamp: 'len 7/5/2016 02:29'!
 atRandomBits: bitSize maxDegree: d
@@ -21576,13 +21516,13 @@ atRandomBits: bitSize maxDegree: d
 atRandomDegree: d
 	"Answer a polynomial of degree d choosen at random with a uniform distribution."
 	self isUnivariate ifFalse: [^ self notYetImplemented].
-	^ self coefficients: (self scalars ** d) atRandom, self scalars one! !
+	^ self coefficients: (self scalars ^ d) atRandom, self scalars one! !
 
 !PolynomialRing methodsFor: 'random' stamp: 'len 2/25/2016 00:18'!
 atRandomMaxDegree: d
 	"Answer a polynomial of degree at most d choosen at random with a uniform distribution."
 	self isUnivariate ifFalse: [^ self notYetImplemented].
-	^ self coefficients: (self scalars ** (d+1)) atRandom! !
+	^ self coefficients: (self scalars ^ (d+1)) atRandom! !
 
 !PolynomialRing methodsFor: 'accessing' stamp: 'len 1/2/2017 10:08:58'!
 characteristic
@@ -21689,12 +21629,12 @@ cyclotomic: n
 	denominator _ one.
 	n divisorsDo: [:d| | mu |
 		mu _ (n/d) moebius.
-		mu = 1 ifTrue: [numerator _ numerator * (x**d - one)].
-		mu = -1 ifTrue: [denominator _ denominator * (x**d - one)]].
+		mu = 1 ifTrue: [numerator _ numerator * (x^d - one)].
+		mu = -1 ifTrue: [denominator _ denominator * (x^d - one)]].
 	^ numerator // denominator"
 	product _ self one.
 	n divisors do: [:each| each = n ifFalse: [product _ product * (self cyclotomic: each)]].
-	^ x**n - one // product! !
+	^ x^n - one // product! !
 
 !PolynomialRing methodsFor: 'examples' stamp: 'len 11/26/2015 03:44'!
 determinantOfOrder: n
@@ -21702,7 +21642,7 @@ determinantOfOrder: n
 	"Polynomial determinantOfOrder: 3"
 
 	n = 0 ifTrue: [^ self zero].
-	^ (self ** (n@n) evaluating: [:i :j| self x: n * (j - 1) + i]) determinant! !
+	^ (self ^ (n@n) evaluating: [:i :j| self x: n * (j - 1) + i]) determinant! !
 
 !PolynomialRing methodsFor: 'accessing' stamp: 'len 10/20/2016 03:34'!
 dimension
@@ -21717,7 +21657,7 @@ do: aBlock
 	self isUnivariate ifFalse: [^ self notYetImplemented].
 	aBlock value: self zero.
 	k _ 1.
-	[(self scalars ** k) do: [:t| t last isZero ifFalse: [aBlock value: (self coefficients: t)]].
+	[(self scalars ^ k) do: [:t| t last isZero ifFalse: [aBlock value: (self coefficients: t)]].
 	k _ k + 1] repeat! !
 
 !PolynomialRing methodsFor: 'morphisms' stamp: 'len 1/2/2016 04:13'!
@@ -21763,7 +21703,7 @@ findIrreducibleOfDegree: n
 	one _ self scalars one.
 	x _ self x.
 	1 to: n-1 do: [:k|
-		p _ x**n + (x**k) + one.
+		p _ x^n + (x^k) + one.
 		p isIrreducible ifTrue: [^ p]].
 	"self error: 'irreducible polynomial not found'"
 	random _ Random new.
@@ -21814,7 +21754,7 @@ hilbertSeries
 
 !PolynomialRing methodsFor: 'operations' stamp: 'len 10/27/2016 18:32'!
 hilbertSeriesAt: t
-	^ (self gradings product: [:d| 1 - (t ** d)]) reciprocal! !
+	^ (self gradings product: [:d| 1 - (t ^ d)]) reciprocal! !
 
 !PolynomialRing methodsFor: 'private' stamp: 'len 10/30/2016 15:48'!
 idealClass
@@ -22794,7 +22734,7 @@ katsura2
 	P _ QQ polynomialsIn: #(x y).
 	x _ P x.
 	y _ P y.
-	^ self on: P generators: {x + (y*2) - 1. x**2 + (y**2 * 2) - x}! !
+	^ self on: P generators: {x + (y*2) - 1. x^2 + (y^2 * 2) - x}! !
 
 !PolynomialIdeal class methodsFor: 'examples' stamp: 'len 7/15/2016 18:35'!
 katsura3
@@ -22803,7 +22743,7 @@ katsura3
 	x _ P x: #x.
 	y _ P x: #y.
 	z _ P x: #z.
-	^ self on: P generators: {x + (y*2) + (z*2) - 1. x**2 + (y**2 * 2) + (z**2 * 2) - x. x*y*2 + (y*z*2) - y}! !
+	^ self on: P generators: {x + (y*2) + (z*2) - 1. x^2 + (y^2 * 2) + (z^2 * 2) - x. x*y*2 + (y*z*2) - y}! !
 
 !PolynomialIdeal class methodsFor: 'examples' stamp: 'len 7/15/2016 18:35'!
 katsura4
@@ -22814,9 +22754,9 @@ katsura4
 	z _ P x: #z.
 	t _ P x: #t.
 	^ self on: P generators: {x + (y*2) + (z*2) + (t*2) - 1.
-		x**2 + (y**2 * 2) + (z**2 * 2) + (t**2 * 2) - x.
+		x^2 + (y^2 * 2) + (z^2 * 2) + (t^2 * 2) - x.
 		x*y*2 + (y*z*2) + (z*t*2) - y.
-		y**2 + (x*z*2) + (y*t*2) - z}! !
+		y^2 + (x*z*2) + (y*t*2) - z}! !
 
 !PolynomialIdeal class methodsFor: 'examples' stamp: 'len 7/15/2016 18:35'!
 katsura5
@@ -22828,9 +22768,9 @@ katsura5
 	t _ P x: #t.
 	u _ P x: #u.
 	^ self on: P generators: {x + (y*2) + (z*2) + (t*2) + (u*2) - 1.
-		x**2 + (y**2 * 2) + (z**2 * 2) + (t**2 * 2) + (u**2 * 2) - x.
+		x^2 + (y^2 * 2) + (z^2 * 2) + (t^2 * 2) + (u^2 * 2) - x.
 		x*y*2 + (y*z*2) + (z*t*2) + (t*u*2) - y.
-		y**2 + (x*z*2) + (y*t*2) + (z*u*2) - z.
+		y^2 + (x*z*2) + (y*t*2) + (z*u*2) - z.
 		y*z*2 + (x*t*2) + (y*u*2) - t}! !
 
 !MonomialIdeal methodsFor: 'operations' stamp: 'len 10/27/2016 18:25'!
@@ -22842,7 +22782,7 @@ hilbertSeriesAt: t
 	m _ self generators asArray last.
 	J _ self class on: self ring generators: (self generators copyWithout: m).
 	int _ self class on: self ring generators: (J generators collect: [:each| each lcm: m]).
-	^ t ** m degree / ((1 to: n) product: [:i| 1 - (t ** (self ring gradings at: i))])
+	^ t ^ m degree / ((1 to: n) product: [:i| 1 - (t ^ (self ring gradings at: i))])
 		+ (J hilbertSeriesAt: t)
 		- (int hilbertSeriesAt: t)! !
 
@@ -23016,7 +22956,7 @@ coordinateRing
 
 !FreeModule methodsFor: 'basis' stamp: 'len 2/28/2016 07:45'!
 coordinateSpace
-	^ self scalars ** self rank! !
+	^ self scalars ^ self rank! !
 
 !FreeModule methodsFor: 'basis' stamp: 'len 1/16/2017 08:02:18'!
 coordinatesOf: anElement
@@ -23231,7 +23171,7 @@ rotations
 
 !FreeModule methodsFor: 'accessing' stamp: 'len 3/19/2016 02:51'!
 size
-	^ self scalars size ** self rank! !
+	^ self scalars size ^ self rank! !
 
 !FreeModule methodsFor: 'operations' stamp: 'len 1/16/2017 09:52:47'!
 span: aCollection
@@ -23289,7 +23229,7 @@ coordinatesOf: anElement
 
 !ExtensionFieldVectorSpace methodsFor: 'as yet unclassified' stamp: 'len 1/16/2017 07:36:52'!
 e: anInteger
-	^ field x ** (anInteger-1)! !
+	^ field x ^ (anInteger-1)! !
 
 !ExtensionFieldVectorSpace methodsFor: 'as yet unclassified' stamp: 'len 1/16/2017 07:36:14'!
 field
@@ -23515,7 +23455,7 @@ isEndomorphisms
 !HomModule methodsFor: 'private' stamp: 'len 1/5/2016 03:20'!
 matrices
 	"Answer the vector space of the matrices associated to the transformations of the receiver."
-	^ self scalars ** (self codomain dimension @ self domain dimension)! !
+	^ self scalars ^ (self codomain dimension @ self domain dimension)! !
 
 !HomModule methodsFor: 'elements' stamp: 'len 2/11/2016 06:04'!
 matrix: aMatrix
@@ -23779,7 +23719,7 @@ evaluating: aBlock
 !BilinearForms methodsFor: 'private' stamp: 'len 1/8/2016 06:52'!
 matrices
 	"Answer the vector space of the matrices associated to the bilinear forms of the receiver."
-	^ self scalars ** (vectorSpace dimension @ vectorSpace dimension)! !
+	^ self scalars ^ (vectorSpace dimension @ vectorSpace dimension)! !
 
 !BilinearForms methodsFor: 'private' stamp: 'len 1/8/2016 06:52'!
 matrixOf: aBilinearForm
@@ -23884,7 +23824,7 @@ printOn: aStream
 
 !TensorsModule methodsFor: 'basis' stamp: 'len 10/16/2016 05:34'!
 rank
-	^ module rank ** (type first * type second)! !
+	^ module rank ^ (type first * type second)! !
 
 !TensorsModule methodsFor: 'accessing' stamp: 'len 10/16/2016 05:37'!
 scalars
@@ -24167,7 +24107,7 @@ scalars: aDomain
 
 !MatrixModule methodsFor: 'accessing' stamp: 'len 11/9/2015 23:18'!
 size
-	^ scalars size ** (self numberOfRows * self numberOfColumns)! !
+	^ scalars size ^ (self numberOfRows * self numberOfColumns)! !
 
 !MatrixModule methodsFor: 'elements' stamp: 'len 11/5/2016 03:47'!
 sparse: aSparseTuple
@@ -25152,7 +25092,7 @@ weightEnumerator
 	answer _ P zero.
 	n _ self ambient dimension.
 	weights _ self weightDistribution.
-	weights asSet do: [:i| answer _ x ** (n - i) * (y ** i) * (weights occurrencesOf: i) + answer].
+	weights asSet do: [:i| answer _ x ^ (n - i) * (y ^ i) * (weights occurrencesOf: i) + answer].
 	^ answer! !
 
 !LinearCode class methodsFor: 'examples' stamp: 'len 11/12/2016 07:41'!
@@ -25243,7 +25183,7 @@ subspace: aLinearSubspace
 !LinearCode class methodsFor: 'examples' stamp: 'len 10/18/2016 20:59'!
 tetracode
 	"Answer the tetracode, a self dual code of minimum distance 3."
-	^ self subspace: ((PrimeField new: 3) ** 4 span: {(1,1,1,0) % 3. (0,1,2,1) % 3})! !
+	^ self subspace: ((PrimeField new: 3) ^ 4 span: {(1,1,1,0) % 3. (0,1,2,1) % 3})! !
 
 !CyclicCode2 methodsFor: 'converting' stamp: 'len 10/29/2016 08:28'!
 asIdeal
@@ -25254,7 +25194,7 @@ checkPolynomial
 	| x one |
 	x _ generator species x.
 	one _ generator species one.
-	^ x ** self length - one / generator! !
+	^ x ^ self length - one / generator! !
 
 !CyclicCode2 methodsFor: 'accessing' stamp: 'len 5/18/2016 07:21'!
 dimension
@@ -25290,7 +25230,7 @@ generator: aPolynomial
 includes: aCodeword
 	| x |
 	x _ generator species x.
-	^ self checkPolynomial * aCodeword \\ (x ** self length - x one) :: isZero! !
+	^ self checkPolynomial * aCodeword \\ (x ^ self length - x one) :: isZero! !
 
 !CyclicCode2 methodsFor: 'testing' stamp: 'len 5/18/2016 07:22'!
 isIrreducible
@@ -25303,7 +25243,7 @@ H7
 	F _ PrimeField new: 2.
 	Fx _ F polynomials.
 	x _ Fx x.
-	^ self new: 7 generator: x**3 + x + 1! !
+	^ self new: 7 generator: x^3 + x + 1! !
 
 !CyclicCode2 class methodsFor: 'instance creation' stamp: 'len 5/18/2016 07:20'!
 new: n generator: aPolynomial
@@ -25339,7 +25279,7 @@ isCyclic
 	| n x |
 	n _ self length.
 	x _ generator species x.
-	^ generator | (x ** n - x species one)! !
+	^ generator | (x ^ n - x species one)! !
 
 !PolynomialCode methodsFor: 'accessing' stamp: 'len 5/12/2016 07:20'!
 rank
@@ -25347,7 +25287,7 @@ rank
 
 !PolynomialCode methodsFor: 'accessing' stamp: 'len 5/3/2016 08:28'!
 size
-	^ generator species scalars size ** (self length - generator degree)! !
+	^ generator species scalars size ^ (self length - generator degree)! !
 
 !PolynomialCode class methodsFor: 'examples' stamp: 'len 10/18/2016 21:01'!
 G23
@@ -25356,7 +25296,7 @@ G23
 	F _ PrimeField new: 2.
 	Fx _ F polynomials.
 	x _ Fx x.
-	g _ x**11 + (x**10) + (x**6) + (x**5) + (x**4) + (x**2) + Fx one.
+	g _ x^11 + (x^10) + (x^6) + (x^5) + (x^4) + (x^2) + Fx one.
 	^ self new: 23 generator: g! !
 
 !PolynomialCode class methodsFor: 'examples' stamp: 'len 10/18/2016 21:01'!
@@ -25366,7 +25306,7 @@ H7
 	F _ PrimeField new: 2.
 	Fx _ F polynomials.
 	x _ Fx x.
-	g _ x**3 + x + Fx one.
+	g _ x^3 + x + Fx one.
 	^ self new: 7 generator: g! !
 
 !PolynomialCode class methodsFor: 'instance creation' stamp: 'len 5/12/2016 07:42'!
@@ -25386,7 +25326,7 @@ checkPolynomial
 	| x one |
 	x _ generator species x.
 	one _ generator species one.
-	^ x ** self length - one / generator! !
+	^ x ^ self length - one / generator! !
 
 !CyclicCode methodsFor: 'as yet unclassified' stamp: 'len 6/29/2016 22:18'!
 dual
@@ -25396,7 +25336,7 @@ dual
 includes: aCodeword
 	| x |
 	x _ generator species x.
-	^ self checkPolynomial * aCodeword \\ (x ** self length - x one) :: isZero! !
+	^ self checkPolynomial * aCodeword \\ (x ^ self length - x one) :: isZero! !
 
 !CyclicCode methodsFor: 'as yet unclassified' stamp: 'len 6/29/2016 22:18'!
 isIrreducible
@@ -25513,10 +25453,10 @@ points
 pointsCount
 	^ self pointsCountOver: self scalars! !
 
-!Scheme methodsFor: 'points' stamp: 'len 1/20/2017 09:23:15'!
+!Scheme methodsFor: 'points' stamp: 'len 1/21/2017 12:55:08'!
 pointsCount: n
-	"If the receiver is defined over a prime field GF(q), answer the number of rational points over GF(q^k) for all k in 1..n."
-	^ (1 to: n) sum: [:k| self pointsCountOver: (self scalars extensionDegree: k)]! !
+	"If the receiver is defined over a finite field GF(q), answer the number of rational points over GF(q^k) for all k in 1..n."
+	^ (1 to: n) collect: [:k| self pointsCountOver: (self scalars extensionDegree: k)]! !
 
 !Scheme methodsFor: 'points' stamp: 'len 12/22/2016 23:04:30'!
 pointsCountOver: aRing
@@ -25563,7 +25503,7 @@ circle
 	R _ QQ polynomialsIn: #(x y).
 	x _ R x.
 	y _ R y.
-	I _ R * (x**2 + (y**2) - 1).
+	I _ R * (x^2 + (y^2) - 1).
 	^ (R / I) spec! !
 
 !Scheme class methodsFor: 'examples' stamp: 'len 1/19/2017 10:28:49'!
@@ -25575,11 +25515,11 @@ clebschCubic
 	x _ A coordinateRing x.
 	y _ A coordinateRing y.
 	z _ A coordinateRing z.
-	f _ x**3 + (y**3) + (z**3) * 81
-			+ (x**2*y + (x**2*z) + (x*(y**2)) + (x*(z**2)) + (y**2*z) + (y*(z**2)) * -189)
+	f _ x^3 + (y^3) + (z^3) * 81
+			+ (x^2*y + (x^2*z) + (x*(y^2)) + (x*(z^2)) + (y^2*z) + (y*(z^2)) * -189)
 			+ (x*y*z * 54)
 			+ (x*y + (x*z) + (y*z) * 126)
-			+ (x**2 + (y**2) + (z**2) * -9)
+			+ (x^2 + (y^2) + (z^2) * -9)
 			+ 1.
 	^ A subscheme: f! !
 
@@ -25588,34 +25528,34 @@ fermat: n
 	"The n-th Fermat curve."
 	| P |
 	P _ ProjectiveSpace new: #(x y z) over: QQ.
-	^ P subscheme: (P coordinateRing generate: [:x :y :z| x**n + (y**n) - (z**n)])! !
+	^ P subscheme: (P coordinateRing generate: [:x :y :z| x^n + (y^n) - (z^n)])! !
 
 !Scheme class methodsFor: 'examples' stamp: 'len 12/18/2016 20:04:56'!
 kleinQuartic
-	"This is a projective variety, a curve in P**2(C)."
+	"This is a projective variety, a curve in P^2(C)."
 	| P x y z |
 	P _ ProjectiveSpace new: 2 over: QQ algebraicClosure.
 	x _ P coordinateRing x.
 	y _ P coordinateRing y.
 	z _ P coordinateRing z.
-	^ P subscheme: {x**3*y + (y**3*z) + (z**3*x)}! !
+	^ P subscheme: {x^3*y + (y^3*z) + (z^3*x)}! !
 
 !Scheme class methodsFor: 'examples' stamp: 'len 12/18/2016 20:04:41'!
 twistedCubic
-	"This is the twisted cubic affine variety, parameterized by (x, x**2, x**3) in C**3."
+	"This is the twisted cubic affine variety, parameterized by (x, x^2, x^3) in C^3."
 	| A x y z |
 	A _ AffineSpace new: #(x y z) over: QQ algebraicClosure.
 	x _ A coordinateRing x.
 	y _ A coordinateRing y.
 	z _ A coordinateRing z.
-	^ A subscheme: {y - (x**2). z - (x**3)}! !
+	^ A subscheme: {y - (x^2). z - (x^3)}! !
 
 !Scheme class methodsFor: 'examples' stamp: 'len 1/19/2017 10:31:10'!
 whitneyUmbrella
 	"This is Whitney's umbrella in affine space Q^3."
 	| A |
 	A _ AffineSpace new: #(x y z) over: QQ.
-	^ A subscheme: (A coordinateRing generate: [:x :y :z| x**2*y - (z**2)])! !
+	^ A subscheme: (A coordinateRing generate: [:x :y :z| x^2*y - (z^2)])! !
 
 !Spectrum methodsFor: 'comparing' stamp: 'len 1/13/2017 16:32:32'!
 = anObject
@@ -25946,14 +25886,14 @@ tangentsAt: aTuple
 	derivatives _ (0 to: r) collect: [:k| (f derivative: k in: 1) derivative: r-k in: 2].
 	^ (self ambient subscheme: ((0 to: r) sum: [:k| (r choose: k) * (derivatives at: k+1) * (f species x: 1 to: k) * (f species x: 2 to: r-k)])) translatedBy: aTuple! !
 
-!AffinePlaneCurve class methodsFor: 'examples' stamp: 'len 12/30/2016 15:01:27'!
+!AffinePlaneCurve class methodsFor: 'examples' stamp: 'len 1/22/2017 08:22:42'!
 descartesFolium
 	"This is the 'Descartes folium'."
-	^ self polynomial: ((QQ polynomialsIn: #(x y)) evaluating: [:x :y| x**3 + (y**3) - (3*x*y)])! !
+	^ self polynomial: ((QQ polynomialsIn: #(x y)) evaluating: [:x :y| x^3 + (y^3) - (3*x*y)])! !
 
-!AffinePlaneCurve class methodsFor: 'examples' stamp: 'len 11/1/2016 18:49'!
+!AffinePlaneCurve class methodsFor: 'examples' stamp: 'len 1/22/2017 08:22:51'!
 iminus
-	^ self polynomial: ((QQ polynomialsIn: #(x y)) evaluating: [:x :y| x**3 + (y**3) - x - (2*y) - 1])
+	^ self polynomial: ((QQ polynomialsIn: #(x y)) evaluating: [:x :y| x^3 + (y^3) - x - (2*y) - 1])
 ! !
 
 !AffineSpace methodsFor: 'accessing' stamp: 'len 8/27/2016 19:03'!
@@ -25965,13 +25905,13 @@ ideal
 	"Answer the defining ideal of the receiver, considered as a subscheme of itself."
 	^ self coordinateRing zeroIdeal! !
 
-!AffineSpace methodsFor: 'points' stamp: 'len 12/22/2016 23:06:27'!
+!AffineSpace methodsFor: 'points' stamp: 'len 1/22/2017 08:22:56'!
 pointsCountOver: aRing
-	^ aRing size ** self rank! !
+	^ aRing size ^ self rank! !
 
-!AffineSpace methodsFor: 'points' stamp: 'len 11/7/2016 09:41'!
+!AffineSpace methodsFor: 'points' stamp: 'len 1/22/2017 08:23:01'!
 pointsOver: aRing do: aBlock
-	^ aRing ** self rank do: [:each| aBlock value: (self pointAt: each)]! !
+	^ aRing ^ self rank do: [:each| aBlock value: (self pointAt: each)]! !
 
 !AffineSpace methodsFor: 'printing' stamp: 'len 1/1/2017 21:29:19'!
 printOn: aStream
@@ -26068,14 +26008,14 @@ degree
 	| t H |
 	t _ QQ polynomials fractions x.
 	H _ self coordinateRing hilbertSeriesAt: t.
-	^ (1 - t) ** (H orderAt: 1) negated * H value: 1! !
+	^ (1 - t) ^ (H orderAt: 1) negated * H value: 1! !
 
 !ProjectiveScheme methodsFor: 'accessing' stamp: 'len 10/27/2016 22:50'!
 degree2
 	| t H |
 	t _ QQ polynomials fractions x.
 	H _ self coordinateRing hilbertSeriesAt: t.
-	^ (1 - t) ** self coordinateRing dimension * H value: 1! !
+	^ (1 - t) ^ self coordinateRing dimension * H value: 1! !
 
 !ProjectiveScheme methodsFor: 'accessing' stamp: 'len 10/20/2016 15:25'!
 dimension
@@ -26369,24 +26309,24 @@ discriminant
 divisionPolynomial0: n at: x
 	"Answer the n-th division polynomial, without the 2-torsion factor if n is even, evaluated at x."
 	n = -2 ifTrue: [^ (self divisionPolynomial: -1 at: x) squared].
-	n = -1 ifTrue: [^ x**3 * 4 + (x**2 * equation b2) + (x * equation b4 * 2) + equation b6].
+	n = -1 ifTrue: [^ x^3 * 4 + (x^2 * equation b2) + (x * equation b4 * 2) + equation b6].
 	n <= 0 ifTrue: [DomainError signal].
 	(n = 1 or: [n = 2]) ifTrue: [^ x one].
-	n = 3 ifTrue: [^ x**4 + (x**3 * equation b2) + (x**2 * equation b4 * 3) + (x * equation b6 * 3) + equation b8].
-	n = 4 ifTrue: [^ (x**2 * 6 + (x * equation b2) + equation b4) * (self divisionPolynomial: 3 at: x) + (self divisionPolynomial: -2 at: x)].
+	n = 3 ifTrue: [^ x^4 + (x^3 * equation b2) + (x^2 * equation b4 * 3) + (x * equation b6 * 3) + equation b8].
+	n = 4 ifTrue: [^ (x^2 * 6 + (x * equation b2) + equation b4) * (self divisionPolynomial: 3 at: x) + (self divisionPolynomial: -2 at: x)].
 	^ n even
 		ifTrue:
 			[| m |
 			m _ n - 2 // 2.
 			(self divisionPolynomial: m+1 at: x) *
-			((self divisionPolynomial: m at: x)**2 * (self divisionPolynomial: m+3 at: x) -
-			((self divisionPolynomial: m+2 at: x)**2 * (self divisionPolynomial: m-1 at: x)))]
+			((self divisionPolynomial: m at: x)^2 * (self divisionPolynomial: m+3 at: x) -
+			((self divisionPolynomial: m+2 at: x)^2 * (self divisionPolynomial: m-1 at: x)))]
 		ifFalse:
 			[| m |
 			m _ n - 1 // 2.
 			m even
-				ifTrue: [(self divisionPolynomial: m at: x)**3 * (self divisionPolynomial: -2 at: x) * (self divisionPolynomial: m+2 at: x) - ((self divisionPolynomial: m+1 at: x)**3 * (self divisionPolynomial: m-1 at: x))]
-				ifFalse: [(self divisionPolynomial: m at: x)**3 * (self divisionPolynomial: m+2 at: x) - ((self divisionPolynomial: m+1 at: x)**3 * (self divisionPolynomial: m-1 at: x) * (self divisionPolynomial: -2 at: x))]]! !
+				ifTrue: [(self divisionPolynomial: m at: x)^3 * (self divisionPolynomial: -2 at: x) * (self divisionPolynomial: m+2 at: x) - ((self divisionPolynomial: m+1 at: x)^3 * (self divisionPolynomial: m-1 at: x))]
+				ifFalse: [(self divisionPolynomial: m at: x)^3 * (self divisionPolynomial: m+2 at: x) - ((self divisionPolynomial: m+1 at: x)^3 * (self divisionPolynomial: m-1 at: x) * (self divisionPolynomial: -2 at: x))]]! !
 
 !EllipticCurve methodsFor: 'operations' stamp: 'len 11/10/2016 09:43'!
 divisionPolynomial: n
@@ -26408,11 +26348,11 @@ divisionPolynomialNew: n
 	x _ R x.
 	y _ R y.
 	n == 2 ifTrue: [^ y*2 + (w a1 * x) + w a3].
-	n == 3 ifTrue: [^ x**4 * 3 + (x**3 * w b2) + (x**2 * 3 * w b4) + (x * 3 * w b6) + w b8].
-	n == 4 ifTrue: [^ (self divisionPolynomial: 2) * (x**6 * 2 + (x**5 * w b2) + (x**4 * w b4 * 5) + (x**3 * 10 * w b6) + (x**2 * 10 * w b8) + (x * (w b2 * w b8 - (w b4 * w b6))) + (w b4 * w b8 - w b6 squared))].
+	n == 3 ifTrue: [^ x^4 * 3 + (x^3 * w b2) + (x^2 * 3 * w b4) + (x * 3 * w b6) + w b8].
+	n == 4 ifTrue: [^ (self divisionPolynomial: 2) * (x^6 * 2 + (x^5 * w b2) + (x^4 * w b4 * 5) + (x^3 * 10 * w b6) + (x^2 * 10 * w b8) + (x * (w b2 * w b8 - (w b4 * w b6))) + (w b4 * w b8 - w b6 squared))].
 "	n odd ifTrue: [
 		m _ n - 1 // 2.
-		^ (self divisionPolynomial: m+2) * ((self divisionPolynomial: m) ** 3) - (self divisionPolynomial"! !
+		^ (self divisionPolynomial: m+2) * ((self divisionPolynomial: m) ^ 3) - (self divisionPolynomial"! !
 
 !EllipticCurve methodsFor: 'operations' stamp: 'len 1/8/2017 20:55:09'!
 divisionPolynomials
@@ -26428,14 +26368,14 @@ divisionPolynomials
 	b8 _ self equation b8.
 	phi1 _ R one.
 	phi2 _ y*2 + (a1 * x) + a3.
-	phi3 _ x**4 * 3 + (x**3 * b2) + (x**2 * 3 * b4) + (x * 3 * b6) + b8.
-	phi4 _ phi2 * (x**6 * 2 + (x**5 * b2) + (x**4 * b4 * 5) + (x**3 * 10 * b6) + (x**2 * 10 * b8) + (x * (b2 * b8 - (b4 * b6))) + (b4 * b8 - b6 squared)).
+	phi3 _ x^4 * 3 + (x^3 * b2) + (x^2 * 3 * b4) + (x * 3 * b6) + b8.
+	phi4 _ phi2 * (x^6 * 2 + (x^5 * b2) + (x^4 * b4 * 5) + (x^3 * 10 * b6) + (x^2 * 10 * b8) + (x * (b2 * b8 - (b4 * b6))) + (b4 * b8 - b6 squared)).
 	^ Sequence to: R initialValues: {phi1. phi2. phi3. phi4} recurrence: [:phi :n|
 		| m |
 		n odd
 			ifTrue:
 				[m _ n - 1 // 2.
-				(phi at: m+2) * ((phi at: m) ** 3) - ((phi at: m - 1) * ((phi at: m + 1) ** 3))]
+				(phi at: m+2) * ((phi at: m) ^ 3) - ((phi at: m - 1) * ((phi at: m + 1) ^ 3))]
 			ifFalse:
 				[m _ n // 2.
 				(phi at: m-1) squared * (phi at: m) * (phi at: m+2) - ((phi at: m-2) * (phi at: m) * (phi at: m+1) squared // phi2)]]! !
@@ -26471,7 +26411,7 @@ multiplicationBy: m
 	f _ f value: {F x. F y}.
 	omega _ (omega value: {F x. F y}) / (F y * 4).
 	phi _ phi value: {F x. F y}.
-	^ "self from: self to: self representatives:" {phi / f squared. omega / (f**3). F z}! !
+	^ "self from: self to: self representatives:" {phi / f squared. omega / (f^3). F z}! !
 
 !EllipticCurve methodsFor: 'converting' stamp: 'len 1/20/2017 09:37:28'!
 over: aRing
@@ -26560,7 +26500,7 @@ pointsCountOver: aRing
 	aRing isFinite ifFalse: [^ aRing size].
 	(aRing isKindOf: ModularIntegerRing)
 		ifTrue:
-			[^ aRing modulus ** (self rank - 1) * (aRing modulus factors asSet product: [:p| (0 to: self rank - 1) sum: [:i| 1 / (p**i)]])].
+			[^ aRing modulus ^ (self rank - 1) * (aRing modulus factors asSet product: [:p| (0 to: self rank - 1) sum: [:i| 1 / (p^i)]])].
 	self notYetImplemented! !
 
 !ProjectiveSpace methodsFor: 'points' stamp: 'len 12/23/2016 20:18:31'!
@@ -26575,7 +26515,7 @@ pointsOverField: aRing do: aBlock
 	| one zero |
 	one _ aRing one.
 	zero _ aRing zero.
-	aRing ** (self rank - 1) do: [:each|
+	aRing ^ (self rank - 1) do: [:each|
 		(each isZero not and: [(each at: each lastNonZero) = one])
 			ifTrue: [aBlock value: (self pointAt: each, zero)].
 		aBlock value: (self pointAt: (each, one))].! !
@@ -26889,7 +26829,7 @@ presentation
 	relators _ OrderedCollection new.
 	self diagram edgesAndLabelsDo: [:each :label|
 		label isInfinity
-			ifFalse: [relators add: (Word x: each key) * (Word x: each value) ** (label ifNil: [3])]].
+			ifFalse: [relators add: (Word x: each key) * (Word x: each value) ^ (label ifNil: [3])]].
 	^ GroupPresentation generators: generators relators: relators! !
 
 !CoxeterSystem methodsFor: 'as yet unclassified' stamp: 'len 4/18/2016 03:17'!
@@ -27275,12 +27215,6 @@ example5CanonicalMorphism
 		ifTrue: [self species from: self domain to: self codomain evaluating: [:each| (self value: each) * anObject]]
 		ifFalse: [self species from: self domain to: self codomain evaluating: [:each| (self value: each) * (anObject value: each)]]! !
 
-!Function methodsFor: 'operations' stamp: 'len 2/12/2016 05:51'!
-** anObject
-	^ (anObject isKindOf: Function)
-		ifTrue: [self species from: self domain to: self codomain evaluating: [:each| (self value: each) ** (anObject value: each)]]
-		ifFalse: [self species from: self domain to: self codomain evaluating: [:each| (self value: each) ** anObject]]! !
-
 !Function methodsFor: 'operations' stamp: 'len 10/10/2016 09:17'!
 + anObject
 	^ (self codomain includes: anObject)
@@ -27304,6 +27238,12 @@ example5CanonicalMorphism
 	self domain do: [:each| (self value: each) = (aFunction value: each) ifFalse: [^ false]].
 	^ true! !
 
+!Function methodsFor: 'operations' stamp: 'len 1/22/2017 08:14:55'!
+^ anObject
+	^ (anObject isKindOf: Function)
+		ifTrue: [self species from: self domain to: self codomain evaluating: [:each| (self value: each) ^ (anObject value: each)]]
+		ifFalse: [self species from: self domain to: self codomain evaluating: [:each| (self value: each) ^ anObject]]! !
+
 !Function methodsFor: 'operations' stamp: 'len 11/5/2016 10:17'!
 ◊ aFunction
 	"Answer the cartesian product of the receiver with the argument."
@@ -27323,14 +27263,14 @@ backwardDifference: n at: h
 	^ self species
 		from: self domain
 		to: self codomain
-		evaluating: [:x| (0 to: n) sum: [:i| (-1)**i * (n choose: i) * (self value: x + (i*h))]]! !
+		evaluating: [:x| (0 to: n) sum: [:i| (-1)^i * (n choose: i) * (self value: x + (i*h))]]! !
 
 !Function methodsFor: 'operations' stamp: 'len 12/12/2016 09:35:28'!
 centralDifference: n at: h
 	^ self species
 		from: self domain
 		to: self codomain
-		evaluating: [:x| (0 to: n) sum: [:i| (-1)**i * (n choose: i) * (self value: x + ((n/2 - i)*h))]]! !
+		evaluating: [:x| (0 to: n) sum: [:i| (-1)^i * (n choose: i) * (self value: x + ((n/2 - i)*h))]]! !
 
 !Function methodsFor: 'accessing' stamp: 'len 12/28/2016 11:09:59'!
 codomain
@@ -27365,7 +27305,7 @@ forwardDifference: n at: h
 	^ self species
 		from: self domain
 		to: self codomain
-		evaluating: [:x| (0 to: n) sum: [:i| (-1)**(n-i) * (n choose: i) * (self value: x + ((n-i)*h))]]! !
+		evaluating: [:x| (0 to: n) sum: [:i| (-1)^(n-i) * (n choose: i) * (self value: x + ((n-i)*h))]]! !
 
 !Function methodsFor: 'properties' stamp: 'len 12/28/2016 12:23:08'!
 hasProperty: aSymbol
@@ -27504,27 +27444,27 @@ example1Function
 !Function class methodsFor: 'examples' stamp: 'len 10/29/2016 07:38'!
 example2Morphism1
 	"This is the most common way to define morphisms.
-	QQ**3 is the vector space of 3-tuples with rational coefficients,
+	QQ^3 is the vector space of 3-tuples with rational coefficients,
 	and this defines a linear map on it (an endomorphism)
 	by sending the message #to:evaluating: to the vector space."
-	^ QQ**3 to: QQ**3 evaluating: [:v| (v x - v y, v x, v z)]! !
+	^ QQ^3 to: QQ^3 evaluating: [:v| (v x - v y, v x, v z)]! !
 
 !Function class methodsFor: 'examples' stamp: 'len 11/2/2016 08:35'!
 example2Morphism2
 	"Here's another way to define the same morphism,
 	by creating Hom(Q^3, Q^3) and sending the message #evaluating: to it."
-	^ (QQ**3 hom: QQ**3) evaluating: [:v| (v x - v y, v x, v z)]! !
+	^ (QQ^3 hom: QQ^3) evaluating: [:v| (v x - v y, v x, v z)]! !
 
 !Function class methodsFor: 'examples' stamp: 'len 10/29/2016 07:38'!
 example2Morphism3
 	"And yet a third way. Here Hom(Q^3, Q^3) is created
 	by sending the message #endomorphisms to the vector space."
-	^ (QQ**3) endomorphisms evaluating: [:v| (v x - v y, v x, v z)]! !
+	^ (QQ^3) endomorphisms evaluating: [:v| (v x - v y, v x, v z)]! !
 
 !Function class methodsFor: 'examples' stamp: 'len 12/2/2016 11:08:54'!
 example3Frobenius1
 	"One way to define the Frobenius ring homomorphism."
-	^ (ZZ / 6) endomorphisms evaluating: [:x| x**6]! !
+	^ (ZZ / 6) endomorphisms evaluating: [:x| x^6]! !
 
 !Function class methodsFor: 'examples' stamp: 'len 12/2/2016 11:08:57'!
 example3Frobenius2
@@ -27532,7 +27472,7 @@ example3Frobenius2
 	| R x |
 	R _ ZZ / 6.
 	x _ R polynomials x.
-	^ R endomorphisms evaluating: x ** 6! !
+	^ R endomorphisms evaluating: x ^ 6! !
 
 !Function class methodsFor: 'instance creation' stamp: 'len 10/10/2016 13:59'!
 from: aDomain to: anotherDomain evaluating: anExpression
@@ -27805,7 +27745,7 @@ conductor
 		ifTrue: [^ self decomposition product: [:each| each conductor]].
 	p _ factors anyOne.
 	e _ factors size.
-	answer _ p ** ((self size valuation: p) + 1).
+	answer _ p ^ ((self size valuation: p) + 1).
 "	p = 2 and: [e > 2 and: [ ..."
 	^ answer! !
 
@@ -28300,7 +28240,7 @@ projectionOn: aLinearSubspace
 	basis _ aLinearSubspace basis.
 	obasis _ aLinearSubspace perp basis.
 "	K _ basis space scalars.
-	matrix _ (K ** (basis size @ (basis size + obasis size))) identity."
+	matrix _ (K ^ (basis size @ (basis size + obasis size))) identity."
 	domainBasis _ basis copy addAll: obasis; yourself.
 	domain _ domainBasis span.
 	^ self from: domain to: domain evaluating: [:v| (basis includes: v) ifTrue: [v] ifFalse: [v-v]]! !
@@ -28584,7 +28524,7 @@ from: aCartesianProduct evaluating: aBlock
 	V _ aCartesianProduct components first.
 	basis _ V basis.
 	n _ basis size.
-	matrix _ V scalars ** (n@n)
+	matrix _ V scalars ^ (n@n)
 					evaluating: [:i :j|
 						aBlock value: {(basis at: i). (basis at: j)}].
 	^ self from: basis matrix: matrix! !
@@ -28599,7 +28539,7 @@ fromHalf: aVectorSpace evaluating: aBlock
 	| basis matrix n |
 	basis _ aVectorSpace basis.
 	n _ basis size.
-	matrix _ aVectorSpace scalars ** (n@n)
+	matrix _ aVectorSpace scalars ^ (n@n)
 					evaluating: [:i :j|
 						aBlock value: {(basis at: i). (basis at: j)}].
 	^ self from: basis matrix: matrix! !
@@ -28914,12 +28854,12 @@ beginsWith: aSequenceableCollection
 
 !Sequence methodsFor: 'series' stamp: 'len 12/29/2015 04:25'!
 bellSeries: p
-	^ PowerSeries coefficients: (self species to: self codomain evaluating: [:n| self at: p**(n-1)])! !
+	^ PowerSeries coefficients: (self species to: self codomain evaluating: [:n| self at: p^(n-1)])! !
 
 !Sequence methodsFor: 'operations' stamp: 'len 12/12/2016 09:35:47'!
 binomialTransform
 	"The binomial transform is its own inverse, it's an involution."
-	^ self species to: self codomain evaluating: [:n| (0 to: n) sum: [:k| (-1)**(n-k) * (n choose: k) * (self at: k)]]! !
+	^ self species to: self codomain evaluating: [:n| (0 to: n) sum: [:k| (-1)^(n-k) * (n choose: k) * (self at: k)]]! !
 
 !Sequence methodsFor: 'operations' stamp: 'len 12/12/2016 09:35:51'!
 binomialTransform2
@@ -29169,9 +29109,9 @@ hensel: aPolynomial at: anIntegerRoot mod: p
 			ifTrue: [anIntegerRoot]
 			ifFalse:
 				[| g a |
-				g _ (f at: n-1) + (p**(n-1) * x).
-				a _ (aPolynomial value: g % (p**n)) roots anyOne representative.
-				(g value: a) \\ (p**n)]]! !
+				g _ (f at: n-1) + (p^(n-1) * x).
+				a _ (aPolynomial value: g % (p^n)) roots anyOne representative.
+				(g value: a) \\ (p^n)]]! !
 
 !Sequence class methodsFor: 'examples' stamp: 'len 7/6/2016 23:45'!
 highlyCompositeNumbers
@@ -29196,7 +29136,7 @@ liouville
 	"Answer the Liouville function."
 	| Omega |
 	Omega _ Sequence Omega.
-	^ Sequence evaluating: [:n| (-1) ** (Omega at: n)]! !
+	^ Sequence evaluating: [:n| (-1) ^ (Omega at: n)]! !
 
 !Sequence class methodsFor: 'examples' stamp: 'len 12/8/2015 01:09'!
 mangoldt
@@ -29261,7 +29201,7 @@ sigma
 !Sequence class methodsFor: 'examples' stamp: 'len 12/4/2015 22:44'!
 sigma: x
 	"Answer the sigma(x,n) function."
-	^ Sequence evaluating: [:n| n divisors sum: [:d| d**x]]! !
+	^ Sequence evaluating: [:n| n divisors sum: [:d| d^x]]! !
 
 !Sequence class methodsFor: 'intance creation' stamp: 'len 7/15/2016 18:30'!
 streamming: aBlock
@@ -29338,7 +29278,7 @@ to: aDomain streamming: aBlock
 at: n
 	self order = 0 ifTrue: [^ self codomain zero].
 	n <= initialValues size ifTrue: [^ initialValues at: n].
-	^ (self matrix ** (n - self order) * initialValues) last
+	^ (self matrix ^ (n - self order) * initialValues) last
 "	answer _ 0.
 	1 to: self order do: [:i |
 		answer _ (self at: n - self order + i - 1) * (coefficients at: i) + answer].
@@ -29772,7 +29712,7 @@ example1TwistedCubicTangentParametrization
 	| A2 A3 |
 	A2 _ AffineSpace new: #(t u) over: QQ.
 	A3 _ AffineSpace new: 3 over: QQ.
-	^ A2 to: A3 evaluatingWithArguments: [:t :u| {t + u. t**2 + (t*u*2). t**3 + (t**2*u*3)}]! !
+	^ A2 to: A3 evaluatingWithArguments: [:t :u| {t + u. t^2 + (t*u*2). t^3 + (t^2*u*3)}]! !
 
 !RationalMap class methodsFor: 'examples' stamp: 'len 11/1/2016 16:51'!
 example2TwistedCubicTangent
@@ -30034,10 +29974,6 @@ new: anInteger
 		answer at: each put: (aPermutation at: (self at: each))].
 	^ answer! !
 
-!Permutation methodsFor: 'arithmetic' stamp: 'len 12/22/2016 21:36:30'!
-** anInteger
-	^ self îî anInteger! !
-
 !Permutation methodsFor: 'comparing' stamp: 'len 6/29/2016 00:26'!
 = aPermutation
 	(aPermutation isKindOf: self species) ifFalse: [^ super = aPermutation].
@@ -30045,6 +29981,10 @@ new: anInteger
 	aPermutation map size <= map size ifTrue: [^ true].
 	aPermutation map keysAndValuesDo: [:key :value| value = (self at: key) ifFalse: [^ false]].
 	^ true! !
+
+!Permutation methodsFor: 'arithmetic' stamp: 'len 1/22/2017 08:16:55'!
+^ anInteger
+	^ self îî anInteger! !
 
 !Permutation methodsFor: 'arithmetic' stamp: 'len 12/20/2016 11:56:08'!
 î aPermutation
@@ -30698,14 +30638,6 @@ on: aProjectiveScheme coordinates: aTuple
 	aCusp isInfinity ifTrue: [self isZero ifTrue: [self error: 'undefined'] ifFalse: [^ aCusp]].
 	^ self shallowCopy coordinates: (self scalars tuple: {self value * aCusp value. self scalars one})! !
 
-!ProjectiveLinePoint methodsFor: 'arithmetic' stamp: 'len 12/4/2016 22:23:41'!
-** anInteger
-	"Answer the receiver raised to the power anInteger."
-	anInteger = 1 ifTrue: [^ self].
-	anInteger = 0 ifTrue: [^ self one].
-	anInteger < 0 ifTrue: [^ self reciprocal ** anInteger negated].
-	^ (self squared ** (anInteger // 2)) * (self ** (anInteger \\ 2))! !
-
 !ProjectiveLinePoint methodsFor: 'arithmetic' stamp: 'len 12/4/2016 22:17:25'!
 + aCusp
 	self isInfinity ifTrue: [^ self].
@@ -30719,6 +30651,14 @@ on: aProjectiveScheme coordinates: aTuple
 !ProjectiveLinePoint methodsFor: 'arithmetic' stamp: 'len 12/4/2016 22:19:44'!
 / aCusp
 	^ self * aCusp reciprocal! !
+
+!ProjectiveLinePoint methodsFor: 'arithmetic' stamp: 'len 1/22/2017 08:18:06'!
+^ anInteger
+	"Answer the receiver raised to the power anInteger."
+	anInteger = 1 ifTrue: [^ self].
+	anInteger = 0 ifTrue: [^ self one].
+	anInteger < 0 ifTrue: [^ self reciprocal ^ anInteger negated].
+	^ (self squared ^ (anInteger // 2)) * (self ^ (anInteger \\ 2))! !
 
 !ProjectiveLinePoint methodsFor: 'accessing' stamp: 'len 12/5/2016 10:31:04'!
 denominator
@@ -30947,14 +30887,6 @@ satisfies: aPoint
 		c: a0 * b2 + (a2 * b0) + (a3 * b1) - (a1 * b3)
 		d: a0 * b3 + (a3 * b0) + (a1 * b2) - (a2 * b1)! !
 
-!Quaternion methodsFor: 'arithmetic' stamp: 'len 7/8/2016 05:48'!
-** anInteger
-	"Answer the receiver raised to the power anInteger."
-	anInteger = 1 ifTrue: [^ self].
-	anInteger = 0 ifTrue: [^ self one].
-	anInteger < 0 ifTrue: [^ (self ** anInteger negated) reciprocal].
-	^ self squared ** (anInteger // 2) * (self ** (anInteger \\ 2))! !
-
 !Quaternion methodsFor: 'arithmetic' stamp: 'len 11/11/2015 05:30'!
 + anObject
 	(anObject isKindOf: Number)
@@ -30986,6 +30918,14 @@ satisfies: aPoint
 		and: [self b = anObject b
 			and: [self c = anObject c
 				and: [self d = anObject d]]]! !
+
+!Quaternion methodsFor: 'arithmetic' stamp: 'len 1/22/2017 08:18:42'!
+^ anInteger
+	"Answer the receiver raised to the power anInteger."
+	anInteger = 1 ifTrue: [^ self].
+	anInteger = 0 ifTrue: [^ self one].
+	anInteger < 0 ifTrue: [^ (self ^ anInteger negated) reciprocal].
+	^ self squared ^ (anInteger // 2) * (self ^ (anInteger \\ 2))! !
 
 !Quaternion methodsFor: 'accessing' stamp: 'len 2/25/98 02:43'!
 a
@@ -31163,47 +31103,6 @@ j
 k
 	^ Quaternion a: 0 b: 0 c: 0 d: 1! !
 
-!SLP methodsFor: 'as yet unclassified' stamp: 'len 7/26/2016 23:37'!
-* aSLP
-	^ self class word: (Word syllables: {word -> 1. aSLP word -> 1})! !
-
-!SLP methodsFor: 'as yet unclassified' stamp: 'len 7/26/2016 23:40'!
-** anInteger
-	anInteger = 0 ifTrue: [^ self class word: Word empty].
-	anInteger = 1 ifTrue: [^ self].
-	^ self class word: (Word x: word to: anInteger)! !
-
-!SLP methodsFor: 'as yet unclassified' stamp: 'len 7/26/2016 23:00'!
-printOn: aStream
-	word printOn: aStream! !
-
-!SLP methodsFor: 'as yet unclassified' stamp: 'len 7/26/2016 22:59'!
-reciprocal
-	^ self class word: (Word x: word to: -1)! !
-
-!SLP methodsFor: 'as yet unclassified' stamp: 'len 7/26/2016 23:33'!
-value
-	| answer |
-	answer _ word value.
-	[answer isKindOf: Word] whileTrue: [answer _ answer value].
-	^ answer! !
-
-!SLP methodsFor: 'as yet unclassified' stamp: 'len 7/26/2016 22:59'!
-word
-	^ word! !
-
-!SLP methodsFor: 'as yet unclassified' stamp: 'len 7/26/2016 22:58'!
-word: aWord
-	word _ aWord! !
-
-!SLP class methodsFor: 'as yet unclassified' stamp: 'len 7/26/2016 23:33'!
-value: anObject
-	^ self word: (Word x: anObject)! !
-
-!SLP class methodsFor: 'as yet unclassified' stamp: 'len 7/26/2016 23:00'!
-word: aWord
-	^ self new word: aWord! !
-
 !Word methodsFor: 'arithmetic' stamp: 'len 3/3/2016 05:25'!
 * aWord
 	| x y |
@@ -31222,13 +31121,6 @@ word: aWord
 				ifFalse: [^ self class syllables: (x, {Association key: xn key value: exponent}, y) asArray]].
 	^ self class syllables: (x, y) asArray! !
 
-!Word methodsFor: 'arithmetic' stamp: 'len 7/8/2016 05:42'!
-** anInteger
-	anInteger = 1 ifTrue: [^ self].
-	anInteger = 0 ifTrue: [^ self class empty].
-	anInteger < 0 ifTrue: [^ self reciprocal ** anInteger negated].
-	^ self squared ** (anInteger // 2) * (self ** (anInteger \\ 2))! !
-
 !Word methodsFor: 'arithmetic' stamp: 'len 2/20/2016 05:34'!
 / aWord
 	^ self * aWord reciprocal! !
@@ -31236,6 +31128,13 @@ word: aWord
 !Word methodsFor: 'comparing' stamp: 'len 3/3/2016 05:23'!
 = aWord
 	^ syllables = aWord syllables! !
+
+!Word methodsFor: 'arithmetic' stamp: 'len 1/22/2017 08:21:26'!
+^ anInteger
+	anInteger = 1 ifTrue: [^ self].
+	anInteger = 0 ifTrue: [^ self class empty].
+	anInteger < 0 ifTrue: [^ self reciprocal ^ anInteger negated].
+	^ self squared ^ (anInteger // 2) * (self ^ (anInteger \\ 2))! !
 
 !Word methodsFor: 'enumerating' stamp: 'len 3/3/2016 05:23'!
 do: aBinaryBlock
@@ -31305,7 +31204,7 @@ syllables: anArray
 
 !Word methodsFor: 'accessing' stamp: 'len 6/29/2016 23:23'!
 value
-	^ syllables product: [:each| each key ** each value]! !
+	^ syllables product: [:each| each key ^ each value]! !
 
 !Word class methodsFor: 'instance creation' stamp: 'len 6/30/2016 02:31'!
 empty
@@ -31512,7 +31411,7 @@ C: n
 	"Answer the cyclic group of order n."
 	| x |
 	x _ Word x: 1.
-	^ self generators: {x} relators: {x**n}! !
+	^ self generators: {x} relators: {x^n}! !
 
 !GroupPresentation class methodsFor: 'examples' stamp: 'len 2/13/2016 08:37'!
 D: n
@@ -31520,7 +31419,7 @@ D: n
 	| x1 x2 |
 	x1 _ Word x: 1.
 	x2 _ Word x: 2.
-	^ self generators: {x1. x2} relators: {x1**n. x2**2. (x1*x2)**2}! !
+	^ self generators: {x1. x2} relators: {x1^n. x2^2. (x1*x2)^2}! !
 
 !GroupPresentation class methodsFor: 'examples' stamp: 'len 11/27/2015 21:46'!
 free: aCollection
@@ -31758,14 +31657,6 @@ root: aPoint generators: anArray action: aGroupAction
 		ifTrue: [^ self class numerator: numerator * anObject numerator denominator: denominator * anObject denominator].
 	^ self class numerator: numerator * anObject denominator: denominator! !
 
-!FormalFraction methodsFor: 'arithmetic' stamp: 'len 10/27/2016 18:31'!
-** anInteger
-	anInteger = 1 ifTrue: [^ self].
-	anInteger < 0 ifTrue: [^ self reciprocal ** anInteger negated].
-	^ self class
-		numerator: numerator ** anInteger
-		denominator: denominator ** anInteger! !
-
 !FormalFraction methodsFor: 'arithmetic' stamp: 'len 11/28/2015 06:33'!
 + anObject
 	^ self class
@@ -31783,6 +31674,14 @@ root: aPoint generators: anArray action: aGroupAction
 !FormalFraction methodsFor: 'comparing' stamp: 'len 10/29/2016 16:06'!
 = aFormalFraction
 	^ (aFormalFraction is: #Fraction) and: [numerator * aFormalFraction denominator = (denominator * aFormalFraction numerator)]! !
+
+!FormalFraction methodsFor: 'arithmetic' stamp: 'len 1/22/2017 08:13:41'!
+^ anInteger
+	anInteger = 1 ifTrue: [^ self].
+	anInteger < 0 ifTrue: [^ self reciprocal ^ anInteger negated].
+	^ self class
+		numerator: numerator ^ anInteger
+		denominator: denominator ^ anInteger! !
 
 !FormalFraction methodsFor: 'accessing' stamp: 'len 12/28/2015 20:31'!
 bitSize
@@ -32029,14 +31928,6 @@ valueWithArguments: anArray
 	anObject isInteger ifTrue: [^ parent project: representative * anObject].
 	^ parent project: representative * anObject representative! !
 
-!ResidueClass methodsFor: 'operations' stamp: 'len 7/8/2016 05:41'!
-** anInteger
-	"Answer the receiver raised to the power anInteger."
-	anInteger = 1 ifTrue: [^ self].
-	anInteger = 0 ifTrue: [^ self one].
-	anInteger < 0 ifTrue: [^ (self ** anInteger negated) reciprocal].
-	^ self squared ** (anInteger // 2) * (self ** (anInteger \\ 2))! !
-
 !ResidueClass methodsFor: 'operations' stamp: 'len 10/24/2016 12:02'!
 + aResidueClass
 	^ parent project: representative + aResidueClass representative! !
@@ -32064,6 +31955,14 @@ valueWithArguments: anArray
 "	^ (self - aResidue) isZero"
 	^ representative = aResidueClass representative! !
 
+!ResidueClass methodsFor: 'operations' stamp: 'len 1/22/2017 08:19:38'!
+^ anInteger
+	"Answer the receiver raised to the power anInteger."
+	anInteger = 1 ifTrue: [^ self].
+	anInteger = 0 ifTrue: [^ self one].
+	anInteger < 0 ifTrue: [^ (self ^ anInteger negated) reciprocal].
+	^ self squared ^ (anInteger // 2) * (self ^ (anInteger \\ 2))! !
+
 !ResidueClass methodsFor: 'converting' stamp: 'len 11/30/2016 19:15:50'!
 adaptToInteger: rcvr andSend: selector
 	^ parent project: (rcvr perform: selector with: representative)! !
@@ -32074,7 +31973,7 @@ bitSize
 
 !ResidueClass methodsFor: 'conjugation' stamp: 'len 11/3/2016 09:29'!
 conjugated
-	^ self ** self parent characteristic! !
+	^ self ^ self parent characteristic! !
 
 !ResidueClass methodsFor: 'conjugation' stamp: 'len 4/20/2016 20:23'!
 conjugates
@@ -32086,7 +31985,7 @@ conjugatesDo: aBlock
 	| alpha |
 	alpha _ self.
 	[aBlock value: alpha.
-	alpha _ alpha ** self ideal ring characteristic.
+	alpha _ alpha ^ self ideal ring characteristic.
 	alpha = self] whileFalse! !
 
 !ResidueClass methodsFor: 'testing' stamp: 'len 12/15/2016 21:47:05'!
@@ -32170,14 +32069,6 @@ zero
 in: aQuotientRing representative: anObject
 	^ self new parent: aQuotientRing; representative: anObject! !
 
-!ModularInteger methodsFor: 'operations' stamp: 'len 12/29/2016 08:28:33'!
-** anInteger
-	^ self class in: parent representative: (representative raisedTo: anInteger modulo: self modulus)
-"	anInteger = 1 ifTrue: [^ self].
-	anInteger = 0 ifTrue: [^ self one].
-	anInteger < 0 ifTrue: [^ self reciprocal ** anInteger negated].
-	^ (self * self ** (anInteger // 2)) * (self ** (anInteger \\ 2))"! !
-
 !ModularInteger methodsFor: 'operations' stamp: 'len 11/30/2016 19:19:44'!
 + aModularInteger
 	| modulus r |
@@ -32211,6 +32102,14 @@ in: aQuotientRing representative: anObject
 	ModularInteger == aModularInteger class ifFalse: [^ false].
 	self == aModularInteger ifTrue: [^ true].
 	^ aModularInteger representative = representative and: [aModularInteger modulus = self modulus]! !
+
+!ModularInteger methodsFor: 'operations' stamp: 'len 1/22/2017 08:16:08'!
+^ anInteger
+	^ self class in: parent representative: (representative raisedTo: anInteger modulo: self modulus)
+"	anInteger = 1 ifTrue: [^ self].
+	anInteger = 0 ifTrue: [^ self one].
+	anInteger < 0 ifTrue: [^ self reciprocal ^ anInteger negated].
+	^ (self * self ^ (anInteger // 2)) * (self ^ (anInteger \\ 2))"! !
 
 !ModularInteger methodsFor: 'operations' stamp: 'len 12/9/2016 22:20:29'!
 additiveOrder
@@ -32315,7 +32214,7 @@ squareRoot
 	representative == 0 ifTrue: [^ self].
 	p _ self modulus.
 	p == 2 ifTrue: [^ self].
-	(p bitAnd: 3) == 3 ifTrue: [^ self ** (p + 1 // 4)].
+	(p bitAnd: 3) == 3 ifTrue: [^ self ^ (p + 1 // 4)].
 	^ self parent squareRootOf: self! !
 
 !ExtensionFieldElement methodsFor: 'as yet unclassified' stamp: 'len 10/16/2016 18:18'!
@@ -32666,7 +32565,7 @@ fromRational: anIntegerOrFraction
 i
 	| x |
 	x _ QQ polynomials x.
-	^ self minimalPolynomial: x**2 - 1 approximation: 1 i radius: 0! !
+	^ self minimalPolynomial: x^2 - 1 approximation: 1 i radius: 0! !
 
 !AlgebraicNumber class methodsFor: 'instance creation' stamp: 'len 1/15/2016 02:05'!
 minimalPolynomial: aPolynomial approximation: aComplex radius: aNumber
@@ -32679,7 +32578,7 @@ phi
 	"Answer the Phidias number or Golden Ratio."
 	| x |
 	x _ QQ polynomials x.
-	^ self minimalPolynomial: (x**2 - x - 1) approximation: 2.0 radius: 1! !
+	^ self minimalPolynomial: (x^2 - x - 1) approximation: 2.0 radius: 1! !
 
 !AlgebraicNumber class methodsFor: 'instance creation' stamp: 'len 1/15/2016 02:04'!
 polynomial: aPolynomial approximation: aComplex radius: aNumber
@@ -32855,14 +32754,14 @@ over: aRing with: anElement times: anScalar
 		ifTrue: [^ self mapMonomials: [:each| each*anObject]].
 	^ DomainError signal! !
 
-!FreePolynomial methodsFor: 'arithmetic' stamp: 'len 7/8/2016 05:38'!
-** anInteger
+!FreePolynomial methodsFor: 'arithmetic' stamp: 'len 1/22/2017 08:14:32'!
+^ anInteger
 	"Answer the receiver raised to the power anInteger."
 	(anInteger isInteger and: [anInteger >= 0])
 		ifFalse: [^ self error: 'undefinted'].
 	anInteger = 0 ifTrue: [^ self one].
 	anInteger = 1 ifTrue: [^ self].
-	^ self squared ** (anInteger // 2) * (self ** (anInteger \\ 2))! !
+	^ self squared ^ (anInteger // 2) * (self ^ (anInteger \\ 2))! !
 
 !FreePolynomial methodsFor: 'accessing' stamp: 'len 3/3/2016 05:27'!
 degree
@@ -33143,7 +33042,7 @@ matrix
 !LinearSystem methodsFor: 'operations' stamp: 'len 5/23/2016 04:27'!
 matrix2
 	| answer |
-	answer _ (self ambient scalars ** (self size @ self ambient dimension)) new.
+	answer _ (self ambient scalars ^ (self size @ self ambient dimension)) new.
 	self do: [:each| answer addRow: each form asTuple].
 	^ answer! !
 
@@ -33484,14 +33383,6 @@ support: aSet
 	(anObject is: #Tuple) ifTrue: [^ self dotProductWithTuple: anObject].
 	^ self collect: [:each| each * anObject]! !
 
-!Matrix methodsFor: 'arithmetic' stamp: 'len 7/8/2016 05:39'!
-** anInteger
-	"Answer the receiver raised to the power anInteger."
-	anInteger = 1 ifTrue: [^ self].
-	anInteger = 0 ifTrue: [^ self identity].
-	anInteger < 0 ifTrue: [^ self reciprocal ** anInteger negated].
-	^ (self squared ** (anInteger // 2)) * (self ** (anInteger \\ 2))! !
-
 !Matrix methodsFor: 'arithmetic' stamp: 'len 11/5/2016 07:02'!
 + aMatrix
 	self checkDimensionMatch: aMatrix.
@@ -33521,6 +33412,14 @@ support: aSet
 	"Answer X such that A * X = B, where A is self and B is aTuple.
 	This is the 'backlash' operator, as implemented in MATLAB, Octave and Sage."
 	^ self solveRight: aTuple! !
+
+!Matrix methodsFor: 'arithmetic' stamp: 'len 1/22/2017 08:15:54'!
+^ anInteger
+	"Answer the receiver raised to the power anInteger."
+	anInteger = 1 ifTrue: [^ self].
+	anInteger = 0 ifTrue: [^ self identity].
+	anInteger < 0 ifTrue: [^ self reciprocal ^ anInteger negated].
+	^ (self squared ^ (anInteger // 2)) * (self ^ (anInteger \\ 2))! !
 
 !Matrix methodsFor: 'operations' stamp: 'len 2/23/2016 21:46'!
 | aMatrix
@@ -33617,7 +33516,7 @@ berkowitz
 		(self at: 2@2) * (self at: 1@1) - ((self at: 1@2) * (self at: 2@1))}.
 
 	3 to: self numberOfRows do: [:r|
-		C _ (self scalars ** (r+1 @ r)) zero.
+		C _ (self scalars ^ (r+1 @ r)) zero.
 		Ar _ self copyFrom: 1@1 to: r-1 @ (r-1).
 
 		R _ (self rowAt: r) copyFrom: 1 to: r-1.
@@ -33695,7 +33594,7 @@ characteristicPolynomial3
 	[(i _ i + 1) = n
 		ifTrue:
 			[a add: (self * C) trace negated / n.
-			^ self scalars polynomials coefficients: a reversed. "adj _ (-1)**(n-1) * C"].
+			^ self scalars polynomials coefficients: a reversed. "adj _ (-1)^(n-1) * C"].
 	C _ self * C.
 	a add: C trace negated / i.
 	C _ C + (I * a last)] repeat! !
@@ -33710,7 +33609,7 @@ characteristicPolynomialAndAdjoint
 	[(i _ i + 1) = n
 		ifTrue:
 			[a add: (self * C) trace negated / n.
-			^ {self scalars polynomials coefficients: a reversed. (-1)**(n-1) * C}].
+			^ {self scalars polynomials coefficients: a reversed. (-1)^(n-1) * C}].
 	C _ self * C.
 	a add: C trace negated / i.
 	C _ C + (I * a last)] repeat! !
@@ -33764,7 +33663,7 @@ columnAugmented: aMatrix
 
 !Matrix methodsFor: 'subspaces' stamp: 'len 11/12/2016 07:44'!
 columnSpace
-	^ self scalars ** self numberOfRows span: self columns! !
+	^ self scalars ^ self numberOfRows span: self columns! !
 
 !Matrix methodsFor: 'accessing' stamp: 'len 7/2/2016 17:13'!
 columns
@@ -34083,11 +33982,11 @@ kernel
 	| n reducer vectors |
 	n _ self numberOfColumns.
 	"reduce the agumented matrix [A^t | I], then a linear basis of the kernel is given by the rows of the extension corresponding to zero rows in the reduced matrix."
-	reducer _ self transposed reducerWith: (self scalars ** (n @ n)) identity.
+	reducer _ self transposed reducerWith: (self scalars ^ (n @ n)) identity.
 	vectors _ OrderedCollection new.
 	reducer reduced rows withIndexDo: [:row :i|
 		row isZero ifTrue: [vectors add: (reducer extension rowAt: i)]].
-	^ self scalars ** n span: vectors! !
+	^ self scalars ^ n span: vectors! !
 
 !Matrix methodsFor: 'subspaces' stamp: 'len 2/22/2016 08:03'!
 kernel2
@@ -34275,7 +34174,7 @@ rowAugmented: aMatrix
 
 !Matrix methodsFor: 'subspaces' stamp: 'len 2/22/2016 00:56'!
 rowSpace
-	^ (self scalars ** self numberOfColumns) span: self rows! !
+	^ (self scalars ^ self numberOfColumns) span: self rows! !
 
 !Matrix methodsFor: 'accessing' stamp: 'len 7/2/2016 17:12'!
 rows
@@ -34716,7 +34615,7 @@ addRow: b to: H
 	H0 _ H isSquare
 		ifTrue: [H]
 		ifFalse:
-			[H rowAugmented: (H scalars ** (H numberOfColumns - 1) :: zero, (H rowAugmented: b) determinant)].
+			[H rowAugmented: (H scalars ^ (H numberOfColumns - 1) :: zero, (H rowAugmented: b) determinant)].
 	"..."! !
 
 !HermiteNormalFormCRT methodsFor: 'as yet unclassified' stamp: 'len 7/16/2016 01:28'!
@@ -34795,7 +34694,7 @@ solve
 	| V T basis index depCols indepCols lastCol part v scalar |
 	V _ system ambient.
 	basis _ LinearBasis on: V.
-	T _ V scalars ** V dimension.
+	T _ V scalars ^ V dimension.
 	index _ 0.
 	indepCols _ reducer independentColumns
 		collect: [:each| index _ index + 1. index -> each].
@@ -35003,7 +34902,7 @@ run
 	K _ matrix scalars "algebraicClosure".
 	n _ matrix numberOfRows.
 	self flag: #fix. "we're assuming the columns are independent"
-	basis _ LinearBasis on: K ** n generators: matrix columns.
+	basis _ LinearBasis on: K ^ n generators: matrix columns.
 	ortho _ basis orthonormalized.
 	Q _ ColumnMatrix columns: ortho.
 "	zero _ K zero.
@@ -35092,10 +34991,6 @@ run
 	1 to: bn do: [:i| c at: i put: (exponents at: i) + (b at: i)].
 	^ self species exponents: c! !
 
-!Monomial methodsFor: 'operations' stamp: 'len 11/20/2016 11:58:25'!
-** anInteger
-	^ self species exponents: exponents * anInteger! !
-
 !Monomial methodsFor: 'operations' stamp: 'len 11/21/2016 19:01:49'!
 / aMonomial
 	"Answer the exact division of the receiver by the argument."
@@ -35135,6 +35030,10 @@ run
 >= aMonomial
 	self == aMonomial ifTrue: [^ true].
 	^ (self compare: aMonomial) >= 0! !
+
+!Monomial methodsFor: 'operations' stamp: 'len 1/22/2017 08:16:19'!
+^ anInteger
+	^ self species exponents: exponents * anInteger! !
 
 !Monomial methodsFor: 'testing' stamp: 'len 7/3/2016 00:29'!
 | aMonomial
@@ -35316,12 +35215,12 @@ root: anInteger in: anIndeterminate
 species
 	^ parent! !
 
-!Monomial methodsFor: 'operations' stamp: 'len 6/6/2016 04:29'!
+!Monomial methodsFor: 'operations' stamp: 'len 1/21/2017 20:16:54'!
 value: anObject
 	| answer next |
-	exponents withIndexDo: [:exp :i|
-		next _ (anObject at: i) ** exp.
-		answer _ answer isNil ifTrue: [next] ifFalse: [next * answer]].
+	1 to: exponents size do: [:i|
+		next _ (anObject at: i) ^ (exponents at: i).
+		answer _ answer ifNil: [next] ifNotNil: [next * answer]].
 	^ answer! !
 
 !Monomial methodsFor: 'operations' stamp: 'len 6/6/2016 04:45'!
@@ -35718,14 +35617,6 @@ trevlex: aCollection
 		ifTrue: [^ anObject * self].
 	^ DomainError signal! !
 
-!Polynomial methodsFor: 'arithmetic' stamp: 'len 7/8/2016 05:40'!
-** anInteger
-	"Answer the receiver raised to the power anInteger."
-	anInteger = 1 ifTrue: [^ self].
-	anInteger = 0 ifTrue: [^ self one].
-	anInteger < 0 ifTrue: [^ (self ** anInteger negated) reciprocal].
-	^ self squared ** (anInteger // 2) * (self ** (anInteger \\ 2))! !
-
 !Polynomial methodsFor: 'arithmetic' stamp: 'len 3/23/2016 04:05'!
 + anObject
 	(self species includes: anObject)
@@ -35779,6 +35670,14 @@ trevlex: aCollection
 		ifTrue: [^ self species coefficients: self coefficients \\ anObject].
 	^ (self divideBy: anObject) remainder! !
 
+!Polynomial methodsFor: 'arithmetic' stamp: 'len 1/22/2017 08:17:24'!
+^ anInteger
+	"Answer the receiver raised to the power anInteger."
+	anInteger = 1 ifTrue: [^ self].
+	anInteger = 0 ifTrue: [^ self one].
+	anInteger < 0 ifTrue: [^ (self ^ anInteger negated) reciprocal].
+	^ self squared ^ (anInteger // 2) * (self ^ (anInteger \\ 2))! !
+
 !Polynomial methodsFor: 'testing' stamp: 'len 12/27/2015 02:44'!
 | aPolynomial
 	"Answer true if the receiver divides aPolynomial."
@@ -35815,7 +35714,7 @@ apply: aMorphism
 asBilinearForm
 	(self degree = 2 and: [self isHomogeneous]) ifFalse: [^ self error: 'not homogeneous of degree 2'].
 	self species rank even ifFalse: [^ self error: 'not even rank'].
-	^ BilinearForm fromHalf: (self scalars ** (self species rank / 2)) evaluating: [:each| self value: each first, each second]! !
+	^ BilinearForm fromHalf: (self scalars ^ (self species rank / 2)) evaluating: [:each| self value: each first, each second]! !
 
 !Polynomial methodsFor: 'converting' stamp: 'len 6/8/2016 23:44'!
 asIdeal
@@ -35825,7 +35724,7 @@ asIdeal
 !Polynomial methodsFor: 'converting' stamp: 'len 6/1/2016 19:54'!
 asLinearForm
 	self isLinear ifFalse: [^ self error: 'not a linear polynomial'].
-	^ (self scalars ** self species rank) dual evaluating: self! !
+	^ (self scalars ^ self species rank) dual evaluating: self! !
 
 !Polynomial methodsFor: 'converting' stamp: 'len 11/28/2016 08:57:10'!
 asMultivariate
@@ -36177,7 +36076,7 @@ isIrreducible
 	x _ self species x.
 	one _ self one.
 	1 to: self degree // 2 do: [:i|
-		(self gcd: x**(q**i) - x \\ self) = one ifTrue: [^ false]].
+		(self gcd: x^(q^i) - x \\ self) = one ifTrue: [^ false]].
 	^ true"! !
 
 !Polynomial methodsFor: 'factorization' stamp: 'len 11/24/2015 06:15'!
@@ -36511,8 +36410,8 @@ pseudoRem3: aPolynomial
 	[k _ w degree - n.
 	w _ b * w - ((self species coefficient: w leadingCoefficient degree: k)*aPolynomial).
 	w isZero ifTrue: [^ w].
-	w degree < n ifTrue: [^ w * (b ** k)].
-	k > d ifTrue: [w _ w * (b ** (k - d))]] repeat! !
+	w degree < n ifTrue: [^ w * (b ^ k)].
+	k > d ifTrue: [w _ w * (b ^ (k - d))]] repeat! !
 
 !Polynomial methodsFor: 'arithmetic' stamp: 'len 3/8/2016 22:04'!
 pseudoRem4: aPolynomial
@@ -36527,8 +36426,8 @@ pseudoRem4: aPolynomial
 	[k _ w degree - n.
 	w _ w * b - ((aPolynomial shift: k) * w leadingCoefficient).
 	w isZero ifTrue: [^ w].
-	w degree < n ifTrue: [^ w * (b ** k)].
-	k > e ifTrue: [w _ w * (b ** (k - e))]] repeat! !
+	w degree < n ifTrue: [^ w * (b ^ k)].
+	k > e ifTrue: [w _ w * (b ^ (k - e))]] repeat! !
 
 !Polynomial methodsFor: 'arithmetic' stamp: 'len 3/8/2016 22:04'!
 pseudoRem: aPolynomial
@@ -36587,8 +36486,8 @@ sprs2: aPolynomial
 	self assert: self degree >= aPolynomial degree.
 	delta _ self degree - aPolynomial degree + 1.
 	b _ aPolynomial leadingCoefficient.
-	phi _ b ** (delta - 1).
-	beta _ (-1) ** delta.
+	phi _ b ^ (delta - 1).
+	beta _ (-1) ^ delta.
 	answer _ OrderedCollection new.
 	answer add: self; add: aPolynomial.
 	f1 _ aPolynomial. f2 _ self. "f1 is F_{i-1}, f2 is F_{i-2}, r is F_i"
@@ -36596,9 +36495,9 @@ sprs2: aPolynomial
 	r isZero ifTrue: [^ answer].
 	answer add: r. f2 _ f1. f1 _ r.
 	delta _ f1 degree - r degree + 1.
-	beta _ (-1) ** delta * (phi ** (delta - 1)) * b.
+	beta _ (-1) ^ delta * (phi ^ (delta - 1)) * b.
 	b _ r leadingCoefficient.
-	phi _ phi * ((b / phi) ** (delta - 1))] repeat! !
+	phi _ phi * ((b / phi) ^ (delta - 1))] repeat! !
 
 !Polynomial methodsFor: 'remainder sequences' stamp: 'len 3/9/2016 06:56'!
 sprs: aPolynomial
@@ -36614,8 +36513,8 @@ sprs: aPolynomial
 		whileFalse:
 			[answer add: f1.
 			delta _ f2 degree - f1 degree + 1.
-			beta _ (-1) ** delta * (phi ** (delta - 1)) * f2 leadingCoefficient.
-			phi _ phi * ((f1 leadingCoefficient / phi) ** (delta - 1)).
+			beta _ (-1) ^ delta * (phi ^ (delta - 1)) * f2 leadingCoefficient.
+			phi _ phi * ((f1 leadingCoefficient / phi) ^ (delta - 1)).
 			r _ (f2 pseudoRem: f1) / beta.
 			f2 _ f1. f1 _ r].
 	^ answer! !
@@ -36883,14 +36782,14 @@ discriminant
 	"Answer the (standard) discriminant of the receiver."
 	| n |
 	n _ self degree.
-	^ (-1) ** (n*(n-1)/2) / self leadingCoefficient * (self resultant: self derivative)! !
+	^ (-1) ^ (n*(n-1)/2) / self leadingCoefficient * (self resultant: self derivative)! !
 
 !UnivariatePolynomial methodsFor: 'operations' stamp: 'len 7/9/2016 03:06'!
 discriminant0
 	"Answer the (normalized) discriminant of the receiver."
 	| n |
 	n _ self degree.
-	^ (-1) ** (n*(n-1)/2) / (self leadingCoefficient ** (2*n-1)) * (self resultant: self derivative)! !
+	^ (-1) ^ (n*(n-1)/2) / (self leadingCoefficient ^ (2*n-1)) * (self resultant: self derivative)! !
 
 !UnivariatePolynomial methodsFor: 'arithmetic' stamp: 'len 11/28/2016 10:07:03'!
 dividedByMonomial: aMonomial
@@ -37032,12 +36931,12 @@ resultant2: aPolynomial
 	self degree <= aPolynomial degree
 		ifTrue: [f _ self. g _ aPolynomial]
 		ifFalse: [f _ aPolynomial. g _ self].
-	f isConstant ifTrue: [^ (f ** g degree)].
+	f isConstant ifTrue: [^ (f ^ g degree)].
 	f isMonic
 		ifTrue:
 			[mult _ f leadingCoefficient]
 		ifFalse:
-			[mult _ f leadingCoefficient ** g degree.
+			[mult _ f leadingCoefficient ^ g degree.
 			f _ f / f leadingCoefficient].
 	^ (g value: f companion) determinant * mult! !
 
@@ -37050,21 +36949,21 @@ resultant3: aPolynomial
 		ifTrue: [f _ aPolynomial. g _ self. negate _ true]
 		ifFalse: [f _ self. g _ aPolynomial. negate _ false].
 	answer _ f isConstant
-		ifTrue: [f ** g degree]
+		ifTrue: [f ^ g degree]
 		ifFalse:
-			[(f resultant3: g \\ f) * (f leadingCoefficient ** (g degree - f degree + 1))].
+			[(f resultant3: g \\ f) * (f leadingCoefficient ^ (g degree - f degree + 1))].
 	^ negate ifTrue: [answer negated] ifFalse: [answer]! !
 
 !UnivariatePolynomial methodsFor: 'operations' stamp: 'len 7/9/2016 03:07'!
 resultant: aPolynomial
 	"Answer the resultant of the receiver with aPolynomial."
 	self degree = 0
-		ifTrue: [^ aPolynomial ** self degree].
+		ifTrue: [^ aPolynomial ^ self degree].
 	aPolynomial degree = 0
 		ifTrue:
 			[^ (self degree even or: [aPolynomial degree even])
-					ifTrue: [(self ** aPolynomial degree)]
-					ifFalse: [(self ** aPolynomial degree) negated]].
+					ifTrue: [(self ^ aPolynomial degree)]
+					ifFalse: [(self ^ aPolynomial degree) negated]].
 	^ (self sylvester: aPolynomial) determinant! !
 
 !UnivariatePolynomial methodsFor: 'operations' stamp: 'len 7/2/2016 06:00'!
@@ -37119,14 +37018,14 @@ signature
 		ifTrue: [R _ R negated].
 	"Use Sturm:"
 	R sign ~= s ifTrue: [s _ s negated. r1 _ r1 - 1].
-	R sign ~= ((-1) ** R degree * t) ifTrue: [t _ t negated. r1 _ r1 + 1].
+	R sign ~= ((-1) ^ R degree * t) ifTrue: [t _ t negated. r1 _ r1 + 1].
 	"Finished?"
 	R isConstant]
 		whileFalse:
 			[A _ B.
-			B _ R / (h ** d * g).
+			B _ R / (h ^ d * g).
 			g _ A leadingCoefficient abs.
-			h _ h ** (1 - d) * (g ** d)].
+			h _ h ^ (1 - d) * (g ^ d)].
 	^ {r1. n - r1 / 2}! !
 
 !UnivariatePolynomial methodsFor: 'operations' stamp: 'len 11/23/2016 05:04:20'!
@@ -37144,7 +37043,7 @@ subresultant: i with: aPolynomial
 				ifFalse:
 					[n + 1 < m
 						ifTrue: [c _ aPolynomial] ifFalse: [^ nil]].
-			^ c * (c leadingCoefficient ** ((m - n) abs - 1))].
+			^ c * (c leadingCoefficient ^ ((m - n) abs - 1))].
 	(i between: lambda and: mu) ifTrue: [^ self zero].
 	(i between: 0 and: lambda - 1) ifFalse: [self error: 'index out of range'].
 	matrix _ RowMatrix new.
@@ -37358,7 +37257,7 @@ distinctDegreeFactorization: aPolynomial
 	f` _ f.
 	[f` degree >= (2*i)]
 		whileTrue:
-			[ | g | g _ f` gcd: (x raisedTo: q**i modulo: f`) - x.
+			[ | g | g _ f` gcd: (x raisedTo: q^i modulo: f`) - x.
 			g ~= one ifTrue: [answer at: i put: g. f` _ f` // g].
 			i _ i + 1].
 	f` ~= one ifTrue: [answer at: f` degree put: f`].
@@ -37379,7 +37278,7 @@ equalDegreeFactorization: aPolynomial r: r d: d
 	[factors size < r]
 		whileTrue:
 			[h _ Fx atRandomMaxDegree: 2*d-1. "should be monic? should: d <= deg(h) <= 2d-1"
-			g _ h raisedTo: q**d - 1 / 2 modulo: f.
+			g _ h raisedTo: q^d - 1 / 2 modulo: f.
 			factors do: [:u|
 				u degree > d
 					ifTrue:
@@ -37418,10 +37317,10 @@ isIrreducible
 	one _ Fx one.
 	n _ f degree.
 	n factors asSet do: [:p|
-		h _ (x raisedTo: q**(n/p) modulo: f) - x \\ f.
+		h _ (x raisedTo: q^(n/p) modulo: f) - x \\ f.
 		g _ f gcd: h.
 		g ~= one ifTrue: [^ false]].
-	g _ (x raisedTo: q**n modulo: f) - x \\ f.
+	g _ (x raisedTo: q^n modulo: f) - x \\ f.
 	g isZero ifFalse: [^ false].
 	factors _ {polynomial}.
 	^ true! !
@@ -37459,7 +37358,7 @@ squareFreeFactorization
 			[w = one]
 				whileFalse:
 					[y _ w gcd: c. z _ w // y.
-					z ** i = one ifFalse: [answer add: z withOccurrences: i].
+					z ^ i = one ifFalse: [answer add: z withOccurrences: i].
 					i _ i + 1.
 					w _ y. c _ c // y].
 			c = one
@@ -37771,7 +37670,7 @@ divide
 	quotient _ P zero.
 	e _ m - n + 1.
 	[remainder degree < n
-		ifTrue: [| q | q _ d ** e. quotient _ quotient * q. remainder _ remainder * q. ^ self].
+		ifTrue: [| q | q _ d ^ e. quotient _ quotient * q. remainder _ remainder * q. ^ self].
 	lc _ remainder leadingCoefficient.
 	m _ remainder degree.
 	s _ P coefficient: lc degree: remainder degree - n.
@@ -37795,14 +37694,14 @@ divisor
 !PolynomialPseudoDivision methodsFor: 'accessing' stamp: 'len 3/30/2016 06:34'!
 exactQuotient
 	"Answer the quotient of an exact division."
-	^ self quotient / (divisor leadingCoefficient ** self delta)! !
+	^ self quotient / (divisor leadingCoefficient ^ self delta)! !
 
 !PolynomialPseudoDivision methodsFor: 'printing' stamp: 'len 7/8/2016 05:47'!
 printOn: aStream
 	"Print a representation of the receiver on the stream aStream."
 
 	aStream
-		print: (self divisor leadingCoefficient ** self delta);
+		print: (self divisor leadingCoefficient ^ self delta);
 		nextPut: $(;
 		print: self dividend;
 		nextPutAll: ') = (';
@@ -37825,7 +37724,7 @@ remainder
 !PolynomialPseudoDivision methodsFor: 'private' stamp: 'len 7/4/2016 04:37'!
 verify
 	| a b |
-	a _ dividend * (divisor leadingCoefficient ** self delta).
+	a _ dividend * (divisor leadingCoefficient ^ self delta).
 	b _ self quotient * divisor + self remainder.
 	^ a = b! !
 
@@ -37863,7 +37762,7 @@ T: K at: m radius: r
 	1 to: self derivatives size do: [:j|
 		| f |
 		f _ derivatives at: j.
-		t _ (f value: m) abs * (r ** j) / j factorial + t].
+		t _ (f value: m) abs * (r ^ j) / j factorial + t].
 	^ (squareFreePolynomial value: m) abs > (K * t)! !
 
 !ComplexRootFinder methodsFor: 'as yet unclassified' stamp: 'len 6/5/2016 21:32'!
@@ -37873,7 +37772,7 @@ T`: K at: m radius: r
 	1 to: self derivatives size - 1 do: [:j|
 		| f |
 		f _ derivatives at: j+1.
-		t _ (f value: m) abs * (r ** j) / j factorial + t].
+		t _ (f value: m) abs * (r ^ j) / j factorial + t].
 	^ (derivatives first value: m) abs > (K * t)! !
 
 !ComplexRootFinder methodsFor: 'as yet unclassified' stamp: 'len 6/5/2016 05:07'!
@@ -38032,7 +37931,7 @@ roots
 			[roots
 				add: (AlgebraicNumber polynomial: P approximation: x radius: tolerance);
 				add: (AlgebraicNumber polynomial: P approximation: x conjugated radius: tolerance).
-			Q _ Q // (X**2 - (X * (x real * 2)) + x abs squared).
+			Q _ Q // (X^2 - (X * (x real * 2)) + x abs squared).
 			Q` _ Q derivative. "###"
 			n _ n - 2].
 	n > 0] whileTrue.
@@ -38369,7 +38268,7 @@ value: aNumber upTo: n
 	1 to: n do: [:i|
 		| c |
 		c _ coefficients at: coefficients startIndex + i - 1.
-		answer _ answer + (c / (i ** aNumber))].
+		answer _ answer + (c / (i ^ aNumber))].
 	^ answer! !
 
 !DirichletSeries class methodsFor: 'instance creation' stamp: 'len 12/28/2015 19:54'!
@@ -38389,14 +38288,6 @@ zeta
 	(anObject isKindOf: Polynomial)
 		ifTrue: [^ self * (self class fromPolynomial: anObject)].
 	^ DomainError signal! !
-
-!PowerSeries methodsFor: 'arithmetic' stamp: 'len 7/8/2016 05:40'!
-** anInteger
-	"Answer the receiver raised to the power anInteger."
-	anInteger = 1 ifTrue: [^ self].
-	anInteger = 0 ifTrue: [^ self one].
-	anInteger < 0 ifTrue: [^ (self ** anInteger negated) reciprocal].
-	^ self squared ** (anInteger // 2) * (self ** (anInteger \\ 2))! !
 
 !PowerSeries methodsFor: 'arithmetic' stamp: 'len 10/31/2016 04:14'!
 + anObject
@@ -38419,6 +38310,14 @@ zeta
 !PowerSeries methodsFor: 'comparing' stamp: 'len 12/28/2015 19:46'!
 = anObject
 	^ (anObject isKindOf: PowerSeries) and: [self coefficients = anObject coefficients]! !
+
+!PowerSeries methodsFor: 'arithmetic' stamp: 'len 1/22/2017 08:17:46'!
+^ anInteger
+	"Answer the receiver raised to the power anInteger."
+	anInteger = 1 ifTrue: [^ self].
+	anInteger = 0 ifTrue: [^ self one].
+	anInteger < 0 ifTrue: [^ (self ^ anInteger negated) reciprocal].
+	^ self squared ^ (anInteger // 2) * (self ^ (anInteger \\ 2))! !
 
 !PowerSeries methodsFor: 'converting' stamp: 'len 12/27/2015 19:09'!
 asRationalFunction
@@ -38484,7 +38383,7 @@ printOn: aStream
 	n _ coefficients printLimit.
 	P _ coefficients codomain polynomials.
 	f _ P coefficients: (coefficients copyFrom: coefficients startIndex to: coefficients startIndex + n) :: orderedBy: #llex.
-	aStream print: f; nextPutAll: ' + ', 'O' italic, '('; print: P x ** (n+1); nextPut: $)! !
+	aStream print: f; nextPutAll: ' + ', 'O' italic, '('; print: P x ^ (n+1); nextPut: $)! !
 
 !PowerSeries methodsFor: 'arithmetic' stamp: 'len 10/28/2016 14:41'!
 reciprocal
@@ -38527,7 +38426,7 @@ coefficients: aSequence
 
 !PowerSeries class methodsFor: 'examples' stamp: 'len 7/15/2016 18:36'!
 cos
-	^ self coefficients: (Sequence to: QQ evaluating: [:n| n even ifTrue: [0] ifFalse: [|k| k _ n-1/2. (-1)**k / (2*k) factorial]])! !
+	^ self coefficients: (Sequence to: QQ evaluating: [:n| n even ifTrue: [0] ifFalse: [|k| k _ n-1/2. (-1)^k / (2*k) factorial]])! !
 
 !PowerSeries class methodsFor: 'examples' stamp: 'len 7/15/2016 18:36'!
 exp
@@ -38539,7 +38438,7 @@ fromPolynomial: aPolynomial
 
 !PowerSeries class methodsFor: 'examples' stamp: 'len 7/15/2016 18:36'!
 sin
-	^ self coefficients: (Sequence to: QQ evaluating: [:n| n odd ifTrue: [0] ifFalse: [|k| k _ n/2-1. (-1)**k / (2*k+1) factorial]])! !
+	^ self coefficients: (Sequence to: QQ evaluating: [:n| n odd ifTrue: [0] ifFalse: [|k| k _ n/2-1. (-1)^k / (2*k+1) factorial]])! !
 
 !PowerSeries class methodsFor: 'examples' stamp: 'len 7/30/2016 07:19'!
 taylorSeriesOf: aFunction at: x0
@@ -39134,7 +39033,7 @@ basis: aCollection
 	| d |
 	basis _ Array withAll: aCollection.
 	d _ basis size.
-	delta _ 3/4 "(4/3 + 0.0000000001)**((d-1)/2)"! !
+	delta _ 3/4 "(4/3 + 0.0000000001)^((d-1)/2)"! !
 
 !LLL methodsFor: 'private' stamp: 'len 11/12/2016 07:39'!
 computeMu
@@ -39218,7 +39117,7 @@ example2
 !LatticeCovering methodsFor: 'accessing' stamp: 'len 1/1/2016 00:40'!
 normalizedThinkness
 	"Answer the normalized thickness (or central density) of the covering."
-	^ self radius ** lattice rank / lattice fundamentalVolume! !
+	^ self radius ^ lattice rank / lattice fundamentalVolume! !
 
 !LatticeCovering methodsFor: 'accessing' stamp: 'len 1/1/2016 00:40'!
 radius
@@ -39231,10 +39130,10 @@ sphereVolume
 	pi _ Float pi.
 	n _ lattice rank.
 	Vn _ n even
-		ifTrue: [pi ** (n/2) / (n/2) factorial]
-		ifFalse: [2**n * pi ** ((n-1)/2) * ((n-1)/2) factorial / n factorial].
+		ifTrue: [pi ^ (n/2) / (n/2) factorial]
+		ifFalse: [2^n * pi ^ ((n-1)/2) * ((n-1)/2) factorial / n factorial].
 	p _ self radius.
-	^ p ** n * Vn! !
+	^ p ^ n * Vn! !
 
 !LatticeCovering methodsFor: 'accessing' stamp: 'len 12/30/2015 20:51'!
 thickness
@@ -39243,7 +39142,7 @@ thickness
 
 !LatticePacking methodsFor: 'accessing' stamp: 'len 1/1/2016 00:39'!
 centerDensity
-	^ lattice packingRadius ** lattice rank / lattice fundamentalVolume! !
+	^ lattice packingRadius ^ lattice rank / lattice fundamentalVolume! !
 
 !LatticePacking methodsFor: 'accessing' stamp: 'len 12/30/2015 20:47'!
 density
@@ -39261,10 +39160,10 @@ sphereVolume
 	pi _ Float pi.
 	n _ lattice rank.
 	Vn _ n even
-		ifTrue: [pi ** (n/2) / (n/2) factorial]
-		ifFalse: [2**n * pi ** ((n-1)/2) * ((n-1)/2) factorial / n factorial].
+		ifTrue: [pi ^ (n/2) / (n/2) factorial]
+		ifFalse: [2^n * pi ^ ((n-1)/2) * ((n-1)/2) factorial / n factorial].
 	p _ self radius.
-	^ p ** n * Vn! !
+	^ p ^ n * Vn! !
 
 !WeierstrassEquation methodsFor: 'invariants' stamp: 'len 11/9/2016 07:08'!
 a1
@@ -39308,7 +39207,7 @@ c4
 
 !WeierstrassEquation methodsFor: 'invariants' stamp: 'len 11/9/2016 07:26'!
 c6
-	^ (self b2 ** 3) negated + (self b2 * self b4 * 36) - (self b6 * 216)! !
+	^ (self b2 ^ 3) negated + (self b2 * self b4 * 36) - (self b6 * 216)! !
 
 !WeierstrassEquation methodsFor: 'accessing-private' stamp: 'len 11/9/2016 07:08'!
 coefficients: aTuple
@@ -39320,7 +39219,7 @@ curve
 
 !WeierstrassEquation methodsFor: 'invariants' stamp: 'len 11/9/2016 07:27'!
 discriminant
-	^ (self b2 squared * self b8) negated - (self b4 ** 3 * 8) - (self b6 squared * 27) + (self b2 * self b4 * self b6 * 9)! !
+	^ (self b2 squared * self b8) negated - (self b4 ^ 3 * 8) - (self b6 squared * 27) + (self b2 * self b4 * self b6 * 9)! !
 
 !WeierstrassEquation methodsFor: 'accessing' stamp: 'len 11/9/2016 13:20'!
 homogeneousPolynomial
@@ -39328,7 +39227,7 @@ homogeneousPolynomial
 
 !WeierstrassEquation methodsFor: 'invariants' stamp: 'len 11/9/2016 07:28'!
 j
-	^ self c4 ** 3 / self discriminant! !
+	^ self c4 ^ 3 / self discriminant! !
 
 !WeierstrassEquation methodsFor: 'converting' stamp: 'len 1/20/2017 09:36:51'!
 over: aRing
@@ -39337,7 +39236,7 @@ over: aRing
 !WeierstrassEquation methodsFor: 'accessing' stamp: 'len 11/9/2016 13:17'!
 polynomial
 	^ (self scalars polynomialsIn: #(x y)) evaluating: [:x :y|
-			y**2 + (x*y * self a1) + (y * self a3) - (x**3) - (x**2 * self a2) - (x * self a4) - self a6]! !
+			y^2 + (x*y * self a1) + (y * self a3) - (x^3) - (x^2 * self a2) - (x * self a4) - self a6]! !
 
 !WeierstrassEquation methodsFor: 'printing' stamp: 'len 11/9/2016 07:19'!
 printOn: aStream
@@ -39345,10 +39244,10 @@ printOn: aStream
 	P _ self scalars polynomialsIn: #(x y) ordering: (MonomialOrdering tlex: #(2 1)).
 	x _ P x.
 	y _ P y.
-	aStream print: y**2 + (x*y * self a1) + (y * self a3).
+	aStream print: y^2 + (x*y * self a1) + (y * self a3).
 	aStream
 		nextPutAll: ' = ';
-		print: (x**3) + (x**2 * self a2) + (x * self a4) + self a6! !
+		print: (x^3) + (x^2 * self a2) + (x * self a4) + self a6! !
 
 !WeierstrassEquation methodsFor: 'accessing' stamp: 'len 11/9/2016 07:16'!
 scalars
@@ -39465,13 +39364,13 @@ run
 				ifTrue:
 					[|t|
 					t _ C.
-					C _ C - ((x**m)*(d/b)*B).
+					C _ C - ((x^m)*(d/b)*B).
 					B _ t.
 					L _ n + 1 - L.
 					b _ d.
 					m _ 1]
 				ifFalse:
-					[C _ C - ((x**m)*(d/b)*B).
+					[C _ C - ((x^m)*(d/b)*B).
 					m _ m + 1]]].
 	^ L! !
 
@@ -39515,7 +39414,7 @@ mod: anArray
 
 !DFT methodsFor: 'as yet unclassified' stamp: 'len 5/12/2016 08:20'!
 value: aTuple
-	^ ring tuple: n evaluating: [:k| (1 to: n) sum: [:j| (aTuple at: j) * (alpha ** (j*k))]]! !
+	^ ring tuple: n evaluating: [:k| (1 to: n) sum: [:j| (aTuple at: j) * (alpha ^ (j*k))]]! !
 
 !ExtendedEuclid methodsFor: 'accessing' stamp: 'len 12/23/2015 20:10'!
 combination
@@ -39660,7 +39559,7 @@ run
 	m _ 2*n - 1.
 	Fx _ field polynomials.
 	x _ Fx x.
-	R0 _ x**(2*n). R1 _ (0 to: m) sum: [:i| x**i*(input at: m-i+1)].
+	R0 _ x^(2*n). R1 _ (0 to: m) sum: [:i| x^i*(input at: m-i+1)].
 	V0 _ Fx zero. V1 _ Fx one.
 	[n <= R1 degree]
 		whileTrue:
@@ -39722,10 +39621,10 @@ squareRootOf: anInteger
 	y _ z. r _ e. x _ a raisedTo: q-1 // 2 modulo: p. b _ a*x squared \\ p. x _ a*x \\ p.
 	[b == 1 ifTrue: [^ x].
 	b` _ b. m _ 1. [(b` _ b` squared \\ p) == 1] whileFalse: [m _ m + 1].
-	(b raisedTo: (2 ** m) modulo: p) == 1 ifFalse: [self halt].
-	(m > 1 and: [(b raisedTo: (2 ** (m-1)) modulo: p) == 1]) ifTrue: [self halt].
+	(b raisedTo: (2 ^ m) modulo: p) == 1 ifFalse: [self halt].
+	(m > 1 and: [(b raisedTo: (2 ^ (m-1)) modulo: p) == 1]) ifTrue: [self halt].
 	m = r ifTrue: [^ nil]. "the input is not a quadratic residue modulo p"
-	t _ y. r - m - 1 timesRepeat: [t _ t squared \\ p]. "t _ y ** (2 ** (r - m - 1)) mod p"
+	t _ y. r - m - 1 timesRepeat: [t _ t squared \\ p]. "t _ y ^ (2 ^ (r - m - 1)) mod p"
 	y _ t squared \\ p. r _ m. x _ x * t \\ p. b _ b * y \\ p] repeat! !
 
 !WuRittProcess methodsFor: 'as yet unclassified' stamp: 'len 12/30/2015 05:31'!
@@ -39818,7 +39717,7 @@ setLogReversed
 !ComplexPalette methodsFor: 'initialization' stamp: 'len 12/18/2016 11:01:21'!
 setMagnitude
 	hueBlock _ [:z| z arg radiansToDegrees \\ 360].
-	luminanceBlock _ [:z| 2.0 ** z abs negated].
+	luminanceBlock _ [:z| 2.0 ^ z abs negated].
 	zeroColor _ Color white.
 	infinityColor _ Color black! !
 
@@ -39833,14 +39732,14 @@ setPhase
 setReversed
 	hueBlock _ [:z| z arg radiansToDegrees \\ 360].
 "	hueBlock _ [:z| (z arg + Float pi) radiansToDegrees \\ 360]."
-	luminanceBlock _ [:z| 1.0 - (2.0 ** z abs negated)].
+	luminanceBlock _ [:z| 1.0 - (2.0 ^ z abs negated)].
 	zeroColor _ Color black.
 	infinityColor _ Color white! !
 
 !ComplexPalette methodsFor: 'initialization' stamp: 'len 12/7/2016 16:22:40'!
 setScaled: scale
 	hueBlock _ [:z| z arg radiansToDegrees \\ 360].
-	luminanceBlock _ [:z| 2.0 ** (z abs * scale negated)].
+	luminanceBlock _ [:z| 2.0 ^ (z abs * scale negated)].
 	zeroColor _ Color white.
 	infinityColor _ Color black! !
 
@@ -39999,7 +39898,7 @@ coxeterMatrix
 	Given a basis a_i of simple roots, the Coxeter matrix m_ij is defined by <a_i,a_j> = -2 cos(pi / m_ij)."
 	| S |
 	S _ self normalized simpleRoots.
-	^ ambient scalars ** (S size @ S size)
+	^ ambient scalars ^ (S size @ S size)
 		evaluating: [:i :j| Float pi / ((ambient innerProduct value: {(S at: i). (S at: j)}) / -2) arcCos]! !
 
 !RootSystem methodsFor: 'operations' stamp: 'len 6/18/2016 17:14'!
@@ -40173,7 +40072,7 @@ D: V
 example1
 	"This is a normalized root system in R^n. The Weyl group associated to it is the symmetric group S_n."
 	| V roots |
-	V _ QQ ** 3.
+	V _ QQ ^ 3.
 	roots _ Set new.
 	1 to: V dimension do: [:i|
 		1 to: i-1 do: [:j|
@@ -40184,7 +40083,7 @@ example1
 example2
 	"This is a normalized root system in R^n. The Weyl group associated to it is the hyperoctahedral group."
 	| V roots |
-	V _ RealAlgebraicNumbersField new ** 3.
+	V _ RealAlgebraicNumbersField new ^ 3.
 	roots _ Set new.
 	1 to: V dimension do: [:i|
 		1 to: i-1 do: [:j|
@@ -40201,7 +40100,7 @@ example2
 example3
 	"This is a normalized root system in R^n. The Weyl group associated to it is an index 2 subgroup of the hyperoctahedral group."
 	| V roots |
-	V _ QQ ** 3.
+	V _ QQ ^ 3.
 	roots _ Set new.
 	1 to: 3 do: [:i|
 		1 to: i-1 do: [:j|
@@ -40214,7 +40113,7 @@ example3
 
 !RootSystem class methodsFor: 'examples' stamp: 'len 7/15/2016 18:37'!
 hexagonal
-	^ self A: QQ ** 2! !
+	^ self A: QQ ^ 2! !
 
 !RootSystem class methodsFor: 'instance creation' stamp: 'len 5/23/2016 05:00'!
 on: aVectorSpace roots: aCollection
@@ -40658,6 +40557,47 @@ transpose
 row: anInteger column: anotherInteger
 	^ self new row: anInteger; column: anotherInteger! !
 
+!SLP methodsFor: 'as yet unclassified' stamp: 'len 7/26/2016 23:37'!
+* aSLP
+	^ self class word: (Word syllables: {word -> 1. aSLP word -> 1})! !
+
+!SLP methodsFor: 'as yet unclassified' stamp: 'len 1/22/2017 08:20:37'!
+^ anInteger
+	anInteger = 0 ifTrue: [^ self class word: Word empty].
+	anInteger = 1 ifTrue: [^ self].
+	^ self class word: (Word x: word to: anInteger)! !
+
+!SLP methodsFor: 'as yet unclassified' stamp: 'len 7/26/2016 23:00'!
+printOn: aStream
+	word printOn: aStream! !
+
+!SLP methodsFor: 'as yet unclassified' stamp: 'len 7/26/2016 22:59'!
+reciprocal
+	^ self class word: (Word x: word to: -1)! !
+
+!SLP methodsFor: 'as yet unclassified' stamp: 'len 7/26/2016 23:33'!
+value
+	| answer |
+	answer _ word value.
+	[answer isKindOf: Word] whileTrue: [answer _ answer value].
+	^ answer! !
+
+!SLP methodsFor: 'as yet unclassified' stamp: 'len 7/26/2016 22:59'!
+word
+	^ word! !
+
+!SLP methodsFor: 'as yet unclassified' stamp: 'len 7/26/2016 22:58'!
+word: aWord
+	word _ aWord! !
+
+!SLP class methodsFor: 'as yet unclassified' stamp: 'len 7/26/2016 23:33'!
+value: anObject
+	^ self word: (Word x: anObject)! !
+
+!SLP class methodsFor: 'as yet unclassified' stamp: 'len 7/26/2016 23:00'!
+word: aWord
+	^ self new word: aWord! !
+
 !SturmChain methodsFor: 'as yet unclassified' stamp: 'len 11/3/2015 06:50'!
 countSignChanges: signs
 	| x count |
@@ -40808,155 +40748,6 @@ printOn: aStream
 space
 	self do: [ :one | ^ one space].
 	self error: 'empty tensor'! !
-
-!Element methodsFor: 'comparing' stamp: 'len 8/4/2016 03:21'!
-= anObject
-	"Comparison is delegated to the value of the node.
-	Argument and receiver are reversed to dereference through other Elements."
-	^ anObject = value! !
-
-!Element methodsFor: 'comparing' stamp: 'len 6/23/2016 02:24'!
-hash
-	^ value hash! !
-
-!Element methodsFor: 'printing' stamp: 'len 6/23/2016 02:25'!
-printOn: aStream
-	aStream print: value! !
-
-!Element methodsFor: 'private' stamp: 'len 6/23/2016 02:23'!
-setValue: anObject
-	value _ anObject! !
-
-!Element methodsFor: 'accessing' stamp: 'len 6/23/2016 02:23'!
-value
-	^ value! !
-
-!Element class methodsFor: 'instance creation' stamp: 'len 6/23/2016 02:24'!
-on: anObject
-	^ self new setValue: anObject! !
-
-!GroupElement methodsFor: 'arithmetic' stamp: 'len 6/23/2016 02:47'!
-* anObject
-	^ self class on: value * anObject value! !
-
-!GroupElement methodsFor: 'arithmetic' stamp: 'len 7/8/2016 05:38'!
-** anInteger
-	anInteger = 1 ifTrue: [^ self].
-	anInteger = 0 ifTrue: [^ self one].
-	anInteger < 0
-		ifTrue: [^ (self ** anInteger negated) reciprocal].
-	^ (self * self ** (anInteger // 2)) * (self ** (anInteger \\ 2))! !
-
-!GroupElement methodsFor: 'arithmetic' stamp: 'len 6/23/2016 02:45'!
-/ anObject
-	^ self * anObject reciprocal! !
-
-!GroupElement methodsFor: 'arithmetic' stamp: 'len 6/23/2016 04:48'!
-identity
-	^ self one! !
-
-!GroupElement methodsFor: 'arithmetic' stamp: 'len 6/23/2016 04:48'!
-inverse
-	^ self reciprocal! !
-
-!GroupElement methodsFor: 'arithmetic' stamp: 'len 6/23/2016 04:48'!
-one
-	^ self class on: value one! !
-
-!GroupElement methodsFor: 'arithmetic' stamp: 'len 6/23/2016 02:47'!
-reciprocal
-	^ self class on: value reciprocal! !
-
-!GroupAdditiveElement methodsFor: 'arithmetic' stamp: 'len 6/23/2016 02:28'!
-* anObject
-	anObject class == self class ifTrue: [^ self class on: self value + anObject value].
-	^ self class on: self value * anObject "?"! !
-
-!GroupAdditiveElement methodsFor: 'arithmetic' stamp: 'len 6/23/2016 02:35'!
-** anInteger
-	^ self class on: value * anInteger! !
-
-!GroupAdditiveElement methodsFor: 'arithmetic' stamp: 'len 6/23/2016 04:50'!
-one
-	^ self class on: value zero! !
-
-!GroupAdditiveElement methodsFor: 'arithmetic' stamp: 'len 6/23/2016 04:50'!
-reciprocal
-	^ self class on: value negated! !
-
-!GroupCompositiveElement methodsFor: 'arithmetic' stamp: 'len 12/20/2016 11:44:34'!
-* anObject
-	anObject class == self class ifTrue: [^ self class on: self value î anObject value].
-	^ self class on: self value * anObject! !
-
-!GroupCompositiveElement methodsFor: 'arithmetic' stamp: 'len 12/20/2016 11:52:28'!
-** anInteger
-	^ self class on: value îî anInteger! !
-
-!GroupCompositiveElement methodsFor: 'arithmetic' stamp: 'len 6/23/2016 04:49'!
-one
-	^ self class on: value identity! !
-
-!GroupCompositiveElement methodsFor: 'arithmetic' stamp: 'len 6/23/2016 04:50'!
-reciprocal
-	^ self class on: value inverse! !
-
-!RingElement methodsFor: 'arithmetic' stamp: 'len 6/23/2016 04:47'!
-* anObject
-	^ self class on: value * anObject value! !
-
-!RingElement methodsFor: 'arithmetic' stamp: 'len 7/8/2016 05:42'!
-** anInteger
-	"Answer the receiver raised to the power anInteger."
-	anInteger = 1 ifTrue: [^ self].
-	anInteger = 0 ifTrue: [^ self one].
-	anInteger < 0 ifTrue: [^ self reciprocal ** anInteger negated].
-	^ self squared ** (anInteger // 2) * (self ** (anInteger \\ 2))! !
-
-!RingElement methodsFor: 'arithmetic' stamp: 'len 6/23/2016 02:46'!
-+ anObject
-	^ self class on: value + anObject value! !
-
-!RingElement methodsFor: 'arithmetic' stamp: 'len 6/23/2016 02:46'!
-- anObject
-	^ self + anObject negated! !
-
-!RingElement methodsFor: 'arithmetic' stamp: 'len 6/23/2016 02:46'!
-/ anObject
-	^ self * anObject reciprocal! !
-
-!RingElement methodsFor: 'arithmetic' stamp: 'len 6/23/2016 02:47'!
-negated
-	^ self class on: value negated! !
-
-!RingElement methodsFor: 'arithmetic' stamp: 'len 8/29/2016 16:48'!
-one
-	^ self class on: value one! !
-
-!RingElement methodsFor: 'arithmetic' stamp: 'len 6/23/2016 04:47'!
-reciprocal
-	^ self class on: value reciprocal! !
-
-!RingElement methodsFor: 'arithmetic' stamp: 'len 8/29/2016 16:48'!
-zero
-	^ self class on: value zero! !
-
-!RingCompositiveElement methodsFor: 'arithmetic' stamp: 'len 12/20/2016 12:00:29'!
-* anObject
-	anObject class == self class ifTrue: [^ self class on: self value î anObject value].
-	^ self class on: self value * anObject! !
-
-!RingCompositiveElement methodsFor: 'arithmetic' stamp: 'len 12/20/2016 11:52:40'!
-** anInteger
-	^ self class on: value îî anInteger! !
-
-!RingCompositiveElement methodsFor: 'arithmetic' stamp: 'len 8/29/2016 16:48'!
-one
-	^ self class on: value identity! !
-
-!RingCompositiveElement methodsFor: 'arithmetic' stamp: 'len 6/23/2016 04:46'!
-reciprocal
-	^ self class on: value inverse! !
 
 !Expression methodsFor: 'as yet unclassified' stamp: 'len 3/22/2016 21:16'!
 * anExpression
@@ -41139,7 +40930,7 @@ boundary
 	| answer |
 	answer _ SimplicialChain over: ZZ.
 	1 to: points size do: [:i|
-		answer coefficientAt: (self class points: (points copyWithoutIndex: i)) add: (-1)**i].
+		answer coefficientAt: (self class points: (points copyWithoutIndex: i)) add: (-1)^i].
 	^ answer! !
 
 !Simplex methodsFor: 'morphisms' stamp: 'len 6/11/2016 23:57'!
