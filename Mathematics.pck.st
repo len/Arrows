@@ -1,6 +1,7 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 22 January 2017 at 8:32:18 am'!
-'Description Please enter a description for this package'!
-!provides: 'Mathematics' 1 340!
+'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 22 January 2017 at 10:10:39 am'!
+'Description A computational algebra system in Smalltalk'!
+!provides: 'Mathematics' 1 341!
+!requires: 'RayTracer' 1 2 nil!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
 	instanceVariableNames: 'numerator shift'
@@ -391,16 +392,6 @@ RectangleLikeMorph subclass: #HistogramMorph
 HistogramMorph class
 	instanceVariableNames: ''!
 
-!classDefinition: #ImplicitFunctionPlot3DMorph category: #'Mathematics-Morphic'!
-RectangleLikeMorph subclass: #ImplicitFunctionPlot3DMorph
-	instanceVariableNames: 'function form image box transformation lastMousePosition'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Morphic'!
-!classDefinition: 'ImplicitFunctionPlot3DMorph class' category: #'Mathematics-Morphic'!
-ImplicitFunctionPlot3DMorph class
-	instanceVariableNames: ''!
-
 !classDefinition: #ImplicitFunctionPlotMorph category: #'Mathematics-Morphic'!
 RectangleLikeMorph subclass: #ImplicitFunctionPlotMorph
 	instanceVariableNames: 'function image box'
@@ -409,6 +400,16 @@ RectangleLikeMorph subclass: #ImplicitFunctionPlotMorph
 	category: 'Mathematics-Morphic'!
 !classDefinition: 'ImplicitFunctionPlotMorph class' category: #'Mathematics-Morphic'!
 ImplicitFunctionPlotMorph class
+	instanceVariableNames: ''!
+
+!classDefinition: #ImplicitSurfacePlotMorph category: #'Mathematics-Morphic'!
+RectangleLikeMorph subclass: #ImplicitSurfacePlotMorph
+	instanceVariableNames: 'polynomial rotation scaling surface scene camera image resolutionRatio lastMousePosition'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Morphic'!
+!classDefinition: 'ImplicitSurfacePlotMorph class' category: #'Mathematics-Morphic'!
+ImplicitSurfacePlotMorph class
 	instanceVariableNames: ''!
 
 !classDefinition: #MultiplicationTableMorph category: #'Mathematics-Morphic'!
@@ -3829,6 +3830,16 @@ Object subclass: #Simplex
 	category: 'Mathematics-Etc-Homology'!
 !classDefinition: 'Simplex class' category: #'Mathematics-Etc-Homology'!
 Simplex class
+	instanceVariableNames: ''!
+
+!classDefinition: #ImplicitSurface category: #'Mathematics-Morphic'!
+RayTraceObject subclass: #ImplicitSurface
+	instanceVariableNames: 'polynomial gradient radiusSquared interiorTexture'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Morphic'!
+!classDefinition: 'ImplicitSurface class' category: #'Mathematics-Morphic'!
+ImplicitSurface class
 	instanceVariableNames: ''!
 
 
@@ -13246,114 +13257,6 @@ new: binCount samples: aCollection
 	aCollection do: [:each| answer addValue: each].
 	^ answer! !
 
-!ImplicitFunctionPlot3DMorph methodsFor: 'as yet unclassified' stamp: 'len 10/25/2016 04:35'!
-box: aRectangle
-	box _ aRectangle.
-	image _ nil.
-	self redrawNeeded! !
-
-!ImplicitFunctionPlot3DMorph methodsFor: 'as yet unclassified' stamp: 'len 10/25/2016 05:28'!
-buildImage
-	image _ Form extent: self morphExtent depth: Display depth.
-	1.0 to: image width count: 2 do: [:k|
-		| z |
-		z _ k asFloat / image width * box width - box right.
-		self drawImplicitFunction: [:xy| function value: (transformation value: xy,z)] color: color].
-"	1.0 to: image width count: 20 do: [:k|
-		| z |
-		z _ k asFloat / image width * box width - box right.
-		self drawImplicitFunction: [:xy| function value: xy,z]].
-"! !
-
-!ImplicitFunctionPlot3DMorph methodsFor: 'as yet unclassified' stamp: 'len 10/25/2016 05:02'!
-drawImplicitFunction: aFunction color: aColor
-	| lastRow |
-	lastRow _ nil.
-	1 to: image height do: [:j|
-		| y row lastSign |
-		y _ j asFloat / image height * box height - box bottom.
-		row _ Array new: image width.
-		lastSign _ nil.
-		1 to: image width do: [:i|
-			| x sign |
-			x _ i asFloat / image width * box width - box right.
-			sign _ (aFunction value: (x,y)) sign.
-			((lastSign notNil and: [lastSign ~= sign])
-				or: [lastRow notNil and: [(lastRow at: i) ~= sign]])
-					ifTrue: [image colorAt: i@(image height - j + 1) put: aColor].
-			row at: i put: sign.
-			lastSign _ sign].
-		lastRow _ row]! !
-
-!ImplicitFunctionPlot3DMorph methodsFor: 'as yet unclassified' stamp: 'len 10/25/2016 04:35'!
-drawOn: aCanvas
-	image isNil ifTrue: [self buildImage].
-	aCanvas image: image at: 0@0! !
-
-!ImplicitFunctionPlot3DMorph methodsFor: 'as yet unclassified' stamp: 'len 10/25/2016 04:36'!
-function: aFunction
-	function _ aFunction.
-	image _ nil.
-	self redrawNeeded! !
-
-!ImplicitFunctionPlot3DMorph methodsFor: 'as yet unclassified' stamp: 'len 10/25/2016 05:08'!
-handlesMouseDown: aMouseButtonEvent
-	"Do I want to receive mouseDown events (mouseDown:, mouseMove:, mouseUp:)?"
-	^true! !
-
-!ImplicitFunctionPlot3DMorph methodsFor: 'as yet unclassified' stamp: 'len 10/25/2016 05:23'!
-initialize
-	super initialize.
-	extent _ 150@150.
-	color _ Color lightGray alpha: 0.5.
-	box _ -1@-1 extent: 2@2.
-	transformation _ (QQ^3) asAffineSpace id! !
-
-!ImplicitFunctionPlot3DMorph methodsFor: 'as yet unclassified' stamp: 'len 10/25/2016 04:35'!
-morphExtent: aPoint
-	image _ nil.
-	super morphExtent: aPoint! !
-
-!ImplicitFunctionPlot3DMorph methodsFor: 'as yet unclassified' stamp: 'len 10/25/2016 05:08'!
-mouseButton1Down: aMouseButtonEvent localPosition: localEventPosition
-	super mouseButton1Down: aMouseButtonEvent localPosition: localEventPosition.
-	lastMousePosition _ localEventPosition! !
-
-!ImplicitFunctionPlot3DMorph methodsFor: 'as yet unclassified' stamp: 'len 10/25/2016 05:10'!
-mouseMove: aMouseMoveEvent localPosition: localEventPosition
-	lastMousePosition isNil
-		ifFalse:
-			[aMouseMoveEvent shiftPressed
-				ifTrue:
-					[| bounds d |
-					bounds _ self morphLocalBounds.
-					d _ (localEventPosition dist: lastMousePosition) / (bounds width min: bounds height).
-					localEventPosition y >= lastMousePosition y ifTrue: [d _ d negated].
-					self scalePlotBy: 2.0 ^ d]
-				ifFalse: [self rotatePlotBy: lastMousePosition - localEventPosition]].
-	lastMousePosition _ localEventPosition! !
-
-!ImplicitFunctionPlot3DMorph methodsFor: 'as yet unclassified' stamp: 'len 10/25/2016 05:26'!
-rotatePlotBy: aPoint
-	| xSpeed ySpeed |
-	xSpeed _ Float pi / self morphLocalBounds width.
-	ySpeed _ Float pi / self morphLocalBounds height.
-"	self dimension = 2 ifTrue: [self nodesDo: [:each| |p pp| p _ each x. pp _ p x @ p y rotatedBy: aPoint y * ySpeed negated + (aPoint x * xSpeed). each x: (pp x, pp y)]. ^ self]."
-	transformation _ transformation @ (transformation parent evaluating: [:p| | xz yz |
-		xz _ p x @ p z.
-		xz _ xz rotatedBy: aPoint x * xSpeed.
-		yz _ p y @ xz y.
-		yz _ yz rotatedBy: aPoint y * ySpeed.
-		(xz x, yz x, yz y)]).
-	image _ nil.
-	self redrawNeeded! !
-
-!ImplicitFunctionPlot3DMorph methodsFor: 'as yet unclassified' stamp: 'len 10/25/2016 05:26'!
-scalePlotBy: aFactor
-	transformation _ transformation * aFactor.
-	image _ nil.
-	self redrawNeeded! !
-
 !ImplicitFunctionPlotMorph methodsFor: 'as yet unclassified' stamp: 'len 10/24/2016 21:38'!
 box: aRectangle
 	box _ aRectangle.
@@ -13413,6 +13316,167 @@ example
 	"Descartes folium"
 	function _ Function from: QQ^2 to: QQ evaluatingWithArguments: [:x :y| x^3 + (y^3) - (3*x*y)].
 	^ self new function: function! !
+
+!ImplicitSurfacePlotMorph methodsFor: 'accessing' stamp: 'len 1/22/2017 07:44:33'!
+color: aColor
+	super color: aColor.
+	surface color: aColor! !
+
+!ImplicitSurfacePlotMorph methodsFor: 'drawing' stamp: 'len 1/20/2017 23:05:27'!
+drawOn: aCanvas
+	image isNil ifTrue: [^ super drawOn: aCanvas].
+	aCanvas image: (image magnifyBy: resolutionRatio) at: 0@0! !
+
+!ImplicitSurfacePlotMorph methodsFor: 'private' stamp: 'len 1/22/2017 09:57:17'!
+fastResolutionRatio
+	^ 8! !
+
+!ImplicitSurfacePlotMorph methodsFor: 'event handling testing' stamp: 'len 1/21/2017 18:24:36'!
+handlesMouseDown: aMouseButtonEvent
+	"Do I want to receive mouseDown events (mouseDown:, mouseMove:, mouseUp:)?"
+	^true! !
+
+!ImplicitSurfacePlotMorph methodsFor: 'initialization' stamp: 'len 1/22/2017 09:57:01'!
+initialize
+	super initialize.
+	self morphExtent: 300@300.
+	resolutionRatio _ self normalResolutionRatio.
+	self polynomial: Scheme clebschCubic polynomial! !
+
+!ImplicitSurfacePlotMorph methodsFor: 'accessing' stamp: 'len 1/22/2017 07:44:42'!
+interiorColor: aColor
+	surface interiorColor: aColor! !
+
+!ImplicitSurfacePlotMorph methodsFor: 'geometry' stamp: 'len 1/20/2017 21:55:28'!
+morphExtent: aPoint
+	image _ nil.
+	super morphExtent: aPoint! !
+
+!ImplicitSurfacePlotMorph methodsFor: 'events' stamp: 'len 1/21/2017 18:24:48'!
+mouseButton1Down: aMouseButtonEvent localPosition: localEventPosition
+	super mouseButton1Down: aMouseButtonEvent localPosition: localEventPosition.
+	lastMousePosition _ localEventPosition! !
+
+!ImplicitSurfacePlotMorph methodsFor: 'events' stamp: 'len 1/22/2017 09:57:36'!
+mouseButton1Up: aMouseButtonEvent localPosition: localEventPosition
+	super mouseButton1Up: aMouseButtonEvent localPosition: localEventPosition.
+	resolutionRatio _ self normalResolutionRatio.
+	self render! !
+
+!ImplicitSurfacePlotMorph methodsFor: 'events' stamp: 'len 1/22/2017 09:57:49'!
+mouseMove: aMouseMoveEvent localPosition: localEventPosition
+	lastMousePosition isNil
+		ifFalse:
+			[aMouseMoveEvent shiftPressed
+				ifTrue:
+					[| bounds d |
+					bounds _ self morphLocalBounds.
+					d _ (localEventPosition dist: lastMousePosition) / (bounds width min: bounds height) * 2.0.
+					localEventPosition y >= lastMousePosition y ifTrue: [d _ d negated].
+					resolutionRatio _ self fastResolutionRatio.
+					self scaleSurfaceBy: 2^d]
+				ifFalse: [resolutionRatio _ self fastResolutionRatio.
+					self rotateSurfaceBy: localEventPosition - lastMousePosition]].
+	lastMousePosition _ localEventPosition! !
+
+!ImplicitSurfacePlotMorph methodsFor: 'private' stamp: 'len 1/22/2017 09:57:11'!
+normalResolutionRatio
+	^ 3! !
+
+!ImplicitSurfacePlotMorph methodsFor: 'accessing' stamp: 'len 1/22/2017 10:02:48'!
+polynomial: aPolynomial
+	polynomial _ aPolynomial.
+	rotation _ Float64Quaternion identity.
+	scaling _ 1.0.
+	surface _ ImplicitSurface new polynomial: aPolynomial.
+	surface color: color.
+	camera _ Camera new
+				location: 0 @ 0 @ -2.5;
+				direction: 0 @ 0 @ 1;
+				up: 0 @ 1 @ 0;
+				right: 1 @ 0 @ 0.
+	scene _ Scene new
+				addLightSource: (LightSource new
+							location: 15 @ 5 @ -20;
+							color: Color lightYellow muchLighter);
+"				addLightSource: (LightSource new
+							location: -15 @ -5 @ 0;
+							color: Color cyan);"
+				addObject: surface;
+				yourself.
+	self render! !
+
+!ImplicitSurfacePlotMorph methodsFor: 'private' stamp: 'len 1/20/2017 23:05:05'!
+render
+	camera imageSize: extent // resolutionRatio.
+	image _ camera renderScene: scene.
+	self redrawNeeded! !
+
+!ImplicitSurfacePlotMorph methodsFor: 'surface geometry' stamp: 'len 1/22/2017 09:14:31'!
+rotateSurfaceBy: aPoint
+	| xSpeed ySpeed |
+	xSpeed _ Float pi / self morphLocalBounds width.
+	ySpeed _ Float pi / self morphLocalBounds height.
+	rotation _ ((Float64Quaternion radiansAngle: aPoint x * xSpeed axis: 0@1@0) * (Float64Quaternion radiansAngle: aPoint y * ySpeed axis: 1@0@0)) * rotation.
+	self updateTransformation! !
+
+!ImplicitSurfacePlotMorph methodsFor: 'surface geometry' stamp: 'len 1/22/2017 09:18:41'!
+scaleSurfaceBy: aNumber
+	scaling _ scaling * aNumber.
+	self updateTransformation! !
+
+!ImplicitSurfacePlotMorph methodsFor: 'private' stamp: 'len 1/20/2017 22:31:58'!
+setCameraBack: distance
+	camera
+		location: 0 @ 0 @ distance negated;
+		direction: 0 @ 0 @ 1;
+		up: 0 @ 1 @ 0;
+		right: 1 @ 0 @ 0.
+	self render! !
+
+!ImplicitSurfacePlotMorph methodsFor: 'private' stamp: 'len 1/20/2017 22:32:04'!
+setCameraLocation: aPoint
+	camera location: aPoint.
+	self render! !
+
+!ImplicitSurfacePlotMorph methodsFor: 'private' stamp: 'len 1/20/2017 22:32:11'!
+setCameraRight: distance
+	camera
+		location: distance @ 0 @ 0;
+		direction: -1 @ 0 @ 0;
+		up: 0 @ 1 @ 0;
+		right: 0 @ 0 @ 1.
+	self render! !
+
+!ImplicitSurfacePlotMorph methodsFor: 'private' stamp: 'len 1/20/2017 22:32:28'!
+setCameraTop: distance
+	camera
+		location: 0 @ distance @ 0;
+		direction: 0 @ -1 @ 0;
+		up: 0 @ 0 @ 1;
+		right: 1 @ 0 @ 0.
+	self render! !
+
+!ImplicitSurfacePlotMorph methodsFor: 'private' stamp: 'len 1/20/2017 22:32:34'!
+setLightSourceAt: aPoint
+	scene lightSources first location: aPoint.
+	self render! !
+
+!ImplicitSurfacePlotMorph methodsFor: 'private' stamp: 'len 1/21/2017 19:11:40'!
+setRadius: aNumber
+	surface radius: aNumber.
+	self render! !
+
+!ImplicitSurfacePlotMorph methodsFor: 'surface geometry' stamp: 'len 1/22/2017 09:13:51'!
+updateTransformation
+	| M v |
+	M _ rotation asMatrix3x3.
+	v _ polynomial parent generate: [:x :y :z|
+		{x * M a11 + (y * M a12) + (z * M a13) * scaling.
+		x * M a21 + (y * M a22) + (z * M a23) * scaling.
+		x * M a31 + (y * M a32) + (z * M a33) * scaling}].
+	surface polynomial: (polynomial value: v).
+	self render! !
 
 !MultiplicationTableMorph methodsFor: 'as yet unclassified' stamp: 'len 7/31/2016 05:20'!
 drawOn: aCanvas
@@ -25530,11 +25594,11 @@ fermat: n
 	P _ ProjectiveSpace new: #(x y z) over: QQ.
 	^ P subscheme: (P coordinateRing generate: [:x :y :z| x^n + (y^n) - (z^n)])! !
 
-!Scheme class methodsFor: 'examples' stamp: 'len 12/18/2016 20:04:56'!
+!Scheme class methodsFor: 'examples' stamp: 'len 1/22/2017 10:03:41'!
 kleinQuartic
 	"This is a projective variety, a curve in P^2(C)."
 	| P x y z |
-	P _ ProjectiveSpace new: 2 over: QQ algebraicClosure.
+	P _ ProjectiveSpace new: 2 over: QQ.
 	x _ P coordinateRing x.
 	y _ P coordinateRing y.
 	z _ P coordinateRing z.
@@ -25857,6 +25921,12 @@ degree
 dimension
 	^ self ambient dimension - 1! !
 
+!AffineHypersurface methodsFor: 'morphic' stamp: 'len 1/22/2017 09:31:15'!
+plot
+	(self scalars isField and: [self scalars isReal and: [self ambient dimension = 3]])
+		ifFalse: [^ DomainError signal].
+	^ ImplicitSurfacePlotMorph new polynomial: self polynomial! !
+
 !AffineHypersurface methodsFor: 'accessing' stamp: 'len 1/8/2017 17:17:41'!
 polynomial
 	^ self ideal generator! !
@@ -25984,6 +26054,10 @@ arithmeticGenus
 	"Answer the arithmetic genus of the receiver."
 	self ambient isOrdinaryProjectiveSpace ifFalse: [^ self error: 'not ordinary projective space'].
 	self notYetImplemented! !
+
+!ProjectiveScheme methodsFor: 'converting' stamp: 'len 1/22/2017 09:59:59'!
+asAffineCone
+	^ self coordinateRing spec! !
 
 !ProjectiveScheme methodsFor: 'accessing' stamp: 'len 1/13/2017 17:01:55'!
 coordinateRing
@@ -41052,6 +41126,140 @@ newFrom: aCollection
 !Simplex class methodsFor: 'instance creation' stamp: 'len 3/1/2016 02:13'!
 points: aCollection
 	^ self new points: aCollection! !
+
+!ImplicitSurface methodsFor: 'accessing' stamp: 'len 1/21/2017 22:33:19'!
+color: aColor
+	self texture: (self defaultTextureForColor: aColor)! !
+
+!ImplicitSurface methodsFor: 'private' stamp: 'len 1/21/2017 22:33:01'!
+defaultTextureForColor: aColor
+	^ TextureWithFinish new
+			pigment: (FlatColorPigment new color: aColor);
+			finish:
+				(PhongLightingModelFinish new
+					ambient: 0.35;
+					specular: 0.8;
+					specularPower: 20)! !
+
+!ImplicitSurface methodsFor: 'initializing' stamp: 'len 1/21/2017 22:37:34'!
+initialize
+"	self polynomial: (RR polynomialsIn: #(x y z) :: generate: [:x :y :z| x**2 + (y**2) + (z**2) - 2])"
+"	self polynomial: (RR polynomialsIn: #(x y z) :: generate: [:x :y :z| x**2 + (z**2) - (y**2)])."
+	self polynomial: Scheme clebschCubic polynomial.
+"	self polynomial: (QQ polynomialsIn: #(x y z) :: generate: [:x :y :z| x squared + y squared - ((1 - z) * (z**4))])."
+	self radius: 1.0! !
+
+!ImplicitSurface methodsFor: 'accessing' stamp: 'len 1/21/2017 22:33:30'!
+interiorColor: aColor
+	self interiorTexture: (self defaultTextureForColor: aColor)! !
+
+!ImplicitSurface methodsFor: 'accessing' stamp: 'len 1/21/2017 22:33:42'!
+interiorTexture
+	^ interiorTexture ifNil: [texture]! !
+
+!ImplicitSurface methodsFor: 'accessing' stamp: 'len 1/21/2017 17:26:55'!
+interiorTexture: aTexture
+	interiorTexture _ aTexture! !
+
+!ImplicitSurface methodsFor: 'tracing-private' stamp: 'len 1/20/2017 21:25:30'!
+intersectionWithSphere: aRay
+	| a b c determinant t1 t2 |
+	a _ aRay directionLengthSquared.
+	b _ (aRay origin dot: aRay direction) * 2.0.
+	c _ (aRay origin dot: aRay origin) - radiusSquared.
+	determinant _ b * b - (4.0 * a * c).
+	determinant < 0.0 ifTrue: [^ nil].
+	determinant _ determinant sqrt.
+	a _ a * 2.0.
+	t1 _ (determinant - b) / a.
+	t2 _ (determinant negated - b) / a.
+	t1 negative ifTrue: [^ t2 positive ifTrue: [t2]].
+	t2 negative ifTrue: [^ t1 positive ifTrue: [t1]].
+	^ t1 min: t2! !
+
+!ImplicitSurface methodsFor: 'tracing' stamp: 'len 1/21/2017 19:35:11'!
+normalAt: aPoint
+	^ (Float32Vector3 x: ((gradient at: 1) value: aPoint) y: ((gradient at: 2) value: aPoint) z: ((gradient at: 3) value: aPoint)) normalize! !
+
+!ImplicitSurface methodsFor: 'accessing' stamp: 'len 1/21/2017 19:08:58'!
+polynomial
+	^ polynomial! !
+
+!ImplicitSurface methodsFor: 'accessing' stamp: 'len 1/20/2017 21:07:10'!
+polynomial: aPolynomial
+	polynomial _ aPolynomial.
+	gradient _ polynomial gradient! !
+
+!ImplicitSurface methodsFor: 'accessing' stamp: 'len 1/21/2017 18:35:29'!
+radius
+	^ radiusSquared sqrt! !
+
+!ImplicitSurface methodsFor: 'accessing' stamp: 'len 1/20/2017 17:56:18'!
+radius: aNumber
+	radiusSquared _ aNumber squared! !
+
+!ImplicitSurface methodsFor: 'tracing-private' stamp: 'len 1/20/2017 08:07:40'!
+signChanges: a
+	| lastSign count |
+	lastSign _ a at: 1.
+	count _ 0.
+	2 to: a size do: [:i| | ai sign | (ai _ a at: i) abs < Float epsilon ifFalse: [(sign _ ai sign) == lastSign ifFalse: [count _ count + 1. lastSign _ sign]]].
+	^ count! !
+
+!ImplicitSurface methodsFor: 'tracing-private' stamp: 'len 1/21/2017 22:46:32'!
+solve: f max: max
+	| left right n a b c r0 r1 count |
+	f isConstant ifTrue: [^ nil].
+"	(f independentCoefficient < Float epsilon) ifTrue: [^ 0.0]."
+	a _ f coefficients asArray reversed collect: [:each| each asFloat].
+	n _ a size.
+"	(self signChanges: a) > 0 ifFalse: [^ nil]." "no positive roots"
+	b _ Array new: n.
+	c _ Array new: n-1.
+	left _ 0.000001.
+	[right _ left + 0.1. (f value: left) * (f value: right) <= 0.0] whileFalse: [left _ right. left > max ifTrue: [^ nil]].
+	r0 _ left.
+	b at: 1 put: (a at: 1).
+	c at: 1 put: (b at: 1).
+	count _ 1.
+	[2 to: n do: [:i|
+		b at: i put: (a at: i) + (r0 * (b at: i-1)).
+		i < n ifTrue: [c at: i put: (b at: i) + (r0 * (c at: i-1))]].
+	r1 _ r0 - ((b at: n) / (c at: n-1)).
+	(r1 - r0) abs < 10.0e-6 ifTrue: [^ r1].
+	r0 _ r1.
+	(count _ count + 1) > 100 ifTrue: [^ nil]] repeat! !
+
+!ImplicitSurface methodsFor: 'tracing' stamp: 'len 1/21/2017 19:13:01'!
+writeIntersectionsWith: aRay into: aCollection
+	| t0 origin ox oy oz direction dx dy dz t f root intersection p |
+	(t0 _ self intersectionWithSphere: aRay) ifNil: [^ self].
+	origin _ aRay pointAtDistance: t0.
+	ox _ origin x.
+	oy _ origin y.
+	oz _ origin z.
+	direction _ aRay direction.
+	dx _ direction x.
+	dy _ direction y.
+	dz _ direction z.
+	t _ RR polynomialsIn: #(t) :: x.
+	f _ polynomial value: {t*dx + ox. t*dy + oy. t*dz + oz}.
+	(root _ self solve: f max: radiusSquared sqrt*2) ifNil: [^ self].
+	intersection _ Intersection for: self ray: aRay distance: root+t0.
+	p _ intersection intersectionPoint.
+	(p dot: p) < (radiusSquared - 0.00001) ifTrue: [aCollection add: intersection]! !
+
+!ImplicitSurface class methodsFor: 'examples' stamp: 'len 1/22/2017 08:31:49'!
+example1
+	^ self new
+		polynomial: (RR polynomialsIn: #(x y z) :: generate: [:x :y :z| x^2 + (y^2) + (z^3) + (x*y*z*2) - 1]);
+		radius: 1.0! !
+
+!ImplicitSurface class methodsFor: 'examples' stamp: 'len 1/22/2017 08:31:38'!
+example2
+	^ self new
+		polynomial: (RR polynomialsIn: #(x y z) :: generate: [:x :y :z| x^2 - ((y^2)*(z^2))]);
+		radius: 5.0! !
 BitTuple initialize!
 Digraph initialize!
 Naturals initialize!
