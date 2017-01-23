@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 23 January 2017 at 9:31:07 am'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 23 January 2017 at 10:29:06 am'!
 'Description A computational algebra system in Smalltalk'!
-!provides: 'Mathematics' 1 342!
+!provides: 'Mathematics' 1 343!
 !requires: 'RayTracer' 1 2 nil!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
@@ -12534,7 +12534,7 @@ step
 	self redrawNeeded.
 	maxDelta < 0.1 ifTrue: [self stopStepping]! !
 
-!GraphNodeMorph methodsFor: 'accessing' stamp: 'len 7/9/2016 22:39'!
+!GraphNodeMorph methodsFor: 'accessing' stamp: 'len 1/23/2017 09:33:59'!
 alpha
 	self dimension > 2 ifFalse: [^ 1.0].
 	(owner isNil or: [x z >= 0]) ifTrue: [^ 1.0].
@@ -12773,10 +12773,10 @@ function: aFunction
 	image _ nil.
 	self redrawNeeded! !
 
-!ComplexPlotMorph methodsFor: 'as yet unclassified' stamp: 'len 12/6/2016 16:53:31'!
+!ComplexPlotMorph methodsFor: 'as yet unclassified' stamp: 'len 1/23/2017 09:46:10'!
 initialize
 	super initialize.
-	extent _ 400@200.
+	extent _ 300@300.
 	color _ Color lightGray.
 	box _ -2@0 extent: 4@2.
 	palette _ ComplexPalette default! !
@@ -13427,6 +13427,11 @@ render
 	image _ camera renderScene: scene.
 	self redrawNeeded! !
 
+!ImplicitSurfacePlotMorph methodsFor: 'private' stamp: 'len 1/23/2017 10:13:53'!
+renderBest
+	resolutionRatio _ 1.
+	self render! !
+
 !ImplicitSurfacePlotMorph methodsFor: 'surface geometry' stamp: 'len 1/22/2017 09:14:31'!
 rotateSurfaceBy: aPoint
 	| xSpeed ySpeed |
@@ -13808,10 +13813,10 @@ color: aColor
 direction
 	^ (self targetPoint - self sourcePoint) normalized! !
 
-!GraphEdgeMorph methodsFor: 'drawing' stamp: 'len 12/19/2016 12:10:13'!
+!GraphEdgeMorph methodsFor: 'drawing' stamp: 'len 1/23/2017 09:35:06'!
 drawArcOn: aCanvas from: sourcePoint to: targetPoint
 	multiplicity odd
-		ifTrue: [aCanvas line: sourcePoint to: targetPoint width: width color: color].
+		ifTrue: [aCanvas line: sourcePoint to: targetPoint width: width color: self color].
 	1 to: multiplicity - (multiplicity \\ 2) do: [:i|
 		self drawCurveOn: aCanvas from: sourcePoint to: targetPoint curvature: i+1//2 * (i odd ifTrue: [1] ifFalse: [-1])]! !
 
@@ -13864,7 +13869,7 @@ drawArrowOn: aCanvas from: aPoint to: anotherPoint
 	self addMorph: aa"
 ! !
 
-!GraphEdgeMorph methodsFor: 'drawing' stamp: 'len 7/14/2016 05:44'!
+!GraphEdgeMorph methodsFor: 'drawing' stamp: 'len 1/23/2017 09:35:19'!
 drawCurveOn: aCanvas from: sourcePoint to: targetPoint curvature: curvature
 	| perp previous |
 	perp _ targetPoint - sourcePoint / 10.0 rotatedBy: Float pi / 2.
@@ -13872,7 +13877,7 @@ drawCurveOn: aCanvas from: sourcePoint to: targetPoint curvature: curvature
 		| current |
 		current _ sourcePoint * i + (targetPoint * (1.0-i)).
 		current _ current + ((0.5 - (0.5-i) abs) sqrt * curvature * perp).
-		previous ifNotNil: [aCanvas line: previous to: current width: width color: color].
+		previous ifNotNil: [aCanvas line: previous to: current width: width color: self color].
 		previous _ current]! !
 
 !GraphEdgeMorph methodsFor: 'drawing' stamp: 'len 7/14/2016 02:51'!
