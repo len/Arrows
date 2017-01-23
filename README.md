@@ -7,4 +7,4 @@ The goal is to build an extensible and mathematically rigurous environment where
 
 For more details refer to the [online documentation](https://github.com/len/Cuis-Mathematics/wiki) in the wiki.
 
-![alt tag](https://raw.githubusercontent.com/len/Cuis-Mathematics/master/screenshots/screenshot1.png)
+![alt tag](https://raw.githubusercontent.com/len/Cuis-Mathematics/master/screenshots/screenshot2.png)
