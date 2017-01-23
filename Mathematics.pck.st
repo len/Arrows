@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 23 January 2017 at 11:53:48 am'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 23 January 2017 at 11:08:31 pm'!
 'Description A computational algebra system in Smalltalk'!
-!provides: 'Mathematics' 1 344!
+!provides: 'Mathematics' 1 345!
 !requires: 'RayTracer' 1 2 nil!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
@@ -33740,9 +33740,15 @@ cofactor: aPoint
 coimage
 	^ self rowSpace! !
 
-!Matrix methodsFor: 'subspaces' stamp: 'len 2/22/2016 06:08'!
+!Matrix methodsFor: 'subspaces' stamp: 'len 1/23/2017 23:06:58'!
 cokernel
-	^ self image perp! !
+	"Answer the cokernel or left nullspace of the receiver.
+	This is the space of tuples x such that x*A = 0, and it is perpendicular to the column space or image."
+	^ self transposed kernel! !
+
+!Matrix methodsFor: 'subspaces' stamp: 'len 1/23/2017 23:07:40'!
+cokernel2
+	^ self image perp "alternative implementation, but much slower"! !
 
 !Matrix methodsFor: 'enumerating' stamp: 'len 11/5/2016 03:32'!
 collect: aBlock
@@ -33765,8 +33771,10 @@ columnAugmented: aMatrix
 	aMatrix numberOfRows = n ifFalse: [^ DomainError signal: 'dimensions don''t match'].
 	^ RowMatrix rows: ((1 to: n) collect: [:i| (self rowAt: i), (aMatrix rowAt: i)])! !
 
-!Matrix methodsFor: 'subspaces' stamp: 'len 11/12/2016 07:44'!
+!Matrix methodsFor: 'subspaces' stamp: 'len 1/23/2017 22:59:01'!
 columnSpace
+	"Answer the column space of the receiver, i.e. the space spanned by the column tuples.
+	This is perpendicular to the cokernel or left nullspace, and it's also called image."
 	^ self scalars ^ self numberOfRows span: self columns! !
 
 !Matrix methodsFor: 'accessing' stamp: 'len 7/2/2016 17:13'!
@@ -34081,11 +34089,13 @@ jordan
 	"Answer the Jordan blocks of the receiver's Jordan Normal Form."
 	^ JordanNormalForm new matrix: self; blocks! !
 
-!Matrix methodsFor: 'subspaces' stamp: 'len 2/22/2016 07:59'!
+!Matrix methodsFor: 'subspaces' stamp: 'len 1/23/2017 23:03:34'!
 kernel
+	"Answer the kernel or nullspace of the receiver.
+	This is the space of tuples x such that A*x = 0, and it is perpendicular to the row space or image."
 	| n reducer vectors |
 	n _ self numberOfColumns.
-	"reduce the agumented matrix [A^t | I], then a linear basis of the kernel is given by the rows of the extension corresponding to zero rows in the reduced matrix."
+	"Reduce the agumented matrix [A^t | I], then a linear basis of the kernel is given by the rows of the extension corresponding to zero rows in the reduced matrix."
 	reducer _ self transposed reducerWith: (self scalars ^ (n @ n)) identity.
 	vectors _ OrderedCollection new.
 	reducer reduced rows withIndexDo: [:row :i|
@@ -34276,9 +34286,11 @@ rowAugmented: aMatrix
 	aMatrix numberOfColumns = m ifFalse: [^ DomainError signal: 'dimensions don''t match'].
 	^ RowMatrix rows: self rows, aMatrix rows! !
 
-!Matrix methodsFor: 'subspaces' stamp: 'len 2/22/2016 00:56'!
+!Matrix methodsFor: 'subspaces' stamp: 'len 1/23/2017 23:08:01'!
 rowSpace
-	^ (self scalars ^ self numberOfColumns) span: self rows! !
+	"Answer the row space of the receiver, i.e. the space spanned by the row tuples.
+	This is perpendicular to the kernel or nullspace, and it's also called coimage."
+	^ self scalars ^ self numberOfColumns span: self rows! !
 
 !Matrix methodsFor: 'accessing' stamp: 'len 7/2/2016 17:12'!
 rows
