@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 22 January 2017 at 10:10:39 am'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 23 January 2017 at 9:31:07 am'!
 'Description A computational algebra system in Smalltalk'!
-!provides: 'Mathematics' 1 341!
+!provides: 'Mathematics' 1 342!
 !requires: 'RayTracer' 1 2 nil!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
@@ -7843,9 +7843,9 @@ printOn: aStream
 	polynomials do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: '. '].
 	aStream nextPut: $}! !
 
-!StandardBasis methodsFor: 'operations' stamp: 'len 11/20/2016 15:23:41'!
+!StandardBasis methodsFor: 'operations' stamp: 'len 1/22/2017 21:53:51'!
 reduce: aPolynomial 
-	"Answer the remainder of the argument when divided by the receiver."
+	"Answer the remainder of the argument when divided by the receiver (i.e. the normal form with respect to the receiver)."
 	| division |
 	division _ MultiPolynomialDivision divide: aPolynomial by: self.
 "	division verify ifFalse: [self halt]."
@@ -13379,11 +13379,11 @@ mouseMove: aMouseMoveEvent localPosition: localEventPosition
 					self rotateSurfaceBy: localEventPosition - lastMousePosition]].
 	lastMousePosition _ localEventPosition! !
 
-!ImplicitSurfacePlotMorph methodsFor: 'private' stamp: 'len 1/22/2017 09:57:11'!
+!ImplicitSurfacePlotMorph methodsFor: 'private' stamp: 'len 1/22/2017 20:02:12'!
 normalResolutionRatio
-	^ 3! !
+	^ 2! !
 
-!ImplicitSurfacePlotMorph methodsFor: 'accessing' stamp: 'len 1/22/2017 10:02:48'!
+!ImplicitSurfacePlotMorph methodsFor: 'accessing' stamp: 'len 1/22/2017 20:34:55'!
 polynomial: aPolynomial
 	polynomial _ aPolynomial.
 	rotation _ Float64Quaternion identity.
@@ -13403,7 +13403,22 @@ polynomial: aPolynomial
 							location: -15 @ -5 @ 0;
 							color: Color cyan);"
 				addObject: surface;
-				yourself.
+"				addObject: (Plane new
+							normal: 0 @ 1 @ 0;
+							offset: 1;
+							texture: (TextureWithFinish new
+										pigment: (CheckerBoardPigment new
+													center: 0 @ 0.1 @ 0;
+													color1: Color gray;
+													color2: Color white;
+													squareSize: 1);
+										finish: (CompoundFinish new
+													addFinish: (PhongLightingModelFinish new
+																ambient: 0.2;
+																specular: 0;
+																specularPower: 10);
+													addFinish: (ReflectionFinish new reflection: 0.3))));
+"				yourself.
 	self render! !
 
 !ImplicitSurfacePlotMorph methodsFor: 'private' stamp: 'len 1/20/2017 23:05:05'!
@@ -19343,9 +19358,9 @@ one: anElement
 oneIdeal
 	^ self * self one! !
 
-!Ring methodsFor: 'operations' stamp: 'len 3/26/2016 05:42'!
+!Ring methodsFor: 'operations' stamp: 'len 1/22/2017 20:45:15'!
 polynomials
-	^ self polynomialsIn: #(x)! !
+	^ self propertyAt: #polynomials ifAbsentPut: [self polynomialsIn: #(x)]! !
 
 !Ring methodsFor: 'operations' stamp: 'len 7/8/2016 19:54'!
 polynomialsIn: anIntegerOrCollection
@@ -21931,9 +21946,9 @@ new
 		ifFalse: [MultivariatePolynomial coefficients: (MonomialIndexedTuple over: self scalars)])
 			parent: self! !
 
-!PolynomialRing methodsFor: 'elements' stamp: 'len 10/22/2016 18:08'!
+!PolynomialRing methodsFor: 'elements' stamp: 'len 1/22/2017 20:42:36'!
 one
-	^ self constant: self scalars one! !
+	^ self propertyAt: #one ifAbsentPut: [self constant: self scalars one]! !
 
 !PolynomialRing methodsFor: 'converting' stamp: 'len 12/26/2016 09:40:34'!
 orderedBy: aMonomialOrdering
@@ -22040,9 +22055,9 @@ y
 z
 	^ self x: self indeterminates third! !
 
-!PolynomialRing methodsFor: 'elements' stamp: 'len 3/23/2016 05:21'!
+!PolynomialRing methodsFor: 'elements' stamp: 'len 1/22/2017 20:42:15'!
 zero
-	^ self constant: self scalars zero! !
+	^ self propertyAt: #zero ifAbsentPut: [self constant: self scalars zero]! !
 
 !PolynomialRing class methodsFor: 'instance creation' stamp: 'len 1/14/2017 21:11:05'!
 new: anInteger over: aRing
@@ -25603,6 +25618,16 @@ kleinQuartic
 	y _ P coordinateRing y.
 	z _ P coordinateRing z.
 	^ P subscheme: {x^3*y + (y^3*z) + (z^3*x)}! !
+
+!Scheme class methodsFor: 'examples' stamp: 'len 1/22/2017 17:34:23'!
+romanSurface
+	"The Roman surface or Steiner surface.
+	This is a self-intersecting mapping of the real projective plane into affine 3-space.
+	It was discovered by Jakob Steiner when he was in Rome in 1844."
+	| A r |
+	A _ AffineSpace new: #(x y z) over: QQ.
+	r _ 1.
+	^ A subscheme: (A coordinateRing generate: [:x :y :z| x*y^2 + (y*z^2) + (z*x^2) - (x*y*z*r squared)])! !
 
 !Scheme class methodsFor: 'examples' stamp: 'len 12/18/2016 20:04:41'!
 twistedCubic
@@ -30149,7 +30174,7 @@ hasLeftInverse
 hasRightInverse
 	^ true! !
 
-!Permutation methodsFor: 'comparing' stamp: 'len 11/15/2016 12:17'!
+!Permutation methodsFor: 'comparing' stamp: 'len 1/23/2017 09:21:32'!
 hash
 	| answer |
 	answer _ 0.
@@ -30454,12 +30479,12 @@ degree
 domain
 	^ (1 to: map size) as: Domain! !
 
-!StandardPermutation methodsFor: 'comparing' stamp: 'len 11/15/2016 12:16'!
+!StandardPermutation methodsFor: 'comparing' stamp: 'len 1/23/2017 09:21:10'!
 hash
 	| answer |
 	answer _ 0.
 	1 to: map size do: [:i| | value |
-		(value _ map at: i) = i ifFalse: [answer _ answer bitXor: i hashMultiply + value]].
+		(value _ map at: i) = i ifFalse: [answer _ answer bitXor: i hash hashMultiply + value hash]].
 	^ answer! !
 
 !StandardPermutation methodsFor: 'arithmetic' stamp: 'len 6/29/2016 00:24'!
@@ -35339,9 +35364,10 @@ indeterminates
 indeterminates: anArray
 	indeterminates _ anArray! !
 
-!MonomialOrdering methodsFor: 'testing' stamp: 'len 1/19/2017 09:36:40'!
+!MonomialOrdering methodsFor: 'testing' stamp: 'len 1/23/2017 09:26:38'!
 isGlobal
-	"Answer true if the receiver is a global ordering (as opposed to a local ordering)."
+	"Answer true if the receiver is a noetherian or global ordering (as opposed to a local ordering).
+	Global orderings satisfy 1 < m for all nontrivial monomials m."
 	^ self isLocal not! !
 
 !MonomialOrdering methodsFor: 'testing' stamp: 'len 10/28/2016 10:43'!
@@ -35349,9 +35375,10 @@ isGraded
 	"Answer true if the receiver is a graded (also called total) ordering."
 	^ false! !
 
-!MonomialOrdering methodsFor: 'testing' stamp: 'len 10/28/2016 10:43'!
+!MonomialOrdering methodsFor: 'testing' stamp: 'len 1/22/2017 21:53:20'!
 isLocal
-	"Answer true if the receiver is a local ordering."
+	"Answer true if the receiver is a local (or non-noetherian) ordering.
+	Local orderings satisfy 1 > m for all nontrivial monomials m."
 	^ false! !
 
 !MonomialOrdering methodsFor: 'printing' stamp: 'len 1/14/2017 21:11:09'!
@@ -41131,15 +41158,22 @@ points: aCollection
 color: aColor
 	self texture: (self defaultTextureForColor: aColor)! !
 
-!ImplicitSurface methodsFor: 'private' stamp: 'len 1/21/2017 22:33:01'!
+!ImplicitSurface methodsFor: 'private' stamp: 'len 1/22/2017 20:39:02'!
 defaultTextureForColor: aColor
 	^ TextureWithFinish new
 			pigment: (FlatColorPigment new color: aColor);
-			finish:
-				(PhongLightingModelFinish new
+			finish: (PhongLightingModelFinish new
 					ambient: 0.35;
 					specular: 0.8;
-					specularPower: 20)! !
+					specularPower: 20)
+
+"			finish: (CompoundFinish new
+				addFinish: (PhongLightingModelFinish new
+					ambient: 0.35;
+					specular: 0.8;
+					specularPower: 20);
+				addFinish: (ReflectionFinish new reflection: 1);
+				yourself)"! !
 
 !ImplicitSurface methodsFor: 'initializing' stamp: 'len 1/21/2017 22:37:34'!
 initialize
@@ -41206,7 +41240,7 @@ signChanges: a
 	2 to: a size do: [:i| | ai sign | (ai _ a at: i) abs < Float epsilon ifFalse: [(sign _ ai sign) == lastSign ifFalse: [count _ count + 1. lastSign _ sign]]].
 	^ count! !
 
-!ImplicitSurface methodsFor: 'tracing-private' stamp: 'len 1/21/2017 22:46:32'!
+!ImplicitSurface methodsFor: 'tracing-private' stamp: 'len 1/22/2017 19:56:38'!
 solve: f max: max
 	| left right n a b c r0 r1 count |
 	f isConstant ifTrue: [^ nil].
@@ -41230,7 +41264,7 @@ solve: f max: max
 	r0 _ r1.
 	(count _ count + 1) > 100 ifTrue: [^ nil]] repeat! !
 
-!ImplicitSurface methodsFor: 'tracing' stamp: 'len 1/21/2017 19:13:01'!
+!ImplicitSurface methodsFor: 'tracing' stamp: 'len 1/22/2017 20:51:27'!
 writeIntersectionsWith: aRay into: aCollection
 	| t0 origin ox oy oz direction dx dy dz t f root intersection p |
 	(t0 _ self intersectionWithSphere: aRay) ifNil: [^ self].
@@ -41242,11 +41276,11 @@ writeIntersectionsWith: aRay into: aCollection
 	dx _ direction x.
 	dy _ direction y.
 	dz _ direction z.
-	t _ RR polynomialsIn: #(t) :: x.
+	t _ RR polynomials x.
 	f _ polynomial value: {t*dx + ox. t*dy + oy. t*dz + oz}.
 	(root _ self solve: f max: radiusSquared sqrt*2) ifNil: [^ self].
 	intersection _ Intersection for: self ray: aRay distance: root+t0.
-	p _ intersection intersectionPoint.
+	p _ intersection intersectionPoint. "this is expensive, can we do without computing this intersection point?"
 	(p dot: p) < (radiusSquared - 0.00001) ifTrue: [aCollection add: intersection]! !
 
 !ImplicitSurface class methodsFor: 'examples' stamp: 'len 1/22/2017 08:31:49'!
