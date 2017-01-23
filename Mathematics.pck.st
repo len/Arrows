@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 23 January 2017 at 10:29:06 am'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 23 January 2017 at 11:53:48 am'!
 'Description A computational algebra system in Smalltalk'!
-!provides: 'Mathematics' 1 343!
+!provides: 'Mathematics' 1 344!
 !requires: 'RayTracer' 1 2 nil!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
@@ -6681,12 +6681,12 @@ reciprocal
 		irreducible: irreducible
 		bounds: bounds reciprocal! !
 
-!RealAlgebraicNumber methodsFor: 'private' stamp: 'len 4/29/2016 07:47'!
+!RealAlgebraicNumber methodsFor: 'private' stamp: 'len 1/23/2017 11:45:53'!
 reduce
 	irreducible ifTrue: [^ self].
 	self isRational
 		ifTrue:
-			[polynomial _ polynomial species x - self asRational.
+			[polynomial _ polynomial parent x - self asRational.
 			irreducible _ true]! !
 
 !RealAlgebraicNumber methodsFor: 'approximating' stamp: 'len 6/4/2016 23:06'!
@@ -6754,12 +6754,12 @@ squareRoot
 		polynomial: self polynomial zeroSquareRoot
  		bounds: (RealInterval open: 0 open: (self asRational max: 1))! !
 
-!RealAlgebraicNumber methodsFor: 'mathematical functions' stamp: 'len 1/16/2016 06:27'!
+!RealAlgebraicNumber methodsFor: 'mathematical functions' stamp: 'len 1/23/2017 11:45:57'!
 squared
 	"Answer the square of the receiver."
 
 	| x odd even |
-	x _ self polynomial species x.
+	x _ self polynomial parent x.
 	odd _ self polynomial odd.
 	even _ self polynomial even.
 	^ self class
@@ -7752,9 +7752,9 @@ do: aBlock
 first
 	^ self at: 1! !
 
-!StandardBasis methodsFor: 'accessing' stamp: 'len 11/20/2016 15:29:07'!
+!StandardBasis methodsFor: 'accessing' stamp: 'len 1/23/2017 11:47:32'!
 indeterminates
-	^ self anyOne species indeterminates! !
+	^ self anyOne parent indeterminates! !
 
 !StandardBasis methodsFor: 'operations' stamp: 'len 11/20/2016 15:27:35'!
 initial
@@ -7824,10 +7824,10 @@ minimal
 	answer isMinimal: true.
 	^ answer! !
 
-!StandardBasis methodsFor: 'accessing' stamp: 'len 11/20/2016 15:31:37'!
+!StandardBasis methodsFor: 'accessing' stamp: 'len 1/23/2017 11:47:29'!
 ordering
 	"Answer the monomial ordering of the receiver."
-	^ self anyOne species ordering! !
+	^ self anyOne parent ordering! !
 
 !StandardBasis methodsFor: 'operations' stamp: 'len 6/22/2016 03:52'!
 polynomialAt: aTuple
@@ -19156,12 +19156,12 @@ dimension
 embedding
 	^ ZZ to: self evaluating: [:x| self one * x]! !
 
-!Ring methodsFor: 'operations' stamp: 'len 12/31/2016 10:58:56'!
+!Ring methodsFor: 'operations' stamp: 'len 1/23/2017 11:46:07'!
 extension: aPolynomial
 	"Answer the algebraic extension of the receiver defined by the given irreducible polynomial."
 	self isField ifFalse: [DomainError signal: 'not a field'].
 	aPolynomial scalars = self ifFalse: [DomainError signal: 'polynomial coefficients not from this field'].
-	aPolynomial species isUnivariate ifFalse: [^ self error: 'not univariate poylnomial'].
+	aPolynomial parent isUnivariate ifFalse: [^ self error: 'not univariate poylnomial'].
 	^ ExtensionField polynomial: aPolynomial! !
 
 !Ring methodsFor: 'operations' stamp: 'len 10/31/2016 05:46'!
@@ -19849,11 +19849,11 @@ embed: anInteger
 embedding
 	^ self propertyAt: #embedding ifAbsentPut: [(self integers to: self evaluating: [:x| x]) name: 'i'] "because in Smalltalk Fractions of denominator 1 are always reduced to their Integer numerator"! !
 
-!RationalField methodsFor: 'operations' stamp: 'len 12/31/2016 10:59:06'!
+!RationalField methodsFor: 'operations' stamp: 'len 1/23/2017 11:45:27'!
 extension: aPolynomial
 	"Answer the algebraic extension of the receiver defined by the given irreducible polynomial."
 	aPolynomial scalars = self ifFalse: [DomainError signal: 'polynomial coefficients not from this field'].
-	aPolynomial species isUnivariate ifFalse: [^ self error: 'not univariate poylnomial'].
+	aPolynomial parent isUnivariate ifFalse: [^ self error: 'not univariate poylnomial'].
 "	aPolynomial degree = 2 ifTrue: [^ QuadraticField polynomial: aPolynomial]."
 	^ NumberField polynomial: aPolynomial! !
 
@@ -19945,11 +19945,11 @@ initialize
 embed: aPolynomial
 	^ RationalFunction numerator: aPolynomial denominator: self integers one! !
 
-!RationalFunctionField methodsFor: 'operations' stamp: 'len 12/31/2016 10:58:13'!
+!RationalFunctionField methodsFor: 'operations' stamp: 'len 1/23/2017 11:45:48'!
 extension: aPolynomial
 	"Answer the algebraic function field extension of the receiver defined by the given irreducible polynomial."
 	aPolynomial scalars = self ifFalse: [DomainError signal: 'polynomial coefficients not from this field'].
-	aPolynomial species isUnivariate ifFalse: [^ self error: 'not univariate poylnomial'].
+	aPolynomial parent isUnivariate ifFalse: [^ self error: 'not univariate poylnomial'].
 	^ FunctionField polynomial: aPolynomial! !
 
 !RationalFunctionField methodsFor: 'accessing' stamp: 'len 10/14/2016 22:59'!
@@ -20367,11 +20367,11 @@ computePrimitiveRoot
 			a >= m ifTrue: [self error: 'no primitive element, the modulus is not prime']].
 	^ a! !
 
-!PrimeField methodsFor: 'operations' stamp: 'len 12/31/2016 10:59:13'!
+!PrimeField methodsFor: 'operations' stamp: 'len 1/23/2017 11:45:08'!
 extension: aPolynomial
 	"Answer the Galois overfield of the receiver defined by the given irreducible polynomial."
 	aPolynomial scalars = self ifFalse: [DomainError signal: 'polynomial coefficients not from this field'].
-	aPolynomial species isUnivariate ifFalse: [^ self error: 'not univariate poylnomial'].
+	aPolynomial parent isUnivariate ifFalse: [^ self error: 'not univariate poylnomial'].
 	^ GaloisField polynomial: aPolynomial! !
 
 !PrimeField methodsFor: 'morphisms' stamp: 'len 11/30/2016 19:10:05'!
@@ -20515,9 +20515,9 @@ isField
 polynomial
 	^ self ideal generator! !
 
-!ExtensionField methodsFor: 'accessing-private' stamp: 'len 10/16/2016 15:13'!
+!ExtensionField methodsFor: 'accessing-private' stamp: 'len 1/23/2017 11:32:33'!
 polynomial: aPolynomial
-	self ideal: aPolynomial species * aPolynomial! !
+	self ideal: aPolynomial parent * aPolynomial! !
 
 !ExtensionField methodsFor: 'printing' stamp: 'len 12/28/2016 12:27:58'!
 printOn: aStream
@@ -21483,7 +21483,7 @@ zero
 new: anInteger over: aRing
 	^ self new degree: anInteger; scalars: aRing! !
 
-!PolynomialRing methodsFor: 'elements' stamp: 'len 1/20/2017 09:31:54'!
+!PolynomialRing methodsFor: 'elements' stamp: 'len 1/23/2017 11:44:40'!
 !! aPolynomial
 	| associations |
 	(aPolynomial isKindOf: Polynomial)
@@ -21491,7 +21491,7 @@ new: anInteger over: aRing
 			[aPolynomial isInteger ifTrue: [^ super !! aPolynomial].
 			(self scalars includes: aPolynomial) ifTrue: [^ self constant: aPolynomial].
 			^ self evaluating: aPolynomial].
-	(aPolynomial species rank = self rank and: [aPolynomial species scalars ~= self scalars])
+	(aPolynomial parent rank = self rank and: [aPolynomial parent scalars ~= self scalars])
 		ifTrue: [^ self coefficients: (aPolynomial coefficients over: self scalars)].
 	(aPolynomial indeterminates allSatisfy: [:each| each <= self rank])
 		ifFalse: [self error: 'unknown indeterminates are present'].
@@ -21844,9 +21844,9 @@ hilbertSeriesAt: t
 idealClass
 	^ PolynomialIdeal! !
 
-!PolynomialRing methodsFor: 'testing' stamp: 'len 6/1/2016 23:50'!
+!PolynomialRing methodsFor: 'testing' stamp: 'len 1/23/2017 11:44:49'!
 includes: anObject
-	^ (anObject isKindOf: Polynomial) and: [anObject species <= self]! !
+	^ (anObject isKindOf: Polynomial) and: [anObject parent <= self]! !
 
 !PolynomialRing methodsFor: 'accessing' stamp: 'len 6/4/2016 05:12'!
 indeterminate
@@ -25273,11 +25273,11 @@ tetracode
 asIdeal
 	^ generator asIdeal! !
 
-!CyclicCode2 methodsFor: 'accessing' stamp: 'len 5/18/2016 07:24'!
+!CyclicCode2 methodsFor: 'accessing' stamp: 'len 1/23/2017 11:31:35'!
 checkPolynomial
 	| x one |
-	x _ generator species x.
-	one _ generator species one.
+	x _ generator parent x.
+	one _ generator parent one.
 	^ x ^ self length - one / generator! !
 
 !CyclicCode2 methodsFor: 'accessing' stamp: 'len 5/18/2016 07:21'!
@@ -25310,10 +25310,10 @@ generator: aPolynomial
 	[basis includes: g] whileFalse: [basis add: g. g _ g * x].
 	self subspace: basis span"! !
 
-!CyclicCode2 methodsFor: 'testing' stamp: 'len 5/18/2016 07:27'!
+!CyclicCode2 methodsFor: 'testing' stamp: 'len 1/23/2017 11:31:39'!
 includes: aCodeword
 	| x |
-	x _ generator species x.
+	x _ generator parent x.
 	^ self checkPolynomial * aCodeword \\ (x ^ self length - x one) :: isZero! !
 
 !CyclicCode2 methodsFor: 'testing' stamp: 'len 5/18/2016 07:22'!
@@ -25358,20 +25358,20 @@ generator: aPolynomial
 includes: aCodeword
 	^ aCodeword | generator! !
 
-!PolynomialCode methodsFor: 'testing' stamp: 'len 5/12/2016 07:51'!
+!PolynomialCode methodsFor: 'testing' stamp: 'len 1/23/2017 11:44:04'!
 isCyclic
 	| n x |
 	n _ self length.
-	x _ generator species x.
-	^ generator | (x ^ n - x species one)! !
+	x _ generator parent x.
+	^ generator | (x ^ n - x parent one)! !
 
 !PolynomialCode methodsFor: 'accessing' stamp: 'len 5/12/2016 07:20'!
 rank
 	^ self length - generator degree! !
 
-!PolynomialCode methodsFor: 'accessing' stamp: 'len 5/3/2016 08:28'!
+!PolynomialCode methodsFor: 'accessing' stamp: 'len 1/23/2017 11:44:09'!
 size
-	^ generator species scalars size ^ (self length - generator degree)! !
+	^ generator parent scalars size ^ (self length - generator degree)! !
 
 !PolynomialCode class methodsFor: 'examples' stamp: 'len 10/18/2016 21:01'!
 G23
@@ -25397,29 +25397,29 @@ H7
 generator: aPolynomial
 	^ self new: aPolynomial degree generator: aPolynomial! !
 
-!PolynomialCode class methodsFor: 'instance creation' stamp: 'len 10/22/2016 18:55'!
+!PolynomialCode class methodsFor: 'instance creation' stamp: 'len 1/23/2017 11:44:18'!
 new: n generator: aPolynomial
 	| V W subspace |
-	V _ aPolynomial species filtrationAt: n - 1.
-	W _ aPolynomial species filtrationAt: n - aPolynomial degree - 1.
+	V _ aPolynomial parent filtrationAt: n - 1.
+	W _ aPolynomial parent filtrationAt: n - aPolynomial degree - 1.
 	subspace _ V span: (W collect: [:f| aPolynomial * f]).
 	^ (self subspace: subspace) generator: aPolynomial! !
 
-!CyclicCode methodsFor: 'as yet unclassified' stamp: 'len 6/29/2016 22:18'!
+!CyclicCode methodsFor: 'as yet unclassified' stamp: 'len 1/23/2017 11:31:24'!
 checkPolynomial
 	| x one |
-	x _ generator species x.
-	one _ generator species one.
+	x _ generator parent x.
+	one _ generator parent one.
 	^ x ^ self length - one / generator! !
 
 !CyclicCode methodsFor: 'as yet unclassified' stamp: 'len 6/29/2016 22:18'!
 dual
 	^ self class new: self length generator: self generator reversed! !
 
-!CyclicCode methodsFor: 'as yet unclassified' stamp: 'len 6/29/2016 22:18'!
+!CyclicCode methodsFor: 'as yet unclassified' stamp: 'len 1/23/2017 11:31:29'!
 includes: aCodeword
 	| x |
-	x _ generator species x.
+	x _ generator parent x.
 	^ self checkPolynomial * aCodeword \\ (x ^ self length - x one) :: isZero! !
 
 !CyclicCode methodsFor: 'as yet unclassified' stamp: 'len 6/29/2016 22:18'!
@@ -25961,9 +25961,9 @@ plot
 polynomial
 	^ self ideal generator! !
 
-!AffineHypersurface class methodsFor: 'instance creation' stamp: 'len 1/8/2017 17:18:05'!
+!AffineHypersurface class methodsFor: 'instance creation' stamp: 'len 1/23/2017 11:30:29'!
 polynomial: aPolynomial
-	^ self coordinateRing: aPolynomial species / aPolynomial! !
+	^ self coordinateRing: aPolynomial parent / aPolynomial! !
 
 !AffinePlaneCurve methodsFor: 'operations' stamp: 'len 1/11/2017 14:15:46'!
 multiplicityAt: aTuple
@@ -25978,13 +25978,13 @@ plot
 plot: aRectangle
 	^ ImplicitFunctionPlotMorph new function: self polynomial; box: aRectangle! !
 
-!AffinePlaneCurve methodsFor: 'operations' stamp: 'len 1/11/2017 14:31:01'!
+!AffinePlaneCurve methodsFor: 'operations' stamp: 'len 1/23/2017 11:30:41'!
 tangentsAt: aTuple
 	| f r derivatives |
 	f _ (self translatedBy: aTuple negated) polynomial.
 	r _ f lowestDegree. "multiplicity at the point"
 	derivatives _ (0 to: r) collect: [:k| (f derivative: k in: 1) derivative: r-k in: 2].
-	^ (self ambient subscheme: ((0 to: r) sum: [:k| (r choose: k) * (derivatives at: k+1) * (f species x: 1 to: k) * (f species x: 2 to: r-k)])) translatedBy: aTuple! !
+	^ (self ambient subscheme: ((0 to: r) sum: [:k| (r choose: k) * (derivatives at: k+1) * (f parent x: 1 to: k) * (f parent x: 2 to: r-k)])) translatedBy: aTuple! !
 
 !AffinePlaneCurve class methodsFor: 'examples' stamp: 'len 1/22/2017 08:22:42'!
 descartesFolium
@@ -26073,6 +26073,10 @@ new: rank over: aRing
 	^ self class on: self ambient ideal: ideal * aScheme ideal
 although the intersection is harder to compute, it behaves better with radicalization, because the intersection of two radical ideals is radical and we don't need to compute radicals again"! !
 
+!ProjectiveScheme methodsFor: 'accessing' stamp: 'len 1/23/2017 11:29:13'!
+affineCone
+	^ self coordinateRing spec! !
+
 !ProjectiveScheme methodsFor: 'accessing' stamp: 'len 10/20/2016 10:27'!
 ambient
 	^ self coordinateRing isQuotient
@@ -26084,10 +26088,6 @@ arithmeticGenus
 	"Answer the arithmetic genus of the receiver."
 	self ambient isOrdinaryProjectiveSpace ifFalse: [^ self error: 'not ordinary projective space'].
 	self notYetImplemented! !
-
-!ProjectiveScheme methodsFor: 'converting' stamp: 'len 1/22/2017 09:59:59'!
-asAffineCone
-	^ self coordinateRing spec! !
 
 !ProjectiveScheme methodsFor: 'accessing' stamp: 'len 1/13/2017 17:01:55'!
 coordinateRing
@@ -26327,12 +26327,12 @@ hessian
 printOn: aStream
 	aStream print: self polynomial; nextPutAll: ' = 0'! !
 
-!Conic methodsFor: 'as yet unclassified' stamp: 'len 12/31/2016 10:26:38'!
+!Conic methodsFor: 'as yet unclassified' stamp: 'len 1/23/2017 11:31:13'!
 coefficients
 	^ self propertyAt: #coefficients ifAbsentPut:
 		[| f |
 		f _ self polynomial orderedBy: #lex.
-		(f species gradingAt: 2) coordinatesOf: f]! !
+		(f parent gradingAt: 2) coordinatesOf: f]! !
 
 !Conic methodsFor: 'as yet unclassified' stamp: 'len 12/25/2016 12:14:47'!
 genus
@@ -31545,9 +31545,9 @@ generators: aCollection relators: anotherCollection
 / aSemidirectProduct
 	^ self * aSemidirectProduct reciprocal! !
 
-!SemidirectProductElement methodsFor: 'constants' stamp: 'len 2/12/2016 06:09'!
+!SemidirectProductElement methodsFor: 'constants' stamp: 'len 1/23/2017 11:46:24'!
 identity
-	^ self species identity! !
+	^ self parent identity! !
 
 !SemidirectProductElement methodsFor: 'accessing' stamp: 'len 5/5/98 00:18'!
 left
@@ -31932,11 +31932,11 @@ derivative
 	gcd _ self denominator gcd: num.
 	^ self class numerator: num // gcd denominator: (self denominator // gcd) squared * gcd! !
 
-!RationalFunction methodsFor: 'operations' stamp: 'len 11/5/2016 03:02'!
+!RationalFunction methodsFor: 'operations' stamp: 'len 1/23/2017 11:45:39'!
 homogenized
 	"Answer the homogenization of the receiver introducing a new indeterminate."
 	| R R` |
-	R _ self numerator species.
+	R _ self numerator parent.
 	R` _ R scalars polynomialsIn: R rank + 1.
 	^ self class numerator: ((self numerator as: R`) homogenizedIn: R` rank) denominator: ((self denominator as: R`) homogenizedIn: R` rank)! !
 
@@ -35085,7 +35085,7 @@ run
 	diagonal add: ((matrix at: 1@1) gcd: R).
 	diagonal _ matrix scalars tuple: diagonal! !
 
-!Monomial methodsFor: 'operations' stamp: 'len 11/21/2016 15:59:47'!
+!Monomial methodsFor: 'operations' stamp: 'len 1/23/2017 11:35:41'!
 * aMonomial
 	| b bn c |
 	b _ aMonomial exponents.
@@ -35093,9 +35093,9 @@ run
 	exponents size = bn ifFalse: [^ self error: 'not same size'].
 	c _ Array new: bn.
 	1 to: bn do: [:i| c at: i put: (exponents at: i) + (b at: i)].
-	^ self species exponents: c! !
+	^ self parent exponents: c! !
 
-!Monomial methodsFor: 'operations' stamp: 'len 11/21/2016 19:01:49'!
+!Monomial methodsFor: 'operations' stamp: 'len 1/23/2017 11:35:45'!
 / aMonomial
 	"Answer the exact division of the receiver by the argument."
 	| b bn c |
@@ -35104,7 +35104,7 @@ run
 	exponents size = bn ifFalse: [^ self error: 'not same size'].
 	c _ Array new: bn.
 	1 to: bn do: [:i| c at: i put: (exponents at: i) - (b at: i)].
-	^ self species exponents: c! !
+	^ self parent exponents: c! !
 
 !Monomial methodsFor: 'comparing' stamp: 'len 11/20/2016 16:44:54'!
 < aMonomial
@@ -35135,9 +35135,9 @@ run
 	self == aMonomial ifTrue: [^ true].
 	^ (self compare: aMonomial) >= 0! !
 
-!Monomial methodsFor: 'operations' stamp: 'len 1/22/2017 08:16:19'!
+!Monomial methodsFor: 'operations' stamp: 'len 1/23/2017 11:35:48'!
 ^ anInteger
-	^ self species exponents: exponents * anInteger! !
+	^ self parent exponents: exponents * anInteger! !
 
 !Monomial methodsFor: 'testing' stamp: 'len 7/3/2016 00:29'!
 | aMonomial
@@ -35158,21 +35158,21 @@ bitSize
 compare: aMonomial
 	^ self ordering compare: self with: aMonomial! !
 
-!Monomial methodsFor: 'operations' stamp: 'len 11/24/2016 10:49:18'!
+!Monomial methodsFor: 'operations' stamp: 'len 1/23/2017 11:35:52'!
 complete: anInteger in: anIndeterminate
 	"Answer a copy of the receiver of degree anInteger completing with a power of the indeterminate anotherInteger."
 	| n |
 	(n _ self degree) = anInteger ifTrue: [^ self].
-	^ self species exponents: (exponents copy at: anIndeterminate put: anInteger - n + (self at: anIndeterminate); yourself)! !
+	^ self parent exponents: (exponents copy at: anIndeterminate put: anInteger - n + (self at: anIndeterminate); yourself)! !
 
-!Monomial methodsFor: 'copying' stamp: 'len 11/24/2016 10:48:41'!
+!Monomial methodsFor: 'copying' stamp: 'len 1/23/2017 11:35:56'!
 copyWith: anIndeterminate to: anInteger
-	^ self species exponents: (exponents copy at: anIndeterminate put: anInteger; yourself)! !
+	^ self parent exponents: (exponents copy at: anIndeterminate put: anInteger; yourself)! !
 
-!Monomial methodsFor: 'copying' stamp: 'len 11/24/2016 10:48:58'!
+!Monomial methodsFor: 'copying' stamp: 'len 1/23/2017 11:36:00'!
 copyWithout: anIndeterminate
 	"Answer a copy of the receiver with the given indeterminate removed."
-	^ self species exponents: (exponents copy at: anIndeterminate put: 0; yourself)! !
+	^ self parent exponents: (exponents copy at: anIndeterminate put: 0; yourself)! !
 
 !Monomial methodsFor: 'operations' stamp: 'len 11/19/2016 10:20:23'!
 degree
@@ -35185,14 +35185,14 @@ degreeIn: anIndeterminate
 
 	^ self at: anIndeterminate! !
 
-!Monomial methodsFor: 'operations' stamp: 'len 1/10/2017 16:31:07'!
+!Monomial methodsFor: 'operations' stamp: 'len 1/23/2017 11:36:03'!
 dehomogenizedIn: anIndeterminate
 	| newExponents |
 	newExponents _ Array new: exponents size.
 	newExponents replaceFrom: 1 to: anIndeterminate - 1 with: exponents startingAt: 1.
 	newExponents replaceFrom: anIndeterminate to: exponents size - 1 with: exponents startingAt: anIndeterminate + 1.
 	newExponents at: exponents size put: 0.
-	^ self species exponents: newExponents! !
+	^ self parent exponents: newExponents! !
 
 !Monomial methodsFor: 'accessing' stamp: 'len 3/16/2016 20:05'!
 exponents
@@ -35202,11 +35202,11 @@ exponents
 exponents: anArray
 	exponents _ anArray! !
 
-!Monomial methodsFor: 'operations' stamp: 'len 11/20/2016 11:58:53'!
+!Monomial methodsFor: 'operations' stamp: 'len 1/23/2017 11:36:07'!
 gcd: aMonomial
 	"Answer the greatest common divisor of the receiver and the argument."
 	exponents size <= aMonomial exponents size ifFalse: [^ aMonomial gcd: self].
-	^ self species exponents: (exponents withIndexCollect: [:each :i| each min: (aMonomial at: i)])! !
+	^ self parent exponents: (exponents withIndexCollect: [:each :i| each min: (aMonomial at: i)])! !
 
 !Monomial methodsFor: 'testing' stamp: 'len 12/5/2015 22:34'!
 has: anIndeterminate
@@ -35239,21 +35239,21 @@ lastIndeterminate
 	"Answer the leading indeterminate of the receiver (the last indeterminate effectively present)."
 	^ exponents findLast: [:one| one ~= 0]! !
 
-!Monomial methodsFor: 'operations' stamp: 'len 11/20/2016 11:58:37'!
+!Monomial methodsFor: 'operations' stamp: 'len 1/23/2017 11:36:11'!
 lcm: aMonomial
 	"Answer the least common multiple of the receiver and the argument."
 	exponents size >= aMonomial exponents size ifFalse: [^ aMonomial lcm: self].
-	^ self species exponents: (exponents withIndexCollect: [:each :i| each max: (aMonomial at: i)])! !
+	^ self parent exponents: (exponents withIndexCollect: [:each :i| each max: (aMonomial at: i)])! !
 
-!Monomial methodsFor: 'converting' stamp: 'len 11/20/2016 12:17:14'!
+!Monomial methodsFor: 'converting' stamp: 'len 1/23/2017 11:36:14'!
 orderedBy: aMonomialOrdering
-	^ self as: (self species orderedBy: aMonomialOrdering)! !
+	^ self as: (self parent orderedBy: aMonomialOrdering)! !
 
 !Monomial methodsFor: 'accessing' stamp: 'len 11/20/2016 11:56:47'!
 ordering
 	^ parent ordering! !
 
-!Monomial methodsFor: 'accessing' stamp: 'len 11/20/2016 11:47:32'!
+!Monomial methodsFor: 'private' stamp: 'len 1/23/2017 11:35:28'!
 parent
 	^ parent! !
 
@@ -35261,13 +35261,13 @@ parent
 parent: aMonomials
 	parent _ aMonomials! !
 
-!Monomial methodsFor: 'operations' stamp: 'len 11/22/2016 08:45:09'!
+!Monomial methodsFor: 'operations' stamp: 'len 1/23/2017 11:36:23'!
 permutedBy: aPermutation
 	"Permute the variables of the receiver. The argument can be an Array (permutation in 'image format'). For example given a monomial in x,z,y, #(1 2 3) doesn't change anything, #(2 1 3) exchanges variables x and y."
 	| answer |
-	answer _ self species identity.
+	answer _ self parent identity.
 	exponents withIndexDo: [:exp :i|
-		exp = 0 ifFalse: [answer _ answer * (self species x: (aPermutation at: i) to: exp)]].
+		exp = 0 ifFalse: [answer _ answer * (self parent x: (aPermutation at: i) to: exp)]].
 	^ answer! !
 
 !Monomial methodsFor: 'copying' stamp: 'len 11/21/2016 11:07:43'!
@@ -35307,17 +35307,13 @@ printOn: aStream
 			self printIndeterminate: x on: aStream.
 			self printExponent: (self at: i) on: aStream]! !
 
-!Monomial methodsFor: 'operations' stamp: 'len 11/20/2016 11:59:56'!
+!Monomial methodsFor: 'operations' stamp: 'len 1/23/2017 11:36:28'!
 root: anInteger
-	^ self species exponents: exponents / anInteger! !
+	^ self parent exponents: exponents / anInteger! !
 
-!Monomial methodsFor: 'operations' stamp: 'len 11/24/2016 10:49:56'!
+!Monomial methodsFor: 'operations' stamp: 'len 1/23/2017 11:36:31'!
 root: anInteger in: anIndeterminate
-	^ self species exponents: (exponents copy at: anIndeterminate put: (self at: anIndeterminate) / anInteger; yourself)! !
-
-!Monomial methodsFor: 'private' stamp: 'len 11/20/2016 12:22:21'!
-species
-	^ parent! !
+	^ self parent exponents: (exponents copy at: anIndeterminate put: (self at: anIndeterminate) / anInteger; yourself)! !
 
 !Monomial methodsFor: 'operations' stamp: 'len 1/21/2017 20:16:54'!
 value: anObject
@@ -35707,73 +35703,73 @@ trevlex: aCollection
 	weights addAll: (self revlex: aCollection) weights.
 	^ self new: aCollection size weights: weights! !
 
-!Polynomial methodsFor: 'arithmetic' stamp: 'len 7/17/2016 21:37'!
+!Polynomial methodsFor: 'arithmetic' stamp: 'len 1/23/2017 11:37:27'!
 % anInteger
-	^ (self species over: (self scalars % anInteger)) coefficients: self coefficients % anInteger! !
+	^ (self parent over: (self scalars % anInteger)) coefficients: self coefficients % anInteger! !
 
-!Polynomial methodsFor: 'arithmetic' stamp: 'len 11/28/2016 11:04:41'!
+!Polynomial methodsFor: 'arithmetic' stamp: 'len 1/23/2017 11:37:39'!
 * anObject
 	(anObject isInteger or: [self scalars includes: anObject])
-		ifTrue: [^ self species coefficients: self coefficients * anObject].
-	(self species includes: anObject)
-		ifTrue: [^ self species coefficients: (self coefficients convolution: anObject coefficients)].
+		ifTrue: [^ self parent coefficients: self coefficients * anObject].
+	(self parent includes: anObject)
+		ifTrue: [^ self parent coefficients: (self coefficients convolution: anObject coefficients)].
 	(anObject isKindOf: Monomial)
 		ifTrue: [^ self multipliedByMonomial: anObject].
 	((anObject isKindOf: Polynomial) and: [anObject scalars includes: self])
 		ifTrue: [^ anObject * self].
 	^ DomainError signal! !
 
-!Polynomial methodsFor: 'arithmetic' stamp: 'len 3/23/2016 04:05'!
+!Polynomial methodsFor: 'arithmetic' stamp: 'len 1/23/2017 11:37:51'!
 + anObject
-	(self species includes: anObject)
-		ifTrue: [^ self species coefficients: self coefficients + anObject coefficients].
+	(self parent includes: anObject)
+		ifTrue: [^ self parent coefficients: self coefficients + anObject coefficients].
 	((self scalars includes: anObject) or: [anObject isInteger])
 		ifTrue: [^ self + (self one * anObject)].
 	^ DomainError signal! !
 
-!Polynomial methodsFor: 'arithmetic' stamp: 'len 3/23/2016 04:06'!
+!Polynomial methodsFor: 'arithmetic' stamp: 'len 1/23/2017 11:37:59'!
 - anObject
-	(self species includes: anObject)
-		ifTrue: [^ self species coefficients: self coefficients - anObject coefficients].
+	(self parent includes: anObject)
+		ifTrue: [^ self parent coefficients: self coefficients - anObject coefficients].
 	^ self + anObject negated! !
 
-!Polynomial methodsFor: 'arithmetic' stamp: 'len 11/28/2016 10:21:05'!
+!Polynomial methodsFor: 'arithmetic' stamp: 'len 1/23/2017 11:38:06'!
 / anObject
 	(anObject isKindOf: Monomial)
 		ifTrue: [^ self dividedByMonomial: anObject].
-	(self species includes: anObject)
+	(self parent includes: anObject)
 		ifTrue: [^ self exactDivideBy: anObject].
 	(self scalars includes: anObject)
-		ifTrue: [^ self species coefficients: self coefficients / anObject].
+		ifTrue: [^ self parent coefficients: self coefficients / anObject].
 	^ self * anObject reciprocal! !
 
-!Polynomial methodsFor: 'arithmetic' stamp: 'len 11/28/2016 10:22:28'!
+!Polynomial methodsFor: 'arithmetic' stamp: 'len 1/23/2017 11:38:11'!
 // anObject
 	"Answer the quotient of the division of the receiver by the argument."
 
 	(self scalars includes: anObject)
-		ifTrue: [^ self species coefficients: self coefficients // anObject].
+		ifTrue: [^ self parent coefficients: self coefficients // anObject].
 	^ (self divideBy: anObject) quotient! !
 
-!Polynomial methodsFor: 'arithmetic' stamp: 'len 11/28/2016 10:22:55'!
+!Polynomial methodsFor: 'arithmetic' stamp: 'len 1/23/2017 11:38:17'!
 /// anObject
 	"Answer the exact quotient of the division of the receiver by the argument."
 	(anObject isKindOf: Monomial)
 		ifTrue: [^ self dividedByMonomial: anObject].
 	(self scalars includes: anObject)
-		ifTrue: [^ self species coefficients: self coefficients /// anObject].
+		ifTrue: [^ self parent coefficients: self coefficients /// anObject].
 	^ self exactDivideBy: anObject! !
 
-!Polynomial methodsFor: 'comparing' stamp: 'len 3/1/2016 17:55'!
+!Polynomial methodsFor: 'comparing' stamp: 'len 1/23/2017 11:38:26'!
 = anObject
-	^ self species = anObject species and: [self coefficients = anObject coefficients]! !
+	^ self parent = anObject parent and: [self coefficients = anObject coefficients]! !
 
-!Polynomial methodsFor: 'arithmetic' stamp: 'len 11/28/2016 10:23:13'!
+!Polynomial methodsFor: 'arithmetic' stamp: 'len 1/23/2017 11:38:30'!
 \\ anObject
 	"Answer the remainder of the division of the receiver by the argument."
 
 	(self scalars includes: anObject)
-		ifTrue: [^ self species coefficients: self coefficients \\ anObject].
+		ifTrue: [^ self parent coefficients: self coefficients \\ anObject].
 	^ (self divideBy: anObject) remainder! !
 
 !Polynomial methodsFor: 'arithmetic' stamp: 'len 1/22/2017 08:17:24'!
@@ -35796,49 +35792,48 @@ trevlex: aCollection
 	anObject isBlock ifTrue: [^ [:x| self value: (anObject value: x)]].
 	^ self value: anObject! !
 
-!Polynomial methodsFor: 'converting' stamp: 'len 1/13/2016 21:14'!
+!Polynomial methodsFor: 'converting' stamp: 'len 1/23/2017 11:38:48'!
 adaptToComplex: rcvr andSend: selector
 	"If I am involved in arithmetic with a number, convert it to a Polynomial."
-	self halt.
-	^ (self species constant: rcvr) perform: selector with: self! !
+	^ (self parent constant: rcvr) perform: selector with: self! !
 
-!Polynomial methodsFor: 'converting' stamp: 'len 11/26/2015 03:25'!
+!Polynomial methodsFor: 'converting' stamp: 'len 1/23/2017 11:38:55'!
 adaptToNumber: rcvr andSend: selector
 	"If I am involved in arithmetic with a Number, convert it to a Polynomial."
-	^ (self species constant: rcvr) perform: selector with: self! !
+	^ (self parent constant: rcvr) perform: selector with: self! !
 
-!Polynomial methodsFor: 'operations' stamp: 'len 11/28/2016 10:32:53'!
+!Polynomial methodsFor: 'operations' stamp: 'len 1/23/2017 11:39:10'!
 apply: aMorphism
 	"Answer a new polynomial with coefficients obtainted by applying aMorphism to the coefficients of the receiver. This morphism is a ring homomorphism from the scalars ring.
-	If aMorphism is a block we assume the species doesn't change, i.e. the block must evaluate to values within the scalars ring of the receiver."
+	If aMorphism is a block we assume the parent doesn't change, i.e. the block must evaluate to values within the scalars ring of the receiver."
 
 	aMorphism isBlock
-		ifTrue: [^ self species coefficients: (self coefficients collect: aMorphism)].
-	^ (self species over: aMorphism codomain) coefficients: (self coefficients apply: aMorphism)! !
+		ifTrue: [^ self parent coefficients: (self coefficients collect: aMorphism)].
+	^ (self parent over: aMorphism codomain) coefficients: (self coefficients apply: aMorphism)! !
 
-!Polynomial methodsFor: 'converting' stamp: 'len 6/1/2016 20:17'!
+!Polynomial methodsFor: 'converting' stamp: 'len 1/23/2017 11:39:20'!
 asBilinearForm
 	(self degree = 2 and: [self isHomogeneous]) ifFalse: [^ self error: 'not homogeneous of degree 2'].
-	self species rank even ifFalse: [^ self error: 'not even rank'].
-	^ BilinearForm fromHalf: (self scalars ^ (self species rank / 2)) evaluating: [:each| self value: each first, each second]! !
+	self parent rank even ifFalse: [^ self error: 'not even rank'].
+	^ BilinearForm fromHalf: (self scalars ^ (self parent rank / 2)) evaluating: [:each| self value: each first, each second]! !
 
-!Polynomial methodsFor: 'converting' stamp: 'len 6/8/2016 23:44'!
+!Polynomial methodsFor: 'converting' stamp: 'len 1/23/2017 11:39:28'!
 asIdeal
 	"Answer the ideal generated by the receiver."
-	^ self species * self! !
+	^ self parent * self! !
 
-!Polynomial methodsFor: 'converting' stamp: 'len 6/1/2016 19:54'!
+!Polynomial methodsFor: 'converting' stamp: 'len 1/23/2017 11:39:31'!
 asLinearForm
 	self isLinear ifFalse: [^ self error: 'not a linear polynomial'].
-	^ (self scalars ^ self species rank) dual evaluating: self! !
+	^ (self scalars ^ self parent rank) dual evaluating: self! !
 
-!Polynomial methodsFor: 'converting' stamp: 'len 11/28/2016 08:57:10'!
+!Polynomial methodsFor: 'converting' stamp: 'len 1/23/2017 11:39:39'!
 asMultivariate
 	"Convert a polynomial in R[x][y][z] to a polynomial in R[x,y,z]."
 	| R R` answer |
 	((R _ self scalars) isKindOf: PolynomialRing) ifFalse: [^ self].
-	self species isUnivariate ifFalse: [^ self].
-	R` _ self species asMultivariate.
+	self parent isUnivariate ifFalse: [^ self].
+	R` _ self parent asMultivariate.
 	answer _ R` zero.
 	self monomialsAndCoefficientsDo: [:key :value|
 		answer _ answer + ((value as: R`) * (R` x: R rank + 1 to: key degree))].
@@ -35852,50 +35847,50 @@ asRationalFunction
 		numerator: self
 		denominator: self one! !
 
-!Polynomial methodsFor: 'converting' stamp: 'len 3/22/2016 23:17'!
+!Polynomial methodsFor: 'converting' stamp: 'len 1/23/2017 11:39:44'!
 asScalar
 	self isConstant ifFalse: [^ self error: 'not a constant polynomial'].
 	self coefficients do: [:each| each isZero ifFalse: [^ each]].
-	^ self species scalars zero! !
+	^ self parent scalars zero! !
 
-!Polynomial methodsFor: 'converting' stamp: 'len 11/22/2016 08:36:04'!
+!Polynomial methodsFor: 'converting' stamp: 'len 1/23/2017 11:40:27'!
 asUnivariate
 	"Answer the receiver as univariate in the last indeterminate, e.g. go from R[x,y,z] to R[x,y][z]."
-	| term n d newCoefficients newSpecies |
-	self species isUnivariate ifTrue: [^ self].
-	n _ self species rank.
-	newSpecies _ self species asUnivariate.
+	| term n d newCoefficients newParent |
+	self parent isUnivariate ifTrue: [^ self].
+	n _ self parent rank.
+	newParent _ self parent asUnivariate.
 	(d _ self degreeIn: n) <= 0
-		ifTrue: [^ newSpecies constant: (self as: newSpecies scalars)].
+		ifTrue: [^ newParent constant: (self as: newParent scalars)].
 	newCoefficients _ Array new: d+1.
-	newCoefficients atAllPut: newSpecies scalars zero.
+	newCoefficients atAllPut: newParent scalars zero.
 	self monomialsAndCoefficientsDo: [:key :value|
-		term _ newSpecies scalars coefficient: value monomial: ((key without: n) as: newSpecies scalars monomials).
+		term _ newParent scalars coefficient: value monomial: ((key without: n) as: newParent scalars monomials).
 		newCoefficients at: (key degreeIn: n)+1 add: term].
-	^ newSpecies coefficients: newCoefficients! !
+	^ newParent coefficients: newCoefficients! !
 
-!Polynomial methodsFor: 'converting' stamp: 'len 11/21/2016 19:31:15'!
+!Polynomial methodsFor: 'converting' stamp: 'len 1/23/2017 11:40:38'!
 asUnivariateIn: anIndeterminate
 	"Answer the receiver as univariate in the given indeterminate, e.g. go from R[x,y,z] to R[x,y][z]."
-	(self species isUnivariate and: [self species indeterminate = anIndeterminate]) ifTrue: [^ self].
-	anIndeterminate = self species rank ifFalse: [self error: 'bad indeterminate'].
+	(self parent isUnivariate and: [self parent indeterminate = anIndeterminate]) ifTrue: [^ self].
+	anIndeterminate = self parent rank ifFalse: [self error: 'bad indeterminate'].
 	^ self asUnivariate! !
 
 !Polynomial methodsFor: 'accessing' stamp: 'len 3/1/2016 16:01'!
 bitSize
 	^ self coefficients bitSize! !
 
-!Polynomial methodsFor: 'accessing indeterminates' stamp: 'len 3/25/2016 03:53'!
+!Polynomial methodsFor: 'accessing indeterminates' stamp: 'len 1/23/2017 11:40:53'!
 classIndeterminate
 	"Answer the 'class' of the polynomial, i.e. the index of the last indeterminate present in the receiver."
 	self flag: #fix. "same as leadingIndeterminate?"
-	self species rank to: 1 by: -1 do: [:i| (self has: i) ifTrue: [^ i]].
+	self parent rank to: 1 by: -1 do: [:i| (self has: i) ifTrue: [^ i]].
 	^ 0! !
 
-!Polynomial methodsFor: 'accessing coefficients' stamp: 'len 11/20/2016 14:16:38'!
+!Polynomial methodsFor: 'accessing coefficients' stamp: 'len 1/23/2017 11:40:57'!
 coefficientAtDegree: anInteger
 	"Answer the coefficient of the degree given by the argument. For univiariate polynomials."
-	^ self coefficientAt: (self species monomials x: self leadingIndeterminate to: anInteger)! !
+	^ self coefficientAt: (self parent monomials x: self leadingIndeterminate to: anInteger)! !
 
 !Polynomial methodsFor: 'factorization' stamp: 'len 11/28/2016 09:15:07'!
 content
@@ -35916,9 +35911,9 @@ content
 	self coefficients do: [:each| answer _ answer gcd: each].
 	^ answer! !
 
-!Polynomial methodsFor: 'copying' stamp: 'len 3/22/2016 23:22'!
+!Polynomial methodsFor: 'copying' stamp: 'len 1/23/2017 11:41:01'!
 copy
-	^ self species coefficients: self coefficients copy! !
+	^ self parent coefficients: self coefficients copy! !
 
 !Polynomial methodsFor: 'accessing monomials' stamp: 'len 3/3/2016 02:07'!
 degree
@@ -35974,7 +35969,7 @@ eprs: aPolynomial
 			r _ f0 pseudoRem: f1].
 	^ answer! !
 
-!Polynomial methodsFor: 'arithmetic' stamp: 'len 11/28/2016 10:25:11'!
+!Polynomial methodsFor: 'arithmetic' stamp: 'len 1/23/2017 11:49:55'!
 exactDivideBy2: aPolynomial
 	"Answer the exact division of the receiver by the argument.
 	Apply the Schonhage-Jabelean algorithm, for polynomials of degree at most 2n and n with coefficients in a field. When necesary conditions don't hold, do the ordinary division.
@@ -35996,7 +35991,7 @@ exactDivideBy2: aPolynomial
 	g _ aPolynomial denseCoefficients.
 	m _ f size.
 	n _ g size.
-	m = n ifTrue: [^ self species constant: f last / g last].
+	m = n ifTrue: [^ self parent constant: f last / g last].
  	n * 2 > m ifFalse: [^ (self divideBy: aPolynomial) quotient].
 
 	h _ f size // 2.
@@ -36021,7 +36016,7 @@ exactDivideBy2: aPolynomial
 		n-2 to: m-k-i by: -1 do: [:j|
 			f at: i+j+1 put: (f at: i+j+1) - (qi*(g at: j+1))]].
 
-	^ self species coefficients: q! !
+	^ self parent coefficients: q! !
 
 !Polynomial methodsFor: 'arithmetic' stamp: 'len 11/28/2016 10:25:30'!
 exactDivideBy: aPolynomial
@@ -36037,9 +36032,9 @@ exactDivideBy: aPolynomial
 		ifFalse: [^ (PolynomialPseudoDivision divide: self by: aPolynomial) exactQuotient].
 	^ (PolynomialDivision divide: self by: aPolynomial) quotient! !
 
-!Polynomial methodsFor: 'factorization' stamp: 'len 2/24/2016 22:52'!
+!Polynomial methodsFor: 'factorization' stamp: 'len 1/23/2017 11:41:15'!
 factorizer
-	(self species scalars isField and: [self species scalars isFinite and: [self isUnivariate]])
+	(self parent scalars isField and: [self parent scalars isFinite and: [self isUnivariate]])
 		ifTrue: [^ FiniteFieldPolynomialFactorizer new polynomial: self].
 	^ self error: 'not yet implemented'! !
 
@@ -36047,7 +36042,7 @@ factorizer
 factors
 	^ self factorizer factors! !
 
-!Polynomial methodsFor: 'arithmetic' stamp: 'len 1/8/2017 07:55:11'!
+!Polynomial methodsFor: 'arithmetic' stamp: 'len 1/23/2017 11:41:32'!
 gcd: aPolynomial
 	"Answer the greatest common divisor of the receiver and aPolynomial."
 	| a b r |
@@ -36057,10 +36052,10 @@ gcd: aPolynomial
 		ifFalse: "Multivariate case:"
 			[self scalars isUFD ifFalse: [^ DomainError signal: 'not an UFD'].
 			(self isConstant or: [aPolynomial isConstant])
-				ifTrue: [^ self scalars isField ifTrue: [self one] ifFalse: [self species constant: (self content gcd: aPolynomial content)]].
+				ifTrue: [^ self scalars isField ifTrue: [self one] ifFalse: [self parent constant: (self content gcd: aPolynomial content)]].
 			a _ self asUnivariate.
 			b _ aPolynomial asUnivariate.
-			^ (((a primitive gcd: b primitive) * (a content gcd: b content)) asMultivariate as: self species) primitive].
+			^ (((a primitive gcd: b primitive) * (a content gcd: b content)) asMultivariate as: self parent) primitive].
 	self scalars isField
 		ifFalse: "If it's not a field we use the primitive PRS algorithm:"
 			[a _ self primitive.
@@ -36073,9 +36068,9 @@ gcd: aPolynomial
 	[(r _ a \\ b) isZero] whileFalse: [a _ b. b _ r].
 	^ b * b leadingCoefficient reciprocal! !
 
-!Polynomial methodsFor: 'operations' stamp: 'len 6/6/2016 08:37'!
+!Polynomial methodsFor: 'operations' stamp: 'len 1/23/2017 11:41:39'!
 gradient
-	^ self species indeterminates collect: [:each| self derivativeIn: each]! !
+	^ self parent indeterminates collect: [:each| self derivativeIn: each]! !
 
 !Polynomial methodsFor: 'accessing indeterminates' stamp: 'len 3/1/2016 16:31'!
 has: anIndeterminate
@@ -36086,17 +36081,17 @@ has: anIndeterminate
 hash
 	^ self coefficients hash! !
 
-!Polynomial methodsFor: 'operations' stamp: 'len 1/11/2017 13:22:30'!
+!Polynomial methodsFor: 'operations' stamp: 'len 1/23/2017 11:41:49'!
 hessian
 	"Answer the Hessian matrix of the receiver."
 	self flag: #fix. "optimize"
-	^ self species matrix: self species rank evaluating: [:i :j| (self derivativeIn: i) derivativeIn: j]! !
+	^ self parent matrix: self parent rank evaluating: [:i :j| (self derivativeIn: i) derivativeIn: j]! !
 
-!Polynomial methodsFor: 'operations' stamp: 'len 5/20/2016 03:43'!
+!Polynomial methodsFor: 'operations' stamp: 'len 1/23/2017 11:42:17'!
 homogenized
 	"Answer the homogenization of the receiver introducing a new indeterminate."
 	| R R` |
-	R _ self species.
+	R _ self parent.
 	R` _ R scalars polynomialsIn: R rank + 1.
 	^ (self as: R`) homogenizedIn: R` rank! !
 
@@ -36108,16 +36103,16 @@ homogenizedIn: anIndeterminate
 	degree _ self degree.
 	^ self monomialsApply: [:each| each complete: degree in: anIndeterminate]! !
 
-!Polynomial methodsFor: 'accessing coefficients' stamp: 'len 11/20/2016 14:16:51'!
+!Polynomial methodsFor: 'accessing coefficients' stamp: 'len 1/23/2017 11:42:24'!
 independentCoefficient
 	"Answer the coefficient of the constant monomial of the receiver."
 
-	^ self coefficientAt: self species monomials identity! !
+	^ self coefficientAt: self parent monomials identity! !
 
-!Polynomial methodsFor: 'accessing indeterminates' stamp: 'len 12/21/2015 03:19'!
+!Polynomial methodsFor: 'accessing indeterminates' stamp: 'len 1/23/2017 11:42:28'!
 indeterminates
 	"Answer the indeterminates effectively present in the receiver."
-	^ self species indeterminates select: [:each| self has: each]! !
+	^ self parent indeterminates select: [:each| self has: each]! !
 
 !Polynomial methodsFor: 'factorization' stamp: 'len 3/1/2016 19:22'!
 integerContent
@@ -36154,12 +36149,12 @@ isAffineLinear
 isBinomial
 	^ self coefficients size = 2! !
 
-!Polynomial methodsFor: 'printing' stamp: 'len 11/22/2016 08:22:30'!
+!Polynomial methodsFor: 'printing' stamp: 'len 1/23/2017 11:42:38'!
 isBroken
 	self monomials do: [:each|
-		each indeterminates do: [:i| (self species has: i) ifFalse: [^ true]].
-		each exponents size = self species rank ifFalse: [^ true]].
-	^ self coefficients anySatisfy: [:any| (self species scalars includes: any) not]! !
+		each indeterminates do: [:i| (self parent has: i) ifFalse: [^ true]].
+		each exponents size = self parent rank ifFalse: [^ true]].
+	^ self coefficients anySatisfy: [:any| (self parent scalars includes: any) not]! !
 
 !Polynomial methodsFor: 'testing' stamp: 'len 11/11/2015 03:24'!
 isConstant
@@ -36269,14 +36264,14 @@ isSeparable
 isSquareFree
 	^ self isZero not and: [(self gcd: self derivative) isConstant]! !
 
-!Polynomial methodsFor: 'testing' stamp: 'len 7/8/2016 23:35'!
+!Polynomial methodsFor: 'testing' stamp: 'len 1/23/2017 11:42:42'!
 isUnivariate
-	^ self species isUnivariate! !
+	^ self parent isUnivariate! !
 
-!Polynomial methodsFor: 'testing' stamp: 'len 3/24/2016 06:32'!
+!Polynomial methodsFor: 'testing' stamp: 'len 1/23/2017 11:42:50'!
 isUnivariateIn: anInteger
 	"Answer true if the receiver is an univariate polynomial in the anInteger-th indeterminate."
-	(anInteger = 1 and: [self species isUnivariate]) ifTrue: [^ true].
+	(anInteger = 1 and: [self parent isUnivariate]) ifTrue: [^ true].
 	self monomialsDo: [:each| (each isUnivariateIn: anInteger) ifFalse: [^ false]].
 	^ true! !
 
@@ -36308,11 +36303,11 @@ lcm: aPolynomial
 leadingCoefficient
 	^ self isZero ifTrue: [self scalars zero] ifFalse: [self coefficientAt: self leadingMonomial]! !
 
-!Polynomial methodsFor: 'accessing indeterminates' stamp: 'len 6/6/2016 08:37'!
+!Polynomial methodsFor: 'accessing indeterminates' stamp: 'len 1/23/2017 11:42:53'!
 leadingIndeterminate
 	"Answer the main (or leading) indeterminate of the receiver (according to a monomial ordering)."
 	| indeterminates |
-	indeterminates _ self species ordering indeterminates.
+	indeterminates _ self parent ordering indeterminates.
 	indeterminates reverseDo: [:i| (self has: i) ifTrue: [^ i]].
 	^ indeterminates first! !
 
@@ -36344,10 +36339,10 @@ monic
 monomials
 	^ Iterator on: self performing: #monomialsDo:! !
 
-!Polynomial methodsFor: 'arithmetic' stamp: 'len 3/30/2016 02:32'!
+!Polynomial methodsFor: 'arithmetic' stamp: 'len 1/23/2017 11:42:56'!
 negated
 	"Answer the additive inverse of the receiver."
-	^ self species coefficients: self coefficients negated! !
+	^ self parent coefficients: self coefficients negated! !
 
 !Polynomial methodsFor: 'operations' stamp: 'len 3/3/2016 01:01'!
 norm
@@ -36375,14 +36370,18 @@ normMax
 	"Answer the maximum norm of the receiver."
 	^ self coefficients inject: self scalars zero into: [:x :each| x max: each abs]! !
 
-!Polynomial methodsFor: 'constants' stamp: 'len 11/26/2015 03:38'!
+!Polynomial methodsFor: 'constants' stamp: 'len 1/23/2017 11:42:59'!
 one
-	^ self species one! !
+	^ self parent one! !
 
-!Polynomial methodsFor: 'converting' stamp: 'len 11/28/2016 09:58:08'!
+!Polynomial methodsFor: 'converting' stamp: 'len 1/23/2017 11:43:02'!
 orderedBy: aMonomialOrdering
 	"Answer a copy of the receiver with a different monomial ordering."
-	^ self as: (self species orderedBy: aMonomialOrdering)! !
+	^ self as: (self parent orderedBy: aMonomialOrdering)! !
+
+!Polynomial methodsFor: 'converting' stamp: 'len 1/23/2017 11:30:20'!
+over: aRing
+	^ (self parent over: aRing) coefficients: (self coefficients over: aRing)! !
 
 !Polynomial methodsFor: 'accessing-private' stamp: 'len 10/6/2016 15:34'!
 parent
@@ -36397,11 +36396,11 @@ permutedBy: aPermutation
 	"Permute the variables of the receiver. The argument can be an Array (permutation in 'image format'). For example given a polynomial in x,z,y, #(1 2 3) doesn't change anything, #(2 1 3) exchanges variables x and y."
 	^ self monomialsApply: [:each| each permutedBy: aPermutation]! !
 
-!Polynomial methodsFor: 'arithmetic' stamp: 'len 12/18/2016 20:25:07'!
+!Polynomial methodsFor: 'arithmetic' stamp: 'len 1/23/2017 11:43:10'!
 pgcd: aPolynomial
 	"Answer the greatest common divisor of the receiver and aPolynomial using a probabilistic algorithm."
 	| f g maps samples n |
-	(self species scalars isKindOf: RationalIntegerRing) ifFalse: [^ DomainError signal: 'polynomial not in Z[x]'].
+	(self parent scalars isKindOf: RationalIntegerRing) ifFalse: [^ DomainError signal: 'polynomial not in Z[x]'].
 	f _ self integerPrimitive.
 	g _ aPolynomial integerPrimitive.
 	n _ f degree max: g degree.
@@ -36409,7 +36408,7 @@ pgcd: aPolynomial
 	samples _ 1 to: n.
 	samples do:
 		[:each| maps add: each -> ((f value: each) gcd: (g value: each))].
-	^ self species interpolate: maps! !
+	^ self parent interpolate: maps! !
 
 !Polynomial methodsFor: 'remainder sequences' stamp: 'len 3/9/2016 00:07'!
 pprs: aPolynomial
@@ -36463,11 +36462,11 @@ printOn: aStream
 		(c ~= c one or: [m degree = 0]) ifTrue: [self printCoefficient: c on: aStream].
 		m degree > 0 ifTrue: [aStream print: m]]! !
 
-!Polynomial methodsFor: 'remainder sequences' stamp: 'len 3/9/2016 00:08'!
+!Polynomial methodsFor: 'remainder sequences' stamp: 'len 1/23/2017 11:43:25'!
 prs: aPolynomial
 	"Answer the Polynomial Remainder Sequence of the receiver with the argument."
 	| answer f0 f1 r |
-	self species scalars isField ifFalse: [^ DomainError signal: 'scalars are not a field'].
+	self parent scalars isField ifFalse: [^ DomainError signal: 'scalars are not a field'].
 	answer _ OrderedCollection new.
 	f1 _ self.
 	answer add: f1.
@@ -36503,7 +36502,7 @@ pseudoRem2: aPolynomial
 	self isUnivariate ifFalse: [^ (self pseudoDivideBy: aPolynomial in: self leadingIndeterminate) remainder asMultivariate].
 	^ (self pseudoDivideBy: aPolynomial) remainder! !
 
-!Polynomial methodsFor: 'arithmetic' stamp: 'len 3/3/2016 05:35'!
+!Polynomial methodsFor: 'arithmetic' stamp: 'len 1/23/2017 11:43:29'!
 pseudoRem3: aPolynomial
 	"Answer the remainder of the pseudo-division of the receiver by the argument."
 	| n d b w k |
@@ -36514,7 +36513,7 @@ pseudoRem3: aPolynomial
 	d _ self degree - n + 1.
 	b _ aPolynomial leadingCoefficient.
 	[k _ w degree - n.
-	w _ b * w - ((self species coefficient: w leadingCoefficient degree: k)*aPolynomial).
+	w _ b * w - ((self parent coefficient: w leadingCoefficient degree: k)*aPolynomial).
 	w isZero ifTrue: [^ w].
 	w degree < n ifTrue: [^ w * (b ^ k)].
 	k > d ifTrue: [w _ w * (b ^ (k - d))]] repeat! !
@@ -36580,10 +36579,6 @@ sign
 
 	^ self leadingCoefficient sign! !
 
-!Polynomial methodsFor: 'private' stamp: 'len 10/6/2016 15:40'!
-species
-	^ self parent! !
-
 !Polynomial methodsFor: 'remainder sequences' stamp: 'len 3/9/2016 06:32'!
 sprs2: aPolynomial
 	"Answer the Subresultant Polynomial Remainder Sequence of the receiver with the argument."
@@ -36625,16 +36620,16 @@ sprs: aPolynomial
 			f2 _ f1. f1 _ r].
 	^ answer! !
 
-!Polynomial methodsFor: 'operations' stamp: 'len 12/14/2016 14:50:50'!
+!Polynomial methodsFor: 'operations' stamp: 'len 1/23/2017 11:43:32'!
 squareFree
 	"Answer the maximal squarefree divisor of the receiver."
 	| g |
-	self species scalars characteristic = 0 ifFalse: [^ DomainError signal: 'field must include Q (i.e., must be of characteristic 0)'].
+	self parent scalars characteristic = 0 ifFalse: [^ DomainError signal: 'field must include Q (i.e., must be of characteristic 0)'].
 	g _ self.
 	self indeterminates do: [:each| g _ g gcd: (self derivativeIn: each)].
 	^ self / g! !
 
-!Polynomial methodsFor: 'factorization' stamp: 'len 11/26/2015 03:29'!
+!Polynomial methodsFor: 'factorization' stamp: 'len 1/23/2017 11:43:37'!
 squareFreeFactorization
 	"Answer a square free factorization of the receiver.
 	Use Yun's algorithm. Assume the coefficients are in a unique
@@ -36647,7 +36642,7 @@ squareFreeFactorization
 	count _ 1.
 	lc _ self leadingCoefficient.
 	lc = self scalars one
-		ifFalse: [answer add: (self species constant: lc)].
+		ifFalse: [answer add: (self parent constant: lc)].
 	p _ self / lc.
 	q _ p derivative.
 	gcd _ p gcd: q.
@@ -36685,25 +36680,25 @@ squared
 tail
 	^ self - self leadingTerm! !
 
-!Polynomial methodsFor: 'accessing terms' stamp: 'len 3/27/2016 03:03'!
+!Polynomial methodsFor: 'accessing terms' stamp: 'len 1/23/2017 11:43:44'!
 termAt: aMonomial
-	^ self species coefficient: (self coefficientAt: aMonomial) monomial: aMonomial! !
+	^ self parent coefficient: (self coefficientAt: aMonomial) monomial: aMonomial! !
 
 !Polynomial methodsFor: 'accessing terms' stamp: 'len 11/29/2016 11:49:38'!
 terms
 	^ Iterator on: self performing: #termsDo:! !
 
-!Polynomial methodsFor: 'enumerating' stamp: 'len 11/26/2016 11:56:50'!
+!Polynomial methodsFor: 'enumerating' stamp: 'len 1/23/2017 11:43:49'!
 termsDo: aBlock
-	self monomialsAndCoefficientsDo: [:monomial :coefficient| aBlock value: (self species coefficient: coefficient monomial: monomial)]! !
+	self monomialsAndCoefficientsDo: [:monomial :coefficient| aBlock value: (self parent coefficient: coefficient monomial: monomial)]! !
 
-!Polynomial methodsFor: 'operations' stamp: 'len 1/19/2017 21:09:17'!
+!Polynomial methodsFor: 'operations' stamp: 'len 1/23/2017 11:43:53'!
 value: anObject
 	"Answer the value of the receiver at the argument. For multivariate polynomials, a Tuple or Array is expected."
 	| answer |
 "	((anObject is: #Tuple) or: [anObject is: #Array])
 		ifFalse: [^ self error: 'argument should be tuple or array']."
-	anObject size = self species rank
+	anObject size = self parent rank
 		ifFalse: [self error: 'the arity of the argument should match the number of indeterminates'].
 	answer _ (anObject at: 1) zero.
 	self monomialsAndCoefficientsDo: [:key :value|
@@ -36714,9 +36709,9 @@ value: anObject
 valueWithArguments: anArray
 	^ self value: anArray! !
 
-!Polynomial methodsFor: 'constants' stamp: 'len 11/26/2015 03:20'!
+!Polynomial methodsFor: 'constants' stamp: 'len 1/23/2017 11:43:57'!
 zero
-	^ self species zero! !
+	^ self parent zero! !
 
 !MultivariatePolynomial methodsFor: 'accessing coefficients' stamp: 'len 3/22/2016 23:27'!
 coefficientAt: aMonomial
@@ -36753,20 +36748,20 @@ density
 	self isZero ifTrue: [^ 0].
 	^ coefficients size / (self monomials max: [:each| each degree])! !
 
-!MultivariatePolynomial methodsFor: 'operations' stamp: 'len 11/25/2016 10:27:22'!
+!MultivariatePolynomial methodsFor: 'operations' stamp: 'len 1/23/2017 11:49:44'!
 derivativeIn: anIndeterminate
 	| answer |
-	answer _ self species new.
+	answer _ self parent new.
 	self monomialsAndCoefficientsDo: [:key :value| | degree |
 		degree _ key degreeIn: anIndeterminate.
 		degree > 0
 			ifTrue:
-				[answer coefficientAt: (key species exponents: (key exponents copy at: anIndeterminate put: degree - 1; yourself)) put: value * degree]].
+				[answer coefficientAt: (key parent exponents: (key exponents copy at: anIndeterminate put: degree - 1; yourself)) put: value * degree]].
 	^ answer! !
 
-!MultivariatePolynomial methodsFor: 'arithmetic' stamp: 'len 11/28/2016 10:07:13'!
+!MultivariatePolynomial methodsFor: 'arithmetic' stamp: 'len 1/23/2017 11:36:44'!
 dividedByMonomial: aMonomial
-	^ self species coefficients: (self coefficients dividedByMonomial: aMonomial)! !
+	^ self parent coefficients: (self coefficients dividedByMonomial: aMonomial)! !
 
 !MultivariatePolynomial methodsFor: 'accessing monomials' stamp: 'len 11/28/2016 18:51:48'!
 leadingMonomial
@@ -36776,21 +36771,21 @@ leadingMonomial
 monomialsAndCoefficientsDo: aBlock
 	coefficients keysAndValuesDo: aBlock! !
 
-!MultivariatePolynomial methodsFor: 'enumerating' stamp: 'len 11/28/2016 10:14:46'!
+!MultivariatePolynomial methodsFor: 'enumerating' stamp: 'len 1/23/2017 11:36:49'!
 monomialsApply: aBlock
 	| newCoefficients |
 	newCoefficients _ MonomialIndexedTuple new: coefficients size over: self scalars.
 	coefficients keysAndValuesDo: [:monomial :coefficient|
 		newCoefficients at: (aBlock value: monomial) add: coefficient].
-	^ self species coefficients: newCoefficients! !
+	^ self parent coefficients: newCoefficients! !
 
 !MultivariatePolynomial methodsFor: 'enumerating' stamp: 'len 3/22/2016 23:37'!
 monomialsDo: aBlock
 	coefficients keysDo: aBlock! !
 
-!MultivariatePolynomial methodsFor: 'arithmetic' stamp: 'len 11/28/2016 10:04:48'!
+!MultivariatePolynomial methodsFor: 'arithmetic' stamp: 'len 1/23/2017 11:36:52'!
 multipliedByMonomial: aMonomial
-	^ self species coefficients: (self coefficients multipliedByMonomial: aMonomial)! !
+	^ self parent coefficients: (self coefficients multipliedByMonomial: aMonomial)! !
 
 !MultivariatePolynomial class methodsFor: 'instance creation' stamp: 'len 11/29/2016 11:19:26'!
 coefficients: aMonomialIndexedTuple
@@ -36871,13 +36866,13 @@ denseCoefficients
 	"Answer a dense tuple of the receivers coefficients ordered by degree."
 	^ coefficients! !
 
-!UnivariatePolynomial methodsFor: 'operations' stamp: 'len 3/29/2016 18:10'!
+!UnivariatePolynomial methodsFor: 'operations' stamp: 'len 1/23/2017 11:47:41'!
 derivative
 	| newCoefficients |
 	self isZero ifTrue: [^ self].
 	newCoefficients _ Array new: self degree.
 	1 to: self degree do: [ :i | newCoefficients at: i put: (self coefficientAtDegree: i) * i ].
-	^ self species coefficients: newCoefficients! !
+	^ self parent coefficients: newCoefficients! !
 
 !UnivariatePolynomial methodsFor: 'operations' stamp: 'len 3/26/2016 23:05'!
 derivativeIn: anIndeterminate
@@ -36901,14 +36896,14 @@ discriminant0
 dividedByMonomial: aMonomial
 	^ self shift: aMonomial degree negated! !
 
-!UnivariatePolynomial methodsFor: 'operations' stamp: 'len 3/27/2016 03:10'!
+!UnivariatePolynomial methodsFor: 'operations' stamp: 'len 1/23/2017 11:47:45'!
 even
 	"Decompose the receiver in the form f(x^2)x + g(x^2) and answer g(x)."
-	^ self species coefficients: ((1 to: self coefficients size by: 2) collect: [:each| coefficients at: each])! !
+	^ self parent coefficients: ((1 to: self coefficients size by: 2) collect: [:each| coefficients at: each])! !
 
-!UnivariatePolynomial methodsFor: 'testing' stamp: 'len 3/26/2016 23:08'!
+!UnivariatePolynomial methodsFor: 'testing' stamp: 'len 1/23/2017 11:47:49'!
 has: anIndeterminate
-	^ self degree > 0 and: [self species has: anIndeterminate]! !
+	^ self degree > 0 and: [self parent has: anIndeterminate]! !
 
 !UnivariatePolynomial methodsFor: 'comparing' stamp: 'len 4/11/2016 05:13'!
 hash
@@ -36934,30 +36929,30 @@ isZero
 leadingCoefficient
 	^ self coefficientAtDegree: self degree! !
 
-!UnivariatePolynomial methodsFor: 'enumerating' stamp: 'len 11/20/2016 14:14:52'!
+!UnivariatePolynomial methodsFor: 'enumerating' stamp: 'len 1/23/2017 11:47:55'!
 monomialsAndCoefficientsDo: aBlock
 	| x |
-	x _ self species indeterminate.
-	coefficients withIndexDo: [:value :index| value isZero ifFalse: [aBlock value: (self species monomials x: x to: index-1) value: value]]! !
+	x _ self parent indeterminate.
+	coefficients withIndexDo: [:value :index| value isZero ifFalse: [aBlock value: (self parent monomials x: x to: index-1) value: value]]! !
 
-!UnivariatePolynomial methodsFor: 'enumerating' stamp: 'len 11/20/2016 14:15:07'!
+!UnivariatePolynomial methodsFor: 'enumerating' stamp: 'len 1/23/2017 11:48:04'!
 monomialsApply: aBlock
 	| x monomials n newCoefficients |
-	x _ self species indeterminate.
+	x _ self parent indeterminate.
 	monomials _ (1 to: coefficients size) collect: [:i|
-		(aBlock value: (self species monomials x: x to: i-1)) -> (coefficients at: i)].
+		(aBlock value: (self parent monomials x: x to: i-1)) -> (coefficients at: i)].
 	n _ monomials max: [:each| each key degree].
 	newCoefficients _ Array new: n+1 :: atAllPut: self scalars zero.
 	monomials do: [:each| newCoefficients at: each key degree + 1 add: each value].
-	^ self species coefficients: newCoefficients ! !
+	^ self parent coefficients: newCoefficients ! !
 
-!UnivariatePolynomial methodsFor: 'enumerating' stamp: 'len 11/20/2016 14:15:14'!
+!UnivariatePolynomial methodsFor: 'enumerating' stamp: 'len 1/23/2017 11:48:11'!
 monomialsDo: aBlock
 	| x |
-	x _ self species indeterminate.
+	x _ self parent indeterminate.
 	1 to: coefficients size do: [:i|
 		(coefficients at: i) isZero
-			ifFalse: [aBlock value: (self species monomials x: x to: i-1)]]! !
+			ifFalse: [aBlock value: (self parent monomials x: x to: i-1)]]! !
 
 !UnivariatePolynomial methodsFor: 'roots' stamp: 'len 11/20/2016 10:21:45'!
 multiplicityAt: anObject
@@ -36983,10 +36978,10 @@ normalize
 	(n _ coefficients lastNonZero) < coefficients size
 		ifTrue: [coefficients _ coefficients copyFrom: 1 to: n]! !
 
-!UnivariatePolynomial methodsFor: 'operations' stamp: 'len 3/27/2016 03:09'!
+!UnivariatePolynomial methodsFor: 'operations' stamp: 'len 1/23/2017 11:48:16'!
 odd
 	"Decompose the receiver in the form f(x^2)x + g(x^2) and answer f(x)."
-	^ self species coefficients: ((2 to: self coefficients size by: 2) collect: [:each| coefficients at: each])! !
+	^ self parent coefficients: ((2 to: self coefficients size by: 2) collect: [:each| coefficients at: each])! !
 
 !UnivariatePolynomial methodsFor: 'operations' stamp: 'len 11/25/2016 10:37:59'!
 psc2: anInteger with: aPolynomial
@@ -37072,11 +37067,11 @@ resultant: aPolynomial
 					ifFalse: [(self ^ aPolynomial degree) negated]].
 	^ (self sylvester: aPolynomial) determinant! !
 
-!UnivariatePolynomial methodsFor: 'operations' stamp: 'len 7/2/2016 06:00'!
+!UnivariatePolynomial methodsFor: 'operations' stamp: 'len 1/23/2017 11:48:20'!
 reversed
 	"Answer the reverse of the receiver."
 
-	^ self species coefficients: coefficients reversed! !
+	^ self parent coefficients: coefficients reversed! !
 
 !UnivariatePolynomial methodsFor: 'roots' stamp: 'len 11/20/2016 10:21:50'!
 roots
@@ -37095,13 +37090,13 @@ rootsIn: aField
 	aField isFinite ifTrue: [^ aField elements select: [:each| (self value: each) isZero]].
 	^ self error: 'unknown domain'! !
 
-!UnivariatePolynomial methodsFor: 'operations' stamp: 'len 3/29/2016 18:17'!
+!UnivariatePolynomial methodsFor: 'operations' stamp: 'len 1/23/2017 11:48:25'!
 shift: anInteger
 	| n |
 	self isZero ifTrue: [^ self].
 	n _ self degree + anInteger.
 	n >= 0 ifFalse: [^ self zero].
-	^ self species coefficients: coefficients >>> anInteger! !
+	^ self parent coefficients: coefficients >>> anInteger! !
 
 !UnivariatePolynomial methodsFor: 'roots' stamp: 'len 11/20/2016 10:22:00'!
 signature
@@ -37134,7 +37129,7 @@ signature
 			h _ h ^ (1 - d) * (g ^ d)].
 	^ {r1. n - r1 / 2}! !
 
-!UnivariatePolynomial methodsFor: 'operations' stamp: 'len 11/23/2016 05:04:20'!
+!UnivariatePolynomial methodsFor: 'operations' stamp: 'len 1/23/2017 11:48:35'!
 subresultant: i with: aPolynomial
 	"Answer the i-th subresultant of the receiver with aPolynomial."
 	| lambda mu n m c matrix tuple |
@@ -37153,9 +37148,9 @@ subresultant: i with: aPolynomial
 	(i between: lambda and: mu) ifTrue: [^ self zero].
 	(i between: 0 and: lambda - 1) ifFalse: [self error: 'index out of range'].
 	matrix _ RowMatrix new.
-	tuple _ self scalars tuple: m + n - (2*i) evaluating: [:k| self species constant: (self coefficientAtDegree: m - k + 1)].
+	tuple _ self scalars tuple: m + n - (2*i) evaluating: [:k| self parent constant: (self coefficientAtDegree: m - k + 1)].
 	n - i timesRepeat: [matrix addRow: tuple. tuple _ tuple shift: 1].
-	tuple _ self scalars tuple: m + n - (2*i) evaluating: [:k| self species constant: (aPolynomial coefficientAtDegree: n - k + 1)].
+	tuple _ self scalars tuple: m + n - (2*i) evaluating: [:k| self parent constant: (aPolynomial coefficientAtDegree: n - k + 1)].
 	m - i timesRepeat: [matrix addRow: tuple. tuple _ tuple shift: 1].
 	1 to: n - i do: [:k|
 		matrix at: k @ (m + n - (2*i)) put: (self shift: n - i - k)].
@@ -37201,14 +37196,14 @@ value: anObject
 		ifTrue: [anObject at: 1] ifFalse: [anObject].
 	^ coefficients polynomialValue: x! !
 
-!UnivariatePolynomial methodsFor: 'roots' stamp: 'len 11/20/2016 10:22:06'!
+!UnivariatePolynomial methodsFor: 'roots' stamp: 'len 1/23/2017 11:48:39'!
 zeroAddition: aPolynomial
 	"Answer a polynomial whose zeros are the addition of the receiver zeros with the zeros of the argument."
 	| f g R R` y X Y C |
 	self degree <= aPolynomial degree
 		ifTrue: [f _ self. g _ aPolynomial]
 		ifFalse: [g _ self. f _ aPolynomial].
-	R _ self species.
+	R _ self parent.
 	y _ R rank + 1.
 	R` _ self scalars polynomialsIn: R rank + 1.
 	X _ R` x: R indeterminate.
@@ -37216,20 +37211,20 @@ zeroAddition: aPolynomial
 	C _ f companion apply: R embedding.
 	^ (((g value: X - Y) asUnivariateIn: y) value: C) determinant! !
 
-!UnivariatePolynomial methodsFor: 'roots' stamp: 'len 11/25/2016 10:32:20'!
+!UnivariatePolynomial methodsFor: 'roots' stamp: 'len 1/23/2017 11:48:43'!
 zeroNegation
 	"Answer a polynomial whose zeros are the receiver zeros negated."
 
-	^ self species coefficients: (self coefficients withIndexCollect: [:each :i| i odd ifTrue: [each negated] ifFalse: [each]])! !
+	^ self parent coefficients: (self coefficients withIndexCollect: [:each :i| i odd ifTrue: [each negated] ifFalse: [each]])! !
 
-!UnivariatePolynomial methodsFor: 'roots' stamp: 'len 11/20/2016 10:22:14'!
+!UnivariatePolynomial methodsFor: 'roots' stamp: 'len 1/23/2017 11:48:47'!
 zeroProduct: aPolynomial
 	"Answer a polynomial whose zeros are the product of the receiver zeros by the zeros of the argument."
 	| f g C |
 	self degree <= aPolynomial degree
 		ifTrue: [f _ self. g _ aPolynomial]
 		ifFalse: [g _ self. f _ aPolynomial].
-	C _ f companion apply: self species embedding.
+	C _ f companion apply: self parent embedding.
 	^ (g homogenized asUnivariate value: C) determinant! !
 
 !UnivariatePolynomial methodsFor: 'roots' stamp: 'len 11/20/2016 10:22:25'!
@@ -37265,7 +37260,7 @@ reduce: aPolynomial
 "	division verify ifFalse: [self halt]."
 	^ division remainder! !
 
-!Buchberger methodsFor: 'private' stamp: 'len 1/19/2017 07:43:40'!
+!Buchberger methodsFor: 'private' stamp: 'len 1/23/2017 11:30:57'!
 run
 	"Buchberger algorithm.
 	Compute a Groebner basis from the input polynomials with the specified ordering."
@@ -37273,7 +37268,7 @@ run
 	basis _ OrderedCollection new.
 	generators isEmpty ifTrue: [^ basis].
 	generators anyOne scalars isField ifFalse: [^ DomainError signal: 'not over a field'].
-	generators anyOne species ordering isLocal ifTrue: [^ DomainError signal: 'not global monomial ordering'].
+	generators anyOne parent ordering isLocal ifTrue: [^ DomainError signal: 'not global monomial ordering'].
 	S _ generators.
 	[S _ S asSortedCollection: [:a :b| a leadingMonomial <= b leadingMonomial].
 	S do: [:f| (self reduce: f) isZero ifFalse: [basis add: f]].
@@ -37311,16 +37306,16 @@ matrix
 	matrix ifNil: [self run].
 	^ matrix! !
 
-!ExtendedBuchberger methodsFor: 'private' stamp: 'len 1/17/2017 11:41:47'!
+!ExtendedBuchberger methodsFor: 'private' stamp: 'len 1/23/2017 11:32:28'!
 run
 	"Buchberger algorithm.
 	Compute a Groebner basis from the input polynomials with the specified ordering."
 	| R S rows |
-	R _ generators anyOne species.
+	R _ generators anyOne parent.
 	basis _ OrderedCollection new.
 	rows _ OrderedCollection new.
 	generators isEmpty ifTrue: [^ basis].
-	generators anyOne scalars isField ifFalse: [^ DomainError signal: 'not over a field'].
+	R scalars isField ifFalse: [^ DomainError signal: 'not over a field'].
 	S _ generators.
 	[S _ S asSortedCollection: [:a :b| a leadingMonomial <= b leadingMonomial].
 	S do: [:f| | division | (division _ self divide: f) remainder isZero ifFalse: [basis add: f. rows add: division quotients]].
@@ -37344,21 +37339,21 @@ run
 "							Display fill: (i@k*4 extent: 3@3) fillColor: Color green."
 							S add: r]]]].
 	S isEmpty] whileFalse.
-"	R _ generators anyOne species.
+"	R _ generators anyOne parent.
 	rows _ rows collect: [:each| R tuple: basis size evaluating: [:i| each at: i ifAbsent: [R zero]]].
 	matrix _ Matrix rows: rows"
 	matrix _ rows! !
 
-!FiniteFieldPolynomialFactorizer methodsFor: 'private' stamp: 'len 3/23/2016 08:34'!
+!FiniteFieldPolynomialFactorizer methodsFor: 'private' stamp: 'len 1/23/2017 11:32:51'!
 distinctDegreeFactorization: aPolynomial
 	"Answer the distinct-degree factorization of a monic square-free polynomial.
 	The factorization is a Dictionary g -> d, where g is the product of all irreducible factors of degree d."
 	| answer i f f` one q x |
 	answer _ Dictionary new.
 	f _ aPolynomial.
-	x _ f species x.
-	one _ f species one.
-	q _ f species characteristic.
+	x _ f parent x.
+	one _ f parent one.
+	q _ f parent characteristic.
 	i _ 1.
 	f` _ f.
 	[f` degree >= (2*i)]
@@ -37370,12 +37365,12 @@ distinctDegreeFactorization: aPolynomial
 	answer isEmpty ifTrue: [answer at: 1 put: f].
 	^ answer! !
 
-!FiniteFieldPolynomialFactorizer methodsFor: 'private' stamp: 'len 3/23/2016 08:35'!
+!FiniteFieldPolynomialFactorizer methodsFor: 'private' stamp: 'len 1/23/2017 11:32:56'!
 equalDegreeFactorization: aPolynomial r: r d: d
 	"Cantor-Zassenhaus algorithm. Answer the equal-degree factorization of a monic squarefree univariate polynomial which has r>=2 pairwise distinct irreducible factors each of degree d."
 	| f Fx F q h g one factors c |
 	f _ aPolynomial.
-	Fx _ f species.
+	Fx _ f parent.
 	F _ Fx scalars.
 	q _ F size.
 	q even ifTrue: [^ self error: 'order not odd'].
@@ -37410,14 +37405,14 @@ factors
 				do: [:each| answer add: each withOccurrences: multiplicity]]].
 	^ answer! !
 
-!FiniteFieldPolynomialFactorizer methodsFor: 'factorization' stamp: 'len 3/23/2016 08:35'!
+!FiniteFieldPolynomialFactorizer methodsFor: 'factorization' stamp: 'len 1/23/2017 11:33:01'!
 isIrreducible
 	| Fx x one f n h g q |
 	factors notNil ifTrue: [^ factors size = 1].
 	(polynomial independentCoefficient isZero and: [polynomial degree > 1]) ifTrue: [^ false].
 	"Rabin's algorithm:"
 	f _ polynomial.
-	Fx _ f species.
+	Fx _ f parent.
 	q _ Fx scalars size.
 	x _ Fx x.
 	one _ Fx one.
@@ -37644,7 +37639,7 @@ verify
 divide: aPolynomial by: anArrayOfPolynomials
 	^ self new divide: aPolynomial by: anArrayOfPolynomials! !
 
-!PolynomialDivision methodsFor: 'private' stamp: 'len 6/30/2016 07:25'!
+!PolynomialDivision methodsFor: 'private' stamp: 'len 1/23/2017 11:44:28'!
 divide
 	"Compute the quotient and the remainder polynomials."
 	| quo rem lc n m term |
@@ -37657,12 +37652,12 @@ divide
 		ifTrue: [quotient _ dividend zero. remainder _ dividend.
 					^ self].
 "	indeterminate _ divisor leadingIndeterminate."
-	quo _ dividend species zero.
+	quo _ dividend parent zero.
 	rem _ dividend copy.
 	lc _ divisor leadingCoefficient.
 	[(n _ rem degree) >= m]
 		whileTrue:
-			[term _ dividend species coefficient: rem leadingCoefficient / lc degree: n-m.
+			[term _ dividend parent coefficient: rem leadingCoefficient / lc degree: n-m.
 			rem _ rem + (divisor * term negated).
 			"or optimized as:
 			divisor monomialsAndCoefficientsDo: [:key :value|
@@ -37763,12 +37758,12 @@ delta
 	"Answer an integer delta such that the dividend multiplied by the divisor's leading coeficient raised to the delta equals the product of the quotient by the divisor plus the remainder (the pseudo-division relation)."
 	^ self dividend degree - self divisor degree + 1 max: 0! !
 
-!PolynomialPseudoDivision methodsFor: 'private' stamp: 'len 3/8/2016 22:32'!
+!PolynomialPseudoDivision methodsFor: 'private' stamp: 'len 1/23/2017 11:44:32'!
 divide
 	"COHEN Algorithm 3.1.2 (Pseudo-Division)."
 	| P m n d e lc s |
 	divisor isZero ifTrue: [^ (ZeroDivide dividend: dividend) signal].
-	P _ dividend species.
+	P _ dividend parent.
 	(m _ dividend degree) < (n _ divisor degree)
 		ifTrue: [quotient _ P zero. remainder _ dividend. ^ self].
 	d _ divisor leadingCoefficient.
@@ -37998,10 +37993,10 @@ rootNear: aComplex
 	self roots do: [:each| each refine]] repeat"
 	^ self roots detectMin: [:each| (each approximation - aComplex) abs]! !
 
-!NumericalComplexRootFinder methodsFor: 'private' stamp: 'len 6/5/2016 05:19'!
+!NumericalComplexRootFinder methodsFor: 'private' stamp: 'len 1/23/2017 11:36:59'!
 roots
 	| roots X P Q P` Q` n x v m c dx x1 v1 m1 realCoefficients |
-	X _ polynomial species x.
+	X _ polynomial parent x.
 	P _ polynomial.
 	Q _ P.
 	P` _ P derivative.

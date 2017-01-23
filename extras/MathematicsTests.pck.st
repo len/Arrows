@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 22 January 2017 at 8:32:20 am'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 23 January 2017 at 11:53:51 am'!
 'Description Please enter a description for this package'!
-!provides: 'MathematicsTests' 1 61!
+!provides: 'MathematicsTests' 1 62!
 !classDefinition: #AbelianGroupTest category: #MathematicsTests!
 TestCase subclass: #AbelianGroupTest
 	instanceVariableNames: ''
@@ -1459,14 +1459,14 @@ testDual
 		self assert: (v count: [:each| each = (1 % 2)]) even]
 ! !
 
-!CodesTest methodsFor: 'as yet unclassified' stamp: 'len 6/26/2016 01:57'!
+!CodesTest methodsFor: 'as yet unclassified' stamp: 'len 1/23/2017 11:52:38'!
 testGolay24
 	| C W x y |
 	C _ LinearCode G24.
 	self assert: C isSelfDual.
 	W _ C weightEnumerator.
-	x _ W species x.
-	y _ W species y.
+	x _ W parent x.
+	y _ W parent y.
 	self assert: W = (x^24 + (x^16*(y^8)*759) + (x^12*(y^12)*2576) + (x^8*(y^16)*759) + (y^24)) "typo in neil's video 22:20"! !
 
 !CodesTest methodsFor: 'as yet unclassified' stamp: 'len 5/12/2016 09:47'!
@@ -1490,7 +1490,7 @@ testHamming844
 	x _ P x. y _ P y.
 	self assert: C weightEnumerator = (x^8 + (x*y^4*14) + (y^8))! !
 
-!CodesTest methodsFor: 'as yet unclassified' stamp: 'len 6/25/2016 05:33'!
+!CodesTest methodsFor: 'as yet unclassified' stamp: 'len 1/23/2017 11:52:21'!
 testMacWilliamsTheorem
 	"(MacWilliams, 1962) the theorem relates the weight enumerator of a linear code to the weight enumerator of its dual."
 	"From youtube, Neil Sloane 'Error Correcting Codes, Group Theory and Invariant Theory, Part 1' 20:30."
@@ -1498,8 +1498,8 @@ testMacWilliamsTheorem
 	C _ LinearCode H7.
 	W _ C weightEnumerator.
 	Wperp _ C dual weightEnumerator.
-	x _ Wperp species x.
-	y _ Wperp species y.
+	x _ Wperp parent x.
+	y _ Wperp parent y.
 	self assert: Wperp = ((W value: {x+y. x-y}) / C size)! !
 
 !CodesTest methodsFor: 'as yet unclassified' stamp: 'len 5/12/2016 09:57'!
@@ -1549,15 +1549,15 @@ testTetracode
 	y _ P y.
 	self assert: C weightEnumerator = (x^4 + (x*(y^3)*8))! !
 
-!CodesTest methodsFor: 'as yet unclassified' stamp: 'len 10/18/2016 20:57'!
+!CodesTest methodsFor: 'as yet unclassified' stamp: 'len 1/23/2017 11:52:08'!
 testWeightEnumerator
 	"From youtube, Neil Sloane 'error correcting codes, group theory and invariant theory part 1' 19:30."
 	| F C w x y |
 	F _ PrimeField new: 2.
 	C _ LinearCode subspace: (F^5 span: {(0,0,0,0,0) % 2. (1,1,1,1,1) % 2}).
 	w _ C weightEnumerator.
-	x _ w species x.
-	y _ w species y.
+	x _ w parent x.
+	y _ w parent y.
 	self assert: w = (x^5 + (y^5)).
 	self assert: C dual weightEnumerator = (x^5 + (x^3*(y^2)*10) + (y^4*x*5))! !
 
