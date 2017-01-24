@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 23 January 2017 at 11:08:31 pm'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 24 January 2017 at 12:57:24 pm'!
 'Description A computational algebra system in Smalltalk'!
-!provides: 'Mathematics' 1 345!
+!provides: 'Mathematics' 1 347!
 !requires: 'RayTracer' 1 2 nil!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
@@ -1362,14 +1362,14 @@ NumberField subclass: #QuadraticField
 QuadraticField class
 	instanceVariableNames: ''!
 
-!classDefinition: #AffineAlgebra category: #'Mathematics-Schemes-Affine-Rings'!
-QuotientRing subclass: #AffineAlgebra
+!classDefinition: #AffineRing category: #'Mathematics-Schemes-Affine-Rings'!
+QuotientRing subclass: #AffineRing
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Schemes-Affine-Rings'!
-!classDefinition: 'AffineAlgebra class' category: #'Mathematics-Schemes-Affine-Rings'!
-AffineAlgebra class
+!classDefinition: 'AffineRing class' category: #'Mathematics-Schemes-Affine-Rings'!
+AffineRing class
 	instanceVariableNames: ''!
 
 !classDefinition: #RationalIntegerRing category: #'Mathematics-Rings'!
@@ -1482,14 +1482,14 @@ Ring subclass: #PAdicIntegerRing
 PAdicIntegerRing class
 	instanceVariableNames: ''!
 
-!classDefinition: #MatrixAlgebra category: #'Mathematics-Matrices'!
-Ring subclass: #MatrixAlgebra
+!classDefinition: #MatrixRing category: #'Mathematics-Matrices'!
+Ring subclass: #MatrixRing
 	instanceVariableNames: 'scalars degree'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Matrices'!
-!classDefinition: 'MatrixAlgebra class' category: #'Mathematics-Matrices'!
-MatrixAlgebra class
+!classDefinition: 'MatrixRing class' category: #'Mathematics-Matrices'!
+MatrixRing class
 	instanceVariableNames: ''!
 
 !classDefinition: #PolynomialRing category: #'Mathematics-Polynomials'!
@@ -1762,13 +1762,13 @@ FreeModule subclass: #PolynomialFiltrationModule
 PolynomialFiltrationModule class
 	instanceVariableNames: ''!
 
-!classDefinition: #DivisorsGroup category: #'Mathematics-Schemes'!
+!classDefinition: #DivisorsGroup category: #'Mathematics-Schemes-Divisors'!
 FreeModule subclass: #DivisorsGroup
 	instanceVariableNames: 'scheme scalars'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Schemes'!
-!classDefinition: 'DivisorsGroup class' category: #'Mathematics-Schemes'!
+	category: 'Mathematics-Schemes-Divisors'!
+!classDefinition: 'DivisorsGroup class' category: #'Mathematics-Schemes-Divisors'!
 DivisorsGroup class
 	instanceVariableNames: ''!
 
@@ -2782,13 +2782,13 @@ FormalSum subclass: #Tensor
 Tensor class
 	instanceVariableNames: ''!
 
-!classDefinition: #Divisor category: #'Mathematics-Schemes'!
+!classDefinition: #Divisor category: #'Mathematics-Schemes-Divisors'!
 FormalSum subclass: #Divisor
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Schemes'!
-!classDefinition: 'Divisor class' category: #'Mathematics-Schemes'!
+	category: 'Mathematics-Schemes-Divisors'!
+!classDefinition: 'Divisor class' category: #'Mathematics-Schemes-Divisors'!
 Divisor class
 	instanceVariableNames: ''!
 
@@ -4438,7 +4438,7 @@ My instances are cyclotomic fields, i.e. number fields obtained by adjoining a c
 !QuadraticField commentStamp: '<historical>' prior: 0!
 My instances are quadratic number fields, i.e. number fields with defining quadratic polynomial of the form x^2 - d, with d a squarefree integer.!
 
-!AffineAlgebra commentStamp: '<historical>' prior: 0!
+!AffineRing commentStamp: '<historical>' prior: 0!
 My instances are quotients of polynomial rings. They are called affine rings or affine algebras because they are finitely-generated (commutative) algebras and they are the coordinate rings of closed subschemes of affine space.
 
 When the coefficients ring is a field K and the relations ideal I is maximal, the affine algebra K[X]/I is a field. In this way, affine algebras are multivariate generalizations of number fields and algebraic function fields.!
@@ -4470,7 +4470,7 @@ My instances are fields of p-adic numbers Qp. These are fraction fields of rings
 !PAdicIntegerRing commentStamp: '<historical>' prior: 0!
 My instances are rings of p-adic integers Zp. See PAdicInteger.!
 
-!MatrixAlgebra commentStamp: '<historical>' prior: 0!
+!MatrixRing commentStamp: '<historical>' prior: 0!
 My instances are rings of nxn square matrices with coefficients over a commutative ring R. They are R-algebras. See also MatrixModule.!
 
 !PolynomialRing commentStamp: '<historical>' prior: 0!
@@ -4561,7 +4561,7 @@ My instances are one-dimensional free modules (or vector spaces) of scalars, i.e
 My instances are ambient modules (or vector spaces) of n-tuples over a given ring (or field).!
 
 !MatrixModule commentStamp: '<historical>' prior: 0!
-My instances are ambient modules (or vector spaces) of matrices of n rows by m columns over a given commutative ring (or field). See also MatrixAlgebra.!
+My instances are ambient modules (or vector spaces) of matrices of n rows by m columns over a given commutative ring (or field). See also MatrixRing.!
 
 !HomogeneousPolynomialModule commentStamp: '<historical>' prior: 0!
 My instances are submodules of homogeneous polynomials of a given fixed degree, in a multivariate polynomial ring R[x1,...,xn]. They define a grading (see PolynomialRing>>gradingAt:).!
@@ -4645,16 +4645,16 @@ References:
 	https://en.wikipedia.org/wiki/Polynomial_code
 !
 
-!Scheme commentStamp: '<historical>' prior: 0!
+!Scheme commentStamp: 'len 1/24/2017 11:41:15' prior: 0!
 My instances are schemes. Subclasses implement particular kinds of schemes.
 
-An important class of schemes are those defined by polynomial equations in some ambient space. See subclasses AffineScheme and ProjectiveScheme, which are closed subschemes of an affine or projective space. Their morphisms are rational maps (see RationalMap). See also RationalPoint and subclasses.!
+An important class of schemes are those defined by polynomial equations in some ambient space. See subclasses AffineScheme and ProjectiveScheme, which are closed subschemes of an affine and projective space. Their morphisms are rational maps (see RationalMap). See also RationalPoint and subclasses.!
 
 !Spectrum commentStamp: '<historical>' prior: 0!
 My instances are affine schemes Spec R, i.e. the prime spectrum of an arbitrary commutative ring R. As a set, their elements are the prime ideals of the coordinate rings.!
 
 !AffineScheme commentStamp: '<historical>' prior: 0!
-My instances are closed subschemes of an affine space (see AffineSpace). Their coordinate rings are quotients of multivariate polynomial rings by an ideal (also called affine algebras, see AffineAlgebra).
+My instances are closed subschemes of an affine space (see AffineSpace). Their coordinate rings are quotients of multivariate polynomial rings by an ideal (also called affine rings or affine algebras, see AffineRing).
 
 More generally, an affine scheme is any scheme that is the prime spectrum of an arbitrary commutative ring, but here we call that Spectrum and use AffineScheme to refer to closed subchemes of an affine space.
 
@@ -4662,11 +4662,9 @@ The integral (reduced and irreducible) closed subschemes of affine space over an
 
 Example:
 	"The unit circle in the rational affine plane:"
-	| R x y I |
+	| R I |
 	R _ QQ polynomialsIn: #(x y).
-	x _ R x.
-	y _ R y.
-	I _ R * (x^2 + (y^2) - 1).
+	I _ R * (R !! [:x :y| x^2 + (y^2) - 1]).
 	(R / I) spec
 !
 
@@ -4685,7 +4683,10 @@ My instances are affine spaces R^n as schemes, i.e. Spec R[x1,...,xn] for some c
 Example (the rational affine plane):
 	AffineSpace new: 2 over: QQ.
 
-Or equivalently:
+Or assigning names to the indeterminates of the coordinate ring:
+	AffineSpace new: #(x y) over: QQ.
+
+And equivalently:
 	QQ polynomialsIn: #(x y) :: spec.
 
 Note that affine spaces defined as schemes differ from the classical affine spaces defined as 'vector spaces that have forgotten the origin'. The morphisms of this affine space are of course morphisms of schemes, not just the classical (linear) affine transformations. See AffineLinearSpace.
@@ -4728,7 +4729,10 @@ My instances are projective spaces P^nR as schemes, i.e. Proj R[x1,...,xn] for s
 Example (the rational projective plane):
 	ProjectiveSpace new: 2 over: QQ.
 
-Or equivalently:
+Or assigning names to the indeterminates of the homogeneous coordinate ring:
+	ProjectiveSpace new: #(x y z) over: QQ.
+
+And equivalently:
 	QQ polynomialsIn: #(x y z) :: proj.!
 
 !ProjectiveLine commentStamp: '<historical>' prior: 0!
@@ -4968,10 +4972,10 @@ My instances are K-rational points on a projective scheme X, seen as morphisms S
 !ProjectiveLinePoint commentStamp: '<historical>' prior: 0!
 My instances are points on the projective line P^1(R) for some ring R. See ProjectiveLine.!
 
-!EllipticCurvePoint commentStamp: 'len 12/25/2016 08:03:22' prior: 0!
+!EllipticCurvePoint commentStamp: '<historical>' prior: 0!
 My instances are K-rational points on an elliptic curve E, seen as morphisms Spec(K) -> E. These objects implement the group law (with additive notation). The identity element (zero, or the point at infinity) is [0:1:0].
 
-Note that a point [a:b:1] is printed '(a,b)', and the point at infinity [0:1:0] is printed 'O'. This follows commonly used conventions.!
+Following conventions, a point [a:b:1] is printed '(a,b)', and the point at infinity [0:1:0] is printed 'O'.!
 
 !GroupRandomGenerator commentStamp: '<historical>' prior: 0!
 I am the Product Replacement Algorithm for generating random elements in a group from a set of generators. Essentially, it performs a random walk on a Cayley graph.!
@@ -5018,7 +5022,7 @@ My instances are residue classes of integers modulo an integer m, i.e. elements 
 My instances are elements of finite algebraic field extensions. See ExtensionField.!
 
 !RegularFunction commentStamp: '<historical>' prior: 0!
-My instances are regular functions of a closed subscheme of affine or projective space, i.e. elements of the coordinate ring of the scheme. They are implemented as residue classes of polynomials modulo an ideal, i.e. elements of the quotient polynomial ring (see AffineAlgebra) that represents the coordinate ring of the scheme.!
+My instances are regular functions of a closed subscheme of affine or projective space, i.e. elements of the coordinate ring of the scheme. They are implemented as residue classes of polynomials modulo an ideal, i.e. elements of the quotient polynomial ring (see AffineRing) that represents the coordinate ring of the scheme.!
 
 !AlgebraicNumber commentStamp: '<historical>' prior: 0!
 My instances are complex algebraic numbers, i.e. zeroes of polynomials with integer coefficients.
@@ -20810,7 +20814,7 @@ example
 sqrt: anInteger
 	^ self new sqrt: anInteger! !
 
-!AffineAlgebra methodsFor: 'converting' stamp: 'len 1/8/2017 22:02:04'!
+!AffineRing methodsFor: 'converting' stamp: 'len 1/8/2017 22:02:04'!
 asModule
 "	^ FreeModule
 		basis: ((1 to: self degree) collect: [:i| self x ^ (i-1)])
@@ -20819,11 +20823,11 @@ asModule
 "
 	self notYetImplemented! !
 
-!AffineAlgebra methodsFor: 'accessing' stamp: 'len 11/3/2016 04:30'!
+!AffineRing methodsFor: 'accessing' stamp: 'len 11/3/2016 04:30'!
 characteristic
 	^ self base characteristic! !
 
-!AffineAlgebra methodsFor: 'accessing' stamp: 'len 11/20/2016 11:09:41'!
+!AffineRing methodsFor: 'accessing' stamp: 'len 11/20/2016 11:09:41'!
 dimension
 	"Answer the Krull dimension of the receiver."
 	"Derksen, Kemper, 'Computational Invariant Theory', 2002, Algorithm 1.2.4 (Dimension of an ideal)."
@@ -20845,51 +20849,51 @@ dimension
 			ifTrue: [^ self base rank - k]].
 	self error: 'this shouldnt be reached'! !
 
-!AffineAlgebra methodsFor: 'private' stamp: 'len 1/18/2017 22:52:12'!
+!AffineRing methodsFor: 'private' stamp: 'len 1/18/2017 22:52:12'!
 elementClass
 	^ RegularFunction! !
 
-!AffineAlgebra methodsFor: 'morphisms' stamp: 'len 12/30/2016 10:05:13'!
+!AffineRing methodsFor: 'morphisms' stamp: 'len 12/30/2016 10:05:13'!
 embed: anObject
 	"Answer the embedding of an element of the coefficients ring into the receiver."
 	^ self project: (self base embed: anObject)! !
 
-!AffineAlgebra methodsFor: 'morphisms' stamp: 'len 12/30/2016 10:05:09'!
+!AffineRing methodsFor: 'morphisms' stamp: 'len 12/30/2016 10:05:09'!
 embedding
 	"Answer the embedding of the coefficients ring into the receiver."
 	^ self projection ” self base embedding! !
 
-!AffineAlgebra methodsFor: 'private' stamp: 'len 11/1/2016 05:01'!
+!AffineRing methodsFor: 'private' stamp: 'len 11/1/2016 05:01'!
 fractionClass
 	^ RationalFunction! !
 
-!AffineAlgebra methodsFor: 'operations' stamp: 'len 10/27/2016 18:44'!
+!AffineRing methodsFor: 'operations' stamp: 'len 10/27/2016 18:44'!
 hilbertSeries
 	"Answer the Hilbert series of the receiver."
 	^ self hilbertSeriesAt: (QQ polynomialsIn: #(t)) fractions x! !
 
-!AffineAlgebra methodsFor: 'operations' stamp: 'len 10/27/2016 18:45'!
+!AffineRing methodsFor: 'operations' stamp: 'len 10/27/2016 18:45'!
 hilbertSeriesAt: t
 	"Answer the Hilbert series of the receiver."
 	^ (self base hilbertSeriesAt: t) - (self ideal hilbertSeriesAt: t)! !
 
-!AffineAlgebra methodsFor: 'accessing' stamp: 'len 10/20/2016 10:51'!
+!AffineRing methodsFor: 'accessing' stamp: 'len 10/20/2016 10:51'!
 indeterminates
 	^ self base indeterminates! !
 
-!AffineAlgebra methodsFor: 'testing' stamp: 'len 1/4/2017 18:17:02'!
+!AffineRing methodsFor: 'testing' stamp: 'len 1/4/2017 18:17:02'!
 isAlgebra
 	^ true! !
 
-!AffineAlgebra methodsFor: 'converting' stamp: 'len 1/5/2017 08:53:02'!
+!AffineRing methodsFor: 'converting' stamp: 'len 1/5/2017 08:53:02'!
 orderedBy: aMonomialOrdering
 	^ self class mod: (self ideal orderedBy: aMonomialOrdering)! !
 
-!AffineAlgebra methodsFor: 'accessing' stamp: 'len 1/5/2017 08:49:59'!
+!AffineRing methodsFor: 'accessing' stamp: 'len 1/5/2017 08:49:59'!
 ordering
 	^ self base ordering! !
 
-!AffineAlgebra methodsFor: 'operations' stamp: 'len 1/8/2017 17:23:17'!
+!AffineRing methodsFor: 'operations' stamp: 'len 1/8/2017 17:23:17'!
 proj
 	"Answer the projective spectrum of the receiver, Proj(R)."
 	self ideal isHomogeneous ifFalse: [^ DomainError signal: 'not a quotient by a homogeneous ideal, not properly graded'].
@@ -20899,17 +20903,17 @@ proj
 			ifFalse: [^ ProjectiveHypersurface coordinateRing: self]].
 	^ ProjectiveScheme coordinateRing: self! !
 
-!AffineAlgebra methodsFor: 'accessing' stamp: 'len 12/30/2016 09:47:01'!
+!AffineRing methodsFor: 'accessing' stamp: 'len 12/30/2016 09:47:01'!
 rank
 	"Answer the number of indeterminates in the receiver."
 	^ self base rank! !
 
-!AffineAlgebra methodsFor: 'accessing' stamp: 'len 12/30/2016 09:46:48'!
+!AffineRing methodsFor: 'accessing' stamp: 'len 12/30/2016 09:46:48'!
 scalars
 	"Answer the coefficients ring of the receiver."
 	^ self base scalars! !
 
-!AffineAlgebra methodsFor: 'operations' stamp: 'len 1/18/2017 22:14:54'!
+!AffineRing methodsFor: 'operations' stamp: 'len 1/18/2017 22:14:54'!
 spec
 	"Answer the spectrum of the receiver, Spec(R/I) as subscheme of Spec(R)."
 	(self ideal generators size = 1 and: [self ideal isZero not])
@@ -20918,19 +20922,19 @@ spec
 			ifFalse: [^ AffineHypersurface coordinateRing: self]].
 	^ AffineScheme coordinateRing: self! !
 
-!AffineAlgebra methodsFor: 'elements' stamp: 'len 10/20/2016 10:50'!
+!AffineRing methodsFor: 'elements' stamp: 'len 10/20/2016 10:50'!
 x
 	^ self x: 1! !
 
-!AffineAlgebra methodsFor: 'elements' stamp: 'len 10/20/2016 10:50'!
+!AffineRing methodsFor: 'elements' stamp: 'len 10/20/2016 10:50'!
 x: anInteger
 	^ self project: (self base x: anInteger)! !
 
-!AffineAlgebra methodsFor: 'elements' stamp: 'len 10/20/2016 10:50'!
+!AffineRing methodsFor: 'elements' stamp: 'len 10/20/2016 10:50'!
 y
 	^ self x: 2! !
 
-!AffineAlgebra methodsFor: 'elements' stamp: 'len 10/20/2016 10:50'!
+!AffineRing methodsFor: 'elements' stamp: 'len 10/20/2016 10:50'!
 z
 	^ self x: 3! !
 
@@ -21427,59 +21431,59 @@ zero
 p: aPrime
 	^ self new p: aPrime! !
 
-!MatrixAlgebra methodsFor: 'converting' stamp: 'len 1/5/2017 08:08:18'!
+!MatrixRing methodsFor: 'converting' stamp: 'len 1/5/2017 08:08:18'!
 asModule
 	^ MatrixModule new: self degree @ self degree over: self scalars! !
 
-!MatrixAlgebra methodsFor: 'random' stamp: 'len 1/5/2017 20:29:56'!
+!MatrixRing methodsFor: 'random' stamp: 'len 1/5/2017 20:29:56'!
 atRandom: aRandom bits: bitSize
 	| n |
 	n _ bitSize // self degree.
 	^ self scalars matrix: self degree evaluating: [:i :j| self scalars atRandom: aRandom bits: n]! !
 
-!MatrixAlgebra methodsFor: 'accessing' stamp: 'len 1/5/2017 08:07:08'!
+!MatrixRing methodsFor: 'accessing' stamp: 'len 1/5/2017 08:07:08'!
 degree
 	^ degree! !
 
-!MatrixAlgebra methodsFor: 'accessing-private' stamp: 'len 1/5/2017 08:07:47'!
+!MatrixRing methodsFor: 'accessing-private' stamp: 'len 1/5/2017 08:07:47'!
 degree: anInteger
 	degree _ anInteger! !
 
-!MatrixAlgebra methodsFor: 'enumerating' stamp: 'len 1/5/2017 20:28:05'!
+!MatrixRing methodsFor: 'enumerating' stamp: 'len 1/5/2017 20:28:05'!
 do: aBlock
 	self asModule do: aBlock! !
 
-!MatrixAlgebra methodsFor: 'accessing' stamp: 'len 1/5/2017 20:20:36'!
+!MatrixRing methodsFor: 'accessing' stamp: 'len 1/5/2017 20:20:36'!
 one
 	^ self scalar: scalars one! !
 
-!MatrixAlgebra methodsFor: 'printing' stamp: 'len 1/5/2017 08:08:47'!
+!MatrixRing methodsFor: 'printing' stamp: 'len 1/5/2017 08:08:47'!
 printOn: aStream
 	aStream print: self asModule! !
 
-!MatrixAlgebra methodsFor: 'elements' stamp: 'len 1/5/2017 20:25:23'!
+!MatrixRing methodsFor: 'elements' stamp: 'len 1/5/2017 20:25:23'!
 scalar: aNumber
 	| zero |
 	zero _ self scalars zero.
 	^ self scalars matrix: self degree evaluating: [:i :j| i=j ifTrue: [aNumber] ifFalse: [zero]]! !
 
-!MatrixAlgebra methodsFor: 'accessing' stamp: 'len 1/5/2017 08:07:03'!
+!MatrixRing methodsFor: 'accessing' stamp: 'len 1/5/2017 08:07:03'!
 scalars
 	^ scalars! !
 
-!MatrixAlgebra methodsFor: 'accessing-private' stamp: 'len 1/5/2017 08:07:29'!
+!MatrixRing methodsFor: 'accessing-private' stamp: 'len 1/5/2017 08:07:29'!
 scalars: aRing
 	scalars _ aRing! !
 
-!MatrixAlgebra methodsFor: 'accessing' stamp: 'len 1/5/2017 20:23:17'!
+!MatrixRing methodsFor: 'accessing' stamp: 'len 1/5/2017 20:23:17'!
 size
 	^ self scalars size ^ self degree squared! !
 
-!MatrixAlgebra methodsFor: 'accessing' stamp: 'len 1/5/2017 20:21:45'!
+!MatrixRing methodsFor: 'accessing' stamp: 'len 1/5/2017 20:21:45'!
 zero
 	^ self scalar: scalars zero! !
 
-!MatrixAlgebra class methodsFor: 'instance creation' stamp: 'len 1/5/2017 08:09:09'!
+!MatrixRing class methodsFor: 'instance creation' stamp: 'len 1/5/2017 08:09:09'!
 new: anInteger over: aRing
 	^ self new degree: anInteger; scalars: aRing! !
 
@@ -22731,10 +22735,10 @@ leadingIdeal
 orderedBy: aMonomialOrdering
 	^ self as: (self ring orderedBy: aMonomialOrdering)! !
 
-!PolynomialIdeal methodsFor: 'operations' stamp: 'len 1/4/2017 18:20:05'!
+!PolynomialIdeal methodsFor: 'operations' stamp: 'len 1/24/2017 12:54:59'!
 quotient
 	"Answer the quotient ring of the base ring by the receiver."
-	^ AffineAlgebra mod: self! !
+	^ AffineRing mod: self! !
 
 !PolynomialIdeal methodsFor: 'operations' stamp: 'len 7/9/2016 05:21'!
 radical
@@ -24057,10 +24061,10 @@ new: anInteger over: aRing
 	self == anObject ifTrue: [^ true].
 	^ (anObject isKindOf: MatrixModule) and: [anObject scalars = self scalars and: [self numberOfRows = anObject numberOfRows and: [self numberOfColumns = anObject numberOfColumns]]]! !
 
-!MatrixModule methodsFor: 'converting' stamp: 'len 1/5/2017 11:52:02'!
+!MatrixModule methodsFor: 'converting' stamp: 'len 1/24/2017 12:55:20'!
 asRing
 	self isSquare ifFalse: [self error: 'not square matrices'].
-	^ MatrixAlgebra new: self numberOfRows over: self scalars! !
+	^ MatrixRing new: self numberOfRows over: self scalars! !
 
 !MatrixModule methodsFor: 'elements' stamp: 'len 11/5/2016 06:28'!
 columns: anArray
@@ -25808,8 +25812,9 @@ isEmpty
 		ifFalse: [self error: 'the ground field is not algebraically closed'].
 "	^ false! !
 
-!AffineScheme methodsFor: 'testing' stamp: 'len 1/13/2017 16:55:16'!
+!AffineScheme methodsFor: 'testing' stamp: 'len 1/24/2017 11:58:07'!
 isEquidimensional
+	"Answer true if the receiver is pure dimensional or equidimensional, i.e. if the dimension of the local ring at p is independent of p."
 	^ self singular dimension < 0! !
 
 !AffineScheme methodsFor: 'testing' stamp: 'len 10/19/2016 23:08'!
@@ -25951,6 +25956,11 @@ degree
 dimension
 	^ self ambient dimension - 1! !
 
+!AffineHypersurface methodsFor: 'operations' stamp: 'len 1/24/2017 12:16:18'!
+multiplicityAt: aTuple
+	self scalars isField ifFalse: [DomainError signal: 'not over a field'].
+	^ (self translatedBy: aTuple negated) polynomial lowestDegree! !
+
 !AffineHypersurface methodsFor: 'morphic' stamp: 'len 1/22/2017 09:31:15'!
 plot
 	(self scalars isField and: [self scalars isReal and: [self ambient dimension = 3]])
@@ -25964,11 +25974,6 @@ polynomial
 !AffineHypersurface class methodsFor: 'instance creation' stamp: 'len 1/23/2017 11:30:29'!
 polynomial: aPolynomial
 	^ self coordinateRing: aPolynomial parent / aPolynomial! !
-
-!AffinePlaneCurve methodsFor: 'operations' stamp: 'len 1/11/2017 14:15:46'!
-multiplicityAt: aTuple
-	self scalars isField ifFalse: [DomainError signal: 'not over a field'].
-	^ (self translatedBy: aTuple negated) polynomial lowestDegree! !
 
 !AffinePlaneCurve methodsFor: 'morphic' stamp: 'len 10/24/2016 21:43'!
 plot
@@ -30554,6 +30559,13 @@ multiplicity
 neighborhood
 	"Answer an affine patch centered at the receiver."
 	^ self codomain neighborhoodAt: self coordinates! !
+
+!RationalPoint methodsFor: 'accessing' stamp: 'len 1/24/2017 11:39:05'!
+residueField
+	"Answer the residue field at this point."
+	| O |
+	O _ self localRing.
+	^ O / O maximalIdeal! !
 
 !RationalPoint methodsFor: 'accessing' stamp: 'len 11/7/2016 16:25'!
 scalars
@@ -35927,14 +35939,11 @@ content
 copy
 	^ self parent coefficients: self coefficients copy! !
 
-!Polynomial methodsFor: 'accessing monomials' stamp: 'len 3/3/2016 02:07'!
+!Polynomial methodsFor: 'accessing monomials' stamp: 'len 1/24/2017 12:04:29'!
 degree
+	"Answer the total degree of the receiver, i.e. the maximum of the degree of its monomials."
 	self isZero ifTrue: [^ Infinity negative].
-	^ self monomials max: [:each| each degree]
-"	^ self leadingMonomial degree"
-
-	"ALTERNATIVE: some people define 'degree' as:
-	^ self degreeIn: self main"! !
+	^ self monomials max: [:each| each degree]! !
 
 !Polynomial methodsFor: 'accessing monomials' stamp: 'len 3/2/2016 23:47'!
 degreeIn: anIndeterminate
@@ -36730,7 +36739,7 @@ coefficientAt: aMonomial
 	"Answer the coefficient of the monomial given by the argument."
 	^ coefficients at: aMonomial ifAbsent: [self scalars zero]! !
 
-!MultivariatePolynomial methodsFor: 'accessing coefficients' stamp: 'len 6/24/2016 21:35'!
+!MultivariatePolynomial methodsFor: 'deprecated' stamp: 'len 6/24/2016 21:35'!
 coefficientAt: aMonomial put: value
 	^ coefficients at: aMonomial put: value! !
 
@@ -36742,7 +36751,7 @@ coefficients
 coefficients: aMonomialIndexedTuple
 	coefficients _ aMonomialIndexedTuple! !
 
-!MultivariatePolynomial methodsFor: 'accessing coefficients' stamp: 'len 11/25/2016 10:31:40'!
+!MultivariatePolynomial methodsFor: 'deprecated' stamp: 'len 11/25/2016 10:31:40'!
 denseCoefficients
 	"Answer a dense array of the receivers coefficients ordered by degree.
 	Makes sense for univariate polynomails."
@@ -36836,7 +36845,7 @@ cauchyRootBound
 coefficientAt: aMonomial
 	^ self coefficientAtDegree: aMonomial degree! !
 
-!UnivariatePolynomial methodsFor: 'accessing coefficients' stamp: 'len 3/26/2016 23:44'!
+!UnivariatePolynomial methodsFor: 'deprecated' stamp: 'len 3/26/2016 23:44'!
 coefficientAt: aMonomial put: value
 	coefficients at: aMonomial degree + 1 put: value.
 	(value isZero and: [aMonomial degree + 1 = coefficients size])
@@ -36873,7 +36882,7 @@ degree
 	coefficients isEmpty ifTrue: [^ Infinity negative].
 	^ coefficients size - 1! !
 
-!UnivariatePolynomial methodsFor: 'accessing coefficients' stamp: 'len 3/30/2016 03:58'!
+!UnivariatePolynomial methodsFor: 'deprecated' stamp: 'len 3/30/2016 03:58'!
 denseCoefficients
 	"Answer a dense tuple of the receivers coefficients ordered by degree."
 	^ coefficients! !
