@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 24 January 2017 at 12:57:24 pm'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 25 January 2017 at 10:17:49 am'!
 'Description A computational algebra system in Smalltalk'!
-!provides: 'Mathematics' 1 347!
+!provides: 'Mathematics' 1 348!
 !requires: 'RayTracer' 1 2 nil!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
@@ -110,6 +110,16 @@ SequenceableCollection subclass: #StandardBasis
 	category: 'Mathematics-Polynomials'!
 !classDefinition: 'StandardBasis class' category: #'Mathematics-Polynomials'!
 StandardBasis class
+	instanceVariableNames: ''!
+
+!classDefinition: #GroebnerBasis category: #'Mathematics-Polynomials'!
+StandardBasis subclass: #GroebnerBasis
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Polynomials'!
+!classDefinition: 'GroebnerBasis class' category: #'Mathematics-Polynomials'!
+GroebnerBasis class
 	instanceVariableNames: ''!
 
 !classDefinition: #LinearBasis2 category: #'Mathematics-Etc-Modules-Bases'!
@@ -3202,6 +3212,16 @@ Buchberger subclass: #ExtendedBuchberger
 ExtendedBuchberger class
 	instanceVariableNames: ''!
 
+!classDefinition: #BuchbergerNormalForm category: #'Mathematics-Polynomials-Algorithms'!
+Object subclass: #BuchbergerNormalForm
+	instanceVariableNames: 'basis'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Polynomials-Algorithms'!
+!classDefinition: 'BuchbergerNormalForm class' category: #'Mathematics-Polynomials-Algorithms'!
+BuchbergerNormalForm class
+	instanceVariableNames: ''!
+
 !classDefinition: #FiniteFieldPolynomialFactorizer category: #'Mathematics-Polynomials-Algorithms'!
 Object subclass: #FiniteFieldPolynomialFactorizer
 	instanceVariableNames: 'polynomial factors'
@@ -3220,6 +3240,16 @@ Object subclass: #IntegerPolynomialFactorizer
 	category: 'Mathematics-Polynomials-Algorithms'!
 !classDefinition: 'IntegerPolynomialFactorizer class' category: #'Mathematics-Polynomials-Algorithms'!
 IntegerPolynomialFactorizer class
+	instanceVariableNames: ''!
+
+!classDefinition: #MoraNormalForm category: #'Mathematics-Polynomials-Algorithms'!
+Object subclass: #MoraNormalForm
+	instanceVariableNames: 'basis'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Polynomials-Algorithms'!
+!classDefinition: 'MoraNormalForm class' category: #'Mathematics-Polynomials-Algorithms'!
+MoraNormalForm class
 	instanceVariableNames: ''!
 
 !classDefinition: #MultiPolynomialDivision category: #'Mathematics-Polynomials-Algorithms'!
@@ -3901,9 +3931,9 @@ Example:
 !StandardBasis commentStamp: '<historical>' prior: 0!
 My instances are standard bases of polynomial ideals. A standard basis is nothing but a special set of generators with the property that the leading monomials generate the leading ideal.
 
-When the choosen monomial ordering is global (a well-ordering), these are Groebner bases, and they can be computed with Buchberger's algorithm. 
+When the choosen monomial ordering is global (a well-ordering), these are Groebner bases and are computed with Buchberger's algorithm. For arbitrary monomial orderings, they are computed using Mora's normal form.
 
-For a fixed monomial ordering, a subset G = {g1,...,gm} of ideal I = <f1,...,fm> is called a Groebner basis for I if every f in I is reducible by G, i.e. there exists g in G such that its leading monomial LM(g) divides LM(f).
+For a fixed global monomial ordering, a subset G = {g1,...,gm} of ideal I = <f1,...,fm> is called a Groebner basis for I if every f in I is reducible by G, i.e. there exists g in G such that its leading monomial LM(g) divides LM(f).
 
 When all generators {f1,...,fm} are linear, a Groebner basis corresponds to "row echelon form" or "triangular system"; when they are univariate, then a Groebner basis corresponds to gcd(f1,...,fm). In general, a Groebner basis for an ideal I consists of all the "smallest polynomials" in I under the given monomial ordering.
 !
@@ -4477,25 +4507,6 @@ My instances are rings of nxn square matrices with coefficients over a commutati
 My instances are polynomial rings R[x1,...,xn] in one or many indeterminates over a commutative ring R.
 
 The number of indeterimnates is called the rank of the polynomial ring. The indeterminates are referred by index (positive integer numbers).
-
-Example:
-	"Polynomial in Z[x]"
-	| R x |
-	R _ ZZ polynomials.
-	x _ R x.
-	x^2 - x + 3
-
-Example:
-	"Same polynomial in Z[x] by tuple of coefficients"
-	ZZ polynomials coefficients: #(3 -1 1)
-
-Example:
-	"Polynomial in Q[x,y]"
-	| R x y |
-	R _ ZZ polynomialsIn: #(x y). "these are just names for printing"
-	x _ R x: 1.
-	y _ R x: 2.
-	(x - y) ^ 2
 
 Polynomial rings have an associated monomial ordering. This is used for defining the leading term of a polynomial, multivariate division (also called normal form or reduction) and the computation of Groebner bases and standard bases.
 !
@@ -5181,8 +5192,8 @@ This is the extended (and improved) Buchberger algorithm. Given generators {f1,.
 !MultiPolynomialDivision commentStamp: '<historical>' prior: 0!
 I am the multivariate polynomial division algorithm for polynomials over a field.
 
-Input: dividend and divisors f,f1,..,fs in K[x1..xd], and a monomial ordering;
-Output: quotient and remander polynomials q1..qs,r in K[x1..xd] such that f = q1*f1 + ... + qn*fn + r, such that:
+Input: dividend f and divisors f1,..,fs in K[x1..xd] with a monomial ordering;
+Output: quotients q1,..,qs and remander r in K[x1..xd] such that f = q1*f1 + ... + qn*fn + r, such that:
 1. LM(qifi) <= LM(f);
 2. None of the monomials in r is divisible by any LM(fi).
 
@@ -7731,10 +7742,6 @@ apply: aMorphism
 at: anInteger
 	^ polynomials at: anInteger! !
 
-!StandardBasis methodsFor: 'operations' stamp: 'len 11/20/2016 15:24:03'!
-coordinatesOf: aPolynomial
-	^ (MultiPolynomialDivision divide: aPolynomial by: self) quotients! !
-
 !StandardBasis methodsFor: 'copying' stamp: 'len 11/20/2016 15:27:46'!
 copy
 	"Answer a copy of the reciever."
@@ -7813,7 +7820,7 @@ isTrivial
 	^ polynomials size = 1 and: [polynomials first isConstant and: [polynomials first isMonic]]
 "	^ polynomials anySatisfy: [:f| f isConstant]"! !
 
-!StandardBasis methodsFor: 'operations' stamp: 'len 11/20/2016 15:27:58'!
+!StandardBasis methodsFor: 'operations' stamp: 'len 1/25/2017 10:12:14'!
 minimal
 	"Answer the minimal Groebner basis of the receiver."
 	| heads goods answer |
@@ -7824,7 +7831,7 @@ minimal
 		(goods anySatisfy: [:one| i ~= one and: [(heads at: one) | head]])
 			ifTrue: [goods remove: i]].
 	answer _ self class new.
-	goods do: [:i| | f | answer add: (f _ polynomials at: i) / f leadingCoefficient].
+	(goods asSortedCollection: [:a :b| (polynomials at: a) leadingMonomial <= (polynomials at: b) leadingMonomial]) do: [:i| | f | answer add: (f _ polynomials at: i) / f leadingCoefficient].
 	answer isMinimal: true.
 	^ answer! !
 
@@ -7847,13 +7854,19 @@ printOn: aStream
 	polynomials do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: '. '].
 	aStream nextPut: $}! !
 
-!StandardBasis methodsFor: 'operations' stamp: 'len 1/22/2017 21:53:51'!
+!StandardBasis methodsFor: 'operations' stamp: 'len 1/25/2017 10:02:10'!
 reduce: aPolynomial 
-	"Answer the remainder of the argument when divided by the receiver (i.e. the normal form with respect to the receiver)."
-	| division |
-	division _ MultiPolynomialDivision divide: aPolynomial by: self.
-"	division verify ifFalse: [self halt]."
-	^ division remainder! !
+	"Answer Mora's normal form of aPolynomial with respect to the receiver)."
+	| h L M |
+	h _ aPolynomial.
+	L _ OrderedCollection withAll: self.
+	([h isZero or: [(M _ L select: [:g| g leadingMonomial | h leadingMonomial]) isEmpty]])
+		whileFalse:
+			[| g |
+			g _ M argmin: [:each| each ecart].
+			g ecart > h ecart ifTrue: [L add: h].
+			h _ h - (g * (h leadingMonomial / g leadingMonomial) * (h leadingCoefficient / g leadingCoefficient))].
+	^ h! !
 
 !StandardBasis methodsFor: 'operations' stamp: 'len 7/7/2016 21:02'!
 reduced
@@ -8039,11 +8052,39 @@ from5: aCollection ordering: aMonomialOrdering
 "	G verify ifFalse: [self halt]."
 	^ G! !
 
-!StandardBasis class methodsFor: 'instance creation' stamp: 'len 11/24/2016 11:52:11'!
+!StandardBasis class methodsFor: 'instance creation' stamp: 'len 1/25/2017 09:57:42'!
 from: aCollection
 	"Buchberger algorithm.
-	Answer a Groebner basis obtainded from the given polynomials with the specified ordering."
-	^ self new addAll: (Buchberger new generators: aCollection; basis); yourself! !
+	Compute a standard basis from the input polynomials with the specified ordering."
+	| basis S |
+	basis _ self new.
+	aCollection isEmpty ifTrue: [^ basis].
+	aCollection anyOne scalars isField ifFalse: [^ DomainError signal: 'not over a field'].
+"	aCollection anyOne parent ordering isLocal ifTrue: [^ DomainError signal: 'not global monomial ordering']."
+	S _ aCollection.
+	[S _ S asSortedCollection: [:a :b| a leadingMonomial <= b leadingMonomial].
+	S do: [:f| (basis reduce: f) isZero ifFalse: [basis add: f]].
+	S _ Set new.
+	1 to: basis size do: [:i| | fi hi ci |
+		fi _ basis at: i.
+		hi _ fi leadingMonomial.
+		ci _ fi coefficientAt: hi.
+		i+1 to: basis size do: [:k| | fk hk ck lcm r |
+			fk _ basis at: k.
+			hk _ fk leadingMonomial.
+			lcm _ hi lcm: hk.
+			"Buchberger criterium 1 and 2:"
+			(lcm ~= (hi * hk) and: [((1 to: i-1) noneSatisfy: [:j| (basis at: j) leadingMonomial | lcm])])
+				ifTrue:
+					[ck _ fk coefficientAt: hk.
+					r _ basis reduce: fi * (lcm / hi) / ci - (fk * (lcm / hk) / ck).
+					r isZero
+"						ifTrue: [Display fill: (i@k*4 extent: 3@3) fillColor: Color red]"
+						ifFalse: [
+"							Display fill: (i@k*4 extent: 3@3) fillColor: Color green."
+							S add: r]]]].
+	S isEmpty] whileFalse.
+	^ basis! !
 
 !StandardBasis class methodsFor: 'instance creation' stamp: 'len 11/30/2016 14:43:49'!
 fromOld: aCollection
@@ -8111,6 +8152,18 @@ fromOriginal: aCollection ordering: aMonomialOrdering
 	S isEmpty] whileFalse.
 "	G verify ifFalse: [self halt]."
 	^ G! !
+
+!GroebnerBasis methodsFor: 'operations' stamp: 'len 1/25/2017 10:00:42'!
+coordinatesOf: aPolynomial
+	^ (MultiPolynomialDivision divide: aPolynomial by: self) quotients! !
+
+!GroebnerBasis methodsFor: 'operations' stamp: 'len 1/25/2017 10:00:14'!
+reduce: aPolynomial 
+	"Answer the remainder of the argument when divided by the receiver (i.e. the normal form with respect to the receiver)."
+	| division |
+	division _ MultiPolynomialDivision divide: aPolynomial by: self.
+"	division verify ifFalse: [self halt]."
+	^ division remainder! !
 
 !LinearBasis2 methodsFor: 'operations' stamp: 'len 1/8/2017 11:16:01'!
  aLinearBasis
@@ -22068,6 +22121,28 @@ z
 zero
 	^ self propertyAt: #zero ifAbsentPut: [self constant: self scalars zero]! !
 
+!PolynomialRing class methodsFor: 'examples' stamp: 'len 1/24/2017 13:01:46'!
+example1
+	"Creating a polynomial in Z[x]."
+	| R x |
+	R _ ZZ polynomials.
+	x _ R x.
+	^ x^2 - x + 3! !
+
+!PolynomialRing class methodsFor: 'examples' stamp: 'len 1/24/2017 13:01:37'!
+example2
+	"Creating a polynomial in Z[x] from a tuple of coefficients."
+	^ ZZ polynomials coefficients: #(3 -1 1)! !
+
+!PolynomialRing class methodsFor: 'examples' stamp: 'len 1/24/2017 13:02:19'!
+example3
+	"Creating a polynomial in Q[x,y]."
+	| R x y |
+	R _ ZZ polynomialsIn: #(x y). "these are just names for printing"
+	x _ R x: 1.
+	y _ R x: 2.
+	^ (x - y) ^ 2! !
+
 !PolynomialRing class methodsFor: 'instance creation' stamp: 'len 1/14/2017 21:11:05'!
 new: anInteger over: aRing
 	^ self new monomials: (MonomialMonoid new: anInteger); scalars: aRing! !
@@ -22415,10 +22490,11 @@ generator
 	self generators: {generator}.
 	^ generator! !
 
-!Ideal methodsFor: 'accessing-private' stamp: 'len 12/23/2016 09:13:23'!
+!Ideal methodsFor: 'accessing-private' stamp: 'len 1/25/2017 09:31:02'!
 generators: aCollection
 	| generators |
 	generators _ aCollection asSet reject: [:each| each isZero].
+	generators size = aCollection size ifTrue: [generators _ aCollection]. "keep order if possible"
 	(generators size > 1 and: [self ring isPID])
 		ifTrue:
 			[| generator |
@@ -22567,10 +22643,10 @@ remainderAtRandom: aRandom
 atRandom: aRandom bits: bitSize
 	^ self generators sum: [:each| each * (self ring atRandom: aRandom bits: bitSize / self generators size)]! !
 
-!PolynomialIdeal methodsFor: 'accessing' stamp: 'len 1/19/2017 09:34:06'!
+!PolynomialIdeal methodsFor: 'accessing' stamp: 'len 1/25/2017 09:59:58'!
 basis
 	"Answer a standard basis of the receiver."
-	^ self propertyAt: #basis ifAbsentPut: [StandardBasis from: self generators]! !
+	^ self propertyAt: #basis ifAbsentPut: [(self ring ordering isGlobal ifTrue: [GroebnerBasis] ifFalse: [StandardBasis]) from: self generators]! !
 
 !PolynomialIdeal methodsFor: 'accessing' stamp: 'len 1/19/2017 09:33:43'!
 basisWithOrdering: aMonomialOrdering
@@ -22652,17 +22728,17 @@ eliminateAll: aCollection
 	newGenerators _ G asArray select: [:each| (aCollection noneSatisfy: [:none| each has: none])].
 	^ self ring * (newGenerators collect: [:each| each as: self ring])! !
 
-!PolynomialIdeal methodsFor: 'accessing-private' stamp: 'len 1/19/2017 09:30:47'!
+!PolynomialIdeal methodsFor: 'accessing-private' stamp: 'len 1/25/2017 09:59:18'!
 generators: aCollection
 	super generators: aCollection.
 	(aCollection isKindOf: StandardBasis)
-		ifTrue: [self propertyAt: #groebnerBasis put: aCollection]! !
+		ifTrue: [self propertyAt: #basis put: aCollection]! !
 
-!PolynomialIdeal methodsFor: 'accessing' stamp: 'len 1/19/2017 20:02:32'!
+!PolynomialIdeal methodsFor: 'accessing' stamp: 'len 1/25/2017 07:56:12'!
 groebnerBasis
 	"Answer a Groebner basis of the receiver."
-	self ring ordering isGlobal ifFalse: [^ self error: 'ordering is not global'].
-	^ self propertyAt: #groebnerBasis ifAbsentPut: [StandardBasis from: self generators]! !
+	self ring ordering isGlobal ifFalse: [^ self error: 'monomial ordering is not global'].
+	^ self basis! !
 
 !PolynomialIdeal methodsFor: 'accessing' stamp: 'len 11/19/2016 10:12:43'!
 groebnerBasisWithOrdering: aMonomialOrdering
@@ -35502,9 +35578,9 @@ isLocal
 type
 	^ #llex! !
 
-!LocalTotalLexicographicOrdering methodsFor: 'ordering' stamp: 'len 1/19/2017 08:03:32'!
+!LocalTotalLexicographicOrdering methodsFor: 'ordering' stamp: 'len 1/25/2017 10:05:08'!
 compare: aMonomial with: anotherMonomial
-	^ (super compare: aMonomial with: anotherMonomial) * -1! !
+	^ self notYetImplemented! !
 
 !LocalTotalLexicographicOrdering methodsFor: 'testing' stamp: 'len 1/19/2017 08:09:27'!
 isGraded
@@ -35973,6 +36049,10 @@ divideBy: aPolynomial
 	^ (self isUnivariate and: [aPolynomial isUnivariate])
 		ifTrue: [PolynomialDivision divide: self by: aPolynomial]
 		ifFalse: [MultiPolynomialDivision divide: self by: {aPolynomial}]! !
+
+!Polynomial methodsFor: 'accessing monomials' stamp: 'len 1/25/2017 07:32:35'!
+ecart
+	^ self degree - self leadingMonomial degree! !
 
 !Polynomial methodsFor: 'remainder sequences' stamp: 'len 3/9/2016 00:07'!
 eprs: aPolynomial
@@ -37365,6 +37445,33 @@ run
 	matrix _ Matrix rows: rows"
 	matrix _ rows! !
 
+!BuchbergerNormalForm methodsFor: 'as yet unclassified' stamp: 'len 1/25/2017 08:37:54'!
+basis: aCollection
+	basis _ aCollection! !
+
+!BuchbergerNormalForm methodsFor: 'as yet unclassified' stamp: 'len 1/25/2017 08:41:26'!
+normalForm: aPolynomial
+	| h |
+	h _ aPolynomial.
+	[h isZero]
+		whileFalse:
+			[| g |
+			g _ basis detect: [:one| one leadingMonomial | h leadingMonomial] ifNone: [^ h].
+			h _ h - (g * (h leadingMonomial / g leadingMonomial) * (h leadingCoefficient / g leadingCoefficient))].
+	^ h! !
+
+!BuchbergerNormalForm methodsFor: 'as yet unclassified' stamp: 'len 1/25/2017 08:42:01'!
+reduce: aPolynomial
+	"Answer a reduced normal form."
+	| g h |
+	g _ aPolynomial.
+	h _ g zero.
+	[g isZero]
+		whileFalse:
+			[g _ self normalForm: g.
+			g isZero ifFalse: [h _ h + g leadingTerm. g _ g tail]].
+	^ h / h leadingCoefficient! !
+
 !FiniteFieldPolynomialFactorizer methodsFor: 'private' stamp: 'len 1/23/2017 11:32:51'!
 distinctDegreeFactorization: aPolynomial
 	"Answer the distinct-degree factorization of a monic square-free polynomial.
@@ -37521,6 +37628,23 @@ squareFreeFactorization
 					p _ p // gcd.
 					q _ q // gcd - p derivative]].
 	^ answer add: p withOccurrences: count; yourself! !
+
+!MoraNormalForm methodsFor: 'as yet unclassified' stamp: 'len 1/25/2017 09:02:55'!
+basis: aCollection
+	basis _ aCollection! !
+
+!MoraNormalForm methodsFor: 'as yet unclassified' stamp: 'len 1/25/2017 08:56:28'!
+reduce: aPolynomial
+	| h L M |
+	h _ aPolynomial.
+	L _ OrderedCollection withAll: basis.
+	([h isZero or: [(M _ L select: [:g| g leadingMonomial | h leadingMonomial]) isEmpty]])
+		whileFalse:
+			[| g |
+			g _ M argmin: [:each| each ecart].
+			g ecart > h ecart ifTrue: [L add: h].
+			h _ h - (g * (h leadingMonomial / g leadingMonomial) * (h leadingCoefficient / g leadingCoefficient))].
+	^ h! !
 
 !MultiPolynomialDivision methodsFor: 'private' stamp: 'len 11/24/2016 11:36:40'!
 divide
