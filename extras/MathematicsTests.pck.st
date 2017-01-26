@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 23 January 2017 at 11:53:51 am'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 26 January 2017 at 11:02:02 pm'!
 'Description Please enter a description for this package'!
-!provides: 'MathematicsTests' 1 62!
+!provides: 'MathematicsTests' 1 63!
 !classDefinition: #AbelianGroupTest category: #MathematicsTests!
 TestCase subclass: #AbelianGroupTest
 	instanceVariableNames: ''
@@ -342,21 +342,21 @@ CASBenchmark class
 	instanceVariableNames: ''!
 
 
-!GroebnerBasisBenchmark commentStamp: 'len 11/30/2016 22:03:47' prior: 0!
+!GroebnerBasisBenchmark commentStamp: 'len 1/26/2017 08:31:28' prior: 0!
 GroebnerBasisBenchmark new run
 
-testCyclic3	2,340 per second. (changed Integer>>hash, Monomial>>hash, removed Set2/Dic2)
-testCyclic4	537 per second.
-testCyclic5	126 per second.
-testCyclic6	29.8 per second.
-testEliminationExample	904 per second.
-testKatsura2	7,030 per second.
-testKatsura3	950 per second.
-testKatsura4	10.8 per second.
-testModularCyclic3	2,530 per second.
-testModularKatsura2	7,780 per second.
-testModularKatsura3	1,030 per second.
-testModularKatsura4	15.7 per second.' 
+testCyclic3	4,400 per second. (optimized GroebnerBasis>>reduce:)
+testCyclic4	1,000 per second.
+testCyclic5	238 per second.
+testCyclic6	58 per second.
+testEliminationExample	1,840 per second.
+testKatsura2	13,600 per second.
+testKatsura3	1,950 per second.
+testKatsura4	15.6 per second.
+testModularCyclic3	4,270 per second.
+testModularKatsura2	12,600 per second.
+testModularKatsura3	1,800 per second.
+testModularKatsura4	20.6 per second.
 
 testCyclic3	2,260 per second. (modular inversion using extended euclid)
 testCyclic4	520 per second.
@@ -1318,6 +1318,19 @@ testSpecZSubschemes
 	self assert: (ZZ / 10) spec • (ZZ / 15) spec = (ZZ / 5) spec.
 	self assert: (ZZ / 10) spec – (ZZ / 15) spec = (ZZ / 30) spec! !
 
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 1/26/2017 22:59:04'!
+testTangentCone
+	"Example from https://en.wikipedia.org/wiki/Tangent_cone."
+	| A x y S T |
+	A _ AffineSpace new: #(x y) over: QQ.
+	x _ A coordinateRing x.
+	y _ A coordinateRing y.
+	"this curve is singular at (0,0):"
+	S _ A subscheme: x^2 + (x^3) - (y^2).
+	T _ S tangentConeAt: (0,0).
+	"the tangent cone is the union of the two lines x = y and x = -y:"
+	self assert: T = (A subscheme: (x + y) * (x - y))! !
+
 !AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/25/2016 06:13'!
 testTwistedCubic
 	| P R M C |
@@ -1561,6 +1574,18 @@ testWeightEnumerator
 	self assert: w = (x^5 + (y^5)).
 	self assert: C dual weightEnumerator = (x^5 + (x^3*(y^2)*10) + (y^4*x*5))! !
 
+!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 1/26/2017 22:13:27'!
+testBuchbergerNormalForm
+	"A Singular Introduction to Commutative Algebra, Example 1.6.12."
+	| R f G h |
+	R _ QQ polynomialsIn: #(x y z) ordering: #tlex.
+	f _ R !! [:x :y :z| x^3 + (y^2) + (z^2*2) + x + y + 1].
+	G _ GroebnerBasis new add: R x; add: R y; yourself.
+	h _ G reduce: f.
+	self assert: h = (R !! [:x :y :z| z^2*2 + x + y + 1]).
+	h _ G reduceFull: f.
+	self assert: h = (R !! [:x :y :z| z^2 + (1/2)])! !
+
 !CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 7/8/2016 20:11'!
 testGroebnerBasis: G ideal: I
 	| g |
@@ -1576,11 +1601,11 @@ testGroebnerCyclic3
 	G _ I groebnerBasis.
 	self testGroebnerBasis: G ideal: I! !
 
-!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 1/19/2017 09:30:21'!
+!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 1/25/2017 09:58:07'!
 testGroebnerCyclic3Lexicographic
 	| I G |
 	I _ (PolynomialIdeal cyclic: 3) orderedBy: #lex.
-	G _ StandardBasis from: I generators.
+	G _ GroebnerBasis from: I generators.
 	self testGroebnerBasis: G ideal: I! !
 
 !CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 10/18/2016 20:57'!
@@ -1590,18 +1615,18 @@ testGroebnerCyclic3OverZ2
 	G _ I groebnerBasis.
 	self testGroebnerBasis: G ideal: I! !
 
-!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 1/19/2017 09:30:37'!
+!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 1/25/2017 09:58:15'!
 testGroebnerCyclic3TotalLexicographic
 	| I G |
 	I _ (PolynomialIdeal cyclic: 3) orderedBy: #tlex.
-	G _ StandardBasis from: I generators.
+	G _ GroebnerBasis from: I generators.
 	self testGroebnerBasis: G ideal: I! !
 
-!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 1/19/2017 09:30:28'!
+!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 1/25/2017 09:58:22'!
 testGroebnerCyclic3TotalReverseLexicographic
 	| I G |
 	I _ (PolynomialIdeal cyclic: 3) orderedBy: #trevlex.
-	G _ StandardBasis from: I generators.
+	G _ GroebnerBasis from: I generators.
 	self testGroebnerBasis: G ideal: I! !
 
 !CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 7/8/2016 01:48'!
@@ -1611,7 +1636,7 @@ testGroebnerCyclic4
 	G _ I groebnerBasis.
 	self testGroebnerBasis: G ideal: I! !
 
-!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 1/19/2017 09:30:32'!
+!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 1/25/2017 09:58:28'!
 testGroebnerExample
 	| P x y z F G |
 	P _ QQ polynomialsIn: #(x y z) ordering: #lex.
@@ -1619,7 +1644,7 @@ testGroebnerExample
 	y _ P y.
 	z _ P z.
 	F _ {x^2 - (y*z). y^2 - (z*x). z^2 - (x*y)}.
-	G _ StandardBasis from: F :: minimal.
+	G _ GroebnerBasis from: F :: minimal.
 	self assert: G asSet = {x^2 - (y*z). x*z - (y^2). x*y - (z^2). y^3 - (z^3)} asSet! !
 
 !CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 7/8/2016 01:48'!
@@ -1926,6 +1951,16 @@ testKrullDimensionOverZZ
 	Q _ R / I.
 	self assert: Q dimension = 3! !
 
+!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 1/26/2017 22:12:36'!
+testMoraNormalForm
+	"A Singular Introduction to Commutative Algebra, Example 1.7.7."
+	| R f G h |
+	R _ QQ polynomialsIn: #(x y z) ordering: #ltrevlex.
+	f _ R !! [:x :y :z| x^2 + (y^2) + (z^3) + (x^4) + (y^5)].
+	G _ StandardBasis new add: R x; add: R y; yourself.
+	h _ G reduce: f.
+	self assert: h = (R !! [:x :y :z| z^3 + (x^4) + (y^5)])! !
+
 !CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 11/20/2016 15:20:32'!
 testMultivariateDivisionExample
 	| P x y z F f |
@@ -1948,7 +1983,7 @@ testPolynomialRingHomomorphismKernel
 	self assert: phi kernel = (A * (A x - A y + A z)).
 	self assert: (phi value: (phi kernel atRandomBits: 15)) isZero! !
 
-!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:57'!
+!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 1/26/2017 09:43:00'!
 testRadicalMembership
 	| R x y z g1 g2 f I |
 	R _ QQ polynomialsIn: #(x y z).
@@ -1959,7 +1994,7 @@ testRadicalMembership
 	g2 _ (x + (y^2)) ^ 2.
 	f _ y*z - (x^3).
 	I _ R * {g1. g2}.
-	self assert: (I radicalIncludes: f)! !
+	self assert: (I radicalContains: f)! !
 
 !CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/30/2016 07:01'!
 testZeroIdeal
@@ -3932,6 +3967,35 @@ testTuplesZ2
 testTuplesZ4
 	self testFreeModule: ((ZZ / 4) ^ 5 atRandom)! !
 
+!MonomialTest methodsFor: 'as yet unclassified' stamp: 'len 1/26/2017 09:04:52'!
+testAntigradedLexOrdering
+	"Example from 'Using Algebraic Geometry', Cox, Little, O'Shea, Ch. 4, 3.2."
+	| M x y |
+	M _ MonomialMonoid new: 2 ordering: #ltlex. "antigraded lex order"
+	x _ M x: 1.
+	y _ M x: 2.
+	self assert: M identity > x.
+	self assert: x > y.
+	self assert: x^2 > (x*y).
+	self assert: x*y > (y^2).
+	self assert: (y^2) > (x^3)! !
+
+!MonomialTest methodsFor: 'as yet unclassified' stamp: 'len 1/26/2017 09:07:18'!
+testAntigradedRevlexOrdering
+	"Example from 'Using Algebraic Geometry', Cox, Little, O'Shea, Ch. 4, 3.3."
+	| M x y z |
+	M _ MonomialMonoid new: 3 ordering: #ltrevlex. "antigraded revlex order"
+	x _ M x: 1.
+	y _ M x: 2.
+	z _ M x: 3.
+	self assert: M identity > x.
+	self assert: x > y.
+	self assert: y > z.
+	self assert: x^2 > (x*y).
+	self assert: x*y > (y^2).
+	self assert: (x*z) > (y*z).
+	self assert: (y*z) > (z^2)! !
+
 !MonomialTest methodsFor: 'as yet unclassified' stamp: 'len 11/22/2016 08:31:09'!
 testHash
 	| m1 m2 |
@@ -4614,6 +4678,15 @@ testInterpolation2
 	self assert: (f value: 1) = 2.
 	self assert: (f value: 2) = 4.
 	self assert: (f value: 3) = 9! !
+
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 1/24/2017 12:45:48'!
+testIsIrreducible
+	"The polynomial x^4 + 1 is irreducible in Z[x] and Q[x], and it is reducible Z/p[x] for all prime numbers p."
+	| p |
+"	self assert: (ZZ polynomials !! [:x| x^4 + 1] :: isIrreducible).
+	self assert: (QQ polynomials !! [:x| x^4 + 1] :: isIrreducible)."
+	p _ 1000 atRandom nextPrime.
+	self deny: (ZZ/p :: polynomials !! [:x| x^4 + 1] :: isIrreducible)! !
 
 !PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 11/20/2016 15:21:25'!
 testMultivariateDivision
