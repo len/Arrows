@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 25 January 2017 at 10:17:49 am'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 26 January 2017 at 8:13:53 am'!
 'Description A computational algebra system in Smalltalk'!
-!provides: 'Mathematics' 1 348!
+!provides: 'Mathematics' 1 349!
 !requires: 'RayTracer' 1 2 nil!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
@@ -3928,12 +3928,16 @@ Example:
 	V _ QQ ^ 3.
 	LinearBasis on: V generators: {(1, 2, 3). (3, 2, 3). (2, 0, 0)}!
 
-!StandardBasis commentStamp: '<historical>' prior: 0!
+!StandardBasis commentStamp: 'len 1/25/2017 14:38:57' prior: 0!
 My instances are standard bases of polynomial ideals. A standard basis is nothing but a special set of generators with the property that the leading monomials generate the leading ideal.
 
 When the choosen monomial ordering is global (a well-ordering), these are Groebner bases and are computed with Buchberger's algorithm. For arbitrary monomial orderings, they are computed using Mora's normal form.
+!
 
-For a fixed global monomial ordering, a subset G = {g1,...,gm} of ideal I = <f1,...,fm> is called a Groebner basis for I if every f in I is reducible by G, i.e. there exists g in G such that its leading monomial LM(g) divides LM(f).
+!GroebnerBasis commentStamp: 'len 1/25/2017 14:40:21' prior: 0!
+My instances are Groebner bases, a special case of standard bases.
+
+For a fixed global monomial ordering, a subset G = {g1,...,gm} of an ideal I = <f1,...,fm> of a polynomial ring is called a Groebner basis for I if every polynomial f in I is reducible by G, i.e. there exists g in G such that its leading monomial LM(g) divides LM(f).
 
 When all generators {f1,...,fm} are linear, a Groebner basis corresponds to "row echelon form" or "triangular system"; when they are univariate, then a Groebner basis corresponds to gcd(f1,...,fm). In general, a Groebner basis for an ideal I consists of all the "smallest polynomials" in I under the given monomial ordering.
 !
@@ -8157,13 +8161,48 @@ fromOriginal: aCollection ordering: aMonomialOrdering
 coordinatesOf: aPolynomial
 	^ (MultiPolynomialDivision divide: aPolynomial by: self) quotients! !
 
-!GroebnerBasis methodsFor: 'operations' stamp: 'len 1/25/2017 10:00:14'!
-reduce: aPolynomial 
+!GroebnerBasis methodsFor: 'operations' stamp: 'len 1/25/2017 17:52:35'!
+normalForm: aPolynomial
+	| h |
+	h _ aPolynomial.
+	[h isZero]
+		whileFalse:
+			[| g |
+			g _ polynomials detect: [:one| one leadingMonomial | h leadingMonomial] ifNone: [^ h].
+			h _ h - (g * (h leadingMonomial / g leadingMonomial) * (h leadingCoefficient / g leadingCoefficient))].
+	^ h! !
+
+!GroebnerBasis methodsFor: 'operations' stamp: 'len 1/25/2017 17:52:57'!
+reduce1: aPolynomial
+	"Answer a reduced normal form."
+	| g h |
+	g _ aPolynomial.
+	h _ g zero.
+	[g isZero]
+		whileFalse:
+			[g _ self normalForm: g.
+			g isZero ifFalse: [h _ h + g leadingTerm. g _ g tail]].
+	^ h / h leadingCoefficient! !
+
+!GroebnerBasis methodsFor: 'operations' stamp: 'len 1/25/2017 17:52:03'!
+reduce2: aPolynomial 
 	"Answer the remainder of the argument when divided by the receiver (i.e. the normal form with respect to the receiver)."
 	| division |
 	division _ MultiPolynomialDivision divide: aPolynomial by: self.
 "	division verify ifFalse: [self halt]."
 	^ division remainder! !
+
+!GroebnerBasis methodsFor: 'operations' stamp: 'len 1/25/2017 18:08:44'!
+reduce: aPolynomial
+	| h |
+	h _ aPolynomial.
+	[h isZero]
+		whileFalse:
+			[| lmh lmg g |
+			lmh _ h leadingMonomial.
+			g _ polynomials detect: [:one| (lmg _ one leadingMonomial) | lmh] ifNone: [^ h].
+			h _ h - (g * (lmh / lmg) * (h leadingCoefficient / g leadingCoefficient))].
+	^ h! !
 
 !LinearBasis2 methodsFor: 'operations' stamp: 'len 1/8/2017 11:16:01'!
 ê aLinearBasis
@@ -8730,6 +8769,10 @@ keysDo: aBlock
 !MonomialIndexedTuple methodsFor: 'accessing' stamp: 'len 11/28/2016 18:51:33'!
 lastKey
 	^ associations isEmpty ifFalse: [associations last key]! !
+
+!MonomialIndexedTuple methodsFor: 'accessing' stamp: 'len 1/25/2017 18:06:36'!
+lastValue
+	^ associations isEmpty ifFalse: [associations last value]! !
 
 !MonomialIndexedTuple methodsFor: 'operations' stamp: 'len 11/29/2016 09:30:48'!
 multipliedByMonomial: aMonomial
@@ -14723,12 +14766,12 @@ example1asSet
 	This is possible because the ring is finite."
 	^ (ZZ/5) asSet! !
 
-!Domain class methodsFor: 'examples' stamp: 'len 12/20/2016 11:22:35'!
+!Domain class methodsFor: 'examples' stamp: 'len 1/25/2017 14:42:55'!
 example1atRandom
 	"Taking an element at random from the Q-vector space of 3x3 matrices.
 	Use 100 bits to generate this element. Essentially, this can return
 	at most 2^100 different matrices."
-	^ QQ^(3@3) atRandomBits: 100! !
+	^ QQ^(3@3) atRandom: (Random seed: 1234) bits: 100! !
 
 !Domain class methodsFor: 'examples' stamp: 'len 12/17/2016 09:27:30'!
 example21VectorSpace
@@ -36863,6 +36906,10 @@ derivativeIn: anIndeterminate
 !MultivariatePolynomial methodsFor: 'arithmetic' stamp: 'len 1/23/2017 11:36:44'!
 dividedByMonomial: aMonomial
 	^ self parent coefficients: (self coefficients dividedByMonomial: aMonomial)! !
+
+!MultivariatePolynomial methodsFor: 'accessing monomials' stamp: 'len 1/25/2017 18:07:52'!
+leadingCoefficient
+	^ coefficients lastValue ifNil: [self scalars zero]! !
 
 !MultivariatePolynomial methodsFor: 'accessing monomials' stamp: 'len 11/28/2016 18:51:48'!
 leadingMonomial
