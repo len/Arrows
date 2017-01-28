@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 26 January 2017 at 11:00:05 pm'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 28 January 2017 at 10:19:19 am'!
 'Description A computational algebra system in Smalltalk'!
-!provides: 'Mathematics' 1 351!
+!provides: 'Mathematics' 1 352!
 !requires: 'RayTracer' 1 2 nil!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
@@ -3092,6 +3092,16 @@ Object subclass: #MonomialOrdering
 MonomialOrdering class
 	instanceVariableNames: ''!
 
+!classDefinition: #BlockMonomialOrdering category: #'Mathematics-Monomials-Orderings'!
+MonomialOrdering subclass: #BlockMonomialOrdering
+	instanceVariableNames: 'blocks'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Monomials-Orderings'!
+!classDefinition: 'BlockMonomialOrdering class' category: #'Mathematics-Monomials-Orderings'!
+BlockMonomialOrdering class
+	instanceVariableNames: ''!
+
 !classDefinition: #LexicographicOrdering category: #'Mathematics-Monomials-Orderings'!
 MonomialOrdering subclass: #LexicographicOrdering
 	instanceVariableNames: ''
@@ -5086,8 +5096,11 @@ A monomial ordering is a total order on the set of all monomials in n indetermin
 - respects multiplication: if u <= v, then u*w <= v*w for any other monomial w;
 - 1 <= u for any monomial u.
 
-Orderings are used in the computation of Groebner bases. See GroebnerBasis.
+Orderings are used in the computation of Groebner bases and more generally standard bases. See StandardBasis.
 !
+
+!BlockMonomialOrdering commentStamp: 'len 1/28/2017 10:18:12' prior: 0!
+My instances are block or product monomial orderings. They are used, for example, to define elimination orderings such that a subset of the indeterminates are always greater and the rest of the indeterminates.!
 
 !LexicographicOrdering commentStamp: '<historical>' prior: 0!
 The lexicographic ordering is the 'dictionary' ordering.
@@ -18838,7 +18851,7 @@ orderedBy: aMonomialOrdering
 ordering
 	^ ordering! !
 
-!MonomialMonoid methodsFor: 'accessing-private' stamp: 'len 11/20/2016 11:03:31'!
+!MonomialMonoid methodsFor: 'accessing-private' stamp: 'len 1/28/2017 10:02:57'!
 ordering: aMonomialOrdering
 	ordering _ aMonomialOrdering isSymbol
 		ifTrue: [MonomialOrdering perform: (aMonomialOrdering,':') asSymbol with: self rank]
@@ -22755,12 +22768,14 @@ output: univariate eliminant g(xi) or there's no eliminant
 where n is minimal, then output eliminant g(xi) = sum akxi^k
 "! !
 
-!PolynomialIdeal methodsFor: 'operations' stamp: 'len 11/24/2016 11:24:50'!
+!PolynomialIdeal methodsFor: 'operations' stamp: 'len 1/28/2017 10:08:44'!
 eliminateAll: aCollection
 	"Answer the elimination ideal for the indeterminates in aCollection = {xi}, i.e. the subideal of polynomials without indeterminates {xi}."
-	| indeterminates ordering G newGenerators |
-	indeterminates _ aCollection asArray , (self ring ordering indeterminates reject: [:each| aCollection includes: each]).
-	ordering _ MonomialOrdering lex: indeterminates.	"if the ideal is homogeneous, should use use tlex?"
+	| freeIndeterminates ordering G newGenerators |
+	"indeterminates _ aCollection asArray , (self ring ordering indeterminates reject: [:each| aCollection includes: each]).
+	ordering _ MonomialOrdering lex: indeterminates."	"if the ideal is homogeneous, should use use tlex?"
+	freeIndeterminates _ self ring ordering indeterminates reject: [:each| aCollection includes: each].
+	ordering _ (MonomialOrdering trevlex: aCollection), (MonomialOrdering trevlex: freeIndeterminates).
 	G _ (self groebnerBasisWithOrdering: ordering) minimal.
 	newGenerators _ G asArray select: [:each| (aCollection noneSatisfy: [:none| each has: none])].
 	^ self ring * (newGenerators collect: [:each| each as: self ring])! !
@@ -35507,6 +35522,14 @@ new: anInteger x: i to: k
 	"Answer a new instance of the receiver with only one indeterminate, xi, raised to n."
 	^ self exponents: ((Array new: anInteger) atAllPut: 0; at: i put: k; yourself)! !
 
+!MonomialOrdering methodsFor: 'operations' stamp: 'len 1/28/2017 10:12:58'!
+, aMonomialOrdering
+	^ BlockMonomialOrdering blocks: {self. aMonomialOrdering}! !
+
+!MonomialOrdering methodsFor: 'ordering' stamp: 'len 1/28/2017 09:51:49'!
+blockCompare: aMonomial with: anotherMonomial
+	^ self compare: aMonomial with: anotherMonomial! !
+
 !MonomialOrdering methodsFor: 'ordering' stamp: 'len 11/21/2016 08:42:01'!
 compare: aMonomial with: anotherMonomial
 	^ self subclassResponsibility! !
@@ -35519,9 +35542,9 @@ copyWithout: anIndeterminate
 indeterminates
 	^ indeterminates! !
 
-!MonomialOrdering methodsFor: 'accessing-private' stamp: 'len 7/4/2016 00:39'!
+!MonomialOrdering methodsFor: 'accessing-private' stamp: 'len 1/28/2017 10:00:49'!
 indeterminates: anArray
-	indeterminates _ anArray! !
+	indeterminates _ anArray asArray! !
 
 !MonomialOrdering methodsFor: 'testing' stamp: 'len 1/26/2017 22:27:21'!
 isGlobal
@@ -35559,9 +35582,9 @@ rank
 type
 	^ nil! !
 
-!MonomialOrdering class methodsFor: 'instance creation' stamp: 'len 7/4/2016 00:51'!
+!MonomialOrdering class methodsFor: 'instance creation' stamp: 'len 1/28/2017 10:04:02'!
 indeterminates: anArray
-	anArray isInteger ifTrue: [^ self new indeterminates: (1 to: anArray) asArray].
+	anArray isInteger ifTrue: [^ self new: anArray].
 	^ self new indeterminates: anArray! !
 
 !MonomialOrdering class methodsFor: 'examples' stamp: 'len 7/4/2016 00:45'!
@@ -35580,9 +35603,9 @@ ltlex: anArray
 ltrevlex: anArray
 	^ LocalTotalReverseLexicographicOrdering indeterminates: anArray! !
 
-!MonomialOrdering class methodsFor: 'instance creation' stamp: 'len 7/4/2016 00:39'!
+!MonomialOrdering class methodsFor: 'instance creation' stamp: 'len 1/28/2017 10:04:09'!
 new: anInteger
-	^ self indeterminates: (1 to: anInteger) asArray! !
+	^ self new indeterminates: (1 to: anInteger)! !
 
 !MonomialOrdering class methodsFor: 'examples' stamp: 'len 7/4/2016 00:45'!
 tlex: anArray
@@ -35591,6 +35614,38 @@ tlex: anArray
 !MonomialOrdering class methodsFor: 'examples' stamp: 'len 7/4/2016 00:45'!
 trevlex: anArray
 	^ TotalReverseLexicographicOrdering indeterminates: anArray! !
+
+!BlockMonomialOrdering methodsFor: 'operations' stamp: 'len 1/28/2017 10:13:17'!
+, aMonomialOrdering
+	^ self species blocks: blocks, aMonomialOrdering! !
+
+!BlockMonomialOrdering methodsFor: 'accessing-private' stamp: 'len 1/28/2017 09:43:49'!
+blocks: anArray
+	blocks _ anArray.
+	indeterminates _ Array streamContents: [:aStream| blocks do: [:each| aStream nextPutAll: each indeterminates]]! !
+
+!BlockMonomialOrdering methodsFor: 'ordering' stamp: 'len 1/28/2017 09:57:40'!
+compare: aMonomial with: anotherMonomial
+	| result |
+	blocks do: [:each|
+		(result _ each blockCompare: aMonomial with: anotherMonomial) == 0 ifFalse: [^ result]].
+	^ result! !
+
+!BlockMonomialOrdering methodsFor: 'testing' stamp: 'len 1/28/2017 09:18:31'!
+isGlobal
+	^ blocks allSatisfy: [:each| each isGlobal]! !
+
+!BlockMonomialOrdering methodsFor: 'testing' stamp: 'len 1/28/2017 09:30:58'!
+isLocal
+	^ blocks allSatisfy: [:each| each isLocal]! !
+
+!BlockMonomialOrdering methodsFor: 'printing' stamp: 'len 1/28/2017 09:44:35'!
+printOn: aStream
+	blocks do: [:each| aStream print: each] separatedBy: [aStream nextPut: Character times]! !
+
+!BlockMonomialOrdering class methodsFor: 'instance creation' stamp: 'len 1/28/2017 09:46:11'!
+blocks: anArray
+	^ self new blocks: anArray! !
 
 !LexicographicOrdering methodsFor: 'ordering' stamp: 'len 11/21/2016 13:40:59'!
 compare: aMonomial with: anotherMonomial
@@ -35640,6 +35695,33 @@ isLocal
 type
 	^ #llex! !
 
+!LocalTotalLexicographicOrdering methodsFor: 'ordering' stamp: 'len 1/28/2017 09:56:50'!
+blockCompare: aMonomial with: anotherMonomial
+	| d1 d2 e1 e2 n1 n2 |
+	e1 _ aMonomial exponents.
+	e2 _ anotherMonomial exponents.
+	n1 _ e1 size.
+	n2 _ e2 size.
+
+	d1 _ 0.
+	d2 _ 0.
+	1 to: indeterminates size do: [:i|
+		| xi a b |
+		xi _ indeterminates at: i.
+		xi <= n1 ifTrue: [d1 _ d1 + (e1 at: xi)].
+		xi <= n2 ifTrue: [d2 _ d2 + (e2 at: xi)]].
+	d1 < d2 ifTrue: [^ 1].
+	d1 = d2 ifFalse: [^ -1].
+
+	indeterminates size to: 1 by: -1 do: [:i|
+		| xi a b |
+		xi _ indeterminates at: i.
+		a _ xi <= n1 ifTrue: [e1 at: xi] ifFalse: [0].
+		b _ xi <= n2 ifTrue: [e2 at: xi] ifFalse: [0].
+		a < b ifTrue: [^ 1].
+		a = b ifFalse: [^ -1]].
+	^ 0! !
+
 !LocalTotalLexicographicOrdering methodsFor: 'ordering' stamp: 'len 1/26/2017 08:46:40'!
 compare: aMonomial with: anotherMonomial
 	| d1 d2 e1 e2 n1 n2 |
@@ -35669,6 +35751,34 @@ isLocal
 !LocalTotalLexicographicOrdering methodsFor: 'accessing' stamp: 'len 1/19/2017 08:04:13'!
 type
 	^ #ltlex! !
+
+!LocalTotalReverseLexicographicOrdering methodsFor: 'ordering' stamp: 'len 1/28/2017 09:57:27'!
+blockCompare: aMonomial with: anotherMonomial
+	| d1 d2 e1 e2 n1 n2 |
+	e1 _ aMonomial exponents.
+	e2 _ anotherMonomial exponents.
+	n1 _ e1 size.
+	n2 _ e2 size.
+
+	d1 _ 0.
+	d2 _ 0.
+	1 to: indeterminates size do: [:i|
+		| xi a b |
+		xi _ indeterminates at: i.
+		xi <= n1 ifTrue: [d1 _ d1 + (e1 at: xi)].
+		xi <= n2 ifTrue: [d2 _ d2 + (e2 at: xi)]].
+	d1 < d2 ifTrue: [^ 1].
+	d1 = d2 ifFalse: [^ -1].
+
+	1 to: indeterminates size do: [:i|
+		| xi a b |
+		xi _ indeterminates at: i.
+		a _ xi <= n1 ifTrue: [e1 at: xi] ifFalse: [0].
+		b _ xi <= n2 ifTrue: [e2 at: xi] ifFalse: [0].
+		"a > b ifTrue: [^ 1]." "Magma handbook and Using Algebraic Geometry contradict each other"
+		a < b ifTrue: [^ 1].
+		a = b ifFalse: [^ -1]].
+	^ 0! !
 
 !LocalTotalReverseLexicographicOrdering methodsFor: 'ordering' stamp: 'len 1/26/2017 09:16:44'!
 compare: aMonomial with: anotherMonomial
@@ -35701,6 +35811,33 @@ isLocal
 type
 	^ #ltrevlex! !
 
+!TotalLexicographicOrdering methodsFor: 'ordering' stamp: 'len 1/28/2017 09:55:07'!
+blockCompare: aMonomial with: anotherMonomial
+	| d1 d2 e1 e2 n1 n2 |
+	e1 _ aMonomial exponents.
+	e2 _ anotherMonomial exponents.
+	n1 _ e1 size.
+	n2 _ e2 size.
+
+	d1 _ 0.
+	d2 _ 0.
+	1 to: indeterminates size do: [:i|
+		| xi a b |
+		xi _ indeterminates at: i.
+		xi <= n1 ifTrue: [d1 _ d1 + (e1 at: xi)].
+		xi <= n2 ifTrue: [d2 _ d2 + (e2 at: xi)]].
+	d1 > d2 ifTrue: [^ 1].
+	d1 = d2 ifFalse: [^ -1].
+
+	1 to: indeterminates size do: [:i|
+		| xi a b |
+		xi _ indeterminates at: i.
+		a _ xi <= n1 ifTrue: [e1 at: xi] ifFalse: [0].
+		b _ xi <= n2 ifTrue: [e2 at: xi] ifFalse: [0].
+		a > b ifTrue: [^ 1].
+		a = b ifFalse: [^ -1]].
+	^ 0! !
+
 !TotalLexicographicOrdering methodsFor: 'ordering' stamp: 'len 11/21/2016 13:43:16'!
 compare: aMonomial with: anotherMonomial
 	| d1 d2 e1 e2 n1 n2 |
@@ -35730,6 +35867,33 @@ isGraded
 !TotalLexicographicOrdering methodsFor: 'accessing' stamp: 'len 7/2/2016 23:54'!
 type
 	^ #tlex! !
+
+!TotalReverseLexicographicOrdering methodsFor: 'ordering' stamp: 'len 1/28/2017 09:56:14'!
+blockCompare: aMonomial with: anotherMonomial
+	| d1 d2 n1 n2 e1 e2 |
+	e1 _ aMonomial exponents.
+	e2 _ anotherMonomial exponents.
+	n1 _ e1 size.
+	n2 _ e2 size.
+	
+	d1 _ 0.
+	d2 _ 0.
+	1 to: indeterminates size do: [:i|
+		| xi a b |
+		xi _ indeterminates at: i.
+		xi <= n1 ifTrue: [d1 _ d1 + (e1 at: xi)].
+		xi <= n2 ifTrue: [d2 _ d2 + (e2 at: xi)]].
+	d1 > d2 ifTrue: [^ 1].
+	d1 = d2 ifFalse: [^ -1].
+
+	indeterminates size to: 1 by: -1 do: [:i|
+		| xi a b |
+		xi _ indeterminates at: i.
+		a _ xi <= n1 ifTrue: [e1 at: xi] ifFalse: [0].
+		b _ xi <= n2 ifTrue: [e2 at: xi] ifFalse: [0].
+		a < b ifTrue: [^ 1].
+		a = b ifFalse: [^ -1]].
+	^ 0! !
 
 !TotalReverseLexicographicOrdering methodsFor: 'ordering' stamp: 'len 11/21/2016 12:20:07'!
 compare: aMonomial with: anotherMonomial
@@ -35848,12 +36012,12 @@ weights
 weights: aCollectionOfTuples
 	weights _ aCollectionOfTuples collect: [:each| each as: FloatArray]! !
 
-!WeightedMonomialOrdering class methodsFor: 'as yet unclassified' stamp: 'len 7/3/2016 02:27'!
+!WeightedMonomialOrdering class methodsFor: 'instance creation' stamp: 'len 7/3/2016 02:27'!
 indeterminates: indeterminates weights: weights
 	weights isSequenceable ifFalse: [self error: 'the indeterminates are unordered'].
 	^ self new: indeterminates size weights: (weights collect: [:each| each withIndexCollect: [:x :i| each at: (indeterminates indexOf: i)]])! !
 
-!WeightedMonomialOrdering class methodsFor: 'as yet unclassified' stamp: 'len 11/5/2016 06:18'!
+!WeightedMonomialOrdering class methodsFor: 'instance creation' stamp: 'len 11/5/2016 06:18'!
 lex: aCollection
 	"Answer the lexicographic order with the indeterminates of aCollection."
 	| weighs n |
@@ -35861,16 +36025,16 @@ lex: aCollection
 	weighs _ (1 to: n) collect: [:i| QQ tuple: n evaluating: [:k| k==i ifTrue:[1] ifFalse: [0]]].
 	^ self indeterminates: aCollection weights: weighs! !
 
-!WeightedMonomialOrdering class methodsFor: 'as yet unclassified' stamp: 'len 7/3/2016 02:44'!
+!WeightedMonomialOrdering class methodsFor: 'instance creation' stamp: 'len 7/3/2016 02:44'!
 new: anInteger weights: anArray
 	^ (self new: anInteger) weights: anArray! !
 
-!WeightedMonomialOrdering class methodsFor: 'as yet unclassified' stamp: 'len 7/3/2016 02:43'!
+!WeightedMonomialOrdering class methodsFor: 'instance creation' stamp: 'len 7/3/2016 02:43'!
 revlex: aCollection
 	"Answer the reverse lexicographic ordering with the indeterminates of aCollection."
 	^ (self lex: aCollection) reverse! !
 
-!WeightedMonomialOrdering class methodsFor: 'as yet unclassified' stamp: 'len 11/5/2016 06:18'!
+!WeightedMonomialOrdering class methodsFor: 'instance creation' stamp: 'len 11/5/2016 06:18'!
 tlex: aCollection
 	"Answer the total (or graded) lexicographic ordering with the indeterminates of aCollection."
 	| weights |
@@ -35879,7 +36043,7 @@ tlex: aCollection
 	weights addAll: (self lex: aCollection) weights.
 	^ self new: aCollection size weights: weights! !
 
-!WeightedMonomialOrdering class methodsFor: 'as yet unclassified' stamp: 'len 11/5/2016 06:18'!
+!WeightedMonomialOrdering class methodsFor: 'instance creation' stamp: 'len 11/5/2016 06:18'!
 trevlex: aCollection
 	"Answer the total (or graded) reverse lexicographic ordering with the indeterminates of aCollection."
 	| weights |
