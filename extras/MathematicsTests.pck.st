@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 26 January 2017 at 11:02:02 pm'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 4 February 2017 at 9:11:14 am'!
 'Description Please enter a description for this package'!
-!provides: 'MathematicsTests' 1 63!
+!provides: 'MathematicsTests' 1 64!
 !classDefinition: #AbelianGroupTest category: #MathematicsTests!
 TestCase subclass: #AbelianGroupTest
 	instanceVariableNames: ''
@@ -1100,11 +1100,11 @@ testProjectiveLineOverRing
 	self assert: P points size = 12.
 	self assert: (Iterator on: P points performing: #do:) size = 12! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 11/1/2016 18:49'!
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 2/3/2017 06:59:34'!
 testProjectivePlaneCurveArithmeticGenus
 	| R f C |
 	R _  (ZZ/5) polynomialsIn: 3.
-	f _ R evaluating: [:x :y :z| y^2*(z^7) - (x^9) - (x*(z^8))].
+	f _ R !! [:x :y :z| y^2*(z^7) - (x^9) - (x*(z^8))].
 	C _ ProjectivePlaneCurve polynomial: f.
 	self assert: C arithmeticGenus = 28.
 	"self assert: C genus = 4"! !
@@ -1318,6 +1318,44 @@ testSpecZSubschemes
 	self assert: (ZZ / 10) spec • (ZZ / 15) spec = (ZZ / 5) spec.
 	self assert: (ZZ / 10) spec – (ZZ / 15) spec = (ZZ / 30) spec! !
 
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 1/28/2017 13:53:36'!
+testSturmfelsExample1
+	"Bernd Sturmfels, 'Ideals, Varieties and Macaulay 2', 1. A Curve in Affine 3-Space."
+	| R x y I C C1 C2 |
+	R _ QQ polynomialsIn: #(x y z). "default ordering is trevlex"
+	x _ R x.
+	y _ R y.
+"	z _ R z."
+	I _ R * {x^4 - (y^5). x^3 - (y^7)}.
+	self assert: I groebnerBasis reduced printString = '{y^5 - x^4. x^4y^2 - x^3. x^8 - x^3y^3}'.
+	C _ I variety.
+	self assert: C dimension = 1.
+	self assert: C codimension = 2.
+	"The degree of a curve in complex affine 3-space is the number of intersection points with a general plane. It coincides with the degree of the projective closure of our curve:"
+	self assert: C projectiveClosure degree = 28.
+	"We first extract the components which are transverse to the plane x = 0:"
+	C1 _ C \ (R / R x) spec.
+	self assert: C1 = (R / {x*(y^2) - 1. y^5 - (x^4). x^5 - (y^3)}) spec.
+	"And next we extract the component which lies in the clane x = 0:"
+	C2 _ C - C1. "NOTE: the article uses ideal saturation, and this is colon"
+	self assert: C2 = (R / {x^3. y^5}) spec.
+	self assert: C1 projectiveClosure degree = 13! !
+
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 1/28/2017 13:54:27'!
+testSturmfelsExample2
+	"Bernd Sturmfels, 'Ideals, Varieties and Macaulay 2', 2. Intersecting Our Curve With a Surface."
+	| R x y z C S theirunion |
+	R _ QQ polynomialsIn: #(x y z). "default ordering is trevlex"
+	x _ R x.
+	y _ R y.
+	z _ R z.
+	C _ (R / {x^4 - (y^5). x^3 - (y^7)}) spec. 
+	S _ (R / (x^5 + (y^5) + (z^5) - 1)) spec.
+	theirunion _ C – S.
+	"In this case, the union's ideal coincides with the product of the ideals:"
+	self assert: theirunion ideal = (C ideal * S ideal).
+	"... C • "! !
+
 !AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 1/26/2017 22:59:04'!
 testTangentCone
 	"Example from https://en.wikipedia.org/wiki/Tangent_cone."
@@ -1342,7 +1380,7 @@ testTwistedCubic
 	self assert: C dimension = 1.
 	self assert: C isSmooth! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/23/2016 12:09'!
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 2/4/2017 07:50:26'!
 testTwistedCubicDegree
 	"Twisted cubic in P^3 with homogeneous coordinates x,y,w,z."
 	| A x y z w X |
@@ -1699,6 +1737,23 @@ testHilbertSeriesOfPolynomialQuotient
 	H _ (R/I) hilbertSeriesAt: t.
 	self assert: H = (1 + (2*t) / (1 - t) squared)! !
 
+!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 2/4/2017 07:57:44'!
+testHilbertSeriesOfPolynomialQuotient2
+	"Derksen, Kemper 'Computational Invariant Theory', Example 1.4.9."
+	| t R x y z w I H dim deg |
+	t _ QQ polynomials fractions x.
+	R _ QQ polynomialsIn: #(x y z w).
+	x _ R x.
+	y _ R y.
+	z _ R z.
+	w _ R x: 4.
+	I _ R * {x*z - (y^2). x*w - (y*z). y*w - (z^2)}.
+	H _ (R/I) hilbertSeriesAt: t.
+	dim _ (H orderAt: 1) negated.
+	self assert: (R/I) dimension = dim.
+	deg _ H * ((1 - H numerator parent x) ^ dim) value: 1. "should be limit from below"
+	self assert: (R/I) degree = deg! !
+
 !CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 10/27/2016 18:41'!
 testHilbertSeriesOfPolynomialRing
 	| t R H |
@@ -1886,6 +1941,16 @@ testIdealSaturation
 	J _ R * z.
 	S _ R * {y. x^5}.
 	self assert: (I saturation: J) = S! !
+
+!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 2/4/2017 07:18:38'!
+testInitialIdeal
+	"'A Singular Introduction to Commutative Algebra', Example 5.5.13."
+	| R I J |
+	R _ QQ polynomialsIn: #(x y z) ordering: #ltrevlex. "should this work with any ordering?"
+	I _ R * (R !! [:x :y :z| {y*z + (z^2) + (x^3). y^2 + (x*z) + (y^4)}]).
+	I initialIdeal.
+	J _ R * (R !! [:x :y :z| {y^2 + (x*z). y*z + (z^2). x*(z^2) - (y*(z^2))}]).
+	self assert: I initialIdeal = J "equality test fails with trevlex ordering"! !
 
 !CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 10/25/2016 15:02'!
 testKrullDimension
@@ -4129,6 +4194,19 @@ testMonomialOrderingsOfIndeterminatesReordered
 	self assert: y > x.
 	self assert: x > z! !
 
+!MonomialTest methodsFor: 'as yet unclassified' stamp: 'len 1/28/2017 12:23:19'!
+testMonomialOrderingsSingularExample
+	"'A Singular Introduction to Commutative Algebra', Example 1.2.13 (monomial orderings)."
+	| f |
+	f _ (QQ polynomialsIn: #(x y z)) !! [:x :y :z| x^3*y*z + (x^3) + (x*(y^2)) + (y^5) + (z^4)].
+	"Global orderings:"
+	self assert: (f orderedBy: #lex) printString =  'x^3yz + x^3 + xy^2 + y^5 + z^4'.
+	self assert: (f orderedBy: #trevlex) printString = 'y^5 + x^3yz + z^4 + x^3 + xy^2'.
+	self assert: (f orderedBy: #tlex) printString = 'x^3yz + y^5 + z^4 + x^3 + xy^2'.
+	"TODO: weighted total lexicographic ordering"
+	"Local orderings don't match because we implemented them with Magma conventions."
+! !
+
 !MonomialTest methodsFor: 'as yet unclassified' stamp: 'len 1/14/2017 21:10:51'!
 testMonomialProduct
 	| M x y |
@@ -5003,13 +5081,13 @@ testZeroCoefficientBug
 	Qx _ QQ polynomials.
 	self assert: (Qx one * 0) isZero! !
 
-!ProjectiveGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 12/8/2016 20:29:49'!
+!ProjectiveGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 2/4/2017 09:01:51'!
 testDesarguesTheorem
 	"In a projective space of dimension >= 3, two triangles are in perspective axially iff they are in perspective centrally. In other words, given two triangles {a,b,c} and {A,B,C}, if the lines aA, bB and cC are concurrent (meet at a point), then the points AB /\ ab, AC /\ ac and BC /\ bc are collinear.
 	
 	Note that we use P(Q^3) which is a projective plane (dimension 2), but in this case the theorem is also valid. In general for dimension 2, the theorem is valid in any projective plane constructed from a 3-dimensional vector space over a skewfield, and these planes are called desarguesian planes."
 	| P A B C a b c X Y Z |
-	P _ QQ ^ 3 :: projective.
+	P _ QQ ^ 3 :: projectivized.
 	A _ P atRandomBits: 100.
 	B _ P atRandomBits: 100.
 	C _ P atRandomBits: 100.
@@ -5040,12 +5118,12 @@ testHomogeneousTuples
 	self assert: (1,2,3) asHomogeneousTuple = (2,4,6) asHomogeneousTuple.
 	self assert: (1,2,3) asHomogeneousTuple ~= (-2,4,6) asHomogeneousTuple! !
 
-!ProjectiveGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 12/8/2016 20:28:49'!
+!ProjectiveGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 2/4/2017 09:01:57'!
 testPappusHexagonTheorem
 	"Given a set of collinear points {A,B,C} and another set of collinear points {a,b,c}, then the intersection points X,Y,Z of line pairs Ab and aB, Ac and aC, Bc and bC are collinear.
 	The theorem is true in any projective plane over any field, but fails for projective planes over any skewfield (non-commutative division ring). The projective planes in which the theorem is valid are called pappian planes."
 	| P A B C a b c X Y Z |
-	P _ QQ ^ 3 :: projective.
+	P _ QQ ^ 3 :: projectivized.
 	A _ P atRandomBits: 100.
 	B _ P atRandomBits: 100.
 	C _ A+B :: atRandomBits: 100.
@@ -5064,11 +5142,11 @@ testPappusHexagonTheorem
 	"X,Y,Z are collinear:"
 	self assert: (X+Y+Z) isLine! !
 
-!ProjectiveGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/31/2016 13:13'!
+!ProjectiveGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 2/4/2017 09:02:03'!
 testProjectiveSpaceBasic
 	| V P p0 p1 p2 p3 |
 	V _ QQ ^ 3.
-	P _ V projective.
+	P _ V projectivized.
 	p0 _ P project: (1,1,0).
 	p1 _ P project: (0,1,1).
 	p2 _ P project: (2,0,2).
