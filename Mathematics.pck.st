@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 4 February 2017 at 9:10:38 am'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 4 February 2017 at 9:31:47 am'!
 'Description A computational algebra system in Smalltalk'!
-!provides: 'Mathematics' 1 353!
+!provides: 'Mathematics' 1 354!
 !requires: 'RayTracer' 1 2 nil!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
@@ -21601,7 +21601,7 @@ zero
 new: anInteger over: aRing
 	^ self new degree: anInteger; scalars: aRing! !
 
-!PolynomialRing methodsFor: 'elements' stamp: 'len 1/23/2017 11:44:40'!
+!PolynomialRing methodsFor: 'elements' stamp: 'len 2/4/2017 09:26:33'!
 !! aPolynomial
 	| associations |
 	(aPolynomial isKindOf: Polynomial)
@@ -21618,7 +21618,7 @@ new: anInteger over: aRing
 			[self isUnivariate ifTrue: [^ self coefficients: aPolynomial coefficients].
 			associations _ OrderedCollection new: aPolynomial coefficients size.
 			aPolynomial coefficients withIndexDo: [:coefficient :i|
-				associations add: (monomials x: 1 to: i-1) -> coefficient]]
+				coefficient isZero ifFalse: [associations add: (monomials x: 1 to: i-1) -> coefficient]]]
 		ifFalse:
 			[associations _ aPolynomial coefficients associations collect: [:each| each copy key: (each key as: self monomials)]].
 	associations sort.
