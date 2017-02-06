@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 5 February 2017 at 10:16:53 am'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 6 February 2017 at 5:30:28 am'!
 'Description A computational algebra system in Smalltalk'!
-!provides: 'Mathematics' 1 355!
+!provides: 'Mathematics' 1 356!
 !requires: 'RayTracer' 1 2 nil!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
@@ -8585,6 +8585,10 @@ on: anObject performing: aSymbol
 // aNumber
 	^ self collect: [:each| each // aNumber]! !
 
+!MonomialIndexedTuple methodsFor: 'operations' stamp: 'len 2/6/2017 03:14:46'!
+/// aNumber
+	^ self collect: [:each| each /// aNumber]! !
+
 !MonomialIndexedTuple methodsFor: 'comparing' stamp: 'len 11/21/2016 09:14:40'!
 = aMonomialTuple
 	self size = aMonomialTuple size ifFalse: [^ false].
@@ -8891,9 +8895,25 @@ over: aRing
 			aSparseTuple associationsDo: [:each| answer at: each key add: each value negated]].
 	^ answer! !
 
+!SparseTuple methodsFor: 'operations' stamp: 'len 2/6/2017 03:13:39'!
+/ aNumber
+	^ self collect: [:each| each / aNumber]! !
+
+!SparseTuple methodsFor: 'operations' stamp: 'len 2/6/2017 03:13:44'!
+// aNumber
+	^ self collect: [:each| each // aNumber]! !
+
+!SparseTuple methodsFor: 'operations' stamp: 'len 2/6/2017 03:13:48'!
+/// aNumber
+	^ self collect: [:each| each /// aNumber]! !
+
 !SparseTuple methodsFor: 'comparing' stamp: 'len 11/18/2016 20:11:33'!
 = aSparseTuple
 	^ coefficients = aSparseTuple coefficients! !
+
+!SparseTuple methodsFor: 'operations' stamp: 'len 2/6/2017 03:15:23'!
+\\ aNumber
+	^ self collect: [:each| each \\ aNumber]! !
 
 !SparseTuple methodsFor: 'enumreating' stamp: 'len 11/18/2016 09:54:31'!
 associationsDo: aBlock
@@ -9114,6 +9134,10 @@ over: aRing
 // aNumber
 	^ self collect: [:each| each // aNumber]! !
 
+!Tuple methodsFor: 'operations' stamp: 'len 2/6/2017 03:11:48'!
+/// aNumber
+	^ self collect: [:each| each /// aNumber]! !
+
 !Tuple methodsFor: 'operations' stamp: 'len 3/29/2016 19:02'!
 << anInteger
 	^ self >> anInteger negated! !
@@ -9141,7 +9165,7 @@ over: aRing
 	anInteger < 0 ifTrue: [^ self copyFrom: anInteger negated + 1 to: self size].
 	^ (self scalars tuple: anInteger constant: self scalars zero), self! !
 
-!Tuple methodsFor: 'operations' stamp: 'len 3/29/2016 18:46'!
+!Tuple methodsFor: 'operations' stamp: 'len 2/6/2017 03:15:07'!
 \\ aNumber
 	^ self collect: [:each| each \\ aNumber]! !
 
@@ -17095,14 +17119,14 @@ do: aBlock
 	^ super do: aBlock
 "	space endomorphisms do: [:each| (self includes: each) ifTrue: [aBlock value: each]]"! !
 
-!LinearGroup methodsFor: 'invariants' stamp: 'len 11/29/2016 10:59:14'!
+!LinearGroup methodsFor: 'invariants' stamp: 'len 2/5/2017 10:58:45'!
 hilbertSeries
 	"Answer the Hilbert series of the invariant ring of the receiver.
 	This is the sum of dim(S_d ^G z^d for d>=0 (by Molien's formula, 1897), i.e. it counts the homogeneous polynomials of a given degree d that are invariants for the group."
 	| order |
 	order _ self size.
 	self scalars characteristic | order ifTrue: [self error: 'group order divisible by characteristic'].
-	^ (self elements sum: [:g| g characteristicPolynomial asRationalFunction reciprocal]) / order! !
+	^ (self elements sum: [:g| g characteristicPolynomial reciprocal]) / order! !
 
 !LinearGroup methodsFor: 'accessing' stamp: 'len 2/11/2016 20:01'!
 identity
@@ -18317,14 +18341,14 @@ do: aBlock
 	^ super do: aBlock
 "	matrices do: [:each| (self includes: each) ifTrue: [aBlock value: each]]"! !
 
-!MatrixGroup methodsFor: 'invariants' stamp: 'len 11/29/2016 10:59:00'!
+!MatrixGroup methodsFor: 'invariants' stamp: 'len 2/5/2017 10:58:39'!
 hilbertSeries
 	"Answer the Hilbert series of the invariant ring of the receiver.
 	This is the sum of dim(S_d ^G z^d for d>=0 (by Molien's formula, 1897), i.e. it counts the homogeneous polynomials of a given degree d that are invariants for the group."
 	| order |
 	order _ self size.
 	self scalars characteristic | order ifTrue: [self error: 'group order divisible by characteristic'].
-	^ (self elements sum: [:g| g characteristicPolynomial asRationalFunction reciprocal]) / order! !
+	^ (self elements sum: [:g| g characteristicPolynomial reciprocal]) / order! !
 
 !MatrixGroup methodsFor: 'accessing' stamp: 'len 12/8/2016 11:04:58'!
 identity
@@ -22730,17 +22754,18 @@ basis
 basisWithOrdering: aMonomialOrdering
 	^ (self orderedBy: aMonomialOrdering) basis! !
 
-!PolynomialIdeal methodsFor: 'operations' stamp: 'len 12/8/2016 20:28:28'!
+!PolynomialIdeal methodsFor: 'operations' stamp: 'len 2/6/2017 03:05:55'!
 colon: anIdeal
 	"Answer the colon quotient I:J of the receiver I with the argument J.
 	This is defined as I:J := {r in R | rJ <= I}."
 	"Cox IVA 205p"
 	"Derksen, Kemper, 'Computational Invariant Theory', 16p."
-	| answer |
-	self ring isIntegralDomain ifFalse: [^ self error: 'not over an integral domain'].
-	answer _ self ring asIdeal. "<1>"
+	| R answer |
+	R _ self ring.
+	R isIntegralDomain ifFalse: [^ self error: 'not over an integral domain'].
+	answer _ R asIdeal. "<1>"
 	anIdeal generators do: [:g|
-		answer _ answer • (self ring * ((self ring * g • self) groebnerBasis apply: [:h| h / g]))].
+		answer _ answer • (R * ((R * g • self) groebnerBasis apply: [:h| h /// g]))].
 	^ answer! !
 
 !PolynomialIdeal methodsFor: 'testing' stamp: 'len 1/26/2017 09:36:18'!
@@ -32193,10 +32218,10 @@ reciprocal
 "	self numerator isConstant ifTrue: [^ denominator * mult]."
 	^ self class reducedNumerator: denominator * mult denominator: numerator * mult! !
 
-!RationalFunction methodsFor: 'private' stamp: 'len 11/1/2016 05:02'!
+!RationalFunction methodsFor: 'private' stamp: 'len 2/5/2017 11:01:48'!
 reduce
 	"Reduce the receiver dividing the numerator and the denominator
-	by them GCD and making the denominator monic."
+	by their GCD and making the denominator monic."
 	| gcd mult num den |
 	(num _ numerator) isZero ifTrue: [denominator _ num one. ^ num].
 	den _ denominator.
@@ -35242,7 +35267,7 @@ matrix
 matrix: aMatrix
 	matrix _ aMatrix! !
 
-!SmithNormalForm methodsFor: 'private' stamp: 'len 3/21/2016 03:30'!
+!SmithNormalForm methodsFor: 'private' stamp: 'len 2/6/2017 03:08:33'!
 reduceStep: i mod: R
 	| j c euclid B Ai Aj |
 	"2. Initialize j for row reduction:"
@@ -35254,7 +35279,7 @@ reduceStep: i mod: R
 			[euclid _ ExtendedEuclid on: {matrix at: i@i. matrix at: i@j}.
 "			euclid verifyMinimal ifFalse: [self halt]."
 			B _ (Ai _ matrix columnAt: i) * euclid combination first + ((Aj _ matrix columnAt: j) * euclid combination second).
-			matrix columnAt: j put: Aj * ((matrix at: i@i) / euclid gcd) - (Ai * ((matrix at: i@j) / euclid gcd)) \\ R.
+			matrix columnAt: j put: Aj * ((matrix at: i@i) /// euclid gcd) - (Ai * ((matrix at: i@j) /// euclid gcd)) \\ R.
 			matrix columnAt: i put: B \\ R.
 			j _ j - 1].
 	"5. Initialize j for column reduction:"
@@ -35266,13 +35291,13 @@ reduceStep: i mod: R
 			[euclid _ ExtendedEuclid on: {matrix at: i@i. matrix at: j@i}.
 "			euclid verifyMinimal ifFalse: [self halt]."
 			B _ (Ai _ matrix rowAt: i) * euclid combination first + ((Aj _ matrix rowAt: j) * euclid combination second).
-			matrix rowAt: j put: Aj * ((matrix at: i@i) / euclid gcd) - (Ai * ((matrix at: j@i) / euclid gcd)) \\ R.
+			matrix rowAt: j put: Aj * ((matrix at: i@i) /// euclid gcd) - (Ai * ((matrix at: j@i) /// euclid gcd)) \\ R.
 			matrix rowAt: i put: B \\ R.
 			j _ j - 1.
 			c _ c + 1].
 	c > 0] whileTrue "8. Repeat stage i?"! !
 
-!SmithNormalForm methodsFor: 'private' stamp: 'len 12/18/2016 20:25:05'!
+!SmithNormalForm methodsFor: 'private' stamp: 'len 2/6/2017 03:08:58'!
 run
 	| n i R b k |
 	n _ matrix numberOfRows.
@@ -35291,7 +35316,7 @@ run
 		whileFalse: [matrix rowAt: i put: (matrix rowAt: i) + (matrix rowAt: k)].
 	"10. Next stage:"
 	diagonal add: ((matrix at: i@i) gcd: R).
-	R _ R / diagonal last.
+	R _ R /// diagonal last.
 	i = 2]
 		whileFalse: [i _ i - 1].
 	diagonal add: ((matrix at: 1@1) gcd: R).
@@ -36199,12 +36224,12 @@ trevlex: aCollection
 		ifTrue: [^ self parent coefficients: self coefficients - anObject coefficients].
 	^ self + anObject negated! !
 
-!Polynomial methodsFor: 'arithmetic' stamp: 'len 1/23/2017 11:38:06'!
+!Polynomial methodsFor: 'arithmetic' stamp: 'len 2/6/2017 04:38:30'!
 / anObject
 	(anObject isKindOf: Monomial)
 		ifTrue: [^ self dividedByMonomial: anObject].
 	(self parent includes: anObject)
-		ifTrue: [^ self exactDivideBy: anObject].
+		ifTrue: [^ (RationalFunction numerator: self denominator: anObject) reduced].
 	(self scalars includes: anObject)
 		ifTrue: [^ self parent coefficients: self coefficients / anObject].
 	^ self * anObject reciprocal! !
@@ -36304,14 +36329,6 @@ asMultivariate
 	self monomialsAndCoefficientsDo: [:key :value|
 		answer _ answer + ((value as: R`) * (R` x: R rank + 1 to: key degree))].
 	^ answer! !
-
-!Polynomial methodsFor: 'converting' stamp: 'len 11/19/2015 19:33'!
-asRationalFunction
-	"Answer the rational function representing the receiver."
-
-	^ RationalFunction
-		numerator: self
-		denominator: self one! !
 
 !Polynomial methodsFor: 'converting' stamp: 'len 1/23/2017 11:39:44'!
 asScalar
@@ -36435,55 +36452,6 @@ eprs: aPolynomial
 			f1 _ r.
 			r _ f0 pseudoRem: f1].
 	^ answer! !
-
-!Polynomial methodsFor: 'arithmetic' stamp: 'len 2/3/2017 06:49:49'!
-exactDivideBy2: aPolynomial
-	"Answer the exact division of the receiver by the argument.
-	Apply the Schonhage-Jabelean algorithm, for polynomials of degree at most 2n and n with coefficients in a field. When necesary conditions don't hold, do the ordinary division.
-	Ref: 'Algorithms With Exact Divisions Made Faster', Arnold Schonhage,
-	INRIA Research Report Nro. 2381, Algorithms Seminar 1993-1994, p. 51."
-
-	| shift f g m n h l k cg q |
-	self flag: #fix. "this has some bug"
-	self isZero
-		ifTrue: [^ self].
-	aPolynomial isConstant
-		ifTrue: [^ self / aPolynomial leadingCoefficient].
-	(self isUnivariate and: [aPolynomial isUnivariate])
-		ifFalse: [^ (MultiPolynomialDivision divide: self by: {aPolynomial}) quotient].
-	self scalars isField
-		ifFalse: [^ (PolynomialPseudoDivision divide: self by: aPolynomial) exactQuotient].
-	(shift _ aPolynomial order negated) < 0 ifTrue: [^ (self shift: shift) exactDivideBy: (aPolynomial shift: shift)].
-	f _ self denseCoefficients.
-	g _ aPolynomial denseCoefficients.
-	m _ f size.
-	n _ g size.
-	m = n ifTrue: [^ self parent constant: f last / g last].
- 	n * 2 > m ifFalse: [^ (self divideBy: aPolynomial) quotient].
-
-	h _ f size // 2.
-	l _ h // 2.
-	k _ h - l.
-
-	q _ Array new: m-n+1.
-	
-	"Jebelean division for the lowest half:"
-	cg _ g first reciprocal. "reciprocal of the independent coefficient"
-	0 to: l do: [:i|
-		| qi |
-		qi _ q at: i+1 put: (f at: i+1) * cg.
-		1 to: l-i do: [:j|
-			f at: i+j+1 put: (f at: i+j+1) - (qi*(g at: j+1))]]. "optimize negated"
-	
-	"Schonhage division for the other half:"
-	cg _ g last reciprocal. "reciprocal of the leading coefficient"
-	m-n to: m-n-k+1 by: -1 do: [:i|
-		| qi |
-		qi _ q at: i+1 put: (f at: i+n) * cg.
-		n-2 to: m-k-i by: -1 do: [:j|
-			f at: i+j+1 put: (f at: i+j+1) - (qi*(g at: j+1))]].
-
-	^ self parent coefficients: q! !
 
 !Polynomial methodsFor: 'arithmetic' stamp: 'len 11/28/2016 10:25:30'!
 exactDivideBy: aPolynomial
@@ -36913,11 +36881,11 @@ pprs: aPolynomial
 			r _ (f0 pseudoRem: f1) primitive].
 	^ answer! !
 
-!Polynomial methodsFor: 'factorization' stamp: 'len 11/28/2016 10:26:05'!
+!Polynomial methodsFor: 'factorization' stamp: 'len 2/6/2017 03:07:45'!
 primitive
 	"Answer the primitive part of the receiver."
 	self isZero ifTrue: [^ self]. self flag: #fix. "is this right?"
-	^ self / self content! !
+	^ self /// self content! !
 
 !Polynomial methodsFor: 'printing' stamp: 'len 6/25/2016 01:45'!
 printCoefficient: coefficient on: aStream
@@ -37052,9 +37020,11 @@ raisedTo: anInteger modulo: anObject
 	anInteger = 1 ifTrue: [^ self \\ anObject].
 	^ (self squared \\ anObject raisedTo: anInteger // 2 modulo: anObject) * (self raisedTo: anInteger \\ 2 modulo: anObject) \\ anObject! !
 
-!Polynomial methodsFor: 'arithmetic' stamp: 'len 11/28/2016 10:27:32'!
+!Polynomial methodsFor: 'arithmetic' stamp: 'len 2/6/2017 03:04:22'!
 reciprocal
-	^ self asRationalFunction reciprocal! !
+	"Answer the reciprocal of the receiver, possibly as a rational function, assuming the scalars are a field."
+	self isConstant ifTrue: [^ self parent constant: self independentCoefficient reciprocal].
+	^ RationalFunction numerator: self one denominator: self! !
 
 !Polynomial methodsFor: 'accessing' stamp: 'len 10/6/2016 15:34'!
 scalars
@@ -37107,14 +37077,14 @@ sprs: aPolynomial
 			f2 _ f1. f1 _ r].
 	^ answer! !
 
-!Polynomial methodsFor: 'operations' stamp: 'len 1/23/2017 11:43:32'!
+!Polynomial methodsFor: 'operations' stamp: 'len 2/6/2017 03:06:13'!
 squareFree
 	"Answer the maximal squarefree divisor of the receiver."
 	| g |
 	self parent scalars characteristic = 0 ifFalse: [^ DomainError signal: 'field must include Q (i.e., must be of characteristic 0)'].
 	g _ self.
 	self indeterminates do: [:each| g _ g gcd: (self derivativeIn: each)].
-	^ self / g! !
+	^ self /// g! !
 
 !Polynomial methodsFor: 'factorization' stamp: 'len 1/23/2017 11:43:37'!
 squareFreeFactorization
@@ -37216,18 +37186,6 @@ coefficients
 !MultivariatePolynomial methodsFor: 'accessing-private' stamp: 'len 11/29/2016 11:19:12'!
 coefficients: aMonomialIndexedTuple
 	coefficients _ aMonomialIndexedTuple! !
-
-!MultivariatePolynomial methodsFor: 'deprecated' stamp: 'len 11/25/2016 10:31:40'!
-denseCoefficients
-	"Answer a dense array of the receivers coefficients ordered by degree.
-	Makes sense for univariate polynomails."
-	| answer |
-	self isZero ifTrue: [^ #()].
-	answer _ Array new: self degree+1.
-	answer atAllPut: self scalars zero.
-	self monomialsAndCoefficientsDo: [:key :value|
-		answer at: key degree + 1 put: value].
-	^ answer! !
 
 !MultivariatePolynomial methodsFor: 'private' stamp: 'len 3/22/2016 23:31'!
 density
@@ -37352,11 +37310,6 @@ degree
 	coefficients isEmpty ifTrue: [^ Infinity negative].
 	^ coefficients size - 1! !
 
-!UnivariatePolynomial methodsFor: 'deprecated' stamp: 'len 3/30/2016 03:58'!
-denseCoefficients
-	"Answer a dense tuple of the receivers coefficients ordered by degree."
-	^ coefficients! !
-
 !UnivariatePolynomial methodsFor: 'operations' stamp: 'len 1/23/2017 11:47:41'!
 derivative
 	| newCoefficients |
@@ -37391,6 +37344,55 @@ dividedByMonomial: aMonomial
 even
 	"Decompose the receiver in the form f(x^2)x + g(x^2) and answer g(x)."
 	^ self parent coefficients: ((1 to: self coefficients size by: 2) collect: [:each| coefficients at: each])! !
+
+!UnivariatePolynomial methodsFor: 'arithmetic' stamp: 'len 2/5/2017 10:33:32'!
+exactDivideBy2: aPolynomial
+	"Answer the exact division of the receiver by the argument.
+	Apply the Schonhage-Jabelean algorithm, for polynomials of degree at most 2n and n with coefficients in a field. When necesary conditions don't hold, do the ordinary division.
+	Ref: 'Algorithms With Exact Divisions Made Faster', Arnold Schonhage,
+	INRIA Research Report Nro. 2381, Algorithms Seminar 1993-1994, p. 51."
+
+	| shift f g m n h l k cg q |
+	self flag: #fix. "this has some bug"
+	self isZero
+		ifTrue: [^ self].
+	aPolynomial isConstant
+		ifTrue: [^ self / aPolynomial leadingCoefficient].
+	(self isUnivariate and: [aPolynomial isUnivariate])
+		ifFalse: [^ (MultiPolynomialDivision divide: self by: {aPolynomial}) quotient].
+	self scalars isField
+		ifFalse: [^ (PolynomialPseudoDivision divide: self by: aPolynomial) exactQuotient].
+	(shift _ aPolynomial order negated) < 0 ifTrue: [^ (self shift: shift) exactDivideBy: (aPolynomial shift: shift)].
+	f _ self coefficients.
+	g _ aPolynomial coefficients.
+	m _ f size.
+	n _ g size.
+	m = n ifTrue: [^ self parent constant: f last / g last].
+ 	n * 2 > m ifFalse: [^ (self divideBy: aPolynomial) quotient].
+
+	h _ f size // 2.
+	l _ h // 2.
+	k _ h - l.
+
+	q _ Array new: m-n+1.
+	
+	"Jebelean division for the lowest half:"
+	cg _ g first reciprocal. "reciprocal of the independent coefficient"
+	0 to: l do: [:i|
+		| qi |
+		qi _ q at: i+1 put: (f at: i+1) * cg.
+		1 to: l-i do: [:j|
+			f at: i+j+1 put: (f at: i+j+1) - (qi*(g at: j+1))]]. "optimize negated"
+	
+	"Schonhage division for the other half:"
+	cg _ g last reciprocal. "reciprocal of the leading coefficient"
+	m-n to: m-n-k+1 by: -1 do: [:i|
+		| qi |
+		qi _ q at: i+1 put: (f at: i+n) * cg.
+		n-2 to: m-k-i by: -1 do: [:j|
+			f at: i+j+1 put: (f at: i+j+1) - (qi*(g at: j+1))]].
+
+	^ self parent coefficients: q! !
 
 !UnivariatePolynomial methodsFor: 'testing' stamp: 'len 1/23/2017 11:47:49'!
 has: anIndeterminate
