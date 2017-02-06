@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 4 February 2017 at 9:11:14 am'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 6 February 2017 at 5:31:08 am'!
 'Description Please enter a description for this package'!
-!provides: 'MathematicsTests' 1 64!
+!provides: 'MathematicsTests' 1 65!
 !classDefinition: #AbelianGroupTest category: #MathematicsTests!
 TestCase subclass: #AbelianGroupTest
 	instanceVariableNames: ''
@@ -991,10 +991,9 @@ testEmpty
 	X _ A / {A continuantOfOrder: 2. A continuantOfOrder: 3} :: spec.
 	self assert: X isEmpty! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 1/13/2017 17:28:11'!
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 2/4/2017 09:20:21'!
 testEqualVarietiesDifferentIdeals
 	| A x I I` V V` |
-	self notYetImplemented.
 	A _ QQ polynomials.
 	x _ A x.
 	I _ A * {x}.
@@ -1318,7 +1317,7 @@ testSpecZSubschemes
 	self assert: (ZZ / 10) spec • (ZZ / 15) spec = (ZZ / 5) spec.
 	self assert: (ZZ / 10) spec – (ZZ / 15) spec = (ZZ / 30) spec! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 1/28/2017 13:53:36'!
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 2/6/2017 05:10:26'!
 testSturmfelsExample1
 	"Bernd Sturmfels, 'Ideals, Varieties and Macaulay 2', 1. A Curve in Affine 3-Space."
 	| R x y I C C1 C2 |
@@ -1339,22 +1338,32 @@ testSturmfelsExample1
 	"And next we extract the component which lies in the clane x = 0:"
 	C2 _ C - C1. "NOTE: the article uses ideal saturation, and this is colon"
 	self assert: C2 = (R / {x^3. y^5}) spec.
-	self assert: C1 projectiveClosure degree = 13! !
+	"self deny: C isReduced." "this fails!!!!!!"
+	self assert: C1 projectiveClosure degree = 13.
+	self assert: C1 isReduced "equivalent to C1 ideal = C1 ideal radical"! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 1/28/2017 13:54:27'!
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 2/6/2017 05:24:15'!
 testSturmfelsExample2
 	"Bernd Sturmfels, 'Ideals, Varieties and Macaulay 2', 2. Intersecting Our Curve With a Surface."
-	| R x y z C S theirunion |
+	| R x y z C S theirunion ourpoints |
 	R _ QQ polynomialsIn: #(x y z). "default ordering is trevlex"
 	x _ R x.
 	y _ R y.
 	z _ R z.
-	C _ (R / {x^4 - (y^5). x^3 - (y^7)}) spec. 
+	C _ (R / {x^4 - (y^5). x^3 - (y^7)}) spec.
+	C _ C \ (R / R x) spec. "this is C1 from example1"
 	S _ (R / (x^5 + (y^5) + (z^5) - 1)) spec.
 	theirunion _ C – S.
 	"In this case, the union's ideal coincides with the product of the ideals:"
 	self assert: theirunion ideal = (C ideal * S ideal).
-	"... C • "! !
+	"The intersection of the curve and the surface (whose defining ideal is the sum of the respective ideals):"
+	ourpoints _ C • S.
+	"We get a finite set of points:"
+	self assert: ourpoints dimension = 0.
+	"The number of points is 65:"
+	self assert: ourpoints projectiveClosure degree = 65.
+	"Each of the points is multiplicity-free:"
+	self assert: ourpoints isReduced. "equivalent to the original: ourpoints reduced projectiveClosure degree = 65."! !
 
 !AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 1/26/2017 22:59:04'!
 testTangentCone
@@ -4534,15 +4543,15 @@ testEvaluationMultivariate
 	a _ ZZ ^ 3 atRandomBits: 100.
 	self assert: (f value: a) = ((a at: 1)^2 * (a at: 2) - (a at: 3))! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:51'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 2/6/2017 03:09:32'!
 testExactDivisionBug
 	| Zx x f |
 	Zx _ ZZ polynomials.
 	x _ Zx x.
 	f _ x*2.
-	self assert: f / f = Zx one! !
+	self assert: f /// f = Zx one! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:08'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 2/6/2017 03:10:03'!
 testExactDivisionMultivariate
 	| Qxy x y f g |
 	Qxy _ QQ polynomialsIn: #(x y).
@@ -4550,8 +4559,8 @@ testExactDivisionMultivariate
 	y _ Qxy y.
 	f _ x-y.
 	g _ x+y.
-	self assert: f * g / g = f.
-	self assert: f * g / f = g! !
+	self assert: f * g /// g = f.
+	self assert: f * g /// f = g! !
 
 !PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:08'!
 testExactDivisionMultivariate2
@@ -4564,32 +4573,32 @@ testExactDivisionMultivariate2
 	self assert: (f * g divideBy: g) quotient = f.
 	self assert: (f * g divideBy: f) quotient = g! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:08'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 2/6/2017 03:10:17'!
 testExactDivisionOverQ
 	| x f g |
 	x _ QQ polynomials x.
 	f _ x^2 + x + 1.
 	g _ 1 - x.
-	self assert: f * g / g = f.
-	self assert: f * g / f = g! !
+	self assert: f * g /// g = f.
+	self assert: f * g /// f = g! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:08'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 2/6/2017 03:10:30'!
 testExactDivisionOverQRandom
 	| Qx f g |
 	Qx _ QQ polynomials.
 	f _ Qx atRandomBits: 100 maxDegree: (1 to: 10) atRandom.
 	g _ Qx atRandomBits: 100 maxDegree: (1 to: 10) atRandom.
-	self assert: f * g / g = f.
-	self assert: f * g / f = g! !
+	self assert: f * g /// g = f.
+	self assert: f * g /// f = g! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:51'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 2/6/2017 03:10:42'!
 testExactDivisionOverZ
 	| x f g |
 	x _ ZZ polynomials x.
 	f _ x^2 + x + 1.
 	g _ 1 - x.
-	self assert: f * g / g = f.
-	self assert: f * g / f = g! !
+	self assert: f * g /// g = f.
+	self assert: f * g /// f = g! !
 
 !PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:08'!
 testExtendedEuclidBug
