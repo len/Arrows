@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 6 February 2017 at 5:30:28 am'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 6 February 2017 at 5:54:20 am'!
 'Description A computational algebra system in Smalltalk'!
-!provides: 'Mathematics' 1 356!
+!provides: 'Mathematics' 1 357!
 !requires: 'RayTracer' 1 2 nil!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
@@ -3174,7 +3174,7 @@ WeightedMonomialOrdering class
 
 !classDefinition: #Polynomial category: #'Mathematics-Polynomials'!
 Object subclass: #Polynomial
-	instanceVariableNames: 'parent'
+	instanceVariableNames: 'parent coefficients'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Polynomials'!
@@ -3182,19 +3182,9 @@ Object subclass: #Polynomial
 Polynomial class
 	instanceVariableNames: ''!
 
-!classDefinition: #MultivariatePolynomial category: #'Mathematics-Polynomials'!
-Polynomial subclass: #MultivariatePolynomial
-	instanceVariableNames: 'coefficients'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Polynomials'!
-!classDefinition: 'MultivariatePolynomial class' category: #'Mathematics-Polynomials'!
-MultivariatePolynomial class
-	instanceVariableNames: ''!
-
 !classDefinition: #UnivariatePolynomial category: #'Mathematics-Polynomials'!
 Polynomial subclass: #UnivariatePolynomial
-	instanceVariableNames: 'coefficients'
+	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Polynomials'!
@@ -5160,9 +5150,6 @@ Theorem: For any monomial ordering in a finite number of variables, there is a c
 !Polynomial commentStamp: 'len 11/29/2016 11:16:23' prior: 0!
 My instances are polynomials in one or many indeterminates, with coefficients in a commutative ring. Subclasses implement particular representations. See also PolynomialRing.
 !
-
-!MultivariatePolynomial commentStamp: '<historical>' prior: 0!
-My instances are multivariate polynomials in sparse (or distributed) representation. The coefficients are stored as a MonomialIndexedTuple.!
 
 !UnivariatePolynomial commentStamp: '<historical>' prior: 0!
 My instances are univariate polynomials in dense representation. The coefficients of a dense polynomial are stored as a Tuple indexed by degree (the first element of the coefficients tuple corresponds to the independent coefficient of the polynomial).!
@@ -21808,10 +21795,10 @@ coefficient: aNumber x: anIndeterminate to: anInteger
 		ifFalse: [self indeterminateNames indexOf: anIndeterminate ifAbsent: [^ self error: 'unknown indeterminate']].
 	^ self coefficient: aNumber monomial: (monomials x: i to: anInteger)! !
 
-!PolynomialRing methodsFor: 'elements' stamp: 'len 11/26/2016 07:39:10'!
+!PolynomialRing methodsFor: 'elements' stamp: 'len 2/6/2017 05:36:23'!
 coefficients: aTuple
 	| tuple |
-	self isUnivariate ifFalse: [^ (MultivariatePolynomial coefficients: aTuple) parent: self].
+	self isUnivariate ifFalse: [^ (Polynomial coefficients: aTuple) parent: self].
 	tuple _ aTuple class = self scalars tupleClass
 		ifTrue: [aTuple]
 		ifFalse: [(aTuple isKindOf: MonomialIndexedTuple)
@@ -22097,11 +22084,11 @@ monomials
 monomials: aMonomials
 	monomials _ aMonomials! !
 
-!PolynomialRing methodsFor: 'elements' stamp: 'len 11/26/2016 07:39:00'!
+!PolynomialRing methodsFor: 'elements' stamp: 'len 2/6/2017 05:36:40'!
 new
 	^ (self isUnivariate
 		ifTrue: [UnivariatePolynomial coefficients: (self scalars tuple: #())]
-		ifFalse: [MultivariatePolynomial coefficients: (MonomialIndexedTuple over: self scalars)])
+		ifFalse: [Polynomial coefficients: (MonomialIndexedTuple over: self scalars)])
 			parent: self! !
 
 !PolynomialRing methodsFor: 'elements' stamp: 'len 1/22/2017 20:42:36'!
@@ -22124,9 +22111,9 @@ ordering: aMonomialOrdering
 over: aRing
 	^ self copy scalars: aRing! !
 
-!PolynomialRing methodsFor: 'private' stamp: 'len 12/28/2016 12:11:46'!
+!PolynomialRing methodsFor: 'private' stamp: 'len 2/6/2017 05:36:54'!
 polynomialClass
-	^ self propertyAt: #polynomialClass ifAbsent: [self isUnivariate ifTrue: [UnivariatePolynomial] ifFalse: [MultivariatePolynomial]]! !
+	^ self propertyAt: #polynomialClass ifAbsent: [self isUnivariate ifTrue: [UnivariatePolynomial] ifFalse: [Polynomial]]! !
 
 !PolynomialRing methodsFor: 'printing' stamp: 'len 1/2/2017 10:23:51'!
 printIndeterminatesOn: aStream
@@ -36370,10 +36357,27 @@ classIndeterminate
 	self parent rank to: 1 by: -1 do: [:i| (self has: i) ifTrue: [^ i]].
 	^ 0! !
 
+!Polynomial methodsFor: 'accessing coefficients' stamp: 'len 2/6/2017 05:38:15'!
+coefficientAt: aMonomial
+	"Answer the coefficient of the monomial given by the argument."
+	^ coefficients at: aMonomial ifAbsent: [self scalars zero]! !
+
+!Polynomial methodsFor: 'accessing coefficients' stamp: 'len 2/6/2017 05:38:21'!
+coefficientAt: aMonomial put: value
+	^ coefficients at: aMonomial put: value! !
+
 !Polynomial methodsFor: 'accessing coefficients' stamp: 'len 1/23/2017 11:40:57'!
 coefficientAtDegree: anInteger
 	"Answer the coefficient of the degree given by the argument. For univiariate polynomials."
 	^ self coefficientAt: (self parent monomials x: self leadingIndeterminate to: anInteger)! !
+
+!Polynomial methodsFor: 'accessing coefficients' stamp: 'len 2/6/2017 05:38:27'!
+coefficients
+	^ coefficients! !
+
+!Polynomial methodsFor: 'accessing-private' stamp: 'len 2/6/2017 05:38:40'!
+coefficients: aMonomialIndexedTuple
+	coefficients _ aMonomialIndexedTuple! !
 
 !Polynomial methodsFor: 'factorization' stamp: 'len 11/28/2016 09:15:07'!
 content
@@ -36415,6 +36419,12 @@ dehomogenizedIn: anIndeterminate
 	"Answer the dehomogenization of the receiver in the given indeterminate."
 	^ self monomialsApply: [:each| each dehomogenizedIn: anIndeterminate]! !
 
+!Polynomial methodsFor: 'accessing monomials' stamp: 'len 2/6/2017 05:39:26'!
+density
+	"Answer a measure of the density/sparsity of the receiver."
+	self isZero ifTrue: [^ 0].
+	^ self coefficients size / self degree! !
+
 !Polynomial methodsFor: 'operations' stamp: 'len 1/11/2017 14:26:35'!
 derivative: n in: anIndeterminate
 	"Answer the n-th derivative in the given indeterminate."
@@ -36422,6 +36432,17 @@ derivative: n in: anIndeterminate
 	n < 0 ifTrue: [^ self error: 'the order of the derivative should be positive'].
 	answer _ self.
 	n timesRepeat: [answer _ answer derivativeIn: anIndeterminate].
+	^ answer! !
+
+!Polynomial methodsFor: 'operations' stamp: 'len 2/6/2017 05:39:51'!
+derivativeIn: anIndeterminate
+	| answer |
+	answer _ self parent new.
+	self monomialsAndCoefficientsDo: [:key :value| | degree |
+		degree _ key degreeIn: anIndeterminate.
+		degree > 0
+			ifTrue:
+				[answer coefficientAt: (key parent exponents: (key exponents copy at: anIndeterminate put: degree - 1; yourself)) put: value * degree]].
 	^ answer! !
 
 !Polynomial methodsFor: 'arithmetic' stamp: 'len 11/20/2016 15:24:53'!
@@ -36432,6 +36453,10 @@ divideBy: aPolynomial
 	^ (self isUnivariate and: [aPolynomial isUnivariate])
 		ifTrue: [PolynomialDivision divide: self by: aPolynomial]
 		ifFalse: [MultiPolynomialDivision divide: self by: {aPolynomial}]! !
+
+!Polynomial methodsFor: 'arithmetic' stamp: 'len 2/6/2017 05:40:15'!
+dividedByMonomial: aMonomial
+	^ self parent coefficients: (self coefficients dividedByMonomial: aMonomial)! !
 
 !Polynomial methodsFor: 'accessing monomials' stamp: 'len 1/25/2017 07:32:35'!
 ecart
@@ -36749,9 +36774,11 @@ lcm: aPolynomial
 
 	^ (self exactDivideBy: (self gcd: aPolynomial)) * aPolynomial! !
 
-!Polynomial methodsFor: 'accessing coefficients' stamp: 'len 3/2/2016 02:46'!
+!Polynomial methodsFor: 'accessing coefficients' stamp: 'len 2/6/2017 05:41:19'!
 leadingCoefficient
-	^ self isZero ifTrue: [self scalars zero] ifFalse: [self coefficientAt: self leadingMonomial]! !
+	^ coefficients lastValue ifNil: [self scalars zero]
+"
+	^ self isZero ifTrue: [self scalars zero] ifFalse: [self coefficientAt: self leadingMonomial]"! !
 
 !Polynomial methodsFor: 'accessing indeterminates' stamp: 'len 2/3/2017 07:16:12'!
 leadingIndeterminate
@@ -36761,11 +36788,13 @@ leadingIndeterminate
 	indeterminates reverseDo: [:i| (self has: i) ifTrue: [^ i]].
 	^ indeterminates first! !
 
-!Polynomial methodsFor: 'accessing monomials' stamp: 'len 11/20/2016 11:40:44'!
+!Polynomial methodsFor: 'accessing monomials' stamp: 'len 2/6/2017 05:40:51'!
 leadingMonomial
+	^ coefficients lastKey
+"
 	| answer |
 	self monomialsDo: [:each| (answer isNil or: [each > answer]) ifTrue: [answer _ each]].
-	^ answer! !
+	^ answer"! !
 
 !Polynomial methodsFor: 'accessing terms' stamp: 'len 3/1/2016 22:11'!
 leadingTerm
@@ -36782,6 +36811,26 @@ monic
 !Polynomial methodsFor: 'accessing monomials' stamp: 'len 3/23/2016 04:12'!
 monomials
 	^ Iterator on: self performing: #monomialsDo:! !
+
+!Polynomial methodsFor: 'enumerating' stamp: 'len 2/6/2017 05:41:45'!
+monomialsAndCoefficientsDo: aBlock
+	coefficients keysAndValuesDo: aBlock! !
+
+!Polynomial methodsFor: 'enumerating' stamp: 'len 2/6/2017 05:42:03'!
+monomialsApply: aBlock
+	| newCoefficients |
+	newCoefficients _ MonomialIndexedTuple new: coefficients size over: self scalars.
+	coefficients keysAndValuesDo: [:monomial :coefficient|
+		newCoefficients at: (aBlock value: monomial) add: coefficient].
+	^ self parent coefficients: newCoefficients! !
+
+!Polynomial methodsFor: 'enumerating' stamp: 'len 2/6/2017 05:42:16'!
+monomialsDo: aBlock
+	coefficients keysDo: aBlock! !
+
+!Polynomial methodsFor: 'arithmetic' stamp: 'len 2/6/2017 05:42:33'!
+multipliedByMonomial: aMonomial
+	^ self parent coefficients: (self coefficients multipliedByMonomial: aMonomial)! !
 
 !Polynomial methodsFor: 'arithmetic' stamp: 'len 1/23/2017 11:42:56'!
 negated
@@ -37170,77 +37219,11 @@ valueWithArguments: anArray
 zero
 	^ self parent zero! !
 
-!MultivariatePolynomial methodsFor: 'accessing coefficients' stamp: 'len 3/22/2016 23:27'!
-coefficientAt: aMonomial
-	"Answer the coefficient of the monomial given by the argument."
-	^ coefficients at: aMonomial ifAbsent: [self scalars zero]! !
-
-!MultivariatePolynomial methodsFor: 'deprecated' stamp: 'len 6/24/2016 21:35'!
-coefficientAt: aMonomial put: value
-	^ coefficients at: aMonomial put: value! !
-
-!MultivariatePolynomial methodsFor: 'accessing coefficients' stamp: 'len 3/22/2016 23:33'!
-coefficients
-	^ coefficients! !
-
-!MultivariatePolynomial methodsFor: 'accessing-private' stamp: 'len 11/29/2016 11:19:12'!
-coefficients: aMonomialIndexedTuple
-	coefficients _ aMonomialIndexedTuple! !
-
-!MultivariatePolynomial methodsFor: 'private' stamp: 'len 3/22/2016 23:31'!
-density
-	"Answer a measure of the density/sparsity of the receiver."
-	self isZero ifTrue: [^ 0].
-	^ coefficients size / (self monomials max: [:each| each degree])! !
-
-!MultivariatePolynomial methodsFor: 'operations' stamp: 'len 1/23/2017 11:49:44'!
-derivativeIn: anIndeterminate
-	| answer |
-	answer _ self parent new.
-	self monomialsAndCoefficientsDo: [:key :value| | degree |
-		degree _ key degreeIn: anIndeterminate.
-		degree > 0
-			ifTrue:
-				[answer coefficientAt: (key parent exponents: (key exponents copy at: anIndeterminate put: degree - 1; yourself)) put: value * degree]].
-	^ answer! !
-
-!MultivariatePolynomial methodsFor: 'arithmetic' stamp: 'len 1/23/2017 11:36:44'!
-dividedByMonomial: aMonomial
-	^ self parent coefficients: (self coefficients dividedByMonomial: aMonomial)! !
-
-!MultivariatePolynomial methodsFor: 'accessing monomials' stamp: 'len 1/25/2017 18:07:52'!
-leadingCoefficient
-	^ coefficients lastValue ifNil: [self scalars zero]! !
-
-!MultivariatePolynomial methodsFor: 'accessing monomials' stamp: 'len 11/28/2016 18:51:48'!
-leadingMonomial
-	^ coefficients lastKey! !
-
-!MultivariatePolynomial methodsFor: 'enumerating' stamp: 'len 3/23/2016 05:08'!
-monomialsAndCoefficientsDo: aBlock
-	coefficients keysAndValuesDo: aBlock! !
-
-!MultivariatePolynomial methodsFor: 'enumerating' stamp: 'len 1/23/2017 11:36:49'!
-monomialsApply: aBlock
-	| newCoefficients |
-	newCoefficients _ MonomialIndexedTuple new: coefficients size over: self scalars.
-	coefficients keysAndValuesDo: [:monomial :coefficient|
-		newCoefficients at: (aBlock value: monomial) add: coefficient].
-	^ self parent coefficients: newCoefficients! !
-
-!MultivariatePolynomial methodsFor: 'enumerating' stamp: 'len 3/22/2016 23:37'!
-monomialsDo: aBlock
-	coefficients keysDo: aBlock! !
-
-!MultivariatePolynomial methodsFor: 'arithmetic' stamp: 'len 1/23/2017 11:36:52'!
-multipliedByMonomial: aMonomial
-	^ self parent coefficients: (self coefficients multipliedByMonomial: aMonomial)! !
-
-!MultivariatePolynomial class methodsFor: 'instance creation' stamp: 'len 11/29/2016 11:19:26'!
+!Polynomial class methodsFor: 'instance creation' stamp: 'len 2/6/2017 05:43:11'!
 coefficients: aMonomialIndexedTuple
 	^ self basicNew coefficients: aMonomialIndexedTuple! !
 
-!MultivariatePolynomial class methodsFor: 'instance creation' stamp: 'len 11/18/2016 20:44:55'!
+!Polynomial class methodsFor: 'instance creation' stamp: 'len 2/6/2017 05:43:55'!
 new
 	^ self shouldNotImplement! !
 
@@ -37421,6 +37404,16 @@ isZero
 !UnivariatePolynomial methodsFor: 'accessing coefficients' stamp: 'len 3/23/2016 00:01'!
 leadingCoefficient
 	^ self coefficientAtDegree: self degree! !
+
+!UnivariatePolynomial methodsFor: 'accessing monomials' stamp: 'len 2/6/2017 05:53:46'!
+leadingMonomial
+	| answer |
+	self monomialsDo: [:each| (answer isNil or: [each > answer]) ifTrue: [answer _ each]].
+	^ answer
+
+"this could be faster, but it fails with local orderings for example:
+	^ self isZero ifFalse: [self parent monomials x: self parent indeterminate to: self degree]
+"! !
 
 !UnivariatePolynomial methodsFor: 'enumerating' stamp: 'len 1/23/2017 11:47:55'!
 monomialsAndCoefficientsDo: aBlock
@@ -37725,15 +37718,6 @@ zeroReciprocal
 	"Answer a polynomial whose zeros are the reciprocals of the receiver's zeros."
 
 	^ self reversed! !
-
-!UnivariatePolynomial class methodsFor: 'instance creation' stamp: 'len 11/26/2016 07:38:50'!
-coefficients: aTuple
-	(aTuple isKindOf: MonomialIndexedTuple) ifTrue: [self halt].
-	^ self basicNew coefficients: aTuple! !
-
-!UnivariatePolynomial class methodsFor: 'instance creation' stamp: 'len 3/23/2016 05:20'!
-new
-	^ self shouldNotImplement! !
 
 !FiniteFieldPolynomialFactorizer methodsFor: 'private' stamp: 'len 1/23/2017 11:32:51'!
 distinctDegreeFactorization: aPolynomial
