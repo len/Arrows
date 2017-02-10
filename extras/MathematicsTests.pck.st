@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 6 February 2017 at 5:31:08 am'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 10 February 2017 at 8:10:32 am'!
 'Description Please enter a description for this package'!
-!provides: 'MathematicsTests' 1 65!
+!provides: 'MathematicsTests' 1 66!
 !classDefinition: #AbelianGroupTest category: #MathematicsTests!
 TestCase subclass: #AbelianGroupTest
 	instanceVariableNames: ''
@@ -922,6 +922,17 @@ testAffinePlaneCurveMultiplicity
 	self assert: (C multiplicityAt: (1,1)) = 1.
 	self assert: (C multiplicityAt: (0,0)) = 2! !
 
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 2/9/2017 05:17:46'!
+testAffineSchemeCartesianProduct
+	| X1 X2 P |
+	X1 _ Scheme circle.
+	X2 _ Scheme romanSurface.
+	P _ X1 × X2.
+	self assert: X1 dimension + X2 dimension = P dimension.
+	self assert: X1 ambient dimension + X2 ambient dimension = P ambient dimension.
+	self assert: (X1 pointsCountOver: ZZ/3) * (X2 pointsCountOver: ZZ/3) = (P pointsCountOver: ZZ/3).
+	self assert: (P satisfies: (5,2,6,2,6) % 7)! !
+
 !AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/12/2016 20:56'!
 testAffineSchemeCreation
 	| A x y z X Y |
@@ -945,16 +956,6 @@ testAffineSpace
 	self assert: A coordinateRing = (K polynomialsIn: 3).
 	self assert: A ambient = A.
 	self assert: A coordinateRing spec = A! !
-
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 1/13/2017 17:31:25'!
-testAffineTangentSpace
-	| R C T |
-	R _ QQ polynomialsIn: #(x y).
-	C _ (R / (R generate: [:x :y| x^2 + (y^2) - 1])) spec.
-	T _ C tangentSpaceAt: (1,0).
-	self assert: (T satisfies: (1,0)).
-	self assert: (T satisfies: (1,42)).
-	self assert: T dimension = 1! !
 
 !AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 1/12/2017 15:40:09'!
 testDifference
@@ -1046,6 +1047,53 @@ testLinearSubspaceAsAlgebraicVariety
 	self assert: (V satisfies: (S e: 1)).
 	self assert: (V satisfies: (S e: 2))! !
 
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 2/9/2017 11:13:57'!
+testMultiplicity
+	"Example from Sage documentation."
+	| A X q1 q2 |
+	A _ AffineSpace new: 4 over: QQ.
+	X _ A subscheme: (A coordinateRing !! [:x :y :z :w| {z*y - (x^7). w - (2*z)}]).
+	q1 _ X !! (1,(1/3),3,6).
+	q2 _ X !! (0,0,0,0).
+	self assert: q1 multiplicity = 1.
+	self assert: q2 multiplicity = 2! !
+
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 2/9/2017 11:20:49'!
+testMultiplicity2
+	"Example from Sage documentation."
+	| P X q1 q2 q3 |
+	P _ ProjectiveSpace new: 4 over: QQ.
+	X _ P subscheme: (P coordinateRing !! [:x :y :z :w :t| {y^2 - (x*t). w^7 - (t*w*(x^5)) - (z^7)}]).
+	q1 _ X !! (0,0,1,1,1).
+	self assert: q1 multiplicity = 1.
+	q2 _ X !! (1,0,0,0,0).
+	self assert: q2 multiplicity = 3.
+	q3 _ X !! (0,0,0,0,1).
+	self assert: q3 multiplicity = 7! !
+
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 2/10/2017 07:50:58'!
+testMultiplicity3
+	"Example from Sage documentation."
+	| P X q |
+	P _ ProjectiveSpace new: 3 over: CC.
+	X _ P subscheme: (P coordinateRing !! [:x :y :z :w| z^5*(x^2)*w - (y^8)]).
+	q _ X !! (2,0,0,1).
+	self assert: q multiplicity = 5! !
+
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 2/9/2017 10:26:45'!
+testMultiplicityAndTangentCone
+	"'A Singular Introduction to Commutative Algebra', Example A.8.5."
+	| R C T p |
+	R _ QQ polynomialsIn: #(x y).
+	C _ (R / (R !! [:x :y| x^3 - y squared])) spec.
+	p _ C !! (0,0).
+	self assert: p multiplicity = 2.
+	T _ (R / (R !! [:x :y| y^2])) spec.
+	self assert: p tangentCone = T.
+"	L _ (R / (R !! [:x :y| 100 atRandom * x + (100 atRandom * y)])) spec
+	...
+"! !
+
 !AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/15/2016 09:57'!
 testNotEmpty
 	| A x y X |
@@ -1126,6 +1174,30 @@ testProjectiveSchemeAffinePatches
 	"and when we homogenize again, the same projective embedding is used and come back to the same projective point on exactly the same projective curve:"
 	self assert: a homogenized = p.
 	self assert: a homogenized codomain == E! !
+
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 2/9/2017 10:51:38'!
+testProjectiveSchemeDegree
+	"Example from Sage documentation."
+	| P X |
+	P _ ProjectiveSpace new: 5 over: QQ.
+	X _ P subscheme: (P coordinateRing !! [:x :y :z :w :t :u| x^7 + (x*y*z*(t^4)) - (u^7)]).
+	self assert: X degree = 7! !
+
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 2/9/2017 10:53:18'!
+testProjectiveSchemeDegree2
+	"Example from Sage documentation."
+	| P X |
+	P _ ProjectiveSpace new: 3 over: ZZ/13.
+	X _ P subscheme: (P coordinateRing !! [:x :y :z :w| {y^3 - (w^3). x + (7*z)}]).
+	self assert: X degree = 3! !
+
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 2/9/2017 10:56:06'!
+testProjectiveSchemeDegree3
+	"Example from Sage documentation."
+	| P X |
+	P _ ProjectiveSpace new: 4 over: QQ.
+	X _ P subscheme: (P coordinateRing !! [:x :y :z :w :u| {x^7 - (y*(z^3)*(w^2)*u). w*(z^2) - (y*(u^2)). z^3 + (y^3)}]).
+	self assert: X degree = 63! !
 
 !AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/18/2016 20:58'!
 testProjectiveSpace
@@ -1243,20 +1315,20 @@ testReduced
 	self assert: X isReduced not.
 	self assert: X reduced = (A subscheme: {x*y. x*z})! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 11/18/2016 20:51:53'!
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 2/8/2017 07:14:15'!
 testSingularCubics
 	| R x y C |
 	R _ QQ polynomialsIn: #(x y z).
 	x _ R x.
 	y _ R y.
 	C _ R / (x^3 - (y^2) homogenizedIn: 3) :: proj.
-	self assert: (C isSmoothAt: (1,1,1)).
-	self assert: (C isSmoothAt: (0,0,1)) not.
+	self assert: (C !! (1,1,1)) isSmooth.
+	self assert: (C !! (0,0,1)) isSmooth not.
 	self assert: C isSingular.
 	C _ R / (x^3 + (x^2) - (y^2) homogenizedIn: 3) :: proj.
 	self assert: C isSingular! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 1/13/2017 16:54:20'!
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 2/8/2017 07:13:41'!
 testSmoothness
 	| R C |
 	R _ QQ polynomialsIn: #(x y).
@@ -1264,8 +1336,8 @@ testSmoothness
 	C _ (R / (R evaluating: [:x :y| y^2 - (x^3)])) spec.
 	self assert: C isSmooth not.
 	self assert: C isSingular.
-	self assert: (C isSmoothAt: (1,1)).
-	self assert: (C isSmoothAt: (0,0)) not! !
+	self assert: (C !! (1,1)) isSmooth.
+	self assert: (C !! (0,0)) isSmooth not! !
 
 !AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 11/1/2016 18:50'!
 testSmoothnessOverCC
@@ -1365,18 +1437,30 @@ testSturmfelsExample2
 	"Each of the points is multiplicity-free:"
 	self assert: ourpoints isReduced. "equivalent to the original: ourpoints reduced projectiveClosure degree = 65."! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 1/26/2017 22:59:04'!
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 2/9/2017 10:27:04'!
 testTangentCone
+	"'A Singular Introduction to Commutative Algebra', Example 5.5.13."
+	| R I J X |
+	R _ QQ polynomialsIn: #(x y z).
+	I _ R * (R !! [:x :y :z| {y*z + (z^2) + (x^3). y^2 + (x*z) + (y^4)}]).
+	X _ (R/I) spec.
+	J _ R * (R !! [:x :y :z| {y^2 + (x*z). y*z + (z^2). x*(z^2) - (y*(z^2))}]).
+	self assert: (X !! (0,0,0)) tangentCone ideal = J! !
+
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 2/9/2017 10:35:41'!
+testTangentConeAndTangentSpace
 	"Example from https://en.wikipedia.org/wiki/Tangent_cone."
-	| A x y S T |
+	| A x y S o |
 	A _ AffineSpace new: #(x y) over: QQ.
 	x _ A coordinateRing x.
 	y _ A coordinateRing y.
 	"this curve is singular at (0,0):"
 	S _ A subscheme: x^2 + (x^3) - (y^2).
-	T _ S tangentConeAt: (0,0).
+	o _ S !! (0,0).
 	"the tangent cone is the union of the two lines x = y and x = -y:"
-	self assert: T = (A subscheme: (x + y) * (x - y))! !
+	self assert: o tangentCone = (A subscheme: (x + y) * (x - y)).
+	"the tangent space is the whole plane:"
+	self assert: o tangentSpace = A! !
 
 !AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/25/2016 06:13'!
 testTwistedCubic
@@ -1848,6 +1932,17 @@ testIdealIsPrime
 	I _ R * {x^2 - (y^2) - 1}.
 	self assert: I isPrime! !
 
+!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 2/6/2017 09:02:51'!
+testIdealIsRadical
+	"Becker, Weispfenning, 'Groebner Bases', Exercise 8.21."
+	| R x y I |
+	R _ QQ polynomialsIn: #(x y).
+	x _ R x: #x.
+	y _ R x: #y.
+	I _ R * {x^2 + y. y^2 + x}.
+	self assert: I dimension = 0.
+	self assert: I isRadical! !
+
 !CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:56'!
 testIdealMembership
 	| Qxy x y f g I J h k |
@@ -1950,16 +2045,6 @@ testIdealSaturation
 	J _ R * z.
 	S _ R * {y. x^5}.
 	self assert: (I saturation: J) = S! !
-
-!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 2/4/2017 07:18:38'!
-testInitialIdeal
-	"'A Singular Introduction to Commutative Algebra', Example 5.5.13."
-	| R I J |
-	R _ QQ polynomialsIn: #(x y z) ordering: #ltrevlex. "should this work with any ordering?"
-	I _ R * (R !! [:x :y :z| {y*z + (z^2) + (x^3). y^2 + (x*z) + (y^4)}]).
-	I initialIdeal.
-	J _ R * (R !! [:x :y :z| {y^2 + (x*z). y*z + (z^2). x*(z^2) - (y*(z^2))}]).
-	self assert: I initialIdeal = J "equality test fails with trevlex ordering"! !
 
 !CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 10/25/2016 15:02'!
 testKrullDimension
