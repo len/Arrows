@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 10 February 2017 at 8:10:32 am'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 13 February 2017 at 8:42:18 pm'!
 'Description Please enter a description for this package'!
-!provides: 'MathematicsTests' 1 66!
+!provides: 'MathematicsTests' 1 67!
 !classDefinition: #AbelianGroupTest category: #MathematicsTests!
 TestCase subclass: #AbelianGroupTest
 	instanceVariableNames: ''
@@ -1047,6 +1047,18 @@ testLinearSubspaceAsAlgebraicVariety
 	self assert: (V satisfies: (S e: 1)).
 	self assert: (V satisfies: (S e: 2))! !
 
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 2/10/2017 19:10:14'!
+testLocalAndGlobalDimension
+	"'A Singluar Introduction to Commutative Algebra', Example A.8.4 (local and global dimension)."
+	| R I X |
+	R _ QQ polynomialsIn: #(x y z).
+	I _ R * (R generate: [:x :y :z| {x*z. y*z}]).
+	X _ (R / I) spec.
+	self assert: X dimension = 2. "global dimension of X"
+	self assert: (X !! (0,0,0)) localRing dimension = 2. "dimension of X at (0,0,0)"
+	self assert: (X !! (1,0,0)) localRing dimension = 2. "dimension of X at (1,0,0)"
+	self assert: (X !! (0,0,1)) localRing dimension = 1. "dimension of X at (0,0,1)"! !
+
 !AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 2/9/2017 11:13:57'!
 testMultiplicity
 	"Example from Sage documentation."
@@ -1705,17 +1717,43 @@ testWeightEnumerator
 	self assert: w = (x^5 + (y^5)).
 	self assert: C dual weightEnumerator = (x^5 + (x^3*(y^2)*10) + (y^4*x*5))! !
 
-!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 1/26/2017 22:13:27'!
+!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 2/13/2017 20:39:37'!
+testAffineRingIdealMembershipAtRandom
+	| R f1 f2 J A g I h |
+	R _ QQ polynomialsIn: #(x y z).
+	[(f1 _ R atRandomBits: 10) isZero] whileTrue.
+	[(f2 _ R atRandomBits: 10) isZero] whileTrue.
+	J _ R * {f1. f2}.
+	A _ R/J.
+	g _ A atRandomBits: 10.
+	I _ A * g.
+	h _ I atRandomBits: 10.
+	self assert: (I includes: h)! !
+
+!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 2/13/2017 08:47:40'!
+testAffineRingIdealOperations
+	"Magma handbook, example H105E2."
+	| R A I J |
+	R _ QQ polynomialsIn: #(x y z) "ordering: #lex".
+	A _ R / (R generate: [:x :y :z| {x^2 - y + 1. y^3 + z - 1}]).
+	I _ A * (A generate: [:x :y :z| x^3*y*(z^2)]).
+	self deny: I isRadical.
+	J _ A * (A generate: [:x :y :z| {x*(y^2) + (x*y) - (x*z) + x. y*z. z^2 - z}]).
+	self assert: I radical = J.
+	"... and then some tests of primary decomposition"! !
+
+!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 2/12/2017 12:36:37'!
 testBuchbergerNormalForm
 	"A Singular Introduction to Commutative Algebra, Example 1.6.12."
-	| R f G h |
-	R _ QQ polynomialsIn: #(x y z) ordering: #tlex.
-	f _ R !! [:x :y :z| x^3 + (y^2) + (z^2*2) + x + y + 1].
+	| R x y z f G h |
+	R _ QQ polynomialsIn: #(x y z) ordering: #glex.
+	x _ R x. y _ R y. z _ R z.
+	f _ x^3 + (y^2) + (z^2*2) + x + y + 1.
 	G _ GroebnerBasis new add: R x; add: R y; yourself.
 	h _ G reduce: f.
-	self assert: h = (R !! [:x :y :z| z^2*2 + x + y + 1]).
+	self assert: h = (z^2*2 + x + y + 1).
 	h _ G reduceFull: f.
-	self assert: h = (R !! [:x :y :z| z^2 + (1/2)])! !
+	self assert: h = (z^2 + (1/2))! !
 
 !CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 7/8/2016 20:11'!
 testGroebnerBasis: G ideal: I
@@ -1746,17 +1784,17 @@ testGroebnerCyclic3OverZ2
 	G _ I groebnerBasis.
 	self testGroebnerBasis: G ideal: I! !
 
-!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 1/25/2017 09:58:15'!
+!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 2/12/2017 06:05:17'!
 testGroebnerCyclic3TotalLexicographic
 	| I G |
-	I _ (PolynomialIdeal cyclic: 3) orderedBy: #tlex.
+	I _ (PolynomialIdeal cyclic: 3) orderedBy: #glex.
 	G _ GroebnerBasis from: I generators.
 	self testGroebnerBasis: G ideal: I! !
 
-!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 1/25/2017 09:58:22'!
+!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 2/12/2017 06:07:32'!
 testGroebnerCyclic3TotalReverseLexicographic
 	| I G |
-	I _ (PolynomialIdeal cyclic: 3) orderedBy: #trevlex.
+	I _ (PolynomialIdeal cyclic: 3) orderedBy: #grevlex.
 	G _ GroebnerBasis from: I generators.
 	self testGroebnerBasis: G ideal: I! !
 
@@ -1882,6 +1920,22 @@ testIdealColon2
 	Q _ I colon: J.
 	self assert: Q = ((I colon: R * x) • (I colon: R * y)).
 	self assert: Q = (R * {x*z - (y^2). x^3 - (y*z). x^2*y - (z^2)})! !
+
+!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 2/12/2017 12:50:41'!
+testIdealElementOperations
+	"Magma handbook example H103E2."
+	| R x y z I |
+	R _ QQ polynomialsIn: #(x y z) "ordering: #lex".
+	x _ R x. y _ R y. z _ R z.
+	I _ R * {(x + y)^3. (y - z)^2. y^2*z + z}.
+	self assert: (I reduce: (y^2*z + z)) isZero.
+	"I basis reduceFull: x^3 = ..."
+	"I basis reduce: z^4 + (y^2))"
+	self deny: (I includes: x+y).
+	self assert: (I radicalContains: x+y).
+	self assert: (I radicalContains: (x+y)^2).
+	self deny: (I radicalContains: z).
+	self assert: (x^4 + y - z s: x^2 + y - z) = (x^2*y negated + (x^2*z) + y - z)! !
 
 !CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 10/30/2016 15:17'!
 testIdealElimination
@@ -2110,20 +2164,41 @@ testKrullDimensionOverZZ
 	Q _ R / I.
 	self assert: Q dimension = 3! !
 
-!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 1/26/2017 22:12:36'!
+!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 2/12/2017 12:29:28'!
+testLocalIdeals
+	"Magma handbook, example H104E4."
+	| R I J A M |
+	self notYetImplemented. "it hangs here"
+	R _ QQ polynomialsIn: #(x y z) ordering: #llex.
+	I _ R * (R generate: [:x :y :z| {x*y - z. x^3*(z^2) - (y^2). x*(z^3) - x - y}]).
+	J _ R * (R generate: [:x :y :z| {x*y - z. x^2*z - y. x*(z^3) - x - y}]).
+	A _ R * (R generate: [:x :y :z|
+		{x^2 - (y^2) + (2*(x^3)*z).
+		x*y + (y^2) - (x^3*z).
+		y^3.
+		x*z + (y*z).
+		y*z.
+		z^2}]).
+	self assert: I * J = A.
+	M _ R * (R generate: [:x :y :z| {x + y. y^2. z}]).
+	self assert: I • J = M.
+	self deny: A = M.
+	self assert: A <= M! !
+
+!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 2/12/2017 06:02:55'!
 testMoraNormalForm
 	"A Singular Introduction to Commutative Algebra, Example 1.7.7."
 	| R f G h |
-	R _ QQ polynomialsIn: #(x y z) ordering: #ltrevlex.
+	R _ QQ polynomialsIn: #(x y z) ordering: #lgrevlex.
 	f _ R !! [:x :y :z| x^2 + (y^2) + (z^3) + (x^4) + (y^5)].
 	G _ StandardBasis new add: R x; add: R y; yourself.
 	h _ G reduce: f.
 	self assert: h = (R !! [:x :y :z| z^3 + (x^4) + (y^5)])! !
 
-!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 11/20/2016 15:20:32'!
+!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 2/12/2017 06:05:21'!
 testMultivariateDivisionExample
 	| P x y z F f |
-	P _ QQ polynomialsIn: #(x y z) ordering: #tlex.
+	P _ QQ polynomialsIn: #(x y z) ordering: #glex.
 	x _ P x.
 	y _ P y.
 	z _ P z.
@@ -4126,11 +4201,11 @@ testTuplesZ2
 testTuplesZ4
 	self testFreeModule: ((ZZ / 4) ^ 5 atRandom)! !
 
-!MonomialTest methodsFor: 'as yet unclassified' stamp: 'len 1/26/2017 09:04:52'!
+!MonomialTest methodsFor: 'as yet unclassified' stamp: 'len 2/12/2017 06:02:22'!
 testAntigradedLexOrdering
 	"Example from 'Using Algebraic Geometry', Cox, Little, O'Shea, Ch. 4, 3.2."
 	| M x y |
-	M _ MonomialMonoid new: 2 ordering: #ltlex. "antigraded lex order"
+	M _ MonomialMonoid new: 2 ordering: #lglex. "antigraded lex order"
 	x _ M x: 1.
 	y _ M x: 2.
 	self assert: M identity > x.
@@ -4139,11 +4214,13 @@ testAntigradedLexOrdering
 	self assert: x*y > (y^2).
 	self assert: (y^2) > (x^3)! !
 
-!MonomialTest methodsFor: 'as yet unclassified' stamp: 'len 1/26/2017 09:07:18'!
+!MonomialTest methodsFor: 'as yet unclassified' stamp: 'len 2/12/2017 06:20:32'!
 testAntigradedRevlexOrdering
 	"Example from 'Using Algebraic Geometry', Cox, Little, O'Shea, Ch. 4, 3.3."
-	| M x y z |
-	M _ MonomialMonoid new: 3 ordering: #ltrevlex. "antigraded revlex order"
+	| M x y z ordering |
+	"The antigraded revlex order:"
+	ordering _ LocalGradedReverseLexicographicOrdering indeterminates: #(3 2 1).
+	M _ MonomialMonoid new: 3 ordering: ordering.
 	x _ M x: 1.
 	y _ M x: 2.
 	z _ M x: 3.
@@ -4162,13 +4239,13 @@ testHash
 	m2 _ Monomial exponents: #(1 2 0 0 0 0 0).
 	self assert: m1 hash = m2 hash! !
 
-!MonomialTest methodsFor: 'as yet unclassified' stamp: 'len 1/19/2017 08:24:39'!
+!MonomialTest methodsFor: 'as yet unclassified' stamp: 'len 2/12/2017 06:03:09'!
 testLocalMonomialOrderings
 	"Examples from Magma handbook."
 	| f |
 	f _ ZZ polynomialsIn: #(x y z) ordering: #llex :: generate: [:x :y :z| 1 + x + y + z + (x^7) + (x^8*(y^7)) + (y^5) + (z^10)].
 	self assert: f printString = '1 + x + x^7 + y + y^5 + x^8y^7 + z + z^{10}'.
-	self assert: (f orderedBy: #ltrevlex) printString = '1 + z + y + x + y^5 + x^7 + z^{10} + x^8y^7'! !
+	self assert: (f orderedBy: #lgrevlex) printString = '1 + z + y + x + y^5 + x^7 + z^{10} + x^8y^7'! !
 
 !MonomialTest methodsFor: 'as yet unclassified' stamp: 'len 1/14/2017 21:10:56'!
 testMonomialDivision
@@ -4201,9 +4278,9 @@ testMonomialLCM
 	b _ x*y*y.
 	self assert: (a lcm: b) = (x*x*y*y)! !
 
-!MonomialTest methodsFor: 'as yet unclassified' stamp: 'len 11/22/2016 14:48:06'!
+!MonomialTest methodsFor: 'as yet unclassified' stamp: 'len 2/12/2017 06:04:06'!
 testMonomialOrderings
-	| P x y z f tlex lex trevlex |
+	| P x y z f lex glex grevlex |
 	P _ ZZ polynomialsIn: 3.
 
 	x _ P x.
@@ -4213,14 +4290,14 @@ testMonomialOrderings
 	f _ 10*x - (7*(y^4)) + (11*(y^3)*z).
 
 	lex _ MonomialOrdering lex: 3.
-	tlex _ MonomialOrdering tlex: 3.
-	trevlex _ MonomialOrdering trevlex: 3.
+	glex _ MonomialOrdering glex: 3.
+	grevlex _ MonomialOrdering grevlex: 3.
 
 	self assert: (f orderedBy: lex) leadingCoefficient = 10.
-	self assert: (f orderedBy: tlex) leadingCoefficient = -7.
-	self assert: (f orderedBy: trevlex) leadingCoefficient = 11! !
+	self assert: (f orderedBy: glex) leadingCoefficient = -7.
+	self assert: (f orderedBy: grevlex) leadingCoefficient = 11! !
 
-!MonomialTest methodsFor: 'as yet unclassified' stamp: 'len 10/27/2016 08:44'!
+!MonomialTest methodsFor: 'as yet unclassified' stamp: 'len 2/12/2017 06:05:34'!
 testMonomialOrderings2
 	"Examples from Macaulay2 documentation."
 	| R a b c d f |
@@ -4233,10 +4310,10 @@ testMonomialOrderings2
 	f _ a + (b^100) + (c*d).
 
 	self assert: (f orderedBy: #lex) printString = 'a + b^{100} + cd'.
-	self assert: (f orderedBy: #trevlex) printString = 'b^{100} + cd + a'.
-	self assert: (f orderedBy: #tlex) printString = 'b^{100} + cd + a'! !
+	self assert: (f orderedBy: #grevlex) printString = 'b^{100} + cd + a'.
+	self assert: (f orderedBy: #glex) printString = 'b^{100} + cd + a'! !
 
-!MonomialTest methodsFor: 'as yet unclassified' stamp: 'len 10/27/2016 08:44'!
+!MonomialTest methodsFor: 'as yet unclassified' stamp: 'len 2/12/2017 06:05:43'!
 testMonomialOrderings3
 	"Examples from Derksen, Kemper 'Computational Invariant Theory' 1.1.1."
 	| P x1 x2 x3 x4 f |
@@ -4247,24 +4324,24 @@ testMonomialOrderings3
 	x4 _ P x: 4.
 	f _ x1 + (x2*x4) + (x3^2).
 	self assert: (f orderedBy: #lex) leadingTerm = x1.
-	self assert: (f orderedBy: #tlex) leadingTerm = (x2*x4).
-	self assert: (f orderedBy: #trevlex) leadingTerm = (x3^2)! !
+	self assert: (f orderedBy: #glex) leadingTerm = (x2*x4).
+	self assert: (f orderedBy: #grevlex) leadingTerm = (x3^2)! !
 
-!MonomialTest methodsFor: 'as yet unclassified' stamp: 'len 1/14/2017 21:10:16'!
+!MonomialTest methodsFor: 'as yet unclassified' stamp: 'len 2/12/2017 06:06:05'!
 testMonomialOrderingsExample
-	| a b lex tlex trevlex |
+	| a b lex glex grevlex |
 	a _ Monomial exponents: #(3 2 8).
 	b _ Monomial exponents: #(2 9 2).
 	
 	lex _ MonomialMonoid new: 3 ordering: #lex.
-	tlex _ MonomialMonoid new: 3 ordering: #tlex.
-	trevlex _ MonomialMonoid new: 3 ordering: #trevlex.
+	glex _ MonomialMonoid new: 3 ordering: #glex.
+	grevlex _ MonomialMonoid new: 3 ordering: #grevlex.
 
 	self assert: (a as: lex) > (b as: lex).
-	self assert: (a as: tlex) > (b as: tlex).
-	self assert: (a as: trevlex) < (b as: trevlex)! !
+	self assert: (a as: glex) > (b as: glex).
+	self assert: (a as: grevlex) < (b as: grevlex)! !
 
-!MonomialTest methodsFor: 'as yet unclassified' stamp: 'len 1/19/2017 07:28:39'!
+!MonomialTest methodsFor: 'as yet unclassified' stamp: 'len 2/12/2017 06:04:28'!
 testMonomialOrderingsOfIndeterminates
 	| M x y z |
 	M _ MonomialMonoid new: 3.
@@ -4273,8 +4350,8 @@ testMonomialOrderingsOfIndeterminates
 	z _ M x: 3.
 	{MonomialOrdering lex: 3.
 	MonomialOrdering llex: 3.
-	MonomialOrdering tlex: 3.
-	MonomialOrdering trevlex: 3} do: [:ordering| 
+	MonomialOrdering glex: 3.
+	MonomialOrdering grevlex: 3} do: [:ordering| 
 		self assert: (x orderedBy: ordering) > (y orderedBy: ordering).
 		self assert: (y orderedBy: ordering) > (z orderedBy: ordering)]! !
 
@@ -4288,15 +4365,15 @@ testMonomialOrderingsOfIndeterminatesReordered
 	self assert: y > x.
 	self assert: x > z! !
 
-!MonomialTest methodsFor: 'as yet unclassified' stamp: 'len 1/28/2017 12:23:19'!
+!MonomialTest methodsFor: 'as yet unclassified' stamp: 'len 2/12/2017 06:06:15'!
 testMonomialOrderingsSingularExample
 	"'A Singular Introduction to Commutative Algebra', Example 1.2.13 (monomial orderings)."
 	| f |
 	f _ (QQ polynomialsIn: #(x y z)) !! [:x :y :z| x^3*y*z + (x^3) + (x*(y^2)) + (y^5) + (z^4)].
 	"Global orderings:"
 	self assert: (f orderedBy: #lex) printString =  'x^3yz + x^3 + xy^2 + y^5 + z^4'.
-	self assert: (f orderedBy: #trevlex) printString = 'y^5 + x^3yz + z^4 + x^3 + xy^2'.
-	self assert: (f orderedBy: #tlex) printString = 'x^3yz + y^5 + z^4 + x^3 + xy^2'.
+	self assert: (f orderedBy: #grevlex) printString = 'y^5 + x^3yz + z^4 + x^3 + xy^2'.
+	self assert: (f orderedBy: #glex) printString = 'x^3yz + y^5 + z^4 + x^3 + xy^2'.
 	"TODO: weighted total lexicographic ordering"
 	"Local orderings don't match because we implemented them with Magma conventions."
 ! !
@@ -4313,9 +4390,9 @@ testMonomialProduct
 	self assert: ((x*y*y) at: 2) = 2.
 	self assert: (x*y*x*x*y) degree = 5! !
 
-!MonomialTest methodsFor: 'as yet unclassified' stamp: 'len 10/27/2016 08:47'!
+!MonomialTest methodsFor: 'as yet unclassified' stamp: 'len 2/12/2017 06:04:56'!
 testWeightedMonomialOrderings
-	| P x y z f lex tlex trevlex revlex |
+	| P x y z f lex glex grevlex revlex |
 	P _ ZZ polynomialsIn: 3.
 
 	x _ P x.
@@ -4325,13 +4402,13 @@ testWeightedMonomialOrderings
 	f _ 10*x - (7*(y^4)) + (11*(y^3)*z).
 
 	lex _ WeightedMonomialOrdering lex: (1 to: 3).
-	tlex _ WeightedMonomialOrdering tlex: (1 to: 3).
-	trevlex _ WeightedMonomialOrdering trevlex: (1 to: 3).
-	revlex _ WeightedMonomialOrdering trevlex: (1 to: 3).
+	glex _ WeightedMonomialOrdering glex: (1 to: 3).
+	grevlex _ WeightedMonomialOrdering grevlex: (1 to: 3).
+	revlex _ WeightedMonomialOrdering grevlex: (1 to: 3).
 
 	self assert: (f orderedBy: lex) leadingCoefficient = 10.
-	self assert: (f orderedBy: tlex) leadingCoefficient = -7.
-	self assert: (f orderedBy: trevlex) leadingCoefficient = 11.
+	self assert: (f orderedBy: glex) leadingCoefficient = -7.
+	self assert: (f orderedBy: grevlex) leadingCoefficient = 11.
 	self assert: (f orderedBy: revlex) leadingCoefficient = 11! !
 
 !NumberFieldTest methodsFor: 'as yet unclassified' stamp: 'len 12/10/2016 21:58:12'!
