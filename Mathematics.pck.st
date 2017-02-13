@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 10 February 2017 at 8:08:34 am'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 13 February 2017 at 8:47:11 pm'!
 'Description A computational algebra system in Smalltalk'!
-!provides: 'Mathematics' 1 358!
+!provides: 'Mathematics' 1 360!
 !requires: 'RayTracer' 1 2 nil!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
@@ -1572,6 +1572,16 @@ Module subclass: #Ideal
 Ideal class
 	instanceVariableNames: ''!
 
+!classDefinition: #QuotientRingIdeal category: #'Mathematics-Rings'!
+Ideal subclass: #QuotientRingIdeal
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Rings'!
+!classDefinition: 'QuotientRingIdeal class' category: #'Mathematics-Rings'!
+QuotientRingIdeal class
+	instanceVariableNames: ''!
+
 !classDefinition: #RationalIntegerIdeal category: #'Mathematics-Rings'!
 Ideal subclass: #RationalIntegerIdeal
 	instanceVariableNames: ''
@@ -1912,28 +1922,28 @@ Domain subclass: #Scheme
 Scheme class
 	instanceVariableNames: ''!
 
-!classDefinition: #Spectrum category: #'Mathematics-Schemes'!
-Scheme subclass: #Spectrum
+!classDefinition: #AffineScheme category: #'Mathematics-Schemes'!
+Scheme subclass: #AffineScheme
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Schemes'!
-!classDefinition: 'Spectrum class' category: #'Mathematics-Schemes'!
-Spectrum class
+!classDefinition: 'AffineScheme class' category: #'Mathematics-Schemes'!
+AffineScheme class
 	instanceVariableNames: ''!
 
-!classDefinition: #AffineScheme category: #'Mathematics-Schemes-Affine'!
-Spectrum subclass: #AffineScheme
+!classDefinition: #AffineVariety category: #'Mathematics-Schemes-Affine'!
+AffineScheme subclass: #AffineVariety
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Schemes-Affine'!
-!classDefinition: 'AffineScheme class' category: #'Mathematics-Schemes-Affine'!
-AffineScheme class
+!classDefinition: 'AffineVariety class' category: #'Mathematics-Schemes-Affine'!
+AffineVariety class
 	instanceVariableNames: ''!
 
 !classDefinition: #AffineCurve category: #'Mathematics-Schemes-Affine'!
-AffineScheme subclass: #AffineCurve
+AffineVariety subclass: #AffineCurve
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
@@ -1943,7 +1953,7 @@ AffineCurve class
 	instanceVariableNames: ''!
 
 !classDefinition: #AffineHypersurface category: #'Mathematics-Schemes-Affine'!
-AffineScheme subclass: #AffineHypersurface
+AffineVariety subclass: #AffineHypersurface
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
@@ -1963,7 +1973,7 @@ AffinePlaneCurve class
 	instanceVariableNames: ''!
 
 !classDefinition: #AffineSpace category: #'Mathematics-Schemes-Affine'!
-AffineScheme subclass: #AffineSpace
+AffineVariety subclass: #AffineSpace
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
@@ -1972,18 +1982,28 @@ AffineScheme subclass: #AffineSpace
 AffineSpace class
 	instanceVariableNames: ''!
 
-!classDefinition: #ProjectiveScheme category: #'Mathematics-Schemes-Projective'!
-Scheme subclass: #ProjectiveScheme
+!classDefinition: #ProductAffineSpace category: #'Mathematics-Schemes-Affine'!
+AffineSpace subclass: #ProductAffineSpace
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Schemes-Affine'!
+!classDefinition: 'ProductAffineSpace class' category: #'Mathematics-Schemes-Affine'!
+ProductAffineSpace class
+	instanceVariableNames: ''!
+
+!classDefinition: #ProjectiveVariety category: #'Mathematics-Schemes-Projective'!
+Scheme subclass: #ProjectiveVariety
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Schemes-Projective'!
-!classDefinition: 'ProjectiveScheme class' category: #'Mathematics-Schemes-Projective'!
-ProjectiveScheme class
+!classDefinition: 'ProjectiveVariety class' category: #'Mathematics-Schemes-Projective'!
+ProjectiveVariety class
 	instanceVariableNames: ''!
 
 !classDefinition: #ProjectiveCurve category: #'Mathematics-Schemes-Projective'!
-ProjectiveScheme subclass: #ProjectiveCurve
+ProjectiveVariety subclass: #ProjectiveCurve
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
@@ -1993,7 +2013,7 @@ ProjectiveCurve class
 	instanceVariableNames: ''!
 
 !classDefinition: #ProjectiveHypersurface category: #'Mathematics-Schemes-Projective'!
-ProjectiveScheme subclass: #ProjectiveHypersurface
+ProjectiveVariety subclass: #ProjectiveHypersurface
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
@@ -2043,7 +2063,7 @@ EllipticCurve class
 	instanceVariableNames: ''!
 
 !classDefinition: #ProjectiveSpace category: #'Mathematics-Schemes-Projective'!
-ProjectiveScheme subclass: #ProjectiveSpace
+ProjectiveVariety subclass: #ProjectiveSpace
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
@@ -2060,6 +2080,26 @@ ProjectiveSpace subclass: #ProjectiveLine
 	category: 'Mathematics-Schemes-Projective'!
 !classDefinition: 'ProjectiveLine class' category: #'Mathematics-Schemes-Projective'!
 ProjectiveLine class
+	instanceVariableNames: ''!
+
+!classDefinition: #ProductProjectiveVariety category: #'Mathematics-Schemes-Projective-Product'!
+Scheme subclass: #ProductProjectiveVariety
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Schemes-Projective-Product'!
+!classDefinition: 'ProductProjectiveVariety class' category: #'Mathematics-Schemes-Projective-Product'!
+ProductProjectiveVariety class
+	instanceVariableNames: ''!
+
+!classDefinition: #ProductProjectiveSpace category: #'Mathematics-Schemes-Projective-Product'!
+ProductProjectiveVariety subclass: #ProductProjectiveSpace
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Schemes-Projective-Product'!
+!classDefinition: 'ProductProjectiveSpace class' category: #'Mathematics-Schemes-Projective-Product'!
+ProductProjectiveSpace class
 	instanceVariableNames: ''!
 
 !classDefinition: #UpperHalfPlane category: #'Mathematics-Etc-Modular Forms'!
@@ -2560,6 +2600,16 @@ ProjectivePoint subclass: #EllipticCurvePoint
 	category: 'Mathematics-Elliptic Curves'!
 !classDefinition: 'EllipticCurvePoint class' category: #'Mathematics-Elliptic Curves'!
 EllipticCurvePoint class
+	instanceVariableNames: ''!
+
+!classDefinition: #ProductProjectivePoint category: #'Mathematics-Schemes-Projective-Product'!
+RationalPoint subclass: #ProductProjectivePoint
+	instanceVariableNames: 'components'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Schemes-Projective-Product'!
+!classDefinition: 'ProductProjectivePoint class' category: #'Mathematics-Schemes-Projective-Product'!
+ProductProjectivePoint class
 	instanceVariableNames: ''!
 
 !classDefinition: #RandomGenerator category: #'Mathematics-Kernel'!
@@ -3102,6 +3152,26 @@ MonomialOrdering subclass: #BlockMonomialOrdering
 BlockMonomialOrdering class
 	instanceVariableNames: ''!
 
+!classDefinition: #GradedLexicographicOrdering category: #'Mathematics-Monomials-Orderings'!
+MonomialOrdering subclass: #GradedLexicographicOrdering
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Monomials-Orderings'!
+!classDefinition: 'GradedLexicographicOrdering class' category: #'Mathematics-Monomials-Orderings'!
+GradedLexicographicOrdering class
+	instanceVariableNames: ''!
+
+!classDefinition: #GradedReverseLexicographicOrdering category: #'Mathematics-Monomials-Orderings'!
+MonomialOrdering subclass: #GradedReverseLexicographicOrdering
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Monomials-Orderings'!
+!classDefinition: 'GradedReverseLexicographicOrdering class' category: #'Mathematics-Monomials-Orderings'!
+GradedReverseLexicographicOrdering class
+	instanceVariableNames: ''!
+
 !classDefinition: #LexicographicOrdering category: #'Mathematics-Monomials-Orderings'!
 MonomialOrdering subclass: #LexicographicOrdering
 	instanceVariableNames: ''
@@ -3112,6 +3182,26 @@ MonomialOrdering subclass: #LexicographicOrdering
 LexicographicOrdering class
 	instanceVariableNames: ''!
 
+!classDefinition: #LocalGradedLexicographicOrdering category: #'Mathematics-Monomials-Orderings'!
+MonomialOrdering subclass: #LocalGradedLexicographicOrdering
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Monomials-Orderings'!
+!classDefinition: 'LocalGradedLexicographicOrdering class' category: #'Mathematics-Monomials-Orderings'!
+LocalGradedLexicographicOrdering class
+	instanceVariableNames: ''!
+
+!classDefinition: #LocalGradedReverseLexicographicOrdering category: #'Mathematics-Monomials-Orderings'!
+MonomialOrdering subclass: #LocalGradedReverseLexicographicOrdering
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Monomials-Orderings'!
+!classDefinition: 'LocalGradedReverseLexicographicOrdering class' category: #'Mathematics-Monomials-Orderings'!
+LocalGradedReverseLexicographicOrdering class
+	instanceVariableNames: ''!
+
 !classDefinition: #LocalLexicographicOrdering category: #'Mathematics-Monomials-Orderings'!
 MonomialOrdering subclass: #LocalLexicographicOrdering
 	instanceVariableNames: ''
@@ -3120,46 +3210,6 @@ MonomialOrdering subclass: #LocalLexicographicOrdering
 	category: 'Mathematics-Monomials-Orderings'!
 !classDefinition: 'LocalLexicographicOrdering class' category: #'Mathematics-Monomials-Orderings'!
 LocalLexicographicOrdering class
-	instanceVariableNames: ''!
-
-!classDefinition: #LocalTotalLexicographicOrdering category: #'Mathematics-Monomials-Orderings'!
-MonomialOrdering subclass: #LocalTotalLexicographicOrdering
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Monomials-Orderings'!
-!classDefinition: 'LocalTotalLexicographicOrdering class' category: #'Mathematics-Monomials-Orderings'!
-LocalTotalLexicographicOrdering class
-	instanceVariableNames: ''!
-
-!classDefinition: #LocalTotalReverseLexicographicOrdering category: #'Mathematics-Monomials-Orderings'!
-MonomialOrdering subclass: #LocalTotalReverseLexicographicOrdering
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Monomials-Orderings'!
-!classDefinition: 'LocalTotalReverseLexicographicOrdering class' category: #'Mathematics-Monomials-Orderings'!
-LocalTotalReverseLexicographicOrdering class
-	instanceVariableNames: ''!
-
-!classDefinition: #TotalLexicographicOrdering category: #'Mathematics-Monomials-Orderings'!
-MonomialOrdering subclass: #TotalLexicographicOrdering
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Monomials-Orderings'!
-!classDefinition: 'TotalLexicographicOrdering class' category: #'Mathematics-Monomials-Orderings'!
-TotalLexicographicOrdering class
-	instanceVariableNames: ''!
-
-!classDefinition: #TotalReverseLexicographicOrdering category: #'Mathematics-Monomials-Orderings'!
-MonomialOrdering subclass: #TotalReverseLexicographicOrdering
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Monomials-Orderings'!
-!classDefinition: 'TotalReverseLexicographicOrdering class' category: #'Mathematics-Monomials-Orderings'!
-TotalReverseLexicographicOrdering class
 	instanceVariableNames: ''!
 
 !classDefinition: #WeightedMonomialOrdering category: #'Mathematics-Monomials-Orderings'!
@@ -4278,7 +4328,7 @@ My instances are (Z/nZ)*, i.e. the multiplicaive group of units modulo n for som
 My instances are groups of Dirichlet characters modulo n. My elements are group homomorphisms from (Z/nZ)* to C* (see DirichletCharacter).!
 
 !IdealMonoid commentStamp: '<historical>' prior: 0!
-My instances are monoids of ideals in a given Ring. Elements are Ideals or subclasses.!
+My instances are monoids of Ideals in a given Ring.!
 
 !MonomialMonoid commentStamp: '<historical>' prior: 0!
 My instances are (commutative) monoids of monomials in n indeterminates. Elements are instances of Monomial.
@@ -4355,16 +4405,16 @@ Categorically, the group ring construction is left adjoint to the group of units
 References:
 	https://en.wikipedia.org/wiki/Group_ring!
 
-!LocalizationRing commentStamp: 'len 12/18/2016 21:06:08' prior: 0!
-My instances are localizations of a given commutative ring R away from a given prime ideal I. The elements are fractions a / b with a in R and b in R \ I.!
+!LocalizationRing commentStamp: '<historical>' prior: 0!
+My instances are localizations of a given commutative ring R away from a given prime ideal P. The elements are fractions a / b with a in R and b in R \ P.!
 
 !FractionRing commentStamp: '<historical>' prior: 0!
-My instances are fields of fractions (ratios, quotients) with numerator and (nonzero) denominator in an integral domain. See Ring>>fractions.
+My instances are rings of fractions (quotients) with numerator and (nonzero) denominator in a ring. When the ring is an integral domain they form a field. See Ring>>fractions.
 
-For example, the field of fractions of the integers is the rational numbers:
+For example, the field of fractions of the rational integers is the rational numbers:
 	ZZ fractions
 
-The field of fractions is a particular case of the more general construction of the localization of a ring or module.
+The ring of fractions is a particular case of the more general construction of the localization of a ring or module.
 
 References:
 	https://en.wikipedia.org/wiki/Field_of_fractions!
@@ -4373,10 +4423,10 @@ References:
 My singletion global instance QQ is the field of rational numbers.!
 
 !RationalFunctionField commentStamp: '<historical>' prior: 0!
-My instances are rational functions, i.e. the field of fractions of a given polynomial ring.
+My instances are fields of rational functions, i.e. the field of fractions of a polynomial ring with coefficients over a field.
 
 Example:
-	"x / y in Q[x,y]"
+	"x / y in Q(x,y)"
 	| F |
 	F _ QQ polynomialsIn: #(x y) :: fractions.
 	(F x: 1) / (F x: 2)
@@ -4386,9 +4436,11 @@ Example:
 My instances are direct products of rings. Elements are tuples, and multiplication and addition are defined component wise.!
 
 !QuotientRing commentStamp: '<historical>' prior: 0!
-My instances are quotient rings (also called factor rings, difference rings or residue class rings). The elements are residue classes. See also ResidueClass and subclasses.
+My instances are quotient rings (also called factor rings, difference rings or residue class rings). Their elements are residue classes (see ResidueClass and subclasses).
 
 Given a commutative ring R and an ideal I of R, the quotient ring R/I (read 'R modulo I' or 'R mod I') is the set of cosets (residue clases) of I in R by the equivalence relation a ~ b if a - b is in I. If the ideal is maximal, the resulting quotient ring is a field. If it's only prime, the quotient ring is an integral domain.
+
+The quotient ring R/I is equipped with the projection map that sends elements of R to their residue classes in R/I. The projection map is a canonical homomorphism of rings. See >>project: and >>projection.
 
 References:
 	https://en.wikipedia.org/wiki/Quotient_ring!
@@ -4495,6 +4547,9 @@ Ideals are the ring theory analog of normal subgroups from group theory. They ar
 
 References:
 	https://en.wikipedia.org/wiki/Ideal_(ring_theory)!
+
+!QuotientRingIdeal commentStamp: '<historical>' prior: 0!
+My instances are ideals of quotient rings.!
 
 !RationalIntegerIdeal commentStamp: '<historical>' prior: 0!
 My instances are ideals of integers. They are cyclic, i.e. they are all multiples of a given integer (the #generator).!
@@ -4627,13 +4682,15 @@ My instances are schemes. Subclasses implement particular kinds of schemes.
 
 An important class of schemes are those defined by polynomial equations in some ambient space. See subclasses AffineScheme and ProjectiveScheme, which are closed subschemes of an affine and projective space. Their morphisms are rational maps (see RationalMap). See also RationalPoint and subclasses.!
 
-!Spectrum commentStamp: '<historical>' prior: 0!
-My instances are affine schemes Spec R, i.e. the prime spectrum of an arbitrary commutative ring R. As a set, their elements are the prime ideals of the coordinate rings.!
-
 !AffineScheme commentStamp: '<historical>' prior: 0!
+My instances are affine schemes, i.e. prime spectra Spec(R) of an arbitrary commutative ring R. As a set, their elements are the prime ideals of the coordinate ring R.
+
+Affine schemes are the fundamental building blocks of general schemes. Any scheme is isomorphic to a scheme constructed by gluing together finitely many affine schemes.!
+
+!AffineVariety commentStamp: '<historical>' prior: 0!
 My instances are closed subschemes of an affine space (see AffineSpace). Their coordinate rings are quotients of multivariate polynomial rings by an ideal (also called affine rings or affine algebras, see AffineRing).
 
-More generally, an affine scheme is any scheme that is the prime spectrum of an arbitrary commutative ring, but here we call that Spectrum and use AffineScheme to refer to closed subchemes of an affine space.
+These are schemes, and not classical algebraic varieties. Here the name 'variety' only means that they are defined by polynomial equations.
 
 The integral (reduced and irreducible) closed subschemes of affine space over an algebraically closed field are the classical affine algebraic varieties.
 
@@ -4670,8 +4727,17 @@ Note that affine spaces defined as schemes differ from the classical affine spac
 
 Note also that the dimension of an affine space as scheme is the Krull dimension of its coordinate ring, and this can be bigger than the number of indeterminates (see >>dimension and >>rank). For affine spaces over fields, the dimension and the rank are equal (because fields have Krull dimension 0).!
 
-!ProjectiveScheme commentStamp: '<historical>' prior: 0!
-My instances are projective closed subschemes of a projective space (see ProjectiveSpace). Their homogeneous coordinate rings are quotient rings of multivariate polynomial rings by a homogeneous ideal, i.e. graded affine algebras.!
+!ProductAffineSpace commentStamp: '<historical>' prior: 0!
+My instances are cartesian products of affine spaces.
+
+Example:
+	ProductAffineSpace new: #((x y z) (a b)) over: QQ.
+!
+
+!ProjectiveVariety commentStamp: '<historical>' prior: 0!
+My instances are projective closed subschemes of a projective space (see ProjectiveSpace). Their homogeneous coordinate rings are quotient rings of multivariate polynomial rings by a homogeneous ideal, i.e. graded affine algebras.
+
+These are schemes, and not classical algebraic varieties (they don't need to be reduced, irreducible nor over an algebraically closed field). Here the name 'variety' only means that they are defined by polynomial equations.!
 
 !ProjectiveCurve commentStamp: '<historical>' prior: 0!
 My instances are projective algebraic curves, i.e. projective schemes of dimension 1 over a projective space.!
@@ -4714,6 +4780,13 @@ And equivalently:
 
 !ProjectiveLine commentStamp: '<historical>' prior: 0!
 My instances are projective lines, i.e. P^1(R) for some commutative ring R. They are essentially the underlying ring R extended with an additional point at infinity. For example, the complex projective line is the Riemann sphere: the extended complex plane that includes the point at infinity. See also ProjectiveLinePoint.!
+
+!ProductProjectiveSpace commentStamp: '<historical>' prior: 0!
+My instances are cartesian products of projective spaces.
+
+Example:
+	ProductProjectiveSpace new: #((x y z) (a b)) over: QQ.
+!
 
 !UpperHalfPlane commentStamp: '<historical>' prior: 0!
 I'm the upper half complex plane H, i.e. the set of complex numbers with imaginary part > 0.
@@ -4981,16 +5054,16 @@ Given a finite group G with a generating set S, and an action of G on X, a Schre
 Schreier trees allow for fast computation of stabilizers by Schreier's Lemma: with the notation above, the stabilizer of x is generated by the set of Schreier generators <t(i) * s * t(s(i))^-1> where i runs over the the orbit of x, s runs over the generating set S, and t(i) is an element of G moving x to i, i.e. a coset representative of i (see >>trace: and >>traceInverse:).
 !
 
-!FormalFraction commentStamp: 'len 10/29/2016 10:46' prior: 0!
+!FormalFraction commentStamp: '<historical>' prior: 0!
 My instances are elements of the form a / b, with a and b in a commutative ring R, and satisfying the equivalence relation: (a / b) = (a` / b`) iff a*b` = a`*b.
 
-They are elements of ring localizations or fraction fields. See LocalizationRing and FractionField.!
+They are elements of ring localizations or fraction fields. See LocalizationRing and FractionRing.!
 
 !RationalFunction commentStamp: '<historical>' prior: 0!
 My instances are rational functions, i.e. fractions where the numerator and denominator are polynomials. They are elements of the field of fractions of a polynomial ring over a field (see RationalFunctionField).!
 
 !ResidueClass commentStamp: '<historical>' prior: 0!
-My instances are elements of a quotient ring, i.e. residue classes of elements of a ring modulo an ideal. See QuotientRing.!
+My instances are elements of a quotient ring. They are residue classes of elements of a ring modulo an ideal. See QuotientRing.!
 
 !ModularInteger commentStamp: '<historical>' prior: 0!
 My instances are residue classes of integers modulo an integer m, i.e. elements of the quotient ring Z/mZ (see ModularIntegers).!
@@ -4999,7 +5072,7 @@ My instances are residue classes of integers modulo an integer m, i.e. elements 
 My instances are elements of finite algebraic field extensions. See ExtensionField.!
 
 !RegularFunction commentStamp: '<historical>' prior: 0!
-My instances are regular functions of a closed subscheme of affine or projective space, i.e. elements of the coordinate ring of the scheme. They are implemented as residue classes of polynomials modulo an ideal, i.e. elements of the quotient polynomial ring (see AffineRing) that represents the coordinate ring of the scheme.!
+My instances are residue classes of polynomials modulo an ideal. They are elements of a quotient polynomial ring (an AffineRing, which is a coordinate ring of a closed subcheme of affine or projective space).!
 
 !AlgebraicNumber commentStamp: '<historical>' prior: 0!
 My instances are complex algebraic numbers, i.e. zeroes of polynomials with integer coefficients.
@@ -5094,6 +5167,20 @@ Orderings are used in the computation of Groebner bases and more generally stand
 !BlockMonomialOrdering commentStamp: 'len 1/28/2017 10:18:12' prior: 0!
 My instances are block or product monomial orderings. They are used, for example, to define elimination orderings such that a subset of the indeterminates are always greater and the rest of the indeterminates.!
 
+!GradedLexicographicOrdering commentStamp: 'len 2/12/2017 06:08:59' prior: 0!
+The graded (or total degree) lexicographic ordering first compares the total degree of the monomials, and takes the monomial with largest total degree. If two monomials have the same total degree, the lexicographic ordering is used to break the tie.
+
+The graded lexicographic ordering has the property that for each subring S[x1..xn] <= R, and each homogeneous polynomial f in R, f is in S iff its leading monomial is in S.
+
+Elimination by the graded lexicographic ordering produces elements of an homogeneous ideal which are free of the first variable.!
+
+!GradedReverseLexicographicOrdering commentStamp: 'len 2/12/2017 06:09:26' prior: 0!
+The graded (or total degree) reverse lexicographic ordering first compares the total degree of the monomials, and takes the monomial with largest total degree. If two monomials have the same total degree, the reverse lexicographic ordering is used to break the tie (this is the lexicographic ordering on the reversed list of indeterminates (xn, ..., x1).
+
+The graded reverse lexicographic ordering has the property that for each subring S[x1..xn] <= R, and each homogeneous polynomial f in S[x1..xi], xi divides f iff it divides the leading monomial.
+
+Elimination by the graded reverse lexicographic ordering produces elements of a homogeneous ideal which are divisible by the last variable.!
+
 !LexicographicOrdering commentStamp: '<historical>' prior: 0!
 The lexicographic ordering is the 'dictionary' ordering.
 
@@ -5101,34 +5188,20 @@ The lexicographic ordering has the property that for each subring S[x1..xn] <= R
 
 Elimination by the lexicographic ordering produces elements of an ideal which are free of the first variable.!
 
+!LocalGradedLexicographicOrdering commentStamp: 'len 2/12/2017 06:10:10' prior: 0!
+The local graded lexicographic order (lglex) is the negation of the global graded lexicographic order (glex).
+
+This is the order called 'lglex' in Magma. What Singular calls 'Ds', on the other hand, is like this but with the indeterminates reversed.!
+
+!LocalGradedReverseLexicographicOrdering commentStamp: 'len 2/12/2017 06:10:33' prior: 0!
+The local graded reverse lexicographic order (lgrevlex) is the negation of the global graded reverse lexicographic order (grevlex).
+
+This is the order called 'lgrevlex' in Magma. What Singular calls 'ds', on the other hand, is like this but with the indeterminates reversed.!
+
 !LocalLexicographicOrdering commentStamp: '<historical>' prior: 0!
 The local lexicographic order (llex) is the negation of the global lexicographic order.
 
 This is the order called 'llex' in Magma. What Singular calls 'ls', on the other hand, is like this but with the indeterminates reversed.!
-
-!LocalTotalLexicographicOrdering commentStamp: '<historical>' prior: 0!
-The local total lexicographic order (ltlex) is the negation of the global total lexicographic order (tlex).
-
-This is the order called 'lglex' in Magma. What Singular calls 'Ds', on the other hand, is like this but with the indeterminates reversed.!
-
-!LocalTotalReverseLexicographicOrdering commentStamp: '<historical>' prior: 0!
-The local total reverse lexicographic order (ltrevlex) is the negation of the global total reverse lexicographic order (trevlex).
-
-This is the order called 'lgrevlex' in Magma. What Singular calls 'ds', on the other hand, is like this but with the indeterminates reversed.!
-
-!TotalLexicographicOrdering commentStamp: '<historical>' prior: 0!
-The total (or graded) lexicographic ordering first compares the total degree of the monomials, and takes the monomial with largest total degree. If two monomials have the same total degree, the lexicographic ordering is used to break the tie.
-
-The total lexicographic ordering has the property that for each subring S[x1..xn] <= R, and each homogeneous polynomial f in R, f is in S iff its leading monomial is in S.
-
-Elimination by the total lexicographic ordering produces elements of an homogeneous ideal which are free of the first variable.!
-
-!TotalReverseLexicographicOrdering commentStamp: '<historical>' prior: 0!
-The total (or graded) reverse lexicographic ordering first compares the total degree of the monomials, and takes the monomial with largest total degree. If two monomials have the same total degree, the reverse lexicographic ordering is used to break the tie (this is the lexicographic ordering on the reversed list of indeterminates (xn, ..., x1).
-
-The total reverse lexicographic ordering has the property that for each subring S[x1..xn] <= R, and each homogeneous polynomial f in S[x1..xi], xi divides f iff it divides the leading monomial.
-
-Elimination by the total reverse lexicographic ordering produces elements of a homogeneous ideal which are divisible by the last variable.!
 
 !WeightedMonomialOrdering commentStamp: '<historical>' prior: 0!
 My instances are monomial orderings defined by weight tuples.
@@ -5149,8 +5222,10 @@ if aSum < bSum, then a < b; if aSum > bSum, then a > b; if aSum = bSum, we conti
 Theorem: For any monomial ordering in a finite number of variables, there is a collection of weights that models the ordering. So, with this idea we can contruct any ordering.
 !
 
-!Polynomial commentStamp: 'len 11/29/2016 11:16:23' prior: 0!
-My instances are polynomials in one or many indeterminates, with coefficients in a commutative ring. Subclasses implement particular representations. See also PolynomialRing.
+!Polynomial commentStamp: '<historical>' prior: 0!
+My instances are polynomials in one or many indeterminates, with coefficients in a commutative ring. See PolynomialRing.
+
+By default polynomials are in sparse representation, but this can be redefined by subclasses (see UnivariatePolynomial).
 !
 
 !UnivariatePolynomial commentStamp: '<historical>' prior: 0!
@@ -5402,6 +5477,10 @@ isInfinite
 !Number methodsFor: '*mathematics' stamp: 'len 11/5/2016 10:31'!
 , anObject
 	^ (QQ tuple: {self}), anObject! !
+
+!Number methodsFor: '*mathematics' stamp: 'len 2/10/2017 15:26:13'!
+/// aNumber
+	^ self / aNumber! !
 
 !Number methodsFor: '*mathematics' stamp: 'len 1/22/2017 08:16:31'!
 ^ aNumber
@@ -18898,9 +18977,9 @@ x: anInteger
 x: anInteger to: exponent
 	^ (Monomial new: rank x: anInteger to: exponent) parent: self! !
 
-!MonomialMonoid class methodsFor: 'instance creation' stamp: 'len 11/20/2016 11:03:07'!
+!MonomialMonoid class methodsFor: 'instance creation' stamp: 'len 2/12/2017 06:07:42'!
 new: anInteger
-	^ self new: anInteger ordering: #trevlex! !
+	^ self new: anInteger ordering: #grevlex! !
 
 !MonomialMonoid class methodsFor: 'instance creation' stamp: 'len 11/20/2016 11:02:53'!
 new: anInteger ordering: aMonomialOrdering
@@ -19491,10 +19570,10 @@ oneIdeal
 polynomials
 	^ self propertyAt: #polynomials ifAbsentPut: [self polynomialsIn: #(x)]! !
 
-!Ring methodsFor: 'operations' stamp: 'len 7/8/2016 19:54'!
+!Ring methodsFor: 'operations' stamp: 'len 2/12/2017 06:07:46'!
 polynomialsIn: anIntegerOrCollection
 	"Answer the ring of multivariate polynomials over the receiver in the given indeterminates."
-	^ self polynomialsIn: anIntegerOrCollection ordering: #trevlex! !
+	^ self polynomialsIn: anIntegerOrCollection ordering: #grevlex! !
 
 !Ring methodsFor: 'operations' stamp: 'len 7/19/2016 01:12'!
 polynomialsIn: anIntegerOrCollection ordering: aMonomialOrdering
@@ -19510,11 +19589,11 @@ polynomialsIn: anIntegerOrCollection ordering: aMonomialOrdering
 product: aRing
 	^ self × aRing! !
 
-!Ring methodsFor: 'operations' stamp: 'len 1/18/2017 22:14:05'!
+!Ring methodsFor: 'operations' stamp: 'len 2/13/2017 07:44:41'!
 spec
 	"Answer the spectrum of the receiver, Spec(R)."
 	self isCommutative ifFalse: [^ DomainError signal: 'not a commutative ring'].
-	^ Spectrum coordinateRing: self! !
+	^ AffineScheme coordinateRing: self! !
 
 !Ring methodsFor: 'morphisms' stamp: 'len 12/22/2016 22:01:49'!
 to: aCodomain
@@ -20080,10 +20159,6 @@ extension: aPolynomial
 indeterminates
 	^ self integers indeterminates! !
 
-!RationalFunctionField methodsFor: 'testing' stamp: 'len 10/28/2016 11:16'!
-isLocal
-	^ true! !
-
 !RationalFunctionField methodsFor: 'testing' stamp: 'len 10/14/2016 22:59'!
 isUnivariate
 	^ self integers isUnivariate! !
@@ -20127,11 +20202,11 @@ z
 new: anInteger over: aRing
 	^ self over: (aRing polynomialsIn: anInteger)! !
 
-!RationalFunctionField class methodsFor: 'instance creation' stamp: 'len 1/20/2017 09:07:14'!
+!RationalFunctionField class methodsFor: 'instance creation' stamp: 'len 2/10/2017 15:23:36'!
 on: aPolynomialRing
 	| R |
 	R _ (aPolynomialRing isKindOf: PolynomialRing) ifTrue: [aPolynomialRing] ifFalse: [aPolynomialRing polynomials].
-	R ordering isLocal
+	R _ R ordering isLocal
 		ifTrue: [aPolynomialRing]
 		ifFalse: [aPolynomialRing orderedBy: #llex].
 	^ super on: R! !
@@ -20287,6 +20362,10 @@ ideal
 ideal: anIdeal
 	self propertyAt: #ideal put: anIdeal! !
 
+!QuotientRing methodsFor: 'private' stamp: 'len 2/13/2017 07:20:33'!
+idealClass
+	^ QuotientRingIdeal! !
+
 !QuotientRing methodsFor: 'testing' stamp: 'len 11/29/2016 14:41:38'!
 includes: anObject
 	(anObject is: #ResidueClass) ifFalse: [^ false].
@@ -20365,6 +20444,12 @@ projection
 !QuotientRing methodsFor: 'accessing' stamp: 'len 11/29/2016 14:42:06'!
 relation
 	^ EquivalenceRelation on: self base evaluating: [:a :b| self ideal includes: a - b]! !
+
+!QuotientRing methodsFor: 'accessing' stamp: 'len 2/13/2017 08:19:55'!
+relations
+	"Answer the relations defining the receiver.
+	If the receiver is the quotient R/I, the relations are the generators of I."
+	^ self ideal generators! !
 
 !QuotientRing methodsFor: 'private' stamp: 'len 1/5/2017 08:14:45'!
 representative: anElement
@@ -20939,17 +21024,17 @@ example
 sqrt: anInteger
 	^ self new sqrt: anInteger! !
 
-!AffineRing methodsFor: 'operations' stamp: 'len 2/9/2017 03:30:55'!
+!AffineRing methodsFor: 'operations' stamp: 'len 2/13/2017 08:18:44'!
 ’ aRing
 	"Answer the tensor product of the receiver and the argument."
-	| R generators |
+	| R relations |
 	((aRing isKindOf: AffineRing) and: [aRing scalars = self scalars])
 		ifFalse: [^ self notYetImplemented].
 	R _ self base ’ aRing base.
-	generators _ OrderedCollection new.
-	self ideal generators do: [:f| generators add: R !! f].
-	aRing ideal generators do: [:g| generators add: (R !! g substitute: [:i| i + self base rank])].
-	^ R / generators! !
+	relations _ OrderedCollection new.
+	self relations do: [:f| relations add: R !! f].
+	aRing relations do: [:g| relations add: (R !! g substitute: [:i| i + self base rank])].
+	^ R / relations! !
 
 !AffineRing methodsFor: 'converting' stamp: 'len 1/8/2017 22:02:04'!
 asModule
@@ -20964,31 +21049,18 @@ asModule
 characteristic
 	^ self base characteristic! !
 
-!AffineRing methodsFor: 'operations' stamp: 'len 2/4/2017 07:57:38'!
+!AffineRing methodsFor: 'accessing' stamp: 'len 2/4/2017 07:57:38'!
 degree
 	^ self ideal degree! !
 
-!AffineRing methodsFor: 'accessing' stamp: 'len 11/20/2016 11:09:41'!
+!AffineRing methodsFor: 'accessing' stamp: 'len 2/13/2017 09:51:49'!
 dimension
-	"Answer the Krull dimension of the receiver."
+	"Answer the Krull dimension of the receiver. Seen as a field extension, this is its transcendence degree."
 	"Derksen, Kemper, 'Computational Invariant Theory', 2002, Algorithm 1.2.4 (Dimension of an ideal)."
-	| G leadingMonomials |
 	self ideal isZero ifTrue: [^ self base dimension].
-	G _ self ideal ring ordering isGraded
-		ifTrue: [self ideal groebnerBasis]
-		ifFalse: [self ideal groebnerBasisWithOrdering: #trevlex].
-	G _ G minimal. "is this necesary?"
-	(G anySatisfy: [:any| any isConstant and: [any isZero not]])
-		ifTrue: [^ -1]. "or should it define it as -infinity ?"
-	
-	leadingMonomials _ Set new.
-	G do: [:each| leadingMonomials add: each leadingMonomial].
-	1 to: self base rank do: [:k|
-		((self base indeterminates combinations: k)
-			anySatisfy: [:combination|
-				leadingMonomials allSatisfy: [:monomial| combination includesAnyOf: monomial indeterminates]])
-			ifTrue: [^ self base rank - k]].
-	self error: 'this shouldnt be reached'! !
+	self isTrivial ifTrue: [^ -1]. "i.e., the ideal is the whole polynomial ring"
+	self scalars isField ifFalse: [self notYetImplemented].
+	^ self ideal maximallyIndependentIndeterminates size! !
 
 !AffineRing methodsFor: 'private' stamp: 'len 1/18/2017 22:52:12'!
 elementClass
@@ -21003,10 +21075,6 @@ embed: anObject
 embedding
 	"Answer the embedding of the coefficients ring into the receiver."
 	^ self projection ” self base embedding! !
-
-!AffineRing methodsFor: 'private' stamp: 'len 11/1/2016 05:01'!
-fractionClass
-	^ RationalFunction! !
 
 !AffineRing methodsFor: 'operations' stamp: 'len 10/27/2016 18:44'!
 hilbertSeries
@@ -21026,6 +21094,28 @@ indeterminates
 isAlgebra
 	^ true! !
 
+!AffineRing methodsFor: 'testing' stamp: 'len 2/12/2017 05:49:37'!
+isGlobal
+	^ self base isGlobal! !
+
+!AffineRing methodsFor: 'testing' stamp: 'len 2/12/2017 06:15:27'!
+isGraded
+	^ self base isGraded! !
+
+!AffineRing methodsFor: 'testing' stamp: 'len 2/12/2017 05:49:31'!
+isLocal
+	^ self base isLocal! !
+
+!AffineRing methodsFor: 'operations' stamp: 'len 2/12/2017 06:50:20'!
+localization
+	self isGlobal ifFalse: [DomainError signal: 'the ring is not global'].
+	^ self orderedBy: #lglex! !
+
+!AffineRing methodsFor: 'accessing' stamp: 'len 2/13/2017 04:57:13'!
+maximalIdeal
+	self isLocal ifFalse: [DomainError signal: 'the ring is not local'].
+	^ self * self generators! !
+
 !AffineRing methodsFor: 'converting' stamp: 'len 1/5/2017 08:53:02'!
 orderedBy: aMonomialOrdering
 	^ self class mod: (self ideal orderedBy: aMonomialOrdering)! !
@@ -21034,7 +21124,7 @@ orderedBy: aMonomialOrdering
 ordering
 	^ self base ordering! !
 
-!AffineRing methodsFor: 'operations' stamp: 'len 1/8/2017 17:23:17'!
+!AffineRing methodsFor: 'operations' stamp: 'len 2/13/2017 07:39:30'!
 proj
 	"Answer the projective spectrum of the receiver, Proj(R)."
 	self ideal isHomogeneous ifFalse: [^ DomainError signal: 'not a quotient by a homogeneous ideal, not properly graded'].
@@ -21042,7 +21132,7 @@ proj
 		ifTrue: [self base rank = 3
 			ifTrue: [^ ProjectivePlaneCurve coordinateRing: self]
 			ifFalse: [^ ProjectiveHypersurface coordinateRing: self]].
-	^ ProjectiveScheme coordinateRing: self! !
+	^ ProjectiveVariety coordinateRing: self! !
 
 !AffineRing methodsFor: 'accessing' stamp: 'len 12/30/2016 09:47:01'!
 rank
@@ -21054,23 +21144,20 @@ scalars
 	"Answer the coefficients ring of the receiver."
 	^ self base scalars! !
 
-!AffineRing methodsFor: 'operations' stamp: 'len 1/18/2017 22:14:54'!
+!AffineRing methodsFor: 'operations' stamp: 'len 2/13/2017 07:33:57'!
 spec
 	"Answer the spectrum of the receiver, Spec(R/I) as subscheme of Spec(R)."
 	(self ideal generators size = 1 and: [self ideal isZero not])
 		ifTrue: [self base rank = 2
 			ifTrue: [^ AffinePlaneCurve coordinateRing: self]
 			ifFalse: [^ AffineHypersurface coordinateRing: self]].
-	^ AffineScheme coordinateRing: self! !
+	^ AffineVariety coordinateRing: self! !
 
-!AffineRing methodsFor: 'accessing' stamp: 'len 2/6/2017 08:09:04'!
+!AffineRing methodsFor: 'accessing' stamp: 'len 2/12/2017 07:36:33'!
 vectorSpaceDimension
-	"Answer the dimension of the receiver as vector space."
-	self notYetImplemented
-"	| LI |
-	self scalars isField ifFalse: [DomainError signal: 'not over a field'].
-	LI _ self ideal leadingIdeal.
-	^ "! !
+	"Answer the dimension of the receiver as vector space over the coefficients field."
+	self ideal isZeroDimensional ifFalse: [^ Infinity positive].
+	self notYetImplemented! !
 
 !AffineRing methodsFor: 'elements' stamp: 'len 10/20/2016 10:50'!
 x
@@ -21675,10 +21762,10 @@ new: anInteger over: aRing
 	self scalars <= aDomain scalars ifFalse: [^ false].
 	^ true! !
 
-!PolynomialRing methodsFor: 'comparing' stamp: 'len 10/22/2016 18:09'!
+!PolynomialRing methodsFor: 'comparing' stamp: 'len 2/10/2017 20:12:10'!
 = anObject
 	self == anObject ifTrue: [^ true].
-	^ (anObject isKindOf: PolynomialRing) and: [self scalars = anObject scalars and: [self rank = anObject rank]]! !
+	^ (anObject isKindOf: PolynomialRing) and: [self scalars = anObject scalars and: [self rank = anObject rank "and: [self ordering = anObject ordering]"]]! !
 
 !PolynomialRing methodsFor: 'comparing' stamp: 'len 7/19/2016 01:12'!
 > aDomain
@@ -21902,9 +21989,11 @@ determinantOfOrder: n
 	n = 0 ifTrue: [^ self zero].
 	^ (self ^ (n@n) evaluating: [:i :j| self x: n * (j - 1) + i]) determinant! !
 
-!PolynomialRing methodsFor: 'accessing' stamp: 'len 10/20/2016 03:34'!
+!PolynomialRing methodsFor: 'accessing' stamp: 'len 2/12/2017 07:01:20'!
 dimension
 	"Answer the Krull dimension of the receiver."
+	self isLocal ifTrue: [^ -1].
+	self isGlobal ifFalse: [^ self error: 'not a global ring'].
 	self scalars isNoetherian ifTrue: [^ self scalars dimension + self rank].
 	^ super dimension! !
 
@@ -22066,10 +22155,25 @@ isEuclidean
 isGCDDomain
 	^ self scalars isField or: [self scalars isUFD]! !
 
+!PolynomialRing methodsFor: 'testing' stamp: 'len 2/12/2017 05:48:56'!
+isGlobal
+	"Answer true if this polynomial ring is global, i.e. it uses a global monomial ordering."
+	^ self ordering isGlobal! !
+
+!PolynomialRing methodsFor: 'testing' stamp: 'len 2/12/2017 06:13:48'!
+isGraded
+	"Answer true if this polynomial ring is graded, i.e. it uses a graded monomial ordering."
+	^ self ordering isGraded! !
+
 !PolynomialRing methodsFor: 'testing' stamp: 'len 10/22/2016 18:09'!
 isIntegralDomain
 	self scalars isIntegralDomain ifTrue: [^ true].
 	^ super isIntegralDomain! !
+
+!PolynomialRing methodsFor: 'testing' stamp: 'len 2/12/2017 05:48:39'!
+isLocal
+	"Answer true if this polynomial ring is local, i.e. it uses a local monomial ordering."
+	^ self ordering isLocal! !
 
 !PolynomialRing methodsFor: 'testing' stamp: 'len 10/22/2016 18:10'!
 isNoetherian
@@ -22090,10 +22194,15 @@ isUFD
 isUnivariate
 	^ self rank = 1! !
 
-!PolynomialRing methodsFor: 'operations' stamp: 'len 1/8/2017 08:16:39'!
+!PolynomialRing methodsFor: 'operations' stamp: 'len 2/12/2017 06:50:37'!
 localization
-	"Answer the localization of the receiver at the point around 0, i.e. away from the maximal ideal <x1,...,xn>."
-	^ self localization: self * self generators! !
+	self isGlobal ifFalse: [DomainError signal: 'the ring is not global'].
+	^ self orderedBy: #lglex! !
+
+!PolynomialRing methodsFor: 'accessing' stamp: 'len 2/12/2017 06:49:58'!
+maximalIdeal
+	self isLocal ifFalse: [DomainError signal: 'the ring is not local'].
+	^ self * self generators! !
 
 !PolynomialRing methodsFor: 'operations' stamp: 'len 12/28/2016 12:21:08'!
 modPrime: anObject
@@ -22155,12 +22264,12 @@ printIndeterminatesOn: aStream
 		do: [:i| aStream print: (self x: i)]
 		separatedBy: [aStream nextPut: $,]! !
 
-!PolynomialRing methodsFor: 'printing' stamp: 'len 2/5/2017 10:16:21'!
+!PolynomialRing methodsFor: 'printing' stamp: 'len 2/12/2017 06:49:02'!
 printOn: aStream
 	aStream print: self scalars; nextPut: $[.
 	self printIndeterminatesOn: aStream.
 	aStream nextPut: $].
-"	self ordering isLocal ifTrue: [aStream nextPutAll: 'LOCAL' sub]"! !
+	self ordering isLocal ifTrue: [aStream nextPutAll: self maximalIdeal printText sub]! !
 
 !PolynomialRing methodsFor: 'operations' stamp: 'len 9/26/2016 06:46'!
 proj
@@ -22514,6 +22623,13 @@ denominator
 	anIdeal ring = self ring ifFalse: [^ DomainError signal: 'ideals from different rings'].
 	^ self class on: self ring generators: (self generators asSet copy addAll: anIdeal generators; yourself)! !
 
+!Ideal methodsFor: 'operations' stamp: 'len 2/13/2017 05:07:55'!
+/ anIdeal
+	"If the receiver is an ideal I in a ring R, and the argument is an ideal J in R, answer the projection of I to the quotient ring R/J."
+	| Q |
+	Q _ self ring / anIdeal.
+	^ Q * (self generators collect: [:each| Q project: each])! !
+
 !Ideal methodsFor: 'operations' stamp: 'len 12/8/2016 20:27:56'!
 /\ anIdeal
 	"Meet."
@@ -22543,7 +22659,7 @@ denominator
 	"Join."
 	^ self + anIdeal! !
 
-!Ideal methodsFor: 'operations' stamp: 'len 12/8/2016 20:30:59'!
+!Ideal methodsFor: 'operations' stamp: 'len 2/13/2017 05:16:48'!
 • anIdeal
 	^ self ring * (self generator lcm: anIdeal generator)! !
 
@@ -22570,15 +22686,19 @@ as: aRing
 asIdeal
 	^ self! !
 
+!Ideal methodsFor: 'random' stamp: 'len 2/13/2017 20:37:52'!
+atRandom: aRandom bits: bitSize
+	^ self generators sum: [:each| each * (self ring atRandom: aRandom bits: bitSize / self generators size)]! !
+
 !Ideal methodsFor: 'accessing' stamp: 'len 2/5/2017 06:35:43'!
 codimension
 	"Answer the Krull codimension of the receiver."
 	^ self quotient codimension! !
 
-!Ideal methodsFor: 'operations' stamp: 'len 12/21/2015 02:56'!
+!Ideal methodsFor: 'operations' stamp: 'len 2/13/2017 05:17:14'!
 colon: anIdeal
 	"Answer the colon quotient I:J of the receiver I with the argument J."
-	^ self subclassResponsibility! !
+	self subclassResponsibility! !
 
 !Ideal methodsFor: 'testing' stamp: 'len 12/13/2016 07:40:07'!
 contains: anObject
@@ -22629,11 +22749,16 @@ generators: aCollection
 hash
 	^ self ring hash! !
 
+!Ideal methodsFor: 'accessing' stamp: 'len 2/12/2017 05:32:47'!
+height
+	"Answer the height (or codimension, or rank) of the receiver."
+	^ (self ring localization: self) dimension! !
+
 !Ideal methodsFor: 'testing' stamp: 'len 12/13/2016 07:40:27'!
 includes: anElement
 	^ (self ring includes: anElement) and: [self contains: anElement]! !
 
-!Ideal methodsFor: 'operations-elements' stamp: 'len 11/14/2016 07:33'!
+!Ideal methodsFor: 'operations-elements' stamp: 'len 2/13/2017 05:19:15'!
 inverseOf: anElement
 	| euclid |
 	self ring isEuclidean ifFalse: [^ nil].
@@ -22661,8 +22786,9 @@ isOne
 isPrime
 	^ self propertyAt: #isPrime! !
 
-!Ideal methodsFor: 'testing' stamp: 'len 12/28/2016 12:09:06'!
+!Ideal methodsFor: 'testing' stamp: 'len 2/13/2017 05:45:35'!
 isPrincipal
+	"Answer true if the receiver is generated by a single element."
 	self generators size <= 1 ifTrue: [^ true].
 	self ring isPID ifTrue: [^ true].
 	^ self propertyAt: #isPrincipal! !
@@ -22670,6 +22796,10 @@ isPrincipal
 !Ideal methodsFor: 'testing' stamp: 'len 9/26/2016 16:58'!
 isProper
 	^ self ~= self ring! !
+
+!Ideal methodsFor: 'testing' stamp: 'len 2/13/2017 08:38:58'!
+isRadical
+	^ self = self radical! !
 
 !Ideal methodsFor: 'testing' stamp: 'len 10/29/2016 11:34'!
 isZero
@@ -22697,13 +22827,17 @@ quotient
 		ifTrue: [^ self ring base / (self ring ideal generators, (self generators collect: [:each| each representative]))]."
 	^ QuotientRing mod: self! !
 
-!Ideal methodsFor: 'operations' stamp: 'len 2/13/2016 02:49'!
+!Ideal methodsFor: 'operations' stamp: 'len 2/13/2017 05:17:30'!
 radical
 	^ self subclassResponsibility! !
 
-!Ideal methodsFor: 'operations-elements' stamp: 'len 10/6/2016 09:35'!
+!Ideal methodsFor: 'operations-elements' stamp: 'len 2/13/2017 12:49:42'!
 reduce: anElement
-	"Answer the normal form of anElement with respect to the receiver. Subclasses should override."
+	"Answer the normal form of anElement with respect to the receiver.
+	It is required that:
+		(I reduce: x) = (I reduce: y) <=> x-y is in I, and
+		x - (I reduce: x) is in I for all x, y in I.
+	Subclasses should override."
 	^ anElement \\ self generator! !
 
 !Ideal methodsFor: 'accessing' stamp: 'len 12/23/2016 09:14:09'!
@@ -22718,6 +22852,42 @@ ring: aRing
 !Ideal class methodsFor: 'instance creation' stamp: 'len 9/26/2016 16:55'!
 on: aRing generators: aCollection
 	^ self new ring: aRing; generators: aCollection! !
+
+!QuotientRingIdeal methodsFor: 'operations' stamp: 'len 2/13/2017 05:16:38'!
+• anIdeal
+	^ (self lift • anIdeal lift) / self ring ideal! !
+
+!QuotientRingIdeal methodsFor: 'operations' stamp: 'len 2/13/2017 05:17:09'!
+colon: anIdeal
+	"Answer the colon quotient I:J of the receiver I with the argument J."
+	^ (self lift colon: anIdeal lift) / self ring ideal! !
+
+!QuotientRingIdeal methodsFor: 'operations-elements' stamp: 'len 2/13/2017 05:19:07'!
+inverseOf: anElement
+	^ self ring project: (self lift inverseOf: anElement representative)! !
+
+!QuotientRingIdeal methodsFor: 'testing' stamp: 'len 2/13/2017 05:40:25'!
+isPrime
+	^ self lift isPrime! !
+
+!QuotientRingIdeal methodsFor: 'testing' stamp: 'len 2/13/2017 05:45:48'!
+isPrincipal
+	"Answer true if the receiver is generated by a single element."
+	^ self lift isPrincipal! !
+
+!QuotientRingIdeal methodsFor: 'morphisms' stamp: 'len 2/13/2017 17:09:34'!
+lift
+	"If the receiver is an ideal I of a quotient ring A/J, return the lifting of I to A, this is the ideal in A generated by the representatives in A of the generators of I."
+	^ self propertyAt: #lift ifAbsentPut: [self ring base * (self generators collect: [:each| each representative]) + self ring ideal]! !
+
+!QuotientRingIdeal methodsFor: 'operations' stamp: 'len 2/13/2017 05:17:26'!
+radical
+	^ self lift radical / self ring ideal! !
+
+!QuotientRingIdeal methodsFor: 'operations-elements' stamp: 'len 2/13/2017 05:19:54'!
+reduce: anElement
+	"Answer the normal form of anElement with respect to the receiver. Subclasses should override."
+	^ self ring project: (self lift reduce: anElement representative)! !
 
 !RationalIntegerIdeal methodsFor: 'operations' stamp: 'len 12/8/2016 20:31:11'!
 • anIdeal
@@ -22766,10 +22936,6 @@ remainderAtRandom: aRandom
 	T _ R` x: t.
 	^ ((self as: R`) * T + ((anIdeal as: R`) * (T - R` one)) eliminate: t) as: R! !
 
-!PolynomialIdeal methodsFor: 'random' stamp: 'len 9/26/2016 16:58'!
-atRandom: aRandom bits: bitSize
-	^ self generators sum: [:each| each * (self ring atRandom: aRandom bits: bitSize / self generators size)]! !
-
 !PolynomialIdeal methodsFor: 'accessing' stamp: 'len 2/3/2017 07:16:22'!
 basis
 	"Answer a standard basis of the receiver."
@@ -22779,7 +22945,7 @@ basis
 basisWithOrdering: aMonomialOrdering
 	^ (self orderedBy: aMonomialOrdering) basis! !
 
-!PolynomialIdeal methodsFor: 'operations' stamp: 'len 2/6/2017 03:05:55'!
+!PolynomialIdeal methodsFor: 'operations' stamp: 'len 2/12/2017 05:13:21'!
 colon: anIdeal
 	"Answer the colon quotient I:J of the receiver I with the argument J.
 	This is defined as I:J := {r in R | rJ <= I}."
@@ -22790,7 +22956,7 @@ colon: anIdeal
 	R isIntegralDomain ifFalse: [^ self error: 'not over an integral domain'].
 	answer _ R asIdeal. "<1>"
 	anIdeal generators do: [:g|
-		answer _ answer • (R * ((R * g • self) groebnerBasis apply: [:h| h /// g]))].
+		answer _ answer • (R * ((R * g • self) basis apply: [:h| h /// g]))].
 	^ answer! !
 
 !PolynomialIdeal methodsFor: 'testing' stamp: 'len 1/26/2017 09:36:18'!
@@ -22800,12 +22966,12 @@ contains: aPolynomial
 	This works on any Groebner basis or standard basis (any monomial ordering)."
 	^ (self reduce: aPolynomial) isZero! !
 
-!PolynomialIdeal methodsFor: 'accessing' stamp: 'len 11/23/2016 05:31:37'!
+!PolynomialIdeal methodsFor: 'accessing' stamp: 'len 2/12/2017 06:52:18'!
 degree
 	"Answer the degree of the ideal, i.e. the number of monomials that are not multiple of any leading monomial in the Groebner basis."
 	| G count leadingMonomials |
 	leadingMonomials _ Set new.
-	G _ self groebnerBasis minimal.
+	G _ self basis minimal.
 	G do: [:each| leadingMonomials add: each leadingMonomial].
 	count _ 0.
 	G do: [:each|
@@ -22841,13 +23007,13 @@ output: univariate eliminant g(xi) or there's no eliminant
 where n is minimal, then output eliminant g(xi) = sum akxi^k
 "! !
 
-!PolynomialIdeal methodsFor: 'operations' stamp: 'len 2/6/2017 08:50:28'!
+!PolynomialIdeal methodsFor: 'operations' stamp: 'len 2/12/2017 06:06:54'!
 eliminateAll: aCollection
 	"Answer the elimination ideal for the indeterminates in aCollection = {xi}, i.e. the subideal of polynomials without indeterminates {xi}."
 	| freeIndeterminates ordering G newGenerators |
 	freeIndeterminates _ self ordering indeterminates reject: [:each| aCollection includes: each].
 	self ordering isGlobal ifFalse: [self notYetImplemented].
-	ordering _ (MonomialOrdering lex: aCollection), (MonomialOrdering trevlex: freeIndeterminates). "if the ideal is homogeneous, should we use use tlex?"
+	ordering _ (MonomialOrdering lex: aCollection), (MonomialOrdering grevlex: freeIndeterminates). "if the ideal is homogeneous, should we use use tlex?"
 	G _ (self groebnerBasisWithOrdering: ordering) minimal.
 	newGenerators _ G asArray select: [:each| (aCollection noneSatisfy: [:none| each has: none])].
 	^ self ring * (newGenerators collect: [:each| each as: self ring])! !
@@ -22873,10 +23039,6 @@ groebnerBasis
 groebnerBasisWithOrdering: aMonomialOrdering
 	^ (self orderedBy: aMonomialOrdering) groebnerBasis! !
 
-!PolynomialIdeal methodsFor: 'accessing' stamp: 'len 10/23/2016 11:59'!
-height
-	^ self notYetImplemented! !
-
 !PolynomialIdeal methodsFor: 'operations' stamp: 'len 2/3/2017 07:17:00'!
 highestCorner
 	"Answer the highest corner of the receiver I.
@@ -22899,14 +23061,14 @@ hilbertSeriesAt: t
 	self isHomogeneous ifFalse: [^ self notYetImplemented].
 	^ self leadingIdeal hilbertSeriesAt: t! !
 
-!PolynomialIdeal methodsFor: 'operations' stamp: 'len 11/19/2016 10:07:54'!
+!PolynomialIdeal methodsFor: 'operations' stamp: 'len 2/12/2017 06:07:04'!
 homogenized
 	"Answer the homogenization of the receiver introducing a new indeterminate."
 	| R R` G ordering |
 	R _ self ring.
 	R` _ R scalars polynomialsIn: R rank + 1.
-	"Must use a graded monomial ordering such as tlex or trevlex:"
-	ordering _ MonomialOrdering trevlex: R rank.
+	"Must use a graded monomial ordering such as glex or grevlex:"
+	ordering _ MonomialOrdering grevlex: R rank.
 	G _ self groebnerBasisWithOrdering: ordering.
 	^ R` * (G collect: [:each| (each as: R`) homogenizedIn: R` rank])! !
 
@@ -22919,9 +23081,10 @@ inverseOf: aPolynomial
 isHomogeneous
 	^ self generators allSatisfy: [:each| each isHomogeneous]! !
 
-!PolynomialIdeal methodsFor: 'testing' stamp: 'len 12/15/2015 03:19'!
-isRadical
-	^ self = self radical! !
+!PolynomialIdeal methodsFor: 'testing' stamp: 'len 2/12/2017 07:40:26'!
+isPrincipal
+	"Answer true if the receiver is generated by a single polynomial."
+	^ self basis reduced size <= 1! !
 
 !PolynomialIdeal methodsFor: 'testing' stamp: 'len 10/24/2016 15:34'!
 isSaturated
@@ -22942,6 +23105,11 @@ isTrivial
 isUnivariate
 	^ self ring isUnivariate! !
 
+!PolynomialIdeal methodsFor: 'testing' stamp: 'len 2/12/2017 06:57:19'!
+isZeroDimensional
+	"Answer true if the receiver is zero-dimensional. Being zero-dimensional means that the quotient ring has non-zero finite dimension as vector space over the coefficients field."
+	^ self dimension = 0! !
+
 !PolynomialIdeal methodsFor: 'testing' stamp: 'len 2/6/2017 09:11:46'!
 isZeroDimensionalRadical
 	"Answer true if the receiver is radical, assuming it is zero-dimensional.
@@ -22956,6 +23124,34 @@ isZeroDimensionalRadical
 leadingIdeal
 	"Answer the ideal of all leading monomials of the receiver."
 	^ MonomialIdeal on: self ring generators: self basis leadingTerms! !
+
+!PolynomialIdeal methodsFor: 'operations' stamp: 'len 2/12/2017 06:51:56'!
+localization
+	self ring isGlobal ifFalse: [DomainError signal: 'the ring is not global'].
+	^ self orderedBy: #lglex! !
+
+!PolynomialIdeal methodsFor: 'accessing' stamp: 'len 2/13/2017 09:56:21'!
+maximallyIndependentIndeterminates
+	"Answer a maximimally independent set of indeterminates, or nil if the receiver is the full polynomial ring.
+	The size of a maximally independent set is defined to be the dimension of the ideal, and it is the Krull dimension of the quotient ring defined by the ideal. Seeing the quotient ring as a field extension, the Krull dimension is its transcendence degree."
+	"Derksen, Kemper, 'Computational Invariant Theory', 2002, Algorithm 1.2.4 (Dimension of an ideal)."
+	| G leadingMonomials indeterminates |
+	self isZero ifTrue: [^ #()].
+	G _ self ordering isGraded
+		ifTrue: [self groebnerBasis] "what about local orderings?"
+		ifFalse: [self groebnerBasisWithOrdering: #grevlex].
+	G _ G minimal. "is this necesary?"
+	(G anySatisfy: [:any| any isConstant and: [any isZero not]])
+		ifTrue: [^ self error: 'not a proper ideal'].
+
+	leadingMonomials _ Set new.
+	G do: [:each| leadingMonomials add: each leadingMonomial].
+	indeterminates _ self ring indeterminates.
+	1 to: indeterminates size do: [:k|
+		(indeterminates combinations: k) do: [:combination|
+			(leadingMonomials allSatisfy: [:monomial| combination includesAnyOf: monomial indeterminates])
+				ifTrue: [^ indeterminates reject: [:any| combination includes: any]]]].
+	self error: 'this shouldn''t be reached'! !
 
 !PolynomialIdeal methodsFor: 'converting' stamp: 'len 11/19/2016 09:59:35'!
 orderedBy: aMonomialOrdering
@@ -25856,11 +26052,6 @@ pointsOver: aRing do: aBlock
 	"Naive enumeration of rational points on the receiver."
 	self ambient pointsOver: aRing do: [:each| (self satisfies: each coordinates) ifTrue: [aBlock value: (self pointAt: each coordinates)]]! !
 
-!Scheme methodsFor: 'morphisms' stamp: 'len 12/31/2016 22:05:44'!
-structureMap
-	"Answer the structure morphism."
-	^ self subclassResponsibility! !
-
 !Scheme methodsFor: 'operations' stamp: 'len 1/13/2017 20:08:20'!
 subscheme: anObject
 	"Answer the subscheme defined by anObject, as subscheme of the ambient space.
@@ -25947,120 +26138,122 @@ whitneyUmbrella
 	A _ AffineSpace new: #(x y z) over: QQ.
 	^ A subscheme: (A coordinateRing generate: [:x :y :z| x^2*y - (z^2)])! !
 
-!Spectrum methodsFor: 'comparing' stamp: 'len 1/13/2017 16:32:32'!
+!AffineScheme methodsFor: 'comparing' stamp: 'len 1/13/2017 16:32:32'!
 = anObject
 	^ (anObject isKindOf: self species) and: [self coordinateRing = anObject coordinateRing]! !
 
-!Spectrum methodsFor: 'accessing' stamp: 'len 1/13/2017 16:06:54'!
+!AffineScheme methodsFor: 'accessing' stamp: 'len 1/13/2017 16:06:54'!
 base
 	"Answer the base scheme of the receiver."
 	^ self scalars spec! !
 
-!Spectrum methodsFor: 'testing' stamp: 'len 1/13/2017 20:20:05'!
+!AffineScheme methodsFor: 'testing' stamp: 'len 1/13/2017 20:20:05'!
 contains: anIdeal
 	"Answer true if the receiver contains the given point (a prime ideal of its coordinate ring)."
 	^ true! !
 
-!Spectrum methodsFor: 'accessing' stamp: 'len 1/13/2017 16:59:19'!
+!AffineScheme methodsFor: 'accessing' stamp: 'len 1/13/2017 16:59:19'!
 coordinateRing
 	"Answer the affine coordinate ring."
 	^ self propertyAt: #coordinateRing! !
 
-!Spectrum methodsFor: 'accessing-private' stamp: 'len 1/13/2017 16:08:53'!
+!AffineScheme methodsFor: 'accessing-private' stamp: 'len 1/13/2017 16:08:53'!
 coordinateRing: aCommutativeRing
 	self propertyAt: #coordinateRing put: aCommutativeRing! !
 
-!Spectrum methodsFor: 'accessing' stamp: 'len 1/13/2017 16:01:28'!
+!AffineScheme methodsFor: 'accessing' stamp: 'len 1/13/2017 16:01:28'!
 dimension
 	"Answer the dimension of the highest dimensional component of the receiver.
 	This is the Krull dimension of the coordinate ring."
 	^ self coordinateRing dimension! !
 
-!Spectrum methodsFor: 'comparing' stamp: 'len 1/13/2017 16:32:38'!
+!AffineScheme methodsFor: 'comparing' stamp: 'len 1/13/2017 16:32:38'!
 hash
 	^ self coordinateRing hash! !
 
-!Spectrum methodsFor: 'testing' stamp: 'len 1/13/2017 20:16:32'!
+!AffineScheme methodsFor: 'testing' stamp: 'len 1/13/2017 20:16:32'!
 includes: anObject
 	^ (anObject isKindOf: Ideal) and: [anObject ring = self coordinateRing and: [anObject isPrime]]! !
 
-!Spectrum methodsFor: 'testing' stamp: 'len 1/13/2017 16:02:42'!
+!AffineScheme methodsFor: 'testing' stamp: 'len 1/13/2017 16:02:42'!
 isAffine
 	^ true! !
 
-!Spectrum methodsFor: 'testing' stamp: 'len 1/13/2017 16:03:38'!
+!AffineScheme methodsFor: 'testing' stamp: 'len 1/13/2017 16:03:38'!
 isInitial
 	^ self coordinateRing isTerminal! !
 
-!Spectrum methodsFor: 'testing' stamp: 'len 1/13/2017 16:57:08'!
+!AffineScheme methodsFor: 'testing' stamp: 'len 1/13/2017 16:57:08'!
 isNoetherian
 	^ self coordinateRing isNoetherian! !
 
-!Spectrum methodsFor: 'testing' stamp: 'len 1/13/2017 16:03:42'!
+!AffineScheme methodsFor: 'testing' stamp: 'len 1/13/2017 16:03:42'!
 isTerminal
 	^ self coordinateRing isInitial! !
 
-!Spectrum methodsFor: 'converting' stamp: 'len 1/13/2017 16:10:18'!
+!AffineScheme methodsFor: 'converting' stamp: 'len 1/13/2017 16:10:18'!
 over: aRing
 	^ self class coordinateRing: (self coordinateRing over: aRing)! !
 
-!Spectrum methodsFor: 'printing' stamp: 'len 1/13/2017 16:02:35'!
+!AffineScheme methodsFor: 'printing' stamp: 'len 1/13/2017 16:02:35'!
 printOn: aStream
 	aStream nextPutAll: 'Spec '; print: self coordinateRing! !
 
-!Spectrum methodsFor: 'accessing' stamp: 'len 1/13/2017 16:01:47'!
+!AffineScheme methodsFor: 'accessing' stamp: 'len 1/13/2017 16:01:47'!
 scalars
 	"Answer the base ring of the receiver."
 	^ self coordinateRing scalars! !
 
-!Spectrum methodsFor: 'private' stamp: 'len 1/18/2017 22:13:59'!
+!AffineScheme methodsFor: 'private' stamp: 'len 2/13/2017 07:44:36'!
 species
-	^ Spectrum! !
+	^ AffineScheme! !
 
-!Spectrum class methodsFor: 'instance creation' stamp: 'len 1/13/2017 15:59:43'!
+!AffineScheme class methodsFor: 'instance creation' stamp: 'len 1/13/2017 15:59:43'!
 coordinateRing: aRing
 	^ self new coordinateRing: aRing! !
 
-!AffineScheme methodsFor: 'operations' stamp: 'len 1/13/2017 16:12:14'!
+!AffineVariety methodsFor: 'operations' stamp: 'len 1/13/2017 16:12:14'!
 - aScheme
 	"Answer the difference of the receiver with the argument, whose associated ideal is the ideal (colon) quotient of the respective ideals.
 	This is the closure of the result of removing from the receiver the points in the intersection with the argument, counted with multiplicity. (See also the 'complement' >>-)."
 	self ambient = aScheme ambient ifFalse: [^ DomainError signal: 'ambients don''t match'].
 	^ self ambient subscheme: (self ideal colon: aScheme ideal)! !
 
-!AffineScheme methodsFor: 'comparing' stamp: 'len 1/13/2017 16:09:29'!
+!AffineVariety methodsFor: 'comparing' stamp: 'len 1/13/2017 16:09:29'!
 < aScheme
 	^ self ideal > aScheme ideal! !
 
-!AffineScheme methodsFor: 'comparing' stamp: 'len 1/13/2017 16:09:34'!
+!AffineVariety methodsFor: 'comparing' stamp: 'len 1/13/2017 16:09:34'!
 <= aScheme
 	^ self ideal >= aScheme ideal! !
 
-!AffineScheme methodsFor: 'comparing' stamp: 'len 1/18/2017 22:14:38'!
+!AffineVariety methodsFor: 'comparing' stamp: 'len 2/13/2017 07:33:16'!
 = anObject
-	^ (anObject isKindOf: AffineScheme) and: [self ideal = anObject ideal]! !
+	^ (anObject isKindOf: AffineVariety) and: [self ideal = anObject ideal]! !
 
-!AffineScheme methodsFor: 'operations' stamp: 'len 1/13/2017 16:12:29'!
+!AffineVariety methodsFor: 'operations' stamp: 'len 1/13/2017 16:12:29'!
 \ aScheme
 	"Answer the (closure of the) complement of the argument in the receiver.
 	This is the closure of the result of removing from the receiver *all* points in the intersection with the argument, irrespective of multiplicity. (See also the 'difference' >>\)."
 	self ambient = aScheme ambient ifFalse: [^ DomainError signal: 'ambients don''t match'].
 	^ self ambient subscheme: (self ideal saturation: aScheme ideal)! !
 
-!AffineScheme methodsFor: 'operations' stamp: 'len 2/9/2017 09:50:15'!
-× anAffineScheme
+!AffineVariety methodsFor: 'operations' stamp: 'len 2/13/2017 07:33:41'!
+× anAffineVariety
 	"Answer the cartesian product of the receiver and the argument."
-	self scalars = anAffineScheme scalars ifFalse: [self error: 'scalars don''t match'].
-	(anAffineScheme isKindOf: AffineScheme) ifFalse: [self notYetImplemented].
-	^ (self coordinateRing ’ anAffineScheme coordinateRing) spec! !
+	self scalars = anAffineVariety scalars ifFalse: [self error: 'scalars don''t match'].
+	(anAffineVariety isKindOf: AffineVariety) ifFalse: [self notYetImplemented].
+	^ (self coordinateRing ’ anAffineVariety coordinateRing) spec
+		propertyAt: #ambient put: self ambient × anAffineVariety ambient;
+		yourself! !
 
-!AffineScheme methodsFor: 'operations' stamp: 'len 1/13/2017 16:35:55'!
+!AffineVariety methodsFor: 'operations' stamp: 'len 1/13/2017 16:35:55'!
 • aScheme
 	"Answer the intersection of the receiver and the argument."
 	self ambient = aScheme ambient ifFalse: [^ DomainError signal: 'ambients don''t match'].
 	^ self ambient subscheme: self ideal + aScheme ideal! !
 
-!AffineScheme methodsFor: 'operations' stamp: 'len 1/13/2017 16:35:59'!
+!AffineVariety methodsFor: 'operations' stamp: 'len 1/13/2017 16:35:59'!
 – aScheme
 	"Answer the union of the receiver and the argument."
 	self ambient = aScheme ambient ifFalse: [^ DomainError signal: 'ambients don''t match'].
@@ -26070,39 +26263,39 @@ coordinateRing: aRing
 	^ self class on: self ambient ideal: ideal * aScheme ideal
 although the intersection is harder to compute, it behaves better with radicalization, because the intersection of two radical ideals is radical and we don't need to compute radicals again"! !
 
-!AffineScheme methodsFor: 'accessing' stamp: 'len 2/10/2017 07:10:26'!
+!AffineVariety methodsFor: 'accessing' stamp: 'len 2/10/2017 07:10:26'!
 ambient
 	^ self propertyAt: #ambient ifAbsent: [self coordinateRing base spec]! !
 
-!AffineScheme methodsFor: 'testing' stamp: 'len 1/13/2017 20:19:22'!
+!AffineVariety methodsFor: 'testing' stamp: 'len 1/13/2017 20:19:22'!
 contains: anIdeal
 	"Answer true if the receiver contains the given point (a prime ideal)."
 	^ self ideal >= anIdeal! !
 
-!AffineScheme methodsFor: 'operations' stamp: 'len 1/13/2017 16:14:11'!
+!AffineVariety methodsFor: 'operations' stamp: 'len 1/13/2017 16:14:11'!
 decomposition
 	"Answer the irreducible components of the receiver."
 	^ self ideal associatedPrimes collect: [:each| self subscheme: each]! !
 
-!AffineScheme methodsFor: 'accessing' stamp: 'len 1/18/2017 22:18:20'!
+!AffineVariety methodsFor: 'accessing' stamp: 'len 1/18/2017 22:18:20'!
 functionField
 	"Answer the function field (or field of rational functions) of the receiver. This is the fractions field of the coordinate ring and it's noted K(V) (analogous to the coordinate ring noted K[V])."
 	^ self coordinateRing fractions! !
 
-!AffineScheme methodsFor: 'comparing' stamp: 'len 1/13/2017 16:33:18'!
+!AffineVariety methodsFor: 'comparing' stamp: 'len 1/13/2017 16:33:18'!
 hash
 	^ self ideal hash! !
 
-!AffineScheme methodsFor: 'accessing' stamp: 'len 1/13/2017 16:08:24'!
+!AffineVariety methodsFor: 'accessing' stamp: 'len 1/13/2017 16:08:24'!
 ideal
 	"Answer the defining ideal of the receiver."
 	^ self coordinateRing ideal! !
 
-!AffineScheme methodsFor: 'testing' stamp: 'len 1/9/2017 16:35:09'!
+!AffineVariety methodsFor: 'testing' stamp: 'len 1/9/2017 16:35:09'!
 isComplete
 	^ self isFinite! !
 
-!AffineScheme methodsFor: 'testing' stamp: 'len 10/19/2016 23:04'!
+!AffineVariety methodsFor: 'testing' stamp: 'len 10/19/2016 23:04'!
 isEmpty
 	"Answer true if the receiver has no points over any algebraic closure of its base field.
 	Ref. Algorithmic Algebra, B. Mishra, pag. 142-145."
@@ -26111,12 +26304,12 @@ isEmpty
 		ifFalse: [self error: 'the ground field is not algebraically closed'].
 "	^ false! !
 
-!AffineScheme methodsFor: 'testing' stamp: 'len 1/24/2017 11:58:07'!
+!AffineVariety methodsFor: 'testing' stamp: 'len 1/24/2017 11:58:07'!
 isEquidimensional
 	"Answer true if the receiver is pure dimensional or equidimensional, i.e. if the dimension of the local ring at p is independent of p."
 	^ self singular dimension < 0! !
 
-!AffineScheme methodsFor: 'testing' stamp: 'len 10/19/2016 23:08'!
+!AffineVariety methodsFor: 'testing' stamp: 'len 10/19/2016 23:08'!
 isFinite
 	"This works for any Groebner basis, no matter the ordering."
 	"Does this work for non integral schemes?"
@@ -26125,50 +26318,50 @@ isFinite
 			ifFalse: [^ false]].
 	^ true! !
 
-!AffineScheme methodsFor: 'testing' stamp: 'len 1/13/2017 16:57:47'!
+!AffineVariety methodsFor: 'testing' stamp: 'len 1/13/2017 16:57:47'!
 isIrreducible
 	self flag: #fix. "magma does it differently"
 	^ self ideal isPrime "IFF. Alternatively, iif the coordinate ring is an integral domain"! !
 
-!AffineScheme methodsFor: 'testing' stamp: 'len 1/13/2017 16:56:17'!
+!AffineVariety methodsFor: 'testing' stamp: 'len 1/13/2017 16:56:17'!
 isLinear
 	^ self reduced ideal generators allSatisfy: [:each| each isLinear]! !
 
-!AffineScheme methodsFor: 'testing' stamp: 'len 1/13/2017 16:51:43'!
+!AffineVariety methodsFor: 'testing' stamp: 'len 1/13/2017 16:51:43'!
 isReduced
 	^ self ideal isRadical! !
 
-!AffineScheme methodsFor: 'operations' stamp: 'len 2/10/2017 07:54:33'!
+!AffineVariety methodsFor: 'operations' stamp: 'len 2/12/2017 06:02:00'!
 multiplicityAt: aTuple
 	"Answer the multiplicity at the given point."
-	^ ((self translatedBy: aTuple negated) ideal basisWithOrdering: #ltlex)
+	^ ((self translatedBy: aTuple negated) ideal basisWithOrdering: #lglex)
 			max: [:each| each order]! !
 
-!AffineScheme methodsFor: 'points' stamp: 'len 11/7/2016 09:01'!
+!AffineVariety methodsFor: 'points' stamp: 'len 11/7/2016 09:01'!
 pointAt: aTuple
 	^ AffinePoint on: self coordinates: aTuple! !
 
-!AffineScheme methodsFor: 'operations' stamp: 'len 1/13/2017 16:14:39'!
+!AffineVariety methodsFor: 'operations' stamp: 'len 1/13/2017 16:14:39'!
 primaryComponents
 	"Answer the irredundant primary components of the receiver."
 	^ self ideal primaryComponents collect: [:each| self subscheme: each]! !
 
-!AffineScheme methodsFor: 'operations' stamp: 'len 1/13/2017 16:14:48'!
+!AffineVariety methodsFor: 'operations' stamp: 'len 1/13/2017 16:14:48'!
 primeComponents
 	"Answer the irredundant prime components of the receiver."
 	^ self ideal primeComponents collect: [:each| self subscheme: each]! !
 
-!AffineScheme methodsFor: 'operations' stamp: 'len 1/13/2017 16:17:30'!
+!AffineVariety methodsFor: 'operations' stamp: 'len 1/13/2017 16:17:30'!
 project: anIndeterminate
 	"Answer the projection of the receiver by eliminating the given indeterminate."
 	^ self ambient subscheme: (self ideal eliminate: anIndeterminate)! !
 
-!AffineScheme methodsFor: 'operations' stamp: 'len 10/31/2016 13:15'!
+!AffineVariety methodsFor: 'operations' stamp: 'len 10/31/2016 13:15'!
 projectiveClosure
 	"Answer the projective closure of the receiver. If the receiver is an affine patch of a projective scheme, answer the original projective scheme. Otherwise the projective closure will be a projective scheme over the projective closure of the ambient space of the receiver, and the receiver will be the last affine patch."
 	^ self projectiveEmbedding codomain! !
 
-!AffineScheme methodsFor: 'morphisms' stamp: 'len 1/11/2017 22:34:55'!
+!AffineVariety methodsFor: 'morphisms' stamp: 'len 1/11/2017 22:34:55'!
 projectiveEmbedding
 	"Answer the map that sends the receiver to its projective closure.
 	If the receiver was originally constructed as an affine patch of a projective scheme, answer the map to the original projective scheme. Otherwise, the projective closure will be constructed as a projective scheme over the projective closure of the ambient space of the receiver, and the receiver will be its last affine patch."
@@ -26181,59 +26374,53 @@ projectiveEmbedding
 	P propertyAt: #affinePatches put: patches.
 	^ self propertyAt: #projectiveEmbedding put: map! !
 
-!AffineScheme methodsFor: 'operations' stamp: 'len 2/4/2017 09:05:48'!
+!AffineVariety methodsFor: 'operations' stamp: 'len 2/4/2017 09:05:48'!
 projectivized
 	"Answer the projectivization of the receiver."
 	^ self coordinateRing proj! !
 
-!AffineScheme methodsFor: 'operations' stamp: 'len 1/13/2017 16:36:50'!
+!AffineVariety methodsFor: 'operations' stamp: 'len 1/13/2017 16:36:50'!
 reduced
 	"Answer the reduced subscheme of the receiver."
 	^ self propertyAt: #reducedSubscheme ifAbsentPut: [self ambient subscheme: self ideal radical]! !
 
-!AffineScheme methodsFor: 'testing' stamp: 'len 1/13/2017 16:39:08'!
+!AffineVariety methodsFor: 'testing' stamp: 'len 1/13/2017 16:39:08'!
 satisfies: aTuple
 	"Answer true if the defining equations of the receiver satisfy the argument, assuming it's the coordinates of a rational point in the ambient space."
 	^ self ideal generators allSatisfy: [:each| (each value: aTuple) isZero]! !
 
-!AffineScheme methodsFor: 'operations' stamp: 'len 2/4/2017 08:18:58'!
+!AffineVariety methodsFor: 'operations' stamp: 'len 2/4/2017 08:18:58'!
 singular
 	"Answer the subscheme defined by the appropriately sized minors of the jacobian matrix of the receiver.
 	If the receiver is not equidimensional, its lower-dimensional components will be contained in this scheme whether they are singular or not.
 	(See Eisenbud 'Commutative Algebra' Ch. 20, re Fitting ideal.)"
 	^ self propertyAt: #singularSubscheme ifAbsentPut: [self subscheme: self ideal singular]! !
 
-!AffineScheme methodsFor: 'private' stamp: 'len 1/18/2017 22:14:31'!
+!AffineVariety methodsFor: 'private' stamp: 'len 2/13/2017 07:33:08'!
 species
-	^ AffineScheme! !
+	^ AffineVariety! !
 
-!AffineScheme methodsFor: 'morphisms' stamp: 'len 12/30/2016 10:38:38'!
-structureMap
-	"Answer the structure morphism."
-	^ self coordinateRing embedding spec
-"	^ (self scalars  self coordinateRing) spec"! !
-
-!AffineScheme methodsFor: 'operations' stamp: 'len 2/10/2017 07:41:00'!
+!AffineVariety methodsFor: 'operations' stamp: 'len 2/12/2017 06:02:05'!
 tangentConeAt: aTuple
 	"Answer the affine tangent cone at the given point."
 	| R I |
 	R _ self ambient coordinateRing.
 	I _ (self translatedBy: aTuple negated) ideal.
-	^ self ambient subscheme: ((I basisWithOrdering: #ltlex) collect: [:each| each leadingForm as: R])! !
+	^ (self ambient subscheme: ((I basisWithOrdering: #lglex) collect: [:each| each leadingForm as: R])) translatedBy: aTuple! !
 
-!AffineScheme methodsFor: 'operations' stamp: 'len 2/10/2017 07:41:59'!
+!AffineVariety methodsFor: 'operations' stamp: 'len 2/10/2017 20:13:34'!
 tangentSpaceAt: aTuple
 	"Answer the affine tangent space at the given point."
 	| R I |
 	R _ self ambient coordinateRing.
 	I _ (self translatedBy: aTuple negated) ideal.
-	^ self ambient subscheme: (I generators collect: [:f| (1 to: R rank) sum: [:i| (R x: i) * (f derivativeIn: i) independentCoefficient]])! !
+	^ (self ambient subscheme: (I generators collect: [:f| (1 to: R rank) sum: [:i| (R x: i) * (f derivativeIn: i) independentCoefficient]])) translatedBy: aTuple! !
 
-!AffineScheme methodsFor: 'morphisms' stamp: 'len 1/13/2017 19:17:50'!
+!AffineVariety methodsFor: 'morphisms' stamp: 'len 1/13/2017 19:17:50'!
 to: aScheme evaluating: aBlock
 	^ RationalMap from: self to: aScheme evaluating: aBlock! !
 
-!AffineScheme methodsFor: 'operations' stamp: 'len 2/6/2017 07:09:40'!
+!AffineVariety methodsFor: 'operations' stamp: 'len 2/6/2017 07:09:40'!
 translatedBy: aTuple
 	"Answer a new affine scheme that is the translation of the receiver by aTuple.
 	The origin is mappet to aTuple (any point p on the receiver is mapped to p + aTuple)."
@@ -26241,9 +26428,9 @@ translatedBy: aTuple
 	dx _ self ambient coordinateRing generators - aTuple.
 	^ self ambient subscheme: (self ideal apply: [:f| f value: dx])! !
 
-!AffineScheme class methodsFor: 'instance creation' stamp: 'len 1/18/2017 22:14:47'!
+!AffineVariety class methodsFor: 'instance creation' stamp: 'len 2/13/2017 07:33:50'!
 newFrom: anObject
-	(anObject isKindOf: AffineScheme) ifTrue: [^ self coordinateRing: anObject coordinateRing].
+	(anObject isKindOf: AffineVariety) ifTrue: [^ self coordinateRing: anObject coordinateRing].
 	^ super newFrom: anObject! !
 
 !AffineCurve methodsFor: 'accessing' stamp: 'len 10/24/2016 18:34'!
@@ -26304,6 +26491,15 @@ iminus
 	^ self polynomial: ((QQ polynomialsIn: #(x y)) evaluating: [:x :y| x^3 + (y^3) - x - (2*y) - 1])
 ! !
 
+!AffineSpace methodsFor: 'operations' stamp: 'len 2/10/2017 08:55:01'!
+× anAffineSpace
+	"Answer the cartesian product of the receiver and the argument."
+	(anAffineSpace isKindOf: AffineSpace)
+		ifFalse: [^ super × anAffineSpace].
+	(anAffineSpace isKindOf: ProductAffineSpace)
+		ifTrue: [^ ProductAffineSpace components: {self}, anAffineSpace components].
+	^ ProductAffineSpace components: {self. anAffineSpace}! !
+
 !AffineSpace methodsFor: 'accessing' stamp: 'len 8/27/2016 19:03'!
 ambient
 	^ self! !
@@ -26362,24 +26558,62 @@ subscheme: anObject
 new: rank over: aRing
 	^ self coordinateRing: (aRing polynomialsIn: rank)! !
 
-!ProjectiveScheme methodsFor: 'comparing' stamp: 'len 1/13/2017 17:03:23'!
+!ProductAffineSpace methodsFor: 'accessing' stamp: 'len 2/10/2017 08:52:19'!
+arity
+	^ self components size! !
+
+!ProductAffineSpace methodsFor: 'accessing' stamp: 'len 2/10/2017 08:52:13'!
+at: anInteger
+	^ self components at: anInteger! !
+
+!ProductAffineSpace methodsFor: 'accessing-private' stamp: 'len 2/10/2017 08:48:42'!
+components
+	^ self propertyAt: #components! !
+
+!ProductAffineSpace methodsFor: 'accessing-private' stamp: 'len 2/10/2017 08:48:38'!
+components: anArray
+	self propertyAt: #components put: anArray! !
+
+!ProductAffineSpace methodsFor: 'accessing' stamp: 'len 2/10/2017 08:48:14'!
+coordinateRing
+	^ self propertyAt: #coordinateRing ifAbsentPut: [self components fold: [:A :B| A coordinateRing ’ B coordinateRing]]! !
+
+!ProductAffineSpace methodsFor: 'testing' stamp: 'len 2/10/2017 09:03:47'!
+isProduct
+	^ true! !
+
+!ProductAffineSpace methodsFor: 'printing' stamp: 'len 2/10/2017 08:48:52'!
+printOn: aStream
+	self components do: [:each| aStream print: each] separatedBy: [aStream nextPut: Character times]! !
+
+!ProductAffineSpace class methodsFor: 'instance creation' stamp: 'len 2/10/2017 08:47:57'!
+components: anArray
+	^ self new components: anArray! !
+
+!ProductAffineSpace class methodsFor: 'instance creation' stamp: 'len 2/10/2017 08:47:44'!
+new: anArray over: aRing
+	^ self components: (anArray collect: [:each| AffineSpace new: each over: aRing])! !
+
+!ProjectiveVariety methodsFor: 'comparing' stamp: 'len 1/13/2017 17:03:23'!
 = anObject
 	^ (anObject isKindOf: self species) and: [self saturated coordinateRing = anObject saturated coordinateRing]! !
 
-!ProjectiveScheme methodsFor: 'operations' stamp: 'len 2/9/2017 09:49:38'!
-× aProjectiveScheme
+!ProjectiveVariety methodsFor: 'operations' stamp: 'len 2/13/2017 07:39:14'!
+× aProjectiveVariety
 	"Answer the cartesian product of the receiver and the argument."
-	self scalars = aProjectiveScheme scalars ifFalse: [self error: 'scalars don''t match'].
-	(aProjectiveScheme isKindOf: ProjectiveScheme) ifFalse: [self notYetImplemented].
-	^ (self coordinateRing ’ aProjectiveScheme coordinateRing) proj! !
+	self scalars = aProjectiveVariety scalars ifFalse: [self error: 'scalars don''t match'].
+	(aProjectiveVariety isKindOf: ProjectiveVariety) ifFalse: [self notYetImplemented].
+	^ (self coordinateRing ’ aProjectiveVariety coordinateRing) proj
+		propertyAt: #ambient put: self ambient × aProjectiveVariety ambient;
+		yourself! !
 
-!ProjectiveScheme methodsFor: 'operations' stamp: 'len 1/13/2017 17:09:24'!
+!ProjectiveVariety methodsFor: 'operations' stamp: 'len 1/13/2017 17:09:24'!
 • aScheme
 	"Answer the intersection of the receiver and the argument."
 	self ambient = aScheme ambient ifFalse: [^ DomainError signal: 'ambients don''t match'].
 	^ self ambient subscheme: self ideal + aScheme ideal! !
 
-!ProjectiveScheme methodsFor: 'operations' stamp: 'len 1/13/2017 17:09:29'!
+!ProjectiveVariety methodsFor: 'operations' stamp: 'len 1/13/2017 17:09:29'!
 – aScheme
 	"Answer the union of the receiver and the argument."
 	self ambient = aScheme ambient ifFalse: [^ DomainError signal: 'ambients don''t match'].
@@ -26389,35 +26623,35 @@ new: rank over: aRing
 	^ self class on: self ambient ideal: ideal * aScheme ideal
 although the intersection is harder to compute, it behaves better with radicalization, because the intersection of two radical ideals is radical and we don't need to compute radicals again"! !
 
-!ProjectiveScheme methodsFor: 'accessing' stamp: 'len 1/23/2017 11:29:13'!
+!ProjectiveVariety methodsFor: 'accessing' stamp: 'len 1/23/2017 11:29:13'!
 affineCone
 	^ self coordinateRing spec! !
 
-!ProjectiveScheme methodsFor: 'accessing' stamp: 'len 2/10/2017 07:46:27'!
+!ProjectiveVariety methodsFor: 'accessing' stamp: 'len 2/10/2017 07:46:27'!
 ambient
 	^ self propertyAt: #ambient ifAbsent: [self coordinateRing base proj]! !
 
-!ProjectiveScheme methodsFor: 'accessing' stamp: 'len 1/10/2017 21:15:14'!
+!ProjectiveVariety methodsFor: 'accessing' stamp: 'len 1/10/2017 21:15:14'!
 arithmeticGenus
 	"Answer the arithmetic genus of the receiver."
 	self ambient isOrdinaryProjectiveSpace ifFalse: [^ self error: 'not ordinary projective space'].
 	self notYetImplemented! !
 
-!ProjectiveScheme methodsFor: 'accessing' stamp: 'len 2/10/2017 07:16:14'!
+!ProjectiveVariety methodsFor: 'accessing' stamp: 'len 2/10/2017 07:16:14'!
 base
 	"Answer the base scheme of the receiver."
 	^ self scalars spec! !
 
-!ProjectiveScheme methodsFor: 'accessing' stamp: 'len 1/13/2017 17:01:55'!
+!ProjectiveVariety methodsFor: 'accessing' stamp: 'len 1/13/2017 17:01:55'!
 coordinateRing
 	"Answer the homogeneous coordinate ring."
 	^ self propertyAt: #coordinateRing! !
 
-!ProjectiveScheme methodsFor: 'accessing-private' stamp: 'len 1/13/2017 17:02:28'!
+!ProjectiveVariety methodsFor: 'accessing-private' stamp: 'len 1/13/2017 17:02:28'!
 coordinateRing: aCommutativeRing
 	self propertyAt: #coordinateRing put: aCommutativeRing! !
 
-!ProjectiveScheme methodsFor: 'operations' stamp: 'len 1/13/2017 16:13:44'!
+!ProjectiveVariety methodsFor: 'operations' stamp: 'len 1/13/2017 16:13:44'!
 decomposition
 	"Answer the irreducible components of the receiver."
 	| primes |
@@ -26426,72 +26660,70 @@ decomposition
 	primes _ primes reject: [:each| self ambient coordinateRing generators anySatisfy: [:xi| each includes: xi]].
 	^ primes collect: [:each| self subscheme: each]! !
 
-!ProjectiveScheme methodsFor: 'accessing' stamp: 'len 10/27/2016 21:44'!
+!ProjectiveVariety methodsFor: 'accessing' stamp: 'len 10/27/2016 21:44'!
 degree
 	| t H |
 	t _ QQ polynomials fractions x.
 	H _ self coordinateRing hilbertSeriesAt: t.
 	^ (1 - t) ^ (H orderAt: 1) negated * H value: 1! !
 
-!ProjectiveScheme methodsFor: 'accessing' stamp: 'len 10/27/2016 22:50'!
+!ProjectiveVariety methodsFor: 'accessing' stamp: 'len 10/27/2016 22:50'!
 degree2
 	| t H |
 	t _ QQ polynomials fractions x.
 	H _ self coordinateRing hilbertSeriesAt: t.
 	^ (1 - t) ^ self coordinateRing dimension * H value: 1! !
 
-!ProjectiveScheme methodsFor: 'accessing' stamp: 'len 10/20/2016 15:25'!
+!ProjectiveVariety methodsFor: 'accessing' stamp: 'len 10/20/2016 15:25'!
 dimension
 	self flag: #fix. "is this right for projective schemes or should use the Hilbert series?"
 	^ self coordinateRing dimension - 1! !
 
-!ProjectiveScheme methodsFor: 'accessing' stamp: 'len 1/13/2017 17:02:17'!
+!ProjectiveVariety methodsFor: 'operations' stamp: 'len 2/10/2017 08:23:03'!
+dual
+	"Answer the projective dual of the receiver."
+	self notYetImplemented! !
+
+!ProjectiveVariety methodsFor: 'accessing' stamp: 'len 1/13/2017 17:02:17'!
 functionField
 	"Answer the function field (or field of rational functions) of the receiver. This is the fractions field of the coordinate ring and it's noted K(V) (analogous to the coordinate ring noted K[V])."
 	^ self coordinateRing fractions! !
 
-!ProjectiveScheme methodsFor: 'comparing' stamp: 'len 1/13/2017 17:23:21'!
+!ProjectiveVariety methodsFor: 'comparing' stamp: 'len 1/13/2017 17:23:21'!
 hash
 	^ self saturated coordinateRing hash! !
 
-!ProjectiveScheme methodsFor: 'accessing' stamp: 'len 1/13/2017 17:24:54'!
+!ProjectiveVariety methodsFor: 'accessing' stamp: 'len 1/13/2017 17:24:54'!
 ideal
 	"Answer the homogeneous ideal defining the receiver."
 	^ self coordinateRing ideal! !
 
-!ProjectiveScheme methodsFor: 'testing' stamp: 'len 1/9/2017 16:34:57'!
+!ProjectiveVariety methodsFor: 'testing' stamp: 'len 1/9/2017 16:34:57'!
 isComplete
 	^ true! !
 
-!ProjectiveScheme methodsFor: 'testing' stamp: 'len 1/13/2017 17:31:58'!
+!ProjectiveVariety methodsFor: 'testing' stamp: 'len 1/13/2017 17:31:58'!
 isIrreducible
 	self flag: #fix. "magma does it differently; duplicated in AffineClosedSubscheme"
 	^ self ideal isPrime "IFF. Alternatively, iif the coordinate ring is an integral domain"! !
 
-!ProjectiveScheme methodsFor: 'testing' stamp: 'len 10/20/2016 15:21'!
+!ProjectiveVariety methodsFor: 'testing' stamp: 'len 10/20/2016 15:21'!
 isProjective
 	^ true! !
 
-!ProjectiveScheme methodsFor: 'testing' stamp: 'len 1/13/2017 17:10:33'!
+!ProjectiveVariety methodsFor: 'testing' stamp: 'len 1/13/2017 17:10:33'!
 isReduced
 	^ self ideal isRadical! !
 
-!ProjectiveScheme methodsFor: 'operations' stamp: 'len 2/6/2017 07:25:28'!
-multiplicityAt: aTuple
-	| i |
-	self scalars isField ifFalse: [DomainError signal: 'not over a field'].
-	i _ aTuple lastNonZero.
-	^ (self patch: i) multiplicityAt: (aTuple dehomogenizedIn: i)! !
-
-!ProjectiveScheme methodsFor: 'private' stamp: 'len 1/12/2017 14:49:14'!
+!ProjectiveVariety methodsFor: 'private' stamp: 'len 1/12/2017 14:49:14'!
 newPatch: i
 	^ (self ambient patch: i) subscheme: (self ideal dehomogenizedIn: i)! !
 
-!ProjectiveScheme methodsFor: 'converting' stamp: 'len 1/20/2017 09:11:44'!
+!ProjectiveVariety methodsFor: 'converting' stamp: 'len 1/20/2017 09:11:44'!
 over: aRing
 	^ self class coordinateRing: (self coordinateRing over: aRing)! !
 
-!ProjectiveScheme methodsFor: 'accessing' stamp: 'len 1/12/2017 14:48:52'!
+!ProjectiveVariety methodsFor: 'accessing' stamp: 'len 1/12/2017 14:48:52'!
 patch: i
 	"Answer the i-th affine patch of the receiver."
 	| patches answer map |
@@ -26502,30 +26734,30 @@ patch: i
 	answer propertyAt: #projectiveEmbedding put: map.
 	^ patches at: i put: answer! !
 
-!ProjectiveScheme methodsFor: 'accessing' stamp: 'len 1/12/2017 14:44:25'!
+!ProjectiveVariety methodsFor: 'accessing' stamp: 'len 1/12/2017 14:44:25'!
 patches
 	"Answer all the standard affine patches of the receiver."
 	^ (1 to: self ambient rank) collect: [:i| self patch: i]! !
 
-!ProjectiveScheme methodsFor: 'points' stamp: 'len 11/7/2016 13:35'!
+!ProjectiveVariety methodsFor: 'points' stamp: 'len 11/7/2016 13:35'!
 pointAt: aTuple
 	^ ProjectivePoint on: self coordinates: aTuple! !
 
-!ProjectiveScheme methodsFor: 'printing' stamp: 'len 10/20/2016 15:27'!
+!ProjectiveVariety methodsFor: 'printing' stamp: 'len 10/20/2016 15:27'!
 printOn: aStream
 		aStream nextPutAll: 'Proj '; print: self coordinateRing! !
 
-!ProjectiveScheme methodsFor: 'operations' stamp: 'len 1/13/2017 17:14:11'!
+!ProjectiveVariety methodsFor: 'operations' stamp: 'len 1/13/2017 17:14:11'!
 reduced
 	"Answer the reduced subscheme of the receiver."
 	^ self propertyAt: #reducedSubscheme ifAbsentPut: [self ambient subscheme: self ideal radical]! !
 
-!ProjectiveScheme methodsFor: 'testing' stamp: 'len 1/13/2017 17:30:58'!
+!ProjectiveVariety methodsFor: 'testing' stamp: 'len 1/13/2017 17:30:58'!
 satisfies: aTuple
 	"Answer true if the defining equations of the receiver satisfy the argument, assuming it's the coordinates of a rational point in the ambient space."
 	^ self ideal generators allSatisfy: [:each| (each value: aTuple) isZero]! !
 
-!ProjectiveScheme methodsFor: 'private' stamp: 'len 1/13/2017 17:26:20'!
+!ProjectiveVariety methodsFor: 'private' stamp: 'len 1/13/2017 17:26:20'!
 saturated
 	"Ensure the defining ideal of the receiver is saturated.
 	This is important for some operations with projective schemes because projective schemes are not in correspondence with homogeneous ideals (like affine schemes), but they are in correspondence with saturated homogeneous ideals."
@@ -26533,23 +26765,23 @@ saturated
 	self coordinateRing: self ambient coordinateRing / self ideal saturation.
 	self propertyAt: #isSaturated put: true! !
 
-!ProjectiveScheme methodsFor: 'accessing' stamp: 'len 11/7/2016 09:13'!
+!ProjectiveVariety methodsFor: 'accessing' stamp: 'len 11/7/2016 09:13'!
 scalars
 	"Answer the base ring of the receiver."
 	^ self ambient scalars! !
 
-!ProjectiveScheme methodsFor: 'operations' stamp: 'len 2/4/2017 08:19:18'!
+!ProjectiveVariety methodsFor: 'operations' stamp: 'len 2/4/2017 08:19:18'!
 singular
 	"Answer the subscheme defined by the appropriately sized minors of the jacobian matrix of the receiver.
 	If the receiver is not equidimensional, its lower-dimensional components will be contained in this scheme whether they are singular or not.
 	(See Eisenbud 'Commutative Algebra' Ch. 20, re Fitting ideal.)"
 	^ self propertyAt: #singularSubscheme ifAbsentPut: [self subscheme: self ideal singular]! !
 
-!ProjectiveScheme methodsFor: 'private' stamp: 'len 10/20/2016 10:29'!
+!ProjectiveVariety methodsFor: 'private' stamp: 'len 2/13/2017 07:38:51'!
 species
-	^ ProjectiveScheme! !
+	^ ProjectiveVariety! !
 
-!ProjectiveScheme methodsFor: 'operations' stamp: 'len 1/11/2017 09:31:12'!
+!ProjectiveVariety methodsFor: 'operations' stamp: 'len 1/11/2017 09:31:12'!
 tangentSpaceAt: aTuple
 	"Answer the projective tangent space of the receiver at the given point."
 	| R |
@@ -26557,17 +26789,17 @@ tangentSpaceAt: aTuple
 	R _ self ambient coordinateRing.
 	^ self ambient subscheme: (self ideal generators collect: [:f| (1 to: R rank) sum: [:i| (R x: i) * ((f derivativeIn: i) value: aTuple)]])! !
 
-!ProjectiveScheme methodsFor: 'morphisms' stamp: 'len 1/13/2017 17:04:15'!
+!ProjectiveVariety methodsFor: 'morphisms' stamp: 'len 1/13/2017 17:04:15'!
 to: aScheme evaluating: aBlock
 	^ RationalMap from: self to: aScheme evaluating: aBlock! !
 
-!ProjectiveScheme class methodsFor: 'instance creation' stamp: 'len 10/25/2016 10:03'!
+!ProjectiveVariety class methodsFor: 'instance creation' stamp: 'len 10/25/2016 10:03'!
 coordinateRing: aRing
 	^ self new coordinateRing: aRing! !
 
-!ProjectiveScheme class methodsFor: 'instance creation' stamp: 'len 10/25/2016 10:12'!
+!ProjectiveVariety class methodsFor: 'instance creation' stamp: 'len 2/13/2017 07:39:23'!
 newFrom: anObject
-	(anObject isKindOf: ProjectiveScheme) ifTrue: [^ self coordinateRing: anObject coordinateRing].
+	(anObject isKindOf: ProjectiveVariety) ifTrue: [^ self coordinateRing: anObject coordinateRing].
 	^ super newFrom: anObject! !
 
 !ProjectiveCurve methodsFor: 'accessing' stamp: 'len 11/9/2016 08:05'!
@@ -26592,6 +26824,11 @@ degree
 !ProjectiveHypersurface methodsFor: 'accessing' stamp: 'len 1/8/2017 17:21:47'!
 dimension
 	^ self ambient dimension - 1! !
+
+!ProjectiveHypersurface methodsFor: 'accessing' stamp: 'len 2/10/2017 08:22:53'!
+dual
+	"Answer the projective dual of the receiver."
+	self notYetImplemented! !
 
 !ProjectiveHypersurface methodsFor: 'as yet unclassified' stamp: 'len 1/11/2017 20:55:49'!
 gradient
@@ -26869,6 +27106,15 @@ cremona389a1
 equation: aWeierstrassEquation
 	^ self new equation: aWeierstrassEquation! !
 
+!ProjectiveSpace methodsFor: 'operations' stamp: 'len 2/10/2017 08:40:09'!
+× aProjectiveSpace
+	"Answer the cartesian product of the receiver and the argument."
+	(aProjectiveSpace isKindOf: ProjectiveSpace)
+		ifFalse: [^ super × aProjectiveSpace].
+	(aProjectiveSpace isKindOf: ProductProjectiveSpace)
+		ifTrue: [^ ProductProjectiveSpace components: {self}, aProjectiveSpace components].
+	^ ProductProjectiveSpace components: {self. aProjectiveSpace}! !
+
 !ProjectiveSpace methodsFor: 'accessing' stamp: 'len 8/27/2016 19:03'!
 ambient
 	^ self! !
@@ -27011,6 +27257,42 @@ zero
 !ProjectiveLine class methodsFor: 'instance creation' stamp: 'len 12/4/2016 22:07:23'!
 over: aRing
 	^ self coordinateRing: (aRing polynomialsIn: #(x y))! !
+
+!ProductProjectiveSpace methodsFor: 'accessing' stamp: 'len 2/10/2017 08:52:44'!
+arity
+	^ self components size! !
+
+!ProductProjectiveSpace methodsFor: 'accessing' stamp: 'len 2/10/2017 08:51:32'!
+at: anInteger
+	^ self components at: anInteger! !
+
+!ProductProjectiveSpace methodsFor: 'accessing-private' stamp: 'len 2/10/2017 08:33:40'!
+components
+	^ self propertyAt: #components! !
+
+!ProductProjectiveSpace methodsFor: 'accessing-private' stamp: 'len 2/10/2017 08:32:52'!
+components: anArray
+	self propertyAt: #components put: anArray! !
+
+!ProductProjectiveSpace methodsFor: 'accessing' stamp: 'len 2/10/2017 08:41:48'!
+coordinateRing
+	^ self propertyAt: #coordinateRing ifAbsentPut: [self components fold: [:A :B| A coordinateRing ’ B coordinateRing]]! !
+
+!ProductProjectiveSpace methodsFor: 'testing' stamp: 'len 2/10/2017 09:03:30'!
+isProduct
+	^ true! !
+
+!ProductProjectiveSpace methodsFor: 'printing' stamp: 'len 2/10/2017 08:36:41'!
+printOn: aStream
+	self components do: [:each| aStream print: each] separatedBy: [aStream nextPut: Character times]! !
+
+!ProductProjectiveSpace class methodsFor: 'instance creation' stamp: 'len 2/10/2017 08:32:33'!
+components: anArray
+	^ self new components: anArray! !
+
+!ProductProjectiveSpace class methodsFor: 'instance creation' stamp: 'len 2/10/2017 08:43:58'!
+new: anArray over: aRing
+	^ self components: (anArray collect: [:each| ProjectiveSpace new: each over: aRing])! !
 
 !UpperHalfPlane methodsFor: 'testing' stamp: 'len 12/7/2016 12:11:09'!
 includes: anObject
@@ -28209,6 +28491,20 @@ spec
 !RingHomomorphism methodsFor: 'private' stamp: 'len 10/10/2016 08:35'!
 species
 	^ RingHomomorphism! !
+
+!PolynomialRingHomomorphism methodsFor: 'as yet unclassified' stamp: 'len 2/12/2017 13:04:30'!
+imageContains: aPolynomial
+	"As in Magma, algorithm in p. 82 of [AL94]."
+	self notYetImplemented! !
+
+!PolynomialRingHomomorphism methodsFor: 'as yet unclassified' stamp: 'len 2/12/2017 13:05:43'!
+implicitization
+	"As implemented in RationalMap. Maybe shouldn't implement it here.
+	Magma uses the algorithm in p. 97 of [CLO96]."! !
+
+!PolynomialRingHomomorphism methodsFor: 'as yet unclassified' stamp: 'len 2/12/2017 13:02:51'!
+isSurjective
+	^ self codomain generators allSatisfy: [:each| self imageContains: each]! !
 
 !PolynomialRingHomomorphism methodsFor: 'operations' stamp: 'len 2/10/2017 05:03:44'!
 kernel
@@ -31043,21 +31339,26 @@ localRing
 	"Answer the local ring at this point."
 	^ self dehomogenized localRing! !
 
-!ProjectivePoint methodsFor: 'accessing' stamp: 'len 2/10/2017 07:49:38'!
+!ProjectivePoint methodsFor: 'accessing' stamp: 'len 2/13/2017 07:53:19'!
 multiplicity
-	^ self dehomogenized multiplicity "assuming none of the components of the receiver lies on the hyperplane at infinity"! !
+	^ self dehomogenized multiplicity "assuming none of the components of the projective variety lies on the hyperplane at infinity"! !
 
 !ProjectivePoint methodsFor: 'accessing' stamp: 'len 2/9/2017 10:40:03'!
 neighborhood
 	"Answer an affine neighborhood centered at this point."
 	^ self dehomogenized neighborhood! !
 
-!ProjectivePoint methodsFor: 'printing' stamp: 'len 1/11/2017 13:53:20'!
-printOn: aStream
+!ProjectivePoint methodsFor: 'printing' stamp: 'len 2/10/2017 09:55:36'!
+printInsidesOn: aStream
 	| separator |
-	aStream nextPut: $[.
 	separator _ (self coordinates anySatisfy: [:any| any printString isAlphaNumeric not]) ifTrue: [' : '] ifFalse: [':'].
 	self coordinates do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: separator].
+! !
+
+!ProjectivePoint methodsFor: 'printing' stamp: 'len 2/10/2017 09:55:27'!
+printOn: aStream
+	aStream nextPut: $[.
+	self printInsidesOn: aStream.
 	aStream nextPut: $]! !
 
 !ProjectivePoint methodsFor: 'accessing' stamp: 'len 11/7/2016 13:30'!
@@ -31234,6 +31535,36 @@ zero
 	| R |
 	R _ self scalars.
 	^ self shallowCopy coordinates: (R tuple: {R zero. R one. R zero})! !
+
+!ProductProjectivePoint methodsFor: 'as yet unclassified' stamp: 'len 2/10/2017 09:51:02'!
+= aProductProjectivePoint
+	self class = aProductProjectivePoint class ifFalse: [^ super = aProductProjectivePoint].
+	^ self components = aProductProjectivePoint components! !
+
+!ProductProjectivePoint methodsFor: 'as yet unclassified' stamp: 'len 2/10/2017 09:51:24'!
+components
+	^ components! !
+
+!ProductProjectivePoint methodsFor: 'as yet unclassified' stamp: 'len 2/10/2017 09:51:33'!
+components: anArray
+	components _ anArray! !
+
+!ProductProjectivePoint methodsFor: 'as yet unclassified' stamp: 'len 2/10/2017 09:57:48'!
+coordinates
+	| answer |
+	self components do: [:each|
+		answer _ answer isNil ifTrue: [each coordinates] ifFalse: [answer, each coordinates]].
+	^ answer! !
+
+!ProductProjectivePoint methodsFor: 'as yet unclassified' stamp: 'len 2/10/2017 09:51:17'!
+hash
+	^ self components hash! !
+
+!ProductProjectivePoint methodsFor: 'as yet unclassified' stamp: 'len 2/10/2017 09:55:12'!
+printOn: aStream
+	aStream nextPut: $[.
+	self components do: [:each| each printInsidesOn: aStream] separatedBy: [aStream nextPutAll: ', '].
+	aStream nextPut: $]! !
 
 !RandomGenerator methodsFor: 'accessing' stamp: 'len 4/19/2016 22:03'!
 bits: anInteger
@@ -35777,6 +36108,14 @@ rank
 type
 	^ nil! !
 
+!MonomialOrdering class methodsFor: 'examples' stamp: 'len 2/12/2017 06:06:37'!
+glex: anArray
+	^ GradedLexicographicOrdering indeterminates: anArray! !
+
+!MonomialOrdering class methodsFor: 'examples' stamp: 'len 2/12/2017 06:06:43'!
+grevlex: anArray
+	^ GradedReverseLexicographicOrdering indeterminates: anArray! !
+
 !MonomialOrdering class methodsFor: 'instance creation' stamp: 'len 1/28/2017 10:04:02'!
 indeterminates: anArray
 	anArray isInteger ifTrue: [^ self new: anArray].
@@ -35786,29 +36125,21 @@ indeterminates: anArray
 lex: anArray
 	^ LexicographicOrdering indeterminates: anArray! !
 
+!MonomialOrdering class methodsFor: 'examples' stamp: 'len 2/12/2017 06:01:42'!
+lglex: anArray
+	^ LocalGradedLexicographicOrdering indeterminates: anArray! !
+
+!MonomialOrdering class methodsFor: 'examples' stamp: 'len 2/12/2017 06:02:42'!
+lgrevlex: anArray
+	^ LocalGradedReverseLexicographicOrdering indeterminates: anArray! !
+
 !MonomialOrdering class methodsFor: 'examples' stamp: 'len 1/19/2017 07:28:23'!
 llex: anArray
 	^ LocalLexicographicOrdering indeterminates: anArray! !
 
-!MonomialOrdering class methodsFor: 'examples' stamp: 'len 1/19/2017 08:04:39'!
-ltlex: anArray
-	^ LocalTotalLexicographicOrdering indeterminates: anArray! !
-
-!MonomialOrdering class methodsFor: 'examples' stamp: 'len 1/19/2017 07:32:56'!
-ltrevlex: anArray
-	^ LocalTotalReverseLexicographicOrdering indeterminates: anArray! !
-
 !MonomialOrdering class methodsFor: 'instance creation' stamp: 'len 1/28/2017 10:04:09'!
 new: anInteger
 	^ self new indeterminates: (1 to: anInteger)! !
-
-!MonomialOrdering class methodsFor: 'examples' stamp: 'len 7/4/2016 00:45'!
-tlex: anArray
-	^ TotalLexicographicOrdering indeterminates: anArray! !
-
-!MonomialOrdering class methodsFor: 'examples' stamp: 'len 7/4/2016 00:45'!
-trevlex: anArray
-	^ TotalReverseLexicographicOrdering indeterminates: anArray! !
 
 !BlockMonomialOrdering methodsFor: 'operations' stamp: 'len 1/28/2017 10:13:17'!
 , aMonomialOrdering
@@ -35842,6 +36173,120 @@ printOn: aStream
 blocks: anArray
 	^ self new blocks: anArray! !
 
+!GradedLexicographicOrdering methodsFor: 'ordering' stamp: 'len 1/28/2017 09:55:07'!
+blockCompare: aMonomial with: anotherMonomial
+	| d1 d2 e1 e2 n1 n2 |
+	e1 _ aMonomial exponents.
+	e2 _ anotherMonomial exponents.
+	n1 _ e1 size.
+	n2 _ e2 size.
+
+	d1 _ 0.
+	d2 _ 0.
+	1 to: indeterminates size do: [:i|
+		| xi a b |
+		xi _ indeterminates at: i.
+		xi <= n1 ifTrue: [d1 _ d1 + (e1 at: xi)].
+		xi <= n2 ifTrue: [d2 _ d2 + (e2 at: xi)]].
+	d1 > d2 ifTrue: [^ 1].
+	d1 = d2 ifFalse: [^ -1].
+
+	1 to: indeterminates size do: [:i|
+		| xi a b |
+		xi _ indeterminates at: i.
+		a _ xi <= n1 ifTrue: [e1 at: xi] ifFalse: [0].
+		b _ xi <= n2 ifTrue: [e2 at: xi] ifFalse: [0].
+		a > b ifTrue: [^ 1].
+		a = b ifFalse: [^ -1]].
+	^ 0! !
+
+!GradedLexicographicOrdering methodsFor: 'ordering' stamp: 'len 11/21/2016 13:43:16'!
+compare: aMonomial with: anotherMonomial
+	| d1 d2 e1 e2 n1 n2 |
+	(d1 _ aMonomial degree) > (d2 _ anotherMonomial degree) ifTrue: [^ 1].
+	d1 = d2 ifFalse: [^ -1].
+	e1 _ aMonomial exponents.
+	e2 _ anotherMonomial exponents.
+	n1 _ e1 size.
+	n2 _ e2 size.
+	1 to: indeterminates size do: [:i|
+		| xi a b |
+		xi _ indeterminates at: i.
+		a _ xi <= n1 ifTrue: [e1 at: xi] ifFalse: [0].
+		b _ xi <= n2 ifTrue: [e2 at: xi] ifFalse: [0].
+		a > b ifTrue: [^ 1].
+		a = b ifFalse: [^ -1]].
+	^ 0! !
+
+!GradedLexicographicOrdering methodsFor: 'testing' stamp: 'len 1/26/2017 22:27:59'!
+isGlobal
+	^ true! !
+
+!GradedLexicographicOrdering methodsFor: 'testing' stamp: 'len 7/6/2016 08:27'!
+isGraded
+	^ true! !
+
+!GradedLexicographicOrdering methodsFor: 'accessing' stamp: 'len 2/12/2017 06:05:25'!
+type
+	^ #glex! !
+
+!GradedReverseLexicographicOrdering methodsFor: 'ordering' stamp: 'len 1/28/2017 09:56:14'!
+blockCompare: aMonomial with: anotherMonomial
+	| d1 d2 n1 n2 e1 e2 |
+	e1 _ aMonomial exponents.
+	e2 _ anotherMonomial exponents.
+	n1 _ e1 size.
+	n2 _ e2 size.
+	
+	d1 _ 0.
+	d2 _ 0.
+	1 to: indeterminates size do: [:i|
+		| xi a b |
+		xi _ indeterminates at: i.
+		xi <= n1 ifTrue: [d1 _ d1 + (e1 at: xi)].
+		xi <= n2 ifTrue: [d2 _ d2 + (e2 at: xi)]].
+	d1 > d2 ifTrue: [^ 1].
+	d1 = d2 ifFalse: [^ -1].
+
+	indeterminates size to: 1 by: -1 do: [:i|
+		| xi a b |
+		xi _ indeterminates at: i.
+		a _ xi <= n1 ifTrue: [e1 at: xi] ifFalse: [0].
+		b _ xi <= n2 ifTrue: [e2 at: xi] ifFalse: [0].
+		a < b ifTrue: [^ 1].
+		a = b ifFalse: [^ -1]].
+	^ 0! !
+
+!GradedReverseLexicographicOrdering methodsFor: 'ordering' stamp: 'len 11/21/2016 12:20:07'!
+compare: aMonomial with: anotherMonomial
+	| d1 d2 n1 n2 e1 e2 |
+	(d1 _ aMonomial degree) > (d2 _ anotherMonomial degree) ifTrue: [^ 1].
+	d1 = d2 ifFalse: [^ -1].
+	e1 _ aMonomial exponents.
+	e2 _ anotherMonomial exponents.
+	n1 _ e1 size.
+	n2 _ e2 size.
+	indeterminates size to: 1 by: -1 do: [:i|
+		| xi a b |
+		xi _ indeterminates at: i.
+		a _ xi <= n1 ifTrue: [e1 at: xi] ifFalse: [0].
+		b _ xi <= n2 ifTrue: [e2 at: xi] ifFalse: [0].
+		a < b ifTrue: [^ 1].
+		a = b ifFalse: [^ -1]].
+	^ 0! !
+
+!GradedReverseLexicographicOrdering methodsFor: 'testing' stamp: 'len 1/26/2017 22:28:06'!
+isGlobal
+	^ true! !
+
+!GradedReverseLexicographicOrdering methodsFor: 'testing' stamp: 'len 7/6/2016 08:27'!
+isGraded
+	^ true! !
+
+!GradedReverseLexicographicOrdering methodsFor: 'accessing' stamp: 'len 2/12/2017 06:07:37'!
+type
+	^ #grevlex! !
+
 !LexicographicOrdering methodsFor: 'ordering' stamp: 'len 11/21/2016 13:40:59'!
 compare: aMonomial with: anotherMonomial
 	| e1 e2 n1 n2 |
@@ -35865,6 +36310,160 @@ isGlobal
 !LexicographicOrdering methodsFor: 'accessing' stamp: 'len 7/2/2016 23:26'!
 type
 	^ #lex! !
+
+!LocalGradedLexicographicOrdering methodsFor: 'ordering' stamp: 'len 1/28/2017 09:56:50'!
+blockCompare: aMonomial with: anotherMonomial
+	| d1 d2 e1 e2 n1 n2 |
+	e1 _ aMonomial exponents.
+	e2 _ anotherMonomial exponents.
+	n1 _ e1 size.
+	n2 _ e2 size.
+
+	d1 _ 0.
+	d2 _ 0.
+	1 to: indeterminates size do: [:i|
+		| xi a b |
+		xi _ indeterminates at: i.
+		xi <= n1 ifTrue: [d1 _ d1 + (e1 at: xi)].
+		xi <= n2 ifTrue: [d2 _ d2 + (e2 at: xi)]].
+	d1 < d2 ifTrue: [^ 1].
+	d1 = d2 ifFalse: [^ -1].
+
+	indeterminates size to: 1 by: -1 do: [:i|
+		| xi a b |
+		xi _ indeterminates at: i.
+		a _ xi <= n1 ifTrue: [e1 at: xi] ifFalse: [0].
+		b _ xi <= n2 ifTrue: [e2 at: xi] ifFalse: [0].
+		a < b ifTrue: [^ 1].
+		a = b ifFalse: [^ -1]].
+	^ 0! !
+
+!LocalGradedLexicographicOrdering methodsFor: 'ordering' stamp: 'len 1/26/2017 08:46:40'!
+compare: aMonomial with: anotherMonomial
+	| d1 d2 e1 e2 n1 n2 |
+	(d1 _ aMonomial degree) < (d2 _ anotherMonomial degree) ifTrue: [^ 1].
+	d1 = d2 ifFalse: [^ -1].
+	e1 _ aMonomial exponents.
+	e2 _ anotherMonomial exponents.
+	n1 _ e1 size.
+	n2 _ e2 size.
+	indeterminates size to: 1 by: -1 do: [:i|
+		| xi a b |
+		xi _ indeterminates at: i.
+		a _ xi <= n1 ifTrue: [e1 at: xi] ifFalse: [0].
+		b _ xi <= n2 ifTrue: [e2 at: xi] ifFalse: [0].
+		a < b ifTrue: [^ 1].
+		a = b ifFalse: [^ -1]].
+	^ 0! !
+
+!LocalGradedLexicographicOrdering methodsFor: 'testing' stamp: 'len 1/19/2017 08:09:27'!
+isGraded
+	^ true! !
+
+!LocalGradedLexicographicOrdering methodsFor: 'testing' stamp: 'len 1/19/2017 08:03:51'!
+isLocal
+	^ true! !
+
+!LocalGradedLexicographicOrdering methodsFor: 'accessing' stamp: 'len 2/12/2017 06:02:13'!
+type
+	^ #lglex! !
+
+!LocalGradedReverseLexicographicOrdering methodsFor: 'ordering' stamp: 'len 1/28/2017 09:57:27'!
+blockCompare: aMonomial with: anotherMonomial
+	| d1 d2 e1 e2 n1 n2 |
+	e1 _ aMonomial exponents.
+	e2 _ anotherMonomial exponents.
+	n1 _ e1 size.
+	n2 _ e2 size.
+
+	d1 _ 0.
+	d2 _ 0.
+	1 to: indeterminates size do: [:i|
+		| xi a b |
+		xi _ indeterminates at: i.
+		xi <= n1 ifTrue: [d1 _ d1 + (e1 at: xi)].
+		xi <= n2 ifTrue: [d2 _ d2 + (e2 at: xi)]].
+	d1 < d2 ifTrue: [^ 1].
+	d1 = d2 ifFalse: [^ -1].
+
+	1 to: indeterminates size do: [:i|
+		| xi a b |
+		xi _ indeterminates at: i.
+		a _ xi <= n1 ifTrue: [e1 at: xi] ifFalse: [0].
+		b _ xi <= n2 ifTrue: [e2 at: xi] ifFalse: [0].
+		"a > b ifTrue: [^ 1]." "Magma handbook and Using Algebraic Geometry contradict each other"
+		a < b ifTrue: [^ 1].
+		a = b ifFalse: [^ -1]].
+	^ 0! !
+
+!LocalGradedReverseLexicographicOrdering methodsFor: 'ordering' stamp: 'len 1/28/2017 12:37:48'!
+compare1: aMonomial with: anotherMonomial
+	"This follows Magma conventions."
+	| d1 d2 e1 e2 n1 n2 |
+	(d1 _ aMonomial degree) < (d2 _ anotherMonomial degree) ifTrue: [^ 1].
+	d1 = d2 ifFalse: [^ -1].
+	e1 _ aMonomial exponents.
+	e2 _ anotherMonomial exponents.
+	n1 _ e1 size.
+	n2 _ e2 size.
+	1 to: indeterminates size do: [:i|
+		| xi a b |
+		xi _ indeterminates at: i.
+		a _ xi <= n1 ifTrue: [e1 at: xi] ifFalse: [0].
+		b _ xi <= n2 ifTrue: [e2 at: xi] ifFalse: [0].
+		a < b ifTrue: [^ 1].
+		a = b ifFalse: [^ -1]].
+	^ 0! !
+
+!LocalGradedReverseLexicographicOrdering methodsFor: 'ordering' stamp: 'len 1/28/2017 12:37:26'!
+compare2: aMonomial with: anotherMonomial
+	"This is Singular's 'ds' ordering (indeterminates are reversed)."
+	| d1 d2 e1 e2 n1 n2 |
+	(d1 _ aMonomial degree) < (d2 _ anotherMonomial degree) ifTrue: [^ 1].
+	d1 = d2 ifFalse: [^ -1].
+	e1 _ aMonomial exponents.
+	e2 _ anotherMonomial exponents.
+	n1 _ e1 size.
+	n2 _ e2 size.
+	indeterminates size to: 1 by: -1 do: [:i|
+		| xi a b |
+		xi _ indeterminates at: i.
+		a _ xi <= n1 ifTrue: [e1 at: xi] ifFalse: [0].
+		b _ xi <= n2 ifTrue: [e2 at: xi] ifFalse: [0].
+		a < b ifTrue: [^ 1].
+		a = b ifFalse: [^ -1]].
+	^ 0! !
+
+!LocalGradedReverseLexicographicOrdering methodsFor: 'ordering' stamp: 'len 1/28/2017 12:38:26'!
+compare: aMonomial with: anotherMonomial
+	"This follows Magma conventions."
+	| d1 d2 e1 e2 n1 n2 |
+	(d1 _ aMonomial degree) < (d2 _ anotherMonomial degree) ifTrue: [^ 1].
+	d1 = d2 ifFalse: [^ -1].
+	e1 _ aMonomial exponents.
+	e2 _ anotherMonomial exponents.
+	n1 _ e1 size.
+	n2 _ e2 size.
+	1 to: indeterminates size do: [:i|
+		| xi a b |
+		xi _ indeterminates at: i.
+		a _ xi <= n1 ifTrue: [e1 at: xi] ifFalse: [0].
+		b _ xi <= n2 ifTrue: [e2 at: xi] ifFalse: [0].
+		a < b ifTrue: [^ 1].
+		a = b ifFalse: [^ -1]].
+	^ 0! !
+
+!LocalGradedReverseLexicographicOrdering methodsFor: 'testing' stamp: 'len 11/22/2016 14:56:05'!
+isGraded
+	^ true! !
+
+!LocalGradedReverseLexicographicOrdering methodsFor: 'testing' stamp: 'len 11/22/2016 14:56:02'!
+isLocal
+	^ true! !
+
+!LocalGradedReverseLexicographicOrdering methodsFor: 'accessing' stamp: 'len 2/12/2017 06:03:00'!
+type
+	^ #lgrevlex! !
 
 !LocalLexicographicOrdering methodsFor: 'ordering' stamp: 'len 1/28/2017 12:33:32'!
 compare1: aMonomial with: anotherMonomial
@@ -35923,274 +36522,6 @@ isLocal
 !LocalLexicographicOrdering methodsFor: 'accessing' stamp: 'len 1/19/2017 07:29:54'!
 type
 	^ #llex! !
-
-!LocalTotalLexicographicOrdering methodsFor: 'ordering' stamp: 'len 1/28/2017 09:56:50'!
-blockCompare: aMonomial with: anotherMonomial
-	| d1 d2 e1 e2 n1 n2 |
-	e1 _ aMonomial exponents.
-	e2 _ anotherMonomial exponents.
-	n1 _ e1 size.
-	n2 _ e2 size.
-
-	d1 _ 0.
-	d2 _ 0.
-	1 to: indeterminates size do: [:i|
-		| xi a b |
-		xi _ indeterminates at: i.
-		xi <= n1 ifTrue: [d1 _ d1 + (e1 at: xi)].
-		xi <= n2 ifTrue: [d2 _ d2 + (e2 at: xi)]].
-	d1 < d2 ifTrue: [^ 1].
-	d1 = d2 ifFalse: [^ -1].
-
-	indeterminates size to: 1 by: -1 do: [:i|
-		| xi a b |
-		xi _ indeterminates at: i.
-		a _ xi <= n1 ifTrue: [e1 at: xi] ifFalse: [0].
-		b _ xi <= n2 ifTrue: [e2 at: xi] ifFalse: [0].
-		a < b ifTrue: [^ 1].
-		a = b ifFalse: [^ -1]].
-	^ 0! !
-
-!LocalTotalLexicographicOrdering methodsFor: 'ordering' stamp: 'len 1/26/2017 08:46:40'!
-compare: aMonomial with: anotherMonomial
-	| d1 d2 e1 e2 n1 n2 |
-	(d1 _ aMonomial degree) < (d2 _ anotherMonomial degree) ifTrue: [^ 1].
-	d1 = d2 ifFalse: [^ -1].
-	e1 _ aMonomial exponents.
-	e2 _ anotherMonomial exponents.
-	n1 _ e1 size.
-	n2 _ e2 size.
-	indeterminates size to: 1 by: -1 do: [:i|
-		| xi a b |
-		xi _ indeterminates at: i.
-		a _ xi <= n1 ifTrue: [e1 at: xi] ifFalse: [0].
-		b _ xi <= n2 ifTrue: [e2 at: xi] ifFalse: [0].
-		a < b ifTrue: [^ 1].
-		a = b ifFalse: [^ -1]].
-	^ 0! !
-
-!LocalTotalLexicographicOrdering methodsFor: 'testing' stamp: 'len 1/19/2017 08:09:27'!
-isGraded
-	^ true! !
-
-!LocalTotalLexicographicOrdering methodsFor: 'testing' stamp: 'len 1/19/2017 08:03:51'!
-isLocal
-	^ true! !
-
-!LocalTotalLexicographicOrdering methodsFor: 'accessing' stamp: 'len 1/19/2017 08:04:13'!
-type
-	^ #ltlex! !
-
-!LocalTotalReverseLexicographicOrdering methodsFor: 'ordering' stamp: 'len 1/28/2017 09:57:27'!
-blockCompare: aMonomial with: anotherMonomial
-	| d1 d2 e1 e2 n1 n2 |
-	e1 _ aMonomial exponents.
-	e2 _ anotherMonomial exponents.
-	n1 _ e1 size.
-	n2 _ e2 size.
-
-	d1 _ 0.
-	d2 _ 0.
-	1 to: indeterminates size do: [:i|
-		| xi a b |
-		xi _ indeterminates at: i.
-		xi <= n1 ifTrue: [d1 _ d1 + (e1 at: xi)].
-		xi <= n2 ifTrue: [d2 _ d2 + (e2 at: xi)]].
-	d1 < d2 ifTrue: [^ 1].
-	d1 = d2 ifFalse: [^ -1].
-
-	1 to: indeterminates size do: [:i|
-		| xi a b |
-		xi _ indeterminates at: i.
-		a _ xi <= n1 ifTrue: [e1 at: xi] ifFalse: [0].
-		b _ xi <= n2 ifTrue: [e2 at: xi] ifFalse: [0].
-		"a > b ifTrue: [^ 1]." "Magma handbook and Using Algebraic Geometry contradict each other"
-		a < b ifTrue: [^ 1].
-		a = b ifFalse: [^ -1]].
-	^ 0! !
-
-!LocalTotalReverseLexicographicOrdering methodsFor: 'ordering' stamp: 'len 1/28/2017 12:37:48'!
-compare1: aMonomial with: anotherMonomial
-	"This follows Magma conventions."
-	| d1 d2 e1 e2 n1 n2 |
-	(d1 _ aMonomial degree) < (d2 _ anotherMonomial degree) ifTrue: [^ 1].
-	d1 = d2 ifFalse: [^ -1].
-	e1 _ aMonomial exponents.
-	e2 _ anotherMonomial exponents.
-	n1 _ e1 size.
-	n2 _ e2 size.
-	1 to: indeterminates size do: [:i|
-		| xi a b |
-		xi _ indeterminates at: i.
-		a _ xi <= n1 ifTrue: [e1 at: xi] ifFalse: [0].
-		b _ xi <= n2 ifTrue: [e2 at: xi] ifFalse: [0].
-		a < b ifTrue: [^ 1].
-		a = b ifFalse: [^ -1]].
-	^ 0! !
-
-!LocalTotalReverseLexicographicOrdering methodsFor: 'ordering' stamp: 'len 1/28/2017 12:37:26'!
-compare2: aMonomial with: anotherMonomial
-	"This is Singular's 'ds' ordering (indeterminates are reversed)."
-	| d1 d2 e1 e2 n1 n2 |
-	(d1 _ aMonomial degree) < (d2 _ anotherMonomial degree) ifTrue: [^ 1].
-	d1 = d2 ifFalse: [^ -1].
-	e1 _ aMonomial exponents.
-	e2 _ anotherMonomial exponents.
-	n1 _ e1 size.
-	n2 _ e2 size.
-	indeterminates size to: 1 by: -1 do: [:i|
-		| xi a b |
-		xi _ indeterminates at: i.
-		a _ xi <= n1 ifTrue: [e1 at: xi] ifFalse: [0].
-		b _ xi <= n2 ifTrue: [e2 at: xi] ifFalse: [0].
-		a < b ifTrue: [^ 1].
-		a = b ifFalse: [^ -1]].
-	^ 0! !
-
-!LocalTotalReverseLexicographicOrdering methodsFor: 'ordering' stamp: 'len 1/28/2017 12:38:26'!
-compare: aMonomial with: anotherMonomial
-	"This follows Magma conventions."
-	| d1 d2 e1 e2 n1 n2 |
-	(d1 _ aMonomial degree) < (d2 _ anotherMonomial degree) ifTrue: [^ 1].
-	d1 = d2 ifFalse: [^ -1].
-	e1 _ aMonomial exponents.
-	e2 _ anotherMonomial exponents.
-	n1 _ e1 size.
-	n2 _ e2 size.
-	1 to: indeterminates size do: [:i|
-		| xi a b |
-		xi _ indeterminates at: i.
-		a _ xi <= n1 ifTrue: [e1 at: xi] ifFalse: [0].
-		b _ xi <= n2 ifTrue: [e2 at: xi] ifFalse: [0].
-		a < b ifTrue: [^ 1].
-		a = b ifFalse: [^ -1]].
-	^ 0! !
-
-!LocalTotalReverseLexicographicOrdering methodsFor: 'testing' stamp: 'len 11/22/2016 14:56:05'!
-isGraded
-	^ true! !
-
-!LocalTotalReverseLexicographicOrdering methodsFor: 'testing' stamp: 'len 11/22/2016 14:56:02'!
-isLocal
-	^ true! !
-
-!LocalTotalReverseLexicographicOrdering methodsFor: 'accessing' stamp: 'len 1/19/2017 07:33:09'!
-type
-	^ #ltrevlex! !
-
-!TotalLexicographicOrdering methodsFor: 'ordering' stamp: 'len 1/28/2017 09:55:07'!
-blockCompare: aMonomial with: anotherMonomial
-	| d1 d2 e1 e2 n1 n2 |
-	e1 _ aMonomial exponents.
-	e2 _ anotherMonomial exponents.
-	n1 _ e1 size.
-	n2 _ e2 size.
-
-	d1 _ 0.
-	d2 _ 0.
-	1 to: indeterminates size do: [:i|
-		| xi a b |
-		xi _ indeterminates at: i.
-		xi <= n1 ifTrue: [d1 _ d1 + (e1 at: xi)].
-		xi <= n2 ifTrue: [d2 _ d2 + (e2 at: xi)]].
-	d1 > d2 ifTrue: [^ 1].
-	d1 = d2 ifFalse: [^ -1].
-
-	1 to: indeterminates size do: [:i|
-		| xi a b |
-		xi _ indeterminates at: i.
-		a _ xi <= n1 ifTrue: [e1 at: xi] ifFalse: [0].
-		b _ xi <= n2 ifTrue: [e2 at: xi] ifFalse: [0].
-		a > b ifTrue: [^ 1].
-		a = b ifFalse: [^ -1]].
-	^ 0! !
-
-!TotalLexicographicOrdering methodsFor: 'ordering' stamp: 'len 11/21/2016 13:43:16'!
-compare: aMonomial with: anotherMonomial
-	| d1 d2 e1 e2 n1 n2 |
-	(d1 _ aMonomial degree) > (d2 _ anotherMonomial degree) ifTrue: [^ 1].
-	d1 = d2 ifFalse: [^ -1].
-	e1 _ aMonomial exponents.
-	e2 _ anotherMonomial exponents.
-	n1 _ e1 size.
-	n2 _ e2 size.
-	1 to: indeterminates size do: [:i|
-		| xi a b |
-		xi _ indeterminates at: i.
-		a _ xi <= n1 ifTrue: [e1 at: xi] ifFalse: [0].
-		b _ xi <= n2 ifTrue: [e2 at: xi] ifFalse: [0].
-		a > b ifTrue: [^ 1].
-		a = b ifFalse: [^ -1]].
-	^ 0! !
-
-!TotalLexicographicOrdering methodsFor: 'testing' stamp: 'len 1/26/2017 22:27:59'!
-isGlobal
-	^ true! !
-
-!TotalLexicographicOrdering methodsFor: 'testing' stamp: 'len 7/6/2016 08:27'!
-isGraded
-	^ true! !
-
-!TotalLexicographicOrdering methodsFor: 'accessing' stamp: 'len 7/2/2016 23:54'!
-type
-	^ #tlex! !
-
-!TotalReverseLexicographicOrdering methodsFor: 'ordering' stamp: 'len 1/28/2017 09:56:14'!
-blockCompare: aMonomial with: anotherMonomial
-	| d1 d2 n1 n2 e1 e2 |
-	e1 _ aMonomial exponents.
-	e2 _ anotherMonomial exponents.
-	n1 _ e1 size.
-	n2 _ e2 size.
-	
-	d1 _ 0.
-	d2 _ 0.
-	1 to: indeterminates size do: [:i|
-		| xi a b |
-		xi _ indeterminates at: i.
-		xi <= n1 ifTrue: [d1 _ d1 + (e1 at: xi)].
-		xi <= n2 ifTrue: [d2 _ d2 + (e2 at: xi)]].
-	d1 > d2 ifTrue: [^ 1].
-	d1 = d2 ifFalse: [^ -1].
-
-	indeterminates size to: 1 by: -1 do: [:i|
-		| xi a b |
-		xi _ indeterminates at: i.
-		a _ xi <= n1 ifTrue: [e1 at: xi] ifFalse: [0].
-		b _ xi <= n2 ifTrue: [e2 at: xi] ifFalse: [0].
-		a < b ifTrue: [^ 1].
-		a = b ifFalse: [^ -1]].
-	^ 0! !
-
-!TotalReverseLexicographicOrdering methodsFor: 'ordering' stamp: 'len 11/21/2016 12:20:07'!
-compare: aMonomial with: anotherMonomial
-	| d1 d2 n1 n2 e1 e2 |
-	(d1 _ aMonomial degree) > (d2 _ anotherMonomial degree) ifTrue: [^ 1].
-	d1 = d2 ifFalse: [^ -1].
-	e1 _ aMonomial exponents.
-	e2 _ anotherMonomial exponents.
-	n1 _ e1 size.
-	n2 _ e2 size.
-	indeterminates size to: 1 by: -1 do: [:i|
-		| xi a b |
-		xi _ indeterminates at: i.
-		a _ xi <= n1 ifTrue: [e1 at: xi] ifFalse: [0].
-		b _ xi <= n2 ifTrue: [e2 at: xi] ifFalse: [0].
-		a < b ifTrue: [^ 1].
-		a = b ifFalse: [^ -1]].
-	^ 0! !
-
-!TotalReverseLexicographicOrdering methodsFor: 'testing' stamp: 'len 1/26/2017 22:28:06'!
-isGlobal
-	^ true! !
-
-!TotalReverseLexicographicOrdering methodsFor: 'testing' stamp: 'len 7/6/2016 08:27'!
-isGraded
-	^ true! !
-
-!TotalReverseLexicographicOrdering methodsFor: 'accessing' stamp: 'len 7/3/2016 00:43'!
-type
-	^ #trevlex! !
 
 !WeightedMonomialOrdering methodsFor: 'arithmetic' stamp: 'len 7/3/2016 02:24'!
 * aMonomialOrdering
@@ -36940,6 +37271,10 @@ leadingTerm
 		 ifTrue: [self]
 		 ifFalse: [self termAt: self leadingMonomial]! !
 
+!Polynomial methodsFor: 'accessing terms' stamp: 'len 2/10/2017 20:28:17'!
+linearForm
+	^ self formAt: 1! !
+
 !Polynomial methodsFor: 'converting' stamp: 'len 11/17/2016 19:02:41'!
 monic
 	^ self / self leadingCoefficient! !
@@ -37210,6 +37545,15 @@ reciprocal
 	"Answer the reciprocal of the receiver, possibly as a rational function, assuming the scalars are a field."
 	self isConstant ifTrue: [^ self parent constant: self independentCoefficient reciprocal].
 	^ RationalFunction numerator: self one denominator: self! !
+
+!Polynomial methodsFor: 'operations' stamp: 'len 2/12/2017 12:26:39'!
+s: aPolynomial
+	"Answer the S-polynomial of the receiver with the argument."
+	| h1 h2 lcm |
+	h1 _ self leadingMonomial.
+	h2 _ aPolynomial leadingMonomial.
+	lcm _ h1 lcm: h2.
+	^ self * (lcm / h1) / self leadingCoefficient - (aPolynomial * (lcm / h2) / aPolynomial leadingCoefficient)! !
 
 !Polynomial methodsFor: 'accessing' stamp: 'len 10/6/2016 15:34'!
 scalars
@@ -37581,15 +37925,14 @@ monomialsDo: aBlock
 		(coefficients at: i) isZero
 			ifFalse: [aBlock value: (self parent monomials x: x to: i-1)]]! !
 
-!UnivariatePolynomial methodsFor: 'roots' stamp: 'len 11/20/2016 10:21:45'!
-multiplicityAt: anObject
-	"Answer the multiplicity of anObject as zero of the receiver."
-
+!UnivariatePolynomial methodsFor: 'roots' stamp: 'len 2/13/2017 07:54:44'!
+multiplicityAt: aPoint
+	"Answer the multiplicity of aPoint as zero of the receiver."
 	| answer f |
 	self isZero ifTrue: [^ Infinity positive].
 	answer _ 0.
 	f _ self.
-	[(f value: anObject) isZero]
+	[(f value: aPoint) isZero]
 		whileTrue:
 			[answer _ answer + 1.
 			f _ f derivative].
@@ -39870,10 +40213,10 @@ polynomial
 	^ (self scalars polynomialsIn: #(x y)) evaluating: [:x :y|
 			y^2 + (x*y * self a1) + (y * self a3) - (x^3) - (x^2 * self a2) - (x * self a4) - self a6]! !
 
-!WeierstrassEquation methodsFor: 'printing' stamp: 'len 11/9/2016 07:19'!
+!WeierstrassEquation methodsFor: 'printing' stamp: 'len 2/12/2017 06:05:00'!
 printOn: aStream
 	| P x y |
-	P _ self scalars polynomialsIn: #(x y) ordering: (MonomialOrdering tlex: #(2 1)).
+	P _ self scalars polynomialsIn: #(x y) ordering: (MonomialOrdering glex: #(2 1)).
 	x _ P x.
 	y _ P y.
 	aStream print: y^2 + (x*y * self a1) + (y * self a3).
