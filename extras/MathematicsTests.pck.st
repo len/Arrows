@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 13 February 2017 at 8:42:18 pm'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 14 February 2017 at 8:20:23 pm'!
 'Description Please enter a description for this package'!
-!provides: 'MathematicsTests' 1 67!
+!provides: 'MathematicsTests' 1 68!
 !classDefinition: #AbelianGroupTest category: #MathematicsTests!
 TestCase subclass: #AbelianGroupTest
 	instanceVariableNames: ''
@@ -231,14 +231,14 @@ TestCase subclass: #SequenceTest
 SequenceTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #SimplicesTest category: #MathematicsTests!
-TestCase subclass: #SimplicesTest
+!classDefinition: #SimplicialComplexTest category: #MathematicsTests!
+TestCase subclass: #SimplicialComplexTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'MathematicsTests'!
-!classDefinition: 'SimplicesTest class' category: #MathematicsTests!
-SimplicesTest class
+!classDefinition: 'SimplicialComplexTest class' category: #MathematicsTests!
+SimplicialComplexTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #TupleTest category: #MathematicsTests!
@@ -1459,6 +1459,16 @@ testTangentCone
 	J _ R * (R !! [:x :y :z| {y^2 + (x*z). y*z + (z^2). x*(z^2) - (y*(z^2))}]).
 	self assert: (X !! (0,0,0)) tangentCone ideal = J! !
 
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 2/14/2017 16:10:01'!
+testTangentCone2
+	"M. Kreuzer, 'Computational Commutative Algebra', Example 6.5.27."
+	| R J T I |
+	R _ QQ polynomialsIn: 4.
+	J _ R * (R generate: [:x1 :x2 :x3 :x4| {x1*x2 - (x3^2). x2^2 - (x4^5)}]).
+	T _ (R/J) spec tangentConeAt: (0,0,0,0).
+	I _ R * (R generate: [:x1 :x2 :x3 :x4| {x1*x2 - (x3^2). x2^2. x2*(x3^2). x3^4}]).
+	self assert: T ideal = I! !
+
 !AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 2/9/2017 10:35:41'!
 testTangentConeAndTangentSpace
 	"Example from https://en.wikipedia.org/wiki/Tangent_cone."
@@ -1716,6 +1726,16 @@ testWeightEnumerator
 	y _ w parent y.
 	self assert: w = (x^5 + (y^5)).
 	self assert: C dual weightEnumerator = (x^5 + (x^3*(y^2)*10) + (y^4*x*5))! !
+
+!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 2/14/2017 08:11:31'!
+testAffineRingElementOperations
+	"Magma handbook example H105E1."
+	| R A x y |
+	R _ QQ polynomialsIn: #(x y).
+	A _ R / (R generate: [:x1 :y1| {x1^2 - (y1^2) + 2. y1^3 - 5}]).
+	x _ A x. y _ A y.
+	self assert: x^2 = (y^2 - 2).
+	"self assert: x reciprocal = ..."! !
 
 !CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 2/13/2017 20:39:37'!
 testAffineRingIdealMembershipAtRandom
@@ -5666,15 +5686,41 @@ testRecursiveSum
 	self assert: (c isKindOf: CFiniteSequence).
 	self assert: (c equals: c` upTo: 20)! !
 
-!SimplicesTest methodsFor: 'as yet unclassified' stamp: 'len 6/12/2016 21:08'!
+!SimplicialComplexTest methodsFor: 'as yet unclassified' stamp: 'len 2/14/2017 20:15:10'!
+test3Sphere
+	| X |
+	X _ SimplicialComplex sphere: 3.
+	self assert: X dimension = 2.
+	self assert: X fVector = (1,4,6,4)! !
+
+!SimplicialComplexTest methodsFor: 'as yet unclassified' stamp: 'len 2/14/2017 20:14:33'!
+test6Sphere
+	| X |
+	X _ SimplicialComplex sphere: 6.
+	self assert: X dimension = 5.
+	self assert: X fVector = (1,7,21,35,35,21,7)! !
+
+!SimplicialComplexTest methodsFor: 'as yet unclassified' stamp: 'len 2/14/2017 20:12:39'!
+testEulerCharacteristic
+	| X |
+	X _ SimplicialComplex torus.
+	self assert: X euler = 0.
+	X _ SimplicialComplex sphere: 3.
+	self assert: X euler = 2.
+	X _ SimplicialComplex kleinBottle.
+	self assert: X euler = 0.
+	X _ SimplicialComplex realProjectivePlane.
+	self assert: X euler = 1! !
+
+!SimplicialComplexTest methodsFor: 'as yet unclassified' stamp: 'len 2/14/2017 19:00:06'!
 testSimplecialComplex
 	| S |
-	S _ SimplicialComplex newFrom: {{1. 2. 3}. {2. 4}. {3. 4}. {5}}.
+	S _ SimplicialComplex facets: {{1. 2. 3}. {2. 4}. {3. 4}. {5}}.
 	self assert: (S faces: 2) asSet size = 1.
 	self assert: (S faces: 1) asSet size = 5.
 	self assert: (S faces: 0) asSet size = 5! !
 
-!SimplicesTest methodsFor: 'as yet unclassified' stamp: 'len 6/18/2016 17:16'!
+!SimplicialComplexTest methodsFor: 'as yet unclassified' stamp: 'len 6/18/2016 17:16'!
 testSimplex
 	| tetrahedron |
 	tetrahedron _ Simplex points: {(1,0,0). (0,1,0). (0,0,1). (0,0,0)}.
@@ -5683,25 +5729,32 @@ testSimplex
 	self assert: tetrahedron edges size = 6.
 	self assert: (tetrahedron faces: 3) size = 1! !
 
-!SimplicesTest methodsFor: 'as yet unclassified' stamp: 'len 6/12/2016 21:09'!
+!SimplicialComplexTest methodsFor: 'as yet unclassified' stamp: 'len 6/12/2016 21:09'!
 testSimplexBoundaryBoundary
 	| S |
 	S _ Simplex points: #(a b c d).
 	self assert: S boundary boundary isZero! !
 
-!SimplicesTest methodsFor: 'as yet unclassified' stamp: 'len 6/12/2016 21:12'!
+!SimplicialComplexTest methodsFor: 'as yet unclassified' stamp: 'len 6/12/2016 21:12'!
 testSimplexInclusion
 	| S S` |
 	S _ Simplex new: (2 to: 10) atRandom.
 	S` _ Simplex new: (0 to: S dimension) atRandom.
 	self assert: S` <= S! !
 
-!SimplicesTest methodsFor: 'as yet unclassified' stamp: 'len 6/12/2016 21:09'!
+!SimplicialComplexTest methodsFor: 'as yet unclassified' stamp: 'len 6/12/2016 21:09'!
 testSimplexNegation
 	| S |
 	S _ Simplex points: {1. 2. 3. 4}.
 	self assert: S negated negated = S.
 	self assert: S negated ~= S! !
+
+!SimplicialComplexTest methodsFor: 'as yet unclassified' stamp: 'len 2/14/2017 19:45:41'!
+testTorus
+	| X |
+	X _ SimplicialComplex torus.
+	self assert: X dimension = 2.
+	self assert: X fVector = (1,7,21,14)! !
 
 !TupleTest methodsFor: 'as yet unclassified' stamp: 'len 11/6/2016 11:35'!
 testBitTupleBug
