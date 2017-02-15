@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 14 February 2017 at 8:19:38 pm'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 15 February 2017 at 8:46:21 am'!
 'Description A computational algebra system in Smalltalk'!
-!provides: 'Mathematics' 1 361!
+!provides: 'Mathematics' 1 362!
 !requires: 'RayTracer' 1 2 nil!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
@@ -502,13 +502,13 @@ Diagram subclass: #SubgroupSeries
 SubgroupSeries class
 	instanceVariableNames: ''!
 
-!classDefinition: #ChainComplex category: #'Mathematics-Simplicial Complexes'!
+!classDefinition: #ChainComplex category: #'Mathematics-Homology'!
 Diagram subclass: #ChainComplex
 	instanceVariableNames: 'arrows'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Simplicial Complexes'!
-!classDefinition: 'ChainComplex class' category: #'Mathematics-Simplicial Complexes'!
+	category: 'Mathematics-Homology'!
+!classDefinition: 'ChainComplex class' category: #'Mathematics-Homology'!
 ChainComplex class
 	instanceVariableNames: ''!
 
@@ -1872,13 +1872,23 @@ SemistandardTableaux subclass: #StandardTableaux
 StandardTableaux class
 	instanceVariableNames: ''!
 
-!classDefinition: #SimplicialComplex category: #'Mathematics-Simplicial Complexes'!
-Domain subclass: #SimplicialComplex
+!classDefinition: #CellComplex category: #'Mathematics-Homology'!
+Domain subclass: #CellComplex
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Simplicial Complexes'!
-!classDefinition: 'SimplicialComplex class' category: #'Mathematics-Simplicial Complexes'!
+	category: 'Mathematics-Homology'!
+!classDefinition: 'CellComplex class' category: #'Mathematics-Homology'!
+CellComplex class
+	instanceVariableNames: ''!
+
+!classDefinition: #SimplicialComplex category: #'Mathematics-Homology'!
+CellComplex subclass: #SimplicialComplex
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Homology'!
+!classDefinition: 'SimplicialComplex class' category: #'Mathematics-Homology'!
 SimplicialComplex class
 	instanceVariableNames: ''!
 
@@ -2432,23 +2442,23 @@ Sequence subclass: #CFiniteSequence
 CFiniteSequence class
 	instanceVariableNames: ''!
 
-!classDefinition: #ChainMap category: #'Mathematics-Simplicial Complexes'!
+!classDefinition: #ChainMap category: #'Mathematics-Homology'!
 Function subclass: #ChainMap
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Simplicial Complexes'!
-!classDefinition: 'ChainMap class' category: #'Mathematics-Simplicial Complexes'!
+	category: 'Mathematics-Homology'!
+!classDefinition: 'ChainMap class' category: #'Mathematics-Homology'!
 ChainMap class
 	instanceVariableNames: ''!
 
-!classDefinition: #SimplicialMap category: #'Mathematics-Simplicial Complexes'!
+!classDefinition: #SimplicialMap category: #'Mathematics-Homology'!
 Function subclass: #SimplicialMap
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Simplicial Complexes'!
-!classDefinition: 'SimplicialMap class' category: #'Mathematics-Simplicial Complexes'!
+	category: 'Mathematics-Homology'!
+!classDefinition: 'SimplicialMap class' category: #'Mathematics-Homology'!
 SimplicialMap class
 	instanceVariableNames: ''!
 
@@ -2842,13 +2852,13 @@ FormalSum subclass: #Tensor
 Tensor class
 	instanceVariableNames: ''!
 
-!classDefinition: #SimplicialChain category: #'Mathematics-Simplicial Complexes'!
+!classDefinition: #SimplicialChain category: #'Mathematics-Homology'!
 FormalSum subclass: #SimplicialChain
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Simplicial Complexes'!
-!classDefinition: 'SimplicialChain class' category: #'Mathematics-Simplicial Complexes'!
+	category: 'Mathematics-Homology'!
+!classDefinition: 'SimplicialChain class' category: #'Mathematics-Homology'!
 SimplicialChain class
 	instanceVariableNames: ''!
 
@@ -3482,13 +3492,13 @@ Object subclass: #YoungDiagram
 YoungDiagram class
 	instanceVariableNames: ''!
 
-!classDefinition: #Simplex category: #'Mathematics-Simplicial Complexes'!
+!classDefinition: #Simplex category: #'Mathematics-Homology'!
 Object subclass: #Simplex
 	instanceVariableNames: 'points'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Simplicial Complexes'!
-!classDefinition: 'Simplex class' category: #'Mathematics-Simplicial Complexes'!
+	category: 'Mathematics-Homology'!
+!classDefinition: 'Simplex class' category: #'Mathematics-Homology'!
 Simplex class
 	instanceVariableNames: ''!
 
@@ -4659,12 +4669,15 @@ References:
 	https://en.wikipedia.org/wiki/Projective_space
 !
 
-!SimplicialComplex commentStamp: '<historical>' prior: 0!
-My instances are abstract simplicial complexes. These are combinatorial objects consisting of a collection of simplices (the 'faces' of the simplicial complex) with the following properties:
-- every face of a simplex is also in the complex;
-- the intersection of two simplices is either empty or a common face of both simplices.
+!CellComplex commentStamp: '<historical>' prior: 0!
+My instances are abstract cell complexes. See subclasses.!
 
-Also can be seen as a subset of the power set of some set V, often V={1,...,n}, closed under inclusion.!
+!SimplicialComplex commentStamp: '<historical>' prior: 0!
+My instances are abstract simplicial complexes. These are combinatorial objects consisting of a collection of simplices (the 'faces' of the simplicial complex) and with the following properties:
+- every subface of a face is also in the complex;
+- the intersection of two faces is either empty or a common face of both simplices, and it is also in the complex.
+
+An abstract simplicial complex can also be seen as a subset of the power set of some set V, often V={1,...,n}, closed under inclusion.!
 
 !LinearCode commentStamp: '<historical>' prior: 0!
 My instances are linear codes.
@@ -25435,14 +25448,74 @@ size
 	^ answer
 ! !
 
-!SimplicialComplex methodsFor: 'operations' stamp: 'len 2/14/2017 19:09:53'!
+!CellComplex methodsFor: 'cells' stamp: 'len 2/15/2017 07:32:58'!
+cells: n
+	"Answer the set of n-cells of the receiver."
+	^ Set accumulate: [:aBlock| self cells: n do: aBlock]! !
+
+!CellComplex methodsFor: 'cells' stamp: 'len 2/15/2017 07:51:33'!
+cells: n do: aBlock
+	"Iterate over the n-cells of the receiver, possibly with repretitions.
+	Subclasses should reimplement."
+	^ self do: [:each| each dimension = n ifTrue: [aBlock value: each]]! !
+
+!CellComplex methodsFor: 'invariants' stamp: 'len 2/15/2017 07:51:42'!
+dimension
+	^ self elements max: [:each| each dimension]! !
+
+!CellComplex methodsFor: 'invariants' stamp: 'len 2/15/2017 07:37:12'!
+euler
+	"Answer the Euler characteristic of the receiver."
+	^ (0 to: self dimension) sum: [:p| -1^p * (self cells: p) size]! !
+
+!CellComplex methodsFor: 'invariants' stamp: 'len 2/15/2017 07:35:07'!
+fPolynomial
+	^ ZZ polynomials coefficients: self fVector reversed! !
+
+!CellComplex methodsFor: 'invariants' stamp: 'len 2/15/2017 08:37:20'!
+fVector
+	^ ZZ tuple: self dimension + 2 evaluating: [:i| (self cells: i-2) size]! !
+
+!CellComplex methodsFor: 'invariants' stamp: 'len 2/15/2017 08:37:05'!
+gVector
+	| h |
+	h _ self hVector.
+	^ ZZ tuple: h size // 2 + 1 evaluating: [:i| i == 1 ifTrue: [1] ifFalse: [(h at: i) - (h at: i-1)]]! !
+
+!CellComplex methodsFor: 'invariants' stamp: 'len 2/15/2017 07:35:11'!
+hPolynomial
+	| f x |
+	f _ self fPolynomial.
+	x _ f parent x.
+	^ f ” (x - 1)! !
+
+!CellComplex methodsFor: 'invariants' stamp: 'len 2/15/2017 07:35:19'!
+hVector
+	^ self hPolynomial coefficients reversed! !
+
+!CellComplex methodsFor: 'printing' stamp: 'len 2/15/2017 07:37:47'!
+printOn: aStream
+	aStream print: self dimension; nextPutAll: '-complex '.
+	self shortPrintOn: aStream! !
+
+!CellComplex methodsFor: 'printing' stamp: 'len 2/15/2017 07:50:44'!
+shortPrintOn: aStream
+	aStream nextPut: ${.
+	self do: [:each| each shortPrintOn: aStream] separatedBy: [aStream nextPut: $,].
+	aStream nextPut: $}! !
+
+!SimplicialComplex methodsFor: 'operations' stamp: 'len 2/15/2017 08:40:42'!
 * aSimplicialComplex
 	"Answer the join of the receiver with the argument."
-	self notYetImplemented! !
+	| join |
+	join _ Set new.
+	self facets do: [:each|
+		aSimplicialComplex facets do: [:other| join add: each * other]].
+	^ self class facets: join! !
 
-!SimplicialComplex methodsFor: 'operations' stamp: 'len 2/29/2016 08:26'!
+!SimplicialComplex methodsFor: 'operations' stamp: 'len 2/15/2017 07:57:34'!
 / aFace
-	"Answer the link of the face aFace."
+	"Answer the link of the face aFace. This is the complex of all faces of simplices in the star that do not intersect aFace."
 	^ self notYetImplemented! !
 
 !SimplicialComplex methodsFor: 'homology' stamp: 'len 8/5/2016 19:28'!
@@ -25453,9 +25526,9 @@ boundaries: i
 boundaryMap: i
 	^ (self chains: i) to: (self chains: i-1) evaluating: [:x| x boundary]! !
 
-!SimplicialComplex methodsFor: 'accessing' stamp: 'len 6/13/2016 01:09'!
-cells
-	^ self faces: self dimension! !
+!SimplicialComplex methodsFor: 'enumerating' stamp: 'len 2/15/2017 07:54:36'!
+cells: n do: aBlock
+	^ self faces: n do: aBlock! !
 
 !SimplicialComplex methodsFor: 'homology' stamp: 'len 2/14/2017 09:12:51'!
 chains: p
@@ -25505,10 +25578,14 @@ cocycles: i
 cohomology: i
 	^ (self cocycles: i) / (self coboundaries: i)! !
 
-!SimplicialComplex methodsFor: 'operations' stamp: 'len 2/14/2017 19:12:09'!
+!SimplicialComplex methodsFor: 'operations' stamp: 'len 2/15/2017 08:41:33'!
 cone
 	"Answer the join of the receiver with a new one-point simplicial complex."
-	^ self * (self class facets: {{Object new}})! !
+	^ self * (self class facets: #((0)))! !
+
+!SimplicialComplex methodsFor: 'testing' stamp: 'len 2/15/2017 08:24:23'!
+contains: aSimplex
+	^ self facets anySatisfy: [:one| one >= aSimplex]! !
 
 !SimplicialComplex methodsFor: 'operations' stamp: 'len 2/29/2016 08:25'!
 coskeleton: n
@@ -25519,7 +25596,7 @@ coskeleton: n
 cycles: i
 	^ (self boundaryMap: i-1) image! !
 
-!SimplicialComplex methodsFor: 'invariants' stamp: 'len 2/14/2017 16:52:56'!
+!SimplicialComplex methodsFor: 'invariants' stamp: 'len 2/15/2017 07:49:47'!
 dimension
 	^ self facets max: [:each| each dimension]! !
 
@@ -25527,54 +25604,41 @@ dimension
 do: aBlock
 	-1 to: self dimension do: [:each| (self faces: each) do: aBlock]! !
 
-!SimplicialComplex methodsFor: 'accessing' stamp: 'len 4/21/2016 04:37'!
+!SimplicialComplex methodsFor: 'faces' stamp: 'len 4/21/2016 04:37'!
 edges
 	^ self faces: 1! !
 
-!SimplicialComplex methodsFor: 'invariants' stamp: 'len 2/14/2017 20:05:58'!
-euler
-	"Answer the Euler characteristic of the receiver."
-	^ (0 to: self dimension) sum: [:p| -1^p * (self faces: p) size]! !
-
-!SimplicialComplex methodsFor: 'invariants' stamp: 'len 2/14/2017 19:26:26'!
-fPolynomial
-	^ ZZ polynomials coefficients: self fVector reversed! !
-
-!SimplicialComplex methodsFor: 'invariants' stamp: 'len 2/14/2017 19:22:41'!
-fVector
-	^ ZZ tuple: self dimension + 2 evaluating: [:i| (self faces: i-2) size]! !
-
-!SimplicialComplex methodsFor: 'accessing' stamp: 'len 11/30/2016 14:45:09'!
+!SimplicialComplex methodsFor: 'faces' stamp: 'len 11/30/2016 14:45:09'!
 faces: m
 	^ Set accumulate: [:aBlock| self faces: m do: aBlock]! !
 
-!SimplicialComplex methodsFor: 'enumerating' stamp: 'len 2/14/2017 19:07:09'!
-faces: m do: aBlock
-	"Iterate over the m-faces of the receiver, possibly with repetitions."
-	self facets do: [:each| each faces: m do: [:face| aBlock value: face]]! !
+!SimplicialComplex methodsFor: 'enumerating' stamp: 'len 2/15/2017 07:53:57'!
+faces: n do: aBlock
+	"Iterate over the n-cells of the receiver, possibly with repetitions."
+	self facets do: [:each| each faces: n do: [:face| aBlock value: face]]! !
 
-!SimplicialComplex methodsFor: 'accessing' stamp: 'len 2/14/2017 19:06:35'!
+!SimplicialComplex methodsFor: 'faces' stamp: 'len 2/15/2017 08:29:11'!
 facets
+	"Answer the maximal faces of the receiver."
 	^ self propertyAt: #facets! !
 
-!SimplicialComplex methodsFor: 'accessing-private' stamp: 'len 2/14/2017 18:52:56'!
+!SimplicialComplex methodsFor: 'private' stamp: 'len 2/15/2017 08:22:01'!
 facets: aCollection
-	self propertyAt: #facets put: (aCollection collect: [:each| (each isKindOf: Simplex) ifTrue: [each] ifFalse: [each as: Simplex]])! !
-
-!SimplicialComplex methodsFor: 'invariants' stamp: 'len 2/14/2017 19:27:18'!
-hPolynomial
-	| f x |
-	f _ self fPolynomial.
-	x _ f parent x.
-	^ f ” (x - 1)! !
-
-!SimplicialComplex methodsFor: 'invariants' stamp: 'len 2/14/2017 19:28:40'!
-hVector
-	^ self hPolynomial coefficients reversed! !
+	| facets |
+	facets _ Set new: aCollection size.
+	aCollection do: [:each|
+		(each isKindOf: Simplex)
+			ifTrue: [facets add: each]
+			ifFalse: [facets add: (each as: Simplex)]].
+	self propertyAt: #facets put: facets! !
 
 !SimplicialComplex methodsFor: 'homology' stamp: 'len 8/5/2016 19:28'!
 homology: i
 	^ (self cycles: i) / (self boundaries: i)! !
+
+!SimplicialComplex methodsFor: 'testing' stamp: 'len 2/15/2017 08:23:17'!
+includes: aSimplex
+	^ (aSimplex isKindOf: Simplex) and: [self contains: aSimplex]! !
 
 !SimplicialComplex methodsFor: 'testing' stamp: 'len 6/13/2016 16:29'!
 isConnected
@@ -25586,17 +25650,12 @@ isPure
 	dim _ self dimension.
 	self facets allSatisfy: [:each| each dimension = dim]! !
 
-!SimplicialComplex methodsFor: 'operations' stamp: 'len 6/12/2016 08:43'!
-linkOf: aFace
-	"Answer the link of the face aFac, the complex of all faces of simplices in the star that do not intersect aFace."
-	^ self notYetImplemented! !
-
 !SimplicialComplex methodsFor: 'printing' stamp: 'len 4/23/2016 05:34'!
 printOn: aStream
 	aStream print: self dimension; nextPutAll: '-complex '.
 	self shortPrintOn: aStream! !
 
-!SimplicialComplex methodsFor: 'accessing' stamp: 'len 4/21/2016 04:38'!
+!SimplicialComplex methodsFor: 'faces' stamp: 'len 4/21/2016 04:38'!
 ridges
 	^ self faces: self dimension - 2! !
 
@@ -25620,7 +25679,7 @@ starOf: aCollection
 		self do: [:other| (each intersects: other) ifTrue: [simplices add: other]]].
 	^ self newFrom: simplices! !
 
-!SimplicialComplex methodsFor: 'accessing' stamp: 'len 4/21/2016 04:37'!
+!SimplicialComplex methodsFor: 'faces' stamp: 'len 4/21/2016 04:37'!
 vertices
 	^ self faces: 0! !
 
@@ -25629,20 +25688,24 @@ facets: aCollection
 	"Answer a new simplicial complex with the given collection of simplices as facets."
 	^ self new facets: aCollection! !
 
-!SimplicialComplex class methodsFor: 'examples' stamp: 'len 2/14/2017 19:40:37'!
+!SimplicialComplex class methodsFor: 'examples' stamp: 'len 2/14/2017 20:39:44'!
 kleinBottle
+	"A minimal triangulation of the Klein bottle."
 	^ self facets: #((2 3 7) (1 2 3) (1 3 5) (1 5 7) (1 4 7) (2 4 6) (1 2 6) (1 6 0) (1 4 0) (2 4 0) (3 4 7) (3 4 6) (3 5 6) (5 6 0) (2 5 0) (2 5 7))! !
 
-!SimplicialComplex class methodsFor: 'examples' stamp: 'len 2/14/2017 20:12:31'!
+!SimplicialComplex class methodsFor: 'examples' stamp: 'len 2/14/2017 20:39:57'!
 realProjectivePlane
+	"A minimal triangulation of the real projective plane."
 	^ self facets: #((0 1 2) (0 2 3) (0 1 5) (0 4 5) (0 3 4) (1 2 4) (1 3 4) (1 3 5) (2 3 5) (2 4 5))! !
 
-!SimplicialComplex class methodsFor: 'examples' stamp: 'len 2/14/2017 19:43:26'!
+!SimplicialComplex class methodsFor: 'examples' stamp: 'len 2/14/2017 20:40:47'!
 sphere: n
+	"A minimal triangulation of the n-sphere."
 	^ self facets: ((Simplex new: n) faces: n-1)! !
 
-!SimplicialComplex class methodsFor: 'examples' stamp: 'len 2/14/2017 19:18:05'!
+!SimplicialComplex class methodsFor: 'examples' stamp: 'len 2/14/2017 20:40:24'!
 torus
+	"A minimal triangulation of the torus."
 	^ self facets: #((0 1 2) (1 2 4) (1 3 4) (1 3 6) (0 1 5) (1 5 6) (2 3 5) (2 4 5) (2 3 6) (0 2 6) (0 3 4) (0 3 5) (4 5 6) (0 4 6))! !
 
 !LinearCode methodsFor: 'comparing' stamp: 'len 4/3/2016 23:27'!
@@ -40034,6 +40097,11 @@ shape: aPartition
 shape: aPartition
 	^ self new shape: aPartition! !
 
+!Simplex methodsFor: 'operations' stamp: 'len 2/15/2017 08:06:43'!
+* aSimplex
+	"Answer the join of the receiver with the argument."
+	^ self class points: (self points collect: [:x| {1. x}]), (aSimplex points collect: [:y| {2. y}])! !
+
 !Simplex methodsFor: 'comparing' stamp: 'len 6/13/2016 09:34'!
 < aSimplex
 	"Answer true if the receiver is strictly contained in aSimplex as a face."
@@ -40054,17 +40122,29 @@ shape: aPartition
 		each = (aSimplex points atWrap: i+ip-1) ifFalse: [^ false]].
 	^ true! !
 
-!Simplex methodsFor: 'comparing' stamp: 'len 6/13/2016 09:33'!
+!Simplex methodsFor: 'comparing' stamp: 'len 2/15/2017 08:25:39'!
 > aSimplex
 	"Answer true if the receiver strictly containes aSimplex as a face."
-	^ self dimension > aSimplex dimension and: [points includesAllOf: aSimplex points]! !
+	^ points size > aSimplex points size and: [points includesAllOf: aSimplex points]
+"	^ self dimension > aSimplex dimension and: [points includesAllOf: aSimplex points]"! !
 
-!Simplex methodsFor: 'comparing' stamp: 'len 6/13/2016 09:33'!
+!Simplex methodsFor: 'comparing' stamp: 'len 2/15/2017 08:25:08'!
 >= aSimplex
 	"Answer true if the receiver containes aSimplex as a face."
-	^ self dimension >= aSimplex dimension and: [points includesAllOf: aSimplex points]! !
+	^ points size >= aSimplex points size and: [points includesAllOf: aSimplex points]
+"	^ self dimension >= aSimplex dimension and: [points includesAllOf: aSimplex points]"! !
 
-!Simplex methodsFor: 'morphisms' stamp: 'len 12/8/2016 20:32:05'!
+!Simplex methodsFor: 'comparing' stamp: 'len 2/15/2017 08:14:56'!
+~ aSimplex
+	"Answer true if the receiver and the argument are isomorphic."
+	^ self dimension = aSimplex dimension! !
+
+!Simplex methodsFor: 'operations' stamp: 'len 2/15/2017 08:05:19'!
+× aSimplex
+	"Answer the product of the receiver with the argument."
+	self notYetImplemented! !
+
+!Simplex methodsFor: 'operations' stamp: 'len 12/8/2016 20:32:05'!
 • aSimplex
 	"Answer the face common to the receiver and aSimplex, which could be {}."
 	^ self class points: (self points • aSimplex points)! !
@@ -40078,7 +40158,7 @@ asSkeletonGraph
 	F do: [:x| F do: [:y| graph addEdgeFrom: x to: y]].
 	^ graph! !
 
-!Simplex methodsFor: 'morphisms' stamp: 'len 11/18/2016 20:34:54'!
+!Simplex methodsFor: 'operations' stamp: 'len 11/18/2016 20:34:54'!
 boundary
 	"Answer the union of all facets of the receiver. The boundary of a n-simplex is a (n-1)-chain with coefficients 1 and -1."
 	| answer |
@@ -40087,50 +40167,52 @@ boundary
 		answer coefficientAt: (self class points: (points copyWithoutIndex: i)) add: (-1)^i].
 	^ answer! !
 
-!Simplex methodsFor: 'morphisms' stamp: 'len 2/14/2017 18:59:13'!
+!Simplex methodsFor: 'operations' stamp: 'len 2/15/2017 07:59:49'!
 closure
+	"Answer the simplicial complex with the receiver. By definition of simplicial complex, it also contains all faces of the receiver)."
 	^ SimplicialComplex facets: {self}! !
 
 !Simplex methodsFor: 'accessing' stamp: 'len 2/23/2016 03:04'!
 dimension
 	^ points size - 1! !
 
-!Simplex methodsFor: 'subobjects' stamp: 'len 2/23/2016 02:02'!
+!Simplex methodsFor: 'faces' stamp: 'len 2/23/2016 02:02'!
 edges
 	^ self faces: 1! !
 
-!Simplex methodsFor: 'subobjects' stamp: 'len 6/13/2016 00:00'!
+!Simplex methodsFor: 'faces' stamp: 'len 6/13/2016 00:00'!
 faces
 	"Answer all faces of the receiver (including the empty set and the receiver)."
 	^ Iterator on: [:aBlock| self facesDo: aBlock]! !
 
-!Simplex methodsFor: 'subobjects' stamp: 'len 2/23/2016 02:00'!
-faces: m
-	^ Iterator on: [:aBlock| self faces: m do: aBlock]! !
+!Simplex methodsFor: 'faces' stamp: 'len 2/15/2017 08:09:38'!
+faces: n
+	"Answer the n-faces of the receiver."
+	^ Iterator on: [:aBlock| self faces: n do: aBlock]! !
 
-!Simplex methodsFor: 'subobjects' stamp: 'len 6/13/2016 00:40'!
-faces: m do: aBlock
-	"Iterate over the m-faces of the receiver."
-	m = -1 ifTrue: [^ aBlock value: (self class points: #())].
+!Simplex methodsFor: 'faces' stamp: 'len 2/15/2017 08:10:00'!
+faces: n do: aBlock
+	"Iterate over the n-faces of the receiver."
+	n = -1 ifTrue: [^ aBlock value: (self class points: #())].
 	points isEmpty ifTrue: [^ self].
-	points combinations: m+1 atATimeDo: [:each|
+	points combinations: n+1 atATimeDo: [:each|
 		aBlock value: (self class points: each copy)]! !
 
-!Simplex methodsFor: 'subobjects' stamp: 'len 6/12/2016 23:59'!
+!Simplex methodsFor: 'faces' stamp: 'len 6/12/2016 23:59'!
 facesDo: aBlock
 	"Iterate over all faces of the receiver (including the empty set and the receiver)."
 	-1 to: self dimension do: [:i| self faces: i do: aBlock]! !
 
-!Simplex methodsFor: 'subobjects' stamp: 'len 6/13/2016 00:09'!
+!Simplex methodsFor: 'faces' stamp: 'len 6/13/2016 00:09'!
 facets
 	"Answer the boundary faces of the receiver."
 	^ self faces: self dimension - 1! !
 
-!Simplex methodsFor: 'comparing' stamp: 'len 6/12/2016 21:37'!
+!Simplex methodsFor: 'comparing' stamp: 'len 2/15/2017 08:27:47'!
 hash
-	^ points inject: self class hash into: [:sum :each| sum + each hash hashMultiply]! !
+	^ points inject: 0 into: [:sum :each| (sum + each hash) hashMultiply]! !
 
-!Simplex methodsFor: 'morphisms' stamp: 'len 6/13/2016 00:16'!
+!Simplex methodsFor: 'operations' stamp: 'len 6/13/2016 00:16'!
 interior
 	"Answer the interior of the receiver (sometimes called 'open simplex')."
 	^ (SimplicialChain with: self) - self boundary! !
@@ -40144,7 +40226,7 @@ negated
 	"Answer the oppositely oriented simplex."
 	^ self opposite! !
 
-!Simplex methodsFor: 'morphisms' stamp: 'len 6/13/2016 00:08'!
+!Simplex methodsFor: 'operations' stamp: 'len 6/13/2016 00:08'!
 opposite
 	"Answer the oppositely oriented simplex."
 	^ self class points: (points copy swap: 1 with: 2; yourself)! !
@@ -40162,17 +40244,17 @@ printOn: aStream
 "	aStream print: self dimension; nextPutAll: '-simplex '."
 	self shortPrintOn: aStream! !
 
-!Simplex methodsFor: 'subobjects' stamp: 'len 6/12/2016 23:59'!
+!Simplex methodsFor: 'faces' stamp: 'len 6/12/2016 23:59'!
 properFaces
 	"Answer all proper faces of the receiver of any dimension (including the empty set)."
 	^ Iterator on: [:aBlock| self properFacesDo: aBlock]! !
 
-!Simplex methodsFor: 'subobjects' stamp: 'len 6/12/2016 23:59'!
+!Simplex methodsFor: 'faces' stamp: 'len 6/12/2016 23:59'!
 properFacesDo: aBlock
 	"Iterate over all proper faces of the receiver (including the empty set)."
 	-1 to: self dimension - 1 do: [:i| self faces: i do: aBlock]! !
 
-!Simplex methodsFor: 'subobjects' stamp: 'len 2/27/2016 08:15'!
+!Simplex methodsFor: 'faces' stamp: 'len 2/27/2016 08:15'!
 ridges
 	^ self faces: self dimension - 2! !
 
@@ -40182,7 +40264,7 @@ shortPrintOn: aStream
 	self points do: [:each| aStream print: each] separatedBy: [aStream nextPut: $,].
 	aStream nextPut: $}! !
 
-!Simplex methodsFor: 'subobjects' stamp: 'len 2/23/2016 02:01'!
+!Simplex methodsFor: 'faces' stamp: 'len 2/23/2016 02:01'!
 vertices
 	^ self faces: 0! !
 
