@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 14 February 2017 at 8:20:23 pm'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 15 February 2017 at 8:07:03 pm'!
 'Description Please enter a description for this package'!
-!provides: 'MathematicsTests' 1 68!
+!provides: 'MathematicsTests' 1 69!
 !classDefinition: #AbelianGroupTest category: #MathematicsTests!
 TestCase subclass: #AbelianGroupTest
 	instanceVariableNames: ''
@@ -5712,6 +5712,26 @@ testEulerCharacteristic
 	X _ SimplicialComplex realProjectivePlane.
 	self assert: X euler = 1! !
 
+!SimplicialComplexTest methodsFor: 'as yet unclassified' stamp: 'len 2/15/2017 16:33:40'!
+testJoin
+	| S X |
+	S _ SimplicialComplex newFrom: #((0) (1)).
+	X _ S * S * S * S * S * S * S * S.
+	self assert: X vertices size = 16.
+	self assert: X facets size = 256
+! !
+
+!SimplicialComplexTest methodsFor: 'as yet unclassified' stamp: 'len 2/15/2017 16:16:34'!
+testProduct
+	| C T |
+	"Circle:"
+	C _ SimplicialComplex newFrom: #((0 1) (1 2) (0 2)).
+	"Torus:"
+	T _ C × C.
+	self assert: T euler = 0.
+	self assert: T vertices size = 9.
+	self assert: T facets size = 18! !
+
 !SimplicialComplexTest methodsFor: 'as yet unclassified' stamp: 'len 2/14/2017 19:00:06'!
 testSimplecialComplex
 	| S |
@@ -5720,19 +5740,19 @@ testSimplecialComplex
 	self assert: (S faces: 1) asSet size = 5.
 	self assert: (S faces: 0) asSet size = 5! !
 
-!SimplicialComplexTest methodsFor: 'as yet unclassified' stamp: 'len 6/18/2016 17:16'!
+!SimplicialComplexTest methodsFor: 'as yet unclassified' stamp: 'len 2/15/2017 08:55:43'!
 testSimplex
 	| tetrahedron |
-	tetrahedron _ Simplex points: {(1,0,0). (0,1,0). (0,0,1). (0,0,0)}.
+	tetrahedron _ Simplex vertices: {(1,0,0). (0,1,0). (0,0,1). (0,0,0)}.
 	self assert: tetrahedron dimension = 3.
 	self assert: (tetrahedron faces: 2) size = 4.
 	self assert: tetrahedron edges size = 6.
 	self assert: (tetrahedron faces: 3) size = 1! !
 
-!SimplicialComplexTest methodsFor: 'as yet unclassified' stamp: 'len 6/12/2016 21:09'!
+!SimplicialComplexTest methodsFor: 'as yet unclassified' stamp: 'len 2/15/2017 08:56:02'!
 testSimplexBoundaryBoundary
 	| S |
-	S _ Simplex points: #(a b c d).
+	S _ Simplex vertices: #(a b c d).
 	self assert: S boundary boundary isZero! !
 
 !SimplicialComplexTest methodsFor: 'as yet unclassified' stamp: 'len 6/12/2016 21:12'!
@@ -5742,10 +5762,18 @@ testSimplexInclusion
 	S` _ Simplex new: (0 to: S dimension) atRandom.
 	self assert: S` <= S! !
 
-!SimplicialComplexTest methodsFor: 'as yet unclassified' stamp: 'len 6/12/2016 21:09'!
+!SimplicialComplexTest methodsFor: 'as yet unclassified' stamp: 'len 2/15/2017 16:21:54'!
+testSimplexJoin
+	| A B |
+	A _ Simplex new: 2.
+	B _ Simplex new: 3.
+	self assert: A*B ~ (Simplex new: 2+1+3+1-1)
+! !
+
+!SimplicialComplexTest methodsFor: 'as yet unclassified' stamp: 'len 2/15/2017 16:22:18'!
 testSimplexNegation
 	| S |
-	S _ Simplex points: {1. 2. 3. 4}.
+	S _ Simplex vertices: (1 to: 4).
 	self assert: S negated negated = S.
 	self assert: S negated ~= S! !
 
