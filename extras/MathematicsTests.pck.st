@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 15 February 2017 at 8:07:03 pm'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 17 February 2017 at 4:59:22 pm'!
 'Description Please enter a description for this package'!
-!provides: 'MathematicsTests' 1 69!
+!provides: 'MathematicsTests' 1 70!
 !classDefinition: #AbelianGroupTest category: #MathematicsTests!
 TestCase subclass: #AbelianGroupTest
 	instanceVariableNames: ''
@@ -5700,6 +5700,13 @@ test6Sphere
 	self assert: X dimension = 5.
 	self assert: X fVector = (1,7,21,35,35,21,7)! !
 
+!SimplicialComplexTest methodsFor: 'as yet unclassified' stamp: 'len 2/17/2017 16:53:35'!
+testAlexanderDual
+	| X Y |
+	X _ SimplicialComplex newFrom: #((0 1) (1 2) (2 3) (3 0)).
+	Y _ SimplicialComplex newFrom: #((1 3) (0 2)).
+	self assert: X dual = Y! !
+
 !SimplicialComplexTest methodsFor: 'as yet unclassified' stamp: 'len 2/14/2017 20:12:39'!
 testEulerCharacteristic
 	| X |
@@ -5720,6 +5727,22 @@ testJoin
 	self assert: X vertices size = 16.
 	self assert: X facets size = 256
 ! !
+
+!SimplicialComplexTest methodsFor: 'as yet unclassified' stamp: 'len 2/17/2017 13:19:56'!
+testMinimalNonFaces
+	| X |
+	X _ SimplicialComplex newFrom: #((1 3) (1 2)).
+	self assert: X minimalNonFaces = {Simplex vertices: #(2 3)} asSet.
+	X _ SimplicialComplex newFrom: #((0 1) (1 2) (2 3) (3 0)).
+	self assert: X minimalNonFaces = {Simplex vertices: #(1 3). Simplex vertices: #(0 2)} asSet
+! !
+
+!SimplicialComplexTest methodsFor: 'as yet unclassified' stamp: 'len 2/17/2017 13:28:49'!
+testMinimalNonFaces2
+	| X MNF |
+	X _ SimplicialComplex newFrom: #((0 1 2) (0 2 3) (2 3 4) (1 2 4) (1 4 5) (0 3 6) (3 6 7) (4 5 7)).
+	MNF _ (#((3 4 7) (0 7) (0 4) (0 5) (3 5) (1 7) (2 5) (5 6) (1 3) (4 6) (2 7) (2 6) (1 6)) collect: [:each| Simplex vertices: each]) asSet.
+	self assert: X minimalNonFaces = MNF! !
 
 !SimplicialComplexTest methodsFor: 'as yet unclassified' stamp: 'len 2/15/2017 16:16:34'!
 testProduct
@@ -5755,6 +5778,14 @@ testSimplexBoundaryBoundary
 	S _ Simplex vertices: #(a b c d).
 	self assert: S boundary boundary isZero! !
 
+!SimplicialComplexTest methodsFor: 'as yet unclassified' stamp: 'len 2/17/2017 16:48:01'!
+testSimplexComplement
+	| V |
+	V _ (0 to: 5).
+	self assert: (Simplex vertices: #(1 2 3)) \ V = (Simplex vertices: #(0 4 5)).
+	self assert: (Simplex vertices: #(0 1 3 4)) \ V = (Simplex vertices: #(2 5)).
+	self assert: (Simplex vertices: #(0 4 1 3 )) \ V = (Simplex vertices: #(2 5))! !
+
 !SimplicialComplexTest methodsFor: 'as yet unclassified' stamp: 'len 6/12/2016 21:12'!
 testSimplexInclusion
 	| S S` |
@@ -5776,6 +5807,13 @@ testSimplexNegation
 	S _ Simplex vertices: (1 to: 4).
 	self assert: S negated negated = S.
 	self assert: S negated ~= S! !
+
+!SimplicialComplexTest methodsFor: 'as yet unclassified' stamp: 'len 2/17/2017 16:57:11'!
+testStanleyReisnerRing
+	| X R |
+	X _ SimplicialComplex newFrom: #((0 1) (1 2) (2 3) (3 0)).
+	R _ ZZ polynomialsIn: #(x y z w).
+	self assert: X stanleyReisnerRing relations = (R generate: [:x :y :z :w| {y*w. x*z}])! !
 
 !SimplicialComplexTest methodsFor: 'as yet unclassified' stamp: 'len 2/14/2017 19:45:41'!
 testTorus
