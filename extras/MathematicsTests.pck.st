@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 17 February 2017 at 4:59:22 pm'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 19 February 2017 at 7:33:44 pm'!
 'Description Please enter a description for this package'!
-!provides: 'MathematicsTests' 1 70!
+!provides: 'MathematicsTests' 1 71!
 !classDefinition: #AbelianGroupTest category: #MathematicsTests!
 TestCase subclass: #AbelianGroupTest
 	instanceVariableNames: ''
@@ -2249,6 +2249,15 @@ testRadicalMembership
 	f _ y*z - (x^3).
 	I _ R * {g1. g2}.
 	self assert: (I radicalContains: f)! !
+
+!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 2/19/2017 19:30:49'!
+testSquarefreeMonomialIdealPrimaryDecomposition
+	"Miller, Sturmfels, 'Combinatorial Commutative Algebra', Example 1.8."
+	| R a b c d e I |
+	R _ QQ polynomialsIn: #(a b c d e).
+	a _ R x: 1. b _ R x: 2. c _ R x: 3. d _ R x: 4. e _ R x: 5.
+	I _ R * {a*d. a*e. b*c*d. b*e. c*e. d*e}.
+	self assert: I primaryDecomposition = {R * {d. e}. R * {a. b. e}. R * {a. c. e}. R * {a. b. c. d}} asSet! !
 
 !CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/30/2016 07:01'!
 testZeroIdeal
@@ -5700,12 +5709,14 @@ test6Sphere
 	self assert: X dimension = 5.
 	self assert: X fVector = (1,7,21,35,35,21,7)! !
 
-!SimplicialComplexTest methodsFor: 'as yet unclassified' stamp: 'len 2/17/2017 16:53:35'!
+!SimplicialComplexTest methodsFor: 'as yet unclassified' stamp: 'len 2/19/2017 10:28:26'!
 testAlexanderDual
 	| X Y |
-	X _ SimplicialComplex newFrom: #((0 1) (1 2) (2 3) (3 0)).
-	Y _ SimplicialComplex newFrom: #((1 3) (0 2)).
-	self assert: X dual = Y! !
+	X _ SimplicialComplex faces: #((0 1) (1 2) (2 3) (3 0)).
+	self assert: X dual dual = X.
+	Y _ SimplicialComplex faces: #((1 3) (0 2)).
+	self assert: X dual = Y.
+	self assert: X dual nonfaces = X complement facets! !
 
 !SimplicialComplexTest methodsFor: 'as yet unclassified' stamp: 'len 2/14/2017 20:12:39'!
 testEulerCharacteristic
@@ -5719,36 +5730,36 @@ testEulerCharacteristic
 	X _ SimplicialComplex realProjectivePlane.
 	self assert: X euler = 1! !
 
-!SimplicialComplexTest methodsFor: 'as yet unclassified' stamp: 'len 2/15/2017 16:33:40'!
+!SimplicialComplexTest methodsFor: 'as yet unclassified' stamp: 'len 2/19/2017 08:23:09'!
 testJoin
 	| S X |
-	S _ SimplicialComplex newFrom: #((0) (1)).
+	S _ SimplicialComplex faces: #((0) (1)).
 	X _ S * S * S * S * S * S * S * S.
 	self assert: X vertices size = 16.
 	self assert: X facets size = 256
 ! !
 
-!SimplicialComplexTest methodsFor: 'as yet unclassified' stamp: 'len 2/17/2017 13:19:56'!
+!SimplicialComplexTest methodsFor: 'as yet unclassified' stamp: 'len 2/19/2017 08:23:15'!
 testMinimalNonFaces
 	| X |
-	X _ SimplicialComplex newFrom: #((1 3) (1 2)).
-	self assert: X minimalNonFaces = {Simplex vertices: #(2 3)} asSet.
-	X _ SimplicialComplex newFrom: #((0 1) (1 2) (2 3) (3 0)).
-	self assert: X minimalNonFaces = {Simplex vertices: #(1 3). Simplex vertices: #(0 2)} asSet
+	X _ SimplicialComplex faces: #((1 3) (1 2)).
+	self assert: X nonfaces = {Simplex vertices: #(2 3)} asSet.
+	X _ SimplicialComplex faces: #((0 1) (1 2) (2 3) (3 0)).
+	self assert: X nonfaces = {Simplex vertices: #(1 3). Simplex vertices: #(0 2)} asSet
 ! !
 
-!SimplicialComplexTest methodsFor: 'as yet unclassified' stamp: 'len 2/17/2017 13:28:49'!
+!SimplicialComplexTest methodsFor: 'as yet unclassified' stamp: 'len 2/19/2017 08:23:18'!
 testMinimalNonFaces2
 	| X MNF |
-	X _ SimplicialComplex newFrom: #((0 1 2) (0 2 3) (2 3 4) (1 2 4) (1 4 5) (0 3 6) (3 6 7) (4 5 7)).
+	X _ SimplicialComplex faces: #((0 1 2) (0 2 3) (2 3 4) (1 2 4) (1 4 5) (0 3 6) (3 6 7) (4 5 7)).
 	MNF _ (#((3 4 7) (0 7) (0 4) (0 5) (3 5) (1 7) (2 5) (5 6) (1 3) (4 6) (2 7) (2 6) (1 6)) collect: [:each| Simplex vertices: each]) asSet.
-	self assert: X minimalNonFaces = MNF! !
+	self assert: X nonfaces = MNF! !
 
-!SimplicialComplexTest methodsFor: 'as yet unclassified' stamp: 'len 2/15/2017 16:16:34'!
+!SimplicialComplexTest methodsFor: 'as yet unclassified' stamp: 'len 2/19/2017 08:23:21'!
 testProduct
 	| C T |
 	"Circle:"
-	C _ SimplicialComplex newFrom: #((0 1) (1 2) (0 2)).
+	C _ SimplicialComplex faces: #((0 1) (1 2) (0 2)).
 	"Torus:"
 	T _ C × C.
 	self assert: T euler = 0.
@@ -5778,13 +5789,13 @@ testSimplexBoundaryBoundary
 	S _ Simplex vertices: #(a b c d).
 	self assert: S boundary boundary isZero! !
 
-!SimplicialComplexTest methodsFor: 'as yet unclassified' stamp: 'len 2/17/2017 16:48:01'!
+!SimplicialComplexTest methodsFor: 'as yet unclassified' stamp: 'len 2/19/2017 08:37:30'!
 testSimplexComplement
 	| V |
 	V _ (0 to: 5).
-	self assert: (Simplex vertices: #(1 2 3)) \ V = (Simplex vertices: #(0 4 5)).
-	self assert: (Simplex vertices: #(0 1 3 4)) \ V = (Simplex vertices: #(2 5)).
-	self assert: (Simplex vertices: #(0 4 1 3 )) \ V = (Simplex vertices: #(2 5))! !
+	self assert: ((Simplex vertices: #(1 2 3)) complementIn: V) = (Simplex vertices: #(0 4 5)).
+	self assert: ((Simplex vertices: #(0 1 3 4)) complementIn: V) = (Simplex vertices: #(2 5)).
+	self assert: ((Simplex vertices: #(0 4 1 3 )) complementIn: V) = (Simplex vertices: #(2 5))! !
 
 !SimplicialComplexTest methodsFor: 'as yet unclassified' stamp: 'len 6/12/2016 21:12'!
 testSimplexInclusion
@@ -5808,12 +5819,40 @@ testSimplexNegation
 	self assert: S negated negated = S.
 	self assert: S negated ~= S! !
 
-!SimplicialComplexTest methodsFor: 'as yet unclassified' stamp: 'len 2/17/2017 16:57:11'!
+!SimplicialComplexTest methodsFor: 'as yet unclassified' stamp: 'len 2/19/2017 10:00:52'!
+testSimplicialComplexExample
+	"Example from Herzog, 'Monomial Ideals', pag. 16."
+	| X |
+	X _ SimplicialComplex on: (1 to: 5) faces: #((1 2 4) (1 2 5) (2 3) (3 4)).
+	self assert: X facets = (#((1 2 4) (1 2 5) (2 3) (3 4)) collect: [:each| Simplex vertices: each]) asSet.
+	self assert: X nonfaces = (#((1 3) (3 5) (4 5) (2 3 4)) collect: [:each| Simplex vertices: each]) asSet.
+	self assert: X fVector = (1,5,7,2).
+	self assert: X hVector = (1,2,0,-1)! !
+
+!SimplicialComplexTest methodsFor: 'as yet unclassified' stamp: 'len 2/19/2017 10:49:02'!
+testStanleyReisnerIdealAndBack
+	| X |
+	X _ SimplicialComplex on: (1 to: 5) faces: #((1 2 4) (1 2 5) (2 3) (3 4)).
+	self assert: X stanleyReisnerIdeal asSimplicialComplex = X! !
+
+!SimplicialComplexTest methodsFor: 'as yet unclassified' stamp: 'len 2/19/2017 18:14:18'!
+testStanleyReisnerIdealAndBack2
+	| X |
+	X _ SimplicialComplex on: (1 to: 5) faces: #((1 3 2) (3 4) (2 4) (5)).
+	self assert: X stanleyReisnerIdeal asSimplicialComplex = X! !
+
+!SimplicialComplexTest methodsFor: 'as yet unclassified' stamp: 'len 2/19/2017 10:27:08'!
+testStanleyReisnerIdealAndFacetIdealDuality
+	| X |
+	X _ SimplicialComplex on: (1 to: 5) faces: #((1 2 4) (1 2 5) (2 3) (3 4)).
+	self assert: X dual stanleyReisnerIdeal = X complement facetIdeal! !
+
+!SimplicialComplexTest methodsFor: 'as yet unclassified' stamp: 'len 2/19/2017 08:23:25'!
 testStanleyReisnerRing
 	| X R |
-	X _ SimplicialComplex newFrom: #((0 1) (1 2) (2 3) (3 0)).
-	R _ ZZ polynomialsIn: #(x y z w).
-	self assert: X stanleyReisnerRing relations = (R generate: [:x :y :z :w| {y*w. x*z}])! !
+	X _ SimplicialComplex faces: #((0 1) (1 2) (2 3) (3 0)).
+	R _ QQ polynomialsIn: #(x y z w).
+	self assert: X stanleyReisnerRing relations asSet = (R generate: [:x :y :z :w| {y*w. x*z}]) asSet! !
 
 !SimplicialComplexTest methodsFor: 'as yet unclassified' stamp: 'len 2/14/2017 19:45:41'!
 testTorus
