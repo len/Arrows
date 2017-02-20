@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 20 February 2017 at 7:15:56 pm'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 20 February 2017 at 10:26:37 pm'!
 'Description A computational algebra system in Smalltalk'!
-!provides: 'Mathematics' 1 367!
+!provides: 'Mathematics' 1 368!
 !requires: 'RayTracer' 1 2 nil!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
@@ -1694,7 +1694,7 @@ DualModule class
 
 !classDefinition: #QuotientModule category: #'Mathematics-Modules'!
 FreeModule subclass: #QuotientModule
-	instanceVariableNames: 'subspace'
+	instanceVariableNames: 'submodule'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Modules'!
@@ -2400,16 +2400,6 @@ LinearMap subclass: #LinearForm
 	category: 'Mathematics-Modules'!
 !classDefinition: 'LinearForm class' category: #'Mathematics-Modules'!
 LinearForm class
-	instanceVariableNames: ''!
-
-!classDefinition: #SemilinearMap category: #'Mathematics-Modules'!
-Function subclass: #SemilinearMap
-	instanceVariableNames: 'domainBasis codomainBasis matrix automorphism'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Modules'!
-!classDefinition: 'SemilinearMap class' category: #'Mathematics-Modules'!
-SemilinearMap class
 	instanceVariableNames: ''!
 
 !classDefinition: #BilinearForm category: #'Mathematics-Multilinear'!
@@ -3962,11 +3952,7 @@ The following are examples of undeterminations (they produce an error):
 
 !LinearBasis commentStamp: '<historical>' prior: 0!
 My instances are bases for free modules of finite rank.
-
-Example:
-	| V |
-	V _ QQ ^ 3.
-	LinearBasis on: V generators: {(1, 2, 3). (3, 2, 3). (2, 0, 0)}!
+!
 
 !StandardBasis commentStamp: 'len 1/25/2017 14:38:57' prior: 0!
 My instances are standard bases of polynomial ideals. A standard basis is nothing but a special set of generators with the property that the leading monomials generate the leading ideal.
@@ -4594,14 +4580,14 @@ Monomial ideals have a rich theory with connections to convex geometry and combi
 !FreeModule commentStamp: '<historical>' prior: 0!
 My instances are free commutative R-modules, i.e. R-modules with a basis. They are isomorphic to R^n.!
 
+!DirectSumModule commentStamp: '<historical>' prior: 0!
+My instances are modules defined as the direct sum of other modules.!
+
 !FormalSumsModule commentStamp: '<historical>' prior: 0!
 My instances are free modules of formal sums of elements in a finite set.!
 
-!HomModule commentStamp: 'len 12/5/2016 11:57:16' prior: 0!
+!HomModule commentStamp: 'len 2/20/2017 22:09:04' prior: 0!
 My instances are R-modules (or K-vector spaces) of linear transformations from a R-module (or K-vector space) A to another one B, i.e. Hom(A,B), the space of module homomorphisms between two R-modules. When A = B, it is noted End(A).
-
-Example:
-	QQ ^ 3 hom: (QQ ^ 2).
 !
 
 !DualModule commentStamp: '<historical>' prior: 0!
@@ -7549,8 +7535,9 @@ random: anInteger
 	self == aLinearBasis ifTrue: [^ true].
 	^ ambient = aLinearBasis ambient and: [generators = aLinearBasis generators]! !
 
-!LinearBasis methodsFor: 'operations' stamp: 'len 11/12/2016 09:15'!
+!LinearBasis methodsFor: 'operations' stamp: 'len 2/20/2017 22:13:42'!
 ê aLinearBasis
+	"Answer the direct sum of the receiver and the argument."
 	| sum |
 	sum _ ambient ê aLinearBasis ambient.
 	^ self class on: sum generators: (self generators collect: [:each| {each. aLinearBasis ambient zero}]), (aLinearBasis generators collect: [:each| {ambient zero. each}])! !
@@ -7815,6 +7802,13 @@ span
 vectorAt: aTuple 
 	"Answer the vector with coordinates aTuple when expressed as a linear combination of the receiver."
 	^ self elementAt: aTuple! !
+
+!LinearBasis class methodsFor: 'examples' stamp: 'len 2/20/2017 22:08:08'!
+example
+	"A basis for the vector space of 3-tuples with rational coefficients."
+	| V |
+	V _ QQ ^ 3.
+	^ LinearBasis on: V generators: {(1, 2, 3). (3, 2, 3). (2, 0, 0)}! !
 
 !LinearBasis class methodsFor: 'instance creation' stamp: 'len 5/23/2016 04:44'!
 on: aVectorSpace
@@ -16087,8 +16081,9 @@ on: aCollection
 ◊ aGroup
 	^ DirectProductGroup components: {self. aGroup}! !
 
-!Group methodsFor: 'operations' stamp: 'len 10/16/2016 09:28'!
+!Group methodsFor: 'operations' stamp: 'len 2/20/2017 22:13:29'!
 ê aGroup
+	"Answer the direct sum of the receiver and the argument."
 	^ self ◊ aGroup "finite direct sums of groups are the same as direct products"! !
 
 !Group methodsFor: 'operations' stamp: 'len 12/28/2016 12:19:53'!
@@ -18155,8 +18150,9 @@ basis: aLinearBasis matrices: aMatrixGroup
 on: aFreeModule matrices: aMatrixGroup
 	^ self basis: aFreeModule basis matrices: aMatrixGroup! !
 
-!AbelianGroup methodsFor: 'operations' stamp: 'len 12/14/2016 21:36:04'!
+!AbelianGroup methodsFor: 'operations' stamp: 'len 2/20/2017 22:13:11'!
 ê anAbelianGroup
+	"Answer the direct sum of the receiver and the argument."
 	(anAbelianGroup isKindOf: AbelianGroup) ifFalse: [^ DomainError signal: 'argument is not an abelian group'].
 	^ DirectSumGroup components: {self. anAbelianGroup}! !
 
@@ -18333,8 +18329,9 @@ on: aCollection
 	(self ambient scalars includes: anObject) ifTrue: [^ self class basis: (self basis collect: [:each| each * anObject])].
 	^ super * anObject! !
 
-!Lattice methodsFor: 'operations' stamp: 'len 7/14/2016 22:53'!
+!Lattice methodsFor: 'operations' stamp: 'len 2/20/2017 22:13:33'!
 ê aLattice
+	"Answer the direct sum of the receiver and the argument."
 	^ self class basis: basis ê aLattice basis! !
 
 !Lattice methodsFor: 'accessing' stamp: 'len 5/23/2016 19:28'!
@@ -23786,8 +23783,9 @@ species
 	"Answer true if the receiver is isomorphic to the argument."
 	^ self == aModule or: [aModule isFreeModule and: [self scalars = aModule scalars and: [self rank = aModule rank]]]! !
 
-!FreeModule methodsFor: 'operations' stamp: 'len 10/16/2016 09:56'!
+!FreeModule methodsFor: 'operations' stamp: 'len 2/20/2017 22:13:03'!
 ê aFreeModule
+	"Answer the direct sum of the receiver and the argument."
 	self scalars = aFreeModule scalars ifFalse: [DomainError signal: 'scalars don''t match'].
 	^ DirectSumModule components: {self. aFreeModule}! !
 
@@ -23945,9 +23943,10 @@ grassmannian: r
 hash
 	^ self scalars hash + self rank hashMultiply! !
 
-!FreeModule methodsFor: 'morphisms' stamp: 'len 11/1/2016 19:15'!
+!FreeModule methodsFor: 'morphisms' stamp: 'len 2/20/2017 21:51:50'!
 hom: aModule
 	"Answer Hom(A,B), the R-module of morphisms that go from the receiver A to the argument B."
+	aModule scalars = self scalars ifFalse: [DomainError signal: 'scalars don''t match'].
 	(aModule isKindOf: ScalarModule)
 		ifTrue: [^ self dual].
 	^ HomModule from: self to: aModule! !
@@ -24300,9 +24299,14 @@ size
 torsion
 	^ DirectSumGroup components: (components collect: [:each| each torsion])! !
 
-!DirectSumModule class methodsFor: 'accessing-private' stamp: 'len 11/10/2015 22:58'!
+!DirectSumModule class methodsFor: 'instance creation' stamp: 'len 11/10/2015 22:58'!
 components: anArray
 	^ self new components: anArray! !
+
+!DirectSumModule class methodsFor: 'examples' stamp: 'len 2/20/2017 22:14:57'!
+example
+	"The direct sum of two vector spaces."
+	^ QQ^3 ê (QQ^2)! !
 
 !FormalSumsModule methodsFor: 'basis' stamp: 'len 1/16/2017 08:02:00'!
 coordinatesOf: anElement
@@ -24438,6 +24442,12 @@ scalars
 
 	^ self domain scalars! !
 
+!HomModule class methodsFor: 'examples' stamp: 'len 2/20/2017 22:10:30'!
+example
+	"The vector space of linear transformations
+	from 3-tuples to 2-tuples, over the rational numbers."
+	^ QQ^3 hom: QQ^2! !
+
 !HomModule class methodsFor: 'instance creation' stamp: 'len 11/7/2015 03:40'!
 from: aVectorSpace to: anotherVectorSpace
 	^ self new
@@ -24493,98 +24503,109 @@ z
 	"As for polynomials."
 	^ self x: 3! !
 
+!DualModule class methodsFor: 'examples' stamp: 'len 2/20/2017 22:16:17'!
+example
+	"The dual of a vector space. This is the space of linear forms."
+	^ (QQ^3) dual! !
+
 !DualModule class methodsFor: 'instance creation' stamp: 'len 11/7/2015 04:29'!
 from: aVectorSpace
 	"Answer the linear ambient of linear forms with domain in aVectorSpace."
 
 	^ self new domain: aVectorSpace! !
 
-!QuotientModule methodsFor: 'accessing' stamp: 'len 8/24/2016 19:05'!
+!QuotientModule methodsFor: 'accessing' stamp: 'len 2/20/2017 22:02:54'!
 base
-	^ subspace ambient! !
+	^ self submodule ambient! !
 
-!QuotientModule methodsFor: 'private' stamp: 'len 10/10/2016 08:52'!
+!QuotientModule methodsFor: 'private' stamp: 'len 2/20/2017 22:03:10'!
 buildProjection
 	"Answer the quotient map, the canonical projection from the ambient vector space to the quotient space, i.e. the mapping pi:V->V/S that assigns to every v in V the affine subspace v+S."
 	| answer |
 	answer _ self base to: self evaluating: [:each| self project: each].
 	answer name: Character pi asString.
 	answer properties
-		at: #kernel put: subspace;
+		at: #kernel put: self submodule;
 		at: #image put: self;
 		at: #rightInverse put: (self to: self base evaluating: [:each| each representative]).
 	^ answer! !
 
-!QuotientModule methodsFor: 'basis' stamp: 'len 6/4/2016 04:20'!
+!QuotientModule methodsFor: 'basis' stamp: 'len 2/20/2017 22:02:47'!
 coordinatesOf: anAffineSubspace
 	| v |
 	v _ anAffineSubspace representative.
-	v _ v - (subspace project: v).
-	^ subspace perp basis coordinatesOf: v! !
+	v _ v - (self submodule project: v).
+	^ self submodule perp basis coordinatesOf: v! !
 
-!QuotientModule methodsFor: 'basis' stamp: 'len 10/27/2016 19:46'!
+!QuotientModule methodsFor: 'basis' stamp: 'len 2/20/2017 22:05:32'!
 e: anInteger
-	^ AffineSubspace representative: (subspace perp e: anInteger) direction: subspace! !
+	^ AffineSubspace representative: (self submodule perp e: anInteger) direction: self submodule! !
 
 !QuotientModule methodsFor: 'morphisms' stamp: 'len 12/20/2016 12:00:00'!
 from: aDomain
 	aDomain  self base ifNotNil: [:aMorphism| ^ self projection î aMorphism].
 	^ super from: aDomain! !
 
-!QuotientModule methodsFor: 'testing' stamp: 'len 10/27/2016 19:46'!
+!QuotientModule methodsFor: 'testing' stamp: 'len 2/20/2017 22:03:19'!
 includes: anObject
-	^ (anObject isKindOf: AffineSubspace) and: [anObject direction = subspace]! !
+	^ (anObject isKindOf: AffineSubspace) and: [anObject direction = self submodule]! !
 
 !QuotientModule methodsFor: 'testing' stamp: 'len 8/10/2016 01:02'!
 isQuotient
 	^ true! !
 
-!QuotientModule methodsFor: 'printing' stamp: 'len 6/25/2016 01:41'!
+!QuotientModule methodsFor: 'printing' stamp: 'len 2/20/2017 22:04:05'!
 printOn: aStream
-	(subspace ambient printString includes: $/)
-		ifTrue: [aStream nextPut: $(; print: subspace ambient; nextPut: $)]
-		ifFalse: [aStream print: subspace ambient].
+	(self base printString includes: $/)
+		ifTrue: [aStream nextPut: $(; print: self base; nextPut: $)]
+		ifFalse: [aStream print: self base].
 	aStream nextPut: $/.
-	(subspace printString includes: $/)
-		ifTrue: [aStream nextPut: $(; print: subspace; nextPut: $)]
-		ifFalse: [aStream print: subspace]! !
+	(self submodule printString includes: $/)
+		ifTrue: [aStream nextPut: $(; print: self submodule; nextPut: $)]
+		ifFalse: [aStream print: self submodule]! !
 
-!QuotientModule methodsFor: 'morphisms' stamp: 'len 10/27/2016 19:46'!
+!QuotientModule methodsFor: 'morphisms' stamp: 'len 2/20/2017 22:04:11'!
 project: anElement
-	^ AffineSubspace representative: anElement direction: subspace! !
+	^ AffineSubspace representative: anElement direction: self submodule! !
 
 !QuotientModule methodsFor: 'morphisms' stamp: 'len 12/28/2016 12:08:21'!
 projection
 	"Answer the natural projection, or quotient map, or canonical homomorphism. This takes elements from the base module or vector space to the corresponding coset (an affine subspace) in the quotient."
 	^ self propertyAt: #projection ifAbsentPut: [self buildProjection]! !
 
-!QuotientModule methodsFor: 'basis' stamp: 'len 10/7/2016 08:45'!
+!QuotientModule methodsFor: 'basis' stamp: 'len 2/20/2017 22:02:31'!
 rank
-	^ subspace corank! !
+	^ self submodule corank! !
 
-!QuotientModule methodsFor: 'accessing' stamp: 'len 8/24/2016 19:05'!
+!QuotientModule methodsFor: 'accessing' stamp: 'len 2/20/2017 22:05:50'!
 relation
-	^ EquivalenceRelation on: self base evaluating: [:x :y| subspace includes: x - y]! !
+	^ EquivalenceRelation on: self base evaluating: [:x :y| self submodule includes: x - y]! !
 
-!QuotientModule methodsFor: 'accessing' stamp: 'len 5/25/2016 19:58'!
+!QuotientModule methodsFor: 'accessing' stamp: 'len 2/20/2017 22:01:05'!
+relations
+	"Answer the relations defining the receiver.
+	If the receiver is the quotient M/N, the relations are the generators of N."
+	^ self submodule generators! !
+
+!QuotientModule methodsFor: 'accessing' stamp: 'len 2/20/2017 22:01:58'!
 scalars
-	^ subspace scalars! !
+	^ self submodule scalars! !
 
-!QuotientModule methodsFor: 'accessing' stamp: 'len 11/9/2015 16:17'!
-subspace
-	^ subspace! !
+!QuotientModule methodsFor: 'accessing' stamp: 'len 2/20/2017 22:01:41'!
+submodule
+	^ submodule! !
 
-!QuotientModule methodsFor: 'accessing-private' stamp: 'len 11/25/2015 01:21'!
-subspace: aLinearSubspace
-	subspace _ aLinearSubspace! !
+!QuotientModule methodsFor: 'accessing-private' stamp: 'len 2/20/2017 22:04:36'!
+submodule: aFreeModule
+	submodule _ aFreeModule! !
 
-!QuotientModule methodsFor: 'elements' stamp: 'len 11/6/2016 09:53'!
+!QuotientModule methodsFor: 'elements' stamp: 'len 2/20/2017 22:26:07'!
 zero
-	^ AffineSubspace representative: subspace zero direction: subspace! !
+	^ AffineSubspace representative: self base zero direction: self submodule! !
 
-!QuotientModule class methodsFor: 'instance creation' stamp: 'len 12/30/2016 09:58:45'!
-mod: aLinearSubspace
-	^ self new subspace: aLinearSubspace! !
+!QuotientModule class methodsFor: 'instance creation' stamp: 'len 2/20/2017 22:05:12'!
+mod: aFreeModule
+	^ self new submodule: aFreeModule! !
 
 !ScalarModule methodsFor: 'basis' stamp: 'len 4/22/2016 21:55'!
 coordinatesOf: anObject
@@ -29233,8 +29254,9 @@ printOn: aStream
 		ifFalse: [^ false].
 	^ (self domain generators ifNil: [self domain]) allSatisfy: [:each| (self value: each) = (anObject value: each)]! !
 
-!ModuleHomomorphism methodsFor: 'operations' stamp: 'len 11/5/2016 10:21'!
+!ModuleHomomorphism methodsFor: 'operations' stamp: 'len 2/20/2017 22:13:47'!
 ê anAbelianGroupHomomorphism
+	"Answer the direct sum of the receiver and the argument."
 	^ self class
 		from: self domain ê anAbelianGroupHomomorphism domain
 		to: self codomain ê anAbelianGroupHomomorphism codomain
@@ -29689,61 +29711,6 @@ from: aModule evaluating: aBlock
 !LinearForm class methodsFor: 'instance creation' stamp: 'len 10/7/2016 08:42'!
 from: aLinearBasis matrix: aMatrix
 	^ self from: aLinearBasis to: aLinearBasis ambient scalars asSelfModule basis matrix: aMatrix! !
-
-!SemilinearMap methodsFor: 'accessing' stamp: 'len 2/9/2016 00:07'!
-automorphism
-	^ automorphism! !
-
-!SemilinearMap methodsFor: 'accessing-private' stamp: 'len 2/9/2016 00:18'!
-automorphism: aFieldAutomorphism
-	automorphism _ aFieldAutomorphism! !
-
-!SemilinearMap methodsFor: 'accessing' stamp: 'len 6/24/2016 21:36'!
-bitSize
-	^ matrix bitSize! !
-
-!SemilinearMap methodsFor: 'accessing' stamp: 'len 2/9/2016 00:02'!
-codomain
-	^ self codomainBasis span! !
-
-!SemilinearMap methodsFor: 'accessing' stamp: 'len 2/9/2016 00:17'!
-codomainBasis
-	^ codomainBasis! !
-
-!SemilinearMap methodsFor: 'accessing-private' stamp: 'len 2/9/2016 00:18'!
-codomainBasis: aLinearBasis
-	codomainBasis _ aLinearBasis! !
-
-!SemilinearMap methodsFor: 'accessing' stamp: 'len 2/9/2016 00:02'!
-domain
-	^ self domainBasis span! !
-
-!SemilinearMap methodsFor: 'accessing' stamp: 'len 2/9/2016 00:18'!
-domainBasis
-	^ domainBasis! !
-
-!SemilinearMap methodsFor: 'accessing-private' stamp: 'len 2/9/2016 00:18'!
-domainBasis: aLinearBasis
-	domainBasis _ aLinearBasis! !
-
-!SemilinearMap methodsFor: 'accessing' stamp: 'len 2/9/2016 00:18'!
-matrix
-	"Answer the matrix associated to the receiver with respect to the chosen domain and codomain bases."
-	^ matrix! !
-
-!SemilinearMap methodsFor: 'accessing-private' stamp: 'len 2/9/2016 00:18'!
-matrix: aMatrix
-	matrix _ aMatrix! !
-
-!SemilinearMap methodsFor: 'operations' stamp: 'len 10/17/2016 16:45'!
-value: aVector
-	^ codomainBasis
-		elementAt:
-			matrix * ((domainBasis coordinatesOf: aVector) apply: automorphism)! !
-
-!SemilinearMap class methodsFor: 'as yet unclassified' stamp: 'len 2/9/2016 00:10'!
-automorphism: aFieldAutomorphism linearMap: aLinearMap
-	^ self new automorphism: aFieldAutomorphism; linearMap: aLinearMap! !
 
 !BilinearForm methodsFor: 'arithmetic' stamp: 'len 1/8/2016 05:07'!
 * anObject
