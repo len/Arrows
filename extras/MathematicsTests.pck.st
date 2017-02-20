@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 19 February 2017 at 7:33:44 pm'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 20 February 2017 at 7:15:59 pm'!
 'Description Please enter a description for this package'!
-!provides: 'MathematicsTests' 1 71!
+!provides: 'MathematicsTests' 1 72!
 !classDefinition: #AbelianGroupTest category: #MathematicsTests!
 TestCase subclass: #AbelianGroupTest
 	instanceVariableNames: ''
@@ -2962,13 +2962,6 @@ testExtendedEuclid
 testFieldAutomorphisms
 	self assert: QQ automorphisms isTrivial! !
 
-!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 10/16/2016 13:28'!
-testFormalSetEquals
-	| A B |
-	A _ QQ ^ (10@10) :: asFormalSet.
-	B _ (QQ ^ (10@10)) asRing asFormalSet.
-	self assert: A = B! !
-
 !MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 12/20/2016 11:48:35'!
 testFunctionComposition
 	| f g a |
@@ -5695,17 +5688,17 @@ testRecursiveSum
 	self assert: (c isKindOf: CFiniteSequence).
 	self assert: (c equals: c` upTo: 20)! !
 
-!SimplicialComplexTest methodsFor: 'as yet unclassified' stamp: 'len 2/14/2017 20:15:10'!
-test3Sphere
+!SimplicialComplexTest methodsFor: 'as yet unclassified' stamp: 'len 2/20/2017 08:36:51'!
+test2Sphere
 	| X |
-	X _ SimplicialComplex sphere: 3.
+	X _ SimplicialComplex sphere: 2.
 	self assert: X dimension = 2.
 	self assert: X fVector = (1,4,6,4)! !
 
-!SimplicialComplexTest methodsFor: 'as yet unclassified' stamp: 'len 2/14/2017 20:14:33'!
-test6Sphere
+!SimplicialComplexTest methodsFor: 'as yet unclassified' stamp: 'len 2/20/2017 08:37:08'!
+test5Sphere
 	| X |
-	X _ SimplicialComplex sphere: 6.
+	X _ SimplicialComplex sphere: 5.
 	self assert: X dimension = 5.
 	self assert: X fVector = (1,7,21,35,35,21,7)! !
 
@@ -5718,12 +5711,12 @@ testAlexanderDual
 	self assert: X dual = Y.
 	self assert: X dual nonfaces = X complement facets! !
 
-!SimplicialComplexTest methodsFor: 'as yet unclassified' stamp: 'len 2/14/2017 20:12:39'!
+!SimplicialComplexTest methodsFor: 'as yet unclassified' stamp: 'len 2/20/2017 08:37:27'!
 testEulerCharacteristic
 	| X |
 	X _ SimplicialComplex torus.
 	self assert: X euler = 0.
-	X _ SimplicialComplex sphere: 3.
+	X _ SimplicialComplex sphere: 2.
 	self assert: X euler = 2.
 	X _ SimplicialComplex kleinBottle.
 	self assert: X euler = 0.
@@ -5828,6 +5821,17 @@ testSimplicialComplexExample
 	self assert: X nonfaces = (#((1 3) (3 5) (4 5) (2 3 4)) collect: [:each| Simplex vertices: each]) asSet.
 	self assert: X fVector = (1,5,7,2).
 	self assert: X hVector = (1,2,0,-1)! !
+
+!SimplicialComplexTest methodsFor: 'as yet unclassified' stamp: 'len 2/20/2017 18:52:39'!
+testSimplicialMap
+	| S T f |
+	S _ SimplicialComplex faces: #((0 2) (1 5) (3 4)).
+	T _ SimplicialComplex faces: #((0 2) (1 3)).
+	f _ S to: T map: ({0 -> 0. 1 -> 1. 2 -> 2. 3 -> 1. 4 -> 3. 5 -> 3} as: Dictionary).
+	self assert: f image = T.
+	self assert: f isSurjective.
+	self assert: f isInjective not.
+	self assert: f isIdentity not! !
 
 !SimplicialComplexTest methodsFor: 'as yet unclassified' stamp: 'len 2/19/2017 10:49:02'!
 testStanleyReisnerIdealAndBack
