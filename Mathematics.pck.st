@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 21 February 2017 at 11:23:46 am'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 22 February 2017 at 7:36:24 am'!
 'Description A computational algebra system in Smalltalk'!
-!provides: 'Mathematics' 1 369!
+!provides: 'Mathematics' 1 370!
 !requires: 'RayTracer' 1 2 nil!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
@@ -4586,6 +4586,9 @@ My instances are modules defined as the direct sum of other modules.!
 !FormalSumsModule commentStamp: '<historical>' prior: 0!
 My instances are free modules of formal sums of elements in a finite set.!
 
+!SimplicialChainsModule commentStamp: '<historical>' prior: 0!
+My instances are free modules of simplicial k-chains in a simplicial complex. See SimplicialChain.!
+
 !HomModule commentStamp: 'len 2/20/2017 22:09:04' prior: 0!
 My instances are R-modules (or K-vector spaces) of linear transformations from a R-module (or K-vector space) A to another one B, i.e. Hom(A,B), the space of module homomorphisms between two R-modules. When A = B, it is noted End(A).
 !
@@ -4683,7 +4686,9 @@ My instances are abstract simplicial complexes. These are combinatorial objects 
 - every subface of a face is also in the complex;
 - the intersection of two faces is either empty or a common face of both simplices, and it is also in the complex.
 
-An abstract simplicial complex can also be seen as a subset of the power set of some set V, often V={1,...,n}, closed under inclusion.!
+An abstract simplicial complex can also be seen as a subset of the power set of some set V, often V={1,...,n}, closed under inclusion.
+
+Simplicial complexes form a category with simplicial maps as morphisms. See SimplicialMap.!
 
 !ChainComplex commentStamp: '<historical>' prior: 0!
 My instances are (bounded) chain complexes.
@@ -4692,7 +4697,7 @@ A chain complex (Ci,di) is a sequence of abelian groups or modules conected by h
 
 A bounded chain complex is one where only a finite number of Ci are not {0}.
 
-Chain complexes form a cateogory with chain maps as morphisms.!
+Chain complexes form a cateogory with chain maps as morphisms. See ChainMap.!
 
 !LinearCode commentStamp: '<historical>' prior: 0!
 My instances are linear codes.
@@ -4987,12 +4992,12 @@ Example:
 !
 
 !ChainMap commentStamp: '<historical>' prior: 0!
-A chain map between two chain complexes (Ci,di) and (C`i,d`i) is a sequence of homomorphisms fi:Ci->C`i that commutes with the boundary operator in the two complexes: d`i @ fi = f{i-1} @ di. They send cycles to cycles and boundaries to boundaries, and this descends to a map in homology fi* : Hi -> H`i.
+A chain map between two chain complexes (Ci,di) and (C'i,d'i) is a sequence of homomorphisms fi:Ci->C'i that commutes with the boundary operator in the two complexes: d'i o fi = f{i-1} o di. They send cycles to cycles and boundaries to boundaries, and this descends to a map in homology fi* : Hi -> H'i.
 
-Chain maps are morphisms in the category of chain complexes.!
+Chain maps are morphisms in the category of chain complexes. See ChainComplex.!
 
 !SimplicialMap commentStamp: '<historical>' prior: 0!
-My instances are maps of simplicial complexes.!
+My instances are morphisms of simplicial complexes. See SimplicialComplex.!
 
 !QuadraticForm commentStamp: '<historical>' prior: 0!
 My instances are quadratic forms as homogeneous quadratic functions V->K from a finite dimensional K-vector space to its field of coefficients K. Given a basis of their domain, they can be represented as homogeneous quadratic polynomials or as symmetric matrices that define symmetric bilinear forms VxV->K.!
@@ -6227,9 +6232,9 @@ accumulate: iteratorSymbol on: collection
 at: anInteger add: anObject
 	^ self at: anInteger put: (self at: anInteger) + anObject! !
 
-!SequenceableCollection methodsFor: '*mathematics' stamp: 'len 8/2/2016 05:26'!
+!SequenceableCollection methodsFor: '*mathematics' stamp: 'len 2/21/2017 18:59:40'!
 combinations: r
-	^ Iterator on: [:aBlock| self combinations: r atATimeDo: aBlock]! !
+	^ Iterator on: [:aBlock| self combinations: r atATimeDo: [:each| aBlock value: each copy]]! !
 
 !SequenceableCollection methodsFor: '*mathematics' stamp: 'len 11/22/2016 05:40:12'!
 convolution: aCollection
@@ -6248,9 +6253,9 @@ isZero
 	self do: [:each| each isZero ifFalse: [^ false]].
 	^ true! !
 
-!SequenceableCollection methodsFor: '*mathematics' stamp: 'len 8/2/2016 05:27'!
+!SequenceableCollection methodsFor: '*mathematics' stamp: 'len 2/21/2017 19:00:52'!
 permutations
-	^ Iterator on: [:aBlock| self permutationsDo: aBlock]! !
+	^ Iterator on: [:aBlock| self permutationsDo: [:each| aBlock value: each copy]]! !
 
 !SequenceableCollection methodsFor: '*mathematics' stamp: 'len 11/18/2016 08:42:32'!
 permutedBy: aPermutation
@@ -7631,9 +7636,9 @@ coordinatesOf: anElement
 			reducer pivots do: [:each| answer at: each x put: (coords at: each y)].
 			answer]"! !
 
-!LinearBasis methodsFor: 'copying' stamp: 'len 5/23/2016 04:42'!
+!LinearBasis methodsFor: 'copying' stamp: 'len 2/21/2017 11:40:06'!
 copy
-	^ self class on: ambient :: addAll: self; yourself! !
+	^ (self class on: ambient) addAll: self; yourself! !
 
 !LinearBasis methodsFor: 'copying' stamp: 'len 5/23/2016 04:42'!
 copyFrom: startIndex to: endIndex
@@ -7646,9 +7651,10 @@ copyFrom: startIndex to: endIndex
 do: aBlock 
 	generators do: aBlock! !
 
-!LinearBasis methodsFor: 'operations' stamp: 'len 5/23/2016 04:32'!
+!LinearBasis methodsFor: 'operations' stamp: 'len 2/21/2017 11:37:34'!
 dual
 	| answer extendedBasis |
+	ambient basis = self ifTrue: [^ ambient dual basis].
 	extendedBasis _ self extended.
 	answer _ self class on: ambient dual.
 	self do: [:each|
@@ -12364,15 +12370,6 @@ asSkeletonGraph
 	F do: [:x| F do: [:y| graph addEdgeFrom: x to: y]].
 	^ graph! !
 
-!Simplex methodsFor: 'operations' stamp: 'len 2/15/2017 08:55:29'!
-boundary
-	"Answer the union of all facets of the receiver. The boundary of a n-simplex is a (n-1)-chain with coefficients 1 and -1."
-	| answer |
-	answer _ SimplicialChain over: ZZ.
-	1 to: vertices size do: [:i|
-		answer coefficientAt: (self class vertices: (vertices copyWithoutIndex: i)) add: (-1)^i].
-	^ answer! !
-
 !Simplex methodsFor: 'operations' stamp: 'len 2/19/2017 08:24:44'!
 closure
 	"Answer the simplicial complex with the receiver. By definition of simplicial complex, it also contains all faces of the receiver)."
@@ -12435,11 +12432,6 @@ hash
 !Simplex methodsFor: 'testing' stamp: 'len 2/20/2017 18:49:36'!
 includes: anObject
 	^ vertices includes: anObject! !
-
-!Simplex methodsFor: 'operations' stamp: 'len 6/13/2016 00:16'!
-interior
-	"Answer the interior of the receiver (sometimes called 'open simplex')."
-	^ (SimplicialChain with: self) - self boundary! !
 
 !Simplex methodsFor: 'testing' stamp: 'len 2/19/2017 10:39:56'!
 intersects: aSimplex
@@ -19109,14 +19101,14 @@ on: aRing
 = anObject
 	^ (anObject isKindOf: MonomialMonoid) and: [anObject rank = rank]! !
 
-!MonomialMonoid methodsFor: 'enumerating' stamp: 'len 1/9/2017 21:30:55'!
+!MonomialMonoid methodsFor: 'enumerating' stamp: 'len 2/21/2017 18:57:11'!
 allMonomialsOfDegree: anInteger
 	| answer |
 	answer _ Set new.
 	anInteger partitionsDo: [:partition|
 		partition size <= self rank
 			ifTrue:
-				[((1 to: self rank) combinations: partition size) do: [:variables|
+				[(1 to: self rank) combinations: partition size atATimeDo: [:variables|
 					partition permutationsDo: [:exponents|
 						| monomial |
 						monomial _ self identity.
@@ -19180,22 +19172,6 @@ isFinite
 !MonomialMonoid methodsFor: 'testing' stamp: 'len 7/4/2016 01:33'!
 isUnivariate
 	^ self rank = 1! !
-
-!MonomialMonoid methodsFor: 'as yet unclassified' stamp: 'len 1/9/2017 21:33:35'!
-monomialsOfDegree: n
-	"Answer all monomials of the given degree, sorted by the reverse of the monomial ordering of the receiver."
-	| answer |
-	answer _ Set new.
-	n partitions do: [:partition|
-		partition size <= self rank
-			ifTrue:
-				[((1 to: self rank) combinations: partition size) do: [:variables|
-					partition permutations do: [:exponents|
-						| monomial |
-						monomial _ self identity.
-						variables with: exponents do: [:i :r| monomial _ monomial * (self x: i to: r)].
-						answer add: monomial]]]].
-	^ answer asArray sort reverse! !
 
 !MonomialMonoid methodsFor: 'converting' stamp: 'len 11/20/2016 12:04:14'!
 orderedBy: aMonomialOrdering
@@ -22574,10 +22550,13 @@ spec
 	"Answer the spectrum of the receiver, Spec(R)."
 	^ AffineSpace coordinateRing: self! !
 
-!PolynomialRing methodsFor: 'examples' stamp: 'len 8/2/2016 05:28'!
+!PolynomialRing methodsFor: 'examples' stamp: 'len 2/21/2017 18:58:57'!
 symmetric: r
 	"Answer the r-th symmetric polynomial whose terms are all monomials formed by the product of r distinct indeterminates."
-	^ ((1 to: self rank) combinations: r) sum: [:each| each product: [:i| self x: i]]! !
+	| answer |
+	answer _ self zero.
+	(1 to: self rank) combinations: r atATimeDo: [:each| answer _ answer + (each product: [:i| self x: i])].
+	^ answer! !
 
 !PolynomialRing methodsFor: 'morphisms' stamp: 'len 10/23/2016 12:31'!
 to: aRing evaluating: aBlock
@@ -23410,7 +23389,7 @@ localization
 	self ring isGlobal ifFalse: [DomainError signal: 'the ring is not global'].
 	^ self orderedBy: #lglex! !
 
-!PolynomialIdeal methodsFor: 'accessing' stamp: 'len 2/13/2017 09:56:21'!
+!PolynomialIdeal methodsFor: 'accessing' stamp: 'len 2/21/2017 18:58:03'!
 maximallyIndependentIndeterminates
 	"Answer a maximimally independent set of indeterminates, or nil if the receiver is the full polynomial ring.
 	The size of a maximally independent set is defined to be the dimension of the ideal, and it is the Krull dimension of the quotient ring defined by the ideal. Seeing the quotient ring as a field extension, the Krull dimension is its transcendence degree."
@@ -23428,7 +23407,7 @@ maximallyIndependentIndeterminates
 	G do: [:each| leadingMonomials add: each leadingMonomial].
 	indeterminates _ self ring indeterminates.
 	1 to: indeterminates size do: [:k|
-		(indeterminates combinations: k) do: [:combination|
+		indeterminates combinations: k atATimeDo: [:combination|
 			(leadingMonomials allSatisfy: [:monomial| combination includesAnyOf: monomial indeterminates])
 				ifTrue: [^ indeterminates reject: [:any| combination includes: any]]]].
 	self error: 'this shouldn''t be reached'! !
@@ -23878,10 +23857,10 @@ coordinateNames
 coordinateNames: aCollection
 	^ self propertyAt: #coordinateNames put: aCollection! !
 
-!FreeModule methodsFor: 'basis' stamp: 'len 1/2/2017 10:32:38'!
+!FreeModule methodsFor: 'basis' stamp: 'len 2/22/2017 07:19:36'!
 coordinateRing
 	"The coordinate ring of a R-module of rank n (or K-vector space of dimension n) is the polynomial ring R[x1..xn] (K[x1..xn]."
-	^ self scalars polynomialsIn: (self coordinateNames ifNil: [self rank])! !
+	^ self propertyAt: #coordinateRing ifAbsentPut: [self scalars polynomialsIn: (self coordinateNames ifNil: [self rank])]! !
 
 !FreeModule methodsFor: 'basis' stamp: 'len 2/28/2016 07:45'!
 coordinateSpace
@@ -23928,6 +23907,16 @@ equations
 	answer _ LinearSystem new.
 	self annihilator basis do: [:each| answer add: (each eq: self scalars zero)].
 	^ answer! !
+
+!FreeModule methodsFor: 'accessing' stamp: 'len 2/22/2017 07:12:11'!
+generatorNames
+	"Answer a list of names for use instead of the elements of the basis when printing linear maps."
+	^ self propertyAt: #generatorNames ifAbsentPut: [(1 to: self rank) collect: [:i| 'e', i printString sub]]! !
+
+!FreeModule methodsFor: 'accessing' stamp: 'len 2/22/2017 07:12:34'!
+generatorNames: anArray
+	"Set a list of names for use instead of the elements of the basis when printing linear maps."
+	self propertyAt: #generatorNames put: anArray! !
 
 !FreeModule methodsFor: 'accessing' stamp: 'len 10/16/2016 14:45'!
 generators
@@ -24320,6 +24309,10 @@ coordinatesOf: anElement
 !FormalSumsModule methodsFor: 'basis' stamp: 'len 1/16/2017 08:07:50'!
 e: anInteger
 	^ FormalSum over: self scalars with: (self symbols at: anInteger)! !
+
+!FormalSumsModule methodsFor: 'accessing' stamp: 'len 2/22/2017 07:14:04'!
+generatorNames
+	^ self propertyAt: #generatorNames ifAbsentPut: [(1 to: self rank) collect: [:i| (self e: i) printText]]! !
 
 !FormalSumsModule methodsFor: 'basis' stamp: 'len 1/16/2017 08:00:36'!
 rank
@@ -24987,6 +24980,11 @@ evaluatingDiagonal: aBlock
 	| zero |
 	zero _ self scalars zero.
 	^ self evaluating: [:i :j| i == j ifTrue: [aBlock value: i] ifFalse: [zero]]! !
+
+!MatrixModule methodsFor: 'accessing' stamp: 'len 2/22/2017 07:14:58'!
+generatorNames
+	^ self propertyAt: #generatorNames ifAbsentPut:
+		[(1 to: self numberOfRows) inject: #() into: [:names :i| names, ((1 to: self numberOfColumns) collect: [:j| 'e', (i printString, ' ', j printString) sub])]]! !
 
 !MatrixModule methodsFor: 'comparing' stamp: 'len 6/28/2016 09:24'!
 hash
@@ -25849,6 +25847,12 @@ size
 	^ answer
 ! !
 
+!CellComplex methodsFor: 'homology' stamp: 'len 2/21/2017 11:53:51'!
+betti: anInteger over: aRing
+	"Answer the anInteger-th Betti number.
+	This is the rank of the anInteger-th homology group over aRing."
+	^ (self homology: anInteger over: aRing) rank! !
+
 !CellComplex methodsFor: 'homology' stamp: 'len 2/20/2017 11:34:34'!
 boundaries: i over: aRing
 	^ (self boundaryMap: i over: aRing) kernel! !
@@ -26145,7 +26149,7 @@ labelling
 	1 to: V size do: [:each| labelling at: (V at: each) put: each].
 	^ self propertyAt: #labelling put: labelling! !
 
-!SimplicialComplex methodsFor: 'accessing' stamp: 'len 2/19/2017 19:23:39'!
+!SimplicialComplex methodsFor: 'accessing' stamp: 'len 2/21/2017 18:59:14'!
 nonfaces
 	"Answer the set of minimal nonfaces, i.e. simpleces on the vertex set of the receiver which are not faces of the receiver."
 	| answer V F |
@@ -26154,7 +26158,7 @@ nonfaces
 	V _ self vertices asArray.
 "	1 to: self vertices size do: [:k|"
 	1 to: self dimension + 2 do: [:k|
-		(V combinations: k) do: [:combination|
+		V combinations: k atATimeDo: [:combination|
 			F _ Simplex vertices: combination copy.
 			((self contains: F) not and: [answer noneSatisfy: [:none| F >= none]])
 				ifTrue: [answer add: F]]].
@@ -26226,6 +26230,10 @@ starOf: aCollection
 support
 	"Answer the collection of vertices that belong to any face in the receiver."
 	^ self vertices select: [:each| self facets anySatisfy: [:any| any includes: each]]! !
+
+!SimplicialComplex methodsFor: 'operations' stamp: 'len 2/21/2017 11:57:55'!
+suspension
+	^ self * (self class sphere: 0)! !
 
 !SimplicialComplex methodsFor: 'morphisms' stamp: 'len 2/15/2017 11:08:01'!
 to: aSimplicialComplex evaluating: aBlock
@@ -26307,56 +26315,82 @@ torus
 	"A minimal triangulation of the torus."
 	^ self facets: #((0 1 2) (1 2 4) (1 3 4) (1 3 6) (0 1 5) (1 5 6) (2 3 5) (2 4 5) (2 3 6) (0 2 6) (0 3 4) (0 3 5) (4 5 6) (0 4 6))! !
 
-!ChainComplex methodsFor: 'as yet unclassified' stamp: 'len 2/20/2017 12:30:30'!
+!ChainComplex methodsFor: 'comparing' stamp: 'len 2/20/2017 12:30:30'!
 ~ aChainComplex
 	"Answer true if the receiver is isomorphic to the argument."
 	^ self notYetImplemented! !
 
-!ChainComplex methodsFor: 'as yet unclassified' stamp: 'len 2/20/2017 12:36:55'!
+!ChainComplex methodsFor: 'operations' stamp: 'len 2/20/2017 12:36:55'!
 ê aChainComplex
 	"Answer the cartesian product (direct sum) of the receiver with the argument."
 	^ self notYetImplemented! !
 
-!ChainComplex methodsFor: 'as yet unclassified' stamp: 'len 2/20/2017 12:37:23'!
+!ChainComplex methodsFor: 'operations' stamp: 'len 2/20/2017 12:37:23'!
 í aChainComplex
 	"Answer the tensor product of the receiver with the argument."
 	^ self notYetImplemented! !
 
-!ChainComplex methodsFor: 'as yet unclassified' stamp: 'len 2/20/2017 12:29:52'!
+!ChainComplex methodsFor: 'homology' stamp: 'len 2/21/2017 12:14:16'!
+betti: i
+	^ (self homology: i) rank! !
+
+!ChainComplex methodsFor: 'homology' stamp: 'len 2/21/2017 16:23:11'!
+boundaries: i
+	^ (self differential: i) image! !
+
+!ChainComplex methodsFor: 'homology' stamp: 'len 2/21/2017 16:22:35'!
+cycles: i
+	^ (self differential: i) kernel! !
+
+!ChainComplex methodsFor: 'accessing' stamp: 'len 2/20/2017 12:29:52'!
 degree
 	"Answer the degree of diferentials of the receiver."
 	^ 1! !
 
-!ChainComplex methodsFor: 'as yet unclassified' stamp: 'len 2/20/2017 12:12:12'!
+!ChainComplex methodsFor: 'accessing' stamp: 'len 2/20/2017 12:12:12'!
 differential: i
 	^ self differentials at: i! !
 
-!ChainComplex methodsFor: 'as yet unclassified' stamp: 'len 2/20/2017 12:29:07'!
+!ChainComplex methodsFor: 'accessing' stamp: 'len 2/20/2017 12:29:07'!
 differentials
 	^ self propertyAt: #differentials! !
 
-!ChainComplex methodsFor: 'as yet unclassified' stamp: 'len 2/20/2017 12:27:36'!
+!ChainComplex methodsFor: 'operations' stamp: 'len 2/20/2017 12:27:36'!
 dual
 	"Answer the dual of the receiver. This is the cochain complex, taking dual in all objects and arrows reversed."
 	self notYetImplemented! !
 
-!ChainComplex methodsFor: 'as yet unclassified' stamp: 'len 6/13/2016 04:34'!
+!ChainComplex methodsFor: 'homology' stamp: 'len 2/21/2017 16:27:41'!
 homology: i
-	^ (self arrows at: i) kernel / (self arrows at: i+1) image! !
+	^ (self cycles: i) / (self boundaries: i+1)! !
 
-!ChainComplex methodsFor: 'as yet unclassified' stamp: 'len 6/22/2016 03:25'!
+!ChainComplex methodsFor: 'testing' stamp: 'len 2/21/2017 19:12:03'!
 isExact
-	"A chain complex is 'exact' if the image of each arrow is exactly the kernel of the next arrow."
-	^ (1 to: self arrows size - 1) allSatisfy: [:i| (self arrows at: i) image = (self arrows at: i+1) kernel]! !
+	| D |
+	D _ self differentials.
+	1 to: D size - 1 do: [:i|
+		(D at: i) image = (D at: i+1) kernel ifFalse: [^ false]].
+	^ true! !
 
-!ChainComplex methodsFor: 'as yet unclassified' stamp: 'len 2/20/2017 12:29:00'!
+!ChainComplex methodsFor: 'printing' stamp: 'len 2/20/2017 12:29:00'!
 printOn: aStream
 	aStream print: self differentials first domain.
 	self differentials allButFirstDo: [:each| aStream nextPutAll: '  '; print: each codomain].! !
 
-!ChainComplex methodsFor: 'as yet unclassified' stamp: 'len 2/20/2017 12:32:36'!
+!ChainComplex methodsFor: 'accessing' stamp: 'len 2/20/2017 12:32:36'!
 scalars
 	^ self propertyAt: #scalars ifAbsentPut: [self differentials first domain scalars]! !
+
+!ChainComplex methodsFor: 'private' stamp: 'len 2/21/2017 16:47:23'!
+verify
+	| D |
+	D _ self differentials.
+	D first kernel isTrivial ifFalse: [^ false].
+	D last image isTrivial ifFalse: [^ false].
+	1 to: D size - 1 do: [:i|
+		(D at: i) codomain = (D at: i+1) domain ifFalse: [^ false].
+		(D at: i) image <= (D at: i+1) kernel ifFalse: [^ false]].
+	^ true! !
 
 !LinearCode methodsFor: 'comparing' stamp: 'len 4/3/2016 23:27'!
 <= aLinearCode
@@ -29595,16 +29629,18 @@ nullity
 	"Answer the dimension of the kernel of the receiver."
 	^ matrix numberOfRows - matrix rank! !
 
-!LinearMap methodsFor: 'printing' stamp: 'len 11/2/2016 07:59'!
+!LinearMap methodsFor: 'printing' stamp: 'len 2/22/2017 07:22:11'!
 printOn: aStream
+	| A B f |
 	self isIdentity ifTrue: [aStream nextPutAll: 'id'. ^ self].
 	self negated isIdentity ifTrue: [aStream nextPutAll: '-id'. ^ self].
 	self isZero ifTrue: [aStream nextPut: $0. ^ self].
-	aStream nextPut: $(.
+	A _ self domain coordinateRing.
+	B _ A polynomialsIn: self codomain generatorNames.
+	f _ B zero.
 	matrix rows
-		do: [:each| aStream print: (domainBasis dual elementAt: each)]
-		separatedBy: [aStream nextPutAll: ', '].
-	aStream nextPut: $)! !
+		withIndexDo: [:each :i| f _ (B x: i) * (domainBasis dual elementAt: each) asPolynomial + f].
+	aStream print: f! !
 
 !LinearMap methodsFor: 'operations' stamp: 'len 2/4/2017 09:02:48'!
 projectivized
@@ -29643,6 +29679,11 @@ value: aVector
 		ifTrue: [^ codomainBasis ambient zero].
 	^ codomainBasis
 		elementAt: matrix * (domainBasis coordinatesOf: aVector)! !
+
+!LinearMap class methodsFor: 'examples' stamp: 'len 2/21/2017 21:08:31'!
+example1
+	"The transposition of matrices is a linear map:"
+	^ QQ^(3@2) to: QQ^(2@3) evaluating: [:A| A transposed]! !
 
 !LinearMap class methodsFor: 'instance creation' stamp: 'len 1/2/2017 20:17:25'!
 from: aDomain to: aCodomain evaluating: aBlock
@@ -34285,12 +34326,18 @@ squared
 over: aRing simple: anArray
 	^ self over: aRing with: (anArray class = SimpleTensor ifTrue: [anArray] ifFalse: [SimpleTensor components: anArray])! !
 
-!SimplicialChain methodsFor: 'operations' stamp: 'len 11/18/2016 20:38:45'!
+!SimplicialChain methodsFor: 'operations' stamp: 'len 2/21/2017 20:47:20'!
 boundary
 	"The boundary of a chain is the linear combination of the boundary of the simplices in the chain. The boundary of a k-chain is a (k-1)-chain."
 	| answer |
 	answer _ self class over: self scalars.
-	self coefficients keysAndValuesDo: [:key :value| answer _ answer + (key boundary * value)].
+	self coefficients keysAndValuesDo: [:key :value|
+		| V minusValue |
+		V _ key vertices.
+		minusValue _ value negated.
+		1 to: V size do: [:i| | S |
+			S _ Simplex vertices: (V copyWithoutIndex: i).
+			answer coefficientAt: S add: (i even ifTrue: [value] ifFalse: [minusValue])]].
 	^ answer! !
 
 !SimplicialChain methodsFor: 'accessing' stamp: 'len 2/29/2016 07:15'!
@@ -38164,16 +38211,18 @@ primitive
 	self isZero ifTrue: [^ self]. self flag: #fix. "is this right?"
 	^ self /// self content! !
 
-!Polynomial methodsFor: 'printing' stamp: 'len 6/25/2016 01:45'!
+!Polynomial methodsFor: 'printing' stamp: 'len 2/22/2017 07:28:39'!
 printCoefficient: coefficient on: aStream
 	"Print the coefficient of the receiver on the stream aStream."
 
 	| c |
 	((c _ coefficient) printString first = $- "or: [coefficient isNumber and: [coefficient negative]]")
 		ifTrue: [aStream nextPut: $-. c _ c negated].
+	((c isKindOf: Polynomial) and: [c isMonomial])
+		ifTrue: [aStream print: c. ^ self].
 	(c printString allSatisfy: [:each| each isAlphaNumeric or: ['{}()/' includes: each]])
-		ifTrue: [aStream print: c]
-		ifFalse: [aStream nextPut: $(; print: c; nextPut: $)]! !
+		ifTrue: [aStream print: c. ^ self].
+	aStream nextPut: $(; print: c; nextPut: $)! !
 
 !Polynomial methodsFor: 'printing' stamp: 'len 11/29/2016 11:51:14'!
 printOn: aStream
@@ -40736,6 +40785,11 @@ run
 !FloydWarshall class methodsFor: 'instance creation' stamp: 'len 2/17/2016 07:22'!
 graph: aGraph
 	^ self new graph: aGraph! !
+
+!YoungDiagram methodsFor: 'as yet unclassified' stamp: 'len 2/21/2017 18:40:23'!
+conjugate
+	"Answer the Young diagram of the conjugate partition."
+	^ self class shape: ((1 to: shape size) collect: [:k| shape findLast: [:i| i >= k]])! !
 
 !YoungDiagram methodsFor: 'as yet unclassified' stamp: 'len 8/1/2016 03:17'!
 hookLengthAt: aPoint
