@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 22 February 2017 at 7:36:24 am'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 22 February 2017 at 8:04:22 am'!
 'Description A computational algebra system in Smalltalk'!
-!provides: 'Mathematics' 1 370!
+!provides: 'Mathematics' 1 371!
 !requires: 'RayTracer' 1 2 nil!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
@@ -21359,14 +21359,10 @@ orderedBy: aMonomialOrdering
 ordering
 	^ self base ordering! !
 
-!AffineRing methodsFor: 'operations' stamp: 'len 2/13/2017 07:39:30'!
+!AffineRing methodsFor: 'operations' stamp: 'len 2/22/2017 07:58:02'!
 proj
 	"Answer the projective spectrum of the receiver, Proj(R)."
 	self ideal isHomogeneous ifFalse: [^ DomainError signal: 'not a quotient by a homogeneous ideal, not properly graded'].
-	(self ideal generators size = 1 and: [self ideal isZero not])
-		ifTrue: [self base rank = 3
-			ifTrue: [^ ProjectivePlaneCurve coordinateRing: self]
-			ifFalse: [^ ProjectiveHypersurface coordinateRing: self]].
 	^ ProjectiveVariety coordinateRing: self! !
 
 !AffineRing methodsFor: 'accessing' stamp: 'len 12/30/2016 09:47:01'!
@@ -21379,13 +21375,9 @@ scalars
 	"Answer the coefficients ring of the receiver."
 	^ self base scalars! !
 
-!AffineRing methodsFor: 'operations' stamp: 'len 2/13/2017 07:33:57'!
+!AffineRing methodsFor: 'operations' stamp: 'len 2/22/2017 07:58:22'!
 spec
 	"Answer the spectrum of the receiver, Spec(R/I) as subscheme of Spec(R)."
-	(self ideal generators size = 1 and: [self ideal isZero not])
-		ifTrue: [self base rank = 2
-			ifTrue: [^ AffinePlaneCurve coordinateRing: self]
-			ifFalse: [^ AffineHypersurface coordinateRing: self]].
 	^ AffineVariety coordinateRing: self! !
 
 !AffineRing methodsFor: 'accessing' stamp: 'len 2/12/2017 07:36:33'!
@@ -23617,10 +23609,9 @@ generatingMonomials
 	"Answer the set of monomials corresponding to the polynomials that generate the receiver."
 	^ self generators collect: [:each| each monomials anyOne]! !
 
-!MonomialIdeal methodsFor: 'accessing-private' stamp: 'len 2/18/2017 20:43:08'!
+!MonomialIdeal methodsFor: 'accessing-private' stamp: 'len 2/22/2017 07:46:01'!
 generators: aCollection
 	| generators |
-"	true ifTrue: [^ super generators: aCollection]."
 	generators _ Set new.
 	(aCollection asSortedCollection: [:a :b| a degree <= b degree])
 		do: [:each| | f |
@@ -27202,6 +27193,18 @@ although the intersection is harder to compute, it behaves better with radicaliz
 ambient
 	^ self propertyAt: #ambient ifAbsent: [self coordinateRing base spec]! !
 
+!AffineVariety methodsFor: 'converting' stamp: 'len 2/22/2017 07:52:56'!
+asCurve
+	^ self ambient isPlane
+		ifTrue: [self as: AffinePlaneCurve]
+		ifFalse: [self as: AffineCurve]! !
+
+!AffineVariety methodsFor: 'converting' stamp: 'len 2/22/2017 07:53:40'!
+asHypersurface
+	^ self ambient isPlane
+		ifTrue: [self as: AffinePlaneCurve]
+		ifFalse: [self as: AffineHypersurface]! !
+
 !AffineVariety methodsFor: 'testing' stamp: 'len 1/13/2017 20:19:22'!
 contains: anIdeal
 	"Answer true if the receiver contains the given point (a prime ideal)."
@@ -27444,6 +27447,10 @@ ideal
 	"Answer the defining ideal of the receiver, considered as a subscheme of itself."
 	^ self coordinateRing zeroIdeal! !
 
+!AffineSpace methodsFor: 'testing' stamp: 'len 2/22/2017 07:54:37'!
+isPlane
+	^ self rank = 2! !
+
 !AffineSpace methodsFor: 'points' stamp: 'len 1/22/2017 08:22:56'!
 pointsCountOver: aRing
 	^ aRing size ^ self rank! !
@@ -27571,6 +27578,18 @@ arithmeticGenus
 	"Answer the arithmetic genus of the receiver."
 	self ambient isOrdinaryProjectiveSpace ifFalse: [^ self error: 'not ordinary projective space'].
 	self notYetImplemented! !
+
+!ProjectiveVariety methodsFor: 'converting' stamp: 'len 2/22/2017 07:56:24'!
+asCurve
+	^ self ambient isPlane
+		ifTrue: [self as: ProjectivePlaneCurve]
+		ifFalse: [self as: ProjectiveCurve]! !
+
+!ProjectiveVariety methodsFor: 'converting' stamp: 'len 2/22/2017 07:56:46'!
+asHypersurface
+	^ self ambient isPlane
+		ifTrue: [self as: ProjectivePlaneCurve]
+		ifFalse: [self as: ProjectiveHypersurface]! !
 
 !ProjectiveVariety methodsFor: 'accessing' stamp: 'len 2/10/2017 07:16:14'!
 base
@@ -28079,6 +28098,10 @@ ideal
 isOrdinaryProjectiveSpace
 	"Answer true if the receiver is the ordinary projective space, which means that it's not weighted (or that all weights or gradings are 1)."
 	^ self coordinateRing gradings allSatisfy: [:each| each = 1]! !
+
+!ProjectiveSpace methodsFor: 'testing' stamp: 'len 2/22/2017 07:55:14'!
+isPlane
+	^ self rank = 3! !
 
 !ProjectiveSpace methodsFor: 'private' stamp: 'len 1/12/2017 14:47:56'!
 newPatch: i
