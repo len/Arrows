@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 20 February 2017 at 7:15:59 pm'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 23 February 2017 at 9:38:41 am'!
 'Description Please enter a description for this package'!
-!provides: 'MathematicsTests' 1 72!
+!provides: 'MathematicsTests' 1 73!
 !classDefinition: #AbelianGroupTest category: #MathematicsTests!
 TestCase subclass: #AbelianGroupTest
 	instanceVariableNames: ''
@@ -922,11 +922,11 @@ testAffinePlaneCurveMultiplicity
 	self assert: (C multiplicityAt: (1,1)) = 1.
 	self assert: (C multiplicityAt: (0,0)) = 2! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 2/9/2017 05:17:46'!
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 2/22/2017 08:20:58'!
 testAffineSchemeCartesianProduct
 	| X1 X2 P |
-	X1 _ Scheme circle.
-	X2 _ Scheme romanSurface.
+	X1 _ AffineVariety circle.
+	X2 _ AffineVariety romanSurface.
 	P _ X1 × X2.
 	self assert: X1 dimension + X2 dimension = P dimension.
 	self assert: X1 ambient dimension + X2 ambient dimension = P ambient dimension.
@@ -1737,8 +1737,18 @@ testAffineRingElementOperations
 	self assert: x^2 = (y^2 - 2).
 	"self assert: x reciprocal = ..."! !
 
-!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 2/13/2017 20:39:37'!
-testAffineRingIdealMembershipAtRandom
+!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 2/23/2017 09:10:30'!
+testAffineRingIdealIntersectionRandom
+	| R f1 f2 J A |
+	R _ QQ polynomialsIn: #(x y z).
+	[(f1 _ R atRandomBits: 10) isZero] whileTrue.
+	[(f2 _ R atRandomBits: 10) isZero] whileTrue.
+	J _ R * {f1. f2}.
+	A _ R/J.
+	self testIdealIntersectionRandom: A! !
+
+!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 2/23/2017 09:09:44'!
+testAffineRingIdealMembershipRandom
 	| R f1 f2 J A g I h |
 	R _ QQ polynomialsIn: #(x y z).
 	[(f1 _ R atRandomBits: 10) isZero] whileTrue.
@@ -1750,7 +1760,7 @@ testAffineRingIdealMembershipAtRandom
 	h _ I atRandomBits: 10.
 	self assert: (I includes: h)! !
 
-!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 2/13/2017 08:47:40'!
+!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 2/23/2017 09:02:17'!
 testAffineRingIdealOperations
 	"Magma handbook, example H105E2."
 	| R A I J |
@@ -1759,7 +1769,7 @@ testAffineRingIdealOperations
 	I _ A * (A generate: [:x :y :z| x^3*y*(z^2)]).
 	self deny: I isRadical.
 	J _ A * (A generate: [:x :y :z| {x*(y^2) + (x*y) - (x*z) + x. y*z. z^2 - z}]).
-	self assert: I radical = J.
+	self assert: I radical = J. "this fails probably because PolynomialIdeal>>radical is broken"
 	"... and then some tests of primary decomposition"! !
 
 !CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 2/12/2017 12:36:37'!
@@ -1913,7 +1923,7 @@ testHilbertSeriesOfPolynomialRing
 	H _ R hilbertSeriesAt: t.
 	self assert: H = ((1 - t) ^ -4)! !
 
-!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 11/1/2016 05:32'!
+!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 2/23/2017 08:18:46'!
 testIdealColon
 	| R x y z I J |
 	R _ QQ polynomialsIn: #(x y z).
@@ -1922,12 +1932,12 @@ testIdealColon
 	z _ R z.
 	I _ R * {x*y - 1. x^3*(z^2) - (y^2). x*(z^3) - x - 1}.
 "	J _ R * {x*y - 1. x^2*z - y. x*(z^3) - x - 1}."
-	self assert: (I colon: R asIdeal) = I.
-	self assert: (R asIdeal colon: I) = R asIdeal.
+	self assert: I ÷ R asIdeal = I.
+	self assert: R asIdeal ÷ I = R asIdeal.
 	J _ R * {I atRandomBits: 10. I atRandomBits: 10}. "J <= I"
-	self assert: (I colon: J) = R asIdeal! !
+	self assert: I ÷ J = R asIdeal! !
 
-!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 12/8/2016 20:27:37'!
+!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 2/23/2017 08:28:33'!
 testIdealColon2
 	"Example from Cox IVA 205p."
 	| R x y z I J Q |
@@ -1937,8 +1947,8 @@ testIdealColon2
 	z _ R z.
 	I _ R * {x*z - (y^2). x^3 - (y*z)}.
 	J _ R * {x. y}.
-	Q _ I colon: J.
-	self assert: Q = ((I colon: R * x) • (I colon: R * y)).
+	Q _ I ÷ J.
+	self assert: Q = (I ÷ (R * x) • (I ÷ (R * y))).
 	self assert: Q = (R * {x*z - (y^2). x^3 - (y*z). x^2*y - (z^2)})! !
 
 !CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 2/12/2017 12:50:41'!
@@ -1996,6 +2006,22 @@ testIdealIntersection
 	J _ Qxy * {x * (y^2)}.
 	K _ Qxy * {x^2*(y^2)}.
 	self assert: I • J = K! !
+
+!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 2/23/2017 09:09:12'!
+testIdealIntersectionRandom
+	self testIdealIntersectionRandom: (QQ polynomialsIn: #(x y))! !
+
+!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 2/23/2017 09:09:22'!
+testIdealIntersectionRandom: aRing
+	| R f1 f2 g I J K |
+	R _ aRing.
+	f1 _ R atRandomBits: 10.
+	f2 _ R atRandomBits: 10.
+	g _ R atRandomBits: 10.
+	I _ R * {f1. g}.
+	J _ R * {f2. g}.
+	K _ R * {g}.
+	self assert: I • J >= K! !
 
 !CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 19:31'!
 testIdealIsPrime
@@ -2059,14 +2085,18 @@ testIdealMembership3
 	intersection (the ideal is not radical since includes f^2):"
 	self assert: (I includes: f^2)! !
 
-!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:56'!
+!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 2/23/2017 09:09:01'!
 testIdealMembershipRandom
-	| P f1 f2 f3 I g |
-	P _ QQ polynomialsIn: #(x y z).
-	[(f1 _ P atRandomBits: 10) isZero] whileTrue.
-	[(f2 _ P atRandomBits: 10) isZero] whileTrue.
-	[(f3 _ P atRandomBits: 10) isZero] whileTrue.
-	I _ P * {f1. f2. f3}.
+	self testIdealMembershipRandom: (QQ polynomialsIn: #(x y z))! !
+
+!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 2/23/2017 09:08:24'!
+testIdealMembershipRandom: aRing
+	| R f1 f2 f3 I g |
+	R _ aRing.
+	[(f1 _ R atRandomBits: 10) isZero] whileTrue.
+	[(f2 _ R atRandomBits: 10) isZero] whileTrue.
+	[(f3 _ R atRandomBits: 10) isZero] whileTrue.
+	I _ R * {f1. f2. f3}.
 	g _ I atRandomBits: 100.
 	self assert: (I includes: g)! !
 
@@ -5776,11 +5806,13 @@ testSimplex
 	self assert: tetrahedron edges size = 6.
 	self assert: (tetrahedron faces: 3) size = 1! !
 
-!SimplicialComplexTest methodsFor: 'as yet unclassified' stamp: 'len 2/15/2017 08:56:02'!
+!SimplicialComplexTest methodsFor: 'as yet unclassified' stamp: 'len 2/21/2017 20:54:37'!
 testSimplexBoundaryBoundary
-	| S |
+	| S x |
 	S _ Simplex vertices: #(a b c d).
-	self assert: S boundary boundary isZero! !
+	x _ SimplicialChain over: ZZ with: S.
+	self assert: x boundary boundary isZero.
+	self assert: x boundary isCycle! !
 
 !SimplicialComplexTest methodsFor: 'as yet unclassified' stamp: 'len 2/19/2017 08:37:30'!
 testSimplexComplement
