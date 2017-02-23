@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 5 January 2017 at 8:15:04 pm'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 23 February 2017 at 9:40:42 am'!
 'Description Please enter a description for this package'!
-!provides: 'Documentation' 1 5!
+!provides: 'Documentation' 1 6!
 !classDefinition: #DocumentationGenerator category: #Documentation!
 Object subclass: #DocumentationGenerator
 	instanceVariableNames: ''
@@ -22,7 +22,7 @@ copy: aString replaceAll: oldSubstring with: newSubstring
 		collect: [:each| (each includesSubString: 'http') ifTrue: [each] ifFalse: [each copyReplaceTokens: oldSubstring with: newSubstring]]
 		andFold: [:a :b| a, Character lf asString, b]! !
 
-!DocumentationGenerator methodsFor: 'as yet unclassified' stamp: 'len 11/2/2016 11:46'!
+!DocumentationGenerator methodsFor: 'as yet unclassified' stamp: 'len 2/15/2017 20:31:35'!
 escape: aString
 	| output |
 	output _ aString.
@@ -42,9 +42,10 @@ escape: aString
 	output _ output copyReplaceAll: Character emptySet asString with: '&empty;'.
 	output _ output copyReplaceAll: Character cup asString with: '&cup;'.
 	output _ output copyReplaceAll: Character cap asString with: '&cap;'.
+	output _ output copyReplaceAll: Character circ asString with: 'o'.
 	^ output! !
 
-!DocumentationGenerator methodsFor: 'as yet unclassified' stamp: 'len 11/2/2016 11:54'!
+!DocumentationGenerator methodsFor: 'as yet unclassified' stamp: 'len 2/15/2017 20:31:28'!
 escapeCode: aString
 	| output |
 	output _ aString.
@@ -60,6 +61,7 @@ escapeCode: aString
 	output _ output copyReplaceAll: Character emptySet asString with: '&empty;'.
 	output _ output copyReplaceAll: Character cup asString with: '&cup;'.
 	output _ output copyReplaceAll: Character cap asString with: '&cap;'.
+	output _ output copyReplaceAll: Character circ asString with: 'o'.
 	^ output! !
 
 !DocumentationGenerator methodsFor: 'as yet unclassified' stamp: 'len 1/5/2017 09:22:21'!
