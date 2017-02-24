@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 23 February 2017 at 9:38:37 am'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 24 February 2017 at 12:09:41 pm'!
 'Description A computational algebra system in Smalltalk'!
-!provides: 'Mathematics' 1 372!
+!provides: 'Mathematics' 1 373!
 !requires: 'RayTracer' 1 2 nil!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
@@ -3512,16 +3512,6 @@ Object subclass: #YoungDiagram
 YoungDiagram class
 	instanceVariableNames: ''!
 
-!classDefinition: #Chain category: #'Mathematics-Homology'!
-Object subclass: #Chain
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Homology'!
-!classDefinition: 'Chain class' category: #'Mathematics-Homology'!
-Chain class
-	instanceVariableNames: ''!
-
 !classDefinition: #LLL category: #'Mathematics-Lattices'!
 Object subclass: #LLL
 	instanceVariableNames: 'basis delta orthogonalBasis mu'
@@ -4059,7 +4049,9 @@ Structure:
  digraph 		The associated directed graph (which is always symmetric)!
 
 !Simplex commentStamp: '<historical>' prior: 0!
-My instances are (abstract) n-simplices.!
+My instances are (abstract) oriented n-simplices.
+
+It is assumed that the vertices are objects that implement a total ordering with #<= (such as integers, strings, monomials), so that they can be ordered to choose an unambiguos orientation.!
 
 !GraphMorph commentStamp: '<historical>' prior: 0!
 My instances have submorphs that are GraphNodeMorph and GraphEdgeMorph (or subclasses). My subclasses implement different layouts.
@@ -5378,9 +5370,6 @@ Output: the shortest distance from the source node to the target node, or a shor
 The initial precomputation takes time O(|V|^3). Afterwards, it's possible to compute distances in time O(log |V|) and shortest paths of length k in O(k log |V|). The O(log |V|) comes from the dictionary lookup operation, a lookup in a hash table.
 
 While (after initial precomputation) Dijkstra's algorithm is able to efficiently compute distances from a fixed source node, Floyd-Warshall's computes distances from any two arbitrary nodes. However, for sparse graphs with non-negative edge weights a better choice is to use Dijkstra's algorithm with binary heaps, which gives a time complexity of O(|V| |E| log |V|).!
-
-!Chain commentStamp: '<historical>' prior: 0!
-My instances are chains in a chain complex. See ChainComplex.!
 
 !LLL commentStamp: '<historical>' prior: 0!
 I am the Lenstra-Lenstra-Lovasz algorithm.
@@ -12328,15 +12317,19 @@ shape: anArray
 	"Answer true if the receiver is contained in aSimplex as a face."
 	^ aSimplex >= self! !
 
-!Simplex methodsFor: 'comparing' stamp: 'len 2/15/2017 08:53:55'!
+!Simplex methodsFor: 'comparing' stamp: 'len 2/24/2017 11:41:54'!
 = aSimplex
-	| ip p |
+	"Answer true if the receiver equals the argument."
+	^ self vertices = aSimplex vertices
+
+"before we didn't keep vertices sorted, so we could check of two differently oriented simplices were equal:
+	| iv v |
 	vertices isEmpty ifTrue: [^ aSimplex vertices isEmpty].
-	p _ vertices first.
-	ip _ aSimplex vertices indexOf: p ifAbsent: [^ false].
+	v _ vertices first.
+	iv _ aSimplex vertices indexOf: v ifAbsent: [^ false].
 	vertices withIndexDo: [:each :i|
-		each = (aSimplex vertices atWrap: i+ip-1) ifFalse: [^ false]].
-	^ true! !
+		each = (aSimplex vertices atWrap: i+iv-1) ifFalse: [^ false]].
+	^ true"! !
 
 !Simplex methodsFor: 'comparing' stamp: 'len 2/15/2017 08:52:49'!
 > aSimplex
@@ -12377,9 +12370,9 @@ closure
 	"Answer the simplicial complex with the receiver. By definition of simplicial complex, it also contains all faces of the receiver)."
 	^ SimplicialComplex facets: {self}! !
 
-!Simplex methodsFor: 'enumerating' stamp: 'len 2/20/2017 19:03:05'!
+!Simplex methodsFor: 'enumerating' stamp: 'len 2/24/2017 11:44:43'!
 collect: aBlock
-	^ self class vertices: (self vertices collect: aBlock) asSet! !
+	^ self class vertices: (self vertices collect: aBlock) asSet "we don't assume aBlock is injective, so we have to convert to a Set to remove repetitions"! !
 
 !Simplex methodsFor: 'operations' stamp: 'len 2/19/2017 09:31:02'!
 complementIn: aCollection
@@ -12409,13 +12402,13 @@ faces: n
 	"Answer the n-faces of the receiver."
 	^ Iterator on: [:aBlock| self faces: n do: aBlock]! !
 
-!Simplex methodsFor: 'faces' stamp: 'len 2/15/2017 08:55:34'!
+!Simplex methodsFor: 'faces' stamp: 'len 2/23/2017 18:55:13'!
 faces: n do: aBlock
 	"Iterate over the n-faces of the receiver."
 	n = -1 ifTrue: [^ aBlock value: (self class vertices: #())].
 	vertices isEmpty ifTrue: [^ self].
 	vertices combinations: n+1 atATimeDo: [:each|
-		aBlock value: (self class vertices: each copy)]! !
+		aBlock value: (self class vertices: each asSet)]! !
 
 !Simplex methodsFor: 'faces' stamp: 'len 6/12/2016 23:59'!
 facesDo: aBlock
@@ -12427,9 +12420,9 @@ facets
 	"Answer the boundary faces of the receiver."
 	^ self faces: self dimension - 1! !
 
-!Simplex methodsFor: 'comparing' stamp: 'len 2/17/2017 16:31:04'!
+!Simplex methodsFor: 'comparing' stamp: 'len 2/23/2017 19:08:39'!
 hash
-	^ vertices inject: 0 into: [:sum :each| sum + each hash] "this can be improved"! !
+	^ vertices inject: 0 into: [:sum :each| sum + each hash] "this is independent of orientation"! !
 
 !Simplex methodsFor: 'testing' stamp: 'len 2/20/2017 18:49:36'!
 includes: anObject
@@ -12443,16 +12436,6 @@ intersects: aSimplex
 isTrivial
 	"Answer true if this is the empty simplex."
 	^ vertices isEmpty! !
-
-!Simplex methodsFor: 'arithmetic' stamp: 'len 6/13/2016 00:08'!
-negated
-	"Answer the oppositely oriented simplex."
-	^ self opposite! !
-
-!Simplex methodsFor: 'operations' stamp: 'len 2/15/2017 08:53:18'!
-opposite
-	"Answer the oppositely oriented simplex."
-	^ self class vertices: (vertices copy swap: 1 with: 2; yourself)! !
 
 !Simplex methodsFor: 'printing' stamp: 'len 2/18/2017 20:41:09'!
 printOn: aStream
@@ -12481,6 +12464,10 @@ shortPrintOn: aStream
 	self vertices do: [:each| aStream print: each] separatedBy: [aStream nextPut: $,].
 	aStream nextPut: $}! !
 
+!Simplex methodsFor: 'accessing' stamp: 'len 2/23/2017 10:20:17'!
+size
+	^ vertices size! !
+
 !Simplex methodsFor: 'private' stamp: 'len 2/20/2017 19:04:07'!
 species
 	^ Set! !
@@ -12489,9 +12476,9 @@ species
 vertices
 	^ vertices! !
 
-!Simplex methodsFor: 'accessing-private' stamp: 'len 2/15/2017 16:23:12'!
+!Simplex methodsFor: 'accessing-private' stamp: 'len 2/24/2017 11:32:53'!
 vertices: aCollection
-	vertices _ aCollection asArray! !
+	vertices _ aCollection asSortedCollection! !
 
 !Simplex methodsFor: 'accessing' stamp: 'len 2/23/2016 02:13'!
 volume
@@ -24725,9 +24712,17 @@ vectorSpace: aVectorSpace
 on: aVectorSpace
 	^ self new vectorSpace: aVectorSpace! !
 
+!TensorProductModule methodsFor: 'as yet unclassified' stamp: 'len 2/23/2017 10:02:23'!
+coordinatesOf: anElement
+	^ self scalars tuple: self rank evaluating: [:i| anElement coefficientAt: (SimpleTensor components: {left e: i - 1 // left rank + 1. right e: i - 1 \\ right rank + 1})]! !
+
 !TensorProductModule methodsFor: 'as yet unclassified' stamp: 'len 2/20/2017 14:31:32'!
 e: anInteger
 	^ Tensor over: self scalars simple: {left e: anInteger - 1 // left rank + 1. right e: anInteger - 1 \\ right rank + 1}! !
+
+!TensorProductModule methodsFor: 'as yet unclassified' stamp: 'len 2/23/2017 10:00:04'!
+includes: anObject
+	^ (anObject isKindOf: Tensor) and: [self contains: anObject]! !
 
 !TensorProductModule methodsFor: 'as yet unclassified' stamp: 'len 10/16/2016 05:40'!
 left: aFreeModule
@@ -26258,9 +26253,9 @@ to: aSimplicialComplex mapping: aBlock
 	"Answer a simplicial map that maps vertices by aBlock."
 	^ SimplicialMap from: self to: aSimplicialComplex mapping: aBlock! !
 
-!SimplicialComplex methodsFor: 'accessing-private' stamp: 'len 2/19/2017 08:17:19'!
+!SimplicialComplex methodsFor: 'accessing-private' stamp: 'len 2/24/2017 11:38:54'!
 vertices: aCollection
-	self propertyAt: #vertices put: aCollection! !
+	self propertyAt: #vertices put: aCollection asSet! !
 
 !SimplicialComplex class methodsFor: 'instance creation' stamp: 'len 2/19/2017 08:21:09'!
 faces: aCollection
@@ -26297,13 +26292,13 @@ kleinBottle
 	"A minimal triangulation of the Klein bottle."
 	^ self facets: #((2 3 7) (1 2 3) (1 3 5) (1 5 7) (1 4 7) (2 4 6) (1 2 6) (1 6 0) (1 4 0) (2 4 0) (3 4 7) (3 4 6) (3 5 6) (5 6 0) (2 5 0) (2 5 7))! !
 
-!SimplicialComplex class methodsFor: 'instance creation' stamp: 'len 2/19/2017 08:21:36'!
+!SimplicialComplex class methodsFor: 'instance creation' stamp: 'len 2/24/2017 11:47:54'!
 on: aVertexSet faces: aCollection
 	"Answer a new simplicial complex with the given collection of simplices as faces.
 	The faces in aCollection are not assumed to be maximal, so we compute a subset of maximal faces (facets)."
 	^ (self faces: aCollection) vertices: aVertexSet! !
 
-!SimplicialComplex class methodsFor: 'instance creation' stamp: 'len 2/19/2017 08:21:56'!
+!SimplicialComplex class methodsFor: 'instance creation' stamp: 'len 2/24/2017 11:48:00'!
 on: aVertexSet facets: aCollection
 	"Answer a new simplicial complex with the given collection of simplices as facets.
 	The faces in aCollection are assumed to be maximal."
@@ -26356,11 +26351,6 @@ chains: k
 cycles: i
 	^ (self differential: i) kernel! !
 
-!ChainComplex methodsFor: 'accessing' stamp: 'len 2/20/2017 12:29:52'!
-degree
-	"Answer the degree of diferentials of the receiver."
-	^ 1! !
-
 !ChainComplex methodsFor: 'accessing' stamp: 'len 2/22/2017 16:13:35'!
 differential: i
 	"Answer the i-th differential or boundary map."
@@ -26370,10 +26360,14 @@ differential: i
 differentials
 	^ self propertyAt: #differentials! !
 
-!ChainComplex methodsFor: 'operations' stamp: 'len 2/20/2017 12:27:36'!
+!ChainComplex methodsFor: 'private' stamp: 'len 2/23/2017 16:47:05'!
+differentials: anArray
+	self propertyAt: #differentials put: anArray! !
+
+!ChainComplex methodsFor: 'operations' stamp: 'len 2/23/2017 16:46:09'!
 dual
 	"Answer the dual of the receiver. This is the cochain complex, taking dual in all objects and arrows reversed."
-	self notYetImplemented! !
+	^ self class differentials: (self differentials reversed collect: [:each| each adjoint])! !
 
 !ChainComplex methodsFor: 'homology' stamp: 'len 2/22/2017 16:14:13'!
 homology: i
@@ -26388,10 +26382,10 @@ isExact
 		(D at: i) image = (D at: i+1) kernel ifFalse: [^ false]].
 	^ true! !
 
-!ChainComplex methodsFor: 'printing' stamp: 'len 2/20/2017 12:29:00'!
+!ChainComplex methodsFor: 'printing' stamp: 'len 2/23/2017 16:44:50'!
 printOn: aStream
 	aStream print: self differentials first domain.
-	self differentials allButFirstDo: [:each| aStream nextPutAll: '  '; print: each codomain].! !
+	self differentials do: [:each| aStream nextPutAll: '  '; print: each codomain].! !
 
 !ChainComplex methodsFor: 'accessing' stamp: 'len 2/20/2017 12:32:36'!
 scalars
@@ -26407,6 +26401,10 @@ verify
 		(D at: i) codomain = (D at: i+1) domain ifFalse: [^ false].
 		(D at: i) image <= (D at: i+1) kernel ifFalse: [^ false]].
 	^ true! !
+
+!ChainComplex class methodsFor: 'instance creation' stamp: 'len 2/23/2017 16:46:29'!
+differentials: anArray
+	^ self new differentials: anArray! !
 
 !LinearCode methodsFor: 'comparing' stamp: 'len 4/3/2016 23:27'!
 <= aLinearCode
@@ -34420,18 +34418,19 @@ squared
 over: aRing simple: anArray
 	^ self over: aRing with: (anArray class = SimpleTensor ifTrue: [anArray] ifFalse: [SimpleTensor components: anArray])! !
 
-!SimplicialChain methodsFor: 'operations' stamp: 'len 2/21/2017 20:47:20'!
+!SimplicialChain methodsFor: 'operations' stamp: 'len 2/24/2017 11:57:43'!
 boundary
 	"The boundary of a chain is the linear combination of the boundary of the simplices in the chain. The boundary of a k-chain is a (k-1)-chain."
 	| answer |
 	answer _ self class over: self scalars.
 	self coefficients keysAndValuesDo: [:key :value|
 		| V minusValue |
-		V _ key vertices.
+		V _ key vertices asArray.
 		minusValue _ value negated.
-		1 to: V size do: [:i| | S |
-			S _ Simplex vertices: (V copyWithoutIndex: i).
-			answer coefficientAt: S add: (i even ifTrue: [value] ifFalse: [minusValue])]].
+		1 to: V size do: [:i| | F |
+			"F is the facet opposite the i-th vertex:"
+			F _ Simplex vertices: (V copyWithoutIndex: i).
+			answer coefficientAt: F add: (i odd ifTrue: [value] ifFalse: [minusValue])]].
 	^ answer! !
 
 !SimplicialChain methodsFor: 'accessing' stamp: 'len 2/29/2016 07:15'!
@@ -34730,6 +34729,10 @@ solutions
 solver
 	^ solver ifNil: [solver _ LinearSystemSolver system: self]! !
 
+!SimpleTensor methodsFor: 'comparing' stamp: 'len 2/23/2017 10:05:10'!
+= aSimpleTensor
+	^ components = aSimpleTensor components! !
+
 !SimpleTensor methodsFor: 'operations' stamp: 'len 12/8/2016 20:25:17'!
 ” aSimpleTensor
 	^ self class components: (components with: aSimpleTensor components collect: [:each :other| each ” other])! !
@@ -34738,9 +34741,17 @@ solver
 at: anInteger
 	^ components at: anInteger! !
 
+!SimpleTensor methodsFor: 'accessing-private' stamp: 'len 2/23/2017 10:05:19'!
+components
+	^ components! !
+
 !SimpleTensor methodsFor: 'accessing-private' stamp: 'len 10/16/2016 04:55'!
 components: anArray
 	components _ anArray! !
+
+!SimpleTensor methodsFor: 'comparing' stamp: 'len 2/23/2017 10:05:45'!
+hash
+	^ components hash! !
 
 !SimpleTensor methodsFor: 'operations' stamp: 'len 10/16/2016 04:56'!
 inverse
