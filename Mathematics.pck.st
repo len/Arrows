@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 24 February 2017 at 12:09:41 pm'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 24 February 2017 at 9:30:15 pm'!
 'Description A computational algebra system in Smalltalk'!
-!provides: 'Mathematics' 1 373!
+!provides: 'Mathematics' 1 374!
 !requires: 'RayTracer' 1 2 nil!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
@@ -4694,9 +4694,9 @@ Simplicial complexes form a category with simplicial maps as morphisms. See Simp
 !ChainComplex commentStamp: '<historical>' prior: 0!
 My instances are (bounded) chain complexes.
 
-A chain complex (Ci,di) is a sequence of abelian groups or modules conected by homomorphisms (called boundary operators or differentials) di:Ai->A{i-1} such that the composition between any two consecutive maps is zero: di @ d{i+1} = 0.
+A chain complex is a sequence of abelian groups or modules C(k) (called k-chains) conected by homomorphisms d(k):C(k)->C(k-1) (called boundary operators or differentials) such that the composition between any two consecutive differentials is the trivial map: d(k) o d{k+1} = 0.
 
-A bounded chain complex is one where only a finite number of Ci are not {0}.
+A bounded chain complex is one where only a finite number of C(k) are not {0}.
 
 Chain complexes form a cateogory with chain maps as morphisms. See ChainMap.!
 
@@ -4986,7 +4986,7 @@ Example:
 !
 
 !ChainMap commentStamp: '<historical>' prior: 0!
-A chain map between two chain complexes (Ci,di) and (C'i,d'i) is a sequence of homomorphisms fi:Ci->C'i that commutes with the boundary operator in the two complexes: d'i o fi = f{i-1} o di. They send cycles to cycles and boundaries to boundaries, and this descends to a map in homology fi* : Hi -> H'i.
+A chain map between two chain complexes defined by differentials d(k):C(k)->C(k-1) and d'(k):C'(k)->C'(k-1) is a sequence of homomorphisms f(k):C(k)->C'(k) that commutes with the differentials in the two complexes: d'(k) o f(k) = f(k-1) o d(k). They send cycles to cycles and boundaries to boundaries, and this descends to a map in homology f(k)* : H(k) -> H'(k).
 
 Chain maps are morphisms in the category of chain complexes. See ChainComplex.!
 
@@ -24326,6 +24326,10 @@ symbols: aCollection
 x: anObject
 	^ self e: (self symbols indexOf: anObject)! !
 
+!FormalSumsModule methodsFor: 'accessing' stamp: 'len 2/24/2017 21:04:43'!
+zero
+	^ self propertyAt: #zero ifAbsentPut: [FormalSum over: self scalars]! !
+
 !FormalSumsModule class methodsFor: 'instance creation' stamp: 'len 1/16/2017 08:05:50'!
 on: aCollection over: aRing
 	^ self new scalars: aRing; symbols: aCollection! !
@@ -24333,6 +24337,10 @@ on: aCollection over: aRing
 !SimplicialChainsModule methodsFor: 'basis' stamp: 'len 2/20/2017 11:37:59'!
 e: anInteger
 	^ SimplicialChain over: self scalars with: (self symbols at: anInteger)! !
+
+!SimplicialChainsModule methodsFor: 'accessing' stamp: 'len 2/24/2017 21:05:02'!
+zero
+	^ self propertyAt: #zero ifAbsentPut: [SimplicialChain over: self scalars]! !
 
 !HomModule methodsFor: 'elements' stamp: 'len 12/22/2016 22:37:24'!
 !! anObject
@@ -25851,19 +25859,12 @@ size
 	^ answer
 ! !
 
-!CellComplex methodsFor: 'homology' stamp: 'len 2/21/2017 11:53:51'!
-betti: anInteger over: aRing
-	"Answer the anInteger-th Betti number.
-	This is the rank of the anInteger-th homology group over aRing."
-	^ (self homology: anInteger over: aRing) rank! !
-
-!CellComplex methodsFor: 'homology' stamp: 'len 2/20/2017 11:34:34'!
-boundaries: i over: aRing
-	^ (self boundaryMap: i over: aRing) kernel! !
-
-!CellComplex methodsFor: 'homology' stamp: 'len 2/20/2017 11:34:23'!
-boundaryMap: i over: aRing
-	^ (self chains: i over: aRing) to: (self chains: i-1 over: aRing) evaluating: [:x| x boundary]! !
+!CellComplex methodsFor: 'homology' stamp: 'len 2/24/2017 12:53:20'!
+boundaryMap: k over: aRing
+	"The k-th boundary map or differential d(k) goes from C(k) to C(k-1).
+	Its image is the group of (k-1)-boundaries B(k-1), a subgroup of C(k-1).
+	Its kernel is the group of k-cycles Z(k), a subgroup of C(k)."
+	^ (self chains: k over: aRing) to: (self chains: k-1 over: aRing) evaluating: [:x| x boundary]! !
 
 !CellComplex methodsFor: 'accessing' stamp: 'len 2/15/2017 07:32:58'!
 cells: n
@@ -25876,39 +25877,15 @@ cells: n do: aBlock
 	Subclasses should reimplement."
 	^ self do: [:each| each dimension = n ifTrue: [aBlock value: each]]! !
 
-!CellComplex methodsFor: 'homology' stamp: 'len 2/15/2017 11:04:36'!
-chains: p over: aRing
-	"Answer the p-chain module."
-	^ FormalSumsModule on: (self cells: p) asArray over: aRing! !
+!CellComplex methodsFor: 'homology' stamp: 'len 2/24/2017 19:32:02'!
+chainComplexOver: aRing
+	^ ChainComplex differentials: ((self dimension to: 0 by: -1) collect: [:i| self boundaryMap: i over: aRing])! !
 
-!CellComplex methodsFor: 'homology' stamp: 'len 2/20/2017 11:34:54'!
-coboundaries: i over: aRing
-	^ (self coboundaryMap: i-1 over: aRing) image! !
-
-!CellComplex methodsFor: 'homology' stamp: 'len 2/23/2017 07:55:25'!
-coboundaryMap: i over: aRing
-	^ (self boundaryMap: i over: aRing) adjoint! !
-
-!CellComplex methodsFor: 'homology' stamp: 'len 2/15/2017 11:04:55'!
-cochains: p over: aRing
-	"Answer the p-cochain group."
-	^ (self chains: p over: aRing) dual! !
-
-!CellComplex methodsFor: 'homology' stamp: 'len 2/20/2017 11:35:29'!
-cocycles: i over: aRing
-	^ (self coboundaryMap: i over: aRing) kernel! !
-
-!CellComplex methodsFor: 'homology' stamp: 'len 2/20/2017 11:50:31'!
-cohomology: i
-	^ self cohomology: i over: ZZ! !
-
-!CellComplex methodsFor: 'homology' stamp: 'len 2/20/2017 11:35:52'!
-cohomology: i over: aRing
-	^ (self cocycles: i over: aRing) / (self coboundaries: i over: aRing)! !
-
-!CellComplex methodsFor: 'homology' stamp: 'len 2/20/2017 11:36:02'!
-cycles: i over: aRing
-	^ (self boundaryMap: i-1 over: aRing) image! !
+!CellComplex methodsFor: 'homology' stamp: 'len 2/24/2017 21:01:46'!
+chains: k over: aRing
+	"Answer the group of k-chains."
+	k < 0 ifTrue: [^ FormalSumsModule on: #() over: aRing].
+	^ FormalSumsModule on: (self cells: k) asArray over: aRing! !
 
 !CellComplex methodsFor: 'invariants' stamp: 'len 2/19/2017 18:25:22'!
 dimension
@@ -25949,14 +25926,6 @@ hPolynomial
 hVector
 	"Answer the h-vector of this cell complex. This is the tuple of coefficients of the h-polynomial (in decreasing order of exponents)."
 	^ self hPolynomial coefficients reversed! !
-
-!CellComplex methodsFor: 'homology' stamp: 'len 2/20/2017 11:50:17'!
-homology: i
-	^ self homology: i over: ZZ! !
-
-!CellComplex methodsFor: 'homology' stamp: 'len 2/20/2017 11:36:15'!
-homology: i over: aRing
-	^ (self cycles: i over: aRing) / (self boundaries: i over: aRing)! !
 
 !CellComplex methodsFor: 'testing' stamp: 'len 2/19/2017 18:25:56'!
 isTrivial
@@ -26032,10 +26001,11 @@ cells: n do: aBlock
 	"Iterate over the n-cells of the receiver, possibly with repetitions."
 	^ self faces: n do: aBlock! !
 
-!SimplicialComplex methodsFor: 'homology' stamp: 'len 2/20/2017 11:39:06'!
-chains: p over: aRing
-	"Answer the p-chain module."
-	^ SimplicialChainsModule on: (self cells: p) asArray over: aRing! !
+!SimplicialComplex methodsFor: 'homology' stamp: 'len 2/24/2017 21:02:02'!
+chains: k over: aRing
+	"Answer the group of k-chains."
+	k < 0 ifTrue: [^ SimplicialChainsModule on: #() over: aRing].
+	^ SimplicialChainsModule on: (self cells: k) asArray over: aRing! !
 
 !SimplicialComplex methodsFor: 'enumerating' stamp: 'len 2/19/2017 08:22:20'!
 collect: aBlock
@@ -26334,30 +26304,49 @@ torus
 	"Answer the tensor product of the receiver with the argument."
 	^ self notYetImplemented! !
 
-!ChainComplex methodsFor: 'homology' stamp: 'len 2/21/2017 12:14:16'!
-betti: i
-	^ (self homology: i) rank! !
+!ChainComplex methodsFor: 'homology' stamp: 'len 2/24/2017 20:44:02'!
+betti
+	^ (0 to: self degree-1) collect: [:i| self betti: i]! !
 
-!ChainComplex methodsFor: 'homology' stamp: 'len 2/21/2017 16:23:11'!
-boundaries: i
-	^ (self differential: i) image! !
+!ChainComplex methodsFor: 'homology' stamp: 'len 2/24/2017 21:15:06'!
+betti: k
+	"Answer the k-th Betti number.
+	This is the rank of the k-th homology group.
+	For simplicial chain complexes this number gives a measure of the number of k-dimensional holes."
+	^ (self homology: k) rank! !
 
-!ChainComplex methodsFor: 'accessing' stamp: 'len 2/22/2017 16:12:22'!
+!ChainComplex methodsFor: 'homology' stamp: 'len 2/24/2017 19:36:03'!
+boundaries: k
+	"Answer the group of k-boundaries B(k), a subgroup of the group of k-chains C(k).
+	This is the image of the k+1-th differential d(k+1)."
+	^ (self d: k+1) image! !
+
+!ChainComplex methodsFor: 'accessing' stamp: 'len 2/24/2017 19:24:47'!
 chains: k
 	"Answer the k-chains group or module."
-	^ (self differential: k) domain! !
+	^ (self d: k) domain! !
 
-!ChainComplex methodsFor: 'homology' stamp: 'len 2/21/2017 16:22:35'!
-cycles: i
-	^ (self differential: i) kernel! !
+!ChainComplex methodsFor: 'homology' stamp: 'len 2/24/2017 19:24:57'!
+cycles: k
+	"Answer the group of k-cycles Z(k), a subgroup of the group of k-chains C(k).
+	This is the kernel of the k-th differential d(k)."
+	^ (self d: k) kernel! !
 
-!ChainComplex methodsFor: 'accessing' stamp: 'len 2/22/2017 16:13:35'!
-differential: i
-	"Answer the i-th differential or boundary map."
-	^ self differentials at: i! !
+!ChainComplex methodsFor: 'accessing' stamp: 'len 2/24/2017 19:29:54'!
+d: k
+	"Answer the k-th differential or boundary map d(k):C(k)->C(k-1)."
+	| D |
+	D _ self differentials.
+	^ D at: D size - k! !
 
-!ChainComplex methodsFor: 'accessing' stamp: 'len 2/20/2017 12:29:07'!
+!ChainComplex methodsFor: 'accessing' stamp: 'len 2/24/2017 19:47:24'!
+degree
+	"Answer the maximum degree of a differential. A chain complex of degree n has n+1 differentials d(n) to d(0)."
+	^ self differentials size - 1! !
+
+!ChainComplex methodsFor: 'accessing' stamp: 'len 2/24/2017 19:31:29'!
 differentials
+	"Answer the differentials, ordered as d(n) -> ... -> d(1) -> d(0)."
 	^ self propertyAt: #differentials! !
 
 !ChainComplex methodsFor: 'private' stamp: 'len 2/23/2017 16:47:05'!
@@ -26369,17 +26358,16 @@ dual
 	"Answer the dual of the receiver. This is the cochain complex, taking dual in all objects and arrows reversed."
 	^ self class differentials: (self differentials reversed collect: [:each| each adjoint])! !
 
-!ChainComplex methodsFor: 'homology' stamp: 'len 2/22/2017 16:14:13'!
-homology: i
-	"Answer the i-th homology group or module."
-	^ (self cycles: i) / (self boundaries: i+1)! !
+!ChainComplex methodsFor: 'homology' stamp: 'len 2/24/2017 19:00:35'!
+homology: k
+	"Answer the k-th homology group H(k).
+	This is the quotient of the k-cycles Z(k) modulo the k-boundaries B(k)."
+	^ (self cycles: k) / (self boundaries: k)! !
 
-!ChainComplex methodsFor: 'testing' stamp: 'len 2/21/2017 19:12:03'!
+!ChainComplex methodsFor: 'testing' stamp: 'len 2/24/2017 19:44:35'!
 isExact
-	| D |
-	D _ self differentials.
-	1 to: D size - 1 do: [:i|
-		(D at: i) image = (D at: i+1) kernel ifFalse: [^ false]].
+	0 to: self degree - 1 do: [:i|
+		(self d: i) image = (self d: i+1) kernel ifFalse: [^ false]].
 	^ true! !
 
 !ChainComplex methodsFor: 'printing' stamp: 'len 2/23/2017 16:44:50'!
@@ -26387,19 +26375,19 @@ printOn: aStream
 	aStream print: self differentials first domain.
 	self differentials do: [:each| aStream nextPutAll: '  '; print: each codomain].! !
 
-!ChainComplex methodsFor: 'accessing' stamp: 'len 2/20/2017 12:32:36'!
+!ChainComplex methodsFor: 'accessing' stamp: 'len 2/24/2017 19:26:22'!
 scalars
-	^ self propertyAt: #scalars ifAbsentPut: [self differentials first domain scalars]! !
+	^ self propertyAt: #scalars ifAbsentPut: [self differentials anyOne domain scalars]! !
 
-!ChainComplex methodsFor: 'private' stamp: 'len 2/21/2017 16:47:23'!
+!ChainComplex methodsFor: 'private' stamp: 'len 2/24/2017 20:41:34'!
 verify
-	| D |
-	D _ self differentials.
-	D first kernel isTrivial ifFalse: [^ false].
-	D last image isTrivial ifFalse: [^ false].
-	1 to: D size - 1 do: [:i|
-		(D at: i) codomain = (D at: i+1) domain ifFalse: [^ false].
-		(D at: i) image <= (D at: i+1) kernel ifFalse: [^ false]].
+	| n |
+	n _ self degree.
+"	(self d: n) kernel isTrivial ifFalse: [^ false halt]."
+	(self d: 0) image isTrivial ifFalse: [^ false halt].
+	n to: 1 by: -1 do: [:i|
+		(self d: i) codomain = (self d: i-1) domain ifFalse: [^ false halt].
+		(self d: i) image <= (self d: i-1) kernel ifFalse: [^ false halt]].
 	^ true! !
 
 !ChainComplex class methodsFor: 'instance creation' stamp: 'len 2/23/2017 16:46:29'!
@@ -34418,11 +34406,12 @@ squared
 over: aRing simple: anArray
 	^ self over: aRing with: (anArray class = SimpleTensor ifTrue: [anArray] ifFalse: [SimpleTensor components: anArray])! !
 
-!SimplicialChain methodsFor: 'operations' stamp: 'len 2/24/2017 11:57:43'!
+!SimplicialChain methodsFor: 'operations' stamp: 'len 2/24/2017 20:38:53'!
 boundary
 	"The boundary of a chain is the linear combination of the boundary of the simplices in the chain. The boundary of a k-chain is a (k-1)-chain."
 	| answer |
 	answer _ self class over: self scalars.
+	self dimension <= 0 ifTrue: [^ answer].
 	self coefficients keysAndValuesDo: [:key :value|
 		| V minusValue |
 		V _ key vertices asArray.
@@ -34433,9 +34422,10 @@ boundary
 			answer coefficientAt: F add: (i odd ifTrue: [value] ifFalse: [minusValue])]].
 	^ answer! !
 
-!SimplicialChain methodsFor: 'accessing' stamp: 'len 2/29/2016 07:15'!
+!SimplicialChain methodsFor: 'accessing' stamp: 'len 2/24/2017 21:20:16'!
 dimension
-	^ (coefficients anyIfNone: [^ -1]) dimension! !
+	coefficients keysDo: [:any| ^ any dimension].
+	^ -1! !
 
 !SimplicialChain methodsFor: 'testing' stamp: 'len 2/23/2016 03:33'!
 isCycle
