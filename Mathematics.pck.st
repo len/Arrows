@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 24 February 2017 at 9:30:15 pm'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 25 February 2017 at 9:43:37 pm'!
 'Description A computational algebra system in Smalltalk'!
-!provides: 'Mathematics' 1 374!
+!provides: 'Mathematics' 1 375!
 !requires: 'RayTracer' 1 2 nil!
 !classDefinition: #DyadicFraction category: #'Mathematics-Kernel-Support'!
 Number subclass: #DyadicFraction
@@ -180,76 +180,6 @@ Collection subclass: #MonomialIndexedTuple
 	category: 'Mathematics-Tuples'!
 !classDefinition: 'MonomialIndexedTuple class' category: #'Mathematics-Tuples'!
 MonomialIndexedTuple class
-	instanceVariableNames: ''!
-
-!classDefinition: #SparseTuple category: #'Mathematics-Tuples'!
-Collection subclass: #SparseTuple
-	instanceVariableNames: 'coefficients scalars'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Tuples'!
-!classDefinition: 'SparseTuple class' category: #'Mathematics-Tuples'!
-SparseTuple class
-	instanceVariableNames: ''!
-
-!classDefinition: #Tuple category: #'Mathematics-Tuples'!
-Collection subclass: #Tuple
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Tuples'!
-!classDefinition: 'Tuple class' category: #'Mathematics-Tuples'!
-Tuple class
-	instanceVariableNames: ''!
-
-!classDefinition: #PolynomialTuple category: #'Mathematics-Modules-Multivariate'!
-Tuple subclass: #PolynomialTuple
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Modules-Multivariate'!
-!classDefinition: 'PolynomialTuple class' category: #'Mathematics-Modules-Multivariate'!
-PolynomialTuple class
-	instanceVariableNames: ''!
-
-!classDefinition: #ArrayTuple category: #'Mathematics-Tuples'!
-Tuple subclass: #ArrayTuple
-	instanceVariableNames: 'coefficients scalars'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Tuples'!
-!classDefinition: 'ArrayTuple class' category: #'Mathematics-Tuples'!
-ArrayTuple class
-	instanceVariableNames: ''!
-
-!classDefinition: #HomogeneousTuple category: #'Mathematics-Tuples'!
-ArrayTuple subclass: #HomogeneousTuple
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Tuples'!
-!classDefinition: 'HomogeneousTuple class' category: #'Mathematics-Tuples'!
-HomogeneousTuple class
-	instanceVariableNames: ''!
-
-!classDefinition: #BitTuple category: #'Mathematics-Tuples'!
-Tuple subclass: #BitTuple
-	instanceVariableNames: 'integer size'
-	classVariableNames: 'One Zero'
-	poolDictionaries: ''
-	category: 'Mathematics-Tuples'!
-!classDefinition: 'BitTuple class' category: #'Mathematics-Tuples'!
-BitTuple class
-	instanceVariableNames: ''!
-
-!classDefinition: #ModularTuple category: #'Mathematics-Tuples'!
-Tuple subclass: #ModularTuple
-	instanceVariableNames: 'representatives scalars'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Tuples'!
-!classDefinition: 'ModularTuple class' category: #'Mathematics-Tuples'!
-ModularTuple class
 	instanceVariableNames: ''!
 
 !classDefinition: #Graph category: #'Mathematics-Graphs'!
@@ -1212,16 +1142,6 @@ Semiring subclass: #Ring
 Ring class
 	instanceVariableNames: ''!
 
-!classDefinition: #FreeAlgebra category: #'Mathematics-Rings'!
-Ring subclass: #FreeAlgebra
-	instanceVariableNames: 'scalars words'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Rings'!
-!classDefinition: 'FreeAlgebra class' category: #'Mathematics-Rings'!
-FreeAlgebra class
-	instanceVariableNames: ''!
-
 !classDefinition: #GroupRing category: #'Mathematics-Rings'!
 Ring subclass: #GroupRing
 	instanceVariableNames: 'group scalars'
@@ -1530,6 +1450,16 @@ Ring subclass: #PowerSeriesRing
 	category: 'Mathematics-Sequences'!
 !classDefinition: 'PowerSeriesRing class' category: #'Mathematics-Sequences'!
 PowerSeriesRing class
+	instanceVariableNames: ''!
+
+!classDefinition: #FreeAlgebra category: #'Mathematics-Etc'!
+Ring subclass: #FreeAlgebra
+	instanceVariableNames: 'scalars words'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Etc'!
+!classDefinition: 'FreeAlgebra class' category: #'Mathematics-Etc'!
+FreeAlgebra class
 	instanceVariableNames: ''!
 
 !classDefinition: #SymmetricPolynomialRing category: #'Mathematics-Etc'!
@@ -2792,6 +2722,16 @@ FormalFraction subclass: #RationalFunction
 RationalFunction class
 	instanceVariableNames: ''!
 
+!classDefinition: #GroupRingElement category: #'Mathematics-Rings'!
+Object subclass: #GroupRingElement
+	instanceVariableNames: 'parent coefficients'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Rings'!
+!classDefinition: 'GroupRingElement class' category: #'Mathematics-Rings'!
+GroupRingElement class
+	instanceVariableNames: ''!
+
 !classDefinition: #ResidueClass category: #'Mathematics-Rings'!
 Object subclass: #ResidueClass
 	instanceVariableNames: 'representative parent'
@@ -2844,22 +2784,12 @@ AlgebraicNumber class
 
 !classDefinition: #FormalSum category: #'Mathematics-Modules'!
 Object subclass: #FormalSum
-	instanceVariableNames: 'coefficients'
+	instanceVariableNames: 'coefficients scalars'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Modules'!
 !classDefinition: 'FormalSum class' category: #'Mathematics-Modules'!
 FormalSum class
-	instanceVariableNames: ''!
-
-!classDefinition: #FreePolynomial category: #'Mathematics-Rings'!
-FormalSum subclass: #FreePolynomial
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Rings'!
-!classDefinition: 'FreePolynomial class' category: #'Mathematics-Rings'!
-FreePolynomial class
 	instanceVariableNames: ''!
 
 !classDefinition: #Tensor category: #'Mathematics-Multilinear'!
@@ -3002,14 +2932,64 @@ Object subclass: #ProjectiveFrame
 ProjectiveFrame class
 	instanceVariableNames: ''!
 
-!classDefinition: #SparseBitTuple category: #'Mathematics-Tuples'!
-Object subclass: #SparseBitTuple
-	instanceVariableNames: 'support'
+!classDefinition: #Tuple category: #'Mathematics-Tuples'!
+Object subclass: #Tuple
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Tuples'!
+!classDefinition: 'Tuple class' category: #'Mathematics-Tuples'!
+Tuple class
+	instanceVariableNames: ''!
+
+!classDefinition: #PolynomialTuple category: #'Mathematics-Modules-Multivariate'!
+Tuple subclass: #PolynomialTuple
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Modules-Multivariate'!
+!classDefinition: 'PolynomialTuple class' category: #'Mathematics-Modules-Multivariate'!
+PolynomialTuple class
+	instanceVariableNames: ''!
+
+!classDefinition: #BitTuple category: #'Mathematics-Tuples'!
+Tuple subclass: #BitTuple
+	instanceVariableNames: 'integer size'
 	classVariableNames: 'One Zero'
 	poolDictionaries: ''
 	category: 'Mathematics-Tuples'!
-!classDefinition: 'SparseBitTuple class' category: #'Mathematics-Tuples'!
-SparseBitTuple class
+!classDefinition: 'BitTuple class' category: #'Mathematics-Tuples'!
+BitTuple class
+	instanceVariableNames: ''!
+
+!classDefinition: #GeneralTuple category: #'Mathematics-Tuples'!
+Tuple subclass: #GeneralTuple
+	instanceVariableNames: 'coefficients scalars'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Tuples'!
+!classDefinition: 'GeneralTuple class' category: #'Mathematics-Tuples'!
+GeneralTuple class
+	instanceVariableNames: ''!
+
+!classDefinition: #HomogeneousTuple category: #'Mathematics-Tuples'!
+GeneralTuple subclass: #HomogeneousTuple
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Tuples'!
+!classDefinition: 'HomogeneousTuple class' category: #'Mathematics-Tuples'!
+HomogeneousTuple class
+	instanceVariableNames: ''!
+
+!classDefinition: #ModularTuple category: #'Mathematics-Tuples'!
+Tuple subclass: #ModularTuple
+	instanceVariableNames: 'representatives scalars'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Tuples'!
+!classDefinition: 'ModularTuple class' category: #'Mathematics-Tuples'!
+ModularTuple class
 	instanceVariableNames: ''!
 
 !classDefinition: #Matrix category: #'Mathematics-Matrices'!
@@ -3742,6 +3722,26 @@ Object subclass: #ElementaryTensorOld
 ElementaryTensorOld class
 	instanceVariableNames: ''!
 
+!classDefinition: #FormalSum2 category: #'Mathematics-Etc'!
+Object subclass: #FormalSum2
+	instanceVariableNames: 'parent coefficients'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Etc'!
+!classDefinition: 'FormalSum2 class' category: #'Mathematics-Etc'!
+FormalSum2 class
+	instanceVariableNames: ''!
+
+!classDefinition: #FreePolynomial category: #'Mathematics-Etc'!
+FormalSum2 subclass: #FreePolynomial
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Etc'!
+!classDefinition: 'FreePolynomial class' category: #'Mathematics-Etc'!
+FreePolynomial class
+	instanceVariableNames: ''!
+
 !classDefinition: #GaussianElimination2 category: #'Mathematics-Etc'!
 Object subclass: #GaussianElimination2
 	instanceVariableNames: 'matrix extension subreducer pivots columns inverse determinant'
@@ -3980,45 +3980,10 @@ My instances are standard linear bases as defined by a particular ambient space.
 !Iterator commentStamp: '<historical>' prior: 0!
 An Iterator is a read-only collection that evaluates a block to yield the elements of the collection.!
 
-!MonomialIndexedTuple commentStamp: '<historical>' prior: 0!
-My instances are tuples indexed by monomials.
+!MonomialIndexedTuple commentStamp: 'len 2/25/2017 09:47:13' prior: 0!
+My instances are formal sums of monomials.
 
-Internally, they are represented by a list of associations monomial -> value. The list is kept sorted by the given monomial ordering.!
-
-!Tuple commentStamp: '<historical>' prior: 0!
-My instances are n-tuples with coefficients in some ring R, i.e. finite ordered lists of n elements of R indexed by integers 1 to n. They are the elements of the R-module R^n.
-
-Some subclasses implement special kinds of tuples for concrete rings, such as Z/mZ and Z/2Z. These special tuples have a compact representation that saves memory and allows fast arithmetic. Many parts of the system (such as linear algebra and polynomials) ultimately rely on tuples.
-
-Tuples are commonly created by sending a message to the ring where the coefficients belong to. For example:
-	"Two ways to create the 4-tuple (1,2,4,8) with integer coefficients:"
-	ZZ tuple: #(1 2 4 8).
-	ZZ tuple: 4 evaluating: [:i| i squared].
-
-It is also handy to create tuples by sending the message #, to a number. For example:
-  (1,2,4,8)
-However, when created in this way, even if all the coefficients are Integers, the tuple will be considered a rational tuple (with coefficients in the field of rational numbers QQ), so the above example is equivalent to:
-	QQ tuple: #(1 2 4 8)
-!
-
-!ArrayTuple commentStamp: 'len 11/13/2016 07:23' prior: 0!
-My instances are general n-tuples internally represented as an Array. These are the tuples used by default for an arbitrary ring.!
-
-!BitTuple commentStamp: '<historical>' prior: 0!
-My instances are tuples of integer residue classes modulo 2, i.e. a binary tuple, a bit string, or a tuple of bits. The coefficients field is Z/2Z.
-
-Example:
-	"A handy way to create a binary tuple:"
-	(1,0,1,1,0,1,1,1) % 2
-!
-
-!ModularTuple commentStamp: '<historical>' prior: 0!
-My instances are n-tuples with coefficients in an integer residue class ring (or field) Z/mZ. See ModularInteger, ModularIntegers, PrimeField.
-
-Example:
-	"A handy way to create a tuple of integers modulo 3:"
-	(1,2,3,4) % 3
-!
+Internally, they are represented by a list of associations monomial -> value. The list is kept sorted by the underlying monomial ordering.!
 
 !Graph commentStamp: '<historical>' prior: 0!
 Instances of my subclasses are (directed or undirected) graphs. See subclasses.!
@@ -4049,7 +4014,7 @@ Structure:
  digraph 		The associated directed graph (which is always symmetric)!
 
 !Simplex commentStamp: '<historical>' prior: 0!
-My instances are (abstract) oriented n-simplices.
+My instances are (abstract) n-simplices.
 
 It is assumed that the vertices are objects that implement a total ordering with #<= (such as integers, strings, monomials), so that they can be ordered to choose an unambiguos orientation.!
 
@@ -4302,7 +4267,7 @@ Direct sums are equipped with projection homomorphisms to the i-th component (>>
 My instances are abelian groups with a basis. They can be viewed also as free Z-modules. They are isomorphic to Z^n (this is, they are torsion-free).!
 
 !Lattice commentStamp: '<historical>' prior: 0!
-A lattice is the set of integer linear combinations of a basis of a real vector space. This is a subgroup of the vector space (as abelian group) isomorphic to Z^n.!
+My instances are integer lattices. An integer lattice is the set of integer linear combinations of a basis of a real vector space. This is a subgroup of the vector space (as abelian group) isomorphic to Z^n.!
 
 !EllipticCurveGroup commentStamp: '<historical>' prior: 0!
 My instances are abelian groups E(K) consisting of the K-rational points of an elliptic curve E.!
@@ -4417,7 +4382,7 @@ My instances are group rings. Given a ring R and a group G, the group ring R[G] 
 
 When the ring R is commutative, the group ring is also referred to as a group algebra.
 
-Categorically, the group ring construction is left adjoint to the group of units (see UnitGroup). It's also a 'category algebra' analogous to the monoid ring for monoids and  incidence algebra for posets.
+Categorically, the group ring construction is left adjoint to the group of units (see UnitGroup). It's also a 'category algebra' analogous to the monoid ring for monoids and incidence algebra for posets.
 
 References:
 	https://en.wikipedia.org/wiki/Group_ring!
@@ -4683,7 +4648,7 @@ References:
 My instances are abstract cell complexes. See subclasses.!
 
 !SimplicialComplex commentStamp: '<historical>' prior: 0!
-My instances are abstract simplicial complexes. These are combinatorial objects consisting of a collection of simplices (the 'faces' of the simplicial complex) and with the following properties:
+My instances are abstract simplicial complexes. These are combinatorial objects consisting of a collection of simplices (the 'faces' of the simplicial complex) with the following properties:
 - every subface of a face is also in the complex;
 - the intersection of two faces is either empty or a common face of both simplices, and it is also in the complex.
 
@@ -5090,6 +5055,9 @@ They are elements of ring localizations or fraction fields. See LocalizationRing
 !RationalFunction commentStamp: '<historical>' prior: 0!
 My instances are rational functions, i.e. fractions where the numerator and denominator are polynomials. They are elements of the field of fractions of a polynomial ring over a field (see RationalFunctionField).!
 
+!GroupRingElement commentStamp: '<historical>' prior: 0!
+My instances are formal linear combinations of elements of a group G with coefficients in a ring R. They form a ring R[G] called the group ring of G over R. See GroupRing.!
+
 !ResidueClass commentStamp: '<historical>' prior: 0!
 My instances are elements of a quotient ring. They are residue classes of elements of a ring modulo an ideal. See QuotientRing.!
 
@@ -5114,12 +5082,7 @@ Structure:
 !
 
 !FormalSum commentStamp: '<historical>' prior: 0!
-My instances are formal linear combinations of arbitrary objects.!
-
-!FreePolynomial commentStamp: '<historical>' prior: 0!
-My instances are elements of the free algebra in a finite set of objects.
-
-A free polynomial is a formal linear combination of words, that in turn are formal (non-commutative) products of arbitrary objects.!
+My instances are formal sums (or formal linear combinations) of arbitrary objects.!
 
 !SimplicialChain commentStamp: '<historical>' prior: 0!
 A simplicial k-chain is a formal linear combination of k-simplices.!
@@ -5135,6 +5098,41 @@ where the left side is a LinearForm and the right side is a constant value.
 
 !LinearSystem commentStamp: '<historical>' prior: 0!
 My instances are systems of linear equations.!
+
+!Tuple commentStamp: '<historical>' prior: 0!
+My instances are n-tuples with coefficients in some ring R, i.e. finite ordered lists of n elements of R indexed by integers 1 to n. They are the elements of the R-module R^n.
+
+Some subclasses implement special kinds of tuples for concrete rings, such as Z/mZ and Z/2Z. These special tuples have a compact representation that saves memory and allows fast arithmetic. Many parts of the system (such as linear algebra and polynomials) ultimately rely on tuples.
+
+Tuples are commonly created by sending a message to the ring where the coefficients belong to. For example:
+	"Two ways to create the 4-tuple (1,2,4,8) with integer coefficients:"
+	ZZ tuple: #(1 2 4 8).
+	ZZ tuple: 4 evaluating: [:i| i squared].
+
+It is also handy to create tuples by sending the message #, to a number. For example:
+  (1,2,4,8)
+However, when created in this way, even if all the coefficients are Integers, the tuple will be considered a rational tuple (with coefficients in the field of rational numbers QQ), so the above example is equivalent to:
+	QQ tuple: #(1 2 4 8)
+!
+
+!BitTuple commentStamp: '<historical>' prior: 0!
+My instances are tuples of integer residue classes modulo 2, i.e. a binary tuple, a bit string, or a tuple of bits. The coefficients field is Z/2Z.
+
+Example:
+	"A handy way to create a binary tuple:"
+	(1,0,1,1,0,1,1,1) % 2
+!
+
+!GeneralTuple commentStamp: 'len 11/13/2016 07:23' prior: 0!
+My instances are general n-tuples internally represented as an Array. These are the tuples used by default for an arbitrary ring.!
+
+!ModularTuple commentStamp: '<historical>' prior: 0!
+My instances are n-tuples with coefficients in an integer residue class ring (or field) Z/mZ. See ModularInteger, ModularIntegers, PrimeField.
+
+Example:
+	"A handy way to create a tuple of integers modulo 3:"
+	(1,2,3,4) % 3
+!
 
 !GramSchmidt commentStamp: '<historical>' prior: 0!
 I am the Modified (stabilized) Gram-Schmidt basis orthogonalization algorithm.
@@ -5455,6 +5453,14 @@ I'm the Ritt-Wu process.
 Input: a set of polynomials F = {f1,...,fr} in K[x1,...,xn];
 Output: an extended characteristic set (or ascending chain, or Wu characteristic set) of F.
 !
+
+!FormalSum2 commentStamp: '<historical>' prior: 0!
+My instances are formal linear combinations of arbitrary objects.!
+
+!FreePolynomial commentStamp: '<historical>' prior: 0!
+My instances are elements of the free algebra in a finite set of objects.
+
+A free polynomial is a formal linear combination of words, that in turn are formal (non-commutative) products of arbitrary objects.!
 
 !GaussianElimination2 commentStamp: '<historical>' prior: 0!
 I am the Gaussian Elimination algorithm.
@@ -8921,11 +8927,41 @@ over: aRing
 			ifFalse: [newAssociations add: (each copy value: newValue)]].
 	^ self class associations: newAssociations over: aRing! !
 
-!MonomialIndexedTuple methodsFor: 'printing' stamp: 'len 11/20/2016 17:15:30'!
-printOn: aStream
+!MonomialIndexedTuple methodsFor: 'printing' stamp: 'len 2/25/2017 09:44:26'!
+printCoefficient: coefficient on: aStream
+	| c |
+	((c _ coefficient) printString first = $- "or: [coefficient isNumber and: [coefficient negative]]")
+		ifTrue: [aStream nextPut: $-. c _ c negated].
+	((c isKindOf: Polynomial) and: [c isMonomial])
+		ifTrue: [aStream print: c. ^ self].
+	(c printString allSatisfy: [:each| each isAlphaNumeric or: ['{}()/' includes: each]])
+		ifTrue: [aStream print: c. ^ self].
+	aStream nextPut: $(; print: c; nextPut: $)! !
+
+!MonomialIndexedTuple methodsFor: 'printing' stamp: 'len 2/25/2017 08:48:39'!
+printOn2: aStream
 	aStream nextPut: $(.
 	associations do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: ', '].
 	aStream nextPut: $)! !
+
+!MonomialIndexedTuple methodsFor: 'printing' stamp: 'len 2/25/2017 08:53:10'!
+printOn: aStream
+	| c |
+	self isZero ifTrue: [aStream nextPutAll: '0'. ^ self].
+	c _ associations last value.
+	c printString first = $-
+		ifTrue: [c _ c negated. aStream nextPut: $-].
+	c ~= scalars one ifTrue: [self printCoefficient: c on: aStream].
+	associations last key isIdentity
+		ifFalse: [aStream print: associations last key].
+	associations allButLast reverseDo: [:each|
+		c _ each value.
+		c printString first = $-
+			ifTrue: [aStream nextPutAll: ' - '. c _ c negated]
+			ifFalse: [aStream nextPutAll: ' + '].
+		c ~= c one ifTrue: [self printCoefficient: c on: aStream].
+		each key isIdentity
+			ifFalse: [aStream print: each key]]! !
 
 !MonomialIndexedTuple methodsFor: 'accessing' stamp: 'len 11/20/2016 10:26:33'!
 scalars
@@ -8973,1301 +9009,6 @@ new: anInteger over: aRing
 !MonomialIndexedTuple class methodsFor: 'instance creation' stamp: 'len 11/20/2016 16:52:13'!
 over: aRing
 	^ self basicNew scalars: aRing; associations: OrderedCollection new! !
-
-!SparseTuple methodsFor: 'operations' stamp: 'len 11/18/2016 09:51:39'!
-* aNumber
-	^ self collect: [:each| each*aNumber]! !
-
-!SparseTuple methodsFor: 'operations' stamp: 'len 11/18/2016 10:06:04'!
-+ aSparseTuple
-	| other answer |
-	self size <= aSparseTuple size
-		ifTrue: [answer _ aSparseTuple copy. other _ self]
-		ifFalse: [answer _ self copy. other _ aSparseTuple].
-	other associationsDo: [:each| answer at: each key add: each value].
-	^ answer! !
-
-!SparseTuple methodsFor: 'operations' stamp: 'len 11/18/2016 10:06:49'!
-- aSparseTuple
-	| answer |
-	self size <= aSparseTuple size
-		ifTrue:
-			[answer _ aSparseTuple negated.
-			self associationsDo: [:each| answer at: each key add: each value]]
-		ifFalse:
-			[answer _ self copy.
-			aSparseTuple associationsDo: [:each| answer at: each key add: each value negated]].
-	^ answer! !
-
-!SparseTuple methodsFor: 'operations' stamp: 'len 2/6/2017 03:13:39'!
-/ aNumber
-	^ self collect: [:each| each / aNumber]! !
-
-!SparseTuple methodsFor: 'operations' stamp: 'len 2/6/2017 03:13:44'!
-// aNumber
-	^ self collect: [:each| each // aNumber]! !
-
-!SparseTuple methodsFor: 'operations' stamp: 'len 2/6/2017 03:13:48'!
-/// aNumber
-	^ self collect: [:each| each /// aNumber]! !
-
-!SparseTuple methodsFor: 'comparing' stamp: 'len 11/18/2016 20:11:33'!
-= aSparseTuple
-	^ coefficients = aSparseTuple coefficients! !
-
-!SparseTuple methodsFor: 'operations' stamp: 'len 2/6/2017 03:15:23'!
-\\ aNumber
-	^ self collect: [:each| each \\ aNumber]! !
-
-!SparseTuple methodsFor: 'enumreating' stamp: 'len 11/18/2016 09:54:31'!
-associationsDo: aBlock
-	coefficients associationsDo: aBlock! !
-
-!SparseTuple methodsFor: 'accessing' stamp: 'len 11/18/2016 17:29:17'!
-at: anObject
-	^ coefficients at: anObject ifAbsent: [scalars zero]! !
-
-!SparseTuple methodsFor: 'operations' stamp: 'len 11/18/2016 10:02:25'!
-at: key add: value
-	^ coefficients at: key addAndRemoveIfZero: value! !
-
-!SparseTuple methodsFor: 'accessing' stamp: 'len 11/18/2016 17:29:29'!
-at: anObject ifAbsent: aBlock
-	^ coefficients at: anObject ifAbsent: aBlock! !
-
-!SparseTuple methodsFor: 'accessing' stamp: 'len 11/18/2016 17:29:44'!
-at: anObject ifPresent: aBlock
-	^ coefficients at: anObject ifPresent: aBlock! !
-
-!SparseTuple methodsFor: 'accessing' stamp: 'len 11/18/2016 17:27:44'!
-at: key put: value
-	value isZero ifTrue: [coefficients removeKey: key ifAbsent: []. ^ value].
-	^ coefficients at: key put: value! !
-
-!SparseTuple methodsFor: 'accessing' stamp: 'len 11/18/2016 09:53:40'!
-bitSize
-	| answer |
-	answer _ 0.
-	coefficients keysAndValuesDo: [:key :value| answer _ answer + key bitSize + value bitSize].
-	^ answer! !
-
-!SparseTuple methodsFor: 'private' stamp: 'len 11/18/2016 20:11:53'!
-coefficients
-	^ coefficients! !
-
-!SparseTuple methodsFor: 'accessing-private' stamp: 'len 11/18/2016 10:12:44'!
-coefficients: aDictionary
-	coefficients _ aDictionary! !
-
-!SparseTuple methodsFor: 'enumreating' stamp: 'len 11/18/2016 17:43:53'!
-collect: aBlock 
-	| answer |
-	answer _ self species new: self size over: self scalars.
-	self associationsDo: [:each| answer at: each key put: (aBlock value: each value)].
-	^ answer! !
-
-!SparseTuple methodsFor: 'enumreating' stamp: 'len 11/18/2016 09:54:10'!
-collectNoZero: aBlock
-	"The result of aBlock must never be zero."
-	^ self copy associationsDo: [:each| each value: (aBlock value: each value)]! !
-
-!SparseTuple methodsFor: 'operations' stamp: 'len 11/24/2016 15:27:09'!
-convolution2: aSparseTuple
-	| answer |
-	answer _ self class new: self size + aSparseTuple size over: scalars.
-	self associationsDo: [:each|
-		aSparseTuple associationsDo: [:other|
-			answer at: each key * other key add: each value * other value]].
-	^ answer! !
-
-!SparseTuple methodsFor: 'operations' stamp: 'len 11/30/2016 14:46:27'!
-convolution3: aSparseTuple
-	| dictionary noZeroesDictionary |
-	dictionary _ Dictionary new: self size + aSparseTuple size.
-	self associationsDo: [:each|
-		aSparseTuple associationsDo: [:other|
-			dictionary at: each key * other key add: each value * other value]].
-	noZeroesDictionary _ Dictionary new: dictionary size.
-	dictionary associationsDo: [:each| each value isZero ifFalse: [noZeroesDictionary add: each]].
-	^ self class coefficients: noZeroesDictionary over: scalars! !
-
-!SparseTuple methodsFor: 'operations' stamp: 'len 11/24/2016 21:18:45'!
-convolution: aSparseTuple
-	| answer |
-	answer _ self class new: self size + aSparseTuple size over: scalars.
-	self associationsDo: [:each|
-		aSparseTuple associationsDo: [:other|
-			answer at: each key * other key add: each value * other value]].
-	^ answer! !
-
-!SparseTuple methodsFor: 'enumreating' stamp: 'len 11/18/2016 20:24:16'!
-do: aBlock
-	coefficients do: aBlock! !
-
-!SparseTuple methodsFor: 'operations' stamp: 'len 11/18/2016 10:07:42'!
-dot: aSparseTuple
-	| answer |
-	self size <= aSparseTuple size ifFalse: [^ aSparseTuple dot: self].
-	answer _ scalars zero.
-	coefficients associationsDo: [:each|
-		aSparseTuple at: each key ifPresent: [:value2| answer _ answer + (each value*value2)]].
-	^ answer! !
-
-!SparseTuple methodsFor: 'operations' stamp: 'len 11/18/2016 10:08:47'!
-hadamard: aSparseTuple
-	"Answer the pointwise product with the argument, also called Hadamard product."
-	| answer |
-	self size <= aSparseTuple size ifFalse: [^ aSparseTuple hadamard: self]. "assuming it's commutative"
-	answer _ self copyEmpty.
-	coefficients associationsDo: [:each| | key |
-		key _ each key.
-		answer at: key put: each value * (aSparseTuple at: key)].
-	^ answer! !
-
-!SparseTuple methodsFor: 'comparing' stamp: 'len 11/18/2016 20:11:39'!
-hash
-	^ coefficients hash! !
-
-!SparseTuple methodsFor: 'testing' stamp: 'len 11/18/2016 09:56:38'!
-isOrdered
-	^ false! !
-
-!SparseTuple methodsFor: 'testing' stamp: 'len 11/18/2016 09:56:42'!
-isSparse
-	^ true! !
-
-!SparseTuple methodsFor: 'testing' stamp: 'len 11/18/2016 09:56:53'!
-isZero
-	^ coefficients isEmpty! !
-
-!SparseTuple methodsFor: 'accessing' stamp: 'len 11/18/2016 20:33:21'!
-keys
-	^ coefficients keys! !
-
-!SparseTuple methodsFor: 'enumreating' stamp: 'len 11/18/2016 17:45:00'!
-keysAndValuesDo: aBlock
-	coefficients keysAndValuesDo: aBlock! !
-
-!SparseTuple methodsFor: 'enumreating' stamp: 'len 11/18/2016 17:45:38'!
-keysDo: aBlock
-	coefficients keysDo: aBlock! !
-
-!SparseTuple methodsFor: 'operations' stamp: 'len 11/18/2016 09:57:04'!
-negated
-	^ self collectNoZero: [:each| each negated]! !
-
-!SparseTuple methodsFor: 'converting' stamp: 'len 1/20/2017 09:15:11'!
-over: aRing
-	| answer |
-	self scalars = aRing ifTrue: [^ self].
-	answer _ self species new: self size over: aRing.
-	self associationsDo: [:each| answer at: each key put: aRing !! each value].
-	^ answer! !
-
-!SparseTuple methodsFor: 'copying' stamp: 'len 11/18/2016 17:34:33'!
-postCopy
-	coefficients _ coefficients copy! !
-
-!SparseTuple methodsFor: 'printing' stamp: 'len 11/18/2016 17:35:57'!
-printOn: aStream
-	aStream nextPut: $(.
-	(Iterator on: self performing: #associationsDo:)
-		do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: ', '].
-	aStream nextPut: $)! !
-
-!SparseTuple methodsFor: 'accessing' stamp: 'len 11/18/2016 10:12:08'!
-scalars
-	^ scalars! !
-
-!SparseTuple methodsFor: 'accessing-private' stamp: 'len 11/18/2016 10:12:25'!
-scalars: aRing
-	scalars _ aRing! !
-
-!SparseTuple methodsFor: 'accessing' stamp: 'len 11/18/2016 09:55:05'!
-size
-	^ coefficients size! !
-
-!SparseTuple methodsFor: 'enumreating' stamp: 'len 11/18/2016 09:57:30'!
-withIndexDo: elementAndIndexBlock 
-	"Just like with:do: except that the iteration index supplies the second argument to the block."
-	coefficients keysAndValuesDo: [:key :value| elementAndIndexBlock value: value value: key]! !
-
-!SparseTuple methodsFor: 'accessing' stamp: 'len 11/18/2016 09:58:02'!
-zero
-	^ self class over: scalars! !
-
-!SparseTuple class methodsFor: 'instance creation' stamp: 'len 11/30/2016 14:46:31'!
-associations: aCollection over: aRing
-	^ self coefficients: (aCollection as: Dictionary) over: aRing! !
-
-!SparseTuple class methodsFor: 'instance creation' stamp: 'len 11/18/2016 10:00:47'!
-coefficients: aDictionary over: aRing
-	^ self basicNew coefficients: aDictionary; scalars: aRing! !
-
-!SparseTuple class methodsFor: 'instance creation' stamp: 'len 11/30/2016 14:46:35'!
-new: anInteger over: aRing
-	^ self coefficients: (Dictionary new: anInteger) over: aRing! !
-
-!SparseTuple class methodsFor: 'instance creation' stamp: 'len 11/30/2016 14:46:41'!
-over: aRing
-	^ self coefficients: Dictionary new over: aRing! !
-
-!Tuple methodsFor: 'operations' stamp: 'len 12/1/2016 16:52:32'!
-% anInteger
-	| ring |
-	self flag: #fix. "optimize. this is slow because creates lots of residue class objects"
-	ring _ ZZ / anInteger.
-	anInteger = 2 ifTrue: [^ BitTuple new: self size evaluating: [:i| ring project: (self at: i)]].
-	^ ModularTuple new: self size over: ring evaluating: [:i| ring project: (self at: i)]! !
-
-!Tuple methodsFor: 'operations' stamp: 'len 11/5/2016 06:17'!
-* anObject
-	(anObject is: #Tuple)
-		ifTrue: [^ self scalars tuple: (self size min: anObject size) evaluating: [:i| (self at: i) * (anObject at: i)]].
-	^ self collect: [:each| each * anObject]! !
-
-!Tuple methodsFor: 'operations' stamp: 'len 11/6/2016 14:21'!
-- aTuple
-	^ self + aTuple negated! !
-
-!Tuple methodsFor: 'operations' stamp: 'len 3/29/2016 18:50'!
-/ aNumber
-	^ self collect: [:each| each / aNumber]! !
-
-!Tuple methodsFor: 'operations' stamp: 'len 3/29/2016 18:50'!
-// aNumber
-	^ self collect: [:each| each // aNumber]! !
-
-!Tuple methodsFor: 'operations' stamp: 'len 2/6/2017 03:11:48'!
-/// aNumber
-	^ self collect: [:each| each /// aNumber]! !
-
-!Tuple methodsFor: 'operations' stamp: 'len 3/29/2016 19:02'!
-<< anInteger
-	^ self >> anInteger negated! !
-
-!Tuple methodsFor: 'operations' stamp: 'len 3/29/2016 18:45'!
-<<< anInteger
-	^ self >>> anInteger negated! !
-
-!Tuple methodsFor: 'comparing' stamp: 'len 11/12/2016 09:16'!
-= anObject
-	self == anObject ifTrue: [^ true].
-	(anObject isKindOf: Tuple) ifFalse: [^ false].
-	self size = anObject size ifFalse: [^ false].
-	1 to: self size do: [:i|
-		(self at: i) = (anObject at: i) ifFalse: [^ false]].
-	^ true! !
-
-!Tuple methodsFor: 'operations' stamp: 'len 3/29/2016 19:02'!
->> anInteger
-	^ self shift: anInteger! !
-
-!Tuple methodsFor: 'operations' stamp: 'len 11/5/2016 06:56'!
->>> anInteger
-	anInteger == 0 ifTrue: [^ self].
-	anInteger < 0 ifTrue: [^ self copyFrom: anInteger negated + 1 to: self size].
-	^ (self scalars tuple: anInteger constant: self scalars zero), self! !
-
-!Tuple methodsFor: 'operations' stamp: 'len 2/6/2017 03:15:07'!
-\\ aNumber
-	^ self collect: [:each| each \\ aNumber]! !
-
-!Tuple methodsFor: 'converting' stamp: 'len 11/8/2016 07:19'!
-adaptToCollection: aCollection andSend: selector
-	self size = aCollection size ifFalse: [^ self error: 'sizes don''t match'].
-	^ aCollection withIndexCollect: [:each :index| each perform: selector with: (self at: index)]! !
-
-!Tuple methodsFor: 'converting' stamp: 'len 3/29/2016 18:53'!
-adaptToNumber: aNumber andSend: selector
-	selector == #* ifTrue:[^ self collect: [:each| aNumber * each]].
-	^ super adaptToNumber: aNumber andSend: selector! !
-
-!Tuple methodsFor: 'converting' stamp: 'len 4/8/2016 22:34'!
-adaptToRealAlgebraic: aNumber andSend: selector
-	^ self adaptToNumber: aNumber andSend: selector! !
-
-!Tuple methodsFor: 'operations' stamp: 'len 11/23/2016 09:43:40'!
-addFrom: startIndex to: stopIndex with: aTuple by: aNumber
-	startIndex to: stopIndex do: [:i|
-		self at: i put: (aTuple at: i) * aNumber + (self at: i)]! !
-
-!Tuple methodsFor: 'operations' stamp: 'len 11/23/2016 09:43:18'!
-addFrom: startIndex with: aTuple by: aNumber
-	self addFrom: startIndex to: (self size min: aTuple size) with: aTuple by: aNumber! !
-
-!Tuple methodsFor: 'enumerating' stamp: 'len 11/5/2016 07:06'!
-allSatisfy: aBlock
-	"Evaluate aBlock with the elements of the receiver.
-	If aBlock returns false for any element return false.
-	Otherwise return true."
-
-	self do: [:each | (aBlock value: each) ifFalse: [^ false]].
-	^ true! !
-
-!Tuple methodsFor: 'enumerating' stamp: 'len 11/5/2016 09:09'!
-anySatisfy: aBlock
-	"Evaluate aBlock with the elements of the receiver.
-	If aBlock returns true for any element return true.
-	Otherwise return false"
-
-	self do:[:item | (aBlock value: item) ifTrue: [^ true]].
-	^ false! !
-
-!Tuple methodsFor: 'operations' stamp: 'len 11/7/2016 02:24'!
-apply: aMorphism
-	"Apply a homomorphism to the coefficients of the receiver."
-	aMorphism isBlock ifTrue: [^ self collect: aMorphism].
-	^ aMorphism codomain tuple: self size evaluating: [:i| aMorphism value: (self at: i)]! !
-
-!Tuple methodsFor: 'converting' stamp: 'len 11/5/2016 09:46'!
-asArray
-	^ self as: Array! !
-
-!Tuple methodsFor: 'converting' stamp: 'len 11/5/2016 09:24'!
-asHomogeneousTuple
-	^ HomogeneousTuple coefficients: self over: self scalars! !
-
-!Tuple methodsFor: 'converting' stamp: 'len 11/7/2016 13:48'!
-asTuple
-	^ self! !
-
-!Tuple methodsFor: 'accessing' stamp: 'len 11/18/2016 20:21:46'!
-at: index ifAbsent: exceptionBlock
-	"Answer the element at my position index. If I do not contain an element
-	at index, answer the result of evaluating the argument, exceptionBlock."
-
-	(index between: 1 and: self size) ifTrue: [^ self at: index].
-	^ exceptionBlock value! !
-
-!Tuple methodsFor: 'accessing' stamp: 'len 3/29/2016 18:54'!
-bitSize
-	| answer |
-	answer _ 0.
-	self do: [:each| answer _ answer + each bitSize].
-	^ answer! !
-
-!Tuple methodsFor: 'enumerating' stamp: 'len 11/5/2016 06:46'!
-collect: aBlock
-	^ self scalars tuple: self size evaluating: [:i| aBlock value: (self at: i)]! !
-
-!Tuple methodsFor: 'operations' stamp: 'len 3/29/2016 18:54'!
-conjugated
-	^ self collect: [:each| each conjugated]! !
-
-!Tuple methodsFor: 'enumerating' stamp: 'len 11/5/2016 09:43'!
-count: aBlock
-	| count |
-	count _ 0.
-	self do: [:each| (aBlock value: each) ifTrue: [count _ count + 1]].
-	^ count! !
-
-!Tuple methodsFor: 'accessing' stamp: 'len 3/29/2016 19:05'!
-dimension
-	^ self size! !
-
-!Tuple methodsFor: 'enumerating' stamp: 'len 11/5/2016 06:46'!
-do: aBlock
-	1 to: self size do: [:each| aBlock value: (self at: each)]! !
-
-!Tuple methodsFor: 'enumerating' stamp: 'len 11/5/2016 09:26'!
-do: elementBlock separatedBy: separatorBlock
-	| beforeFirst | 
-	"Evaluate the elementBlock for all elements in the receiver,
-	and evaluate the separatorBlock between."
-
-	beforeFirst _ true.
-	self do: [ :element |
-		beforeFirst
-			ifTrue: [beforeFirst _ false]
-			ifFalse: [separatorBlock value].
-		elementBlock value: element]! !
-
-!Tuple methodsFor: 'operations' stamp: 'len 4/6/2016 07:18'!
-dot: aTuple
-	| answer |
-	answer _ (self at: 1) * (aTuple at: 1).
-	2 to: (self size min: aTuple size) do: [:i| answer _ answer + ((self at: i) * (aTuple at: i))].
-	^ answer! !
-
-!Tuple methodsFor: 'enumerating' stamp: 'len 11/12/2016 08:51'!
-findFirst: aBlock
-	"Return the index of my first element for which aBlock evaluates as true."
-
-	| index |
-	index _ 0.
-	[(index _ index + 1) <= self size] whileTrue:
-		[(aBlock value: (self at: index)) ifTrue: [^index]].
-	^ 0! !
-
-!Tuple methodsFor: 'enumerating' stamp: 'len 11/5/2016 07:05'!
-findLast: aBlock
-	"Return the index of my last element for which aBlock evaluates as true."
-
-	| index |
-	index _ self size + 1.
-	[(index _ index - 1) >= 1] whileTrue:
-		[(aBlock value: (self at: index)) ifTrue: [^index]].
-	^ 0! !
-
-!Tuple methodsFor: 'accessing' stamp: 'len 11/5/2016 09:26'!
-first
-	^ self at: 1! !
-
-!Tuple methodsFor: 'accessing' stamp: 'len 11/12/2016 09:03'!
-firstNonZero
-	"Answer the index of the first non-zero entry, or 0."
-	1 to: self size do: [:i| (self at: i) isZero ifFalse: [^ i]].
-	^ 0! !
-
-!Tuple methodsFor: 'operations' stamp: 'len 11/12/2016 08:18'!
-hadamard: aTuple
-	"Answer the entrywise product with the argument, also called Hadamard product."
-	^ self scalars tuple: (self size min: aTuple size) evaluating: [:i| (self at: i) * (aTuple at: i)]! !
-
-!Tuple methodsFor: 'comparing' stamp: 'len 11/5/2016 09:41'!
-hash
-	| hash |
-	hash _ 0.
-	1 to: self size do: [:i | hash _ (hash + (self at: i) hash) hashMultiply].
-	^hash! !
-
-!Tuple methodsFor: 'operations' stamp: 'len 11/27/2016 13:25:12'!
-height
-	| answer |
-	answer _ 1.
-	self do: [:each| answer _ answer max: each height].
-	^ answer! !
-
-!Tuple methodsFor: 'converting' stamp: 'len 10/31/2016 13:11'!
-homogenized
-	^ self homogenizedIn: self size + 1! !
-
-!Tuple methodsFor: 'converting' stamp: 'len 11/18/2016 20:55:03'!
-homogenizedIn: anInteger
-	^ HomogeneousTuple coefficients: (self copyFrom: 1 to: anInteger - 1), self scalars one, (self copyFrom: anInteger to: self size) over: self scalars! !
-
-!Tuple methodsFor: 'testing' stamp: 'len 11/5/2016 09:45'!
-includes: anObject 
-	"Answer whether anObject is one of the receiver's elements."
-
-	self do: [:each| each = anObject ifTrue: [^ true]].
-	^ false! !
-
-!Tuple methodsFor: 'enumerating' stamp: 'len 11/5/2016 06:48'!
-inject: thisValue into: binaryBlock 
-	| nextValue |
-	nextValue _ thisValue.
-	self do: [:each | nextValue _ binaryBlock value: nextValue value: each].
-	^ nextValue! !
-
-!Tuple methodsFor: 'testing' stamp: 'len 3/29/2016 19:04'!
-is: aSymbol
-	^ aSymbol == #Tuple or: [super is: aSymbol]! !
-
-!Tuple methodsFor: 'testing' stamp: 'len 11/5/2016 07:12'!
-isEmpty
-	^ self size = 0! !
-
-!Tuple methodsFor: 'testing' stamp: 'len 7/9/2016 02:49'!
-isOrdered
-	^ true! !
-
-!Tuple methodsFor: 'testing' stamp: 'len 7/9/2016 02:50'!
-isSparse
-	^ false! !
-
-!Tuple methodsFor: 'testing' stamp: 'len 3/29/2016 19:04'!
-isZero
-	^ self allSatisfy: [:each| each isZero]! !
-
-!Tuple methodsFor: 'testing' stamp: 'len 12/1/2016 17:05:22'!
-isZeroAt: anInteger
-	^ (self at: anInteger) isZero! !
-
-!Tuple methodsFor: 'accessing' stamp: 'len 11/6/2016 04:32'!
-last
-	^ self at: self size! !
-
-!Tuple methodsFor: 'accessing' stamp: 'len 11/12/2016 09:03'!
-lastNonZero
-	"Answer the index of the last non-zero entry, or 0."
-	self size to: 1 by: -1 do: [:i| (self at: i) isZero ifFalse: [^ i]].
-	^ 0! !
-
-!Tuple methodsFor: 'operations' stamp: 'len 3/29/2016 18:56'!
-negated
-	^ self collect: [:each| each negated]! !
-
-!Tuple methodsFor: 'operations' stamp: 'len 3/29/2016 19:03'!
-norm
-	^ self norm2 squareRoot! !
-
-!Tuple methodsFor: 'operations' stamp: 'len 3/29/2016 19:03'!
-norm2
-	^ self dot: self! !
-
-!Tuple methodsFor: 'converting' stamp: 'len 1/3/2017 07:47:52'!
-over: aRing
-	self scalars = aRing ifFalse: [^ aRing tuple: self size evaluating: [:i| aRing !! (self at: i)]]! !
-
-!Tuple methodsFor: 'operations' stamp: 'len 11/23/2016 05:43:12'!
-polynomialValue: anObject
-	"Evaluate the receiver (as an univariate polynomial) at the given argument using Horner's method."
-	| answer one |
-	answer _ anObject zero.
-	one _ anObject one.
-	self reverseDo: [:each| answer _ anObject * answer + (one * each)].
-	^ answer! !
-
-!Tuple methodsFor: 'printing' stamp: 'len 1/11/2017 13:53:59'!
-printOn: aStream
-	| separator |
-	aStream nextPut: $(.
-	separator _ (self anySatisfy: [:any| any printString isAlphaNumeric not]) ifTrue: [', '] ifFalse: [','].
-	self do: [:x| aStream print: x] separatedBy: [aStream nextPutAll: separator].
-	aStream nextPut: $)! !
-
-!Tuple methodsFor: 'enumerating' stamp: 'len 11/6/2016 14:22'!
-product
-	^ self product: [:each| each]! !
-
-!Tuple methodsFor: 'enumerating' stamp: 'len 12/13/2016 09:55:53'!
-product: aBlock
-	^ self inject: self scalars one into: [:nextValue :each| nextValue * (aBlock value: each)]! !
-
-!Tuple methodsFor: 'converting' stamp: 'len 12/13/2016 16:49:22'!
-readStream
-	^ ReadStream on: self! !
-
-!Tuple methodsFor: 'enumerating' stamp: 'len 11/5/2016 06:47'!
-reverseDo: aBlock
-	self size to: 1 by: -1 do: [:each| aBlock value: (self at: each)]! !
-
-!Tuple methodsFor: 'enumerating' stamp: 'len 11/6/2016 14:22'!
-sum
-	^ self sum: [:each| each]! !
-
-!Tuple methodsFor: 'enumerating' stamp: 'len 12/13/2016 09:55:29'!
-sum: aBlock
-	^ self inject: self scalars zero into: [:nextValue :each| nextValue + (aBlock value: each)]! !
-
-!Tuple methodsFor: 'operations' stamp: 'len 11/5/2016 09:27'!
-support
-	^ (1 to: self size) reject: [:each| (self at: each) isZero]! !
-
-!Tuple methodsFor: 'operations' stamp: 'len 11/12/2016 08:41'!
-weight
-	"Answer the Hamming weight of the receiver, i.e. the number of entries that are not zero."
-	^ self count: [:each| each isZero not]! !
-
-!Tuple methodsFor: 'enumerating' stamp: 'len 11/5/2016 06:59'!
-withIndexCollect: aBlock
-	^ self scalars tuple: self size evaluating: [:i| aBlock value: (self at: i) value: i]! !
-
-!Tuple methodsFor: 'enumerating' stamp: 'len 11/5/2016 06:47'!
-withIndexDo: aBlock
-	1 to: self size do: [:index| aBlock value: (self at: index) value: index]! !
-
-!Tuple methodsFor: 'operations' stamp: 'len 11/5/2016 06:15'!
-wrap: n
-	"Perform a cyclic right shift."
-	^ self scalars tuple: self size evaluating: [:i| (self at: i-1-n \\ self size + 1)]! !
-
-!Tuple methodsFor: 'accessing' stamp: 'len 3/29/2016 19:06'!
-x
-	^ self at: 1! !
-
-!Tuple methodsFor: 'accessing' stamp: 'len 3/29/2016 19:06'!
-y
-	^ self at: 2! !
-
-!Tuple methodsFor: 'accessing' stamp: 'len 3/29/2016 19:06'!
-z
-	^ self at: 3! !
-
-!PolynomialTuple methodsFor: 'as yet unclassified' stamp: 'len 1/14/2017 21:04:37'!
-coefficientAt: aModuleMonomial
-	^ (self at: aModuleMonomial position) coefficientAt: aModuleMonomial monomial! !
-
-!PolynomialTuple methodsFor: 'as yet unclassified' stamp: 'len 1/14/2017 20:34:48'!
-leadingCoefficient
-	^ self coefficientAt: self leadingMonomial! !
-
-!PolynomialTuple methodsFor: 'as yet unclassified' stamp: 'len 1/14/2017 21:07:12'!
-leadingMonomial
-	^ self ordering leadingMonomialOf: self! !
-
-!PolynomialTuple methodsFor: 'as yet unclassified' stamp: 'len 1/14/2017 20:35:06'!
-leadingTerm
-	^ self termAt: self leadingMonomial! !
-
-!PolynomialTuple methodsFor: 'as yet unclassified' stamp: 'len 1/14/2017 21:04:51'!
-termAt: aModuleMonomial
-	^ (self at: aModuleMonomial position) termAt: aModuleMonomial monomial! !
-
-!ArrayTuple methodsFor: 'operations' stamp: 'len 11/5/2016 06:11'!
-+ aTuple
-	| zero |
-	self size = aTuple size ifTrue: [^ scalars tuple: self size evaluating: [:i| (self at: i) + (aTuple at: i)]].
-	zero _ (self at: 1 ifAbsent: [aTuple at: 1]) zero.
-	^ scalars tuple: (self size max: aTuple size) evaluating: [:i| (self at: i ifAbsent: [zero]) + (aTuple at: i ifAbsent: [zero])]! !
-
-!ArrayTuple methodsFor: 'copying' stamp: 'len 11/5/2016 04:02'!
-, anObject
-	((anObject is: #Tuple) or: [anObject is: #Array])
-		ifTrue: [^ self class coefficients: (coefficients, anObject asArray) over: scalars].
-	^ self class coefficients: (coefficients copyWith: anObject) over: scalars! !
-
-!ArrayTuple methodsFor: 'operations' stamp: 'len 11/5/2016 06:12'!
-- aTuple
-	| zero |
-	self size = aTuple size ifTrue: [^ scalars tuple: self size evaluating: [:i| (self at: i) - (aTuple at: i)]].
-	zero _ (self at: 1 ifAbsent: [aTuple at: 1]) zero.
-	^ scalars tuple: (self size max: aTuple size) evaluating: [:i| (self at: i ifAbsent: [zero]) - (aTuple at: i ifAbsent: [zero])]! !
-
-!ArrayTuple methodsFor: 'enumerating' stamp: 'len 11/5/2016 06:08'!
-allSatisfy: aBlock
-	^ coefficients allSatisfy: aBlock! !
-
-!ArrayTuple methodsFor: 'enumerating' stamp: 'len 11/5/2016 09:08'!
-anySatisfy: aBlock
-	^ coefficients anySatisfy: aBlock! !
-
-!ArrayTuple methodsFor: 'converting' stamp: 'len 11/5/2016 03:58'!
-asArray
-	^ coefficients! !
-
-!ArrayTuple methodsFor: 'accessing' stamp: 'len 11/5/2016 03:57'!
-at: anInteger
-	^ coefficients at: anInteger! !
-
-!ArrayTuple methodsFor: 'accessing' stamp: 'len 11/5/2016 03:58'!
-at: anInteger ifAbsent: aBlock
-	^ coefficients at: anInteger ifAbsent: aBlock! !
-
-!ArrayTuple methodsFor: 'accessing-private' stamp: 'len 11/5/2016 03:58'!
-at: anInteger put: anObject
-	^ coefficients at: anInteger put: anObject! !
-
-!ArrayTuple methodsFor: 'initialization' stamp: 'len 11/5/2016 03:56'!
-coefficients: anArray
-	coefficients _ anArray! !
-
-!ArrayTuple methodsFor: 'enumerating' stamp: 'len 11/5/2016 06:08'!
-collect: aBlock
-	^ self class coefficients: (coefficients collect: aBlock) over: scalars! !
-
-!ArrayTuple methodsFor: 'operations' stamp: 'len 11/22/2016 05:47:05'!
-convolution: aTuple
-	| array |
-	self isEmpty ifTrue: [^ self].
-	aTuple isEmpty ifTrue: [^ aTuple].
-	array _ Array new: self size + aTuple size - 1.
-	array atAllPut: self scalars zero.
-	self withIndexDo: [:xi :i|
-		xi isZero ifFalse:
-			[aTuple withIndexDo: [:yj :j|
-				array at: i+j-1 add: xi*yj]]].
-	^ self class coefficients: array over: self scalars! !
-
-!ArrayTuple methodsFor: 'copying' stamp: 'len 11/5/2016 03:58'!
-copy
-	^ self class coefficients: coefficients copy over: scalars! !
-
-!ArrayTuple methodsFor: 'copying' stamp: 'len 11/5/2016 03:58'!
-copyFrom: start to: stop
-	^ self class coefficients: (coefficients copyFrom: start to: stop) over: scalars! !
-
-!ArrayTuple methodsFor: 'copying' stamp: 'len 11/5/2016 10:43'!
-copyWith: anElement
-	^ self class coefficients: (coefficients copyWith: anElement) over: scalars! !
-
-!ArrayTuple methodsFor: 'enumerating' stamp: 'len 11/5/2016 03:58'!
-do: aBlock
-	coefficients do: aBlock! !
-
-!ArrayTuple methodsFor: 'enumerating' stamp: 'len 11/12/2016 09:00'!
-findFirst: aBlock
-	^ coefficients findFirst: aBlock! !
-
-!ArrayTuple methodsFor: 'enumerating' stamp: 'len 11/5/2016 06:07'!
-findLast: aBlock
-	^ coefficients findLast: aBlock! !
-
-!ArrayTuple methodsFor: 'testing' stamp: 'len 11/5/2016 03:58'!
-includes: anObject
-	^ coefficients includes: anObject! !
-
-!ArrayTuple methodsFor: 'accessing' stamp: 'len 12/21/2015 22:49'!
-last
-	^ self at: self size! !
-
-!ArrayTuple methodsFor: 'enumerating' stamp: 'len 11/5/2016 06:10'!
-reverseDo: aBlock
-	coefficients reverseDo: aBlock! !
-
-!ArrayTuple methodsFor: 'operations' stamp: 'len 11/5/2016 06:06'!
-reversed
-	^ self class coefficients: coefficients reversed over: scalars! !
-
-!ArrayTuple methodsFor: 'accessing' stamp: 'len 11/5/2016 05:57'!
-scalars
-	^ scalars! !
-
-!ArrayTuple methodsFor: 'accessing-private' stamp: 'len 11/5/2016 05:57'!
-scalars: aRing
-	scalars _ aRing! !
-
-!ArrayTuple methodsFor: 'operations' stamp: 'len 11/5/2016 09:03'!
-shift: anInteger
-	| newElements zero n |
-	anInteger == 0 ifTrue: [^ self].
-	newElements _ Array new: self size.
-	zero _ (self at: 1) - (self at: 1).
-	n _ self size min: anInteger max: self size negated.
-	n > 0
-		ifTrue:
-			[1 to: n do: [:i| newElements at: i put: zero].
-			1+n to: self size do: [:i| newElements at: i put: (self at: i-n)]]
-		ifFalse:
-			[self size + n + 1 to: self size do: [:i| newElements at: i put: zero].
-			1 to: self size + n do: [ :i | newElements at: i put: (self at: i-n)]].
-	^ self class coefficients: newElements over: scalars! !
-
-!ArrayTuple methodsFor: 'accessing' stamp: 'len 11/5/2016 03:57'!
-size
-	^ coefficients size! !
-
-!ArrayTuple methodsFor: 'accessing-private' stamp: 'len 11/5/2016 03:57'!
-swap: i with: j
-	coefficients swap: i with: j! !
-
-!ArrayTuple methodsFor: 'enumerating' stamp: 'len 11/5/2016 03:57'!
-withIndexDo: aBlock
-	coefficients withIndexDo: aBlock! !
-
-!ArrayTuple methodsFor: 'operations' stamp: 'len 4/10/2016 06:44'!
-wrap: n
-	"Perform a cyclic right shift."
-	| newElements |
-	newElements _ Array new: self size.
-	0 to: self size - 1 do: [:i| newElements at: i+1 put: (self at: i-n \\ self size + 1) ].
-	^ self class withAll: newElements! !
-
-!ArrayTuple class methodsFor: 'instance creation' stamp: 'len 11/5/2016 03:57'!
-coefficients: anArray over: aRing
-	^ self basicNew coefficients: anArray asArray; scalars: aRing! !
-
-!ArrayTuple class methodsFor: 'instance creation' stamp: 'len 11/5/2016 07:13'!
-new
-	^ self shouldNotImplement! !
-
-!ArrayTuple class methodsFor: 'instance creation' stamp: 'len 11/5/2016 03:55'!
-new: anInteger over: aRing
-	^ self coefficients: (Array new: anInteger) over: aRing! !
-
-!HomogeneousTuple methodsFor: 'comparing' stamp: 'len 11/6/2016 08:49'!
-= aHomogeneousTuple
-	| index x y |
-	(aHomogeneousTuple is: #Tuple) ifFalse: [^ false].
-	aHomogeneousTuple size = self size ifFalse: [^ false].
-	index _ self firstNonZero.
-	x _ self at: index.
-	y _ aHomogeneousTuple at: index.
-	1 to: self size do: [:i| (self at: i) * y = ((aHomogeneousTuple at: i) * x) ifFalse: [^ false]].
-	^ true! !
-
-!HomogeneousTuple methodsFor: 'operations' stamp: 'len 11/7/2016 02:25'!
-apply: aMorphism
-	^ (super apply: aMorphism) asHomogeneousTuple! !
-
-!HomogeneousTuple methodsFor: 'converting' stamp: 'len 11/7/2016 02:26'!
-asTuple
-	"Answer a Tuple with the coordinates of the receiver."
-	^ self scalars tuple: coefficients! !
-
-!HomogeneousTuple methodsFor: 'converting' stamp: 'len 1/10/2017 16:26:22'!
-dehomogenized
-	"Answer the dehomogenization of the receiver."
-	^ self dehomogenizedIn: self size! !
-
-!HomogeneousTuple methodsFor: 'converting' stamp: 'len 1/10/2017 16:30:37'!
-dehomogenizedIn: anInteger
-	"Answer the dehomogenization of the receiver with respect to the anInteger-th coordinate."
-	| scalar |
-	scalar _ self at: anInteger.
-	^ self scalars
-		tuple: self coordinates size - 1
-		evaluating: [:i| (i < anInteger ifTrue: [self at: i] ifFalse: [self at: i + 1]) / scalar]! !
-
-!HomogeneousTuple methodsFor: 'comparing' stamp: 'len 11/7/2016 02:32'!
-hash
-	| hash x |
-	self scalars isField
-		ifFalse:
-			[^ self scalars isIntegralDomain
-				ifTrue: [(self apply: self scalars fractions embedding) hash]
-				ifFalse: [self scalars hash hashMultiply + self firstNonZero]].
-	hash _ 0.
-	x _ self at: self firstNonZero.
-	1 to: self size do: [:i | hash _ (hash + ((self at: i) / x) hash) hashMultiply].
-	^hash! !
-
-!HomogeneousTuple methodsFor: 'printing' stamp: 'len 1/11/2017 13:52:38'!
-printOn: aStream
-	| separator |
-	aStream nextPut: $[.
-	separator _ (self anySatisfy: [:any| any printString isAlphaNumeric not]) ifTrue: [' : '] ifFalse: [':'].
-	self do: [:each| each printOn: aStream] separatedBy: [aStream nextPutAll: separator].
-	aStream nextPut: $]! !
-
-!BitTuple methodsFor: 'operations' stamp: 'len 3/29/2016 06:16'!
-* aBit
-	^ ((aBit isInteger and: [aBit even]) or: [aBit isZero]) ifTrue: [self zero] ifFalse: [self]! !
-
-!BitTuple methodsFor: 'operations' stamp: 'len 7/2/2016 00:51'!
-+ aBitTuple
-	^ self class new: (self size max: aBitTuple size) fromInteger: (integer bitXor: aBitTuple asInteger)! !
-
-!BitTuple methodsFor: 'copying' stamp: 'len 11/6/2016 15:30'!
-, anObject
-	((anObject is: #Tuple) or: [anObject is: #Array])
-		ifFalse: [^ self copyWith: anObject].
-	anObject class = self class
-		ifTrue: [^ self class new: size + anObject size fromInteger: (integer bitXor: (anObject asInteger bitShift: size))].
-	^ self , (self class coefficients: anObject)! !
-
-!BitTuple methodsFor: 'operations' stamp: 'len 3/28/2016 06:51'!
-- aBitTuple
-	^ self + aBitTuple! !
-
-!BitTuple methodsFor: 'comparing' stamp: 'len 6/30/2016 06:49'!
-= aTuple
-	self class = aTuple class ifFalse: [^ super = aTuple].
-	^ size = aTuple size and: [integer = aTuple asInteger]! !
-
-!BitTuple methodsFor: 'operations' stamp: 'len 7/2/2016 00:48'!
->>> anInteger
-	^ self class new: (size + anInteger max: 0) fromInteger: (integer bitShift: anInteger)! !
-
-!BitTuple methodsFor: 'enumerating' stamp: 'len 11/5/2016 09:14'!
-anySatisfy: aBlock
-	"Optimized. There are only two possible elements that could satisfy aBlock (1 or 0)."
-	self isEmpty ifTrue: [^ false].
-	(self isZero not and: [aBlock value: One]) ifTrue: [^ true].
-	^ (aBlock value: Zero) and: [super anySatisfy: [:any| any = Zero]]! !
-
-!BitTuple methodsFor: 'converting' stamp: 'len 3/28/2016 04:45'!
-asInteger
-	^ integer! !
-
-!BitTuple methodsFor: 'accessing' stamp: 'len 3/29/2016 06:09'!
-at: anInteger
-	^ (integer bitAt: anInteger) = 1 ifTrue: [One] ifFalse: [Zero]! !
-
-!BitTuple methodsFor: 'accessing' stamp: 'len 11/5/2016 09:21'!
-at: anInteger put: aBit
-	| bit |
-	anInteger > size ifTrue: [self error: 'index out of bounds'].
-	bit _ aBit.
-	bit isInteger ifTrue: [bit _ bit % 2].
-	(Zero = bit or: [One = bit]) ifFalse: [DomainError signal].
-	(self at: anInteger) = bit
-		ifFalse: [integer _ integer bitXor: 1 << (anInteger - 1)].
-	^ bit! !
-
-!BitTuple methodsFor: 'operations' stamp: 'len 11/22/2016 05:39:06'!
-convolution: aBitTuple
-	| a b c |
-	a _ integer.
-	b _ aBitTuple asInteger.
-	c _ 0.
-	1 to: a highBit do: [:i|
-		(a bitAt: i) = 1 ifTrue: [c _ c bitXor: b].
-		b _ b bitShift: 1].
-	^ self class new: self size + aBitTuple size - 1 fromInteger: c! !
-
-!BitTuple methodsFor: 'copying' stamp: 'len 7/2/2016 00:49'!
-copyFrom: start to: stop 
-	"Answer a copy of a subset of the receiver, starting from element at 
-	index start until element at index stop."
-
-	| newSize |
-	newSize _ stop - start + 1 max: 0.
-	start = 1 ifTrue: [^ self class new: newSize fromInteger: integer].
-	^ self class new: newSize fromInteger: (integer bitShift: 1 - start)! !
-
-!BitTuple methodsFor: 'copying' stamp: 'len 11/5/2016 09:23'!
-copyWith: aBit
-	| answer |
-	answer _ self copy size: self size + 1.
-	aBit = One ifTrue: [answer at: self size + 1 put: One. ^ answer].
-	aBit = Zero ifFalse: [DomainError signal].
-	^ answer! !
-
-!BitTuple methodsFor: 'operations' stamp: 'len 7/2/2016 00:44'!
-dot: aBitTuple
-	^ (integer bitAnd: aBitTuple asInteger) bitParity = 0 ifTrue: [Zero] ifFalse: [One]
-
-"	^ self hadamard: aBitTuple :: sum
-"
-
-"	| x |
-	x _ self asInteger bitAnd: aBitTuple asInteger.
-	[x > 1]
-		whileTrue: [x _ x >> (x highBit // 2) bitAnd: x].
-	^ x"! !
-
-!BitTuple methodsFor: 'operations' stamp: 'len 11/12/2016 08:19'!
-hadamard: aBitTuple
-	"Answer the entrywise product with the argument, also called Hadamard product."
-	^ self class new: (self size min: aBitTuple size) fromInteger: (integer bitAnd: aBitTuple asInteger)! !
-
-!BitTuple methodsFor: 'comparing' stamp: 'len 6/30/2016 06:50'!
-hash
-	^ integer hash! !
-
-!BitTuple methodsFor: 'initialization' stamp: 'len 3/28/2016 05:41'!
-integer: anInteger size: anotherInteger
-	integer _ anInteger.
-	size _ anotherInteger! !
-
-!BitTuple methodsFor: 'testing' stamp: 'len 12/4/2016 15:19:45'!
-isZero
-	^ integer == 0! !
-
-!BitTuple methodsFor: 'testing' stamp: 'len 12/1/2016 17:06:32'!
-isZeroAt: anInteger
-	^ (integer bitAt: anInteger) == 0! !
-
-!BitTuple methodsFor: 'operations' stamp: 'len 3/28/2016 07:30'!
-negated
-	^ self! !
-
-!BitTuple methodsFor: 'operations' stamp: 'len 3/28/2016 07:27'!
-norm
-	^ self sum! !
-
-!BitTuple methodsFor: 'operations' stamp: 'len 3/28/2016 07:27'!
-norm2
-	^ self sum! !
-
-!BitTuple methodsFor: 'operations' stamp: 'len 7/1/2016 22:58'!
-parity
-	"Answer 1 if the receiver has an odd number of bits on, 0 if it has an even number of bits on."
-	| n parity |
-	integer = 0 ifTrue: [^ 0].
-"	n _ integer >> (integer lowBit - 1). skip initial zeros, we could also skip chunks of zeros in the middle"
-	n _ integer.
-	parity _ 0.
-	[n = 0] whileFalse: [parity _ parity bitXor: (n bitAnd: 1). n _ n >> 1].
-	^ parity! !
-
-!BitTuple methodsFor: 'operations' stamp: 'len 11/23/2016 05:42:05'!
-polynomialValue: anObject
-	Zero = anObject ifTrue: [^ self at: 1].
-	One = anObject ifFalse: [^ super polynomialValue: anObject].
-	^ self sum! !
-
-!BitTuple methodsFor: 'printing' stamp: 'len 3/28/2016 04:52'!
-printOn: aStream
-	1 to: self size do: [:i| aStream print: (self at: i)]! !
-
-!BitTuple methodsFor: 'operations' stamp: 'len 7/2/2016 06:01'!
-reversed
-	^ self class new: self size fromInteger: (integer bitReverse: self size)! !
-
-!BitTuple methodsFor: 'accessing' stamp: 'len 11/5/2016 07:10'!
-scalars
-	self flag: #fix. "inefficient"
-	^ ZZ/2! !
-
-!BitTuple methodsFor: 'operations' stamp: 'len 7/2/2016 00:49'!
-shift: anInteger
-	^ self class new: size fromInteger: (integer bitShift: anInteger)! !
-
-!BitTuple methodsFor: 'accessing' stamp: 'len 3/28/2016 06:49'!
-size
-	^ size! !
-
-!BitTuple methodsFor: 'initialization' stamp: 'len 11/5/2016 09:22'!
-size: anInteger
-	size _ anInteger! !
-
-!BitTuple methodsFor: 'operations' stamp: 'len 7/2/2016 00:39'!
-sum
-	"Answer the sum of the bits, i.e. the parity."
-	^ integer bitParity = 0 ifTrue: [Zero] ifFalse: [One]! !
-
-!BitTuple methodsFor: 'operations' stamp: 'len 11/12/2016 08:41'!
-weight
-	"Answer the Hamming weight of the receiver, i.e. the number of entries that are not zero."
-	^ self asInteger bitCount! !
-
-!BitTuple methodsFor: 'operations' stamp: 'len 7/2/2016 00:49'!
-zero
-	^ self class new: self size fromInteger: 0! !
-
-!BitTuple class methodsFor: 'instance creation' stamp: 'len 11/5/2016 07:09'!
-coefficients: anArray
-	| answer |
-	answer _ self new: anArray size.
-	anArray withIndexDo: [:each :i| answer at: i put: each].
-	^ answer! !
-
-!BitTuple class methodsFor: 'instance creation' stamp: 'len 7/2/2016 00:50'!
-fromInteger: anInteger
-	^ self new: anInteger highBit fromInteger: anInteger! !
-
-!BitTuple class methodsFor: 'initialization' stamp: 'len 12/2/2016 11:18:19'!
-initialize
-	| Z2 |
-	super initialize.
-	Z2 _ ZZ / 2.
-	One _ Z2 one.
-	Zero _ Z2 zero! !
-
-!BitTuple class methodsFor: 'instance creation' stamp: 'len 11/5/2016 07:09'!
-new
-	^ self shouldNotImplement! !
-
-!BitTuple class methodsFor: 'instance creation' stamp: 'len 7/2/2016 00:50'!
-new: anInteger
-	^ self new: anInteger fromInteger: 0! !
-
-!BitTuple class methodsFor: 'instance creation' stamp: 'len 7/2/2016 00:50'!
-new: anInteger evaluating: aBlock
-	| integer |
-	integer _ 0.
-	anInteger to: 1 by: -1 do:
-		[:i| integer _ (integer bitShift: 1) bitXor: (aBlock value: i) representative].
-	^ self new: anInteger fromInteger: integer! !
-
-!BitTuple class methodsFor: 'instance creation' stamp: 'len 7/2/2016 00:47'!
-new: n fromInteger: anInteger
-	^ self basicNew integer: anInteger size: n! !
-
-!BitTuple class methodsFor: 'instance creation' stamp: 'len 11/6/2016 15:30'!
-newFrom: anObject
-	anObject isInteger ifTrue: [^ self fromInteger: anObject].
-	^ self coefficients: anObject! !
-
-!ModularTuple methodsFor: 'operations' stamp: 'len 12/1/2016 16:40:57'!
-* aNumber
-	| modulus x array |
-	x _ aNumber isInteger ifTrue: [aNumber] ifFalse: [aNumber representative].
-	modulus _ scalars modulus.
-	array _ representatives copy.
-	1 to: self size do: [:i| array at: i put: (array at: i) * x \\ modulus].
-	^ self class representatives: array over: scalars! !
-
-!ModularTuple methodsFor: 'operations' stamp: 'len 12/1/2016 16:33:24'!
-+ aTuple
-	| modulus a an b bn c |
-	(an _ self size) <= (bn _ aTuple size) ifFalse: [^ aTuple + self].
-	modulus _ scalars modulus.
-	a _ representatives.
-	b _ aTuple representatives.
-	c _ representatives class new: bn.
-	1 to: an do: [:i|
-		c at: i put: (a at: i) + (b at: i) \\ modulus].
-	c replaceFrom: an+1 to: bn with: b startingAt: an+1.
-	^ self class representatives: c over: scalars! !
-
-!ModularTuple methodsFor: 'copying' stamp: 'len 12/1/2016 16:35:01'!
-, anObject
-	self class = anObject class
-		ifTrue:
-			[scalars = anObject scalars ifFalse: [^ DomainError signal].
-			^ self class representatives: representatives, anObject representatives over: scalars].
-	scalars modulus = anObject modulus ifFalse: [^ DomainError signal].
-	^ self class representatives: (representatives copyWith: anObject representative) over: scalars! !
-
-!ModularTuple methodsFor: 'comparing' stamp: 'len 12/1/2016 16:42:00'!
-= aTuple
-	self class = aTuple class ifFalse: [^ super = aTuple halt].
-	^ scalars = aTuple scalars and: [representatives = aTuple representatives]! !
-
-!ModularTuple methodsFor: 'operations' stamp: 'len 12/1/2016 16:37:25'!
-addFrom: startIndex to: stopIndex with: aTuple by: aNumber
-	| modulus representatives2 x |
-	(self class = aTuple class and: [scalars = aTuple scalars])
-		ifFalse: [^ super addFrom: startIndex to: stopIndex with: aTuple by: aNumber].
-	modulus _ scalars modulus.
-	representatives2 _ aTuple representatives.
-	x _ aNumber representative.
-	startIndex to: stopIndex do: [:i|
-		representatives at: i put: (representatives2 at: i) * x + (representatives at: i) \\ modulus]! !
-
-!ModularTuple methodsFor: 'accessing' stamp: 'len 12/1/2016 16:35:34'!
-at: anInteger
-	^ scalars representative: (representatives at: anInteger ifAbsent: [^ scalars zero])! !
-
-!ModularTuple methodsFor: 'accessing' stamp: 'len 12/1/2016 16:35:55'!
-at: anInteger put: aModularInteger
-	aModularInteger isInteger ifTrue: [^ representatives at: anInteger put: aModularInteger \\ scalars modulus].
-	representatives at: anInteger put: aModularInteger representative.
-	^ aModularInteger! !
-
-!ModularTuple methodsFor: 'operations' stamp: 'len 12/1/2016 16:41:43'!
-convolution: aTuple
-	| modulus array |
-	self isEmpty ifTrue: [^ self].
-	aTuple isEmpty ifTrue: [^ aTuple].
-	modulus _ scalars modulus.
-	array _ representatives class new: self size + aTuple size - 1.
-	array atAllPut: 0. "in case it's Array"
-	representatives withIndexDo: [:xi :i|
-		xi = 0 ifFalse:
-			[aTuple representatives withIndexDo: [:yj :j| | index |
-				index _ i+j-1.
-				array at: index put: xi*yj + (array at: index) \\ modulus]]].
-	^ self class representatives: array over: scalars! !
-
-!ModularTuple methodsFor: 'copying' stamp: 'len 12/1/2016 16:43:47'!
-copy
-	^ self class representatives: representatives copy over: scalars! !
-
-!ModularTuple methodsFor: 'copying' stamp: 'len 12/1/2016 16:36:08'!
-copyFrom: start to: stop
-	^ self class representatives: (representatives copyFrom: start to: stop) over: scalars! !
-
-!ModularTuple methodsFor: 'copying' stamp: 'len 12/1/2016 16:33:41'!
-copyWith: anElement
-	^ self class representatives: (representatives copyWith: anElement representative) over: scalars! !
-
-!ModularTuple methodsFor: 'operations' stamp: 'len 12/1/2016 16:42:49'!
-dot: aTuple
-	| modulus representatives2 answer |
-	(aTuple class = self class and: [scalars = aTuple scalars])
-		ifFalse: [^ super dot: aTuple].
-	modulus _ scalars modulus.
-	representatives2 _ aTuple representatives.
-	answer _ 0.
-	1 to: (representatives size min: representatives2 size) do: [:i|
-		answer _ (representatives at: i) * (representatives2 at: i) + answer \\ modulus].
-	^ scalars representative: answer! !
-
-!ModularTuple methodsFor: 'accessing' stamp: 'len 11/12/2016 09:02'!
-firstNonZero
-	"Answer the index of the first non-zero entry, or 0."
-	1 to: representatives size do: [:i| (representatives at: i) = 0 ifFalse: [^ i]].
-	^ 0! !
-
-!ModularTuple methodsFor: 'operations' stamp: 'len 12/1/2016 16:39:42'!
-hadamard: aTuple
-	| modulus array representatives2 |
-	(self class = aTuple class and: [scalars = aTuple scalars])
-		ifFalse: [^ super hadamard: aTuple].
-	modulus _ scalars modulus.
-	array _ representatives class new: (self size min: aTuple size).
-	representatives2 _ aTuple representatives.
-	1 to: array size do: [:i| array at: i put: (representatives at: i) * (representatives2 at: i) \\ modulus].
-	^ self class representatives: array over: scalars! !
-
-!ModularTuple methodsFor: 'comparing' stamp: 'len 6/30/2016 06:52'!
-hash
-	^ representatives hash! !
-
-!ModularTuple methodsFor: 'testing' stamp: 'len 12/5/2016 17:54:18'!
-isZero
-	1 to: representatives size do: [:i| (representatives at: i) == 0 ifFalse: [^ false]].
-	^ true! !
-
-!ModularTuple methodsFor: 'testing' stamp: 'len 12/1/2016 17:05:46'!
-isZeroAt: anInteger
-	^ (representatives at: anInteger) == 0! !
-
-!ModularTuple methodsFor: 'accessing' stamp: 'len 11/12/2016 09:02'!
-lastNonZero
-	"Answer the index of the last non-zero entry, or 0."
-	representatives size to: 1 by: -1 do: [:i| (representatives at: i) = 0 ifFalse: [^ i]].
-	^ 0! !
-
-!ModularTuple methodsFor: 'accessing-private' stamp: 'len 12/1/2016 16:38:58'!
-modulus
-	^ scalars modulus! !
-
-!ModularTuple methodsFor: 'operations' stamp: 'len 12/1/2016 16:41:10'!
-negated
-	| modulus array |
-	array _ representatives copy.
-	modulus _ scalars modulus.
-	1 to: self size do: [:i| array at: i put: (array at: i) negated \\ modulus].
-	^ self class representatives: array over: scalars! !
-
-!ModularTuple methodsFor: 'operations' stamp: 'len 12/1/2016 16:45:01'!
-polynomialValue: anObject
-	| modulus x answer |
-	((anObject isKindOf: ModularInteger) and: [anObject modulus = (modulus _ self modulus)])
-		ifFalse: [^ super polynomialValue: anObject].
-	x _ anObject representative.
-	answer _ 0.
-	representatives reverseDo: [:each| answer _ x * answer + each \\ modulus].
-	^ scalars representative: answer! !
-
-!ModularTuple methodsFor: 'printing' stamp: 'len 12/1/2016 16:40:08'!
-printOn: aStream
-	self modulus > 16 ifTrue: [^ super printOn: aStream].
-	1 to: self size do: [:i| (representatives at: i) printOn: aStream base: 16]! !
-
-!ModularTuple methodsFor: 'accessing-private' stamp: 'len 3/31/2016 07:43'!
-representatives
-	^ representatives! !
-
-!ModularTuple methodsFor: 'accessing-private' stamp: 'len 12/1/2016 16:36:25'!
-representatives: anArray
-	representatives _ anArray
-"	representatives do: [:each| (each between: 0 and: modulus) ifFalse: [self halt]]"! !
-
-!ModularTuple methodsFor: 'operations' stamp: 'len 12/1/2016 16:36:42'!
-reversed
-	^ self class representatives: representatives reversed over: scalars! !
-
-!ModularTuple methodsFor: 'accessing' stamp: 'len 12/1/2016 16:36:02'!
-scalars
-	^ scalars! !
-
-!ModularTuple methodsFor: 'accessing-private' stamp: 'len 12/1/2016 16:53:30'!
-scalars: aModularIntegers
-	scalars _ aModularIntegers! !
-
-!ModularTuple methodsFor: 'accessing' stamp: 'len 3/31/2016 07:47'!
-size
-	^ representatives size! !
-
-!ModularTuple methodsFor: 'operations' stamp: 'len 12/3/2016 09:13:11'!
-weight
-	"Answer the Hamming weight of the receiver, i.e. the number of entries that are not zero."
-	^ representatives count: [:each| each ~~ 0]! !
-
-!ModularTuple class methodsFor: 'instance creation' stamp: 'len 11/12/2016 17:19'!
-arrayClassForModulus: anInteger
-	anInteger <= 255 ifTrue: [^ ByteArray].
-	anInteger <= 16rFFFFFFFF ifTrue: [^ WordArray].
-	^ Array! !
-
-!ModularTuple class methodsFor: 'instance creation' stamp: 'len 12/1/2016 16:48:12'!
-coefficients: anArray over: aModularIntegers
-	^ self new: anArray size over: aModularIntegers evaluating: [:i| anArray at: i]! !
-
-!ModularTuple class methodsFor: 'instance creation' stamp: 'len 12/1/2016 16:47:15'!
-new: anInteger over: aModularIntegers
-	| array |
-	array _ (self arrayClassForModulus: aModularIntegers modulus) new: anInteger.
-	^ self representatives: array over: aModularIntegers! !
-
-!ModularTuple class methodsFor: 'instance creation' stamp: 'len 12/1/2016 16:47:41'!
-new: anInteger over: aModularIntegers evaluating: aBlock
-	| array |
-	array _ (self arrayClassForModulus: aModularIntegers modulus) new: anInteger.
-	1 to: anInteger do: [:i| array at: i put: (aBlock value: i) representative].
-	^ self representatives: array over: aModularIntegers! !
-
-!ModularTuple class methodsFor: 'instance creation' stamp: 'len 12/1/2016 16:46:28'!
-representatives: anArray over: aModularIntegers
-	^ self basicNew scalars: aModularIntegers; representatives: anArray! !
 
 !Graph methodsFor: 'operations' stamp: 'len 2/17/2017 07:41:42'!
 * aGraph
@@ -18302,9 +17043,9 @@ torsion
 new: anInteger
 	^ self on: (1 to: anInteger)! !
 
-!FreeAbelianGroup class methodsFor: 'instance creation' stamp: 'len 12/14/2016 21:44:28'!
+!FreeAbelianGroup class methodsFor: 'instance creation' stamp: 'len 2/25/2017 09:06:15'!
 on: aCollection
-	^ self new generators: (aCollection collect: [:each| FormalSum over: ZZ with: each])! !
+	^ self new generators: (aCollection collect: [:each| FormalSum with: each over: ZZ])! !
 
 !Lattice methodsFor: 'operations' stamp: 'len 5/23/2016 04:36'!
 * anObject
@@ -19830,24 +18571,24 @@ to: aRing evaluating: aBlock
 	aRing isRing ifFalse: [^ super to: aRing evaluating: aBlock].
 	^ RingHomomorphism from: self to: aRing evaluating: aBlock! !
 
-!Ring methodsFor: 'tuples and matrices' stamp: 'len 11/12/2016 09:15'!
+!Ring methodsFor: 'tuples and matrices' stamp: 'len 2/25/2017 21:26:30'!
 tuple: anArray
-	^ ArrayTuple coefficients: anArray over: self! !
+	^ GeneralTuple coefficients: anArray over: self! !
 
 !Ring methodsFor: 'tuples and matrices' stamp: 'len 11/5/2016 06:57'!
 tuple: anInteger constant: anElement
 	^ self tuple: anInteger evaluating: [:i| anElement]! !
 
-!Ring methodsFor: 'tuples and matrices' stamp: 'len 11/12/2016 09:15'!
+!Ring methodsFor: 'tuples and matrices' stamp: 'len 2/25/2017 21:26:35'!
 tuple: anInteger evaluating: aBlock
 	| array |
 	array _ Array new: anInteger.
 	1 to: anInteger do: [:i| array at: i put: (aBlock value: i)].
-	^ ArrayTuple coefficients: array over: self! !
+	^ GeneralTuple coefficients: array over: self! !
 
-!Ring methodsFor: 'tuples and matrices' stamp: 'len 11/12/2016 09:15'!
+!Ring methodsFor: 'tuples and matrices' stamp: 'len 2/25/2017 21:26:40'!
 tupleClass
-	^ ArrayTuple! !
+	^ GeneralTuple! !
 
 !Ring methodsFor: 'operations' stamp: 'len 12/9/2016 11:51:46'!
 units
@@ -19863,128 +18604,6 @@ valuation
 zeroIdeal
 	^ self * #()! !
 
-!FreeAlgebra methodsFor: 'comparing' stamp: 'len 8/25/2016 08:22'!
-= anObject
-	self == anObject ifTrue: [^ true].
-	^ (anObject isKindOf: FreeAlgebra) and: [anObject scalars = scalars and: [anObject words = words]]! !
-
-!FreeAlgebra methodsFor: 'elements' stamp: 'len 3/2/2016 05:54'!
-coefficient: aNumber word: aWord
-	^ self new coefficientAt: aWord put: aNumber; yourself! !
-
-!FreeAlgebra methodsFor: 'elements' stamp: 'len 8/25/2016 08:19'!
-coefficients: aCollection
-	^ FreePolynomial coefficients: aCollection! !
-
-!FreeAlgebra methodsFor: 'elements' stamp: 'len 8/25/2016 08:26'!
-constant: aNumber
-	^ self coefficient: aNumber word: words identity! !
-
-!FreeAlgebra methodsFor: 'comparing' stamp: 'len 8/25/2016 08:21'!
-hash
-	^ scalars hash + words hash hashMultiply! !
-
-!FreeAlgebra methodsFor: 'testing' stamp: 'len 8/25/2016 08:28'!
-includes: anObject
-	anObject coefficients keysAndValuesDo: [:key :value|
-		(words includes: key) ifFalse: [^ false].
-		(scalars includes: value) ifFalse: [^ false]].
-	^ true! !
-
-!FreeAlgebra methodsFor: 'accessing' stamp: 'len 8/25/2016 08:22'!
-indeterminates
-	^ words symbols! !
-
-!FreeAlgebra methodsFor: 'testing' stamp: 'len 3/5/2016 04:24'!
-isAssociative
-	^ true! !
-
-!FreeAlgebra methodsFor: 'testing' stamp: 'len 8/25/2016 08:29'!
-isCommutative
-	^ words isCommutative and: [scalars isCommutative]! !
-
-!FreeAlgebra methodsFor: 'testing' stamp: 'len 8/25/2016 08:30'!
-isCountable
-	^ words isCountable and: [scalars isCountable]! !
-
-!FreeAlgebra methodsFor: 'testing' stamp: 'len 8/25/2016 08:30'!
-isFinite
-	^ words isFinite and: [scalars isFinite]! !
-
-!FreeAlgebra methodsFor: 'elements' stamp: 'len 8/25/2016 08:19'!
-new
-	^ FreePolynomial new! !
-
-!FreeAlgebra methodsFor: 'elements' stamp: 'len 1/20/2016 14:06'!
-one
-	^ self constant: scalars one! !
-
-!FreeAlgebra methodsFor: 'printing' stamp: 'len 8/25/2016 08:22'!
-printOn: aStream
-	aStream print: scalars.
-	aStream nextPut: ${.
-	self indeterminates
-		do: [:i| aStream print: (Word x: i)]
-		separatedBy: [aStream nextPut: $,].
-	aStream nextPut: $}! !
-
-!FreeAlgebra methodsFor: 'accessing' stamp: 'len 3/5/2016 04:30'!
-rank
-	self flag: #fix. "conflicts with FreeModule|rank"
-	^ self indeterminates size! !
-
-!FreeAlgebra methodsFor: 'accessing' stamp: 'len 1/20/2016 14:58'!
-scalars
-	^ scalars! !
-
-!FreeAlgebra methodsFor: 'accessing-private' stamp: 'len 1/20/2016 13:39'!
-scalars: aCommutativeRing
-	scalars _ aCommutativeRing! !
-
-!FreeAlgebra methodsFor: 'accessing' stamp: 'len 8/25/2016 08:27'!
-words
-	^ words! !
-
-!FreeAlgebra methodsFor: 'accessing-private' stamp: 'len 8/25/2016 08:24'!
-words: aMonoid
-	words _ aMonoid! !
-
-!FreeAlgebra methodsFor: 'elements' stamp: 'len 8/25/2016 08:21'!
-x
-	^ self x: self indeterminates first! !
-
-!FreeAlgebra methodsFor: 'elements' stamp: 'len 3/2/2016 05:56'!
-x: anIndeterminate
-	^ self coefficient: scalars one word: (Word x: anIndeterminate)! !
-
-!FreeAlgebra methodsFor: 'elements' stamp: 'len 8/25/2016 08:22'!
-y
-	^ self x: self indeterminates second! !
-
-!FreeAlgebra methodsFor: 'elements' stamp: 'len 8/25/2016 08:21'!
-z
-	^ self x: self indeterminates third! !
-
-!FreeAlgebra methodsFor: 'elements' stamp: 'len 3/2/2016 05:55'!
-zero
-	^ self new! !
-
-!FreeAlgebra class methodsFor: 'instance creation' stamp: 'len 6/30/2016 02:27'!
-new: anInteger over: aRing
-	^ self on: (1 to: anInteger) over: aRing! !
-
-!FreeAlgebra class methodsFor: 'instance creation' stamp: 'len 8/25/2016 08:25'!
-on: aCollection over: aRing
-	^ self words: (FreeMonoid on: aCollection) over: aRing! !
-
-!FreeAlgebra class methodsFor: 'instance creation' stamp: 'len 1/20/2016 13:38'!
-over: aRing
-	^ self new: 1 over: aRing! !
-
-!FreeAlgebra class methodsFor: 'instance creation' stamp: 'len 8/25/2016 08:24'!
-words: aMonoid over: aRing
-	^ self new words: aMonoid; scalars: aRing! !
-
 !GroupRing methodsFor: 'comparing' stamp: 'len 8/26/2016 01:30'!
 <= aGroupRing
 	(aGroupRing isKindOf: GroupRing) ifFalse: [^ super <= aGroupRing].
@@ -19995,9 +18614,13 @@ words: aMonoid over: aRing
 	self == anObject ifTrue: [^ true].
 	^ (anObject isKindOf: GroupRing) and: [anObject scalars = scalars and: [anObject group = group]]! !
 
-!GroupRing methodsFor: 'morphisms' stamp: 'len 11/18/2016 20:29:41'!
+!GroupRing methodsFor: 'elements' stamp: 'len 2/25/2017 09:35:56'!
+coefficients: aFormalSum
+	^ (GroupRingElement coefficients: aFormalSum) parent: self! !
+
+!GroupRing methodsFor: 'morphisms' stamp: 'len 2/25/2017 09:36:21'!
 embed: aGroupElement
-	^ (FreePolynomial over: self scalars) coefficientAt: aGroupElement put: scalars one; yourself! !
+	^ self coefficients: (FormalSum with: aGroupElement over: scalars)! !
 
 !GroupRing methodsFor: 'morphisms' stamp: 'len 10/10/2016 08:56'!
 embedding
@@ -22685,6 +21308,128 @@ over: aRing
 polynomials: aPolynomialRing
 	^ self new polynomials: aPolynomialRing! !
 
+!FreeAlgebra methodsFor: 'comparing' stamp: 'len 8/25/2016 08:22'!
+= anObject
+	self == anObject ifTrue: [^ true].
+	^ (anObject isKindOf: FreeAlgebra) and: [anObject scalars = scalars and: [anObject words = words]]! !
+
+!FreeAlgebra methodsFor: 'elements' stamp: 'len 3/2/2016 05:54'!
+coefficient: aNumber word: aWord
+	^ self new coefficientAt: aWord put: aNumber; yourself! !
+
+!FreeAlgebra methodsFor: 'elements' stamp: 'len 8/25/2016 08:19'!
+coefficients: aCollection
+	^ FreePolynomial coefficients: aCollection! !
+
+!FreeAlgebra methodsFor: 'elements' stamp: 'len 8/25/2016 08:26'!
+constant: aNumber
+	^ self coefficient: aNumber word: words identity! !
+
+!FreeAlgebra methodsFor: 'comparing' stamp: 'len 8/25/2016 08:21'!
+hash
+	^ scalars hash + words hash hashMultiply! !
+
+!FreeAlgebra methodsFor: 'testing' stamp: 'len 8/25/2016 08:28'!
+includes: anObject
+	anObject coefficients keysAndValuesDo: [:key :value|
+		(words includes: key) ifFalse: [^ false].
+		(scalars includes: value) ifFalse: [^ false]].
+	^ true! !
+
+!FreeAlgebra methodsFor: 'accessing' stamp: 'len 8/25/2016 08:22'!
+indeterminates
+	^ words symbols! !
+
+!FreeAlgebra methodsFor: 'testing' stamp: 'len 3/5/2016 04:24'!
+isAssociative
+	^ true! !
+
+!FreeAlgebra methodsFor: 'testing' stamp: 'len 8/25/2016 08:29'!
+isCommutative
+	^ words isCommutative and: [scalars isCommutative]! !
+
+!FreeAlgebra methodsFor: 'testing' stamp: 'len 8/25/2016 08:30'!
+isCountable
+	^ words isCountable and: [scalars isCountable]! !
+
+!FreeAlgebra methodsFor: 'testing' stamp: 'len 8/25/2016 08:30'!
+isFinite
+	^ words isFinite and: [scalars isFinite]! !
+
+!FreeAlgebra methodsFor: 'elements' stamp: 'len 8/25/2016 08:19'!
+new
+	^ FreePolynomial new! !
+
+!FreeAlgebra methodsFor: 'elements' stamp: 'len 1/20/2016 14:06'!
+one
+	^ self constant: scalars one! !
+
+!FreeAlgebra methodsFor: 'printing' stamp: 'len 8/25/2016 08:22'!
+printOn: aStream
+	aStream print: scalars.
+	aStream nextPut: ${.
+	self indeterminates
+		do: [:i| aStream print: (Word x: i)]
+		separatedBy: [aStream nextPut: $,].
+	aStream nextPut: $}! !
+
+!FreeAlgebra methodsFor: 'accessing' stamp: 'len 3/5/2016 04:30'!
+rank
+	self flag: #fix. "conflicts with FreeModule|rank"
+	^ self indeterminates size! !
+
+!FreeAlgebra methodsFor: 'accessing' stamp: 'len 1/20/2016 14:58'!
+scalars
+	^ scalars! !
+
+!FreeAlgebra methodsFor: 'accessing-private' stamp: 'len 1/20/2016 13:39'!
+scalars: aCommutativeRing
+	scalars _ aCommutativeRing! !
+
+!FreeAlgebra methodsFor: 'accessing' stamp: 'len 8/25/2016 08:27'!
+words
+	^ words! !
+
+!FreeAlgebra methodsFor: 'accessing-private' stamp: 'len 8/25/2016 08:24'!
+words: aMonoid
+	words _ aMonoid! !
+
+!FreeAlgebra methodsFor: 'elements' stamp: 'len 8/25/2016 08:21'!
+x
+	^ self x: self indeterminates first! !
+
+!FreeAlgebra methodsFor: 'elements' stamp: 'len 3/2/2016 05:56'!
+x: anIndeterminate
+	^ self coefficient: scalars one word: (Word x: anIndeterminate)! !
+
+!FreeAlgebra methodsFor: 'elements' stamp: 'len 8/25/2016 08:22'!
+y
+	^ self x: self indeterminates second! !
+
+!FreeAlgebra methodsFor: 'elements' stamp: 'len 8/25/2016 08:21'!
+z
+	^ self x: self indeterminates third! !
+
+!FreeAlgebra methodsFor: 'elements' stamp: 'len 3/2/2016 05:55'!
+zero
+	^ self new! !
+
+!FreeAlgebra class methodsFor: 'instance creation' stamp: 'len 6/30/2016 02:27'!
+new: anInteger over: aRing
+	^ self on: (1 to: anInteger) over: aRing! !
+
+!FreeAlgebra class methodsFor: 'instance creation' stamp: 'len 8/25/2016 08:25'!
+on: aCollection over: aRing
+	^ self words: (FreeMonoid on: aCollection) over: aRing! !
+
+!FreeAlgebra class methodsFor: 'instance creation' stamp: 'len 1/20/2016 13:38'!
+over: aRing
+	^ self new: 1 over: aRing! !
+
+!FreeAlgebra class methodsFor: 'instance creation' stamp: 'len 8/25/2016 08:24'!
+words: aMonoid over: aRing
+	^ self new words: aMonoid; scalars: aRing! !
+
 !SymmetricPolynomialRing methodsFor: 'as yet unclassified' stamp: 'len 8/2/2016 09:50'!
 generators
 	^ (1 to: self rank) collect: [:i| polynomials symmetric: i]! !
@@ -24294,19 +23039,21 @@ example
 coordinateNames
 	^ self propertyAt: #coordinateNames ifAbsentPut: [self symbols collect: [:each| 'x', each printString sub]]! !
 
-!FormalSumsModule methodsFor: 'basis' stamp: 'len 2/22/2017 09:33:52'!
+!FormalSumsModule methodsFor: 'basis' stamp: 'len 2/25/2017 08:43:42'!
 coordinatesOf: anElement
-	^ self scalars tuple: self rank evaluating: [:i| anElement coefficientAt: (self symbols at: i)]! !
+	^ self scalars tuple: self rank evaluating: [:i| anElement at: (self symbols at: i)]! !
 
-!FormalSumsModule methodsFor: 'basis' stamp: 'len 1/16/2017 08:07:50'!
+!FormalSumsModule methodsFor: 'basis' stamp: 'len 2/25/2017 08:57:48'!
 e: anInteger
-	^ FormalSum over: self scalars with: (self symbols at: anInteger)! !
+	| R |
+	R _ self scalars.
+	^ (FormalSum new: 1 over: R) at: (self symbols at: anInteger) put: R one; yourself! !
 
 !FormalSumsModule methodsFor: 'accessing' stamp: 'len 2/22/2017 07:14:04'!
 generatorNames
 	^ self propertyAt: #generatorNames ifAbsentPut: [(1 to: self rank) collect: [:i| (self e: i) printText]]! !
 
-!FormalSumsModule methodsFor: 'testing' stamp: 'len 2/22/2017 09:51:46'!
+!FormalSumsModule methodsFor: 'testing' stamp: 'len 2/25/2017 08:57:42'!
 includes: anObject
 	^ (anObject isKindOf: FormalSum) and: [self contains: anObject]! !
 
@@ -24326,7 +23073,7 @@ symbols: aCollection
 x: anObject
 	^ self e: (self symbols indexOf: anObject)! !
 
-!FormalSumsModule methodsFor: 'accessing' stamp: 'len 2/24/2017 21:04:43'!
+!FormalSumsModule methodsFor: 'accessing' stamp: 'len 2/25/2017 08:57:36'!
 zero
 	^ self propertyAt: #zero ifAbsentPut: [FormalSum over: self scalars]! !
 
@@ -24334,13 +23081,15 @@ zero
 on: aCollection over: aRing
 	^ self new scalars: aRing; symbols: aCollection! !
 
-!SimplicialChainsModule methodsFor: 'basis' stamp: 'len 2/20/2017 11:37:59'!
-e: anInteger
-	^ SimplicialChain over: self scalars with: (self symbols at: anInteger)! !
+!SimplicialChainsModule methodsFor: 'elements' stamp: 'len 2/25/2017 08:12:24'!
+coefficients: aSparseTuple
+	^ (SimplicialChain coefficients: aSparseTuple) parent: self! !
 
-!SimplicialChainsModule methodsFor: 'accessing' stamp: 'len 2/24/2017 21:05:02'!
-zero
-	^ self propertyAt: #zero ifAbsentPut: [SimplicialChain over: self scalars]! !
+!SimplicialChainsModule methodsFor: 'basis' stamp: 'len 2/25/2017 09:30:37'!
+e: anInteger
+	| R |
+	R _ self scalars.
+	^ (SimplicialChain new: 1 over: R) at: (self symbols at: anInteger) put: R one; yourself! !
 
 !HomModule methodsFor: 'elements' stamp: 'len 12/22/2016 22:37:24'!
 !! anObject
@@ -24724,9 +23473,9 @@ on: aVectorSpace
 coordinatesOf: anElement
 	^ self scalars tuple: self rank evaluating: [:i| anElement coefficientAt: (SimpleTensor components: {left e: i - 1 // left rank + 1. right e: i - 1 \\ right rank + 1})]! !
 
-!TensorProductModule methodsFor: 'as yet unclassified' stamp: 'len 2/20/2017 14:31:32'!
+!TensorProductModule methodsFor: 'as yet unclassified' stamp: 'len 2/25/2017 09:07:22'!
 e: anInteger
-	^ Tensor over: self scalars simple: {left e: anInteger - 1 // left rank + 1. right e: anInteger - 1 \\ right rank + 1}! !
+	^ Tensor simple: {left e: anInteger - 1 // left rank + 1. right e: anInteger - 1 \\ right rank + 1} over: self scalars! !
 
 !TensorProductModule methodsFor: 'as yet unclassified' stamp: 'len 2/23/2017 10:00:04'!
 includes: anObject
@@ -24770,7 +23519,7 @@ coordinatesOf: aTensor
 covariantOrder
 	^ self type second! !
 
-!TensorsModule methodsFor: 'basis' stamp: 'len 2/20/2017 14:31:38'!
+!TensorsModule methodsFor: 'basis' stamp: 'len 2/25/2017 09:07:30'!
 e: anInteger
 	"Answer the anInteger-th canonic vector."
 	| i n vectors |
@@ -24779,7 +23528,7 @@ e: anInteger
 	vectors _ OrderedCollection new.
 	type first timesRepeat: [vectors add: (module e: i \\ n + 1). i _ i // n].
 	type second timesRepeat: [vectors add: (module dual e: i \\ n + 1). i _ i // n].
-	^ Tensor over: self scalars simple: vectors! !
+	^ Tensor simple: vectors over: self scalars! !
 
 !TensorsModule methodsFor: 'accessing' stamp: 'len 10/16/2016 05:32'!
 module
@@ -25877,9 +24626,9 @@ cells: n do: aBlock
 	Subclasses should reimplement."
 	^ self do: [:each| each dimension = n ifTrue: [aBlock value: each]]! !
 
-!CellComplex methodsFor: 'homology' stamp: 'len 2/24/2017 19:32:02'!
+!CellComplex methodsFor: 'homology' stamp: 'len 2/25/2017 07:13:30'!
 chainComplexOver: aRing
-	^ ChainComplex differentials: ((self dimension to: 0 by: -1) collect: [:i| self boundaryMap: i over: aRing])! !
+	^ ChainComplex differentials: ((self dimension+1 to: 0 by: -1) collect: [:i| self boundaryMap: i over: aRing])! !
 
 !CellComplex methodsFor: 'homology' stamp: 'len 2/24/2017 21:01:46'!
 chains: k over: aRing
@@ -25927,12 +24676,14 @@ hVector
 	"Answer the h-vector of this cell complex. This is the tuple of coefficients of the h-polynomial (in decreasing order of exponents)."
 	^ self hPolynomial coefficients reversed! !
 
-!CellComplex methodsFor: 'testing' stamp: 'len 2/19/2017 18:25:56'!
+!CellComplex methodsFor: 'testing' stamp: 'len 2/25/2017 15:10:35'!
 isTrivial
+	"Answer true if this is the trivial complex, with only the empty cell."
 	^ self size = 1! !
 
-!CellComplex methodsFor: 'testing' stamp: 'len 2/19/2017 18:25:50'!
+!CellComplex methodsFor: 'testing' stamp: 'len 2/25/2017 15:10:11'!
 isVoid
+	"Answer true if this is the void complex, that has no cells."
 	^ self size = 0! !
 
 !CellComplex methodsFor: 'printing' stamp: 'len 2/18/2017 21:21:19'!
@@ -26099,10 +24850,10 @@ isPure
 	d _ self dimension.
 	^ self facets allSatisfy: [:each| each dimension = d]! !
 
-!SimplicialComplex methodsFor: 'testing' stamp: 'len 2/19/2017 18:22:41'!
+!SimplicialComplex methodsFor: 'testing' stamp: 'len 2/25/2017 15:13:47'!
 isTrivial
-	"Answer true if this is the irrelevant complex whose unique face is the empty set."
-	^ self facets size = 1 and: [self facets anyOne isTrivial]! !
+	"Answer true if this is the trivial complex, with only one face (the empty simplex)."
+	^ self facets size = 1 and: [self facets allSatisfy: [:each| each isTrivial]]! !
 
 !SimplicialComplex methodsFor: 'testing' stamp: 'len 2/19/2017 18:23:52'!
 isVoid
@@ -26304,15 +25055,15 @@ torus
 	"Answer the tensor product of the receiver with the argument."
 	^ self notYetImplemented! !
 
-!ChainComplex methodsFor: 'homology' stamp: 'len 2/24/2017 20:44:02'!
+!ChainComplex methodsFor: 'homology' stamp: 'len 2/25/2017 07:18:50'!
 betti
 	^ (0 to: self degree-1) collect: [:i| self betti: i]! !
 
-!ChainComplex methodsFor: 'homology' stamp: 'len 2/24/2017 21:15:06'!
+!ChainComplex methodsFor: 'homology' stamp: 'len 2/25/2017 07:17:45'!
 betti: k
 	"Answer the k-th Betti number.
 	This is the rank of the k-th homology group.
-	For simplicial chain complexes this number gives a measure of the number of k-dimensional holes."
+	For singular homology this gives a measure of the number of k-dimensional holes."
 	^ (self homology: k) rank! !
 
 !ChainComplex methodsFor: 'homology' stamp: 'len 2/24/2017 19:36:03'!
@@ -26339,10 +25090,10 @@ d: k
 	D _ self differentials.
 	^ D at: D size - k! !
 
-!ChainComplex methodsFor: 'accessing' stamp: 'len 2/24/2017 19:47:24'!
+!ChainComplex methodsFor: 'accessing' stamp: 'len 2/25/2017 07:20:11'!
 degree
-	"Answer the maximum degree of a differential. A chain complex of degree n has n+1 differentials d(n) to d(0)."
-	^ self differentials size - 1! !
+	"Answer the maximum degree of a differential. A chain complex of degree n has n+2 differentials d(n+1) to d(0)."
+	^ self differentials size - 2! !
 
 !ChainComplex methodsFor: 'accessing' stamp: 'len 2/24/2017 19:31:29'!
 differentials
@@ -26364,9 +25115,9 @@ homology: k
 	This is the quotient of the k-cycles Z(k) modulo the k-boundaries B(k)."
 	^ (self cycles: k) / (self boundaries: k)! !
 
-!ChainComplex methodsFor: 'testing' stamp: 'len 2/24/2017 19:44:35'!
+!ChainComplex methodsFor: 'testing' stamp: 'len 2/25/2017 07:19:15'!
 isExact
-	0 to: self degree - 1 do: [:i|
+	0 to: self degree do: [:i|
 		(self d: i) image = (self d: i+1) kernel ifFalse: [^ false]].
 	^ true! !
 
@@ -26379,13 +25130,13 @@ printOn: aStream
 scalars
 	^ self propertyAt: #scalars ifAbsentPut: [self differentials anyOne domain scalars]! !
 
-!ChainComplex methodsFor: 'private' stamp: 'len 2/24/2017 20:41:34'!
+!ChainComplex methodsFor: 'private' stamp: 'len 2/25/2017 07:19:42'!
 verify
 	| n |
 	n _ self degree.
-"	(self d: n) kernel isTrivial ifFalse: [^ false halt]."
+	(self d: n+1) kernel isTrivial ifFalse: [^ false halt].
 	(self d: 0) image isTrivial ifFalse: [^ false halt].
-	n to: 1 by: -1 do: [:i|
+	n+1 to: 1 by: -1 do: [:i|
 		(self d: i) codomain = (self d: i-1) domain ifFalse: [^ false halt].
 		(self d: i) image <= (self d: i-1) kernel ifFalse: [^ false halt]].
 	^ true! !
@@ -29636,9 +28387,9 @@ isUnimodular
 isZero
 	^ matrix isZero! !
 
-!LinearMap methodsFor: 'operations' stamp: 'len 12/28/2016 11:12:11'!
+!LinearMap methodsFor: 'operations' stamp: 'len 2/25/2017 07:26:33'!
 kernel
-	^ self propertyAt: #kernel ifAbsentPut: [matrix kernel apply: domainBasis coordinatesInverseMap]! !
+	^ self propertyAt: #kernel ifAbsentPut: [self isTrivial ifTrue: [self domain] ifFalse: [matrix kernel apply: domainBasis coordinatesInverseMap]]! !
 
 !LinearMap methodsFor: 'operations' stamp: 'len 12/28/2016 11:12:44'!
 kernel2
@@ -33544,6 +32295,90 @@ value: anObject
 valueWithArguments: anArray
 	^ self value: anArray! !
 
+!GroupRingElement methodsFor: 'operations' stamp: 'len 2/25/2017 09:15:41'!
+* anObject
+	((self scalars includes: anObject) or: [anObject isInteger])
+		ifTrue: [^ parent coefficients: coefficients * anObject].
+	((anObject isKindOf: GroupRingElement) and: [anObject parent = self parent])
+		ifTrue:
+			[^ parent coefficients: (coefficients convolution: anObject coefficients)].
+	(self parent group includes: anObject)
+		ifTrue: [^ self mapMonomials: [:each| each*anObject]].
+	^ DomainError signal! !
+
+!GroupRingElement methodsFor: 'operations' stamp: 'len 2/25/2017 09:16:11'!
++ aGroupRingElement
+	^ self parent coefficients: coefficients + aGroupRingElement coefficients! !
+
+!GroupRingElement methodsFor: 'operations' stamp: 'len 2/25/2017 09:16:28'!
+- aGroupRingElement
+	^ self + aGroupRingElement negated! !
+
+!GroupRingElement methodsFor: 'operations' stamp: 'len 2/25/2017 09:16:36'!
+/ aNumber
+	^ self * aNumber reciprocal! !
+
+!GroupRingElement methodsFor: 'comparing' stamp: 'len 2/25/2017 09:17:03'!
+= aGroupRingElement
+	^ coefficients = aGroupRingElement coefficients! !
+
+!GroupRingElement methodsFor: 'operations' stamp: 'len 2/25/2017 07:52:41'!
+^ anInteger
+	"Answer the receiver raised to the power anInteger."
+	(anInteger isInteger and: [anInteger >= 0])
+		ifFalse: [^ DomainError signal: 'undefinted'].
+	anInteger = 0 ifTrue: [^ self one].
+	anInteger = 1 ifTrue: [^ self].
+	^ self squared ^ (anInteger // 2) * (self ^ (anInteger \\ 2))! !
+
+!GroupRingElement methodsFor: 'accessing' stamp: 'len 2/25/2017 09:17:50'!
+coefficients
+	^ coefficients! !
+
+!GroupRingElement methodsFor: 'private' stamp: 'len 2/25/2017 09:17:39'!
+coefficients: aFormalSum
+	coefficients _ aFormalSum! !
+
+!GroupRingElement methodsFor: 'comparing' stamp: 'len 2/25/2017 09:17:07'!
+hash
+	^ coefficients hash! !
+
+!GroupRingElement methodsFor: 'testing' stamp: 'len 2/25/2017 09:17:17'!
+isZero
+	^ coefficients isZero! !
+
+!GroupRingElement methodsFor: 'operations' stamp: 'len 2/25/2017 09:16:48'!
+negated
+	^ self parent coefficients: coefficients negated! !
+
+!GroupRingElement methodsFor: 'accessing' stamp: 'len 2/25/2017 07:56:29'!
+one
+	^ self parent one! !
+
+!GroupRingElement methodsFor: 'private' stamp: 'len 2/25/2017 07:51:47'!
+parent
+	^ parent! !
+
+!GroupRingElement methodsFor: 'private' stamp: 'len 2/25/2017 07:52:11'!
+parent: aGroupRing
+	parent _ aGroupRing! !
+
+!GroupRingElement methodsFor: 'printing' stamp: 'len 2/25/2017 09:13:53'!
+printOn: aStream
+	aStream print: coefficients! !
+
+!GroupRingElement methodsFor: 'accessing' stamp: 'len 2/25/2017 09:14:12'!
+scalars
+	^ parent scalars! !
+
+!GroupRingElement methodsFor: 'operations' stamp: 'len 2/25/2017 07:56:11'!
+squared
+	^ self * self! !
+
+!GroupRingElement class methodsFor: 'instance creation' stamp: 'len 2/25/2017 09:18:07'!
+coefficients: aFormalSum
+	^ self basicNew coefficients: aFormalSum! !
+
 !ResidueClass methodsFor: 'operations' stamp: 'len 2/14/2017 08:17:55'!
 * anObject
 	anObject isInteger ifTrue: [^ parent project: representative * anObject].
@@ -34234,97 +33069,223 @@ sqrt: anIntegerOrFraction
 		minimalPolynomial: QQ polynomials x squared - anIntegerOrFraction
  		approximation: (anIntegerOrFraction negative ifTrue: [anIntegerOrFraction negated sqrt i] ifFalse: [anIntegerOrFraction sqrt]) radius: 0.00001! !
 
-!FormalSum methodsFor: 'arithmetic' stamp: 'len 3/5/2016 04:40'!
+!FormalSum methodsFor: 'operations' stamp: 'len 11/18/2016 09:51:39'!
 * aNumber
-	^ self species coefficients: coefficients * aNumber! !
+	^ self collect: [:each| each*aNumber]! !
 
-!FormalSum methodsFor: 'arithmetic' stamp: 'len 10/15/2016 21:44'!
+!FormalSum methodsFor: 'operations' stamp: 'len 2/25/2017 21:32:44'!
 + aFormalSum
-	^ self species coefficients: coefficients + aFormalSum coefficients! !
+	| other answer |
+	self size <= aFormalSum size
+		ifTrue: [answer _ aFormalSum copy. other _ self]
+		ifFalse: [answer _ self copy. other _ aFormalSum].
+	other associationsDo: [:each| answer at: each key add: each value].
+	^ answer! !
 
-!FormalSum methodsFor: 'arithmetic' stamp: 'len 10/15/2016 21:44'!
+!FormalSum methodsFor: 'operations' stamp: 'len 2/25/2017 21:32:55'!
 - aFormalSum
-	^ self + aFormalSum negated! !
+	| answer |
+	self size <= aFormalSum size
+		ifTrue:
+			[answer _ aFormalSum negated.
+			self associationsDo: [:each| answer at: each key add: each value]]
+		ifFalse:
+			[answer _ self copy.
+			aFormalSum associationsDo: [:each| answer at: each key add: each value negated]].
+	^ answer! !
 
-!FormalSum methodsFor: 'arithmetic' stamp: 'len 3/2/2016 05:59'!
+!FormalSum methodsFor: 'operations' stamp: 'len 2/6/2017 03:13:39'!
 / aNumber
-	^ self * aNumber reciprocal! !
+	^ self collect: [:each| each / aNumber]! !
 
-!FormalSum methodsFor: 'comparing' stamp: 'len 10/15/2016 21:44'!
-= aFormalSum
-	^ coefficients = aFormalSum coefficients! !
+!FormalSum methodsFor: 'operations' stamp: 'len 2/6/2017 03:13:44'!
+// aNumber
+	^ self collect: [:each| each // aNumber]! !
 
-!FormalSum methodsFor: 'accessing' stamp: 'len 2/22/2017 09:31:34'!
-coefficientAt: anElement
-	^ coefficients at: anElement! !
+!FormalSum methodsFor: 'operations' stamp: 'len 2/6/2017 03:13:48'!
+/// aNumber
+	^ self collect: [:each| each /// aNumber]! !
 
-!FormalSum methodsFor: 'accessing' stamp: 'len 3/2/2016 06:00'!
-coefficientAt: anElement add: aNumber
-	^ coefficients at: anElement add: aNumber! !
+!FormalSum methodsFor: 'comparing' stamp: 'len 11/18/2016 20:11:33'!
+= aSparseTuple
+	^ coefficients = aSparseTuple coefficients! !
 
-!FormalSum methodsFor: 'accessing' stamp: 'len 3/2/2016 06:00'!
-coefficientAt: anElement put: aNumber
-	^ coefficients at: anElement put: aNumber! !
+!FormalSum methodsFor: 'operations' stamp: 'len 2/6/2017 03:15:23'!
+\\ aNumber
+	^ self collect: [:each| each \\ aNumber]! !
 
-!FormalSum methodsFor: 'accessing' stamp: 'len 2/28/2016 04:29'!
+!FormalSum methodsFor: 'enumreating' stamp: 'len 11/18/2016 09:54:31'!
+associationsDo: aBlock
+	coefficients associationsDo: aBlock! !
+
+!FormalSum methodsFor: 'accessing' stamp: 'len 11/18/2016 17:29:17'!
+at: anObject
+	^ coefficients at: anObject ifAbsent: [scalars zero]! !
+
+!FormalSum methodsFor: 'operations' stamp: 'len 11/18/2016 10:02:25'!
+at: key add: value
+	^ coefficients at: key addAndRemoveIfZero: value! !
+
+!FormalSum methodsFor: 'accessing' stamp: 'len 11/18/2016 17:29:29'!
+at: anObject ifAbsent: aBlock
+	^ coefficients at: anObject ifAbsent: aBlock! !
+
+!FormalSum methodsFor: 'accessing' stamp: 'len 11/18/2016 17:29:44'!
+at: anObject ifPresent: aBlock
+	^ coefficients at: anObject ifPresent: aBlock! !
+
+!FormalSum methodsFor: 'accessing' stamp: 'len 11/18/2016 17:27:44'!
+at: key put: value
+	value isZero ifTrue: [coefficients removeKey: key ifAbsent: []. ^ value].
+	^ coefficients at: key put: value! !
+
+!FormalSum methodsFor: 'accessing' stamp: 'len 11/18/2016 09:53:40'!
+bitSize
+	| answer |
+	answer _ 0.
+	coefficients keysAndValuesDo: [:key :value| answer _ answer + key bitSize + value bitSize].
+	^ answer! !
+
+!FormalSum methodsFor: 'private' stamp: 'len 11/18/2016 20:11:53'!
 coefficients
 	^ coefficients! !
 
-!FormalSum methodsFor: 'accessing' stamp: 'len 3/1/2016 03:39'!
-coefficients: aSparseTuple
-	coefficients _ aSparseTuple! !
+!FormalSum methodsFor: 'private' stamp: 'len 11/18/2016 10:12:44'!
+coefficients: aDictionary
+	coefficients _ aDictionary! !
 
-!FormalSum methodsFor: 'comparing' stamp: 'len 2/28/2016 04:32'!
+!FormalSum methodsFor: 'enumreating' stamp: 'len 11/18/2016 17:43:53'!
+collect: aBlock 
+	| answer |
+	answer _ self species new: self size over: self scalars.
+	self associationsDo: [:each| answer at: each key put: (aBlock value: each value)].
+	^ answer! !
+
+!FormalSum methodsFor: 'enumreating' stamp: 'len 11/18/2016 09:54:10'!
+collectNoZero: aBlock
+	"The result of aBlock must never be zero."
+	^ self copy associationsDo: [:each| each value: (aBlock value: each value)]! !
+
+!FormalSum methodsFor: 'operations' stamp: 'len 2/25/2017 21:33:28'!
+convolution2: aFormalSum
+	| answer |
+	answer _ self class new: self size + aFormalSum size over: scalars.
+	self associationsDo: [:each|
+		aFormalSum associationsDo: [:other|
+			answer at: each key * other key add: each value * other value]].
+	^ answer! !
+
+!FormalSum methodsFor: 'operations' stamp: 'len 2/25/2017 21:33:19'!
+convolution3: aFormalSum
+	| dictionary noZeroesDictionary |
+	dictionary _ Dictionary new: self size + aFormalSum size.
+	self associationsDo: [:each|
+		aFormalSum associationsDo: [:other|
+			dictionary at: each key * other key add: each value * other value]].
+	noZeroesDictionary _ Dictionary new: dictionary size.
+	dictionary associationsDo: [:each| each value isZero ifFalse: [noZeroesDictionary add: each]].
+	^ self class coefficients: noZeroesDictionary over: scalars! !
+
+!FormalSum methodsFor: 'operations' stamp: 'len 2/25/2017 21:33:38'!
+convolution: aFormalSum
+	| answer |
+	answer _ self class new: self size + aFormalSum size over: scalars.
+	self associationsDo: [:each|
+		aFormalSum associationsDo: [:other|
+			answer at: each key * other key add: each value * other value]].
+	^ answer! !
+
+!FormalSum methodsFor: 'enumreating' stamp: 'len 11/18/2016 20:24:16'!
+do: aBlock
+	coefficients do: aBlock! !
+
+!FormalSum methodsFor: 'operations' stamp: 'len 2/25/2017 21:33:50'!
+dot: aFormalSum
+	| answer |
+	self size <= aFormalSum size ifFalse: [^ aFormalSum dot: self].
+	answer _ scalars zero.
+	coefficients associationsDo: [:each|
+		aFormalSum at: each key ifPresent: [:value2| answer _ answer + (each value*value2)]].
+	^ answer! !
+
+!FormalSum methodsFor: 'operations' stamp: 'len 2/25/2017 21:34:02'!
+hadamard: aFormalSum
+	"Answer the pointwise product with the argument, also called Hadamard product."
+	| answer |
+	self size <= aFormalSum size ifFalse: [^ aFormalSum hadamard: self]. "assuming it's commutative"
+	answer _ self copyEmpty.
+	coefficients associationsDo: [:each| | key |
+		key _ each key.
+		answer at: key put: each value * (aFormalSum at: key)].
+	^ answer! !
+
+!FormalSum methodsFor: 'comparing' stamp: 'len 11/18/2016 20:11:39'!
 hash
 	^ coefficients hash! !
 
-!FormalSum methodsFor: 'testing' stamp: 'len 2/28/2016 04:23'!
+!FormalSum methodsFor: 'testing' stamp: 'len 11/18/2016 09:56:53'!
 isZero
 	^ coefficients isEmpty! !
 
-!FormalSum methodsFor: 'arithmetic' stamp: 'len 3/5/2016 04:40'!
+!FormalSum methodsFor: 'accessing' stamp: 'len 11/18/2016 20:33:21'!
+keys
+	^ coefficients keys! !
+
+!FormalSum methodsFor: 'enumreating' stamp: 'len 11/18/2016 17:45:00'!
+keysAndValuesDo: aBlock
+	coefficients keysAndValuesDo: aBlock! !
+
+!FormalSum methodsFor: 'enumreating' stamp: 'len 11/18/2016 17:45:38'!
+keysDo: aBlock
+	coefficients keysDo: aBlock! !
+
+!FormalSum methodsFor: 'operations' stamp: 'len 11/18/2016 09:57:04'!
 negated
-	^ self species coefficients: coefficients negated! !
+	^ self collectNoZero: [:each| each negated]! !
 
-!FormalSum methodsFor: 'printing' stamp: 'len 4/25/2016 06:46'!
-printCoefficient: c on: aStream
-	"Print the coefficient of the receiver on the stream aStream."
+!FormalSum methodsFor: 'converting' stamp: 'len 1/20/2017 09:15:11'!
+over: aRing
+	| answer |
+	self scalars = aRing ifTrue: [^ self].
+	answer _ self species new: self size over: aRing.
+	self associationsDo: [:each| answer at: each key put: aRing !! each value].
+	^ answer! !
 
-	| string numeric |
-	string _ c printString.
-	string first = $-
-		ifTrue: [aStream nextPut: $-. string _ c negated printString].
-	numeric _ string allSatisfy: [:each| each isDigit].
-	aStream nextPutAll:
-		((numeric or: [string first = $(]) ifTrue: [string] ifFalse: ['(', string, ')'])! !
+!FormalSum methodsFor: 'copying' stamp: 'len 11/18/2016 17:34:33'!
+postCopy
+	coefficients _ coefficients copy! !
 
-!FormalSum methodsFor: 'printing' stamp: 'len 4/25/2016 06:47'!
+!FormalSum methodsFor: 'printing' stamp: 'len 2/25/2017 09:43:39'!
+printCoefficient: coefficient on: aStream
+	| c |
+	((c _ coefficient) printString first = $- "or: [coefficient isNumber and: [coefficient negative]]")
+		ifTrue: [aStream nextPut: $-. c _ c negated].
+	((c isKindOf: Polynomial) and: [c isMonomial])
+		ifTrue: [aStream print: c. ^ self].
+	(c printString allSatisfy: [:each| each isAlphaNumeric or: ['{}()/' includes: each]])
+		ifTrue: [aStream print: c. ^ self].
+	aStream nextPut: $(; print: c; nextPut: $)! !
+
+!FormalSum methodsFor: 'printing' stamp: 'len 2/25/2017 08:38:18'!
 printOn2: aStream
-	| elements |
-	self flag: #fix. "copy form Polynomial"
-	self isZero ifTrue: [aStream nextPutAll: '0'. ^ self].
-	elements _ coefficients keys asSortedCollection: [:a :b| a printString <= b printString].
-	aStream print: (coefficients at: elements first); print: elements first.
-	elements allButFirstDo: 
-		[:each| | coefficient |
-		(coefficient _ coefficients at: each) < 0
-			ifTrue: [aStream nextPutAll: ' - '; print: coefficient negated; print: each]
-			ifFalse: [coefficient  > 0
-				ifTrue: [aStream nextPutAll: ' + '; print: coefficient; print: each]]]! !
+	aStream nextPut: $(.
+	(Iterator on: self performing: #associationsDo:)
+		do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: ', '].
+	aStream nextPut: $)! !
 
-!FormalSum methodsFor: 'printing' stamp: 'len 7/2/2016 16:46'!
+!FormalSum methodsFor: 'printing' stamp: 'len 2/25/2017 08:39:05'!
 printOn: aStream
 	| elements c |
 	self isZero ifTrue: [aStream nextPutAll: '0'. ^ self].
-	elements _ coefficients keys asSortedCollection: [:a :b| a printString <= b printString].
-	c _ self coefficientAt: elements first.
+	elements _ self keys asSortedCollection: [:a :b| a printString <= b printString].
+	c _ self at: elements first.
 	c printString first = $-
 		ifTrue: [c _ c negated. aStream nextPut: $-].
-	c ~= c one ifTrue: [self printCoefficient: c on: aStream].
+	c ~= scalars one ifTrue: [self printCoefficient: c on: aStream].
 	((elements first isKindOf: Word) and: [elements first isEmpty])
 		ifFalse: [aStream print: elements first].
 	elements allButFirst do: [:each|
-		c _ self coefficientAt: each.
+		c _ self at: each.
 		c printString first = $-
 			ifTrue: [aStream nextPutAll: ' - '. c _ c negated]
 			ifFalse: [aStream nextPutAll: ' + '].
@@ -34332,99 +33293,70 @@ printOn: aStream
 		((each isKindOf: Word) and: [each isEmpty])
 			ifFalse: [aStream print: each]]! !
 
-!FormalSum methodsFor: 'accessing' stamp: 'len 11/18/2016 20:30:33'!
+!FormalSum methodsFor: 'accessing' stamp: 'len 11/18/2016 10:12:08'!
 scalars
-	^ coefficients scalars! !
+	^ scalars! !
 
-!FormalSum methodsFor: 'accessing' stamp: 'len 10/15/2016 17:28'!
-value
-	| answer |
-	answer _ nil.
-	coefficients keysAndValuesDo: [:key :value|
-		answer _ answer ifNil: [value == 1 ifTrue: [key value] ifFalse: [key value * value]] ifNotNil: [key value * value + answer]].
-	^ answer! !
+!FormalSum methodsFor: 'private' stamp: 'len 11/18/2016 10:12:25'!
+scalars: aRing
+	scalars _ aRing! !
 
-!FormalSum methodsFor: 'accessing' stamp: 'len 11/18/2016 20:43:44'!
+!FormalSum methodsFor: 'accessing' stamp: 'len 11/18/2016 09:55:05'!
+size
+	^ coefficients size! !
+
+!FormalSum methodsFor: 'enumreating' stamp: 'len 11/18/2016 09:57:30'!
+withIndexDo: elementAndIndexBlock 
+	"Just like with:do: except that the iteration index supplies the second argument to the block."
+	coefficients keysAndValuesDo: [:key :value| elementAndIndexBlock value: value value: key]! !
+
+!FormalSum methodsFor: 'accessing' stamp: 'len 11/18/2016 09:58:02'!
 zero
-	^ self class coefficients: (SparseTuple over: self scalars)! !
+	^ self class over: scalars! !
 
-!FormalSum class methodsFor: 'instance creation' stamp: 'len 11/18/2016 20:26:02'!
-coefficients: aSparseTuple
-	^ self basicNew coefficients: aSparseTuple! !
+!FormalSum class methodsFor: 'instance creation' stamp: 'len 11/30/2016 14:46:31'!
+associations: aCollection over: aRing
+	^ self coefficients: (aCollection as: Dictionary) over: aRing! !
 
-!FormalSum class methodsFor: 'instance creation' stamp: 'len 11/18/2016 20:28:20'!
-new
-	^ self shouldNotImplement! !
+!FormalSum class methodsFor: 'instance creation' stamp: 'len 11/18/2016 10:00:47'!
+coefficients: aDictionary over: aRing
+	^ self basicNew coefficients: aDictionary; scalars: aRing! !
 
-!FormalSum class methodsFor: 'instance creation' stamp: 'len 11/18/2016 20:43:55'!
+!FormalSum class methodsFor: 'instance creation' stamp: 'len 11/30/2016 14:46:35'!
+new: anInteger over: aRing
+	^ self coefficients: (Dictionary new: anInteger) over: aRing! !
+
+!FormalSum class methodsFor: 'instance creation' stamp: 'len 11/30/2016 14:46:41'!
 over: aRing
-	^ self coefficients: (SparseTuple over: aRing)! !
+	^ self coefficients: Dictionary new over: aRing! !
 
-!FormalSum class methodsFor: 'instance creation' stamp: 'len 11/18/2016 20:27:11'!
-over: aRing with: anElement
-	^ self over: aRing with: anElement times: aRing one! !
+!FormalSum class methodsFor: 'instance creation' stamp: 'len 2/25/2017 09:34:03'!
+with: anObject over: aRing
+	^ (self new: 1 over: aRing) at: anObject put: aRing one; yourself! !
 
-!FormalSum class methodsFor: 'instance creation' stamp: 'len 11/18/2016 20:43:49'!
-over: aRing with: anElement times: anScalar
-	^ self coefficients: ((SparseTuple over: aRing) at: anElement put: anScalar; yourself)! !
+!Tensor class methodsFor: 'instance creation' stamp: 'len 2/25/2017 09:06:55'!
+simple: anArray over: aRing
+	^ self with: (anArray class = SimpleTensor ifTrue: [anArray] ifFalse: [SimpleTensor components: anArray]) over: aRing! !
 
-!FreePolynomial methodsFor: 'arithmetic' stamp: 'len 11/25/2016 10:03:02'!
-* anObject
-	((self scalars includes: anObject) or: [anObject isInteger])
-		ifTrue: [^ self class coefficients: self coefficients * anObject].
-	((anObject isKindOf: FreePolynomial) and: [anObject scalars = self scalars])
-		ifTrue:
-			[^ self species coefficients: (coefficients convolution: anObject coefficients)].
-	(anObject isKindOf: Word)
-		ifTrue: [^ self mapMonomials: [:each| each*anObject]].
-	^ DomainError signal! !
-
-!FreePolynomial methodsFor: 'arithmetic' stamp: 'len 1/22/2017 08:14:32'!
-^ anInteger
-	"Answer the receiver raised to the power anInteger."
-	(anInteger isInteger and: [anInteger >= 0])
-		ifFalse: [^ self error: 'undefinted'].
-	anInteger = 0 ifTrue: [^ self one].
-	anInteger = 1 ifTrue: [^ self].
-	^ self squared ^ (anInteger // 2) * (self ^ (anInteger \\ 2))! !
-
-!FreePolynomial methodsFor: 'accessing' stamp: 'len 3/3/2016 05:27'!
-degree
-	"Answer the total degree of the receiver."
-	self isZero ifTrue: [^ Infinity negative].
-	^ self monomials max: [:each| each length]! !
-
-!FreePolynomial methodsFor: 'accessing' stamp: 'len 11/18/2016 20:43:58'!
-one
-	^ self class coefficients: ((SparseTuple over: self scalars) at: Word empty put: self scalars one; yourself)! !
-
-!FreePolynomial methodsFor: 'arithmetic' stamp: 'len 3/2/2016 05:35'!
-squared
-	^ self * self! !
-
-!Tensor class methodsFor: 'instance creation' stamp: 'len 2/20/2017 14:31:16'!
-over: aRing simple: anArray
-	^ self over: aRing with: (anArray class = SimpleTensor ifTrue: [anArray] ifFalse: [SimpleTensor components: anArray])! !
-
-!SimplicialChain methodsFor: 'operations' stamp: 'len 2/24/2017 20:38:53'!
+!SimplicialChain methodsFor: 'operations' stamp: 'len 2/25/2017 09:26:29'!
 boundary
 	"The boundary of a chain is the linear combination of the boundary of the simplices in the chain. The boundary of a k-chain is a (k-1)-chain."
 	| answer |
+	self dimension <= 0 ifTrue: [^ self zero].
 	answer _ self class over: self scalars.
-	self dimension <= 0 ifTrue: [^ answer].
-	self coefficients keysAndValuesDo: [:key :value|
+	self keysAndValuesDo: [:key :value|
 		| V minusValue |
 		V _ key vertices asArray.
 		minusValue _ value negated.
 		1 to: V size do: [:i| | F |
 			"F is the facet opposite the i-th vertex:"
 			F _ Simplex vertices: (V copyWithoutIndex: i).
-			answer coefficientAt: F add: (i odd ifTrue: [value] ifFalse: [minusValue])]].
+			answer at: F add: (i odd ifTrue: [value] ifFalse: [minusValue])]].
 	^ answer! !
 
-!SimplicialChain methodsFor: 'accessing' stamp: 'len 2/24/2017 21:20:16'!
+!SimplicialChain methodsFor: 'accessing' stamp: 'len 2/25/2017 09:26:39'!
 dimension
-	coefficients keysDo: [:any| ^ any dimension].
+	self keysDo: [:any| ^ any dimension].
 	^ -1! !
 
 !SimplicialChain methodsFor: 'testing' stamp: 'len 2/23/2016 03:33'!
@@ -34448,38 +33380,38 @@ isCycle
 	"Answer true if the receiver and the argument are linearly equivalent."
 	^ (self - aDivisor) isPrincipal! !
 
-!Divisor methodsFor: 'accessing' stamp: 'len 10/27/2016 10:33'!
+!Divisor methodsFor: 'accessing' stamp: 'len 2/25/2017 09:09:54'!
 degree
 	| answer |
 	answer _ 0.
-	self coefficients do: [:each| answer _ answer + each].
+	self do: [:each| answer _ answer + each].
 	^ answer! !
 
-!Divisor methodsFor: 'operations' stamp: 'len 1/2/2017 15:37:04'!
+!Divisor methodsFor: 'operations' stamp: 'len 2/25/2017 09:08:47'!
 gcd: aDivisor
 	| answer |
 	answer _ self class over: self scalars.
-	self coefficients keysAndValuesDo: [:key :value|
-		aDivisor coefficients at: key ifPresent: [:value2| answer at: key put: (value min: value2)]].
+	self keysAndValuesDo: [:key :value|
+		aDivisor at: key ifPresent: [:value2| answer at: key put: (value min: value2)]].
 	^ answer! !
 
-!Divisor methodsFor: 'testing' stamp: 'len 10/27/2016 10:27'!
+!Divisor methodsFor: 'testing' stamp: 'len 2/25/2017 09:09:25'!
 isEffective
-	^ self coefficients allSatisfy: [:each| each positive]! !
+	^ self allSatisfy: [:each| each positive]! !
 
-!Divisor methodsFor: 'operations' stamp: 'len 1/2/2017 15:38:54'!
+!Divisor methodsFor: 'operations' stamp: 'len 2/25/2017 09:09:10'!
 lcm: aDivisor
 	| answer |
 	answer _ self copy.
-	aDivisor coefficients keysAndValuesDo: [:key :value|
-		answer coefficientAt: key put: ((self coefficientAt: key) max: value)].
+	aDivisor keysAndValuesDo: [:key :value|
+		answer at: key put: ((self at: key) max: value)].
 	^ answer! !
 
-!Divisor methodsFor: 'accessing' stamp: 'len 12/8/2016 20:33:48'!
+!Divisor methodsFor: 'accessing' stamp: 'len 2/25/2017 09:09:48'!
 support
 	| answer |
 	answer _ nil. "should start from the empty variety"
-	self coefficients keysDo: [:each| answer _ answer ifNil: [each] ifNotNil: [answer – each]].
+	self keysDo: [:each| answer _ answer ifNil: [each] ifNotNil: [answer – each]].
 	^ answer! !
 
 !ModuleMonomial methodsFor: 'as yet unclassified' stamp: 'len 1/14/2017 20:20:21'!
@@ -34993,35 +33925,1054 @@ new
 on: aProjectiveSpace
 	^ self new space: aProjectiveSpace! !
 
-!SparseBitTuple methodsFor: 'as yet unclassified' stamp: 'len 11/18/2016 07:52:07'!
-- aSparseBitTuple
-	^ self + aSparseBitTuple! !
+!Tuple methodsFor: 'operations' stamp: 'len 12/1/2016 16:52:32'!
+% anInteger
+	| ring |
+	self flag: #fix. "optimize. this is slow because creates lots of residue class objects"
+	ring _ ZZ / anInteger.
+	anInteger = 2 ifTrue: [^ BitTuple new: self size evaluating: [:i| ring project: (self at: i)]].
+	^ ModularTuple new: self size over: ring evaluating: [:i| ring project: (self at: i)]! !
 
-!SparseBitTuple methodsFor: 'as yet unclassified' stamp: 'len 11/18/2016 07:50:25'!
-at: anObject
-	^ (support includes: anObject) ifTrue: [One] ifFalse: [Zero]! !
+!Tuple methodsFor: 'operations' stamp: 'len 11/5/2016 06:17'!
+* anObject
+	(anObject is: #Tuple)
+		ifTrue: [^ self scalars tuple: (self size min: anObject size) evaluating: [:i| (self at: i) * (anObject at: i)]].
+	^ self collect: [:each| each * anObject]! !
 
-!SparseBitTuple methodsFor: 'as yet unclassified' stamp: 'len 11/18/2016 07:53:04'!
-at: anObject put: aBit
-	aBit = One ifTrue: [support add: anObject] ifFalse: [support remove: anObject ifAbsent: []].
-	^ aBit! !
+!Tuple methodsFor: 'operations' stamp: 'len 11/6/2016 14:21'!
+- aTuple
+	^ self + aTuple negated! !
 
-!SparseBitTuple methodsFor: 'as yet unclassified' stamp: 'len 11/18/2016 07:52:14'!
+!Tuple methodsFor: 'operations' stamp: 'len 3/29/2016 18:50'!
+/ aNumber
+	^ self collect: [:each| each / aNumber]! !
+
+!Tuple methodsFor: 'operations' stamp: 'len 3/29/2016 18:50'!
+// aNumber
+	^ self collect: [:each| each // aNumber]! !
+
+!Tuple methodsFor: 'operations' stamp: 'len 2/6/2017 03:11:48'!
+/// aNumber
+	^ self collect: [:each| each /// aNumber]! !
+
+!Tuple methodsFor: 'operations' stamp: 'len 3/29/2016 19:02'!
+<< anInteger
+	^ self >> anInteger negated! !
+
+!Tuple methodsFor: 'operations' stamp: 'len 3/29/2016 18:45'!
+<<< anInteger
+	^ self >>> anInteger negated! !
+
+!Tuple methodsFor: 'comparing' stamp: 'len 11/12/2016 09:16'!
+= anObject
+	self == anObject ifTrue: [^ true].
+	(anObject isKindOf: Tuple) ifFalse: [^ false].
+	self size = anObject size ifFalse: [^ false].
+	1 to: self size do: [:i|
+		(self at: i) = (anObject at: i) ifFalse: [^ false]].
+	^ true! !
+
+!Tuple methodsFor: 'operations' stamp: 'len 3/29/2016 19:02'!
+>> anInteger
+	^ self shift: anInteger! !
+
+!Tuple methodsFor: 'operations' stamp: 'len 11/5/2016 06:56'!
+>>> anInteger
+	anInteger == 0 ifTrue: [^ self].
+	anInteger < 0 ifTrue: [^ self copyFrom: anInteger negated + 1 to: self size].
+	^ (self scalars tuple: anInteger constant: self scalars zero), self! !
+
+!Tuple methodsFor: 'operations' stamp: 'len 2/6/2017 03:15:07'!
+\\ aNumber
+	^ self collect: [:each| each \\ aNumber]! !
+
+!Tuple methodsFor: 'converting' stamp: 'len 11/8/2016 07:19'!
+adaptToCollection: aCollection andSend: selector
+	self size = aCollection size ifFalse: [^ self error: 'sizes don''t match'].
+	^ aCollection withIndexCollect: [:each :index| each perform: selector with: (self at: index)]! !
+
+!Tuple methodsFor: 'converting' stamp: 'len 3/29/2016 18:53'!
+adaptToNumber: aNumber andSend: selector
+	selector == #* ifTrue:[^ self collect: [:each| aNumber * each]].
+	^ super adaptToNumber: aNumber andSend: selector! !
+
+!Tuple methodsFor: 'converting' stamp: 'len 4/8/2016 22:34'!
+adaptToRealAlgebraic: aNumber andSend: selector
+	^ self adaptToNumber: aNumber andSend: selector! !
+
+!Tuple methodsFor: 'operations' stamp: 'len 11/23/2016 09:43:40'!
+addFrom: startIndex to: stopIndex with: aTuple by: aNumber
+	startIndex to: stopIndex do: [:i|
+		self at: i put: (aTuple at: i) * aNumber + (self at: i)]! !
+
+!Tuple methodsFor: 'operations' stamp: 'len 11/23/2016 09:43:18'!
+addFrom: startIndex with: aTuple by: aNumber
+	self addFrom: startIndex to: (self size min: aTuple size) with: aTuple by: aNumber! !
+
+!Tuple methodsFor: 'enumerating' stamp: 'len 11/5/2016 07:06'!
+allSatisfy: aBlock
+	"Evaluate aBlock with the elements of the receiver.
+	If aBlock returns false for any element return false.
+	Otherwise return true."
+
+	self do: [:each | (aBlock value: each) ifFalse: [^ false]].
+	^ true! !
+
+!Tuple methodsFor: 'enumerating' stamp: 'len 11/5/2016 09:09'!
+anySatisfy: aBlock
+	"Evaluate aBlock with the elements of the receiver.
+	If aBlock returns true for any element return true.
+	Otherwise return false"
+
+	self do:[:item | (aBlock value: item) ifTrue: [^ true]].
+	^ false! !
+
+!Tuple methodsFor: 'operations' stamp: 'len 11/7/2016 02:24'!
+apply: aMorphism
+	"Apply a homomorphism to the coefficients of the receiver."
+	aMorphism isBlock ifTrue: [^ self collect: aMorphism].
+	^ aMorphism codomain tuple: self size evaluating: [:i| aMorphism value: (self at: i)]! !
+
+!Tuple methodsFor: 'converting' stamp: 'len 11/5/2016 09:46'!
+asArray
+	^ self as: Array! !
+
+!Tuple methodsFor: 'converting' stamp: 'len 11/5/2016 09:24'!
+asHomogeneousTuple
+	^ HomogeneousTuple coefficients: self over: self scalars! !
+
+!Tuple methodsFor: 'converting' stamp: 'len 11/7/2016 13:48'!
+asTuple
+	^ self! !
+
+!Tuple methodsFor: 'accessing' stamp: 'len 11/18/2016 20:21:46'!
+at: index ifAbsent: exceptionBlock
+	"Answer the element at my position index. If I do not contain an element
+	at index, answer the result of evaluating the argument, exceptionBlock."
+
+	(index between: 1 and: self size) ifTrue: [^ self at: index].
+	^ exceptionBlock value! !
+
+!Tuple methodsFor: 'accessing' stamp: 'len 3/29/2016 18:54'!
+bitSize
+	| answer |
+	answer _ 0.
+	self do: [:each| answer _ answer + each bitSize].
+	^ answer! !
+
+!Tuple methodsFor: 'enumerating' stamp: 'len 11/5/2016 06:46'!
+collect: aBlock
+	^ self scalars tuple: self size evaluating: [:i| aBlock value: (self at: i)]! !
+
+!Tuple methodsFor: 'operations' stamp: 'len 3/29/2016 18:54'!
+conjugated
+	^ self collect: [:each| each conjugated]! !
+
+!Tuple methodsFor: 'enumerating' stamp: 'len 11/5/2016 09:43'!
+count: aBlock
+	| count |
+	count _ 0.
+	self do: [:each| (aBlock value: each) ifTrue: [count _ count + 1]].
+	^ count! !
+
+!Tuple methodsFor: 'accessing' stamp: 'len 3/29/2016 19:05'!
+dimension
+	^ self size! !
+
+!Tuple methodsFor: 'enumerating' stamp: 'len 11/5/2016 06:46'!
+do: aBlock
+	1 to: self size do: [:each| aBlock value: (self at: each)]! !
+
+!Tuple methodsFor: 'enumerating' stamp: 'len 11/5/2016 09:26'!
+do: elementBlock separatedBy: separatorBlock
+	| beforeFirst | 
+	"Evaluate the elementBlock for all elements in the receiver,
+	and evaluate the separatorBlock between."
+
+	beforeFirst _ true.
+	self do: [ :element |
+		beforeFirst
+			ifTrue: [beforeFirst _ false]
+			ifFalse: [separatorBlock value].
+		elementBlock value: element]! !
+
+!Tuple methodsFor: 'operations' stamp: 'len 4/6/2016 07:18'!
+dot: aTuple
+	| answer |
+	answer _ (self at: 1) * (aTuple at: 1).
+	2 to: (self size min: aTuple size) do: [:i| answer _ answer + ((self at: i) * (aTuple at: i))].
+	^ answer! !
+
+!Tuple methodsFor: 'enumerating' stamp: 'len 11/12/2016 08:51'!
+findFirst: aBlock
+	"Return the index of my first element for which aBlock evaluates as true."
+
+	| index |
+	index _ 0.
+	[(index _ index + 1) <= self size] whileTrue:
+		[(aBlock value: (self at: index)) ifTrue: [^index]].
+	^ 0! !
+
+!Tuple methodsFor: 'enumerating' stamp: 'len 11/5/2016 07:05'!
+findLast: aBlock
+	"Return the index of my last element for which aBlock evaluates as true."
+
+	| index |
+	index _ self size + 1.
+	[(index _ index - 1) >= 1] whileTrue:
+		[(aBlock value: (self at: index)) ifTrue: [^index]].
+	^ 0! !
+
+!Tuple methodsFor: 'accessing' stamp: 'len 11/5/2016 09:26'!
+first
+	^ self at: 1! !
+
+!Tuple methodsFor: 'accessing' stamp: 'len 11/12/2016 09:03'!
+firstNonZero
+	"Answer the index of the first non-zero entry, or 0."
+	1 to: self size do: [:i| (self at: i) isZero ifFalse: [^ i]].
+	^ 0! !
+
+!Tuple methodsFor: 'operations' stamp: 'len 11/12/2016 08:18'!
+hadamard: aTuple
+	"Answer the entrywise product with the argument, also called Hadamard product."
+	^ self scalars tuple: (self size min: aTuple size) evaluating: [:i| (self at: i) * (aTuple at: i)]! !
+
+!Tuple methodsFor: 'comparing' stamp: 'len 11/5/2016 09:41'!
+hash
+	| hash |
+	hash _ 0.
+	1 to: self size do: [:i | hash _ (hash + (self at: i) hash) hashMultiply].
+	^hash! !
+
+!Tuple methodsFor: 'operations' stamp: 'len 11/27/2016 13:25:12'!
+height
+	| answer |
+	answer _ 1.
+	self do: [:each| answer _ answer max: each height].
+	^ answer! !
+
+!Tuple methodsFor: 'converting' stamp: 'len 10/31/2016 13:11'!
+homogenized
+	^ self homogenizedIn: self size + 1! !
+
+!Tuple methodsFor: 'converting' stamp: 'len 11/18/2016 20:55:03'!
+homogenizedIn: anInteger
+	^ HomogeneousTuple coefficients: (self copyFrom: 1 to: anInteger - 1), self scalars one, (self copyFrom: anInteger to: self size) over: self scalars! !
+
+!Tuple methodsFor: 'testing' stamp: 'len 11/5/2016 09:45'!
+includes: anObject 
+	"Answer whether anObject is one of the receiver's elements."
+
+	self do: [:each| each = anObject ifTrue: [^ true]].
+	^ false! !
+
+!Tuple methodsFor: 'enumerating' stamp: 'len 11/5/2016 06:48'!
+inject: thisValue into: binaryBlock 
+	| nextValue |
+	nextValue _ thisValue.
+	self do: [:each | nextValue _ binaryBlock value: nextValue value: each].
+	^ nextValue! !
+
+!Tuple methodsFor: 'testing' stamp: 'len 3/29/2016 19:04'!
+is: aSymbol
+	^ aSymbol == #Tuple or: [super is: aSymbol]! !
+
+!Tuple methodsFor: 'testing' stamp: 'len 11/5/2016 07:12'!
+isEmpty
+	^ self size = 0! !
+
+!Tuple methodsFor: 'testing' stamp: 'len 3/29/2016 19:04'!
+isZero
+	^ self allSatisfy: [:each| each isZero]! !
+
+!Tuple methodsFor: 'testing' stamp: 'len 12/1/2016 17:05:22'!
+isZeroAt: anInteger
+	^ (self at: anInteger) isZero! !
+
+!Tuple methodsFor: 'accessing' stamp: 'len 11/6/2016 04:32'!
+last
+	^ self at: self size! !
+
+!Tuple methodsFor: 'accessing' stamp: 'len 11/12/2016 09:03'!
+lastNonZero
+	"Answer the index of the last non-zero entry, or 0."
+	self size to: 1 by: -1 do: [:i| (self at: i) isZero ifFalse: [^ i]].
+	^ 0! !
+
+!Tuple methodsFor: 'operations' stamp: 'len 3/29/2016 18:56'!
+negated
+	^ self collect: [:each| each negated]! !
+
+!Tuple methodsFor: 'operations' stamp: 'len 3/29/2016 19:03'!
+norm
+	^ self norm2 squareRoot! !
+
+!Tuple methodsFor: 'operations' stamp: 'len 3/29/2016 19:03'!
+norm2
+	^ self dot: self! !
+
+!Tuple methodsFor: 'converting' stamp: 'len 1/3/2017 07:47:52'!
+over: aRing
+	self scalars = aRing ifFalse: [^ aRing tuple: self size evaluating: [:i| aRing !! (self at: i)]]! !
+
+!Tuple methodsFor: 'operations' stamp: 'len 11/23/2016 05:43:12'!
+polynomialValue: anObject
+	"Evaluate the receiver (as an univariate polynomial) at the given argument using Horner's method."
+	| answer one |
+	answer _ anObject zero.
+	one _ anObject one.
+	self reverseDo: [:each| answer _ anObject * answer + (one * each)].
+	^ answer! !
+
+!Tuple methodsFor: 'printing' stamp: 'len 1/11/2017 13:53:59'!
+printOn: aStream
+	| separator |
+	aStream nextPut: $(.
+	separator _ (self anySatisfy: [:any| any printString isAlphaNumeric not]) ifTrue: [', '] ifFalse: [','].
+	self do: [:x| aStream print: x] separatedBy: [aStream nextPutAll: separator].
+	aStream nextPut: $)! !
+
+!Tuple methodsFor: 'enumerating' stamp: 'len 11/6/2016 14:22'!
+product
+	^ self product: [:each| each]! !
+
+!Tuple methodsFor: 'enumerating' stamp: 'len 12/13/2016 09:55:53'!
+product: aBlock
+	^ self inject: self scalars one into: [:nextValue :each| nextValue * (aBlock value: each)]! !
+
+!Tuple methodsFor: 'converting' stamp: 'len 12/13/2016 16:49:22'!
+readStream
+	^ ReadStream on: self! !
+
+!Tuple methodsFor: 'enumerating' stamp: 'len 11/5/2016 06:47'!
+reverseDo: aBlock
+	self size to: 1 by: -1 do: [:each| aBlock value: (self at: each)]! !
+
+!Tuple methodsFor: 'enumerating' stamp: 'len 11/6/2016 14:22'!
+sum
+	^ self sum: [:each| each]! !
+
+!Tuple methodsFor: 'enumerating' stamp: 'len 12/13/2016 09:55:29'!
+sum: aBlock
+	^ self inject: self scalars zero into: [:nextValue :each| nextValue + (aBlock value: each)]! !
+
+!Tuple methodsFor: 'operations' stamp: 'len 11/5/2016 09:27'!
+support
+	^ (1 to: self size) reject: [:each| (self at: each) isZero]! !
+
+!Tuple methodsFor: 'operations' stamp: 'len 11/12/2016 08:41'!
+weight
+	"Answer the Hamming weight of the receiver, i.e. the number of entries that are not zero."
+	^ self count: [:each| each isZero not]! !
+
+!Tuple methodsFor: 'enumerating' stamp: 'len 11/5/2016 06:59'!
+withIndexCollect: aBlock
+	^ self scalars tuple: self size evaluating: [:i| aBlock value: (self at: i) value: i]! !
+
+!Tuple methodsFor: 'enumerating' stamp: 'len 11/5/2016 06:47'!
+withIndexDo: aBlock
+	1 to: self size do: [:index| aBlock value: (self at: index) value: index]! !
+
+!Tuple methodsFor: 'operations' stamp: 'len 11/5/2016 06:15'!
+wrap: n
+	"Perform a cyclic right shift."
+	^ self scalars tuple: self size evaluating: [:i| (self at: i-1-n \\ self size + 1)]! !
+
+!Tuple methodsFor: 'accessing' stamp: 'len 3/29/2016 19:06'!
+x
+	^ self at: 1! !
+
+!Tuple methodsFor: 'accessing' stamp: 'len 3/29/2016 19:06'!
+y
+	^ self at: 2! !
+
+!Tuple methodsFor: 'accessing' stamp: 'len 3/29/2016 19:06'!
+z
+	^ self at: 3! !
+
+!PolynomialTuple methodsFor: 'as yet unclassified' stamp: 'len 1/14/2017 21:04:37'!
+coefficientAt: aModuleMonomial
+	^ (self at: aModuleMonomial position) coefficientAt: aModuleMonomial monomial! !
+
+!PolynomialTuple methodsFor: 'as yet unclassified' stamp: 'len 1/14/2017 20:34:48'!
+leadingCoefficient
+	^ self coefficientAt: self leadingMonomial! !
+
+!PolynomialTuple methodsFor: 'as yet unclassified' stamp: 'len 1/14/2017 21:07:12'!
+leadingMonomial
+	^ self ordering leadingMonomialOf: self! !
+
+!PolynomialTuple methodsFor: 'as yet unclassified' stamp: 'len 1/14/2017 20:35:06'!
+leadingTerm
+	^ self termAt: self leadingMonomial! !
+
+!PolynomialTuple methodsFor: 'as yet unclassified' stamp: 'len 1/14/2017 21:04:51'!
+termAt: aModuleMonomial
+	^ (self at: aModuleMonomial position) termAt: aModuleMonomial monomial! !
+
+!BitTuple methodsFor: 'operations' stamp: 'len 3/29/2016 06:16'!
+* aBit
+	^ ((aBit isInteger and: [aBit even]) or: [aBit isZero]) ifTrue: [self zero] ifFalse: [self]! !
+
+!BitTuple methodsFor: 'operations' stamp: 'len 7/2/2016 00:51'!
++ aBitTuple
+	^ self class new: (self size max: aBitTuple size) fromInteger: (integer bitXor: aBitTuple asInteger)! !
+
+!BitTuple methodsFor: 'copying' stamp: 'len 11/6/2016 15:30'!
+, anObject
+	((anObject is: #Tuple) or: [anObject is: #Array])
+		ifFalse: [^ self copyWith: anObject].
+	anObject class = self class
+		ifTrue: [^ self class new: size + anObject size fromInteger: (integer bitXor: (anObject asInteger bitShift: size))].
+	^ self , (self class coefficients: anObject)! !
+
+!BitTuple methodsFor: 'operations' stamp: 'len 3/28/2016 06:51'!
+- aBitTuple
+	^ self + aBitTuple! !
+
+!BitTuple methodsFor: 'comparing' stamp: 'len 6/30/2016 06:49'!
+= aTuple
+	self class = aTuple class ifFalse: [^ super = aTuple].
+	^ size = aTuple size and: [integer = aTuple asInteger]! !
+
+!BitTuple methodsFor: 'operations' stamp: 'len 7/2/2016 00:48'!
+>>> anInteger
+	^ self class new: (size + anInteger max: 0) fromInteger: (integer bitShift: anInteger)! !
+
+!BitTuple methodsFor: 'enumerating' stamp: 'len 11/5/2016 09:14'!
+anySatisfy: aBlock
+	"Optimized. There are only two possible elements that could satisfy aBlock (1 or 0)."
+	self isEmpty ifTrue: [^ false].
+	(self isZero not and: [aBlock value: One]) ifTrue: [^ true].
+	^ (aBlock value: Zero) and: [super anySatisfy: [:any| any = Zero]]! !
+
+!BitTuple methodsFor: 'converting' stamp: 'len 3/28/2016 04:45'!
+asInteger
+	^ integer! !
+
+!BitTuple methodsFor: 'accessing' stamp: 'len 3/29/2016 06:09'!
+at: anInteger
+	^ (integer bitAt: anInteger) = 1 ifTrue: [One] ifFalse: [Zero]! !
+
+!BitTuple methodsFor: 'accessing' stamp: 'len 11/5/2016 09:21'!
+at: anInteger put: aBit
+	| bit |
+	anInteger > size ifTrue: [self error: 'index out of bounds'].
+	bit _ aBit.
+	bit isInteger ifTrue: [bit _ bit % 2].
+	(Zero = bit or: [One = bit]) ifFalse: [DomainError signal].
+	(self at: anInteger) = bit
+		ifFalse: [integer _ integer bitXor: 1 << (anInteger - 1)].
+	^ bit! !
+
+!BitTuple methodsFor: 'operations' stamp: 'len 11/22/2016 05:39:06'!
+convolution: aBitTuple
+	| a b c |
+	a _ integer.
+	b _ aBitTuple asInteger.
+	c _ 0.
+	1 to: a highBit do: [:i|
+		(a bitAt: i) = 1 ifTrue: [c _ c bitXor: b].
+		b _ b bitShift: 1].
+	^ self class new: self size + aBitTuple size - 1 fromInteger: c! !
+
+!BitTuple methodsFor: 'copying' stamp: 'len 7/2/2016 00:49'!
+copyFrom: start to: stop 
+	"Answer a copy of a subset of the receiver, starting from element at 
+	index start until element at index stop."
+
+	| newSize |
+	newSize _ stop - start + 1 max: 0.
+	start = 1 ifTrue: [^ self class new: newSize fromInteger: integer].
+	^ self class new: newSize fromInteger: (integer bitShift: 1 - start)! !
+
+!BitTuple methodsFor: 'copying' stamp: 'len 11/5/2016 09:23'!
+copyWith: aBit
+	| answer |
+	answer _ self copy size: self size + 1.
+	aBit = One ifTrue: [answer at: self size + 1 put: One. ^ answer].
+	aBit = Zero ifFalse: [DomainError signal].
+	^ answer! !
+
+!BitTuple methodsFor: 'operations' stamp: 'len 7/2/2016 00:44'!
+dot: aBitTuple
+	^ (integer bitAnd: aBitTuple asInteger) bitParity = 0 ifTrue: [Zero] ifFalse: [One]
+
+"	^ self hadamard: aBitTuple :: sum
+"
+
+"	| x |
+	x _ self asInteger bitAnd: aBitTuple asInteger.
+	[x > 1]
+		whileTrue: [x _ x >> (x highBit // 2) bitAnd: x].
+	^ x"! !
+
+!BitTuple methodsFor: 'operations' stamp: 'len 11/12/2016 08:19'!
+hadamard: aBitTuple
+	"Answer the entrywise product with the argument, also called Hadamard product."
+	^ self class new: (self size min: aBitTuple size) fromInteger: (integer bitAnd: aBitTuple asInteger)! !
+
+!BitTuple methodsFor: 'comparing' stamp: 'len 6/30/2016 06:50'!
+hash
+	^ integer hash! !
+
+!BitTuple methodsFor: 'initialization' stamp: 'len 3/28/2016 05:41'!
+integer: anInteger size: anotherInteger
+	integer _ anInteger.
+	size _ anotherInteger! !
+
+!BitTuple methodsFor: 'testing' stamp: 'len 12/4/2016 15:19:45'!
+isZero
+	^ integer == 0! !
+
+!BitTuple methodsFor: 'testing' stamp: 'len 12/1/2016 17:06:32'!
+isZeroAt: anInteger
+	^ (integer bitAt: anInteger) == 0! !
+
+!BitTuple methodsFor: 'operations' stamp: 'len 3/28/2016 07:30'!
 negated
 	^ self! !
 
-!SparseBitTuple methodsFor: 'as yet unclassified' stamp: 'len 11/18/2016 07:53:38'!
+!BitTuple methodsFor: 'operations' stamp: 'len 3/28/2016 07:27'!
+norm
+	^ self sum! !
+
+!BitTuple methodsFor: 'operations' stamp: 'len 3/28/2016 07:27'!
+norm2
+	^ self sum! !
+
+!BitTuple methodsFor: 'operations' stamp: 'len 7/1/2016 22:58'!
+parity
+	"Answer 1 if the receiver has an odd number of bits on, 0 if it has an even number of bits on."
+	| n parity |
+	integer = 0 ifTrue: [^ 0].
+"	n _ integer >> (integer lowBit - 1). skip initial zeros, we could also skip chunks of zeros in the middle"
+	n _ integer.
+	parity _ 0.
+	[n = 0] whileFalse: [parity _ parity bitXor: (n bitAnd: 1). n _ n >> 1].
+	^ parity! !
+
+!BitTuple methodsFor: 'operations' stamp: 'len 11/23/2016 05:42:05'!
+polynomialValue: anObject
+	Zero = anObject ifTrue: [^ self at: 1].
+	One = anObject ifFalse: [^ super polynomialValue: anObject].
+	^ self sum! !
+
+!BitTuple methodsFor: 'printing' stamp: 'len 3/28/2016 04:52'!
+printOn: aStream
+	1 to: self size do: [:i| aStream print: (self at: i)]! !
+
+!BitTuple methodsFor: 'operations' stamp: 'len 7/2/2016 06:01'!
+reversed
+	^ self class new: self size fromInteger: (integer bitReverse: self size)! !
+
+!BitTuple methodsFor: 'accessing' stamp: 'len 11/5/2016 07:10'!
 scalars
 	self flag: #fix. "inefficient"
 	^ ZZ/2! !
 
-!SparseBitTuple methodsFor: 'as yet unclassified' stamp: 'len 11/18/2016 07:48:28'!
-support
-	^ support! !
+!BitTuple methodsFor: 'operations' stamp: 'len 7/2/2016 00:49'!
+shift: anInteger
+	^ self class new: size fromInteger: (integer bitShift: anInteger)! !
 
-!SparseBitTuple methodsFor: 'as yet unclassified' stamp: 'len 11/18/2016 07:48:20'!
-support: aSet
-	support _ aSet! !
+!BitTuple methodsFor: 'accessing' stamp: 'len 3/28/2016 06:49'!
+size
+	^ size! !
+
+!BitTuple methodsFor: 'initialization' stamp: 'len 11/5/2016 09:22'!
+size: anInteger
+	size _ anInteger! !
+
+!BitTuple methodsFor: 'operations' stamp: 'len 7/2/2016 00:39'!
+sum
+	"Answer the sum of the bits, i.e. the parity."
+	^ integer bitParity = 0 ifTrue: [Zero] ifFalse: [One]! !
+
+!BitTuple methodsFor: 'operations' stamp: 'len 11/12/2016 08:41'!
+weight
+	"Answer the Hamming weight of the receiver, i.e. the number of entries that are not zero."
+	^ self asInteger bitCount! !
+
+!BitTuple methodsFor: 'operations' stamp: 'len 7/2/2016 00:49'!
+zero
+	^ self class new: self size fromInteger: 0! !
+
+!BitTuple class methodsFor: 'instance creation' stamp: 'len 11/5/2016 07:09'!
+coefficients: anArray
+	| answer |
+	answer _ self new: anArray size.
+	anArray withIndexDo: [:each :i| answer at: i put: each].
+	^ answer! !
+
+!BitTuple class methodsFor: 'instance creation' stamp: 'len 7/2/2016 00:50'!
+fromInteger: anInteger
+	^ self new: anInteger highBit fromInteger: anInteger! !
+
+!BitTuple class methodsFor: 'initialization' stamp: 'len 12/2/2016 11:18:19'!
+initialize
+	| Z2 |
+	super initialize.
+	Z2 _ ZZ / 2.
+	One _ Z2 one.
+	Zero _ Z2 zero! !
+
+!BitTuple class methodsFor: 'instance creation' stamp: 'len 11/5/2016 07:09'!
+new
+	^ self shouldNotImplement! !
+
+!BitTuple class methodsFor: 'instance creation' stamp: 'len 7/2/2016 00:50'!
+new: anInteger
+	^ self new: anInteger fromInteger: 0! !
+
+!BitTuple class methodsFor: 'instance creation' stamp: 'len 7/2/2016 00:50'!
+new: anInteger evaluating: aBlock
+	| integer |
+	integer _ 0.
+	anInteger to: 1 by: -1 do:
+		[:i| integer _ (integer bitShift: 1) bitXor: (aBlock value: i) representative].
+	^ self new: anInteger fromInteger: integer! !
+
+!BitTuple class methodsFor: 'instance creation' stamp: 'len 7/2/2016 00:47'!
+new: n fromInteger: anInteger
+	^ self basicNew integer: anInteger size: n! !
+
+!BitTuple class methodsFor: 'instance creation' stamp: 'len 11/6/2016 15:30'!
+newFrom: anObject
+	anObject isInteger ifTrue: [^ self fromInteger: anObject].
+	^ self coefficients: anObject! !
+
+!GeneralTuple methodsFor: 'operations' stamp: 'len 11/5/2016 06:11'!
++ aTuple
+	| zero |
+	self size = aTuple size ifTrue: [^ scalars tuple: self size evaluating: [:i| (self at: i) + (aTuple at: i)]].
+	zero _ (self at: 1 ifAbsent: [aTuple at: 1]) zero.
+	^ scalars tuple: (self size max: aTuple size) evaluating: [:i| (self at: i ifAbsent: [zero]) + (aTuple at: i ifAbsent: [zero])]! !
+
+!GeneralTuple methodsFor: 'copying' stamp: 'len 11/5/2016 04:02'!
+, anObject
+	((anObject is: #Tuple) or: [anObject is: #Array])
+		ifTrue: [^ self class coefficients: (coefficients, anObject asArray) over: scalars].
+	^ self class coefficients: (coefficients copyWith: anObject) over: scalars! !
+
+!GeneralTuple methodsFor: 'operations' stamp: 'len 11/5/2016 06:12'!
+- aTuple
+	| zero |
+	self size = aTuple size ifTrue: [^ scalars tuple: self size evaluating: [:i| (self at: i) - (aTuple at: i)]].
+	zero _ (self at: 1 ifAbsent: [aTuple at: 1]) zero.
+	^ scalars tuple: (self size max: aTuple size) evaluating: [:i| (self at: i ifAbsent: [zero]) - (aTuple at: i ifAbsent: [zero])]! !
+
+!GeneralTuple methodsFor: 'enumerating' stamp: 'len 11/5/2016 06:08'!
+allSatisfy: aBlock
+	^ coefficients allSatisfy: aBlock! !
+
+!GeneralTuple methodsFor: 'enumerating' stamp: 'len 11/5/2016 09:08'!
+anySatisfy: aBlock
+	^ coefficients anySatisfy: aBlock! !
+
+!GeneralTuple methodsFor: 'converting' stamp: 'len 11/5/2016 03:58'!
+asArray
+	^ coefficients! !
+
+!GeneralTuple methodsFor: 'accessing' stamp: 'len 11/5/2016 03:57'!
+at: anInteger
+	^ coefficients at: anInteger! !
+
+!GeneralTuple methodsFor: 'accessing' stamp: 'len 11/5/2016 03:58'!
+at: anInteger ifAbsent: aBlock
+	^ coefficients at: anInteger ifAbsent: aBlock! !
+
+!GeneralTuple methodsFor: 'accessing-private' stamp: 'len 11/5/2016 03:58'!
+at: anInteger put: anObject
+	^ coefficients at: anInteger put: anObject! !
+
+!GeneralTuple methodsFor: 'initialization' stamp: 'len 11/5/2016 03:56'!
+coefficients: anArray
+	coefficients _ anArray! !
+
+!GeneralTuple methodsFor: 'enumerating' stamp: 'len 11/5/2016 06:08'!
+collect: aBlock
+	^ self class coefficients: (coefficients collect: aBlock) over: scalars! !
+
+!GeneralTuple methodsFor: 'operations' stamp: 'len 11/22/2016 05:47:05'!
+convolution: aTuple
+	| array |
+	self isEmpty ifTrue: [^ self].
+	aTuple isEmpty ifTrue: [^ aTuple].
+	array _ Array new: self size + aTuple size - 1.
+	array atAllPut: self scalars zero.
+	self withIndexDo: [:xi :i|
+		xi isZero ifFalse:
+			[aTuple withIndexDo: [:yj :j|
+				array at: i+j-1 add: xi*yj]]].
+	^ self class coefficients: array over: self scalars! !
+
+!GeneralTuple methodsFor: 'copying' stamp: 'len 11/5/2016 03:58'!
+copy
+	^ self class coefficients: coefficients copy over: scalars! !
+
+!GeneralTuple methodsFor: 'copying' stamp: 'len 11/5/2016 03:58'!
+copyFrom: start to: stop
+	^ self class coefficients: (coefficients copyFrom: start to: stop) over: scalars! !
+
+!GeneralTuple methodsFor: 'copying' stamp: 'len 11/5/2016 10:43'!
+copyWith: anElement
+	^ self class coefficients: (coefficients copyWith: anElement) over: scalars! !
+
+!GeneralTuple methodsFor: 'enumerating' stamp: 'len 11/5/2016 03:58'!
+do: aBlock
+	coefficients do: aBlock! !
+
+!GeneralTuple methodsFor: 'enumerating' stamp: 'len 11/12/2016 09:00'!
+findFirst: aBlock
+	^ coefficients findFirst: aBlock! !
+
+!GeneralTuple methodsFor: 'enumerating' stamp: 'len 11/5/2016 06:07'!
+findLast: aBlock
+	^ coefficients findLast: aBlock! !
+
+!GeneralTuple methodsFor: 'testing' stamp: 'len 11/5/2016 03:58'!
+includes: anObject
+	^ coefficients includes: anObject! !
+
+!GeneralTuple methodsFor: 'accessing' stamp: 'len 12/21/2015 22:49'!
+last
+	^ self at: self size! !
+
+!GeneralTuple methodsFor: 'enumerating' stamp: 'len 11/5/2016 06:10'!
+reverseDo: aBlock
+	coefficients reverseDo: aBlock! !
+
+!GeneralTuple methodsFor: 'operations' stamp: 'len 11/5/2016 06:06'!
+reversed
+	^ self class coefficients: coefficients reversed over: scalars! !
+
+!GeneralTuple methodsFor: 'accessing' stamp: 'len 11/5/2016 05:57'!
+scalars
+	^ scalars! !
+
+!GeneralTuple methodsFor: 'accessing-private' stamp: 'len 11/5/2016 05:57'!
+scalars: aRing
+	scalars _ aRing! !
+
+!GeneralTuple methodsFor: 'operations' stamp: 'len 11/5/2016 09:03'!
+shift: anInteger
+	| newElements zero n |
+	anInteger == 0 ifTrue: [^ self].
+	newElements _ Array new: self size.
+	zero _ (self at: 1) - (self at: 1).
+	n _ self size min: anInteger max: self size negated.
+	n > 0
+		ifTrue:
+			[1 to: n do: [:i| newElements at: i put: zero].
+			1+n to: self size do: [:i| newElements at: i put: (self at: i-n)]]
+		ifFalse:
+			[self size + n + 1 to: self size do: [:i| newElements at: i put: zero].
+			1 to: self size + n do: [ :i | newElements at: i put: (self at: i-n)]].
+	^ self class coefficients: newElements over: scalars! !
+
+!GeneralTuple methodsFor: 'accessing' stamp: 'len 11/5/2016 03:57'!
+size
+	^ coefficients size! !
+
+!GeneralTuple methodsFor: 'accessing-private' stamp: 'len 11/5/2016 03:57'!
+swap: i with: j
+	coefficients swap: i with: j! !
+
+!GeneralTuple methodsFor: 'enumerating' stamp: 'len 11/5/2016 03:57'!
+withIndexDo: aBlock
+	coefficients withIndexDo: aBlock! !
+
+!GeneralTuple methodsFor: 'operations' stamp: 'len 4/10/2016 06:44'!
+wrap: n
+	"Perform a cyclic right shift."
+	| newElements |
+	newElements _ Array new: self size.
+	0 to: self size - 1 do: [:i| newElements at: i+1 put: (self at: i-n \\ self size + 1) ].
+	^ self class withAll: newElements! !
+
+!GeneralTuple class methodsFor: 'instance creation' stamp: 'len 11/5/2016 03:57'!
+coefficients: anArray over: aRing
+	^ self basicNew coefficients: anArray asArray; scalars: aRing! !
+
+!GeneralTuple class methodsFor: 'instance creation' stamp: 'len 11/5/2016 07:13'!
+new
+	^ self shouldNotImplement! !
+
+!GeneralTuple class methodsFor: 'instance creation' stamp: 'len 11/5/2016 03:55'!
+new: anInteger over: aRing
+	^ self coefficients: (Array new: anInteger) over: aRing! !
+
+!HomogeneousTuple methodsFor: 'comparing' stamp: 'len 11/6/2016 08:49'!
+= aHomogeneousTuple
+	| index x y |
+	(aHomogeneousTuple is: #Tuple) ifFalse: [^ false].
+	aHomogeneousTuple size = self size ifFalse: [^ false].
+	index _ self firstNonZero.
+	x _ self at: index.
+	y _ aHomogeneousTuple at: index.
+	1 to: self size do: [:i| (self at: i) * y = ((aHomogeneousTuple at: i) * x) ifFalse: [^ false]].
+	^ true! !
+
+!HomogeneousTuple methodsFor: 'operations' stamp: 'len 11/7/2016 02:25'!
+apply: aMorphism
+	^ (super apply: aMorphism) asHomogeneousTuple! !
+
+!HomogeneousTuple methodsFor: 'converting' stamp: 'len 11/7/2016 02:26'!
+asTuple
+	"Answer a Tuple with the coordinates of the receiver."
+	^ self scalars tuple: coefficients! !
+
+!HomogeneousTuple methodsFor: 'converting' stamp: 'len 1/10/2017 16:26:22'!
+dehomogenized
+	"Answer the dehomogenization of the receiver."
+	^ self dehomogenizedIn: self size! !
+
+!HomogeneousTuple methodsFor: 'converting' stamp: 'len 1/10/2017 16:30:37'!
+dehomogenizedIn: anInteger
+	"Answer the dehomogenization of the receiver with respect to the anInteger-th coordinate."
+	| scalar |
+	scalar _ self at: anInteger.
+	^ self scalars
+		tuple: self coordinates size - 1
+		evaluating: [:i| (i < anInteger ifTrue: [self at: i] ifFalse: [self at: i + 1]) / scalar]! !
+
+!HomogeneousTuple methodsFor: 'comparing' stamp: 'len 11/7/2016 02:32'!
+hash
+	| hash x |
+	self scalars isField
+		ifFalse:
+			[^ self scalars isIntegralDomain
+				ifTrue: [(self apply: self scalars fractions embedding) hash]
+				ifFalse: [self scalars hash hashMultiply + self firstNonZero]].
+	hash _ 0.
+	x _ self at: self firstNonZero.
+	1 to: self size do: [:i | hash _ (hash + ((self at: i) / x) hash) hashMultiply].
+	^hash! !
+
+!HomogeneousTuple methodsFor: 'printing' stamp: 'len 1/11/2017 13:52:38'!
+printOn: aStream
+	| separator |
+	aStream nextPut: $[.
+	separator _ (self anySatisfy: [:any| any printString isAlphaNumeric not]) ifTrue: [' : '] ifFalse: [':'].
+	self do: [:each| each printOn: aStream] separatedBy: [aStream nextPutAll: separator].
+	aStream nextPut: $]! !
+
+!ModularTuple methodsFor: 'operations' stamp: 'len 12/1/2016 16:40:57'!
+* aNumber
+	| modulus x array |
+	x _ aNumber isInteger ifTrue: [aNumber] ifFalse: [aNumber representative].
+	modulus _ scalars modulus.
+	array _ representatives copy.
+	1 to: self size do: [:i| array at: i put: (array at: i) * x \\ modulus].
+	^ self class representatives: array over: scalars! !
+
+!ModularTuple methodsFor: 'operations' stamp: 'len 12/1/2016 16:33:24'!
++ aTuple
+	| modulus a an b bn c |
+	(an _ self size) <= (bn _ aTuple size) ifFalse: [^ aTuple + self].
+	modulus _ scalars modulus.
+	a _ representatives.
+	b _ aTuple representatives.
+	c _ representatives class new: bn.
+	1 to: an do: [:i|
+		c at: i put: (a at: i) + (b at: i) \\ modulus].
+	c replaceFrom: an+1 to: bn with: b startingAt: an+1.
+	^ self class representatives: c over: scalars! !
+
+!ModularTuple methodsFor: 'copying' stamp: 'len 12/1/2016 16:35:01'!
+, anObject
+	self class = anObject class
+		ifTrue:
+			[scalars = anObject scalars ifFalse: [^ DomainError signal].
+			^ self class representatives: representatives, anObject representatives over: scalars].
+	scalars modulus = anObject modulus ifFalse: [^ DomainError signal].
+	^ self class representatives: (representatives copyWith: anObject representative) over: scalars! !
+
+!ModularTuple methodsFor: 'comparing' stamp: 'len 12/1/2016 16:42:00'!
+= aTuple
+	self class = aTuple class ifFalse: [^ super = aTuple halt].
+	^ scalars = aTuple scalars and: [representatives = aTuple representatives]! !
+
+!ModularTuple methodsFor: 'operations' stamp: 'len 12/1/2016 16:37:25'!
+addFrom: startIndex to: stopIndex with: aTuple by: aNumber
+	| modulus representatives2 x |
+	(self class = aTuple class and: [scalars = aTuple scalars])
+		ifFalse: [^ super addFrom: startIndex to: stopIndex with: aTuple by: aNumber].
+	modulus _ scalars modulus.
+	representatives2 _ aTuple representatives.
+	x _ aNumber representative.
+	startIndex to: stopIndex do: [:i|
+		representatives at: i put: (representatives2 at: i) * x + (representatives at: i) \\ modulus]! !
+
+!ModularTuple methodsFor: 'accessing' stamp: 'len 12/1/2016 16:35:34'!
+at: anInteger
+	^ scalars representative: (representatives at: anInteger ifAbsent: [^ scalars zero])! !
+
+!ModularTuple methodsFor: 'accessing' stamp: 'len 12/1/2016 16:35:55'!
+at: anInteger put: aModularInteger
+	aModularInteger isInteger ifTrue: [^ representatives at: anInteger put: aModularInteger \\ scalars modulus].
+	representatives at: anInteger put: aModularInteger representative.
+	^ aModularInteger! !
+
+!ModularTuple methodsFor: 'operations' stamp: 'len 12/1/2016 16:41:43'!
+convolution: aTuple
+	| modulus array |
+	self isEmpty ifTrue: [^ self].
+	aTuple isEmpty ifTrue: [^ aTuple].
+	modulus _ scalars modulus.
+	array _ representatives class new: self size + aTuple size - 1.
+	array atAllPut: 0. "in case it's Array"
+	representatives withIndexDo: [:xi :i|
+		xi = 0 ifFalse:
+			[aTuple representatives withIndexDo: [:yj :j| | index |
+				index _ i+j-1.
+				array at: index put: xi*yj + (array at: index) \\ modulus]]].
+	^ self class representatives: array over: scalars! !
+
+!ModularTuple methodsFor: 'copying' stamp: 'len 12/1/2016 16:43:47'!
+copy
+	^ self class representatives: representatives copy over: scalars! !
+
+!ModularTuple methodsFor: 'copying' stamp: 'len 12/1/2016 16:36:08'!
+copyFrom: start to: stop
+	^ self class representatives: (representatives copyFrom: start to: stop) over: scalars! !
+
+!ModularTuple methodsFor: 'copying' stamp: 'len 12/1/2016 16:33:41'!
+copyWith: anElement
+	^ self class representatives: (representatives copyWith: anElement representative) over: scalars! !
+
+!ModularTuple methodsFor: 'operations' stamp: 'len 12/1/2016 16:42:49'!
+dot: aTuple
+	| modulus representatives2 answer |
+	(aTuple class = self class and: [scalars = aTuple scalars])
+		ifFalse: [^ super dot: aTuple].
+	modulus _ scalars modulus.
+	representatives2 _ aTuple representatives.
+	answer _ 0.
+	1 to: (representatives size min: representatives2 size) do: [:i|
+		answer _ (representatives at: i) * (representatives2 at: i) + answer \\ modulus].
+	^ scalars representative: answer! !
+
+!ModularTuple methodsFor: 'accessing' stamp: 'len 11/12/2016 09:02'!
+firstNonZero
+	"Answer the index of the first non-zero entry, or 0."
+	1 to: representatives size do: [:i| (representatives at: i) = 0 ifFalse: [^ i]].
+	^ 0! !
+
+!ModularTuple methodsFor: 'operations' stamp: 'len 12/1/2016 16:39:42'!
+hadamard: aTuple
+	| modulus array representatives2 |
+	(self class = aTuple class and: [scalars = aTuple scalars])
+		ifFalse: [^ super hadamard: aTuple].
+	modulus _ scalars modulus.
+	array _ representatives class new: (self size min: aTuple size).
+	representatives2 _ aTuple representatives.
+	1 to: array size do: [:i| array at: i put: (representatives at: i) * (representatives2 at: i) \\ modulus].
+	^ self class representatives: array over: scalars! !
+
+!ModularTuple methodsFor: 'comparing' stamp: 'len 6/30/2016 06:52'!
+hash
+	^ representatives hash! !
+
+!ModularTuple methodsFor: 'testing' stamp: 'len 12/5/2016 17:54:18'!
+isZero
+	1 to: representatives size do: [:i| (representatives at: i) == 0 ifFalse: [^ false]].
+	^ true! !
+
+!ModularTuple methodsFor: 'testing' stamp: 'len 12/1/2016 17:05:46'!
+isZeroAt: anInteger
+	^ (representatives at: anInteger) == 0! !
+
+!ModularTuple methodsFor: 'accessing' stamp: 'len 11/12/2016 09:02'!
+lastNonZero
+	"Answer the index of the last non-zero entry, or 0."
+	representatives size to: 1 by: -1 do: [:i| (representatives at: i) = 0 ifFalse: [^ i]].
+	^ 0! !
+
+!ModularTuple methodsFor: 'accessing-private' stamp: 'len 12/1/2016 16:38:58'!
+modulus
+	^ scalars modulus! !
+
+!ModularTuple methodsFor: 'operations' stamp: 'len 12/1/2016 16:41:10'!
+negated
+	| modulus array |
+	array _ representatives copy.
+	modulus _ scalars modulus.
+	1 to: self size do: [:i| array at: i put: (array at: i) negated \\ modulus].
+	^ self class representatives: array over: scalars! !
+
+!ModularTuple methodsFor: 'operations' stamp: 'len 12/1/2016 16:45:01'!
+polynomialValue: anObject
+	| modulus x answer |
+	((anObject isKindOf: ModularInteger) and: [anObject modulus = (modulus _ self modulus)])
+		ifFalse: [^ super polynomialValue: anObject].
+	x _ anObject representative.
+	answer _ 0.
+	representatives reverseDo: [:each| answer _ x * answer + each \\ modulus].
+	^ scalars representative: answer! !
+
+!ModularTuple methodsFor: 'printing' stamp: 'len 12/1/2016 16:40:08'!
+printOn: aStream
+	self modulus > 16 ifTrue: [^ super printOn: aStream].
+	1 to: self size do: [:i| (representatives at: i) printOn: aStream base: 16]! !
+
+!ModularTuple methodsFor: 'accessing-private' stamp: 'len 3/31/2016 07:43'!
+representatives
+	^ representatives! !
+
+!ModularTuple methodsFor: 'accessing-private' stamp: 'len 12/1/2016 16:36:25'!
+representatives: anArray
+	representatives _ anArray
+"	representatives do: [:each| (each between: 0 and: modulus) ifFalse: [self halt]]"! !
+
+!ModularTuple methodsFor: 'operations' stamp: 'len 12/1/2016 16:36:42'!
+reversed
+	^ self class representatives: representatives reversed over: scalars! !
+
+!ModularTuple methodsFor: 'accessing' stamp: 'len 12/1/2016 16:36:02'!
+scalars
+	^ scalars! !
+
+!ModularTuple methodsFor: 'accessing-private' stamp: 'len 12/1/2016 16:53:30'!
+scalars: aModularIntegers
+	scalars _ aModularIntegers! !
+
+!ModularTuple methodsFor: 'accessing' stamp: 'len 3/31/2016 07:47'!
+size
+	^ representatives size! !
+
+!ModularTuple methodsFor: 'operations' stamp: 'len 12/3/2016 09:13:11'!
+weight
+	"Answer the Hamming weight of the receiver, i.e. the number of entries that are not zero."
+	^ representatives count: [:each| each ~~ 0]! !
+
+!ModularTuple class methodsFor: 'instance creation' stamp: 'len 11/12/2016 17:19'!
+arrayClassForModulus: anInteger
+	anInteger <= 255 ifTrue: [^ ByteArray].
+	anInteger <= 16rFFFFFFFF ifTrue: [^ WordArray].
+	^ Array! !
+
+!ModularTuple class methodsFor: 'instance creation' stamp: 'len 12/1/2016 16:48:12'!
+coefficients: anArray over: aModularIntegers
+	^ self new: anArray size over: aModularIntegers evaluating: [:i| anArray at: i]! !
+
+!ModularTuple class methodsFor: 'instance creation' stamp: 'len 12/1/2016 16:47:15'!
+new: anInteger over: aModularIntegers
+	| array |
+	array _ (self arrayClassForModulus: aModularIntegers modulus) new: anInteger.
+	^ self representatives: array over: aModularIntegers! !
+
+!ModularTuple class methodsFor: 'instance creation' stamp: 'len 12/1/2016 16:47:41'!
+new: anInteger over: aModularIntegers evaluating: aBlock
+	| array |
+	array _ (self arrayClassForModulus: aModularIntegers modulus) new: anInteger.
+	1 to: anInteger do: [:i| array at: i put: (aBlock value: i) representative].
+	^ self representatives: array over: aModularIntegers! !
+
+!ModularTuple class methodsFor: 'instance creation' stamp: 'len 12/1/2016 16:46:28'!
+representatives: anArray over: aModularIntegers
+	^ self basicNew scalars: aModularIntegers; representatives: anArray! !
 
 !Matrix methodsFor: 'arithmetic' stamp: 'len 11/5/2016 03:09'!
 * anObject
@@ -38308,10 +38259,8 @@ primitive
 	self isZero ifTrue: [^ self]. self flag: #fix. "is this right?"
 	^ self /// self content! !
 
-!Polynomial methodsFor: 'printing' stamp: 'len 2/22/2017 07:28:39'!
+!Polynomial methodsFor: 'printing' stamp: 'len 2/25/2017 09:40:48'!
 printCoefficient: coefficient on: aStream
-	"Print the coefficient of the receiver on the stream aStream."
-
 	| c |
 	((c _ coefficient) printString first = $- "or: [coefficient isNumber and: [coefficient negative]]")
 		ifTrue: [aStream nextPut: $-. c _ c negated].
@@ -42099,6 +42048,166 @@ left: anObject right: anotherObject
 
 	^ self new setLeft: anObject right: anotherObject! !
 
+!FormalSum2 methodsFor: 'arithmetic' stamp: 'len 2/25/2017 08:02:17'!
+* aNumber
+	^ self parent coefficients: coefficients * aNumber! !
+
+!FormalSum2 methodsFor: 'arithmetic' stamp: 'len 2/25/2017 08:02:22'!
++ aFormalSum
+	^ self parent coefficients: coefficients + aFormalSum coefficients! !
+
+!FormalSum2 methodsFor: 'arithmetic' stamp: 'len 10/15/2016 21:44'!
+- aFormalSum
+	^ self + aFormalSum negated! !
+
+!FormalSum2 methodsFor: 'arithmetic' stamp: 'len 3/2/2016 05:59'!
+/ aNumber
+	^ self * aNumber reciprocal! !
+
+!FormalSum2 methodsFor: 'comparing' stamp: 'len 10/15/2016 21:44'!
+= aFormalSum
+	^ coefficients = aFormalSum coefficients! !
+
+!FormalSum2 methodsFor: 'accessing' stamp: 'len 2/22/2017 09:31:34'!
+coefficientAt: anElement
+	^ coefficients at: anElement! !
+
+!FormalSum2 methodsFor: 'accessing' stamp: 'len 3/2/2016 06:00'!
+coefficientAt: anElement put: aNumber
+	^ coefficients at: anElement put: aNumber! !
+
+!FormalSum2 methodsFor: 'accessing' stamp: 'len 2/28/2016 04:29'!
+coefficients
+	^ coefficients! !
+
+!FormalSum2 methodsFor: 'accessing' stamp: 'len 3/1/2016 03:39'!
+coefficients: aSparseTuple
+	coefficients _ aSparseTuple! !
+
+!FormalSum2 methodsFor: 'comparing' stamp: 'len 2/28/2016 04:32'!
+hash
+	^ coefficients hash! !
+
+!FormalSum2 methodsFor: 'testing' stamp: 'len 2/28/2016 04:23'!
+isZero
+	^ coefficients isEmpty! !
+
+!FormalSum2 methodsFor: 'arithmetic' stamp: 'len 2/25/2017 08:02:32'!
+negated
+	^ self parent coefficients: coefficients negated! !
+
+!FormalSum2 methodsFor: 'private' stamp: 'len 2/25/2017 08:05:10'!
+parent
+	^ parent! !
+
+!FormalSum2 methodsFor: 'private' stamp: 'len 2/25/2017 08:30:04'!
+parent: aDomain
+	parent _ aDomain! !
+
+!FormalSum2 methodsFor: 'printing' stamp: 'len 4/25/2016 06:46'!
+printCoefficient: c on: aStream
+	"Print the coefficient of the receiver on the stream aStream."
+
+	| string numeric |
+	string _ c printString.
+	string first = $-
+		ifTrue: [aStream nextPut: $-. string _ c negated printString].
+	numeric _ string allSatisfy: [:each| each isDigit].
+	aStream nextPutAll:
+		((numeric or: [string first = $(]) ifTrue: [string] ifFalse: ['(', string, ')'])! !
+
+!FormalSum2 methodsFor: 'printing' stamp: 'len 4/25/2016 06:47'!
+printOn2: aStream
+	| elements |
+	self flag: #fix. "copy form Polynomial"
+	self isZero ifTrue: [aStream nextPutAll: '0'. ^ self].
+	elements _ coefficients keys asSortedCollection: [:a :b| a printString <= b printString].
+	aStream print: (coefficients at: elements first); print: elements first.
+	elements allButFirstDo: 
+		[:each| | coefficient |
+		(coefficient _ coefficients at: each) < 0
+			ifTrue: [aStream nextPutAll: ' - '; print: coefficient negated; print: each]
+			ifFalse: [coefficient  > 0
+				ifTrue: [aStream nextPutAll: ' + '; print: coefficient; print: each]]]! !
+
+!FormalSum2 methodsFor: 'printing' stamp: 'len 7/2/2016 16:46'!
+printOn: aStream
+	| elements c |
+	self isZero ifTrue: [aStream nextPutAll: '0'. ^ self].
+	elements _ coefficients keys asSortedCollection: [:a :b| a printString <= b printString].
+	c _ self coefficientAt: elements first.
+	c printString first = $-
+		ifTrue: [c _ c negated. aStream nextPut: $-].
+	c ~= c one ifTrue: [self printCoefficient: c on: aStream].
+	((elements first isKindOf: Word) and: [elements first isEmpty])
+		ifFalse: [aStream print: elements first].
+	elements allButFirst do: [:each|
+		c _ self coefficientAt: each.
+		c printString first = $-
+			ifTrue: [aStream nextPutAll: ' - '. c _ c negated]
+			ifFalse: [aStream nextPutAll: ' + '].
+		c ~= c one ifTrue: [self printCoefficient: c on: aStream].
+		((each isKindOf: Word) and: [each isEmpty])
+			ifFalse: [aStream print: each]]! !
+
+!FormalSum2 methodsFor: 'accessing' stamp: 'len 11/18/2016 20:30:33'!
+scalars
+	^ coefficients scalars! !
+
+!FormalSum2 methodsFor: 'accessing' stamp: 'len 10/15/2016 17:28'!
+value
+	| answer |
+	answer _ nil.
+	coefficients keysAndValuesDo: [:key :value|
+		answer _ answer ifNil: [value == 1 ifTrue: [key value] ifFalse: [key value * value]] ifNotNil: [key value * value + answer]].
+	^ answer! !
+
+!FormalSum2 methodsFor: 'accessing' stamp: 'len 2/25/2017 08:26:35'!
+zero
+	^ self parent zero! !
+
+!FormalSum2 class methodsFor: 'instance creation' stamp: 'len 11/18/2016 20:26:02'!
+coefficients: aSparseTuple
+	^ self basicNew coefficients: aSparseTuple! !
+
+!FormalSum2 class methodsFor: 'instance creation' stamp: 'len 11/18/2016 20:28:20'!
+new
+	^ self shouldNotImplement! !
+
+!FreePolynomial methodsFor: 'arithmetic' stamp: 'len 11/25/2016 10:03:02'!
+* anObject
+	((self scalars includes: anObject) or: [anObject isInteger])
+		ifTrue: [^ self class coefficients: self coefficients * anObject].
+	((anObject isKindOf: FreePolynomial) and: [anObject scalars = self scalars])
+		ifTrue:
+			[^ self species coefficients: (coefficients convolution: anObject coefficients)].
+	(anObject isKindOf: Word)
+		ifTrue: [^ self mapMonomials: [:each| each*anObject]].
+	^ DomainError signal! !
+
+!FreePolynomial methodsFor: 'arithmetic' stamp: 'len 2/25/2017 07:53:00'!
+^ anInteger
+	"Answer the receiver raised to the power anInteger."
+	(anInteger isInteger and: [anInteger >= 0])
+		ifFalse: [^ DomainError signal: 'undefinted'].
+	anInteger = 0 ifTrue: [^ self one].
+	anInteger = 1 ifTrue: [^ self].
+	^ self squared ^ (anInteger // 2) * (self ^ (anInteger \\ 2))! !
+
+!FreePolynomial methodsFor: 'accessing' stamp: 'len 3/3/2016 05:27'!
+degree
+	"Answer the total degree of the receiver."
+	self isZero ifTrue: [^ Infinity negative].
+	^ self monomials max: [:each| each length]! !
+
+!FreePolynomial methodsFor: 'accessing' stamp: 'len 2/25/2017 08:58:01'!
+one
+	^ self class coefficients: ((FormalSum over: self scalars) at: Word empty put: self scalars one; yourself)! !
+
+!FreePolynomial methodsFor: 'arithmetic' stamp: 'len 3/2/2016 05:35'!
+squared
+	^ self * self! !
+
 !GaussianElimination2 methodsFor: 'inquiries' stamp: 'len 11/5/2015 01:24'!
 dependentColumns
 	| independent |
@@ -42908,7 +43017,6 @@ example2
 	^ self new
 		polynomial: (RR polynomialsIn: #(x y z) :: generate: [:x :y :z| x^2 - ((y^2)*(z^2))]);
 		radius: 5.0! !
-BitTuple initialize!
 Digraph initialize!
 Naturals initialize!
 RationalField initialize!
@@ -42916,3 +43024,4 @@ RationalIntegerRing initialize!
 ComplexField initialize!
 RealField initialize!
 UpperHalfPlane initialize!
+BitTuple initialize!
