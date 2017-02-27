@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 27 February 2017 at 7:47:38 am'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 27 February 2017 at 8:27:19 am'!
 'Description A computational algebra system in Smalltalk'!
-!provides: 'Mathematics' 1 376!
+!provides: 'Mathematics' 1 377!
 !requires: 'RayTracer' 1 2 nil!
 !classDefinition: #RealAlgebraicNumber category: #'Mathematics-Fields-Algebraic'!
 Number subclass: #RealAlgebraicNumber
@@ -4118,7 +4118,7 @@ References:
 My instances are direct products of groups. Elements are tuples, and multiplication and addition are defined component wise.!
 
 !FreeGroup commentStamp: '<historical>' prior: 0!
-My instances are free groups on a given set of symbols. Their elements are (non-commutative) words on the set of symbols.!
+My instances are free groups on a given set of symbols. Their elements are (non-commutative) words on the set of symbols (see Word).!
 
 !QuotientGroup commentStamp: '<historical>' prior: 0!
 My instances are quotient groups (or factor groups) G/N (read "G mod N"), i.e. the quotient of a group G by a normal subgroup N. The elements are the cosets of N (see Coset).
@@ -11144,11 +11144,14 @@ isTrivial
 	"Answer true if this is the empty simplex."
 	^ vertices isEmpty! !
 
-!Simplex methodsFor: 'printing' stamp: 'len 2/18/2017 20:41:09'!
+!Simplex methodsFor: 'printing' stamp: 'len 2/27/2017 08:21:52'!
 printOn: aStream
 "	self isTrivial ifTrue: [aStream nextPut: Character emptySet. ^ self]."
 	aStream nextPut: ${.
-	self vertices do: [:each| aStream print: each] separatedBy: [aStream nextPut: $,].
+	self vertices do: [:each|
+		(each isString and: [aStream isText])
+			ifTrue: [aStream nextPutAll: each asText]
+			ifFalse: [aStream print: each]] separatedBy: [aStream nextPut: $,].
 	aStream nextPut: $}! !
 
 !Simplex methodsFor: 'faces' stamp: 'len 6/12/2016 23:59'!
@@ -11164,12 +11167,6 @@ properFacesDo: aBlock
 !Simplex methodsFor: 'faces' stamp: 'len 2/27/2016 08:15'!
 ridges
 	^ self faces: self dimension - 2! !
-
-!Simplex methodsFor: 'printing' stamp: 'len 2/15/2017 08:56:34'!
-shortPrintOn: aStream
-	aStream nextPut: ${.
-	self vertices do: [:each| aStream print: each] separatedBy: [aStream nextPut: $,].
-	aStream nextPut: $}! !
 
 !Simplex methodsFor: 'accessing' stamp: 'len 2/23/2017 10:20:17'!
 size
@@ -17621,9 +17618,9 @@ atRandom: aRandom bits: bitSize
 do: aBlock
 	NN ^ self rank do: [:each| aBlock value: (self exponents: (each collect: [:x| x - 1]) asArray)]! !
 
-!FreeAbelianMonoid methodsFor: 'elements' stamp: 'len 11/21/2016 14:13:50'!
+!FreeAbelianMonoid methodsFor: 'elements' stamp: 'len 2/27/2017 07:52:27'!
 exponents: anArray
-	anArray size = rank ifFalse: [self halt].
+	anArray size = rank ifFalse: [self error: 'exponents size doesn''t match rank'].
 	^ (Monomial exponents: anArray) parent: self! !
 
 !FreeAbelianMonoid methodsFor: 'accessing' stamp: 'len 6/30/2016 00:36'!
@@ -31078,6 +31075,10 @@ next
 	anInteger < 0 ifTrue: [^ self reciprocal ^ anInteger negated].
 	^ self squared ^ (anInteger // 2) * (self ^ (anInteger \\ 2))! !
 
+!Word methodsFor: 'copying' stamp: 'len 2/27/2017 08:06:48'!
+copyWithout: anObject
+	^ self class syllables: (self syllables select: [:each| each key ~= anObject])! !
+
 !Word methodsFor: 'enumerating' stamp: 'len 3/3/2016 05:23'!
 do: aBinaryBlock
 	syllables do: [:each| aBinaryBlock value: each key value: each value]! !
@@ -31108,21 +31109,27 @@ printExponent: anInteger on: aStream
 		ifTrue: [aStream nextPutAll: exponent]
 		ifFalse: [aStream nextPut: ${; nextPutAll: exponent; nextPut: $}]! !
 
-!Word methodsFor: 'printing' stamp: 'len 7/26/2016 23:52'!
+!Word methodsFor: 'printing' stamp: 'len 2/27/2017 08:23:57'!
 printIndeterminate: indeterminate on: aStream
 	indeterminate isInteger
 		ifFalse:
 			[indeterminate class = self class
 				ifTrue: [aStream nextPut: $(; print: indeterminate; nextPut: $)]
-				ifFalse: [aStream print: indeterminate]. ^ self].
+				ifFalse: [(aStream isText and: [indeterminate isString])
+					ifTrue: [aStream nextPutAll: indeterminate asText]
+					ifFalse: [aStream print: indeterminate]]. ^ self].
 	aStream isText
 		ifTrue: [aStream nextPut: $x; nextPutAll: indeterminate printString sub]
-		ifFalse: [aStream halt nextPutAll: '{x', indeterminate printString, '}']! !
+		ifFalse: [aStream nextPutAll: '{x', indeterminate printString, '}']! !
 
-!Word methodsFor: 'printing' stamp: 'len 7/2/2016 16:31'!
+!Word methodsFor: 'printing' stamp: 'len 2/27/2017 08:12:20'!
 printOn: aStream
 	self isEmpty ifTrue: [aStream print: 1. ^ self].
-	self do: [:i :exp| exp = 0 ifFalse: [self printIndeterminate: i on: aStream. self printExponent: exp on: aStream]]! !
+	self do: [:i :exp|
+		exp = 0
+			ifFalse:
+				[self printIndeterminate: i on: aStream.
+				self printExponent: exp on: aStream]]! !
 
 !Word methodsFor: 'arithmetic' stamp: 'len 3/3/2016 05:21'!
 reciprocal
