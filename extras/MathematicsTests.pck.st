@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 23 February 2017 at 9:38:41 am'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 28 February 2017 at 9:10:27 pm'!
 'Description Please enter a description for this package'!
-!provides: 'MathematicsTests' 1 73!
+!provides: 'MathematicsTests' 1 74!
 !classDefinition: #AbelianGroupTest category: #MathematicsTests!
 TestCase subclass: #AbelianGroupTest
 	instanceVariableNames: ''
@@ -1737,10 +1737,10 @@ testAffineRingElementOperations
 	self assert: x^2 = (y^2 - 2).
 	"self assert: x reciprocal = ..."! !
 
-!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 2/23/2017 09:10:30'!
+!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 2/28/2017 21:00:54'!
 testAffineRingIdealIntersectionRandom
 	| R f1 f2 J A |
-	R _ QQ polynomialsIn: #(x y z).
+	R _ QQ polynomialsIn: #(x y).
 	[(f1 _ R atRandomBits: 10) isZero] whileTrue.
 	[(f2 _ R atRandomBits: 10) isZero] whileTrue.
 	J _ R * {f1. f2}.
@@ -2707,20 +2707,20 @@ testGroupHomomorphism: phi
 	self assert: (phi value: G identity) = H identity.
 	self assert: (phi value: (G operation value: {a. b})) = (H operation value: {phi value: a. phi value: b})! !
 
-!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 8/30/2016 19:59'!
+!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 2/25/2017 07:35:37'!
 testGroupRing
-	| G R a a` b b` c c` |
+	| G R a b c xa xb xc |
 	G _ self smallGroupAtRandom.
 	R _ G groupRing.
 	a _ G atRandom.
 	b _ G atRandom.
 	c _ G atRandom.
-	a` _ R embed: a.
-	b` _ R embed: b.
-	c` _ R embed: c.
-	self assert: a` * b` = (R embed: a*b).
-	self assert: a` * 2 + b` * c` - (a` * c`) - (b` * c`) = (R embed: a*b).
-	self assert: (a` + b`) * (a` - b`) = (a` ^ 2 - (b` ^ 2))! !
+	xa _ R embed: a.
+	xb _ R embed: b.
+	xc _ R embed: c.
+	self assert: xa * xb = (R embed: a*b).
+	self assert: xa * 2 + xb * xc - (xa * xc) - (xb * xc) = (R embed: a*c).
+	self assert: (xa + xb) * (xa - xb) = (xa ^ 2 - (xb ^ 2))! !
 
 !GroupTest methodsFor: 'as yet unclassified' stamp: 'len 8/30/2016 19:56'!
 testGroupRingIsARing
@@ -3296,6 +3296,10 @@ testYoungTableauxStandard
 	self assert: T weight = #(1 1 1 1 1 1 1 1).
 	self assert: T shape = #(4 3 1)! !
 
+!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 2/28/2017 19:31:13'!
+testZ6IsNotPID
+	self assert: (ZZ/6) isPID not! !
+
 !MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 11/11/2016 09:00'!
 testAdjugate
 	| A I |
@@ -3732,10 +3736,19 @@ testFreeModule: M
 	self assert: v = (M elementAt: t).
 	self testLinearMap: M basis coordinatesMap! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 1/16/2017 22:38:28'!
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 2/28/2017 20:50:22'!
+testFreeModuleDiscriminant
+	"From Sage documentation of FreeModule."
+	| M |
+	M _ ZZ^3.
+	self assert: M discriminant = 1.
+	self assert: (M span: {(1,2,3) over: ZZ}) discriminant = 14.
+	self assert: (M span: {(1,2,3) over: ZZ. (1,1,1) over: ZZ}) discriminant = 6! !
+
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 2/28/2017 08:35:04'!
 testFreeZModule
 	| A x0 x y0 y |
-	A _ FormalSumsModule on: #(a b c) over: ZZ.
+	A _ FormalFreeModule on: #(a b c) over: ZZ.
 	x0 _ (-2,-1,3).
 	x _ A elementAt: x0.
 	y0 _ (1,1,1).
@@ -4253,11 +4266,11 @@ testTuplesZ2
 testTuplesZ4
 	self testFreeModule: ((ZZ / 4) ^ 5 atRandom)! !
 
-!MonomialTest methodsFor: 'as yet unclassified' stamp: 'len 2/12/2017 06:02:22'!
+!MonomialTest methodsFor: 'as yet unclassified' stamp: 'len 2/26/2017 09:25:17'!
 testAntigradedLexOrdering
 	"Example from 'Using Algebraic Geometry', Cox, Little, O'Shea, Ch. 4, 3.2."
 	| M x y |
-	M _ MonomialMonoid new: 2 ordering: #lglex. "antigraded lex order"
+	M _ FreeAbelianMonoid new: 2 ordering: #lglex. "antigraded lex order"
 	x _ M x: 1.
 	y _ M x: 2.
 	self assert: M identity > x.
@@ -4266,13 +4279,13 @@ testAntigradedLexOrdering
 	self assert: x*y > (y^2).
 	self assert: (y^2) > (x^3)! !
 
-!MonomialTest methodsFor: 'as yet unclassified' stamp: 'len 2/12/2017 06:20:32'!
+!MonomialTest methodsFor: 'as yet unclassified' stamp: 'len 2/26/2017 09:25:24'!
 testAntigradedRevlexOrdering
 	"Example from 'Using Algebraic Geometry', Cox, Little, O'Shea, Ch. 4, 3.3."
 	| M x y z ordering |
 	"The antigraded revlex order:"
 	ordering _ LocalGradedReverseLexicographicOrdering indeterminates: #(3 2 1).
-	M _ MonomialMonoid new: 3 ordering: ordering.
+	M _ FreeAbelianMonoid new: 3 ordering: ordering.
 	x _ M x: 1.
 	y _ M x: 2.
 	z _ M x: 3.
@@ -4299,10 +4312,10 @@ testLocalMonomialOrderings
 	self assert: f printString = '1 + x + x^7 + y + y^5 + x^8y^7 + z + z^{10}'.
 	self assert: (f orderedBy: #lgrevlex) printString = '1 + z + y + x + y^5 + x^7 + z^{10} + x^8y^7'! !
 
-!MonomialTest methodsFor: 'as yet unclassified' stamp: 'len 1/14/2017 21:10:56'!
+!MonomialTest methodsFor: 'as yet unclassified' stamp: 'len 2/26/2017 09:25:19'!
 testMonomialDivision
 	| M x y |
-	M _ MonomialMonoid new: 2.
+	M _ FreeAbelianMonoid new: 2.
 	x _ M x: 1.
 	self assert: x*x = (M x: 1 to: 2).
 	y _ M x: 2.
@@ -4310,20 +4323,20 @@ testMonomialDivision
 	self assert: x*y*x / x = (x*y).
 	self assert: x*y*x*y / (x*y) = (x*y)! !
 
-!MonomialTest methodsFor: 'as yet unclassified' stamp: 'len 1/14/2017 21:10:57'!
+!MonomialTest methodsFor: 'as yet unclassified' stamp: 'len 2/26/2017 09:25:22'!
 testMonomialGCD
 	| M x y a b |
-	M _ MonomialMonoid new: 2.
+	M _ FreeAbelianMonoid new: 2.
 	x _ M x: 1.
 	y _ M x: 2.
 	a _ x*x*y*y*y.
 	b _ x*x*x*y*y.
 	self assert: (a gcd: b) = (x*x*y*y)! !
 
-!MonomialTest methodsFor: 'as yet unclassified' stamp: 'len 1/14/2017 21:10:53'!
+!MonomialTest methodsFor: 'as yet unclassified' stamp: 'len 2/26/2017 09:25:12'!
 testMonomialLCM
 	| M x y a b |
-	M _ MonomialMonoid new: 2.
+	M _ FreeAbelianMonoid new: 2.
 	x _ M x: 1.
 	y _ M x: 2.
 	a _ x*x.
@@ -4379,24 +4392,24 @@ testMonomialOrderings3
 	self assert: (f orderedBy: #glex) leadingTerm = (x2*x4).
 	self assert: (f orderedBy: #grevlex) leadingTerm = (x3^2)! !
 
-!MonomialTest methodsFor: 'as yet unclassified' stamp: 'len 2/12/2017 06:06:05'!
+!MonomialTest methodsFor: 'as yet unclassified' stamp: 'len 2/26/2017 09:25:04'!
 testMonomialOrderingsExample
 	| a b lex glex grevlex |
 	a _ Monomial exponents: #(3 2 8).
 	b _ Monomial exponents: #(2 9 2).
 	
-	lex _ MonomialMonoid new: 3 ordering: #lex.
-	glex _ MonomialMonoid new: 3 ordering: #glex.
-	grevlex _ MonomialMonoid new: 3 ordering: #grevlex.
+	lex _ FreeAbelianMonoid new: 3 ordering: #lex.
+	glex _ FreeAbelianMonoid new: 3 ordering: #glex.
+	grevlex _ FreeAbelianMonoid new: 3 ordering: #grevlex.
 
 	self assert: (a as: lex) > (b as: lex).
 	self assert: (a as: glex) > (b as: glex).
 	self assert: (a as: grevlex) < (b as: grevlex)! !
 
-!MonomialTest methodsFor: 'as yet unclassified' stamp: 'len 2/12/2017 06:04:28'!
+!MonomialTest methodsFor: 'as yet unclassified' stamp: 'len 2/26/2017 09:25:07'!
 testMonomialOrderingsOfIndeterminates
 	| M x y z |
-	M _ MonomialMonoid new: 3.
+	M _ FreeAbelianMonoid new: 3.
 	x _ M x: 1.
 	y _ M x: 2.
 	z _ M x: 3.
@@ -4407,10 +4420,10 @@ testMonomialOrderingsOfIndeterminates
 		self assert: (x orderedBy: ordering) > (y orderedBy: ordering).
 		self assert: (y orderedBy: ordering) > (z orderedBy: ordering)]! !
 
-!MonomialTest methodsFor: 'as yet unclassified' stamp: 'len 1/14/2017 21:10:47'!
+!MonomialTest methodsFor: 'as yet unclassified' stamp: 'len 2/26/2017 09:25:09'!
 testMonomialOrderingsOfIndeterminatesReordered
 	| M x y z |
-	M _ MonomialMonoid new: 3 ordering: (MonomialOrdering lex: #(2 1 3)).
+	M _ FreeAbelianMonoid new: 3 ordering: (MonomialOrdering lex: #(2 1 3)).
 	x _ M x: 1.
 	y _ M x: 2.
 	z _ M x: 3.
@@ -4430,10 +4443,10 @@ testMonomialOrderingsSingularExample
 	"Local orderings don't match because we implemented them with Magma conventions."
 ! !
 
-!MonomialTest methodsFor: 'as yet unclassified' stamp: 'len 1/14/2017 21:10:51'!
+!MonomialTest methodsFor: 'as yet unclassified' stamp: 'len 2/26/2017 09:25:14'!
 testMonomialProduct
 	| M x y |
-	M _ MonomialMonoid new: 2.
+	M _ FreeAbelianMonoid new: 2.
 	x _ M x: 1.
 	self assert: x*x = (M x: 1 to: 2).
 	y _ M x: 2.
@@ -5478,12 +5491,12 @@ testQuotientRing
 	self testRing: Q.
 	self testRingHomomorphism: Q projection! !
 
-!RingTest methodsFor: 'as yet unclassified' stamp: 'len 11/1/2016 01:00'!
+!RingTest methodsFor: 'as yet unclassified' stamp: 'len 2/27/2017 20:51:24'!
 testQuotientRing2
 	| Q pi f g |
 	Q _ self newQuotientRing.
 	f _ Q base atRandomBits: 10.
-	g _ Q ideal atRandomBits: 10.
+	g _ Q relations atRandomBits: 10.
 	pi _ Q projection.
 	self assert: (pi value: g) isZero.
 	self assert: (Q includes: (pi value: f)).
@@ -5741,6 +5754,17 @@ testAlexanderDual
 	self assert: X dual = Y.
 	self assert: X dual nonfaces = X complement facets! !
 
+!SimplicialComplexTest methodsFor: 'as yet unclassified' stamp: 'len 2/26/2017 09:03:04'!
+testChainComplex
+	"Jeff Erickson, 'Computational Topology', Example 17.7."
+	| S2 C |
+	S2 _ SimplicialComplex facets: ((Simplex vertices: #(w x y z)) faces: 2).
+	C _ S2 chainComplexOver: ZZ.
+	self assert: (C cycles: 1) rank = 3.
+	self assert: (C boundaries: 0) rank = 3.
+	self assert: (C boundaries: 1) = (C cycles: 0).
+	self assert: C betti = #(1 0 1)! !
+
 !SimplicialComplexTest methodsFor: 'as yet unclassified' stamp: 'len 2/20/2017 08:37:27'!
 testEulerCharacteristic
 	| X |
@@ -5797,22 +5821,14 @@ testSimplecialComplex
 	self assert: (S faces: 1) asSet size = 5.
 	self assert: (S faces: 0) asSet size = 5! !
 
-!SimplicialComplexTest methodsFor: 'as yet unclassified' stamp: 'len 2/15/2017 08:55:43'!
+!SimplicialComplexTest methodsFor: 'as yet unclassified' stamp: 'len 2/25/2017 10:08:54'!
 testSimplex
 	| tetrahedron |
-	tetrahedron _ Simplex vertices: {(1,0,0). (0,1,0). (0,0,1). (0,0,0)}.
+	tetrahedron _ Simplex vertices: #(a b c d).
 	self assert: tetrahedron dimension = 3.
 	self assert: (tetrahedron faces: 2) size = 4.
 	self assert: tetrahedron edges size = 6.
 	self assert: (tetrahedron faces: 3) size = 1! !
-
-!SimplicialComplexTest methodsFor: 'as yet unclassified' stamp: 'len 2/21/2017 20:54:37'!
-testSimplexBoundaryBoundary
-	| S x |
-	S _ Simplex vertices: #(a b c d).
-	x _ SimplicialChain over: ZZ with: S.
-	self assert: x boundary boundary isZero.
-	self assert: x boundary isCycle! !
 
 !SimplicialComplexTest methodsFor: 'as yet unclassified' stamp: 'len 2/19/2017 08:37:30'!
 testSimplexComplement
@@ -5837,12 +5853,13 @@ testSimplexJoin
 	self assert: A*B ~ (Simplex new: 2+1+3+1-1)
 ! !
 
-!SimplicialComplexTest methodsFor: 'as yet unclassified' stamp: 'len 2/15/2017 16:22:18'!
-testSimplexNegation
-	| S |
-	S _ Simplex vertices: (1 to: 4).
-	self assert: S negated negated = S.
-	self assert: S negated ~= S! !
+!SimplicialComplexTest methodsFor: 'as yet unclassified' stamp: 'len 2/25/2017 08:22:35'!
+testSimplicalChainsBoundary
+	| X x |
+	X _ SimplicialComplex sphere: 2.
+	x _ (X chains: 2 over: QQ) atRandomBits: 20.
+	self assert: x boundary boundary isZero.
+	self assert: x boundary isCycle! !
 
 !SimplicialComplexTest methodsFor: 'as yet unclassified' stamp: 'len 2/19/2017 10:00:52'!
 testSimplicialComplexExample
@@ -5883,12 +5900,12 @@ testStanleyReisnerIdealAndFacetIdealDuality
 	X _ SimplicialComplex on: (1 to: 5) faces: #((1 2 4) (1 2 5) (2 3) (3 4)).
 	self assert: X dual stanleyReisnerIdeal = X complement facetIdeal! !
 
-!SimplicialComplexTest methodsFor: 'as yet unclassified' stamp: 'len 2/19/2017 08:23:25'!
+!SimplicialComplexTest methodsFor: 'as yet unclassified' stamp: 'len 2/27/2017 20:46:17'!
 testStanleyReisnerRing
 	| X R |
 	X _ SimplicialComplex faces: #((0 1) (1 2) (2 3) (3 0)).
 	R _ QQ polynomialsIn: #(x y z w).
-	self assert: X stanleyReisnerRing relations asSet = (R generate: [:x :y :z :w| {y*w. x*z}]) asSet! !
+	self assert: X stanleyReisnerRing relations generators asSet = (R generate: [:x :y :z :w| {y*w. x*z}]) asSet! !
 
 !SimplicialComplexTest methodsFor: 'as yet unclassified' stamp: 'len 2/14/2017 19:45:41'!
 testTorus
@@ -5977,6 +5994,11 @@ testTuple: a with: b operation: aSymbol modulo: modulus
 !TupleTest methodsFor: 'as yet unclassified' stamp: 'len 11/6/2016 11:36'!
 testTupleSum
 	self assert: (1,2,3) sum = (1 + 2 + 3)! !
+
+!TupleTest methodsFor: 'as yet unclassified' stamp: 'len 2/28/2017 19:36:45'!
+testTuplesModuleMembership
+	self assert: (QQ^3 includes: (1,2,3)).
+	self assert: (QQ^3 includes: (1,2,3,4)) not! !
 
 !Benchmark methodsFor: 'as yet unclassified' stamp: 'len 3/1/2016 04:20'!
 run
