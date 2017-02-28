@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 28 February 2017 at 10:19:10 am'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 28 February 2017 at 9:08:34 pm'!
 'Description A computational algebra system in Smalltalk'!
-!provides: 'Mathematics' 1 378!
+!provides: 'Mathematics' 1 379!
 !requires: 'RayTracer' 1 2 nil!
 !classDefinition: #RealAlgebraicNumber category: #'Mathematics-Fields-Algebraic'!
 Number subclass: #RealAlgebraicNumber
@@ -3921,8 +3921,7 @@ The following are examples of undeterminations (they produce an error):
 !
 
 !LinearBasis commentStamp: '<historical>' prior: 0!
-My instances are bases for free modules of finite rank.
-!
+My instances are finite bases of free modules.!
 
 !StandardBasis commentStamp: 'len 1/25/2017 14:38:57' prior: 0!
 My instances are standard bases of polynomial ideals. A standard basis is nothing but a special set of generators with the property that the leading monomials generate the leading ideal.
@@ -5131,6 +5130,9 @@ Example:
 	(GramSchmidt basis: basis) orthogonalBasis
 !
 
+!HermiteNormalForm2 commentStamp: '<historical>' prior: 0!
+This is the Hermite reduction algorithm. Given a matrix with coefficients in the rational integers Z, it reduces the matrix to its Hermite normal form.!
+
 !GaussBareiss commentStamp: '<historical>' prior: 0!
 I am the Gauss-Bereiss algorithm.
 
@@ -5154,6 +5156,10 @@ The algorithm performs O(2n^3/3) field operations for nxn matrices, but due to e
 
 !QRDecomposition commentStamp: '<historical>' prior: 0!
 My instances are QR factorizations of a given real or complex matrix A, such that A = Q*R where Q is unitary (orthogonal) and R is upper triangular. Morover, if A is nonsingular, the diagonal of R may be taken to be positive, in which case the factorization is unique.!
+
+!SmithNormalForm commentStamp: '<historical>' prior: 0!
+This is the Smith reduction algorithm. Given a matrix with coefficients in a PID, it reduces the matrix to its Smith normal form.
+!
 
 !Monomial commentStamp: '<historical>' prior: 0!
 My instances are (commutative) power products of one or many variables. They form a monoid (see FreeAbelianMonoid). Their formal linear combinations over a ring are Polynomials (see also PolynomialRing).
@@ -7763,6 +7769,10 @@ printOn: aStream
 		ifTrue: [aStream print: generators]
 		ifFalse: [generators do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: '; ']].
 	aStream nextPut: $}! !
+
+!LinearBasis methodsFor: 'accessing' stamp: 'len 2/28/2017 11:01:15'!
+scalars
+	^ self matrix scalars! !
 
 !LinearBasis methodsFor: 'enumerating' stamp: 'len 5/23/2016 04:43'!
 select: aBlock 
@@ -18234,9 +18244,10 @@ extensionDegree: anInteger
 fractionClass
 	^ FormalFraction! !
 
-!Ring methodsFor: 'operations' stamp: 'len 1/20/2017 09:07:44'!
+!Ring methodsFor: 'operations' stamp: 'len 2/28/2017 19:59:04'!
 fractions
 	"Answer the fraction ring of the receiver. If the receiver is an integral domain, the fraction ring will be a field."
+	self isField ifTrue: [^ self].
 	^ FractionRing on: self! !
 
 !Ring methodsFor: 'operations' stamp: 'len 1/20/2016 13:42'!
@@ -18703,6 +18714,10 @@ exampleZZLocalizedAwayFrom2
 	self == anObject ifTrue: [^ true].
 	^ (anObject isKindOf: FractionRing) and: [anObject integers = self integers]! !
 
+!FractionRing methodsFor: 'operations' stamp: 'len 2/28/2017 19:59:48'!
+fractions
+	^ self! !
+
 !FractionRing methodsFor: 'testing' stamp: 'len 10/29/2016 16:03'!
 includes: anObject
 	^ (anObject is: #Fraction)
@@ -19092,24 +19107,28 @@ isCommutative
 	self base isCommutative ifTrue: [^ true]. "if the ring is not commutative, we dont know if the quotient is or not"
 	^ super isCommutative! !
 
-!QuotientRing methodsFor: 'testing' stamp: 'len 11/29/2016 14:44:04'!
+!QuotientRing methodsFor: 'testing' stamp: 'len 2/28/2017 20:53:27'!
 isEuclidean
-	^ self base isEuclidean! !
+	^ super isEuclidean
+"	^ self base isEuclidean" "wtf? this is wrong!!"! !
 
-!QuotientRing methodsFor: 'testing' stamp: 'len 2/27/2017 20:53:49'!
+!QuotientRing methodsFor: 'testing' stamp: 'len 2/28/2017 20:43:38'!
 isField
 	"Answer true if the receiver forms a residue field."
-	self flag: #fix. "is this right? doesnt the base have to be an integral domain?"
-	^ self propertyAt: #isField ifAbsentPut: [self base isTrivial not and: [self base isCommutative and: [self relations isMaximal]]]! !
+	^ self base isTrivial not and: [self base isCommutative and: [self relations isMaximal]]! !
 
-!QuotientRing methodsFor: 'testing' stamp: 'len 2/27/2017 20:53:44'!
+!QuotientRing methodsFor: 'testing' stamp: 'len 2/28/2017 20:42:56'!
 isIntegralDomain
-	^ self propertyAt: #isIntegralDomain ifAbsentPut: [(self base isTrivial not and: [self base isCommutative and: [self relations isPrime]]) or: [self isIntegrallyClosedDomain]]! !
+	(self base isTrivial not and: [self base isCommutative and: [self relations isPrime]])
+		ifTrue: [^ true].
+	self isIntegrallyClosedDomain
+		ifTrue: [^ true].
+	^ self notYetImplemented! !
 
-!QuotientRing methodsFor: 'testing' stamp: 'len 10/20/2016 03:38'!
+!QuotientRing methodsFor: 'testing' stamp: 'len 2/28/2017 20:38:06'!
 isNoetherian
-	self flag: #fix. "is this an IFF? if the base ring is Noetherian the quotient by a two-sided ideal is Noetherian, but the other way?"
-	^ self base isNoetherian! !
+	self base isNoetherian ifTrue: [^ true].
+	self notYetImplemented! !
 
 !QuotientRing methodsFor: 'testing' stamp: 'len 8/10/2016 01:01'!
 isQuotient
@@ -20011,7 +20030,7 @@ to: aCodomain
 		ifTrue: [^ self to: aCodomain evaluating: [:x| aCodomain one * x]].
 	^ super to: aCodomain! !
 
-!RationalIntegerRing methodsFor: 'as yet unclassified' stamp: 'len 12/23/2016 10:19:17'!
+!RationalIntegerRing methodsFor: 'operations' stamp: 'len 12/23/2016 10:19:17'!
 units
 	"Answer the multiplicative group of units of the receiver (i.e., elements that have multiplicative inverse)."
 	^ super units elements: {1. -1}! !
@@ -21586,12 +21605,12 @@ generator
 	self generators: {generator}.
 	^ generator! !
 
-!Ideal methodsFor: 'accessing-private' stamp: 'len 2/18/2017 20:22:38'!
+!Ideal methodsFor: 'accessing-private' stamp: 'len 2/28/2017 20:58:36'!
 generators: aCollection
 	| generators |
 	generators _ aCollection asSet reject: [:each| each isZero].
 "	generators size = aCollection size ifTrue: [generators _ aCollection]." "keep order if possible"
-	(generators size > 1 and: [self ring isPID])
+	(generators size > 1 and: [[self ring isPID] ifError: [false]])
 		ifTrue:
 			[| generator |
 			generators do: [:each| generator _ generator isNil ifTrue: [each] ifFalse: [generator gcd: each]].
@@ -21783,6 +21802,10 @@ isMaximal
 !RationalIntegerIdeal methodsFor: 'testing' stamp: 'len 12/28/2016 12:09:18'!
 isPrime
 	^ self propertyAt: #isPrime ifAbsentPut:[self isZero or: [self generator isPrime]]! !
+
+!RationalIntegerIdeal methodsFor: 'as yet unclassified' stamp: 'len 2/28/2017 20:06:58'!
+printOn: aStream
+	aStream print: self generator; nextPut: Character ZZ! !
 
 !RationalIntegerIdeal methodsFor: 'operations' stamp: 'len 12/30/2016 09:58:09'!
 quotient
@@ -22312,14 +22335,18 @@ species
 		ifTrue: [^ self elementAt: anObject].
 	^ super !! anObject! !
 
-!FreeModule methodsFor: 'operations' stamp: 'len 2/28/2017 09:55:36'!
+!FreeModule methodsFor: 'operations' stamp: 'len 2/28/2017 10:23:33'!
 * aNumber
 	"Answer the receiver scaled by aNumber."
 	aNumber isZero
 		ifTrue: [^ self null].
+	self isVectorSpace
+		ifTrue: [^ self].
 	(aNumber = self scalars one or: [aNumber = self scalars one negated])
 		ifTrue: [^ self].
-	^ self span: (self basis collect: [:each| each * aNumber])! !
+	self scalars isPID "must it be a PID?"
+		ifTrue: [^ self span: (self basis collect: [:each| each * aNumber])].
+	^ DomainError signal! !
 
 !FreeModule methodsFor: 'operations' stamp: 'len 2/28/2017 09:59:43'!
 + anObject
@@ -22378,9 +22405,10 @@ species
 	"Answer true if the receiver is isomorphic to the argument."
 	^ self == aModule or: [aModule isFreeModule and: [self scalars = aModule scalars and: [self rank = aModule rank]]]! !
 
-!FreeModule methodsFor: 'operations' stamp: 'len 2/20/2017 22:13:03'!
+!FreeModule methodsFor: 'operations' stamp: 'len 2/28/2017 19:46:47'!
 ê aFreeModule
 	"Answer the direct sum of the receiver and the argument."
+	aFreeModule isFreeModule ifFalse: [DomainError signal: 'not a free module'].
 	self scalars = aFreeModule scalars ifFalse: [DomainError signal: 'scalars don''t match'].
 	^ DirectSumModule components: {self. aFreeModule}! !
 
@@ -23521,9 +23549,9 @@ evaluating: aBlock
 hash
 	^ scalars hash + rank! !
 
-!TupleModule methodsFor: 'testing' stamp: 'len 11/5/2016 10:42'!
+!TupleModule methodsFor: 'testing' stamp: 'len 2/28/2017 19:34:43'!
 includes: anObject
-	^ (anObject is: #Tuple) and: [anObject scalars <= self scalars]! !
+	^ (anObject isKindOf: Tuple) and: [anObject size = self rank and: [anObject scalars <= self scalars]]! !
 
 !TupleModule methodsFor: 'testing' stamp: 'len 11/7/2015 22:06'!
 isCountable
@@ -34002,11 +34030,11 @@ polynomialValue: anObject
 	self reverseDo: [:each| answer _ anObject * answer + (one * each)].
 	^ answer! !
 
-!Tuple methodsFor: 'printing' stamp: 'len 1/11/2017 13:53:59'!
+!Tuple methodsFor: 'printing' stamp: 'len 2/28/2017 19:53:16'!
 printOn: aStream
 	| separator |
 	aStream nextPut: $(.
-	separator _ (self anySatisfy: [:any| any printString isAlphaNumeric not]) ifTrue: [', '] ifFalse: [','].
+	separator _ (self anySatisfy: [:any| any printString includesAnyOf: ', ']) ifTrue: [', '] ifFalse: [','].
 	self do: [:x| aStream print: x] separatedBy: [aStream nextPutAll: separator].
 	aStream nextPut: $)! !
 
@@ -35084,11 +35112,11 @@ denominator
 	self do: [:each| answer _ answer lcm: each denominator].
 	^ answer! !
 
-!Matrix methodsFor: 'operations' stamp: 'len 1/17/2017 09:00:22'!
+!Matrix methodsFor: 'operations' stamp: 'len 2/28/2017 21:04:03'!
 determinant
 	self scalars isField
 		ifTrue: [^ (GaussianElimination on: self) determinant].
-	self scalars isIntegralDomain
+	([self scalars isIntegralDomain] ifError: [false])
 		ifFalse: [self characteristicPolynomial independentCoefficient].
 	"^ self determinant2"
 	^ self characteristicPolynomial independentCoefficient! !
