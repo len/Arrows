@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 27 February 2017 at 8:27:19 am'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 28 February 2017 at 10:19:10 am'!
 'Description A computational algebra system in Smalltalk'!
-!provides: 'Mathematics' 1 377!
+!provides: 'Mathematics' 1 378!
 !requires: 'RayTracer' 1 2 nil!
 !classDefinition: #RealAlgebraicNumber category: #'Mathematics-Fields-Algebraic'!
 Number subclass: #RealAlgebraicNumber
@@ -1552,18 +1552,18 @@ FreeModule subclass: #DirectSumModule
 DirectSumModule class
 	instanceVariableNames: ''!
 
-!classDefinition: #FormalSumsModule category: #'Mathematics-Modules'!
-FreeModule subclass: #FormalSumsModule
+!classDefinition: #FormalFreeModule category: #'Mathematics-Modules'!
+FreeModule subclass: #FormalFreeModule
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Modules'!
-!classDefinition: 'FormalSumsModule class' category: #'Mathematics-Modules'!
-FormalSumsModule class
+!classDefinition: 'FormalFreeModule class' category: #'Mathematics-Modules'!
+FormalFreeModule class
 	instanceVariableNames: ''!
 
 !classDefinition: #SimplicialChainsModule category: #'Mathematics-Homology'!
-FormalSumsModule subclass: #SimplicialChainsModule
+FormalFreeModule subclass: #SimplicialChainsModule
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
@@ -1592,14 +1592,14 @@ HomModule subclass: #DualModule
 DualModule class
 	instanceVariableNames: ''!
 
-!classDefinition: #QuotientModule category: #'Mathematics-Modules'!
-FreeModule subclass: #QuotientModule
-	instanceVariableNames: 'submodule'
+!classDefinition: #QuotientSpace category: #'Mathematics-Modules'!
+FreeModule subclass: #QuotientSpace
+	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Modules'!
-!classDefinition: 'QuotientModule class' category: #'Mathematics-Modules'!
-QuotientModule class
+!classDefinition: 'QuotientSpace class' category: #'Mathematics-Modules'!
+QuotientSpace class
 	instanceVariableNames: ''!
 
 !classDefinition: #ScalarModule category: #'Mathematics-Modules'!
@@ -1730,6 +1730,16 @@ FreeModule subclass: #SyzygyModule
 	category: 'Mathematics-Etc'!
 !classDefinition: 'SyzygyModule class' category: #'Mathematics-Etc'!
 SyzygyModule class
+	instanceVariableNames: ''!
+
+!classDefinition: #QuotientModule category: #'Mathematics-Modules'!
+Module subclass: #QuotientModule
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Modules'!
+!classDefinition: 'QuotientModule class' category: #'Mathematics-Modules'!
+QuotientModule class
 	instanceVariableNames: ''!
 
 !classDefinition: #AffineSubspace category: #'Mathematics-Geometry-Affine'!
@@ -4142,12 +4152,9 @@ Elements of the space X are refered to as 'points', while the word 'element' is 
 !AlternatingGroup commentStamp: '<historical>' prior: 0!
 My instances are the alternating group Alt(X) of even permutations on the elements of a set X (which we call 'space').!
 
-!SymmetricGroup commentStamp: '<historical>' prior: 0!
+!SymmetricGroup commentStamp: 'len 2/27/2017 08:35:25' prior: 0!
 My instances are the symmetric group Sym(X) of permutations on the elements of a set X (which we call 'space').
-
-Examples:
-	SymmetricGroup new: 3.
-	SymmetricGroup on: #(a b c).!
+!
 
 !LinearGroup commentStamp: 'len 10/22/2016 18:06' prior: 0!
 My instances are groups of linear transformations acting on an R-module V. They are subgroups of the general linear group GL(V).
@@ -4510,7 +4517,7 @@ My instances are free commutative R-modules, i.e. R-modules with a basis. They a
 !DirectSumModule commentStamp: '<historical>' prior: 0!
 My instances are modules defined as the direct sum of other modules.!
 
-!FormalSumsModule commentStamp: '<historical>' prior: 0!
+!FormalFreeModule commentStamp: '<historical>' prior: 0!
 My instances are free modules of formal sums of elements in a finite set.!
 
 !SimplicialChainsModule commentStamp: '<historical>' prior: 0!
@@ -4523,13 +4530,14 @@ My instances are R-modules (or K-vector spaces) of linear transformations from a
 !DualModule commentStamp: '<historical>' prior: 0!
 My instances are free modules or vector spaces of linear forms (see LinearForm). This is the (algebraic) dual of M. They are spanned by the coordinate functions of a free module or vector space.!
 
-!QuotientModule commentStamp: '<historical>' prior: 0!
-My instances are quotient modules M/S (read "M mod S") of a given module M modulo a submodule S.
+!QuotientSpace commentStamp: '<historical>' prior: 0!
+My instances are quotient spaces V/S (read "V mod S") of a given vector space V modulo a submodule S.
 
-The elements of a quotient modules are cosets (affine subspaces, flats) S + x with x in M, and they form a module. See AffineSubspace.
+The elements of a quotient space are cosets (affine subspaces, flats) S + x with x in V, and they form a vector space. See AffineSubspace.
+
+See also QuotientModule.
 
 References:
-	https://en.wikipedia.org/wiki/Quotient_module
 	https://en.wikipedia.org/wiki/Quotient_space_(linear_algebra)!
 
 !ScalarModule commentStamp: '<historical>' prior: 0!
@@ -4562,6 +4570,17 @@ TODO:
 TODO:
 - elements: k-vectors (ExteriorProduct or ExteriorVector?)
 - ExteriorAlgebra as a graded algebra, direct sum of /\^i(V) for i in [1..n]!
+
+!QuotientModule commentStamp: '<historical>' prior: 0!
+My instances are quotient modules M/S (read "M mod S") of a given module M modulo a submodule S, where both M and S are finite-rank free R-modules. They are the finitely-generated modules over a PID.
+
+The elements of a quotient modules are cosets S + x with x in M, and they form a module.
+
+See QuotientSpace for quotients of vector spaces.
+
+References:
+	https://en.wikipedia.org/wiki/Quotient_module
+	https://en.wikipedia.org/wiki/Quotient_space_(linear_algebra)!
 
 !AffineSubspace commentStamp: '<historical>' prior: 0!
 My instances are affine subspaces contained in a given vector space or module, i.e. flats, or linear varieties, linear manifolds, or translated subspaces/submodules (cosets).
@@ -4987,8 +5006,7 @@ I am the Product Replacement Algorithm for generating random elements in a group
 !Word commentStamp: '<historical>' prior: 0!
 A word is a (non-commutative) formal product of a finite ordered list of objects.
 
-See also Monomial, the commutative analog.
-!
+See also Monomial for the commutative analog, and FormalSum for the additive analog.!
 
 !Coset commentStamp: '<historical>' prior: 0!
 My instances are cosets of a normal subgroup N of a group G: {Ng : g in G} = {gN : g in G}. When the subgroup is not normal, this is not well defined and one of the subclasses should be used. See LeftCoset and RightCoset.!
@@ -5042,7 +5060,7 @@ Structure:
 !
 
 !FormalSum commentStamp: '<historical>' prior: 0!
-My instances are formal sums (or formal linear combinations) of arbitrary objects.!
+My instances are formal sums (or formal linear combinations) of arbitrary objects with coefficients over a given ring R. They form free R-modules (see FormalSumsModule). or abelian groups when the coefficients ring R is the rational integers (see FreeAbelianGroup).!
 
 !SimplicialChain commentStamp: '<historical>' prior: 0!
 A simplicial k-chain is a formal linear combination of k-simplices.!
@@ -5137,10 +5155,10 @@ The algorithm performs O(2n^3/3) field operations for nxn matrices, but due to e
 !QRDecomposition commentStamp: '<historical>' prior: 0!
 My instances are QR factorizations of a given real or complex matrix A, such that A = Q*R where Q is unitary (orthogonal) and R is upper triangular. Morover, if A is nonsingular, the diagonal of R may be taken to be positive, in which case the factorization is unique.!
 
-!Monomial commentStamp: 'len 2/26/2017 09:39:16' prior: 0!
+!Monomial commentStamp: '<historical>' prior: 0!
 My instances are (commutative) power products of one or many variables. They form a monoid (see FreeAbelianMonoid). Their formal linear combinations over a ring are Polynomials (see also PolynomialRing).
 
-See also Word, the non-commutative analog.!
+See also Word for the non-commutative analog, and FormalSum for the additive analog.!
 
 !MonomialOrdering commentStamp: '<historical>' prior: 0!
 My instances are monomial orderings.
@@ -13088,13 +13106,14 @@ step
 wantsSteps
 	^ false! !
 
-!Domain methodsFor: 'morphisms' stamp: 'len 12/20/2016 11:43:01'!
+!Domain methodsFor: 'morphisms' stamp: 'len 2/28/2017 09:01:41'!
  aCodomain
 	"Answer the canonical morphism from the receiver to aCodomain.
 	If the argument is a morphism, answer the composition with the canonical morphism to its domain. See also Morphism>>."
 	(aCodomain isKindOf: Morphism)
 		ifTrue: [^ self  aCodomain domain ifNotNil: [:aMorphism| aCodomain ” aMorphism]].
 	(self to: aCodomain) ifNotNil: [:aMorphism| ^ aMorphism].
+"	self propertyAt: #canonicalMaps ifPresent: [:aDictionary| aDictionary at: aCodomain ifPresent: [:aMorphism| ^ aMorphism]]."
 	^ aCodomain from: self! !
 
 !Domain methodsFor: 'elements' stamp: 'len 12/22/2016 22:47:30'!
@@ -13374,10 +13393,11 @@ hom: aCodomain
 	"Answer the morphisms that go from the receiver A to the argument B: Hom(A,B)."
 	^ HomSet from: self to: aCodomain! !
 
-!Domain methodsFor: 'morphisms' stamp: 'len 10/11/2016 08:21'!
+!Domain methodsFor: 'morphisms' stamp: 'len 2/28/2017 09:05:10'!
 id
 	"Answer the identity morphism."
 	| answer |
+	self propertyAt: #id ifPresent: [:aMorphism| ^ aMorphism].
 	answer _ self to: self evaluating: [:x| x].
 	answer properties
 		at: #isIdentity put: true;
@@ -13385,7 +13405,7 @@ id
 		at: #rightInverse put: answer;
 "		at: #kernel put: self null;"
 		at: #image put: self.
-	^ answer! !
+	^ self propertyAt: #id put: answer! !
 
 !Domain methodsFor: 'testing' stamp: 'len 6/23/2016 07:04'!
 includes: anElement
@@ -13406,11 +13426,11 @@ inclusion
 is: aSymbol
 	^ aSymbol == #Set or: [aSymbol == #Domain or: [super is: aSymbol]]! !
 
-!Domain methodsFor: 'testing-domains' stamp: 'len 12/14/2016 21:30:11'!
+!Domain methodsFor: 'testing-category' stamp: 'len 12/14/2016 21:30:11'!
 isAbelianGroup
 	^ false! !
 
-!Domain methodsFor: 'testing-domains' stamp: 'len 1/4/2017 18:14:46'!
+!Domain methodsFor: 'testing-category' stamp: 'len 1/4/2017 18:14:46'!
 isAlgebra
 	"Answer true if the receiver is a ring that can be seen as a module. Algebras should implement #scalars and #asModule."
 	^ false! !
@@ -13419,11 +13439,11 @@ isAlgebra
 isAmbient
 	^ self ambient = self! !
 
-!Domain methodsFor: 'testing-domains' stamp: 'len 4/27/2016 02:54'!
+!Domain methodsFor: 'testing-category' stamp: 'len 4/27/2016 02:54'!
 isCommutativeRing
 	^ self isRing and: [self isCommutative]! !
 
-!Domain methodsFor: 'testing-domains' stamp: 'len 2/11/2016 22:18'!
+!Domain methodsFor: 'testing-category' stamp: 'len 2/11/2016 22:18'!
 isComplex
 	^ false! !
 
@@ -13440,7 +13460,7 @@ isCountable
 isEmpty
 	^ self size = 0! !
 
-!Domain methodsFor: 'testing-domains' stamp: 'len 2/5/2016 20:22'!
+!Domain methodsFor: 'testing-category' stamp: 'len 2/5/2016 20:22'!
 isField
 	^ false! !
 
@@ -13448,15 +13468,15 @@ isField
 isFinite
 	^ self propertyAt: #isFinite ifAbsent: [self size isInfinite not]! !
 
-!Domain methodsFor: 'testing-domains' stamp: 'len 10/31/2016 15:23'!
+!Domain methodsFor: 'testing-category' stamp: 'len 10/31/2016 15:23'!
 isFractionRing
 	^ false! !
 
-!Domain methodsFor: 'testing-domains' stamp: 'len 2/5/2016 20:23'!
+!Domain methodsFor: 'testing-category' stamp: 'len 2/5/2016 20:23'!
 isFreeModule
 	^ self isVectorSpace! !
 
-!Domain methodsFor: 'testing-domains' stamp: 'len 12/14/2016 21:30:32'!
+!Domain methodsFor: 'testing-category' stamp: 'len 12/14/2016 21:30:32'!
 isGroup
 	^ false! !
 
@@ -13470,11 +13490,11 @@ isInitial
 	The empty set is the initial object in the category of sets. Subclasses can override."
 	^ self propertyAt: #isInitial ifAbsent: [self isEmpty]! !
 
-!Domain methodsFor: 'testing-domains' stamp: 'len 2/5/2016 20:23'!
+!Domain methodsFor: 'testing-category' stamp: 'len 2/5/2016 20:23'!
 isModule
 	^ self isVectorSpace! !
 
-!Domain methodsFor: 'testing-domains' stamp: 'len 2/14/2016 18:08'!
+!Domain methodsFor: 'testing-category' stamp: 'len 2/14/2016 18:08'!
 isMonoid
 	^ self isGroup! !
 
@@ -13488,15 +13508,15 @@ isQuotient
 	"Answer true if the receiver is some kind of quotient object, such as a quotient of sets, gropus, vector spaces, etc."
 	^ false! !
 
-!Domain methodsFor: 'testing-domains' stamp: 'len 2/11/2016 22:18'!
+!Domain methodsFor: 'testing-category' stamp: 'len 2/11/2016 22:18'!
 isReal
 	^ false! !
 
-!Domain methodsFor: 'testing-domains' stamp: 'len 12/14/2016 21:30:53'!
+!Domain methodsFor: 'testing-category' stamp: 'len 12/14/2016 21:30:53'!
 isRing
 	^ false! !
 
-!Domain methodsFor: 'testing-domains' stamp: 'len 2/14/2016 18:08'!
+!Domain methodsFor: 'testing-category' stamp: 'len 2/14/2016 18:08'!
 isSemigroup
 	^ self isMonoid! !
 
@@ -13506,7 +13526,7 @@ isTerminal
 	In the category of sets, the singletons (sets with one element) are the terminal objects. Subclasses can override."
 	^ self propertyAt: #isTerminal ifAbsent: [self size = 1]! !
 
-!Domain methodsFor: 'testing-domains' stamp: 'len 2/5/2016 20:24'!
+!Domain methodsFor: 'testing-category' stamp: 'len 2/5/2016 20:24'!
 isVectorSpace
 	^ false! !
 
@@ -14470,7 +14490,7 @@ identity
 identity: anElement
 	self propertyAt: #identity put: anElement! !
 
-!Semigroup methodsFor: 'testing-domains' stamp: 'len 12/14/2016 22:07:12'!
+!Semigroup methodsFor: 'testing' stamp: 'len 12/14/2016 22:07:12'!
 isSemigroup
 	^ true! !
 
@@ -14667,11 +14687,11 @@ cayleyGraphMorph: generators
 	(answer nodeAt: self identity) color: Color white; shape: #square; radius: 10.
 	^ answer! !
 
-!Group methodsFor: 'operations-endo' stamp: 'len 5/1/2016 22:58'!
+!Group methodsFor: 'operations' stamp: 'len 5/1/2016 22:58'!
 center
 	^ self centralizerOf: self! !
 
-!Group methodsFor: 'operations-endo' stamp: 'len 5/1/2016 22:58'!
+!Group methodsFor: 'operations' stamp: 'len 5/1/2016 22:58'!
 centralizerOf: aCollection
 	| op |
 	op _ self operation.
@@ -14685,13 +14705,13 @@ collect: aBlock
 	self do: [:each| elements add: (aBlock value: each)].
 	^ self copyEmpty elements: elements! !
 
-!Group methodsFor: 'operations-endo' stamp: 'len 7/27/2016 07:46'!
+!Group methodsFor: 'operations' stamp: 'len 7/27/2016 07:46'!
 commutator
 	"Answer the commutator group [G,G] of the receiver G, also called the derived group and noted G`.
 	This is the smallest normal subgroup of G such that the quotient G / [G,G] is commutative."
 	^ self commutator: self! !
 
-!Group methodsFor: 'operations-endo' stamp: 'len 11/30/2016 14:43:56'!
+!Group methodsFor: 'operations' stamp: 'len 11/30/2016 14:43:56'!
 commutator2: aGroup
 	"Answer the commutator group [G,H] of the receiver G with the argument H."
 	| op inverseMap generators |
@@ -14707,9 +14727,9 @@ commutator2: aGroup
 			generators add: (op value: {op value: {op value: {x.y}. xInv}. yInv})]].
 	^ (self copyEmpty generators: self generators, aGroup generators) normalClosureOf: generators! !
 
-!Group methodsFor: 'operations-endo' stamp: 'len 5/20/2016 20:19'!
+!Group methodsFor: 'operations' stamp: 'len 2/27/2017 17:00:58'!
 commutator: aSubgroup
-	"Answer the commutator group [G,H] of the receiver G with the argument H,"
+	"Answer the commutator group [G,H] of the receiver G with the argument H."
 	| op inverseMap elements |
 	elements _ Set new.
 	op _ self operation.
@@ -14854,7 +14874,7 @@ defaultOperation
 		(each class canUnderstand: #negated) ifTrue: [^ self additiveOperation].
 		^ self error: 'unable to determine group operation']"! !
 
-!Group methodsFor: 'morphisms-series' stamp: 'len 5/1/2016 23:02'!
+!Group methodsFor: 'series' stamp: 'len 5/1/2016 23:02'!
 derivedSeriesDo: aBlock
 	"For finite groups the derived series terminates in a perfect group (called the perfect core), which may or may not be trivial."
 	| G G` |
@@ -14900,11 +14920,6 @@ generators
 	self propertyAt: #generators ifPresent: [:aCollection| ^ aCollection].
 	^ self propertyAt: #generators put: (self computeGenerators ifNil: [^ nil])! !
 
-!Group methodsFor: 'operations' stamp: 'len 8/4/2016 22:32'!
-groupAlgebraOver: aField
-	self flag: #fix. "use group multiplication, same as >>groupRingOver:?"
-	^ aField freeAlgebraIn: self elements! !
-
 !Group methodsFor: 'operations' stamp: 'len 7/15/2016 18:26'!
 groupRing
 	^ self groupRingOver: ZZ! !
@@ -14913,7 +14928,7 @@ groupRing
 groupRingOver: aRing
 	^ GroupRing on: self over: aRing! !
 
-!Group methodsFor: 'operations-endo' stamp: 'len 5/1/2016 22:59'!
+!Group methodsFor: 'operations' stamp: 'len 5/1/2016 22:59'!
 hypoabelianization
 	^ self / self perfectCore! !
 
@@ -15046,7 +15061,7 @@ leftAction
 	^ self operation
 	"^ GroupAction from: (self, self) to: self evaluating: [:each| self operation value: {each first. each second}]"! !
 
-!Group methodsFor: 'morphisms-series' stamp: 'len 5/1/2016 23:03'!
+!Group methodsFor: 'series' stamp: 'len 5/1/2016 23:03'!
 lowerCentralSeriesDo: aBlock
 	| G G` |
 	G _ self.
@@ -15063,7 +15078,7 @@ multiplicativeInverseMap
 multiplicativeOperation
 	^ (GroupAction from: (self, self) to: self evaluatingWithArguments: [:x :y| x * y]) name: '*'! !
 
-!Group methodsFor: 'operations-endo' stamp: 'len 12/10/2016 13:04:55'!
+!Group methodsFor: 'operations' stamp: 'len 12/10/2016 13:04:55'!
 normalClosureOf: aSubset
 	"From Handbook of Computational Group Theory (Holt) 74p.
 	The normal closure of A <= G in G (denoted A^G) is the smallest normal subgroup of G that contains A, i.e. the intersection of all normal subgroups that contain A. Equivalently, it is the set A^G := {g^-1 * a * g | g in G, a in A}."
@@ -15088,7 +15103,7 @@ normalClosureOf: aSubset
 				(N includes: hg) ifFalse: [Z add: hg. N _ self copyEmpty generators: Z. random2 _ N random]]].
 	^ N! !
 
-!Group methodsFor: 'operations-endo' stamp: 'len 7/1/2016 08:16'!
+!Group methodsFor: 'operations' stamp: 'len 7/1/2016 08:16'!
 normalizerOf: aCollection
 	"Answer the normal closure of aCollection in the receiver, i.e. the smallest normal subgroup that contains aCollection."
 	| inverseMap op |
@@ -15137,7 +15152,7 @@ orderOf: anElement boundedBy: n
 outerAutomorphisms
 	^ self automorphisms / self innerAutomorphisms! !
 
-!Group methodsFor: 'operations-endo' stamp: 'len 5/1/2016 22:59'!
+!Group methodsFor: 'operations' stamp: 'len 5/1/2016 22:59'!
 perfectCore
 	| answer |
 	self derivedSeriesDo: [:each| answer _ each].
@@ -15229,7 +15244,7 @@ trivial
 	"Answer the trivial subgroup."
 	^ self null! !
 
-!Group methodsFor: 'morphisms-series' stamp: 'len 5/1/2016 23:06'!
+!Group methodsFor: 'series' stamp: 'len 5/1/2016 23:06'!
 upperCentralSeriesDo: aBlock
 	| Z inverseMap op |
 	op _ self operation.
@@ -15239,7 +15254,7 @@ upperCentralSeriesDo: aBlock
 	aBlock value: Z.
 	Z order = self order] whileFalse! !
 
-!Group methodsFor: 'morphisms-series' stamp: 'len 5/1/2016 23:04'!
+!Group methodsFor: 'series' stamp: 'len 5/1/2016 23:04'!
 upperCentralSeriesQuotientsDo: aBlock
 	| Z` |
 	Z` _ self trivial.
@@ -15455,14 +15470,14 @@ base
 base: aGroup
 	self propertyAt: #base put: aGroup! !
 
-!QuotientGroup methodsFor: 'private' stamp: 'len 12/22/2016 21:18:26'!
+!QuotientGroup methodsFor: 'private' stamp: 'len 2/28/2017 10:13:13'!
 buildProjection
 	"Answer the natural projection, or quotient map, or canonical homomorphism. This takes elements from the base group to the corresponding coset in the quotient group."
 	| answer |
 	answer _ self base to: self evaluating: [:each| self project: each].
 	answer name: Character pi asString.
 	answer properties
-		at: #kernel put: self subgroup;
+		at: #kernel put: self relations;
 		at: #image put: self;
 		at: #rightInverse put: (self to: self base evaluating: [:each| each representative]).
 	^ answer! !
@@ -15495,49 +15510,50 @@ identity
 isQuotient
 	^ true! !
 
-!QuotientGroup methodsFor: 'printing' stamp: 'len 12/22/2016 21:17:50'!
+!QuotientGroup methodsFor: 'printing' stamp: 'len 2/28/2017 10:13:26'!
 printOn: aStream
 	(self base printString includes: $/)
 		ifTrue: [aStream nextPut: $(; print: self base; nextPut: $)]
 		ifFalse: [aStream print: self base].
 	aStream nextPut: $/.
-	(self subgroup printString includes: $/)
-		ifTrue: [aStream nextPut: $(; print: self subgroup; nextPut: $)]
-		ifFalse: [aStream print: self subgroup]
+	(self relations printString includes: $/)
+		ifTrue: [aStream nextPut: $(; print: self relations; nextPut: $)]
+		ifFalse: [aStream print: self relations]
 ! !
 
-!QuotientGroup methodsFor: 'morphisms' stamp: 'len 12/22/2016 21:18:18'!
+!QuotientGroup methodsFor: 'morphisms' stamp: 'len 2/28/2017 10:13:31'!
 project: anElement
-	^ LeftCoset on: self subgroup representative: anElement! !
+	^ LeftCoset on: self relations representative: anElement! !
 
 !QuotientGroup methodsFor: 'morphisms' stamp: 'len 12/28/2016 11:31:42'!
 projection
 	"Answer the natural projection, or quotient map, or canonical homomorphism. This takes elements from the base group to the corresponding coset in the quotient group."
 	^ self propertyAt: #projection ifAbsentPut: [self buildProjection]! !
 
-!QuotientGroup methodsFor: 'accessing' stamp: 'len 12/22/2016 21:16:28'!
+!QuotientGroup methodsFor: 'accessing' stamp: 'len 2/28/2017 10:13:41'!
 relation
 	| inv op |
 	op _ self base operation.
 	inv _ self base inverseMap.
-	^ EquivalenceRelation on: self base evaluating: [:x :y| self subgroup includes: (op value: {x. inv value: y})]! !
+	^ EquivalenceRelation on: self base evaluating: [:x :y| self relations includes: (op value: {x. inv value: y})]! !
+
+!QuotientGroup methodsFor: 'accessing' stamp: 'len 2/28/2017 10:14:05'!
+relations
+	"Answer the relations subgroup, i.e. the normal subgroup by which we quotient."
+	^ self propertyAt: #relations! !
+
+!QuotientGroup methodsFor: 'accessing-private' stamp: 'len 2/28/2017 10:15:24'!
+relations: aNormalSubgroup
+	self propertyAt: #relations put: aNormalSubgroup! !
 
 !QuotientGroup methodsFor: 'accessing' stamp: 'len 5/2/2016 02:14'!
 size
 	^ super size
 "	^ properties at: #size ifAbsentPut: [base indexOf: subgroup]"! !
 
-!QuotientGroup methodsFor: 'accessing' stamp: 'len 12/28/2016 11:31:32'!
-subgroup
-	^ self propertyAt: #subgroup! !
-
-!QuotientGroup methodsFor: 'accessing-private' stamp: 'len 12/28/2016 11:31:50'!
-subgroup: aGroup
-	self propertyAt: #subgroup put: aGroup! !
-
-!QuotientGroup class methodsFor: 'instance creation' stamp: 'len 2/8/2016 04:42'!
+!QuotientGroup class methodsFor: 'instance creation' stamp: 'len 2/28/2017 10:14:58'!
 on: aGroup by: aNormalSubgroup
-	^ self new base: aGroup; subgroup: aNormalSubgroup! !
+	^ self new base: aGroup; relations: aNormalSubgroup! !
 
 !SemidirectProductGroup methodsFor: 'accessing' stamp: 'len 2/12/2016 06:15'!
 action
@@ -15875,13 +15891,13 @@ size
 ambient
 	^ self! !
 
-!SymmetricGroup methodsFor: 'elements' stamp: 'len 6/28/2016 06:10'!
+!SymmetricGroup methodsFor: 'random' stamp: 'len 6/28/2016 06:10'!
 atRandom: aRandom
 	| domain |
 	domain _ self space asArray.
 	^ Permutation keys: domain values: (domain shuffledBy: aRandom)! !
 
-!SymmetricGroup methodsFor: 'elements' stamp: 'len 4/19/2016 22:45'!
+!SymmetricGroup methodsFor: 'random' stamp: 'len 4/19/2016 22:45'!
 atRandom: aRandom bits: bits
 	^ self atRandom: aRandom! !
 
@@ -15903,11 +15919,23 @@ contains: aPermutation
 	"Answer true if the receiver contains the given element of its ambient."
 	^ true! !
 
+!SymmetricGroup methodsFor: 'elements' stamp: 'len 2/28/2017 09:33:50'!
+cycle: anArray
+	^ Permutation cycle: anArray! !
+
+!SymmetricGroup methodsFor: 'elements' stamp: 'len 2/28/2017 09:34:02'!
+cycles: anArray
+	^ Permutation cycles: anArray! !
+
 !SymmetricGroup methodsFor: 'enumerating' stamp: 'len 6/28/2016 06:10'!
 do: aBlock
 	| domain |
 	domain _ self space asArray.
 	domain permutationsDo: [:each| aBlock value: (Permutation keys: domain values: each)]! !
+
+!SymmetricGroup methodsFor: 'elements' stamp: 'len 2/28/2017 09:33:45'!
+evaluating: aBlock
+	^ Permutation on: self space evaluating: aBlock! !
 
 !SymmetricGroup methodsFor: 'testing' stamp: 'len 2/16/2016 05:55'!
 isAlmostSimple
@@ -15920,6 +15948,16 @@ printOn: aStream
 !SymmetricGroup methodsFor: 'accessing' stamp: 'len 2/16/2016 05:50'!
 size
 	^ self degree factorial! !
+
+!SymmetricGroup class methodsFor: 'examples' stamp: 'len 2/27/2017 08:36:17'!
+example1
+	"The group of permutations on the set of 3 elements {1,2,3}."
+	^ SymmetricGroup new: 3! !
+
+!SymmetricGroup class methodsFor: 'examples' stamp: 'len 2/27/2017 08:36:50'!
+example2
+	"The group of permutations on the set {a,b,c}."
+	^ SymmetricGroup on: #(a b c).! !
 
 !LinearGroup methodsFor: 'accessing' stamp: 'len 10/17/2016 11:07'!
 action
@@ -16679,6 +16717,16 @@ on: aFreeModule matrices: aMatrixGroup
 	(anAbelianGroup isKindOf: AbelianGroup) ifFalse: [^ DomainError signal: 'argument is not an abelian group'].
 	^ DirectSumGroup components: {self. anAbelianGroup}! !
 
+!AbelianGroup methodsFor: 'operations' stamp: 'len 2/27/2017 17:42:32'!
+centralizerOf: aCollection
+	^ self! !
+
+!AbelianGroup methodsFor: 'operations' stamp: 'len 2/27/2017 17:02:52'!
+commutator: aSubgroup
+	"Answer the commutator group [G,H] of the receiver G with the argument H.
+	Since the receiver is commutative, this is the trivial group."
+	^ self null! !
+
 !AbelianGroup methodsFor: 'operations' stamp: 'len 12/14/2016 21:36:53'!
 coproduct: anAbelianGroup
 	^ self  anAbelianGroup! !
@@ -16691,7 +16739,7 @@ defaultInverseMap
 defaultOperation
 	^ self additiveOperation! !
 
-!AbelianGroup methodsFor: 'testing-domains' stamp: 'len 12/14/2016 21:31:37'!
+!AbelianGroup methodsFor: 'testing' stamp: 'len 12/14/2016 21:31:37'!
 isAbelianGroup
 	^ true! !
 
@@ -16816,9 +16864,18 @@ torsion
 components: anArray
 	^ self new components: anArray! !
 
+!FreeAbelianGroup methodsFor: 'accessing' stamp: 'len 2/27/2017 16:53:53'!
+identity
+	self isTrivial ifTrue: [^ FormalSum over: ZZ].
+	^ super identity! !
+
 !FreeAbelianGroup methodsFor: 'testing' stamp: 'len 2/24/2016 04:09'!
 isInfiniteCyclic
 	^ self basis size = 1! !
+
+!FreeAbelianGroup methodsFor: 'testing' stamp: 'len 2/27/2017 16:54:24'!
+isTrivial
+	^ self generators size = 0! !
 
 !FreeAbelianGroup methodsFor: 'accessing' stamp: 'len 3/3/2016 07:16'!
 presentation
@@ -16829,6 +16886,16 @@ presentation
 			commutators add: x * y * x reciprocal * y reciprocal]].
 	self flag: #fix. "generators are additive or multiplicative?"
 	^ GroupPresentation generators: self basis relators: commutators! !
+
+!FreeAbelianGroup methodsFor: 'printing' stamp: 'len 2/27/2017 16:47:54'!
+printOn: aStream
+	self isTrivial ifTrue: [^ super printOn: aStream].
+	aStream nextPut: Character ZZ.
+	self rank > 0 ifTrue: [aStream nextPutAll: self rank printString super].! !
+
+!FreeAbelianGroup methodsFor: 'accessing' stamp: 'len 2/27/2017 16:47:39'!
+rank
+	^ self generators size! !
 
 !FreeAbelianGroup methodsFor: 'private' stamp: 'len 12/16/2016 12:37:29'!
 species
@@ -18181,10 +18248,10 @@ freeAlgebraIn: aCollection
 	"Answer the free algebra in the given indeterminates over the receiver."
 	^ FreeAlgebra on: aCollection over: self! !
 
-!Ring methodsFor: 'operations' stamp: 'len 1/16/2017 22:39:00'!
+!Ring methodsFor: 'operations' stamp: 'len 2/28/2017 08:35:22'!
 freeModuleIn: aCollection
 	"Answer the free module in the given indeterminates over the receiver."
-	^ FormalSumsModule on: aCollection over: self! !
+	^ FormalFreeModule on: aCollection over: self! !
 
 !Ring methodsFor: 'morphisms' stamp: 'len 10/10/2016 14:13'!
 frobenius
@@ -18938,15 +19005,15 @@ zero
 components: anArray
 	^ self new components: anArray! !
 
-!QuotientRing methodsFor: 'comparing' stamp: 'len 11/29/2016 14:44:16'!
+!QuotientRing methodsFor: 'comparing' stamp: 'len 2/27/2017 20:56:21'!
 = anObject
 	self == anObject ifTrue: [^ true].
 	(anObject isKindOf: QuotientRing) ifFalse: [^ false].
-	^ self ideal = anObject ideal! !
+	^ self relations = anObject relations! !
 
-!QuotientRing methodsFor: 'random' stamp: 'len 11/29/2016 14:42:30'!
+!QuotientRing methodsFor: 'random' stamp: 'len 2/27/2017 20:56:13'!
 atRandom: aRandom
-	^ self project: (self ideal remainderAtRandom: aRandom)
+	^ self project: (self relations remainderAtRandom: aRandom)
 "	^ self project: (self base atRandom: aRandom)"! !
 
 !QuotientRing methodsFor: 'random' stamp: 'len 11/29/2016 14:42:15'!
@@ -18954,18 +19021,18 @@ atRandom: aRandom bits: bitSize
 "	^ self atRandom: aRandom"
 	^ self project: (self base atRandom: aRandom bits: bitSize)! !
 
-!QuotientRing methodsFor: 'accessing' stamp: 'len 11/29/2016 14:43:58'!
+!QuotientRing methodsFor: 'accessing' stamp: 'len 2/27/2017 20:55:55'!
 base
-	^ self ideal ring! !
+	^ self relations ring! !
 
-!QuotientRing methodsFor: 'private' stamp: 'len 11/29/2016 14:41:57'!
+!QuotientRing methodsFor: 'private' stamp: 'len 2/27/2017 20:54:06'!
 buildProjection
 	"Answer the natural projection, or quotient map, or canonical homomorphism. This takes elements from the base ring to the corresponding residue class in the quotient ring."
 	| answer |
 	answer _ self base to: self evaluating: [:each| self project: each].
 	answer name: Character pi asString.
 	answer properties
-		at: #kernel put: self ideal;
+		at: #kernel put: self relations;
 		at: #image put: self;
 		at: #rightInverse put: (self to: self base evaluating: [:each| each representative]).
 	^ answer! !
@@ -19003,17 +19070,9 @@ from: aDomain
 generators
 	^ (self base generators ifNil: [^ nil]) apply: self projection! !
 
-!QuotientRing methodsFor: 'comparing' stamp: 'len 11/29/2016 14:41:43'!
+!QuotientRing methodsFor: 'comparing' stamp: 'len 2/27/2017 20:53:58'!
 hash
-	^ self ideal hash! !
-
-!QuotientRing methodsFor: 'accessing' stamp: 'len 12/28/2016 12:12:15'!
-ideal
-	^ self propertyAt: #ideal! !
-
-!QuotientRing methodsFor: 'accessing-private' stamp: 'len 12/28/2016 12:12:11'!
-ideal: anIdeal
-	self propertyAt: #ideal put: anIdeal! !
+	^ self relations hash! !
 
 !QuotientRing methodsFor: 'private' stamp: 'len 2/13/2017 07:20:33'!
 idealClass
@@ -19024,9 +19083,9 @@ includes: anObject
 	(anObject is: #ResidueClass) ifFalse: [^ false].
 	^ self base includes: anObject representative! !
 
-!QuotientRing methodsFor: 'morphisms' stamp: 'len 11/30/2016 19:02:26'!
+!QuotientRing methodsFor: 'morphisms' stamp: 'len 2/27/2017 20:53:54'!
 inverseOf: anElement
-	^ self project: ((self ideal inverseOf: anElement representative) ifNil: [^ nil])! !
+	^ self project: ((self relations inverseOf: anElement representative) ifNil: [^ nil])! !
 
 !QuotientRing methodsFor: 'testing' stamp: 'len 11/29/2016 14:41:50'!
 isCommutative
@@ -19037,15 +19096,15 @@ isCommutative
 isEuclidean
 	^ self base isEuclidean! !
 
-!QuotientRing methodsFor: 'testing' stamp: 'len 1/5/2017 08:34:26'!
+!QuotientRing methodsFor: 'testing' stamp: 'len 2/27/2017 20:53:49'!
 isField
 	"Answer true if the receiver forms a residue field."
 	self flag: #fix. "is this right? doesnt the base have to be an integral domain?"
-	^ self propertyAt: #isField ifAbsentPut: [self base isTrivial not and: [self base isCommutative and: [self ideal isMaximal]]]! !
+	^ self propertyAt: #isField ifAbsentPut: [self base isTrivial not and: [self base isCommutative and: [self relations isMaximal]]]! !
 
-!QuotientRing methodsFor: 'testing' stamp: 'len 12/28/2016 12:12:26'!
+!QuotientRing methodsFor: 'testing' stamp: 'len 2/27/2017 20:53:44'!
 isIntegralDomain
-	^ self propertyAt: #isIntegralDomain ifAbsentPut: [(self base isTrivial not and: [self base isCommutative and: [self ideal isPrime]]) or: [self isIntegrallyClosedDomain]]! !
+	^ self propertyAt: #isIntegralDomain ifAbsentPut: [(self base isTrivial not and: [self base isCommutative and: [self relations isPrime]]) or: [self isIntegrallyClosedDomain]]! !
 
 !QuotientRing methodsFor: 'testing' stamp: 'len 10/20/2016 03:38'!
 isNoetherian
@@ -19056,53 +19115,55 @@ isNoetherian
 isQuotient
 	^ true! !
 
-!QuotientRing methodsFor: 'testing' stamp: 'len 11/29/2016 14:43:46'!
+!QuotientRing methodsFor: 'testing' stamp: 'len 2/27/2017 20:53:37'!
 isReduced
 	"A quotient ring is reduced iff the ideal is radical."
-	^ self ideal isRadical! !
+	^ self relations isRadical! !
 
-!QuotientRing methodsFor: 'testing' stamp: 'len 12/30/2016 10:32:46'!
+!QuotientRing methodsFor: 'testing' stamp: 'len 2/27/2017 20:53:34'!
 isTrivial
 	"The trivial ring is the zero ring with a single element 0 = 1."
-	^ self ideal isOne! !
+	^ self relations isOne! !
 
-!QuotientRing methodsFor: 'accessing' stamp: 'len 4/25/2016 00:30'!
+!QuotientRing methodsFor: 'accessing' stamp: 'len 2/27/2017 20:53:04'!
 modulus
-	^ self ideal generator! !
+	^ self relations generator! !
 
 !QuotientRing methodsFor: 'accessing' stamp: 'len 11/30/2016 18:59:01'!
 one
 	^ self representative: self base one! !
 
-!QuotientRing methodsFor: 'converting' stamp: 'len 1/20/2017 09:18:32'!
+!QuotientRing methodsFor: 'converting' stamp: 'len 2/27/2017 20:53:09'!
 over: aRing
-	^ (self ideal over: aRing) quotient! !
+	^ (self relations over: aRing) quotient! !
 
-!QuotientRing methodsFor: 'printing' stamp: 'len 11/29/2016 14:43:38'!
+!QuotientRing methodsFor: 'printing' stamp: 'len 2/27/2017 20:53:15'!
 printOn: aStream
 	(self base printString includes: $/)
 		ifTrue: [aStream nextPut: $(; print: self base; nextPut: $)]
 		ifFalse: [aStream print: self base].
-	aStream nextPut: $/; print: self ideal! !
+	aStream nextPut: $/; print: self relations! !
 
-!QuotientRing methodsFor: 'morphisms' stamp: 'len 11/30/2016 18:46:25'!
+!QuotientRing methodsFor: 'morphisms' stamp: 'len 2/27/2017 20:53:22'!
 project: anElement
-	^ self representative: (self ideal reduce: anElement)! !
+	^ self representative: (self relations reduce: anElement)! !
 
 !QuotientRing methodsFor: 'morphisms' stamp: 'len 12/28/2016 12:12:05'!
 projection
 	"Answer the natural projection, or quotient map, or canonical homomorphism. This takes elements from the base ring to the corresponding residue class in the quotient ring."
 	^ self propertyAt: #projection ifAbsentPut: [self buildProjection]! !
 
-!QuotientRing methodsFor: 'accessing' stamp: 'len 11/29/2016 14:42:06'!
+!QuotientRing methodsFor: 'accessing' stamp: 'len 2/27/2017 20:53:26'!
 relation
-	^ EquivalenceRelation on: self base evaluating: [:a :b| self ideal includes: a - b]! !
+	^ EquivalenceRelation on: self base evaluating: [:a :b| self relations includes: a - b]! !
 
-!QuotientRing methodsFor: 'accessing' stamp: 'len 2/13/2017 08:19:55'!
+!QuotientRing methodsFor: 'accessing' stamp: 'len 2/27/2017 20:46:50'!
 relations
-	"Answer the relations defining the receiver.
-	If the receiver is the quotient R/I, the relations are the generators of I."
-	^ self ideal generators! !
+	^ self propertyAt: #relations! !
+
+!QuotientRing methodsFor: 'accessing-private' stamp: 'len 2/27/2017 20:48:00'!
+relations: anIdeal
+	self propertyAt: #relations put: anIdeal! !
 
 !QuotientRing methodsFor: 'private' stamp: 'len 1/5/2017 08:14:45'!
 representative: anElement
@@ -19131,9 +19192,9 @@ exampleZ6Projection
 	to the quotient ring of residue classes of modulo 6."
 	^ (ZZ/6) projection! !
 
-!QuotientRing class methodsFor: 'instance creation' stamp: 'len 12/30/2016 09:58:33'!
+!QuotientRing class methodsFor: 'instance creation' stamp: 'len 2/27/2017 20:48:08'!
 mod: anIdeal
-	^ self new ideal: anIdeal! !
+	^ self new relations: anIdeal! !
 
 !ModularIntegerRing methodsFor: 'random' stamp: 'len 4/25/2016 00:26'!
 atRandom: aRandom
@@ -19154,15 +19215,6 @@ characteristic
 !ModularIntegerRing methodsFor: 'private' stamp: 'len 1/5/2017 08:14:58'!
 elementClass
 	^ ModularInteger! !
-
-!ModularIntegerRing methodsFor: 'accessing' stamp: 'len 12/28/2016 12:13:27'!
-ideal
-	^ self propertyAt: #ideal ifAbsentPut: [ZZ * modulus]! !
-
-!ModularIntegerRing methodsFor: 'accessing-private' stamp: 'len 11/29/2016 21:47:35'!
-ideal: anIdeal
-	super ideal: anIdeal.
-	self modulus: anIdeal generator! !
 
 !ModularIntegerRing methodsFor: 'testing' stamp: 'len 11/16/2016 18:15'!
 includes: anObject
@@ -19191,6 +19243,15 @@ printOn: aStream
 !ModularIntegerRing methodsFor: 'morphisms' stamp: 'len 11/30/2016 18:48:51'!
 project: anInteger
 	^ self representative: anInteger \\ modulus! !
+
+!ModularIntegerRing methodsFor: 'accessing' stamp: 'len 2/27/2017 20:49:49'!
+relations
+	^ self propertyAt: #relations ifAbsentPut: [ZZ * modulus]! !
+
+!ModularIntegerRing methodsFor: 'accessing-private' stamp: 'len 2/27/2017 20:48:23'!
+relations: anIdeal
+	super relations: anIdeal.
+	self modulus: anIdeal generator! !
 
 !ModularIntegerRing methodsFor: 'accessing' stamp: 'len 4/25/2016 00:27'!
 size
@@ -19348,10 +19409,10 @@ degreeOver: aSubfield
 elementClass
 	^ ExtensionFieldElement! !
 
-!ExtensionField methodsFor: 'morphisms' stamp: 'len 10/16/2016 15:11'!
+!ExtensionField methodsFor: 'morphisms' stamp: 'len 2/27/2017 20:56:41'!
 embed: aNumber
 	"This is the field homomorphism that embeds the base field into the receiver."
-	^ self project: (self ideal ring embed: aNumber)! !
+	^ self project: (self relations ring embed: aNumber)! !
 
 !ExtensionField methodsFor: 'morphisms' stamp: 'len 12/28/2016 12:12:43'!
 embedding
@@ -19378,13 +19439,13 @@ from: aDomain
 isField
 	^ true! !
 
-!ExtensionField methodsFor: 'accessing' stamp: 'len 10/16/2016 15:13'!
+!ExtensionField methodsFor: 'accessing' stamp: 'len 2/27/2017 20:56:46'!
 polynomial
-	^ self ideal generator! !
+	^ self relations generator! !
 
-!ExtensionField methodsFor: 'accessing-private' stamp: 'len 1/23/2017 11:32:33'!
+!ExtensionField methodsFor: 'accessing-private' stamp: 'len 2/27/2017 20:48:43'!
 polynomial: aPolynomial
-	self ideal: aPolynomial parent * aPolynomial! !
+	self relations: aPolynomial parent * aPolynomial! !
 
 !ExtensionField methodsFor: 'printing' stamp: 'len 12/28/2016 12:27:58'!
 printOn: aStream
@@ -19686,7 +19747,7 @@ example
 sqrt: anInteger
 	^ self new sqrt: anInteger! !
 
-!AffineRing methodsFor: 'operations' stamp: 'len 2/23/2017 08:08:38'!
+!AffineRing methodsFor: 'operations' stamp: 'len 2/27/2017 20:46:09'!
 ’ aRing
 	"Answer the tensor product of the receiver with the argument."
 	| R relations |
@@ -19694,8 +19755,8 @@ sqrt: anInteger
 		ifFalse: [^ self notYetImplemented].
 	R _ self base ’ aRing base.
 	relations _ OrderedCollection new.
-	self relations do: [:f| relations add: R !! f].
-	aRing relations do: [:g| relations add: (R !! g substitute: [:i| i + self base rank])].
+	self relations generators do: [:f| relations add: R !! f].
+	aRing relations generators do: [:g| relations add: (R !! g substitute: [:i| i + self base rank])].
 	^ R / relations! !
 
 !AffineRing methodsFor: 'converting' stamp: 'len 1/8/2017 22:02:04'!
@@ -19711,18 +19772,18 @@ asModule
 characteristic
 	^ self base characteristic! !
 
-!AffineRing methodsFor: 'accessing' stamp: 'len 2/4/2017 07:57:38'!
+!AffineRing methodsFor: 'accessing' stamp: 'len 2/27/2017 20:57:13'!
 degree
-	^ self ideal degree! !
+	^ self relations degree! !
 
-!AffineRing methodsFor: 'accessing' stamp: 'len 2/13/2017 09:51:49'!
+!AffineRing methodsFor: 'accessing' stamp: 'len 2/27/2017 20:57:23'!
 dimension
 	"Answer the Krull dimension of the receiver. Seen as a field extension, this is its transcendence degree."
 	"Derksen, Kemper, 'Computational Invariant Theory', 2002, Algorithm 1.2.4 (Dimension of an ideal)."
-	self ideal isZero ifTrue: [^ self base dimension].
+	self relations isZero ifTrue: [^ self base dimension].
 	self isTrivial ifTrue: [^ -1]. "i.e., the ideal is the whole polynomial ring"
 	self scalars isField ifFalse: [self notYetImplemented].
-	^ self ideal maximallyIndependentIndeterminates size! !
+	^ self relations maximallyIndependentIndeterminates size! !
 
 !AffineRing methodsFor: 'private' stamp: 'len 1/18/2017 22:52:12'!
 elementClass
@@ -19743,10 +19804,10 @@ hilbertSeries
 	"Answer the Hilbert series of the receiver."
 	^ self hilbertSeriesAt: (QQ polynomialsIn: #(t)) fractions x! !
 
-!AffineRing methodsFor: 'operations' stamp: 'len 10/27/2016 18:45'!
+!AffineRing methodsFor: 'operations' stamp: 'len 2/27/2017 20:57:29'!
 hilbertSeriesAt: t
 	"Answer the Hilbert series of the receiver."
-	^ (self base hilbertSeriesAt: t) - (self ideal hilbertSeriesAt: t)! !
+	^ (self base hilbertSeriesAt: t) - (self relations hilbertSeriesAt: t)! !
 
 !AffineRing methodsFor: 'accessing' stamp: 'len 10/20/2016 10:51'!
 indeterminates
@@ -19760,9 +19821,9 @@ isAlgebra
 isGlobal
 	^ self base isGlobal! !
 
-!AffineRing methodsFor: 'testing' stamp: 'len 2/14/2017 08:43:47'!
+!AffineRing methodsFor: 'testing' stamp: 'len 2/27/2017 20:57:34'!
 isGraded
-	^ self base isGraded and: [self ideal isHomogeneous]! !
+	^ self base isGraded and: [self relations isHomogeneous]! !
 
 !AffineRing methodsFor: 'testing' stamp: 'len 2/12/2017 05:49:31'!
 isLocal
@@ -19778,18 +19839,18 @@ maximalIdeal
 	self isLocal ifFalse: [DomainError signal: 'the ring is not local'].
 	^ self * self generators! !
 
-!AffineRing methodsFor: 'converting' stamp: 'len 1/5/2017 08:53:02'!
+!AffineRing methodsFor: 'converting' stamp: 'len 2/27/2017 20:57:38'!
 orderedBy: aMonomialOrdering
-	^ self class mod: (self ideal orderedBy: aMonomialOrdering)! !
+	^ self class mod: (self relations orderedBy: aMonomialOrdering)! !
 
 !AffineRing methodsFor: 'accessing' stamp: 'len 1/5/2017 08:49:59'!
 ordering
 	^ self base ordering! !
 
-!AffineRing methodsFor: 'operations' stamp: 'len 2/22/2017 07:58:02'!
+!AffineRing methodsFor: 'operations' stamp: 'len 2/27/2017 20:57:49'!
 proj
 	"Answer the projective spectrum of the receiver, Proj(R)."
-	self ideal isHomogeneous ifFalse: [^ DomainError signal: 'not a quotient by a homogeneous ideal, not properly graded'].
+	self relations isHomogeneous ifFalse: [^ DomainError signal: 'not a quotient by a homogeneous ideal, not properly graded'].
 	^ ProjectiveVariety coordinateRing: self! !
 
 !AffineRing methodsFor: 'accessing' stamp: 'len 12/30/2016 09:47:01'!
@@ -19807,10 +19868,10 @@ spec
 	"Answer the spectrum of the receiver, Spec(R/I) as subscheme of Spec(R)."
 	^ AffineVariety coordinateRing: self! !
 
-!AffineRing methodsFor: 'accessing' stamp: 'len 2/12/2017 07:36:33'!
+!AffineRing methodsFor: 'accessing' stamp: 'len 2/27/2017 20:57:53'!
 vectorSpaceDimension
 	"Answer the dimension of the receiver as vector space over the coefficients field."
-	self ideal isZeroDimensional ifFalse: [^ Infinity positive].
+	self relations isZeroDimensional ifFalse: [^ Infinity positive].
 	self notYetImplemented! !
 
 !AffineRing methodsFor: 'elements' stamp: 'len 10/20/2016 10:50'!
@@ -21663,15 +21724,15 @@ squareFree
 on: aRing generators: aCollection
 	^ self new ring: aRing; generators: aCollection! !
 
-!QuotientRingIdeal methodsFor: 'operations' stamp: 'len 2/23/2017 08:19:50'!
+!QuotientRingIdeal methodsFor: 'operations' stamp: 'len 2/27/2017 20:52:48'!
 ÷ anIdeal
 	"Answer the colon quotient I:J of the receiver I with the argument J."
-	^ self lift ÷ anIdeal lift / self ring ideal! !
+	^ self lift ÷ anIdeal lift / self ring relations! !
 
-!QuotientRingIdeal methodsFor: 'operations' stamp: 'len 2/23/2017 08:21:33'!
+!QuotientRingIdeal methodsFor: 'operations' stamp: 'len 2/27/2017 20:52:41'!
 • anIdeal
 	"Answer the intersection of the receiver and the argument."
-	^ self lift • anIdeal lift / self ring ideal! !
+	^ self lift • anIdeal lift / self ring relations! !
 
 !QuotientRingIdeal methodsFor: 'operations-elements' stamp: 'len 2/13/2017 05:19:07'!
 inverseOf: anElement
@@ -21686,14 +21747,14 @@ isPrincipal
 	"Answer true if the receiver is generated by a single element."
 	^ self lift isPrincipal! !
 
-!QuotientRingIdeal methodsFor: 'morphisms' stamp: 'len 2/23/2017 09:00:20'!
+!QuotientRingIdeal methodsFor: 'morphisms' stamp: 'len 2/27/2017 20:52:32'!
 lift
 	"If the receiver is an ideal I of a quotient ring A/J, return the lifting of I to A, this is the ideal in A generated by the representatives in A of the generators of I."
-	^ self propertyAt: #lift ifAbsentPut: [self ring base * (self generators collect: [:each| each representative]) + self ring ideal]! !
+	^ self propertyAt: #lift ifAbsentPut: [self ring base * (self generators collect: [:each| each representative]) + self ring relations]! !
 
-!QuotientRingIdeal methodsFor: 'operations' stamp: 'len 2/13/2017 05:17:26'!
+!QuotientRingIdeal methodsFor: 'operations' stamp: 'len 2/27/2017 20:52:25'!
 radical
-	^ self lift radical / self ring ideal! !
+	^ self lift radical / self ring relations! !
 
 !QuotientRingIdeal methodsFor: 'operations-elements' stamp: 'len 2/23/2017 08:25:46'!
 reduce: anElement
@@ -22251,11 +22312,21 @@ species
 		ifTrue: [^ self elementAt: anObject].
 	^ super !! anObject! !
 
-!FreeModule methodsFor: 'operations' stamp: 'len 1/16/2017 07:55:57'!
+!FreeModule methodsFor: 'operations' stamp: 'len 2/28/2017 09:55:36'!
+* aNumber
+	"Answer the receiver scaled by aNumber."
+	aNumber isZero
+		ifTrue: [^ self null].
+	(aNumber = self scalars one or: [aNumber = self scalars one negated])
+		ifTrue: [^ self].
+	^ self span: (self basis collect: [:each| each * aNumber])! !
+
+!FreeModule methodsFor: 'operations' stamp: 'len 2/28/2017 09:59:43'!
 + anObject
 	| sum |
 	(self ambient includes: anObject) ifTrue: [^ AffineSubspace representative: anObject direction: self].
-	"assume anObject isVectorSpace"
+	(self scalars isPID and: [self ambient = anObject ambient])
+		ifFalse: [^ DomainError signal].
 	sum _ self basis copy.
 	anObject basis do: [:each| (sum generates: each) ifFalse: [sum add: each]].
 	^ sum span
@@ -22319,10 +22390,10 @@ species
 	self scalars = aFreeModule scalars ifFalse: [DomainError signal: 'scalars don''t match'].
 	^ TensorProductModule left: self right: aFreeModule! !
 
-!FreeModule methodsFor: 'operations' stamp: 'len 2/19/2017 21:23:28'!
+!FreeModule methodsFor: 'operations' stamp: 'len 2/28/2017 10:00:51'!
 • aModule
 	"Answer the intersection of the receiver and the argument."
-	self ambient = aModule ambient ifFalse: [^ self error: 'abients don''t match'].
+	self ambient = aModule ambient ifFalse: [^ DomainError signal: 'abients don''t match'].
 	self <= aModule ifTrue: [^ self].
 	aModule <= self ifTrue: [^ aModule].
 	^ LinearSystem new
@@ -22362,6 +22433,12 @@ asAlgebraicVariety
 asSubmoduleOf: aModule
 	self flag: #fix. "avoid computing linear independence again"
 	^ aModule span: self basis! !
+
+!FreeModule methodsFor: 'converting' stamp: 'len 2/28/2017 10:08:48'!
+asVectorSpace
+	self scalars isField ifTrue: [^ self].
+	self scalars isPID ifTrue: [^ self over: self scalars fractions].
+	^ DomainError signal: 'not over a PID'! !
 
 !FreeModule methodsFor: 'random' stamp: 'len 4/19/2016 20:12'!
 atRandom: aRandom
@@ -22419,10 +22496,20 @@ coordinatesOf: anElement
 corank
 	^ self ambient rank - self rank! !
 
+!FreeModule methodsFor: 'accessing' stamp: 'len 2/27/2017 21:20:52'!
+degree
+	"Answer the degree of this free module.
+	This is the rank of the ambient module."
+	^ self ambient rank! !
+
 !FreeModule methodsFor: 'basis' stamp: 'len 7/15/2016 00:04'!
 dimension
 	"Custom notation for vector spaces."
 	^ self rank! !
+
+!FreeModule methodsFor: 'basis' stamp: 'len 2/28/2017 09:45:18'!
+discriminant
+	^ self basis gramian determinant! !
 
 !FreeModule methodsFor: 'enumerating' stamp: 'len 7/19/2016 23:46'!
 do: aBlock
@@ -22616,10 +22703,12 @@ projectivized
 	self isVectorSpace ifFalse: [^ DomainError signal: 'not a vector space'].
 	^ ProjectiveLinearSpace on: self! !
 
-!FreeModule methodsFor: 'operations' stamp: 'len 1/16/2017 08:16:57'!
+!FreeModule methodsFor: 'operations' stamp: 'len 2/27/2017 20:38:22'!
 quotient
 	"Answer the quotient space of the ambient space by the receiver."
-	^ QuotientModule mod: self! !
+	self scalars isField ifTrue: [^ QuotientSpace mod: self]. "it's a quotient of vector spaces"
+	(self scalars isPID and: [self ambient isFreeModule]) ifTrue: [^ QuotientModule mod: self].
+	^ DomainError signal! !
 
 !FreeModule methodsFor: 'operations' stamp: 'len 1/16/2017 08:17:24'!
 radical
@@ -22843,54 +22932,63 @@ example
 	"The direct sum of two vector spaces."
 	^ QQ^3  (QQ^2)! !
 
-!FormalSumsModule methodsFor: 'elements' stamp: 'len 2/22/2017 09:48:29'!
+!FormalFreeModule methodsFor: 'elements' stamp: 'len 2/22/2017 09:48:29'!
 !! anObject
 	^ self e: (self symbols indexOf: anObject ifAbsent: [^ super !! anObject])! !
 
-!FormalSumsModule methodsFor: 'accessing' stamp: 'len 2/22/2017 09:41:22'!
+!FormalFreeModule methodsFor: 'accessing' stamp: 'len 2/22/2017 09:41:22'!
 coordinateNames
 	^ self propertyAt: #coordinateNames ifAbsentPut: [self symbols collect: [:each| 'x', each printString sub]]! !
 
-!FormalSumsModule methodsFor: 'basis' stamp: 'len 2/25/2017 08:43:42'!
+!FormalFreeModule methodsFor: 'basis' stamp: 'len 2/25/2017 08:43:42'!
 coordinatesOf: anElement
 	^ self scalars tuple: self rank evaluating: [:i| anElement at: (self symbols at: i)]! !
 
-!FormalSumsModule methodsFor: 'basis' stamp: 'len 2/25/2017 08:57:48'!
+!FormalFreeModule methodsFor: 'basis' stamp: 'len 2/25/2017 08:57:48'!
 e: anInteger
 	| R |
 	R _ self scalars.
 	^ (FormalSum new: 1 over: R) at: (self symbols at: anInteger) put: R one; yourself! !
 
-!FormalSumsModule methodsFor: 'testing' stamp: 'len 2/25/2017 08:57:42'!
+!FormalFreeModule methodsFor: 'testing' stamp: 'len 2/25/2017 08:57:42'!
 includes: anObject
 	^ (anObject isKindOf: FormalSum) and: [self contains: anObject]! !
 
-!FormalSumsModule methodsFor: 'accessing' stamp: 'len 2/27/2017 07:35:28'!
+!FormalFreeModule methodsFor: 'accessing' stamp: 'len 2/27/2017 07:35:28'!
 names
 	"Answer a list of names for use instead of the elements of the basis when printing linear maps."
 	^ self propertyAt: #names ifAbsentPut: [(1 to: self rank) collect: [:i| (self e: i) printText]]! !
 
-!FormalSumsModule methodsFor: 'basis' stamp: 'len 1/16/2017 08:00:36'!
+!FormalFreeModule methodsFor: 'basis' stamp: 'len 1/16/2017 08:00:36'!
 rank
 	^ self symbols size! !
 
-!FormalSumsModule methodsFor: 'accessing' stamp: 'len 1/16/2017 08:00:12'!
+!FormalFreeModule methodsFor: 'accessing' stamp: 'len 1/16/2017 08:00:12'!
 symbols
 	^ self propertyAt: #symbols! !
 
-!FormalSumsModule methodsFor: 'accessing' stamp: 'len 1/16/2017 08:00:27'!
+!FormalFreeModule methodsFor: 'accessing' stamp: 'len 1/16/2017 08:00:27'!
 symbols: aCollection
 	self propertyAt: #symbols put: aCollection asArray! !
 
-!FormalSumsModule methodsFor: 'basis' stamp: 'len 2/20/2017 08:45:14'!
+!FormalFreeModule methodsFor: 'basis' stamp: 'len 2/20/2017 08:45:14'!
 x: anObject
 	^ self e: (self symbols indexOf: anObject)! !
 
-!FormalSumsModule methodsFor: 'accessing' stamp: 'len 2/25/2017 08:57:36'!
+!FormalFreeModule methodsFor: 'accessing' stamp: 'len 2/25/2017 08:57:36'!
 zero
 	^ self propertyAt: #zero ifAbsentPut: [FormalSum over: self scalars]! !
 
-!FormalSumsModule class methodsFor: 'instance creation' stamp: 'len 1/16/2017 08:05:50'!
+!FormalFreeModule class methodsFor: 'examples' stamp: 'len 2/28/2017 08:39:24'!
+example
+	"The free Q-vector space over the set of symbols #a, #b, #c."
+	^ FormalFreeModule on: #(a b c) over: QQ! !
+
+!FormalFreeModule class methodsFor: 'instance creation' stamp: 'len 2/28/2017 08:37:57'!
+new: anInteger over: aRing
+	^ self on: (1 to: anInteger) over: aRing! !
+
+!FormalFreeModule class methodsFor: 'instance creation' stamp: 'len 1/16/2017 08:05:50'!
 on: aCollection over: aRing
 	^ self new scalars: aRing; symbols: aCollection! !
 
@@ -23084,98 +23182,96 @@ from: aVectorSpace
 
 	^ self new domain: aVectorSpace! !
 
-!QuotientModule methodsFor: 'accessing' stamp: 'len 2/20/2017 22:02:54'!
+!QuotientSpace methodsFor: 'accessing' stamp: 'len 2/27/2017 21:25:33'!
 base
-	^ self submodule ambient! !
+	^ self relations ambient! !
 
-!QuotientModule methodsFor: 'private' stamp: 'len 2/20/2017 22:03:10'!
+!QuotientSpace methodsFor: 'private' stamp: 'len 2/27/2017 21:25:39'!
 buildProjection
 	"Answer the quotient map, the canonical projection from the ambient vector space to the quotient space, i.e. the mapping pi:V->V/S that assigns to every v in V the affine subspace v+S."
 	| answer |
 	answer _ self base to: self evaluating: [:each| self project: each].
 	answer name: Character pi asString.
 	answer properties
-		at: #kernel put: self submodule;
+		at: #kernel put: self relations;
 		at: #image put: self;
 		at: #rightInverse put: (self to: self base evaluating: [:each| each representative]).
 	^ answer! !
 
-!QuotientModule methodsFor: 'basis' stamp: 'len 2/20/2017 22:02:47'!
+!QuotientSpace methodsFor: 'testing' stamp: 'len 2/27/2017 21:26:49'!
+contains: anAffineSubspace
+	^ anAffineSubspace direction = self relations! !
+
+!QuotientSpace methodsFor: 'basis' stamp: 'len 2/27/2017 21:25:47'!
 coordinatesOf: anAffineSubspace
 	| v |
 	v _ anAffineSubspace representative.
-	v _ v - (self submodule project: v).
-	^ self submodule perp basis coordinatesOf: v! !
+	v _ v - (self relations project: v).
+	^ self relations perp basis coordinatesOf: v! !
 
-!QuotientModule methodsFor: 'basis' stamp: 'len 2/20/2017 22:05:32'!
+!QuotientSpace methodsFor: 'basis' stamp: 'len 2/27/2017 21:26:00'!
 e: anInteger
-	^ AffineSubspace representative: (self submodule perp e: anInteger) direction: self submodule! !
+	^ AffineSubspace representative: (self relations perp e: anInteger) direction: self relations! !
 
-!QuotientModule methodsFor: 'morphisms' stamp: 'len 12/20/2016 12:00:00'!
+!QuotientSpace methodsFor: 'morphisms' stamp: 'len 12/20/2016 12:00:00'!
 from: aDomain
 	aDomain  self base ifNotNil: [:aMorphism| ^ self projection ” aMorphism].
 	^ super from: aDomain! !
 
-!QuotientModule methodsFor: 'testing' stamp: 'len 2/20/2017 22:03:19'!
+!QuotientSpace methodsFor: 'testing' stamp: 'len 2/27/2017 21:26:59'!
 includes: anObject
-	^ (anObject isKindOf: AffineSubspace) and: [anObject direction = self submodule]! !
+	^ (anObject isKindOf: AffineSubspace) and: [self contains: anObject]! !
 
-!QuotientModule methodsFor: 'testing' stamp: 'len 8/10/2016 01:02'!
+!QuotientSpace methodsFor: 'testing' stamp: 'len 8/10/2016 01:02'!
 isQuotient
 	^ true! !
 
-!QuotientModule methodsFor: 'printing' stamp: 'len 2/20/2017 22:04:05'!
+!QuotientSpace methodsFor: 'printing' stamp: 'len 2/27/2017 21:27:15'!
 printOn: aStream
 	(self base printString includes: $/)
 		ifTrue: [aStream nextPut: $(; print: self base; nextPut: $)]
 		ifFalse: [aStream print: self base].
 	aStream nextPut: $/.
-	(self submodule printString includes: $/)
-		ifTrue: [aStream nextPut: $(; print: self submodule; nextPut: $)]
-		ifFalse: [aStream print: self submodule]! !
+	(self relations printString includes: $/)
+		ifTrue: [aStream nextPut: $(; print: self relations; nextPut: $)]
+		ifFalse: [aStream print: self relations]! !
 
-!QuotientModule methodsFor: 'morphisms' stamp: 'len 2/20/2017 22:04:11'!
+!QuotientSpace methodsFor: 'morphisms' stamp: 'len 2/27/2017 21:27:19'!
 project: anElement
-	^ AffineSubspace representative: anElement direction: self submodule! !
+	^ AffineSubspace representative: anElement direction: self relations! !
 
-!QuotientModule methodsFor: 'morphisms' stamp: 'len 12/28/2016 12:08:21'!
+!QuotientSpace methodsFor: 'morphisms' stamp: 'len 12/28/2016 12:08:21'!
 projection
 	"Answer the natural projection, or quotient map, or canonical homomorphism. This takes elements from the base module or vector space to the corresponding coset (an affine subspace) in the quotient."
 	^ self propertyAt: #projection ifAbsentPut: [self buildProjection]! !
 
-!QuotientModule methodsFor: 'basis' stamp: 'len 2/20/2017 22:02:31'!
+!QuotientSpace methodsFor: 'basis' stamp: 'len 2/27/2017 21:27:24'!
 rank
-	^ self submodule corank! !
+	^ self relations corank! !
 
-!QuotientModule methodsFor: 'accessing' stamp: 'len 2/20/2017 22:05:50'!
+!QuotientSpace methodsFor: 'accessing' stamp: 'len 2/27/2017 21:28:31'!
 relation
-	^ EquivalenceRelation on: self base evaluating: [:x :y| self submodule includes: x - y]! !
+	^ EquivalenceRelation on: self base evaluating: [:x :y| self relations includes: x - y]! !
 
-!QuotientModule methodsFor: 'accessing' stamp: 'len 2/20/2017 22:01:05'!
+!QuotientSpace methodsFor: 'accessing' stamp: 'len 2/27/2017 21:29:48'!
 relations
-	"Answer the relations defining the receiver.
-	If the receiver is the quotient M/N, the relations are the generators of N."
-	^ self submodule generators! !
+	^ self propertyAt: #relations! !
 
-!QuotientModule methodsFor: 'accessing' stamp: 'len 2/20/2017 22:01:58'!
+!QuotientSpace methodsFor: 'accessing-private' stamp: 'len 2/27/2017 21:29:38'!
+relations: aSubspace
+	self propertyAt: #relations put: aSubspace! !
+
+!QuotientSpace methodsFor: 'accessing' stamp: 'len 2/27/2017 21:28:34'!
 scalars
-	^ self submodule scalars! !
+	^ self relations scalars! !
 
-!QuotientModule methodsFor: 'accessing' stamp: 'len 2/20/2017 22:01:41'!
-submodule
-	^ submodule! !
-
-!QuotientModule methodsFor: 'accessing-private' stamp: 'len 2/20/2017 22:04:36'!
-submodule: aFreeModule
-	submodule _ aFreeModule! !
-
-!QuotientModule methodsFor: 'elements' stamp: 'len 2/20/2017 22:26:07'!
+!QuotientSpace methodsFor: 'elements' stamp: 'len 2/27/2017 21:28:39'!
 zero
-	^ AffineSubspace representative: self base zero direction: self submodule! !
+	^ AffineSubspace representative: self base zero direction: self relations! !
 
-!QuotientModule class methodsFor: 'instance creation' stamp: 'len 2/20/2017 22:05:12'!
-mod: aFreeModule
-	^ self new submodule: aFreeModule! !
+!QuotientSpace class methodsFor: 'instance creation' stamp: 'len 2/27/2017 21:29:20'!
+mod: aSubspace
+	^ self new relations: aSubspace! !
 
 !ScalarModule methodsFor: 'basis' stamp: 'len 4/22/2016 21:55'!
 coordinatesOf: anObject
@@ -23815,6 +23911,36 @@ printOn: aStream
 	polynomials do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: ', '].
 	aStream nextPut: $)! !
 
+!QuotientModule methodsFor: 'as yet unclassified' stamp: 'len 2/27/2017 21:31:55'!
+base
+	^ self relations ambient! !
+
+!QuotientModule methodsFor: 'as yet unclassified' stamp: 'len 2/27/2017 21:31:40'!
+printOn: aStream
+	(self base printString includes: $/)
+		ifTrue: [aStream nextPut: $(; print: self base; nextPut: $)]
+		ifFalse: [aStream print: self base].
+	aStream nextPut: $/.
+	(self relations printString includes: $/)
+		ifTrue: [aStream nextPut: $(; print: self relations; nextPut: $)]
+		ifFalse: [aStream print: self relations]! !
+
+!QuotientModule methodsFor: 'as yet unclassified' stamp: 'len 2/27/2017 21:31:05'!
+relations
+	^ self propertyAt: #relations! !
+
+!QuotientModule methodsFor: 'as yet unclassified' stamp: 'len 2/27/2017 21:31:18'!
+relations: aSubmodule
+	self propertyAt: #relations put: aSubmodule! !
+
+!QuotientModule methodsFor: 'as yet unclassified' stamp: 'len 2/27/2017 21:32:55'!
+scalars
+	^ self relations scalars! !
+
+!QuotientModule class methodsFor: 'instance creation' stamp: 'len 2/27/2017 21:32:21'!
+mod: aSubmodule
+	^ self new relations: aSubmodule! !
+
 !AffineSubspace methodsFor: 'operations' stamp: 'len 6/4/2016 04:24'!
 * aScalar
 	(self scalars includes: aScalar)
@@ -24440,11 +24566,11 @@ cells: n do: aBlock
 chainComplexOver: aRing
 	^ ChainComplex differentials: ((self dimension+1 to: 0 by: -1) collect: [:i| self boundaryMap: i over: aRing])! !
 
-!CellComplex methodsFor: 'homology' stamp: 'len 2/24/2017 21:01:46'!
+!CellComplex methodsFor: 'homology' stamp: 'len 2/28/2017 08:35:15'!
 chains: k over: aRing
 	"Answer the group of k-chains."
-	k < 0 ifTrue: [^ FormalSumsModule on: #() over: aRing].
-	^ FormalSumsModule on: (self cells: k) asArray over: aRing! !
+	k < 0 ifTrue: [^ FormalFreeModule on: #() over: aRing].
+	^ FormalFreeModule on: (self cells: k) asArray over: aRing! !
 
 !CellComplex methodsFor: 'invariants' stamp: 'len 2/19/2017 18:25:22'!
 dimension
@@ -25722,10 +25848,10 @@ functionField
 hash
 	^ self ideal hash! !
 
-!AffineVariety methodsFor: 'accessing' stamp: 'len 1/13/2017 16:08:24'!
+!AffineVariety methodsFor: 'accessing' stamp: 'len 2/27/2017 21:01:44'!
 ideal
 	"Answer the defining ideal of the receiver."
-	^ self coordinateRing ideal! !
+	^ self coordinateRing relations! !
 
 !AffineVariety methodsFor: 'testing' stamp: 'len 1/9/2017 16:35:09'!
 isComplete
@@ -26199,10 +26325,10 @@ functionField
 hash
 	^ self saturated coordinateRing hash! !
 
-!ProjectiveVariety methodsFor: 'accessing' stamp: 'len 1/13/2017 17:24:54'!
+!ProjectiveVariety methodsFor: 'accessing' stamp: 'len 2/27/2017 21:02:04'!
 ideal
 	"Answer the homogeneous ideal defining the receiver."
-	^ self coordinateRing ideal! !
+	^ self coordinateRing relations! !
 
 !ProjectiveVariety methodsFor: 'testing' stamp: 'len 1/9/2017 16:34:57'!
 isComplete
@@ -27584,12 +27710,14 @@ actionGraphMorph: generators
 	answer nodesDo: [:each| each color: Color transparent; radius: 0].
 	^ answer! !
 
-!GroupAction methodsFor: 'converting' stamp: 'len 8/1/2016 08:48'!
+!GroupAction methodsFor: 'converting' stamp: 'len 2/28/2017 09:31:27'!
 asPermutationRepresentation
+	| S |
+	S _ SymmetricGroup on: self space.
 	^ GroupRepresentation
 		from: self group
-		to: (SymmetricGroup on: self space)
-		evaluating: [:g| Permutation on: self space evaluating: [:x| self value: {g.x}]]! !
+		to: S
+		evaluating: [:g| S evaluating: [:x| self value: {g.x}]]! !
 
 !GroupAction methodsFor: 'converting' stamp: 'len 12/11/2016 08:55:32'!
 asRepresentation
@@ -30462,7 +30590,7 @@ transpositions
 		answer addFirst: (self species transpose: first with: (last _ self at: last))].
 	^ answer! !
 
-!StandardPermutation methodsFor: 'arithmetic' stamp: 'len 11/14/2016 14:02'!
+!StandardPermutation methodsFor: 'arithmetic' stamp: 'len 2/28/2017 09:14:28'!
 * aPermutation
 	"Answer the composition of the receiver with the argument."
 
@@ -30471,7 +30599,7 @@ transpositions
 		ifFalse: [^ super * aPermutation].
 	otherMap _ aPermutation map.
 	newMap _ map class new: map size.
-	1 to: map size do: [:i| newMap at: i put: (otherMap at: (map at: i))]. 
+	1 to: map size do: [:i| newMap at: i put: (otherMap at: (map at: i))].
 	^ self class image: newMap! !
 
 !StandardPermutation methodsFor: 'comparing' stamp: 'len 11/15/2016 08:53'!
@@ -31272,12 +31400,12 @@ on: aSubgroup representative: anObject
 	inverseMap _ subgroup inverseMap.
 	^ subgroup includes: (op value: {representative. inverseMap value: aCoset representative})! !
 
-!LeftCoset methodsFor: 'enumerating' stamp: 'len 2/9/2016 07:02'!
+!LeftCoset methodsFor: 'enumerating' stamp: 'len 2/28/2017 10:14:31'!
 do: aBlock
 	"Enumerate the elements of the receiver."
 	| op |
 	op _ subgroup operation.
-	self subgroup do: [:each| aBlock value: (op value: {representative. each})]! !
+	subgroup do: [:each| aBlock value: (op value: {representative. each})]! !
 
 !LeftCoset methodsFor: 'testing' stamp: 'len 2/9/2016 07:06'!
 includes: anElement
@@ -32076,13 +32204,13 @@ conjugated
 conjugates
 	^ Iterator on: [:aBlock| self conjugatesDo: aBlock]! !
 
-!ResidueClass methodsFor: 'conjugation' stamp: 'len 9/26/2016 16:53'!
+!ResidueClass methodsFor: 'conjugation' stamp: 'len 2/27/2017 20:51:02'!
 conjugatesDo: aBlock
 	"Iterate over the conjugancy class of the receiver, i.e. all the conjugates including the receiver."
 	| alpha |
 	alpha _ self.
 	[aBlock value: alpha.
-	alpha _ alpha ^ self ideal ring characteristic.
+	alpha _ alpha ^ self relations ring characteristic.
 	alpha = self] whileFalse! !
 
 !ResidueClass methodsFor: 'testing' stamp: 'len 12/15/2016 21:47:05'!
@@ -32097,10 +32225,6 @@ gcd: aResidueClass
 hash
 	^ parent hash! !
 
-!ResidueClass methodsFor: 'accessing' stamp: 'len 10/16/2016 15:56'!
-ideal
-	^ parent ideal! !
-
 !ResidueClass methodsFor: 'testing' stamp: 'len 12/15/2016 21:47:39'!
 includes: aRingElement
 	^ (parent base includes: aRingElement) and: [self contains: aRingElement]! !
@@ -32109,9 +32233,9 @@ includes: aRingElement
 is: aSymbol
 	^ aSymbol == #ResidueClass or: [super is: aSymbol]! !
 
-!ResidueClass methodsFor: 'testing' stamp: 'len 1/2/2016 22:34'!
+!ResidueClass methodsFor: 'testing' stamp: 'len 2/27/2017 20:51:13'!
 isUnit
-	^ (self ideal inverseOf: representative) notNil! !
+	^ (self relations inverseOf: representative) notNil! !
 
 !ResidueClass methodsFor: 'testing' stamp: 'len 11/25/2015 03:10'!
 isZero
@@ -32145,6 +32269,10 @@ printOn: aStream
 !ResidueClass methodsFor: 'operations' stamp: 'len 11/30/2016 19:02:39'!
 reciprocal
 	^ parent inverseOf: self! !
+
+!ResidueClass methodsFor: 'accessing' stamp: 'len 2/27/2017 20:50:24'!
+relations
+	^ parent relations! !
 
 !ResidueClass methodsFor: 'accessing' stamp: 'len 11/25/2015 03:11'!
 representative
@@ -32903,6 +33031,20 @@ printCoefficient: coefficient on: aStream
 		ifTrue: [aStream print: c. ^ self].
 	aStream nextPut: $(; print: c; nextPut: $)! !
 
+!FormalSum methodsFor: 'printing' stamp: 'len 2/28/2017 08:43:47'!
+printLiteral: anObject on: aStream
+	((anObject isKindOf: Word) and: [anObject isEmpty])
+		ifTrue: [^ self].
+	anObject isInteger
+		ifTrue:
+			[aStream isText
+				ifTrue: [aStream nextPut: $x; nextPutAll: anObject printString sub]
+				ifFalse: [aStream nextPutAll: '{x', anObject printString, '}'].
+			^ self].
+	(aStream isText and: [anObject isString])
+			ifTrue: [aStream nextPutAll: anObject asText]
+			ifFalse: [aStream print: anObject]! !
+
 !FormalSum methodsFor: 'printing' stamp: 'len 2/25/2017 08:38:18'!
 printOn2: aStream
 	aStream nextPut: $(.
@@ -32910,7 +33052,7 @@ printOn2: aStream
 		do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: ', '].
 	aStream nextPut: $)! !
 
-!FormalSum methodsFor: 'printing' stamp: 'len 2/25/2017 08:39:05'!
+!FormalSum methodsFor: 'printing' stamp: 'len 2/27/2017 16:40:53'!
 printOn: aStream
 	| elements c |
 	self isZero ifTrue: [aStream nextPutAll: '0'. ^ self].
@@ -32919,16 +33061,14 @@ printOn: aStream
 	c printString first = $-
 		ifTrue: [c _ c negated. aStream nextPut: $-].
 	c ~= scalars one ifTrue: [self printCoefficient: c on: aStream].
-	((elements first isKindOf: Word) and: [elements first isEmpty])
-		ifFalse: [aStream print: elements first].
+	self printLiteral: elements first on: aStream.
 	elements allButFirst do: [:each|
 		c _ self at: each.
 		c printString first = $-
 			ifTrue: [aStream nextPutAll: ' - '. c _ c negated]
 			ifFalse: [aStream nextPutAll: ' + '].
 		c ~= c one ifTrue: [self printCoefficient: c on: aStream].
-		((each isKindOf: Word) and: [each isEmpty])
-			ifFalse: [aStream print: each]]! !
+		self printLiteral: each on: aStream]! !
 
 !FormalSum methodsFor: 'accessing' stamp: 'len 11/18/2016 10:12:08'!
 scalars
