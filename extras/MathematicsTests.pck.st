@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 28 February 2017 at 9:10:27 pm'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 2 March 2017 at 5:38:41 am'!
 'Description Please enter a description for this package'!
-!provides: 'MathematicsTests' 1 74!
+!provides: 'MathematicsTests' 1 75!
 !classDefinition: #AbelianGroupTest category: #MathematicsTests!
 TestCase subclass: #AbelianGroupTest
 	instanceVariableNames: ''
@@ -559,6 +559,13 @@ test1000Factorial	1,250 per second.
 Some tests on a 300x300 matrix over Z/32003.
 
 self new run
+
+testAddition	395 per second.
+testGaussianElimination	1.85 per second.
+testImage	56 seconds. "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+testKernel	0.678 per second.
+testSquared	1.33 per second.
+testTransposition	88.6 per second.
 
 testAddition	387 per second.
 testGaussianElimination	1.82 per second.
@@ -2707,7 +2714,7 @@ testGroupHomomorphism: phi
 	self assert: (phi value: G identity) = H identity.
 	self assert: (phi value: (G operation value: {a. b})) = (H operation value: {phi value: a. phi value: b})! !
 
-!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 2/25/2017 07:35:37'!
+!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 3/1/2017 12:41:03'!
 testGroupRing
 	| G R a b c xa xb xc |
 	G _ self smallGroupAtRandom.
@@ -2718,9 +2725,9 @@ testGroupRing
 	xa _ R embed: a.
 	xb _ R embed: b.
 	xc _ R embed: c.
-	self assert: xa * xb = (R embed: a*b).
-	self assert: xa * 2 + xb * xc - (xa * xc) - (xb * xc) = (R embed: a*c).
-	self assert: (xa + xb) * (xa - xb) = (xa ^ 2 - (xb ^ 2))! !
+	self assert: xa*xb = (R embed: a*b).
+	self assert: xa*2 + xb*xc - (xa*xc) - (xb*xc) = (R embed: a*c).
+	self assert: (xa + xb) * (xa - xb) = (xa^2 - (xb^2) + (xb*xa) - (xa*xb))! !
 
 !GroupTest methodsFor: 'as yet unclassified' stamp: 'len 8/30/2016 19:56'!
 testGroupRingIsARing
@@ -3067,6 +3074,15 @@ testIntegerDivisors
 	self assert: 12 numberOfDivisors = 6.
 	self assert: 12 divisors size = 6! !
 
+!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 2/28/2017 21:25:51'!
+testIntegerIdealsPrimePrimarySemiprime
+	self assert: (ZZ*5) isPrime.
+	self assert: (ZZ*6) isPrime not.
+	self assert: (ZZ*25) isPrimary.
+	self assert: (ZZ*30) isPrimary not.
+	self assert: (ZZ*30) isSemiprime.
+	self assert: (ZZ*12) isSemiprime not! !
+
 !MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 12/2/2016 11:11:24'!
 testIteratorCovering
 	| F |
@@ -3300,6 +3316,13 @@ testYoungTableauxStandard
 testZ6IsNotPID
 	self assert: (ZZ/6) isPID not! !
 
+!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 3/1/2017 17:10:52'!
+newRandomMatrix: dim over: aRing
+	| samples |
+	2 atRandom = 1 ifTrue: [^ aRing^dim atRandomBits: 100].
+	samples _ {aRing zero. aRing one. aRing one negated}.
+	^ aRing matrix: dim evaluating: [:i :j| 2 atRandom > 1 ifTrue: [aRing zero] ifFalse: [samples atRandom]]! !
+
 !MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 11/11/2016 09:00'!
 testAdjugate
 	| A I |
@@ -3405,6 +3428,33 @@ testDomainError
 	self should: [A + B] raise: DomainError.
 	self should: [A * B] raise: DomainError! !
 
+!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 3/1/2017 17:33:10'!
+testFundamentalSubspacesDefinitions
+	| m n A |
+	m _ 6 atRandom.
+	n _ 6 atRandom.
+	A _ self newRandomMatrix: m@n over: QQ.
+	self assert: A rowSpace = (QQ^n span: A rows). "definition"
+	self assert: A columnSpace = (QQ^m span: A columns). "definition"
+	self assert: A coimage = A transposed image. "definition"
+	self assert: A cokernel = A transposed kernel. "definition"
+	self assert: A image = A columnSpace. "synonyms"
+	self assert: A coimage = A rowSpace. "synonyms"
+! !
+
+!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 3/1/2017 17:30:09'!
+testFundamentalSubspacesDimensions
+	| m n A r |
+	m _ 6 atRandom.
+	n _ 6 atRandom.
+	A _ self newRandomMatrix: m@n over: QQ.
+	r _ A rank.
+	self assert: A image dimension = r.
+	self assert: A kernel dimension = (n - r).
+	self assert: A nullity = (n - r). "definition"
+	self assert: A coimage dimension = r.
+	self assert: A cokernel dimension = (m - r)! !
+
 !MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 7/15/2016 23:53'!
 testHermiteNormalForm
 	"Example from wikipedia."
@@ -3482,11 +3532,11 @@ testKernel
 	S _ QQ ^ 6 span: {(3,-5,1,0,0,0). (-2,1,0,-7,1,0). (8,-4,0,9,0,1)}.
 	self assert: A kernel = S! !
 
-!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:06'!
+!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 3/1/2017 17:08:29'!
 testKernelImageTheorem
 	| n A |
 	n _ 6 atRandom.
-	A _ QQ ^ (n @ n) atRandomBits: 100.
+	A _ self newRandomMatrix: n@n over: QQ.
 	self assert: A kernel dimension + A image dimension = n! !
 
 !MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 10/17/2016 16:45'!
@@ -3560,18 +3610,18 @@ testRank2
 	m _ M rows: {(1,1,1). (2,2,2). (5,5,5)}.
 	self assert: m rank = 1! !
 
-!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:06'!
+!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 3/1/2017 17:11:33'!
 testRankNullityTheorem
 	| n A |
 	n _ 6 atRandom.
-	A _ QQ ^ (n @ n) atRandomBits: 100.
+	A _ self newRandomMatrix: n@n over: QQ.
 	self assert: A rank + A nullity = n! !
 
-!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 7/16/2016 03:59'!
+!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 3/1/2017 09:06:50'!
 testReducerPivots
 	| A |
 	A _ ZZ ^ (3@3) rows: {(0,-1,-1). (0,-20,1). (0,1,2)}.
-	self assert: A reducer pivots asArray = {2@1. 3@2}! !
+	self assert: A reduction pivots asArray = {2@1. 3@2}! !
 
 !MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 8/24/2016 19:24'!
 testRightInverse
@@ -3659,6 +3709,25 @@ newFreeModuleOver: scalars
 	(M rank < 5 and: [3 atRandom = 1]) ifTrue: [^ M endomorphisms].
 	3 atRandom = 1 ifTrue: [^ M dual].
 	^ M! !
+
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 3/2/2017 04:47:40'!
+newLinearMap
+	| K V W |
+	K _ {QQ. ZZ / #(2 3 5 7) atRandom} atRandom.
+	V _ self newFreeModuleOver: K.
+	W _ self newFreeModuleOver: K.
+	^ (V hom: W) matrix: (self newMatrix: W rank @ V rank over: K)! !
+
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 3/2/2017 04:43:47'!
+newMatrix: dim over: aRing
+	| samples |
+	2 atRandom = 1 ifTrue: [^ aRing^dim atRandomBits: 100].
+	samples _ {aRing zero. aRing one. aRing one negated}.
+	^ aRing matrix: dim evaluating: [:i :j| 2 atRandom > 1 ifTrue: [aRing zero] ifFalse: [samples atRandom]]! !
+
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 3/2/2017 04:50:24'!
+newVectorSpace
+	^ self newFreeModuleOver: {QQ. ZZ / #(2 3 5 7) atRandom} atRandom! !
 
 !ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:57'!
 testAnnihilator
@@ -3831,14 +3900,11 @@ testLinearFormZ2
 	self assert: f image dimension = 1.
 	self assert: (f kernel includes: (1,1,1,1) % 2)! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:58'!
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 3/2/2017 04:46:35'!
 testLinearMap
-	| V S f |
-	V _ QQ ^ 3.
-	S _ V span: {(1, 1, 1). (2, 0, -2)}.
-	f _ LinearMap projectionOn: S.
-	self assert: (f value: (2, 2, 2)) = (2, 2,  2).
-	self assert: (f value: (1, 0, -1)) = (1, 0,  -1)! !
+	| f |
+	f _ self newLinearMap.
+	self testLinearMap: f! !
 
 !ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 10/16/2016 09:17'!
 testLinearMap: f
@@ -3886,35 +3952,22 @@ testLinearMapCompositionError
 	g _ (Y hom: Z) atRandomBits: 1000.
 	self should: [f ” g] raise: DomainError! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 11/2/2016 04:00'!
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 3/2/2017 04:52:54'!
 testLinearMapFiber
 	| f w v |
-	f _ (QQ ^ 6 atRandom hom: QQ ^ 6 atRandom) atRandomBits: 100.
+	f _ self newLinearMap.
 	w _ f image atRandomBits: 100.
 	v _ (f fiberAt: w) atRandomBits: 100.
-"	Transcript show: w; nextPutAll: ' <- '; show: v; newLine."
 	self assert: (f value: v) = w! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 11/2/2016 04:00'!
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 3/2/2017 04:53:31'!
 testLinearMapImage
-	| V W f image v w |
-	V _ QQ ^ 5 atRandom.
-	W _ QQ ^ 5 atRandom.
-	f _ (V hom: W) atRandomBits: 1000.
+	| f image v w |
+	f _ self newLinearMap.
 	image _ f image.
-	v _ V atRandomBits: 100.
+	v _ f domain atRandomBits: 100.
 	w _ f value: v.
 	self assert: (image includes: w)! !
-
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:58'!
-testLinearMapImage2
-	| V S f image |
-	V _ QQ ^ 3.
-	S _ V span: {(1, 1, 1). (2, 0, -2)}.
-	f _ LinearMap projectionOn: S.
-	image _ f image.
-	self assert: (image includes: (f value: (S atRandomBits: 100))).
-	self assert: (image includes: (f value: (V atRandomBits: 100)))! !
 
 !ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 12/20/2016 11:50:45'!
 testLinearMapInverse
@@ -3924,25 +3977,13 @@ testLinearMapInverse
 	self assert: (f ” f inverse) isIdentity.
 	self assert: (f inverse ” f) isIdentity! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 11/2/2016 04:01'!
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 3/2/2017 04:53:46'!
 testLinearMapKernel
-	| V W f kernel v |
-	V _ QQ ^ 5 atRandom.
-	W _ QQ ^ 5 atRandom.
-	f _ (V hom: W) atRandomBits: 1000.
+	| f kernel v |
+	f _ self newLinearMap.
 	kernel _ f kernel.
 	v _ kernel atRandomBits: 100.
 	self assert: (f value: v) isZero! !
-
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:58'!
-testLinearMapKernel2
-	| V S f kernel |
-	V _ QQ ^ 3.
-	S _ V span: {(1, 1, 1). (2, 0, -2)}.
-	f _ LinearMap projectionOn: S.
-	kernel _ f kernel.
-	self assert: (kernel apply: f) isTrivial.
-	self assert: kernel dimension = 1! !
 
 !ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 10/18/2016 21:00'!
 testLinearMapKernelZ2
@@ -4113,17 +4154,6 @@ testPerpZ2
 	self assert: (V innerProduct value: {S basis first. perp basis first}) isZero.
 	self assert: (V innerProduct value: {S basis first. perp basis second}) isZero! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 10/16/2016 09:42'!
-testQuotient
-	| M S Q |
-	M _ self newFreeModule.
-	S _ M grassmannian: (1 to: M rank) atRandom :: atRandomBits: M rank * 10.
-	Q _ M/S.
-	self assert: Q rank = (M rank - S rank).
-	self assert: (Q includes: S + (M atRandomBits: M rank * 10)).
-	self assert: (M / M null) rank = M rank.
-	self assert: (M / M) rank = 0! !
-
 !ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 10/6/2016 10:36'!
 testQuotientMaps
 	| V S Q pi v s |
@@ -4136,6 +4166,17 @@ testQuotientMaps
 	self assert: (Q includes: s).
 	self assert: (V includes: (pi section value: s)).
 	self assert: s = (pi value: (pi section value: s))! !
+
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 3/2/2017 04:49:31'!
+testQuotientSpace
+	| M S Q |
+	M _ self newVectorSpace.
+	S _ M grassmannian: (1 to: M rank) atRandom :: atRandomBits: M rank * 10.
+	Q _ M/S.
+	self assert: Q rank = (M rank - S rank).
+	self assert: (Q includes: S + (M atRandomBits: M rank * 10)).
+	self assert: (M / M null) rank = M rank.
+	self assert: (M / M) rank = 0! !
 
 !ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 12/8/2016 20:28:13'!
 testSecondIsomorphismTheorem
@@ -6197,9 +6238,17 @@ setUp
 testAddition
 	matrix + matrix! !
 
-!ModularMatrixBenchmark methodsFor: 'as yet unclassified' stamp: 'len 11/17/2016 15:35:23'!
+!ModularMatrixBenchmark methodsFor: 'as yet unclassified' stamp: 'len 3/1/2017 09:06:54'!
 testGaussianElimination
-	matrix reducer reduced! !
+	matrix reduction reduced! !
+
+!ModularMatrixBenchmark methodsFor: 'as yet unclassified' stamp: 'len 3/1/2017 09:33:07'!
+testImage
+	matrix image! !
+
+!ModularMatrixBenchmark methodsFor: 'as yet unclassified' stamp: 'len 3/1/2017 09:33:01'!
+testKernel
+	matrix kernel! !
 
 !ModularMatrixBenchmark methodsFor: 'as yet unclassified' stamp: 'len 11/22/2016 11:54:33'!
 testSquared
@@ -6410,6 +6459,30 @@ testCopyZ2
 !SmallMatrixBenchmark methodsFor: 'as yet unclassified' stamp: 'len 12/2/2016 09:24:46'!
 testCopyZp
 	modularMatrix copy! !
+
+!SmallMatrixBenchmark methodsFor: 'as yet unclassified' stamp: 'len 3/1/2017 09:35:56'!
+testImageZ
+	integerMatrix image! !
+
+!SmallMatrixBenchmark methodsFor: 'as yet unclassified' stamp: 'len 3/1/2017 09:36:24'!
+testImageZ2
+	binaryMatrix image! !
+
+!SmallMatrixBenchmark methodsFor: 'as yet unclassified' stamp: 'len 3/1/2017 09:36:52'!
+testImageZp
+	modularMatrix image! !
+
+!SmallMatrixBenchmark methodsFor: 'as yet unclassified' stamp: 'len 3/1/2017 09:35:48'!
+testKernelZ
+	integerMatrix kernel! !
+
+!SmallMatrixBenchmark methodsFor: 'as yet unclassified' stamp: 'len 3/1/2017 09:36:17'!
+testKernelZ2
+	binaryMatrix kernel! !
+
+!SmallMatrixBenchmark methodsFor: 'as yet unclassified' stamp: 'len 3/1/2017 09:36:46'!
+testKernelZp
+	modularMatrix kernel! !
 
 !SmallMatrixBenchmark methodsFor: 'as yet unclassified' stamp: 'len 7/8/2016 02:49'!
 testMultiplicationZ
