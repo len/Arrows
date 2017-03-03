@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 2 March 2017 at 11:08:37 am'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 3 March 2017 at 10:40:50 pm'!
 'Description A computational algebra system in Smalltalk'!
-!provides: 'Mathematics' 1 380!
+!provides: 'Mathematics' 1 381!
 !requires: 'RayTracer' 1 2 nil!
 !classDefinition: #RealAlgebraicNumber category: #'Mathematics-Fields-Algebraic'!
 Number subclass: #RealAlgebraicNumber
@@ -2982,34 +2982,34 @@ Object subclass: #GramSchmidt
 GramSchmidt class
 	instanceVariableNames: ''!
 
-!classDefinition: #HermiteNormalForm2 category: #'Mathematics-Matrices-Algorithms'!
-Object subclass: #HermiteNormalForm2
+!classDefinition: #HermiteColumnReduction category: #'Mathematics-Matrices-Algorithms'!
+Object subclass: #HermiteColumnReduction
 	instanceVariableNames: 'matrix'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Matrices-Algorithms'!
-!classDefinition: 'HermiteNormalForm2 class' category: #'Mathematics-Matrices-Algorithms'!
-HermiteNormalForm2 class
+!classDefinition: 'HermiteColumnReduction class' category: #'Mathematics-Matrices-Algorithms'!
+HermiteColumnReduction class
 	instanceVariableNames: ''!
 
-!classDefinition: #HermiteNormalFormCRT category: #'Mathematics-Matrices-Algorithms'!
-Object subclass: #HermiteNormalFormCRT
-	instanceVariableNames: 'matrix HNF'
+!classDefinition: #HermiteReduction category: #'Mathematics-Matrices-Algorithms'!
+Object subclass: #HermiteReduction
+	instanceVariableNames: 'matrix'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Matrices-Algorithms'!
-!classDefinition: 'HermiteNormalFormCRT class' category: #'Mathematics-Matrices-Algorithms'!
-HermiteNormalFormCRT class
+!classDefinition: 'HermiteReduction class' category: #'Mathematics-Matrices-Algorithms'!
+HermiteReduction class
 	instanceVariableNames: ''!
 
-!classDefinition: #JordanNormalForm category: #'Mathematics-Matrices-Algorithms'!
-Object subclass: #JordanNormalForm
+!classDefinition: #JordanReduction category: #'Mathematics-Matrices-Algorithms'!
+Object subclass: #JordanReduction
 	instanceVariableNames: 'matrix blocks'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Matrices-Algorithms'!
-!classDefinition: 'JordanNormalForm class' category: #'Mathematics-Matrices-Algorithms'!
-JordanNormalForm class
+!classDefinition: 'JordanReduction class' category: #'Mathematics-Matrices-Algorithms'!
+JordanReduction class
 	instanceVariableNames: ''!
 
 !classDefinition: #LinearSystemSolver category: #'Mathematics-Matrices-Algorithms'!
@@ -3022,18 +3022,28 @@ Object subclass: #LinearSystemSolver
 LinearSystemSolver class
 	instanceVariableNames: ''!
 
-!classDefinition: #MatrixReducer category: #'Mathematics-Matrices-Algorithms'!
-Object subclass: #MatrixReducer
+!classDefinition: #MatrixReduction category: #'Mathematics-Matrices-Algorithms'!
+Object subclass: #MatrixReduction
 	instanceVariableNames: 'matrix extension currentPivot pivots determinantFactor'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Matrices-Algorithms'!
-!classDefinition: 'MatrixReducer class' category: #'Mathematics-Matrices-Algorithms'!
-MatrixReducer class
+!classDefinition: 'MatrixReduction class' category: #'Mathematics-Matrices-Algorithms'!
+MatrixReduction class
+	instanceVariableNames: ''!
+
+!classDefinition: #GaussianElimination category: #'Mathematics-Matrices-Algorithms'!
+MatrixReduction subclass: #GaussianElimination
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Matrices-Algorithms'!
+!classDefinition: 'GaussianElimination class' category: #'Mathematics-Matrices-Algorithms'!
+GaussianElimination class
 	instanceVariableNames: ''!
 
 !classDefinition: #GaussBareiss category: #'Mathematics-Matrices-Algorithms'!
-MatrixReducer subclass: #GaussBareiss
+GaussianElimination subclass: #GaussBareiss
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
@@ -3042,14 +3052,14 @@ MatrixReducer subclass: #GaussBareiss
 GaussBareiss class
 	instanceVariableNames: ''!
 
-!classDefinition: #GaussianElimination category: #'Mathematics-Matrices-Algorithms'!
-MatrixReducer subclass: #GaussianElimination
-	instanceVariableNames: ''
+!classDefinition: #ModularHermiteReduction category: #'Mathematics-Matrices-Algorithms'!
+Object subclass: #ModularHermiteReduction
+	instanceVariableNames: 'matrix HNF'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Matrices-Algorithms'!
-!classDefinition: 'GaussianElimination class' category: #'Mathematics-Matrices-Algorithms'!
-GaussianElimination class
+!classDefinition: 'ModularHermiteReduction class' category: #'Mathematics-Matrices-Algorithms'!
+ModularHermiteReduction class
 	instanceVariableNames: ''!
 
 !classDefinition: #QRDecomposition category: #'Mathematics-Matrices-Algorithms'!
@@ -3062,14 +3072,14 @@ Object subclass: #QRDecomposition
 QRDecomposition class
 	instanceVariableNames: ''!
 
-!classDefinition: #SmithNormalForm category: #'Mathematics-Matrices-Algorithms'!
-Object subclass: #SmithNormalForm
+!classDefinition: #SmithReduction category: #'Mathematics-Matrices-Algorithms'!
+Object subclass: #SmithReduction
 	instanceVariableNames: 'matrix diagonal'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Matrices-Algorithms'!
-!classDefinition: 'SmithNormalForm class' category: #'Mathematics-Matrices-Algorithms'!
-SmithNormalForm class
+!classDefinition: 'SmithReduction class' category: #'Mathematics-Matrices-Algorithms'!
+SmithReduction class
 	instanceVariableNames: ''!
 
 !classDefinition: #Monomial category: #'Mathematics-Monomials'!
@@ -5104,7 +5114,7 @@ Example:
 !
 
 !Matrix commentStamp: '<historical>' prior: 0!
-My instances are matrices with coefficients over some commutative ring.!
+My instances are matrices with coefficients in some commutative ring.!
 
 !ColumnMatrix commentStamp: '<historical>' prior: 0!
 My instances are matrices with coefficients over some commutative ring, represented as a list of column tuples. Column operations are fast on these matrices.!
@@ -5123,27 +5133,17 @@ Furthermore, the algorithm computes a lower triangular matrix, M, such that:
 	B = B'^t M.
 
 The algorithm performs O(2mn^2) arithmetic operations.
-
-Example:
-	| V basis |
-	V _ Rationals new ^ 3.
-	basis _ LinearBasis generators: {(1, 1, 0). (0, 1, 1). (1, 0, 1)} on: V.
-	(GramSchmidt basis: basis) orthogonalBasis
 !
 
-!HermiteNormalForm2 commentStamp: '<historical>' prior: 0!
-This is the Hermite reduction algorithm. Given a matrix with coefficients in the rational integers Z, it reduces the matrix to its Hermite normal form.!
+!HermiteColumnReduction commentStamp: '<historical>' prior: 0!
+This is the Hermite column reduction algorithm. Given a matrix with coefficients in the rational integers Z, it reduces the matrix to its column-style Hermite normal form.
 
-!GaussBareiss commentStamp: '<historical>' prior: 0!
-I am the Gauss-Bereiss algorithm.
+Reference: Henri Cohen, 'A Course in Computational Algebraic Number Theory', Algorithm 2.4.4.!
 
-My instances perform division-free Gaussian elimination on a matrix with coefficients in a ring, and compute the echelon form.
+!HermiteReduction commentStamp: '<historical>' prior: 0!
+This is the Hermite row reduction algorithm. Given a matrix with coefficients in the rational integers Z, it reduces the matrix to its row-style Hermite normal form.
 
-Input: a matrix with coefficients in a commutative ring;
-Output: the reduced echelon form and the determinant.
-
-The algorithm performs O(n^3) ring operations for nxn matrices. While the standard Gaussian elimination suffers from exponential intermediate coefficients growth, the Bareiss algorithm has bit complexity O(n^5).
-!
+Reference: Henri Cohen, 'A Course in Computational Algebraic Number Theory', Algorithm 2.4.4 (modifyed to do row reduction instead of column reduction).!
 
 !GaussianElimination commentStamp: '<historical>' prior: 0!
 I am the Gaussian Elimination algorithm.
@@ -5153,12 +5153,23 @@ My instances perform Gaussian reduction on the matrix to compute echelon form, l
 Input: a matrix with coefficients in a field;
 Output: the reduced echelon form of the matrix, determinant and left inverse.
 
-The algorithm performs O(2n^3/3) field operations for nxn matrices, but due to exponential growth of intermediate coefficients it can be impractical in many situations (like with rational coefficients).!
+The algorithm performs O(2n^3/3) field operations for nxn matrices, but due to exponential growth of intermediate coefficients it can be impractical in many situations (for example, with rational coefficients).!
+
+!GaussBareiss commentStamp: '<historical>' prior: 0!
+I am the Gauss-Bereiss algorithm, a variant of Gassian elimination.
+
+My instances perform division-free Gaussian elimination on a matrix with coefficients in a ring, and compute the echelon form.
+
+Input: a matrix with coefficients in a commutative ring;
+Output: the reduced echelon form and the determinant.
+
+The algorithm performs O(n^3) ring operations for nxn matrices. While the standard Gaussian elimination suffers from exponential intermediate coefficients growth, the Bareiss algorithm has bit complexity O(n^5).
+!
 
 !QRDecomposition commentStamp: '<historical>' prior: 0!
 My instances are QR factorizations of a given real or complex matrix A, such that A = Q*R where Q is unitary (orthogonal) and R is upper triangular. Morover, if A is nonsingular, the diagonal of R may be taken to be positive, in which case the factorization is unique.!
 
-!SmithNormalForm commentStamp: '<historical>' prior: 0!
+!SmithReduction commentStamp: '<historical>' prior: 0!
 This is the Smith reduction algorithm. Given a matrix with coefficients in a PID, it reduces the matrix to its Smith normal form.
 !
 
@@ -9155,14 +9166,14 @@ addEdges: aCollection
 	aCollection do: [:each| self addEdge: each].
 	^ aCollection! !
 
-!Graph methodsFor: 'operations' stamp: 'len 7/20/2016 23:43'!
+!Graph methodsFor: 'operations' stamp: 'len 3/2/2017 19:57:31'!
 adjacencyMatrix
 	"Answer the adjacency matrix of the receiver, assuming that the vertices are the integers {1,..,n}.
 	If the graph is labelled, use the labels as entries in the matrix."
 	| n matrix |
 	n _ self order.
 	matrix _ (ZZ ^ (n@n)) zero.
-	self edgesAndLabelsDo: [:edge :label| matrix at: edge key at: edge value add: (label ifNil: [1])].
+	self edgesAndLabelsDo: [:edge :label| matrix at: edge key @ edge value add: (label ifNil: [1])].
 	^ matrix! !
 
 !Graph methodsFor: 'operations' stamp: 'len 7/19/2016 23:20'!
@@ -13677,12 +13688,14 @@ example1asSet
 	This is possible because the ring is finite."
 	^ (ZZ/5) asSet! !
 
-!Domain class methodsFor: 'examples' stamp: 'len 1/25/2017 14:42:55'!
+!Domain class methodsFor: 'examples' stamp: 'len 3/3/2017 17:38:24'!
 example1atRandom
-	"Taking an element at random from the Q-vector space of 3x3 matrices.
+	"Taking an element at random from the Z-module of 3x3 matrices.
 	Use 100 bits to generate this element. Essentially, this can return
-	at most 2^100 different matrices."
-	^ QQ^(3@3) atRandom: (Random seed: 1234) bits: 100! !
+	at most 2^50 different matrices, and their bitsize doesn't exceed 50
+	bits (where bitsize is losely defined, in this case it's the sum
+	of bitsize of the coefficients of the matrix)."
+	^ ZZ^(3@3) atRandom: (Random seed: 12345) bits: 50! !
 
 !Domain class methodsFor: 'examples' stamp: 'len 12/17/2016 09:27:30'!
 example21VectorSpace
@@ -13789,11 +13802,17 @@ printOn: aStream
 		ifTrue: [aStream nextPutAll: 'End'; nextPut: $(; print: self domain; nextPut: $)]
 		ifFalse: [aStream nextPutAll: 'Hom'; nextPut: $(; print: self domain; nextPut: $,; print: self codomain; nextPut: $)]! !
 
-!HomSet class methodsFor: 'examples' stamp: 'len 11/2/2016 03:58'!
-exampleHomSet
+!HomSet class methodsFor: 'examples' stamp: 'len 3/3/2017 17:43:10'!
+example1
 	"The object Hom(N,Z), the functions from the natural numbers to the integers.
 	This is the space of sequences. (See class Sequence)."
 	^ NN hom: ZZ! !
+
+!HomSet class methodsFor: 'examples' stamp: 'len 3/3/2017 17:42:46'!
+example2
+	"The endomorphisms of the rational integers Z.
+	This is Hom(Z,Z), the set of ring homomorphisms from Z to itself."
+	^ ZZ endomorphisms! !
 
 !HomSet class methodsFor: 'instance creation' stamp: 'len 4/19/2016 04:53'!
 from: aDomain to: anotherDomain
@@ -27402,10 +27421,11 @@ rightInverse
 section
 	^ self rightInverse! !
 
-!Morphism class methodsFor: 'examples' stamp: 'len 10/29/2016 07:40'!
+!Morphism class methodsFor: 'examples' stamp: 'len 3/3/2017 17:28:01'!
 example1Projection
 	"Algebraic structures often come equipped with some canonical morphisms.
-	Here we construct the direct product of the ring of rational integers with the field of rational numbers, and get the projection to the second component."
+	Here we construct the direct product of the ring of rational integers
+	with the field of rational numbers, and get the projection to the second component."
 	^ (ZZ × QQ) projection: 2! !
 
 !Morphism class methodsFor: 'examples' stamp: 'len 12/20/2016 11:57:45'!
@@ -27422,24 +27442,31 @@ example2Embedding
 	"Finally we compose them to get an embedding from the rational numbers Q to the field of univariate rational functions Q(x), that sends a number to a constant rational function."
 	^ psi ” phi! !
 
-!Morphism class methodsFor: 'examples' stamp: 'len 11/2/2016 08:34'!
+!Morphism class methodsFor: 'examples' stamp: 'len 3/3/2017 17:28:56'!
 example3CanonicalMorphism
-	"Canonical morphisms can be retrieved through the message #. For example, Z (the ring of integers) is the initial object in the category of commutative rings with unit, i.e. there's a canonical morphism from Z to any commutative ring:"
+	"Canonical morphisms can be retrieved through the message #.
+	For example, Z (the ring of integers) is the initial object in
+	the category of commutative rings with unit, i.e. there's
+	a canonical morphism from Z to any commutative ring:"
 	^ ZZ  (QQ polynomialsIn: #(x y z))! !
 
-!Morphism class methodsFor: 'examples' stamp: 'len 11/2/2016 08:32'!
+!Morphism class methodsFor: 'examples' stamp: 'len 3/3/2017 17:29:23'!
 example4CanonicalMorphism
-	"The quotient map from a polynomial ring R to a quotient by one of its ideals R/I is another example of canonical morphism."
+	"The quotient map from a polynomial ring R to a quotient by
+	one of its ideals R/I is another example of canonical morphism."
 	| R x I |
 	R _ QQ polynomials.
 	x _ R x.
 	I _ R * (x squared + 1).
 	^ R  (R / I)! !
 
-!Morphism class methodsFor: 'examples' stamp: 'len 11/2/2016 09:14'!
+!Morphism class methodsFor: 'examples' stamp: 'len 3/3/2017 17:29:41'!
 example5CanonicalMorphism
-	"The message # can be sent to a Morphism with a Domain as argument, or to a Domain with a Morphism as argument. This yields canonical constructions.
-	For example, given an arbitrary ring homomorphism, we can send it *canonically* to a quotient of its codomain."
+	"The message # can be sent to a Morphism with a Domain as
+	argument, or to a Domain with a Morphism as argument.
+	This yields canonical constructions.
+	For example, given an arbitrary ring homomorphism,
+	we can send it *canonically* to a quotient of its codomain."
 	| R phi x I |
 	R _ (ZZ/5) polynomials. "univariate polynomials over Z/<5>"
 	phi _ R frobenius. "the Frobenius endomorphism"
@@ -34852,22 +34879,32 @@ representatives: anArray over: aModularIntegers
 ’ aMatrix
 	^ self kronecker: aMatrix! !
 
-!Matrix methodsFor: 'reduction' stamp: 'len 12/18/2016 20:25:02'!
-HNF
-	"Answer the Hermite normal form of the receiver."
+!Matrix methodsFor: 'reduction' stamp: 'len 3/3/2017 13:34:06'!
+CHNF
+	"Answer the column-style Hermite normal form of the receiver."
 	(self scalars isKindOf: RationalIntegerRing) ifFalse: [^ DomainError signal: 'coefficients ring is not Z'].
-	^ HermiteNormalForm2 new matrix: self copy; run! !
+	^ HermiteColumnReduction new matrix: self copy; run! !
+
+!Matrix methodsFor: 'reduction' stamp: 'len 3/3/2017 22:39:58'!
+HNF
+	"Answer the (row-style) Hermite normal form of the receiver."
+	(self scalars isKindOf: RationalIntegerRing) ifFalse: [^ DomainError signal: 'coefficients ring is not Z'].
+	^ HermiteReduction new matrix: self copy; run
+"
+alternative:
+	^ self antitransposed CHNF antitransposed
+"! !
 
 !Matrix methodsFor: 'reduction' stamp: 'len 3/21/2016 23:35'!
 QR
 	"Answer the QR factorization of the receiver."
 	^ QRDecomposition new matrix: self! !
 
-!Matrix methodsFor: 'reduction' stamp: 'len 7/15/2016 23:53'!
+!Matrix methodsFor: 'reduction' stamp: 'len 3/3/2017 11:14:16'!
 SNF
 	"Answer the diagonal of the Smith normal form of the receiver, ordered such that each element divides the next one."
 	self scalars isPID ifFalse: [^ DomainError signal: 'coefficients ring is not a PID'].
-	^ SmithNormalForm new matrix: self copy; diagonal! !
+	^ SmithReduction new matrix: self copy; diagonal! !
 
 !Matrix methodsFor: 'converting' stamp: 'len 2/10/2016 21:38'!
 adaptToNumber: aNumber andSend: selector
@@ -34886,11 +34923,15 @@ adjugate
 	"Answer the adjugate matrix (or classical adjoint matrix) of the receiver. This is the matrix such that multiplicated at the left by the receiver equals the scalar matrix with the determinant of the receiver in the diagonal."
 	^ (self characteristicPolynomial shift: -1) negated value: self! !
 
-!Matrix methodsFor: 'operations' stamp: 'len 11/5/2016 03:14'!
+!Matrix methodsFor: 'operations' stamp: 'len 3/3/2017 11:39:21'!
+antitransposed
+	^ RowMatrix rows: (self columns reversed collect: [:each| each reversed])! !
+
+!Matrix methodsFor: 'operations' stamp: 'len 3/2/2017 19:59:53'!
 apply: aMorphism
 	"Apply a homomorphism to the coefficients of the receiver."
 	aMorphism domain = self scalars
-		ifTrue: [^ aMorphism codomain matrix: self dimension evaluating: [:i :j| aMorphism value: (self at: i at: j)]].
+		ifTrue: [^ aMorphism codomain matrix: self dimension evaluating: [:i :j| aMorphism value: (self at: i@j)]].
 	^ DomainError signal! !
 
 !Matrix methodsFor: 'converting' stamp: 'len 12/23/2015 05:12'!
@@ -34905,9 +34946,9 @@ at: aPoint
 	"Answer the coefficient at i@j (row i, column j)."
 	^ self at: aPoint x at: aPoint y! !
 
-!Matrix methodsFor: 'accessing' stamp: 'len 7/19/2016 23:23'!
-at: i at: j add: anObject
-	self at: i at: j put: (self at: i at: j) + anObject! !
+!Matrix methodsFor: 'accessing' stamp: 'len 3/2/2017 19:57:13'!
+at: aPoint add: anObject
+	self at: aPoint put: (self at: aPoint) + anObject! !
 
 !Matrix methodsFor: 'accessing' stamp: 'len 7/16/2016 00:05'!
 at: aPoint put: anObject
@@ -35097,9 +35138,9 @@ columnSpace
 columns
 	^ (1 to: self numberOfColumns) collect: [:i| self columnAt: i]! !
 
-!Matrix methodsFor: 'enumerating' stamp: 'len 11/4/2015 23:07'!
+!Matrix methodsFor: 'enumerating' stamp: 'len 3/2/2017 19:42:11'!
 columnsDo: aBlock
-	1 to: self numberOfColumns do: [ :i | aBlock value: (self columnAt: i) ]! !
+	1 to: self numberOfColumns do: [:i| aBlock value: (self columnAt: i)]! !
 
 !Matrix methodsFor: 'operations' stamp: 'len 12/11/2015 00:20'!
 comatrix
@@ -35190,11 +35231,11 @@ diagonalDo: aBlock
 dimension
 	^ self numberOfRows @ self numberOfColumns! !
 
-!Matrix methodsFor: 'enumerating' stamp: 'len 11/27/2016 13:24:03'!
+!Matrix methodsFor: 'enumerating' stamp: 'len 3/2/2017 19:41:41'!
 do: aBlock
 	1 to: self numberOfRows do: [:i|
 		1 to: self numberOfColumns do: [:j|
-			aBlock value: (self at: i at: j)]]! !
+			aBlock value: (self at: i@j)]]! !
 
 !Matrix methodsFor: 'arithmetic' stamp: 'len 11/11/2016 17:09'!
 dot: aMatrix
@@ -35213,6 +35254,12 @@ dotProductWithTuple: aTuple
 		ifFalse: [^ DomainError signal: 'dimensions don''t match'].
 	self scalars = aTuple scalars ifFalse: [^ DomainError signal: 'base rings don''t match'].
 	^ self scalars tuple: self numberOfRows evaluating: [:i| (self rowAt: i) dot: aTuple]! !
+
+!Matrix methodsFor: 'reduction' stamp: 'len 3/3/2017 13:35:40'!
+echelon
+	"Answer the echelon form of the receiver.
+	When the scalars are the rational integers this is the Hermite normal form."
+	^ self reduction reduced! !
 
 !Matrix methodsFor: 'spectrum' stamp: 'len 11/5/2016 03:36'!
 eigenspaceAt: anEigenvalue
@@ -35287,23 +35334,45 @@ is: aSymbol
 isDiagonal
 	^ self isLowerTriangular and: [ self isUpperTriangular ]! !
 
+!Matrix methodsFor: 'testing' stamp: 'len 3/3/2017 16:33:28'!
+isEchelonForm
+	"Answer true if the receiver is in echelon form.
+	It must satisfy the following conditions:
+	1. All nonzero rows are above any rows of all zeros;
+	2. The leading coefficient (or pivot) of each nonzero row is always strictly to the right of the pivot of the row above it."
+	| lastPivot |
+	lastPivot _ 0@0.
+	self rowPivotsDo: [:each|
+		(each y > lastPivot y and: [each x - lastPivot x = 1])
+			ifFalse: [^ false].
+		lastPivot _ each].
+	^ true! !
+
 !Matrix methodsFor: 'testing' stamp: 'len 5/23/2016 19:55'!
 isFullRank
 	^ self rank = (self numberOfColumns min: self numberOfRows)! !
 
-!Matrix methodsFor: 'testing' stamp: 'len 7/16/2016 01:00'!
-isHNF
-	"Answer true if the receiver is in (row) Hermite normal form."
-	self isUpperTriangular ifFalse: [^ false].
-	1 to: (self numberOfRows min: self numberOfColumns) do: [:j|
-		| pivot |
-		((pivot _ self at: j@j) isInteger and: [pivot > 0]) ifFalse: [^ false].
-		1 to: j-1 do: [:i|
-			| x |
-			((x _ self at: i@j) isInteger and: [x >= 0 and: [x < pivot]])
-				ifFalse: [^ false]]].
-	self numberOfColumns + 1 to: self numberOfRows do: [:i|
-		(self rowAt: i) isZero ifFalse: [^ false]].
+!Matrix methodsFor: 'testing' stamp: 'len 3/3/2017 16:34:16'!
+isHermiteNormalForm
+	"Answer true if the receiver is in (row) Hermite normal form.
+	It must satisfy the following conditions:
+	1. It is upper triangular;
+	2. The leading coefficient (or pivot) of a nonzero row is always strictly to the right of the leading coefficient of the row above it, and it is positive;
+	3. And the elements below pivots are zero and elements above pivots are nonnegative and strictly smaller than the pivot."
+	| lastPivot |
+	lastPivot _ 0@0.
+	self rowPivotsDo: [:each| | coefficient |
+		(each x <= each y and: [each y > lastPivot y and: [each x - lastPivot x = 1]])
+			ifFalse: [^ false].
+		coefficient _ self at: each.
+		coefficient > 0 ifFalse: [^ false].
+		1 to: each x - 1 do: [:i| | v |
+			((v _ self at: i@each y) >= 0 and: [v < coefficient])
+				ifFalse: [^ false]].
+		each x + 1 to: self numberOfRows do: [:i| | v |
+			(self at: i@each y) = 0
+				ifFalse: [^ false]].
+		lastPivot _ each].
 	^ true! !
 
 !Matrix methodsFor: 'testing' stamp: 'len 6/23/2016 23:25'!
@@ -35320,11 +35389,10 @@ isInvertible
 	self scalars isField ifFalse: [^ self error: 'scalars must be a field'].
 	^ self isSingular not! !
 
-!Matrix methodsFor: 'testing' stamp: 'len 11/4/2015 23:35'!
+!Matrix methodsFor: 'testing' stamp: 'len 3/2/2017 19:39:44'!
 isLowerTriangular
-	| n |
-	n _ self numberOfRows min: self numberOfColumns.
-	1 to: n do: [ :i | i+1 to: n do: [ :j | (self at: i at: j) isZero ifFalse: [ ^ false ] ] ].
+	1 to: (self numberOfColumns min: self numberOfRows) do: [:i|
+		i+1 to: self numberOfColumns do: [:j| (self at: i@j) isZero ifFalse: [^ false]]].
 	^ true! !
 
 !Matrix methodsFor: 'testing' stamp: 'len 12/31/2015 05:52'!
@@ -35342,6 +35410,24 @@ isOrthogonal
 !Matrix methodsFor: 'testing' stamp: 'len 5/23/2016 19:55'!
 isRankDeficient
 	^ self isFullRank not! !
+
+!Matrix methodsFor: 'testing' stamp: 'len 3/3/2017 16:32:49'!
+isReducedEchelonForm
+	"Answer true if the receiver is in reduced (row) echelon form.
+	It must satisfy the following conditions:
+	1. It is in row echelon form;
+	2. And every leading coefficient is 1 and is the only nonzero entry in its column."
+	| lastPivot one |
+	lastPivot _ 0@0.
+	one _ self scalars one.
+	self rowPivotsDo: [:each|
+		(each y > lastPivot y and: [each x - lastPivot x = 1])
+			ifFalse: [^ false].
+		(self at: each) = one ifFalse: [^ false].
+		1 to: self numberOfRows do: [:j|
+			(j = each x or: [(self at: j @ each y) isZero]) ifFalse: [^ false]].
+		lastPivot _ each].
+	^ true! !
 
 !Matrix methodsFor: 'testing' stamp: 'len 2/11/2016 06:24'!
 isScalar
@@ -35364,9 +35450,9 @@ isSkewHermitian
 	"Answer true if the receiver is skew-Hermitian (or antihermitian)."
 	^ self = self adjoint negated! !
 
-!Matrix methodsFor: 'testing' stamp: 'len 12/31/2015 05:53'!
+!Matrix methodsFor: 'testing' stamp: 'len 3/3/2017 13:44:02'!
 isSkewSymmetric
-	"Answer true if the receiver is a skew-symmetric matrix."
+	"Answer true if the receiver is a skew-symmetric (or anti-symmetric) matrix."
 	^ self negated = self transposed! !
 
 !Matrix methodsFor: 'testing' stamp: 'len 11/3/2015 21:34'!
@@ -35379,13 +35465,13 @@ isSymmetric
 
 	^ self = self transposed! !
 
-!Matrix methodsFor: 'testing' stamp: 'len 11/2/2015 06:06'!
+!Matrix methodsFor: 'testing' stamp: 'len 3/2/2017 19:36:13'!
 isTriangular
-	^ self isLowerTriangular or: [ self isUpperTriangular ]! !
+	^ self isLowerTriangular or: [self isUpperTriangular]! !
 
-!Matrix methodsFor: 'testing' stamp: 'len 2/8/2016 20:37'!
+!Matrix methodsFor: 'testing' stamp: 'len 3/2/2017 21:06:31'!
 isUnimodular
-	^ self determinant = self scalars one! !
+	^ self scalars isUnit: self determinant! !
 
 !Matrix methodsFor: 'testing' stamp: 'len 2/6/2016 20:16'!
 isUnitary
@@ -35408,10 +35494,10 @@ isZero
 isZeroAt: aPoint
 	^ (self at: aPoint) isZero! !
 
-!Matrix methodsFor: 'reduction' stamp: 'len 3/21/2016 09:38'!
+!Matrix methodsFor: 'reduction' stamp: 'len 3/3/2017 13:36:18'!
 jordan
-	"Answer the Jordan blocks of the receiver's Jordan Normal Form."
-	^ JordanNormalForm new matrix: self; blocks! !
+	"Answer the Jordan blocks of the receiver's Jordan normal form."
+	^ JordanReduction new matrix: self; blocks! !
 
 !Matrix methodsFor: 'subspaces' stamp: 'len 3/2/2017 04:19:49'!
 kernel
@@ -35526,6 +35612,10 @@ over: aRing
 permanent
 	^ self notYetImplemented! !
 
+!Matrix methodsFor: 'enumerating' stamp: 'len 3/2/2017 19:23:10'!
+pivotsDo: aBlock
+	self notYetImplemented! !
+
 !Matrix methodsFor: 'printing' stamp: 'len 3/2/2017 05:14:04'!
 printBitsOn: aStream
 	aStream nextPut: $[.
@@ -35607,6 +35697,19 @@ rowAugmented: aMatrix
 	aMatrix numberOfColumns = m ifFalse: [^ DomainError signal: 'dimensions don''t match'].
 	^ RowMatrix rows: self rows, aMatrix rows! !
 
+!Matrix methodsFor: 'accessing' stamp: 'len 3/2/2017 19:48:46'!
+rowPivots
+	^ Iterator on: self performing: #rowPivotsDo:! !
+
+!Matrix methodsFor: 'enumerating' stamp: 'len 3/2/2017 19:47:42'!
+rowPivotsDo: aBlock
+	| i |
+	i _ 1.
+	self rowsDo: [:each| | j |
+		(j _ each findFirst: [:one| one isZero not]) == 0
+			ifFalse: [aBlock value: i@j].
+		i _ i + 1]! !
+
 !Matrix methodsFor: 'subspaces' stamp: 'len 3/2/2017 04:17:37'!
 rowSpace
 	"Answer the row space of the receiver, i.e. the space spanned by the row tuples.
@@ -35617,6 +35720,10 @@ rowSpace
 !Matrix methodsFor: 'accessing' stamp: 'len 7/2/2016 17:12'!
 rows
 	^ (1 to: self numberOfRows) collect: [:i| self rowAt: i]! !
+
+!Matrix methodsFor: 'enumerating' stamp: 'len 3/2/2017 19:42:25'!
+rowsDo: aBlock
+	1 to: self numberOfRows do: [:i| aBlock value: (self rowAt: i)]! !
 
 !Matrix methodsFor: 'accessing' stamp: 'len 11/5/2016 03:24'!
 scalars
@@ -35649,12 +35756,12 @@ spectrum
 squared
 	^ self * self! !
 
-!Matrix methodsFor: 'operations' stamp: 'len 2/22/2017 09:07:32'!
+!Matrix methodsFor: 'operations' stamp: 'len 3/2/2017 20:00:14'!
 trace
 	| answer |
 	self isSquare ifFalse: [^ self error: 'not a square matrix'].
 	answer _ self scalars zero.
-	1 to: self numberOfRows do: [:i| answer _ answer + (self at: i at: i)].
+	1 to: self numberOfRows do: [:i| answer _ answer + (self at: i@i)].
 	^ answer! !
 
 !Matrix methodsFor: 'operations' stamp: 'len 11/5/2016 03:39'!
@@ -35694,6 +35801,18 @@ rows: anArray
 !ColumnMatrix methodsFor: 'accessing' stamp: 'len 3/23/2016 02:45'!
 addColumn: aTuple
 	^ columns add: aTuple! !
+
+!ColumnMatrix methodsFor: 'reduction-operations' stamp: 'len 3/3/2017 12:10:50'!
+addColumn: src by: aNumber toColumn: dst
+	self addColumn: src by: aNumber toColumn: dst startingAt: 1! !
+
+!ColumnMatrix methodsFor: 'reduction-operations' stamp: 'len 3/3/2017 12:10:31'!
+addColumn: src by: aNumber toColumn: dst startingAt: columnIndex
+	(columns at: dst) addFrom: columnIndex with: (columns at: src) by: aNumber! !
+
+!ColumnMatrix methodsFor: 'reduction-operations' stamp: 'len 3/3/2017 12:06:52'!
+addRow: i by: aNumber toRow: j
+	columns do: [:each| each at: j put: (each at: i) * aNumber + (each at: j)]! !
 
 !ColumnMatrix methodsFor: 'accessing' stamp: 'len 3/23/2016 02:45'!
 at: i at: j
@@ -35739,10 +35858,14 @@ isZero
 isZeroAt: aPoint
 	^ (columns at: aPoint y) isZeroAt: aPoint x! !
 
-!ColumnMatrix methodsFor: 'as yet unclassified' stamp: 'len 12/13/2016 07:45:09'!
+!ColumnMatrix methodsFor: 'reduction-operations' stamp: 'len 12/13/2016 07:45:09'!
 multiplyColumn: i by: factor
 	self flag: #fix. "this can be done inplace"
 	columns at: i put: (columns at: i) * factor! !
+
+!ColumnMatrix methodsFor: 'reduction-operations' stamp: 'len 3/3/2017 12:08:15'!
+multiplyRow: i by: factor
+	columns do: [:each| each at: i put: (each at: i) * factor]! !
 
 !ColumnMatrix methodsFor: 'arithmetic' stamp: 'len 11/5/2016 03:43'!
 negated
@@ -35768,6 +35891,14 @@ rowAt: i
 !ColumnMatrix methodsFor: 'accessing' stamp: 'len 11/5/2016 03:24'!
 scalars
 	^ columns first scalars! !
+
+!ColumnMatrix methodsFor: 'reduction-operations' stamp: 'len 3/3/2017 12:11:47'!
+swapColumn: i with: j
+	columns swap: i with: j! !
+
+!ColumnMatrix methodsFor: 'reduction-operations' stamp: 'len 3/3/2017 12:07:39'!
+swapRow: i with: j
+	columns do: [:each| each swap: i with: j]! !
 
 !ColumnMatrix class methodsFor: 'instance creation' stamp: 'len 7/15/2016 05:08'!
 columns: anArray
@@ -35801,13 +35932,13 @@ addColumn: i by: aNumber toColumn: j
 addRow: aTuple
 	^ rows add: aTuple! !
 
-!RowMatrix methodsFor: 'reduction-operations' stamp: 'len 12/1/2016 17:54:40'!
-addRow: srcRow by: aNumber toRow: dstRow
-	self addRow: srcRow by: aNumber toRow: dstRow startingAt: 1! !
+!RowMatrix methodsFor: 'reduction-operations' stamp: 'len 3/3/2017 12:11:09'!
+addRow: src by: aNumber toRow: dst
+	self addRow: src by: aNumber toRow: dst startingAt: 1! !
 
-!RowMatrix methodsFor: 'reduction-operations' stamp: 'len 11/23/2016 09:42:07'!
-addRow: srcRow by: aNumber toRow: dstRow startingAt: columnIndex
-	(rows at: dstRow) addFrom: columnIndex with: (rows at: srcRow) by: aNumber! !
+!RowMatrix methodsFor: 'reduction-operations' stamp: 'len 3/3/2017 12:11:23'!
+addRow: src by: aNumber toRow: dst startingAt: columnIndex
+	(rows at: dst) addFrom: columnIndex with: (rows at: src) by: aNumber! !
 
 !RowMatrix methodsFor: 'accessing' stamp: 'len 3/23/2016 02:46'!
 at: i at: j
@@ -35958,53 +36089,41 @@ basis: aLinearBasis innerProduct: aFunction
 	"Answer a new instance of the receiver to orthogonalize aLinearBasis with the inner product aFunction."
 	^ self new basis: aLinearBasis; innerProduct: aFunction! !
 
-!HermiteNormalForm2 methodsFor: 'as yet unclassified' stamp: 'len 3/5/2016 22:52'!
+!GramSchmidt class methodsFor: 'examples' stamp: 'len 3/3/2017 13:29:16'!
+example
+	"Compute an orthogonal basis for {(1,1,0); {0,1,1); (1,0,1)}."
+	| V basis |
+	V _ QQ ^ 3.
+	basis _ LinearBasis on: V generators: {(1, 1, 0). (0, 1, 1). (1, 0, 1)}.
+	^ (GramSchmidt basis: basis) orthogonalBasis! !
+
+!HermiteColumnReduction methodsFor: 'as yet unclassified' stamp: 'len 3/5/2016 22:52'!
 matrix
 	^ matrix! !
 
-!HermiteNormalForm2 methodsFor: 'as yet unclassified' stamp: 'len 3/6/2016 04:14'!
+!HermiteColumnReduction methodsFor: 'as yet unclassified' stamp: 'len 3/6/2016 04:14'!
 matrix: aMatrix
 	matrix _ aMatrix! !
 
-!HermiteNormalForm2 methodsFor: 'as yet unclassified' stamp: 'len 11/23/2016 09:39:38'!
-reduceStep2: i k: k
+!HermiteColumnReduction methodsFor: 'as yet unclassified' stamp: 'len 3/3/2017 11:51:34'!
+reduceStep: k row: i
 	| j0 b |
 	"2. Row finished?"
-	[((1 to: k-1) allSatisfy: [:j| (matrix at: i@j) = 0])
-		ifTrue:
-			[(matrix at: i@k) < 0 ifTrue: [matrix multiplyColumn: k by: -1].
-			^ self "go to step 5"].
-	"3. Choose non-zero entry:"
-	j0 _ (1 to: k) argmin: [:j| (matrix at: i@j) abs].
+	[j0 _ (1 to: k-1)
+		detect: [:j| (matrix at: i@j) ~= 0]
+		ifNone: [(matrix at: i@k) < 0 ifTrue: [matrix multiplyColumn: k by: -1]. ^ self "go to step 5"].
+	"3. Choose non-zero entry with smallest absolute value:"
+	j0 _ ((j0 to: k) select: [:j| (matrix at: i@j) ~= 0]) argmin: [:j| (matrix at: i@j) abs].
 	j0 < k ifTrue: [matrix swapColumn: j0 with: k].
 	(matrix at: i@k) < 0 ifTrue: [matrix multiplyColumn: k by: -1].
 	b _ matrix at: i@k.
 	"4. Reduce:"
 	1 to: k-1 do: [:j| | q |
-"		q _ ((matrix at: i@j) / b) rounded."
-		q _ (matrix at: i@j) // b.
+		q _ ((matrix at: i@j) / b) rounded.
+"		q _ (matrix at: i@j) // b."
 		matrix addColumn: k by: q negated toColumn: j]] repeat! !
 
-!HermiteNormalForm2 methodsFor: 'as yet unclassified' stamp: 'len 12/13/2016 07:46:06'!
-reduceStep: i k: k
-	| j0 b |
-	"2. Row finished?"
-	[((1 to: k-1) allSatisfy: [:j| (matrix at: i@j) = 0])
-		ifTrue:
-			[(matrix at: i@k) < 0 ifTrue: [matrix multiplyColumn: k by: -1].
-			^ self "go to step 5"].
-	"3. Choose non-zero entry:"
-	j0 _ (1 to: k) argmin: [:j| (matrix at: i@j) abs].
-	j0 < k ifTrue: [matrix swapColumn: j0 with: k].
-	(matrix at: i@k) < 0 ifTrue: [matrix multiplyColumn: k by: -1].
-	b _ matrix at: i@k.
-	"4. Reduce:"
-	1 to: k-1 do: [:j| | q |
-"		q _ ((matrix at: i@j) / b) rounded."
-		q _ (matrix at: i@j) // b.
-		matrix addColumn: k by: q negated toColumn: j]] repeat! !
-
-!HermiteNormalForm2 methodsFor: 'as yet unclassified' stamp: 'len 12/13/2016 05:55:10'!
+!HermiteColumnReduction methodsFor: 'as yet unclassified' stamp: 'len 3/3/2017 12:42:40'!
 run
 	| n m i k l b |
 	m _ matrix numberOfRows.
@@ -36012,8 +36131,8 @@ run
 	"1. Initialize:"
 	i _ m.
 	k _ n.
-	l _ m <= n ifTrue: [1] ifFalse: [m-n+1].
-	[self reduceStep: i k: k.
+	l _ m > n ifTrue: [m-n+1] ifFalse: [1].
+	[self reduceStep: k row: i.
 	"5. Final reductions:"
 	b _ matrix at: i@k.
 	b = 0
@@ -36021,47 +36140,58 @@ run
 			[k _ k + 1]
 		ifFalse:
 			[k+1 to: n do: [:j| | q |
-			"	q _ ((matrix at: i@j) / b) floor." "or rounded or truncated?"
-				q _ (matrix at: i@j) // b.
+				q _ ((matrix at: i@j) / b) floor. "(matrix at: i@j) // b."
 				matrix addColumn: k by: q negated toColumn: j]].
 	"6. Finished?"
 	i = l] whileFalse: [i _ i - 1. k _ k - 1].
-	^ matrix copyFrom: 1@k to: m@n! !
+	^ matrix "copyFrom: 1@k to: m@n"! !
 
-!HermiteNormalFormCRT methodsFor: 'as yet unclassified' stamp: 'len 7/16/2016 04:10'!
-addColumn: a to: B
-	^ (B columnAugmented: a) HNF columnAt: B numberOfColumns + 1! !
-
-!HermiteNormalFormCRT methodsFor: 'as yet unclassified' stamp: 'len 7/16/2016 04:46'!
-addRow: b to: H
-	| H0 |
-	H0 _ H isSquare
-		ifTrue: [H]
-		ifFalse:
-			[H rowAugmented: (H scalars ^ (H numberOfColumns - 1) :: zero, (H rowAugmented: b) determinant)].
-	"..."! !
-
-!HermiteNormalFormCRT methodsFor: 'as yet unclassified' stamp: 'len 7/16/2016 01:28'!
+!HermiteReduction methodsFor: 'as yet unclassified' stamp: 'len 3/3/2017 11:41:37'!
 matrix: aMatrix
 	matrix _ aMatrix! !
 
-!HermiteNormalFormCRT methodsFor: 'as yet unclassified' stamp: 'len 3/1/2017 09:06:09'!
-probablePivotsOf: aMatrix
-	^ aMatrix % (10007 to: 46000) atRandom nextPrime :: reduction pivots
-! !
+!HermiteReduction methodsFor: 'as yet unclassified' stamp: 'len 3/3/2017 22:32:09'!
+reduceStep: k column: j
+	| i0 b |
+	"2. Column finished?"
+	[i0 _ (matrix numberOfRows to: k+1 by: -1)
+		detect: [:i| (matrix at: i@j) ~= 0]
+		ifNone: [(matrix at: k@j) < 0 ifTrue: [matrix multiplyRow: k by: -1]. ^ self "go to step 5"].
+	"3. Choose non-zero entry with smallest absolute value:"
+	i0 _ ((i0 to: k by: -1) select: [:i| (matrix at: i@j) ~= 0]) argmin: [:i| (matrix at: i@j) abs].
+	i0 > k ifTrue: [matrix swapRow: i0 with: k].
+	(matrix at: k@j) < 0 ifTrue: [matrix multiplyRow: k by: -1].
+	b _ matrix at: k@j.
+	"4. Reduce:"
+	matrix numberOfRows to: k+1 by: -1 do: [:i| | q |
+		q _ ((matrix at: i@j) / b) rounded.
+"		q _ (matrix at: i@j) // b."
+		matrix addRow: k by: q negated toRow: i]] repeat! !
 
-!HermiteNormalFormCRT methodsFor: 'as yet unclassified' stamp: 'len 7/16/2016 04:35'!
+!HermiteReduction methodsFor: 'as yet unclassified' stamp: 'len 3/3/2017 22:20:39'!
 run
-"
-	HNF _ matrix zero.
-	HNF at: 1@1 put: (matrix at: 1@1).
-	2 to: matrix numberOfColumns do: [:j|
-		a _ matrix columnAt: j.
-		x _ self addColumn: a.
-		HNF _ addRow: a to: HNF | x
-"! !
+	| n m k j l b |
+	m _ matrix numberOfRows.
+	n _ matrix numberOfColumns.
+	"1. Initialize:"
+	k _ 1.
+	j _ 1.
+	l _ m min: n.
+	[self reduceStep: k column: j.
+	"5. Final reductions:"
+	b _ matrix at: k@j.
+	b = 0
+		ifTrue:
+			[k _ k - 1]
+		ifFalse:
+			[1 to: k-1 do: [:i| | q |
+				q _ ((matrix at: i@j) / b) floor. "(matrix at: i@j) // b."
+				matrix addRow: k by: q negated toRow: i]].
+	"6. Finished?"
+	j = l] whileFalse: [j _ j + 1. k _ k + 1].
+	^ matrix "copyFrom: 1@k to: m@n"! !
 
-!JordanNormalForm methodsFor: 'as yet unclassified' stamp: 'len 11/12/2016 07:39'!
+!JordanReduction methodsFor: 'as yet unclassified' stamp: 'len 11/12/2016 07:39'!
 block: eigenvalue size: n
 	| K one zero |
 	K _ matrix scalars.
@@ -36069,16 +36199,16 @@ block: eigenvalue size: n
 	zero _ K zero.
 	^ K matrix: n@n evaluating: [:i :j| i=j ifTrue: [eigenvalue] ifFalse: [j-1=i ifTrue: [one] ifFalse: [zero]]]! !
 
-!JordanNormalForm methodsFor: 'as yet unclassified' stamp: 'len 3/21/2016 09:13'!
+!JordanReduction methodsFor: 'as yet unclassified' stamp: 'len 3/21/2016 09:13'!
 blocks
 	blocks isNil ifTrue: [self run].
 	^ blocks! !
 
-!JordanNormalForm methodsFor: 'as yet unclassified' stamp: 'len 3/21/2016 08:40'!
+!JordanReduction methodsFor: 'as yet unclassified' stamp: 'len 3/21/2016 08:40'!
 matrix: aMatrix
 	matrix _ aMatrix! !
 
-!JordanNormalForm methodsFor: 'as yet unclassified' stamp: 'len 11/5/2016 07:00'!
+!JordanReduction methodsFor: 'as yet unclassified' stamp: 'len 11/5/2016 07:00'!
 run
 	| spectrum |
 	spectrum _ matrix spectrum.
@@ -36150,21 +36280,21 @@ system: aLinearSystem
 	"Answer a new instance of the receiver for solving aLinearSystem."
 	^ self new system: aLinearSystem! !
 
-!MatrixReducer methodsFor: 'accessing' stamp: 'len 11/6/2015 04:59'!
+!MatrixReduction methodsFor: 'accessing' stamp: 'len 11/6/2015 04:59'!
 addPivot: aPoint
 	currentPivot _ aPoint.
 	^ pivots add: aPoint! !
 
-!MatrixReducer methodsFor: 'private' stamp: 'len 11/23/2016 09:41:41'!
+!MatrixReduction methodsFor: 'private' stamp: 'len 3/3/2017 06:14:52'!
 addRow: i0 by: aNumber toRow: i1
-	matrix addRow: i0 by: aNumber toRow: i1 startingAt: self currentPivot x.
+	matrix addRow: i0 by: aNumber toRow: i1 startingAt: self currentPivot y.
 	extension notNil ifTrue: [extension addRow: i0 by: aNumber toRow: i1]! !
 
-!MatrixReducer methodsFor: 'accessing' stamp: 'len 11/6/2015 04:50'!
+!MatrixReduction methodsFor: 'accessing' stamp: 'len 11/6/2015 04:50'!
 currentPivot
 	^ currentPivot! !
 
-!MatrixReducer methodsFor: 'accessing' stamp: 'len 12/26/2015 05:52'!
+!MatrixReduction methodsFor: 'accessing' stamp: 'len 12/26/2015 05:52'!
 dependentColumns
 	"Answer the collection of indexes of dependent columns."
 	| independent first answer |
@@ -36175,7 +36305,7 @@ dependentColumns
 	answer addAll: (first to: matrix numberOfColumns).
 	^ answer! !
 
-!MatrixReducer methodsFor: 'accessing' stamp: 'len 12/27/2015 03:03'!
+!MatrixReduction methodsFor: 'accessing' stamp: 'len 12/27/2015 03:03'!
 determinant
 	"Answer the determinant of the matrix."
 	| determinant |
@@ -36184,20 +36314,20 @@ determinant
 		determinant _ determinant * (matrix at: i@i)].
 	^ determinant / determinantFactor! !
 
-!MatrixReducer methodsFor: 'accessing' stamp: 'len 12/26/2015 05:38'!
+!MatrixReduction methodsFor: 'accessing' stamp: 'len 12/26/2015 05:38'!
 extension
 	^ extension! !
 
-!MatrixReducer methodsFor: 'accessing' stamp: 'len 12/26/2015 05:49'!
+!MatrixReduction methodsFor: 'accessing' stamp: 'len 3/3/2017 06:08:12'!
 independentColumns
 	"Answer the collection of indexes of independent columns."
-	^ self pivots collect: [:each| each x]! !
+	^ self pivots collect: [:each| each y]! !
 
-!MatrixReducer methodsFor: 'accessing' stamp: 'len 11/6/2015 05:02'!
+!MatrixReduction methodsFor: 'accessing' stamp: 'len 11/6/2015 05:02'!
 matrix
 	^ matrix! !
 
-!MatrixReducer methodsFor: 'initialization' stamp: 'len 1/17/2017 11:14:43'!
+!MatrixReduction methodsFor: 'initialization' stamp: 'len 1/17/2017 11:14:43'!
 matrix: aMatrix extension: anotherMatrix
 	matrix _ RowMatrix newFrom: aMatrix.
 	extension _ anotherMatrix ifNotNil: [RowMatrix newFrom: anotherMatrix].
@@ -36206,40 +36336,38 @@ matrix: aMatrix extension: anotherMatrix
 	currentPivot _ 0 @ 0.
 	self reduce! !
 
-!MatrixReducer methodsFor: 'private' stamp: 'len 12/27/2015 03:04'!
+!MatrixReduction methodsFor: 'private' stamp: 'len 3/3/2017 06:15:21'!
 multiplyRow: i by: anObject
 	"Multiply the i-th row by anObject."
-	self currentPivot x to: matrix numberOfColumns do: [:j|
+	self currentPivot y to: matrix numberOfColumns do: [:j|
 		matrix
 			at: i @ j
 			put: (matrix at: i @ j) * anObject].
 	extension notNil ifTrue: [extension multiplyRow: i by: anObject].
 	determinantFactor _ determinantFactor * anObject! !
 
-!MatrixReducer methodsFor: 'private' stamp: 'len 12/1/2016 17:03:16'!
+!MatrixReduction methodsFor: 'private' stamp: 'len 3/3/2017 06:10:14'!
 nextPivot
 	"Advance the position to the next available pivot."
 	| col |
-	col _ currentPivot x + 1.
+	col _ currentPivot y + 1.
 	[col <= matrix numberOfColumns]
 		whileTrue:
 			[1 to: matrix numberOfRows do: [:each|
-				((self pivots anySatisfy: [:one| one y = each]) or: [matrix isZeroAt: each @ col])
-						ifFalse: [^ self addPivot: col @ each]].
+				((self pivots anySatisfy: [:one| one x = each]) or: [matrix isZeroAt: each @ col])
+						ifFalse: [^ self addPivot: each @ col]].
 			col _ col + 1].
 	^ nil! !
 
-!MatrixReducer methodsFor: 'accessing' stamp: 'len 11/6/2015 04:52'!
+!MatrixReduction methodsFor: 'accessing' stamp: 'len 3/3/2017 06:13:08'!
 pivots
-	"Answer the collection of positions used by pivots."
-
 	^ pivots! !
 
-!MatrixReducer methodsFor: 'accessing' stamp: 'len 12/26/2015 03:23'!
+!MatrixReduction methodsFor: 'accessing' stamp: 'len 12/26/2015 03:23'!
 rank
 	^ self pivots size! !
 
-!MatrixReducer methodsFor: 'private' stamp: 'len 12/26/2015 03:20'!
+!MatrixReduction methodsFor: 'private' stamp: 'len 12/26/2015 03:20'!
 reduce
 	| row |
 	row _ 1.
@@ -36249,44 +36377,55 @@ reduce
 			row _ row + 1.
 			self reduceStep]! !
 
-!MatrixReducer methodsFor: 'private' stamp: 'len 11/6/2015 04:54'!
+!MatrixReduction methodsFor: 'private' stamp: 'len 11/6/2015 04:54'!
 reduceStep
 	"Perform one step in the reduction of the matrix at the current pivot."
 	self subclassResponsibility! !
 
-!MatrixReducer methodsFor: 'accessing' stamp: 'len 12/26/2015 03:23'!
+!MatrixReduction methodsFor: 'accessing' stamp: 'len 12/26/2015 03:23'!
 reduced
 	"Answer the reduced matrix."
 	^ matrix! !
 
-!MatrixReducer methodsFor: 'private' stamp: 'len 12/26/2015 04:55'!
+!MatrixReduction methodsFor: 'private' stamp: 'len 3/3/2017 06:11:03'!
 swapRow: i
 	"Swap the anInteger-th row with the row at the current pivot."
-	i = self currentPivot y ifTrue: [^ self].
-	self swapRow: i with: self currentPivot y.
+	i = self currentPivot x ifTrue: [^ self].
+	self swapRow: i with: self currentPivot x.
 	self pivots removeLast.
-	self addPivot: self currentPivot x @ i! !
+	self addPivot: i @ self currentPivot y! !
 
-!MatrixReducer methodsFor: 'private' stamp: 'len 12/27/2015 03:04'!
+!MatrixReduction methodsFor: 'private' stamp: 'len 12/27/2015 03:04'!
 swapRow: i with: j
 	matrix swapRow: i with: j.
 	extension notNil ifTrue: [extension swapRow: i with: j].
 	determinantFactor _ determinantFactor negated! !
 
-!MatrixReducer class methodsFor: 'instance creation' stamp: 'len 12/26/2015 05:41'!
+!MatrixReduction class methodsFor: 'instance creation' stamp: 'len 12/26/2015 05:41'!
 on: aMatrix
 	^ self on: aMatrix extension: nil! !
 
-!MatrixReducer class methodsFor: 'instance creation' stamp: 'len 12/26/2015 05:15'!
+!MatrixReduction class methodsFor: 'instance creation' stamp: 'len 12/26/2015 05:15'!
 on: aMatrix extension: anotherMatrix
 	^ self new matrix: aMatrix extension: anotherMatrix! !
 
-!GaussBareiss methodsFor: 'private' stamp: 'len 11/23/2016 09:40:55'!
+!GaussianElimination methodsFor: 'private' stamp: 'len 3/3/2017 06:33:22'!
+reduceStep
+	"Perform one step in the reduction of the matrix using the current pivot."
+	| row col |
+	row _ self currentPivot x.
+	col _ self currentPivot y.
+	self multiplyRow: row by: (matrix at: row @ col) reciprocal.
+	1 to: matrix numberOfRows do: [:i|
+		(i = row or: [matrix isZeroAt: i @ col])
+			ifFalse: [self addRow: row by: (matrix at: i @ col) negated toRow: i]]! !
+
+!GaussBareiss methodsFor: 'private' stamp: 'len 3/3/2017 06:14:23'!
 reduceStep
 	"Perform one step reduction of the matrix using the current pivot."
 	| row col pivot value |
-	row _ self currentPivot y.
-	col _ self currentPivot x.
+	row _ self currentPivot x.
+	col _ self currentPivot y.
 	pivot _ matrix at: row @ col.
 	1 to: matrix numberOfRows do: [:i|
 		(i = row or: [(value _ matrix at: i @ col) isZero])
@@ -36294,16 +36433,38 @@ reduceStep
 				[self multiplyRow: i by: pivot.
 				self addRow: row by: value negated toRow: i]]! !
 
-!GaussianElimination methodsFor: 'private' stamp: 'len 12/1/2016 18:21:30'!
-reduceStep
-	"Perform one step in the reduction of the matrix using the current pivot."
-	| row col |
-	row _ self currentPivot y.
-	col _ self currentPivot x.
-	self multiplyRow: row by: (matrix at: row @ col) reciprocal.
-	1 to: matrix numberOfRows do: [:each|
-		(each = row or: [matrix isZeroAt: each @ col])
-			ifFalse: [self addRow: row by: (matrix at: each @ col) negated toRow: each]]! !
+!ModularHermiteReduction methodsFor: 'as yet unclassified' stamp: 'len 7/16/2016 04:10'!
+addColumn: a to: B
+	^ (B columnAugmented: a) HNF columnAt: B numberOfColumns + 1! !
+
+!ModularHermiteReduction methodsFor: 'as yet unclassified' stamp: 'len 7/16/2016 04:46'!
+addRow: b to: H
+	| H0 |
+	H0 _ H isSquare
+		ifTrue: [H]
+		ifFalse:
+			[H rowAugmented: (H scalars ^ (H numberOfColumns - 1) :: zero, (H rowAugmented: b) determinant)].
+	"..."! !
+
+!ModularHermiteReduction methodsFor: 'as yet unclassified' stamp: 'len 7/16/2016 01:28'!
+matrix: aMatrix
+	matrix _ aMatrix! !
+
+!ModularHermiteReduction methodsFor: 'as yet unclassified' stamp: 'len 3/1/2017 09:06:09'!
+probablePivotsOf: aMatrix
+	^ aMatrix % (10007 to: 46000) atRandom nextPrime :: reduction pivots
+! !
+
+!ModularHermiteReduction methodsFor: 'as yet unclassified' stamp: 'len 7/16/2016 04:35'!
+run
+"
+	HNF _ matrix zero.
+	HNF at: 1@1 put: (matrix at: 1@1).
+	2 to: matrix numberOfColumns do: [:j|
+		a _ matrix columnAt: j.
+		x _ self addColumn: a.
+		HNF _ addRow: a to: HNF | x
+"! !
 
 !QRDecomposition methodsFor: 'as yet unclassified' stamp: 'len 3/21/2016 22:11'!
 Q
@@ -36336,20 +36497,20 @@ run
 verify
 	^ matrix = (self Q * self R)! !
 
-!SmithNormalForm methodsFor: 'accessing' stamp: 'len 3/21/2016 03:34'!
+!SmithReduction methodsFor: 'accessing' stamp: 'len 3/21/2016 03:34'!
 diagonal
 	diagonal isNil ifTrue: [self run].
 	^ diagonal! !
 
-!SmithNormalForm methodsFor: 'accessing' stamp: 'len 3/20/2016 23:35'!
+!SmithReduction methodsFor: 'accessing' stamp: 'len 3/20/2016 23:35'!
 matrix
 	^ matrix! !
 
-!SmithNormalForm methodsFor: 'accessing' stamp: 'len 3/20/2016 23:35'!
+!SmithReduction methodsFor: 'accessing' stamp: 'len 3/20/2016 23:35'!
 matrix: aMatrix
 	matrix _ aMatrix! !
 
-!SmithNormalForm methodsFor: 'private' stamp: 'len 2/6/2017 03:08:33'!
+!SmithReduction methodsFor: 'private' stamp: 'len 2/6/2017 03:08:33'!
 reduceStep: i mod: R
 	| j c euclid B Ai Aj |
 	"2. Initialize j for row reduction:"
@@ -36379,7 +36540,7 @@ reduceStep: i mod: R
 			c _ c + 1].
 	c > 0] whileTrue "8. Repeat stage i?"! !
 
-!SmithNormalForm methodsFor: 'private' stamp: 'len 2/6/2017 03:08:58'!
+!SmithReduction methodsFor: 'private' stamp: 'len 2/6/2017 03:08:58'!
 run
 	| n i R b k |
 	n _ matrix numberOfRows.
@@ -42056,7 +42217,7 @@ killColumn
 	piv x + 1 to: matrix numberOfRows do: [:i | self killRow: i]
 ! !
 
-!GaussianElimination2 methodsFor: 'computing' stamp: 'len 11/23/2016 09:41:15'!
+!GaussianElimination2 methodsFor: 'computing' stamp: 'len 3/2/2017 19:59:30'!
 killRow: i
 	| piv r coef pos  j a |
 	piv _ pivots last.
@@ -42071,7 +42232,7 @@ killRow: i
 	[columns atEnd]
 		whileFalse:
 			[j _ columns next.
-			a _ matrix at: i at: j.
+			a _ matrix at: i @ j.
 			matrix at: i @ j put: (matrix at: r @ j) * coef + a].
 	columns position: pos.
 
@@ -42734,7 +42895,7 @@ normalize
 	self normalizeLeft.
 	self normalizeRight! !
 
-!TensorOld methodsFor: 'private' stamp: 'len 3/1/2017 09:07:11'!
+!TensorOld methodsFor: 'private' stamp: 'len 3/3/2017 06:12:51'!
 normalizeLeft
 	"Normalize the receiver eliminating redundant components on the left side."
 
@@ -42748,16 +42909,16 @@ normalizeLeft
 	pivots _ reduction pivots.
 	dep _ reduction dependentColumns.
 	matrix _ reduction reduced.
-	dep do: [ :eachCol |
-		pivots do: [ :pivot |
-			(matrix at: eachCol @ pivot y) isZero
+	dep do: [:eachCol|
+		pivots do: [:pivot|
+			(matrix at: pivot x @ eachCol) isZero
 				ifFalse: [self contents
-							at: pivot x
-							put: ((self contents at: pivot x)
+							at: pivot y
+							put: ((self contents at: pivot y)
 									addRight: (contents at: eachCol) right
-												* (matrix at: eachCol @ pivot y))]]].
+												* (matrix at: pivot x @ eachCol))]]].
 	newContents _ OrderedCollection new.
-	pivots do: [ :each | newContents add: (self contents at: each x)].
+	pivots do: [ :each | newContents add: (self contents at: each y)].
 	self contents: newContents! !
 
 !TensorOld methodsFor: 'private' stamp: 'len 1/25/98 02:16'!
