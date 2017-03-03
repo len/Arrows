@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 2 March 2017 at 5:38:41 am'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 3 March 2017 at 1:22:30 pm'!
 'Description Please enter a description for this package'!
-!provides: 'MathematicsTests' 1 75!
+!provides: 'MathematicsTests' 1 76!
 !classDefinition: #AbelianGroupTest category: #MathematicsTests!
 TestCase subclass: #AbelianGroupTest
 	instanceVariableNames: ''
@@ -560,12 +560,12 @@ Some tests on a 300x300 matrix over Z/32003.
 
 self new run
 
-testAddition	395 per second.
-testGaussianElimination	1.85 per second.
-testImage	56 seconds. "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
-testKernel	0.678 per second.
-testSquared	1.33 per second.
-testTransposition	88.6 per second.
+testAddition	384 per second.
+testGaussianElimination	1.88 per second.
+testImage	1.84 per second.
+testKernel	0.736 per second.
+testSquared	1.39 per second.
+testTransposition	89.8 per second.
 
 testAddition	387 per second.
 testGaussianElimination	1.82 per second.
@@ -711,10 +711,29 @@ testRealAlgebraicNumberDivision	70.8 per second.
 testRealAlgebraicNumberProduct	81.7 per second.
 testRealAlgebraicNumberSquare	1,820 per second!
 
-!SmallMatrixBenchmark commentStamp: 'len 12/2/2016 09:27:43' prior: 0!
+!SmallMatrixBenchmark commentStamp: 'len 3/2/2017 11:05:31' prior: 0!
 This benchmark tests some basic operations on 64x64 matrices over Z, Z/2Z, and Z/32003Z.
 
 self new run
+
+testAdditionZ	7,770 per second.
+testAdditionZ2	88,100 per second.
+testAdditionZp	8,140 per second.
+testCopyZ	145,000 per second.
+testCopyZ2	441,000 per second.
+testCopyZp	164,000 per second.
+testImageZ	FAILED
+testImageZ2	31.2 per second.
+testImageZp	133 per second.
+testKernelZ	FAILED
+testKernelZ2	13.7 per second.
+testKernelZp	59.7 per second.
+testMultiplicationZ	169 per second.
+testMultiplicationZ2	158 per second.
+testMultiplicationZp	128 per second.
+testTranspositionZ	4,360 per second.
+testTranspositionZ2	1,090 per second.
+testTranspositionZp	1,960 per second.
 
 testAdditionZ	7,960 per second.
 testAdditionZ2	85,700 per second.
@@ -3510,6 +3529,24 @@ testIsHNF
 	M _ ZZ ^ (5@4) rows: {(2,0,1,11). (0,1,5,12). (0,0,6,12). (0,0,0,33). (0,0,0,1)}.
 	self assert: M isHNF not! !
 
+!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 3/2/2017 21:30:31'!
+testIsHermiteNormalForm
+	"Example from wikipedia."
+	| M A H |
+	M _ ZZ ^ (4@4).
+	A _ M rows: { (3,3,1,4). (0,1,0,0). (0,0,19,16). (0,0,0,3) }.
+	H _ M rows: { (3,0,1,1). (0,1,0,0). (0,0,19,1). (0,0,0,3) }.
+	self assert: A isRowHermiteNormalForm not.
+	self assert: H isRowHermiteNormalForm! !
+
+!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 3/2/2017 21:32:58'!
+testIsRowEchelonForm
+	| A E |
+	A _ self newRandomMatrix: 6 atRandom @ 6 atRandom over: QQ.
+	E _ A echelon.
+	self assert: E isRowEchelonForm.
+	self assert: E isReducedRowEchelonForm! !
+
 !MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 1/17/2017 11:15:15'!
 testJordanNormalForm
 	| M A jordan B |
@@ -3617,11 +3654,11 @@ testRankNullityTheorem
 	A _ self newRandomMatrix: n@n over: QQ.
 	self assert: A rank + A nullity = n! !
 
-!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 3/1/2017 09:06:50'!
+!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 3/3/2017 06:11:28'!
 testReducerPivots
 	| A |
 	A _ ZZ ^ (3@3) rows: {(0,-1,-1). (0,-20,1). (0,1,2)}.
-	self assert: A reduction pivots asArray = {2@1. 3@2}! !
+	self assert: A reduction pivots asArray = {1@2. 2@3}! !
 
 !MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 8/24/2016 19:24'!
 testRightInverse
@@ -6460,8 +6497,9 @@ testCopyZ2
 testCopyZp
 	modularMatrix copy! !
 
-!SmallMatrixBenchmark methodsFor: 'as yet unclassified' stamp: 'len 3/1/2017 09:35:56'!
+!SmallMatrixBenchmark methodsFor: 'as yet unclassified' stamp: 'len 3/2/2017 11:00:57'!
 testImageZ
+	self notYetImplemented. "attempts to use Gauss-Bareis but coefficients grow too much"
 	integerMatrix image! !
 
 !SmallMatrixBenchmark methodsFor: 'as yet unclassified' stamp: 'len 3/1/2017 09:36:24'!
@@ -6472,8 +6510,9 @@ testImageZ2
 testImageZp
 	modularMatrix image! !
 
-!SmallMatrixBenchmark methodsFor: 'as yet unclassified' stamp: 'len 3/1/2017 09:35:48'!
+!SmallMatrixBenchmark methodsFor: 'as yet unclassified' stamp: 'len 3/2/2017 11:01:23'!
 testKernelZ
+	self notYetImplemented. "attempts to use Gauss-Bareis but coefficients grow too much"
 	integerMatrix kernel! !
 
 !SmallMatrixBenchmark methodsFor: 'as yet unclassified' stamp: 'len 3/1/2017 09:36:17'!
