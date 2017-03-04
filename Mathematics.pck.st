@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 3 March 2017 at 10:40:50 pm'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 4 March 2017 at 8:09:22 pm'!
 'Description A computational algebra system in Smalltalk'!
-!provides: 'Mathematics' 1 381!
+!provides: 'Mathematics' 1 382!
 !requires: 'RayTracer' 1 2 nil!
 !classDefinition: #RealAlgebraicNumber category: #'Mathematics-Fields-Algebraic'!
 Number subclass: #RealAlgebraicNumber
@@ -1312,34 +1312,34 @@ Ring subclass: #Order
 Order class
 	instanceVariableNames: ''!
 
-!classDefinition: #IntegerRing category: #'Mathematics-Fields-Number Fields'!
-Order subclass: #IntegerRing
+!classDefinition: #NumberRing category: #'Mathematics-Fields-Number Fields'!
+Order subclass: #NumberRing
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Fields-Number Fields'!
-!classDefinition: 'IntegerRing class' category: #'Mathematics-Fields-Number Fields'!
-IntegerRing class
+!classDefinition: 'NumberRing class' category: #'Mathematics-Fields-Number Fields'!
+NumberRing class
 	instanceVariableNames: ''!
 
-!classDefinition: #CyclotomicIntegerRing category: #'Mathematics-Fields-Number Fields'!
-IntegerRing subclass: #CyclotomicIntegerRing
+!classDefinition: #CyclotomicRing category: #'Mathematics-Fields-Number Fields'!
+NumberRing subclass: #CyclotomicRing
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Fields-Number Fields'!
-!classDefinition: 'CyclotomicIntegerRing class' category: #'Mathematics-Fields-Number Fields'!
-CyclotomicIntegerRing class
+!classDefinition: 'CyclotomicRing class' category: #'Mathematics-Fields-Number Fields'!
+CyclotomicRing class
 	instanceVariableNames: ''!
 
-!classDefinition: #QuadraticIntegerRing category: #'Mathematics-Fields-Number Fields'!
-IntegerRing subclass: #QuadraticIntegerRing
+!classDefinition: #QuadraticRing category: #'Mathematics-Fields-Number Fields'!
+NumberRing subclass: #QuadraticRing
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Fields-Number Fields'!
-!classDefinition: 'QuadraticIntegerRing class' category: #'Mathematics-Fields-Number Fields'!
-QuadraticIntegerRing class
+!classDefinition: 'QuadraticRing class' category: #'Mathematics-Fields-Number Fields'!
+QuadraticRing class
 	instanceVariableNames: ''!
 
 !classDefinition: #AlgebraicNumbersField category: #'Mathematics-Fields-Algebraic'!
@@ -4017,45 +4017,20 @@ Counts are currently held in a WordArray, and limited to about 4 billion counts 
 
 A good number of bins can be n^(1/2) or n^(1/3), where n is the total number of samples. See Wikipedia article for rationale.!
 
-!Domain commentStamp: '<historical>' prior: 0!
-My instances are mathematical structures, such as groups, rings, fields, vector spaces, modules, etc.
+!Domain commentStamp: 'len 3/4/2017 16:03:15' prior: 0!
+My instances are 'objects' of some category (such as groups, rings, fields, vector spaces, etc) connected by the corresponding Morphisms. In many practical situations, domains can be seen as sets of elements, and their morphisms as Functions.
 
-Domains are connected by Morphisms, which in many cases are Functions. From the point of view of category theory, Domains and Functions are respectively 'objects' and 'morphisms' of (small) categories.
+Domains with an underlying set can have finite or infinite cardinality, and whenever makes sense they implement some *Collection* protocol (such as #do:, #size, #asSet, #atRandom:, etc).
 
-Domains often have an underlying set: the set of elements. The cardinality of a domain can be finite or infinite, and countable or uncountable (see >>size and class Aleph). When the underlying set is finite, #asSet returns a Smalltalk Set. When it is countable, it is possible to enumerate it (see >>do:).  Also, when it makes sense to take elements at random, #atRandom:, #atRandom:bits: or similar messages are implemented.
+Domains can be built from other domains, for example by taking products or coproducts (cartesian products, direct products, direct sums), quotients, localizations, extensions, duals, etc. These operations are functors, and are mostly implemented as Smalltalk messages.
 
-Examples:
-	QQ^(3@3) atRandomBits: 100.
-	(ZZ/5) asSet.
+Domains can have subobjects: groups have subgroups, vector spaces have subspaces, rings have subrings and ideals, schemes have subschemes, etc. In general, there is an #ambient overobject, and there is a protocol for inclusion testing: #<, #<=, #>=, #>.
 
-Domains can be built from other domains, for example by taking products or coproducts (cartesian products, direct products, direct sums), quotients, localizations, extensions, duals, etc. These operations are also morphisms (functors, more precisely), and are mostly implemented as Smalltalk messages.
+Given two domains A and B in the same category, the set of morphisms between them Hom(A,B) is obtained by sending the message 'A hom: B' (see class HomSet). The #hom: message is the Hom(A,-) functor. The identity morphism is returned by the message #id. And a morphism from A to B can be constructed by sending 'A to: B evaluating: [:x| ...]'.
 
-Examples:
-	ZZ ◊ QQ polynomials.
-	QQ^3 ê QQ asSelfModule.
+Domains often come equipped with cannonical morphisms. For example, field extensions and localizations have associated canonical embeddings (monomorphisms), and implement #embed: (the embedding implemented as a message) and #embedding (which returns the embedding morphism as an instance of some subclass of Morphism). Quotient objects have canonical projections (epimorphisms) and implement #project: and #projection. N-ary products and coproducts implement #projection: for the i-th projection map (and coproducts also implement #embedding: for the i-th coprojection).
 
-Domains, as categorical objects, can have subobjects: groups have subgroups, vector spaces have subspaces, rings have subrings and ideals, schemes have subschemes, etc. In general, there is an #ambient overobject, and there is a protocol for inclusion testing: #<, #<=, #>=, #>.
-
-Some domains, such as field extensions and localizations, have associated canonical embeddings (monomorphisms), and should implement #embed: (the embedding implemented as a message) and #embedding (which returns the embedding reified as an instance of some subclass of Morphism). Other domains, such as quotient objects, have canonical projections (epimorphisms) and should implement #project: and #projection. N-ary products and coproducts should implement #projection: for the i-th projection map (and coproducts also implement #embedding: for the i-th coprojection).
-
-Examples:
-	(ZZ ◊ QQ) projection: 2.
-	QQ polynomials fractions embedding.
-
-Given two domains A and B in the same category, the set of morphisms between them Hom(A,B) is obtained by sending the message 'A hom: B' (so #hom: is the Hom(A,-) functor). The identity morphism is returned by the message #id. And a morphism from A to B can be constructed by sending 'A to: B evaluating: [:x| ...]'.
-
-Morphisms uniquely determined by their domain and codomain can be retrieved by sending the message #. For example, for any ring R, 'ZZ  R' returns the canonical ring homomorphism that sends an integer n to n times the unit of R. In order for this mechanism to work, subclasses must reimplement the messages #to: and #from: to answer canonical morphisms when such morphisms are known, and call super otherwise. See examples in Morphism class.
-
-Subclasses most frequently reimplement the following messages:
-- #= and #<=
-- #includes:
-- #size
-- #do:
-- #atRandom:bits:
-- #printOn:
-- #product: and #coproduct:
-- #to:evaluating:, #hom:, #id, #to:, #from:
-- #automorphisms
+More generally, morphisms that are uniquely determined by their domain and codomain can be retrieved by sending the message #. For example, for any ring R, 'ZZ  R' returns the canonical ring homomorphism that sends an integer 'n' to 'n times the unit of R'. This can be used for automatic coercion of elements between domains. In order for this mechanism to work, subclasses must reimplement the messages #to: and #from: to answer canonical morphisms when such morphisms are known, and call super otherwise. See examples in class Morphism.
 
 References:
 	https://en.wikipedia.org/wiki/Algebraic_structure
@@ -4444,10 +4419,9 @@ My singletion global instance RR is the field of real numbers.!
 !Order commentStamp: '<historical>' prior: 0!
 My instances are orders in a number field, i.e. subrings of a number field that as Z-modules are finitely generated and of maximal rank (with rank equal to the degree of the number field).!
 
-!IntegerRing commentStamp: '<historical>' prior: 0!
+!NumberRing commentStamp: '<historical>' prior: 0!
 My instances are rings of integers of number fields (i.e. maximal orders). They are the integral closure of Z (the rational integers) in a number field.
-
-For the ring Z of rational integers see RationalIntegerRing.!
+!
 
 !AlgebraicNumbersField commentStamp: '<historical>' prior: 0!
 I'm the field of (complex) algebraic numbers, i.e. the algebraic closure of Q.!
@@ -4787,8 +4761,8 @@ References:
 	https://en.wikipedia.org/wiki/Morphism
 !
 
-!Function commentStamp: '<historical>' prior: 0!
-My instances are functions, i.e. maps from a mathematical structure (domain) to another structure (codomain). Evaluated at elements of the domain (>>#value:) they produce elements of the codomain. See Domain and HomSet.
+!Function commentStamp: 'len 3/4/2017 16:06:27' prior: 0!
+My instances are maps from a set (domain) to another set (codomain). Evaluated at elements of the domain (>>#value:) they produce elements of the codomain. See Domain and HomSet.
 
 Example:
 	Function from: ZZ to: ZZ evaluating: [:x| x squared + 1].
@@ -13707,10 +13681,11 @@ example21VectorSpace2
 	"The vector space of 3x3 matrices with complex coefficients."
 	^ CC ^ (3@3)! !
 
-!Domain class methodsFor: 'examples' stamp: 'len 12/17/2016 09:25:55'!
+!Domain class methodsFor: 'examples' stamp: 'len 3/3/2017 23:04:21'!
 example2ModuleDirectSum
-	"The direct sum of the module of 3x3 matrices with coefficients in Z/6Z
-	plus the rank 1 module of Z/6Z scalars."
+	"The direct sum of the module of 3x3 matrices
+	with coefficients in Z/6Z plus the rank 1 module
+	of Z/6Z scalars."
 	^ ZZ/6 ^ (3@3) ê (ZZ/6) asSelfModule! !
 
 !Domain class methodsFor: 'examples' stamp: 'len 10/29/2016 08:05'!
@@ -19610,10 +19585,10 @@ discriminant
 	"The discriminant of an integral basis is independent of the choice of basis and it's called the discriminant of the field K and denoted d(K)."
 	^ self propertyAt: #discriminant ifAbsentPut: [self integralBasis discriminant]! !
 
-!NumberField methodsFor: 'accessing' stamp: 'len 12/18/2016 20:25:29'!
+!NumberField methodsFor: 'accessing' stamp: 'len 3/4/2017 19:28:09'!
 integers
 	"Answer the ring of integers of the receiver."
-	^ IntegerRing on: self! !
+	^ NumberRing on: self! !
 
 !NumberField methodsFor: 'accessing' stamp: 'len 1/11/2016 03:48'!
 integralBasis
@@ -19709,10 +19684,10 @@ discriminant
 	phi _ n phi.
 	^ -1 ^ (phi / 2) * (n ^ phi) / (n factors asSet product: [:p| p ^ (phi / (p - 1))])! !
 
-!CyclotomicField methodsFor: 'accessing' stamp: 'len 12/18/2016 21:26:29'!
+!CyclotomicField methodsFor: 'accessing' stamp: 'len 3/4/2017 19:30:55'!
 integers
 	"Answer the ring of integers of the receiver."
-	^ CyclotomicIntegerRing on: self! !
+	^ CyclotomicRing on: self! !
 
 !CyclotomicField methodsFor: 'accessing' stamp: 'len 12/15/2016 08:33:38'!
 integralBasis
@@ -19762,10 +19737,10 @@ discriminant
 	| d |
 	^ (d _ self d) \\ 4 = 1 ifTrue: [d] ifFalse: [d*4]! !
 
-!QuadraticField methodsFor: 'accessing' stamp: 'len 12/18/2016 20:30:20'!
+!QuadraticField methodsFor: 'accessing' stamp: 'len 3/4/2017 19:31:19'!
 integers
 	"Answer the ring of integers of the receiver."
-	^ QuadraticIntegerRing on: self! !
+	^ QuadraticRing on: self! !
 
 !QuadraticField methodsFor: 'accessing' stamp: 'len 11/12/2016 07:31'!
 integralBasis
@@ -20199,58 +20174,62 @@ field: aNumberField
 rank
 	^ self field degree! !
 
-!IntegerRing methodsFor: 'accessing' stamp: 'len 12/15/2016 08:46:44'!
+!NumberRing methodsFor: 'accessing' stamp: 'len 12/15/2016 08:46:44'!
 basis
 	^ self field integralBasis! !
 
-!IntegerRing methodsFor: 'testing' stamp: 'len 12/18/2016 15:02:54'!
+!NumberRing methodsFor: 'operations' stamp: 'len 3/4/2017 19:29:17'!
+fractions
+	^ self field! !
+
+!NumberRing methodsFor: 'testing' stamp: 'len 12/18/2016 15:02:54'!
 isDedekindDomain
 	"Rings of integers of number fields are Dedekind domains."
 	^ true! !
 
-!IntegerRing methodsFor: 'testing' stamp: 'len 12/18/2016 15:03:32'!
+!NumberRing methodsFor: 'testing' stamp: 'len 12/18/2016 15:03:32'!
 isPID
 	"A Dedekind domain is a UFD iff it is a PID."
 	^ self isUFD! !
 
-!IntegerRing methodsFor: 'testing' stamp: 'len 12/18/2016 15:03:20'!
+!NumberRing methodsFor: 'testing' stamp: 'len 12/18/2016 15:03:20'!
 isUFD
 	"A Dedekind domain is a UFD iff it is a PID."
 	^ self isPID! !
 
-!IntegerRing methodsFor: 'printing' stamp: 'len 12/23/2016 08:44:22'!
+!NumberRing methodsFor: 'printing' stamp: 'len 12/23/2016 08:44:22'!
 printOn: aStream
 	aStream nextPut: Character ZZ; nextPutAll: self field printString sub
 "	aStream nextPutAll: 'O' italic; nextPut: $(; print: field; nextPut: $)"! !
 
-!IntegerRing class methodsFor: 'instance creation' stamp: 'len 12/15/2016 08:40:10'!
+!NumberRing class methodsFor: 'instance creation' stamp: 'len 12/15/2016 08:40:10'!
 on: aNumberField
 	^ self new field: aNumberField! !
 
-!CyclotomicIntegerRing methodsFor: 'printing' stamp: 'len 12/23/2016 10:28:13'!
+!CyclotomicRing methodsFor: 'printing' stamp: 'len 12/23/2016 10:28:13'!
 printOn: aStream
 	aStream print: ZZ; nextPut: $[; print: self field x; nextPut: $]! !
 
-!QuadraticIntegerRing methodsFor: 'testing' stamp: 'len 12/23/2016 16:42:39'!
+!QuadraticRing methodsFor: 'testing' stamp: 'len 12/23/2016 16:42:39'!
 isEuclidean
 	self field d negative ifFalse: [self notYetImplemented].
 	(#(-11 -7 -3 -2 -1) includes: self field d) ifFalse: [^ false].
 	self notYetImplemented! !
 
-!QuadraticIntegerRing methodsFor: 'testing' stamp: 'len 12/23/2016 16:47:35'!
+!QuadraticRing methodsFor: 'testing' stamp: 'len 12/23/2016 16:47:35'!
 isIntegralDomain
 	^ true! !
 
-!QuadraticIntegerRing methodsFor: 'testing' stamp: 'len 12/23/2016 16:39:30'!
+!QuadraticRing methodsFor: 'testing' stamp: 'len 12/23/2016 16:39:30'!
 isNormEuclidean
 	^ #(-11 -7 -3 -2 -1 2 3 5 6 7 11 13 17 19 21 29 33 37 41 57 73) includes: self field d! !
 
-!QuadraticIntegerRing methodsFor: 'testing' stamp: 'len 12/23/2016 16:44:05'!
+!QuadraticRing methodsFor: 'testing' stamp: 'len 12/23/2016 16:44:05'!
 isPID
 	self field d negative ifTrue: [^ #(-1 -2 -3 -7 -11 -19 -43 -67 -163) includes: self field d].
 	^ self field classNumber = 1! !
 
-!QuadraticIntegerRing methodsFor: 'printing' stamp: 'len 12/23/2016 10:28:04'!
+!QuadraticRing methodsFor: 'printing' stamp: 'len 12/23/2016 10:28:04'!
 printOn: aStream
 	| a |
 	a _ self field d \\ 4 = 1 ifTrue: [self field x + self field one / (self field one * 2)] ifFalse: [self field x].
