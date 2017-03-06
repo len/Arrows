@@ -1,75 +1,126 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 17 November 2016 at 10:20:33 am'!
-!classDefinition: #Dictionary2 category: #'Collections-Unordered'!
-Dictionary subclass: #Dictionary2
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Collections-Unordered'!
-!classDefinition: #Set2 category: #'Collections-Unordered'!
-Set subclass: #Set2
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Collections-Unordered'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 6 March 2017 at 8:12:25 pm'!
 
-!Fraction methodsFor: 'testing' stamp: 'len 10/29/2016 16:05'!
+!Fraction methodsFor: 'testing' stamp: 'len 2/14/2017 08:21:16'!
 is: aSymbol
-	^ aSymbol = #Fraction or: [super is: aSymbol]! !
+	^ aSymbol == #Fraction or: [super is: aSymbol]! !
 
 
-!Character class methodsFor: 'accessing mathematical symbols' stamp: 'len 10/28/2016 20:36'!
+!Character class methodsFor: 'accessing mathematical symbols' stamp: 'len 12/17/2016 23:02:17'!
+CC
+	^ $à! !
+
+!Character class methodsFor: 'accessing mathematical symbols' stamp: 'len 12/17/2016 23:02:47'!
+Delta
+	^ $Ü! !
+
+!Character class methodsFor: 'accessing mathematical symbols' stamp: 'len 12/17/2016 23:02:07'!
+FF
+	^ $â! !
+
+!Character class methodsFor: 'accessing mathematical symbols' stamp: 'len 12/17/2016 23:02:58'!
+Gamma
+	^ $Ö! !
+
+!Character class methodsFor: 'accessing mathematical symbols' stamp: 'len 12/11/2016 13:40:49'!
+HH
+	^ $ä! !
+
+!Character class methodsFor: 'accessing mathematical symbols' stamp: 'len 12/11/2016 13:40:56'!
+NN
+	^ $ã! !
+
+!Character class methodsFor: 'accessing mathematical symbols' stamp: 'len 12/17/2016 23:03:09'!
+Omega
+	^ $á! !
+
+!Character class methodsFor: 'accessing mathematical symbols' stamp: 'len 12/11/2016 13:41:07'!
+PP
+	^ $å! !
+
+!Character class methodsFor: 'accessing mathematical symbols' stamp: 'len 12/11/2016 13:42:03'!
+QQ
+	^ $ç! !
+
+!Character class methodsFor: 'accessing mathematical symbols' stamp: 'len 12/11/2016 13:42:09'!
+RR
+	^ $é! !
+
+!Character class methodsFor: 'accessing mathematical symbols' stamp: 'len 12/11/2016 13:42:16'!
+ZZ
+	^ $è! !
+
+!Character class methodsFor: 'accessing mathematical symbols' stamp: 'len 12/8/2016 20:40:13'!
+aleph
+	^ $Å! !
+
+!Character class methodsFor: 'accessing mathematical symbols' stamp: 'len 12/8/2016 20:40:17'!
 cap
-	"
-	Character cap
-	"
-	^ self value: 16r98! !
+	^ $ï! !
 
-!Character class methodsFor: 'accessing mathematical symbols' stamp: 'len 10/28/2016 20:36'!
+!Character class methodsFor: 'accessing mathematical symbols' stamp: 'len 12/24/2016 10:45:30'!
+circ
+	^ $î! !
+
+!Character class methodsFor: 'accessing mathematical symbols' stamp: 'len 12/8/2016 20:40:21'!
 cup
-	"
-	Character cup
-	"
-	^ self value: 16r99! !
+	^ $ñ! !
 
-!Character class methodsFor: 'accessing mathematical symbols' stamp: 'len 6/15/2016 23:40'!
-nAryProduct
-	"
-	Character nAryProduct
-	"
-	^ self value: 16r8F! !
+!Character class methodsFor: 'accessing mathematical symbols' stamp: 'len 12/8/2016 20:40:25'!
+degree
+	^ $∞! !
 
-!Character class methodsFor: 'accessing mathematical symbols' stamp: 'len 6/15/2016 23:40'!
-nArySum
-	"
-	Character nArySum
-	"
-	^ self value: 16r8E! !
+!Character class methodsFor: 'accessing mathematical symbols' stamp: 'len 12/8/2016 20:40:29'!
+dot
+	^ $∑! !
 
-!Character class methodsFor: 'accessing mathematical symbols' stamp: 'len 6/15/2016 23:39'!
-partialDifferential
-	"
-	Character partialDifferential
-	"
-	^ self value: 16r8B! !
+!Character class methodsFor: 'accessing mathematical symbols' stamp: 'len 12/8/2016 20:40:33'!
+emptySet
+	^ $ÿ! !
 
-!Character class methodsFor: 'accessing mathematical symbols' stamp: 'len 6/15/2016 23:34'!
+!Character class methodsFor: 'accessing mathematical symbols' stamp: 'len 12/8/2016 20:40:36'!
+infinity
+	^ $Ä! !
+
+!Character class methodsFor: 'accessing mathematical symbols' stamp: 'len 12/8/2016 20:37:46'!
+mu
+	^ $µ! !
+
+!Character class methodsFor: 'accessing mathematical symbols' stamp: 'len 12/8/2016 20:40:43'!
+odot
+	^ $ì! !
+
+!Character class methodsFor: 'accessing mathematical symbols' stamp: 'len 12/8/2016 20:40:47'!
+oplus
+	^ $ê! !
+
+!Character class methodsFor: 'accessing mathematical symbols' stamp: 'len 12/8/2016 20:40:51'!
+otimes
+	^ $í! !
+
+!Character class methodsFor: 'accessing mathematical symbols' stamp: 'len 12/8/2016 20:38:45'!
 pi
-	"
-	Character pi
-	"
-	^ self value: 16r82! !
+	^ $Ç! !
 
-!Character class methodsFor: 'accessing mathematical symbols' stamp: 'len 6/15/2016 23:39'!
-ring
-	"
-	Character ring
-	"
-	^ self value: 16r95! !
+!Character class methodsFor: 'accessing mathematical symbols' stamp: 'len 12/8/2016 20:38:01'!
+plusMinus
+	^ $±! !
+
+!Character class methodsFor: 'accessing mathematical symbols' stamp: 'len 12/8/2016 20:38:51'!
+sqrt
+	^ $ó! !
+
+!Character class methodsFor: 'accessing mathematical symbols' stamp: 'len 12/8/2016 20:38:56'!
+times
+	^ $◊! !
+
+!Character class methodsFor: 'accessing mathematical symbols' stamp: 'len 12/17/2016 23:02:30'!
+zeta
+	^ $Ñ! !
 
 
-!Collection methodsFor: 'enumerating' stamp: 'len 9/1/2016 07:49'!
+!Collection methodsFor: 'enumerating' stamp: 'len 12/8/2016 20:33:00'!
 symmetricDifference: aSet 
-	^ (self difference: aSet) ô (aSet difference: self)! !
+	^ (self difference: aSet) ñ (aSet difference: self)! !
 
 !Collection methodsFor: 'statistics' stamp: 'len 4/29/2016 21:58'!
 argmax: aBlock
@@ -90,121 +141,30 @@ copyWithoutIndex: index
 	answer replaceFrom: index to: answer size with: self startingAt: index + 1.
 	^ answer! !
 
-!SequenceableCollection methodsFor: 'copying' stamp: 'len 4/18/2016 22:08'!
-shuffledBy: aGenerator
-	"To answer a mutable collection when receiver is, for example, an Interval."
-	^ (self collect: [ :each | each ]) shuffleBy: aGenerator! !
+
+!FloatArray methodsFor: 'arithmetic' stamp: 'len 1/21/2017 13:07:40'!
+normalized
+	^ self copy normalize! !
 
 
-!String methodsFor: 'testing' stamp: 'len 3/22/2016 21:11'!
-isAlphaNumeric
-	^ self allSatisfy: [:each| each isAlphaNumeric]! !
+!OrderedCollection methodsFor: 'converting' stamp: 'len 11/29/2016 08:54:14'!
+asArray
+	^ array copyFrom: firstIndex to: lastIndex! !
 
 
-!Dictionary2 methodsFor: 'as yet unclassified' stamp: 'len 6/27/2016 22:48'!
-scanFor: anObject
-	"Scan the key array for the first slot containing either a nil (indicating an empty slot) or an element that matches anObject. Answer the index of that slot or zero if no slot is found. This method will be overridden in various subclasses that have different interpretations for matching elements."
-	| element start finish |
-	start _ (anObject hash hashMultiply \\ array size) + 1.
-	finish _ array size.
-
-	"Search from (hash mod size) to the end."
-	start to: finish do:
-		[:index | ((element _ array at: index) == nil or: [element key = anObject])
-			ifTrue: [^ index ]].
-
-	"Search from 1 to where we started."
-	1 to: start-1 do:
-		[:index | ((element _ array at: index) == nil or: [element key = anObject])
-			ifTrue: [^ index ]].
-
-	^ 0  "No match AND no empty slot"! !
+!SortedCollection methodsFor: 'converting' stamp: 'len 11/29/2016 08:56:57'!
+asSortedArray
+	^ self asArray! !
 
 
-!SystemDictionary methodsFor: 'browsing' stamp: 'len 6/9/2016 23:23'!
-browseAllPrimitives
-	self browseAllSelect: [:each| each primitive ~= 0 and: [(each primitive between: 256 and: 291) not]]
-! !
+!Bag methodsFor: 'as yet unclassified' stamp: 'len 12/10/2016 11:26:24'!
+withOccurrencesDo: aBlock
+	contents associationsDo: [:each| aBlock value: each key value: each value]! !
 
 
-!Set2 methodsFor: 'as yet unclassified' stamp: 'len 6/10/2016 00:08'!
-scanFor1: anObject
-	"Scan the key array for the first slot containing either a nil (indicating an empty slot) or an element that matches anObject. Answer the index of that slot or zero if no slot is found. This method will be overridden in various subclasses that have different interpretations for matching elements."
-	| element start finish |
-	start _ (anObject hash \\ array size) + 1.
-	finish _ array size.
-
-	"Search from (hash mod size) to the end."
-	start to: finish do:
-		[:index | ((element _ array at: index) == nil or: [element = anObject])
-			ifTrue: [^ index ]].
-
-	"Search from 1 to where we started."
-	1 to: start-1 do:
-		[:index | ((element _ array at: index) == nil or: [element = anObject])
-			ifTrue: [^ index ]].
-
-	^ 0  "No match AND no empty slot"! !
-
-!Set2 methodsFor: 'as yet unclassified' stamp: 'len 6/10/2016 00:08'!
-scanFor2: anObject
-	"Scan the key array for the first slot containing either a nil (indicating an empty slot) or an element that matches anObject. Answer the index of that slot or zero if no slot is found. This method will be overridden in various subclasses that have different interpretations for matching elements."
-	| finish hash start element |
-	finish _ array size.
-	finish > 4096
-		ifTrue: [hash _ anObject hash * (finish // 4096)]
-		ifFalse: [hash _ anObject hash].
-	start _ (hash \\ array size) + 1.
-
-	"Search from (hash mod size) to the end."
-	start to: finish do:
-		[:index | ((element _ array at: index) == nil or: [element = anObject])
-			ifTrue: [^ index ]].
-
-	"Search from 1 to where we started."
-	1 to: start-1 do:
-		[:index | ((element _ array at: index) == nil or: [element = anObject])
-			ifTrue: [^ index ]].
-
-	^ 0  "No match AND no empty slot"! !
-
-!Set2 methodsFor: 'as yet unclassified' stamp: 'len 6/27/2016 22:47'!
-scanFor3: anObject
-	"Scan the key array for the first slot containing either a nil (indicating an empty slot) or an element that matches anObject. Answer the index of that slot or zero if no slot is found. This method will be overridden in various subclasses that have different interpretations for matching elements."
-	| finish  start element |
-	finish _ array size.
-	start _ (anObject hash hashMultiply \\ array size) + 1.
-	
-	"Search from (hash mod size) to the end."
-	start to: finish do:
-		[:index | ((element _ array at: index) == nil or: [element = anObject])
-			ifTrue: [^ index ]].
-
-	"Search from 1 to where we started."
-	1 to: start-1 do:
-		[:index | ((element _ array at: index) == nil or: [element = anObject])
-			ifTrue: [^ index ]].
-
-	^ 0  "No match AND no empty slot"! !
-
-!Set2 methodsFor: 'as yet unclassified' stamp: 'len 6/27/2016 22:48'!
-scanFor: anObject
-	"Scan the key array for the first slot containing either a nil (indicating an empty slot) or an element that matches anObject. Answer the index of that slot or zero if no slot is found. This method will be overridden in various subclasses that have different interpretations for matching elements."
-	| finish  start element |
-	finish _ array size.
-	start _ (anObject hash hashMultiply \\ array size) + 1.
-	
-	"Search from (hash mod size) to the end."
-	start to: finish do:
-		[:index | ((element _ array at: index) == nil or: [element = anObject])
-			ifTrue: [^ index ]].
-
-	"Search from 1 to where we started."
-	1 to: start-1 do:
-		[:index | ((element _ array at: index) == nil or: [element = anObject])
-			ifTrue: [^ index ]].
-
-	^ 0  "No match AND no empty slot"! !
+!Transcript class methodsFor: 'old Transcript compatibility' stamp: 'len 12/4/2016 20:59:47'!
+cr
+	self newLine! !
 
 
 !StrikeFont methodsFor: 'character shapes' stamp: 'len 6/7/2016 06:20'!
@@ -216,17 +176,9 @@ takeAllGlyphFor: aCharacter from: sourceCharacter in: aFont
 ! !
 
 
-!HaloMorph methodsFor: 'stepping' stamp: 'len 7/25/2016 21:39'!
-step
-	(target isNil or: [target isInWorld not]) ifTrue: [self delete]! !
-
-!HaloMorph methodsFor: 'stepping' stamp: 'len 7/25/2016 21:41'!
-stepTime
-	^ 100! !
-
-!HaloMorph methodsFor: 'stepping' stamp: 'len 7/25/2016 21:38'!
-wantsSteps
-	^ true! !
+!Morph methodsFor: 'submorphs-accessing' stamp: 'len 12/5/2016 11:59:49'!
+findA: aClass
+	^ self findDeepSubmorphThat: [:each| each isKindOf: aClass] ifAbsent: [self error: 'not found']! !
 
 
 !BitBltCanvas methodsFor: 'drawing-ovals' stamp: 'len 2/18/2016 06:42'!
@@ -297,6 +249,12 @@ errors
 	)! !
 
 
+!SmalltalkCompleter methodsFor: 'entries' stamp: 'len 2/17/2017 20:15:05'!
+specialOperators
+	"Answer the array of special binary operators that are not typeable by keyboard."
+	^ #(  ê í î ï ñ ù û ∑ ◊ ˜)! !
+
+
 !Workspace methodsFor: 'binding' stamp: 'len 11/23/2015 03:28'!
 bindingOf: aString
 	mustDeclareVariables ifTrue: [^ nil].
@@ -305,15 +263,6 @@ bindingOf: aString
 			ifTrue: [^nil]
 			ifFalse: ["bindings at: aString put: nil]"]".
 	^bindings associationAt: aString! !
-
-
-!Inspector class methodsFor: 'instance creation' stamp: 'len 6/13/2016 00:19'!
-openOn: anObject
-	| label |
-	label _ anObject printString.
-	(label includesSubString: anObject class name)
-		ifFalse: [label _ anObject class name, ': ', label].
-	^ self openOn: anObject withLabel: label! !
 
 
 !Fraction methodsFor: 'comparing' stamp: 'len 10/29/2016 16:03'!
@@ -333,120 +282,64 @@ hash
 	^seconds bitXor: nanos! !
 
 
-!Character methodsFor: 'testing' stamp: 'len 11/16/2016 08:10'!
+!Complex methodsFor: 'comparing' stamp: 'len 11/26/2016 08:34:46'!
+= anObject
+	self == anObject ifTrue: [ ^ true].
+	^anObject isComplex
+		ifTrue: [(real = anObject real) & (imaginary = anObject imaginary)]
+		ifFalse: [anObject adaptToComplex: self andSend: #=]! !
+
+!Complex methodsFor: 'printing' stamp: 'len 11/29/2016 11:42:24'!
+printOn: aStream
+	(real ~= 0 or: [imaginary = 0])
+		ifTrue:
+			[aStream print: real.
+			imaginary = 0
+				ifFalse:
+					[aStream space.
+					imaginary positive
+						ifTrue: [aStream nextPut: $+]
+						ifFalse: [aStream nextPut: $-].
+					aStream space.
+					imaginary abs = 1 ifFalse: [aStream print: imaginary abs].
+					aStream nextPutAll: 'i' italic]]
+		ifFalse:
+			[imaginary negative
+				ifTrue: [aStream nextPut: $-].
+			imaginary abs = 1 ifFalse: [aStream print: imaginary abs].
+			aStream nextPutAll: 'i' italic]! !
+
+
+!Character methodsFor: 'testing' stamp: 'len 2/17/2017 20:13:18'!
 isSpecial
 	"Answer whether the receiver is one of the special characters that can be used as binary operator."
 
-	^'+-/\*~<>=@,%|&?!!êëíìîïñóòô◊∑' includes: self! !
+	^'+-/\*~<>=@,%|&?!!êëíìîïñùû∑◊˜' includes: self! !
 
 
-!Character class methodsFor: 'accessing mathematical symbols' stamp: 'len 6/15/2016 23:32'!
-CC
-	"
-	Character CC
-	"
-	^ self value: 16r83! !
+!SequenceableCollection methodsFor: 'accessing' stamp: 'len 11/22/2016 07:07:33'!
+atAllPut: anObject 
+	"Put anObject at every one of the receiver's indices."
 
-!Character class methodsFor: 'accessing mathematical symbols' stamp: 'len 6/15/2016 23:32'!
-NN
-	"
-	Character NN
-	"
-	^ self value: 16r84! !
+	| size |
+	(size _ self size) > 50 "first method faster from 50 accesses and on"
+		ifTrue: [self from: 1 to: size put: anObject]
+		ifFalse: [1 to: size do: [:index | self at: index put: anObject]]! !
 
-!Character class methodsFor: 'accessing mathematical symbols' stamp: 'len 6/15/2016 23:32'!
-PP
-	"
-	Character PP
-	"
-	^ self value: 16r85! !
+!SequenceableCollection methodsFor: 'enumerating' stamp: 'len 2/19/2017 18:58:55'!
+combinations: k atATimeDo: aBlock
+	"Take the items in the receiver, k at a time, and evaluate the block for each combination.  Hand in an array of elements of self as the block argument.  Each combination only occurs once, and order of the elements does not matter.  There are (self size choose: k) combinations.
 
-!Character class methodsFor: 'accessing mathematical symbols' stamp: 'len 6/15/2016 23:33'!
-QQ
+	 'abcde' combinations: 3 atATimeDo: [:each | Transcript newLine; show: each printString].
 	"
-	Character QQ
-	"
-	^ self value: 16r86! !
 
-!Character class methodsFor: 'accessing mathematical symbols' stamp: 'len 6/15/2016 23:33'!
-RR
-	"
-	Character RR
-	"
-	^ self value: 16r87! !
-
-!Character class methodsFor: 'accessing mathematical symbols' stamp: 'len 6/15/2016 23:33'!
-ZZ
-	"
-	Character ZZ
-	"
-	^ self value: 16r88! !
-
-!Character class methodsFor: 'accessing mathematical symbols' stamp: 'len 6/15/2016 23:33'!
-aleph
-	"
-	Character aleph
-	"
-	^ self value: 16r81! !
-
-!Character class methodsFor: 'accessing mathematical symbols' stamp: 'len 6/15/2016 20:17'!
-emptySet
-	"
-	Character emptySet
-	"
-	^ self value: 16rD8! !
-
-!Character class methodsFor: 'accessing mathematical symbols' stamp: 'len 6/15/2016 23:36'!
-exists
-	"
-	Character exists
-	"
-	^ self value: 16r8A! !
-
-!Character class methodsFor: 'accessing mathematical symbols' stamp: 'len 6/15/2016 23:36'!
-forAll
-	"
-	Character forAll
-	"
-	^ self value: 16r89! !
-
-!Character class methodsFor: 'accessing mathematical symbols' stamp: 'len 6/15/2016 23:37'!
-infinity
-	"
-	Character infinity
-	"
-	^ self value: 16r80! !
-
-!Character class methodsFor: 'accessing mathematical symbols' stamp: 'len 6/15/2016 23:37'!
-integral
-	"
-	Character integral
-	"
-	^ self value: 16r8C! !
-
-!Character class methodsFor: 'accessing mathematical symbols' stamp: 'len 6/15/2016 23:37'!
-odot
-	"
-	Character odot
-	"
-	^ self value: 16r93! !
-
-!Character class methodsFor: 'accessing mathematical symbols' stamp: 'len 6/15/2016 23:38'!
-oplus
-	"
-	Character oplus
-	"
-	^ self value: 16r90! !
-
-!Character class methodsFor: 'accessing mathematical symbols' stamp: 'len 6/15/2016 23:38'!
-otimes
-	"
-	Character otimes
-	"
-	^ self value: 16r92! !
+	| aCollection |
+	k = 0 ifTrue: [aBlock value: #(). ^ self].
+	aCollection _ Array new: k.
+	self combinationsAt: 1 in: aCollection after: 0 do: aBlock! !
 
 
-!String class methodsFor: 'initialization' stamp: 'len 11/17/2016 10:16:17'!
+!String class methodsFor: 'initialization' stamp: 'len 3/6/2017 20:07:43'!
 initialize
 	"
 	String initialize
@@ -460,15 +353,15 @@ initialize
 	newOrder at: 0+1 put:  (order _ order+1).
 	32 to: 64 do: [ :c |
 		newOrder at: c + 1 put: (order _ order+1)].
-	#(92 124 126 183 215) do: [ :c | "\|~∑◊"
+	#(92 94 124 126 183 215 247) do: [ :c | "\^|~∑◊˜"
 		newOrder at: c + 1 put: (order _ order+1)].
 	16r90 to: 16r9F do: [ :i |
 		newOrder at: i + 1 put: (order _ order+1)].
 	Character uppercaseLowercaseAndUnaccentedLetters do: [ :upperAndLowercase |
 		order _ order+1.
-		newOrder at: upperAndLowercase first asciiValue + 1 put: order.
+		newOrder at: upperAndLowercase first numericValue + 1 put: order.
 		upperAndLowercase size > 1 ifTrue: [
-			newOrder at: upperAndLowercase second asciiValue + 1 put: order ]].
+			newOrder at: upperAndLowercase second numericValue + 1 put: order ]].
 	1 to: newOrder size do: [ :i |
 		(newOrder at: i) ifNil: [
 			newOrder at: i put: (order _ order+1)]].
@@ -480,18 +373,18 @@ initialize
 	newOrder at: 0+1 put:  (order _ order+1).
 	28 to: 64 do: [ :c |
 		newOrder at: c + 1 put: (order _ order+1)].
-	#(92 124 126 183 215) do: [ :c | "\|~∑◊"
+	#(92 94 124 126 183 215 247) do: [ :c | "\^|~∑◊˜"
 		newOrder at: c + 1 put: (order _ order+1)].
 	16r90 to: 16r9F do: [ :i |
 		newOrder at: i + 1 put: (order _ order+1)].
 	Character uppercaseLowercaseAndUnaccentedLetters do: [ :upperAndLowercase |
 		upperAndLowercase size > 1 ifTrue: [
-			newOrder at: upperAndLowercase first asciiValue + 1 put: (order _ order+1) ]].
+			newOrder at: upperAndLowercase first numericValue + 1 put: (order _ order+1) ]].
 	Character uppercaseLowercaseAndUnaccentedLetters do: [ :upperAndLowercase |
 		lowercase _ upperAndLowercase size = 1
 			ifTrue: [ upperAndLowercase first ]
 			ifFalse: [ upperAndLowercase second ].
-		newOrder at: lowercase asciiValue + 1 put: (order _ order+1) ].
+		newOrder at: lowercase numericValue + 1 put: (order _ order+1) ].
 	1 to: newOrder size do: [ :i |
 		(newOrder at: i) ifNil: [
 			newOrder at: i put: (order _ order+1)]].
@@ -518,32 +411,18 @@ initialize
 	CSNonSeparators _ CSSeparators complement! !
 
 
-!Dictionary methodsFor: 'printing' stamp: 'len 6/22/2016 16:36'!
+!Dictionary methodsFor: 'printing' stamp: 'len 3/6/2017 19:54:46'!
 printElementsOn: aStream
-	aStream nextPut: $(.
+	aStream nextPut: ${.
 	self keysSortedSafely do:
 		[:key | aStream print: key; nextPutAll: '->'; print: (self at: key)] separatedBy: [aStream space].
-	aStream nextPut: $)! !
+	aStream nextPut: $}! !
 
 
 !TextAnchor methodsFor: 'copying' stamp: 'len 6/24/2016 22:08'!
 postCopy
 
 "	anchoredFormOrMorph _ anchoredFormOrMorph copy"! !
-
-
-!Form methodsFor: 'fileIn/Out' stamp: 'len 8/1/2016 08:13'!
-printOn: aStream
-	aStream isText
-		ifTrue:
-			[aStream withAttribute: (TextAnchor new anchoredFormOrMorph: self) do: [aStream nextPut: $*].
-			^ self].
-	aStream
-		nextPutAll: self class name;
-		nextPut: $(; print: width;
-		nextPut: $x; print: height;
-		nextPut: $x; print: depth;
-		nextPut: $)! !
 
 
 !StrikeFont methodsFor: 'character shapes' stamp: 'len 6/7/2016 06:02'!
@@ -609,69 +488,6 @@ buildMorphicWindow
 		addMorph: self buildMorphicMessageList proportionalHeight: 0.4;
 		addAdjusterAndMorph: self buildLowerPanes proportionalHeight: 0.6.
 	model changed: #editSelection! !
-
-
-!DebuggerWindow methodsFor: 'GUI building' stamp: 'len 6/29/2016 21:42'!
-buildMorphicWindow
-	"Open a full morphic debugger with the given label"
-
-	| upperMorph bottomMorph1 bottomMorph2 bottomMorph3 bottomMorph4 bottomMorph |
-
-	upperMorph _ PluggableListMorph
-		model: model 
-		listGetter: #contextStackList
-		indexGetter: #contextStackIndex
-		indexSetter: #toggleContextStackIndex:
-		mainView: self
-		menuGetter: #contextStackMenu
-		keystrokeAction: #contextStackKey:from:.
-
-	bottomMorph1 _ PluggableListMorph
-			model: model receiverInspector
-			listGetter: #fieldList
-			indexGetter: #selectionIndex 
-			indexSetter: #toggleIndex:
-			mainView: self
-			menuGetter: #receiverFieldListMenu
-			keystrokeAction: #inspectorKey:from:.
-	bottomMorph2 _ TextModelMorph
-			textProvider: model receiverInspector
-			textGetter: #acceptedContents 
-			textSetter: #accept:
-			selectionGetter: #contentsSelection.
-	bottomMorph3 _ PluggableListMorph
-			model: model contextVariablesInspector 
-			listGetter: #fieldList
-			indexGetter: #selectionIndex 
-			indexSetter: #toggleIndex:
-			mainView: self
-			menuGetter: #contextFieldListMenu
-			keystrokeAction: #inspectorKey:from:.
-	bottomMorph4 _ TextModelMorph
-			textProvider: model contextVariablesInspector
-			textGetter: #acceptedContents 
-			textSetter: #accept:
-			selectionGetter: #contentsSelection.
-
-	bottomMorph _ LayoutMorph newRow.
-	bottomMorph
-		addMorph: bottomMorph1 proportionalWidth: 0.2;
-		addAdjusterAndMorph: bottomMorph2 proportionalWidth: 0.3;
-		addAdjusterAndMorph: bottomMorph3 proportionalWidth: 0.2;
-		addAdjusterAndMorph: bottomMorph4 proportionalWidth: 0.3.
-
-	self layoutMorph
-		addMorph: upperMorph proportionalHeight: 0.3;
-		addAdjusterAndMorph: self buildLowerPanes proportionalHeight: 0.5;
-		addAdjusterAndMorph: bottomMorph proportionalHeight: 0.2! !
-
-
-!MenuMorph methodsFor: 'keyboard control' stamp: 'len 6/11/2016 20:40'!
-keyboardFocusChange: aBoolean
-	"Notify change due to green border for keyboard focus"
-
-	aBoolean ifFalse: [self deleteIfPopUp: nil].
-	self redrawNeeded! !
 
 
 !Theme methodsFor: 'other options' stamp: 'len 6/9/2016 20:57'!
@@ -795,5 +611,182 @@ shout
 		#tempBar 				-> #gray.
 		#tempVars 				-> #(gray muchDarker).
 	}! !
+
+
+!AutoCompleter methodsFor: 'keyboard' stamp: 'len 2/17/2017 20:16:57'!
+handleKeystrokeBefore: kbEvent
+	"I return a boolean. true when I have handled the event and no futher processing is needed by the caller."
+	| currentPos currentCharIsAlphaNumeric keyValue ctrl cmd tab colon alphanum backspace esc space return keyChar  |
+	currentPos _ textMorph editor startIndex-1.
+	currentCharIsAlphaNumeric _ currentPos > 0 and: [ model textSize >= currentPos and: [
+			(model actualContents at: currentPos) isAlphaNumeric ]].
+	keyValue _ kbEvent keyValue.
+	keyChar _ kbEvent keyCharacter.
+	ctrl _ kbEvent controlKeyPressed.
+	cmd _ kbEvent commandAltKeyPressed.
+	tab _ keyChar = Character tab.
+	colon _ keyChar = $:.
+	alphanum _ kbEvent keyCharacter isAlphaNumeric.
+	backspace _ keyValue = 8.
+	esc _ keyValue = 27.
+	space _ #(0 32 160) includes: keyValue.
+	return _ kbEvent isReturnKey.
+
+	"Stuff to do if the menu is not open"
+	menuMorph ifNil: [
+		"Ctrl-Space or Tab for open"
+		"Mac specific note: Using option-space (actually option+160) effectively disables the non-breaking space character 160"
+		(space & (ctrl | kbEvent rawMacOptionKeyPressed) or: [
+			(self opensWithTab and: [tab]) and: [currentCharIsAlphaNumeric or: [currentPos > 0 and: [(model actualContents at: currentPos) == $\]]]])
+				ifTrue: [self openCompletionMenu. ^ true].
+		"Auto-open - currently deactivated"
+"		(ctrl not & cmd not & alphanum) 
+			ifTrue: [ self openCompletionMenu ]."
+		^ false].
+
+	"Starting here, stuff to do if the menu is open"
+	menuMorph stillActive.
+	"Escape"
+	esc ifTrue: [ self closeMenu. ^ true].
+	"Backspace"
+	backspace ifTrue: [
+		currentCharIsAlphaNumeric ifFalse: [ self closeMenu ].
+		^ false].
+	"Home"
+	keyValue = 1 ifTrue: [ menuMorph home. ^ true ].
+	"End"
+	keyValue = 4 ifTrue: [ menuMorph end. ^ true].
+	"?"
+	keyChar = $? ifTrue: [ menuMorph help. ^true].
+	"Arrow up"
+	keyValue = 30 ifTrue: [ menuMorph moveUp. ^ true].
+	"Arrow down"
+	keyValue = 31 ifTrue: [ menuMorph moveDown. ^ true].
+	"Page up"
+	keyValue = 11 ifTrue: [ menuMorph pageUp. ^ true].
+	"Page down"
+	keyValue = 12 ifTrue: [ menuMorph pageDown. ^ true].
+	"Return, Tab or Ctrl-Space"
+	(return or: [ space & (ctrl | kbEvent rawMacOptionKeyPressed) or: [ tab]]) ifTrue: [
+		self insertSelected
+			ifTrue: [^ true]].
+	"All keys but the alphanumeric chars (without command and control ) 
+	and the backspace key do close the menu"
+	(ctrl not & cmd not and: [ alphanum | colon])
+		ifFalse: [ self closeMenu ].
+	^false! !
+
+
+!SmalltalkCompleter methodsFor: 'entries' stamp: 'len 12/18/2016 12:38:16'!
+computeEntries
+
+	| allSource contextClass id p last3Ranges range prevRange receiverClass prevPrevRange |
+	allSource _ model actualContents string.
+	p _ (model is: #hasTextProvider)
+		ifTrue: [ model textProvider ]
+		ifFalse: [ model ].
+	contextClass _ (p respondsTo: #selectedClassOrMetaClass) ifTrue: [
+		p selectedClassOrMetaClass ].
+
+	"Instead of creating a new string, maybe we could pass the last position to parse to Shout..."
+	parser _ SHParserST80 new.
+	parser
+		workspace: ((model isMemberOf: Workspace) ifTrue: [ model ]);
+		classOrMetaClass: contextClass;
+		source: (allSource copyFrom: 1 to: position).
+	parser parse.
+	last3Ranges _ parser last3Ranges.
+	range _ last3Ranges third.
+	range ifNil: [ ^entries _ #() ].
+
+	"If parsing breaks before position, then we don't know what to suggest, therefore don't open Completion"
+	range end = position ifFalse: [ ^entries _ #() ].
+
+	prefix _ allSource copyFrom: range start to: range end.
+
+	"The escape character $\ makes the completer show special binary operators:"
+	prefix = '\' ifTrue: [ ^entries _ self specialOperators ].
+
+	(parser isMessage: range rangeType) ifTrue: [
+		"If previous range is a constant or a well known identifier, we might filter messages"
+		prevRange _ last3Ranges second.
+		prevPrevRange _ last3Ranges first.
+		receiverClass _ nil.
+		"3 if -> ifNil: but not ifTrue:
+		3=4 -> ifNil: or ifTrue:"
+		(prevRange notNil and: [ prevPrevRange isNil or: [ (#(binary keyword) includes: prevPrevRange rangeType) not]]) ifTrue: [
+			id _ (allSource copyFrom: prevRange start to: prevRange end).
+			receiverClass _ prevRange rangeType caseOf: {
+				[ #globalVar ] -> [ (Smalltalk at: id asSymbol) class ].
+				[ #self ] -> [ contextClass ].
+				[ #super ] -> [ contextClass superclass ].
+				[ #true ] -> [ True ].
+				[ #false ] -> [ False ].
+				[ #nil ] -> [ UndefinedObject ].
+				[ #character ] -> [ id first class ].
+				[ #number ] -> [ (Compiler evaluate: id) class ].
+				[ #string ] -> [ (Compiler evaluate: id) class ].
+				[ #symbol ] -> [ (Compiler evaluate: id) class ].
+				[ #stringSymbol ] -> [ (Compiler evaluate: id) class ].
+				"thisContext could mean ContextPart or BlockClosure..."
+				"[ #thisContext ] -> [ ContextPart ]"
+			} otherwise: [ nil ]
+		].
+		^self computeMessageEntries: receiverClass ].
+
+	(parser isPartialOrFullIdentifier: range rangeType) ifTrue: [
+		^self computeIdentifierEntries ].
+	
+	"If we don't know what to do, do nothing"
+	entries _ #()! !
+
+!methodRemoval: Character class #bullet!
+Character class removeSelector: #bullet!
+!methodRemoval: Character class #circle!
+Character class removeSelector: #circle!
+!methodRemoval: Character class #contourIntegral!
+Character class removeSelector: #contourIntegral!
+!methodRemoval: Character class #doesNotExist!
+Character class removeSelector: #doesNotExist!
+!methodRemoval: Character class #exists!
+Character class removeSelector: #exists!
+!methodRemoval: Character class #forAll!
+Character class removeSelector: #forAll!
+!methodRemoval: Character class #greaterNotEqual!
+Character class removeSelector: #greaterNotEqual!
+!methodRemoval: Character class #greaterOrEqual!
+Character class removeSelector: #greaterOrEqual!
+!methodRemoval: Character class #greaterOverEqual!
+Character class removeSelector: #greaterOverEqual!
+!methodRemoval: Character class #identical!
+Character class removeSelector: #identical!
+!methodRemoval: Character class #integral!
+Character class removeSelector: #integral!
+!methodRemoval: Character class #lessNotEqual!
+Character class removeSelector: #lessNotEqual!
+!methodRemoval: Character class #lessOrEqual!
+Character class removeSelector: #lessOrEqual!
+!methodRemoval: Character class #lessOverEqual!
+Character class removeSelector: #lessOverEqual!
+!methodRemoval: Character class #notEqual!
+Character class removeSelector: #notEqual!
+!methodRemoval: Character class #notIdentical!
+Character class removeSelector: #notIdentical!
+!methodRemoval: Character class #partial!
+Character class removeSelector: #partial!
+!methodRemoval: Character class #strictlyEquivalent!
+Character class removeSelector: #strictlyEquivalent!
+!methodRemoval: Character class #summation!
+Character class removeSelector: #summation!
+
+!Character class reorganize!
+('class initialization' accentedLetters initClassCachedState initialize initializeClassificationTable initializeUnicodeCodePoints releaseClassCachedState uppercaseLowercaseAndUnaccentedLetters vowels)
+('instance creation' asciiValue: codePoint: digitValue: immediateNumericValue: new nonImmediateNumericValue: numericValue: safeCodePoint: separators)
+('accessing untypeable characters' arrowDown arrowLeft arrowRight arrowUp backspace cr crCharacter delete end enter escape euro home insert lf lfCharacter nbsp newLineCharacter newPage null pageDown pageUp space tab)
+('constants' characterTable)
+('converting' evaluate:withUtf8BytesOfUnicodeCodePoint: iso8859s15CodeForUnicodeCodePoint: latin1ToMacRoman: macRomanToLatin1: nextUnicodeCodePointFromUtf8: unicodeCodePointOfUtf8Bytes: utf8BytesOfUnicodeCodePoint:)
+('fileIn/Out' definition)
+('accessing mathematical symbols' CC Delta FF Gamma HH NN Omega PP QQ RR ZZ aleph cap circ cup degree dot emptySet infinity mu odot oplus otimes pi plusMinus sqrt times zeta)
+!
 
 String initialize!
