@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 3 March 2017 at 1:22:30 pm'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 6 March 2017 at 3:48:53 pm'!
 'Description Please enter a description for this package'!
-!provides: 'MathematicsTests' 1 76!
+!provides: 'MathematicsTests' 1 77!
 !classDefinition: #AbelianGroupTest category: #MathematicsTests!
 TestCase subclass: #AbelianGroupTest
 	instanceVariableNames: ''
@@ -3370,6 +3370,74 @@ testAdjugateProperties
 	self assert: (A^5) adjugate = (A adjugate ^ 5).
 	self assert: A transposed adjugate = A adjugate transposed! !
 
+!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 3/5/2017 20:23:05'!
+testBacklash
+	"Example from Sage documentation. Non-singular and square."
+	| A B X |
+	A _ QQ matrix: 3 coefficients: #(1 2 4 5 3 1 1 2 -1).
+	B _ QQ matrix: 3@2 coefficients: #(1 5 1 2 1 5).
+	X _ A \ B.
+	self assert: X = (QQ matrix: 3@2 coefficients: {-1/7. -11/7. 4/7. 23/7. 0. 0}).
+	self assert: A * X = B! !
+
+!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 3/5/2017 18:35:45'!
+testBacklashNoSolution
+	"Example from Sage documentation."
+	| A v |
+	A _ QQ matrix: 2@3 coefficients: #(1 2 3 2 4 6).
+	v _ (1,1).
+	self should: [A \ v] raise: Error! !
+
+!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 3/5/2017 18:13:12'!
+testBacklashNonSquare
+	"Example from Sage documentation."
+	| A B X |
+	A _ QQ matrix: 2@4 coefficients: #(0 -1 1 0 -2 2 1 0).
+	B _ QQ matrix: 2@2 coefficients: #(1 0 1 -1).
+	X _ A \ B.
+	self assert: X = (QQ matrix: 4@2 coefficients: (-3/2, (1/2), -1, 0, 0, 0, 0, 0)).
+	self assert: A * X = B! !
+
+!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 3/5/2017 18:38:35'!
+testBacklashSingular
+	"Example from Sage documentation."
+	| A B X |
+	A _ QQ matrix: 2@3 coefficients: #(1 2 3 2 4 6).
+	B _ QQ matrix: 2@2 coefficients: #(6 -6 12 -12).
+	X _ A \ B.
+	self assert: X = (QQ matrix: 3@2 coefficients: (6, -6, 0, 0, 0, 0)).
+	self assert: A * X = B! !
+
+!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 3/5/2017 18:29:12'!
+testBacklashTuple
+	"Example from Sage documentation."
+	| A v x |
+	A _ QQ matrix: 3 coefficients: #(1 2 3 -1 2 5 2 3 1).
+	v _ (1,2,3).
+	x _ A \ v.
+	self assert: x = (-13/12,(23/12),(-7/12)).
+	self assert: A * x = v! !
+
+!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 3/5/2017 18:30:12'!
+testBacklashTupleNonSquare
+	"Example from Sage documentation."
+	| A v x |
+	A _ QQ matrix: 2@3 coefficients: #(1 2 3 2 4 6).
+	v _ (-1/2, -1).
+	x _ A \ v.
+	self assert: x = (-1/2, 0, 0).
+	self assert: A * x = v! !
+
+!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 3/5/2017 18:32:09'!
+testBacklashTupleOverZ
+	"Example from Sage documentation."
+	| A v x |
+	A _ ZZ matrix: 2@3 coefficients: #(1 2 3 2 4 6).
+	v _ ZZ tuple: #(-1 -2).
+	x _ A \ v.
+	self assert: x = (ZZ tuple: #(-1 0 0)).
+	self assert: A * x = v! !
+
 !MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:05'!
 testCayleyHamiltorTheoremInQ
 	| n M A |
@@ -3518,34 +3586,34 @@ testInverse2
 	A _ f companion.
 	self assert: (A * A inverse) isIdentity! !
 
-!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 7/16/2016 00:48'!
-testIsHNF
-	| M |
-	M _ ZZ ^ (4@4) rows: {(2,0,1,11). (0,1,5,12). (0,0,6,12). (0,0,0,33)}.
-	self assert: M isHNF.
-	self assert: M transposed isHNF not.
-	M _ ZZ ^ (5@4) rows: {(2,0,1,11). (0,1,5,12). (0,0,6,12). (0,0,0,33). (0,0,0,0)}.
-	self assert: M isHNF.
-	M _ ZZ ^ (5@4) rows: {(2,0,1,11). (0,1,5,12). (0,0,6,12). (0,0,0,33). (0,0,0,1)}.
-	self assert: M isHNF not! !
+!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 3/3/2017 16:36:34'!
+testIsEchelonForm
+	| A E |
+	A _ self newRandomMatrix: 6 atRandom @ 6 atRandom over: QQ.
+	E _ A echelon.
+	self assert: E isEchelonForm.
+	self assert: E isReducedEchelonForm! !
 
-!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 3/2/2017 21:30:31'!
+!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 3/3/2017 16:33:51'!
 testIsHermiteNormalForm
 	"Example from wikipedia."
 	| M A H |
 	M _ ZZ ^ (4@4).
 	A _ M rows: { (3,3,1,4). (0,1,0,0). (0,0,19,16). (0,0,0,3) }.
 	H _ M rows: { (3,0,1,1). (0,1,0,0). (0,0,19,1). (0,0,0,3) }.
-	self assert: A isRowHermiteNormalForm not.
-	self assert: H isRowHermiteNormalForm! !
+	self assert: A isHermiteNormalForm not.
+	self assert: H isHermiteNormalForm! !
 
-!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 3/2/2017 21:32:58'!
-testIsRowEchelonForm
-	| A E |
-	A _ self newRandomMatrix: 6 atRandom @ 6 atRandom over: QQ.
-	E _ A echelon.
-	self assert: E isRowEchelonForm.
-	self assert: E isReducedRowEchelonForm! !
+!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 3/3/2017 16:35:49'!
+testIsHermiteNormalForm2
+	| M |
+	M _ ZZ ^ (4@4) rows: {(2,0,1,11). (0,1,5,12). (0,0,6,12). (0,0,0,33)}.
+	self assert: M isHermiteNormalForm.
+	self assert: M transposed isHermiteNormalForm not.
+	M _ ZZ ^ (5@4) rows: {(2,0,1,11). (0,1,5,12). (0,0,6,12). (0,0,0,33). (0,0,0,0)}.
+	self assert: M isHermiteNormalForm.
+	M _ ZZ ^ (5@4) rows: {(2,0,1,11). (0,1,5,12). (0,0,6,12). (0,0,0,33). (0,0,0,1)}.
+	self assert: M isHermiteNormalForm not! !
 
 !MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 1/17/2017 11:15:15'!
 testJordanNormalForm
