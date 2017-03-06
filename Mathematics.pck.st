@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 4 March 2017 at 8:09:22 pm'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 6 March 2017 at 3:48:22 pm'!
 'Description A computational algebra system in Smalltalk'!
-!provides: 'Mathematics' 1 382!
+!provides: 'Mathematics' 1 383!
 !requires: 'RayTracer' 1 2 nil!
 !classDefinition: #RealAlgebraicNumber category: #'Mathematics-Fields-Algebraic'!
 Number subclass: #RealAlgebraicNumber
@@ -3002,16 +3002,6 @@ Object subclass: #HermiteReduction
 HermiteReduction class
 	instanceVariableNames: ''!
 
-!classDefinition: #JordanReduction category: #'Mathematics-Matrices-Algorithms'!
-Object subclass: #JordanReduction
-	instanceVariableNames: 'matrix blocks'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Matrices-Algorithms'!
-!classDefinition: 'JordanReduction class' category: #'Mathematics-Matrices-Algorithms'!
-JordanReduction class
-	instanceVariableNames: ''!
-
 !classDefinition: #LinearSystemSolver category: #'Mathematics-Matrices-Algorithms'!
 Object subclass: #LinearSystemSolver
 	instanceVariableNames: 'system reducer kernelBasis particular'
@@ -3700,6 +3690,16 @@ Object subclass: #GaussianElimination2
 	category: 'Mathematics-Etc'!
 !classDefinition: 'GaussianElimination2 class' category: #'Mathematics-Etc'!
 GaussianElimination2 class
+	instanceVariableNames: ''!
+
+!classDefinition: #JordanReduction category: #'Mathematics-Etc'!
+Object subclass: #JordanReduction
+	instanceVariableNames: 'matrix blocks'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Etc'!
+!classDefinition: 'JordanReduction class' category: #'Mathematics-Etc'!
+JordanReduction class
 	instanceVariableNames: ''!
 
 !classDefinition: #Knapsack category: #'Mathematics-Etc'!
@@ -4563,13 +4563,6 @@ My instances are affine subspaces contained in a given vector space or module, i
 They are subobjects of an ambient affine linear space A(V). See AffineLinearSpace.
 
 Affine subspaces appear when considering the solutions of non-homogeneous linear systems, or the set of all the vectors in the domain of a linear map that are mapped to a given vector in the codomain of the transformation (which is called the fiber of the vector). They are also the elements of quotient spaces or quotient modules.
-
-Example:
-	| V S f |
-	V _ QQ ^ 3.
-	S _ V span: {(1, 1, 1). (2, 0, -2)}.
-	f _ LinearMap projectionOn: S.
-	f fiberAt: (1, 2, 3).
 !
 
 !AffineLinearSpace commentStamp: '<historical>' prior: 0!
@@ -5132,9 +5125,9 @@ The algorithm performs O(2n^3/3) field operations for nxn matrices, but due to e
 !GaussBareiss commentStamp: '<historical>' prior: 0!
 I am the Gauss-Bereiss algorithm, a variant of Gassian elimination.
 
-My instances perform division-free Gaussian elimination on a matrix with coefficients in a ring, and compute the echelon form.
+My instances perform division-free Gaussian elimination on a matrix with coefficients in an integral domain, and compute the echelon form.
 
-Input: a matrix with coefficients in a commutative ring;
+Input: a matrix with coefficients in a an integral domain;
 Output: the reduced echelon form and the determinant.
 
 The algorithm performs O(n^3) ring operations for nxn matrices. While the standard Gaussian elimination suffers from exponential intermediate coefficients growth, the Bareiss algorithm has bit complexity O(n^5).
@@ -23098,9 +23091,13 @@ e: anInteger
 		to: self codomain basis
 		matrix: (self matrices e: anInteger)! !
 
-!HomModule methodsFor: 'elements' stamp: 'len 1/5/2016 03:21'!
+!HomModule methodsFor: 'elements' stamp: 'len 3/5/2017 17:01:32'!
 evaluating: aBlock
-	^ LinearMap from: domain to: codomain evaluating: aBlock! !
+	^ domain to: codomain evaluating: aBlock! !
+
+!HomModule methodsFor: 'elements' stamp: 'len 3/5/2017 17:01:08'!
+evaluatingWithArguments: aBlock
+	^ self domain to: self codomain evaluatingWithArguments: aBlock! !
 
 !HomModule methodsFor: 'elements' stamp: 'len 2/11/2016 20:50'!
 identity
@@ -24205,6 +24202,23 @@ substraction
 translation
 	"Answer the translation map on the receiver."
 	^ (self, self direction) to: self evaluatingWithArguments: [:a :v| a + v]! !
+
+!AffineSubspace class methodsFor: 'examples' stamp: 'len 3/5/2017 17:14:07'!
+example1
+	"Make an affine subspace by translating a subspace by a vector."
+	| V S |
+	V _ QQ^3.
+	S _ V span: {(1,2,3)}.
+	^ S + (1,1,1)! !
+
+!AffineSubspace class methodsFor: 'examples' stamp: 'len 3/5/2017 17:19:39'!
+example2
+	"The fiber (or inverse image) of a linear map is an affine subspace."
+	| V f |
+	V _ QQ^3.
+	f _ V endomorphisms evaluatingWithArguments: [:x :y :z| (x+z, (y+z), z)].
+	"The fiber at (1,2,3) is the set of all vectors that f sends to (1,2,3):"
+	^ f fiberAt: (1,2,3)! !
 
 !AffineSubspace class methodsFor: 'instance creation' stamp: 'len 1/17/2017 07:59:19'!
 representative: aVector direction: aSubspace
@@ -27877,9 +27891,9 @@ stabilizerOf: aPoint
 		ifFalse: [^ false].
 	^ (self domain generators ifNil: [self domain]) allSatisfy: [:each| (self value: each) = (anObject value: each)]! !
 
-!GroupHomomorphism methodsFor: 'accessing' stamp: 'len 2/12/2016 05:46'!
+!GroupHomomorphism methodsFor: 'accessing' stamp: 'len 3/5/2017 08:30:15'!
 fiberAt: anElement
-	"Answer the fiber of the receiver at anElement, a Coset.
+	"Answer the fiber (or inverse image) of anElement, a Coset.
 	Answer nil if the element is not in the image of the receiver."
 	^ self kernel * (self domain detect: [:one| (self value: one) = anElement] ifNone: [^ nil])! !
 
@@ -28300,9 +28314,46 @@ fiberAt2: aVector
 		coordinate _ coordinate + 1].
 	^ system solutions "apply: domainBasis vectorAt"! !
 
-!LinearMap methodsFor: 'operations' stamp: 'len 10/17/2016 16:42'!
+!LinearMap methodsFor: 'operations' stamp: 'len 3/5/2017 09:20:26'!
+fiberAt3: aVector
+	"Answer the fiber (or inverse image) of aVector.
+	The answer is an affine subspace (a linear variety or flat)."
+	| n B M1 V r j0 d x K |
+	n _ matrix numberOfColumns.
+	B _ codomainBasis coordinatesOf: aVector.
+	"1. Compute kernel"
+	M1 _ matrix | B.
+	V _ M1 kernelMatrix.
+	r _ V numberOfColumns.
+	"2. Solution exists?"
+	j0 _ (1 to: r) detect: [:j| (V at: n+1@j) isZero not] ifNone: [^ nil "no solution"].
+	d _ (V at: n+1@j0) negated.
+	x _ self scalars tuple: n evaluating: [:i| (V at: i@j0) / d].
+	K _ V copyFrom: 1@1 to: n@(r-1).
+	^ (LinearBasis on: domainBasis ambient matrix: domainBasis matrix * K) span + (domainBasis elementAt: x)! !
+
+!LinearMap methodsFor: 'operations' stamp: 'len 3/5/2017 09:32:35'!
 fiberAt: aVector
-	"Answer the fiber of aVector under the receiver. The answer is an affine subspace (a linear variety or flat)."
+	"Answer the fiber (or inverse image) of aVector.
+	The answer is an affine subspace (a linear variety or flat)."
+	| n B M1 V r j0 d x |
+	n _ matrix numberOfColumns.
+	B _ codomainBasis coordinatesOf: aVector.
+	"1. Compute kernel"
+	M1 _ matrix | B.
+	V _ M1 kernelMatrix.
+	r _ V numberOfColumns.
+	"2. Solution exists?"
+	j0 _ (1 to: r) detect: [:j| (V at: n+1@j) isZero not] ifNone: [^ nil "no solution"].
+	d _ (V at: n+1@j0) negated.
+	x _ self scalars tuple: n evaluating: [:i| (V at: i@j0) / d].
+	"K _ V copyFrom: 1@1 to: n@(r-1). <- this is 'self matrix kernelMatrix', should avoid computing the kernel again, and cache it"
+	^ self kernel + (domainBasis elementAt: x)! !
+
+!LinearMap methodsFor: 'operations' stamp: 'len 3/5/2017 09:21:35'!
+fiberAtOld: aVector
+	"Answer the fiber (or inverse image) of aVector.
+	The answer is an affine subspace (a linear variety or flat)."
 	| system coordinate tuple |
 	tuple _ codomainBasis coordinatesOf: aVector.
 	system _ LinearSystem new.
@@ -28465,6 +28516,10 @@ rightInverse
 	"Answer a right inverse (or section) of the receiver.
 	Answer nil if the receiver is not an epimorphism."
 	^ self propertyAt: #rightInverse ifAbsentPut: [self computeRightInverse]! !
+
+!LinearMap methodsFor: 'accessing' stamp: 'len 3/5/2017 09:20:05'!
+scalars
+	^ matrix scalars! !
 
 !LinearMap methodsFor: 'private' stamp: 'len 10/10/2016 20:02'!
 species
@@ -35094,7 +35149,7 @@ columnAt: i put: aTuple
 	self flag: #fix.
 	aTuple withIndexDo: [:each :k| self at: k@i put: each] "note: this will fail with sparse tuples"! !
 
-!Matrix methodsFor: 'operations' stamp: 'len 11/5/2016 03:34'!
+!Matrix methodsFor: 'operations' stamp: 'len 3/5/2017 19:31:35'!
 columnAugmented: aMatrix
 	"Answer the receiver augmented with the columns of aMatrix."
 	| n |
@@ -35102,9 +35157,9 @@ columnAugmented: aMatrix
 	(aMatrix is: #Tuple)
 		ifTrue:
 			[aMatrix size = n ifFalse: [^ DomainError signal: 'dimensions don''t match'].
-			^ RowMatrix rows: ((1 to: n) collect: [:i| (self rowAt: i), (aMatrix at: i)])].
+			^ ColumnMatrix columns: (self columns copyWith: aMatrix)].
 	aMatrix numberOfRows = n ifFalse: [^ DomainError signal: 'dimensions don''t match'].
-	^ RowMatrix rows: ((1 to: n) collect: [:i| (self rowAt: i), (aMatrix rowAt: i)])! !
+	^ Matrix columns: self columns, aMatrix columns! !
 
 !Matrix methodsFor: 'subspaces' stamp: 'len 3/1/2017 12:47:24'!
 columnSpace
@@ -35473,10 +35528,30 @@ isZero
 isZeroAt: aPoint
 	^ (self at: aPoint) isZero! !
 
-!Matrix methodsFor: 'reduction' stamp: 'len 3/3/2017 13:36:18'!
+!Matrix methodsFor: 'reduction' stamp: 'len 3/5/2017 09:22:30'!
 jordan
 	"Answer the Jordan blocks of the receiver's Jordan normal form."
-	^ JordanReduction new matrix: self; blocks! !
+	| spectrum blocks one zero |
+	spectrum _ self spectrum.
+	spectrum size = self numberOfRows ifFalse: [^ self error: 'the characteristic polynomial doesn''t split'].
+"	I _ matrix species identity."
+	blocks _ Bag new.
+	one _ self scalars one.
+	zero _ self scalars zero.
+	spectrum asSet do: [:eigenvalue|
+		| multiplicity dimensions X T count |
+		multiplicity _ spectrum occurrencesOf: eigenvalue.
+		dimensions _ OrderedCollection new.
+		X _ self - (self scalars matrix: self dimension scalar: eigenvalue).
+		T _ X.
+		[(dimensions add: T nullity) < multiplicity] whileTrue: [T _ T * X].
+		count _ 0.
+		dimensions size to: 1 by: -1 do: [:n| | k block |
+			k _ (dimensions at: n) - (dimensions at: n-1 ifAbsent: [0]).
+			block _ self scalars matrix: n evaluating: [:i :j| i=j ifTrue: [eigenvalue] ifFalse: [j-1=i ifTrue: [one] ifFalse: [zero]]].
+			blocks add: block withOccurrences: k - count.
+			count _ count + k]].
+	^ blocks! !
 
 !Matrix methodsFor: 'subspaces' stamp: 'len 3/2/2017 04:19:49'!
 kernel
@@ -35647,10 +35722,10 @@ reduction
 	(self scalars isRing and: [self scalars isCommutative]) ifTrue: [^ GaussBareiss on: self].
 	^ DomainError signal! !
 
-!Matrix methodsFor: 'reduction' stamp: 'len 3/1/2017 09:04:33'!
+!Matrix methodsFor: 'reduction' stamp: 'len 3/5/2017 18:16:08'!
 reductionWith: aMatrix
 	self scalars isField ifTrue: [^ GaussianElimination on: self extension: aMatrix].
-	(self scalars isRing and: [self scalars isCommutative]) ifTrue: [^ GaussBareiss on: self extension: aMatrix].
+	(self scalars isRing and: [self scalars isIntegralDomain]) ifTrue: [^ GaussBareiss on: self extension: aMatrix].
 	^ DomainError signal! !
 
 !Matrix methodsFor: 'arithmetic' stamp: 'len 12/10/2015 23:50'!
@@ -35664,7 +35739,7 @@ rowAt: i put: aTuple
 	self flag: #fix.
 	aTuple withIndexDo: [:each :k| self at: i@k put: each] "note: this will fail with sparse tuples"! !
 
-!Matrix methodsFor: 'operations' stamp: 'len 11/5/2016 03:39'!
+!Matrix methodsFor: 'operations' stamp: 'len 3/5/2017 19:31:20'!
 rowAugmented: aMatrix
 	"Answer the receiver augmented with the rows of aMatrix."
 	| m |
@@ -35672,9 +35747,9 @@ rowAugmented: aMatrix
 	(aMatrix is: #Tuple)
 		ifTrue:
 			[aMatrix size = m ifFalse: [^ DomainError signal: 'dimensions don''t match'].
-			^ RowMatrix rows: (self rows copyWith: aMatrix)].
+			^ Matrix rows: (self rows copyWith: aMatrix)].
 	aMatrix numberOfColumns = m ifFalse: [^ DomainError signal: 'dimensions don''t match'].
-	^ RowMatrix rows: self rows, aMatrix rows! !
+	^ Matrix rows: self rows, aMatrix rows! !
 
 !Matrix methodsFor: 'accessing' stamp: 'len 3/2/2017 19:48:46'!
 rowPivots
@@ -35708,18 +35783,28 @@ rowsDo: aBlock
 scalars
 	^ self subclassResponsibility! !
 
-!Matrix methodsFor: 'operations' stamp: 'len 3/1/2017 09:09:12'!
+!Matrix methodsFor: 'operations' stamp: 'len 3/5/2017 19:22:43'!
 solveLeft: aMatrix
 	"Answer X such that X * A = B, where A is self and B is aMatrix.
-	The argument can also be a tuple, in which case it is considered as a row matrix."
+	The argument can also be a tuple, in which case it is considered
+	as a row matrix and the returned value is also a tuple."
 	(aMatrix isKindOf: Tuple) ifTrue: [^ self transposed solveRight: aMatrix].
-	^ (self transposed solveRight: aMatrix) transposed! !
+	^ (self transposed solveRight: aMatrix transposed) transposed! !
 
-!Matrix methodsFor: 'operations' stamp: 'len 3/1/2017 09:03:22'!
+!Matrix methodsFor: 'operations' stamp: 'len 3/5/2017 20:17:55'!
 solveRight: aMatrix
 	"Answer X such that A * X = B, where A is self and B is aMatrix.
-	The argument can also be a tuple, in which case it is considered as a column matrix."
-	^ self notYetImplemented! !
+	The argument can also be a tuple, in which case it is considered
+	as a column matrix and the returned value is also a tuple."
+	| A B M X |
+	A _ self.
+	B _ (aMatrix isKindOf: Tuple) ifTrue: [Matrix columns: {aMatrix}] ifFalse: [aMatrix].
+"	A isSquare ifFalse: [...].
+	A isFullRank ifFalse: [...]."
+	M _ A | B.
+	X _ M echelon copyFrom: 1@(self numberOfColumns + 1) to: M dimension.
+	"self * X = aMatrix ifFalse: [^ self error: 'no solution']."
+	^ (aMatrix isKindOf: Tuple) ifTrue: [X asTuple] ifFalse: [X]! !
 
 !Matrix methodsFor: 'spectrum' stamp: 'len 2/22/2017 08:46:13'!
 spectralRadius
@@ -36170,43 +36255,6 @@ run
 	j = l] whileFalse: [j _ j + 1. k _ k + 1].
 	^ matrix "copyFrom: 1@k to: m@n"! !
 
-!JordanReduction methodsFor: 'as yet unclassified' stamp: 'len 11/12/2016 07:39'!
-block: eigenvalue size: n
-	| K one zero |
-	K _ matrix scalars.
-	one _ K one.
-	zero _ K zero.
-	^ K matrix: n@n evaluating: [:i :j| i=j ifTrue: [eigenvalue] ifFalse: [j-1=i ifTrue: [one] ifFalse: [zero]]]! !
-
-!JordanReduction methodsFor: 'as yet unclassified' stamp: 'len 3/21/2016 09:13'!
-blocks
-	blocks isNil ifTrue: [self run].
-	^ blocks! !
-
-!JordanReduction methodsFor: 'as yet unclassified' stamp: 'len 3/21/2016 08:40'!
-matrix: aMatrix
-	matrix _ aMatrix! !
-
-!JordanReduction methodsFor: 'as yet unclassified' stamp: 'len 11/5/2016 07:00'!
-run
-	| spectrum |
-	spectrum _ matrix spectrum.
-	spectrum size = matrix numberOfRows ifFalse: [^ self error: 'the characteristic polynomial doesn''t split'].
-"	I _ matrix species identity."
-	blocks _ Bag new.
-	spectrum asSet do: [:eigenvalue|
-		| multiplicity dimensions X T count |
-		multiplicity _ spectrum occurrencesOf: eigenvalue.
-		dimensions _ OrderedCollection new.
-		X _ matrix - (matrix scalars matrix: matrix dimension scalar: eigenvalue).
-		T _ X.
-		[(dimensions add: T nullity) < multiplicity] whileTrue: [T _ T * X].
-		count _ 0.
-		dimensions size to: 1 by: -1 do: [:i| | k |
-			k _ (dimensions at: i) - (dimensions at: i-1 ifAbsent: [0]).
-			blocks add: (self block: eigenvalue size: i) withOccurrences: k - count.
-			count _ count + k]]! !
-
 !LinearSystemSolver methodsFor: 'testing' stamp: 'len 5/23/2016 04:27'!
 isSolvable
 	"Answer true if the system has any solution."
@@ -36273,15 +36321,15 @@ addRow: i0 by: aNumber toRow: i1
 currentPivot
 	^ currentPivot! !
 
-!MatrixReduction methodsFor: 'accessing' stamp: 'len 12/26/2015 05:52'!
+!MatrixReduction methodsFor: 'accessing' stamp: 'len 3/5/2017 19:52:12'!
 dependentColumns
-	"Answer the collection of indexes of dependent columns."
-	| independent first answer |
+	"Answer the collection of indices of dependent columns."
+	| independent d answer |
 	independent _ self independentColumns.
-	first _ 1.
+	d _ 1.
 	answer _ OrderedCollection new: matrix numberOfColumns - independent size.
-	independent do: [:each| answer addAll: (first to: each - 1). first _ each + 1].
-	answer addAll: (first to: matrix numberOfColumns).
+	independent do: [:i| answer addAll: (d to: i-1). d _ i+1].
+	answer addAll: (d to: matrix numberOfColumns).
 	^ answer! !
 
 !MatrixReduction methodsFor: 'accessing' stamp: 'len 12/27/2015 03:03'!
@@ -42370,6 +42418,43 @@ on: aMatrix
 !GaussianElimination2 class methodsFor: 'instance creation' stamp: 'len 11/5/2015 00:00'!
 on: aMatrix extension: extMatrix
 	^ self new setMatrix: aMatrix extension: extMatrix! !
+
+!JordanReduction methodsFor: 'as yet unclassified' stamp: 'len 11/12/2016 07:39'!
+block: eigenvalue size: n
+	| K one zero |
+	K _ matrix scalars.
+	one _ K one.
+	zero _ K zero.
+	^ K matrix: n@n evaluating: [:i :j| i=j ifTrue: [eigenvalue] ifFalse: [j-1=i ifTrue: [one] ifFalse: [zero]]]! !
+
+!JordanReduction methodsFor: 'as yet unclassified' stamp: 'len 3/21/2016 09:13'!
+blocks
+	blocks isNil ifTrue: [self run].
+	^ blocks! !
+
+!JordanReduction methodsFor: 'as yet unclassified' stamp: 'len 3/21/2016 08:40'!
+matrix: aMatrix
+	matrix _ aMatrix! !
+
+!JordanReduction methodsFor: 'as yet unclassified' stamp: 'len 11/5/2016 07:00'!
+run
+	| spectrum |
+	spectrum _ matrix spectrum.
+	spectrum size = matrix numberOfRows ifFalse: [^ self error: 'the characteristic polynomial doesn''t split'].
+"	I _ matrix species identity."
+	blocks _ Bag new.
+	spectrum asSet do: [:eigenvalue|
+		| multiplicity dimensions X T count |
+		multiplicity _ spectrum occurrencesOf: eigenvalue.
+		dimensions _ OrderedCollection new.
+		X _ matrix - (matrix scalars matrix: matrix dimension scalar: eigenvalue).
+		T _ X.
+		[(dimensions add: T nullity) < multiplicity] whileTrue: [T _ T * X].
+		count _ 0.
+		dimensions size to: 1 by: -1 do: [:i| | k |
+			k _ (dimensions at: i) - (dimensions at: i-1 ifAbsent: [0]).
+			blocks add: (self block: eigenvalue size: i) withOccurrences: k - count.
+			count _ count + k]]! !
 
 !Maxel methodsFor: 'as yet unclassified' stamp: 'len 2/13/2016 17:55'!
 * anInteger
