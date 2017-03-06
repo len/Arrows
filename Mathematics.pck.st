@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 6 March 2017 at 3:48:22 pm'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 6 March 2017 at 5:06:43 pm'!
 'Description A computational algebra system in Smalltalk'!
-!provides: 'Mathematics' 1 383!
+!provides: 'Mathematics' 1 384!
 !requires: 'RayTracer' 1 2 nil!
 !classDefinition: #RealAlgebraicNumber category: #'Mathematics-Fields-Algebraic'!
 Number subclass: #RealAlgebraicNumber
@@ -4837,8 +4837,8 @@ All the linear forms on a vector space form the dual vector space (see DualModul
 
 !BilinearForm commentStamp: '<historical>' prior: 0!
 My instances are bilinear forms, i.e. functions from VxV to F where V is a vector space over the field F that satisfy:
-	B(v+cv`, w) = B(v, w) + cB(v`, w)
-	B(v, w+cw`) = B(v, w) + cB(v, w`)
+	B(v+cv', w) = B(v, w) + cB(v', w)
+	B(v, w+cw') = B(v, w) + cB(v, w')
 !
 
 !AffineMap commentStamp: 'len 1/1/2017 22:06:15' prior: 0!
@@ -4919,7 +4919,7 @@ A regular rational map is a morphism (by definition). A regular map is dominant 
 The category of affine varieties or projective varieties with dominant rational maps and the category of function fields are contravariantly equivalent.!
 
 !EllipticCurveIsogeny commentStamp: '<historical>' prior: 0!
-My instances are scheme morphisms of elliptic curves E -> E` that send the origin of E to the origin of E`. They are homomorphisms of group schemes.!
+My instances are scheme morphisms of elliptic curves E -> E' that send the origin of E to the origin of E'. They are homomorphisms of group schemes.!
 
 !LinearFractionalMap commentStamp: '<historical>' prior: 0!
 My instances are transformations of the form
@@ -4994,7 +4994,7 @@ Schreier trees allow for fast computation of stabilizers by Schreier's Lemma: wi
 !
 
 !FormalFraction commentStamp: '<historical>' prior: 0!
-My instances are elements of the form a / b, with a and b in a commutative ring R, and satisfying the equivalence relation: (a / b) = (a` / b`) iff a*b` = a`*b.
+My instances are elements of the form a / b, with a and b in a commutative ring R, and satisfying the equivalence relation: (a / b) = (a' / b') iff a*b' = a'*b.
 
 They are elements of ring localizations or fraction fields. See LocalizationRing and FractionRing.!
 
@@ -5995,24 +5995,24 @@ stirling: anInteger
 	self+1 = anInteger ifTrue: [^ self choose: 2].
 	^ (self-1) * (self-1 stirling: anInteger) + (self-1 stirling: anInteger-1)! !
 
-!Integer methodsFor: '*mathematics' stamp: 'len 12/4/2016 13:07:08'!
+!Integer methodsFor: '*mathematics' stamp: 'len 3/6/2017 16:27:34'!
 xgcd: anInteger
 	"Extended Euclidean algorithm.
 	Answer an array {x. u. v} where self * u + (anInteger * v) = x, and x = (self gcd: anInteger)."
-	| a b s t s` t` r r` |
+	| a b s1 t1 s t r1 r |
 	a _ self. b _ anInteger.
-	s _ 0. s` _ 1.
-	t _ 1. t` _ 0.
-	r _ a abs. r` _ b abs.
-	[r == 0]
+	s1 _ 0. s _ 1.
+	t1 _ 1. t _ 0.
+	r1 _ a abs. r _ b abs.
+	[r1 == 0]
 		whileFalse:
 			[ | q temp |
-			q _ r` // r.
-			temp _ r. r _ r` - (q * r). r` _ temp.
-			temp _ s. s _ s` - (q * s). s` _ temp.
-			temp _ t. t _ t` - (q * t). t` _ temp].
-	s` _ s` * b sign. t` _ t` * a sign.
-	^ {r`. t`. s`}! !
+			q _ r // r1.
+			temp _ r1. r1 _ r - (q * r1). r _ temp.
+			temp _ s1. s1 _ s - (q * s1). s _ temp.
+			temp _ t1. t1 _ t - (q * t1). t _ temp].
+	s _ s * b sign. t _ t * a sign.
+	^ {r. t. s}! !
 
 !SmallInteger methodsFor: '*mathematics' stamp: 'len 11/12/2016 08:38'!
 bitCount
@@ -8748,23 +8748,23 @@ collect: aBlock
 collectNoZero: aBlock
 	^ self class associations: (associations collect: [:each| each copy value: (aBlock value: each value)]) over: scalars! !
 
-!MonomialIndexedTuple methodsFor: 'operations' stamp: 'len 11/29/2016 09:52:02'!
+!MonomialIndexedTuple methodsFor: 'operations' stamp: 'len 3/6/2017 16:28:36'!
 convolution22: aMonomialTuple
-	| a b b` c1 c2 c t |
+	| a b b2 c1 c2 c t |
 	self size <= aMonomialTuple size
 		ifTrue: [a _ associations. b _ aMonomialTuple associations]
 		ifFalse: [a _ aMonomialTuple associations. b _ associations].
 	c1 _ OrderedCollection new: a size + b size.
 	c2 _ OrderedCollection new: a size + b size.
 	c _ c1.
-	b` _ Array new: b size.
+	b2 _ Array new: b size.
 	a do: [:ai|
 		1 to: b size do: [:i| | bi |
 			bi _ b at: i.
-			b` at: i put: ai key * bi key -> (ai value * bi value)].
+			b2 at: i put: ai key * bi key -> (ai value * bi value)].
 		t _ c1 == c ifTrue: [c2] ifFalse: [c1].
 		t resetTo: 1.
-		c _ self sum: c with: b` into: t].
+		c _ self sum: c with: b2 into: t].
 	^ self class associations: c over: scalars! !
 
 !MonomialIndexedTuple methodsFor: 'operations' stamp: 'len 11/21/2016 13:04:43'!
@@ -8793,7 +8793,7 @@ convolution3: aMonomialTuple
 	newAssociations sort.
 	^ self class associations: newAssociations over: scalars! !
 
-!MonomialIndexedTuple methodsFor: 'operations' stamp: 'len 11/30/2016 14:46:15'!
+!MonomialIndexedTuple methodsFor: 'operations' stamp: 'len 3/6/2017 16:29:09'!
 convolution4: aMonomialTuple
 	| a b c |
 	self size <= aMonomialTuple size
@@ -8801,18 +8801,18 @@ convolution4: aMonomialTuple
 		ifFalse: [a _ aMonomialTuple associations. b _ associations].
 	(a size < 25 and: [a size * 2 < b size])
 		ifTrue:
-			[| c1 c2 b` t |
+			[| c1 c2 b2 t |
 			c1 _ OrderedCollection new: a size + b size.
 			c2 _ OrderedCollection new: a size + b size.
 			c _ c1.
-			b` _ Array new: b size.
+			b2 _ Array new: b size.
 			a do: [:ai|
 				1 to: b size do: [:i| | bi |
 					bi _ b at: i.
-					b` at: i put: ai key * bi key -> (ai value * bi value)].
+					b2 at: i put: ai key * bi key -> (ai value * bi value)].
 				t _ c1 == c ifTrue: [c2] ifFalse: [c1].
 				t resetTo: 1.
-				c _ self sum: c with: b` into: t]]
+				c _ self sum: c with: b2 into: t]]
 		ifFalse: "if the sizes are not right, it's faster to use a hash table"
 			[| dictionary |
 			dictionary _ Dictionary new: a size + b size.
@@ -10896,9 +10896,9 @@ symmetric
 transposed
 	^ self! !
 
-!UndirectedGraph methodsFor: 'operations' stamp: 'len 7/15/2016 18:25'!
+!UndirectedGraph methodsFor: 'operations' stamp: 'len 3/6/2017 16:30:08'!
 tuttePolynomial
-	| P K G` |
+	| P K G |
 	P _ ZZ polynomialsIn: #(x y).
 	self isEdgeless ifTrue: [^ P one].
 	K _ self components size.
@@ -10906,10 +10906,10 @@ tuttePolynomial
 		e key = e value "it's a loop"
 			ifTrue: [^ P y * (self - e) tuttePolynomial]
 			ifFalse:
-				[G` _ self - e.
-				G` components size > K "it's a bridge"
+				[G _ self - e.
+				G components size > K "it's a bridge"
 					ifTrue: [^ P x * (self / e) tuttePolynomial]
-					ifFalse: [^ G` tuttePolynomial + (self / e) tuttePolynomial]]].
+					ifFalse: [^ G tuttePolynomial + (self / e) tuttePolynomial]]].
 	^ self error: 'inconsistency, this line should have been reaached'! !
 
 !UndirectedGraph methodsFor: 'accessing' stamp: 'len 7/16/2016 08:25'!
@@ -11772,16 +11772,16 @@ aboutToBeGrabbedBy: aHand
 	super aboutToBeGrabbedBy: aHand.
 	(owner isKindOf: GraphMorph) ifTrue: ["owner focusOn: node; stopStepping"]! !
 
-!SpringNodeMorph methodsFor: 'moving' stamp: 'len 2/25/2016 16:56'!
+!SpringNodeMorph methodsFor: 'moving' stamp: 'len 3/6/2017 16:31:46'!
 approachPoint: aPoint
-	| dx` x1 x2 diff |
-	dx` _ dx - dx. "0@0."
+	| dxNew x1 x2 diff |
+	dxNew _ dx - dx. "0@0."
 	x1 _ x.
 	x2 _ aPoint.
 	x1 = x2 ifTrue: [^ self].
 	diff _ x1 - x2.
-	dx` _ dx` + (diff / diff norm2).
-	dx` isZero ifFalse: [dx _ dx + (dx` / dx` norm * 2)]! !
+	dxNew _ dxNew + (diff / diff norm2).
+	dxNew isZero ifFalse: [dx _ dx + (dxNew / dxNew norm * 2)]! !
 
 !SpringNodeMorph methodsFor: 'event handling testing' stamp: 'sam 2/10/2004 01:56'!
 handlesMouseDown: evt 
@@ -11798,23 +11798,23 @@ nearbyNodesDo: aBlock
 		count > 40 ifTrue: [^ self].
 		aBlock value: (owner nodeAt: each)]! !
 
-!SpringNodeMorph methodsFor: 'moving' stamp: 'len 7/9/2016 22:15'!
+!SpringNodeMorph methodsFor: 'moving' stamp: 'len 3/6/2017 16:32:42'!
 separateFromAllNodes
-	| dx` x1 x2 |
+	| dxNew x1 x2 |
 	(owner isKindOf: SpringGraphMorph) ifFalse: [^ self].
-	dx` _ dx - dx. "0@0"
+	dxNew _ dx - dx. "0@0"
 	x1 _ x.
 	owner nodesDo: [:each|
 		x2 _ each x + each dx.
 		self == each
 			ifFalse:
 				[x1 = x2
-					ifTrue: [dx` _ dx` + self perturbation]
+					ifTrue: [dxNew _ dxNew + self perturbation]
 					ifFalse:
 						[| diff |
 						diff _ x1 - x2.
-						dx` _ dx` + (diff / diff norm2)]]].
-	dx` isZero ifFalse: [dx _ dx + (dx` / dx` norm * 2)]! !
+						dxNew _ dxNew + (diff / diff norm2)]]].
+	dxNew isZero ifFalse: [dx _ dx + (dxNew / dxNew norm * 2)]! !
 
 !SpringNodeMorph methodsFor: 'event handling testing' stamp: 'len 2/18/2016 06:02'!
 wantsToBeDroppedInto: aMorph
@@ -12226,17 +12226,17 @@ example2
 	100000 timesRepeat: [h addValue: (S atRandom: n) bitSize].
 	h openInHand! !
 
-!HistogramMorph class methodsFor: 'examples' stamp: 'len 4/24/2016 02:44'!
+!HistogramMorph class methodsFor: 'examples' stamp: 'len 3/6/2017 16:33:28'!
 example3
 	"primes conspiracy"
 	| h p r |
 	h _ HistogramMorph new: 22 min: 1 max: 100.
 	p _ 2. r _ p \\ 10.
 	100 timesRepeat:
-		[| p` r` |
-		p` _ p nextPrime. r` _ p` \\ 10.
-		h addValue: (r * 10 + r`).
-		r _ r`. p _ p`].
+		[| p2 r2 |
+		p2 _ p nextPrime. r2 _ p2 \\ 10.
+		h addValue: (r * 10 + r2).
+		r _ r2. p _ p2].
 	^ h! !
 
 !HistogramMorph class methodsFor: 'instance creation' stamp: 'len 4/23/2016 04:02'!
@@ -14706,9 +14706,9 @@ collect: aBlock
 	self do: [:each| elements add: (aBlock value: each)].
 	^ self copyEmpty elements: elements! !
 
-!Group methodsFor: 'operations' stamp: 'len 7/27/2016 07:46'!
+!Group methodsFor: 'operations' stamp: 'len 3/6/2017 16:33:57'!
 commutator
-	"Answer the commutator group [G,G] of the receiver G, also called the derived group and noted G`.
+	"Answer the commutator group [G,G] of the receiver G, also called the derived group and noted G'.
 	This is the smallest normal subgroup of G such that the quotient G / [G,G] is commutative."
 	^ self commutator: self! !
 
@@ -14810,7 +14810,7 @@ coproduct: aGroup
 copyEmpty
 	^ super copyEmpty inverseMap: self inverseMap! !
 
-!Group methodsFor: 'graphs' stamp: 'len 11/16/2016 10:09'!
+!Group methodsFor: 'graphs' stamp: 'len 3/6/2017 16:34:43'!
 cycleGraph
 	| op G elements id |
 	self isFinite ifFalse: [^ self error: 'not a finite group'].
@@ -14823,13 +14823,13 @@ cycleGraph
 			[| e g |
 			e _ elements anyOne.
 			g _ id.
-			[| g` |
-			g` _ op value: {g. e}.
-			(G hasEdgeFrom: g to: g`) ifFalse: [G addEdgeFrom: g to: g`].
-			(g _ g`) = id] whileFalse: [elements remove: g ifAbsent: []]].
+			[| g2 |
+			g2 _ op value: {g. e}.
+			(G hasEdgeFrom: g to: g2) ifFalse: [G addEdgeFrom: g to: g2].
+			(g _ g2) = id] whileFalse: [elements remove: g ifAbsent: []]].
 	^ G! !
 
-!Group methodsFor: 'graphs' stamp: 'len 11/16/2016 10:09'!
+!Group methodsFor: 'graphs' stamp: 'len 3/6/2017 16:35:07'!
 cycleGraph2
 	| op G elements id |
 	self flag: #fix. "incorrect, test dihedral 4, 5.."
@@ -14843,10 +14843,10 @@ cycleGraph2
 			[| e g |
 			e _ elements remove: elements anyOne.
 			g _ id.
-			[| g` |
-			g` _ op value: {g. e}.
-			G addEdgeFrom: g to: g`.
-			(g _ g`) = id] whileFalse].
+			[| g2 |
+			g2 _ op value: {g. e}.
+			G addEdgeFrom: g to: g2.
+			(g _ g2) = id] whileFalse].
 	^ G! !
 
 !Group methodsFor: 'graphs' stamp: 'len 7/29/2016 06:30'!
@@ -14875,15 +14875,15 @@ defaultOperation
 		(each class canUnderstand: #negated) ifTrue: [^ self additiveOperation].
 		^ self error: 'unable to determine group operation']"! !
 
-!Group methodsFor: 'series' stamp: 'len 5/1/2016 23:02'!
+!Group methodsFor: 'series' stamp: 'len 3/6/2017 16:38:33'!
 derivedSeriesDo: aBlock
 	"For finite groups the derived series terminates in a perfect group (called the perfect core), which may or may not be trivial."
-	| G G` |
+	| G H |
 	G _ self.
-	[G` _ G commutator.
-	aBlock value: G`.
-	G order = G` order ifTrue: [^ self].
-	G _ G`] repeat! !
+	[H _ G commutator.
+	aBlock value: H.
+	G order = H order ifTrue: [^ self].
+	G _ H] repeat! !
 
 !Group methodsFor: 'enumerating' stamp: 'len 12/28/2016 11:27:03'!
 do: aBlock
@@ -15021,26 +15021,27 @@ isNormalIn: anOvergroup
 isPerfect
 	^ self isTrivial not and: [self = self commutator]! !
 
-!Group methodsFor: 'testing' stamp: 'len 5/2/2016 02:31'!
+!Group methodsFor: 'testing' stamp: 'len 3/6/2017 16:37:20'!
 isSolvable
 	^ self perfectCore isTrivial
 
-" alternative implementations:
-	| G G` |
+"
+alternative implementations:
+	| G G' |
 	G _ self.
 	[G isCyclic ifTrue: [^ true].
 	G isTrivial ifTrue: [^ false].
-	G` _ G commutator.
-	G` order = G order ifTrue: [^ false].
-	G _ G`] repeat
+	G' _ G commutator.
+	G' order = G order ifTrue: [^ false].
+	G _ G'] repeat
 
- or:
-	| G G` |
+or:
+	| G G' |
 	G _ self.
 	[G isTrivial ifTrue: [^ true].
-	G` _ G commutator.
-	G` order = G order ifTrue: [^ false].
-	G _ G`] repeat"
+	G' _ G commutator.
+	G' order = G order ifTrue: [^ false].
+	G _ G'] repeat"
 ! !
 
 !Group methodsFor: 'testing' stamp: 'len 4/22/2016 14:04'!
@@ -15062,14 +15063,14 @@ leftAction
 	^ self operation
 	"^ GroupAction from: (self, self) to: self evaluating: [:each| self operation value: {each first. each second}]"! !
 
-!Group methodsFor: 'series' stamp: 'len 5/1/2016 23:03'!
+!Group methodsFor: 'series' stamp: 'len 3/6/2017 16:38:17'!
 lowerCentralSeriesDo: aBlock
-	| G G` |
+	| G H |
 	G _ self.
-	[G` _ G commutator: self.
-	aBlock value: G`.
-	G order = G` order ifTrue: [^ self].
-	G _ G`] repeat! !
+	[H _ G commutator: self.
+	aBlock value: H.
+	G order = H order ifTrue: [^ self].
+	G _ H] repeat! !
 
 !Group methodsFor: 'private' stamp: 'len 10/9/2016 08:58'!
 multiplicativeInverseMap
@@ -15255,11 +15256,11 @@ upperCentralSeriesDo: aBlock
 	aBlock value: Z.
 	Z order = self order] whileFalse! !
 
-!Group methodsFor: 'series' stamp: 'len 5/1/2016 23:04'!
+!Group methodsFor: 'series' stamp: 'len 3/6/2017 16:39:11'!
 upperCentralSeriesQuotientsDo: aBlock
-	| Z` |
-	Z` _ self trivial.
-	self upperCentralSeriesDo: [:Z| aBlock value: Z / Z`. Z` _ Z]! !
+	| Z1 |
+	Z1 _ self trivial.
+	self upperCentralSeriesDo: [:Z| aBlock value: Z / Z1. Z1 _ Z]! !
 
 !Group class methodsFor: 'examples' stamp: 'len 11/10/2016 08:45'!
 alternating: aCollection
@@ -21851,17 +21852,16 @@ remainderAtRandom: aRandom
 		answer _ answer • (R * ((R * g • self) basis apply: [:h| h /// g]))].
 	^ answer! !
 
-!PolynomialIdeal methodsFor: 'operations' stamp: 'len 12/8/2016 20:31:28'!
+!PolynomialIdeal methodsFor: 'operations' stamp: 'len 3/6/2017 16:45:49'!
 • anIdeal
 	"To compute the intersection we introduce a new variable t, then eliminate it from the ideal I*t + J*(1-t)."
-	| R R` t T |
+	| R S t |
 	self isZero ifTrue: [^ self].
 	anIdeal isZero ifTrue: [^ anIdeal].
 	R _ self ring.
-	R` _ R scalars polynomialsIn: R rank + 1.
-	t _ R` rank. "index of last indeterminate"
-	T _ R` x: t.
-	^ ((self as: R`) * T + ((anIdeal as: R`) * (T - R` one)) eliminate: t) as: R! !
+	S _ R scalars polynomialsIn: R rank + 1.
+	t _ S x: S rank.
+	^ ((self as: S) * t + ((anIdeal as: S) * (t - S one)) eliminate: S rank) as: R! !
 
 !PolynomialIdeal methodsFor: 'accessing' stamp: 'len 2/3/2017 07:16:22'!
 basis
@@ -21893,13 +21893,13 @@ degree
 					ifTrue: [count _ count + 1]]].
 	^ count! !
 
-!PolynomialIdeal methodsFor: 'operations' stamp: 'len 1/10/2017 16:29:15'!
+!PolynomialIdeal methodsFor: 'operations' stamp: 'len 3/6/2017 16:41:31'!
 dehomogenizedIn: anIndeterminate
 	"Answer the dehomogenization of the receiver removing the given indeterminate."
-	| R R` |
+	| R S |
 	R _ self ring.
-	R` _ R copyWithout: anIndeterminate.
-	^ R` * (self generators collect: [:each| (each dehomogenizedIn: anIndeterminate) as: R`])! !
+	S _ R copyWithout: anIndeterminate.
+	^ S * (self generators collect: [:each| (each dehomogenizedIn: anIndeterminate) as: S])! !
 
 !PolynomialIdeal methodsFor: 'accessing' stamp: 'len 10/23/2016 11:59'!
 depth
@@ -21952,12 +21952,12 @@ groebnerBasis
 groebnerBasisWithOrdering: aMonomialOrdering
 	^ (self orderedBy: aMonomialOrdering) groebnerBasis! !
 
-!PolynomialIdeal methodsFor: 'operations' stamp: 'len 2/3/2017 07:17:00'!
+!PolynomialIdeal methodsFor: 'operations' stamp: 'len 3/6/2017 16:44:14'!
 highestCorner
 	"Answer the highest corner of the receiver I.
 	This is the unique monomial m such that:
 		1) m is not in the leading ideal of I;
-		2) if m' < m, then m` is in the leading ideal of I."
+		2) if m' < m, then m' is in the leading ideal of I."
 	self ordering isGlobal
 		ifTrue: [^ self isProper ifTrue: [self ring monomials identity]].
 	"TODO: compute it combinatorially from a standard basis"
@@ -21974,16 +21974,16 @@ hilbertSeriesAt: t
 	self isHomogeneous ifFalse: [^ self notYetImplemented].
 	^ self leadingIdeal hilbertSeriesAt: t! !
 
-!PolynomialIdeal methodsFor: 'operations' stamp: 'len 2/12/2017 06:07:04'!
+!PolynomialIdeal methodsFor: 'operations' stamp: 'len 3/6/2017 16:44:43'!
 homogenized
 	"Answer the homogenization of the receiver introducing a new indeterminate."
-	| R R` G ordering |
+	| R S G ordering |
 	R _ self ring.
-	R` _ R scalars polynomialsIn: R rank + 1.
+	S _ R scalars polynomialsIn: R rank + 1.
 	"Must use a graded monomial ordering such as glex or grevlex:"
 	ordering _ MonomialOrdering grevlex: R rank.
 	G _ self groebnerBasisWithOrdering: ordering.
-	^ R` * (G collect: [:each| (each as: R`) homogenizedIn: R` rank])! !
+	^ S * (G collect: [:each| (each as: S) homogenizedIn: S rank])! !
 
 !PolynomialIdeal methodsFor: 'operations-elements' stamp: 'len 11/14/2016 07:32'!
 inverseOf: aPolynomial
@@ -22089,19 +22089,19 @@ radical
 	self flag: #fix. "this is not right, maybe only works for Q[x1..xn] and monomial ideals"
 	^ self squareFree! !
 
-!PolynomialIdeal methodsFor: 'testing' stamp: 'len 1/26/2017 09:44:32'!
+!PolynomialIdeal methodsFor: 'testing' stamp: 'len 3/6/2017 16:45:26'!
 radicalContains: aPolynomial
 	"(Radical Membership Problem)
 	Answer true if the radical of the receiver includes aPolynomial.
 	Use Rabinowich's trick introducing a new indeterminate."
-	| R R` t X |
+	| R S t X |
 	R _ self ring.
-	R` _ R scalars polynomialsIn: R rank + 1.
-	t _ R` x: R rank + 1.
+	S _ R scalars polynomialsIn: R rank + 1.
+	t _ S x: R rank + 1.
 	X _ OrderedCollection new.
-	self generators do: [:g| X add: (g as: R`)].
-	X add: (aPolynomial as: R`) * t - R` one.
-	^ (R` * X) isTrivial! !
+	self generators do: [:g| X add: (g as: S)].
+	X add: (aPolynomial as: S) * t - S one.
+	^ (S * X) isTrivial! !
 
 !PolynomialIdeal methodsFor: 'operations-elements' stamp: 'len 1/26/2017 09:35:44'!
 reduce: aPolynomial
@@ -22735,17 +22735,17 @@ product: aModule
 project: aVector
 	^ self projection value: aVector! !
 
-!FreeModule methodsFor: 'morphisms' stamp: 'len 1/16/2017 08:16:41'!
+!FreeModule methodsFor: 'morphisms' stamp: 'len 3/6/2017 16:46:29'!
 projection
 	"Answer an orthogonal projection on the receiver. A projection P is a linear transformation from the ambient vector space to a subspace such that P^2 = P (idempotent)."
-	| answer B B` K matrix |
+	| answer B B2 K matrix |
 	answer _ self propertyAt: #projection ifAbsent: [].
 	answer notNil ifTrue: [^ answer].
 	B _ self basis orthogonalized.
-	B` _ self basis extended orthogonalized.
+	B2 _ self basis extended orthogonalized.
 	K _ self scalars.
-	matrix _ K matrix: B size @ B` size evaluatingDiagonal: [:i| K one"(B at: i) norm2"].
-	answer _ LinearMap from: B` to: B matrix: matrix.
+	matrix _ K matrix: B size @ B2 size evaluatingDiagonal: [:i| K one"(B at: i) norm2"].
+	answer _ LinearMap from: B2 to: B matrix: matrix.
 	self propertyAt: #projection put: answer.
 	^ answer! !
 
@@ -29080,10 +29080,10 @@ value: aPoint
 	"Answer the value of the receiver at the given projective point, line, etc."
 	^ (aPoint vectorSpace apply: linearMap) projectivized! !
 
-!ProjectiveMap class methodsFor: 'instance creation' stamp: 'len 6/4/2016 03:10'!
-from: P to: P` evaluating: aBlock
+!ProjectiveMap class methodsFor: 'instance creation' stamp: 'len 3/6/2017 16:47:39'!
+from: aDomain to: aCodomain evaluating: aBlock
 	self flag: #fix.
-	^ self linearMap: (LinearMap from: P vectorSpace to: P` vectorSpace evaluating: [:v| P` vectorFromPoint: (aBlock value: (P project: v))])! !
+	^ self linearMap: (LinearMap from: aDomain vectorSpace to: aCodomain vectorSpace evaluating: [:v| aCodomain vectorFromPoint: (aBlock value: (aDomain project: v))])! !
 
 !ProjectiveMap class methodsFor: 'examples' stamp: 'len 3/2/2017 04:59:47'!
 hyperplane: aProjectiveSubspace center: aPoint
@@ -30085,9 +30085,9 @@ from: aDomain to: aCodomain representatives: anArrayOfRationalFunctions
 		ifTrue: [^ self error: 'not homogeneous'].
 	^ self new domain: aDomain; codomain: aCodomain; representatives: anArrayOfRationalFunctions! !
 
-!EllipticCurveIsogeny methodsFor: 'as yet unclassified' stamp: 'len 12/25/2016 08:38:31'!
+!EllipticCurveIsogeny methodsFor: 'as yet unclassified' stamp: 'len 3/6/2017 16:48:06'!
 dual
-	"Answer the dual of the receiver. If the receiver is f:E->E` of degree n, its dual is an isogeny g:E`->E such that the compositions are [n] (multiplication by n)."
+	"Answer the dual of the receiver. If the receiver is f:E->E' of degree n, its dual is an isogeny g:E'->E such that the compositions are [n] (multiplication by n)."
 	^ self notYetImplemented! !
 
 !EllipticCurveIsogeny methodsFor: 'as yet unclassified' stamp: 'len 12/25/2016 08:42:27'!
@@ -31263,17 +31263,17 @@ generators: aCollection
 	state _ aCollection asOrderedCollection.
 	60 - (state size min: 10) timesRepeat: [self next] "initial precomputation takes about 60 multiplications / inversions in the group"! !
 
-!GroupRandomGenerator methodsFor: 'generating' stamp: 'len 8/30/2016 19:53'!
+!GroupRandomGenerator methodsFor: 'generating' stamp: 'len 3/6/2017 16:49:03'!
 next
 	"Product Replacement Algorithm. After the initial precomputation, every new random element takes one multiplication and 1/2 inversion in the group."
-	| g g` i |
+	| g h i |
 	state isNil ifTrue: [self generators: self domain generators].
 	g _ state atRandom: random.
 	[(state at: (i _ state size atRandom: random)) == g and: [state size > 1 "otherwise fails with cyclic groups"]] whileTrue.
 	(2 atRandom: random) = 1 ifTrue: [g _ self domain inverseMap value: g].
-	g` _ self domain operation value: ({g. state at: i} shuffledBy: random).
-	state size < 10 ifTrue: [state add: g`] ifFalse: [state at: i put: g`].
-	^ g`! !
+	h _ self domain operation value: ({g. state at: i} shuffledBy: random).
+	state size < 10 ifTrue: [state add: h] ifFalse: [state at: i put: h].
+	^ h! !
 
 !Word methodsFor: 'arithmetic' stamp: 'len 3/3/2016 05:25'!
 * aWord
@@ -31797,16 +31797,16 @@ run
 	self error: 'what?'.
 	^ order! !
 
-!SchreierSims methodsFor: 'computing' stamp: 'len 6/30/2016 09:55'!
+!SchreierSims methodsFor: 'computing' stamp: 'len 3/6/2017 16:49:33'!
 strip: anElement
 	| g |
 	g _ anElement.
-	trees withIndexDo: [:each :i| | b b` |
+	trees withIndexDo: [:each :i| | b b2 |
 		b _ each root.
-		b` _ action value: {g. b}.
-		(each orbits includes: b`)
+		b2 _ action value: {g. b}.
+		(each orbits includes: b2)
 			ifFalse: [^ {g. i}].
-		g _ g * (each traceInverse: b`)].
+		g _ g * (each traceInverse: b2)].
 	^ {g. trees size + 1}! !
 
 !SchreierSims methodsFor: 'accessing' stamp: 'len 6/25/2016 20:06'!
@@ -32070,13 +32070,13 @@ derivative
 	gcd _ self denominator gcd: num.
 	^ self class numerator: num // gcd denominator: (self denominator // gcd) squared * gcd! !
 
-!RationalFunction methodsFor: 'operations' stamp: 'len 1/23/2017 11:45:39'!
+!RationalFunction methodsFor: 'operations' stamp: 'len 3/6/2017 16:50:08'!
 homogenized
 	"Answer the homogenization of the receiver introducing a new indeterminate."
-	| R R` |
+	| R S |
 	R _ self numerator parent.
-	R` _ R scalars polynomialsIn: R rank + 1.
-	^ self class numerator: ((self numerator as: R`) homogenizedIn: R` rank) denominator: ((self denominator as: R`) homogenizedIn: R` rank)! !
+	S _ R scalars polynomialsIn: R rank + 1.
+	^ self class numerator: ((self numerator as: S) homogenizedIn: S rank) denominator: ((self denominator as: S) homogenizedIn: S rank)! !
 
 !RationalFunction methodsFor: 'operations' stamp: 'len 11/4/2016 11:45'!
 homogenizedIn: anIndeterminate
@@ -32454,24 +32454,24 @@ asRational
 	N _ (self modulus // 2) sqrtFloor.
 	^ self asRationalMaxNumerator: N maxDenominator: N! !
 
-!ModularInteger methodsFor: 'converting' stamp: 'len 12/1/2016 22:06:18'!
+!ModularInteger methodsFor: 'converting' stamp: 'len 3/6/2017 16:51:02'!
 asRational: T
 	"Answer the rational reconstruction of the receiver, or nil if not found.
 	This is the MQRR (Maximal Quotient Rational Reconstruction) algorithm.
 	The parameter T > 0 bounds the size of the possible outputs. If u is the representative of the receiver and m is the modulus, the algorithm returns a rational n/d = u mod m, d > 0, gcd(n,d) = 1 and T*|n|*d < m, or fails.
 	The algorithm is almost optimal in the sense that requires that the modulus be only a modest number bits longer than 2*|n|*d. The time complexity is O(log^2 m).
 	Reference: 'Maximal Quotient Rational Reconstruction: An Almost Optimal Algorithm for Rational Reconstructoin', Michael Monagan."
-	| T` n d t0 r0 t1 r1 temp answer |
+	| T2 n d t0 r0 t1 r1 temp answer |
 	representative == 0 ifTrue: [^ self modulus > T ifTrue: [0]].
 	n _ 0. d _ 0.
 	t0 _ 0. r0 _ self modulus.
 	t1 _ 1. r1 _ representative.
-	T` _ T.
-	[r1 ~~ 0 and: [r0 > T`]]
+	T2 _ T.
+	[r1 ~~ 0 and: [r0 > T2]]
 		whileTrue:
 			[| q |
-			(q _ r0 // r1) > T`
-				ifTrue: [n _ r1. d _ t1. T` _ q].
+			(q _ r0 // r1) > T2
+				ifTrue: [n _ r1. d _ t1. T2 _ q].
 			temp _ r0 - (q * r1). r0 _ r1. r1 _ temp.
 			temp _ t0 - (q * t1). t0 _ t1. t1 _ temp].
 	^ (d ~~ 0 and: [(answer _ n/d) numerator abs = n abs]) ifTrue: [answer]! !
@@ -32821,28 +32821,28 @@ reciprocal
 		irreducible: irreducible
 		bounds: self bounds reciprocal! !
 
-!AlgebraicNumber methodsFor: 'approximating' stamp: 'len 6/5/2016 23:02'!
+!AlgebraicNumber methodsFor: 'approximating' stamp: 'len 3/6/2017 16:51:53'!
 refine
-	| P Q P` Q` m x v c dx y v1 m1 |
+	| P Q P2 Q2 m x v c dx y v1 m1 |
 	radius _ radius / 2.
 	P _ polynomial.
 	Q _ P.
-	P` _ P derivative.
-	Q` _ P`.
+	P2 _ P derivative.
+	Q2 _ P2.
 	x _ approximation.
 	v _ Q value: x.
 	m _ v norm2.
-	c _ 0. dx _ v / (Q` value: x).
+	c _ 0. dx _ v / (Q2 value: x).
 	[dx abs >= radius]
 		whileTrue:
 			[y _ x - dx.
 			v1 _ Q value: y.
 			m1 _ v1 norm2.
 			m1 < m
-				ifTrue: [x _ y. v _ v1. m _ m1. c _ 0. dx _ v / (Q` value: x)]
+				ifTrue: [x _ y. v _ v1. m _ m1. c _ 0. dx _ v / (Q2 value: x)]
 				ifFalse: [c _ c + 1. dx _ dx / 4. c > 20 ifTrue: [self error: 'failed']]].
 	"Polish root:"
-	2 timesRepeat: [x _ x - ((P value: x) / (P` value: x))].
+	2 timesRepeat: [x _ x - ((P value: x) / (P2 value: x))].
 	approximation _ x! !
 
 !AlgebraicNumber methodsFor: 'approximating' stamp: 'len 6/5/2016 23:05'!
@@ -37615,16 +37615,16 @@ asLinearForm
 	self isLinear ifFalse: [^ self error: 'not a linear polynomial'].
 	^ (self scalars ^ self parent rank) dual evaluating: self! !
 
-!Polynomial methodsFor: 'converting' stamp: 'len 1/23/2017 11:39:39'!
+!Polynomial methodsFor: 'converting' stamp: 'len 3/6/2017 16:52:23'!
 asMultivariate
 	"Convert a polynomial in R[x][y][z] to a polynomial in R[x,y,z]."
-	| R R` answer |
+	| R S answer |
 	((R _ self scalars) isKindOf: PolynomialRing) ifFalse: [^ self].
 	self parent isUnivariate ifFalse: [^ self].
-	R` _ self parent asMultivariate.
-	answer _ R` zero.
+	S _ self parent asMultivariate.
+	answer _ S zero.
 	self monomialsAndCoefficientsDo: [:key :value|
-		answer _ answer + ((value as: R`) * (R` x: R rank + 1 to: key degree))].
+		answer _ answer + ((value as: S) * (S x: R rank + 1 to: key degree))].
 	^ answer! !
 
 !Polynomial methodsFor: 'converting' stamp: 'len 1/23/2017 11:39:44'!
@@ -37865,13 +37865,13 @@ hessian
 	self flag: #fix. "optimize"
 	^ self parent matrix: self parent rank evaluating: [:i :j| (self derivativeIn: i) derivativeIn: j]! !
 
-!Polynomial methodsFor: 'operations' stamp: 'len 1/23/2017 11:42:17'!
+!Polynomial methodsFor: 'operations' stamp: 'len 3/6/2017 16:53:38'!
 homogenized
 	"Answer the homogenization of the receiver introducing a new indeterminate."
-	| R R` |
+	| R S |
 	R _ self parent.
-	R` _ R scalars polynomialsIn: R rank + 1.
-	^ (self as: R`) homogenizedIn: R` rank! !
+	S _ R scalars polynomialsIn: R rank + 1.
+	^ (self as: S) homogenizedIn: S rank! !
 
 !Polynomial methodsFor: 'operations' stamp: 'len 3/22/2016 23:19'!
 homogenizedIn: anIndeterminate
@@ -39028,18 +39028,18 @@ value: anObject
 		ifTrue: [anObject at: 1] ifFalse: [anObject].
 	^ coefficients polynomialValue: x! !
 
-!UnivariatePolynomial methodsFor: 'roots' stamp: 'len 1/23/2017 11:48:39'!
+!UnivariatePolynomial methodsFor: 'roots' stamp: 'len 3/6/2017 16:54:14'!
 zeroAddition: aPolynomial
 	"Answer a polynomial whose zeros are the addition of the receiver zeros with the zeros of the argument."
-	| f g R R` y X Y C |
+	| f g R S y X Y C |
 	self degree <= aPolynomial degree
 		ifTrue: [f _ self. g _ aPolynomial]
 		ifFalse: [g _ self. f _ aPolynomial].
 	R _ self parent.
 	y _ R rank + 1.
-	R` _ self scalars polynomialsIn: R rank + 1.
-	X _ R` x: R indeterminate.
-	Y _ R` x: y.
+	S _ self scalars polynomialsIn: R rank + 1.
+	X _ S x: R indeterminate.
+	Y _ S x: y.
 	C _ f companion apply: R embedding.
 	^ (((g value: X - Y) asUnivariateIn: y) value: C) determinant! !
 
@@ -39065,24 +39065,24 @@ zeroReciprocal
 
 	^ self reversed! !
 
-!FiniteFieldPolynomialFactorizer methodsFor: 'private' stamp: 'len 1/23/2017 11:32:51'!
+!FiniteFieldPolynomialFactorizer methodsFor: 'private' stamp: 'len 3/6/2017 16:55:37'!
 distinctDegreeFactorization: aPolynomial
 	"Answer the distinct-degree factorization of a monic square-free polynomial.
 	The factorization is a Dictionary g -> d, where g is the product of all irreducible factors of degree d."
-	| answer i f f` one q x |
+	| answer i f f2 one q x |
 	answer _ Dictionary new.
 	f _ aPolynomial.
 	x _ f parent x.
 	one _ f parent one.
 	q _ f parent characteristic.
 	i _ 1.
-	f` _ f.
-	[f` degree >= (2*i)]
+	f2 _ f.
+	[f2 degree >= (2*i)]
 		whileTrue:
-			[ | g | g _ f` gcd: (x raisedTo: q^i modulo: f`) - x.
-			g ~= one ifTrue: [answer at: i put: g. f` _ f` // g].
+			[ | g | g _ f2 gcd: (x raisedTo: q^i modulo: f2) - x.
+			g ~= one ifTrue: [answer at: i put: g. f2 _ f2 // g].
 			i _ i + 1].
-	f` ~= one ifTrue: [answer at: f` degree put: f`].
+	f2 ~= one ifTrue: [answer at: f2 degree put: f2].
 	answer isEmpty ifTrue: [answer at: 1 put: f].
 	^ answer! !
 
@@ -39588,6 +39588,16 @@ polynomial: aPolynomial
 
 	^ self new polynomial: aPolynomial! !
 
+!ComplexRootFinder methodsFor: 'as yet unclassified' stamp: 'len 3/6/2017 16:56:02'!
+T2: K at: m radius: r
+	| t |
+	t _ 0.
+	1 to: self derivatives size - 1 do: [:j|
+		| f |
+		f _ derivatives at: j+1.
+		t _ (f value: m) abs * (r ^ j) / j factorial + t].
+	^ (derivatives first value: m) abs > (K * t)! !
+
 !ComplexRootFinder methodsFor: 'as yet unclassified' stamp: 'len 6/5/2016 21:30'!
 T: K at: m radius: r
 	| t |
@@ -39597,16 +39607,6 @@ T: K at: m radius: r
 		f _ derivatives at: j.
 		t _ (f value: m) abs * (r ^ j) / j factorial + t].
 	^ (squareFreePolynomial value: m) abs > (K * t)! !
-
-!ComplexRootFinder methodsFor: 'as yet unclassified' stamp: 'len 6/5/2016 21:32'!
-T`: K at: m radius: r
-	| t |
-	t _ 0.
-	1 to: self derivatives size - 1 do: [:j|
-		| f |
-		f _ derivatives at: j+1.
-		t _ (f value: m) abs * (r ^ j) / j factorial + t].
-	^ (derivatives first value: m) abs > (K * t)! !
 
 !ComplexRootFinder methodsFor: 'as yet unclassified' stamp: 'len 6/5/2016 05:07'!
 bigBounds
@@ -39647,10 +39647,10 @@ eightPointTest: m width: w
 	^ realCrossings first > imaginaryCrossings first
 		and: [realCrossings second > imaginaryCrossings second]! !
 
-!ComplexRootFinder methodsFor: 'as yet unclassified' stamp: 'len 6/5/2016 20:40'!
+!ComplexRootFinder methodsFor: 'as yet unclassified' stamp: 'len 3/6/2017 16:56:09'!
 moreThanOneRootIn: aDisk
 	"if this holds, there's at most one root in aDisk."
-	^ self T`: 3/2 at: aDisk center radius: aDisk radius
+	^ self T2: 3/2 at: aDisk center radius: aDisk radius
 "	^ (self rootsIn: aBox) size > 1"! !
 
 !ComplexRootFinder methodsFor: 'as yet unclassified' stamp: 'len 6/5/2016 05:08'!
@@ -39664,7 +39664,7 @@ roots
 	"Separate the roots in disks each of them containing one isolated root."
 	^ self rootsIn: self bigBounds! !
 
-!ComplexRootFinder methodsFor: 'as yet unclassified' stamp: 'len 6/5/2016 22:32'!
+!ComplexRootFinder methodsFor: 'as yet unclassified' stamp: 'len 3/6/2017 16:57:02'!
 rootsIn: aBox
 	"Separate the roots in disks each of them containing one isolated root."
 	| queue disks |
@@ -39679,18 +39679,18 @@ rootsIn: aBox
 			(self T: 1 at: m radius: delta)
 				"if holds, then D(m,delta) constains no roots"
 				ifFalse:
-					[((self T`: 6 at: m radius: 4*delta) and: [self T`: 3/2 at: m radius: 8*delta])
+					[((self T2: 6 at: m radius: 4*delta) and: [self T2: 3/2 at: m radius: 8*delta])
 						"if the second holds, then D(m,8*delta) contains at most one root"
 						"the first is required so that if two disks overlap, we can discard any one of them"
 						ifTrue:
 							[(self eightPointTest: m width: B width)
 								ifTrue:
-									[| D i D` |
+									[| D i D2 |
 									D _ ComplexDisk center: m radius: 4*delta.
-									(i _ (1 to: disks size) detect: [:j| (D` _ disks at: j) intersects: D] ifNone: [])
+									(i _ (1 to: disks size) detect: [:j| (D2 _ disks at: j) intersects: D] ifNone: [])
 									 isNil
 										ifTrue: [disks add: D]
-										ifFalse: [D` radius < D radius ifTrue: [disks at: i put: D]]]]
+										ifFalse: [D2 radius < D radius ifTrue: [disks at: i put: D]]]]
 						ifFalse:
 							[queue addAll: B quarters]]].
 	^ disks collect: [:each| AlgebraicNumber polynomial: squareFreePolynomial approximation: each center radius: each radius]! !
@@ -39725,14 +39725,14 @@ rootNear: aComplex
 	self roots do: [:each| each refine]] repeat"
 	^ self roots detectMin: [:each| (each approximation - aComplex) abs]! !
 
-!NumericalComplexRootFinder methodsFor: 'private' stamp: 'len 1/23/2017 11:36:59'!
+!NumericalComplexRootFinder methodsFor: 'private' stamp: 'len 3/6/2017 16:59:09'!
 roots
-	| roots X P Q P` Q` n x v m c dx x1 v1 m1 realCoefficients |
+	| roots X P Q P2 Q2 n x v m c dx x1 v1 m1 realCoefficients |
 	X _ polynomial parent x.
 	P _ polynomial.
 	Q _ P.
-	P` _ P derivative.
-	Q` _ P`.
+	P2 _ P derivative.
+	Q2 _ P2.
 	n _ P degree.
 	roots _ OrderedCollection new: n.
 	realCoefficients _ P coefficients allSatisfy: [:each| (each isKindOf: Number) or: [each imaginary isZero]].
@@ -39741,31 +39741,31 @@ roots
 	v _ Q value: x.
 	m _ v norm2.
 	"Initialize recursion:"
-	c _ 0. dx _ v / (Q` value: x).
+	c _ 0. dx _ v / (Q2 value: x).
 	[dx abs < tolerance]
 		whileFalse:
 			[x1 _ x - dx.
 			v1 _ Q value: x1.
 			m1 _ v1 norm2.
 			m1 < m
-				ifTrue: [x _ x1. v _ v1. m _ m1. c _ 0. dx _ v / (Q` value: x)]
+				ifTrue: [x _ x1. v _ v1. m _ m1. c _ 0. dx _ v / (Q2 value: x)]
 				ifFalse: [c _ c + 1. dx _ dx / 4. c > 20 ifTrue: [self error: 'failed']]].
 	"Polish root:"
-	2 timesRepeat: [x _ x - ((P value: x) / (P` value: x))].
+	2 timesRepeat: [x _ x - ((P value: x) / (P2 value: x))].
 	"Divide:"
 	((realCoefficients not or: [n = 1]) or: [x imaginary abs < tolerance "###"])
 		ifTrue: "found one root"
 			[x imaginary abs < tolerance ifTrue: [x _ x real]. "###"
 			roots add: (AlgebraicNumber polynomial: P approximation: x radius: tolerance).
 			Q _ Q // (X - x).
-			Q` _ Q derivative. "###"
+			Q2 _ Q derivative. "###"
 			n _ n - 1]
 		ifFalse: "found a root and (if the root is not real) also found its conjugate"
 			[roots
 				add: (AlgebraicNumber polynomial: P approximation: x radius: tolerance);
 				add: (AlgebraicNumber polynomial: P approximation: x conjugated radius: tolerance).
 			Q _ Q // (X^2 - (X * (x real * 2)) + x abs squared).
-			Q` _ Q derivative. "###"
+			Q2 _ Q derivative. "###"
 			n _ n - 2].
 	n > 0] whileTrue.
 	^ roots! !
@@ -41149,21 +41149,21 @@ pairingAt: i
 	"Answer the pairing between i-1 and i. Each pairing is either a positive integer (a free pairing), #even or #odd."
 	^ pairings at: i! !
 
-!FareySymbol methodsFor: 'as yet unclassified' stamp: 'len 12/21/2016 16:08:59'!
+!FareySymbol methodsFor: 'as yet unclassified' stamp: 'len 3/6/2017 17:01:38'!
 pairingMapAt: i
-	| a b a` b` k ak bk ak` bk` |
+	| a b a1 b1 k ak bk ak1 bk1 |
 	a _ self numeratorAt: i-1.
 	b _ self denominatorAt: i-1.
-	a` _ self numeratorAt: i.
-	b` _ self denominatorAt: i.
+	a1 _ self numeratorAt: i.
+	b1 _ self denominatorAt: i.
 	k _ self pairingAt: i.
-	k == #even ifTrue: [^ ModularMap a: a`*b` + (a*b) b: a*a negated - (a`*a`) c: b*b + (b`*b`) d: a`*b` negated - (a*b)].
-	k == #odd ifTrue: [^ ModularMap a: a`*b` + (a*b`) + (a*b) b: a*a negated - (a*a`) - (a`*a`) c: b*b + (b*b`) + (b`*b`) d: a`*b` negated - (a`*b) - (a*b)].
+	k == #even ifTrue: [^ ModularMap a: a1*b1 + (a*b) b: a*a negated - (a1*a1) c: b*b + (b1*b1) d: a1*b1 negated - (a*b)].
+	k == #odd ifTrue: [^ ModularMap a: a1*b1 + (a*b1) + (a*b) b: a*a negated - (a*a1) - (a1*a1) c: b*b + (b*b1) + (b1*b1) d: a1*b1 negated - (a1*b) - (a*b)].
 	ak _ self numeratorAt: k.
 	bk _ self denominatorAt: k.
-	ak` _ self numeratorAt: k+1.
-	bk` _ self denominatorAt: k+1.
-	^ ModularMap a: ak`*b` + (ak*b) b: ak*ak negated - (ak`*a`) c: bk*b + (bk`*b`) d: a`*bk` negated - (a*bk)! !
+	ak1 _ self numeratorAt: k+1.
+	bk1 _ self denominatorAt: k+1.
+	^ ModularMap a: ak1*b1 + (ak*b) b: ak*ak negated - (ak1*a1) c: bk*b + (bk1*b1) d: a1*bk1 negated - (a*bk)! !
 
 !FareySymbol methodsFor: 'as yet unclassified' stamp: 'len 12/20/2016 21:30:43'!
 printOn: aStream
@@ -41277,35 +41277,34 @@ printOn: aStream
 	self verify ifFalse: [aStream nextPutAll: ' (broken)'].
 	self verifyMinimal ifFalse: [aStream nextPutAll: ' (not minimal)']! !
 
-!ExtendedEuclid methodsFor: 'private' stamp: 'len 3/21/2016 03:05'!
+!ExtendedEuclid methodsFor: 'private' stamp: 'len 3/6/2017 17:04:22'!
 run
-	| a b zero one s t s` t` r r` |
+	| a b zero one s1 t1 s t r1 r |
 	self assert: elements size = 2.
 	a _ elements first. b _ elements second.
 	zero _ a zero. one _ a one.
-	s _ zero. s` _ one.
-	t _ one. t` _ zero.
+	s1 _ zero. s _ one.
+	t1 _ one. t _ zero.
 	a isInteger
-		ifTrue: [r _ a abs. r` _ b abs]
-		ifFalse: [r _ a. r` _ b].
-	[r isZero]
+		ifTrue: [r1 _ a abs. r _ b abs]
+		ifFalse: [r1 _ a. r _ b].
+	[r1 isZero]
 		whileFalse:
 			[ | q temp |
-			q _ r` // r.
-			temp _ r. r _ r` - (q * r). r` _ temp.
-			temp _ s. s _ s` - (q * s). s` _ temp.
-			temp _ t. t _ t` - (q * t). t` _ temp].
-	gcd _ r`.
-	a isInteger ifTrue: [s` _ s` * b sign. t` _ t` * a sign].
+			q _ r // r1.
+			temp _ r1. r1 _ r - (q * r1). r _ temp.
+			temp _ s1. s1 _ s - (q * s1). s _ temp.
+			temp _ t1. t1 _ t - (q * t1). t _ temp].
+	gcd _ r.
+	a isInteger ifTrue: [s _ s * b sign. t _ t * a sign].
 	(gcd isKindOf: Polynomial) "make the gcd monic, otherwise it's not unique"
 		ifTrue:
 			[| lc |
 			lc _ gcd leadingCoefficient.
-			s` _ s` / lc.
-			t` _ t` / lc.
+			s _ s / lc.
+			t _ t / lc.
 			gcd _ gcd / gcd leadingCoefficient].
-	combination _ {t`. s`}.
-! !
+	combination _ {t. s}! !
 
 !ExtendedEuclid methodsFor: 'private' stamp: 'len 12/23/2015 20:10'!
 verify
@@ -41451,14 +41450,14 @@ modulus: anInteger
 	(n kronecker: p) == -1] whileFalse.
 	z _ n raisedTo: q modulo: p.! !
 
-!TonelliShanks methodsFor: 'as yet unclassified' stamp: 'len 12/29/2016 08:21:40'!
+!TonelliShanks methodsFor: 'as yet unclassified' stamp: 'len 3/6/2017 17:04:50'!
 squareRootOf: anInteger
-	| a y r x b m b` t |
+	| a y r x b m b2 t |
 	anInteger == 0 ifTrue: [^ anInteger].
 	a _ anInteger.
 	y _ z. r _ e. x _ a raisedTo: q-1 // 2 modulo: p. b _ a*x squared \\ p. x _ a*x \\ p.
 	[b == 1 ifTrue: [^ x].
-	b` _ b. m _ 1. [(b` _ b` squared \\ p) == 1] whileFalse: [m _ m + 1].
+	b2 _ b. m _ 1. [(b2 _ b2 squared \\ p) == 1] whileFalse: [m _ m + 1].
 	(b raisedTo: (2 ^ m) modulo: p) == 1 ifFalse: [self halt].
 	(m > 1 and: [(b raisedTo: (2 ^ (m-1)) modulo: p) == 1]) ifTrue: [self halt].
 	m = r ifTrue: [^ nil]. "the input is not a quadratic residue modulo p"
@@ -43016,13 +43015,13 @@ characteristicSet
 polynomials: aCollection
 	polynomials _ aCollection! !
 
-!WuRittProcess methodsFor: 'as yet unclassified' stamp: 'len 12/8/2016 20:34:26'!
+!WuRittProcess methodsFor: 'as yet unclassified' stamp: 'len 3/6/2017 17:05:45'!
 run
-	| F G R F` r |
+	| F G R F2 r |
 	F _ polynomials.
 	G _ Set new. R _ Set new.
-	[F _ F – R. F` _ R. R _ Set new.
-	[F` notEmpty] whileTrue: ["..."].
+	[F _ F – R. F2 _ R. R _ Set new.
+	[F2 notEmpty] whileTrue: ["..."].
 	F do: [:f| ((G includes: f) or: [(r _ G pseudoRemainderOf: f) isZero]) ifFalse: [R add: r]].
 	R isEmpty] whileFalse.
 	^ characteristicSet _ G! !
