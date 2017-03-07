@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 6 March 2017 at 3:48:53 pm'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 7 March 2017 at 7:31:06 am'!
 'Description Please enter a description for this package'!
-!provides: 'MathematicsTests' 1 77!
+!provides: 'MathematicsTests' 1 78!
 !classDefinition: #AbelianGroupTest category: #MathematicsTests!
 TestCase subclass: #AbelianGroupTest
 	instanceVariableNames: ''
@@ -887,18 +887,18 @@ testAffineHull
 	self assert: (H includes: v1).
 	self assert: (H includes: v2)! !
 
-!AffineGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 1/22/2017 08:22:04'!
+!AffineGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 3/7/2017 07:19:35'!
 testAffineMapCollinearity
 	"Affine maps preserve collinearity."
-	| A f p1 p1` p2 p2` p3 p3` |
+	| A f p1 fp1 p2 fp2 p3 fp3 |
 	A _ (QQ ^ 3) asAffineSpace.
 	f _ A automorphisms atRandomBits: 100.
 	"three collinear points:"
 	p1 _ (1,2,3) + (1,0,1). p2 _ (2,4,6) + (1,0,1). p3 _ (-1,-2,-3) + (1,0,1).
 	self assert: (A span: {p1.p2.p3}) isLine.
 	"the imagees of the three collinear points must be collinear:"
-	p1` _ f value: p1. p2` _ f value: p2. p3` _ f value: p3.
-	self assert: (A span: {p1`.p2`.p3`}) isLine! !
+	fp1 _ f value: p1. fp2 _ f value: p2. fp3 _ f value: p3.
+	self assert: (A span: {fp1.fp2.fp3}) isLine! !
 
 !AffineGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 1/22/2017 08:22:18'!
 testAffineMapComposition
@@ -1018,30 +1018,30 @@ testEmpty
 	X _ A / {A continuantOfOrder: 2. A continuantOfOrder: 3} :: spec.
 	self assert: X isEmpty! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 2/4/2017 09:20:21'!
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 3/7/2017 07:20:06'!
 testEqualVarietiesDifferentIdeals
-	| A x I I` V V` |
+	| A x I I2 V V2 |
 	A _ QQ polynomials.
 	x _ A x.
 	I _ A * {x}.
-	I` _ A * {x^2}.
+	I2 _ A * {x^2}.
 	V _ I variety.
-	V` _ I` variety.
-	self assert: V = V`.
-	self assert: I ~= I`! !
+	V2 _ I2 variety.
+	self assert: V = V2.
+	self assert: I ~= I2! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/15/2016 10:06'!
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 3/7/2017 07:20:25'!
 testEqualVarietiesDifferentIdeals2
-	| A x y I I` V V` |
+	| A x y I I2 V V2 |
 	A _ QQ polynomialsIn: #(x y).
 	x _ A x.
 	y _ A y.
 	I _ A * {x. y}.
-	I` _ A * {x^2. y}.
+	I2 _ A * {x^2. y}.
 	V _ I variety.
-	V` _ I` variety.
-	self assert: V = V`.
-	self assert: I ~= I`! !
+	V2 _ I2 variety.
+	self assert: V = V2.
+	self assert: I ~= I2! !
 
 !AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/15/2016 09:55'!
 testFinite
@@ -1052,15 +1052,15 @@ testFinite
 	X _ A / {x*x - 1. y*y - (x*x) - 3} :: spec.
 	self assert: X isFinite! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 1/13/2017 17:28:49'!
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 3/7/2017 07:21:16'!
 testIntersection
-	| A x y V V` W |
+	| A x y V V2 W |
 	A _ QQ polynomialsIn: #(x y).
 	x _ A x.
 	y _ A y.
 	V _ A / {y} :: spec.
-	V` _ A / {x*x - 1} :: spec.
-	W _ V • V`.
+	V2 _ A / {x*x - 1} :: spec.
+	W _ V • V2.
 	self assert: (W satisfies: (1, 0)).
 	self assert: (W satisfies: (0, 1)) not! !
 
@@ -1301,37 +1301,37 @@ testRationalMapAffineExample
 	self assert: phiInv isDominant.
 "	self assert: phiInv isSurjective not"! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 1/13/2017 21:19:54'!
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 3/7/2017 07:22:16'!
 testRationalMapImage
-	| A X X` f |
+	| A X X2 f |
 	A _ AffineSpace new: #(x y) over: QQ.
 	"circle centered at (0,0):"
 	X _ A subscheme: (A coordinateRing generate: [:x :y| x^2 + (y^2) - 1]).
 	"circle centered at: (1,2):"
-	X` _ A subscheme: (A coordinateRing generate: [:x :y| (x-1)^2 + ((y-2)^2) - 1]).
+	X2 _ A subscheme: (A coordinateRing generate: [:x :y| (x-1)^2 + ((y-2)^2) - 1]).
 	"translation by (1,2):"
 	f _ X to: A evaluatingWithArguments: [:x :y| {x+1. y+2}].
-	self assert: f image = X`.
+	self assert: f image = X2.
 	"global translation by (1,2):"
 	f _ A to: A evaluatingWithArguments: [:x :y| {x+1. y+2}].
-	self assert: (X apply: f) = X`! !
+	self assert: (X apply: f) = X2! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 11/7/2016 14:00'!
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 3/7/2017 07:22:50'!
 testRationalMapLinearMapConversion
-	| A2 A3 V2 V3 f f` p f`` |
+	| A2 A3 V2 V3 f f2 p f3 |
 	A2 _ AffineSpace new: 2 over: QQ.
 	A3 _ AffineSpace new: 3 over: QQ.
 	V2 _ QQ^2.
 	V3 _ QQ^3.
 
 	f _ V2 hom: V3 :: atRandomBits: 100.
-	f` _ f as: (A2 hom: A3).
+	f2 _ f as: (A2 hom: A3).
 
 	p _ V2 atRandomBits: 100.
-	self assert: (f value: p) = (f` value: p).
+	self assert: (f value: p) = (f2 value: p).
 
-	f`` _ f` as: (V2 hom: V3).
-	self assert: f = f``! !
+	f3 _ f2 as: (V2 hom: V3).
+	self assert: f = f3! !
 
 !AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 12/23/2016 09:28:26'!
 testRationalPointsOverFiniteField
@@ -2748,24 +2748,24 @@ testGroupRing
 	self assert: xa*2 + xb*xc - (xa*xc) - (xb*xc) = (R embed: a*c).
 	self assert: (xa + xb) * (xa - xb) = (xa^2 - (xb^2) + (xb*xa) - (xa*xb))! !
 
-!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 8/30/2016 19:56'!
+!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 3/7/2017 07:24:24'!
 testGroupRingIsARing
-	| G R a a` b b` c c` e e` |
+	| G R a a2 b b2 c c2 e e2 |
 	G _ self smallGroupAtRandom.
 	R _ G groupRing.
 	e _ G identity.
 	a _ G atRandom.
 	b _ G atRandom.
 	c _ G atRandom.
-	e` _ R embed: e.
-	a` _ R embed: a.
-	b` _ R embed: b.
-	c` _ R embed: c.
-	self assert: e` = R one.
-	self assert: e` * a` = a`.
-	self assert: a` * e` = a`.
-	self assert: (a` * b` * c`) = (a` * (b` * c`)).
-	G isCommutative ifTrue: [self assert: a` * b` = (b` * a`)].! !
+	e2 _ R embed: e.
+	a2 _ R embed: a.
+	b2 _ R embed: b.
+	c2 _ R embed: c.
+	self assert: e2 = R one.
+	self assert: e2 * a2 = a2.
+	self assert: a2 * e2 = a2.
+	self assert: (a2 * b2 * c2) = (a2 * (b2 * c2)).
+	G isCommutative ifTrue: [self assert: a2 * b2 = (b2 * a2)].! !
 
 !GroupTest methodsFor: 'as yet unclassified' stamp: 'len 11/6/2016 10:03'!
 testHessian
@@ -4022,17 +4022,17 @@ testLinearMap: f
 	x _ f domain scalars atRandomBits: 20.
 	self assert: (f value: a1 * x + a2) = (b1 * x + b2)! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 12/20/2016 11:50:13'!
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 3/7/2017 07:25:22'!
 testLinearMapAdjoint
-	| V W f f` phi |
+	| V W f fAdjoint phi |
 	V _ self newFreeModuleOver: QQ.
 	W _ self newFreeModuleOver: QQ.
 	f _ V hom: W :: atRandomBits: 50.
-	f` _ f adjoint.
-	self assert: f` domain = f codomain dual.
-	self assert: f` codomain = f domain dual.
+	fAdjoint _ f adjoint.
+	self assert: fAdjoint domain = f codomain dual.
+	self assert: fAdjoint codomain = f domain dual.
 	phi _ W dual atRandomBits: 20.
-	self assert: (f` value: phi) = (phi ” f)! !
+	self assert: (fAdjoint value: phi) = (phi ” f)! !
 
 !ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 12/20/2016 12:05:24'!
 testLinearMapComposition
@@ -4309,17 +4309,17 @@ testSubspaceInclusion
 	self assert: (S > P) not.
 	self assert: (P < S) not! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 12/8/2016 20:28:20'!
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 3/7/2017 07:25:52'!
 testSubspaceIntersection
-	| V S T T` |
+	| V S T T2 |
 	V _ QQ ^ 3.
 	S _ V span: {(1, 1, 1). (2, 0, -2)}.
 	self assert: S • V = S.
 	self assert: S • S = S.
 	T _ V span: {(3,1,-1)}.
 	self assert: S • T = T.
-	T` _ V span: {(3,1,-1). (0,1,0)}.
-	self assert: S • T` = T! !
+	T2 _ V span: {(3,1,-1). (0,1,0)}.
+	self assert: S • T2 = T! !
 
 !ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:02'!
 testSubspaceOfSubspace
@@ -5330,26 +5330,26 @@ testRealRoots
 	self assert: (roots occurrencesOf: 1/2) = 2.
 	self assert: (roots occurrencesOf: 2) = 1! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 11/1/2016 04:46'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 3/7/2017 07:26:30'!
 testRemainderInconsistency
 	"In Sage these two give the same result."
-	| x x` |
+	| x x2 |
 	x _ ZZ polynomials x.
-	x` _ QQ polynomials x.
-	self assert: (x \\ (x negated + 1)) leadingCoefficient = (x` \\ (x` negated + 1)) leadingCoefficient! !
+	x2 _ QQ polynomials x.
+	self assert: (x \\ (x negated + 1)) leadingCoefficient = (x2 \\ (x2 negated + 1)) leadingCoefficient! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:53'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 3/7/2017 07:27:20'!
 testResultant
-	| Zx x f g f` g` h |
+	| Zx x f g f2 g2 h |
 	Zx _ ZZ polynomials.
 	x _ Zx x.
 	f _ x^2 + x + 1.
-	f` _ f * (x + 2).
+	f2 _ f * (x + 2).
 	g _ x^3 + 1.
-	g` _ g * (x + 2).
+	g2 _ g * (x + 2).
 	h _ x^4 + 1.
 	self assert: (f resultant: g) isZero not. "not 0 because f and g have no common roots"
-	self assert: (f` resultant: g`) isZero. "res(f`,g`) = 0 because f` and g` have a common root -2."
+	self assert: (f2 resultant: g2) isZero. "res(f2,g2) = 0 because f2 and g2 have a common root -2."
 	self assert: (-1)^(f degree * g degree) * (f resultant: g) = (g resultant: f).
 	self assert: (f * g resultant: h) = ((f resultant: h) * (g resultant: h))! !
 
@@ -5443,19 +5443,19 @@ testUnivariateMultivariateConversion
 "	self assert: (f asUnivariateIn: 1 :: asMultivariate) = f."
 	self assert: (f asUnivariateIn: 2 :: asMultivariate) = f! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:10'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 3/7/2017 07:27:48'!
 testUnivariateMultivariateConversion2
-	| Qx x y f f` x0 y0 |
+	| Qx x y f f2 x0 y0 |
 	Qx _ QQ polynomialsIn: #(x y).
 	x _ Qx x.
 	y _ Qx y.
 	f _ Qx zero.
 	10 timesRepeat: [f _ f + (10 atRandom - 5 * (x ^ (3 atRandom - 1) * (y ^ (3 atRandom - 1))))].
-	f` _ f asUnivariate.
-	self assert: f` asMultivariate = f.
+	f2 _ f asUnivariate.
+	self assert: f2 asMultivariate = f.
 	x0 _ (-100 to: 100) atRandom.
 	y0 _ (-100 to: 100) atRandom.
-	self assert: ((f` value: y0) value: x0) = (f value: {x0. y0})! !
+	self assert: ((f2 value: y0) value: x0) = (f value: {x0. y0})! !
 
 !PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:10'!
 testZeroCoefficientBug
@@ -5791,18 +5791,18 @@ testRecursive2
 	c _ a + (b*2) - (b+b).
 	self assert: a = c! !
 
-!SequenceTest methodsFor: 'as yet unclassified' stamp: 'len 10/31/2016 04:13'!
+!SequenceTest methodsFor: 'as yet unclassified' stamp: 'len 3/7/2017 07:28:24'!
 testRecursiveConvolution
-	| a b c a` b` c` |
+	| a b c a2 b2 c2 |
 	a _ CFiniteSequence fibonacci.
 	b _ CFiniteSequence lucasNumbers.
-	a` _ Sequence evaluating: [:i| a at: i].
-	b` _ Sequence evaluating: [:i| b at: i].
+	a2 _ Sequence evaluating: [:i| a at: i].
+	b2 _ Sequence evaluating: [:i| b at: i].
 
 	c _ a convolution: b.
-	c` _ a` convolution: b`.
+	c2 _ a2 convolution: b2.
 	
-	self assert: (c equals: c` upTo: 20)! !
+	self assert: (c equals: c2 upTo: 20)! !
 
 !SequenceTest methodsFor: 'as yet unclassified' stamp: 'len 10/31/2016 04:14'!
 testRecursiveEquals
@@ -5813,16 +5813,16 @@ testRecursiveEquals
 	self assert: a = b.
 	self assert: a ~= c! !
 
-!SequenceTest methodsFor: 'as yet unclassified' stamp: 'len 10/31/2016 04:13'!
+!SequenceTest methodsFor: 'as yet unclassified' stamp: 'len 3/7/2017 07:28:49'!
 testRecursiveIndefiniteSumation
-	| a c a` c` |
+	| a c a2 c2 |
 	a _ CFiniteSequence fibonacci.
-	a` _ Sequence evaluating: [:i| a at: i].
+	a2 _ Sequence evaluating: [:i| a at: i].
 
 	c _ a sum.
-	c` _ a` sum.
+	c2 _ a2 sum.
 	self assert: (c isKindOf: CFiniteSequence).
-	self assert: (c equals: c` upTo: 20)! !
+	self assert: (c equals: c2 upTo: 20)! !
 
 !SequenceTest methodsFor: 'as yet unclassified' stamp: 'len 10/31/2016 04:13'!
 testRecursiveMinimal
@@ -5834,48 +5834,48 @@ testRecursiveMinimal
 	self assert: a minimal order = 2.
 	self assert: a minimalPolynomial = f characteristicPolynomial! !
 
-!SequenceTest methodsFor: 'as yet unclassified' stamp: 'len 10/31/2016 04:13'!
+!SequenceTest methodsFor: 'as yet unclassified' stamp: 'len 3/7/2017 07:29:10'!
 testRecursiveProduct
-	| a b c c` |
+	| a b c c2 |
 	a _ CFiniteSequence fibonacci.
 	b _ CFiniteSequence pellNumbers.
 	c _ a * b.
-	c` _ Sequence evaluating: [:i| (a at: i) * (b at: i)].
+	c2 _ Sequence evaluating: [:i| (a at: i) * (b at: i)].
 	self assert: (c isKindOf: CFiniteSequence).
-	self assert: (c equals: c` upTo: 20).
+	self assert: (c equals: c2 upTo: 20).
 	self assert: c order = 4! !
 
-!SequenceTest methodsFor: 'as yet unclassified' stamp: 'len 10/31/2016 04:13'!
+!SequenceTest methodsFor: 'as yet unclassified' stamp: 'len 3/7/2017 07:29:52'!
 testRecursiveScalarMultiplication
-	| a c a` c` |
+	| a c a2 c2 |
 	a _ CFiniteSequence fibonacci.
-	a` _ Sequence evaluating: [:i| a at: i].
+	a2 _ Sequence evaluating: [:i| a at: i].
 
 	c _ a * 7.
-	c` _ a` * 7.
+	c2 _ a2 * 7.
 	self assert: (c isKindOf: CFiniteSequence).
-	self assert: (c equals: c` upTo: 20)! !
+	self assert: (c equals: c2 upTo: 20)! !
 
-!SequenceTest methodsFor: 'as yet unclassified' stamp: 'len 10/31/2016 04:13'!
+!SequenceTest methodsFor: 'as yet unclassified' stamp: 'len 3/7/2017 07:30:12'!
 testRecursiveShiftLeft
-	| a c a` c` |
+	| a c a2 c2 |
 	a _ CFiniteSequence fibonacci.
-	a` _ Sequence evaluating: [:i| a at: i].
+	a2 _ Sequence evaluating: [:i| a at: i].
 
 	c _ a << 5.
-	c` _ a` << 5.
+	c2 _ a2 << 5.
 	self assert: (c isKindOf: CFiniteSequence).
-	self assert: (c equals: c` upTo: 20)! !
+	self assert: (c equals: c2 upTo: 20)! !
 
-!SequenceTest methodsFor: 'as yet unclassified' stamp: 'len 10/31/2016 04:14'!
+!SequenceTest methodsFor: 'as yet unclassified' stamp: 'len 3/7/2017 07:30:25'!
 testRecursiveSum
-	| a b c c` |
+	| a b c c2 |
 	a _ CFiniteSequence fibonacci.
 	b _ CFiniteSequence lucasNumbers.
 	c _ a + b.
-	c` _ Sequence evaluating: [:i| (a at: i) + (b at: i)].
+	c2 _ Sequence evaluating: [:i| (a at: i) + (b at: i)].
 	self assert: (c isKindOf: CFiniteSequence).
-	self assert: (c equals: c` upTo: 20)! !
+	self assert: (c equals: c2 upTo: 20)! !
 
 !SimplicialComplexTest methodsFor: 'as yet unclassified' stamp: 'len 2/20/2017 08:36:51'!
 test2Sphere
@@ -5984,12 +5984,12 @@ testSimplexComplement
 	self assert: ((Simplex vertices: #(0 1 3 4)) complementIn: V) = (Simplex vertices: #(2 5)).
 	self assert: ((Simplex vertices: #(0 4 1 3 )) complementIn: V) = (Simplex vertices: #(2 5))! !
 
-!SimplicialComplexTest methodsFor: 'as yet unclassified' stamp: 'len 6/12/2016 21:12'!
+!SimplicialComplexTest methodsFor: 'as yet unclassified' stamp: 'len 3/7/2017 07:30:50'!
 testSimplexInclusion
-	| S S` |
+	| S S2 |
 	S _ Simplex new: (2 to: 10) atRandom.
-	S` _ Simplex new: (0 to: S dimension) atRandom.
-	self assert: S` <= S! !
+	S2 _ Simplex new: (0 to: S dimension) atRandom.
+	self assert: S2 <= S! !
 
 !SimplicialComplexTest methodsFor: 'as yet unclassified' stamp: 'len 2/15/2017 16:21:54'!
 testSimplexJoin
