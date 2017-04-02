@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 7 March 2017 at 7:31:06 am'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 2 April 2017 at 10:00:44 am'!
 'Description Please enter a description for this package'!
-!provides: 'MathematicsTests' 1 78!
+!provides: 'MathematicsTests' 1 79!
 !classDefinition: #AbelianGroupTest category: #MathematicsTests!
 TestCase subclass: #AbelianGroupTest
 	instanceVariableNames: ''
@@ -3380,13 +3380,13 @@ testBacklash
 	self assert: X = (QQ matrix: 3@2 coefficients: {-1/7. -11/7. 4/7. 23/7. 0. 0}).
 	self assert: A * X = B! !
 
-!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 3/5/2017 18:35:45'!
+!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 3/7/2017 08:48:20'!
 testBacklashNoSolution
 	"Example from Sage documentation."
 	| A v |
 	A _ QQ matrix: 2@3 coefficients: #(1 2 3 2 4 6).
 	v _ (1,1).
-	self should: [A \ v] raise: Error! !
+	self assert: (A \ v) isNil! !
 
 !MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 3/5/2017 18:13:12'!
 testBacklashNonSquare
@@ -3396,6 +3396,14 @@ testBacklashNonSquare
 	B _ QQ matrix: 2@2 coefficients: #(1 0 1 -1).
 	X _ A \ B.
 	self assert: X = (QQ matrix: 4@2 coefficients: (-3/2, (1/2), -1, 0, 0, 0, 0, 0)).
+	self assert: A * X = B! !
+
+!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 3/9/2017 08:31:55'!
+testBacklashNonSquare2
+	| A B X |
+	A _ QQ matrix: 2@4 coefficients: #(0 0 -1 1 0 -2 2 1).
+	B _ QQ matrix: 2@2 coefficients: #(1 0 1 -1).
+	X _ A \ B.
 	self assert: A * X = B! !
 
 !MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 3/5/2017 18:38:35'!
@@ -4283,12 +4291,12 @@ testQuotientSpace
 	self assert: (M / M null) rank = M rank.
 	self assert: (M / M) rank = 0! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 12/8/2016 20:28:13'!
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 3/8/2017 10:24:32'!
 testSecondIsomorphismTheorem
 	| V S T |
 	V _ QQ ^ 5.
-	S _ V grassmannian: (1 to: V dimension) atRandom :: atRandomBits: 50.
-	T _ V grassmannian: (1 to: V dimension) atRandom :: atRandomBits: 50.
+	S _ V grassmannian: (0 to: V dimension) atRandom :: atRandomBits: 50.
+	T _ V grassmannian: (0 to: V dimension) atRandom :: atRandomBits: 50.
 	self assert: (S+T)/T ~ (S/(S • T))
 "	f _ S -> T :: atRandomBits: 10.
 	phi _ S / f kernel -> f image evaluating: [:x| f value: x representative].
@@ -4348,6 +4356,16 @@ testSubspaceSum
 	self assert: S + T = P.
 	T _ V span: {v - w. v + w}.
 	self assert: S + T = P! !
+
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 3/8/2017 10:26:16'!
+testSubspaceSumRandom
+	| V S T U |
+	V _ QQ^5.
+	S _ (V grassmannian: (0 to: V dimension) atRandom) atRandomBits: 100.
+	T _ (V grassmannian: (0 to: V dimension) atRandom) atRandomBits: 100.
+	U _ S + T.
+	self assert: S <= U.
+	self assert: T <= U! !
 
 !ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:03'!
 testSubspaceSystem

@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #2974] on 6 March 2017 at 5:06:43 pm'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 2 April 2017 at 10:00:41 am'!
 'Description A computational algebra system in Smalltalk'!
-!provides: 'Mathematics' 1 384!
+!provides: 'Mathematics' 1 385!
 !requires: 'RayTracer' 1 2 nil!
 !classDefinition: #RealAlgebraicNumber category: #'Mathematics-Fields-Algebraic'!
 Number subclass: #RealAlgebraicNumber
@@ -400,6 +400,16 @@ GraphEdgeMorph subclass: #SpringEdgeMorph
 	category: 'Mathematics-Graphs-Morphic'!
 !classDefinition: 'SpringEdgeMorph class' category: #'Mathematics-Graphs-Morphic'!
 SpringEdgeMorph class
+	instanceVariableNames: ''!
+
+!classDefinition: #ImplicitSurface category: #'Mathematics-Morphic'!
+RayTraceObject subclass: #ImplicitSurface
+	instanceVariableNames: 'polynomial gradient radiusSquared interiorTexture'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Morphic'!
+!classDefinition: 'ImplicitSurface class' category: #'Mathematics-Morphic'!
+ImplicitSurface class
 	instanceVariableNames: ''!
 
 !classDefinition: #Domain category: #'Mathematics-Kernel'!
@@ -3862,16 +3872,6 @@ Expression subclass: #VariableExpression
 VariableExpression class
 	instanceVariableNames: ''!
 
-!classDefinition: #ImplicitSurface category: #'Mathematics-Morphic'!
-RayTraceObject subclass: #ImplicitSurface
-	instanceVariableNames: 'polynomial gradient radiusSquared interiorTexture'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Morphic'!
-!classDefinition: 'ImplicitSurface class' category: #'Mathematics-Morphic'!
-ImplicitSurface class
-	instanceVariableNames: ''!
-
 
 !RealAlgebraicNumber commentStamp: '<historical>' prior: 0!
 My instances are real algebraic numbers, i.e. real zeros of polynomials with integer (or rational) coefficients.!
@@ -6363,11 +6363,11 @@ buildMathFont
 	"
 	#(5 6 7 8 9 10 11 12 13 14 17 22) do: [:pointSize| self buildMathFont: pointSize]! !
 
-!StrikeFont class methodsFor: '*mathematics-character shapes' stamp: 'len 1/22/2017 08:04:24'!
+!StrikeFont class methodsFor: '*mathematics-character shapes' stamp: 'len 3/7/2017 08:00:46'!
 buildMathFont: pointSize
-	| font normal slightlyLarger larger muchLarger |
+	| font normal larger muchLarger |
 	font _ AbstractFont familyName: 'DejaVu Sans Mono' pointSize: pointSize.
-	font useLeftArrow.
+	font characterToGlyphMap at: 96 put: 28. "use left arrow instead of underscore"
 	normal _ AbstractFont familyName: 'DejaVu' pointSize: pointSize.
 "	#(1 0) detect: [:one| (slightlyLarger _ (AbstractFont familyName: 'DejaVu' pointSize: pointSize+one)) notNil]."
 	#(2 1 3 0) detect: [:one| (larger _ (AbstractFont familyName: 'DejaVu' pointSize: pointSize+one)) notNil].
@@ -6384,6 +6384,28 @@ buildMathFont: pointSize
 	"make arrows bigger"
 	'' do: [:each|
 		font takeAllGlyphFor: each from: each in: larger]! !
+
+!StrikeFont class methodsFor: '*mathematics-character shapes' stamp: 'len 3/7/2017 08:03:34'!
+installMathFonts
+"
+StrikeFont installMathFonts
+"
+	| family codeFamily |
+	StrikeFont install: 'DejaVu'.
+	StrikeFont install: 'DejaVu Sans Mono'.
+	StrikeFont buildMathFont.
+	Character initialize.
+	family _ 'DejaVu Sans Mono'.
+	codeFamily _ 'DejaVu Sans Mono'.
+	Preferences setDefaultFonts: {
+		{#setSystemFontTo:. family. 10}.
+		{#setListFontTo:. family. 10}.
+		{#setMenuFontTo:. family. 9}.
+		{#setWindowTitleFontTo:. family. 10}.
+		{#setCodeFontTo:. codeFamily. 10}.
+		{#setButtonFontTo:. family. 9}}.
+	DisplayScreen runningWorld ifNotNil: [ :world | world fontPreferenceChanged ].
+! !
 
 !RealAlgebraicNumber methodsFor: 'arithmetic' stamp: 'len 6/5/2016 20:28'!
 * aNumber
@@ -7502,6 +7524,10 @@ random: anInteger
 	answer _ self new: anInteger.
 	1 to: answer size do: [:i| answer at: i put: 2 atRandom - 1].
 	^ answer! !
+
+!LinearBasis methodsFor: 'operations' stamp: 'len 3/9/2017 07:24:42'!
++ aLinearBasis
+	^ self class on: self ambient matrix: (self matrix | aLinearBasis matrix) imageMatrix! !
 
 !LinearBasis methodsFor: 'comparing' stamp: 'len 11/3/2016 08:10'!
 = aLinearBasis
@@ -13097,6 +13123,147 @@ step
 !SpringEdgeMorph methodsFor: 'stepping' stamp: 'len 2/24/2016 21:12'!
 wantsSteps
 	^ false! !
+
+!ImplicitSurface methodsFor: 'accessing' stamp: 'len 1/21/2017 22:33:19'!
+color: aColor
+	self texture: (self defaultTextureForColor: aColor)! !
+
+!ImplicitSurface methodsFor: 'private' stamp: 'len 1/22/2017 20:39:02'!
+defaultTextureForColor: aColor
+	^ TextureWithFinish new
+			pigment: (FlatColorPigment new color: aColor);
+			finish: (PhongLightingModelFinish new
+					ambient: 0.35;
+					specular: 0.8;
+					specularPower: 20)
+
+"			finish: (CompoundFinish new
+				addFinish: (PhongLightingModelFinish new
+					ambient: 0.35;
+					specular: 0.8;
+					specularPower: 20);
+				addFinish: (ReflectionFinish new reflection: 1);
+				yourself)"! !
+
+!ImplicitSurface methodsFor: 'initializing' stamp: 'len 1/21/2017 22:37:34'!
+initialize
+"	self polynomial: (RR polynomialsIn: #(x y z) :: generate: [:x :y :z| x**2 + (y**2) + (z**2) - 2])"
+"	self polynomial: (RR polynomialsIn: #(x y z) :: generate: [:x :y :z| x**2 + (z**2) - (y**2)])."
+	self polynomial: Scheme clebschCubic polynomial.
+"	self polynomial: (QQ polynomialsIn: #(x y z) :: generate: [:x :y :z| x squared + y squared - ((1 - z) * (z**4))])."
+	self radius: 1.0! !
+
+!ImplicitSurface methodsFor: 'accessing' stamp: 'len 1/21/2017 22:33:30'!
+interiorColor: aColor
+	self interiorTexture: (self defaultTextureForColor: aColor)! !
+
+!ImplicitSurface methodsFor: 'accessing' stamp: 'len 1/21/2017 22:33:42'!
+interiorTexture
+	^ interiorTexture ifNil: [texture]! !
+
+!ImplicitSurface methodsFor: 'accessing' stamp: 'len 1/21/2017 17:26:55'!
+interiorTexture: aTexture
+	interiorTexture _ aTexture! !
+
+!ImplicitSurface methodsFor: 'tracing-private' stamp: 'len 1/20/2017 21:25:30'!
+intersectionWithSphere: aRay
+	| a b c determinant t1 t2 |
+	a _ aRay directionLengthSquared.
+	b _ (aRay origin dot: aRay direction) * 2.0.
+	c _ (aRay origin dot: aRay origin) - radiusSquared.
+	determinant _ b * b - (4.0 * a * c).
+	determinant < 0.0 ifTrue: [^ nil].
+	determinant _ determinant sqrt.
+	a _ a * 2.0.
+	t1 _ (determinant - b) / a.
+	t2 _ (determinant negated - b) / a.
+	t1 negative ifTrue: [^ t2 positive ifTrue: [t2]].
+	t2 negative ifTrue: [^ t1 positive ifTrue: [t1]].
+	^ t1 min: t2! !
+
+!ImplicitSurface methodsFor: 'tracing' stamp: 'len 1/21/2017 19:35:11'!
+normalAt: aPoint
+	^ (Float32Vector3 x: ((gradient at: 1) value: aPoint) y: ((gradient at: 2) value: aPoint) z: ((gradient at: 3) value: aPoint)) normalize! !
+
+!ImplicitSurface methodsFor: 'accessing' stamp: 'len 1/21/2017 19:08:58'!
+polynomial
+	^ polynomial! !
+
+!ImplicitSurface methodsFor: 'accessing' stamp: 'len 1/20/2017 21:07:10'!
+polynomial: aPolynomial
+	polynomial _ aPolynomial.
+	gradient _ polynomial gradient! !
+
+!ImplicitSurface methodsFor: 'accessing' stamp: 'len 1/21/2017 18:35:29'!
+radius
+	^ radiusSquared sqrt! !
+
+!ImplicitSurface methodsFor: 'accessing' stamp: 'len 1/20/2017 17:56:18'!
+radius: aNumber
+	radiusSquared _ aNumber squared! !
+
+!ImplicitSurface methodsFor: 'tracing-private' stamp: 'len 1/20/2017 08:07:40'!
+signChanges: a
+	| lastSign count |
+	lastSign _ a at: 1.
+	count _ 0.
+	2 to: a size do: [:i| | ai sign | (ai _ a at: i) abs < Float epsilon ifFalse: [(sign _ ai sign) == lastSign ifFalse: [count _ count + 1. lastSign _ sign]]].
+	^ count! !
+
+!ImplicitSurface methodsFor: 'tracing-private' stamp: 'len 1/22/2017 19:56:38'!
+solve: f max: max
+	| left right n a b c r0 r1 count |
+	f isConstant ifTrue: [^ nil].
+"	(f independentCoefficient < Float epsilon) ifTrue: [^ 0.0]."
+	a _ f coefficients asArray reversed collect: [:each| each asFloat].
+	n _ a size.
+"	(self signChanges: a) > 0 ifFalse: [^ nil]." "no positive roots"
+	b _ Array new: n.
+	c _ Array new: n-1.
+	left _ 0.000001.
+	[right _ left + 0.1. (f value: left) * (f value: right) <= 0.0] whileFalse: [left _ right. left > max ifTrue: [^ nil]].
+	r0 _ left.
+	b at: 1 put: (a at: 1).
+	c at: 1 put: (b at: 1).
+	count _ 1.
+	[2 to: n do: [:i|
+		b at: i put: (a at: i) + (r0 * (b at: i-1)).
+		i < n ifTrue: [c at: i put: (b at: i) + (r0 * (c at: i-1))]].
+	r1 _ r0 - ((b at: n) / (c at: n-1)).
+	(r1 - r0) abs < 10.0e-6 ifTrue: [^ r1].
+	r0 _ r1.
+	(count _ count + 1) > 100 ifTrue: [^ nil]] repeat! !
+
+!ImplicitSurface methodsFor: 'tracing' stamp: 'len 1/22/2017 20:51:27'!
+writeIntersectionsWith: aRay into: aCollection
+	| t0 origin ox oy oz direction dx dy dz t f root intersection p |
+	(t0 _ self intersectionWithSphere: aRay) ifNil: [^ self].
+	origin _ aRay pointAtDistance: t0.
+	ox _ origin x.
+	oy _ origin y.
+	oz _ origin z.
+	direction _ aRay direction.
+	dx _ direction x.
+	dy _ direction y.
+	dz _ direction z.
+	t _ RR polynomials x.
+	f _ polynomial value: {t*dx + ox. t*dy + oy. t*dz + oz}.
+	(root _ self solve: f max: radiusSquared sqrt*2) ifNil: [^ self].
+	intersection _ Intersection for: self ray: aRay distance: root+t0.
+	p _ intersection intersectionPoint. "this is expensive, can we do without computing this intersection point?"
+	(p dot: p) < (radiusSquared - 0.00001) ifTrue: [aCollection add: intersection]! !
+
+!ImplicitSurface class methodsFor: 'examples' stamp: 'len 1/22/2017 08:31:49'!
+example1
+	^ self new
+		polynomial: (RR polynomialsIn: #(x y z) :: generate: [:x :y :z| x^2 + (y^2) + (z^3) + (x*y*z*2) - 1]);
+		radius: 1.0! !
+
+!ImplicitSurface class methodsFor: 'examples' stamp: 'len 1/22/2017 08:31:38'!
+example2
+	^ self new
+		polynomial: (RR polynomialsIn: #(x y z) :: generate: [:x :y :z| x^2 - ((y^2)*(z^2))]);
+		radius: 5.0! !
 
 !Domain methodsFor: 'morphisms' stamp: 'len 2/28/2017 09:01:41'!
  aCodomain
@@ -22365,19 +22532,15 @@ species
 		ifTrue: [^ self span: (self basis collect: [:each| each * aNumber])].
 	^ DomainError signal! !
 
-!FreeModule methodsFor: 'operations' stamp: 'len 2/28/2017 09:59:43'!
+!FreeModule methodsFor: 'operations' stamp: 'len 4/2/2017 09:57:45'!
 + anObject
-	| sum |
+	| |
 	(self ambient includes: anObject) ifTrue: [^ AffineSubspace representative: anObject direction: self].
 	(self scalars isPID and: [self ambient = anObject ambient])
 		ifFalse: [^ DomainError signal].
-	sum _ self basis copy.
-	anObject basis do: [:each| (sum generates: each) ifFalse: [sum add: each]].
-	^ sum span
-
-"alternative but 5-10 times slower:
-	^ (self basis matrix transposed | aLinearSubspace basis matrix transposed) image apply: self space basis vectorAt
-"! !
+	self isTrivial ifTrue: [^ anObject].
+	anObject isTrivial ifTrue: [^ self].
+	^ (self basis + anObject basis) span! !
 
 !FreeModule methodsFor: 'operations' stamp: 'len 10/7/2016 08:40'!
 / aSubmodule
@@ -35289,10 +35452,9 @@ dotProductWithTuple: aTuple
 	self scalars = aTuple scalars ifFalse: [^ DomainError signal: 'base rings don''t match'].
 	^ self scalars tuple: self numberOfRows evaluating: [:i| (self rowAt: i) dot: aTuple]! !
 
-!Matrix methodsFor: 'reduction' stamp: 'len 3/3/2017 13:35:40'!
+!Matrix methodsFor: 'reduction' stamp: 'len 3/7/2017 07:54:13'!
 echelon
-	"Answer the echelon form of the receiver.
-	When the scalars are the rational integers this is the Hermite normal form."
+	"Answer the echelon form of the receiver."
 	^ self reduction reduced! !
 
 !Matrix methodsFor: 'spectrum' stamp: 'len 11/5/2016 03:36'!
@@ -35368,7 +35530,7 @@ is: aSymbol
 isDiagonal
 	^ self isLowerTriangular and: [ self isUpperTriangular ]! !
 
-!Matrix methodsFor: 'testing' stamp: 'len 3/3/2017 16:33:28'!
+!Matrix methodsFor: 'testing' stamp: 'len 3/7/2017 08:22:30'!
 isEchelonForm
 	"Answer true if the receiver is in echelon form.
 	It must satisfy the following conditions:
@@ -35376,7 +35538,7 @@ isEchelonForm
 	2. The leading coefficient (or pivot) of each nonzero row is always strictly to the right of the pivot of the row above it."
 	| lastPivot |
 	lastPivot _ 0@0.
-	self rowPivotsDo: [:each|
+	self pivotsDo: [:each|
 		(each y > lastPivot y and: [each x - lastPivot x = 1])
 			ifFalse: [^ false].
 		lastPivot _ each].
@@ -35386,7 +35548,7 @@ isEchelonForm
 isFullRank
 	^ self rank = (self numberOfColumns min: self numberOfRows)! !
 
-!Matrix methodsFor: 'testing' stamp: 'len 3/3/2017 16:34:16'!
+!Matrix methodsFor: 'testing' stamp: 'len 3/7/2017 08:22:35'!
 isHermiteNormalForm
 	"Answer true if the receiver is in (row) Hermite normal form.
 	It must satisfy the following conditions:
@@ -35395,7 +35557,7 @@ isHermiteNormalForm
 	3. And the elements below pivots are zero and elements above pivots are nonnegative and strictly smaller than the pivot."
 	| lastPivot |
 	lastPivot _ 0@0.
-	self rowPivotsDo: [:each| | coefficient |
+	self pivotsDo: [:each| | coefficient |
 		(each x <= each y and: [each y > lastPivot y and: [each x - lastPivot x = 1]])
 			ifFalse: [^ false].
 		coefficient _ self at: each.
@@ -35445,7 +35607,7 @@ isOrthogonal
 isRankDeficient
 	^ self isFullRank not! !
 
-!Matrix methodsFor: 'testing' stamp: 'len 3/3/2017 16:32:49'!
+!Matrix methodsFor: 'testing' stamp: 'len 3/7/2017 08:22:43'!
 isReducedEchelonForm
 	"Answer true if the receiver is in reduced (row) echelon form.
 	It must satisfy the following conditions:
@@ -35454,7 +35616,7 @@ isReducedEchelonForm
 	| lastPivot one |
 	lastPivot _ 0@0.
 	one _ self scalars one.
-	self rowPivotsDo: [:each|
+	self pivotsDo: [:each|
 		(each y > lastPivot y and: [each x - lastPivot x = 1])
 			ifFalse: [^ false].
 		(self at: each) = one ifFalse: [^ false].
@@ -35666,9 +35828,20 @@ over: aRing
 permanent
 	^ self notYetImplemented! !
 
-!Matrix methodsFor: 'enumerating' stamp: 'len 3/2/2017 19:23:10'!
+!Matrix methodsFor: 'accessing' stamp: 'len 3/7/2017 08:34:26'!
+pivots
+	"Answer the collection of row-style pivot indices. These are the pairs i@j corresponding to the first nonzero entry of each row."
+	^ Iterator on: self performing: #pivotsDo:! !
+
+!Matrix methodsFor: 'enumerating' stamp: 'len 3/7/2017 08:34:58'!
 pivotsDo: aBlock
-	self notYetImplemented! !
+	"Enumerate the row-style pivot indices. These are the pairs i@j corresponding to the first nonzero entry of each row."
+	| i |
+	i _ 1.
+	self rowsDo: [:each| | j |
+		(j _ each findFirst: [:one| one isZero not]) == 0
+			ifFalse: [aBlock value: i@j].
+		i _ i + 1]! !
 
 !Matrix methodsFor: 'printing' stamp: 'len 3/2/2017 05:14:04'!
 printBitsOn: aStream
@@ -35751,19 +35924,6 @@ rowAugmented: aMatrix
 	aMatrix numberOfColumns = m ifFalse: [^ DomainError signal: 'dimensions don''t match'].
 	^ Matrix rows: self rows, aMatrix rows! !
 
-!Matrix methodsFor: 'accessing' stamp: 'len 3/2/2017 19:48:46'!
-rowPivots
-	^ Iterator on: self performing: #rowPivotsDo:! !
-
-!Matrix methodsFor: 'enumerating' stamp: 'len 3/2/2017 19:47:42'!
-rowPivotsDo: aBlock
-	| i |
-	i _ 1.
-	self rowsDo: [:each| | j |
-		(j _ each findFirst: [:one| one isZero not]) == 0
-			ifFalse: [aBlock value: i@j].
-		i _ i + 1]! !
-
 !Matrix methodsFor: 'subspaces' stamp: 'len 3/2/2017 04:17:37'!
 rowSpace
 	"Answer the row space of the receiver, i.e. the space spanned by the row tuples.
@@ -35791,7 +35951,7 @@ solveLeft: aMatrix
 	(aMatrix isKindOf: Tuple) ifTrue: [^ self transposed solveRight: aMatrix].
 	^ (self transposed solveRight: aMatrix transposed) transposed! !
 
-!Matrix methodsFor: 'operations' stamp: 'len 3/5/2017 20:17:55'!
+!Matrix methodsFor: 'operations' stamp: 'len 4/2/2017 09:55:23'!
 solveRight: aMatrix
 	"Answer X such that A * X = B, where A is self and B is aMatrix.
 	The argument can also be a tuple, in which case it is considered
@@ -35799,11 +35959,28 @@ solveRight: aMatrix
 	| A B M X |
 	A _ self.
 	B _ (aMatrix isKindOf: Tuple) ifTrue: [Matrix columns: {aMatrix}] ifFalse: [aMatrix].
-"	A isSquare ifFalse: [...].
-	A isFullRank ifFalse: [...]."
+	A isSquare ifFalse: [^ self solveRightGeneral: aMatrix].
+	A isFullRank ifFalse: [^ self solveRightGeneral: aMatrix].
 	M _ A | B.
 	X _ M echelon copyFrom: 1@(self numberOfColumns + 1) to: M dimension.
-	"self * X = aMatrix ifFalse: [^ self error: 'no solution']."
+	A * X = B ifFalse: [^ nil "self error: 'no solution'"].
+	^ (aMatrix isKindOf: Tuple) ifTrue: [X asTuple] ifFalse: [X]! !
+
+!Matrix methodsFor: 'operations' stamp: 'len 4/2/2017 09:53:34'!
+solveRightGeneral: aMatrix
+	| A B n m reduction rows X |
+	A _ self.
+	B _ (aMatrix isKindOf: Tuple) ifTrue: [Matrix columns: {aMatrix}] ifFalse: [aMatrix].
+	m _ B numberOfColumns.
+	n _ self numberOfColumns.
+	reduction _ A reductionWith: B.
+	rows _ OrderedCollection new.
+	reduction independentColumns withIndexDo: [:column :i|
+		column - 1 - rows size timesRepeat: [rows add: (self scalars zeroTuple: m)].
+		rows add: (reduction extension rowAt: i)].
+	n - rows size timesRepeat: [rows add: (self scalars zeroTuple: m)].
+	X _ Matrix rows: rows.
+	A * X = B ifFalse: [^ nil "self error: 'no solution'"].
 	^ (aMatrix isKindOf: Tuple) ifTrue: [X asTuple] ifFalse: [X]! !
 
 !Matrix methodsFor: 'spectrum' stamp: 'len 2/22/2017 08:46:13'!
@@ -36307,7 +36484,7 @@ system: aLinearSystem
 	"Answer a new instance of the receiver for solving aLinearSystem."
 	^ self new system: aLinearSystem! !
 
-!MatrixReduction methodsFor: 'accessing' stamp: 'len 11/6/2015 04:59'!
+!MatrixReduction methodsFor: 'private' stamp: 'len 11/6/2015 04:59'!
 addPivot: aPoint
 	currentPivot _ aPoint.
 	^ pivots add: aPoint! !
@@ -36317,7 +36494,7 @@ addRow: i0 by: aNumber toRow: i1
 	matrix addRow: i0 by: aNumber toRow: i1 startingAt: self currentPivot y.
 	extension notNil ifTrue: [extension addRow: i0 by: aNumber toRow: i1]! !
 
-!MatrixReduction methodsFor: 'accessing' stamp: 'len 11/6/2015 04:50'!
+!MatrixReduction methodsFor: 'private' stamp: 'len 11/6/2015 04:50'!
 currentPivot
 	^ currentPivot! !
 
@@ -43155,147 +43332,6 @@ printOn: aStream
 !VariableExpression methodsFor: 'as yet unclassified' stamp: 'len 3/22/2016 18:36'!
 value: aDictionary
 	^ aDictionary at: name ifAbsent: [self]! !
-
-!ImplicitSurface methodsFor: 'accessing' stamp: 'len 1/21/2017 22:33:19'!
-color: aColor
-	self texture: (self defaultTextureForColor: aColor)! !
-
-!ImplicitSurface methodsFor: 'private' stamp: 'len 1/22/2017 20:39:02'!
-defaultTextureForColor: aColor
-	^ TextureWithFinish new
-			pigment: (FlatColorPigment new color: aColor);
-			finish: (PhongLightingModelFinish new
-					ambient: 0.35;
-					specular: 0.8;
-					specularPower: 20)
-
-"			finish: (CompoundFinish new
-				addFinish: (PhongLightingModelFinish new
-					ambient: 0.35;
-					specular: 0.8;
-					specularPower: 20);
-				addFinish: (ReflectionFinish new reflection: 1);
-				yourself)"! !
-
-!ImplicitSurface methodsFor: 'initializing' stamp: 'len 1/21/2017 22:37:34'!
-initialize
-"	self polynomial: (RR polynomialsIn: #(x y z) :: generate: [:x :y :z| x**2 + (y**2) + (z**2) - 2])"
-"	self polynomial: (RR polynomialsIn: #(x y z) :: generate: [:x :y :z| x**2 + (z**2) - (y**2)])."
-	self polynomial: Scheme clebschCubic polynomial.
-"	self polynomial: (QQ polynomialsIn: #(x y z) :: generate: [:x :y :z| x squared + y squared - ((1 - z) * (z**4))])."
-	self radius: 1.0! !
-
-!ImplicitSurface methodsFor: 'accessing' stamp: 'len 1/21/2017 22:33:30'!
-interiorColor: aColor
-	self interiorTexture: (self defaultTextureForColor: aColor)! !
-
-!ImplicitSurface methodsFor: 'accessing' stamp: 'len 1/21/2017 22:33:42'!
-interiorTexture
-	^ interiorTexture ifNil: [texture]! !
-
-!ImplicitSurface methodsFor: 'accessing' stamp: 'len 1/21/2017 17:26:55'!
-interiorTexture: aTexture
-	interiorTexture _ aTexture! !
-
-!ImplicitSurface methodsFor: 'tracing-private' stamp: 'len 1/20/2017 21:25:30'!
-intersectionWithSphere: aRay
-	| a b c determinant t1 t2 |
-	a _ aRay directionLengthSquared.
-	b _ (aRay origin dot: aRay direction) * 2.0.
-	c _ (aRay origin dot: aRay origin) - radiusSquared.
-	determinant _ b * b - (4.0 * a * c).
-	determinant < 0.0 ifTrue: [^ nil].
-	determinant _ determinant sqrt.
-	a _ a * 2.0.
-	t1 _ (determinant - b) / a.
-	t2 _ (determinant negated - b) / a.
-	t1 negative ifTrue: [^ t2 positive ifTrue: [t2]].
-	t2 negative ifTrue: [^ t1 positive ifTrue: [t1]].
-	^ t1 min: t2! !
-
-!ImplicitSurface methodsFor: 'tracing' stamp: 'len 1/21/2017 19:35:11'!
-normalAt: aPoint
-	^ (Float32Vector3 x: ((gradient at: 1) value: aPoint) y: ((gradient at: 2) value: aPoint) z: ((gradient at: 3) value: aPoint)) normalize! !
-
-!ImplicitSurface methodsFor: 'accessing' stamp: 'len 1/21/2017 19:08:58'!
-polynomial
-	^ polynomial! !
-
-!ImplicitSurface methodsFor: 'accessing' stamp: 'len 1/20/2017 21:07:10'!
-polynomial: aPolynomial
-	polynomial _ aPolynomial.
-	gradient _ polynomial gradient! !
-
-!ImplicitSurface methodsFor: 'accessing' stamp: 'len 1/21/2017 18:35:29'!
-radius
-	^ radiusSquared sqrt! !
-
-!ImplicitSurface methodsFor: 'accessing' stamp: 'len 1/20/2017 17:56:18'!
-radius: aNumber
-	radiusSquared _ aNumber squared! !
-
-!ImplicitSurface methodsFor: 'tracing-private' stamp: 'len 1/20/2017 08:07:40'!
-signChanges: a
-	| lastSign count |
-	lastSign _ a at: 1.
-	count _ 0.
-	2 to: a size do: [:i| | ai sign | (ai _ a at: i) abs < Float epsilon ifFalse: [(sign _ ai sign) == lastSign ifFalse: [count _ count + 1. lastSign _ sign]]].
-	^ count! !
-
-!ImplicitSurface methodsFor: 'tracing-private' stamp: 'len 1/22/2017 19:56:38'!
-solve: f max: max
-	| left right n a b c r0 r1 count |
-	f isConstant ifTrue: [^ nil].
-"	(f independentCoefficient < Float epsilon) ifTrue: [^ 0.0]."
-	a _ f coefficients asArray reversed collect: [:each| each asFloat].
-	n _ a size.
-"	(self signChanges: a) > 0 ifFalse: [^ nil]." "no positive roots"
-	b _ Array new: n.
-	c _ Array new: n-1.
-	left _ 0.000001.
-	[right _ left + 0.1. (f value: left) * (f value: right) <= 0.0] whileFalse: [left _ right. left > max ifTrue: [^ nil]].
-	r0 _ left.
-	b at: 1 put: (a at: 1).
-	c at: 1 put: (b at: 1).
-	count _ 1.
-	[2 to: n do: [:i|
-		b at: i put: (a at: i) + (r0 * (b at: i-1)).
-		i < n ifTrue: [c at: i put: (b at: i) + (r0 * (c at: i-1))]].
-	r1 _ r0 - ((b at: n) / (c at: n-1)).
-	(r1 - r0) abs < 10.0e-6 ifTrue: [^ r1].
-	r0 _ r1.
-	(count _ count + 1) > 100 ifTrue: [^ nil]] repeat! !
-
-!ImplicitSurface methodsFor: 'tracing' stamp: 'len 1/22/2017 20:51:27'!
-writeIntersectionsWith: aRay into: aCollection
-	| t0 origin ox oy oz direction dx dy dz t f root intersection p |
-	(t0 _ self intersectionWithSphere: aRay) ifNil: [^ self].
-	origin _ aRay pointAtDistance: t0.
-	ox _ origin x.
-	oy _ origin y.
-	oz _ origin z.
-	direction _ aRay direction.
-	dx _ direction x.
-	dy _ direction y.
-	dz _ direction z.
-	t _ RR polynomials x.
-	f _ polynomial value: {t*dx + ox. t*dy + oy. t*dz + oz}.
-	(root _ self solve: f max: radiusSquared sqrt*2) ifNil: [^ self].
-	intersection _ Intersection for: self ray: aRay distance: root+t0.
-	p _ intersection intersectionPoint. "this is expensive, can we do without computing this intersection point?"
-	(p dot: p) < (radiusSquared - 0.00001) ifTrue: [aCollection add: intersection]! !
-
-!ImplicitSurface class methodsFor: 'examples' stamp: 'len 1/22/2017 08:31:49'!
-example1
-	^ self new
-		polynomial: (RR polynomialsIn: #(x y z) :: generate: [:x :y :z| x^2 + (y^2) + (z^3) + (x*y*z*2) - 1]);
-		radius: 1.0! !
-
-!ImplicitSurface class methodsFor: 'examples' stamp: 'len 1/22/2017 08:31:38'!
-example2
-	^ self new
-		polynomial: (RR polynomialsIn: #(x y z) :: generate: [:x :y :z| x^2 - ((y^2)*(z^2))]);
-		radius: 5.0! !
 Digraph initialize!
 Naturals initialize!
 RationalField initialize!
