@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 2 April 2017 at 10:00:44 am'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 4 December 2017 at 9:35:25 am'!
 'Description Please enter a description for this package'!
-!provides: 'MathematicsTests' 1 79!
+!provides: 'MathematicsTests' 1 80!
 !classDefinition: #AbelianGroupTest category: #MathematicsTests!
 TestCase subclass: #AbelianGroupTest
 	instanceVariableNames: ''
@@ -3549,6 +3549,13 @@ testFundamentalSubspacesDimensions
 	self assert: A nullity = (n - r). "definition"
 	self assert: A coimage dimension = r.
 	self assert: A cokernel dimension = (m - r)! !
+
+!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 12/4/2017 09:25:54'!
+testHNFvsCHNF
+	| M A |
+	M _ ZZ ^ (4@4).
+	A _ M atRandomBits: 50.
+	self assert: A HNF = A antitransposed CHNF antitransposed! !
 
 !MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 7/15/2016 23:53'!
 testHermiteNormalForm

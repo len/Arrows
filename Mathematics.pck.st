@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 6 April 2017 at 10:45:40 am'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 4 December 2017 at 9:35:22 am'!
 'Description A computational algebra system in Smalltalk'!
-!provides: 'Mathematics' 1 386!
+!provides: 'Mathematics' 1 387!
 !requires: 'RayTracer' 1 2 nil!
 !classDefinition: #RealAlgebraicNumber category: #'Mathematics-Fields-Algebraic'!
 Number subclass: #RealAlgebraicNumber
@@ -10,26 +10,6 @@ Number subclass: #RealAlgebraicNumber
 	category: 'Mathematics-Fields-Algebraic'!
 !classDefinition: 'RealAlgebraicNumber class' category: #'Mathematics-Fields-Algebraic'!
 RealAlgebraicNumber class
-	instanceVariableNames: ''!
-
-!classDefinition: #PAdicInteger category: #'Mathematics-Fields-PAdics'!
-Number subclass: #PAdicInteger
-	instanceVariableNames: 'parent digits'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Fields-PAdics'!
-!classDefinition: 'PAdicInteger class' category: #'Mathematics-Fields-PAdics'!
-PAdicInteger class
-	instanceVariableNames: ''!
-
-!classDefinition: #PAdicNumber category: #'Mathematics-Fields-PAdics'!
-Number subclass: #PAdicNumber
-	instanceVariableNames: 'numerator valuation'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Fields-PAdics'!
-!classDefinition: 'PAdicNumber class' category: #'Mathematics-Fields-PAdics'!
-PAdicNumber class
 	instanceVariableNames: ''!
 
 !classDefinition: #ContinuedFraction category: #'Mathematics-Sequences'!
@@ -50,6 +30,26 @@ Number subclass: #DyadicFraction
 	category: 'Mathematics-Etc'!
 !classDefinition: 'DyadicFraction class' category: #'Mathematics-Etc'!
 DyadicFraction class
+	instanceVariableNames: ''!
+
+!classDefinition: #PAdicInteger category: #'Mathematics-Etc-Fields-PAdics'!
+Number subclass: #PAdicInteger
+	instanceVariableNames: 'parent digits'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Etc-Fields-PAdics'!
+!classDefinition: 'PAdicInteger class' category: #'Mathematics-Etc-Fields-PAdics'!
+PAdicInteger class
+	instanceVariableNames: ''!
+
+!classDefinition: #PAdicNumber category: #'Mathematics-Etc-Fields-PAdics'!
+Number subclass: #PAdicNumber
+	instanceVariableNames: 'numerator valuation'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Etc-Fields-PAdics'!
+!classDefinition: 'PAdicNumber class' category: #'Mathematics-Etc-Fields-PAdics'!
+PAdicNumber class
 	instanceVariableNames: ''!
 
 !classDefinition: #MutualAssociation category: #'Mathematics-Graphs-Parts'!
@@ -782,73 +782,73 @@ AffineGroup subclass: #SpecialEuclideanGroup
 SpecialEuclideanGroup class
 	instanceVariableNames: ''!
 
-!classDefinition: #MoebiusGroup category: #'Mathematics-Etc-Modular Forms'!
+!classDefinition: #MoebiusGroup category: #'Mathematics-Modular Forms'!
 TransformationGroup subclass: #MoebiusGroup
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Etc-Modular Forms'!
-!classDefinition: 'MoebiusGroup class' category: #'Mathematics-Etc-Modular Forms'!
+	category: 'Mathematics-Modular Forms'!
+!classDefinition: 'MoebiusGroup class' category: #'Mathematics-Modular Forms'!
 MoebiusGroup class
 	instanceVariableNames: ''!
 
-!classDefinition: #ArithmeticGroup category: #'Mathematics-Etc-Modular Group'!
+!classDefinition: #ArithmeticGroup category: #'Mathematics-Modular Group'!
 TransformationGroup subclass: #ArithmeticGroup
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Etc-Modular Group'!
-!classDefinition: 'ArithmeticGroup class' category: #'Mathematics-Etc-Modular Group'!
+	category: 'Mathematics-Modular Group'!
+!classDefinition: 'ArithmeticGroup class' category: #'Mathematics-Modular Group'!
 ArithmeticGroup class
 	instanceVariableNames: ''!
 
-!classDefinition: #CongruenceSubgroup category: #'Mathematics-Etc-Modular Group'!
+!classDefinition: #CongruenceSubgroup category: #'Mathematics-Modular Group'!
 ArithmeticGroup subclass: #CongruenceSubgroup
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Etc-Modular Group'!
-!classDefinition: 'CongruenceSubgroup class' category: #'Mathematics-Etc-Modular Group'!
+	category: 'Mathematics-Modular Group'!
+!classDefinition: 'CongruenceSubgroup class' category: #'Mathematics-Modular Group'!
 CongruenceSubgroup class
 	instanceVariableNames: ''!
 
-!classDefinition: #Gamma0CongruenceSubgroup category: #'Mathematics-Etc-Modular Group'!
+!classDefinition: #Gamma0CongruenceSubgroup category: #'Mathematics-Modular Group'!
 CongruenceSubgroup subclass: #Gamma0CongruenceSubgroup
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Etc-Modular Group'!
-!classDefinition: 'Gamma0CongruenceSubgroup class' category: #'Mathematics-Etc-Modular Group'!
+	category: 'Mathematics-Modular Group'!
+!classDefinition: 'Gamma0CongruenceSubgroup class' category: #'Mathematics-Modular Group'!
 Gamma0CongruenceSubgroup class
 	instanceVariableNames: ''!
 
-!classDefinition: #Gamma1CongruenceSubgroup category: #'Mathematics-Etc-Modular Group'!
+!classDefinition: #Gamma1CongruenceSubgroup category: #'Mathematics-Modular Group'!
 CongruenceSubgroup subclass: #Gamma1CongruenceSubgroup
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Etc-Modular Group'!
-!classDefinition: 'Gamma1CongruenceSubgroup class' category: #'Mathematics-Etc-Modular Group'!
+	category: 'Mathematics-Modular Group'!
+!classDefinition: 'Gamma1CongruenceSubgroup class' category: #'Mathematics-Modular Group'!
 Gamma1CongruenceSubgroup class
 	instanceVariableNames: ''!
 
-!classDefinition: #PrincipalCongruenceSubgroup category: #'Mathematics-Etc-Modular Group'!
+!classDefinition: #PrincipalCongruenceSubgroup category: #'Mathematics-Modular Group'!
 CongruenceSubgroup subclass: #PrincipalCongruenceSubgroup
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Etc-Modular Group'!
-!classDefinition: 'PrincipalCongruenceSubgroup class' category: #'Mathematics-Etc-Modular Group'!
+	category: 'Mathematics-Modular Group'!
+!classDefinition: 'PrincipalCongruenceSubgroup class' category: #'Mathematics-Modular Group'!
 PrincipalCongruenceSubgroup class
 	instanceVariableNames: ''!
 
-!classDefinition: #ModularGroup category: #'Mathematics-Etc-Modular Group'!
+!classDefinition: #ModularGroup category: #'Mathematics-Modular Group'!
 PrincipalCongruenceSubgroup subclass: #ModularGroup
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Etc-Modular Group'!
-!classDefinition: 'ModularGroup class' category: #'Mathematics-Etc-Modular Group'!
+	category: 'Mathematics-Modular Group'!
+!classDefinition: 'ModularGroup class' category: #'Mathematics-Modular Group'!
 ModularGroup class
 	instanceVariableNames: ''!
 
@@ -1002,13 +1002,13 @@ UnitGroup subclass: #ModularIntegersUnitGroup
 ModularIntegersUnitGroup class
 	instanceVariableNames: ''!
 
-!classDefinition: #DirichletGroup category: #'Mathematics-Etc-Modular Forms'!
+!classDefinition: #DirichletGroup category: #'Mathematics-Modular Forms'!
 Group subclass: #DirichletGroup
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Etc-Modular Forms'!
-!classDefinition: 'DirichletGroup class' category: #'Mathematics-Etc-Modular Forms'!
+	category: 'Mathematics-Modular Forms'!
+!classDefinition: 'DirichletGroup class' category: #'Mathematics-Modular Forms'!
 DirichletGroup class
 	instanceVariableNames: ''!
 
@@ -1372,26 +1372,6 @@ Ring subclass: #RealAlgebraicNumbersField
 RealAlgebraicNumbersField class
 	instanceVariableNames: ''!
 
-!classDefinition: #PAdicField category: #'Mathematics-Fields-PAdics'!
-Ring subclass: #PAdicField
-	instanceVariableNames: 'integers'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Fields-PAdics'!
-!classDefinition: 'PAdicField class' category: #'Mathematics-Fields-PAdics'!
-PAdicField class
-	instanceVariableNames: ''!
-
-!classDefinition: #PAdicIntegerRing category: #'Mathematics-Fields-PAdics'!
-Ring subclass: #PAdicIntegerRing
-	instanceVariableNames: 'p'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Fields-PAdics'!
-!classDefinition: 'PAdicIntegerRing class' category: #'Mathematics-Fields-PAdics'!
-PAdicIntegerRing class
-	instanceVariableNames: ''!
-
 !classDefinition: #MatrixRing category: #'Mathematics-Matrices'!
 Ring subclass: #MatrixRing
 	instanceVariableNames: 'scalars degree'
@@ -1440,6 +1420,26 @@ Ring subclass: #SymmetricPolynomialRing
 	category: 'Mathematics-Etc'!
 !classDefinition: 'SymmetricPolynomialRing class' category: #'Mathematics-Etc'!
 SymmetricPolynomialRing class
+	instanceVariableNames: ''!
+
+!classDefinition: #PAdicField category: #'Mathematics-Etc-Fields-PAdics'!
+Ring subclass: #PAdicField
+	instanceVariableNames: 'integers'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Etc-Fields-PAdics'!
+!classDefinition: 'PAdicField class' category: #'Mathematics-Etc-Fields-PAdics'!
+PAdicField class
+	instanceVariableNames: ''!
+
+!classDefinition: #PAdicIntegerRing category: #'Mathematics-Etc-Fields-PAdics'!
+Ring subclass: #PAdicIntegerRing
+	instanceVariableNames: 'p'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Etc-Fields-PAdics'!
+!classDefinition: 'PAdicIntegerRing class' category: #'Mathematics-Etc-Fields-PAdics'!
+PAdicIntegerRing class
 	instanceVariableNames: ''!
 
 !classDefinition: #Grassmannian category: #'Mathematics-Modules'!
@@ -1702,13 +1702,13 @@ FreeModule subclass: #DivisorsGroup
 DivisorsGroup class
 	instanceVariableNames: ''!
 
-!classDefinition: #ModularFormSpace category: #'Mathematics-Etc-Modular Forms'!
+!classDefinition: #ModularFormSpace category: #'Mathematics-Modular Forms'!
 FreeModule subclass: #ModularFormSpace
 	instanceVariableNames: 'weight group'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Etc-Modular Forms'!
-!classDefinition: 'ModularFormSpace class' category: #'Mathematics-Etc-Modular Forms'!
+	category: 'Mathematics-Modular Forms'!
+!classDefinition: 'ModularFormSpace class' category: #'Mathematics-Modular Forms'!
 ModularFormSpace class
 	instanceVariableNames: ''!
 
@@ -2052,134 +2052,14 @@ ProductProjectiveVariety subclass: #ProductProjectiveSpace
 ProductProjectiveSpace class
 	instanceVariableNames: ''!
 
-!classDefinition: #UpperHalfPlane category: #'Mathematics-Etc-Modular Forms'!
+!classDefinition: #UpperHalfPlane category: #'Mathematics-Modular Forms'!
 Domain subclass: #UpperHalfPlane
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Etc-Modular Forms'!
-!classDefinition: 'UpperHalfPlane class' category: #'Mathematics-Etc-Modular Forms'!
+	category: 'Mathematics-Modular Forms'!
+!classDefinition: 'UpperHalfPlane class' category: #'Mathematics-Modular Forms'!
 UpperHalfPlane class
-	instanceVariableNames: ''!
-
-!classDefinition: #Cone category: #'Mathematics-Etc-Geometry-Polytopes'!
-Domain subclass: #Cone
-	instanceVariableNames: 'vectors'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Etc-Geometry-Polytopes'!
-!classDefinition: 'Cone class' category: #'Mathematics-Etc-Geometry-Polytopes'!
-Cone class
-	instanceVariableNames: ''!
-
-!classDefinition: #ConicalHull category: #'Mathematics-Etc-Geometry-Polytopes'!
-Domain subclass: #ConicalHull
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Etc-Geometry-Polytopes'!
-!classDefinition: 'ConicalHull class' category: #'Mathematics-Etc-Geometry-Polytopes'!
-ConicalHull class
-	instanceVariableNames: ''!
-
-!classDefinition: #ConvexHull category: #'Mathematics-Etc-Geometry-Polytopes'!
-Domain subclass: #ConvexHull
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Etc-Geometry-Polytopes'!
-!classDefinition: 'ConvexHull class' category: #'Mathematics-Etc-Geometry-Polytopes'!
-ConvexHull class
-	instanceVariableNames: ''!
-
-!classDefinition: #Halfspace category: #'Mathematics-Etc-Geometry-Polytopes'!
-Domain subclass: #Halfspace
-	instanceVariableNames: 'inequality'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Etc-Geometry-Polytopes'!
-!classDefinition: 'Halfspace class' category: #'Mathematics-Etc-Geometry-Polytopes'!
-Halfspace class
-	instanceVariableNames: ''!
-
-!classDefinition: #Polyhedron category: #'Mathematics-Etc-Geometry-Polytopes'!
-Domain subclass: #Polyhedron
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Etc-Geometry-Polytopes'!
-!classDefinition: 'Polyhedron class' category: #'Mathematics-Etc-Geometry-Polytopes'!
-Polyhedron class
-	instanceVariableNames: ''!
-
-!classDefinition: #Polytope category: #'Mathematics-Etc-Geometry-Polytopes'!
-Polyhedron subclass: #Polytope
-	instanceVariableNames: 'space points'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Etc-Geometry-Polytopes'!
-!classDefinition: 'Polytope class' category: #'Mathematics-Etc-Geometry-Polytopes'!
-Polytope class
-	instanceVariableNames: ''!
-
-!classDefinition: #Polygon category: #'Mathematics-Etc-Geometry-Polytopes'!
-Polytope subclass: #Polygon
-	instanceVariableNames: 'vertices'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Etc-Geometry-Polytopes'!
-!classDefinition: 'Polygon class' category: #'Mathematics-Etc-Geometry-Polytopes'!
-Polygon class
-	instanceVariableNames: ''!
-
-!classDefinition: #LineSegment category: #'Mathematics-Etc-Geometry-Polytopes'!
-Polygon subclass: #LineSegment
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Etc-Geometry-Polytopes'!
-!classDefinition: 'LineSegment class' category: #'Mathematics-Etc-Geometry-Polytopes'!
-LineSegment class
-	instanceVariableNames: ''!
-
-!classDefinition: #DirectedLineSegment category: #'Mathematics-Etc-Geometry-Polytopes'!
-LineSegment subclass: #DirectedLineSegment
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Etc-Geometry-Polytopes'!
-!classDefinition: 'DirectedLineSegment class' category: #'Mathematics-Etc-Geometry-Polytopes'!
-DirectedLineSegment class
-	instanceVariableNames: ''!
-
-!classDefinition: #Quadrangle category: #'Mathematics-Etc-Geometry-Polytopes'!
-Polygon subclass: #Quadrangle
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Etc-Geometry-Polytopes'!
-!classDefinition: 'Quadrangle class' category: #'Mathematics-Etc-Geometry-Polytopes'!
-Quadrangle class
-	instanceVariableNames: ''!
-
-!classDefinition: #Triangle category: #'Mathematics-Etc-Geometry-Polytopes'!
-Polygon subclass: #Triangle
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Etc-Geometry-Polytopes'!
-!classDefinition: 'Triangle class' category: #'Mathematics-Etc-Geometry-Polytopes'!
-Triangle class
-	instanceVariableNames: ''!
-
-!classDefinition: #CoxeterSystem category: #'Mathematics-Etc-Lie'!
-Domain subclass: #CoxeterSystem
-	instanceVariableNames: 'group generators matrix diagram'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Etc-Lie'!
-!classDefinition: 'CoxeterSystem class' category: #'Mathematics-Etc-Lie'!
-CoxeterSystem class
 	instanceVariableNames: ''!
 
 !classDefinition: #MetricSpace category: #'Mathematics-Etc'!
@@ -2190,6 +2070,16 @@ Domain subclass: #MetricSpace
 	category: 'Mathematics-Etc'!
 !classDefinition: 'MetricSpace class' category: #'Mathematics-Etc'!
 MetricSpace class
+	instanceVariableNames: ''!
+
+!classDefinition: #CoxeterSystem category: #'Mathematics-Etc-Lie'!
+Domain subclass: #CoxeterSystem
+	instanceVariableNames: 'group generators matrix diagram'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Etc-Lie'!
+!classDefinition: 'CoxeterSystem class' category: #'Mathematics-Etc-Lie'!
+CoxeterSystem class
 	instanceVariableNames: ''!
 
 !classDefinition: #Morphism category: #'Mathematics-Kernel'!
@@ -2252,13 +2142,13 @@ GroupHomomorphism subclass: #GroupRepresentation
 GroupRepresentation class
 	instanceVariableNames: ''!
 
-!classDefinition: #DirichletCharacter category: #'Mathematics-Etc-Modular Forms'!
+!classDefinition: #DirichletCharacter category: #'Mathematics-Modular Forms'!
 GroupHomomorphism subclass: #DirichletCharacter
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Etc-Modular Forms'!
-!classDefinition: 'DirichletCharacter class' category: #'Mathematics-Etc-Modular Forms'!
+	category: 'Mathematics-Modular Forms'!
+!classDefinition: 'DirichletCharacter class' category: #'Mathematics-Modular Forms'!
 DirichletCharacter class
 	instanceVariableNames: ''!
 
@@ -2412,43 +2302,43 @@ RationalMap subclass: #EllipticCurveIsogeny
 EllipticCurveIsogeny class
 	instanceVariableNames: ''!
 
-!classDefinition: #LinearFractionalMap category: #'Mathematics-Etc-Modular Forms'!
+!classDefinition: #LinearFractionalMap category: #'Mathematics-Modular Forms'!
 RationalMap subclass: #LinearFractionalMap
 	instanceVariableNames: 'a b c d'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Etc-Modular Forms'!
-!classDefinition: 'LinearFractionalMap class' category: #'Mathematics-Etc-Modular Forms'!
+	category: 'Mathematics-Modular Forms'!
+!classDefinition: 'LinearFractionalMap class' category: #'Mathematics-Modular Forms'!
 LinearFractionalMap class
 	instanceVariableNames: ''!
 
-!classDefinition: #ModularMap category: #'Mathematics-Etc-Modular Forms'!
+!classDefinition: #ModularMap category: #'Mathematics-Modular Forms'!
 LinearFractionalMap subclass: #ModularMap
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Etc-Modular Forms'!
-!classDefinition: 'ModularMap class' category: #'Mathematics-Etc-Modular Forms'!
+	category: 'Mathematics-Modular Forms'!
+!classDefinition: 'ModularMap class' category: #'Mathematics-Modular Forms'!
 ModularMap class
 	instanceVariableNames: ''!
 
-!classDefinition: #ModularForm category: #'Mathematics-Etc-Modular Forms'!
+!classDefinition: #ModularForm category: #'Mathematics-Modular Forms'!
 Function subclass: #ModularForm
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Etc-Modular Forms'!
-!classDefinition: 'ModularForm class' category: #'Mathematics-Etc-Modular Forms'!
+	category: 'Mathematics-Modular Forms'!
+!classDefinition: 'ModularForm class' category: #'Mathematics-Modular Forms'!
 ModularForm class
 	instanceVariableNames: ''!
 
-!classDefinition: #EisensteinSeries category: #'Mathematics-Etc-Modular Forms'!
+!classDefinition: #EisensteinSeries category: #'Mathematics-Modular Forms'!
 ModularForm subclass: #EisensteinSeries
 	instanceVariableNames: 'weight'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Etc-Modular Forms'!
-!classDefinition: 'EisensteinSeries class' category: #'Mathematics-Etc-Modular Forms'!
+	category: 'Mathematics-Modular Forms'!
+!classDefinition: 'EisensteinSeries class' category: #'Mathematics-Modular Forms'!
 EisensteinSeries class
 	instanceVariableNames: ''!
 
@@ -3482,33 +3372,33 @@ Object subclass: #WeierstrassEquation
 WeierstrassEquation class
 	instanceVariableNames: ''!
 
-!classDefinition: #ManinSymbol category: #'Mathematics-Etc-Modular Forms'!
+!classDefinition: #ManinSymbol category: #'Mathematics-Modular Forms'!
 Object subclass: #ManinSymbol
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Etc-Modular Forms'!
-!classDefinition: 'ManinSymbol class' category: #'Mathematics-Etc-Modular Forms'!
+	category: 'Mathematics-Modular Forms'!
+!classDefinition: 'ManinSymbol class' category: #'Mathematics-Modular Forms'!
 ManinSymbol class
 	instanceVariableNames: ''!
 
-!classDefinition: #ModularSymbol category: #'Mathematics-Etc-Modular Forms'!
+!classDefinition: #ModularSymbol category: #'Mathematics-Modular Forms'!
 Object subclass: #ModularSymbol
 	instanceVariableNames: 'alpha beta'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Etc-Modular Forms'!
-!classDefinition: 'ModularSymbol class' category: #'Mathematics-Etc-Modular Forms'!
+	category: 'Mathematics-Modular Forms'!
+!classDefinition: 'ModularSymbol class' category: #'Mathematics-Modular Forms'!
 ModularSymbol class
 	instanceVariableNames: ''!
 
-!classDefinition: #FareySymbol category: #'Mathematics-Etc-Modular Group'!
+!classDefinition: #FareySymbol category: #'Mathematics-Modular Group'!
 Object subclass: #FareySymbol
 	instanceVariableNames: 'group fractions pairings'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Etc-Modular Group'!
-!classDefinition: 'FareySymbol class' category: #'Mathematics-Etc-Modular Group'!
+	category: 'Mathematics-Modular Group'!
+!classDefinition: 'FareySymbol class' category: #'Mathematics-Modular Group'!
 FareySymbol class
 	instanceVariableNames: ''!
 
@@ -3630,26 +3520,6 @@ Object subclass: #RealPalette
 	category: 'Mathematics-Morphic'!
 !classDefinition: 'RealPalette class' category: #'Mathematics-Morphic'!
 RealPalette class
-	instanceVariableNames: ''!
-
-!classDefinition: #CoxeterDiagram category: #'Mathematics-Etc-Lie'!
-Object subclass: #CoxeterDiagram
-	instanceVariableNames: 'matrix'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Etc-Lie'!
-!classDefinition: 'CoxeterDiagram class' category: #'Mathematics-Etc-Lie'!
-CoxeterDiagram class
-	instanceVariableNames: ''!
-
-!classDefinition: #RootSystem category: #'Mathematics-Etc-Lie'!
-Object subclass: #RootSystem
-	instanceVariableNames: 'roots ambient'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Etc-Lie'!
-!classDefinition: 'RootSystem class' category: #'Mathematics-Etc-Lie'!
-RootSystem class
 	instanceVariableNames: ''!
 
 !classDefinition: #ElementaryTensorOld category: #'Mathematics-Etc'!
@@ -3802,74 +3672,24 @@ Object subclass: #WuRittProcess
 WuRittProcess class
 	instanceVariableNames: ''!
 
-!classDefinition: #Expression category: #'Mathematics-Etc-Expressions'!
-Object subclass: #Expression
-	instanceVariableNames: ''
+!classDefinition: #CoxeterDiagram category: #'Mathematics-Etc-Lie'!
+Object subclass: #CoxeterDiagram
+	instanceVariableNames: 'matrix'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Etc-Expressions'!
-!classDefinition: 'Expression class' category: #'Mathematics-Etc-Expressions'!
-Expression class
+	category: 'Mathematics-Etc-Lie'!
+!classDefinition: 'CoxeterDiagram class' category: #'Mathematics-Etc-Lie'!
+CoxeterDiagram class
 	instanceVariableNames: ''!
 
-!classDefinition: #ConstantExpression category: #'Mathematics-Etc-Expressions'!
-Expression subclass: #ConstantExpression
-	instanceVariableNames: 'constant'
+!classDefinition: #RootSystem category: #'Mathematics-Etc-Lie'!
+Object subclass: #RootSystem
+	instanceVariableNames: 'roots ambient'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Etc-Expressions'!
-!classDefinition: 'ConstantExpression class' category: #'Mathematics-Etc-Expressions'!
-ConstantExpression class
-	instanceVariableNames: ''!
-
-!classDefinition: #FunctionExpression category: #'Mathematics-Etc-Expressions'!
-Expression subclass: #FunctionExpression
-	instanceVariableNames: 'function arguments'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Etc-Expressions'!
-!classDefinition: 'FunctionExpression class' category: #'Mathematics-Etc-Expressions'!
-FunctionExpression class
-	instanceVariableNames: ''!
-
-!classDefinition: #PowerExpression category: #'Mathematics-Etc-Expressions'!
-Expression subclass: #PowerExpression
-	instanceVariableNames: 'base exponent'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Etc-Expressions'!
-!classDefinition: 'PowerExpression class' category: #'Mathematics-Etc-Expressions'!
-PowerExpression class
-	instanceVariableNames: ''!
-
-!classDefinition: #ProductExpression category: #'Mathematics-Etc-Expressions'!
-Expression subclass: #ProductExpression
-	instanceVariableNames: 'factors'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Etc-Expressions'!
-!classDefinition: 'ProductExpression class' category: #'Mathematics-Etc-Expressions'!
-ProductExpression class
-	instanceVariableNames: ''!
-
-!classDefinition: #SumExpression category: #'Mathematics-Etc-Expressions'!
-Expression subclass: #SumExpression
-	instanceVariableNames: 'terms'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Etc-Expressions'!
-!classDefinition: 'SumExpression class' category: #'Mathematics-Etc-Expressions'!
-SumExpression class
-	instanceVariableNames: ''!
-
-!classDefinition: #VariableExpression category: #'Mathematics-Etc-Expressions'!
-Expression subclass: #VariableExpression
-	instanceVariableNames: 'name'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Etc-Expressions'!
-!classDefinition: 'VariableExpression class' category: #'Mathematics-Etc-Expressions'!
-VariableExpression class
+	category: 'Mathematics-Etc-Lie'!
+!classDefinition: 'RootSystem class' category: #'Mathematics-Etc-Lie'!
+RootSystem class
 	instanceVariableNames: ''!
 
 
@@ -4429,12 +4249,6 @@ I'm the field of (complex) algebraic numbers, i.e. the algebraic closure of Q.!
 !RealAlgebraicNumbersField commentStamp: '<historical>' prior: 0!
 I'm the field of real algebraic numbers, i.e. real zeros of polynomials with rational coefficients.!
 
-!PAdicField commentStamp: '<historical>' prior: 0!
-My instances are fields of p-adic numbers Qp. These are fraction fields of rings of p-adic integers. See PAdicIntegerRing and PAdicNumber.!
-
-!PAdicIntegerRing commentStamp: '<historical>' prior: 0!
-My instances are rings of p-adic integers Zp. See PAdicInteger.!
-
 !MatrixRing commentStamp: '<historical>' prior: 0!
 My instances are rings of nxn square matrices with coefficients over a commutative ring R. They are R-algebras. See also MatrixModule.!
 
@@ -4445,6 +4259,12 @@ The number of indeterimnates is called the rank of the polynomial ring. The inde
 
 Polynomial rings have an associated monomial ordering. This is used for defining the leading term of a polynomial, multivariate division (also called normal form or reduction) and the computation of Groebner bases and standard bases.
 !
+
+!PAdicField commentStamp: '<historical>' prior: 0!
+My instances are fields of p-adic numbers Qp. These are fraction fields of rings of p-adic integers. See PAdicIntegerRing and PAdicNumber.!
+
+!PAdicIntegerRing commentStamp: '<historical>' prior: 0!
+My instances are rings of p-adic integers Zp. See PAdicInteger.!
 
 !Grassmannian commentStamp: 'len 11/3/2016 09:19' prior: 0!
 The Grassmannian Gr(r,V) is the set of r-dimensional subspaces of the vector space V.!
@@ -6794,157 +6614,6 @@ sqrt: aNumber
 		minimalPolynomial: QQ polynomials x squared - aNumber
  		bounds: (RealInterval open: 0 open: (aNumber max: 1))! !
 
-!PAdicInteger methodsFor: 'arithmetic' stamp: 'len 12/17/2016 22:38:42'!
-* aPAdicInteger
-	| newDigits p q |
-	p _ self p.
-	q _ 1.
-	aPAdicInteger isInteger
-		ifTrue:
-			[aPAdicInteger == 0 ifTrue: [^ self zero].
-			newDigits _ digits collect: [:each| q _ q * p. each * aPAdicInteger \\ q]]
-		ifFalse:
-			[newDigits _ digits with: aPAdicInteger digits collect: [:a :b| q _ q * p. a * b \\ q]].
-	^ self class in: parent digits: newDigits! !
-
-!PAdicInteger methodsFor: 'arithmetic' stamp: 'len 12/17/2016 21:18:16'!
-+ aPAdicInteger
-	| newDigits p q |
-	p _ self p.
-	q _ 1.
-	newDigits _ digits with: aPAdicInteger digits collect: [:a :b| q _ q * p. a + b \\ q].
-	^ self class in: parent digits: newDigits! !
-
-!PAdicInteger methodsFor: 'arithmetic' stamp: 'len 12/17/2016 21:19:06'!
-- aPAdicInteger
-	| newDigits p q |
-	p _ self p.
-	q _ 1.
-	newDigits _ digits with: aPAdicInteger digits collect: [:a :b| q _ q * p. a - b \\ q].
-	^ self class in: parent digits: newDigits! !
-
-!PAdicInteger methodsFor: 'comparing' stamp: 'len 12/7/2015 03:01'!
-= aPAdicInteger
-	^ aPAdicInteger class == self class and: [digits = aPAdicInteger digits]! !
-
-!PAdicInteger methodsFor: 'accessing' stamp: 'len 7/17/2016 23:31'!
-at: anInteger
-	"Answer the digit corresponding to p^(anInteger-1)."
-	anInteger > digits size ifTrue: [^ digits last].
-	^ digits at: anInteger! !
-
-!PAdicInteger methodsFor: 'accessing-private' stamp: 'len 12/7/2015 02:54'!
-digits
-	^ digits! !
-
-!PAdicInteger methodsFor: 'initialization' stamp: 'len 12/17/2016 21:01:23'!
-digits: aSequence
-	digits _ aSequence
-"	| n |
-	digits _ ZZ tuple: anArray.
-	n _ (digits size to: 2 by: -1) detect: [:i| (digits at: i) representative ~= (digits at: i-1) representative] ifNone: [^ self].
-	n < digits size ifTrue: [digits _ digits copyFrom: 1 to: n]"! !
-
-!PAdicInteger methodsFor: 'comparing' stamp: 'len 12/7/2015 03:01'!
-hash
-	^ digits hash! !
-
-!PAdicInteger methodsFor: 'testing' stamp: 'len 12/7/2015 03:45'!
-isUniformizing
-	"Answer true if the receiver is a uniformizing element."
-	^ self valuation = 1! !
-
-!PAdicInteger methodsFor: 'testing' stamp: 'len 7/17/2016 23:30'!
-isZero
-	^ digits isZero! !
-
-!PAdicInteger methodsFor: 'arithmetic' stamp: 'len 12/17/2016 21:20:35'!
-negated
-	| newDigits p q |
-	p _ self p.
-	q _ 1.
-	newDigits _ digits collect: [:a| q _ q * p. a == 0 ifTrue: [a] ifFalse: [q - a]].
-	^ self class in: parent digits: newDigits! !
-
-!PAdicInteger methodsFor: 'accessing' stamp: 'len 12/8/2015 03:24'!
-norm
-	^ self isZero ifTrue: [0] ifFalse: [self p ^ self valuation negated]! !
-
-!PAdicInteger methodsFor: 'constants' stamp: 'len 12/17/2016 21:25:08'!
-one
-	^ parent one! !
-
-!PAdicInteger methodsFor: 'accessing' stamp: 'len 12/17/2016 21:22:57'!
-p
-	^ parent p! !
-
-!PAdicInteger methodsFor: 'private' stamp: 'len 12/17/2016 20:59:36'!
-parent
-	^ parent! !
-
-!PAdicInteger methodsFor: 'initialization' stamp: 'len 12/17/2016 21:00:54'!
-parent: aPAdicIntegersRing
-	parent _ aPAdicIntegersRing! !
-
-!PAdicInteger methodsFor: 'printing' stamp: 'len 12/17/2016 21:04:05'!
-printOn: aStream
-	aStream nextPut: $(.
-	digits do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: ','].
-	aStream nextPutAll: '..)'! !
-
-!PAdicInteger methodsFor: 'arithmetic' stamp: 'len 12/17/2016 21:24:10'!
-reciprocal
-	| newDigits p q |
-	(digits at: 1) isZero ifTrue: [^ (ZeroDivide dividend: self one) signal].
-	p _ self p.
-	q _ 1.
-	newDigits _ digits collect: [:a| q _ q * p. a == 1 ifTrue: [a] ifFalse: [a reciprocalModulo2: q]].
-	^ self class in: parent digits: newDigits! !
-
-!PAdicInteger methodsFor: 'accessing' stamp: 'len 12/7/2015 02:55'!
-size
-	^ digits size! !
-
-!PAdicInteger methodsFor: 'accessing' stamp: 'len 12/17/2016 21:58:49'!
-valuation
-	self isZero ifTrue: [^ Infinity positive].
-	^ (digits findFirst: [:one| one ~~ 0]) - 1! !
-
-!PAdicInteger methodsFor: 'constants' stamp: 'len 12/17/2016 21:25:02'!
-zero
-	^ parent zero! !
-
-!PAdicInteger class methodsFor: 'instance creation' stamp: 'len 12/17/2016 20:55:17'!
-in: aPAdicIntegersRing digits: aSequence
-	^ self new parent: aPAdicIntegersRing; digits: aSequence! !
-
-!PAdicNumber methodsFor: 'accessing' stamp: 'len 12/17/2016 21:47:40'!
-denominator
-	^ numerator parent embed: self p ^ self valuation! !
-
-!PAdicNumber methodsFor: 'as yet unclassified' stamp: 'len 12/17/2016 22:16:16'!
-embed: aNumber
-	aNumber isInteger ifTrue: [^ self integers embed: aNumber].
-	aNumber isFraction ifFalse: [self notYetImplemented].
-	self notYetImplemented! !
-
-!PAdicNumber methodsFor: 'accessing' stamp: 'len 12/8/2015 03:24'!
-norm
-	^ self isZero ifTrue: [0] ifFalse: [self p ^ self valuation negated]! !
-
-!PAdicNumber methodsFor: 'accessing' stamp: 'len 12/17/2016 21:46:48'!
-numerator
-	^ numerator! !
-
-!PAdicNumber methodsFor: 'accessing' stamp: 'len 12/7/2015 03:44'!
-p
-	^ self numerator p! !
-
-!PAdicNumber methodsFor: 'accessing' stamp: 'len 12/17/2016 21:53:12'!
-valuation
-	"Answer the p-adic absolute value of the receiver."
-	^ valuation! !
-
 !ContinuedFraction methodsFor: 'converting' stamp: 'len 10/18/2016 14:05'!
 asFraction
 	self isInfinite ifTrue: [self error: 'infinite continued fraction'].
@@ -7183,6 +6852,157 @@ fromInteger: anInteger
 !DyadicFraction class methodsFor: 'instance creation' stamp: 'len 1/15/2016 07:46'!
 numerator: anInteger shift: n
 	^ self new setNumerator: anInteger shift: n! !
+
+!PAdicInteger methodsFor: 'arithmetic' stamp: 'len 12/17/2016 22:38:42'!
+* aPAdicInteger
+	| newDigits p q |
+	p _ self p.
+	q _ 1.
+	aPAdicInteger isInteger
+		ifTrue:
+			[aPAdicInteger == 0 ifTrue: [^ self zero].
+			newDigits _ digits collect: [:each| q _ q * p. each * aPAdicInteger \\ q]]
+		ifFalse:
+			[newDigits _ digits with: aPAdicInteger digits collect: [:a :b| q _ q * p. a * b \\ q]].
+	^ self class in: parent digits: newDigits! !
+
+!PAdicInteger methodsFor: 'arithmetic' stamp: 'len 12/17/2016 21:18:16'!
++ aPAdicInteger
+	| newDigits p q |
+	p _ self p.
+	q _ 1.
+	newDigits _ digits with: aPAdicInteger digits collect: [:a :b| q _ q * p. a + b \\ q].
+	^ self class in: parent digits: newDigits! !
+
+!PAdicInteger methodsFor: 'arithmetic' stamp: 'len 12/17/2016 21:19:06'!
+- aPAdicInteger
+	| newDigits p q |
+	p _ self p.
+	q _ 1.
+	newDigits _ digits with: aPAdicInteger digits collect: [:a :b| q _ q * p. a - b \\ q].
+	^ self class in: parent digits: newDigits! !
+
+!PAdicInteger methodsFor: 'comparing' stamp: 'len 12/7/2015 03:01'!
+= aPAdicInteger
+	^ aPAdicInteger class == self class and: [digits = aPAdicInteger digits]! !
+
+!PAdicInteger methodsFor: 'accessing' stamp: 'len 7/17/2016 23:31'!
+at: anInteger
+	"Answer the digit corresponding to p^(anInteger-1)."
+	anInteger > digits size ifTrue: [^ digits last].
+	^ digits at: anInteger! !
+
+!PAdicInteger methodsFor: 'accessing-private' stamp: 'len 12/7/2015 02:54'!
+digits
+	^ digits! !
+
+!PAdicInteger methodsFor: 'initialization' stamp: 'len 12/17/2016 21:01:23'!
+digits: aSequence
+	digits _ aSequence
+"	| n |
+	digits _ ZZ tuple: anArray.
+	n _ (digits size to: 2 by: -1) detect: [:i| (digits at: i) representative ~= (digits at: i-1) representative] ifNone: [^ self].
+	n < digits size ifTrue: [digits _ digits copyFrom: 1 to: n]"! !
+
+!PAdicInteger methodsFor: 'comparing' stamp: 'len 12/7/2015 03:01'!
+hash
+	^ digits hash! !
+
+!PAdicInteger methodsFor: 'testing' stamp: 'len 12/7/2015 03:45'!
+isUniformizing
+	"Answer true if the receiver is a uniformizing element."
+	^ self valuation = 1! !
+
+!PAdicInteger methodsFor: 'testing' stamp: 'len 7/17/2016 23:30'!
+isZero
+	^ digits isZero! !
+
+!PAdicInteger methodsFor: 'arithmetic' stamp: 'len 12/17/2016 21:20:35'!
+negated
+	| newDigits p q |
+	p _ self p.
+	q _ 1.
+	newDigits _ digits collect: [:a| q _ q * p. a == 0 ifTrue: [a] ifFalse: [q - a]].
+	^ self class in: parent digits: newDigits! !
+
+!PAdicInteger methodsFor: 'accessing' stamp: 'len 12/8/2015 03:24'!
+norm
+	^ self isZero ifTrue: [0] ifFalse: [self p ^ self valuation negated]! !
+
+!PAdicInteger methodsFor: 'constants' stamp: 'len 12/17/2016 21:25:08'!
+one
+	^ parent one! !
+
+!PAdicInteger methodsFor: 'accessing' stamp: 'len 12/17/2016 21:22:57'!
+p
+	^ parent p! !
+
+!PAdicInteger methodsFor: 'private' stamp: 'len 12/17/2016 20:59:36'!
+parent
+	^ parent! !
+
+!PAdicInteger methodsFor: 'initialization' stamp: 'len 12/17/2016 21:00:54'!
+parent: aPAdicIntegersRing
+	parent _ aPAdicIntegersRing! !
+
+!PAdicInteger methodsFor: 'printing' stamp: 'len 12/17/2016 21:04:05'!
+printOn: aStream
+	aStream nextPut: $(.
+	digits do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: ','].
+	aStream nextPutAll: '..)'! !
+
+!PAdicInteger methodsFor: 'arithmetic' stamp: 'len 12/17/2016 21:24:10'!
+reciprocal
+	| newDigits p q |
+	(digits at: 1) isZero ifTrue: [^ (ZeroDivide dividend: self one) signal].
+	p _ self p.
+	q _ 1.
+	newDigits _ digits collect: [:a| q _ q * p. a == 1 ifTrue: [a] ifFalse: [a reciprocalModulo2: q]].
+	^ self class in: parent digits: newDigits! !
+
+!PAdicInteger methodsFor: 'accessing' stamp: 'len 12/7/2015 02:55'!
+size
+	^ digits size! !
+
+!PAdicInteger methodsFor: 'accessing' stamp: 'len 12/17/2016 21:58:49'!
+valuation
+	self isZero ifTrue: [^ Infinity positive].
+	^ (digits findFirst: [:one| one ~~ 0]) - 1! !
+
+!PAdicInteger methodsFor: 'constants' stamp: 'len 12/17/2016 21:25:02'!
+zero
+	^ parent zero! !
+
+!PAdicInteger class methodsFor: 'instance creation' stamp: 'len 12/17/2016 20:55:17'!
+in: aPAdicIntegersRing digits: aSequence
+	^ self new parent: aPAdicIntegersRing; digits: aSequence! !
+
+!PAdicNumber methodsFor: 'accessing' stamp: 'len 12/17/2016 21:47:40'!
+denominator
+	^ numerator parent embed: self p ^ self valuation! !
+
+!PAdicNumber methodsFor: 'as yet unclassified' stamp: 'len 12/17/2016 22:16:16'!
+embed: aNumber
+	aNumber isInteger ifTrue: [^ self integers embed: aNumber].
+	aNumber isFraction ifFalse: [self notYetImplemented].
+	self notYetImplemented! !
+
+!PAdicNumber methodsFor: 'accessing' stamp: 'len 12/8/2015 03:24'!
+norm
+	^ self isZero ifTrue: [0] ifFalse: [self p ^ self valuation negated]! !
+
+!PAdicNumber methodsFor: 'accessing' stamp: 'len 12/17/2016 21:46:48'!
+numerator
+	^ numerator! !
+
+!PAdicNumber methodsFor: 'accessing' stamp: 'len 12/7/2015 03:44'!
+p
+	^ self numerator p! !
+
+!PAdicNumber methodsFor: 'accessing' stamp: 'len 12/17/2016 21:53:12'!
+valuation
+	"Answer the p-adic absolute value of the receiver."
+	^ valuation! !
 
 !MutualAssociation methodsFor: 'comparing' stamp: 'len 7/13/2016 07:55'!
 = anAssociation
@@ -7543,13 +7363,13 @@ random: anInteger
 	sum _ ambient  aLinearBasis ambient.
 	^ self class on: sum generators: (self generators collect: [:each| {each. aLinearBasis ambient zero}]), (aLinearBasis generators collect: [:each| {ambient zero. each}])! !
 
-!LinearBasis methodsFor: 'operations' stamp: 'len 4/6/2017 10:28:13'!
+!LinearBasis methodsFor: 'operations' stamp: 'len 4/6/2017 10:46:55'!
 • aLinearBasis
 	"Answer a basis for the intersection of the modules generated by the receiver and the argument."
 	| M N |
 	M _ self matrix.
 	N _ (M | aLinearBasis matrix) kernelMatrix.
-	N numberOfColumns = 0 ifTrue: [^ self class on: self ambient].
+	N isEmpty ifTrue: [^ self class on: self ambient].
 	N _ N copyFrom: 1@1 to: M numberOfColumns @ N numberOfColumns.
 	^ self class on: self ambient matrix: M * N! !
 
@@ -7699,15 +7519,15 @@ first
 
 	^ self at: 1! !
 
-!LinearBasis methodsFor: 'testing' stamp: 'len 4/2/2017 10:50:57'!
+!LinearBasis methodsFor: 'testing' stamp: 'len 12/4/2017 09:10:45'!
 generates: anElement
 	"Answer true if the argument is dependent to the receiver.
 	Assume it is an element of the ambient module."
 	self isEmpty ifTrue: [^ anElement isZero].
 	self isFullRank ifTrue: [^ true].
 	^ (self coordinatesOf: anElement) notNil
-"no need to do extra work here, can optimize
-	^ (self matrix | (ambient coordinatesOf: anElement)) rank = self size"! !
+"no need to do extra work here, can optimize"
+	"^ (self matrix | (ambient coordinatesOf: anElement)) rank = self size"! !
 
 !LinearBasis methodsFor: 'accessing-private' stamp: 'len 11/3/2016 08:11'!
 generators
@@ -20533,81 +20353,6 @@ size
 zero
 	^ 0! !
 
-!PAdicField methodsFor: 'as yet unclassified' stamp: 'len 12/17/2016 21:39:52'!
-characteristic
-	^ 0! !
-
-!PAdicField methodsFor: 'as yet unclassified' stamp: 'len 12/17/2016 21:37:58'!
-integers
-	^ integers! !
-
-!PAdicField methodsFor: 'as yet unclassified' stamp: 'len 10/18/2016 20:55'!
-isField
-	^ true! !
-
-!PAdicField methodsFor: 'as yet unclassified' stamp: 'len 12/17/2016 20:30:57'!
-p
-	^ self integers p! !
-
-!PAdicField methodsFor: 'as yet unclassified' stamp: 'len 1/5/2017 16:39:29'!
-p: aPrime
-	integers _ PAdicIntegerRing p: aPrime! !
-
-!PAdicField methodsFor: 'as yet unclassified' stamp: 'len 12/17/2016 22:21:17'!
-printOn: aStream
-	aStream print: QQ; nextPutAll: self p printString sub! !
-
-!PAdicField class methodsFor: 'instance creation' stamp: 'len 12/17/2016 21:36:49'!
-p: aPrime
-	^ self new p: aPrime! !
-
-!PAdicIntegerRing methodsFor: 'accessing' stamp: 'len 12/17/2016 20:31:49'!
-characteristic
-	^ 0! !
-
-!PAdicIntegerRing methodsFor: 'elements' stamp: 'len 12/18/2016 10:14:00'!
-digits: aSequence
-	^ PAdicInteger in: self digits: aSequence! !
-
-!PAdicIntegerRing methodsFor: 'morphisms' stamp: 'len 12/18/2016 10:13:37'!
-embed: aNumber
-	| q digits max |
-	aNumber isFraction ifTrue: [^ (self embed: aNumber numerator) / (self embed: aNumber denominator)].
-	q _ 1.
-	max _ aNumber abs.
-	digits _ OrderedCollection new.
-	[q _ q * p.
-	digits add: aNumber \\ q.
-	q > max ifTrue: [^ self digits: digits asArray]] repeat! !
-
-!PAdicIntegerRing methodsFor: 'testing' stamp: 'len 12/7/2015 01:29'!
-isIntegralDomain
-	^ true! !
-
-!PAdicIntegerRing methodsFor: 'accessing' stamp: 'len 12/17/2016 21:39:31'!
-one
-	^ self embed: 1! !
-
-!PAdicIntegerRing methodsFor: 'accessing' stamp: 'len 12/7/2015 01:16'!
-p
-	^ p! !
-
-!PAdicIntegerRing methodsFor: 'initialization' stamp: 'len 12/7/2015 01:16'!
-p: aPrime
-	p _ aPrime! !
-
-!PAdicIntegerRing methodsFor: 'printing' stamp: 'len 12/17/2016 22:21:27'!
-printOn: aStream
-	aStream print: ZZ; nextPutAll: p printString sub! !
-
-!PAdicIntegerRing methodsFor: 'accessing' stamp: 'len 12/17/2016 21:39:36'!
-zero
-	^ self embed: 0! !
-
-!PAdicIntegerRing class methodsFor: 'instance creation' stamp: 'len 12/7/2015 01:15'!
-p: aPrime
-	^ self new p: aPrime! !
-
 !MatrixRing methodsFor: 'converting' stamp: 'len 1/5/2017 08:08:18'!
 asModule
 	^ MatrixModule new: self degree @ self degree over: self scalars! !
@@ -21531,6 +21276,81 @@ words: aMonoid over: aRing
 !SymmetricPolynomialRing methodsFor: 'as yet unclassified' stamp: 'len 8/2/2016 09:50'!
 generators
 	^ (1 to: self rank) collect: [:i| polynomials symmetric: i]! !
+
+!PAdicField methodsFor: 'as yet unclassified' stamp: 'len 12/17/2016 21:39:52'!
+characteristic
+	^ 0! !
+
+!PAdicField methodsFor: 'as yet unclassified' stamp: 'len 12/17/2016 21:37:58'!
+integers
+	^ integers! !
+
+!PAdicField methodsFor: 'as yet unclassified' stamp: 'len 10/18/2016 20:55'!
+isField
+	^ true! !
+
+!PAdicField methodsFor: 'as yet unclassified' stamp: 'len 12/17/2016 20:30:57'!
+p
+	^ self integers p! !
+
+!PAdicField methodsFor: 'as yet unclassified' stamp: 'len 1/5/2017 16:39:29'!
+p: aPrime
+	integers _ PAdicIntegerRing p: aPrime! !
+
+!PAdicField methodsFor: 'as yet unclassified' stamp: 'len 12/17/2016 22:21:17'!
+printOn: aStream
+	aStream print: QQ; nextPutAll: self p printString sub! !
+
+!PAdicField class methodsFor: 'instance creation' stamp: 'len 12/17/2016 21:36:49'!
+p: aPrime
+	^ self new p: aPrime! !
+
+!PAdicIntegerRing methodsFor: 'accessing' stamp: 'len 12/17/2016 20:31:49'!
+characteristic
+	^ 0! !
+
+!PAdicIntegerRing methodsFor: 'elements' stamp: 'len 12/18/2016 10:14:00'!
+digits: aSequence
+	^ PAdicInteger in: self digits: aSequence! !
+
+!PAdicIntegerRing methodsFor: 'morphisms' stamp: 'len 12/18/2016 10:13:37'!
+embed: aNumber
+	| q digits max |
+	aNumber isFraction ifTrue: [^ (self embed: aNumber numerator) / (self embed: aNumber denominator)].
+	q _ 1.
+	max _ aNumber abs.
+	digits _ OrderedCollection new.
+	[q _ q * p.
+	digits add: aNumber \\ q.
+	q > max ifTrue: [^ self digits: digits asArray]] repeat! !
+
+!PAdicIntegerRing methodsFor: 'testing' stamp: 'len 12/7/2015 01:29'!
+isIntegralDomain
+	^ true! !
+
+!PAdicIntegerRing methodsFor: 'accessing' stamp: 'len 12/17/2016 21:39:31'!
+one
+	^ self embed: 1! !
+
+!PAdicIntegerRing methodsFor: 'accessing' stamp: 'len 12/7/2015 01:16'!
+p
+	^ p! !
+
+!PAdicIntegerRing methodsFor: 'initialization' stamp: 'len 12/7/2015 01:16'!
+p: aPrime
+	p _ aPrime! !
+
+!PAdicIntegerRing methodsFor: 'printing' stamp: 'len 12/17/2016 22:21:27'!
+printOn: aStream
+	aStream print: ZZ; nextPutAll: p printString sub! !
+
+!PAdicIntegerRing methodsFor: 'accessing' stamp: 'len 12/17/2016 21:39:36'!
+zero
+	^ self embed: 0! !
+
+!PAdicIntegerRing class methodsFor: 'instance creation' stamp: 'len 12/7/2015 01:15'!
+p: aPrime
+	^ self new p: aPrime! !
 
 !Grassmannian methodsFor: 'comparing' stamp: 'len 4/20/2016 23:55'!
 = aGrassmannian
@@ -27234,182 +27054,6 @@ printOn: aStream
 initialize
 	super initialize.
 	Smalltalk at: #HH put: self new! !
-
-!Polytope methodsFor: 'arithmetic' stamp: 'len 4/17/2016 03:29'!
-* aPolytope
-	^ self notYetImplemented! !
-
-!Polytope methodsFor: 'arithmetic' stamp: 'len 4/17/2016 03:32'!
-+ aPolytope
-	"Answer the Minkowski sum of the receiver and the argument."
-	
-	| newPoints |
-	newPoints _ OrderedCollection new: self points size * aPolytope points size.
-	self points do: [:p|
-		aPolytope points do: [:q|
-			newPoints add: p+q]].
-	^ self class points: newPoints! !
-
-!Polytope methodsFor: 'arithmetic' stamp: 'len 12/8/2016 20:31:36'!
-• aPolytope
-	^ self notYetImplemented! !
-
-!Polytope methodsFor: 'as yet unclassified' stamp: 'len 4/17/2016 04:40'!
-boundary
-	^ self notYetImplemented! !
-
-!Polytope methodsFor: 'as yet unclassified' stamp: 'len 4/17/2016 04:40'!
-interior
-	^ self notYetImplemented! !
-
-!Polytope methodsFor: 'accessing' stamp: 'len 4/17/2016 03:27'!
-points
-	^ points! !
-
-!Polytope methodsFor: 'accessing' stamp: 'len 4/17/2016 03:27'!
-points: aCollection
-	points _ aCollection! !
-
-!Polytope methodsFor: 'as yet unclassified' stamp: 'len 4/17/2016 04:40'!
-relativeInterior
-	^ self notYetImplemented! !
-
-!Polytope methodsFor: 'accessing' stamp: 'len 4/17/2016 03:53'!
-space
-	^ space! !
-
-!Polytope methodsFor: 'accessing' stamp: 'len 4/17/2016 03:54'!
-space: aVectorSpace
-	space _ aVectorSpace! !
-
-!Polytope class methodsFor: 'instance creation' stamp: 'len 4/17/2016 03:36'!
-points: aCollection
-	^ self new points: aCollection! !
-
-!Polygon methodsFor: 'accessing' stamp: 'len 1/12/2016 19:28'!
-area
-	^ self notYetImplemented! !
-
-!Polygon methodsFor: 'testing' stamp: 'len 1/12/2016 19:30'!
-boundaryIncludes: aPoint
-	^ self edges anySatisfy: [:any| any includes: aPoint]! !
-
-!Polygon methodsFor: 'accessing' stamp: 'len 1/12/2016 19:27'!
-edges
-	^ (1 to: vertices size)
-		collect:
-			[:i| (LineSegment from: (vertices at: i) to: (vertices at: i \\ vertices size + 1))]! !
-
-!Polygon methodsFor: 'testing' stamp: 'len 1/12/2016 19:29'!
-includes: aPoint
-	^ self notYetImplemented! !
-
-!Polygon methodsFor: 'testing' stamp: 'len 1/12/2016 19:31'!
-isConvex
-	^ self notYetImplemented! !
-
-!Polygon methodsFor: 'testing' stamp: 'len 1/12/2016 20:10'!
-isSimple
-	^ self notYetImplemented! !
-
-!Polygon methodsFor: 'accessing' stamp: 'len 1/12/2016 19:28'!
-perimeter
-	vertices isEmpty ifTrue: [^ 0].
-	^ self edges sum: [:each| each length]! !
-
-!Polygon methodsFor: 'printing' stamp: 'len 1/12/2016 19:43'!
-printOn: aStream
-	aStream nextPut: $[.
-	vertices do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: ', '].
-	aStream nextPut: $]! !
-
-!Polygon methodsFor: 'accessing' stamp: 'len 1/12/2016 19:23'!
-vertices
-	^ vertices! !
-
-!Polygon methodsFor: 'accessing-private' stamp: 'len 1/12/2016 19:22'!
-vertices: aCollection
-	vertices _ aCollection! !
-
-!Polygon class methodsFor: 'instance creation' stamp: 'len 3/23/2016 21:26'!
-vertices: aCollection
-	^ self new vertices: aCollection! !
-
-!LineSegment methodsFor: 'accessing' stamp: 'len 2/27/2016 08:07'!
-direction
-	^ vertices first - vertices second! !
-
-!LineSegment methodsFor: 'testing' stamp: 'len 1/12/2016 19:39'!
-includes: aPoint
-	^ self notYetImplemented! !
-
-!LineSegment methodsFor: 'accessing' stamp: 'len 1/12/2016 19:20'!
-length
-	^ self direction norm! !
-
-!LineSegment methodsFor: 'accessing' stamp: 'len 2/27/2016 08:08'!
-midpoint
-	^ vertices sum / 2! !
-
-!LineSegment class methodsFor: 'instance creation' stamp: 'len 3/23/2016 21:24'!
-from: aPoint to: anotherPoint
-	^ self new vertices: {aPoint. anotherPoint}! !
-
-!DirectedLineSegment methodsFor: 'as yet unclassified' stamp: 'len 1/12/2016 19:35'!
-= aLineSegment
-	aLineSegment class = self class ifFalse: [^ false].
-	^ self p1 = aLineSegment p1 and: [self p2 = aLineSegment p2]! !
-
-!Quadrangle methodsFor: 'as yet unclassified' stamp: 'len 1/12/2016 19:59'!
-bimedians
-	^ self notYetImplemented! !
-
-!Quadrangle methodsFor: 'as yet unclassified' stamp: 'len 1/12/2016 19:59'!
-maltitudes
-	^ self notYetImplemented! !
-
-!Triangle methodsFor: 'as yet unclassified' stamp: 'len 1/12/2016 19:57'!
-altitudes
-	^ self notYetImplemented! !
-
-!Triangle methodsFor: 'as yet unclassified' stamp: 'len 1/12/2016 20:00'!
-centroid
-	^ self notYetImplemented! !
-
-!Triangle methodsFor: 'as yet unclassified' stamp: 'len 1/12/2016 20:00'!
-circumcenter
-	^ self notYetImplemented! !
-
-!Triangle methodsFor: 'as yet unclassified' stamp: 'len 1/12/2016 20:00'!
-incenter
-	^ self notYetImplemented! !
-
-!Triangle methodsFor: 'as yet unclassified' stamp: 'len 1/12/2016 19:57'!
-internalAngleBisectors
-	^ self notYetImplemented! !
-
-!Triangle methodsFor: 'as yet unclassified' stamp: 'len 1/12/2016 19:56'!
-medians
-	| edges |
-	edges _ self edges.
-	^ OrderedCollection new
-		add: (LineSegment from: (edges at: 1) midpoint to: (vertices at: 3));
-		add: (LineSegment from: (edges at: 2) midpoint to: (vertices at: 1));
-		add: (LineSegment from: (edges at: 3) midpoint to: (vertices at: 2));
-		yourself
-	! !
-
-!Triangle methodsFor: 'as yet unclassified' stamp: 'len 1/12/2016 20:00'!
-ninePointCenter
-	^ self notYetImplemented! !
-
-!Triangle methodsFor: 'as yet unclassified' stamp: 'len 1/12/2016 20:00'!
-orthocenter
-	^ self notYetImplemented! !
-
-!Triangle methodsFor: 'as yet unclassified' stamp: 'len 1/12/2016 19:57'!
-perpendicularBisectors
-	^ self notYetImplemented! !
 
 !CoxeterSystem methodsFor: 'as yet unclassified' stamp: 'len 11/16/2016 10:08'!
 computeDiagram
@@ -41882,280 +41526,6 @@ new: anInteger interpolating: anArray
 			mu _ i * anArray size / (anInteger-1).
 			(anArray atPin: mu floor + 1) mixed: mu - mu floor with: (anArray atPin: mu ceiling + 1)])! !
 
-!CoxeterDiagram methodsFor: 'as yet unclassified' stamp: 'len 2/11/2016 22:11'!
-gramMatrix
-	^ matrix collect: [:x| -2 * (Float pi / x) cos]! !
-
-!CoxeterDiagram methodsFor: 'as yet unclassified' stamp: 'len 2/11/2016 22:14'!
-isConnected
-	^ self notYetImplemented! !
-
-!CoxeterDiagram methodsFor: 'as yet unclassified' stamp: 'len 2/11/2016 22:14'!
-isElliptic
-	^ self notYetImplemented! !
-
-!CoxeterDiagram methodsFor: 'as yet unclassified' stamp: 'len 2/11/2016 22:41'!
-isHyperbolic
-	^ (self gramMatrix spectrum count: [:each| each negative]) = 1! !
-
-!CoxeterDiagram methodsFor: 'as yet unclassified' stamp: 'len 2/11/2016 22:22'!
-isLannerDiagram
-	^ self isConnected and: [self isElliptic not and: [self gramMatrix determinant < 0]]! !
-
-!CoxeterDiagram methodsFor: 'as yet unclassified' stamp: 'len 2/11/2016 22:23'!
-isParabolic
-	| spectrum |
-	spectrum _ self gramMatrix spectrum.
-	^ (spectrum occurrencesOf: 0) = 1 and: [spectrum allSatisfy: [:each| each >= 0]]! !
-
-!RootSystem methodsFor: 'accessing' stamp: 'len 5/23/2016 05:00'!
-ambient
-	"Answer the ambient space of the receiver."
-	^ ambient! !
-
-!RootSystem methodsFor: 'accessing-private' stamp: 'len 5/23/2016 05:00'!
-ambient: aVectorSpace
-	ambient _ aVectorSpace! !
-
-!RootSystem methodsFor: 'roots' stamp: 'len 5/23/2016 05:00'!
-coroots
-	^ roots collect: [:v| v * 2 / (ambient innerProduct value: {v.v})]! !
-
-!RootSystem methodsFor: 'operations' stamp: 'len 12/20/2016 12:01:00'!
-coxeterElement
-	| O answer |
-	O _ ambient automorphisms orthogonal.
-	answer _ ambient id.
-	self simpleRoots do: [:each| answer _ answer ” (O reflectionAt: each)].
-	^ answer! !
-
-!RootSystem methodsFor: 'operations' stamp: 'len 5/23/2016 04:59'!
-coxeterMatrix
-	"Answer the Coxeter matrix of the receiver.
-	Given a basis a_i of simple roots, the Coxeter matrix m_ij is defined by <a_i,a_j> = -2 cos(pi / m_ij)."
-	| S |
-	S _ self normalized simpleRoots.
-	^ ambient scalars ^ (S size @ S size)
-		evaluating: [:i :j| Float pi / ((ambient innerProduct value: {(S at: i). (S at: j)}) / -2) arcCos]! !
-
-!RootSystem methodsFor: 'operations' stamp: 'len 6/18/2016 17:14'!
-coxeterNumber
-	^ self weylGroup orderOf: self coxeterElement! !
-
-!RootSystem methodsFor: 'roots' stamp: 'len 1/6/2016 05:01'!
-degreeOf: aPositiveRoot
-	"Answer the degree of the given positive root."
-	^ (self simpleRoots coordinatesOf: aPositiveRoot) asArray sum! !
-
-!RootSystem methodsFor: 'operations' stamp: 'len 5/23/2016 04:59'!
-dual
-	^ self class on: ambient roots: self coroots! !
-
-!RootSystem methodsFor: 'operations' stamp: 'len 2/11/2016 20:59'!
-exponents
-	"Answer the 'sequence of exponents' of the root system."
-	| h |
-	self flag: #fix. "complex eigenvalues, but how about finite fields?"
-	h _ self coxeterNumber.
-	^ self coxeterElement eigenvalues collect: [:each| each log / (Float pi * 2 i / h)]! !
-
-!RootSystem methodsFor: 'testing' stamp: 'len 5/23/2016 04:59'!
-isCrystallographic
-	^ self roots allSatisfy: [:x|
-		self coroots allSatisfy: [:y|
-			(ambient innerProduct value: {x. y}) isInteger]]! !
-
-!RootSystem methodsFor: 'testing' stamp: 'len 2/11/2016 21:16'!
-isIntegral
-	^ self isCrystallographic! !
-
-!RootSystem methodsFor: 'testing' stamp: 'len 2/11/2016 20:46'!
-isIrreducible
-	^ self coxeterDiagram isConnected! !
-
-!RootSystem methodsFor: 'testing' stamp: 'len 5/23/2016 05:01'!
-isNormalized
-	^ roots allSatisfy: [:each| (ambient innerProduct value: {each.each}) = 2]! !
-
-!RootSystem methodsFor: 'operations' stamp: 'len 5/20/2016 23:59'!
-lattice
-	"Answer the root lattice, the Z-submodule spanned by roots of the receiver."
-	^ Lattice basis: self simpleRoots! !
-
-!RootSystem methodsFor: 'roots' stamp: 'len 1/6/2016 03:52'!
-negativeRoots
-	^ self positiveRoots negated! !
-
-!RootSystem methodsFor: 'operations' stamp: 'len 5/23/2016 05:01'!
-normalized
-	^ self class on: ambient roots: (roots collect: [:x| x * (2 / (ambient innerProduct value: {x.x}))])! !
-
-!RootSystem methodsFor: 'roots' stamp: 'len 6/25/2016 23:08'!
-positiveRoots
-	| answer |
-	answer _ Set new.
-	roots do: [:a| (answer includes: a negated)
-		ifFalse:
-			[answer add: a.
-			answer copy do: [:b| (roots includes: a+b) ifTrue: [answer add: b]]]].
-	^ answer! !
-
-!RootSystem methodsFor: 'roots' stamp: 'len 1/6/2016 04:51'!
-positiveRootsSorted
-	^ self positiveRoots asSortedCollection: [:a :b| (self simpleRoots coordinatesOf: b - a) asArray allSatisfy: [:each| each positive]]! !
-
-!RootSystem methodsFor: 'operations' stamp: 'len 2/10/2016 23:01'!
-positiveWeylChamber
-	"Answer the positive Weyl chamber that is choosen in the receiver to define the positive roots."
-	^ self notYetImplemented! !
-
-!RootSystem methodsFor: 'printing' stamp: 'len 2/11/2016 01:34'!
-printOn: aStream
-	aStream nextPut: ${.
-	roots do: [:each| aStream print: each] separatedBy: [aStream nextPut: $,].
-	aStream nextPut: $}! !
-
-!RootSystem methodsFor: 'accessing' stamp: 'len 5/23/2016 04:59'!
-rank
-	^ ambient dimension! !
-
-!RootSystem methodsFor: 'accessing' stamp: 'len 1/6/2016 04:46'!
-roots
-	^ roots! !
-
-!RootSystem methodsFor: 'accessing-private' stamp: 'len 2/11/2016 19:21'!
-roots: aCollection
-	roots _ aCollection! !
-
-!RootSystem methodsFor: 'roots' stamp: 'len 5/23/2016 04:59'!
-simpleRoots
-	| answer |
-	answer _ LinearBasis on: ambient.
-	self positiveRoots do: [:v|
-		(answer generates: v) ifFalse: [answer add: v].
-		answer size = self rank ifTrue: [^ answer]].
-	^ answer! !
-
-!RootSystem methodsFor: 'operations' stamp: 'len 1/7/2016 05:07'!
-weightLattice
-	"Answer the lattice spanned by the weights of the receiver. This lattice is invariant under the Weyl group and also under the map v -> -v. Also, the root lattice is contained in the weight lattice."
-	^ Lattice basis: self weights! !
-
-!RootSystem methodsFor: 'operations' stamp: 'len 1/7/2016 05:42'!
-weights
-	"Answer the fundamental weights of the receiver.
-	A vector v is integral iff it can be expressed as integer linear combination of the fundamental weights."
-	^ self notYetImplemented! !
-
-!RootSystem methodsFor: 'operations' stamp: 'len 10/17/2016 11:03'!
-weylAction
-	| W |
-	W _ self weylGroup.
-	W name: 'W'.
-	^ GroupAction from: (W, self roots) to: self roots evaluatingWithArguments: [:f :x| f value: x]! !
-
-!RootSystem methodsFor: 'operations' stamp: 'len 12/14/2016 11:14:30'!
-weylGroup
-	"Answer the Weyl group of the root system, i.e. the (finite) group of isometries of the ambient vector space generated by reflections through hyperplanes perpendicular to the roots. The Weyl group W(R) is the subgroup of GL(V) (and more specifically O(V)) generated by the reflections {s_r} that act on each root r by -1: s_r(r) = -r."
-	| O W |
-	O _ ambient automorphisms orthogonal.
-	W _ TransformationGroup new generators: (self roots collect: [:each| O reflectionAt: each]).
-"	W name: 'W'."
-	^ W! !
-
-!RootSystem methodsFor: 'operations' stamp: 'len 1/6/2016 00:00'!
-weylVector
-	^ self positiveRoots sum / 2! !
-
-!RootSystem class methodsFor: 'examples' stamp: 'len 7/14/2016 00:09'!
-A: V
-	| roots |
-	roots _ Set new.
-	1 to: V dimension do: [:i|
-		i to: V dimension do: [:j|
-			roots add: (V e: i) - (V e: j)]].
-	^ self on: V roots: roots! !
-
-!RootSystem class methodsFor: 'examples' stamp: 'len 7/14/2016 00:09'!
-B: V
-	| roots |
-	roots _ Set new.
-	1 to: V dimension do: [:i|
-		roots add: (V e: i).
-		i to: V dimension do: [:j|
-			roots add: (V e: i) - (V e: j); add: (V e: i) + (V e: j)]].
-	^ self on: V roots: roots! !
-
-!RootSystem class methodsFor: 'examples' stamp: 'len 7/14/2016 00:09'!
-C: V
-	| roots |
-	roots _ Set new.
-	1 to: V dimension do: [:i|
-		roots add: (V e: i)*2.
-		i to: V dimension do: [:j|
-			roots add: (V e: i) - (V e: j); add: (V e: i) + (V e: j)]].
-	^ self on: V roots: roots! !
-
-!RootSystem class methodsFor: 'examples' stamp: 'len 7/14/2016 00:09'!
-D: V
-	| roots |
-	roots _ Set new.
-	1 to: V dimension do: [:i|
-		i to: V dimension do: [:j|
-			roots add: (V e: i) - (V e: j); add: (V e: i) + (V e: j)]].
-	^ self on: V roots: roots! !
-
-!RootSystem class methodsFor: 'examples' stamp: 'len 7/15/2016 18:37'!
-example1
-	"This is a normalized root system in R^n. The Weyl group associated to it is the symmetric group S_n."
-	| V roots |
-	V _ QQ ^ 3.
-	roots _ Set new.
-	1 to: V dimension do: [:i|
-		1 to: i-1 do: [:j|
-			roots add: (V e: i) - (V e: j); add: (V e: j) - (V e: i)]].
-	^ RootSystem on: V roots: roots! !
-
-!RootSystem class methodsFor: 'examples' stamp: 'len 12/18/2016 20:03:48'!
-example2
-	"This is a normalized root system in R^n. The Weyl group associated to it is the hyperoctahedral group."
-	| V roots |
-	V _ RealAlgebraicNumbersField new ^ 3.
-	roots _ Set new.
-	1 to: V dimension do: [:i|
-		1 to: i-1 do: [:j|
-			roots
-				add: (V e: i) * (RealAlgebraicNumber sqrt: 2);
-				add: (V e: i) * (RealAlgebraicNumber sqrt: 2) negated;
-				add: (V e: i) - (V e: j);
-				add: (V e: j) - (V e: i);
-				add: (V e: i) + (V e: j);
-				add: ((V e: i) + (V e: j)) negated]].
-	^ RootSystem on: V roots: roots! !
-
-!RootSystem class methodsFor: 'examples' stamp: 'len 7/15/2016 18:37'!
-example3
-	"This is a normalized root system in R^n. The Weyl group associated to it is an index 2 subgroup of the hyperoctahedral group."
-	| V roots |
-	V _ QQ ^ 3.
-	roots _ Set new.
-	1 to: 3 do: [:i|
-		1 to: i-1 do: [:j|
-			roots
-				add: (V e: i) - (V e: j);
-				add: (V e: j) - (V e: i);
-				add: (V e: i) + (V e: j);
-				add: ((V e: i) + (V e: j)) negated]].
-	^ RootSystem on: V roots: roots! !
-
-!RootSystem class methodsFor: 'examples' stamp: 'len 7/15/2016 18:37'!
-hexagonal
-	^ self A: QQ ^ 2! !
-
-!RootSystem class methodsFor: 'instance creation' stamp: 'len 5/23/2016 05:00'!
-on: aVectorSpace roots: aCollection
-	^ self new ambient: aVectorSpace; roots: aCollection! !
-
 !ElementaryTensorOld methodsFor: 'arithmetic' stamp: 'len 11/9/2015 03:09'!
 * anObject
 	| answer |
@@ -43246,135 +42616,279 @@ run
 	R isEmpty] whileFalse.
 	^ characteristicSet _ G! !
 
-!Expression methodsFor: 'as yet unclassified' stamp: 'len 3/22/2016 21:16'!
-* anExpression
-	| expression |
-	expression _ (anExpression isKindOf: Expression)
-		ifTrue: [anExpression] ifFalse: [ConstantExpression new constant: anExpression].
-	(expression isKindOf: ConstantExpression)
-		ifTrue: [expression value = 0 ifTrue: [^ expression].
-					expression value = 1 ifTrue: [^ self]].
-	^ ProductExpression new factors: {self. expression}! !
+!CoxeterDiagram methodsFor: 'as yet unclassified' stamp: 'len 2/11/2016 22:11'!
+gramMatrix
+	^ matrix collect: [:x| -2 * (Float pi / x) cos]! !
 
-!Expression methodsFor: 'as yet unclassified' stamp: 'len 3/22/2016 18:29'!
-+ anExpression
-	| expression |
-	expression _ (anExpression isKindOf: Expression)
-		ifTrue: [anExpression] ifFalse: [ConstantExpression new constant: anExpression].
-	^ SumExpression new terms: {self. expression}! !
+!CoxeterDiagram methodsFor: 'as yet unclassified' stamp: 'len 2/11/2016 22:14'!
+isConnected
+	^ self notYetImplemented! !
 
-!Expression methodsFor: 'as yet unclassified' stamp: 'len 3/22/2016 18:22'!
-- anExpression
-	^ self + anExpression negated! !
+!CoxeterDiagram methodsFor: 'as yet unclassified' stamp: 'len 2/11/2016 22:14'!
+isElliptic
+	^ self notYetImplemented! !
 
-!Expression methodsFor: 'as yet unclassified' stamp: 'len 3/22/2016 18:24'!
-negated
-	^ self * -1! !
+!CoxeterDiagram methodsFor: 'as yet unclassified' stamp: 'len 2/11/2016 22:41'!
+isHyperbolic
+	^ (self gramMatrix spectrum count: [:each| each negative]) = 1! !
 
-!Expression methodsFor: 'as yet unclassified' stamp: 'len 3/22/2016 18:37'!
-value
-	^ self value: Dictionary new! !
+!CoxeterDiagram methodsFor: 'as yet unclassified' stamp: 'len 2/11/2016 22:22'!
+isLannerDiagram
+	^ self isConnected and: [self isElliptic not and: [self gramMatrix determinant < 0]]! !
 
-!Expression methodsFor: 'as yet unclassified' stamp: 'len 3/22/2016 18:37'!
-value: aDictionary
-	^ self subclassResponsibility! !
+!CoxeterDiagram methodsFor: 'as yet unclassified' stamp: 'len 2/11/2016 22:23'!
+isParabolic
+	| spectrum |
+	spectrum _ self gramMatrix spectrum.
+	^ (spectrum occurrencesOf: 0) = 1 and: [spectrum allSatisfy: [:each| each >= 0]]! !
 
-!Expression class methodsFor: 'as yet unclassified' stamp: 'len 7/27/2016 00:02'!
-constant: anObject
-	^ ConstantExpression constant: anObject! !
+!RootSystem methodsFor: 'accessing' stamp: 'len 5/23/2016 05:00'!
+ambient
+	"Answer the ambient space of the receiver."
+	^ ambient! !
 
-!ConstantExpression methodsFor: 'as yet unclassified' stamp: 'len 3/22/2016 21:09'!
-* anExpression
-	constant isZero ifTrue: [^ self].
-	constant = 1 ifTrue: [^ anExpression].
-	^ super * anExpression! !
+!RootSystem methodsFor: 'accessing-private' stamp: 'len 5/23/2016 05:00'!
+ambient: aVectorSpace
+	ambient _ aVectorSpace! !
 
-!ConstantExpression methodsFor: 'as yet unclassified' stamp: 'len 3/22/2016 21:07'!
-+ anExpression
-	constant isZero ifTrue: [^ anExpression].
-	^ super + anExpression! !
+!RootSystem methodsFor: 'roots' stamp: 'len 5/23/2016 05:00'!
+coroots
+	^ roots collect: [:v| v * 2 / (ambient innerProduct value: {v.v})]! !
 
-!ConstantExpression methodsFor: 'as yet unclassified' stamp: 'len 3/22/2016 18:29'!
-constant: anObject
-	constant _ anObject! !
+!RootSystem methodsFor: 'operations' stamp: 'len 12/20/2016 12:01:00'!
+coxeterElement
+	| O answer |
+	O _ ambient automorphisms orthogonal.
+	answer _ ambient id.
+	self simpleRoots do: [:each| answer _ answer ” (O reflectionAt: each)].
+	^ answer! !
 
-!ConstantExpression methodsFor: 'as yet unclassified' stamp: 'len 3/22/2016 18:29'!
+!RootSystem methodsFor: 'operations' stamp: 'len 5/23/2016 04:59'!
+coxeterMatrix
+	"Answer the Coxeter matrix of the receiver.
+	Given a basis a_i of simple roots, the Coxeter matrix m_ij is defined by <a_i,a_j> = -2 cos(pi / m_ij)."
+	| S |
+	S _ self normalized simpleRoots.
+	^ ambient scalars ^ (S size @ S size)
+		evaluating: [:i :j| Float pi / ((ambient innerProduct value: {(S at: i). (S at: j)}) / -2) arcCos]! !
+
+!RootSystem methodsFor: 'operations' stamp: 'len 6/18/2016 17:14'!
+coxeterNumber
+	^ self weylGroup orderOf: self coxeterElement! !
+
+!RootSystem methodsFor: 'roots' stamp: 'len 1/6/2016 05:01'!
+degreeOf: aPositiveRoot
+	"Answer the degree of the given positive root."
+	^ (self simpleRoots coordinatesOf: aPositiveRoot) asArray sum! !
+
+!RootSystem methodsFor: 'operations' stamp: 'len 5/23/2016 04:59'!
+dual
+	^ self class on: ambient roots: self coroots! !
+
+!RootSystem methodsFor: 'operations' stamp: 'len 2/11/2016 20:59'!
+exponents
+	"Answer the 'sequence of exponents' of the root system."
+	| h |
+	self flag: #fix. "complex eigenvalues, but how about finite fields?"
+	h _ self coxeterNumber.
+	^ self coxeterElement eigenvalues collect: [:each| each log / (Float pi * 2 i / h)]! !
+
+!RootSystem methodsFor: 'testing' stamp: 'len 5/23/2016 04:59'!
+isCrystallographic
+	^ self roots allSatisfy: [:x|
+		self coroots allSatisfy: [:y|
+			(ambient innerProduct value: {x. y}) isInteger]]! !
+
+!RootSystem methodsFor: 'testing' stamp: 'len 2/11/2016 21:16'!
+isIntegral
+	^ self isCrystallographic! !
+
+!RootSystem methodsFor: 'testing' stamp: 'len 2/11/2016 20:46'!
+isIrreducible
+	^ self coxeterDiagram isConnected! !
+
+!RootSystem methodsFor: 'testing' stamp: 'len 5/23/2016 05:01'!
+isNormalized
+	^ roots allSatisfy: [:each| (ambient innerProduct value: {each.each}) = 2]! !
+
+!RootSystem methodsFor: 'operations' stamp: 'len 5/20/2016 23:59'!
+lattice
+	"Answer the root lattice, the Z-submodule spanned by roots of the receiver."
+	^ Lattice basis: self simpleRoots! !
+
+!RootSystem methodsFor: 'roots' stamp: 'len 1/6/2016 03:52'!
+negativeRoots
+	^ self positiveRoots negated! !
+
+!RootSystem methodsFor: 'operations' stamp: 'len 5/23/2016 05:01'!
+normalized
+	^ self class on: ambient roots: (roots collect: [:x| x * (2 / (ambient innerProduct value: {x.x}))])! !
+
+!RootSystem methodsFor: 'roots' stamp: 'len 6/25/2016 23:08'!
+positiveRoots
+	| answer |
+	answer _ Set new.
+	roots do: [:a| (answer includes: a negated)
+		ifFalse:
+			[answer add: a.
+			answer copy do: [:b| (roots includes: a+b) ifTrue: [answer add: b]]]].
+	^ answer! !
+
+!RootSystem methodsFor: 'roots' stamp: 'len 1/6/2016 04:51'!
+positiveRootsSorted
+	^ self positiveRoots asSortedCollection: [:a :b| (self simpleRoots coordinatesOf: b - a) asArray allSatisfy: [:each| each positive]]! !
+
+!RootSystem methodsFor: 'operations' stamp: 'len 2/10/2016 23:01'!
+positiveWeylChamber
+	"Answer the positive Weyl chamber that is choosen in the receiver to define the positive roots."
+	^ self notYetImplemented! !
+
+!RootSystem methodsFor: 'printing' stamp: 'len 2/11/2016 01:34'!
 printOn: aStream
-	aStream print: constant! !
+	aStream nextPut: ${.
+	roots do: [:each| aStream print: each] separatedBy: [aStream nextPut: $,].
+	aStream nextPut: $}! !
 
-!ConstantExpression methodsFor: 'as yet unclassified' stamp: 'len 3/22/2016 18:36'!
-value: aDictionary
-	^ constant! !
+!RootSystem methodsFor: 'accessing' stamp: 'len 5/23/2016 04:59'!
+rank
+	^ ambient dimension! !
 
-!ConstantExpression class methodsFor: 'as yet unclassified' stamp: 'len 7/27/2016 00:02'!
-constant: anObject
-	^ self new constant: anObject! !
+!RootSystem methodsFor: 'accessing' stamp: 'len 1/6/2016 04:46'!
+roots
+	^ roots! !
 
-!FunctionExpression methodsFor: 'as yet unclassified' stamp: 'len 3/22/2016 18:20'!
-arguments: aCollection
-	arguments _ aCollection! !
+!RootSystem methodsFor: 'accessing-private' stamp: 'len 2/11/2016 19:21'!
+roots: aCollection
+	roots _ aCollection! !
 
-!FunctionExpression methodsFor: 'as yet unclassified' stamp: 'len 3/22/2016 18:20'!
-function: aFunction
-	function _ aFunction! !
+!RootSystem methodsFor: 'roots' stamp: 'len 5/23/2016 04:59'!
+simpleRoots
+	| answer |
+	answer _ LinearBasis on: ambient.
+	self positiveRoots do: [:v|
+		(answer generates: v) ifFalse: [answer add: v].
+		answer size = self rank ifTrue: [^ answer]].
+	^ answer! !
 
-!FunctionExpression methodsFor: 'as yet unclassified' stamp: 'len 3/22/2016 18:17'!
-printOn: aStream
-	aStream print: function; nextPut: $(.
-	arguments do: [:each| aStream print: each] separatedBy: [aStream nextPut: $,].
-	aStream nextPut: $)! !
+!RootSystem methodsFor: 'operations' stamp: 'len 1/7/2016 05:07'!
+weightLattice
+	"Answer the lattice spanned by the weights of the receiver. This lattice is invariant under the Weyl group and also under the map v -> -v. Also, the root lattice is contained in the weight lattice."
+	^ Lattice basis: self weights! !
 
-!FunctionExpression methodsFor: 'as yet unclassified' stamp: 'len 3/22/2016 18:38'!
-value: aDictionary
-	^ function value: (arguments collect: [:each| each value: aDictionary])! !
+!RootSystem methodsFor: 'operations' stamp: 'len 1/7/2016 05:42'!
+weights
+	"Answer the fundamental weights of the receiver.
+	A vector v is integral iff it can be expressed as integer linear combination of the fundamental weights."
+	^ self notYetImplemented! !
 
-!PowerExpression methodsFor: 'as yet unclassified' stamp: 'len 7/27/2016 00:01'!
-printOn: aStream
-	aStream nextPut: $(; print: base; nextPut: $).
-	exponent printString = '1'
-		ifTrue: [^ self].
-	aStream isText
-		ifTrue: [aStream nextPutAll: exponent super. ^ self].
-	aStream nextPut: $^.
-	exponent size = 1
-		ifTrue: [aStream nextPutAll: exponent]
-		ifFalse: [aStream nextPut: ${; nextPutAll: exponent; nextPut: $}]! !
+!RootSystem methodsFor: 'operations' stamp: 'len 10/17/2016 11:03'!
+weylAction
+	| W |
+	W _ self weylGroup.
+	W name: 'W'.
+	^ GroupAction from: (W, self roots) to: self roots evaluatingWithArguments: [:f :x| f value: x]! !
 
-!ProductExpression methodsFor: 'as yet unclassified' stamp: 'len 3/22/2016 18:20'!
-factors: aCollection
-	factors _ aCollection! !
+!RootSystem methodsFor: 'operations' stamp: 'len 12/14/2016 11:14:30'!
+weylGroup
+	"Answer the Weyl group of the root system, i.e. the (finite) group of isometries of the ambient vector space generated by reflections through hyperplanes perpendicular to the roots. The Weyl group W(R) is the subgroup of GL(V) (and more specifically O(V)) generated by the reflections {s_r} that act on each root r by -1: s_r(r) = -r."
+	| O W |
+	O _ ambient automorphisms orthogonal.
+	W _ TransformationGroup new generators: (self roots collect: [:each| O reflectionAt: each]).
+"	W name: 'W'."
+	^ W! !
 
-!ProductExpression methodsFor: 'as yet unclassified' stamp: 'len 3/22/2016 21:12'!
-printOn: aStream
-	factors do: [:each| each printString isAlphaNumeric ifTrue: [aStream print: each] ifFalse: [aStream nextPut: $(; print: each; nextPut: $)]]! !
+!RootSystem methodsFor: 'operations' stamp: 'len 1/6/2016 00:00'!
+weylVector
+	^ self positiveRoots sum / 2! !
 
-!ProductExpression methodsFor: 'as yet unclassified' stamp: 'len 3/22/2016 18:37'!
-value: aDictionary
-	^ factors product: [:each| each value: aDictionary]! !
+!RootSystem class methodsFor: 'examples' stamp: 'len 7/14/2016 00:09'!
+A: V
+	| roots |
+	roots _ Set new.
+	1 to: V dimension do: [:i|
+		i to: V dimension do: [:j|
+			roots add: (V e: i) - (V e: j)]].
+	^ self on: V roots: roots! !
 
-!SumExpression methodsFor: 'as yet unclassified' stamp: 'len 3/22/2016 18:15'!
-printOn: aStream
-	terms do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: ' + ']! !
+!RootSystem class methodsFor: 'examples' stamp: 'len 7/14/2016 00:09'!
+B: V
+	| roots |
+	roots _ Set new.
+	1 to: V dimension do: [:i|
+		roots add: (V e: i).
+		i to: V dimension do: [:j|
+			roots add: (V e: i) - (V e: j); add: (V e: i) + (V e: j)]].
+	^ self on: V roots: roots! !
 
-!SumExpression methodsFor: 'as yet unclassified' stamp: 'len 3/22/2016 18:19'!
-terms: aCollection
-	terms _ aCollection! !
+!RootSystem class methodsFor: 'examples' stamp: 'len 7/14/2016 00:09'!
+C: V
+	| roots |
+	roots _ Set new.
+	1 to: V dimension do: [:i|
+		roots add: (V e: i)*2.
+		i to: V dimension do: [:j|
+			roots add: (V e: i) - (V e: j); add: (V e: i) + (V e: j)]].
+	^ self on: V roots: roots! !
 
-!SumExpression methodsFor: 'as yet unclassified' stamp: 'len 3/22/2016 18:38'!
-value: aDictionary
-	^ terms sum: [:each| each value: aDictionary]! !
+!RootSystem class methodsFor: 'examples' stamp: 'len 7/14/2016 00:09'!
+D: V
+	| roots |
+	roots _ Set new.
+	1 to: V dimension do: [:i|
+		i to: V dimension do: [:j|
+			roots add: (V e: i) - (V e: j); add: (V e: i) + (V e: j)]].
+	^ self on: V roots: roots! !
 
-!VariableExpression methodsFor: 'as yet unclassified' stamp: 'len 3/22/2016 18:25'!
-name: aString
-	name _ aString! !
+!RootSystem class methodsFor: 'examples' stamp: 'len 7/15/2016 18:37'!
+example1
+	"This is a normalized root system in R^n. The Weyl group associated to it is the symmetric group S_n."
+	| V roots |
+	V _ QQ ^ 3.
+	roots _ Set new.
+	1 to: V dimension do: [:i|
+		1 to: i-1 do: [:j|
+			roots add: (V e: i) - (V e: j); add: (V e: j) - (V e: i)]].
+	^ RootSystem on: V roots: roots! !
 
-!VariableExpression methodsFor: 'as yet unclassified' stamp: 'len 3/22/2016 18:25'!
-printOn: aStream
-	aStream nextPutAll: name! !
+!RootSystem class methodsFor: 'examples' stamp: 'len 12/18/2016 20:03:48'!
+example2
+	"This is a normalized root system in R^n. The Weyl group associated to it is the hyperoctahedral group."
+	| V roots |
+	V _ RealAlgebraicNumbersField new ^ 3.
+	roots _ Set new.
+	1 to: V dimension do: [:i|
+		1 to: i-1 do: [:j|
+			roots
+				add: (V e: i) * (RealAlgebraicNumber sqrt: 2);
+				add: (V e: i) * (RealAlgebraicNumber sqrt: 2) negated;
+				add: (V e: i) - (V e: j);
+				add: (V e: j) - (V e: i);
+				add: (V e: i) + (V e: j);
+				add: ((V e: i) + (V e: j)) negated]].
+	^ RootSystem on: V roots: roots! !
 
-!VariableExpression methodsFor: 'as yet unclassified' stamp: 'len 3/22/2016 18:36'!
-value: aDictionary
-	^ aDictionary at: name ifAbsent: [self]! !
+!RootSystem class methodsFor: 'examples' stamp: 'len 7/15/2016 18:37'!
+example3
+	"This is a normalized root system in R^n. The Weyl group associated to it is an index 2 subgroup of the hyperoctahedral group."
+	| V roots |
+	V _ QQ ^ 3.
+	roots _ Set new.
+	1 to: 3 do: [:i|
+		1 to: i-1 do: [:j|
+			roots
+				add: (V e: i) - (V e: j);
+				add: (V e: j) - (V e: i);
+				add: (V e: i) + (V e: j);
+				add: ((V e: i) + (V e: j)) negated]].
+	^ RootSystem on: V roots: roots! !
+
+!RootSystem class methodsFor: 'examples' stamp: 'len 7/15/2016 18:37'!
+hexagonal
+	^ self A: QQ ^ 2! !
+
+!RootSystem class methodsFor: 'instance creation' stamp: 'len 5/23/2016 05:00'!
+on: aVectorSpace roots: aCollection
+	^ self new ambient: aVectorSpace; roots: aCollection! !
 Digraph initialize!
 Naturals initialize!
 RationalField initialize!
