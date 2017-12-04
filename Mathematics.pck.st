@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 4 December 2017 at 9:35:22 am'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 4 December 2017 at 3:02:51 pm'!
 'Description A computational algebra system in Smalltalk'!
-!provides: 'Mathematics' 1 387!
+!provides: 'Mathematics' 1 388!
 !requires: 'RayTracer' 1 2 nil!
 !classDefinition: #RealAlgebraicNumber category: #'Mathematics-Fields-Algebraic'!
 Number subclass: #RealAlgebraicNumber
@@ -3865,6 +3865,12 @@ My instances are Hom(A,B), Hom-Set objects for domain A and codomain B, i.e. set
 
 !PointSet commentStamp: '<historical>' prior: 0!
 My instances are sets of S-points of a scheme X, noted X(S), where X and S are schemes over some base scheme or ring B. By definition, an S-point is a morphism from S to X over B. See also RationalPoint.!
+
+!ComplexBox commentStamp: '<historical>' prior: 0!
+My instances are boxes in the complex plane, defined by two real intervals (for the real and imaginary parts).!
+
+!ComplexDisk commentStamp: '<historical>' prior: 0!
+My instances are closed disks in the complex plane, defined by a center point and a radius.!
 
 !RealBox commentStamp: '<historical>' prior: 0!
 My instances are boxes in R^n built by the cartesian product of one-dimensional intervals (instances of RealInterval).
@@ -32435,35 +32441,37 @@ value: anObject
 valueWithArguments: anArray
 	^ representative valueWithArguments: anArray! !
 
-!AlgebraicNumber methodsFor: 'arithmetic' stamp: 'len 6/5/2016 20:58'!
+!AlgebraicNumber methodsFor: 'arithmetic' stamp: 'len 12/4/2017 14:55:36'!
 * aNumber
-	| roots |
+	| f x r |
 	aNumber class = self class
 		ifFalse: [^ aNumber adaptToAlgebraic: self andSend: #*].
 	aNumber isZero ifTrue: [^ aNumber].
 	self isZero ifTrue: [^ self].
-	roots _ (ComplexRootFinder polynomial: (self polynomial zeroProduct: aNumber polynomial)) roots.
-	[roots _ roots select: [:each| each bounds includes: self approximation * aNumber approximation].
-	roots size = 1]
+	f _ ComplexRootFinder polynomial:
+		(self polynomial zeroProduct: aNumber polynomial).
+	[x _ self approximation * aNumber approximation.
+	r _ self absoluteError * aNumber approximation norm2 + (self approximation norm2 * aNumber absoluteError).
+	f atMostOneRootAround: x radius: r]
 		whileFalse:
-			[roots do: [:each| self refineWith: each].
-			self refineWith: aNumber].
-	^ roots anyOne! !
+			[self refineWith: aNumber].
+	^ self class polynomial: f polynomial approximation: x radius: r! !
 
-!AlgebraicNumber methodsFor: 'arithmetic' stamp: 'len 6/5/2016 20:41'!
+!AlgebraicNumber methodsFor: 'arithmetic' stamp: 'len 12/4/2017 13:34:28'!
 + aNumber
-	| f disk |
+	| f x r |
 	aNumber class = self class
 		ifFalse: [^ aNumber adaptToAlgebraic: self andSend: #+].
 	aNumber isZero ifTrue: [^ self].
 	self isZero ifTrue: [^ aNumber].
 	f _ ComplexRootFinder polynomial:
 		(self polynomial zeroAddition: aNumber polynomial).
-	[disk _ self bounds + aNumber bounds.
-	f moreThanOneRootIn: disk]
-		whileTrue:
+	[x _ self approximation + aNumber approximation.
+	r _ self absoluteError + aNumber absoluteError.
+	f atMostOneRootAround: x radius: r]
+		whileFalse:
 			[self refineWith: aNumber].
-	^ self class polynomial: f polynomial bounds: disk! !
+	^ self class polynomial: f polynomial approximation: x radius: r! !
 
 !AlgebraicNumber methodsFor: 'arithmetic' stamp: 'len 1/12/2016 03:38'!
 - anObject
@@ -32522,7 +32530,7 @@ asFloat
 	self refineTo: 0.000001.
 	^ self approximation asFloat! !
 
-!AlgebraicNumber methodsFor: 'converting' stamp: 'len 3/21/2016 22:51'!
+!AlgebraicNumber methodsFor: 'converting' stamp: 'len 12/4/2017 14:58:08'!
 asRational
 	"Convert the receiver to Fraction or Integer."
 	| alpha |
@@ -32533,7 +32541,7 @@ asRational
 			approximation _ alpha. radius _ 0.
 			^ alpha].
 	(RationalRootFinder polynomial: polynomial)
-		roots do: [:each| 
+		roots do: [:each|
 			(each - approximation) abs < radius
 				ifTrue: [approximation _ each. radius _ 0. ^ each]].
 	self error: 'the number is irrational'! !
@@ -32561,6 +32569,10 @@ hash
 i
 	^ self * self class i! !
 
+!AlgebraicNumber methodsFor: 'accessing-private' stamp: 'len 12/4/2017 10:05:29'!
+irreducible: aBoolean
+	irreducible _ aBoolean! !
+
 !AlgebraicNumber methodsFor: 'testing' stamp: 'len 1/13/2016 03:33'!
 isAlgebraic
 	^ true! !
@@ -32574,7 +32586,7 @@ isAlgebraicInteger
 isNumber
 	^ true! !
 
-!AlgebraicNumber methodsFor: 'testing' stamp: 'len 1/15/2016 02:08'!
+!AlgebraicNumber methodsFor: 'testing' stamp: 'len 12/4/2017 14:58:00'!
 isRational
 	polynomial degree < 2 ifTrue: [^ true].
 	radius = 0 ifTrue: [^ true].
@@ -32584,7 +32596,7 @@ isRational
 				ifTrue: [approximation _ each. radius _ 0. ^ true]].
 	^ false! !
 
-!AlgebraicNumber methodsFor: 'testing' stamp: 'len 1/15/2016 02:08'!
+!AlgebraicNumber methodsFor: 'testing' stamp: 'len 12/4/2017 14:57:55'!
 isZero
 	^ approximation abs < radius and: [(polynomial value: 0) = 0]! !
 
@@ -32600,14 +32612,14 @@ minimalPolynomial: aPolynomial
 	polynomial _ aPolynomial.
 	irreducible _ true! !
 
-!AlgebraicNumber methodsFor: 'arithmetic' stamp: 'len 6/4/2016 22:33'!
+!AlgebraicNumber methodsFor: 'arithmetic' stamp: 'len 12/4/2017 10:04:47'!
 negated
 	"Answer the additive inverse of the receiver."
 	^ self class
 		polynomial: polynomial zeroNegation
 		irreducible: irreducible
-		approximation: self approximation negated
-		radius: self radius! !
+		approximation: approximation negated
+		radius: radius! !
 
 !AlgebraicNumber methodsFor: 'operations' stamp: 'len 1/10/2016 20:46'!
 norm
@@ -32649,14 +32661,18 @@ printOn: aStream base: base
 printPrecision
 	^ 0.00001! !
 
-!AlgebraicNumber methodsFor: 'arithmetic' stamp: 'len 6/5/2016 21:00'!
+!AlgebraicNumber methodsFor: 'arithmetic' stamp: 'len 12/4/2017 14:53:45'!
 reciprocal
 	"Answer the multiplicative inverse of the receiver."
+	| f x r |
 	self isZero ifTrue: [^ ZeroDivide signal].
-	^ self class
-		polynomial: polynomial zeroReciprocal
-		irreducible: irreducible
-		bounds: self bounds reciprocal! !
+	f _ ComplexRootFinder polynomial: self polynomial zeroReciprocal.
+	[x _ self approximation reciprocal.
+	r _ self absoluteError / self approximation norm2 * x norm2.
+	f atMostOneRootAround: x radius: r]
+		whileFalse:
+			[self refine].
+	^ self class polynomial: f polynomial irreducible: irreducible approximation: x radius: r! !
 
 !AlgebraicNumber methodsFor: 'approximating' stamp: 'len 3/6/2017 16:51:53'!
 refine
@@ -38482,10 +38498,10 @@ coefficients: aTuple
 	coefficients _ aTuple.
 	self normalize! !
 
-!UnivariatePolynomial methodsFor: 'operations' stamp: 'len 11/11/2016 09:25'!
+!UnivariatePolynomial methodsFor: 'operations' stamp: 'len 12/4/2017 10:16:25'!
 companion
 	"Answer the Frobenius companion matrix of the receiver.
-	The characteristic polynomial as well as minimal polynomial of the companion matrix C(p) is p.
+	This is a matrix that has the receiver as both the characteristic and minimal polynomial.
 	Also, given a linear recursive sequence with characteristic polynomial p, the transpose companion matrix of p generates the sequence."
 	| n one zero |
 	self isMonic ifFalse: [^ DomainError signal: 'Undefined for non-monic polynomials'].
@@ -38892,7 +38908,7 @@ value: anObject
 		ifTrue: [anObject at: 1] ifFalse: [anObject].
 	^ coefficients polynomialValue: x! !
 
-!UnivariatePolynomial methodsFor: 'roots' stamp: 'len 3/6/2017 16:54:14'!
+!UnivariatePolynomial methodsFor: 'roots' stamp: 'len 12/4/2017 10:18:22'!
 zeroAddition: aPolynomial
 	"Answer a polynomial whose zeros are the addition of the receiver zeros with the zeros of the argument."
 	| f g R S y X Y C |
@@ -38904,6 +38920,7 @@ zeroAddition: aPolynomial
 	S _ self scalars polynomialsIn: R rank + 1.
 	X _ S x: R indeterminate.
 	Y _ S x: y.
+	f isMonic ifFalse: [f _ f monic]. "otherwise the companion matrix is undefined"
 	C _ f companion apply: R embedding.
 	^ (((g value: X - Y) asUnivariateIn: y) value: C) determinant! !
 
@@ -38913,13 +38930,14 @@ zeroNegation
 
 	^ self parent coefficients: (self coefficients withIndexCollect: [:each :i| i odd ifTrue: [each negated] ifFalse: [each]])! !
 
-!UnivariatePolynomial methodsFor: 'roots' stamp: 'len 1/23/2017 11:48:47'!
+!UnivariatePolynomial methodsFor: 'roots' stamp: 'len 12/4/2017 10:18:30'!
 zeroProduct: aPolynomial
 	"Answer a polynomial whose zeros are the product of the receiver zeros by the zeros of the argument."
 	| f g C |
 	self degree <= aPolynomial degree
 		ifTrue: [f _ self. g _ aPolynomial]
 		ifFalse: [g _ self. f _ aPolynomial].
+	f isMonic ifFalse: [f _ f monic]. "otherwise the companion matrix is undefined"
 	C _ f companion apply: self parent embedding.
 	^ (g homogenized asUnivariate value: C) determinant! !
 
@@ -38928,6 +38946,10 @@ zeroReciprocal
 	"Answer a polynomial whose zeros are the reciprocals of the receiver's zeros."
 
 	^ self reversed! !
+
+!UnivariatePolynomial methodsFor: 'roots' stamp: 'len 12/4/2017 10:22:45'!
+zeroSquareRoot
+	^ self value: self parent x squared! !
 
 !FiniteFieldPolynomialFactorizer methodsFor: 'private' stamp: 'len 3/6/2017 16:55:37'!
 distinctDegreeFactorization: aPolynomial
@@ -39472,6 +39494,12 @@ T: K at: m radius: r
 		t _ (f value: m) abs * (r ^ j) / j factorial + t].
 	^ (squareFreePolynomial value: m) abs > (K * t)! !
 
+!ComplexRootFinder methodsFor: 'as yet unclassified' stamp: 'len 12/4/2017 13:22:20'!
+atMostOneRootAround: center radius: radius
+	"If this holds, there's at most one root in the givem disk."
+	^ self T2: 3/2 at: center radius: radius
+"	^ (self rootsIn: aBox) size > 1"! !
+
 !ComplexRootFinder methodsFor: 'as yet unclassified' stamp: 'len 6/5/2016 05:07'!
 bigBounds
 	"Compute and answer a first estimate of a box containing all the complex roots."
@@ -39510,12 +39538,6 @@ eightPointTest: m width: w
 		ifTrue: [^ realCrossings second < imaginaryCrossings second].
 	^ realCrossings first > imaginaryCrossings first
 		and: [realCrossings second > imaginaryCrossings second]! !
-
-!ComplexRootFinder methodsFor: 'as yet unclassified' stamp: 'len 3/6/2017 16:56:09'!
-moreThanOneRootIn: aDisk
-	"if this holds, there's at most one root in aDisk."
-	^ self T2: 3/2 at: aDisk center radius: aDisk radius
-"	^ (self rootsIn: aBox) size > 1"! !
 
 !ComplexRootFinder methodsFor: 'as yet unclassified' stamp: 'len 6/5/2016 05:08'!
 polynomial: aPolynomial
