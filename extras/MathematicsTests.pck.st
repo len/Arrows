@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 4 December 2017 at 9:35:25 am'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 13 December 2017 at 10:01:05 pm'!
 'Description Please enter a description for this package'!
-!provides: 'MathematicsTests' 1 80!
+!provides: 'MathematicsTests' 1 81!
 !classDefinition: #AbelianGroupTest category: #MathematicsTests!
 TestCase subclass: #AbelianGroupTest
 	instanceVariableNames: ''
@@ -91,14 +91,14 @@ TestCase subclass: #GroupTest
 GroupTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #LinearBasisTest category: #MathematicsTests!
-TestCase subclass: #LinearBasisTest
+!classDefinition: #LatticeTest category: #MathematicsTests!
+TestCase subclass: #LatticeTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'MathematicsTests'!
-!classDefinition: 'LinearBasisTest class' category: #MathematicsTests!
-LinearBasisTest class
+!classDefinition: 'LatticeTest class' category: #MathematicsTests!
+LatticeTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #LinearGroupsTest category: #MathematicsTests!
@@ -2860,24 +2860,62 @@ testTrivial
 	self assert: G size = 1.
 	self assert: G isTrivial! !
 
-!LinearBasisTest methodsFor: 'as yet unclassified' stamp: 'len 1/17/2017 08:36:13'!
-testCoordinates
-	| V B |
-	V _ QQ^3.
-	B _ LinearBasis on: V generators: {(1,1,1). (1,2,3)}.
-	self assert: (B coordinatesOf: (1,1,1)) = (1,0).
-	self assert: (B coordinatesOf: (1,2,3)) = (0,1).
-	self assert: (B coordinatesOf: (0,1,2)) = (-1,1).
-! !
+!LatticeTest methodsFor: 'as yet unclassified' stamp: 'len 12/7/2017 20:51:58'!
+testE8
+	| E8 a |
+	E8 _ Lattice E8.
+	a _ E8 atRandomBits: 100.
+	self assert: ((a allSatisfy: [:x| x isInteger]) or: [a allSatisfy: [:x| x isInteger not and: [(x*2) isInteger]]]).
+	self assert: (a sum isInteger and: [a sum even]).
+	self assert: E8 isIntegral.
+	self assert: E8 isUnimodular.
+	self assert: E8 isSelfDual! !
 
-!LinearBasisTest methodsFor: 'as yet unclassified' stamp: 'len 1/17/2017 08:37:05'!
-testGenerates
-	| V B |
-	V _ QQ^3.
-	B _ LinearBasis on: V generators: {(1,1,1). (1,2,3)}.
-	self assert: (B generates: (1,1,1)).
-	self assert: (B generates: (0,1,2)).
-	self deny: (B generates: (2,2,3))! !
+!LatticeTest methodsFor: 'as yet unclassified' stamp: 'len 12/7/2017 20:45:47'!
+testLLL
+	| b1 b2 b3 lll |
+	b1 _ (1, 1, 1).
+	b2 _ (-1, 0, 2).
+	b3 _ (3, 5, 6).
+	lll _ LLL basis: { b1. b2. b3 }.
+	self assert: lll reducedBasis = {(0,1,0). (1,0,1). (-1,0,2)}! !
+
+!LatticeTest methodsFor: 'as yet unclassified' stamp: 'len 12/7/2017 20:45:54'!
+testLatticeAnDual
+	| A3 A3Dual |
+	A3 _ Lattice A: 3.
+	A3Dual _ Lattice Adual: 3.
+	self assert: A3 dual = A3Dual.
+	self assert: A3 = A3Dual dual! !
+
+!LatticeTest methodsFor: 'as yet unclassified' stamp: 'len 12/7/2017 20:46:01'!
+testLatticeD4SelfDual
+	| D4 |
+	D4 _ Lattice D4.
+	self assert: D4 isSelfDual! !
+
+!LatticeTest methodsFor: 'as yet unclassified' stamp: 'len 12/12/2017 18:04:16'!
+testLatticeDual
+	| V basis lattice dualLattice I |
+	V _ QQ ^ 3.
+	basis _ LinearBasis on: V elements: {(-1,0,0). (0,1,2). (0,1,1)}.
+	lattice _ Lattice basis: basis.
+	dualLattice _ lattice dual.
+	I _ basis matrix identity.
+	self assert: lattice basis span = dualLattice basis span.
+	self assert: lattice determinant = (1 / dualLattice determinant).
+	self assert: lattice basis matrix * dualLattice basis matrix = I! !
+
+!LatticeTest methodsFor: 'as yet unclassified' stamp: 'len 12/12/2017 18:04:20'!
+testLatticeDual2
+	| V basis lattice dualLattice |
+	V _ QQ ^ 3.
+	basis _ LinearBasis on: V elements: {(-1,0,0). (0,1,2)}. "not full rank"
+	lattice _ Lattice basis: basis.
+	dualLattice _ lattice dual.
+	self assert: lattice basis span = dualLattice basis span.
+	self assert: lattice determinant = (1 / dualLattice determinant).
+	self assert: (lattice basis matrix * dualLattice basis matrix) isIdentity! !
 
 !LinearGroupsTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:03'!
 testGeneralLinearAtRandom
@@ -3148,52 +3186,6 @@ testKroneckerSymbol
 	c _ (-100 to: 100) atRandom.
 	self assert: (a*b kronecker: c) = ((a kronecker: c) * (b kronecker: c)).
 	b*c = 0 ifFalse: [self assert: (a kronecker: b*c) = ((a kronecker: b) * (a kronecker: c))]! !
-
-!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 12/23/2015 02:56'!
-testLLL
-	| b1 b2 b3 lll |
-	b1 _ (1, 1, 1).
-	b2 _ (-1, 0, 2).
-	b3 _ (3, 5, 6).
-	lll _ LLL basis: { b1. b2. b3 }.
-	self assert: lll reducedBasis = {(0,1,0). (1,0,1). (-1,0,2)}! !
-
-!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 4/12/2016 07:35'!
-testLatticeAnDual
-	| A3 A3Dual |
-	A3 _ Lattice A: 3.
-	A3Dual _ Lattice Adual: 3.
-	self assert: A3 dual = A3Dual.
-	self assert: A3 = A3Dual dual! !
-
-!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 4/12/2016 07:36'!
-testLatticeD4SelfDual
-	| D4 |
-	D4 _ Lattice D4.
-	self assert: D4 isSelfDual! !
-
-!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 12/11/2016 08:03:09'!
-testLatticeDual
-	| V basis lattice dualLattice I |
-	V _ QQ ^ 3.
-	basis _ LinearBasis on: V generators: {(-1,0,0). (0,1,2). (0,1,1)}.
-	lattice _ Lattice basis: basis.
-	dualLattice _ lattice dual.
-	I _ basis matrix identity.
-	self assert: lattice basis span = dualLattice basis span.
-	self assert: lattice determinant = (1 / dualLattice determinant).
-	self assert: lattice basis matrix * dualLattice basis matrix = I! !
-
-!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 11/3/2016 08:14'!
-testLatticeDual2
-	| V basis lattice dualLattice |
-	V _ QQ ^ 3.
-	basis _ LinearBasis on: V generators: {(-1,0,0). (0,1,2)}. "not full rank"
-	lattice _ Lattice basis: basis.
-	dualLattice _ lattice dual.
-	self assert: lattice basis span = dualLattice basis span.
-	self assert: lattice determinant = (1 / dualLattice determinant).
-	self assert: (lattice basis matrix * dualLattice basis matrix) isIdentity! !
 
 !MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 12/26/2016 23:13:26'!
 testLegendreSymbol
@@ -3956,32 +3948,51 @@ testGrassmannian
 	self assert: (G includes: S).
 	self assert: (G dual includes: S perp dual)! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 11/3/2016 08:14'!
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 12/12/2017 18:06:24'!
 testLinearBasisCoordinatesOf
 	| V basis c |
 	V _ QQ ^ 3.
-	basis _ LinearBasis on: V generators: {(-1,0,0). (0,0,2)}.
+	basis _ LinearBasis on: V elements: {(-1,0,0). (0,0,2)}.
 	c _ basis coordinatesOf: (1,0,4).
 	self assert: c = (-1,2)! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 11/3/2016 08:14'!
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 12/12/2017 18:06:32'!
 testLinearBasisCoordinatesOf2
 	| V basis c |
 	V _ QQ ^ 3.
-	basis _ LinearBasis on: V generators: {(-1,0,0). (0,0,2)}.
+	basis _ LinearBasis on: V elements: {(-1,0,0). (0,0,2)}.
 	c _ basis coordinatesOf: (1,1,4).
 	self assert: c isNil! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 11/5/2016 07:17'!
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 12/12/2017 21:14:13'!
+testLinearBasisCoordinatesOf3
+	| V B |
+	V _ QQ^3.
+	B _ LinearBasis on: V elements: {(1,1,1). (1,2,3)}.
+	self assert: (B coordinatesOf: (1,1,1)) = (1,0).
+	self assert: (B coordinatesOf: (1,2,3)) = (0,1).
+	self assert: (B coordinatesOf: (0,1,2)) = (-1,1).
+! !
+
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 12/12/2017 18:06:38'!
 testLinearBasisDual
 	| V basis B Bdual I |
 	V _ QQ ^ 3.
-	basis _ LinearBasis on: V generators: {(-1,0,0). (0,1,2). (0,1,1)}.
+	basis _ LinearBasis on: V elements: {(-1,0,0). (0,1,2). (0,1,1)}.
 	B _ basis matrix.
 	Bdual _ basis dual matrix.
 	I _ B identity.
 	self assert: B determinant = (1 / Bdual determinant).
 	self assert: B transposed * Bdual = I! !
+
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 12/12/2017 21:14:43'!
+testLinearBasisGenerates
+	| V B |
+	V _ QQ^3.
+	B _ LinearBasis on: V elements: {(1,1,1). (1,2,3)}.
+	self assert: (B generates: (1,1,1)).
+	self assert: (B generates: (0,1,2)).
+	self deny: (B generates: (2,2,3))! !
 
 !ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:57'!
 testLinearForm1
@@ -4224,19 +4235,19 @@ testOrthogonalProjection
 	self assert: p image = S.
 	self assert: (S apply: p) = S! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 11/3/2016 08:14'!
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 12/12/2017 18:06:47'!
 testOrthogonalization
 	| V B |
 	V _ QQ ^ 3.
-	B _ LinearBasis on: V generators: {(1, 1, 0). (1, 0, 0)}.
+	B _ LinearBasis on: V elements: {(1, 1, 0). (1, 0, 0)}.
 	self assert: B orthogonalized isOrthogonal.
 	self assert: B extended orthogonalized isOrthogonal! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 11/3/2016 08:14'!
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 12/12/2017 18:06:52'!
 testOrthonormalization
 	| V B |
 	V _ QQ ^ 3.
-	B _ LinearBasis on: V generators: {(1, 1, 0). (1, 0, 0)}.
+	B _ LinearBasis on: V elements: {(1, 1, 0). (1, 0, 0)}.
 	self assert: B orthonormalized isOrthonormal.
 	self assert: B extended orthonormalized isOrthonormal! !
 
@@ -4396,7 +4407,7 @@ testTensorProductCommutativity
 	W _ QQ ^ 4.
 	self assert: V ’ W ~ (W ’ V)! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 10/16/2016 08:49'!
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 12/12/2017 21:18:03'!
 testTensorProductOfLinearForms
 	| V W f g t v |
 	V _ QQ ^ 3.
@@ -4404,7 +4415,7 @@ testTensorProductOfLinearForms
 	f _ W atRandomBits: 10.
 	g _ W atRandomBits: 10.
 	t _ f ’ g.
-	v _ V domain atRandomBits: 10.
+	v _ t domain atRandomBits: 10.
 	self assert: (t value: v) = ((f value: v) * (g value: v))! !
 
 !ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 10/16/2016 09:19'!
@@ -5344,14 +5355,15 @@ testRationalRootsBug
 	self assert: (roots occurrencesOf: -1) = 2.
 	self assert: (roots occurrencesOf: 2) = 1! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 12/18/2016 20:03:06'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 12/4/2017 19:54:08'!
 testRealRoots
 	| R x f roots |
 	R _ RealAlgebraicNumbersField new.
 	x _ QQ polynomials x.
 	f _ (x-(1/2))^2*(x-2)*(x^2 + 1)*(x^2-2).
 	roots _ f rootsIn: R.
-	self assert: roots size = 4.
+	self assert: roots size = 5.
+	self assert: roots asSet size = 4.
 	self assert: (roots occurrencesOf: 1/2) = 2.
 	self assert: (roots occurrencesOf: 2) = 1! !
 

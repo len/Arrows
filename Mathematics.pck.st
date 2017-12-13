@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 4 December 2017 at 3:02:51 pm'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 13 December 2017 at 10:01:00 pm'!
 'Description A computational algebra system in Smalltalk'!
-!provides: 'Mathematics' 1 388!
+!provides: 'Mathematics' 1 389!
 !requires: 'RayTracer' 1 2 nil!
 !classDefinition: #RealAlgebraicNumber category: #'Mathematics-Fields-Algebraic'!
 Number subclass: #RealAlgebraicNumber
@@ -82,6 +82,16 @@ Magnitude subclass: #Infinity
 Infinity class
 	instanceVariableNames: ''!
 
+!classDefinition: #LinearBasis category: #'Mathematics-Modules'!
+ArrayedCollection subclass: #LinearBasis
+	instanceVariableNames: 'ambient matrix'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Modules'!
+!classDefinition: 'LinearBasis class' category: #'Mathematics-Modules'!
+LinearBasis class
+	instanceVariableNames: ''!
+
 !classDefinition: #BitArray category: #'Mathematics-Etc'!
 ArrayedCollection subclass: #BitArray
 	instanceVariableNames: 'bytes length'
@@ -90,16 +100,6 @@ ArrayedCollection subclass: #BitArray
 	category: 'Mathematics-Etc'!
 !classDefinition: 'BitArray class' category: #'Mathematics-Etc'!
 BitArray class
-	instanceVariableNames: ''!
-
-!classDefinition: #LinearBasis category: #'Mathematics-Modules'!
-SequenceableCollection subclass: #LinearBasis
-	instanceVariableNames: 'ambient generators matrix'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Modules'!
-!classDefinition: 'LinearBasis class' category: #'Mathematics-Modules'!
-LinearBasis class
 	instanceVariableNames: ''!
 
 !classDefinition: #StandardBasis category: #'Mathematics-Polynomials'!
@@ -892,16 +892,6 @@ AbelianGroup subclass: #FreeAbelianGroup
 FreeAbelianGroup class
 	instanceVariableNames: ''!
 
-!classDefinition: #Lattice category: #'Mathematics-Lattices'!
-FreeAbelianGroup subclass: #Lattice
-	instanceVariableNames: 'basis'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Lattices'!
-!classDefinition: 'Lattice class' category: #'Mathematics-Lattices'!
-Lattice class
-	instanceVariableNames: ''!
-
 !classDefinition: #EllipticCurveGroup category: #'Mathematics-Elliptic Curves'!
 AbelianGroup subclass: #EllipticCurveGroup
 	instanceVariableNames: 'curve scalars'
@@ -1690,6 +1680,16 @@ FreeModule subclass: #PolynomialFiltrationModule
 	category: 'Mathematics-Polynomials'!
 !classDefinition: 'PolynomialFiltrationModule class' category: #'Mathematics-Polynomials'!
 PolynomialFiltrationModule class
+	instanceVariableNames: ''!
+
+!classDefinition: #Lattice category: #'Mathematics-Lattices'!
+FreeModule subclass: #Lattice
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Lattices'!
+!classDefinition: 'Lattice class' category: #'Mathematics-Lattices'!
+Lattice class
 	instanceVariableNames: ''!
 
 !classDefinition: #DivisorsGroup category: #'Mathematics-Schemes-Divisors'!
@@ -3342,26 +3342,6 @@ Object subclass: #LLL
 LLL class
 	instanceVariableNames: ''!
 
-!classDefinition: #LatticeCovering category: #'Mathematics-Lattices'!
-Object subclass: #LatticeCovering
-	instanceVariableNames: 'lattice'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Lattices'!
-!classDefinition: 'LatticeCovering class' category: #'Mathematics-Lattices'!
-LatticeCovering class
-	instanceVariableNames: ''!
-
-!classDefinition: #LatticePacking category: #'Mathematics-Lattices'!
-Object subclass: #LatticePacking
-	instanceVariableNames: 'lattice'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Lattices'!
-!classDefinition: 'LatticePacking class' category: #'Mathematics-Lattices'!
-LatticePacking class
-	instanceVariableNames: ''!
-
 !classDefinition: #WeierstrassEquation category: #'Mathematics-Elliptic Curves'!
 Object subclass: #WeierstrassEquation
 	instanceVariableNames: 'coefficients'
@@ -4032,9 +4012,6 @@ Direct sums are equipped with projection homomorphisms to the i-th component (>>
 !FreeAbelianGroup commentStamp: '<historical>' prior: 0!
 My instances are abelian groups with a basis. They can be viewed also as free Z-modules. They are isomorphic to Z^n (this is, they are torsion-free).!
 
-!Lattice commentStamp: '<historical>' prior: 0!
-My instances are integer lattices. An integer lattice is the set of integer linear combinations of a basis of a real vector space. This is a subgroup of the vector space (as abelian group) isomorphic to Z^n.!
-
 !EllipticCurveGroup commentStamp: '<historical>' prior: 0!
 My instances are abelian groups E(K) consisting of the K-rational points of an elliptic curve E.!
 
@@ -4356,6 +4333,9 @@ My instances are submodules of homogeneous polynomials of a given fixed degree, 
 !PolynomialFiltrationModule commentStamp: '<historical>' prior: 0!
 My instances are submodules of univariate polynomials of degree <= n for a fixed n, in the ring of univariate polynomials R[x]. They define a filtration (see PolynomialRing>>filtrationAt:).!
 
+!Lattice commentStamp: '<historical>' prior: 0!
+My instances are integer lattices. An integer lattice is the set of integer linear combinations of a basis of a real vector space. This is a subgroup of the vector space (as abelian group) isomorphic to Z^n, and a free Z-module.!
+
 !DivisorsGroup commentStamp: '<historical>' prior: 0!
 TODO:
 - Div^d(E) := subgroup of Div(E) of divisors of degree d
@@ -4373,9 +4353,9 @@ TODO:
 - ExteriorAlgebra as a graded algebra, direct sum of /\^i(V) for i in [1..n]!
 
 !QuotientModule commentStamp: '<historical>' prior: 0!
-My instances are quotient modules M/S (read "M mod S") of a given module M modulo a submodule S, where both M and S are finite-rank free R-modules. They are the finitely-generated modules over a PID.
+My instances are quotient modules M/S (read "M mod S") of a given module M modulo a submodule S, where both M and S are finite-rank free modules over a PID. These are the finitely-generated modules over a PID, presented as quotients of free modules.
 
-The elements of a quotient modules are cosets S + x with x in M, and they form a module.
+The elements of a quotient modules are cosets S + x with x in M.
 
 See QuotientSpace for quotients of vector spaces.
 
@@ -5404,9 +5384,10 @@ height
 isRational
 	^ true! !
 
-!Fraction methodsFor: '*mathematics' stamp: 'len 2/13/2016 06:13'!
+!Fraction methodsFor: '*mathematics' stamp: 'len 12/13/2017 21:24:36'!
 squareRoot
-	^ RealAlgebraicNumber sqrt: self! !
+	self positive ifTrue: [^ RealAlgebraicNumber sqrt: self].
+	^ AlgebraicNumber sqrt: self! !
 
 !Integer methodsFor: '*mathematics' stamp: 'len 11/30/2016 19:22:10'!
 % anInteger
@@ -5807,9 +5788,10 @@ squareFree
 	self factorizationDo: [:p :e| e even ifFalse: [answer _ answer * p]].
 	^ answer! !
 
-!Integer methodsFor: '*mathematics' stamp: 'len 2/13/2016 06:13'!
+!Integer methodsFor: '*mathematics' stamp: 'len 12/13/2017 21:24:48'!
 squareRoot
-	^ RealAlgebraicNumber sqrt: self! !
+	self positive ifTrue: [^ RealAlgebraicNumber sqrt: self].
+	^ AlgebraicNumber sqrt: self! !
 
 !Integer methodsFor: '*mathematics' stamp: 'len 12/12/2016 09:35:43'!
 stirling: anInteger
@@ -6360,10 +6342,8 @@ hash
 
 	^ self truncated hash! !
 
-!RealAlgebraicNumber methodsFor: 'testing' stamp: 'len 8/4/97 19:28'!
+!RealAlgebraicNumber methodsFor: 'testing' stamp: 'len 12/5/2017 20:12:14'!
 isAlgebraic
-	"Answer true if the receiver is an AlgebraicNumber."
-
 	^ true! !
 
 !RealAlgebraicNumber methodsFor: 'testing' stamp: 'len 5/27/2016 02:06'!
@@ -7271,6 +7251,250 @@ sign: anInteger
 
 	^ self new sign: anInteger! !
 
+!LinearBasis methodsFor: 'operations' stamp: 'len 4/6/2017 10:45:05'!
++ aLinearBasis
+	"Answer a basis for the sum of the modules generated by the receiver and the argument."
+	^ self class on: self ambient matrix: (self matrix | aLinearBasis matrix) imageMatrix! !
+
+!LinearBasis methodsFor: 'comparing' stamp: 'len 12/12/2017 19:30:23'!
+= aLinearBasis
+	self flag: #fix. "maybe don't need this method"
+	self == aLinearBasis ifTrue: [^ true].
+	ambient == aLinearBasis ambient ifTrue: [matrix = aLinearBasis matrix].
+	^ super = aLinearBasis! !
+
+!LinearBasis methodsFor: 'operations' stamp: 'len 12/12/2017 18:50:26'!
+ê aLinearBasis
+	"Answer the direct sum of the receiver and the argument."
+	^ self class on: ambient ê aLinearBasis ambient matrix: matrix | aLinearBasis matrix! !
+
+!LinearBasis methodsFor: 'operations' stamp: 'len 12/13/2017 21:26:13'!
+ï aLinearBasis
+	"Answer a basis for the intersection of the modules generated by the receiver and the argument."
+	| M N |
+	M _ self matrix.
+	N _ (M | aLinearBasis matrix) kernelMatrix.
+	N isEmpty ifTrue: [^ self class on: self ambient matrix: (Matrix columns: #())].
+	N _ N copyFrom: 1@1 to: M numberOfColumns @ N numberOfColumns.
+	^ self class on: self ambient matrix: M * N! !
+
+!LinearBasis methodsFor: 'accessing' stamp: 'len 11/3/2016 08:08'!
+ambient
+	^ ambient! !
+
+!LinearBasis methodsFor: 'accessing-private' stamp: 'len 5/23/2016 04:44'!
+ambient: aVectorSpace
+	ambient _ aVectorSpace! !
+
+!LinearBasis methodsFor: 'operations' stamp: 'len 7/10/2016 05:23'!
+apply: aLinearMap
+	| answer vector |
+	answer _ self class on: (aLinearMap isBlock ifTrue: [ambient] ifFalse: [aLinearMap codomain]).
+	self do: [:each|
+		(answer generates: (vector _ aLinearMap value: each))
+			ifFalse: [answer add: vector]].
+	^ answer! !
+
+!LinearBasis methodsFor: 'accessing' stamp: 'len 12/12/2017 19:29:05'!
+at: anInteger
+	^ ambient elementAt: (matrix columnAt: anInteger)! !
+
+!LinearBasis methodsFor: 'operations' stamp: 'len 11/12/2016 07:39'!
+changeTo: aLinearBasis
+	"Answer the matrix for changing from the receiver to aLinearBasis."
+	| matrix |
+	matrix _ RowMatrix new.
+	self do: [:each| matrix addRow: (aLinearBasis coordinatesOf: each)].
+	^ matrix transposed! !
+
+!LinearBasis methodsFor: 'coordinates' stamp: 'len 5/23/2016 04:32'!
+coordinateSpace
+	^ ambient scalars ^ self size! !
+
+!LinearBasis methodsFor: 'coordinates' stamp: 'len 12/12/2017 19:40:31'!
+coordinatesInverseMap
+	"Answer the linear isomorphism mapping a Tuple to the vector with those coordinates in the receiver."
+	^ LinearMap
+		from: self coordinateSpace basis
+		to: self
+		matrix: (ambient scalars identityMatrix: self size)! !
+
+!LinearBasis methodsFor: 'coordinates' stamp: 'len 12/12/2017 19:40:04'!
+coordinatesMap
+	"Answer the linear isomorphism mapping a vector to its coordinates in the receiver."
+	^ LinearMap
+		from: self
+		to: self coordinateSpace basis
+		matrix: (ambient scalars identityMatrix: self size)! !
+
+!LinearBasis methodsFor: 'coordinates' stamp: 'len 12/4/2017 19:47:46'!
+coordinatesOf: anElement
+	"Answer the coordinates of anElement when expressed as a linear combination of the vectors of the receiver. Answer nil if anElement is independent from the receiver."
+	anElement isZero ifTrue: [^ ambient scalars zeroTuple: self size "self coordinateSpace zero"].
+	self isEmpty ifTrue: [^ nil].
+"	1 to: self size do: [:i| (self at: i) = anElement ifTrue: [^ self coordinateSpace e: i]]."
+	^ self matrix \ ((ambient coordinatesOf: anElement) ifNil: [^ nil])
+"alternative 1:
+	answer _ self matrix leftInverse * (ambient coordinatesOf: anElement).
+	^ answer isZero ifFalse: [answer]"
+"alternative 2:
+	m _ self matrix rowAugmented: (ambient coordinatesOf: anElement).
+	reducer _ m transposed reducer.
+	coords _ reducer reduced lastColumn.
+	^ reducer rank > self size
+		ifFalse:
+			[answer _ self coordinateSpace zero copy.
+			reducer pivots do: [:each| answer at: each x put: (coords at: each y)].
+			answer]"! !
+
+!LinearBasis methodsFor: 'copying' stamp: 'len 12/12/2017 19:35:10'!
+copy
+	^ self class on: ambient matrix: matrix copy! !
+
+!LinearBasis methodsFor: 'copying' stamp: 'len 12/12/2017 19:34:53'!
+copyFrom: startIndex to: endIndex
+	^ self class on: ambient matrix: (Matrix columns: (matrix columns copyFrom: startIndex to: endIndex))! !
+
+!LinearBasis methodsFor: 'operations' stamp: 'len 12/13/2017 19:17:00'!
+dual
+	ambient basis = self ifTrue: [^ ambient dual basis].
+	"should extend to a full basis (i.e. square matrix), then invert the matrix, transpose it, and then take the first r columns"
+	^ self class on: ambient dual matrix: (Matrix columns: (self extended matrix inverse rows first: self size))
+	"
+	extendedBasis _ self extended.
+	answer _ self class on: ambient dual.
+	self do: [:each|
+		answer add:
+			(LinearForm
+				from: extendedBasis coordinates: (extendedBasis coordinatesOf: each))].
+	^ answer"! !
+
+!LinearBasis methodsFor: 'coordinates' stamp: 'len 11/4/2016 10:13'!
+elementAt: aTuple 
+	"Answer the vector with coordinates aTuple when expressed as a linear combination of the receiver."
+	| answer |
+"	self assert: aTuple size = self size."
+	answer _ self ambient zero.
+	1 to: aTuple size do: [:each|
+		answer _ (self at: each) * (aTuple at: each) + answer].
+	^ answer! !
+
+!LinearBasis methodsFor: 'operations' stamp: 'len 12/13/2017 19:12:14'!
+extended
+	"Answer a basis spanning to all the ambient space, adding generating vectors if needed."
+	self isFullRank ifTrue: [^ self].
+	^ self class on: ambient matrix: (matrix | (ambient scalars identityMatrix: ambient rank)) imageMatrix! !
+
+!LinearBasis methodsFor: 'testing' stamp: 'len 12/4/2017 09:10:45'!
+generates: anElement
+	"Answer true if the argument is dependent to the receiver.
+	Assume it is an element of the ambient module."
+	self isEmpty ifTrue: [^ anElement isZero].
+	self isFullRank ifTrue: [^ true].
+	^ (self coordinatesOf: anElement) notNil
+"no need to do extra work here, can optimize"
+	"^ (self matrix | (ambient coordinatesOf: anElement)) rank = self size"! !
+
+!LinearBasis methodsFor: 'operations' stamp: 'len 12/12/2017 19:44:50'!
+gramian
+	"Answer the Gramian of the receiver, or Gram matrix.
+	If M is the generator matrix of the receiver (self matrix), then the Gramian is M * M transposed."
+	^ matrix * matrix transposed
+"	^ ambient scalars
+		matrix: self size
+		evaluating:
+			[:i :j| ambient innerProduct value: {(self at: i). (self at: j)}]"! !
+
+!LinearBasis methodsFor: 'testing' stamp: 'len 1/17/2017 08:41:28'!
+isFullRank
+	^ self size = self ambient rank! !
+
+!LinearBasis methodsFor: 'testing' stamp: 'len 5/23/2016 04:42'!
+isOrthogonal
+	self do: [:v|
+		self do: [:w|
+			(v ~~ w and: [(ambient innerProduct value: {v.w}) isZero not])
+				ifTrue: [^ false]]].
+	^ true! !
+
+!LinearBasis methodsFor: 'testing' stamp: 'len 5/23/2016 04:43'!
+isOrthonormal
+	self isOrthogonal ifFalse: [^ false].
+	self do: [:v| (ambient innerProduct value: {v.v}) = ambient scalars one ifFalse: [^ false]].
+	^ true! !
+
+!LinearBasis methodsFor: 'accessing' stamp: 'len 12/12/2017 18:53:08'!
+matrix
+	"Answer the generator matrix M, i.e. the matrix whose columns are the coordinates of the vectors of the receiver in the ambient distinguished basis.
+	Vectors in the linear subspace or submodule spanned by the receiver have coordinates (a1,...,an) in the receiver, and coordinates (a1,...,an)*M in the ambient distinguished basis."
+	^ matrix! !
+
+!LinearBasis methodsFor: 'accessing-private' stamp: 'len 2/5/2017 10:12:15'!
+matrix: aMatrix
+	matrix _ aMatrix! !
+
+!LinearBasis methodsFor: 'operations' stamp: 'len 12/23/2015 05:19'!
+orthogonalized
+	"Answer the receiver orthogonalized by the Gram-Schmidt process."
+	^ (GramSchmidt basis: self) orthogonalBasis! !
+
+!LinearBasis methodsFor: 'operations' stamp: 'len 2/6/2016 20:40'!
+orthonormalized
+	"Answer the receiver orthonormalized by the Gram-Schmidt process."
+	^ (GramSchmidt basis: self) orthonormalBasis! !
+
+!LinearBasis methodsFor: 'printing' stamp: 'len 12/12/2017 19:27:13'!
+printOn: aStream
+	aStream nextPut: ${.
+	self do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: '; '].
+	aStream nextPut: $}! !
+
+!LinearBasis methodsFor: 'accessing' stamp: 'len 4/6/2017 10:41:34'!
+scalars
+	^ ambient scalars! !
+
+!LinearBasis methodsFor: 'enumerating' stamp: 'len 12/12/2017 19:38:35'!
+select: aBlock 
+	"Evaluate aBlock with each of the receiver's elements as the argument. 
+	Collect into a new collection like the receiver, only those elements for 
+	which aBlock evaluates to true. Answer the new collection."
+
+	^ self class on: ambient matrix: (Matrix columns: (((1 to: self size) select: [:i| aBlock value: (self at: i)]) collect: [:i| matrix columnAt: i]))! !
+
+!LinearBasis methodsFor: 'accessing' stamp: 'len 12/12/2017 19:29:31'!
+size
+	^ matrix numberOfColumns! !
+
+!LinearBasis methodsFor: 'accessing' stamp: 'len 3/2/2017 05:01:14'!
+span
+	"Answer the submodule spanned by the elements of the receiver."
+	self isFullRank ifTrue: [^ self ambient].
+	^ FreeModule basis: self! !
+
+!LinearBasis methodsFor: 'private' stamp: 'len 12/12/2017 17:52:59'!
+species
+	^ Array! !
+
+!LinearBasis methodsFor: 'coordinates' stamp: 'len 7/10/2016 07:31'!
+vectorAt: aTuple 
+	"Answer the vector with coordinates aTuple when expressed as a linear combination of the receiver."
+	^ self elementAt: aTuple! !
+
+!LinearBasis class methodsFor: 'examples' stamp: 'len 12/12/2017 18:04:51'!
+example
+	"A basis for the vector space of 3-tuples with rational coefficients."
+	| V |
+	V _ QQ ^ 3.
+	^ LinearBasis on: V elements: {(1, 2, 3). (3, 2, 3). (2, 0, 0)}! !
+
+!LinearBasis class methodsFor: 'instance creation' stamp: 'len 12/12/2017 18:51:38'!
+on: aFreeModule elements: aCollection
+	^ self on: aFreeModule matrix: (Matrix columns: (aCollection collect: [:each| aFreeModule coordinatesOf: each]))! !
+
+!LinearBasis class methodsFor: 'instance creation' stamp: 'len 12/12/2017 18:45:51'!
+on: aFreeModule matrix: aMatrix
+	^ self basicNew ambient: aFreeModule; matrix: aMatrix! !
+
 !BitArray methodsFor: 'arithmetic' stamp: 'len 12/21/2015 22:15'!
 * aBitArray
 	| answer |
@@ -7350,324 +7574,6 @@ random: anInteger
 	answer _ self new: anInteger.
 	1 to: answer size do: [:i| answer at: i put: 2 atRandom - 1].
 	^ answer! !
-
-!LinearBasis methodsFor: 'operations' stamp: 'len 4/6/2017 10:45:05'!
-+ aLinearBasis
-	"Answer a basis for the sum of the modules generated by the receiver and the argument."
-	^ self class on: self ambient matrix: (self matrix | aLinearBasis matrix) imageMatrix! !
-
-!LinearBasis methodsFor: 'comparing' stamp: 'len 11/3/2016 08:10'!
-= aLinearBasis
-	self flag: #fix. "maybe don't need this method"
-	self == aLinearBasis ifTrue: [^ true].
-	^ ambient = aLinearBasis ambient and: [generators = aLinearBasis generators]! !
-
-!LinearBasis methodsFor: 'operations' stamp: 'len 2/20/2017 22:13:42'!
-ê aLinearBasis
-	"Answer the direct sum of the receiver and the argument."
-	| sum |
-	sum _ ambient ê aLinearBasis ambient.
-	^ self class on: sum generators: (self generators collect: [:each| {each. aLinearBasis ambient zero}]), (aLinearBasis generators collect: [:each| {ambient zero. each}])! !
-
-!LinearBasis methodsFor: 'operations' stamp: 'len 4/6/2017 10:46:55'!
-ï aLinearBasis
-	"Answer a basis for the intersection of the modules generated by the receiver and the argument."
-	| M N |
-	M _ self matrix.
-	N _ (M | aLinearBasis matrix) kernelMatrix.
-	N isEmpty ifTrue: [^ self class on: self ambient].
-	N _ N copyFrom: 1@1 to: M numberOfColumns @ N numberOfColumns.
-	^ self class on: self ambient matrix: M * N! !
-
-!LinearBasis methodsFor: 'accessing' stamp: 'len 2/5/2017 10:15:02'!
-add: anObject
-	matrix ifNotNil: [matrix addColumn: (ambient coordinatesOf: anObject)].
-	^ generators add: anObject! !
-
-!LinearBasis methodsFor: 'accessing' stamp: 'len 11/7/2015 01:37'!
-addAll: aCollection
-	aCollection do: [ :each | self add: each].
-	^ aCollection! !
-
-!LinearBasis methodsFor: 'accessing' stamp: 'len 11/3/2016 08:08'!
-ambient
-	^ ambient! !
-
-!LinearBasis methodsFor: 'accessing-private' stamp: 'len 5/23/2016 04:44'!
-ambient: aVectorSpace
-	ambient _ aVectorSpace! !
-
-!LinearBasis methodsFor: 'operations' stamp: 'len 7/10/2016 05:23'!
-apply: aLinearMap
-	| answer vector |
-	answer _ self class on: (aLinearMap isBlock ifTrue: [ambient] ifFalse: [aLinearMap codomain]).
-	self do: [:each|
-		(answer generates: (vector _ aLinearMap value: each))
-			ifFalse: [answer add: vector]].
-	^ answer! !
-
-!LinearBasis methodsFor: 'accessing' stamp: 'len 11/3/2016 08:09'!
-at: anInteger
-	^ generators at: anInteger! !
-
-!LinearBasis methodsFor: 'accessing' stamp: 'len 2/5/2017 10:15:28'!
-at: anInteger put: anObject
-	matrix ifNotNil: [matrix columnAt: anInteger put: (ambient coordinatesOf: anObject)].
-	^ generators at: anInteger put: anObject! !
-
-!LinearBasis methodsFor: 'operations' stamp: 'len 11/12/2016 07:39'!
-changeTo: aLinearBasis
-	"Answer the matrix for changing from the receiver to aLinearBasis."
-	| matrix |
-	matrix _ RowMatrix new.
-	self do: [:each| matrix addRow: (aLinearBasis coordinatesOf: each)].
-	^ matrix transposed! !
-
-!LinearBasis methodsFor: 'enumerating' stamp: 'len 5/23/2016 04:32'!
-collect: aBlock
-	"Answer a copy of the receiver with the vectors mapped by aBlock."
-
-	| answer |
-	answer _ self species on: ambient.
-	self do: [:each| answer add: (aBlock value: each)].
-	^ answer! !
-
-!LinearBasis methodsFor: 'coordinates' stamp: 'len 5/23/2016 04:32'!
-coordinateSpace
-	^ ambient scalars ^ self size! !
-
-!LinearBasis methodsFor: 'coordinates' stamp: 'len 10/17/2016 16:41'!
-coordinatesInverseMap
-	"Answer the linear isomorphism mapping a Tuple to the vector with those coordinates in the receiver."
-	^ LinearMap
-		from: self coordinateSpace basis
-		to: self
-		matrix: (ambient scalars ^ (self size @ self size)) identity! !
-
-!LinearBasis methodsFor: 'coordinates' stamp: 'len 10/17/2016 16:41'!
-coordinatesMap
-	"Answer the linear isomorphism mapping a vector to its coordinates in the receiver."
-	^ LinearMap
-		from: self
-		to: self coordinateSpace basis
-		matrix: (ambient scalars ^ (self size @ self size)) identity! !
-
-!LinearBasis methodsFor: 'coordinates' stamp: 'len 4/6/2017 10:42:28'!
-coordinatesOf: anElement
-	"Answer the coordinates of anElement when expressed as a linear combination of the vectors of the receiver. Answer nil if anElement is independent from the receiver."
-	anElement isZero ifTrue: [^ ambient scalars zeroTuple: self size "self coordinateSpace zero"].
-	self isEmpty ifTrue: [^ nil].
-"	1 to: self size do: [:i| (self at: i) = anElement ifTrue: [^ self coordinateSpace e: i]]."
-	^ self matrix \ (ambient coordinatesOf: anElement)
-"alternative 1:
-	answer _ self matrix leftInverse * (ambient coordinatesOf: anElement).
-	^ answer isZero ifFalse: [answer]"
-"alternative 2:
-	m _ self matrix rowAugmented: (ambient coordinatesOf: anElement).
-	reducer _ m transposed reducer.
-	coords _ reducer reduced lastColumn.
-	^ reducer rank > self size
-		ifFalse:
-			[answer _ self coordinateSpace zero copy.
-			reducer pivots do: [:each| answer at: each x put: (coords at: each y)].
-			answer]"! !
-
-!LinearBasis methodsFor: 'copying' stamp: 'len 2/21/2017 11:40:06'!
-copy
-	^ (self class on: ambient) addAll: self; yourself! !
-
-!LinearBasis methodsFor: 'copying' stamp: 'len 5/23/2016 04:42'!
-copyFrom: startIndex to: endIndex
-	| answer |
-	answer _ self class on: ambient.
-	startIndex to: endIndex do: [:i| answer add: (self at: i)].
-	^ answer! !
-
-!LinearBasis methodsFor: 'enumerating' stamp: 'len 11/3/2016 08:09'!
-do: aBlock 
-	generators do: aBlock! !
-
-!LinearBasis methodsFor: 'operations' stamp: 'len 2/21/2017 11:37:34'!
-dual
-	| answer extendedBasis |
-	ambient basis = self ifTrue: [^ ambient dual basis].
-	extendedBasis _ self extended.
-	answer _ self class on: ambient dual.
-	self do: [:each|
-		answer add:
-			(LinearForm
-				from: extendedBasis coordinates: (extendedBasis coordinatesOf: each))].
-	^ answer! !
-
-!LinearBasis methodsFor: 'coordinates' stamp: 'len 11/4/2016 10:13'!
-elementAt: aTuple 
-	"Answer the vector with coordinates aTuple when expressed as a linear combination of the receiver."
-	| answer |
-"	self assert: aTuple size = self size."
-	answer _ self ambient zero.
-	1 to: aTuple size do: [:each|
-		answer _ (self at: each) * (aTuple at: each) + answer].
-	^ answer! !
-
-!LinearBasis methodsFor: 'operations' stamp: 'len 5/23/2016 04:43'!
-extended
-	"Answer a basis spanning to all the ambient space, adding generating vectors if needed."
-
-	| answer |
-	answer _ self copy.
-	ambient basis do: [:each|
-		(answer generates: each) ifFalse: [answer add: each]].
-	^ answer! !
-
-!LinearBasis methodsFor: 'accessing' stamp: 'len 10/17/97 02:54'!
-first
-	"Answer the first vector of the receiver."
-
-	^ self at: 1! !
-
-!LinearBasis methodsFor: 'testing' stamp: 'len 12/4/2017 09:10:45'!
-generates: anElement
-	"Answer true if the argument is dependent to the receiver.
-	Assume it is an element of the ambient module."
-	self isEmpty ifTrue: [^ anElement isZero].
-	self isFullRank ifTrue: [^ true].
-	^ (self coordinatesOf: anElement) notNil
-"no need to do extra work here, can optimize"
-	"^ (self matrix | (ambient coordinatesOf: anElement)) rank = self size"! !
-
-!LinearBasis methodsFor: 'accessing-private' stamp: 'len 11/3/2016 08:11'!
-generators
-	^ generators! !
-
-!LinearBasis methodsFor: 'accessing-private' stamp: 'len 11/3/2016 08:11'!
-generators: aCollection
-	generators _ aCollection! !
-
-!LinearBasis methodsFor: 'operations' stamp: 'len 11/12/2016 07:40'!
-gramian
-	"Answer the Gramian of the receiver, or Gram matrix.
-	If M is the generator matrix of the receiver (self matrix), then the Gramian is M * M transposed."
-	^ ambient scalars
-		matrix: self size @ self size
-		evaluating:
-			[:i :j| ambient innerProduct value: {(self at: i). (self at: j)}]! !
-
-!LinearBasis methodsFor: 'comparing' stamp: 'len 11/3/2016 08:09'!
-hash
-	^ generators hash! !
-
-!LinearBasis methodsFor: 'testing' stamp: 'len 11/3/2016 08:10'!
-includes: anObject
-	^ generators includes: anObject! !
-
-!LinearBasis methodsFor: 'initialization' stamp: 'len 11/3/2016 08:10'!
-initialize
-	generators _ OrderedCollection new! !
-
-!LinearBasis methodsFor: 'testing' stamp: 'len 11/7/2015 02:11'!
-isEmpty
-	^ self size = 0! !
-
-!LinearBasis methodsFor: 'testing' stamp: 'len 1/17/2017 08:41:28'!
-isFullRank
-	^ self size = self ambient rank! !
-
-!LinearBasis methodsFor: 'testing' stamp: 'len 5/23/2016 04:42'!
-isOrthogonal
-	self do: [:v|
-		self do: [:w|
-			(v ~~ w and: [(ambient innerProduct value: {v.w}) isZero not])
-				ifTrue: [^ false]]].
-	^ true! !
-
-!LinearBasis methodsFor: 'testing' stamp: 'len 5/23/2016 04:43'!
-isOrthonormal
-	self isOrthogonal ifFalse: [^ false].
-	self do: [:v| (ambient innerProduct value: {v.v}) = ambient scalars one ifFalse: [^ false]].
-	^ true! !
-
-!LinearBasis methodsFor: 'accessing' stamp: 'len 1/27/98 05:23'!
-last
-	"Answer the last vector of the receiver."
-
-	^ self at: self size! !
-
-!LinearBasis methodsFor: 'accessing' stamp: 'len 3/1/2017 12:34:32'!
-matrix
-	"Answer the generator matrix M, i.e. the matrix whose columns are the coordinates of the vectors of the receiver in the ambient distinguished basis.
-	Vectors in the linear subspace or submodule spanned by the receiver have coordinates (a1,...,an) in the receiver, and coordinates (a1,...,an)*M in the ambient distinguished basis."
-	^ matrix ifNil: [matrix _ Matrix columns: (generators collect: [:each| ambient coordinatesOf: each])]! !
-
-!LinearBasis methodsFor: 'accessing-private' stamp: 'len 2/5/2017 10:12:15'!
-matrix: aMatrix
-	matrix _ aMatrix! !
-
-!LinearBasis methodsFor: 'operations' stamp: 'len 12/23/2015 05:19'!
-orthogonalized
-	"Answer the receiver orthogonalized by the Gram-Schmidt process."
-	^ (GramSchmidt basis: self) orthogonalBasis! !
-
-!LinearBasis methodsFor: 'operations' stamp: 'len 2/6/2016 20:40'!
-orthonormalized
-	"Answer the receiver orthonormalized by the Gram-Schmidt process."
-	^ (GramSchmidt basis: self) orthonormalBasis! !
-
-!LinearBasis methodsFor: 'printing' stamp: 'len 11/3/2016 08:50'!
-printOn: aStream
-	aStream nextPut: ${.
-	generators size isInfinite
-		ifTrue: [aStream print: generators]
-		ifFalse: [generators do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: '; ']].
-	aStream nextPut: $}! !
-
-!LinearBasis methodsFor: 'accessing' stamp: 'len 4/6/2017 10:41:34'!
-scalars
-	^ ambient scalars! !
-
-!LinearBasis methodsFor: 'enumerating' stamp: 'len 5/23/2016 04:43'!
-select: aBlock 
-	"Evaluate aBlock with each of the receiver's elements as the argument. 
-	Collect into a new collection like the receiver, only those elements for 
-	which aBlock evaluates to true. Answer the new collection."
-
-	| newCollection |
-	newCollection _ self class on: ambient.
-	self do: [:each | (aBlock value: each) ifTrue: [newCollection add: each]].
-	^ newCollection! !
-
-!LinearBasis methodsFor: 'accessing' stamp: 'len 11/3/2016 08:09'!
-size
-	^ generators size! !
-
-!LinearBasis methodsFor: 'accessing' stamp: 'len 3/2/2017 05:01:14'!
-span
-	"Answer the submodule spanned by the elements of the receiver."
-	self isFullRank ifTrue: [^ self ambient].
-	^ FreeModule basis: self! !
-
-!LinearBasis methodsFor: 'coordinates' stamp: 'len 7/10/2016 07:31'!
-vectorAt: aTuple 
-	"Answer the vector with coordinates aTuple when expressed as a linear combination of the receiver."
-	^ self elementAt: aTuple! !
-
-!LinearBasis class methodsFor: 'examples' stamp: 'len 3/1/2017 12:19:04'!
-example
-	"A basis for the vector space of 3-tuples with rational coefficients."
-	| V |
-	V _ QQ ^ 3.
-	^ LinearBasis on: V generators: {(1, 2, 3). (3, 2, 3). (2, 0, 0)}! !
-
-!LinearBasis class methodsFor: 'instance creation' stamp: 'len 4/6/2017 10:45:30'!
-on: aFreeModule
-	^ self new ambient: aFreeModule! !
-
-!LinearBasis class methodsFor: 'instance creation' stamp: 'len 11/3/2016 08:13'!
-on: aFreeModule generators: aCollection 
-	^ self basicNew ambient: aFreeModule; generators: aCollection! !
-
-!LinearBasis class methodsFor: 'instance creation' stamp: 'len 3/1/2017 12:18:37'!
-on: aFreeModule matrix: aMatrix
-	^ self basicNew ambient: aFreeModule; generators: (aMatrix columns collect: [:each| aFreeModule elementAt: each]); matrix: aMatrix! !
 
 !StandardBasis methodsFor: 'accessing' stamp: 'len 11/20/2015 05:09'!
 add: aPolynomial
@@ -8177,11 +8083,11 @@ reduceFull: aPolynomial
 			g isZero ifFalse: [h _ h + g leadingTerm. g _ g tail]].
 	^ h / h leadingCoefficient! !
 
-!LinearBasis2 methodsFor: 'operations' stamp: 'len 1/8/2017 11:16:01'!
+!LinearBasis2 methodsFor: 'operations' stamp: 'len 12/12/2017 18:05:42'!
 ê aLinearBasis
 	| sum |
 	sum _ self ambient ê aLinearBasis ambient.
-	^ RelativeLinearBasis on: sum basis generators: (self generators collect: [:each| {each. aLinearBasis ambient zero}]), (aLinearBasis generators collect: [:each| {self ambient zero. each}])! !
+	^ RelativeLinearBasis on: sum basis elements: (self collect: [:each| {each. aLinearBasis ambient zero}]), (aLinearBasis collect: [:each| {self ambient zero. each}])! !
 
 !LinearBasis2 methodsFor: 'accessing' stamp: 'len 1/8/2017 11:05:17'!
 at: anInteger
@@ -8216,9 +8122,9 @@ coordinatesMap
 coordinatesOf: aVector
 	^ self subclassResponsibility! !
 
-!LinearBasis2 methodsFor: 'as yet unclassified' stamp: 'len 1/8/2017 11:20:24'!
+!LinearBasis2 methodsFor: 'as yet unclassified' stamp: 'len 12/12/2017 18:05:17'!
 copyFrom: startIndex to: endIndex
-	^ RelativeLinearBasis on: self parent generators: (super copyFrom: startIndex to: endIndex)! !
+	^ RelativeLinearBasis on: self parent elements: (super copyFrom: startIndex to: endIndex)! !
 
 !LinearBasis2 methodsFor: 'as yet unclassified' stamp: 'len 1/8/2017 11:13:17'!
 do: aBlock
@@ -16907,6 +16813,10 @@ printOn: aStream
 rank
 	^ self generators size! !
 
+!FreeAbelianGroup methodsFor: 'accessing' stamp: 'len 12/7/2017 21:04:23'!
+size
+	^ self rank = 0 ifTrue: [1] ifFalse: [Aleph new: 0]! !
+
 !FreeAbelianGroup methodsFor: 'private' stamp: 'len 12/16/2016 12:37:29'!
 species
 	"Any subgroup of a free abelian group is also free."
@@ -16923,253 +16833,6 @@ new: anInteger
 !FreeAbelianGroup class methodsFor: 'instance creation' stamp: 'len 2/25/2017 09:06:15'!
 on: aCollection
 	^ self new generators: (aCollection collect: [:each| FormalSum with: each over: ZZ])! !
-
-!Lattice methodsFor: 'operations' stamp: 'len 5/23/2016 04:36'!
-* anObject
-	(self ambient scalars includes: anObject) ifTrue: [^ self class basis: (self basis collect: [:each| each * anObject])].
-	^ super * anObject! !
-
-!Lattice methodsFor: 'operations' stamp: 'len 2/20/2017 22:13:33'!
-ê aLattice
-	"Answer the direct sum of the receiver and the argument."
-	^ self class basis: basis ê aLattice basis! !
-
-!Lattice methodsFor: 'accessing' stamp: 'len 5/23/2016 19:28'!
-ambient
-	"Answer the ambient vector space."
-	^ basis ambient! !
-
-!Lattice methodsFor: 'morphisms' stamp: 'len 7/10/2016 05:26'!
-apply: aLinearMap
-	^ self class basis: (self basis apply: aLinearMap)! !
-
-!Lattice methodsFor: 'basis' stamp: 'len 12/9/2015 02:18'!
-basis
-	^ basis! !
-
-!Lattice methodsFor: 'private' stamp: 'len 12/9/2015 02:18'!
-basis: aLinearBasis
-	basis _ aLinearBasis! !
-
-!Lattice methodsFor: 'basis' stamp: 'len 3/3/2016 07:27'!
-coordinatesOf: anElement
-	^ self basis coordinatesOf: anElement! !
-
-!Lattice methodsFor: 'invariants' stamp: 'len 12/28/2016 11:30:25'!
-coveringRadius
-	^ self propertyAt: #coveringRadius! !
-
-!Lattice methodsFor: 'invariants' stamp: 'len 12/30/2015 19:52'!
-determinant
-	"The determinant det(L) of a lattice L is defined as the volume of its fundamental paralleleliped."
-	^ basis gramian determinant! !
-
-!Lattice methodsFor: 'invariants' stamp: 'len 12/30/2015 19:52'!
-determinant2
-	"The determinant det(L) of a lattice L is defined as the volume of its fundamental paralleleliped."
-	| B |
-	B _ basis matrix.
-	"B square means the lattice is full-rank:"
-	^ B isSquare ifTrue: [B determinant abs] ifFalse: [(B transposed * B) determinant squareRoot]! !
-
-!Lattice methodsFor: 'basis' stamp: 'len 10/5/2016 09:35'!
-dimension
-	self flag: #fix. "what's the dimension of a lattice? the ambient dimension or its rank as Z-module?"
-	^ super dimension
-"	^ self ambient dimension"! !
-
-!Lattice methodsFor: 'operations' stamp: 'len 2/8/2017 08:39:00'!
-dual
-	"Answer the dual lattice of the receiver (or reciprocal lattice, or polar lattice)."
-	| B Bdual dualBasis |
-	B _ basis matrix.
-	Bdual _ B * (B transposed * B) leftInverse.
-	self flag: #fix. "transposed or not transposed"
-	self flag: #fix. "it should be a lattice of linear forms, Hom(L,Z)"
-	dualBasis _ LinearBasis on: basis ambient matrix: Bdual transposed. "<- transposed or not?"
-	^ self class basis: dualBasis! !
-
-!Lattice methodsFor: 'basis' stamp: 'len 3/3/2016 07:25'!
-e: anInteger
-	^ self basis at: anInteger! !
-
-!Lattice methodsFor: 'basis' stamp: 'len 3/3/2016 07:19'!
-elementAt: aTuple
-	^ basis vectorAt: aTuple! !
-
-!Lattice methodsFor: 'invariants' stamp: 'len 12/10/2015 01:00'!
-fundamentalParallelepiped
-	^ self notYetImplemented! !
-
-!Lattice methodsFor: 'invariants' stamp: 'len 12/30/2015 20:02'!
-fundamentalVolume
-	"Answer the volume of the fundamental region."
-	^ self determinant sqrt! !
-
-!Lattice methodsFor: 'testing' stamp: 'len 11/30/2015 03:50'!
-includes: anObject
-	^ (basis coordinatesOf: anObject) allSatisfy: [:each| each isInteger]! !
-
-!Lattice methodsFor: 'accessing' stamp: 'len 5/23/2016 04:36'!
-innerProduct
-	^ basis ambient innerProduct! !
-
-!Lattice methodsFor: 'testing' stamp: 'len 12/10/2015 00:58'!
-isFullRank
-	^ self rank = self dimension! !
-
-!Lattice methodsFor: 'testing' stamp: 'len 12/30/2015 21:50'!
-isIntegral
-	"Answer true if the receiver is integral, i.e. if the inner product of any two lattice vectors is an integer. This is true iff the Gram matrix contains only integer entries. Equivalently, a lattice L is integral if and only if it is contained in its dual L*: L <= L*. Also, an integral lattice L has the property: L <= L* <= L / det(L)."
-	basis gramian do: [:each| each isInteger ifFalse: [^ false]].
-	^ true! !
-
-!Lattice methodsFor: 'testing' stamp: 'len 1/5/2016 18:39'!
-isRootLattice
-	self isIntegral ifFalse: [^ false].
-	basis do: [:v| (self innerProduct value: v value: v) = 2 ifFalse: [^ false]].
-	^ true! !
-
-!Lattice methodsFor: 'testing' stamp: 'len 12/30/2015 22:04'!
-isSelfDual
-	"A self-dual lattice is a lattice L that equals it's dual L*, L = L*.
-	A (integral) lattice is self-dual iff it is unimodular."
-	self flag: #fix. "all self-dual lattices are integral?"
-	^ self isUnimodular! !
-
-!Lattice methodsFor: 'testing' stamp: 'len 12/30/2015 21:51'!
-isUnimodular
-	^ self isIntegral and: [self determinant abs = 1]! !
-
-!Lattice methodsFor: 'invariants' stamp: 'len 12/28/2016 11:30:14'!
-packingRadius
-	^ self propertyAt: #packingRadius! !
-
-!Lattice methodsFor: 'printing' stamp: 'len 4/21/2016 00:01'!
-printOn: aStream
-	aStream nextPutAll: '<'.
-	basis do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: '; '].
-	aStream nextPutAll: '>'! !
-
-!Lattice methodsFor: 'accessing' stamp: 'len 12/30/2015 22:13'!
-quadraticForm
-	^ QuadraticForm from: basis matrix: basis gramian! !
-
-!Lattice methodsFor: 'basis' stamp: 'len 12/28/2016 11:30:07'!
-reducedBasis
-	^ self propertyAt: #reducedBasis ifAbsentPut: [(LLL basis: basis) reducedBasis]! !
-
-!Lattice methodsFor: 'accessing' stamp: 'len 12/30/2015 21:02'!
-shortVector
-	^ self reducedBasis at: 1! !
-
-!Lattice methodsFor: 'invariants' stamp: 'len 12/28/2016 11:30:19'!
-thetaSeries
-	"Answer the theta series of the lattice."
-	^ self propertyAt: #thetaSeries! !
-
-!Lattice class methodsFor: 'examples' stamp: 'len 7/15/2016 18:32'!
-A: n
-	"Answer the lattice A_n = {(x0,...,xn) in Z^{n+1} : x0 + ... + xn = 0}."
-	| V t B |
-	V _ QQ ^ (n+1).
-	t _ (-1,1), (QQ ^ (n-1)) zero.
-	B _ LinearBasis on: V.
-	n timesRepeat: [B add: t. t _ t >> 1].
-	^ self basis: B! !
-
-!Lattice class methodsFor: 'examples' stamp: 'len 7/15/2016 18:32'!
-Adual: n
-	"Answer the dual of A_n."
-	| V B |
-	V _ QQ ^ (n+1).
-	B _ LinearBasis on: V.
-	1 to: n do: [:i| B add: (1, (V e: i) negated)].
-	B add: (QQ tuple: n+1 evaluating: [:i| i=1 ifTrue: [n negated / (n+1)] ifFalse: [1 / (n+1)]]).
-	^ self basis: B! !
-
-!Lattice class methodsFor: 'examples' stamp: 'len 11/3/2016 08:13'!
-D4
-	"Answer the D4 lattice, which is self-dual."
-	| V B |
-	V _ QQ ^ 4.
-	B _ LinearBasis on: V generators: {(1,0,0,0). (0,1,0,0). (0,0,1,0). (1,1,1,1)/2}.
-	^ self basis: B! !
-
-!Lattice class methodsFor: 'examples' stamp: 'len 7/15/2016 18:33'!
-D: n
-	"Answer the checkboard lattice D_n = {(x1,...,xn) in Z^n : x0 + ... + xn is even}."
-	| V t0 t B |
-	V _ QQ ^ n.
-	B _ LinearBasis on: V.
-	t0 _ (-1,-1), (QQ ^ (n-2)) zero.
-	B add: t0.
-	t _ (1,-1), (QQ ^ (n-2)) zero.
-	n-1 timesRepeat: [B add: t. t _ t >> 1].
-	^ self basis: B! !
-
-!Lattice class methodsFor: 'examples' stamp: 'len 7/15/2016 18:33'!
-Ddual: n
-	"Answer the dual of D_n."
-	| V B |
-	V _ QQ ^ n.
-	B _ LinearBasis on: V.
-	1 to: n-1 do: [:i| B add: (V e: i)].
-	B add: (QQ tuple: n evaluating: [:i| 1/2]).
-	^ self basis: B! !
-
-!Lattice class methodsFor: 'examples' stamp: 'len 7/15/2016 18:33'!
-E8
-	| V t0 t B answer |
-	V _ QQ ^ 8.
-	B _ LinearBasis on: V.
-	t0 _ (2,0,0,0,0,0,0,0).
-	B add: t0.
-	t _ (-1,1,0,0,0,0,0,0).
-	6 timesRepeat: [B add: t. t _ t >> 1].
-	B add: (1,1,1,1,1,1,1,1)/2.
-	answer _ self basis: B.
-	answer properties
-		at: #minimalNorm put: 2;
-		at: #kissingNumber put: 240;
-		at: #CoxeterNumber put: 30;
-		at: #packingRadius put: 1/2 sqrt;
-		at: #density put: Float pi ^ 4 / 384;
-		at: #thickness put: Float pi ^ 4 / 24.
-	^ answer
-		! !
-
-!Lattice class methodsFor: 'examples' stamp: 'len 7/15/2016 18:34'!
-Z: n
-	"Answer the n-dimensional cubic or integer lattice Z^n."
-	^ self basis: (QQ ^ n) basis! !
-
-!Lattice class methodsFor: 'instance creation' stamp: 'len 12/9/2015 02:18'!
-basis: aLinearBasis
-	^ self new basis: aLinearBasis! !
-
-!Lattice class methodsFor: 'examples' stamp: 'len 11/3/2016 08:14'!
-bcc
-	"Answer the body-centered cubic lattice (bcc).
-	D*_3 is equivalent to bcc."
-	| V B |
-	V _ QQ ^ 3.
-	B _ LinearBasis on: V generators: {(2,0,0). (0,2,0). (1,1,1)}.
-	^ self basis: B! !
-
-!Lattice class methodsFor: 'examples' stamp: 'len 11/3/2016 08:14'!
-fcc
-	"Answer the face-centered cubic lattice (fcc).
-	Both A_3 and D_3 are equivalent to the fcc."
-	| V B |
-	V _ QQ ^ 3.
-	B _ LinearBasis on: V generators: {(-1,-1,0). (1,-1,0). (0,1,-1)}.
-	^ self basis: B! !
-
-!Lattice class methodsFor: 'instance creation' stamp: 'len 1/1/2016 00:36'!
-matrix: aMatrix
-	"Answer a lattice with generator matrix aMatrix."
-	^ self basis: aMatrix rowSpace basis! !
 
 !EllipticCurveGroup methodsFor: 'accessing' stamp: 'len 11/10/2016 08:06'!
 curve
@@ -21371,18 +21034,18 @@ asProjectiveSpace
 	self rank = 1 ifTrue: [^ space projectivized].
 	^ self error: 'Grassmannian of rank > 1'! !
 
-!Grassmannian methodsFor: 'random' stamp: 'len 1/3/2017 08:00:43'!
+!Grassmannian methodsFor: 'random' stamp: 'len 12/12/2017 20:07:55'!
 atRandom: aRandom bits: bits
-	| basis |
-	basis _ LinearBasis on: space.
-	[basis size < rank]
+	| S |
+	S _ space null.
+	[S rank < rank]
 		whileTrue:
 			[ | v |
 			"take max the rank of the space, otherwise it might give always 0 and loop forever:"
 			[v _ space atRandom: aRandom bits: (bits / rank max: space rank).
-			basis generates: v] whileTrue.
-			basis add: v].
-	^ basis span! !
+			S basis generates: v] whileTrue.
+			S _ S + (space span: {v})].
+	^ S! !
 
 !Grassmannian methodsFor: 'morphisms' stamp: 'len 4/21/2016 16:58'!
 dual
@@ -22474,10 +22137,10 @@ annihilator
 	"Answer the space of all linear forms that are 0 at all vectors in the receiver."
 	^ (self basis extended dual copyFrom: self dimension + 1 to: self ambient dimension) span! !
 
-!FreeModule methodsFor: 'morphisms' stamp: 'len 7/14/2016 23:24'!
+!FreeModule methodsFor: 'morphisms' stamp: 'len 12/12/2017 20:56:29'!
 apply: aLinearMap
 	"Answer the receiver transformed by aLinearMap."
-	^ (self basis apply: aLinearMap) span! !
+	^ (aLinearMap isBlock ifTrue: [self] ifFalse: [aLinearMap codomain]) span: (self basis collect: [:each| aLinearMap value: each])! !
 
 !FreeModule methodsFor: 'converting' stamp: 'len 12/17/2016 22:30:21'!
 asAbelianGroup
@@ -22516,15 +22179,9 @@ atRandom: aRandom bits: bitSize
 automorphisms
 	^ GeneralLinearGroup on: self! !
 
-!FreeModule methodsFor: 'basis' stamp: 'len 12/28/2016 12:07:39'!
+!FreeModule methodsFor: 'basis' stamp: 'len 12/12/2017 18:02:45'!
 basis
-	^ self propertyAt: #basis ifAbsentPut: [LinearBasis on: self generators: ((1 to: self rank) collect: [:i| self e: i])]! !
-
-!FreeModule methodsFor: 'accessing-private' stamp: 'len 3/1/2017 12:42:24'!
-basis: aLinearBasis
-	self propertyAt: #basis put:
-			((aLinearBasis isKindOf: LinearBasis)
-				ifTrue: [aLinearBasis] ifFalse: ["this is wrong:" "LinearBasis on: self generators: aLinearBasis" self halt])! !
+	^ self propertyAt: #basis ifAbsentPut: [LinearBasis on: self matrix: (self scalars identityMatrix: self rank)]! !
 
 !FreeModule methodsFor: 'basis' stamp: 'len 8/25/2016 21:02'!
 codimension
@@ -22542,9 +22199,9 @@ coordinateNames
 coordinateNames: aCollection
 	^ self propertyAt: #coordinateNames put: aCollection! !
 
-!FreeModule methodsFor: 'basis' stamp: 'len 2/22/2017 07:19:36'!
+!FreeModule methodsFor: 'basis' stamp: 'len 12/10/2017 21:21:41'!
 coordinateRing
-	"The coordinate ring of a R-module of rank n (or K-vector space of dimension n) is the polynomial ring R[x1..xn] (K[x1..xn]."
+	"The coordinate ring of a R-module of rank n (or K-vector space of dimension n) is the polynomial ring R[x1..xn] (or K[x1..xn])."
 	^ self propertyAt: #coordinateRing ifAbsentPut: [self scalars polynomialsIn: (self coordinateNames ifNil: [self rank])]! !
 
 !FreeModule methodsFor: 'basis' stamp: 'len 2/28/2016 07:45'!
@@ -22641,9 +22298,9 @@ id
 	"Answer the identity morphism."
 	^ LinearMap from: self to: self evaluating: [:x| x]! !
 
-!FreeModule methodsFor: 'testing' stamp: 'len 3/1/2017 12:11:22'!
+!FreeModule methodsFor: 'testing' stamp: 'len 12/12/2017 20:10:11'!
 includes: anObject
-	^ "(self ambient includes: anObject) and: ["self contains: anObject"]"! !
+	^ (self ambient includes: anObject) and: [self contains: anObject]! !
 
 !FreeModule methodsFor: 'accessing' stamp: 'len 12/28/2016 12:07:33'!
 innerProduct
@@ -22718,10 +22375,10 @@ over: aRing
 "	V _ self ambient over: aRing fractions.
 	self basis collect: [:each| "! !
 
-!FreeModule methodsFor: 'operations' stamp: 'len 1/16/2017 08:14:12'!
+!FreeModule methodsFor: 'operations' stamp: 'len 12/12/2017 18:27:07'!
 perp
 	"Answer the orthogonal complement of the receiver."
-	^ self ambient span: (self annihilator basis generators collect: [:f| f asVector])
+	^ self ambient span: (self annihilator basis collect: [:f| f asVector])
 
 "alternative:
 	| k n |
@@ -22793,17 +22450,17 @@ rank
 rotations
 	^ SpecialOrthogonalGroup on: self! !
 
-!FreeModule methodsFor: 'accessing' stamp: 'len 3/19/2016 02:51'!
+!FreeModule methodsFor: 'accessing' stamp: 'len 12/7/2017 21:04:48'!
 size
-	^ self scalars size ^ self rank! !
+	| n |
+	^ (n _ self rank) = 0 ifTrue: [^ 1] ifFalse: [self scalars size ^ n]! !
 
-!FreeModule methodsFor: 'operations' stamp: 'len 3/2/2017 05:29:05'!
+!FreeModule methodsFor: 'operations' stamp: 'len 12/12/2017 20:04:28'!
 span: aCollection
 	"Answer the submodule spanned by the module elements in aCollection."
-	| basis |
-	self flag: #fix. "avoid computing linear independence again"
-	basis _ LinearBasis on: self.
-	aCollection do: [:each| (basis generates: each) ifFalse: [basis add: each]].
+	| matrix basis |
+	matrix _ Matrix columns: (aCollection asArray collect: [:each| self coordinatesOf: each]).
+	basis _ LinearBasis on: self matrix: matrix imageMatrix. "i.e., only linearly independent columns"
 	^ self species basis: basis! !
 
 !FreeModule methodsFor: 'operations' stamp: 'len 3/1/2017 07:50:57'!
@@ -22837,13 +22494,26 @@ vectorAt: aTuple
 	"Custom notation for vector spaces."
 	^ self elementAt: aTuple! !
 
-!FreeModule methodsFor: 'elements' stamp: 'len 1/16/2017 08:51:19'!
+!FreeModule methodsFor: 'elements' stamp: 'len 12/12/2017 18:39:50'!
 zero
-	^ self propertyAt: #zero ifAbsentPut: [self isAmbient ifTrue: [| e | (e _ self e: 1) - e] ifFalse: [self ambient zero]]! !
+	^ self propertyAt: #zero ifAbsentPut: [self == self ambient ifTrue: [| e | (e _ self e: 1) - e] ifFalse: [self ambient zero]]! !
 
-!FreeModule class methodsFor: 'instance creation' stamp: 'len 11/3/2016 08:40'!
+!FreeModule class methodsFor: 'instance creation' stamp: 'len 12/13/2017 21:43:50'!
 basis: aLinearBasis
-	^ self new basis: aLinearBasis! !
+	| basis |
+	(aLinearBasis isKindOf: LinearBasis)
+		ifTrue: [basis _ aLinearBasis]
+		ifFalse:
+			[| v |
+			((v _ aLinearBasis first) isKindOf: Tuple)
+				ifFalse: [^ self error: 'expected an instance of LinearBasis'].
+			basis _ LinearBasis on: v scalars ^ v size matrix: (Matrix columns: aLinearBasis)].
+	^ self new propertyAt: #basis put: basis; yourself! !
+
+!FreeModule class methodsFor: 'instance creation' stamp: 'len 12/13/2017 21:45:02'!
+matrix: aMatrix
+	"Answer a submodule of a tuples module with generator matrix aMatrix."
+	^ self basis: (LinearBasis on: aMatrix scalars ^ aMatrix numberOfRows matrix: aMatrix)! !
 
 !ExtensionFieldVectorSpace methodsFor: 'as yet unclassified' stamp: 'len 1/16/2017 07:38:46'!
 coordinatesOf: anElement
@@ -22869,6 +22539,10 @@ rank
 !ExtensionFieldVectorSpace methodsFor: 'as yet unclassified' stamp: 'len 1/16/2017 07:37:19'!
 scalars
 	^ field scalars! !
+
+!ExtensionFieldVectorSpace methodsFor: 'as yet unclassified' stamp: 'len 12/12/2017 18:36:20'!
+zero
+	^ field zero! !
 
 !ExtensionFieldVectorSpace class methodsFor: 'as yet unclassified' stamp: 'len 1/16/2017 07:39:37'!
 on: anExtensionField
@@ -22984,10 +22658,6 @@ rank
 scalars
 	components do: [ :each | ^ each scalars].
 	^ nil! !
-
-!DirectSumModule methodsFor: 'accessing' stamp: 'len 2/16/2016 07:32'!
-size
-	^ components product: [:each| each size]! !
 
 !DirectSumModule methodsFor: 'accessing' stamp: 'len 12/17/2016 09:11:16'!
 torsion
@@ -23178,6 +22848,10 @@ scalars
 
 	^ self domain scalars! !
 
+!HomModule methodsFor: 'elements' stamp: 'len 12/12/2017 18:35:01'!
+zero
+	^ self matrix: self matrices zero! !
+
 !HomModule class methodsFor: 'examples' stamp: 'len 2/20/2017 22:10:30'!
 example
 	"The vector space of linear transformations
@@ -23357,6 +23031,10 @@ e: anInteger
 	"Answer the anInteger-th canonic vector."
 	^ self scalars one! !
 
+!ScalarModule methodsFor: 'testing' stamp: 'len 12/12/2017 20:13:06'!
+includes: anObject
+	^ scalars includes: anObject! !
+
 !ScalarModule methodsFor: 'converting' stamp: 'len 12/18/2016 12:47:39'!
 over: aRing
 	"Answer the change of base ring of the receiver."
@@ -23377,6 +23055,10 @@ scalars
 !ScalarModule methodsFor: 'accessing-private' stamp: 'len 1/14/2017 23:14:59'!
 scalars: aRing
 	scalars _ aRing! !
+
+!ScalarModule methodsFor: 'elements' stamp: 'len 12/12/2017 18:33:49'!
+zero
+	^ scalars zero! !
 
 !ScalarModule class methodsFor: 'instance creation' stamp: 'len 11/7/2015 03:33'!
 over: aField
@@ -23815,10 +23497,6 @@ scalars
 scalars: aDomain
 	scalars _ aDomain! !
 
-!MatrixModule methodsFor: 'accessing' stamp: 'len 11/9/2015 23:18'!
-size
-	^ scalars size ^ (self numberOfRows * self numberOfColumns)! !
-
 !MatrixModule methodsFor: 'operations' stamp: 'len 11/26/2015 01:34'!
 transposed
 	^ self isSquare
@@ -23840,6 +23518,10 @@ coordinatesOf: aPolynomial
 !HomogeneousPolynomialModule methodsFor: 'basis' stamp: 'len 6/24/2016 05:51'!
 e: anInteger
 	^ self ordering e: anInteger degree: degree! !
+
+!HomogeneousPolynomialModule methodsFor: 'testing' stamp: 'len 12/13/2017 21:51:11'!
+includes: anObject
+	^ (polynomials includes: anObject) and: [anObject isHomogeneous and: [anObject degree = degree]]! !
 
 !HomogeneousPolynomialModule methodsFor: 'accessing' stamp: 'len 6/24/2016 05:51'!
 ordering
@@ -23885,6 +23567,10 @@ e: anInteger
 elementAt: aTuple
 	^ polynomials coefficients: aTuple! !
 
+!PolynomialFiltrationModule methodsFor: 'testing' stamp: 'len 12/13/2017 21:50:16'!
+includes: anObject
+	^ (polynomials includes: anObject) and: [anObject degree <= degree]! !
+
 !PolynomialFiltrationModule methodsFor: 'morphisms' stamp: 'len 6/19/2016 04:18'!
 integral: a to: b
 	^ self dual evaluating: [:f| f integral: a to: b]! !
@@ -23904,6 +23590,261 @@ rank
 !PolynomialFiltrationModule methodsFor: 'accessing' stamp: 'len 4/6/2016 07:04'!
 scalars
 	^ polynomials scalars! !
+
+!Lattice methodsFor: 'operations' stamp: 'len 5/23/2016 04:36'!
+* anObject
+	(self ambient scalars includes: anObject) ifTrue: [^ self class basis: (self basis collect: [:each| each * anObject])].
+	^ super * anObject! !
+
+!Lattice methodsFor: 'operations' stamp: 'len 12/8/2017 18:33:04'!
+ê aLattice
+	"Answer the direct sum of the receiver and the argument."
+	^ self class basis: self basis ê aLattice basis! !
+
+!Lattice methodsFor: 'morphisms' stamp: 'len 7/10/2016 05:26'!
+apply: aLinearMap
+	^ self class basis: (self basis apply: aLinearMap)! !
+
+!Lattice methodsFor: 'random' stamp: 'len 12/7/2017 20:52:53'!
+atRandom: aRandom bits: bitSize
+	self rank = 0 ifTrue: [^ self zero].
+	^ self elementAt: (self coordinateSpace atRandom: aRandom bits: bitSize)! !
+
+!Lattice methodsFor: 'basis' stamp: 'len 12/7/2017 20:53:59'!
+coordinateSpace
+	^ ZZ ^ self rank! !
+
+!Lattice methodsFor: 'basis' stamp: 'len 3/3/2016 07:27'!
+coordinatesOf: anElement
+	^ self basis coordinatesOf: anElement! !
+
+!Lattice methodsFor: 'invariants' stamp: 'len 12/8/2017 18:41:52'!
+coveringNormalizedThinkness
+	"Answer the normalized thickness (or central density) of the covering."
+	^ self coveringRadius ^ self rank / self fundamentalVolume! !
+
+!Lattice methodsFor: 'invariants' stamp: 'len 12/28/2016 11:30:25'!
+coveringRadius
+	^ self propertyAt: #coveringRadius! !
+
+!Lattice methodsFor: 'invariants' stamp: 'len 12/8/2017 18:42:18'!
+coveringSphereVolume
+	| n Vn pi p |
+	pi _ Float pi.
+	n _ self rank.
+	Vn _ n even
+		ifTrue: [pi ^ (n/2) / (n/2) factorial]
+		ifFalse: [2^n * pi ^ ((n-1)/2) * ((n-1)/2) factorial / n factorial].
+	p _ self coveringRadius.
+	^ p ^ n * Vn! !
+
+!Lattice methodsFor: 'invariants' stamp: 'len 12/8/2017 18:42:49'!
+coveringThickness
+	"Answer the thickness of the covering, i.e. the average number of spheres that contain a point of space. The thickness is also called the density or the sparsity of the covering."
+	^ self coveringSphereVolume / self fundamentalVolume! !
+
+!Lattice methodsFor: 'invariants' stamp: 'len 12/8/2017 18:33:21'!
+determinant
+	"The determinant det(L) of a lattice L is defined as the volume of its fundamental paralleleliped."
+	^ self basis gramian determinant! !
+
+!Lattice methodsFor: 'invariants' stamp: 'len 12/8/2017 18:33:10'!
+determinant2
+	"The determinant det(L) of a lattice L is defined as the volume of its fundamental paralleleliped."
+	| B |
+	B _ self basis matrix.
+	"B square means the lattice is full-rank:"
+	^ B isSquare ifTrue: [B determinant abs] ifFalse: [(B transposed * B) determinant squareRoot]! !
+
+!Lattice methodsFor: 'operations' stamp: 'len 12/8/2017 18:32:59'!
+dual
+	"Answer the dual lattice of the receiver (or reciprocal lattice, or polar lattice)."
+	| B Bdual dualBasis |
+	B _ self basis matrix.
+	Bdual _ B * (B transposed * B) leftInverse.
+	self flag: #fix. "transposed or not transposed"
+	self flag: #fix. "it should be a lattice of linear forms, Hom(L,Z)"
+	dualBasis _ LinearBasis on: self basis ambient matrix: Bdual transposed. "<- transposed or not?"
+	^ self class basis: dualBasis! !
+
+!Lattice methodsFor: 'invariants' stamp: 'len 12/10/2015 01:00'!
+fundamentalParallelepiped
+	^ self notYetImplemented! !
+
+!Lattice methodsFor: 'invariants' stamp: 'len 12/30/2015 20:02'!
+fundamentalVolume
+	"Answer the volume of the fundamental region."
+	^ self determinant sqrt! !
+
+!Lattice methodsFor: 'testing' stamp: 'len 12/8/2017 18:32:16'!
+includes: anObject
+	^ ((self basis coordinatesOf: anObject) ifNil: [^ false]) allSatisfy: [:each| each isInteger]! !
+
+!Lattice methodsFor: 'accessing' stamp: 'len 12/8/2017 18:29:59'!
+innerProduct
+	^ self ambient innerProduct! !
+
+!Lattice methodsFor: 'testing' stamp: 'len 12/7/2017 20:42:05'!
+isFullRank
+	^ self rank = self ambient rank! !
+
+!Lattice methodsFor: 'testing' stamp: 'len 12/8/2017 18:30:08'!
+isIntegral
+	"Answer true if the receiver is integral, i.e. if the inner product of any two lattice vectors is an integer. This is true iff the Gram matrix contains only integer entries. Equivalently, a lattice L is integral if and only if it is contained in its dual L*: L <= L*. Also, an integral lattice L has the property: L <= L* <= L / det(L)."
+	self basis gramian do: [:each| each isInteger ifFalse: [^ false]].
+	^ true! !
+
+!Lattice methodsFor: 'testing' stamp: 'len 12/8/2017 18:29:34'!
+isRootLattice
+	self isIntegral ifFalse: [^ false].
+	self basis do: [:v| (self innerProduct value: v value: v) = 2 ifFalse: [^ false]].
+	^ true! !
+
+!Lattice methodsFor: 'testing' stamp: 'len 12/30/2015 22:04'!
+isSelfDual
+	"A self-dual lattice is a lattice L that equals it's dual L*, L = L*.
+	A (integral) lattice is self-dual iff it is unimodular."
+	self flag: #fix. "all self-dual lattices are integral?"
+	^ self isUnimodular! !
+
+!Lattice methodsFor: 'testing' stamp: 'len 12/30/2015 21:51'!
+isUnimodular
+	^ self isIntegral and: [self determinant abs = 1]! !
+
+!Lattice methodsFor: 'invariants' stamp: 'len 12/8/2017 18:44:28'!
+packingCenterDensity
+	^ self packingRadius ^ self rank / self fundamentalVolume! !
+
+!Lattice methodsFor: 'invariants' stamp: 'len 12/8/2017 18:44:07'!
+packingDensity
+	"Answer the density of the lattice packing, i.e. the volume of a sphere / the volume of the fundamental region."
+	^ self packingSphereVolume / self fundamentalVolume! !
+
+!Lattice methodsFor: 'invariants' stamp: 'len 12/28/2016 11:30:14'!
+packingRadius
+	^ self propertyAt: #packingRadius! !
+
+!Lattice methodsFor: 'invariants' stamp: 'len 12/8/2017 18:43:48'!
+packingSphereVolume
+	| n Vn pi p |
+	pi _ Float pi.
+	n _ self rank.
+	Vn _ n even
+		ifTrue: [pi ^ (n/2) / (n/2) factorial]
+		ifFalse: [2^n * pi ^ ((n-1)/2) * ((n-1)/2) factorial / n factorial].
+	p _ self packingRadius.
+	^ p ^ n * Vn! !
+
+!Lattice methodsFor: 'accessing' stamp: 'len 12/8/2017 18:27:27'!
+quadraticForm
+	^ QuadraticForm from: self basis matrix: self basis gramian! !
+
+!Lattice methodsFor: 'basis' stamp: 'len 12/8/2017 18:33:16'!
+reducedBasis
+	^ self propertyAt: #reducedBasis ifAbsentPut: [(LLL basis: self basis) reducedBasis]! !
+
+!Lattice methodsFor: 'accessing' stamp: 'len 12/8/2017 18:26:50'!
+scalars
+	^ ZZ! !
+
+!Lattice methodsFor: 'accessing' stamp: 'len 12/30/2015 21:02'!
+shortVector
+	^ self reducedBasis at: 1! !
+
+!Lattice methodsFor: 'invariants' stamp: 'len 12/28/2016 11:30:19'!
+thetaSeries
+	"Answer the theta series of the lattice."
+	^ self propertyAt: #thetaSeries! !
+
+!Lattice class methodsFor: 'examples' stamp: 'len 12/13/2017 21:33:29'!
+A: n
+	"Answer the lattice A_n = {(x0,...,xn) in Z^{n+1} : x0 + ... + xn = 0}."
+	| t B |
+	t _ (-1,1), (QQ ^ (n-1)) zero.
+	B _ OrderedCollection new.
+	n timesRepeat: [B add: t. t _ t >> 1].
+	^ self basis: B! !
+
+!Lattice class methodsFor: 'examples' stamp: 'len 12/13/2017 21:34:17'!
+Adual: n
+	"Answer the dual of A_n."
+	| V B |
+	V _ QQ ^ (n+1).
+	B _ OrderedCollection new.
+	1 to: n do: [:i| B add: (1, (V e: i) negated)].
+	B add: (QQ tuple: n+1 evaluating: [:i| i=1 ifTrue: [n negated / (n+1)] ifFalse: [1 / (n+1)]]).
+	^ self basis: B! !
+
+!Lattice class methodsFor: 'examples' stamp: 'len 12/12/2017 18:03:55'!
+D4
+	"Answer the D4 lattice, which is self-dual."
+	| V B |
+	V _ QQ ^ 4.
+	B _ LinearBasis on: V elements: {(1,0,0,0). (0,1,0,0). (0,0,1,0). (1,1,1,1)/2}.
+	^ self basis: B! !
+
+!Lattice class methodsFor: 'examples' stamp: 'len 12/13/2017 21:35:13'!
+D: n
+	"Answer the checkboard lattice D_n = {(x1,...,xn) in Z^n : x0 + ... + xn is even}."
+	| t0 t B |
+	B _ OrderedCollection new.
+	t0 _ (-1,-1), (QQ ^ (n-2)) zero.
+	B add: t0.
+	t _ (1,-1), (QQ ^ (n-2)) zero.
+	n-1 timesRepeat: [B add: t. t _ t >> 1].
+	^ self basis: B! !
+
+!Lattice class methodsFor: 'examples' stamp: 'len 12/13/2017 21:35:31'!
+Ddual: n
+	"Answer the dual of D_n."
+	| V B |
+	V _ QQ ^ n.
+	B _ OrderedCollection new.
+	1 to: n-1 do: [:i| B add: (V e: i)].
+	B add: (QQ tuple: n evaluating: [:i| 1/2]).
+	^ self basis: B! !
+
+!Lattice class methodsFor: 'examples' stamp: 'len 12/13/2017 21:32:24'!
+E8
+	| t0 t B answer |
+	B _ OrderedCollection new.
+	t0 _ (2,0,0,0,0,0,0,0).
+	B add: t0.
+	t _ (-1,1,0,0,0,0,0,0).
+	6 timesRepeat: [B add: t. t _ t >> 1].
+	B add: (1,1,1,1,1,1,1,1)/2.
+	answer _ self basis: B.
+	answer properties
+		at: #minimalNorm put: 2;
+		at: #kissingNumber put: 240;
+		at: #CoxeterNumber put: 30;
+		at: #packingRadius put: 1/2 sqrt;
+		at: #density put: Float pi ^ 4 / 384;
+		at: #thickness put: Float pi ^ 4 / 24.
+	^ answer! !
+
+!Lattice class methodsFor: 'examples' stamp: 'len 7/15/2016 18:34'!
+Z: n
+	"Answer the n-dimensional cubic or integer lattice Z^n."
+	^ self basis: (QQ ^ n) basis! !
+
+!Lattice class methodsFor: 'examples' stamp: 'len 12/12/2017 18:04:02'!
+bcc
+	"Answer the body-centered cubic lattice (bcc).
+	D*_3 is equivalent to bcc."
+	| V B |
+	V _ QQ ^ 3.
+	B _ LinearBasis on: V elements: {(2,0,0). (0,2,0). (1,1,1)}.
+	^ self basis: B! !
+
+!Lattice class methodsFor: 'examples' stamp: 'len 12/12/2017 18:04:08'!
+fcc
+	"Answer the face-centered cubic lattice (fcc).
+	Both A_3 and D_3 are equivalent to the fcc."
+	| V B |
+	V _ QQ ^ 3.
+	B _ LinearBasis on: V elements: {(-1,-1,0). (1,-1,0). (0,1,-1)}.
+	^ self basis: B! !
 
 !DivisorsGroup methodsFor: 'printing' stamp: 'len 11/10/2016 08:44'!
 printOn: aStream
@@ -26670,6 +26611,20 @@ toDiagonal
 	"Answer an isomorphism between the receiver and its diagonal form."
 	self notYetImplemented! !
 
+!Conic class methodsFor: 'instance creation' stamp: 'len 12/5/2017 19:22:57'!
+coefficients: aTuple
+	| R x y z f |
+	R _ aTuple scalars polynomialsIn: #(x y z).
+	x _ R x.
+	y _ R y.
+	z _ R z.
+	f _ x^2 * (aTuple at: 1) + (y^2 * (aTuple at: 2)) + (z^2 * (aTuple at: 3)).
+	aTuple size = 3
+		ifTrue: [^ self polynomial: f].
+	aTuple size = 6
+		ifFalse: [^ self error: '3 or 6 coefficients expected'].
+	^ self polynomial: f + (x*y*(aTuple at: 4)) + (y*z*(aTuple at: 5)) + (x*z*(aTuple at: 6))! !
+
 !RationalCurve methodsFor: 'as yet unclassified' stamp: 'len 12/25/2016 12:14:55'!
 genus
 	"Answer the geometric genus of the receiver."
@@ -28193,19 +28148,6 @@ fiberAt: aVector
 	"K _ V copyFrom: 1@1 to: n@(r-1). <- this is 'self matrix kernelMatrix', should avoid computing the kernel again, and cache it"
 	^ self kernel + (domainBasis elementAt: x)! !
 
-!LinearMap methodsFor: 'operations' stamp: 'len 3/5/2017 09:21:35'!
-fiberAtOld: aVector
-	"Answer the fiber (or inverse image) of aVector.
-	The answer is an affine subspace (a linear variety or flat)."
-	| system coordinate tuple |
-	tuple _ codomainBasis coordinatesOf: aVector.
-	system _ LinearSystem new.
-	coordinate _ 1.
-	matrix rowsDo: [:each|
-		system add: ((LinearForm from: domainBasis coordinates: each) eq: (tuple at: coordinate)).
-		coordinate _ coordinate + 1].
-	^ system solutions apply: domainBasis coordinatesInverseMap! !
-
 !LinearMap methodsFor: 'spectrum' stamp: 'len 2/6/2016 21:37'!
 geometricMultiplicityAt: anEigenvalue
 	^ (self eigenspaceAt: anEigenvalue) dimension! !
@@ -28281,9 +28223,9 @@ isUnimodular
 isZero
 	^ matrix isZero! !
 
-!LinearMap methodsFor: 'operations' stamp: 'len 2/25/2017 07:26:33'!
+!LinearMap methodsFor: 'operations' stamp: 'len 12/12/2017 20:48:35'!
 kernel
-	^ self propertyAt: #kernel ifAbsentPut: [self isTrivial ifTrue: [self domain] ifFalse: [matrix kernel apply: domainBasis coordinatesInverseMap]]! !
+	^ self propertyAt: #kernel ifAbsentPut: [self isTrivial ifTrue: [self domain] ifFalse: [(LinearBasis on: self domain matrix: matrix kernelMatrix) span]]! !
 
 !LinearMap methodsFor: 'operations' stamp: 'len 12/28/2016 11:12:44'!
 kernel2
@@ -28415,12 +28357,12 @@ from: aLinearBasis to: anotherLinearBasis matrix: aMatrix
 		codomainBasis: anotherLinearBasis;
 		matrix: aMatrix! !
 
-!LinearForm methodsFor: 'converting' stamp: 'len 2/23/2017 08:06:02'!
+!LinearForm methodsFor: 'converting' stamp: 'len 12/12/2017 20:51:39'!
 asPolynomial
 	"Answer the receiver as a polynomial in the coordinate ring of the domain."
 	| P |
 	P _ self domain coordinateRing.
-	^ (self class from: self domain evaluating: self) matrix asTuple dot: (P tuple: P rank evaluating: [:i| P x: i]) "use matrix in the standard basis"! !
+	^ (P tuple: P rank evaluating: [:i| P x: i]) dot: (self class from: self domain evaluating: self) matrix asTuple "use matrix in the standard basis"! !
 
 !LinearForm methodsFor: 'converting' stamp: 'len 3/2/2017 10:43:18'!
 asTuple
@@ -31942,17 +31884,18 @@ isHomogeneous
 isLinear
 	^ denominator isLinear and: [denominator isConstant]! !
 
-!RationalFunction methodsFor: 'roots and poles' stamp: 'len 10/27/2016 21:39'!
-orderAt: aPoint
-	^ (numerator multiplicityAt: aPoint) - (denominator multiplicityAt: aPoint)! !
+!RationalFunction methodsFor: 'roots and poles' stamp: 'len 12/4/2017 20:39:51'!
+orderAt: aNumber
+	^ (numerator multiplicityAt: aNumber) - (denominator multiplicityAt: aNumber)! !
 
 !RationalFunction methodsFor: 'roots and poles' stamp: 'len 2/12/2016 02:56'!
 poles
 	^ denominator roots! !
 
-!RationalFunction methodsFor: 'roots and poles' stamp: 'len 2/12/2016 02:56'!
-polesIn: aField
-	^ denominator rootsIn: aField! !
+!RationalFunction methodsFor: 'roots and poles' stamp: 'len 12/4/2017 20:40:20'!
+polesIn: aRing
+	"Answer the poles (counted with multiplicity) in the given domain."
+	^ denominator rootsIn: aRing! !
 
 !RationalFunction methodsFor: 'printing' stamp: 'len 10/24/2016 12:19'!
 printOn: aStream
@@ -31992,9 +31935,10 @@ reduce
 roots
 	^ numerator roots! !
 
-!RationalFunction methodsFor: 'roots and poles' stamp: 'len 2/12/2016 02:56'!
-rootsIn: aField
-	^ numerator rootsIn: aField! !
+!RationalFunction methodsFor: 'roots and poles' stamp: 'len 12/4/2017 20:40:02'!
+rootsIn: aRing
+	"Answer the roots (counted with multiplicity) in the given domain."
+	^ numerator rootsIn: aRing! !
 
 !RationalFunction methodsFor: 'accessing' stamp: 'len 11/19/2015 19:23'!
 scalars
@@ -32642,14 +32586,14 @@ polynomial: aPolynomial
 printOn: aStream
 	self printOn: aStream base: 10! !
 
-!AlgebraicNumber methodsFor: 'printing' stamp: 'len 6/4/2016 22:19'!
+!AlgebraicNumber methodsFor: 'printing' stamp: 'len 12/5/2017 19:51:35'!
 printOn: aStream base: base
 	| real imaginary |
 	self refineTo: self printPrecision.
 	self approximation isComplex
-		ifFalse: [(self approximation roundTo: self printPrecision) printOn: aStream base: base. aStream nextPutAll: '..'. ^ self].
+		ifFalse: [(self approximation asFloat roundTo: self printPrecision) printOn: aStream base: base. aStream nextPutAll: '..'. ^ self].
 	self approximation real isZero
-		ifTrue: [(self approximation imaginary roundTo: self printPrecision) printOn: aStream base: base. aStream nextPutAll: 'i..'. ^ self].
+		ifTrue: [(self approximation imaginary asFloat roundTo: self printPrecision) printOn: aStream base: base. aStream nextPutAll: 'i..'. ^ self].
 	real _ self approximation real asFloat roundTo: self printPrecision.
 	imaginary _ self approximation imaginary asFloat roundTo: self printPrecision.
 	real printOn: aStream base: base.
@@ -32657,9 +32601,11 @@ printOn: aStream base: base
 	imaginary abs printOn: aStream base: base.
 	aStream nextPutAll: 'i..'! !
 
-!AlgebraicNumber methodsFor: 'printing' stamp: 'len 1/13/2016 01:09'!
+!AlgebraicNumber methodsFor: 'printing' stamp: 'len 12/5/2017 19:52:30'!
 printPrecision
-	^ 0.00001! !
+	self absoluteError < 1 ifTrue: [^ self absoluteError asFloat].
+	^ 0.001
+"	^ 0.00001"! !
 
 !AlgebraicNumber methodsFor: 'arithmetic' stamp: 'len 12/4/2017 14:53:45'!
 reciprocal
@@ -32674,10 +32620,10 @@ reciprocal
 			[self refine].
 	^ self class polynomial: f polynomial irreducible: irreducible approximation: x radius: r! !
 
-!AlgebraicNumber methodsFor: 'approximating' stamp: 'len 3/6/2017 16:51:53'!
+!AlgebraicNumber methodsFor: 'approximating' stamp: 'len 12/5/2017 19:59:28'!
 refine
 	| P Q P2 Q2 m x v c dx y v1 m1 |
-	radius _ radius / 2.
+	radius _ radius / 2.0.
 	P _ polynomial.
 	Q _ P.
 	P2 _ P derivative.
@@ -32698,10 +32644,10 @@ refine
 	2 timesRepeat: [x _ x - ((P value: x) / (P2 value: x))].
 	approximation _ x! !
 
-!AlgebraicNumber methodsFor: 'approximating' stamp: 'len 6/5/2016 23:05'!
+!AlgebraicNumber methodsFor: 'approximating' stamp: 'len 12/5/2017 20:05:25'!
 refineTo: aNumber
 	"Refine the receiver up to get an approximation error < aNumber."
-	[self absoluteError >= aNumber] whileTrue: [self refine]! !
+	[self absoluteError > aNumber] whileTrue: [self refine]! !
 
 !AlgebraicNumber methodsFor: 'approximating' stamp: 'len 6/5/2016 19:26'!
 refineWith: aRealAlgebraicNumber
@@ -35196,9 +35142,10 @@ image
 	This is perpendicular to the cokernel or left nullspace, and it's also called image."
 	^ (LinearBasis on: self scalars ^ self numberOfRows matrix: self imageMatrix) span! !
 
-!Matrix methodsFor: 'subspaces' stamp: 'len 3/2/2017 04:08:46'!
+!Matrix methodsFor: 'subspaces' stamp: 'len 12/12/2017 20:08:34'!
 imageMatrix
 	| reduction |
+	self isEmpty ifTrue: [^ self].
 	reduction _ self reduction.
 	^ Matrix columns: (reduction independentColumns collect: [:i| self columnAt: i])! !
 
@@ -36006,22 +35953,23 @@ orthogonalBasis
 	orthogonalBasis isNil ifTrue: [self orthogonalize].
 	^ orthogonalBasis! !
 
-!GramSchmidt methodsFor: 'operations' stamp: 'len 5/23/2016 04:47'!
+!GramSchmidt methodsFor: 'operations' stamp: 'len 12/13/2017 21:21:15'!
 orthogonalize
 	"Orthogonalize the basis."
-	| u uv vv |
-	orthogonalBasis _ LinearBasis on: basis ambient.
+	| orthogonalVectors u uv vv |
+	orthogonalVectors _ OrderedCollection new.
 	basis do: [:each|
 		u _ each.
-		orthogonalBasis do: [:v|
+		orthogonalVectors do: [:v|
 			uv _ innerProduct value: {u. v}.
 			vv _ innerProduct value: {v. v}.
 			u _ u - (v * uv / vv)].
-		orthogonalBasis add: u]! !
+		orthogonalVectors add: u].
+	orthogonalBasis _ LinearBasis on: basis ambient elements: orthogonalVectors! !
 
-!GramSchmidt methodsFor: 'accessing' stamp: 'len 2/6/2016 20:37'!
+!GramSchmidt methodsFor: 'accessing' stamp: 'len 12/13/2017 21:21:40'!
 orthonormalBasis
-	^ self orthogonalBasis collect: [:each| each / (innerProduct value: each value: each) squareRoot]! !
+	^ self orthogonalBasis apply: [:each| each / (innerProduct value: each value: each) squareRoot]! !
 
 !GramSchmidt class methodsFor: 'instance creation' stamp: 'len 5/23/2016 04:46'!
 basis: aLinearBasis
@@ -36033,12 +35981,12 @@ basis: aLinearBasis innerProduct: aFunction
 	"Answer a new instance of the receiver to orthogonalize aLinearBasis with the inner product aFunction."
 	^ self new basis: aLinearBasis; innerProduct: aFunction! !
 
-!GramSchmidt class methodsFor: 'examples' stamp: 'len 3/3/2017 13:29:16'!
+!GramSchmidt class methodsFor: 'examples' stamp: 'len 12/12/2017 18:03:04'!
 example
 	"Compute an orthogonal basis for {(1,1,0); {0,1,1); (1,0,1)}."
 	| V basis |
 	V _ QQ ^ 3.
-	basis _ LinearBasis on: V generators: {(1, 1, 0). (0, 1, 1). (1, 0, 1)}.
+	basis _ LinearBasis on: V elements: {(1, 1, 0). (0, 1, 1). (1, 0, 1)}.
 	^ (GramSchmidt basis: basis) orthogonalBasis! !
 
 !HermiteColumnReduction methodsFor: 'as yet unclassified' stamp: 'len 3/5/2016 22:52'!
@@ -36387,13 +36335,13 @@ R
 matrix: aMatrix
 	matrix _ aMatrix! !
 
-!QRDecomposition methodsFor: 'as yet unclassified' stamp: 'len 11/5/2016 06:57'!
+!QRDecomposition methodsFor: 'as yet unclassified' stamp: 'len 12/12/2017 18:07:04'!
 run
 	| K n basis ortho |
 	K _ matrix scalars "algebraicClosure".
 	n _ matrix numberOfRows.
 	self flag: #fix. "we're assuming the columns are independent"
-	basis _ LinearBasis on: K ^ n generators: matrix columns.
+	basis _ LinearBasis on: K ^ n elements: matrix columns.
 	ortho _ basis orthonormalized.
 	Q _ ColumnMatrix columns: ortho.
 "	zero _ K zero.
@@ -38790,16 +38738,21 @@ roots
 	"Answer the roots (counted with multiplicity) in the coefficients ring or field."
 	^ self rootsIn: self scalars! !
 
-!UnivariatePolynomial methodsFor: 'roots' stamp: 'len 12/18/2016 20:25:10'!
-rootsIn: aField
-	"Answer the roots (conted with multiplicaity) in the given domain."
-	(aField isField and: [aField isFinite and: [aField characteristic even not]]) ifTrue: [^ (FiniteFieldRootFinder polynomial: self) roots].
-	(aField isKindOf: RationalField) ifTrue: [^ (RationalRootFinder polynomial: self) roots].
-	((aField isKindOf: AlgebraicNumbersField) or: [aField isKindOf: ComplexField]) ifTrue: [^ (ComplexRootFinder polynomial: self) roots].
-	((aField isKindOf: RealAlgebraicNumbersField) or: [aField isKindOf: RealField]) ifTrue: [^ (RealRootFinder polynomial: self) roots].
-	(aField isKindOf: RationalIntegerRing) ifTrue: [^ (RationalRootFinder polynomial: self) roots select: [:each| each isInteger]].
+!UnivariatePolynomial methodsFor: 'roots' stamp: 'len 12/4/2017 20:40:29'!
+rootsIn: aRing
+	"Answer the roots (counted with multiplicity) in the given domain."
+	(aRing isField and: [aRing isFinite and: [aRing characteristic even not]])
+		ifTrue: [^ (FiniteFieldRootFinder polynomial: self) roots].
+	(aRing isKindOf: RationalField)
+		ifTrue: [^ (RationalRootFinder polynomial: self) roots].
+	((aRing isKindOf: AlgebraicNumbersField) or: [aRing isKindOf: ComplexField])
+		ifTrue: [^ (ComplexRootFinder polynomial: self) roots].
+	((aRing isKindOf: RealAlgebraicNumbersField) or: [aRing isKindOf: RealField])
+		ifTrue: [^ (RealRootFinder polynomial: self) roots].
+	(aRing isKindOf: RationalIntegerRing)
+		ifTrue: [^ (RationalRootFinder polynomial: self) roots select: [:each| each isInteger]].
 	self flag: #fix. "count multiplicity, implement more efficient algorithm"
-	aField isFinite ifTrue: [^ aField elements select: [:each| (self value: each) isZero]].
+	aRing isFinite ifTrue: [^ aRing elements select: [:each| (self value: each) isZero]].
 	^ self error: 'unknown domain'! !
 
 !UnivariatePolynomial methodsFor: 'operations' stamp: 'len 1/23/2017 11:48:25'!
@@ -40838,57 +40791,6 @@ example2
 	lll _ self basis: { b1. b2. b3 }.
 	^ lll reducedBasis! !
 
-!LatticeCovering methodsFor: 'accessing' stamp: 'len 1/1/2016 00:40'!
-normalizedThinkness
-	"Answer the normalized thickness (or central density) of the covering."
-	^ self radius ^ lattice rank / lattice fundamentalVolume! !
-
-!LatticeCovering methodsFor: 'accessing' stamp: 'len 1/1/2016 00:40'!
-radius
-	"Answer the covering radius. This is known to be NP-complete."
-	^ lattice coveringRadius! !
-
-!LatticeCovering methodsFor: 'accessing' stamp: 'len 12/30/2015 20:51'!
-sphereVolume
-	| n Vn pi p |
-	pi _ Float pi.
-	n _ lattice rank.
-	Vn _ n even
-		ifTrue: [pi ^ (n/2) / (n/2) factorial]
-		ifFalse: [2^n * pi ^ ((n-1)/2) * ((n-1)/2) factorial / n factorial].
-	p _ self radius.
-	^ p ^ n * Vn! !
-
-!LatticeCovering methodsFor: 'accessing' stamp: 'len 12/30/2015 20:51'!
-thickness
-	"Answer the thickness of the covering, i.e. the average number of spheres that contain a point of space. The thickness is also called the density or the sparsity of the covering."
-	^ self sphereVolume / lattice fundamentalVolume! !
-
-!LatticePacking methodsFor: 'accessing' stamp: 'len 1/1/2016 00:39'!
-centerDensity
-	^ lattice packingRadius ^ lattice rank / lattice fundamentalVolume! !
-
-!LatticePacking methodsFor: 'accessing' stamp: 'len 12/30/2015 20:47'!
-density
-	"Answer the density of the lattice packing, i.e. the volume of a sphere / the volume of the fundamental region."
-	^ self sphereVolume / lattice fundamentalVolume! !
-
-!LatticePacking methodsFor: 'accessing' stamp: 'len 1/1/2016 00:39'!
-radius
-	"Answer the packing radius. This is known to be NP-hard."
-	^ lattice packingRadius! !
-
-!LatticePacking methodsFor: 'accessing' stamp: 'len 12/30/2015 20:48'!
-sphereVolume
-	| n Vn pi p |
-	pi _ Float pi.
-	n _ lattice rank.
-	Vn _ n even
-		ifTrue: [pi ^ (n/2) / (n/2) factorial]
-		ifFalse: [2^n * pi ^ ((n-1)/2) * ((n-1)/2) factorial / n factorial].
-	p _ self radius.
-	^ p ^ n * Vn! !
-
 !WeierstrassEquation methodsFor: 'invariants' stamp: 'len 11/9/2016 07:08'!
 a1
 	^ coefficients at: 1! !
@@ -42685,13 +42587,14 @@ coxeterElement
 	self simpleRoots do: [:each| answer _ answer î (O reflectionAt: each)].
 	^ answer! !
 
-!RootSystem methodsFor: 'operations' stamp: 'len 5/23/2016 04:59'!
+!RootSystem methodsFor: 'operations' stamp: 'len 12/13/2017 17:59:02'!
 coxeterMatrix
 	"Answer the Coxeter matrix of the receiver.
 	Given a basis a_i of simple roots, the Coxeter matrix m_ij is defined by <a_i,a_j> = -2 cos(pi / m_ij)."
 	| S |
 	S _ self normalized simpleRoots.
-	^ ambient scalars ^ (S size @ S size)
+	^ ambient scalars
+		matrix: S size
 		evaluating: [:i :j| Float pi / ((ambient innerProduct value: {(S at: i). (S at: j)}) / -2) arcCos]! !
 
 !RootSystem methodsFor: 'operations' stamp: 'len 6/18/2016 17:14'!
@@ -42783,14 +42686,11 @@ roots
 roots: aCollection
 	roots _ aCollection! !
 
-!RootSystem methodsFor: 'roots' stamp: 'len 5/23/2016 04:59'!
+!RootSystem methodsFor: 'roots' stamp: 'len 12/13/2017 21:56:08'!
 simpleRoots
-	| answer |
-	answer _ LinearBasis on: ambient.
-	self positiveRoots do: [:v|
-		(answer generates: v) ifFalse: [answer add: v].
-		answer size = self rank ifTrue: [^ answer]].
-	^ answer! !
+	| M |
+	M _ Matrix columns: (self positiveRoots asArray collect: [:each| ambient coordinatesOf: each]).
+	^ LinearBasis on: ambient matrix: M imageMatrix! !
 
 !RootSystem methodsFor: 'operations' stamp: 'len 1/7/2016 05:07'!
 weightLattice
