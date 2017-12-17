@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 13 December 2017 at 10:01:00 pm'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 17 December 2017 at 10:49:24 pm'!
 'Description A computational algebra system in Smalltalk'!
-!provides: 'Mathematics' 1 389!
+!provides: 'Mathematics' 1 390!
 !requires: 'RayTracer' 1 2 nil!
 !classDefinition: #RealAlgebraicNumber category: #'Mathematics-Fields-Algebraic'!
 Number subclass: #RealAlgebraicNumber
@@ -2672,6 +2672,16 @@ FormalSum subclass: #Divisor
 Divisor class
 	instanceVariableNames: ''!
 
+!classDefinition: #FreePolynomial category: #'Mathematics-Etc'!
+FormalSum subclass: #FreePolynomial
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Etc'!
+!classDefinition: 'FreePolynomial class' category: #'Mathematics-Etc'!
+FreePolynomial class
+	instanceVariableNames: ''!
+
 !classDefinition: #ModuleMonomial category: #'Mathematics-Modules-Multivariate'!
 Object subclass: #ModuleMonomial
 	instanceVariableNames: 'parent monomial position'
@@ -2720,26 +2730,6 @@ ModuleMonomialOrdering subclass: #TermOverPositionOrdering
 	category: 'Mathematics-Modules-Multivariate'!
 !classDefinition: 'TermOverPositionOrdering class' category: #'Mathematics-Modules-Multivariate'!
 TermOverPositionOrdering class
-	instanceVariableNames: ''!
-
-!classDefinition: #LinearEquation category: #'Mathematics-Modules-Support'!
-Object subclass: #LinearEquation
-	instanceVariableNames: 'form value'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Modules-Support'!
-!classDefinition: 'LinearEquation class' category: #'Mathematics-Modules-Support'!
-LinearEquation class
-	instanceVariableNames: ''!
-
-!classDefinition: #LinearSystem category: #'Mathematics-Modules-Support'!
-Object subclass: #LinearSystem
-	instanceVariableNames: 'equations solver'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Modules-Support'!
-!classDefinition: 'LinearSystem class' category: #'Mathematics-Modules-Support'!
-LinearSystem class
 	instanceVariableNames: ''!
 
 !classDefinition: #SimpleTensor category: #'Mathematics-Multilinear'!
@@ -2900,16 +2890,6 @@ Object subclass: #HermiteReduction
 	category: 'Mathematics-Matrices-Algorithms'!
 !classDefinition: 'HermiteReduction class' category: #'Mathematics-Matrices-Algorithms'!
 HermiteReduction class
-	instanceVariableNames: ''!
-
-!classDefinition: #LinearSystemSolver category: #'Mathematics-Matrices-Algorithms'!
-Object subclass: #LinearSystemSolver
-	instanceVariableNames: 'system reducer kernelBasis particular'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Matrices-Algorithms'!
-!classDefinition: 'LinearSystemSolver class' category: #'Mathematics-Matrices-Algorithms'!
-LinearSystemSolver class
 	instanceVariableNames: ''!
 
 !classDefinition: #MatrixReduction category: #'Mathematics-Matrices-Algorithms'!
@@ -3532,16 +3512,6 @@ Object subclass: #FormalSum2
 FormalSum2 class
 	instanceVariableNames: ''!
 
-!classDefinition: #FreePolynomial category: #'Mathematics-Etc'!
-FormalSum2 subclass: #FreePolynomial
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Etc'!
-!classDefinition: 'FreePolynomial class' category: #'Mathematics-Etc'!
-FreePolynomial class
-	instanceVariableNames: ''!
-
 !classDefinition: #GaussianElimination2 category: #'Mathematics-Etc'!
 Object subclass: #GaussianElimination2
 	instanceVariableNames: 'matrix extension subreducer pivots columns inverse determinant'
@@ -3570,6 +3540,36 @@ Object subclass: #Knapsack
 	category: 'Mathematics-Etc'!
 !classDefinition: 'Knapsack class' category: #'Mathematics-Etc'!
 Knapsack class
+	instanceVariableNames: ''!
+
+!classDefinition: #LinearEquation category: #'Mathematics-Etc'!
+Object subclass: #LinearEquation
+	instanceVariableNames: 'form value'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Etc'!
+!classDefinition: 'LinearEquation class' category: #'Mathematics-Etc'!
+LinearEquation class
+	instanceVariableNames: ''!
+
+!classDefinition: #LinearSystem category: #'Mathematics-Etc'!
+Object subclass: #LinearSystem
+	instanceVariableNames: 'equations solver'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Etc'!
+!classDefinition: 'LinearSystem class' category: #'Mathematics-Etc'!
+LinearSystem class
+	instanceVariableNames: ''!
+
+!classDefinition: #LinearSystemSolver category: #'Mathematics-Etc'!
+Object subclass: #LinearSystemSolver
+	instanceVariableNames: 'system reducer kernelBasis particular'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Etc'!
+!classDefinition: 'LinearSystemSolver class' category: #'Mathematics-Etc'!
+LinearSystemSolver class
 	instanceVariableNames: ''!
 
 !classDefinition: #Maxel category: #'Mathematics-Etc'!
@@ -4243,6 +4243,11 @@ The number of indeterimnates is called the rank of the polynomial ring. The inde
 Polynomial rings have an associated monomial ordering. This is used for defining the leading term of a polynomial, multivariate division (also called normal form or reduction) and the computation of Groebner bases and standard bases.
 !
 
+!FreeAlgebra commentStamp: '<historical>' prior: 0!
+My instances are algebras of non-commutative polynomials in a finite set of indeterminates. Their elements are FreePolynomials.
+
+This is the non-commutative analogue of a polynomial ring.!
+
 !PAdicField commentStamp: '<historical>' prior: 0!
 My instances are fields of p-adic numbers Qp. These are fraction fields of rings of p-adic integers. See PAdicIntegerRing and PAdicNumber.!
 
@@ -4778,7 +4783,7 @@ Following conventions, a point [a:b:1] is printed '(a,b)', and the point at infi
 I am the Product Replacement Algorithm for generating random elements in a group from a set of generators. Essentially, it performs a random walk on a Cayley graph.!
 
 !Word commentStamp: '<historical>' prior: 0!
-A word is a (non-commutative) formal product of a finite ordered list of objects.
+A word is a (non-commutative) formal product of a finite ordered list of objects. They are elements of a FreeMonoid.
 
 See also Monomial for the commutative analog, and FormalSum for the additive analog.!
 
@@ -4842,14 +4847,10 @@ A simplicial k-chain is a formal linear combination of k-simplices.!
 !Divisor commentStamp: '<historical>' prior: 0!
 My instances are Weil divisors, i.e. formal sums (with integer coefficients) of prime divisors (integral closed subschemes of codimension 1) of an integral locally Noetherian scheme.!
 
-!LinearEquation commentStamp: '<historical>' prior: 0!
-My instances are linear equations, i.e. expressions of the form
-	f(v) = b,
-where the left side is a LinearForm and the right side is a constant value.
-!
+!FreePolynomial commentStamp: '<historical>' prior: 0!
+My instances are elements of the free algebra in a finite set of indeterminates. They are elements of a FreeAlgebra.
 
-!LinearSystem commentStamp: '<historical>' prior: 0!
-My instances are systems of linear equations.!
+A free polynomial is a formal linear combination of words, that in turn are formal (non-commutative) products of arbitrary objects (indeterminates).!
 
 !Tuple commentStamp: '<historical>' prior: 0!
 My instances are n-tuples with coefficients in some ring R, i.e. finite ordered lists of n elements of R indexed by integers 1 to n. They are the elements of the R-module R^n.
@@ -5221,15 +5222,19 @@ Reference: Henri Cohen, 'A Course in Computational Algebraic Number Theory', Alg
 !FormalSum2 commentStamp: '<historical>' prior: 0!
 My instances are formal linear combinations of arbitrary objects.!
 
-!FreePolynomial commentStamp: '<historical>' prior: 0!
-My instances are elements of the free algebra in a finite set of objects.
-
-A free polynomial is a formal linear combination of words, that in turn are formal (non-commutative) products of arbitrary objects.!
-
 !GaussianElimination2 commentStamp: '<historical>' prior: 0!
 I am the Gaussian Elimination algorithm.
 
 Given a matrix M with coefficients in a field, my instances perform Gaussian reduction on the matrix to compute linear dependency of the columns, rank, determinant, inverse matrix, etc.!
+
+!LinearEquation commentStamp: '<historical>' prior: 0!
+My instances are linear equations, i.e. expressions of the form
+	f(v) = b,
+where the left side is a LinearForm and the right side is a constant value.
+!
+
+!LinearSystem commentStamp: '<historical>' prior: 0!
+My instances are systems of linear equations.!
 
 !Quaternion commentStamp: 'len 11/20/2015 00:39' prior: 0!
 My instances are quaternions. Quaternions constitute an example of non-commutative field.
@@ -7395,15 +7400,20 @@ generates: anElement
 "no need to do extra work here, can optimize"
 	"^ (self matrix | (ambient coordinatesOf: anElement)) rank = self size"! !
 
-!LinearBasis methodsFor: 'operations' stamp: 'len 12/12/2017 19:44:50'!
+!LinearBasis methodsFor: 'operations' stamp: 'len 12/17/2017 22:47:27'!
 gramian
 	"Answer the Gramian of the receiver, or Gram matrix.
 	If M is the generator matrix of the receiver (self matrix), then the Gramian is M * M transposed."
-	^ matrix * matrix transposed
-"	^ ambient scalars
+	| f |
+	f _ ambient innerProduct.
+	^ ambient scalars
 		matrix: self size
 		evaluating:
-			[:i :j| ambient innerProduct value: {(self at: i). (self at: j)}]"! !
+			[:i :j| f value: {(self at: i). (self at: j)}]! !
+
+!LinearBasis methodsFor: 'testing' stamp: 'len 12/15/2017 18:53:15'!
+isEmpty
+	^ matrix isEmpty! !
 
 !LinearBasis methodsFor: 'testing' stamp: 'len 1/17/2017 08:41:28'!
 isFullRank
@@ -7442,6 +7452,16 @@ orthogonalized
 orthonormalized
 	"Answer the receiver orthonormalized by the Gram-Schmidt process."
 	^ (GramSchmidt basis: self) orthonormalBasis! !
+
+!LinearBasis methodsFor: 'operations' stamp: 'len 12/17/2017 22:10:15'!
+perp
+	"Answer a bssis of the orthogonal complement of the subspace spanned by the receiver."
+	self isEmpty ifTrue: [^ ambient basis].
+	"if we're in a vector space over the reals or complex numbers, we can get an orthogonal basis"
+	((ambient scalars isKindOf: RealField) or: [ambient scalars isKindOf: ComplexField])
+		ifTrue: [^ (self extended orthogonalized copyFrom: self size + 1 to: self ambient rank) span].
+	"otherwise we use this, but it assumes the associated bilinear form is just the dot product:"
+	^ self class on: ambient matrix: matrix transposed kernelMatrix! !
 
 !LinearBasis methodsFor: 'printing' stamp: 'len 12/12/2017 19:27:13'!
 printOn: aStream
@@ -20383,15 +20403,6 @@ embedding
 evaluating: aBlock
 	^ aBlock valueWithArguments: self generators! !
 
-!PolynomialRing methodsFor: 'morphisms' stamp: 'len 10/4/2016 09:02'!
-expansion: anInteger
-	"Answer the canonical embedding into the polynomials in n+anInteger indeterminates.
-	Perhaps this should be called 'embedding' instead of 'expansion'."
-	| codomain |
-	anInteger > 0 ifFalse: [self error: 'out of bounds'].
-	codomain _ (self scalars polynomialsIn: self rank + anInteger).
-	^ self to: codomain evaluating: [:aPolynomial| aPolynomial as: codomain]! !
-
 !PolynomialRing methodsFor: 'examples' stamp: 'len 11/6/2015 03:45'!
 fibonacciOfOrder: n
 	"Answer the n-th Fibonacci polynomial."
@@ -20640,14 +20651,6 @@ printOn: aStream
 proj
 	"Answer the projective space associated to the receiver, Proj(R)."
 	^ ProjectiveSpace coordinateRing: self! !
-
-!PolynomialRing methodsFor: 'morphisms' stamp: 'len 10/22/2016 16:38'!
-projection: anInteger
-	"Answer the canonical projection on the polynomials in anInteger indeterminates."
-	| codomain |
-	(anInteger between: 0 and: self rank) ifFalse: [self error: 'out of bounds'].
-	codomain _ (self scalars polynomialsIn: anInteger).
-	^ self to: codomain evaluating: [:aPolynomial| aPolynomial as: codomain]! !
 
 !PolynomialRing methodsFor: 'accessing' stamp: 'len 1/2/2017 10:08:31'!
 rank
@@ -22142,7 +22145,7 @@ apply: aLinearMap
 	"Answer the receiver transformed by aLinearMap."
 	^ (aLinearMap isBlock ifTrue: [self] ifFalse: [aLinearMap codomain]) span: (self basis collect: [:each| aLinearMap value: each])! !
 
-!FreeModule methodsFor: 'converting' stamp: 'len 12/17/2016 22:30:21'!
+!FreeModule methodsFor: 'converting' stamp: 'len 12/17/2017 19:33:16'!
 asAbelianGroup
 	^ (self as: FreeAbelianGroup) generators: self generators! !
 
@@ -22252,14 +22255,6 @@ elementAt: aTuple
 	aTuple withIndexDo: [:each :i| answer _ (self e: i) * each + answer].
 	^ answer! !
 
-!FreeModule methodsFor: 'accessing' stamp: 'len 1/16/2017 08:09:50'!
-equations
-	"Answer a linear system defining the receiver as submodule of its ambient."
-	| answer |
-	answer _ LinearSystem new.
-	self annihilator basis do: [:each| answer add: (each eq: self scalars zero)].
-	^ answer! !
-
 !FreeModule methodsFor: 'accessing' stamp: 'len 10/16/2016 14:45'!
 generators
 	^ self basis! !
@@ -22367,6 +22362,18 @@ null
 	"Answer the trivial submodule."
 	^ self span: #()! !
 
+!FreeModule methodsFor: 'morphisms' stamp: 'len 12/17/2017 22:37:21'!
+orthogonalProjection
+	"Answer an orthogonal projection on the receiver. A projection P is a linear transformation from the ambient vector space to a subspace such that P^2 = P (idempotent)."
+	| answer B A |
+	answer _ self propertyAt: #orthogonalProjection ifAbsent: [].
+	answer notNil ifTrue: [^ answer].
+	B _ self ambient basis.
+	A _ self basis matrix.
+	answer _ LinearMap from: B to: B matrix: A * (A transposed * A) inverse * A transposed.
+	self propertyAt: #orthogonalProjection put: answer.
+	^ answer! !
+
 !FreeModule methodsFor: 'converting' stamp: 'len 3/1/2017 08:53:41'!
 over: aRing
 	aRing = self scalars ifTrue: [^ self].
@@ -22375,15 +22382,15 @@ over: aRing
 "	V _ self ambient over: aRing fractions.
 	self basis collect: [:each| "! !
 
-!FreeModule methodsFor: 'operations' stamp: 'len 12/12/2017 18:27:07'!
+!FreeModule methodsFor: 'operations' stamp: 'len 12/17/2017 16:07:57'!
 perp
 	"Answer the orthogonal complement of the receiver."
-	^ self ambient span: (self annihilator basis collect: [:f| f asVector])
-
-"alternative:
+	^ self basis perp span
+"
+alternative:
 	| k n |
 	k _ self dimension.
-	n _ self space dimension.
+	n _ self ambient dimension.
 	^ (self basis extended orthogonalized copyFrom: k + 1 to: n) span
 
 alternative 2:
@@ -22391,6 +22398,9 @@ alternative 2:
 
 alternative 3:?
 	^ basis dual asArray inject: self space into: [:answer :each| answer intersection: each kernel]	
+
+alternative 4:
+	^ self ambient span: (self annihilator basis collect: [:f| f asVector])
 "! !
 
 !FreeModule methodsFor: 'printing' stamp: 'len 1/16/2017 08:16:10'!
@@ -22406,24 +22416,6 @@ product: aModule
 	^ (aModule isFreeModule and: [aModule scalars = self scalars])
 		ifTrue: [self  aModule]
 		ifFalse: [super product: aModule]! !
-
-!FreeModule methodsFor: 'morphisms' stamp: 'len 1/16/2017 08:16:25'!
-project: aVector
-	^ self projection value: aVector! !
-
-!FreeModule methodsFor: 'morphisms' stamp: 'len 3/6/2017 16:46:29'!
-projection
-	"Answer an orthogonal projection on the receiver. A projection P is a linear transformation from the ambient vector space to a subspace such that P^2 = P (idempotent)."
-	| answer B B2 K matrix |
-	answer _ self propertyAt: #projection ifAbsent: [].
-	answer notNil ifTrue: [^ answer].
-	B _ self basis orthogonalized.
-	B2 _ self basis extended orthogonalized.
-	K _ self scalars.
-	matrix _ K matrix: B size @ B2 size evaluatingDiagonal: [:i| K one"(B at: i) norm2"].
-	answer _ LinearMap from: B2 to: B matrix: matrix.
-	self propertyAt: #projection put: answer.
-	^ answer! !
 
 !FreeModule methodsFor: 'operations' stamp: 'len 2/4/2017 09:01:01'!
 projectivized
@@ -22950,11 +22942,11 @@ buildProjection
 contains: anAffineSubspace
 	^ anAffineSubspace direction = self relations! !
 
-!QuotientSpace methodsFor: 'basis' stamp: 'len 2/27/2017 21:25:47'!
+!QuotientSpace methodsFor: 'basis' stamp: 'len 12/15/2017 21:07:53'!
 coordinatesOf: anAffineSubspace
 	| v |
 	v _ anAffineSubspace representative.
-	v _ v - (self relations project: v).
+	v _ v - (self relations orthogonalProjection value: v).
 	^ self relations perp basis coordinatesOf: v! !
 
 !QuotientSpace methodsFor: 'basis' stamp: 'len 2/27/2017 21:26:00'!
@@ -23134,9 +23126,9 @@ vectorSpace: aVectorSpace
 on: aVectorSpace
 	^ self new vectorSpace: aVectorSpace! !
 
-!TensorProductModule methodsFor: 'as yet unclassified' stamp: 'len 2/23/2017 10:02:23'!
+!TensorProductModule methodsFor: 'as yet unclassified' stamp: 'len 12/17/2017 22:13:12'!
 coordinatesOf: anElement
-	^ self scalars tuple: self rank evaluating: [:i| anElement coefficientAt: (SimpleTensor components: {left e: i - 1 // left rank + 1. right e: i - 1 \\ right rank + 1})]! !
+	^ self scalars tuple: self rank evaluating: [:i| anElement at: (SimpleTensor components: {left e: i - 1 // left rank + 1. right e: i - 1 \\ right rank + 1})]! !
 
 !TensorProductModule methodsFor: 'as yet unclassified' stamp: 'len 2/25/2017 09:07:22'!
 e: anInteger
@@ -24063,16 +24055,6 @@ direction: aVectorSpace
 do: aBlock
 	direction do: [:each| aBlock value: each + representative]! !
 
-!AffineSubspace methodsFor: 'accessing' stamp: 'len 6/4/2016 04:29'!
-equations
-	"Answer a linear system defining the receiver."
-	| kernel particular answer |
-	kernel _ direction equations.
-	particular _ self ambient coordinatesOf: representative.
-	answer _ LinearSystem new.
-	kernel do: [:each| answer add: (each form eq: (each form value: particular))].
-	^ answer! !
-
 !AffineSubspace methodsFor: 'accessing' stamp: 'len 6/4/2016 04:18'!
 frame
 	^ AffineFrame origin: representative basis: direction basis! !
@@ -24180,9 +24162,9 @@ example2
 	"The fiber at (1,2,3) is the set of all vectors that f sends to (1,2,3):"
 	^ f fiberAt: (1,2,3)! !
 
-!AffineSubspace class methodsFor: 'instance creation' stamp: 'len 1/17/2017 07:59:19'!
+!AffineSubspace class methodsFor: 'instance creation' stamp: 'len 12/15/2017 20:00:41'!
 representative: aVector direction: aSubspace
-	(aSubspace contains: aVector) ifTrue: [^ AffineLinearSpace on: aSubspace].
+"	(aSubspace contains: aVector) ifTrue: [^ AffineLinearSpace on: aSubspace]."
 	^ self new direction: aSubspace; representative: aVector! !
 
 !AffineLinearSpace methodsFor: 'converting' stamp: 'len 1/3/2017 19:05:58'!
@@ -28100,18 +28082,6 @@ eigenvalues
 	self isEndomorphism ifFalse: [DomainError signal: 'not an endomorphism'].
 	^ matrix eigenvalues! !
 
-!LinearMap methodsFor: 'operations' stamp: 'len 2/22/2016 08:10'!
-fiberAt2: aVector
-	"Answer the fiber of aVector under the receiver. The answer is an affine subspace (a linear variety or flat)."
-	| system coordinate tuple |
-	tuple _ codomainBasis coordinatesOf: aVector.
-	system _ LinearSystem new.
-	coordinate _ 1.
-	matrix rowsDo: [:each|
-		system add: ((LinearForm from: domainBasis coordinates: each) eq: (tuple at: coordinate)).
-		coordinate _ coordinate + 1].
-	^ system solutions "apply: domainBasis vectorAt"! !
-
 !LinearMap methodsFor: 'operations' stamp: 'len 3/5/2017 09:20:26'!
 fiberAt3: aVector
 	"Answer the fiber (or inverse image) of aVector.
@@ -28372,18 +28342,12 @@ asTuple
 
 	"^ self domain dual coordinatesOf: self"! !
 
-!LinearForm methodsFor: 'converting' stamp: 'len 5/23/2016 04:39'!
+!LinearForm methodsFor: 'converting' stamp: 'len 12/15/2017 20:57:01'!
 asVector
 	"Answer the vector corresponding to the receiver according to the natural isomorphism from the vector space to its dual.
-	See DualSpace>>#map."
+	See DualModule>>#map."
 	self flag: #fix. "this is not natural"
 	^ domainBasis ambient vectorAt: self asTuple! !
-
-!LinearForm methodsFor: 'operations' stamp: 'len 8/20/97 21:03'!
-eq: anObject
-	"Answer the equation 'self = anObject'."
-
-	^ LinearEquation form: self value: anObject! !
 
 !LinearForm methodsFor: 'operations' stamp: 'len 5/23/2016 04:40'!
 image2
@@ -28399,11 +28363,6 @@ printOn: aStream
 example
 	"The trace of 3x3 matrices is a linear form:"
 	^ (QQ^(3@3)) dual evaluating: [:A| A trace]! !
-
-!LinearForm class methodsFor: 'instance creation' stamp: 'len 3/28/2016 01:23'!
-from: aLinearBasis coordinates: aTuple
-	"Answer a new instance of the receiver representing the linear form with coordinates aTuple and with domain given by aLinearBasis."
-	^ self from: aLinearBasis span evaluating: [:each| (aLinearBasis coordinatesOf: each) dot: aTuple]! !
 
 !LinearForm class methodsFor: 'instance creation' stamp: 'len 10/7/2016 08:42'!
 from: aModule evaluating: aBlock 
@@ -33095,6 +33054,40 @@ support
 	self keysDo: [:each| answer _ answer ifNil: [each] ifNotNil: [answer – each]].
 	^ answer! !
 
+!FreePolynomial methodsFor: 'arithmetic' stamp: 'len 11/25/2016 10:03:02'!
+* anObject
+	((self scalars includes: anObject) or: [anObject isInteger])
+		ifTrue: [^ self class coefficients: self coefficients * anObject].
+	((anObject isKindOf: FreePolynomial) and: [anObject scalars = self scalars])
+		ifTrue:
+			[^ self species coefficients: (coefficients convolution: anObject coefficients)].
+	(anObject isKindOf: Word)
+		ifTrue: [^ self mapMonomials: [:each| each*anObject]].
+	^ DomainError signal! !
+
+!FreePolynomial methodsFor: 'arithmetic' stamp: 'len 2/25/2017 07:53:00'!
+^ anInteger
+	"Answer the receiver raised to the power anInteger."
+	(anInteger isInteger and: [anInteger >= 0])
+		ifFalse: [^ DomainError signal: 'undefinted'].
+	anInteger = 0 ifTrue: [^ self one].
+	anInteger = 1 ifTrue: [^ self].
+	^ self squared ^ (anInteger // 2) * (self ^ (anInteger \\ 2))! !
+
+!FreePolynomial methodsFor: 'accessing' stamp: 'len 3/3/2016 05:27'!
+degree
+	"Answer the total degree of the receiver."
+	self isZero ifTrue: [^ Infinity negative].
+	^ self monomials max: [:each| each length]! !
+
+!FreePolynomial methodsFor: 'accessing' stamp: 'len 2/25/2017 08:58:01'!
+one
+	^ self class coefficients: ((FormalSum over: self scalars) at: Word empty put: self scalars one; yourself)! !
+
+!FreePolynomial methodsFor: 'arithmetic' stamp: 'len 3/2/2016 05:35'!
+squared
+	^ self * self! !
+
 !ModuleMonomial methodsFor: 'as yet unclassified' stamp: 'len 1/14/2017 20:20:21'!
 monomial
 	^ monomial! !
@@ -33129,196 +33122,6 @@ compare: aModuleMonomial with: anotherModuleMonomial
 	(result _ aModuleMonomial monomial compare: anotherModuleMonomial monomial) == 0
 		ifFalse: [^ result].
 	^ (aModuleMonomial position - anotherModuleMonomial position) sign! !
-
-!LinearEquation methodsFor: 'accessing' stamp: 'len 11/20/2015 06:16'!
-, anObject
-	"Answer the LinearSystem with the receiver and the argument."
-
-	^ LinearSystem new add: self; , anObject! !
-
-!LinearEquation methodsFor: 'accessing' stamp: 'len 5/23/2016 19:29'!
-ambient
-	"Answer the ambient vector space (where solutions live)."
-	^ form domain ambient! !
-
-!LinearEquation methodsFor: 'converting' stamp: 'len 6/3/2016 02:37'!
-asPolynomialEquation
-	^ form asPolynomial eq: value! !
-
-!LinearEquation methodsFor: 'converting' stamp: 'len 2/21/2016 06:50'!
-asTuple
-	"Answer a Tuple with the coefficients of the receiver."
-	^ form asTuple, value! !
-
-!LinearEquation methodsFor: 'accessing' stamp: 'len 11/20/2015 06:09'!
-form
-	"Answer the left side of the receiver (the linear form)."
-	^ form! !
-
-!LinearEquation methodsFor: 'accessing-private' stamp: 'len 8/20/97 21:01'!
-form: aLinearForm
-	form _ aLinearForm! !
-
-!LinearEquation methodsFor: 'operations' stamp: 'len 11/19/2015 19:39'!
-homogeneous
-	"Answer the homogeneous equation associated to the receiver."
-
-	^ self class form: self form value: self value zero! !
-
-!LinearEquation methodsFor: 'testing' stamp: 'len 11/19/2015 18:50'!
-isHomogeneous
-	"Answer true if the receiver is an homogeneous equation."
-
-	^ self value isZero! !
-
-!LinearEquation methodsFor: 'testing' stamp: 'len 11/24/2015 06:13'!
-isSolution: aVector
-	"Answer true if the argument is a solution of the receiver."
-
-	^ (self form value: aVector) = self value! !
-
-!LinearEquation methodsFor: 'printing' stamp: 'len 8/20/97 21:22'!
-printOn: aStream
-	"Print a representation of the receiver on the stream aStream."
-
-	aStream print: self form; nextPutAll: ' = '; print: self value! !
-
-!LinearEquation methodsFor: 'operations' stamp: 'len 11/20/2015 06:15'!
-solutions
-	^ LinearSystem new add: self; solutions! !
-
-!LinearEquation methodsFor: 'accessing' stamp: 'len 8/20/97 21:20'!
-value
-	"Answer the right side of the receiver (the independent term)."
-
-	^ value! !
-
-!LinearEquation methodsFor: 'accessing-private' stamp: 'len 8/20/97 21:01'!
-value: anObject
-	value _ anObject! !
-
-!LinearEquation class methodsFor: 'instance creation' stamp: 'len 8/20/97 21:02'!
-form: aLinearForm value: anObject
-	"Answer a new instance of the receiver representing
-	the equation 'aLinearForm = anObject'."
-
-	^ self new form: aLinearForm; value: anObject! !
-
-!LinearSystem methodsFor: 'accessing' stamp: 'len 11/25/97 01:50'!
-, anObject
-	"Answer a copy of the receiver concatenated with the argument."
-
-	| answer |
-	answer _ self copy.
-	anObject class == self class
-		ifTrue: [answer addAll: anObject]
-		ifFalse: [answer add: anObject].
-	^ answer! !
-
-!LinearSystem methodsFor: 'accessing' stamp: 'len 11/20/2015 06:12'!
-add: aLinearEquation
-	^ equations add: aLinearEquation! !
-
-!LinearSystem methodsFor: 'accessing' stamp: 'len 11/20/2015 06:12'!
-addAll: aCollection
-	^ equations addAll: aCollection! !
-
-!LinearSystem methodsFor: 'accessing' stamp: 'len 5/23/2016 19:29'!
-ambient
-	"Answer the ambient vector space (where solutions live)."
-	^ equations first ambient! !
-
-!LinearSystem methodsFor: 'copying' stamp: 'len 11/20/2015 06:13'!
-copy
-	^ self class new addAll: equations; yourself! !
-
-!LinearSystem methodsFor: 'enumerating' stamp: 'len 11/20/2015 06:13'!
-do: aBlock 
-	equations do: aBlock! !
-
-!LinearSystem methodsFor: 'operations' stamp: 'len 5/13/2016 07:43'!
-homogeneous
-	"Answer the homogeneous system associated to the receiver."
-
-	| answer |
-	answer _ self class new.
-	self do: [:each| answer add: each homogeneous].
-	^ answer! !
-
-!LinearSystem methodsFor: 'initialization' stamp: 'len 5/13/2016 07:37'!
-initialize
-	equations _ OrderedCollection new! !
-
-!LinearSystem methodsFor: 'testing' stamp: 'len 8/20/97 21:35'!
-isHomogeneous
-	"Answer true if the receiver is an homogeneous system."
-
-	self do: [ :each | each isHomogeneous ifFalse: [^ false]].
-	^ true! !
-
-!LinearSystem methodsFor: 'testing' stamp: 'len 12/28/2015 03:03'!
-isInconsistent
-	^ self particular isNil! !
-
-!LinearSystem methodsFor: 'testing' stamp: 'len 11/8/2015 03:55'!
-isSolution: aVector
-	"Answer true if the argument is a solution of the receiver."
-
-	self do: [ :each | (each isSolution: aVector) ifFalse: [^ false]].
-	^ true! !
-
-!LinearSystem methodsFor: 'operations' stamp: 'len 2/29/2016 01:06'!
-kernel
-	^ self kernelBasis span! !
-
-!LinearSystem methodsFor: 'operations' stamp: 'len 10/17/2016 16:42'!
-kernel2
-	^ self matrix2 kernel apply: self ambient basis coordinatesInverseMap! !
-
-!LinearSystem methodsFor: 'operations' stamp: 'len 11/8/2015 03:55'!
-kernelBasis
-	^ self solver kernelBasis! !
-
-!LinearSystem methodsFor: 'operations' stamp: 'len 1/5/2017 20:27:03'!
-matrix
-	| answer |
-	answer _ RowMatrix new.
-	self do: [:each| answer addRow: each asTuple].
-	^ answer! !
-
-!LinearSystem methodsFor: 'operations' stamp: 'len 5/23/2016 04:27'!
-matrix2
-	| answer |
-	answer _ (self ambient scalars ^ (self size @ self ambient dimension)) new.
-	self do: [:each| answer addRow: each form asTuple].
-	^ answer! !
-
-!LinearSystem methodsFor: 'operations' stamp: 'len 2/29/2016 02:49'!
-particular
-	"Answer a particular solution of the receiver, and nil if the system is not solvable."
-	^ self solver particular! !
-
-!LinearSystem methodsFor: 'printing' stamp: 'len 6/3/2016 02:48'!
-printOn: aStream 
-	aStream nextPut: ${.
-	equations do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: '; '].
-	aStream nextPut: $}! !
-
-!LinearSystem methodsFor: 'accessing' stamp: 'len 11/20/2015 06:13'!
-size
-	^ equations size! !
-
-!LinearSystem methodsFor: 'operations' stamp: 'len 10/27/2016 19:47'!
-solutions
-	"Answer the manifold of solution of the receiver,
-	or nil if the system has no solutions."
-
-	^ self particular isNil
-		ifFalse: [AffineSubspace representative: self particular direction: self kernel]! !
-
-!LinearSystem methodsFor: 'private' stamp: 'len 11/8/2015 03:58'!
-solver
-	^ solver ifNil: [solver _ LinearSystemSolver system: self]! !
 
 !SimpleTensor methodsFor: 'comparing' stamp: 'len 2/23/2017 10:05:10'!
 = aSimpleTensor
@@ -35967,9 +35770,9 @@ orthogonalize
 		orthogonalVectors add: u].
 	orthogonalBasis _ LinearBasis on: basis ambient elements: orthogonalVectors! !
 
-!GramSchmidt methodsFor: 'accessing' stamp: 'len 12/13/2017 21:21:40'!
+!GramSchmidt methodsFor: 'accessing' stamp: 'len 12/15/2017 20:52:14'!
 orthonormalBasis
-	^ self orthogonalBasis apply: [:each| each / (innerProduct value: each value: each) squareRoot]! !
+	^ LinearBasis on: basis ambient elements: (self orthogonalBasis collect: [:each| each / (innerProduct value: each value: each) squareRoot])! !
 
 !GramSchmidt class methodsFor: 'instance creation' stamp: 'len 5/23/2016 04:46'!
 basis: aLinearBasis
@@ -36082,58 +35885,6 @@ run
 	"6. Finished?"
 	j = l] whileFalse: [j _ j + 1. k _ k + 1].
 	^ matrix "copyFrom: 1@k to: m@n"! !
-
-!LinearSystemSolver methodsFor: 'testing' stamp: 'len 5/23/2016 04:27'!
-isSolvable
-	"Answer true if the system has any solution."
-	^ reducer dependentColumns includes: system ambient dimension + 1! !
-
-!LinearSystemSolver methodsFor: 'accessing' stamp: 'len 12/26/2015 19:39'!
-kernelBasis
-	^ kernelBasis! !
-
-!LinearSystemSolver methodsFor: 'accessing' stamp: 'len 12/26/2015 19:39'!
-particular
-	"Answer a particular solution of the receiver."
-	^ particular! !
-
-!LinearSystemSolver methodsFor: 'private' stamp: 'len 5/23/2016 04:27'!
-solve
-	| V T basis index depCols indepCols lastCol part v scalar |
-	V _ system ambient.
-	basis _ LinearBasis on: V.
-	T _ V scalars ^ V dimension.
-	index _ 0.
-	indepCols _ reducer independentColumns
-		collect: [:each| index _ index + 1. index -> each].
-	depCols _ reducer dependentColumns.
-	depCols size > 1 ifTrue: [
-		(depCols copyFrom: 1 to: depCols size - 1) do: [ :each |
-			v _ V e: each.
-			indepCols do: [ :some |
-				scalar _ reducer reduced at: some key @ each.
-				v _ v - ((V e: some value) * scalar)].
-			basis add: v]].
-	kernelBasis _ basis.
-	indepCols isEmpty
-		ifTrue: [particular _ V zero]
-		ifFalse: [indepCols last value <= V dimension ifTrue: [
-					lastCol _ reducer reduced lastColumn.
-					part _ T zero.
-					indepCols do: [:some|
-						part _ part + ((T e: some value) * (lastCol at: some key))].
-					particular _ (V vectorAt: part)]]! !
-
-!LinearSystemSolver methodsFor: 'initialization' stamp: 'len 3/1/2017 09:06:17'!
-system: aLinearSystem
-	system _ aLinearSystem.
-	reducer _ aLinearSystem matrix reduction.
-	self solve! !
-
-!LinearSystemSolver class methodsFor: 'instance creation' stamp: 'len 11/8/2015 04:14'!
-system: aLinearSystem
-	"Answer a new instance of the receiver for solving aLinearSystem."
-	^ self new system: aLinearSystem! !
 
 !MatrixReduction methodsFor: 'private' stamp: 'len 11/6/2015 04:59'!
 addPivot: aPoint
@@ -41679,40 +41430,6 @@ coefficients: aSparseTuple
 new
 	^ self shouldNotImplement! !
 
-!FreePolynomial methodsFor: 'arithmetic' stamp: 'len 11/25/2016 10:03:02'!
-* anObject
-	((self scalars includes: anObject) or: [anObject isInteger])
-		ifTrue: [^ self class coefficients: self coefficients * anObject].
-	((anObject isKindOf: FreePolynomial) and: [anObject scalars = self scalars])
-		ifTrue:
-			[^ self species coefficients: (coefficients convolution: anObject coefficients)].
-	(anObject isKindOf: Word)
-		ifTrue: [^ self mapMonomials: [:each| each*anObject]].
-	^ DomainError signal! !
-
-!FreePolynomial methodsFor: 'arithmetic' stamp: 'len 2/25/2017 07:53:00'!
-^ anInteger
-	"Answer the receiver raised to the power anInteger."
-	(anInteger isInteger and: [anInteger >= 0])
-		ifFalse: [^ DomainError signal: 'undefinted'].
-	anInteger = 0 ifTrue: [^ self one].
-	anInteger = 1 ifTrue: [^ self].
-	^ self squared ^ (anInteger // 2) * (self ^ (anInteger \\ 2))! !
-
-!FreePolynomial methodsFor: 'accessing' stamp: 'len 3/3/2016 05:27'!
-degree
-	"Answer the total degree of the receiver."
-	self isZero ifTrue: [^ Infinity negative].
-	^ self monomials max: [:each| each length]! !
-
-!FreePolynomial methodsFor: 'accessing' stamp: 'len 2/25/2017 08:58:01'!
-one
-	^ self class coefficients: ((FormalSum over: self scalars) at: Word empty put: self scalars one; yourself)! !
-
-!FreePolynomial methodsFor: 'arithmetic' stamp: 'len 3/2/2016 05:35'!
-squared
-	^ self * self! !
-
 !GaussianElimination2 methodsFor: 'inquiries' stamp: 'len 11/5/2015 01:24'!
 dependentColumns
 	| independent |
@@ -41968,6 +41685,248 @@ run
 			k _ (dimensions at: i) - (dimensions at: i-1 ifAbsent: [0]).
 			blocks add: (self block: eigenvalue size: i) withOccurrences: k - count.
 			count _ count + k]]! !
+
+!LinearEquation methodsFor: 'accessing' stamp: 'len 11/20/2015 06:16'!
+, anObject
+	"Answer the LinearSystem with the receiver and the argument."
+
+	^ LinearSystem new add: self; , anObject! !
+
+!LinearEquation methodsFor: 'accessing' stamp: 'len 5/23/2016 19:29'!
+ambient
+	"Answer the ambient vector space (where solutions live)."
+	^ form domain ambient! !
+
+!LinearEquation methodsFor: 'converting' stamp: 'len 6/3/2016 02:37'!
+asPolynomialEquation
+	^ form asPolynomial eq: value! !
+
+!LinearEquation methodsFor: 'converting' stamp: 'len 2/21/2016 06:50'!
+asTuple
+	"Answer a Tuple with the coefficients of the receiver."
+	^ form asTuple, value! !
+
+!LinearEquation methodsFor: 'accessing' stamp: 'len 11/20/2015 06:09'!
+form
+	"Answer the left side of the receiver (the linear form)."
+	^ form! !
+
+!LinearEquation methodsFor: 'accessing-private' stamp: 'len 8/20/97 21:01'!
+form: aLinearForm
+	form _ aLinearForm! !
+
+!LinearEquation methodsFor: 'operations' stamp: 'len 11/19/2015 19:39'!
+homogeneous
+	"Answer the homogeneous equation associated to the receiver."
+
+	^ self class form: self form value: self value zero! !
+
+!LinearEquation methodsFor: 'testing' stamp: 'len 11/19/2015 18:50'!
+isHomogeneous
+	"Answer true if the receiver is an homogeneous equation."
+
+	^ self value isZero! !
+
+!LinearEquation methodsFor: 'testing' stamp: 'len 11/24/2015 06:13'!
+isSolution: aVector
+	"Answer true if the argument is a solution of the receiver."
+
+	^ (self form value: aVector) = self value! !
+
+!LinearEquation methodsFor: 'printing' stamp: 'len 8/20/97 21:22'!
+printOn: aStream
+	"Print a representation of the receiver on the stream aStream."
+
+	aStream print: self form; nextPutAll: ' = '; print: self value! !
+
+!LinearEquation methodsFor: 'operations' stamp: 'len 11/20/2015 06:15'!
+solutions
+	^ LinearSystem new add: self; solutions! !
+
+!LinearEquation methodsFor: 'accessing' stamp: 'len 8/20/97 21:20'!
+value
+	"Answer the right side of the receiver (the independent term)."
+
+	^ value! !
+
+!LinearEquation methodsFor: 'accessing-private' stamp: 'len 8/20/97 21:01'!
+value: anObject
+	value _ anObject! !
+
+!LinearEquation class methodsFor: 'instance creation' stamp: 'len 8/20/97 21:02'!
+form: aLinearForm value: anObject
+	"Answer a new instance of the receiver representing
+	the equation 'aLinearForm = anObject'."
+
+	^ self new form: aLinearForm; value: anObject! !
+
+!LinearSystem methodsFor: 'accessing' stamp: 'len 11/25/97 01:50'!
+, anObject
+	"Answer a copy of the receiver concatenated with the argument."
+
+	| answer |
+	answer _ self copy.
+	anObject class == self class
+		ifTrue: [answer addAll: anObject]
+		ifFalse: [answer add: anObject].
+	^ answer! !
+
+!LinearSystem methodsFor: 'accessing' stamp: 'len 11/20/2015 06:12'!
+add: aLinearEquation
+	^ equations add: aLinearEquation! !
+
+!LinearSystem methodsFor: 'accessing' stamp: 'len 11/20/2015 06:12'!
+addAll: aCollection
+	^ equations addAll: aCollection! !
+
+!LinearSystem methodsFor: 'accessing' stamp: 'len 5/23/2016 19:29'!
+ambient
+	"Answer the ambient vector space (where solutions live)."
+	^ equations first ambient! !
+
+!LinearSystem methodsFor: 'copying' stamp: 'len 11/20/2015 06:13'!
+copy
+	^ self class new addAll: equations; yourself! !
+
+!LinearSystem methodsFor: 'enumerating' stamp: 'len 11/20/2015 06:13'!
+do: aBlock 
+	equations do: aBlock! !
+
+!LinearSystem methodsFor: 'operations' stamp: 'len 5/13/2016 07:43'!
+homogeneous
+	"Answer the homogeneous system associated to the receiver."
+
+	| answer |
+	answer _ self class new.
+	self do: [:each| answer add: each homogeneous].
+	^ answer! !
+
+!LinearSystem methodsFor: 'initialization' stamp: 'len 5/13/2016 07:37'!
+initialize
+	equations _ OrderedCollection new! !
+
+!LinearSystem methodsFor: 'testing' stamp: 'len 8/20/97 21:35'!
+isHomogeneous
+	"Answer true if the receiver is an homogeneous system."
+
+	self do: [ :each | each isHomogeneous ifFalse: [^ false]].
+	^ true! !
+
+!LinearSystem methodsFor: 'testing' stamp: 'len 12/28/2015 03:03'!
+isInconsistent
+	^ self particular isNil! !
+
+!LinearSystem methodsFor: 'testing' stamp: 'len 11/8/2015 03:55'!
+isSolution: aVector
+	"Answer true if the argument is a solution of the receiver."
+
+	self do: [ :each | (each isSolution: aVector) ifFalse: [^ false]].
+	^ true! !
+
+!LinearSystem methodsFor: 'operations' stamp: 'len 2/29/2016 01:06'!
+kernel
+	^ self kernelBasis span! !
+
+!LinearSystem methodsFor: 'operations' stamp: 'len 10/17/2016 16:42'!
+kernel2
+	^ self matrix2 kernel apply: self ambient basis coordinatesInverseMap! !
+
+!LinearSystem methodsFor: 'operations' stamp: 'len 11/8/2015 03:55'!
+kernelBasis
+	^ self solver kernelBasis! !
+
+!LinearSystem methodsFor: 'operations' stamp: 'len 1/5/2017 20:27:03'!
+matrix
+	| answer |
+	answer _ RowMatrix new.
+	self do: [:each| answer addRow: each asTuple].
+	^ answer! !
+
+!LinearSystem methodsFor: 'operations' stamp: 'len 5/23/2016 04:27'!
+matrix2
+	| answer |
+	answer _ (self ambient scalars ^ (self size @ self ambient dimension)) new.
+	self do: [:each| answer addRow: each form asTuple].
+	^ answer! !
+
+!LinearSystem methodsFor: 'operations' stamp: 'len 2/29/2016 02:49'!
+particular
+	"Answer a particular solution of the receiver, and nil if the system is not solvable."
+	^ self solver particular! !
+
+!LinearSystem methodsFor: 'printing' stamp: 'len 6/3/2016 02:48'!
+printOn: aStream 
+	aStream nextPut: ${.
+	equations do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: '; '].
+	aStream nextPut: $}! !
+
+!LinearSystem methodsFor: 'accessing' stamp: 'len 11/20/2015 06:13'!
+size
+	^ equations size! !
+
+!LinearSystem methodsFor: 'operations' stamp: 'len 10/27/2016 19:47'!
+solutions
+	"Answer the manifold of solution of the receiver,
+	or nil if the system has no solutions."
+
+	^ self particular isNil
+		ifFalse: [AffineSubspace representative: self particular direction: self kernel]! !
+
+!LinearSystem methodsFor: 'private' stamp: 'len 11/8/2015 03:58'!
+solver
+	^ solver ifNil: [solver _ LinearSystemSolver system: self]! !
+
+!LinearSystemSolver methodsFor: 'testing' stamp: 'len 5/23/2016 04:27'!
+isSolvable
+	"Answer true if the system has any solution."
+	^ reducer dependentColumns includes: system ambient dimension + 1! !
+
+!LinearSystemSolver methodsFor: 'accessing' stamp: 'len 12/26/2015 19:39'!
+kernelBasis
+	^ kernelBasis! !
+
+!LinearSystemSolver methodsFor: 'accessing' stamp: 'len 12/26/2015 19:39'!
+particular
+	"Answer a particular solution of the receiver."
+	^ particular! !
+
+!LinearSystemSolver methodsFor: 'private' stamp: 'len 5/23/2016 04:27'!
+solve
+	| V T basis index depCols indepCols lastCol part v scalar |
+	V _ system ambient.
+	basis _ LinearBasis on: V.
+	T _ V scalars ^ V dimension.
+	index _ 0.
+	indepCols _ reducer independentColumns
+		collect: [:each| index _ index + 1. index -> each].
+	depCols _ reducer dependentColumns.
+	depCols size > 1 ifTrue: [
+		(depCols copyFrom: 1 to: depCols size - 1) do: [ :each |
+			v _ V e: each.
+			indepCols do: [ :some |
+				scalar _ reducer reduced at: some key @ each.
+				v _ v - ((V e: some value) * scalar)].
+			basis add: v]].
+	kernelBasis _ basis.
+	indepCols isEmpty
+		ifTrue: [particular _ V zero]
+		ifFalse: [indepCols last value <= V dimension ifTrue: [
+					lastCol _ reducer reduced lastColumn.
+					part _ T zero.
+					indepCols do: [:some|
+						part _ part + ((T e: some value) * (lastCol at: some key))].
+					particular _ (V vectorAt: part)]]! !
+
+!LinearSystemSolver methodsFor: 'initialization' stamp: 'len 3/1/2017 09:06:17'!
+system: aLinearSystem
+	system _ aLinearSystem.
+	reducer _ aLinearSystem matrix reduction.
+	self solve! !
+
+!LinearSystemSolver class methodsFor: 'instance creation' stamp: 'len 11/8/2015 04:14'!
+system: aLinearSystem
+	"Answer a new instance of the receiver for solving aLinearSystem."
+	^ self new system: aLinearSystem! !
 
 !Maxel methodsFor: 'as yet unclassified' stamp: 'len 2/13/2016 17:55'!
 * anInteger

@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 13 December 2017 at 10:01:05 pm'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 17 December 2017 at 10:49:21 pm'!
 'Description Please enter a description for this package'!
-!provides: 'MathematicsTests' 1 81!
+!provides: 'MathematicsTests' 1 82!
 !classDefinition: #AbelianGroupTest category: #MathematicsTests!
 TestCase subclass: #AbelianGroupTest
 	instanceVariableNames: ''
@@ -887,6 +887,15 @@ testAffineHull
 	self assert: (H includes: v1).
 	self assert: (H includes: v2)! !
 
+!AffineGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 12/14/2017 22:45:30'!
+testAffineHullEmpty
+	| V H |
+	V _ QQ ^ 3.
+	H _ V hull: {}.
+	self assert: H isEmpty.
+	self assert: H dimension = -1.
+	self assert: H size = 0! !
+
 !AffineGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 3/7/2017 07:19:35'!
 testAffineMapCollinearity
 	"Affine maps preserve collinearity."
@@ -927,6 +936,18 @@ testAffineMapInverse
 	f _ A automorphisms atRandomBits: 1000.
 	self assert: (f ” f inverse) isIdentity.
 	self assert: (f inverse ” f) isIdentity! !
+
+!AffineGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 12/14/2017 22:51:49'!
+testAffineSubspaceParallelism
+	| V A B C |
+	V _ QQ ^ 3.
+	A _ (V span: {(1,1,1)}) + (5,0,0).
+	B _ (V span: {(1,1,1). (1,0,0)}) + (10,0,0).
+	C _ (V span: {(1,1,2). (0,1,0)}) + (10,0,0).
+	self assert: A || B.
+	self assert: B || A.
+	self deny: A || C.
+	self deny: B || C! !
 
 !AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/27/2016 09:23'!
 tesRingHomomorphismSpec
@@ -3985,6 +4006,17 @@ testLinearBasisDual
 	self assert: B determinant = (1 / Bdual determinant).
 	self assert: B transposed * Bdual = I! !
 
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 12/15/2017 18:51:14'!
+testLinearBasisDual2
+	| V B Bdual |
+	V _ QQ ^ 3.
+	B _ LinearBasis on: V elements: {(-1,0,0). (0,1,2). (0,1,1)}.
+	Bdual _ B dual.
+	self assert: B size = Bdual size.
+	1 to: B size do: [:i|
+		1 to: Bdual size do: [:j|
+			self assert: ((Bdual at: j) value: (B at: i)) = (i = j ifTrue: [1] ifFalse: [0])]]! !
+
 !ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 12/12/2017 21:14:43'!
 testLinearBasisGenerates
 	| V B |
@@ -4153,52 +4185,6 @@ testLinearMapZ2
 	v _ kernel atRandom.
 	self assert: (f value: v) isZero! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:58'!
-testLinearSystem
-	| V  x y z system |
-	V _ QQ ^ 3.
-	x _ V dual e: 1.
-	y _ V dual e: 2.
-	z _ V dual e: 3.
-	system _ (x*3 + (y*2) - z eq: 1), (x*2 - (y*2) + (z*4) eq: -2), (x*(-1) + (y/2) - z eq: 0).
-	self assert: (system isSolution: (1, -2, -2))! !
-
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:59'!
-testLinearSystemSolver
-	| V  x y z system |
-	V _ QQ ^ 3.
-	x _ V dual e: 1.
-	y _ V dual e: 2.
-	z _ V dual e: 3.
-	system _ (x*3 + (y*2) - z eq: 1), (x*2 - (y*2) + (z*4) eq: -2), (x*(-1) + (y/2) - z eq: 0).
-	self assert: (system solutions includes: (1, -2, -2))! !
-
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:59'!
-testLinearSystemSolver2
-	| V  x y z system f1 f2 |
-	V _ QQ ^ 3.
-	x _ V dual e: 1.
-	y _ V dual e: 2.
-	z _ V dual e: 3.
-	f1 _ x*3 + (y*2) - z.
-	f2 _ x*2 - (y*2) + (z*4).
-	system _ (f1 eq: 1), (f2 eq: -2), (f1*2 eq: 2).
-	self assert: system kernel dimension = 1.
-	self assert: (system solutions includes: (1, -2, -2))! !
-
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 10/17/2016 16:45'!
-testLinearSystemSolver3
-	| V  x y z system f1 f2 |
-	V _ QQ ^ (2@2).
-	x _ V dual e: 1.
-	y _ V dual e: 2.
-	z _ V dual e: 3.
-	f1 _ x*3 + (y*2) - z.
-	f2 _ x*2 - (y*2) + (z*4).
-	system _ (f1 eq: 1), (f2 eq: -2), (f1*2 eq: 2).
-	self assert: system kernel dimension = 2.
-	self assert: (system solutions includes: (V elementAt: (1, -2, -2, 0)))! !
-
 !ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:59'!
 testMatricesQ
 	self testFreeModule: (QQ ^ (5 atRandom @ 5 atRandom))! !
@@ -4222,12 +4208,12 @@ testMatrixTraceAsLinearMap
 	f _ F evaluating: [:x| x trace].
 	self assert: f = ((F x: 1) + (F x: 5) + (F x: 9))! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:59'!
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 12/15/2017 21:04:02'!
 testOrthogonalProjection
 	| V S p v |
 	V _ QQ ^ 3.
 	S _ V span: {(1, 1, 0). (1, 0, 0)}.
-	p _ S projection.
+	p _ S orthogonalProjection.
 	v _ (78, 21, 139).
 	self assert: (p value: v) = (p value: (p value: v)). "idempotent at v"
 	self assert: p isIdempotent.
@@ -4251,7 +4237,7 @@ testOrthonormalization
 	self assert: B orthonormalized isOrthonormal.
 	self assert: B extended orthonormalized isOrthonormal! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:59'!
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 12/15/2017 21:04:12'!
 testPerp
 	| V S p perp |
 	V _ QQ ^ 3.
@@ -4260,7 +4246,7 @@ testPerp
 	self assert: perp dimension = 1.
 	self assert: (V innerProduct value: {perp basis first. S basis first}) isZero.
 	self assert: (V innerProduct value: {perp basis first. S basis second}) isZero.
-	p _ S projection.
+	p _ S orthogonalProjection.
 	self assert: p kernel = perp! !
 
 !ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 12/8/2016 20:28:10'!
@@ -4386,13 +4372,6 @@ testSubspaceSumRandom
 	self assert: T <= U! !
 
 !ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:03'!
-testSubspaceSystem
-	| V S |
-	V _ QQ ^ 3.
-	S _ V span: {(1, 1, 1). (2, 0, -2)}.
-	self assert: S equations kernel = S! !
-
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:03'!
 testTensorProductAssociativity
 	| V1 V2 V3 |
 	V1 _ QQ ^ 2.
@@ -4407,7 +4386,7 @@ testTensorProductCommutativity
 	W _ QQ ^ 4.
 	self assert: V ’ W ~ (W ’ V)! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 12/12/2017 21:18:03'!
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 12/17/2017 22:31:20'!
 testTensorProductOfLinearForms
 	| V W f g t v |
 	V _ QQ ^ 3.
@@ -4415,7 +4394,7 @@ testTensorProductOfLinearForms
 	f _ W atRandomBits: 10.
 	g _ W atRandomBits: 10.
 	t _ f ’ g.
-	v _ t domain atRandomBits: 10.
+	v _ W domain atRandomBits: 10.
 	self assert: (t value: v) = ((f value: v) * (g value: v))! !
 
 !ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 10/16/2016 09:19'!
