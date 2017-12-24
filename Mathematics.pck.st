@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 17 December 2017 at 10:49:24 pm'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 24 December 2017 at 8:50:14 pm'!
 'Description A computational algebra system in Smalltalk'!
-!provides: 'Mathematics' 1 390!
+!provides: 'Mathematics' 1 391!
 !requires: 'RayTracer' 1 2 nil!
 !classDefinition: #RealAlgebraicNumber category: #'Mathematics-Fields-Algebraic'!
 Number subclass: #RealAlgebraicNumber
@@ -172,16 +172,6 @@ Collection subclass: #Iterator
 Iterator class
 	instanceVariableNames: ''!
 
-!classDefinition: #MonomialIndexedTuple category: #'Mathematics-Tuples'!
-Collection subclass: #MonomialIndexedTuple
-	instanceVariableNames: 'scalars associations'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Tuples'!
-!classDefinition: 'MonomialIndexedTuple class' category: #'Mathematics-Tuples'!
-MonomialIndexedTuple class
-	instanceVariableNames: ''!
-
 !classDefinition: #Graph category: #'Mathematics-Graphs'!
 Collection subclass: #Graph
 	instanceVariableNames: ''
@@ -240,6 +230,16 @@ Collection subclass: #Simplex
 	category: 'Mathematics-Homology'!
 !classDefinition: 'Simplex class' category: #'Mathematics-Homology'!
 Simplex class
+	instanceVariableNames: ''!
+
+!classDefinition: #MonomialIndexedTuple category: #'Mathematics-Etc'!
+Collection subclass: #MonomialIndexedTuple
+	instanceVariableNames: 'scalars associations'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Etc'!
+!classDefinition: 'MonomialIndexedTuple class' category: #'Mathematics-Etc'!
+MonomialIndexedTuple class
 	instanceVariableNames: ''!
 
 !classDefinition: #CompositeGraphMorph category: #'Mathematics-Graphs-Morphic'!
@@ -1662,16 +1662,6 @@ FreeModule subclass: #MatrixModule
 MatrixModule class
 	instanceVariableNames: ''!
 
-!classDefinition: #HomogeneousPolynomialModule category: #'Mathematics-Polynomials'!
-FreeModule subclass: #HomogeneousPolynomialModule
-	instanceVariableNames: 'polynomials degree'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Polynomials'!
-!classDefinition: 'HomogeneousPolynomialModule class' category: #'Mathematics-Polynomials'!
-HomogeneousPolynomialModule class
-	instanceVariableNames: ''!
-
 !classDefinition: #PolynomialFiltrationModule category: #'Mathematics-Polynomials'!
 FreeModule subclass: #PolynomialFiltrationModule
 	instanceVariableNames: 'polynomials degree'
@@ -1680,6 +1670,16 @@ FreeModule subclass: #PolynomialFiltrationModule
 	category: 'Mathematics-Polynomials'!
 !classDefinition: 'PolynomialFiltrationModule class' category: #'Mathematics-Polynomials'!
 PolynomialFiltrationModule class
+	instanceVariableNames: ''!
+
+!classDefinition: #PolynomialGradingModule category: #'Mathematics-Polynomials'!
+FreeModule subclass: #PolynomialGradingModule
+	instanceVariableNames: 'polynomials degree'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Polynomials'!
+!classDefinition: 'PolynomialGradingModule class' category: #'Mathematics-Polynomials'!
+PolynomialGradingModule class
 	instanceVariableNames: ''!
 
 !classDefinition: #Lattice category: #'Mathematics-Lattices'!
@@ -2202,8 +2202,18 @@ LinearMap subclass: #LinearForm
 LinearForm class
 	instanceVariableNames: ''!
 
+!classDefinition: #BilinearMap category: #'Mathematics-Multilinear'!
+Function subclass: #BilinearMap
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Multilinear'!
+!classDefinition: 'BilinearMap class' category: #'Mathematics-Multilinear'!
+BilinearMap class
+	instanceVariableNames: ''!
+
 !classDefinition: #BilinearForm category: #'Mathematics-Multilinear'!
-Function subclass: #BilinearForm
+BilinearMap subclass: #BilinearForm
 	instanceVariableNames: 'basis matrix'
 	classVariableNames: ''
 	poolDictionaries: ''
@@ -3054,7 +3064,7 @@ WeightedMonomialOrdering class
 
 !classDefinition: #Polynomial category: #'Mathematics-Polynomials'!
 Object subclass: #Polynomial
-	instanceVariableNames: 'parent coefficients'
+	instanceVariableNames: 'parent'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Polynomials'!
@@ -3062,9 +3072,19 @@ Object subclass: #Polynomial
 Polynomial class
 	instanceVariableNames: ''!
 
+!classDefinition: #MultivariatePolynomial category: #'Mathematics-Polynomials'!
+Polynomial subclass: #MultivariatePolynomial
+	instanceVariableNames: 'parts'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Polynomials'!
+!classDefinition: 'MultivariatePolynomial class' category: #'Mathematics-Polynomials'!
+MultivariatePolynomial class
+	instanceVariableNames: ''!
+
 !classDefinition: #UnivariatePolynomial category: #'Mathematics-Polynomials'!
 Polynomial subclass: #UnivariatePolynomial
-	instanceVariableNames: ''
+	instanceVariableNames: 'coefficients'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Polynomials'!
@@ -3720,7 +3740,7 @@ The following are examples of undeterminations (they produce an error):
 	Infinity positive raisedToInteger: 0.
 !
 
-!LinearBasis commentStamp: 'len 3/1/2017 12:16:51' prior: 0!
+!LinearBasis commentStamp: '<historical>' prior: 0!
 My instances are finite and ordered bases of free modules.!
 
 !StandardBasis commentStamp: 'len 1/25/2017 14:38:57' prior: 0!
@@ -3748,11 +3768,6 @@ My instances are standard linear bases as defined by a particular ambient space.
 
 !Iterator commentStamp: '<historical>' prior: 0!
 An Iterator is a read-only collection that evaluates a block to yield the elements of the collection.!
-
-!MonomialIndexedTuple commentStamp: 'len 2/25/2017 09:47:13' prior: 0!
-My instances are formal sums of monomials.
-
-Internally, they are represented by a list of associations monomial -> value. The list is kept sorted by the underlying monomial ordering.!
 
 !Graph commentStamp: '<historical>' prior: 0!
 Instances of my subclasses are (directed or undirected) graphs. See subclasses.!
@@ -3786,6 +3801,11 @@ Structure:
 My instances are (abstract) n-simplices.
 
 It is assumed that the vertices are objects that implement a total ordering with #<= (such as integers, strings, monomials), so that they can be ordered to choose an unambiguos orientation.!
+
+!MonomialIndexedTuple commentStamp: 'len 2/25/2017 09:47:13' prior: 0!
+My instances are formal sums of monomials.
+
+Internally, they are represented by a list of associations monomial -> value. The list is kept sorted by the underlying monomial ordering.!
 
 !GraphMorph commentStamp: '<historical>' prior: 0!
 My instances have submorphs that are GraphNodeMorph and GraphEdgeMorph (or subclasses). My subclasses implement different layouts.
@@ -4311,7 +4331,7 @@ My instances are R-modules (or K-vector spaces) of linear transformations from a
 !
 
 !DualModule commentStamp: '<historical>' prior: 0!
-My instances are free modules or vector spaces of linear forms (see LinearForm). This is the (algebraic) dual of M. They are spanned by the coordinate functions of a free module or vector space.!
+My instances are free modules (or vector spaces) of linear forms (see LinearForm). This is the (algebraic) dual Hom(M, R), spanned by the coordinate functions of the free R-module M.!
 
 !QuotientSpace commentStamp: '<historical>' prior: 0!
 My instances are quotient spaces V/S (read "V mod S") of a given vector space V modulo a submodule S.
@@ -4332,11 +4352,11 @@ My instances are ambient modules (or vector spaces) of n-tuples over a given rin
 !MatrixModule commentStamp: '<historical>' prior: 0!
 My instances are ambient modules (or vector spaces) of matrices of n rows by m columns over a given commutative ring (or field). See also MatrixRing.!
 
-!HomogeneousPolynomialModule commentStamp: '<historical>' prior: 0!
-My instances are submodules of homogeneous polynomials of a given fixed degree, in a multivariate polynomial ring R[x1,...,xn]. They define a grading (see PolynomialRing>>gradingAt:).!
-
 !PolynomialFiltrationModule commentStamp: '<historical>' prior: 0!
 My instances are submodules of univariate polynomials of degree <= n for a fixed n, in the ring of univariate polynomials R[x]. They define a filtration (see PolynomialRing>>filtrationAt:).!
+
+!PolynomialGradingModule commentStamp: '<historical>' prior: 0!
+My instances are submodules of homogeneous polynomials of a given fixed degree, in a multivariate polynomial ring R[x1,...,xn]. They define a grading (see PolynomialRing>>gradingAt:).!
 
 !Lattice commentStamp: '<historical>' prior: 0!
 My instances are integer lattices. An integer lattice is the set of integer linear combinations of a basis of a real vector space. This is a subgroup of the vector space (as abelian group) isomorphic to Z^n, and a free Z-module.!
@@ -4642,7 +4662,7 @@ Example:
 !
 
 !LinearForm commentStamp: '<historical>' prior: 0!
-My instances are linear forms (linear functionals, one-forms, covectors), i.e. linear maps from a vector space to the field of scalars. They are linear combinations of coordinate functions.
+My instances are linear forms (linear functionals, one-forms, covectors), i.e. linear maps from a vector space to the field of scalars (or from a free module to its coefficients ring). They are linear combinations of coordinate functions.
 
 All the linear forms on a vector space form the dual vector space (see DualModule).!
 
@@ -5023,11 +5043,17 @@ Theorem: For any monomial ordering in a finite number of variables, there is a c
 !Polynomial commentStamp: '<historical>' prior: 0!
 My instances are polynomials in one or many indeterminates, with coefficients in a commutative ring. See PolynomialRing.
 
-By default polynomials are in sparse representation, but this can be redefined by subclasses (see UnivariatePolynomial).
-!
+This is an abstract class. See subclasses MultivariatePolynomial and UnivariatePolynomial for concrete implementations.!
+
+!MultivariatePolynomial commentStamp: '<historical>' prior: 0!
+My instances are multivariate polynomials.
+
+Internally, multivariate polynomials are stored as a list of associations 'monomial -> coefficient'. Zero coefficients are excluded, and the list is kept sorted according to the corresponding monomial ordering.!
 
 !UnivariatePolynomial commentStamp: '<historical>' prior: 0!
-My instances are univariate polynomials in dense representation. The coefficients of a dense polynomial are stored as a Tuple indexed by degree (the first element of the coefficients tuple corresponds to the independent coefficient of the polynomial).!
+My instances are univariate polynomials.
+
+The coefficients of an univariate polynomial are stored as a Tuple indexed by degree (the first element of the coefficients tuple corresponds to the independent coefficient of the polynomial).!
 
 !MultiPolynomialDivision commentStamp: '<historical>' prior: 0!
 I am the multivariate polynomial division algorithm for polynomials over a field.
@@ -8439,346 +8465,6 @@ on: aBlock
 on: anObject performing: aSymbol
 	^ self new block: [:aBlock| anObject perform: aSymbol with: aBlock]! !
 
-!MonomialIndexedTuple methodsFor: 'operations' stamp: 'len 11/20/2016 16:56:16'!
-* aNumber
-	^ self collect: [:each| each*aNumber]! !
-
-!MonomialIndexedTuple methodsFor: 'operations' stamp: 'len 11/29/2016 10:24:36'!
-+ aMonomialTuple
-	| newAssociations |
-	newAssociations _ OrderedCollection new: self size + aMonomialTuple size.
-	newAssociations resetTo: 1.
-	self sum: associations with: aMonomialTuple associations into: newAssociations.
-	^ self class associations: newAssociations over: scalars! !
-
-!MonomialIndexedTuple methodsFor: 'operations' stamp: 'len 11/20/2016 16:55:37'!
-- aMonomialTuple
-	^ self + aMonomialTuple negated! !
-
-!MonomialIndexedTuple methodsFor: 'operations' stamp: 'len 11/28/2016 22:03:32'!
-/ aNumber
-	self flag: #fix.
-	^ self collectNoZero: [:each| each / aNumber] "this could be slow, could take reciprocal many times"! !
-
-!MonomialIndexedTuple methodsFor: 'operations' stamp: 'len 11/28/2016 18:59:06'!
-// aNumber
-	^ self collect: [:each| each // aNumber]! !
-
-!MonomialIndexedTuple methodsFor: 'operations' stamp: 'len 2/6/2017 03:14:46'!
-/// aNumber
-	^ self collect: [:each| each /// aNumber]! !
-
-!MonomialIndexedTuple methodsFor: 'comparing' stamp: 'len 11/21/2016 09:14:40'!
-= aMonomialTuple
-	self size = aMonomialTuple size ifFalse: [^ false].
-	self == aMonomialTuple ifTrue: [^ true].
-	^ associations = aMonomialTuple associations! !
-
-!MonomialIndexedTuple methodsFor: 'operations' stamp: 'len 11/28/2016 18:59:11'!
-\\ aNumber
-	^ self collect: [:each| each \\ aNumber]! !
-
-!MonomialIndexedTuple methodsFor: 'accessing-private' stamp: 'len 11/21/2016 08:30:05'!
-associations
-	^ associations! !
-
-!MonomialIndexedTuple methodsFor: 'accessing-private' stamp: 'len 11/29/2016 08:52:12'!
-associations: aCollection
-"	(aCollection class == OrderedCollection) ifFalse: [^ self error: 'not an OrderedCollection']."
-	associations _ aCollection! !
-
-!MonomialIndexedTuple methodsFor: 'enumerating' stamp: 'len 11/20/2016 17:02:42'!
-associationsDo: aBlock
-	associations do: aBlock! !
-
-!MonomialIndexedTuple methodsFor: 'accessing' stamp: 'len 11/20/2016 10:36:07'!
-at: aMonomial
-	^ self at: aMonomial ifAbsent: [scalars zero]! !
-
-!MonomialIndexedTuple methodsFor: 'accessing' stamp: 'len 11/28/2016 09:05:54'!
-at: aMonomial add: aNumber
-	associations isEmpty ifTrue: [aNumber isZero ifFalse: [associations add: aMonomial -> aNumber]. ^ self].
-	associations
-		findBinaryIndex: [:each| (each key compare: aMonomial) negated]
-		do: [:index| | association newValue |
-			association _ associations at: index.
-			(newValue _ association value + aNumber) isZero
-				ifTrue: [associations removeIndex: index]
-				ifFalse: [association value: newValue "associations at: index put: aMonomial -> newValue"]]
-		ifNone: [:low :high| aNumber isZero ifFalse: [associations add: aMonomial -> aNumber beforeIndex: high]]! !
-
-!MonomialIndexedTuple methodsFor: 'accessing' stamp: 'len 11/26/2016 08:01:58'!
-at: aMonomial ifAbsent: exceptionBlock
-	^ associations findBinary: [:each| (each key compare: aMonomial) negated] do: [:each| each value] ifNone: [:high :low| exceptionBlock value]! !
-
-!MonomialIndexedTuple methodsFor: 'accessing' stamp: 'len 11/20/2016 17:04:43'!
-at: key ifPresent: presentBlock
-	"Lookup the given key in the receiver. If it is present, answer the value of evaluating the given block with the value associated with the key. Otherwise, answer nil."
-
-	| v |
-	v _ self at: key ifAbsent: [ ^ nil ].
-	^ presentBlock value: v! !
-
-!MonomialIndexedTuple methodsFor: 'accessing' stamp: 'len 11/27/2016 08:32:12'!
-at: aMonomial put: aNumber
-	associations isEmpty ifTrue: [aNumber isZero ifFalse: [associations add: aMonomial -> aNumber]. ^ self].
-	associations
-		findBinaryIndex: [:each| (each key compare: aMonomial) negated]
-		do: [:index| aNumber isZero ifTrue: [associations removeIndex: index] ifFalse: [(associations at: index) value: aNumber]]
-		ifNone: [:low :high| aNumber isZero ifFalse: [associations add: aMonomial -> aNumber beforeIndex: high]].
-	^ aNumber! !
-
-!MonomialIndexedTuple methodsFor: 'enumerating' stamp: 'len 11/28/2016 09:03:42'!
-collect: aBlock
-	| newAssociations |
-	newAssociations _ OrderedCollection new: associations size.
-	associations do: [:each| | newValue |
-		(newValue _ aBlock value: each value) isZero
-			ifFalse: [newAssociations add: (each copy value: newValue)]].
-	^ self class associations: newAssociations over: scalars! !
-
-!MonomialIndexedTuple methodsFor: 'enumerating' stamp: 'len 11/21/2016 08:50:46'!
-collectNoZero: aBlock
-	^ self class associations: (associations collect: [:each| each copy value: (aBlock value: each value)]) over: scalars! !
-
-!MonomialIndexedTuple methodsFor: 'operations' stamp: 'len 3/6/2017 16:28:36'!
-convolution22: aMonomialTuple
-	| a b b2 c1 c2 c t |
-	self size <= aMonomialTuple size
-		ifTrue: [a _ associations. b _ aMonomialTuple associations]
-		ifFalse: [a _ aMonomialTuple associations. b _ associations].
-	c1 _ OrderedCollection new: a size + b size.
-	c2 _ OrderedCollection new: a size + b size.
-	c _ c1.
-	b2 _ Array new: b size.
-	a do: [:ai|
-		1 to: b size do: [:i| | bi |
-			bi _ b at: i.
-			b2 at: i put: ai key * bi key -> (ai value * bi value)].
-		t _ c1 == c ifTrue: [c2] ifFalse: [c1].
-		t resetTo: 1.
-		c _ self sum: c with: b2 into: t].
-	^ self class associations: c over: scalars! !
-
-!MonomialIndexedTuple methodsFor: 'operations' stamp: 'len 11/21/2016 13:04:43'!
-convolution2: aMonomialTuple
-	| a b answer temp |
-	self size <= aMonomialTuple size
-		ifTrue: [a _ associations. b _ aMonomialTuple associations]
-		ifFalse: [a _ aMonomialTuple associations. b _ associations].
-	answer _ self class over: scalars.
-	temp _ Array new: b size.
-	a do: [:each|
-		1 to: b size do: [:i| | other | other _ b at: i. temp at: i put: other key * each key -> (other value * each value)].
-		answer _ answer + (self class associations: temp over: scalars)].
-	^ answer! !
-
-!MonomialIndexedTuple methodsFor: 'operations' stamp: 'len 11/30/2016 14:46:11'!
-convolution3: aMonomialTuple
-	| dictionary newAssociations |
-	dictionary _ Dictionary new: self size + aMonomialTuple size.
-	self associationsDo: [:each|
-		aMonomialTuple associationsDo: [:other|
-			dictionary at: each key * other key add: each value * other value]].
-	newAssociations _ OrderedCollection new: dictionary size.
-	newAssociations resetTo: 1.
-	dictionary associationsDo: [:each| each value isZero ifFalse: [newAssociations add: each]].
-	newAssociations sort.
-	^ self class associations: newAssociations over: scalars! !
-
-!MonomialIndexedTuple methodsFor: 'operations' stamp: 'len 3/6/2017 16:29:09'!
-convolution4: aMonomialTuple
-	| a b c |
-	self size <= aMonomialTuple size
-		ifTrue: [a _ associations. b _ aMonomialTuple associations]
-		ifFalse: [a _ aMonomialTuple associations. b _ associations].
-	(a size < 25 and: [a size * 2 < b size])
-		ifTrue:
-			[| c1 c2 b2 t |
-			c1 _ OrderedCollection new: a size + b size.
-			c2 _ OrderedCollection new: a size + b size.
-			c _ c1.
-			b2 _ Array new: b size.
-			a do: [:ai|
-				1 to: b size do: [:i| | bi |
-					bi _ b at: i.
-					b2 at: i put: ai key * bi key -> (ai value * bi value)].
-				t _ c1 == c ifTrue: [c2] ifFalse: [c1].
-				t resetTo: 1.
-				c _ self sum: c with: b2 into: t]]
-		ifFalse: "if the sizes are not right, it's faster to use a hash table"
-			[| dictionary |
-			dictionary _ Dictionary new: a size + b size.
-			a do: [:ai|
-				b do: [:bi|
-				dictionary at: ai key * bi key add: ai value * bi value]].
-			c _ OrderedCollection new: dictionary size.
-			c resetTo: 1.
-			dictionary associationsDo: [:each| each value isZero ifFalse: [c add: each]].
-			c sort].
-	^ self class associations: c over: scalars! !
-
-!MonomialIndexedTuple methodsFor: 'operations' stamp: 'len 11/30/2016 14:46:18'!
-convolution: aMonomialTuple
-	| dictionary newAssociations |
-	dictionary _ Dictionary new: self size + aMonomialTuple size.
-	self associationsDo: [:each|
-		aMonomialTuple associationsDo: [:other|
-			dictionary at: each key * other key add: each value * other value]].
-	newAssociations _ OrderedCollection new: dictionary size.
-	newAssociations resetTo: 1.
-	dictionary associationsDo: [:each| each value isZero ifFalse: [newAssociations add: each]].
-	newAssociations sort.
-	^ self class associations: newAssociations over: scalars! !
-
-!MonomialIndexedTuple methodsFor: 'copying' stamp: 'len 11/28/2016 09:27:34'!
-copy
-	^ self class associations: (associations collect: [:each| each copy]) over: scalars! !
-
-!MonomialIndexedTuple methodsFor: 'operations' stamp: 'len 11/29/2016 09:30:44'!
-dividedByMonomial: aMonomial
-	"The monomial ordering is preserved by this operation."
-	^ self class associations: (associations collect: [:each| each key / aMonomial -> each value]) over: scalars! !
-
-!MonomialIndexedTuple methodsFor: 'enumerating' stamp: 'len 11/20/2016 17:14:49'!
-do: aBlock
-	self associationsDo: [:each| aBlock value: each value]! !
-
-!MonomialIndexedTuple methodsFor: 'operations' stamp: 'len 11/29/2016 09:30:09'!
-dot: aMonomialTuple
-	| answer |
-	self flag: #fix. "optimize"
-	self size <= aMonomialTuple size ifFalse: [^ aMonomialTuple dot: self].
-	answer _ scalars zero.
-	associations do: [:each| aMonomialTuple at: each key ifPresent: [:value2| answer _ answer + (each value*value2)]].
-	^ answer! !
-
-!MonomialIndexedTuple methodsFor: 'comparing' stamp: 'len 11/21/2016 09:18:00'!
-hash
-	^ associations hash! !
-
-!MonomialIndexedTuple methodsFor: 'testing' stamp: 'len 11/26/2016 07:38:01'!
-isZero
-	^ associations isEmpty! !
-
-!MonomialIndexedTuple methodsFor: 'enumerating' stamp: 'len 11/26/2016 07:40:36'!
-keysAndValuesDo: aBlock
-	associations do: [:each| aBlock value: each key value: each value]! !
-
-!MonomialIndexedTuple methodsFor: 'enumerating' stamp: 'len 11/26/2016 07:40:24'!
-keysDo: aBlock
-	associations do: [:each| aBlock value: each key]! !
-
-!MonomialIndexedTuple methodsFor: 'accessing' stamp: 'len 11/28/2016 18:51:33'!
-lastKey
-	^ associations isEmpty ifFalse: [associations last key]! !
-
-!MonomialIndexedTuple methodsFor: 'accessing' stamp: 'len 1/25/2017 18:06:36'!
-lastValue
-	^ associations isEmpty ifFalse: [associations last value]! !
-
-!MonomialIndexedTuple methodsFor: 'operations' stamp: 'len 11/29/2016 09:30:48'!
-multipliedByMonomial: aMonomial
-	"The monomial ordering is preserved by this operation."
-	^ self class associations: (associations collect: [:each| each key * aMonomial -> each value]) over: scalars! !
-
-!MonomialIndexedTuple methodsFor: 'operations' stamp: 'len 11/20/2016 17:05:41'!
-negated
-	^ self class associations: (associations collect: [:each| each copy value: each value negated]) over: scalars! !
-
-!MonomialIndexedTuple methodsFor: 'converting' stamp: 'len 1/20/2017 09:34:47'!
-over: aRing
-	| newAssociations |
-	self scalars = aRing ifTrue: [^ self].
-	newAssociations _ OrderedCollection new: associations size.
-	associations do: [:each| | newValue |
-		(newValue _ aRing !! each value) isZero
-			ifFalse: [newAssociations add: (each copy value: newValue)]].
-	^ self class associations: newAssociations over: aRing! !
-
-!MonomialIndexedTuple methodsFor: 'printing' stamp: 'len 2/25/2017 09:44:26'!
-printCoefficient: coefficient on: aStream
-	| c |
-	((c _ coefficient) printString first = $- "or: [coefficient isNumber and: [coefficient negative]]")
-		ifTrue: [aStream nextPut: $-. c _ c negated].
-	((c isKindOf: Polynomial) and: [c isMonomial])
-		ifTrue: [aStream print: c. ^ self].
-	(c printString allSatisfy: [:each| each isAlphaNumeric or: ['{}()/' includes: each]])
-		ifTrue: [aStream print: c. ^ self].
-	aStream nextPut: $(; print: c; nextPut: $)! !
-
-!MonomialIndexedTuple methodsFor: 'printing' stamp: 'len 2/25/2017 08:48:39'!
-printOn2: aStream
-	aStream nextPut: $(.
-	associations do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: ', '].
-	aStream nextPut: $)! !
-
-!MonomialIndexedTuple methodsFor: 'printing' stamp: 'len 2/25/2017 08:53:10'!
-printOn: aStream
-	| c |
-	self isZero ifTrue: [aStream nextPutAll: '0'. ^ self].
-	c _ associations last value.
-	c printString first = $-
-		ifTrue: [c _ c negated. aStream nextPut: $-].
-	c ~= scalars one ifTrue: [self printCoefficient: c on: aStream].
-	associations last key isIdentity
-		ifFalse: [aStream print: associations last key].
-	associations allButLast reverseDo: [:each|
-		c _ each value.
-		c printString first = $-
-			ifTrue: [aStream nextPutAll: ' - '. c _ c negated]
-			ifFalse: [aStream nextPutAll: ' + '].
-		c ~= c one ifTrue: [self printCoefficient: c on: aStream].
-		each key isIdentity
-			ifFalse: [aStream print: each key]]! !
-
-!MonomialIndexedTuple methodsFor: 'accessing' stamp: 'len 11/20/2016 10:26:33'!
-scalars
-	^ scalars! !
-
-!MonomialIndexedTuple methodsFor: 'accessing-private' stamp: 'len 11/20/2016 10:26:40'!
-scalars: aRing
-	scalars _ aRing! !
-
-!MonomialIndexedTuple methodsFor: 'accessing' stamp: 'len 11/21/2016 08:55:19'!
-size
-	^ associations size! !
-
-!MonomialIndexedTuple methodsFor: 'private' stamp: 'len 11/29/2016 09:52:21'!
-sum: someAssociations with: otherAssociations into: newAssociations
-	| stream1 stream2 |
-	stream1 _ someAssociations readStream.
-	stream2 _ otherAssociations readStream.
-	[stream1 atEnd or: [stream2 atEnd]]
-		whileFalse:
-			[| cmp |
-			cmp _ stream1 peek key compare: stream2 peek key.
-			cmp < 0
-				ifTrue: [newAssociations add: stream1 next copy]
-				ifFalse: [cmp > 0
-					ifTrue: [newAssociations add: stream2 next copy]
-					ifFalse:
-						[| a b newValue |
-						a _ stream1 next.
-						b _ stream2 next.
-						(newValue _ a value + b value) isZero
-							ifFalse: [newAssociations add: (a copy value: newValue)]]]].
-	[stream1 atEnd] whileFalse: [newAssociations add: stream1 next copy].
-	[stream2 atEnd] whileFalse: [newAssociations add: stream2 next copy].
-	^ newAssociations! !
-
-!MonomialIndexedTuple class methodsFor: 'instance creation' stamp: 'len 11/20/2016 16:51:57'!
-associations: aCollection over: aRing
-	^ self basicNew scalars: aRing; associations: aCollection! !
-
-!MonomialIndexedTuple class methodsFor: 'instance creation' stamp: 'len 11/20/2016 17:06:55'!
-new: anInteger over: aRing
-	^ self basicNew scalars: aRing; associations: (OrderedCollection new: anInteger)! !
-
-!MonomialIndexedTuple class methodsFor: 'instance creation' stamp: 'len 11/20/2016 16:52:13'!
-over: aRing
-	^ self basicNew scalars: aRing; associations: OrderedCollection new! !
-
 !Graph methodsFor: 'operations' stamp: 'len 2/17/2017 07:41:42'!
 * aGraph
 	"Answer the graph with all edges that connect the vertices of the receiver with the vertices of the argument. This is a commutative operation (for unlabeled graphs)."
@@ -11003,6 +10689,346 @@ newFrom: aCollection
 !Simplex class methodsFor: 'instance creation' stamp: 'len 2/15/2017 08:54:28'!
 vertices: aCollection
 	^ self new vertices: aCollection! !
+
+!MonomialIndexedTuple methodsFor: 'operations' stamp: 'len 11/20/2016 16:56:16'!
+* aNumber
+	^ self collect: [:each| each*aNumber]! !
+
+!MonomialIndexedTuple methodsFor: 'operations' stamp: 'len 11/29/2016 10:24:36'!
++ aMonomialTuple
+	| newAssociations |
+	newAssociations _ OrderedCollection new: self size + aMonomialTuple size.
+	newAssociations resetTo: 1.
+	self sum: associations with: aMonomialTuple associations into: newAssociations.
+	^ self class associations: newAssociations over: scalars! !
+
+!MonomialIndexedTuple methodsFor: 'operations' stamp: 'len 11/20/2016 16:55:37'!
+- aMonomialTuple
+	^ self + aMonomialTuple negated! !
+
+!MonomialIndexedTuple methodsFor: 'operations' stamp: 'len 11/28/2016 22:03:32'!
+/ aNumber
+	self flag: #fix.
+	^ self collectNoZero: [:each| each / aNumber] "this could be slow, could take reciprocal many times"! !
+
+!MonomialIndexedTuple methodsFor: 'operations' stamp: 'len 11/28/2016 18:59:06'!
+// aNumber
+	^ self collect: [:each| each // aNumber]! !
+
+!MonomialIndexedTuple methodsFor: 'operations' stamp: 'len 2/6/2017 03:14:46'!
+/// aNumber
+	^ self collect: [:each| each /// aNumber]! !
+
+!MonomialIndexedTuple methodsFor: 'comparing' stamp: 'len 11/21/2016 09:14:40'!
+= aMonomialTuple
+	self size = aMonomialTuple size ifFalse: [^ false].
+	self == aMonomialTuple ifTrue: [^ true].
+	^ associations = aMonomialTuple associations! !
+
+!MonomialIndexedTuple methodsFor: 'operations' stamp: 'len 11/28/2016 18:59:11'!
+\\ aNumber
+	^ self collect: [:each| each \\ aNumber]! !
+
+!MonomialIndexedTuple methodsFor: 'accessing-private' stamp: 'len 11/21/2016 08:30:05'!
+associations
+	^ associations! !
+
+!MonomialIndexedTuple methodsFor: 'accessing-private' stamp: 'len 11/29/2016 08:52:12'!
+associations: aCollection
+"	(aCollection class == OrderedCollection) ifFalse: [^ self error: 'not an OrderedCollection']."
+	associations _ aCollection! !
+
+!MonomialIndexedTuple methodsFor: 'enumerating' stamp: 'len 11/20/2016 17:02:42'!
+associationsDo: aBlock
+	associations do: aBlock! !
+
+!MonomialIndexedTuple methodsFor: 'accessing' stamp: 'len 11/20/2016 10:36:07'!
+at: aMonomial
+	^ self at: aMonomial ifAbsent: [scalars zero]! !
+
+!MonomialIndexedTuple methodsFor: 'accessing' stamp: 'len 11/28/2016 09:05:54'!
+at: aMonomial add: aNumber
+	associations isEmpty ifTrue: [aNumber isZero ifFalse: [associations add: aMonomial -> aNumber]. ^ self].
+	associations
+		findBinaryIndex: [:each| (each key compare: aMonomial) negated]
+		do: [:index| | association newValue |
+			association _ associations at: index.
+			(newValue _ association value + aNumber) isZero
+				ifTrue: [associations removeIndex: index]
+				ifFalse: [association value: newValue "associations at: index put: aMonomial -> newValue"]]
+		ifNone: [:low :high| aNumber isZero ifFalse: [associations add: aMonomial -> aNumber beforeIndex: high]]! !
+
+!MonomialIndexedTuple methodsFor: 'accessing' stamp: 'len 11/26/2016 08:01:58'!
+at: aMonomial ifAbsent: exceptionBlock
+	^ associations findBinary: [:each| (each key compare: aMonomial) negated] do: [:each| each value] ifNone: [:high :low| exceptionBlock value]! !
+
+!MonomialIndexedTuple methodsFor: 'accessing' stamp: 'len 11/20/2016 17:04:43'!
+at: key ifPresent: presentBlock
+	"Lookup the given key in the receiver. If it is present, answer the value of evaluating the given block with the value associated with the key. Otherwise, answer nil."
+
+	| v |
+	v _ self at: key ifAbsent: [ ^ nil ].
+	^ presentBlock value: v! !
+
+!MonomialIndexedTuple methodsFor: 'accessing' stamp: 'len 11/27/2016 08:32:12'!
+at: aMonomial put: aNumber
+	associations isEmpty ifTrue: [aNumber isZero ifFalse: [associations add: aMonomial -> aNumber]. ^ self].
+	associations
+		findBinaryIndex: [:each| (each key compare: aMonomial) negated]
+		do: [:index| aNumber isZero ifTrue: [associations removeIndex: index] ifFalse: [(associations at: index) value: aNumber]]
+		ifNone: [:low :high| aNumber isZero ifFalse: [associations add: aMonomial -> aNumber beforeIndex: high]].
+	^ aNumber! !
+
+!MonomialIndexedTuple methodsFor: 'enumerating' stamp: 'len 11/28/2016 09:03:42'!
+collect: aBlock
+	| newAssociations |
+	newAssociations _ OrderedCollection new: associations size.
+	associations do: [:each| | newValue |
+		(newValue _ aBlock value: each value) isZero
+			ifFalse: [newAssociations add: (each copy value: newValue)]].
+	^ self class associations: newAssociations over: scalars! !
+
+!MonomialIndexedTuple methodsFor: 'enumerating' stamp: 'len 11/21/2016 08:50:46'!
+collectNoZero: aBlock
+	^ self class associations: (associations collect: [:each| each copy value: (aBlock value: each value)]) over: scalars! !
+
+!MonomialIndexedTuple methodsFor: 'operations' stamp: 'len 3/6/2017 16:28:36'!
+convolution22: aMonomialTuple
+	| a b b2 c1 c2 c t |
+	self size <= aMonomialTuple size
+		ifTrue: [a _ associations. b _ aMonomialTuple associations]
+		ifFalse: [a _ aMonomialTuple associations. b _ associations].
+	c1 _ OrderedCollection new: a size + b size.
+	c2 _ OrderedCollection new: a size + b size.
+	c _ c1.
+	b2 _ Array new: b size.
+	a do: [:ai|
+		1 to: b size do: [:i| | bi |
+			bi _ b at: i.
+			b2 at: i put: ai key * bi key -> (ai value * bi value)].
+		t _ c1 == c ifTrue: [c2] ifFalse: [c1].
+		t resetTo: 1.
+		c _ self sum: c with: b2 into: t].
+	^ self class associations: c over: scalars! !
+
+!MonomialIndexedTuple methodsFor: 'operations' stamp: 'len 11/21/2016 13:04:43'!
+convolution2: aMonomialTuple
+	| a b answer temp |
+	self size <= aMonomialTuple size
+		ifTrue: [a _ associations. b _ aMonomialTuple associations]
+		ifFalse: [a _ aMonomialTuple associations. b _ associations].
+	answer _ self class over: scalars.
+	temp _ Array new: b size.
+	a do: [:each|
+		1 to: b size do: [:i| | other | other _ b at: i. temp at: i put: other key * each key -> (other value * each value)].
+		answer _ answer + (self class associations: temp over: scalars)].
+	^ answer! !
+
+!MonomialIndexedTuple methodsFor: 'operations' stamp: 'len 11/30/2016 14:46:11'!
+convolution3: aMonomialTuple
+	| dictionary newAssociations |
+	dictionary _ Dictionary new: self size + aMonomialTuple size.
+	self associationsDo: [:each|
+		aMonomialTuple associationsDo: [:other|
+			dictionary at: each key * other key add: each value * other value]].
+	newAssociations _ OrderedCollection new: dictionary size.
+	newAssociations resetTo: 1.
+	dictionary associationsDo: [:each| each value isZero ifFalse: [newAssociations add: each]].
+	newAssociations sort.
+	^ self class associations: newAssociations over: scalars! !
+
+!MonomialIndexedTuple methodsFor: 'operations' stamp: 'len 3/6/2017 16:29:09'!
+convolution4: aMonomialTuple
+	| a b c |
+	self size <= aMonomialTuple size
+		ifTrue: [a _ associations. b _ aMonomialTuple associations]
+		ifFalse: [a _ aMonomialTuple associations. b _ associations].
+	(a size < 25 and: [a size * 2 < b size])
+		ifTrue:
+			[| c1 c2 b2 t |
+			c1 _ OrderedCollection new: a size + b size.
+			c2 _ OrderedCollection new: a size + b size.
+			c _ c1.
+			b2 _ Array new: b size.
+			a do: [:ai|
+				1 to: b size do: [:i| | bi |
+					bi _ b at: i.
+					b2 at: i put: ai key * bi key -> (ai value * bi value)].
+				t _ c1 == c ifTrue: [c2] ifFalse: [c1].
+				t resetTo: 1.
+				c _ self sum: c with: b2 into: t]]
+		ifFalse: "if the sizes are not right, it's faster to use a hash table"
+			[| dictionary |
+			dictionary _ Dictionary new: a size + b size.
+			a do: [:ai|
+				b do: [:bi|
+				dictionary at: ai key * bi key add: ai value * bi value]].
+			c _ OrderedCollection new: dictionary size.
+			c resetTo: 1.
+			dictionary associationsDo: [:each| each value isZero ifFalse: [c add: each]].
+			c sort].
+	^ self class associations: c over: scalars! !
+
+!MonomialIndexedTuple methodsFor: 'operations' stamp: 'len 11/30/2016 14:46:18'!
+convolution: aMonomialTuple
+	| dictionary newAssociations |
+	dictionary _ Dictionary new: self size + aMonomialTuple size.
+	self associationsDo: [:each|
+		aMonomialTuple associationsDo: [:other|
+			dictionary at: each key * other key add: each value * other value]].
+	newAssociations _ OrderedCollection new: dictionary size.
+	newAssociations resetTo: 1.
+	dictionary associationsDo: [:each| each value isZero ifFalse: [newAssociations add: each]].
+	newAssociations sort.
+	^ self class associations: newAssociations over: scalars! !
+
+!MonomialIndexedTuple methodsFor: 'copying' stamp: 'len 11/28/2016 09:27:34'!
+copy
+	^ self class associations: (associations collect: [:each| each copy]) over: scalars! !
+
+!MonomialIndexedTuple methodsFor: 'operations' stamp: 'len 11/29/2016 09:30:44'!
+dividedByMonomial: aMonomial
+	"The monomial ordering is preserved by this operation."
+	^ self class associations: (associations collect: [:each| each key / aMonomial -> each value]) over: scalars! !
+
+!MonomialIndexedTuple methodsFor: 'enumerating' stamp: 'len 11/20/2016 17:14:49'!
+do: aBlock
+	self associationsDo: [:each| aBlock value: each value]! !
+
+!MonomialIndexedTuple methodsFor: 'operations' stamp: 'len 11/29/2016 09:30:09'!
+dot: aMonomialTuple
+	| answer |
+	self flag: #fix. "optimize"
+	self size <= aMonomialTuple size ifFalse: [^ aMonomialTuple dot: self].
+	answer _ scalars zero.
+	associations do: [:each| aMonomialTuple at: each key ifPresent: [:value2| answer _ answer + (each value*value2)]].
+	^ answer! !
+
+!MonomialIndexedTuple methodsFor: 'comparing' stamp: 'len 11/21/2016 09:18:00'!
+hash
+	^ associations hash! !
+
+!MonomialIndexedTuple methodsFor: 'testing' stamp: 'len 11/26/2016 07:38:01'!
+isZero
+	^ associations isEmpty! !
+
+!MonomialIndexedTuple methodsFor: 'enumerating' stamp: 'len 11/26/2016 07:40:36'!
+keysAndValuesDo: aBlock
+	associations do: [:each| aBlock value: each key value: each value]! !
+
+!MonomialIndexedTuple methodsFor: 'enumerating' stamp: 'len 11/26/2016 07:40:24'!
+keysDo: aBlock
+	associations do: [:each| aBlock value: each key]! !
+
+!MonomialIndexedTuple methodsFor: 'accessing' stamp: 'len 11/28/2016 18:51:33'!
+lastKey
+	^ associations isEmpty ifFalse: [associations last key]! !
+
+!MonomialIndexedTuple methodsFor: 'accessing' stamp: 'len 1/25/2017 18:06:36'!
+lastValue
+	^ associations isEmpty ifFalse: [associations last value]! !
+
+!MonomialIndexedTuple methodsFor: 'operations' stamp: 'len 11/29/2016 09:30:48'!
+multipliedByMonomial: aMonomial
+	"The monomial ordering is preserved by this operation."
+	^ self class associations: (associations collect: [:each| each key * aMonomial -> each value]) over: scalars! !
+
+!MonomialIndexedTuple methodsFor: 'operations' stamp: 'len 11/20/2016 17:05:41'!
+negated
+	^ self class associations: (associations collect: [:each| each copy value: each value negated]) over: scalars! !
+
+!MonomialIndexedTuple methodsFor: 'converting' stamp: 'len 1/20/2017 09:34:47'!
+over: aRing
+	| newAssociations |
+	self scalars = aRing ifTrue: [^ self].
+	newAssociations _ OrderedCollection new: associations size.
+	associations do: [:each| | newValue |
+		(newValue _ aRing !! each value) isZero
+			ifFalse: [newAssociations add: (each copy value: newValue)]].
+	^ self class associations: newAssociations over: aRing! !
+
+!MonomialIndexedTuple methodsFor: 'printing' stamp: 'len 2/25/2017 09:44:26'!
+printCoefficient: coefficient on: aStream
+	| c |
+	((c _ coefficient) printString first = $- "or: [coefficient isNumber and: [coefficient negative]]")
+		ifTrue: [aStream nextPut: $-. c _ c negated].
+	((c isKindOf: Polynomial) and: [c isMonomial])
+		ifTrue: [aStream print: c. ^ self].
+	(c printString allSatisfy: [:each| each isAlphaNumeric or: ['{}()/' includes: each]])
+		ifTrue: [aStream print: c. ^ self].
+	aStream nextPut: $(; print: c; nextPut: $)! !
+
+!MonomialIndexedTuple methodsFor: 'printing' stamp: 'len 2/25/2017 08:48:39'!
+printOn2: aStream
+	aStream nextPut: $(.
+	associations do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: ', '].
+	aStream nextPut: $)! !
+
+!MonomialIndexedTuple methodsFor: 'printing' stamp: 'len 2/25/2017 08:53:10'!
+printOn: aStream
+	| c |
+	self isZero ifTrue: [aStream nextPutAll: '0'. ^ self].
+	c _ associations last value.
+	c printString first = $-
+		ifTrue: [c _ c negated. aStream nextPut: $-].
+	c ~= scalars one ifTrue: [self printCoefficient: c on: aStream].
+	associations last key isIdentity
+		ifFalse: [aStream print: associations last key].
+	associations allButLast reverseDo: [:each|
+		c _ each value.
+		c printString first = $-
+			ifTrue: [aStream nextPutAll: ' - '. c _ c negated]
+			ifFalse: [aStream nextPutAll: ' + '].
+		c ~= c one ifTrue: [self printCoefficient: c on: aStream].
+		each key isIdentity
+			ifFalse: [aStream print: each key]]! !
+
+!MonomialIndexedTuple methodsFor: 'accessing' stamp: 'len 11/20/2016 10:26:33'!
+scalars
+	^ scalars! !
+
+!MonomialIndexedTuple methodsFor: 'accessing-private' stamp: 'len 11/20/2016 10:26:40'!
+scalars: aRing
+	scalars _ aRing! !
+
+!MonomialIndexedTuple methodsFor: 'accessing' stamp: 'len 11/21/2016 08:55:19'!
+size
+	^ associations size! !
+
+!MonomialIndexedTuple methodsFor: 'private' stamp: 'len 11/29/2016 09:52:21'!
+sum: someAssociations with: otherAssociations into: newAssociations
+	| stream1 stream2 |
+	stream1 _ someAssociations readStream.
+	stream2 _ otherAssociations readStream.
+	[stream1 atEnd or: [stream2 atEnd]]
+		whileFalse:
+			[| cmp |
+			cmp _ stream1 peek key compare: stream2 peek key.
+			cmp < 0
+				ifTrue: [newAssociations add: stream1 next copy]
+				ifFalse: [cmp > 0
+					ifTrue: [newAssociations add: stream2 next copy]
+					ifFalse:
+						[| a b newValue |
+						a _ stream1 next.
+						b _ stream2 next.
+						(newValue _ a value + b value) isZero
+							ifFalse: [newAssociations add: (a copy value: newValue)]]]].
+	[stream1 atEnd] whileFalse: [newAssociations add: stream1 next copy].
+	[stream2 atEnd] whileFalse: [newAssociations add: stream2 next copy].
+	^ newAssociations! !
+
+!MonomialIndexedTuple class methodsFor: 'instance creation' stamp: 'len 11/20/2016 16:51:57'!
+associations: aCollection over: aRing
+	^ self basicNew scalars: aRing; associations: aCollection! !
+
+!MonomialIndexedTuple class methodsFor: 'instance creation' stamp: 'len 11/20/2016 17:06:55'!
+new: anInteger over: aRing
+	^ self basicNew scalars: aRing; associations: (OrderedCollection new: anInteger)! !
+
+!MonomialIndexedTuple class methodsFor: 'instance creation' stamp: 'len 11/20/2016 16:52:13'!
+over: aRing
+	^ self basicNew scalars: aRing; associations: OrderedCollection new! !
 
 !CompositeGraphMorph methodsFor: 'as yet unclassified' stamp: 'len 7/30/2016 07:36'!
 addComponent: aGraphMorph
@@ -17947,10 +17973,11 @@ fractions
 freeAlgebra
 	^ FreeAlgebra over: self! !
 
-!Ring methodsFor: 'operations' stamp: 'len 6/30/2016 02:27'!
-freeAlgebraIn: aCollection
+!Ring methodsFor: 'operations' stamp: 'len 12/20/2017 22:42:12'!
+freeAlgebraIn: anIntegerOrCollection
 	"Answer the free algebra in the given indeterminates over the receiver."
-	^ FreeAlgebra on: aCollection over: self! !
+	anIntegerOrCollection isInteger ifTrue: [^ FreeAlgebra new: anIntegerOrCollection over: self].
+	^ FreeAlgebra on: anIntegerOrCollection over: self! !
 
 !Ring methodsFor: 'operations' stamp: 'len 2/28/2017 08:35:22'!
 freeModuleIn: aCollection
@@ -20098,28 +20125,28 @@ zero
 new: anInteger over: aRing
 	^ self new degree: anInteger; scalars: aRing! !
 
-!PolynomialRing methodsFor: 'elements' stamp: 'len 2/4/2017 09:26:33'!
-!! aPolynomial
-	| associations |
-	(aPolynomial isKindOf: Polynomial)
+!PolynomialRing methodsFor: 'elements' stamp: 'len 12/22/2017 19:11:18'!
+!! anObject
+	| f parts |
+	(anObject isKindOf: Polynomial)
 		ifFalse:
-			[aPolynomial isInteger ifTrue: [^ super !! aPolynomial].
-			(self scalars includes: aPolynomial) ifTrue: [^ self constant: aPolynomial].
-			^ self evaluating: aPolynomial].
-	(aPolynomial parent rank = self rank and: [aPolynomial parent scalars ~= self scalars])
-		ifTrue: [^ self coefficients: (aPolynomial coefficients over: self scalars)].
-	(aPolynomial indeterminates allSatisfy: [:each| each <= self rank])
+			[anObject isInteger ifTrue: [^ super !! anObject].
+			(self scalars includes: anObject) ifTrue: [^ self constant: anObject].
+			^ self evaluating: anObject].
+	f _ anObject.
+	f parent scalars = self scalars ifFalse: [f _ f over: self scalars].
+	(f indeterminates allSatisfy: [:each| each <= self rank])
 		ifFalse: [self error: 'unknown indeterminates are present'].
-	(aPolynomial isKindOf: UnivariatePolynomial)
+	(f isKindOf: UnivariatePolynomial)
 		ifTrue:
-			[self isUnivariate ifTrue: [^ self coefficients: aPolynomial coefficients].
-			associations _ OrderedCollection new: aPolynomial coefficients size.
-			aPolynomial coefficients withIndexDo: [:coefficient :i|
-				coefficient isZero ifFalse: [associations add: (monomials x: 1 to: i-1) -> coefficient]]]
+			[self isUnivariate ifTrue: [^ self coefficients: f coefficients].
+			parts _ OrderedCollection new: f coefficients size.
+			f coefficients withIndexDo: [:coefficient :i|
+				coefficient isZero ifFalse: [parts add: (monomials x: 1 to: i-1) -> coefficient]]]
 		ifFalse:
-			[associations _ aPolynomial coefficients associations collect: [:each| each copy key: (each key as: self monomials)]].
-	associations sort.
-	^ self coefficients: (MonomialIndexedTuple associations: associations over: self scalars)! !
+			[parts _ f parts collect: [:each| each copy key: (each key as: self monomials)]].
+	parts sort.
+	^ self parts: parts! !
 
 !PolynomialRing methodsFor: 'operations' stamp: 'len 2/18/2017 19:56:20'!
 * anElementOrArray
@@ -20277,19 +20304,19 @@ chebyshevOfOrder: n
 coefficient: aNumber degree: anInteger
 	^ self coefficients: (self scalars tuple: {aNumber}) >>> anInteger! !
 
-!PolynomialRing methodsFor: 'elements' stamp: 'len 11/26/2016 07:39:17'!
+!PolynomialRing methodsFor: 'elements' stamp: 'len 12/22/2017 19:18:07'!
 coefficient: aNumber monomial: aMonomial
-	| coefficients |
-	self isUnivariate
-		ifFalse:
-			[coefficients _ MonomialIndexedTuple over: self scalars.
-			coefficients at: aMonomial put: aNumber]
+	^ self isUnivariate
 		ifTrue:
-			[| n zero |
+			[| n zero coefficients |
 			n _ aMonomial degree + 1.
 			zero _ aNumber zero.
-			coefficients _ self scalars tuple: n evaluating: [:i| i=n ifTrue: [aNumber] ifFalse: [zero]]].
-	^ (self polynomialClass coefficients: coefficients) parent: self! !
+			coefficients _ self scalars tuple: n evaluating: [:i| i=n ifTrue: [aNumber] ifFalse: [zero]].
+			(UnivariatePolynomial coefficients: coefficients) parent: self]
+		ifFalse:
+			[| parts |
+			parts _ aNumber isZero ifTrue: [OrderedCollection new] ifFalse: [OrderedCollection with: aMonomial -> aNumber].
+			(MultivariatePolynomial parts: parts) parent: self]! !
 
 !PolynomialRing methodsFor: 'elements' stamp: 'len 2/27/2017 07:42:04'!
 coefficient: aNumber x: anIndeterminate to: anInteger
@@ -20299,20 +20326,14 @@ coefficient: aNumber x: anIndeterminate to: anInteger
 		ifFalse: [self names indexOf: anIndeterminate ifAbsent: [^ self error: 'unknown indeterminate']].
 	^ self coefficient: aNumber monomial: (monomials x: i to: anInteger)! !
 
-!PolynomialRing methodsFor: 'elements' stamp: 'len 2/6/2017 05:36:23'!
+!PolynomialRing methodsFor: 'elements' stamp: 'len 12/22/2017 18:57:03'!
 coefficients: aTuple
-	| tuple |
-	self isUnivariate ifFalse: [^ (Polynomial coefficients: aTuple) parent: self].
-	tuple _ aTuple class = self scalars tupleClass
+	| coefficients |
+	self isUnivariate ifFalse: [^ self error: 'not univariate ring'].
+	coefficients _ aTuple class = self scalars tupleClass
 		ifTrue: [aTuple]
-		ifFalse: [(aTuple isKindOf: MonomialIndexedTuple)
-			ifTrue:
-				[| n |
-				n _ 0.
-				aTuple keysDo: [:each| n _ n max: each degree].
-				self scalars tuple: n+1 evaluating: [:i| aTuple at: (monomials x: 1 to: i-1)]]
-			ifFalse: [self scalars tuple: aTuple]].
-	^ (UnivariatePolynomial coefficients: tuple) parent: self! !
+		ifFalse: [self scalars tuple: aTuple].
+	^ (UnivariatePolynomial coefficients: coefficients) parent: self! !
 
 !PolynomialRing methodsFor: 'operations' stamp: 'len 10/28/2016 11:10'!
 completion
@@ -20451,10 +20472,10 @@ from: aDomain
 generators
 	^ (1 to: self rank) collect: [:i| self x: i]! !
 
-!PolynomialRing methodsFor: 'operations' stamp: 'len 10/27/2016 17:25'!
+!PolynomialRing methodsFor: 'operations' stamp: 'len 12/20/2017 16:45:44'!
 gradingAt: anInteger
 	"Answer the submodule of homogeneous polynomials of degree = anInteger."
-	^ HomogeneousPolynomialModule new polynomials: self; degree: anInteger! !
+	^ PolynomialGradingModule new polynomials: self; degree: anInteger! !
 
 !PolynomialRing methodsFor: 'accessing' stamp: 'len 10/27/2016 17:24'!
 gradings
@@ -20603,13 +20624,6 @@ names: aCollection
 	"Set indeterminate names to use when printing polynomials."
 	monomials names: aCollection! !
 
-!PolynomialRing methodsFor: 'elements' stamp: 'len 2/6/2017 05:36:40'!
-new
-	^ (self isUnivariate
-		ifTrue: [UnivariatePolynomial coefficients: (self scalars tuple: #())]
-		ifFalse: [Polynomial coefficients: (MonomialIndexedTuple over: self scalars)])
-			parent: self! !
-
 !PolynomialRing methodsFor: 'elements' stamp: 'len 1/22/2017 20:42:36'!
 one
 	^ self propertyAt: #one ifAbsentPut: [self constant: self scalars one]! !
@@ -20630,9 +20644,17 @@ ordering: aMonomialOrdering
 over: aRing
 	^ self copy scalars: aRing! !
 
-!PolynomialRing methodsFor: 'private' stamp: 'len 2/6/2017 05:36:54'!
-polynomialClass
-	^ self propertyAt: #polynomialClass ifAbsent: [self isUnivariate ifTrue: [UnivariatePolynomial] ifFalse: [Polynomial]]! !
+!PolynomialRing methodsFor: 'elements' stamp: 'len 12/24/2017 20:39:05'!
+parts: aCollection
+	self isUnivariate
+		ifTrue:
+			[| n coefficients |
+			n _ 0.
+			aCollection do: [:each| n _ n max: each key degree].
+			coefficients _ self scalars zeroTuple: n+1.
+			aCollection do: [:each| coefficients at: each key degree + 1 put: each value].
+			^ self coefficients: coefficients].
+	^ (MultivariatePolynomial parts: aCollection) parent: self! !
 
 !PolynomialRing methodsFor: 'printing' stamp: 'len 1/2/2017 10:23:51'!
 printIndeterminatesOn: aStream
@@ -22873,17 +22895,16 @@ e: anInteger
 evaluating: aBlock
 	^ LinearForm from: domain to: codomain evaluating: aBlock! !
 
-!DualModule methodsFor: 'morphisms' stamp: 'len 10/17/2016 16:43'!
-map
-	"Answer the natural isomorphism from the vector space to the dual.
-	See LinearForm>>#asVector."
-	self flag: #fix. "this is not natural"
-	^ LinearMap from: domain to: self evaluating: [:v| self elementAt: (domain coordinatesOf: v)]! !
-
 !DualModule methodsFor: 'converting' stamp: 'len 12/18/2016 12:45:17'!
 over: aRing
 	"Answer the change of base ring of the receiver."
 	^ self class from: (self domain over: aRing)! !
+
+!DualModule methodsFor: 'morphisms' stamp: 'len 12/23/2017 18:21:26'!
+pairing
+	"Answer the natural pairing."
+	self notYetImplemented
+"	^ self propertyAt: #pairing ifAbsentPut: [BilinearMap from: (self, self domain) evaluating: [:each| each first value: each second]]"! !
 
 !DualModule methodsFor: 'elements' stamp: 'len 6/1/2016 06:08'!
 x
@@ -23503,36 +23524,6 @@ zero
 new: dimension over: aDomain
 	^ self new numberOfRows: dimension x columns: dimension y; scalars: aDomain! !
 
-!HomogeneousPolynomialModule methodsFor: 'basis' stamp: 'len 12/31/2016 10:30:59'!
-coordinatesOf: aPolynomial
-	^ self scalars tuple: (self basis collect: [:each| aPolynomial coefficientAt: each])! !
-
-!HomogeneousPolynomialModule methodsFor: 'basis' stamp: 'len 6/24/2016 05:51'!
-e: anInteger
-	^ self ordering e: anInteger degree: degree! !
-
-!HomogeneousPolynomialModule methodsFor: 'testing' stamp: 'len 12/13/2017 21:51:11'!
-includes: anObject
-	^ (polynomials includes: anObject) and: [anObject isHomogeneous and: [anObject degree = degree]]! !
-
-!HomogeneousPolynomialModule methodsFor: 'accessing' stamp: 'len 6/24/2016 05:51'!
-ordering
-	^ polynomials ordering! !
-
-!HomogeneousPolynomialModule methodsFor: 'printing' stamp: 'len 7/6/2016 08:39'!
-printOn: aStream
-	aStream print: polynomials; nextPutAll: degree printString sub! !
-
-!HomogeneousPolynomialModule methodsFor: 'basis' stamp: 'len 10/14/2016 20:05'!
-rank
-	| n |
-	n _ polynomials rank.
-	^ degree + n - 1 choose: degree! !
-
-!HomogeneousPolynomialModule methodsFor: 'accessing' stamp: 'len 1/19/2017 09:21:59'!
-scalars
-	^ polynomials scalars! !
-
 !PolynomialFiltrationModule methodsFor: 'basis' stamp: 'len 4/12/2016 08:08'!
 coordinatesOf: aPolynomial
 	| coefficients |
@@ -23580,6 +23571,36 @@ rank
 	^ degree + 1! !
 
 !PolynomialFiltrationModule methodsFor: 'accessing' stamp: 'len 4/6/2016 07:04'!
+scalars
+	^ polynomials scalars! !
+
+!PolynomialGradingModule methodsFor: 'basis' stamp: 'len 12/31/2016 10:30:59'!
+coordinatesOf: aPolynomial
+	^ self scalars tuple: (self basis collect: [:each| aPolynomial coefficientAt: each])! !
+
+!PolynomialGradingModule methodsFor: 'basis' stamp: 'len 6/24/2016 05:51'!
+e: anInteger
+	^ self ordering e: anInteger degree: degree! !
+
+!PolynomialGradingModule methodsFor: 'testing' stamp: 'len 12/13/2017 21:51:11'!
+includes: anObject
+	^ (polynomials includes: anObject) and: [anObject isHomogeneous and: [anObject degree = degree]]! !
+
+!PolynomialGradingModule methodsFor: 'accessing' stamp: 'len 6/24/2016 05:51'!
+ordering
+	^ polynomials ordering! !
+
+!PolynomialGradingModule methodsFor: 'printing' stamp: 'len 7/6/2016 08:39'!
+printOn: aStream
+	aStream print: polynomials; nextPutAll: degree printString sub! !
+
+!PolynomialGradingModule methodsFor: 'basis' stamp: 'len 10/14/2016 20:05'!
+rank
+	| n |
+	n _ polynomials rank.
+	^ degree + n - 1 choose: degree! !
+
+!PolynomialGradingModule methodsFor: 'accessing' stamp: 'len 1/19/2017 09:21:59'!
 scalars
 	^ polynomials scalars! !
 
@@ -28000,6 +28021,11 @@ asRationalMap
 	polynomials _ ((self class from: self domain to: self codomain evaluating: self) matrix over: P) * (P tuple: P rank evaluating: [:i| P x: i]).
 	^ RationalMap from: P spec to: self codomain coordinateRing spec polynomials: polynomials asArray! !
 
+!LinearMap methodsFor: 'converting' stamp: 'len 12/23/2017 20:18:07'!
+asTensor
+	"Answer the receiver as a tensor. Linear maps are 1-covariant 1-contravariant objects, or type (1, 1) tensors."
+	^ self notYetImplemented! !
+
 !LinearMap methodsFor: 'accessing' stamp: 'len 2/8/2016 23:58'!
 automorphism
 	"Answer the field automorphism associated with the receiver, looking at the receiver as a semilinear transformation. This is the identity automorphism."
@@ -28397,6 +28423,11 @@ asPolynomial
 asQuadraticForm
 	"Answer the associated quadratic form."
 	^ QuadraticForm from: basis matrix: matrix! !
+
+!BilinearForm methodsFor: 'converting' stamp: 'len 12/23/2017 20:20:49'!
+asTensorLinearMap
+	"Bilinear forms on V are in 1-to-1 correspondence with linear maps from V tensor V to the base field K."
+	^ self notYetImplemented! !
 
 !BilinearForm methodsFor: 'accessing' stamp: 'len 1/8/2016 05:22'!
 basis
@@ -32734,9 +32765,9 @@ sqrt: anIntegerOrFraction
 /// aNumber
 	^ self collect: [:each| each /// aNumber]! !
 
-!FormalSum methodsFor: 'comparing' stamp: 'len 11/18/2016 20:11:33'!
-= aSparseTuple
-	^ coefficients = aSparseTuple coefficients! !
+!FormalSum methodsFor: 'comparing' stamp: 'len 12/21/2017 17:55:47'!
+= aFormalSum
+	^ coefficients = aFormalSum coefficients! !
 
 !FormalSum methodsFor: 'operations' stamp: 'len 2/6/2017 03:15:23'!
 \\ aNumber
@@ -37070,73 +37101,59 @@ trevlex: aCollection
 	weights addAll: (self revlex: aCollection) weights.
 	^ self new: aCollection size weights: weights! !
 
-!Polynomial methodsFor: 'arithmetic' stamp: 'len 1/23/2017 11:37:27'!
+!Polynomial methodsFor: 'arithmetic' stamp: 'len 12/24/2017 19:37:14'!
 % anInteger
-	^ (self parent over: (self scalars % anInteger)) coefficients: self coefficients % anInteger! !
+	^ self apply: (self scalars % anInteger) projection! !
 
-!Polynomial methodsFor: 'arithmetic' stamp: 'len 1/23/2017 11:37:39'!
+!Polynomial methodsFor: 'arithmetic' stamp: 'len 12/24/2017 19:35:10'!
 * anObject
 	(anObject isInteger or: [self scalars includes: anObject])
-		ifTrue: [^ self parent coefficients: self coefficients * anObject].
+		ifTrue: [^ self multipliedByScalar: anObject].
 	(self parent includes: anObject)
-		ifTrue: [^ self parent coefficients: (self coefficients convolution: anObject coefficients)].
+		ifTrue: [^ self multipliedByPolynomial: anObject].
 	(anObject isKindOf: Monomial)
 		ifTrue: [^ self multipliedByMonomial: anObject].
 	((anObject isKindOf: Polynomial) and: [anObject scalars includes: self])
 		ifTrue: [^ anObject * self].
 	^ DomainError signal! !
 
-!Polynomial methodsFor: 'arithmetic' stamp: 'len 1/23/2017 11:37:51'!
-+ anObject
-	(self parent includes: anObject)
-		ifTrue: [^ self parent coefficients: self coefficients + anObject coefficients].
-	((self scalars includes: anObject) or: [anObject isInteger])
-		ifTrue: [^ self + (self one * anObject)].
-	^ DomainError signal! !
-
-!Polynomial methodsFor: 'arithmetic' stamp: 'len 1/23/2017 11:37:59'!
+!Polynomial methodsFor: 'arithmetic' stamp: 'len 12/22/2017 18:09:24'!
 - anObject
-	(self parent includes: anObject)
-		ifTrue: [^ self parent coefficients: self coefficients - anObject coefficients].
 	^ self + anObject negated! !
 
-!Polynomial methodsFor: 'arithmetic' stamp: 'len 2/6/2017 04:38:30'!
+!Polynomial methodsFor: 'arithmetic' stamp: 'len 12/22/2017 18:12:20'!
 / anObject
 	(anObject isKindOf: Monomial)
 		ifTrue: [^ self dividedByMonomial: anObject].
 	(self parent includes: anObject)
 		ifTrue: [^ (RationalFunction numerator: self denominator: anObject) reduced].
 	(self scalars includes: anObject)
-		ifTrue: [^ self parent coefficients: self coefficients / anObject].
+		ifTrue: [^ self dividedByScalar: anObject].
 	^ self * anObject reciprocal! !
 
-!Polynomial methodsFor: 'arithmetic' stamp: 'len 1/23/2017 11:38:11'!
+!Polynomial methodsFor: 'arithmetic' stamp: 'len 12/24/2017 19:48:55'!
 // anObject
 	"Answer the quotient of the division of the receiver by the argument."
 
 	(self scalars includes: anObject)
-		ifTrue: [^ self parent coefficients: self coefficients // anObject].
+		ifTrue: [^ self apply: [:each| each // anObject]].
 	^ (self divideBy: anObject) quotient! !
 
-!Polynomial methodsFor: 'arithmetic' stamp: 'len 1/23/2017 11:38:17'!
+!Polynomial methodsFor: 'arithmetic' stamp: 'len 12/24/2017 19:49:16'!
 /// anObject
 	"Answer the exact quotient of the division of the receiver by the argument."
 	(anObject isKindOf: Monomial)
 		ifTrue: [^ self dividedByMonomial: anObject].
 	(self scalars includes: anObject)
-		ifTrue: [^ self parent coefficients: self coefficients /// anObject].
-	^ self exactDivideBy: anObject! !
+		ifTrue: [^ self apply: [:each| each /// anObject]].
+	^ self exactlyDividedBy: anObject! !
 
-!Polynomial methodsFor: 'comparing' stamp: 'len 1/23/2017 11:38:26'!
-= anObject
-	^ self parent = anObject parent and: [self coefficients = anObject coefficients]! !
-
-!Polynomial methodsFor: 'arithmetic' stamp: 'len 1/23/2017 11:38:30'!
+!Polynomial methodsFor: 'arithmetic' stamp: 'len 12/24/2017 19:49:34'!
 \\ anObject
 	"Answer the remainder of the division of the receiver by the argument."
 
 	(self scalars includes: anObject)
-		ifTrue: [^ self parent coefficients: self coefficients \\ anObject].
+		ifTrue: [^ self apply: [:each| each \\ anObject]].
 	^ (self divideBy: anObject) remainder! !
 
 !Polynomial methodsFor: 'arithmetic' stamp: 'len 1/22/2017 08:17:24'!
@@ -37169,15 +37186,6 @@ adaptToNumber: rcvr andSend: selector
 	"If I am involved in arithmetic with a Number, convert it to a Polynomial."
 	^ (self parent constant: rcvr) perform: selector with: self! !
 
-!Polynomial methodsFor: 'operations' stamp: 'len 1/23/2017 11:39:10'!
-apply: aMorphism
-	"Answer a new polynomial with coefficients obtainted by applying aMorphism to the coefficients of the receiver. This morphism is a ring homomorphism from the scalars ring.
-	If aMorphism is a block we assume the parent doesn't change, i.e. the block must evaluate to values within the scalars ring of the receiver."
-
-	aMorphism isBlock
-		ifTrue: [^ self parent coefficients: (self coefficients collect: aMorphism)].
-	^ (self parent over: aMorphism codomain) coefficients: (self coefficients apply: aMorphism)! !
-
 !Polynomial methodsFor: 'converting' stamp: 'len 1/23/2017 11:39:20'!
 asBilinearForm
 	(self degree = 2 and: [self isHomogeneous]) ifFalse: [^ self error: 'not homogeneous of degree 2'].
@@ -37194,7 +37202,7 @@ asLinearForm
 	self isLinear ifFalse: [^ self error: 'not a linear polynomial'].
 	^ (self scalars ^ self parent rank) dual evaluating: self! !
 
-!Polynomial methodsFor: 'converting' stamp: 'len 3/6/2017 16:52:23'!
+!Polynomial methodsFor: 'converting' stamp: 'len 12/24/2017 20:17:43'!
 asMultivariate
 	"Convert a polynomial in R[x][y][z] to a polynomial in R[x,y,z]."
 	| R S answer |
@@ -37202,17 +37210,16 @@ asMultivariate
 	self parent isUnivariate ifFalse: [^ self].
 	S _ self parent asMultivariate.
 	answer _ S zero.
-	self monomialsAndCoefficientsDo: [:key :value|
-		answer _ answer + ((value as: S) * (S x: R rank + 1 to: key degree))].
+	self partsDo: [:each|
+		answer _ answer + ((each value as: S) * (S x: R rank + 1 to: each key degree))].
 	^ answer! !
 
-!Polynomial methodsFor: 'converting' stamp: 'len 1/23/2017 11:39:44'!
+!Polynomial methodsFor: 'converting' stamp: 'len 12/21/2017 20:09:56'!
 asScalar
 	self isConstant ifFalse: [^ self error: 'not a constant polynomial'].
-	self coefficients do: [:each| each isZero ifFalse: [^ each]].
-	^ self parent scalars zero! !
+	^ self leadingCoefficient! !
 
-!Polynomial methodsFor: 'converting' stamp: 'len 1/23/2017 11:40:27'!
+!Polynomial methodsFor: 'converting' stamp: 'len 12/24/2017 20:18:11'!
 asUnivariate
 	"Answer the receiver as univariate in the last indeterminate, e.g. go from R[x,y,z] to R[x,y][z]."
 	| term n d newCoefficients newParent |
@@ -37223,9 +37230,9 @@ asUnivariate
 		ifTrue: [^ newParent constant: (self as: newParent scalars)].
 	newCoefficients _ Array new: d+1.
 	newCoefficients atAllPut: newParent scalars zero.
-	self monomialsAndCoefficientsDo: [:key :value|
-		term _ newParent scalars coefficient: value monomial: ((key without: n) as: newParent scalars monomials).
-		newCoefficients at: (key degreeIn: n)+1 add: term].
+	self partsDo: [:each|
+		term _ newParent scalars coefficient: each value monomial: ((each key without: n) as: newParent scalars monomials).
+		newCoefficients at: (each key degreeIn: n)+1 add: term].
 	^ newParent coefficients: newCoefficients! !
 
 !Polynomial methodsFor: 'converting' stamp: 'len 1/23/2017 11:40:38'!
@@ -37235,10 +37242,6 @@ asUnivariateIn: anIndeterminate
 	anIndeterminate = self parent rank ifFalse: [self error: 'bad indeterminate'].
 	^ self asUnivariate! !
 
-!Polynomial methodsFor: 'accessing' stamp: 'len 3/1/2016 16:01'!
-bitSize
-	^ self coefficients bitSize! !
-
 !Polynomial methodsFor: 'accessing indeterminates' stamp: 'len 1/23/2017 11:40:53'!
 classIndeterminate
 	"Answer the 'class' of the polynomial, i.e. the index of the last indeterminate present in the receiver."
@@ -37246,27 +37249,15 @@ classIndeterminate
 	self parent rank to: 1 by: -1 do: [:i| (self has: i) ifTrue: [^ i]].
 	^ 0! !
 
-!Polynomial methodsFor: 'accessing coefficients' stamp: 'len 2/22/2017 09:33:22'!
-coefficientAt: aMonomial
-	"Answer the coefficient of the monomial given by the argument."
-	^ coefficients at: aMonomial! !
-
-!Polynomial methodsFor: 'accessing coefficients' stamp: 'len 2/6/2017 05:38:21'!
-coefficientAt: aMonomial put: value
-	^ coefficients at: aMonomial put: value! !
-
 !Polynomial methodsFor: 'accessing coefficients' stamp: 'len 1/23/2017 11:40:57'!
 coefficientAtDegree: anInteger
 	"Answer the coefficient of the degree given by the argument. For univiariate polynomials."
 	^ self coefficientAt: (self parent monomials x: self leadingIndeterminate to: anInteger)! !
 
-!Polynomial methodsFor: 'accessing coefficients' stamp: 'len 2/6/2017 05:38:27'!
+!Polynomial methodsFor: 'accessing coefficients' stamp: 'len 12/21/2017 22:02:18'!
 coefficients
-	^ coefficients! !
-
-!Polynomial methodsFor: 'accessing-private' stamp: 'len 2/6/2017 05:38:40'!
-coefficients: aMonomialIndexedTuple
-	coefficients _ aMonomialIndexedTuple! !
+	"Answer the collection of non-zero coefficients of this polynomial (with repetitions)."
+	^ Iterator on: self performing: #coefficientsDo:! !
 
 !Polynomial methodsFor: 'factorization' stamp: 'len 11/28/2016 09:15:07'!
 content
@@ -37286,10 +37277,6 @@ content
 	answer _ self scalars zero.
 	self coefficients do: [:each| answer _ answer gcd: each].
 	^ answer! !
-
-!Polynomial methodsFor: 'copying' stamp: 'len 1/23/2017 11:41:01'!
-copy
-	^ self parent coefficients: self coefficients copy! !
 
 !Polynomial methodsFor: 'accessing monomials' stamp: 'len 1/24/2017 12:04:29'!
 degree
@@ -37323,15 +37310,15 @@ derivative: n in: anIndeterminate
 	n timesRepeat: [answer _ answer derivativeIn: anIndeterminate].
 	^ answer! !
 
-!Polynomial methodsFor: 'operations' stamp: 'len 2/6/2017 05:39:51'!
+!Polynomial methodsFor: 'operations' stamp: 'len 12/24/2017 20:16:14'!
 derivativeIn: anIndeterminate
 	| answer |
-	answer _ self parent new.
-	self monomialsAndCoefficientsDo: [:key :value| | degree |
-		degree _ key degreeIn: anIndeterminate.
+	answer _ self parent zero.
+	self partsDo: [:each| | degree |
+		degree _ each key degreeIn: anIndeterminate.
 		degree > 0
 			ifTrue:
-				[answer coefficientAt: (key parent exponents: (key exponents copy at: anIndeterminate put: degree - 1; yourself)) put: value * degree]].
+				[answer _ answer + (self parent coefficient: each value * degree monomial: (each key parent exponents: (each key exponents copy at: anIndeterminate put: degree - 1; yourself)))]].
 	^ answer! !
 
 !Polynomial methodsFor: 'arithmetic' stamp: 'len 11/20/2016 15:24:53'!
@@ -37342,10 +37329,6 @@ divideBy: aPolynomial
 	^ (self isUnivariate and: [aPolynomial isUnivariate])
 		ifTrue: [PolynomialDivision divide: self by: aPolynomial]
 		ifFalse: [MultiPolynomialDivision divide: self by: {aPolynomial}]! !
-
-!Polynomial methodsFor: 'arithmetic' stamp: 'len 2/6/2017 05:40:15'!
-dividedByMonomial: aMonomial
-	^ self parent coefficients: (self coefficients dividedByMonomial: aMonomial)! !
 
 !Polynomial methodsFor: 'accessing monomials' stamp: 'len 1/25/2017 07:32:35'!
 ecart
@@ -37367,14 +37350,14 @@ eprs: aPolynomial
 			r _ f0 pseudoRem: f1].
 	^ answer! !
 
-!Polynomial methodsFor: 'arithmetic' stamp: 'len 2/6/2017 07:48:18'!
-exactDivideBy: aPolynomial
+!Polynomial methodsFor: 'arithmetic' stamp: 'len 12/22/2017 18:29:56'!
+exactlyDividedBy: aPolynomial
 	"Answer the exact division of the receiver by the argument."
 
 	self isZero
 		ifTrue: [^ self].
 	aPolynomial isConstant
-		ifTrue: [^ self parent coefficients: self coefficients / aPolynomial leadingCoefficient].
+		ifTrue: [^ self dividedByScalar: aPolynomial leadingCoefficient].
 	(self isUnivariate and: [aPolynomial isUnivariate])
 		ifFalse: [^ (MultiPolynomialDivision divide: self by: {aPolynomial}) exactQuotient].
 	self scalars isField
@@ -37434,10 +37417,6 @@ has: anIndeterminate
 	"Answer true if anIndeterminate is effectively present in the receiver."
 	^ self monomials anySatisfy: [:any| any has: anIndeterminate]! !
 
-!Polynomial methodsFor: 'comparing' stamp: 'len 3/22/2016 23:20'!
-hash
-	^ self coefficients hash! !
-
 !Polynomial methodsFor: 'operations' stamp: 'len 1/23/2017 11:41:49'!
 hessian
 	"Answer the Hessian matrix of the receiver."
@@ -37471,7 +37450,7 @@ indeterminates
 	"Answer the indeterminates effectively present in this polynomial."
 	^ self parent indeterminates select: [:each| self has: each]! !
 
-!Polynomial methodsFor: 'factorization' stamp: 'len 3/1/2016 19:22'!
+!Polynomial methodsFor: 'factorization' stamp: 'len 12/21/2017 21:56:17'!
 integerContent
 	"Answer the integer content of the receiver.
 	NOTE: the receiver is a polynomial over the rational numbers."
@@ -37480,7 +37459,7 @@ integerContent
 	self isZero ifTrue: [^ self].
 	num _ self leadingCoefficient numerator.
 	den _ self leadingCoefficient denominator.
-	self coefficients do: [:each|
+	self coefficientsDo: [:each|
 		num _ num gcd: each numerator.
 		den _ den lcm: each denominator].
 	^ (num / den) abs! !
@@ -37637,10 +37616,6 @@ isUnivariateIn: anInteger
 	self monomialsDo: [:each| (each isUnivariateIn: anInteger) ifFalse: [^ false]].
 	^ true! !
 
-!Polynomial methodsFor: 'testing' stamp: 'len 3/22/2016 23:22'!
-isZero
-	^ self coefficients isZero! !
-
 !Polynomial methodsFor: 'arithmetic-private' stamp: 'len 12/22/2015 21:54'!
 karatsubaMultiplyBy: aPolynomial
 	"Ref: Zippel pp 119. O(n^1.56)"
@@ -37655,17 +37630,11 @@ karatsubaMultiplyBy: aPolynomial
 	f1g1 _ f1 * g1.
 	^ f0g0 << (2*h) + ((f1+f0)*(g1+g0) - f0g0 - f1g1 << h) + f1g1! !
 
-!Polynomial methodsFor: 'arithmetic' stamp: 'len 3/7/2016 07:01'!
+!Polynomial methodsFor: 'arithmetic' stamp: 'len 12/22/2017 18:30:56'!
 lcm: aPolynomial
 	"Answer the least common multiple of the receiver and aPolynomial."
 
-	^ (self exactDivideBy: (self gcd: aPolynomial)) * aPolynomial! !
-
-!Polynomial methodsFor: 'accessing coefficients' stamp: 'len 2/6/2017 05:41:19'!
-leadingCoefficient
-	^ coefficients lastValue ifNil: [self scalars zero]
-"
-	^ self isZero ifTrue: [self scalars zero] ifFalse: [self coefficientAt: self leadingMonomial]"! !
+	^ (self exactlyDividedBy: (self gcd: aPolynomial)) * aPolynomial! !
 
 !Polynomial methodsFor: 'accessing terms' stamp: 'len 2/7/2017 03:56:52'!
 leadingForm
@@ -37683,14 +37652,6 @@ leadingIndeterminate
 	indeterminates _ self ordering indeterminates.
 	indeterminates reverseDo: [:i| (self has: i) ifTrue: [^ i]].
 	^ indeterminates first! !
-
-!Polynomial methodsFor: 'accessing monomials' stamp: 'len 2/6/2017 05:40:51'!
-leadingMonomial
-	^ coefficients lastKey
-"
-	| answer |
-	self monomialsDo: [:each| (answer isNil or: [each > answer]) ifTrue: [answer _ each]].
-	^ answer"! !
 
 !Polynomial methodsFor: 'accessing terms' stamp: 'len 3/1/2016 22:11'!
 leadingTerm
@@ -37712,32 +37673,6 @@ monic
 monomials
 	"Answer the collection of monomials effectively present in this polynomial (with non-zero coefficient). This is called the 'support' of a polynomial."
 	^ Iterator on: self performing: #monomialsDo:! !
-
-!Polynomial methodsFor: 'enumerating' stamp: 'len 2/6/2017 05:41:45'!
-monomialsAndCoefficientsDo: aBlock
-	coefficients keysAndValuesDo: aBlock! !
-
-!Polynomial methodsFor: 'enumerating' stamp: 'len 2/6/2017 05:42:03'!
-monomialsApply: aBlock
-	| newCoefficients |
-	newCoefficients _ MonomialIndexedTuple new: coefficients size over: self scalars.
-	coefficients keysAndValuesDo: [:monomial :coefficient|
-		newCoefficients at: (aBlock value: monomial) add: coefficient].
-	^ self parent coefficients: newCoefficients! !
-
-!Polynomial methodsFor: 'enumerating' stamp: 'len 2/14/2017 10:00:10'!
-monomialsDo: aBlock
-	"Iterate over the support of the receiver, i.e. the monomials with non-zero coefficient."
-	coefficients keysDo: aBlock! !
-
-!Polynomial methodsFor: 'arithmetic' stamp: 'len 2/6/2017 05:42:33'!
-multipliedByMonomial: aMonomial
-	^ self parent coefficients: (self coefficients multipliedByMonomial: aMonomial)! !
-
-!Polynomial methodsFor: 'arithmetic' stamp: 'len 1/23/2017 11:42:56'!
-negated
-	"Answer the additive inverse of the receiver."
-	^ self parent coefficients: self coefficients negated! !
 
 !Polynomial methodsFor: 'operations' stamp: 'len 3/3/2016 01:01'!
 norm
@@ -37785,10 +37720,6 @@ ordering
 	"Answer the monomial ordering of the receiver."
 	^ self parent ordering! !
 
-!Polynomial methodsFor: 'converting' stamp: 'len 1/23/2017 11:30:20'!
-over: aRing
-	^ (self parent over: aRing) coefficients: (self coefficients over: aRing)! !
-
 !Polynomial methodsFor: 'accessing-private' stamp: 'len 10/6/2016 15:34'!
 parent
 	^ parent! !
@@ -37796,6 +37727,10 @@ parent
 !Polynomial methodsFor: 'accessing-private' stamp: 'len 10/6/2016 15:35'!
 parent: aPolynomialRing
 	parent _ aPolynomialRing! !
+
+!Polynomial methodsFor: 'accessing terms' stamp: 'len 12/24/2017 20:10:34'!
+parts
+	^ Iterator on: self performing: #partsDo:! !
 
 !Polynomial methodsFor: 'operations' stamp: 'len 2/8/2017 07:58:32'!
 permutedBy: aPermutation
@@ -38107,19 +38042,19 @@ support
 tail
 	^ self - self leadingTerm! !
 
-!Polynomial methodsFor: 'accessing terms' stamp: 'len 1/23/2017 11:43:44'!
+!Polynomial methodsFor: 'accessing terms' stamp: 'len 12/21/2017 18:25:51'!
 termAt: aMonomial
-	^ self parent coefficient: (self coefficientAt: aMonomial) monomial: aMonomial! !
+	^ self parent coefficient: (self at: aMonomial) monomial: aMonomial! !
 
 !Polynomial methodsFor: 'accessing terms' stamp: 'len 11/29/2016 11:49:38'!
 terms
 	^ Iterator on: self performing: #termsDo:! !
 
-!Polynomial methodsFor: 'enumerating' stamp: 'len 1/23/2017 11:43:49'!
+!Polynomial methodsFor: 'enumerating' stamp: 'len 12/24/2017 20:07:32'!
 termsDo: aBlock
-	self monomialsAndCoefficientsDo: [:monomial :coefficient| aBlock value: (self parent coefficient: coefficient monomial: monomial)]! !
+	self partsDo: [:each| aBlock value: (self parent coefficient: each value monomial: each key)]! !
 
-!Polynomial methodsFor: 'operations' stamp: 'len 1/23/2017 11:43:53'!
+!Polynomial methodsFor: 'operations' stamp: 'len 12/24/2017 20:19:38'!
 value: anObject
 	"Answer the value of the receiver at the argument. For multivariate polynomials, a Tuple or Array is expected."
 	| answer |
@@ -38128,8 +38063,10 @@ value: anObject
 	anObject size = self parent rank
 		ifFalse: [self error: 'the arity of the argument should match the number of indeterminates'].
 	answer _ (anObject at: 1) zero.
-	self monomialsAndCoefficientsDo: [:key :value|
-		answer _ (key isIdentity ifTrue: [value] ifFalse: [(key value: anObject) * value]) + answer].
+	self partsDo: [:each|
+		| monomial |
+		monomial _ each key.
+		answer _ (monomial isIdentity ifTrue: [each value] ifFalse: [(monomial value: anObject) * each value]) + answer].
 	^ answer! !
 
 !Polynomial methodsFor: 'operations' stamp: 'len 11/1/2016 18:40'!
@@ -38140,13 +38077,275 @@ valueWithArguments: anArray
 zero
 	^ self parent zero! !
 
-!Polynomial class methodsFor: 'instance creation' stamp: 'len 2/6/2017 05:43:11'!
-coefficients: aMonomialIndexedTuple
-	^ self basicNew coefficients: aMonomialIndexedTuple! !
-
 !Polynomial class methodsFor: 'instance creation' stamp: 'len 2/6/2017 05:43:55'!
 new
 	^ self shouldNotImplement! !
+
+!MultivariatePolynomial methodsFor: 'arithmetic' stamp: 'len 12/24/2017 19:51:18'!
++ anObject
+	(self parent includes: anObject)
+		ifTrue: [^ self addedWithPolynomial: anObject].
+	((self scalars includes: anObject) or: [anObject isInteger])
+		ifTrue: [^ self + (self one * anObject)].
+	^ DomainError signal! !
+
+!MultivariatePolynomial methodsFor: 'comparing' stamp: 'len 12/22/2017 17:51:27'!
+= aPolynomial
+	self == aPolynomial ifTrue: [^ true].
+	aPolynomial class = self class ifTrue: [^ parts = aPolynomial parts].
+	^ super = aPolynomial! !
+
+!MultivariatePolynomial methodsFor: 'arithmetic' stamp: 'len 12/24/2017 19:51:06'!
+addedWithPolynomial: aPolynomial
+	| newAssociations |
+	newAssociations _ OrderedCollection new: parts size + aPolynomial parts size.
+	newAssociations resetTo: 1.
+	self sum: parts with: aPolynomial parts into: newAssociations.
+	^ parent parts: newAssociations! !
+
+!MultivariatePolynomial methodsFor: 'operations' stamp: 'len 12/22/2017 17:50:37'!
+apply: aMorphism
+	"Answer a new polynomial with coefficients obtainted by applying aMorphism to the coefficients of the receiver. This morphism is a ring homomorphism from the scalars ring.
+	If aMorphism is a block we assume the parent doesn't change, i.e. the block must evaluate to values within the scalars ring of the receiver."
+
+	| newAssociations |
+	newAssociations _ OrderedCollection new: parts size.
+	parts do: [:each| | newValue |
+		(newValue _ aMorphism value: each value) isZero
+			ifFalse: [newAssociations add: (each copy value: newValue)]].
+	^ (aMorphism isBlock ifTrue: [parent] ifFalse: [parent over: aMorphism codomain]) parts: newAssociations! !
+
+!MultivariatePolynomial methodsFor: 'accessing coefficients' stamp: 'len 12/21/2017 17:44:27'!
+at: aMonomial
+	^ self at: aMonomial ifAbsent: [self scalars zero]! !
+
+!MultivariatePolynomial methodsFor: 'accessing-private' stamp: 'len 12/22/2017 17:47:53'!
+at: aMonomial add: aNumber
+	parts isEmpty ifTrue: [aNumber isZero ifFalse: [parts add: aMonomial -> aNumber]. ^ self].
+	parts
+		findBinaryIndex: [:each| (each key compare: aMonomial) negated]
+		do: [:index| | association newValue |
+			association _ parts at: index.
+			(newValue _ association value + aNumber) isZero
+				ifTrue: [parts removeIndex: index]
+				ifFalse: [association value: newValue "associations at: index put: aMonomial -> newValue"]]
+		ifNone: [:low :high| aNumber isZero ifFalse: [parts add: aMonomial -> aNumber beforeIndex: high]]! !
+
+!MultivariatePolynomial methodsFor: 'accessing-private' stamp: 'len 12/22/2017 17:51:33'!
+at: aMonomial ifAbsent: exceptionBlock
+	^ parts findBinary: [:each| (each key compare: aMonomial) negated] do: [:each| each value] ifNone: [:high :low| exceptionBlock value]! !
+
+!MultivariatePolynomial methodsFor: 'accessing-private' stamp: 'len 12/21/2017 17:44:14'!
+at: key ifPresent: presentBlock
+	"Lookup the given key in the receiver. If it is present, answer the value of evaluating the given block with the value associated with the key. Otherwise, answer nil."
+
+	| v |
+	v _ self at: key ifAbsent: [ ^ nil ].
+	^ presentBlock value: v! !
+
+!MultivariatePolynomial methodsFor: 'accessing-private' stamp: 'len 12/22/2017 17:49:08'!
+at: aMonomial put: aNumber
+	parts isEmpty ifTrue: [aNumber isZero ifFalse: [parts add: aMonomial -> aNumber]. ^ self].
+	parts
+		findBinaryIndex: [:each| (each key compare: aMonomial) negated]
+		do: [:index| aNumber isZero ifTrue: [parts removeIndex: index] ifFalse: [(parts at: index) value: aNumber]]
+		ifNone: [:low :high| aNumber isZero ifFalse: [parts add: aMonomial -> aNumber beforeIndex: high]].
+	^ aNumber! !
+
+!MultivariatePolynomial methodsFor: 'accessing' stamp: 'len 12/22/2017 17:51:19'!
+bitSize
+	self isZero ifTrue: [^ 0].
+	^ parts sum: [:each| each key bitSize + each value bitSize]! !
+
+!MultivariatePolynomial methodsFor: 'deprecated' stamp: 'len 12/21/2017 18:17:42'!
+coefficientAt: aMonomial
+	"Answer the coefficient of the monomial given by the argument."
+	^ self at: aMonomial! !
+
+!MultivariatePolynomial methodsFor: 'deprecated' stamp: 'len 12/21/2017 18:19:15'!
+coefficientAt: aMonomial put: value
+	^ self at: aMonomial put: value! !
+
+!MultivariatePolynomial methodsFor: 'enumerating' stamp: 'len 12/22/2017 17:51:42'!
+coefficientsDo: aBlock
+	parts do: [:each| aBlock value: each value]! !
+
+!MultivariatePolynomial methodsFor: 'copying' stamp: 'len 12/22/2017 17:50:59'!
+copy
+	^ parent parts: (parts collect: [:each| each copy])! !
+
+!MultivariatePolynomial methodsFor: 'arithmetic' stamp: 'len 12/22/2017 17:48:20'!
+dividedByMonomial: aMonomial
+	"The monomial ordering is preserved by this operation."
+	^ parent parts: (parts collect: [:each| each key / aMonomial -> each value])! !
+
+!MultivariatePolynomial methodsFor: 'arithmetic' stamp: 'len 12/22/2017 18:28:25'!
+dividedByScalar: aNumber
+	^ parent parts: (parts collect: [:each| each key -> (each value / aNumber)])! !
+
+!MultivariatePolynomial methodsFor: 'arithmetic' stamp: 'len 12/22/2017 18:30:15'!
+exactlyDividedBy: aPolynomial
+	"Answer the exact division of the receiver by the argument."
+
+	self isZero
+		ifTrue: [^ self].
+	aPolynomial isConstant
+		ifTrue: [^ self dividedByScalar: aPolynomial leadingCoefficient].
+	^ (MultiPolynomialDivision divide: self by: {aPolynomial}) exactQuotient! !
+
+!MultivariatePolynomial methodsFor: 'comparing' stamp: 'len 12/22/2017 17:51:38'!
+hash
+	^ parts hash! !
+
+!MultivariatePolynomial methodsFor: 'testing' stamp: 'len 12/22/2017 17:49:16'!
+isZero
+	^ parts isEmpty! !
+
+!MultivariatePolynomial methodsFor: 'accessing coefficients' stamp: 'len 12/22/2017 17:48:48'!
+leadingCoefficient
+	^ parts isEmpty ifTrue: [self scalars zero] ifFalse: [parts last value]
+	"^ self isZero ifTrue: [self scalars zero] ifFalse: [self at: self leadingMonomial]"! !
+
+!MultivariatePolynomial methodsFor: 'accessing monomials' stamp: 'len 12/22/2017 17:51:10'!
+leadingMonomial
+	^ parts isEmpty ifFalse: [parts last key]
+"
+	| answer |
+	self monomialsDo: [:each| (answer isNil or: [each > answer]) ifTrue: [answer _ each]].
+	^ answer"! !
+
+!MultivariatePolynomial methodsFor: 'enumerating' stamp: 'len 12/24/2017 20:32:45'!
+monomialsApply: aBlock
+	| dictionary newParts |
+	dictionary _ Dictionary new: parts size.
+	parts do: [:each|
+		dictionary at: (aBlock value: each key) add: each value].
+	newParts _ OrderedCollection new: dictionary size.
+	newParts resetTo: 1.
+	dictionary associationsDo: [:each| each value isZero ifFalse: [newParts add: each]].
+	newParts sort.
+	^ self parent parts: newParts! !
+
+!MultivariatePolynomial methodsFor: 'enumerating' stamp: 'len 12/22/2017 17:49:12'!
+monomialsDo: aBlock
+	"Iterate over the support of the receiver, i.e. the monomials with non-zero coefficient."
+	parts do: [:each| aBlock value: each key]! !
+
+!MultivariatePolynomial methodsFor: 'arithmetic' stamp: 'len 12/22/2017 17:46:56'!
+multipliedByMonomial: aMonomial
+	"The monomial ordering is preserved by this operation."
+	^ parent parts: (parts collect: [:each| each key * aMonomial -> each value])! !
+
+!MultivariatePolynomial methodsFor: 'arithmetic' stamp: 'len 12/24/2017 20:01:32'!
+multipliedByPolynomial: aPolynomial
+	| dictionary newAssociations |
+	dictionary _ Dictionary new: parts size + aPolynomial parts size.
+	parts do: [:each|
+		aPolynomial parts do: [:other|
+			dictionary at: each key * other key add: each value * other value]].
+	newAssociations _ OrderedCollection new: dictionary size.
+	newAssociations resetTo: 1.
+	dictionary associationsDo: [:each| each value isZero ifFalse: [newAssociations add: each]].
+	newAssociations sort.
+	^ self parent parts: newAssociations! !
+
+!MultivariatePolynomial methodsFor: 'arithmetic' stamp: 'len 12/24/2017 19:40:17'!
+multipliedByScalar: aNumber
+	| newAssociations |
+	newAssociations _ OrderedCollection new: parts size.
+	parts do: [:each| | newValue |
+		(newValue _ each value * aNumber) isZero
+			ifFalse: [newAssociations add: (each copy value: newValue)]].
+	^ parent parts: newAssociations! !
+
+!MultivariatePolynomial methodsFor: 'arithmetic' stamp: 'len 12/22/2017 17:47:14'!
+negated
+	"Answer the additive inverse of the receiver."
+	^ parent parts: (parts collect: [:each| each key -> each value negated])! !
+
+!MultivariatePolynomial methodsFor: 'converting' stamp: 'len 12/22/2017 19:06:16'!
+over: aRing
+	| newParts |
+	self scalars = aRing ifTrue: [^ self].
+	newParts _ OrderedCollection new: parts size.
+	parts do: [:each| | newValue |
+		(newValue _ aRing !! each value) isZero
+			ifFalse: [newParts add: (each copy value: newValue)]].
+	^ (self parent over: aRing) parts: newParts! !
+
+!MultivariatePolynomial methodsFor: 'accessing-private' stamp: 'len 12/22/2017 17:52:34'!
+parts
+	^ parts! !
+
+!MultivariatePolynomial methodsFor: 'accessing-private' stamp: 'len 12/22/2017 17:52:46'!
+parts: aCollection
+	parts _ aCollection! !
+
+!MultivariatePolynomial methodsFor: 'enumerating' stamp: 'len 12/24/2017 20:10:01'!
+partsDo: aBlock
+	parts do: aBlock! !
+
+!MultivariatePolynomial methodsFor: 'private' stamp: 'len 12/21/2017 18:38:44'!
+sum: someAssociations with: otherAssociations into: newAssociations
+	| stream1 stream2 |
+	stream1 _ someAssociations readStream.
+	stream2 _ otherAssociations readStream.
+	[stream1 atEnd or: [stream2 atEnd]]
+		whileFalse:
+			[| cmp |
+			cmp _ stream1 peek key compare: stream2 peek key.
+			cmp < 0
+				ifTrue: [newAssociations add: stream1 next copy]
+				ifFalse: [cmp > 0
+					ifTrue: [newAssociations add: stream2 next copy]
+					ifFalse:
+						[| a b newValue |
+						a _ stream1 next.
+						b _ stream2 next.
+						(newValue _ a value + b value) isZero
+							ifFalse: [newAssociations add: (a copy value: newValue)]]]].
+	[stream1 atEnd] whileFalse: [newAssociations add: stream1 next copy].
+	[stream2 atEnd] whileFalse: [newAssociations add: stream2 next copy].
+	^ newAssociations! !
+
+!MultivariatePolynomial class methodsFor: 'instance creation' stamp: 'len 12/22/2017 18:22:36'!
+parts: aCollection
+	^ self basicNew parts: aCollection! !
+
+!UnivariatePolynomial methodsFor: 'arithmetic' stamp: 'len 12/21/2017 22:08:50'!
+% anInteger
+	^ (self parent over: self scalars % anInteger) coefficients: self coefficients % anInteger! !
+
+!UnivariatePolynomial methodsFor: 'arithmetic' stamp: 'len 12/21/2017 20:06:28'!
++ anObject
+	(self parent includes: anObject)
+		ifTrue: [^ self parent coefficients: self coefficients + anObject coefficients].
+	((self scalars includes: anObject) or: [anObject isInteger])
+		ifTrue: [^ self + (self one * anObject)].
+	^ DomainError signal! !
+
+!UnivariatePolynomial methodsFor: 'arithmetic' stamp: 'len 12/21/2017 20:06:32'!
+- anObject
+	(self parent includes: anObject)
+		ifTrue: [^ self parent coefficients: self coefficients - anObject coefficients].
+	^ self + anObject negated! !
+
+!UnivariatePolynomial methodsFor: 'arithmetic' stamp: 'len 12/21/2017 20:06:55'!
+// anObject
+	"Answer the quotient of the division of the receiver by the argument."
+
+	(self scalars includes: anObject)
+		ifTrue: [^ self parent coefficients: self coefficients // anObject].
+	^ (self divideBy: anObject) quotient! !
+
+!UnivariatePolynomial methodsFor: 'arithmetic' stamp: 'len 12/22/2017 18:31:05'!
+/// anObject
+	"Answer the exact quotient of the division of the receiver by the argument."
+	(anObject isKindOf: Monomial)
+		ifTrue: [^ self dividedByMonomial: anObject].
+	(self scalars includes: anObject)
+		ifTrue: [^ self parent coefficients: self coefficients /// anObject].
+	^ self exactlyDividedBy: anObject! !
 
 !UnivariatePolynomial methodsFor: 'operations' stamp: 'len 7/9/2016 03:05'!
 << anInteger
@@ -38164,6 +38363,35 @@ new
 >> anInteger
 	^ self << anInteger negated! !
 
+!UnivariatePolynomial methodsFor: 'arithmetic' stamp: 'len 12/21/2017 20:07:46'!
+\\ anObject
+	"Answer the remainder of the division of the receiver by the argument."
+
+	(self scalars includes: anObject)
+		ifTrue: [^ self parent coefficients: self coefficients \\ anObject].
+	^ (self divideBy: anObject) remainder! !
+
+!UnivariatePolynomial methodsFor: 'operations' stamp: 'len 12/21/2017 20:09:22'!
+apply: aMorphism
+	"Answer a new polynomial with coefficients obtainted by applying aMorphism to the coefficients of the receiver. This morphism is a ring homomorphism from the scalars ring.
+	If aMorphism is a block we assume the parent doesn't change, i.e. the block must evaluate to values within the scalars ring of the receiver."
+
+	aMorphism isBlock
+		ifTrue: [^ self parent coefficients: (self coefficients collect: aMorphism)].
+	^ (self parent over: aMorphism codomain) coefficients: (self coefficients apply: aMorphism)! !
+
+!UnivariatePolynomial methodsFor: 'accessing coefficients' stamp: 'len 12/22/2017 17:55:54'!
+at: aMonomial
+	^ self atDegree: aMonomial degree! !
+
+!UnivariatePolynomial methodsFor: 'accessing coefficients' stamp: 'len 12/22/2017 17:55:35'!
+atDegree: i
+	^ coefficients at: i+1 ifAbsent: [self scalars zero]! !
+
+!UnivariatePolynomial methodsFor: 'accessing' stamp: 'len 12/21/2017 18:20:42'!
+bitSize
+	^ self coefficients bitSize! !
+
 !UnivariatePolynomial methodsFor: 'roots' stamp: 'len 11/20/2016 10:21:40'!
 cauchyRootBound
 	| max a0 an |
@@ -38173,7 +38401,7 @@ cauchyRootBound
 	an _ self leadingCoefficient abs.
 	^ Array with: a0 / (a0 + max) with: an + max / an! !
 
-!UnivariatePolynomial methodsFor: 'accessing coefficients' stamp: 'len 3/23/2016 04:08'!
+!UnivariatePolynomial methodsFor: 'deprecated' stamp: 'len 3/23/2016 04:08'!
 coefficientAt: aMonomial
 	^ self coefficientAtDegree: aMonomial degree! !
 
@@ -38184,11 +38412,11 @@ coefficientAt: aMonomial put: value
 		ifTrue: [self normalize].
 	^ value! !
 
-!UnivariatePolynomial methodsFor: 'accessing coefficients' stamp: 'len 3/22/2016 23:57'!
+!UnivariatePolynomial methodsFor: 'deprecated' stamp: 'len 3/22/2016 23:57'!
 coefficientAtDegree: i
 	^ coefficients at: i+1 ifAbsent: [self scalars zero]! !
 
-!UnivariatePolynomial methodsFor: 'accessing coefficients' stamp: 'len 3/23/2016 00:04'!
+!UnivariatePolynomial methodsFor: 'accessing' stamp: 'len 12/21/2017 18:26:42'!
 coefficients
 	^ coefficients! !
 
@@ -38196,6 +38424,10 @@ coefficients
 coefficients: aTuple
 	coefficients _ aTuple.
 	self normalize! !
+
+!UnivariatePolynomial methodsFor: 'enumerating' stamp: 'len 12/21/2017 21:51:15'!
+coefficientsDo: aBlock
+	self coefficients do: aBlock! !
 
 !UnivariatePolynomial methodsFor: 'operations' stamp: 'len 12/4/2017 10:16:25'!
 companion
@@ -38208,6 +38440,10 @@ companion
 	zero _ self scalars zero.
 	one _ self scalars one.
 	^ self scalars matrix: n@n evaluating: [:i :j| i-1 = j ifTrue: [one] ifFalse: [j < n ifTrue: [zero] ifFalse: [(self coefficientAtDegree: i-1) negated]]]! !
+
+!UnivariatePolynomial methodsFor: 'copying' stamp: 'len 12/21/2017 22:06:33'!
+copy
+	^ self parent coefficients: self coefficients copy! !
 
 !UnivariatePolynomial methodsFor: 'accessing coefficients' stamp: 'len 3/24/2016 03:50'!
 degree
@@ -38244,13 +38480,17 @@ discriminant0
 dividedByMonomial: aMonomial
 	^ self shift: aMonomial degree negated! !
 
+!UnivariatePolynomial methodsFor: 'arithmetic' stamp: 'len 12/22/2017 18:11:57'!
+dividedByScalar: aNumber
+	^ self parent coefficients: self coefficients / aNumber! !
+
 !UnivariatePolynomial methodsFor: 'operations' stamp: 'len 1/23/2017 11:47:45'!
 even
 	"Decompose the receiver in the form f(x^2)x + g(x^2) and answer g(x)."
 	^ self parent coefficients: ((1 to: self coefficients size by: 2) collect: [:each| coefficients at: each])! !
 
-!UnivariatePolynomial methodsFor: 'arithmetic' stamp: 'len 2/6/2017 07:49:42'!
-exactDivideBy2: aPolynomial
+!UnivariatePolynomial methodsFor: 'arithmetic' stamp: 'len 12/22/2017 18:31:46'!
+exactlyDividedBy2: aPolynomial
 	"Answer the exact division of the receiver by the argument.
 	Apply the Schonhage-Jabelean algorithm, for polynomials of degree at most 2n and n with coefficients in a field. When necesary conditions don't hold, do the ordinary division.
 	Ref: 'Algorithms With Exact Divisions Made Faster', Arnold Schonhage,
@@ -38266,7 +38506,7 @@ exactDivideBy2: aPolynomial
 		ifFalse: [^ (MultiPolynomialDivision divide: self by: {aPolynomial}) exactQuotient].
 	self scalars isField
 		ifFalse: [^ (PolynomialPseudoDivision divide: self by: aPolynomial) exactQuotient].
-	(shift _ aPolynomial order negated) < 0 ifTrue: [^ (self shift: shift) exactDivideBy: (aPolynomial shift: shift)].
+	(shift _ aPolynomial order negated) < 0 ifTrue: [^ (self shift: shift) exactlyDividedBy: (aPolynomial shift: shift)].
 	f _ self coefficients.
 	g _ aPolynomial coefficients.
 	m _ f size.
@@ -38298,6 +38538,18 @@ exactDivideBy2: aPolynomial
 
 	^ self parent coefficients: q! !
 
+!UnivariatePolynomial methodsFor: 'arithmetic' stamp: 'len 12/22/2017 18:31:37'!
+exactlyDividedBy: aPolynomial
+	"Answer the exact division of the receiver by the argument."
+
+	self isZero
+		ifTrue: [^ self].
+	aPolynomial isConstant
+		ifTrue: [^ self dividedByScalar: aPolynomial leadingCoefficient].
+	self scalars isField
+		ifFalse: [^ (PolynomialPseudoDivision divide: self by: aPolynomial) exactQuotient].
+	^ (PolynomialDivision divide: self by: aPolynomial) exactQuotient! !
+
 !UnivariatePolynomial methodsFor: 'testing' stamp: 'len 1/23/2017 11:47:49'!
 has: anIndeterminate
 	^ self degree > 0 and: [self parent has: anIndeterminate]! !
@@ -38318,9 +38570,9 @@ independentCoefficient
 isUnivariate
 	^ true! !
 
-!UnivariatePolynomial methodsFor: 'testing' stamp: 'len 3/22/2016 23:55'!
+!UnivariatePolynomial methodsFor: 'testing' stamp: 'len 12/21/2017 18:40:41'!
 isZero
-	^ coefficients allSatisfy: [:each| each isZero]! !
+	^ coefficients isZero! !
 
 !UnivariatePolynomial methodsFor: 'accessing coefficients' stamp: 'len 3/23/2016 00:01'!
 leadingCoefficient
@@ -38335,12 +38587,6 @@ leadingMonomial
 "this could be faster, but it fails with local orderings for example:
 	^ self isZero ifFalse: [self parent monomials x: self parent indeterminate to: self degree]
 "! !
-
-!UnivariatePolynomial methodsFor: 'enumerating' stamp: 'len 1/23/2017 11:47:55'!
-monomialsAndCoefficientsDo: aBlock
-	| x |
-	x _ self parent indeterminate.
-	coefficients withIndexDo: [:value :index| value isZero ifFalse: [aBlock value: (self parent monomials x: x to: index-1) value: value]]! !
 
 !UnivariatePolynomial methodsFor: 'enumerating' stamp: 'len 1/23/2017 11:48:04'!
 monomialsApply: aBlock
@@ -38379,6 +38625,19 @@ multiplicityAt: aPoint
 multipliedByMonomial: aMonomial
 	^ self shift: aMonomial degree! !
 
+!UnivariatePolynomial methodsFor: 'arithmetic' stamp: 'len 12/24/2017 19:33:52'!
+multipliedByPolynomial: aPolynomial
+	^ self parent coefficients: (self coefficients convolution: aPolynomial coefficients)! !
+
+!UnivariatePolynomial methodsFor: 'arithmetic' stamp: 'len 12/24/2017 19:32:53'!
+multipliedByScalar: aNumber
+	^ self parent coefficients: self coefficients * aNumber! !
+
+!UnivariatePolynomial methodsFor: 'arithmetic' stamp: 'len 12/21/2017 22:03:21'!
+negated
+	"Answer the additive inverse of the receiver."
+	^ self parent coefficients: self coefficients negated! !
+
 !UnivariatePolynomial methodsFor: 'accessing-private' stamp: 'len 11/22/2016 08:48:49'!
 normalize
 	| n |
@@ -38393,6 +38652,16 @@ odd
 !UnivariatePolynomial methodsFor: 'roots' stamp: 'len 2/6/2017 06:44:06'!
 orderAt: aPoint
 	^ self multiplicityAt: aPoint! !
+
+!UnivariatePolynomial methodsFor: 'converting' stamp: 'len 12/21/2017 21:52:44'!
+over: aRing
+	^ (self parent over: aRing) coefficients: (self coefficients over: aRing)! !
+
+!UnivariatePolynomial methodsFor: 'enumerating' stamp: 'len 12/24/2017 20:11:59'!
+partsDo: aBlock
+	| x |
+	x _ self parent indeterminate.
+	coefficients withIndexDo: [:value :index| value isZero ifFalse: [aBlock value: (self parent monomials x: x to: index-1) -> value]]! !
 
 !UnivariatePolynomial methodsFor: 'operations' stamp: 'len 11/25/2016 10:37:59'!
 psc2: anInteger with: aPolynomial
@@ -38654,6 +38923,10 @@ zeroReciprocal
 !UnivariatePolynomial methodsFor: 'roots' stamp: 'len 12/4/2017 10:22:45'!
 zeroSquareRoot
 	^ self value: self parent x squared! !
+
+!UnivariatePolynomial class methodsFor: 'instance creation' stamp: 'len 12/22/2017 18:22:09'!
+coefficients: aTuple
+	^ self basicNew coefficients: aTuple! !
 
 !FiniteFieldPolynomialFactorizer methodsFor: 'private' stamp: 'len 3/6/2017 16:55:37'!
 distinctDegreeFactorization: aPolynomial

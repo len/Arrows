@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 17 December 2017 at 10:49:21 pm'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 24 December 2017 at 8:50:17 pm'!
 'Description Please enter a description for this package'!
-!provides: 'MathematicsTests' 1 82!
+!provides: 'MathematicsTests' 1 83!
 !classDefinition: #AbelianGroupTest category: #MathematicsTests!
 TestCase subclass: #AbelianGroupTest
 	instanceVariableNames: ''
@@ -342,8 +342,21 @@ CASBenchmark class
 	instanceVariableNames: ''!
 
 
-!GroebnerBasisBenchmark commentStamp: 'len 1/26/2017 08:31:28' prior: 0!
+!GroebnerBasisBenchmark commentStamp: '<historical>' prior: 0!
 GroebnerBasisBenchmark new run
+
+testCyclic3	4,730 per second. (25 Dec 2017, after refactoring MultivariatePolynomial and removing MonomialIndexedTuple)
+testCyclic4	1,040 per second.
+testCyclic5	258 per second.
+testCyclic6	63.5 per second.
+testEliminationExample	1,700 per second.
+testKatsura2	13,900 per second.
+testKatsura3	2,060 per second.
+testKatsura4	16.7 per second.
+testModularCyclic3	4,480 per second.
+testModularKatsura2	12,800 per second.
+testModularKatsura3	1,900 per second.
+testModularKatsura4	22.3 per second.' 
 
 testCyclic3	4,400 per second. (optimized GroebnerBasis>>reduce:)
 testCyclic4	1,000 per second.
@@ -577,8 +590,30 @@ testGaussianElimination	1.81 per second.
 testSquared	1.32 per second.
 testTransposition	66.9 per second.!
 
-!PolynomialBenchmark commentStamp: 'len 11/28/2016 20:15:00' prior: 0!
+!PolynomialBenchmark commentStamp: '<historical>' prior: 0!
 PolynomialBenchmark new run
+
+testFiniteField	18.2 per second. (25 Dec 2017, after refactoring MultivariatePolynomial and removing MonomialIndexedTuple)
+testFiniteFieldPolynomialFactorization	255 per second.
+testMultivariatePolynomialAdditionOverZ	102 per second.
+testPolynomialAdditionOverZ	33.4 per second.
+testPolynomialAdditionOverZ2	269 per second.
+testPolynomialDivisionOverQ	3.32 per second.
+testPolynomialDivisionOverZ	2.96 per second.
+testPolynomialGCDOverQ	3.56 per second.
+testPolynomialGCDOverZ	4.74 per second.
+testPolynomialGCDOverZ2	24.6 per second.
+testPolynomialMultiplication2OverZ	168 per second.
+testPolynomialMultiplication2OverZ2	686 per second.
+testPolynomialMultiplicationOverZ	2.72 per second.
+testPolynomialMultiplicationOverZ2	4,090 per second.
+testPolynomialPseudoDivision	4,840 per second.
+testPolynomialPseudoRemainder	4,810 per second.
+testPolynomialRealRoots	40.7 per second.
+testRealAlgebraicNumberAddition	2.9 per second.
+testRealAlgebraicNumberDivision	241 per second.
+testRealAlgebraicNumberProduct	308 per second.
+testRealAlgebraicNumberSquare	5,630 per second.
 
 testFiniteField	17.1 per second.
 testFiniteFieldPolynomialFactorization	97.8 per second.
@@ -776,13 +811,17 @@ testTranspositionZ	1,580 per second.
 testTranspositionZ2	565 per second.
 !
 
-!SparsePolynomialMultiplicationBenchmark commentStamp: 'len 11/30/2016 22:00:58' prior: 0!
+!SparsePolynomialMultiplicationBenchmark commentStamp: '<historical>' prior: 0!
 Timings giving in [1] on computers with 0.8ghz - 1ghz intel cpus: general purpose system 20s-100s, tuned systems 2.3s-10s. For big coefficients: singular 28s, pari 77s.
 
 [1] R.J. Fateman, Comparing the speed of sparse polynomial multiplication.
 
 
 self new run
+
+testBigCoefficientsProduct	8.5 seconds. (25 Dec 2017, after refactoring MultivariatePolynomial and removing MonomialIndexedTuple)
+testBigExponentsProduct	6.38 seconds.
+testProduct	0.295 per second.
 
 testBigCoefficientsProduct	8.39 seconds. (polynomials as sorted dictionaries monomial -> coefficient)
 testBigExponentsProduct	9.86 seconds.
@@ -3252,7 +3291,7 @@ testPermutationProduct3
 	self assert: a*b = (Permutation cycle: #(1 2 4)).
 	self assert: b*a = (Permutation cycle: #(1 3 2))! !
 
-!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 10/22/2016 18:55'!
+!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 12/19/2017 19:37:04'!
 testPolynomialVectorSpace
 	| Qx V S x |
 	Qx _ QQ polynomials.
@@ -3261,7 +3300,7 @@ testPolynomialVectorSpace
 	S _ V span: {Qx one. x^2. x*2}.
 	self assert: (S includes: x^2 + 2).
 	self deny: (S includes: x^3 + 2).
-	self assert: (S project: x^3 - (x^2) + (x*2) + 3) = ((x^2) negated + (x*2) + 3)! !
+	self assert: (S orthogonalProjection value: x^3 - (x^2) + (x*2) + 3) = ((x^2) negated + (x*2) + 3)! !
 
 !MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 12/13/2015 01:54'!
 testPrimeSignature
@@ -4385,6 +4424,13 @@ testTensorProductCommutativity
 	V _ QQ ^ 3.
 	W _ QQ ^ 4.
 	self assert: V ’ W ~ (W ’ V)! !
+
+!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 12/19/2017 20:09:11'!
+testTensorProductDimension
+	| V1 V2 |
+	V1 _ QQ ^ 5 atRandom.
+	V2 _ QQ ^ 5 atRandom.
+	self assert: (V1 ’ V2) dimension = (V1 dimension * V2 dimension)! !
 
 !ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 12/17/2017 22:31:20'!
 testTensorProductOfLinearForms
