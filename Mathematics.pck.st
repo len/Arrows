@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 24 December 2017 at 8:50:14 pm'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 30 December 2017 at 9:03:39 pm'!
 'Description A computational algebra system in Smalltalk'!
-!provides: 'Mathematics' 1 391!
+!provides: 'Mathematics' 1 392!
 !requires: 'RayTracer' 1 2 nil!
 !classDefinition: #RealAlgebraicNumber category: #'Mathematics-Fields-Algebraic'!
 Number subclass: #RealAlgebraicNumber
@@ -1602,16 +1602,6 @@ FreeModule subclass: #ScalarModule
 ScalarModule class
 	instanceVariableNames: ''!
 
-!classDefinition: #PolynomialTupleModule category: #'Mathematics-Modules-Multivariate'!
-FreeModule subclass: #PolynomialTupleModule
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Modules-Multivariate'!
-!classDefinition: 'PolynomialTupleModule class' category: #'Mathematics-Modules-Multivariate'!
-PolynomialTupleModule class
-	instanceVariableNames: ''!
-
 !classDefinition: #BilinearForms category: #'Mathematics-Multilinear'!
 FreeModule subclass: #BilinearForms
 	instanceVariableNames: 'vectorSpace domain'
@@ -1740,6 +1730,26 @@ Module subclass: #QuotientModule
 	category: 'Mathematics-Modules'!
 !classDefinition: 'QuotientModule class' category: #'Mathematics-Modules'!
 QuotientModule class
+	instanceVariableNames: ''!
+
+!classDefinition: #MultivariateModule category: #'Mathematics-Modules-Multivariate'!
+Module subclass: #MultivariateModule
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Modules-Multivariate'!
+!classDefinition: 'MultivariateModule class' category: #'Mathematics-Modules-Multivariate'!
+MultivariateModule class
+	instanceVariableNames: ''!
+
+!classDefinition: #MultivariateTupleModule category: #'Mathematics-Modules-Multivariate'!
+MultivariateModule subclass: #MultivariateTupleModule
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Modules-Multivariate'!
+!classDefinition: 'MultivariateTupleModule class' category: #'Mathematics-Modules-Multivariate'!
+MultivariateTupleModule class
 	instanceVariableNames: ''!
 
 !classDefinition: #AffineSubspace category: #'Mathematics-Geometry-Affine'!
@@ -2792,14 +2802,14 @@ Object subclass: #Tuple
 Tuple class
 	instanceVariableNames: ''!
 
-!classDefinition: #PolynomialTuple category: #'Mathematics-Modules-Multivariate'!
-Tuple subclass: #PolynomialTuple
+!classDefinition: #MultivariateTuple category: #'Mathematics-Modules-Multivariate'!
+Tuple subclass: #MultivariateTuple
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Modules-Multivariate'!
-!classDefinition: 'PolynomialTuple class' category: #'Mathematics-Modules-Multivariate'!
-PolynomialTuple class
+!classDefinition: 'MultivariateTuple class' category: #'Mathematics-Modules-Multivariate'!
+MultivariateTuple class
 	instanceVariableNames: ''!
 
 !classDefinition: #ArrayTuple category: #'Mathematics-Tuples'!
@@ -4649,7 +4659,7 @@ My instances are homomorphisms of commutative rings.!
 My instances are homomorphisms of polynomial rings.!
 
 !ModuleHomomorphism commentStamp: '<historical>' prior: 0!
-My instances are homomorphisms of abelian groups. See AbelianGroup.!
+My instances are homomorphisms of modules. See Module.!
 
 !LinearMap commentStamp: '<historical>' prior: 0!
 My instances are linear transformations between finite-rank free modules (or finite-dimensional vector spaces).
@@ -8559,15 +8569,26 @@ on: anObject performing: aSymbol
 	(SymmetricGroup new: n) do: [:each| (G apply: each) = H ifTrue: [^ true]].
 	^ false! !
 
-!Graph methodsFor: 'operations' stamp: 'len 2/17/2017 07:41:05'!
+!Graph methodsFor: 'operations' stamp: 'len 12/30/2017 16:16:58'!
 ◊ aGraph
 	"Answer the cartesian product of the receiver with the argument. This is a commutative and associative operation (for unlabeled graphs)."
-	^ self cartesian: aGraph! !
+	| G |
+	G _ self copyEmpty.
+	self do: [:x| aGraph do: [:y| G add: (x, y)]].
+	self do: [:x| aGraph edgesDo: [:e| G addEdgeFrom: (x, e key) to: (x, e value)]].
+	self edgesDo: [:e| aGraph do: [:y| G addEdgeFrom: (e key, y) to: (e value, y)]].
+	^ G! !
 
-!Graph methodsFor: 'operations' stamp: 'len 2/17/2017 07:41:25'!
+!Graph methodsFor: 'operations' stamp: 'len 12/30/2017 16:16:07'!
 í aGraph
 	"Answer the tensor product (or direct graph product, categorical graph product, cardinal graph product, Kronecker graph product) of the receiver with the argument. This is a commutative operation (for unlabeled graphs)."
-	^ self tensor: aGraph! !
+	| G |
+	G _ self class ordered.
+	self do: [:x| aGraph do: [:y| G add: (x, y)]].
+	self edgesDo: [:e1|
+		aGraph edgesDo: [:e2|
+			G addEdgeFrom: (e1 key, e2 key) to: (e1 value, e2 value)]].
+	^ G! !
 
 !Graph methodsFor: 'operations' stamp: 'len 12/8/2016 20:30:50'!
 ï aGraph
@@ -8834,16 +8855,6 @@ breadthFirstPathFrom: origin to: target with: visitedNodes
 								ifTrue: [^ nodesLevels occurrencesOf: each]]]].
 	"No path From origin to target, i.e. the two subgraph are not conected"
 	^ 0! !
-
-!Graph methodsFor: 'operations' stamp: 'len 7/20/2016 23:56'!
-cartesian: aGraph
-	"Answer the cartesian product of the receiver with the argument. This is a commutative and associative operation (for unlabeled graphs)."
-	| G |
-	G _ self copyEmpty.
-	self do: [:x| aGraph do: [:y| G add: (x, y)]].
-	self do: [:x| aGraph edgesDo: [:e| G addEdgeFrom: (x, e key) to: (x, e value)]].
-	self edgesDo: [:e| aGraph do: [:y| G addEdgeFrom: (e key, y) to: (e value, y)]].
-	^ G! !
 
 !Graph methodsFor: 'operations' stamp: 'len 7/13/2016 22:06'!
 center
@@ -9229,17 +9240,6 @@ symmetric
 	self edgesDo: [:each | answer addEdge: (Association key: each value value: each key)].
 	^ answer! !
 
-!Graph methodsFor: 'operations' stamp: 'len 7/20/2016 23:55'!
-tensor: aGraph
-	"Answer the tensor product (or direct graph product, categorical graph product, cardinal graph product, Kronecker graph product) of the receiver with the argument. This is a commutative operation (for unlabeled graphs)."
-	| G |
-	G _ self class ordered.
-	self do: [:x| aGraph do: [:y| G add: (x, y)]].
-	self edgesDo: [:e1|
-		aGraph edgesDo: [:e2|
-			G addEdgeFrom: (e1 key, e2 key) to: (e1 value, e2 value)]].
-	^ G! !
-
 !Graph methodsFor: 'operations' stamp: 'len 7/13/2016 22:12'!
 topologicalSort
 	"Answer a topological sort of the receiver. This is a linear ordering of its vertices such that for each edge a -> b, a comes before to b in the ordering.
@@ -9344,13 +9344,13 @@ binaryLabeled
 cube
 	^ self cube: 3! !
 
-!Graph class methodsFor: 'example graphs' stamp: 'len 7/13/2016 22:40'!
+!Graph class methodsFor: 'example graphs' stamp: 'len 12/30/2017 16:17:15'!
 cube: n
 	"Answer an n-cube."
 	| G H |
 	G _ self unordered addEdge: 1 -> 2; yourself.
 	H _ G.
-	n - 1 timesRepeat: [H _ H cartesian: G].
+	n - 1 timesRepeat: [H _ H ◊ G].
 	^ H! !
 
 !Graph class methodsFor: 'example graphs' stamp: 'len 7/13/2016 22:40'!
@@ -10541,11 +10541,6 @@ shape: anArray
 ~ aSimplex
 	"Answer true if the receiver and the argument are isomorphic."
 	^ self dimension = aSimplex dimension! !
-
-!Simplex methodsFor: 'operations' stamp: 'len 2/15/2017 16:12:41'!
-◊ aSimplex
-	"Answer the direct product of the receiver with the argument."
-	self notYetImplemented! !
 
 !Simplex methodsFor: 'operations' stamp: 'len 2/15/2017 08:55:23'!
 ï aSimplex
@@ -13074,23 +13069,24 @@ example2
 	(self includes: anObject) ifTrue: [^ anObject].
 	^ DomainError signal: 'coercion failed'! !
 
-!Domain methodsFor: 'operations' stamp: 'len 4/18/2016 23:30'!
+!Domain methodsFor: 'operations' stamp: 'len 12/30/2017 16:26:42'!
 * aDomain
 	"This is a convenience method for doing categorical products. Subclasses can reimplement it to mean something different from the categorical product in order to match customary notation."
-	^ self product: aDomain! !
+	^ self ◊ aDomain! !
 
-!Domain methodsFor: 'operations' stamp: 'len 4/18/2016 23:30'!
+!Domain methodsFor: 'operations' stamp: 'len 12/30/2017 16:26:35'!
 + aDomain
 	"This is a convenience method for doing coproducts. Subclasses can reimplement it to mean something different from the coproduct in order to match customary notation."
-	^ self coproduct: aDomain! !
+	^ self ê aDomain! !
 
-!Domain methodsFor: 'operations' stamp: 'len 4/21/2016 05:08'!
+!Domain methodsFor: 'operations' stamp: 'len 12/30/2017 15:19:47'!
 , aDomain
 	"Answer the cartesian set product of the receiver with the argument."
-	^ self cartesian: aDomain! !
+	^ CartesianProduct components: {self. aDomain}! !
 
-!Domain methodsFor: 'operations' stamp: 'len 12/30/2016 09:57:45'!
+!Domain methodsFor: 'operations' stamp: 'len 12/30/2017 16:37:29'!
 / anEquivalenceRelation
+	"Answer the categorical quotient of the receiver by an equivalence relation."
 	| relation |
 	relation _ anEquivalenceRelation isBlock ifTrue: [EquivalenceRelation on: self evaluating: anEquivalenceRelation] ifFalse: [anEquivalenceRelation].
 	^ QuotientSet mod: relation! !
@@ -13143,20 +13139,22 @@ example2
 	"Answer true if the receiver is isomorphic to the argument."
 	^ self = aDomain "not much more we can test at this abstract level, subclasses should reimplement"! !
 
-!Domain methodsFor: 'operations' stamp: 'len 8/29/2016 16:36'!
+!Domain methodsFor: 'operations' stamp: 'len 12/30/2017 16:36:36'!
 ∑ aDomain
 	"This is a convenience method for doing categorical products. Subclasses can reimplement it to mean something different from the categorical product in order to match customary notation."
-	^ self product: aDomain! !
+	^ self ◊ aDomain! !
 
-!Domain methodsFor: 'operations' stamp: 'len 8/29/2016 16:33'!
+!Domain methodsFor: 'operations' stamp: 'len 12/30/2017 16:36:21'!
 ◊ aDomain
-	"This is a convenience method for doing categorical products. Subclasses can reimplement it to mean something different from the categorical product in order to match customary notation."
-	^ self product: aDomain! !
+	"Answer the categorical product of the receiver with the argument."
+	"The product in the category of sets is the cartesian product."
+	^ self, aDomain! !
 
-!Domain methodsFor: 'operations' stamp: 'len 6/24/2016 05:31'!
+!Domain methodsFor: 'operations' stamp: 'len 12/30/2017 16:28:40'!
 ê aDomain
-	"This is a convenience method for doing coproducts. Subclasses can reimplement it to mean something different from the coproduct in order to match customary notation."
-	^ self coproduct: aDomain! !
+	"Answer the categorical sum (or coproduct) of the receiver with the argument."
+	"The coproduct in the category of sets is the disjoint union."
+	^ self species newFrom: ((self elements collect: [:each| {each. 0}]) ñ (aDomain elements collect: [:each| {each. 1}]))! !
 
 !Domain methodsFor: 'operations' stamp: 'len 12/8/2016 20:30:19'!
 ï aCollection
@@ -13221,11 +13219,6 @@ automorphisms
 	self flag: #fix. "this shouldn't be here for all subclasses to inherit, maybe Domain should be abstract, and we could consider Collections as finite sets and implement these things in Collection; same with #to:evaluating:, etc."
 	^ SymmetricGroup on: self! !
 
-!Domain methodsFor: 'operations' stamp: 'len 10/16/2016 14:54'!
-cartesian: aDomain
-	"Answer the cartesian set product of the receiver with the argument."
-	^ CartesianProduct components: {self. aDomain}! !
-
 !Domain methodsFor: 'enumerating' stamp: 'len 10/27/2016 14:40'!
 collect: aBlock
 	| elements |
@@ -13244,12 +13237,6 @@ containsAllOf: aCollection
 	"Answer whether all the elements of aCollection are in the receiver."
 	aCollection do: [:each| (self contains: each) ifFalse: [^ false]].
 	^ true! !
-
-!Domain methodsFor: 'operations' stamp: 'len 12/8/2016 20:33:44'!
-coproduct: aDomain
-	"Answer the categorical sum (or coproduct) of the receiver with the argument."
-	"The coproduct in the category of sets is the disjoint union."
-	^ self species newFrom: ((self elements collect: [:each| (each, 0)]) ñ (aDomain elements collect: [:each| (each, 1)]))! !
 
 !Domain methodsFor: 'copying' stamp: 'len 5/1/2016 23:35'!
 copyEmpty
@@ -13525,11 +13512,6 @@ printOn: aStream
 		aStream nextPut: $}.
 		^ self].
 	^ super printOn: aStream! !
-
-!Domain methodsFor: 'operations' stamp: 'len 4/23/2016 00:58'!
-product: aDomain
-	"Answer the categorical product of the receiver with the argument. The most general case (at least within concrete categories) is the cartesian product of sets."
-	^ self cartesian: aDomain! !
 
 !Domain methodsFor: 'properties' stamp: 'len 12/28/2016 12:25:33'!
 properties
@@ -13934,11 +13916,6 @@ at: anInteger
 	"Answer the anInteger-th component of the receiver."
 	^ components at: anInteger! !
 
-!RealBox methodsFor: 'accessing' stamp: 'len 1/11/2016 02:34'!
-cartesian: aBox
-	"Answer the cartesian product of the receiver by the argument."
-	^ self copy addAll: aBox; yourself! !
-
 !RealBox methodsFor: 'accessing-private' stamp: 'len 1/11/2016 02:37'!
 components
 	^ components! !
@@ -14039,6 +14016,14 @@ size
 		left: self left + anInterval left;
 		right: self right + anInterval right! !
 
+!RealInterval methodsFor: 'operations' stamp: 'len 12/30/2017 16:20:58'!
+, anInterval
+	"Answer the cartesian product of the receiver by the argument."
+	| answer |
+	answer _ RealBox new add: self; yourself.
+	anInterval do: [:each| answer add: each].
+	^ answer! !
+
 !RealInterval methodsFor: 'arithmetic' stamp: 'len 12/13/97 03:36'!
 - anInterval
 	"Answer the difference of the receiver and the argument."
@@ -14054,14 +14039,6 @@ size
 !RealInterval methodsFor: 'comparing' stamp: 'len 1/16/2016 05:57'!
 = anInterval
 	^ left = anInterval left and: [right = anInterval right and: [self isLeftOpen = anInterval isLeftOpen and: [self isRightOpen = anInterval isRightOpen]]]! !
-
-!RealInterval methodsFor: 'operations' stamp: 'len 1/11/2016 02:41'!
-cartesian: anInterval
-	"Answer the cartesian product of the receiver by the argument."
-	| answer |
-	answer _ RealBox new add: self; yourself.
-	anInterval do: [:each| answer add: each].
-	^ answer! !
 
 !RealInterval methodsFor: 'converting' stamp: 'len 12/13/97 02:31'!
 close
@@ -14546,9 +14523,10 @@ new: anInteger
 on: aCollection
 	^ self new symbols: aCollection! !
 
-!Group methodsFor: 'operations' stamp: 'len 12/6/2016 09:08:21'!
-* anElement
-	^ RightCoset on: self representative: anElement! !
+!Group methodsFor: 'operations' stamp: 'len 12/30/2017 16:29:35'!
+* anElementOrGroup
+	(anElementOrGroup isKindOf: Group) ifTrue: [^ self freeProduct: anElementOrGroup].
+	^ RightCoset on: self representative: anElementOrGroup! !
 
 !Group methodsFor: 'operations' stamp: 'len 5/2/2016 09:15'!
 / aSubgroup
@@ -14581,7 +14559,7 @@ on: aCollection
 	self do: [:each| answer add: (RightCoset on: aSubgroup representative: each)].
 	^ answer! !
 
-!Group methodsFor: 'operations' stamp: 'len 10/9/2016 21:12'!
+!Group methodsFor: 'operations' stamp: 'len 12/30/2017 16:30:05'!
 ◊ aGroup
 	^ DirectProductGroup components: {self. aGroup}! !
 
@@ -14760,11 +14738,6 @@ conjugate: x with: y
 !Group methodsFor: 'morphisms' stamp: 'len 10/17/2016 10:51'!
 conjugation
 	^ GroupAction from: (self, self) to: self evaluatingWithArguments: [:x :y| self conjugate: x with: y]! !
-
-!Group methodsFor: 'operations' stamp: 'len 10/9/2016 21:15'!
-coproduct: aGroup
-	self flag: #fix. "the free product is usually noted *"
-	^ self freeProduct: aGroup! !
 
 !Group methodsFor: 'copying' stamp: 'len 5/1/2016 23:38'!
 copyEmpty
@@ -15137,10 +15110,6 @@ printOn: aStream
 	generators do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: '; '].
 	aStream nextPut: $>! !
 
-!Group methodsFor: 'operations' stamp: 'len 10/9/2016 21:12'!
-product: aGroup
-	^ self ◊ aGroup! !
-
 !Group methodsFor: 'private' stamp: 'len 6/18/2016 04:03'!
 raise: anElement to: anInteger
 	| op |
@@ -15275,6 +15244,10 @@ unitsModulo: m
 = anObject
 	^ (anObject isKindOf: DirectProductGroup) and: [anObject components = components]! !
 
+!DirectProductGroup methodsFor: 'accessing' stamp: 'len 12/30/2017 16:55:34'!
+ambient
+	^ self propertyAt: #ambient ifAbsentPut: [(components allSatisfy: [:each| each isAmbient]) ifTrue: [self] ifFalse: [self class components: (components collect: [:each| each ambient])]]! !
+
 !DirectProductGroup methodsFor: 'accessing' stamp: 'len 2/16/2016 07:30'!
 arity
 	^ components size! !
@@ -15303,9 +15276,23 @@ components
 components: anArray
 	components _ anArray! !
 
+!DirectProductGroup methodsFor: 'private' stamp: 'len 12/30/2017 15:11:22'!
+computeGenerators
+	| answer |
+	answer _ OrderedCollection new.
+	1 to: self arity do: [:i|
+		| p |
+		p _ self projection: i.
+		(self at: i) generators do: [:each| answer add: (p value: each)]].
+	^ answer! !
+
 !DirectProductGroup methodsFor: 'enumerating' stamp: 'len 7/29/2016 06:51'!
 do: aBlock
 	self asCartesianProduct do: aBlock! !
+
+!DirectProductGroup methodsFor: 'morphisms' stamp: 'len 12/30/2017 15:05:54'!
+embedding: i
+	^ ((self at: i) to: self evaluating: [:x| components withIndexCollect: [:each :k| k = i ifTrue: [x] ifFalse: [each identity]]]) name: 'i', i printText sub! !
 
 !DirectProductGroup methodsFor: 'comparing' stamp: 'len 2/12/2016 20:05'!
 hash
@@ -16673,6 +16660,11 @@ basis: aLinearBasis matrices: aMatrixGroup
 on: aFreeModule matrices: aMatrixGroup
 	^ self basis: aFreeModule basis matrices: aMatrixGroup! !
 
+!AbelianGroup methodsFor: 'operations' stamp: 'len 12/30/2017 16:34:42'!
+◊ anAbelianGroup
+	anAbelianGroup isAbelianGroup ifTrue: [^ self ê anAbelianGroup].
+	^ super ◊ anAbelianGroup! !
+
 !AbelianGroup methodsFor: 'operations' stamp: 'len 2/20/2017 22:13:11'!
 ê anAbelianGroup
 	"Answer the direct sum of the receiver and the argument."
@@ -16688,10 +16680,6 @@ commutator: aSubgroup
 	"Answer the commutator group [G,H] of the receiver G with the argument H.
 	Since the receiver is commutative, this is the trivial group."
 	^ self null! !
-
-!AbelianGroup methodsFor: 'operations' stamp: 'len 12/14/2016 21:36:53'!
-coproduct: anAbelianGroup
-	^ self ê anAbelianGroup! !
 
 !AbelianGroup methodsFor: 'private' stamp: 'len 12/11/2016 13:07:45'!
 defaultInverseMap
@@ -16724,11 +16712,6 @@ isTorsion
 isTorsionFree
 	^ self torsion isTrivial! !
 
-!AbelianGroup methodsFor: 'operations' stamp: 'len 12/14/2016 21:37:19'!
-product: anAbelianGroup
-	anAbelianGroup isAbelianGroup ifFalse: [^ super product: anAbelianGroup].
-	^ self ê anAbelianGroup! !
-
 !AbelianGroup methodsFor: 'accessing' stamp: 'len 12/28/2016 11:29:54'!
 rank
 	^ self propertyAt: #rank! !
@@ -16748,6 +16731,10 @@ to: aCodomain
 torsion
 	"Answer the torsion subgroup of the receiver consisting of all elements that have finite order (the torsion elements)."
 	^ self propertyAt: #torsion! !
+
+!DirectSumGroup methodsFor: 'accessing' stamp: 'len 12/30/2017 16:55:39'!
+ambient
+	^ self propertyAt: #ambient ifAbsentPut: [(components allSatisfy: [:each| each isAmbient]) ifTrue: [self] ifFalse: [self class components: (components collect: [:each| each ambient])]]! !
 
 !DirectSumGroup methodsFor: 'accessing' stamp: 'len 10/9/2016 10:41'!
 arity
@@ -17515,6 +17502,12 @@ new: anInteger
 new: anInteger ordering: aMonomialOrdering
 	^ self new rank: anInteger; ordering: aMonomialOrdering! !
 
+!CartesianProduct methodsFor: 'operations' stamp: 'len 12/30/2017 15:19:20'!
+, aDomain
+	^ aDomain class == self class
+		ifTrue: [self class components: components, aDomain components]
+		ifFalse: [self class components: (components copyWith: aDomain)]! !
+
 !CartesianProduct methodsFor: 'comparing' stamp: 'len 12/9/2015 04:51'!
 = anObject
 	^ (anObject isKindOf: CartesianProduct) and: [anObject components = components]! !
@@ -17536,12 +17529,6 @@ atRandom: aRandom bits: bitSize
 	| n |
 	n _ bitSize / components size.
 	^ components collect: [:each| each atRandom: aRandom bits: n]! !
-
-!CartesianProduct methodsFor: 'operations' stamp: 'len 4/21/2016 05:08'!
-cartesian: aDomain
-	^ aDomain class == self class
-		ifTrue: [self class components: components, aDomain components]
-		ifFalse: [self class components: (components copyWith: aDomain)]! !
 
 !CartesianProduct methodsFor: 'accessing-private' stamp: 'len 11/10/2015 22:13'!
 components
@@ -17963,11 +17950,11 @@ extensionDegree: anInteger
 fractionClass
 	^ FormalFraction! !
 
-!Ring methodsFor: 'operations' stamp: 'len 2/28/2017 19:59:04'!
+!Ring methodsFor: 'operations' stamp: 'len 12/24/2017 22:17:18'!
 fractions
 	"Answer the fraction ring of the receiver. If the receiver is an integral domain, the fraction ring will be a field."
 	self isField ifTrue: [^ self].
-	^ FractionRing on: self! !
+	^ self propertyAt: #fractions ifAbsentPut: [FractionRing on: self]! !
 
 !Ring methodsFor: 'operations' stamp: 'len 1/20/2016 13:42'!
 freeAlgebra
@@ -18161,10 +18148,6 @@ polynomialsIn: anIntegerOrCollection ordering: aMonomialOrdering
 	answer _ PolynomialRing new: anIntegerOrCollection size over: self ordering: aMonomialOrdering.
 	answer names: anIntegerOrCollection.
 	^ answer! !
-
-!Ring methodsFor: 'operations' stamp: 'len 10/9/2016 21:11'!
-product: aRing
-	^ self ◊ aRing! !
 
 !Ring methodsFor: 'operations' stamp: 'len 2/13/2017 07:44:41'!
 spec
@@ -18617,9 +18600,9 @@ initialize
 	super initialize.
 	Smalltalk at: #QQ put: self new! !
 
-!RationalFunctionField methodsFor: 'morphisms' stamp: 'len 10/14/2016 22:59'!
+!RationalFunctionField methodsFor: 'morphisms' stamp: 'len 12/24/2017 22:14:56'!
 embed: aPolynomial
-	^ RationalFunction numerator: aPolynomial denominator: self integers one! !
+	^ RationalFunction numerator: (aPolynomial as: self integers) denominator: self integers one! !
 
 !RationalFunctionField methodsFor: 'operations' stamp: 'len 1/23/2017 11:45:48'!
 extension: aPolynomial
@@ -18684,9 +18667,9 @@ on: aPolynomialRing
 		ifFalse: [aPolynomialRing orderedBy: #llex].
 	^ super on: R! !
 
-!ProductRing methodsFor: 'comparing' stamp: 'len 8/29/2016 04:13'!
+!ProductRing methodsFor: 'comparing' stamp: 'len 12/30/2017 15:14:48'!
 = anObject
-	^ (anObject isKindOf: DirectProductGroup) and: [anObject components = components]! !
+	^ (anObject isKindOf: ProductRing) and: [anObject components = components]! !
 
 !ProductRing methodsFor: 'accessing' stamp: 'len 8/29/2016 04:09'!
 arity
@@ -18719,6 +18702,10 @@ components: anArray
 !ProductRing methodsFor: 'enumerating' stamp: 'len 8/29/2016 04:11'!
 do: aBlock
 	self asCartesianProduct do: aBlock! !
+
+!ProductRing methodsFor: 'morphisms' stamp: 'len 12/30/2017 20:58:21'!
+embedding: i
+	^ ((self at: i) to: self evaluating: [:x| components withIndexCollect: [:each :k| k = i ifTrue: [x] ifFalse: [each one]]]) name: 'i', i printText sub! !
 
 !ProductRing methodsFor: 'comparing' stamp: 'len 8/29/2016 04:13'!
 hash
@@ -19596,6 +19583,11 @@ maximalIdeal
 	self isLocal ifFalse: [DomainError signal: 'the ring is not local'].
 	^ self * self generators! !
 
+!AffineRing methodsFor: 'accessing' stamp: 'len 12/28/2017 14:50:03'!
+monomials
+	"Answer the monoid of monomials of the receiver."
+	^ self base monomials! !
+
 !AffineRing methodsFor: 'converting' stamp: 'len 2/27/2017 20:57:38'!
 orderedBy: aMonomialOrdering
 	^ self class mod: (self relations orderedBy: aMonomialOrdering)! !
@@ -20354,6 +20346,13 @@ continuantOfOrder: n
 	n = 1 ifTrue: [^ self x: 1].
 	^ (self continuantOfOrder: n - 1) * (self x: n) + (self continuantOfOrder: n - 2)! !
 
+!PolynomialRing methodsFor: 'as yet unclassified' stamp: 'len 12/24/2017 22:35:35'!
+copy
+	| answer |
+	answer _ super copy.
+	answer properties removeKey: #one ifAbsent: []; removeKey: #zero ifAbsent: [].
+	^ answer! !
+
 !PolynomialRing methodsFor: 'converting' stamp: 'len 2/27/2017 07:42:07'!
 copyWithout: anIndeterminate
 	"Answer a polynomial ring like the receiver but with one less indeterminate.
@@ -20456,11 +20455,12 @@ findIrreducibleOfDegree: n
 fractionClass
 	^ RationalFunction! !
 
-!PolynomialRing methodsFor: 'operations' stamp: 'len 1/20/2017 09:07:23'!
+!PolynomialRing methodsFor: 'operations' stamp: 'len 12/24/2017 22:16:25'!
 fractions
 	"Answer the field of rational functions, i.e. the localization of the receiver at 0."
-	self scalars isField ifFalse: [^ DomainError signal: 'scalars are not a field'].
-	^ RationalFunctionField on: self! !
+	^ self propertyAt: #fractions ifAbsentPut:
+		[self scalars isField ifFalse: [^ DomainError signal: 'scalars are not a field'].
+		RationalFunctionField on: self]! !
 
 !PolynomialRing methodsFor: 'morphisms' stamp: 'len 12/20/2016 11:59:34'!
 from: aDomain
@@ -20472,9 +20472,9 @@ from: aDomain
 generators
 	^ (1 to: self rank) collect: [:i| self x: i]! !
 
-!PolynomialRing methodsFor: 'operations' stamp: 'len 12/20/2017 16:45:44'!
+!PolynomialRing methodsFor: 'operations' stamp: 'len 12/24/2017 22:07:17'!
 gradingAt: anInteger
-	"Answer the submodule of homogeneous polynomials of degree = anInteger."
+	"Answer the submodule of homogeneous polynomials of degree anInteger."
 	^ PolynomialGradingModule new polynomials: self; degree: anInteger! !
 
 !PolynomialRing methodsFor: 'accessing' stamp: 'len 10/27/2016 17:24'!
@@ -20581,7 +20581,7 @@ isUFD
 isUnivariate
 	^ self rank = 1! !
 
-!PolynomialRing methodsFor: 'operations' stamp: 'len 2/12/2017 06:50:37'!
+!PolynomialRing methodsFor: 'operations' stamp: 'len 12/24/2017 22:06:07'!
 localization
 	self isGlobal ifFalse: [DomainError signal: 'the ring is not global'].
 	^ self orderedBy: #lglex! !
@@ -21809,12 +21809,15 @@ radicalContains: aPolynomial
 	X add: (aPolynomial as: S) * t - S one.
 	^ (S * X) isTrivial! !
 
-!PolynomialIdeal methodsFor: 'operations-elements' stamp: 'len 1/26/2017 09:35:44'!
+!PolynomialIdeal methodsFor: 'operations-elements' stamp: 'len 12/24/2017 22:46:41'!
 reduce: aPolynomial
 	"Answer the normal form of anElement with respect to the receiver."
-	self isZero ifTrue: [^ aPolynomial].
-	self isUnivariate ifTrue: [^ aPolynomial \\ self generator].
-	^ self basis reduce: aPolynomial! !
+	| f |
+	f _ aPolynomial.
+	f parent == self ring ifFalse: [f _ f as: self ring].
+	self isZero ifTrue: [^ f].
+	self isUnivariate ifTrue: [^ f \\ self generator].
+	^ self basis reduce: f! !
 
 !PolynomialIdeal methodsFor: 'random' stamp: 'len 10/29/2016 11:38'!
 remainderAtRandom: aRandom
@@ -22123,7 +22126,14 @@ species
 	"Answer true if the receiver is isomorphic to the argument."
 	^ self == aModule or: [aModule isFreeModule and: [self scalars = aModule scalars and: [self rank = aModule rank]]]! !
 
-!FreeModule methodsFor: 'operations' stamp: 'len 2/28/2017 19:46:47'!
+!FreeModule methodsFor: 'operations' stamp: 'len 12/30/2017 16:33:18'!
+◊ aModule
+	"Answer the categorical product, i.e. direct sum of the receiver and the argument."
+	^ (aModule isFreeModule and: [aModule scalars = self scalars])
+		ifTrue: [self ê aModule]
+		ifFalse: [super ◊ aModule]! !
+
+!FreeModule methodsFor: 'operations' stamp: 'len 12/30/2017 16:32:49'!
 ê aFreeModule
 	"Answer the direct sum of the receiver and the argument."
 	aFreeModule isFreeModule ifFalse: [DomainError signal: 'not a free module'].
@@ -22432,13 +22442,6 @@ printOn: aStream
 	self basis do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: '; '].
 	aStream nextPut: $>! !
 
-!FreeModule methodsFor: 'operations' stamp: 'len 7/14/2016 23:56'!
-product: aModule
-	"Answer the categorical product, i.e. direct sum of the receiver and the argument."
-	^ (aModule isFreeModule and: [aModule scalars = self scalars])
-		ifTrue: [self ê aModule]
-		ifFalse: [super product: aModule]! !
-
 !FreeModule methodsFor: 'operations' stamp: 'len 2/4/2017 09:01:01'!
 projectivized
 	"Answer the projective subspace induced by the receiver, consisting of the 1-dimension subspaces."
@@ -22589,6 +22592,10 @@ scalars
 !OrderModule class methodsFor: 'instance creation' stamp: 'len 1/16/2017 07:50:04'!
 on: anOrder
 	^ self new order: anOrder! !
+
+!DirectSumModule methodsFor: 'accessing' stamp: 'len 12/30/2017 16:55:01'!
+ambient
+	^ self propertyAt: #ambient ifAbsentPut: [(components allSatisfy: [:each| each isAmbient]) ifTrue: [self] ifFalse: [self class components: (components collect: [:each| each ambient])]]! !
 
 !DirectSumModule methodsFor: 'accessing' stamp: 'len 2/16/2016 07:31'!
 arity
@@ -22764,6 +22771,10 @@ e: anInteger
 	anObject isInteger ifTrue: [^ self scalar: self scalars !! anObject].
 	^ super !! anObject! !
 
+!HomModule methodsFor: 'accessing' stamp: 'len 12/30/2017 16:51:53'!
+ambient
+	^ self! !
+
 !HomModule methodsFor: 'accessing' stamp: 'len 11/7/2015 04:34'!
 codomain
 	^ codomain! !
@@ -22877,6 +22888,10 @@ from: aVectorSpace to: anotherVectorSpace
 	^ self new
 		domain: aVectorSpace;
 		codomain: anotherVectorSpace! !
+
+!DualModule methodsFor: 'accessing' stamp: 'len 12/30/2017 16:47:50'!
+ambient
+	^ self! !
 
 !DualModule methodsFor: 'accessing-private' stamp: 'len 10/7/2016 08:43'!
 domain: aModule
@@ -23033,6 +23048,10 @@ zero
 !QuotientSpace class methodsFor: 'instance creation' stamp: 'len 2/27/2017 21:29:20'!
 mod: aSubspace
 	^ self new relations: aSubspace! !
+
+!ScalarModule methodsFor: 'accessing' stamp: 'len 12/30/2017 16:47:13'!
+ambient
+	^ self! !
 
 !ScalarModule methodsFor: 'basis' stamp: 'len 4/22/2016 21:55'!
 coordinatesOf: anObject
@@ -23251,6 +23270,10 @@ type: aPair on: aFreeModule
 		ifTrue: [^ anObject scalars = self scalars and: [self rank = anObject rank]].
 	^ super = anObject! !
 
+!TupleModule methodsFor: 'accessing' stamp: 'len 12/30/2017 16:49:36'!
+ambient
+	^ self! !
+
 !TupleModule methodsFor: 'random' stamp: 'len 4/19/2016 20:13'!
 atRandom: aRandom
 	^ scalars tuple: self dimension evaluating: [:i| scalars atRandom: aRandom]! !
@@ -23370,6 +23393,10 @@ new: anInteger over: aRing
 	(anObject isKindOf: MatrixModule)
 		ifTrue: [^ anObject scalars = self scalars and: [self numberOfRows = anObject numberOfRows and: [self numberOfColumns = anObject numberOfColumns]]].
 	^ super = anObject! !
+
+!MatrixModule methodsFor: 'accessing' stamp: 'len 12/30/2017 16:49:55'!
+ambient
+	^ self! !
 
 !MatrixModule methodsFor: 'converting' stamp: 'len 1/24/2017 12:55:20'!
 asRing
@@ -23965,6 +23992,25 @@ scalars
 mod: aSubmodule
 	^ self new relations: aSubmodule! !
 
+!MultivariateModule methodsFor: 'as yet unclassified' stamp: 'len 12/29/2017 07:28:27'!
+basis
+	"Answer a Groebner basis of the receiver according to its monomial ordering."
+	^ self notYetImplemented! !
+
+!MultivariateModule methodsFor: 'as yet unclassified' stamp: 'len 12/29/2017 07:28:17'!
+leadingModule
+	"Answer the leading module of the receiver according to its monomial ordering."
+	^ self notYetImplemented! !
+
+!MultivariateModule methodsFor: 'as yet unclassified' stamp: 'len 12/29/2017 07:29:05'!
+ordering
+	"Answer the module monomial ordering of the receiver."
+	^ self notYetImplemented! !
+
+!MultivariateTupleModule methodsFor: 'as yet unclassified' stamp: 'len 12/29/2017 07:30:36'!
+isFreeModule
+	^ true! !
+
 !AffineSubspace methodsFor: 'operations' stamp: 'len 6/4/2016 04:24'!
 * aScalar
 	(self scalars includes: aScalar)
@@ -24025,6 +24071,10 @@ mod: aSubmodule
 || anAffineSubspace
 	"Answer true if the receiver and the argument are parallel."
 	^ direction <= anAffineSubspace direction or: [direction >= anAffineSubspace direction]! !
+
+!AffineSubspace methodsFor: 'operations' stamp: 'len 12/30/2017 16:31:18'!
+◊ anAffineSubspace
+	^ self class on: (direction ê anAffineSubspace direction)! !
 
 !AffineSubspace methodsFor: 'operations' stamp: 'len 2/19/2017 21:23:39'!
 ï anAffineSubspace
@@ -24122,10 +24172,6 @@ printOn: aStream
 	self isEmpty ifTrue: [aStream nextPut: Character emptySet. ^ self].
 	self dimension = 0 ifTrue: [aStream nextPut: ${; print: representative; nextPut: $}. ^ self].
 	aStream print: representative; nextPutAll: ' + '; print: direction! !
-
-!AffineSubspace methodsFor: 'operations' stamp: 'len 6/4/2016 00:19'!
-product: anAffineSubspace
-	^ self class on: (direction product: anAffineSubspace direction)! !
 
 !AffineSubspace methodsFor: 'accessing' stamp: 'len 6/4/2016 04:18'!
 representative
@@ -24686,13 +24732,15 @@ vertices
 	"Answer the link of aFace. This is the complex of all faces of simplices in the star that do not intersect aFace."
 	^ self notYetImplemented! !
 
-!SimplicialComplex methodsFor: 'operations' stamp: 'len 2/19/2017 08:22:08'!
+!SimplicialComplex methodsFor: 'operations' stamp: 'len 12/29/2017 09:46:31'!
 ◊ aSimplicialComplex
 	"Answer the direct product of the receiver and the argument."
 	| product |
 	product _ Set new.
 	self facets do: [:each|
-		aSimplicialComplex facets do: [:other| product addAll: each ◊ other]].
+		aSimplicialComplex facets do: [:other|
+			self pathsFrom: each vertices to: other vertices do: [:path|
+				product add: (Simplex vertices: path)]]].
 	^ self species faces: product! !
 
 !SimplicialComplex methodsFor: 'operations' stamp: 'len 2/19/2017 08:22:14'!
@@ -24865,6 +24913,23 @@ openStarOf: aCollection
 	aCollection do: [:each|
 		self do: [:other| (each intersects: other) ifTrue: [answer add: other]]].
 	^ answer! !
+
+!SimplicialComplex methodsFor: 'private' stamp: 'len 12/29/2017 09:44:46'!
+pathsFrom: A to: B do: aBlock
+	| x |
+	A isEmpty ifTrue: [^ aBlock value: {A}].
+	B isEmpty ifTrue: [^ aBlock value: {B}].
+	A size = 1 ifTrue:
+		[| v |
+		v _ A at: 1.
+		^ B do: [:w| aBlock value: {{v. w}}]].
+	B size = 1 ifTrue:
+		[| w |
+		w _ B at: 1.
+		^ A do: [:v| aBlock value: {{v. w}}]].
+	x _ {A last. B last}.
+	self pathsFrom: A allButLast to: B do: [:each| aBlock value: (each copyWith: x)].
+	self pathsFrom: A to: B allButLast do: [:each| aBlock value: (each copyWith: x)]! !
 
 !SimplicialComplex methodsFor: 'printing' stamp: 'len 2/18/2017 21:21:41'!
 printOn: aStream
@@ -27286,6 +27351,14 @@ example6GLAsMatrixGroupAction
 		ifTrue: [self species from: self domain to: self codomain evaluating: [:each| (self value: each) + anObject]]
 		ifFalse: [self species from: self domain to: self codomain evaluating: [:each| (self value: each) + (anObject value: each)]]! !
 
+!Function methodsFor: 'operations' stamp: 'len 12/30/2017 19:52:42'!
+, aFunction
+	"Answer the cartesian product of the receiver with the argument."
+	^ Function
+		from: (self domain, aFunction domain)
+		to: (self codomain, aFunction codomain)
+		evaluating: [:each| {self value: (each at: 1). aFunction value: (each at: 2)}]! !
+
 !Function methodsFor: 'operations' stamp: 'len 12/3/2015 20:33'!
 - aFunction
 	^ self + aFunction negated! !
@@ -27309,13 +27382,10 @@ example6GLAsMatrixGroupAction
 		ifTrue: [self species from: self domain to: self codomain evaluating: [:each| (self value: each) ^ (anObject value: each)]]
 		ifFalse: [self species from: self domain to: self codomain evaluating: [:each| (self value: each) ^ anObject]]! !
 
-!Function methodsFor: 'operations' stamp: 'len 11/5/2016 10:17'!
+!Function methodsFor: 'operations' stamp: 'len 12/30/2017 19:53:33'!
 ◊ aFunction
-	"Answer the cartesian product of the receiver with the argument."
-	^ Function
-		from: (self domain, aFunction domain)
-		to: (self codomain, aFunction codomain)
-		evaluating: [:each| {self value: (each at: 1). aFunction value: (each at: 2)}]! !
+	"Answer the product of the receiver with the argument."
+	^ self, aFunction! !
 
 !Function methodsFor: 'operations' stamp: 'len 12/20/2016 11:54:42'!
 î aFunction
@@ -29369,7 +29439,7 @@ convolution: aSequence
 	(aSequence isKindOf: self class) ifFalse: [^ super convolution: aSequence].
 	^ self class to: self codomain evaluating: (super convolution: aSequence) maxOrder: self order * aSequence order! !
 
-!CFiniteSequence methodsFor: 'series' stamp: 'len 3/23/2016 00:02'!
+!CFiniteSequence methodsFor: 'series' stamp: 'len 12/24/2017 22:13:45'!
 generatingFunction
 	| r s |
 	"Answer the generating function of the receiver, which is a rational function that equals its ordinary generating series."
@@ -29377,7 +29447,7 @@ generatingFunction
 	r _ self codomain polynomials coefficients:
 		((0 to: self order - 1) collect: [:j|
 			(self at: j+1) - ((1 to: j) sum: [:i| (s coefficientAtDegree: i) * (self at: j-i+1)])]).
-	^ RationalFunction numerator: r denominator: s! !
+	^ r / s! !
 
 !CFiniteSequence methodsFor: 'accessing' stamp: 'len 12/27/2015 03:49'!
 initialValues
@@ -31934,6 +32004,11 @@ rootsIn: aRing
 scalars
 	^ numerator scalars! !
 
+!RationalFunction methodsFor: 'as yet unclassified' stamp: 'len 12/24/2017 22:22:27'!
+setNumerator: f denominator: g
+	g parent isLocal ifFalse: [self halt].
+	super setNumerator: f denominator: g! !
+
 !RationalFunction methodsFor: 'operations' stamp: 'len 11/1/2016 18:41'!
 value: anObject
 	^ (self numerator value: anObject) / (self denominator value: anObject)! !
@@ -32367,11 +32442,15 @@ trace
 leadingCoefficient
 	^ representative leadingCoefficient! !
 
+!RegularFunction methodsFor: 'as yet unclassified' stamp: 'len 12/28/2017 14:48:27'!
+leadingMonomial
+	^ representative leadingMonomial! !
+
 !RegularFunction methodsFor: 'as yet unclassified' stamp: 'len 11/1/2016 05:18'!
 value: anObject
 	^ representative value: anObject! !
 
-!RegularFunction methodsFor: 'as yet unclassified' stamp: 'len 11/1/2016 18:57'!
+!RegularFunction methodsFor: 'evaluating' stamp: 'len 11/1/2016 18:57'!
 valueWithArguments: anArray
 	^ representative valueWithArguments: anArray! !
 
@@ -33803,23 +33882,23 @@ y
 z
 	^ self at: 3! !
 
-!PolynomialTuple methodsFor: 'as yet unclassified' stamp: 'len 1/14/2017 21:04:37'!
+!MultivariateTuple methodsFor: 'as yet unclassified' stamp: 'len 12/28/2017 14:35:33'!
 coefficientAt: aModuleMonomial
-	^ (self at: aModuleMonomial position) coefficientAt: aModuleMonomial monomial! !
+	^ (self at: aModuleMonomial position) at: aModuleMonomial monomial! !
 
-!PolynomialTuple methodsFor: 'as yet unclassified' stamp: 'len 1/14/2017 20:34:48'!
+!MultivariateTuple methodsFor: 'as yet unclassified' stamp: 'len 1/14/2017 20:34:48'!
 leadingCoefficient
 	^ self coefficientAt: self leadingMonomial! !
 
-!PolynomialTuple methodsFor: 'as yet unclassified' stamp: 'len 1/14/2017 21:07:12'!
+!MultivariateTuple methodsFor: 'as yet unclassified' stamp: 'len 1/14/2017 21:07:12'!
 leadingMonomial
 	^ self ordering leadingMonomialOf: self! !
 
-!PolynomialTuple methodsFor: 'as yet unclassified' stamp: 'len 1/14/2017 20:35:06'!
+!MultivariateTuple methodsFor: 'as yet unclassified' stamp: 'len 1/14/2017 20:35:06'!
 leadingTerm
 	^ self termAt: self leadingMonomial! !
 
-!PolynomialTuple methodsFor: 'as yet unclassified' stamp: 'len 1/14/2017 21:04:51'!
+!MultivariateTuple methodsFor: 'as yet unclassified' stamp: 'len 1/14/2017 21:04:51'!
 termAt: aModuleMonomial
 	^ (self at: aModuleMonomial position) termAt: aModuleMonomial monomial! !
 
@@ -37121,12 +37200,12 @@ trevlex: aCollection
 - anObject
 	^ self + anObject negated! !
 
-!Polynomial methodsFor: 'arithmetic' stamp: 'len 12/22/2017 18:12:20'!
+!Polynomial methodsFor: 'arithmetic' stamp: 'len 12/24/2017 22:17:30'!
 / anObject
 	(anObject isKindOf: Monomial)
 		ifTrue: [^ self dividedByMonomial: anObject].
 	(self parent includes: anObject)
-		ifTrue: [^ (RationalFunction numerator: self denominator: anObject) reduced].
+		ifTrue: [^ (self parent fractions embed: self) / (self parent fractions embed: anObject)].
 	(self scalars includes: anObject)
 		ifTrue: [^ self dividedByScalar: anObject].
 	^ self * anObject reciprocal! !
@@ -37906,11 +37985,11 @@ raisedTo: anInteger modulo: anObject
 	anInteger = 1 ifTrue: [^ self \\ anObject].
 	^ (self squared \\ anObject raisedTo: anInteger // 2 modulo: anObject) * (self raisedTo: anInteger \\ 2 modulo: anObject) \\ anObject! !
 
-!Polynomial methodsFor: 'arithmetic' stamp: 'len 2/6/2017 03:04:22'!
+!Polynomial methodsFor: 'arithmetic' stamp: 'len 12/24/2017 22:14:08'!
 reciprocal
 	"Answer the reciprocal of the receiver, possibly as a rational function, assuming the scalars are a field."
 	self isConstant ifTrue: [^ self parent constant: self independentCoefficient reciprocal].
-	^ RationalFunction numerator: self one denominator: self! !
+	^ self one / self! !
 
 !Polynomial methodsFor: 'operations' stamp: 'len 2/12/2017 12:26:39'!
 s: aPolynomial
@@ -41554,9 +41633,9 @@ setLeft: anObject right: anotherObject
 	left _ anObject.
 	right _ anotherObject! !
 
-!ElementaryTensorOld methodsFor: 'accessing' stamp: 'len 11/27/2015 04:40'!
+!ElementaryTensorOld methodsFor: 'accessing' stamp: 'len 12/30/2017 16:16:29'!
 space
-	^ self left space tensor: self right space! !
+	^ self left space í self right space! !
 
 !ElementaryTensorOld class methodsFor: 'instance creation' stamp: 'len 12/3/97 01:49'!
 left: anObject right: anotherObject
