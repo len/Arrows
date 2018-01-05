@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 30 December 2017 at 9:03:39 pm'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 5 January 2018 at 10:18:02 am'!
 'Description A computational algebra system in Smalltalk'!
-!provides: 'Mathematics' 1 392!
+!provides: 'Mathematics' 1 393!
 !requires: 'RayTracer' 1 2 nil!
 !classDefinition: #RealAlgebraicNumber category: #'Mathematics-Fields-Algebraic'!
 Number subclass: #RealAlgebraicNumber
@@ -1380,6 +1380,16 @@ Ring subclass: #PolynomialRing
 	category: 'Mathematics-Polynomials'!
 !classDefinition: 'PolynomialRing class' category: #'Mathematics-Polynomials'!
 PolynomialRing class
+	instanceVariableNames: ''!
+
+!classDefinition: #TensorProductPolynomialRing category: #'Mathematics-Etc'!
+PolynomialRing subclass: #TensorProductPolynomialRing
+	instanceVariableNames: 'components'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Etc'!
+!classDefinition: 'TensorProductPolynomialRing class' category: #'Mathematics-Etc'!
+TensorProductPolynomialRing class
 	instanceVariableNames: ''!
 
 !classDefinition: #PowerSeriesRing category: #'Mathematics-Sequences'!
@@ -4271,6 +4281,10 @@ My instances are polynomial rings R[x1,...,xn] in one or many indeterminates ove
 The number of indeterimnates is called the rank of the polynomial ring. The indeterminates are referred by index (positive integer numbers).
 
 Polynomial rings have an associated monomial ordering. This is used for defining the leading term of a polynomial, multivariate division (also called normal form or reduction) and the computation of Groebner bases and standard bases.
+!
+
+!TensorProductPolynomialRing commentStamp: '<historical>' prior: 0!
+My instances are tensor products over R of polynomial rings with coefficients in R. They are R-algebra coproducts, so they have canonical embeddings.
 !
 
 !FreeAlgebra commentStamp: '<historical>' prior: 0!
@@ -20771,6 +20785,21 @@ new: anInteger over: aRing
 new: anInteger over: aRing ordering: aMonomialOrdering
 	^ self new monomials: (FreeAbelianMonoid new: anInteger ordering: aMonomialOrdering); scalars: aRing! !
 
+!TensorProductPolynomialRing methodsFor: 'as yet unclassified' stamp: 'len 12/31/2017 22:56:06'!
+arity
+	^ components size! !
+
+!TensorProductPolynomialRing methodsFor: 'as yet unclassified' stamp: 'len 12/31/2017 22:55:58'!
+at: anInteger
+	^ components at: anInteger! !
+
+!TensorProductPolynomialRing methodsFor: 'as yet unclassified' stamp: 'len 12/31/2017 22:36:06'!
+embedding: i
+	| shift |
+	shift _ 0.
+	1 to: i-1 do: [:each| shift _ shift + (self at: each) rank].
+	^ ((self at: i) to: self evaluating: [:f| self !! f substitute: [:j| j+shift]]) name: 'i', i printText sub! !
+
 !PowerSeriesRing methodsFor: 'accessing' stamp: 'len 10/28/2016 14:17'!
 characteristic
 	^ self scalars characteristic! !
@@ -22675,9 +22704,9 @@ projection: i
 rank
 	^ components sum: [:each| each rank]! !
 
-!DirectSumModule methodsFor: 'accessing' stamp: 'len 11/10/2015 22:56'!
+!DirectSumModule methodsFor: 'accessing' stamp: 'len 12/31/2017 13:34:13'!
 scalars
-	components do: [ :each | ^ each scalars].
+	components do: [:any| ^ any scalars].
 	^ nil! !
 
 !DirectSumModule methodsFor: 'accessing' stamp: 'len 12/17/2016 09:11:16'!
@@ -24643,11 +24672,11 @@ cells: n do: aBlock
 chainComplexOver: aRing
 	^ ChainComplex differentials: ((self dimension+1 to: 0 by: -1) collect: [:i| self boundaryMap: i over: aRing])! !
 
-!CellComplex methodsFor: 'homology' stamp: 'len 2/28/2017 08:35:15'!
+!CellComplex methodsFor: 'homology' stamp: 'len 12/31/2017 13:36:42'!
 chains: k over: aRing
 	"Answer the group of k-chains."
-	k < 0 ifTrue: [^ FormalFreeModule on: #() over: aRing].
-	^ FormalFreeModule on: (self cells: k) asArray over: aRing! !
+	k < 0 ifTrue: [^ aRing freeModuleIn: #()].
+	^ aRing freeModuleIn: (self cells: k) asArray! !
 
 !CellComplex methodsFor: 'invariants' stamp: 'len 2/19/2017 18:25:22'!
 dimension
@@ -26203,13 +26232,11 @@ iminus
 	^ self polynomial: ((QQ polynomialsIn: #(x y)) evaluating: [:x :y| x^3 + (y^3) - x - (2*y) - 1])
 ! !
 
-!AffineSpace methodsFor: 'operations' stamp: 'len 2/10/2017 08:55:01'!
+!AffineSpace methodsFor: 'operations' stamp: 'len 12/31/2017 13:41:22'!
 × anAffineSpace
 	"Answer the cartesian product of the receiver and the argument."
 	(anAffineSpace isKindOf: AffineSpace)
 		ifFalse: [^ super × anAffineSpace].
-	(anAffineSpace isKindOf: ProductAffineSpace)
-		ifTrue: [^ ProductAffineSpace components: {self}, anAffineSpace components].
 	^ ProductAffineSpace components: {self. anAffineSpace}! !
 
 !AffineSpace methodsFor: 'accessing' stamp: 'len 8/27/2016 19:03'!
@@ -26301,6 +26328,13 @@ isProduct
 !ProductAffineSpace methodsFor: 'printing' stamp: 'len 2/10/2017 08:48:52'!
 printOn: aStream
 	self components do: [:each| aStream print: each] separatedBy: [aStream nextPut: Character times]! !
+
+!ProductAffineSpace methodsFor: 'morphisms' stamp: 'len 1/5/2018 09:36:19'!
+projection: i
+	| shift |
+	shift _ 0.
+	1 to: i-1 do: [:each| shift _ shift + (self at: each) rank].
+	^ RationalMap from: self to: (self at: i) polynomials: ((1 to: (self at: i) rank) collect: [:j| self coordinateRing x: j+shift])! !
 
 !ProductAffineSpace class methodsFor: 'instance creation' stamp: 'len 2/10/2017 08:47:57'!
 components: anArray
@@ -26879,13 +26913,11 @@ cremona389a1
 equation: aWeierstrassEquation
 	^ self new equation: aWeierstrassEquation! !
 
-!ProjectiveSpace methodsFor: 'operations' stamp: 'len 2/10/2017 08:40:09'!
+!ProjectiveSpace methodsFor: 'operations' stamp: 'len 12/31/2017 13:41:35'!
 × aProjectiveSpace
 	"Answer the cartesian product of the receiver and the argument."
 	(aProjectiveSpace isKindOf: ProjectiveSpace)
 		ifFalse: [^ super × aProjectiveSpace].
-	(aProjectiveSpace isKindOf: ProductProjectiveSpace)
-		ifTrue: [^ ProductProjectiveSpace components: {self}, aProjectiveSpace components].
 	^ ProductProjectiveSpace components: {self. aProjectiveSpace}! !
 
 !ProjectiveSpace methodsFor: 'accessing' stamp: 'len 8/27/2016 19:03'!
