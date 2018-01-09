@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 5 January 2018 at 10:18:02 am'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 9 January 2018 at 9:31:27 pm'!
 'Description A computational algebra system in Smalltalk'!
-!provides: 'Mathematics' 1 393!
+!provides: 'Mathematics' 1 394!
 !requires: 'RayTracer' 1 2 nil!
 !classDefinition: #RealAlgebraicNumber category: #'Mathematics-Fields-Algebraic'!
 Number subclass: #RealAlgebraicNumber
@@ -1652,6 +1652,16 @@ FreeModule subclass: #TupleModule
 TupleModule class
 	instanceVariableNames: ''!
 
+!classDefinition: #MultivariateTupleModule category: #'Mathematics-Modules-Multivariate'!
+TupleModule subclass: #MultivariateTupleModule
+	instanceVariableNames: 'ordering'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Modules-Multivariate'!
+!classDefinition: 'MultivariateTupleModule class' category: #'Mathematics-Modules-Multivariate'!
+MultivariateTupleModule class
+	instanceVariableNames: ''!
+
 !classDefinition: #MatrixModule category: #'Mathematics-Matrices'!
 FreeModule subclass: #MatrixModule
 	instanceVariableNames: 'scalars numberOfRows numberOfColumns'
@@ -1750,16 +1760,6 @@ Module subclass: #MultivariateModule
 	category: 'Mathematics-Modules-Multivariate'!
 !classDefinition: 'MultivariateModule class' category: #'Mathematics-Modules-Multivariate'!
 MultivariateModule class
-	instanceVariableNames: ''!
-
-!classDefinition: #MultivariateTupleModule category: #'Mathematics-Modules-Multivariate'!
-MultivariateModule subclass: #MultivariateTupleModule
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Modules-Multivariate'!
-!classDefinition: 'MultivariateTupleModule class' category: #'Mathematics-Modules-Multivariate'!
-MultivariateTupleModule class
 	instanceVariableNames: ''!
 
 !classDefinition: #AffineSubspace category: #'Mathematics-Geometry-Affine'!
@@ -2722,43 +2722,43 @@ Object subclass: #ModuleMonomial
 ModuleMonomial class
 	instanceVariableNames: ''!
 
-!classDefinition: #ModuleMonomialOrdering category: #'Mathematics-Modules-Multivariate'!
+!classDefinition: #ModuleMonomialOrdering category: #'Mathematics-Modules-Multivariate-Orderings'!
 Object subclass: #ModuleMonomialOrdering
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Modules-Multivariate'!
-!classDefinition: 'ModuleMonomialOrdering class' category: #'Mathematics-Modules-Multivariate'!
+	category: 'Mathematics-Modules-Multivariate-Orderings'!
+!classDefinition: 'ModuleMonomialOrdering class' category: #'Mathematics-Modules-Multivariate-Orderings'!
 ModuleMonomialOrdering class
 	instanceVariableNames: ''!
 
-!classDefinition: #PositionOverTermOrdering category: #'Mathematics-Modules-Multivariate'!
+!classDefinition: #PositionOverTermOrdering category: #'Mathematics-Modules-Multivariate-Orderings'!
 ModuleMonomialOrdering subclass: #PositionOverTermOrdering
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Modules-Multivariate'!
-!classDefinition: 'PositionOverTermOrdering class' category: #'Mathematics-Modules-Multivariate'!
+	category: 'Mathematics-Modules-Multivariate-Orderings'!
+!classDefinition: 'PositionOverTermOrdering class' category: #'Mathematics-Modules-Multivariate-Orderings'!
 PositionOverTermOrdering class
 	instanceVariableNames: ''!
 
-!classDefinition: #SchreyerOrdering category: #'Mathematics-Modules-Multivariate'!
+!classDefinition: #SchreyerOrdering category: #'Mathematics-Modules-Multivariate-Orderings'!
 ModuleMonomialOrdering subclass: #SchreyerOrdering
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Modules-Multivariate'!
-!classDefinition: 'SchreyerOrdering class' category: #'Mathematics-Modules-Multivariate'!
+	category: 'Mathematics-Modules-Multivariate-Orderings'!
+!classDefinition: 'SchreyerOrdering class' category: #'Mathematics-Modules-Multivariate-Orderings'!
 SchreyerOrdering class
 	instanceVariableNames: ''!
 
-!classDefinition: #TermOverPositionOrdering category: #'Mathematics-Modules-Multivariate'!
+!classDefinition: #TermOverPositionOrdering category: #'Mathematics-Modules-Multivariate-Orderings'!
 ModuleMonomialOrdering subclass: #TermOverPositionOrdering
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Modules-Multivariate'!
-!classDefinition: 'TermOverPositionOrdering class' category: #'Mathematics-Modules-Multivariate'!
+	category: 'Mathematics-Modules-Multivariate-Orderings'!
+!classDefinition: 'TermOverPositionOrdering class' category: #'Mathematics-Modules-Multivariate-Orderings'!
 TermOverPositionOrdering class
 	instanceVariableNames: ''!
 
@@ -2814,7 +2814,7 @@ Tuple class
 
 !classDefinition: #MultivariateTuple category: #'Mathematics-Modules-Multivariate'!
 Tuple subclass: #MultivariateTuple
-	instanceVariableNames: ''
+	instanceVariableNames: 'parent components'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Modules-Multivariate'!
@@ -4895,6 +4895,12 @@ My instances are Weil divisors, i.e. formal sums (with integer coefficients) of 
 My instances are elements of the free algebra in a finite set of indeterminates. They are elements of a FreeAlgebra.
 
 A free polynomial is a formal linear combination of words, that in turn are formal (non-commutative) products of arbitrary objects (indeterminates).!
+
+!ModuleMonomial commentStamp: '<historical>' prior: 0!
+My instances are monomials in multivariate modules, i.e. R-modules where R is a multivariate ring such as a polynomial ring or an affine ring. They are the product of a monomial in R by a basis element.!
+
+!ModuleMonomialOrdering commentStamp: '<historical>' prior: 0!
+My instances are generalizations of monomial orderings to multivariate modules, i.e. R-modules where R is a multivariate ring such as a polynomial ring or an affine ring. They extend the ordering of the coefficients ring R to elements of the R-module.!
 
 !Tuple commentStamp: '<historical>' prior: 0!
 My instances are n-tuples with coefficients in some ring R, i.e. finite ordered lists of n elements of R indexed by integers 1 to n. They are the elements of the R-module R^n.
@@ -19505,6 +19511,11 @@ example
 sqrt: anInteger
 	^ self new sqrt: anInteger! !
 
+!AffineRing methodsFor: 'operations' stamp: 'len 1/7/2018 17:28:21'!
+^ n
+	(n isInteger and: [self isMultivariate]) ifFalse: [^ super ^ n].
+	^ MultivariateTupleModule new: n over: self! !
+
 !AffineRing methodsFor: 'operations' stamp: 'len 2/27/2017 20:46:09'!
 ’ aRing
 	"Answer the tensor product of the receiver with the argument."
@@ -19586,6 +19597,10 @@ isGraded
 !AffineRing methodsFor: 'testing' stamp: 'len 2/12/2017 05:49:31'!
 isLocal
 	^ self base isLocal! !
+
+!AffineRing methodsFor: 'testing' stamp: 'len 1/7/2018 17:28:33'!
+isMultivariate
+	^ self base isMultivariate! !
 
 !AffineRing methodsFor: 'operations' stamp: 'len 2/12/2017 06:50:20'!
 localization
@@ -20197,6 +20212,11 @@ new: anInteger over: aRing
 	self scalars >= aDomain scalars ifFalse: [^ false].
 	^ true! !
 
+!PolynomialRing methodsFor: 'operations' stamp: 'len 1/7/2018 17:25:53'!
+^ n
+	(n isInteger and: [self isMultivariate]) ifFalse: [^ super ^ n].
+	^ MultivariateTupleModule new: n over: self! !
+
 !PolynomialRing methodsFor: 'comparing' stamp: 'len 8/30/2016 07:09'!
 ~ aPolynomialRing
 	"Answer true if the receiver is canonically isomorphic to the argument."
@@ -20575,6 +20595,10 @@ isIntegralDomain
 isLocal
 	"Answer true if this polynomial ring is local, i.e. it uses a local monomial ordering."
 	^ self ordering isLocal! !
+
+!PolynomialRing methodsFor: 'testing' stamp: 'len 1/7/2018 17:23:04'!
+isMultivariate
+	^ self rank > 1! !
 
 !PolynomialRing methodsFor: 'testing' stamp: 'len 10/22/2016 18:10'!
 isNoetherian
@@ -21273,6 +21297,15 @@ zero
 \/ anIdeal
 	"Join."
 	^ self + anIdeal! !
+
+!Ideal methodsFor: 'operations' stamp: 'len 1/5/2018 11:00:18'!
+^ anInteger
+	"Answer the receiver raised to the power anInteger."
+	anInteger <= 0 ifTrue: [self error: 'exponent is not positive'].
+	anInteger = 1 ifTrue: [^ self].
+"	anInteger = 0 ifTrue: [^ self ring oneIdeal].
+	anInteger < 0 ifTrue: [^ (self ^ anInteger negated) reciprocal]."
+	^ self squared ^ (anInteger // 2) * (self ^ (anInteger \\ 2))! !
 
 !Ideal methodsFor: 'operations' stamp: 'len 2/23/2017 08:16:26'!
 ÷ anIdeal
@@ -23375,7 +23408,7 @@ projection: i
 rank
 	^ rank! !
 
-!TupleModule methodsFor: 'initialization' stamp: 'len 10/16/2016 09:25'!
+!TupleModule methodsFor: 'accessing-private' stamp: 'len 10/16/2016 09:25'!
 rank: n
 	rank _ n! !
 
@@ -23383,7 +23416,7 @@ rank: n
 scalars
 	^ scalars! !
 
-!TupleModule methodsFor: 'initialization' stamp: 'len 10/16/2016 09:25'!
+!TupleModule methodsFor: 'accessing-private' stamp: 'len 10/16/2016 09:25'!
 scalars: aRing
 	scalars _ aRing! !
 
@@ -23408,6 +23441,33 @@ zero
 !TupleModule class methodsFor: 'instance creation' stamp: 'len 10/16/2016 09:25'!
 new: anInteger over: aRing
 	^ self new rank: anInteger; scalars: aRing! !
+
+!MultivariateTupleModule methodsFor: 'operations' stamp: 'len 1/7/2018 17:03:27'!
+localization
+	self scalars isLocal ifTrue: [^ self].
+	^ self class new: self rank over: self scalars localization ordering: self ordering! !
+
+!MultivariateTupleModule methodsFor: 'converting' stamp: 'len 1/7/2018 17:07:51'!
+orderedBy: aModuleMonomialOrdering
+	^ self class new: self rank over: self scalars ordering: aModuleMonomialOrdering! !
+
+!MultivariateTupleModule methodsFor: 'accessing' stamp: 'len 1/6/2018 21:23:26'!
+ordering
+	^ ordering! !
+
+!MultivariateTupleModule methodsFor: 'accessing-private' stamp: 'len 1/7/2018 17:07:13'!
+ordering: aModuleMonomialOrdering
+	ordering _ aModuleMonomialOrdering isSymbol
+		ifTrue: [ModuleMonomialOrdering perform: aModuleMonomialOrdering]
+		ifFalse: [aModuleMonomialOrdering]! !
+
+!MultivariateTupleModule class methodsFor: 'instance creation' stamp: 'len 1/7/2018 17:06:19'!
+new: anInteger over: aRing
+	^ self new: anInteger over: aRing ordering: #top! !
+
+!MultivariateTupleModule class methodsFor: 'instance creation' stamp: 'len 1/7/2018 17:06:03'!
+new: anInteger over: aRing ordering: aModuleMonomialOrdering
+	^ self new rank: anInteger; scalars: aRing; ordering: aModuleMonomialOrdering! !
 
 !MatrixModule methodsFor: 'elements' stamp: 'len 12/22/2016 22:40:57'!
 !! anObject
@@ -24035,10 +24095,6 @@ leadingModule
 ordering
 	"Answer the module monomial ordering of the receiver."
 	^ self notYetImplemented! !
-
-!MultivariateTupleModule methodsFor: 'as yet unclassified' stamp: 'len 12/29/2017 07:30:36'!
-isFreeModule
-	^ true! !
 
 !AffineSubspace methodsFor: 'operations' stamp: 'len 6/4/2016 04:24'!
 * aScalar
@@ -33230,25 +33286,69 @@ one
 squared
 	^ self * self! !
 
-!ModuleMonomial methodsFor: 'as yet unclassified' stamp: 'len 1/14/2017 20:20:21'!
+!ModuleMonomial methodsFor: 'comparing' stamp: 'len 1/5/2018 11:20:58'!
+< aModuleMonomial
+	^ (self >= aModuleMonomial) not! !
+
+!ModuleMonomial methodsFor: 'comparing' stamp: 'len 1/5/2018 11:21:09'!
+<= aModuleMonomial
+	self == aModuleMonomial ifTrue: [^ true].
+	^ (self > aModuleMonomial) not! !
+
+!ModuleMonomial methodsFor: 'comparing' stamp: 'len 1/5/2018 11:19:20'!
+= aModuleMonomial
+	^ monomial = aModuleMonomial monomial and: [position = aModuleMonomial position]! !
+
+!ModuleMonomial methodsFor: 'comparing' stamp: 'len 1/5/2018 11:20:49'!
+> aModuleMonomial
+	^ (self compare: aModuleMonomial) > 0! !
+
+!ModuleMonomial methodsFor: 'comparing' stamp: 'len 1/5/2018 11:21:27'!
+>= aModuleMonomial
+	self == aModuleMonomial ifTrue: [^ true].
+	^ (self compare: aModuleMonomial) >= 0! !
+
+!ModuleMonomial methodsFor: 'testing' stamp: 'len 1/5/2018 11:23:44'!
+| aModuleMonomial
+	"Answer true if the receiver divides the argument."
+	^ position = aModuleMonomial position and: [monomial | aModuleMonomial monomial]! !
+
+!ModuleMonomial methodsFor: 'comparing' stamp: 'len 1/5/2018 11:22:02'!
+compare: aModuleMonomial
+	"Answer -1 if the receiver is < than the argument, 0 if they are equal, 1 if it is > than the argument."
+	^ self ordering compare: self with: aModuleMonomial! !
+
+!ModuleMonomial methodsFor: 'comparing' stamp: 'len 1/5/2018 11:20:11'!
+hash
+	^ monomial hash + position hash hashMultiply! !
+
+!ModuleMonomial methodsFor: 'accessing' stamp: 'len 1/14/2017 20:20:21'!
 monomial
 	^ monomial! !
 
-!ModuleMonomial methodsFor: 'as yet unclassified' stamp: 'len 1/14/2017 20:20:31'!
+!ModuleMonomial methodsFor: 'accessing-private' stamp: 'len 1/14/2017 20:20:31'!
 monomial: aMonomial
 	monomial _ aMonomial! !
 
-!ModuleMonomial methodsFor: 'as yet unclassified' stamp: 'len 1/14/2017 20:20:47'!
+!ModuleMonomial methodsFor: 'accessing' stamp: 'len 1/5/2018 11:22:11'!
+ordering
+	^ parent ordering! !
+
+!ModuleMonomial methodsFor: 'accessing' stamp: 'len 1/5/2018 11:25:10'!
+parent
+	^ parent! !
+
+!ModuleMonomial methodsFor: 'accessing' stamp: 'len 1/14/2017 20:20:47'!
 position
 	^ position! !
 
-!ModuleMonomial methodsFor: 'as yet unclassified' stamp: 'len 1/14/2017 20:20:41'!
+!ModuleMonomial methodsFor: 'accessing-private' stamp: 'len 1/14/2017 20:20:41'!
 position: anInteger
 	position _ anInteger! !
 
-!ModuleMonomial methodsFor: 'as yet unclassified' stamp: 'len 1/14/2017 20:19:46'!
+!ModuleMonomial methodsFor: 'printing' stamp: 'len 1/5/2018 16:01:39'!
 printOn: aStream
-	aStream print: monomial; nextPutAll: 'e' italic, position printString sub! !
+	aStream print: monomial; nextPutAll: Character epsilon asText, position printString sub! !
 
 !ModuleMonomialOrdering methodsFor: 'ordering' stamp: 'len 1/14/2017 20:54:49'!
 compare: aModuleMonomial with: anotherModuleMonomial
@@ -33258,12 +33358,49 @@ compare: aModuleMonomial with: anotherModuleMonomial
 leadingMonomialOf: aPolynomialTuple
 	self subclassResponsibility! !
 
+!ModuleMonomialOrdering methodsFor: 'ordering' stamp: 'len 1/5/2018 11:15:24'!
+printOn: aStream
+	self type isNil
+		ifTrue: [super printOn: aStream]
+		ifFalse: [aStream nextPutAll: self type]! !
+
+!ModuleMonomialOrdering methodsFor: 'ordering' stamp: 'len 1/5/2018 11:14:14'!
+type
+	^ nil! !
+
+!ModuleMonomialOrdering class methodsFor: 'as yet unclassified' stamp: 'len 1/7/2018 17:10:27'!
+pos
+	^ PositionOverTermOrdering new! !
+
+!ModuleMonomialOrdering class methodsFor: 'as yet unclassified' stamp: 'len 1/7/2018 17:10:09'!
+top
+	^ TermOverPositionOrdering new! !
+
+!PositionOverTermOrdering methodsFor: 'as yet unclassified' stamp: 'len 1/5/2018 11:16:54'!
+compare: aModuleMonomial with: anotherModuleMonomial
+	| result |
+	(result _ (aModuleMonomial position - anotherModuleMonomial position) sign	) == 0
+		ifFalse: [^ result].
+	^ aModuleMonomial monomial compare: anotherModuleMonomial monomial! !
+
+!PositionOverTermOrdering methodsFor: 'as yet unclassified' stamp: 'len 1/5/2018 11:15:41'!
+type
+	^ #pos! !
+
+!SchreyerOrdering methodsFor: 'as yet unclassified' stamp: 'len 1/5/2018 11:25:47'!
+type
+	^ #schreyer! !
+
 !TermOverPositionOrdering methodsFor: 'as yet unclassified' stamp: 'len 1/14/2017 21:01:40'!
 compare: aModuleMonomial with: anotherModuleMonomial
 	| result |
 	(result _ aModuleMonomial monomial compare: anotherModuleMonomial monomial) == 0
 		ifFalse: [^ result].
 	^ (aModuleMonomial position - anotherModuleMonomial position) sign! !
+
+!TermOverPositionOrdering methodsFor: 'as yet unclassified' stamp: 'len 1/5/2018 11:15:34'!
+type
+	^ #top! !
 
 !SimpleTensor methodsFor: 'comparing' stamp: 'len 2/23/2017 10:05:10'!
 = aSimpleTensor
@@ -33839,6 +33976,11 @@ norm2
 over: aRing
 	self scalars = aRing ifFalse: [^ aRing tuple: self size evaluating: [:i| aRing !! (self at: i)]]! !
 
+!Tuple methodsFor: 'accessing' stamp: 'len 1/6/2018 22:04:21'!
+parent
+	"Answer the tuple module where the receiver lives."
+	^ self scalars ^ self size! !
+
 !Tuple methodsFor: 'operations' stamp: 'len 11/23/2016 05:43:12'!
 polynomialValue: anObject
 	"Evaluate the receiver (as an univariate polynomial) at the given argument using Horner's method."
@@ -33871,6 +34013,11 @@ readStream
 !Tuple methodsFor: 'enumerating' stamp: 'len 11/5/2016 06:47'!
 reverseDo: aBlock
 	self size to: 1 by: -1 do: [:each| aBlock value: (self at: each)]! !
+
+!Tuple methodsFor: 'accessing' stamp: 'len 1/6/2018 22:04:44'!
+scalars
+	"Answer the ring of scalars (or ring of coefficients) of the receiver."
+	^ self parent scalars! !
 
 !Tuple methodsFor: 'enumerating' stamp: 'len 11/6/2016 14:22'!
 sum
@@ -33929,6 +34076,14 @@ leadingMonomial
 !MultivariateTuple methodsFor: 'as yet unclassified' stamp: 'len 1/14/2017 20:35:06'!
 leadingTerm
 	^ self termAt: self leadingMonomial! !
+
+!MultivariateTuple methodsFor: 'as yet unclassified' stamp: 'len 1/6/2018 22:05:31'!
+ordering
+	^ parent ordering! !
+
+!MultivariateTuple methodsFor: 'as yet unclassified' stamp: 'len 1/6/2018 22:05:02'!
+parent
+	^ parent! !
 
 !MultivariateTuple methodsFor: 'as yet unclassified' stamp: 'len 1/14/2017 21:04:51'!
 termAt: aModuleMonomial
@@ -36382,8 +36537,9 @@ at: anIndeterminate
 bitSize
 	^ exponents inject: 0 into: [:x :each| x + each bitSize]! !
 
-!Monomial methodsFor: 'comparing' stamp: 'len 11/21/2016 08:35:34'!
+!Monomial methodsFor: 'comparing' stamp: 'len 1/5/2018 11:12:42'!
 compare: aMonomial
+	"Answer -1 if the receiver is < than the argument, 0 if they are equal, 1 if it is > than the argument."
 	^ self ordering compare: self with: aMonomial! !
 
 !Monomial methodsFor: 'operations' stamp: 'len 1/23/2017 11:35:52'!
