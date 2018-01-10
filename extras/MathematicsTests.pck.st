@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 24 December 2017 at 8:50:17 pm'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 10 January 2018 at 10:02:30 pm'!
 'Description Please enter a description for this package'!
-!provides: 'MathematicsTests' 1 83!
+!provides: 'MathematicsTests' 1 84!
 !classDefinition: #AbelianGroupTest category: #MathematicsTests!
 TestCase subclass: #AbelianGroupTest
 	instanceVariableNames: ''
@@ -1008,12 +1008,14 @@ testAffinePlaneCurveMultiplicity
 	self assert: (C multiplicityAt: (1,1)) = 1.
 	self assert: (C multiplicityAt: (0,0)) = 2! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 2/22/2017 08:20:58'!
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 1/5/2018 10:16:11'!
 testAffineSchemeCartesianProduct
 	| X1 X2 P |
 	X1 _ AffineVariety circle.
 	X2 _ AffineVariety romanSurface.
 	P _ X1 × X2.
+	self assert: (P apply: (P ambient projection: 1)) = X1.
+	self assert: (P apply: (P ambient projection: 2)) = X2.
 	self assert: X1 dimension + X2 dimension = P dimension.
 	self assert: X1 ambient dimension + X2 ambient dimension = P ambient dimension.
 	self assert: (X1 pointsCountOver: ZZ/3) * (X2 pointsCountOver: ZZ/3) = (P pointsCountOver: ZZ/3).
@@ -2437,11 +2439,11 @@ testAutomorphismsP3
 	A _ G automorphisms.
 	self assert: A = (PermutationGroup new: 3 generators: {Permutation image: #(3 2 1)})! !
 
-!GraphTest methodsFor: 'as yet unclassified' stamp: 'len 11/16/2016 10:05'!
+!GraphTest methodsFor: 'as yet unclassified' stamp: 'len 12/30/2017 16:17:24'!
 testCartesianProduct
 	| G H |
 	G _ Graph unordered addEdge: 1 -> 2; yourself.
-	H _ G cartesian: G.
+	H _ G × G.
 	self assert: H size = 4.
 	self assert: H numberOfEdges = 4! !
 
@@ -3116,6 +3118,18 @@ testExtendedEuclid
 testFieldAutomorphisms
 	self assert: QQ automorphisms isTrivial! !
 
+!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 1/10/2018 13:11:40'!
+testFreeAlgebra
+	| A f g h |
+	A _ QQ freeAlgebraIn: #(x y z).
+	f _ A atRandomBits: 100.
+	g _ A atRandomBits: 100.
+	h _ A atRandomBits: 100.
+	self assert: (f*g)*h = (f*(g*h)). "associativity"
+	self assert: (f+g)*h = (f*h + (g*h)). "distributivity"
+	self assert: f * A one = f.
+	self assert: A one * f = f! !
+
 !MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 12/20/2016 11:48:35'!
 testFunctionComposition
 	| f g a |
@@ -3367,6 +3381,19 @@ testWord
 	self assert: x*y*y * (y reciprocal * y reciprocal * x) = (x^2).
 	self assert: x * (y * y * x) = (x * y * (y * x)).
 	self assert: (x*y * (x*y) reciprocal) isEmpty! !
+
+!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 1/10/2018 11:31:05'!
+testWordOrdering
+	| F p q r |
+	F _ FreeMonoid new: 3.
+	p _ F atRandomBits: 20 atRandom.
+	r _ F atRandomBits: 20 atRandom.
+	[p < (q _ F atRandomBits: 20 atRandom)] whileFalse.
+	self assert: p*r <= (q*r).
+	self assert: r*p <= (r*q).
+	p _ q * r.
+	self assert: (p > q or: [p = q and: [r isEmpty]]).
+	self assert: (p > r or: [p = r and: [q isEmpty]])! !
 
 !MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 8/1/2016 03:30'!
 testYoungTableauxSemistandard
@@ -6061,13 +6088,15 @@ testSimplexJoin
 	self assert: A*B ~ (Simplex new: 2+1+3+1-1)
 ! !
 
-!SimplicialComplexTest methodsFor: 'as yet unclassified' stamp: 'len 2/25/2017 08:22:35'!
-testSimplicalChainsBoundary
-	| X x |
+!SimplicialComplexTest methodsFor: 'as yet unclassified' stamp: 'len 1/10/2018 21:35:56'!
+testSimplicalChainsBoundaryMap
+	| X d1 d2 |
 	X _ SimplicialComplex sphere: 2.
-	x _ (X chains: 2 over: QQ) atRandomBits: 20.
-	self assert: x boundary boundary isZero.
-	self assert: x boundary isCycle! !
+	d2 _ X boundaryMap: 2 over: QQ.
+	d1 _ X boundaryMap: 1 over: QQ.
+	self assert: d2 isZero not.
+	self assert: d1 isZero not.
+	self assert: (d1 ” d2) isZero! !
 
 !SimplicialComplexTest methodsFor: 'as yet unclassified' stamp: 'len 2/19/2017 10:00:52'!
 testSimplicialComplexExample
