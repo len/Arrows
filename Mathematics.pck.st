@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 9 January 2018 at 9:31:27 pm'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 10 January 2018 at 12:35:18 pm'!
 'Description A computational algebra system in Smalltalk'!
-!provides: 'Mathematics' 1 394!
+!provides: 'Mathematics' 1 397!
 !requires: 'RayTracer' 1 2 nil!
 !classDefinition: #RealAlgebraicNumber category: #'Mathematics-Fields-Algebraic'!
 Number subclass: #RealAlgebraicNumber
@@ -1392,6 +1392,16 @@ PolynomialRing subclass: #TensorProductPolynomialRing
 TensorProductPolynomialRing class
 	instanceVariableNames: ''!
 
+!classDefinition: #FreeAlgebra category: #'Mathematics-Algebras'!
+Ring subclass: #FreeAlgebra
+	instanceVariableNames: 'scalars words'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Algebras'!
+!classDefinition: 'FreeAlgebra class' category: #'Mathematics-Algebras'!
+FreeAlgebra class
+	instanceVariableNames: ''!
+
 !classDefinition: #PowerSeriesRing category: #'Mathematics-Sequences'!
 Ring subclass: #PowerSeriesRing
 	instanceVariableNames: 'polynomials'
@@ -1400,16 +1410,6 @@ Ring subclass: #PowerSeriesRing
 	category: 'Mathematics-Sequences'!
 !classDefinition: 'PowerSeriesRing class' category: #'Mathematics-Sequences'!
 PowerSeriesRing class
-	instanceVariableNames: ''!
-
-!classDefinition: #FreeAlgebra category: #'Mathematics-Etc'!
-Ring subclass: #FreeAlgebra
-	instanceVariableNames: 'scalars words'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Etc'!
-!classDefinition: 'FreeAlgebra class' category: #'Mathematics-Etc'!
-FreeAlgebra class
 	instanceVariableNames: ''!
 
 !classDefinition: #SymmetricPolynomialRing category: #'Mathematics-Etc'!
@@ -2682,6 +2682,16 @@ FormalSum subclass: #Tensor
 Tensor class
 	instanceVariableNames: ''!
 
+!classDefinition: #FreePolynomial category: #'Mathematics-Algebras'!
+FormalSum subclass: #FreePolynomial
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Algebras'!
+!classDefinition: 'FreePolynomial class' category: #'Mathematics-Algebras'!
+FreePolynomial class
+	instanceVariableNames: ''!
+
 !classDefinition: #SimplicialChain category: #'Mathematics-Homology'!
 FormalSum subclass: #SimplicialChain
 	instanceVariableNames: ''
@@ -2700,16 +2710,6 @@ FormalSum subclass: #Divisor
 	category: 'Mathematics-Schemes-Divisors'!
 !classDefinition: 'Divisor class' category: #'Mathematics-Schemes-Divisors'!
 Divisor class
-	instanceVariableNames: ''!
-
-!classDefinition: #FreePolynomial category: #'Mathematics-Etc'!
-FormalSum subclass: #FreePolynomial
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Etc'!
-!classDefinition: 'FreePolynomial class' category: #'Mathematics-Etc'!
-FreePolynomial class
 	instanceVariableNames: ''!
 
 !classDefinition: #ModuleMonomial category: #'Mathematics-Modules-Multivariate'!
@@ -3948,7 +3948,7 @@ References:
 My instances are direct products of groups. Elements are tuples, and multiplication and addition are defined component wise.!
 
 !FreeGroup commentStamp: '<historical>' prior: 0!
-My instances are free groups on a given set of symbols. Their elements are (non-commutative) words on the set of symbols (see Word).!
+My instances are free groups on a given set of symbols. Their elements are (noncommutative) words on the set of symbols (see Word).!
 
 !QuotientGroup commentStamp: '<historical>' prior: 0!
 My instances are quotient groups (or factor groups) G/N (read "G mod N"), i.e. the quotient of a group G by a normal subgroup N. The elements are the cosets of N (see Coset).
@@ -4288,9 +4288,9 @@ My instances are tensor products over R of polynomial rings with coefficients in
 !
 
 !FreeAlgebra commentStamp: '<historical>' prior: 0!
-My instances are algebras of non-commutative polynomials in a finite set of indeterminates. Their elements are FreePolynomials.
+My instances are (associative) algebras of noncommutative polynomials in a finite set of indeterminates. Their elements are FreePolynomials.
 
-This is the non-commutative analogue of a polynomial ring.!
+This is the noncommutative analogue of a polynomial ring.!
 
 !PAdicField commentStamp: '<historical>' prior: 0!
 My instances are fields of p-adic numbers Qp. These are fraction fields of rings of p-adic integers. See PAdicIntegerRing and PAdicNumber.!
@@ -4827,7 +4827,7 @@ Following conventions, a point [a:b:1] is printed '(a,b)', and the point at infi
 I am the Product Replacement Algorithm for generating random elements in a group from a set of generators. Essentially, it performs a random walk on a Cayley graph.!
 
 !Word commentStamp: '<historical>' prior: 0!
-A word is a (non-commutative) formal product of a finite ordered list of objects. They are elements of a FreeMonoid.
+A word is a (noncommutative) formal product of a finite ordered list of objects. They are elements of a FreeMonoid.
 
 See also Monomial for the commutative analog, and FormalSum for the additive analog.!
 
@@ -4885,16 +4885,16 @@ Structure:
 !FormalSum commentStamp: '<historical>' prior: 0!
 My instances are formal sums (or formal linear combinations) of arbitrary objects with coefficients over a given ring R. They form free R-modules (see FormalSumsModule). or abelian groups when the coefficients ring R is the rational integers (see FreeAbelianGroup).!
 
+!FreePolynomial commentStamp: '<historical>' prior: 0!
+My instances are elements of the free algebra in a finite set of indeterminates. They are elements of a FreeAlgebra.
+
+A free polynomial is a formal linear combination of words, that in turn are formal (non-commutative) products of arbitrary objects (indeterminates).!
+
 !SimplicialChain commentStamp: '<historical>' prior: 0!
 A simplicial k-chain is a formal linear combination of k-simplices.!
 
 !Divisor commentStamp: '<historical>' prior: 0!
 My instances are Weil divisors, i.e. formal sums (with integer coefficients) of prime divisors (integral closed subschemes of codimension 1) of an integral locally Noetherian scheme.!
-
-!FreePolynomial commentStamp: '<historical>' prior: 0!
-My instances are elements of the free algebra in a finite set of indeterminates. They are elements of a FreeAlgebra.
-
-A free polynomial is a formal linear combination of words, that in turn are formal (non-commutative) products of arbitrary objects (indeterminates).!
 
 !ModuleMonomial commentStamp: '<historical>' prior: 0!
 My instances are monomials in multivariate modules, i.e. R-modules where R is a multivariate ring such as a polynomial ring or an affine ring. They are the product of a monomial in R by a basis element.!
@@ -15515,6 +15515,10 @@ relations
 relations: aNormalSubgroup
 	self propertyAt: #relations put: aNormalSubgroup! !
 
+!QuotientGroup methodsFor: 'accessing' stamp: 'len 1/9/2018 21:57:07'!
+relators
+	^ self relations generators! !
+
 !QuotientGroup methodsFor: 'accessing' stamp: 'len 5/2/2016 02:14'!
 size
 	^ super size
@@ -18929,6 +18933,10 @@ relations
 relations: anIdeal
 	self propertyAt: #relations put: anIdeal! !
 
+!QuotientRing methodsFor: 'accessing' stamp: 'len 1/9/2018 21:58:01'!
+relators
+	^ self relations generators! !
+
 !QuotientRing methodsFor: 'private' stamp: 'len 1/5/2017 08:14:45'!
 representative: anElement
 	"Answer the residue class corresponding to the given representative (which is already reduced)."
@@ -20824,6 +20832,128 @@ embedding: i
 	1 to: i-1 do: [:each| shift _ shift + (self at: each) rank].
 	^ ((self at: i) to: self evaluating: [:f| self !! f substitute: [:j| j+shift]]) name: 'i', i printText sub! !
 
+!FreeAlgebra methodsFor: 'comparing' stamp: 'len 8/25/2016 08:22'!
+= anObject
+	self == anObject ifTrue: [^ true].
+	^ (anObject isKindOf: FreeAlgebra) and: [anObject scalars = scalars and: [anObject words = words]]! !
+
+!FreeAlgebra methodsFor: 'elements' stamp: 'len 3/2/2016 05:54'!
+coefficient: aNumber word: aWord
+	^ self new coefficientAt: aWord put: aNumber; yourself! !
+
+!FreeAlgebra methodsFor: 'elements' stamp: 'len 8/25/2016 08:19'!
+coefficients: aCollection
+	^ FreePolynomial coefficients: aCollection! !
+
+!FreeAlgebra methodsFor: 'elements' stamp: 'len 8/25/2016 08:26'!
+constant: aNumber
+	^ self coefficient: aNumber word: words identity! !
+
+!FreeAlgebra methodsFor: 'comparing' stamp: 'len 8/25/2016 08:21'!
+hash
+	^ scalars hash + words hash hashMultiply! !
+
+!FreeAlgebra methodsFor: 'testing' stamp: 'len 8/25/2016 08:28'!
+includes: anObject
+	anObject coefficients keysAndValuesDo: [:key :value|
+		(words includes: key) ifFalse: [^ false].
+		(scalars includes: value) ifFalse: [^ false]].
+	^ true! !
+
+!FreeAlgebra methodsFor: 'accessing' stamp: 'len 8/25/2016 08:22'!
+indeterminates
+	^ words symbols! !
+
+!FreeAlgebra methodsFor: 'testing' stamp: 'len 3/5/2016 04:24'!
+isAssociative
+	^ true! !
+
+!FreeAlgebra methodsFor: 'testing' stamp: 'len 8/25/2016 08:29'!
+isCommutative
+	^ words isCommutative and: [scalars isCommutative]! !
+
+!FreeAlgebra methodsFor: 'testing' stamp: 'len 8/25/2016 08:30'!
+isCountable
+	^ words isCountable and: [scalars isCountable]! !
+
+!FreeAlgebra methodsFor: 'testing' stamp: 'len 8/25/2016 08:30'!
+isFinite
+	^ words isFinite and: [scalars isFinite]! !
+
+!FreeAlgebra methodsFor: 'elements' stamp: 'len 8/25/2016 08:19'!
+new
+	^ FreePolynomial new! !
+
+!FreeAlgebra methodsFor: 'elements' stamp: 'len 1/20/2016 14:06'!
+one
+	^ self constant: scalars one! !
+
+!FreeAlgebra methodsFor: 'printing' stamp: 'len 1/10/2018 12:24:54'!
+printOn: aStream
+	aStream print: scalars.
+	aStream nextPut: $<.
+	self indeterminates
+		do: [:i| aStream print: (self x: i)]
+		separatedBy: [aStream nextPut: $,].
+	aStream nextPut: $>! !
+
+!FreeAlgebra methodsFor: 'accessing' stamp: 'len 3/5/2016 04:30'!
+rank
+	self flag: #fix. "conflicts with FreeModule|rank"
+	^ self indeterminates size! !
+
+!FreeAlgebra methodsFor: 'accessing' stamp: 'len 1/20/2016 14:58'!
+scalars
+	^ scalars! !
+
+!FreeAlgebra methodsFor: 'accessing-private' stamp: 'len 1/20/2016 13:39'!
+scalars: aCommutativeRing
+	scalars _ aCommutativeRing! !
+
+!FreeAlgebra methodsFor: 'accessing' stamp: 'len 8/25/2016 08:27'!
+words
+	^ words! !
+
+!FreeAlgebra methodsFor: 'accessing-private' stamp: 'len 8/25/2016 08:24'!
+words: aMonoid
+	words _ aMonoid! !
+
+!FreeAlgebra methodsFor: 'elements' stamp: 'len 8/25/2016 08:21'!
+x
+	^ self x: self indeterminates first! !
+
+!FreeAlgebra methodsFor: 'elements' stamp: 'len 3/2/2016 05:56'!
+x: anIndeterminate
+	^ self coefficient: scalars one word: (Word x: anIndeterminate)! !
+
+!FreeAlgebra methodsFor: 'elements' stamp: 'len 8/25/2016 08:22'!
+y
+	^ self x: self indeterminates second! !
+
+!FreeAlgebra methodsFor: 'elements' stamp: 'len 8/25/2016 08:21'!
+z
+	^ self x: self indeterminates third! !
+
+!FreeAlgebra methodsFor: 'elements' stamp: 'len 3/2/2016 05:55'!
+zero
+	^ self new! !
+
+!FreeAlgebra class methodsFor: 'instance creation' stamp: 'len 6/30/2016 02:27'!
+new: anInteger over: aRing
+	^ self on: (1 to: anInteger) over: aRing! !
+
+!FreeAlgebra class methodsFor: 'instance creation' stamp: 'len 8/25/2016 08:25'!
+on: aCollection over: aRing
+	^ self words: (FreeMonoid on: aCollection) over: aRing! !
+
+!FreeAlgebra class methodsFor: 'instance creation' stamp: 'len 1/20/2016 13:38'!
+over: aRing
+	^ self new: 1 over: aRing! !
+
+!FreeAlgebra class methodsFor: 'instance creation' stamp: 'len 8/25/2016 08:24'!
+words: aMonoid over: aRing
+	^ self new words: aMonoid; scalars: aRing! !
+
 !PowerSeriesRing methodsFor: 'accessing' stamp: 'len 10/28/2016 14:17'!
 characteristic
 	^ self scalars characteristic! !
@@ -20897,128 +21027,6 @@ over: aRing
 !PowerSeriesRing class methodsFor: 'instance creation' stamp: 'len 10/28/2016 10:41'!
 polynomials: aPolynomialRing
 	^ self new polynomials: aPolynomialRing! !
-
-!FreeAlgebra methodsFor: 'comparing' stamp: 'len 8/25/2016 08:22'!
-= anObject
-	self == anObject ifTrue: [^ true].
-	^ (anObject isKindOf: FreeAlgebra) and: [anObject scalars = scalars and: [anObject words = words]]! !
-
-!FreeAlgebra methodsFor: 'elements' stamp: 'len 3/2/2016 05:54'!
-coefficient: aNumber word: aWord
-	^ self new coefficientAt: aWord put: aNumber; yourself! !
-
-!FreeAlgebra methodsFor: 'elements' stamp: 'len 8/25/2016 08:19'!
-coefficients: aCollection
-	^ FreePolynomial coefficients: aCollection! !
-
-!FreeAlgebra methodsFor: 'elements' stamp: 'len 8/25/2016 08:26'!
-constant: aNumber
-	^ self coefficient: aNumber word: words identity! !
-
-!FreeAlgebra methodsFor: 'comparing' stamp: 'len 8/25/2016 08:21'!
-hash
-	^ scalars hash + words hash hashMultiply! !
-
-!FreeAlgebra methodsFor: 'testing' stamp: 'len 8/25/2016 08:28'!
-includes: anObject
-	anObject coefficients keysAndValuesDo: [:key :value|
-		(words includes: key) ifFalse: [^ false].
-		(scalars includes: value) ifFalse: [^ false]].
-	^ true! !
-
-!FreeAlgebra methodsFor: 'accessing' stamp: 'len 8/25/2016 08:22'!
-indeterminates
-	^ words symbols! !
-
-!FreeAlgebra methodsFor: 'testing' stamp: 'len 3/5/2016 04:24'!
-isAssociative
-	^ true! !
-
-!FreeAlgebra methodsFor: 'testing' stamp: 'len 8/25/2016 08:29'!
-isCommutative
-	^ words isCommutative and: [scalars isCommutative]! !
-
-!FreeAlgebra methodsFor: 'testing' stamp: 'len 8/25/2016 08:30'!
-isCountable
-	^ words isCountable and: [scalars isCountable]! !
-
-!FreeAlgebra methodsFor: 'testing' stamp: 'len 8/25/2016 08:30'!
-isFinite
-	^ words isFinite and: [scalars isFinite]! !
-
-!FreeAlgebra methodsFor: 'elements' stamp: 'len 8/25/2016 08:19'!
-new
-	^ FreePolynomial new! !
-
-!FreeAlgebra methodsFor: 'elements' stamp: 'len 1/20/2016 14:06'!
-one
-	^ self constant: scalars one! !
-
-!FreeAlgebra methodsFor: 'printing' stamp: 'len 8/25/2016 08:22'!
-printOn: aStream
-	aStream print: scalars.
-	aStream nextPut: ${.
-	self indeterminates
-		do: [:i| aStream print: (Word x: i)]
-		separatedBy: [aStream nextPut: $,].
-	aStream nextPut: $}! !
-
-!FreeAlgebra methodsFor: 'accessing' stamp: 'len 3/5/2016 04:30'!
-rank
-	self flag: #fix. "conflicts with FreeModule|rank"
-	^ self indeterminates size! !
-
-!FreeAlgebra methodsFor: 'accessing' stamp: 'len 1/20/2016 14:58'!
-scalars
-	^ scalars! !
-
-!FreeAlgebra methodsFor: 'accessing-private' stamp: 'len 1/20/2016 13:39'!
-scalars: aCommutativeRing
-	scalars _ aCommutativeRing! !
-
-!FreeAlgebra methodsFor: 'accessing' stamp: 'len 8/25/2016 08:27'!
-words
-	^ words! !
-
-!FreeAlgebra methodsFor: 'accessing-private' stamp: 'len 8/25/2016 08:24'!
-words: aMonoid
-	words _ aMonoid! !
-
-!FreeAlgebra methodsFor: 'elements' stamp: 'len 8/25/2016 08:21'!
-x
-	^ self x: self indeterminates first! !
-
-!FreeAlgebra methodsFor: 'elements' stamp: 'len 3/2/2016 05:56'!
-x: anIndeterminate
-	^ self coefficient: scalars one word: (Word x: anIndeterminate)! !
-
-!FreeAlgebra methodsFor: 'elements' stamp: 'len 8/25/2016 08:22'!
-y
-	^ self x: self indeterminates second! !
-
-!FreeAlgebra methodsFor: 'elements' stamp: 'len 8/25/2016 08:21'!
-z
-	^ self x: self indeterminates third! !
-
-!FreeAlgebra methodsFor: 'elements' stamp: 'len 3/2/2016 05:55'!
-zero
-	^ self new! !
-
-!FreeAlgebra class methodsFor: 'instance creation' stamp: 'len 6/30/2016 02:27'!
-new: anInteger over: aRing
-	^ self on: (1 to: anInteger) over: aRing! !
-
-!FreeAlgebra class methodsFor: 'instance creation' stamp: 'len 8/25/2016 08:25'!
-on: aCollection over: aRing
-	^ self words: (FreeMonoid on: aCollection) over: aRing! !
-
-!FreeAlgebra class methodsFor: 'instance creation' stamp: 'len 1/20/2016 13:38'!
-over: aRing
-	^ self new: 1 over: aRing! !
-
-!FreeAlgebra class methodsFor: 'instance creation' stamp: 'len 8/25/2016 08:24'!
-words: aMonoid over: aRing
-	^ self new words: aMonoid; scalars: aRing! !
 
 !SymmetricPolynomialRing methodsFor: 'as yet unclassified' stamp: 'len 8/2/2016 09:50'!
 generators
@@ -23099,6 +23107,10 @@ relations
 relations: aSubspace
 	self propertyAt: #relations put: aSubspace! !
 
+!QuotientSpace methodsFor: 'accessing' stamp: 'len 1/9/2018 21:58:12'!
+relators
+	^ self relations generators! !
+
 !QuotientSpace methodsFor: 'accessing' stamp: 'len 2/27/2017 21:28:34'!
 scalars
 	^ self relations scalars! !
@@ -24072,6 +24084,10 @@ relations
 !QuotientModule methodsFor: 'as yet unclassified' stamp: 'len 2/27/2017 21:31:18'!
 relations: aSubmodule
 	self propertyAt: #relations put: aSubmodule! !
+
+!QuotientModule methodsFor: 'as yet unclassified' stamp: 'len 1/9/2018 21:57:47'!
+relators
+	^ self relations generators! !
 
 !QuotientModule methodsFor: 'as yet unclassified' stamp: 'len 2/27/2017 21:32:55'!
 scalars
@@ -31230,9 +31246,27 @@ next
 / aWord
 	^ self * aWord reciprocal! !
 
+!Word methodsFor: 'comparing' stamp: 'len 1/9/2018 21:32:27'!
+< aWord
+	^ (self >= aWord) not! !
+
+!Word methodsFor: 'comparing' stamp: 'len 1/9/2018 21:32:46'!
+<= aWord
+	self == aWord ifTrue: [^ true].
+	^ (self > aWord) not! !
+
 !Word methodsFor: 'comparing' stamp: 'len 3/3/2016 05:23'!
 = aWord
 	^ syllables = aWord syllables! !
+
+!Word methodsFor: 'comparing' stamp: 'len 1/9/2018 21:33:57'!
+> aWord
+	^ (self compare: aWord) > 0! !
+
+!Word methodsFor: 'comparing' stamp: 'len 1/9/2018 21:34:13'!
+>= aWord
+	self == aWord ifTrue: [^ true].
+	^ (self compare: aWord) >= 0! !
 
 !Word methodsFor: 'arithmetic' stamp: 'len 1/22/2017 08:21:26'!
 ^ anInteger
@@ -31240,6 +31274,27 @@ next
 	anInteger = 0 ifTrue: [^ self class empty].
 	anInteger < 0 ifTrue: [^ self reciprocal ^ anInteger negated].
 	^ self squared ^ (anInteger // 2) * (self ^ (anInteger \\ 2))! !
+
+!Word methodsFor: 'comparing' stamp: 'len 1/10/2018 11:40:04'!
+compare: aWord
+	"Answer -1 if the receiver is < than the argument, 0 if they are equal, 1 if it is > than the argument.
+	This is the noncommutative graded-lexicographical ordering."
+	| result stream1 stream2 a1 a2 r1 r2 r x1 x2 |
+	(result _ (self length - aWord length) sign) = 0 ifFalse: [^ result].
+	self isEmpty ifTrue: [^ 0].
+	stream1 _ syllables readStream.
+	stream2 _ aWord syllables readStream.
+	r1 _ 0.
+	r2 _ 0.
+	[r1 > 0 ifFalse: [a1 _ stream1 next. x1 _ a1 key. r1 _ a1 value].
+	r2 > 0 ifFalse: [a2 _ stream2 next. x2 _ a2 key. r2 _ a2 value].
+	r _ r1 min: r2.
+	x1 < x2 ifTrue: [^ -1].
+	x1 = x2 ifFalse: [^ 1].
+	r1 _ r1 - r.
+	r2 _ r2 - r.
+	stream1 atEnd and: [stream2 atEnd]] whileFalse.
+	^ 0! !
 
 !Word methodsFor: 'copying' stamp: 'len 2/27/2017 08:06:48'!
 copyWithout: anObject
@@ -31257,8 +31312,9 @@ hash
 isEmpty
 	^ syllables isEmpty! !
 
-!Word methodsFor: 'accessing' stamp: 'len 3/3/2016 05:26'!
+!Word methodsFor: 'accessing' stamp: 'len 1/10/2018 11:28:25'!
 length
+	syllables isEmpty ifTrue: [^ 0].
 	^ syllables sum: [:each| each value abs]! !
 
 !Word methodsFor: 'printing' stamp: 'len 7/2/2016 16:29'!
@@ -31288,9 +31344,9 @@ printIndeterminate: indeterminate on: aStream
 		ifTrue: [aStream nextPut: $x; nextPutAll: indeterminate printString sub]
 		ifFalse: [aStream nextPutAll: '{x', indeterminate printString, '}']! !
 
-!Word methodsFor: 'printing' stamp: 'len 2/27/2017 08:12:20'!
+!Word methodsFor: 'printing' stamp: 'len 1/10/2018 12:23:21'!
 printOn: aStream
-	self isEmpty ifTrue: [aStream print: 1. ^ self].
+	self isEmpty ifTrue: [aStream nextPut: Character epsilon. ^ self].
 	self do: [:i :exp|
 		exp = 0
 			ifFalse:
@@ -33176,6 +33232,40 @@ with: anObject over: aRing
 simple: anArray over: aRing
 	^ self with: (anArray class = SimpleTensor ifTrue: [anArray] ifFalse: [SimpleTensor components: anArray]) over: aRing! !
 
+!FreePolynomial methodsFor: 'arithmetic' stamp: 'len 11/25/2016 10:03:02'!
+* anObject
+	((self scalars includes: anObject) or: [anObject isInteger])
+		ifTrue: [^ self class coefficients: self coefficients * anObject].
+	((anObject isKindOf: FreePolynomial) and: [anObject scalars = self scalars])
+		ifTrue:
+			[^ self species coefficients: (coefficients convolution: anObject coefficients)].
+	(anObject isKindOf: Word)
+		ifTrue: [^ self mapMonomials: [:each| each*anObject]].
+	^ DomainError signal! !
+
+!FreePolynomial methodsFor: 'arithmetic' stamp: 'len 2/25/2017 07:53:00'!
+^ anInteger
+	"Answer the receiver raised to the power anInteger."
+	(anInteger isInteger and: [anInteger >= 0])
+		ifFalse: [^ DomainError signal: 'undefinted'].
+	anInteger = 0 ifTrue: [^ self one].
+	anInteger = 1 ifTrue: [^ self].
+	^ self squared ^ (anInteger // 2) * (self ^ (anInteger \\ 2))! !
+
+!FreePolynomial methodsFor: 'accessing' stamp: 'len 3/3/2016 05:27'!
+degree
+	"Answer the total degree of the receiver."
+	self isZero ifTrue: [^ Infinity negative].
+	^ self monomials max: [:each| each length]! !
+
+!FreePolynomial methodsFor: 'accessing' stamp: 'len 2/25/2017 08:58:01'!
+one
+	^ self class coefficients: ((FormalSum over: self scalars) at: Word empty put: self scalars one; yourself)! !
+
+!FreePolynomial methodsFor: 'arithmetic' stamp: 'len 3/2/2016 05:35'!
+squared
+	^ self * self! !
+
 !SimplicialChain methodsFor: 'operations' stamp: 'len 2/25/2017 09:26:29'!
 boundary
 	"The boundary of a chain is the linear combination of the boundary of the simplices in the chain. The boundary of a k-chain is a (k-1)-chain."
@@ -33251,40 +33341,6 @@ support
 	answer _ nil. "should start from the empty variety"
 	self keysDo: [:each| answer _ answer ifNil: [each] ifNotNil: [answer – each]].
 	^ answer! !
-
-!FreePolynomial methodsFor: 'arithmetic' stamp: 'len 11/25/2016 10:03:02'!
-* anObject
-	((self scalars includes: anObject) or: [anObject isInteger])
-		ifTrue: [^ self class coefficients: self coefficients * anObject].
-	((anObject isKindOf: FreePolynomial) and: [anObject scalars = self scalars])
-		ifTrue:
-			[^ self species coefficients: (coefficients convolution: anObject coefficients)].
-	(anObject isKindOf: Word)
-		ifTrue: [^ self mapMonomials: [:each| each*anObject]].
-	^ DomainError signal! !
-
-!FreePolynomial methodsFor: 'arithmetic' stamp: 'len 2/25/2017 07:53:00'!
-^ anInteger
-	"Answer the receiver raised to the power anInteger."
-	(anInteger isInteger and: [anInteger >= 0])
-		ifFalse: [^ DomainError signal: 'undefinted'].
-	anInteger = 0 ifTrue: [^ self one].
-	anInteger = 1 ifTrue: [^ self].
-	^ self squared ^ (anInteger // 2) * (self ^ (anInteger \\ 2))! !
-
-!FreePolynomial methodsFor: 'accessing' stamp: 'len 3/3/2016 05:27'!
-degree
-	"Answer the total degree of the receiver."
-	self isZero ifTrue: [^ Infinity negative].
-	^ self monomials max: [:each| each length]! !
-
-!FreePolynomial methodsFor: 'accessing' stamp: 'len 2/25/2017 08:58:01'!
-one
-	^ self class coefficients: ((FormalSum over: self scalars) at: Word empty put: self scalars one; yourself)! !
-
-!FreePolynomial methodsFor: 'arithmetic' stamp: 'len 3/2/2016 05:35'!
-squared
-	^ self * self! !
 
 !ModuleMonomial methodsFor: 'comparing' stamp: 'len 1/5/2018 11:20:58'!
 < aModuleMonomial
