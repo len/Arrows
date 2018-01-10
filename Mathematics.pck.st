@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 10 January 2018 at 12:35:18 pm'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 10 January 2018 at 1:30:51 pm'!
 'Description A computational algebra system in Smalltalk'!
-!provides: 'Mathematics' 1 397!
+!provides: 'Mathematics' 1 398!
 !requires: 'RayTracer' 1 2 nil!
 !classDefinition: #RealAlgebraicNumber category: #'Mathematics-Fields-Algebraic'!
 Number subclass: #RealAlgebraicNumber
@@ -4886,9 +4886,9 @@ Structure:
 My instances are formal sums (or formal linear combinations) of arbitrary objects with coefficients over a given ring R. They form free R-modules (see FormalSumsModule). or abelian groups when the coefficients ring R is the rational integers (see FreeAbelianGroup).!
 
 !FreePolynomial commentStamp: '<historical>' prior: 0!
-My instances are elements of the free algebra in a finite set of indeterminates. They are elements of a FreeAlgebra.
+My instances are elements of the free algebra in a finite set of non-commuting indeterminates. They are elements of a FreeAlgebra.
 
-A free polynomial is a formal linear combination of words, that in turn are formal (non-commutative) products of arbitrary objects (indeterminates).!
+A free polynomial is a formal linear combination of Words, that in turn are formal (noncommutative) products of arbitrary objects (indeterminates).!
 
 !SimplicialChain commentStamp: '<historical>' prior: 0!
 A simplicial k-chain is a formal linear combination of k-simplices.!
@@ -20837,13 +20837,27 @@ embedding: i
 	self == anObject ifTrue: [^ true].
 	^ (anObject isKindOf: FreeAlgebra) and: [anObject scalars = scalars and: [anObject words = words]]! !
 
-!FreeAlgebra methodsFor: 'elements' stamp: 'len 3/2/2016 05:54'!
-coefficient: aNumber word: aWord
-	^ self new coefficientAt: aWord put: aNumber; yourself! !
+!FreeAlgebra methodsFor: 'random' stamp: 'len 1/10/2018 13:21:55'!
+atRandom: aRandom bits: bitSize
+	^ self atRandom: aRandom bits: bitSize maxDegree: (bitSize^(1/self rank) min: bitSize - 1) truncated! !
 
-!FreeAlgebra methodsFor: 'elements' stamp: 'len 8/25/2016 08:19'!
-coefficients: aCollection
-	^ FreePolynomial coefficients: aCollection! !
+!FreeAlgebra methodsFor: 'random' stamp: 'len 1/10/2018 13:21:35'!
+atRandom: aRandom bits: bitSize maxDegree: d
+	| answer n term |
+	answer _ self zero.
+	n _ 2 ^ self rank.
+	n timesRepeat:
+		[term _ ((1 to: d) product: [:i| self x: (self rank atRandom: aRandom) to: (2 atRandom: aRandom) - 1]) * (self scalars atRandom: aRandom bits: bitSize/(self rank*d)).
+		answer _ answer + term].
+	^ answer! !
+
+!FreeAlgebra methodsFor: 'elements' stamp: 'len 1/10/2018 12:59:10'!
+coefficient: aNumber word: aWord
+	^ self new at: aWord put: aNumber; yourself! !
+
+!FreeAlgebra methodsFor: 'elements' stamp: 'len 1/10/2018 12:58:53'!
+coefficients: aDictionary
+	^ FreePolynomial coefficients: aDictionary! !
 
 !FreeAlgebra methodsFor: 'elements' stamp: 'len 8/25/2016 08:26'!
 constant: aNumber
@@ -20880,9 +20894,9 @@ isCountable
 isFinite
 	^ words isFinite and: [scalars isFinite]! !
 
-!FreeAlgebra methodsFor: 'elements' stamp: 'len 8/25/2016 08:19'!
+!FreeAlgebra methodsFor: 'elements' stamp: 'len 1/10/2018 12:59:20'!
 new
-	^ FreePolynomial new! !
+	^ FreePolynomial over: scalars! !
 
 !FreeAlgebra methodsFor: 'elements' stamp: 'len 1/20/2016 14:06'!
 one
@@ -20922,9 +20936,13 @@ words: aMonoid
 x
 	^ self x: self indeterminates first! !
 
-!FreeAlgebra methodsFor: 'elements' stamp: 'len 3/2/2016 05:56'!
+!FreeAlgebra methodsFor: 'elements' stamp: 'len 1/10/2018 12:58:14'!
 x: anIndeterminate
-	^ self coefficient: scalars one word: (Word x: anIndeterminate)! !
+	^ self coefficient: scalars one word: (words x: anIndeterminate)! !
+
+!FreeAlgebra methodsFor: 'elements' stamp: 'len 1/10/2018 13:22:40'!
+x: anIndeterminate to: anInteger
+	^ self coefficient: scalars one word: (words x: anIndeterminate to: anInteger)! !
 
 !FreeAlgebra methodsFor: 'elements' stamp: 'len 8/25/2016 08:22'!
 y
@@ -33232,15 +33250,14 @@ with: anObject over: aRing
 simple: anArray over: aRing
 	^ self with: (anArray class = SimpleTensor ifTrue: [anArray] ifFalse: [SimpleTensor components: anArray]) over: aRing! !
 
-!FreePolynomial methodsFor: 'arithmetic' stamp: 'len 11/25/2016 10:03:02'!
+!FreePolynomial methodsFor: 'arithmetic' stamp: 'len 1/10/2018 12:56:24'!
 * anObject
 	((self scalars includes: anObject) or: [anObject isInteger])
-		ifTrue: [^ self class coefficients: self coefficients * anObject].
+		ifTrue: [^ super * anObject].
 	((anObject isKindOf: FreePolynomial) and: [anObject scalars = self scalars])
-		ifTrue:
-			[^ self species coefficients: (coefficients convolution: anObject coefficients)].
+		ifTrue: [^ self convolution: anObject].
 	(anObject isKindOf: Word)
-		ifTrue: [^ self mapMonomials: [:each| each*anObject]].
+		ifTrue: [^ self multipliedByMonomial: anObject].
 	^ DomainError signal! !
 
 !FreePolynomial methodsFor: 'arithmetic' stamp: 'len 2/25/2017 07:53:00'!
@@ -33258,9 +33275,28 @@ degree
 	self isZero ifTrue: [^ Infinity negative].
 	^ self monomials max: [:each| each length]! !
 
-!FreePolynomial methodsFor: 'accessing' stamp: 'len 2/25/2017 08:58:01'!
+!FreePolynomial methodsFor: 'accessing' stamp: 'len 1/10/2018 13:29:49'!
+leadingCoefficient
+	^ self at: self leadingMonomial! !
+
+!FreePolynomial methodsFor: 'accessing' stamp: 'len 1/10/2018 13:29:36'!
+leadingMonomial
+	^ self monomials asSortedCollection first! !
+
+!FreePolynomial methodsFor: 'accessing' stamp: 'len 1/10/2018 12:49:17'!
+monomials
+	^ self keys! !
+
+!FreePolynomial methodsFor: 'arithmetic' stamp: 'len 1/10/2018 12:57:14'!
+multipliedByMonomial: aWord
+	| answer |
+	answer _ self species new: self size over: self scalars.
+	self associationsDo: [:each| answer at: each key * aWord put: each value].
+	^ answer! !
+
+!FreePolynomial methodsFor: 'accessing' stamp: 'len 1/10/2018 12:45:37'!
 one
-	^ self class coefficients: ((FormalSum over: self scalars) at: Word empty put: self scalars one; yourself)! !
+	^ self class with: Word empty over: self scalars! !
 
 !FreePolynomial methodsFor: 'arithmetic' stamp: 'len 3/2/2016 05:35'!
 squared
