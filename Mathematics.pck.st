@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 10 January 2018 at 1:30:51 pm'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 10 January 2018 at 10:00:14 pm'!
 'Description A computational algebra system in Smalltalk'!
-!provides: 'Mathematics' 1 398!
+!provides: 'Mathematics' 1 399!
 !requires: 'RayTracer' 1 2 nil!
 !classDefinition: #RealAlgebraicNumber category: #'Mathematics-Fields-Algebraic'!
 Number subclass: #RealAlgebraicNumber
@@ -1392,6 +1392,16 @@ PolynomialRing subclass: #TensorProductPolynomialRing
 TensorProductPolynomialRing class
 	instanceVariableNames: ''!
 
+!classDefinition: #Algebra category: #'Mathematics-Algebras'!
+Ring subclass: #Algebra
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Algebras'!
+!classDefinition: 'Algebra class' category: #'Mathematics-Algebras'!
+Algebra class
+	instanceVariableNames: ''!
+
 !classDefinition: #FreeAlgebra category: #'Mathematics-Algebras'!
 Ring subclass: #FreeAlgebra
 	instanceVariableNames: 'scalars words'
@@ -1562,13 +1572,13 @@ FreeModule subclass: #FormalFreeModule
 FormalFreeModule class
 	instanceVariableNames: ''!
 
-!classDefinition: #SimplicialChainsModule category: #'Mathematics-Homology'!
+!classDefinition: #SimplicialChainsModule category: #'Mathematics-Etc'!
 FormalFreeModule subclass: #SimplicialChainsModule
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Homology'!
-!classDefinition: 'SimplicialChainsModule class' category: #'Mathematics-Homology'!
+	category: 'Mathematics-Etc'!
+!classDefinition: 'SimplicialChainsModule class' category: #'Mathematics-Etc'!
 SimplicialChainsModule class
 	instanceVariableNames: ''!
 
@@ -2602,16 +2612,6 @@ FormalFraction subclass: #RationalFunction
 RationalFunction class
 	instanceVariableNames: ''!
 
-!classDefinition: #GroupRingElement category: #'Mathematics-Rings'!
-Object subclass: #GroupRingElement
-	instanceVariableNames: 'parent coefficients'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Rings'!
-!classDefinition: 'GroupRingElement class' category: #'Mathematics-Rings'!
-GroupRingElement class
-	instanceVariableNames: ''!
-
 !classDefinition: #ResidueClass category: #'Mathematics-Rings'!
 Object subclass: #ResidueClass
 	instanceVariableNames: 'representative parent'
@@ -2664,12 +2664,22 @@ AlgebraicNumber class
 
 !classDefinition: #FormalSum category: #'Mathematics-Modules'!
 Object subclass: #FormalSum
-	instanceVariableNames: 'coefficients scalars'
+	instanceVariableNames: 'coefficients parent'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Modules'!
 !classDefinition: 'FormalSum class' category: #'Mathematics-Modules'!
 FormalSum class
+	instanceVariableNames: ''!
+
+!classDefinition: #GroupRingElement category: #'Mathematics-Rings'!
+FormalSum subclass: #GroupRingElement
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Rings'!
+!classDefinition: 'GroupRingElement class' category: #'Mathematics-Rings'!
+GroupRingElement class
 	instanceVariableNames: ''!
 
 !classDefinition: #Tensor category: #'Mathematics-Multilinear'!
@@ -2692,16 +2702,6 @@ FormalSum subclass: #FreePolynomial
 FreePolynomial class
 	instanceVariableNames: ''!
 
-!classDefinition: #SimplicialChain category: #'Mathematics-Homology'!
-FormalSum subclass: #SimplicialChain
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Homology'!
-!classDefinition: 'SimplicialChain class' category: #'Mathematics-Homology'!
-SimplicialChain class
-	instanceVariableNames: ''!
-
 !classDefinition: #Divisor category: #'Mathematics-Schemes-Divisors'!
 FormalSum subclass: #Divisor
 	instanceVariableNames: ''
@@ -2710,6 +2710,16 @@ FormalSum subclass: #Divisor
 	category: 'Mathematics-Schemes-Divisors'!
 !classDefinition: 'Divisor class' category: #'Mathematics-Schemes-Divisors'!
 Divisor class
+	instanceVariableNames: ''!
+
+!classDefinition: #SimplicialChain category: #'Mathematics-Etc'!
+FormalSum subclass: #SimplicialChain
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Etc'!
+!classDefinition: 'SimplicialChain class' category: #'Mathematics-Etc'!
+SimplicialChain class
 	instanceVariableNames: ''!
 
 !classDefinition: #ModuleMonomial category: #'Mathematics-Modules-Multivariate'!
@@ -4856,9 +4866,6 @@ They are elements of ring localizations or fraction fields. See LocalizationRing
 !RationalFunction commentStamp: '<historical>' prior: 0!
 My instances are rational functions, i.e. fractions where the numerator and denominator are polynomials. They are elements of the field of fractions of a polynomial ring over a field (see RationalFunctionField).!
 
-!GroupRingElement commentStamp: '<historical>' prior: 0!
-My instances are formal linear combinations of elements of a group G with coefficients in a ring R. They form a ring R[G] called the group ring of G over R. See GroupRing.!
-
 !ResidueClass commentStamp: '<historical>' prior: 0!
 My instances are elements of a quotient ring. They are residue classes of elements of a ring modulo an ideal. See QuotientRing.!
 
@@ -4883,18 +4890,21 @@ Structure:
 !
 
 !FormalSum commentStamp: '<historical>' prior: 0!
-My instances are formal sums (or formal linear combinations) of arbitrary objects with coefficients over a given ring R. They form free R-modules (see FormalSumsModule). or abelian groups when the coefficients ring R is the rational integers (see FreeAbelianGroup).!
+My instances are formal sums (or formal linear combinations) of arbitrary objects with coefficients over a given ring R. They form free R-modules (see FormalSumsModule), or abelian groups when the coefficients ring R is the rational integers (see FreeAbelianGroup).!
+
+!GroupRingElement commentStamp: '<historical>' prior: 0!
+My instances are formal linear combinations of elements of a group G with coefficients in a ring R. They form a ring R[G] called the group ring of G over R. See GroupRing.!
 
 !FreePolynomial commentStamp: '<historical>' prior: 0!
-My instances are elements of the free algebra in a finite set of non-commuting indeterminates. They are elements of a FreeAlgebra.
+My instances are polynomials in a finite set of non-commuting indeterminates. They are elements of a free associative algebra (FreeAlgebra).
 
 A free polynomial is a formal linear combination of Words, that in turn are formal (noncommutative) products of arbitrary objects (indeterminates).!
 
-!SimplicialChain commentStamp: '<historical>' prior: 0!
-A simplicial k-chain is a formal linear combination of k-simplices.!
-
 !Divisor commentStamp: '<historical>' prior: 0!
 My instances are Weil divisors, i.e. formal sums (with integer coefficients) of prime divisors (integral closed subschemes of codimension 1) of an integral locally Noetherian scheme.!
+
+!SimplicialChain commentStamp: '<historical>' prior: 0!
+A simplicial k-chain is a formal linear combination of k-simplices.!
 
 !ModuleMonomial commentStamp: '<historical>' prior: 0!
 My instances are monomials in multivariate modules, i.e. R-modules where R is a multivariate ring such as a polynomial ring or an affine ring. They are the product of a monomial in R by a basis element.!
@@ -14479,6 +14489,11 @@ atRandom: aRandom bits: bitSize
 				ifFalse: [answer _ (Word x: (symbols atRandom: aRandom)) * answer]].
 	^ answer! !
 
+!FreeMonoid methodsFor: 'testing' stamp: 'len 1/10/2018 21:48:12'!
+contains: aWord
+	aWord do: [:i :exp| ((symbols includes: i) and: [exp >= 0]) ifFalse: [^ false]].
+	^ true! !
+
 !FreeMonoid methodsFor: 'accessing' stamp: 'len 2/13/2016 20:18'!
 generators
 	^ symbols collect: [:each| Word x: each]! !
@@ -14487,10 +14502,9 @@ generators
 identity
 	^ Word empty! !
 
-!FreeMonoid methodsFor: 'testing' stamp: 'len 2/13/2016 20:16'!
+!FreeMonoid methodsFor: 'testing' stamp: 'len 1/10/2018 21:48:33'!
 includes: aWord
-	aWord do: [:i :exp| ((symbols includes: i) and: [exp >= 0]) ifFalse: [^ false]].
-	^ true! !
+	^ (aWord isKindOf: Word) and: [self contains: aWord]! !
 
 !FreeMonoid methodsFor: 'testing' stamp: 'len 7/2/2016 16:55'!
 isCommutative
@@ -16837,9 +16851,9 @@ torsion
 components: anArray
 	^ self new components: anArray! !
 
-!FreeAbelianGroup methodsFor: 'accessing' stamp: 'len 2/27/2017 16:53:53'!
+!FreeAbelianGroup methodsFor: 'accessing' stamp: 'len 1/10/2018 20:21:47'!
 identity
-	self isTrivial ifTrue: [^ FormalSum over: ZZ].
+	self isTrivial ifTrue: [^ ZZ tuple: #()].
 	^ super identity! !
 
 !FreeAbelianGroup methodsFor: 'testing' stamp: 'len 2/24/2016 04:09'!
@@ -16883,13 +16897,9 @@ species
 torsion
 	^ self null! !
 
-!FreeAbelianGroup class methodsFor: 'instance creation' stamp: 'len 6/30/2016 02:27'!
+!FreeAbelianGroup class methodsFor: 'instance creation' stamp: 'len 1/10/2018 20:05:57'!
 new: anInteger
-	^ self on: (1 to: anInteger)! !
-
-!FreeAbelianGroup class methodsFor: 'instance creation' stamp: 'len 2/25/2017 09:06:15'!
-on: aCollection
-	^ self new generators: (aCollection collect: [:each| FormalSum with: each over: ZZ])! !
+	^ self new generators: (ZZ^anInteger) generators! !
 
 !EllipticCurveGroup methodsFor: 'accessing' stamp: 'len 11/10/2016 08:06'!
 curve
@@ -18247,13 +18257,18 @@ zeroTuple: anInteger
 	self == anObject ifTrue: [^ true].
 	^ (anObject isKindOf: GroupRing) and: [anObject scalars = scalars and: [anObject group = group]]! !
 
+!GroupRing methodsFor: 'morphisms' stamp: 'len 1/10/2018 19:48:10'!
+augmentation
+	"Answer the augmentation map, a ring homomorphism (an epimorphism) from the receiver to the ring of scalars."
+	^ self to: self scalars evaluating: [:f| f augmentation]! !
+
 !GroupRing methodsFor: 'elements' stamp: 'len 2/25/2017 09:35:56'!
 coefficients: aFormalSum
 	^ (GroupRingElement coefficients: aFormalSum) parent: self! !
 
-!GroupRing methodsFor: 'morphisms' stamp: 'len 2/25/2017 09:36:21'!
+!GroupRing methodsFor: 'morphisms' stamp: 'len 1/10/2018 20:43:08'!
 embed: aGroupElement
-	^ self coefficients: (FormalSum with: aGroupElement over: scalars)! !
+	^ self coefficients: ((Dictionary new: 1) at: aGroupElement put: self scalars one; yourself)! !
 
 !GroupRing methodsFor: 'morphisms' stamp: 'len 10/10/2016 08:56'!
 embedding
@@ -20193,9 +20208,10 @@ new: anInteger over: aRing
 	self scalars < aDomain scalars ifFalse: [^ false].
 	^ true! !
 
-!PolynomialRing methodsFor: 'comparing' stamp: 'len 8/24/2016 22:03'!
+!PolynomialRing methodsFor: 'comparing' stamp: 'len 1/10/2018 21:52:47'!
 <= aDomain
 	"Answer true if the receiver is included in the argument, i.e. it's a subring of the argument."
+	self == aDomain ifTrue: [^ true].
 	(aDomain isKindOf: PolynomialRing) ifFalse: [^ false].
 	self rank = aDomain rank ifFalse: [^ false].
 	self scalars <= aDomain scalars ifFalse: [^ false].
@@ -20832,6 +20848,18 @@ embedding: i
 	1 to: i-1 do: [:each| shift _ shift + (self at: each) rank].
 	^ ((self at: i) to: self evaluating: [:f| self !! f substitute: [:j| j+shift]]) name: 'i', i printText sub! !
 
+!Algebra methodsFor: 'as yet unclassified' stamp: 'len 1/10/2018 18:19:48'!
+embed: aScalar
+	^ self embedding value: aScalar! !
+
+!Algebra methodsFor: 'as yet unclassified' stamp: 'len 1/10/2018 18:19:31'!
+scalarAction
+	^ (self, self scalars) to: self evaluatingWithArguments: [:x :y| x * y] "or (self embed: y)"! !
+
+!Algebra methodsFor: 'as yet unclassified' stamp: 'len 1/10/2018 18:16:07'!
+scalars
+	^ self propertyAt: #scalars! !
+
 !FreeAlgebra methodsFor: 'comparing' stamp: 'len 8/25/2016 08:22'!
 = anObject
 	self == anObject ifTrue: [^ true].
@@ -20851,15 +20879,16 @@ atRandom: aRandom bits: bitSize maxDegree: d
 		answer _ answer + term].
 	^ answer! !
 
-!FreeAlgebra methodsFor: 'elements' stamp: 'len 1/10/2018 12:59:10'!
+!FreeAlgebra methodsFor: 'elements' stamp: 'len 1/10/2018 21:45:38'!
 coefficient: aNumber word: aWord
-	^ self new at: aWord put: aNumber; yourself! !
+	aNumber isZero ifTrue: [^ self zero].
+	^ self coefficients: ((Dictionary new: 1) at: aWord put: aNumber; yourself)! !
 
-!FreeAlgebra methodsFor: 'elements' stamp: 'len 1/10/2018 12:58:53'!
+!FreeAlgebra methodsFor: 'elements' stamp: 'len 1/10/2018 21:47:02'!
 coefficients: aDictionary
-	^ FreePolynomial coefficients: aDictionary! !
+	^ (FreePolynomial coefficients: aDictionary) parent: self! !
 
-!FreeAlgebra methodsFor: 'elements' stamp: 'len 8/25/2016 08:26'!
+!FreeAlgebra methodsFor: 'elements' stamp: 'len 1/10/2018 21:45:59'!
 constant: aNumber
 	^ self coefficient: aNumber word: words identity! !
 
@@ -20867,12 +20896,9 @@ constant: aNumber
 hash
 	^ scalars hash + words hash hashMultiply! !
 
-!FreeAlgebra methodsFor: 'testing' stamp: 'len 8/25/2016 08:28'!
+!FreeAlgebra methodsFor: 'testing' stamp: 'len 1/10/2018 21:53:30'!
 includes: anObject
-	anObject coefficients keysAndValuesDo: [:key :value|
-		(words includes: key) ifFalse: [^ false].
-		(scalars includes: value) ifFalse: [^ false]].
-	^ true! !
+	^ (anObject isKindOf: FreePolynomial) and: [anObject parent = self]! !
 
 !FreeAlgebra methodsFor: 'accessing' stamp: 'len 8/25/2016 08:22'!
 indeterminates
@@ -20893,10 +20919,6 @@ isCountable
 !FreeAlgebra methodsFor: 'testing' stamp: 'len 8/25/2016 08:30'!
 isFinite
 	^ words isFinite and: [scalars isFinite]! !
-
-!FreeAlgebra methodsFor: 'elements' stamp: 'len 1/10/2018 12:59:20'!
-new
-	^ FreePolynomial over: scalars! !
 
 !FreeAlgebra methodsFor: 'elements' stamp: 'len 1/20/2016 14:06'!
 one
@@ -20952,9 +20974,9 @@ y
 z
 	^ self x: self indeterminates third! !
 
-!FreeAlgebra methodsFor: 'elements' stamp: 'len 3/2/2016 05:55'!
+!FreeAlgebra methodsFor: 'elements' stamp: 'len 1/10/2018 21:46:27'!
 zero
-	^ self new! !
+	^ self coefficients: (Dictionary new: 0)! !
 
 !FreeAlgebra class methodsFor: 'instance creation' stamp: 'len 6/30/2016 02:27'!
 new: anInteger over: aRing
@@ -21220,6 +21242,16 @@ isModule
 !Module methodsFor: 'testing' stamp: 'len 12/16/2016 13:55:08'!
 isTerminal
 	^ self isTrivial! !
+
+!Module methodsFor: 'testing' stamp: 'len 1/10/2018 18:30:48'!
+isTorsion
+	"Answer true if the receiver is a torsion module."
+	^ self torsion = self! !
+
+!Module methodsFor: 'testing' stamp: 'len 1/10/2018 18:31:06'!
+isTorsionFree
+	"Answer true if the receiver is a torsion-free module."
+	^ self torsion isTrivial! !
 
 !Module methodsFor: 'testing' stamp: 'len 12/16/2016 13:57:45'!
 isTrivial
@@ -22781,9 +22813,14 @@ example
 	"The direct sum of two vector spaces."
 	^ QQ^3  (QQ^2)! !
 
-!FormalFreeModule methodsFor: 'elements' stamp: 'len 2/22/2017 09:48:29'!
+!FormalFreeModule methodsFor: 'elements' stamp: 'len 1/10/2018 20:41:07'!
 !! anObject
-	^ self e: (self symbols indexOf: anObject ifAbsent: [^ super !! anObject])! !
+	(self symbols includes: anObject) ifTrue: [^ self x: anObject].
+	^ super !! anObject! !
+
+!FormalFreeModule methodsFor: 'accessing' stamp: 'len 1/10/2018 20:45:28'!
+ambient
+	^ self! !
 
 !FormalFreeModule methodsFor: 'accessing' stamp: 'len 2/22/2017 09:41:22'!
 coordinateNames
@@ -22793,15 +22830,16 @@ coordinateNames
 coordinatesOf: anElement
 	^ self scalars tuple: self rank evaluating: [:i| anElement at: (self symbols at: i)]! !
 
-!FormalFreeModule methodsFor: 'basis' stamp: 'len 2/25/2017 08:57:48'!
+!FormalFreeModule methodsFor: 'basis' stamp: 'len 1/10/2018 20:39:23'!
 e: anInteger
-	| R |
-	R _ self scalars.
-	^ (FormalSum new: 1 over: R) at: (self symbols at: anInteger) put: R one; yourself! !
+	^ self x: (self symbols at: anInteger)! !
 
-!FormalFreeModule methodsFor: 'testing' stamp: 'len 2/25/2017 08:57:42'!
+!FormalFreeModule methodsFor: 'testing' stamp: 'len 1/10/2018 21:33:55'!
 includes: anObject
-	^ (anObject isKindOf: FormalSum) and: [self contains: anObject]! !
+	(anObject isKindOf: FormalSum) ifFalse: [^ false].
+	anObject parent == self ifTrue: [^ true].
+	anObject keysDo: [:each| (self symbols includes: each) ifFalse: [^ false]].
+	^ true! !
 
 !FormalFreeModule methodsFor: 'accessing' stamp: 'len 2/27/2017 07:35:28'!
 names
@@ -22820,13 +22858,10 @@ symbols
 symbols: aCollection
 	self propertyAt: #symbols put: aCollection asArray! !
 
-!FormalFreeModule methodsFor: 'basis' stamp: 'len 2/20/2017 08:45:14'!
+!FormalFreeModule methodsFor: 'basis' stamp: 'len 1/10/2018 20:43:50'!
 x: anObject
-	^ self e: (self symbols indexOf: anObject)! !
-
-!FormalFreeModule methodsFor: 'accessing' stamp: 'len 2/25/2017 08:57:36'!
-zero
-	^ self propertyAt: #zero ifAbsentPut: [FormalSum over: self scalars]! !
+	"Answer the embedding of anObject, assuming it is on the symbols of the receiver."
+	^ (FormalSum coefficients: ((Dictionary new: 1) at: anObject put: self scalars one; yourself)) parent: self! !
 
 !FormalFreeModule class methodsFor: 'examples' stamp: 'len 2/28/2017 08:39:24'!
 example
@@ -22841,15 +22876,13 @@ new: anInteger over: aRing
 on: aCollection over: aRing
 	^ self new scalars: aRing; symbols: aCollection! !
 
-!SimplicialChainsModule methodsFor: 'elements' stamp: 'len 2/25/2017 08:12:24'!
-coefficients: aSparseTuple
-	^ (SimplicialChain coefficients: aSparseTuple) parent: self! !
+!SimplicialChainsModule methodsFor: 'elements' stamp: 'len 1/10/2018 20:24:42'!
+coefficients: aDictionary
+	^ (SimplicialChain coefficients: aDictionary) parent: self! !
 
-!SimplicialChainsModule methodsFor: 'basis' stamp: 'len 2/25/2017 09:30:37'!
+!SimplicialChainsModule methodsFor: 'basis' stamp: 'len 1/10/2018 20:25:30'!
 e: anInteger
-	| R |
-	R _ self scalars.
-	^ (SimplicialChain new: 1 over: R) at: (self symbols at: anInteger) put: R one; yourself! !
+	^ SimplicialChain new parent: self; at: (self symbols at: anInteger) put: self scalars one; yourself! !
 
 !HomModule methodsFor: 'elements' stamp: 'len 12/22/2016 22:37:24'!
 !! anObject
@@ -23570,11 +23603,9 @@ evaluatingDiagonal: aBlock
 identity
 	^ self scalar: scalars one! !
 
-!MatrixModule methodsFor: 'testing' stamp: 'len 11/26/2015 01:37'!
+!MatrixModule methodsFor: 'testing' stamp: 'len 1/10/2018 21:29:06'!
 includes: anObject
-	(anObject is: #Matrix) ifFalse: [^ false].
-	anObject do: [ :each | (scalars includes: each) ifFalse: [^ false]].
-	^ true! !
+	^ (anObject is: #Matrix) and: [anObject numberOfRows = numberOfRows and: [anObject numberOfColumns = numberOfColumns and: [anObject scalars = scalars]]]! !
 
 !MatrixModule methodsFor: 'testing' stamp: 'len 11/26/2015 15:34'!
 isCommutative
@@ -24881,16 +24912,41 @@ vertices
 apply: aSimplicialMap
 	^ self species faces: (self facets collect: aSimplicialMap)! !
 
+!SimplicialComplex methodsFor: 'homology' stamp: 'len 1/10/2018 20:58:16'!
+boundaryMap: k over: aRing
+	"The k-th boundary map or differential d(k) goes from C(k) to C(k-1).
+	Its image is the group of (k-1)-boundaries B(k-1), a subgroup of C(k-1).
+	Its kernel is the group of k-cycles Z(k), a subgroup of C(k)."
+
+	"The boundary of a chain is the linear combination of the boundary of the simplices in the chain. The boundary of a k-chain is a (k-1)-chain."
+
+	| domain codomain |
+	domain _ self chains: k over: aRing.
+	codomain _ self chains: k-1 over: aRing.
+	k = 0 ifTrue: [^ (domain hom: codomain) zero].
+	^ domain to: codomain evaluating: [:x|
+		| answer |
+		answer _ codomain zero.
+		x keysAndValuesDo: [:key :value|
+			| V |
+			V _ key vertices asArray.
+			1 to: V size do: [:i| | F f |
+				"F is the facet opposite the i-th vertex:"
+				F _ Simplex vertices: (V copyWithoutIndex: i).
+				f _ (codomain x: F) * value.
+				i odd ifTrue: [answer _ answer + f] ifFalse: [answer _ answer - f]]].
+		answer]! !
+
 !SimplicialComplex methodsFor: 'enumerating' stamp: 'len 2/15/2017 11:20:19'!
 cells: n do: aBlock
 	"Iterate over the n-cells of the receiver, possibly with repetitions."
 	^ self faces: n do: aBlock! !
 
-!SimplicialComplex methodsFor: 'homology' stamp: 'len 2/24/2017 21:02:02'!
+!SimplicialComplex methodsFor: 'homology' stamp: 'len 1/10/2018 20:54:16'!
 chains: k over: aRing
 	"Answer the group of k-chains."
-	k < 0 ifTrue: [^ SimplicialChainsModule on: #() over: aRing].
-	^ SimplicialChainsModule on: (self cells: k) asArray over: aRing! !
+	k < 0 ifTrue: [^ FormalFreeModule on: #() over: aRing].
+	^ FormalFreeModule on: (self cells: k) asArray over: aRing! !
 
 !SimplicialComplex methodsFor: 'enumerating' stamp: 'len 2/19/2017 08:22:20'!
 collect: aBlock
@@ -26724,10 +26780,10 @@ polynomial
 polynomial: aPolynomial
 	^ self coordinateRing: aPolynomial parent / aPolynomial! !
 
-!ProjectivePlaneCurve methodsFor: 'accessing' stamp: 'len 1/9/2017 17:45:43'!
+!ProjectivePlaneCurve methodsFor: 'accessing' stamp: 'len 1/10/2018 13:52:10'!
 arithmeticGenus
 	| n |
-	self isIrreducible ifFalse: [^ self error: 'not irreducible'].
+	self isIrreducible ifFalse: [^ self notYetImplemented].
 	n _ self polynomial degree.
 	^ n - 1 * (n - 2) / 2! !
 
@@ -31330,6 +31386,15 @@ hash
 isEmpty
 	^ syllables isEmpty! !
 
+!Word methodsFor: 'testing' stamp: 'len 1/10/2018 16:54:56'!
+isStandard
+	"Answer true if the receiver is a standard word, i.e. if the symbols appear in ascending order."
+	syllables size < 2 ifTrue: [^ true].
+	1 to: syllables size - 1 do: [:i|
+		(syllables at: i) key < (syllables at: i+1) key
+			ifFalse: [^ false]].
+	^ true! !
+
 !Word methodsFor: 'accessing' stamp: 'len 1/10/2018 11:28:25'!
 length
 	syllables isEmpty ifTrue: [^ 0].
@@ -32179,90 +32244,6 @@ value: anObject
 valueWithArguments: anArray
 	^ self value: anArray! !
 
-!GroupRingElement methodsFor: 'operations' stamp: 'len 2/25/2017 09:15:41'!
-* anObject
-	((self scalars includes: anObject) or: [anObject isInteger])
-		ifTrue: [^ parent coefficients: coefficients * anObject].
-	((anObject isKindOf: GroupRingElement) and: [anObject parent = self parent])
-		ifTrue:
-			[^ parent coefficients: (coefficients convolution: anObject coefficients)].
-	(self parent group includes: anObject)
-		ifTrue: [^ self mapMonomials: [:each| each*anObject]].
-	^ DomainError signal! !
-
-!GroupRingElement methodsFor: 'operations' stamp: 'len 2/25/2017 09:16:11'!
-+ aGroupRingElement
-	^ self parent coefficients: coefficients + aGroupRingElement coefficients! !
-
-!GroupRingElement methodsFor: 'operations' stamp: 'len 2/25/2017 09:16:28'!
-- aGroupRingElement
-	^ self + aGroupRingElement negated! !
-
-!GroupRingElement methodsFor: 'operations' stamp: 'len 2/25/2017 09:16:36'!
-/ aNumber
-	^ self * aNumber reciprocal! !
-
-!GroupRingElement methodsFor: 'comparing' stamp: 'len 2/25/2017 09:17:03'!
-= aGroupRingElement
-	^ coefficients = aGroupRingElement coefficients! !
-
-!GroupRingElement methodsFor: 'operations' stamp: 'len 2/25/2017 07:52:41'!
-^ anInteger
-	"Answer the receiver raised to the power anInteger."
-	(anInteger isInteger and: [anInteger >= 0])
-		ifFalse: [^ DomainError signal: 'undefinted'].
-	anInteger = 0 ifTrue: [^ self one].
-	anInteger = 1 ifTrue: [^ self].
-	^ self squared ^ (anInteger // 2) * (self ^ (anInteger \\ 2))! !
-
-!GroupRingElement methodsFor: 'accessing' stamp: 'len 2/25/2017 09:17:50'!
-coefficients
-	^ coefficients! !
-
-!GroupRingElement methodsFor: 'private' stamp: 'len 2/25/2017 09:17:39'!
-coefficients: aFormalSum
-	coefficients _ aFormalSum! !
-
-!GroupRingElement methodsFor: 'comparing' stamp: 'len 2/25/2017 09:17:07'!
-hash
-	^ coefficients hash! !
-
-!GroupRingElement methodsFor: 'testing' stamp: 'len 2/25/2017 09:17:17'!
-isZero
-	^ coefficients isZero! !
-
-!GroupRingElement methodsFor: 'operations' stamp: 'len 2/25/2017 09:16:48'!
-negated
-	^ self parent coefficients: coefficients negated! !
-
-!GroupRingElement methodsFor: 'accessing' stamp: 'len 2/25/2017 07:56:29'!
-one
-	^ self parent one! !
-
-!GroupRingElement methodsFor: 'private' stamp: 'len 2/25/2017 07:51:47'!
-parent
-	^ parent! !
-
-!GroupRingElement methodsFor: 'private' stamp: 'len 2/25/2017 07:52:11'!
-parent: aGroupRing
-	parent _ aGroupRing! !
-
-!GroupRingElement methodsFor: 'printing' stamp: 'len 2/25/2017 09:13:53'!
-printOn: aStream
-	aStream print: coefficients! !
-
-!GroupRingElement methodsFor: 'accessing' stamp: 'len 2/25/2017 09:14:12'!
-scalars
-	^ parent scalars! !
-
-!GroupRingElement methodsFor: 'operations' stamp: 'len 2/25/2017 07:56:11'!
-squared
-	^ self * self! !
-
-!GroupRingElement class methodsFor: 'instance creation' stamp: 'len 2/25/2017 09:18:07'!
-coefficients: aFormalSum
-	^ self basicNew coefficients: aFormalSum! !
-
 !ResidueClass methodsFor: 'operations' stamp: 'len 2/14/2017 08:17:55'!
 * anObject
 	anObject isInteger ifTrue: [^ parent project: representative * anObject].
@@ -33018,9 +32999,9 @@ sqrt: anIntegerOrFraction
 associationsDo: aBlock
 	coefficients associationsDo: aBlock! !
 
-!FormalSum methodsFor: 'accessing' stamp: 'len 11/18/2016 17:29:17'!
+!FormalSum methodsFor: 'accessing' stamp: 'len 1/10/2018 21:04:34'!
 at: anObject
-	^ coefficients at: anObject ifAbsent: [scalars zero]! !
+	^ coefficients at: anObject ifAbsent: [self scalars zero]! !
 
 !FormalSum methodsFor: 'operations' stamp: 'len 11/18/2016 10:02:25'!
 at: key add: value
@@ -33050,60 +33031,46 @@ bitSize
 coefficients
 	^ coefficients! !
 
-!FormalSum methodsFor: 'private' stamp: 'len 11/18/2016 10:12:44'!
+!FormalSum methodsFor: 'private' stamp: 'len 1/10/2018 21:19:50'!
 coefficients: aDictionary
-	coefficients _ aDictionary! !
+	coefficients _ aDictionary.
+	coefficients associationsDo: [:each| each value isZero ifTrue: [self halt]]! !
 
-!FormalSum methodsFor: 'enumreating' stamp: 'len 11/18/2016 17:43:53'!
+!FormalSum methodsFor: 'enumreating' stamp: 'len 1/10/2018 21:43:05'!
+coefficientsDo: aBlock
+	coefficients do: aBlock! !
+
+!FormalSum methodsFor: 'enumreating' stamp: 'len 1/10/2018 21:22:05'!
 collect: aBlock 
-	| answer |
-	answer _ self species new: self size over: self scalars.
-	self associationsDo: [:each| answer at: each key put: (aBlock value: each value)].
-	^ answer! !
+	| newCoefficients |
+	newCoefficients _ Dictionary new: self size.
+	self associationsDo: [:each| | newValue |
+		(newValue _ aBlock value: each value) isZero ifFalse: [newCoefficients at: each key put: newValue]].
+	^ (self class coefficients: newCoefficients) parent: parent! !
 
 !FormalSum methodsFor: 'enumreating' stamp: 'len 11/18/2016 09:54:10'!
 collectNoZero: aBlock
 	"The result of aBlock must never be zero."
 	^ self copy associationsDo: [:each| each value: (aBlock value: each value)]! !
 
-!FormalSum methodsFor: 'operations' stamp: 'len 2/25/2017 21:33:28'!
-convolution2: aFormalSum
-	| answer |
-	answer _ self class new: self size + aFormalSum size over: scalars.
-	self associationsDo: [:each|
-		aFormalSum associationsDo: [:other|
-			answer at: each key * other key add: each value * other value]].
-	^ answer! !
-
-!FormalSum methodsFor: 'operations' stamp: 'len 2/25/2017 21:33:19'!
-convolution3: aFormalSum
-	| dictionary noZeroesDictionary |
-	dictionary _ Dictionary new: self size + aFormalSum size.
-	self associationsDo: [:each|
-		aFormalSum associationsDo: [:other|
-			dictionary at: each key * other key add: each value * other value]].
-	noZeroesDictionary _ Dictionary new: dictionary size.
-	dictionary associationsDo: [:each| each value isZero ifFalse: [noZeroesDictionary add: each]].
-	^ self class coefficients: noZeroesDictionary over: scalars! !
-
-!FormalSum methodsFor: 'operations' stamp: 'len 2/25/2017 21:33:38'!
+!FormalSum methodsFor: 'operations' stamp: 'len 1/10/2018 21:09:39'!
 convolution: aFormalSum
-	| answer |
-	answer _ self class new: self size + aFormalSum size over: scalars.
+	| newCoefficients |
+	newCoefficients _ Dictionary new: self size + aFormalSum size.
 	self associationsDo: [:each|
 		aFormalSum associationsDo: [:other|
-			answer at: each key * other key add: each value * other value]].
-	^ answer! !
+			newCoefficients at: each key * other key addAndRemoveIfZero: each value * other value]].
+	^ (self class coefficients: newCoefficients) parent: parent! !
 
 !FormalSum methodsFor: 'enumreating' stamp: 'len 11/18/2016 20:24:16'!
 do: aBlock
 	coefficients do: aBlock! !
 
-!FormalSum methodsFor: 'operations' stamp: 'len 2/25/2017 21:33:50'!
+!FormalSum methodsFor: 'operations' stamp: 'len 1/10/2018 21:04:49'!
 dot: aFormalSum
 	| answer |
 	self size <= aFormalSum size ifFalse: [^ aFormalSum dot: self].
-	answer _ scalars zero.
+	answer _ self scalars zero.
 	coefficients associationsDo: [:each|
 		aFormalSum at: each key ifPresent: [:value2| answer _ answer + (each value*value2)]].
 	^ answer! !
@@ -33143,13 +33110,23 @@ keysDo: aBlock
 negated
 	^ self collectNoZero: [:each| each negated]! !
 
-!FormalSum methodsFor: 'converting' stamp: 'len 1/20/2017 09:15:11'!
+!FormalSum methodsFor: 'converting' stamp: 'len 1/10/2018 21:09:44'!
 over: aRing
-	| answer |
+	| newCoefficients |
 	self scalars = aRing ifTrue: [^ self].
-	answer _ self species new: self size over: aRing.
-	self associationsDo: [:each| answer at: each key put: aRing !! each value].
-	^ answer! !
+	newCoefficients _ Dictionary new: self size.
+	self associationsDo: [:each| | newValue |
+		(newValue _ aRing !! each value) isZero
+			ifFalse: [newCoefficients add: (each copy value: newValue)]].
+	^ (self class coefficients: newCoefficients) parent: (parent over: aRing)! !
+
+!FormalSum methodsFor: 'private' stamp: 'len 1/10/2018 21:04:16'!
+parent
+	^ parent! !
+
+!FormalSum methodsFor: 'private' stamp: 'len 1/10/2018 21:04:09'!
+parent: aDomain
+	parent _ aDomain! !
 
 !FormalSum methodsFor: 'copying' stamp: 'len 11/18/2016 17:34:33'!
 postCopy
@@ -33187,7 +33164,7 @@ printOn2: aStream
 		do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: ', '].
 	aStream nextPut: $)! !
 
-!FormalSum methodsFor: 'printing' stamp: 'len 2/27/2017 16:40:53'!
+!FormalSum methodsFor: 'printing' stamp: 'len 1/10/2018 21:04:41'!
 printOn: aStream
 	| elements c |
 	self isZero ifTrue: [aStream nextPutAll: '0'. ^ self].
@@ -33195,7 +33172,7 @@ printOn: aStream
 	c _ self at: elements first.
 	c printString first = $-
 		ifTrue: [c _ c negated. aStream nextPut: $-].
-	c ~= scalars one ifTrue: [self printCoefficient: c on: aStream].
+	c ~= self scalars one ifTrue: [self printCoefficient: c on: aStream].
 	self printLiteral: elements first on: aStream.
 	elements allButFirst do: [:each|
 		c _ self at: each.
@@ -33205,13 +33182,9 @@ printOn: aStream
 		c ~= c one ifTrue: [self printCoefficient: c on: aStream].
 		self printLiteral: each on: aStream]! !
 
-!FormalSum methodsFor: 'accessing' stamp: 'len 11/18/2016 10:12:08'!
+!FormalSum methodsFor: 'accessing' stamp: 'len 1/10/2018 19:57:14'!
 scalars
-	^ scalars! !
-
-!FormalSum methodsFor: 'private' stamp: 'len 11/18/2016 10:12:25'!
-scalars: aRing
-	scalars _ aRing! !
+	^ parent scalars! !
 
 !FormalSum methodsFor: 'accessing' stamp: 'len 11/18/2016 09:55:05'!
 size
@@ -33222,41 +33195,78 @@ withIndexDo: elementAndIndexBlock
 	"Just like with:do: except that the iteration index supplies the second argument to the block."
 	coefficients keysAndValuesDo: [:key :value| elementAndIndexBlock value: value value: key]! !
 
-!FormalSum methodsFor: 'accessing' stamp: 'len 11/18/2016 09:58:02'!
+!FormalSum methodsFor: 'accessing' stamp: 'len 1/10/2018 21:09:50'!
 zero
-	^ self class over: scalars! !
+	^ parent zero! !
 
-!FormalSum class methodsFor: 'instance creation' stamp: 'len 11/30/2016 14:46:31'!
-associations: aCollection over: aRing
-	^ self coefficients: (aCollection as: Dictionary) over: aRing! !
+!FormalSum class methodsFor: 'instance creation' stamp: 'len 1/10/2018 19:58:32'!
+associations: aCollection
+	^ self coefficients: (aCollection as: Dictionary)! !
 
-!FormalSum class methodsFor: 'instance creation' stamp: 'len 11/18/2016 10:00:47'!
-coefficients: aDictionary over: aRing
-	^ self basicNew coefficients: aDictionary; scalars: aRing! !
+!FormalSum class methodsFor: 'instance creation' stamp: 'len 1/10/2018 19:58:43'!
+coefficients: aDictionary
+	^ self basicNew coefficients: aDictionary! !
 
-!FormalSum class methodsFor: 'instance creation' stamp: 'len 11/30/2016 14:46:35'!
-new: anInteger over: aRing
-	^ self coefficients: (Dictionary new: anInteger) over: aRing! !
+!FormalSum class methodsFor: 'instance creation' stamp: 'len 1/10/2018 19:58:56'!
+new: anInteger
+	^ self coefficients: (Dictionary new: anInteger)! !
 
-!FormalSum class methodsFor: 'instance creation' stamp: 'len 11/30/2016 14:46:41'!
-over: aRing
-	^ self coefficients: Dictionary new over: aRing! !
+!GroupRingElement methodsFor: 'arithmetic' stamp: 'len 1/10/2018 21:39:42'!
+* anObject
+	((self scalars includes: anObject) or: [anObject isInteger])
+		ifTrue: [^ super * anObject].
+	(self parent includes: anObject)
+		ifTrue: [^ self convolution: anObject].
+	(self parent group includes: anObject)
+		ifTrue: [^ self multipliedByGroupElement: anObject].
+	^ DomainError signal! !
 
-!FormalSum class methodsFor: 'instance creation' stamp: 'len 2/25/2017 09:34:03'!
-with: anObject over: aRing
-	^ (self new: 1 over: aRing) at: anObject put: aRing one; yourself! !
+!GroupRingElement methodsFor: 'arithmetic' stamp: 'len 2/25/2017 07:52:41'!
+^ anInteger
+	"Answer the receiver raised to the power anInteger."
+	(anInteger isInteger and: [anInteger >= 0])
+		ifFalse: [^ DomainError signal: 'undefinted'].
+	anInteger = 0 ifTrue: [^ self one].
+	anInteger = 1 ifTrue: [^ self].
+	^ self squared ^ (anInteger // 2) * (self ^ (anInteger \\ 2))! !
+
+!GroupRingElement methodsFor: 'operations' stamp: 'len 1/10/2018 21:42:35'!
+augmentation
+	| answer |
+	answer _ self scalars zero.
+	self coefficientsDo: [:each| answer _ answer + each].
+	^ answer! !
+
+!GroupRingElement methodsFor: 'arithmetic' stamp: 'len 1/10/2018 21:41:04'!
+multipliedByGroupElement: aGroupElement
+	| newCoefficients |
+	newCoefficients _ Dictionary new: self size.
+	self associationsDo: [:each| newCoefficients at: each key * aGroupElement put: each value].
+	^ self parent coefficients: newCoefficients! !
+
+!GroupRingElement methodsFor: 'accessing' stamp: 'len 1/10/2018 21:44:03'!
+one
+	^ self parent one! !
+
+!GroupRingElement methodsFor: 'arithmetic' stamp: 'len 2/25/2017 07:56:11'!
+squared
+	^ self * self! !
+
+!GroupRingElement class methodsFor: 'instance creation' stamp: 'len 2/25/2017 09:18:07'!
+coefficients: aFormalSum
+	^ self basicNew coefficients: aFormalSum! !
 
 !Tensor class methodsFor: 'instance creation' stamp: 'len 2/25/2017 09:06:55'!
 simple: anArray over: aRing
 	^ self with: (anArray class = SimpleTensor ifTrue: [anArray] ifFalse: [SimpleTensor components: anArray]) over: aRing! !
 
-!FreePolynomial methodsFor: 'arithmetic' stamp: 'len 1/10/2018 12:56:24'!
+!FreePolynomial methodsFor: 'arithmetic' stamp: 'len 1/10/2018 21:49:36'!
 * anObject
 	((self scalars includes: anObject) or: [anObject isInteger])
 		ifTrue: [^ super * anObject].
-	((anObject isKindOf: FreePolynomial) and: [anObject scalars = self scalars])
+	(self parent includes: anObject)
 		ifTrue: [^ self convolution: anObject].
-	(anObject isKindOf: Word)
+	(self parent words includes: anObject)
 		ifTrue: [^ self multipliedByMonomial: anObject].
 	^ DomainError signal! !
 
@@ -33275,6 +33285,12 @@ degree
 	self isZero ifTrue: [^ Infinity negative].
 	^ self monomials max: [:each| each length]! !
 
+!FreePolynomial methodsFor: 'testing' stamp: 'len 1/10/2018 16:57:08'!
+isStandard
+	"Answer true if the receiver is a standard polynomial, i.e. all its monomials are standard words."
+	self monomialsDo: [:each| each isStandard ifFalse: [^ false]].
+	^ true! !
+
 !FreePolynomial methodsFor: 'accessing' stamp: 'len 1/10/2018 13:29:49'!
 leadingCoefficient
 	^ self at: self leadingMonomial! !
@@ -33283,24 +33299,79 @@ leadingCoefficient
 leadingMonomial
 	^ self monomials asSortedCollection first! !
 
-!FreePolynomial methodsFor: 'accessing' stamp: 'len 1/10/2018 12:49:17'!
+!FreePolynomial methodsFor: 'accessing' stamp: 'len 1/10/2018 16:56:38'!
 monomials
-	^ self keys! !
+	^ Iterator on: self performing: #monomialsDo:! !
 
-!FreePolynomial methodsFor: 'arithmetic' stamp: 'len 1/10/2018 12:57:14'!
+!FreePolynomial methodsFor: 'accessing' stamp: 'len 1/10/2018 16:56:11'!
+monomialsDo: aBlock
+	self keysDo: aBlock! !
+
+!FreePolynomial methodsFor: 'arithmetic' stamp: 'len 1/10/2018 20:18:46'!
 multipliedByMonomial: aWord
-	| answer |
-	answer _ self species new: self size over: self scalars.
-	self associationsDo: [:each| answer at: each key * aWord put: each value].
-	^ answer! !
+	| newCoefficients |
+	newCoefficients _ Dictionary new: self size.
+	self associationsDo: [:each| newCoefficients at: each key * aWord put: each value].
+	^ self parent coefficients: newCoefficients! !
 
-!FreePolynomial methodsFor: 'accessing' stamp: 'len 1/10/2018 12:45:37'!
+!FreePolynomial methodsFor: 'accessing' stamp: 'len 1/10/2018 20:07:45'!
 one
-	^ self class with: Word empty over: self scalars! !
+	^ self parent one! !
 
 !FreePolynomial methodsFor: 'arithmetic' stamp: 'len 3/2/2016 05:35'!
 squared
 	^ self * self! !
+
+!Divisor methodsFor: 'comparing' stamp: 'len 1/11/2017 16:34:02'!
+<= aDivisor
+	^ (aDivisor - self) isEffective! !
+
+!Divisor methodsFor: 'comparing' stamp: 'len 1/2/2017 15:43:41'!
+= anObject
+	^ (anObject isKindOf: Divisor) and: [self ~ anObject]! !
+
+!Divisor methodsFor: 'comparing' stamp: 'len 10/27/2016 10:26'!
+>= aDivisor
+	^ (self - aDivisor) isEffective! !
+
+!Divisor methodsFor: 'comparing' stamp: 'len 1/2/2017 15:43:29'!
+~ aDivisor
+	"Answer true if the receiver and the argument are linearly equivalent."
+	^ (self - aDivisor) isPrincipal! !
+
+!Divisor methodsFor: 'accessing' stamp: 'len 1/10/2018 21:59:43'!
+degree
+	| answer |
+	answer _ 0.
+	self coefficientsDo: [:each| answer _ answer + each].
+	^ answer! !
+
+!Divisor methodsFor: 'operations' stamp: 'len 1/10/2018 21:58:23'!
+gcd: aDivisor
+	| newCoefficients |
+	newCoefficients _ Dictionary new.
+	self keysAndValuesDo: [:key :value|
+		aDivisor at: key ifPresent: [:value2| newCoefficients at: key put: (value min: value2)]].
+	^ (self class coefficients: newCoefficients) parent: parent! !
+
+!Divisor methodsFor: 'testing' stamp: 'len 2/25/2017 09:09:25'!
+isEffective
+	^ self allSatisfy: [:each| each positive]! !
+
+!Divisor methodsFor: 'operations' stamp: 'len 2/25/2017 09:09:10'!
+lcm: aDivisor
+	| answer |
+	answer _ self copy.
+	aDivisor keysAndValuesDo: [:key :value|
+		answer at: key put: ((self at: key) max: value)].
+	^ answer! !
+
+!Divisor methodsFor: 'accessing' stamp: 'len 2/25/2017 09:09:48'!
+support
+	| answer |
+	answer _ nil. "should start from the empty variety"
+	self keysDo: [:each| answer _ answer ifNil: [each] ifNotNil: [answer – each]].
+	^ answer! !
 
 !SimplicialChain methodsFor: 'operations' stamp: 'len 2/25/2017 09:26:29'!
 boundary
@@ -33326,57 +33397,6 @@ dimension
 !SimplicialChain methodsFor: 'testing' stamp: 'len 2/23/2016 03:33'!
 isCycle
 	^ self boundary isZero! !
-
-!Divisor methodsFor: 'comparing' stamp: 'len 1/11/2017 16:34:02'!
-<= aDivisor
-	^ (aDivisor - self) isEffective! !
-
-!Divisor methodsFor: 'comparing' stamp: 'len 1/2/2017 15:43:41'!
-= anObject
-	^ (anObject isKindOf: Divisor) and: [self ~ anObject]! !
-
-!Divisor methodsFor: 'comparing' stamp: 'len 10/27/2016 10:26'!
->= aDivisor
-	^ (self - aDivisor) isEffective! !
-
-!Divisor methodsFor: 'comparing' stamp: 'len 1/2/2017 15:43:29'!
-~ aDivisor
-	"Answer true if the receiver and the argument are linearly equivalent."
-	^ (self - aDivisor) isPrincipal! !
-
-!Divisor methodsFor: 'accessing' stamp: 'len 2/25/2017 09:09:54'!
-degree
-	| answer |
-	answer _ 0.
-	self do: [:each| answer _ answer + each].
-	^ answer! !
-
-!Divisor methodsFor: 'operations' stamp: 'len 2/25/2017 09:08:47'!
-gcd: aDivisor
-	| answer |
-	answer _ self class over: self scalars.
-	self keysAndValuesDo: [:key :value|
-		aDivisor at: key ifPresent: [:value2| answer at: key put: (value min: value2)]].
-	^ answer! !
-
-!Divisor methodsFor: 'testing' stamp: 'len 2/25/2017 09:09:25'!
-isEffective
-	^ self allSatisfy: [:each| each positive]! !
-
-!Divisor methodsFor: 'operations' stamp: 'len 2/25/2017 09:09:10'!
-lcm: aDivisor
-	| answer |
-	answer _ self copy.
-	aDivisor keysAndValuesDo: [:key :value|
-		answer at: key put: ((self at: key) max: value)].
-	^ answer! !
-
-!Divisor methodsFor: 'accessing' stamp: 'len 2/25/2017 09:09:48'!
-support
-	| answer |
-	answer _ nil. "should start from the empty variety"
-	self keysDo: [:each| answer _ answer ifNil: [each] ifNotNil: [answer – each]].
-	^ answer! !
 
 !ModuleMonomial methodsFor: 'comparing' stamp: 'len 1/5/2018 11:20:58'!
 < aModuleMonomial
