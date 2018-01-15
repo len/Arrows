@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 15 January 2018 at 7:20:19 pm'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 15 January 2018 at 10:32:20 pm'!
 'Description A computational algebra system in Smalltalk'!
-!provides: 'Mathematics' 1 401!
+!provides: 'Mathematics' 1 402!
 !requires: 'RayTracer' 1 2 nil!
 !classDefinition: #RealAlgebraicNumber category: #'Mathematics-Fields-Algebraic'!
 Number subclass: #RealAlgebraicNumber
@@ -1522,24 +1522,34 @@ Module subclass: #FreeModule
 FreeModule class
 	instanceVariableNames: ''!
 
-!classDefinition: #ExtensionFieldVectorSpace category: #'Mathematics-Fields'!
-FreeModule subclass: #ExtensionFieldVectorSpace
+!classDefinition: #RingAsModule category: #'Mathematics-Rings'!
+FreeModule subclass: #RingAsModule
+	instanceVariableNames: 'scalars'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Rings'!
+!classDefinition: 'RingAsModule class' category: #'Mathematics-Rings'!
+RingAsModule class
+	instanceVariableNames: ''!
+
+!classDefinition: #ExtensionFieldAsVectorSpace category: #'Mathematics-Fields'!
+FreeModule subclass: #ExtensionFieldAsVectorSpace
 	instanceVariableNames: 'field'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Fields'!
-!classDefinition: 'ExtensionFieldVectorSpace class' category: #'Mathematics-Fields'!
-ExtensionFieldVectorSpace class
+!classDefinition: 'ExtensionFieldAsVectorSpace class' category: #'Mathematics-Fields'!
+ExtensionFieldAsVectorSpace class
 	instanceVariableNames: ''!
 
-!classDefinition: #OrderModule category: #'Mathematics-Fields-Number Fields'!
-FreeModule subclass: #OrderModule
+!classDefinition: #OrderAsModule category: #'Mathematics-Fields-Number Fields'!
+FreeModule subclass: #OrderAsModule
 	instanceVariableNames: 'order'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Fields-Number Fields'!
-!classDefinition: 'OrderModule class' category: #'Mathematics-Fields-Number Fields'!
-OrderModule class
+!classDefinition: 'OrderAsModule class' category: #'Mathematics-Fields-Number Fields'!
+OrderAsModule class
 	instanceVariableNames: ''!
 
 !classDefinition: #DirectSumModule category: #'Mathematics-Modules'!
@@ -1602,14 +1612,34 @@ FreeModule subclass: #QuotientSpace
 QuotientSpace class
 	instanceVariableNames: ''!
 
-!classDefinition: #ScalarModule category: #'Mathematics-Modules'!
-FreeModule subclass: #ScalarModule
-	instanceVariableNames: 'scalars'
+!classDefinition: #TupleModule category: #'Mathematics-Modules-Tuples'!
+FreeModule subclass: #TupleModule
+	instanceVariableNames: 'scalars rank'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Modules'!
-!classDefinition: 'ScalarModule class' category: #'Mathematics-Modules'!
-ScalarModule class
+	category: 'Mathematics-Modules-Tuples'!
+!classDefinition: 'TupleModule class' category: #'Mathematics-Modules-Tuples'!
+TupleModule class
+	instanceVariableNames: ''!
+
+!classDefinition: #MultivariateTupleModule category: #'Mathematics-Modules-Multivariate'!
+TupleModule subclass: #MultivariateTupleModule
+	instanceVariableNames: 'ordering'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Modules-Multivariate'!
+!classDefinition: 'MultivariateTupleModule class' category: #'Mathematics-Modules-Multivariate'!
+MultivariateTupleModule class
+	instanceVariableNames: ''!
+
+!classDefinition: #MatrixModule category: #'Mathematics-Modules-Matrices'!
+FreeModule subclass: #MatrixModule
+	instanceVariableNames: 'scalars numberOfRows numberOfColumns'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Modules-Matrices'!
+!classDefinition: 'MatrixModule class' category: #'Mathematics-Modules-Matrices'!
+MatrixModule class
 	instanceVariableNames: ''!
 
 !classDefinition: #BilinearForms category: #'Mathematics-Multilinear'!
@@ -1652,44 +1682,14 @@ FreeModule subclass: #Algebra
 Algebra class
 	instanceVariableNames: ''!
 
-!classDefinition: #MatrixAlgebra category: #'Mathematics-Matrices'!
+!classDefinition: #MatrixAlgebra category: #'Mathematics-Modules-Matrices'!
 Algebra subclass: #MatrixAlgebra
 	instanceVariableNames: 'scalars degree'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Matrices'!
-!classDefinition: 'MatrixAlgebra class' category: #'Mathematics-Matrices'!
+	category: 'Mathematics-Modules-Matrices'!
+!classDefinition: 'MatrixAlgebra class' category: #'Mathematics-Modules-Matrices'!
 MatrixAlgebra class
-	instanceVariableNames: ''!
-
-!classDefinition: #TupleModule category: #'Mathematics-Tuples'!
-FreeModule subclass: #TupleModule
-	instanceVariableNames: 'scalars rank'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Tuples'!
-!classDefinition: 'TupleModule class' category: #'Mathematics-Tuples'!
-TupleModule class
-	instanceVariableNames: ''!
-
-!classDefinition: #MultivariateTupleModule category: #'Mathematics-Modules-Multivariate'!
-TupleModule subclass: #MultivariateTupleModule
-	instanceVariableNames: 'ordering'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Modules-Multivariate'!
-!classDefinition: 'MultivariateTupleModule class' category: #'Mathematics-Modules-Multivariate'!
-MultivariateTupleModule class
-	instanceVariableNames: ''!
-
-!classDefinition: #MatrixModule category: #'Mathematics-Matrices'!
-FreeModule subclass: #MatrixModule
-	instanceVariableNames: 'scalars numberOfRows numberOfColumns'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Matrices'!
-!classDefinition: 'MatrixModule class' category: #'Mathematics-Matrices'!
-MatrixModule class
 	instanceVariableNames: ''!
 
 !classDefinition: #PolynomialFiltrationModule category: #'Mathematics-Polynomials'!
@@ -2732,6 +2732,186 @@ FormalSum subclass: #SimplicialChain
 SimplicialChain class
 	instanceVariableNames: ''!
 
+!classDefinition: #Tuple category: #'Mathematics-Modules-Tuples'!
+Object subclass: #Tuple
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Modules-Tuples'!
+!classDefinition: 'Tuple class' category: #'Mathematics-Modules-Tuples'!
+Tuple class
+	instanceVariableNames: ''!
+
+!classDefinition: #ArrayTuple category: #'Mathematics-Modules-Tuples'!
+Tuple subclass: #ArrayTuple
+	instanceVariableNames: 'coefficients scalars'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Modules-Tuples'!
+!classDefinition: 'ArrayTuple class' category: #'Mathematics-Modules-Tuples'!
+ArrayTuple class
+	instanceVariableNames: ''!
+
+!classDefinition: #HomogeneousTuple category: #'Mathematics-Modules-Tuples'!
+ArrayTuple subclass: #HomogeneousTuple
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Modules-Tuples'!
+!classDefinition: 'HomogeneousTuple class' category: #'Mathematics-Modules-Tuples'!
+HomogeneousTuple class
+	instanceVariableNames: ''!
+
+!classDefinition: #BitTuple category: #'Mathematics-Modules-Tuples'!
+Tuple subclass: #BitTuple
+	instanceVariableNames: 'integer size'
+	classVariableNames: 'One Zero'
+	poolDictionaries: ''
+	category: 'Mathematics-Modules-Tuples'!
+!classDefinition: 'BitTuple class' category: #'Mathematics-Modules-Tuples'!
+BitTuple class
+	instanceVariableNames: ''!
+
+!classDefinition: #ModularTuple category: #'Mathematics-Modules-Tuples'!
+Tuple subclass: #ModularTuple
+	instanceVariableNames: 'representatives scalars'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Modules-Tuples'!
+!classDefinition: 'ModularTuple class' category: #'Mathematics-Modules-Tuples'!
+ModularTuple class
+	instanceVariableNames: ''!
+
+!classDefinition: #MultivariateTuple category: #'Mathematics-Modules-Multivariate'!
+Tuple subclass: #MultivariateTuple
+	instanceVariableNames: 'parent components'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Modules-Multivariate'!
+!classDefinition: 'MultivariateTuple class' category: #'Mathematics-Modules-Multivariate'!
+MultivariateTuple class
+	instanceVariableNames: ''!
+
+!classDefinition: #Matrix category: #'Mathematics-Modules-Matrices'!
+Object subclass: #Matrix
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Modules-Matrices'!
+!classDefinition: 'Matrix class' category: #'Mathematics-Modules-Matrices'!
+Matrix class
+	instanceVariableNames: ''!
+
+!classDefinition: #ColumnMatrix category: #'Mathematics-Modules-Matrices'!
+Matrix subclass: #ColumnMatrix
+	instanceVariableNames: 'columns'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Modules-Matrices'!
+!classDefinition: 'ColumnMatrix class' category: #'Mathematics-Modules-Matrices'!
+ColumnMatrix class
+	instanceVariableNames: ''!
+
+!classDefinition: #RowMatrix category: #'Mathematics-Modules-Matrices'!
+Matrix subclass: #RowMatrix
+	instanceVariableNames: 'rows'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Modules-Matrices'!
+!classDefinition: 'RowMatrix class' category: #'Mathematics-Modules-Matrices'!
+RowMatrix class
+	instanceVariableNames: ''!
+
+!classDefinition: #GramSchmidt category: #'Mathematics-Modules-Matrices-Algorithms'!
+Object subclass: #GramSchmidt
+	instanceVariableNames: 'basis innerProduct orthogonalBasis matrix'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Modules-Matrices-Algorithms'!
+!classDefinition: 'GramSchmidt class' category: #'Mathematics-Modules-Matrices-Algorithms'!
+GramSchmidt class
+	instanceVariableNames: ''!
+
+!classDefinition: #HermiteColumnReduction category: #'Mathematics-Modules-Matrices-Algorithms'!
+Object subclass: #HermiteColumnReduction
+	instanceVariableNames: 'matrix'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Modules-Matrices-Algorithms'!
+!classDefinition: 'HermiteColumnReduction class' category: #'Mathematics-Modules-Matrices-Algorithms'!
+HermiteColumnReduction class
+	instanceVariableNames: ''!
+
+!classDefinition: #HermiteReduction category: #'Mathematics-Modules-Matrices-Algorithms'!
+Object subclass: #HermiteReduction
+	instanceVariableNames: 'matrix'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Modules-Matrices-Algorithms'!
+!classDefinition: 'HermiteReduction class' category: #'Mathematics-Modules-Matrices-Algorithms'!
+HermiteReduction class
+	instanceVariableNames: ''!
+
+!classDefinition: #MatrixReduction category: #'Mathematics-Modules-Matrices-Algorithms'!
+Object subclass: #MatrixReduction
+	instanceVariableNames: 'matrix extension currentPivot pivots determinantFactor'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Modules-Matrices-Algorithms'!
+!classDefinition: 'MatrixReduction class' category: #'Mathematics-Modules-Matrices-Algorithms'!
+MatrixReduction class
+	instanceVariableNames: ''!
+
+!classDefinition: #GaussianElimination category: #'Mathematics-Modules-Matrices-Algorithms'!
+MatrixReduction subclass: #GaussianElimination
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Modules-Matrices-Algorithms'!
+!classDefinition: 'GaussianElimination class' category: #'Mathematics-Modules-Matrices-Algorithms'!
+GaussianElimination class
+	instanceVariableNames: ''!
+
+!classDefinition: #GaussBareiss category: #'Mathematics-Modules-Matrices-Algorithms'!
+GaussianElimination subclass: #GaussBareiss
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Modules-Matrices-Algorithms'!
+!classDefinition: 'GaussBareiss class' category: #'Mathematics-Modules-Matrices-Algorithms'!
+GaussBareiss class
+	instanceVariableNames: ''!
+
+!classDefinition: #ModularHermiteReduction category: #'Mathematics-Modules-Matrices-Algorithms'!
+Object subclass: #ModularHermiteReduction
+	instanceVariableNames: 'matrix HNF'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Modules-Matrices-Algorithms'!
+!classDefinition: 'ModularHermiteReduction class' category: #'Mathematics-Modules-Matrices-Algorithms'!
+ModularHermiteReduction class
+	instanceVariableNames: ''!
+
+!classDefinition: #QRDecomposition category: #'Mathematics-Modules-Matrices-Algorithms'!
+Object subclass: #QRDecomposition
+	instanceVariableNames: 'matrix Q R'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Modules-Matrices-Algorithms'!
+!classDefinition: 'QRDecomposition class' category: #'Mathematics-Modules-Matrices-Algorithms'!
+QRDecomposition class
+	instanceVariableNames: ''!
+
+!classDefinition: #SmithReduction category: #'Mathematics-Modules-Matrices-Algorithms'!
+Object subclass: #SmithReduction
+	instanceVariableNames: 'matrix diagonal'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Modules-Matrices-Algorithms'!
+!classDefinition: 'SmithReduction class' category: #'Mathematics-Modules-Matrices-Algorithms'!
+SmithReduction class
+	instanceVariableNames: ''!
+
 !classDefinition: #ModuleMonomial category: #'Mathematics-Modules-Multivariate'!
 Object subclass: #ModuleMonomial
 	instanceVariableNames: 'parent monomial position'
@@ -2820,186 +3000,6 @@ Object subclass: #ProjectiveFrame
 	category: 'Mathematics-Geometry-Projective'!
 !classDefinition: 'ProjectiveFrame class' category: #'Mathematics-Geometry-Projective'!
 ProjectiveFrame class
-	instanceVariableNames: ''!
-
-!classDefinition: #Tuple category: #'Mathematics-Tuples'!
-Object subclass: #Tuple
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Tuples'!
-!classDefinition: 'Tuple class' category: #'Mathematics-Tuples'!
-Tuple class
-	instanceVariableNames: ''!
-
-!classDefinition: #MultivariateTuple category: #'Mathematics-Modules-Multivariate'!
-Tuple subclass: #MultivariateTuple
-	instanceVariableNames: 'parent components'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Modules-Multivariate'!
-!classDefinition: 'MultivariateTuple class' category: #'Mathematics-Modules-Multivariate'!
-MultivariateTuple class
-	instanceVariableNames: ''!
-
-!classDefinition: #ArrayTuple category: #'Mathematics-Tuples'!
-Tuple subclass: #ArrayTuple
-	instanceVariableNames: 'coefficients scalars'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Tuples'!
-!classDefinition: 'ArrayTuple class' category: #'Mathematics-Tuples'!
-ArrayTuple class
-	instanceVariableNames: ''!
-
-!classDefinition: #HomogeneousTuple category: #'Mathematics-Tuples'!
-ArrayTuple subclass: #HomogeneousTuple
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Tuples'!
-!classDefinition: 'HomogeneousTuple class' category: #'Mathematics-Tuples'!
-HomogeneousTuple class
-	instanceVariableNames: ''!
-
-!classDefinition: #BitTuple category: #'Mathematics-Tuples'!
-Tuple subclass: #BitTuple
-	instanceVariableNames: 'integer size'
-	classVariableNames: 'One Zero'
-	poolDictionaries: ''
-	category: 'Mathematics-Tuples'!
-!classDefinition: 'BitTuple class' category: #'Mathematics-Tuples'!
-BitTuple class
-	instanceVariableNames: ''!
-
-!classDefinition: #ModularTuple category: #'Mathematics-Tuples'!
-Tuple subclass: #ModularTuple
-	instanceVariableNames: 'representatives scalars'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Tuples'!
-!classDefinition: 'ModularTuple class' category: #'Mathematics-Tuples'!
-ModularTuple class
-	instanceVariableNames: ''!
-
-!classDefinition: #Matrix category: #'Mathematics-Matrices'!
-Object subclass: #Matrix
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Matrices'!
-!classDefinition: 'Matrix class' category: #'Mathematics-Matrices'!
-Matrix class
-	instanceVariableNames: ''!
-
-!classDefinition: #ColumnMatrix category: #'Mathematics-Matrices'!
-Matrix subclass: #ColumnMatrix
-	instanceVariableNames: 'columns'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Matrices'!
-!classDefinition: 'ColumnMatrix class' category: #'Mathematics-Matrices'!
-ColumnMatrix class
-	instanceVariableNames: ''!
-
-!classDefinition: #RowMatrix category: #'Mathematics-Matrices'!
-Matrix subclass: #RowMatrix
-	instanceVariableNames: 'rows'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Matrices'!
-!classDefinition: 'RowMatrix class' category: #'Mathematics-Matrices'!
-RowMatrix class
-	instanceVariableNames: ''!
-
-!classDefinition: #GramSchmidt category: #'Mathematics-Matrices-Algorithms'!
-Object subclass: #GramSchmidt
-	instanceVariableNames: 'basis innerProduct orthogonalBasis matrix'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Matrices-Algorithms'!
-!classDefinition: 'GramSchmidt class' category: #'Mathematics-Matrices-Algorithms'!
-GramSchmidt class
-	instanceVariableNames: ''!
-
-!classDefinition: #HermiteColumnReduction category: #'Mathematics-Matrices-Algorithms'!
-Object subclass: #HermiteColumnReduction
-	instanceVariableNames: 'matrix'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Matrices-Algorithms'!
-!classDefinition: 'HermiteColumnReduction class' category: #'Mathematics-Matrices-Algorithms'!
-HermiteColumnReduction class
-	instanceVariableNames: ''!
-
-!classDefinition: #HermiteReduction category: #'Mathematics-Matrices-Algorithms'!
-Object subclass: #HermiteReduction
-	instanceVariableNames: 'matrix'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Matrices-Algorithms'!
-!classDefinition: 'HermiteReduction class' category: #'Mathematics-Matrices-Algorithms'!
-HermiteReduction class
-	instanceVariableNames: ''!
-
-!classDefinition: #MatrixReduction category: #'Mathematics-Matrices-Algorithms'!
-Object subclass: #MatrixReduction
-	instanceVariableNames: 'matrix extension currentPivot pivots determinantFactor'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Matrices-Algorithms'!
-!classDefinition: 'MatrixReduction class' category: #'Mathematics-Matrices-Algorithms'!
-MatrixReduction class
-	instanceVariableNames: ''!
-
-!classDefinition: #GaussianElimination category: #'Mathematics-Matrices-Algorithms'!
-MatrixReduction subclass: #GaussianElimination
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Matrices-Algorithms'!
-!classDefinition: 'GaussianElimination class' category: #'Mathematics-Matrices-Algorithms'!
-GaussianElimination class
-	instanceVariableNames: ''!
-
-!classDefinition: #GaussBareiss category: #'Mathematics-Matrices-Algorithms'!
-GaussianElimination subclass: #GaussBareiss
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Matrices-Algorithms'!
-!classDefinition: 'GaussBareiss class' category: #'Mathematics-Matrices-Algorithms'!
-GaussBareiss class
-	instanceVariableNames: ''!
-
-!classDefinition: #ModularHermiteReduction category: #'Mathematics-Matrices-Algorithms'!
-Object subclass: #ModularHermiteReduction
-	instanceVariableNames: 'matrix HNF'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Matrices-Algorithms'!
-!classDefinition: 'ModularHermiteReduction class' category: #'Mathematics-Matrices-Algorithms'!
-ModularHermiteReduction class
-	instanceVariableNames: ''!
-
-!classDefinition: #QRDecomposition category: #'Mathematics-Matrices-Algorithms'!
-Object subclass: #QRDecomposition
-	instanceVariableNames: 'matrix Q R'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Matrices-Algorithms'!
-!classDefinition: 'QRDecomposition class' category: #'Mathematics-Matrices-Algorithms'!
-QRDecomposition class
-	instanceVariableNames: ''!
-
-!classDefinition: #SmithReduction category: #'Mathematics-Matrices-Algorithms'!
-Object subclass: #SmithReduction
-	instanceVariableNames: 'matrix diagonal'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Matrices-Algorithms'!
-!classDefinition: 'SmithReduction class' category: #'Mathematics-Matrices-Algorithms'!
-SmithReduction class
 	instanceVariableNames: ''!
 
 !classDefinition: #Monomial category: #'Mathematics-Monomials'!
@@ -4363,6 +4363,11 @@ My instances are finite-rank free R-modules, i.e. R-modules with a basis. They a
 
 Most functionality is implemented for the cases where R is a field (vector spaces), or for R a PID such as Z or Q[x] (relying on the Hermite normal form).!
 
+!RingAsModule commentStamp: '<historical>' prior: 0!
+My instances are rank 1 free modules (or vector spaces) of scalars, i.e. a ring R viewed as a R-module (or a field K viewed as a K-vector space).
+
+Ideals of R are seen as submodules of this ambient module.!
+
 !DirectSumModule commentStamp: '<historical>' prior: 0!
 My instances are modules defined as the direct sum of other modules.!
 
@@ -4389,20 +4394,17 @@ See also QuotientModule.
 References:
 	https://en.wikipedia.org/wiki/Quotient_space_(linear_algebra)!
 
-!ScalarModule commentStamp: '<historical>' prior: 0!
-My instances are rank 1 free modules (or vector spaces) of scalars, i.e. a ring R viewed as a R-module (or a field K viewed as a K-vector space).!
+!TupleModule commentStamp: '<historical>' prior: 0!
+My instances are ambient modules (or vector spaces) of n-tuples over a given ring (or field).!
+
+!MatrixModule commentStamp: '<historical>' prior: 0!
+My instances are ambient modules (or vector spaces) of matrices of n rows by m columns over a given commutative ring (or field). See also MatrixRing.!
 
 !Algebra commentStamp: '<historical>' prior: 0!
 My instances are R-algebras seen as R-modules together with a binary operation of multiplication.!
 
 !MatrixAlgebra commentStamp: '<historical>' prior: 0!
 My instances are rings of square matrices with coefficients over a commutative ring R. They are R-algebras. See also MatrixModule.!
-
-!TupleModule commentStamp: '<historical>' prior: 0!
-My instances are ambient modules (or vector spaces) of n-tuples over a given ring (or field).!
-
-!MatrixModule commentStamp: '<historical>' prior: 0!
-My instances are ambient modules (or vector spaces) of matrices of n rows by m columns over a given commutative ring (or field). See also MatrixRing.!
 
 !PolynomialFiltrationModule commentStamp: '<historical>' prior: 0!
 My instances are submodules of univariate polynomials of degree <= n for a fixed n, in the ring of univariate polynomials R[x]. They define a filtration (see PolynomialRing>>filtrationAt:).!
@@ -4919,12 +4921,6 @@ My instances are Weil divisors, i.e. formal sums (with integer coefficients) of 
 !SimplicialChain commentStamp: '<historical>' prior: 0!
 A simplicial k-chain is a formal linear combination of k-simplices.!
 
-!ModuleMonomial commentStamp: '<historical>' prior: 0!
-My instances are monomials in multivariate modules, i.e. R-modules where R is a multivariate ring such as a polynomial ring or an affine ring. They are the product of a monomial in R by a basis element.!
-
-!ModuleMonomialOrdering commentStamp: '<historical>' prior: 0!
-My instances are generalizations of monomial orderings to multivariate modules, i.e. R-modules where R is a multivariate ring such as a polynomial ring or an affine ring. They extend the ordering of the coefficients ring R to elements of the R-module.!
-
 !Tuple commentStamp: '<historical>' prior: 0!
 My instances are n-tuples with coefficients in some ring R, i.e. finite ordered lists of n elements of R indexed by integers 1 to n. They are the elements of the R-module R^n.
 
@@ -5019,6 +5015,12 @@ My instances are QR factorizations of a given real or complex matrix A, such tha
 !SmithReduction commentStamp: '<historical>' prior: 0!
 This is the Smith reduction algorithm. Given a matrix with coefficients in a PID, it reduces the matrix to its Smith normal form.
 !
+
+!ModuleMonomial commentStamp: '<historical>' prior: 0!
+My instances are monomials in multivariate modules, i.e. R-modules where R is a multivariate ring such as a polynomial ring or an affine ring. They are the product of a monomial in R by a basis element.!
+
+!ModuleMonomialOrdering commentStamp: '<historical>' prior: 0!
+My instances are generalizations of monomial orderings to multivariate modules, i.e. R-modules where R is a multivariate ring such as a polynomial ring or an affine ring. They extend the ordering of the coefficients ring R to elements of the R-module.!
 
 !Monomial commentStamp: '<historical>' prior: 0!
 My instances are (commutative) power products of one or many variables. They form a monoid (see FreeAbelianMonoid). Their formal linear combinations over a ring are Polynomials (see also PolynomialRing).
@@ -17925,7 +17927,7 @@ on: aRing
 			ifTrue: [self idealClass over: self generators: anElementOrArray]
 			ifFalse: [self idealClass over: self generators: {anElementOrArray}]! !
 
-!Ring methodsFor: 'operations' stamp: 'len 1/15/2018 18:45:23'!
+!Ring methodsFor: 'operations' stamp: 'len 1/15/2018 22:23:00'!
 / anIdeal
 	"Answer the quotient by the given ideal.
 	For convenience, the argument can be a single element or a collection of elements as well."
@@ -17936,7 +17938,7 @@ on: aRing
 			I _ anIdeal]
 		ifFalse:
 			[I _ self * anIdeal].
-	^ I quotient! !
+	^ I quotientRing! !
 
 !Ring methodsFor: 'operations' stamp: 'len 1/22/2017 08:19:59'!
 ^ n
@@ -17961,10 +17963,10 @@ asIdeal
 	"Answer the receiver R viewed as an ideal of itself."
 	^ self * self one! !
 
-!Ring methodsFor: 'converting' stamp: 'len 10/7/2016 08:41'!
+!Ring methodsFor: 'converting' stamp: 'len 1/15/2018 19:48:22'!
 asSelfModule
 	"Answer the receiver R viewed as R-module."
-	^ ScalarModule over: self! !
+	^ RingAsModule over: self! !
 
 !Ring methodsFor: 'morphisms' stamp: 'len 10/18/2016 19:49'!
 conjugation
@@ -18944,9 +18946,9 @@ modulus
 one
 	^ self representative: self base one! !
 
-!QuotientRing methodsFor: 'converting' stamp: 'len 2/27/2017 20:53:09'!
+!QuotientRing methodsFor: 'converting' stamp: 'len 1/15/2018 22:23:25'!
 over: aRing
-	^ (self relations over: aRing) quotient! !
+	^ (self relations over: aRing) quotientRing! !
 
 !QuotientRing methodsFor: 'printing' stamp: 'len 2/27/2017 20:53:15'!
 printOn: aStream
@@ -19185,9 +19187,9 @@ modulus: anInteger
 asModule
 	^ self asVectorSpace! !
 
-!ExtensionField methodsFor: 'converting' stamp: 'len 1/16/2017 07:39:16'!
+!ExtensionField methodsFor: 'converting' stamp: 'len 1/15/2018 19:44:27'!
 asVectorSpace
-	^ ExtensionFieldVectorSpace on: self
+	^ ExtensionFieldAsVectorSpace on: self
 "	^ FreeModule
 		basis: ((1 to: self degree) collect: [:i| self x ^ (i-1)])
 		coordinates: [:aVector| self scalars tuple: self degree evaluating: [:i| aVector representative coefficientAtDegree: i-1]]
@@ -19946,9 +19948,9 @@ initialize
 	super initialize.
 	Smalltalk at: #RR put: self new! !
 
-!Order methodsFor: 'converting' stamp: 'len 1/16/2017 07:49:51'!
+!Order methodsFor: 'converting' stamp: 'len 1/15/2018 19:56:36'!
 asModule
-	^ OrderModule on: self! !
+	^ OrderAsModule on: self! !
 
 !Order methodsFor: 'accessing' stamp: 'len 12/28/2016 12:13:45'!
 basis
@@ -21175,7 +21177,7 @@ space: aVectorSpace
 new: anInteger over: aSpace
 	^ self new space: aSpace; rank: anInteger! !
 
-!Module methodsFor: 'operations' stamp: 'len 1/13/2018 22:54:09'!
+!Module methodsFor: 'operations' stamp: 'len 1/15/2018 21:55:37'!
 * aNumber
 	"Answer the receiver scaled by aNumber."
 	(self scalars includes: aNumber) ifFalse: [^ DomainError signal].
@@ -21186,7 +21188,7 @@ new: anInteger over: aSpace
 	(aNumber = self scalars one or: [aNumber = self scalars one negated])
 		ifTrue: [^ self].
 	self scalars isPID "must it be a PID?"
-		ifTrue: [^ self span: (self generators collect: [:each| each * aNumber])].
+		ifTrue: [^ self ambient span: (self generators collect: [:each| each * aNumber])].
 	^ DomainError signal! !
 
 !Module methodsFor: 'operations' stamp: 'len 1/13/2018 22:37:30'!
@@ -21236,6 +21238,10 @@ characteristic
 dual
 	^ self hom: self scalars asSelfModule! !
 
+!Module methodsFor: 'accessing-private' stamp: 'len 1/15/2018 20:13:05'!
+generators: aCollection
+	super generators: (aCollection asSet reject: [:each| each isZero])! !
+
 !Module methodsFor: 'comparing' stamp: 'len 1/13/2018 22:42:28'!
 hash
 	^ self scalars hash! !
@@ -21283,10 +21289,10 @@ over: aRing
 	"Answer the change of base ring of the receiver."
 	self notYetImplemented! !
 
-!Module methodsFor: 'accessing' stamp: 'len 1/14/2018 22:35:48'!
-presentation
-	"Answer a presentation of the receiver, an exact sequence R^n -> R^m -> M -> 0."
-	^ self propertyAt: #presentation! !
+!Module methodsFor: 'accessing' stamp: 'len 1/15/2018 20:24:49'!
+presentationMap
+	"Answer a presentation map of the receiver, the map R^n -> R^m from the presentation exact sequence R^n -> R^m -> M -> 0."
+	^ self propertyAt: #presentationMap! !
 
 !Module methodsFor: 'printing' stamp: 'len 1/13/2018 22:22:48'!
 printOn: aStream
@@ -21458,10 +21464,10 @@ copy
 	"Answer a copy of the receiver."
 	^ self class over: self scalars generators: self generators copy! !
 
-!Ideal methodsFor: 'accessing' stamp: 'len 2/5/2017 06:35:26'!
+!Ideal methodsFor: 'accessing' stamp: 'len 1/15/2018 22:23:52'!
 dimension
 	"Answer the Krull dimension of the quotient ring of the base ring by the receiver."
-	^ self quotient dimension! !
+	^ self quotientRing dimension! !
 
 !Ideal methodsFor: 'enumerating' stamp: 'len 1/15/2018 18:48:18'!
 do: aBlock
@@ -21574,8 +21580,8 @@ printOn: aStream
 		do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: ', '].
 	aStream nextPut: $>! !
 
-!Ideal methodsFor: 'operations' stamp: 'len 1/13/2017 21:55:31'!
-quotient
+!Ideal methodsFor: 'operations' stamp: 'len 1/15/2018 22:22:45'!
+quotientRing
 	"Answer the quotient ring of the base ring by the receiver."
 	"is this ok? this is actually isomorphic to the quotient we mean, but maybe is ok, we have some quotient defined by relations and we just add more relations, also makes sense"
 "	self flag: #fix.
@@ -21690,8 +21696,8 @@ isSemiprime
 printOn: aStream
 	aStream print: self generator; nextPut: Character ZZ! !
 
-!RationalIntegerIdeal methodsFor: 'operations' stamp: 'len 12/30/2016 09:58:09'!
-quotient
+!RationalIntegerIdeal methodsFor: 'operations' stamp: 'len 1/15/2018 22:22:23'!
+quotientRing
 	"Answer the quotient ring of the base ring by the receiver."
 	^ ModularIntegerRing mod: self! !
 
@@ -21946,8 +21952,8 @@ predecomposition
 			previous do: [:G| | H | (H _ G + (p^s)) isProper ifTrue: [answer add: H]]]].
 	^ answer! !
 
-!PolynomialIdeal methodsFor: 'operations' stamp: 'len 1/24/2017 12:54:59'!
-quotient
+!PolynomialIdeal methodsFor: 'operations' stamp: 'len 1/15/2018 22:22:10'!
+quotientRing
 	"Answer the quotient ring of the base ring by the receiver."
 	^ AffineRing mod: self! !
 
@@ -22222,7 +22228,7 @@ species
 		ifTrue: [^ self elementAt: anObject].
 	^ super !! anObject! !
 
-!FreeModule methodsFor: 'operations' stamp: 'len 2/28/2017 10:23:33'!
+!FreeModule methodsFor: 'operations' stamp: 'len 1/15/2018 21:56:08'!
 * aNumber
 	"Answer the receiver scaled by aNumber."
 	aNumber isZero
@@ -22232,7 +22238,7 @@ species
 	(aNumber = self scalars one or: [aNumber = self scalars one negated])
 		ifTrue: [^ self].
 	self scalars isPID "must it be a PID?"
-		ifTrue: [^ self span: (self basis collect: [:each| each * aNumber])].
+		ifTrue: [^ self ambient span: (self basis collect: [:each| each * aNumber])].
 	^ DomainError signal! !
 
 !FreeModule methodsFor: 'operations' stamp: 'len 4/6/2017 09:58:21'!
@@ -22244,11 +22250,14 @@ species
 	anObject isTrivial ifTrue: [^ self].
 	^ (self basis + anObject basis) span! !
 
-!FreeModule methodsFor: 'operations' stamp: 'len 10/7/2016 08:40'!
+!FreeModule methodsFor: 'operations' stamp: 'len 1/15/2018 22:27:31'!
 / aSubmodule
 	"Answer the quotient of the receiver by the submodule aSubmodule,
 	i.e. the module obtained by 'collapsing' the submodule to zero."
-	^ (aSubmodule asSubmoduleOf: self) quotient! !
+	aSubmodule isFreeModule ifFalse: [^ super / aSubmodule].
+	aSubmodule ambient = self ifTrue: [^ aSubmodule quotient].
+	aSubmodule ambient = self ambient ifTrue: [^ (self span: aSubmodule generators) quotient].
+	^ DomainError signal! !
 
 !FreeModule methodsFor: 'operations' stamp: 'len 12/8/2016 20:27:46'!
 /\ aModule
@@ -22463,11 +22472,11 @@ grassmannian: r
 hash
 	^ self scalars hash + self rank hashMultiply! !
 
-!FreeModule methodsFor: 'morphisms' stamp: 'len 1/13/2018 21:27:48'!
+!FreeModule methodsFor: 'morphisms' stamp: 'len 1/15/2018 19:48:29'!
 hom: aModule
 	"Answer Hom(A,B), the R-module of morphisms that go from the receiver A to the argument B."
 	aModule scalars = self scalars ifFalse: [DomainError signal: 'scalars don''t match'].
-	(aModule isKindOf: ScalarModule)
+	(aModule isKindOf: RingAsModule)
 		ifTrue: [^ DualModule from: self].
 	^ HomModule from: self to: aModule! !
 
@@ -22591,9 +22600,9 @@ alternative 4:
 	^ self ambient span: (self annihilator basis collect: [:f| f asVector])
 "! !
 
-!FreeModule methodsFor: 'operations' stamp: 'len 2/4/2017 09:01:01'!
+!FreeModule methodsFor: 'operations' stamp: 'len 1/15/2018 21:03:32'!
 projectivized
-	"Answer the projective subspace induced by the receiver, consisting of the 1-dimension subspaces."
+	"Answer the projective space induced by the receiver, whose points are the 1-dimensional subspaces of the receiver."
 	self isVectorSpace ifFalse: [^ DomainError signal: 'not a vector space'].
 	^ ProjectiveLinearSpace on: self! !
 
@@ -22681,64 +22690,111 @@ matrix: aMatrix
 	"Answer a submodule of a tuples module with generator matrix aMatrix."
 	^ self basis: (LinearBasis on: aMatrix scalars ^ aMatrix numberOfRows matrix: aMatrix)! !
 
-!ExtensionFieldVectorSpace methodsFor: 'as yet unclassified' stamp: 'len 1/16/2017 07:38:46'!
+!RingAsModule methodsFor: 'accessing' stamp: 'len 12/30/2017 16:47:13'!
+ambient
+	^ self! !
+
+!RingAsModule methodsFor: 'basis' stamp: 'len 4/22/2016 21:55'!
+coordinatesOf: anObject
+	"Answer the coordinates of the argument in the canonic basis."
+	^ self scalars tuple: {anObject}! !
+
+!RingAsModule methodsFor: 'basis' stamp: 'len 11/19/2015 19:18'!
+e: anInteger
+	"Answer the anInteger-th canonic vector."
+	^ self scalars one! !
+
+!RingAsModule methodsFor: 'testing' stamp: 'len 12/12/2017 20:13:06'!
+includes: anObject
+	^ scalars includes: anObject! !
+
+!RingAsModule methodsFor: 'converting' stamp: 'len 12/18/2016 12:47:39'!
+over: aRing
+	"Answer the change of base ring of the receiver."
+	^ self class over: aRing! !
+
+!RingAsModule methodsFor: 'printing' stamp: 'len 4/21/2016 00:04'!
+printOn: aStream
+	aStream print: scalars! !
+
+!RingAsModule methodsFor: 'basis' stamp: 'len 7/15/2016 00:40'!
+rank
+	^ 1! !
+
+!RingAsModule methodsFor: 'accessing' stamp: 'len 11/7/2015 02:57'!
+scalars
+	^ scalars! !
+
+!RingAsModule methodsFor: 'accessing-private' stamp: 'len 1/14/2017 23:14:59'!
+scalars: aRing
+	scalars _ aRing! !
+
+!RingAsModule methodsFor: 'elements' stamp: 'len 12/12/2017 18:33:49'!
+zero
+	^ scalars zero! !
+
+!RingAsModule class methodsFor: 'instance creation' stamp: 'len 11/7/2015 03:33'!
+over: aField
+	^ self new scalars: aField! !
+
+!ExtensionFieldAsVectorSpace methodsFor: 'as yet unclassified' stamp: 'len 1/16/2017 07:38:46'!
 coordinatesOf: anElement
 	"why not just anElement representative coefficients? must complete with 0"
 	^ self scalars tuple: self rank evaluating: [:i| anElement representative coefficientAtDegree: i-1]! !
 
-!ExtensionFieldVectorSpace methodsFor: 'as yet unclassified' stamp: 'len 1/16/2017 07:36:52'!
+!ExtensionFieldAsVectorSpace methodsFor: 'as yet unclassified' stamp: 'len 1/16/2017 07:36:52'!
 e: anInteger
 	^ field x ^ (anInteger-1)! !
 
-!ExtensionFieldVectorSpace methodsFor: 'as yet unclassified' stamp: 'len 1/16/2017 07:36:14'!
+!ExtensionFieldAsVectorSpace methodsFor: 'as yet unclassified' stamp: 'len 1/16/2017 07:36:14'!
 field
 	^ field! !
 
-!ExtensionFieldVectorSpace methodsFor: 'as yet unclassified' stamp: 'len 1/16/2017 07:36:26'!
+!ExtensionFieldAsVectorSpace methodsFor: 'as yet unclassified' stamp: 'len 1/16/2017 07:36:26'!
 field: anExtensionField
 	field _ anExtensionField! !
 
-!ExtensionFieldVectorSpace methodsFor: 'as yet unclassified' stamp: 'len 1/16/2017 07:36:35'!
+!ExtensionFieldAsVectorSpace methodsFor: 'as yet unclassified' stamp: 'len 1/16/2017 07:36:35'!
 rank
 	^ field degree! !
 
-!ExtensionFieldVectorSpace methodsFor: 'as yet unclassified' stamp: 'len 1/16/2017 07:37:19'!
+!ExtensionFieldAsVectorSpace methodsFor: 'as yet unclassified' stamp: 'len 1/16/2017 07:37:19'!
 scalars
 	^ field scalars! !
 
-!ExtensionFieldVectorSpace methodsFor: 'as yet unclassified' stamp: 'len 12/12/2017 18:36:20'!
+!ExtensionFieldAsVectorSpace methodsFor: 'as yet unclassified' stamp: 'len 12/12/2017 18:36:20'!
 zero
 	^ field zero! !
 
-!ExtensionFieldVectorSpace class methodsFor: 'as yet unclassified' stamp: 'len 1/16/2017 07:39:37'!
+!ExtensionFieldAsVectorSpace class methodsFor: 'as yet unclassified' stamp: 'len 1/16/2017 07:39:37'!
 on: anExtensionField
 	^ self new field: anExtensionField! !
 
-!OrderModule methodsFor: 'basis' stamp: 'len 1/16/2017 07:45:46'!
+!OrderAsModule methodsFor: 'basis' stamp: 'len 1/16/2017 07:45:46'!
 coordinatesOf: anElement
 	^ anElement representative coefficients! !
 
-!OrderModule methodsFor: 'basis' stamp: 'len 1/16/2017 07:46:44'!
+!OrderAsModule methodsFor: 'basis' stamp: 'len 1/16/2017 07:46:44'!
 e: anInteger
 	^ order basis at: anInteger! !
 
-!OrderModule methodsFor: 'accessing' stamp: 'len 1/16/2017 07:44:58'!
+!OrderAsModule methodsFor: 'accessing' stamp: 'len 1/16/2017 07:44:58'!
 order
 	^ order! !
 
-!OrderModule methodsFor: 'accessing-private' stamp: 'len 1/16/2017 07:45:18'!
+!OrderAsModule methodsFor: 'accessing-private' stamp: 'len 1/16/2017 07:45:18'!
 order: anOrder
 	order _ anOrder! !
 
-!OrderModule methodsFor: 'basis' stamp: 'len 1/16/2017 07:46:28'!
+!OrderAsModule methodsFor: 'basis' stamp: 'len 1/16/2017 07:46:28'!
 rank
 	^ order basis size! !
 
-!OrderModule methodsFor: 'accessing' stamp: 'len 1/16/2017 07:45:49'!
+!OrderAsModule methodsFor: 'accessing' stamp: 'len 1/16/2017 07:45:49'!
 scalars
 	^ ZZ! !
 
-!OrderModule class methodsFor: 'instance creation' stamp: 'len 1/16/2017 07:50:04'!
+!OrderAsModule class methodsFor: 'instance creation' stamp: 'len 1/16/2017 07:50:04'!
 on: anOrder
 	^ self new order: anOrder! !
 
@@ -23188,301 +23244,6 @@ zero
 mod: aSubspace
 	^ self new relations: aSubspace! !
 
-!ScalarModule methodsFor: 'accessing' stamp: 'len 12/30/2017 16:47:13'!
-ambient
-	^ self! !
-
-!ScalarModule methodsFor: 'basis' stamp: 'len 4/22/2016 21:55'!
-coordinatesOf: anObject
-	"Answer the coordinates of the argument in the canonic basis."
-	^ self scalars tuple: {anObject}! !
-
-!ScalarModule methodsFor: 'basis' stamp: 'len 11/19/2015 19:18'!
-e: anInteger
-	"Answer the anInteger-th canonic vector."
-	^ self scalars one! !
-
-!ScalarModule methodsFor: 'testing' stamp: 'len 12/12/2017 20:13:06'!
-includes: anObject
-	^ scalars includes: anObject! !
-
-!ScalarModule methodsFor: 'converting' stamp: 'len 12/18/2016 12:47:39'!
-over: aRing
-	"Answer the change of base ring of the receiver."
-	^ self class over: aRing! !
-
-!ScalarModule methodsFor: 'printing' stamp: 'len 4/21/2016 00:04'!
-printOn: aStream
-	aStream print: scalars! !
-
-!ScalarModule methodsFor: 'basis' stamp: 'len 7/15/2016 00:40'!
-rank
-	^ 1! !
-
-!ScalarModule methodsFor: 'accessing' stamp: 'len 11/7/2015 02:57'!
-scalars
-	^ scalars! !
-
-!ScalarModule methodsFor: 'accessing-private' stamp: 'len 1/14/2017 23:14:59'!
-scalars: aRing
-	scalars _ aRing! !
-
-!ScalarModule methodsFor: 'elements' stamp: 'len 12/12/2017 18:33:49'!
-zero
-	^ scalars zero! !
-
-!ScalarModule class methodsFor: 'instance creation' stamp: 'len 11/7/2015 03:33'!
-over: aField
-	^ self new scalars: aField! !
-
-!BilinearForms methodsFor: 'operations' stamp: 'len 1/8/2016 06:55'!
-alternate
-	"Answer the subspace of alternating bilinear forms."
-	^ self notYetImplemented! !
-
-!BilinearForms methodsFor: 'accessing' stamp: 'len 11/27/2015 06:32'!
-codomain
-	^ self scalars! !
-
-!BilinearForms methodsFor: 'basis' stamp: 'len 1/8/2016 06:43'!
-coordinatesOf: aBilinearForm
-	"Answer the coordinates of aBilinearForm with respect to the domain canonical basis."
-	^ self matrices coordinatesOf: (self matrixOf: aBilinearForm)! !
-
-!BilinearForms methodsFor: 'accessing' stamp: 'len 4/19/2016 03:39'!
-domain
-	^ (vectorSpace, vectorSpace)! !
-
-!BilinearForms methodsFor: 'basis' stamp: 'len 1/8/2016 06:49'!
-e: anInteger
-	"Answer the anInteger-th canonic vector."
-	^ BilinearForm
-		from: vectorSpace basis
-		matrix: (self matrices e: anInteger)! !
-
-!BilinearForms methodsFor: 'elements' stamp: 'len 1/8/2016 06:51'!
-evaluating: aBlock
-	^ BilinearForm from: self domain evaluating: aBlock! !
-
-!BilinearForms methodsFor: 'private' stamp: 'len 1/8/2016 06:52'!
-matrices
-	"Answer the vector space of the matrices associated to the bilinear forms of the receiver."
-	^ self scalars ^ (vectorSpace dimension @ vectorSpace dimension)! !
-
-!BilinearForms methodsFor: 'private' stamp: 'len 1/8/2016 06:52'!
-matrixOf: aBilinearForm
-	"Answer the matrix associated to aBilinearForm with respect to the canonical basis."
-	^ self matrices
-		evaluating: [:i :j|
-			aBilinearForm value: (vectorSpace e: i) value: (vectorSpace e: j)]! !
-
-!BilinearForms methodsFor: 'elements' stamp: 'len 4/23/2016 03:53'!
-newFrom: anObject
-	^ self evaluating: anObject! !
-
-!BilinearForms methodsFor: 'printing' stamp: 'len 4/21/2016 00:01'!
-printOn: aStream
-	aStream nextPutAll: 'Bil('; print: vectorSpace; nextPut: $)! !
-
-!BilinearForms methodsFor: 'basis' stamp: 'len 10/22/2016 21:35'!
-rank
-	^ vectorSpace rank squared! !
-
-!BilinearForms methodsFor: 'accessing' stamp: 'len 1/8/2016 06:53'!
-scalars
-	^ vectorSpace scalars! !
-
-!BilinearForms methodsFor: 'operations' stamp: 'len 1/8/2016 06:56'!
-symmetric
-	"Answer the subspace of symmetric bilinear forms."
-	^ self notYetImplemented! !
-
-!BilinearForms methodsFor: 'accessing-private' stamp: 'len 1/8/2016 06:53'!
-vectorSpace: aVectorSpace
-	vectorSpace _ aVectorSpace! !
-
-!BilinearForms class methodsFor: 'instance creation' stamp: 'len 1/8/2016 06:50'!
-on: aVectorSpace
-	^ self new vectorSpace: aVectorSpace! !
-
-!TensorProductModule methodsFor: 'as yet unclassified' stamp: 'len 12/17/2017 22:13:12'!
-coordinatesOf: anElement
-	^ self scalars tuple: self rank evaluating: [:i| anElement at: (SimpleTensor components: {left e: i - 1 // left rank + 1. right e: i - 1 \\ right rank + 1})]! !
-
-!TensorProductModule methodsFor: 'as yet unclassified' stamp: 'len 2/25/2017 09:07:22'!
-e: anInteger
-	^ Tensor simple: {left e: anInteger - 1 // left rank + 1. right e: anInteger - 1 \\ right rank + 1} over: self scalars! !
-
-!TensorProductModule methodsFor: 'as yet unclassified' stamp: 'len 2/23/2017 10:00:04'!
-includes: anObject
-	^ (anObject isKindOf: Tensor) and: [self contains: anObject]! !
-
-!TensorProductModule methodsFor: 'as yet unclassified' stamp: 'len 10/16/2016 05:40'!
-left: aFreeModule
-	left _ aFreeModule! !
-
-!TensorProductModule methodsFor: 'as yet unclassified' stamp: 'len 10/15/2016 21:20'!
-printOn: aStream
-	aStream print: left; nextPut: Character otimes; nextPutAll: self scalars printText sub; print: right! !
-
-!TensorProductModule methodsFor: 'as yet unclassified' stamp: 'len 7/15/2016 00:40'!
-rank
-	^ left rank * right rank! !
-
-!TensorProductModule methodsFor: 'as yet unclassified' stamp: 'len 10/16/2016 05:40'!
-right: aFreeModule
-	right _ aFreeModule! !
-
-!TensorProductModule methodsFor: 'as yet unclassified' stamp: 'len 6/4/2016 00:59'!
-scalars
-	^ left scalars! !
-
-!TensorProductModule class methodsFor: 'as yet unclassified' stamp: 'len 6/19/2016 02:42'!
-left: aVectorSpace right: anotherVectorSpace
-	^ self new left: aVectorSpace; right: anotherVectorSpace! !
-
-!TensorsModule methodsFor: 'accessing' stamp: 'len 11/29/2015 00:38'!
-contravariantOrder
-	^ self type first! !
-
-!TensorsModule methodsFor: 'basis' stamp: 'len 1/26/98 18:51'!
-coordinatesOf: aTensor
-	"Answer the coordinates of the argument in the canonic basis."
-
-	self notYetImplemented! !
-
-!TensorsModule methodsFor: 'accessing' stamp: 'len 11/29/2015 00:38'!
-covariantOrder
-	^ self type second! !
-
-!TensorsModule methodsFor: 'basis' stamp: 'len 2/25/2017 09:07:30'!
-e: anInteger
-	"Answer the anInteger-th canonic vector."
-	| i n vectors |
-	i _ anInteger.
-	n _ module rank.
-	vectors _ OrderedCollection new.
-	type first timesRepeat: [vectors add: (module e: i \\ n + 1). i _ i // n].
-	type second timesRepeat: [vectors add: (module dual e: i \\ n + 1). i _ i // n].
-	^ Tensor simple: vectors over: self scalars! !
-
-!TensorsModule methodsFor: 'accessing' stamp: 'len 10/16/2016 05:32'!
-module
-	^ module! !
-
-!TensorsModule methodsFor: 'accessing-private' stamp: 'len 10/16/2016 05:33'!
-module: aFreeModule
-	module _ aFreeModule! !
-
-!TensorsModule methodsFor: 'printing' stamp: 'len 10/16/2016 05:37'!
-printOn: aStream
-	aStream print: type; nextPutAll: '-tensors('; print: module; nextPut: $)! !
-
-!TensorsModule methodsFor: 'basis' stamp: 'len 10/16/2016 05:34'!
-rank
-	^ module rank ^ (type first * type second)! !
-
-!TensorsModule methodsFor: 'accessing' stamp: 'len 10/16/2016 05:37'!
-scalars
-	^ module scalars! !
-
-!TensorsModule methodsFor: 'accessing' stamp: 'len 11/29/2015 00:39'!
-type
-	^ type! !
-
-!TensorsModule methodsFor: 'accessing-private' stamp: 'len 11/29/2015 00:43'!
-type: aPair
-	type _ aPair! !
-
-!TensorsModule class methodsFor: 'instance creation' stamp: 'len 10/16/2016 05:33'!
-type: aPair on: aFreeModule
-	^ self new type: aPair; module: aFreeModule! !
-
-!Algebra methodsFor: 'testing' stamp: 'len 1/11/2018 19:42:16'!
-isAlgebra
-	^ true! !
-
-!Algebra methodsFor: 'testing' stamp: 'len 1/11/2018 18:52:33'!
-isCommutative
-	| op X |
-	self propertyAt: #isCommutative ifPresent: [:aBoolean| ^ aBoolean].
-	op _ self multiplication.
-	X _ self generators ifNil: [self].
-	X do: [:x| X do: [:y| (op value: {x.y}) = (op value: {y.x}) ifFalse: [^ false]]].
-	^ true! !
-
-!Algebra methodsFor: 'accessing' stamp: 'len 1/11/2018 18:46:46'!
-multiplication
-	^ ((self, self) to: self evaluatingWithArguments: [:x :y| x * y]) name: '*'! !
-
-!Algebra methodsFor: 'accessing' stamp: 'len 1/11/2018 18:47:46'!
-multiplicationInverseMap
-	^ (self to: self evaluating: [:each| each reciprocal]) name: 'x^-1'! !
-
-!Algebra methodsFor: 'accessing' stamp: 'len 1/11/2018 18:47:15'!
-one
-	^ self propertyAt: #one ifAbsentPut: [self generators anyOne one]! !
-
-!MatrixAlgebra methodsFor: 'converting' stamp: 'len 1/5/2017 08:08:18'!
-asModule
-	^ MatrixModule new: self degree @ self degree over: self scalars! !
-
-!MatrixAlgebra methodsFor: 'random' stamp: 'len 1/5/2017 20:29:56'!
-atRandom: aRandom bits: bitSize
-	| n |
-	n _ bitSize // self degree.
-	^ self scalars matrix: self degree evaluating: [:i :j| self scalars atRandom: aRandom bits: n]! !
-
-!MatrixAlgebra methodsFor: 'accessing' stamp: 'len 1/5/2017 08:07:08'!
-degree
-	^ degree! !
-
-!MatrixAlgebra methodsFor: 'accessing-private' stamp: 'len 1/5/2017 08:07:47'!
-degree: anInteger
-	degree _ anInteger! !
-
-!MatrixAlgebra methodsFor: 'enumerating' stamp: 'len 1/5/2017 20:28:05'!
-do: aBlock
-	self asModule do: aBlock! !
-
-!MatrixAlgebra methodsFor: 'testing' stamp: 'len 1/11/2018 18:44:41'!
-isCommutative
-	^ self degree = 1! !
-
-!MatrixAlgebra methodsFor: 'accessing' stamp: 'len 1/5/2017 20:20:36'!
-one
-	^ self scalar: scalars one! !
-
-!MatrixAlgebra methodsFor: 'printing' stamp: 'len 1/5/2017 08:08:47'!
-printOn: aStream
-	aStream print: self asModule! !
-
-!MatrixAlgebra methodsFor: 'elements' stamp: 'len 1/5/2017 20:25:23'!
-scalar: aNumber
-	| zero |
-	zero _ self scalars zero.
-	^ self scalars matrix: self degree evaluating: [:i :j| i=j ifTrue: [aNumber] ifFalse: [zero]]! !
-
-!MatrixAlgebra methodsFor: 'accessing' stamp: 'len 1/5/2017 08:07:03'!
-scalars
-	^ scalars! !
-
-!MatrixAlgebra methodsFor: 'accessing-private' stamp: 'len 1/5/2017 08:07:29'!
-scalars: aRing
-	scalars _ aRing! !
-
-!MatrixAlgebra methodsFor: 'accessing' stamp: 'len 1/5/2017 20:23:17'!
-size
-	^ self scalars size ^ self degree squared! !
-
-!MatrixAlgebra methodsFor: 'accessing' stamp: 'len 1/5/2017 20:21:45'!
-zero
-	^ self scalar: scalars zero! !
-
-!MatrixAlgebra class methodsFor: 'instance creation' stamp: 'len 1/5/2017 08:09:09'!
-new: anInteger over: aRing
-	^ self new degree: anInteger; scalars: aRing! !
-
 !TupleModule methodsFor: 'elements' stamp: 'len 12/22/2016 22:43:12'!
 !! anArray
 	^ scalars tuple: anArray! !
@@ -23785,6 +23546,254 @@ zero
 !MatrixModule class methodsFor: 'instance creation' stamp: 'len 4/23/2016 06:15'!
 new: dimension over: aDomain
 	^ self new numberOfRows: dimension x columns: dimension y; scalars: aDomain! !
+
+!BilinearForms methodsFor: 'operations' stamp: 'len 1/8/2016 06:55'!
+alternate
+	"Answer the subspace of alternating bilinear forms."
+	^ self notYetImplemented! !
+
+!BilinearForms methodsFor: 'accessing' stamp: 'len 11/27/2015 06:32'!
+codomain
+	^ self scalars! !
+
+!BilinearForms methodsFor: 'basis' stamp: 'len 1/8/2016 06:43'!
+coordinatesOf: aBilinearForm
+	"Answer the coordinates of aBilinearForm with respect to the domain canonical basis."
+	^ self matrices coordinatesOf: (self matrixOf: aBilinearForm)! !
+
+!BilinearForms methodsFor: 'accessing' stamp: 'len 4/19/2016 03:39'!
+domain
+	^ (vectorSpace, vectorSpace)! !
+
+!BilinearForms methodsFor: 'basis' stamp: 'len 1/8/2016 06:49'!
+e: anInteger
+	"Answer the anInteger-th canonic vector."
+	^ BilinearForm
+		from: vectorSpace basis
+		matrix: (self matrices e: anInteger)! !
+
+!BilinearForms methodsFor: 'elements' stamp: 'len 1/8/2016 06:51'!
+evaluating: aBlock
+	^ BilinearForm from: self domain evaluating: aBlock! !
+
+!BilinearForms methodsFor: 'private' stamp: 'len 1/8/2016 06:52'!
+matrices
+	"Answer the vector space of the matrices associated to the bilinear forms of the receiver."
+	^ self scalars ^ (vectorSpace dimension @ vectorSpace dimension)! !
+
+!BilinearForms methodsFor: 'private' stamp: 'len 1/8/2016 06:52'!
+matrixOf: aBilinearForm
+	"Answer the matrix associated to aBilinearForm with respect to the canonical basis."
+	^ self matrices
+		evaluating: [:i :j|
+			aBilinearForm value: (vectorSpace e: i) value: (vectorSpace e: j)]! !
+
+!BilinearForms methodsFor: 'elements' stamp: 'len 4/23/2016 03:53'!
+newFrom: anObject
+	^ self evaluating: anObject! !
+
+!BilinearForms methodsFor: 'printing' stamp: 'len 4/21/2016 00:01'!
+printOn: aStream
+	aStream nextPutAll: 'Bil('; print: vectorSpace; nextPut: $)! !
+
+!BilinearForms methodsFor: 'basis' stamp: 'len 10/22/2016 21:35'!
+rank
+	^ vectorSpace rank squared! !
+
+!BilinearForms methodsFor: 'accessing' stamp: 'len 1/8/2016 06:53'!
+scalars
+	^ vectorSpace scalars! !
+
+!BilinearForms methodsFor: 'operations' stamp: 'len 1/8/2016 06:56'!
+symmetric
+	"Answer the subspace of symmetric bilinear forms."
+	^ self notYetImplemented! !
+
+!BilinearForms methodsFor: 'accessing-private' stamp: 'len 1/8/2016 06:53'!
+vectorSpace: aVectorSpace
+	vectorSpace _ aVectorSpace! !
+
+!BilinearForms class methodsFor: 'instance creation' stamp: 'len 1/8/2016 06:50'!
+on: aVectorSpace
+	^ self new vectorSpace: aVectorSpace! !
+
+!TensorProductModule methodsFor: 'as yet unclassified' stamp: 'len 12/17/2017 22:13:12'!
+coordinatesOf: anElement
+	^ self scalars tuple: self rank evaluating: [:i| anElement at: (SimpleTensor components: {left e: i - 1 // left rank + 1. right e: i - 1 \\ right rank + 1})]! !
+
+!TensorProductModule methodsFor: 'as yet unclassified' stamp: 'len 2/25/2017 09:07:22'!
+e: anInteger
+	^ Tensor simple: {left e: anInteger - 1 // left rank + 1. right e: anInteger - 1 \\ right rank + 1} over: self scalars! !
+
+!TensorProductModule methodsFor: 'as yet unclassified' stamp: 'len 2/23/2017 10:00:04'!
+includes: anObject
+	^ (anObject isKindOf: Tensor) and: [self contains: anObject]! !
+
+!TensorProductModule methodsFor: 'as yet unclassified' stamp: 'len 10/16/2016 05:40'!
+left: aFreeModule
+	left _ aFreeModule! !
+
+!TensorProductModule methodsFor: 'as yet unclassified' stamp: 'len 10/15/2016 21:20'!
+printOn: aStream
+	aStream print: left; nextPut: Character otimes; nextPutAll: self scalars printText sub; print: right! !
+
+!TensorProductModule methodsFor: 'as yet unclassified' stamp: 'len 7/15/2016 00:40'!
+rank
+	^ left rank * right rank! !
+
+!TensorProductModule methodsFor: 'as yet unclassified' stamp: 'len 10/16/2016 05:40'!
+right: aFreeModule
+	right _ aFreeModule! !
+
+!TensorProductModule methodsFor: 'as yet unclassified' stamp: 'len 6/4/2016 00:59'!
+scalars
+	^ left scalars! !
+
+!TensorProductModule class methodsFor: 'as yet unclassified' stamp: 'len 6/19/2016 02:42'!
+left: aVectorSpace right: anotherVectorSpace
+	^ self new left: aVectorSpace; right: anotherVectorSpace! !
+
+!TensorsModule methodsFor: 'accessing' stamp: 'len 11/29/2015 00:38'!
+contravariantOrder
+	^ self type first! !
+
+!TensorsModule methodsFor: 'basis' stamp: 'len 1/26/98 18:51'!
+coordinatesOf: aTensor
+	"Answer the coordinates of the argument in the canonic basis."
+
+	self notYetImplemented! !
+
+!TensorsModule methodsFor: 'accessing' stamp: 'len 11/29/2015 00:38'!
+covariantOrder
+	^ self type second! !
+
+!TensorsModule methodsFor: 'basis' stamp: 'len 2/25/2017 09:07:30'!
+e: anInteger
+	"Answer the anInteger-th canonic vector."
+	| i n vectors |
+	i _ anInteger.
+	n _ module rank.
+	vectors _ OrderedCollection new.
+	type first timesRepeat: [vectors add: (module e: i \\ n + 1). i _ i // n].
+	type second timesRepeat: [vectors add: (module dual e: i \\ n + 1). i _ i // n].
+	^ Tensor simple: vectors over: self scalars! !
+
+!TensorsModule methodsFor: 'accessing' stamp: 'len 10/16/2016 05:32'!
+module
+	^ module! !
+
+!TensorsModule methodsFor: 'accessing-private' stamp: 'len 10/16/2016 05:33'!
+module: aFreeModule
+	module _ aFreeModule! !
+
+!TensorsModule methodsFor: 'printing' stamp: 'len 10/16/2016 05:37'!
+printOn: aStream
+	aStream print: type; nextPutAll: '-tensors('; print: module; nextPut: $)! !
+
+!TensorsModule methodsFor: 'basis' stamp: 'len 10/16/2016 05:34'!
+rank
+	^ module rank ^ (type first * type second)! !
+
+!TensorsModule methodsFor: 'accessing' stamp: 'len 10/16/2016 05:37'!
+scalars
+	^ module scalars! !
+
+!TensorsModule methodsFor: 'accessing' stamp: 'len 11/29/2015 00:39'!
+type
+	^ type! !
+
+!TensorsModule methodsFor: 'accessing-private' stamp: 'len 11/29/2015 00:43'!
+type: aPair
+	type _ aPair! !
+
+!TensorsModule class methodsFor: 'instance creation' stamp: 'len 10/16/2016 05:33'!
+type: aPair on: aFreeModule
+	^ self new type: aPair; module: aFreeModule! !
+
+!Algebra methodsFor: 'testing' stamp: 'len 1/11/2018 19:42:16'!
+isAlgebra
+	^ true! !
+
+!Algebra methodsFor: 'testing' stamp: 'len 1/11/2018 18:52:33'!
+isCommutative
+	| op X |
+	self propertyAt: #isCommutative ifPresent: [:aBoolean| ^ aBoolean].
+	op _ self multiplication.
+	X _ self generators ifNil: [self].
+	X do: [:x| X do: [:y| (op value: {x.y}) = (op value: {y.x}) ifFalse: [^ false]]].
+	^ true! !
+
+!Algebra methodsFor: 'accessing' stamp: 'len 1/11/2018 18:46:46'!
+multiplication
+	^ ((self, self) to: self evaluatingWithArguments: [:x :y| x * y]) name: '*'! !
+
+!Algebra methodsFor: 'accessing' stamp: 'len 1/11/2018 18:47:46'!
+multiplicationInverseMap
+	^ (self to: self evaluating: [:each| each reciprocal]) name: 'x^-1'! !
+
+!Algebra methodsFor: 'accessing' stamp: 'len 1/11/2018 18:47:15'!
+one
+	^ self propertyAt: #one ifAbsentPut: [self generators anyOne one]! !
+
+!MatrixAlgebra methodsFor: 'converting' stamp: 'len 1/5/2017 08:08:18'!
+asModule
+	^ MatrixModule new: self degree @ self degree over: self scalars! !
+
+!MatrixAlgebra methodsFor: 'random' stamp: 'len 1/5/2017 20:29:56'!
+atRandom: aRandom bits: bitSize
+	| n |
+	n _ bitSize // self degree.
+	^ self scalars matrix: self degree evaluating: [:i :j| self scalars atRandom: aRandom bits: n]! !
+
+!MatrixAlgebra methodsFor: 'accessing' stamp: 'len 1/5/2017 08:07:08'!
+degree
+	^ degree! !
+
+!MatrixAlgebra methodsFor: 'accessing-private' stamp: 'len 1/5/2017 08:07:47'!
+degree: anInteger
+	degree _ anInteger! !
+
+!MatrixAlgebra methodsFor: 'enumerating' stamp: 'len 1/5/2017 20:28:05'!
+do: aBlock
+	self asModule do: aBlock! !
+
+!MatrixAlgebra methodsFor: 'testing' stamp: 'len 1/11/2018 18:44:41'!
+isCommutative
+	^ self degree = 1! !
+
+!MatrixAlgebra methodsFor: 'accessing' stamp: 'len 1/5/2017 20:20:36'!
+one
+	^ self scalar: scalars one! !
+
+!MatrixAlgebra methodsFor: 'printing' stamp: 'len 1/5/2017 08:08:47'!
+printOn: aStream
+	aStream print: self asModule! !
+
+!MatrixAlgebra methodsFor: 'elements' stamp: 'len 1/5/2017 20:25:23'!
+scalar: aNumber
+	| zero |
+	zero _ self scalars zero.
+	^ self scalars matrix: self degree evaluating: [:i :j| i=j ifTrue: [aNumber] ifFalse: [zero]]! !
+
+!MatrixAlgebra methodsFor: 'accessing' stamp: 'len 1/5/2017 08:07:03'!
+scalars
+	^ scalars! !
+
+!MatrixAlgebra methodsFor: 'accessing-private' stamp: 'len 1/5/2017 08:07:29'!
+scalars: aRing
+	scalars _ aRing! !
+
+!MatrixAlgebra methodsFor: 'accessing' stamp: 'len 1/5/2017 20:23:17'!
+size
+	^ self scalars size ^ self degree squared! !
+
+!MatrixAlgebra methodsFor: 'accessing' stamp: 'len 1/5/2017 20:21:45'!
+zero
+	^ self scalar: scalars zero! !
+
+!MatrixAlgebra class methodsFor: 'instance creation' stamp: 'len 1/5/2017 08:09:09'!
+new: anInteger over: aRing
+	^ self new degree: anInteger; scalars: aRing! !
 
 !PolynomialFiltrationModule methodsFor: 'basis' stamp: 'len 4/12/2016 08:08'!
 coordinatesOf: aPolynomial
@@ -25237,9 +25246,9 @@ stanleyReisnerIdealIn: aRing
 stanleyReisnerRing
 	^ self stanleyReisnerRingOver: QQ! !
 
-!SimplicialComplex methodsFor: 'operations' stamp: 'len 2/19/2017 10:06:15'!
+!SimplicialComplex methodsFor: 'operations' stamp: 'len 1/15/2018 22:23:09'!
 stanleyReisnerRingOver: aRing
-	^ (self stanleyReisnerIdealIn: (aRing polynomialsIn: self vertices size)) quotient! !
+	^ (self stanleyReisnerIdealIn: (aRing polynomialsIn: self vertices size)) quotientRing! !
 
 !SimplicialComplex methodsFor: 'operations' stamp: 'len 2/19/2017 10:19:06'!
 starOf: aCollection
@@ -26283,13 +26292,13 @@ projectiveClosure
 	"Answer the projective closure of the receiver. If the receiver is an affine patch of a projective scheme, answer the original projective scheme. Otherwise the projective closure will be a projective scheme over the projective closure of the ambient space of the receiver, and the receiver will be the last affine patch."
 	^ self projectiveEmbedding codomain! !
 
-!AffineVariety methodsFor: 'morphisms' stamp: 'len 1/11/2017 22:34:55'!
+!AffineVariety methodsFor: 'morphisms' stamp: 'len 1/15/2018 22:24:45'!
 projectiveEmbedding
 	"Answer the map that sends the receiver to its projective closure.
 	If the receiver was originally constructed as an affine patch of a projective scheme, answer the map to the original projective scheme. Otherwise, the projective closure will be constructed as a projective scheme over the projective closure of the ambient space of the receiver, and the receiver will be its last affine patch."
 	| P map patches |
 	self propertyAt: #projectiveEmbedding ifPresent: [:aRationalMap| ^ aRationalMap].
-	P _ self ideal homogenized quotient proj.
+	P _ self ideal homogenized quotientRing proj.
 	map _ self to: P evaluating: [:x| x homogenizedIn: P ambient rank].
 	patches _ Array new: P ambient rank.
 	patches at: patches size put: self.
@@ -27067,10 +27076,10 @@ divisionPolynomials
 equation
 	^ equation! !
 
-!EllipticCurve methodsFor: 'accessing-private' stamp: 'len 11/9/2016 13:19'!
+!EllipticCurve methodsFor: 'accessing-private' stamp: 'len 1/15/2018 22:24:51'!
 equation: aWeierstrassEquation
 	equation _ aWeierstrassEquation.
-	self coordinateRing: aWeierstrassEquation homogeneousPolynomial asIdeal quotient! !
+	self coordinateRing: aWeierstrassEquation homogeneousPolynomial asIdeal quotientRing! !
 
 !EllipticCurve methodsFor: 'accessing' stamp: 'len 11/10/2016 08:03'!
 genus
@@ -28540,10 +28549,16 @@ isInjective
 isInvertible
 	^ matrix isInvertible! !
 
-!LinearMap methodsFor: 'testing' stamp: 'len 1/14/2018 22:20:41'!
+!LinearMap methodsFor: 'testing' stamp: 'len 1/15/2018 19:48:34'!
 isLinearForm
 	"Answer true if the receiver is a linear form (or linear functional, one-form, covector)."
-	^ self codomain isKindOf: ScalarModule! !
+	^ self codomain isKindOf: RingAsModule! !
+
+!LinearMap methodsFor: 'testing' stamp: 'len 1/15/2018 20:31:44'!
+isLocallySimple
+	"Answer true if the receiver is locally simple.
+	Given a linear map f:M->N, it is locally simple if there exists a map g:N->M satisfying fgf = f."
+	^ self notYetImplemented! !
 
 !LinearMap methodsFor: 'testing' stamp: 'len 2/11/2016 21:33'!
 isOrthogonal
@@ -33460,396 +33475,6 @@ dimension
 isCycle
 	^ self boundary isZero! !
 
-!ModuleMonomial methodsFor: 'comparing' stamp: 'len 1/5/2018 11:20:58'!
-< aModuleMonomial
-	^ (self >= aModuleMonomial) not! !
-
-!ModuleMonomial methodsFor: 'comparing' stamp: 'len 1/5/2018 11:21:09'!
-<= aModuleMonomial
-	self == aModuleMonomial ifTrue: [^ true].
-	^ (self > aModuleMonomial) not! !
-
-!ModuleMonomial methodsFor: 'comparing' stamp: 'len 1/5/2018 11:19:20'!
-= aModuleMonomial
-	^ monomial = aModuleMonomial monomial and: [position = aModuleMonomial position]! !
-
-!ModuleMonomial methodsFor: 'comparing' stamp: 'len 1/5/2018 11:20:49'!
-> aModuleMonomial
-	^ (self compare: aModuleMonomial) > 0! !
-
-!ModuleMonomial methodsFor: 'comparing' stamp: 'len 1/5/2018 11:21:27'!
->= aModuleMonomial
-	self == aModuleMonomial ifTrue: [^ true].
-	^ (self compare: aModuleMonomial) >= 0! !
-
-!ModuleMonomial methodsFor: 'testing' stamp: 'len 1/5/2018 11:23:44'!
-| aModuleMonomial
-	"Answer true if the receiver divides the argument."
-	^ position = aModuleMonomial position and: [monomial | aModuleMonomial monomial]! !
-
-!ModuleMonomial methodsFor: 'comparing' stamp: 'len 1/5/2018 11:22:02'!
-compare: aModuleMonomial
-	"Answer -1 if the receiver is < than the argument, 0 if they are equal, 1 if it is > than the argument."
-	^ self ordering compare: self with: aModuleMonomial! !
-
-!ModuleMonomial methodsFor: 'comparing' stamp: 'len 1/5/2018 11:20:11'!
-hash
-	^ monomial hash + position hash hashMultiply! !
-
-!ModuleMonomial methodsFor: 'accessing' stamp: 'len 1/14/2017 20:20:21'!
-monomial
-	^ monomial! !
-
-!ModuleMonomial methodsFor: 'accessing-private' stamp: 'len 1/14/2017 20:20:31'!
-monomial: aMonomial
-	monomial _ aMonomial! !
-
-!ModuleMonomial methodsFor: 'accessing' stamp: 'len 1/5/2018 11:22:11'!
-ordering
-	^ parent ordering! !
-
-!ModuleMonomial methodsFor: 'accessing' stamp: 'len 1/5/2018 11:25:10'!
-parent
-	^ parent! !
-
-!ModuleMonomial methodsFor: 'accessing' stamp: 'len 1/14/2017 20:20:47'!
-position
-	^ position! !
-
-!ModuleMonomial methodsFor: 'accessing-private' stamp: 'len 1/14/2017 20:20:41'!
-position: anInteger
-	position _ anInteger! !
-
-!ModuleMonomial methodsFor: 'printing' stamp: 'len 1/5/2018 16:01:39'!
-printOn: aStream
-	aStream print: monomial; nextPutAll: Character epsilon asText, position printString sub! !
-
-!ModuleMonomialOrdering methodsFor: 'ordering' stamp: 'len 1/14/2017 20:54:49'!
-compare: aModuleMonomial with: anotherModuleMonomial
-	^ self subclassResponsibility! !
-
-!ModuleMonomialOrdering methodsFor: 'ordering' stamp: 'len 1/14/2017 21:08:38'!
-leadingMonomialOf: aPolynomialTuple
-	self subclassResponsibility! !
-
-!ModuleMonomialOrdering methodsFor: 'ordering' stamp: 'len 1/5/2018 11:15:24'!
-printOn: aStream
-	self type isNil
-		ifTrue: [super printOn: aStream]
-		ifFalse: [aStream nextPutAll: self type]! !
-
-!ModuleMonomialOrdering methodsFor: 'ordering' stamp: 'len 1/5/2018 11:14:14'!
-type
-	^ nil! !
-
-!ModuleMonomialOrdering class methodsFor: 'as yet unclassified' stamp: 'len 1/7/2018 17:10:27'!
-pos
-	^ PositionOverTermOrdering new! !
-
-!ModuleMonomialOrdering class methodsFor: 'as yet unclassified' stamp: 'len 1/7/2018 17:10:09'!
-top
-	^ TermOverPositionOrdering new! !
-
-!PositionOverTermOrdering methodsFor: 'as yet unclassified' stamp: 'len 1/5/2018 11:16:54'!
-compare: aModuleMonomial with: anotherModuleMonomial
-	| result |
-	(result _ (aModuleMonomial position - anotherModuleMonomial position) sign	) == 0
-		ifFalse: [^ result].
-	^ aModuleMonomial monomial compare: anotherModuleMonomial monomial! !
-
-!PositionOverTermOrdering methodsFor: 'as yet unclassified' stamp: 'len 1/5/2018 11:15:41'!
-type
-	^ #pos! !
-
-!SchreyerOrdering methodsFor: 'as yet unclassified' stamp: 'len 1/5/2018 11:25:47'!
-type
-	^ #schreyer! !
-
-!TermOverPositionOrdering methodsFor: 'as yet unclassified' stamp: 'len 1/14/2017 21:01:40'!
-compare: aModuleMonomial with: anotherModuleMonomial
-	| result |
-	(result _ aModuleMonomial monomial compare: anotherModuleMonomial monomial) == 0
-		ifFalse: [^ result].
-	^ (aModuleMonomial position - anotherModuleMonomial position) sign! !
-
-!TermOverPositionOrdering methodsFor: 'as yet unclassified' stamp: 'len 1/5/2018 11:15:34'!
-type
-	^ #top! !
-
-!SimpleTensor methodsFor: 'comparing' stamp: 'len 2/23/2017 10:05:10'!
-= aSimpleTensor
-	^ components = aSimpleTensor components! !
-
-!SimpleTensor methodsFor: 'operations' stamp: 'len 12/8/2016 20:25:17'!
-” aSimpleTensor
-	^ self class components: (components with: aSimpleTensor components collect: [:each :other| each ” other])! !
-
-!SimpleTensor methodsFor: 'accessing' stamp: 'len 10/16/2016 04:56'!
-at: anInteger
-	^ components at: anInteger! !
-
-!SimpleTensor methodsFor: 'accessing-private' stamp: 'len 2/23/2017 10:05:19'!
-components
-	^ components! !
-
-!SimpleTensor methodsFor: 'accessing-private' stamp: 'len 10/16/2016 04:55'!
-components: anArray
-	components _ anArray! !
-
-!SimpleTensor methodsFor: 'comparing' stamp: 'len 2/23/2017 10:05:45'!
-hash
-	^ components hash! !
-
-!SimpleTensor methodsFor: 'operations' stamp: 'len 10/16/2016 04:56'!
-inverse
-	^ self class components: (components collect: [:each| each inverse])! !
-
-!SimpleTensor methodsFor: 'accessing' stamp: 'len 10/16/2016 04:57'!
-order
-	^ components size! !
-
-!SimpleTensor methodsFor: 'printing' stamp: 'len 10/16/2016 04:58'!
-printOn: aStream
-	(1 to: self order) do: [:i| aStream print: (self at: i)] separatedBy: [aStream nextPut: Character otimes]! !
-
-!SimpleTensor methodsFor: 'accessing' stamp: 'len 10/16/2016 04:56'!
-rank
-	^ 1! !
-
-!SimpleTensor methodsFor: 'operations' stamp: 'len 10/16/2016 08:41'!
-value: aCovector
-	self order = 2 ifFalse: [DomainError signal].
-	^ (aCovector value: (self at: 1)) * (self at: 2)! !
-
-!SimpleTensor class methodsFor: 'as yet unclassified' stamp: 'len 10/16/2016 04:55'!
-components: anArray
-	^ self new components: anArray! !
-
-!SimpleTensor class methodsFor: 'as yet unclassified' stamp: 'len 10/16/2016 05:00'!
-left: aVector right: anotherVector
-	^ self components: {aVector. anotherVector}! !
-
-!AffineFrame methodsFor: 'accessing' stamp: 'len 1/3/2016 03:44'!
-basis
-	^ basis! !
-
-!AffineFrame methodsFor: 'accessing-private' stamp: 'len 1/3/2016 03:44'!
-basis: aLinearBasis
-	basis _ aLinearBasis! !
-
-!AffineFrame methodsFor: 'coordinates' stamp: 'len 1/3/2016 03:41'!
-coordinatesOf: aPoint
-	^ basis coordinatesOf: aPoint - origin! !
-
-!AffineFrame methodsFor: 'accessing' stamp: 'len 1/3/2016 03:44'!
-origin
-	^ origin! !
-
-!AffineFrame methodsFor: 'accessing-private' stamp: 'len 1/3/2016 03:45'!
-origin: aPoint
-	origin _ aPoint! !
-
-!AffineFrame methodsFor: 'coordinates' stamp: 'len 1/2/2017 19:11:58'!
-pointAt: aTuple
-	^ origin + (basis vectorAt: aTuple)! !
-
-!AffineFrame methodsFor: 'printing' stamp: 'len 1/3/2016 03:46'!
-printOn: aStream
-	aStream nextPut: ${.
-	aStream print: origin; nextPutAll: '; '.
-	basis do: [:v| aStream print: v] separatedBy: [aStream nextPutAll: ', '].
-	aStream nextPut: $}! !
-
-!AffineFrame methodsFor: 'accessing' stamp: 'len 10/27/2016 19:45'!
-span
-	^ AffineSubspace representative: origin direction: basis span! !
-
-!AffineFrame class methodsFor: 'instance creation' stamp: 'len 1/3/2016 03:43'!
-origin: aPoint basis: aLinearBasis
-	^ self new origin: aPoint; basis: aLinearBasis! !
-
-!ProjectiveChart methodsFor: 'accessing' stamp: 'len 10/27/2016 19:47'!
-affine
-	"Answer the affine space associated to the receiver."
-	| parallel |
-	parallel _ LinearBasis on: frame space vectorSpace.
-	1 to: index - 1 do: [:i|
-		parallel add: (frame space vectorFromPoint: (frame at: i))].
-	self index + 1 to: frame size do: [:i|
-		parallel add: (frame space vectorFromPoint: (frame at: i))].
-	^ AffineSubspace representative: origin direction: parallel span! !
-
-!ProjectiveChart methodsFor: 'coordinates' stamp: 'len 1/10/2017 16:28:15'!
-coordinatesOf: aPoint
-	"Answer the coordinates of the argument in the receiver. The argument is a linear subspace of dimension 1."
-	^ (frame coordinatesOf: aPoint) dehomogenizedIn: index! !
-
-!ProjectiveChart methodsFor: 'accessing' stamp: 'len 1/3/2016 05:22'!
-frame
-	^ frame! !
-
-!ProjectiveChart methodsFor: 'accessing-private' stamp: 'len 1/3/2016 05:22'!
-frame: aProjectiveFrame
-	frame _ aProjectiveFrame! !
-
-!ProjectiveChart methodsFor: 'accessing' stamp: 'len 11/20/2015 16:17'!
-index
-	^ index! !
-
-!ProjectiveChart methodsFor: 'accessing-private' stamp: 'len 2/28/98 21:44'!
-index: anInteger
-	index _ anInteger! !
-
-!ProjectiveChart methodsFor: 'accessing' stamp: 'len 3/18/2016 05:12'!
-infinity
-	"Answer the hyperplane at infinity."
-
-	| h |
-	h _ ProjectiveFrame on: frame space.
-	1 to: self index - 1 do: [:each| h add: (frame at: each)].
-	self index + 1 to: frame size do: [:each| h add: (frame at: each)].
-	^ h span! !
-
-!ProjectiveChart methodsFor: 'accessing' stamp: 'len 1/3/2016 05:21'!
-origin
-	^ origin! !
-
-!ProjectiveChart methodsFor: 'accessing-private' stamp: 'len 3/2/98 03:17'!
-origin: anObject
-	origin _ anObject! !
-
-!ProjectiveChart methodsFor: 'coordinates' stamp: 'len 11/5/2016 10:33'!
-pointAt: aTuple
-	"Answer the point with coordinates aTuple in the receiver."
-	| extended |
-	extended _ Array new: aTuple dimension + 1.
-	1 to: index - 1 do: [:i|
-		extended at: i put: (aTuple at: i)].
-	extended at: index put: frame space scalars one.
-	self index + 1 to: aTuple dimension + 1 do: [:i|
-		extended at: i put: (aTuple at: i - 1)].
-	^ frame pointAt: (HomogeneousTuple coefficients: extended over: frame space scalars)! !
-
-!ProjectiveChart methodsFor: 'printing' stamp: 'len 6/2/2016 18:55'!
-printOn: aStream
-	aStream
-		nextPutAll: self class name;
-		space; print: index;
-		space; print: frame! !
-
-!ProjectiveChart methodsFor: 'coordinates' stamp: 'len 12/8/2016 20:28:31'!
-vectorFromPoint: aPoint
-	"Answer a vector associated to the projective point aPoint (which is a linear subspace of dimension 1)."
-	^ (aPoint vectorSpace asAffineSpace • self affine) representative! !
-
-!ProjectiveChart class methodsFor: 'instance creation' stamp: 'len 1/3/2016 05:22'!
-frame: aProjectiveFrame index: anInteger origin: anObject
-	"Answer a new instance of the receiver representing the anInteger-th chart with basis aProjectiveBasis and origin anObject."
-	^ self new frame: aProjectiveFrame; index: anInteger; origin: anObject! !
-
-!ProjectiveFrame methodsFor: 'accessing' stamp: 'len 3/23/2016 22:01'!
-add: aPoint
-	^ points add: aPoint! !
-
-!ProjectiveFrame methodsFor: 'accessing' stamp: 'len 11/8/2015 00:05'!
-at: anInteger
-	^ points at: anInteger! !
-
-!ProjectiveFrame methodsFor: 'operations' stamp: 'len 6/3/2016 23:33'!
-changeTo: aProjectiveFrame
-	"Answer the homography for changing from the receiver to aProjectiveFrame."
-	^ self notYetImplemented! !
-
-!ProjectiveFrame methodsFor: 'private' stamp: 'len 6/4/2016 01:38'!
-computeUnit
-	unit _ self space vectorSpace null.
-	self do: [:each| unit _ unit + (self space vectorFromPoint: each)].
-	unit _ self space project: unit! !
-
-!ProjectiveFrame methodsFor: 'coordinates' stamp: 'len 10/31/2016 13:12'!
-coordinatesOf: anObject
-	"Answer the coordinates of the argument in the receiver."
-
-	| linear coords ucoords |
-	linear _ LinearBasis on: self space vectorSpace.
-	self do: [ :each | linear add: (self space vectorFromPoint: each)].
-	coords _ linear coordinatesOf: (self space vectorFromPoint: anObject).
-	ucoords _ linear coordinatesOf: (self space vectorFromPoint: self unit).
-	1 to: coords size do: [ :each |
-		coords at: each put: (coords at: each) / (ucoords at: each)].
-	^ coords asHomogeneousTuple! !
-
-!ProjectiveFrame methodsFor: 'accessing' stamp: 'len 11/8/2015 00:03'!
-dimension
-	^ self size - 1! !
-
-!ProjectiveFrame methodsFor: 'enumerating' stamp: 'len 11/8/2015 00:06'!
-do: aBlock
-	points do: aBlock! !
-
-!ProjectiveFrame methodsFor: 'initialization' stamp: 'len 11/8/2015 00:06'!
-initialize
-	self points: OrderedCollection new! !
-
-!ProjectiveFrame methodsFor: 'coordinates' stamp: 'len 6/4/2016 01:38'!
-pointAt: anHomogeneousTuple
-	"Answer point with coordinates aProjectiveTuple in the receiver."
-
-	| B |
-	B _ LinearBasis on: self space vectorSpace.
-	self do: [:each| B add: (self space vectorFromPoint: each)].
-	^ self space
-		project:
-			(B vectorAt: anHomogeneousTuple asTuple)! !
-
-!ProjectiveFrame methodsFor: 'accessing-private' stamp: 'len 11/8/2015 00:04'!
-points: aCollection
-	points _ aCollection! !
-
-!ProjectiveFrame methodsFor: 'printing' stamp: 'len 6/2/2016 18:56'!
-printOn: aStream
-	aStream nextPut: ${.
-	self do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: '; '].
-	aStream nextPut: $}! !
-
-!ProjectiveFrame methodsFor: 'accessing' stamp: 'len 11/8/2015 00:06'!
-size
-	^ points size! !
-
-!ProjectiveFrame methodsFor: 'accessing-private' stamp: 'len 11/8/2015 00:01'!
-space
-	^ space! !
-
-!ProjectiveFrame methodsFor: 'accessing-private' stamp: 'len 11/8/2015 00:01'!
-space: aProjectiveSpace
-	space _ aProjectiveSpace! !
-
-!ProjectiveFrame methodsFor: 'accessing' stamp: 'len 2/4/2017 09:01:40'!
-span
-	| basis |
-	basis _ LinearBasis on: space vectorSpace.
-	self do: [:each| basis add: (space vectorFromPoint: each)].
-	^ basis span projectivized! !
-
-!ProjectiveFrame methodsFor: 'accessing' stamp: 'len 3/2/98 03:02'!
-unit
-	"Answer the unit point of the receiver."
-
-	unit isNil ifTrue: [self computeUnit].
-	^ unit! !
-
-!ProjectiveFrame methodsFor: 'accessing-private' stamp: 'len 3/1/98 04:46'!
-unit: anObject
-	unit _ anObject! !
-
-!ProjectiveFrame class methodsFor: 'instance creation' stamp: 'len 2/25/98 22:25'!
-new
-	^ super new initialize! !
-
-!ProjectiveFrame class methodsFor: 'instance creation' stamp: 'len 1/3/2016 05:23'!
-on: aProjectiveSpace
-	^ self new space: aProjectiveSpace! !
-
 !Tuple methodsFor: 'operations' stamp: 'len 12/1/2016 16:52:32'!
 % anInteger
 	| ring |
@@ -34234,34 +33859,6 @@ y
 !Tuple methodsFor: 'accessing' stamp: 'len 3/29/2016 19:06'!
 z
 	^ self at: 3! !
-
-!MultivariateTuple methodsFor: 'as yet unclassified' stamp: 'len 12/28/2017 14:35:33'!
-coefficientAt: aModuleMonomial
-	^ (self at: aModuleMonomial position) at: aModuleMonomial monomial! !
-
-!MultivariateTuple methodsFor: 'as yet unclassified' stamp: 'len 1/14/2017 20:34:48'!
-leadingCoefficient
-	^ self coefficientAt: self leadingMonomial! !
-
-!MultivariateTuple methodsFor: 'as yet unclassified' stamp: 'len 1/14/2017 21:07:12'!
-leadingMonomial
-	^ self ordering leadingMonomialOf: self! !
-
-!MultivariateTuple methodsFor: 'as yet unclassified' stamp: 'len 1/14/2017 20:35:06'!
-leadingTerm
-	^ self termAt: self leadingMonomial! !
-
-!MultivariateTuple methodsFor: 'as yet unclassified' stamp: 'len 1/6/2018 22:05:31'!
-ordering
-	^ parent ordering! !
-
-!MultivariateTuple methodsFor: 'as yet unclassified' stamp: 'len 1/6/2018 22:05:02'!
-parent
-	^ parent! !
-
-!MultivariateTuple methodsFor: 'as yet unclassified' stamp: 'len 1/14/2017 21:04:51'!
-termAt: aModuleMonomial
-	^ (self at: aModuleMonomial position) termAt: aModuleMonomial monomial! !
 
 !ArrayTuple methodsFor: 'operations' stamp: 'len 11/5/2016 06:11'!
 + aTuple
@@ -34925,6 +34522,34 @@ new: anInteger over: aModularIntegers evaluating: aBlock
 !ModularTuple class methodsFor: 'instance creation' stamp: 'len 12/1/2016 16:46:28'!
 representatives: anArray over: aModularIntegers
 	^ self basicNew scalars: aModularIntegers; representatives: anArray! !
+
+!MultivariateTuple methodsFor: 'as yet unclassified' stamp: 'len 12/28/2017 14:35:33'!
+coefficientAt: aModuleMonomial
+	^ (self at: aModuleMonomial position) at: aModuleMonomial monomial! !
+
+!MultivariateTuple methodsFor: 'as yet unclassified' stamp: 'len 1/14/2017 20:34:48'!
+leadingCoefficient
+	^ self coefficientAt: self leadingMonomial! !
+
+!MultivariateTuple methodsFor: 'as yet unclassified' stamp: 'len 1/14/2017 21:07:12'!
+leadingMonomial
+	^ self ordering leadingMonomialOf: self! !
+
+!MultivariateTuple methodsFor: 'as yet unclassified' stamp: 'len 1/14/2017 20:35:06'!
+leadingTerm
+	^ self termAt: self leadingMonomial! !
+
+!MultivariateTuple methodsFor: 'as yet unclassified' stamp: 'len 1/6/2018 22:05:31'!
+ordering
+	^ parent ordering! !
+
+!MultivariateTuple methodsFor: 'as yet unclassified' stamp: 'len 1/6/2018 22:05:02'!
+parent
+	^ parent! !
+
+!MultivariateTuple methodsFor: 'as yet unclassified' stamp: 'len 1/14/2017 21:04:51'!
+termAt: aModuleMonomial
+	^ (self at: aModuleMonomial position) termAt: aModuleMonomial monomial! !
 
 !Matrix methodsFor: 'arithmetic' stamp: 'len 11/5/2016 03:09'!
 * anObject
@@ -36641,6 +36266,396 @@ run
 		whileFalse: [i _ i - 1].
 	diagonal add: ((matrix at: 1@1) gcd: R).
 	diagonal _ matrix scalars tuple: diagonal! !
+
+!ModuleMonomial methodsFor: 'comparing' stamp: 'len 1/5/2018 11:20:58'!
+< aModuleMonomial
+	^ (self >= aModuleMonomial) not! !
+
+!ModuleMonomial methodsFor: 'comparing' stamp: 'len 1/5/2018 11:21:09'!
+<= aModuleMonomial
+	self == aModuleMonomial ifTrue: [^ true].
+	^ (self > aModuleMonomial) not! !
+
+!ModuleMonomial methodsFor: 'comparing' stamp: 'len 1/5/2018 11:19:20'!
+= aModuleMonomial
+	^ monomial = aModuleMonomial monomial and: [position = aModuleMonomial position]! !
+
+!ModuleMonomial methodsFor: 'comparing' stamp: 'len 1/5/2018 11:20:49'!
+> aModuleMonomial
+	^ (self compare: aModuleMonomial) > 0! !
+
+!ModuleMonomial methodsFor: 'comparing' stamp: 'len 1/5/2018 11:21:27'!
+>= aModuleMonomial
+	self == aModuleMonomial ifTrue: [^ true].
+	^ (self compare: aModuleMonomial) >= 0! !
+
+!ModuleMonomial methodsFor: 'testing' stamp: 'len 1/5/2018 11:23:44'!
+| aModuleMonomial
+	"Answer true if the receiver divides the argument."
+	^ position = aModuleMonomial position and: [monomial | aModuleMonomial monomial]! !
+
+!ModuleMonomial methodsFor: 'comparing' stamp: 'len 1/5/2018 11:22:02'!
+compare: aModuleMonomial
+	"Answer -1 if the receiver is < than the argument, 0 if they are equal, 1 if it is > than the argument."
+	^ self ordering compare: self with: aModuleMonomial! !
+
+!ModuleMonomial methodsFor: 'comparing' stamp: 'len 1/5/2018 11:20:11'!
+hash
+	^ monomial hash + position hash hashMultiply! !
+
+!ModuleMonomial methodsFor: 'accessing' stamp: 'len 1/14/2017 20:20:21'!
+monomial
+	^ monomial! !
+
+!ModuleMonomial methodsFor: 'accessing-private' stamp: 'len 1/14/2017 20:20:31'!
+monomial: aMonomial
+	monomial _ aMonomial! !
+
+!ModuleMonomial methodsFor: 'accessing' stamp: 'len 1/5/2018 11:22:11'!
+ordering
+	^ parent ordering! !
+
+!ModuleMonomial methodsFor: 'accessing' stamp: 'len 1/5/2018 11:25:10'!
+parent
+	^ parent! !
+
+!ModuleMonomial methodsFor: 'accessing' stamp: 'len 1/14/2017 20:20:47'!
+position
+	^ position! !
+
+!ModuleMonomial methodsFor: 'accessing-private' stamp: 'len 1/14/2017 20:20:41'!
+position: anInteger
+	position _ anInteger! !
+
+!ModuleMonomial methodsFor: 'printing' stamp: 'len 1/5/2018 16:01:39'!
+printOn: aStream
+	aStream print: monomial; nextPutAll: Character epsilon asText, position printString sub! !
+
+!ModuleMonomialOrdering methodsFor: 'ordering' stamp: 'len 1/14/2017 20:54:49'!
+compare: aModuleMonomial with: anotherModuleMonomial
+	^ self subclassResponsibility! !
+
+!ModuleMonomialOrdering methodsFor: 'ordering' stamp: 'len 1/14/2017 21:08:38'!
+leadingMonomialOf: aPolynomialTuple
+	self subclassResponsibility! !
+
+!ModuleMonomialOrdering methodsFor: 'ordering' stamp: 'len 1/5/2018 11:15:24'!
+printOn: aStream
+	self type isNil
+		ifTrue: [super printOn: aStream]
+		ifFalse: [aStream nextPutAll: self type]! !
+
+!ModuleMonomialOrdering methodsFor: 'ordering' stamp: 'len 1/5/2018 11:14:14'!
+type
+	^ nil! !
+
+!ModuleMonomialOrdering class methodsFor: 'as yet unclassified' stamp: 'len 1/7/2018 17:10:27'!
+pos
+	^ PositionOverTermOrdering new! !
+
+!ModuleMonomialOrdering class methodsFor: 'as yet unclassified' stamp: 'len 1/7/2018 17:10:09'!
+top
+	^ TermOverPositionOrdering new! !
+
+!PositionOverTermOrdering methodsFor: 'as yet unclassified' stamp: 'len 1/5/2018 11:16:54'!
+compare: aModuleMonomial with: anotherModuleMonomial
+	| result |
+	(result _ (aModuleMonomial position - anotherModuleMonomial position) sign	) == 0
+		ifFalse: [^ result].
+	^ aModuleMonomial monomial compare: anotherModuleMonomial monomial! !
+
+!PositionOverTermOrdering methodsFor: 'as yet unclassified' stamp: 'len 1/5/2018 11:15:41'!
+type
+	^ #pos! !
+
+!SchreyerOrdering methodsFor: 'as yet unclassified' stamp: 'len 1/5/2018 11:25:47'!
+type
+	^ #schreyer! !
+
+!TermOverPositionOrdering methodsFor: 'as yet unclassified' stamp: 'len 1/14/2017 21:01:40'!
+compare: aModuleMonomial with: anotherModuleMonomial
+	| result |
+	(result _ aModuleMonomial monomial compare: anotherModuleMonomial monomial) == 0
+		ifFalse: [^ result].
+	^ (aModuleMonomial position - anotherModuleMonomial position) sign! !
+
+!TermOverPositionOrdering methodsFor: 'as yet unclassified' stamp: 'len 1/5/2018 11:15:34'!
+type
+	^ #top! !
+
+!SimpleTensor methodsFor: 'comparing' stamp: 'len 2/23/2017 10:05:10'!
+= aSimpleTensor
+	^ components = aSimpleTensor components! !
+
+!SimpleTensor methodsFor: 'operations' stamp: 'len 12/8/2016 20:25:17'!
+” aSimpleTensor
+	^ self class components: (components with: aSimpleTensor components collect: [:each :other| each ” other])! !
+
+!SimpleTensor methodsFor: 'accessing' stamp: 'len 10/16/2016 04:56'!
+at: anInteger
+	^ components at: anInteger! !
+
+!SimpleTensor methodsFor: 'accessing-private' stamp: 'len 2/23/2017 10:05:19'!
+components
+	^ components! !
+
+!SimpleTensor methodsFor: 'accessing-private' stamp: 'len 10/16/2016 04:55'!
+components: anArray
+	components _ anArray! !
+
+!SimpleTensor methodsFor: 'comparing' stamp: 'len 2/23/2017 10:05:45'!
+hash
+	^ components hash! !
+
+!SimpleTensor methodsFor: 'operations' stamp: 'len 10/16/2016 04:56'!
+inverse
+	^ self class components: (components collect: [:each| each inverse])! !
+
+!SimpleTensor methodsFor: 'accessing' stamp: 'len 10/16/2016 04:57'!
+order
+	^ components size! !
+
+!SimpleTensor methodsFor: 'printing' stamp: 'len 10/16/2016 04:58'!
+printOn: aStream
+	(1 to: self order) do: [:i| aStream print: (self at: i)] separatedBy: [aStream nextPut: Character otimes]! !
+
+!SimpleTensor methodsFor: 'accessing' stamp: 'len 10/16/2016 04:56'!
+rank
+	^ 1! !
+
+!SimpleTensor methodsFor: 'operations' stamp: 'len 10/16/2016 08:41'!
+value: aCovector
+	self order = 2 ifFalse: [DomainError signal].
+	^ (aCovector value: (self at: 1)) * (self at: 2)! !
+
+!SimpleTensor class methodsFor: 'as yet unclassified' stamp: 'len 10/16/2016 04:55'!
+components: anArray
+	^ self new components: anArray! !
+
+!SimpleTensor class methodsFor: 'as yet unclassified' stamp: 'len 10/16/2016 05:00'!
+left: aVector right: anotherVector
+	^ self components: {aVector. anotherVector}! !
+
+!AffineFrame methodsFor: 'accessing' stamp: 'len 1/3/2016 03:44'!
+basis
+	^ basis! !
+
+!AffineFrame methodsFor: 'accessing-private' stamp: 'len 1/3/2016 03:44'!
+basis: aLinearBasis
+	basis _ aLinearBasis! !
+
+!AffineFrame methodsFor: 'coordinates' stamp: 'len 1/3/2016 03:41'!
+coordinatesOf: aPoint
+	^ basis coordinatesOf: aPoint - origin! !
+
+!AffineFrame methodsFor: 'accessing' stamp: 'len 1/3/2016 03:44'!
+origin
+	^ origin! !
+
+!AffineFrame methodsFor: 'accessing-private' stamp: 'len 1/3/2016 03:45'!
+origin: aPoint
+	origin _ aPoint! !
+
+!AffineFrame methodsFor: 'coordinates' stamp: 'len 1/2/2017 19:11:58'!
+pointAt: aTuple
+	^ origin + (basis vectorAt: aTuple)! !
+
+!AffineFrame methodsFor: 'printing' stamp: 'len 1/3/2016 03:46'!
+printOn: aStream
+	aStream nextPut: ${.
+	aStream print: origin; nextPutAll: '; '.
+	basis do: [:v| aStream print: v] separatedBy: [aStream nextPutAll: ', '].
+	aStream nextPut: $}! !
+
+!AffineFrame methodsFor: 'accessing' stamp: 'len 10/27/2016 19:45'!
+span
+	^ AffineSubspace representative: origin direction: basis span! !
+
+!AffineFrame class methodsFor: 'instance creation' stamp: 'len 1/3/2016 03:43'!
+origin: aPoint basis: aLinearBasis
+	^ self new origin: aPoint; basis: aLinearBasis! !
+
+!ProjectiveChart methodsFor: 'accessing' stamp: 'len 10/27/2016 19:47'!
+affine
+	"Answer the affine space associated to the receiver."
+	| parallel |
+	parallel _ LinearBasis on: frame space vectorSpace.
+	1 to: index - 1 do: [:i|
+		parallel add: (frame space vectorFromPoint: (frame at: i))].
+	self index + 1 to: frame size do: [:i|
+		parallel add: (frame space vectorFromPoint: (frame at: i))].
+	^ AffineSubspace representative: origin direction: parallel span! !
+
+!ProjectiveChart methodsFor: 'coordinates' stamp: 'len 1/10/2017 16:28:15'!
+coordinatesOf: aPoint
+	"Answer the coordinates of the argument in the receiver. The argument is a linear subspace of dimension 1."
+	^ (frame coordinatesOf: aPoint) dehomogenizedIn: index! !
+
+!ProjectiveChart methodsFor: 'accessing' stamp: 'len 1/3/2016 05:22'!
+frame
+	^ frame! !
+
+!ProjectiveChart methodsFor: 'accessing-private' stamp: 'len 1/3/2016 05:22'!
+frame: aProjectiveFrame
+	frame _ aProjectiveFrame! !
+
+!ProjectiveChart methodsFor: 'accessing' stamp: 'len 11/20/2015 16:17'!
+index
+	^ index! !
+
+!ProjectiveChart methodsFor: 'accessing-private' stamp: 'len 2/28/98 21:44'!
+index: anInteger
+	index _ anInteger! !
+
+!ProjectiveChart methodsFor: 'accessing' stamp: 'len 3/18/2016 05:12'!
+infinity
+	"Answer the hyperplane at infinity."
+
+	| h |
+	h _ ProjectiveFrame on: frame space.
+	1 to: self index - 1 do: [:each| h add: (frame at: each)].
+	self index + 1 to: frame size do: [:each| h add: (frame at: each)].
+	^ h span! !
+
+!ProjectiveChart methodsFor: 'accessing' stamp: 'len 1/3/2016 05:21'!
+origin
+	^ origin! !
+
+!ProjectiveChart methodsFor: 'accessing-private' stamp: 'len 3/2/98 03:17'!
+origin: anObject
+	origin _ anObject! !
+
+!ProjectiveChart methodsFor: 'coordinates' stamp: 'len 11/5/2016 10:33'!
+pointAt: aTuple
+	"Answer the point with coordinates aTuple in the receiver."
+	| extended |
+	extended _ Array new: aTuple dimension + 1.
+	1 to: index - 1 do: [:i|
+		extended at: i put: (aTuple at: i)].
+	extended at: index put: frame space scalars one.
+	self index + 1 to: aTuple dimension + 1 do: [:i|
+		extended at: i put: (aTuple at: i - 1)].
+	^ frame pointAt: (HomogeneousTuple coefficients: extended over: frame space scalars)! !
+
+!ProjectiveChart methodsFor: 'printing' stamp: 'len 6/2/2016 18:55'!
+printOn: aStream
+	aStream
+		nextPutAll: self class name;
+		space; print: index;
+		space; print: frame! !
+
+!ProjectiveChart methodsFor: 'coordinates' stamp: 'len 12/8/2016 20:28:31'!
+vectorFromPoint: aPoint
+	"Answer a vector associated to the projective point aPoint (which is a linear subspace of dimension 1)."
+	^ (aPoint vectorSpace asAffineSpace • self affine) representative! !
+
+!ProjectiveChart class methodsFor: 'instance creation' stamp: 'len 1/3/2016 05:22'!
+frame: aProjectiveFrame index: anInteger origin: anObject
+	"Answer a new instance of the receiver representing the anInteger-th chart with basis aProjectiveBasis and origin anObject."
+	^ self new frame: aProjectiveFrame; index: anInteger; origin: anObject! !
+
+!ProjectiveFrame methodsFor: 'accessing' stamp: 'len 3/23/2016 22:01'!
+add: aPoint
+	^ points add: aPoint! !
+
+!ProjectiveFrame methodsFor: 'accessing' stamp: 'len 11/8/2015 00:05'!
+at: anInteger
+	^ points at: anInteger! !
+
+!ProjectiveFrame methodsFor: 'operations' stamp: 'len 6/3/2016 23:33'!
+changeTo: aProjectiveFrame
+	"Answer the homography for changing from the receiver to aProjectiveFrame."
+	^ self notYetImplemented! !
+
+!ProjectiveFrame methodsFor: 'private' stamp: 'len 6/4/2016 01:38'!
+computeUnit
+	unit _ self space vectorSpace null.
+	self do: [:each| unit _ unit + (self space vectorFromPoint: each)].
+	unit _ self space project: unit! !
+
+!ProjectiveFrame methodsFor: 'coordinates' stamp: 'len 10/31/2016 13:12'!
+coordinatesOf: anObject
+	"Answer the coordinates of the argument in the receiver."
+
+	| linear coords ucoords |
+	linear _ LinearBasis on: self space vectorSpace.
+	self do: [ :each | linear add: (self space vectorFromPoint: each)].
+	coords _ linear coordinatesOf: (self space vectorFromPoint: anObject).
+	ucoords _ linear coordinatesOf: (self space vectorFromPoint: self unit).
+	1 to: coords size do: [ :each |
+		coords at: each put: (coords at: each) / (ucoords at: each)].
+	^ coords asHomogeneousTuple! !
+
+!ProjectiveFrame methodsFor: 'accessing' stamp: 'len 11/8/2015 00:03'!
+dimension
+	^ self size - 1! !
+
+!ProjectiveFrame methodsFor: 'enumerating' stamp: 'len 11/8/2015 00:06'!
+do: aBlock
+	points do: aBlock! !
+
+!ProjectiveFrame methodsFor: 'initialization' stamp: 'len 11/8/2015 00:06'!
+initialize
+	self points: OrderedCollection new! !
+
+!ProjectiveFrame methodsFor: 'coordinates' stamp: 'len 6/4/2016 01:38'!
+pointAt: anHomogeneousTuple
+	"Answer point with coordinates aProjectiveTuple in the receiver."
+
+	| B |
+	B _ LinearBasis on: self space vectorSpace.
+	self do: [:each| B add: (self space vectorFromPoint: each)].
+	^ self space
+		project:
+			(B vectorAt: anHomogeneousTuple asTuple)! !
+
+!ProjectiveFrame methodsFor: 'accessing-private' stamp: 'len 11/8/2015 00:04'!
+points: aCollection
+	points _ aCollection! !
+
+!ProjectiveFrame methodsFor: 'printing' stamp: 'len 6/2/2016 18:56'!
+printOn: aStream
+	aStream nextPut: ${.
+	self do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: '; '].
+	aStream nextPut: $}! !
+
+!ProjectiveFrame methodsFor: 'accessing' stamp: 'len 11/8/2015 00:06'!
+size
+	^ points size! !
+
+!ProjectiveFrame methodsFor: 'accessing-private' stamp: 'len 11/8/2015 00:01'!
+space
+	^ space! !
+
+!ProjectiveFrame methodsFor: 'accessing-private' stamp: 'len 11/8/2015 00:01'!
+space: aProjectiveSpace
+	space _ aProjectiveSpace! !
+
+!ProjectiveFrame methodsFor: 'accessing' stamp: 'len 2/4/2017 09:01:40'!
+span
+	| basis |
+	basis _ LinearBasis on: space vectorSpace.
+	self do: [:each| basis add: (space vectorFromPoint: each)].
+	^ basis span projectivized! !
+
+!ProjectiveFrame methodsFor: 'accessing' stamp: 'len 3/2/98 03:02'!
+unit
+	"Answer the unit point of the receiver."
+
+	unit isNil ifTrue: [self computeUnit].
+	^ unit! !
+
+!ProjectiveFrame methodsFor: 'accessing-private' stamp: 'len 3/1/98 04:46'!
+unit: anObject
+	unit _ anObject! !
+
+!ProjectiveFrame class methodsFor: 'instance creation' stamp: 'len 2/25/98 22:25'!
+new
+	^ super new initialize! !
+
+!ProjectiveFrame class methodsFor: 'instance creation' stamp: 'len 1/3/2016 05:23'!
+on: aProjectiveSpace
+	^ self new space: aProjectiveSpace! !
 
 !Monomial methodsFor: 'operations' stamp: 'len 1/23/2017 11:35:41'!
 * aMonomial
