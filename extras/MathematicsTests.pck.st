@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 10 January 2018 at 10:02:30 pm'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 22 January 2018 at 7:32:43 pm'!
 'Description Please enter a description for this package'!
-!provides: 'MathematicsTests' 1 84!
+!provides: 'MathematicsTests' 1 85!
 !classDefinition: #AbelianGroupTest category: #MathematicsTests!
 TestCase subclass: #AbelianGroupTest
 	instanceVariableNames: ''
@@ -935,7 +935,7 @@ testAffineHullEmpty
 	self assert: H dimension = -1.
 	self assert: H size = 0! !
 
-!AffineGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 3/7/2017 07:19:35'!
+!AffineGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 1/22/2018 19:20:00'!
 testAffineMapCollinearity
 	"Affine maps preserve collinearity."
 	| A f p1 fp1 p2 fp2 p3 fp3 |
@@ -943,10 +943,10 @@ testAffineMapCollinearity
 	f _ A automorphisms atRandomBits: 100.
 	"three collinear points:"
 	p1 _ (1,2,3) + (1,0,1). p2 _ (2,4,6) + (1,0,1). p3 _ (-1,-2,-3) + (1,0,1).
-	self assert: (A span: {p1.p2.p3}) isLine.
+	self assert: (A hull: {p1.p2.p3}) isLine.
 	"the imagees of the three collinear points must be collinear:"
 	fp1 _ f value: p1. fp2 _ f value: p2. fp3 _ f value: p3.
-	self assert: (A span: {fp1.fp2.fp3}) isLine! !
+	self assert: (A hull: {fp1.fp2.fp3}) isLine! !
 
 !AffineGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 1/22/2017 08:22:18'!
 testAffineMapComposition
@@ -1600,31 +1600,31 @@ testTwistedCubicDegree
 	"But we get the twisted cubic (in some sense) 'counted with multiplicity 2', so the degree is 6"
 	self assert: X degree = 6! !
 
-!AlgebraicNumbersTest methodsFor: 'as yet unclassified' stamp: 'len 6/4/2016 22:00'!
+!AlgebraicNumbersTest methodsFor: 'as yet unclassified' stamp: 'len 1/20/2018 19:18:51'!
 testArithmetic
 	| sqrt2 sqrt3 sqrt5 five sqrt6 |
-	sqrt2 _ AlgebraicNumber sqrt2.
-	sqrt3 _ AlgebraicNumber sqrt: 3.
-	sqrt5 _ AlgebraicNumber sqrt: 5.
-	sqrt6 _ AlgebraicNumber sqrt: 6.
-	five _ AlgebraicNumber fromRational: 5.
+	sqrt2 _ ComplexAlgebraicNumber sqrt2.
+	sqrt3 _ ComplexAlgebraicNumber sqrt: 3.
+	sqrt5 _ ComplexAlgebraicNumber sqrt: 5.
+	sqrt6 _ ComplexAlgebraicNumber sqrt: 6.
+	five _ ComplexAlgebraicNumber fromRational: 5.
 	self assert: sqrt2 squared asRational = 2.
 	self assert: (sqrt2 + sqrt3) * sqrt2 = (2 + sqrt6).
 	self assert: (sqrt3 / sqrt5) squared reciprocal asRational = (5/3).
 "	self assert: (((five root: 3) + sqrt2 - sqrt2) ^ 3) asRational = 5"! !
 
-!AlgebraicNumbersTest methodsFor: 'as yet unclassified' stamp: 'len 6/4/2016 22:00'!
+!AlgebraicNumbersTest methodsFor: 'as yet unclassified' stamp: 'len 1/20/2018 19:18:24'!
 testDivision
 	| sqrt3 sqrt5 |
-	sqrt3 _ AlgebraicNumber sqrt: 3.
-	sqrt5 _ AlgebraicNumber sqrt: 5.
+	sqrt3 _ ComplexAlgebraicNumber sqrt: 3.
+	sqrt5 _ ComplexAlgebraicNumber sqrt: 5.
 	self assert: (sqrt3 / sqrt5 / sqrt3 / sqrt5) asRational = (1/5)! !
 
-!AlgebraicNumbersTest methodsFor: 'as yet unclassified' stamp: 'len 6/4/2016 22:01'!
+!AlgebraicNumbersTest methodsFor: 'as yet unclassified' stamp: 'len 1/20/2018 19:17:59'!
 testProduct
 	| sqrt3 sqrt5 |
-	sqrt3 _ AlgebraicNumber sqrt: 3.
-	sqrt5 _ AlgebraicNumber sqrt: 5.
+	sqrt3 _ ComplexAlgebraicNumber sqrt: 3.
+	sqrt5 _ ComplexAlgebraicNumber sqrt: 5.
 	self assert: (sqrt3 * sqrt5 * sqrt3 * sqrt5) asRational = 15! !
 
 !AlgebraicNumbersTest methodsFor: 'as yet unclassified' stamp: 'len 6/4/2016 21:59'!
@@ -1682,24 +1682,24 @@ testRealSum
 	sqrt5 _ RealAlgebraicNumber sqrt: 5.
 	self assert: sqrt3 + sqrt5 + sqrt2 - sqrt3 - sqrt5 = sqrt2! !
 
-!AlgebraicNumbersTest methodsFor: 'as yet unclassified' stamp: 'len 6/4/2016 22:01'!
+!AlgebraicNumbersTest methodsFor: 'as yet unclassified' stamp: 'len 1/20/2018 19:18:04'!
 testSquare
 	| sqrt2 |
-	sqrt2 _ AlgebraicNumber sqrt2.
+	sqrt2 _ ComplexAlgebraicNumber sqrt2.
 	self assert: sqrt2 squared asRational = 2! !
 
-!AlgebraicNumbersTest methodsFor: 'as yet unclassified' stamp: 'len 6/4/2016 22:01'!
+!AlgebraicNumbersTest methodsFor: 'as yet unclassified' stamp: 'len 1/20/2018 19:18:08'!
 testSquareRoot
 	| a |
-	a _ AlgebraicNumber fromRational: 3.
+	a _ ComplexAlgebraicNumber fromRational: 3.
 	self assert: a squareRoot squared = a! !
 
-!AlgebraicNumbersTest methodsFor: 'as yet unclassified' stamp: 'len 6/4/2016 22:01'!
+!AlgebraicNumbersTest methodsFor: 'as yet unclassified' stamp: 'len 1/20/2018 19:18:17'!
 testSum
 	| sqrt2 sqrt3 sqrt5 |
-	sqrt2 _ AlgebraicNumber sqrt: 2.
-	sqrt3 _ AlgebraicNumber sqrt: 3.
-	sqrt5 _ AlgebraicNumber sqrt: 5.
+	sqrt2 _ ComplexAlgebraicNumber sqrt: 2.
+	sqrt3 _ ComplexAlgebraicNumber sqrt: 3.
+	sqrt5 _ ComplexAlgebraicNumber sqrt: 5.
 	self assert: sqrt3 + sqrt5 + sqrt2 - sqrt3 - sqrt5 = sqrt2! !
 
 !CodesTest methodsFor: 'as yet unclassified' stamp: 'len 10/18/2016 20:58'!
@@ -3775,12 +3775,12 @@ testMinors
 	A _ ZZ ^ (2@3) elementAt: (1 to: 6).
 	self assert: (A minors: 2) asArray = #(-3 -6 -3)! !
 
-!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 12/18/2016 20:02:55'!
+!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 1/20/2018 19:02:51'!
 testQRDecomposition
 	| n A QR Q R |
 	n _ 3.
 	[A _ QQ ^ (n@n) :: atRandomBits: n*n. A isFullRank] whileFalse.
-	A _ A over: RealAlgebraicNumbersField new.
+	A _ A over: RR.
 	QR _ A QR.
 	Q _ QR Q.
 	R _ QR R.
@@ -3866,6 +3866,23 @@ testSmithNormalForm2
 	A _ M rows: { (3,-1,-1). (-1,3,-1). (-1,-1,3) }.
 	self assert: A SNF = (1,4,4)! !
 
+!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 1/20/2018 07:59:45'!
+testSmithNormalForm3
+	"Example from Willian Stein, 'Algebraic Number Theory, A Computational Approach'."
+	| M A |
+	M _ ZZ ^ (3@3).
+	A _ M rows: { (1,4,9). (16,25,36). (49,64,81) }.
+	self assert: A SNF = (1,3,72)! !
+
+!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 1/20/2018 08:03:32'!
+testSmithNormalForm4
+	"Smith form of a 3x3 matrix of rank 2.
+	Example from Willian Stein, 'Algebraic Number Theory, A Computational Approach'."
+	| M A |
+	M _ ZZ ^ (3@3).
+	A _ M rows: { (2,3,4). (5,6,7). (8,9,10) }.
+	self assert: A SNF = (1,3,0)! !
+
 !MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:48'!
 testTransposed
 	| A |
@@ -3896,11 +3913,11 @@ testIndexOf
 	H _ PrincipalCongruenceSubgroup new: 8.
 	self assert: (G indexOf: H) = 32 "according to GAP manual chap. 2, Gamma(2) has index 12"! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 12/2/2016 11:11:38'!
+!ModuleTest methodsFor: 'private' stamp: 'len 12/2/2016 11:11:38'!
 newFreeModule
 	^ self newFreeModuleOver: {ZZ. QQ. ZZ / (10 atRandom + 1)} atRandom! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 12/30/2016 12:19:23'!
+!ModuleTest methodsFor: 'private' stamp: 'len 12/30/2016 12:19:23'!
 newFreeModuleOver: scalars
 	| M |
 	M _ 2 atRandom = 1 ifTrue: [scalars ^ 4 atRandom] ifFalse: [scalars ^ (4 atRandom @ 4 atRandom)].
@@ -3909,7 +3926,11 @@ newFreeModuleOver: scalars
 	3 atRandom = 1 ifTrue: [^ M dual].
 	^ M! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 3/2/2017 04:47:40'!
+!ModuleTest methodsFor: 'private' stamp: 'len 1/16/2018 19:07:14'!
+newFreeModuleOverPID
+	^ self newFreeModuleOver: {QQ. ZZ/2. ZZ. QQ polynomials} atRandom! !
+
+!ModuleTest methodsFor: 'private' stamp: 'len 3/2/2017 04:47:40'!
 newLinearMap
 	| K V W |
 	K _ {QQ. ZZ / #(2 3 5 7) atRandom} atRandom.
@@ -3917,18 +3938,18 @@ newLinearMap
 	W _ self newFreeModuleOver: K.
 	^ (V hom: W) matrix: (self newMatrix: W rank @ V rank over: K)! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 3/2/2017 04:43:47'!
+!ModuleTest methodsFor: 'private' stamp: 'len 3/2/2017 04:43:47'!
 newMatrix: dim over: aRing
 	| samples |
 	2 atRandom = 1 ifTrue: [^ aRing^dim atRandomBits: 100].
 	samples _ {aRing zero. aRing one. aRing one negated}.
 	^ aRing matrix: dim evaluating: [:i :j| 2 atRandom > 1 ifTrue: [aRing zero] ifFalse: [samples atRandom]]! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 3/2/2017 04:50:24'!
+!ModuleTest methodsFor: 'private' stamp: 'len 3/2/2017 04:50:24'!
 newVectorSpace
 	^ self newFreeModuleOver: {QQ. ZZ / #(2 3 5 7) atRandom} atRandom! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:57'!
+!ModuleTest methodsFor: 'other' stamp: 'len 8/26/2016 05:57'!
 testAnnihilator
 	| V v S S0 |
 	V _ QQ ^ 3.
@@ -3938,7 +3959,7 @@ testAnnihilator
 	self assert: S0 dimension = S codimension.
 	S0 basis do: [:f| self assert: (f value: v) isZero]! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 12/8/2016 20:28:03'!
+!ModuleTest methodsFor: 'other' stamp: 'len 12/8/2016 20:28:03'!
 testAnnihilatorProperties
 	| V S T |
 	V _ QQ ^ 5.
@@ -3952,7 +3973,7 @@ testAnnihilatorProperties
 	self assert: V annihilator isTrivial.
 "	self assert: S annihilator annihilator = S dual dual"! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 12/2/2016 11:17:43'!
+!ModuleTest methodsFor: 'other' stamp: 'len 12/2/2016 11:17:43'!
 testAnnihilatorZ2
 	| V v S S0 |
 	V _ (ZZ / 2) ^ 4.
@@ -3962,7 +3983,7 @@ testAnnihilatorZ2
 	self assert: S0 dimension = S codimension.
 	S0 basis do: [:f| self assert: (f value: v) isZero]! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 11/2/2016 08:20'!
+!ModuleTest methodsFor: 'other' stamp: 'len 11/2/2016 08:20'!
 testCanonicalMorphisms
 	| V W |
 	V _ QQ^3.
@@ -3972,7 +3993,7 @@ testCanonicalMorphisms
 	self assert: ((W  W null) value: (1,2,3)) isZero.
 	self assert: (W  V value: (2,4,6)) = (2,4,6). "canonical morphism to overobject"! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 10/16/2016 09:57'!
+!ModuleTest methodsFor: 'other' stamp: 'len 10/16/2016 09:57'!
 testDirectSum
 	| M N S |
 	M _ self newFreeModule.
@@ -3982,7 +4003,7 @@ testDirectSum
 	self testLinearMap: (S projection: 2 atRandom).
 	self testLinearMap: (S embedding: 2 atRandom)! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 11/2/2016 03:59'!
+!ModuleTest methodsFor: 'isomorphisms' stamp: 'len 11/2/2016 03:59'!
 testFirstIsomorphismTheorem
 	| V S T f phi |
 	V _ QQ ^ 5.
@@ -3992,7 +4013,25 @@ testFirstIsomorphismTheorem
 	phi _ S / f kernel to: f image evaluating: [:x| f value: x representative].
 	self assert: phi isIsomorphism! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 10/17/2016 16:41'!
+!ModuleTest methodsFor: 'isomorphisms' stamp: 'len 1/16/2018 17:49:34'!
+testFirstIsomorphismTheorem2
+	| V S T f |
+	V _ QQ ^ 5.
+	S _ V grassmannian: (1 to: V dimension) atRandom :: atRandomBits: 50.
+	T _ V grassmannian: (1 to: V dimension) atRandom :: atRandomBits: 50.
+	f _ S hom: T :: atRandomBits: 50.
+	self assert: f domain / f kernel ~ f image! !
+
+!ModuleTest methodsFor: 'isomorphisms' stamp: 'len 1/16/2018 18:42:43'!
+testFirstIsomorphismTheoremOverPID
+	| M S T f |
+	M _ self newFreeModuleOverPID.
+	S _ M grassmannian: (1 to: M rank) atRandom :: atRandomBits: 50.
+	T _ M grassmannian: (1 to: M rank) atRandom :: atRandomBits: 50.
+	f _ S hom: T :: atRandomBits: 50.
+	self assert: f domain / f kernel ~ f image! !
+
+!ModuleTest methodsFor: 'other' stamp: 'len 1/21/2018 21:47:53'!
 testFreeModule: M
 	| c t v x y |
 	x _ M atRandomBits: 10 * M rank.
@@ -4002,9 +4041,9 @@ testFreeModule: M
 	v _ x * c + y.
 	t _ (M coordinatesOf: x) * c + (M coordinatesOf: y).
 	self assert: v = (M elementAt: t).
-	self testLinearMap: M basis coordinatesMap! !
+"	self testLinearMap: M basis coordinatesMap"! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 2/28/2017 20:50:22'!
+!ModuleTest methodsFor: 'other' stamp: 'len 2/28/2017 20:50:22'!
 testFreeModuleDiscriminant
 	"From Sage documentation of FreeModule."
 	| M |
@@ -4013,10 +4052,10 @@ testFreeModuleDiscriminant
 	self assert: (M span: {(1,2,3) over: ZZ}) discriminant = 14.
 	self assert: (M span: {(1,2,3) over: ZZ. (1,1,1) over: ZZ}) discriminant = 6! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 2/28/2017 08:35:04'!
+!ModuleTest methodsFor: 'other' stamp: 'len 1/14/2018 19:48:42'!
 testFreeZModule
 	| A x0 x y0 y |
-	A _ FormalFreeModule on: #(a b c) over: ZZ.
+	A _ FormalSumsModule on: #(a b c) over: ZZ.
 	x0 _ (-2,-1,3).
 	x _ A elementAt: x0.
 	y0 _ (1,1,1).
@@ -4026,7 +4065,7 @@ testFreeZModule
 	self assert: (x-y-(x-y)) isZero.
 	self assert: (A coordinatesOf: x) = x0! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:57'!
+!ModuleTest methodsFor: 'other' stamp: 'len 8/26/2016 05:57'!
 testGrassmannian
 	| G S |
 	G _ QQ^3 grassmannian: 2.
@@ -4035,7 +4074,7 @@ testGrassmannian
 	self assert: (G includes: S).
 	self assert: (G dual includes: S perp dual)! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 12/12/2017 18:06:24'!
+!ModuleTest methodsFor: 'basis' stamp: 'len 12/12/2017 18:06:24'!
 testLinearBasisCoordinatesOf
 	| V basis c |
 	V _ QQ ^ 3.
@@ -4043,7 +4082,7 @@ testLinearBasisCoordinatesOf
 	c _ basis coordinatesOf: (1,0,4).
 	self assert: c = (-1,2)! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 12/12/2017 18:06:32'!
+!ModuleTest methodsFor: 'basis' stamp: 'len 12/12/2017 18:06:32'!
 testLinearBasisCoordinatesOf2
 	| V basis c |
 	V _ QQ ^ 3.
@@ -4051,7 +4090,7 @@ testLinearBasisCoordinatesOf2
 	c _ basis coordinatesOf: (1,1,4).
 	self assert: c isNil! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 12/12/2017 21:14:13'!
+!ModuleTest methodsFor: 'basis' stamp: 'len 12/12/2017 21:14:13'!
 testLinearBasisCoordinatesOf3
 	| V B |
 	V _ QQ^3.
@@ -4061,7 +4100,7 @@ testLinearBasisCoordinatesOf3
 	self assert: (B coordinatesOf: (0,1,2)) = (-1,1).
 ! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 12/12/2017 18:06:38'!
+!ModuleTest methodsFor: 'basis' stamp: 'len 12/12/2017 18:06:38'!
 testLinearBasisDual
 	| V basis B Bdual I |
 	V _ QQ ^ 3.
@@ -4072,7 +4111,7 @@ testLinearBasisDual
 	self assert: B determinant = (1 / Bdual determinant).
 	self assert: B transposed * Bdual = I! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 12/15/2017 18:51:14'!
+!ModuleTest methodsFor: 'basis' stamp: 'len 12/15/2017 18:51:14'!
 testLinearBasisDual2
 	| V B Bdual |
 	V _ QQ ^ 3.
@@ -4083,7 +4122,7 @@ testLinearBasisDual2
 		1 to: Bdual size do: [:j|
 			self assert: ((Bdual at: j) value: (B at: i)) = (i = j ifTrue: [1] ifFalse: [0])]]! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 12/12/2017 21:14:43'!
+!ModuleTest methodsFor: 'basis' stamp: 'len 12/12/2017 21:14:43'!
 testLinearBasisGenerates
 	| V B |
 	V _ QQ^3.
@@ -4092,25 +4131,25 @@ testLinearBasisGenerates
 	self assert: (B generates: (0,1,2)).
 	self deny: (B generates: (2,2,3))! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:57'!
+!ModuleTest methodsFor: 'linera maps' stamp: 'len 1/14/2018 22:24:08'!
 testLinearForm1
 	| V f |
 	V _ QQ ^ 3.
-	f _ LinearForm from: V evaluating: [:v| v x + v y - v z].
+	f _ V dual evaluating: [:v| v x + v y - v z].
 	self assert: (f value: (1,1,1)) = 1.
 	self assert: (f value: (2,2,1)) = 3.
 	self assert: (f value: (3,1, -1)) = 5! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:58'!
+!ModuleTest methodsFor: 'linera maps' stamp: 'len 1/14/2018 22:24:16'!
 testLinearForm2
 	| V f |
 	V _ QQ ^ 3.
-	f _ LinearForm from: V evaluating: [:v| v x + v y - v z].
+	f _ V dual evaluating: [:v| v x + v y - v z].
 	self assert: f domain = V.
 	self assert: f kernel dimension = 2.
 	self assert: f image dimension = 1! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:58'!
+!ModuleTest methodsFor: 'linera maps' stamp: 'len 8/26/2016 05:58'!
 testLinearFormAsPolynomial
 	| V f x |
 	V _ QQ ^ 5 atRandom.
@@ -4119,23 +4158,23 @@ testLinearFormAsPolynomial
 	self assert: (f value: x) = (f asPolynomial value: x).
 	self assert: f asPolynomial asLinearForm = f! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 10/18/2016 21:00'!
+!ModuleTest methodsFor: 'linera maps' stamp: 'len 1/14/2018 22:24:23'!
 testLinearFormZ2
 	| V f |
 	V _ (PrimeField new: 2) ^ 4.
-	f _ LinearForm from: V evaluating: [:v| v sum].
+	f _ V dual evaluating: [:v| v sum].
 	self assert: f domain = V.
 	self assert: f kernel dimension = 3.
 	self assert: f image dimension = 1.
 	self assert: (f kernel includes: (1,1,1,1) % 2)! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 3/2/2017 04:46:35'!
+!ModuleTest methodsFor: 'linera maps' stamp: 'len 3/2/2017 04:46:35'!
 testLinearMap
 	| f |
 	f _ self newLinearMap.
 	self testLinearMap: f! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 10/16/2016 09:17'!
+!ModuleTest methodsFor: 'linera maps' stamp: 'len 10/16/2016 09:17'!
 testLinearMap: f
 	| a1 a2 b1 b2 x |
 	a1 _ f domain atRandomBits: 20.
@@ -4146,7 +4185,7 @@ testLinearMap: f
 	x _ f domain scalars atRandomBits: 20.
 	self assert: (f value: a1 * x + a2) = (b1 * x + b2)! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 3/7/2017 07:25:22'!
+!ModuleTest methodsFor: 'linera maps' stamp: 'len 3/7/2017 07:25:22'!
 testLinearMapAdjoint
 	| V W f fAdjoint phi |
 	V _ self newFreeModuleOver: QQ.
@@ -4158,7 +4197,7 @@ testLinearMapAdjoint
 	phi _ W dual atRandomBits: 20.
 	self assert: (fAdjoint value: phi) = (phi ” f)! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 12/20/2016 12:05:24'!
+!ModuleTest methodsFor: 'linera maps' stamp: 'len 12/20/2016 12:05:24'!
 testLinearMapComposition
 	| X Y Z f g x |
 	X _ QQ ^ 3.
@@ -4171,7 +4210,7 @@ testLinearMapComposition
 	self assert: (g ” f value: x) = (g value: (f value: x)).
 	self should: [f ” g] raise: DomainError! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 12/20/2016 11:50:35'!
+!ModuleTest methodsFor: 'linera maps' stamp: 'len 12/20/2016 11:50:35'!
 testLinearMapCompositionError
 	| X Y Z f g |
 	X _ QQ ^ 3.
@@ -4181,7 +4220,7 @@ testLinearMapCompositionError
 	g _ (Y hom: Z) atRandomBits: 1000.
 	self should: [f ” g] raise: DomainError! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 3/2/2017 04:52:54'!
+!ModuleTest methodsFor: 'linera maps' stamp: 'len 3/2/2017 04:52:54'!
 testLinearMapFiber
 	| f w v |
 	f _ self newLinearMap.
@@ -4189,7 +4228,7 @@ testLinearMapFiber
 	v _ (f fiberAt: w) atRandomBits: 100.
 	self assert: (f value: v) = w! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 3/2/2017 04:53:31'!
+!ModuleTest methodsFor: 'linera maps' stamp: 'len 3/2/2017 04:53:31'!
 testLinearMapImage
 	| f image v w |
 	f _ self newLinearMap.
@@ -4198,7 +4237,7 @@ testLinearMapImage
 	w _ f value: v.
 	self assert: (image includes: w)! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 12/20/2016 11:50:45'!
+!ModuleTest methodsFor: 'linera maps' stamp: 'len 12/20/2016 11:50:45'!
 testLinearMapInverse
 	| V f |
 	V _ QQ ^ 3.
@@ -4206,7 +4245,7 @@ testLinearMapInverse
 	self assert: (f ” f inverse) isIdentity.
 	self assert: (f inverse ” f) isIdentity! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 3/2/2017 04:53:46'!
+!ModuleTest methodsFor: 'linera maps' stamp: 'len 3/2/2017 04:53:46'!
 testLinearMapKernel
 	| f kernel v |
 	f _ self newLinearMap.
@@ -4214,17 +4253,17 @@ testLinearMapKernel
 	v _ kernel atRandomBits: 100.
 	self assert: (f value: v) isZero! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 10/18/2016 21:00'!
+!ModuleTest methodsFor: 'linera maps' stamp: 'len 1/14/2018 22:24:29'!
 testLinearMapKernelZ2
 	| V f kernel |
 	V _ (PrimeField new: 2) ^ 3.
-	f _ LinearForm from: V evaluating: [:v| v sum].
+	f _ V dual evaluating: [:v| v sum].
 	kernel _ f kernel.
 	self assert: (kernel apply: f) isTrivial.
 	self assert: kernel dimension = 2.
 	self assert: (kernel includes: (0,1,1) % 2)! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 12/20/2016 11:50:51'!
+!ModuleTest methodsFor: 'linera maps' stamp: 'len 12/20/2016 11:50:51'!
 testLinearMapLeftInverse
 	| V W f |
 	V _ QQ ^ 3.
@@ -4232,7 +4271,7 @@ testLinearMapLeftInverse
 	[f _ (V hom: W) atRandomBits: 1000. f rank = 3] whileFalse.
 	self assert: (f leftInverse ” f) = V id! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 12/20/2016 11:50:57'!
+!ModuleTest methodsFor: 'linera maps' stamp: 'len 12/20/2016 11:50:57'!
 testLinearMapRightInverse
 	| V W f |
 	V _ QQ ^ 5.
@@ -4240,7 +4279,7 @@ testLinearMapRightInverse
 	[f _ (V hom: W) atRandomBits: 1000. f rank = 3] whileFalse.
 	self assert: (f ” f rightInverse) = W id! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 11/2/2016 04:01'!
+!ModuleTest methodsFor: 'linera maps' stamp: 'len 11/2/2016 04:01'!
 testLinearMapZ2
 	| V f kernel v |
 	V _ (PrimeField new: 2) ^ (5 atRandom + 1).
@@ -4251,30 +4290,30 @@ testLinearMapZ2
 	v _ kernel atRandom.
 	self assert: (f value: v) isZero! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:59'!
+!ModuleTest methodsFor: 'other' stamp: 'len 8/26/2016 05:59'!
 testMatricesQ
 	self testFreeModule: (QQ ^ (5 atRandom @ 5 atRandom))! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:46'!
+!ModuleTest methodsFor: 'other' stamp: 'len 8/26/2016 05:46'!
 testMatricesZ
 	self testFreeModule: (ZZ ^ (5 atRandom @ 5 atRandom))! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 12/2/2016 11:11:58'!
+!ModuleTest methodsFor: 'other' stamp: 'len 12/2/2016 11:11:58'!
 testMatricesZ2
 	self testFreeModule: ((ZZ / 2) ^ (5 atRandom @ 5 atRandom))! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 12/2/2016 11:12:02'!
+!ModuleTest methodsFor: 'other' stamp: 'len 12/2/2016 11:12:02'!
 testMatricesZ4
 	self testFreeModule: ((ZZ / 4) ^ (5 atRandom @ 5 atRandom))! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:59'!
+!ModuleTest methodsFor: 'other' stamp: 'len 8/26/2016 05:59'!
 testMatrixTraceAsLinearMap
 	| F f |
 	F _ QQ ^ (3@3) :: dual. "linear forms"
 	f _ F evaluating: [:x| x trace].
 	self assert: f = ((F x: 1) + (F x: 5) + (F x: 9))! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 12/15/2017 21:04:02'!
+!ModuleTest methodsFor: 'other' stamp: 'len 12/15/2017 21:04:02'!
 testOrthogonalProjection
 	| V S p v |
 	V _ QQ ^ 3.
@@ -4287,7 +4326,7 @@ testOrthogonalProjection
 	self assert: p image = S.
 	self assert: (S apply: p) = S! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 12/12/2017 18:06:47'!
+!ModuleTest methodsFor: 'other' stamp: 'len 12/12/2017 18:06:47'!
 testOrthogonalization
 	| V B |
 	V _ QQ ^ 3.
@@ -4295,7 +4334,7 @@ testOrthogonalization
 	self assert: B orthogonalized isOrthogonal.
 	self assert: B extended orthogonalized isOrthogonal! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 12/12/2017 18:06:52'!
+!ModuleTest methodsFor: 'other' stamp: 'len 12/12/2017 18:06:52'!
 testOrthonormalization
 	| V B |
 	V _ QQ ^ 3.
@@ -4303,7 +4342,7 @@ testOrthonormalization
 	self assert: B orthonormalized isOrthonormal.
 	self assert: B extended orthonormalized isOrthonormal! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 12/15/2017 21:04:12'!
+!ModuleTest methodsFor: 'other' stamp: 'len 12/15/2017 21:04:12'!
 testPerp
 	| V S p perp |
 	V _ QQ ^ 3.
@@ -4315,7 +4354,7 @@ testPerp
 	p _ S orthogonalProjection.
 	self assert: p kernel = perp! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 12/8/2016 20:28:10'!
+!ModuleTest methodsFor: 'other' stamp: 'len 12/8/2016 20:28:10'!
 testPerpProperties
 	| V S T |
 	V _ QQ ^ 3.
@@ -4327,7 +4366,7 @@ testPerpProperties
 	self assert: S <= S perp perp.
 	self assert: S perp < T perp "because S > T"! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 12/2/2016 11:17:38'!
+!ModuleTest methodsFor: 'other' stamp: 'len 12/2/2016 11:17:38'!
 testPerpZ2
 	| V S perp |
 	V _ (ZZ / 2) ^ 3.
@@ -4337,7 +4376,7 @@ testPerpZ2
 	self assert: (V innerProduct value: {S basis first. perp basis first}) isZero.
 	self assert: (V innerProduct value: {S basis first. perp basis second}) isZero! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 10/6/2016 10:36'!
+!ModuleTest methodsFor: 'other' stamp: 'len 10/6/2016 10:36'!
 testQuotientMaps
 	| V S Q pi v s |
 	V _ QQ ^ 5.
@@ -4350,7 +4389,7 @@ testQuotientMaps
 	self assert: (V includes: (pi section value: s)).
 	self assert: s = (pi value: (pi section value: s))! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 3/2/2017 04:49:31'!
+!ModuleTest methodsFor: 'other' stamp: 'len 3/2/2017 04:49:31'!
 testQuotientSpace
 	| M S Q |
 	M _ self newVectorSpace.
@@ -4361,7 +4400,7 @@ testQuotientSpace
 	self assert: (M / M null) rank = M rank.
 	self assert: (M / M) rank = 0! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 3/8/2017 10:24:32'!
+!ModuleTest methodsFor: 'isomorphisms' stamp: 'len 3/8/2017 10:24:32'!
 testSecondIsomorphismTheorem
 	| V S T |
 	V _ QQ ^ 5.
@@ -4372,7 +4411,18 @@ testSecondIsomorphismTheorem
 	phi _ S / f kernel -> f image evaluating: [:x| f value: x representative].
 	self assert: phi isIsomorphism"! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:02'!
+!ModuleTest methodsFor: 'isomorphisms' stamp: 'len 1/16/2018 18:43:05'!
+testSecondIsomorphismTheoremOverPID
+	| M S T |
+	M _ self newFreeModuleOverPID.
+	S _ M grassmannian: (1 to: M rank) atRandom :: atRandomBits: 50.
+	T _ M grassmannian: (1 to: M rank) atRandom :: atRandomBits: 50.
+	self assert: (S+T)/T ~ (S/(S • T))
+"	f _ S -> T :: atRandomBits: 10.
+	phi _ S / f kernel -> f image evaluating: [:x| f value: x representative].
+	self assert: phi isIsomorphism"! !
+
+!ModuleTest methodsFor: 'other' stamp: 'len 8/26/2016 06:02'!
 testSubspaceInclusion
 	| V S P v w |
 	V _ QQ ^ 3.
@@ -4387,7 +4437,7 @@ testSubspaceInclusion
 	self assert: (S > P) not.
 	self assert: (P < S) not! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 3/7/2017 07:25:52'!
+!ModuleTest methodsFor: 'other' stamp: 'len 3/7/2017 07:25:52'!
 testSubspaceIntersection
 	| V S T T2 |
 	V _ QQ ^ 3.
@@ -4399,7 +4449,7 @@ testSubspaceIntersection
 	T2 _ V span: {(3,1,-1). (0,1,0)}.
 	self assert: S • T2 = T! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:02'!
+!ModuleTest methodsFor: 'other' stamp: 'len 8/26/2016 06:02'!
 testSubspaceOfSubspace
 	| V S s T t |
 	V _ QQ ^ 3.
@@ -4414,7 +4464,7 @@ testSubspaceOfSubspace
 	self assert: (S includes: t).
 	self assert: (T includes: t)! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:02'!
+!ModuleTest methodsFor: 'other' stamp: 'len 8/26/2016 06:02'!
 testSubspaceSum
 	| V v w S T P |
 	V _ QQ ^ 3.
@@ -4427,7 +4477,7 @@ testSubspaceSum
 	T _ V span: {v - w. v + w}.
 	self assert: S + T = P! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 3/8/2017 10:26:16'!
+!ModuleTest methodsFor: 'other' stamp: 'len 3/8/2017 10:26:16'!
 testSubspaceSumRandom
 	| V S T U |
 	V _ QQ^5.
@@ -4437,7 +4487,7 @@ testSubspaceSumRandom
 	self assert: S <= U.
 	self assert: T <= U! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:03'!
+!ModuleTest methodsFor: 'other' stamp: 'len 8/26/2016 06:03'!
 testTensorProductAssociativity
 	| V1 V2 V3 |
 	V1 _ QQ ^ 2.
@@ -4445,21 +4495,21 @@ testTensorProductAssociativity
 	V3 _ QQ ^ 4.
 	self assert: (V1 ’ V2) ’ V3 ~ (V1 ’ (V2 ’ V3))! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:03'!
+!ModuleTest methodsFor: 'other' stamp: 'len 8/26/2016 06:03'!
 testTensorProductCommutativity
 	| V W |
 	V _ QQ ^ 3.
 	W _ QQ ^ 4.
 	self assert: V ’ W ~ (W ’ V)! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 12/19/2017 20:09:11'!
+!ModuleTest methodsFor: 'other' stamp: 'len 12/19/2017 20:09:11'!
 testTensorProductDimension
 	| V1 V2 |
 	V1 _ QQ ^ 5 atRandom.
 	V2 _ QQ ^ 5 atRandom.
 	self assert: (V1 ’ V2) dimension = (V1 dimension * V2 dimension)! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 12/17/2017 22:31:20'!
+!ModuleTest methodsFor: 'other' stamp: 'len 12/17/2017 22:31:20'!
 testTensorProductOfLinearForms
 	| V W f g t v |
 	V _ QQ ^ 3.
@@ -4470,7 +4520,7 @@ testTensorProductOfLinearForms
 	v _ W domain atRandomBits: 10.
 	self assert: (t value: v) = ((f value: v) * (g value: v))! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 10/16/2016 09:19'!
+!ModuleTest methodsFor: 'isomorphisms' stamp: 'len 10/16/2016 09:19'!
 testThirdIsomorphismTheorem
 	| V S T |
 	V _ QQ ^ 5.
@@ -4478,25 +4528,33 @@ testThirdIsomorphismTheorem
 	T _ S grassmannian: (1 to: S dimension) atRandom :: atRandomBits: 50.
 	self assert: (V/T)/(S/T) ~ (V/S)! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:03'!
+!ModuleTest methodsFor: 'isomorphisms' stamp: 'len 1/16/2018 18:43:22'!
+testThirdIsomorphismTheoremOverPID
+	| M S T |
+	M _ self newFreeModuleOverPID.
+	S _ M grassmannian: (1 to: M rank) atRandom :: atRandomBits: 50.
+	T _ M grassmannian: (1 to: M rank) atRandom :: atRandomBits: 50.
+	self assert: (M/T)/(S/T) ~ (M/S)! !
+
+!ModuleTest methodsFor: 'other' stamp: 'len 8/26/2016 06:03'!
 testTuplesQ
 	self testFreeModule: (QQ ^ 5 atRandom)! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:03'!
+!ModuleTest methodsFor: 'other' stamp: 'len 8/26/2016 06:03'!
 testTuplesRationalFunctionsQ
 	| F |
 	F _ QQ polynomials fractions.
 	self testFreeModule: (F ^ 3 atRandom)! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:46'!
+!ModuleTest methodsFor: 'other' stamp: 'len 8/26/2016 05:46'!
 testTuplesZ
 	self testFreeModule: (ZZ ^ 5 atRandom)! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 12/2/2016 11:12:06'!
+!ModuleTest methodsFor: 'other' stamp: 'len 12/2/2016 11:12:06'!
 testTuplesZ2
 	self testFreeModule: ((ZZ / 2) ^ 5 atRandom)! !
 
-!ModuleTest methodsFor: 'as yet unclassified' stamp: 'len 12/2/2016 11:12:11'!
+!ModuleTest methodsFor: 'other' stamp: 'len 12/2/2016 11:12:11'!
 testTuplesZ4
 	self testFreeModule: ((ZZ / 4) ^ 5 atRandom)! !
 
@@ -4577,7 +4635,7 @@ testMonomialLCM
 	b _ x*y*y.
 	self assert: (a lcm: b) = (x*x*y*y)! !
 
-!MonomialTest methodsFor: 'as yet unclassified' stamp: 'len 2/12/2017 06:04:06'!
+!MonomialTest methodsFor: 'as yet unclassified' stamp: 'len 1/11/2018 17:31:28'!
 testMonomialOrderings
 	| P x y z f lex glex grevlex |
 	P _ ZZ polynomialsIn: 3.
@@ -4594,7 +4652,7 @@ testMonomialOrderings
 
 	self assert: (f orderedBy: lex) leadingCoefficient = 10.
 	self assert: (f orderedBy: glex) leadingCoefficient = -7.
-	self assert: (f orderedBy: grevlex) leadingCoefficient = 11! !
+	self assert: (f orderedBy: grevlex) leadingCoefficient = -7 "this matches the definition in Singular"! !
 
 !MonomialTest methodsFor: 'as yet unclassified' stamp: 'len 2/12/2017 06:05:34'!
 testMonomialOrderings2
@@ -4710,6 +4768,27 @@ testWeightedMonomialOrderings
 	self assert: (f orderedBy: grevlex) leadingCoefficient = 11.
 	self assert: (f orderedBy: revlex) leadingCoefficient = 11! !
 
+!MonomialTest methodsFor: 'as yet unclassified' stamp: 'len 1/11/2018 17:29:58'!
+testWeightedMonomialOrderingsConsistency
+	| P x y z f lex glex grevlex revlex |
+	P _ ZZ polynomialsIn: 3.
+
+	x _ P x.
+	y _ P y.
+	z _ P z.
+
+	f _ 10*x - (7*(y^4)) + (11*(y^3)*z).
+
+	lex _ WeightedMonomialOrdering lex: (1 to: 3).
+	glex _ WeightedMonomialOrdering glex: (1 to: 3).
+	grevlex _ WeightedMonomialOrdering grevlex: (1 to: 3).
+	revlex _ WeightedMonomialOrdering grevlex: (1 to: 3).
+
+	self assert: (f orderedBy: lex) monomials asArray = (f orderedBy: #lex) monomials asArray.
+	self assert: (f orderedBy: glex) monomials asArray = (f orderedBy: #glex) monomials asArray.
+	self assert: (f orderedBy: grevlex) monomials asArray = (f orderedBy: #grevlex) monomials asArray.
+	self assert: (f orderedBy: revlex) monomials asArray = (f orderedBy: #revlex) monomials asArray! !
+
 !NumberFieldTest methodsFor: 'as yet unclassified' stamp: 'len 12/10/2016 21:58:12'!
 testCyclotomicFieldDiscriminant
 	self assert: (CyclotomicField new: 20) discriminant = 4000000.
@@ -4723,12 +4802,12 @@ testQSqrt2
 	self assert: E x minimalPolynomial = E polynomial.
 	self assert: E x squared minimalPolynomial = (x - 2)! !
 
-!NumberFieldTest methodsFor: 'as yet unclassified' stamp: 'len 12/18/2016 20:03:01'!
+!NumberFieldTest methodsFor: 'as yet unclassified' stamp: 'len 1/20/2018 19:03:04'!
 testQSqrt2RealEmbeddings
 	| E embeddings roots |
 	E _ QQ adjoin: RealAlgebraicNumber sqrt2.
 	embeddings _ E realEmbeddings.
-	roots _ (E polynomial rootsIn: RealAlgebraicNumbersField new) asSet.
+	roots _ (E polynomial rootsIn: RR) asSet.
 	self assert: (embeddings collect: [:f| f value: E x]) asSet = roots! !
 
 !NumberFieldTest methodsFor: 'as yet unclassified' stamp: 'len 12/14/2016 14:59:36'!
@@ -5407,13 +5486,12 @@ testRationalRootsBug
 	self assert: (roots occurrencesOf: -1) = 2.
 	self assert: (roots occurrencesOf: 2) = 1! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 12/4/2017 19:54:08'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 1/20/2018 19:03:33'!
 testRealRoots
-	| R x f roots |
-	R _ RealAlgebraicNumbersField new.
+	| x f roots |
 	x _ QQ polynomials x.
 	f _ (x-(1/2))^2*(x-2)*(x^2 + 1)*(x^2-2).
-	roots _ f rootsIn: R.
+	roots _ f rootsIn: RR.
 	self assert: roots size = 5.
 	self assert: roots asSet size = 4.
 	self assert: (roots occurrencesOf: 1/2) = 2.
@@ -6590,13 +6668,12 @@ testPolynomialPseudoRemainder
 	b _ 3*(x^6) + (5*(x^4)) - (4*(x^2)) - (9*x) + 21.
 	20 timesRepeat: [a pseudoRem: b]! !
 
-!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 12/18/2016 20:03:53'!
+!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 1/20/2018 19:03:23'!
 testPolynomialRealRoots
-	| R x f |
-	R _ RealAlgebraicNumbersField new.
+	| x f |
 	x _ QQ polynomials x.
 	f _ (x-(1/2))^2*(x-2)*(x^2 + 1)*(x^2-2).
-	20 timesRepeat: [f rootsIn: R]! !
+	20 timesRepeat: [f rootsIn: RR]! !
 
 !PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 3/1/2016 15:55'!
 testRealAlgebraicNumberAddition
