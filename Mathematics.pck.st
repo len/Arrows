@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 20 January 2018 at 10:58:18 pm'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 22 January 2018 at 7:31:23 pm'!
 'Description A computational algebra system in Smalltalk'!
-!provides: 'Mathematics' 1 403!
+!provides: 'Mathematics' 1 404!
 !requires: 'RayTracer' 1 2 nil!
 !classDefinition: #RealAlgebraicNumber category: #'Mathematics-Fields'!
 Number subclass: #RealAlgebraicNumber
@@ -2082,16 +2082,6 @@ Domain subclass: #MetricSpace
 MetricSpace class
 	instanceVariableNames: ''!
 
-!classDefinition: #ProjectiveLinearSpace category: #'Mathematics-Etc-Geometry-Projective'!
-Domain subclass: #ProjectiveLinearSpace
-	instanceVariableNames: 'vectorSpace'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Etc-Geometry-Projective'!
-!classDefinition: 'ProjectiveLinearSpace class' category: #'Mathematics-Etc-Geometry-Projective'!
-ProjectiveLinearSpace class
-	instanceVariableNames: ''!
-
 !classDefinition: #CoxeterSystem category: #'Mathematics-Etc-Lie'!
 Domain subclass: #CoxeterSystem
 	instanceVariableNames: 'group generators matrix diagram'
@@ -2100,6 +2090,16 @@ Domain subclass: #CoxeterSystem
 	category: 'Mathematics-Etc-Lie'!
 !classDefinition: 'CoxeterSystem class' category: #'Mathematics-Etc-Lie'!
 CoxeterSystem class
+	instanceVariableNames: ''!
+
+!classDefinition: #ProjectiveLinearSpace category: #'Mathematics-Etc-Geometry-Projective'!
+Domain subclass: #ProjectiveLinearSpace
+	instanceVariableNames: 'vectorSpace'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Etc-Geometry-Projective'!
+!classDefinition: 'ProjectiveLinearSpace class' category: #'Mathematics-Etc-Geometry-Projective'!
+ProjectiveLinearSpace class
 	instanceVariableNames: ''!
 
 !classDefinition: #Morphism category: #'Mathematics-Kernel'!
@@ -2204,7 +2204,7 @@ ModuleMap class
 
 !classDefinition: #LinearMap category: #'Mathematics-Modules-Free'!
 ModuleMap subclass: #LinearMap
-	instanceVariableNames: 'domainBasis codomainBasis matrix'
+	instanceVariableNames: 'domain codomain matrix'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Modules-Free'!
@@ -2220,6 +2220,16 @@ ModuleMap subclass: #AlgebraMap
 	category: 'Mathematics-Algebras'!
 !classDefinition: 'AlgebraMap class' category: #'Mathematics-Algebras'!
 AlgebraMap class
+	instanceVariableNames: ''!
+
+!classDefinition: #AffineMap category: #'Mathematics-Modules-Free'!
+Function subclass: #AffineMap
+	instanceVariableNames: 'linearMap translation'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Modules-Free'!
+!classDefinition: 'AffineMap class' category: #'Mathematics-Modules-Free'!
+AffineMap class
 	instanceVariableNames: ''!
 
 !classDefinition: #BilinearMap category: #'Mathematics-Multilinear'!
@@ -2302,26 +2312,6 @@ Function subclass: #RationalMap
 RationalMap class
 	instanceVariableNames: ''!
 
-!classDefinition: #AffineMap category: #'Mathematics-Schemes-Affine'!
-RationalMap subclass: #AffineMap
-	instanceVariableNames: 'matrix translation'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Schemes-Affine'!
-!classDefinition: 'AffineMap class' category: #'Mathematics-Schemes-Affine'!
-AffineMap class
-	instanceVariableNames: ''!
-
-!classDefinition: #ProjectiveMap category: #'Mathematics-Schemes-Projective'!
-RationalMap subclass: #ProjectiveMap
-	instanceVariableNames: 'matrix'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Schemes-Projective'!
-!classDefinition: 'ProjectiveMap class' category: #'Mathematics-Schemes-Projective'!
-ProjectiveMap class
-	instanceVariableNames: ''!
-
 !classDefinition: #EllipticCurveIsogeny category: #'Mathematics-Elliptic Curves'!
 RationalMap subclass: #EllipticCurveIsogeny
 	instanceVariableNames: ''
@@ -2350,6 +2340,16 @@ LinearFractionalMap subclass: #ModularMap
 	category: 'Mathematics-Modular Forms'!
 !classDefinition: 'ModularMap class' category: #'Mathematics-Modular Forms'!
 ModularMap class
+	instanceVariableNames: ''!
+
+!classDefinition: #ProjectiveMap category: #'Mathematics-Etc-Geometry-Projective'!
+RationalMap subclass: #ProjectiveMap
+	instanceVariableNames: 'matrix'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Etc-Geometry-Projective'!
+!classDefinition: 'ProjectiveMap class' category: #'Mathematics-Etc-Geometry-Projective'!
+ProjectiveMap class
 	instanceVariableNames: ''!
 
 !classDefinition: #ModularForm category: #'Mathematics-Modular Forms'!
@@ -3602,6 +3602,26 @@ Object subclass: #WuRittProcess
 WuRittProcess class
 	instanceVariableNames: ''!
 
+!classDefinition: #CoxeterDiagram category: #'Mathematics-Etc-Lie'!
+Object subclass: #CoxeterDiagram
+	instanceVariableNames: 'matrix'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Etc-Lie'!
+!classDefinition: 'CoxeterDiagram class' category: #'Mathematics-Etc-Lie'!
+CoxeterDiagram class
+	instanceVariableNames: ''!
+
+!classDefinition: #RootSystem category: #'Mathematics-Etc-Lie'!
+Object subclass: #RootSystem
+	instanceVariableNames: 'roots ambient'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Etc-Lie'!
+!classDefinition: 'RootSystem class' category: #'Mathematics-Etc-Lie'!
+RootSystem class
+	instanceVariableNames: ''!
+
 !classDefinition: #AffineFrame category: #'Mathematics-Etc-Geometry-Affine'!
 Object subclass: #AffineFrame
 	instanceVariableNames: 'origin basis'
@@ -3630,26 +3650,6 @@ Object subclass: #ProjectiveFrame
 	category: 'Mathematics-Etc-Geometry-Projective'!
 !classDefinition: 'ProjectiveFrame class' category: #'Mathematics-Etc-Geometry-Projective'!
 ProjectiveFrame class
-	instanceVariableNames: ''!
-
-!classDefinition: #CoxeterDiagram category: #'Mathematics-Etc-Lie'!
-Object subclass: #CoxeterDiagram
-	instanceVariableNames: 'matrix'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Etc-Lie'!
-!classDefinition: 'CoxeterDiagram class' category: #'Mathematics-Etc-Lie'!
-CoxeterDiagram class
-	instanceVariableNames: ''!
-
-!classDefinition: #RootSystem category: #'Mathematics-Etc-Lie'!
-Object subclass: #RootSystem
-	instanceVariableNames: 'roots ambient'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Etc-Lie'!
-!classDefinition: 'RootSystem class' category: #'Mathematics-Etc-Lie'!
-RootSystem class
 	instanceVariableNames: ''!
 
 
@@ -4635,6 +4635,14 @@ My instances are homomorphisms of modules. See Module.!
 !LinearMap commentStamp: 'len 1/16/2018 17:44:46' prior: 0!
 My instances are linear transformations between finite-rank free modules (or finite-dimensional vector spaces). They are homomorphisms of free modules, and are internally represented by a matrix and a choice of bases for the domain and codomain.!
 
+!AffineMap commentStamp: '<historical>' prior: 0!
+My instances are affine transformations (affine maps or affinities) defined over affine linear spaces (vector spaces considered as affine spaces by 'forgetting the origin').
+
+Affine maps are defined by a linear map and a translation (a vector of the codomain).
+
+References:
+	https://en.wikipedia.org/wiki/Affine_transformation!
+
 !BilinearForm commentStamp: '<historical>' prior: 0!
 My instances are bilinear forms, i.e. functions from VxV to F where V is a vector space over the field F that satisfy:
 	B(v+cv', w) = B(v, w) + cB(v', w)
@@ -4705,16 +4713,6 @@ A regular rational map is a morphism (by definition). A regular map is dominant 
 
 The category of affine varieties or projective varieties with dominant rational maps and the category of function fields are contravariantly equivalent.!
 
-!AffineMap commentStamp: '<historical>' prior: 0!
-My instances are affine (linear) transformations (affine maps or affinities) defined over affine spaces.
-
-References:
-	https://en.wikipedia.org/wiki/Affine_transformation!
-
-!ProjectiveMap commentStamp: '<historical>' prior: 0!
-My instances are projective transformations on projective spaces. These transformations map points to points and lines to lines, etc, preserving incidence. Projective transformation, projective collineation and homography are synonyms.
-!
-
 !EllipticCurveIsogeny commentStamp: '<historical>' prior: 0!
 My instances are scheme morphisms of elliptic curves E -> E' that send the origin of E to the origin of E'. They are homomorphisms of group schemes.!
 
@@ -4722,6 +4720,10 @@ My instances are scheme morphisms of elliptic curves E -> E' that send the origi
 My instances are transformations of the form
 	z |-> az + b / (cz + d)
 where ad - cb ~= 0.!
+
+!ProjectiveMap commentStamp: '<historical>' prior: 0!
+My instances are projective transformations on projective spaces. These transformations map points to points and lines to lines, etc, preserving incidence. Projective transformation, projective collineation and homography are synonyms.
+!
 
 !ModularForm commentStamp: '<historical>' prior: 0!
 My instances are modular forms.
@@ -7311,22 +7313,6 @@ changeTo: aLinearBasis
 !LinearBasis methodsFor: 'coordinates' stamp: 'len 5/23/2016 04:32'!
 coordinateSpace
 	^ ambient scalars ^ self size! !
-
-!LinearBasis methodsFor: 'coordinates' stamp: 'len 12/12/2017 19:40:31'!
-coordinatesInverseMap
-	"Answer the linear isomorphism mapping a Tuple to the vector with those coordinates in the receiver."
-	^ LinearMap
-		from: self coordinateSpace basis
-		to: self
-		matrix: (ambient scalars identityMatrix: self size)! !
-
-!LinearBasis methodsFor: 'coordinates' stamp: 'len 12/12/2017 19:40:04'!
-coordinatesMap
-	"Answer the linear isomorphism mapping a vector to its coordinates in the receiver."
-	^ LinearMap
-		from: self
-		to: self coordinateSpace basis
-		matrix: (ambient scalars identityMatrix: self size)! !
 
 !LinearBasis methodsFor: 'coordinates' stamp: 'len 12/4/2017 19:47:46'!
 coordinatesOf: anElement
@@ -16578,9 +16564,9 @@ hilbertSeries
 identity
 	^ LinearMap from: self basis to: self basis matrix: self matrices identity! !
 
-!LinearTransformationsGroup methodsFor: 'testing' stamp: 'len 12/8/2016 08:56:10'!
+!LinearTransformationsGroup methodsFor: 'testing' stamp: 'len 1/21/2018 21:38:11'!
 includes: aLinearMap
-	(aLinearMap domainBasis = self basis and: [aLinearMap codomainBasis = self basis])
+	(aLinearMap domain basis = self basis and: [aLinearMap codomain basis = self basis])
 		ifTrue: [^ self matrices includes: aLinearMap matrix].
 	"change of basis"
 	^ self notYetImplemented! !
@@ -22281,9 +22267,9 @@ apply: aLinearMap
 asAbelianGroup
 	^ (self as: FreeAbelianGroup) generators: self generators! !
 
-!FreeModule methodsFor: 'converting' stamp: 'len 1/3/2017 19:14:10'!
+!FreeModule methodsFor: 'converting' stamp: 'len 1/22/2018 17:23:45'!
 asAffineSpace
-	^ AffineLinearSpace on: self! !
+	^ self! !
 
 !FreeModule methodsFor: 'converting' stamp: 'len 1/16/2017 07:56:38'!
 asAlgebraicVariety
@@ -22485,15 +22471,13 @@ norm2
 		[Function from: self to: self scalars
 			evaluating: [:x| (self innerProduct value: {x. x conjugated})]]! !
 
-!FreeModule methodsFor: 'morphisms' stamp: 'len 12/17/2017 22:37:21'!
+!FreeModule methodsFor: 'morphisms' stamp: 'len 1/21/2018 22:37:16'!
 orthogonalProjection
 	"Answer an orthogonal projection on the receiver. A projection P is a linear transformation from the ambient vector space to a subspace such that P^2 = P (idempotent)."
-	| answer B A |
-	answer _ self propertyAt: #orthogonalProjection ifAbsent: [].
-	answer notNil ifTrue: [^ answer].
-	B _ self ambient basis.
+	| answer A |
+	self propertyAt: #orthogonalProjection ifPresent: [:aLinearMap| ^ aLinearMap].
 	A _ self basis matrix.
-	answer _ LinearMap from: B to: B matrix: A * (A transposed * A) inverse * A transposed.
+	answer _ LinearMap from: self ambient to: self ambient matrix: A * (A transposed * A) inverse * A transposed.
 	self propertyAt: #orthogonalProjection put: answer.
 	^ answer! !
 
@@ -22505,10 +22489,10 @@ over: aRing
 "	V _ self ambient over: aRing fractions.
 	self basis collect: [:each| "! !
 
-!FreeModule methodsFor: 'operations' stamp: 'len 12/17/2017 16:07:57'!
+!FreeModule methodsFor: 'operations' stamp: 'len 1/21/2018 22:46:04'!
 perp
 	"Answer the orthogonal complement of the receiver."
-	^ self basis perp span
+	^ self propertyAt: #perp ifAbsentPut: [self basis perp span]
 "
 alternative:
 	| k n |
@@ -22525,6 +22509,12 @@ alternative 3:?
 alternative 4:
 	^ self ambient span: (self annihilator basis collect: [:f| f asVector])
 "! !
+
+!FreeModule methodsFor: 'operations' stamp: 'len 1/15/2018 21:03:32'!
+projectivized
+	"Answer the projective space induced by the receiver, whose points are the 1-dimensional subspaces of the receiver."
+	self isVectorSpace ifFalse: [^ DomainError signal: 'not a vector space'].
+	^ ProjectiveLinearSpace on: self! !
 
 !FreeModule methodsFor: 'operations' stamp: 'len 2/27/2017 20:38:22'!
 quotient
@@ -22932,13 +22922,10 @@ domain
 domain: aVectorSpace
 	domain _ aVectorSpace! !
 
-!HomModule methodsFor: 'basis' stamp: 'len 1/5/2016 03:28'!
+!HomModule methodsFor: 'basis' stamp: 'len 1/21/2018 21:51:25'!
 e: anInteger
 	"Answer the anInteger-th canonic vector."
-	^ LinearMap
-		from: self domain basis
-		to: self codomain basis
-		matrix: (self matrices e: anInteger)! !
+	^ LinearMap from: domain to: codomain matrix: (self matrices e: anInteger)! !
 
 !HomModule methodsFor: 'elements' stamp: 'len 3/5/2017 17:01:32'!
 evaluating: aBlock
@@ -22965,10 +22952,10 @@ matrices
 	"Answer the vector space of the matrices associated to the transformations of the receiver."
 	^ self scalars ^ (self codomain dimension @ self domain dimension)! !
 
-!HomModule methodsFor: 'elements' stamp: 'len 3/2/2017 04:44:32'!
+!HomModule methodsFor: 'elements' stamp: 'len 1/21/2018 21:45:58'!
 matrix: aMatrix
 	"Answer the linear transformation associated to the given matrix in the distinguished bases for the domain and codomain modules."
-	^ LinearMap from: domain basis to: codomain basis matrix: aMatrix! !
+	^ LinearMap from: domain to: codomain matrix: aMatrix! !
 
 !HomModule methodsFor: 'private' stamp: 'len 1/5/2017 20:26:24'!
 matrixOf: aLinearMap
@@ -24161,11 +24148,11 @@ ordering
 ambient
 	^ direction ambient asAffineSpace! !
 
-!AffineSubspace methodsFor: 'morphisms' stamp: 'len 1/3/2017 19:08:01'!
+!AffineSubspace methodsFor: 'morphisms' stamp: 'len 1/22/2018 17:17:45'!
 apply: aMap
 	"Answer the receiver transformed by anAffineMap."
 	(aMap isKindOf: AffineMap)
-		ifTrue: [^ self species representative: (aMap value: representative) direction: (direction apply: aMap linearPart)].
+		ifTrue: [^ self species representative: (aMap value: representative) direction: (direction apply: aMap linearMap)].
 	^ self species representative: (aMap value: representative) direction: (direction apply: aMap)! !
 
 !AffineSubspace methodsFor: 'random' stamp: 'len 6/4/2016 04:29'!
@@ -26139,6 +26126,10 @@ ideal
 isPlane
 	^ self rank = 2! !
 
+!AffineSpace methodsFor: 'points' stamp: 'len 1/21/2018 14:47:29'!
+origin
+	^ self pointAt: (self scalars zeroTuple: self rank)! !
+
 !AffineSpace methodsFor: 'points' stamp: 'len 1/22/2017 08:22:56'!
 pointsCountOver: aRing
 	^ aRing size ^ self rank! !
@@ -27003,6 +26994,59 @@ initialize
 	super initialize.
 	Smalltalk at: #HH put: self new! !
 
+!CoxeterSystem methodsFor: 'as yet unclassified' stamp: 'len 11/16/2016 10:08'!
+computeDiagram
+	| n graph |
+	n _ matrix numberOfColumns.
+	graph _ Graph unorderedLabeled.
+	graph addAll: (1 to: n).
+	1 to: n do: [:i|
+		1 to: n do: [:j|
+			| m |
+			m _ matrix at: i@j.
+			m = 3 ifTrue: [graph addEdgeFrom: i to: j label: nil].
+			m > 3 ifTrue: [graph addEdgeFrom: i to: j label: m]]].
+	^ graph! !
+
+!CoxeterSystem methodsFor: 'as yet unclassified' stamp: 'len 4/18/2016 07:54'!
+diagram
+	^ diagram ifNil: [diagram _ self computeDiagram]! !
+
+!CoxeterSystem methodsFor: 'as yet unclassified' stamp: 'len 4/18/2016 07:57'!
+diagram: aGraph
+	diagram _ aGraph! !
+
+!CoxeterSystem methodsFor: 'as yet unclassified' stamp: 'len 4/18/2016 07:55'!
+matrix
+	^ matrix ifNil: [matrix _ self computeMatrix]! !
+
+!CoxeterSystem methodsFor: 'as yet unclassified' stamp: 'len 4/18/2016 07:57'!
+matrix: aMatrix
+	matrix _ aMatrix! !
+
+!CoxeterSystem methodsFor: 'as yet unclassified' stamp: 'len 7/20/2016 23:50'!
+presentation
+	| generators relators |
+	generators _ self diagram values collect: [:each| Word x: each].
+	relators _ OrderedCollection new.
+	self diagram edgesAndLabelsDo: [:each :label|
+		label isInfinity
+			ifFalse: [relators add: (Word x: each key) * (Word x: each value) ^ (label ifNil: [3])]].
+	^ GroupPresentation generators: generators relators: relators! !
+
+!CoxeterSystem methodsFor: 'as yet unclassified' stamp: 'len 4/18/2016 03:17'!
+reflections
+	"Answer the conjugates of the generators."
+	^ self notYetImplemented! !
+
+!CoxeterSystem methodsFor: 'as yet unclassified' stamp: 'len 4/18/2016 08:02'!
+schlafliMatrix
+	^ self matrix collect: [:x| -2 * (Float pi / x) cos]! !
+
+!CoxeterSystem methodsFor: 'as yet unclassified' stamp: 'len 4/18/2016 03:28'!
+simpleReflections
+	^ generators! !
+
 !ProjectiveLinearSpace methodsFor: 'operations' stamp: 'len 11/20/2015 22:06'!
 + aProjectiveSubspace
 	^ self class on: vectorSpace + aProjectiveSubspace vectorSpace! !
@@ -27245,59 +27289,6 @@ on: aVectorSpace
 	the projective space P(V) over a vector space V."
 
 	^ self new vectorSpace: aVectorSpace! !
-
-!CoxeterSystem methodsFor: 'as yet unclassified' stamp: 'len 11/16/2016 10:08'!
-computeDiagram
-	| n graph |
-	n _ matrix numberOfColumns.
-	graph _ Graph unorderedLabeled.
-	graph addAll: (1 to: n).
-	1 to: n do: [:i|
-		1 to: n do: [:j|
-			| m |
-			m _ matrix at: i@j.
-			m = 3 ifTrue: [graph addEdgeFrom: i to: j label: nil].
-			m > 3 ifTrue: [graph addEdgeFrom: i to: j label: m]]].
-	^ graph! !
-
-!CoxeterSystem methodsFor: 'as yet unclassified' stamp: 'len 4/18/2016 07:54'!
-diagram
-	^ diagram ifNil: [diagram _ self computeDiagram]! !
-
-!CoxeterSystem methodsFor: 'as yet unclassified' stamp: 'len 4/18/2016 07:57'!
-diagram: aGraph
-	diagram _ aGraph! !
-
-!CoxeterSystem methodsFor: 'as yet unclassified' stamp: 'len 4/18/2016 07:55'!
-matrix
-	^ matrix ifNil: [matrix _ self computeMatrix]! !
-
-!CoxeterSystem methodsFor: 'as yet unclassified' stamp: 'len 4/18/2016 07:57'!
-matrix: aMatrix
-	matrix _ aMatrix! !
-
-!CoxeterSystem methodsFor: 'as yet unclassified' stamp: 'len 7/20/2016 23:50'!
-presentation
-	| generators relators |
-	generators _ self diagram values collect: [:each| Word x: each].
-	relators _ OrderedCollection new.
-	self diagram edgesAndLabelsDo: [:each :label|
-		label isInfinity
-			ifFalse: [relators add: (Word x: each key) * (Word x: each value) ^ (label ifNil: [3])]].
-	^ GroupPresentation generators: generators relators: relators! !
-
-!CoxeterSystem methodsFor: 'as yet unclassified' stamp: 'len 4/18/2016 03:17'!
-reflections
-	"Answer the conjugates of the generators."
-	^ self notYetImplemented! !
-
-!CoxeterSystem methodsFor: 'as yet unclassified' stamp: 'len 4/18/2016 08:02'!
-schlafliMatrix
-	^ self matrix collect: [:x| -2 * (Float pi / x) cos]! !
-
-!CoxeterSystem methodsFor: 'as yet unclassified' stamp: 'len 4/18/2016 03:28'!
-simpleReflections
-	^ generators! !
 
 !Morphism methodsFor: 'operations' stamp: 'len 12/20/2016 11:52:01'!
  aCodomain
@@ -28199,63 +28190,57 @@ printOn: aStream
 species
 	^ ModuleMap! !
 
-!LinearMap methodsFor: 'arithmetic' stamp: 'len 1/8/2016 06:32'!
+!LinearMap methodsFor: 'arithmetic' stamp: 'len 1/21/2018 21:33:42'!
 * anObject
-	^ self class from: domainBasis to: codomainBasis matrix: matrix * anObject! !
+	^ self class from: domain to: codomain matrix: matrix * anObject! !
 
-!LinearMap methodsFor: 'arithmetic' stamp: 'len 7/1/2016 21:34'!
+!LinearMap methodsFor: 'arithmetic' stamp: 'len 1/22/2018 19:26:46'!
 + aLinearMap
-	(self domainBasis = aLinearMap domainBasis
-		and: [self codomainBasis = aLinearMap codomainBasis])
-			ifTrue:
-				[^ self class from: domainBasis to: codomainBasis matrix: matrix + aLinearMap matrix].
+	(self domain basis = aLinearMap domain basis
+		and: [self codomain basis = aLinearMap codomain basis])
+			ifTrue: [^ self class from: domain to: codomain matrix: matrix + aLinearMap matrix].
 	(self domain = aLinearMap domain and: [self codomain = aLinearMap codomain])
-			ifFalse: [^ self error: 'domain or codomain don''t match'].
-	^ self class
-		from: self domain
-		to: self codomain
-		evaluating: [:v| (self value: v) + (aLinearMap value: v)]! !
+			ifTrue: [^ self class from: domain to: codomain evaluating: [:v| (self value: v) + (aLinearMap value: v)]].
+	^ DomainError signal: 'domains don''t match'! !
 
-!LinearMap methodsFor: 'comparing' stamp: 'len 4/29/2016 18:56'!
+!LinearMap methodsFor: 'comparing' stamp: 'len 1/21/2018 21:40:45'!
 = aLinearMap
 	self == aLinearMap ifTrue: [^ true].
 	(aLinearMap isKindOf: LinearMap) ifFalse: [^ false].
-	self domainBasis = aLinearMap domainBasis ifTrue: [^ self matrix = aLinearMap matrix].
-	self domain = aLinearMap domain ifFalse: [^ false].
-	self domainBasis do: [:each|
+	(self domain basis = aLinearMap domain basis
+		and: [self codomain basis = aLinearMap codomain basis])
+			ifTrue: [^ self matrix = aLinearMap matrix].
+	(self domain = aLinearMap domain and: [self codomain = aLinearMap codomain])
+		ifFalse: [^ false].
+	self domain basis do: [:each|
 		(self value: each) = (aLinearMap value: each)
 			ifFalse: [^ false]].
 	^ true! !
 
-!LinearMap methodsFor: 'arithmetic' stamp: 'len 10/16/2016 05:53'!
+!LinearMap methodsFor: 'arithmetic' stamp: 'len 1/22/2018 19:27:17'!
 ’ aLinearMap
 	"Answer the tensor product of the receiver with the argument."
-	^ self species
-		from: (self domain ’ aLinearMap domain) basis
-		to: (self codomain ’ aLinearMap codomain) basis
-		matrix: self matrix ’ aLinearMap matrix "must change to the same basis"
+	^ self species from: domain ’ aLinearMap domain to: codomain ’ aLinearMap codomain matrix: matrix ’ aLinearMap matrix
 "		evaluating: [:each|
 			answer _ B zero.
 			each coefficients keysAndValuesDo: [:key :value|
 				Tensor simple: {self value: (each value at: 1). aLinearMap value: (each value at: 2))]"! !
 
-!LinearMap methodsFor: 'arithmetic' stamp: 'len 12/20/2016 11:55:02'!
+!LinearMap methodsFor: 'arithmetic' stamp: 'len 1/22/2018 19:28:16'!
 ” aLinearMap
 	"Answer the composition of the receiver with the argument."
-	domainBasis = aLinearMap codomainBasis
-		ifTrue: [^ self class from: aLinearMap domainBasis to: codomainBasis matrix: matrix * aLinearMap matrix].
-	self domain >= aLinearMap codomain ifFalse: [^ DomainError signal: 'domains don''t match'].
-	^ self class
-		from: aLinearMap domain
-		to: self codomain
-		evaluating: [:each| self value: (aLinearMap value: each)]! !
+	self domain basis = aLinearMap codomain basis
+		ifTrue: [^ self class from: aLinearMap domain to: codomain matrix: matrix * aLinearMap matrix].
+	self domain >= aLinearMap codomain
+		ifTrue: [^ self class from: aLinearMap domain to: codomain evaluating: [:each| self value: (aLinearMap value: each)]].
+	^ DomainError signal: 'domains don''t match'! !
 
-!LinearMap methodsFor: 'operations' stamp: 'len 10/19/2016 22:46'!
+!LinearMap methodsFor: 'operations' stamp: 'len 1/22/2018 19:28:30'!
 adjoint
 	"Answer the transpose (or dual, or adjoint) of the receiver.
 	The assignment of a linear map f:V->W to its dual f*:W*->V* produces an injective linear map between Hom(V,W) and Hom(W*,V*).
 	This is the 'operator adjoint', not to be confused with the 'Hilbert adjoint' that is defined for an operator in an inner product space."
-	^ self class from: codomainBasis dual to: domainBasis dual matrix: matrix adjoint! !
+	^ self class from: codomain dual to: domain dual matrix: matrix adjoint! !
 
 !LinearMap methodsFor: 'spectrum' stamp: 'len 2/6/2016 21:37'!
 algebraicMultiplicityAt: anEigenvalue
@@ -28287,10 +28272,6 @@ automorphism
 	"Answer the field automorphism associated with the receiver, looking at the receiver as a semilinear transformation. This is the identity automorphism."
 	^ self domain scalars id! !
 
-!LinearMap methodsFor: 'accessing-private' stamp: 'len 2/9/2016 00:04'!
-automorphism: aFieldAutomorphism
-	^ self shouldNotImplement! !
-
 !LinearMap methodsFor: 'accessing' stamp: 'len 12/28/2015 21:10'!
 bitSize
 	^ matrix bitSize! !
@@ -28300,37 +28281,21 @@ characteristicPolynomial
 	self isEndomorphism ifFalse: [DomainError signal: 'not an endomorphism'].
 	^ matrix characteristicPolynomial! !
 
-!LinearMap methodsFor: 'accessing' stamp: 'len 11/7/2015 23:21'!
+!LinearMap methodsFor: 'accessing' stamp: 'len 1/21/2018 21:36:45'!
 codomain
-	^ self codomainBasis span! !
+	^ codomain! !
 
-!LinearMap methodsFor: 'accessing' stamp: 'len 1/25/98 20:03'!
-codomainBasis
-	"Answer the basis of the codomain of the receiver."
+!LinearMap methodsFor: 'accessing-private' stamp: 'len 1/21/2018 21:36:30'!
+codomain: aFreeModule
+	codomain _ aFreeModule! !
 
-	^ codomainBasis! !
-
-!LinearMap methodsFor: 'accessing-private' stamp: 'len 1/25/98 19:58'!
-codomainBasis: aLinearBasis
-	codomainBasis _ aLinearBasis! !
-
-!LinearMap methodsFor: 'private' stamp: 'len 8/24/2016 21:39'!
+!LinearMap methodsFor: 'private' stamp: 'len 1/22/2018 19:28:55'!
 computeLeftInverse
-	^ self isMonomorphism
-		ifTrue:
-			[self class
-				from: codomainBasis
-				to: domainBasis
-				matrix: matrix leftInverse]! !
+	^ self isMonomorphism ifTrue: [self class from: codomain to: domain matrix: matrix leftInverse]! !
 
-!LinearMap methodsFor: 'private' stamp: 'len 8/24/2016 21:14'!
+!LinearMap methodsFor: 'private' stamp: 'len 1/22/2018 19:29:15'!
 computeRightInverse
-	^ self isEpimorphism
-		ifTrue:
-			[self class
-				from: codomainBasis
-				to: domainBasis
-				matrix: matrix rightInverse]! !
+	^ self isEpimorphism ifTrue: [self class from: codomain to: domain matrix: matrix rightInverse]! !
 
 !LinearMap methodsFor: 'operations' stamp: 'len 11/9/2015 16:01'!
 corank
@@ -28341,19 +28306,13 @@ determinant
 	self isEndomorphism ifFalse: [DomainError signal: 'not an endomorphism'].
 	^ matrix determinant! !
 
-!LinearMap methodsFor: 'accessing' stamp: 'len 11/7/2015 23:21'!
+!LinearMap methodsFor: 'accessing' stamp: 'len 1/21/2018 21:40:51'!
 domain
-	^ self domainBasis span! !
+	^ domain! !
 
-!LinearMap methodsFor: 'accessing' stamp: 'len 1/25/98 20:03'!
-domainBasis
-	"Answer the basis of the domain of the receiver."
-
-	^ domainBasis! !
-
-!LinearMap methodsFor: 'accessing-private' stamp: 'len 1/25/98 19:58'!
-domainBasis: aLinearBasis
-	domainBasis _ aLinearBasis! !
+!LinearMap methodsFor: 'accessing-private' stamp: 'len 1/21/2018 21:36:26'!
+domain: aFreeModule
+	domain _ aFreeModule! !
 
 !LinearMap methodsFor: 'spectrum' stamp: 'len 2/6/2016 21:25'!
 eigenspaceAt: anEigenvalue
@@ -28364,13 +28323,13 @@ eigenvalues
 	self isEndomorphism ifFalse: [DomainError signal: 'not an endomorphism'].
 	^ matrix eigenvalues! !
 
-!LinearMap methodsFor: 'operations' stamp: 'len 3/5/2017 09:20:26'!
+!LinearMap methodsFor: 'operations' stamp: 'len 1/21/2018 21:30:33'!
 fiberAt3: aVector
 	"Answer the fiber (or inverse image) of aVector.
 	The answer is an affine subspace (a linear variety or flat)."
 	| n B M1 V r j0 d x K |
 	n _ matrix numberOfColumns.
-	B _ codomainBasis coordinatesOf: aVector.
+	B _ codomain coordinatesOf: aVector.
 	"1. Compute kernel"
 	M1 _ matrix | B.
 	V _ M1 kernelMatrix.
@@ -28380,15 +28339,15 @@ fiberAt3: aVector
 	d _ (V at: n+1@j0) negated.
 	x _ self scalars tuple: n evaluating: [:i| (V at: i@j0) / d].
 	K _ V copyFrom: 1@1 to: n@(r-1).
-	^ (LinearBasis on: domainBasis ambient matrix: domainBasis matrix * K) span + (domainBasis elementAt: x)! !
+	^ (LinearBasis on: domain ambient matrix: domain basis matrix * K) span + (domain elementAt: x)! !
 
-!LinearMap methodsFor: 'operations' stamp: 'len 3/5/2017 09:32:35'!
+!LinearMap methodsFor: 'operations' stamp: 'len 1/21/2018 21:33:59'!
 fiberAt: aVector
 	"Answer the fiber (or inverse image) of aVector.
 	The answer is an affine subspace (a linear variety or flat)."
 	| n B M1 V r j0 d x |
 	n _ matrix numberOfColumns.
-	B _ codomainBasis coordinatesOf: aVector.
+	B _ codomain coordinatesOf: aVector.
 	"1. Compute kernel"
 	M1 _ matrix | B.
 	V _ M1 kernelMatrix.
@@ -28398,15 +28357,15 @@ fiberAt: aVector
 	d _ (V at: n+1@j0) negated.
 	x _ self scalars tuple: n evaluating: [:i| (V at: i@j0) / d].
 	"K _ V copyFrom: 1@1 to: n@(r-1). <- this is 'self matrix kernelMatrix', should avoid computing the kernel again, and cache it"
-	^ self kernel + (domainBasis elementAt: x)! !
+	^ self kernel + (domain elementAt: x)! !
 
 !LinearMap methodsFor: 'spectrum' stamp: 'len 2/6/2016 21:37'!
 geometricMultiplicityAt: anEigenvalue
 	^ (self eigenspaceAt: anEigenvalue) dimension! !
 
-!LinearMap methodsFor: 'accessing' stamp: 'len 1/13/2018 22:00:29'!
+!LinearMap methodsFor: 'accessing' stamp: 'len 1/21/2018 21:34:12'!
 identity
-	^ self class from: domainBasis to: codomainBasis matrix: matrix identity! !
+	^ self class from: domain to: codomain matrix: matrix identity! !
 
 !LinearMap methodsFor: 'arithmetic' stamp: 'len 1/25/98 20:37'!
 inverse
@@ -28420,16 +28379,13 @@ isConstant
 
 	^ self rank <= 1! !
 
-!LinearMap methodsFor: 'testing' stamp: 'len 10/10/2016 20:10'!
+!LinearMap methodsFor: 'testing' stamp: 'len 1/21/2018 21:41:54'!
 isIdentity
-	self flag: #fix. "unnecesary method, implemented in AbelianGroupHomomorphism"
-	self isEndomorphism ifFalse: [^ false].
-	self domainBasis do: [:each| (self value: each) = each ifFalse: [^ false]].
-	^ true! !
+	^ self isEndomorphism and: [matrix isIdentity]! !
 
-!LinearMap methodsFor: 'testing' stamp: 'len 4/16/2016 19:17'!
+!LinearMap methodsFor: 'testing' stamp: 'len 1/21/2018 21:42:01'!
 isInjective
-	^ self rank = self domainBasis size! !
+	^ self rank = self domain rank! !
 
 !LinearMap methodsFor: 'testing' stamp: 'len 2/11/2016 21:28'!
 isInvertible
@@ -28458,9 +28414,9 @@ isScalar
 isSemisimple
 	^ self matrix isSemisimple! !
 
-!LinearMap methodsFor: 'testing' stamp: 'len 4/16/2016 19:16'!
+!LinearMap methodsFor: 'testing' stamp: 'len 1/21/2018 21:36:53'!
 isSurjective
-	^ self rank = self codomainBasis size! !
+	^ self rank = self codomain rank! !
 
 !LinearMap methodsFor: 'testing' stamp: 'len 2/8/2016 20:37'!
 isUnimodular
@@ -28474,9 +28430,9 @@ isZero
 kernel
 	^ self propertyAt: #kernel ifAbsentPut: [self isTrivial ifTrue: [self domain] ifFalse: [(LinearBasis on: self domain matrix: matrix kernelMatrix) span]]! !
 
-!LinearMap methodsFor: 'operations' stamp: 'len 12/28/2016 11:12:44'!
+!LinearMap methodsFor: 'operations' stamp: 'len 1/21/2018 21:37:09'!
 kernel2
-	^ self propertyAt: #kernel ifAbsentPut: [(self fiberAt: self codomainBasis ambient zero) direction] "!! 3-5 times slower than the other implementaiton"! !
+	^ self propertyAt: #kernel ifAbsentPut: [(self fiberAt: self codomain ambient zero) direction] "!! 3-5 times slower than the other implementaiton"! !
 
 !LinearMap methodsFor: 'arithmetic' stamp: 'len 12/28/2016 11:12:29'!
 leftInverse
@@ -28498,21 +28454,18 @@ minimalPolynomial
 	self isEndomorphism ifFalse: [DomainError signal: 'not an endomorphism'].
 	^ matrix minimalPolynomial! !
 
-!LinearMap methodsFor: 'arithmetic' stamp: 'len 1/8/2016 06:35'!
+!LinearMap methodsFor: 'arithmetic' stamp: 'len 1/21/2018 21:49:47'!
 negated
 	"Answer the additive inverse of the receiver."
 
-	^ self class
-		from: domainBasis
-		to: codomainBasis
-		matrix: matrix negated! !
+	^ self class from: domain to: codomain matrix: matrix negated! !
 
 !LinearMap methodsFor: 'operations' stamp: 'len 3/2/2017 04:16:58'!
 nullity
 	"Answer the dimension of the kernel of the receiver."
 	^ matrix numberOfColumns - self rank! !
 
-!LinearMap methodsFor: 'printing' stamp: 'len 1/14/2018 22:23:02'!
+!LinearMap methodsFor: 'printing' stamp: 'len 1/21/2018 18:51:33'!
 printOn: aStream
 	| A B f |
 	self isIdentity ifTrue: [aStream nextPutAll: 'id'. ^ self].
@@ -28523,7 +28476,7 @@ printOn: aStream
 	(self codomain isKindOf: TupleModule) ifTrue:
 		[aStream nextPut: $(.
 		matrix rows
-			do: [:each| aStream print: (domainBasis dual elementAt: each)]
+			do: [:each| aStream print: (self domain basis dual elementAt: each)]
 			separatedBy: [aStream nextPutAll: ', '].
 		aStream nextPut: $).
 		^ self].
@@ -28532,7 +28485,7 @@ printOn: aStream
 	B _ A polynomialsIn: self codomain names.
 	f _ B zero.
 	matrix rows
-		withIndexDo: [:each :i| f _ (B x: i) * (domainBasis dual elementAt: each) asPolynomial + f].
+		withIndexDo: [:each :i| f _ (B x: i) * (self domain basis dual elementAt: each) asPolynomial + f].
 	aStream print: f! !
 
 !LinearMap methodsFor: 'operations' stamp: 'len 1/8/2016 06:35'!
@@ -28563,38 +28516,196 @@ trace
 	self isEndomorphism ifFalse: [DomainError signal: 'not an endomorphism'].
 	^ matrix trace! !
 
-!LinearMap methodsFor: 'operations' stamp: 'len 11/6/2016 09:50'!
-value: aVector
-	(domainBasis isEmpty or: [codomainBasis isEmpty])
-		ifTrue: [^ codomainBasis ambient zero].
-	^ codomainBasis
-		elementAt: matrix * (domainBasis coordinatesOf: aVector)! !
+!LinearMap methodsFor: 'arithmetic' stamp: 'len 1/22/2018 17:16:51'!
+translatedBy: aVector
+	^ AffineMap linearMap: self translation: aVector! !
+
+!LinearMap methodsFor: 'operations' stamp: 'len 1/21/2018 21:32:58'!
+value: anElement
+	(domain isTrivial or: [codomain isTrivial])
+		ifTrue: [^ codomain ambient zero].
+	^ codomain elementAt: matrix * (domain coordinatesOf: anElement)! !
 
 !LinearMap class methodsFor: 'examples' stamp: 'len 2/21/2017 21:08:31'!
 example1
 	"The transposition of matrices is a linear map:"
 	^ QQ^(3@2) to: QQ^(2@3) evaluating: [:A| A transposed]! !
 
-!LinearMap class methodsFor: 'instance creation' stamp: 'len 1/2/2017 20:17:25'!
+!LinearMap class methodsFor: 'instance creation' stamp: 'len 1/22/2018 19:30:12'!
 from: aDomain to: aCodomain evaluating: aBlock
-	"Answer a new instance of the receiver using the one argument block aBlock for evaluating each vector in the domainBasis."
-	| domainBasis codomainBasis matrix |
-	domainBasis _ (aDomain isKindOf: LinearBasis) ifTrue: [aDomain] ifFalse: [aDomain basis].
-	codomainBasis _ (aCodomain isKindOf: LinearBasis) ifTrue: [aCodomain] ifFalse: [aCodomain basis].
-	matrix _ RowMatrix new.
-	domainBasis do: [:each| matrix addRow: (codomainBasis coordinatesOf: (aBlock value: each))].
-	^ self from: domainBasis to: codomainBasis matrix: matrix transposed! !
+	"Answer a new instance of the receiver using the one argument block aBlock for evaluating each vector in the domain basis."
+	| matrix |
+	matrix _ Matrix rows: (aDomain basis collect: [:each| aCodomain coordinatesOf: (aBlock value: each)]).
+	^ self from: aDomain to: aCodomain matrix: matrix transposed! !
 
-!LinearMap class methodsFor: 'instance creation' stamp: 'len 1/25/98 20:31'!
-from: aLinearBasis to: anotherLinearBasis matrix: aMatrix
-	"Answer a new instance of the reciever with the domain
-	and codomain bases given by the arguments and with
-	the associated matrix aMatrix."
+!LinearMap class methodsFor: 'instance creation' stamp: 'len 1/21/2018 21:35:52'!
+from: aFreeModule to: anotherFreeModule matrix: aMatrix
+	"Answer a new instance of the reciever defined by the matrix aMatrix in the default bases for the given domain and codomain."
 
 	^ self new
-		domainBasis: aLinearBasis;
-		codomainBasis: anotherLinearBasis;
+		domain: aFreeModule;
+		codomain: anotherFreeModule;
 		matrix: aMatrix! !
+
+!AffineMap methodsFor: 'arithmetic' stamp: 'len 1/22/2018 17:08:32'!
+* aNumber
+	^ self class linearMap: linearMap * aNumber translation: translation * aNumber! !
+
+!AffineMap methodsFor: 'arithmetic' stamp: 'len 1/22/2018 17:10:05'!
++ anObject
+	(anObject isKindOf: AffineMap)
+		ifTrue:
+			[^ self class linearMap: linearMap + anObject linearMap translation: translation + anObject translation].
+	(self codomain includes: anObject)
+		ifTrue: [^ self class linearMap: linearMap translation: translation + anObject].
+	^ DomainError signal! !
+
+!AffineMap methodsFor: 'comparing' stamp: 'len 1/22/2018 17:12:38'!
+= anAffineMap
+	^ (anAffineMap isKindOf: AffineMap) and: [linearMap = anAffineMap linearMap and: [translation = anAffineMap translation]]! !
+
+!AffineMap methodsFor: 'arithmetic' stamp: 'len 12/20/2016 11:53:51'!
+” anAffineMap
+	self domain >= anAffineMap codomain ifFalse: [^ DomainError signal: 'domains don''t match'].
+	^ self class from: anAffineMap domain to: self codomain evaluating: [:x| self value: (anAffineMap value: x)]! !
+
+!AffineMap methodsFor: 'converting' stamp: 'len 1/22/2018 17:15:15'!
+asRationalMap
+	^ linearMap asRationalMap translatedBy: (linearMap codomain coordinatesOf: translation)! !
+
+!AffineMap methodsFor: 'accessing' stamp: 'len 1/22/2018 17:20:55'!
+bitSize
+	^ linearMap bitSize + translation bitSize! !
+
+!AffineMap methodsFor: 'accessing' stamp: 'len 1/22/2018 17:15:26'!
+codomain
+	^ linearMap codomain! !
+
+!AffineMap methodsFor: 'accessing' stamp: 'len 1/22/2018 17:15:34'!
+domain
+	^ linearMap domain! !
+
+!AffineMap methodsFor: 'operations' stamp: 'len 1/22/2018 17:13:23'!
+fiberAt: aPoint
+	^ linearMap fiberAt: aPoint - translation! !
+
+!AffineMap methodsFor: 'comparing' stamp: 'len 1/22/2018 17:13:05'!
+hash
+	^ linearMap hash + translation hash hashMultiply! !
+
+!AffineMap methodsFor: 'operations' stamp: 'len 1/22/2018 17:13:40'!
+image
+	^ AffineSubspace representative: translation direction: linearMap image! !
+
+!AffineMap methodsFor: 'arithmetic' stamp: 'len 2/11/2016 21:47'!
+inverse
+	"Answer the inverse of the receiver. Answer nil if the receiver is not an isomorphism."
+	^ self domain dimension = self codomain dimension ifTrue: [self leftInverse]! !
+
+!AffineMap methodsFor: 'testing' stamp: 'len 2/12/2016 01:37'!
+isEuclidean
+	"Answer true if the receiver is an Euclidean motion, i.e. if it preserves distances.
+	The Euclidean nitions of an affine space A form a group, the Euclidean group E(A) (sometimes called group of motions M(A) or group of isometries ISO(A))."
+	^ self isIsometry! !
+
+!AffineMap methodsFor: 'testing' stamp: 'len 1/22/2018 17:14:48'!
+isIdentity
+	^ translation isZero and: [linearMap isIdentity]! !
+
+!AffineMap methodsFor: 'testing' stamp: 'len 1/22/2018 17:14:54'!
+isInjective
+	^ linearMap isInjective! !
+
+!AffineMap methodsFor: 'testing' stamp: 'len 1/22/2018 17:14:58'!
+isIsometry
+	"Answer true if the receiver is an isometry, i.e. if it preserves distances.
+	The isometries of an affine space A form a group, the Euclidean group E(A) (sometimes called group of Euclidean motions M(A) or group of isometries ISO(A))."
+	^ linearMap isOrthogonal! !
+
+!AffineMap methodsFor: 'testing' stamp: 'len 1/22/2018 17:15:03'!
+isSurjective
+	^ linearMap isSurjective! !
+
+!AffineMap methodsFor: 'arithmetic' stamp: 'len 1/22/2018 17:21:01'!
+leftInverse
+	"Answer a left inverse (or retraction) of the receiver.
+	Answer nil if the receiver is not a monomorphism."
+	^ linearMap leftInverse ifNotNil: [:aLinearMap| self class linearMap: aLinearMap translation: (aLinearMap value: translation negated)]! !
+
+!AffineMap methodsFor: 'accessing-private' stamp: 'len 1/22/2018 17:18:15'!
+linearMap
+	^ linearMap! !
+
+!AffineMap methodsFor: 'accessing-private' stamp: 'len 1/22/2018 17:18:05'!
+linearMap: aLinearMap
+	linearMap _ aLinearMap! !
+
+!AffineMap methodsFor: 'accessing' stamp: 'len 1/22/2018 17:16:21'!
+matrix
+	| K zero A b |
+	K _ linearMap domain scalars.
+	zero _ K zero.
+	A _ linearMap matrix.
+	b _ linearMap codomain coordinatesOf: translation.
+	^ K matrix: (A dimension + (1@1))
+		evaluating: [:i :j|
+			(i <= A numberOfRows and: [j <= A numberOfColumns])
+				ifTrue: [A at: i@j]
+				ifFalse: [j = A numberOfColumns + 1
+					ifTrue: [i <= b size ifTrue: [b at: i] ifFalse: [K one]]
+					ifFalse: [zero]]]! !
+
+!AffineMap methodsFor: 'accessing-private' stamp: 'len 1/20/2018 22:02:10'!
+matrix: aMatrix
+	matrix _ aMatrix! !
+
+!AffineMap methodsFor: 'arithmetic' stamp: 'len 1/22/2018 17:11:14'!
+negated
+	^ self class linearMap: linearMap negated translation: translation negated! !
+
+!AffineMap methodsFor: 'printing' stamp: 'len 1/3/2017 21:10:00'!
+printOn: aStream
+	self isIdentity ifTrue: [aStream nextPutAll: 'id'. ^ self].
+	self negated isIdentity ifTrue: [aStream nextPutAll: '-id'. ^ self].
+	"aStream print: linearPart; nextPutAll: ' + '; print: self translation"
+	aStream print: self asRationalMap! !
+
+!AffineMap methodsFor: 'arithmetic' stamp: 'len 1/22/2018 17:11:27'!
+rightInverse
+	"Answer a right inverse (or section) of the receiver.
+	Answer nil if the receiver is not an epimorphism."
+	^ linearMap rightInverse ifNotNil: [:aLinearMap| self class linearMap: aLinearMap translation: (aLinearMap value: translation negated)]! !
+
+!AffineMap methodsFor: 'arithmetic' stamp: 'len 1/22/2018 17:11:50'!
+translatedBy: aVector
+	^ self class linearMap: linearMap translation: translation + aVector! !
+
+!AffineMap methodsFor: 'accessing-private' stamp: 'len 1/2/2017 19:56:25'!
+translation
+	^ translation! !
+
+!AffineMap methodsFor: 'accessing-private' stamp: 'len 11/20/2015 15:58'!
+translation: aVector
+	translation _ aVector! !
+
+!AffineMap methodsFor: 'operations' stamp: 'len 1/22/2018 17:13:52'!
+value: aPoint
+	^ (linearMap value: aPoint) + translation! !
+
+!AffineMap class methodsFor: 'instance creation' stamp: 'len 1/22/2018 17:20:29'!
+from: aDomain to: aCodomain evaluating: aBlock
+	| linearMap translation |
+	translation _ aBlock value: aDomain zero.
+	linearMap _ LinearMap from: aDomain to: aCodomain evaluating: [:v| (aBlock value: v) - translation].
+	^ self linearMap: linearMap translation: translation! !
+
+!AffineMap class methodsFor: 'instance creation' stamp: 'len 1/3/2016 04:38'!
+from: anAffineFrame to: anotherAffineFrame matrix: aMatrix
+	^ self notYetImplemented! !
+
+!AffineMap class methodsFor: 'instance creation' stamp: 'len 1/22/2018 17:08:14'!
+linearMap: aLinearMap translation: aVector
+	^ self new linearMap: aLinearMap; translation: aVector! !
 
 !BilinearForm methodsFor: 'arithmetic' stamp: 'len 1/8/2016 05:07'!
 * anObject
@@ -29734,13 +29845,14 @@ species
 translatedBy: aPoint
 	^ self species from: self domain to: self codomain representatives: self representatives + aPoint! !
 
-!RationalMap methodsFor: 'operations' stamp: 'len 12/28/2016 21:55:41'!
+!RationalMap methodsFor: 'operations' stamp: 'len 1/21/2018 15:46:02'!
 value: aPoint
-	| tuple |
-	tuple _ aPoint scalars tuple: (self representatives collect: [:each| each value: aPoint asTuple]).
+	| x value |
+	x _ aPoint asTuple.
+	value _ aPoint scalars tuple: (self representatives collect: [:each| each value: x]).
 	(aPoint isKindOf: RationalPoint)
-		ifTrue: [^ self codomain pointAt: tuple].
-	^ tuple! !
+		ifTrue: [^ self codomain pointAt: value].
+	^ value! !
 
 !RationalMap class methodsFor: 'examples' stamp: 'len 11/1/2016 16:51'!
 example1TwistedCubicTangentParametrization
@@ -29773,189 +29885,6 @@ from: aDomain to: aCodomain representatives: anArrayOfRationalFunctions
 	((aDomain isProjective or: [aCodomain isProjective]) and: [anArrayOfRationalFunctions anySatisfy: [:any| any isHomogeneous not]])
 		ifTrue: [^ self error: 'not homogeneous'].
 	^ self new domain: aDomain; codomain: aCodomain; representatives: anArrayOfRationalFunctions! !
-
-!AffineMap methodsFor: 'arithmetic' stamp: 'len 1/20/2018 21:38:01'!
-* aNumber
-	^ self class from: self domain to: self codomain matrix: matrix * aNumber translation: translation * aNumber! !
-
-!AffineMap methodsFor: 'arithmetic' stamp: 'len 1/20/2018 21:43:08'!
-+ anObject
-	(anObject isKindOf: AffineMap)
-		ifTrue:
-			[(self domain = anObject domain and: [self codomain = anObject codomain])
-				ifTrue: [^ self class from: self domain to: self codomain matrix: matrix + anObject matrix].
-			DomainError signal: 'domain or codomain don''t match'].
-	(anObject isKindOf: Tuple)
-		ifTrue: [^ self class from: self domain to: self codomain matrix: matrix translation: translation + anObject].
-	^ super + anObject! !
-
-!AffineMap methodsFor: 'comparing' stamp: 'len 1/20/2018 21:51:58'!
-= anAffineMap
-	(anAffineMap isKindOf: AffineMap)
-		ifFalse: [^ super = anAffineMap].
-	^ self domain = anAffineMap domain and: [self codomain = anAffineMap codomain and: [matrix = anAffineMap matrix and: [translation = anAffineMap translation]]]! !
-
-!AffineMap methodsFor: 'arithmetic' stamp: 'len 1/20/2018 21:44:58'!
-” anAffineMap
-	(anAffineMap isKindOf: AffineMap)
-		ifFalse: [^ super ” anAffineMap].
-	self domain = anAffineMap codomain ifFalse: [^ DomainError signal: 'domains don''t match'].
-	^ self class from: anAffineMap domain to: self codomain matrix: matrix * anAffineMap matrix! !
-
-!AffineMap methodsFor: 'accessing' stamp: 'len 1/20/2018 21:53:14'!
-bitSize
-	^ matrix bitSize + translation bitSize! !
-
-!AffineMap methodsFor: 'operations' stamp: 'len 1/20/2018 21:59:35'!
-fiberAt: aPoint
-	self notYetImplemented
-"	^ linearPart fiberAt: aPoint - translation"! !
-
-!AffineMap methodsFor: 'operations' stamp: 'len 1/20/2018 21:58:50'!
-image
-	^ super image
-"	^ AffineSubspace representative: translation direction: linearPart image"! !
-
-!AffineMap methodsFor: 'arithmetic' stamp: 'len 1/20/2018 21:53:32'!
-inverse
-	"Answer the inverse of the receiver. Answer nil if the receiver is not an isomorphism."
-	^ self domain rank = self codomain rank ifTrue: [self leftInverse]! !
-
-!AffineMap methodsFor: 'testing' stamp: 'len 2/12/2016 01:37'!
-isEuclidean
-	"Answer true if the receiver is an Euclidean motion, i.e. if it preserves distances.
-	The Euclidean nitions of an affine space A form a group, the Euclidean group E(A) (sometimes called group of motions M(A) or group of isometries ISO(A))."
-	^ self isIsometry! !
-
-!AffineMap methodsFor: 'testing' stamp: 'len 1/20/2018 21:55:31'!
-isIdentity
-	^ translation isZero and: [matrix isIdentity]! !
-
-!AffineMap methodsFor: 'testing' stamp: 'len 1/20/2018 21:55:54'!
-isInjective
-	^ matrix rank = self domain rank! !
-
-!AffineMap methodsFor: 'testing' stamp: 'len 1/20/2018 21:56:17'!
-isIsometry
-	"Answer true if the receiver is an isometry, i.e. if it preserves distances.
-	The isometries of an affine space A form a group, the Euclidean group E(A) (sometimes called group of Euclidean motions M(A) or group of isometries ISO(A))."
-	^ matrix isOrthogonal! !
-
-!AffineMap methodsFor: 'testing' stamp: 'len 1/20/2018 21:56:37'!
-isSurjective
-	^ matrix rank = self codomain rank! !
-
-!AffineMap methodsFor: 'arithmetic' stamp: 'len 1/20/2018 21:47:59'!
-leftInverse
-	"Answer a left inverse (or retraction) of the receiver."
-	| A |
-	A _ matrix leftInverse.
-	^ self class from: self codomain to: self domain matrix: A translation: A * translation negated! !
-
-!AffineMap methodsFor: 'accessing' stamp: 'len 1/20/2018 21:53:01'!
-matrix
-	^ matrix! !
-
-!AffineMap methodsFor: 'accessing-private' stamp: 'len 1/20/2018 22:02:10'!
-matrix: aMatrix
-	matrix _ aMatrix! !
-
-!AffineMap methodsFor: 'arithmetic' stamp: 'len 1/20/2018 21:48:20'!
-negated
-	^ self class from: self domain to: self codomain matrix: matrix negated translation: translation negated! !
-
-!AffineMap methodsFor: 'printing' stamp: 'len 1/20/2018 22:01:48'!
-printOn: aStream
-	self isIdentity ifTrue: [aStream nextPutAll: 'id'. ^ self].
-	self negated isIdentity ifTrue: [aStream nextPutAll: '-id'. ^ self].
-	super printOn: aStream! !
-
-!AffineMap methodsFor: 'arithmetic' stamp: 'len 1/20/2018 21:49:54'!
-rightInverse
-	"Answer a right inverse (or section) of the receiver."
-	| A |
-	A _ matrix rightInverse.
-	^ self class from: self codomain to: self domain matrix: A translation: A * translation negated! !
-
-!AffineMap methodsFor: 'arithmetic' stamp: 'len 1/20/2018 21:50:36'!
-translatedBy: aTuple
-	^ self class from: self domain to: self codomain matrix: matrix translation: translation + aTuple! !
-
-!AffineMap methodsFor: 'accessing' stamp: 'len 1/2/2017 19:56:25'!
-translation
-	^ translation! !
-
-!AffineMap methodsFor: 'accessing-private' stamp: 'len 1/20/2018 21:52:46'!
-translation: aTuple
-	translation _ aTuple! !
-
-!AffineMap methodsFor: 'operations' stamp: 'len 1/20/2018 22:01:01'!
-value: aPoint
-	^ self codomain pointAt: matrix * aPoint coordinates + translation! !
-
-!AffineMap class methodsFor: 'instance creation' stamp: 'len 1/20/2018 22:25:33'!
-from: aDomain to: aCodomain evaluating: aBlock
-	^ self notYetImplemented! !
-
-!AffineMap class methodsFor: 'instance creation' stamp: 'len 1/20/2018 22:03:31'!
-from: aDomain to: aCodomain matrix: aMatrix translation: aTuple
-	^ self new domain: aDomain; codomain: aCodomain; matrix: aMatrix; translation: aTuple! !
-
-!ProjectiveMap methodsFor: 'comparing' stamp: 'len 1/20/2018 22:14:49'!
-= aProjectiveMap
-	(aProjectiveMap isKindOf: ProjectiveMap) ifFalse: [^ super = aProjectiveMap].
-	^ self asPoint = aProjectiveMap asPoint! !
-
-!ProjectiveMap methodsFor: 'arithmetic' stamp: 'len 1/20/2018 22:17:24'!
-” aProjectiveMap
-	"Answer the composition of the receiver with the argument."
-	(aProjectiveMap isKindOf: ProjectiveMap)
-		ifFalse: [^ super ” aProjectiveMap].
-	^ self class matrix: matrix * aProjectiveMap matrix! !
-
-!ProjectiveMap methodsFor: 'accessing' stamp: 'len 1/20/2018 22:16:14'!
-image
-	^ super image
-"	^ ProjectiveLinearSpace on: representative image"! !
-
-!ProjectiveMap methodsFor: 'arithmetic' stamp: 'len 1/20/2018 22:17:39'!
-inverse
-	"Answer the inverse of the receiver. Answer nil if the receiver is not an isomorphism."
-
-	^ self domain rank = self codomain rank ifTrue: [self leftInverse]! !
-
-!ProjectiveMap methodsFor: 'arithmetic' stamp: 'len 1/20/2018 22:18:31'!
-leftInverse
-	"Answer a left inverse (or retraction) of the receiver.
-	Answer nil if the receiver is not a monomorphism."
-	^ self class from: self codomain to: self domain matrix: matrix leftInverse! !
-
-!ProjectiveMap methodsFor: 'accessing' stamp: 'len 1/20/2018 22:16:25'!
-matrix
-	^ matrix! !
-
-!ProjectiveMap methodsFor: 'accessing-private' stamp: 'len 1/20/2018 22:16:36'!
-matrix: aMatrix
-	matrix _ aMatrix! !
-
-!ProjectiveMap methodsFor: 'arithmetic' stamp: 'len 1/20/2018 22:18:56'!
-rightInverse
-	"Answer a right inverse (or section) of the receiver.
-	Answer nil if the receiver is not an epimorphism."
-	^ self class from: self codomain to: self domain matrix: matrix rightInverse! !
-
-!ProjectiveMap methodsFor: 'operations' stamp: 'len 1/20/2018 22:20:05'!
-value: aPoint
-	"Answer the value of the receiver at the given projective point, line, etc."
-	^ self codomain pointAt: matrix * aPoint coordinates! !
-
-!ProjectiveMap class methodsFor: 'instance creation' stamp: 'len 1/20/2018 22:23:15'!
-from: aDomain to: aCodomain evaluating: aBlock
-	self notYetImplemented! !
-
-!ProjectiveMap class methodsFor: 'instance creation' stamp: 'len 1/20/2018 22:21:10'!
-from: aDomain to: aCodomain matrix: aMatrix
-	^ self new domain: aDomain; codomain: aCodomain; matrix: aMatrix! !
 
 !EllipticCurveIsogeny methodsFor: 'as yet unclassified' stamp: 'len 3/6/2017 16:48:06'!
 dual
@@ -30140,6 +30069,75 @@ isHyperbolic
 !ModularMap methodsFor: 'as yet unclassified' stamp: 'len 12/14/2016 10:27:12'!
 isParabolic
 	^ self trace abs = 2! !
+
+!ProjectiveMap methodsFor: 'comparing' stamp: 'len 1/20/2018 22:14:49'!
+= aProjectiveMap
+	(aProjectiveMap isKindOf: ProjectiveMap) ifFalse: [^ super = aProjectiveMap].
+	^ self asPoint = aProjectiveMap asPoint! !
+
+!ProjectiveMap methodsFor: 'arithmetic' stamp: 'len 1/20/2018 22:17:24'!
+” aProjectiveMap
+	"Answer the composition of the receiver with the argument."
+	(aProjectiveMap isKindOf: ProjectiveMap)
+		ifFalse: [^ super ” aProjectiveMap].
+	^ self class matrix: matrix * aProjectiveMap matrix! !
+
+!ProjectiveMap methodsFor: 'accessing' stamp: 'len 1/20/2018 22:16:14'!
+image
+	^ super image
+"	^ ProjectiveLinearSpace on: representative image"! !
+
+!ProjectiveMap methodsFor: 'arithmetic' stamp: 'len 1/20/2018 22:17:39'!
+inverse
+	"Answer the inverse of the receiver. Answer nil if the receiver is not an isomorphism."
+
+	^ self domain rank = self codomain rank ifTrue: [self leftInverse]! !
+
+!ProjectiveMap methodsFor: 'arithmetic' stamp: 'len 1/20/2018 22:18:31'!
+leftInverse
+	"Answer a left inverse (or retraction) of the receiver.
+	Answer nil if the receiver is not a monomorphism."
+	^ self class from: self codomain to: self domain matrix: matrix leftInverse! !
+
+!ProjectiveMap methodsFor: 'accessing' stamp: 'len 1/20/2018 22:16:25'!
+matrix
+	^ matrix! !
+
+!ProjectiveMap methodsFor: 'accessing-private' stamp: 'len 1/20/2018 22:16:36'!
+matrix: aMatrix
+	matrix _ aMatrix! !
+
+!ProjectiveMap methodsFor: 'accessing' stamp: 'len 1/21/2018 14:22:52'!
+representatives
+	^ self propertyAt: #representatives ifAbsentPut:
+		[| F |
+		F _ self domain ambient functionField.
+		(matrix over: F) * (F tuple: F rank evaluating: [:i| F x: i])]! !
+
+!ProjectiveMap methodsFor: 'arithmetic' stamp: 'len 1/20/2018 22:18:56'!
+rightInverse
+	"Answer a right inverse (or section) of the receiver.
+	Answer nil if the receiver is not an epimorphism."
+	^ self class from: self codomain to: self domain matrix: matrix rightInverse! !
+
+!ProjectiveMap methodsFor: 'operations' stamp: 'len 1/21/2018 14:48:51'!
+value: aPoint
+	"Answer the value of the receiver at the given projective point, line, etc."
+	^ self codomain pointAt: matrix * aPoint asTuple! !
+
+!ProjectiveMap class methodsFor: 'instance creation' stamp: 'len 1/21/2018 15:27:32'!
+from: aDomain to: aCodomain evaluating: aBlock
+	| n R matrix |
+	n _ aDomain rank.
+	R _ aDomain scalars.
+	matrix _ Matrix columns:
+		((1 to: aCodomain rank)
+			collect: [:i| (aBlock value: (aDomain pointAt: (R tuple: n e: i))) asTuple]).
+	^ self from: aDomain to: aCodomain matrix: matrix! !
+
+!ProjectiveMap class methodsFor: 'instance creation' stamp: 'len 1/20/2018 22:21:10'!
+from: aDomain to: aCodomain matrix: aMatrix
+	^ self new domain: aDomain; codomain: aCodomain; matrix: aMatrix! !
 
 !ModularForm methodsFor: 'as yet unclassified' stamp: 'len 12/11/2016 08:26:42'!
 codomain
@@ -42450,227 +42448,6 @@ run
 	R isEmpty] whileFalse.
 	^ characteristicSet _ G! !
 
-!AffineFrame methodsFor: 'accessing' stamp: 'len 1/3/2016 03:44'!
-basis
-	^ basis! !
-
-!AffineFrame methodsFor: 'accessing-private' stamp: 'len 1/3/2016 03:44'!
-basis: aLinearBasis
-	basis _ aLinearBasis! !
-
-!AffineFrame methodsFor: 'coordinates' stamp: 'len 1/3/2016 03:41'!
-coordinatesOf: aPoint
-	^ basis coordinatesOf: aPoint - origin! !
-
-!AffineFrame methodsFor: 'accessing' stamp: 'len 1/3/2016 03:44'!
-origin
-	^ origin! !
-
-!AffineFrame methodsFor: 'accessing-private' stamp: 'len 1/3/2016 03:45'!
-origin: aPoint
-	origin _ aPoint! !
-
-!AffineFrame methodsFor: 'coordinates' stamp: 'len 1/2/2017 19:11:58'!
-pointAt: aTuple
-	^ origin + (basis vectorAt: aTuple)! !
-
-!AffineFrame methodsFor: 'printing' stamp: 'len 1/3/2016 03:46'!
-printOn: aStream
-	aStream nextPut: ${.
-	aStream print: origin; nextPutAll: '; '.
-	basis do: [:v| aStream print: v] separatedBy: [aStream nextPutAll: ', '].
-	aStream nextPut: $}! !
-
-!AffineFrame methodsFor: 'accessing' stamp: 'len 10/27/2016 19:45'!
-span
-	^ AffineSubspace representative: origin direction: basis span! !
-
-!AffineFrame class methodsFor: 'instance creation' stamp: 'len 1/3/2016 03:43'!
-origin: aPoint basis: aLinearBasis
-	^ self new origin: aPoint; basis: aLinearBasis! !
-
-!ProjectiveChart methodsFor: 'accessing' stamp: 'len 10/27/2016 19:47'!
-affine
-	"Answer the affine space associated to the receiver."
-	| parallel |
-	parallel _ LinearBasis on: frame space vectorSpace.
-	1 to: index - 1 do: [:i|
-		parallel add: (frame space vectorFromPoint: (frame at: i))].
-	self index + 1 to: frame size do: [:i|
-		parallel add: (frame space vectorFromPoint: (frame at: i))].
-	^ AffineSubspace representative: origin direction: parallel span! !
-
-!ProjectiveChart methodsFor: 'coordinates' stamp: 'len 1/10/2017 16:28:15'!
-coordinatesOf: aPoint
-	"Answer the coordinates of the argument in the receiver. The argument is a linear subspace of dimension 1."
-	^ (frame coordinatesOf: aPoint) dehomogenizedIn: index! !
-
-!ProjectiveChart methodsFor: 'accessing' stamp: 'len 1/3/2016 05:22'!
-frame
-	^ frame! !
-
-!ProjectiveChart methodsFor: 'accessing-private' stamp: 'len 1/3/2016 05:22'!
-frame: aProjectiveFrame
-	frame _ aProjectiveFrame! !
-
-!ProjectiveChart methodsFor: 'accessing' stamp: 'len 11/20/2015 16:17'!
-index
-	^ index! !
-
-!ProjectiveChart methodsFor: 'accessing-private' stamp: 'len 2/28/98 21:44'!
-index: anInteger
-	index _ anInteger! !
-
-!ProjectiveChart methodsFor: 'accessing' stamp: 'len 3/18/2016 05:12'!
-infinity
-	"Answer the hyperplane at infinity."
-
-	| h |
-	h _ ProjectiveFrame on: frame space.
-	1 to: self index - 1 do: [:each| h add: (frame at: each)].
-	self index + 1 to: frame size do: [:each| h add: (frame at: each)].
-	^ h span! !
-
-!ProjectiveChart methodsFor: 'accessing' stamp: 'len 1/3/2016 05:21'!
-origin
-	^ origin! !
-
-!ProjectiveChart methodsFor: 'accessing-private' stamp: 'len 3/2/98 03:17'!
-origin: anObject
-	origin _ anObject! !
-
-!ProjectiveChart methodsFor: 'coordinates' stamp: 'len 11/5/2016 10:33'!
-pointAt: aTuple
-	"Answer the point with coordinates aTuple in the receiver."
-	| extended |
-	extended _ Array new: aTuple dimension + 1.
-	1 to: index - 1 do: [:i|
-		extended at: i put: (aTuple at: i)].
-	extended at: index put: frame space scalars one.
-	self index + 1 to: aTuple dimension + 1 do: [:i|
-		extended at: i put: (aTuple at: i - 1)].
-	^ frame pointAt: (HomogeneousTuple coefficients: extended over: frame space scalars)! !
-
-!ProjectiveChart methodsFor: 'printing' stamp: 'len 6/2/2016 18:55'!
-printOn: aStream
-	aStream
-		nextPutAll: self class name;
-		space; print: index;
-		space; print: frame! !
-
-!ProjectiveChart methodsFor: 'coordinates' stamp: 'len 12/8/2016 20:28:31'!
-vectorFromPoint: aPoint
-	"Answer a vector associated to the projective point aPoint (which is a linear subspace of dimension 1)."
-	^ (aPoint vectorSpace asAffineSpace • self affine) representative! !
-
-!ProjectiveChart class methodsFor: 'instance creation' stamp: 'len 1/3/2016 05:22'!
-frame: aProjectiveFrame index: anInteger origin: anObject
-	"Answer a new instance of the receiver representing the anInteger-th chart with basis aProjectiveBasis and origin anObject."
-	^ self new frame: aProjectiveFrame; index: anInteger; origin: anObject! !
-
-!ProjectiveFrame methodsFor: 'accessing' stamp: 'len 3/23/2016 22:01'!
-add: aPoint
-	^ points add: aPoint! !
-
-!ProjectiveFrame methodsFor: 'accessing' stamp: 'len 11/8/2015 00:05'!
-at: anInteger
-	^ points at: anInteger! !
-
-!ProjectiveFrame methodsFor: 'operations' stamp: 'len 6/3/2016 23:33'!
-changeTo: aProjectiveFrame
-	"Answer the homography for changing from the receiver to aProjectiveFrame."
-	^ self notYetImplemented! !
-
-!ProjectiveFrame methodsFor: 'private' stamp: 'len 6/4/2016 01:38'!
-computeUnit
-	unit _ self space vectorSpace null.
-	self do: [:each| unit _ unit + (self space vectorFromPoint: each)].
-	unit _ self space project: unit! !
-
-!ProjectiveFrame methodsFor: 'coordinates' stamp: 'len 10/31/2016 13:12'!
-coordinatesOf: anObject
-	"Answer the coordinates of the argument in the receiver."
-
-	| linear coords ucoords |
-	linear _ LinearBasis on: self space vectorSpace.
-	self do: [ :each | linear add: (self space vectorFromPoint: each)].
-	coords _ linear coordinatesOf: (self space vectorFromPoint: anObject).
-	ucoords _ linear coordinatesOf: (self space vectorFromPoint: self unit).
-	1 to: coords size do: [ :each |
-		coords at: each put: (coords at: each) / (ucoords at: each)].
-	^ coords asHomogeneousTuple! !
-
-!ProjectiveFrame methodsFor: 'accessing' stamp: 'len 11/8/2015 00:03'!
-dimension
-	^ self size - 1! !
-
-!ProjectiveFrame methodsFor: 'enumerating' stamp: 'len 11/8/2015 00:06'!
-do: aBlock
-	points do: aBlock! !
-
-!ProjectiveFrame methodsFor: 'initialization' stamp: 'len 11/8/2015 00:06'!
-initialize
-	self points: OrderedCollection new! !
-
-!ProjectiveFrame methodsFor: 'coordinates' stamp: 'len 6/4/2016 01:38'!
-pointAt: anHomogeneousTuple
-	"Answer point with coordinates aProjectiveTuple in the receiver."
-
-	| B |
-	B _ LinearBasis on: self space vectorSpace.
-	self do: [:each| B add: (self space vectorFromPoint: each)].
-	^ self space
-		project:
-			(B vectorAt: anHomogeneousTuple asTuple)! !
-
-!ProjectiveFrame methodsFor: 'accessing-private' stamp: 'len 11/8/2015 00:04'!
-points: aCollection
-	points _ aCollection! !
-
-!ProjectiveFrame methodsFor: 'printing' stamp: 'len 6/2/2016 18:56'!
-printOn: aStream
-	aStream nextPut: ${.
-	self do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: '; '].
-	aStream nextPut: $}! !
-
-!ProjectiveFrame methodsFor: 'accessing' stamp: 'len 11/8/2015 00:06'!
-size
-	^ points size! !
-
-!ProjectiveFrame methodsFor: 'accessing-private' stamp: 'len 11/8/2015 00:01'!
-space
-	^ space! !
-
-!ProjectiveFrame methodsFor: 'accessing-private' stamp: 'len 11/8/2015 00:01'!
-space: aProjectiveSpace
-	space _ aProjectiveSpace! !
-
-!ProjectiveFrame methodsFor: 'accessing' stamp: 'len 2/4/2017 09:01:40'!
-span
-	| basis |
-	basis _ LinearBasis on: space vectorSpace.
-	self do: [:each| basis add: (space vectorFromPoint: each)].
-	^ basis span projectivized! !
-
-!ProjectiveFrame methodsFor: 'accessing' stamp: 'len 3/2/98 03:02'!
-unit
-	"Answer the unit point of the receiver."
-
-	unit isNil ifTrue: [self computeUnit].
-	^ unit! !
-
-!ProjectiveFrame methodsFor: 'accessing-private' stamp: 'len 3/1/98 04:46'!
-unit: anObject
-	unit _ anObject! !
-
-!ProjectiveFrame class methodsFor: 'instance creation' stamp: 'len 2/25/98 22:25'!
-new
-	^ super new initialize! !
-
-!ProjectiveFrame class methodsFor: 'instance creation' stamp: 'len 1/3/2016 05:23'!
-on: aProjectiveSpace
-	^ self new space: aProjectiveSpace! !
-
 !CoxeterDiagram methodsFor: 'as yet unclassified' stamp: 'len 2/11/2016 22:11'!
 gramMatrix
 	^ matrix collect: [:x| -2 * (Float pi / x) cos]! !
@@ -42942,6 +42719,227 @@ hexagonal
 !RootSystem class methodsFor: 'instance creation' stamp: 'len 5/23/2016 05:00'!
 on: aVectorSpace roots: aCollection
 	^ self new ambient: aVectorSpace; roots: aCollection! !
+
+!AffineFrame methodsFor: 'accessing' stamp: 'len 1/3/2016 03:44'!
+basis
+	^ basis! !
+
+!AffineFrame methodsFor: 'accessing-private' stamp: 'len 1/3/2016 03:44'!
+basis: aLinearBasis
+	basis _ aLinearBasis! !
+
+!AffineFrame methodsFor: 'coordinates' stamp: 'len 1/3/2016 03:41'!
+coordinatesOf: aPoint
+	^ basis coordinatesOf: aPoint - origin! !
+
+!AffineFrame methodsFor: 'accessing' stamp: 'len 1/3/2016 03:44'!
+origin
+	^ origin! !
+
+!AffineFrame methodsFor: 'accessing-private' stamp: 'len 1/3/2016 03:45'!
+origin: aPoint
+	origin _ aPoint! !
+
+!AffineFrame methodsFor: 'coordinates' stamp: 'len 1/2/2017 19:11:58'!
+pointAt: aTuple
+	^ origin + (basis vectorAt: aTuple)! !
+
+!AffineFrame methodsFor: 'printing' stamp: 'len 1/3/2016 03:46'!
+printOn: aStream
+	aStream nextPut: ${.
+	aStream print: origin; nextPutAll: '; '.
+	basis do: [:v| aStream print: v] separatedBy: [aStream nextPutAll: ', '].
+	aStream nextPut: $}! !
+
+!AffineFrame methodsFor: 'accessing' stamp: 'len 10/27/2016 19:45'!
+span
+	^ AffineSubspace representative: origin direction: basis span! !
+
+!AffineFrame class methodsFor: 'instance creation' stamp: 'len 1/3/2016 03:43'!
+origin: aPoint basis: aLinearBasis
+	^ self new origin: aPoint; basis: aLinearBasis! !
+
+!ProjectiveChart methodsFor: 'accessing' stamp: 'len 10/27/2016 19:47'!
+affine
+	"Answer the affine space associated to the receiver."
+	| parallel |
+	parallel _ LinearBasis on: frame space vectorSpace.
+	1 to: index - 1 do: [:i|
+		parallel add: (frame space vectorFromPoint: (frame at: i))].
+	self index + 1 to: frame size do: [:i|
+		parallel add: (frame space vectorFromPoint: (frame at: i))].
+	^ AffineSubspace representative: origin direction: parallel span! !
+
+!ProjectiveChart methodsFor: 'coordinates' stamp: 'len 1/10/2017 16:28:15'!
+coordinatesOf: aPoint
+	"Answer the coordinates of the argument in the receiver. The argument is a linear subspace of dimension 1."
+	^ (frame coordinatesOf: aPoint) dehomogenizedIn: index! !
+
+!ProjectiveChart methodsFor: 'accessing' stamp: 'len 1/3/2016 05:22'!
+frame
+	^ frame! !
+
+!ProjectiveChart methodsFor: 'accessing-private' stamp: 'len 1/3/2016 05:22'!
+frame: aProjectiveFrame
+	frame _ aProjectiveFrame! !
+
+!ProjectiveChart methodsFor: 'accessing' stamp: 'len 11/20/2015 16:17'!
+index
+	^ index! !
+
+!ProjectiveChart methodsFor: 'accessing-private' stamp: 'len 2/28/98 21:44'!
+index: anInteger
+	index _ anInteger! !
+
+!ProjectiveChart methodsFor: 'accessing' stamp: 'len 3/18/2016 05:12'!
+infinity
+	"Answer the hyperplane at infinity."
+
+	| h |
+	h _ ProjectiveFrame on: frame space.
+	1 to: self index - 1 do: [:each| h add: (frame at: each)].
+	self index + 1 to: frame size do: [:each| h add: (frame at: each)].
+	^ h span! !
+
+!ProjectiveChart methodsFor: 'accessing' stamp: 'len 1/3/2016 05:21'!
+origin
+	^ origin! !
+
+!ProjectiveChart methodsFor: 'accessing-private' stamp: 'len 3/2/98 03:17'!
+origin: anObject
+	origin _ anObject! !
+
+!ProjectiveChart methodsFor: 'coordinates' stamp: 'len 11/5/2016 10:33'!
+pointAt: aTuple
+	"Answer the point with coordinates aTuple in the receiver."
+	| extended |
+	extended _ Array new: aTuple dimension + 1.
+	1 to: index - 1 do: [:i|
+		extended at: i put: (aTuple at: i)].
+	extended at: index put: frame space scalars one.
+	self index + 1 to: aTuple dimension + 1 do: [:i|
+		extended at: i put: (aTuple at: i - 1)].
+	^ frame pointAt: (HomogeneousTuple coefficients: extended over: frame space scalars)! !
+
+!ProjectiveChart methodsFor: 'printing' stamp: 'len 6/2/2016 18:55'!
+printOn: aStream
+	aStream
+		nextPutAll: self class name;
+		space; print: index;
+		space; print: frame! !
+
+!ProjectiveChart methodsFor: 'coordinates' stamp: 'len 12/8/2016 20:28:31'!
+vectorFromPoint: aPoint
+	"Answer a vector associated to the projective point aPoint (which is a linear subspace of dimension 1)."
+	^ (aPoint vectorSpace asAffineSpace • self affine) representative! !
+
+!ProjectiveChart class methodsFor: 'instance creation' stamp: 'len 1/3/2016 05:22'!
+frame: aProjectiveFrame index: anInteger origin: anObject
+	"Answer a new instance of the receiver representing the anInteger-th chart with basis aProjectiveBasis and origin anObject."
+	^ self new frame: aProjectiveFrame; index: anInteger; origin: anObject! !
+
+!ProjectiveFrame methodsFor: 'accessing' stamp: 'len 3/23/2016 22:01'!
+add: aPoint
+	^ points add: aPoint! !
+
+!ProjectiveFrame methodsFor: 'accessing' stamp: 'len 11/8/2015 00:05'!
+at: anInteger
+	^ points at: anInteger! !
+
+!ProjectiveFrame methodsFor: 'operations' stamp: 'len 6/3/2016 23:33'!
+changeTo: aProjectiveFrame
+	"Answer the homography for changing from the receiver to aProjectiveFrame."
+	^ self notYetImplemented! !
+
+!ProjectiveFrame methodsFor: 'private' stamp: 'len 6/4/2016 01:38'!
+computeUnit
+	unit _ self space vectorSpace null.
+	self do: [:each| unit _ unit + (self space vectorFromPoint: each)].
+	unit _ self space project: unit! !
+
+!ProjectiveFrame methodsFor: 'coordinates' stamp: 'len 10/31/2016 13:12'!
+coordinatesOf: anObject
+	"Answer the coordinates of the argument in the receiver."
+
+	| linear coords ucoords |
+	linear _ LinearBasis on: self space vectorSpace.
+	self do: [ :each | linear add: (self space vectorFromPoint: each)].
+	coords _ linear coordinatesOf: (self space vectorFromPoint: anObject).
+	ucoords _ linear coordinatesOf: (self space vectorFromPoint: self unit).
+	1 to: coords size do: [ :each |
+		coords at: each put: (coords at: each) / (ucoords at: each)].
+	^ coords asHomogeneousTuple! !
+
+!ProjectiveFrame methodsFor: 'accessing' stamp: 'len 11/8/2015 00:03'!
+dimension
+	^ self size - 1! !
+
+!ProjectiveFrame methodsFor: 'enumerating' stamp: 'len 11/8/2015 00:06'!
+do: aBlock
+	points do: aBlock! !
+
+!ProjectiveFrame methodsFor: 'initialization' stamp: 'len 11/8/2015 00:06'!
+initialize
+	self points: OrderedCollection new! !
+
+!ProjectiveFrame methodsFor: 'coordinates' stamp: 'len 6/4/2016 01:38'!
+pointAt: anHomogeneousTuple
+	"Answer point with coordinates aProjectiveTuple in the receiver."
+
+	| B |
+	B _ LinearBasis on: self space vectorSpace.
+	self do: [:each| B add: (self space vectorFromPoint: each)].
+	^ self space
+		project:
+			(B vectorAt: anHomogeneousTuple asTuple)! !
+
+!ProjectiveFrame methodsFor: 'accessing-private' stamp: 'len 11/8/2015 00:04'!
+points: aCollection
+	points _ aCollection! !
+
+!ProjectiveFrame methodsFor: 'printing' stamp: 'len 6/2/2016 18:56'!
+printOn: aStream
+	aStream nextPut: ${.
+	self do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: '; '].
+	aStream nextPut: $}! !
+
+!ProjectiveFrame methodsFor: 'accessing' stamp: 'len 11/8/2015 00:06'!
+size
+	^ points size! !
+
+!ProjectiveFrame methodsFor: 'accessing-private' stamp: 'len 11/8/2015 00:01'!
+space
+	^ space! !
+
+!ProjectiveFrame methodsFor: 'accessing-private' stamp: 'len 11/8/2015 00:01'!
+space: aProjectiveSpace
+	space _ aProjectiveSpace! !
+
+!ProjectiveFrame methodsFor: 'accessing' stamp: 'len 2/4/2017 09:01:40'!
+span
+	| basis |
+	basis _ LinearBasis on: space vectorSpace.
+	self do: [:each| basis add: (space vectorFromPoint: each)].
+	^ basis span projectivized! !
+
+!ProjectiveFrame methodsFor: 'accessing' stamp: 'len 3/2/98 03:02'!
+unit
+	"Answer the unit point of the receiver."
+
+	unit isNil ifTrue: [self computeUnit].
+	^ unit! !
+
+!ProjectiveFrame methodsFor: 'accessing-private' stamp: 'len 3/1/98 04:46'!
+unit: anObject
+	unit _ anObject! !
+
+!ProjectiveFrame class methodsFor: 'instance creation' stamp: 'len 2/25/98 22:25'!
+new
+	^ super new initialize! !
+
+!ProjectiveFrame class methodsFor: 'instance creation' stamp: 'len 1/3/2016 05:23'!
+on: aProjectiveSpace
+	^ self new space: aProjectiveSpace! !
 Digraph initialize!
 Naturals initialize!
 RationalField initialize!
