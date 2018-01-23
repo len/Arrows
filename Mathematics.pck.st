@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 22 January 2018 at 7:31:23 pm'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 23 January 2018 at 9:30:02 pm'!
 'Description A computational algebra system in Smalltalk'!
-!provides: 'Mathematics' 1 404!
+!provides: 'Mathematics' 1 405!
 !requires: 'RayTracer' 1 2 nil!
 !classDefinition: #RealAlgebraicNumber category: #'Mathematics-Fields'!
 Number subclass: #RealAlgebraicNumber
@@ -1542,14 +1542,14 @@ FreeModule subclass: #OrderAsModule
 OrderAsModule class
 	instanceVariableNames: ''!
 
-!classDefinition: #DirectSumModule category: #'Mathematics-Modules-Free'!
-FreeModule subclass: #DirectSumModule
+!classDefinition: #DirectSumFreeModule category: #'Mathematics-Modules-Free'!
+FreeModule subclass: #DirectSumFreeModule
 	instanceVariableNames: 'components'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Modules-Free'!
-!classDefinition: 'DirectSumModule class' category: #'Mathematics-Modules-Free'!
-DirectSumModule class
+!classDefinition: 'DirectSumFreeModule class' category: #'Mathematics-Modules-Free'!
+DirectSumFreeModule class
 	instanceVariableNames: ''!
 
 !classDefinition: #FormalSumsModule category: #'Mathematics-Modules-Free'!
@@ -1572,24 +1572,24 @@ FormalSumsModule subclass: #SimplicialChainsModule
 SimplicialChainsModule class
 	instanceVariableNames: ''!
 
-!classDefinition: #HomModule category: #'Mathematics-Modules-Free'!
-FreeModule subclass: #HomModule
+!classDefinition: #HomFreeModule category: #'Mathematics-Modules-Free'!
+FreeModule subclass: #HomFreeModule
 	instanceVariableNames: 'domain codomain'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Modules-Free'!
-!classDefinition: 'HomModule class' category: #'Mathematics-Modules-Free'!
-HomModule class
+!classDefinition: 'HomFreeModule class' category: #'Mathematics-Modules-Free'!
+HomFreeModule class
 	instanceVariableNames: ''!
 
-!classDefinition: #DualModule category: #'Mathematics-Modules-Free'!
-HomModule subclass: #DualModule
+!classDefinition: #DualFreeModule category: #'Mathematics-Modules-Free'!
+HomFreeModule subclass: #DualFreeModule
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Modules-Free'!
-!classDefinition: 'DualModule class' category: #'Mathematics-Modules-Free'!
-DualModule class
+!classDefinition: 'DualFreeModule class' category: #'Mathematics-Modules-Free'!
+DualFreeModule class
 	instanceVariableNames: ''!
 
 !classDefinition: #QuotientSpace category: #'Mathematics-Modules-Free'!
@@ -4115,7 +4115,7 @@ References:
 	https://en.wikipedia.org/wiki/Group_ring!
 
 !LocalizationRing commentStamp: '<historical>' prior: 0!
-My instances are localizations of a given commutative ring R away from a given prime ideal P. The elements are fractions a / b with a in R and b in R \ P.!
+My instances are localizations of a given commutative ring R at a given prime ideal P. The elements are fractions a / b with a in R and b in R \ P.!
 
 !FractionRing commentStamp: '<historical>' prior: 0!
 My instances are rings of fractions (quotients) with numerator and (nonzero) denominator in a ring. When the ring is an integral domain they form a field. See Ring>>fractions.
@@ -4242,8 +4242,7 @@ My instances are fields of p-adic numbers Qp. These are fraction fields of rings
 My instances are rings of p-adic integers Zp. See PAdicInteger.!
 
 !Module commentStamp: '<historical>' prior: 0!
-My instances are finitely-generated R-modules, for a commutative ring R.
-!
+My instances are finitely presented R-modules, for a commutative ring R.!
 
 !FractionalIdeal commentStamp: '<historical>' prior: 0!
 My instances are finitely generated fractional ideals.!
@@ -4293,7 +4292,9 @@ References:
 !FreeModule commentStamp: '<historical>' prior: 0!
 My instances are finite-rank free R-modules, i.e. R-modules with a basis. They are isomorphic to R^n.
 
-Most functionality is implemented for the cases where R is a field (vector spaces), or for R a PID such as Z or Q[x] (relying on the Hermite normal form).!
+Most functionality is implemented for the cases where R is a field (vector spaces, relying on gaussian elimination), or for R a PID such as Z or Q[x] (relying on the Hermite normal form).
+
+See also LinearMap.!
 
 !RingAsModule commentStamp: '<historical>' prior: 0!
 My instances are rank 1 free modules (or vector spaces) of scalars, i.e. a ring R viewed as a R-module (or a field K viewed as a K-vector space).
@@ -4306,8 +4307,8 @@ My instances are algebraic extension fields seen as vector spaces. See Algebraic
 !OrderAsModule commentStamp: '<historical>' prior: 0!
 My instances are orders of number fields seen as free Z-modules. They are embedded in the ambient vector space corresponding to the ambient number field of the order. See Order.!
 
-!DirectSumModule commentStamp: '<historical>' prior: 0!
-My instances are modules defined as the direct sum of other modules.!
+!DirectSumFreeModule commentStamp: '<historical>' prior: 0!
+My instances are free R-modules defined as the direct sum of other free R-modules.!
 
 !FormalSumsModule commentStamp: '<historical>' prior: 0!
 My instances are free R-modules of formal sums of elements in a finite set with coefficients over R.!
@@ -4315,12 +4316,13 @@ My instances are free R-modules of formal sums of elements in a finite set with 
 !SimplicialChainsModule commentStamp: '<historical>' prior: 0!
 My instances are free modules of simplicial k-chains in a simplicial complex. See SimplicialChain.!
 
-!HomModule commentStamp: 'len 2/20/2017 22:09:04' prior: 0!
-My instances are R-modules (or K-vector spaces) of linear transformations from a R-module (or K-vector space) A to another one B, i.e. Hom(A,B), the space of module homomorphisms between two R-modules. When A = B, it is noted End(A).
-!
+!HomFreeModule commentStamp: '<historical>' prior: 0!
+My instances are free R-modules (or K-vector spaces) of linear maps from a free R-module (or K-vector space) A to another one B, i.e. Hom(A,B). When A = B, it is noted End(A).
 
-!DualModule commentStamp: '<historical>' prior: 0!
-My instances are free modules (or vector spaces) of linear forms (see LinearForm). This is the (algebraic) dual Hom(M, R), spanned by the coordinate functions of the free R-module M.!
+See FreeModule and LinearMap.!
+
+!DualFreeModule commentStamp: '<historical>' prior: 0!
+My instances are free modules (or vector spaces) of linear forms. This is the (algebraic) dual Hom(M,R), spanned by the coordinate functions of the free R-module M.!
 
 !QuotientSpace commentStamp: '<historical>' prior: 0!
 My instances are quotient spaces V/S (read "V mod S") of a given vector space V modulo a submodule S.
@@ -4632,8 +4634,10 @@ My instances are homomorphisms of polynomial rings.!
 !ModuleMap commentStamp: '<historical>' prior: 0!
 My instances are homomorphisms of modules. See Module.!
 
-!LinearMap commentStamp: 'len 1/16/2018 17:44:46' prior: 0!
-My instances are linear transformations between finite-rank free modules (or finite-dimensional vector spaces). They are homomorphisms of free modules, and are internally represented by a matrix and a choice of bases for the domain and codomain.!
+!LinearMap commentStamp: '<historical>' prior: 0!
+My instances are linear transformations between finite-rank free modules (or finite-dimensional vector spaces). They are homomorphisms of free modules, and are internally represented by a matrix and a choice of bases for the domain and codomain.
+
+See FreeModule and HomFreeModule.!
 
 !AffineMap commentStamp: '<historical>' prior: 0!
 My instances are affine transformations (affine maps or affinities) defined over affine linear spaces (vector spaces considered as affine spaces by 'forgetting the origin').
@@ -14513,9 +14517,11 @@ on: aCollection
 	self do: [:each| answer add: (RightCoset on: aSubgroup representative: each)].
 	^ answer! !
 
-!Group methodsFor: 'operations' stamp: 'len 12/30/2017 16:30:05'!
-◊ aGroup
-	^ DirectProductGroup components: {self. aGroup}! !
+!Group methodsFor: 'operations' stamp: 'len 1/22/2018 20:32:03'!
+◊ aGroupOrAction
+	(aGroupOrAction isKindOf: GroupAction)
+		ifTrue: [^ SemidirectProductGroup left: self right: aGroupOrAction group action: aGroupOrAction].
+	^ DirectProductGroup components: {self. aGroupOrAction}! !
 
 !Group methodsFor: 'operations' stamp: 'len 2/20/2017 22:13:29'!
 ê aGroup
@@ -15100,10 +15106,6 @@ select: aBlock
 	elements _ Set new.
 	self do: [:each| (aBlock value: each) ifTrue: [elements add: each]].
 	^ self copyEmpty elements: elements! !
-
-!Group methodsFor: 'operations' stamp: 'len 2/13/2016 07:23'!
-semidirect: aGroup action: aGroupAction
-	^ SemidirectProductGroup left: self right: aGroup action: aGroupAction! !
 
 !Group methodsFor: 'operations' stamp: 'len 5/1/2016 23:45'!
 span: aCollection
@@ -18035,9 +18037,9 @@ isUnit: anElement
 	self isDivisionRing ifTrue: [^ anElement isZero not].
 	^ self subclassResponsibility! !
 
-!Ring methodsFor: 'operations' stamp: 'len 1/15/2018 19:01:33'!
-localization: aPrimeIdeal
-	"Answer the localization of the receiver away from aPrimeIdeal."
+!Ring methodsFor: 'operations' stamp: 'len 1/23/2018 21:19:27'!
+localizationAt: aPrimeIdeal
+	"Answer the localization of the receiver at aPrimeIdeal."
 	| P |
 	P _ (aPrimeIdeal isKindOf: Ideal)
 		ifTrue:
@@ -18045,7 +18047,7 @@ localization: aPrimeIdeal
 			aPrimeIdeal]
 		ifFalse:
 			[self * aPrimeIdeal].
-	^ LocalizationRing away: P! !
+	^ LocalizationRing at: P! !
 
 !Ring methodsFor: 'tuples and matrices' stamp: 'len 12/13/2016 10:15:36'!
 matrix: dimension coefficients: aCollection
@@ -18296,9 +18298,10 @@ embed: anObject
 	(self integers isKindOf: RationalIntegerRing) ifTrue: [^ anObject].
 	^ self integers fractionClass numerator: anObject denominator: self integers one! !
 
-!LocalizationRing methodsFor: 'morphisms' stamp: 'len 12/28/2016 12:11:33'!
+!LocalizationRing methodsFor: 'morphisms' stamp: 'len 1/23/2018 21:29:01'!
 embedding
-	"Answer the embedding map from the integers ring into the receiver."
+	"Answer the embedding map from the integers ring into the receiver.
+	This is also called the localization map."
 	^ self propertyAt: #embedding ifAbsentPut: [(self integers to: self evaluating: [:x| self embed: x]) name: 'i']! !
 
 !LocalizationRing methodsFor: 'operations' stamp: 'len 1/19/2017 07:19:45'!
@@ -18346,6 +18349,10 @@ isField
 isLocal
 	^ true! !
 
+!LocalizationRing methodsFor: 'testing' stamp: 'len 1/23/2018 20:53:08'!
+isTrivial
+	^ self integers isTrivial or: [self maximalIdeal includes: self zero]! !
+
 !LocalizationRing methodsFor: 'accessing' stamp: 'len 10/28/2016 16:33'!
 maximalIdeal
 	"Answer the unique maximal ideal in the receiver."
@@ -18355,10 +18362,10 @@ maximalIdeal
 one
 	^ self embed: self integers one! !
 
-!LocalizationRing methodsFor: 'converting' stamp: 'len 10/28/2016 17:09'!
+!LocalizationRing methodsFor: 'converting' stamp: 'len 1/23/2018 21:18:58'!
 over: aRing
 	"Change the base ring."
-	^ self class away: (self ideal over: aRing)! !
+	^ self class at: (self ideal over: aRing)! !
 
 !LocalizationRing methodsFor: 'printing' stamp: 'len 12/18/2016 21:05:06'!
 printOn: aStream
@@ -18372,15 +18379,15 @@ x: anInteger
 zero
 	^ self embed: self integers zero! !
 
-!LocalizationRing class methodsFor: 'instance creation' stamp: 'len 10/28/2016 16:48'!
-away: anIdeal
+!LocalizationRing class methodsFor: 'instance creation' stamp: 'len 1/23/2018 21:18:41'!
+at: anIdeal
 	^ self new propertyAt: #ideal put: anIdeal; yourself! !
 
-!LocalizationRing class methodsFor: 'examples' stamp: 'len 10/31/2016 14:42'!
-exampleZZLocalizedAwayFrom2
-	"Answer the localization of the integers away from <2>.
+!LocalizationRing class methodsFor: 'examples' stamp: 'len 1/23/2018 21:24:50'!
+exampleZZLocalizedAt2
+	"Answer the localization of the integers at <2>.
 	This is the ring of fractions with odd denominator."
-	^ ZZ localization: 2! !
+	^ ZZ localizationAt: 2! !
 
 !FractionRing methodsFor: 'comparing' stamp: 'len 10/31/2016 15:20'!
 = anObject
@@ -18414,13 +18421,13 @@ over: aRing
 printOn: aStream
 	aStream nextPutAll: 'Frac('; print: self integers; nextPut: $)! !
 
-!FractionRing class methodsFor: 'instance creation' stamp: 'len 10/28/2016 17:05'!
-away: anIdeal
+!FractionRing class methodsFor: 'instance creation' stamp: 'len 1/23/2018 21:25:31'!
+at: anIdeal
 	^ self shouldNotImplement! !
 
-!FractionRing class methodsFor: 'instance creation' stamp: 'len 1/20/2017 09:06:34'!
+!FractionRing class methodsFor: 'instance creation' stamp: 'len 1/23/2018 21:18:50'!
 on: anIntegralDomain
-	^ super away: anIntegralDomain zeroIdeal! !
+	^ super at: anIntegralDomain zeroIdeal! !
 
 !RationalField methodsFor: 'comparing' stamp: 'len 6/1/2016 23:56'!
 <= aDomain
@@ -21340,10 +21347,10 @@ generators: aCollection
 hash
 	^ self scalars hash! !
 
-!Ideal methodsFor: 'accessing' stamp: 'len 1/15/2018 18:48:54'!
+!Ideal methodsFor: 'accessing' stamp: 'len 1/23/2018 21:19:38'!
 height
 	"Answer the height (or codimension, or rank) of the receiver."
-	^ (self scalars localization: self) dimension! !
+	^ (self scalars localizationAt: self) dimension! !
 
 !Ideal methodsFor: 'testing' stamp: 'len 1/15/2018 19:03:20'!
 includes: anElement
@@ -22219,12 +22226,12 @@ mod: aSubmodule
 		ifTrue: [self ê aModule]
 		ifFalse: [super ◊ aModule]! !
 
-!FreeModule methodsFor: 'operations' stamp: 'len 1/16/2018 15:41:02'!
+!FreeModule methodsFor: 'operations' stamp: 'len 1/23/2018 18:40:21'!
 ê aModule
 	"Answer the direct sum of the receiver and the argument."
 	aModule isFreeModule ifFalse: [^ super ê aModule].
 	self scalars = aModule scalars ifFalse: [DomainError signal: 'scalars don''t match'].
-	^ DirectSumModule components: {self. aModule}! !
+	^ DirectSumFreeModule components: {self. aModule}! !
 
 !FreeModule methodsFor: 'operations' stamp: 'len 2/23/2017 08:08:26'!
 í aFreeModule
@@ -22388,13 +22395,13 @@ grassmannian: r
 hash
 	^ self scalars hash + self rank hashMultiply! !
 
-!FreeModule methodsFor: 'morphisms' stamp: 'len 1/15/2018 19:48:29'!
+!FreeModule methodsFor: 'morphisms' stamp: 'len 1/23/2018 18:39:49'!
 hom: aModule
 	"Answer Hom(A,B), the R-module of morphisms that go from the receiver A to the argument B."
 	aModule scalars = self scalars ifFalse: [DomainError signal: 'scalars don''t match'].
 	(aModule isKindOf: RingAsModule)
-		ifTrue: [^ DualModule from: self].
-	^ HomModule from: self to: aModule! !
+		ifTrue: [^ DualFreeModule from: self].
+	^ HomFreeModule from: self to: aModule! !
 
 !FreeModule methodsFor: 'operations' stamp: 'len 10/27/2016 19:46'!
 hull: aCollection
@@ -22717,31 +22724,31 @@ scalars
 on: anOrder
 	^ self new order: anOrder! !
 
-!DirectSumModule methodsFor: 'accessing' stamp: 'len 12/30/2017 16:55:01'!
+!DirectSumFreeModule methodsFor: 'accessing' stamp: 'len 12/30/2017 16:55:01'!
 ambient
 	^ self propertyAt: #ambient ifAbsentPut: [(components allSatisfy: [:each| each isAmbient]) ifTrue: [self] ifFalse: [self class components: (components collect: [:each| each ambient])]]! !
 
-!DirectSumModule methodsFor: 'accessing' stamp: 'len 2/16/2016 07:31'!
+!DirectSumFreeModule methodsFor: 'accessing' stamp: 'len 2/16/2016 07:31'!
 arity
 	^ components size! !
 
-!DirectSumModule methodsFor: 'converting' stamp: 'len 5/1/2016 18:54'!
+!DirectSumFreeModule methodsFor: 'converting' stamp: 'len 5/1/2016 18:54'!
 asCartesianProduct
 	^ CartesianProduct components: components! !
 
-!DirectSumModule methodsFor: 'accessing' stamp: 'len 2/12/2016 20:12'!
+!DirectSumFreeModule methodsFor: 'accessing' stamp: 'len 2/12/2016 20:12'!
 at: anInteger
 	^ components at: anInteger! !
 
-!DirectSumModule methodsFor: 'accessing-private' stamp: 'len 11/10/2015 22:53'!
+!DirectSumFreeModule methodsFor: 'accessing-private' stamp: 'len 11/10/2015 22:53'!
 components
 	^ components! !
 
-!DirectSumModule methodsFor: 'accessing-private' stamp: 'len 11/5/2016 06:41'!
+!DirectSumFreeModule methodsFor: 'accessing-private' stamp: 'len 11/5/2016 06:41'!
 components: anArray
 	components _ anArray! !
 
-!DirectSumModule methodsFor: 'basis' stamp: 'len 1/8/2017 10:50:44'!
+!DirectSumFreeModule methodsFor: 'basis' stamp: 'len 1/8/2017 10:50:44'!
 coordinatesOf: anArray
 	"Answer the coordinates of the argument in the canonical basis."
 	| answer |
@@ -22749,7 +22756,7 @@ coordinatesOf: anArray
 		answer _ answer isNil ifTrue: [V coordinatesOf: v] ifFalse: [answer, (V coordinatesOf: v)]].
 	^ answer! !
 
-!DirectSumModule methodsFor: 'basis' stamp: 'len 11/6/2016 09:40'!
+!DirectSumFreeModule methodsFor: 'basis' stamp: 'len 11/6/2016 09:40'!
 e: anInteger
 	| index answer |
 	index _ anInteger.
@@ -22764,55 +22771,55 @@ e: anInteger
 		index _ index - n].
 	^ answer! !
 
-!DirectSumModule methodsFor: 'morphisms' stamp: 'len 10/10/2016 08:44'!
+!DirectSumFreeModule methodsFor: 'morphisms' stamp: 'len 10/10/2016 08:44'!
 embedding: i
 	^ ((self at: i) to: self evaluating: [:x| components withIndexCollect: [:each :k| k = i ifTrue: [x] ifFalse: [each zero]]]) name: 'i', i printText sub! !
 
-!DirectSumModule methodsFor: 'testing' stamp: 'len 2/12/2016 20:14'!
+!DirectSumFreeModule methodsFor: 'testing' stamp: 'len 2/12/2016 20:14'!
 includes: anObject
 	anObject size = components size ifFalse: [^ false].
 	components with: anObject do: [:V :x| (V includes: x) ifFalse: [^ false]].
 	^ true! !
 
-!DirectSumModule methodsFor: 'testing' stamp: 'len 4/22/2016 13:44'!
+!DirectSumFreeModule methodsFor: 'testing' stamp: 'len 4/22/2016 13:44'!
 isCoproduct
 	^ true! !
 
-!DirectSumModule methodsFor: 'testing' stamp: 'len 10/15/2016 21:00'!
+!DirectSumFreeModule methodsFor: 'testing' stamp: 'len 10/15/2016 21:00'!
 isFreeModule
 	^ components allSatisfy: [:each| each isFreeModule]! !
 
-!DirectSumModule methodsFor: 'converting' stamp: 'len 12/18/2016 12:46:04'!
+!DirectSumFreeModule methodsFor: 'converting' stamp: 'len 12/18/2016 12:46:04'!
 over: aRing
 	"Answer the change of base ring of the receiver."
 	^ self class components: (components collect: [:each| each over: aRing])! !
 
-!DirectSumModule methodsFor: 'printing' stamp: 'len 10/10/2016 08:45'!
+!DirectSumFreeModule methodsFor: 'printing' stamp: 'len 10/10/2016 08:45'!
 printOn: aStream
 	components do: [:each| aStream print: each] separatedBy: [aStream nextPut: Character oplus]! !
 
-!DirectSumModule methodsFor: 'morphisms' stamp: 'len 10/10/2016 08:42'!
+!DirectSumFreeModule methodsFor: 'morphisms' stamp: 'len 10/10/2016 08:42'!
 projection: i
 	^ (self to: (self at: i) evaluating: [:x| x at: i]) name: Character pi asText, i printText sub! !
 
-!DirectSumModule methodsFor: 'basis' stamp: 'len 10/16/2016 09:53'!
+!DirectSumFreeModule methodsFor: 'basis' stamp: 'len 10/16/2016 09:53'!
 rank
 	^ components sum: [:each| each rank]! !
 
-!DirectSumModule methodsFor: 'accessing' stamp: 'len 12/31/2017 13:34:13'!
+!DirectSumFreeModule methodsFor: 'accessing' stamp: 'len 12/31/2017 13:34:13'!
 scalars
 	components do: [:any| ^ any scalars].
 	^ nil! !
 
-!DirectSumModule methodsFor: 'accessing' stamp: 'len 12/17/2016 09:11:16'!
+!DirectSumFreeModule methodsFor: 'accessing' stamp: 'len 12/17/2016 09:11:16'!
 torsion
 	^ DirectSumGroup components: (components collect: [:each| each torsion])! !
 
-!DirectSumModule class methodsFor: 'instance creation' stamp: 'len 11/10/2015 22:58'!
+!DirectSumFreeModule class methodsFor: 'instance creation' stamp: 'len 11/10/2015 22:58'!
 components: anArray
 	^ self new components: anArray! !
 
-!DirectSumModule class methodsFor: 'examples' stamp: 'len 2/20/2017 22:14:57'!
+!DirectSumFreeModule class methodsFor: 'examples' stamp: 'len 2/20/2017 22:14:57'!
 example
 	"The direct sum of two vector spaces."
 	^ QQ^3 ê (QQ^2)! !
@@ -22888,7 +22895,7 @@ coefficients: aDictionary
 e: anInteger
 	^ SimplicialChain new parent: self; at: (self symbols at: anInteger) put: self scalars one; yourself! !
 
-!HomModule methodsFor: 'elements' stamp: 'len 12/22/2016 22:37:24'!
+!HomFreeModule methodsFor: 'elements' stamp: 'len 12/22/2016 22:37:24'!
 !! anObject
 	(anObject isBlock or: [anObject is: #Function]) ifTrue: [^ self evaluating: anObject].
 	(anObject is: #Matrix) ifTrue: [^ self matrix: anObject].
@@ -22896,68 +22903,68 @@ e: anInteger
 	anObject isInteger ifTrue: [^ self scalar: self scalars !! anObject].
 	^ super !! anObject! !
 
-!HomModule methodsFor: 'accessing' stamp: 'len 12/30/2017 16:51:53'!
+!HomFreeModule methodsFor: 'accessing' stamp: 'len 12/30/2017 16:51:53'!
 ambient
 	^ self! !
 
-!HomModule methodsFor: 'accessing' stamp: 'len 11/7/2015 04:34'!
+!HomFreeModule methodsFor: 'accessing' stamp: 'len 11/7/2015 04:34'!
 codomain
 	^ codomain! !
 
-!HomModule methodsFor: 'accessing-private' stamp: 'len 11/7/2015 04:31'!
+!HomFreeModule methodsFor: 'accessing-private' stamp: 'len 11/7/2015 04:31'!
 codomain: aVectorSpace
 	codomain _ aVectorSpace! !
 
-!HomModule methodsFor: 'basis' stamp: 'len 12/10/2015 03:48'!
+!HomFreeModule methodsFor: 'basis' stamp: 'len 12/10/2015 03:48'!
 coordinatesOf: aLinearMap
 	"Answer the coordinates of aLinearMap with respect to the domain and codomain basis."
 
 	^ self matrices coordinatesOf: (self matrixOf: aLinearMap)! !
 
-!HomModule methodsFor: 'accessing' stamp: 'len 11/7/2015 04:34'!
+!HomFreeModule methodsFor: 'accessing' stamp: 'len 11/7/2015 04:34'!
 domain
 	^ domain! !
 
-!HomModule methodsFor: 'accessing-private' stamp: 'len 11/7/2015 04:31'!
+!HomFreeModule methodsFor: 'accessing-private' stamp: 'len 11/7/2015 04:31'!
 domain: aVectorSpace
 	domain _ aVectorSpace! !
 
-!HomModule methodsFor: 'basis' stamp: 'len 1/21/2018 21:51:25'!
+!HomFreeModule methodsFor: 'basis' stamp: 'len 1/21/2018 21:51:25'!
 e: anInteger
 	"Answer the anInteger-th canonic vector."
 	^ LinearMap from: domain to: codomain matrix: (self matrices e: anInteger)! !
 
-!HomModule methodsFor: 'elements' stamp: 'len 3/5/2017 17:01:32'!
+!HomFreeModule methodsFor: 'elements' stamp: 'len 3/5/2017 17:01:32'!
 evaluating: aBlock
 	^ domain to: codomain evaluating: aBlock! !
 
-!HomModule methodsFor: 'elements' stamp: 'len 3/5/2017 17:01:08'!
+!HomFreeModule methodsFor: 'elements' stamp: 'len 3/5/2017 17:01:08'!
 evaluatingWithArguments: aBlock
 	^ self domain to: self codomain evaluatingWithArguments: aBlock! !
 
-!HomModule methodsFor: 'elements' stamp: 'len 2/11/2016 20:50'!
+!HomFreeModule methodsFor: 'elements' stamp: 'len 2/11/2016 20:50'!
 identity
 	^ self matrix: self matrices identity! !
 
-!HomModule methodsFor: 'testing' stamp: 'len 8/23/2016 21:58'!
+!HomFreeModule methodsFor: 'testing' stamp: 'len 8/23/2016 21:58'!
 includes: aLinearMap
 	^ (aLinearMap isKindOf: LinearMap) and: [aLinearMap domain = self domain and: [aLinearMap codomain = self codomain]]! !
 
-!HomModule methodsFor: 'testing' stamp: 'len 2/13/2016 00:19'!
+!HomFreeModule methodsFor: 'testing' stamp: 'len 2/13/2016 00:19'!
 isEndomorphisms
 	^ domain = codomain! !
 
-!HomModule methodsFor: 'private' stamp: 'len 1/5/2016 03:20'!
+!HomFreeModule methodsFor: 'private' stamp: 'len 1/5/2016 03:20'!
 matrices
 	"Answer the vector space of the matrices associated to the transformations of the receiver."
 	^ self scalars ^ (self codomain dimension @ self domain dimension)! !
 
-!HomModule methodsFor: 'elements' stamp: 'len 1/21/2018 21:45:58'!
+!HomFreeModule methodsFor: 'elements' stamp: 'len 1/21/2018 21:45:58'!
 matrix: aMatrix
 	"Answer the linear transformation associated to the given matrix in the distinguished bases for the domain and codomain modules."
 	^ LinearMap from: domain to: codomain matrix: aMatrix! !
 
-!HomModule methodsFor: 'private' stamp: 'len 1/5/2017 20:26:24'!
+!HomFreeModule methodsFor: 'private' stamp: 'len 1/5/2017 20:26:24'!
 matrixOf: aLinearMap
 	"Answer the matrix associated to aLinearTransformation with respect to the domain and codomain basis."
 	| answer |
@@ -22966,102 +22973,102 @@ matrixOf: aLinearMap
 		answer addRow: (self codomain coordinatesOf: (aLinearMap value: each))].
 	^ answer transposed! !
 
-!HomModule methodsFor: 'operations' stamp: 'len 10/9/2016 08:35'!
+!HomFreeModule methodsFor: 'operations' stamp: 'len 10/9/2016 08:35'!
 opposite
 	^ self class from: self domain to: self codomain! !
 
-!HomModule methodsFor: 'converting' stamp: 'len 12/18/2016 12:44:37'!
+!HomFreeModule methodsFor: 'converting' stamp: 'len 12/18/2016 12:44:37'!
 over: aRing
 	"Answer the change of base ring of the receiver."
 	^ self class from: (self domain over: aRing) to: (self codomain over: aRing)! !
 
-!HomModule methodsFor: 'printing' stamp: 'len 12/5/2016 11:56:23'!
+!HomFreeModule methodsFor: 'printing' stamp: 'len 12/5/2016 11:56:23'!
 printOn: aStream
 	self isEndomorphisms
 		ifTrue: [aStream nextPutAll: 'End'; nextPutAll: self scalars printText sub; nextPut: $(; print: self domain; nextPut: $)]
 		ifFalse: [aStream nextPutAll: 'Hom'; nextPutAll: self scalars printText sub; nextPut: $(; print: self domain; nextPut: $,; print: self codomain; nextPut: $)]! !
 
-!HomModule methodsFor: 'basis' stamp: 'len 10/5/2016 09:32'!
+!HomFreeModule methodsFor: 'basis' stamp: 'len 10/5/2016 09:32'!
 rank
 	^ self domain rank * self codomain rank! !
 
-!HomModule methodsFor: 'elements' stamp: 'len 2/11/2016 20:10'!
+!HomFreeModule methodsFor: 'elements' stamp: 'len 2/11/2016 20:10'!
 scalar: aNumber
 	^ self evaluating: [:x| x * aNumber]! !
 
-!HomModule methodsFor: 'accessing' stamp: 'len 11/7/2015 03:43'!
+!HomFreeModule methodsFor: 'accessing' stamp: 'len 11/7/2015 03:43'!
 scalars
 	"Answer the algebraic ambient of scalars."
 
 	^ self domain scalars! !
 
-!HomModule methodsFor: 'elements' stamp: 'len 12/12/2017 18:35:01'!
+!HomFreeModule methodsFor: 'elements' stamp: 'len 12/12/2017 18:35:01'!
 zero
 	^ self matrix: self matrices zero! !
 
-!HomModule class methodsFor: 'examples' stamp: 'len 2/20/2017 22:10:30'!
+!HomFreeModule class methodsFor: 'examples' stamp: 'len 2/20/2017 22:10:30'!
 example
 	"The vector space of linear transformations
 	from 3-tuples to 2-tuples, over the rational numbers."
 	^ QQ^3 hom: QQ^2! !
 
-!HomModule class methodsFor: 'instance creation' stamp: 'len 1/13/2018 21:22:46'!
+!HomFreeModule class methodsFor: 'instance creation' stamp: 'len 1/13/2018 21:22:46'!
 from: aModule to: anotherModule
 	^ self new
 		domain: aModule;
 		codomain: anotherModule! !
 
-!DualModule methodsFor: 'accessing' stamp: 'len 12/30/2017 16:47:50'!
+!DualFreeModule methodsFor: 'accessing' stamp: 'len 12/30/2017 16:47:50'!
 ambient
 	^ self! !
 
-!DualModule methodsFor: 'accessing-private' stamp: 'len 10/7/2016 08:43'!
+!DualFreeModule methodsFor: 'accessing-private' stamp: 'len 10/7/2016 08:43'!
 domain: aModule
 	super domain: aModule.
 	self codomain: aModule scalars asSelfModule! !
 
-!DualModule methodsFor: 'converting' stamp: 'len 12/18/2016 12:45:17'!
+!DualFreeModule methodsFor: 'converting' stamp: 'len 12/18/2016 12:45:17'!
 over: aRing
 	"Answer the change of base ring of the receiver."
 	^ self class from: (self domain over: aRing)! !
 
-!DualModule methodsFor: 'morphisms' stamp: 'len 1/13/2018 21:22:13'!
+!DualFreeModule methodsFor: 'morphisms' stamp: 'len 1/13/2018 21:22:13'!
 pairing
 	"Answer the natural pairing."
 	^ self propertyAt: #pairing ifAbsentPut: [BilinearMap from: (self, self domain) evaluating: [:each| each first value: each second]]! !
 
-!DualModule methodsFor: 'elements' stamp: 'len 6/1/2016 06:08'!
+!DualFreeModule methodsFor: 'elements' stamp: 'len 6/1/2016 06:08'!
 x
 	"As for polynomials."
 	^ self x: 1! !
 
-!DualModule methodsFor: 'elements' stamp: 'len 6/1/2016 06:07'!
+!DualFreeModule methodsFor: 'elements' stamp: 'len 6/1/2016 06:07'!
 x: i
 	"As for polynomials."
 	^ self e: i! !
 
-!DualModule methodsFor: 'elements' stamp: 'len 6/1/2016 06:08'!
+!DualFreeModule methodsFor: 'elements' stamp: 'len 6/1/2016 06:08'!
 y
 	"As for polynomials."
 	^ self x: 2! !
 
-!DualModule methodsFor: 'elements' stamp: 'len 6/1/2016 06:08'!
+!DualFreeModule methodsFor: 'elements' stamp: 'len 6/1/2016 06:08'!
 z
 	"As for polynomials."
 	^ self x: 3! !
 
-!DualModule class methodsFor: 'examples' stamp: 'len 2/21/2017 11:07:42'!
+!DualFreeModule class methodsFor: 'examples' stamp: 'len 2/21/2017 11:07:42'!
 example1
 	"The dual of a vector space. This is the space of linear forms."
 	^ (QQ^3) dual! !
 
-!DualModule class methodsFor: 'examples' stamp: 'len 2/21/2017 11:23:30'!
+!DualFreeModule class methodsFor: 'examples' stamp: 'len 2/21/2017 11:23:30'!
 example2
 	"The basis of the dual vector space of 2x2 matrices with rational coefficients.
 	The elements of the basis are the coordinate functions of the original vector space."
 	^ (QQ^(2@2)) dual basis! !
 
-!DualModule class methodsFor: 'instance creation' stamp: 'len 1/13/2018 21:21:54'!
+!DualFreeModule class methodsFor: 'instance creation' stamp: 'len 1/13/2018 21:21:54'!
 from: aModule
 	^ self new domain: aModule! !
 
@@ -27300,9 +27307,10 @@ on: aVectorSpace
 	"See also Domain>>|."
 	^ self corestrictedTo: aCodomain! !
 
-!Morphism methodsFor: 'operations' stamp: 'len 12/20/2016 11:55:22'!
+!Morphism methodsFor: 'operations' stamp: 'len 1/22/2018 22:37:36'!
 î aMorphism
-	"Answer the composition of the receiver with the argument."
+	"Answer the composition of the receiver with the argument.
+	Given the argument f:X -> Y and the receiver g:Y -> Z, answer gîf:X -> Z."
 	^ self subclassResponsibility! !
 
 !Morphism methodsFor: 'operations' stamp: 'len 12/8/2016 20:24:27'!
@@ -27540,9 +27548,11 @@ example6GLAsMatrixGroupAction
 	"Answer the product of the receiver with the argument."
 	^ self, aFunction! !
 
-!Function methodsFor: 'operations' stamp: 'len 12/20/2016 11:54:42'!
+!Function methodsFor: 'operations' stamp: 'len 1/22/2018 22:38:51'!
 î aFunction
-	"Answer the composition of the receiver with the argument."
+	"Answer the composition of the receiver with the argument.
+	Given the argument f:X -> Y and the receiver g:Y -> Z, answer gîf:X -> Z.
+	This is, (gîf)(x) = g(f(x))."
 	self domain >= aFunction codomain ifFalse: [DomainError signal: 'domains don''t match'].
 	^ self species from: aFunction domain to: self codomain evaluating: [:x| self value: (aFunction value: x)]! !
 
@@ -28297,9 +28307,9 @@ computeLeftInverse
 computeRightInverse
 	^ self isEpimorphism ifTrue: [self class from: codomain to: domain matrix: matrix rightInverse]! !
 
-!LinearMap methodsFor: 'operations' stamp: 'len 11/9/2015 16:01'!
+!LinearMap methodsFor: 'operations' stamp: 'len 1/23/2018 16:51:35'!
 corank
-	^ self cokernel dimension! !
+	^ self cokernel rank! !
 
 !LinearMap methodsFor: 'operations' stamp: 'len 2/22/2017 09:05:41'!
 determinant
@@ -28366,6 +28376,12 @@ geometricMultiplicityAt: anEigenvalue
 !LinearMap methodsFor: 'accessing' stamp: 'len 1/21/2018 21:34:12'!
 identity
 	^ self class from: domain to: codomain matrix: matrix identity! !
+
+!LinearMap methodsFor: 'operations' stamp: 'len 1/23/2018 16:53:39'!
+index
+	"Answer the index of the receiver, assuming it is an endomorphism.
+	This is precisely the Euler characteristic of the 2-term complex 0 -> Domain -> Codomain -> 0."
+	^ self kernel rank - self cokernel rank! !
 
 !LinearMap methodsFor: 'arithmetic' stamp: 'len 1/25/98 20:37'!
 inverse
@@ -28577,7 +28593,7 @@ asRationalMap
 bitSize
 	^ linearMap bitSize + translation bitSize! !
 
-!AffineMap methodsFor: 'accessing' stamp: 'len 1/22/2018 17:15:26'!
+!AffineMap methodsFor: 'accessing' stamp: 'len 1/22/2018 20:11:17'!
 codomain
 	^ linearMap codomain! !
 
@@ -28703,8 +28719,10 @@ from: aDomain to: aCodomain evaluating: aBlock
 from: anAffineFrame to: anotherAffineFrame matrix: aMatrix
 	^ self notYetImplemented! !
 
-!AffineMap class methodsFor: 'instance creation' stamp: 'len 1/22/2018 17:08:14'!
+!AffineMap class methodsFor: 'instance creation' stamp: 'len 1/22/2018 20:10:57'!
 linearMap: aLinearMap translation: aVector
+	(aLinearMap codomain includes: aVector)
+		ifFalse: [^ DomainError signal: 'translation vector is outside of the codomain'].
 	^ self new linearMap: aLinearMap; translation: aVector! !
 
 !BilinearForm methodsFor: 'arithmetic' stamp: 'len 1/8/2016 05:07'!
