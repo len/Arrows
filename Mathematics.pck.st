@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 25 January 2018 at 5:58:03 pm'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 28 January 2018 at 11:25:25 pm'!
 'Description A computational algebra system in Smalltalk'!
-!provides: 'Mathematics' 1 406!
+!provides: 'Mathematics' 1 407!
 !requires: 'RayTracer' 1 2 nil!
 !classDefinition: #RealAlgebraicNumber category: #'Mathematics-Fields'!
 Number subclass: #RealAlgebraicNumber
@@ -7305,13 +7305,14 @@ apply: aLinearMap
 at: anInteger
 	^ ambient elementAt: (matrix rowAt: anInteger)! !
 
-!LinearBasis methodsFor: 'operations' stamp: 'len 11/12/2016 07:39'!
+!LinearBasis methodsFor: 'operations' stamp: 'len 1/25/2018 22:33:14'!
 changeTo: aLinearBasis
 	"Answer the matrix for changing from the receiver to aLinearBasis."
-	| matrix |
-	matrix _ RowMatrix new.
-	self do: [:each| matrix addRow: (aLinearBasis coordinatesOf: each)].
-	^ matrix transposed! !
+	^ (Matrix rows: (self collect: [:each| aLinearBasis coordinatesOf: each])) transposed! !
+
+!LinearBasis methodsFor: 'coordinates' stamp: 'len 1/25/2018 23:06:32'!
+coordinateMap
+	^ LinearMap from: self coordinateSpace to: ambient matrix: matrix transposed! !
 
 !LinearBasis methodsFor: 'coordinates' stamp: 'len 5/23/2016 04:32'!
 coordinateSpace
@@ -14639,11 +14640,11 @@ compositiveInverseMap
 compositiveOperation
 	^ (GroupAction from: (self, self) to: self evaluatingWithArguments: [:x :y| x ” y]) name: '”'! !
 
-!Group methodsFor: 'private' stamp: 'len 5/1/2016 23:23'!
+!Group methodsFor: 'private' stamp: 'len 1/28/2018 08:23:20'!
 computeExponent
 	| answer |
 	answer _ 1.
-	self do: [:each| answer _ answer max: (self orderOf: each)].
+	self do: [:each| answer _ answer lcm: (self orderOf: each)].
 	^ answer! !
 
 !Group methodsFor: 'private' stamp: 'len 12/28/2016 12:27:48'!
@@ -14678,15 +14679,16 @@ conjugacyClassOf: anElement
 conjugacyClasses
 	^ self conjugation orbits! !
 
-!Group methodsFor: 'private' stamp: 'len 7/27/2016 07:15'!
-conjugate: x with: y
+!Group methodsFor: 'private' stamp: 'len 1/28/2018 22:59:07'!
+conjugate: g by: x
+	"Answer the conjugate of g by x: x*g*x^-1."
 	| op |
 	op _ self operation.
-	^ op value: {op value: {self inverseMap value: y. x}. y}! !
+	^ op value: {x. op value: {g. self inverseMap value: x}}! !
 
-!Group methodsFor: 'morphisms' stamp: 'len 10/17/2016 10:51'!
+!Group methodsFor: 'morphisms' stamp: 'len 1/28/2018 22:59:56'!
 conjugation
-	^ GroupAction from: (self, self) to: self evaluatingWithArguments: [:x :y| self conjugate: x with: y]! !
+	^ GroupAction from: (self, self) to: self evaluatingWithArguments: [:x :y| self conjugate: y by: x]! !
 
 !Group methodsFor: 'copying' stamp: 'len 5/1/2016 23:38'!
 copyEmpty
@@ -14962,7 +14964,7 @@ multiplicativeInverseMap
 multiplicativeOperation
 	^ (GroupAction from: (self, self) to: self evaluatingWithArguments: [:x :y| x * y]) name: '*'! !
 
-!Group methodsFor: 'operations' stamp: 'len 12/10/2016 13:04:55'!
+!Group methodsFor: 'operations' stamp: 'len 1/28/2018 23:03:50'!
 normalClosureOf: aSubset
 	"From Handbook of Computational Group Theory (Holt) 74p.
 	The normal closure of A <= G in G (denoted A^G) is the smallest normal subgroup of G that contains A, i.e. the intersection of all normal subgroups that contain A. Equivalently, it is the set A^G := {g^-1 * a * g | g in G, a in A}."
@@ -14974,7 +14976,7 @@ normalClosureOf: aSubset
 	random _ self random.
 	N _ self copyEmpty generators: Z.
 	["test whether <Z> = <Y>^<X>"
-	X allSatisfy: [:g| Z allSatisfy: [:h| N includes: (self conjugate: h with: g)]]]
+	X allSatisfy: [:g| Z allSatisfy: [:h| N includes: (self conjugate: h by: g)]]]
 		whileFalse:
 			["add some new random conjugates to Z"
 			| random2 |
@@ -15622,6 +15624,18 @@ isSubgroupOfAn
 	20 timesRepeat:
 		[random next isPurple ifTrue: [^ true]].
 	^ false! !
+
+!PermutationGroup methodsFor: 'accessing' stamp: 'len 1/28/2018 18:27:42'!
+polynomialActionOn: aPolynomialRing
+	"Answer the action that permutes the indeterminates."
+	^ GroupAction from: (self, aPolynomialRing) to: aPolynomialRing evaluatingWithArguments: [:s :f| f permutedBy: s]! !
+
+!PermutationGroup methodsFor: 'accessing' stamp: 'len 1/28/2018 18:31:26'!
+polynomialActionOver: aRing
+	"Answer the action that permutes the indeterminates on a polynomial ring."
+	| R |
+	R _ aRing polynomialsIn: self degree.
+	^ GroupAction from: (self, R) to: R evaluatingWithArguments: [:s :f| f permutedBy: s]! !
 
 !PermutationGroup methodsFor: 'accessing' stamp: 'len 12/28/2016 11:29:34'!
 size
@@ -16898,11 +16912,12 @@ degree
 degree: anInteger
 	self propertyAt: #degree put: anInteger! !
 
-!MatrixGroup methodsFor: 'enumerating' stamp: 'len 6/23/2016 07:03'!
+!MatrixGroup methodsFor: 'enumerating' stamp: 'len 1/28/2018 18:42:36'!
 do: aBlock
 	self flag: #fix.
-	^ super do: aBlock
-"	matrices do: [:each| (self includes: each) ifTrue: [aBlock value: each]]"! !
+	((self hasProperty: #elements) or: [self hasProperty: #generators])
+		ifTrue: [^ super do: aBlock].
+	self scalars ^ (self degree @ self degree) do: [:each| (each isSingular not and: [self contains: each]) ifTrue: [aBlock value: each]]! !
 
 !MatrixGroup methodsFor: 'invariants' stamp: 'len 2/5/2017 10:58:39'!
 hilbertSeries
@@ -16934,13 +16949,13 @@ leftAction
 on: aFreeModule
 	^ LinearTransformationsGroup on: aFreeModule matrices: self! !
 
-!MatrixGroup methodsFor: 'invariants' stamp: 'len 10/22/2016 17:58'!
+!MatrixGroup methodsFor: 'invariants' stamp: 'len 1/28/2018 18:22:19'!
 polynomialAction
 	"Answer the action of the receiver on the polynomial ring K[x1...xn]."
 	| R X |
 	R _ self space coordinateRing.
 	X _ R tuple: R rank evaluating: [:i| R x: i].
-	^ GroupAction from: (self, R) to: R evaluating: [:A :f| f value: A * X]! !
+	^ GroupAction from: (self, R) to: R evaluatingWithArguments: [:A :f| f value: (A over: R) * X]! !
 
 !MatrixGroup methodsFor: 'printing' stamp: 'len 12/8/2016 11:02:12'!
 printOn: aStream
@@ -17959,10 +17974,18 @@ isEuclidean
 isField
 	^ self propertyAt: #isField ifAbsent: [false]! !
 
+!Ring methodsFor: 'testing' stamp: 'len 1/28/2018 08:00:19'!
+isFiniteField
+	^ false! !
+
 !Ring methodsFor: 'testing' stamp: 'len 12/28/2016 12:10:57'!
 isGCDDomain
 	"A GCD domain is an integral domain with the property that any two non-zero elements have GCD (or equivalently any two non-zero elements have a LCM)."
 	^ self propertyAt: #isGCDDomain! !
+
+!Ring methodsFor: 'testing' stamp: 'len 1/26/2018 18:58:30'!
+isGlobalField
+	^ false! !
 
 !Ring methodsFor: 'testing' stamp: 'len 11/2/2016 08:56'!
 isInitial
@@ -17982,6 +18005,14 @@ isIntegrallyClosedDomain
 !Ring methodsFor: 'testing' stamp: 'len 10/28/2016 11:17'!
 isLocal
 	"Answer true if the receiver is a local ring."
+	^ false! !
+
+!Ring methodsFor: 'testing' stamp: 'len 1/26/2018 18:58:19'!
+isLocalField
+	^ false! !
+
+!Ring methodsFor: 'testing' stamp: 'len 1/28/2018 22:20:23'!
+isLocalization
 	^ false! !
 
 !Ring methodsFor: 'testing' stamp: 'len 12/28/2016 12:10:02'!
@@ -18338,9 +18369,17 @@ isField
 isLocal
 	^ true! !
 
+!LocalizationRing methodsFor: 'testing' stamp: 'len 1/28/2018 22:20:01'!
+isLocalization
+	^ true! !
+
 !LocalizationRing methodsFor: 'testing' stamp: 'len 1/23/2018 20:53:08'!
 isTrivial
 	^ self integers isTrivial or: [self maximalIdeal includes: self zero]! !
+
+!LocalizationRing methodsFor: 'testing' stamp: 'len 1/25/2018 19:29:55'!
+isUnit: aFraction
+	^ (self ideal includes: aFraction numerator) not! !
 
 !LocalizationRing methodsFor: 'accessing' stamp: 'len 10/28/2016 16:33'!
 maximalIdeal
@@ -18501,6 +18540,10 @@ isPrime
 isReal
 	^ true! !
 
+!RationalField methodsFor: 'testing' stamp: 'len 1/25/2018 19:31:19'!
+isUnit: anIntegerOrFraction
+	^ anIntegerOrFraction isZero not! !
+
 !RationalField methodsFor: 'elements' stamp: 'len 11/2/2015 15:53'!
 one
 	^ 1! !
@@ -18558,6 +18601,10 @@ extension: aPolynomial
 !RationalFunctionField methodsFor: 'accessing' stamp: 'len 10/14/2016 22:59'!
 indeterminates
 	^ self integers indeterminates! !
+
+!RationalFunctionField methodsFor: 'testing' stamp: 'len 1/25/2018 19:31:41'!
+isUnit: aRationalFunction
+	^ aRationalFunction isZero not! !
 
 !RationalFunctionField methodsFor: 'testing' stamp: 'len 10/14/2016 22:59'!
 isUnivariate
@@ -19013,6 +19060,10 @@ inverseOfRepresentative: anInteger
 isField
 	^ true! !
 
+!PrimeField methodsFor: 'testing' stamp: 'len 1/28/2018 08:00:48'!
+isFiniteField
+	^ true! !
+
 !PrimeField methodsFor: 'testing' stamp: 'len 10/18/2016 22:41'!
 isUnit: anElement
 	^ anElement isZero not! !
@@ -19173,6 +19224,10 @@ polynomial: aPolynomial
 genus
 	^ self notYetImplemented! !
 
+!FunctionField methodsFor: 'testing' stamp: 'len 1/28/2018 08:00:58'!
+isGlobalField
+	^ (self base isKindOf: RationalFunctionField) and: [self scalars isFiniteField]! !
+
 !FunctionField methodsFor: 'testing' stamp: 'len 1/5/2017 18:55:12'!
 isPerfectField
 	"A field is perfect if either it has characteristic 0 or has characteristic p and every element in the field has a p-th root in the field."
@@ -19186,6 +19241,10 @@ automorphisms
 !GaloisField methodsFor: 'testing' stamp: 'len 12/14/2016 10:15:29'!
 isAbelianExtension
 	"Galois fields are Abelian extensions."
+	^ true! !
+
+!GaloisField methodsFor: 'testing' stamp: 'len 1/28/2018 07:59:48'!
+isFiniteField
 	^ true! !
 
 !GaloisField methodsFor: 'testing' stamp: 'len 12/13/2016 21:47:29'!
@@ -19262,6 +19321,10 @@ isCubic
 isGaloisExtension
 	self degree = 3 ifTrue: [^ self polynomial discriminant isPerfectSquare].
 	self notYetImplemented! !
+
+!NumberField methodsFor: 'testing' stamp: 'len 1/26/2018 18:59:52'!
+isGlobalField
+	^ true! !
 
 !NumberField methodsFor: 'testing' stamp: 'len 12/10/2016 21:44:21'!
 isImaginary
@@ -19772,6 +19835,10 @@ isComplex
 isField
 	^ true! !
 
+!ComplexField methodsFor: 'testing' stamp: 'len 1/26/2018 18:57:44'!
+isLocalField
+	^ true! !
+
 !ComplexField methodsFor: 'accessing' stamp: 'len 8/6/2016 03:45'!
 one
 	^ 1! !
@@ -19832,6 +19899,10 @@ isField
 !RealField methodsFor: 'testing' stamp: 'len 1/20/2018 19:01:50'!
 isFinite
 	^ false! !
+
+!RealField methodsFor: 'testing' stamp: 'len 1/26/2018 18:57:34'!
+isLocalField
+	^ true! !
 
 !RealField methodsFor: 'testing' stamp: 'len 8/5/2016 21:55'!
 isReal
@@ -22956,14 +23027,12 @@ matrix: aMatrix
 	"Answer the linear transformation associated to the given matrix in the distinguished bases for the domain and codomain modules."
 	^ LinearMap from: domain to: codomain matrix: aMatrix! !
 
-!HomFreeModule methodsFor: 'private' stamp: 'len 1/5/2017 20:26:24'!
+!HomFreeModule methodsFor: 'private' stamp: 'len 1/25/2018 22:54:20'!
 matrixOf: aLinearMap
-	"Answer the matrix associated to aLinearTransformation with respect to the domain and codomain basis."
-	| answer |
-	answer _ RowMatrix new.
-	self domain basis do: [:each|
-		answer addRow: (self codomain coordinatesOf: (aLinearMap value: each))].
-	^ answer transposed! !
+	"Answer the matrix associated to aLinearMap with respect to the domain and codomain basis."
+	(self domain basis = aLinearMap domain basis and: [aLinearMap codomain basis = self codomain basis])
+		ifTrue: [^ aLinearMap matrix].
+	^ Matrix columns: (self domain basis collect: [:each| (self codomain coordinatesOf: (aLinearMap value: each))])! !
 
 !HomFreeModule methodsFor: 'operations' stamp: 'len 10/9/2016 08:35'!
 opposite
@@ -23318,9 +23387,9 @@ asRing
 	self isSquare ifFalse: [self error: 'not a module of square matrices'].
 	^ MatrixRing new: numberOfRows over: scalars! !
 
-!MatrixModule methodsFor: 'elements' stamp: 'len 11/5/2016 06:28'!
+!MatrixModule methodsFor: 'elements' stamp: 'len 1/25/2018 19:39:22'!
 columns: anArray
-	^ ColumnMatrix columns: (anArray collect: [:each| self scalars tuple: each])! !
+	^ Matrix columns: (anArray collect: [:each| self scalars tuple: each])! !
 
 !MatrixModule methodsFor: 'accessing' stamp: 'len 2/21/2017 10:57:14'!
 coordinateNames
@@ -25291,31 +25360,29 @@ weightEnumerator
 	weights asSet do: [:i| answer _ x ^ (n - i) * (y ^ i) * (weights occurrencesOf: i) + answer].
 	^ answer! !
 
-!LinearCode class methodsFor: 'examples' stamp: 'len 11/12/2016 07:41'!
+!LinearCode class methodsFor: 'examples' stamp: 'len 1/25/2018 22:40:25'!
 G11
 	"Answer the perfect ternary Golary code [11,6,5]."
-	| A |
-	A _ RowMatrix new.
-	A addRow: (1,0,0,0,0,0, 1,1,1,1,1) % 3.
-	A addRow: (0,1,0,0,0,0, 0,1,2,2,1) % 3.
-	A addRow: (0,0,1,0,0,0, 1,0,1,2,2) % 3.
-	A addRow: (0,0,0,1,0,0, 2,1,0,1,2) % 3.
-	A addRow: (0,0,0,0,1,0, 2,2,1,0,1) % 3.
-	A addRow: (0,0,0,0,0,1, 1,2,2,1,0) % 3.
-	^ self matrix: A! !
+	^ self matrix:
+		(Matrix rows: {
+			(1,0,0,0,0,0, 1,1,1,1,1) % 3.
+			(0,1,0,0,0,0, 0,1,2,2,1) % 3.
+			(0,0,1,0,0,0, 1,0,1,2,2) % 3.
+			(0,0,0,1,0,0, 2,1,0,1,2) % 3.
+			(0,0,0,0,1,0, 2,2,1,0,1) % 3.
+			(0,0,0,0,0,1, 1,2,2,1,0) % 3})! !
 
-!LinearCode class methodsFor: 'examples' stamp: 'len 11/12/2016 07:41'!
+!LinearCode class methodsFor: 'examples' stamp: 'len 1/25/2018 22:41:28'!
 G12
 	"Answer the extended ternary Golary code [12,6,6]."
-	| A |
-	A _ RowMatrix new.
-	A addRow: (1,0,0,0,0,0, 0,1,1,1,1,1) % 3.
-	A addRow: (0,1,0,0,0,0, 1,0,1,2,2,1) % 3.
-	A addRow: (0,0,1,0,0,0, 1,1,0,1,2,2) % 3.
-	A addRow: (0,0,0,1,0,0, 1,2,1,0,1,2) % 3.
-	A addRow: (0,0,0,0,1,0, 1,2,2,1,0,1) % 3.
-	A addRow: (0,0,0,0,0,1, 1,1,2,2,1,0) % 3.
-	^ self matrix: A! !
+	^ self matrix:
+		(Matrix rows: {
+			(1,0,0,0,0,0, 0,1,1,1,1,1) % 3.
+			(0,1,0,0,0,0, 1,0,1,2,2,1) % 3.
+			(0,0,1,0,0,0, 1,1,0,1,2,2) % 3.
+			(0,0,0,1,0,0, 1,2,1,0,1,2) % 3.
+			(0,0,0,0,1,0, 1,2,2,1,0,1) % 3.
+			(0,0,0,0,0,1, 1,1,2,2,1,0) % 3})! !
 
 !LinearCode class methodsFor: 'examples' stamp: 'len 12/2/2016 11:11:11'!
 G24
@@ -25327,50 +25394,46 @@ G24
 	A _ A apply: (Function from: A scalars to: F evaluating: [:x| x = 0 ifTrue: [F one] ifFalse: [F zero]]).
 	^ self matrix: A identity | A! !
 
-!LinearCode class methodsFor: 'examples' stamp: 'len 11/12/2016 07:42'!
+!LinearCode class methodsFor: 'examples' stamp: 'len 1/25/2018 22:42:38'!
 H7
 	"Answer the [7,4,3] Hamming code, which is the binary cyclic code of length 7 with generator polynomial 1 + x + x^3."
-	| A c |
-	A _ RowMatrix new.
-	A addRow: (c _ (1,1,0,1,0,0,0) % 2).
-	3 timesRepeat: [A addRow: (c _ c >> 1)].
-	^ self matrix: A! !
+	| generators c |
+	generators _ OrderedCollection with: (c _ (1,1,0,1,0,0,0) % 2).
+	3 timesRepeat: [generators add: (c _ c >> 1)].
+	^ self matrix: (Matrix rows: generators)! !
 
-!LinearCode class methodsFor: 'examples' stamp: 'len 11/12/2016 07:42'!
+!LinearCode class methodsFor: 'examples' stamp: 'len 1/25/2018 22:43:18'!
 H8
 	"Answer the extended Hamming code [8,4,4]."
-	| A |
-	A _ RowMatrix new.
-	A addRow: (1,0,0,0, 0,1,1,1) % 2.
-	A addRow: (0,1,0,0, 1,0,1,1) % 2.
-	A addRow: (0,0,1,0, 1,1,0,1) % 2.
-	A addRow: (0,0,0,1, 1,1,1,0) % 2.
-	^ self matrix: A! !
+	^ self matrix:
+		(Matrix rows: {
+			(1,0,0,0, 0,1,1,1) % 2.
+			(0,1,0,0, 1,0,1,1) % 2.
+			(0,0,1,0, 1,1,0,1) % 2.
+			(0,0,0,1, 1,1,1,0) % 2})! !
 
-!LinearCode class methodsFor: 'examples' stamp: 'len 11/12/2016 07:42'!
+!LinearCode class methodsFor: 'examples' stamp: 'len 1/25/2018 22:43:55'!
 hadamard8
 	"Answer the [8,3,4] Hadamard code."
-	| A |
-	A _ RowMatrix new.
-	A addRow: (0,0,0,0,1,1,1,1) % 2.
-	A addRow: (0,0,1,1,0,0,1,1) % 2.
-	A addRow: (0,1,0,1,0,1,0,1) % 2.
-	^ self matrix: A! !
+	^ self matrix:
+		(Matrix rows: {
+			(0,0,0,0,1,1,1,1) % 2.
+			(0,0,1,1,0,0,1,1) % 2.
+			(0,1,0,1,0,1,0,1) % 2})! !
 
 !LinearCode class methodsFor: 'instance creation' stamp: 'len 1/1/2016 06:02'!
 matrix: aMatrix
 	"Answer a linear code with generator matrix aMatrix."
 	^ self subspace: aMatrix rowSpace! !
 
-!LinearCode class methodsFor: 'examples' stamp: 'len 11/12/2016 07:42'!
+!LinearCode class methodsFor: 'examples' stamp: 'len 1/25/2018 22:44:29'!
 simplex
 	"Answer the [7,3,4] simplex code, which is the dual code of the Hamming code."
-	| A |
-	A _ RowMatrix new.
-	A addRow: (0,0,0,1,1,1,1) % 2.
-	A addRow: (0,1,1,0,0,1,1) % 2.
-	A addRow: (1,0,1,0,1,0,1) % 2.
-	^ self matrix: A! !
+	^ self matrix:
+		(Matrix rows: {
+			(0,0,0,1,1,1,1) % 2.
+			(0,1,1,0,0,1,1) % 2.
+			(1,0,1,0,1,0,1) % 2})! !
 
 !LinearCode class methodsFor: 'instance creation' stamp: 'len 1/1/2016 06:34'!
 subspace: aLinearSubspace
@@ -27872,17 +27935,16 @@ kernel
 	^ self group select: [:g| self space allSatisfy: [:x| (self value: {g.x}) = x]]
 	"^ self asPermutationRepresentation kernel"! !
 
-!GroupAction methodsFor: 'accessing' stamp: 'len 11/30/2016 14:44:04'!
+!GroupAction methodsFor: 'accessing' stamp: 'len 1/28/2018 22:44:43'!
 orbitOf: aPoint
 	"Answer the set of points to which aPoint can be 'moved' by elements of the group G.
 	All the orbits form a partition of the underlying set (space) X, and it's written X/G and called the quotient of the action. In geometric situations it may be called the orbit space, and in algebraic situations it is called the space of coinvariants (in contrast with the space of invariants, that are the fixed points)."
-	| answer generators |
-	(generators _ self group generators) isNil
-		ifTrue:
-			[answer _ Set new.
-			self group do: [:each| answer add: (self value: {each. aPoint})].
-			^ answer].
-	^ (SchreierTree root: aPoint generators: generators action: self) orbit! !
+	| answer |
+	self group generators
+		ifNotNil: [:S| ^ (SchreierTree root: aPoint generators: S action: self) orbit].
+	answer _ Set new.
+	self group do: [:each| answer add: (self value: {each. aPoint})].
+	^ answer! !
 
 !GroupAction methodsFor: 'accessing' stamp: 'len 5/16/2016 05:28'!
 orbits
@@ -27891,6 +27953,17 @@ orbits
 	answer _ Set new.
 	self space do: [:each| answer add: (self orbitOf: each)].
 	^ answer! !
+
+!GroupAction methodsFor: 'accessing' stamp: 'len 1/28/2018 18:00:45'!
+reynolds
+	"Answer the Reynolds operator, assuming the group acts on a polynomial ring S.
+	Properties:
+	- K-linear map S -> S^G (it's the G-invariant projection from S to S^G;
+	- restricts to the identity on S^G;
+	- it's an S^G-module homomorphisms: R(p*q) = p*R(q) for all invariants p in S^G."
+	| order |
+	order _ self group size.
+	^ self space to: self space evaluating: [:p| (self group elements sum: [:g| self value: {g. p}]) / order]! !
 
 !GroupAction methodsFor: 'accessing' stamp: 'len 2/16/2016 04:29'!
 space
@@ -34411,10 +34484,10 @@ termAt: aModuleMonomial
 	"Answer the receiver augmented with the columns of aMatrix."
 	^ self columnAugmented: aMatrix! !
 
-!Matrix methodsFor: 'comparing' stamp: 'len 7/16/2016 05:02'!
+!Matrix methodsFor: 'comparing' stamp: 'len 1/28/2018 08:30:11'!
 ~ aMatrix
 	"Answer true if the receiver is similar to aMatrix.
-	Two matrices A and B are 'similar' if there exists an invertible matrix P such that B = P^-1 * A * P."
+	Two matrices A and B are 'similar' if there exists an invertible matrix P such that B = P^-1 * A * P. This is the conjugacy equivalence relation in GL."
 	^ self characteristicMatrix SNF = aMatrix characteristicMatrix SNF! !
 
 !Matrix methodsFor: 'operations' stamp: 'len 1/24/2018 21:09:49'!
@@ -34668,7 +34741,7 @@ columnAt: i put: aTuple
 	self flag: #fix.
 	aTuple withIndexDo: [:each :k| self at: k@i put: each] "note: this will fail with sparse tuples"! !
 
-!Matrix methodsFor: 'operations' stamp: 'len 4/6/2017 10:38:12'!
+!Matrix methodsFor: 'operations' stamp: 'len 1/25/2018 19:38:56'!
 columnAugmented: aMatrix
 	"Answer the receiver augmented with the columns of aMatrix."
 	| n |
@@ -34678,7 +34751,7 @@ columnAugmented: aMatrix
 	(aMatrix is: #Tuple)
 		ifTrue:
 			[aMatrix size = n ifFalse: [^ DomainError signal: 'dimensions don''t match'].
-			^ ColumnMatrix columns: (self columns copyWith: aMatrix)].
+			^ Matrix columns: (self columns copyWith: aMatrix)].
 	aMatrix numberOfRows = n ifFalse: [^ DomainError signal: 'dimensions don''t match'].
 	^ Matrix columns: self columns, aMatrix columns! !
 
@@ -34716,13 +34789,12 @@ copyFrom: aPoint to: anotherPoint
 		matrix: anotherPoint - start
 		evaluating: [:i :j| self at: start + (i@j)]! !
 
-!Matrix methodsFor: 'operations' stamp: 'len 12/18/2016 20:09:27'!
+!Matrix methodsFor: 'accessing' stamp: 'len 1/28/2018 22:23:15'!
 denominator
-	"Answer the smallest positive integer that multiplied by the receiver gives a rational matrix."
 	| answer |
-	(self scalars isKindOf: RationalField) ifFalse: [DomainError signal: 'not a rational matrix'].
-	answer _ 1.
-	self do: [:each| answer _ answer lcm: each denominator].
+	self scalars isLocalization ifFalse: [^ self scalars one].
+	answer _ self scalars integers one.
+	self do: [:each| answer _ each denominator lcm: answer].
 	^ answer! !
 
 !Matrix methodsFor: 'operations' stamp: 'len 2/28/2017 21:04:03'!
@@ -35121,16 +35193,16 @@ leftInverse
 	T _ self transposed.
 	^ (T * self) inverse * T! !
 
-!Matrix methodsFor: 'operations' stamp: 'len 3/1/2017 09:06:40'!
+!Matrix methodsFor: 'operations' stamp: 'len 1/25/2018 22:47:07'!
 minimal: aTuple
 	"Answer the minimal polynomial of aTuple with respect to the receiver."
-	| matrix power reduction d |
-	matrix _ RowMatrix new.
-	matrix addRow: aTuple.
+	| columns power reduction d |
+	columns _ OrderedCollection new: self numberOfRows + 1.
+	columns add: aTuple.
 	power _ self identity.
 	self numberOfRows
-		timesRepeat: [matrix addRow: (power _ power * self) * aTuple].
-	reduction _ matrix transposed reduction.
+		timesRepeat: [columns add: (power _ power * self) * aTuple].
+	reduction _ (Matrix columns: columns) reduction.
 	d _ reduction dependentColumns first.
 	^ self scalars polynomials coefficients: (((reduction reduced columnAt: d) negated copyFrom: 1 to: d - 1) asArray copyWith: self scalars one)! !
 
@@ -35176,6 +35248,11 @@ negated
 !Matrix methodsFor: 'operations' stamp: 'len 3/2/2017 04:17:05'!
 nullity
 	^ self numberOfColumns - self rank! !
+
+!Matrix methodsFor: 'accessing' stamp: 'len 1/28/2018 22:23:08'!
+numerator
+	self scalars isLocalization ifFalse: [^ self].
+	^ self * self denominator over: self scalars integers! !
 
 !Matrix methodsFor: 'constants' stamp: 'len 3/2/2016 20:54'!
 one
@@ -36025,7 +36102,7 @@ R
 matrix: aMatrix
 	matrix _ aMatrix! !
 
-!QRDecomposition methodsFor: 'as yet unclassified' stamp: 'len 12/12/2017 18:07:04'!
+!QRDecomposition methodsFor: 'as yet unclassified' stamp: 'len 1/25/2018 19:39:50'!
 run
 	| K n basis ortho |
 	K _ matrix scalars "algebraicClosure".
@@ -36033,7 +36110,7 @@ run
 	self flag: #fix. "we're assuming the columns are independent"
 	basis _ LinearBasis on: K ^ n elements: matrix columns.
 	ortho _ basis orthonormalized.
-	Q _ ColumnMatrix columns: ortho.
+	Q _ Matrix columns: ortho.
 "	zero _ K zero.
 	R _ matrix species evaluating: [:i :j| i > j ifTrue: [zero] ifFalse: [(basis at: i) dotProduct: (ortho at: j)]]"
 	R _ Q transposed * matrix! !
@@ -37199,7 +37276,7 @@ revlex: aCollection
 - anObject
 	^ self + anObject negated! !
 
-!Polynomial methodsFor: 'arithmetic' stamp: 'len 12/24/2017 22:17:30'!
+!Polynomial methodsFor: 'arithmetic' stamp: 'len 1/28/2018 18:51:35'!
 / anObject
 	(anObject isKindOf: Monomial)
 		ifTrue: [^ self dividedByMonomial: anObject].
@@ -37207,6 +37284,8 @@ revlex: aCollection
 		ifTrue: [^ (self parent fractions embed: self) / (self parent fractions embed: anObject)].
 	(self scalars includes: anObject)
 		ifTrue: [^ self dividedByScalar: anObject].
+	anObject isInteger
+		ifTrue: [^ self multipliedByScalar: (self scalars one * anObject) reciprocal].
 	^ self * anObject reciprocal! !
 
 !Polynomial methodsFor: 'arithmetic' stamp: 'len 12/24/2017 19:48:55'!
@@ -38132,19 +38211,20 @@ terms
 termsDo: aBlock
 	self partsDo: [:each| aBlock value: (self parent coefficient: each value monomial: each key)]! !
 
-!Polynomial methodsFor: 'operations' stamp: 'len 12/24/2017 20:19:38'!
+!Polynomial methodsFor: 'operations' stamp: 'len 1/28/2018 18:24:48'!
 value: anObject
 	"Answer the value of the receiver at the argument. For multivariate polynomials, a Tuple or Array is expected."
-	| answer |
+	| answer one |
 "	((anObject is: #Tuple) or: [anObject is: #Array])
 		ifFalse: [^ self error: 'argument should be tuple or array']."
 	anObject size = self parent rank
 		ifFalse: [self error: 'the arity of the argument should match the number of indeterminates'].
 	answer _ (anObject at: 1) zero.
+	one _ answer one.
 	self partsDo: [:each|
 		| monomial |
 		monomial _ each key.
-		answer _ (monomial isIdentity ifTrue: [each value] ifFalse: [(monomial value: anObject) * each value]) + answer].
+		answer _ (monomial isIdentity ifTrue: [one * each value] ifFalse: [(monomial value: anObject) * each value]) + answer].
 	^ answer! !
 
 !Polynomial methodsFor: 'operations' stamp: 'len 11/1/2016 18:40'!
@@ -38741,23 +38821,23 @@ partsDo: aBlock
 	x _ self parent indeterminate.
 	coefficients withIndexDo: [:value :index| value isZero ifFalse: [aBlock value: (self parent monomials x: x to: index-1) -> value]]! !
 
-!UnivariatePolynomial methodsFor: 'operations' stamp: 'len 11/25/2016 10:37:59'!
+!UnivariatePolynomial methodsFor: 'operations' stamp: 'len 1/25/2018 22:50:45'!
 psc2: anInteger with: aPolynomial
 	"Answer the anInteger-th principal subresultant coefficient of the receiver with aPolynomial."
 
-	| f g n m t matrix tuple |
+	| f g n m t rows tuple |
 	f _ self.
 	g _ aPolynomial.
 	m _ f degree.
 	n _ g degree.
 	t _ m + n - anInteger - anInteger.
-	t = 0 ifTrue: [^ f scalars one].
-	matrix _ RowMatrix new.
+	t <= 0 ifTrue: [^ self scalars one].
+	rows _ OrderedCollection new: t.
 	tuple _ self scalars tuple: t evaluating: [:i| f coefficientAtDegree: m - i + 1].
-	n - anInteger timesRepeat: [matrix addRow: tuple. tuple _ tuple shift: 1].
+	n - anInteger timesRepeat: [rows add: tuple. tuple _ tuple shift: 1].
 	tuple _ self scalars tuple: t evaluating: [:i| g coefficientAtDegree: n - i + 1].
-	m - anInteger timesRepeat: [matrix addRow: tuple. tuple _ tuple shift: 1].
-	^ matrix determinant! !
+	m - anInteger timesRepeat: [rows add: tuple. tuple _ tuple shift: 1].
+	^ (Matrix rows: rows) determinant! !
 
 !UnivariatePolynomial methodsFor: 'operations' stamp: 'len 7/9/2016 03:07'!
 psc3: i with: aPolynomial
@@ -38892,10 +38972,10 @@ signature
 			h _ h ^ (1 - d) * (g ^ d)].
 	^ {r1. n - r1 / 2}! !
 
-!UnivariatePolynomial methodsFor: 'operations' stamp: 'len 1/23/2017 11:48:35'!
+!UnivariatePolynomial methodsFor: 'operations' stamp: 'len 1/25/2018 22:57:56'!
 subresultant: i with: aPolynomial
 	"Answer the i-th subresultant of the receiver with aPolynomial."
-	| lambda mu n m c matrix tuple |
+	| lambda mu n m c rows matrix tuple |
 	m _ self degree.
 	n _ aPolynomial degree.
 	lambda _ m min: n.
@@ -38910,11 +38990,12 @@ subresultant: i with: aPolynomial
 			^ c * (c leadingCoefficient ^ ((m - n) abs - 1))].
 	(i between: lambda and: mu) ifTrue: [^ self zero].
 	(i between: 0 and: lambda - 1) ifFalse: [self error: 'index out of range'].
-	matrix _ RowMatrix new.
+	rows _ OrderedCollection new.
 	tuple _ self scalars tuple: m + n - (2*i) evaluating: [:k| self parent constant: (self coefficientAtDegree: m - k + 1)].
-	n - i timesRepeat: [matrix addRow: tuple. tuple _ tuple shift: 1].
+	n - i timesRepeat: [rows add: tuple. tuple _ tuple shift: 1].
 	tuple _ self scalars tuple: m + n - (2*i) evaluating: [:k| self parent constant: (aPolynomial coefficientAtDegree: n - k + 1)].
-	m - i timesRepeat: [matrix addRow: tuple. tuple _ tuple shift: 1].
+	m - i timesRepeat: [rows add: tuple. tuple _ tuple shift: 1].
+	matrix _ Matrix rows: rows.
 	1 to: n - i do: [:k|
 		matrix at: k @ (m + n - (2*i)) put: (self shift: n - i - k)].
 	1 to: m - i do: [:k|
