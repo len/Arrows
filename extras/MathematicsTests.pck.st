@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 22 January 2018 at 7:32:43 pm'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 28 January 2018 at 11:25:58 pm'!
 'Description Please enter a description for this package'!
-!provides: 'MathematicsTests' 1 85!
+!provides: 'MathematicsTests' 1 86!
 !classDefinition: #AbelianGroupTest category: #MathematicsTests!
 TestCase subclass: #AbelianGroupTest
 	instanceVariableNames: ''
@@ -746,10 +746,29 @@ testRealAlgebraicNumberDivision	70.8 per second.
 testRealAlgebraicNumberProduct	81.7 per second.
 testRealAlgebraicNumberSquare	1,820 per second!
 
-!SmallMatrixBenchmark commentStamp: 'len 3/2/2017 11:05:31' prior: 0!
+!SmallMatrixBenchmark commentStamp: 'len 1/22/2018 20:06:14' prior: 0!
 This benchmark tests some basic operations on 64x64 matrices over Z, Z/2Z, and Z/32003Z.
 
 self new run
+
+testAdditionZ	7,830 per second. (23/1/2018)
+testAdditionZ2	216,000 per second.
+testAdditionZp	8,140 per second.
+testCopyZ	158,000 per second.
+testCopyZ2	448,000 per second.
+testCopyZp	176,000 per second.
+testImageZ	FAILED
+testImageZ2	35.5 per second.
+testImageZp	141 per second.
+testKernelZ	FAILED
+testKernelZ2	14.4 per second.
+testKernelZp	61.5 per second.
+testMultiplicationZ	164 per second.
+testMultiplicationZ2	171 per second.
+testMultiplicationZp	130 per second.
+testTranspositionZ	4,520 per second.
+testTranspositionZ2	1,400 per second.
+testTranspositionZp	1,930 per second.
 
 testAdditionZ	7,770 per second.
 testAdditionZ2	88,100 per second.
@@ -2747,6 +2766,12 @@ testCauchyFrobeniusLemma
 	sum _ G elements sum: [:g| (phi fixedPointsOf: g) size].
 	self assert: phi orbits size * G order = sum! !
 
+!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 1/28/2018 08:37:03'!
+testConjugacyClasses
+	"From wikipedia article on conjugacy classes."
+	self assert: (SymmetricGroup new: 3) conjugacyClasses size = 3.
+	self assert: (SymmetricGroup new: 4) conjugacyClasses size = 5! !
+
 !GroupTest methodsFor: 'as yet unclassified' stamp: 'len 11/6/2016 10:04'!
 testD3
 	| D S A |
@@ -3874,14 +3899,14 @@ testSmithNormalForm3
 	A _ M rows: { (1,4,9). (16,25,36). (49,64,81) }.
 	self assert: A SNF = (1,3,72)! !
 
-!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 1/20/2018 08:03:32'!
+!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 1/28/2018 08:26:19'!
 testSmithNormalForm4
 	"Smith form of a 3x3 matrix of rank 2.
 	Example from Willian Stein, 'Algebraic Number Theory, A Computational Approach'."
 	| M A |
 	M _ ZZ ^ (3@3).
 	A _ M rows: { (2,3,4). (5,6,7). (8,9,10) }.
-	self assert: A SNF = (1,3,0)! !
+	self assert: A SNF = (1,3,0) "this fails, but Cohen defines SNF only for nonsingular matrices"! !
 
 !MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:48'!
 testTransposed
@@ -4074,6 +4099,16 @@ testGrassmannian
 	self assert: (G includes: S).
 	self assert: (G dual includes: S perp dual)! !
 
+!ModuleTest methodsFor: 'basis' stamp: 'len 1/25/2018 22:38:13'!
+testLinearBasisChange
+	| V B1 B2 C v |
+	V _ QQ^3.
+	B1 _ LinearBasis on: V elements: {(1,2,3). (1,1,1)}.
+	B2 _ LinearBasis on: V elements: {(2,2,2). (2,3,4)}.
+	C _ B1 changeTo: B2.
+	v _ B1 elementAt: (3,7).
+	self assert: C * (3,7) = (B2 coordinatesOf: v)! !
+
 !ModuleTest methodsFor: 'basis' stamp: 'len 12/12/2017 18:06:24'!
 testLinearBasisCoordinatesOf
 	| V basis c |
@@ -4131,7 +4166,7 @@ testLinearBasisGenerates
 	self assert: (B generates: (0,1,2)).
 	self deny: (B generates: (2,2,3))! !
 
-!ModuleTest methodsFor: 'linera maps' stamp: 'len 1/14/2018 22:24:08'!
+!ModuleTest methodsFor: 'linear maps' stamp: 'len 1/14/2018 22:24:08'!
 testLinearForm1
 	| V f |
 	V _ QQ ^ 3.
@@ -4140,7 +4175,7 @@ testLinearForm1
 	self assert: (f value: (2,2,1)) = 3.
 	self assert: (f value: (3,1, -1)) = 5! !
 
-!ModuleTest methodsFor: 'linera maps' stamp: 'len 1/14/2018 22:24:16'!
+!ModuleTest methodsFor: 'linear maps' stamp: 'len 1/14/2018 22:24:16'!
 testLinearForm2
 	| V f |
 	V _ QQ ^ 3.
@@ -4149,7 +4184,7 @@ testLinearForm2
 	self assert: f kernel dimension = 2.
 	self assert: f image dimension = 1! !
 
-!ModuleTest methodsFor: 'linera maps' stamp: 'len 8/26/2016 05:58'!
+!ModuleTest methodsFor: 'linear maps' stamp: 'len 8/26/2016 05:58'!
 testLinearFormAsPolynomial
 	| V f x |
 	V _ QQ ^ 5 atRandom.
@@ -4158,7 +4193,7 @@ testLinearFormAsPolynomial
 	self assert: (f value: x) = (f asPolynomial value: x).
 	self assert: f asPolynomial asLinearForm = f! !
 
-!ModuleTest methodsFor: 'linera maps' stamp: 'len 1/14/2018 22:24:23'!
+!ModuleTest methodsFor: 'linear maps' stamp: 'len 1/14/2018 22:24:23'!
 testLinearFormZ2
 	| V f |
 	V _ (PrimeField new: 2) ^ 4.
@@ -4168,13 +4203,13 @@ testLinearFormZ2
 	self assert: f image dimension = 1.
 	self assert: (f kernel includes: (1,1,1,1) % 2)! !
 
-!ModuleTest methodsFor: 'linera maps' stamp: 'len 3/2/2017 04:46:35'!
+!ModuleTest methodsFor: 'linear maps' stamp: 'len 3/2/2017 04:46:35'!
 testLinearMap
 	| f |
 	f _ self newLinearMap.
 	self testLinearMap: f! !
 
-!ModuleTest methodsFor: 'linera maps' stamp: 'len 10/16/2016 09:17'!
+!ModuleTest methodsFor: 'linear maps' stamp: 'len 10/16/2016 09:17'!
 testLinearMap: f
 	| a1 a2 b1 b2 x |
 	a1 _ f domain atRandomBits: 20.
@@ -4185,7 +4220,7 @@ testLinearMap: f
 	x _ f domain scalars atRandomBits: 20.
 	self assert: (f value: a1 * x + a2) = (b1 * x + b2)! !
 
-!ModuleTest methodsFor: 'linera maps' stamp: 'len 3/7/2017 07:25:22'!
+!ModuleTest methodsFor: 'linear maps' stamp: 'len 3/7/2017 07:25:22'!
 testLinearMapAdjoint
 	| V W f fAdjoint phi |
 	V _ self newFreeModuleOver: QQ.
@@ -4197,7 +4232,7 @@ testLinearMapAdjoint
 	phi _ W dual atRandomBits: 20.
 	self assert: (fAdjoint value: phi) = (phi ” f)! !
 
-!ModuleTest methodsFor: 'linera maps' stamp: 'len 12/20/2016 12:05:24'!
+!ModuleTest methodsFor: 'linear maps' stamp: 'len 12/20/2016 12:05:24'!
 testLinearMapComposition
 	| X Y Z f g x |
 	X _ QQ ^ 3.
@@ -4210,7 +4245,7 @@ testLinearMapComposition
 	self assert: (g ” f value: x) = (g value: (f value: x)).
 	self should: [f ” g] raise: DomainError! !
 
-!ModuleTest methodsFor: 'linera maps' stamp: 'len 12/20/2016 11:50:35'!
+!ModuleTest methodsFor: 'linear maps' stamp: 'len 12/20/2016 11:50:35'!
 testLinearMapCompositionError
 	| X Y Z f g |
 	X _ QQ ^ 3.
@@ -4220,7 +4255,7 @@ testLinearMapCompositionError
 	g _ (Y hom: Z) atRandomBits: 1000.
 	self should: [f ” g] raise: DomainError! !
 
-!ModuleTest methodsFor: 'linera maps' stamp: 'len 3/2/2017 04:52:54'!
+!ModuleTest methodsFor: 'linear maps' stamp: 'len 3/2/2017 04:52:54'!
 testLinearMapFiber
 	| f w v |
 	f _ self newLinearMap.
@@ -4228,7 +4263,7 @@ testLinearMapFiber
 	v _ (f fiberAt: w) atRandomBits: 100.
 	self assert: (f value: v) = w! !
 
-!ModuleTest methodsFor: 'linera maps' stamp: 'len 3/2/2017 04:53:31'!
+!ModuleTest methodsFor: 'linear maps' stamp: 'len 3/2/2017 04:53:31'!
 testLinearMapImage
 	| f image v w |
 	f _ self newLinearMap.
@@ -4237,7 +4272,7 @@ testLinearMapImage
 	w _ f value: v.
 	self assert: (image includes: w)! !
 
-!ModuleTest methodsFor: 'linera maps' stamp: 'len 12/20/2016 11:50:45'!
+!ModuleTest methodsFor: 'linear maps' stamp: 'len 12/20/2016 11:50:45'!
 testLinearMapInverse
 	| V f |
 	V _ QQ ^ 3.
@@ -4245,7 +4280,7 @@ testLinearMapInverse
 	self assert: (f ” f inverse) isIdentity.
 	self assert: (f inverse ” f) isIdentity! !
 
-!ModuleTest methodsFor: 'linera maps' stamp: 'len 3/2/2017 04:53:46'!
+!ModuleTest methodsFor: 'linear maps' stamp: 'len 3/2/2017 04:53:46'!
 testLinearMapKernel
 	| f kernel v |
 	f _ self newLinearMap.
@@ -4253,7 +4288,7 @@ testLinearMapKernel
 	v _ kernel atRandomBits: 100.
 	self assert: (f value: v) isZero! !
 
-!ModuleTest methodsFor: 'linera maps' stamp: 'len 1/14/2018 22:24:29'!
+!ModuleTest methodsFor: 'linear maps' stamp: 'len 1/14/2018 22:24:29'!
 testLinearMapKernelZ2
 	| V f kernel |
 	V _ (PrimeField new: 2) ^ 3.
@@ -4263,7 +4298,7 @@ testLinearMapKernelZ2
 	self assert: kernel dimension = 2.
 	self assert: (kernel includes: (0,1,1) % 2)! !
 
-!ModuleTest methodsFor: 'linera maps' stamp: 'len 12/20/2016 11:50:51'!
+!ModuleTest methodsFor: 'linear maps' stamp: 'len 12/20/2016 11:50:51'!
 testLinearMapLeftInverse
 	| V W f |
 	V _ QQ ^ 3.
@@ -4271,7 +4306,7 @@ testLinearMapLeftInverse
 	[f _ (V hom: W) atRandomBits: 1000. f rank = 3] whileFalse.
 	self assert: (f leftInverse ” f) = V id! !
 
-!ModuleTest methodsFor: 'linera maps' stamp: 'len 12/20/2016 11:50:57'!
+!ModuleTest methodsFor: 'linear maps' stamp: 'len 12/20/2016 11:50:57'!
 testLinearMapRightInverse
 	| V W f |
 	V _ QQ ^ 5.
@@ -4279,7 +4314,7 @@ testLinearMapRightInverse
 	[f _ (V hom: W) atRandomBits: 1000. f rank = 3] whileFalse.
 	self assert: (f ” f rightInverse) = W id! !
 
-!ModuleTest methodsFor: 'linera maps' stamp: 'len 11/2/2016 04:01'!
+!ModuleTest methodsFor: 'linear maps' stamp: 'len 11/2/2016 04:01'!
 testLinearMapZ2
 	| V f kernel v |
 	V _ (PrimeField new: 2) ^ (5 atRandom + 1).
@@ -5746,28 +5781,28 @@ testKrullDimension
 	I _ R * {R x ^ 2 + (R y ^ 2) - 1}.
 	self assert: (R / I) dimension = 1! !
 
-!RingTest methodsFor: 'as yet unclassified' stamp: 'len 10/29/2016 11:17'!
+!RingTest methodsFor: 'as yet unclassified' stamp: 'len 1/23/2018 21:19:56'!
 testLocalizationInclusions
 	| Z2 Z3 Z6 |
-	Z2 _ ZZ localization: 2.
-	Z3 _ ZZ localization: 3.
-	Z6 _ ZZ localization: 6.
+	Z2 _ ZZ localizationAt: 2.
+	Z3 _ ZZ localizationAt: 3.
+	Z6 _ ZZ localizationAt: 6.
 	self assert: Z6 >= Z2.
 	self assert: Z6 >= Z3.
 	self deny: Z3 >= Z2.
 	self deny: Z2 >= Z3.
 	self deny: Z2 >= Z6! !
 
-!RingTest methodsFor: 'as yet unclassified' stamp: 'len 10/29/2016 11:20'!
+!RingTest methodsFor: 'as yet unclassified' stamp: 'len 1/23/2018 21:20:02'!
 testLocalizationMaximalIdeal
 	| Z2 |
-	Z2 _ ZZ localization: 2.
+	Z2 _ ZZ localizationAt: 2.
 	self assert: Z2 maximalIdeal = (Z2 * 2)! !
 
-!RingTest methodsFor: 'as yet unclassified' stamp: 'len 10/29/2016 10:57'!
-testLocalizationOfZAwayFrom2
+!RingTest methodsFor: 'as yet unclassified' stamp: 'len 1/23/2018 21:21:19'!
+testLocalizationOfZAt2
 	| L |
-	L _ ZZ localization: 2.
+	L _ ZZ localizationAt: 2.
 	self assert: (L includes: 1/3).
 	self assert: (L includes: 3/2) not.
 	self assert: (L atRandomBits: 10) denominator odd! !
