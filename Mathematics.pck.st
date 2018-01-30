@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 28 January 2018 at 11:25:25 pm'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 30 January 2018 at 9:51:56 pm'!
 'Description A computational algebra system in Smalltalk'!
-!provides: 'Mathematics' 1 407!
+!provides: 'Mathematics' 1 408!
 !requires: 'RayTracer' 1 2 nil!
 !classDefinition: #RealAlgebraicNumber category: #'Mathematics-Fields'!
 Number subclass: #RealAlgebraicNumber
@@ -5949,6 +5949,10 @@ anyIfNone: aBlock
 !Collection methodsFor: '*mathematics' stamp: 'len 10/6/2016 10:19'!
 apply: aMorphism
 	^ self collect: aMorphism! !
+
+!Collection methodsFor: '*mathematics' stamp: 'len 1/30/2018 21:35:53'!
+atRandomBits: anInteger
+	^ self atRandom! !
 
 !Collection methodsFor: '*mathematics' stamp: 'len 2/13/2003 23:19'!
 copyEmpty
@@ -14517,6 +14521,12 @@ on: aCollection
 ê aGroup
 	"Answer the direct sum of the receiver and the argument."
 	^ self ◊ aGroup "finite direct sums of groups are the same as direct products"! !
+
+!Group methodsFor: 'operations' stamp: 'len 1/29/2018 16:59:49'!
+ï aGroup
+	"Answer the intersection of the receiver and the argument."
+	self ambient = aGroup ambient ifFalse: [^ DomainError signal: 'groups in different ambients'].
+	^ self select: [:each| aGroup includes: each]! !
 
 !Group methodsFor: 'operations' stamp: 'len 12/28/2016 12:19:53'!
 abelianization
@@ -30258,15 +30268,16 @@ weight: anInteger
 new: anInteger
 	^ self new weight: anInteger! !
 
-!Permutation methodsFor: 'arithmetic' stamp: 'len 8/25/2016 00:32'!
+!Permutation methodsFor: 'arithmetic' stamp: 'len 1/30/2018 21:09:56'!
 * aPermutation
-	"Answer the product of the receiver with the argument. This is group product operation, and it's function composition in reverse order."
+	"Answer the product (function composition) of the receiver with the argument.
+	This is the group product operation."
 	| answer |
 	answer _ self species new.
 	self changesDo: [:each|
-		answer at: each put: (aPermutation at: (self at: each))].
+		answer at: each put: (self at: (aPermutation at: each))].
 	aPermutation changesDo: [:each|
-		answer at: each put: (aPermutation at: (self at: each))].
+		answer at: each put: (self at: (aPermutation at: each))].
 	^ answer! !
 
 !Permutation methodsFor: 'comparing' stamp: 'len 6/29/2016 00:26'!
@@ -30281,10 +30292,10 @@ new: anInteger
 ^ anInteger
 	^ self îî anInteger! !
 
-!Permutation methodsFor: 'arithmetic' stamp: 'len 12/20/2016 11:56:08'!
+!Permutation methodsFor: 'arithmetic' stamp: 'len 1/30/2018 21:45:49'!
 î aPermutation
 	"Answer the composition of the receiver with the argument."
-	^ aPermutation * self! !
+	^ self * aPermutation! !
 
 !Permutation methodsFor: 'accessing' stamp: 'len 5/6/98 05:01'!
 aChange
@@ -30322,6 +30333,14 @@ changesDo: aBlock
 !Permutation methodsFor: 'accessing' stamp: 'len 6/28/2016 07:01'!
 codomain
 	^ self domain! !
+
+!Permutation methodsFor: 'operations' stamp: 'len 1/29/2018 22:23:05'!
+commutator: aPermutation
+	^ self inverse * aPermutation inverse * self * aPermutation! !
+
+!Permutation methodsFor: 'operations' stamp: 'len 1/29/2018 22:24:55'!
+conjugateBy: aPermutation
+	^ aPermutation inverse * self * aPermutation! !
 
 !Permutation methodsFor: 'accessing' stamp: 'len 5/2/2016 04:06'!
 cycleAt: anObject
@@ -30428,7 +30447,7 @@ leftInverse
 map
 	^ map! !
 
-!Permutation methodsFor: 'accessing-private' stamp: 'len 6/28/2016 07:13'!
+!Permutation methodsFor: 'accessing-private' stamp: 'len 1/30/2018 21:50:33'!
 map: aCollection
 	map _ aCollection! !
 
@@ -30642,16 +30661,15 @@ transpositions
 		answer addFirst: (self species transpose: first with: (last _ self at: last))].
 	^ answer! !
 
-!StandardPermutation methodsFor: 'arithmetic' stamp: 'len 2/28/2017 09:14:28'!
+!StandardPermutation methodsFor: 'arithmetic' stamp: 'len 1/30/2018 21:11:15'!
 * aPermutation
 	"Answer the composition of the receiver with the argument."
-
 	| otherMap newMap |
 	(aPermutation class == self class and: [map size = aPermutation map size])
 		ifFalse: [^ super * aPermutation].
 	otherMap _ aPermutation map.
 	newMap _ map class new: map size.
-	1 to: map size do: [:i| newMap at: i put: (otherMap at: (map at: i))].
+	1 to: map size do: [:i| newMap at: i put: (map at: (otherMap at: i))].
 	^ self class image: newMap! !
 
 !StandardPermutation methodsFor: 'comparing' stamp: 'len 11/15/2016 08:53'!
@@ -31841,7 +31859,7 @@ root: aPoint generators: anArray action: aGroupAction
 				w at: x put: a]].
 	queue isEmpty] whileFalse! !
 
-!SchreierTree methodsFor: 'accessing' stamp: 'len 11/30/2016 14:45:05'!
+!SchreierTree methodsFor: 'accessing' stamp: 'len 1/30/2018 21:42:27'!
 stabilizer
 	"Answer the stabilizer of the root."
 	| stabilizerGenerators id |
@@ -31850,11 +31868,11 @@ stabilizer
 	self orbit do: [:i|
 		generators do: [:s|
 			| g |
-			g _ (self trace: i) * s * (self traceInverse: (s value: i)).
+			g _ (self traceInverse: (s value: i)) * s * (self trace: i).
 			g = id ifFalse: [stabilizerGenerators add: g]]].
 	^ action group span: stabilizerGenerators! !
 
-!SchreierTree methodsFor: 'accessing' stamp: 'len 6/30/2016 09:43'!
+!SchreierTree methodsFor: 'accessing' stamp: 'len 1/30/2018 21:44:43'!
 trace: aPoint
 	"Trace the Schreier spanning tree (v,w) for the orbit containing aPoint.
 	Answer the transversal u(aPoint), i.e. an element such that root^u(aPoint) = aPoint.
@@ -31865,11 +31883,11 @@ trace: aPoint
 	alpha _ aPoint.
 	[(v at: alpha) notNil]
 		whileTrue:
-			[u _ (v at: alpha) * u.
+			[u _ u * (v at: alpha).
 			alpha _ w at: alpha].
 	^ u! !
 
-!SchreierTree methodsFor: 'accessing' stamp: 'len 11/14/2016 14:09'!
+!SchreierTree methodsFor: 'accessing' stamp: 'len 1/30/2018 21:44:32'!
 traceInverse: aPoint
 	"Calculate inverses of coset representatives. See 'The Schreier-Sims Algorithm' pp 18. Assumes we're using a (strong) generating set that is closed under inversion. This makes backward pointers unnecesary."
 	| alpha u |
@@ -31877,7 +31895,7 @@ traceInverse: aPoint
 	alpha _ aPoint.
 	[(v at: alpha) notNil]
 		whileTrue:
-			[u _ u * (inverses at: alpha ifAbsentPut: [(v at: alpha) reciprocal]).
+			[u _ (inverses at: alpha ifAbsentPut: [(v at: alpha) inverse]) * u.
 			alpha _ w at: alpha].
 	^ u! !
 
