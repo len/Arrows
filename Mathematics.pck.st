@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 30 January 2018 at 9:51:56 pm'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 13 March 2018 at 7:28:42 pm'!
 'Description A computational algebra system in Smalltalk'!
-!provides: 'Mathematics' 1 408!
+!provides: 'Mathematics' 1 409!
 !requires: 'RayTracer' 1 2 nil!
 !classDefinition: #RealAlgebraicNumber category: #'Mathematics-Fields'!
 Number subclass: #RealAlgebraicNumber
@@ -634,7 +634,7 @@ TransformationGroup class
 
 !classDefinition: #PermutationGroup category: #'Mathematics-Groups-Permutations'!
 TransformationGroup subclass: #PermutationGroup
-	instanceVariableNames: 'space'
+	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Groups-Permutations'!
@@ -660,6 +660,16 @@ PermutationGroup subclass: #SymmetricGroup
 	category: 'Mathematics-Groups-Permutations'!
 !classDefinition: 'SymmetricGroup class' category: #'Mathematics-Groups-Permutations'!
 SymmetricGroup class
+	instanceVariableNames: ''!
+
+!classDefinition: #StandardSymmetricGroup category: #'Mathematics-Groups-Permutations'!
+SymmetricGroup subclass: #StandardSymmetricGroup
+	instanceVariableNames: 'degree'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Groups-Permutations'!
+!classDefinition: 'StandardSymmetricGroup class' category: #'Mathematics-Groups-Permutations'!
+StandardSymmetricGroup class
 	instanceVariableNames: ''!
 
 !classDefinition: #LinearGroup category: #'Mathematics-Groups-Linear'!
@@ -2372,8 +2382,18 @@ ModularForm subclass: #EisensteinSeries
 EisensteinSeries class
 	instanceVariableNames: ''!
 
+!classDefinition: #AbstractPermutation category: #'Mathematics-Groups-Permutations'!
+Morphism subclass: #AbstractPermutation
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Groups-Permutations'!
+!classDefinition: 'AbstractPermutation class' category: #'Mathematics-Groups-Permutations'!
+AbstractPermutation class
+	instanceVariableNames: ''!
+
 !classDefinition: #Permutation category: #'Mathematics-Groups-Permutations'!
-Morphism subclass: #Permutation
+AbstractPermutation subclass: #Permutation
 	instanceVariableNames: 'map'
 	classVariableNames: ''
 	poolDictionaries: ''
@@ -2382,19 +2402,19 @@ Morphism subclass: #Permutation
 Permutation class
 	instanceVariableNames: ''!
 
-!classDefinition: #PermutationCycle category: #'Mathematics-Groups-Permutations'!
+!classDefinition: #PermutationCycle category: #'Mathematics-Etc'!
 Permutation subclass: #PermutationCycle
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Groups-Permutations'!
-!classDefinition: 'PermutationCycle class' category: #'Mathematics-Groups-Permutations'!
+	category: 'Mathematics-Etc'!
+!classDefinition: 'PermutationCycle class' category: #'Mathematics-Etc'!
 PermutationCycle class
 	instanceVariableNames: ''!
 
 !classDefinition: #StandardPermutation category: #'Mathematics-Groups-Permutations'!
-Permutation subclass: #StandardPermutation
-	instanceVariableNames: ''
+AbstractPermutation subclass: #StandardPermutation
+	instanceVariableNames: 'map'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Groups-Permutations'!
@@ -3916,6 +3936,10 @@ My instances are the alternating group Alt(X) of even permutations on the elemen
 My instances are the symmetric group Sym(X) of permutations on the elements of a set X (which we call 'space').
 !
 
+!StandardSymmetricGroup commentStamp: '<historical>' prior: 0!
+My instances are the symmetric group Sym(n) of permutations on the elements of a set [1..n] (which we call 'space').
+!
+
 !LinearGroup commentStamp: 'len 10/22/2016 18:06' prior: 0!
 My instances are groups of linear transformations acting on an R-module V. They are subgroups of the general linear group GL(V).
 
@@ -4743,14 +4767,14 @@ A modular form f(z) can be seen as power series on a new variable q = e^(2 pi i 
 Given a group G, the set of modular forms of a given weight k form a finite-dimensional vector space M_k(G). See ModularFormSpace. The set of all modular forms of all weights is noted M_*(G) and it's a ring. All modular functions form a field.!
 
 !Permutation commentStamp: '<historical>' prior: 0!
-My instances are bijective functions from a domain to itself. Permutations under composition form groups (see PermutationGroup).!
+My instances are finite-support bijective functions. Permutations under composition form groups (see SymmetricGroup and PermutationGroup).!
 
 !PermutationCycle commentStamp: '<historical>' prior: 0!
 My instances are cycles. See Permutation>>cyclesDo:.
 !
 
 !StandardPermutation commentStamp: '<historical>' prior: 0!
-My instances are permutations whose domains are sets {1,2,...,n} for somo natural number n. They are more efficient than arbitrary permutations, and often it's worth to convert permutations to a standard form (by choosing an ordering of their domain) before computing with them (see Permutation>>asStandard:).!
+My instances are bijective functions on a set [1..n]. Permutations under composition form groups (see StandardSymmetricGroup and PermutationGroup).!
 
 !RationalPoint commentStamp: '<historical>' prior: 0!
 Instances of my subclasses are K-rational points on a scheme X, seen as morphisms Spec(K) -> X.
@@ -15173,7 +15197,7 @@ schnorr: q
 	(g _ h raisedTo: r modulo: p) = 1] whileTrue.
 	^ Group new generator: g % p! !
 
-!Group class methodsFor: 'examples' stamp: 'len 12/14/2016 11:14:27'!
+!Group class methodsFor: 'examples' stamp: 'len 2/1/2018 23:53:45'!
 symmetric: aCollection
 	"Answer the group of permutations of aCollection."
 	| generators X |
@@ -15182,20 +15206,8 @@ symmetric: aCollection
 	1 to: X size do: [:i| | xi |
 		xi _ X at: i.
 		i+1 to: X size do: [:j|
-			generators add: (Permutation transpose: xi with: (X at: j))]].
+			generators add: (Permutation transposing: xi with: (X at: j))]].
 	^ TransformationGroup new generators: generators; name: 'Sym(', aCollection printText, ')'! !
-
-!Group class methodsFor: 'examples' stamp: 'len 12/14/2016 11:11:03'!
-unitsModulo: m
-	"Answer the multiplicative group of units of integers modulo m."
-	| elements element Zm pi |
-	elements _ Set new.
-	Zm _ ZZ/m.
-	pi _ Zm projection.
-	1 to: m - 1 do: [:each|
-		(element _ pi value: each) isUnit
-			ifTrue: [elements add: element]].
-	^ Group new elements: elements! !
 
 !DirectProductGroup methodsFor: 'comparing' stamp: 'len 2/12/2016 20:05'!
 = anObject
@@ -15557,15 +15569,14 @@ defaultOperation
 	self generators ifNotNil: [:generators| ^ anObject containsAllOf: generators].
 	^ super = anObject! !
 
-!PermutationGroup methodsFor: 'accessing' stamp: 'len 10/17/2016 11:02'!
+!PermutationGroup methodsFor: 'accessing' stamp: 'len 1/31/2018 18:40:20'!
 action
 	"Answer the natural action that sends (s, x) to s(x)."
-	^ GroupAction from: (self, space) to: space evaluatingWithArguments: [:s :x| s value: x]! !
+	^ GroupAction from: (self, self space) to: self space evaluatingWithArguments: [:s :x| s value: x]! !
 
-!PermutationGroup methodsFor: 'accessing' stamp: 'len 5/23/2016 19:34'!
-ambient
-	"Answer the ambient group."
-	^ SymmetricGroup on: space! !
+!PermutationGroup methodsFor: 'private' stamp: 'len 2/1/2018 23:23:06'!
+ambient: aSymmetricGroup
+	self propertyAt: #ambient put: aSymmetricGroup! !
 
 !PermutationGroup methodsFor: 'converting' stamp: 'len 12/8/2016 11:38:52'!
 asLinearGroupOver: aRing
@@ -15585,13 +15596,13 @@ asMatrixGroup
 	generators _ self generators collect: [:g| QQ matrix: n@n evaluating: [:i :j| (g at: i) = j ifTrue: [1] ifFalse: [0]]].
 	^ MatrixGroup on: QQ^n generators: generators! !
 
-!PermutationGroup methodsFor: 'private' stamp: 'len 6/24/2016 03:30'!
+!PermutationGroup methodsFor: 'private' stamp: 'len 1/31/2018 18:39:54'!
 computeSize
 	"Schreier-Sims algorithm."
 	| G answer |
 	G _ self.
 	answer _ 1.
-	space do: [:b| | tree |
+	self space do: [:b| | tree |
 		G isTrivial ifTrue: [^ answer].
 		tree _ SchreierTree root: b generators: G generators action: G action.
 		answer _ answer * tree orbit size.
@@ -15599,30 +15610,31 @@ computeSize
 	self error: 'what?'.
 	^ answer! !
 
-!PermutationGroup methodsFor: 'copying' stamp: 'len 7/23/2016 06:25'!
+!PermutationGroup methodsFor: 'as yet unclassified' stamp: 'len 2/1/2018 23:49:12'!
 copyEmpty
-	^ super copyEmpty space: space! !
+	^ PermutationGroup new ambient: self ambient! !
 
 !PermutationGroup methodsFor: 'accessing' stamp: 'len 2/16/2016 05:48'!
 degree
 	^ self space size! !
 
-!PermutationGroup methodsFor: 'accessing-private' stamp: 'len 11/15/2016 08:44'!
+!PermutationGroup methodsFor: 'private' stamp: 'len 2/1/2018 23:22:51'!
 generators: aCollection
-	super generators: (self isStandard ifTrue: [| array | array _ self space asArray. aCollection collect: [:each| each asStandard: array]] ifFalse: [aCollection])! !
+	super generators: (aCollection asSet reject: [:each| each isIdentity])! !
 
-!PermutationGroup methodsFor: 'accessing' stamp: 'len 12/28/2016 11:29:21'!
+!PermutationGroup methodsFor: 'accessing' stamp: 'len 2/1/2018 23:44:34'!
 identity
-	^ self propertyAt: #identity ifAbsentPut: [self isStandard ifTrue: [StandardPermutation new: self degree] ifFalse: [Permutation new]]! !
+	self ambient == self ifTrue: [^ self halt].
+	^ self ambient identity! !
 
-!PermutationGroup methodsFor: 'testing' stamp: 'len 12/13/2016 07:30:26'!
+!PermutationGroup methodsFor: 'testing' stamp: 'len 1/31/2018 18:41:29'!
 includes: aPermutation
-	^ (aPermutation isKindOf: Permutation) and: [aPermutation domain <= space and: [self contains: aPermutation]]! !
+	^ (self ambient includes: aPermutation) and: [self contains: aPermutation]! !
 
-!PermutationGroup methodsFor: 'testing' stamp: 'len 11/14/2016 13:46'!
+!PermutationGroup methodsFor: 'testing' stamp: 'len 2/1/2018 23:13:17'!
 isStandard
 	"Answer true if the domain of the receiver is an interval [1..n]."
-	^ space isInterval and: [space isStandard]! !
+	^ self ambient isStandard! !
 
 !PermutationGroup methodsFor: 'testing' stamp: 'len 5/23/2016 19:35'!
 isSubgroupOfAn
@@ -15652,114 +15664,88 @@ size
 	self propertyAt: #elements ifPresent: [:aCollection| ^ aCollection size].
 	^ self propertyAt: #size ifAbsentPut: [self computeSize]! !
 
-!PermutationGroup methodsFor: 'accessing' stamp: 'len 2/15/2016 21:52'!
+!PermutationGroup methodsFor: 'accessing' stamp: 'len 2/1/2018 23:48:18'!
 space
-	^ space! !
+	self ambient == self ifTrue: [self halt].
+	^ self ambient space! !
 
-!PermutationGroup methodsFor: 'accessing-private' stamp: 'len 5/13/2016 02:47'!
-space: aCollection
-	space _ aCollection! !
+!PermutationGroup methodsFor: 'as yet unclassified' stamp: 'len 2/1/2018 23:47:51'!
+span: aCollection
+	^ self ambient span: aCollection! !
 
 !PermutationGroup methodsFor: 'private' stamp: 'len 3/4/2016 20:36'!
 species
 	^ PermutationGroup! !
 
-!PermutationGroup class methodsFor: 'examples' stamp: 'len 11/14/2016 20:11'!
+!PermutationGroup class methodsFor: 'examples' stamp: 'len 2/1/2018 23:25:24'!
 Co3
 	"Conway group Co3. This group has order 495766656000."
 	| x y |
-	x _ StandardPermutation image: #(245 42 112 15 131 7 188 75 132 10 11 187 186 265 22 159 256 43 101 123 134 4 32 209 238 35 45 235 126 5 19 60 66 80 154 251 117 206 71 118 93 87 167 271 221 261 182 155 47 230 172 236 109 191 76 156 73 116 147 23 127 231 38 53 122 210 24 68 86 255 196 139 149 21 111 203 252 72 262 114 214 9 181 174 85 95 2 250 257 243 90 158 170 148 69 105 249 263 16 54 31 115 51 104 125 219 92 46 64 204 8 266 225 34 175 145 161 180 237 241 224 169 269 12 96 129 189 190 29 17 30 82 143 74 168 13 227 217 78 258 220 178 228 146 58 254 273 215 57 106 77 110 50 26 248 260 274 107 99 253 37 25 272 44 52 119 18 201 65 41 233 103 246 200 102 160 198 207 157 40 223 49 267 79 1 136 124 6 61 268 100 70 98 171 121 39 62 211 208 84 135 97 55 152 141 63 142 259 67 33 177 173 14 242 94 113 240 264 150 205 27 183 83 195 216 163 247 133 36 153 197 140 194 120 270 165 166 162 218 138 234 81 91 89 185 212 137 48 202 276 229 151 176 144 192 130 244 232 199 56 108 184 193 239 213 3 222 128 20 28 164 226 59 179 275 88).
-	y _ StandardPermutation image: #(204 203 33 236 5 172 77 76 47 146 133 224 229 53 84 16 223 228 130 131 252 190 13 263 242 10 32 196 199 65 246 209 40 99 241 198 269 251 75 118 176 271 183 116 197 238 22 29 178 26 174 129 2 153 272 257 41 12 59 20 27 175 106 159 218 259 137 258 261 164 262 189 45 177 260 85 25 15 226 96 24 1 274 148 264 132 48 117 36 60 171 201 101 253 95 120 142 213 165 51 115 44 103 167 243 66 141 108 88 97 276 30 139 222 166 173 231 3 73 239 56 170 82 162 163 207 145 128 52 104 90 216 220 155 74 237 28 4 113 273 230 270 248 180 206 50 250 78 127 150 54 232 217 121 69 156 6 125 210 86 89 46 184 211 265 93 19 138 23 126 43 188 102 244 219 192 256 83 58 144 181 187 91 158 205 235 147 157 114 9 152 57 39 64 143 67 119 161 87 200 111 79 14 123 21 149 122 191 61 194 266 225 31 81 62 160 151 112 215 254 234 72 17 179 105 267 227 18 169 249 109 208 275 68 233 168 55 124 80 240 35 7 212 100 245 98 195 247 107 182 42 185 94 11 255 135 154 221 63 193 134 71 214 8 34 70 202 268 37 110 38 136 140 49 186 92).
+	x _ #(245 42 112 15 131 7 188 75 132 10 11 187 186 265 22 159 256 43 101 123 134 4 32 209 238 35 45 235 126 5 19 60 66 80 154 251 117 206 71 118 93 87 167 271 221 261 182 155 47 230 172 236 109 191 76 156 73 116 147 23 127 231 38 53 122 210 24 68 86 255 196 139 149 21 111 203 252 72 262 114 214 9 181 174 85 95 2 250 257 243 90 158 170 148 69 105 249 263 16 54 31 115 51 104 125 219 92 46 64 204 8 266 225 34 175 145 161 180 237 241 224 169 269 12 96 129 189 190 29 17 30 82 143 74 168 13 227 217 78 258 220 178 228 146 58 254 273 215 57 106 77 110 50 26 248 260 274 107 99 253 37 25 272 44 52 119 18 201 65 41 233 103 246 200 102 160 198 207 157 40 223 49 267 79 1 136 124 6 61 268 100 70 98 171 121 39 62 211 208 84 135 97 55 152 141 63 142 259 67 33 177 173 14 242 94 113 240 264 150 205 27 183 83 195 216 163 247 133 36 153 197 140 194 120 270 165 166 162 218 138 234 81 91 89 185 212 137 48 202 276 229 151 176 144 192 130 244 232 199 56 108 184 193 239 213 3 222 128 20 28 164 226 59 179 275 88).
+	y _ #(204 203 33 236 5 172 77 76 47 146 133 224 229 53 84 16 223 228 130 131 252 190 13 263 242 10 32 196 199 65 246 209 40 99 241 198 269 251 75 118 176 271 183 116 197 238 22 29 178 26 174 129 2 153 272 257 41 12 59 20 27 175 106 159 218 259 137 258 261 164 262 189 45 177 260 85 25 15 226 96 24 1 274 148 264 132 48 117 36 60 171 201 101 253 95 120 142 213 165 51 115 44 103 167 243 66 141 108 88 97 276 30 139 222 166 173 231 3 73 239 56 170 82 162 163 207 145 128 52 104 90 216 220 155 74 237 28 4 113 273 230 270 248 180 206 50 250 78 127 150 54 232 217 121 69 156 6 125 210 86 89 46 184 211 265 93 19 138 23 126 43 188 102 244 219 192 256 83 58 144 181 187 91 158 205 235 147 157 114 9 152 57 39 64 143 67 119 161 87 200 111 79 14 123 21 149 122 191 61 194 266 225 31 81 62 160 151 112 215 254 234 72 17 179 105 267 227 18 169 249 109 208 275 68 233 168 55 124 80 240 35 7 212 100 245 98 195 247 107 182 42 185 94 11 255 135 154 221 63 193 134 71 214 8 34 70 202 268 37 110 38 136 140 49 186 92).
 	^ PermutationGroup new: 276 generators: {x. y}! !
 
-!PermutationGroup class methodsFor: 'examples' stamp: 'len 11/14/2016 20:22'!
+!PermutationGroup class methodsFor: 'examples' stamp: 'len 2/1/2018 23:25:36'!
 J1
 	"Janko group J1. This group has order 175560."
 	| x y |
-	x _ StandardPermutation image: #(262 107 21 213 191 22 133 234 232 151 139 176 202 253 222 16 195 206 68 55 3 6 179 217 216 256 87 70 131 44 105 170 77 104 198 137 243 56 124 223 134 42 174 30 45 51 128 94 250 264 46 183 231 115 20 38 85 233 261 95 235 177 249 91 247 155 67 19 219 28 237 211 84 192 130 251 33 78 260 112 193 156 242 73 57 238 27 143 168 148 64 119 212 48 60 150 199 140 189 180 147 111 159 34 31 162 2 194 166 200 102 80 120 141 54 182 181 225 92 113 254 125 146 39 122 208 221 47 210 75 29 255 7 41 135 175 36 207 11 98 114 240 88 172 185 123 101 90 224 96 10 169 241 190 66 82 214 161 103 236 158 106 239 229 230 109 188 89 152 32 258 144 186 43 136 12 62 245 23 100 117 116 52 205 145 173 228 167 99 154 5 74 81 108 17 196 203 35 97 110 252 13 197 204 184 18 138 126 248 129 72 93 4 157 259 25 24 246 69 227 127 15 40 149 118 226 220 187 164 165 53 9 58 8 61 160 71 86 163 142 153 83 37 244 178 218 65 209 63 49 76 201 14 121 132 26 263 171 215 79 59 1 257 50 266 265).
-	y _ StandardPermutation image: #(146 132 3 156 242 107 125 245 174 241 264 248 36 116 47 178 170 197 233 121 1 228 48 201 15 136 212 6 175 77 237 30 226 31 129 44 161 232 219 78 139 9 211 13 222 97 25 173 70 153 186 29 203 35 169 140 260 91 199 108 208 206 11 55 103 65 95 73 151 131 41 221 225 18 143 7 32 159 217 93 181 2 258 163 154 182 38 133 117 33 243 191 122 27 205 20 135 98 229 138 61 194 66 104 149 62 28 164 123 17 137 16 69 37 238 128 247 57 167 134 96 80 193 185 76 83 218 14 54 8 49 82 215 189 46 190 183 188 71 230 231 239 202 224 158 21 119 214 184 250 113 72 200 213 22 166 102 220 40 92 114 257 177 60 179 4 147 168 64 110 171 148 23 42 52 195 84 112 246 19 252 196 111 105 265 209 24 100 120 26 160 39 109 157 266 86 74 204 227 50 187 75 216 207 67 106 198 101 51 141 251 94 85 172 88 53 254 261 192 145 152 240 262 249 68 90 59 155 263 56 210 87 180 12 115 142 34 235 236 45 244 253 58 10 130 165 89 234 144 259 43 81 5 79 223 162 256 126 150 118 127 255 99 63 124 176).
+	x _ #(262 107 21 213 191 22 133 234 232 151 139 176 202 253 222 16 195 206 68 55 3 6 179 217 216 256 87 70 131 44 105 170 77 104 198 137 243 56 124 223 134 42 174 30 45 51 128 94 250 264 46 183 231 115 20 38 85 233 261 95 235 177 249 91 247 155 67 19 219 28 237 211 84 192 130 251 33 78 260 112 193 156 242 73 57 238 27 143 168 148 64 119 212 48 60 150 199 140 189 180 147 111 159 34 31 162 2 194 166 200 102 80 120 141 54 182 181 225 92 113 254 125 146 39 122 208 221 47 210 75 29 255 7 41 135 175 36 207 11 98 114 240 88 172 185 123 101 90 224 96 10 169 241 190 66 82 214 161 103 236 158 106 239 229 230 109 188 89 152 32 258 144 186 43 136 12 62 245 23 100 117 116 52 205 145 173 228 167 99 154 5 74 81 108 17 196 203 35 97 110 252 13 197 204 184 18 138 126 248 129 72 93 4 157 259 25 24 246 69 227 127 15 40 149 118 226 220 187 164 165 53 9 58 8 61 160 71 86 163 142 153 83 37 244 178 218 65 209 63 49 76 201 14 121 132 26 263 171 215 79 59 1 257 50 266 265).
+	y _ #(146 132 3 156 242 107 125 245 174 241 264 248 36 116 47 178 170 197 233 121 1 228 48 201 15 136 212 6 175 77 237 30 226 31 129 44 161 232 219 78 139 9 211 13 222 97 25 173 70 153 186 29 203 35 169 140 260 91 199 108 208 206 11 55 103 65 95 73 151 131 41 221 225 18 143 7 32 159 217 93 181 2 258 163 154 182 38 133 117 33 243 191 122 27 205 20 135 98 229 138 61 194 66 104 149 62 28 164 123 17 137 16 69 37 238 128 247 57 167 134 96 80 193 185 76 83 218 14 54 8 49 82 215 189 46 190 183 188 71 230 231 239 202 224 158 21 119 214 184 250 113 72 200 213 22 166 102 220 40 92 114 257 177 60 179 4 147 168 64 110 171 148 23 42 52 195 84 112 246 19 252 196 111 105 265 209 24 100 120 26 160 39 109 157 266 86 74 204 227 50 187 75 216 207 67 106 198 101 51 141 251 94 85 172 88 53 254 261 192 145 152 240 262 249 68 90 59 155 263 56 210 87 180 12 115 142 34 235 236 45 244 253 58 10 130 165 89 234 144 259 43 81 5 79 223 162 256 126 150 118 127 255 99 63 124 176).
 	^ PermutationGroup new: 266 generators: {x. y}! !
 
-!PermutationGroup class methodsFor: 'examples' stamp: 'len 2/22/2017 21:55:43'!
+!PermutationGroup class methodsFor: 'examples' stamp: 'len 2/1/2018 23:27:01'!
 M11
 	"The Mathieu group on 11 points. With order 7920, this is the smallest of the 26 sporadic simple groups."
-	| s1 s2 |
-	"ALTERNATIVELY:
-	s1 _ Permutation new: 11 cycles: #((1 2 3 4 5 6 7 8 9 10 11).
-	s2 _ Permutation new: 11 cycles: #((3 7 11 8) (4 10 5 6)).
+	"ALTERNATIVELY: #((1 2 3 4 5 6 7 8 9 10 11)), #((3 7 11 8) (4 10 5 6)).
 	"
-	s1 _ Permutation new: 11 cycles: #((1 10) (2 8) (3 11) (5 7)).
-	s2 _ Permutation new: 11 cycles: #((1 4 7 6) (2 11 10 9)).
-	^ self on: (1 to: 11) generators: {s1. s2}! !
+	^ self new: 11 generators: {#((1 10) (2 8) (3 11) (5 7)). #((1 4 7 6) (2 11 10 9))}! !
 
-!PermutationGroup class methodsFor: 'examples' stamp: 'len 2/22/2017 21:55:49'!
+!PermutationGroup class methodsFor: 'examples' stamp: 'len 2/1/2018 23:27:42'!
 M12
 	"The Mathieu group on 12 points, the second smallest of the 26 sporadic simple groups, with order 95040."
-	| s1 s2 s3 |
-	s1 _ Permutation new: 12 cycles: #((1 2 3 4 5 6 7 8 9 10 11)).
-	s2 _ Permutation new: 12 cycles: #((3 7 11 8) (4 10 5 6)).
-	s3 _ Permutation new: 12 cycles: #((1 12) (2 11) (3 6) (4 8) (5 9) (7 10)).
-	^ self on: (1 to: 12) generators: {s1. s2. s3}! !
+	^ self new: 12 generators: {#((1 2 3 4 5 6 7 8 9 10 11)). #((3 7 11 8) (4 10 5 6)). #((1 12) (2 11) (3 6) (4 8) (5 9) (7 10))}! !
 
-!PermutationGroup class methodsFor: 'examples' stamp: 'len 11/14/2016 20:26'!
+!PermutationGroup class methodsFor: 'examples' stamp: 'len 2/1/2018 23:28:00'!
 McL
 	"McLaughlin group. This group has order 898128000."
 	| x y |
-	x _ StandardPermutation image: #(191 182 3 81 55 60 7 66 272 177 192 163 13 242 133 107 17 267 108 218 198 185 211 82 204 195 132 253 207 59 179 154 264 152 92 189 217 197 85 156 41 184 102 50 216 99 181 48 199 44 111 52 158 236 5 210 57 103 30 6 263 62 119 138 127 8 105 137 69 125 144 219 261 74 175 76 269 237 268 80 4 24 232 256 39 104 95 88 234 233 140 35 93 149 87 96 173 160 46 112 123 43 58 86 67 221 16 19 131 176 51 100 262 257 201 116 260 238 63 275 214 225 101 246 70 170 65 128 141 130 109 27 15 196 167 136 68 64 139 91 129 235 224 71 205 249 147 226 94 243 151 34 193 32 228 40 157 53 159 98 231 162 12 215 180 166 135 222 270 126 241 259 97 212 75 110 10 188 31 165 47 2 266 42 22 203 187 178 36 250 1 11 153 194 26 134 38 21 49 200 115 247 186 25 145 206 29 255 251 56 23 174 252 121 164 45 37 20 72 220 106 168 271 143 122 148 274 155 229 240 161 83 90 89 142 54 78 118 254 230 171 14 150 244 258 124 202 248 146 190 209 213 28 239 208 84 114 245 172 117 73 113 61 33 273 183 18 79 77 169 223 9 265 227 120).
-	y _ StandardPermutation image: #(24 28 67 168 118 274 98 209 266 271 247 13 71 7 218 170 100 26 223 128 264 116 179 204 40 198 64 272 56 132 255 148 61 241 89 239 54 20 126 177 35 248 139 172 234 214 140 55 134 213 22 107 101 99 113 135 221 57 252 84 163 47 94 162 171 192 142 195 167 145 10 152 14 206 73 91 17 2 245 203 63 205 38 188 191 215 115 52 82 227 180 155 169 173 181 265 250 75 249 4 51 207 156 70 267 273 262 256 97 66 117 76 220 49 158 53 105 19 44 144 269 127 141 185 119 189 102 159 58 50 225 42 164 32 68 230 79 121 193 268 259 31 106 96 9 30 184 114 143 103 150 197 125 186 1 160 147 178 83 151 120 21 90 196 78 59 190 77 110 182 16 153 210 62 200 37 85 240 244 238 34 65 36 108 18 219 251 208 136 46 25 93 8 236 29 15 217 124 111 123 60 130 23 92 41 154 246 201 43 81 5 45 224 69 231 166 254 133 74 235 261 232 211 202 86 88 33 237 228 39 131 212 95 222 48 187 253 112 275 87 233 149 263 80 6 122 138 146 176 243 258 260 270 72 3 157 183 194 175 216 129 226 109 27 161 104 199 174 11 229 12 165 242 137 257).
+	x _ #(191 182 3 81 55 60 7 66 272 177 192 163 13 242 133 107 17 267 108 218 198 185 211 82 204 195 132 253 207 59 179 154 264 152 92 189 217 197 85 156 41 184 102 50 216 99 181 48 199 44 111 52 158 236 5 210 57 103 30 6 263 62 119 138 127 8 105 137 69 125 144 219 261 74 175 76 269 237 268 80 4 24 232 256 39 104 95 88 234 233 140 35 93 149 87 96 173 160 46 112 123 43 58 86 67 221 16 19 131 176 51 100 262 257 201 116 260 238 63 275 214 225 101 246 70 170 65 128 141 130 109 27 15 196 167 136 68 64 139 91 129 235 224 71 205 249 147 226 94 243 151 34 193 32 228 40 157 53 159 98 231 162 12 215 180 166 135 222 270 126 241 259 97 212 75 110 10 188 31 165 47 2 266 42 22 203 187 178 36 250 1 11 153 194 26 134 38 21 49 200 115 247 186 25 145 206 29 255 251 56 23 174 252 121 164 45 37 20 72 220 106 168 271 143 122 148 274 155 229 240 161 83 90 89 142 54 78 118 254 230 171 14 150 244 258 124 202 248 146 190 209 213 28 239 208 84 114 245 172 117 73 113 61 33 273 183 18 79 77 169 223 9 265 227 120).
+	y _ #(24 28 67 168 118 274 98 209 266 271 247 13 71 7 218 170 100 26 223 128 264 116 179 204 40 198 64 272 56 132 255 148 61 241 89 239 54 20 126 177 35 248 139 172 234 214 140 55 134 213 22 107 101 99 113 135 221 57 252 84 163 47 94 162 171 192 142 195 167 145 10 152 14 206 73 91 17 2 245 203 63 205 38 188 191 215 115 52 82 227 180 155 169 173 181 265 250 75 249 4 51 207 156 70 267 273 262 256 97 66 117 76 220 49 158 53 105 19 44 144 269 127 141 185 119 189 102 159 58 50 225 42 164 32 68 230 79 121 193 268 259 31 106 96 9 30 184 114 143 103 150 197 125 186 1 160 147 178 83 151 120 21 90 196 78 59 190 77 110 182 16 153 210 62 200 37 85 240 244 238 34 65 36 108 18 219 251 208 136 46 25 93 8 236 29 15 217 124 111 123 60 130 23 92 41 154 246 201 43 81 5 45 224 69 231 166 254 133 74 235 261 232 211 202 86 88 33 237 228 39 131 212 95 222 48 187 253 112 275 87 233 149 263 80 6 122 138 146 176 243 258 260 270 72 3 157 183 194 175 216 129 226 109 27 161 104 199 174 11 229 12 165 242 137 257).
 	^ PermutationGroup new: 275 generators: {x. y}! !
 
-!PermutationGroup class methodsFor: 'examples' stamp: 'len 11/10/2016 08:46'!
+!PermutationGroup class methodsFor: 'examples' stamp: 'len 2/1/2018 22:47:26'!
 cyclic: n
 	"Answer the cyclic group of order n as a permutation group."
-	^ self on: (1 to: n) generators: {Permutation cycle: (1 to: n)} :: name: 'C', n printString sub! !
+	^ self new: n generators: {{(1 to: n)}} :: name: 'C', n printString sub! !
 
-!PermutationGroup class methodsFor: 'examples' stamp: 'len 11/15/2016 08:48'!
+!PermutationGroup class methodsFor: 'examples' stamp: 'len 2/1/2018 22:51:21'!
 dihedral: order
 	"Answer the Dihedral group of order n as a permutation group."
-	| n s r |
+	| n G s r |
 	order even ifFalse: [self error: 'order should be even'].
 	n _ order // 2.
-	r _ Permutation new: n cycle: (1 to: n).
-	s _ Permutation new: n evaluating: [:i| n - i + 1].
-	^ self on: (1 to: n) generators: {s. r} :: name: 'Dih', order printString sub! !
+	G _ SymmetricGroup new: n.
+	r _ G !! {(1 to: n)}.
+	s _ G !! [:i| n - i + 1].
+	^ (G span: {s. r}) name: 'Dih', order printString sub! !
 
-!PermutationGroup class methodsFor: 'examples' stamp: 'len 2/22/2017 21:56:04'!
+!PermutationGroup class methodsFor: 'examples' stamp: 'len 2/1/2018 23:28:37'!
 hessian
 	"The Hessian group, a finite group of order 216 introduced by Jordan and named after Otto Hesse."
-	| s1 s2 |
-	s1 _ Permutation new: 9 cycles: #((1 2 4) (5 6 8) (3 9 7)).
-	s2 _ Permutation new: 9 cycles: #((4 5 6) (7 9 8)).
-	^ self on: (1 to: 9) generators: {s1. s2}! !
+	^ self new: 9 generators: {#((1 2 4) (5 6 8) (3 9 7)). #((4 5 6) (7 9 8))}! !
 
-!PermutationGroup class methodsFor: 'examples' stamp: 'len 2/22/2017 21:56:14'!
+!PermutationGroup class methodsFor: 'examples' stamp: 'len 2/1/2018 23:29:18'!
 klein
 	"The Klein four-group (or Vierergruppe) as a permutation group."
-	| a b |
-	a _ Permutation image: #(2 1 4 3).
-	b _ Permutation image: #(3 4 1 2).
-	"c _ Permutation values: #(4 3 2 1)."
-	^ self on: (1 to: 4) generators: {a.b}! !
+	^ self new: 4 generators: {#(2 1 4 3). #(3 4 1 2) ". #(4 3 2 1)"}! !
 
-!PermutationGroup class methodsFor: 'instance creation' stamp: 'len 5/2/2016 01:33'!
-new: n
-	^ self on: (1 to: n)! !
-
-!PermutationGroup class methodsFor: 'instance creation' stamp: 'len 7/23/2016 06:32'!
+!PermutationGroup class methodsFor: 'instance creation' stamp: 'len 1/31/2018 21:30:04'!
 new: n generators: aCollection
-	^ self on: (1 to: n) generators: aCollection! !
+	^ (SymmetricGroup new: n) span: aCollection! !
 
-!PermutationGroup class methodsFor: 'instance creation' stamp: 'len 2/15/2016 21:50'!
-on: aCollection
-	^ self new space: aCollection! !
-
-!PermutationGroup class methodsFor: 'instance creation' stamp: 'len 11/15/2016 08:42'!
-on: aCollection elements: anotherCollection
-	^ (self on: aCollection) elements: anotherCollection! !
-
-!PermutationGroup class methodsFor: 'instance creation' stamp: 'len 5/12/2016 10:11'!
+!PermutationGroup class methodsFor: 'instance creation' stamp: 'len 2/1/2018 23:24:53'!
 on: aCollection generators: anotherCollection
-	^ (self on: aCollection) generators: anotherCollection! !
+	^ (SymmetricGroup on: aCollection) span: anotherCollection! !
 
 !AlternatingGroup methodsFor: 'random' stamp: 'len 6/28/2016 08:48'!
 atRandom: aRandom bits: bitSize
@@ -15768,36 +15754,49 @@ atRandom: aRandom bits: bitSize
 	[(answer _ S atRandom: aRandom bits: bitSize) even] whileFalse.
 	^ answer! !
 
-!AlternatingGroup methodsFor: 'private' stamp: 'len 8/30/2016 19:44'!
+!AlternatingGroup methodsFor: 'private' stamp: 'len 1/31/2018 21:21:03'!
 computeGenerators
-	| answer X |
-	answer _ OrderedCollection new.
-	X _ space asArray.
-	1 to: X size - 2 do: [:i| answer add: (Permutation cycle: {i. i+1. i+2})].
-	^ answer! !
+	^ (1 to: self degree - 2) collect: [:i| Permutation new: self degree cycle: {i. i+1. i+2}]! !
 
 !AlternatingGroup methodsFor: 'testing' stamp: 'len 12/13/2016 07:31:33'!
 contains: aPermutation
 	"Answer true if the receiver contains the given element of its ambient."
 	^ aPermutation even! !
 
-!AlternatingGroup methodsFor: 'enumerating' stamp: 'len 6/28/2016 06:10'!
+!AlternatingGroup methodsFor: 'enumerating' stamp: 'len 1/31/2018 21:16:14'!
 do: aBlock
-	| domain |
-	domain _ self space asArray.
-	domain permutationsDo: [:each| |p| (p _ Permutation keys: domain values: each) even ifTrue: [aBlock value: p]]! !
+	self ambient do: [:each| each even ifTrue: [aBlock value: each]]! !
 
 !AlternatingGroup methodsFor: 'testing' stamp: 'len 2/16/2016 05:54'!
 isSimple
 	^ self degree >= 5! !
 
-!AlternatingGroup methodsFor: 'printing' stamp: 'len 11/10/2016 08:44'!
+!AlternatingGroup methodsFor: 'printing' stamp: 'len 1/31/2018 17:31:29'!
 printOn: aStream
-	aStream nextPutAll: 'Alt('; print: space; nextPut: $)! !
+	aStream nextPutAll: 'Alt('; print: self space; nextPut: $)! !
 
 !AlternatingGroup methodsFor: 'accessing' stamp: 'len 2/16/2016 05:49'!
 size
 	^ self degree factorial / 2! !
+
+!AlternatingGroup class methodsFor: 'instance creation' stamp: 'len 2/1/2018 23:51:38'!
+new: anInteger
+	^ self new ambient: (SymmetricGroup new: anInteger)! !
+
+!AlternatingGroup class methodsFor: 'instance creation' stamp: 'len 2/1/2018 23:51:52'!
+on: aCollection
+	^ self new ambient: (SymmetricGroup on: aCollection)! !
+
+!SymmetricGroup methodsFor: 'elements' stamp: 'len 2/1/2018 22:51:00'!
+!! anObject
+	"Coerce anObject to an element of the receiver (a permutation)."
+	anObject isBlock
+		ifTrue: [^ self evaluating: anObject].
+	anObject isSequenceableCollection
+		ifFalse: [^ super !! anObject].
+	(anObject allSatisfy: [:each| each isSequenceableCollection]) "cycles"
+		ifTrue: [^ self cycles: anObject].
+	^ super !! anObject! !
 
 !SymmetricGroup methodsFor: 'comparing' stamp: 'len 5/1/2016 06:32'!
 >= anObject
@@ -15809,7 +15808,7 @@ size
 ambient
 	^ self! !
 
-!SymmetricGroup methodsFor: 'random' stamp: 'len 6/28/2016 06:10'!
+!SymmetricGroup methodsFor: 'random' stamp: 'len 2/1/2018 23:15:28'!
 atRandom: aRandom
 	| domain |
 	domain _ self space asArray.
@@ -15823,12 +15822,12 @@ atRandom: aRandom bits: bits
 commutator
 	^ AlternatingGroup on: space! !
 
-!SymmetricGroup methodsFor: 'private' stamp: 'len 8/30/2016 20:41'!
+!SymmetricGroup methodsFor: 'private' stamp: 'len 2/1/2018 22:17:18'!
 computeGenerators
 	| answer X |
 	answer _ OrderedCollection new.
-	X _ space asArray.
-	2 to: X size do: [:i| answer add: (Permutation transpose: (X at: 1) with: (X at: i))].
+	X _ self space asArray.
+	2 to: X size do: [:i| answer add: (self transposing: (X at: 1) with: (X at: i))].
 	^ answer
 "alternatively: Coxeter generators, the set of (i,i+1) all the adjacent transpositions"! !
 
@@ -15837,13 +15836,13 @@ contains: aPermutation
 	"Answer true if the receiver contains the given element of its ambient."
 	^ true! !
 
-!SymmetricGroup methodsFor: 'elements' stamp: 'len 2/28/2017 09:33:50'!
-cycle: anArray
-	^ Permutation cycle: anArray! !
-
-!SymmetricGroup methodsFor: 'elements' stamp: 'len 2/28/2017 09:34:02'!
+!SymmetricGroup methodsFor: 'elements' stamp: 'len 2/1/2018 22:52:29'!
 cycles: anArray
 	^ Permutation cycles: anArray! !
+
+!SymmetricGroup methodsFor: 'accessing' stamp: 'len 2/1/2018 22:21:22'!
+degree
+	^ self space size! !
 
 !SymmetricGroup methodsFor: 'enumerating' stamp: 'len 6/28/2016 06:10'!
 do: aBlock
@@ -15851,21 +15850,51 @@ do: aBlock
 	domain _ self space asArray.
 	domain permutationsDo: [:each| aBlock value: (Permutation keys: domain values: each)]! !
 
-!SymmetricGroup methodsFor: 'elements' stamp: 'len 2/28/2017 09:33:45'!
+!SymmetricGroup methodsFor: 'elements' stamp: 'len 2/1/2018 22:52:38'!
 evaluating: aBlock
 	^ Permutation on: self space evaluating: aBlock! !
+
+!SymmetricGroup methodsFor: 'elements' stamp: 'len 2/1/2018 23:09:52'!
+identity
+	^ self propertyAt: #identity ifAbsentPut: [Permutation new]! !
+
+!SymmetricGroup methodsFor: 'testing' stamp: 'len 2/1/2018 23:17:21'!
+includes: anObject
+	^ (anObject isKindOf: Permutation) and: [anObject domain <= self space]! !
 
 !SymmetricGroup methodsFor: 'testing' stamp: 'len 2/16/2016 05:55'!
 isAlmostSimple
 	^ self degree >= 5! !
 
-!SymmetricGroup methodsFor: 'printing' stamp: 'len 11/10/2016 08:47'!
+!SymmetricGroup methodsFor: 'testing' stamp: 'len 2/1/2018 23:13:45'!
+isStandard
+	"Answer true if the domain of the receiver is an interval [1..n]."
+	^ false! !
+
+!SymmetricGroup methodsFor: 'printing' stamp: 'len 2/1/2018 23:17:39'!
 printOn: aStream
-	aStream nextPutAll: 'Sym('; print: space; nextPut: $)! !
+	aStream nextPutAll: 'Sym('; print: self space; nextPut: $)! !
 
 !SymmetricGroup methodsFor: 'accessing' stamp: 'len 2/16/2016 05:50'!
 size
 	^ self degree factorial! !
+
+!SymmetricGroup methodsFor: 'accessing' stamp: 'len 2/1/2018 23:18:36'!
+space
+	^ self propertyAt: #space! !
+
+!SymmetricGroup methodsFor: 'private' stamp: 'len 2/1/2018 23:18:55'!
+space: aCollection
+	self propertyAt: #space put: aCollection! !
+
+!SymmetricGroup methodsFor: 'operations' stamp: 'len 2/1/2018 23:22:27'!
+span: aCollection
+	^ PermutationGroup new ambient: self; generators: (aCollection collect: [:each| self !! each])! !
+
+!SymmetricGroup methodsFor: 'elements' stamp: 'len 2/1/2018 22:58:26'!
+transposing: anObject with: anotherObject
+	"Answer the tranposition of anObject with anotherObject."
+	^ Permutation transposing: anObject with: anotherObject! !
 
 !SymmetricGroup class methodsFor: 'examples' stamp: 'len 2/27/2017 08:36:17'!
 example1
@@ -15876,6 +15905,87 @@ example1
 example2
 	"The group of permutations on the set {a,b,c}."
 	^ SymmetricGroup on: #(a b c).! !
+
+!SymmetricGroup class methodsFor: 'instance creation' stamp: 'len 2/1/2018 22:25:13'!
+new: anInteger
+	^ StandardSymmetricGroup new: anInteger! !
+
+!SymmetricGroup class methodsFor: 'instance creation' stamp: 'len 2/1/2018 22:24:13'!
+on: aCollection
+	^ self new space: aCollection! !
+
+!StandardSymmetricGroup methodsFor: 'elements' stamp: 'len 2/1/2018 22:39:20'!
+!! anObject
+	"Coerce anObject to an element of the receiver (a permutation)."
+	anObject isSequenceableCollection
+		ifFalse: [^ super !! anObject].
+	(anObject allSatisfy: [:each| each isInteger and: [each between: 1 and: degree]])
+		ifTrue: [^ self mapping: anObject asArray].
+	(anObject allSatisfy: [:each| each isSequenceableCollection]) "cycles"
+		ifTrue: [^ self cycles: anObject].
+	^ super !! anObject! !
+
+!StandardSymmetricGroup methodsFor: 'random' stamp: 'len 2/1/2018 23:15:12'!
+atRandom: aRandom
+	^ self mapping: ((1 to: degree) asArray shuffledBy: aRandom)! !
+
+!StandardSymmetricGroup methodsFor: 'elements' stamp: 'len 2/1/2018 22:22:44'!
+cycles: anArray
+	^ StandardPermutation new: self degree cycles: anArray! !
+
+!StandardSymmetricGroup methodsFor: 'accessing' stamp: 'len 2/1/2018 22:23:12'!
+degree
+	^ degree! !
+
+!StandardSymmetricGroup methodsFor: 'private' stamp: 'len 2/1/2018 22:23:33'!
+degree: anInteger
+	degree _ anInteger! !
+
+!StandardSymmetricGroup methodsFor: 'enumerating' stamp: 'len 2/1/2018 23:11:17'!
+do: aBlock
+	(1 to: degree) asArray permutationsDo: [:each| aBlock value: (self mapping: each copy)]! !
+
+!StandardSymmetricGroup methodsFor: 'elements' stamp: 'len 2/1/2018 22:22:47'!
+evaluating: aBlock
+	^ StandardPermutation new: self degree evaluating: aBlock! !
+
+!StandardSymmetricGroup methodsFor: 'elements' stamp: 'len 2/1/2018 23:09:38'!
+identity
+	^ self propertyAt: #identity ifAbsentPut: [StandardPermutation new: degree]! !
+
+!StandardSymmetricGroup methodsFor: 'testing' stamp: 'len 2/1/2018 22:27:07'!
+includes: anObject
+	^ (anObject isKindOf: StandardPermutation) and: [anObject degree = self degree]! !
+
+!StandardSymmetricGroup methodsFor: 'testing' stamp: 'len 2/1/2018 23:13:53'!
+isStandard
+	"Answer true if the domain of the receiver is an interval [1..n]."
+	^ true! !
+
+!StandardSymmetricGroup methodsFor: 'elements' stamp: 'len 2/1/2018 23:30:42'!
+mapping: anArray
+	^ StandardPermutation map: anArray! !
+
+!StandardSymmetricGroup methodsFor: 'as yet unclassified' stamp: 'len 2/1/2018 23:31:38'!
+printOn: aStream
+	aStream nextPutAll: 'S', degree printText sub! !
+
+!StandardSymmetricGroup methodsFor: 'accessing' stamp: 'len 2/1/2018 23:18:03'!
+space
+	^ 1 to: degree! !
+
+!StandardSymmetricGroup methodsFor: 'elements' stamp: 'len 2/1/2018 22:59:10'!
+transposing: anInteger with: anotherInteger
+	"Answer the tranposition of anInteger with anotherInteger."
+	^ StandardPermutation new: degree transposing: anInteger with: anotherInteger! !
+
+!StandardSymmetricGroup class methodsFor: 'instance creation' stamp: 'len 2/1/2018 22:25:17'!
+new: n
+	^ self new degree: n! !
+
+!StandardSymmetricGroup class methodsFor: 'instance creation' stamp: 'len 2/1/2018 22:24:25'!
+on: aCollection
+	^ self shouldNotImplement! !
 
 !LinearGroup methodsFor: 'accessing' stamp: 'len 10/17/2016 11:07'!
 action
@@ -22160,6 +22270,10 @@ contains: anAffineSubspace
 from: aDomain
 	aDomain  self base ifNotNil: [:aMorphism| ^ self projection ” aMorphism].
 	^ super from: aDomain! !
+
+!QuotientModule methodsFor: 'accessing' stamp: 'len 3/13/2018 18:12:23'!
+generators
+	^ self base generators collect: [:each| self project: each]! !
 
 !QuotientModule methodsFor: 'testing' stamp: 'len 1/16/2018 18:31:51'!
 includes: anObject
@@ -30268,6 +30382,167 @@ weight: anInteger
 new: anInteger
 	^ self new weight: anInteger! !
 
+!AbstractPermutation methodsFor: 'operations' stamp: 'len 2/8/2018 08:42:31'!
+^ anInteger
+	^ self ”” anInteger! !
+
+!AbstractPermutation methodsFor: 'operations' stamp: 'len 2/8/2018 08:42:25'!
+” aPermutation
+	"Answer the composition of the receiver with the argument."
+	^ self * aPermutation! !
+
+!AbstractPermutation methodsFor: 'accessing' stamp: 'len 2/8/2018 08:42:07'!
+aChange
+	"Answer an element changed by the receiver (or nil if there are no one)."
+
+	self changesDo: [ :each | ^ each].
+	^ nil! !
+
+!AbstractPermutation methodsFor: 'converting' stamp: 'len 2/8/2018 08:43:12'!
+asStandard: anArray
+	^ StandardPermutation map: (anArray collect: [:each| anArray indexOf: (self at: each)])! !
+
+!AbstractPermutation methodsFor: 'accessing' stamp: 'len 2/8/2018 08:41:36'!
+changes
+	"Answer the elements changed by the receiver."
+	^ Iterator on: self performing: #changesDo:! !
+
+!AbstractPermutation methodsFor: 'accessing' stamp: 'len 2/8/2018 08:49:09'!
+codomain
+	^ self domain! !
+
+!AbstractPermutation methodsFor: 'operations' stamp: 'len 2/8/2018 08:43:35'!
+commutator: aPermutation
+	^ self inverse * aPermutation inverse * self * aPermutation! !
+
+!AbstractPermutation methodsFor: 'operations' stamp: 'len 2/8/2018 08:43:40'!
+conjugateBy: aPermutation
+	^ aPermutation inverse * self * aPermutation! !
+
+!AbstractPermutation methodsFor: 'cycles' stamp: 'len 2/8/2018 08:49:33'!
+cycles
+	"Answer the cycles of the receiver."
+	^ Iterator on: self performing: #cyclesDo:! !
+
+!AbstractPermutation methodsFor: 'cycles' stamp: 'len 2/8/2018 09:38:00'!
+cyclesDo: aBlock
+	"Iterate over the cycles of the receiver."
+	| left first next cycle |
+	left _ self changes copyAs: Set.
+	[left size > 0] whileTrue:
+		[first _ left anyOne.
+		cycle _ OrderedCollection new.
+		next _ first.
+		[(cycle add: (left remove: (next _ self at: next))) ~= first] whileTrue.
+		aBlock value: cycle]! !
+
+!AbstractPermutation methodsFor: 'testing' stamp: 'len 2/8/2018 08:44:34'!
+even
+	^ self sign = 1! !
+
+!AbstractPermutation methodsFor: 'testing' stamp: 'len 2/8/2018 08:50:04'!
+hasLeftInverse
+	^ true! !
+
+!AbstractPermutation methodsFor: 'testing' stamp: 'len 2/8/2018 08:50:11'!
+hasRightInverse
+	^ true! !
+
+!AbstractPermutation methodsFor: 'testing' stamp: 'len 2/8/2018 08:50:28'!
+is: aSymbol
+	^ aSymbol == #Permutation or: [super is: aSymbol]! !
+
+!AbstractPermutation methodsFor: 'testing' stamp: 'len 2/8/2018 08:45:31'!
+isConjugateWith: aPermutation
+	"Answer true if the receiver and the argument are conjugate."
+
+	^ self type = aPermutation type! !
+
+!AbstractPermutation methodsFor: 'testing' stamp: 'len 2/8/2018 08:45:37'!
+isCycle
+	"Answer true if the receiver is a cycle."
+
+	^ self cycles size = 1! !
+
+!AbstractPermutation methodsFor: 'testing' stamp: 'len 2/8/2018 08:50:45'!
+isIdentity
+	"Answer true if the receiver is the identity permutation."
+
+	^ self changes size = 0! !
+
+!AbstractPermutation methodsFor: 'testing' stamp: 'len 2/8/2018 09:05:50'!
+isTransposition
+	"Answer true if the receiver is a transposition."
+
+	^ self changes size = 2! !
+
+!AbstractPermutation methodsFor: 'operations' stamp: 'len 2/8/2018 08:51:02'!
+leftInverse
+	^ self inverse! !
+
+!AbstractPermutation methodsFor: 'testing' stamp: 'len 2/8/2018 08:51:17'!
+odd
+	^ self sign = -1! !
+
+!AbstractPermutation methodsFor: 'accessing' stamp: 'len 2/8/2018 08:52:14'!
+one
+	^ self identity! !
+
+!AbstractPermutation methodsFor: 'accessing' stamp: 'len 2/8/2018 09:09:16'!
+order
+	self isIdentity ifTrue: [^ 1].
+	^ self cycles inject: 1 into: [:last :each| last lcm: each size]! !
+
+!AbstractPermutation methodsFor: 'accessing' stamp: 'len 2/8/2018 08:51:36'!
+order2
+	| answer next |
+	answer _ 1.
+	next _ self.
+	[next isIdentity] whileFalse: [next _ next * self. answer _ answer + 1].
+	^ answer! !
+
+!AbstractPermutation methodsFor: 'actions' stamp: 'len 2/8/2018 08:51:52'!
+permute: anArray
+	"Answer the permutation of the elements of anArray induced by the receiver."
+	| answer |
+	answer _ Array new: anArray size.
+	1 to: anArray size do: [:i| answer at: i put: (anArray at: (self at: i))].
+	^ answer! !
+
+!AbstractPermutation methodsFor: 'printing' stamp: 'len 2/8/2018 09:18:03'!
+printOn: aStream
+	"Print a representation of the receiver on the stream aStream."
+
+	self isIdentity
+		ifTrue: [aStream nextPutAll: 'id']
+		ifFalse: [self cyclesDo: [:each| each printElementsOn: aStream]]! !
+
+!AbstractPermutation methodsFor: 'operations' stamp: 'len 2/8/2018 08:52:09'!
+reciprocal
+	^ self inverse! !
+
+!AbstractPermutation methodsFor: 'operations' stamp: 'len 2/8/2018 08:52:21'!
+rightInverse
+	^ self inverse! !
+
+!AbstractPermutation methodsFor: 'accessing' stamp: 'len 2/8/2018 09:28:02'!
+sign
+	| answer |
+	answer _ 1.
+	self cyclesDo: [:each| each size even ifTrue: [answer _ answer * -1]].
+	^ answer
+
+	"^ self transpositions size even ifTrue: [1] ifFalse: [-1]"! !
+
+!AbstractPermutation methodsFor: 'accessing' stamp: 'len 2/8/2018 09:03:28'!
+type
+	"Answer the type of the receiver."
+	^ (self cycles asSortedCollection: [ :a :b | a size <= b size]) collect: [ :each | each size]! !
+
+!AbstractPermutation methodsFor: 'actions' stamp: 'len 2/8/2018 08:53:18'!
+value: anObject
+	^ self at: anObject! !
+
 !Permutation methodsFor: 'arithmetic' stamp: 'len 1/30/2018 21:09:56'!
 * aPermutation
 	"Answer the product (function composition) of the receiver with the argument.
@@ -30288,29 +30563,9 @@ new: anInteger
 	aPermutation map keysAndValuesDo: [:key :value| value = (self at: key) ifFalse: [^ false]].
 	^ true! !
 
-!Permutation methodsFor: 'arithmetic' stamp: 'len 1/22/2017 08:16:55'!
-^ anInteger
-	^ self ”” anInteger! !
-
-!Permutation methodsFor: 'arithmetic' stamp: 'len 1/30/2018 21:45:49'!
-” aPermutation
-	"Answer the composition of the receiver with the argument."
-	^ self * aPermutation! !
-
-!Permutation methodsFor: 'accessing' stamp: 'len 5/6/98 05:01'!
-aChange
-	"Answer an element changed by the receiver (or nil if there are no one)."
-
-	self changesDo: [ :each | ^ each].
-	^ nil! !
-
 !Permutation methodsFor: 'converting' stamp: 'len 7/4/2016 02:56'!
 asArray
 	^ (1 to: map size) collect: [:each| self at: each]! !
-
-!Permutation methodsFor: 'converting' stamp: 'len 7/21/2016 02:11'!
-asStandard: anArray
-	^ StandardPermutation image: (anArray collect: [:each| anArray indexOf: (self at: each)])! !
 
 !Permutation methodsFor: 'accessing' stamp: 'len 6/28/2016 07:01'!
 at: anObject
@@ -30321,73 +30576,13 @@ at: anObject put: anotherObject
 	anObject = anotherObject ifTrue: [^ anotherObject].
 	^ map at: anObject put: anotherObject! !
 
-!Permutation methodsFor: 'accessing' stamp: 'len 6/28/2016 07:34'!
-changes
-	"Answer the elements changed by the receiver."
-	^ Iterator on: self performing: #changesDo:! !
-
 !Permutation methodsFor: 'enumerating' stamp: 'len 6/28/2016 07:25'!
 changesDo: aBlock
 	map keysDo: aBlock! !
 
-!Permutation methodsFor: 'accessing' stamp: 'len 6/28/2016 07:01'!
-codomain
-	^ self domain! !
-
-!Permutation methodsFor: 'operations' stamp: 'len 1/29/2018 22:23:05'!
-commutator: aPermutation
-	^ self inverse * aPermutation inverse * self * aPermutation! !
-
-!Permutation methodsFor: 'operations' stamp: 'len 1/29/2018 22:24:55'!
-conjugateBy: aPermutation
-	^ aPermutation inverse * self * aPermutation! !
-
-!Permutation methodsFor: 'accessing' stamp: 'len 5/2/2016 04:06'!
-cycleAt: anObject
-	"Answer the cycle generated by anObject."
-
-	| answer last |
-	answer _ PermutationCycle new.
-	last _ anObject.
-	[answer at: last put: (last _ self at: last). last = anObject] whileFalse.
-	^ answer! !
-
-!Permutation methodsFor: 'accessing' stamp: 'len 5/2/2016 04:41'!
-cycles
-	"Answer the cycles of the receiver."
-	^ Iterator on: self performing: #cyclesDo:! !
-
-!Permutation methodsFor: 'enumerating' stamp: 'len 11/30/2016 14:44:11'!
-cyclesDo: aBlock
-	"Iterate over the cycles of the receiver."
-	| left first next cycle |
-	left _ self changes copyAs: Set.
-	[left size > 0] whileTrue: [
-		cycle _ PermutationCycle new.
-		first _ left anyOne.
-		next _ first.
-		[cycle at: next put: (next _ self at: next).
-		left remove: next.
-		next ~= first] whileTrue.
-		aBlock value: cycle]! !
-
 !Permutation methodsFor: 'accessing' stamp: 'len 10/27/2016 14:40'!
 domain
 	^ map keys as: Domain! !
-
-!Permutation methodsFor: 'testing' stamp: 'len 10/1/97 19:09'!
-even
-	"Answer true if the receiver is odd."
-
-	^ self sign = 1! !
-
-!Permutation methodsFor: 'testing' stamp: 'len 8/25/2016 00:38'!
-hasLeftInverse
-	^ true! !
-
-!Permutation methodsFor: 'testing' stamp: 'len 8/25/2016 00:38'!
-hasRightInverse
-	^ true! !
 
 !Permutation methodsFor: 'comparing' stamp: 'len 1/23/2017 09:21:32'!
 hash
@@ -30411,37 +30606,11 @@ inverse
 	self changesDo: [:each| answer at: (self at: each) put: each].
 	^ answer! !
 
-!Permutation methodsFor: 'testing' stamp: 'len 6/29/2016 00:25'!
-is: aSymbol
-	^ aSymbol == #Permutation or: [super is: aSymbol]! !
-
-!Permutation methodsFor: 'testing' stamp: 'len 5/6/98 05:03'!
-isConjugateWith: aPermutation
-	"Answer true if the receiver and the argument are conjugate."
-
-	^ self type = aPermutation type! !
-
-!Permutation methodsFor: 'testing' stamp: 'len 9/28/97 01:16'!
-isCycle
-	"Answer true if the receiver is a cycle."
-
-	^ self cycles size = 1! !
-
-!Permutation methodsFor: 'testing' stamp: 'len 6/28/2016 07:40'!
-isIdentity
-	"Answer true if the receiver is the identity permutation."
-
-	^ self changes size = 0! !
-
 !Permutation methodsFor: 'testing' stamp: 'len 9/28/97 01:17'!
 isTransposition
 	"Answer true if the receiver is a transposition."
 
 	^ self size = 2! !
-
-!Permutation methodsFor: 'arithmetic' stamp: 'len 8/25/2016 00:36'!
-leftInverse
-	^ self inverse! !
 
 !Permutation methodsFor: 'accessing-private' stamp: 'len 5/6/98 04:50'!
 map
@@ -30451,94 +30620,26 @@ map
 map: aCollection
 	map _ aCollection! !
 
-!Permutation methodsFor: 'testing' stamp: 'len 10/1/97 19:08'!
-odd
-	"Answer true if the receiver is odd."
-
-	^ self sign = -1! !
-
-!Permutation methodsFor: 'arithmetic' stamp: 'len 11/25/2015 04:34'!
-one
-	^ self identity! !
-
-!Permutation methodsFor: 'accessing' stamp: 'len 6/28/2016 09:49'!
-order
-	self isIdentity ifTrue: [^ 1].
-	^ self cycles inject: 1 into: [:last :each| last lcm: each order]! !
-
-!Permutation methodsFor: 'accessing' stamp: 'len 6/28/2016 09:47'!
-order2
-	| answer next |
-	answer _ 1.
-	next _ self.
-	[next isIdentity] whileFalse: [next _ next * self. answer _ answer + 1].
-	^ answer! !
-
-!Permutation methodsFor: 'operations' stamp: 'len 7/4/2016 03:04'!
-permute: anArray
-	"Answer the permutation of the elements of anArray induced by the receiver."
-	| answer |
-	answer _ Array new: anArray size.
-	1 to: anArray size do: [:i| answer at: i put: (anArray at: (self at: i))].
-	^ answer! !
-
-!Permutation methodsFor: 'printing' stamp: 'len 10/1/97 18:59'!
-printOn: aStream
-	"Print a representation of the receiver on the stream aStream."
-
-	self isIdentity
-		ifTrue: [aStream nextPutAll: 'id']
-		ifFalse: [self cyclesDo: [ :each | each printOn: aStream]]! !
-
-!Permutation methodsFor: 'arithmetic' stamp: 'len 11/14/2016 14:05'!
-reciprocal
-	^ self inverse! !
-
-!Permutation methodsFor: 'arithmetic' stamp: 'len 8/25/2016 00:36'!
-rightInverse
-	^ self inverse! !
-
-!Permutation methodsFor: 'accessing' stamp: 'len 10/1/97 19:00'!
-sign
-	"Answer the sign of the receiver."
-
-	| answer |
-	answer _ 1.
-	self cyclesDo: [ :each | answer _ answer * each sign].
-	^ answer
-
-	"^ self transpositions size even ifTrue: [1] ifFalse: [-1]"! !
-
 !Permutation methodsFor: 'private' stamp: 'len 9/29/97 19:14'!
 species
 	^ Permutation! !
 
-!Permutation methodsFor: 'accessing' stamp: 'len 6/28/2016 07:04'!
+!Permutation methodsFor: 'accessing' stamp: 'len 2/1/2018 22:56:22'!
 transpositions
 	"Answer the decomposition of the receiver in product of transpositions."
-
 	| answer last value |
 	answer _ OrderedCollection new.
 	self changesDo: [:each|	
 		last _ each.
 		answer reverseDo: [:one| last _ one at: last].
 		(value _ self at: each) = last
-			ifFalse: [answer addFirst: (self species transpose: last with: value)]].
+			ifFalse: [answer addFirst: (self species transposing: last with: value)]].
 	^ answer! !
 
-!Permutation methodsFor: 'accessing' stamp: 'len 4/27/98 21:03'!
-type
-	"Answer the type of the receiver."
-	^ (self cycles asSortedCollection: [ :a :b | a size <= b size]) collect: [ :each | each size]! !
-
-!Permutation methodsFor: 'operations' stamp: 'len 11/14/2016 13:43'!
-value: anObject
-	^ self at: anObject! !
-
-!Permutation class methodsFor: 'instance creation' stamp: 'len 5/2/2016 04:11'!
+!Permutation class methodsFor: 'instance creation' stamp: 'len 2/8/2018 09:16:03'!
 cycle: aCollection
 	| answer first last |
-	answer _ PermutationCycle new.
+	answer _ self new.
 	aCollection do: [:each|
 		first isNil
 			ifTrue: [first _ each]
@@ -30547,13 +30648,9 @@ cycle: aCollection
 	answer at: last put: first.
 	^ answer! !
 
-!Permutation class methodsFor: 'instance creation' stamp: 'len 12/20/2016 11:58:29'!
+!Permutation class methodsFor: 'instance creation' stamp: 'len 2/1/2018 23:55:36'!
 cycles: anArray
-	^ anArray inject: Permutation new into: [:answer :each| answer * (self cycle: each)]! !
-
-!Permutation class methodsFor: 'instance creation' stamp: 'len 7/4/2016 05:01'!
-image: anArray
-	^ StandardPermutation image: anArray! !
+	^ anArray inject: self new into: [:answer :each| answer * (self cycle: each)]! !
 
 !Permutation class methodsFor: 'instance creation' stamp: 'len 6/28/2016 06:09'!
 keys: anArray values: anotherArray
@@ -30567,30 +30664,6 @@ new
 	"Answer a new instance of the receiver representing the identity permutation."
 	^ super new map: Dictionary new! !
 
-!Permutation class methodsFor: 'instance creation' stamp: 'len 7/4/2016 05:01'!
-new: anInteger
-	^ StandardPermutation image: (1 to: anInteger) asArray! !
-
-!Permutation class methodsFor: 'instance creation' stamp: 'len 6/29/2016 00:38'!
-new: n cycle: aCollection
-	| answer first last |
-	answer _ StandardPermutation new: n.
-	aCollection do: [:each|
-		first isNil
-			ifTrue: [first _ each]
-			ifFalse: [answer at: last put: each].
-		last _ each].
-	answer at: last put: first.
-	^ answer! !
-
-!Permutation class methodsFor: 'instance creation' stamp: 'len 12/20/2016 11:58:42'!
-new: n cycles: anArray
-	^ anArray inject: (self new: n) into: [:answer :each| answer * (self new: n cycle: each)]! !
-
-!Permutation class methodsFor: 'instance creation' stamp: 'len 11/15/2016 08:48'!
-new: anInteger evaluating: aBlock
-	^ StandardPermutation image: ((1 to: anInteger) collect: aBlock)! !
-
 !Permutation class methodsFor: 'instance creation' stamp: 'len 5/16/2016 05:25'!
 on: aSet evaluating: aBlock
 	| answer |
@@ -30598,18 +30671,13 @@ on: aSet evaluating: aBlock
 	aSet do: [:each| answer at: each put: (aBlock value: each)].
 	^ answer! !
 
-!Permutation class methodsFor: 'instance creation' stamp: 'len 5/2/2016 04:07'!
-transpose: anObject with: anotherObject
+!Permutation class methodsFor: 'instance creation' stamp: 'len 2/1/2018 22:54:59'!
+transposing: anObject with: anotherObject
 	"Answer the tranposition of anObject with anotherObject."
 	^ self new
 		at: anObject put: anotherObject;
 		at: anotherObject put: anObject;
 		yourself! !
-
-!PermutationCycle methodsFor: 'accessing' stamp: 'len 5/6/98 04:59'!
-cycleAt: anObject
-	"Answer the cycle generated by anObject."
-	^ (self at: anObject) = anObject ifTrue: [self class new] ifFalse: [self]! !
 
 !PermutationCycle methodsFor: 'accessing' stamp: 'len 5/2/2016 03:57'!
 cycles
@@ -30650,50 +30718,57 @@ sign
 	"Answer the sign of the receiver."
 	^ self changes size odd ifTrue: [1] ifFalse: [-1]! !
 
-!PermutationCycle methodsFor: 'accessing' stamp: 'len 5/6/98 04:59'!
+!PermutationCycle methodsFor: 'accessing' stamp: 'len 2/1/2018 22:55:58'!
 transpositions
 	"Answer the decomposition of the receiver in product of transpositions."
 	| answer first last |
 	answer _ OrderedCollection new.
 	first _ self aChange.
 	last _ first.
-	self size - 1 timesRepeat: [
-		answer addFirst: (self species transpose: first with: (last _ self at: last))].
+	self size - 1 timesRepeat: [answer addFirst: (self species transposing: first with: (last _ self at: last))].
 	^ answer! !
 
-!StandardPermutation methodsFor: 'arithmetic' stamp: 'len 1/30/2018 21:11:15'!
+!StandardPermutation methodsFor: 'arithmetic' stamp: 'len 1/31/2018 21:24:21'!
 * aPermutation
-	"Answer the composition of the receiver with the argument."
+	"Answer the product (function composition) of the receiver with the argument.
+	This is the group operation."
 	| otherMap newMap |
-	(aPermutation class == self class and: [map size = aPermutation map size])
-		ifFalse: [^ super * aPermutation].
+	(map size = aPermutation map size)
+		ifFalse: [^ DomainError signal: 'permutation of different degree'].
 	otherMap _ aPermutation map.
 	newMap _ map class new: map size.
 	1 to: map size do: [:i| newMap at: i put: (map at: (otherMap at: i))].
-	^ self class image: newMap! !
+	^ self species map: newMap! !
 
-!StandardPermutation methodsFor: 'comparing' stamp: 'len 11/15/2016 08:53'!
+!StandardPermutation methodsFor: 'comparing' stamp: 'len 1/31/2018 17:09:17'!
 = aPermutation
-	self class = aPermutation class ifFalse: [^ super = aPermutation].
-	^ map = aPermutation map! !
+	^ self class = aPermutation class and: [map = aPermutation map]! !
 
-!StandardPermutation methodsFor: 'converting' stamp: 'len 6/28/2016 23:57'!
-asPermutationIn: anArray
-	^ self species keys: anArray values: (map collect: [:each| anArray at: each])! !
+!StandardPermutation methodsFor: 'converting' stamp: 'len 2/8/2018 09:01:25'!
+asArray
+	^ map! !
 
-!StandardPermutation methodsFor: 'enumerating' stamp: 'len 6/28/2016 07:35'!
+!StandardPermutation methodsFor: 'accessing' stamp: 'len 1/31/2018 17:18:52'!
+at: anInteger
+	^ map at: anInteger ifAbsent: [anInteger]! !
+
+!StandardPermutation methodsFor: 'accessing' stamp: 'len 1/31/2018 17:19:35'!
+at: anInteger put: anotherInteger
+	^ map at: anInteger put: anotherInteger! !
+
+!StandardPermutation methodsFor: 'enumerating' stamp: 'len 1/31/2018 17:11:35'!
 changesDo: aBlock
 	1 to: map size do: [:i| (map at: i) = i ifFalse: [aBlock value: i]]! !
 
-!StandardPermutation methodsFor: 'accessing' stamp: 'len 6/29/2016 00:24'!
+!StandardPermutation methodsFor: 'accessing' stamp: 'len 1/31/2018 17:11:58'!
 degree
 	^ map size! !
 
-!StandardPermutation methodsFor: 'accessing' stamp: 'len 10/27/2016 14:40'!
+!StandardPermutation methodsFor: 'accessing' stamp: 'len 1/31/2018 21:17:02'!
 domain
-	^ (1 to: map size) as: Domain! !
+	^ 1 to: map size! !
 
-!StandardPermutation methodsFor: 'comparing' stamp: 'len 1/23/2017 09:21:10'!
+!StandardPermutation methodsFor: 'comparing' stamp: 'len 1/31/2018 17:10:28'!
 hash
 	| answer |
 	answer _ 0.
@@ -30701,22 +30776,81 @@ hash
 		(value _ map at: i) = i ifFalse: [answer _ answer bitXor: i hash hashMultiply + value hash]].
 	^ answer! !
 
-!StandardPermutation methodsFor: 'arithmetic' stamp: 'len 6/29/2016 00:24'!
+!StandardPermutation methodsFor: 'arithmetic' stamp: 'len 1/31/2018 21:17:28'!
 identity
 	"Answer the identity permutation."
-	^ self class new: self degree! !
+	^ self species new: self degree! !
 
-!StandardPermutation methodsFor: 'arithmetic' stamp: 'len 11/14/2016 14:01'!
+!StandardPermutation methodsFor: 'arithmetic' stamp: 'len 1/31/2018 21:25:00'!
 inverse
 	"Answer the compositive inverse of the receiver."
 	| values |
 	values _ map class new: map size.
 	1 to: map size do: [:i| values at: (map at: i) put: i].
-	^ self class image: values! !
+	^ self species map: values! !
 
-!StandardPermutation class methodsFor: 'instance creation' stamp: 'len 7/4/2016 06:34'!
-image: anArray
+!StandardPermutation methodsFor: 'accessing-private' stamp: 'len 5/6/98 04:50'!
+map
+	^ map! !
+
+!StandardPermutation methodsFor: 'accessing-private' stamp: 'len 1/30/2018 21:50:33'!
+map: aCollection
+	map _ aCollection! !
+
+!StandardPermutation methodsFor: 'private' stamp: 'len 2/1/2018 23:01:21'!
+species
+	^ StandardPermutation! !
+
+!StandardPermutation methodsFor: 'accessing' stamp: 'len 2/1/2018 22:56:57'!
+transpositions
+	"Answer the decomposition of the receiver in product of transpositions."
+	| answer last value |
+	answer _ OrderedCollection new.
+	self changesDo: [:each|	
+		last _ each.
+		answer reverseDo: [:one| last _ one at: last].
+		(value _ self at: each) = last
+			ifFalse: [answer addFirst: (self species new: self degree transposing: last with: value)]].
+	^ answer! !
+
+!StandardPermutation class methodsFor: 'instance creation' stamp: 'len 1/31/2018 21:16:31'!
+map: anArray
 	^ self basicNew map: anArray! !
+
+!StandardPermutation class methodsFor: 'instance creation' stamp: 'len 1/31/2018 21:22:28'!
+new
+	^ self shouldNotImplement! !
+
+!StandardPermutation class methodsFor: 'instance creation' stamp: 'len 1/31/2018 21:07:25'!
+new: anInteger
+	^ self map: (1 to: anInteger) asArray! !
+
+!StandardPermutation class methodsFor: 'instance creation' stamp: 'len 1/31/2018 21:06:55'!
+new: n cycle: aCollection
+	| answer first last |
+	answer _ self new: n.
+	aCollection do: [:each|
+		first isNil
+			ifTrue: [first _ each]
+			ifFalse: [answer at: last put: each].
+		last _ each].
+	answer at: last put: first.
+	^ answer! !
+
+!StandardPermutation class methodsFor: 'instance creation' stamp: 'len 12/20/2016 11:58:42'!
+new: n cycles: anArray
+	^ anArray inject: (self new: n) into: [:answer :each| answer * (self new: n cycle: each)]! !
+
+!StandardPermutation class methodsFor: 'instance creation' stamp: 'len 1/31/2018 21:07:46'!
+new: anInteger evaluating: aBlock
+	^ self map: ((1 to: anInteger) collect: aBlock)! !
+
+!StandardPermutation class methodsFor: 'instance creation' stamp: 'len 1/31/2018 21:09:39'!
+new: n transposing: a with: b
+	^ (self new: n)
+		at: a put: b;
+		at: b put: a;
+		yourself! !
 
 !RationalPoint methodsFor: 'accessing' stamp: 'len 2/9/2017 09:54:09'!
 ambient
@@ -33461,9 +33595,17 @@ apply: aMorphism
 asArray
 	^ self as: Array! !
 
+!Tuple methodsFor: 'converting' stamp: 'len 3/13/2018 18:48:27'!
+asColumnMatrix
+	^ Matrix columns: {self}! !
+
 !Tuple methodsFor: 'converting' stamp: 'len 11/5/2016 09:24'!
 asHomogeneousTuple
 	^ HomogeneousTuple coefficients: self over: self scalars! !
+
+!Tuple methodsFor: 'converting' stamp: 'len 3/13/2018 18:48:37'!
+asRowMatrix
+	^ Matrix rows: {self}! !
 
 !Tuple methodsFor: 'converting' stamp: 'len 11/7/2016 13:48'!
 asTuple
@@ -35425,7 +35567,7 @@ solveRight: aMatrix
 	A * X = B ifFalse: [^ nil "self error: 'no solution'"].
 	^ (aMatrix isKindOf: Tuple) ifTrue: [X asTuple] ifFalse: [X]! !
 
-!Matrix methodsFor: 'operations' stamp: 'len 4/2/2017 09:53:34'!
+!Matrix methodsFor: 'operations' stamp: 'len 3/13/2018 18:54:26'!
 solveRightGeneral: aMatrix
 	| A B n m reduction rows X |
 	A _ self.
@@ -35439,7 +35581,7 @@ solveRightGeneral: aMatrix
 		rows add: (reduction extension rowAt: i)].
 	n - rows size timesRepeat: [rows add: (self scalars zeroTuple: m)].
 	X _ Matrix rows: rows.
-	A * X = B ifFalse: [^ nil "self error: 'no solution'"].
+	A * X = B ifFalse: [^ nil halt "self error: 'no solution'"].
 	^ (aMatrix isKindOf: Tuple) ifTrue: [X asTuple] ifFalse: [X]! !
 
 !Matrix methodsFor: 'spectrum' stamp: 'len 2/22/2017 08:46:13'!
