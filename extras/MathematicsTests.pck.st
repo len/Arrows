@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 28 January 2018 at 11:25:58 pm'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 21 March 2018 at 8:15:12 pm'!
 'Description Please enter a description for this package'!
-!provides: 'MathematicsTests' 1 86!
+!provides: 'MathematicsTests' 1 87!
 !classDefinition: #AbelianGroupTest category: #MathematicsTests!
 TestCase subclass: #AbelianGroupTest
 	instanceVariableNames: ''
@@ -2450,13 +2450,13 @@ testAutomorphismsK3
 	self assert: A = A ambient
 ! !
 
-!GraphTest methodsFor: 'as yet unclassified' stamp: 'len 11/16/2016 10:08'!
+!GraphTest methodsFor: 'as yet unclassified' stamp: 'len 2/1/2018 23:57:33'!
 testAutomorphismsP3
 	"Aut(P3) = {id, (1 3)}"
 	| G A |
 	G _ Graph P: 3.
 	A _ G automorphisms.
-	self assert: A = (PermutationGroup new: 3 generators: {Permutation image: #(3 2 1)})! !
+	self assert: A = (PermutationGroup new: 3 generators: {#((1 3))})! !
 
 !GraphTest methodsFor: 'as yet unclassified' stamp: 'len 12/30/2017 16:17:24'!
 testCartesianProduct
@@ -2696,35 +2696,33 @@ testUnion
 	G _ Digraph unordered addEdges: {#a -> #b. #b -> #c. #d -> #e. #x -> #b}; yourself.
 	self assert: (G – G transposed) = G symmetric! !
 
-!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 8/30/2016 20:00'!
+!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 1/31/2018 19:30:38'!
 smallGroupAtRandom
 	^ {[SymmetricGroup new: 3].
 	[AlternatingGroup new: 3].
 	[PermutationGroup klein].
 	[MatrixGroup klein].
-	[Group symmetric: (1 to: 4)]} atRandom value! !
+	[Group quaternions]} atRandom value! !
 
-!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 6/29/2016 00:37'!
+!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 2/1/2018 23:02:45'!
 testActionOrbitOf
-	| g1 g2 g3 G |
-	g1 _ Permutation new: 8 cycles: #((1 3 2) (4 6 5)).
-	g2 _ Permutation new: 8 cycles: #((1 2 3) (4 5 6)).
-	g3 _ Permutation new: 8 cycles: #((7 8)).
-	G _ PermutationGroup on: (1 to: 8) generators: {g1. g2. g3}.
+	| G |
+	G _ PermutationGroup on: (1 to: 8) generators: {#((1 3 2) (4 6 5)). #((1 2 3) (4 5 6)). #((7 8))}.
 	self assert: (G action orbitOf: 1) = #(1 2 3) asSet.
 	self assert: (G action orbitOf: 4) = #(4 6 5) asSet.
 	self assert: (G action orbitOf: 7) = #(7 8) asSet! !
 
-!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 11/14/2016 08:44'!
+!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 2/1/2018 23:04:44'!
 testActionStabilizerOf
-	| g1 g2 g3 id G |
-	g1 _ Permutation new: 8 cycles: #((1 3 2) (4 6 5)).
-	g2 _ Permutation new: 8 cycles: #((1 2 3) (4 5 6)).
-	g3 _ Permutation new: 8 cycles: #((7 8)).
-	id _ Permutation new: 8.
-	G _ PermutationGroup on: (1 to: 8) generators: {g1. g2. g3}.
-	self assert: (G action stabilizerOf: 1) asSet = {id. g3} asSet.
-	self assert: (G action stabilizerOf: 7) asSet = {id. g1. g2} asSet! !
+	| G g1 g2 g3 id H |
+	G _ SymmetricGroup new: 8.
+	g1 _ G !! #((1 3 2) (4 6 5)).
+	g2 _ G !! #((1 2 3) (4 5 6)).
+	g3 _ G !! #((7 8)).
+	id _ G identity.
+	H _ G span: {g1. g2. g3}.
+	self assert: (H action stabilizerOf: 1) asSet = {id. g3} asSet.
+	self assert: (H action stabilizerOf: 7) asSet = {id. g1. g2} asSet! !
 
 !GroupTest methodsFor: 'as yet unclassified' stamp: 'len 5/2/2016 02:12'!
 testAlternatingIsSymmetricCommutator
@@ -2740,17 +2738,15 @@ testAlternatingOrder
 	A _ Group alternating: (1 to: 3).
 	self assert: A order = (3 factorial / 2)! !
 
-!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 11/14/2016 09:06'!
+!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 2/1/2018 23:07:09'!
 testBigOrder1
 	"Test fast computation of group order with Schreier-Sims algorithm.
 	This is Sym(10), with order 10!!."
-	| x y G |
-	x _ Permutation transpose: 2 with: 1.
-	y _ Permutation image: #(10 1 2 3 4 5 6 7 8 9).
-	G _ PermutationGroup new: 10 generators: {x. y}.
+	| G |
+	G _ PermutationGroup new: 10 generators: {#((1 2)). #(10 1 2 3 4 5 6 7 8 9)}.
 	self assert: G order = 10 factorial! !
 
-!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 11/14/2016 09:07'!
+!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 1/30/2018 21:25:14'!
 testBigOrder2
 	"Test fast computation of group order with Schreier-Sims algorithm.
 	This is the Mathieu group on 12 points, the second smallest of the 26 sporadic simple groups, with order 95040."
@@ -2809,6 +2805,18 @@ testGroup: G
 	self assert: (op value: {a. inv value: a}) = e.
 	self assert: (op value: {inv value: a. a}) = e.
 	self assert: (op value: {op value: {a. b}. c}) = (op value: {a. op value: {b. c}})! !
+
+!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 1/30/2018 21:35:25'!
+testGroupAction: phi
+	| G X e g h x |
+	G _ phi group.
+	X _ phi space.
+	e _ G identity.
+	g _ G atRandomBits: 100.
+	h _ G atRandomBits: 100.
+	x _ X atRandomBits: 100.
+	self assert: (phi value: {e. x}) = x.
+	self assert: (phi value: {g. phi value: {h. x}}) = (phi value: {G operation value: {g. h}. x})! !
 
 !GroupTest methodsFor: 'as yet unclassified' stamp: 'len 10/7/2016 06:41'!
 testGroupHomomorphism: phi
@@ -2909,6 +2917,11 @@ testOrbitStabilizerTheorem
 	p _ X atRandom.
 	self assert: (phi stabilizerOf: p) order * (phi orbitOf: p) size = G order! !
 
+!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 1/30/2018 21:34:39'!
+testPermutationGroupAction
+	self testGroupAction: (SymmetricGroup new: 10) action.
+	self testGroupAction: (PermutationGroup cyclic: 15) action! !
+
 !GroupTest methodsFor: 'as yet unclassified' stamp: 'len 12/22/2016 21:40:10'!
 testPermutationGroupHomomorphism
 	"Magma Handbook, Example H57E2."
@@ -2981,28 +2994,24 @@ testLatticeD4SelfDual
 	D4 _ Lattice D4.
 	self assert: D4 isSelfDual! !
 
-!LatticeTest methodsFor: 'as yet unclassified' stamp: 'len 12/12/2017 18:04:16'!
+!LatticeTest methodsFor: 'as yet unclassified' stamp: 'len 3/19/2018 19:33:02'!
 testLatticeDual
-	| V basis lattice dualLattice I |
-	V _ QQ ^ 3.
-	basis _ LinearBasis on: V elements: {(-1,0,0). (0,1,2). (0,1,1)}.
-	lattice _ Lattice basis: basis.
-	dualLattice _ lattice dual.
-	I _ basis matrix identity.
-	self assert: lattice basis span = dualLattice basis span.
-	self assert: lattice determinant = (1 / dualLattice determinant).
-	self assert: lattice basis matrix * dualLattice basis matrix = I! !
+	| L R I |
+	L _ Lattice basis: {(-1,0,0). (0,1,2). (0,1,1)}.
+	R _ L reciprocal.
+	I _ L matrix identity.
+	self assert: (L ambient span: L basis) = (R ambient span: R basis).
+	self assert: L determinant = (1 / R determinant).
+	self assert: L matrix * R matrix = I! !
 
-!LatticeTest methodsFor: 'as yet unclassified' stamp: 'len 12/12/2017 18:04:20'!
+!LatticeTest methodsFor: 'as yet unclassified' stamp: 'len 3/19/2018 19:34:43'!
 testLatticeDual2
-	| V basis lattice dualLattice |
-	V _ QQ ^ 3.
-	basis _ LinearBasis on: V elements: {(-1,0,0). (0,1,2)}. "not full rank"
-	lattice _ Lattice basis: basis.
-	dualLattice _ lattice dual.
-	self assert: lattice basis span = dualLattice basis span.
-	self assert: lattice determinant = (1 / dualLattice determinant).
-	self assert: (lattice basis matrix * dualLattice basis matrix) isIdentity! !
+	| L R |
+	L _ Lattice basis: {(-1,0,0). (0,1,2)}. "not full rank"
+	R _ L reciprocal.
+	self assert: (L ambient span: L basis) = (R ambient span: R basis).
+	self assert: L determinant = (1 / R determinant).
+	self assert: (L matrix * R matrix) isIdentity! !
 
 !LinearGroupsTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:03'!
 testGeneralLinearAtRandom
@@ -3306,29 +3315,32 @@ testModularIntegersField
 testPartitions
 	self assert: 42 partitions size =  53174! !
 
-!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 7/1/2016 09:53'!
+!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 2/1/2018 22:41:50'!
 testPermutationProduct
-	| a b |
-	a _ Permutation cycles: #((1 4 5) (2 3)).
-	b _ Permutation cycles: #((2 4) (5 1)).
-	self assert: a*b = (Permutation cycle: #(1 2 3 4)).
-	self assert: a*a = (Permutation cycle: #(1 5 4))! !
+	| G a b |
+	G _ SymmetricGroup new: 5.
+	a _ G !! #((1 4 5) (2 3)).
+	b _ G !! #((2 4) (5 1)).
+	self assert: b*a = (G !! #((1 2 3 4))).
+	self assert: a*a = (G !! #((1 5 4)))! !
 
-!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 7/1/2016 09:53'!
+!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 2/1/2018 22:42:32'!
 testPermutationProduct2
-	| a b |
-	a _ Permutation new: 5 cycles: #((1 4 5) (2 3)).
-	b _ Permutation new: 5 cycles: #((2 4) (5 1)).
-	self assert: a*b = (Permutation cycle: #(1 2 3 4)).
-	self assert: a*a = (Permutation cycle: #(1 5 4))! !
+	| G a b |
+	G _ SymmetricGroup new: 5.
+	a _ G !! #((1 4 5) (2 3)).
+	b _ G !! #((2 4) (5 1)).
+	self assert: b*a = (G !! #((1 2 3 4))).
+	self assert: a*a = (G !! #((1 5 4)))! !
 
-!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 7/1/2016 09:53'!
+!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 2/1/2018 23:38:29'!
 testPermutationProduct3
-	| a b |
-	a _ Permutation cycles: #((2 3 4)).
-	b _ Permutation cycles: #((1 2) (3 4)).
-	self assert: a*b = (Permutation cycle: #(1 2 4)).
-	self assert: b*a = (Permutation cycle: #(1 3 2))! !
+	| G a b |
+	G _ SymmetricGroup new: 4.
+	a _ G !! #((2 3 4)).
+	b _ G !! #((1 2) (3 4)).
+	self assert: b*a = (G !! #((1 2 4))).
+	self assert: a*b = (G !! #((1 3 2)))! !
 
 !MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 12/19/2017 19:37:04'!
 testPolynomialVectorSpace
@@ -3351,13 +3363,13 @@ testPrimeSignature
 	self assert: 42 primeSignature = #(1 1 1).
 	self assert: 16 primeSignature = #(4)! !
 
-!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:05'!
+!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 3/19/2018 20:05:07'!
 testQuadraticForms
 	| V A Q f p |
 	V _ QQ ^ (2 to: 5) atRandom.
 	[A _ QQ ^ (V dimension @ V dimension) atRandomBits: 100. A isZero] whileTrue.
 	A _ A + A transposed. "make it symmetric"
-	Q _ QuadraticForm from: V basis matrix: A.
+	Q _ QuadraticForm from: V matrix: A.
 	f _ Q asPolynomial.
 	p _ V atRandomBits: 100.
 	self assert: (Q value: p) = (f value: p).
@@ -3549,6 +3561,14 @@ testBacklashTupleOverZ
 	x _ A \ v.
 	self assert: x = (ZZ tuple: #(-1 0 0)).
 	self assert: A * x = v! !
+
+!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 3/19/2018 20:41:45'!
+testBacklashTupleOverZBug
+	| A b x |
+	A _ ZZ matrix: 3@3 coefficients: #(1 0 0 0 1 0 0 0 10).
+	b _ ZZ tuple: #(0 0 10).
+	x _ A \ b.
+	self assert: A * x = b! !
 
 !MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:05'!
 testCayleyHamiltorTheoremInQ
@@ -3800,15 +3820,15 @@ testMinors
 	A _ ZZ ^ (2@3) elementAt: (1 to: 6).
 	self assert: (A minors: 2) asArray = #(-3 -6 -3)! !
 
-!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 1/20/2018 19:02:51'!
+!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 3/16/2018 20:18:11'!
 testQRDecomposition
 	| n A QR Q R |
 	n _ 3.
 	[A _ QQ ^ (n@n) :: atRandomBits: n*n. A isFullRank] whileFalse.
 	A _ A over: RR.
 	QR _ A QR.
-	Q _ QR Q.
-	R _ QR R.
+	Q _ QR first.
+	R _ QR second.
 	self assert: Q * R = A.
 	self assert: Q isOrthogonal.
 	self assert: R isUpperTriangular! !
@@ -4377,6 +4397,13 @@ testOrthonormalization
 	self assert: B orthonormalized isOrthonormal.
 	self assert: B extended orthonormalized isOrthonormal! !
 
+!ModuleTest methodsFor: 'bugs' stamp: 'len 3/13/2018 18:38:37'!
+testPIDCoordinatesOfBug
+	| M S |
+	M _ self newFreeModuleOverPID.
+	S _ M grassmannian: (1 to: M rank) atRandom :: atRandomBits: 50.
+	self assert: (S generators allSatisfy: [:each| (S coordinatesOf: each) notNil])! !
+
 !ModuleTest methodsFor: 'other' stamp: 'len 12/15/2017 21:04:12'!
 testPerp
 	| V S p perp |
@@ -4435,12 +4462,14 @@ testQuotientSpace
 	self assert: (M / M null) rank = M rank.
 	self assert: (M / M) rank = 0! !
 
-!ModuleTest methodsFor: 'isomorphisms' stamp: 'len 3/8/2017 10:24:32'!
+!ModuleTest methodsFor: 'isomorphisms' stamp: 'len 3/19/2018 17:18:01'!
 testSecondIsomorphismTheorem
 	| V S T |
 	V _ QQ ^ 5.
 	S _ V grassmannian: (0 to: V dimension) atRandom :: atRandomBits: 50.
 	T _ V grassmannian: (0 to: V dimension) atRandom :: atRandomBits: 50.
+	self assert: S+T <= V.
+	self assert: S • T <= V.
 	self assert: (S+T)/T ~ (S/(S • T))
 "	f _ S -> T :: atRandomBits: 10.
 	phi _ S / f kernel -> f image evaluating: [:x| f value: x representative].
@@ -4555,20 +4584,22 @@ testTensorProductOfLinearForms
 	v _ W domain atRandomBits: 10.
 	self assert: (t value: v) = ((f value: v) * (g value: v))! !
 
-!ModuleTest methodsFor: 'isomorphisms' stamp: 'len 10/16/2016 09:19'!
+!ModuleTest methodsFor: 'isomorphisms' stamp: 'len 3/19/2018 16:45:13'!
 testThirdIsomorphismTheorem
 	| V S T |
 	V _ QQ ^ 5.
 	S _ V grassmannian: (1 to: V dimension) atRandom :: atRandomBits: 50.
-	T _ S grassmannian: (1 to: S dimension) atRandom :: atRandomBits: 50.
+	T _ S grassmannian: (0 to: S dimension) atRandom :: atRandomBits: 50.
+	self assert: S/T <= (V/T).
 	self assert: (V/T)/(S/T) ~ (V/S)! !
 
-!ModuleTest methodsFor: 'isomorphisms' stamp: 'len 1/16/2018 18:43:22'!
+!ModuleTest methodsFor: 'isomorphisms' stamp: 'len 3/19/2018 16:43:59'!
 testThirdIsomorphismTheoremOverPID
 	| M S T |
 	M _ self newFreeModuleOverPID.
-	S _ M grassmannian: (1 to: M rank) atRandom :: atRandomBits: 50.
-	T _ M grassmannian: (1 to: M rank) atRandom :: atRandomBits: 50.
+	S _ M grassmannian: (0 to: M rank) atRandom :: atRandomBits: 50.
+	T _ S grassmannian: (0 to: S rank) atRandom :: atRandomBits: 50.
+	self assert: S/T <= (M/T).
 	self assert: (M/T)/(S/T) ~ (M/S)! !
 
 !ModuleTest methodsFor: 'other' stamp: 'len 8/26/2016 06:03'!
@@ -5872,7 +5903,7 @@ testRing: R
 	self assert: (a * b * c) = (a * (b * c)). "associativity of multiplication"
 	R isCommutative ifTrue: [self assert: a * b = (b * a)]. "commutativity of multiplication"! !
 
-!RingTest methodsFor: 'as yet unclassified' stamp: 'len 11/1/2016 00:59'!
+!RingTest methodsFor: 'as yet unclassified' stamp: 'len 3/13/2018 20:15:02'!
 testRingHomomorphism: phi
 	| R S a b |
 	R _ phi domain.
@@ -5882,7 +5913,7 @@ testRingHomomorphism: phi
 	self assert: (phi value: R zero) = S zero.
 	self assert: (phi value: R one) = S one.
 	self assert: (phi value: a + b) = ((phi value: a) + (phi value: b)).
-	self assert: (phi value: a * b) = ((phi value: a) * (phi value: b))! !
+	self assert: (phi value: a * b) = ((phi value: a) * (phi value: b)) "this sometimes fails because f and -f are not equal regular functions, for example"! !
 
 !RingTest methodsFor: 'as yet unclassified' stamp: 'len 10/6/2016 20:27'!
 testZZ
