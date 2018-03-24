@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 21 March 2018 at 8:14:52 pm'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 24 March 2018 at 7:49:01 pm'!
 'Description A computational algebra system in Smalltalk'!
-!provides: 'Mathematics' 1 410!
+!provides: 'Mathematics' 1 411!
 !requires: 'RayTracer' 1 2 nil!
 !classDefinition: #RealAlgebraicNumber category: #'Mathematics-Fields'!
 Number subclass: #RealAlgebraicNumber
@@ -22521,14 +22521,16 @@ coordinateRing
 coordinateSpace
 	^ self scalars ^ self rank! !
 
-!FreeModule methodsFor: 'basis' stamp: 'len 3/19/2018 20:32:10'!
+!FreeModule methodsFor: 'basis' stamp: 'len 3/24/2018 19:45:14'!
 coordinatesOf: anElement
 	"Answer the coordinates of anElement when expressed as a linear combination of the elements of the distinguished basis of the receiver. Answer nil if anElement is not in the receiver."
 	anElement isZero ifTrue: [^ self coordinateSpace zero].
 	self isTrivial ifTrue: [^ nil].
 "	1 to: self size do: [:i| (self at: i) = anElement ifTrue: [^ self coordinateSpace e: i]]."
-	^ self matrix transposed \ ((self ambient coordinatesOf: anElement) ifNil: [^ nil])
-"alternative 1:
+	^ self matrix transposed \ (self ambient coordinatesOf: anElement)
+"
+	^ self matrix transposed \ (self ambient coordinatesOf: anElement)
+alternative 1:
 	answer _ self matrix leftInverse * (ambient coordinatesOf: anElement).
 	^ answer isZero ifFalse: [answer]"
 "alternative 2:
@@ -28212,12 +28214,12 @@ action
 	"Answer the associated group action on the representation space."
 	^ GroupAction from: (self domain, self space) to: self space evaluatingWithArguments: [:x :y| (self value: x) value: y]! !
 
-!GroupRepresentation methodsFor: 'invariants' stamp: 'len 8/25/2016 04:16'!
+!GroupRepresentation methodsFor: 'invariants' stamp: 'len 3/22/2018 04:48:55'!
 character
 	"Answer the character of the receiver, assuming it's a linear or matrix representation."
 	"This is a class function, i.e. it's constant on conjugacy classes, because similar matrices (or linear maps) have the same trace."
 	self space isModule ifFalse: [^ self error: 'not a linear or matrix representation'].
-	^ Function from: self domain to: self space scalars evaluating: [:g| (self value: g) trace] "should be a GroupHomomorphism?"! !
+	^ Function from: self domain to: self space scalars evaluating: [:g| (self value: g) trace] "should be a GroupMap?"! !
 
 !GroupRepresentation methodsFor: 'accessing' stamp: 'len 8/1/2016 08:48'!
 space
@@ -34710,6 +34712,11 @@ adjugate
 	"Answer the adjugate matrix (or classical adjoint matrix) of the receiver. This is the matrix such that multiplicated at the left by the receiver equals the scalar matrix with the determinant of the receiver in the diagonal."
 	^ (self characteristicPolynomial shift: -1) negated value: self! !
 
+!Matrix methodsFor: 'enumerating' stamp: 'len 3/24/2018 19:27:46'!
+allSatisfy: aBlock
+	self do: [:each| (aBlock value: each) ifFalse: [^ false]].
+	^ true! !
+
 !Matrix methodsFor: 'operations' stamp: 'len 3/3/2017 11:39:21'!
 antitransposed
 	^ RowMatrix rows: (self columns reversed collect: [:each| each reversed])! !
@@ -35191,6 +35198,10 @@ isLowerTriangular
 		i+1 to: self numberOfColumns do: [:j| (self at: i@j) isZero ifFalse: [^ false]]].
 	^ true! !
 
+!Matrix methodsFor: 'testing' stamp: 'len 3/21/2018 20:34:49'!
+isNilpotent
+	^ self trace isZero and: [self determinant isZero]! !
+
 !Matrix methodsFor: 'testing' stamp: 'len 12/31/2015 05:52'!
 isNormal
 	^ self adjoint * self = (self * self adjoint)! !
@@ -35255,10 +35266,8 @@ isSkewSymmetric
 isSquare
 	^ self numberOfRows = self numberOfColumns! !
 
-!Matrix methodsFor: 'testing' stamp: 'len 11/5/2015 06:13'!
+!Matrix methodsFor: 'testing' stamp: 'len 3/21/2018 20:35:09'!
 isSymmetric
-	"Answer true if the receiver is a symmetric matrix."
-
 	^ self = self transposed! !
 
 !Matrix methodsFor: 'testing' stamp: 'len 3/2/2017 19:36:13'!
@@ -35583,40 +35592,39 @@ solveLeft: aMatrix
 	(aMatrix isKindOf: Tuple) ifTrue: [^ self transposed solveRight: aMatrix].
 	^ (self transposed solveRight: aMatrix transposed) transposed! !
 
-!Matrix methodsFor: 'operations' stamp: 'len 3/21/2018 06:12:03'!
+!Matrix methodsFor: 'operations' stamp: 'len 3/24/2018 19:43:30'!
 solveRight: aMatrix
 	"Answer X such that A * X = B, where A is self and B is aMatrix.
 	The argument can also be a tuple, in which case it is considered
 	as a column matrix and the returned value is also a tuple."
-	| R A B M X |
+	| R K A B M X |
 	A _ self.
 	B _ (aMatrix isKindOf: Tuple) ifTrue: [Matrix columns: {aMatrix}] ifFalse: [aMatrix].
 	R _ self scalars.
 	R isIntegralDomain ifFalse: [self notYetImplemented].
-	R isField ifFalse: [R _ R fractions. A _ A over: R. B _ B over: R].
-	A isSquare ifFalse: [^ self solveRightGeneral: aMatrix].
-	A isFullRank ifFalse: [^ self solveRightGeneral: aMatrix].
-	M _ A | B.
-	X _ M echelon copyFrom: 1@(self numberOfColumns + 1) to: M dimension.
-	A * X = B ifFalse: [^ nil "self error: 'no solution'"].
+	R isField ifTrue: [K _ R] ifFalse: [K _ R fractions. A _ A over: K. B _ B over: K].
+	(A isSquare and: [A isFullRank])
+		ifTrue: [M _ A | B.
+					X _ M echelon copyFrom: 1@(self numberOfColumns + 1) to: M dimension]
+		ifFalse: [X _ A solveRightGeneral: B].
+	A * X = B ifFalse: [^ nil "no solution"].
+	R = K ifFalse:
+		[(X allSatisfy: [:each| R includes: each]) ifFalse: [^ nil "no solutions in R"].
+		X _ X over: R].
 	^ (aMatrix isKindOf: Tuple) ifTrue: [X asTuple] ifFalse: [X]! !
 
-!Matrix methodsFor: 'operations' stamp: 'len 3/13/2018 20:04:03'!
+!Matrix methodsFor: 'operations' stamp: 'len 3/24/2018 19:33:14'!
 solveRightGeneral: aMatrix
-	| A B n m reduction rows X |
-	A _ self.
-	B _ (aMatrix isKindOf: Tuple) ifTrue: [Matrix columns: {aMatrix}] ifFalse: [aMatrix].
-	m _ B numberOfColumns.
+	| n m reduction rows |
+	m _ aMatrix numberOfColumns.
 	n _ self numberOfColumns.
-	reduction _ A reductionWith: B.
+	reduction _ self reductionWith: aMatrix.
 	rows _ OrderedCollection new.
 	reduction independentColumns withIndexDo: [:column :i|
 		column - 1 - rows size timesRepeat: [rows add: (self scalars zeroTuple: m)].
 		rows add: (reduction extension rowAt: i)].
 	n - rows size timesRepeat: [rows add: (self scalars zeroTuple: m)].
-	X _ Matrix rows: rows.
-	A * X = B ifFalse: [^ nil "self error: 'no solution'"].
-	^ (aMatrix isKindOf: Tuple) ifTrue: [X asTuple] ifFalse: [X]! !
+	^ Matrix rows: rows! !
 
 !Matrix methodsFor: 'spectrum' stamp: 'len 2/22/2017 08:46:13'!
 spectralRadius
@@ -35689,6 +35697,10 @@ addColumn: src by: aNumber toColumn: dst startingAt: columnIndex
 !ColumnMatrix methodsFor: 'reduction-operations' stamp: 'len 3/3/2017 12:06:52'!
 addRow: i by: aNumber toRow: j
 	columns do: [:each| each at: j put: (each at: i) * aNumber + (each at: j)]! !
+
+!ColumnMatrix methodsFor: 'enumerating' stamp: 'len 3/24/2018 19:28:43'!
+allSatisfy: aBlock
+	^ columns allSatisfy: [:each| each allSatisfy: aBlock]! !
 
 !ColumnMatrix methodsFor: 'accessing' stamp: 'len 3/23/2016 02:45'!
 at: i at: j
@@ -35822,6 +35834,10 @@ addRow: src by: aNumber toRow: dst
 !RowMatrix methodsFor: 'reduction-operations' stamp: 'len 1/16/2018 22:02:01'!
 addRow: src by: aNumber toRow: dst startingAt: columnIndex
 	(rows at: dst) add: (rows at: src) by: aNumber startingAt: columnIndex! !
+
+!RowMatrix methodsFor: 'enumerating' stamp: 'len 3/24/2018 19:28:25'!
+allSatisfy: aBlock
+	^ rows allSatisfy: [:each| each allSatisfy: aBlock]! !
 
 !RowMatrix methodsFor: 'accessing' stamp: 'len 3/23/2016 02:46'!
 at: i at: j
