@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 24 March 2018 at 7:49:01 pm'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 24 March 2018 at 9:10:05 pm'!
 'Description A computational algebra system in Smalltalk'!
-!provides: 'Mathematics' 1 411!
+!provides: 'Mathematics' 1 412!
 !requires: 'RayTracer' 1 2 nil!
 !classDefinition: #RealAlgebraicNumber category: #'Mathematics-Fields'!
 Number subclass: #RealAlgebraicNumber
@@ -3154,7 +3154,7 @@ RootFinder class
 
 !classDefinition: #ComplexRootFinder category: #'Mathematics-Polynomials-Algorithms'!
 RootFinder subclass: #ComplexRootFinder
-	instanceVariableNames: 'squareFreePolynomial derivatives roots'
+	instanceVariableNames: 'squareFreePolynomial derivatives'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Polynomials-Algorithms'!
@@ -32197,6 +32197,23 @@ adaptToNumber: rcvr andSend: selector
 	"If I am involved in arithmetic with an Number, convert it to a RationalFunction."
 	^ (self one * rcvr) perform: selector with: self! !
 
+!RationalFunction methodsFor: 'roots and poles' stamp: 'len 3/24/2018 20:30:55'!
+allPoles
+	^ denominator allRoots! !
+
+!RationalFunction methodsFor: 'roots and poles' stamp: 'len 3/24/2018 20:30:46'!
+allPolesIn: aRing
+	^ denominator allRootsIn: aRing! !
+
+!RationalFunction methodsFor: 'roots and poles' stamp: 'len 3/24/2018 20:30:17'!
+allRoots
+	^ numerator allRoots! !
+
+!RationalFunction methodsFor: 'roots and poles' stamp: 'len 3/24/2018 20:30:25'!
+allRootsIn: aRing
+	"Answer the roots (counted with multiplicity) in the given domain."
+	^ numerator allRootsIn: aRing! !
+
 !RationalFunction methodsFor: 'operations' stamp: 'len 11/28/2015 06:35'!
 degree
 	^ self numerator degree - self denominator degree! !
@@ -32247,9 +32264,8 @@ orderAt: aNumber
 poles
 	^ denominator roots! !
 
-!RationalFunction methodsFor: 'roots and poles' stamp: 'len 12/4/2017 20:40:20'!
+!RationalFunction methodsFor: 'roots and poles' stamp: 'len 3/24/2018 20:30:38'!
 polesIn: aRing
-	"Answer the poles (counted with multiplicity) in the given domain."
 	^ denominator rootsIn: aRing! !
 
 !RationalFunction methodsFor: 'printing' stamp: 'len 10/24/2016 12:19'!
@@ -32290,9 +32306,8 @@ reduce
 roots
 	^ numerator roots! !
 
-!RationalFunction methodsFor: 'roots and poles' stamp: 'len 12/4/2017 20:40:02'!
+!RationalFunction methodsFor: 'roots and poles' stamp: 'len 3/24/2018 20:30:33'!
 rootsIn: aRing
-	"Answer the roots (counted with multiplicity) in the given domain."
 	^ numerator rootsIn: aRing! !
 
 !RationalFunction methodsFor: 'accessing' stamp: 'len 11/19/2015 19:23'!
@@ -32732,10 +32747,10 @@ adaptToFraction: rcvr andSend: selector
 adaptToInteger: rcvr andSend: selector
 	^ (self class fromRational: rcvr) perform: selector with: self! !
 
-!ComplexAlgebraicNumber methodsFor: 'approximating' stamp: 'len 6/4/2016 21:20'!
+!ComplexAlgebraicNumber methodsFor: 'approximating' stamp: 'len 3/24/2018 21:01:14'!
 approximation
 	"Answre a rational or float current approximation of the receiver."
-	^ approximation "bounds midpoint"! !
+	^ approximation! !
 
 !ComplexAlgebraicNumber methodsFor: 'accessing-private' stamp: 'len 1/15/2016 02:07'!
 approximation: aNumber radius: anotherNumber
@@ -32929,12 +32944,12 @@ refineTo: aNumber
 	"Refine the receiver up to get an approximation error < aNumber."
 	[self absoluteError > aNumber] whileTrue: [self refine]! !
 
-!ComplexAlgebraicNumber methodsFor: 'approximating' stamp: 'len 6/5/2016 19:26'!
-refineWith: aRealAlgebraicNumber
+!ComplexAlgebraicNumber methodsFor: 'approximating' stamp: 'len 3/24/2018 21:00:20'!
+refineWith: aComplexAlgebraicNumber
 	"Refine the rational interval approximation of either the receiver or the argument, depending on which is less precise at the moment."
-	self relativeError > aRealAlgebraicNumber relativeError
+	self relativeError > aComplexAlgebraicNumber relativeError
 		ifTrue: [self refine]
-		ifFalse: [aRealAlgebraicNumber refine]! !
+		ifFalse: [aComplexAlgebraicNumber refine]! !
 
 !ComplexAlgebraicNumber methodsFor: 'approximating' stamp: 'len 6/4/2016 23:10'!
 relativeError
@@ -38652,6 +38667,22 @@ parts: aCollection
 		ifTrue: [^ self parent coefficients: self coefficients \\ anObject].
 	^ (self divideBy: anObject) remainder! !
 
+!UnivariatePolynomial methodsFor: 'roots' stamp: 'len 3/24/2018 20:30:01'!
+allRoots
+	"Answer the roots (counted with multiplicity) in the coefficients ring or field."
+	^ self allRootsIn: self scalars! !
+
+!UnivariatePolynomial methodsFor: 'roots' stamp: 'len 3/24/2018 20:28:59'!
+allRootsIn: aRing
+	"Answer the roots (counted with multiplicity) in the given domain."
+	| f derivatives roots answer |
+	f _ self.
+	derivatives _ (1 to: self degree) collect: [:each| f _ f derivative].
+	roots _ self rootsIn: aRing.
+	answer _ Bag new: roots size.
+	roots do: [:each| answer add: each withOccurrences: (derivatives findFirst: [:g| (g value: each) isZero not])].
+	^ answer! !
+
 !UnivariatePolynomial methodsFor: 'operations' stamp: 'len 12/21/2017 20:09:22'!
 apply: aMorphism
 	"Answer a new polynomial with coefficients obtainted by applying aMorphism to the coefficients of the receiver. This morphism is a ring homomorphism from the scalars ring.
@@ -39034,14 +39065,14 @@ reversed
 
 	^ self parent coefficients: coefficients reversed! !
 
-!UnivariatePolynomial methodsFor: 'roots' stamp: 'len 11/20/2016 10:21:50'!
+!UnivariatePolynomial methodsFor: 'roots' stamp: 'len 3/24/2018 20:27:42'!
 roots
-	"Answer the roots (counted with multiplicity) in the coefficients ring or field."
+	"Answer the set of distinct roots in the coefficients ring or field."
 	^ self rootsIn: self scalars! !
 
-!UnivariatePolynomial methodsFor: 'roots' stamp: 'len 1/20/2018 19:04:27'!
+!UnivariatePolynomial methodsFor: 'roots' stamp: 'len 3/24/2018 20:29:37'!
 rootsIn: aRing
-	"Answer the roots (counted with multiplicity) in the given domain."
+	"Answer the set of distinct roots in the given domain."
 	(aRing isField and: [aRing isFinite and: [aRing characteristic even not]])
 		ifTrue: [^ (FiniteFieldRootFinder polynomial: self) roots].
 	(aRing isKindOf: RationalField)
@@ -39052,7 +39083,6 @@ rootsIn: aRing
 		ifTrue: [^ (RealRootFinder polynomial: self) roots].
 	(aRing isKindOf: RationalIntegerRing)
 		ifTrue: [^ (RationalRootFinder polynomial: self) roots select: [:each| each isInteger]].
-	self flag: #fix. "count multiplicity, implement more efficient algorithm"
 	aRing isFinite ifTrue: [^ aRing elements select: [:each| (self value: each) isZero]].
 	^ self error: 'unknown domain'! !
 
@@ -39711,6 +39741,16 @@ divide: aPolynomial by: anotherPolynomial
 	"Answer a pseudo-division algorithm to divide aPolynomial by anotherPolynomial."
 	^ self new divide: aPolynomial by: anotherPolynomial! !
 
+!RootFinder methodsFor: 'accessing' stamp: 'len 3/24/2018 20:50:30'!
+allRoots
+	| f derivatives roots answer |
+	f _ polynomial.
+	derivatives _ (1 to: polynomial degree) collect: [:each| f _ f derivative].
+	roots _ self roots.
+	answer _ Bag new: roots size.
+	roots do: [:each| answer add: each withOccurrences: (derivatives findLast: [:g| (g value: each) isZero not])].
+	^ answer! !
+
 !RootFinder methodsFor: 'accessing' stamp: 'len 1/11/2016 04:30'!
 polynomial
 	^ polynomial! !
@@ -39723,9 +39763,9 @@ polynomial: aPolynomial
 printOn: aStream
 	aStream nextPutAll: self class name; nextPutAll: ' on '; print: self polynomial! !
 
-!RootFinder methodsFor: 'accessing' stamp: 'len 6/5/2016 05:21'!
+!RootFinder methodsFor: 'accessing' stamp: 'len 3/24/2018 20:35:06'!
 roots
-	^ self subclassResponsibility! !
+	^ self allRoots asSet! !
 
 !RootFinder class methodsFor: 'instance creation' stamp: 'len 11/6/97 21:11'!
 polynomial: aPolynomial
@@ -39845,8 +39885,8 @@ squareFreePolynomial: aPolynomial
 	polynomial _ aPolynomial.
 	squareFreePolynomial _ aPolynomial! !
 
-!FiniteFieldRootFinder methodsFor: 'accessing' stamp: 'len 6/5/2016 05:17'!
-roots
+!FiniteFieldRootFinder methodsFor: 'accessing' stamp: 'len 3/24/2018 20:34:35'!
+allRoots
 	| roots |
 	roots _ OrderedCollection new.
 	(FiniteFieldPolynomialFactorizer new polynomial: self polynomial; factors)
@@ -39931,18 +39971,8 @@ polynomial: aPolynomial
 squareFreePolynomial: aPolynomial
 	^ super polynomial: aPolynomial! !
 
-!RationalRootFinder methodsFor: 'private' stamp: 'len 6/28/2016 19:20'!
-multiplicityAt: aRoot fourier: fourier
-	| count |
-	count _ 0.
-	fourier do: [:each| (each value: aRoot) isZero ifFalse: [^ count]. count _ count + 1].
-	[fourier last isConstant]
-		whileFalse:
-			[((fourier add: fourier last derivative) value: aRoot) isZero ifFalse: [^ count]. count _ count + 1].
-	^ count! !
-
-!RationalRootFinder methodsFor: 'accessing' stamp: 'len 2/3/2017 06:49:55'!
-roots
+!RationalRootFinder methodsFor: 'accessing' stamp: 'len 3/24/2018 20:31:35'!
+allRoots
 	"Separate the (real) rational roots of the polynomial."
 	| roots f n k tau visited fourier |
 	roots _ Bag new.
@@ -39962,6 +39992,16 @@ roots
 					(f value: tau) isZero
 						ifTrue: [roots add: tau withOccurrences: (self multiplicityAt: tau fourier: fourier). roots size = n ifTrue: [^ roots]]]]].
 	^ roots! !
+
+!RationalRootFinder methodsFor: 'private' stamp: 'len 6/28/2016 19:20'!
+multiplicityAt: aRoot fourier: fourier
+	| count |
+	count _ 0.
+	fourier do: [:each| (each value: aRoot) isZero ifFalse: [^ count]. count _ count + 1].
+	[fourier last isConstant]
+		whileFalse:
+			[((fourier add: fourier last derivative) value: aRoot) isZero ifFalse: [^ count]. count _ count + 1].
+	^ count! !
 
 !RealRootFinder methodsFor: 'private' stamp: 'len 6/5/2016 05:57'!
 bigBounds
