@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 21 March 2018 at 8:15:12 pm'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 24 March 2018 at 9:08:39 pm'!
 'Description Please enter a description for this package'!
-!provides: 'MathematicsTests' 1 87!
+!provides: 'MathematicsTests' 1 88!
 !classDefinition: #AbelianGroupTest category: #MathematicsTests!
 TestCase subclass: #AbelianGroupTest
 	instanceVariableNames: ''
@@ -5278,13 +5278,13 @@ testFiniteFieldIsIrreducible
 	self assert: f factors size = 1.
 	self assert: f isIrreducible! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 12/2/2016 11:16:34'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 3/24/2018 20:33:32'!
 testFiniteFieldRoots
 	| Z3 x f roots |
 	Z3 _ ZZ / 3.
 	x _ Z3 polynomials x.
 	f _ (x-1)^2*(x-2).
-	roots _ f roots.
+	roots _ f allRoots.
 	self assert: roots size = 3.
 	self assert: (roots occurrencesOf: (Z3 project: 1)) = 2.
 	self assert: (roots occurrencesOf: (Z3 project: 2)) = 1! !
@@ -5532,32 +5532,32 @@ testPseudoRemainder
 	self assert: (a pseudoRem: b) = r.
 	self assert: (a pseudoDivideBy: b) remainder = r! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:10'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 3/24/2018 20:32:39'!
 testRationalRoots
 	| x f roots |
 	x _ QQ polynomials x.
 	f _ (x-(1/2))^2*(x-2)*(x^2 + 1)*(x^2-2).
-	roots _ f rootsIn: QQ.
+	roots _ f allRootsIn: QQ.
 	self assert: roots size = 3.
 	self assert: (roots occurrencesOf: 1/2) = 2.
 	self assert: (roots occurrencesOf: 2) = 1! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:10'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 3/24/2018 20:32:28'!
 testRationalRootsBug
 	| x f roots |
 	x _ QQ polynomials x.
 	f _ x^3*-1 + (3*x) + 2.
-	roots _ f roots.
+	roots _ f allRoots.
 	self assert: roots size = 3.
 	self assert: (roots occurrencesOf: -1) = 2.
 	self assert: (roots occurrencesOf: 2) = 1! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 1/20/2018 19:03:33'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 3/24/2018 21:07:05'!
 testRealRoots
 	| x f roots |
 	x _ QQ polynomials x.
 	f _ (x-(1/2))^2*(x-2)*(x^2 + 1)*(x^2-2).
-	roots _ f rootsIn: RR.
+	roots _ f rootsIn: RR. "should call allRootsIn:"
 	self assert: roots size = 5.
 	self assert: roots asSet size = 4.
 	self assert: (roots occurrencesOf: 1/2) = 2.
