@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 28 March 2018 at 3:19:52 am'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 28 March 2018 at 6:11:21 pm'!
 'Description A computational algebra system in Smalltalk'!
-!provides: 'Mathematics' 1 413!
+!provides: 'Mathematics' 1 414!
 !requires: 'RayTracer' 1 2 nil!
 !classDefinition: #RealAlgebraicNumber category: #'Mathematics-Fields'!
 Number subclass: #RealAlgebraicNumber
@@ -5287,6 +5287,10 @@ isInfinity
 !Object methodsFor: '*mathematics' stamp: 'len 8/5/2016 21:51'!
 isReal
 	"Answer true if the receiver is a real number."
+	^ false! !
+
+!Object methodsFor: '*mathematics' stamp: 'len 3/28/2018 18:01:41'!
+isTuple
 	^ false! !
 
 !Class methodsFor: '*mathematics' stamp: 'len 12/1/2016 09:03:19'!
@@ -14057,9 +14061,9 @@ closeRight
 closure
 	^ self class closed: left closed: right! !
 
-!RealInterval methodsFor: 'testing' stamp: 'len 3/31/2016 17:54'!
+!RealInterval methodsFor: 'testing' stamp: 'len 3/28/2018 18:05:40'!
 closureIncludes: anObject
-	(anObject is: #Tuple) ifTrue: [^ anObject dimension = 1 and: [self includes: anObject first]].
+	anObject isTuple ifTrue: [^ anObject size = 1 and: [self includes: anObject first]].
 	^ anObject between: left and: right! !
 
 !RealInterval methodsFor: 'accessing' stamp: 'len 12/19/97 22:10'!
@@ -14086,9 +14090,9 @@ identity
 
 	^ self copy left: 1; right: 1! !
 
-!RealInterval methodsFor: 'testing' stamp: 'len 3/31/2016 17:54'!
+!RealInterval methodsFor: 'testing' stamp: 'len 3/28/2018 18:05:25'!
 includes: anObject
-	(anObject is: #Tuple) ifTrue: [^ anObject dimension = 1 and: [self includes: (anObject at: 1)]].
+	anObject isTuple ifTrue: [^ anObject size = 1 and: [self includes: (anObject at: 1)]].
 	(self left > anObject or: [self right < anObject])
 		ifTrue: [^ false].
 	(self left < anObject and: [self right > anObject])
@@ -17937,9 +17941,13 @@ zero
 on: aRing
 	^ self new ring: aRing! !
 
-!Ring methodsFor: 'elements' stamp: 'len 3/24/2018 21:30:19'!
+!Ring methodsFor: 'elements' stamp: 'len 3/28/2018 15:54:52'!
 !! anObject
 	(anObject isInteger or: [anObject isFraction]) ifTrue: [^ self embed: anObject].
+	((anObject isKindOf: FormalFraction) and: [anObject parent integers = self])
+		ifTrue:
+			[anObject denominator = self one ifTrue: [^ anObject numerator].
+			self error: 'cannot coerce fraction to integer'].
 	^ super !! anObject! !
 
 !Ring methodsFor: 'operations' stamp: 'len 1/20/2018 19:36:54'!
@@ -20383,13 +20391,16 @@ over: aRing
 words: aMonoid over: aRing
 	^ self new words: aMonoid; scalars: aRing! !
 
-!PolynomialRing methodsFor: 'elements' stamp: 'len 3/25/2018 16:25:38'!
+!PolynomialRing methodsFor: 'elements' stamp: 'len 3/28/2018 15:50:13'!
 !! anObject
 	| f parts |
 	(anObject isKindOf: Polynomial)
 		ifFalse:
 			[anObject isInteger ifTrue: [^ super one * anObject].
 			(self scalars includes: anObject) ifTrue: [^ self constant: anObject].
+			(anObject isKindOf: RationalFunction)
+				ifTrue: [anObject denominator = self one ifFalse: [DomainError signal].
+						^ self !! anObject numerator].
 			^ self evaluating: anObject].
 	f _ anObject.
 	f parent scalars = self scalars ifFalse: [f _ f over: self scalars].
@@ -22829,14 +22840,19 @@ span: aCollection
 	"Answer the submodule spanned by the module elements in aCollection."
 	^ self span: aCollection over: self scalars! !
 
-!FreeModule methodsFor: 'operations' stamp: 'len 3/18/2018 19:07:57'!
+!FreeModule methodsFor: 'operations' stamp: 'len 3/28/2018 15:26:29'!
 span: aCollection over: aRing
 	"Answer the submodule spanned by the module elements in aCollection over aRing."
 	| M |
 	M _ (aCollection isKindOf: Matrix) ifTrue: [aCollection] ifFalse: [Matrix rows: (aCollection collect: [:each| self coordinatesOf: each])].
 	M _ M echelon.
 	M _ Matrix rows: (M rows select: [:each| each isZero not]).
-	^ FreeModule new ambient: self; scalars: aRing; matrix: M! !
+	^ self spanEchelonizedMatrix: M over: aRing! !
+
+!FreeModule methodsFor: 'private' stamp: 'len 3/28/2018 15:32:19'!
+spanEchelonizedMatrix: aMatrix over: aRing
+	aRing <= self scalars ifFalse: [^ DomainError signal].
+	^ FreeModule new ambient: self; scalars: aRing; matrix: aMatrix! !
 
 !FreeModule methodsFor: 'private' stamp: 'len 1/16/2017 22:32:41'!
 species
@@ -23478,9 +23494,9 @@ embedding: i
 evaluating: aBlock
 	^ scalars tuple: rank evaluating: aBlock! !
 
-!TupleModule methodsFor: 'testing' stamp: 'len 2/28/2017 19:34:43'!
+!TupleModule methodsFor: 'testing' stamp: 'len 3/28/2018 18:08:57'!
 includes: anObject
-	^ (anObject isKindOf: Tuple) and: [anObject size = self rank and: [anObject scalars <= self scalars]]! !
+	^ anObject isTuple and: [anObject size = self rank and: [anObject scalars <= self scalars]]! !
 
 !TupleModule methodsFor: 'testing' stamp: 'len 11/7/2015 22:06'!
 isFinite
@@ -24113,9 +24129,14 @@ reducedBasis
 scalars
 	^ ZZ! !
 
-!Lattice methodsFor: 'accessing' stamp: 'len 12/30/2015 21:02'!
+!Lattice methodsFor: 'accessing' stamp: 'len 3/28/2018 05:05:34'!
 shortVector
-	^ self reducedBasis at: 1! !
+	^ self reducedBasis first! !
+
+!Lattice methodsFor: 'private' stamp: 'len 3/28/2018 15:32:33'!
+spanEchelonizedMatrix: aMatrix over: aRing
+	(aRing isKindOf: RationalIntegerRing) ifFalse: [^ DomainError signal].
+	^ Lattice new ambient: self; matrix: aMatrix! !
 
 !Lattice methodsFor: 'invariants' stamp: 'len 12/28/2016 11:30:19'!
 thetaSeries
@@ -25771,9 +25792,9 @@ includes: aCodeword
 isIrreducible
 	^ generator isIrreducible! !
 
-!Scheme methodsFor: 'elements' stamp: 'len 12/31/2016 09:42:58'!
+!Scheme methodsFor: 'elements' stamp: 'len 3/28/2018 18:09:48'!
 !! anObject
-	(anObject isKindOf: Tuple) ifTrue: [^ self pointAt: anObject].
+	anObject isTuple ifTrue: [^ self pointAt: anObject].
 	(anObject isKindOf: RationalPoint) ifTrue: [^ self pointAt: anObject coordinates].
 	DomainError signal! !
 
@@ -27447,7 +27468,7 @@ pointAt: anHomogeneousTuple
 
 	^ self project: (vectorSpace vectorAt: anHomogeneousTuple asTuple)! !
 
-!ProjectiveLinearSpace methodsFor: 'printing' stamp: 'len 3/18/2018 15:02:36'!
+!ProjectiveLinearSpace methodsFor: 'printing' stamp: 'len 3/28/2018 18:06:31'!
 printOn: aStream
 	self isEmbedded
 		ifFalse:
@@ -27458,7 +27479,7 @@ printOn: aStream
 		ifTrue:
 			[| v |
 			v _ vectorSpace basis first.
-			(v is: #Tuple) ifTrue: [v do: [:each| aStream print: each] separatedBy: [aStream nextPut: $:]]]
+			v isTuple ifTrue: [v do: [:each| aStream print: each] separatedBy: [aStream nextPut: $:]]]
 		ifFalse:
 			[aStream print: vectorSpace].
 	aStream nextPut: $]! !
@@ -28456,10 +28477,10 @@ species
 			ifFalse: [^ false]].
 	^ true! !
 
-!LinearMap methodsFor: 'arithmetic' stamp: 'len 1/22/2018 19:27:17'!
+!LinearMap methodsFor: 'arithmetic' stamp: 'len 3/28/2018 15:31:00'!
 ’ aLinearMap
 	"Answer the tensor product of the receiver with the argument."
-	^ self species from: domain ’ aLinearMap domain to: codomain ’ aLinearMap codomain matrix: matrix ’ aLinearMap matrix
+	^ self class from: domain ’ aLinearMap domain to: codomain ’ aLinearMap codomain matrix: matrix ’ aLinearMap matrix
 "		evaluating: [:each|
 			answer _ B zero.
 			each coefficients keysAndValuesDo: [:key :value|
@@ -29649,10 +29670,10 @@ generatingFunction
 initialValues
 	^ initialValues! !
 
-!CFiniteSequence methodsFor: 'accessing-private' stamp: 'len 11/12/2016 09:16'!
+!CFiniteSequence methodsFor: 'accessing-private' stamp: 'len 3/28/2018 18:09:29'!
 initialValues: anArray
 	initialValues _ anArray.
-	(initialValues isKindOf: Tuple) ifFalse: [initialValues _ self codomain tuple: initialValues]! !
+	initialValues isTuple ifFalse: [initialValues _ self codomain tuple: initialValues]! !
 
 !CFiniteSequence methodsFor: 'testing' stamp: 'len 12/27/2015 02:08'!
 isMinimal
@@ -29840,10 +29861,10 @@ from: aSimplicialComplex to: anotherSimplicialComplex mapping: aBlock
 * anObject
 	^ self class from: self domain coefficients: self coefficients * anObject! !
 
-!QuadraticForm methodsFor: 'arithmetic' stamp: 'len 3/28/2018 02:59:01'!
+!QuadraticForm methodsFor: 'arithmetic' stamp: 'len 3/28/2018 15:18:01'!
 + aQuadraticForm
 	self domain = aQuadraticForm domain ifFalse: [^ self error: 'domains don''t match'].
-	self domain matrix ~= aQuadraticForm domain matrix ifFalse: [self notYetImplemented].
+	self domain matrix = aQuadraticForm domain matrix ifFalse: [self notYetImplemented].
 	^ self class
 		from: self domain
 		coefficients: self coefficients + aQuadraticForm coefficients! !
@@ -32388,12 +32409,12 @@ reciprocal
 "	self numerator isConstant ifTrue: [^ denominator * mult]."
 	^ self class reducedNumerator: denominator * mult denominator: numerator * mult! !
 
-!RationalFunction methodsFor: 'private' stamp: 'len 2/5/2017 11:01:48'!
+!RationalFunction methodsFor: 'private' stamp: 'len 3/28/2018 15:44:58'!
 reduce
 	"Reduce the receiver dividing the numerator and the denominator
 	by their GCD and making the denominator monic."
 	| gcd mult num den |
-	(num _ numerator) isZero ifTrue: [denominator _ num one. ^ num].
+	(num _ numerator) isZero ifTrue: [denominator _ num one. ^ self].
 	den _ denominator.
 	gcd _ num gcd: den.
 	num _ num /// gcd.
@@ -33593,9 +33614,9 @@ isCycle
 	anInteger = 2 ifTrue: [^ BitTuple new: self size evaluating: [:i| ring project: (self at: i)]].
 	^ ModularTuple new: self size over: ring evaluating: [:i| ring project: (self at: i)]! !
 
-!Tuple methodsFor: 'operations' stamp: 'len 11/5/2016 06:17'!
+!Tuple methodsFor: 'operations' stamp: 'len 3/28/2018 18:03:51'!
 * anObject
-	(anObject is: #Tuple)
+	anObject isTuple
 		ifTrue: [^ self scalars tuple: (self size min: anObject size) evaluating: [:i| (self at: i) * (anObject at: i)]].
 	^ self collect: [:each| each * anObject]! !
 
@@ -33623,10 +33644,10 @@ isCycle
 <<< anInteger
 	^ self >>> anInteger negated! !
 
-!Tuple methodsFor: 'comparing' stamp: 'len 11/12/2016 09:16'!
+!Tuple methodsFor: 'comparing' stamp: 'len 3/28/2018 18:08:44'!
 = anObject
 	self == anObject ifTrue: [^ true].
-	(anObject isKindOf: Tuple) ifFalse: [^ false].
+	anObject isTuple ifFalse: [^ false].
 	self size = anObject size ifFalse: [^ false].
 	1 to: self size do: [:i|
 		(self at: i) = (anObject at: i) ifFalse: [^ false]].
@@ -33863,6 +33884,10 @@ is: aSymbol
 isEmpty
 	^ self size = 0! !
 
+!Tuple methodsFor: 'testing' stamp: 'len 3/28/2018 18:01:30'!
+isTuple
+	^ true! !
+
 !Tuple methodsFor: 'testing' stamp: 'len 3/29/2016 19:04'!
 isZero
 	^ self allSatisfy: [:each| each isZero]! !
@@ -34002,9 +34027,9 @@ z
 	zero _ (self at: 1 ifAbsent: [aTuple at: 1]) zero.
 	^ scalars tuple: (self size max: aTuple size) evaluating: [:i| (self at: i ifAbsent: [zero]) + (aTuple at: i ifAbsent: [zero])]! !
 
-!ArrayTuple methodsFor: 'copying' stamp: 'len 11/5/2016 04:02'!
+!ArrayTuple methodsFor: 'copying' stamp: 'len 3/28/2018 18:02:07'!
 , anObject
-	((anObject is: #Tuple) or: [anObject is: #Array])
+	(anObject isTuple or: [anObject isArray])
 		ifTrue: [^ self class coefficients: (coefficients, anObject asArray) over: scalars].
 	^ self class coefficients: (coefficients copyWith: anObject) over: scalars! !
 
@@ -35698,22 +35723,22 @@ rowsDo: aBlock
 scalars
 	^ self subclassResponsibility! !
 
-!Matrix methodsFor: 'operations' stamp: 'len 3/5/2017 19:22:43'!
+!Matrix methodsFor: 'operations' stamp: 'len 3/28/2018 18:09:08'!
 solveLeft: aMatrix
 	"Answer X such that X * A = B, where A is self and B is aMatrix.
 	The argument can also be a tuple, in which case it is considered
 	as a row matrix and the returned value is also a tuple."
-	(aMatrix isKindOf: Tuple) ifTrue: [^ self transposed solveRight: aMatrix].
+	aMatrix isTuple ifTrue: [^ self transposed solveRight: aMatrix].
 	^ (self transposed solveRight: aMatrix transposed) transposed! !
 
-!Matrix methodsFor: 'operations' stamp: 'len 3/24/2018 19:43:30'!
+!Matrix methodsFor: 'operations' stamp: 'len 3/28/2018 18:08:11'!
 solveRight: aMatrix
 	"Answer X such that A * X = B, where A is self and B is aMatrix.
 	The argument can also be a tuple, in which case it is considered
 	as a column matrix and the returned value is also a tuple."
 	| R K A B M X |
 	A _ self.
-	B _ (aMatrix isKindOf: Tuple) ifTrue: [Matrix columns: {aMatrix}] ifFalse: [aMatrix].
+	B _ aMatrix isTuple ifTrue: [Matrix columns: {aMatrix}] ifFalse: [aMatrix].
 	R _ self scalars.
 	R isIntegralDomain ifFalse: [self notYetImplemented].
 	R isField ifTrue: [K _ R] ifFalse: [K _ R fractions. A _ A over: K. B _ B over: K].
@@ -35723,9 +35748,9 @@ solveRight: aMatrix
 		ifFalse: [X _ A solveRightGeneral: B].
 	A * X = B ifFalse: [^ nil "no solution"].
 	R = K ifFalse:
-		[(X allSatisfy: [:each| R includes: each]) ifFalse: [^ nil "no solutions in R"].
+		[(X allSatisfy: [:each| R isUnit: each denominator]) ifFalse: [^ nil "no solutions in R"].
 		X _ X over: R].
-	^ (aMatrix isKindOf: Tuple) ifTrue: [X asTuple] ifFalse: [X]! !
+	^ aMatrix isTuple ifTrue: [X asTuple] ifFalse: [X]! !
 
 !Matrix methodsFor: 'operations' stamp: 'len 3/24/2018 19:33:14'!
 solveRightGeneral: aMatrix
@@ -39286,11 +39311,11 @@ sylvester: aPolynomial
 	m timesRepeat: [rows add: tuple. tuple _ tuple shift: 1].
 	^ Matrix rows: rows! !
 
-!UnivariatePolynomial methodsFor: 'operations' stamp: 'len 11/23/2016 05:41:40'!
+!UnivariatePolynomial methodsFor: 'operations' stamp: 'len 3/28/2018 18:04:25'!
 value: anObject
 	"Evaluate the receiver at the given argument using Horner's method."
 	| x |
-	x _ ((anObject is: #Tuple) or: [anObject isKindOf: Array])
+	x _ (anObject isTuple or: [anObject isArray])
 		ifTrue: [anObject at: 1] ifFalse: [anObject].
 	^ coefficients polynomialValue: x! !
 
