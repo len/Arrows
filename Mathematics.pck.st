@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 24 March 2018 at 9:10:05 pm'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 28 March 2018 at 3:19:52 am'!
 'Description A computational algebra system in Smalltalk'!
-!provides: 'Mathematics' 1 412!
+!provides: 'Mathematics' 1 413!
 !requires: 'RayTracer' 1 2 nil!
 !classDefinition: #RealAlgebraicNumber category: #'Mathematics-Fields'!
 Number subclass: #RealAlgebraicNumber
@@ -2304,7 +2304,7 @@ SimplicialMap class
 
 !classDefinition: #QuadraticForm category: #'Mathematics-Lattices'!
 Function subclass: #QuadraticForm
-	instanceVariableNames: 'matrix'
+	instanceVariableNames: 'coefficients'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Lattices'!
@@ -3092,16 +3092,6 @@ Object subclass: #FiniteFieldPolynomialFactorizer
 FiniteFieldPolynomialFactorizer class
 	instanceVariableNames: ''!
 
-!classDefinition: #IntegerPolynomialFactorizer category: #'Mathematics-Polynomials-Algorithms'!
-Object subclass: #IntegerPolynomialFactorizer
-	instanceVariableNames: 'polynomial factors'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Polynomials-Algorithms'!
-!classDefinition: 'IntegerPolynomialFactorizer class' category: #'Mathematics-Polynomials-Algorithms'!
-IntegerPolynomialFactorizer class
-	instanceVariableNames: ''!
-
 !classDefinition: #MultiPolynomialDivision category: #'Mathematics-Polynomials-Algorithms'!
 Object subclass: #MultiPolynomialDivision
 	instanceVariableNames: 'dividend divisors quotients remainder'
@@ -3140,6 +3130,16 @@ Object subclass: #PolynomialPseudoDivision
 	category: 'Mathematics-Polynomials-Algorithms'!
 !classDefinition: 'PolynomialPseudoDivision class' category: #'Mathematics-Polynomials-Algorithms'!
 PolynomialPseudoDivision class
+	instanceVariableNames: ''!
+
+!classDefinition: #RationalPolynomialFactorizer category: #'Mathematics-Polynomials-Algorithms'!
+Object subclass: #RationalPolynomialFactorizer
+	instanceVariableNames: 'polynomial factors'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Polynomials-Algorithms'!
+!classDefinition: 'RationalPolynomialFactorizer class' category: #'Mathematics-Polynomials-Algorithms'!
+RationalPolynomialFactorizer class
 	instanceVariableNames: ''!
 
 !classDefinition: #RootFinder category: #'Mathematics-Polynomials-Algorithms'!
@@ -4316,7 +4316,7 @@ References:
 !FreeModule commentStamp: '<historical>' prior: 0!
 My instances are finite-rank free R-modules, i.e. R-modules with a basis. They are isomorphic to R^n.
 
-Most functionality is implemented for the cases where R is a field (vector spaces, relying on gaussian elimination), or for R a PID such as Z or Q[x] (relying on the Hermite normal form).
+Most functionality is implemented for the cases where R is a field (vector spaces, relying on gaussian elimination), or for R a PID such as Z or Q[x] (relying on the Hermite normal form or computing in the field of fractions).
 
 See also LinearMap.!
 
@@ -4730,7 +4730,7 @@ Chain maps are morphisms in the category of chain complexes. See ChainComplex.!
 My instances are morphisms of simplicial complexes. See SimplicialComplex.!
 
 !QuadraticForm commentStamp: '<historical>' prior: 0!
-My instances are quadratic forms as homogeneous quadratic functions V->K from a finite dimensional K-vector space to its field of coefficients K. Given a basis of their domain, they can be represented as homogeneous quadratic polynomials or as symmetric matrices that define symmetric bilinear forms VxV->K.!
+My instances are quadratic forms as homogeneous quadratic functions M->R from a finite rank free R-module to its R. Given a basis of M, they can be represented as homogeneous quadratic polynomials or as symmetric matrices that define symmetric bilinear forms MxM->R.!
 
 !RationalMap commentStamp: '<historical>' prior: 0!
 My instances are rational maps between closed subschemes of affine or projective space. They are defined by a tuple of rational functions.
@@ -5319,9 +5319,17 @@ isInfinite
 /// aNumber
 	^ self / aNumber! !
 
-!Number methodsFor: '*mathematics' stamp: 'len 1/22/2017 08:16:31'!
+!Number methodsFor: '*mathematics' stamp: 'len 3/25/2018 16:03:52'!
 ^ aNumber
-	^ self raisedTo: aNumber! !
+	aNumber isInteger ifTrue: [^ self raisedToInteger: aNumber].
+	aNumber isFraction ifTrue: [^ (self root: aNumber denominator) raisedToInteger: aNumber numerator ].
+	0 = aNumber ifTrue: [^ self class one].
+	1 = aNumber ifTrue: [^ self].
+	0 = self ifTrue: [
+		aNumber < 0
+			ifTrue: [^ (ZeroDivide dividend: self) signal]
+			ifFalse: [^ self]].
+	^ (aNumber * self ln) exp! !
 
 !Number methodsFor: '*mathematics' stamp: 'len 11/19/2015 18:42'!
 adaptToQuaternion: rcvr andSend: selector
@@ -5372,6 +5380,12 @@ one
 !Number methodsFor: '*mathematics' stamp: 'len 6/4/2016 21:54'!
 real
 	^ self! !
+
+!Number methodsFor: '*mathematics' stamp: 'len 3/25/2018 16:05:30'!
+root: anInteger
+	anInteger = 2 ifTrue: [^ self squareRoot].
+	anInteger = 1 ifTrue: [^ self].
+	^ self notYetImplemented! !
 
 !Number methodsFor: '*mathematics' stamp: 'len 11/19/2015 20:58'!
 zero
@@ -17923,9 +17937,9 @@ zero
 on: aRing
 	^ self new ring: aRing! !
 
-!Ring methodsFor: 'elements' stamp: 'len 12/22/2016 22:42:16'!
+!Ring methodsFor: 'elements' stamp: 'len 3/24/2018 21:30:19'!
 !! anObject
-	anObject isInteger ifTrue: [^ self one * anObject].
+	(anObject isInteger or: [anObject isFraction]) ifTrue: [^ self embed: anObject].
 	^ super !! anObject! !
 
 !Ring methodsFor: 'operations' stamp: 'len 1/20/2018 19:36:54'!
@@ -18577,6 +18591,11 @@ at: anIdeal
 !FractionRing class methodsFor: 'instance creation' stamp: 'len 1/23/2018 21:18:50'!
 on: anIntegralDomain
 	^ super at: anIntegralDomain zeroIdeal! !
+
+!RationalField methodsFor: 'elements' stamp: 'len 3/25/2018 16:19:54'!
+!! anObject
+	(anObject isInteger or: [anObject isFraction]) ifTrue: [^ anObject].
+	^ super !! anObject! !
 
 !RationalField methodsFor: 'comparing' stamp: 'len 6/1/2016 23:56'!
 <= aDomain
@@ -19781,6 +19800,11 @@ y
 z
 	^ self x: 3! !
 
+!RationalIntegerRing methodsFor: 'elements' stamp: 'len 3/25/2018 16:18:04'!
+!! anObject
+	anObject isInteger ifTrue: [^ anObject].
+	^ super !! anObject! !
+
 !RationalIntegerRing methodsFor: 'operations' stamp: 'len 12/18/2016 20:08:24'!
 / anInteger
 	anInteger isInteger ifFalse: [^ super / anInteger].
@@ -19846,6 +19870,11 @@ idealClass
 !RationalIntegerRing methodsFor: 'testing' stamp: 'len 11/23/2015 02:37'!
 includes: anObject
 	^ anObject isInteger! !
+
+!RationalIntegerRing methodsFor: 'testing' stamp: 'len 3/27/2018 19:46:01'!
+isDedekindDomain
+	"A Dedekind domain is an integral domain in which every non-zero proper ideal factors into a product of prime ideals."
+	^ true! !
 
 !RationalIntegerRing methodsFor: 'testing' stamp: 'len 11/4/2015 21:52'!
 isEuclidean
@@ -20004,6 +20033,11 @@ characteristic
 !RealField methodsFor: 'enumerating' stamp: 'len 8/6/2016 03:50'!
 do: aBlock
 	^ self shouldNotImplement! !
+
+!RealField methodsFor: 'morphisms' stamp: 'len 3/25/2018 19:32:22'!
+embed: anObject
+	(anObject isInteger or: [anObject isFraction]) ifTrue: [^ anObject].
+	^ super embed: anObject! !
 
 !RealField methodsFor: 'comparing' stamp: 'len 1/20/2018 19:00:05'!
 hash
@@ -20224,9 +20258,9 @@ new: anInteger over: aRing
 	self == anObject ifTrue: [^ true].
 	^ (anObject isKindOf: FreeAlgebra) and: [anObject scalars = scalars and: [anObject words = words]]! !
 
-!FreeAlgebra methodsFor: 'random' stamp: 'len 1/10/2018 13:21:55'!
+!FreeAlgebra methodsFor: 'random' stamp: 'len 3/25/2018 19:36:09'!
 atRandom: aRandom bits: bitSize
-	^ self atRandom: aRandom bits: bitSize maxDegree: (bitSize^(1/self rank) min: bitSize - 1) truncated! !
+	^ self atRandom: aRandom bits: bitSize maxDegree: ((bitSize raisedTo: (1/self rank)) min: bitSize - 1) truncated! !
 
 !FreeAlgebra methodsFor: 'random' stamp: 'len 1/10/2018 13:21:35'!
 atRandom: aRandom bits: bitSize maxDegree: d
@@ -20349,12 +20383,12 @@ over: aRing
 words: aMonoid over: aRing
 	^ self new words: aMonoid; scalars: aRing! !
 
-!PolynomialRing methodsFor: 'elements' stamp: 'len 12/22/2017 19:11:18'!
+!PolynomialRing methodsFor: 'elements' stamp: 'len 3/25/2018 16:25:38'!
 !! anObject
 	| f parts |
 	(anObject isKindOf: Polynomial)
 		ifFalse:
-			[anObject isInteger ifTrue: [^ super !! anObject].
+			[anObject isInteger ifTrue: [^ super one * anObject].
 			(self scalars includes: anObject) ifTrue: [^ self constant: anObject].
 			^ self evaluating: anObject].
 	f _ anObject.
@@ -20472,9 +20506,9 @@ asUnivariateIn: anIndeterminate
 	anIndeterminate = self rank ifFalse: [^ self error: 'bad indeterminate'].
 	^ self asUnivariate! !
 
-!PolynomialRing methodsFor: 'random' stamp: 'len 10/22/2016 18:16'!
+!PolynomialRing methodsFor: 'random' stamp: 'len 3/25/2018 16:15:00'!
 atRandom: aRandom bits: bitSize
-	^ self atRandom: aRandom bits: bitSize maxDegree: (bitSize^(1/self rank) min: bitSize - 1) truncated! !
+	^ self atRandom: aRandom bits: bitSize maxDegree: ((bitSize raisedTo: (1/self rank)) min: bitSize - 1) truncated! !
 
 !PolynomialRing methodsFor: 'random' stamp: 'len 10/22/2016 18:12'!
 atRandom: aRandom bits: bitSize maxDegree: d
@@ -22362,13 +22396,15 @@ mod: aSubmodule
 	anObject isTrivial ifTrue: [^ self].
 	^ self ambient span: (self matrix, anObject matrix) transposed imageMatrix! !
 
-!FreeModule methodsFor: 'operations' stamp: 'len 3/19/2018 17:21:17'!
-/ aSubmodule
-	"Answer the quotient of the receiver by the submodule aSubmodule,
-	i.e. the module obtained by 'collapsing' the submodule to zero."
-	aSubmodule isFreeModule ifFalse: [^ super / aSubmodule].
-	aSubmodule ambient = self ifTrue: [^ aSubmodule quotient].
-	^ (self span: aSubmodule generators) quotient! !
+!FreeModule methodsFor: 'operations' stamp: 'len 3/27/2018 19:16:20'!
+/ anObject
+	"Answer the quotient of the receiver by the submodule anObject,
+	i.e. the module obtained by 'collapsing' the submodule to zero.
+	Alternatively, if anObject is an scalar, scale down the receiver by it."
+	(self ambient scalars includes: anObject) ifTrue: [^ self * anObject reciprocal].
+	anObject isFreeModule ifFalse: [^ super / anObject].
+	anObject ambient = self ifTrue: [^ anObject quotient].
+	^ (self span: anObject generators) quotient! !
 
 !FreeModule methodsFor: 'operations' stamp: 'len 12/8/2016 20:27:46'!
 /\ aModule
@@ -22593,17 +22629,17 @@ elementAt: aTuple
 generators
 	^ self basis! !
 
-!FreeModule methodsFor: 'accessing' stamp: 'len 3/18/2018 15:30:43'!
+!FreeModule methodsFor: 'accessing' stamp: 'len 3/27/2018 18:34:40'!
 gramian
 	"Answer the Gramian of the receiver, or Gram matrix.
-	If M is the generator matrix of the receiver (>>matrix), then the Gramian is M * M transposed."
-	^ self matrix * self matrix transposed
-"	| f |
-	f _ self innerProduct.
+	If M is the generator matrix of the receiver (>>matrix), and the inner product of the receiver is the dot product, then the Gramian is M * M transposed."
+"	^ self matrix * self matrix transposed"
+	| f |
+	f _ self ambient innerProduct.
 	^ self ambient scalars
 		matrix: self rank
 		evaluating:
-			[:i :j| f value: {(self e: i). (self e: j)}]"! !
+			[:i :j| f value: {(self e: i). (self e: j)}]! !
 
 !FreeModule methodsFor: 'operations' stamp: 'len 10/16/2016 09:43'!
 grassmannian: r
@@ -29800,84 +29836,148 @@ from: aSimplicialComplex to: anotherSimplicialComplex mapping: aBlock
 	aSimplicialComplex support do: [:each| map at: each put: (aBlock value: each)].
 	^ self from: aSimplicialComplex to: anotherSimplicialComplex map: map! !
 
-!QuadraticForm methodsFor: 'arithmetic' stamp: 'len 3/19/2018 20:04:07'!
+!QuadraticForm methodsFor: 'arithmetic' stamp: 'len 3/28/2018 02:59:45'!
 * anObject
-	^ self class from: self domain matrix: matrix * anObject! !
+	^ self class from: self domain coefficients: self coefficients * anObject! !
 
-!QuadraticForm methodsFor: 'arithmetic' stamp: 'len 3/19/2018 20:01:12'!
+!QuadraticForm methodsFor: 'arithmetic' stamp: 'len 3/28/2018 02:59:01'!
 + aQuadraticForm
 	self domain = aQuadraticForm domain ifFalse: [^ self error: 'domains don''t match'].
-	self flag: #fix.
 	self domain matrix ~= aQuadraticForm domain matrix ifFalse: [self notYetImplemented].
 	^ self class
 		from: self domain
-		matrix: matrix + aQuadraticForm matrix! !
+		coefficients: self coefficients + aQuadraticForm coefficients! !
 
-!QuadraticForm methodsFor: 'converting' stamp: 'len 3/19/2018 20:04:22'!
+!QuadraticForm methodsFor: 'comparing' stamp: 'len 3/28/2018 03:12:11'!
+= aQuadraticForm
+	(aQuadraticForm isKindOf: QuadraticForm) ifFalse: [^ false].
+	^ self coefficients = aQuadraticForm coefficients! !
+
+!QuadraticForm methodsFor: 'arithmetic' stamp: 'len 3/28/2018 03:00:18'!
+ aQuadraticForm
+	"Answer the direct sum of the receiver and the argument."
+	(aQuadraticForm isKindOf: QuadraticForm) ifFalse: [^ DomainError signal].
+	^ self notYetImplemented! !
+
+!QuadraticForm methodsFor: 'converting' stamp: 'len 3/28/2018 03:12:22'!
 asBilinearForm
 	"Answer the bilinear form associated with the receiver (assuming the characteristic is not 2). This is, via the polarization identity: B(v,w) = (Q(v+w) - Q(v-w)) / 4."
-	^ BilinearForm fromHalf: self domain matrix: matrix! !
+	^ BilinearForm fromHalf: self domain matrix: self gramian! !
 
-!QuadraticForm methodsFor: 'converting' stamp: 'len 3/1/2017 07:19:13'!
+!QuadraticForm methodsFor: 'converting' stamp: 'len 3/28/2018 03:03:12'!
 asPolynomial
-	| n P x |
-	n _ self domain dimension.
+	| n P |
+	n _ self rank.
 	P _ self domain coordinateRing.
-	x _ P tuple: n evaluating: [:i| P x: i].	
-	^ x dot: (matrix apply: P embedding) * x! !
+	^ self value: (P tuple: n evaluating: [:i| P x: i])! !
 
-!QuadraticForm methodsFor: 'accessing' stamp: 'len 12/30/2015 21:15'!
+!QuadraticForm methodsFor: 'accessing' stamp: 'len 3/28/2018 02:47:11'!
+at: aPoint
+	| i j n |
+	i _ aPoint x - 1.
+	j _ aPoint y - 1.
+	i > j ifTrue: [i _ j. j _ aPoint x - 1].
+	n _ self rank.
+	^ self coefficients at: i * n - (i-1*i//2) + j - i + 1! !
+
+!QuadraticForm methodsFor: 'accessing' stamp: 'len 3/28/2018 03:01:03'!
 bitSize
-	^ matrix bitSize! !
+	^ self coefficients bitSize! !
 
 !QuadraticForm methodsFor: 'accessing' stamp: 'len 12/30/2015 21:16'!
 codomain
 	^ self scalars! !
 
-!QuadraticForm methodsFor: 'testing' stamp: 'len 1/7/2017 22:21:54'!
+!QuadraticForm methodsFor: 'accessing' stamp: 'len 3/28/2018 03:00:51'!
+coefficients
+	"Answer the coefficients of the receiver in lexicographical order."
+	^ coefficients! !
+
+!QuadraticForm methodsFor: 'accessing-private' stamp: 'len 3/28/2018 03:06:18'!
+coefficients: aTuple
+	coefficients _ aTuple! !
+
+!QuadraticForm methodsFor: 'accessing' stamp: 'len 3/28/2018 01:05:41'!
+content
+	| answer |
+	answer _ self scalars zero.
+	self coefficients do: [:each| answer _ answer gcd: each].
+	^ answer! !
+
+!QuadraticForm methodsFor: 'accessing' stamp: 'len 3/28/2018 03:12:29'!
+determinant
+	"Answer the determinant of the Hessian matrix of the receiver. This is the determinant of the Gram matrix of twice the receiver."
+	^ self hessian determinant! !
+
+!QuadraticForm methodsFor: 'accessing' stamp: 'len 3/28/2018 03:15:19'!
+gramian
+	^ self hessian / 2 "assuming we can divide by 2"! !
+
+!QuadraticForm methodsFor: 'comparing' stamp: 'len 3/28/2018 03:12:33'!
+hash
+	^ self coefficients hash! !
+
+!QuadraticForm methodsFor: 'accessing' stamp: 'len 3/28/2018 02:43:22'!
+hessian
+	"Answer the Hessian matrix H for the receiver Q.
+	This is a matrix H such that Q(x) = 1/2 * x^t * H * x."
+	^ self scalars matrix: self domain rank evaluating: [:i :j| i = j ifTrue: [(self at: i@j)*2] ifFalse: [self at: i@j]]! !
+
+!QuadraticForm methodsFor: 'testing' stamp: 'len 3/28/2018 03:12:40'!
 isDiagonal
 	"Answer true if the receiver is in diagonal form."
-	^ matrix isDiagonal! !
+	^ self hessian isDiagonal! !
+
+!QuadraticForm methodsFor: 'testing' stamp: 'len 3/28/2018 01:03:53'!
+isPrimitive
+	^ self content = self scalars one! !
 
 !QuadraticForm methodsFor: 'testing' stamp: 'len 1/8/2016 06:25'!
 isRegular
 	^ self asBilinearForm isNonDegenerate! !
 
-!QuadraticForm methodsFor: 'accessing' stamp: 'len 12/30/2015 21:16'!
-matrix
-	^ matrix! !
-
-!QuadraticForm methodsFor: 'accessing-private' stamp: 'len 12/30/2015 21:17'!
-matrix: aMatrix
-	matrix _ aMatrix! !
-
-!QuadraticForm methodsFor: 'arithmetic' stamp: 'len 3/19/2018 20:04:28'!
+!QuadraticForm methodsFor: 'arithmetic' stamp: 'len 3/28/2018 02:59:58'!
 negated
-	^ self class from: self domain matrix: matrix negated! !
+	^ self class from: self domain coefficients: self coefficients negated! !
+
+!QuadraticForm methodsFor: 'operations' stamp: 'len 3/28/2018 03:03:55'!
+primitive
+	^ self class from: self domain coefficients: self coefficients / self content! !
 
 !QuadraticForm methodsFor: 'printing' stamp: 'len 4/21/2016 00:22'!
 printOn: aStream
 	aStream print: self asPolynomial! !
 
-!QuadraticForm methodsFor: 'accessing' stamp: 'len 1/8/2016 06:36'!
+!QuadraticForm methodsFor: 'accessing' stamp: 'len 3/27/2018 23:58:26'!
 rank
-	^ matrix rank! !
+	^ self domain rank! !
 
 !QuadraticForm methodsFor: 'accessing' stamp: 'len 3/19/2018 20:00:15'!
 scalars
 	^ self domain scalars! !
 
-!QuadraticForm methodsFor: 'operations' stamp: 'len 3/19/2018 20:01:45'!
+!QuadraticForm methodsFor: 'operations' stamp: 'len 3/28/2018 02:53:34'!
 value: aVector
-	| v |
+	| v n answer |
 	v _ self domain coordinatesOf: aVector.
-	^ v dot: (matrix * v)! !
+	n _ self rank.
+	answer _ self scalars zero.
+	1 to: n do: [:i|
+		| vi |
+		vi _ v at: i.
+		i to: n do: [:j|
+			answer _ (self at: i@j) * vi * (v at: j) + answer]].
+	^ answer! !
 
-!QuadraticForm class methodsFor: 'instance creation' stamp: 'len 3/19/2018 19:59:36'!
-from: aVectorSpace matrix: aMatrix
-	"Answer a new instance of the receiver representing the quadratic form associated to aMatrix in the distinguished basis of the given vector space."
-	aMatrix isSymmetric ifFalse: [self error: 'matrix not symmetric'].
-	^ self new domain: aVectorSpace; matrix: aMatrix! !
+!QuadraticForm class methodsFor: 'instance creation' stamp: 'len 3/28/2018 03:14:10'!
+coefficients: aTuple
+	"Answer the quadratic form with the given coefficients (in lexicographical order)."
+	^ self from: aTuple scalars ^ (aTuple size * 2) sqrtFloor coefficients: aTuple! !
+
+!QuadraticForm class methodsFor: 'instance creation' stamp: 'len 3/28/2018 02:57:27'!
+from: aModule coefficients: aTuple
+	"Answer the quadratic form associated with the given coefficients (in lexicographical order) in the distinguished basis of the given free module."
+	^ self new domain: aModule; coefficients: aTuple! !
 
 !RationalMap methodsFor: 'arithmetic' stamp: 'len 1/20/2018 22:05:44'!
 * anObject
@@ -32357,11 +32457,10 @@ valueWithArguments: anArray
 	"Answer the exact division of the receiver by the argument."
 	^ parent project: representative /// aResidueClass representative! !
 
-!ResidueClass methodsFor: 'comparing' stamp: 'len 11/30/2016 19:14:07'!
-= aResidueClass
-	aResidueClass class == self class ifFalse: [^ false].
-"	^ (self - aResidue) isZero"
-	^ representative = aResidueClass representative! !
+!ResidueClass methodsFor: 'comparing' stamp: 'len 3/25/2018 16:13:06'!
+= anObject
+	anObject class == self class ifTrue: [^ representative = anObject representative].
+	^ self = (parent !! anObject)! !
 
 !ResidueClass methodsFor: 'operations' stamp: 'len 1/22/2017 08:19:38'!
 ^ anInteger
@@ -35058,11 +35157,11 @@ dot: aMatrix
 		matrix: self numberOfRows @ aMatrix numberOfColumns
 		evaluating: [:i :j| (rows at: i) dot: (columns at: j)]! !
 
-!Matrix methodsFor: 'arithmetic' stamp: 'len 11/6/2016 09:47'!
+!Matrix methodsFor: 'arithmetic' stamp: 'len 3/27/2018 16:22:03'!
 dotProductWithTuple: aTuple
 	(self numberOfRows = 0 or: [self numberOfColumns = aTuple size])
 		ifFalse: [^ DomainError signal: 'dimensions don''t match'].
-	self scalars = aTuple scalars ifFalse: [^ DomainError signal: 'base rings don''t match'].
+	self scalars >= aTuple scalars ifFalse: [^ DomainError signal: 'base rings don''t match'].
 	^ self scalars tuple: self numberOfRows evaluating: [:i| (self rowAt: i) dot: aTuple]! !
 
 !Matrix methodsFor: 'reduction' stamp: 'len 3/18/2018 16:17:54'!
@@ -35647,9 +35746,9 @@ spectralRadius
 		ifFalse: [^ DomainError signal: 'spectral radius is only defined for matrices with complex scalars'].
 	^ self spectrum max: [:each| each abs]! !
 
-!Matrix methodsFor: 'spectrum' stamp: 'len 2/6/2016 19:38'!
+!Matrix methodsFor: 'spectrum' stamp: 'len 3/27/2018 16:26:17'!
 spectrum
-	^ self characteristicPolynomial roots! !
+	^ self characteristicPolynomial allRoots! !
 
 !Matrix methodsFor: 'arithmetic' stamp: 'len 11/3/2015 20:35'!
 squared
@@ -37659,11 +37758,13 @@ exactlyDividedBy: aPolynomial
 		ifFalse: [^ (PolynomialPseudoDivision divide: self by: aPolynomial) exactQuotient].
 	^ (PolynomialDivision divide: self by: aPolynomial) exactQuotient! !
 
-!Polynomial methodsFor: 'factorization' stamp: 'len 1/23/2017 11:41:15'!
+!Polynomial methodsFor: 'factorization' stamp: 'len 3/25/2018 15:51:15'!
 factorizer
 	(self parent scalars isField and: [self parent scalars isFinite and: [self isUnivariate]])
 		ifTrue: [^ FiniteFieldPolynomialFactorizer new polynomial: self].
-	^ self error: 'not yet implemented'! !
+	self parent scalars <= QQ
+		ifTrue: [^ RationalPolynomialFactorizer new polynomial: self].
+	^ self notYetImplemented! !
 
 !Polynomial methodsFor: 'factorization' stamp: 'len 2/8/2016 18:19'!
 factors
@@ -39365,38 +39466,6 @@ squareFreeFactorization
 						do: [:each| answer add: each withOccurrences: p]]].
 	^ answer! !
 
-!IntegerPolynomialFactorizer methodsFor: 'as yet unclassified' stamp: 'len 12/6/2015 21:32'!
-squareFreeFactorization
-	"Answer a squarefree factorization of the polynomial.
-	Use Yun's algorithm. Assume the coefficients are in a unique factorization domain or in a field of characteristic 0."
-
-	| f Rx R p q gcd count answer lc |
-	f _ polynomial.
-	Rx _ f species.
-	R _ Rx scalars.
-	((R isField and: [R characteristic = 0]) or: [R isUFD])
-		ifFalse: [^ self notYetImplemented].
-	answer _ Bag new.
-	count _ 1.
-	lc _ f leadingCoefficient.
-	lc = f scalars one
-		ifFalse: [answer add: (Rx constant: lc)].
-	p _ f / lc.
-	q _ p derivative.
-	gcd _ p gcd: q.
-	gcd degree > 0
-		ifTrue:
-			[p _ p // gcd.
-			q _ q // gcd - p derivative.
-			[q isZero]
-				whileFalse:
-					[gcd _ p gcd: q.
-					gcd degree > 0 ifTrue: [answer add: gcd withOccurrences: count].
-					count _ count + 1.
-					p _ p // gcd.
-					q _ q // gcd - p derivative]].
-	^ answer add: p withOccurrences: count; yourself! !
-
 !MultiPolynomialDivision methodsFor: 'private' stamp: 'len 11/24/2016 11:36:40'!
 divide
 	"Perform the division algorithm computing quotients and remainder."
@@ -39740,6 +39809,38 @@ verify
 divide: aPolynomial by: anotherPolynomial
 	"Answer a pseudo-division algorithm to divide aPolynomial by anotherPolynomial."
 	^ self new divide: aPolynomial by: anotherPolynomial! !
+
+!RationalPolynomialFactorizer methodsFor: 'as yet unclassified' stamp: 'len 12/6/2015 21:32'!
+squareFreeFactorization
+	"Answer a squarefree factorization of the polynomial.
+	Use Yun's algorithm. Assume the coefficients are in a unique factorization domain or in a field of characteristic 0."
+
+	| f Rx R p q gcd count answer lc |
+	f _ polynomial.
+	Rx _ f species.
+	R _ Rx scalars.
+	((R isField and: [R characteristic = 0]) or: [R isUFD])
+		ifFalse: [^ self notYetImplemented].
+	answer _ Bag new.
+	count _ 1.
+	lc _ f leadingCoefficient.
+	lc = f scalars one
+		ifFalse: [answer add: (Rx constant: lc)].
+	p _ f / lc.
+	q _ p derivative.
+	gcd _ p gcd: q.
+	gcd degree > 0
+		ifTrue:
+			[p _ p // gcd.
+			q _ q // gcd - p derivative.
+			[q isZero]
+				whileFalse:
+					[gcd _ p gcd: q.
+					gcd degree > 0 ifTrue: [answer add: gcd withOccurrences: count].
+					count _ count + 1.
+					p _ p // gcd.
+					q _ q // gcd - p derivative]].
+	^ answer add: p withOccurrences: count; yourself! !
 
 !RootFinder methodsFor: 'accessing' stamp: 'len 3/24/2018 20:50:30'!
 allRoots
