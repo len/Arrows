@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 28 March 2018 at 6:11:21 pm'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 29 March 2018 at 4:38:02 pm'!
 'Description A computational algebra system in Smalltalk'!
-!provides: 'Mathematics' 1 414!
+!provides: 'Mathematics' 1 415!
 !requires: 'RayTracer' 1 2 nil!
 !classDefinition: #RealAlgebraicNumber category: #'Mathematics-Fields'!
 Number subclass: #RealAlgebraicNumber
@@ -1462,14 +1462,14 @@ Module subclass: #Ideal
 Ideal class
 	instanceVariableNames: ''!
 
-!classDefinition: #QuotientRingIdeal category: #'Mathematics-Rings'!
-Ideal subclass: #QuotientRingIdeal
+!classDefinition: #QuotientIdeal category: #'Mathematics-Rings'!
+Ideal subclass: #QuotientIdeal
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Rings'!
-!classDefinition: 'QuotientRingIdeal class' category: #'Mathematics-Rings'!
-QuotientRingIdeal class
+!classDefinition: 'QuotientIdeal class' category: #'Mathematics-Rings'!
+QuotientIdeal class
 	instanceVariableNames: ''!
 
 !classDefinition: #RationalIntegerIdeal category: #'Mathematics-Rings'!
@@ -4283,7 +4283,7 @@ Ideals are the ring theory analog of normal subgroups from group theory. They ar
 References:
 	https://en.wikipedia.org/wiki/Ideal_(ring_theory)!
 
-!QuotientRingIdeal commentStamp: '<historical>' prior: 0!
+!QuotientIdeal commentStamp: '<historical>' prior: 0!
 My instances are ideals of quotient rings.!
 
 !RationalIntegerIdeal commentStamp: '<historical>' prior: 0!
@@ -4729,8 +4729,8 @@ Chain maps are morphisms in the category of chain complexes. See ChainComplex.!
 !SimplicialMap commentStamp: '<historical>' prior: 0!
 My instances are morphisms of simplicial complexes. See SimplicialComplex.!
 
-!QuadraticForm commentStamp: '<historical>' prior: 0!
-My instances are quadratic forms as homogeneous quadratic functions M->R from a finite rank free R-module to its R. Given a basis of M, they can be represented as homogeneous quadratic polynomials or as symmetric matrices that define symmetric bilinear forms MxM->R.!
+!QuadraticForm commentStamp: 'len 3/28/2018 21:01:35' prior: 0!
+My instances are quadratic forms as homogeneous quadratic functions M->R from a finite rank free R-module to R. Given a basis of M, they can be represented as homogeneous quadratic polynomials or as symmetric matrices that define symmetric bilinear forms MxM->R.!
 
 !RationalMap commentStamp: '<historical>' prior: 0!
 My instances are rational maps between closed subschemes of affine or projective space. They are defined by a tuple of rational functions.
@@ -18953,9 +18953,9 @@ generators
 hash
 	^ self relations hash! !
 
-!QuotientRing methodsFor: 'private' stamp: 'len 2/13/2017 07:20:33'!
+!QuotientRing methodsFor: 'private' stamp: 'len 3/28/2018 19:19:56'!
 idealClass
-	^ QuotientRingIdeal! !
+	^ QuotientIdeal! !
 
 !QuotientRing methodsFor: 'testing' stamp: 'len 11/29/2016 14:41:38'!
 includes: anObject
@@ -19422,11 +19422,11 @@ new: q
 	p _ factors anyOne.
 	^ self new: p to: n! !
 
-!GaloisField class methodsFor: 'instance creation' stamp: 'len 12/12/2016 08:39:55'!
+!GaloisField class methodsFor: 'instance creation' stamp: 'len 3/28/2018 19:32:17'!
 new: p to: n
 	"Answer the Galois field of order q = p^n."
 	| F |
-	F _ ZZ modPrime: p.
+	F _ PrimeField new: p.
 	n = 1 ifTrue: [^ F].
 	^ self polynomial: (F polynomials findIrreducibleOfDegree: n)! !
 
@@ -19911,10 +19911,6 @@ isReal
 !RationalIntegerRing methodsFor: 'testing' stamp: 'len 5/12/2016 23:13'!
 isUnit: anInteger
 	^ anInteger = 1 or: [anInteger = -1]! !
-
-!RationalIntegerRing methodsFor: 'operations' stamp: 'len 8/10/2016 06:08'!
-modPrime: anInteger
-	^ PrimeField new: anInteger! !
 
 !RationalIntegerRing methodsFor: 'elements' stamp: 'len 11/5/2015 19:19'!
 one
@@ -20864,6 +20860,10 @@ isUFD
 	self scalars isUFD ifTrue: [^ true]. "proof based on Gauss lemma"
 	^ super isUFD! !
 
+!PolynomialRing methodsFor: 'testing' stamp: 'len 3/28/2018 21:06:15'!
+isUnit: aPolynomial
+	^ aPolynomial isConstant and: [self scalars isUnit: aPolynomial leadingCoefficient]! !
+
 !PolynomialRing methodsFor: 'testing' stamp: 'len 10/22/2016 18:16'!
 isUnivariate
 	^ self rank = 1! !
@@ -20879,16 +20879,6 @@ localization
 maximalIdeal
 	self isLocal ifFalse: [DomainError signal: 'the ring is not local'].
 	^ self * self generators! !
-
-!PolynomialRing methodsFor: 'operations' stamp: 'len 12/28/2016 12:21:08'!
-modPrime: anObject
-	| answer |
-	self assert: self scalars isField.
-	answer _ self mod: anObject.
-	answer properties
-		at: #isIntegralDomain put: true;
-		at: #isField put: true.
-	^ answer! !
 
 !PolynomialRing methodsFor: 'elements' stamp: 'len 6/26/2016 01:42'!
 monomial: aMonomial
@@ -21486,6 +21476,11 @@ over: aRing generators: aCollection
 	anInteger < 0 ifTrue: [^ (self ^ anInteger negated) reciprocal]."
 	^ self squared ^ (anInteger // 2) * (self ^ (anInteger \\ 2))! !
 
+!Ideal methodsFor: 'testing' stamp: 'len 3/28/2018 19:49:45'!
+| anIdeal
+	"Answer true if the receiver divides anIdeal."
+	^ self >= anIdeal! !
+
 !Ideal methodsFor: 'operations' stamp: 'len 2/23/2017 08:16:26'!
 ÷ anIdeal
 	"Answer the colon quotient I:J of the receiver I with the argument J."
@@ -21699,39 +21694,39 @@ squareFree
 over: aRing generators: aCollection
 	^ self new scalars: aRing; generators: aCollection! !
 
-!QuotientRingIdeal methodsFor: 'operations' stamp: 'len 1/15/2018 18:58:43'!
+!QuotientIdeal methodsFor: 'operations' stamp: 'len 1/15/2018 18:58:43'!
 ÷ anIdeal
 	"Answer the colon quotient I:J of the receiver I with the argument J."
 	^ self lift ÷ anIdeal lift / self scalars relations! !
 
-!QuotientRingIdeal methodsFor: 'operations' stamp: 'len 1/15/2018 18:58:47'!
+!QuotientIdeal methodsFor: 'operations' stamp: 'len 1/15/2018 18:58:47'!
 • anIdeal
 	"Answer the intersection of the receiver and the argument."
 	^ self lift • anIdeal lift / self scalars relations! !
 
-!QuotientRingIdeal methodsFor: 'operations-elements' stamp: 'len 1/15/2018 18:58:51'!
+!QuotientIdeal methodsFor: 'operations-elements' stamp: 'len 1/15/2018 18:58:51'!
 inverseOf: anElement
 	^ self scalars project: (self lift inverseOf: anElement representative)! !
 
-!QuotientRingIdeal methodsFor: 'testing' stamp: 'len 2/13/2017 05:40:25'!
+!QuotientIdeal methodsFor: 'testing' stamp: 'len 2/13/2017 05:40:25'!
 isPrime
 	^ self lift isPrime! !
 
-!QuotientRingIdeal methodsFor: 'testing' stamp: 'len 2/13/2017 05:45:48'!
+!QuotientIdeal methodsFor: 'testing' stamp: 'len 2/13/2017 05:45:48'!
 isPrincipal
 	"Answer true if the receiver is generated by a single element."
 	^ self lift isPrincipal! !
 
-!QuotientRingIdeal methodsFor: 'morphisms' stamp: 'len 1/15/2018 18:58:58'!
+!QuotientIdeal methodsFor: 'morphisms' stamp: 'len 1/15/2018 18:58:58'!
 lift
 	"If the receiver is an ideal I of a quotient ring A/J, return the lifting of I to A, this is the ideal in A generated by the representatives in A of the generators of I."
 	^ self propertyAt: #lift ifAbsentPut: [self scalars base * (self generators collect: [:each| each representative]) + self scalars relations]! !
 
-!QuotientRingIdeal methodsFor: 'operations' stamp: 'len 1/15/2018 18:59:02'!
+!QuotientIdeal methodsFor: 'operations' stamp: 'len 1/15/2018 18:59:02'!
 radical
 	^ self lift radical / self scalars relations! !
 
-!QuotientRingIdeal methodsFor: 'operations-elements' stamp: 'len 1/15/2018 18:59:12'!
+!QuotientIdeal methodsFor: 'operations-elements' stamp: 'len 1/15/2018 18:59:12'!
 reduce: anElement
 	"Answer the normal form of anElement with respect to the receiver."
 	^ self scalars project: (self lift reduce: anElement representative)! !
@@ -22398,14 +22393,14 @@ mod: aSubmodule
 		ifTrue: [^ self ambient span: (self generators collect: [:each| each * aNumber]) over: self scalars].
 	^ DomainError signal! !
 
-!FreeModule methodsFor: 'operations' stamp: 'len 3/16/2018 19:38:22'!
+!FreeModule methodsFor: 'operations' stamp: 'len 3/28/2018 19:37:17'!
 + anObject
 	(self ambient includes: anObject) ifTrue: [^ AffineSubspace representative: anObject direction: self].
 	(self scalars isPID and: [self ambient = anObject ambient])
 		ifFalse: [^ DomainError signal].
 	self isTrivial ifTrue: [^ anObject].
 	anObject isTrivial ifTrue: [^ self].
-	^ self ambient span: (self matrix, anObject matrix) transposed imageMatrix! !
+	^ self ambient span: self matrix, anObject matrix! !
 
 !FreeModule methodsFor: 'operations' stamp: 'len 3/27/2018 19:16:20'!
 / anObject
@@ -29880,6 +29875,14 @@ from: aSimplicialComplex to: anotherSimplicialComplex mapping: aBlock
 	(aQuadraticForm isKindOf: QuadraticForm) ifFalse: [^ DomainError signal].
 	^ self notYetImplemented! !
 
+!QuadraticForm methodsFor: 'operations' stamp: 'len 3/28/2018 18:46:47'!
+adjoint
+	"Answer the adjoint (integral) quadratic form associated to the receiver."
+	| A |
+	A _ self hessian adjoint.
+	self rank odd ifTrue: [A _ A*2].
+	^ self class from: self domain hessian: A! !
+
 !QuadraticForm methodsFor: 'converting' stamp: 'len 3/28/2018 03:12:22'!
 asBilinearForm
 	"Answer the bilinear form associated with the receiver (assuming the characteristic is not 2). This is, via the polarization identity: B(v,w) = (Q(v+w) - Q(v-w)) / 4."
@@ -29930,6 +29933,12 @@ determinant
 	"Answer the determinant of the Hessian matrix of the receiver. This is the determinant of the Gram matrix of twice the receiver."
 	^ self hessian determinant! !
 
+!QuadraticForm methodsFor: 'accessing' stamp: 'len 3/28/2018 18:20:42'!
+discriminant
+	self rank odd ifTrue: [^ self determinant / 2].
+	(self rank // 2) odd ifTrue: [self determinant negated].
+	^ self determinant! !
+
 !QuadraticForm methodsFor: 'accessing' stamp: 'len 3/28/2018 03:15:19'!
 gramian
 	^ self hessian / 2 "assuming we can divide by 2"! !
@@ -29972,6 +29981,10 @@ printOn: aStream
 !QuadraticForm methodsFor: 'accessing' stamp: 'len 3/27/2018 23:58:26'!
 rank
 	^ self domain rank! !
+
+!QuadraticForm methodsFor: 'operations' stamp: 'len 3/28/2018 18:48:53'!
+reciprocal
+	^ self adjoint primitive * self content! !
 
 !QuadraticForm methodsFor: 'accessing' stamp: 'len 3/19/2018 20:00:15'!
 scalars
