@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 24 March 2018 at 9:08:39 pm'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 29 March 2018 at 4:39:04 pm'!
 'Description Please enter a description for this package'!
-!provides: 'MathematicsTests' 1 88!
+!provides: 'MathematicsTests' 1 89!
 !classDefinition: #AbelianGroupTest category: #MathematicsTests!
 TestCase subclass: #AbelianGroupTest
 	instanceVariableNames: ''
@@ -199,6 +199,16 @@ TestCase subclass: #ProjectiveGeometryTest
 	category: 'MathematicsTests'!
 !classDefinition: 'ProjectiveGeometryTest class' category: #MathematicsTests!
 ProjectiveGeometryTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #QuadraticFormTest category: #MathematicsTests!
+TestCase subclass: #QuadraticFormTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'MathematicsTests'!
+!classDefinition: 'QuadraticFormTest class' category: #MathematicsTests!
+QuadraticFormTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #RingTest category: #MathematicsTests!
@@ -2980,13 +2990,13 @@ testLLL
 	lll _ LLL basis: { b1. b2. b3 }.
 	self assert: lll reducedBasis = {(0,1,0). (1,0,1). (-1,0,2)}! !
 
-!LatticeTest methodsFor: 'as yet unclassified' stamp: 'len 12/7/2017 20:45:54'!
+!LatticeTest methodsFor: 'as yet unclassified' stamp: 'len 3/27/2018 16:23:00'!
 testLatticeAnDual
 	| A3 A3Dual |
 	A3 _ Lattice A: 3.
 	A3Dual _ Lattice Adual: 3.
-	self assert: A3 dual = A3Dual.
-	self assert: A3 = A3Dual dual! !
+	self assert: A3 reciprocal = A3Dual.
+	self assert: A3 = A3Dual reciprocal! !
 
 !LatticeTest methodsFor: 'as yet unclassified' stamp: 'len 12/7/2017 20:46:01'!
 testLatticeD4SelfDual
@@ -3362,18 +3372,6 @@ testPrimeSignature
 	self assert: 100 primeSignature = #(2 2).
 	self assert: 42 primeSignature = #(1 1 1).
 	self assert: 16 primeSignature = #(4)! !
-
-!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 3/19/2018 20:05:07'!
-testQuadraticForms
-	| V A Q f p |
-	V _ QQ ^ (2 to: 5) atRandom.
-	[A _ QQ ^ (V dimension @ V dimension) atRandomBits: 100. A isZero] whileTrue.
-	A _ A + A transposed. "make it symmetric"
-	Q _ QuadraticForm from: V matrix: A.
-	f _ Q asPolynomial.
-	p _ V atRandomBits: 100.
-	self assert: (Q value: p) = (f value: p).
-	self assert: (f degree = 2 and: [f isHomogeneous])! !
 
 !MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 12/29/2016 07:26:17'!
 testQuadraticResiduesModp
@@ -3754,7 +3752,7 @@ testIsHermiteNormalForm2
 	M _ ZZ ^ (5@4) rows: {(2,0,1,11). (0,1,5,12). (0,0,6,12). (0,0,0,33). (0,0,0,1)}.
 	self assert: M isHermiteNormalForm not! !
 
-!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 1/17/2017 11:15:15'!
+!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 3/25/2018 19:34:46'!
 testJordanNormalForm
 	| M A jordan B |
 "	<timeout: 2>"
@@ -4860,6 +4858,35 @@ testCyclotomicFieldDiscriminant
 	self assert: (CyclotomicField new: 20) discriminant = 4000000.
 	self assert: (CyclotomicField new: 18) discriminant = -19683! !
 
+!NumberFieldTest methodsFor: 'as yet unclassified' stamp: 'len 3/24/2018 21:34:06'!
+testMinimalPolynomial
+	"Example from 'Algebraic Number Theory: A Computational Approach' by William Stein (28 pp)."
+	| x K a |
+	x _ QQ polynomials x.
+	K _ QQ extension: x^2 - 2.
+	a _ K x.
+	self assert: a minimalPolynomial = (x^2 - 2).
+	self assert: (a/2 + 3) minimalPolynomial = (x^2 - (x*6) + (17/2))! !
+
+!NumberFieldTest methodsFor: 'as yet unclassified' stamp: 'len 3/24/2018 21:39:43'!
+testMinimalPolynomial2
+	"Example from 'Algebraic Number Theory: A Computational Approach' by William Stein (29 pp)."
+	| x K a alpha |
+	x _ QQ polynomials x.
+	K _ QuadraticField sqrt: 5.
+	a _ K x.
+	self assert: a squared = 5.
+	alpha _ (1 + a) / 2.
+	self assert: alpha minimalPolynomial = (x^2 - x - 1)! !
+
+!NumberFieldTest methodsFor: 'as yet unclassified' stamp: 'len 3/24/2018 21:41:40'!
+testMinimalPolynomial3
+	"Example from 'Algebraic Number Theory: A Computational Approach' by William Stein (29 pp)."
+	| x alpha |
+	x _ QQ polynomials x.
+	alpha _ 1 + 5 squareRoot / 2.
+	self assert: alpha minimalPolynomial = (x^2 - x - 1)! !
+
 !NumberFieldTest methodsFor: 'as yet unclassified' stamp: 'len 11/3/2016 04:40'!
 testQSqrt2
 	| E x |
@@ -5769,6 +5796,62 @@ testProjectiveSpaceBasic
 	self assert: (P coordinatesOf: p2) = (1,0,1) asHomogeneousTuple.
 	self assert: p3 = p0.
 	self assert: (p0 + p1) dimension = 1! !
+
+!QuadraticFormTest methodsFor: 'as yet unclassified' stamp: 'len 3/28/2018 15:13:47'!
+newQuadraticForm
+	^ self newQuadraticForm: (2 to: 5) atRandom! !
+
+!QuadraticFormTest methodsFor: 'as yet unclassified' stamp: 'len 3/28/2018 15:13:29'!
+newQuadraticForm: n
+	| V |
+	V _ QQ^n.
+	^ QuadraticForm from: V coefficients: (QQ^(n + 1 * n / 2) atRandomBits: 100)! !
+
+!QuadraticFormTest methodsFor: 'as yet unclassified' stamp: 'len 3/28/2018 15:17:28'!
+testArithmetic
+	| n Q1 Q2 p a |
+	n _ (1 to: 5) atRandom.
+	Q1 _ self newQuadraticForm: n.
+	Q2 _ self newQuadraticForm: n.
+	p _ Q1 domain atRandomBits: 100.
+	a _ QQ atRandomBits: 100.
+	self assert: (Q1 value: p) + (Q2 value: p) = (Q1 + Q2 value: p).
+	self assert: (Q1 * a value: p) = ((Q1 value: p) * a).
+	self assert: Q1 + Q2 + Q2 negated = Q1! !
+
+!QuadraticFormTest methodsFor: 'as yet unclassified' stamp: 'len 3/27/2018 23:52:45'!
+testAsPolynomial
+	| Q f p |
+	Q _ self newQuadraticForm.
+	f _ Q asPolynomial.
+	p _ Q domain atRandomBits: 100.
+	self assert: (Q value: p) = (f value: p).
+	self assert: (f degree = 2 and: [f isHomogeneous])! !
+
+!QuadraticFormTest methodsFor: 'as yet unclassified' stamp: 'len 3/27/2018 23:38:34'!
+testAssociatedBilinearForm
+	"Example from Sage."
+	| Q B |
+	Q _ QuadraticForm coefficients: ((1,4,0,1,4,1) over: ZZ).
+	B _ Q asBilinearForm.
+	self assert: (B value: {(1,2,0) over: ZZ. (0,1,1) over: ZZ}) = 8! !
+
+!QuadraticFormTest methodsFor: 'as yet unclassified' stamp: 'len 3/27/2018 23:30:25'!
+testAssociatedBilinearForm2
+	"Example from Sage."
+	| Q B |
+	Q _ QuadraticForm coefficients: (1/2, 2, 1).
+	B _ Q asBilinearForm.
+	self assert: (B value: {(1,1). (1/2,2)}) = (19/4)! !
+
+!QuadraticFormTest methodsFor: 'as yet unclassified' stamp: 'len 3/27/2018 23:47:33'!
+testEvaluation
+	"Example from Sage."
+	| Q |
+	Q _ QuadraticForm from: QQ^3 coefficients: (0 to: 5).
+	self assert: (Q value: (1,2,3)) = 89.
+	self assert: (Q value: (1,0,0)) = 0.
+	self assert: (Q value: (1,1,1)) = 15! !
 
 !RingTest methodsFor: 'as yet unclassified' stamp: 'len 12/2/2016 11:13:56'!
 newQuotientRing
