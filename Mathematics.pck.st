@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 29 March 2018 at 4:38:02 pm'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 2 April 2018 at 5:20:01 pm'!
 'Description A computational algebra system in Smalltalk'!
-!provides: 'Mathematics' 1 415!
+!provides: 'Mathematics' 1 416!
 !requires: 'RayTracer' 1 2 nil!
 !classDefinition: #RealAlgebraicNumber category: #'Mathematics-Fields'!
 Number subclass: #RealAlgebraicNumber
@@ -120,36 +120,6 @@ StandardBasis subclass: #GroebnerBasis
 	category: 'Mathematics-Polynomials'!
 !classDefinition: 'GroebnerBasis class' category: #'Mathematics-Polynomials'!
 GroebnerBasis class
-	instanceVariableNames: ''!
-
-!classDefinition: #LinearBasis2 category: #'Mathematics-Etc-Modules-Bases'!
-SequenceableCollection subclass: #LinearBasis2
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Etc-Modules-Bases'!
-!classDefinition: 'LinearBasis2 class' category: #'Mathematics-Etc-Modules-Bases'!
-LinearBasis2 class
-	instanceVariableNames: ''!
-
-!classDefinition: #RelativeLinearBasis category: #'Mathematics-Etc-Modules-Bases'!
-LinearBasis2 subclass: #RelativeLinearBasis
-	instanceVariableNames: 'parent generators matrix'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Etc-Modules-Bases'!
-!classDefinition: 'RelativeLinearBasis class' category: #'Mathematics-Etc-Modules-Bases'!
-RelativeLinearBasis class
-	instanceVariableNames: ''!
-
-!classDefinition: #StandardLinearBasis category: #'Mathematics-Etc-Modules-Bases'!
-LinearBasis2 subclass: #StandardLinearBasis
-	instanceVariableNames: 'ambient'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Etc-Modules-Bases'!
-!classDefinition: 'StandardLinearBasis class' category: #'Mathematics-Etc-Modules-Bases'!
-StandardLinearBasis class
 	instanceVariableNames: ''!
 
 !classDefinition: #KeyedSet category: #'Mathematics-Kernel-Support'!
@@ -2082,16 +2052,6 @@ Domain subclass: #UpperHalfPlane
 UpperHalfPlane class
 	instanceVariableNames: ''!
 
-!classDefinition: #MetricSpace category: #'Mathematics-Etc'!
-Domain subclass: #MetricSpace
-	instanceVariableNames: 'elements distance'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Etc'!
-!classDefinition: 'MetricSpace class' category: #'Mathematics-Etc'!
-MetricSpace class
-	instanceVariableNames: ''!
-
 !classDefinition: #CoxeterSystem category: #'Mathematics-Etc-Lie'!
 Domain subclass: #CoxeterSystem
 	instanceVariableNames: 'group generators matrix diagram'
@@ -2400,16 +2360,6 @@ AbstractPermutation subclass: #Permutation
 	category: 'Mathematics-Groups-Permutations'!
 !classDefinition: 'Permutation class' category: #'Mathematics-Groups-Permutations'!
 Permutation class
-	instanceVariableNames: ''!
-
-!classDefinition: #PermutationCycle category: #'Mathematics-Etc'!
-Permutation subclass: #PermutationCycle
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Etc'!
-!classDefinition: 'PermutationCycle class' category: #'Mathematics-Etc'!
-PermutationCycle class
 	instanceVariableNames: ''!
 
 !classDefinition: #StandardPermutation category: #'Mathematics-Groups-Permutations'!
@@ -3262,24 +3212,24 @@ GraphNode subclass: #ImplicitGraphNode
 ImplicitGraphNode class
 	instanceVariableNames: ''!
 
-!classDefinition: #ImplicitGraphNodeCollection category: #'Mathematics-Graphs-Parts'!
-ImplicitGraphNode subclass: #ImplicitGraphNodeCollection
+!classDefinition: #ImplicitCollectionGraphNode category: #'Mathematics-Graphs-Parts'!
+ImplicitGraphNode subclass: #ImplicitCollectionGraphNode
 	instanceVariableNames: 'collectionBlock'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Graphs-Parts'!
-!classDefinition: 'ImplicitGraphNodeCollection class' category: #'Mathematics-Graphs-Parts'!
-ImplicitGraphNodeCollection class
+!classDefinition: 'ImplicitCollectionGraphNode class' category: #'Mathematics-Graphs-Parts'!
+ImplicitCollectionGraphNode class
 	instanceVariableNames: ''!
 
-!classDefinition: #ImplicitGraphNodeIterator category: #'Mathematics-Graphs-Parts'!
-ImplicitGraphNode subclass: #ImplicitGraphNodeIterator
+!classDefinition: #ImplicitIteratorGraphNode category: #'Mathematics-Graphs-Parts'!
+ImplicitGraphNode subclass: #ImplicitIteratorGraphNode
 	instanceVariableNames: 'iterator'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Graphs-Parts'!
-!classDefinition: 'ImplicitGraphNodeIterator class' category: #'Mathematics-Graphs-Parts'!
-ImplicitGraphNodeIterator class
+!classDefinition: 'ImplicitIteratorGraphNode class' category: #'Mathematics-Graphs-Parts'!
+ImplicitIteratorGraphNode class
 	instanceVariableNames: ''!
 
 !classDefinition: #DAGFrontier category: #'Mathematics-Graphs-Algorithms'!
@@ -3674,10 +3624,10 @@ ProjectiveFrame class
 
 
 !RealAlgebraicNumber commentStamp: '<historical>' prior: 0!
-My instances are real algebraic numbers, i.e. real zeros of polynomials with integer (or rational) coefficients, in 'minimal polynomial' representation. See also ComplexAlgebraicNumber.!
+Real algebraic numbers, i.e. real zeros of polynomials with integer (or rational) coefficients, in 'minimal polynomial' representation. See also ComplexAlgebraicNumber.!
 
 !ContinuedFraction commentStamp: '<historical>' prior: 0!
-My instances are finite or infinite continued fractions.
+Finite or infinite continued fractions.
 
 The finite case correspondes to rational numbers, for example:
   36/17 as: ContinuedFraction
@@ -3697,10 +3647,10 @@ Example:
 !
 
 !Aleph commentStamp: '<historical>' prior: 0!
-My instances are aleph numbers, i.e. cardinalities of infinite sets. Aleph-naught is the cardinality of the natural numbers. Assuming the continuum hypothesis, aleph-one is taken to be the cardinality of the real numbers.!
+Aleph numbers, i.e. cardinalities of infinite sets. Aleph-naught is the cardinality of the natural numbers. Assuming the continuum hypothesis, aleph-one is taken to be the cardinality of the real numbers.!
 
 !Infinity commentStamp: '<historical>' prior: 0!
-My instances are the real +infinity or -infinity.
+The real +infinity or -infinity.
 
 For some examples try these:
 	Infinity positive * Infinity negative.
@@ -3723,37 +3673,28 @@ The following are examples of undeterminations (they produce an error):
 !LinearBasis commentStamp: '<historical>' prior: 0!
 My instances are finite and ordered bases of free modules. They are internally represented by a matrix whose rows are the ambient distinguished coordinates of the basis elements.!
 
-!StandardBasis commentStamp: 'len 1/25/2017 14:38:57' prior: 0!
-My instances are standard bases of polynomial ideals. A standard basis is nothing but a special set of generators with the property that the leading monomials generate the leading ideal.
+!StandardBasis commentStamp: '<historical>' prior: 0!
+Standard bases of polynomial ideals. A standard basis is nothing but a special set of generators with the property that the leading monomials generate the leading ideal.
 
 When the choosen monomial ordering is global (a well-ordering), these are Groebner bases and are computed with Buchberger's algorithm. For arbitrary monomial orderings, they are computed using Mora's normal form.
 !
 
-!GroebnerBasis commentStamp: 'len 1/25/2017 14:40:21' prior: 0!
-My instances are Groebner bases, a special case of standard bases.
+!GroebnerBasis commentStamp: '<historical>' prior: 0!
+Groebner bases are a special case of standard bases.
 
 For a fixed global monomial ordering, a subset G = {g1,...,gm} of an ideal I = <f1,...,fm> of a polynomial ring is called a Groebner basis for I if every polynomial f in I is reducible by G, i.e. there exists g in G such that its leading monomial LM(g) divides LM(f).
 
 When all generators {f1,...,fm} are linear, a Groebner basis corresponds to "row echelon form" or "triangular system"; when they are univariate, then a Groebner basis corresponds to gcd(f1,...,fm). In general, a Groebner basis for an ideal I consists of all the "smallest polynomials" in I under the given monomial ordering.
 !
 
-!LinearBasis2 commentStamp: '<historical>' prior: 0!
-The instances of my subclasses are bases for free modules or vector spaces.!
-
-!RelativeLinearBasis commentStamp: '<historical>' prior: 0!
-My instances are linear bases defined relative to another basis by change of coordinates.!
-
-!StandardLinearBasis commentStamp: '<historical>' prior: 0!
-My instances are standard linear bases as defined by a particular ambient space. They always have full rank.!
-
 !Iterator commentStamp: '<historical>' prior: 0!
 An Iterator is a read-only collection that evaluates a block to yield the elements of the collection.!
 
 !Graph commentStamp: '<historical>' prior: 0!
-Instances of my subclasses are (directed or undirected) graphs. See subclasses.!
+Abstract class for (directed or undirected) graphs. See subclasses.!
 
 !Digraph commentStamp: '<historical>' prior: 0!
-My instances are directed graphs (digraphs). The vertices (values) can be arbitrary objects, and the edges are Associations v1 -> v2. It uses a sparse representation, implemented as a collection of nodes (GraphNodes) where each node knows its neighbors.
+Directed graphs (digraphs). The vertices (values) can be arbitrary objects, and the edges are Associations v1 -> v2. It uses a sparse representation, implemented as a collection of nodes (GraphNodes) where each node knows its neighbors.
 
 Some properties of the graph are encoded in the class of its nodes (e.g. whether the graph is ordered, has a fixed arity, or the edges are labeled). The 'creation block' is initialized so that appropriate nodes are made.
 
@@ -3763,14 +3704,14 @@ Structure:
  type 			a Symbol indicating what the default node type is!
 
 !RootedDigraph commentStamp: '<historical>' prior: 0!
-My instances are directed graphs with some distinguished vertices that we call 'roots'.
+Directed graphs with some distinguished vertices that we call 'roots'.
 
 Structure:
  roots 		Set of root objects
 !
 
 !UndirectedGraph commentStamp: '<historical>' prior: 0!
-My instances are undirected graphs. The vertices (values) can be arbitrary objects, and the edges are MutualAssociations v1 <-> v2.
+Undirected graphs. The vertices (values) can be arbitrary objects, and the edges are MutualAssociations v1 <-> v2.
 
 Internally, graphs are represented as symmetric digraphs (i.e., whenever the edge v1 -> v2 is present, v2 -> v1 is also present).
 
@@ -3778,7 +3719,7 @@ Structure:
  digraph 		The associated directed graph (which is always symmetric)!
 
 !Simplex commentStamp: '<historical>' prior: 0!
-My instances are (abstract) n-simplices.
+(Abstract) n-simplices.
 
 It is assumed that the vertices are objects that implement a total ordering with #<= (such as integers, strings, monomials), so that they can be ordered to choose an unambiguos orientation.!
 
@@ -3788,7 +3729,7 @@ My instances are formal sums of monomials.
 Internally, they are represented by a list of associations monomial -> value. The list is kept sorted by the underlying monomial ordering.!
 
 !GraphMorph commentStamp: '<historical>' prior: 0!
-My instances have submorphs that are GraphNodeMorph and GraphEdgeMorph (or subclasses). My subclasses implement different layouts.
+A GraphMorph is composed of nodes and edges (GraphNodeMorph and GraphEdgeMorph or subclasses). Subclasses of GraphMorph implement different layouts.
 
 Examples:
 	| A4 a b |
@@ -3817,8 +3758,8 @@ Counts are currently held in a WordArray, and limited to about 4 billion counts 
 
 A good number of bins can be n^(1/2) or n^(1/3), where n is the total number of samples. See Wikipedia article for rationale.!
 
-!Domain commentStamp: 'len 3/4/2017 16:03:15' prior: 0!
-My instances are 'objects' of some category (such as groups, rings, fields, vector spaces, etc) connected by the corresponding Morphisms. In many practical situations, domains can be seen as sets of elements, and their morphisms as Functions.
+!Domain commentStamp: '<historical>' prior: 0!
+'Objects' of some category (such as groups, rings, fields, vector spaces, etc) connected by the corresponding Morphisms. In many practical situations, domains can be seen as sets of elements, and their morphisms as Functions.
 
 Domains with an underlying set can have finite or infinite cardinality, and whenever makes sense they implement some *Collection* protocol (such as #do:, #size, #asSet, #atRandom:, etc).
 
@@ -3841,19 +3782,19 @@ References:
 !
 
 !HomSet commentStamp: '<historical>' prior: 0!
-My instances are Hom(A,B), Hom-Set objects for domain A and codomain B, i.e. sets of all morphisms from A to B. When A = B, this is noted End(A), the set of endomorphisms.!
+Hom(A,B), Hom-Set objects for domain A and codomain B, i.e. sets of all morphisms from A to B. When A = B, this is noted End(A), the set of endomorphisms.!
 
 !PointSet commentStamp: '<historical>' prior: 0!
-My instances are sets of S-points of a scheme X, noted X(S), where X and S are schemes over some base scheme or ring B. By definition, an S-point is a morphism from S to X over B. See also RationalPoint.!
+Sets of S-points of a scheme X, noted X(S), where X and S are schemes over some base scheme or ring B. By definition, an S-point is a morphism from S to X over B. See also RationalPoint.!
 
 !ComplexBox commentStamp: '<historical>' prior: 0!
-My instances are boxes in the complex plane, defined by two real intervals (for the real and imaginary parts).!
+Boxes in the complex plane, defined by two real intervals (for the real and imaginary parts).!
 
 !ComplexDisk commentStamp: '<historical>' prior: 0!
-My instances are closed disks in the complex plane, defined by a center point and a radius.!
+Closed disks in the complex plane, defined by a center point and a radius.!
 
 !RealBox commentStamp: '<historical>' prior: 0!
-My instances are boxes in R^n built by the cartesian product of one-dimensional intervals (instances of RealInterval).
+Boxes in R^n built by the cartesian product of one-dimensional intervals (instances of RealInterval).
 
 Example:
 	RealBox new
@@ -3864,7 +3805,7 @@ Example:
 !
 
 !RealInterval commentStamp: '<historical>' prior: 0!
-My instances are real intervals in the real line. Each of my instances can have finite or infinite and open or closed bounds.
+Real intervals in the real line. Each of my instances can have finite or infinite and open or closed bounds.
 
 For some examples try this:
 	RealInterval open: 1 closed: 2.
@@ -3874,7 +3815,7 @@ For some examples try this:
 !
 
 !Magma commentStamp: '<historical>' prior: 0!
-My instances are magmas. They consist of a set and a binary operation, with no other requirements.!
+Magmas consist of a set and a binary operation, with no other requirements.!
 
 !Quasigroup commentStamp: '<historical>' prior: 0!
 Quasigroups consist of a set and a binary operation (like a magma), obeying the Latin square property: each element occurs exactly once in each row and exactly once in each column of the multiplication table.!
@@ -3883,19 +3824,19 @@ Quasigroups consist of a set and a binary operation (like a magma), obeying the 
 A Loop is a Quasigrop with an identity element.!
 
 !Semigroup commentStamp: '<historical>' prior: 0!
-My instances are semigroups. They consist of a set and an associative binary operation, most often denoted multiplicatively.!
+Semigroups consist of a set and an associative binary operation, most often denoted multiplicatively.!
 
 !Monoid commentStamp: '<historical>' prior: 0!
-My instances are monoids. They consist of a set, an associative binary operation and an identity element. So, they are semigroups with identity.!
+Monoids consist of a set, an associative binary operation and an identity element. So, they are semigroups with identity.!
 
 !FreeMonoid commentStamp: '<historical>' prior: 0!
-My instances are free monoids. A free monoid is a monoid whose elements are words (see Word) in a finite set of arbitrary objects (symbols), together with word concatenation as monoid operation.
+A free monoid is a monoid whose elements are words (see Word) in a finite set of arbitrary objects (symbols), together with word concatenation as monoid operation.
 
 See also FreeAbelianMonoid, the commutative analog.
 !
 
-!Group commentStamp: 'len 12/10/2016 13:06:44' prior: 0!
-My instances are groups. They consist of a set, with an associative binary operation, an inverse map (every element has an inverse), and an identity element.
+!Group commentStamp: '<historical>' prior: 0!
+Groups consist of a set with an associative binary operation, an inverse map (every element has an inverse), and an identity element.
 
 Small groups can be represented explicitly (and naively) as a set of elements, plus a distinguished 'identity' element, group operation and inverse map. Groups can be also defined and represented more compactly by a set of generators.
 
@@ -3904,138 +3845,138 @@ Some specific groups (such as permutation groups and matrix groups) can be repre
 References:
 	https://en.wikipedia.org/wiki/Group_(mathematics)!
 
-!DirectProductGroup commentStamp: 'len 11/6/2016 04:25' prior: 0!
-My instances are direct products of groups. Elements are tuples, and multiplication and addition are defined component wise.!
+!DirectProductGroup commentStamp: '<historical>' prior: 0!
+Direct products of groups. Elements are tuples, and multiplication and addition are defined component wise.!
 
 !FreeGroup commentStamp: '<historical>' prior: 0!
-My instances are free groups on a given set of symbols. Their elements are (noncommutative) words on the set of symbols (see Word).!
+Free groups on a given set of symbols. Their elements are (noncommutative) words on the set of symbols (see Word).!
 
 !QuotientGroup commentStamp: '<historical>' prior: 0!
-My instances are quotient groups (or factor groups) G/N (read "G mod N"), i.e. the quotient of a group G by a normal subgroup N. The elements are the cosets of N (see Coset).
+Quotient groups (or factor groups) G/N (read "G mod N"), i.e. the quotient of a group G by a normal subgroup N. The elements are the cosets of N (see Coset).
 
 References:
 	https://en.wikipedia.org/wiki/Quotient_group!
 
 !SemidirectProductGroup commentStamp: '<historical>' prior: 0!
-My instances are semidirect products of groups.!
+Semidirect products of groups.!
 
 !TransformationGroup commentStamp: '<historical>' prior: 0!
-My instances are groups of transformations on a given space. The elements are some kind of functions or morphisms (usually endomorphisms of the associated space), and the group operation is composition.
+Groups of transformations on a given space. The elements are some kind of functions or morphisms (usually endomorphisms of the associated space), and the group operation is composition.
 
 These groups act on the associated space (or G-set, or G-space) by the action g^v |-> g(v), i.e. by evaluation.!
 
 !PermutationGroup commentStamp: '<historical>' prior: 0!
-My instances are permutation groups, i.e. subgroups of the symmetric group Sym(X) of permutations on the elements of a set X (which we call 'space').
+Permutation groups, i.e. subgroups of the symmetric group Sym(X) of permutations on the elements of a set X (which we call 'space').
 
 Elements of the space X are refered to as 'points', while the word 'element' is used for elements of the group itself (permutations). The group acts naturally on the space X by the action p^x |-> p(x).!
 
 !AlternatingGroup commentStamp: '<historical>' prior: 0!
-My instances are the alternating group Alt(X) of even permutations on the elements of a set X (which we call 'space').!
+The alternating group Alt(X) of even permutations on the elements of a set X (which we call 'space').!
 
-!SymmetricGroup commentStamp: 'len 2/27/2017 08:35:25' prior: 0!
-My instances are the symmetric group Sym(X) of permutations on the elements of a set X (which we call 'space').
+!SymmetricGroup commentStamp: '<historical>' prior: 0!
+The symmetric group Sym(X) of permutations on the elements of a set X (which we call 'space').
 !
 
 !StandardSymmetricGroup commentStamp: '<historical>' prior: 0!
-My instances are the symmetric group Sym(n) of permutations on the elements of a set [1..n] (which we call 'space').
+The symmetric group Sym(n) of permutations on the elements of a set [1..n] (which we call 'space').
 !
 
-!LinearGroup commentStamp: 'len 10/22/2016 18:06' prior: 0!
-My instances are groups of linear transformations acting on an R-module V. They are subgroups of the general linear group GL(V).
+!LinearGroup commentStamp: '<historical>' prior: 0!
+Groups of linear transformations acting on an R-module V. They are subgroups of the general linear group GL(V).
 
 These groups act naturally on the domain R-module by the action g^v |-> g(v). They also act by composition on the R[V], the polynomial ring on V (see >>polynomialAction).!
 
 !GeneralLinearGroup commentStamp: '<historical>' prior: 0!
-My instances are the general linear group GL(V) of automorphisms of an R-module V. The elements are invertible linear transformations from V to itself (see LinearMap, LinearGroup).
+The general linear group GL(V) of automorphisms of an R-module V. The elements are invertible linear transformations from V to itself (see LinearMap, LinearGroup).
 
 Examples (two equivalent ways to create GL(V):
 	GeneralLinearGroup on: QQ ^ 3.
 	(QQ ^ 3) automorphisms!
 
 !OrthogonalGroup commentStamp: '<historical>' prior: 0!
-My instances are O(V), the Orthogonal Group of a vector space V. This is the group of automorphisms that preserve the inner product.
+O(V), the Orthogonal Group of a vector space V. This is the group of automorphisms that preserve the inner product.
 !
 
 !AffineGroup commentStamp: '<historical>' prior: 0!
-My instances are groups of (invertible) affine maps acting on an affine space. They are subgroups of the general affine group GA(A).!
+Groups of (invertible) affine maps acting on an affine space. They are subgroups of the general affine group GA(A).!
 
 !EuclideanGroup commentStamp: '<historical>' prior: 0!
-My instances are the Euclidean group E(n) or ISO(n), the symmetry group of n-dimensional Euclidean space. Its elements are the isometries associated with the Euclidean metric, and are called Euclidean motions (they are affine maps).
+The Euclidean group E(n) or ISO(n), the symmetry group of n-dimensional Euclidean space. Its elements are the isometries associated with the Euclidean metric, and are called Euclidean motions (they are affine maps).
 
 E(n) includes the subgroup E*(n) or SE(n) of isometries preserving orientation, also called rigid motions or special Euclidean group.!
 
 !GeneralAffineGroup commentStamp: '<historical>' prior: 0!
-My instances are the (general) affine group of an affine space, consisting of all invertible affine transformations from the space into itself.
+The (general) affine group of an affine space, consisting of all invertible affine transformations from the space into itself.
 
 If the scalar field is R, C or H, this is a Lie group.!
 
 !SpecialAffineGroup commentStamp: '<historical>' prior: 0!
-My instances are the special affine group of an affine space, consisting of all invertible affine transformations from the space into itself that preserve volumes.!
+The special affine group of an affine space, consisting of all invertible affine transformations from the space into itself that preserve volumes.!
 
 !SpecialEuclideanGroup commentStamp: '<historical>' prior: 0!
-My instances are the special Euclidean group SE(n) or E*(n), a subgroup of the Euclidean group E(n) that consists of rigid motions, i.e. isometries preserving orientation.
+The special Euclidean group SE(n) or E*(n), a subgroup of the Euclidean group E(n) that consists of rigid motions, i.e. isometries preserving orientation.
 !
 
 !MoebiusGroup commentStamp: '<historical>' prior: 0!
 My instances are groups of Moebius transformations acting on some space, like the Riemann sphere P^1(C) or the upper half plane H or the extended upper half plane H U P^1(Q).!
 
 !ArithmeticGroup commentStamp: '<historical>' prior: 0!
-My instances are finite index subgroups of the modular group.!
+Finite index subgroups of the modular group.!
 
 !CongruenceSubgroup commentStamp: '<historical>' prior: 0!
-My instances are congruence subgroups of the modular group SL(2,Z), i.e. subgroups that contain the kernel of SL(2,Z) -> SL(2,Z/nZ) for some positive integer n (which is called the level of the congruence subgroup). See also ModularGroup.!
+Congruence subgroups of the modular group SL(2,Z), i.e. subgroups that contain the kernel of SL(2,Z) -> SL(2,Z/nZ) for some positive integer n (which is called the level of the congruence subgroup). See also ModularGroup.!
 
 !Gamma0CongruenceSubgroup commentStamp: '<historical>' prior: 0!
-My instances are subgroups of SL(2,Z) associated with matrices of the form:
+Subgroups of SL(2,Z) associated with matrices of the form:
   [a b]   [* *]
   [c d] = [0 *] (mod n).!
 
 !Gamma1CongruenceSubgroup commentStamp: '<historical>' prior: 0!
-My instances are subgroups of SL(2,Z) associated with matrices of the form:
+Subgroups of SL(2,Z) associated with matrices of the form:
   [a b]   [1 *]
   [c d] = [0 1] (mod n).!
 
 !PrincipalCongruenceSubgroup commentStamp: '<historical>' prior: 0!
-My instances principal congruence subgroups of SL(2,Z), i.e. subgroups of SL(2,Z) associated with matrices of the form:
+Principal congruence subgroups of SL(2,Z), i.e. subgroups of SL(2,Z) associated with matrices of the form:
   [a b]   [1 0]
   [c d] = [0 1] (mod n).
 
 They are the kernel of the quotient projection SL(2,Z) -> SL(2,Z/nZ) for some positive integer n (which is called the level of the congruence subgroup). Since they are kernels, my instances are normal subgroups.!
 
 !ModularGroup commentStamp: '<historical>' prior: 0!
-I'm the special linear group SL(2,Z).!
+The special linear group SL(2,Z).!
 
 !AbelianGroup commentStamp: '<historical>' prior: 0!
-My instances are abelian groups. They can be viewed as Z-modules. They are isomorphic to Z^n x T, where T is the torsion subgroup (the subgroup of elements of finite order), and n is called the rank of the group.!
+Abelian groups can be viewed as Z-modules. They are isomorphic to Z^n x T, where T is the torsion subgroup (the subgroup of elements of finite order), and n is called the rank of the group.!
 
 !DirectSumGroup commentStamp: '<historical>' prior: 0!
-My instances are direct sums of abelian groups.
+Direct sums of abelian groups.
 
 Direct sums are equipped with projection homomorphisms to the i-th component (>>projection:) and coprojections or embeddings from the i-th component (>>embedding:).!
 
 !FreeAbelianGroup commentStamp: '<historical>' prior: 0!
-My instances are abelian groups with a basis. They can be viewed also as free Z-modules. They are isomorphic to Z^n (this is, they are torsion-free).!
+Abelian groups with a basis. They can be viewed also as free Z-modules. They are isomorphic to Z^n (this is, they are torsion-free).!
 
 !EllipticCurveGroup commentStamp: '<historical>' prior: 0!
-My instances are abelian groups E(K) consisting of the K-rational points of an elliptic curve E.!
+Abelian groups E(K) consisting of the K-rational points of an elliptic curve E.!
 
 !MatrixGroup commentStamp: '<historical>' prior: 0!
-My instances are groups of nxn (non-singular) matrices acting on the R-module of n-tuples R^n. They are subgroups of the general linear matrix group GL(n,R) of nxn invertible matrices with coefficients in the commutative ring R.
+Groups of nxn (non-singular) matrices acting on the R-module of n-tuples R^n. They are subgroups of the general linear matrix group GL(n,R) of nxn invertible matrices with coefficients in the commutative ring R.
 
 These groups act naturally on the module R^n of n-tuples by the action A^v |-> A*v. (Or the corresponding left action).!
 
 !GeneralLinearMatrixGroup commentStamp: '<historical>' prior: 0!
-My instances are the general linear (matrix) group GL(n,R) of nxn invertible matrices with coefficients in the ring R, acting on the R-module of n-tuples R^n.
+The general linear (matrix) group GL(n,R) of nxn invertible matrices with coefficients in the ring R, acting on the R-module of n-tuples R^n.
 
 Example:
 	GeneralLinearMatrixGroup on: QQ ^ 3
 !
 
 !SpecialLinearMatrixGroup commentStamp: '<historical>' prior: 0!
-My instances are SL(n,R), the Special Linear Group of the R-module of n-tuples. This is the group of matrices of determinant 1.!
+SL(n,R), the Special Linear Group of the R-module of n-tuples. This is the group of matrices of determinant 1.!
 
 !UnitGroup commentStamp: '<historical>' prior: 0!
-My instances are sets of ring units. They have a group structure.
+Sets of ring units. They have a group structure.
 
 Given a ring R, the group of units of R is the set of elements of R that have multiplicative inverse, and they form a group under multiplication. For a field F (or more generally a division ring), the units are all non-zero elements F \ {0}.
 
@@ -4045,14 +3986,14 @@ References:
 	https://en.wikipedia.org/wiki/Unit_(ring_theory)!
 
 !ModularIntegersUnitGroup commentStamp: '<historical>' prior: 0!
-My instances are (Z/nZ)*, i.e. the multiplicaive group of units modulo n for some integer n.
+(Z/nZ)*, i.e. the multiplicaive group of units modulo n for some integer n.
 !
 
 !DirichletGroup commentStamp: '<historical>' prior: 0!
-My instances are groups of Dirichlet characters modulo n. My elements are group homomorphisms from (Z/nZ)* to C* (see DirichletCharacter).!
+Groups of Dirichlet characters modulo n. My elements are group homomorphisms from (Z/nZ)* to C* (see DirichletCharacter).!
 
-!FreeAbelianMonoid commentStamp: 'len 2/26/2017 09:37:38' prior: 0!
-My instances are (commutative) monoids of monomials in n indeterminates. Elements are instances of Monomial.
+!FreeAbelianMonoid commentStamp: '<historical>' prior: 0!
+(Commutative) monoids of monomials in n indeterminates. Elements are instances of Monomial.
 
 The number of indeterminates is called the rank. The indeterminates are referred by index (positive integer numbers), and can be given names that are used when printing.
 
@@ -4062,7 +4003,7 @@ See also FreeMonoid, the non-commutative analog.
 !
 
 !CartesianProduct commentStamp: '<historical>' prior: 0!
-My instances are cartesian products. See Domain>>,.
+Cartesian products of sets. See Domain>>,.
 
 Example:
 	(ZZ, QQ)
@@ -4095,21 +4036,21 @@ References:
 	https://en.wikipedia.org/wiki/Equivalence_relation!
 
 !Naturals commentStamp: '<historical>' prior: 0!
-My singletion global instance NN is the set of natural numbers 1, 2, 3, ...!
+The singletion global instance NN is the set of natural numbers 1, 2, 3, ...!
 
 !QuotientSet commentStamp: '<historical>' prior: 0!
-My instances are quotients of a set by an equivalence relation. The elements are equivalence classes. See EquivalenceRelation and EquivalenceClass.!
+Quotient of a set by an equivalence relation. The elements are equivalence classes. See EquivalenceRelation and EquivalenceClass.!
 
-!Semiring commentStamp: 'len 2/22/2017 21:35:17' prior: 0!
-My instances are semirings. They are like rings, but without the requirement that each element must have an additive inverse. This is, addition yields only a commutative monoid, not necessarily a commutative group as with rings.
+!Semiring commentStamp: '<historical>' prior: 0!
+Semirings are like rings, but without the requirement that each element must have an additive inverse. This is, addition yields only a commutative monoid, not necessarily a commutative group as with rings.
 
 Examples of semirings are the non-negative rational numbers and the non-negative real numbers. Another example is the set of all ideals of a given ring under addition and multiplication of ideals.!
 
 !IdealSemiring commentStamp: '<historical>' prior: 0!
-My instances are semirings of Ideals in a given Ring.!
+Semirings of Ideals in a given Ring.!
 
 !Ring commentStamp: '<historical>' prior: 0!
-My instances are rings with unit, i.e. structures with a set R of elements, a distinguished element 1 (the multiplicative identity) and two binary operations + and * such that:
+Rings with unit, i.e. structures with a set R of elements, a distinguished element 1 (the multiplicative identity) and two binary operations + and * such that:
 - R is an abelian group under addition;
 - R is a monoid under multiplication;
 - multiplication is distributive with respect to addition.
@@ -4126,8 +4067,8 @@ Rings can also be made into fields by 'adding the missing multiplicative inverse
 References:
 	https://en.wikipedia.org/wiki/Ring_(mathematics)!
 
-!GroupRing commentStamp: 'len 1/11/2018 15:17:11' prior: 0!
-My instances are group rings. Given a ring R and a group G, the group ring R[G] can be seen as a ring or as a free R-module with basis one-to-one with G. As a ring, its addition law is that of the free module, and the multiplication extends by linearity the given group law on the basis.
+!GroupRing commentStamp: '<historical>' prior: 0!
+Given a ring R and a group G, the group ring R[G] can be seen as a ring or as a free R-module with basis one-to-one with G. As a ring, its addition law is that of the free module, and the multiplication extends by linearity the given group law on the basis.
 
 The elements of the group ring R[G] are finite formal linear combinations of elements of G with coefficients in R, or the finite-support functions from G to R (see GroupRingElement).
 
@@ -4139,10 +4080,10 @@ References:
 	https://en.wikipedia.org/wiki/Group_ring!
 
 !LocalizationRing commentStamp: '<historical>' prior: 0!
-My instances are localizations of a given commutative ring R at a given prime ideal P. The elements are fractions a / b with a in R and b in R \ P.!
+Localizations of a given commutative ring R at a given prime ideal P. The elements are fractions a / b with a in R and b in R \ P.!
 
 !FractionRing commentStamp: '<historical>' prior: 0!
-My instances are rings of fractions (quotients) with numerator and (nonzero) denominator in a ring. When the ring is an integral domain they form a field. See Ring>>fractions.
+Rings of fractions (quotients) with numerator and (nonzero) denominator in a ring. When the ring is an integral domain they form a field. See Ring>>fractions.
 
 For example, the field of fractions of the rational integers is the rational numbers:
 	ZZ fractions
@@ -4153,10 +4094,10 @@ References:
 	https://en.wikipedia.org/wiki/Field_of_fractions!
 
 !RationalField commentStamp: '<historical>' prior: 0!
-My singletion global instance QQ is the field of rational numbers.!
+The singletion global instance QQ is the field of rational numbers.!
 
 !RationalFunctionField commentStamp: '<historical>' prior: 0!
-My instances are fields of rational functions, i.e. the field of fractions of a polynomial ring with coefficients over a field.
+Fields of rational functions, i.e. the field of fractions of a polynomial ring with coefficients over a field.
 
 Example:
 	"x / y in Q(x,y)"
@@ -4166,10 +4107,10 @@ Example:
 !
 
 !ProductRing commentStamp: '<historical>' prior: 0!
-My instances are direct products of rings. Elements are tuples, and multiplication and addition are defined component wise.!
+Direct products of rings. Elements are tuples, and multiplication and addition are defined component wise.!
 
 !QuotientRing commentStamp: '<historical>' prior: 0!
-My instances are quotient rings (also called factor rings, difference rings or residue class rings). Their elements are residue classes (see ResidueClass and subclasses).
+Quotient rings (also called factor rings, difference rings or residue class rings). Their elements are residue classes (see ResidueClass and subclasses).
 
 Given a commutative ring R and an ideal I of R, the quotient ring R/I (read 'R modulo I' or 'R mod I') is the set of cosets (residue clases) of I in R by the equivalence relation a ~ b if a - b is in I. If the ideal is maximal, the resulting quotient ring is a field. If it's only prime, the quotient ring is an integral domain.
 
@@ -4179,76 +4120,76 @@ References:
 	https://en.wikipedia.org/wiki/Quotient_ring!
 
 !ModularIntegerRing commentStamp: '<historical>' prior: 0!
-My instances are residue class rings of Z, i.e. rings Z/mZ of residue classes of integers modulo m. Elements are instances of ModularInteger.!
+Residue class rings of Z, i.e. rings Z/mZ of residue classes of integers modulo m. Elements are instances of ModularInteger.!
 
 !PrimeField commentStamp: '<historical>' prior: 0!
-My instances are fields of order p prime, i.e. the residue class fields Z/pZ of integers modulo p.!
+Fields of order p prime, i.e. the residue class fields Z/pZ of integers modulo p.!
 
 !SmallPrimeField commentStamp: '<historical>' prior: 0!
-My instances are prime fields Z/pZ for small primes p, such that it is feasable to build exponentiation and logarithmic tables and accelerate arithmetic through table lookups.
+Prime fields Z/pZ for small primes p, such that it is feasable to build exponentiation and logarithmic tables and accelerate arithmetic through table lookups.
 
 The initialization of the tables is very fast. The main concern is memory usage. For a field Z/pZ, each of the two tables have p-1 elements. They are WordArrays (32 bits per entry), so a field Z/pZ uses about 8*(p-1) bytes of memory. For example, Z/65537 uses 524K of memory, and Z/1048583 (a 20-bits modulus) uses about 8M.
 !
 
 !AlgebraicExtensionField commentStamp: '<historical>' prior: 0!
-My instances are (finite) algebraic extensions E/F of a field F. They are defined by an irreducible polynomial f with coefficients in F, and are isomorphic to F[x]/<f>. An extension field E/F can also be viewed as a vector space over F.
+(Finite) algebraic extensions E/F of a field F. They are defined by an irreducible polynomial f with coefficients in F, and are isomorphic to F[x]/<f>. An extension field E/F can also be viewed as a vector space over F.
 
 See also AlgebraicElement and AlgebraicExtensionSpace.!
 
 !FunctionField commentStamp: '<historical>' prior: 0!
-My instances are algebraic function fields, i.e. finite (and thus algebraic) field extensions of a rational function field. Function fields can also be viewed as vector spaces over the coefficients field.
+Algebraic function fields, i.e. finite (and thus algebraic) field extensions of a rational function field. Function fields can also be viewed as vector spaces over the coefficients field.
 !
 
 !GaloisField commentStamp: '<historical>' prior: 0!
-My instances are finite nonprime fields, i.e. fields GF(p^r) with r >= 2. These are finite algebraic extensions of prime fields. See also PrimeField.!
+Finite nonprime fields, i.e. fields GF(p^r) with r >= 2. These are finite algebraic extensions of prime fields. See also PrimeField.!
 
 !NumberField commentStamp: '<historical>' prior: 0!
-My instances are algebraic number fields, i.e. finite (and thus algebraic) field extensions of the rational numbers Q. Number fields can also be viewed as vector spaces over Q.
+Algebraic number fields, i.e. finite (and thus algebraic) field extensions of the rational numbers Q. Number fields can also be viewed as vector spaces over Q.
 !
 
 !CyclotomicField commentStamp: '<historical>' prior: 0!
-My instances are cyclotomic fields, i.e. number fields obtained by adjoining a complex primitive root of unity to Q. The n-th cyclotomic field is obtained by adjoining a primitive n-th root of unity to the rational numbers.!
+Cyclotomic fields, i.e. number fields obtained by adjoining a complex primitive root of unity to Q. The n-th cyclotomic field is obtained by adjoining a primitive n-th root of unity to the rational numbers.!
 
 !QuadraticField commentStamp: '<historical>' prior: 0!
-My instances are quadratic number fields, i.e. number fields with defining quadratic polynomial of the form x^2 - d, with d a squarefree integer.!
+Quadratic number fields, i.e. number fields with defining quadratic polynomial of the form x^2 - d, with d a squarefree integer.!
 
 !AffineRing commentStamp: '<historical>' prior: 0!
-My instances are quotients of polynomial rings. They are called affine rings or affine algebras because they are finitely-generated (commutative) algebras and they are the coordinate rings of affine varieties (closed subschemes of affine space). They are also sometimes called the 'rings of regular functions' (on affine varieties). Their elements are RegularFunctions.
+Quotients of polynomial rings. They are called affine rings or affine algebras because they are finitely-generated (commutative) algebras and they are the coordinate rings of affine varieties (closed subschemes of affine space). They are also sometimes called the 'rings of regular functions' (on affine varieties). Their elements are RegularFunctions.
 
 When the coefficients ring is a field K and the relations ideal I is maximal, the affine algebra K[X]/I is a field. In this way, affine algebras are multivariate generalizations of number fields and algebraic function fields.!
 
 !RationalIntegerRing commentStamp: '<historical>' prior: 0!
-My singletion global instance ZZ is the ring of rational integers.!
+The singletion global instance ZZ is the ring of rational integers.!
 
 !ComplexField commentStamp: '<historical>' prior: 0!
-My singletion global instance CC is the field of complex numbers.!
+The singletion global instance CC is the field of complex numbers.!
 
 !RealField commentStamp: '<historical>' prior: 0!
-My singletion global instance RR is the field of real numbers.!
+The singletion global instance RR is the field of real numbers.!
 
 !Order commentStamp: '<historical>' prior: 0!
-My instances are orders in a number field, i.e. subrings of a number field that as Z-modules are finitely generated and of maximal rank (with rank equal to the degree of the number field). See NumberField.!
+Orders in a number field, i.e. subrings of a number field that as Z-modules are finitely generated and of maximal rank (with rank equal to the degree of the number field). See NumberField.!
 
 !NumberRing commentStamp: '<historical>' prior: 0!
-My instances are rings of integers of number fields (i.e. maximal orders). They are the integral closure of Z (the rational integers) in a number field. See NumberField.
+Rings of integers of number fields (i.e. maximal orders). They are the integral closure of Z (the rational integers) in a number field. See NumberField.
 !
 
 !CyclotomicRing commentStamp: '<historical>' prior: 0!
-My instances are rings of integers of cyclotomic number fields. See CyclotomicField.!
+Rings of integers of cyclotomic number fields. See CyclotomicField.!
 
 !QuadraticRing commentStamp: '<historical>' prior: 0!
-My instances are rings of integers of quadratic number fields. See QuadraticField.!
+Rings of integers of quadratic number fields. See QuadraticField.!
 
 !MatrixRing commentStamp: '<historical>' prior: 0!
-My instances are rings of square matrices with coefficients over a commutative ring R. They are R-algebras. See also MatrixModule.!
+Rings of square matrices with coefficients over a commutative ring R. They are R-algebras. See also MatrixModule.!
 
 !FreeAlgebra commentStamp: '<historical>' prior: 0!
-My instances are (associative) algebras of noncommutative polynomials in a finite set of indeterminates. Their elements are FreePolynomials.
+(Associative) algebras of noncommutative polynomials in a finite set of indeterminates. Their elements are FreePolynomials.
 
 This is the noncommutative analogue of a polynomial ring.!
 
 !PolynomialRing commentStamp: '<historical>' prior: 0!
-My instances are polynomial rings R[x1,...,xn] in one or many indeterminates over a commutative ring R.
+Polynomial rings R[x1,...,xn] in one or many indeterminates over a commutative ring R.
 
 The number of indeterimnates is called the rank of the polynomial ring. The indeterminates are referred by index (positive integer numbers).
 
@@ -4266,13 +4207,13 @@ My instances are fields of p-adic numbers Qp. These are fraction fields of rings
 My instances are rings of p-adic integers Zp. See PAdicInteger.!
 
 !Module commentStamp: '<historical>' prior: 0!
-My instances are finitely presented R-modules, for a commutative ring R.!
+Finitely presented R-modules, for a commutative ring R.!
 
 !FractionalIdeal commentStamp: '<historical>' prior: 0!
-My instances are finitely generated fractional ideals.!
+Finitely generated fractional ideals.!
 
 !Ideal commentStamp: '<historical>' prior: 0!
-My instances are finitely-generated ideals of a commutative ring.
+Finitely-generated ideals of a commutative ring.
 
 For an arbitrary ring R, a subset I <= R is called a two-sided ideal (or simply ideal) of R if it's a subgroup of R (as group under addition) and "absorbs multiplication by elements of R", i.e. I * R = I and R * I = I.
 
@@ -4284,16 +4225,16 @@ References:
 	https://en.wikipedia.org/wiki/Ideal_(ring_theory)!
 
 !QuotientIdeal commentStamp: '<historical>' prior: 0!
-My instances are ideals of quotient rings.!
+Ideals of quotient rings.!
 
 !RationalIntegerIdeal commentStamp: '<historical>' prior: 0!
-My instances are ideals of integers. They are cyclic, i.e. they are all multiples of a given integer (the #generator).!
+Ideals of integers. They are cyclic, i.e. they are all multiples of a given integer (the #generator).!
 
 !PolynomialIdeal commentStamp: '<historical>' prior: 0!
-My instances are ideals of polynomials.!
+Ideals of polynomials.!
 
 !MonomialIdeal commentStamp: '<historical>' prior: 0!
-My instances are polynomial ideals generated by monomials.
+Polynomial ideals generated by monomials.
 
 With monomial ideals computations are much easier than with general polynomial ideals, and in many cases problems in general polynomial ideals can be reduced to problems in simpler monomial ideals (for example, by using Groebner bases).
 
@@ -4303,9 +4244,9 @@ Monomial ideals have a rich theory with connections to convex geometry and combi
 - Unions of coordinate subspaces of K^n.!
 
 !QuotientModule commentStamp: '<historical>' prior: 0!
-My instances are quotient modules M/S (read "M mod S") of a given module M modulo a submodule S, where both M and S are finite-rank free modules over a PID. These are the finitely-generated modules over a PID, presented as quotients of free modules.
+Quotient modules M/S (read "M mod S") of a given module M 'modulo' a submodule S, where both M and S are finite-rank free modules over a PID. These are the finitely-generated modules over a PID, presented as quotients of free modules.
 
-The elements of a quotient modules are cosets S + x with x in M.
+The elements of a quotient module M/S are cosets S + x with x in M.
 
 See QuotientSpace for quotients of vector spaces.
 
@@ -4314,36 +4255,36 @@ References:
 	https://en.wikipedia.org/wiki/Quotient_space_(linear_algebra)!
 
 !FreeModule commentStamp: '<historical>' prior: 0!
-My instances are finite-rank free R-modules, i.e. R-modules with a basis. They are isomorphic to R^n.
+Finite-rank free R-modules, i.e. R-modules with a basis. They are isomorphic to R^n.
 
 Most functionality is implemented for the cases where R is a field (vector spaces, relying on gaussian elimination), or for R a PID such as Z or Q[x] (relying on the Hermite normal form or computing in the field of fractions).
 
 See also LinearMap.!
 
 !RingAsModule commentStamp: '<historical>' prior: 0!
-My instances are rank 1 free modules (or vector spaces) of scalars, i.e. a ring R viewed as a R-module (or a field K viewed as a K-vector space).
+Rank 1 free modules (or vector spaces) of scalars, i.e. a ring R viewed as a R-module (or a field K viewed as a K-vector space).
 
 Ideals of R are seen as submodules of this ambient module.!
 
 !AlgebraicExtensionSpace commentStamp: '<historical>' prior: 0!
-My instances are algebraic extension fields seen as vector spaces. See AlgebraicExtensionField.!
+Algebraic extension fields seen as vector spaces. See AlgebraicExtensionField.!
 
 !OrderAsModule commentStamp: '<historical>' prior: 0!
-My instances are orders of number fields seen as free Z-modules. They are embedded in the ambient vector space corresponding to the ambient number field of the order. See Order.!
+Orders of number fields seen as free Z-modules. They are embedded in the ambient vector space corresponding to the ambient number field of the order. See Order.!
 
 !FreeDirectSumModule commentStamp: '<historical>' prior: 0!
-My instances are free R-modules defined as the direct sum of other free R-modules.!
+Free R-modules defined as the direct sum of other free R-modules.!
 
 !FreeHomModule commentStamp: '<historical>' prior: 0!
-My instances are free R-modules (or K-vector spaces) of linear maps from a free R-module (or K-vector space) A to another one B, i.e. Hom(A,B). When A = B, it is noted End(A).
+Free R-modules (or K-vector spaces) of linear maps from a free R-module (or K-vector space) A to another one B, i.e. Hom(A,B). When A = B, it is noted End(A).
 
 See FreeModule and LinearMap.!
 
 !FreeDualModule commentStamp: '<historical>' prior: 0!
-My instances are free modules (or vector spaces) of linear forms. This is the (algebraic) dual Hom(M,R), spanned by the coordinate functions of the free R-module M.!
+Free modules (or vector spaces) of linear forms. This is the (algebraic) dual Hom(M,R), spanned by the coordinate functions of the free R-module M.!
 
 !QuotientSpace commentStamp: '<historical>' prior: 0!
-My instances are quotient spaces V/S (read "V mod S") of a given vector space V modulo a submodule S.
+Quotient spaces V/S (read "V mod S") of a given vector space V modulo a submodule S.
 
 The elements of a quotient space are cosets (affine subspaces, flats) S + x with x in V, and they form a vector space. See AffineSubspace.
 
@@ -4353,28 +4294,28 @@ References:
 	https://en.wikipedia.org/wiki/Quotient_space_(linear_algebra)!
 
 !FormalSumsModule commentStamp: '<historical>' prior: 0!
-My instances are free R-modules of formal sums of elements in a finite set with coefficients over R. See FormalSum.!
+Free R-modules of formal sums of elements in a finite set with coefficients over R. See FormalSum.!
 
 !SimplicialChainsModule commentStamp: '<historical>' prior: 0!
 My instances are free modules of simplicial k-chains in a simplicial complex. See SimplicialChain.!
 
 !TupleModule commentStamp: '<historical>' prior: 0!
-My instances are ambient modules (or vector spaces) of n-tuples over a given ring (or field).!
+Ambient modules (or vector spaces) of n-tuples over a given ring (or field).!
 
 !MatrixModule commentStamp: '<historical>' prior: 0!
-My instances are ambient modules (or vector spaces) of matrices of n rows by m columns over a given commutative ring (or field). See also MatrixRing.!
+Ambient modules (or vector spaces) of matrices of n rows by m columns over a given commutative ring (or field). See also MatrixRing.!
 
 !Algebra commentStamp: '<historical>' prior: 0!
-My instances are R-algebras seen as R-modules together with a binary operation of multiplication.!
+R-algebras seen as R-modules together with a binary operation of multiplication.!
 
 !PolynomialFiltrationModule commentStamp: '<historical>' prior: 0!
-My instances are submodules of univariate polynomials of degree <= n for a fixed n, in the ring of univariate polynomials R[x]. They define a filtration (see PolynomialRing>>filtrationAt:).!
+Submodules of univariate polynomials of degree <= n for a fixed n, in the ring of univariate polynomials R[x]. They define a filtration (see PolynomialRing>>filtrationAt:).!
 
 !PolynomialGradingModule commentStamp: '<historical>' prior: 0!
-My instances are submodules of homogeneous polynomials of a given fixed degree, in a multivariate polynomial ring R[x1,...,xn]. They define a grading (see PolynomialRing>>gradingAt:).!
+Submodules of homogeneous polynomials of a given fixed degree, in a multivariate polynomial ring R[x1,...,xn]. They define a grading (see PolynomialRing>>gradingAt:).!
 
 !Lattice commentStamp: '<historical>' prior: 0!
-My instances are integer lattices. An integer lattice is the set of integer linear combinations of a basis of a real vector space. This is a subgroup of the vector space (as abelian group) isomorphic to Z^n, and a free Z-module.!
+Integer lattices. An integer lattice is the set of integer linear combinations of a basis of a real vector space. This is a subgroup of the vector space (as abelian group) isomorphic to Z^n, and a free Z-module.!
 
 !DivisorsGroup commentStamp: '<historical>' prior: 0!
 TODO:
@@ -4392,8 +4333,11 @@ TODO:
 - elements: k-vectors (ExteriorProduct or ExteriorVector?)
 - ExteriorAlgebra as a graded algebra, direct sum of /\^i(V) for i in [1..n]!
 
+!MultivariateModule commentStamp: '<historical>' prior: 0!
+R-modules where R is a multivariate ring such as a polynomial ring or an affine ring.!
+
 !AffineSubspace commentStamp: '<historical>' prior: 0!
-My instances are affine subspaces contained in a given vector space or module, i.e. flats, or linear varieties, linear manifolds, or translated subspaces/submodules (cosets).
+Affine subspaces contained in a given vector space or module, i.e. flats, or linear varieties, linear manifolds, or translated subspaces/submodules (cosets).
 
 They are subobjects of an ambient affine linear space A(V). See AffineLinearSpace.
 
@@ -4416,10 +4360,10 @@ Note that this definition of affine space differs from the scheme-theoretic defi
 The Grassmannian Gr(r,V) is the set of r-dimensional subspaces of the vector space V.!
 
 !CellComplex commentStamp: '<historical>' prior: 0!
-My instances are abstract cell complexes. See subclasses.!
+Abstract cell complexes. See subclasses.!
 
 !SimplicialComplex commentStamp: '<historical>' prior: 0!
-My instances are abstract simplicial complexes. These are combinatorial objects consisting of a collection of simplices (the 'faces' of the simplicial complex) with the following properties:
+Abstract simplicial complexes. These are combinatorial objects consisting of a collection of simplices (the 'faces' of the simplicial complex) with the following properties:
 - every subface of a face is also in the complex;
 - the intersection of two faces is either empty or a common face of both simplices, and it is also in the complex.
 
@@ -4428,7 +4372,7 @@ An abstract simplicial complex can also be seen as a subset of the power set of 
 Simplicial complexes form a category with simplicial maps as morphisms. See SimplicialMap.!
 
 !ChainComplex commentStamp: '<historical>' prior: 0!
-My instances are (bounded) chain complexes.
+(Bounded) chain complexes.
 
 A chain complex is a sequence of abelian groups or modules C(k) (called k-chains) conected by homomorphisms d(k):C(k)->C(k-1) (called boundary operators or differentials) such that the composition between any two consecutive differentials is the trivial map: d(k) o d{k+1} = 0.
 
@@ -4437,8 +4381,6 @@ A bounded chain complex is one where only a finite number of C(k) are not {0}.
 Chain complexes form a cateogory with chain maps as morphisms. See ChainMap.!
 
 !LinearCode commentStamp: '<historical>' prior: 0!
-My instances are linear codes.
-
 In coding theory, a linear code is an error-correcting code for which any linear combination of codewords is also a codeword. Thus, linear codes can be seen as a vector space (or more precisely as a subspace of a vector space).
 
 References:
@@ -4446,41 +4388,39 @@ References:
 !
 
 !PolynomialCode commentStamp: '<historical>' prior: 0!
-My instances are polynomial codes.
-
 In coding theory, a polynomial code is a type of linear code whose set of valid codewords consists of those polynomials (usually of some fixed length) that are divisible by some fixed polynomial (of shorter length, called the generator polynomial).
 
 References:
 	https://en.wikipedia.org/wiki/Polynomial_code
 !
 
-!Scheme commentStamp: 'len 2/14/2017 08:29:30' prior: 0!
-My instances are schemes. Subclasses implement particular kinds of schemes.
+!Scheme commentStamp: '<historical>' prior: 0!
+Abstract superclass for schemes. Subclasses implement particular types of schemes.
 
 An important class of schemes are those defined by polynomial equations in some ambient space. See subclasses AffineVariety and ProjectiveVariety, which are closed subschemes of affine and projective space respectively. Their morphisms are rational maps (see RationalMap). See also RationalPoint and subclasses.!
 
 !AffineScheme commentStamp: '<historical>' prior: 0!
-My instances are affine schemes, i.e. prime spectra Spec(R) of an arbitrary commutative rings R, equipped with a sheaf of local rings (which makes it a locally ringed space). As a set, their elements are the prime ideals of the associated coordinate ring R.
+Affine schemes are the prime spectra Spec(R) of an arbitrary commutative rings R, equipped with a sheaf of local rings (which makes it a locally ringed space). As a set, their elements are the prime ideals of the associated coordinate ring R.
 
 In scheme theory, affine schemes are the fundamental building blocks of general schemes. Any scheme can be constructed by gluing together finitely many affine schemes.!
 
-!AffineVariety commentStamp: 'len 2/22/2017 08:15:33' prior: 0!
-My instances are closed subschemes of an affine space (see AffineSpace). Their coordinate rings are quotients of multivariate polynomial rings by an ideal (also called affine rings or affine algebras, see AffineRing). Their rational points are AffinePoints.
+!AffineVariety commentStamp: '<historical>' prior: 0!
+Closed subschemes of an affine space (see AffineSpace). Their coordinate rings are quotients of multivariate polynomial rings by an ideal (also called affine rings or affine algebras, see AffineRing). Their rational points are AffinePoints.
 
 These are schemes, not classical algebraic varieties. Here the name 'variety' only means that they are defined by polynomial equations. The integral (reduced and irreducible) closed subschemes of affine space over an algebraically closed field correspond to the classical affine algebraic varieties.
 !
 
 !AffineCurve commentStamp: '<historical>' prior: 0!
-My instances are affine algebraic curves, i.e. schemes of dimension 1 over an affine space.!
+Affine algebraic curves, i.e. schemes of dimension 1 over an affine space.!
 
 !AffineHypersurface commentStamp: '<historical>' prior: 0!
-My instances are affine algebraic hypersurfaces, i.e. schemes of codimension 1 over an affine space. They can be defined by a single polynomial (the defining ideal is principal).!
+Affine algebraic hypersurfaces, i.e. schemes of codimension 1 over an affine space. They can be defined by a single polynomial (the defining ideal is principal).!
 
 !AffinePlaneCurve commentStamp: '<historical>' prior: 0!
-My instances are affine plane algebraic curves, i.e. schemes of dimension 1 over an affine plane.!
+Affine plane algebraic curves, i.e. schemes of dimension 1 over an affine plane.!
 
 !AffineSpace commentStamp: '<historical>' prior: 0!
-My instances are affine spaces R^n as schemes, i.e. Spec R[x1,...,xn] for some commutative ring R.
+Affine spaces R^n as schemes, i.e. Spec R[x1,...,xn] for some commutative ring R.
 
 Example (the rational affine plane):
 	AffineSpace new: 2 over: QQ.
@@ -4496,46 +4436,46 @@ Note that affine spaces defined as schemes differ from the classical affine spac
 Note also that the dimension of an affine space as scheme is the Krull dimension of its coordinate ring, and this can be bigger than the number of indeterminates (see >>dimension and >>rank). For affine spaces over fields, the dimension and the rank are equal (because fields have Krull dimension 0).!
 
 !ProductAffineSpace commentStamp: '<historical>' prior: 0!
-My instances are cartesian products of affine spaces.
+Cartesian products of affine spaces.
 
 Example:
 	ProductAffineSpace new: #((x y z) (a b)) over: QQ.
 !
 
 !ProjectiveVariety commentStamp: '<historical>' prior: 0!
-My instances are projective closed subschemes of a projective space (see ProjectiveSpace). Their homogeneous coordinate rings are quotient rings of multivariate polynomial rings by a homogeneous ideal, i.e. graded affine algebras. Their rational points are ProjectivePoints.
+Projective closed subschemes of a projective space (see ProjectiveSpace). Their homogeneous coordinate rings are quotient rings of multivariate polynomial rings by a homogeneous ideal, i.e. graded affine algebras. Their rational points are ProjectivePoints.
 
 These are schemes, and not classical algebraic varieties (they don't need to be reduced, irreducible nor over an algebraically closed field). Here the name 'variety' only means that they are defined by polynomial equations.!
 
 !ProjectiveCurve commentStamp: '<historical>' prior: 0!
-My instances are projective algebraic curves, i.e. projective schemes of dimension 1 over a projective space.!
+Projective algebraic curves, i.e. projective schemes of dimension 1 over a projective space.!
 
 !ProjectiveHypersurface commentStamp: '<historical>' prior: 0!
-My instances are projective algebraic hypersurfaces, i.e. schemes of codimension 1 over a projective space. They can be defined by a single polynomial (the defining ideal is principal).!
+Projective algebraic hypersurfaces, i.e. schemes of codimension 1 over a projective space. They can be defined by a single homogeneous polynomial (the defining ideal is principal).!
 
 !ProjectivePlaneCurve commentStamp: '<historical>' prior: 0!
-My instances are projective plane algebraic curves, i.e. schemes of dimension 1 over a projective plane.!
+Projective plane algebraic curves, i.e. schemes of dimension 1 over a projective plane.!
 
 !Conic commentStamp: '<historical>' prior: 0!
-My instances are conics, i.e. projective plane curves of genus 0 and degree 2. They are defined by quadratic polynomials.
+Projective plane curves of genus 0 and degree 2. They are defined by quadratic polynomials.
 
 Conics, together with rational curves (see RationalCurve), are the only curves of genus 0.
 
 As any genus 0 curve, a conic either has no rational points, or it has infinitely many.!
 
 !RationalCurve commentStamp: '<historical>' prior: 0!
-My instances are rational curves, i.e. projective plane curves of genus 0 and degree 1. They are defined by linear polynomials.
+Projective plane curves of genus 0 and degree 1. They are defined by linear polynomials.
 
 Rational curves, together with Conics, are the only curves of genus 0.!
 
 !EllipticCurve commentStamp: '<historical>' prior: 0!
-My instances are elliptic curves, i.e. projective plane curves of genus 1. They can be defined by a Weierstrass equation (see WeierstrassEquation).
+Elliptic curves are the projective plane curves of genus 1. They can be defined by a Weierstrass equation (see WeierstrassEquation).
 
 Elliptic curves are abelian varieties, i.e. the sets E(K) of K-rational points are abelian groups. See EllipticCurvePoint and EllipticCurveGroup.
 !
 
 !ProjectiveSpace commentStamp: '<historical>' prior: 0!
-My instances are projective spaces P^nR as schemes, i.e. Proj R[x1,...,xn] for some commutative ring R.
+Projective spaces P^nR as schemes, i.e. Proj R[x1,...,xn] for some commutative ring R.
 
 Example (the rational projective plane):
 	ProjectiveSpace new: 2 over: QQ.
@@ -4547,17 +4487,17 @@ And equivalently:
 	QQ polynomialsIn: #(x y z) :: proj.!
 
 !ProjectiveLine commentStamp: '<historical>' prior: 0!
-My instances are projective lines, i.e. P^1(R) for some commutative ring R. They are essentially the underlying ring R extended with an additional point at infinity. For example, the complex projective line is the Riemann sphere: the extended complex plane that includes the point at infinity. See also ProjectiveLinePoint.!
+Projective lines are P^1(R) for some commutative ring R. They are essentially the underlying ring R extended with an additional point at infinity. For example, the complex projective line is the Riemann sphere: the extended complex plane that includes the point at infinity. See also ProjectiveLinePoint.!
 
 !ProductProjectiveSpace commentStamp: '<historical>' prior: 0!
-My instances are cartesian products of projective spaces.
+Cartesian products of projective spaces.
 
 Example:
 	ProductProjectiveSpace new: #((x y z) (a b)) over: QQ.
 !
 
 !UpperHalfPlane commentStamp: '<historical>' prior: 0!
-I'm the upper half complex plane H, i.e. the set of complex numbers with imaginary part > 0.
+This is the upper half complex plane H, i.e. the set of complex numbers with imaginary part > 0.
 
 This serves as a model of the hyperbolic plane, defining lines as:
 1. the intersection of the half-plane H and Euclidean lines orthogonal to the real axis, or
@@ -4580,8 +4520,8 @@ References:
 	https://en.wikipedia.org/wiki/Projective_space
 !
 
-!Morphism commentStamp: 'len 11/2/2016 08:29' prior: 0!
-I'm an abstract superclass for Functions and other morphisms. See subclasses, and Domain and HomSet.
+!Morphism commentStamp: '<historical>' prior: 0!
+Abstract superclass for Functions and other morphisms. See subclasses, and Domain and HomSet.
 
 Examples (three equivalent ways to construct a vector space homomorphism):
 	QQ^3 to: QQ^3 evaluating: [:v| (v x - v y, v x, v z)].
@@ -4592,8 +4532,8 @@ References:
 	https://en.wikipedia.org/wiki/Morphism
 !
 
-!Function commentStamp: 'len 3/4/2017 16:06:27' prior: 0!
-My instances are maps from a set (domain) to another set (codomain). Evaluated at elements of the domain (>>#value:) they produce elements of the codomain. See Domain and HomSet.
+!Function commentStamp: '<historical>' prior: 0!
+Maps from a set (domain) to another set (codomain). Evaluated at elements of the domain (>>#value:) they produce elements of the codomain. See Domain and HomSet.
 
 Example:
 	Function from: ZZ to: ZZ evaluating: [:x| x squared + 1].
@@ -4620,7 +4560,7 @@ References:
 !
 
 !GroupAction commentStamp: '<historical>' prior: 0!
-My instances are (left) group actions.
+(Left) group actions.
 
 Given a group G and a set X, a (left) group action phi:GxX -> X is a function that satisfies:
 - identity: phi(id,x) = x;
@@ -4632,10 +4572,10 @@ References:
 	https://en.wikipedia.org/wiki/Group_action!
 
 !GroupMap commentStamp: '<historical>' prior: 0!
-My instances are group homomorphisms.!
+Group homomorphisms. See Group.!
 
 !Conjugation commentStamp: '<historical>' prior: 0!
-My instances are group homomorphisms defined as conjugation by a given element.!
+Group homomorphisms defined as conjugation by a given element.!
 
 !GroupRepresentation commentStamp: '<historical>' prior: 0!
 Given a group and an object X, a group representation is a group homomorphism from G to the automorphisms group Aut(X). X is called the representation space. Informally speaking, a representation allows us to view a group as symmetries of an object.
@@ -4646,25 +4586,25 @@ Any group action can be seen as a permutation representation. In turn, any repre
 References:
 	https://en.wikipedia.org/wiki/Group_representation!
 
-!DirichletCharacter commentStamp: 'len 12/20/2016 15:56:42' prior: 0!
-My instances are characters on the units of Z/nZ, i.e. group homomorphisms (Z/nZ)* -> C* from the unit group of the ring Z/nZ to the multiplicative group of nonzero complex numbers.!
+!DirichletCharacter commentStamp: '<historical>' prior: 0!
+Characters on the units of Z/nZ, i.e. group homomorphisms (Z/nZ)* -> C* from the unit group of the ring Z/nZ to the multiplicative group of nonzero complex numbers.!
 
 !RingMap commentStamp: '<historical>' prior: 0!
-My instances are homomorphisms of commutative rings.!
+Homomorphisms of commutative rings. See Ring.!
 
 !PolynomialRingMap commentStamp: '<historical>' prior: 0!
-My instances are homomorphisms of polynomial rings.!
+Homomorphisms of polynomial rings.!
 
 !ModuleMap commentStamp: '<historical>' prior: 0!
-My instances are homomorphisms of modules. See Module.!
+Homomorphisms of modules. See Module.!
 
 !LinearMap commentStamp: '<historical>' prior: 0!
-My instances are linear transformations between finite-rank free modules (or finite-dimensional vector spaces). They are homomorphisms of free modules, and are internally represented by a matrix and a choice of bases for the domain and codomain.
+Linear transformations between finite-rank free modules (or finite-dimensional vector spaces). They are homomorphisms of free modules, and are internally represented by a matrix and a choice of bases for the domain and codomain.
 
 See FreeModule and FreeHomModule.!
 
 !AffineMap commentStamp: '<historical>' prior: 0!
-My instances are affine transformations (affine maps or affinities) defined over affine linear spaces (vector spaces considered as affine spaces by 'forgetting the origin').
+Affine transformations (affine maps or affinities) defined over affine linear spaces (vector spaces considered as affine spaces by 'forgetting the origin').
 
 Affine maps are defined by a linear map and a translation (a vector of the codomain).
 
@@ -4672,13 +4612,13 @@ References:
 	https://en.wikipedia.org/wiki/Affine_transformation!
 
 !BilinearForm commentStamp: '<historical>' prior: 0!
-My instances are bilinear forms, i.e. functions from VxV to F where V is a vector space over the field F that satisfy:
+Bilinear forms, i.e. functions from VxV to F where V is a vector space over the field F that satisfy:
 	B(v+cv', w) = B(v, w) + cB(v', w)
 	B(v, w+cw') = B(v, w) + cB(v, w')
 !
 
 !Sequence commentStamp: '<historical>' prior: 0!
-My instances are functions with domain the natural numbers {1,2,...}. They can be evaluated at an index (#value: and #at:), and can also be iterated over like Smalltalk collections (#do:, #collect:, #select, etc).
+Sequences are functions with domain the natural numbers {1,2,...}. They can be evaluated at an index (#value: and #at:), and can also be iterated over like Smalltalk collections (#do:, #collect:, #select, etc).
 
 Example (the Fibonacci sequence):
 	Sequence initialValues: #(0 1) recurrence: [:f :n| (f at: n-1) + (f at: n-2)].
@@ -4693,7 +4633,7 @@ and Dirichlet series (see DirichletSeries):
 !
 
 !CFiniteSequence commentStamp: '<historical>' prior: 0!
-My instances are constant-recursive (or C-recursive or C-finite) sequences, i.e. sequences satisfying homogeneous linear recurrences with constant coefficients:
+Constant-recursive (or C-recursive or C-finite) sequences, i.e. sequences satisfying homogeneous linear recurrences with constant coefficients:
 	a(n) = c_1 a(n-1) + ... + c_d a(n-d)
 
 These sequences are closed under:
@@ -4727,13 +4667,13 @@ A chain map between two chain complexes defined by differentials d(k):C(k)->C(k-
 Chain maps are morphisms in the category of chain complexes. See ChainComplex.!
 
 !SimplicialMap commentStamp: '<historical>' prior: 0!
-My instances are morphisms of simplicial complexes. See SimplicialComplex.!
+Morphisms of simplicial complexes. See SimplicialComplex.!
 
-!QuadraticForm commentStamp: 'len 3/28/2018 21:01:35' prior: 0!
-My instances are quadratic forms as homogeneous quadratic functions M->R from a finite rank free R-module to R. Given a basis of M, they can be represented as homogeneous quadratic polynomials or as symmetric matrices that define symmetric bilinear forms MxM->R.!
+!QuadraticForm commentStamp: '<historical>' prior: 0!
+Quadratic forms as homogeneous quadratic functions M->R from a finite rank free R-module to R. Given a basis of M, they can be represented as homogeneous quadratic polynomials or as symmetric matrices that define symmetric bilinear forms MxM->R.!
 
 !RationalMap commentStamp: '<historical>' prior: 0!
-My instances are rational maps between closed subschemes of affine or projective space. They are defined by a tuple of rational functions.
+Rational maps between closed subschemes of affine or projective space. They are defined by a tuple of rational functions.
 
 Rational maps are partial functions defined in a dense open subset of the domain. The scheme where the a rational map is undefined is called its base scheme (see >>base).
 
@@ -4742,10 +4682,10 @@ A regular rational map is a morphism (by definition). A regular map is dominant 
 The category of affine varieties or projective varieties with dominant rational maps and the category of function fields are contravariantly equivalent.!
 
 !EllipticCurveIsogeny commentStamp: '<historical>' prior: 0!
-My instances are scheme morphisms of elliptic curves E -> E' that send the origin of E to the origin of E'. They are homomorphisms of group schemes.!
+Scheme morphisms of elliptic curves E -> E' that send the origin of E to the origin of E'. They are homomorphisms of group schemes.!
 
 !LinearFractionalMap commentStamp: '<historical>' prior: 0!
-My instances are transformations of the form
+Transformations of the form
 	z |-> az + b / (cz + d)
 where ad - cb ~= 0.!
 
@@ -4754,8 +4694,6 @@ My instances are projective transformations on projective spaces. These transfor
 !
 
 !ModularForm commentStamp: '<historical>' prior: 0!
-My instances are modular forms.
-
 A modular form of weight k is a holomorphic function f:H -> C from the upper half plane to the complex plane, satisfying for a,b,c,d coefficients of a matrix in SL(2,R)
 	f((az + b) / (cz + d)) = (cz + d)^k f(z)
 where k is a fixed integer or half-integer. Modular forms of weight 0 are called modular functions, and are invariant under the action of SL(2,R). The factor (cz + d)^k, which is 1 in the case of modular functions, is called the automorphic factor.
@@ -4767,42 +4705,38 @@ A modular form f(z) can be seen as power series on a new variable q = e^(2 pi i 
 Given a group G, the set of modular forms of a given weight k form a finite-dimensional vector space M_k(G). See ModularFormSpace. The set of all modular forms of all weights is noted M_*(G) and it's a ring. All modular functions form a field.!
 
 !Permutation commentStamp: '<historical>' prior: 0!
-My instances are finite-support bijective functions. Permutations under composition form groups (see SymmetricGroup and PermutationGroup).!
-
-!PermutationCycle commentStamp: '<historical>' prior: 0!
-My instances are cycles. See Permutation>>cyclesDo:.
-!
+Finite-support bijective functions. Permutations under composition form groups (see SymmetricGroup and PermutationGroup).!
 
 !StandardPermutation commentStamp: '<historical>' prior: 0!
-My instances are bijective functions on a set [1..n]. Permutations under composition form groups (see StandardSymmetricGroup and PermutationGroup).!
+Bijective functions on a set [1..n]. Permutations under composition form groups (see StandardSymmetricGroup and PermutationGroup).!
 
 !RationalPoint commentStamp: '<historical>' prior: 0!
-Instances of my subclasses are K-rational points on a scheme X, seen as morphisms Spec(K) -> X.
+Abstract superclass for K-rational points on a scheme X, seen as morphisms Spec(K) -> X.
 
 See also Scheme and PointSet.!
 
 !AffinePoint commentStamp: '<historical>' prior: 0!
-My instances are K-rational points on an affine variety X, seen as morphisms Spec(K) -> X.
+K-rational points on an affine variety X, seen as morphisms Spec(K) -> X.
 
 See also AffineVariety.!
 
 !ProjectivePoint commentStamp: '<historical>' prior: 0!
-My instances are K-rational points on a projective variety X, seen as morphisms Spec(K) -> X.
+K-rational points on a projective variety X, seen as morphisms Spec(K) -> X.
 
 See also ProjectiveVariety.!
 
 !ProjectiveLinePoint commentStamp: '<historical>' prior: 0!
-My instances are points on the projective line P^1(R) for some ring R. See also ProjectiveLine.!
+Points on the projective line P^1(R) for some ring R. See also ProjectiveLine.!
 
 !EllipticCurvePoint commentStamp: '<historical>' prior: 0!
-My instances are K-rational points on an elliptic curve E, seen as morphisms Spec(K) -> E. These objects implement the group law (with additive notation). The identity element (zero, or the point at infinity) is [0:1:0].
+K-rational points on an elliptic curve E, seen as morphisms Spec(K) -> E. These objects implement the group law (with additive notation). The identity element (zero, or the point at infinity) is [0:1:0].
 
 Following conventions, a point [a:b:1] is printed '(a,b)', and the point at infinity [0:1:0] is printed 'O'.
 
 See also EllipticCurve.!
 
 !GroupRandomGenerator commentStamp: '<historical>' prior: 0!
-I am the Product Replacement Algorithm for generating random elements in a group from a set of generators. Essentially, it performs a random walk on a Cayley graph.!
+Product Replacement Algorithm for generating random elements in a group from a set of generators. Essentially, it performs a random walk on a Cayley graph.!
 
 !Word commentStamp: '<historical>' prior: 0!
 A word is a (noncommutative) formal product of a finite ordered list of objects. They are elements of a FreeMonoid.
@@ -4810,44 +4744,42 @@ A word is a (noncommutative) formal product of a finite ordered list of objects.
 See also Monomial for the commutative analog, and FormalSum for the additive analog.!
 
 !Coset commentStamp: '<historical>' prior: 0!
-My instances are cosets of a normal subgroup N of a group G: {Ng : g in G} = {gN : g in G}. When the subgroup is not normal, this is not well defined and one of the subclasses should be used. See LeftCoset and RightCoset.!
+Cosets of a normal subgroup N of a group G: {Ng : g in G} = {gN : g in G}. When the subgroup is not normal, this is not well defined and one of the subclasses should be used. See LeftCoset and RightCoset.!
 
 !LeftCoset commentStamp: '<historical>' prior: 0!
-My instances are left cosets of a subgroup H of a group G: {gH : g in G}.!
+Left cosets of a subgroup H of a group G: {gH : g in G}.!
 
 !RightCoset commentStamp: '<historical>' prior: 0!
-My instances are right cosets of a subgroup H of a group G: {Hg : g in G}.THIS CLASS HAS NO COMMENT!!!
+Right cosets of a subgroup H of a group G: {Hg : g in G}.!
 
-!SchreierTree commentStamp: 'len 11/14/2016 10:08' prior: 0!
-My instances are Schreier trees.
-
+!SchreierTree commentStamp: '<historical>' prior: 0!
 Given a finite group G with a generating set S, and an action of G on X, a Schreier tree with root x for S is a representation of the orbit of x: it's a tree rooted at x with the elements of x^G as its vertices, and its edges describing the elements of S needed to get from x to each vertex, i.e. each edge {i,j} in the tree with i closer to the root than j is labeled by a generator s in S moving i to j.
 
 Schreier trees allow for fast computation of stabilizers by Schreier's Lemma: with the notation above, the stabilizer of x is generated by the set of Schreier generators <t(i) * s * t(s(i))^-1> where i runs over the the orbit of x, s runs over the generating set S, and t(i) is an element of G moving x to i, i.e. a coset representative of i (see >>trace: and >>traceInverse:).
 !
 
 !FormalFraction commentStamp: '<historical>' prior: 0!
-My instances are elements of the form a / b, with a and b in a commutative ring R, and satisfying the equivalence relation: (a / b) = (a' / b') iff a*b' = a'*b.
+Elements of the form a / b, with a and b in a commutative ring R, and satisfying the equivalence relation: (a / b) = (a' / b') iff a*b' = a'*b.
 
 They are elements of ring localizations or fraction fields. See LocalizationRing and FractionRing.!
 
 !RationalFunction commentStamp: '<historical>' prior: 0!
-My instances are rational functions, i.e. fractions where the numerator and denominator are polynomials. They are elements of the field of fractions of a polynomial ring over a field (see RationalFunctionField).!
+Rational functions are fractions fractions of polynomials. They are elements of the field of fractions of a polynomial ring over a field (see RationalFunctionField).!
 
 !ResidueClass commentStamp: '<historical>' prior: 0!
-My instances are elements of a quotient ring. They are residue classes of elements of a ring modulo an ideal. See QuotientRing.!
+Elements of a quotient ring. They are residue classes of elements of a ring modulo an ideal. See QuotientRing.!
 
 !ModularInteger commentStamp: '<historical>' prior: 0!
-My instances are residue classes of integers modulo an integer m, i.e. elements of the quotient ring Z/mZ (see ModularIntegers).!
+Residue classes of integers modulo an integer m, i.e. elements of the quotient ring Z/mZ (see ModularIntegers).!
 
 !AlgebraicElement commentStamp: '<historical>' prior: 0!
-My instances are elements of finite algebraic field extensions. See AlgebraicExtensionField.!
+Elements of finite algebraic field extensions. See AlgebraicExtensionField.!
 
 !RegularFunction commentStamp: '<historical>' prior: 0!
-My instances are residue classes of polynomials modulo an ideal. They are elements of a quotient polynomial ring (an affine algebra, see AffineRing). They correspond to regular functions on an affine variety.!
+Residue classes of polynomials modulo an ideal. They are elements of a quotient polynomial ring (an affine algebra, see AffineRing). They correspond to regular functions on an affine variety.!
 
 !ComplexAlgebraicNumber commentStamp: '<historical>' prior: 0!
-My instances are complex algebraic numbers, i.e. zeroes of polynomials with integer coefficients, in 'minimal polynomial' representation. See also RealAlgebraicNumber.
+Complex algebraic numbers, i.e. zeroes of polynomials with integer coefficients, in 'minimal polynomial' representation. See also RealAlgebraicNumber.
 
 Structure:
  polynomial		Polynomial -- a square-free polynomial that is zero at the receiver
@@ -4858,24 +4790,24 @@ Structure:
 !
 
 !FormalSum commentStamp: '<historical>' prior: 0!
-My instances are formal sums (or formal linear combinations) of arbitrary objects with coefficients over a given ring R. They are like arbitrarily-indexed Tuples. They form free R-modules (see FormalSumsModule), or abelian groups when the coefficients ring R is the rational integers (see FreeAbelianGroup).!
+Formal sums (or formal linear combinations) of arbitrary objects with coefficients over a given ring R. They are like arbitrarily-indexed Tuples. They form free R-modules (see FormalSumsModule), or abelian groups when the coefficients ring R is the rational integers (see FreeAbelianGroup).!
 
-!GroupRingElement commentStamp: 'len 1/11/2018 15:13:41' prior: 0!
-My instances are formal linear combinations of elements of a group G with coefficients in a ring R. Alternatively, they can be thought as the finite-support functions from G to R. They form a ring R[G] called the group ring of G over R. See GroupRing.!
+!GroupRingElement commentStamp: '<historical>' prior: 0!
+Formal linear combinations of elements of a group G with coefficients in a ring R. Alternatively, they can be thought as the finite-support functions from G to R. They form a ring R[G] called the group ring of G over R. See GroupRing.!
 
 !FreePolynomial commentStamp: '<historical>' prior: 0!
-My instances are polynomials in a finite set of non-commuting indeterminates. They are elements of a free associative algebra (FreeAlgebra).
+Polynomials in a finite set of non-commuting indeterminates. They are elements of a free associative algebra (FreeAlgebra).
 
 A free polynomial is a formal linear combination of Words, that in turn are formal (noncommutative) products of arbitrary objects (indeterminates).!
 
 !Divisor commentStamp: '<historical>' prior: 0!
-My instances are Weil divisors, i.e. formal sums (with integer coefficients) of prime divisors (integral closed subschemes of codimension 1) of an integral locally Noetherian scheme.!
+Weil divisors, i.e. formal sums (with integer coefficients) of prime divisors (integral closed subschemes of codimension 1) of an integral locally Noetherian scheme.!
 
 !SimplicialChain commentStamp: '<historical>' prior: 0!
 A simplicial k-chain is a formal linear combination of k-simplices.!
 
 !Tuple commentStamp: '<historical>' prior: 0!
-My instances are n-tuples with coefficients in some ring R, i.e. finite ordered lists of n elements of R indexed by integers 1 to n. They are the elements of the R-module R^n.
+n-tuples with coefficients in some ring R, i.e. finite ordered lists of n elements of R indexed by integers 1 to n. They are the elements of the R-module R^n.
 
 Some subclasses implement special kinds of tuples for concrete rings, such as Z/mZ and Z/2Z. These special tuples have a compact representation that saves memory and allows fast arithmetic. Many parts of the system (such as linear algebra and polynomials) ultimately rely on tuples.
 
@@ -4890,11 +4822,11 @@ However, when created in this way, even if all the coefficients are Integers, th
 	QQ tuple: #(1 2 4 8)
 !
 
-!ArrayTuple commentStamp: 'len 11/13/2016 07:23' prior: 0!
-My instances are general n-tuples internally represented as an Array. These are the tuples used by default for an arbitrary ring.!
+!ArrayTuple commentStamp: '<historical>' prior: 0!
+Gneral n-tuples internally represented as an Array. These are the tuples used by default for an arbitrary ring.!
 
 !BitTuple commentStamp: '<historical>' prior: 0!
-My instances are tuples of integer residue classes modulo 2, i.e. a binary tuple, a bit string, or a tuple of bits. The coefficients field is Z/2Z.
+Tuples of integer residue classes modulo 2, i.e. a binary tuple, a bit string, or a tuple of bits. The coefficients field is Z/2Z.
 
 Example:
 	"A handy way to create a binary tuple:"
@@ -4902,7 +4834,7 @@ Example:
 !
 
 !ModularTuple commentStamp: '<historical>' prior: 0!
-My instances are n-tuples with coefficients in an integer residue class ring (or field) Z/mZ. See ModularInteger, ModularIntegers, PrimeField.
+Tuples with coefficients in an integer residue class ring (or field) Z/mZ. See ModularInteger, ModularIntegerRing, PrimeField.
 
 Example:
 	"A handy way to create a tuple of integers modulo 3:"
@@ -4910,13 +4842,13 @@ Example:
 !
 
 !Matrix commentStamp: '<historical>' prior: 0!
-My instances are matrices with coefficients in some commutative ring.!
+Mtrices with coefficients in some commutative ring.!
 
 !ColumnMatrix commentStamp: '<historical>' prior: 0!
 My instances are matrices with coefficients over some commutative ring, represented as a list of column tuples. Column operations are fast on these matrices.!
 
 !RowMatrix commentStamp: '<historical>' prior: 0!
-My instances are matrices with coefficients over some commutative ring, represented as a list of row tuples. Row operations are fast on these matrices.!
+Matrices with coefficients over some commutative ring, represented as a list of row tuples. Row operations are fast on these matrices.!
 
 !HermiteColumnReduction commentStamp: '<historical>' prior: 0!
 This is the Hermite column reduction algorithm. Given a matrix with coefficients in the rational integers Z, it reduces the matrix to its column-style Hermite normal form.
@@ -4924,7 +4856,7 @@ This is the Hermite column reduction algorithm. Given a matrix with coefficients
 Reference: Henri Cohen, 'A Course in Computational Algebraic Number Theory', Algorithm 2.4.4.!
 
 !MatrixReduction commentStamp: '<historical>' prior: 0!
-My subclasses are matrix (row) echelonization algorithms.!
+Abstract superclass for matrix (row) echelonization algorithms.!
 
 !GaussianElimination commentStamp: '<historical>' prior: 0!
 This is the Gaussian Elimination algorithm.
@@ -4958,19 +4890,17 @@ This is the Smith reduction algorithm. Given a matrix with coefficients in a PID
 The Smith normal form is very useful for working with finitely generated modules over a PID, and in particular for deducing the structure of a quotient of a free module.!
 
 !ModuleMonomial commentStamp: '<historical>' prior: 0!
-My instances are monomials in multivariate modules, i.e. R-modules where R is a multivariate ring such as a polynomial ring or an affine ring. They are the product of a monomial in R by a basis element.!
+Mnomials in multivariate R-modules (where R is a multivariate ring such as a polynomial ring or an affine ring). They are the product of a monomial in R by a basis element.!
 
 !ModuleMonomialOrdering commentStamp: '<historical>' prior: 0!
-My instances are generalizations of monomial orderings to multivariate modules, i.e. R-modules where R is a multivariate ring such as a polynomial ring or an affine ring. They extend the ordering of the coefficients ring R to elements of the R-module.!
+Generalizations of monomial orderings to multivariate R-modules (where R is a multivariate ring such as a polynomial ring or an affine ring). They extend the ordering of the coefficients ring R to elements of the R-module.!
 
 !Monomial commentStamp: '<historical>' prior: 0!
-My instances are (commutative) power products of one or many variables. They form a monoid (see FreeAbelianMonoid). Their formal linear combinations over a ring are Polynomials (see also PolynomialRing).
+(Commutative) power products of one or many variables. They form a monoid (see FreeAbelianMonoid). Their formal linear combinations over a ring are Polynomials (see also PolynomialRing).
 
 See also Word for the non-commutative analog, and FormalSum for the additive analog.!
 
 !MonomialOrdering commentStamp: '<historical>' prior: 0!
-My instances are monomial orderings.
-
 A monomial ordering is a total order on the set of all monomials in n indeterminates, satisfying the properties:
 - respects multiplication: if u <= v, then u*w <= v*w for any other monomial w;
 - 1 <= u for any monomial u.
@@ -4978,8 +4908,8 @@ A monomial ordering is a total order on the set of all monomials in n indetermin
 Orderings are used in the computation of Groebner bases and more generally standard bases. See StandardBasis.
 !
 
-!BlockMonomialOrdering commentStamp: 'len 1/28/2017 10:18:12' prior: 0!
-My instances are block or product monomial orderings. They are used, for example, to define elimination orderings such that a subset of the indeterminates are always greater and the rest of the indeterminates.!
+!BlockMonomialOrdering commentStamp: '<historical>' prior: 0!
+Block or product monomial orderings. They are used, for example, to define elimination orderings such that a subset of the indeterminates are always greater and the rest of the indeterminates.!
 
 !GradedLexicographicOrdering commentStamp: 'len 2/12/2017 06:08:59' prior: 0!
 The graded (or total degree) lexicographic ordering first compares the total degree of the monomials, and takes the monomial with largest total degree. If two monomials have the same total degree, the lexicographic ordering is used to break the tie.
@@ -5018,7 +4948,7 @@ The local lexicographic order (llex) is the negation of the global lexicographic
 This is the order called 'llex' in Magma. What Singular calls 'ls', on the other hand, is like this but with the indeterminates reversed.!
 
 !WeightedMonomialOrdering commentStamp: '<historical>' prior: 0!
-My instances are monomial orderings defined by weight tuples.
+Monomial orderings defined by weight tuples.
 
 For monomials in n variables, there are n!! (n factorial) orderings. In certain applications such as Groebner bases it's desirable to easily construct new monomial orderings.
 
@@ -5037,22 +4967,22 @@ Theorem: For any monomial ordering in a finite number of variables, there is a c
 !
 
 !Polynomial commentStamp: '<historical>' prior: 0!
-My instances are polynomials in one or many indeterminates, with coefficients in a commutative ring. See PolynomialRing.
+Polynomials in one or many indeterminates, with coefficients in a commutative ring. See PolynomialRing.
 
 This is an abstract class. See subclasses MultivariatePolynomial and UnivariatePolynomial for concrete implementations.!
 
 !MultivariatePolynomial commentStamp: '<historical>' prior: 0!
-My instances are multivariate polynomials.
+Polynomials in one or more indeterminates, represented in sparse form.
 
-Internally, multivariate polynomials are stored as a list of associations 'monomial -> coefficient'. Zero coefficients are excluded, and the list is kept sorted according to the corresponding monomial ordering.!
+Multivariate polynomials are internally stored as a list of associations 'monomial -> coefficient'. Zero coefficients are excluded, and the list is kept sorted according to the corresponding monomial ordering.!
 
 !UnivariatePolynomial commentStamp: '<historical>' prior: 0!
-My instances are univariate polynomials.
+Univariate polynomials, represented in dense form.
 
-The coefficients of an univariate polynomial are stored as a Tuple indexed by degree (the first element of the coefficients tuple corresponds to the independent coefficient of the polynomial).!
+They are stored as a Tuple indexed by degree (the first element of the coefficients tuple corresponds to the independent coefficient of the polynomial).!
 
 !MultiPolynomialDivision commentStamp: '<historical>' prior: 0!
-I am the multivariate polynomial division algorithm for polynomials over a field.
+This is the multivariate polynomial division algorithm for polynomials over a field.
 
 Input: dividend f and divisors f1,..,fs in K[x1..xd] with a monomial ordering;
 Output: quotients q1,..,qs and remander r in K[x1..xd] such that f = q1*f1 + ... + qn*fn + r, such that:
@@ -5062,7 +4992,7 @@ Output: quotients q1,..,qs and remander r in K[x1..xd] such that f = q1*f1 + ...
 The algorithm performs O(n^d m^d) operations in the coefficients field K, where n is the total degree of f and m is the maximal total degree of f1..fs.!
 
 !PolynomialDivision commentStamp: '<historical>' prior: 0!
-I am the long division algorithm for univariate polynomials over a field.
+This is the long division algorithm for univariate polynomials over a field.
 
 Input: dividend and divisor polynomials f,g in K[x], where K is a field;
 Output: quotient and remander polynomials q,r in K[x] such that f = q*g + r, deg(r) < deg(g).
@@ -5070,7 +5000,7 @@ Output: quotient and remander polynomials q,r in K[x] such that f = q*g + r, deg
 The algorithm performs O(n^2) arithmetic operations for dense polynomials of degree n.!
 
 !NumericalComplexRootFinder commentStamp: '<historical>' prior: 0!
-My instances separate complex roots of polynomials with real or complex coefficients. This is Newton's modified algorithm [1], and the convergence is quadratic. The polynomial is assumed to be squarefree.
+This algorithm separates complex roots of polynomials with real or complex coefficients. This is Newton's modified algorithm [1], and the convergence is quadratic. The polynomial is assumed to be squarefree.
 
 Input: a square-free polynomial of degree n with real or complex coefficients, and a desired minimum absolute error (tolerance);
 Output: a collection of the n complex roots of the polynomial.
@@ -5078,7 +5008,7 @@ Output: a collection of the n complex roots of the polynomial.
 [1] "A Course in Computational Algebraic Number Theory", Cohen, Algorithm 3.6.6.!
 
 !DirichletSeries commentStamp: '<historical>' prior: 0!
-My instances are formal Dirichlet series, i.e. formal series in an indeterminate x of the form: sum a(n) * n^{-x} for n >= 1.
+Formal Dirichlet series, i.e. formal series in an indeterminate x of the form: sum a(n) * n^{-x} for n >= 1.
 
 Examples:
 	DirichletSeries coefficients: Sequence moebius.
@@ -5089,7 +5019,7 @@ Structure:
 !
 
 !PowerSeries commentStamp: '<historical>' prior: 0!
-My instances are univariate formal power series.
+Univariate formal power series.
 
 Examples:
 	PowerSeries coefficients: Sequence fibonacci.
@@ -5101,35 +5031,35 @@ Structure:
 !
 
 !GraphNode commentStamp: '<historical>' prior: 0!
-GraphNode is an abstract class of nodes that are held in a graph.
+Abstract class for nodes that are held in a graph.
 
 Each node holds on to a corresponding object that is the value of that node.
 
 Subclasses add state/behaviour to represent edges in the graph.!
 
 !ExplicitGraphNode commentStamp: '<historical>' prior: 0!
-An ExplicitGraphNode stores the edges in a collection, an instance variable. The type of the collection varies as to whether the graph is ordered, of fixed arity, etc.
+An explicit nodes stores the edges in a collection, an instance variable. The type of the collection varies as to whether the graph is ordered, of fixed arity, etc.
 
 To change the edge collection, addNeighbor: and removeNeighbor: messages are supplied.
 !
 
 !LabeledExplicitGraphNode commentStamp: '<historical>' prior: 0!
-A LabeledExplicitGraphNode associates a label with each neighbor, and a label with the node itself; i.e. nodes and edges are labeled.
+A labeled explicit node associates a label with each neighbor, and a label with the node itself; i.e. nodes and edges are labeled.
 
 When adding neighbors, the edge label must be given.!
 
 !ImplicitGraphNode commentStamp: '<historical>' prior: 0!
-An ImplicitGraphNode has the edge structure represented within the value, and therefore forwards messages to the value to access edges.
+An implicit node has the edge structure represented within its value, and therefore forwards messages to the value to access edges.
 
 To change the edge collection, you must send messages to the value.
 
 Subclasses decide as to whether the value can yield a collection of edges more efficiently than iterating over them.!
 
-!ImplicitGraphNodeCollection commentStamp: '<historical>' prior: 0!
-I access the collection of edges by evaluating my block.!
+!ImplicitCollectionGraphNode commentStamp: '<historical>' prior: 0!
+Implicit graphs nodes that access the collection of edges by evaluating a block.!
 
-!ImplicitGraphNodeIterator commentStamp: '<historical>' prior: 0!
-I can iterate over the collection of edges by evaluating the iterator.!
+!ImplicitIteratorGraphNode commentStamp: '<historical>' prior: 0!
+Implicit graph nodes that iterate over the collection of edges by evaluating the iterator.!
 
 !DAGFrontier commentStamp: '<historical>' prior: 0!
 A DAGFrontier is used to iterate a directed acyclic graph (DAG) respecting the dependencies between nodes.  A client does not create it directly, but sends the message "frontier" to the DAG in question.
@@ -5144,7 +5074,7 @@ Clients of this class must *not* modify the frontier set, only access it.
 !
 
 !Dijkstra commentStamp: '<historical>' prior: 0!
-I am Dijkstra's algorithm for computing distances and shortest paths in a graph from a fixed starting node (source). If the graph is edge-labeled, the labels are used as weights.
+This is Dijkstra's algorithm for computing distances and shortest paths in a graph from a fixed starting node (source). If the graph is edge-labeled, the labels are used as weights.
 
 Pre-Input: a graph G = (V, E), and a node (source);
 Input: a target node;
@@ -5153,7 +5083,7 @@ Output: the shortest distance from the source node to the target node, or a shor
 The initial precomputation takes time O(|V|^2). Afterwards, it's possible to compute disntances in time O(log |V|) and shortest paths of length k in O(k log |V|). The O(log |V|) comes from the dictionary lookup operation, a lookup in a hash table.!
 
 !FloydWarshall commentStamp: '<historical>' prior: 0!
-I am the Floyd-Warshall algorithm for solving the all-pairs shortest path problem (for weighted graphs). I compute distances and shortest paths in a graph. If the graph is edge-labeled, the labels are used as weights.
+This is the Floyd-Warshall algorithm for solving the all-pairs shortest path problem (for weighted graphs). I compute distances and shortest paths in a graph. If the graph is edge-labeled, the labels are used as weights.
 
 Pre-Input: a graph G = (V, E);
 Input: a pair of nodes (source and target);
@@ -5164,7 +5094,7 @@ The initial precomputation takes time O(|V|^3). Afterwards, it's possible to com
 While (after initial precomputation) Dijkstra's algorithm is able to efficiently compute distances from a fixed source node, Floyd-Warshall's computes distances from any two arbitrary nodes. However, for sparse graphs with non-negative edge weights a better choice is to use Dijkstra's algorithm with binary heaps, which gives a time complexity of O(|V| |E| log |V|).!
 
 !LLL commentStamp: '<historical>' prior: 0!
-I am the Lenstra-Lenstra-Lovasz algorithm.
+This is the Lenstra-Lenstra-Lovasz algorithm.
 
 Input: integer lattice of dimension d given by a basis {b1, ..., bd};
 Output: an almost H-reduced basis of the lattice.
@@ -5173,14 +5103,14 @@ The algorithm takes at most O(d^6 ln^3(B)), where the input vectors bi all satis
 !
 
 !WeierstrassEquation commentStamp: '<historical>' prior: 0!
-My instances are Weierstrass equations of the form
+Weierstrass equations are equations of the form
 	y^2 + a1 xy + a3 y = x^3 + a2 x^2 + a4 x + a0
 with coefficients (a1,a2,a3,a4,a6) in some field.
 
 When the discriminant is not zero, they define an elliptic curve. See EllipticCurve.!
 
 !FareySymbol commentStamp: '<historical>' prior: 0!
-My instances are Farey symbols. They give information about finite index subgroups of the modular group (such as index, generators, etc) and about the associated modular curve (such as genus and rank of the fundamental group).
+Farey symbols give information about finite index subgroups of the modular group (such as index, generators, etc) and about the associated modular curve (such as genus and rank of the fundamental group).
 
 References
 	R. S. Kulkarni, "An arithmetic-geometric method in the study of the subgroups of the modular group", American Journal of Mathematics 113 (1991), no. 6, 1053-1133.
@@ -5188,7 +5118,7 @@ References
 	John Voight, "Computational methods for modular and Shimura curves", lecture videos in youtube.!
 
 !BerlekampMassey commentStamp: '<historical>' prior: 0!
-I am the Berlekamp-Massey algorithm. The initial purpose of this algorithm was to evaluate Binary BCH codes, but it has found many uses, including inverting matrices of constant diagonal, solving linear recurrences (synthesizing LFSRs with a specified output sequence), etc.
+This is the Berlekamp-Massey algorithm. The initial purpose of this algorithm was to evaluate Binary BCH codes, but it has found many uses, including inverting matrices of constant diagonal, solving linear recurrences (synthesizing LFSRs with a specified output sequence), etc.
 
 Input: a_1..a_{2n} the first 2n coefficients of a linear recursive sequence over a field K of order at most n (the minimal polynomial has degree bound n);
 Output: the minimal polynomial of the sequence.
@@ -5196,14 +5126,14 @@ Output: the minimal polynomial of the sequence.
 The algorithm performs O(n^2/2) multiplications; more precisely, at most 2 floor(n^2/4) - n + 1 multiplications.!
 
 !CRT commentStamp: '<historical>' prior: 0!
-I am the Chinese Remainder Theorem. My instances find solutions to systems of linear Diophantine equations x = x_i (mod m_i). The algorithm works on any Euclidean domain.
+This is the Chinese Remainder Theorem. My instances find solutions to systems of linear Diophantine equations x = x_i (mod m_i). The algorithm works on any Euclidean domain.
 
 Input: x_1...x_k, k elements in an Euclidean domain, and m_1,...,m_k pairwise coprime, defining the Diophantine system x = x_i (mod m_i);
 Output: x such that x = x_i (mod m_i) for 1<=i<=k.
 !
 
 !ExtendedEuclid commentStamp: '<historical>' prior: 0!
-I am the extended Euclidean algorithm.
+This is the extended Euclidean algorithm.
 
 Input: an array of two elements in an Euclidean domain {a. b}
 Output: the GCD of a with b, and {u. v} such that a*u + b*v = (a,b).
@@ -5216,14 +5146,14 @@ where d = gcd(a,b).
 For integers, the algorithm takes time O(ln^3 N) where |a|,|b| <= N. For polynomials of degree n, it is O(n^3).!
 
 !LagrangeGaussReduction commentStamp: '<historical>' prior: 0!
-I am the Lagrange-Gauss reduction algorithm. My instances perform reduction of lattice basis of rank 2, and the algorithm it is essentially Euclid's algorithm.
+This is the Lagrange-Gauss reduction algorithm. My instances perform reduction of lattice basis of rank 2, and the algorithm it is essentially Euclid's algorithm.
 
 Input: a vector space V and two independent vectors {v1,v2} that generate a lattice;
 Output: a short vector in the lattice.
 !
 
 !ModifiedBerlekampMassey commentStamp: '<historical>' prior: 0!
-I am a modified [1] Berlekamp-Massey algorithm. This modified version admits lazy evaluation.
+This is a modified [1] Berlekamp-Massey algorithm. This modified version admits lazy evaluation.
 
 Input: a_1..a_{2n} the first 2n coefficients of a linear recursive sequence over a field K of order at most n (the minimal polynomial has degree bound n);
 Output: the minimal polynomial of the sequence.
@@ -5232,7 +5162,7 @@ Output: the minimal polynomial of the sequence.
 !
 
 !NTT commentStamp: '<historical>' prior: 0!
-My instances are Number Theoretic Transforms, the analog of DFTs for the field of integers modulo a prime p. Special cases are the Fermat Number Transform (p = 2^k + 1) and the Mersenne Number Transform (p = 2^k - 1).
+Number Theoretic Transforms, the analog of DFTs for the field of integers modulo a prime p. Special cases are the Fermat Number Transform (p = 2^k + 1) and the Mersenne Number Transform (p = 2^k - 1).
 
 The (pseudo) number theoretic transform may be meaningful in the ring Z/<m> even when the modulo m is not prime, provided a principal root of order n exists.!
 
@@ -5282,6 +5212,10 @@ adaptToCollection: rcvr andSend: selector
 
 !Object methodsFor: '*mathematics' stamp: 'len 11/19/2015 17:01'!
 isInfinity
+	^ false! !
+
+!Object methodsFor: '*mathematics' stamp: 'len 4/2/2018 05:16:06'!
+isMatrix
 	^ false! !
 
 !Object methodsFor: '*mathematics' stamp: 'len 8/5/2016 21:51'!
@@ -8124,216 +8058,6 @@ reduceFull: aPolynomial
 			[g _ self reduce: g.
 			g isZero ifFalse: [h _ h + g leadingTerm. g _ g tail]].
 	^ h / h leadingCoefficient! !
-
-!LinearBasis2 methodsFor: 'operations' stamp: 'len 12/12/2017 18:05:42'!
-ê aLinearBasis
-	| sum |
-	sum _ self ambient ê aLinearBasis ambient.
-	^ RelativeLinearBasis on: sum basis elements: (self collect: [:each| {each. aLinearBasis ambient zero}]), (aLinearBasis collect: [:each| {self ambient zero. each}])! !
-
-!LinearBasis2 methodsFor: 'accessing' stamp: 'len 1/8/2017 11:05:17'!
-at: anInteger
-	^ self subclassResponsibility! !
-
-!LinearBasis2 methodsFor: 'operations' stamp: 'len 1/8/2017 10:59:28'!
-changeTo: aLinearBasis
-	"Answer the matrix for changing from the receiver to aLinearBasis."
-	^ Matrix columns: (self generators collect: [:each| aLinearBasis coordinatesOf: each])! !
-
-!LinearBasis2 methodsFor: 'coordinates' stamp: 'len 1/8/2017 10:57:30'!
-coordinateSpace
-	^ self ambient scalars ^ self size! !
-
-!LinearBasis2 methodsFor: 'coordinates' stamp: 'len 1/8/2017 10:58:10'!
-coordinatesInverseMap
-	"Answer the linear isomorphism mapping a Tuple to the vector with those coordinates in the receiver."
-	^ LinearMap
-		from: self coordinateSpace basis
-		to: self
-		matrix: (self ambient scalars matrix: self size scalar: self ambient scalars one)! !
-
-!LinearBasis2 methodsFor: 'coordinates' stamp: 'len 1/8/2017 10:57:21'!
-coordinatesMap
-	"Answer the linear isomorphism mapping a vector to its coordinates in the receiver."
-	^ LinearMap
-		from: self
-		to: self coordinateSpace basis
-		matrix: (self ambient scalars matrix: self size scalar: self ambient scalars one)! !
-
-!LinearBasis2 methodsFor: 'coordinates' stamp: 'len 1/8/2017 11:04:07'!
-coordinatesOf: aVector
-	^ self subclassResponsibility! !
-
-!LinearBasis2 methodsFor: 'as yet unclassified' stamp: 'len 12/12/2017 18:05:17'!
-copyFrom: startIndex to: endIndex
-	^ RelativeLinearBasis on: self parent elements: (super copyFrom: startIndex to: endIndex)! !
-
-!LinearBasis2 methodsFor: 'as yet unclassified' stamp: 'len 1/8/2017 11:13:17'!
-do: aBlock
-	^ 1 to: self size do: [:each| aBlock value: (self at: each)]! !
-
-!LinearBasis2 methodsFor: 'coordinates' stamp: 'len 10/28/2016 09:55'!
-elementAt: aTuple 
-	"Answer the element with coordinates aTuple when expressed as a linear combination of the generators of the receiver."
-	| answer |
-"	self assert: aTuple size = self size."
-	1 to: aTuple size do: [ :each |
-		answer _ answer isNil
-			ifTrue: [(self at: each) * (aTuple at: each)]
-			ifFalse: [(self at: each) * (aTuple at: each) + answer]].
-	^ answer! !
-
-!LinearBasis2 methodsFor: 'testing' stamp: 'len 1/8/2017 11:00:38'!
-generates: aVector
-	"Answer true if the argument is dependent to the receiver."
-	self isEmpty ifTrue: [^ aVector isZero].
-	^ (self coordinatesOf: aVector) notNil! !
-
-!LinearBasis2 methodsFor: 'accessing' stamp: 'len 1/8/2017 11:12:57'!
-generators
-	^ Iterator on: self performing: #do:! !
-
-!LinearBasis2 methodsFor: 'operations' stamp: 'len 1/8/2017 11:30:16'!
-gramian
-	"Answer the Gramian of the receiver, or Gram matrix.
-	If M is the generator matrix of the receiver (self matrix), then the Gramian is M * M transposed."
-	^ self ambient scalars
-		matrix: self size
-		evaluating:
-			[:i :j| self ambient innerProduct value: {(self at: i). (self at: j)}]! !
-
-!LinearBasis2 methodsFor: 'testing' stamp: 'len 1/8/2017 11:33:01'!
-isOrthogonal
-	self do: [:v|
-		self do: [:w|
-			(v ~~ w and: [(self ambient innerProduct value: {v.w}) isZero not])
-				ifTrue: [^ false]]].
-	^ true! !
-
-!LinearBasis2 methodsFor: 'testing' stamp: 'len 1/8/2017 11:33:13'!
-isOrthonormal
-	self isOrthogonal ifFalse: [^ false].
-	self do: [:v| (self ambient innerProduct value: {v.v}) = self ambient scalars one ifFalse: [^ false]].
-	^ true! !
-
-!LinearBasis2 methodsFor: 'operations' stamp: 'len 1/8/2017 11:31:19'!
-orthogonalized
-	"Answer the receiver orthogonalized by the Gram-Schmidt process."
-	^ (GramSchmidt basis: self) orthogonalBasis! !
-
-!LinearBasis2 methodsFor: 'operations' stamp: 'len 1/8/2017 11:31:25'!
-orthonormalized
-	"Answer the receiver orthonormalized by the Gram-Schmidt process."
-	^ (GramSchmidt basis: self) orthonormalBasis! !
-
-!LinearBasis2 methodsFor: 'as yet unclassified' stamp: 'len 1/8/2017 11:23:01'!
-select: aBlock
-	^ RelativeLinearBasis on: self parent generators: (super select: aBlock)! !
-
-!LinearBasis2 methodsFor: 'accessing' stamp: 'len 1/8/2017 11:05:24'!
-size
-	^ self subclassResponsibility! !
-
-!LinearBasis2 methodsFor: 'as yet unclassified' stamp: 'len 1/16/2017 08:47:11'!
-span
-	"Answer the subspace generated by the vectors of the receiver."
-	^ FreeModule basis: self! !
-
-!LinearBasis2 methodsFor: 'as yet unclassified' stamp: 'len 1/8/2017 11:21:15'!
-species
-	^ Array! !
-
-!LinearBasis2 methodsFor: 'coordinates' stamp: 'len 1/8/2017 11:02:09'!
-vectorAt: aTuple 
-	"Answer the vector with coordinates aTuple when expressed as a linear combination of the receiver."
-	^ self elementAt: aTuple! !
-
-!RelativeLinearBasis methodsFor: 'accessing' stamp: 'len 10/28/2016 09:53'!
-ambient
-	^ parent ambient! !
-
-!RelativeLinearBasis methodsFor: 'accessing' stamp: 'len 10/28/2016 09:46'!
-at: anInteger
-	^ generators at: anInteger! !
-
-!RelativeLinearBasis methodsFor: 'coordinates' stamp: 'len 1/8/2017 10:47:45'!
-coordinatesOf: aVector
-	^ matrix * (parent coordinatesOf: aVector)! !
-
-!RelativeLinearBasis methodsFor: 'as yet unclassified' stamp: 'len 1/8/2017 11:26:59'!
-dual
-	^ RelativeLinearBasis on: self parent dual matrix: self matrix! !
-
-!RelativeLinearBasis methodsFor: 'accessing-private' stamp: 'len 1/8/2017 10:54:22'!
-generators: anArray
-	generators _ anArray.
-	matrix _ Matrix columns: (anArray collect: [:each| parent coordinatesOf: each])! !
-
-!RelativeLinearBasis methodsFor: 'accessing' stamp: 'len 10/28/2016 09:44'!
-matrix
-	^ matrix! !
-
-!RelativeLinearBasis methodsFor: 'accessing-private' stamp: 'len 1/8/2017 10:55:07'!
-matrix: aMatrix
-	matrix _ aMatrix.
-	generators _ matrix columns collect: [:each| parent elementAt: each]! !
-
-!RelativeLinearBasis methodsFor: 'accessing' stamp: 'len 10/28/2016 09:44'!
-parent
-	^ parent! !
-
-!RelativeLinearBasis methodsFor: 'accessing-private' stamp: 'len 10/28/2016 09:44'!
-parent: aLinearBasis
-	parent _ aLinearBasis! !
-
-!RelativeLinearBasis methodsFor: 'accessing' stamp: 'len 10/28/2016 09:46'!
-size
-	^ generators size! !
-
-!RelativeLinearBasis class methodsFor: 'instance creation' stamp: 'len 1/8/2017 10:53:00'!
-on: aLinearBasis generators: aCollection
-	^ self new parent: aLinearBasis; generators: aCollection! !
-
-!RelativeLinearBasis class methodsFor: 'instance creation' stamp: 'len 1/8/2017 10:53:19'!
-on: aLinearBasis matrix: aMatrix
-	^ self new parent: aLinearBasis; matrix: aMatrix! !
-
-!StandardLinearBasis methodsFor: 'accessing' stamp: 'len 10/28/2016 09:53'!
-ambient
-	^ ambient! !
-
-!StandardLinearBasis methodsFor: 'as yet unclassified' stamp: 'len 1/8/2017 11:27:53'!
-ambient: aFreeModule
-	ambient _ aFreeModule! !
-
-!StandardLinearBasis methodsFor: 'accessing' stamp: 'len 1/8/2017 10:44:47'!
-at: anInteger
-	^ ambient e: anInteger! !
-
-!StandardLinearBasis methodsFor: 'coordinates' stamp: 'len 1/8/2017 10:46:32'!
-coordinatesOf: aVector
-	^ ambient coordinatesOf: aVector! !
-
-!StandardLinearBasis methodsFor: 'as yet unclassified' stamp: 'len 1/8/2017 11:27:17'!
-dual
-	^ self class on: self ambient dual! !
-
-!StandardLinearBasis methodsFor: 'as yet unclassified' stamp: 'len 1/8/2017 11:28:53'!
-generates: aVector
-	"^ ambient includes: aVector"
-	^ true! !
-
-!StandardLinearBasis methodsFor: 'accessing' stamp: 'len 1/8/2017 10:44:39'!
-size
-	^ ambient rank! !
-
-!StandardLinearBasis methodsFor: 'as yet unclassified' stamp: 'len 1/8/2017 18:10:36'!
-span
-	^ ambient! !
-
-!StandardLinearBasis class methodsFor: 'as yet unclassified' stamp: 'len 1/8/2017 11:27:36'!
-on: aFreeModule
-	^ self new ambient: aFreeModule! !
 
 !KeyedSet methodsFor: 'accessing' stamp: 'len 2/26/2016 21:26'!
 at: anObject
@@ -22402,15 +22126,19 @@ mod: aSubmodule
 	anObject isTrivial ifTrue: [^ self].
 	^ self ambient span: self matrix, anObject matrix! !
 
-!FreeModule methodsFor: 'operations' stamp: 'len 3/27/2018 19:16:20'!
+!FreeModule methodsFor: 'operations' stamp: 'len 4/1/2018 21:12:04'!
 / anObject
 	"Answer the quotient of the receiver by the submodule anObject,
 	i.e. the module obtained by 'collapsing' the submodule to zero.
 	Alternatively, if anObject is an scalar, scale down the receiver by it."
+	| Q |
 	(self ambient scalars includes: anObject) ifTrue: [^ self * anObject reciprocal].
 	anObject isFreeModule ifFalse: [^ super / anObject].
-	anObject ambient = self ifTrue: [^ anObject quotient].
-	^ (self span: anObject generators) quotient! !
+	(self scalars isPID and: [self ambient = anObject ambient])
+		ifFalse: [^ DomainError signal].
+	Q _ anObject quotient.
+	self isEmbedded ifFalse: [^ Q].
+	^ Q span: (self basis collect: [:each| Q project: each])! !
 
 !FreeModule methodsFor: 'operations' stamp: 'len 12/8/2016 20:27:46'!
 /\ aModule
@@ -22483,17 +22211,17 @@ mod: aSubmodule
 	N _ N copyFrom: 1@1 to: N numberOfRows @ M numberOfRows.
 	^ self ambient span: N * M! !
 
-!FreeModule methodsFor: 'operations' stamp: 'len 3/18/2018 18:28:40'!
+!FreeModule methodsFor: 'operations' stamp: 'len 4/1/2018 22:02:47'!
 annihilator
 	"Answer the space of all linear forms that are 0 at all vectors in the receiver."
 	self isTrivial ifTrue: [^ self ambient dual].
 	self isFullRank ifTrue: [^ self ambient dual null].
-	^ self ambient dual span: (Matrix rows: (self matrix extended transposed inverse rows last: self degree - self rank))! !
+	^ self ambient dual span: (self matrix extended transposed inverse copyFromRow: self rank + 1 to: self degree)! !
 
-!FreeModule methodsFor: 'morphisms' stamp: 'len 3/19/2018 15:30:26'!
+!FreeModule methodsFor: 'morphisms' stamp: 'len 3/31/2018 16:42:24'!
 apply: aLinearMap
 	"Answer the receiver transformed by aLinearMap."
-	^ (aLinearMap isBlock ifTrue: [self ambient] ifFalse: [aLinearMap codomain]) span: (self basis collect: [:each| aLinearMap value: each]) over: self scalars! !
+	^ (aLinearMap isBlock ifTrue: [self ambient] ifFalse: [aLinearMap codomain ambient]) span: (self basis collect: [:each| aLinearMap value: each]) over: self scalars! !
 
 !FreeModule methodsFor: 'converting' stamp: 'len 12/17/2017 19:33:16'!
 asAbelianGroup
@@ -22508,10 +22236,6 @@ asAlgebraicVariety
 	| R |
 	R _ self scalars polynomialsIn: self ambient rank.
 	^ (R * (self annihilator basis asArray collect: [:each| each as: R])) variety! !
-
-!FreeModule methodsFor: 'converting' stamp: 'len 3/2/2017 05:28:29'!
-asSubmoduleOf: aModule
-	^ aModule span: self basis! !
 
 !FreeModule methodsFor: 'converting' stamp: 'len 3/1/2017 08:53:02'!
 asVectorSpace
@@ -22612,12 +22336,12 @@ discriminant
 do: aBlock
 	self coordinateSpace do: [:each| aBlock value: (self elementAt: each)]! !
 
-!FreeModule methodsFor: 'operations' stamp: 'len 3/18/2018 19:10:34'!
+!FreeModule methodsFor: 'operations' stamp: 'len 4/1/2018 22:09:17'!
 dual
 	| extendedMatrix |
 	self isEmbedded ifFalse: [^ self hom: self scalars asSelfModule].
 	extendedMatrix _ (self matrix, (self ambient scalars identityMatrix: self ambient rank)) transposed imageMatrix.
-	^ self ambient dual span: (Matrix rows: (extendedMatrix transposed inverse rows first: self rank))! !
+	^ self ambient dual span: (extendedMatrix transposed inverse copyFromRow: 1 to: self rank)! !
 
 !FreeModule methodsFor: 'basis' stamp: 'len 10/15/2016 16:47'!
 e: anInteger
@@ -22835,19 +22559,17 @@ span: aCollection
 	"Answer the submodule spanned by the module elements in aCollection."
 	^ self span: aCollection over: self scalars! !
 
-!FreeModule methodsFor: 'operations' stamp: 'len 3/28/2018 15:26:29'!
+!FreeModule methodsFor: 'operations' stamp: 'len 4/2/2018 04:57:08'!
 span: aCollection over: aRing
 	"Answer the submodule spanned by the module elements in aCollection over aRing."
 	| M |
-	M _ (aCollection isKindOf: Matrix) ifTrue: [aCollection] ifFalse: [Matrix rows: (aCollection collect: [:each| self coordinatesOf: each])].
+	M _ (aCollection isKindOf: Matrix) ifTrue: [aCollection * self matrix] ifFalse: [Matrix rows: (aCollection collect: [:each| self ambient coordinatesOf: each])].
 	M _ M echelon.
 	M _ Matrix rows: (M rows select: [:each| each isZero not]).
-	^ self spanEchelonizedMatrix: M over: aRing! !
-
-!FreeModule methodsFor: 'private' stamp: 'len 3/28/2018 15:32:19'!
-spanEchelonizedMatrix: aMatrix over: aRing
 	aRing <= self scalars ifFalse: [^ DomainError signal].
-	^ FreeModule new ambient: self; scalars: aRing; matrix: aMatrix! !
+	(self scalars isReal and: [aRing isKindOf: RationalIntegerRing])
+		ifTrue: [^ Lattice new ambient: self ambient; matrix: M].
+	^ FreeModule new ambient: self ambient; scalars: aRing; matrix: M! !
 
 !FreeModule methodsFor: 'private' stamp: 'len 1/16/2017 22:32:41'!
 species
@@ -24127,11 +23849,6 @@ scalars
 !Lattice methodsFor: 'accessing' stamp: 'len 3/28/2018 05:05:34'!
 shortVector
 	^ self reducedBasis first! !
-
-!Lattice methodsFor: 'private' stamp: 'len 3/28/2018 15:32:33'!
-spanEchelonizedMatrix: aMatrix over: aRing
-	(aRing isKindOf: RationalIntegerRing) ifFalse: [^ DomainError signal].
-	^ Lattice new ambient: self; matrix: aMatrix! !
 
 !Lattice methodsFor: 'invariants' stamp: 'len 12/28/2016 11:30:19'!
 thetaSeries
@@ -25758,12 +25475,12 @@ H7
 generator: aPolynomial
 	^ self new: aPolynomial degree generator: aPolynomial! !
 
-!PolynomialCode class methodsFor: 'instance creation' stamp: 'len 1/23/2017 11:44:18'!
+!PolynomialCode class methodsFor: 'instance creation' stamp: 'len 3/29/2018 16:43:50'!
 new: n generator: aPolynomial
 	| V W subspace |
 	V _ aPolynomial parent filtrationAt: n - 1.
 	W _ aPolynomial parent filtrationAt: n - aPolynomial degree - 1.
-	subspace _ V span: (W collect: [:f| aPolynomial * f]).
+	subspace _ V span: (W asArray collect: [:f| aPolynomial * f]).
 	^ (self subspace: subspace) generator: aPolynomial! !
 
 !CyclicCode methodsFor: 'as yet unclassified' stamp: 'len 1/23/2017 11:31:24'!
@@ -28687,7 +28404,7 @@ isUnimodular
 isZero
 	^ matrix isZero! !
 
-!LinearMap methodsFor: 'operations' stamp: 'len 3/18/2018 15:21:11'!
+!LinearMap methodsFor: 'operations' stamp: 'len 4/2/2018 17:17:59'!
 kernel
 	^ self propertyAt: #kernel ifAbsentPut: [self isTrivial ifTrue: [self domain] ifFalse: [self domain span: matrix kernelMatrix]]! !
 
@@ -28726,7 +28443,7 @@ nullity
 	"Answer the dimension of the kernel of the receiver."
 	^ matrix numberOfColumns - self rank! !
 
-!LinearMap methodsFor: 'printing' stamp: 'len 1/21/2018 18:51:33'!
+!LinearMap methodsFor: 'printing' stamp: 'len 3/29/2018 16:46:40'!
 printOn: aStream
 	| A B f |
 	self isIdentity ifTrue: [aStream nextPutAll: 'id'. ^ self].
@@ -28737,7 +28454,7 @@ printOn: aStream
 	(self codomain isKindOf: TupleModule) ifTrue:
 		[aStream nextPut: $(.
 		matrix rows
-			do: [:each| aStream print: (self domain basis dual elementAt: each)]
+			do: [:each| aStream print: (self domain dual elementAt: each)]
 			separatedBy: [aStream nextPutAll: ', '].
 		aStream nextPut: $).
 		^ self].
@@ -28746,7 +28463,7 @@ printOn: aStream
 	B _ A polynomialsIn: self codomain names.
 	f _ B zero.
 	matrix rows
-		withIndexDo: [:each :i| f _ (B x: i) * (self domain basis dual elementAt: each) asPolynomial + f].
+		withIndexDo: [:each :i| f _ (B x: i) * (self domain dual elementAt: each) asPolynomial + f].
 	aStream print: f! !
 
 !LinearMap methodsFor: 'operations' stamp: 'len 1/8/2016 06:35'!
@@ -30804,55 +30521,6 @@ transposing: anObject with: anotherObject
 		at: anObject put: anotherObject;
 		at: anotherObject put: anObject;
 		yourself! !
-
-!PermutationCycle methodsFor: 'accessing' stamp: 'len 5/2/2016 03:57'!
-cycles
-	"Answer the cycles of the receiver."
-	^ {self}! !
-
-!PermutationCycle methodsFor: 'enumerating' stamp: 'len 5/2/2016 04:42'!
-cyclesDo: aBlock
-	"Iterate over the cycles of the receiver."
-	aBlock value: self! !
-
-!PermutationCycle methodsFor: 'testing' stamp: 'len 5/6/98 04:58'!
-isCycle
-	"Answer true if the receiver is a cycle."
-	^ true! !
-
-!PermutationCycle methodsFor: 'accessing' stamp: 'len 6/28/2016 09:43'!
-order
-	^ self changes size! !
-
-!PermutationCycle methodsFor: 'printing' stamp: 'len 5/6/98 04:58'!
-printOn: aStream
-	"Print a representation of the receiver on the stream aStream.
-	The receiver is supposed to be a cycle."
-
-	| first last changes |
-	self isIdentity ifTrue: [aStream nextPutAll: 'id'].
-	changes _ self changes.
-	first _ (changes detect: [ :one | one isInteger not] ifNone: []) isNil
-			ifTrue: [changes asSortedCollection last] ifFalse: [self aChange].
-	last _ first.
-	aStream nextPut: $(.
-	[aStream print: (last _ self at: last). last = first] whileFalse: [aStream space].
-	aStream nextPut: $)! !
-
-!PermutationCycle methodsFor: 'accessing' stamp: 'len 6/28/2016 08:40'!
-sign
-	"Answer the sign of the receiver."
-	^ self changes size odd ifTrue: [1] ifFalse: [-1]! !
-
-!PermutationCycle methodsFor: 'accessing' stamp: 'len 2/1/2018 22:55:58'!
-transpositions
-	"Answer the decomposition of the receiver in product of transpositions."
-	| answer first last |
-	answer _ OrderedCollection new.
-	first _ self aChange.
-	last _ first.
-	self size - 1 timesRepeat: [answer addFirst: (self species transposing: first with: (last _ self at: last))].
-	^ answer! !
 
 !StandardPermutation methodsFor: 'arithmetic' stamp: 'len 1/31/2018 21:24:21'!
 * aPermutation
@@ -35109,6 +34777,10 @@ copyFrom: aPoint to: anotherPoint
 		matrix: anotherPoint - start
 		evaluating: [:i :j| self at: start + (i@j)]! !
 
+!Matrix methodsFor: 'copying' stamp: 'len 4/2/2018 05:07:15'!
+copyFromRow: start to: end
+	^ Matrix rows: ((start to: end) collect: [:each| self rowAt: each])! !
+
 !Matrix methodsFor: 'accessing' stamp: 'len 1/28/2018 22:23:15'!
 denominator
 	| answer |
@@ -35184,9 +34856,11 @@ do: aBlock
 		1 to: self numberOfColumns do: [:j|
 			aBlock value: (self at: i@j)]]! !
 
-!Matrix methodsFor: 'arithmetic' stamp: 'len 11/11/2016 17:09'!
+!Matrix methodsFor: 'arithmetic' stamp: 'len 4/2/2018 05:14:34'!
 dot: aMatrix
 	| rows columns |
+	self isEmpty ifTrue: [^ self].
+	aMatrix isEmpty ifTrue: [^ aMatrix].
 	self numberOfColumns = aMatrix numberOfRows ifFalse: [^ DomainError signal: 'matrices dimensions don''t match'].
 	self checkScalarsMatch: aMatrix.
 	rows _ self rows.
@@ -35348,6 +35022,10 @@ isInvertible
 isLowerTriangular
 	1 to: (self numberOfColumns min: self numberOfRows) do: [:i|
 		i+1 to: self numberOfColumns do: [:j| (self at: i@j) isZero ifFalse: [^ false]]].
+	^ true! !
+
+!Matrix methodsFor: 'testing' stamp: 'len 4/2/2018 05:16:26'!
+isMatrix
 	^ true! !
 
 !Matrix methodsFor: 'testing' stamp: 'len 3/21/2018 20:34:49'!
@@ -40981,59 +40659,59 @@ neighbors
 neighborsDo: aBlock 
 	self neighbors do: aBlock! !
 
-!ImplicitGraphNode class methodsFor: 'instance creation' stamp: 'sam 2/15/2005 01:02'!
+!ImplicitGraphNode class methodsFor: 'instance creation' stamp: 'len 4/1/2018 15:37:55'!
 on: aValue collectionBlock: aBlock
-	^ImplicitGraphNodeCollection on: aValue collectionBlock: aBlock! !
+	^ImplicitCollectionGraphNode on: aValue collectionBlock: aBlock! !
 
-!ImplicitGraphNode class methodsFor: 'instance creation' stamp: 'timestamp) (no'!
+!ImplicitGraphNode class methodsFor: 'instance creation' stamp: 'len 4/1/2018 15:37:09'!
 on: aValue iterator: anIterator
-	^ImplicitGraphNodeIterator on: aValue iterator: anIterator! !
+	^ImplicitIteratorGraphNode on: aValue iterator: anIterator! !
 
-!ImplicitGraphNode class methodsFor: 'instance creation' stamp: 'timestamp) (no'!
+!ImplicitGraphNode class methodsFor: 'instance creation' stamp: 'len 4/1/2018 15:37:19'!
 on: aValue iteratorBlock: iteratorBlock
-	^ImplicitGraphNodeIterator on: aValue iteratorBlock: iteratorBlock! !
+	^ImplicitIteratorGraphNode on: aValue iteratorBlock: iteratorBlock! !
 
-!ImplicitGraphNodeCollection methodsFor: 'initialisation' stamp: 'len 2/28/2016 20:32'!
+!ImplicitCollectionGraphNode methodsFor: 'initialisation' stamp: 'len 2/28/2016 20:32'!
 collectionBlock: aBlock
 	collectionBlock _ aBlock! !
 
-!ImplicitGraphNodeCollection methodsFor: 'accessing edges' stamp: 'len 5/7/2016 04:10'!
+!ImplicitCollectionGraphNode methodsFor: 'accessing edges' stamp: 'len 5/7/2016 04:10'!
 degree
 	^self neighbors size! !
 
-!ImplicitGraphNodeCollection methodsFor: 'testing edges' stamp: 'len 5/7/2016 04:10'!
+!ImplicitCollectionGraphNode methodsFor: 'testing edges' stamp: 'len 5/7/2016 04:10'!
 hasEdgeTo: anObject 
 	^self neighbors includes: anObject! !
 
-!ImplicitGraphNodeCollection methodsFor: 'accessing edges' stamp: 'len 5/7/2016 04:10'!
+!ImplicitCollectionGraphNode methodsFor: 'accessing edges' stamp: 'len 5/7/2016 04:10'!
 neighbors
 	^collectionBlock value! !
 
-!ImplicitGraphNodeCollection class methodsFor: 'instance creation' stamp: 'len 2/15/2016 05:20'!
+!ImplicitCollectionGraphNode class methodsFor: 'instance creation' stamp: 'len 2/15/2016 05:20'!
 on: aValue collectionBlock: aBlock 
 	^ self new value: aValue; collectionBlock: aBlock! !
 
-!ImplicitGraphNodeIterator methodsFor: 'accessing edges' stamp: 'timestamp) (no'!
+!ImplicitIteratorGraphNode methodsFor: 'accessing edges' stamp: 'timestamp) (no'!
 degree
 	^iterator size! !
 
-!ImplicitGraphNodeIterator methodsFor: 'testing edges' stamp: 'timestamp) (no'!
+!ImplicitIteratorGraphNode methodsFor: 'testing edges' stamp: 'timestamp) (no'!
 hasEdgeTo: anObject
 	^iterator includes: anObject! !
 
-!ImplicitGraphNodeIterator methodsFor: 'initialisation' stamp: 'len 2/28/2016 20:32'!
+!ImplicitIteratorGraphNode methodsFor: 'initialisation' stamp: 'len 2/28/2016 20:32'!
 iterator: anIterator
 	iterator _ anIterator! !
 
-!ImplicitGraphNodeIterator methodsFor: 'accessing edges' stamp: 'timestamp) (no'!
+!ImplicitIteratorGraphNode methodsFor: 'accessing edges' stamp: 'timestamp) (no'!
 neighborsDo: aBlock
 	iterator do: aBlock! !
 
-!ImplicitGraphNodeIterator class methodsFor: 'instance creation' stamp: 'timestamp) (no'!
+!ImplicitIteratorGraphNode class methodsFor: 'instance creation' stamp: 'timestamp) (no'!
 on: aValue iterator: anIterator
 	^(self new) value: aValue ; iterator: anIterator! !
 
-!ImplicitGraphNodeIterator class methodsFor: 'instance creation' stamp: 'timestamp) (no'!
+!ImplicitIteratorGraphNode class methodsFor: 'instance creation' stamp: 'timestamp) (no'!
 on: aValue iteratorBlock: iteratorBlock
 	^self on: aValue iterator: (Iterator on: iteratorBlock)! !
 
