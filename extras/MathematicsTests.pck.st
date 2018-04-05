@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 29 March 2018 at 4:39:04 pm'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 5 April 2018 at 4:08:35 pm'!
 'Description Please enter a description for this package'!
-!provides: 'MathematicsTests' 1 89!
+!provides: 'MathematicsTests' 1 90!
 !classDefinition: #AbelianGroupTest category: #MathematicsTests!
 TestCase subclass: #AbelianGroupTest
 	instanceVariableNames: ''
@@ -2970,10 +2970,10 @@ testTrivial
 	self assert: G size = 1.
 	self assert: G isTrivial! !
 
-!LatticeTest methodsFor: 'as yet unclassified' stamp: 'len 12/7/2017 20:51:58'!
+!LatticeTest methodsFor: 'as yet unclassified' stamp: 'len 4/4/2018 06:53:22'!
 testE8
 	| E8 a |
-	E8 _ Lattice E8.
+	E8 _ RationalLattice E8.
 	a _ E8 atRandomBits: 100.
 	self assert: ((a allSatisfy: [:x| x isInteger]) or: [a allSatisfy: [:x| x isInteger not and: [(x*2) isInteger]]]).
 	self assert: (a sum isInteger and: [a sum even]).
@@ -2990,38 +2990,38 @@ testLLL
 	lll _ LLL basis: { b1. b2. b3 }.
 	self assert: lll reducedBasis = {(0,1,0). (1,0,1). (-1,0,2)}! !
 
-!LatticeTest methodsFor: 'as yet unclassified' stamp: 'len 3/27/2018 16:23:00'!
+!LatticeTest methodsFor: 'as yet unclassified' stamp: 'len 4/5/2018 04:22:35'!
 testLatticeAnDual
-	| A3 A3Dual |
-	A3 _ Lattice A: 3.
-	A3Dual _ Lattice Adual: 3.
-	self assert: A3 reciprocal = A3Dual.
-	self assert: A3 = A3Dual reciprocal! !
+	| A3 D |
+	A3 _ RationalLattice A: 3.
+	D _ RationalLattice Adual: 3.
+	self assert: A3 reciprocal = D.
+	self assert: A3 = D reciprocal! !
 
-!LatticeTest methodsFor: 'as yet unclassified' stamp: 'len 12/7/2017 20:46:01'!
+!LatticeTest methodsFor: 'as yet unclassified' stamp: 'len 4/4/2018 06:53:17'!
 testLatticeD4SelfDual
 	| D4 |
-	D4 _ Lattice D4.
+	D4 _ RationalLattice D4.
 	self assert: D4 isSelfDual! !
 
-!LatticeTest methodsFor: 'as yet unclassified' stamp: 'len 3/19/2018 19:33:02'!
+!LatticeTest methodsFor: 'as yet unclassified' stamp: 'len 4/5/2018 04:49:25'!
 testLatticeDual
 	| L R I |
-	L _ Lattice basis: {(-1,0,0). (0,1,2). (0,1,1)}.
+	L _ RationalLattice basis: {(-1,0,0). (0,1,2). (0,1,1)}.
 	R _ L reciprocal.
 	I _ L matrix identity.
 	self assert: (L ambient span: L basis) = (R ambient span: R basis).
 	self assert: L determinant = (1 / R determinant).
-	self assert: L matrix * R matrix = I! !
+	self assert: R matrix * L matrix transposed = I! !
 
-!LatticeTest methodsFor: 'as yet unclassified' stamp: 'len 3/19/2018 19:34:43'!
+!LatticeTest methodsFor: 'as yet unclassified' stamp: 'len 4/5/2018 04:49:38'!
 testLatticeDual2
 	| L R |
-	L _ Lattice basis: {(-1,0,0). (0,1,2)}. "not full rank"
+	L _ RationalLattice basis: {(-1,0,0). (0,1,2)}. "not full rank"
 	R _ L reciprocal.
 	self assert: (L ambient span: L basis) = (R ambient span: R basis).
 	self assert: L determinant = (1 / R determinant).
-	self assert: (L matrix * R matrix) isIdentity! !
+	self assert: (R matrix * L matrix transposed) isIdentity! !
 
 !LinearGroupsTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:03'!
 testGeneralLinearAtRandom
@@ -3470,7 +3470,7 @@ testAdjugate2
 	B _ Matrix rows: { (-8,18,-4). (-5,12,-1). (4,-6,2) }.
 	self assert: A adjugate = B! !
 
-!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:05'!
+!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 4/5/2018 15:43:37'!
 testAdjugateProperties
 	| M A B I c |
 	M _ QQ ^ (3@3).
@@ -3480,7 +3480,7 @@ testAdjugateProperties
 	I _ M identity.
 	self assert: I adjugate = I.
 	self assert: (A * B) adjugate = (B adjugate * A adjugate).
-	self assert: (A*c) adjugate = (A adjugate * (c^(M numberOfRows - 1))).
+	self assert: (A*c) adjugate = (A adjugate * (c^(M height - 1))).
 	self assert: (A^5) adjugate = (A adjugate ^ 5).
 	self assert: A transposed adjugate = A adjugate transposed! !
 
@@ -3607,6 +3607,14 @@ testCharacteristicPolynomial
 	B _ M atRandomBits: 100.
 	self assert: (A*B) characteristicPolynomial = (B*A) characteristicPolynomial! !
 
+!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 4/4/2018 00:29:48'!
+testCokernelMatrix
+	"From Sage."
+	| A B |
+	A _ QQ matrix: {(1,2,4,-7,4). (1,1,0,2,-1). (1,0,3,-3,1). (0,-1,-1,3,-2). (0,0,-1,2,-1)}.
+	B _ QQ matrix: {(1,0,-1,2,-1). (0,1,-1,1,-4)}.
+	self assert: A cokernelMatrix "echelon" = B! !
+
 !MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:05'!
 testDeterminant
 	| M m |
@@ -3704,6 +3712,15 @@ testHermiteNormalForm3
 	A _ M rows: { (2,3,6,2). (5,6,1,6). (8,3,1,1) }.
 	H _ M rows: { (1,0,50,-11). (0,3,28,-2). (0,0,61,-13) }.
 	self assert: A HNF = H! !
+
+!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 4/4/2018 20:49:16'!
+testHermiteNormalForm4
+	"Example from Sage"
+	| A B |
+	A _ ZZ matrix: {(1,2,3,4). (5,6,7,8). (9,10,11,12)}.
+	B _ ZZ matrix: {(1,2,3,4). (0,4,8,12). (0,0,0,0)}.
+	self assert: A HNF = B.
+	self assert: A echelon = B "the echelon form of integers matrices is the hermite normal form"! !
 
 !MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:05'!
 testInverse
@@ -3992,6 +4009,32 @@ newMatrix: dim over: aRing
 newVectorSpace
 	^ self newFreeModuleOver: {QQ. ZZ / #(2 3 5 7) atRandom} atRandom! !
 
+!ModuleTest methodsFor: 'other' stamp: 'len 4/1/2018 05:29:28'!
+testAdjointMap
+	| V W f a |
+	V _ QQ ^ (1 to: 3) atRandom.
+	W _ QQ ^ (1 to: 5) atRandom.
+	f _ (V hom: W) atRandomBits: 100.
+	a _ f adjoint.
+	self assert: a kernel = f image annihilator.
+	self assert: a image = f kernel annihilator.
+	self assert: f isSurjective = a isInjective.
+	self assert: f isInjective = a isSurjective! !
+
+!ModuleTest methodsFor: 'other' stamp: 'len 4/2/2018 17:37:50'!
+testAdjointProperties
+	| V W U f g a |
+	V _ QQ ^ (1 to: 4) atRandom.
+	W _ QQ ^ (1 to: 4) atRandom.
+	f _ (V hom: W) atRandomBits: 100.
+	g _ (V hom: W) atRandomBits: 100.
+	a _ QQ atRandomBits: 10.
+	self assert: (f + g) adjoint = (f adjoint + g adjoint).
+	self assert: (f * a) adjoint = (f adjoint * a).
+	U _ QQ ^ (1 to: 4) atRandom.
+	f _ (U hom: V) atRandomBits: 100.
+	self assert: (g î f) adjoint = (f adjoint î g adjoint)! !
+
 !ModuleTest methodsFor: 'other' stamp: 'len 8/26/2016 05:57'!
 testAnnihilator
 	| V v S S0 |
@@ -4036,15 +4079,15 @@ testCanonicalMorphisms
 	self assert: ((W  W null) value: (1,2,3)) isZero.
 	self assert: (W  V value: (2,4,6)) = (2,4,6). "canonical morphism to overobject"! !
 
-!ModuleTest methodsFor: 'other' stamp: 'len 10/16/2016 09:57'!
+!ModuleTest methodsFor: 'other' stamp: 'len 4/3/2018 06:45:23'!
 testDirectSum
 	| M N S |
 	M _ self newFreeModule.
 	N _ self newFreeModuleOver: M scalars.
 	S _ M ê N.
 	self testFreeModule: S.
-	self testLinearMap: (S projection: 2 atRandom).
-	self testLinearMap: (S embedding: 2 atRandom)! !
+	self testLinearMap: (S ambient projection: 2 atRandom).
+	self testLinearMap: (S ambient embedding: 2 atRandom)! !
 
 !ModuleTest methodsFor: 'isomorphisms' stamp: 'len 11/2/2016 03:59'!
 testFirstIsomorphismTheorem
@@ -4086,14 +4129,14 @@ testFreeModule: M
 	self assert: v = (M elementAt: t).
 "	self testLinearMap: M basis coordinatesMap"! !
 
-!ModuleTest methodsFor: 'other' stamp: 'len 2/28/2017 20:50:22'!
+!ModuleTest methodsFor: 'other' stamp: 'len 4/3/2018 20:16:34'!
 testFreeModuleDiscriminant
 	"From Sage documentation of FreeModule."
 	| M |
 	M _ ZZ^3.
 	self assert: M discriminant = 1.
-	self assert: (M span: {(1,2,3) over: ZZ}) discriminant = 14.
-	self assert: (M span: {(1,2,3) over: ZZ. (1,1,1) over: ZZ}) discriminant = 6! !
+	self assert: (M span: {(1,2,3)}) discriminant = 14.
+	self assert: (M span: {(1,2,3). (1,1,1)}) discriminant = 6! !
 
 !ModuleTest methodsFor: 'other' stamp: 'len 1/14/2018 19:48:42'!
 testFreeZModule
@@ -4116,6 +4159,20 @@ testGrassmannian
 	self assert: S dimension = 2.
 	self assert: (G includes: S).
 	self assert: (G dual includes: S perp dual)! !
+
+!ModuleTest methodsFor: 'other' stamp: 'len 4/3/2018 19:47:40'!
+testInclusions
+	| S |
+	self assert: QQ^3 < (CC^3).
+	self assert: ZZ^3 < (QQ^3).
+	self assert: RR^3 > (QQ^3).
+	self assert: CC^3 > (RR^3).
+	
+	S _ QQ^3 span: {(1,2,3). (1,0,1)}.
+	self assert: S < (QQ^3).
+	self assert: S < (CC^3).
+	self deny: S < (ZZ^3).
+	self deny: S > (ZZ^3)! !
 
 !ModuleTest methodsFor: 'basis' stamp: 'len 1/25/2018 22:38:13'!
 testLinearBasisChange
@@ -4366,7 +4423,7 @@ testMatrixTraceAsLinearMap
 	f _ F evaluating: [:x| x trace].
 	self assert: f = ((F x: 1) + (F x: 5) + (F x: 9))! !
 
-!ModuleTest methodsFor: 'other' stamp: 'len 12/15/2017 21:04:02'!
+!ModuleTest methodsFor: 'other' stamp: 'len 4/3/2018 00:04:09'!
 testOrthogonalProjection
 	| V S p v |
 	V _ QQ ^ 3.
@@ -4483,6 +4540,46 @@ testSecondIsomorphismTheoremOverPID
 "	f _ S -> T :: atRandomBits: 10.
 	phi _ S / f kernel -> f image evaluating: [:x| f value: x representative].
 	self assert: phi isIsomorphism"! !
+
+!ModuleTest methodsFor: 'other' stamp: 'len 4/5/2018 03:23:40'!
+testSubmoduleInclusion
+	| V S P v w |
+	V _ {ZZ. QQ polynomials. (ZZ/2) polynomials} atRandom ^ 3.
+	[v _ V atRandomBits: 10. v isZero] whileTrue.
+	S _ V span: {v}.
+	[w _ V atRandomBits: 10. S includes: w] whileTrue.
+	P _ V span: {w*(V scalars atRandomBits: 10)-v. w}.
+	self assert: S < P.
+	self assert: P > S.
+	self assert: S ~= P.
+	self assert: P ~= S.
+	self assert: (S > P) not.
+	self assert: (P < S) not! !
+
+!ModuleTest methodsFor: 'other' stamp: 'len 4/5/2018 03:24:32'!
+testSubmoduleIntersection
+	| V S T T2 |
+	V _ ZZ ^ 3.
+	S _ V span: {(1, 1, 1). (2, 0, -2)}.
+	self assert: S ï V = S.
+	self assert: S ï S = S.
+	T _ V span: {(3,1,-1)}.
+	self assert: S ï T = T.
+	T2 _ V span: {(3,1,-1). (0,1,0)}.
+	self assert: S ï T2 = T! !
+
+!ModuleTest methodsFor: 'other' stamp: 'len 4/5/2018 03:25:20'!
+testSubmoduleSum
+	| V v w S T P |
+	V _ ZZ ^ 3.
+	[v _ V atRandomBits: 10. v isZero not] whileFalse.
+	[w _ V atRandomBits: 10. w isZero not and: [v ~= w]] whileFalse.
+	S _ V span: {v}.
+	T _ V span: {w}.
+	P _ V span: {v. w}.
+	self assert: S + T = P.
+	T _ V span: {v - w. v + w}.
+	self assert: S + T = P! !
 
 !ModuleTest methodsFor: 'other' stamp: 'len 8/26/2016 06:02'!
 testSubspaceInclusion
