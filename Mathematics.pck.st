@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 7 April 2018 at 6:31:54 am'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 7 April 2018 at 10:59:18 pm'!
 'Description A computational algebra system in Smalltalk'!
-!provides: 'Mathematics' 1 419!
+!provides: 'Mathematics' 1 420!
 !requires: 'RayTracer' 1 2 nil!
 !classDefinition: #RealAlgebraicNumber category: #'Mathematics-Fields'!
 Number subclass: #RealAlgebraicNumber
@@ -3986,9 +3986,7 @@ Example:
 SL(n,R), the Special Linear Group of the R-module of n-tuples. This is the group of matrices of determinant 1.!
 
 !UnitGroup commentStamp: '<historical>' prior: 0!
-Sets of ring units. They have a group structure.
-
-Given a ring R, the group of units of R is the set of elements of R that have multiplicative inverse, and they form a group under multiplication. For a field F (or more generally a division ring), the units are all non-zero elements F \ {0}.
+Given a ring R, the group of units of R is the set of elements of R that have multiplicative inverse, and they form a group under multiplication. For a field F (or more generally a division ring), the units are all the non-zero elements F \ {0}.
 
 Categorically, this construction is a functor from the cateogory of rings to the category of groups. This functor has a left adjoint which is the integral group ring construction (see GroupRing).
 
@@ -17074,6 +17072,10 @@ isCommutative
 shortName
 	^ 'SZ'! !
 
+!UnitGroup methodsFor: 'testing' stamp: 'len 4/7/2018 17:55:37'!
+contains: anElement
+	^ ring isUnit: anElement! !
+
 !UnitGroup methodsFor: 'enumerating' stamp: 'len 5/12/2016 23:17'!
 do: aBlock
 	ring do: [:each| (self includes: each) ifTrue: [aBlock value: each]]! !
@@ -17082,9 +17084,9 @@ do: aBlock
 identity
 	^ ring one! !
 
-!UnitGroup methodsFor: 'testing' stamp: 'len 5/12/2016 23:05'!
+!UnitGroup methodsFor: 'testing' stamp: 'len 4/7/2018 17:55:52'!
 includes: anElement
-	^ ring isUnit: anElement! !
+	^ (ring includes: anElement) and: [ring isUnit: anElement]! !
 
 !UnitGroup methodsFor: 'accessing' stamp: 'len 4/22/2016 17:29'!
 inverseMap
@@ -17946,6 +17948,10 @@ isUnit: anElement
 	self isDivisionRing ifTrue: [^ anElement isZero not].
 	^ self subclassResponsibility! !
 
+!Ring methodsFor: 'testing' stamp: 'len 4/7/2018 21:01:18'!
+isZeroDivisor: anElement
+	^ self anySatisfy: [:any| any isZero not and: [(anElement * any) isZero]]! !
+
 !Ring methodsFor: 'operations' stamp: 'len 1/23/2018 21:19:27'!
 localizationAt: aPrimeIdeal
 	"Answer the localization of the receiver at aPrimeIdeal."
@@ -18062,6 +18068,10 @@ units
 valuation
 	"Answer the valuation function of the receiver, if it is an Euclidean domain."
 	^ self propertyAt: #valuation! !
+
+!Ring methodsFor: 'operations' stamp: 'len 4/7/2018 21:02:14'!
+zeroDivisors
+	^ self select: [:each| self isZeroDivisor: each]! !
 
 !Ring methodsFor: 'operations' stamp: 'len 10/13/2016 20:05'!
 zeroIdeal
@@ -18757,6 +18767,10 @@ isReduced
 isTrivial
 	"The trivial ring is the zero ring with a single element 0 = 1."
 	^ self relations isOne! !
+
+!QuotientRing methodsFor: 'morphisms' stamp: 'len 4/7/2018 18:40:01'!
+isUnit: anElement
+	^ (self inverseOf: anElement) notNil! !
 
 !QuotientRing methodsFor: 'accessing' stamp: 'len 2/27/2017 20:53:04'!
 modulus
@@ -21341,8 +21355,9 @@ height
 includes: anElement
 	^ (self scalars includes: anElement) and: [self contains: anElement]! !
 
-!Ideal methodsFor: 'operations-elements' stamp: 'len 1/15/2018 18:49:38'!
+!Ideal methodsFor: 'operations-elements' stamp: 'len 4/7/2018 18:38:56'!
 inverseOf: anElement
+	"This works only for ideals of an euclidean domain given by one generator."
 	| euclid |
 	self scalars isEuclidean ifFalse: [^ nil].
 	euclid _ ExtendedEuclid on: {anElement. self generator}.
@@ -21365,9 +21380,11 @@ isOne
 	"Answer true if the receiver is the unit ideal <1> that equals the whole ambient ring."
 	^ self includes: self scalars one! !
 
-!Ideal methodsFor: 'testing' stamp: 'len 12/28/2016 12:08:59'!
+!Ideal methodsFor: 'testing' stamp: 'len 4/7/2018 18:10:00'!
 isPrime
-	^ self propertyAt: #isPrime! !
+	"Answer true if the receiver is a prime ideal.
+	This method only works for zero ideals or ideals given by one generator. Subclasses should reimplement."
+	^ self propertyAt: #isPrime ifAbsentPut:[self isZero or: [self generator isPrime]]! !
 
 !Ideal methodsFor: 'testing' stamp: 'len 1/15/2018 18:49:58'!
 isPrincipal
@@ -21689,6 +21706,12 @@ inverseOf: aPolynomial
 !PolynomialIdeal methodsFor: 'testing' stamp: 'len 10/29/2016 11:32'!
 isHomogeneous
 	^ self generators allSatisfy: [:each| each isHomogeneous]! !
+
+!PolynomialIdeal methodsFor: 'testing' stamp: 'len 4/7/2018 18:13:01'!
+isPrime
+	self isZero ifTrue: [^ true].
+	self isPrincipal ifTrue: [^ self generator isIrreducible].
+	^ self notYetImplemented! !
 
 !PolynomialIdeal methodsFor: 'testing' stamp: 'len 2/12/2017 07:40:26'!
 isPrincipal
@@ -22295,10 +22318,10 @@ basis
 codimension
 	^ self ambient dimension - self dimension! !
 
-!FreeModule methodsFor: 'testing' stamp: 'len 3/18/2018 16:16:46'!
+!FreeModule methodsFor: 'testing' stamp: 'len 4/7/2018 18:21:24'!
 contains: anElement
 	self isTrivial ifTrue: [^ anElement isZero].
-	self isFullRank ifTrue: [^ true].
+	self isEmbedded ifFalse: [^ true].
 	^ (self coordinatesOf: anElement) notNil! !
 
 !FreeModule methodsFor: 'basis' stamp: 'len 4/5/2018 04:01:33'!
@@ -23014,6 +23037,14 @@ from: aModule to: anotherModule
 		domain: aModule;
 		codomain: anotherModule! !
 
+!Lattice methodsFor: 'as yet unclassified' stamp: 'len 4/7/2018 18:24:28'!
+contains: anElement
+	^ (self coordinatesOf: anElement) notNil! !
+
+!Lattice methodsFor: 'as yet unclassified' stamp: 'len 4/7/2018 18:28:55'!
+isEmbedded
+	^ true! !
+
 !Lattice methodsFor: 'as yet unclassified' stamp: 'len 4/4/2018 07:15:31'!
 isLattice
 	^ true! !
@@ -23168,10 +23199,6 @@ fundamentalVolume
 	"Answer the volume of the fundamental region."
 	^ self determinant sqrt! !
 
-!RationalLattice methodsFor: 'testing' stamp: 'len 3/19/2018 15:35:20'!
-includes: anObject
-	^ ((self coordinatesOf: anObject) ifNil: [^ false]) allSatisfy: [:each| each isInteger]! !
-
 !RationalLattice methodsFor: 'accessing' stamp: 'len 12/8/2017 18:29:59'!
 innerProduct
 	^ self ambient innerProduct! !
@@ -23188,12 +23215,15 @@ isRootLattice
 	self basis do: [:v| (self innerProduct value: v value: v) = 2 ifFalse: [^ false]].
 	^ true! !
 
-!RationalLattice methodsFor: 'testing' stamp: 'len 12/30/2015 22:04'!
+!RationalLattice methodsFor: 'testing' stamp: 'len 4/7/2018 18:18:44'!
 isSelfDual
 	"A self-dual lattice is a lattice L that equals it's dual L*, L = L*.
 	A (integral) lattice is self-dual iff it is unimodular."
-	self flag: #fix. "all self-dual lattices are integral?"
-	^ self isUnimodular! !
+	^ self = self reciprocal
+	
+"alternative:
+	^ self isUnimodular
+"! !
 
 !RationalLattice methodsFor: 'testing' stamp: 'len 12/30/2015 21:51'!
 isUnimodular
@@ -23346,6 +23376,10 @@ on: aVectorSpace matrix: aMatrix
 	M _ aMatrix HNF.
 	M _ Matrix rows: (M rows select: [:each| each isZero not]).	
 	^ self new ambient: aVectorSpace; matrix: M! !
+
+!Subspace methodsFor: 'as yet unclassified' stamp: 'len 4/7/2018 18:29:10'!
+isEmbedded
+	^ true! !
 
 !Subspace methodsFor: 'as yet unclassified' stamp: 'len 4/4/2018 07:16:01'!
 isLattice

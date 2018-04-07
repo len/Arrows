@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 5 April 2018 at 4:08:35 pm'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 7 April 2018 at 11:00:47 pm'!
 'Description Please enter a description for this package'!
-!provides: 'MathematicsTests' 1 90!
+!provides: 'MathematicsTests' 1 91!
 !classDefinition: #AbelianGroupTest category: #MathematicsTests!
 TestCase subclass: #AbelianGroupTest
 	instanceVariableNames: ''
@@ -3004,6 +3004,14 @@ testLatticeD4SelfDual
 	D4 _ RationalLattice D4.
 	self assert: D4 isSelfDual! !
 
+!LatticeTest methodsFor: 'as yet unclassified' stamp: 'len 4/6/2018 06:00:26'!
+testLatticeDnDual
+	| D R |
+	D _ RationalLattice D: 5.
+	R _ RationalLattice Ddual: 5.
+	self assert: D reciprocal = R.
+	self assert: D = R reciprocal! !
+
 !LatticeTest methodsFor: 'as yet unclassified' stamp: 'len 4/5/2018 04:49:25'!
 testLatticeDual
 	| L R I |
@@ -5981,6 +5989,16 @@ testDirectProduct
 	P _ R × S.
 	self testRing: P.
 	self testRingHomomorphism: (P projection: 2 atRandom)! !
+
+!RingTest methodsFor: 'as yet unclassified' stamp: 'len 4/7/2018 21:04:39'!
+testFiniteRing
+	| R |
+	R _ (ZZ/2) polynomials.
+	R _ R / (R x^3 - R x).
+	self assert: R isField not.
+	self assert: R size = 8.
+	self assert: R units size = 2.
+	self assert: R zeroDivisors size = 6! !
 
 !RingTest methodsFor: 'as yet unclassified' stamp: 'len 10/20/2016 06:06'!
 testKrullDimension
