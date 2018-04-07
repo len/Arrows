@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 7 April 2018 at 4:21:46 am'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 7 April 2018 at 6:31:54 am'!
 'Description A computational algebra system in Smalltalk'!
-!provides: 'Mathematics' 1 418!
+!provides: 'Mathematics' 1 419!
 !requires: 'RayTracer' 1 2 nil!
 !classDefinition: #RealAlgebraicNumber category: #'Mathematics-Fields'!
 Number subclass: #RealAlgebraicNumber
@@ -22914,10 +22914,10 @@ isDual
 isEndomorphisms
 	^ domain = codomain! !
 
-!FreeHomModule methodsFor: 'private' stamp: 'len 1/5/2016 03:20'!
+!FreeHomModule methodsFor: 'private' stamp: 'len 4/7/2018 06:22:32'!
 matrices
 	"Answer the vector space of the matrices associated to the transformations of the receiver."
-	^ self scalars ^ (self codomain dimension @ self domain dimension)! !
+	^ self scalars ^ (self codomain rank @ self domain rank)! !
 
 !FreeHomModule methodsFor: 'elements' stamp: 'len 1/21/2018 21:45:58'!
 matrix: aMatrix
@@ -28650,14 +28650,14 @@ linearMap
 linearMap: aLinearMap
 	linearMap _ aLinearMap! !
 
-!AffineMap methodsFor: 'accessing' stamp: 'len 4/5/2018 15:26:46'!
+!AffineMap methodsFor: 'accessing' stamp: 'len 4/7/2018 06:21:34'!
 matrix
 	| K zero A b |
 	K _ linearMap domain scalars.
 	zero _ K zero.
 	A _ linearMap matrix.
 	b _ linearMap codomain coordinatesOf: translation.
-	^ K matrix: (A dimension + (1@1))
+	^ K matrix: A extent + (1@1)
 		evaluating: [:i :j|
 			(i <= A height and: [j <= A width])
 				ifTrue: [A at: i@j]
@@ -33457,10 +33457,6 @@ denominator
 	self do: [:each| answer _ answer lcm: each denominator].
 	^ answer! !
 
-!Tuple methodsFor: 'accessing' stamp: 'len 3/29/2016 19:05'!
-dimension
-	^ self size! !
-
 !Tuple methodsFor: 'enumerating' stamp: 'len 11/5/2016 06:46'!
 do: aBlock
 	1 to: self size do: [:each| aBlock value: (self at: each)]! !
@@ -34406,11 +34402,11 @@ termAt: aModuleMonomial
 	(anObject is: #Tuple) ifTrue: [^ self dotProductWithTuple: anObject].
 	^ self collect: [:each| each * anObject]! !
 
-!Matrix methodsFor: 'arithmetic' stamp: 'len 11/5/2016 07:02'!
+!Matrix methodsFor: 'arithmetic' stamp: 'len 4/7/2018 06:23:24'!
 + aMatrix
 	self checkDimensionMatch: aMatrix.
 	self checkScalarsMatch: aMatrix.
-	^ self scalars matrix: self dimension evaluating: [:i :j| (self at: i@j) + (aMatrix at: i@j)]! !
+	^ self scalars matrix: self extent evaluating: [:i :j| (self at: i@j) + (aMatrix at: i@j)]! !
 
 !Matrix methodsFor: 'operations' stamp: 'len 1/24/2018 21:13:27'!
 , aMatrix
@@ -34544,11 +34540,11 @@ allSatisfy: aBlock
 antitransposed
 	^ RowMatrix rows: (self columns reversed collect: [:each| each reversed])! !
 
-!Matrix methodsFor: 'operations' stamp: 'len 3/2/2017 19:59:53'!
+!Matrix methodsFor: 'operations' stamp: 'len 4/7/2018 06:23:31'!
 apply: aMorphism
 	"Apply a homomorphism to the coefficients of the receiver."
 	aMorphism domain = self scalars
-		ifTrue: [^ aMorphism codomain matrix: self dimension evaluating: [:i :j| aMorphism value: (self at: i@j)]].
+		ifTrue: [^ aMorphism codomain matrix: self extent evaluating: [:i :j| aMorphism value: (self at: i@j)]].
 	^ DomainError signal! !
 
 !Matrix methodsFor: 'converting' stamp: 'len 12/23/2015 05:12'!
@@ -34634,13 +34630,13 @@ berkowitz: x
 bitSize
 	^ self rows inject: 0 into: [:x :each| x + each bitSize]! !
 
-!Matrix methodsFor: 'operations' stamp: 'len 11/5/2016 03:30'!
+!Matrix methodsFor: 'operations' stamp: 'len 4/7/2018 06:23:36'!
 characteristicMatrix
 	"Answer the characteristic matrix A - xI."
 	| P x |
 	P _ self scalars polynomials.
 	x _ P x.
-	^ P matrix: self dimension
+	^ P matrix: self extent
 		evaluating: [:i :j|
 			i == j
 				ifTrue: [(P constant: (self at: i @ j)) - x]
@@ -34651,12 +34647,12 @@ characteristicPolynomial
 	self isSquare ifFalse: [DomainError signal: 'not a square matrix'].
 	^ self scalars polynomials coefficients: self berkowitz reversed! !
 
-!Matrix methodsFor: 'operations' stamp: 'len 11/5/2016 03:49'!
+!Matrix methodsFor: 'operations' stamp: 'len 4/7/2018 06:23:46'!
 characteristicPolynomial2
 	| P x |
 	P _ self scalars polynomials.
 	x _ P x.
-	^ (P matrix: self dimension
+	^ (P matrix: self extent
 		evaluating: [:i :j| i == j ifTrue: [x - (P constant: (self at: i @ j))] ifFalse: [P constant: (self at: i @ j) negated]]) determinant! !
 
 !Matrix methodsFor: 'operations' stamp: 'len 4/5/2018 15:40:19'!
@@ -34689,10 +34685,10 @@ characteristicPolynomialAndAdjoint
 	a add: C trace negated / i.
 	C _ C + (I * a last)] repeat! !
 
-!Matrix methodsFor: 'private' stamp: 'len 11/5/2016 03:45'!
+!Matrix methodsFor: 'private' stamp: 'len 4/7/2018 06:24:49'!
 checkDimensionMatch: aMatrix
-	self dimension = aMatrix dimension
-		ifFalse: [^ DomainError signal: 'dimensions don''t match']! !
+	(self width = aMatrix width and: [self height = aMatrix height])
+		ifFalse: [^ DomainError signal: 'matrix sizes don''t match']! !
 
 !Matrix methodsFor: 'private' stamp: 'len 11/5/2016 07:01'!
 checkScalarsMatch: aMatrix
@@ -34735,9 +34731,9 @@ cokernelMatrix
 		row isZero ifTrue: [kernel add: (reduction extension rowAt: i)]].
 	^ Matrix rows: kernel! !
 
-!Matrix methodsFor: 'enumerating' stamp: 'len 11/5/2016 03:32'!
+!Matrix methodsFor: 'enumerating' stamp: 'len 4/7/2018 06:25:05'!
 collect: aBlock
-	^ self scalars matrix: self dimension evaluating: [:i :j| aBlock value: (self at: i@j)]! !
+	^ self scalars matrix: self extent evaluating: [:i :j| aBlock value: (self at: i@j)]! !
 
 !Matrix methodsFor: 'accessing' stamp: 'len 3/5/2016 22:28'!
 columnAt: i put: aTuple
@@ -34861,10 +34857,6 @@ diagonalDo: aBlock
 	i _ 1.
 	self rowsDo: [:each| aBlock value: (each at: i). i _ i + 1]! !
 
-!Matrix methodsFor: 'accessing' stamp: 'len 4/5/2018 15:29:36'!
-dimension
-	^ self height @ self width! !
-
 !Matrix methodsFor: 'enumerating' stamp: 'len 4/5/2018 15:29:50'!
 do: aBlock
 	1 to: self height do: [:i|
@@ -34897,9 +34889,9 @@ echelon
 	self isEmpty ifTrue: [^ self].
 	^ self reduction reduced! !
 
-!Matrix methodsFor: 'spectrum' stamp: 'len 11/5/2016 03:36'!
+!Matrix methodsFor: 'spectrum' stamp: 'len 4/7/2018 06:25:14'!
 eigenspaceAt: anEigenvalue
-	^ (self scalars matrix: self dimension evaluating: [:i :j| i = j ifTrue: [(self at: i@j) - anEigenvalue] ifFalse: [self at: i@j]]) kernel! !
+	^ (self scalars matrix: self extent evaluating: [:i :j| i = j ifTrue: [(self at: i@j) - anEigenvalue] ifFalse: [self at: i@j]]) kernel! !
 
 !Matrix methodsFor: 'spectrum' stamp: 'len 2/6/2016 19:39'!
 eigenvalues
@@ -34911,12 +34903,16 @@ extended
 	(self isSquare and: [self isFullRank]) ifTrue: [^ self].
 	^ (self, (self scalars identityMatrix: self width)) transposed imageMatrix! !
 
-!Matrix methodsFor: 'arithmetic' stamp: 'len 11/12/2016 08:16'!
+!Matrix methodsFor: 'accessing' stamp: 'len 4/7/2018 06:20:08'!
+extent
+	^ self height @ self width! !
+
+!Matrix methodsFor: 'arithmetic' stamp: 'len 4/7/2018 06:25:26'!
 hadamard: aMatrix
 	"Answer the entrywise product of the receiver with the argument (also called Hadamard produect or Schur product)."
 	self checkDimensionMatch: aMatrix.
 	self checkScalarsMatch: aMatrix.
-	^ self scalars matrix: self dimension evaluating: [:i :j| (self at: i@j) * (aMatrix at: i@j)]! !
+	^ self scalars matrix: self extent evaluating: [:i :j| (self at: i@j) * (aMatrix at: i@j)]! !
 
 !Matrix methodsFor: 'private' stamp: 'len 12/13/2016 09:51:35'!
 hadamardBound
@@ -34933,9 +34929,9 @@ hash
 			answer _ answer hashMultiply + (self at: i@j) hash]].
 	^ answer! !
 
-!Matrix methodsFor: 'constants' stamp: 'len 11/5/2016 03:37'!
+!Matrix methodsFor: 'constants' stamp: 'len 4/7/2018 06:25:38'!
 identity
-	^ self scalars matrix: self dimension scalar: self scalars one! !
+	^ self scalars matrix: self extent scalar: self scalars one! !
 
 !Matrix methodsFor: 'subspaces' stamp: 'len 4/5/2018 15:42:04'!
 image
@@ -35137,7 +35133,7 @@ isZero
 isZeroAt: aPoint
 	^ (self at: aPoint) isZero! !
 
-!Matrix methodsFor: 'reduction' stamp: 'len 4/5/2018 15:42:26'!
+!Matrix methodsFor: 'reduction' stamp: 'len 4/7/2018 06:26:26'!
 jordan
 	"Answer the Jordan blocks of the receiver's Jordan normal form."
 	| spectrum blocks one zero |
@@ -35151,7 +35147,7 @@ jordan
 		| multiplicity dimensions X T count |
 		multiplicity _ spectrum occurrencesOf: eigenvalue.
 		dimensions _ OrderedCollection new.
-		X _ self - (self scalars matrix: self dimension scalar: eigenvalue).
+		X _ self - (self scalars matrix: self extent scalar: eigenvalue).
 		T _ X.
 		[(dimensions add: T nullity) < multiplicity] whileTrue: [T _ T * X].
 		count _ 0.
@@ -35315,10 +35311,10 @@ printBitsOn: aStream
 			separatedBy: [aStream nextPut: $]; lf; nextPutAll: ' ['].
 	aStream nextPut: $]! !
 
-!Matrix methodsFor: 'printing' stamp: 'len 4/5/2018 15:33:10'!
+!Matrix methodsFor: 'printing' stamp: 'len 4/7/2018 06:26:48'!
 printOn: aStream
 	| lengths string pad |
-	self dimension = (0@0) ifTrue: [aStream nextPutAll: '[]'. ^ self].
+	self isEmpty ifTrue: [aStream nextPutAll: '[]'. ^ self].
 	self scalars size = 2 ifTrue: [^ self printBitsOn: aStream].
 	lengths _ (1 to: self width) collect: [:each| 0].
 	self rows do: [:each|
@@ -35422,7 +35418,7 @@ solveLeft: aMatrix
 	aMatrix isTuple ifTrue: [^ self transposed solveRight: aMatrix].
 	^ (self transposed solveRight: aMatrix transposed) transposed! !
 
-!Matrix methodsFor: 'operations' stamp: 'len 4/5/2018 15:33:36'!
+!Matrix methodsFor: 'operations' stamp: 'len 4/7/2018 06:27:01'!
 solveRight: aMatrix
 	"Answer X such that A * X = B, where A is self and B is aMatrix.
 	The argument can also be a tuple, in which case it is considered
@@ -35435,7 +35431,7 @@ solveRight: aMatrix
 	R isField ifTrue: [K _ R] ifFalse: [K _ R fractions. A _ A over: K. B _ B over: K].
 	(A isSquare and: [A isFullRank])
 		ifTrue: [M _ A | B.
-					X _ M echelon copyFrom: 1@(self width + 1) to: M dimension]
+					X _ M echelon copyFrom: 1@(self width + 1) to: M extent]
 		ifFalse: [X _ A solveRightGeneral: B].
 	A * X = B ifFalse: [^ nil "no solution"].
 	R = K ifFalse:
@@ -35482,9 +35478,9 @@ trace
 transposed
 	^ RowMatrix rows: self columns! !
 
-!Matrix methodsFor: 'constants' stamp: 'len 11/5/2016 03:40'!
+!Matrix methodsFor: 'constants' stamp: 'len 4/7/2018 06:27:07'!
 zero
-	^ self scalars matrix: self dimension scalar: self scalars zero! !
+	^ self scalars matrix: self extent scalar: self scalars zero! !
 
 !Matrix class methodsFor: 'instance creation' stamp: 'len 1/17/2017 08:12:11'!
 columns: anArray
