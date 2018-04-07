@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 5 April 2018 at 4:07:00 pm'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 7 April 2018 at 4:21:46 am'!
 'Description A computational algebra system in Smalltalk'!
-!provides: 'Mathematics' 1 417!
+!provides: 'Mathematics' 1 418!
 !requires: 'RayTracer' 1 2 nil!
 !classDefinition: #RealAlgebraicNumber category: #'Mathematics-Fields'!
 Number subclass: #RealAlgebraicNumber
@@ -4164,7 +4164,7 @@ Cyclotomic fields, i.e. number fields obtained by adjoining a complex primitive 
 Quadratic number fields, i.e. number fields with defining quadratic polynomial of the form x^2 - d, with d a squarefree integer.!
 
 !AffineRing commentStamp: '<historical>' prior: 0!
-Quotients of polynomial rings. They are called affine rings or affine algebras because they are finitely-generated (commutative) algebras and they are the coordinate rings of affine varieties (closed subschemes of affine space). They are also sometimes called the 'rings of regular functions' (on affine varieties). Their elements are RegularFunctions.
+Quotients of polynomial rings. They are called affine rings or affine algebras because they are finitely-generated (commutative) algebras and they are the coordinate rings of affine varieties (closed subschemes of affine space, see AffineVariety). They are also sometimes called the 'rings of regular functions' (on affine varieties). Their elements are RegularFunctions.
 
 When the coefficients ring is a field K and the relations ideal I is maximal, the affine algebra K[X]/I is a field. In this way, affine algebras are multivariate generalizations of number fields and algebraic function fields.!
 
@@ -4295,10 +4295,12 @@ Free R-modules (or K-vector spaces) of linear maps from a free R-module (or K-ve
 See FreeModule and LinearMap.!
 
 !Lattice commentStamp: '<historical>' prior: 0!
-Free R-modules embedded in a K-vector space, where R is a PID and K is its field of fractions.!
+Free R-modules embedded in a K-vector space, where R is a PID and K is its field of fractions.
+
+Lattice coordinates are in R, while the elements of a lattice are elements of the ambient K-vector space.!
 
 !QuotientSpace commentStamp: '<historical>' prior: 0!
-Quotient spaces V/S (read "V mod S") of a given vector space V modulo a submodule S.
+Quotient spaces V/S (read "V mod S") of a given vector space V modulo a subspace S.
 
 The elements of a quotient space are cosets (affine subspaces, flats) S + x with x in V, and they form a vector space. See AffineSubspace.
 
@@ -4308,7 +4310,9 @@ References:
 	https://en.wikipedia.org/wiki/Quotient_space_(linear_algebra)!
 
 !RationalLattice commentStamp: '<historical>' prior: 0!
-A rational lattice is the set of integer linear combinations of a basis of a rational vector space. This is a discrete subgroup of the ambient Q-vector space (as abelian group) isomorphic to Z^n, and a free Z-module.!
+A rational lattice is the set of integer linear combinations of a basis of a rational vector space. This is a discrete subgroup of the ambient Q-vector space (as abelian group) isomorphic to Z^n, and a free Z-module.
+
+Lattice coordinates are in Z, while the elements of the receiver live in the ambient Q-vector space.!
 
 !Subspace commentStamp: '<historical>' prior: 0!
 K-vector subspaces embedded in an ambient K-vector space.!
@@ -4793,7 +4797,7 @@ Residue classes of integers modulo an integer m, i.e. elements of the quotient r
 Elements of finite algebraic field extensions. See AlgebraicExtensionField.!
 
 !RegularFunction commentStamp: '<historical>' prior: 0!
-Residue classes of polynomials modulo an ideal. They are elements of a quotient polynomial ring (an affine algebra, see AffineRing). They correspond to regular functions on an affine variety.!
+Residue classes of polynomials modulo an ideal. They are elements of a quotient polynomial ring (an affine algebra, see AffineRing). They correspond to regular functions on an affine variety (see AffineVariety).!
 
 !ComplexAlgebraicNumber commentStamp: '<historical>' prior: 0!
 Complex algebraic numbers, i.e. zeroes of polynomials with integer coefficients, in 'minimal polynomial' representation. See also RealAlgebraicNumber.
@@ -18482,9 +18486,9 @@ initialize
 	super initialize.
 	Smalltalk at: #QQ put: self new! !
 
-!RationalFunctionField methodsFor: 'morphisms' stamp: 'len 12/24/2017 22:14:56'!
+!RationalFunctionField methodsFor: 'morphisms' stamp: 'len 4/6/2018 23:42:36'!
 embed: aPolynomial
-	^ RationalFunction numerator: (aPolynomial as: self integers) denominator: self integers one! !
+	^ RationalFunction numerator: self integers !! aPolynomial denominator: self integers one! !
 
 !RationalFunctionField methodsFor: 'operations' stamp: 'len 1/23/2017 11:45:48'!
 extension: aPolynomial
@@ -23257,11 +23261,11 @@ A: n
 	n timesRepeat: [B add: t. t _ t >> 1].
 	^ self basis: B! !
 
-!RationalLattice class methodsFor: 'examples' stamp: 'len 12/13/2017 21:34:17'!
+!RationalLattice class methodsFor: 'examples' stamp: 'len 4/5/2018 18:09:29'!
 Adual: n
 	"Answer the dual of A_n."
 	| V B |
-	V _ QQ ^ (n+1).
+	V _ QQ ^ n.
 	B _ OrderedCollection new.
 	1 to: n do: [:i| B add: (1, (V e: i) negated)].
 	B add: (QQ tuple: n+1 evaluating: [:i| i=1 ifTrue: [n negated / (n+1)] ifFalse: [1 / (n+1)]]).
@@ -25966,13 +25970,13 @@ singular
 species
 	^ AffineVariety! !
 
-!AffineVariety methodsFor: 'operations' stamp: 'len 2/12/2017 06:02:05'!
+!AffineVariety methodsFor: 'operations' stamp: 'len 4/6/2018 23:43:41'!
 tangentConeAt: aTuple
 	"Answer the affine tangent cone at the given point."
 	| R I |
 	R _ self ambient coordinateRing.
 	I _ (self translatedBy: aTuple negated) ideal.
-	^ (self ambient subscheme: ((I basisWithOrdering: #lglex) collect: [:each| each leadingForm as: R])) translatedBy: aTuple! !
+	^ (self ambient subscheme: ((I basisWithOrdering: #lglex) collect: [:each| R !! each leadingForm])) translatedBy: aTuple! !
 
 !AffineVariety methodsFor: 'operations' stamp: 'len 2/10/2017 20:13:34'!
 tangentSpaceAt: aTuple
@@ -31863,17 +31867,19 @@ verify
 root: aPoint generators: anArray action: aGroupAction
 	^ self new root: aPoint generators: anArray action: aGroupAction! !
 
-!FormalFraction methodsFor: 'arithmetic' stamp: 'len 10/29/2016 16:06'!
+!FormalFraction methodsFor: 'arithmetic' stamp: 'len 4/7/2018 00:34:52'!
 * anObject
-	(anObject is: #Fraction)
+	anObject class == self class
 		ifTrue: [^ self class numerator: numerator * anObject numerator denominator: denominator * anObject denominator].
 	^ self class numerator: numerator * anObject denominator: denominator! !
 
-!FormalFraction methodsFor: 'arithmetic' stamp: 'len 11/28/2015 06:33'!
+!FormalFraction methodsFor: 'arithmetic' stamp: 'len 4/7/2018 01:03:10'!
 + anObject
-	^ self class
+	anObject class == self class
+		ifTrue: [^ self class
 			numerator: numerator * anObject denominator + (denominator * anObject numerator)
-			denominator: denominator * self denominator! !
+			denominator: denominator * anObject denominator].
+	^ self class numerator: numerator + (denominator * anObject) denominator: denominator! !
 
 !FormalFraction methodsFor: 'arithmetic' stamp: 'len 11/28/2015 06:34'!
 - anObject
@@ -31883,9 +31889,9 @@ root: aPoint generators: anArray action: aGroupAction
 / anObject
 	^ self * anObject reciprocal! !
 
-!FormalFraction methodsFor: 'comparing' stamp: 'len 1/23/2018 21:33:23'!
-= aFormalFraction
-	^ (aFormalFraction is: #Fraction) and: [numerator * aFormalFraction denominator = (denominator * aFormalFraction numerator)] "this is wrong unless the units don't contain any zerodivisor, for example localizations of integral domains"! !
+!FormalFraction methodsFor: 'comparing' stamp: 'len 4/7/2018 01:03:54'!
+= anObject
+	^ anObject class == self class and: [numerator * anObject denominator = (denominator * anObject numerator)] "this is wrong unless the units don't contain any zerodivisor, for example localizations of integral domains"! !
 
 !FormalFraction methodsFor: 'arithmetic' stamp: 'len 1/22/2017 08:13:41'!
 ^ anInteger
@@ -31929,98 +31935,49 @@ numerator
 one
 	^ self class numerator: numerator one denominator: denominator one! !
 
-!FormalFraction methodsFor: 'printing' stamp: 'len 10/24/2016 12:21'!
+!FormalFraction methodsFor: 'printing' stamp: 'len 4/7/2018 00:39:37'!
 printOn: aStream
 	| string |
-	self denominator = self denominator one ifTrue: [aStream print: self numerator. ^ self].
-	aStream print: self numerator; nextPutAll: ' / '.
-	string _ self denominator printString.
+	denominator = denominator one ifTrue: [aStream print: numerator. ^ self].
+	aStream print: numerator; nextPutAll: ' / '.
+	string _ denominator printString.
 	((string includes: $+) or: [string includes: $-])
-		ifTrue: [aStream nextPut: $(; print: self denominator; nextPut: $)]
-		ifFalse: [aStream print: self denominator]! !
+		ifTrue: [aStream nextPut: $(; print: denominator; nextPut: $)]
+		ifFalse: [aStream print: denominator]! !
 
-!FormalFraction methodsFor: 'arithmetic' stamp: 'len 10/24/2016 12:05'!
+!FormalFraction methodsFor: 'arithmetic' stamp: 'len 4/7/2018 00:37:00'!
 reciprocal
-	^ self class numerator: self denominator denominator: self numerator! !
+	^ self class numerator: denominator denominator: numerator! !
 
-!FormalFraction methodsFor: 'private' stamp: 'len 11/1/2016 00:26'!
-reduce
-	| gcd |
-	numerator isZero ifTrue: [denominator _ numerator one. ^ self].
-	gcd _ numerator gcd: denominator.
-	numerator _ numerator /// gcd.
-	denominator _ denominator /// gcd! !
-
-!FormalFraction methodsFor: 'private' stamp: 'len 11/28/2015 06:33'!
+!FormalFraction methodsFor: 'private' stamp: 'len 4/5/2018 17:54:53'!
 setNumerator: anObject denominator: anotherObject
-	numerator _ anObject.
-	denominator _ anotherObject.
-	self reduce! !
-
-!FormalFraction methodsFor: 'private' stamp: 'len 12/30/2016 20:28:37'!
-setReducedNumerator: anObject denominator: anotherObject
 	numerator _ anObject.
 	denominator _ anotherObject! !
 
-!FormalFraction methodsFor: 'arithmetic' stamp: 'len 11/28/2015 06:38'!
+!FormalFraction methodsFor: 'arithmetic' stamp: 'len 4/7/2018 00:37:15'!
 squared
 	^ self class
-		numerator: self numerator squared
-		denominator: self denominator squared! !
+		numerator: numerator squared
+		denominator: denominator squared! !
 
 !FormalFraction methodsFor: 'constants' stamp: 'len 11/28/2015 06:38'!
 zero
 	^ self class numerator: numerator zero denominator: denominator one! !
 
-!FormalFraction class methodsFor: 'instance creation' stamp: 'len 11/28/2015 06:30'!
+!FormalFraction class methodsFor: 'instance creation' stamp: 'len 4/7/2018 01:22:08'!
 numerator: anObject denominator: anotherObject
-	^ self new setNumerator: anObject denominator: anotherObject! !
+	| numerator denominator gcd |
+	(numerator _ anObject) isZero ifTrue: [^ numerator].
+	denominator _ anotherObject.
+	gcd _ numerator gcd: denominator.
+	numerator _ numerator /// gcd.
+	denominator _ denominator /// gcd.
+	denominator = denominator one ifTrue: [^ numerator].
+	^ self reducedNumerator: numerator denominator: denominator! !
 
-!FormalFraction class methodsFor: 'instance creation' stamp: 'len 12/30/2016 20:28:20'!
+!FormalFraction class methodsFor: 'instance creation' stamp: 'len 4/7/2018 00:41:16'!
 reducedNumerator: anObject denominator: anotherObject
-	^ self new setReducedNumerator: anObject denominator: anotherObject! !
-
-!RationalFunction methodsFor: 'arithmetic' stamp: 'len 12/28/2015 19:41'!
-* anObject
-	"Answer the multiplication of the receiver and the argument."
-
-	anObject class = self class ifTrue: [
-"		g1 _ self numerator gcd: anObject denominator.
-		g2 _ self denominator gcd: anObject numerator.
-		newNumerator _ self numerator // g1 * (anObject numerator // g2).
-		newDenominator _ self denominator // g2 * (anObject denominator // g1).
-		^ (newDenominator = 1 or: [newNumerator isNull])
-			ifTrue: [newNumerator]
-			ifFalse: [self class numerator: newNumerator denominator: newDenominator]"
-		^ self class numerator: self numerator * anObject numerator denominator: self denominator * anObject denominator].
-	^ self class numerator: self numerator * anObject denominator: self denominator! !
-
-!RationalFunction methodsFor: 'arithmetic' stamp: 'len 10/16/2016 20:52'!
-+ anObject
-	"Answer the sum of the receiver and the argument."
-
-	anObject class = self class ifTrue: [
-		"denGcd _ self denominator gcd: anObject denominator.
-		rden1  _ self denominator // denGcd.
-		rden2 _ anObject denominator // denGcd.
-		crossProduct _ self numerator * rden2 + (anObject numerator * rden1).
-		crossGcd _ crossProduct gcd: denGcd.
-		((newDen _ denGcd // crossGcd * rden1 * rden2) = 1 or: [crossProduct isNull])
-			ifTrue: [^ crossProduct // crossGcd].
-		^ self class
-			numerator: crossProduct // crossGcd
-			denominator: newDen"
-		^ self class
-			numerator: self numerator * anObject denominator + (self denominator * anObject numerator)
-			denominator: self denominator * anObject denominator].
-
-	^ self class numerator: self numerator + (self denominator * anObject) denominator: self denominator! !
-
-!RationalFunction methodsFor: 'comparing' stamp: 'len 11/1/2016 05:04'!
-= anObject
-	(anObject is: #Fraction)
-		ifTrue: [^ self numerator * anObject denominator = (self denominator * anObject numerator)].
-	^ self numerator = (anObject * self denominator)! !
+	^ self new setNumerator: anObject denominator: anotherObject! !
 
 !RationalFunction methodsFor: 'converting' stamp: 'len 10/17/2016 09:33'!
 adaptToNumber: rcvr andSend: selector
@@ -32044,35 +32001,35 @@ allRootsIn: aRing
 	"Answer the roots (counted with multiplicity) in the given domain."
 	^ numerator allRootsIn: aRing! !
 
-!RationalFunction methodsFor: 'operations' stamp: 'len 11/28/2015 06:35'!
+!RationalFunction methodsFor: 'operations' stamp: 'len 4/7/2018 01:05:12'!
 degree
-	^ self numerator degree - self denominator degree! !
+	^ numerator degree - denominator degree! !
 
-!RationalFunction methodsFor: 'operations' stamp: 'len 11/1/2016 18:43'!
+!RationalFunction methodsFor: 'operations' stamp: 'len 4/7/2018 01:05:41'!
 derivative
 	"Answer the derivative of the receiver."
 
 	| num gcd |
-	num _ self denominator * self numerator derivative - (self numerator * self denominator derivative).
-	gcd _ self denominator gcd: num.
-	^ self class numerator: num // gcd denominator: (self denominator // gcd) squared * gcd! !
+	num _ denominator * numerator derivative - (numerator * denominator derivative).
+	gcd _ denominator gcd: num.
+	^ self class numerator: num // gcd denominator: (denominator // gcd) squared * gcd! !
 
-!RationalFunction methodsFor: 'operations' stamp: 'len 3/6/2017 16:50:08'!
+!RationalFunction methodsFor: 'operations' stamp: 'len 4/7/2018 01:06:26'!
 homogenized
 	"Answer the homogenization of the receiver introducing a new indeterminate."
 	| R S |
-	R _ self numerator parent.
+	R _ numerator parent.
 	S _ R scalars polynomialsIn: R rank + 1.
-	^ self class numerator: ((self numerator as: S) homogenizedIn: S rank) denominator: ((self denominator as: S) homogenizedIn: S rank)! !
+	^ self class numerator: (S !! numerator homogenizedIn: S rank) denominator: (S !! denominator homogenizedIn: S rank)! !
 
-!RationalFunction methodsFor: 'operations' stamp: 'len 11/4/2016 11:45'!
+!RationalFunction methodsFor: 'operations' stamp: 'len 4/7/2018 01:06:42'!
 homogenizedIn: anIndeterminate
 	"Answer the homogenization of the receiver in the given indeterminate."
-	^ self class numerator: (self numerator homogenizedIn: anIndeterminate) denominator: (self denominator homogenizedIn: anIndeterminate)! !
+	^ self class numerator: (numerator homogenizedIn: anIndeterminate) denominator: (denominator homogenizedIn: anIndeterminate)! !
 
-!RationalFunction methodsFor: 'accessing' stamp: 'pdm 3/22/98 20:53'!
+!RationalFunction methodsFor: 'accessing' stamp: 'len 4/7/2018 01:07:24'!
 indeterminates
-	^ Set new addAll: self numerator indeterminates; addAll: self denominator indeterminates; yourself! !
+	^ Set new addAll: numerator indeterminates; addAll: denominator indeterminates; yourself! !
 
 !RationalFunction methodsFor: 'testing' stamp: 'len 12/30/2016 20:11:17'!
 isAffineLinear
@@ -32098,24 +32055,24 @@ poles
 polesIn: aRing
 	^ denominator rootsIn: aRing! !
 
-!RationalFunction methodsFor: 'printing' stamp: 'len 10/24/2016 12:19'!
+!RationalFunction methodsFor: 'printing' stamp: 'len 4/7/2018 01:08:35'!
 printOn: aStream
-	self denominator = self denominator one ifTrue: [aStream print: self numerator. ^ self].
-	self numerator terms size > 1
-		ifTrue: [aStream nextPut: $(; print: self numerator; nextPut: $)]
-		ifFalse: [aStream print: self numerator].
+	denominator = denominator one ifTrue: [aStream print: numerator. ^ self].
+	numerator terms size > 1
+		ifTrue: [aStream nextPut: $(; print: numerator; nextPut: $)]
+		ifFalse: [aStream print: numerator].
 	aStream nextPutAll: ' / '.
-	self denominator terms size > 1
-		ifTrue: [aStream nextPut: $(; print: self denominator; nextPut: $)]
-		ifFalse: [aStream print: self denominator]! !
+	denominator terms size > 1
+		ifTrue: [aStream nextPut: $(; print: denominator; nextPut: $)]
+		ifFalse: [aStream print: denominator]! !
 
-!RationalFunction methodsFor: 'arithmetic' stamp: 'len 12/30/2016 20:29:47'!
+!RationalFunction methodsFor: 'arithmetic' stamp: 'len 4/7/2018 00:59:49'!
 reciprocal 
 	"Answer the multiplicative inverse of the receiver."
 
 	| mult |
-	mult _ self numerator leadingCoefficient reciprocal.
-"	self numerator isConstant ifTrue: [^ denominator * mult]."
+	mult _ numerator leadingCoefficient reciprocal.
+"	numerator isConstant ifTrue: [^ denominator * mult]."
 	^ self class reducedNumerator: denominator * mult denominator: numerator * mult! !
 
 !RationalFunction methodsFor: 'private' stamp: 'len 3/28/2018 15:44:58'!
@@ -32149,13 +32106,27 @@ setNumerator: f denominator: g
 	g parent isLocal ifFalse: [self halt].
 	super setNumerator: f denominator: g! !
 
-!RationalFunction methodsFor: 'operations' stamp: 'len 11/1/2016 18:41'!
+!RationalFunction methodsFor: 'operations' stamp: 'len 4/7/2018 01:06:56'!
 value: anObject
-	^ (self numerator value: anObject) / (self denominator value: anObject)! !
+	^ (numerator value: anObject) / (denominator value: anObject)! !
 
 !RationalFunction methodsFor: 'operations' stamp: 'len 11/1/2016 18:41'!
 valueWithArguments: anArray
 	^ self value: anArray! !
+
+!RationalFunction class methodsFor: 'as yet unclassified' stamp: 'len 4/7/2018 01:23:16'!
+numerator: aPolynomial denominator: anotherPolynomial
+	| numerator denominator gcd c |
+	(numerator _ aPolynomial) isZero ifTrue: [^ numerator].
+	denominator _ anotherPolynomial.
+	gcd _ numerator gcd: denominator.
+	numerator _ numerator /// gcd.
+	denominator _ denominator /// gcd.
+	c _ denominator leadingCoefficient reciprocal.
+	numerator _ numerator * c.
+	denominator _ denominator * c.
+	denominator = denominator one ifTrue: [^ numerator].
+	^ self reducedNumerator: numerator denominator: denominator! !
 
 !ResidueClass methodsFor: 'operations' stamp: 'len 2/14/2017 08:17:55'!
 * anObject
@@ -32458,11 +32429,11 @@ squareRoot
 characteristicPolynomial
 	^ (self parent asVectorSpace endomorphisms evaluating: [:x| x * self]) characteristicPolynomial! !
 
-!AlgebraicElement methodsFor: 'as yet unclassified' stamp: 'len 12/18/2016 20:05:25'!
+!AlgebraicElement methodsFor: 'as yet unclassified' stamp: 'len 4/6/2018 23:44:03'!
 characteristicPolynomial2
 	| x |
 	x _ QQ algebraicClosure polynomials x.
-	^ (self parent embeddings product: [:each| x - (each value: self)]) as: self parent base! !
+	^ self parent base !! (self parent embeddings product: [:each| x - (each value: self)])! !
 
 !AlgebraicElement methodsFor: 'as yet unclassified' stamp: 'len 11/3/2016 04:38'!
 minimalPolynomial
@@ -37242,7 +37213,7 @@ revlex: aCollection
 % anInteger
 	^ self apply: (self scalars % anInteger) projection! !
 
-!Polynomial methodsFor: 'arithmetic' stamp: 'len 4/3/2018 18:35:44'!
+!Polynomial methodsFor: 'arithmetic' stamp: 'len 4/6/2018 23:32:58'!
 * anObject
 	(anObject isInteger or: [self scalars includes: anObject])
 		ifTrue: [^ self multipliedByScalar: anObject].
@@ -37251,6 +37222,8 @@ revlex: aCollection
 	(anObject isKindOf: Monomial)
 		ifTrue: [^ self multipliedByMonomial: anObject].
 	((anObject isKindOf: Polynomial) and: [anObject scalars includes: self])
+		ifTrue: [^ anObject multipliedByScalar: self].
+	(anObject isKindOf: RationalFunction)
 		ifTrue: [^ anObject * self].
 	^ self multipliedByPolynomial: (self parent !! anObject)! !
 
@@ -37258,12 +37231,12 @@ revlex: aCollection
 - anObject
 	^ self + anObject negated! !
 
-!Polynomial methodsFor: 'arithmetic' stamp: 'len 1/28/2018 18:51:35'!
+!Polynomial methodsFor: 'arithmetic' stamp: 'len 4/6/2018 23:38:13'!
 / anObject
 	(anObject isKindOf: Monomial)
 		ifTrue: [^ self dividedByMonomial: anObject].
 	(self parent includes: anObject)
-		ifTrue: [^ (self parent fractions embed: self) / (self parent fractions embed: anObject)].
+		ifTrue: [^ RationalFunction numerator: self denominator: anObject].
 	(self scalars includes: anObject)
 		ifTrue: [^ self dividedByScalar: anObject].
 	anObject isInteger
@@ -37433,6 +37406,10 @@ degreeIn: anIndeterminate
 dehomogenizedIn: anIndeterminate
 	"Answer the dehomogenization of the receiver in the given indeterminate."
 	^ self monomialsApply: [:each| each dehomogenizedIn: anIndeterminate]! !
+
+!Polynomial methodsFor: 'accessing' stamp: 'len 4/7/2018 01:24:27'!
+denominator
+	^ self one! !
 
 !Polynomial methodsFor: 'accessing monomials' stamp: 'len 2/6/2017 06:40:57'!
 density
@@ -37841,6 +37818,10 @@ normMax
 	"Answer the maximum norm of the receiver."
 	^ self coefficients inject: self scalars zero into: [:x :each| x max: each abs]! !
 
+!Polynomial methodsFor: 'accessing' stamp: 'len 4/7/2018 01:24:22'!
+numerator
+	^ self! !
+
 !Polynomial methodsFor: 'constants' stamp: 'len 1/23/2017 11:42:59'!
 one
 	^ self parent one! !
@@ -38223,12 +38204,14 @@ zero
 new
 	^ self shouldNotImplement! !
 
-!MultivariatePolynomial methodsFor: 'arithmetic' stamp: 'len 12/24/2017 19:51:18'!
+!MultivariatePolynomial methodsFor: 'arithmetic' stamp: 'len 4/6/2018 23:50:16'!
 + anObject
 	(self parent includes: anObject)
 		ifTrue: [^ self addedWithPolynomial: anObject].
 	((self scalars includes: anObject) or: [anObject isInteger])
 		ifTrue: [^ self + (self one * anObject)].
+	(anObject isKindOf: RationalFunction)
+		ifTrue: [^ anObject + self].
 	^ DomainError signal! !
 
 !MultivariatePolynomial methodsFor: 'comparing' stamp: 'len 12/22/2017 17:51:27'!
@@ -38458,19 +38441,21 @@ parts: aCollection
 % anInteger
 	^ (self parent over: self scalars % anInteger) coefficients: self coefficients % anInteger! !
 
-!UnivariatePolynomial methodsFor: 'arithmetic' stamp: 'len 12/21/2017 20:06:28'!
+!UnivariatePolynomial methodsFor: 'arithmetic' stamp: 'len 4/6/2018 23:49:45'!
 + anObject
 	(self parent includes: anObject)
 		ifTrue: [^ self parent coefficients: self coefficients + anObject coefficients].
 	((self scalars includes: anObject) or: [anObject isInteger])
 		ifTrue: [^ self + (self one * anObject)].
+	(anObject isKindOf: RationalFunction)
+		ifTrue: [^ anObject + self].
 	^ DomainError signal! !
 
-!UnivariatePolynomial methodsFor: 'arithmetic' stamp: 'len 12/21/2017 20:06:32'!
+!UnivariatePolynomial methodsFor: 'arithmetic' stamp: 'len 4/6/2018 23:51:14'!
 - anObject
 	(self parent includes: anObject)
 		ifTrue: [^ self parent coefficients: self coefficients - anObject coefficients].
-	^ self + anObject negated! !
+	^ super - anObject! !
 
 !UnivariatePolynomial methodsFor: 'arithmetic' stamp: 'len 12/21/2017 20:06:55'!
 // anObject
