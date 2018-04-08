@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 7 April 2018 at 10:59:18 pm'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 8 April 2018 at 10:00:59 pm'!
 'Description A computational algebra system in Smalltalk'!
-!provides: 'Mathematics' 1 420!
+!provides: 'Mathematics' 1 421!
 !requires: 'RayTracer' 1 2 nil!
 !classDefinition: #RealAlgebraicNumber category: #'Mathematics-Fields'!
 Number subclass: #RealAlgebraicNumber
@@ -1182,8 +1182,18 @@ PrimeField subclass: #SmallPrimeField
 SmallPrimeField class
 	instanceVariableNames: ''!
 
+!classDefinition: #AffineRing category: #'Mathematics-Schemes-Affine'!
+QuotientRing subclass: #AffineRing
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Schemes-Affine'!
+!classDefinition: 'AffineRing class' category: #'Mathematics-Schemes-Affine'!
+AffineRing class
+	instanceVariableNames: ''!
+
 !classDefinition: #AlgebraicExtensionField category: #'Mathematics-Fields'!
-QuotientRing subclass: #AlgebraicExtensionField
+AffineRing subclass: #AlgebraicExtensionField
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
@@ -1240,16 +1250,6 @@ NumberField subclass: #QuadraticField
 	category: 'Mathematics-Fields-Number Fields'!
 !classDefinition: 'QuadraticField class' category: #'Mathematics-Fields-Number Fields'!
 QuadraticField class
-	instanceVariableNames: ''!
-
-!classDefinition: #AffineRing category: #'Mathematics-Schemes-Affine'!
-QuotientRing subclass: #AffineRing
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Schemes-Affine'!
-!classDefinition: 'AffineRing class' category: #'Mathematics-Schemes-Affine'!
-AffineRing class
 	instanceVariableNames: ''!
 
 !classDefinition: #RationalIntegerRing category: #'Mathematics-Rings'!
@@ -2602,16 +2602,6 @@ ResidueClass subclass: #ModularInteger
 ModularInteger class
 	instanceVariableNames: ''!
 
-!classDefinition: #AlgebraicElement category: #'Mathematics-Fields'!
-ResidueClass subclass: #AlgebraicElement
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Fields'!
-!classDefinition: 'AlgebraicElement class' category: #'Mathematics-Fields'!
-AlgebraicElement class
-	instanceVariableNames: ''!
-
 !classDefinition: #RegularFunction category: #'Mathematics-Schemes-Affine'!
 ResidueClass subclass: #RegularFunction
 	instanceVariableNames: ''
@@ -2620,6 +2610,16 @@ ResidueClass subclass: #RegularFunction
 	category: 'Mathematics-Schemes-Affine'!
 !classDefinition: 'RegularFunction class' category: #'Mathematics-Schemes-Affine'!
 RegularFunction class
+	instanceVariableNames: ''!
+
+!classDefinition: #AlgebraicElement category: #'Mathematics-Fields'!
+RegularFunction subclass: #AlgebraicElement
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Fields'!
+!classDefinition: 'AlgebraicElement class' category: #'Mathematics-Fields'!
+AlgebraicElement class
 	instanceVariableNames: ''!
 
 !classDefinition: #ComplexAlgebraicNumber category: #'Mathematics-Fields'!
@@ -4139,6 +4139,11 @@ Prime fields Z/pZ for small primes p, such that it is feasable to build exponent
 The initialization of the tables is very fast. The main concern is memory usage. For a field Z/pZ, each of the two tables have p-1 elements. They are WordArrays (32 bits per entry), so a field Z/pZ uses about 8*(p-1) bytes of memory. For example, Z/65537 uses 524K of memory, and Z/1048583 (a 20-bits modulus) uses about 8M.
 !
 
+!AffineRing commentStamp: '<historical>' prior: 0!
+Quotients of polynomial rings. They are called affine rings or affine algebras because they are finitely-generated (commutative) algebras and they are the coordinate rings of affine varieties (closed subschemes of affine space, see AffineVariety). They are also sometimes called the 'rings of regular functions' (on affine varieties). Their elements are RegularFunctions.
+
+When the coefficients ring is a field K and the relations ideal I is maximal, the affine algebra K[X]/I is a field. In this way, affine algebras are multivariate generalizations of number fields and algebraic function fields.!
+
 !AlgebraicExtensionField commentStamp: '<historical>' prior: 0!
 (Finite) algebraic extensions E/F of a field F. They are defined by an irreducible polynomial f with coefficients in F, and are isomorphic to F[x]/<f>. An extension field E/F can also be viewed as a vector space over F.
 
@@ -4160,11 +4165,6 @@ Cyclotomic fields, i.e. number fields obtained by adjoining a complex primitive 
 
 !QuadraticField commentStamp: '<historical>' prior: 0!
 Quadratic number fields, i.e. number fields with defining quadratic polynomial of the form x^2 - d, with d a squarefree integer.!
-
-!AffineRing commentStamp: '<historical>' prior: 0!
-Quotients of polynomial rings. They are called affine rings or affine algebras because they are finitely-generated (commutative) algebras and they are the coordinate rings of affine varieties (closed subschemes of affine space, see AffineVariety). They are also sometimes called the 'rings of regular functions' (on affine varieties). Their elements are RegularFunctions.
-
-When the coefficients ring is a field K and the relations ideal I is maximal, the affine algebra K[X]/I is a field. In this way, affine algebras are multivariate generalizations of number fields and algebraic function fields.!
 
 !RationalIntegerRing commentStamp: '<historical>' prior: 0!
 The singletion global instance ZZ is the ring of rational integers.!
@@ -4791,11 +4791,11 @@ Elements of a quotient ring. They are residue classes of elements of a ring modu
 !ModularInteger commentStamp: '<historical>' prior: 0!
 Residue classes of integers modulo an integer m, i.e. elements of the quotient ring Z/mZ (see ModularIntegers).!
 
-!AlgebraicElement commentStamp: '<historical>' prior: 0!
-Elements of finite algebraic field extensions. See AlgebraicExtensionField.!
-
 !RegularFunction commentStamp: '<historical>' prior: 0!
 Residue classes of polynomials modulo an ideal. They are elements of a quotient polynomial ring (an affine algebra, see AffineRing). They correspond to regular functions on an affine variety (see AffineVariety).!
+
+!AlgebraicElement commentStamp: '<historical>' prior: 0!
+Elements of finite algebraic field extensions. See AlgebraicExtensionField.!
 
 !ComplexAlgebraicNumber commentStamp: '<historical>' prior: 0!
 Complex algebraic numbers, i.e. zeroes of polynomials with integer coefficients, in 'minimal polynomial' representation. See also RealAlgebraicNumber.
@@ -18617,8 +18617,18 @@ includes: anObject
 	components with: anObject do: [:G :x| (G includes: x) ifFalse: [^ false]].
 	^ true! !
 
+!ProductRing methodsFor: 'testing' stamp: 'len 4/8/2018 18:34:22'!
+isCommutative
+	^ components allSatisfy: [:each| each isCommutative]! !
+
 !ProductRing methodsFor: 'testing' stamp: 'len 8/29/2016 04:14'!
 isProduct
+	^ true! !
+
+!ProductRing methodsFor: 'testing' stamp: 'len 4/8/2018 18:39:50'!
+isUnit: anElement
+	components withIndexDo: [:each :i|
+		(each isUnit: (anElement at: i)) ifFalse: [^ false]].
 	^ true! !
 
 !ProductRing methodsFor: 'accessing' stamp: 'len 8/29/2016 04:10'!
@@ -19025,6 +19035,165 @@ modulus: anInteger
 	super modulus: anInteger.
 	self computeTables! !
 
+!AffineRing methodsFor: 'operations' stamp: 'len 1/7/2018 17:28:21'!
+^ n
+	(n isInteger and: [self isMultivariate]) ifFalse: [^ super ^ n].
+	^ MultivariateTupleModule new: n over: self! !
+
+!AffineRing methodsFor: 'operations' stamp: 'len 2/27/2017 20:46:09'!
+’ aRing
+	"Answer the tensor product of the receiver with the argument."
+	| R relations |
+	((aRing isKindOf: AffineRing) and: [aRing scalars = self scalars])
+		ifFalse: [^ self notYetImplemented].
+	R _ self base ’ aRing base.
+	relations _ OrderedCollection new.
+	self relations generators do: [:f| relations add: R !! f].
+	aRing relations generators do: [:g| relations add: (R !! g substitute: [:i| i + self base rank])].
+	^ R / relations! !
+
+!AffineRing methodsFor: 'converting' stamp: 'len 1/8/2017 22:02:04'!
+asModule
+"	^ FreeModule
+		basis: ((1 to: self degree) collect: [:i| self x ^ (i-1)])
+		coordinates: [:aVector| self scalars tuple: self degree evaluating: [:i| aVector representative coefficientAtDegree: i-1]]
+		over: self scalars
+"
+	self notYetImplemented! !
+
+!AffineRing methodsFor: 'accessing' stamp: 'len 11/3/2016 04:30'!
+characteristic
+	^ self base characteristic! !
+
+!AffineRing methodsFor: 'accessing' stamp: 'len 2/27/2017 20:57:13'!
+degree
+	^ self relations degree! !
+
+!AffineRing methodsFor: 'accessing' stamp: 'len 2/27/2017 20:57:23'!
+dimension
+	"Answer the Krull dimension of the receiver. Seen as a field extension, this is its transcendence degree."
+	"Derksen, Kemper, 'Computational Invariant Theory', 2002, Algorithm 1.2.4 (Dimension of an ideal)."
+	self relations isZero ifTrue: [^ self base dimension].
+	self isTrivial ifTrue: [^ -1]. "i.e., the ideal is the whole polynomial ring"
+	self scalars isField ifFalse: [self notYetImplemented].
+	^ self relations maximallyIndependentIndeterminates size! !
+
+!AffineRing methodsFor: 'private' stamp: 'len 1/18/2017 22:52:12'!
+elementClass
+	^ RegularFunction! !
+
+!AffineRing methodsFor: 'morphisms' stamp: 'len 12/30/2016 10:05:13'!
+embed: anObject
+	"Answer the embedding of an element of the coefficients ring into the receiver."
+	^ self project: (self base embed: anObject)! !
+
+!AffineRing methodsFor: 'morphisms' stamp: 'len 12/30/2016 10:05:09'!
+embedding
+	"Answer the embedding of the coefficients ring into the receiver."
+	^ self projection ” self base embedding! !
+
+!AffineRing methodsFor: 'operations' stamp: 'len 10/27/2016 18:44'!
+hilbertSeries
+	"Answer the Hilbert series of the receiver."
+	^ self hilbertSeriesAt: (QQ polynomialsIn: #(t)) fractions x! !
+
+!AffineRing methodsFor: 'operations' stamp: 'len 2/27/2017 20:57:29'!
+hilbertSeriesAt: t
+	"Answer the Hilbert series of the receiver."
+	^ (self base hilbertSeriesAt: t) - (self relations hilbertSeriesAt: t)! !
+
+!AffineRing methodsFor: 'accessing' stamp: 'len 10/20/2016 10:51'!
+indeterminates
+	^ self base indeterminates! !
+
+!AffineRing methodsFor: 'testing' stamp: 'len 2/12/2017 05:49:37'!
+isGlobal
+	^ self base isGlobal! !
+
+!AffineRing methodsFor: 'testing' stamp: 'len 2/27/2017 20:57:34'!
+isGraded
+	^ self base isGraded and: [self relations isHomogeneous]! !
+
+!AffineRing methodsFor: 'testing' stamp: 'len 2/12/2017 05:49:31'!
+isLocal
+	^ self base isLocal! !
+
+!AffineRing methodsFor: 'testing' stamp: 'len 1/7/2018 17:28:33'!
+isMultivariate
+	^ self base isMultivariate! !
+
+!AffineRing methodsFor: 'testing' stamp: 'len 4/8/2018 18:45:19'!
+isUnivariate
+	^ self base isUnivariate! !
+
+!AffineRing methodsFor: 'operations' stamp: 'len 1/11/2018 18:03:42'!
+localization
+	"Answer the localization of the receiver at <x1,...,xn>. This is achieved by choosing a local ordering.
+	Objects defined in this localization contain geometric information (usually only) about a Zariski neighbourhood of 0 in K^n, while objects in the global ring contain geometric information whish is valid in the whole affine space K^n."
+	self isGlobal ifFalse: [DomainError signal: 'the ring is not global'].
+	^ self orderedBy: #lglex! !
+
+!AffineRing methodsFor: 'accessing' stamp: 'len 2/13/2017 04:57:13'!
+maximalIdeal
+	self isLocal ifFalse: [DomainError signal: 'the ring is not local'].
+	^ self * self generators! !
+
+!AffineRing methodsFor: 'accessing' stamp: 'len 12/28/2017 14:50:03'!
+monomials
+	"Answer the monoid of monomials of the receiver."
+	^ self base monomials! !
+
+!AffineRing methodsFor: 'converting' stamp: 'len 2/27/2017 20:57:38'!
+orderedBy: aMonomialOrdering
+	^ self class mod: (self relations orderedBy: aMonomialOrdering)! !
+
+!AffineRing methodsFor: 'accessing' stamp: 'len 1/5/2017 08:49:59'!
+ordering
+	^ self base ordering! !
+
+!AffineRing methodsFor: 'operations' stamp: 'len 2/27/2017 20:57:49'!
+proj
+	"Answer the projective spectrum of the receiver, Proj(R)."
+	self relations isHomogeneous ifFalse: [^ DomainError signal: 'not a quotient by a homogeneous ideal, not properly graded'].
+	^ ProjectiveVariety coordinateRing: self! !
+
+!AffineRing methodsFor: 'accessing' stamp: 'len 12/30/2016 09:47:01'!
+rank
+	"Answer the number of indeterminates in the receiver."
+	^ self base rank! !
+
+!AffineRing methodsFor: 'accessing' stamp: 'len 12/30/2016 09:46:48'!
+scalars
+	"Answer the coefficients ring of the receiver."
+	^ self base scalars! !
+
+!AffineRing methodsFor: 'operations' stamp: 'len 2/22/2017 07:58:22'!
+spec
+	"Answer the spectrum of the receiver, Spec(R/I) as subscheme of Spec(R)."
+	^ AffineVariety coordinateRing: self! !
+
+!AffineRing methodsFor: 'accessing' stamp: 'len 2/27/2017 20:57:53'!
+vectorSpaceDimension
+	"Answer the dimension of the receiver as vector space over the coefficients field."
+	self relations isZeroDimensional ifFalse: [^ Infinity positive].
+	self notYetImplemented! !
+
+!AffineRing methodsFor: 'elements' stamp: 'len 10/20/2016 10:50'!
+x
+	^ self x: 1! !
+
+!AffineRing methodsFor: 'elements' stamp: 'len 10/20/2016 10:50'!
+x: anInteger
+	^ self project: (self base x: anInteger)! !
+
+!AffineRing methodsFor: 'elements' stamp: 'len 10/20/2016 10:50'!
+y
+	^ self x: 2! !
+
+!AffineRing methodsFor: 'elements' stamp: 'len 10/20/2016 10:50'!
+z
+	^ self x: 3! !
+
 !AlgebraicExtensionField methodsFor: 'converting' stamp: 'len 1/4/2017 18:18:51'!
 asModule
 	^ self asVectorSpace! !
@@ -19114,10 +19283,6 @@ polynomial: aPolynomial
 printOn: aStream
 	(self hasProperty: #name) ifTrue: [^ super printOn: aStream].
 	aStream print: self scalars; nextPut: $(; print: self polynomial; nextPut: $)! !
-
-!AlgebraicExtensionField methodsFor: 'accessing' stamp: 'len 11/3/2016 04:32'!
-scalars
-	^ self base scalars! !
 
 !AlgebraicExtensionField methodsFor: 'accessing' stamp: 'len 11/3/2016 04:36'!
 size
@@ -19421,161 +19586,6 @@ example
 !QuadraticField class methodsFor: 'instance creation' stamp: 'len 12/14/2016 14:57:22'!
 sqrt: anInteger
 	^ self new sqrt: anInteger! !
-
-!AffineRing methodsFor: 'operations' stamp: 'len 1/7/2018 17:28:21'!
-^ n
-	(n isInteger and: [self isMultivariate]) ifFalse: [^ super ^ n].
-	^ MultivariateTupleModule new: n over: self! !
-
-!AffineRing methodsFor: 'operations' stamp: 'len 2/27/2017 20:46:09'!
-’ aRing
-	"Answer the tensor product of the receiver with the argument."
-	| R relations |
-	((aRing isKindOf: AffineRing) and: [aRing scalars = self scalars])
-		ifFalse: [^ self notYetImplemented].
-	R _ self base ’ aRing base.
-	relations _ OrderedCollection new.
-	self relations generators do: [:f| relations add: R !! f].
-	aRing relations generators do: [:g| relations add: (R !! g substitute: [:i| i + self base rank])].
-	^ R / relations! !
-
-!AffineRing methodsFor: 'converting' stamp: 'len 1/8/2017 22:02:04'!
-asModule
-"	^ FreeModule
-		basis: ((1 to: self degree) collect: [:i| self x ^ (i-1)])
-		coordinates: [:aVector| self scalars tuple: self degree evaluating: [:i| aVector representative coefficientAtDegree: i-1]]
-		over: self scalars
-"
-	self notYetImplemented! !
-
-!AffineRing methodsFor: 'accessing' stamp: 'len 11/3/2016 04:30'!
-characteristic
-	^ self base characteristic! !
-
-!AffineRing methodsFor: 'accessing' stamp: 'len 2/27/2017 20:57:13'!
-degree
-	^ self relations degree! !
-
-!AffineRing methodsFor: 'accessing' stamp: 'len 2/27/2017 20:57:23'!
-dimension
-	"Answer the Krull dimension of the receiver. Seen as a field extension, this is its transcendence degree."
-	"Derksen, Kemper, 'Computational Invariant Theory', 2002, Algorithm 1.2.4 (Dimension of an ideal)."
-	self relations isZero ifTrue: [^ self base dimension].
-	self isTrivial ifTrue: [^ -1]. "i.e., the ideal is the whole polynomial ring"
-	self scalars isField ifFalse: [self notYetImplemented].
-	^ self relations maximallyIndependentIndeterminates size! !
-
-!AffineRing methodsFor: 'private' stamp: 'len 1/18/2017 22:52:12'!
-elementClass
-	^ RegularFunction! !
-
-!AffineRing methodsFor: 'morphisms' stamp: 'len 12/30/2016 10:05:13'!
-embed: anObject
-	"Answer the embedding of an element of the coefficients ring into the receiver."
-	^ self project: (self base embed: anObject)! !
-
-!AffineRing methodsFor: 'morphisms' stamp: 'len 12/30/2016 10:05:09'!
-embedding
-	"Answer the embedding of the coefficients ring into the receiver."
-	^ self projection ” self base embedding! !
-
-!AffineRing methodsFor: 'operations' stamp: 'len 10/27/2016 18:44'!
-hilbertSeries
-	"Answer the Hilbert series of the receiver."
-	^ self hilbertSeriesAt: (QQ polynomialsIn: #(t)) fractions x! !
-
-!AffineRing methodsFor: 'operations' stamp: 'len 2/27/2017 20:57:29'!
-hilbertSeriesAt: t
-	"Answer the Hilbert series of the receiver."
-	^ (self base hilbertSeriesAt: t) - (self relations hilbertSeriesAt: t)! !
-
-!AffineRing methodsFor: 'accessing' stamp: 'len 10/20/2016 10:51'!
-indeterminates
-	^ self base indeterminates! !
-
-!AffineRing methodsFor: 'testing' stamp: 'len 2/12/2017 05:49:37'!
-isGlobal
-	^ self base isGlobal! !
-
-!AffineRing methodsFor: 'testing' stamp: 'len 2/27/2017 20:57:34'!
-isGraded
-	^ self base isGraded and: [self relations isHomogeneous]! !
-
-!AffineRing methodsFor: 'testing' stamp: 'len 2/12/2017 05:49:31'!
-isLocal
-	^ self base isLocal! !
-
-!AffineRing methodsFor: 'testing' stamp: 'len 1/7/2018 17:28:33'!
-isMultivariate
-	^ self base isMultivariate! !
-
-!AffineRing methodsFor: 'operations' stamp: 'len 1/11/2018 18:03:42'!
-localization
-	"Answer the localization of the receiver at <x1,...,xn>. This is achieved by choosing a local ordering.
-	Objects defined in this localization contain geometric information (usually only) about a Zariski neighbourhood of 0 in K^n, while objects in the global ring contain geometric information whish is valid in the whole affine space K^n."
-	self isGlobal ifFalse: [DomainError signal: 'the ring is not global'].
-	^ self orderedBy: #lglex! !
-
-!AffineRing methodsFor: 'accessing' stamp: 'len 2/13/2017 04:57:13'!
-maximalIdeal
-	self isLocal ifFalse: [DomainError signal: 'the ring is not local'].
-	^ self * self generators! !
-
-!AffineRing methodsFor: 'accessing' stamp: 'len 12/28/2017 14:50:03'!
-monomials
-	"Answer the monoid of monomials of the receiver."
-	^ self base monomials! !
-
-!AffineRing methodsFor: 'converting' stamp: 'len 2/27/2017 20:57:38'!
-orderedBy: aMonomialOrdering
-	^ self class mod: (self relations orderedBy: aMonomialOrdering)! !
-
-!AffineRing methodsFor: 'accessing' stamp: 'len 1/5/2017 08:49:59'!
-ordering
-	^ self base ordering! !
-
-!AffineRing methodsFor: 'operations' stamp: 'len 2/27/2017 20:57:49'!
-proj
-	"Answer the projective spectrum of the receiver, Proj(R)."
-	self relations isHomogeneous ifFalse: [^ DomainError signal: 'not a quotient by a homogeneous ideal, not properly graded'].
-	^ ProjectiveVariety coordinateRing: self! !
-
-!AffineRing methodsFor: 'accessing' stamp: 'len 12/30/2016 09:47:01'!
-rank
-	"Answer the number of indeterminates in the receiver."
-	^ self base rank! !
-
-!AffineRing methodsFor: 'accessing' stamp: 'len 12/30/2016 09:46:48'!
-scalars
-	"Answer the coefficients ring of the receiver."
-	^ self base scalars! !
-
-!AffineRing methodsFor: 'operations' stamp: 'len 2/22/2017 07:58:22'!
-spec
-	"Answer the spectrum of the receiver, Spec(R/I) as subscheme of Spec(R)."
-	^ AffineVariety coordinateRing: self! !
-
-!AffineRing methodsFor: 'accessing' stamp: 'len 2/27/2017 20:57:53'!
-vectorSpaceDimension
-	"Answer the dimension of the receiver as vector space over the coefficients field."
-	self relations isZeroDimensional ifFalse: [^ Infinity positive].
-	self notYetImplemented! !
-
-!AffineRing methodsFor: 'elements' stamp: 'len 10/20/2016 10:50'!
-x
-	^ self x: 1! !
-
-!AffineRing methodsFor: 'elements' stamp: 'len 10/20/2016 10:50'!
-x: anInteger
-	^ self project: (self base x: anInteger)! !
-
-!AffineRing methodsFor: 'elements' stamp: 'len 10/20/2016 10:50'!
-y
-	^ self x: 2! !
-
-!AffineRing methodsFor: 'elements' stamp: 'len 10/20/2016 10:50'!
-z
-	^ self x: 3! !
 
 !RationalIntegerRing methodsFor: 'elements' stamp: 'len 3/25/2018 16:18:04'!
 !! anObject
@@ -26879,21 +26889,27 @@ isPlane
 newPatch: i
 	^ (self coordinateRing copyWithout: i) spec! !
 
-!ProjectiveSpace methodsFor: 'points' stamp: 'len 12/23/2016 09:25:08'!
+!ProjectiveSpace methodsFor: 'points' stamp: 'len 4/8/2018 18:21:48'!
 pointsCountOver: aRing
 	aRing isField ifTrue: [^ aRing isFinite ifTrue: [^ self rank choose: 1 q: aRing size] ifFalse: [aRing size]].
 	aRing isFinite ifFalse: [^ aRing size].
 	(aRing isKindOf: ModularIntegerRing)
 		ifTrue:
 			[^ aRing modulus ^ (self rank - 1) * (aRing modulus factors asSet product: [:p| (0 to: self rank - 1) sum: [:i| 1 / (p^i)]])].
-	self notYetImplemented! !
+	^ super pointsCountOver: aRing! !
 
-!ProjectiveSpace methodsFor: 'points' stamp: 'len 12/23/2016 20:18:31'!
+!ProjectiveSpace methodsFor: 'points' stamp: 'len 4/8/2018 17:21:01'!
 pointsOver: aRing do: aBlock
+	| old |
 	aRing isField ifTrue: [^ self pointsOverField: aRing do: aBlock].
 	(aRing isKindOf: RationalIntegerRing)
 		ifTrue: [^ self pointsOverIntegersDo: aBlock].
-	^ self notYetImplemented! !
+	old _ Set new.
+	aRing ^ self rank do: [:each|
+		| point |
+		each isZero ifFalse:
+			[point _ self pointAt: each.
+			old add: point ifAbsent: [aBlock value: point]]]! !
 
 !ProjectiveSpace methodsFor: 'points-private' stamp: 'len 12/25/2016 11:55:52'!
 pointsOverField: aRing do: aBlock
@@ -30848,12 +30864,12 @@ tangentSpace
 on: anAffineVariety coordinates: aTuple
 	^ self new codomain: anAffineVariety; coordinates: aTuple! !
 
-!ProjectivePoint methodsFor: 'comparing' stamp: 'len 1/19/2018 22:04:01'!
+!ProjectivePoint methodsFor: 'comparing' stamp: 'len 4/8/2018 17:25:13'!
 = aProjectivePoint
 	| index x y |
 	self class = aProjectivePoint class ifFalse: [^ super = aProjectivePoint].
 	coordinates size = aProjectivePoint coordinates size ifFalse: [^ false].
-	index _ coordinates lastNonZero.
+	index _ coordinates lastNonZero. "or should it be lastNotZeroDivisor?"
 	x _ coordinates at: index.
 	y _ aProjectivePoint coordinates at: index.
 	1 to: coordinates size do: [:i|
@@ -30976,10 +30992,10 @@ tangentCone
 on: aProjectiveVariety coordinates: aTuple
 	^ self new codomain: aProjectiveVariety; coordinates: aTuple! !
 
-!ProjectiveLinePoint methodsFor: 'arithmetic' stamp: 'len 12/4/2016 22:19:10'!
+!ProjectiveLinePoint methodsFor: 'arithmetic' stamp: 'len 4/8/2018 18:28:32'!
 * aCusp
-	self isInfinity ifTrue: [aCusp isZero ifTrue: [self error: 'undefined'] ifFalse: [^ self]].
-	aCusp isInfinity ifTrue: [self isZero ifTrue: [self error: 'undefined'] ifFalse: [^ aCusp]].
+	self isInfinity ifTrue: [aCusp isZero ifTrue: [DomainError signal: 'undefined'] ifFalse: [^ self]].
+	aCusp isInfinity ifTrue: [self isZero ifTrue: [DomainError signal: 'undefined'] ifFalse: [^ aCusp]].
 	^ self shallowCopy coordinates: (self scalars tuple: {self value * aCusp value. self scalars one})! !
 
 !ProjectiveLinePoint methodsFor: 'arithmetic' stamp: 'len 12/4/2016 22:17:25'!
@@ -32459,6 +32475,22 @@ squareRoot
 	(p bitAnd: 3) == 3 ifTrue: [^ self ^ (p + 1 // 4)].
 	^ self parent squareRootOf: self! !
 
+!RegularFunction methodsFor: 'as yet unclassified' stamp: 'len 11/1/2016 05:16'!
+leadingCoefficient
+	^ representative leadingCoefficient! !
+
+!RegularFunction methodsFor: 'as yet unclassified' stamp: 'len 12/28/2017 14:48:27'!
+leadingMonomial
+	^ representative leadingMonomial! !
+
+!RegularFunction methodsFor: 'as yet unclassified' stamp: 'len 11/1/2016 05:18'!
+value: anObject
+	^ representative value: anObject! !
+
+!RegularFunction methodsFor: 'evaluating' stamp: 'len 11/1/2016 18:57'!
+valueWithArguments: anArray
+	^ representative valueWithArguments: anArray! !
+
 !AlgebraicElement methodsFor: 'as yet unclassified' stamp: 'len 10/16/2016 18:18'!
 characteristicPolynomial
 	^ (self parent asVectorSpace endomorphisms evaluating: [:x| x * self]) characteristicPolynomial! !
@@ -32497,22 +32529,6 @@ trace
 	| f |
 	f _ self minimalPolynomial.
 	^ (f coefficientAtDegree: f degree - 1) / f leadingCoefficient! !
-
-!RegularFunction methodsFor: 'as yet unclassified' stamp: 'len 11/1/2016 05:16'!
-leadingCoefficient
-	^ representative leadingCoefficient! !
-
-!RegularFunction methodsFor: 'as yet unclassified' stamp: 'len 12/28/2017 14:48:27'!
-leadingMonomial
-	^ representative leadingMonomial! !
-
-!RegularFunction methodsFor: 'as yet unclassified' stamp: 'len 11/1/2016 05:18'!
-value: anObject
-	^ representative value: anObject! !
-
-!RegularFunction methodsFor: 'evaluating' stamp: 'len 11/1/2016 18:57'!
-valueWithArguments: anArray
-	^ representative valueWithArguments: anArray! !
 
 !ComplexAlgebraicNumber methodsFor: 'arithmetic' stamp: 'len 12/4/2017 14:55:36'!
 * aNumber
@@ -32790,6 +32806,19 @@ relativeError
 	"Answer the relative error in the current rational approximation."
 	self isZero ifTrue: [^ 0].
 	^ self absoluteError / self approximation norm2 "this should be norm or abs, but then it would be float"! !
+
+!ComplexAlgebraicNumber methodsFor: 'arithmetic' stamp: 'len 4/8/2018 05:59:28'!
+squareRoot
+	| f x r |
+	self isZero ifTrue: [^ self].
+	f _ ComplexRootFinder polynomial:
+		(self polynomial zeroSquareRoot).
+	[x _ self approximation sqrt.
+	r _ self absoluteError sqrt.
+	f atMostOneRootAround: x radius: r]
+		whileFalse:
+			[self refine].
+	^ self class polynomial: f polynomial approximation: x radius: r! !
 
 !ComplexAlgebraicNumber methodsFor: 'arithmetic' stamp: 'len 1/13/2016 04:02'!
 squared
