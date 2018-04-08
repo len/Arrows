@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 7 April 2018 at 11:00:47 pm'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 8 April 2018 at 10:03:19 pm'!
 'Description Please enter a description for this package'!
-!provides: 'MathematicsTests' 1 91!
+!provides: 'MathematicsTests' 1 92!
 !classDefinition: #AbelianGroupTest category: #MathematicsTests!
 TestCase subclass: #AbelianGroupTest
 	instanceVariableNames: ''
@@ -1017,18 +1017,6 @@ testAffineSubspaceParallelism
 	self deny: A || C.
 	self deny: B || C! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/27/2016 09:23'!
-tesRingHomomorphismSpec
-	| A B x y phi |
-	A _ QQ polynomialsIn: #(x y z).
-	B _ QQ polynomialsIn: #(x y).
-	x _ B x.
-	y _ B y.
-	phi _ A to: B evaluating: [:f| f value: {x-y. x. y}].
-	self assert: phi spec domain = B spec.
-	self assert: phi spec codomain = A spec.
-	self assert: phi spec asRingHomomorphism = phi! !
-
 !AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 1/22/2017 08:23:16'!
 testAffinePlaneCurveMultiplicity
 	| A C |
@@ -1268,13 +1256,43 @@ testProjectiveEmbedding
 	"the projective scheme has one more point at infinity:"
 	self assert: affinePointsEmbedded size + 1 = projectivePoints size! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 12/23/2016 09:27:47'!
-testProjectiveLineOverRing
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 4/8/2018 18:14:45'!
+testProjectiveLineOverFiniteRing
 	| P |
 	P _ ProjectiveLine over: ZZ/6.
 	"P(Z/6Z) has 12 points: [0:1], [1:1], [2:1], [3:1], [4:1], [5:1], [1:2], [3:2], [5:2], [1:3], [2:3] and [1:0] (Henri Cohen, 'A Course in Computational Algebraic Number Theory', 478p)"
 	self assert: P points size = 12.
 	self assert: (Iterator on: P points performing: #do:) size = 12! !
+
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 4/8/2018 18:19:34'!
+testProjectiveLineOverFiniteRing2
+	| R P |
+	R _ (ZZ/2) polynomials.
+	R _ R / (R x * (R x + 1)). "isomorphic to ZZ/2 × (ZZ/2)"
+	P _ ProjectiveLine over: R.
+	self assert: P points size = 9.
+	self assert: (Iterator on: P points performing: #do:) size = 9! !
+
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 4/8/2018 18:19:14'!
+testProjectiveLineOverFiniteRing3
+	| P |
+	P _ ProjectiveLine over: ZZ/2 × (ZZ/2).
+	self assert: P points size = 9.
+	self assert: (Iterator on: P points performing: #do:) size = 9! !
+
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 4/8/2018 18:20:24'!
+testProjectiveLineOverFiniteRing4
+	| P |
+	P _ ProjectiveLine over: ZZ/4 × (ZZ/4).
+	self assert: P points size = 36.
+	self assert: (Iterator on: P points performing: #do:) size = 36! !
+
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 4/8/2018 18:50:19'!
+testProjectiveLineOverFiniteRing5
+	| P |
+	P _ ProjectiveLine over: ZZ/2 × (ZZ/2) × (ZZ/2).
+	self assert: P points size = 27.
+	self assert: (Iterator on: P points performing: #do:) size = 27! !
 
 !AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 2/3/2017 06:59:34'!
 testProjectivePlaneCurveArithmeticGenus
@@ -1443,6 +1461,18 @@ testReduced
 	X _ A subscheme: {x*(y^3). x^2*z}.
 	self assert: X isReduced not.
 	self assert: X reduced = (A subscheme: {x*y. x*z})! !
+
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 4/8/2018 18:14:11'!
+testRingHomomorphismSpec
+	| A B x y phi |
+	A _ QQ polynomialsIn: #(x y z).
+	B _ QQ polynomialsIn: #(x y).
+	x _ B x.
+	y _ B y.
+	phi _ A to: B evaluating: [:f| f value: {x-y. x. y}].
+	self assert: phi spec domain = B spec.
+	self assert: phi spec codomain = A spec.
+	self assert: phi spec asRingHomomorphism = phi! !
 
 !AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 2/8/2017 07:14:15'!
 testSingularCubics
@@ -2460,13 +2490,13 @@ testAutomorphismsK3
 	self assert: A = A ambient
 ! !
 
-!GraphTest methodsFor: 'as yet unclassified' stamp: 'len 2/1/2018 23:57:33'!
+!GraphTest methodsFor: 'as yet unclassified' stamp: 'len 4/8/2018 05:49:45'!
 testAutomorphismsP3
 	"Aut(P3) = {id, (1 3)}"
 	| G A |
 	G _ Graph P: 3.
 	A _ G automorphisms.
-	self assert: A = (PermutationGroup new: 3 generators: {#((1 3))})! !
+	self assert: A = (PermutationGroup on: G values generators: {#((1 3))})! !
 
 !GraphTest methodsFor: 'as yet unclassified' stamp: 'len 12/30/2017 16:17:24'!
 testCartesianProduct
@@ -6000,6 +6030,26 @@ testFiniteRing
 	self assert: R units size = 2.
 	self assert: R zeroDivisors size = 6! !
 
+!RingTest methodsFor: 'as yet unclassified' stamp: 'len 4/8/2018 17:55:00'!
+testFiniteRing2
+	| R |
+	R _ (ZZ/2) polynomials.
+	R _ R / (R x * (R x + 1)).
+	self assert: R isField not.
+	self assert: R size = 4.
+	self assert: R zeroDivisors size = 3
+	"more about this ring: two maximal (and princial as well) ideals (so not a local ring)"! !
+
+!RingTest methodsFor: 'as yet unclassified' stamp: 'len 4/8/2018 18:02:30'!
+testFiniteRing3
+	| R |
+	R _ ZZ/4 × (ZZ/4).
+	self assert: R isField not.
+	self assert: R size = 16.
+	self assert: R zeroDivisors size = 12.
+	self assert: R units size = 4
+	"more about this ring: two maximal ideals (so not a local ring), and non-trivial jacobson radical"! !
+
 !RingTest methodsFor: 'as yet unclassified' stamp: 'len 10/20/2016 06:06'!
 testKrullDimension
 	| R I |
@@ -6081,6 +6131,21 @@ testQuotientRing2
 "	self assert: (pi value: f) = (pi value: f + g)."
 "	h _ Q atRandomBits: 100.
 	self assert: (pi value: (pi section value: h)) = h"! !
+
+!RingTest methodsFor: 'as yet unclassified' stamp: 'len 4/8/2018 17:47:19'!
+testQuotientRingNotIntegralDomain
+	| R |
+	R _ QQ polynomials.
+	R _ R / (R x^2 - 1).
+	self assert: R isField not.
+	self assert: R isIntegralDomain not! !
+
+!RingTest methodsFor: 'as yet unclassified' stamp: 'len 4/8/2018 17:48:23'!
+testQuotientRingWhichIsAField
+	| R |
+	R _ QQ polynomials.
+	R _ R / (R x^2 + (R x * 2) + 2).
+	self assert: R isField! !
 
 !RingTest methodsFor: 'as yet unclassified' stamp: 'len 10/6/2016 20:30'!
 testRing: R
