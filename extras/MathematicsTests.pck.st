@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 8 April 2018 at 10:03:19 pm'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 10 April 2018 at 2:18:27 pm'!
 'Description Please enter a description for this package'!
-!provides: 'MathematicsTests' 1 92!
+!provides: 'MathematicsTests' 1 93!
 !classDefinition: #AbelianGroupTest category: #MathematicsTests!
 TestCase subclass: #AbelianGroupTest
 	instanceVariableNames: ''
@@ -5376,7 +5376,7 @@ testExtendedEuclidBug
 	f2 _ x - 1.
 	self assert: (ExtendedEuclid on: {f1. f2}) gcd = (f1 gcd: f2)! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 12/2/2016 11:16:47'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 4/9/2018 21:26:43'!
 testFiniteFieldFactorization
 	| F Fx x one f factors |
 	F _ ZZ / 3.
@@ -5384,12 +5384,12 @@ testFiniteFieldFactorization
 	x _ Fx x.
 	one _ Fx one.
 	f _ x^11 + (x^9 * 2) + (x^8 * 2) + (x^6) + (x^5) + (x^3 * 2) + (x^2 * 2) + one.
-	factors _ f factorizer factors.
+	factors _ f factors.
 	self assert: factors size = 8.
 	self assert: (factors occurrencesOf: x + (one*2)) = 4.
 	self assert: (factors occurrencesOf: x^2 + one) = 3.
 	self assert: (factors occurrencesOf: x + one) = 1.
-	self assert: (factors inject: Fx one into: [:a :b|a*b]) = f! !
+	self assert: (factors inject: Fx one into: [:a :b| a*b]) = f! !
 
 !PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 12/2/2016 11:16:50'!
 testFiniteFieldFactorization2
@@ -5402,16 +5402,34 @@ testFiniteFieldFactorization2
 	self assert: (factors occurrencesOf: x-1) = 2.
 	self assert: (factors occurrencesOf: x-2) = 1! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 12/2/2016 11:13:13'!
-testFiniteFieldFactorizationZ2
-	| Z2 x f factors |
-	Z2 _ ZZ / 2.
-	x _ Z2 polynomials x.
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 4/9/2018 21:30:09'!
+testFiniteFieldFactorization3
+	| F9 x f factors |
+	F9 _ GaloisField new: (3^2).
+	x _ F9 polynomials x.
+	f _ (x-1)^2*(x-2).
+	factors _ f factors.
+	self assert: factors size = 3.
+	self assert: (factors occurrencesOf: x-1) = 2.
+	self assert: (factors occurrencesOf: x-2) = 1! !
+
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 4/10/2018 06:48:53'!
+testFiniteFieldFactorization4
+	| R x f factors |
+	R _ ZZ / 2.
+	x _ R polynomials x.
 	f _ x^24 - 1.
 	factors _ f factors.
 	self assert: factors size = 16.
 	self assert: (factors occurrencesOf: x+1) = 8.
 	self assert: (factors occurrencesOf: x^2+x+1) = 8! !
+
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 4/10/2018 06:52:30'!
+testFiniteFieldFactorization5
+	| R x |
+	R _ ZZ / 2.
+	x _ R polynomials x.
+	self assert: (x^15 - 1) factors = {x + 1. x^2 + x + 1. x^4 + (x^3) + (x^2) + x + 1. x^4 + x + 1. x^4 + (x^3) + 1} asBag! !
 
 !PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 12/2/2016 11:16:43'!
 testFiniteFieldIrreduciblePolynomials
@@ -5451,7 +5469,7 @@ testFiniteFieldRoots
 	self assert: (roots occurrencesOf: (Z3 project: 1)) = 2.
 	self assert: (roots occurrencesOf: (Z3 project: 2)) = 1! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 12/2/2016 11:16:31'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 4/9/2018 21:26:52'!
 testFiniteFieldSFF
 	| F Fx x one f factors |
 	F _ ZZ / 3.
@@ -5459,7 +5477,7 @@ testFiniteFieldSFF
 	x _ Fx x.
 	one _ Fx one.
 	f _ x^11 + (x^9 * 2) + (x^8 * 2) + (x^6) + (x^5) + (x^3 * 2) + (x^2 * 2) + one.
-	factors _ f factorizer squareFreeFactorization.
+	factors _ f factorization squareFreeFactorization.
 	self assert: factors size = 8.
 	self assert: (factors occurrencesOf: x + (one*2)) = 4.
 	self assert: (factors occurrencesOf: x^2 + one) = 3.
@@ -6868,7 +6886,7 @@ testFiniteField
 	F _ GaloisField new: 9.
 	((F^3) upTo: 9^3) asSet size = (9^3) ifFalse: [self halt]! !
 
-!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 12/2/2016 11:17:35'!
+!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 4/9/2018 21:26:16'!
 testFiniteFieldPolynomialFactorization
 	| F Fx x one f |
 	F _ ZZ / 3.
@@ -6876,7 +6894,7 @@ testFiniteFieldPolynomialFactorization
 	x _ Fx x.
 	one _ Fx one.
 	f _ x^11 + (x^9 * 2) + (x^8 * 2) + (x^6) + (x^5) + (x^3 * 2) + (x^2 * 2) + one.
-	20 timesRepeat: [f factorizer factors]! !
+	20 timesRepeat: [f factorization factors]! !
 
 !PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:49'!
 testMultivariatePolynomialAdditionOverZ
