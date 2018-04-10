@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 10 April 2018 at 2:17:42 pm'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 10 April 2018 at 6:11:04 pm'!
 'Description A computational algebra system in Smalltalk'!
-!provides: 'Mathematics' 1 422!
+!provides: 'Mathematics' 1 423!
 !requires: 'RayTracer' 1 2 nil!
 !classDefinition: #RealAlgebraicNumber category: #'Mathematics-Fields'!
 Number subclass: #RealAlgebraicNumber
@@ -1542,16 +1542,6 @@ FreeModule subclass: #FreeHomModule
 FreeHomModule class
 	instanceVariableNames: ''!
 
-!classDefinition: #Lattice category: #'Mathematics-Modules-Free'!
-FreeModule subclass: #Lattice
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Modules-Free'!
-!classDefinition: 'Lattice class' category: #'Mathematics-Modules-Free'!
-Lattice class
-	instanceVariableNames: ''!
-
 !classDefinition: #QuotientSpace category: #'Mathematics-Modules-Free'!
 FreeModule subclass: #QuotientSpace
 	instanceVariableNames: ''
@@ -1562,16 +1552,6 @@ FreeModule subclass: #QuotientSpace
 QuotientSpace class
 	instanceVariableNames: ''!
 
-!classDefinition: #RationalLattice category: #'Mathematics-Modules-Free'!
-FreeModule subclass: #RationalLattice
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Modules-Free'!
-!classDefinition: 'RationalLattice class' category: #'Mathematics-Modules-Free'!
-RationalLattice class
-	instanceVariableNames: ''!
-
 !classDefinition: #Subspace category: #'Mathematics-Modules-Free'!
 FreeModule subclass: #Subspace
 	instanceVariableNames: ''
@@ -1580,6 +1560,26 @@ FreeModule subclass: #Subspace
 	category: 'Mathematics-Modules-Free'!
 !classDefinition: 'Subspace class' category: #'Mathematics-Modules-Free'!
 Subspace class
+	instanceVariableNames: ''!
+
+!classDefinition: #Lattice category: #'Mathematics-Modules-Lattices'!
+FreeModule subclass: #Lattice
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Modules-Lattices'!
+!classDefinition: 'Lattice class' category: #'Mathematics-Modules-Lattices'!
+Lattice class
+	instanceVariableNames: ''!
+
+!classDefinition: #RationalLattice category: #'Mathematics-Modules-Lattices'!
+FreeModule subclass: #RationalLattice
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Modules-Lattices'!
+!classDefinition: 'RationalLattice class' category: #'Mathematics-Modules-Lattices'!
+RationalLattice class
 	instanceVariableNames: ''!
 
 !classDefinition: #FormalSumsModule category: #'Mathematics-Modules-Tuples'!
@@ -2212,6 +2212,16 @@ Function subclass: #AffineMap
 AffineMap class
 	instanceVariableNames: ''!
 
+!classDefinition: #QuadraticForm category: #'Mathematics-Modules-Lattices'!
+Function subclass: #QuadraticForm
+	instanceVariableNames: 'coefficients'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Modules-Lattices'!
+!classDefinition: 'QuadraticForm class' category: #'Mathematics-Modules-Lattices'!
+QuadraticForm class
+	instanceVariableNames: ''!
+
 !classDefinition: #BilinearMap category: #'Mathematics-Multilinear'!
 Function subclass: #BilinearMap
 	instanceVariableNames: ''
@@ -2270,16 +2280,6 @@ Function subclass: #SimplicialMap
 	category: 'Mathematics-Homology'!
 !classDefinition: 'SimplicialMap class' category: #'Mathematics-Homology'!
 SimplicialMap class
-	instanceVariableNames: ''!
-
-!classDefinition: #QuadraticForm category: #'Mathematics-Lattices'!
-Function subclass: #QuadraticForm
-	instanceVariableNames: 'coefficients'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Lattices'!
-!classDefinition: 'QuadraticForm class' category: #'Mathematics-Lattices'!
-QuadraticForm class
 	instanceVariableNames: ''!
 
 !classDefinition: #RationalMap category: #'Mathematics-Schemes'!
@@ -2630,6 +2630,16 @@ Object subclass: #ComplexAlgebraicNumber
 	category: 'Mathematics-Fields'!
 !classDefinition: 'ComplexAlgebraicNumber class' category: #'Mathematics-Fields'!
 ComplexAlgebraicNumber class
+	instanceVariableNames: ''!
+
+!classDefinition: #LLL category: #'Mathematics-Modules-Lattices'!
+Object subclass: #LLL
+	instanceVariableNames: 'basis delta orthogonalBasis mu'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Modules-Lattices'!
+!classDefinition: 'LLL class' category: #'Mathematics-Modules-Lattices'!
+LLL class
 	instanceVariableNames: ''!
 
 !classDefinition: #FormalSum category: #'Mathematics-Modules-Tuples'!
@@ -3260,16 +3270,6 @@ Object subclass: #YoungDiagram
 	category: 'Mathematics-Tableaux'!
 !classDefinition: 'YoungDiagram class' category: #'Mathematics-Tableaux'!
 YoungDiagram class
-	instanceVariableNames: ''!
-
-!classDefinition: #LLL category: #'Mathematics-Lattices'!
-Object subclass: #LLL
-	instanceVariableNames: 'basis delta orthogonalBasis mu'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Lattices'!
-!classDefinition: 'LLL class' category: #'Mathematics-Lattices'!
-LLL class
 	instanceVariableNames: ''!
 
 !classDefinition: #WeierstrassEquation category: #'Mathematics-Elliptic Curves'!
@@ -4272,11 +4272,6 @@ Free R-modules (or K-vector spaces) of linear maps from a free R-module (or K-ve
 
 See FreeModule and LinearMap.!
 
-!Lattice commentStamp: '<historical>' prior: 0!
-Free R-modules embedded in a K-vector space, where R is a PID and K is its field of fractions.
-
-Lattice coordinates are in R, while the elements of a lattice are elements of the ambient K-vector space.!
-
 !QuotientSpace commentStamp: '<historical>' prior: 0!
 Quotient spaces V/S (read "V mod S") of a given vector space V modulo a subspace S.
 
@@ -4287,13 +4282,18 @@ See also QuotientModule.
 References:
 	https://en.wikipedia.org/wiki/Quotient_space_(linear_algebra)!
 
+!Subspace commentStamp: '<historical>' prior: 0!
+K-vector subspaces embedded in an ambient K-vector space.!
+
+!Lattice commentStamp: '<historical>' prior: 0!
+Free R-modules embedded in a K-vector space, where R is a PID and K is its field of fractions.
+
+Lattice coordinates are in R, while the elements of a lattice are elements of the ambient K-vector space.!
+
 !RationalLattice commentStamp: '<historical>' prior: 0!
 A rational lattice is the set of integer linear combinations of a basis of a rational vector space. This is a discrete subgroup of the ambient Q-vector space (as abelian group) isomorphic to Z^n, and a free Z-module.
 
 Lattice coordinates are in Z, while the elements of the receiver live in the ambient Q-vector space.!
-
-!Subspace commentStamp: '<historical>' prior: 0!
-K-vector subspaces embedded in an ambient K-vector space.!
 
 !FormalSumsModule commentStamp: '<historical>' prior: 0!
 Free R-modules of formal sums of elements in a finite set with coefficients over R. See FormalSum.!
@@ -4610,6 +4610,9 @@ Affine maps are defined by a linear map and a translation (a vector of the codom
 References:
 	https://en.wikipedia.org/wiki/Affine_transformation!
 
+!QuadraticForm commentStamp: '<historical>' prior: 0!
+Quadratic forms as homogeneous quadratic functions M->R from a finite rank free R-module to R. Given a basis of M, they can be represented as homogeneous quadratic polynomials or as symmetric matrices that define symmetric bilinear forms MxM->R.!
+
 !BilinearForm commentStamp: '<historical>' prior: 0!
 Bilinear forms, i.e. functions from VxV to F where V is a vector space over the field F that satisfy:
 	B(v+cv', w) = B(v, w) + cB(v', w)
@@ -4667,9 +4670,6 @@ Chain maps are morphisms in the category of chain complexes. See ChainComplex.!
 
 !SimplicialMap commentStamp: '<historical>' prior: 0!
 Morphisms of simplicial complexes. See SimplicialComplex.!
-
-!QuadraticForm commentStamp: '<historical>' prior: 0!
-Quadratic forms as homogeneous quadratic functions M->R from a finite rank free R-module to R. Given a basis of M, they can be represented as homogeneous quadratic polynomials or as symmetric matrices that define symmetric bilinear forms MxM->R.!
 
 !RationalMap commentStamp: '<historical>' prior: 0!
 Rational maps between closed subschemes of affine or projective space. They are defined by a tuple of rational functions.
@@ -4786,6 +4786,15 @@ Structure:
  approximation	Fraction/Float -- a rational approximation of the receiver
  radius			Fraction/Float -- the absolute error of the approximation, and it's guaranteed that the polynomial has no other roots around the approximation value within this radius
 
+!
+
+!LLL commentStamp: '<historical>' prior: 0!
+This is the Lenstra-Lenstra-Lovasz algorithm.
+
+Input: integer lattice of dimension d given by a basis {b1, ..., bd};
+Output: an almost H-reduced basis of the lattice.
+
+The algorithm takes at most O(d^6 ln^3(B)), where the input vectors bi all satisfy |bi|^2 <= B. In practice however, this upper bound is quite pessimistic.
 !
 
 !FormalSum commentStamp: '<historical>' prior: 0!
@@ -5095,15 +5104,6 @@ Output: the shortest distance from the source node to the target node, or a shor
 The initial precomputation takes time O(|V|^3). Afterwards, it's possible to compute distances in time O(log |V|) and shortest paths of length k in O(k log |V|). The O(log |V|) comes from the dictionary lookup operation, a lookup in a hash table.
 
 While (after initial precomputation) Dijkstra's algorithm is able to efficiently compute distances from a fixed source node, Floyd-Warshall's computes distances from any two arbitrary nodes. However, for sparse graphs with non-negative edge weights a better choice is to use Dijkstra's algorithm with binary heaps, which gives a time complexity of O(|V| |E| log |V|).!
-
-!LLL commentStamp: '<historical>' prior: 0!
-This is the Lenstra-Lenstra-Lovasz algorithm.
-
-Input: integer lattice of dimension d given by a basis {b1, ..., bd};
-Output: an almost H-reduced basis of the lattice.
-
-The algorithm takes at most O(d^6 ln^3(B)), where the input vectors bi all satisfy |bi|^2 <= B. In practice however, this upper bound is quite pessimistic.
-!
 
 !WeierstrassEquation commentStamp: '<historical>' prior: 0!
 Weierstrass equations are equations of the form
@@ -5560,11 +5560,19 @@ The limit of the density of squarefree positive integers < n is 6 / pi^2 ~ 0.607
 isZero
 	^ self == 0! !
 
-!Integer methodsFor: '*mathematics' stamp: 'len 12/26/2016 22:56:18'!
+!Integer methodsFor: '*mathematics' stamp: 'len 4/10/2018 17:29:24'!
 jacobi: m
 	"Answer the Jacobi symbol of the receiver and the positive odd integer m.
 	This is a generalization of the Legendre symbol that allows a composite argument m."
 
+	^ self kronecker: m! !
+
+!Integer methodsFor: '*mathematics' stamp: 'len 4/10/2018 17:28:55'!
+jacobiNew: m
+	"Answer the Jacobi symbol of the receiver and the positive odd integer m.
+	This is a generalization of the Legendre symbol that allows a composite argument m."
+
+	"this is broken, it should satisfy: (3 jacobiNew: 11) = 1"
 	| x y z answer |
 	m odd ifFalse: [^ self error: 'the argument must by an odd positive integer'].
 	(self gcd: m) = 1 ifFalse: [^ 0].
@@ -23039,32 +23047,6 @@ from: aModule to: anotherModule
 		domain: aModule;
 		codomain: anotherModule! !
 
-!Lattice methodsFor: 'as yet unclassified' stamp: 'len 4/7/2018 18:24:28'!
-contains: anElement
-	^ (self coordinatesOf: anElement) notNil! !
-
-!Lattice methodsFor: 'as yet unclassified' stamp: 'len 4/7/2018 18:28:55'!
-isEmbedded
-	^ true! !
-
-!Lattice methodsFor: 'as yet unclassified' stamp: 'len 4/4/2018 07:15:31'!
-isLattice
-	^ true! !
-
-!Lattice methodsFor: 'as yet unclassified' stamp: 'len 4/4/2018 07:15:22'!
-isVectorSpace
-	^ false! !
-
-!Lattice methodsFor: 'as yet unclassified' stamp: 'len 4/4/2018 07:19:47'!
-scalars
-	^ self ambient scalars integers! !
-
-!Lattice class methodsFor: 'instance creation' stamp: 'len 4/5/2018 00:02:35'!
-on: aFreeModule matrix: aMatrix
-	^ ((aFreeModule scalars isKindOf: RationalField)
-		ifTrue: [RationalLattice]
-		ifFalse: [self]) new ambient: aFreeModule; matrix: aMatrix! !
-
 !QuotientSpace methodsFor: 'accessing' stamp: 'len 2/27/2017 21:25:33'!
 base
 	^ self relations ambient! !
@@ -23154,6 +23136,56 @@ zero
 mod: aSubspace
 	^ self new relations: aSubspace! !
 
+!Subspace methodsFor: 'as yet unclassified' stamp: 'len 4/7/2018 18:29:10'!
+isEmbedded
+	^ true! !
+
+!Subspace methodsFor: 'as yet unclassified' stamp: 'len 4/4/2018 07:16:01'!
+isLattice
+	^ false! !
+
+!Subspace methodsFor: 'as yet unclassified' stamp: 'len 4/3/2018 03:55:39'!
+isVectorSpace
+	^ true! !
+
+!Subspace class methodsFor: 'as yet unclassified' stamp: 'len 4/3/2018 05:25:52'!
+on: aVectorSpace matrix: aMatrix
+	| M |
+	M _ aMatrix echelon.
+	M _ Matrix rows: (M rows select: [:each| each isZero not]).		
+	^ self new ambient: aVectorSpace; matrix: M! !
+
+!Lattice methodsFor: 'as yet unclassified' stamp: 'len 4/7/2018 18:24:28'!
+contains: anElement
+	^ (self coordinatesOf: anElement) notNil! !
+
+!Lattice methodsFor: 'as yet unclassified' stamp: 'len 4/7/2018 18:28:55'!
+isEmbedded
+	^ true! !
+
+!Lattice methodsFor: 'as yet unclassified' stamp: 'len 4/4/2018 07:15:31'!
+isLattice
+	^ true! !
+
+!Lattice methodsFor: 'as yet unclassified' stamp: 'len 4/4/2018 07:15:22'!
+isVectorSpace
+	^ false! !
+
+!Lattice methodsFor: 'as yet unclassified' stamp: 'len 4/4/2018 07:19:47'!
+scalars
+	^ self ambient scalars integers! !
+
+!Lattice class methodsFor: 'instance creation' stamp: 'len 4/5/2018 00:02:35'!
+on: aFreeModule matrix: aMatrix
+	^ ((aFreeModule scalars isKindOf: RationalField)
+		ifTrue: [RationalLattice]
+		ifFalse: [self]) new ambient: aFreeModule; matrix: aMatrix! !
+
+!RationalLattice methodsFor: 'accessing' stamp: 'len 4/10/2018 17:42:31'!
+asQuadraticForm
+	"Answer the quadratic form associated to this lattice."
+	^ QuadraticForm from: self ambient matrix: self gramian! !
+
 !RationalLattice methodsFor: 'invariants' stamp: 'len 12/8/2017 18:41:52'!
 coveringNormalizedThinkness
 	"Answer the normalized thickness (or central density) of the covering."
@@ -23231,6 +23263,13 @@ isSelfDual
 isUnimodular
 	^ self isIntegral and: [self determinant abs = 1]! !
 
+!RationalLattice methodsFor: 'private' stamp: 'len 4/10/2018 16:55:26'!
+matrix: aMatrix
+	| M |
+	M _ aMatrix HNF.
+	M _ Matrix rows: (M rows select: [:each| each isZero not]).	
+	super matrix: M! !
+
 !RationalLattice methodsFor: 'invariants' stamp: 'len 12/8/2017 18:44:28'!
 packingCenterDensity
 	^ self packingRadius ^ self rank / self fundamentalVolume! !
@@ -23254,10 +23293,6 @@ packingSphereVolume
 		ifFalse: [2^n * pi ^ ((n-1)/2) * ((n-1)/2) factorial / n factorial].
 	p _ self packingRadius.
 	^ p ^ n * Vn! !
-
-!RationalLattice methodsFor: 'accessing' stamp: 'len 3/19/2018 15:27:27'!
-quadraticForm
-	^ QuadraticForm from: self ambient matrix: self gramian! !
 
 !RationalLattice methodsFor: 'operations' stamp: 'len 4/5/2018 04:51:51'!
 reciprocal
@@ -23371,32 +23406,6 @@ fcc
 	"Answer the face-centered cubic lattice (fcc).
 	Both A_3 and D_3 are equivalent to the fcc."
 	^ self basis: {(-1,-1,0). (1,-1,0). (0,1,-1)}! !
-
-!RationalLattice class methodsFor: 'instance creation' stamp: 'len 4/3/2018 15:33:27'!
-on: aVectorSpace matrix: aMatrix
-	| M |
-	M _ aMatrix HNF.
-	M _ Matrix rows: (M rows select: [:each| each isZero not]).	
-	^ self new ambient: aVectorSpace; matrix: M! !
-
-!Subspace methodsFor: 'as yet unclassified' stamp: 'len 4/7/2018 18:29:10'!
-isEmbedded
-	^ true! !
-
-!Subspace methodsFor: 'as yet unclassified' stamp: 'len 4/4/2018 07:16:01'!
-isLattice
-	^ false! !
-
-!Subspace methodsFor: 'as yet unclassified' stamp: 'len 4/3/2018 03:55:39'!
-isVectorSpace
-	^ true! !
-
-!Subspace class methodsFor: 'as yet unclassified' stamp: 'len 4/3/2018 05:25:52'!
-on: aVectorSpace matrix: aMatrix
-	| M |
-	M _ aMatrix echelon.
-	M _ Matrix rows: (M rows select: [:each| each isZero not]).		
-	^ self new ambient: aVectorSpace; matrix: M! !
 
 !FormalSumsModule methodsFor: 'elements' stamp: 'len 1/10/2018 20:41:07'!
 !! anObject
@@ -28761,6 +28770,167 @@ linearMap: aLinearMap translation: aVector
 		ifFalse: [^ DomainError signal: 'translation vector is outside of the codomain'].
 	^ self new linearMap: aLinearMap; translation: aVector! !
 
+!QuadraticForm methodsFor: 'arithmetic' stamp: 'len 3/28/2018 02:59:45'!
+* anObject
+	^ self class from: self domain coefficients: self coefficients * anObject! !
+
+!QuadraticForm methodsFor: 'arithmetic' stamp: 'len 3/28/2018 15:18:01'!
++ aQuadraticForm
+	self domain = aQuadraticForm domain ifFalse: [^ self error: 'domains don''t match'].
+	self domain matrix = aQuadraticForm domain matrix ifFalse: [self notYetImplemented].
+	^ self class
+		from: self domain
+		coefficients: self coefficients + aQuadraticForm coefficients! !
+
+!QuadraticForm methodsFor: 'comparing' stamp: 'len 3/28/2018 03:12:11'!
+= aQuadraticForm
+	(aQuadraticForm isKindOf: QuadraticForm) ifFalse: [^ false].
+	^ self coefficients = aQuadraticForm coefficients! !
+
+!QuadraticForm methodsFor: 'arithmetic' stamp: 'len 3/28/2018 03:00:18'!
+ aQuadraticForm
+	"Answer the direct sum of the receiver and the argument."
+	(aQuadraticForm isKindOf: QuadraticForm) ifFalse: [^ DomainError signal].
+	^ self notYetImplemented! !
+
+!QuadraticForm methodsFor: 'operations' stamp: 'len 3/28/2018 18:46:47'!
+adjoint
+	"Answer the adjoint (integral) quadratic form associated to the receiver."
+	| A |
+	A _ self hessian adjoint.
+	self rank odd ifTrue: [A _ A*2].
+	^ self class from: self domain hessian: A! !
+
+!QuadraticForm methodsFor: 'converting' stamp: 'len 3/28/2018 03:12:22'!
+asBilinearForm
+	"Answer the bilinear form associated with the receiver (assuming the characteristic is not 2). This is, via the polarization identity: B(v,w) = (Q(v+w) - Q(v-w)) / 4."
+	^ BilinearForm fromHalf: self domain matrix: self gramian! !
+
+!QuadraticForm methodsFor: 'converting' stamp: 'len 3/28/2018 03:03:12'!
+asPolynomial
+	| n P |
+	n _ self rank.
+	P _ self domain coordinateRing.
+	^ self value: (P tuple: n evaluating: [:i| P x: i])! !
+
+!QuadraticForm methodsFor: 'accessing' stamp: 'len 3/28/2018 02:47:11'!
+at: aPoint
+	| i j n |
+	i _ aPoint x - 1.
+	j _ aPoint y - 1.
+	i > j ifTrue: [i _ j. j _ aPoint x - 1].
+	n _ self rank.
+	^ self coefficients at: i * n - (i-1*i//2) + j - i + 1! !
+
+!QuadraticForm methodsFor: 'accessing' stamp: 'len 3/28/2018 03:01:03'!
+bitSize
+	^ self coefficients bitSize! !
+
+!QuadraticForm methodsFor: 'accessing' stamp: 'len 12/30/2015 21:16'!
+codomain
+	^ self scalars! !
+
+!QuadraticForm methodsFor: 'accessing' stamp: 'len 3/28/2018 03:00:51'!
+coefficients
+	"Answer the coefficients of the receiver in lexicographical order."
+	^ coefficients! !
+
+!QuadraticForm methodsFor: 'accessing-private' stamp: 'len 3/28/2018 03:06:18'!
+coefficients: aTuple
+	coefficients _ aTuple! !
+
+!QuadraticForm methodsFor: 'accessing' stamp: 'len 3/28/2018 01:05:41'!
+content
+	| answer |
+	answer _ self scalars zero.
+	self coefficients do: [:each| answer _ answer gcd: each].
+	^ answer! !
+
+!QuadraticForm methodsFor: 'accessing' stamp: 'len 3/28/2018 03:12:29'!
+determinant
+	"Answer the determinant of the Hessian matrix of the receiver. This is the determinant of the Gram matrix of twice the receiver."
+	^ self hessian determinant! !
+
+!QuadraticForm methodsFor: 'accessing' stamp: 'len 3/28/2018 18:20:42'!
+discriminant
+	self rank odd ifTrue: [^ self determinant / 2].
+	(self rank // 2) odd ifTrue: [self determinant negated].
+	^ self determinant! !
+
+!QuadraticForm methodsFor: 'accessing' stamp: 'len 3/28/2018 03:15:19'!
+gramian
+	^ self hessian / 2 "assuming we can divide by 2"! !
+
+!QuadraticForm methodsFor: 'comparing' stamp: 'len 3/28/2018 03:12:33'!
+hash
+	^ self coefficients hash! !
+
+!QuadraticForm methodsFor: 'accessing' stamp: 'len 3/28/2018 02:43:22'!
+hessian
+	"Answer the Hessian matrix H for the receiver Q.
+	This is a matrix H such that Q(x) = 1/2 * x^t * H * x."
+	^ self scalars matrix: self domain rank evaluating: [:i :j| i = j ifTrue: [(self at: i@j)*2] ifFalse: [self at: i@j]]! !
+
+!QuadraticForm methodsFor: 'testing' stamp: 'len 3/28/2018 03:12:40'!
+isDiagonal
+	"Answer true if the receiver is in diagonal form."
+	^ self hessian isDiagonal! !
+
+!QuadraticForm methodsFor: 'testing' stamp: 'len 3/28/2018 01:03:53'!
+isPrimitive
+	^ self content = self scalars one! !
+
+!QuadraticForm methodsFor: 'testing' stamp: 'len 1/8/2016 06:25'!
+isRegular
+	^ self asBilinearForm isNonDegenerate! !
+
+!QuadraticForm methodsFor: 'arithmetic' stamp: 'len 3/28/2018 02:59:58'!
+negated
+	^ self class from: self domain coefficients: self coefficients negated! !
+
+!QuadraticForm methodsFor: 'operations' stamp: 'len 3/28/2018 03:03:55'!
+primitive
+	^ self class from: self domain coefficients: self coefficients / self content! !
+
+!QuadraticForm methodsFor: 'printing' stamp: 'len 4/21/2016 00:22'!
+printOn: aStream
+	aStream print: self asPolynomial! !
+
+!QuadraticForm methodsFor: 'accessing' stamp: 'len 3/27/2018 23:58:26'!
+rank
+	^ self domain rank! !
+
+!QuadraticForm methodsFor: 'operations' stamp: 'len 3/28/2018 18:48:53'!
+reciprocal
+	^ self adjoint primitive * self content! !
+
+!QuadraticForm methodsFor: 'accessing' stamp: 'len 3/19/2018 20:00:15'!
+scalars
+	^ self domain scalars! !
+
+!QuadraticForm methodsFor: 'operations' stamp: 'len 3/28/2018 02:53:34'!
+value: aVector
+	| v n answer |
+	v _ self domain coordinatesOf: aVector.
+	n _ self rank.
+	answer _ self scalars zero.
+	1 to: n do: [:i|
+		| vi |
+		vi _ v at: i.
+		i to: n do: [:j|
+			answer _ (self at: i@j) * vi * (v at: j) + answer]].
+	^ answer! !
+
+!QuadraticForm class methodsFor: 'instance creation' stamp: 'len 3/28/2018 03:14:10'!
+coefficients: aTuple
+	"Answer the quadratic form with the given coefficients (in lexicographical order)."
+	^ self from: aTuple scalars ^ (aTuple size * 2) sqrtFloor coefficients: aTuple! !
+
+!QuadraticForm class methodsFor: 'instance creation' stamp: 'len 3/28/2018 02:57:27'!
+from: aModule coefficients: aTuple
+	"Answer the quadratic form associated with the given coefficients (in lexicographical order) in the distinguished basis of the given free module."
+	^ self new domain: aModule; coefficients: aTuple! !
+
 !BilinearForm methodsFor: 'arithmetic' stamp: 'len 3/18/2018 18:36:07'!
 * anObject
 	^ self class fromHalf: halfDomain matrix: matrix * anObject! !
@@ -29642,167 +29812,6 @@ from: aSimplicialComplex to: anotherSimplicialComplex mapping: aBlock
 	map _ Dictionary new.
 	aSimplicialComplex support do: [:each| map at: each put: (aBlock value: each)].
 	^ self from: aSimplicialComplex to: anotherSimplicialComplex map: map! !
-
-!QuadraticForm methodsFor: 'arithmetic' stamp: 'len 3/28/2018 02:59:45'!
-* anObject
-	^ self class from: self domain coefficients: self coefficients * anObject! !
-
-!QuadraticForm methodsFor: 'arithmetic' stamp: 'len 3/28/2018 15:18:01'!
-+ aQuadraticForm
-	self domain = aQuadraticForm domain ifFalse: [^ self error: 'domains don''t match'].
-	self domain matrix = aQuadraticForm domain matrix ifFalse: [self notYetImplemented].
-	^ self class
-		from: self domain
-		coefficients: self coefficients + aQuadraticForm coefficients! !
-
-!QuadraticForm methodsFor: 'comparing' stamp: 'len 3/28/2018 03:12:11'!
-= aQuadraticForm
-	(aQuadraticForm isKindOf: QuadraticForm) ifFalse: [^ false].
-	^ self coefficients = aQuadraticForm coefficients! !
-
-!QuadraticForm methodsFor: 'arithmetic' stamp: 'len 3/28/2018 03:00:18'!
- aQuadraticForm
-	"Answer the direct sum of the receiver and the argument."
-	(aQuadraticForm isKindOf: QuadraticForm) ifFalse: [^ DomainError signal].
-	^ self notYetImplemented! !
-
-!QuadraticForm methodsFor: 'operations' stamp: 'len 3/28/2018 18:46:47'!
-adjoint
-	"Answer the adjoint (integral) quadratic form associated to the receiver."
-	| A |
-	A _ self hessian adjoint.
-	self rank odd ifTrue: [A _ A*2].
-	^ self class from: self domain hessian: A! !
-
-!QuadraticForm methodsFor: 'converting' stamp: 'len 3/28/2018 03:12:22'!
-asBilinearForm
-	"Answer the bilinear form associated with the receiver (assuming the characteristic is not 2). This is, via the polarization identity: B(v,w) = (Q(v+w) - Q(v-w)) / 4."
-	^ BilinearForm fromHalf: self domain matrix: self gramian! !
-
-!QuadraticForm methodsFor: 'converting' stamp: 'len 3/28/2018 03:03:12'!
-asPolynomial
-	| n P |
-	n _ self rank.
-	P _ self domain coordinateRing.
-	^ self value: (P tuple: n evaluating: [:i| P x: i])! !
-
-!QuadraticForm methodsFor: 'accessing' stamp: 'len 3/28/2018 02:47:11'!
-at: aPoint
-	| i j n |
-	i _ aPoint x - 1.
-	j _ aPoint y - 1.
-	i > j ifTrue: [i _ j. j _ aPoint x - 1].
-	n _ self rank.
-	^ self coefficients at: i * n - (i-1*i//2) + j - i + 1! !
-
-!QuadraticForm methodsFor: 'accessing' stamp: 'len 3/28/2018 03:01:03'!
-bitSize
-	^ self coefficients bitSize! !
-
-!QuadraticForm methodsFor: 'accessing' stamp: 'len 12/30/2015 21:16'!
-codomain
-	^ self scalars! !
-
-!QuadraticForm methodsFor: 'accessing' stamp: 'len 3/28/2018 03:00:51'!
-coefficients
-	"Answer the coefficients of the receiver in lexicographical order."
-	^ coefficients! !
-
-!QuadraticForm methodsFor: 'accessing-private' stamp: 'len 3/28/2018 03:06:18'!
-coefficients: aTuple
-	coefficients _ aTuple! !
-
-!QuadraticForm methodsFor: 'accessing' stamp: 'len 3/28/2018 01:05:41'!
-content
-	| answer |
-	answer _ self scalars zero.
-	self coefficients do: [:each| answer _ answer gcd: each].
-	^ answer! !
-
-!QuadraticForm methodsFor: 'accessing' stamp: 'len 3/28/2018 03:12:29'!
-determinant
-	"Answer the determinant of the Hessian matrix of the receiver. This is the determinant of the Gram matrix of twice the receiver."
-	^ self hessian determinant! !
-
-!QuadraticForm methodsFor: 'accessing' stamp: 'len 3/28/2018 18:20:42'!
-discriminant
-	self rank odd ifTrue: [^ self determinant / 2].
-	(self rank // 2) odd ifTrue: [self determinant negated].
-	^ self determinant! !
-
-!QuadraticForm methodsFor: 'accessing' stamp: 'len 3/28/2018 03:15:19'!
-gramian
-	^ self hessian / 2 "assuming we can divide by 2"! !
-
-!QuadraticForm methodsFor: 'comparing' stamp: 'len 3/28/2018 03:12:33'!
-hash
-	^ self coefficients hash! !
-
-!QuadraticForm methodsFor: 'accessing' stamp: 'len 3/28/2018 02:43:22'!
-hessian
-	"Answer the Hessian matrix H for the receiver Q.
-	This is a matrix H such that Q(x) = 1/2 * x^t * H * x."
-	^ self scalars matrix: self domain rank evaluating: [:i :j| i = j ifTrue: [(self at: i@j)*2] ifFalse: [self at: i@j]]! !
-
-!QuadraticForm methodsFor: 'testing' stamp: 'len 3/28/2018 03:12:40'!
-isDiagonal
-	"Answer true if the receiver is in diagonal form."
-	^ self hessian isDiagonal! !
-
-!QuadraticForm methodsFor: 'testing' stamp: 'len 3/28/2018 01:03:53'!
-isPrimitive
-	^ self content = self scalars one! !
-
-!QuadraticForm methodsFor: 'testing' stamp: 'len 1/8/2016 06:25'!
-isRegular
-	^ self asBilinearForm isNonDegenerate! !
-
-!QuadraticForm methodsFor: 'arithmetic' stamp: 'len 3/28/2018 02:59:58'!
-negated
-	^ self class from: self domain coefficients: self coefficients negated! !
-
-!QuadraticForm methodsFor: 'operations' stamp: 'len 3/28/2018 03:03:55'!
-primitive
-	^ self class from: self domain coefficients: self coefficients / self content! !
-
-!QuadraticForm methodsFor: 'printing' stamp: 'len 4/21/2016 00:22'!
-printOn: aStream
-	aStream print: self asPolynomial! !
-
-!QuadraticForm methodsFor: 'accessing' stamp: 'len 3/27/2018 23:58:26'!
-rank
-	^ self domain rank! !
-
-!QuadraticForm methodsFor: 'operations' stamp: 'len 3/28/2018 18:48:53'!
-reciprocal
-	^ self adjoint primitive * self content! !
-
-!QuadraticForm methodsFor: 'accessing' stamp: 'len 3/19/2018 20:00:15'!
-scalars
-	^ self domain scalars! !
-
-!QuadraticForm methodsFor: 'operations' stamp: 'len 3/28/2018 02:53:34'!
-value: aVector
-	| v n answer |
-	v _ self domain coordinatesOf: aVector.
-	n _ self rank.
-	answer _ self scalars zero.
-	1 to: n do: [:i|
-		| vi |
-		vi _ v at: i.
-		i to: n do: [:j|
-			answer _ (self at: i@j) * vi * (v at: j) + answer]].
-	^ answer! !
-
-!QuadraticForm class methodsFor: 'instance creation' stamp: 'len 3/28/2018 03:14:10'!
-coefficients: aTuple
-	"Answer the quadratic form with the given coefficients (in lexicographical order)."
-	^ self from: aTuple scalars ^ (aTuple size * 2) sqrtFloor coefficients: aTuple! !
-
-!QuadraticForm class methodsFor: 'instance creation' stamp: 'len 3/28/2018 02:57:27'!
-from: aModule coefficients: aTuple
-	"Answer the quadratic form associated with the given coefficients (in lexicographical order) in the distinguished basis of the given free module."
-	^ self new domain: aModule; coefficients: aTuple! !
 
 !RationalMap methodsFor: 'arithmetic' stamp: 'len 1/20/2018 22:05:44'!
 * anObject
@@ -32887,6 +32896,92 @@ sqrt: anIntegerOrFraction
 	^ self
 		minimalPolynomial: QQ polynomials x squared - anIntegerOrFraction
  		approximation: (anIntegerOrFraction negative ifTrue: [anIntegerOrFraction negated sqrt i] ifFalse: [anIntegerOrFraction sqrt]) radius: 0.00001! !
+
+!LLL methodsFor: 'initialization' stamp: 'len 12/26/2015 21:06'!
+basis: aCollection
+	| d |
+	basis _ Array withAll: aCollection.
+	d _ basis size.
+	delta _ 3/4 "(4/3 + 0.0000000001)^((d-1)/2)"! !
+
+!LLL methodsFor: 'private' stamp: 'len 11/12/2016 07:39'!
+computeMu
+	| n bi oj |
+	n _ basis size.
+	mu _ ZZ matrix: n@n evaluating: [:i :j|
+		bi _ basis at: i.
+		oj _ orthogonalBasis at: j.
+		(bi dot: oj) / (oj dot: oj)]! !
+
+!LLL methodsFor: 'private' stamp: 'len 3/28/2016 01:23'!
+computeOrthogonalBasis
+	| k vi vj vectors |
+	vectors _ Array withAll: basis.
+	k _ vectors size.
+	1 to: k do: [ :i |
+		vi _ vectors at: i.
+		i+1 to: k do: [ :j |
+			vj _ vectors at: j.
+			vj _ vj - (vi * ((vj dot: vi) / (vi dot: vi))).
+			vectors at: j put: vj ] ].
+	orthogonalBasis _ vectors! !
+
+!LLL methodsFor: 'private' stamp: 'len 12/26/2015 21:00'!
+computeReducedBasis
+	| k mukj bj bk a b |
+	self computeOrthogonalBasis; computeMu.
+	k _ 1.
+	[k < basis size] whileTrue:
+		[k-1 to: 0 by: -1 do: [ :j |
+			mukj _ mu at: k+1 @ (j+1).
+			bj _ basis at: j+1.
+			bk _ basis at: k+1.
+			mukj abs > (1/2) ifTrue:
+				[basis at: k+1 put: bk - (bj * mukj rounded).
+				self update: k+1]].
+		a _ (orthogonalBasis at: k+1) norm2.
+		b _ (orthogonalBasis at: k) norm2.
+		a >= ((delta - (mu at: k+1 @ k) squared) * b)
+			ifTrue: [k _ k + 1]
+			ifFalse:
+				[basis swap: k+1 with: k.
+				self update: k+1.
+				k _ k-1 max: 1]].
+	^ basis! !
+
+!LLL methodsFor: 'accessing' stamp: 'len 12/23/2015 03:01'!
+reducedBasis
+	orthogonalBasis notNil ifFalse: [self computeReducedBasis].
+	^ basis! !
+
+!LLL methodsFor: 'private' stamp: 'len 2/23/2016 07:33'!
+update: k
+	self flag: #fix. "don't need to recompute all"
+	self computeOrthogonalBasis; computeMu! !
+
+!LLL class methodsFor: 'instance creation' stamp: 'len 12/23/2015 03:04'!
+basis: aCollection
+	^ self new basis: aCollection! !
+
+!LLL class methodsFor: 'examples' stamp: 'len 10/28/2016 18:21'!
+example
+	| b1 b2 b3 lll |
+	b1 _ (1, 1, 1).
+	b2 _ (-1, 0, 2).
+	b3 _ (3, 5, 6).
+	lll _ self basis: { b1. b2. b3 }.
+	^ lll reducedBasis! !
+
+!LLL class methodsFor: 'examples' stamp: 'len 10/29/2016 08:33'!
+example2
+	"Find polynomial x^2 - x - 1 that has the golden ratio phi as root."
+	| r b1 b2 b3 lll |
+	r _ 1.618034.
+	b1 _ (1, 0, 0, (10000 * r squared)).
+	b2 _ (0, 1, 0, (10000 * r)).
+	b3 _ (0, 0, 1, 10000).
+	lll _ self basis: { b1. b2. b3 }.
+	^ lll reducedBasis! !
 
 !FormalSum methodsFor: 'operations' stamp: 'len 11/18/2016 09:51:39'!
 * aNumber
@@ -38432,10 +38527,10 @@ parts: aCollection
 		ifTrue: [^ self parent coefficients: self coefficients \\ anObject].
 	^ (self divideBy: anObject) remainder! !
 
-!UnivariatePolynomial methodsFor: 'roots' stamp: 'len 4/9/2018 21:12:09'!
+!UnivariatePolynomial methodsFor: 'roots' stamp: 'len 4/10/2018 16:11:32'!
 allRoots
 	"Answer the roots (counted with multiplicity) in the coefficients ring or field."
-	^ self factorization allRoots! !
+	^ self allRootsIn: self scalars! !
 
 !UnivariatePolynomial methodsFor: 'roots' stamp: 'len 4/9/2018 21:19:33'!
 allRootsIn: aRing
@@ -38612,7 +38707,7 @@ exactlyDividedBy: aPolynomial
 		ifFalse: [^ (PolynomialPseudoDivision divide: self by: aPolynomial) exactQuotient].
 	^ (PolynomialDivision divide: self by: aPolynomial) exactQuotient! !
 
-!UnivariatePolynomial methodsFor: 'factorization' stamp: 'len 4/9/2018 22:04:07'!
+!UnivariatePolynomial methodsFor: 'factorization' stamp: 'len 4/10/2018 16:13:19'!
 factorizationIn: aRing
 	(aRing isField and: [aRing isFinite])
 		ifTrue: [^ FiniteFieldPolynomialFactorization polynomial: self].
@@ -38624,7 +38719,7 @@ factorizationIn: aRing
 		ifTrue: [^ RealPolynomialFactorization polynomial: self].
 "	(aRing isKindOf: RationalIntegerRing)
 		ifTrue: [^ IntegerPolynomialFactorization polynomial: self]."
-	^ self notYetImplemented! !
+	^ nil! !
 
 !UnivariatePolynomial methodsFor: 'testing' stamp: 'len 1/23/2017 11:47:49'!
 has: anIndeterminate
@@ -38829,15 +38924,17 @@ reversed
 
 	^ self parent coefficients: coefficients reversed! !
 
-!UnivariatePolynomial methodsFor: 'roots' stamp: 'len 4/9/2018 21:16:18'!
+!UnivariatePolynomial methodsFor: 'roots' stamp: 'len 4/10/2018 16:11:22'!
 roots
 	"Answer the set of distinct roots in the coefficients ring or field."
-	^ self factorization roots! !
+	^ self rootsIn: self scalars! !
 
-!UnivariatePolynomial methodsFor: 'roots' stamp: 'len 4/9/2018 21:24:37'!
+!UnivariatePolynomial methodsFor: 'roots' stamp: 'len 4/10/2018 16:17:48'!
 rootsIn: aRing
 	"Answer the set of distinct roots in the given domain."
-	^ (self factorizationIn: aRing) roots! !
+	(self factorizationIn: aRing) ifNotNil: [:factorization| ^ factorization roots].
+	aRing isFinite ifTrue: [^ aRing elements select: [:each| (self value: each) isZero]].
+	^ self notYetImplemented! !
 
 !UnivariatePolynomial methodsFor: 'operations' stamp: 'len 1/23/2017 11:48:25'!
 shift: anInteger
@@ -39416,7 +39513,7 @@ allRoots
 				ifTrue: [roots add: each independentCoefficient negated / each leadingCoefficient]].
 	^ roots! !
 
-!FiniteFieldPolynomialFactorization methodsFor: 'private' stamp: 'len 4/10/2018 06:22:52'!
+!FiniteFieldPolynomialFactorization methodsFor: 'private' stamp: 'len 4/10/2018 18:01:28'!
 distinctDegreeFactorization: aPolynomial
 	"Answer the distinct-degree factorization of a monic square-free polynomial.
 	The factorizations is a Dictionary d -> g, where g is the product of all irreducible factors of degree d."
@@ -39425,7 +39522,7 @@ distinctDegreeFactorization: aPolynomial
 	f _ aPolynomial.
 	x _ f parent x.
 	one _ f parent one.
-	q _ f parent characteristic.
+	q _ f parent scalars size.
 	i _ 1.
 	f2 _ f.
 	[f2 degree >= (2*i)]
@@ -39463,7 +39560,7 @@ equalDegreeFactorization2: aPolynomial degree: d
 			h _ h << 2].
 	^ factors! !
 
-!FiniteFieldPolynomialFactorization methodsFor: 'private' stamp: 'len 4/10/2018 06:14:05'!
+!FiniteFieldPolynomialFactorization methodsFor: 'private' stamp: 'len 4/10/2018 14:38:29'!
 equalDegreeFactorization: aPolynomial degree: d
 	"Cantor-Zassenhaus algorithm. Answer the equal-degree factorization of a monic squarefree univariate polynomial which has r>=2 pairwise distinct irreducible factors each of degree d."
 	| f r q h g one factors c |
@@ -39475,14 +39572,15 @@ equalDegreeFactorization: aPolynomial degree: d
 	factors _ OrderedCollection with: f.
 	[factors size < r]
 		whileTrue:
-			[h _ f parent atRandomMaxDegree: 2*d-1. "should be monic? should: d <= deg(h) <= 2d-1"
+			[h _ (f parent atRandomMaxDegree: 2*d-1) monic. "should be monic? should: d <= deg(h) <= 2d-1"
+			h _ h monic.
 			g _ (h raisedTo: q^d - 1 / 2 modulo: f) - one.
 			factors do: [:u|
 				u degree > d
 					ifTrue:
 						[c _ g gcd: u.
 						(c ~= one and: [c ~= u])
-							ifTrue:
+							ifTrue: "found non-trivial common factor c"
 								[factors _ factors copyWithout: u.
 								factors add: c; add: u // c]]]].
 	^ factors! !
@@ -39550,9 +39648,10 @@ squareFreeFactorization
 	"Answer the square-free factorization of a monic polynomial."
 	^ self squareFreeFactorizationOf: polynomial! !
 
-!FiniteFieldPolynomialFactorization methodsFor: 'factorization' stamp: 'len 4/10/2018 14:07:12'!
+!FiniteFieldPolynomialFactorization methodsFor: 'factorization' stamp: 'len 4/10/2018 17:59:04'!
 squareFreeFactorizationOf: aPolynomial
 	"Answer the square-free factorization of a monic polynomial."
+	"NOTE: this only works on prime fields. For non-prime fields, after substituting x^p by x we must also apply the inverse of the Frobenius automorphism to the coefficients."
 	| answer f one p i g c w y z |
 	answer _ Bag new.
 	f _ aPolynomial.
@@ -39560,7 +39659,7 @@ squareFreeFactorizationOf: aPolynomial
 	p _ f scalars characteristic.
 	(g _ f derivative) isZero
 		ifTrue:
-			[f _ f monomialsApply: [:m| m root: p]. "if the fill is not prime will this fail?"
+			[f _ f monomialsApply: [:m| m root: p]. "not enough if the field is non-prime"
 			(self squareFreeFactorizationOf: f)
 				do: [:each| answer add: each withOccurrences: p].
 			^ answer].
@@ -39575,7 +39674,7 @@ squareFreeFactorizationOf: aPolynomial
 			w _ y. c _ c // y].
 	c = one
 		ifFalse:
-			[c _ c monomialsApply: [:m| m root: p].
+			[c _ c monomialsApply: [:m| m root: p]. "not enough if the field is non-prime"
 			(self squareFreeFactorizationOf: c)
 				do: [:each| answer add: each withOccurrences: p]].
 	^ answer! !
@@ -40938,92 +41037,6 @@ shape: aPartition
 !YoungDiagram class methodsFor: 'instance creation' stamp: 'len 8/1/2016 03:13'!
 shape: aPartition
 	^ self new shape: aPartition! !
-
-!LLL methodsFor: 'initialization' stamp: 'len 12/26/2015 21:06'!
-basis: aCollection
-	| d |
-	basis _ Array withAll: aCollection.
-	d _ basis size.
-	delta _ 3/4 "(4/3 + 0.0000000001)^((d-1)/2)"! !
-
-!LLL methodsFor: 'private' stamp: 'len 11/12/2016 07:39'!
-computeMu
-	| n bi oj |
-	n _ basis size.
-	mu _ ZZ matrix: n@n evaluating: [:i :j|
-		bi _ basis at: i.
-		oj _ orthogonalBasis at: j.
-		(bi dot: oj) / (oj dot: oj)]! !
-
-!LLL methodsFor: 'private' stamp: 'len 3/28/2016 01:23'!
-computeOrthogonalBasis
-	| k vi vj vectors |
-	vectors _ Array withAll: basis.
-	k _ vectors size.
-	1 to: k do: [ :i |
-		vi _ vectors at: i.
-		i+1 to: k do: [ :j |
-			vj _ vectors at: j.
-			vj _ vj - (vi * ((vj dot: vi) / (vi dot: vi))).
-			vectors at: j put: vj ] ].
-	orthogonalBasis _ vectors! !
-
-!LLL methodsFor: 'private' stamp: 'len 12/26/2015 21:00'!
-computeReducedBasis
-	| k mukj bj bk a b |
-	self computeOrthogonalBasis; computeMu.
-	k _ 1.
-	[k < basis size] whileTrue:
-		[k-1 to: 0 by: -1 do: [ :j |
-			mukj _ mu at: k+1 @ (j+1).
-			bj _ basis at: j+1.
-			bk _ basis at: k+1.
-			mukj abs > (1/2) ifTrue:
-				[basis at: k+1 put: bk - (bj * mukj rounded).
-				self update: k+1]].
-		a _ (orthogonalBasis at: k+1) norm2.
-		b _ (orthogonalBasis at: k) norm2.
-		a >= ((delta - (mu at: k+1 @ k) squared) * b)
-			ifTrue: [k _ k + 1]
-			ifFalse:
-				[basis swap: k+1 with: k.
-				self update: k+1.
-				k _ k-1 max: 1]].
-	^ basis! !
-
-!LLL methodsFor: 'accessing' stamp: 'len 12/23/2015 03:01'!
-reducedBasis
-	orthogonalBasis notNil ifFalse: [self computeReducedBasis].
-	^ basis! !
-
-!LLL methodsFor: 'private' stamp: 'len 2/23/2016 07:33'!
-update: k
-	self flag: #fix. "don't need to recompute all"
-	self computeOrthogonalBasis; computeMu! !
-
-!LLL class methodsFor: 'instance creation' stamp: 'len 12/23/2015 03:04'!
-basis: aCollection
-	^ self new basis: aCollection! !
-
-!LLL class methodsFor: 'examples' stamp: 'len 10/28/2016 18:21'!
-example
-	| b1 b2 b3 lll |
-	b1 _ (1, 1, 1).
-	b2 _ (-1, 0, 2).
-	b3 _ (3, 5, 6).
-	lll _ self basis: { b1. b2. b3 }.
-	^ lll reducedBasis! !
-
-!LLL class methodsFor: 'examples' stamp: 'len 10/29/2016 08:33'!
-example2
-	"Find polynomial x^2 - x - 1 that has the golden ratio phi as root."
-	| r b1 b2 b3 lll |
-	r _ 1.618034.
-	b1 _ (1, 0, 0, (10000 * r squared)).
-	b2 _ (0, 1, 0, (10000 * r)).
-	b3 _ (0, 0, 1, 10000).
-	lll _ self basis: { b1. b2. b3 }.
-	^ lll reducedBasis! !
 
 !WeierstrassEquation methodsFor: 'invariants' stamp: 'len 11/9/2016 07:08'!
 a1
