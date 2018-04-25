@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 10 April 2018 at 2:18:27 pm'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 25 April 2018 at 5:22:34 pm'!
 'Description Please enter a description for this package'!
-!provides: 'MathematicsTests' 1 93!
+!provides: 'MathematicsTests' 1 94!
 !classDefinition: #AbelianGroupTest category: #MathematicsTests!
 TestCase subclass: #AbelianGroupTest
 	instanceVariableNames: ''
@@ -1357,6 +1357,17 @@ testProjectiveSpace
 	self assert: P ambient = P.
 	self assert: P coordinateRing proj = P! !
 
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 4/11/2018 16:40:04'!
+testProjectiveSpaceOverFiniteField
+	| P S |
+	P _ ProjectiveSpace new: 1 over: ZZ/3.
+	S _ P points.
+	self assert: S size = 4.
+	self assert: S asSet size = 4.
+	S _ P pointsOver: (ZZ/3 extensionDegree: 2).
+	self assert: S size = 10.
+	self assert: S asSet size = 10! !
+
 !AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/17/2016 11:30'!
 testRationalMap
 	"Example from Magma handbook Scheme_map-creation (H118E32)."
@@ -1631,13 +1642,13 @@ testTangentConeAndTangentSpace
 	"the tangent space is the whole plane:"
 	self assert: o tangentSpace = A! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/25/2016 06:13'!
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 4/10/2018 15:45:55'!
 testTwistedCubic
 	| P R M C |
 	P _ ProjectiveSpace new: 3 over: QQ.
 	R _ P coordinateRing.
 	"R indeterminateNames: #(u v w t)"
-	M _ R^(2@3) vectorAt: ((1,2,3,2,3,4) collect: [:i| R x: i]).
+	M _ R matrix: (2@3) coefficients: ((1,2,3,2,3,4) collect: [:i| R x: i]).
 	C _ P subscheme: (M minors: 2).
 	self assert: C dimension = 1.
 	self assert: C isSmooth! !
@@ -2392,7 +2403,7 @@ testMoraNormalForm
 	h _ G reduce: f.
 	self assert: h = (R !! [:x :y :z| z^3 + (x^4) + (y^5)])! !
 
-!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 2/12/2017 06:05:21'!
+!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 4/24/2018 19:38:02'!
 testMultivariateDivisionExample
 	| P x y z F f |
 	P _ QQ polynomialsIn: #(x y z) ordering: #glex.
@@ -2401,7 +2412,7 @@ testMultivariateDivisionExample
 	z _ P z.
 	F _ {x^2 - (y*z). y^2 - (z*x). z^2 - (x*y)}.
 	f _ x^3 + (y^3 * 3).
-	self assert: (f divideBy: F) remainder = (y^3 * 4)! !
+	self assert: (f divisionBy: F) remainder = (y^3 * 4)! !
 
 !CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 10/23/2016 16:37'!
 testPolynomialRingHomomorphismKernel
@@ -3077,12 +3088,12 @@ testOrthogonalAtRandom
 	self assert: (G atRandomBits: 100) isOrthogonal.
 	self assert: (G includes: (G atRandomBits: 100))! !
 
-!LinearGroupsTest methodsFor: 'as yet unclassified' stamp: 'len 12/8/2016 11:38:49'!
+!LinearGroupsTest methodsFor: 'as yet unclassified' stamp: 'len 4/10/2018 15:47:24'!
 testRotationsBy90Degrees
 	"Group of rotations by 90 degrees in the plane, isomorphic to Z/4Z."
 	| V G |
 	V _ QQ ^ 2.
-	G _ (LinearGroup on: V) generators: {V endomorphisms vectorAt: (0, 1, -1, 0)}.
+	G _ (LinearGroup on: V) generators: {V endomorphisms elementAt: (0, 1, -1, 0)}.
 	self assert: G size = 4.
 	self assert: G isCyclic.
 	self flag: #todo.
@@ -3184,7 +3195,7 @@ testCyclotomicPolynomials2
 	n _ 100 atRandom.
 	self assert: (n divisors product: [:d| P cyclotomic: d]) = (x^n - 1)! !
 
-!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 3/21/2016 00:12'!
+!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 4/18/2018 06:23:55'!
 testExtendedEuclid
 	| a b euclid |
 	a _ -1000 to: 1000 :: atRandom.
@@ -3192,7 +3203,7 @@ testExtendedEuclid
 	euclid _ ExtendedEuclid on: {a. b}.
 	self assert: euclid gcd | a.
 	self assert: euclid gcd | b.
-	self assert: (euclid combination * {a. b}) sum = euclid gcd.
+	self assert: (euclid bezout * {a. b}) sum = euclid gcd.
 	self assert: euclid gcd = (a gcd: b).
 	self assert: euclid verify! !
 
@@ -3346,6 +3357,10 @@ testKroneckerSymbol
 !MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 12/26/2016 23:13:26'!
 testLegendreSymbol
 	self assert: ((1 to: 10) collect: [:k| k legendre: 43]) = #(1 -1 -1 1 -1 1 -1 -1 1 1)! !
+
+!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 4/23/2018 20:55:15'!
+testModularIntegerLift
+	self assert: (2 to: 100 :: allSatisfy: [:m| 1 to: m :: allSatisfy: [:x| x % m :: lift % m = (x % m)]])! !
 
 !MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 12/2/2016 11:17:48'!
 testModularIntegersField
@@ -4606,7 +4621,7 @@ testSubmoduleIntersection
 	T2 _ V span: {(3,1,-1). (0,1,0)}.
 	self assert: S • T2 = T! !
 
-!ModuleTest methodsFor: 'other' stamp: 'len 4/5/2018 03:25:20'!
+!ModuleTest methodsFor: 'other' stamp: 'len 4/10/2018 16:32:42'!
 testSubmoduleSum
 	| V v w S T P |
 	V _ ZZ ^ 3.
@@ -4616,6 +4631,7 @@ testSubmoduleSum
 	T _ V span: {w}.
 	P _ V span: {v. w}.
 	self assert: S + T = P.
+	self assert: T + S = P.
 	T _ V span: {v - w. v + w}.
 	self assert: S + T = P! !
 
@@ -4661,7 +4677,7 @@ testSubspaceOfSubspace
 	self assert: (S includes: t).
 	self assert: (T includes: t)! !
 
-!ModuleTest methodsFor: 'other' stamp: 'len 8/26/2016 06:02'!
+!ModuleTest methodsFor: 'other' stamp: 'len 4/10/2018 16:31:03'!
 testSubspaceSum
 	| V v w S T P |
 	V _ QQ ^ 3.
@@ -4671,6 +4687,7 @@ testSubspaceSum
 	T _ V span: {w}.
 	P _ V span: {v. w}.
 	self assert: S + T = P.
+	self assert: T + S = P.
 	T _ V span: {v - w. v + w}.
 	self assert: S + T = P! !
 
@@ -5089,10 +5106,10 @@ testTotallyReal
 	E _ NumberField polynomial: x^4 - 2.
 	self assert: E isReal not! !
 
-!PAdicsTest methodsFor: 'as yet unclassified' stamp: 'len 1/5/2017 16:39:21'!
+!PAdicsTest methodsFor: 'as yet unclassified' stamp: 'len 4/17/2018 22:57:01'!
 testPAdicNorm
 	| Z7 x |
-	Z7 _ PAdicIntegerRing p: 2.
+	Z7 _ AdicIntegerRing p: 2.
 	x _ Z7 embed: 7.
 	self assert: x valuation = 0.
 	self assert: x norm = 1.
@@ -5330,7 +5347,7 @@ testExactDivisionMultivariate
 	self assert: f * g /// g = f.
 	self assert: f * g /// f = g! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:08'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 4/24/2018 19:38:33'!
 testExactDivisionMultivariate2
 	| Qxy x y f g |
 	Qxy _ QQ polynomialsIn: #(x y).
@@ -5338,8 +5355,8 @@ testExactDivisionMultivariate2
 	y _ Qxy y.
 	f _ x-y.
 	g _ x+y.
-	self assert: (f * g divideBy: g) quotient = f.
-	self assert: (f * g divideBy: f) quotient = g! !
+	self assert: (f * g divisionBy: g) quotient = f.
+	self assert: (f * g divisionBy: f) quotient = g! !
 
 !PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 2/6/2017 03:10:17'!
 testExactDivisionOverQ
@@ -5469,7 +5486,7 @@ testFiniteFieldRoots
 	self assert: (roots occurrencesOf: (Z3 project: 1)) = 2.
 	self assert: (roots occurrencesOf: (Z3 project: 2)) = 1! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 4/9/2018 21:26:52'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 4/24/2018 15:39:00'!
 testFiniteFieldSFF
 	| F Fx x one f factors |
 	F _ ZZ / 3.
@@ -5477,7 +5494,7 @@ testFiniteFieldSFF
 	x _ Fx x.
 	one _ Fx one.
 	f _ x^11 + (x^9 * 2) + (x^8 * 2) + (x^6) + (x^5) + (x^3 * 2) + (x^2 * 2) + one.
-	factors _ f factorization squareFreeFactorization.
+	factors _ f squareFreeFactorization.
 	self assert: factors size = 8.
 	self assert: (factors occurrencesOf: x + (one*2)) = 4.
 	self assert: (factors occurrencesOf: x^2 + one) = 3.
@@ -5534,6 +5551,16 @@ testGaussLemma
 	g _ Zx atRandomBits: 100 maxDegree: (5 to: 10) atRandom.
 	self assert: (f primitive * g primitive) isPrimitive! !
 
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 4/25/2018 15:49:59'!
+testIntegerFactorization
+	| x f factors |
+	x _ ZZ polynomials x.
+	f _ (x*2-1)^2*(x-2)*(x^2 + 1)*(x^2-2)*18.
+	factors _ f factors.
+	self assert: factors size = 8.
+	self assert: factors asSet size = 6.
+	self assert: factors product = f! !
+
 !PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:09'!
 testInterpolation
 	| Qx f |
@@ -5561,7 +5588,7 @@ testIsIrreducible
 	p _ 1000 atRandom nextPrime.
 	self deny: (ZZ/p :: polynomials !! [:x| x^4 + 1] :: isIrreducible)! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 11/20/2016 15:21:25'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 4/24/2018 19:38:36'!
 testMultivariateDivision
 	"Example from Cox IVA 62 p."
 	| Zxy x y f f1 f2 division |
@@ -5571,12 +5598,12 @@ testMultivariateDivision
 	f _ x*(y^2)+1.
 	f1 _ x*y+1.
 	f2 _ y+1.
-	division _ f divideBy: {f1. f2}.
+	division _ f divisionBy: {f1. f2}.
 	self assert: division quotients = {y. y one negated}.
 	self assert: division remainder = (y one * 2).
 	self assert: division verify! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 11/20/2016 15:21:46'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 4/24/2018 19:38:40'!
 testMultivariateDivision2
 	"Example from Cox IVA 63 p."
 	| Zxy x y f f1 f2 division |
@@ -5586,12 +5613,12 @@ testMultivariateDivision2
 	f _ x^2*y + (x*(y^2)) + (y^2).
 	f1 _ x*y-1.
 	f2 _ y^2-1.
-	division _ f divideBy: {f1. f2}.
+	division _ f divisionBy: {f1. f2}.
 	self assert: division quotients = {x+y. y one}.
 	self assert: division remainder = (x+y+1).
 	self assert: division verify! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 11/20/2016 15:22:04'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 4/24/2018 19:38:42'!
 testMultivariateDivision3
 	"Example from Cox IVA 67 p."
 	| Zxy x y f f1 f2 division |
@@ -5601,7 +5628,7 @@ testMultivariateDivision3
 	f _ x^2*y + (x*(y^2)) + (y^2).
 	f1 _ x*y-1.
 	f2 _ y^2-1.
-	division _ f divideBy: {f2. f1}.
+	division _ f divisionBy: {f2. f1}.
 	self assert: division quotients = {x+1. x}.
 	self assert: division remainder = (x*2+1).
 	self assert: division verify! !
@@ -5626,72 +5653,72 @@ testPPRS
 		(4663 -6150)
 		(1))! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:53'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 4/24/2018 19:41:39'!
 testPseudoDivision1
 	| Zxy x y division |
 	Zxy _ ZZ polynomialsIn: #(x y).
 	x _ Zxy x.
 	y _ Zxy y.
-	division _ x^2 + (y^2) pseudoDivideBy: y - x in: 2.
+	division _ x^2 + (y^2) pseudoDivisionBy: y - x in: 2.
 	self assert: division quotient asMultivariate = (x + y).
 	self assert: division remainder asMultivariate = (x^2 * 2).
 	self assert: division verify! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:09'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 4/24/2018 19:41:41'!
 testPseudoDivision2
 	| Zxy x y division |
 	Zxy _ QQ polynomialsIn: #(x y).
 	x _ Zxy x.
 	y _ Zxy y.
-	division _ x^2 + (y^2) pseudoDivideBy: (y-x)*2 in: 2.
+	division _ x^2 + (y^2) pseudoDivisionBy: (y-x)*2 in: 2.
 	self assert: division quotient asMultivariate = ((x+y) * 2).
 	self assert: division remainder asMultivariate = (x^2 * 8).
 	self assert: division verify! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:53'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 4/24/2018 19:41:45'!
 testPseudoDivision3
 	| Zxy x y division |
 	Zxy _ ZZ polynomialsIn: #(x y).
 	x _ Zxy x.
 	y _ Zxy y.
-	division _ x^2 + (y^2) pseudoDivideBy: y - x in: 2.
+	division _ x^2 + (y^2) pseudoDivisionBy: y - x in: 2.
 	self assert: division quotient asMultivariate = (x + y).
 	self assert: division remainder asMultivariate = (x^2 * 2).
 	self assert: division verify.
 
-	division _ x^2 + (y^2) pseudoDivideBy: x - y in: 2.
+	division _ x^2 + (y^2) pseudoDivisionBy: x - y in: 2.
 	self assert: division quotient asMultivariate = (x + y) negated.
 	self assert: division remainder asMultivariate = (x^2 * 2).
 	self assert: division verify! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 7/4/2016 04:35'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 4/24/2018 19:40:58'!
 testPseudoDivision: R
 	| Rx f g div |
 	Rx _ R polynomials.
 	f _ Rx atRandomBits: 100 maxDegree: 10 atRandom.
 	[g _ Rx atRandomBits: 100 maxDegree: 10 atRandom. g isZero] whileTrue.
-	div _ f pseudoDivideBy: g.
+	div _ f pseudoDivisionBy: g.
 	self assert: div verify! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:53'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 4/24/2018 19:41:01'!
 testPseudoDivisionUnivariate
 	| Zx x division |
 	Zx _ ZZ polynomials.
 	x _ Zx x.
-	division _ x^3 + x + 1 pseudoDivideBy: (x^2 * 3) + x + 1.
+	division _ x^3 + x + 1 pseudoDivisionBy: (x^2 * 3) + x + 1.
 	self assert: division quotient = (x*3 - 1).
 	self assert: division remainder = (x*7 + 10).
 	self assert: division delta = 2.
 	self assert: division verify! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:53'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 4/24/2018 19:41:02'!
 testPseudoDivisionUnivariate2
 	"Example from Zippel book"
 	| Zx a b |
 	Zx _ ZZ polynomials.
 	a _ Zx coefficients: #(1 0 1 0 -3 -3 8 2 -5) reversed.
 	b _ Zx coefficients: #(3 0 5 0 -4 -9 21) reversed.
-	^ self assert: (a pseudoDivideBy: b) verify! !
+	^ self assert: (a pseudoDivisionBy: b) verify! !
 
 !PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:53'!
 testPseudoDivisionZ
@@ -5701,7 +5728,7 @@ testPseudoDivisionZ
 testPseudoDivisionZ6
 	self testPseudoDivision: ZZ / 6! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:53'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 4/24/2018 19:41:07'!
 testPseudoRemainder
 	| Zx x a b r |
 	Zx _ ZZ polynomials.
@@ -5710,14 +5737,24 @@ testPseudoRemainder
 	b _ 3*(x^6) + (5*(x^4)) - (4*(x^2)) - (9*x) + 21.
 	r _ Zx coefficients: #(-9 0 3 0 -15).
 	self assert: (a pseudoRem: b) = r.
-	self assert: (a pseudoDivideBy: b) remainder = r! !
+	self assert: (a pseudoDivisionBy: b) remainder = r! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 3/24/2018 20:32:39'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 4/25/2018 15:46:49'!
+testRationalFactorization
+	| x f factors |
+	x _ QQ polynomials x.
+	f _ (x-(1/2))^2*(x-2)*(x^2 + 1)*(x^2-2).
+	factors _ f factors.
+	self assert: factors size = 5.
+	self assert: factors asSet size = 4.
+	self assert: factors product monic = f monic "up to a unit"! !
+
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 4/24/2018 17:32:47'!
 testRationalRoots
 	| x f roots |
 	x _ QQ polynomials x.
 	f _ (x-(1/2))^2*(x-2)*(x^2 + 1)*(x^2-2).
-	roots _ f allRootsIn: QQ.
+	roots _ f allRoots.
 	self assert: roots size = 3.
 	self assert: (roots occurrencesOf: 1/2) = 2.
 	self assert: (roots occurrencesOf: 2) = 1! !
@@ -5732,12 +5769,13 @@ testRationalRootsBug
 	self assert: (roots occurrencesOf: -1) = 2.
 	self assert: (roots occurrencesOf: 2) = 1! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 3/24/2018 21:07:05'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 4/24/2018 18:21:57'!
 testRealRoots
 	| x f roots |
 	x _ QQ polynomials x.
 	f _ (x-(1/2))^2*(x-2)*(x^2 + 1)*(x^2-2).
-	roots _ f rootsIn: RR. "should call allRootsIn:"
+	self assert: false.
+	roots _ f allRootsIn: RR.
 	self assert: roots size = 5.
 	self assert: roots asSet size = 4.
 	self assert: (roots occurrencesOf: 1/2) = 2.
@@ -5907,11 +5945,6 @@ testDesarguesTheorem
 	self assert: (a+A • (b+B) • (c+C)) isPoint.
 	"X,Y,Z are collinear"
 	self assert: (X+Y+Z) isLine! !
-
-!ProjectiveGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/31/2016 13:13'!
-testHomogeneousTuples
-	self assert: (1,2,3) asHomogeneousTuple = (2,4,6) asHomogeneousTuple.
-	self assert: (1,2,3) asHomogeneousTuple ~= (-2,4,6) asHomogeneousTuple! !
 
 !ProjectiveGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 2/4/2017 09:01:57'!
 testPappusHexagonTheorem
@@ -6609,6 +6642,37 @@ testBitTupleSum
 	self assert: (BitTuple fromInteger: 2r1011101) sum representative = 1.
 	self assert: (BitTuple fromInteger: 2r10000100100010) sum representative = 0! !
 
+!TupleTest methodsFor: 'as yet unclassified' stamp: 'len 4/11/2018 15:54:46'!
+testHomogeneousTuples
+	self assert: (1,2,3) ~ (2,4,6).
+	self deny: (1,2,3) ~ (-2,4,6)! !
+
+!TupleTest methodsFor: 'as yet unclassified' stamp: 'len 4/11/2018 17:25:31'!
+testHomogeneousTuples2
+	| P Q |
+	P _ (1,2) over: ZZ.
+	Q _ (2,4) over: ZZ.
+	self assert: P ~ Q.
+	P _ (1,2) over: ZZ.
+	Q _ (1,0) over: ZZ.
+	self deny: P ~ Q! !
+
+!TupleTest methodsFor: 'as yet unclassified' stamp: 'len 4/11/2018 17:25:53'!
+testHomogeneousTuples3
+	| R x P Q |
+	R _ QQ polynomials.
+	x _ R x.
+	P _ R tuple: {x. x^2 + 1}.
+	Q _ R tuple: {x^2. x^3 + x}.
+	self assert: P ~ Q! !
+
+!TupleTest methodsFor: 'as yet unclassified' stamp: 'len 4/11/2018 17:27:20'!
+testHomogeneousTuples4
+	| P Q |
+	P _ (2,4,1) % 6.
+	Q _ (0,1,3) % 6.
+	self deny: P ~ Q! !
+
 !TupleTest methodsFor: 'as yet unclassified' stamp: 'len 11/6/2016 11:31'!
 testMakeZero: aTuple
 	self assert: (aTuple * 0) isZero.
@@ -6886,7 +6950,7 @@ testFiniteField
 	F _ GaloisField new: 9.
 	((F^3) upTo: 9^3) asSet size = (9^3) ifFalse: [self halt]! !
 
-!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 4/9/2018 21:26:16'!
+!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 4/24/2018 15:39:10'!
 testFiniteFieldPolynomialFactorization
 	| F Fx x one f |
 	F _ ZZ / 3.
@@ -6894,7 +6958,7 @@ testFiniteFieldPolynomialFactorization
 	x _ Fx x.
 	one _ Fx one.
 	f _ x^11 + (x^9 * 2) + (x^8 * 2) + (x^6) + (x^5) + (x^3 * 2) + (x^2 * 2) + one.
-	20 timesRepeat: [f factorization factors]! !
+	20 timesRepeat: [f factors]! !
 
 !PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:49'!
 testMultivariatePolynomialAdditionOverZ
@@ -6997,14 +7061,14 @@ testPolynomialMultiplicationOverZ2
 	f _ x - (1 % 2).
 	1 to: 9 do: [:i| f _ x - (i % 2) * f * f]! !
 
-!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:49'!
+!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 4/24/2018 19:40:53'!
 testPolynomialPseudoDivision
 	| Zx x a b |
 	Zx _ ZZ polynomials.
 	x _ Zx x.
 	a _ x^8 + (x^6) - (3*(x^4)) - (3*(x^3)) + (8*(x^2)) + (2*x) - 5.
 	b _ 3*(x^6) + (5*(x^4)) - (4*(x^2)) - (9*x) + 21.
-	20 timesRepeat: [(a pseudoDivideBy: b) quotient]! !
+	20 timesRepeat: [(a pseudoDivisionBy: b) quotient]! !
 
 !PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:49'!
 testPolynomialPseudoRemainder
