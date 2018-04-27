@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 25 April 2018 at 5:21:41 pm'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 27 April 2018 at 1:20:08 am'!
 'Description A computational algebra system in Smalltalk'!
-!provides: 'Mathematics' 1 424!
+!provides: 'Mathematics' 1 425!
 !requires: 'RayTracer' 1 2 nil!
 !classDefinition: #RealAlgebraicNumber category: #'Mathematics-Fields'!
 Number subclass: #RealAlgebraicNumber
@@ -18880,6 +18880,12 @@ exampleZ6Projection
 mod: anIdeal
 	^ self new relations: anIdeal! !
 
+!ModularIntegerRing methodsFor: 'comparing' stamp: 'len 4/26/2018 20:11:02'!
+= anObject
+	self == anObject ifTrue: [^ true].
+	(anObject isKindOf: ModularIntegerRing) ifFalse: [^ false].
+	^ self modulus = anObject modulus! !
+
 !ModularIntegerRing methodsFor: 'random' stamp: 'len 4/25/2016 00:26'!
 atRandom: aRandom
 	^ self project: (self modulus atRandom: aRandom) - 1! !
@@ -18899,6 +18905,10 @@ characteristic
 !ModularIntegerRing methodsFor: 'private' stamp: 'len 1/5/2017 08:14:58'!
 elementClass
 	^ ModularInteger! !
+
+!ModularIntegerRing methodsFor: 'comparing' stamp: 'len 4/26/2018 20:11:10'!
+hash
+	^ self modulus hash! !
 
 !ModularIntegerRing methodsFor: 'testing' stamp: 'len 11/16/2016 18:15'!
 includes: anObject
@@ -34375,10 +34385,10 @@ newFrom: anObject
 	self class = aTuple class ifFalse: [^ super = aTuple halt].
 	^ scalars = aTuple scalars and: [representatives = aTuple representatives]! !
 
-!ModularTuple methodsFor: 'operations' stamp: 'len 1/16/2018 21:59:32'!
+!ModularTuple methodsFor: 'operations' stamp: 'len 4/26/2018 20:13:26'!
 add: aTuple by: aNumber from: startIndex to: stopIndex
 	| modulus representatives2 x |
-	(self class = aTuple class and: [scalars = aTuple scalars])
+	(self class = aTuple class "and: [scalars = aTuple scalars]")
 		ifFalse: [^ super add: aTuple by: aNumber from: startIndex to: stopIndex].
 	modulus _ scalars modulus.
 	representatives2 _ aTuple representatives.
@@ -34462,7 +34472,7 @@ isZero
 	1 to: representatives size do: [:i| (representatives at: i) == 0 ifFalse: [^ false]].
 	^ true! !
 
-!ModularTuple methodsFor: 'testing' stamp: 'len 12/1/2016 17:05:46'!
+!ModularTuple methodsFor: 'testing' stamp: 'len 4/27/2018 01:14:29'!
 isZeroAt: anInteger
 	^ (representatives at: anInteger) == 0! !
 
@@ -35046,6 +35056,20 @@ determinant2
 !Matrix methodsFor: 'operations' stamp: 'len 1/17/2017 09:00:29'!
 determinant3
 	^ (GaussianElimination on: self) determinant! !
+
+!Matrix methodsFor: 'operations' stamp: 'len 4/26/2018 20:56:17'!
+determinantModular
+	| B C n r moduli determinants |
+	B _ 0.
+	self do: [:each| B _ B max: each abs].
+	n _ self width.
+	C _ (n^n) sqrt * (B^n).
+	r _ (C log: 2) ceiling.
+	moduli _ OrderedCollection new: r.
+	moduli add: 2.
+	r - 1 timesRepeat: [moduli add: moduli last nextPrime].
+	determinants _ moduli collect: [:each| (self % each) determinant].
+	^ (CRT solve: determinants) lift! !
 
 !Matrix methodsFor: 'operations' stamp: 'len 4/5/2018 15:29:05'!
 determinantx
@@ -39000,41 +39024,8 @@ factorizationZassenhauss
 			division remainder isZero ifTrue: [answer add: g. f _ division quotient. f isConstant ifTrue: [^ answer]]]].
 	^ answer add: f; yourself! !
 
-!UnivariatePolynomial methodsFor: 'factorization-private' stamp: 'len 4/22/2018 17:21:16'!
+!UnivariatePolynomial methodsFor: 'factorization-private' stamp: 'len 4/26/2018 00:01:44'!
 factorizationZassenhauss2
-	"Zassenhauss algorithm. Answer the irreducible factors of a square-free primitive polynomial with integer coefficients."
-	| f n A b B C gamma df p fp dfp k factors r answer |
-	f _ self.
-	n _ f degree.
-	n = 1 ifTrue: [^ {f}].
-	A _ f normMax.
-	b _ f leadingCoefficient.
-	B _ (n+1) sqrt * (1<<n) * A * b. "float will fail"
-	C _ (n+1)^(2*n)*(A^(2*n-1)).
-	gamma _ (2 * (C log: 2)) ceiling.
-	df _ f derivative.
-	[[p _ (2*gamma*gamma ln) asInteger atRandom nextPrime.
-	p | b] whileTrue.
-	fp _ f % p.
-	dfp _ df % p.
-	(fp gcd: dfp) isConstant] whileFalse.
-	"modular factorization"
-	factors _ fp factors.
-	r _ factors size. "should repeat this 5 times and choose smallest r"
-	r = 1 ifTrue: [^ {f}]. "if irreducible mod p, also irreducible over Z"
-	k _ ((2*B+1) log: p) abs. "p^k > 2B"
-	"hensel lifting"
-	factors _ f henselLift: (factors collect: [:each| each representative]) p: p k: k.
-	"recombination"
-	answer _ Bag new.
-	1 to: r do: [:j|
-		(factors combinations: j) do: [:each| | g |
-			g _ each product.
-			g | f ifTrue: [answer add: g]]].
-	^ answer! !
-
-!UnivariatePolynomial methodsFor: 'factorization-private' stamp: 'len 4/24/2018 15:38:36'!
-factorizationZassenhauss3
 	"ZassenHauss algorithm. Answer the irreducible factors of a square-free polynomial with integer coefficients."
 	| answer f df p fp dfp factors r B e g |
 	answer _ Bag new.
@@ -39085,44 +39076,6 @@ hash
 	0 to: self degree do: [:i| answer _ answer + (self coefficientAtDegree: i) hash].
 	^ answer! !
 
-!UnivariatePolynomial methodsFor: 'factorization-private' stamp: 'len 4/24/2018 19:38:59'!
-henselLift: factors p: p k: k
-	| r mid g h s t m bezout gFactors hFactors |
-	r _ factors size.
-	r = 1 ifTrue: "can be optimized, compute inverse modulo p using extended euclid, then lift to p^k with newton iteration algorithm 9.10 (modern computer algebra)"
-		[^ {(self % (p^k) / self leadingCoefficient) lift}].
-	mid _ r//2.
-	gFactors _ factors copyFrom: 1 to: mid.
-	hFactors _ factors copyFrom: mid+1 to: r.
-	g _ gFactors product * self leadingCoefficient.
-	h _ hFactors product.
-	bezout _ (ExtendedEuclid on: {g % p. h % p}) bezout.
-	s _ bezout first lift.
-	t _ bezout second lift.
-	m _ p.
-	k highBit timesRepeat: "Hensel step:"
-		[| e division c d b |
-"		self assert: (self - (g*h) % m) isZero.
-		self assert: (s*g + (t*h) - 1 % m) isZero."
-		m _ m squared.
-		g _ g % m. h _ h % m. s _ s % m. t _ t % m.
-		e _ self % m - (g*h).
-		division _ s*e divisionBy: h.
-		c _ division quotient.
-		d _ division remainder.
-		g _ g + (t*e) + (c*g).
-		h _ h + d.
-		b _ s*g + (t*h) - 1.
-		division _ s*b divisionBy: h.
-		c _ division quotient.
-		d _ division remainder.
-		s _ s - d.
-		t _ t - (t*b) - (c*g).
-		g _ g lift. h _ h lift. s _ s lift. t _ t lift.
-"		self assert: (self - (g*h) % m) isZero.
-		self assert: (s*g + (t*h) - 1 % m) isZero"].
-	^ (g henselLift: gFactors p: p k: k), (h henselLift: hFactors p: p k: k)! !
-
 !UnivariatePolynomial methodsFor: 'factorization-private' stamp: 'len 4/25/2018 16:23:55'!
 henselLift: factors to: k
 	| p r mid g h s t m bezout gFactors hFactors |
@@ -39165,10 +39118,10 @@ henselLift: factors to: k
 independentCoefficient
 	^ self coefficientAtDegree: 0! !
 
-!UnivariatePolynomial methodsFor: 'testing' stamp: 'len 4/24/2018 15:38:18'!
+!UnivariatePolynomial methodsFor: 'testing' stamp: 'len 4/25/2018 21:42:02'!
 isIrreducible
 	| R |
-	self isConstant ifTrue: [^ false].
+	self isConstant ifTrue: [^ false]. "constant polynomials are not reducible nor irreducible"
 	self degree = 1 ifTrue: [^ true].
 	R _ self scalars.
 	((R isKindOf: RealField) and: [self degree > 2])
@@ -39557,9 +39510,9 @@ squareFreeFactorization
 		ifFalse: [^ self notYetImplemented].
 	^ (self primitive over: self scalars fractions) squareFreeFactorizationYun apply: [:each| self parent !! each primitive]! !
 
-!UnivariatePolynomial methodsFor: 'factorization-private' stamp: 'len 4/16/2018 20:14:44'!
+!UnivariatePolynomial methodsFor: 'factorization-private' stamp: 'len 4/26/2018 00:04:16'!
 squareFreeFactorizationFiniteField
-	"Answer the square-free factorization of a monic polynomial."
+	"Answer the square-free decomposition of a monic polynomial."
 	"NOTE: this only works on prime fields. For non-prime fields, after substituting x^p by x we must also apply the inverse of the Frobenius automorphism to the coefficients."
 	| answer f one p i g c w y z |
 	answer _ Bag new.
@@ -39588,11 +39541,12 @@ squareFreeFactorizationFiniteField
 				do: [:each| answer add: each withOccurrences: p]].
 	^ answer! !
 
-!UnivariatePolynomial methodsFor: 'factorization-private' stamp: 'len 4/25/2018 17:14:25'!
+!UnivariatePolynomial methodsFor: 'factorization-private' stamp: 'len 4/26/2018 00:03:55'!
 squareFreeFactorizationYun
-	"Answer a square-free factorization of the receiver.
+	"Answer a square-free decomposition of the receiver.
 	Use Yun's algorithm. Assume the coefficients are in a unique
-	factorization domain or in a field of characteristic 0."
+	factorization domain or in a field of characteristic 0.
+	Yun's algorithm on an input polynomial of degree n uses O(M(n)log(n)) operations in the base field F, where M(n) is the number of operations in F required to multiply two polynomias of degree n in F[x]."
 
 	| p q gcd count answer |
 	answer _ Bag new.
@@ -41538,8 +41492,8 @@ moduli: anArray
 		euclid verify ifFalse: [self error: 'failed'].
 		C at: j put: euclid bezout first]! !
 
-!CRT methodsFor: 'computing' stamp: 'len 12/24/2015 00:05'!
-solutionFor: remainders
+!CRT methodsFor: 'computing' stamp: 'len 4/26/2018 08:16:09'!
+solve: remainders
 	| k mj y yj x |
 	k _ moduli size.
 	y _ Array new: k.
@@ -41552,11 +41506,26 @@ solutionFor: remainders
 		y at: j put: yj].
 	x _ y at: k.
 	k-1 to: 1 by: -1 do: [:i| x _ x * (moduli at: i) + (y at: i)].
-	^ x "it would be more correct to return the residue class mod m1*m2*..*mk"! !
+	"it would be more correct to return the residue class mod m1*m2*..*mk"
+	^ x! !
 
 !CRT class methodsFor: 'instance creation' stamp: 'len 2/23/2016 22:44'!
 mod: anArray
 	^ self new moduli: anArray! !
+
+!CRT class methodsFor: 'instance creation' stamp: 'len 4/26/2018 20:56:04'!
+solve: aCollection
+	| x m |
+	x _ aCollection first.
+	m _ x modulus.
+	aCollection allButFirstDo: [:each| | xi mi bezout |
+		xi _ each.
+		mi _ xi modulus.
+		bezout _ (ExtendedEuclid on: {m. mi}) bezout.
+		x _ bezout first * m * xi representative + (bezout second * mi * x representative).
+		m _ m*mi.
+		x _ x % m].
+	^ x! !
 
 !DFT methodsFor: 'as yet unclassified' stamp: 'len 5/12/2016 08:20'!
 value: aTuple
