@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 27 April 2018 at 1:20:08 am'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 27 April 2018 at 6:44:25 am'!
 'Description A computational algebra system in Smalltalk'!
-!provides: 'Mathematics' 1 425!
+!provides: 'Mathematics' 1 426!
 !requires: 'RayTracer' 1 2 nil!
 !classDefinition: #RealAlgebraicNumber category: #'Mathematics-Fields'!
 Number subclass: #RealAlgebraicNumber
@@ -1350,16 +1350,6 @@ Ring subclass: #PolynomialRing
 	category: 'Mathematics-Polynomials'!
 !classDefinition: 'PolynomialRing class' category: #'Mathematics-Polynomials'!
 PolynomialRing class
-	instanceVariableNames: ''!
-
-!classDefinition: #TensorProductPolynomialRing category: #'Mathematics-Etc'!
-PolynomialRing subclass: #TensorProductPolynomialRing
-	instanceVariableNames: 'components'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Etc'!
-!classDefinition: 'TensorProductPolynomialRing class' category: #'Mathematics-Etc'!
-TensorProductPolynomialRing class
 	instanceVariableNames: ''!
 
 !classDefinition: #PowerSeriesRing category: #'Mathematics-Sequences'!
@@ -3462,36 +3452,6 @@ Object subclass: #Pixel
 Pixel class
 	instanceVariableNames: ''!
 
-!classDefinition: #PolynomialFactorization category: #'Mathematics-Etc'!
-Object subclass: #PolynomialFactorization
-	instanceVariableNames: 'polynomial'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Etc'!
-!classDefinition: 'PolynomialFactorization class' category: #'Mathematics-Etc'!
-PolynomialFactorization class
-	instanceVariableNames: ''!
-
-!classDefinition: #FiniteFieldPolynomialFactorization category: #'Mathematics-Etc'!
-PolynomialFactorization subclass: #FiniteFieldPolynomialFactorization
-	instanceVariableNames: 'factors'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Etc'!
-!classDefinition: 'FiniteFieldPolynomialFactorization class' category: #'Mathematics-Etc'!
-FiniteFieldPolynomialFactorization class
-	instanceVariableNames: ''!
-
-!classDefinition: #RationalPolynomialFactorization category: #'Mathematics-Etc'!
-PolynomialFactorization subclass: #RationalPolynomialFactorization
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Etc'!
-!classDefinition: 'RationalPolynomialFactorization class' category: #'Mathematics-Etc'!
-RationalPolynomialFactorization class
-	instanceVariableNames: ''!
-
 !classDefinition: #QRDecomposition category: #'Mathematics-Etc'!
 Object subclass: #QRDecomposition
 	instanceVariableNames: 'matrix Q R'
@@ -4172,10 +4132,6 @@ Polynomial rings R[x1,...,xn] in one or many indeterminates over a commutative r
 The number of indeterimnates is called the rank of the polynomial ring. The indeterminates are referred by index (positive integer numbers).
 
 Polynomial rings have an associated monomial ordering. This is used for defining the leading term of a polynomial, multivariate division (also called normal form or reduction) and the computation of Groebner bases and standard bases.
-!
-
-!TensorProductPolynomialRing commentStamp: '<historical>' prior: 0!
-My instances are tensor products over R of polynomial rings with coefficients in R. They are R-algebra coproducts, so they have canonical embeddings.
 !
 
 !AdicField commentStamp: '<historical>' prior: 0!
@@ -5183,16 +5139,6 @@ Furthermore, the algorithm computes a lower triangular matrix, M, such that:
 The algorithm performs O(2mn^2) arithmetic operations.
 !
 
-!PolynomialFactorization commentStamp: '<historical>' prior: 0!
-Polynomial factorization algorithms are grouped together with irreducibility testing and root finding. Subclasses implement algorithms for particular coefficient rings.
-!
-
-!FiniteFieldPolynomialFactorization commentStamp: '<historical>' prior: 0!
-This is class implements the factorization and root finding for polynomials over finite fields.
-
-The main algorithm is Cantor-Zassenhaus for equal degree factorization, and algorithms for square free factorization and distint degree factorization.
-!
-
 !QRDecomposition commentStamp: '<historical>' prior: 0!
 My instances are QR factorizations of a given real or complex matrix A, such that A = Q*R where Q is unitary (orthogonal) and R is upper triangular. Morover, if A is nonsingular, the diagonal of R may be taken to be positive, in which case the factorization is unique.!
 
@@ -5934,9 +5880,9 @@ anyIfNone: aBlock
 	self do: [:each | ^ each].
 	^aBlock value! !
 
-!Collection methodsFor: '*mathematics' stamp: 'len 10/6/2016 10:19'!
-apply: aMorphism
-	^ self collect: aMorphism! !
+!Collection methodsFor: '*mathematics' stamp: 'len 4/27/2018 01:29:32'!
+apply: aFunction
+	^ self collect: aFunction! !
 
 !Collection methodsFor: '*mathematics' stamp: 'len 1/30/2018 21:35:53'!
 atRandomBits: anInteger
@@ -6316,7 +6262,7 @@ asFloat
 	self refineTo: 0.000001.
 	^ self approximation asFloat! !
 
-!RealAlgebraicNumber methodsFor: 'converting' stamp: 'len 4/9/2018 20:21:44'!
+!RealAlgebraicNumber methodsFor: 'converting' stamp: 'len 4/27/2018 01:39:24'!
 asRational
 	"Convert the receiver to Fraction or Integer."
 	| alpha |
@@ -6326,8 +6272,8 @@ asRational
 			[alpha _ polynomial independentCoefficient negated / polynomial leadingCoefficient.
 			self bounds: (RealInterval open: alpha closed: alpha).
 			^ alpha].
-	(RationalPolynomialFactorization polynomial: self polynomial)
-		roots do: [ :each |
+	(polynomial rootsIn: QQ)
+		do: [:each|
 			(each between: self leftBound and: self rightBound)
 				ifTrue: [self bounds: (RealInterval open: each closed: each). ^ each]].
 	self error: 'the number is irrational'! !
@@ -6361,13 +6307,13 @@ isAlgebraicInteger
 	"An algebraic number is an 'algebraic integer' if it's the root of a monic polynomial in Z[x], in particular if it's minimal polynomial has integer coefficients."
 	^ self minimalPolynomial coefficients allSatisfy: [:each| each isInteger]! !
 
-!RealAlgebraicNumber methodsFor: 'testing' stamp: 'len 4/9/2018 20:21:52'!
+!RealAlgebraicNumber methodsFor: 'testing' stamp: 'len 4/27/2018 01:39:42'!
 isRational
 	"Answer true if the receiver is a rational number."
 	self polynomial degree < 2 ifTrue: [^ true].
 	self rightBound = self leftBound ifTrue: [^ true].
-	(RationalPolynomialFactorization polynomial: self polynomial)
-		roots do: [:each|
+	(self polynomial rootsIn: QQ)
+		do: [:each|
 			(self bounds includes: each)
 				ifTrue: [self bounds: (RealInterval closed: each closed: each). ^ true]].
 	^ false! !
@@ -8381,10 +8327,10 @@ adjacencyMatrix: vertices
 	"Answer the adjacency matrix of the receiver, using the vertex ordering given by the argument."
 	^ ZZ ^ (vertices size @ vertices size) evaluating: [:i :j| self multiplicityFrom: (vertices at: i) to: (vertices at: j)]! !
 
-!Graph methodsFor: 'enumerating' stamp: 'len 7/23/2016 04:06'!
-apply: aMorphism
-	"Answer a new graph like the receiver but with vertices values mapped by aMorphism."
-	^ self collect: aMorphism! !
+!Graph methodsFor: 'enumerating' stamp: 'len 4/27/2018 01:30:08'!
+apply: aFunction
+	"Answer a new graph like the receiver but with vertices values mapped by aFunction."
+	^ self collect: aFunction! !
 
 !Graph methodsFor: 'converting' stamp: 'len 7/30/2016 07:33'!
 asMorph
@@ -17891,10 +17837,12 @@ isInitial
 	"In the cateogry of commutative rings with unit, the integers are the initial object. Redefined in Integers."
 	^ false! !
 
-!Ring methodsFor: 'testing' stamp: 'len 12/28/2016 12:09:56'!
+!Ring methodsFor: 'testing' stamp: 'len 4/27/2018 06:24:02'!
 isIntegralDomain
 	"A ring is an integral domain if the product of any two non-zero elements is non-zero."
-	^ self propertyAt: #isIntegralDomain ifAbsent: [self isIntegrallyClosedDomain]! !
+	self propertyAt: #isIntegralDomain ifPresent: [:aBoolean| ^ aBoolean].
+	self isFinite ifTrue: [^ self propertyAt: #isIntegralDomain put: (self zeroDivisors allSatisfy: [:each| each isZero])].
+	^ self isIntegrallyClosedDomain! !
 
 !Ring methodsFor: 'testing' stamp: 'len 12/28/2016 12:10:21'!
 isIntegrallyClosedDomain
@@ -18343,11 +18291,9 @@ exampleZZLocalizedAt2
 fractions
 	^ self! !
 
-!FractionRing methodsFor: 'testing' stamp: 'len 10/29/2016 16:03'!
+!FractionRing methodsFor: 'testing' stamp: 'len 4/27/2018 02:02:29'!
 includes: anObject
-	^ (anObject is: #Fraction)
-		and: [(self integers includes: anObject numerator)
-			and: [self integers includes: anObject denominator]]! !
+	^ ((anObject isKindOf: FormalFraction) and: [(self integers includes: anObject numerator) and: [self integers includes: anObject denominator]]) or: [self integers includes: anObject]! !
 
 !FractionRing methodsFor: 'testing' stamp: 'len 10/31/2016 15:21'!
 isField
@@ -18520,6 +18466,10 @@ extension: aPolynomial
 	aPolynomial parent isUnivariate ifFalse: [^ self error: 'not univariate poylnomial'].
 	^ FunctionField polynomial: aPolynomial! !
 
+!RationalFunctionField methodsFor: 'testing' stamp: 'len 4/27/2018 02:04:27'!
+includes: anObject
+	^ ((anObject isKindOf: RationalFunction) and: [anObject numerator parent = self integers]) or: [self integers includes: anObject]! !
+
 !RationalFunctionField methodsFor: 'accessing' stamp: 'len 10/14/2016 22:59'!
 indeterminates
 	^ self integers indeterminates! !
@@ -18634,6 +18584,14 @@ includes: anObject
 isCommutative
 	^ components allSatisfy: [:each| each isCommutative]! !
 
+!ProductRing methodsFor: 'testing' stamp: 'len 4/27/2018 06:31:51'!
+isIntegralDomain
+	"The product of two or more non-trivial rings always has non-trivial zero divisors."
+	| count |
+	count _ 0.
+	components do: [:each| each isTrivial ifFalse: [(count _ count + 1) > 1 ifTrue: [^ false]]].
+	^ true! !
+
 !ProductRing methodsFor: 'testing' stamp: 'len 8/29/2016 04:14'!
 isProduct
 	^ true! !
@@ -18644,11 +18602,11 @@ isUnit: anElement
 		(each isUnit: (anElement at: i)) ifFalse: [^ false]].
 	^ true! !
 
-!ProductRing methodsFor: 'testing' stamp: 'len 4/11/2018 19:45:22'!
+!ProductRing methodsFor: 'testing' stamp: 'len 4/27/2018 06:09:08'!
 isZeroDivisor: anElement
 	components withIndexDo: [:each :i|
-		(each isZeroDivisor: (anElement at: i)) ifFalse: [^ false]].
-	^ true! !
+		(each isZeroDivisor: (anElement at: i)) ifTrue: [^ true]].
+	^ false! !
 
 !ProductRing methodsFor: 'accessing' stamp: 'len 8/29/2016 04:10'!
 one
@@ -18771,10 +18729,10 @@ isField
 	"Answer true if the receiver forms a residue field."
 	^ self base isTrivial not and: [self base isCommutative and: [self relations isMaximal]]! !
 
-!QuotientRing methodsFor: 'testing' stamp: 'len 2/28/2017 20:42:56'!
+!QuotientRing methodsFor: 'testing' stamp: 'len 4/27/2018 05:59:40'!
 isIntegralDomain
-	(self base isTrivial not and: [self base isCommutative and: [self relations isPrime]])
-		ifTrue: [^ true].
+	(self base isTrivial not and: [self base isCommutative])
+		ifTrue: [^ self relations isPrime].
 	self isIntegrallyClosedDomain
 		ifTrue: [^ true].
 	^ self notYetImplemented! !
@@ -20653,10 +20611,9 @@ isGraded
 	"Answer true if this polynomial ring is graded, i.e. it uses a graded monomial ordering."
 	^ self ordering isGraded! !
 
-!PolynomialRing methodsFor: 'testing' stamp: 'len 10/22/2016 18:09'!
+!PolynomialRing methodsFor: 'testing' stamp: 'len 4/27/2018 06:16:03'!
 isIntegralDomain
-	self scalars isIntegralDomain ifTrue: [^ true].
-	^ super isIntegralDomain! !
+	^ self scalars isIntegralDomain! !
 
 !PolynomialRing methodsFor: 'testing' stamp: 'len 2/12/2017 05:48:39'!
 isLocal
@@ -20871,21 +20828,6 @@ new: anInteger over: aRing
 !PolynomialRing class methodsFor: 'instance creation' stamp: 'len 2/26/2017 09:25:32'!
 new: anInteger over: aRing ordering: aMonomialOrdering
 	^ self new monomials: (FreeAbelianMonoid new: anInteger ordering: aMonomialOrdering); scalars: aRing! !
-
-!TensorProductPolynomialRing methodsFor: 'as yet unclassified' stamp: 'len 12/31/2017 22:56:06'!
-arity
-	^ components size! !
-
-!TensorProductPolynomialRing methodsFor: 'as yet unclassified' stamp: 'len 12/31/2017 22:55:58'!
-at: anInteger
-	^ components at: anInteger! !
-
-!TensorProductPolynomialRing methodsFor: 'as yet unclassified' stamp: 'len 12/31/2017 22:36:06'!
-embedding: i
-	| shift |
-	shift _ 0.
-	1 to: i-1 do: [:each| shift _ shift + (self at: each) rank].
-	^ ((self at: i) to: self evaluating: [:f| self !! f substitute: [:j| j+shift]]) name: 'i', i printText sub! !
 
 !PowerSeriesRing methodsFor: 'accessing' stamp: 'len 10/28/2016 14:17'!
 characteristic
@@ -25657,9 +25599,9 @@ isIrreducible
 	(anObject isKindOf: RationalPoint) ifTrue: [^ self pointAt: anObject coordinates].
 	DomainError signal! !
 
-!Scheme methodsFor: 'operations' stamp: 'len 10/24/2016 22:28'!
+!Scheme methodsFor: 'operations' stamp: 'len 4/27/2018 01:31:22'!
 apply: aMorphism
-	"Answer the image of aRationalMap applied to the receiver, assuming the receiver is a subscheme of the domain of aMorphism."
+	"Answer the image of aMorphism applied to the receiver, assuming the receiver is a subscheme of the domain of aMorphism."
 	^ (aMorphism restrictedTo: self) image! !
 
 !Scheme methodsFor: 'accessing' stamp: 'len 1/13/2017 20:02:34'!
@@ -28217,10 +28159,11 @@ imageContains: aPolynomial
 	"As in Magma, algorithm in p. 82 of [AL94]."
 	self notYetImplemented! !
 
-!PolynomialRingMap methodsFor: 'as yet unclassified' stamp: 'len 2/12/2017 13:05:43'!
+!PolynomialRingMap methodsFor: 'as yet unclassified' stamp: 'len 4/27/2018 01:28:13'!
 implicitization
 	"As implemented in RationalMap. Maybe shouldn't implement it here.
-	Magma uses the algorithm in p. 97 of [CLO96]."! !
+	Magma uses the algorithm in p. 97 of [CLO96]."
+	self notYetImplemented! !
 
 !PolynomialRingMap methodsFor: 'as yet unclassified' stamp: 'len 2/12/2017 13:02:51'!
 isSurjective
@@ -32683,7 +32626,7 @@ asFloat
 	self refineTo: 0.000001.
 	^ self approximation asFloat! !
 
-!ComplexAlgebraicNumber methodsFor: 'converting' stamp: 'len 4/9/2018 20:19:53'!
+!ComplexAlgebraicNumber methodsFor: 'converting' stamp: 'len 4/27/2018 01:48:35'!
 asRational
 	"Convert the receiver to Fraction or Integer."
 	| alpha |
@@ -32693,8 +32636,8 @@ asRational
 			[alpha _ polynomial independentCoefficient negated / polynomial leadingCoefficient.
 			approximation _ alpha. radius _ 0.
 			^ alpha].
-	(RationalPolynomialFactorization polynomial: polynomial)
-		roots do: [:each|
+	(polynomial rootsIn: QQ)
+		do: [:each|
 			(each - approximation) abs < radius
 				ifTrue: [approximation _ each. radius _ 0. ^ each]].
 	self error: 'the number is irrational'! !
@@ -32739,12 +32682,12 @@ isAlgebraicInteger
 isNumber
 	^ true! !
 
-!ComplexAlgebraicNumber methodsFor: 'testing' stamp: 'len 4/9/2018 20:20:01'!
+!ComplexAlgebraicNumber methodsFor: 'testing' stamp: 'len 4/27/2018 01:38:47'!
 isRational
 	polynomial degree < 2 ifTrue: [^ true].
 	radius = 0 ifTrue: [^ true].
-	(RationalPolynomialFactorization polynomial: self polynomial)
-		roots do: [:each|
+	(polynomial rootsIn: QQ)
+		do: [:each|
 			(each - approximation) abs < radius
 				ifTrue: [approximation _ each. radius _ 0. ^ true]].
 	^ false! !
@@ -38987,7 +38930,7 @@ factorizationIntegers2
 			answer add: each withOccurrences: k].
 	^ answer! !
 
-!UnivariatePolynomial methodsFor: 'factorization-private' stamp: 'len 4/25/2018 16:25:27'!
+!UnivariatePolynomial methodsFor: 'factorization-private' stamp: 'len 4/27/2018 06:12:23'!
 factorizationZassenhauss
 	"Zassenhauss algorithm. Answer the irreducible factors of a square-free primitive polynomial with integer coefficients."
 	| f n A b B C gamma df p fp dfp k factors r answer |
@@ -38998,7 +38941,8 @@ factorizationZassenhauss
 	b _ f leadingCoefficient.
 	B _ (n+1) sqrt * (1<<n) * A * b. "float will fail"
 	C _ (n+1)^(2*n)*(A^(2*n-1)).
-	gamma _ (2 * (C log: 2)) ceiling.
+"	gamma _ (2 * (C log: 2)) ceiling."
+	gamma _ 2 * C highBit. "+1?"
 	df _ f derivative.
 	[[p _ (2*gamma*gamma ln) asInteger atRandom nextPrime.
 	p | b] whileTrue.
@@ -42470,356 +42414,6 @@ transpose
 !Pixel class methodsFor: 'as yet unclassified' stamp: 'len 2/13/2016 17:50'!
 row: anInteger column: anotherInteger
 	^ self new row: anInteger; column: anotherInteger! !
-
-!PolynomialFactorization methodsFor: 'roots' stamp: 'len 4/11/2018 21:54:48'!
-allRoots
-	| f derivatives roots answer |
-	f _ polynomial.
-	derivatives _ (1 to: polynomial degree "- 1") collect: [:each| f _ f derivative].
-	roots _ self roots.
-	answer _ Bag new: roots size.
-	roots do: [:each| answer add: each withOccurrences: (derivatives findFirst: [:g| (g value: each) isZero not])].
-	^ answer! !
-
-!PolynomialFactorization methodsFor: 'roots' stamp: 'len 4/16/2018 19:50:10'!
-anyRoot
-	^ self roots anyOne! !
-
-!PolynomialFactorization methodsFor: 'roots' stamp: 'len 4/9/2018 21:13:55'!
-anyRootOrNil
-	self roots do: [:each| ^ each].
-	^ nil! !
-
-!PolynomialFactorization methodsFor: 'factors' stamp: 'len 4/9/2018 23:36:51'!
-factors
-	self subclassResponsibility! !
-
-!PolynomialFactorization methodsFor: 'testing' stamp: 'len 4/9/2018 20:47:27'!
-isIrreducible
-	"Answer true if the polynomial is irreducible."
-	^ self factors size = 1! !
-
-!PolynomialFactorization methodsFor: 'accessing' stamp: 'len 1/11/2016 04:30'!
-polynomial
-	^ polynomial! !
-
-!PolynomialFactorization methodsFor: 'accessing-private' stamp: 'len 6/5/2016 04:55'!
-polynomial: aPolynomial	
-	polynomial _ aPolynomial! !
-
-!PolynomialFactorization methodsFor: 'printing' stamp: 'len 4/17/2018 17:36:34'!
-printOn: aStream
-"	aStream print: polynomial; nextPutAll: ' = '."
-	self factors withOccurrencesDo: [:f :d|
-		aStream nextPut: $(; print: f; nextPut: $).
-		d > 1 ifTrue: [aStream nextPutAll: d printString super]]! !
-
-!PolynomialFactorization methodsFor: 'roots' stamp: 'len 3/24/2018 20:35:06'!
-roots
-	^ self allRoots asSet! !
-
-!PolynomialFactorization methodsFor: 'factors' stamp: 'len 4/9/2018 20:40:17'!
-squareFreeFactorization
-	"Answer a square free factorization of the receiver.
-	Use Yun's algorithm. Assume the coefficients are in a unique
-	factorization domain or in a field of characteristic 0."
-
-	| p q gcd count answer lc |
-	((polynomial scalars isField and: [polynomial scalars characteristic = 0]) or: [polynomial scalars isUFD])
-		ifFalse: [^ self notYetImplemented].
-	answer _ Bag new.
-	count _ 1.
-	lc _ polynomial leadingCoefficient.
-	lc = polynomial scalars one
-		ifFalse: [answer add: (polynomial parent constant: lc)].
-	p _ polynomial / lc.
-	q _ p derivative.
-	gcd _ p gcd: q.
-	gcd degree > 0
-		ifTrue:
-			[p _ p // gcd.
-			q _ q // gcd - p derivative.
-			[q isZero]
-				whileFalse:
-					[gcd _ p gcd: q.
-					gcd degree > 0 ifTrue: [answer add: gcd withOccurrences: count].
-					count _ count + 1.
-					p _ p // gcd.
-					q _ q // gcd - p derivative]].
-	^ answer add: p withOccurrences: count; yourself! !
-
-!PolynomialFactorization class methodsFor: 'instance creation' stamp: 'len 11/6/97 21:11'!
-polynomial: aPolynomial
-	"Answer a new instance of the receiver to find the roots of aPolynomial."
-
-	^ self new polynomial: aPolynomial! !
-
-!FiniteFieldPolynomialFactorization methodsFor: 'as yet unclassified' stamp: 'len 4/9/2018 20:14:32'!
-allRoots
-	| roots |
-	roots _ OrderedCollection new.
-	self factors
-		do: [:each|
-			each degree = 1
-				ifTrue: [roots add: each independentCoefficient negated / each leadingCoefficient]].
-	^ roots! !
-
-!FiniteFieldPolynomialFactorization methodsFor: 'private' stamp: 'len 4/10/2018 18:01:28'!
-distinctDegreeFactorization: aPolynomial
-	"Answer the distinct-degree factorization of a monic square-free polynomial.
-	The factorizations is a Dictionary d -> g, where g is the product of all irreducible factors of degree d."
-	| answer i f f2 one q x |
-	answer _ Dictionary new.
-	f _ aPolynomial.
-	x _ f parent x.
-	one _ f parent one.
-	q _ f parent scalars size.
-	i _ 1.
-	f2 _ f.
-	[f2 degree >= (2*i)]
-		whileTrue:
-			[ | g | g _ f2 gcd: (x raisedTo: q^i modulo: f2) - x.
-			g ~= one ifTrue: [answer at: i put: g. f2 _ f2 // g].
-			i _ i + 1].
-	f2 ~= one ifTrue: [answer at: f2 degree put: f2].
-	answer isEmpty ifTrue: [answer at: 1 put: f].
-	^ answer! !
-
-!FiniteFieldPolynomialFactorization methodsFor: 'private' stamp: 'len 4/10/2018 06:14:12'!
-equalDegreeFactorization2: aPolynomial degree: d
-	"Cantor-Zassenhaus algorithm. Answer the equal-degree factorization of a monic squarefree univariate polynomial which has r>=2 pairwise distinct irreducible factors each of degree d."
-	| f r h g one factors c |
-	f _ aPolynomial.
-"	q _ f parent scalars size.
-	q even ifFalse: [^ self error: 'order not even']."
-	r _ f degree / d.
-	one _ f parent one.
-	factors _ OrderedCollection with: f.
-	h _ f parent x.
-	[factors size < r]
-		whileTrue:
-			[g _ h.
-			d - 1 timesRepeat: [g _ h + g squared \\ f].
-			factors do: [:u|
-				u degree > d
-					ifTrue:
-						[c _ g gcd: u.
-						(c ~= one and: [c ~= u])
-							ifTrue:
-								[factors _ factors copyWithout: u.
-								factors add: c; add: u // c]]].
-			h _ h << 2].
-	^ factors! !
-
-!FiniteFieldPolynomialFactorization methodsFor: 'private' stamp: 'len 4/10/2018 14:38:29'!
-equalDegreeFactorization: aPolynomial degree: d
-	"Cantor-Zassenhaus algorithm. Answer the equal-degree factorization of a monic squarefree univariate polynomial which has r>=2 pairwise distinct irreducible factors each of degree d."
-	| f r q h g one factors c |
-	f _ aPolynomial.
-	q _ f scalars size.
-	q odd ifFalse: [^ self equalDegreeFactorization2: aPolynomial degree: d].
-	r _ f degree / d.
-	one _ f parent one.
-	factors _ OrderedCollection with: f.
-	[factors size < r]
-		whileTrue:
-			[h _ (f parent atRandomMaxDegree: 2*d-1) monic. "should be monic? should: d <= deg(h) <= 2d-1"
-			h _ h monic.
-			g _ (h raisedTo: q^d - 1 / 2 modulo: f) - one.
-			factors do: [:u|
-				u degree > d
-					ifTrue:
-						[c _ g gcd: u.
-						(c ~= one and: [c ~= u])
-							ifTrue: "found non-trivial common factor c"
-								[factors _ factors copyWithout: u.
-								factors add: c; add: u // c]]]].
-	^ factors! !
-
-!FiniteFieldPolynomialFactorization methodsFor: 'factorization' stamp: 'len 4/17/2018 18:04:49'!
-factors
-	factors ifNotNil: [^ factors].
-	factors _ Bag new.
-	self squareFreeFactorization withOccurrencesDo: [:f :m|
-		(self distinctDegreeFactorization: f) keysAndValuesDo: [:d :g|
-			(self equalDegreeFactorization: g degree: d)
-				do: [:each| factors add: each withOccurrences: m]]].
-	^ factors! !
-
-!FiniteFieldPolynomialFactorization methodsFor: 'factorization' stamp: 'len 1/23/2017 11:33:01'!
-isIrreducible
-	| Fx x one f n h g q |
-	factors notNil ifTrue: [^ factors size = 1].
-	(polynomial independentCoefficient isZero and: [polynomial degree > 1]) ifTrue: [^ false].
-	"Rabin's algorithm:"
-	f _ polynomial.
-	Fx _ f parent.
-	q _ Fx scalars size.
-	x _ Fx x.
-	one _ Fx one.
-	n _ f degree.
-	n factors asSet do: [:p|
-		h _ (x raisedTo: q^(n/p) modulo: f) - x \\ f.
-		g _ f gcd: h.
-		g ~= one ifTrue: [^ false]].
-	g _ (x raisedTo: q^n modulo: f) - x \\ f.
-	g isZero ifFalse: [^ false].
-	factors _ {polynomial}.
-	^ true! !
-
-!FiniteFieldPolynomialFactorization methodsFor: 'factorization' stamp: 'len 4/9/2018 20:46:42'!
-isIrreducible2
-	"Ben-Or Irreducibility Test algorithm for polynomials in field of characteristic q."
-	| q x one |
-	q _ polynomial scalars characteristic.
-	x _ polynomial parent x.
-	one _ polynomial one.
-	1 to: polynomial degree // 2 do: [:i|
-		(polynomial gcd: x^(q^i) - x \\ polynomial) = one ifTrue: [^ false]].
-	^ true! !
-
-!FiniteFieldPolynomialFactorization methodsFor: 'initialization' stamp: 'len 12/6/2015 00:02'!
-polynomial: aPolynomial
-	polynomial _ aPolynomial! !
-
-!FiniteFieldPolynomialFactorization methodsFor: 'factorization' stamp: 'len 4/10/2018 06:36:22'!
-squareFreeFactorization
-	"Answer the square-free factorization of a monic polynomial."
-	^ self squareFreeFactorizationOf: polynomial! !
-
-!FiniteFieldPolynomialFactorization methodsFor: 'factorization' stamp: 'len 4/10/2018 17:59:04'!
-squareFreeFactorizationOf: aPolynomial
-	"Answer the square-free factorization of a monic polynomial."
-	"NOTE: this only works on prime fields. For non-prime fields, after substituting x^p by x we must also apply the inverse of the Frobenius automorphism to the coefficients."
-	| answer f one p i g c w y z |
-	answer _ Bag new.
-	f _ aPolynomial.
-	one _ f one.
-	p _ f scalars characteristic.
-	(g _ f derivative) isZero
-		ifTrue:
-			[f _ f monomialsApply: [:m| m root: p]. "not enough if the field is non-prime"
-			(self squareFreeFactorizationOf: f)
-				do: [:each| answer add: each withOccurrences: p].
-			^ answer].
-	c _ f gcd: g.
-	w _ f // c.
-	i _ 1.
-	[w = one]
-		whileFalse:
-			[y _ w gcd: c. z _ w // y.
-			z ^ i = one ifFalse: [answer add: z withOccurrences: i].
-			i _ i + 1.
-			w _ y. c _ c // y].
-	c = one
-		ifFalse:
-			[c _ c monomialsApply: [:m| m root: p]. "not enough if the field is non-prime"
-			(self squareFreeFactorizationOf: c)
-				do: [:each| answer add: each withOccurrences: p]].
-	^ answer! !
-
-!RationalPolynomialFactorization methodsFor: 'as yet unclassified' stamp: 'len 4/9/2018 22:11:04'!
-allRoots
-	"Separate the (real) rational roots of the polynomial."
-	| roots f n k tau visited fourier |
-	roots _ Bag new.
-	f _ polynomial integerPrimitive.
-	n _ f degree.
-	(k _ f order) > 0 ifTrue: [roots add: 0 withOccurrences: k. f _ f shift: k negated].
-	f isConstant ifTrue: [^ roots].
-	visited _ Set new.
-	fourier _ OrderedCollection with: f.
-	f independentCoefficient divisorsDo: [:each|
-		f leadingCoefficient divisorsDo: [:one|
-			tau _ each / one.
-			visited add: tau ifAbsent:
-					[(f value: tau) isZero
-						ifTrue: [roots add: tau withOccurrences: (self multiplicityAt: tau fourier: fourier). roots size = n ifTrue: [^ roots]].
-					tau _ tau negated.
-					(f value: tau) isZero
-						ifTrue: [roots add: tau withOccurrences: (self multiplicityAt: tau fourier: fourier). roots size = n ifTrue: [^ roots]]]]].
-	^ roots! !
-
-!RationalPolynomialFactorization methodsFor: 'as yet unclassified' stamp: 'len 4/9/2018 20:55:06'!
-cauchyRootBound
-	| max a0 an |
-	max _ 0.
-	polynomial coefficients do: [:each| max _ max max: each abs].
-	a0 _ polynomial independentCoefficient abs.
-	an _ polynomial leadingCoefficient abs.
-	^ Array with: a0 / (a0 + max) with: an + max / an! !
-
-!RationalPolynomialFactorization methodsFor: 'as yet unclassified' stamp: 'len 4/9/2018 20:37:11'!
-isIrreducibleHeuristic2: anInteger
-	"Answer an Integer or nil. If the answer is an Integer, the
-	receiver is irreducible iff that integer is prime, and in fact the
-	integer will be prime with a very high probability (a probabilistic
-	test is used here). If the answer is nil, the heuristic test has failed,
-	and nothing can be said about the irreducibility of the receiver."
-
-	"This is a probabilistic test for irreudcibility of rational univariate
-	polynomials. It works looking for a prime evaluation of the polynomial.
-	If it finds such a prime, then it's returned, and nil otherwise. The
-	argument anInteger is the upper bound for the looking for primes."
-
-	"Reference: 'A Heuristic Polynomial Irreducibility Test', Michael
-	Monagan, J. Symbolic Comp., (1992) Vol. 13, No. 1, pp 47-57."
-
-	| f g bg bound val try gcd |
-	f _ polynomial integerPrimitive.
-	g _ f reversed.
-	(bg _ g norm1 / g leadingCoefficient abs + 1) <
-	(bound _ f norm1 / f leadingCoefficient abs + 1)
-		ifTrue: [f _ g. bound _ bg].
-	bound to: anInteger - 1 / 2 do: [ :each |
-		val _ (f value: each) abs.
-		gcd _ val gcd: 355929487585205167172661547995662840887819680000.
-		(gcd <= (each - bound) squared and: [(try _ val / gcd) isPrime])
-			ifTrue: [^ try].
-		val _ (f value: each negated) abs.
-		gcd _ val gcd: 355929487585205167172661547995662840887819680000.
-		(gcd <= (each - bound) squared and: [(try _ val / gcd) isPrime])
-			ifTrue: [^ try]
-	].
-	^ nil! !
-
-!RationalPolynomialFactorization methodsFor: 'as yet unclassified' stamp: 'len 4/9/2018 20:55:33'!
-isIrreducibleHeuristic: anInteger
-	"Answer an Integer or nil. If the answer is an Integer, the
-	receiver is irreducible iff that integer is prime, and in fact the
-	integer will be prime with a very high probability (a probabilistic
-	test is used here). If the answer is nil, the heuristic test has failed,
-	and nothing can be said about the irreducibility of the receiver."
-
-	"This is a probabilistic test for irreudcibility of rational univariate
-	polynomials. It works looking for a prime evaluation of the polynomial.
-	If it finds such a prime, then it's returned, and nil otherwise. The
-	argument anInteger is the upper bound for the looking for primes."
-
-	| f val bound interval |
-	f _ polynomial integerPrimitive.
-	bound _ self cauchyRootBound first floor abs.
-	bound even ifTrue: [bound _ 0 max: bound - 1].
-	interval _ f independentCoefficient odd
-		ifTrue: [bound to: bound + (anInteger // 2)]
-		ifFalse: [bound to: bound + anInteger by: 2].
-	interval do: [ :each |
-		val _ (f value: each) abs.
-		val isPrime ifTrue: [^ val].
-		val _ (f value: each negated) abs.
-		val isPrime ifTrue: [^ val]
-	].
-	^ nil! !
-
-!RationalPolynomialFactorization methodsFor: 'as yet unclassified' stamp: 'len 4/9/2018 20:19:19'!
-multiplicityAt: aRoot fourier: fourier
-	| count |
-	count _ 0.
-	fourier do: [:each| (each value: aRoot) isZero ifFalse: [^ count]. count _ count + 1].
-	[fourier last isConstant]
-		whileFalse:
-			[((fourier add: fourier last derivative) value: aRoot) isZero ifFalse: [^ count]. count _ count + 1].
-	^ count! !
 
 !QRDecomposition methodsFor: 'as yet unclassified' stamp: 'len 3/21/2016 22:11'!
 Q
