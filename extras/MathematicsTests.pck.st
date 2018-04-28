@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 25 April 2018 at 5:22:34 pm'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 28 April 2018 at 1:30:28 am'!
 'Description Please enter a description for this package'!
-!provides: 'MathematicsTests' 1 94!
+!provides: 'MathematicsTests' 1 95!
 !classDefinition: #AbelianGroupTest category: #MathematicsTests!
 TestCase subclass: #AbelianGroupTest
 	instanceVariableNames: ''
@@ -3122,11 +3122,11 @@ testBitParity
 	v _ 1 << 3000 :: atRandom.
 	self assert: ((v printStringBase: 2 :: count: [:x| x = $1]) bitAnd: 1) = v bitParity! !
 
-!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 2/4/2016 19:50'!
+!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 4/26/2018 08:16:17'!
 testCRT
 	| crt |
 	crt _ CRT mod: #(2 5 7).
-	self assert: (crt solutionFor: #(0 2 0)) = 42! !
+	self assert: (crt solve: #(0 2 0)) = 42! !
 
 !MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 12/16/2016 13:35:30'!
 testCartesianProduct
@@ -5124,10 +5124,10 @@ testAllMonomialsOfDegree
 	d _ 5 atRandom.
 	self assert: (ZZ polynomialsIn: n :: allMonomialsOfDegree: d) size = (n+d-1 choose: d)! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:08'!
-testArithmetic
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 4/25/2018 21:52:52'!
+testArithmeticOver: R
 	| x f g |
-	x _ QQ polynomials x.
+	x _ R polynomials x.
 	f _ x^2 + (x*2) - 1.
 	g _ x^2 - (x*2) + 1.
 	self assert: f+g = (x^2 * 2).
@@ -5138,35 +5138,23 @@ testArithmetic
 	self assert: (f*g + (x - 1) \\ g) = (x - 1)
 ! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 12/2/2016 11:17:24'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 4/25/2018 21:53:17'!
+testArithmeticQQ
+	self testArithmeticOver: QQ! !
+
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 4/25/2018 21:53:36'!
 testArithmeticZ2
-	| x f g |
-	x _ ZZ / 2 :: polynomials x.
-	f _ x^2 + (x*2) - 1.
-	g _ x^2 - (x*2) + 1.
-	self assert: f+g = (x^2 * 2).
-	self assert: f-g = (x*4 - 2).
-	self assert: f*g = (x^4 - (x^2 * 4) + (x*4) - 1).
-	self assert: f*g // g = f.
-	self assert: (f*g \\ g) isZero.
-	self assert: (f*g + (x - 1) \\ g) = (x - 1)
-! !
+	self testArithmeticOver: ZZ/2! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 12/2/2016 11:12:40'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 4/25/2018 21:53:50'!
 testArithmeticZ3
-	| x f g |
-	x _ ZZ / 3 :: polynomials x.
-	f _ x^2 + (x*2) - 1.
-	g _ x^2 - (x*2) + 1.
-	self assert: f+g = (x^2 * 2).
-	self assert: f-g = (x*4 - 2).
-	self assert: f*g = (x^4 - (x^2 * 4) + (x*4) - 1).
-	self assert: f*g // g = f.
-	self assert: (f*g \\ g) isZero.
-	self assert: (f*g + (x - 1) \\ g) = (x - 1)
-! !
+	self testArithmeticOver: ZZ/3! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:08'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 4/25/2018 21:57:08'!
+testArithmeticZm
+	self testArithmeticOver: ZZ/(2 + 100 atRandom)! !
+
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 4/26/2018 08:16:24'!
 testCRT
 	| x f1 f2 f3 crt r1 r2 r3 h |
 	x _ QQ polynomials x.
@@ -5177,7 +5165,7 @@ testCRT
 	r1 _ x-1.
 	r2 _ x+1.
 	r3 _ x-x. "zero"
-	h _ crt solutionFor: {r1. r2. r3}.
+	h _ crt solve: {r1. r2. r3}.
 	self assert: h \\ f1 = r1.
 	self assert: h \\ f2 = r2.
 	self assert: h \\ f3 = r3! !
@@ -5519,20 +5507,42 @@ testGCDMultivariate
 	g _ (y-x)^2.
 	self assert: (f gcd: g) = (y-x)! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:09'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 4/25/2018 22:13:05'!
 testGCDMultivariate2
-	| P x y f1 f2 f3 f4 f5 f g |
-	P _ QQ polynomialsIn: #(x y).
-	x _ P x.
-	y _ P y.
-	f1 _ x^2 + (y^2) + 1.
-	f2 _ y - 1.
-	f3 _ y^2 + 1.
-	f4 _ y^2 + 2.
-	f5 _ x^2 + 4.
-	f _ f1*f1*f2*f3*f3*f3.
-	g _ f1*f1*f4*f5.
-	self assert: (f gcd: g) = (f1 * f1)! !
+	"Example from Sage documentation."
+	| R x y f g |
+	R _ QQ polynomialsIn: #(x y).
+	x _ R x. y _ R y.
+	f _ x^2*y*(x+y)*3.
+	g _ x*(y^2 - (x^2))*9.
+	self assert: (f gcd: g) = (x^2 + (x*y))! !
+
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 4/25/2018 18:33:50'!
+testGCDMultivariateOverQ
+	| R x y f g |
+	R _ QQ polynomialsIn: #(x y).
+	x _ R x. y _ R y.
+	f _ x^2*y*6.
+	g _ x*(y^2)*15 + (x^3*(y^2)*21).
+	self assert: (f gcd: g) = (x*y)! !
+
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 4/25/2018 18:33:41'!
+testGCDMultivariateOverZ
+	| R x y f g |
+	R _ ZZ polynomialsIn: #(x y).
+	x _ R x. y _ R y.
+	f _ x^2*y*6.
+	g _ x*(y^2)*15 + (x^3*(y^2)*21).
+	self assert: (f gcd: g) = (x*y*3)! !
+
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 4/25/2018 18:37:41'!
+testGCDOverRationalFunctions
+	| R x y f g |
+	R _ QQ polynomialsIn: #(y) :: fractions polynomials.
+	x _ R x. y _ R scalars x.
+	f _ x^2*y*6.
+	g _ x*(y^2)*15 + (x^3*(y^2)*21).
+	self assert: (f gcd: g) = x! !
 
 !PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:52'!
 testGCDOverZ
@@ -5541,6 +5551,15 @@ testGCDOverZ
 	f _ (x^4 - 1)*6.
 	g _ (x^6 - 1)*9.
 	self assert: (f gcd: g) = ((x^2 - 1)*3)! !
+
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 4/25/2018 22:21:04'!
+testGCDOverZ2
+	| x f g h |
+	x _ ZZ/2 :: polynomials x.
+	h _ x^3 - x + 1.
+	f _ h * (x + 1) * x.
+	g _ h * (x + 1) * (x^2 + 1).
+	self assert: (f gcd: g) = (h * (x + 1))! !
 
 !PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:52'!
 testGaussLemma
@@ -5579,14 +5598,47 @@ testInterpolation2
 	self assert: (f value: 2) = 4.
 	self assert: (f value: 3) = 9! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 1/24/2017 12:45:48'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 4/25/2018 21:44:25'!
 testIsIrreducible
 	"The polynomial x^4 + 1 is irreducible in Z[x] and Q[x], and it is reducible Z/p[x] for all prime numbers p."
 	| p |
-"	self assert: (ZZ polynomials !! [:x| x^4 + 1] :: isIrreducible).
-	self assert: (QQ polynomials !! [:x| x^4 + 1] :: isIrreducible)."
+	self assert: (ZZ polynomials !! [:x| x^4 + 1] :: isIrreducible).
+	self assert: (QQ polynomials !! [:x| x^4 + 1] :: isIrreducible).
 	p _ 1000 atRandom nextPrime.
 	self deny: (ZZ/p :: polynomials !! [:x| x^4 + 1] :: isIrreducible)! !
+
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 4/25/2018 21:48:05'!
+testIsIrreducibleOverQ
+	| x f |
+	x _ QQ polynomials x.
+	f _ x^4 + 1.
+	self assert: f isIrreducible.
+	self assert: f negated isIrreducible.
+	self assert: (f*2) isIrreducible.
+	self assert: (f*(x+1)) isIrreducible not! !
+
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 4/25/2018 21:47:42'!
+testIsIrreducibleOverZ
+	| x f |
+	x _ ZZ polynomials x.
+	f _ x^4 + 1.
+	self assert: f isIrreducible.
+	self assert: f negated isIrreducible.
+	self assert: (f*2) isIrreducible not.
+	self assert: (f*(x+1)) isIrreducible not.
+! !
+
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 4/27/2018 21:22:40'!
+testIsSeparableNot
+	"A tipical example of a polynomial that is NOT separable."
+	| p F x Fy y f |
+	p _ 5. "any prime p"
+	F _ ZZ/p :: polynomials fractions.
+	x _ F x.
+	Fy _ F polynomialsIn: #(y).
+	y _ Fy x.
+	f _ y^p - x.
+	self assert: f isSeparable not! !
 
 !PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 4/24/2018 19:38:36'!
 testMultivariateDivision
@@ -7144,9 +7196,8 @@ testCopyZ2
 testCopyZp
 	modularMatrix copy! !
 
-!SmallMatrixBenchmark methodsFor: 'as yet unclassified' stamp: 'len 3/2/2017 11:00:57'!
+!SmallMatrixBenchmark methodsFor: 'as yet unclassified' stamp: 'len 4/26/2018 20:41:21'!
 testImageZ
-	self notYetImplemented. "attempts to use Gauss-Bareis but coefficients grow too much"
 	integerMatrix image! !
 
 !SmallMatrixBenchmark methodsFor: 'as yet unclassified' stamp: 'len 3/1/2017 09:36:24'!
@@ -7157,9 +7208,8 @@ testImageZ2
 testImageZp
 	modularMatrix image! !
 
-!SmallMatrixBenchmark methodsFor: 'as yet unclassified' stamp: 'len 3/2/2017 11:01:23'!
+!SmallMatrixBenchmark methodsFor: 'as yet unclassified' stamp: 'len 4/26/2018 20:41:50'!
 testKernelZ
-	self notYetImplemented. "attempts to use Gauss-Bareis but coefficients grow too much"
 	integerMatrix kernel! !
 
 !SmallMatrixBenchmark methodsFor: 'as yet unclassified' stamp: 'len 3/1/2017 09:36:17'!
