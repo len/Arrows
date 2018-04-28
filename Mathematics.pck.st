@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 27 April 2018 at 6:44:25 am'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 28 April 2018 at 5:54:23 am'!
 'Description A computational algebra system in Smalltalk'!
-!provides: 'Mathematics' 1 426!
+!provides: 'Mathematics' 1 427!
 !requires: 'RayTracer' 1 2 nil!
 !classDefinition: #RealAlgebraicNumber category: #'Mathematics-Fields'!
 Number subclass: #RealAlgebraicNumber
@@ -3703,15 +3703,15 @@ A good number of bins can be n^(1/2) or n^(1/3), where n is the total number of 
 
 Domains with an underlying set can have finite or infinite cardinality, and whenever makes sense they implement some *Collection* protocol (such as #do:, #size, #asSet, #atRandom:, etc).
 
-Domains can be built from other domains, for example by taking products or coproducts (cartesian products, direct products, direct sums), quotients, localizations, extensions, duals, etc. These operations are functors, and are mostly implemented as Smalltalk messages.
+Domains can be built from other domains, for example by taking products or coproducts (cartesian products, direct products, direct sums), quotients, extensions, localizations, completions, duals, etc. These operations are functors, and are mostly implemented as Smalltalk messages.
 
 Domains can have subobjects: groups have subgroups, vector spaces have subspaces, rings have subrings and ideals, schemes have subschemes, etc. In general, there is an #ambient overobject, and there is a protocol for inclusion testing: #<, #<=, #>=, #>.
 
-Given two domains A and B in the same category, the set of morphisms between them Hom(A,B) is obtained by sending the message 'A hom: B' (see class HomSet). The #hom: message is the Hom(A,-) functor. The identity morphism is returned by the message #id. And a morphism from A to B can be constructed by sending 'A to: B evaluating: [:x| ...]'.
+Given two domains A and B in the same category, the set Hom(A,B) of morphisms between them is obtained by sending the message 'A hom: B' (see class HomSet). The #hom: message is the Hom(A,-) functor. The identity morphism is returned by the message #id. And a morphism from A to B can be constructed by sending 'A to: B evaluating: [:x| ...]'.
 
 Domains often come equipped with cannonical morphisms. For example, field extensions and localizations have associated canonical embeddings (monomorphisms), and implement #embed: (the embedding implemented as a message) and #embedding (which returns the embedding morphism as an instance of some subclass of Morphism). Quotient objects have canonical projections (epimorphisms) and implement #project: and #projection. N-ary products and coproducts implement #projection: for the i-th projection map (and coproducts also implement #embedding: for the i-th coprojection).
 
-More generally, morphisms that are uniquely determined by their domain and codomain can be retrieved by sending the message #. For example, for any ring R, 'ZZ  R' returns the canonical ring homomorphism that sends an integer 'n' to 'n times the unit of R'. This can be used for automatic coercion of elements between domains. In order for this mechanism to work, subclasses must reimplement the messages #to: and #from: to answer canonical morphisms when such morphisms are known, and call super otherwise. See examples in class Morphism.
+More generally, canonical morphisms that are uniquely determined by their domain and codomain can be retrieved by sending the message #. For example, for any ring R, 'ZZ  R' returns the canonical ring homomorphism that sends an integer 'n' to 'n times the unit of R'. This can be used for automatic coercion of elements between domains. In order for this mechanism to work, subclasses must reimplement the messages #to: and #from: to answer canonical morphisms when such morphisms are known, and call super otherwise. See examples in class Morphism.
 
 References:
 	https://en.wikipedia.org/wiki/Algebraic_structure
@@ -13169,6 +13169,11 @@ newFrom: anObject
 	"Coerce anObject to an element of the receiver. Implemented in order to be able to use >>as: consistently. Subclasses should reimplement >>!!."
 	^ self !! anObject! !
 
+!Domain methodsFor: 'enumerating' stamp: 'len 4/28/2018 05:05:39'!
+noneSatisfy: aBlock
+	self do: [:each| (aBlock value: each) ifTrue: [^ false]].
+	^ true! !
+
 !Domain methodsFor: 'accessing' stamp: 'len 12/28/2016 11:20:47'!
 null
 	"Answer the null or zero object in the category of the receiver, i.e. an object that is both intial and terminal. For example {id} in the case of groups (the trivial group)."
@@ -17881,10 +17886,11 @@ isPerfectField
 	(self characteristic = 0 or: [self isFinite]) ifTrue: [^ true].
 	^ self propertyAt: #isPerfectField! !
 
-!Ring methodsFor: 'testing' stamp: 'len 4/12/2018 04:31:49'!
+!Ring methodsFor: 'testing' stamp: 'len 4/28/2018 05:15:09'!
 isReduced
 	"A ring is reduced if it has no non-zero nilpotents, i.e. if r^n = 0 for some n >> 0, then r = 0."
-	^ self propertyAt: #isReduced! !
+	self isIntegralDomain ifTrue: [^ true].
+	^ self noneSatisfy: [:any| any squared isZero and: [any isZero not]]! !
 
 !Ring methodsFor: 'testing' stamp: 'len 11/7/2015 22:01'!
 isRing
@@ -18144,20 +18150,28 @@ on: aGroup over: aRing
 	"Answer true if the receiver is strictly included in the argument."
 	^ self ~= aRing and: [self <= aRing]! !
 
-!LocalizationRing methodsFor: 'comparing' stamp: 'len 4/3/2018 07:02:16'!
+!LocalizationRing methodsFor: 'comparing' stamp: 'len 4/27/2018 21:16:26'!
 <= aRing
 	"Answer true if the receiver is included in the argument."
 	self == aRing ifTrue: [^ true].
 	(aRing isKindOf: Ring) ifFalse: [^ false].
 	(aRing isKindOf: LocalizationRing)
-		ifTrue: [^ self integers = aRing integers and: [self ideal >= aRing ideal]].
-	aRing = self integers ifTrue: [^ true].
-	^ super <= aRing! !
+		ifTrue: [^ self integers <= aRing integers and: [self ideal >= aRing ideal]].
+	^ false! !
 
 !LocalizationRing methodsFor: 'comparing' stamp: 'len 11/1/2016 05:53'!
 = anObject
 	self == anObject ifTrue: [^ true].
 	^ (anObject isKindOf: LocalizationRing) and: [self ideal = anObject ideal]! !
+
+!LocalizationRing methodsFor: 'comparing' stamp: 'len 4/27/2018 21:18:12'!
+>= aRing
+	"Answer true if the argument is included in the receiver."
+	self == aRing ifTrue: [^ true].
+	(aRing isKindOf: Ring) ifFalse: [^ false].
+	(aRing isKindOf: LocalizationRing)
+		ifTrue: [^ self integers >= aRing integers and: [self ideal <= aRing ideal]].
+	^ self integers >= aRing! !
 
 !LocalizationRing methodsFor: 'random' stamp: 'len 10/28/2016 16:36'!
 atRandom: aRandom
@@ -18237,6 +18251,12 @@ isLocal
 !LocalizationRing methodsFor: 'testing' stamp: 'len 1/28/2018 22:20:01'!
 isLocalization
 	^ true! !
+
+!LocalizationRing methodsFor: 'testing' stamp: 'len 4/28/2018 05:11:31'!
+isReduced
+	"Answer true if the receiver has no non-zero nilpotent elements, or equivalently if it has no non-zero elements with square zero, i.e. x^2 = 0 implies x = 0."
+	self integers isReduced ifTrue: [^ true]. "is it iff?"
+	^ super isReduced! !
 
 !LocalizationRing methodsFor: 'testing' stamp: 'len 1/23/2018 20:53:08'!
 isTrivial
@@ -18596,6 +18616,12 @@ isIntegralDomain
 isProduct
 	^ true! !
 
+!ProductRing methodsFor: 'testing' stamp: 'len 4/28/2018 05:12:00'!
+isReduced
+	"Answer true if the receiver has no non-zero nilpotent elements, or equivalently if it has no non-zero elements with square zero, i.e. x^2 = 0 implies x = 0."
+	(components allSatisfy: [:each| each isReduced]) ifTrue: [^ true]. "is it iff?"
+	^ super isReduced! !
+
 !ProductRing methodsFor: 'testing' stamp: 'len 4/8/2018 18:39:50'!
 isUnit: anElement
 	components withIndexDo: [:each :i|
@@ -18745,9 +18771,10 @@ isNoetherian
 isQuotient
 	^ true! !
 
-!QuotientRing methodsFor: 'testing' stamp: 'len 2/27/2017 20:53:37'!
+!QuotientRing methodsFor: 'testing' stamp: 'len 4/28/2018 05:07:02'!
 isReduced
-	"A quotient ring is reduced iff the ideal is radical."
+	"Answer true if the receiver has no non-zero nilpotent elements, or equivalently if it has no non-zero elements with square zero, i.e. x^2 = 0 implies x = 0.
+	A quotient ring is reduced iff the ideal is radical."
 	^ self relations isRadical! !
 
 !QuotientRing methodsFor: 'testing' stamp: 'len 2/27/2017 20:53:34'!
@@ -18879,6 +18906,11 @@ isField
 !ModularIntegerRing methodsFor: 'testing' stamp: 'len 1/19/2018 22:33:59'!
 isIntegralDomain
 	^ self isField! !
+
+!ModularIntegerRing methodsFor: 'testing' stamp: 'len 4/28/2018 05:39:59'!
+isReduced
+	"Answer true if the receiver has no non-zero nilpotent elements, or equivalently if it has no non-zero elements with square zero, i.e. x^2 = 0 implies x = 0."
+	^ modulus = 0 or: [modulus isSquareFree]! !
 
 !ModularIntegerRing methodsFor: 'testing' stamp: 'len 5/12/2016 23:34'!
 isUnit: anElement
@@ -19686,6 +19718,11 @@ isNoetherian
 
 !RationalIntegerRing methodsFor: 'testing' stamp: 'len 2/11/2016 22:19'!
 isReal
+	^ true! !
+
+!RationalIntegerRing methodsFor: 'testing' stamp: 'len 4/28/2018 05:12:24'!
+isReduced
+	"Answer true if the receiver has no non-zero nilpotent elements, or equivalently if it has no non-zero elements with square zero, i.e. x^2 = 0 implies x = 0."
 	^ true! !
 
 !RationalIntegerRing methodsFor: 'testing' stamp: 'len 5/12/2016 23:13'!
@@ -25774,9 +25811,18 @@ isAffine
 isInitial
 	^ self coordinateRing isTerminal! !
 
+!AffineScheme methodsFor: 'testing' stamp: 'len 4/28/2018 05:49:48'!
+isIrreducible
+	self flag: #fix. "magma does it differently"
+	^ self coordinateRing isIntegralDomain! !
+
 !AffineScheme methodsFor: 'testing' stamp: 'len 1/13/2017 16:57:08'!
 isNoetherian
 	^ self coordinateRing isNoetherian! !
+
+!AffineScheme methodsFor: 'testing' stamp: 'len 4/28/2018 05:08:37'!
+isReduced
+	^ self coordinateRing isReduced! !
 
 !AffineScheme methodsFor: 'testing' stamp: 'len 1/13/2017 16:03:42'!
 isTerminal
@@ -25927,18 +25973,9 @@ isFinite
 			ifFalse: [^ false]].
 	^ true! !
 
-!AffineVariety methodsFor: 'testing' stamp: 'len 1/13/2017 16:57:47'!
-isIrreducible
-	self flag: #fix. "magma does it differently"
-	^ self ideal isPrime "IFF. Alternatively, iif the coordinate ring is an integral domain"! !
-
 !AffineVariety methodsFor: 'testing' stamp: 'len 1/13/2017 16:56:17'!
 isLinear
 	^ self reduced ideal generators allSatisfy: [:each| each isLinear]! !
-
-!AffineVariety methodsFor: 'testing' stamp: 'len 1/13/2017 16:51:43'!
-isReduced
-	^ self ideal isRadical! !
 
 !AffineVariety methodsFor: 'operations' stamp: 'len 2/12/2017 06:02:00'!
 multiplicityAt: aTuple
@@ -26390,18 +26427,18 @@ ideal
 isComplete
 	^ true! !
 
-!ProjectiveVariety methodsFor: 'testing' stamp: 'len 1/13/2017 17:31:58'!
+!ProjectiveVariety methodsFor: 'testing' stamp: 'len 4/28/2018 05:51:30'!
 isIrreducible
-	self flag: #fix. "magma does it differently; duplicated in AffineClosedSubscheme"
-	^ self ideal isPrime "IFF. Alternatively, iif the coordinate ring is an integral domain"! !
+	self flag: #fix. "magma does it differently; duplicated in AffineSchema"
+	^ self coordinateRing isIntegralDomain! !
 
 !ProjectiveVariety methodsFor: 'testing' stamp: 'len 10/20/2016 15:21'!
 isProjective
 	^ true! !
 
-!ProjectiveVariety methodsFor: 'testing' stamp: 'len 1/13/2017 17:10:33'!
+!ProjectiveVariety methodsFor: 'testing' stamp: 'len 4/28/2018 05:41:05'!
 isReduced
-	^ self ideal isRadical! !
+	^ self coordinateRing isReduced! !
 
 !ProjectiveVariety methodsFor: 'private' stamp: 'len 1/12/2017 14:49:14'!
 newPatch: i
@@ -27488,21 +27525,21 @@ rightInverse
 section
 	^ self rightInverse! !
 
-!Morphism class methodsFor: 'examples' stamp: 'len 3/3/2017 17:28:01'!
+!Morphism class methodsFor: 'examples' stamp: 'len 4/27/2018 21:25:19'!
 example1Projection
 	"Algebraic structures often come equipped with some canonical morphisms.
 	Here we construct the direct product of the ring of rational integers
 	with the field of rational numbers, and get the projection to the second component."
-	^ (ZZ × QQ) projection: 2! !
+	^ ZZ × QQ projection: 2! !
 
-!Morphism class methodsFor: 'examples' stamp: 'len 12/20/2016 11:57:45'!
+!Morphism class methodsFor: 'examples' stamp: 'len 4/27/2018 21:26:25'!
 example2Embedding
 	"Here we construct Q[x], the ring of univariate polynomials over the rational numbers.
 	It comes equipped with a canonical embedding from the rational numbers to the constant polynomials."
 	| R phi F psi |
 	R _ QQ polynomials.
 	phi _ R embedding.
-	"Then we construct its field of fractions (Q(x), the rational functions),
+	"Then we construct its field of fractions Q(x) (the rational functions),
 	that comes with a cannonical embedding from the polynomial ring to the rational functions with denominator 1."
 	F _ R fractions.
 	psi _ F embedding.
@@ -38708,11 +38745,11 @@ coefficients: aTuple
 coefficientsDo: aBlock
 	self coefficients do: aBlock! !
 
-!UnivariatePolynomial methodsFor: 'operations' stamp: 'len 12/4/2017 10:16:25'!
+!UnivariatePolynomial methodsFor: 'operations' stamp: 'len 4/27/2018 07:38:13'!
 companion
 	"Answer the Frobenius companion matrix of the receiver.
-	This is a matrix that has the receiver as both the characteristic and minimal polynomial.
-	Also, given a linear recursive sequence with characteristic polynomial p, the transpose companion matrix of p generates the sequence."
+	The companion matrix of a polynomial f in R[x] is the matrix of the 'multiplication by x' map on the R-algebra R[x]/<f>. This is a matrix that has f as both the characteristic and minimal polynomial.
+	Also, given a linear recursive sequence with characteristic polynomial f, the transpose companion matrix of f generates the sequence."
 	| n one zero |
 	self isMonic ifFalse: [^ DomainError signal: 'Undefined for non-monic polynomials'].
 	n _ self degree.
@@ -39615,6 +39652,11 @@ zeroProduct: aPolynomial
 	f isMonic ifFalse: [f _ f monic]. "otherwise the companion matrix is undefined"
 	C _ f companion apply: self parent embedding.
 	^ (g homogenized asUnivariate value: C) determinant! !
+
+!UnivariatePolynomial methodsFor: 'roots' stamp: 'len 4/27/2018 16:25:56'!
+zeroRaisedTo: anInteger
+	"Answer a polynomial whose zeros are the zeros of the receiver raised to anInteger."
+	self notYetImplemented! !
 
 !UnivariatePolynomial methodsFor: 'roots' stamp: 'len 11/20/2016 10:22:25'!
 zeroReciprocal
