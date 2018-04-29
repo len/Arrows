@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 28 April 2018 at 1:30:28 am'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 29 April 2018 at 8:49:43 pm'!
 'Description Please enter a description for this package'!
-!provides: 'MathematicsTests' 1 95!
+!provides: 'MathematicsTests' 1 96!
 !classDefinition: #AbelianGroupTest category: #MathematicsTests!
 TestCase subclass: #AbelianGroupTest
 	instanceVariableNames: ''
@@ -271,6 +271,16 @@ Object subclass: #Benchmark
 Benchmark class
 	instanceVariableNames: ''!
 
+!classDefinition: #AlgebraicNumbersBenchmark category: #MathematicsTests!
+Benchmark subclass: #AlgebraicNumbersBenchmark
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'MathematicsTests'!
+!classDefinition: 'AlgebraicNumbersBenchmark class' category: #MathematicsTests!
+AlgebraicNumbersBenchmark class
+	instanceVariableNames: ''!
+
 !classDefinition: #GroebnerBasisBenchmark category: #MathematicsTests!
 Benchmark subclass: #GroebnerBasisBenchmark
 	instanceVariableNames: ''
@@ -351,6 +361,19 @@ Object subclass: #CASBenchmark
 CASBenchmark class
 	instanceVariableNames: ''!
 
+
+!AlgebraicNumbersBenchmark commentStamp: 'len 4/29/2018 20:43:18' prior: 0!
+AlgebraicNumbersBenchmark new run
+
+testComplexAlgebraicNumberAddition	1.08 per second. (29 Apr 2018)
+testComplexAlgebraicNumberDivision	57.6 per second.
+testComplexAlgebraicNumberProduct	61.2 per second.
+testComplexAlgebraicNumberSquare	1,660 per second.
+testRealAlgebraicNumberAddition	0.78 per second.
+testRealAlgebraicNumberDivision	55.8 per second.
+testRealAlgebraicNumberProduct	59.1 per second.
+testRealAlgebraicNumberSquare	1,610 per second.' 
+!
 
 !GroebnerBasisBenchmark commentStamp: '<historical>' prior: 0!
 GroebnerBasisBenchmark new run
@@ -1670,18 +1693,17 @@ testTwistedCubicDegree
 	"But we get the twisted cubic (in some sense) 'counted with multiplicity 2', so the degree is 6"
 	self assert: X degree = 6! !
 
-!AlgebraicNumbersTest methodsFor: 'as yet unclassified' stamp: 'len 1/20/2018 19:18:51'!
+!AlgebraicNumbersTest methodsFor: 'as yet unclassified' stamp: 'len 4/29/2018 18:50:30'!
 testArithmetic
-	| sqrt2 sqrt3 sqrt5 five sqrt6 |
+	| sqrt2 sqrt3 sqrt5 sqrt6 |
 	sqrt2 _ ComplexAlgebraicNumber sqrt2.
 	sqrt3 _ ComplexAlgebraicNumber sqrt: 3.
 	sqrt5 _ ComplexAlgebraicNumber sqrt: 5.
 	sqrt6 _ ComplexAlgebraicNumber sqrt: 6.
-	five _ ComplexAlgebraicNumber fromRational: 5.
 	self assert: sqrt2 squared asRational = 2.
 	self assert: (sqrt2 + sqrt3) * sqrt2 = (2 + sqrt6).
 	self assert: (sqrt3 / sqrt5) squared reciprocal asRational = (5/3).
-"	self assert: (((five root: 3) + sqrt2 - sqrt2) ^ 3) asRational = 5"! !
+"	self assert: (((5 root: 3) + sqrt2 - sqrt2) ^ 3) asRational = 5"! !
 
 !AlgebraicNumbersTest methodsFor: 'as yet unclassified' stamp: 'len 1/20/2018 19:18:24'!
 testDivision
@@ -1697,17 +1719,16 @@ testProduct
 	sqrt5 _ ComplexAlgebraicNumber sqrt: 5.
 	self assert: (sqrt3 * sqrt5 * sqrt3 * sqrt5) asRational = 15! !
 
-!AlgebraicNumbersTest methodsFor: 'as yet unclassified' stamp: 'len 6/4/2016 21:59'!
+!AlgebraicNumbersTest methodsFor: 'as yet unclassified' stamp: 'len 4/29/2018 18:49:57'!
 testRealArithmetic
-	| sqrt2 sqrt3 sqrt5 five sqrt6 |
+	| sqrt2 sqrt3 sqrt5 sqrt6 |
 	sqrt2 _ RealAlgebraicNumber sqrt2.
 	sqrt3 _ RealAlgebraicNumber sqrt: 3.
 	sqrt5 _ RealAlgebraicNumber sqrt: 5.
 	sqrt6 _ RealAlgebraicNumber sqrt: 6.
-	five _ RealAlgebraicNumber fromRational: 5.
 	self assert: sqrt2 squared asRational = 2.
 	self assert: (sqrt2 + sqrt3) * sqrt2 = (2 + sqrt6).
-	self assert: (sqrt3 / sqrt5) squared reciprocal asRational = (5/3).
+	self assert: (sqrt3 / sqrt5) squared reciprocal = (5/3).
 "	self assert: (((five root: 3) + sqrt2 - sqrt2) ^ 3) asRational = 5"! !
 
 !AlgebraicNumbersTest methodsFor: 'as yet unclassified' stamp: 'len 6/4/2016 21:59'!
@@ -1738,10 +1759,10 @@ testRealSquare
 	sqrt2 _ RealAlgebraicNumber sqrt2.
 	self assert: sqrt2 squared asRational = 2! !
 
-!AlgebraicNumbersTest methodsFor: 'as yet unclassified' stamp: 'len 6/4/2016 22:00'!
+!AlgebraicNumbersTest methodsFor: 'as yet unclassified' stamp: 'len 4/29/2018 18:48:17'!
 testRealSquareRoot
 	| a |
-	a _ RealAlgebraicNumber fromRational: 3.
+	a _ RealAlgebraicNumber sqrt2.
 	self assert: a squareRoot squared = a! !
 
 !AlgebraicNumbersTest methodsFor: 'as yet unclassified' stamp: 'len 6/4/2016 22:00'!
@@ -1758,10 +1779,10 @@ testSquare
 	sqrt2 _ ComplexAlgebraicNumber sqrt2.
 	self assert: sqrt2 squared asRational = 2! !
 
-!AlgebraicNumbersTest methodsFor: 'as yet unclassified' stamp: 'len 1/20/2018 19:18:08'!
+!AlgebraicNumbersTest methodsFor: 'as yet unclassified' stamp: 'len 4/29/2018 18:49:16'!
 testSquareRoot
 	| a |
-	a _ ComplexAlgebraicNumber fromRational: 3.
+	a _ ComplexAlgebraicNumber sqrt2.
 	self assert: a squareRoot squared = a! !
 
 !AlgebraicNumbersTest methodsFor: 'as yet unclassified' stamp: 'len 1/20/2018 19:18:17'!
@@ -5821,12 +5842,11 @@ testRationalRootsBug
 	self assert: (roots occurrencesOf: -1) = 2.
 	self assert: (roots occurrencesOf: 2) = 1! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 4/24/2018 18:21:57'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 4/29/2018 20:30:09'!
 testRealRoots
 	| x f roots |
 	x _ QQ polynomials x.
 	f _ (x-(1/2))^2*(x-2)*(x^2 + 1)*(x^2-2).
-	self assert: false.
 	roots _ f allRootsIn: RR.
 	self assert: roots size = 5.
 	self assert: roots asSet size = 4.
@@ -6801,6 +6821,62 @@ setUp
 tearDown
 	^ self! !
 
+!AlgebraicNumbersBenchmark methodsFor: 'as yet unclassified' stamp: 'len 4/29/2018 20:33:55'!
+testComplexAlgebraicNumberAddition
+	| sqrt2 sqrt3 sqrt5 |
+	sqrt2 _ ComplexAlgebraicNumber sqrt: 2.
+	sqrt3 _ ComplexAlgebraicNumber sqrt: 3.
+	sqrt5 _ ComplexAlgebraicNumber sqrt: 5.
+	10 timesRepeat: [sqrt3 + sqrt5 + sqrt2 - sqrt3 - sqrt5]! !
+
+!AlgebraicNumbersBenchmark methodsFor: 'as yet unclassified' stamp: 'len 4/29/2018 20:34:35'!
+testComplexAlgebraicNumberDivision
+	| sqrt3 sqrt5 |
+	sqrt3 _ ComplexAlgebraicNumber sqrt: 3.
+	sqrt5 _ ComplexAlgebraicNumber sqrt: 5.
+	10 timesRepeat: [sqrt3 / sqrt5 / sqrt3 / sqrt5]! !
+
+!AlgebraicNumbersBenchmark methodsFor: 'as yet unclassified' stamp: 'len 4/29/2018 20:34:48'!
+testComplexAlgebraicNumberProduct
+	| sqrt3 sqrt5 |
+	sqrt3 _ ComplexAlgebraicNumber sqrt: 3.
+	sqrt5 _ ComplexAlgebraicNumber sqrt: 5.
+	10 timesRepeat: [sqrt3 * sqrt5 * sqrt3 * sqrt5]! !
+
+!AlgebraicNumbersBenchmark methodsFor: 'as yet unclassified' stamp: 'len 4/29/2018 20:33:28'!
+testComplexAlgebraicNumberSquare
+	| sqrt2 |
+	sqrt2 _ ComplexAlgebraicNumber sqrt2.
+	10 timesRepeat: [sqrt2 squared]! !
+
+!AlgebraicNumbersBenchmark methodsFor: 'as yet unclassified' stamp: 'len 4/29/2018 20:33:01'!
+testRealAlgebraicNumberAddition
+	| sqrt2 sqrt3 sqrt5 |
+	sqrt2 _ RealAlgebraicNumber sqrt: 2.
+	sqrt3 _ RealAlgebraicNumber sqrt: 3.
+	sqrt5 _ RealAlgebraicNumber sqrt: 5.
+	10 timesRepeat: [sqrt3 + sqrt5 + sqrt2 - sqrt3 - sqrt5]! !
+
+!AlgebraicNumbersBenchmark methodsFor: 'as yet unclassified' stamp: 'len 4/29/2018 20:33:06'!
+testRealAlgebraicNumberDivision
+	| sqrt3 sqrt5 |
+	sqrt3 _ RealAlgebraicNumber sqrt: 3.
+	sqrt5 _ RealAlgebraicNumber sqrt: 5.
+	10 timesRepeat: [sqrt3 / sqrt5 / sqrt3 / sqrt5]! !
+
+!AlgebraicNumbersBenchmark methodsFor: 'as yet unclassified' stamp: 'len 4/29/2018 20:33:11'!
+testRealAlgebraicNumberProduct
+	| sqrt3 sqrt5 |
+	sqrt3 _ RealAlgebraicNumber sqrt: 3.
+	sqrt5 _ RealAlgebraicNumber sqrt: 5.
+	10 timesRepeat: [sqrt3 * sqrt5 * sqrt3 * sqrt5]! !
+
+!AlgebraicNumbersBenchmark methodsFor: 'as yet unclassified' stamp: 'len 4/29/2018 20:33:15'!
+testRealAlgebraicNumberSquare
+	| sqrt2 |
+	sqrt2 _ RealAlgebraicNumber sqrt2.
+	10 timesRepeat: [sqrt2 squared]! !
+
 !GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 11/17/2016 16:44:50'!
 binaryCyclic: n
 	^ self cyclic: n over: (PrimeField new: 2)! !
@@ -7137,34 +7213,6 @@ testPolynomialRealRoots
 	x _ QQ polynomials x.
 	f _ (x-(1/2))^2*(x-2)*(x^2 + 1)*(x^2-2).
 	20 timesRepeat: [f rootsIn: RR]! !
-
-!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 3/1/2016 15:55'!
-testRealAlgebraicNumberAddition
-	| sqrt2 sqrt3 sqrt5 |
-	sqrt2 _ RealAlgebraicNumber sqrt: 2.
-	sqrt3 _ RealAlgebraicNumber sqrt: 3.
-	sqrt5 _ RealAlgebraicNumber sqrt: 5.
-	10 timesRepeat: [sqrt3 + sqrt5 + sqrt2 - sqrt3 - sqrt5]! !
-
-!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 3/1/2016 15:56'!
-testRealAlgebraicNumberDivision
-	| sqrt3 sqrt5 |
-	sqrt3 _ RealAlgebraicNumber sqrt: 3.
-	sqrt5 _ RealAlgebraicNumber sqrt: 5.
-	10 timesRepeat: [sqrt3 / sqrt5 / sqrt3 / sqrt5]! !
-
-!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 3/1/2016 15:56'!
-testRealAlgebraicNumberProduct
-	| sqrt3 sqrt5 |
-	sqrt3 _ RealAlgebraicNumber sqrt: 3.
-	sqrt5 _ RealAlgebraicNumber sqrt: 5.
-	10 timesRepeat: [sqrt3 * sqrt5 * sqrt3 * sqrt5]! !
-
-!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 3/1/2016 15:57'!
-testRealAlgebraicNumberSquare
-	| sqrt2 |
-	sqrt2 _ RealAlgebraicNumber sqrt2.
-	10 timesRepeat: [sqrt2 squared]! !
 
 !SmallMatrixBenchmark methodsFor: 'as yet unclassified' stamp: 'len 12/2/2016 09:23:51'!
 setUp
