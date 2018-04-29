@@ -1,10 +1,10 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 28 April 2018 at 5:54:23 am'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 29 April 2018 at 8:47:56 pm'!
 'Description A computational algebra system in Smalltalk'!
-!provides: 'Mathematics' 1 427!
+!provides: 'Mathematics' 1 428!
 !requires: 'RayTracer' 1 2 nil!
 !classDefinition: #RealAlgebraicNumber category: #'Mathematics-Fields'!
 Number subclass: #RealAlgebraicNumber
-	instanceVariableNames: 'polynomial irreducible bounds rightSign'
+	instanceVariableNames: 'minimalPolynomial bounds rightSign'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Fields'!
@@ -2614,7 +2614,7 @@ AlgebraicElement class
 
 !classDefinition: #ComplexAlgebraicNumber category: #'Mathematics-Fields'!
 Object subclass: #ComplexAlgebraicNumber
-	instanceVariableNames: 'polynomial irreducible approximation radius'
+	instanceVariableNames: 'minimalPolynomial approximation radius'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Fields'!
@@ -3725,7 +3725,7 @@ References:
 Hom(A,B), Hom-Set objects for domain A and codomain B, i.e. sets of all morphisms from A to B. When A = B, this is noted End(A), the set of endomorphisms.!
 
 !PointSet commentStamp: '<historical>' prior: 0!
-Sets of S-points of a scheme X, noted X(S), where X and S are schemes over some base scheme or ring B. By definition, an S-point is a morphism from S to X over B. See also RationalPoint.!
+Sets of S-points (or S-rational points) of a scheme X, noted X(S), where X and S are schemes over some base scheme or ring B. By definition, an S-point is a morphism from S to X over B. See also RationalPoint.!
 
 !ComplexBox commentStamp: '<historical>' prior: 0!
 Boxes in the complex plane, defined by two real intervals (for the real and imaginary parts).!
@@ -4724,15 +4724,7 @@ Residue classes of polynomials modulo an ideal. They are elements of a quotient 
 Elements of finite algebraic field extensions. See AlgebraicExtensionField.!
 
 !ComplexAlgebraicNumber commentStamp: '<historical>' prior: 0!
-Complex algebraic numbers, i.e. zeroes of polynomials with integer coefficients, in 'minimal polynomial' representation. See also RealAlgebraicNumber.
-
-Structure:
- polynomial		Polynomial -- a square-free polynomial that is zero at the receiver
- irreducible	Boolean -- true if the polynomial is the minimal polynomial
- approximation	Fraction/Float -- a rational approximation of the receiver
- radius			Fraction/Float -- the absolute error of the approximation, and it's guaranteed that the polynomial has no other roots around the approximation value within this radius
-
-!
+Complex algebraic numbers, i.e. zeros of polynomials with integer (or rational) coefficients, in 'minimal polynomial' representation. See also RealAlgebraicNumber.!
 
 !LLL commentStamp: '<historical>' prior: 0!
 This is the Lenstra-Lenstra-Lovasz algorithm.
@@ -5317,6 +5309,10 @@ height
 isRational
 	^ true! !
 
+!Fraction methodsFor: '*mathematics' stamp: 'len 4/28/2018 16:58:05'!
+minimalPolynomial
+	^ QQ polynomials x - self! !
+
 !Fraction methodsFor: '*mathematics' stamp: 'len 1/20/2018 19:17:29'!
 squareRoot
 	self positive ifTrue: [^ RealAlgebraicNumber sqrt: self].
@@ -5590,6 +5586,10 @@ legendre: p
 	answer _ self raisedToInteger: p - 1 // 2 modulo: p.
 	answer > 1 ifTrue: [answer _ answer - p].
 	^ answer! !
+
+!Integer methodsFor: '*mathematics' stamp: 'len 4/28/2018 16:58:43'!
+minimalPolynomial
+	^ QQ polynomials x - self! !
 
 !Integer methodsFor: '*mathematics' stamp: 'len 11/28/2015 07:08'!
 moebius
@@ -6171,7 +6171,7 @@ StrikeFont installMathFonts
 	DisplayScreen runningWorld ifNotNil: [ :world | world fontPreferenceChanged ].
 ! !
 
-!RealAlgebraicNumber methodsFor: 'arithmetic' stamp: 'len 4/24/2018 18:03:28'!
+!RealAlgebraicNumber methodsFor: 'arithmetic' stamp: 'len 4/29/2018 18:33:11'!
 * aNumber
 	| f b |
 	aNumber class = self class
@@ -6179,14 +6179,14 @@ StrikeFont installMathFonts
 	aNumber isZero ifTrue: [^ aNumber].
 	self isZero ifTrue: [^ self].
 	f _ RealRootIsolator on:
-		(polynomial zeroProduct: aNumber polynomial) squareFree.
+		(minimalPolynomial zeroProduct: aNumber minimalPolynomial) squareFree.
 	[b _ self bounds * aNumber bounds.
 	f moreThanOneRootBetween: b left and: b right]
 		whileTrue:
 			[self refineWith: aNumber].
 	^ self class polynomial: f polynomial bounds: b! !
 
-!RealAlgebraicNumber methodsFor: 'arithmetic' stamp: 'len 4/24/2018 18:03:46'!
+!RealAlgebraicNumber methodsFor: 'arithmetic' stamp: 'len 4/29/2018 18:33:25'!
 + aNumber
 	| f b |
 	aNumber class = self class
@@ -6194,7 +6194,7 @@ StrikeFont installMathFonts
 	aNumber isZero ifTrue: [^ self].
 	self isZero ifTrue: [^ aNumber].
 	f _ RealRootIsolator on:
-		(polynomial zeroAddition: aNumber polynomial) squareFree.
+		(minimalPolynomial zeroAddition: aNumber minimalPolynomial) squareFree.
 	[b _ self bounds + aNumber bounds.
 	f moreThanOneRootBetween: b left and: b right]
 		whileTrue:
@@ -6218,25 +6218,22 @@ StrikeFont installMathFonts
 	[self bounds intersects: anObject bounds] whileTrue: [self refineWith: anObject].
 	^ self rightBound < anObject leftBound! !
 
-!RealAlgebraicNumber methodsFor: 'comparing' stamp: 'len 6/4/2016 21:32'!
+!RealAlgebraicNumber methodsFor: 'comparing' stamp: 'len 4/29/2018 18:34:58'!
 = anObject
 	anObject isNumber ifFalse: [^ false].
 	self == anObject ifTrue: [^ true].
 	anObject class = self class
 		ifFalse: [^ anObject adaptToRealAlgebraic: self andSend: #=].
-	(self bounds intersects: anObject bounds) ifFalse: [^ false].
-	(self polynomial gcd: anObject polynomial) isConstant
-		ifTrue: [^ false].
-	^ (self - anObject) isZero! !
+	^ minimalPolynomial = anObject minimalPolynomial and: [bounds intersects: anObject bounds]! !
 
 !RealAlgebraicNumber methodsFor: 'approximating' stamp: 'len 6/4/2016 22:22'!
 absoluteError
 	"Answer the maximun current error in the rational approximation of the receiver."
 	^ bounds length / 2! !
 
-!RealAlgebraicNumber methodsFor: 'converting' stamp: 'len 1/20/2018 19:17:51'!
+!RealAlgebraicNumber methodsFor: 'converting' stamp: 'len 4/29/2018 18:39:36'!
 adaptToAlgebraic: rcvr andSend: selector
-	^ rcvr perform: selector with: (ComplexAlgebraicNumber polynomial: polynomial approximation: bounds midpoint radius: bounds length / 2)! !
+	^ rcvr perform: selector with: (ComplexAlgebraicNumber polynomial: minimalPolynomial approximation: bounds midpoint radius: bounds length / 2)! !
 
 !RealAlgebraicNumber methodsFor: 'converting' stamp: 'len 11/19/2015 21:39'!
 adaptToFloat: rcvr andSend: selector
@@ -6262,17 +6259,17 @@ asFloat
 	self refineTo: 0.000001.
 	^ self approximation asFloat! !
 
-!RealAlgebraicNumber methodsFor: 'converting' stamp: 'len 4/27/2018 01:39:24'!
+!RealAlgebraicNumber methodsFor: 'converting' stamp: 'len 4/29/2018 20:28:54'!
 asRational
 	"Convert the receiver to Fraction or Integer."
 	| alpha |
 	self leftBound = self rightBound ifTrue: [^ self leftBound].
-	self polynomial degree < 2
+	minimalPolynomial degree < 2
 		ifTrue:
-			[alpha _ polynomial independentCoefficient negated / polynomial leadingCoefficient.
+			[alpha _ minimalPolynomial independentCoefficient negated / minimalPolynomial leadingCoefficient.
 			self bounds: (RealInterval open: alpha closed: alpha).
 			^ alpha].
-	(polynomial rootsIn: QQ)
+	(minimalPolynomial rootsIn: QQ)
 		do: [:each|
 			(each between: self leftBound and: self rightBound)
 				ifTrue: [self bounds: (RealInterval open: each closed: each). ^ each]].
@@ -6287,10 +6284,10 @@ bounds: aRealInterval
 	bounds _ aRealInterval.
 	rightSign _ nil! !
 
-!RealAlgebraicNumber methodsFor: 'accessing' stamp: 'len 5/27/2016 02:03'!
+!RealAlgebraicNumber methodsFor: 'accessing' stamp: 'len 4/29/2018 18:45:52'!
 denominator
 	"The denominator of an algebraic number is the smallest positive integer that multiplied by the algebraic number is an algebraic integer."
-	^ self minimalPolynomial coefficients inject: 1 into: [:denominator :each| denominator lcm: each denominator]! !
+	^ minimalPolynomial coefficients inject: 1 into: [:result :each| result lcm: each denominator]! !
 
 !RealAlgebraicNumber methodsFor: 'comparing' stamp: 'len 12/13/97 03:56'!
 hash
@@ -6307,12 +6304,12 @@ isAlgebraicInteger
 	"An algebraic number is an 'algebraic integer' if it's the root of a monic polynomial in Z[x], in particular if it's minimal polynomial has integer coefficients."
 	^ self minimalPolynomial coefficients allSatisfy: [:each| each isInteger]! !
 
-!RealAlgebraicNumber methodsFor: 'testing' stamp: 'len 4/27/2018 01:39:42'!
+!RealAlgebraicNumber methodsFor: 'testing' stamp: 'len 4/29/2018 20:09:03'!
 isRational
 	"Answer true if the receiver is a rational number."
-	self polynomial degree < 2 ifTrue: [^ true].
+	minimalPolynomial degree < 2 ifTrue: [^ true].
 	self rightBound = self leftBound ifTrue: [^ true].
-	(self polynomial rootsIn: QQ)
+	(minimalPolynomial rootsIn: QQ)
 		do: [:each|
 			(self bounds includes: each)
 				ifTrue: [self bounds: (RealInterval closed: each closed: each). ^ true]].
@@ -6331,66 +6328,49 @@ leftBound
 leftBound: aFraction
 	bounds _ RealInterval open: aFraction closed: bounds right! !
 
-!RealAlgebraicNumber methodsFor: 'accessing' stamp: 'len 3/20/2016 06:25'!
+!RealAlgebraicNumber methodsFor: 'accessing' stamp: 'len 4/29/2018 17:32:57'!
 minimalPolynomial
-	irreducible ifTrue: [^ polynomial].
-	polynomial _ polynomial factors asSet detect: [:one| (one value: self) isZero].
-	irreducible _ true.
-	^ polynomial! !
+	^ minimalPolynomial! !
 
-!RealAlgebraicNumber methodsFor: 'arithmetic' stamp: 'len 6/5/2016 20:30'!
+!RealAlgebraicNumber methodsFor: 'initialization' stamp: 'len 4/29/2018 17:29:16'!
+minimalPolynomial: aPolynomial bounds: aRealInterval
+	minimalPolynomial _ aPolynomial monic.
+	bounds _ aRealInterval.
+	self normalize.
+	self reduce! !
+
+!RealAlgebraicNumber methodsFor: 'arithmetic' stamp: 'len 4/29/2018 17:27:06'!
 negated
 	"Answer the additive inverse of the receiver."
 	self isZero ifTrue: [^ self].
 	^ self class
-		polynomial: polynomial zeroNegation
-		irreducible: irreducible
+		minimalPolynomial: minimalPolynomial zeroNegation
 		bounds: bounds negated! !
 
-!RealAlgebraicNumber methodsFor: 'private' stamp: 'len 4/29/2016 07:45'!
+!RealAlgebraicNumber methodsFor: 'private' stamp: 'len 4/29/2018 18:36:44'!
 normalize
 	"Change the representation of the receiver such that if the receiver is not 0 then 0 is not in the rational approximation interval."
 	| p sign |
 	self leftBound sign = self rightBound sign ifTrue: [^ self].
-	polynomial independentCoefficient isZero
+	minimalPolynomial independentCoefficient isZero
 		ifTrue: [^ self leftBound: 0; rightBound: 0].
 	"for every real root r not 0: |r| > 1 / (1 + f normInfinite), from Cauchy and Landau inequalities"
-	p _ 1 / (1 + self polynomial normInfinite).
+	p _ 1 / (1 + minimalPolynomial normInfinite).
 	p negated < self leftBound
 		ifTrue: [^ self leftBound: p].
 	p > self rightBound
 		ifTrue: [^ self rightBound: p negated].
-	sign _ (self polynomial value: p negated) sign.
-	sign ~= (self polynomial value: self leftBound) sign
+	sign _ (minimalPolynomial value: p negated) sign.
+	sign ~= (minimalPolynomial value: self leftBound) sign
 		ifTrue: [self rightBound: p negated; rightSign: sign]
-		ifFalse: [(self polynomial value: p) sign ~= self rightSign
+		ifFalse: [(minimalPolynomial value: p) sign ~= self rightSign
 				ifTrue: [self leftBound: p]
 				ifFalse: [self leftBound: 0; rightBound: 0]].
 	self leftBound > self rightBound ifTrue: [self error: 'interval normalization error']! !
 
-!RealAlgebraicNumber methodsFor: 'accessing' stamp: 'len 6/3/2016 20:51'!
-polynomial
-	^ polynomial! !
-
-!RealAlgebraicNumber methodsFor: 'initialization' stamp: 'len 4/29/2016 07:47'!
-polynomial: aPolynomial irreducible: aBoolean bounds: aRealInterval
-	polynomial _ aPolynomial.
-	polynomial isMonic ifFalse: [polynomial _ polynomial / polynomial leadingCoefficient].
-	irreducible _ aBoolean.
-	bounds _ aRealInterval.
-"	irreducible ifFalse: [polynomial _ polynomial reduced]. actually this makes it slower"
-"	self irreducible
-		ifTrue: [self polynomial: aPolynomial]
-		ifFalse: [
-			self polynomial:
-				(aPolynomial squareFreeFactorizationOLD asSet
-					detect: [ :one | (one valueAt: left) sign ~= (one valueAt: right)])]."
-	self normalize.
-	self reduce! !
-
-!RealAlgebraicNumber methodsFor: 'printing' stamp: 'len 3/21/2016 22:27'!
+!RealAlgebraicNumber methodsFor: 'printing' stamp: 'len 4/29/2018 18:39:50'!
 printOn: aStream base: base
-	polynomial degree < 4 "too slow" ifTrue: [self isRational ifTrue: [self asRational printOn: aStream base: base. ^ self]].
+	minimalPolynomial degree < 4 "too slow" ifTrue: [self isRational ifTrue: [self asRational printOn: aStream base: base. ^ self]].
 "	polynomial degree = 2 ifTrue: [^ self printQuadraticOn: aStream base: base]."
 	(self asFloat roundTo: 0.00001) printOn: aStream base: base.
 	aStream nextPutAll: '..'
@@ -6404,33 +6384,24 @@ printOn: aStream base: base
 		print: self asFloat;
 		nextPut: $)"! !
 
-!RealAlgebraicNumber methodsFor: 'arithmetic' stamp: 'len 6/3/2016 20:50'!
+!RealAlgebraicNumber methodsFor: 'arithmetic' stamp: 'len 4/29/2018 17:29:53'!
 reciprocal
 	"Answer the multiplicative inverse of the receiver."
 	self isZero ifTrue: [^ ZeroDivide signal].
 	^ self class
-		polynomial: polynomial zeroReciprocal
-		irreducible: irreducible
+		minimalPolynomial: minimalPolynomial zeroReciprocal
 		bounds: bounds reciprocal! !
-
-!RealAlgebraicNumber methodsFor: 'private' stamp: 'len 1/23/2017 11:45:53'!
-reduce
-	irreducible ifTrue: [^ self].
-	self isRational
-		ifTrue:
-			[polynomial _ polynomial parent x - self asRational.
-			irreducible _ true]! !
 
 !RealAlgebraicNumber methodsFor: 'approximating' stamp: 'len 6/4/2016 23:06'!
 refine
 	"Refine the rational interval approximation of the receiver."
 	self refineAt: self approximation! !
 
-!RealAlgebraicNumber methodsFor: 'approximating' stamp: 'len 1/17/2016 02:57'!
+!RealAlgebraicNumber methodsFor: 'approximating' stamp: 'len 4/29/2018 18:37:00'!
 refineAt: aFraction
 	"Refine the rational interval approximation of the receiver to one of both (leftBound, aFraction] or (aFraction, rightBound]."
 	| sign |
-	self rightSign = (sign _ (self polynomial value: aFraction) sign)
+	self rightSign = (sign _ (minimalPolynomial value: aFraction) sign)
 		ifTrue: [self rightBound: aFraction; rightSign: sign]
 		ifFalse: [self leftBound: aFraction].
 	sign = 0 ifTrue: [self leftBound: aFraction. self rightBound: aFraction]! !
@@ -6462,9 +6433,9 @@ rightBound: aFraction
 	bounds _ RealInterval open: bounds left closed: aFraction.
 	rightSign _ nil! !
 
-!RealAlgebraicNumber methodsFor: 'accessing-private' stamp: 'len 1/17/2016 03:06'!
+!RealAlgebraicNumber methodsFor: 'accessing-private' stamp: 'len 4/29/2018 18:37:11'!
 rightSign
-	rightSign isNil ifTrue: [rightSign _ (self polynomial value: self rightBound) sign].
+	rightSign isNil ifTrue: [rightSign _ (minimalPolynomial value: self rightBound) sign].
 	^ rightSign! !
 
 !RealAlgebraicNumber methodsFor: 'accessing-private' stamp: 'len 1/17/2016 02:59'!
@@ -6477,24 +6448,23 @@ sign
 
 	^ self leftBound sign! !
 
-!RealAlgebraicNumber methodsFor: 'mathematical functions' stamp: 'len 6/4/2016 22:57'!
+!RealAlgebraicNumber methodsFor: 'mathematical functions' stamp: 'len 4/29/2018 18:38:08'!
 squareRoot
 	self isRational ifFalse: [^ self notYetImplemented].
 	self negative ifTrue: [^ self negated squareRoot i].
 	self isZero ifTrue: [^ self].
 	^ self class
-		polynomial: self polynomial zeroSquareRoot
+		polynomial: minimalPolynomial zeroSquareRoot "is it minimal?"
  		bounds: (RealInterval open: 0 open: (self asRational max: 1))! !
 
-!RealAlgebraicNumber methodsFor: 'mathematical functions' stamp: 'len 1/23/2017 11:45:57'!
+!RealAlgebraicNumber methodsFor: 'mathematical functions' stamp: 'len 4/29/2018 18:39:12'!
 squared
-	"Answer the square of the receiver."
-
 	| x odd even |
-	x _ self polynomial parent x.
-	odd _ self polynomial odd.
-	even _ self polynomial even.
-	^ self class
+	x _ minimalPolynomial parent x.
+	odd _ minimalPolynomial odd.
+	even _ minimalPolynomial even.
+	self flag: #fix.
+	^ self class "this could be rational"
 		polynomial: odd squared * x - even squared
 		bounds: self bounds squared! !
 
@@ -6518,10 +6488,10 @@ fromRational: anIntegerOrFraction
 		minimalPolynomial: x * q denominator - q numerator
  		bounds: (RealInterval open: anIntegerOrFraction closed: anIntegerOrFraction)! !
 
-!RealAlgebraicNumber class methodsFor: 'instance creation' stamp: 'len 1/16/2016 06:49'!
+!RealAlgebraicNumber class methodsFor: 'instance creation' stamp: 'len 4/29/2018 17:30:10'!
 minimalPolynomial: aPolynomial bounds: aRealInterval
 	"Answer an instance of the receiver representing the unique zero of aPolynomial in the given rational interval."
-	^ self new polynomial: aPolynomial irreducible: true bounds: aRealInterval! !
+	^ self new minimalPolynomial: aPolynomial bounds: aRealInterval! !
 
 !RealAlgebraicNumber class methodsFor: 'examples' stamp: 'len 4/12/2018 17:51:12'!
 phi
@@ -6530,16 +6500,12 @@ phi
 	x _ QQ polynomials x.
 	^ self minimalPolynomial: x^2 - x - 1 bounds: (RealInterval open: 1.0 open: 2.0)! !
 
-!RealAlgebraicNumber class methodsFor: 'instance creation' stamp: 'len 1/16/2016 06:40'!
+!RealAlgebraicNumber class methodsFor: 'instance creation' stamp: 'len 4/29/2018 17:31:59'!
 polynomial: aPolynomial bounds: aRealInterval
 	"Answer an instance of the receiver representing the unique zero of aPolynomial in the given interval."
-	^ self polynomial: aPolynomial irreducible: false bounds: aRealInterval! !
-
-!RealAlgebraicNumber class methodsFor: 'instance creation' stamp: 'len 1/16/2016 07:40'!
-polynomial: aPolynomial irreducible: aBoolean bounds: aRealInterval
-	"Answer an instance of the receiver representing the unique zero of aPolynomial in the given rational interval, and set the irreducibility flag for aPolynomial to aBoolean.
-	Assume the polynomial is square-free."
-	^ self new polynomial: aPolynomial irreducible: aBoolean bounds: aRealInterval! !
+	| approximation |
+	approximation _ aRealInterval midpoint.
+	^ self minimalPolynomial: (aPolynomial factors argmin: [:f| (f value: approximation) abs]) bounds: aRealInterval! !
 
 !RealAlgebraicNumber class methodsFor: 'examples' stamp: 'len 4/12/2018 17:51:01'!
 sqrt2
@@ -19282,9 +19248,9 @@ embeddings
 	When the receiver is a Galois extension, the embeddings send each element to one of its conjugates, and their images are the same."
 	^ self propertyAt: #embeddings ifAbsentPut: [self embeddingsIn: self scalars algebraicClosure]! !
 
-!AlgebraicExtensionField methodsFor: 'morphisms' stamp: 'len 8/31/2016 05:43'!
+!AlgebraicExtensionField methodsFor: 'morphisms' stamp: 'len 4/29/2018 17:24:35'!
 embeddingsIn: aField
-	^ (self polynomial rootsIn: aField)
+	^ (self polynomial rootsIn: aField) asArray
 		collect: [:x| self to: aField evaluating: [:alpha| alpha representative value: x]]! !
 
 !AlgebraicExtensionField methodsFor: 'morphisms' stamp: 'len 11/3/2016 09:28'!
@@ -25795,6 +25761,12 @@ dimension
 	This is the Krull dimension of the coordinate ring."
 	^ self coordinateRing dimension! !
 
+!AffineScheme methodsFor: 'accessing' stamp: 'len 4/29/2018 02:31:22'!
+functionField
+	"Answer the function field (or field of rational functions) of the receiver. This is the fractions field of the coordinate ring and it's noted K(V) (analogous to the coordinate ring noted K[V]).
+	This assumes the receiver is reduced (or equivalently, that the coordinate ring R is an integral domain). The definition of function field can be extended to the case of non-reduced schemes as Frac(R/N) where N is the nilradical of R."
+	^ self coordinateRing fractions! !
+
 !AffineScheme methodsFor: 'comparing' stamp: 'len 1/13/2017 16:32:38'!
 hash
 	^ self coordinateRing hash! !
@@ -25811,9 +25783,8 @@ isAffine
 isInitial
 	^ self coordinateRing isTerminal! !
 
-!AffineScheme methodsFor: 'testing' stamp: 'len 4/28/2018 05:49:48'!
+!AffineScheme methodsFor: 'testing' stamp: 'len 4/29/2018 02:16:44'!
 isIrreducible
-	self flag: #fix. "magma does it differently"
 	^ self coordinateRing isIntegralDomain! !
 
 !AffineScheme methodsFor: 'testing' stamp: 'len 1/13/2017 16:57:08'!
@@ -25931,11 +25902,6 @@ contains: anIdeal
 decomposition
 	"Answer the irreducible components of the receiver."
 	^ self ideal associatedPrimes collect: [:each| self subscheme: each]! !
-
-!AffineVariety methodsFor: 'accessing' stamp: 'len 1/18/2017 22:18:20'!
-functionField
-	"Answer the function field (or field of rational functions) of the receiver. This is the fractions field of the coordinate ring and it's noted K(V) (analogous to the coordinate ring noted K[V])."
-	^ self coordinateRing fractions! !
 
 !AffineVariety methodsFor: 'comparing' stamp: 'len 1/13/2017 16:33:18'!
 hash
@@ -26344,6 +26310,10 @@ affineCone
 ambient
 	^ self propertyAt: #ambient ifAbsent: [self coordinateRing base proj]! !
 
+!ProjectiveVariety methodsFor: 'accessing' stamp: 'len 4/29/2018 02:36:33'!
+anyPatch
+	^ self patch: self ambient rank! !
+
 !ProjectiveVariety methodsFor: 'accessing' stamp: 'len 1/10/2017 21:15:14'!
 arithmeticGenus
 	"Answer the arithmetic genus of the receiver."
@@ -26409,10 +26379,9 @@ dual
 	"Answer the projective dual of the receiver."
 	self notYetImplemented! !
 
-!ProjectiveVariety methodsFor: 'accessing' stamp: 'len 1/13/2017 17:02:17'!
+!ProjectiveVariety methodsFor: 'accessing' stamp: 'len 4/29/2018 02:32:34'!
 functionField
-	"Answer the function field (or field of rational functions) of the receiver. This is the fractions field of the coordinate ring and it's noted K(V) (analogous to the coordinate ring noted K[V])."
-	^ self coordinateRing fractions! !
+	^ self anyPatch functionField! !
 
 !ProjectiveVariety methodsFor: 'comparing' stamp: 'len 1/13/2017 17:23:21'!
 hash
@@ -32576,35 +32545,35 @@ trace
 	f _ self minimalPolynomial.
 	^ (f coefficientAtDegree: f degree - 1) / f leadingCoefficient! !
 
-!ComplexAlgebraicNumber methodsFor: 'arithmetic' stamp: 'len 4/24/2018 18:18:16'!
+!ComplexAlgebraicNumber methodsFor: 'arithmetic' stamp: 'len 4/29/2018 17:02:11'!
 * aNumber
-	| f x r |
+	| isolator x r |
 	aNumber class = self class
 		ifFalse: [^ aNumber adaptToAlgebraic: self andSend: #*].
 	aNumber isZero ifTrue: [^ aNumber].
 	self isZero ifTrue: [^ self].
-	f _ ComplexRootIsolator on: (polynomial zeroProduct: aNumber polynomial) squareFree.
-	[x _ self approximation * aNumber approximation.
-	r _ self absoluteError * aNumber approximation norm2 + (self approximation norm2 * aNumber absoluteError).
-	f atMostOneRootAround: x radius: r]
+	isolator _ ComplexRootIsolator on: (minimalPolynomial zeroProduct: aNumber minimalPolynomial) squareFree.
+	[x _ approximation * aNumber approximation.
+	r _ self absoluteError * aNumber approximation norm2 + (approximation norm2 * aNumber absoluteError).
+	isolator atMostOneRootAround: x radius: r]
 		whileFalse:
 			[self refineWith: aNumber].
-	^ self class polynomial: f polynomial approximation: x radius: r! !
+	^ self class polynomial: isolator polynomial approximation: x radius: r! !
 
-!ComplexAlgebraicNumber methodsFor: 'arithmetic' stamp: 'len 4/24/2018 18:18:34'!
+!ComplexAlgebraicNumber methodsFor: 'arithmetic' stamp: 'len 4/29/2018 17:02:35'!
 + aNumber
-	| f x r |
+	| isolator x r |
 	aNumber class = self class
 		ifFalse: [^ aNumber adaptToAlgebraic: self andSend: #+].
 	aNumber isZero ifTrue: [^ self].
 	self isZero ifTrue: [^ aNumber].
-	f _ ComplexRootIsolator on: (polynomial zeroAddition: aNumber polynomial) squareFree.
-	[x _ self approximation + aNumber approximation.
+	isolator _ ComplexRootIsolator on: (minimalPolynomial zeroAddition: aNumber minimalPolynomial) squareFree.
+	[x _ approximation + aNumber approximation.
 	r _ self absoluteError + aNumber absoluteError.
-	f atMostOneRootAround: x radius: r]
+	isolator atMostOneRootAround: x radius: r]
 		whileFalse:
 			[self refineWith: aNumber].
-	^ self class polynomial: f polynomial approximation: x radius: r! !
+	^ self class polynomial: isolator polynomial approximation: x radius: r! !
 
 !ComplexAlgebraicNumber methodsFor: 'arithmetic' stamp: 'len 1/12/2016 03:38'!
 - anObject
@@ -32614,16 +32583,13 @@ trace
 / anObject
 	^ self * anObject reciprocal! !
 
-!ComplexAlgebraicNumber methodsFor: 'comparing' stamp: 'len 6/4/2016 22:32'!
+!ComplexAlgebraicNumber methodsFor: 'comparing' stamp: 'len 4/28/2018 16:48:28'!
 = anObject
 	self == anObject ifTrue: [^ true].
 	anObject isNumber ifFalse: [^ false].
 	anObject class = self class
 		ifFalse: [^ anObject adaptToAlgebraic: self andSend: #=].
-	(self bounds intersects: anObject bounds) ifFalse: [^ false].
-	(self polynomial gcd: anObject polynomial) isConstant
-		ifTrue: [^ false].
-	^ (self - anObject) isZero! !
+	^ minimalPolynomial = anObject minimalPolynomial and: [self bounds intersects: anObject bounds]! !
 
 !ComplexAlgebraicNumber methodsFor: 'approximating' stamp: 'len 6/5/2016 19:35'!
 absoluteError
@@ -32663,17 +32629,17 @@ asFloat
 	self refineTo: 0.000001.
 	^ self approximation asFloat! !
 
-!ComplexAlgebraicNumber methodsFor: 'converting' stamp: 'len 4/27/2018 01:48:35'!
+!ComplexAlgebraicNumber methodsFor: 'converting' stamp: 'len 4/28/2018 07:09:28'!
 asRational
 	"Convert the receiver to Fraction or Integer."
 	| alpha |
 	radius = 0 ifTrue: [^ approximation]. "could be float!!"
-	polynomial degree < 2
+	minimalPolynomial degree < 2
 		ifTrue:
-			[alpha _ polynomial independentCoefficient negated / polynomial leadingCoefficient.
+			[alpha _ minimalPolynomial independentCoefficient negated / minimalPolynomial leadingCoefficient.
 			approximation _ alpha. radius _ 0.
 			^ alpha].
-	(polynomial rootsIn: QQ)
+	(minimalPolynomial rootsIn: QQ)
 		do: [:each|
 			(each - approximation) abs < radius
 				ifTrue: [approximation _ each. radius _ 0. ^ each]].
@@ -32689,22 +32655,18 @@ conjugates
 	"The conjugates of an algebraic number with minimal polynomial of degree n are all its n-th roots."
 	^ self notYetImplemented! !
 
-!ComplexAlgebraicNumber methodsFor: 'accessing' stamp: 'len 5/27/2016 02:03'!
+!ComplexAlgebraicNumber methodsFor: 'accessing' stamp: 'len 4/29/2018 18:46:05'!
 denominator
 	"The denominator of an algebraic number is the smallest positive integer that multiplied by the algebraic number is an algebraic integer."
-	^ self minimalPolynomial coefficients inject: 1 into: [:denominator :each| denominator lcm: each denominator]! !
+	^ minimalPolynomial coefficients inject: 1 into: [:result :each| result lcm: each denominator]! !
 
-!ComplexAlgebraicNumber methodsFor: 'comparing' stamp: 'len 1/17/2016 02:05'!
+!ComplexAlgebraicNumber methodsFor: 'comparing' stamp: 'len 4/29/2018 20:09:45'!
 hash
-	^ self truncated hash! !
+	^ minimalPolynomial hash! !
 
 !ComplexAlgebraicNumber methodsFor: 'arithmetic' stamp: 'len 1/13/2016 04:01'!
 i
 	^ self * self class i! !
-
-!ComplexAlgebraicNumber methodsFor: 'accessing-private' stamp: 'len 12/4/2017 10:05:29'!
-irreducible: aBoolean
-	irreducible _ aBoolean! !
 
 !ComplexAlgebraicNumber methodsFor: 'testing' stamp: 'len 1/13/2016 03:33'!
 isAlgebraic
@@ -32719,57 +32681,50 @@ isAlgebraicInteger
 isNumber
 	^ true! !
 
-!ComplexAlgebraicNumber methodsFor: 'testing' stamp: 'len 4/27/2018 01:38:47'!
+!ComplexAlgebraicNumber methodsFor: 'testing' stamp: 'len 4/28/2018 07:05:26'!
 isRational
-	polynomial degree < 2 ifTrue: [^ true].
+	minimalPolynomial degree < 2 ifTrue: [^ true].
 	radius = 0 ifTrue: [^ true].
-	(polynomial rootsIn: QQ)
+	(minimalPolynomial rootsIn: QQ)
 		do: [:each|
 			(each - approximation) abs < radius
 				ifTrue: [approximation _ each. radius _ 0. ^ true]].
 	^ false! !
 
-!ComplexAlgebraicNumber methodsFor: 'testing' stamp: 'len 12/4/2017 14:57:55'!
+!ComplexAlgebraicNumber methodsFor: 'testing' stamp: 'len 4/28/2018 07:10:14'!
 isZero
-	^ approximation abs < radius and: [(polynomial value: 0) = 0]! !
+	^ approximation abs < radius and: [(minimalPolynomial value: 0) = 0]! !
 
-!ComplexAlgebraicNumber methodsFor: 'accessing' stamp: 'len 6/4/2016 22:10'!
+!ComplexAlgebraicNumber methodsFor: 'accessing' stamp: 'len 4/28/2018 07:07:34'!
 minimalPolynomial
-	irreducible ifTrue: [^ polynomial].
-	polynomial _ polynomial factors asSet detect: [:one| (one value: self) isZero].
-	irreducible _ true.
-	^ polynomial! !
+	^ minimalPolynomial! !
 
-!ComplexAlgebraicNumber methodsFor: 'accessing-private' stamp: 'len 1/12/2016 03:59'!
+!ComplexAlgebraicNumber methodsFor: 'accessing-private' stamp: 'len 4/28/2018 07:10:39'!
 minimalPolynomial: aPolynomial
-	polynomial _ aPolynomial.
-	irreducible _ true! !
+	minimalPolynomial _ aPolynomial! !
 
-!ComplexAlgebraicNumber methodsFor: 'arithmetic' stamp: 'len 12/4/2017 10:04:47'!
+!ComplexAlgebraicNumber methodsFor: 'arithmetic' stamp: 'len 4/28/2018 07:10:56'!
 negated
 	"Answer the additive inverse of the receiver."
 	^ self class
-		polynomial: polynomial zeroNegation
-		irreducible: irreducible
+		minimalPolynomial: minimalPolynomial zeroNegation
 		approximation: approximation negated
 		radius: radius! !
 
-!ComplexAlgebraicNumber methodsFor: 'operations' stamp: 'len 1/10/2016 20:46'!
+!ComplexAlgebraicNumber methodsFor: 'operations' stamp: 'len 4/28/2018 16:44:14'!
 norm
-	^ self conjugates product! !
+	| answer m |
+	m _ minimalPolynomial degree.
+	answer _ (minimalPolynomial atDegree: 0) / (minimalPolynomial atDegree: m).
+	m odd ifTrue: [answer _ answer negated].
+	^ answer
+
+"alternatively:
+	^ self conjugates product"! !
 
 !ComplexAlgebraicNumber methodsFor: 'constants' stamp: 'len 6/4/2016 21:18'!
 one
 	^ 1! !
-
-!ComplexAlgebraicNumber methodsFor: 'accessing' stamp: 'len 1/12/2016 04:00'!
-polynomial
-	^ polynomial! !
-
-!ComplexAlgebraicNumber methodsFor: 'accessing-private' stamp: 'len 1/12/2016 04:00'!
-polynomial: aPolynomial
-	polynomial _ aPolynomial.
-	irreducible _ false! !
 
 !ComplexAlgebraicNumber methodsFor: 'printing' stamp: 'len 1/11/2016 06:44'!
 printOn: aStream
@@ -32796,24 +32751,24 @@ printPrecision
 	^ 0.001"
 	^ 0.00001! !
 
-!ComplexAlgebraicNumber methodsFor: 'arithmetic' stamp: 'len 4/24/2018 18:18:44'!
+!ComplexAlgebraicNumber methodsFor: 'arithmetic' stamp: 'len 4/29/2018 17:03:02'!
 reciprocal
 	"Answer the multiplicative inverse of the receiver."
-	| f x r |
+	| isolator x r |
 	self isZero ifTrue: [^ ZeroDivide signal].
-	f _ ComplexRootIsolator on: self polynomial zeroReciprocal.
-	[x _ self approximation reciprocal.
-	r _ self absoluteError / self approximation norm2 * x norm2.
-	f atMostOneRootAround: x radius: r]
+	isolator _ ComplexRootIsolator on: minimalPolynomial zeroReciprocal.
+	[x _ approximation reciprocal.
+	r _ self absoluteError / approximation norm2 * x norm2.
+	isolator atMostOneRootAround: x radius: r]
 		whileFalse:
 			[self refine].
-	^ self class polynomial: f polynomial irreducible: irreducible approximation: x radius: r! !
+	^ self class minimalPolynomial: isolator polynomial approximation: x radius: r! !
 
-!ComplexAlgebraicNumber methodsFor: 'approximating' stamp: 'len 12/5/2017 19:59:28'!
+!ComplexAlgebraicNumber methodsFor: 'approximating' stamp: 'len 4/28/2018 07:10:08'!
 refine
 	| P Q P2 Q2 m x v c dx y v1 m1 |
 	radius _ radius / 2.0.
-	P _ polynomial.
+	P _ minimalPolynomial.
 	Q _ P.
 	P2 _ P derivative.
 	Q2 _ P2.
@@ -32845,31 +32800,44 @@ refineWith: aComplexAlgebraicNumber
 		ifTrue: [self refine]
 		ifFalse: [aComplexAlgebraicNumber refine]! !
 
-!ComplexAlgebraicNumber methodsFor: 'approximating' stamp: 'len 6/4/2016 23:10'!
+!ComplexAlgebraicNumber methodsFor: 'approximating' stamp: 'len 4/29/2018 20:17:35'!
 relativeError
 	"Answer the relative error in the current rational approximation."
 	self isZero ifTrue: [^ 0].
-	^ self absoluteError / self approximation norm2 "this should be norm or abs, but then it would be float"! !
+	^ self absoluteError / self approximation abs! !
 
-!ComplexAlgebraicNumber methodsFor: 'arithmetic' stamp: 'len 4/24/2018 18:19:22'!
+!ComplexAlgebraicNumber methodsFor: 'arithmetic' stamp: 'len 4/29/2018 17:03:28'!
 squareRoot
-	| f x r |
+	| isolator x r |
 	self isZero ifTrue: [^ self].
-	f _ ComplexRootIsolator on: polynomial zeroSquareRoot squareFree.
-	[x _ self approximation sqrt.
+	isolator _ ComplexRootIsolator on: minimalPolynomial zeroSquareRoot squareFree.
+	[x _ approximation sqrt.
 	r _ self absoluteError sqrt.
-	f atMostOneRootAround: x radius: r]
+	isolator atMostOneRootAround: x radius: r]
 		whileFalse:
 			[self refine].
-	^ self class polynomial: f polynomial approximation: x radius: r! !
+	^ self class polynomial: isolator polynomial approximation: x radius: r! !
 
-!ComplexAlgebraicNumber methodsFor: 'arithmetic' stamp: 'len 1/13/2016 04:02'!
+!ComplexAlgebraicNumber methodsFor: 'arithmetic' stamp: 'len 4/29/2018 20:41:37'!
 squared
-	^ self * self! !
+	| x odd even |
+	x _ minimalPolynomial parent x.
+	odd _ minimalPolynomial odd.
+	even _ minimalPolynomial even.
+	self flag: #fix.
+	^ self class "this could be rational"
+		polynomial: odd squared * x - even squared
+		approximation: approximation squared
+		radius: radius * approximation norm2 * 2! !
 
-!ComplexAlgebraicNumber methodsFor: 'operations' stamp: 'len 1/10/2016 20:46'!
+!ComplexAlgebraicNumber methodsFor: 'operations' stamp: 'len 4/28/2018 16:41:25'!
 trace
-	^ self conjugates sum! !
+	| m |
+	m _ minimalPolynomial degree.
+	^ (minimalPolynomial atDegree: m-1) / (minimalPolynomial atDegree: m)
+
+"alternatively:
+	^ self conjugates sum"! !
 
 !ComplexAlgebraicNumber methodsFor: 'constants' stamp: 'len 6/4/2016 21:18'!
 zero
@@ -32910,18 +32878,9 @@ phi
 	x _ QQ polynomials x.
 	^ self minimalPolynomial: (x^2 - x - 1) approximation: 2.0 radius: 1! !
 
-!ComplexAlgebraicNumber class methodsFor: 'instance creation' stamp: 'len 1/15/2016 02:04'!
+!ComplexAlgebraicNumber class methodsFor: 'instance creation' stamp: 'len 4/28/2018 07:25:18'!
 polynomial: aPolynomial approximation: aComplex radius: aNumber
-	^ self new
-		polynomial: aPolynomial;
-		approximation: aComplex radius: aNumber! !
-
-!ComplexAlgebraicNumber class methodsFor: 'instance creation' stamp: 'len 6/4/2016 22:34'!
-polynomial: aPolynomial irreducible: aBoolean approximation: aComplex radius: aNumber
-	^ self new
-		polynomial: aPolynomial;
-		irreducible: aBoolean;
-		approximation: aComplex radius: aNumber! !
+	^ self minimalPolynomial: (aPolynomial factors argmin: [:f| (f value: aComplex) abs]) approximation: aComplex radius: aNumber! !
 
 !ComplexAlgebraicNumber class methodsFor: 'examples' stamp: 'len 7/15/2016 18:31'!
 sqrt2
@@ -38643,9 +38602,22 @@ parts: aCollection
 		ifTrue: [^ self parent coefficients: self coefficients \\ anObject].
 	^ (self divisionBy: anObject) remainder! !
 
-!UnivariatePolynomial methodsFor: 'roots-private' stamp: 'len 4/24/2018 17:46:29'!
+!UnivariatePolynomial methodsFor: 'roots-private' stamp: 'len 4/29/2018 18:25:23'!
+allComplexRoots
+	| answer |
+	answer _ Bag new.
+	self integerPrimitive factors withOccurrencesDo: [:f :e|
+		f degree = 1
+			ifTrue:
+				[answer add: (f independentCoefficient negated / f leadingCoefficient) withOccurrences: e]
+			ifFalse:
+				[(ComplexRootIsolator on: f) roots do: [:each|
+	 				answer add: (ComplexAlgebraicNumber minimalPolynomial: f approximation: each center radius: each radius) withOccurrences: e]]].
+	^ answer! !
+
+!UnivariatePolynomial methodsFor: 'roots-private' stamp: 'len 4/29/2018 17:12:16'!
 allRationalRoots
-	"Separate the (real) rational roots of the polynomial."
+	"Answer the (real) rational roots of the polynomial."
 	| roots f n k tau visited fourier |
 	roots _ Bag new.
 	f _ self integerPrimitive.
@@ -38665,18 +38637,35 @@ allRationalRoots
 						ifTrue: [roots add: tau withOccurrences: (self multiplicityAt: tau fourier: fourier). roots size = n ifTrue: [^ roots]]]]].
 	^ roots! !
 
+!UnivariatePolynomial methodsFor: 'roots-private' stamp: 'len 4/29/2018 18:32:01'!
+allRealRoots
+	| answer |
+	answer _ Bag new.
+	self integerPrimitive factors withOccurrencesDo: [:f :e|
+		f degree = 1
+			ifTrue:
+				[answer add: (f independentCoefficient negated / f leadingCoefficient) withOccurrences: e]
+			ifFalse:
+				[(RealRootIsolator on: f) roots do: [:each|
+	 				answer add: (RealAlgebraicNumber minimalPolynomial: f bounds: each) withOccurrences: e]]].
+	^ answer! !
+
 !UnivariatePolynomial methodsFor: 'roots' stamp: 'len 4/10/2018 16:11:32'!
 allRoots
 	"Answer the roots (counted with multiplicity) in the coefficients ring or field."
 	^ self allRootsIn: self scalars! !
 
-!UnivariatePolynomial methodsFor: 'roots' stamp: 'len 4/24/2018 18:15:42'!
+!UnivariatePolynomial methodsFor: 'roots' stamp: 'len 4/29/2018 17:20:24'!
 allRootsIn: aRing
 	"Answer the roots (counted with multiplicity) in the given domain."
-	| answer fourier |
+	| answer |
+	(aRing isKindOf: RealField)
+		ifTrue: [^ self allRealRoots].
+	(aRing isKindOf: ComplexField)
+		ifTrue: [^ self allComplexRoots].
 	answer _ Bag new.
-	fourier _ OrderedCollection with: self.
-	(self rootsIn: aRing) do: [:each| answer add: each withOccurrences: (self multiplicityAt: each fourier: fourier)].
+	(self over: aRing) factors withOccurrencesDo: [:f :e|
+		f degree = 1 ifTrue: [answer add: (f independentCoefficient negated / f leadingCoefficient) withOccurrences: e]].
 	^ answer! !
 
 !UnivariatePolynomial methodsFor: 'roots' stamp: 'len 4/16/2018 19:49:43'!
@@ -39428,16 +39417,10 @@ roots
 	"Answer the set of distinct roots in the coefficients ring or field."
 	^ self rootsIn: self scalars! !
 
-!UnivariatePolynomial methodsFor: 'roots' stamp: 'len 4/24/2018 18:24:36'!
+!UnivariatePolynomial methodsFor: 'roots' stamp: 'len 4/29/2018 17:21:15'!
 rootsIn: aRing
-	"Answer the roots (counted with multiplicity) in the given domain."
-	(aRing isKindOf: RealField)
-		ifTrue: [^ (RealRootIsolator on: self squareFree integerPrimitive) roots].
-	(aRing isKindOf: ComplexField)
-		ifTrue: [^ (ComplexRootIsolator on: self squareFree integerPrimitive) roots].
-	^ (self over: aRing) factors asSet
-		select: [:each| each degree = 1]
-		thenCollect: [:each| each independentCoefficient negated / each leadingCoefficient]! !
+	"Answer the distinct roots (not counted with multiplicity) in the given domain."
+	^ (self allRootsIn: aRing) asSet! !
 
 !UnivariatePolynomial methodsFor: 'operations' stamp: 'len 1/23/2017 11:48:25'!
 shift: anInteger
@@ -39741,17 +39724,16 @@ eightPointTest: m width: w
 polynomial
 	^ polynomial! !
 
-!ComplexRootIsolator methodsFor: 'as yet unclassified' stamp: 'len 4/24/2018 17:55:06'!
+!ComplexRootIsolator methodsFor: 'as yet unclassified' stamp: 'len 4/29/2018 16:59:47'!
 polynomial: aPolynomial
-	self flag: #fix. "this could be exact division, also doing the same in class side via #reduced"
-	polynomial _ (aPolynomial // (aPolynomial gcd: aPolynomial derivative)) integerPrimitive! !
+	polynomial _ aPolynomial integerPrimitive! !
 
 !ComplexRootIsolator methodsFor: 'as yet unclassified' stamp: 'len 4/16/2018 16:06:13'!
 roots
 	"Separate the roots in disks each of them containing one isolated root."
 	^ self rootsInBox: self bigBounds! !
 
-!ComplexRootIsolator methodsFor: 'as yet unclassified' stamp: 'len 4/24/2018 17:54:18'!
+!ComplexRootIsolator methodsFor: 'as yet unclassified' stamp: 'len 4/29/2018 16:56:39'!
 rootsInBox: aBox
 	"Separate the roots in disks each of them containing one isolated root."
 	| queue disks |
@@ -39780,11 +39762,7 @@ rootsInBox: aBox
 										ifFalse: [D2 radius < D radius ifTrue: [disks at: i put: D]]]]
 						ifFalse:
 							[queue addAll: B quarters]]].
-	^ disks collect: [:each| ComplexAlgebraicNumber polynomial: polynomial approximation: each center radius: each radius]! !
-
-!ComplexRootIsolator methodsFor: 'as yet unclassified' stamp: 'len 4/24/2018 18:00:09'!
-squareFreePolynomial: aPolynomial
-	polynomial _ aPolynomial! !
+	^ disks! !
 
 !ComplexRootIsolator class methodsFor: 'instance creation' stamp: 'len 4/24/2018 18:01:29'!
 on: aPolynomial
@@ -40210,13 +40188,12 @@ divide: aPolynomial by: anotherPolynomial
 	"Answer a pseudo-division algorithm to divide aPolynomial by anotherPolynomial."
 	^ self new divide: aPolynomial by: anotherPolynomial! !
 
-!RealRootIsolator methodsFor: 'private' stamp: 'len 4/24/2018 17:59:29'!
+!RealRootIsolator methodsFor: 'private' stamp: 'len 4/29/2018 18:29:17'!
 bigBounds
 	"Compute and answer a first estimate of an interval containing all the real roots."
 	| bound |
 	bound _ polynomial norm1 / polynomial leadingCoefficient asFloat.
 	bound _ bound max: 1.0.
-"	bound _ DyadicFraction fromInteger: bound."
 	^ RealInterval closed: bound negated closed: bound! !
 
 !RealRootIsolator methodsFor: 'private' stamp: 'len 4/24/2018 17:59:04'!
@@ -40342,28 +40319,22 @@ roots
 	roots isNil ifTrue: [self separateRoots].
 	^ roots! !
 
-!RealRootIsolator methodsFor: 'operations' stamp: 'len 6/5/2016 04:47'!
+!RealRootIsolator methodsFor: 'operations' stamp: 'len 4/29/2018 18:27:49'!
 separateRoots
 	"Separate the roots in intervals each of them including an isolated root."
 
 	| bounds |
-	roots _ SortedCollection sortBlock: [ :one :other | one leftBound <= other leftBound].
+	roots _ SortedCollection sortBlock: [ :one :other | one left <= other left].
 	bounds _ self bigBounds.
 	self separateRootsBetween: bounds min and: bounds max! !
 
-!RealRootIsolator methodsFor: 'operations' stamp: 'len 4/24/2018 17:59:13'!
+!RealRootIsolator methodsFor: 'operations' stamp: 'len 4/29/2018 18:28:56'!
 separateRootsBetween: leftBound and: rightBound
 	"Separate the roots in the real interval given by the arguments."
 	| r mid |
-	(r _ self numberOfRootsBetween: leftBound and: rightBound) = 0
-		ifTrue: [^ self].
-
-	r = 1 ifTrue:
-		[roots add:
-			(RealAlgebraicNumber
-				polynomial: polynomial
-				bounds: (RealInterval closed: leftBound closed: rightBound)).
-		^ self].
+	r _ self numberOfRootsBetween: leftBound and: rightBound.
+	r = 0 ifTrue: [^ self].
+	r = 1 ifTrue: [^ roots add: (RealInterval closed: leftBound closed: rightBound)].
 
 	mid _ leftBound + rightBound / 2.0. "2 for exact rationals or 2.0 to use floats."
 	self separateRootsBetween: leftBound and: mid.
