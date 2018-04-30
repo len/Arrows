@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 30 April 2018 at 5:18:20 am'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 30 April 2018 at 7:07:01 am'!
 'Description A computational algebra system in Smalltalk'!
-!provides: 'Mathematics' 1 429!
+!provides: 'Mathematics' 1 430!
 !requires: 'RayTracer' 1 2 nil!
 !classDefinition: #RealAlgebraicNumber category: #'Mathematics-Fields'!
 Number subclass: #RealAlgebraicNumber
@@ -32538,12 +32538,12 @@ norm
 symmetricFunction: i
 	^ self notYetImplemented! !
 
-!AlgebraicElement methodsFor: 'as yet unclassified' stamp: 'len 10/16/2016 18:20'!
+!AlgebraicElement methodsFor: 'as yet unclassified' stamp: 'len 4/30/2018 07:04:30'!
 trace
 	"Answer the absolute trace of the receiver."
 	| f |
 	f _ self minimalPolynomial.
-	^ (f coefficientAtDegree: f degree - 1) / f leadingCoefficient! !
+	^ (f coefficientAtDegree: f degree - 1) negated! !
 
 !ComplexAlgebraicNumber methodsFor: 'arithmetic' stamp: 'len 4/29/2018 17:02:11'!
 * aNumber
@@ -32860,10 +32860,10 @@ squared
 		approximation: approximation squared
 		radius: radius * approximation norm2 * 2! !
 
-!ComplexAlgebraicNumber methodsFor: 'operations' stamp: 'len 4/30/2018 04:49:04'!
+!ComplexAlgebraicNumber methodsFor: 'operations' stamp: 'len 4/30/2018 06:59:18'!
 trace
 	"Answer the absolute trace of the receiver."
-	^ (minimalPolynomial atDegree: minimalPolynomial degree - 1) / minimalPolynomial leadingCoefficient
+	^ (minimalPolynomial atDegree: minimalPolynomial degree - 1) negated
 
 "alternatively:
 	^ self conjugates sum"! !
@@ -32877,7 +32877,7 @@ approximation: approximateValue radius: approximationError maxDegree: n
 	"Answer an algebraic number with the given approximate value, approximation error, with minimal polynomial of degree at most n."
 	^ self notYetImplemented! !
 
-!ComplexAlgebraicNumber class methodsFor: 'instance creation' stamp: 'len 7/15/2016 18:30'!
+!ComplexAlgebraicNumber class methodsFor: 'instance creation' stamp: 'len 4/30/2018 05:38:36'!
 fromRational: anIntegerOrFraction
 	"Answer an instance of the receiver representing the rational number anIntegerOrFraction."
 	| q x |
@@ -32900,16 +32900,19 @@ minimalPolynomial: aPolynomial approximation: aComplex radius: aNumber
 		minimalPolynomial: aPolynomial;
 		approximation: aComplex radius: aNumber! !
 
-!ComplexAlgebraicNumber class methodsFor: 'examples' stamp: 'len 4/11/2018 21:25:58'!
+!ComplexAlgebraicNumber class methodsFor: 'examples' stamp: 'len 4/30/2018 05:26:21'!
 phi
 	"Answer the Phidias number or Golden Ratio."
 	| x |
 	x _ QQ polynomials x.
-	^ self minimalPolynomial: (x^2 - x - 1) approximation: 2.0 radius: 1! !
+	^ self minimalPolynomial: x^2 - x - 1 approximation: 2.0 radius: 1! !
 
-!ComplexAlgebraicNumber class methodsFor: 'instance creation' stamp: 'len 4/28/2018 07:25:18'!
+!ComplexAlgebraicNumber class methodsFor: 'instance creation' stamp: 'len 4/30/2018 05:36:20'!
 polynomial: aPolynomial approximation: aComplex radius: aNumber
-	^ self minimalPolynomial: (aPolynomial factors argmin: [:f| (f value: aComplex) abs]) approximation: aComplex radius: aNumber! !
+	| minimalPolynomial |
+	minimalPolynomial _ aPolynomial factors argmin: [:f| (f value: aComplex) abs].
+	minimalPolynomial degree = 1 ifTrue: [^ minimalPolynomial independentCoefficient negated / minimalPolynomial leadingCoefficient].
+	^ self minimalPolynomial: minimalPolynomial approximation: aComplex radius: aNumber! !
 
 !ComplexAlgebraicNumber class methodsFor: 'examples' stamp: 'len 7/15/2016 18:31'!
 sqrt2
@@ -38865,7 +38868,7 @@ equalDegreeFactorization2: d
 			h _ h << 2].
 	^ factors! !
 
-!UnivariatePolynomial methodsFor: 'factorization' stamp: 'len 4/16/2018 20:24:07'!
+!UnivariatePolynomial methodsFor: 'factorization' stamp: 'len 4/30/2018 05:47:13'!
 equalDegreeFactorization: d
 	"Cantor-Zassenhaus algorithm. Answer the equal-degree factorization of a monic squarefree univariate polynomial which has r>=2 pairwise distinct irreducible factors each of degree d."
 	| f r q h g one factors c |
@@ -38879,7 +38882,7 @@ equalDegreeFactorization: d
 		whileTrue:
 			[h _ (f parent atRandomMaxDegree: 2*d-1) monic. "should be monic? should: d <= deg(h) <= 2d-1"
 			h _ h monic.
-			g _ (h raisedTo: q^d - 1 / 2 modulo: f) - one.
+			g _ (h raisedTo: q^d - 1 / 2 modulo: f) - one. "<- most time is spent here"
 			factors do: [:u|
 				u degree > d
 					ifTrue:
@@ -38985,7 +38988,7 @@ factorizationIntegers2
 			answer add: each withOccurrences: k].
 	^ answer! !
 
-!UnivariatePolynomial methodsFor: 'factorization-private' stamp: 'len 4/27/2018 06:12:23'!
+!UnivariatePolynomial methodsFor: 'factorization-private' stamp: 'len 4/30/2018 05:50:34'!
 factorizationZassenhauss
 	"Zassenhauss algorithm. Answer the irreducible factors of a square-free primitive polynomial with integer coefficients."
 	| f n A b B C gamma df p fp dfp k factors r answer |
@@ -39011,13 +39014,13 @@ factorizationZassenhauss
 	self assert: (self % p - (factors product * b)) isZero.
 	"hensel lifting"
 	k _ ((2*B+1) log: p) abs ceiling. "p^k > 2B"
-	factors _ f henselLift: factors asArray to: k. "lift to p^k"
+	factors _ f henselLift: factors asArray to: k. "lift to p^k" "<- about 20% of time is spent here"
 	1 to: k do: [:i|
 		self assert: (self - ((factors product: [:fi| fi lift]) * b) % (p^i)) isZero].
 	"recombination"
 	answer _ Bag new.
 	1 to: r do: [:j|
-		(factors combinations: j) do: [:each| | g division |
+		(factors combinations: j) do: [:each| | g division | "<- about 50% of time is spent in this recombination step"
 			g _ (each product * b) lift primitive.
 			division _ f divisionBy: g.
 			division remainder isZero ifTrue: [answer add: g. f _ division quotient. f isConstant ifTrue: [^ answer]]]].
