@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 29 April 2018 at 8:49:43 pm'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 30 April 2018 at 7:07:51 am'!
 'Description Please enter a description for this package'!
-!provides: 'MathematicsTests' 1 96!
+!provides: 'MathematicsTests' 1 97!
 !classDefinition: #AbelianGroupTest category: #MathematicsTests!
 TestCase subclass: #AbelianGroupTest
 	instanceVariableNames: ''
@@ -362,8 +362,17 @@ CASBenchmark class
 	instanceVariableNames: ''!
 
 
-!AlgebraicNumbersBenchmark commentStamp: 'len 4/29/2018 20:43:18' prior: 0!
+!AlgebraicNumbersBenchmark commentStamp: '<historical>' prior: 0!
 AlgebraicNumbersBenchmark new run
+
+testComplexAlgebraicNumberAddition	0.84 per second.
+testComplexAlgebraicNumberDivision	58.4 per second.
+testComplexAlgebraicNumberProduct	61.6 per second.
+testComplexAlgebraicNumberSquare	1,770 per second.
+testRealAlgebraicNumberAddition	0.952 per second.
+testRealAlgebraicNumberDivision	48.3 per second.
+testRealAlgebraicNumberProduct	56.2 per second.
+testRealAlgebraicNumberSquare	1,460 per second.
 
 testComplexAlgebraicNumberAddition	1.08 per second. (29 Apr 2018)
 testComplexAlgebraicNumberDivision	57.6 per second.
@@ -1693,31 +1702,43 @@ testTwistedCubicDegree
 	"But we get the twisted cubic (in some sense) 'counted with multiplicity 2', so the degree is 6"
 	self assert: X degree = 6! !
 
-!AlgebraicNumbersTest methodsFor: 'as yet unclassified' stamp: 'len 4/29/2018 18:50:30'!
+!AlgebraicNumbersTest methodsFor: 'as yet unclassified' stamp: 'len 4/30/2018 05:39:40'!
 testArithmetic
 	| sqrt2 sqrt3 sqrt5 sqrt6 |
 	sqrt2 _ ComplexAlgebraicNumber sqrt2.
 	sqrt3 _ ComplexAlgebraicNumber sqrt: 3.
 	sqrt5 _ ComplexAlgebraicNumber sqrt: 5.
 	sqrt6 _ ComplexAlgebraicNumber sqrt: 6.
-	self assert: sqrt2 squared asRational = 2.
+	self assert: sqrt2 squared = 2.
 	self assert: (sqrt2 + sqrt3) * sqrt2 = (2 + sqrt6).
-	self assert: (sqrt3 / sqrt5) squared reciprocal asRational = (5/3).
+	self assert: (sqrt3 / sqrt5) squared reciprocal = (5/3).
 "	self assert: (((5 root: 3) + sqrt2 - sqrt2) ^ 3) asRational = 5"! !
 
-!AlgebraicNumbersTest methodsFor: 'as yet unclassified' stamp: 'len 1/20/2018 19:18:24'!
+!AlgebraicNumbersTest methodsFor: 'as yet unclassified' stamp: 'len 4/30/2018 05:39:54'!
 testDivision
 	| sqrt3 sqrt5 |
 	sqrt3 _ ComplexAlgebraicNumber sqrt: 3.
 	sqrt5 _ ComplexAlgebraicNumber sqrt: 5.
-	self assert: (sqrt3 / sqrt5 / sqrt3 / sqrt5) asRational = (1/5)! !
+	self assert: sqrt3 / sqrt5 / sqrt3 / sqrt5 = (1/5)! !
 
-!AlgebraicNumbersTest methodsFor: 'as yet unclassified' stamp: 'len 1/20/2018 19:17:59'!
+!AlgebraicNumbersTest methodsFor: 'as yet unclassified' stamp: 'len 4/29/2018 23:50:51'!
+testMultiplicationByi
+	| a |
+	a _ ComplexAlgebraicNumber sqrt2.
+	self assert: a i i = a negated! !
+
+!AlgebraicNumbersTest methodsFor: 'as yet unclassified' stamp: 'len 4/30/2018 04:54:12'!
+testNorm
+	| a |
+	a _ ComplexAlgebraicNumber phi.
+	self assert: a norm = a conjugates product! !
+
+!AlgebraicNumbersTest methodsFor: 'as yet unclassified' stamp: 'len 4/30/2018 05:40:10'!
 testProduct
 	| sqrt3 sqrt5 |
 	sqrt3 _ ComplexAlgebraicNumber sqrt: 3.
 	sqrt5 _ ComplexAlgebraicNumber sqrt: 5.
-	self assert: (sqrt3 * sqrt5 * sqrt3 * sqrt5) asRational = 15! !
+	self assert: sqrt3 * sqrt5 * sqrt3 * sqrt5 = 15! !
 
 !AlgebraicNumbersTest methodsFor: 'as yet unclassified' stamp: 'len 4/29/2018 18:49:57'!
 testRealArithmetic
@@ -1773,11 +1794,11 @@ testRealSum
 	sqrt5 _ RealAlgebraicNumber sqrt: 5.
 	self assert: sqrt3 + sqrt5 + sqrt2 - sqrt3 - sqrt5 = sqrt2! !
 
-!AlgebraicNumbersTest methodsFor: 'as yet unclassified' stamp: 'len 1/20/2018 19:18:04'!
+!AlgebraicNumbersTest methodsFor: 'as yet unclassified' stamp: 'len 4/30/2018 05:40:24'!
 testSquare
 	| sqrt2 |
 	sqrt2 _ ComplexAlgebraicNumber sqrt2.
-	self assert: sqrt2 squared asRational = 2! !
+	self assert: sqrt2 squared = 2! !
 
 !AlgebraicNumbersTest methodsFor: 'as yet unclassified' stamp: 'len 4/29/2018 18:49:16'!
 testSquareRoot
@@ -1792,6 +1813,12 @@ testSum
 	sqrt3 _ ComplexAlgebraicNumber sqrt: 3.
 	sqrt5 _ ComplexAlgebraicNumber sqrt: 5.
 	self assert: sqrt3 + sqrt5 + sqrt2 - sqrt3 - sqrt5 = sqrt2! !
+
+!AlgebraicNumbersTest methodsFor: 'as yet unclassified' stamp: 'len 4/30/2018 04:53:56'!
+testTrace
+	| a |
+	a _ ComplexAlgebraicNumber phi.
+	self assert: a trace = a conjugates sum! !
 
 !CodesTest methodsFor: 'as yet unclassified' stamp: 'len 10/18/2016 20:58'!
 testDual
