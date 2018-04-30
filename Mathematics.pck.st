@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 29 April 2018 at 8:47:56 pm'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 30 April 2018 at 5:18:20 am'!
 'Description A computational algebra system in Smalltalk'!
-!provides: 'Mathematics' 1 428!
+!provides: 'Mathematics' 1 429!
 !requires: 'RayTracer' 1 2 nil!
 !classDefinition: #RealAlgebraicNumber category: #'Mathematics-Fields'!
 Number subclass: #RealAlgebraicNumber
@@ -32650,10 +32650,10 @@ bounds
 	"Answer a disk in the complex plane where the receiver is located, isolated from all other roots of its minimal polynomial."
 	^ ComplexDisk center: approximation radius: radius! !
 
-!ComplexAlgebraicNumber methodsFor: 'accessing' stamp: 'len 1/13/2016 05:40'!
+!ComplexAlgebraicNumber methodsFor: 'accessing' stamp: 'len 4/30/2018 04:52:43'!
 conjugates
 	"The conjugates of an algebraic number with minimal polynomial of degree n are all its n-th roots."
-	^ self notYetImplemented! !
+	^ (minimalPolynomial rootsIn: CC) "copyWithout: self"! !
 
 !ComplexAlgebraicNumber methodsFor: 'accessing' stamp: 'len 4/29/2018 18:46:05'!
 denominator
@@ -32677,6 +32677,10 @@ isAlgebraicInteger
 	"An algebraic number is an 'algebraic integer' if it's the root of a monic polynomial in Z[x], in particular if it's minimal polynomial has integer coefficients."
 	^ self minimalPolynomial coefficients allSatisfy: [:each| each isInteger]! !
 
+!ComplexAlgebraicNumber methodsFor: 'testing' stamp: 'len 4/29/2018 23:49:18'!
+isImaginary
+	^ approximation real abs < radius! !
+
 !ComplexAlgebraicNumber methodsFor: 'testing' stamp: 'len 1/13/2016 03:33'!
 isNumber
 	^ true! !
@@ -32690,6 +32694,10 @@ isRational
 			(each - approximation) abs < radius
 				ifTrue: [approximation _ each. radius _ 0. ^ true]].
 	^ false! !
+
+!ComplexAlgebraicNumber methodsFor: 'testing' stamp: 'len 4/29/2018 23:49:23'!
+isReal
+	^ approximation imaginary abs < radius "and: [((RealRootIsolator on: minimalPolynomial) numberOfRootsBetween: approximation real - radius and: approximation real + radius) > 0]"! !
 
 !ComplexAlgebraicNumber methodsFor: 'testing' stamp: 'len 4/28/2018 07:10:14'!
 isZero
@@ -32711,13 +32719,9 @@ negated
 		approximation: approximation negated
 		radius: radius! !
 
-!ComplexAlgebraicNumber methodsFor: 'operations' stamp: 'len 4/28/2018 16:44:14'!
+!ComplexAlgebraicNumber methodsFor: 'operations' stamp: 'len 4/30/2018 04:46:52'!
 norm
-	| answer m |
-	m _ minimalPolynomial degree.
-	answer _ (minimalPolynomial atDegree: 0) / (minimalPolynomial atDegree: m).
-	m odd ifTrue: [answer _ answer negated].
-	^ answer
+	^ minimalPolynomial independentCoefficient / minimalPolynomial leadingCoefficient * (minimalPolynomial degree even ifTrue: [1] ifFalse: [-1])
 
 "alternatively:
 	^ self conjugates product"! !
@@ -32730,26 +32734,52 @@ one
 printOn: aStream
 	self printOn: aStream base: 10! !
 
-!ComplexAlgebraicNumber methodsFor: 'printing' stamp: 'len 12/5/2017 19:51:35'!
+!ComplexAlgebraicNumber methodsFor: 'printing' stamp: 'len 4/30/2018 00:27:26'!
 printOn: aStream base: base
-	| real imaginary |
+	| real imaginary isImaginary |
+	minimalPolynomial degree = 2 ifTrue: [^ self printQuadraticOn: aStream base: base].
 	self refineTo: self printPrecision.
-	self approximation isComplex
-		ifFalse: [(self approximation asFloat roundTo: self printPrecision) printOn: aStream base: base. aStream nextPutAll: '..'. ^ self].
-	self approximation real isZero
-		ifTrue: [(self approximation imaginary asFloat roundTo: self printPrecision) printOn: aStream base: base. aStream nextPutAll: 'i..'. ^ self].
-	real _ self approximation real asFloat roundTo: self printPrecision.
-	imaginary _ self approximation imaginary asFloat roundTo: self printPrecision.
-	real printOn: aStream base: base.
-	aStream nextPutAll: (0 <= imaginary ifTrue: [' + '] ifFalse: [' - ']).
-	imaginary abs printOn: aStream base: base.
-	aStream nextPutAll: 'i..'! !
+	real _ approximation real asFloat roundTo: self printPrecision.
+	imaginary _ approximation imaginary asFloat roundTo: self printPrecision.
+	(isImaginary _ self isImaginary)
+		ifFalse: [real printOn: aStream base: base].
+	self isReal
+		ifFalse:
+			[isImaginary ifFalse: [aStream nextPutAll: (0 <= imaginary ifTrue: [' + '] ifFalse: [imaginary _ imaginary negated. ' - '])].
+			imaginary printOn: aStream base: base.
+			aStream nextPutAll: 'i' italic].
+	aStream nextPutAll: '..'! !
 
 !ComplexAlgebraicNumber methodsFor: 'printing' stamp: 'len 1/11/2018 21:07:33'!
 printPrecision
 "	self absoluteError < 1 ifTrue: [^ self absoluteError asFloat].
 	^ 0.001"
 	^ 0.00001! !
+
+!ComplexAlgebraicNumber methodsFor: 'printing' stamp: 'len 4/30/2018 05:14:01'!
+printQuadraticOn: aStream base: base
+	| a b c discriminant z y x1 x2 sign |
+	a _ minimalPolynomial atDegree: 2.
+	b _ minimalPolynomial atDegree: 1.
+	c _ minimalPolynomial atDegree: 0.
+	discriminant _ b squared - (4*a*c).
+	z _ discriminant squareFree.
+	y _ (discriminant / z) sqrt.
+	x1 _ b negated + (discriminant negative ifTrue: [discriminant negated sqrt i] ifFalse: [discriminant sqrt]) / (2*a).
+	x2 _ b negated - (discriminant negative ifTrue: [discriminant negated sqrt i] ifFalse: [discriminant sqrt]) / (2*a).
+	(x1 - approximation) abs <= radius
+		ifTrue: [sign _ ' + ']
+		ifFalse: [(x2 - approximation) abs <= radius ifTrue: [sign _ ' - '. y _ y negated] ifFalse: [self halt]].
+	b = 0 ifFalse:
+		[b/(-2*a) printOn: aStream base: base.
+		aStream nextPutAll: sign.
+		y _ y abs].
+	y negative ifTrue: [aStream nextPut: $-. y _ y abs].
+	y/(2*a) = 1 ifFalse: [y/(2*a) printOn: aStream base: base].
+	z abs = 1 ifFalse:
+		[aStream nextPut: $—.
+		z abs printOn: aStream base: base].
+	z negative ifTrue: [aStream nextPutAll: 'i' italic]! !
 
 !ComplexAlgebraicNumber methodsFor: 'arithmetic' stamp: 'len 4/29/2018 17:03:02'!
 reciprocal
@@ -32830,11 +32860,10 @@ squared
 		approximation: approximation squared
 		radius: radius * approximation norm2 * 2! !
 
-!ComplexAlgebraicNumber methodsFor: 'operations' stamp: 'len 4/28/2018 16:41:25'!
+!ComplexAlgebraicNumber methodsFor: 'operations' stamp: 'len 4/30/2018 04:49:04'!
 trace
-	| m |
-	m _ minimalPolynomial degree.
-	^ (minimalPolynomial atDegree: m-1) / (minimalPolynomial atDegree: m)
+	"Answer the absolute trace of the receiver."
+	^ (minimalPolynomial atDegree: minimalPolynomial degree - 1) / minimalPolynomial leadingCoefficient
 
 "alternatively:
 	^ self conjugates sum"! !
@@ -32859,11 +32888,11 @@ fromRational: anIntegerOrFraction
  		approximation: anIntegerOrFraction
 		radius: 0! !
 
-!ComplexAlgebraicNumber class methodsFor: 'examples' stamp: 'len 4/11/2018 21:02:03'!
+!ComplexAlgebraicNumber class methodsFor: 'examples' stamp: 'len 4/30/2018 01:34:40'!
 i
 	| x |
 	x _ QQ polynomials x.
-	^ self minimalPolynomial: x^2 - 1 approximation: 1 i radius: 0! !
+	^ self minimalPolynomial: x^2 + 1 approximation: 1 i radius: 0! !
 
 !ComplexAlgebraicNumber class methodsFor: 'instance creation' stamp: 'len 1/15/2016 02:05'!
 minimalPolynomial: aPolynomial approximation: aComplex radius: aNumber
@@ -39619,11 +39648,13 @@ zeroAddition: aPolynomial
 	C _ f companion apply: R embedding.
 	^ (((g value: X - Y) asUnivariateIn: y) value: C) determinant! !
 
-!UnivariatePolynomial methodsFor: 'roots' stamp: 'len 1/23/2017 11:48:43'!
+!UnivariatePolynomial methodsFor: 'roots' stamp: 'len 4/30/2018 05:17:16'!
 zeroNegation
 	"Answer a polynomial whose zeros are the receiver zeros negated."
-
-	^ self parent coefficients: (self coefficients withIndexCollect: [:each :i| i odd ifTrue: [each negated] ifFalse: [each]])! !
+	^ self parent coefficients:
+		(self degree odd "this distinction is made to keep the leading coefficient positive, as a minimal polynomial"
+			ifTrue: [self coefficients withIndexCollect: [:each :i| i odd ifTrue: [each negated] ifFalse: [each]]]
+			ifFalse: [self coefficients withIndexCollect: [:each :i| i even ifTrue: [each negated] ifFalse: [each]]])! !
 
 !UnivariatePolynomial methodsFor: 'roots' stamp: 'len 12/4/2017 10:18:30'!
 zeroProduct: aPolynomial
