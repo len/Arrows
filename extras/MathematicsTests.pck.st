@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 30 April 2018 at 7:07:51 am'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 2 May 2018 at 5:44:38 pm'!
 'Description Please enter a description for this package'!
-!provides: 'MathematicsTests' 1 97!
+!provides: 'MathematicsTests' 1 98!
 !classDefinition: #AbelianGroupTest category: #MathematicsTests!
 TestCase subclass: #AbelianGroupTest
 	instanceVariableNames: ''
@@ -2420,11 +2420,11 @@ testKrullDimensionOverZZ
 	Q _ R / I.
 	self assert: Q dimension = 3! !
 
-!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 2/12/2017 12:29:28'!
+!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 4/30/2018 19:02:57'!
 testLocalIdeals
 	"Magma handbook, example H104E4."
 	| R I J A M |
-	self notYetImplemented. "it hangs here"
+	self notYetImplemented.
 	R _ QQ polynomialsIn: #(x y z) ordering: #llex.
 	I _ R * (R generate: [:x :y :z| {x*y - z. x^3*(z^2) - (y^2). x*(z^3) - x - y}]).
 	J _ R * (R generate: [:x :y :z| {x*y - z. x^2*z - y. x*(z^3) - x - y}]).
@@ -2435,7 +2435,7 @@ testLocalIdeals
 		x*z + (y*z).
 		y*z.
 		z^2}]).
-	self assert: I * J = A.
+	self assert: I * J = A. "hangs here"
 	M _ R * (R generate: [:x :y :z| {x + y. y^2. z}]).
 	self assert: I • J = M.
 	self deny: A = M.
@@ -4190,16 +4190,6 @@ testDirectSum
 	self testLinearMap: (S ambient projection: 2 atRandom).
 	self testLinearMap: (S ambient embedding: 2 atRandom)! !
 
-!ModuleTest methodsFor: 'isomorphisms' stamp: 'len 11/2/2016 03:59'!
-testFirstIsomorphismTheorem
-	| V S T f phi |
-	V _ QQ ^ 5.
-	S _ V grassmannian: (1 to: V dimension) atRandom :: atRandomBits: 50.
-	T _ V grassmannian: (1 to: V dimension) atRandom :: atRandomBits: 50.
-	f _ S hom: T :: atRandomBits: 50.
-	phi _ S / f kernel to: f image evaluating: [:x| f value: x representative].
-	self assert: phi isIsomorphism! !
-
 !ModuleTest methodsFor: 'isomorphisms' stamp: 'len 1/16/2018 17:49:34'!
 testFirstIsomorphismTheorem2
 	| V S T f |
@@ -4209,14 +4199,34 @@ testFirstIsomorphismTheorem2
 	f _ S hom: T :: atRandomBits: 50.
 	self assert: f domain / f kernel ~ f image! !
 
-!ModuleTest methodsFor: 'isomorphisms' stamp: 'len 1/16/2018 18:42:43'!
-testFirstIsomorphismTheoremOverPID
-	| M S T f |
-	M _ self newFreeModuleOverPID.
+!ModuleTest methodsFor: 'isomorphisms' stamp: 'len 5/2/2018 17:36:17'!
+testFirstIsomorphismTheorem: M
+	| S T f phi |
 	S _ M grassmannian: (1 to: M rank) atRandom :: atRandomBits: 50.
 	T _ M grassmannian: (1 to: M rank) atRandom :: atRandomBits: 50.
 	f _ S hom: T :: atRandomBits: 50.
-	self assert: f domain / f kernel ~ f image! !
+	phi _ S / f kernel to: f image evaluating: [:x| f value: x representative].
+	self assert: phi isIsomorphism! !
+
+!ModuleTest methodsFor: 'isomorphisms' stamp: 'len 5/2/2018 17:39:34'!
+testFirstIsomorphismTheoremOverCyclotomicField
+	self testFirstIsomorphismTheorem: (CyclotomicField new: 7) ^ 5! !
+
+!ModuleTest methodsFor: 'isomorphisms' stamp: 'len 5/2/2018 17:40:49'!
+testFirstIsomorphismTheoremOverGaloisField
+	self testFirstIsomorphismTheorem: (GaloisField new: 10 atRandom nextPrime to: 3 atRandom + 1) ^ 5! !
+
+!ModuleTest methodsFor: 'isomorphisms' stamp: 'len 5/2/2018 17:37:43'!
+testFirstIsomorphismTheoremOverPID
+	self testFirstIsomorphismTheorem: self newFreeModuleOverPID! !
+
+!ModuleTest methodsFor: 'isomorphisms' stamp: 'len 5/2/2018 17:36:38'!
+testFirstIsomorphismTheoremOverQ
+	self testFirstIsomorphismTheorem: QQ ^ 5! !
+
+!ModuleTest methodsFor: 'isomorphisms' stamp: 'len 5/2/2018 17:41:40'!
+testFirstIsomorphismTheoremOverQuadraticField
+	self testFirstIsomorphismTheorem: (QuadraticField sqrt: -5) ^ 5! !
 
 !ModuleTest methodsFor: 'other' stamp: 'len 1/21/2018 21:47:53'!
 testFreeModule: M
@@ -4618,29 +4628,42 @@ testQuotientSpace
 	self assert: (M / M null) rank = M rank.
 	self assert: (M / M) rank = 0! !
 
-!ModuleTest methodsFor: 'isomorphisms' stamp: 'len 3/19/2018 17:18:01'!
-testSecondIsomorphismTheorem
-	| V S T |
-	V _ QQ ^ 5.
-	S _ V grassmannian: (0 to: V dimension) atRandom :: atRandomBits: 50.
-	T _ V grassmannian: (0 to: V dimension) atRandom :: atRandomBits: 50.
-	self assert: S+T <= V.
-	self assert: S • T <= V.
+!ModuleTest methodsFor: 'isomorphisms' stamp: 'len 5/2/2018 17:35:23'!
+testSecondIsomorphismTheorem: M
+	| S T |
+	S _ M grassmannian: (0 to: M rank) atRandom :: atRandomBits: 50.
+	T _ M grassmannian: (0 to: M rank) atRandom :: atRandomBits: 50.
+	self assert: S+T <= M.
+	self assert: S • T <= M.
 	self assert: (S+T)/T ~ (S/(S • T))
 "	f _ S -> T :: atRandomBits: 10.
 	phi _ S / f kernel -> f image evaluating: [:x| f value: x representative].
 	self assert: phi isIsomorphism"! !
 
-!ModuleTest methodsFor: 'isomorphisms' stamp: 'len 1/16/2018 18:43:05'!
+!ModuleTest methodsFor: 'isomorphisms' stamp: 'len 5/2/2018 17:43:35'!
+testSecondIsomorphismTheoremOverCyclotomicField
+	self testSecondIsomorphismTheorem: (CyclotomicField new: 7) ^ 5! !
+
+!ModuleTest methodsFor: 'isomorphisms' stamp: 'len 5/2/2018 17:43:03'!
+testSecondIsomorphismTheoremOverGaloisField
+	self testSecondIsomorphismTheorem: (GaloisField new: 10 atRandom nextPrime to: 3 atRandom + 1) ^ 5! !
+
+!ModuleTest methodsFor: 'isomorphisms' stamp: 'len 5/2/2018 17:38:38'!
 testSecondIsomorphismTheoremOverPID
-	| M S T |
-	M _ self newFreeModuleOverPID.
-	S _ M grassmannian: (1 to: M rank) atRandom :: atRandomBits: 50.
+	self testSecondIsomorphismTheorem: self newFreeModuleOverPID
+	
+"	S _ M grassmannian: (1 to: M rank) atRandom :: atRandomBits: 50.
 	T _ M grassmannian: (1 to: M rank) atRandom :: atRandomBits: 50.
 	self assert: (S+T)/T ~ (S/(S • T))
-"	f _ S -> T :: atRandomBits: 10.
-	phi _ S / f kernel -> f image evaluating: [:x| f value: x representative].
-	self assert: phi isIsomorphism"! !
+"! !
+
+!ModuleTest methodsFor: 'isomorphisms' stamp: 'len 5/2/2018 17:35:46'!
+testSecondIsomorphismTheoremOverQ
+	self testSecondIsomorphismTheorem: QQ ^ 5! !
+
+!ModuleTest methodsFor: 'isomorphisms' stamp: 'len 5/2/2018 17:42:41'!
+testSecondIsomorphismTheoremOverQuadraticField
+	self testSecondIsomorphismTheorem: (QuadraticField sqrt: -5) ^ 5! !
 
 !ModuleTest methodsFor: 'other' stamp: 'len 4/5/2018 03:23:40'!
 testSubmoduleInclusion
@@ -4782,23 +4805,33 @@ testTensorProductOfLinearForms
 	v _ W domain atRandomBits: 10.
 	self assert: (t value: v) = ((f value: v) * (g value: v))! !
 
-!ModuleTest methodsFor: 'isomorphisms' stamp: 'len 3/19/2018 16:45:13'!
-testThirdIsomorphismTheorem
-	| V S T |
-	V _ QQ ^ 5.
-	S _ V grassmannian: (1 to: V dimension) atRandom :: atRandomBits: 50.
-	T _ S grassmannian: (0 to: S dimension) atRandom :: atRandomBits: 50.
-	self assert: S/T <= (V/T).
-	self assert: (V/T)/(S/T) ~ (V/S)! !
-
-!ModuleTest methodsFor: 'isomorphisms' stamp: 'len 3/19/2018 16:43:59'!
-testThirdIsomorphismTheoremOverPID
-	| M S T |
-	M _ self newFreeModuleOverPID.
+!ModuleTest methodsFor: 'isomorphisms' stamp: 'len 5/2/2018 17:33:15'!
+testThirdIsomorphismTheorem: M
+	| S T |
 	S _ M grassmannian: (0 to: M rank) atRandom :: atRandomBits: 50.
 	T _ S grassmannian: (0 to: S rank) atRandom :: atRandomBits: 50.
 	self assert: S/T <= (M/T).
 	self assert: (M/T)/(S/T) ~ (M/S)! !
+
+!ModuleTest methodsFor: 'isomorphisms' stamp: 'len 5/2/2018 17:43:44'!
+testThirdIsomorphismTheoremOverCyclotomicField
+	self testThirdIsomorphismTheorem: (CyclotomicField new: 7) ^ 5! !
+
+!ModuleTest methodsFor: 'isomorphisms' stamp: 'len 5/2/2018 17:43:16'!
+testThirdIsomorphismTheoremOverGaloisField
+	self testThirdIsomorphismTheorem: (GaloisField new: 10 atRandom nextPrime to: 3 atRandom + 1) ^ 5! !
+
+!ModuleTest methodsFor: 'isomorphisms' stamp: 'len 5/2/2018 17:39:03'!
+testThirdIsomorphismTheoremOverPID
+	self testThirdIsomorphismTheorem: self newFreeModuleOverPID! !
+
+!ModuleTest methodsFor: 'isomorphisms' stamp: 'len 5/2/2018 17:33:45'!
+testThirdIsomorphismTheoremOverQ
+	self testThirdIsomorphismTheorem: QQ ^ 5! !
+
+!ModuleTest methodsFor: 'isomorphisms' stamp: 'len 5/2/2018 17:42:52'!
+testThirdIsomorphismTheoremOverQuadraticField
+	self testThirdIsomorphismTheorem: (QuadraticField sqrt: -5) ^ 5! !
 
 !ModuleTest methodsFor: 'other' stamp: 'len 8/26/2016 06:03'!
 testTuplesQ
@@ -5127,10 +5160,20 @@ testQuadraticFieldSqrtMinusFive
 	self assert: E x ^ 4 = (E embed: 25).
 	self assert: E discriminant = -20! !
 
-!NumberFieldTest methodsFor: 'as yet unclassified' stamp: 'len 12/10/2016 22:02:25'!
+!NumberFieldTest methodsFor: 'as yet unclassified' stamp: 'len 4/30/2018 17:12:17'!
 testSignature
-	self assert: (CyclotomicField new: 5) signature = #(0 2).
-	self assert: (CyclotomicField new: 2) signature = #(1 0)! !
+	| x F |
+	x _ QQ polynomials x.
+	F _ NumberField polynomial: x^2 + 1.
+	self assert: F signature = #(0 1).
+	F _ NumberField polynomial: x^3 - 2.
+	self assert: F signature = #(1 1).
+	F _ CyclotomicField new: 5.
+	self assert: F signature = #(0 2).
+	F _ NumberField polynomial: x^6 + x + 1.
+	self assert: F signature = #(0 3).
+	F _ NumberField polynomial: x^3 + (x^2) - (x*5) - 1.
+	self assert: F signature = #(3 0)! !
 
 !NumberFieldTest methodsFor: 'as yet unclassified' stamp: 'len 12/10/2016 21:45:04'!
 testTotallyImaginary
@@ -5218,10 +5261,10 @@ testCRT
 	self assert: h \\ f2 = r2.
 	self assert: h \\ f3 = r3! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:50'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 4/30/2018 17:01:40'!
 testCompanionMatrix
 	| x p |
-	x _ ZZ polynomials x.
+	x _ QQ polynomials x.
 	p _ x^2 + (x*2) - 1.
 	self assert: p companion characteristicPolynomial = p.
 	self assert: p companion minimalPolynomial = p! !
@@ -5617,6 +5660,13 @@ testGaussLemma
 	f _ Zx atRandomBits: 100 maxDegree: (5 to: 10) atRandom.
 	g _ Zx atRandomBits: 100 maxDegree: (5 to: 10) atRandom.
 	self assert: (f primitive * g primitive) isPrimitive! !
+
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 5/2/2018 16:35:46'!
+testHeight
+	| x |
+	x _ QQ polynomials x.
+	self assert: (x * 2 - 5) height =  5.
+	self assert: (x * 5 - 2) height =  5! !
 
 !PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 4/25/2018 15:49:59'!
 testIntegerFactorization
