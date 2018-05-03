@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 2 May 2018 at 5:44:38 pm'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 3 May 2018 at 6:12:59 am'!
 'Description Please enter a description for this package'!
-!provides: 'MathematicsTests' 1 98!
+!provides: 'MathematicsTests' 1 99!
 !classDefinition: #AbelianGroupTest category: #MathematicsTests!
 TestCase subclass: #AbelianGroupTest
 	instanceVariableNames: ''
@@ -1305,10 +1305,10 @@ testProjectiveLineOverFiniteRing2
 	self assert: P points size = 9.
 	self assert: (Iterator on: P points performing: #do:) size = 9! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 4/8/2018 18:19:14'!
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 5/3/2018 04:49:35'!
 testProjectiveLineOverFiniteRing3
 	| P |
-	P _ ProjectiveLine over: ZZ/2 × (ZZ/2).
+	P _ ProjectiveLine over: ZZ/2 × (ZZ/2). "isomorphic to ZZ/2[x]/<x(x+1)>"
 	self assert: P points size = 9.
 	self assert: (Iterator on: P points performing: #do:) size = 9! !
 
@@ -1326,6 +1326,15 @@ testProjectiveLineOverFiniteRing5
 	self assert: P points size = 27.
 	self assert: (Iterator on: P points performing: #do:) size = 27! !
 
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 5/3/2018 06:12:04'!
+testProjectiveLineOverFiniteRing6
+	| R P |
+	R _ (ZZ/2) polynomials.
+	R _ R / (R x^3 - R x).
+	P _ ProjectiveLine over: R.
+	self assert: P points size = 18.
+	self assert: (Iterator on: P points performing: #do:) size = 18! !
+
 !AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 2/3/2017 06:59:34'!
 testProjectivePlaneCurveArithmeticGenus
 	| R f C |
@@ -1341,6 +1350,13 @@ testProjectivePlaneOverFiniteField
 	P _ ProjectiveSpace new: 2 over: ZZ/5.
 	self assert: P points size = 31.
 	self assert: (Iterator on: P points performing: #do:) size = 31! !
+
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 5/3/2018 05:26:14'!
+testProjectivePlaneOverFiniteRing
+	| P |
+	P _ ProjectiveSpace new: 2 over: ZZ/4.
+	self assert: P points size = 28
+	"this plane has 28 points and 28 lines (falling into 7 neighbour classes of size 4), each line has 6 points and each point is on 6 lines"! !
 
 !AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 1/12/2017 14:45:07'!
 testProjectiveSchemeAffinePatches
@@ -3936,6 +3952,13 @@ testMinors
 	A _ ZZ ^ (2@3) elementAt: (1 to: 6).
 	self assert: (A minors: 2) asArray = #(-3 -6 -3)! !
 
+!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/3/2018 01:25:38'!
+testPermanent
+	"Example from https://en.wikipedia.org/wiki/Permanent_(mathematics)"
+	| A |
+	A _ ZZ matrix: 4 coefficients: #(1 1 1 1 2 1 0 0 3 0 1 0 4 0 0 1).
+	self assert: A permanent = 10! !
+
 !MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 3/16/2018 20:18:11'!
 testQRDecomposition
 	| n A QR Q R |
@@ -6230,20 +6253,32 @@ testFiniteRing
 	self assert: R units size = 2.
 	self assert: R zeroDivisors size = 6! !
 
-!RingTest methodsFor: 'as yet unclassified' stamp: 'len 4/8/2018 17:55:00'!
+!RingTest methodsFor: 'as yet unclassified' stamp: 'len 5/3/2018 01:47:56'!
 testFiniteRing2
 	| R |
 	R _ (ZZ/2) polynomials.
 	R _ R / (R x * (R x + 1)).
 	self assert: R isField not.
 	self assert: R size = 4.
-	self assert: R zeroDivisors size = 3
+	self assert: R zeroDivisors size = 3.
+	self assert: R characteristic = 2.
 	"more about this ring: two maximal (and princial as well) ideals (so not a local ring)"! !
 
-!RingTest methodsFor: 'as yet unclassified' stamp: 'len 4/8/2018 18:02:30'!
+!RingTest methodsFor: 'as yet unclassified' stamp: 'len 5/3/2018 01:52:45'!
+testFiniteRing2Alternative
+	| R |
+	R _ ZZ/2 × (ZZ/2).
+	self assert: R isField not.
+	self assert: R size = 4.
+	self assert: R zeroDivisors size = 3.
+	self assert: R characteristic = 2.
+	"more about this ring: two maximal (and princial as well) ideals (so not a local ring)"! !
+
+!RingTest methodsFor: 'as yet unclassified' stamp: 'len 5/3/2018 01:48:31'!
 testFiniteRing3
 	| R |
 	R _ ZZ/4 × (ZZ/4).
+	self assert: R characteristic = 4.
 	self assert: R isField not.
 	self assert: R size = 16.
 	self assert: R zeroDivisors size = 12.
