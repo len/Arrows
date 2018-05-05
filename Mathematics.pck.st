@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 3 May 2018 at 6:18:41 am'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 5 May 2018 at 7:02:06 pm'!
 'Description A computational algebra system in Smalltalk'!
-!provides: 'Mathematics' 1 431!
+!provides: 'Mathematics' 1 432!
 !requires: 'RayTracer' 1 2 nil!
 !classDefinition: #RealAlgebraicNumber category: #'Mathematics-Fields'!
 Number subclass: #RealAlgebraicNumber
@@ -1402,16 +1402,6 @@ Domain subclass: #Module
 Module class
 	instanceVariableNames: ''!
 
-!classDefinition: #FractionalIdeal category: #'Mathematics-Rings'!
-Module subclass: #FractionalIdeal
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Rings'!
-!classDefinition: 'FractionalIdeal class' category: #'Mathematics-Rings'!
-FractionalIdeal class
-	instanceVariableNames: ''!
-
 !classDefinition: #Ideal category: #'Mathematics-Rings'!
 Module subclass: #Ideal
 	instanceVariableNames: ''
@@ -1570,6 +1560,26 @@ FreeModule subclass: #RationalLattice
 	category: 'Mathematics-Modules-Lattices'!
 !classDefinition: 'RationalLattice class' category: #'Mathematics-Modules-Lattices'!
 RationalLattice class
+	instanceVariableNames: ''!
+
+!classDefinition: #FractionalIdeal category: #'Mathematics-Fields-Number Fields'!
+RationalLattice subclass: #FractionalIdeal
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Fields-Number Fields'!
+!classDefinition: 'FractionalIdeal class' category: #'Mathematics-Fields-Number Fields'!
+FractionalIdeal class
+	instanceVariableNames: ''!
+
+!classDefinition: #IntegralIdeal category: #'Mathematics-Fields-Number Fields'!
+FractionalIdeal subclass: #IntegralIdeal
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Fields-Number Fields'!
+!classDefinition: 'IntegralIdeal class' category: #'Mathematics-Fields-Number Fields'!
+IntegralIdeal class
 	instanceVariableNames: ''!
 
 !classDefinition: #FormalSumsModule category: #'Mathematics-Modules-Tuples'!
@@ -3072,16 +3082,6 @@ Object subclass: #PolynomialDivision
 PolynomialDivision class
 	instanceVariableNames: ''!
 
-!classDefinition: #PolynomialInterpolator category: #'Mathematics-Polynomials-Algorithms'!
-Object subclass: #PolynomialInterpolator
-	instanceVariableNames: 'polynomial corrector'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Polynomials-Algorithms'!
-!classDefinition: 'PolynomialInterpolator class' category: #'Mathematics-Polynomials-Algorithms'!
-PolynomialInterpolator class
-	instanceVariableNames: ''!
-
 !classDefinition: #PolynomialPseudoDivision category: #'Mathematics-Polynomials-Algorithms'!
 Object subclass: #PolynomialPseudoDivision
 	instanceVariableNames: 'dividend divisor quotient remainder'
@@ -3450,6 +3450,16 @@ Object subclass: #Pixel
 	category: 'Mathematics-Etc'!
 !classDefinition: 'Pixel class' category: #'Mathematics-Etc'!
 Pixel class
+	instanceVariableNames: ''!
+
+!classDefinition: #PolynomialInterpolator category: #'Mathematics-Etc'!
+Object subclass: #PolynomialInterpolator
+	instanceVariableNames: 'polynomial corrector'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Etc'!
+!classDefinition: 'PolynomialInterpolator class' category: #'Mathematics-Etc'!
+PolynomialInterpolator class
 	instanceVariableNames: ''!
 
 !classDefinition: #QRDecomposition category: #'Mathematics-Etc'!
@@ -4143,13 +4153,10 @@ Rings of p-adic integers Zp. See AdicInteger.!
 !Module commentStamp: '<historical>' prior: 0!
 Finitely presented R-modules, for a commutative ring R.!
 
-!FractionalIdeal commentStamp: '<historical>' prior: 0!
-Finitely generated fractional ideals.!
-
 !Ideal commentStamp: '<historical>' prior: 0!
 Finitely-generated ideals of a commutative ring.
 
-For an arbitrary ring R, a subset I <= R is called a two-sided ideal (or simply ideal) of R if it's a subgroup of R (as group under addition) and "absorbs multiplication by elements of R", i.e. I * R = I and R * I = I.
+For an arbitrary ring R, a subset I <= R is called a (two-sided) ideal of R if it's a subgroup of R (as group under addition) and "absorbs multiplication by elements of R", i.e. I * R = I and R * I = I.
 
 Equivalently, an ideal of R is a R-submodule of R.
 
@@ -4240,6 +4247,9 @@ Lattice coordinates are in R, while the elements of a lattice are elements of th
 A rational lattice is the set of integer linear combinations of a basis of a rational vector space. This is a discrete subgroup of the ambient Q-vector space (as abelian group) isomorphic to Z^n, and a free Z-module.
 
 Lattice coordinates are in Z, while the elements of the receiver live in the ambient Q-vector space.!
+
+!FractionalIdeal commentStamp: '<historical>' prior: 0!
+Fractional ideals of number fields.!
 
 !FormalSumsModule commentStamp: '<historical>' prior: 0!
 Free R-modules of formal sums of elements in a finite set with coefficients over R. See FormalSum.!
@@ -17630,13 +17640,14 @@ on: aRing
 			self error: 'cannot coerce fraction to integer'].
 	^ super !! anObject! !
 
-!Ring methodsFor: 'operations' stamp: 'len 1/20/2018 19:36:54'!
+!Ring methodsFor: 'operations' stamp: 'len 5/4/2018 19:59:59'!
 * anElementOrArray
 	"Answer the ideal generated by the argument."
-	^ self idealClass over: self generators:
-		(((anElementOrArray isCollection) and: [(self includes: anElementOrArray) not])
-			ifTrue: [anElementOrArray]
-			ifFalse: [{anElementOrArray}])! !
+	(self includes: anElementOrArray)
+		ifTrue: [^ self idealClass over: self generators: {anElementOrArray}].
+	anElementOrArray isCollection
+		ifTrue: [^ self idealClass over: self generators: anElementOrArray].
+	^ self * (self !! anElementOrArray)! !
 
 !Ring methodsFor: 'operations' stamp: 'len 1/15/2018 22:23:00'!
 / anIdeal
@@ -17852,18 +17863,22 @@ isPID
 	"A principal ideal domain (PID) is an integral domain in which every ideal is principal, i.e. can be generated by a single element."
 	^ self propertyAt: #isPID ifAbsent: [self isEuclidean]! !
 
-!Ring methodsFor: 'testing' stamp: 'len 12/28/2016 12:09:40'!
+!Ring methodsFor: 'testing' stamp: 'len 5/5/2018 00:02:30'!
 isPerfectField
 	"A field is perfect if either it has characteristic 0 or has characteristic p and every element in the field has a p-th root in the field."
 	self isField ifFalse: [^ false].
 	(self characteristic = 0 or: [self isFinite]) ifTrue: [^ true].
+	self isAlgebraicallyClosed ifTrue: [^ true].
 	^ self propertyAt: #isPerfectField! !
 
-!Ring methodsFor: 'testing' stamp: 'len 4/28/2018 05:15:09'!
+!Ring methodsFor: 'testing' stamp: 'len 5/5/2018 00:37:48'!
 isReduced
 	"A ring is reduced if it has no non-zero nilpotents, i.e. if r^n = 0 for some n >> 0, then r = 0."
 	self isIntegralDomain ifTrue: [^ true].
-	^ self noneSatisfy: [:any| any squared isZero and: [any isZero not]]! !
+	^ self noneSatisfy: [:any| any squared isZero and: [any isZero not]]
+	
+"alternatively:
+	^ self nilradical isZero"! !
 
 !Ring methodsFor: 'testing' stamp: 'len 11/7/2015 22:01'!
 isRing
@@ -17934,6 +17949,17 @@ matrix: dimension scalar: anElement
 mod: anObject
 	^ self / (self * anObject)! !
 
+!Ring methodsFor: 'operations' stamp: 'len 5/4/2018 23:47:48'!
+nilradical
+	"Answer the 'nilradical', the ideal consisting of all nilpoint elements."
+	^ self zeroIdeal radical
+	
+"alternative:
+	| answer |
+	answer _ self oneIdeal.
+	self primeIdealsDo: [:each| answer _ answer • each].
+	^ answer"! !
+
 !Ring methodsFor: 'operations' stamp: 'len 9/26/2016 17:05'!
 oneIdeal
 	^ self * self one! !
@@ -17956,6 +17982,11 @@ polynomialsIn: anIntegerOrCollection ordering: aMonomialOrdering
 	answer _ PolynomialRing new: anIntegerOrCollection size over: self ordering: aMonomialOrdering.
 	answer names: anIntegerOrCollection.
 	^ answer! !
+
+!Ring methodsFor: 'enumerating' stamp: 'len 5/4/2018 20:12:50'!
+primeIdealsDo: aBlock
+	self isField ifTrue: [aBlock value: self zeroIdeal. ^ self].
+	^ self subclassResponsibility! !
 
 !Ring methodsFor: 'operations' stamp: 'len 2/13/2017 07:44:41'!
 spec
@@ -18633,6 +18664,11 @@ zero
 components: anArray
 	^ self new components: anArray! !
 
+!QuotientRing methodsFor: 'elements' stamp: 'len 5/4/2018 20:02:06'!
+!! anObject
+	(self base includes: anObject) ifTrue: [^ self project: anObject].
+	^ super !! anObject! !
+
 !QuotientRing methodsFor: 'comparing' stamp: 'len 2/27/2017 20:56:21'!
 = anObject
 	self == anObject ifTrue: [^ true].
@@ -18746,10 +18782,10 @@ isNoetherian
 isQuotient
 	^ true! !
 
-!QuotientRing methodsFor: 'testing' stamp: 'len 4/28/2018 05:07:02'!
+!QuotientRing methodsFor: 'testing' stamp: 'len 5/5/2018 00:37:05'!
 isReduced
 	"Answer true if the receiver has no non-zero nilpotent elements, or equivalently if it has no non-zero elements with square zero, i.e. x^2 = 0 implies x = 0.
-	A quotient ring is reduced iff the ideal is radical."
+	A quotient ring is reduced iff the relations ideal is radical."
 	^ self relations isRadical! !
 
 !QuotientRing methodsFor: 'testing' stamp: 'len 2/27/2017 20:53:34'!
@@ -18776,6 +18812,11 @@ one
 !QuotientRing methodsFor: 'converting' stamp: 'len 1/15/2018 22:23:25'!
 over: aRing
 	^ (self relations over: aRing) quotientRing! !
+
+!QuotientRing methodsFor: 'enumerating' stamp: 'len 5/4/2018 23:25:21'!
+primeIdealsDo: aBlock
+	self isField ifTrue: [aBlock value: self zeroIdeal. ^ self].
+	self base primeIdealsDo: [:each| each >= self relations ifTrue: [aBlock value: each]]! !
 
 !QuotientRing methodsFor: 'printing' stamp: 'len 2/27/2017 20:53:15'!
 printOn: aStream
@@ -18909,6 +18950,18 @@ modulus
 modulus: anInteger
 	modulus _ anInteger! !
 
+!ModularIntegerRing methodsFor: 'enumerating' stamp: 'len 5/4/2018 23:28:53'!
+primeIdealsDo: aBlock
+	| p |
+"	aBlock value: self * self zero."
+	p _ 2.
+	[p > modulus]
+		whileFalse:
+			[p | modulus ifTrue: [aBlock value: self * (self project: p)].
+			p _ p nextPrime]
+
+! !
+
 !ModularIntegerRing methodsFor: 'printing' stamp: 'len 12/8/2016 10:50:20'!
 printOn: aStream
 	aStream print: self base; nextPut: $/; print: self modulus; print: self base! !
@@ -19003,6 +19056,10 @@ isUnit: anElement
 isZeroDivisor: anElement
 	^ anElement isZero! !
 
+!PrimeField methodsFor: 'enumerating' stamp: 'len 5/4/2018 20:12:15'!
+primeIdealsDo: aBlock
+	aBlock value: self zeroIdeal! !
+
 !PrimeField methodsFor: 'accessing' stamp: 'len 12/28/2016 12:13:34'!
 primitiveRoot
 	"When the receiver is a field Z/<p>, answer a primitive root modulo p."
@@ -19022,7 +19079,7 @@ squareRootOfRepresentative: anInteger
 	algorithm _ self propertyAt: #squareRootAlgorithm ifAbsentPut: [TonelliShanks new modulus: self modulus].
 	^ algorithm squareRootOf: anInteger! !
 
-!PrimeField methodsFor: 'accessing' stamp: 'len 5/2/2018 16:04:38'!
+!PrimeField methodsFor: 'operations' stamp: 'len 5/2/2018 16:04:38'!
 zeroDivisors
 	^ {self zero}! !
 
@@ -19724,6 +19781,13 @@ isZeroDivisor: anElement
 one
 	^ 1! !
 
+!RationalIntegerRing methodsFor: 'enumerating' stamp: 'len 5/4/2018 19:42:06'!
+primeIdealsDo: aBlock
+	| p |
+	p _ 0.
+	[aBlock value: self * p.
+	p _ p nextPrime] repeat! !
+
 !RationalIntegerRing methodsFor: 'printing' stamp: 'len 12/8/2016 12:38:27'!
 printOn: aStream
 	aStream nextPut: Character ZZ! !
@@ -19752,7 +19816,7 @@ valuation
 zero
 	^ 0! !
 
-!RationalIntegerRing methodsFor: 'accessing' stamp: 'len 5/2/2018 16:06:54'!
+!RationalIntegerRing methodsFor: 'operations' stamp: 'len 5/2/2018 16:06:54'!
 zeroDivisors
 	^ #(0)! !
 
@@ -21185,36 +21249,6 @@ torsion
 zero
 	^ self propertyAt: #zero ifAbsentPut: [self == self ambient ifTrue: [self generators anyOne * self scalars zero] ifFalse: [self ambient zero]]! !
 
-!FractionalIdeal methodsFor: 'accessing' stamp: 'len 1/15/2018 18:44:25'!
-ambient
-	^ self scalars fractions asSelfModule! !
-
-!FractionalIdeal methodsFor: 'accessing' stamp: 'len 1/19/2018 20:34:49'!
-denominator
-	"Answer the denominator ideal of the receiver, which is an integral ideal."
-	^ (self + self ambient oneIdeal) inverse! !
-
-!FractionalIdeal methodsFor: 'accessing' stamp: 'len 1/19/2018 20:34:29'!
-denominator2
-	^ self propertyAt: #denominator ifAbsentPut: [self generators collect: [:each| each denominator] andFold: [:a :b| a lcm: b]]! !
-
-!FractionalIdeal methodsFor: 'testing' stamp: 'len 1/19/2018 20:21:40'!
-isIntegral
-	^ self scalars isUnit: self denominator! !
-
-!FractionalIdeal methodsFor: 'testing' stamp: 'len 1/19/2018 23:43:12'!
-isMaximal
-	^ self isPrime and: [self isZero not]! !
-
-!FractionalIdeal methodsFor: 'accessing' stamp: 'len 1/19/2018 20:32:54'!
-numerator
-	"Answer the numerator ideal of the receiver, which is an integral ideal."
-	^ self * self denominator! !
-
-!FractionalIdeal class methodsFor: 'instance creation' stamp: 'len 1/15/2018 18:43:33'!
-over: aRing generators: aCollection
-	^ self new scalars: aRing; generators: aCollection! !
-
 !Ideal methodsFor: 'operations' stamp: 'len 1/15/2018 18:38:35'!
 * anElementOrIdeal
 	"The product is included in the intersection: I*J <= I /\ J.
@@ -21339,6 +21373,10 @@ copy
 	"Answer a copy of the receiver."
 	^ self class over: self scalars generators: self generators copy! !
 
+!Ideal methodsFor: 'accessing' stamp: 'len 5/5/2018 16:40:17'!
+denominator
+	^ self scalars one! !
+
 !Ideal methodsFor: 'accessing' stamp: 'len 1/15/2018 22:23:52'!
 dimension
 	"Answer the Krull dimension of the quotient ring of the base ring by the receiver."
@@ -21400,11 +21438,15 @@ inverseOf: anElement
 isComaximalWith: anIdeal
 	^ (self + anIdeal) isOne! !
 
-!Ideal methodsFor: 'testing' stamp: 'len 1/15/2018 18:49:49'!
+!Ideal methodsFor: 'testing' stamp: 'len 5/5/2018 18:59:14'!
+isIntegral
+	"This is an integral ideal (not a fractional ideal)."
+	^ true! !
+
+!Ideal methodsFor: 'testing' stamp: 'len 5/5/2018 06:21:08'!
 isMaximal
 	self scalars isPID ifFalse: [^ self propertyAt: #isMaximal].
-	(self scalars isField not and: [self isZero])
-		ifTrue: [^ false].
+	(self scalars isField not and: [self isZero]) ifTrue: [^ false].
 	^ self isPrime! !
 
 !Ideal methodsFor: 'testing' stamp: 'len 1/15/2018 18:49:53'!
@@ -21412,11 +21454,11 @@ isOne
 	"Answer true if the receiver is the unit ideal <1> that equals the whole ambient ring."
 	^ self includes: self scalars one! !
 
-!Ideal methodsFor: 'testing' stamp: 'len 4/7/2018 18:10:00'!
+!Ideal methodsFor: 'testing' stamp: 'len 5/5/2018 06:05:19'!
 isPrime
 	"Answer true if the receiver is a prime ideal.
 	This method only works for zero ideals or ideals given by one generator. Subclasses should reimplement."
-	^ self propertyAt: #isPrime ifAbsentPut:[self isZero or: [self generator isPrime]]! !
+	^ self propertyAt: #isPrime ifAbsentPut:[(self scalars isIntegralDomain and: [self isZero]) or: [self generator isPrime]]! !
 
 !Ideal methodsFor: 'testing' stamp: 'len 1/15/2018 18:49:58'!
 isPrincipal
@@ -21445,6 +21487,10 @@ isSquareFree
 isZero
 	"Answer true if the receiver is the zero ideal {0}."
 	^ self generators allSatisfy: [:each| each isZero]! !
+
+!Ideal methodsFor: 'accessing' stamp: 'len 5/5/2018 16:40:06'!
+numerator
+	^ self! !
 
 !Ideal methodsFor: 'converting' stamp: 'len 1/15/2018 18:51:00'!
 over: aRing
@@ -21575,9 +21621,9 @@ quotientRing
 	"Answer the quotient ring of the base ring by the receiver."
 	^ ModularIntegerRing mod: self! !
 
-!RationalIntegerIdeal methodsFor: 'operations' stamp: 'len 1/15/2018 18:59:22'!
+!RationalIntegerIdeal methodsFor: 'operations' stamp: 'len 5/4/2018 23:46:45'!
 radical
-	^ self scalars * (self generator factors asSet inject: 1 into: [:x :each| x*each])! !
+	^ self scalars * self generator radical! !
 
 !RationalIntegerIdeal methodsFor: 'random' stamp: 'len 4/19/2016 22:57'!
 remainderAtRandom: aRandom
@@ -23437,6 +23483,53 @@ fcc
 	Both A_3 and D_3 are equivalent to the fcc."
 	^ self basis: {(-1,-1,0). (1,-1,0). (0,1,-1)}! !
 
+!FractionalIdeal methodsFor: 'accessing' stamp: 'len 1/15/2018 18:44:25'!
+ambient
+	^ self scalars fractions asSelfModule! !
+
+!FractionalIdeal methodsFor: 'accessing' stamp: 'len 1/19/2018 20:34:49'!
+denominator
+	"Answer the denominator ideal of the receiver, which is an integral ideal."
+	^ (self + self ambient oneIdeal) inverse! !
+
+!FractionalIdeal methodsFor: 'accessing' stamp: 'len 1/19/2018 20:34:29'!
+denominator2
+	^ self propertyAt: #denominator ifAbsentPut: [self generators collect: [:each| each denominator] andFold: [:a :b| a lcm: b]]! !
+
+!FractionalIdeal methodsFor: 'testing' stamp: 'len 1/19/2018 20:21:40'!
+isIntegral
+	^ self scalars isUnit: self denominator! !
+
+!FractionalIdeal methodsFor: 'testing' stamp: 'len 1/19/2018 23:43:12'!
+isMaximal
+	^ self isPrime and: [self isZero not]! !
+
+!FractionalIdeal methodsFor: 'testing' stamp: 'len 5/5/2018 17:02:22'!
+isPrime
+	^ self factors size = 1! !
+
+!FractionalIdeal methodsFor: 'accessing' stamp: 'len 5/5/2018 05:13:53'!
+numerator
+	"Answer the numerator ideal of the receiver, which is an integral ideal."
+	| denominator |
+	denominator _ self denominator.
+	^ self scalars * (self generators collect: [:each| each * denominator])! !
+
+!FractionalIdeal methodsFor: 'printing' stamp: 'len 5/5/2018 05:12:32'!
+printOn: aStream
+	aStream nextPut: $<.
+	(self generators asSortedCollection: [:a :b| a printString <= b printString])
+		do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: ', '].
+	aStream nextPut: $>! !
+
+!FractionalIdeal class methodsFor: 'instance creation' stamp: 'len 1/15/2018 18:43:33'!
+over: aRing generators: aCollection
+	^ self new scalars: aRing; generators: aCollection! !
+
+!IntegralIdeal methodsFor: 'as yet unclassified' stamp: 'len 5/5/2018 18:48:22'!
+denominator
+	^ 1! !
+
 !FormalSumsModule methodsFor: 'elements' stamp: 'len 1/10/2018 20:41:07'!
 !! anObject
 	(self symbols includes: anObject) ifTrue: [^ self x: anObject].
@@ -24179,11 +24272,9 @@ ordering
 - anObject
 	^ self + anObject negated! !
 
-!AffineSubspace methodsFor: 'operations' stamp: 'len 10/27/2016 19:47'!
-/ aLinearSubspace
-	direction >= aLinearSubspace ifFalse: [DomainError signal: 'not a linear subspace'].
-	self flag: #fix. "wtf"
-	^ self class representative: (AffineSubspace representative: representative direction: aLinearSubspace) direction: direction / aLinearSubspace! !
+!AffineSubspace methodsFor: 'operations' stamp: 'len 5/4/2018 19:07:31'!
+/ aScalar
+	^ self * aScalar reciprocal! !
 
 !AffineSubspace methodsFor: 'operations' stamp: 'len 12/8/2016 20:27:19'!
 /\ anAffineSubspace
@@ -25789,6 +25880,10 @@ dimension
 	"Answer the dimension of the highest dimensional component of the receiver.
 	This is the Krull dimension of the coordinate ring."
 	^ self coordinateRing dimension! !
+
+!AffineScheme methodsFor: 'enumerating' stamp: 'len 5/4/2018 19:34:21'!
+do: aBlock
+	self coordinateRing primeIdealsDo: aBlock! !
 
 !AffineScheme methodsFor: 'accessing' stamp: 'len 4/29/2018 02:31:22'!
 functionField
@@ -32535,9 +32630,9 @@ value: anObject
 valueWithArguments: anArray
 	^ representative valueWithArguments: anArray! !
 
-!AlgebraicElement methodsFor: 'as yet unclassified' stamp: 'len 10/16/2016 18:18'!
+!AlgebraicElement methodsFor: 'as yet unclassified' stamp: 'len 5/4/2018 17:19:20'!
 characteristicPolynomial
-	^ (self parent asVectorSpace endomorphisms evaluating: [:x| x * self]) characteristicPolynomial! !
+	^ self representation characteristicPolynomial! !
 
 !AlgebraicElement methodsFor: 'as yet unclassified' stamp: 'len 4/6/2018 23:44:03'!
 characteristicPolynomial2
@@ -32545,9 +32640,9 @@ characteristicPolynomial2
 	x _ QQ algebraicClosure polynomials x.
 	^ self parent base !! (self parent embeddings product: [:each| x - (each value: self)])! !
 
-!AlgebraicElement methodsFor: 'as yet unclassified' stamp: 'len 11/3/2016 04:38'!
+!AlgebraicElement methodsFor: 'as yet unclassified' stamp: 'len 5/4/2018 17:18:20'!
 minimalPolynomial
-	^ (self parent asVectorSpace endomorphisms evaluating: [:x| x * self]) minimalPolynomial
+	^ self representation minimalPolynomial
 
 "	| x |
 	x _ self parent x.
@@ -32557,22 +32652,33 @@ minimalPolynomial
 minimalPolynomial2
 	^ (self parent preferedEmbedding value: self) minimalPolynomial! !
 
-!AlgebraicElement methodsFor: 'as yet unclassified' stamp: 'len 10/16/2016 18:17'!
+!AlgebraicElement methodsFor: 'as yet unclassified' stamp: 'len 5/4/2018 17:20:53'!
 norm
 	| f |
 	f _ self minimalPolynomial.
-	^ f independentCoefficient / f leadingCoefficient * (f degree even ifTrue: [1] ifFalse: [-1])! !
+	^ f independentCoefficient / f leadingCoefficient * (f degree even ifTrue: [1] ifFalse: [-1])
+	
+"alternatively:
+	^ self representation determinant"! !
+
+!AlgebraicElement methodsFor: 'as yet unclassified' stamp: 'len 5/4/2018 17:19:03'!
+representation
+	"Answer the representation map defined by multiplication by the receiver."
+	^ self parent asVectorSpace endomorphisms evaluating: [:x| x * self]! !
 
 !AlgebraicElement methodsFor: 'as yet unclassified' stamp: 'len 11/3/2016 04:41'!
 symmetricFunction: i
 	^ self notYetImplemented! !
 
-!AlgebraicElement methodsFor: 'as yet unclassified' stamp: 'len 4/30/2018 07:04:30'!
+!AlgebraicElement methodsFor: 'as yet unclassified' stamp: 'len 5/4/2018 17:20:34'!
 trace
 	"Answer the absolute trace of the receiver."
 	| f |
 	f _ self minimalPolynomial.
-	^ (f coefficientAtDegree: f degree - 1) negated! !
+	^ (f coefficientAtDegree: f degree - 1) negated
+	
+"alternatively:
+	^ self representation trace"! !
 
 !ComplexAlgebraicNumber methodsFor: 'arithmetic' stamp: 'len 4/29/2018 17:02:11'!
 * aNumber
@@ -32889,14 +32995,13 @@ squareRoot
 			[self refine].
 	^ self class polynomial: isolator polynomial approximation: x radius: r! !
 
-!ComplexAlgebraicNumber methodsFor: 'arithmetic' stamp: 'len 4/29/2018 20:41:37'!
+!ComplexAlgebraicNumber methodsFor: 'arithmetic' stamp: 'len 5/4/2018 19:10:55'!
 squared
 	| x odd even |
 	x _ minimalPolynomial parent x.
 	odd _ minimalPolynomial odd.
 	even _ minimalPolynomial even.
-	self flag: #fix.
-	^ self class "this could be rational"
+	^ self class
 		polynomial: odd squared * x - even squared
 		approximation: approximation squared
 		radius: radius * approximation norm2 * 2! !
@@ -34134,10 +34239,9 @@ representative
 reversed
 	^ self class new: self size fromInteger: (integer bitReverse: self size)! !
 
-!BitTuple methodsFor: 'accessing' stamp: 'len 11/5/2016 07:10'!
+!BitTuple methodsFor: 'accessing' stamp: 'len 5/4/2018 19:09:27'!
 scalars
-	self flag: #fix. "inefficient"
-	^ ZZ/2! !
+	^ One parent! !
 
 !BitTuple methodsFor: 'operations' stamp: 'len 7/2/2016 00:49'!
 shift: anInteger
@@ -38128,10 +38232,10 @@ pprs: aPolynomial
 			r _ (f0 pseudoRem: f1) primitive].
 	^ answer! !
 
-!Polynomial methodsFor: 'factorization' stamp: 'len 2/6/2017 03:07:45'!
+!Polynomial methodsFor: 'factorization' stamp: 'len 5/4/2018 19:16:49'!
 primitive
 	"Answer the primitive part of the receiver."
-	self isZero ifTrue: [^ self]. self flag: #fix. "is this right?"
+	self isZero ifTrue: [^ self].
 	^ self /// self content! !
 
 !Polynomial methodsFor: 'printing' stamp: 'len 2/25/2017 09:40:48'!
@@ -39429,10 +39533,10 @@ psc2: anInteger with: aPolynomial
 	m - anInteger timesRepeat: [rows add: tuple. tuple _ tuple shift: 1].
 	^ (Matrix rows: rows) determinant! !
 
-!UnivariatePolynomial methodsFor: 'operations' stamp: 'len 7/9/2016 03:07'!
+!UnivariatePolynomial methodsFor: 'operations' stamp: 'len 5/4/2018 19:30:29'!
 psc3: i with: aPolynomial
 	"Answer the anInteger-th principal subresultant coefficient of the receiver with aPolynomial."
-	self flag: #fix. "user version 2, more efficient, but must test"
+	self flag: #fix. "use version 2, more efficient, but must test"
 	^ (self subresultant: i with: aPolynomial) leadingCoefficient "WTF, sometimes subresultant returns nil, SemialgebraicSet circle"! !
 
 !UnivariatePolynomial methodsFor: 'operations' stamp: 'len 11/24/2016 12:12:18'!
@@ -40158,50 +40262,6 @@ divide: aPolynomial by: anotherPolynomial
 
 	^ self new divide: aPolynomial by: anotherPolynomial! !
 
-!PolynomialInterpolator methodsFor: 'accessing' stamp: 'len 11/17/97 18:21'!
-corrector
-	"Answer the correction polynoial."
-
-	^ corrector! !
-
-!PolynomialInterpolator methodsFor: 'accessing-private' stamp: 'len 11/17/97 18:20'!
-corrector: aPolynomial
-	corrector _ aPolynomial! !
-
-!PolynomialInterpolator methodsFor: 'initialization' stamp: 'len 7/19/2016 01:03'!
-initialize
-	self flag: #fix.
-	self polynomial: Polynomial null.
-	self corrector: Polynomial identity! !
-
-!PolynomialInterpolator methodsFor: 'operations' stamp: 'len 11/24/2015 06:16'!
-map: aNumber to: anotherNumber
-	"Change the interpolation polynomial to map aNumber to anotherNumber."
-
-	| f q m |
-	f _ self polynomial.
-	q _ self corrector.
-	m _ anotherNumber - (f value: aNumber) / (q value: aNumber).
-	f _ q * m + f.
-	q _ q * aNumber negated + (q shift: 1).
-	self polynomial: f.
-	self corrector: q.
-	^ anotherNumber! !
-
-!PolynomialInterpolator methodsFor: 'accessing' stamp: 'len 11/17/97 18:20'!
-polynomial
-	"Answer the interpolation polynoial."
-
-	^ polynomial! !
-
-!PolynomialInterpolator methodsFor: 'accessing-private' stamp: 'len 11/17/97 18:20'!
-polynomial: aPolynomial
-	polynomial _ aPolynomial! !
-
-!PolynomialInterpolator class methodsFor: 'instance creation' stamp: 'len 11/17/97 18:30'!
-new
-	^ super new initialize! !
-
 !PolynomialPseudoDivision methodsFor: 'accessing' stamp: 'len 3/8/2016 22:39'!
 delta
 	"Answer an integer delta such that the dividend multiplied by the divisor's leading coeficient raised to the delta equals the product of the quotient by the divisor plus the remainder (the pseudo-division relation)."
@@ -40670,10 +40730,10 @@ printOn: aStream
 	f _ P coefficients: (coefficients copyFrom: coefficients startIndex to: coefficients startIndex + n) :: orderedBy: #llex.
 	aStream print: f; nextPutAll: ' + ', 'O' italic, '('; print: P x ^ (n+1); nextPut: $)! !
 
-!PowerSeries methodsFor: 'arithmetic' stamp: 'len 10/28/2016 14:41'!
+!PowerSeries methodsFor: 'arithmetic' stamp: 'len 5/4/2018 19:24:43'!
 reciprocal
 	| b1 a |
-	self flag: #fix. "this is composition inverse?"
+	self flag: #fix. "this is composition inverse, same as >>inverse"
 	a _ coefficients.
 	b1 _ (a at: 1) reciprocal.
 	^ self class coefficients:
@@ -42523,6 +42583,50 @@ transpose
 !Pixel class methodsFor: 'as yet unclassified' stamp: 'len 2/13/2016 17:50'!
 row: anInteger column: anotherInteger
 	^ self new row: anInteger; column: anotherInteger! !
+
+!PolynomialInterpolator methodsFor: 'accessing' stamp: 'len 11/17/97 18:21'!
+corrector
+	"Answer the correction polynoial."
+
+	^ corrector! !
+
+!PolynomialInterpolator methodsFor: 'accessing-private' stamp: 'len 11/17/97 18:20'!
+corrector: aPolynomial
+	corrector _ aPolynomial! !
+
+!PolynomialInterpolator methodsFor: 'initialization' stamp: 'len 7/19/2016 01:03'!
+initialize
+	self flag: #fix.
+	self polynomial: Polynomial null.
+	self corrector: Polynomial identity! !
+
+!PolynomialInterpolator methodsFor: 'operations' stamp: 'len 11/24/2015 06:16'!
+map: aNumber to: anotherNumber
+	"Change the interpolation polynomial to map aNumber to anotherNumber."
+
+	| f q m |
+	f _ self polynomial.
+	q _ self corrector.
+	m _ anotherNumber - (f value: aNumber) / (q value: aNumber).
+	f _ q * m + f.
+	q _ q * aNumber negated + (q shift: 1).
+	self polynomial: f.
+	self corrector: q.
+	^ anotherNumber! !
+
+!PolynomialInterpolator methodsFor: 'accessing' stamp: 'len 11/17/97 18:20'!
+polynomial
+	"Answer the interpolation polynoial."
+
+	^ polynomial! !
+
+!PolynomialInterpolator methodsFor: 'accessing-private' stamp: 'len 11/17/97 18:20'!
+polynomial: aPolynomial
+	polynomial _ aPolynomial! !
+
+!PolynomialInterpolator class methodsFor: 'instance creation' stamp: 'len 11/17/97 18:30'!
+new
+	^ super new initialize! !
 
 !QRDecomposition methodsFor: 'as yet unclassified' stamp: 'len 3/21/2016 22:11'!
 Q
