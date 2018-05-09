@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 8 May 2018 at 7:17:16 pm'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 9 May 2018 at 5:08:14 pm'!
 'Description A computational algebra system in Smalltalk'!
-!provides: 'Mathematics' 1 434!
+!provides: 'Mathematics' 1 435!
 !requires: 'RayTracer' 1 2 nil!
 !classDefinition: #RealAlgebraicNumber category: #'Mathematics-Fields'!
 Number subclass: #RealAlgebraicNumber
@@ -30100,13 +30100,15 @@ permute: anArray
 	1 to: anArray size do: [:i| answer at: i put: (anArray at: (self at: i))].
 	^ answer! !
 
-!AbstractPermutation methodsFor: 'printing' stamp: 'len 2/8/2018 09:18:03'!
+!AbstractPermutation methodsFor: 'printing' stamp: 'len 5/8/2018 19:25:58'!
 printOn: aStream
 	"Print a representation of the receiver on the stream aStream."
 
-	self isIdentity
-		ifTrue: [aStream nextPutAll: 'id']
-		ifFalse: [self cyclesDo: [:each| each printElementsOn: aStream]]! !
+	self isIdentity ifTrue: [aStream nextPutAll: 'id'. ^ self].
+	self cyclesDo: [:cycle|
+		aStream nextPut: $(.
+		cycle do: [:element| aStream print: element] separatedBy: [aStream space].
+		aStream nextPut: $)]! !
 
 !AbstractPermutation methodsFor: 'operations' stamp: 'len 2/8/2018 08:52:09'!
 reciprocal
@@ -38149,9 +38151,9 @@ dividedByMonomial: aMonomial
 	"The monomial ordering is preserved by this operation."
 	^ parent parts: (parts collect: [:each| each key / aMonomial -> each value])! !
 
-!MultivariatePolynomial methodsFor: 'arithmetic' stamp: 'len 12/22/2017 18:28:25'!
+!MultivariatePolynomial methodsFor: 'arithmetic' stamp: 'len 5/9/2018 16:36:16'!
 dividedByScalar: aNumber
-	^ parent parts: (parts collect: [:each| each key -> (each value / aNumber)])! !
+	^ parent parts: (parts collect: [:each| each copy value: each value / aNumber])! !
 
 !MultivariatePolynomial methodsFor: 'arithmetic' stamp: 'len 4/24/2018 00:51:39'!
 exactlyDividedBy: aPolynomial
@@ -38180,6 +38182,15 @@ leadingMonomial
 	| answer |
 	self monomialsDo: [:each| (answer isNil or: [each > answer]) ifTrue: [answer _ each]].
 	^ answer"! !
+
+!MultivariatePolynomial methodsFor: 'accessing terms' stamp: 'len 5/9/2018 15:41:18'!
+leadingTerm
+	"Answer the first term of the receiver."
+
+	| leadingPart |
+	self isZero ifTrue: [^ self].
+	leadingPart _ parts last.
+	^ self parent coefficient: leadingPart value monomial: leadingPart key! !
 
 !MultivariatePolynomial methodsFor: 'enumerating' stamp: 'len 12/24/2017 20:32:45'!
 monomialsApply: aBlock
@@ -38216,10 +38227,13 @@ multipliedByPolynomial: aPolynomial
 	newAssociations sort.
 	^ self parent parts: newAssociations! !
 
-!MultivariatePolynomial methodsFor: 'arithmetic' stamp: 'len 12/24/2017 19:40:17'!
+!MultivariatePolynomial methodsFor: 'arithmetic' stamp: 'len 5/9/2018 16:35:03'!
 multipliedByScalar: aNumber
 	| newAssociations |
+	aNumber isZero ifTrue: [^ parent zero].
+"	parent scalars isIntegralDomain ifTrue: [^ parent parts: (parts collect: [:each| each copy value: each value * aNumber])]."
 	newAssociations _ OrderedCollection new: parts size.
+	newAssociations resetTo: 1.
 	parts do: [:each| | newValue |
 		(newValue _ each value * aNumber) isZero
 			ifFalse: [newAssociations add: (each copy value: newValue)]].
@@ -39404,62 +39418,31 @@ basis
 ideal: anIdeal
 	ideal _ anIdeal! !
 
-!Buchberger methodsFor: 'as yet unclassified' stamp: 'len 5/8/2018 18:22:20'!
+!Buchberger methodsFor: 'as yet unclassified' stamp: 'len 5/9/2018 16:59:07'!
 run
 	"Buchberger's algorithm.
 	Compute a standard basis from the input polynomials with the specified ordering."
-	| S |
+	| S i0 |
 	basis _ ideal ordering isGlobal ifTrue: [GroebnerBasis new] ifFalse: [StandardBasis new].
 	ideal isZero ifTrue: [^ basis].
 	ideal scalars scalars isField ifFalse: [^ DomainError signal: 'not over a field'].
 	S _ ideal generators.
+	[i0 _ basis size + 1.
 	S _ S asSortedCollection: [:a :b| a leadingMonomial <= b leadingMonomial].
-	[S do: [:f| (basis reduce: f) isZero ifFalse: [basis add: f]].
-	S removeAll.
-	1 to: basis size do: [:i| | fi hi ci |
-		fi _ basis at: i.
-		hi _ fi leadingMonomial.
-		ci _ fi coefficientAt: hi.
-		i+1 to: basis size do: [:k| | fk hk ck lcm r |
-			fk _ basis at: k.
-			hk _ fk leadingMonomial.
-			lcm _ hi lcm: hk.
-			"Buchberger criterium 1 and 2:"
-			(lcm ~= (hi * hk) and: [((1 to: i-1) noneSatisfy: [:j| (basis at: j) leadingMonomial | lcm])])
-				ifTrue:
-					[ck _ fk coefficientAt: hk.
-					r _ basis reduce: fi * (lcm / hi) / ci - (fk * (lcm / hk) / ck).
-					r isZero
-"						ifTrue: [Display fill: (i@k*4 extent: 3@3) fillColor: Color red]"
-						ifFalse: [
-"							Display fill: (i@k*4 extent: 3@3) fillColor: Color green."
-							S add: r]]]].
-	S isEmpty] whileFalse! !
-
-!Buchberger methodsFor: 'as yet unclassified' stamp: 'len 5/8/2018 15:37:15'!
-runOrig
-	"Buchberger algorithm.
-	Compute a standard basis from the input polynomials with the specified ordering."
-	| S |
-	basis _ ideal ordering isGlobal ifTrue: [GroebnerBasis new] ifFalse: [StandardBasis new].
-	ideal isZero ifTrue: [^ basis].
-	ideal scalars scalars isField ifFalse: [^ DomainError signal: 'not over a field'].
-	S _ ideal generators.
-	[S _ S asSortedCollection: [:a :b| a leadingMonomial <= b leadingMonomial].
 	S do: [:f| (basis reduce: f) isZero ifFalse: [basis add: f]].
 	S _ Set new.
 	1 to: basis size do: [:i| | fi hi ci |
 		fi _ basis at: i.
 		hi _ fi leadingMonomial.
-		ci _ fi coefficientAt: hi.
-		i+1 to: basis size do: [:k| | fk hk ck lcm r |
+		ci _ fi leadingCoefficient.
+		(i+1 max: i0) to: basis size do: [:k| | fk hk ck lcm r |
 			fk _ basis at: k.
 			hk _ fk leadingMonomial.
 			lcm _ hi lcm: hk.
 			"Buchberger criterium 1 and 2:"
 			(lcm ~= (hi * hk) and: [((1 to: i-1) noneSatisfy: [:j| (basis at: j) leadingMonomial | lcm])])
 				ifTrue:
-					[ck _ fk coefficientAt: hk.
+					[ck _ fk leadingCoefficient.
 					r _ basis reduce: fi * (lcm / hi) / ci - (fk * (lcm / hk) / ck).
 					r isZero
 "						ifTrue: [Display fill: (i@k*4 extent: 3@3) fillColor: Color red]"
@@ -39477,11 +39460,11 @@ matrix
 	matrix ifNil: [self run].
 	^ matrix! !
 
-!ExtendedBuchberger methodsFor: 'as yet unclassified' stamp: 'len 5/8/2018 18:30:09'!
+!ExtendedBuchberger methodsFor: 'as yet unclassified' stamp: 'len 5/9/2018 17:06:20'!
 run
 	"Extended Buchberger algorithm.
 	Compute a standard basis from the input polynomials with the specified ordering."
-	| R M S combinations division |
+	| R M S combinations division i0 |
 	ideal ordering isGlobal ifFalse: [DomainError signal: 'not a global ordering'].
 	basis _ GroebnerBasis new.
 	combinations _ OrderedCollection new.
@@ -39490,14 +39473,15 @@ run
 	M _ FormalSumsModule on: ideal generators over: R.
 	S _ ideal generators withIndexCollect: [:each :i| each -> (M e: i)].
 	S _ S asSortedCollection: [:a :b| a key leadingMonomial <= b key leadingMonomial].
-	[S do: [:f| (basis reduce: f key) isZero ifFalse: [basis add: f key. combinations add: f value]].
+	[i0 _ basis size + 1.
+	S do: [:f| (basis reduce: f key) isZero ifFalse: [basis add: f key. combinations add: f value]].
 	S removeAll.
 	1 to: basis size do: [:i| | fi hi ci ai |
 		fi _ basis at: i.
 		hi _ fi leadingMonomial.
 		ci _ fi coefficientAt: hi.
 		ai _ combinations at: i.
-		i+1 to: basis size do: [:k| | fk hk ck lcm r f ak |
+		(i+1 max: i0) to: basis size do: [:k| | fk hk ck lcm r f ak |
 			fk _ basis at: k.
 			hk _ fk leadingMonomial.
 			lcm _ hi lcm: hk.
@@ -39630,7 +39614,7 @@ rootsInBox: aBox
 on: aPolynomial
 	^ self new polynomial: aPolynomial! !
 
-!MultivariatePolynomialDivision methodsFor: 'private' stamp: 'len 4/4/2018 21:33:31'!
+!MultivariatePolynomialDivision methodsFor: 'private' stamp: 'len 5/9/2018 15:44:00'!
 divide
 	"Perform the division algorithm computing quotients and remainder."
 	| p s zero fi q headp headfi t i |
@@ -39642,13 +39626,13 @@ divide
 	p _ dividend.
 	[p isZero] whileFalse:
 		[headp _ p leadingMonomial.
-		t _ p termAt: headp.
+		t _ p leadingTerm.
 		i _ 1.
 		[headfi _ (fi _ divisors at: i) leadingMonomial.
-		(headfi | headp) or: [(i _ i + 1) > s]] whileFalse.
+		headfi | headp or: [(i _ i + 1) > s]] whileFalse.
 		i <= s "i.e. found fi such that headfi | headp"
 			ifTrue:
-				[q _ t / headfi * (fi at: headfi) reciprocal.
+				[q _ t / headfi * fi leadingCoefficient reciprocal.
 				quotients at: i put: (quotients at: i) + q.
 				p _ p - (fi * q)]
 			ifFalse:
