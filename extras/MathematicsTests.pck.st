@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 3 May 2018 at 6:12:59 am'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 10 May 2018 at 11:00:24 pm'!
 'Description Please enter a description for this package'!
-!provides: 'MathematicsTests' 1 99!
+!provides: 'MathematicsTests' 1 100!
 !classDefinition: #AbelianGroupTest category: #MathematicsTests!
 TestCase subclass: #AbelianGroupTest
 	instanceVariableNames: ''
@@ -191,16 +191,6 @@ TestCase subclass: #PolynomialTest
 PolynomialTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #ProjectiveGeometryTest category: #MathematicsTests!
-TestCase subclass: #ProjectiveGeometryTest
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'MathematicsTests'!
-!classDefinition: 'ProjectiveGeometryTest class' category: #MathematicsTests!
-ProjectiveGeometryTest class
-	instanceVariableNames: ''!
-
 !classDefinition: #QuadraticFormTest category: #MathematicsTests!
 TestCase subclass: #QuadraticFormTest
 	instanceVariableNames: ''
@@ -386,6 +376,31 @@ testRealAlgebraicNumberSquare	1,610 per second.'
 
 !GroebnerBasisBenchmark commentStamp: '<historical>' prior: 0!
 GroebnerBasisBenchmark new run
+
+testCyclic3	14,600 per second. (10 May 2018, optimized Buchberger to reduce the polynomials from S before adding them to basis, fixed definition of the ideal of cyclic n-roots)
+testCyclic4	1,860 per second.
+testCyclic5	2.64 per second.
+testEliminationExample	3,920 per second.
+testKatsura2	23,900 per second.
+testKatsura3	6,400 per second.
+testKatsura4	496 per second.
+testModularCyclic3	13,900 per second.
+testModularKatsura2	22,500 per second.
+testModularKatsura3	6,400 per second.
+testModularKatsura4	613 per second.' 
+
+testCyclic3	8,190 per second. (9 May 2018, optimized Buchberger>>run, added i0)
+testCyclic4	2,920 per second.
+testCyclic5	1,060 per second.
+testCyclic6	381 per second.
+testEliminationExample	2,820 per second.
+testKatsura2	16,300 per second.
+testKatsura3	3,930 per second.
+testKatsura4	42.2 per second.
+testModularCyclic3	7,820 per second.
+testModularKatsura2	15,200 per second.
+testModularKatsura3	3,630 per second.
+testModularKatsura4	54.4 per second.
 
 testCyclic3	4,730 per second. (25 Dec 2017, after refactoring MultivariatePolynomial and removing MonomialIndexedTuple)
 testCyclic4	1,040 per second.
@@ -996,12 +1011,12 @@ testAffineHullEmpty
 	self assert: H dimension = -1.
 	self assert: H size = 0! !
 
-!AffineGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 1/22/2018 19:20:00'!
+!AffineGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 5/5/2018 19:15:38'!
 testAffineMapCollinearity
 	"Affine maps preserve collinearity."
 	| A f p1 fp1 p2 fp2 p3 fp3 |
-	A _ (QQ ^ 3) asAffineSpace.
-	f _ A automorphisms atRandomBits: 100.
+	A _ QQ ^ 3.
+	f _ (A automorphisms atRandomBits: 100) + (A atRandomBits: 100).
 	"three collinear points:"
 	p1 _ (1,2,3) + (1,0,1). p2 _ (2,4,6) + (1,0,1). p3 _ (-1,-2,-3) + (1,0,1).
 	self assert: (A hull: {p1.p2.p3}) isLine.
@@ -1009,31 +1024,31 @@ testAffineMapCollinearity
 	fp1 _ f value: p1. fp2 _ f value: p2. fp3 _ f value: p3.
 	self assert: (A hull: {fp1.fp2.fp3}) isLine! !
 
-!AffineGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 1/22/2017 08:22:18'!
+!AffineGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 5/5/2018 19:19:03'!
 testAffineMapComposition
 	| X Y Z f g x |
-	X _ QQ^3 :: asAffineSpace.
-	Y _ QQ^5 :: asAffineSpace.
-	Z _ QQ^4 :: asAffineSpace.
-	f _ (X hom: Y) atRandomBits: 1000.
-	g _ (Y hom: Z) atRandomBits: 1000.
+	X _ QQ^3.
+	Y _ QQ^5.
+	Z _ QQ^4.
+	f _ ((X hom: Y) atRandomBits: 1000) + (Y atRandomBits: 100).
+	g _ ((Y hom: Z) atRandomBits: 1000) + (Z atRandomBits: 100).
 	x _ X atRandomBits: 1000.
-	self assert: ((X hom: Z) includes: g ” f).
+"	self assert: ((X hom: Z) includes: g ” f)."
 	self assert: (g ” f value: x) = (g value: (f value: x)).
 	self should: [f ” g] raise: DomainError! !
 
-!AffineGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 1/22/2017 08:22:25'!
+!AffineGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 5/5/2018 19:19:18'!
 testAffineMapEvaluating
 	| V f |
 	V _ QQ^3.
-	f _ AffineMap from: V asAffineSpace to: V asAffineSpace evaluating: [:p| p*2 - (1,0,0)].
+	f _ AffineMap from: V to: V evaluating: [:p| p*2 - (1,0,0)].
 	self assert: (f value: (1,2,3)) = (1,4,6)! !
 
-!AffineGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 1/22/2017 08:22:31'!
+!AffineGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 5/5/2018 19:19:44'!
 testAffineMapInverse
 	| A f |
-	A _ (QQ^3) asAffineSpace.
-	f _ A automorphisms atRandomBits: 1000.
+	A _ QQ^3.
+	f _ (A automorphisms atRandomBits: 1000) + (A atRandomBits: 100).
 	self assert: (f ” f inverse) isIdentity.
 	self assert: (f inverse ” f) isIdentity! !
 
@@ -1521,7 +1536,7 @@ testReduced
 	self assert: X isReduced not.
 	self assert: X reduced = (A subscheme: {x*y. x*z})! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 4/8/2018 18:14:11'!
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 5/4/2018 00:40:00'!
 testRingHomomorphismSpec
 	| A B x y phi |
 	A _ QQ polynomialsIn: #(x y z).
@@ -1599,15 +1614,16 @@ testSpecZ
 	self assert: ZZ spec isInitial not.
 	self assert: ZZ spec isTerminal! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 1/13/2017 20:13:41'!
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 5/4/2018 19:45:08'!
 testSpecZSubschemes
+	self notYetImplemented.
 	self assert: ZZ spec >= (ZZ / 2) spec.
 	self assert: (ZZ / 10) spec >= (ZZ / 5) spec.
 	self deny: (ZZ / 10) spec >= (ZZ / 3) spec.
 	self assert: (ZZ / 10) spec • (ZZ / 15) spec = (ZZ / 5) spec.
 	self assert: (ZZ / 10) spec – (ZZ / 15) spec = (ZZ / 30) spec! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 2/6/2017 05:10:26'!
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 5/10/2018 18:17:19'!
 testSturmfelsExample1
 	"Bernd Sturmfels, 'Ideals, Varieties and Macaulay 2', 1. A Curve in Affine 3-Space."
 	| R x y I C C1 C2 |
@@ -1616,7 +1632,7 @@ testSturmfelsExample1
 	y _ R y.
 "	z _ R z."
 	I _ R * {x^4 - (y^5). x^3 - (y^7)}.
-	self assert: I groebnerBasis reduced printString = '{y^5 - x^4. x^4y^2 - x^3. x^8 - x^3y^3}'.
+	self assert: I groebnerBasis reduced printString = '{x^8 - x^3y^3, x^4y^2 - x^3, y^5 - x^4}'.
 	C _ I variety.
 	self assert: C dimension = 1.
 	self assert: C codimension = 2.
@@ -2007,13 +2023,23 @@ testBuchbergerNormalForm
 	h _ G reduceFull: f.
 	self assert: h = (z^2 + (1/2))! !
 
-!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 7/8/2016 20:11'!
+!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 5/10/2018 07:53:18'!
 testGroebnerBasis: G ideal: I
-	| g |
+	"Test G is a Groebner basis of the ideal I."
+	| g division |
 	self assert: G verify.
 	I generators do: [:each| self assert: (G reduces: each)].
-	g _ I atRandomBits: 100.
-	self assert: (G reduces: g)! !
+	G do: [:each| self assert: (I includes: each)]. "but this will use Groebner bases.."
+	g _ I atRandomBits: 200.
+	self assert: (G reduces: g).
+	"The leading term of any polynomial in I is divisible by the leading term of some polynomial in G:"
+	self assert: (G anySatisfy: [:any| any leadingMonomial | g leadingMonomial]).
+	"The multivariate division of any polynomial in I by G gives the remainder 0:"
+	division _ g divisionBy: G.
+	self assert: division remainder isZero.
+	self assert: division verify.
+	self assert: G reduced isReduced.
+	self assert: G minimal isMinimal! !
 
 !CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 7/8/2016 01:48'!
 testGroebnerCyclic3
@@ -2022,11 +2048,11 @@ testGroebnerCyclic3
 	G _ I groebnerBasis.
 	self testGroebnerBasis: G ideal: I! !
 
-!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 1/25/2017 09:58:07'!
+!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 5/8/2018 00:18:00'!
 testGroebnerCyclic3Lexicographic
 	| I G |
 	I _ (PolynomialIdeal cyclic: 3) orderedBy: #lex.
-	G _ GroebnerBasis from: I generators.
+	G _ I basis.
 	self testGroebnerBasis: G ideal: I! !
 
 !CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 10/18/2016 20:57'!
@@ -2036,18 +2062,27 @@ testGroebnerCyclic3OverZ2
 	G _ I groebnerBasis.
 	self testGroebnerBasis: G ideal: I! !
 
-!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 2/12/2017 06:05:17'!
+!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 5/9/2018 19:04:43'!
+testGroebnerCyclic3Reduced
+	| I G |
+	I _ PolynomialIdeal cyclic: #(x y z).
+	I _ I orderedBy: #lex.
+	G _ I basis reduced.
+	self assert: G printString = '{x + y + z, y^2 + yz + z^2, z^3 - 1}' 
+! !
+
+!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 5/8/2018 00:18:15'!
 testGroebnerCyclic3TotalLexicographic
 	| I G |
 	I _ (PolynomialIdeal cyclic: 3) orderedBy: #glex.
-	G _ GroebnerBasis from: I generators.
+	G _ I basis.
 	self testGroebnerBasis: G ideal: I! !
 
-!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 2/12/2017 06:07:32'!
+!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 5/8/2018 00:18:27'!
 testGroebnerCyclic3TotalReverseLexicographic
 	| I G |
 	I _ (PolynomialIdeal cyclic: 3) orderedBy: #grevlex.
-	G _ GroebnerBasis from: I generators.
+	G _ I basis.
 	self testGroebnerBasis: G ideal: I! !
 
 !CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 7/8/2016 01:48'!
@@ -2057,16 +2092,91 @@ testGroebnerCyclic4
 	G _ I groebnerBasis.
 	self testGroebnerBasis: G ideal: I! !
 
-!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 1/25/2017 09:58:28'!
+!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 5/9/2018 22:01:31'!
+testGroebnerCyclic4OverZ127
+	| I G |
+	I _ PolynomialIdeal cyclic: 4 over: ZZ/127.
+	G _ I groebnerBasis.
+	self testGroebnerBasis: G ideal: I! !
+
+!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 5/9/2018 22:01:40'!
+testGroebnerCyclic4OverZ2
+	| I G |
+	I _ PolynomialIdeal cyclic: 4 over: ZZ/2.
+	G _ I groebnerBasis.
+	self testGroebnerBasis: G ideal: I! !
+
+!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 5/10/2018 21:57:50'!
+testGroebnerCyclic5
+	| I G |
+	I _ PolynomialIdeal cyclic: 5.
+	G _ I groebnerBasis.
+	self testGroebnerBasis: G ideal: I! !
+
+!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 5/10/2018 21:58:33'!
+testGroebnerCyclic5OverZ127
+	| I G |
+	I _ PolynomialIdeal cyclic: 5 over: ZZ/127.
+	G _ I groebnerBasis.
+	self testGroebnerBasis: G ideal: I! !
+
+!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 5/10/2018 21:58:12'!
+testGroebnerCyclic5OverZ2
+	| I G |
+	I _ PolynomialIdeal cyclic: 5 over: ZZ/2.
+	G _ I groebnerBasis.
+	self testGroebnerBasis: G ideal: I! !
+
+!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 5/10/2018 21:58:24'!
+testGroebnerCyclic5Reduced
+	| I G |
+	I _ PolynomialIdeal cyclic: 5.
+	G _ I groebnerBasis reduced.
+	self assert: G isReduced.
+	self testGroebnerBasis: G ideal: I.
+	self assert: (I scalars * G) groebnerBasis reduced = G! !
+
+!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 5/8/2018 00:19:11'!
 testGroebnerExample
-	| P x y z F G |
+	| P x y z I G |
 	P _ QQ polynomialsIn: #(x y z) ordering: #lex.
 	x _ P x.
 	y _ P y.
 	z _ P z.
-	F _ {x^2 - (y*z). y^2 - (z*x). z^2 - (x*y)}.
-	G _ GroebnerBasis from: F :: minimal.
+	I _ P * {x^2 - (y*z). y^2 - (z*x). z^2 - (x*y)}.
+	G _ I basis minimal.
 	self assert: G asSet = {x^2 - (y*z). x*z - (y^2). x*y - (z^2). y^3 - (z^3)} asSet! !
+
+!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 5/9/2018 19:10:45'!
+testGroebnerExample2
+	| R x y f1 f2 I G |
+	R _ QQ polynomialsIn: #(x y) ordering: #lex.
+	x _ R x.
+	y _ R y.
+	f1 _ (x-1)^2 + (y-2^2) - (3^2).
+	f2 _ (x+1)^2 + (y-1^2) - (2^2).
+	I _ R * {f1. f2}.
+	G _ I basis reduced.
+	self assert: G printString = '{x + (1/2)y + (1/2), y^2 - 2y - (11/5)}' ! !
+
+!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 5/10/2018 18:11:03'!
+testGroebnerExample3
+	"From some question in math.stackexchange.com."
+	| R I G |
+	R _ QQ polynomialsIn: #(x y) ordering: #glex.
+	I _ R * (R !! [:x :y| {x^2*y + x + 1. x*(y^2) + y + 1. x - y}]).
+	G _ I basis reduced.
+	self assert: G printString = '{y^3 + y + 1, x - y}' "this is as computed by Singular"! !
+
+!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 5/10/2018 17:31:08'!
+testGroebnerExample4Minimal
+	"Example from Cox, Little, O'Shea, 'Ideals, Varieties and Algorithms', p. 90, continued in p. 93."
+	| R I G |
+	R _ QQ polynomialsIn: #(x y) ordering: #grevlex.
+	I _ R * (R !! [:x :y| {x^3 - (x*y*2). x^2*y - (y^2*2) + x}]).
+	G _ I basis minimal.
+	self assert: G printString = '{x^2, xy, y^2 - (1/2)x}' 
+! !
 
 !CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 7/8/2016 01:48'!
 testGroebnerKatsura2
@@ -2198,6 +2308,15 @@ testIdealElimination
 	I _ Qx * {x^2 + y + z - 1. x + (y^2) + z - 1. x + y + (z^2) - 1}.
 	self assert: (I eliminateAll: #(1 2)) generator = (z^6 - (z^4*4) + (z^3*4) - (z^2))! !
 
+!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 5/9/2018 18:44:12'!
+testIdealEqualsUnitIdeal
+	| R x y I |
+	R _ ZZ/7 polynomialsIn: #(x y) ordering: #glex.
+	x _ R x.
+	y _ R y.
+	I _ R * {x + 1. x - 1. y - 2}.
+	self assert: I = R oneIdeal! !
+
 !CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:56'!
 testIdealHomogenization
 	"The homogenization of an ideal can be bigger than the ideal generated by the homogenized generators."
@@ -2306,6 +2425,26 @@ testIdealMembership3
 	of f=0 and g=0, but not a scheme-theoretic or ideal-theoretic complete
 	intersection (the ideal is not radical since includes f^2):"
 	self assert: (I includes: f^2)! !
+
+!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 5/9/2018 18:40:38'!
+testIdealMembership4
+	| R x y z I |
+	R _ ZZ/127 polynomialsIn: #(x y z) ordering: #glex.
+	x _ R x.
+	y _ R y.
+	z _ R z.
+	I _ R * {x*y + z. y^3 + 1. z^2 - (x*5) - 1}.
+	self assert: (I includes: (x*y + z) + (y^3 + 1)).
+	self assert: (I includes: x*z*(z^2 - (x*5) - 1))! !
+
+!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 5/9/2018 18:42:29'!
+testIdealMembership5
+	| R x y I |
+	R _ ZZ/7 polynomialsIn: #(x y) ordering: #glex.
+	x _ R x.
+	y _ R y.
+	I _ R * {x*y + 1. y^2 - 1}.
+	self assert: (I includes: x+y)! !
 
 !CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 2/23/2017 09:09:01'!
 testIdealMembershipRandom
@@ -2477,6 +2616,34 @@ testMultivariateDivisionExample
 	F _ {x^2 - (y*z). y^2 - (z*x). z^2 - (x*y)}.
 	f _ x^3 + (y^3 * 3).
 	self assert: (f divisionBy: F) remainder = (y^3 * 4)! !
+
+!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 5/10/2018 07:34:34'!
+testMultivariateDivisionExample2
+	| R f f1 f2 |
+	R _ QQ polynomialsIn: #(x y z) ordering: #lex.
+	f _ R !! [:x :y :z| x^5*(y^3)].
+	f1 _ R !! [:x :y :z| x^3*(y^2) - ((y^2)*z)].
+	f2 _ R !! [:x :y :z| x*(y^2) - (y*z)].
+	self assert: (f divisionBy: {f1. f2}) printString = 'x^5y^3 = (x^2y)(x^3y^2 - y^2z) + (xyz + z^2)(xy^2 - yz) + yz^3'! !
+
+!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 5/10/2018 07:37:43'!
+testMultivariateDivisionExample3
+	| R f f1 f2 |
+	R _ QQ polynomialsIn: #(x y z) ordering: #lex.
+	f _ R !! [:x :y :z| x^3*(y^2) + (x*y) + x + 1].
+	f1 _ R !! [:x :y :z| x^3 + 1].
+	f2 _ R !! [:x :y :z| y^2 + 1].
+	self assert: (f divisionBy: {f1. f2}) printString = 'x^3y^2 + xy + x + 1 = (y^2)(x^3 + 1) + (-1)(y^2 + 1) + xy + x + 2'! !
+
+!CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 5/10/2018 07:44:11'!
+testMultivariateDivisionExample4
+	| R f f1 f2 |
+	R _ QQ polynomialsIn: #(x y) ordering: #lex.
+	f _ R !! [:x :y| x^2*(y^3) - (x*(y^2)*2)].
+	f1 _ R !! [:x :y| x^2*y - (x*2)].
+	f2 _ R !! [:x :y| y^3 + 4].
+	self assert: (f divisionBy: {f1. f2}) printString = 'x^2y^3 - 2xy^2 = (y^2)(x^2y - 2x) + (0)(y^3 + 4) + 0'.
+	self assert: (f divisionBy: {f2. f1}) printString = 'x^2y^3 - 2xy^2 = (x^2)(y^3 + 4) + (0)(x^2y - 2x) + -4x^2 - 2xy^2'! !
 
 !CommutativeAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 10/23/2016 16:37'!
 testPolynomialRingHomomorphismKernel
@@ -5004,11 +5171,51 @@ testMonomialOrderings3
 	self assert: (f orderedBy: #glex) leadingTerm = (x2*x4).
 	self assert: (f orderedBy: #grevlex) leadingTerm = (x3^2)! !
 
+!MonomialTest methodsFor: 'as yet unclassified' stamp: 'len 5/10/2018 19:38:00'!
+testMonomialOrderings4
+	"Examples from en.wikipedia.org/wiki/Monomial_order to illustrate the difference between graded lexicographic and graded reverse lexicographic."
+	| M S |
+	M _ FreeAbelianMonoid new: 3 ordering: #glex.
+	S _ Set new.
+	1 to: 3 do: [:i| i to: 3 do: [:j| S add: (M x: i) * (M x: j)]].
+	self assert: (S sorted: [:a :b| a > b]) printString = '({x1}^2, {x1}{x2}, {x1}{x3}, {x2}^2, {x2}{x3}, {x3}^2)'.
+	M _ M orderedBy: #grevlex.
+	S _ S collect: [:each| M !! each].
+	self assert: (S sorted: [:a :b| a > b]) printString = '({x1}^2, {x1}{x2}, {x2}^2, {x1}{x3}, {x2}{x3}, {x3}^2)'! !
+
 !MonomialTest methodsFor: 'as yet unclassified' stamp: 'len 2/26/2017 09:25:04'!
 testMonomialOrderingsExample
 	| a b lex glex grevlex |
 	a _ Monomial exponents: #(3 2 8).
 	b _ Monomial exponents: #(2 9 2).
+	
+	lex _ FreeAbelianMonoid new: 3 ordering: #lex.
+	glex _ FreeAbelianMonoid new: 3 ordering: #glex.
+	grevlex _ FreeAbelianMonoid new: 3 ordering: #grevlex.
+
+	self assert: (a as: lex) > (b as: lex).
+	self assert: (a as: glex) > (b as: glex).
+	self assert: (a as: grevlex) < (b as: grevlex)! !
+
+!MonomialTest methodsFor: 'as yet unclassified' stamp: 'len 5/9/2018 18:31:23'!
+testMonomialOrderingsExample2
+	| a b lex glex |
+	a _ Monomial exponents: #(0 2 9).
+	b _ Monomial exponents: #(0 5 3).
+	
+	lex _ FreeAbelianMonoid new: 3 ordering: #lex.
+	glex _ FreeAbelianMonoid new: 3 ordering: #glex.
+"	grevlex _ FreeAbelianMonoid new: 3 ordering: #grevlex."
+
+	self assert: (b as: lex) > (a as: lex).
+	self assert: (a as: glex) > (b as: glex).
+"	self assert: (a as: grevlex) < (b as: grevlex)"! !
+
+!MonomialTest methodsFor: 'as yet unclassified' stamp: 'len 5/9/2018 18:33:34'!
+testMonomialOrderingsExample3
+	| a b lex glex grevlex |
+	a _ Monomial exponents: #(2 1 2).
+	b _ Monomial exponents: #(1 3 1).
 	
 	lex _ FreeAbelianMonoid new: 3 ordering: #lex.
 	glex _ FreeAbelianMonoid new: 3 ordering: #glex.
@@ -5142,6 +5349,17 @@ testMinimalPolynomial3
 	x _ QQ polynomials x.
 	alpha _ 1 + 5 squareRoot / 2.
 	self assert: alpha minimalPolynomial = (x^2 - x - 1)! !
+
+!NumberFieldTest methodsFor: 'as yet unclassified' stamp: 'len 5/4/2018 17:42:44'!
+testNormTraceAndMinimalPolynomial
+	"Example H38E17 from Magma documentation."
+	| x F a |
+	x _ QQ polynomials x.
+	F _ QQ extension: x^4 - (x^2*420) + 40000.
+	a _ F x / 2.
+	self assert: a trace = 0.
+	self assert: a norm = 2500.
+	self assert: a minimalPolynomial = (x^4 - (x^2*105) + 2500)! !
 
 !NumberFieldTest methodsFor: 'as yet unclassified' stamp: 'len 11/3/2016 04:40'!
 testQSqrt2
@@ -6086,75 +6304,6 @@ testZeroCoefficientBug
 	Qx _ QQ polynomials.
 	self assert: (Qx one * 0) isZero! !
 
-!ProjectiveGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 2/4/2017 09:01:51'!
-testDesarguesTheorem
-	"In a projective space of dimension >= 3, two triangles are in perspective axially iff they are in perspective centrally. In other words, given two triangles {a,b,c} and {A,B,C}, if the lines aA, bB and cC are concurrent (meet at a point), then the points AB /\ ab, AC /\ ac and BC /\ bc are collinear.
-	
-	Note that we use P(Q^3) which is a projective plane (dimension 2), but in this case the theorem is also valid. In general for dimension 2, the theorem is valid in any projective plane constructed from a 3-dimensional vector space over a skewfield, and these planes are called desarguesian planes."
-	| P A B C a b c X Y Z |
-	P _ QQ ^ 3 :: projectivized.
-	A _ P atRandomBits: 100.
-	B _ P atRandomBits: 100.
-	C _ P atRandomBits: 100.
-	a _ P atRandomBits: 100.
-	b _ P atRandomBits: 100.
-	c _ P atRandomBits: 100.
-	
-	X _ A+B • (a+b).
-	Y _ A+C • (a+c).
-	Z _ B+C • (b+c).
-	"aA,bB,cC are not concurrent:"
-	self deny: (a+A • (b+B) • (c+C)) isPoint.
-	"X,Y,Z are not collinear:"
-	self deny: (X+Y+Z) isLine.
-
-	"make the lines concurrent:"
-	C _ a+A • (b+B).
-	"p1 _ A+B /\ (a+b)."
-	Y _ A+C • (a+c).
-	Z _ B+C • (b+c).
-	"aA,bB,cC are concurrent:"
-	self assert: (a+A • (b+B) • (c+C)) isPoint.
-	"X,Y,Z are collinear"
-	self assert: (X+Y+Z) isLine! !
-
-!ProjectiveGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 2/4/2017 09:01:57'!
-testPappusHexagonTheorem
-	"Given a set of collinear points {A,B,C} and another set of collinear points {a,b,c}, then the intersection points X,Y,Z of line pairs Ab and aB, Ac and aC, Bc and bC are collinear.
-	The theorem is true in any projective plane over any field, but fails for projective planes over any skewfield (non-commutative division ring). The projective planes in which the theorem is valid are called pappian planes."
-	| P A B C a b c X Y Z |
-	P _ QQ ^ 3 :: projectivized.
-	A _ P atRandomBits: 100.
-	B _ P atRandomBits: 100.
-	C _ A+B :: atRandomBits: 100.
-	a _ P atRandomBits: 100.
-	b _ P atRandomBits: 100.
-	c _ a+b :: atRandomBits: 100.
-	
-	X _ A+b • (a+B).
-	Y _ A+c • (a+C).
-	Z _ B+c • (b+C).
-
-	"A,B,C are collinear:"
-	self assert: (A+B+C) isLine.
-	"a,b,c are collinear:"
-	self assert: (a+b+c) isLine.
-	"X,Y,Z are collinear:"
-	self assert: (X+Y+Z) isLine! !
-
-!ProjectiveGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 2/4/2017 09:02:03'!
-testProjectiveSpaceBasic
-	| V P p0 p1 p2 p3 |
-	V _ QQ ^ 3.
-	P _ V projectivized.
-	p0 _ P project: (1,1,0).
-	p1 _ P project: (0,1,1).
-	p2 _ P project: (2,0,2).
-	p3 _ P pointAt: (-1,-1,0) asHomogeneousTuple.
-	self assert: (P coordinatesOf: p2) = (1,0,1) asHomogeneousTuple.
-	self assert: p3 = p0.
-	self assert: (p0 + p1) dimension = 1! !
-
 !QuadraticFormTest methodsFor: 'as yet unclassified' stamp: 'len 3/28/2018 15:13:47'!
 newQuadraticForm
 	^ self newQuadraticForm: (2 to: 5) atRandom! !
@@ -6243,7 +6392,7 @@ testDirectProduct
 	self testRing: P.
 	self testRingHomomorphism: (P projection: 2 atRandom)! !
 
-!RingTest methodsFor: 'as yet unclassified' stamp: 'len 4/7/2018 21:04:39'!
+!RingTest methodsFor: 'as yet unclassified' stamp: 'len 5/3/2018 06:28:51'!
 testFiniteRing
 	| R |
 	R _ (ZZ/2) polynomials.
@@ -6251,7 +6400,8 @@ testFiniteRing
 	self assert: R isField not.
 	self assert: R size = 8.
 	self assert: R units size = 2.
-	self assert: R zeroDivisors size = 6! !
+	self assert: R zeroDivisors size = 6
+	"also, this ring has two maximal ideals, and the Jacobson radical is {0, x^2 + x}"! !
 
 !RingTest methodsFor: 'as yet unclassified' stamp: 'len 5/3/2018 01:47:56'!
 testFiniteRing2
@@ -6338,6 +6488,11 @@ testMultivariatePolynomialRing
 	R _ ZZ polynomialsIn: #(x y z).
 	self testRing: R.
 	self testRingHomomorphism: R embedding! !
+
+!RingTest methodsFor: 'as yet unclassified' stamp: 'len 5/4/2018 23:52:20'!
+testNilradical
+	self assert: ZZ nilradical = (ZZ*0).
+	self assert: (ZZ/12) nilradical = (ZZ/12*6)! !
 
 !RingTest methodsFor: 'as yet unclassified' stamp: 'len 10/7/2016 06:14'!
 testPolynomialRing
@@ -6989,27 +7144,6 @@ testRealAlgebraicNumberSquare
 	sqrt2 _ RealAlgebraicNumber sqrt2.
 	10 timesRepeat: [sqrt2 squared]! !
 
-!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 11/17/2016 16:44:50'!
-binaryCyclic: n
-	^ self cyclic: n over: (PrimeField new: 2)! !
-
-!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 7/15/2016 18:31'!
-cyclic: n
-	^ self cyclic: n over: QQ! !
-
-!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 7/4/2016 08:36'!
-cyclic: n over: scalars
-	| P singles generators |
-	P _ scalars polynomialsIn: n.
-	singles _ (1 to: n) collect: [:i| P x: i].
-	generators _ OrderedCollection new.
-	1 to: n-1 do: [:k | | f |
-		f _ P zero.
-		singles combinations: k atATimeDo: [:each| f _ f + each product].
-		generators add: f].
-	generators add: singles product - 1.
-	^ P * generators! !
-
 !GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 11/18/2016 09:37:11'!
 katsura2
 	^ self katsura2Over: QQ! !
@@ -7071,10 +7205,6 @@ katsura5Over: aField
 		y^2 + (x*z*2) + (y*t*2) + (z*u*2) - z.
 		y*z*2 + (x*t*2) + (y*u*2) - t}! !
 
-!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 12/1/2016 18:36:52'!
-modularCyclic: n
-	^ self cyclic: n over: (PrimeField new: 32003)! !
-
 !GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 12/1/2016 18:36:57'!
 modularKatsura2
 	^ self katsura2Over: (PrimeField new: 32003)! !
@@ -7087,21 +7217,17 @@ modularKatsura3
 modularKatsura4
 	^ self katsura4Over: (PrimeField new: 32003)! !
 
-!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 7/4/2016 06:32'!
+!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 5/10/2018 21:52:52'!
 testCyclic3
-	self cyclic: 3 :: groebnerBasis! !
+	PolynomialIdeal cyclic: 3 :: groebnerBasis! !
 
-!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 7/5/2016 17:02'!
+!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 5/10/2018 21:52:59'!
 testCyclic4
-	^ self cyclic: 4 :: groebnerBasis! !
+	^ PolynomialIdeal cyclic: 4 :: groebnerBasis! !
 
-!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 7/4/2016 07:25'!
+!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 5/10/2018 21:53:07'!
 testCyclic5
-	self cyclic: 5 :: groebnerBasis! !
-
-!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 7/7/2016 23:27'!
-testCyclic6
-	self cyclic: 6 :: groebnerBasis! !
+	PolynomialIdeal cyclic: 5 :: groebnerBasis! !
 
 !GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:43'!
 testEliminationExample
@@ -7123,9 +7249,9 @@ testKatsura3
 testKatsura4
 	self katsura4 :: groebnerBasis! !
 
-!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 7/4/2016 08:37'!
+!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 5/10/2018 21:52:19'!
 testModularCyclic3
-	self modularCyclic: 3 :: groebnerBasis! !
+	(PolynomialIdeal cyclic: 3 over: (PrimeField new: 32003)) groebnerBasis! !
 
 !GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 7/4/2016 08:40'!
 testModularKatsura2
