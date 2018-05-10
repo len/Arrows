@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 9 May 2018 at 5:08:14 pm'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 10 May 2018 at 10:59:37 pm'!
 'Description A computational algebra system in Smalltalk'!
-!provides: 'Mathematics' 1 435!
+!provides: 'Mathematics' 1 436!
 !requires: 'RayTracer' 1 2 nil!
 !classDefinition: #RealAlgebraicNumber category: #'Mathematics-Fields'!
 Number subclass: #RealAlgebraicNumber
@@ -104,7 +104,7 @@ BitArray class
 
 !classDefinition: #StandardBasis category: #'Mathematics-Polynomials-Algorithms'!
 SequenceableCollection subclass: #StandardBasis
-	instanceVariableNames: 'elements isMinimal'
+	instanceVariableNames: 'elements'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Polynomials-Algorithms'!
@@ -4885,7 +4885,7 @@ This is the extended Buchberger algorithm. It keeps track of how the polynomials
 Input: a polynomial ideal given by generators, with a choice of *global* monomial ordering;
 Output: a Groebner basis, and a 'change of basis' matrix that maps the original generators to the Groebner basis.
 
-See also Buchberger for a more general algorithm that works also with local monomial orderings.!
+See Buchberger for a more general algorithm that works with both global and local monomial orderings.!
 
 !ComplexRootIsolator commentStamp: '<historical>' prior: 0!
 This is the CEVAL algorithm [1] for isolating the complex roots of a square-free polynomial.
@@ -7465,10 +7465,10 @@ apply: aMorphism
 at: anInteger
 	^ elements at: anInteger! !
 
-!StandardBasis methodsFor: 'copying' stamp: 'len 5/7/2018 23:22:41'!
+!StandardBasis methodsFor: 'copying' stamp: 'len 5/10/2018 08:03:11'!
 copy
 	"Answer a copy of the reciever."
-	^ self class new elements: elements copy; isMinimal: isMinimal! !
+	^ self class new elements: elements copy! !
 
 !StandardBasis methodsFor: 'copying' stamp: 'len 11/20/2016 15:32:11'!
 copyEmpty
@@ -7498,15 +7498,28 @@ first
 indeterminates
 	^ self anyOne parent indeterminates! !
 
-!StandardBasis methodsFor: 'initialization' stamp: 'len 5/7/2018 23:23:02'!
+!StandardBasis methodsFor: 'initialization' stamp: 'len 5/10/2018 08:03:16'!
 initialize
 "	elements _ SortedCollection sortBlock: [:a :b| a degree <= b degree]."
 "	elements _ SortedCollection sortBlock: [:a :b| a leadingMonomial <= b leadingMonomial]."
-	elements _ OrderedCollection new.
-	isMinimal _ false! !
+	elements _ OrderedCollection new! !
 
-!StandardBasis methodsFor: 'testing' stamp: 'len 11/20/2016 11:07:31'!
+!StandardBasis methodsFor: 'testing' stamp: 'len 5/10/2018 17:16:20'!
 isMinimal
+	"A Groebner basis G of an ideal I is called 'minimal' if the lead terms of the elements in G minimally generate in(I); or equivalently, if for all p in G:
+	- LC(p) = 1, and
+	- LT(p) is not in <G-{p}> (i.e., leading-term-minimal).
+	Note that any leading-term-minimal Groebner basis is also cardinality-minimal."
+	| one |
+	one _ self first scalars one.
+	self do: [:g| g leadingCoefficient ~= one ifTrue: [^ false]].
+	self do: [:g|
+		self do: [:f|
+			(f ~~ g and: [f leadingMonomial | g leadingMonomial]) ifTrue: [^ false]]].
+	^ true! !
+
+!StandardBasis methodsFor: 'testing' stamp: 'len 5/10/2018 03:10:42'!
+isMinimal2
 	"A Groebner basis G is minimal when for all p in G:
 	1. LC(p) = 1;
 	2. LT(p) is not in <G-{p}>."
@@ -7519,12 +7532,23 @@ isMinimal
 				ifTrue: [^ false]].
 	^ true! !
 
-!StandardBasis methodsFor: 'accessing-private' stamp: 'len 11/24/2015 00:04'!
-isMinimal: aBoolean
-	isMinimal _ aBoolean! !
-
-!StandardBasis methodsFor: 'testing' stamp: 'len 2/6/2017 07:17:14'!
+!StandardBasis methodsFor: 'testing' stamp: 'len 5/10/2018 17:18:12'!
 isReduced
+	"A Groebner basis G is called 'reduced' (or 'auto-reduced') if for all p in G:
+	- LC(p) = 1, and
+	- no monomial of p is in <G-{p}>.
+	In particular, a reduced Groebner basis is leading-term-minimal (no leading term of any generator divides any other generator's leading term), and a leading-term-minimal basis is also cardinality-minimal."
+	| one |
+	one _ self first scalars one.
+	self do: [:g| g leadingCoefficient ~= one ifTrue: [^ false]].
+	self do: [:g|
+		g monomials do: [:gi|
+			self do: [:f|
+				(f ~~ g and: [f leadingMonomial | gi]) ifTrue: [^ false]]]].
+	^ true! !
+
+!StandardBasis methodsFor: 'testing' stamp: 'len 5/9/2018 23:21:42'!
+isReduced2
 	"A Groebner basis G is reduced when for all p in G:
 	1. LC(p) = 1;
 	2. No monomial of p is contained in <G-{p}>."
@@ -7551,19 +7575,27 @@ leadingTerms
 	self do: [:each| | lt | lt _ each leadingTerm. (answer reduces: lt) ifFalse: [answer add: lt]].
 	^ answer! !
 
-!StandardBasis methodsFor: 'operations' stamp: 'len 5/7/2018 23:22:07'!
+!StandardBasis methodsFor: 'operations' stamp: 'len 5/10/2018 18:26:16'!
+macaulayMatrix
+	| monomials |
+	monomials _ Set new.
+	self do: [:each| monomials addAll: each monomials].
+	monomials _ monomials asSortedCollection: [:a :b| a >= b].
+	^ self anyOne parent scalars matrix: self size @ monomials size evaluating: [:i :j| (self at: i) coefficientAt: (monomials at: j)]! !
+
+!StandardBasis methodsFor: 'operations' stamp: 'len 5/10/2018 18:14:57'!
 minimal
 	"Answer the minimal Groebner basis of the receiver."
 	| heads goods answer |
-	isMinimal == true ifTrue: [^ self].
+	self isMinimal ifTrue: [^ self].
 	heads _ elements collect: [:each| each leadingMonomial].
 	goods _ (1 to: heads size) asSet.
 	heads withIndexDo: [:head :i|
 		(goods anySatisfy: [:one| i ~= one and: [(heads at: one) | head]])
 			ifTrue: [goods remove: i]].
 	answer _ self class new.
-	(goods asSortedCollection: [:a :b| (elements at: a) leadingMonomial <= (elements at: b) leadingMonomial]) do: [:i| | f | answer add: (f _ elements at: i) / f leadingCoefficient].
-	answer isMinimal: true.
+	(goods asSortedCollection: [:a :b| "make it triangular for lex" (elements at: a) leadingMonomial >= (elements at: b) leadingMonomial])
+		do: [:i| answer add: (elements at: i) monic].
 	^ answer! !
 
 !StandardBasis methodsFor: 'accessing' stamp: 'len 1/23/2017 11:47:29'!
@@ -7609,12 +7641,25 @@ reduce: aPolynomial
 	ecartg > h ecart ifTrue: [L add: h].
 	h _ h - (g * (lmh / g leadingMonomial) * (h leadingCoefficient / g leadingCoefficient))] repeat! !
 
-!StandardBasis methodsFor: 'operations' stamp: 'len 7/7/2016 21:02'!
+!StandardBasis methodsFor: 'operations' stamp: 'len 5/10/2018 18:11:33'!
 reduced
-	| minimal |
-	minimal _ self minimal.
-	minimal isReduced ifFalse: [self halt].
-	^ minimal! !
+	"Answer a reduced basis for the ideal generated by the receivr.
+	Becker, Weispfenning, 'Groebner Bases', algorithm REDGROEBNER (p. 216) and REDUCTION (p. 203)."
+	| G H |
+	H _ OrderedCollection new.
+	1 to: self size do: [:i| | fi lm |
+		fi _ self at: i.
+		lm _ fi leadingMonomial.
+		(((i+1 to: self size) noneSatisfy: [:j| (self at: j) leadingMonomial | lm])
+			and: [H noneSatisfy: [:h| h leadingMonomial | lm]])
+				ifTrue: [H add: fi]].
+	H _ H asArray.
+	G _ self class new.
+	1 to: H size do: [:i| | hi r |
+		hi _ H at: i.
+		(r _ hi \\ (H copyWithoutIndex: i)) isZero ifFalse: [G add: r monic]].
+	G sort: [:a :b| a leadingMonomial >= b leadingMonomial]. "make it triangular for lex"
+	^ G! !
 
 !StandardBasis methodsFor: 'testing' stamp: 'len 10/29/2016 16:36'!
 reduces: aPolynomial
@@ -7624,302 +7669,27 @@ reduces: aPolynomial
 size
 	^ elements size! !
 
+!StandardBasis methodsFor: 'sorting' stamp: 'len 5/10/2018 17:52:05'!
+sort: aBlock
+	elements sort: aBlock! !
+
 !StandardBasis methodsFor: 'private' stamp: 'len 3/6/2016 20:37'!
 species
 	^ Array! !
 
-!StandardBasis methodsFor: 'private' stamp: 'len 11/20/2016 15:28:33'!
+!StandardBasis methodsFor: 'private' stamp: 'len 5/10/2018 06:27:11'!
 verify
-	1 to: self size do: [:i|
-		| fi hi ci |
+	1 to: self size do: [:i| | fi |
 		fi _ self at: i.
-		hi _ fi leadingMonomial.
-		ci _ fi coefficientAt: hi.
-		i+1 to: self size do: [:j|
-			| fj hj cj lcm |
+		i+1 to: self size do: [:j| | fj |
 			fj _ self at: j.
-			hj _ fj leadingMonomial.
-			cj _ fj coefficientAt: hj.
-			lcm _ hi lcm: hj.
-			(self reduces: fi * (lcm / hi) / ci - (fj * (lcm / hj) / cj))
-				ifFalse: [^ false halt]]].
+			(self reduces: (fi s: fj))
+				ifFalse: [^ false]]].
 	^ true! !
-
-!StandardBasis class methodsFor: 'instance creation' stamp: 'len 11/30/2016 14:43:41'!
-from2: aCollection
-	"Buchberger algorithm.
-	Answer a Groebner basis obtainded from the given polynomials with the specified ordering."
-	| G S heads |
-	G _ self new.
-	aCollection isEmpty ifTrue: [^ G].
-	aCollection anyOne scalars isField ifFalse: [^ DomainError signal: 'not over a field'].
-	S _ aCollection asSortedCollection: [:a :b| a leadingMonomial degree <= b leadingMonomial degree].
-	heads _ OrderedCollection new.
-	[S do: [:f| (G reduces: f) ifFalse: [G add: f]].
-	S _ Set new.
-	1 to: G size do: [:i| | fi hi ci |
-		fi _ G at: i.
-		hi _ i = (heads size + 1) ifTrue: [heads add: fi leadingMonomial] ifFalse: [heads at: i].
-		ci _ fi coefficientAt: hi.
-		i+1 to: G size do: [:k| | fk hk ck lcm r |
-			fk _ G at: k.
-			hk _ k = (heads size + 1) ifTrue: [heads add: fk leadingMonomial] ifFalse: [heads at: k].
-			lcm _ hi lcm: hk.
-			"Buchberger criterium 1 and 2:"
-			(lcm ~= (hi * hk) and: [((1 to: i-1) noneSatisfy: [:j| (heads at: j) | lcm])])
-				ifTrue:
-					[ck _ fk coefficientAt: hk.
-					r _ G reduce: fi * (lcm / hi) / ci - (fk * (lcm / hk) / ck).
-					r isZero
-"						ifTrue: [Display fill: (i@k*4 extent: 3@3) fillColor: Color red]"
-						ifFalse: [
-"							Display fill: (i@k*4 extent: 3@3) fillColor: Color green."
-							S add: r]]]].
-	S isEmpty] whileFalse.
-"	G verify ifFalse: [self halt]."
-	^ G! !
-
-!StandardBasis class methodsFor: 'instance creation' stamp: 'len 11/30/2016 14:45:57'!
-from2: aCollection ordering: aMonomialOrdering 
-	"Buchberger algorithm.
-	Answer a Groebner basis obtainded from the given polynomials and ordering."
-	| basis newPolynomials rem lcm fi hi ci fk hk ck heads start |
-	aCollection anyOne scalars isField ifFalse: [^ DomainError signal: 'not over a field'].
-	basis _ self new ordering: aMonomialOrdering; addAll: aCollection; yourself.
-	heads _ Dictionary new.
-	start _ 1.
-	[newPolynomials _ OrderedCollection new.
-	1 to: basis size do: [:i|
-		fi _ basis at: i.
-		hi _ heads at: i ifAbsentPut: [aMonomialOrdering leadingMonomialOf: fi].
-		ci _ fi coefficientAt: hi.
-		i+start to: basis size do: [:k|
-			fk _ basis at: k.
-			hk _ heads at: k ifAbsentPut: [aMonomialOrdering leadingMonomialOf: fk].
-			ck _ fk coefficientAt: hk.
-			lcm _ hi lcm: hk.
-"			(lcm ~= (hi * hk) and: [heads anySatisfy: [:any| any | lcm]]) ifFalse:"
-			rem _ basis reduce: fi * (lcm / hi) / ci - (fk * (lcm / hk) / ck).
-			rem isZero ifFalse: ["Display fill: (i@k*4 extent: 3@3) fillColor: Color yellow." newPolynomials add: rem]]].
-	newPolynomials isEmpty]
-		whileFalse: "this is like Magma's ReduceByNew=True"
-			[start _ basis size.
-			basis add: newPolynomials first.
-			newPolynomials allButFirstDo: [:each| (basis reduce: each) isZero ifFalse: [basis add: each]]].
-	^ basis! !
-
-!StandardBasis class methodsFor: 'instance creation' stamp: 'len 11/30/2016 14:46:00'!
-from3: aCollection ordering: aMonomialOrdering 
-	"Answer a new instance of the receiver representing a Groebner basis obtainded from aCollection of polynomials operating with the ordering aMonomialOrdering."
-	| basis fi hi ci fk hk ck lcm rem heads start i |
-	aCollection anyOne scalars isField ifFalse: [^ DomainError signal: 'not over a field'].
-	basis _ self new ordering: aMonomialOrdering; addAll: aCollection; yourself.
-	heads _ Dictionary new.
-	start _ 1.
-	i _ 0.
-	[(i _ i + 1) <= basis size] whileTrue:
-		[fi _ basis at: i.
-		hi _ heads at: i ifAbsentPut: [aMonomialOrdering leadingMonomialOf: fi].
-		ci _ fi coefficientAt: hi.
-		i+start to: basis size do: [:k|
-			[fk _ basis at: k.
-			hk _ heads at: k ifAbsentPut: [aMonomialOrdering leadingMonomialOf: fk].
-			ck _ fk coefficientAt: hk.
-			lcm _ hi lcm: hk.
-			rem _ basis reduce: fi * (lcm / hi) / ci - (fk * (lcm / hk) / ck).
-			rem isZero ifFalse: ["Display fill: (i@k*4 extent: 3@3) fillColor: Color yellow." basis add: rem]]]].
-	^ basis! !
-
-!StandardBasis class methodsFor: 'instance creation' stamp: 'len 11/30/2016 14:46:04'!
-from4: aCollection ordering: aMonomialOrdering 
-	"Buchberger algorithm.
-	Answer a Groebner basis obtainded from the given polynomials and ordering."
-	| basis newPolynomials rem lcm fi hi ci fk hk ck heads start pairsDone |
-	aCollection anyOne scalars isField ifFalse: [^ DomainError signal: 'not over a field'].
-	basis _ self new ordering: aMonomialOrdering; addAll: aCollection; yourself.
-	heads _ Dictionary new.
-	start _ 1.
-	pairsDone _ Set new.
-	[newPolynomials _ OrderedCollection new.
-	1 to: basis size do: [:i|
-		fi _ basis at: i.
-		hi _ heads at: i ifAbsentPut: [aMonomialOrdering leadingMonomialOf: fi].
-		ci _ fi coefficientAt: hi.
-		i+1"start" to: basis size do: [:k|
-			pairsDone add: i@k ifAbsent: [fk _ basis at: k.
-			hk _ heads at: k ifAbsentPut: [aMonomialOrdering leadingMonomialOf: fk].
-			ck _ fk coefficientAt: hk.
-			lcm _ hi lcm: hk.
-			lcm = (hi * hk) ifFalse:
-				[rem _ basis reduce: fi * (lcm / hi) / ci - (fk * (lcm / hk) / ck).
-				rem isZero ifFalse: ["Display fill: (i@k*4 extent: 3@3) fillColor: Color yellow." newPolynomials add: rem]]]]].
-	newPolynomials isEmpty]
-		whileFalse: "this is like Magma's ReduceByNew=True"
-			[start _ basis size.
-			basis add: newPolynomials first.
-			newPolynomials allButFirstDo: [:each| (basis reduce: each) isZero ifFalse: [basis add: each]]].
-	^ basis! !
-
-!StandardBasis class methodsFor: 'instance creation' stamp: 'len 11/30/2016 14:43:45'!
-from5: aCollection ordering: aMonomialOrdering 
-	"Buchberger algorithm.
-	Answer a Groebner basis obtainded from the given polynomials and ordering."
-	| G S heads |
-	aCollection anyOne scalars isField ifFalse: [^ DomainError signal: 'not over a field'].
-	G _ self new ordering: aMonomialOrdering; yourself.
-	S _ aCollection asSortedCollection: [:a :b| (aMonomialOrdering leadingMonomialOf: a) degree <= (aMonomialOrdering leadingMonomialOf: b) degree].
-	heads _ OrderedCollection new.
-	[S do: [:f| (G reduces: f) ifFalse: [G add: f]].
-	S _ Set new.
-	1 to: G size do: [:i| | fi hi ci |
-		fi _ G at: i.
-		hi _ i = (heads size + 1) ifTrue: [heads add: (aMonomialOrdering leadingMonomialOf: fi)] ifFalse: [heads at: i].
-		ci _ fi coefficientAt: hi.
-		i+1 to: G size do: [:k| | fk hk ck lcm r |
-			fk _ G at: k.
-			hk _ k = (heads size + 1) ifTrue: [heads add: (aMonomialOrdering leadingMonomialOf: fk)] ifFalse: [heads at: k].
-			lcm _ hi lcm: hk.
-			"Buchberger criterium 1 and 2:"
-			(lcm ~= (hi * hk) and: [((1 to: i-1) noneSatisfy: [:j| (heads at: j) | lcm])])
-				ifTrue:
-					[ck _ fk coefficientAt: hk.
-					r _ G reduce: fi * (lcm / hi) / ci - (fk * (lcm / hk) / ck).
-					r isZero
-"						ifTrue: [Display fill: (i@k*4 extent: 3@3) fillColor: Color red]"
-						ifFalse: [
-"							Display fill: (i@k*4 extent: 3@3) fillColor: Color green."
-							S add: r]]]].
-	S isEmpty] whileFalse.
-"	G verify ifFalse: [self halt]."
-	^ G! !
-
-!StandardBasis class methodsFor: 'instance creation' stamp: 'len 1/25/2017 09:57:42'!
-from: aCollection
-	"Buchberger algorithm.
-	Compute a standard basis from the input polynomials with the specified ordering."
-	| basis S |
-	basis _ self new.
-	aCollection isEmpty ifTrue: [^ basis].
-	aCollection anyOne scalars isField ifFalse: [^ DomainError signal: 'not over a field'].
-"	aCollection anyOne parent ordering isLocal ifTrue: [^ DomainError signal: 'not global monomial ordering']."
-	S _ aCollection.
-	[S _ S asSortedCollection: [:a :b| a leadingMonomial <= b leadingMonomial].
-	S do: [:f| (basis reduce: f) isZero ifFalse: [basis add: f]].
-	S _ Set new.
-	1 to: basis size do: [:i| | fi hi ci |
-		fi _ basis at: i.
-		hi _ fi leadingMonomial.
-		ci _ fi coefficientAt: hi.
-		i+1 to: basis size do: [:k| | fk hk ck lcm r |
-			fk _ basis at: k.
-			hk _ fk leadingMonomial.
-			lcm _ hi lcm: hk.
-			"Buchberger criterium 1 and 2:"
-			(lcm ~= (hi * hk) and: [((1 to: i-1) noneSatisfy: [:j| (basis at: j) leadingMonomial | lcm])])
-				ifTrue:
-					[ck _ fk coefficientAt: hk.
-					r _ basis reduce: fi * (lcm / hi) / ci - (fk * (lcm / hk) / ck).
-					r isZero
-"						ifTrue: [Display fill: (i@k*4 extent: 3@3) fillColor: Color red]"
-						ifFalse: [
-"							Display fill: (i@k*4 extent: 3@3) fillColor: Color green."
-							S add: r]]]].
-	S isEmpty] whileFalse.
-	^ basis! !
-
-!StandardBasis class methodsFor: 'instance creation' stamp: 'len 11/30/2016 14:43:49'!
-fromOld: aCollection
-	"Buchberger algorithm.
-	Answer a Groebner basis obtainded from the given polynomials with the specified ordering."
-	| G S |
-	G _ self new.
-	aCollection isEmpty ifTrue: [^ G].
-	aCollection anyOne scalars isField ifFalse: [^ DomainError signal: 'not over a field'].
-	S _ aCollection.
-	[S _ S asSortedCollection: [:a :b| a leadingMonomial <= b leadingMonomial].
-	S do: [:f| (G reduces: f) ifFalse: [G add: f]].
-	S _ Set new.
-	1 to: G size do: [:i| | fi hi ci |
-		fi _ G at: i.
-		hi _ fi leadingMonomial.
-		ci _ fi coefficientAt: hi.
-		i+1 to: G size do: [:k| | fk hk ck lcm r |
-			fk _ G at: k.
-			hk _ fk leadingMonomial.
-			lcm _ hi lcm: hk.
-			"Buchberger criterium 1 and 2:"
-			(lcm ~= (hi * hk) and: [((1 to: i-1) noneSatisfy: [:j| (G at: j) leadingMonomial | lcm])])
-				ifTrue:
-					[ck _ fk coefficientAt: hk.
-					r _ G reduce: fi * (lcm / hi) / ci - (fk * (lcm / hk) / ck).
-					r isZero
-"						ifTrue: [Display fill: (i@k*4 extent: 3@3) fillColor: Color red]"
-						ifFalse: [
-"							Display fill: (i@k*4 extent: 3@3) fillColor: Color green."
-							S add: r]]]].
-	S isEmpty] whileFalse.
-"	G verify ifFalse: [self halt]."
-	^ G! !
-
-!StandardBasis class methodsFor: 'instance creation' stamp: 'len 11/30/2016 14:43:52'!
-fromOriginal: aCollection ordering: aMonomialOrdering 
-	"Buchberger algorithm.
-	Answer a Groebner basis obtainded from the given polynomials and ordering."
-	| G S heads |
-	aCollection anyOne scalars isField ifFalse: [^ DomainError signal: 'not over a field'].
-	G _ self new ordering: aMonomialOrdering; yourself.
-	S _ aCollection.
-	heads _ OrderedCollection new.
-	[S do: [:f| (G reduces: f) ifFalse: [G add: f]].
-	S _ Set new.
-	1 to: G size do: [:i| | fi hi ci |
-		fi _ G at: i.
-		hi _ i = (heads size + 1) ifTrue: [heads add: (aMonomialOrdering leadingMonomialOf: fi)] ifFalse: [heads at: i].
-		ci _ fi coefficientAt: hi.
-		i+1 to: G size do: [:k| | fk hk ck lcm r |
-			fk _ G at: k.
-			hk _ k = (heads size + 1) ifTrue: [heads add: (aMonomialOrdering leadingMonomialOf: fk)] ifFalse: [heads at: k].
-			lcm _ hi lcm: hk.
-			"Buchberger criterium 1 and 2:"
-			(lcm ~= (hi * hk) and: [((1 to: i-1) noneSatisfy: [:j| (heads at: j) | lcm])])
-				ifTrue:
-					[ck _ fk coefficientAt: hk.
-					r _ G reduce: fi * (lcm / hi) / ci - (fk * (lcm / hk) / ck).
-					r isZero
-"						ifTrue: [Display fill: (i@k*4 extent: 3@3) fillColor: Color red]"
-						ifFalse: [
-"							Display fill: (i@k*4 extent: 3@3) fillColor: Color green."
-							S add: r]]]].
-	S isEmpty] whileFalse.
-"	G verify ifFalse: [self halt]."
-	^ G! !
 
 !GroebnerBasis methodsFor: 'operations' stamp: 'len 4/9/2018 20:07:31'!
 coordinatesOf: aPolynomial
 	^ (MultivariatePolynomialDivision divide: aPolynomial by: self) quotients! !
-
-!GroebnerBasis methodsFor: 'operations' stamp: 'len 5/7/2018 23:23:14'!
-normalForm: aPolynomial
-	| h |
-	h _ aPolynomial.
-	[h isZero]
-		whileFalse:
-			[| g |
-			g _ elements detect: [:one| one leadingMonomial | h leadingMonomial] ifNone: [^ h].
-			h _ h - (g * (h leadingMonomial / g leadingMonomial) * (h leadingCoefficient / g leadingCoefficient))].
-	^ h! !
-
-!GroebnerBasis methodsFor: 'operations' stamp: 'len 1/25/2017 17:52:57'!
-reduce1: aPolynomial
-	"Answer a reduced normal form."
-	| g h |
-	g _ aPolynomial.
-	h _ g zero.
-	[g isZero]
-		whileFalse:
-			[g _ self normalForm: g.
-			g isZero ifFalse: [h _ h + g leadingTerm. g _ g tail]].
-	^ h / h leadingCoefficient! !
 
 !GroebnerBasis methodsFor: 'operations' stamp: 'len 4/9/2018 20:07:38'!
 reduce2: aPolynomial 
@@ -21930,26 +21700,26 @@ zeroDimensionalRadical
 	self dimension = 0 ifFalse: [self error: 'not zero-dimensional'].
 	^ self scalars * (self scalars indeterminates collect: [:i| (self eliminateAllBut: i) generator squareFree])! !
 
-!PolynomialIdeal class methodsFor: 'examples' stamp: 'len 2/14/2017 08:38:07'!
+!PolynomialIdeal class methodsFor: 'examples' stamp: 'len 5/10/2018 21:43:48'!
 cyclic3
-	"The Cyclic ideal in 3 variables."
-	^ self cyclic:3! !
+	"The ideal of cyclic 3-roots."
+	^ self cyclic: 3! !
 
 !PolynomialIdeal class methodsFor: 'examples' stamp: 'len 7/15/2016 18:35'!
 cyclic: n
 	^ self cyclic: n over: QQ! !
 
-!PolynomialIdeal class methodsFor: 'examples' stamp: 'len 5/8/2018 18:10:46'!
-cyclic: n over: scalars
-	| R singles generators |
-	R _ scalars polynomialsIn: n.
-	singles _ R generators.
+!PolynomialIdeal class methodsFor: 'examples' stamp: 'len 5/10/2018 22:00:00'!
+cyclic: n over: aRing
+	"Answer the ideal of cyclic n-roots with coefficients over aRing."
+	| R generators |
+	R _ aRing polynomialsIn: n.
 	generators _ OrderedCollection new.
-	1 to: R rank - 1 do: [:k| | f |
-		f _ R zero.
-		singles combinations: k atATimeDo: [:each| f _ f + each product].
-		generators add: f].
-	generators add: singles product - 1.
+	0 to: R rank - 2 do: [:j|
+		| g |
+		g _ (1 to: R rank) sum: [:i| (i to: i+j) product: [:k| R x: k-1 \\ R rank + 1]].
+		generators add: g].
+	generators add: R generators product - 1.
 	^ R * generators! !
 
 !PolynomialIdeal class methodsFor: 'examples' stamp: 'len 2/17/2017 08:10:51'!
@@ -39418,7 +39188,7 @@ basis
 ideal: anIdeal
 	ideal _ anIdeal! !
 
-!Buchberger methodsFor: 'as yet unclassified' stamp: 'len 5/9/2018 16:59:07'!
+!Buchberger methodsFor: 'as yet unclassified' stamp: 'len 5/10/2018 21:49:03'!
 run
 	"Buchberger's algorithm.
 	Compute a standard basis from the input polynomials with the specified ordering."
@@ -39429,7 +39199,7 @@ run
 	S _ ideal generators.
 	[i0 _ basis size + 1.
 	S _ S asSortedCollection: [:a :b| a leadingMonomial <= b leadingMonomial].
-	S do: [:f| (basis reduce: f) isZero ifFalse: [basis add: f]].
+	S do: [:f| | r | (r _ basis reduce: f) isZero ifFalse: [basis add: r]].
 	S _ Set new.
 	1 to: basis size do: [:i| | fi hi ci |
 		fi _ basis at: i.
@@ -39500,6 +39270,13 @@ run
 							S add: r -> ((ai * (R one * (lcm / hi) / ci) - (ak * (R one * (lcm / hk) / ck))) - (combinations * division quotients) sum)]]]].
 	S isEmpty] whileFalse.
 	matrix _ R matrix: combinations size @ ideal generators size evaluating: [:i :j| (combinations at: i) at: (ideal generators at: j)]! !
+
+!ExtendedBuchberger methodsFor: 'as yet unclassified' stamp: 'len 5/10/2018 17:47:12'!
+verify
+	| S G |
+	S _ ideal scalars tuple: ideal generators.
+	G _ ideal scalars tuple: self basis.
+	^ matrix * S = G! !
 
 !ComplexRootIsolator methodsFor: 'as yet unclassified' stamp: 'len 3/6/2017 16:56:02'!
 T2: K at: m radius: r
@@ -39739,18 +39516,18 @@ remainder
 	remainder isNil ifTrue: [self divide].
 	^ remainder! !
 
-!MultivariatePolynomialDivision methodsFor: 'private' stamp: 'len 11/20/2016 15:18:59'!
+!MultivariatePolynomialDivision methodsFor: 'private' stamp: 'len 5/10/2018 07:23:22'!
 verify
 	| total |
 	total _ self remainder.
 	self divisors with: self quotients do: [:f :q| total _ total + (f*q)].
-	total = self dividend ifFalse: [^ false halt].
+	total = self dividend ifFalse: [^ false].
 
 	self divisors with: self quotients do: [:f :q|
-		(q isZero not and: [(f*q) leadingMonomial > self dividend leadingMonomial])
-			ifTrue: [^ false halt]].
+		(q isZero or: [(f*q) leadingMonomial <= self dividend leadingMonomial])
+			ifFalse: [^ false]].
 
-	self remainder monomials do: [:each| (divisors noneSatisfy: [:f| f leadingMonomial | each]) ifFalse: [^ false halt]].
+	self remainder monomials do: [:each| (self divisors noneSatisfy: [:f| f leadingMonomial | each]) ifFalse: [^ false]].
 	^ true! !
 
 !MultivariatePolynomialDivision class methodsFor: 'instance creation' stamp: 'len 11/20/2016 15:19:29'!
