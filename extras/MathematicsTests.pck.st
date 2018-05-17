@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 12 May 2018 at 7:08:55 pm'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 17 May 2018 at 7:25:56 pm'!
 'Description Please enter a description for this package'!
-!provides: 'MathematicsTests' 1 101!
+!provides: 'MathematicsTests' 1 102!
 !classDefinition: #AbelianGroupTest category: #MathematicsTests!
 TestCase subclass: #AbelianGroupTest
 	instanceVariableNames: ''
@@ -1250,6 +1250,27 @@ testLocalAndGlobalDimension
 	self assert: (X !! (1,0,0)) localRing dimension = 2. "dimension of X at (1,0,0)"
 	self assert: (X !! (0,0,1)) localRing dimension = 1. "dimension of X at (0,0,1)"! !
 
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 5/17/2018 18:48:59'!
+testMorphismsOfProjectiveVarieties
+	"'A Singular Introduction To Commutative Algebra', Example A.6.8 (morphisms of projective varieties)."
+	| P A x y z X f1 f2 f3 I J Y phi Z |
+	P _ ProjectiveSpace new: #(x y z) over: CC. "Œ^2ˆ"
+	A _ P coordinateRing. "ˆ[x,y,z]"
+	x _ A x. y _ A y. z _ A z.
+	X _ P subscheme: {z^3 - (x*(y^2)) + (y^3)}.
+	f1 _ x*z. f2 _ x*y. f3 _ x^2 + (y*z).
+	"In order for (f1,f2,f3) to define a projective morphism (not just a rational map) it must never be zero at any point of X, this means the intersection of X with V(J) must be empty:"
+	I _ X ideal.
+	J _ A * {f1. f2. f3}.
+	self assert: (I + J) dimension = 0.
+	Y _ P subscheme: J.
+	self assert: (X • Y) isEmpty.
+	phi _ X to: P representatives: {f1. f2. f3}.
+	"The image is a curve of degree 6:"
+	Z _ phi image.
+	self assert: Z isCurve.
+	self assert: Z degree = 6! !
+
 !AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 2/9/2017 11:13:57'!
 testMultiplicity
 	"Example from Sage documentation."
@@ -1653,9 +1674,8 @@ testSpecZ
 	self assert: ZZ spec isInitial not.
 	self assert: ZZ spec isTerminal! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 5/4/2018 19:45:08'!
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 5/15/2018 17:54:19'!
 testSpecZSubschemes
-	self notYetImplemented.
 	self assert: ZZ spec >= (ZZ / 2) spec.
 	self assert: (ZZ / 10) spec >= (ZZ / 5) spec.
 	self deny: (ZZ / 10) spec >= (ZZ / 3) spec.
@@ -6238,13 +6258,13 @@ testRealRoots
 	self assert: (roots occurrencesOf: 1/2) = 2.
 	self assert: (roots occurrencesOf: 2) = 1! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 3/7/2017 07:26:30'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 5/17/2018 16:04:08'!
 testRemainderInconsistency
 	"In Sage these two give the same result."
-	| x x2 |
-	x _ ZZ polynomials x.
-	x2 _ QQ polynomials x.
-	self assert: (x \\ (x negated + 1)) leadingCoefficient = (x2 \\ (x2 negated + 1)) leadingCoefficient! !
+	| X x |
+	X _ ZZ polynomials x.
+	x _ QQ polynomials x.
+	self assert: (x \\ (1 - x)) leadingCoefficient = (X \\ (1 - X)) leadingCoefficient! !
 
 !PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 3/7/2017 07:27:20'!
 testResultant
@@ -6568,6 +6588,24 @@ testPolynomialRing
 	self testRing: R.
 	self testRingHomomorphism: R embedding! !
 
+!RingTest methodsFor: 'as yet unclassified' stamp: 'len 5/15/2018 19:18:02'!
+testPolynomialRingPrimeNotMaximalIdeal
+	"Z[x]/<x> is isomorphic to Z, which is an integral domain but not a field. So <x> is prime but not maximal."
+	| R I |
+	R _ ZZ polynomials.
+	I _ R * R x.
+	self assert: I isPrime.
+	self assert: I isMaximal not! !
+
+!RingTest methodsFor: 'as yet unclassified' stamp: 'len 5/15/2018 19:19:26'!
+testPolynomialRingPrimeNotMaximalIdeal2
+	"Q[x,y]/<x> is isomorphic to Q[y], which is an integral domain but not a field. So <x> is prime but not maximal."
+	| R I |
+	R _ QQ polynomialsIn: 2.
+	I _ R * R x.
+	self assert: I isPrime.
+	self assert: I isMaximal not! !
+
 !RingTest methodsFor: 'as yet unclassified' stamp: 'len 10/6/2016 20:32'!
 testQuotientRing
 	| Q |
@@ -6638,6 +6676,13 @@ testRingHomomorphism: phi
 !RingTest methodsFor: 'as yet unclassified' stamp: 'len 10/6/2016 20:27'!
 testZZ
 	self testRing: ZZ! !
+
+!RingTest methodsFor: 'as yet unclassified' stamp: 'len 5/15/2018 19:17:51'!
+testZZPrimeNotMaximalIdeal
+	| I |
+	I _ ZZ * 0.
+	self assert: I isPrime.
+	self assert: I isMaximal not! !
 
 !RootSystemTest methodsFor: 'as yet unclassified' stamp: 'len 7/15/2016 18:37'!
 rootSystem1
