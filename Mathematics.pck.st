@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 19 May 2018 at 4:44:42 am'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 19 May 2018 at 6:09:54 pm'!
 'Description A computational algebra system in Smalltalk'!
-!provides: 'Mathematics' 1 439!
+!provides: 'Mathematics' 1 440!
 !requires: 'RayTracer' 1 2 nil!
 !classDefinition: #RealAlgebraicNumber category: #'Mathematics-Fields'!
 Number subclass: #RealAlgebraicNumber
@@ -4308,9 +4308,9 @@ Abstract superclass for schemes. Subclasses implement particular types of scheme
 An important class of schemes are those defined by polynomial equations in some ambient space. See subclasses AffineVariety and ProjectiveVariety, which are closed subschemes of affine and projective space respectively. See also RationalPoint and subclasses.!
 
 !AffineScheme commentStamp: '<historical>' prior: 0!
-Affine schemes are the prime spectra Spec(R) of an arbitrary commutative ring R, equipped with a sheaf of local rings (which makes it a locally ringed space). As a set, their elements are the prime ideals of the associated coordinate ring R.
+An affine scheme is the prime spectrum Spec(R) of a commutative ring R, equipped with a sheaf of local rings (which makes it a locally ringed space). As a set, their elements are the prime ideals of the associated coordinate ring R.
 
-In scheme theory, affine schemes are the fundamental building blocks of general schemes. Any scheme can be constructed by gluing together finitely many affine schemes.!
+In scheme theory, affine schemes are the fundamental building blocks of general schemes. Any scheme can be constructed by gluing together finitely many affine schemes, and schemes that are not affine can be covered by a finite number of affine patches.!
 
 !AffineVariety commentStamp: '<historical>' prior: 0!
 Closed subschemes of an affine space (see AffineSpace). Their coordinate rings are quotients of multivariate polynomial rings by an ideal (also called affine rings or affine algebras, see AffineRing). Their rational points are AffinePoints.
@@ -4339,8 +4339,9 @@ Cartesian products of affine spaces.
 !
 
 !ProjectiveScheme commentStamp: '<historical>' prior: 0!
-Projective schemes are the projective (or homogeneous) spectra Proj(R) of a graded commutative ring R, equipped with a sheaf of local rings (which makes it a locally ringed space). As a set, their elements are the relevant prime ideals of the associated coordinate ring R.
-!
+A projective schemes is the projective (or homogeneous) spectrum Proj(R) of a graded commutative ring R, equipped with a sheaf of local rings (which makes it a locally ringed space). As a set, their elements are the relevant prime ideals of the associated homogeneous coordinate ring R.
+
+Proj(R) is contained in its affine cone Spec(R).!
 
 !ProjectiveVariety commentStamp: '<historical>' prior: 0!
 Projective closed subschemes of a projective space (see ProjectiveSpace). Their homogeneous coordinate rings are quotient rings of multivariate polynomial rings by a homogeneous ideal, i.e. graded affine algebras. Their rational points are ProjectivePoints.
@@ -5094,6 +5095,10 @@ adaptToCollection: rcvr andSend: selector
 	the results of each element combined with me in that expression."
 
 	^ rcvr collect: [:element | element perform: selector with: self]! !
+
+!Object methodsFor: '*mathematics' stamp: 'len 5/19/2018 17:53:50'!
+isEvaluable
+	^ self isBlock! !
 
 !Object methodsFor: '*mathematics' stamp: 'len 11/19/2015 17:01'!
 isInfinity
@@ -12458,10 +12463,12 @@ example2
 "	self propertyAt: #canonicalMaps ifPresent: [:aDictionary| aDictionary at: aCodomain ifPresent: [:aMorphism| ^ aMorphism]]."
 	^ aCodomain from: self! !
 
-!Domain methodsFor: 'elements' stamp: 'len 12/22/2016 22:47:30'!
+!Domain methodsFor: 'elements' stamp: 'len 5/19/2018 18:05:53'!
 !! anObject
-	"Coerce anObject to an element of the receiver. Subclasses should reimplement."
+	"Coerce anObject to an element of the receiver. Subclasses should extend."
 	(self includes: anObject) ifTrue: [^ anObject].
+	(self isQuotient and: [self base includes: anObject]) ifTrue: [^ self project: anObject].
+	self isEmbedded ifTrue: [| element | element _ self ambient !! anObject. (self contains: element) ifTrue: [^ element]].
 	^ DomainError signal: 'coercion failed'! !
 
 !Domain methodsFor: 'operations' stamp: 'len 12/30/2017 16:26:42'!
@@ -13083,9 +13090,10 @@ example5GLAsMatrixGroup
 newFrom: anObject
 	^ self new elements: anObject! !
 
-!HomSet methodsFor: 'elements' stamp: 'len 12/22/2016 22:38:15'!
+!HomSet methodsFor: 'elements' stamp: 'len 5/19/2018 18:07:02'!
 !! anObject
-	^ self evaluating: anObject! !
+	anObject isEvaluable ifTrue: [^ self evaluating: anObject].
+	^ super !! anObject! !
 
 !HomSet methodsFor: 'accessing' stamp: 'len 12/28/2016 11:23:54'!
 codomain
@@ -15234,10 +15242,10 @@ new: anInteger
 on: aCollection
 	^ self new ambient: (SymmetricGroup on: aCollection)! !
 
-!SymmetricGroup methodsFor: 'elements' stamp: 'len 2/1/2018 22:51:00'!
+!SymmetricGroup methodsFor: 'elements' stamp: 'len 5/19/2018 17:59:59'!
 !! anObject
 	"Coerce anObject to an element of the receiver (a permutation)."
-	anObject isBlock
+	anObject isEvaluable
 		ifTrue: [^ self evaluating: anObject].
 	anObject isSequenceableCollection
 		ifFalse: [^ super !! anObject].
@@ -17741,6 +17749,10 @@ primeIdealsDo: aBlock
 	self isField ifTrue: [aBlock value: self zeroIdeal. ^ self].
 	^ self subclassResponsibility! !
 
+!Ring methodsFor: 'enumerating' stamp: 'len 5/19/2018 16:33:52'!
+relevantPrimeIdealsDo: aBlock
+	self primeIdealsDo: [:each| each isRelevant ifTrue: [aBlock value: each]]! !
+
 !Ring methodsFor: 'operations' stamp: 'len 2/13/2017 07:44:41'!
 spec
 	"Answer the spectrum of the receiver, Spec(R)."
@@ -17896,10 +17908,9 @@ scalars: aRing
 on: aGroup over: aRing
 	^ self new group: aGroup; scalars: aRing! !
 
-!LocalizationRing methodsFor: 'elements' stamp: 'len 1/8/2017 20:50:02'!
+!LocalizationRing methodsFor: 'elements' stamp: 'len 5/19/2018 18:07:20'!
 !! anObject
-	(self integers includes: anObject)
-		ifTrue: [^ self embed: anObject].
+	(self integers includes: anObject) ifTrue: [^ self embed: anObject].
 	^ super !! anObject! !
 
 !LocalizationRing methodsFor: 'comparing' stamp: 'len 10/29/2016 10:16'!
@@ -18432,11 +18443,6 @@ zero
 !ProductRing class methodsFor: 'instance creation' stamp: 'len 8/29/2016 04:09'!
 components: anArray
 	^ self new components: anArray! !
-
-!QuotientRing methodsFor: 'elements' stamp: 'len 5/4/2018 20:02:06'!
-!! anObject
-	(self base includes: anObject) ifTrue: [^ self project: anObject].
-	^ super !! anObject! !
 
 !QuotientRing methodsFor: 'comparing' stamp: 'len 2/27/2017 20:56:21'!
 = anObject
@@ -20040,7 +20046,7 @@ over: aRing
 words: aMonoid over: aRing
 	^ self new words: aMonoid; scalars: aRing! !
 
-!PolynomialRing methodsFor: 'elements' stamp: 'len 5/18/2018 21:10:43'!
+!PolynomialRing methodsFor: 'elements' stamp: 'len 5/19/2018 17:57:18'!
 !! anObject
 	| f parts |
 	(anObject isKindOf: Polynomial)
@@ -20049,7 +20055,7 @@ words: aMonoid over: aRing
 				ifTrue: [^ self constant: self scalars !! anObject].
 			(self scalars includes: anObject)
 				ifTrue: [^ self constant: anObject].
-			(anObject isBlock or: [anObject is: #Function])
+			anObject isEvaluable
 				ifTrue: [^ self evaluating: anObject].
 			^ super !! anObject].
 	f _ anObject.
@@ -22062,13 +22068,15 @@ mod: aSubmodule
 		ifFalse: [^ DomainError signal].
 	^ self ambient span: self matrix, anObject matrix over: self scalars! !
 
-!FreeModule methodsFor: 'operations' stamp: 'len 4/1/2018 21:12:04'!
+!FreeModule methodsFor: 'operations' stamp: 'len 5/19/2018 17:15:40'!
 / anObject
 	"Answer the quotient of the receiver by the submodule anObject,
 	i.e. the module obtained by 'collapsing' the submodule to zero.
 	Alternatively, if anObject is an scalar, scale down the receiver by it."
 	| Q |
 	(self ambient scalars includes: anObject) ifTrue: [^ self * anObject reciprocal].
+	(self includes: anObject) ifTrue: [^ self / (self ambient span: {anObject})].
+	anObject isCollection ifTrue: [^ self / (self ambient span: anObject)].
 	anObject isFreeModule ifFalse: [^ super / anObject].
 	(self scalars isPID and: [self ambient = anObject ambient])
 		ifFalse: [^ DomainError signal].
@@ -22424,7 +22432,7 @@ norm2
 		[Function from: self to: self scalars
 			evaluating: [:x| (self innerProduct value: {x. x conjugated})]]! !
 
-!FreeModule methodsFor: 'morphisms' stamp: 'len 4/3/2018 00:03:28'!
+!FreeModule methodsFor: 'morphisms' stamp: 'len 5/19/2018 17:37:19'!
 orthogonalProjection
 	"Answer an orthogonal projection onto the receiver."
 	| answer A T |
@@ -22432,7 +22440,7 @@ orthogonalProjection
 	self isTrivial ifTrue: [^ self ambient endomorphisms zero].
 	A _ self matrix.
 	T _ A transposed.
-	answer _ self ambient endomorphisms matrix: T * (A * T) inverse * A.
+	answer _ self ambient endomorphisms !! (T * (A * T) inverse * A).
 	self propertyAt: #orthogonalProjection put: answer.
 	^ answer! !
 
@@ -22757,10 +22765,10 @@ example
 	"The direct sum of two vector spaces."
 	^ QQ^3 ê (QQ^2)! !
 
-!FreeHomModule methodsFor: 'elements' stamp: 'len 5/18/2018 20:22:19'!
+!FreeHomModule methodsFor: 'elements' stamp: 'len 5/19/2018 17:54:47'!
 !! anObject
-	(anObject isBlock or: [anObject is: #Function]) ifTrue: [^ self evaluating: anObject].
-	anObject isMatrix ifTrue: [^ self matrix: anObject].
+	anObject isMatrix ifTrue: [^ 	LinearMap from: domain to: codomain matrix: anObject].
+	anObject isEvaluable ifTrue: [^ self evaluating: anObject].
 	(self scalars includes: anObject) ifTrue: [^ self scalar: anObject].
 	anObject isInteger ifTrue: [^ self scalar: self scalars !! anObject].
 	^ super !! anObject! !
@@ -22787,10 +22795,10 @@ domain
 domain: aVectorSpace
 	domain _ aVectorSpace! !
 
-!FreeHomModule methodsFor: 'basis' stamp: 'len 3/21/2018 06:28:52'!
+!FreeHomModule methodsFor: 'basis' stamp: 'len 5/19/2018 17:39:35'!
 e: anInteger
 	"Answer the anInteger-th canonic vector."
-	^ self matrix: (self matrices e: anInteger)! !
+	^ self !! (self matrices e: anInteger)! !
 
 !FreeHomModule methodsFor: 'elements' stamp: 'len 3/5/2017 17:01:32'!
 evaluating: aBlock
@@ -22800,9 +22808,9 @@ evaluating: aBlock
 evaluatingWithArguments: aBlock
 	^ self domain to: self codomain evaluatingWithArguments: aBlock! !
 
-!FreeHomModule methodsFor: 'elements' stamp: 'len 2/11/2016 20:50'!
+!FreeHomModule methodsFor: 'elements' stamp: 'len 5/19/2018 17:39:42'!
 identity
-	^ self matrix: self matrices identity! !
+	^ self !! self matrices identity! !
 
 !FreeHomModule methodsFor: 'testing' stamp: 'len 8/23/2016 21:58'!
 includes: aLinearMap
@@ -22820,11 +22828,6 @@ isEndomorphisms
 matrices
 	"Answer the vector space of the matrices associated to the transformations of the receiver."
 	^ self scalars ^ (self codomain rank @ self domain rank)! !
-
-!FreeHomModule methodsFor: 'elements' stamp: 'len 1/21/2018 21:45:58'!
-matrix: aMatrix
-	"Answer the linear transformation associated to the given matrix in the distinguished bases for the domain and codomain modules."
-	^ LinearMap from: domain to: codomain matrix: aMatrix! !
 
 !FreeHomModule methodsFor: 'private' stamp: 'len 3/18/2018 17:28:15'!
 matrixOf: aLinearMap
@@ -22889,9 +22892,9 @@ z
 	"As for polynomials."
 	^ self x: 3! !
 
-!FreeHomModule methodsFor: 'elements' stamp: 'len 12/12/2017 18:35:01'!
+!FreeHomModule methodsFor: 'elements' stamp: 'len 5/19/2018 17:39:47'!
 zero
-	^ self matrix: self matrices zero! !
+	^ self !! self matrices zero! !
 
 !FreeHomModule class methodsFor: 'examples' stamp: 'len 4/3/2018 19:27:52'!
 example1
@@ -23418,9 +23421,10 @@ e: anInteger
 atRandom: aRandom
 	^ scalars tuple: self rank evaluating: [:i| scalars atRandom: aRandom]! !
 
-!TupleModule methodsFor: 'random' stamp: 'len 1/20/2018 19:29:30'!
+!TupleModule methodsFor: 'random' stamp: 'len 5/19/2018 17:02:01'!
 atRandom: aRandom bits: bitSize
 	| n |
+	self isTrivial ifTrue: [^ self zero].
 	n _ bitSize / self rank.
 	^ scalars tuple: self rank evaluating: [:i| scalars atRandom: aRandom bits: n]! !
 
@@ -26140,6 +26144,10 @@ example3
 new: anArray over: aRing
 	^ self components: (anArray collect: [:each| AffineSpace new: each over: aRing])! !
 
+!ProjectiveScheme methodsFor: 'as yet unclassified' stamp: 'len 5/19/2018 16:32:56'!
+do: aBlock
+	self coordinateRing relevantPrimeIdealsDo: aBlock! !
+
 !ProjectiveVariety methodsFor: 'comparing' stamp: 'len 1/13/2017 17:03:23'!
 = anObject
 	^ (anObject isKindOf: self species) and: [self saturated coordinateRing = anObject saturated coordinateRing]! !
@@ -27241,9 +27249,9 @@ example6GLAsMatrixGroupAction
 	self domain do: [:each| (self value: each) = (aFunction value: each) ifFalse: [^ false]].
 	^ true! !
 
-!Function methodsFor: 'operations' stamp: 'len 1/22/2017 08:14:55'!
+!Function methodsFor: 'operations' stamp: 'len 5/19/2018 17:55:21'!
 ^ anObject
-	^ (anObject isKindOf: Function)
+	^ anObject isEvaluable
 		ifTrue: [self species from: self domain to: self codomain evaluating: [:each| (self value: each) ^ (anObject value: each)]]
 		ifFalse: [self species from: self domain to: self codomain evaluating: [:each| (self value: each) ^ anObject]]! !
 
@@ -27332,6 +27340,10 @@ isBiyective
 !Function methodsFor: 'testing' stamp: 'len 8/24/2016 20:37'!
 isEpimorphism
 	^ self isSurjective! !
+
+!Function methodsFor: 'testing' stamp: 'len 5/19/2018 17:54:16'!
+isEvaluable
+	^ true! !
 
 !Function methodsFor: 'testing' stamp: 'len 12/28/2016 11:10:18'!
 isIdentity
@@ -34529,9 +34541,9 @@ checkDimensionMatch: aMatrix
 	(self width = aMatrix width and: [self height = aMatrix height])
 		ifFalse: [^ DomainError signal: 'matrix sizes don''t match']! !
 
-!Matrix methodsFor: 'private' stamp: 'len 11/5/2016 07:01'!
+!Matrix methodsFor: 'private' stamp: 'len 5/19/2018 17:04:00'!
 checkScalarsMatch: aMatrix
-	self scalars = aMatrix scalars
+	(self isEmpty or: [self scalars = aMatrix scalars])
 		ifFalse: [^ DomainError signal: 'base rings don''t match']! !
 
 !Matrix methodsFor: 'operations' stamp: 'len 10/13/2016 14:00'!
