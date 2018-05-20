@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 20 May 2018 at 4:28:20 pm'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 20 May 2018 at 10:15:34 pm'!
 'Description A computational algebra system in Smalltalk'!
-!provides: 'Mathematics' 1 441!
+!provides: 'Mathematics' 1 442!
 !requires: 'RayTracer' 1 2 nil!
 !classDefinition: #RealAlgebraicNumber category: #'Mathematics-Fields'!
 Number subclass: #RealAlgebraicNumber
@@ -17574,10 +17574,10 @@ isIntegrallyClosedDomain
 	"A ring is an integrally closed domain if it is an integral domain whose integral closure in its field of fractions is the ring itself."
 	^ self propertyAt: #isIntegrallyClosedDomain ifAbsent: [self isUFD]! !
 
-!Ring methodsFor: 'testing' stamp: 'len 10/28/2016 11:17'!
+!Ring methodsFor: 'testing' stamp: 'len 5/20/2018 21:57:40'!
 isLocal
-	"Answer true if the receiver is a local ring."
-	^ false! !
+	"Answer true if the receiver is a local ring. Subclasses should reimplement."
+	^ self isDivisionRing! !
 
 !Ring methodsFor: 'testing' stamp: 'len 1/26/2018 18:58:19'!
 isLocalField
@@ -17680,6 +17680,12 @@ matrix: dimension evaluatingDiagonal: aBlock
 !Ring methodsFor: 'tuples and matrices' stamp: 'len 11/5/2016 06:10'!
 matrix: dimension scalar: anElement
 	^ self matrix: dimension evaluatingDiagonal: [:i| anElement]! !
+
+!Ring methodsFor: 'accessing' stamp: 'len 5/20/2018 21:57:24'!
+maximalIdeal
+	"If the receiver is a local ring, answer its maximal ideal."
+	self isDivisionRing ifTrue: [^ self zeroIdeal].
+	self subclassResponsibility! !
 
 !Ring methodsFor: 'operations' stamp: 'len 11/22/2015 06:26'!
 mod: anObject
@@ -18530,6 +18536,10 @@ isIntegralDomain
 		ifTrue: [^ true].
 	^ self notYetImplemented! !
 
+!QuotientRing methodsFor: 'testing' stamp: 'len 5/20/2018 21:59:53'!
+isLocal
+	^ self base isLocal or: [super isLocal]! !
+
 !QuotientRing methodsFor: 'testing' stamp: 'len 1/12/2018 21:31:43'!
 isNoetherian
 	^ self base isNoetherian or: [super isNoetherian]! !
@@ -18951,7 +18961,7 @@ isGlobal
 isGraded
 	^ self base isGraded and: [self relations isHomogeneous]! !
 
-!AffineRing methodsFor: 'testing' stamp: 'len 2/12/2017 05:49:31'!
+!AffineRing methodsFor: 'testing' stamp: 'len 5/20/2018 21:59:33'!
 isLocal
 	^ self base isLocal! !
 
@@ -18970,7 +18980,7 @@ localization
 	self isGlobal ifFalse: [DomainError signal: 'the ring is not global'].
 	^ self orderedBy: #lglex! !
 
-!AffineRing methodsFor: 'accessing' stamp: 'len 2/13/2017 04:57:13'!
+!AffineRing methodsFor: 'accessing' stamp: 'len 5/20/2018 21:52:35'!
 maximalIdeal
 	self isLocal ifFalse: [DomainError signal: 'the ring is not local'].
 	^ self * self generators! !
@@ -20512,9 +20522,12 @@ isUFD
 	self scalars isUFD ifTrue: [^ true]. "proof based on Gauss lemma"
 	^ super isUFD! !
 
-!PolynomialRing methodsFor: 'testing' stamp: 'len 3/28/2018 21:06:15'!
+!PolynomialRing methodsFor: 'testing' stamp: 'len 5/20/2018 19:05:24'!
 isUnit: aPolynomial
-	^ aPolynomial isConstant and: [self scalars isUnit: aPolynomial leadingCoefficient]! !
+	aPolynomial isConstant ifTrue: [^ self scalars isUnit: aPolynomial leadingCoefficient].
+	self scalars isIntegralDomain ifTrue: [^ false].
+	"todo: implement for Galois rings, etc"
+	^ self notYetImplemented! !
 
 !PolynomialRing methodsFor: 'testing' stamp: 'len 10/22/2016 18:16'!
 isUnivariate
@@ -21029,7 +21042,7 @@ to: aCodomain
 		ifTrue: [^ self to: aCodomain evaluating: [:x| aCodomain zero]].
 	^ super to: aCodomain! !
 
-!Module methodsFor: 'morphisms' stamp: 'len 1/19/2018 21:12:17'!
+!Module methodsFor: 'morphisms' stamp: 'len 5/20/2018 16:54:09'!
 to: aModule evaluating: aBlock
 	aModule isModule ifFalse: [^ super to: aModule evaluating: aBlock].
 	aModule scalars = self scalars ifFalse: [DomainError signal].
@@ -21935,9 +21948,19 @@ radical
 species
 	^ PolynomialIdeal! !
 
-!QuotientModule methodsFor: 'accessing' stamp: 'len 2/27/2017 21:31:55'!
+!QuotientModule methodsFor: 'operations' stamp: 'len 5/20/2018 18:32:24'!
+annihilator
+	"Answer the ideal of the scalars rings that annihilates all the elements in the receiver."
+	self isFinite ifFalse: [^ self scalars zeroIdeal].
+	^ self scalars * (self invariants inject: self scalars one into: [:result :each| result lcm: each])! !
+
+!QuotientModule methodsFor: 'accessing' stamp: 'len 5/20/2018 17:03:30'!
 base
-	^ self relations ambient! !
+	^ self propertyAt: #base ifAbsentPut: [self relations ambient]! !
+
+!QuotientModule methodsFor: 'accessing-private' stamp: 'len 5/20/2018 17:02:48'!
+base: aModule
+	self propertyAt: #base put: aModule! !
 
 !QuotientModule methodsFor: 'private' stamp: 'len 1/16/2018 18:30:51'!
 buildProjection
@@ -21971,6 +21994,10 @@ includes: anObject
 !QuotientModule methodsFor: 'accessing' stamp: 'len 5/19/2018 20:04:17'!
 invariants
 	^ self matrix SNF! !
+
+!QuotientModule methodsFor: 'testing' stamp: 'len 5/20/2018 18:25:34'!
+isFinite
+	^ (self invariants includes: 0) not! !
 
 !QuotientModule methodsFor: 'testing' stamp: 'len 5/20/2018 13:37:28'!
 isNoetherian
@@ -22039,6 +22066,10 @@ span: aCollection over: aRing
 zero
 	^ self project: self base zero! !
 
+!QuotientModule class methodsFor: 'instance creation' stamp: 'len 5/20/2018 17:02:20'!
+base: aModule relations: aSubmodule
+	^ self new base: aModule; relations: aSubmodule! !
+
 !QuotientModule class methodsFor: 'instance creation' stamp: 'len 2/27/2017 21:32:21'!
 mod: aSubmodule
 	^ self new relations: aSubmodule! !
@@ -22071,21 +22102,23 @@ mod: aSubmodule
 		ifFalse: [^ DomainError signal].
 	^ self ambient span: self matrix, anObject matrix over: self scalars! !
 
-!FreeModule methodsFor: 'operations' stamp: 'len 5/19/2018 17:15:40'!
+!FreeModule methodsFor: 'operations' stamp: 'len 5/20/2018 17:55:45'!
 / anObject
 	"Answer the quotient of the receiver by the submodule anObject,
 	i.e. the module obtained by 'collapsing' the submodule to zero.
 	Alternatively, if anObject is an scalar, scale down the receiver by it."
-	| Q |
 	(self ambient scalars includes: anObject) ifTrue: [^ self * anObject reciprocal].
-	(self includes: anObject) ifTrue: [^ self / (self ambient span: {anObject})].
-	anObject isCollection ifTrue: [^ self / (self ambient span: anObject)].
+	(self includes: anObject) ifTrue: [^ self / (self ambient span: {anObject} over: self scalars)].
+	anObject isCollection ifTrue: [^ self / (self ambient span: anObject over: self scalars)].
 	anObject isFreeModule ifFalse: [^ super / anObject].
 	(self scalars isPID and: [self ambient = anObject ambient])
 		ifFalse: [^ DomainError signal].
-	Q _ anObject quotient.
-	self isEmbedded ifFalse: [^ Q].
-	^ Q span: (self basis collect: [:each| Q project: each])! !
+	self isVectorSpace ifTrue:
+		[| Q |
+		Q _ QuotientSpace mod: anObject.
+		self isEmbedded ifFalse: [^ Q].
+		^ Q span: (self basis collect: [:each| Q project: each])].
+	^ QuotientModule base: self relations: anObject! !
 
 !FreeModule methodsFor: 'operations' stamp: 'len 12/8/2016 20:27:46'!
 /\ aModule
@@ -22565,7 +22598,7 @@ span: aCollection over: aRing
 tensors: aPair
 	^ TensorsModule type: aPair on: self! !
 
-!FreeModule methodsFor: 'morphisms' stamp: 'len 1/19/2018 21:11:58'!
+!FreeModule methodsFor: 'morphisms' stamp: 'len 5/20/2018 16:53:36'!
 to: aModule evaluating: aBlock
 	aModule isFreeModule ifFalse: [^ super to: aModule evaluating: aBlock].
 	aModule scalars = self scalars ifFalse: [DomainError signal].
@@ -34344,12 +34377,12 @@ QR
 	R _ Q transposed * self.
 	^ {Q. R}! !
 
-!Matrix methodsFor: 'reduction' stamp: 'len 3/18/2018 16:18:24'!
+!Matrix methodsFor: 'reduction' stamp: 'len 5/20/2018 18:27:34'!
 SNF
 	"Answer the diagonal of the Smith normal form of the receiver, ordered such that each element divides the next one."
 	self isEmpty ifTrue: [^ #()].
 	self scalars isPID ifFalse: [^ DomainError signal: 'coefficients ring is not a PID'].
-	^ SmithReduction new matrix: self copy; diagonal! !
+	^ (SmithReduction new matrix: self copy; diagonal) asArray! !
 
 !Matrix methodsFor: 'converting' stamp: 'len 2/10/2016 21:38'!
 adaptToNumber: aNumber andSend: selector
@@ -36020,7 +36053,7 @@ reduceStep: i mod: R
 			c _ c + 1].
 	c > 0] whileTrue "8. Repeat stage i?"! !
 
-!SmithReduction methodsFor: 'private' stamp: 'len 4/5/2018 15:43:52'!
+!SmithReduction methodsFor: 'private' stamp: 'len 5/20/2018 18:28:20'!
 run
 	| n i R b k |
 	n _ matrix height.
@@ -36043,7 +36076,7 @@ run
 	i = 2]
 		whileFalse: [i _ i - 1].
 	diagonal add: ((matrix at: 1@1) gcd: R).
-	diagonal _ matrix scalars tuple: diagonal! !
+"	diagonal _ matrix scalars tuple: diagonal"! !
 
 !ModuleMonomial methodsFor: 'comparing' stamp: 'len 1/5/2018 11:20:58'!
 < aModuleMonomial
