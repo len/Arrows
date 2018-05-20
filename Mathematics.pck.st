@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 19 May 2018 at 6:09:54 pm'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 20 May 2018 at 4:28:20 pm'!
 'Description A computational algebra system in Smalltalk'!
-!provides: 'Mathematics' 1 440!
+!provides: 'Mathematics' 1 441!
 !requires: 'RayTracer' 1 2 nil!
 !classDefinition: #RealAlgebraicNumber category: #'Mathematics-Fields'!
 Number subclass: #RealAlgebraicNumber
@@ -1532,16 +1532,6 @@ FreeModule subclass: #QuotientSpace
 QuotientSpace class
 	instanceVariableNames: ''!
 
-!classDefinition: #Subspace category: #'Mathematics-Modules-Free'!
-FreeModule subclass: #Subspace
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Modules-Free'!
-!classDefinition: 'Subspace class' category: #'Mathematics-Modules-Free'!
-Subspace class
-	instanceVariableNames: ''!
-
 !classDefinition: #Lattice category: #'Mathematics-Modules-Lattices'!
 FreeModule subclass: #Lattice
 	instanceVariableNames: ''
@@ -1552,18 +1542,8 @@ FreeModule subclass: #Lattice
 Lattice class
 	instanceVariableNames: ''!
 
-!classDefinition: #RationalLattice category: #'Mathematics-Modules-Lattices'!
-Lattice subclass: #RationalLattice
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Mathematics-Modules-Lattices'!
-!classDefinition: 'RationalLattice class' category: #'Mathematics-Modules-Lattices'!
-RationalLattice class
-	instanceVariableNames: ''!
-
 !classDefinition: #FractionalIdeal category: #'Mathematics-Fields-Number Fields'!
-RationalLattice subclass: #FractionalIdeal
+Lattice subclass: #FractionalIdeal
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
@@ -4167,7 +4147,7 @@ Finite-rank free R-modules, i.e. R-modules with a basis. They are isomorphic to 
 
 Most functionality is implemented for the cases where R is a field (vector spaces, relying on gaussian elimination), or for R a PID such as Z or Q[x] (relying on the Hermite normal form or computing in the field of fractions).
 
-Free modules are embedded in an ambient module, and are represented by a basis matrix (FreeModule>>matrix) with respect to the standard basis of its ambient.
+Free modules are embedded in an ambient module, and are represented by a basis matrix (FreeModule>>matrix) with respect to the ambient standard basis.
 
 For R a PID, free R-modules are always embedded in an ambient K-vector space, where K is the field of fractions of R.
 
@@ -4202,16 +4182,8 @@ See also QuotientModule.
 References:
 	https://en.wikipedia.org/wiki/Quotient_space_(linear_algebra)!
 
-!Subspace commentStamp: '<historical>' prior: 0!
-K-vector subspaces embedded in an ambient K-vector space.!
-
 !Lattice commentStamp: '<historical>' prior: 0!
-Free R-modules embedded in a K-vector space, where R is a PID and K is its field of fractions. This is a generalization of rational lattices (see RationalLattice).
-
-Lattice coordinates are in R, while the elements of a lattice are elements of the ambient K-vector space.!
-
-!RationalLattice commentStamp: '<historical>' prior: 0!
-A rational lattice is the set of integer linear combinations of a basis of a rational vector space. This is a discrete subgroup of the ambient Q-vector space (as abelian group) isomorphic to Z^n, and a free Z-module.
+A lattice is the set of integer linear combinations of a basis of a rational vector space. This is a discrete subgroup of the ambient Q-vector space (as abelian group) isomorphic to Z^n, and a free Z-module.
 
 Lattice coordinates are in Z, while the elements of the receiver live in the ambient Q-vector space.!
 
@@ -4259,9 +4231,9 @@ TODO:
 R-modules where R is a multivariate ring such as a polynomial ring or an affine ring.!
 
 !AffineSubspace commentStamp: '<historical>' prior: 0!
-Affine subspaces contained in a given vector space or module, i.e. flats, or linear varieties, linear manifolds, or translated subspaces/submodules (cosets).
+Module cosets or affine subspaces contained in a given vector space or module, i.e. flats, or linear varieties, linear manifolds, or translated subspaces/submodules (cosets).
 
-Affine subspaces appear when considering the solutions of non-homogeneous linear systems, or the set of all the vectors in the domain of a linear map that are mapped to a given vector in the codomain of the transformation (which is called the fiber of the vector). They are also the elements of quotient spaces or quotient modules.
+They appear when considering the solutions of non-homogeneous linear systems, or the set of all the vectors in the domain of a linear map that are mapped to a given vector in the codomain of the transformation (the 'fiber' of the vector). They are also the elements of quotient spaces or quotient modules.
 !
 
 !Grassmannian commentStamp: 'len 11/3/2016 09:19' prior: 0!
@@ -4490,7 +4462,7 @@ References:
 	https://en.wikipedia.org/wiki/Affine_transformation!
 
 !QuadraticForm commentStamp: '<historical>' prior: 0!
-Quadratic forms as homogeneous quadratic functions M->R from a finite rank free R-module to R. Given a basis of M, they can be represented as homogeneous quadratic polynomials or as symmetric matrices that define symmetric bilinear forms MxM->R.!
+Quadratic forms as homogeneous quadratic functions M->R from a finite-rank free R-module to R. Given a basis of M, they can be represented as homogeneous quadratic polynomials or as symmetric matrices that define symmetric bilinear forms MxM->R.!
 
 !BilinearForm commentStamp: '<historical>' prior: 0!
 Bilinear forms, i.e. functions from VxV to F where V is a vector space over the field F that satisfy:
@@ -12792,10 +12764,10 @@ isCoproduct
 	"Answer true if the receiver is some kind of categorical coproduct, such as direct sum of vector spaces or of other abelian groups."
 	^ false! !
 
-!Domain methodsFor: 'testing' stamp: 'len 3/18/2018 14:53:34'!
+!Domain methodsFor: 'testing' stamp: 'len 5/20/2018 15:48:00'!
 isEmbedded
 	"Answer true if the receiver is a subobject; for example a submodule of R^n, a subgroup of Sym(n), a subvariety of affine or projective space, etc."
-	^ self ambient ~= self! !
+	^ self ambient ~~ self! !
 
 !Domain methodsFor: 'testing' stamp: 'len 11/2/2016 08:54'!
 isEmpty
@@ -14724,8 +14696,9 @@ hash
 identity
 	^ components collect: [:each| each identity]! !
 
-!DirectProductGroup methodsFor: 'testing' stamp: 'len 2/12/2016 20:14'!
+!DirectProductGroup methodsFor: 'testing' stamp: 'len 5/19/2018 18:39:28'!
 includes: anObject
+	anObject isSequenceableCollection ifFalse: [^ false].
 	anObject size = components size ifFalse: [^ false].
 	components with: anObject do: [:G :x| (G includes: x) ifFalse: [^ false]].
 	^ true! !
@@ -15853,15 +15826,15 @@ special
 	"Answer the special Euclidean group SE(A), the group of direct isometries, i.e. isometries preserving orientation, also called 'rigid motions'. This is a subgroup of the receiver."
 	^ SpecialEuclideanGroup on: space! !
 
-!GeneralAffineGroup methodsFor: 'random' stamp: 'len 1/3/2017 21:03:01'!
+!GeneralAffineGroup methodsFor: 'random' stamp: 'len 5/20/2018 16:20:50'!
 atRandom: aRandom
-	^ (space direction automorphisms atRandom: aRandom) translatedBy: (space atRandom: aRandom)! !
+	^ (space direction automorphisms atRandom: aRandom) + (space atRandom: aRandom)! !
 
-!GeneralAffineGroup methodsFor: 'random' stamp: 'len 1/3/2017 21:03:32'!
+!GeneralAffineGroup methodsFor: 'random' stamp: 'len 5/20/2018 16:21:13'!
 atRandom: aRandom bits: bitSize
 	| n |
 	n _ bitSize sqrtFloor.
-	^ (self space asLinearSpace automorphisms atRandom: aRandom bits: bitSize - n) translatedBy: (self space asLinearSpace atRandom: aRandom bits: n)! !
+	^ (self space automorphisms atRandom: aRandom bits: bitSize - n) + (self space atRandom: aRandom bits: n)! !
 
 !GeneralAffineGroup methodsFor: 'operations' stamp: 'len 2/12/2016 18:28'!
 euclidean
@@ -16321,8 +16294,9 @@ embedding: i
 identity
 	^ components collect: [:each| each identity]! !
 
-!DirectSumGroup methodsFor: 'testing' stamp: 'len 10/9/2016 10:45'!
+!DirectSumGroup methodsFor: 'testing' stamp: 'len 5/19/2018 18:37:54'!
 includes: anObject
+	anObject isSequenceableCollection ifFalse: [^ false].
 	anObject size = components size ifFalse: [^ false].
 	components with: anObject do: [:V :x| (V includes: x) ifFalse: [^ false]].
 	^ true! !
@@ -17087,8 +17061,9 @@ do: aBlock
 hash
 	^ components hash! !
 
-!CartesianProduct methodsFor: 'testing' stamp: 'len 4/8/2016 02:33'!
+!CartesianProduct methodsFor: 'testing' stamp: 'len 5/19/2018 18:39:11'!
 includes: anObject
+	anObject isSequenceableCollection ifFalse: [^ false].
 	components size = anObject size ifFalse: [^ false].
 	1 to: components size do: [:i|
 		((components at: i) includes: (anObject at: i))
@@ -18020,6 +17995,11 @@ isLocal
 isLocalization
 	^ true! !
 
+!LocalizationRing methodsFor: 'testing' stamp: 'len 5/20/2018 13:40:04'!
+isNoetherian
+	self integers isNoetherian ifTrue: [^ true]. "is it iff?"
+	^ super isNoetherian! !
+
 !LocalizationRing methodsFor: 'testing' stamp: 'len 4/28/2018 05:11:31'!
 isReduced
 	"Answer true if the receiver has no non-zero nilpotent elements, or equivalently if it has no non-zero elements with square zero, i.e. x^2 = 0 implies x = 0."
@@ -18382,8 +18362,9 @@ embedding: i
 hash
 	^ components hash! !
 
-!ProductRing methodsFor: 'testing' stamp: 'len 8/29/2016 04:14'!
+!ProductRing methodsFor: 'testing' stamp: 'len 5/19/2018 18:40:01'!
 includes: anObject
+	anObject isSequenceableCollection ifFalse: [^ false].
 	anObject size = components size ifFalse: [^ false].
 	components with: anObject do: [:G :x| (G includes: x) ifFalse: [^ false]].
 	^ true! !
@@ -20981,8 +20962,9 @@ isLocal
 isModule
 	^ true! !
 
-!Module methodsFor: 'testing' stamp: 'len 3/18/2018 14:57:52'!
+!Module methodsFor: 'testing' stamp: 'len 5/20/2018 13:37:19'!
 isNoetherian
+	"A module is called Noetherian if every submodule is finitely generated."
 	(self isEmbedded and: [self ambient isNoetherian]) ifTrue: [^ true].
 	self scalars isNoetherian ifTrue: [^ true]. "because the receiver is finitely generated"
 	^ false "it means we don't know"! !
@@ -21986,8 +21968,13 @@ generators
 includes: anObject
 	^ (anObject isKindOf: AffineSubspace) and: [self contains: anObject]! !
 
-!QuotientModule methodsFor: 'testing' stamp: 'len 1/12/2018 21:35:53'!
+!QuotientModule methodsFor: 'accessing' stamp: 'len 5/19/2018 20:04:17'!
+invariants
+	^ self matrix SNF! !
+
+!QuotientModule methodsFor: 'testing' stamp: 'len 5/20/2018 13:37:28'!
 isNoetherian
+	"A module is called Noetherian if every submodule is finitely generated."
 	^ self base isNoetherian! !
 
 !QuotientModule methodsFor: 'testing' stamp: 'len 1/16/2018 18:31:21'!
@@ -21998,6 +21985,11 @@ isQuotient
 lifting
 	"Answer the map from the receiver to the base module lifting the canonical projection."
 	^ self projection section! !
+
+!QuotientModule methodsFor: 'accessing' stamp: 'len 5/19/2018 20:09:11'!
+matrix
+	"Answer the relative matrix of the receiver."
+	^ Matrix rows: (self relations basis collect: [:each| (self base coordinatesOf: each) over: self scalars])! !
 
 !QuotientModule methodsFor: 'printing' stamp: 'len 1/24/2018 21:54:55'!
 printOn: aStream
@@ -22031,6 +22023,17 @@ relators
 !QuotientModule methodsFor: 'accessing' stamp: 'len 2/27/2017 21:32:55'!
 scalars
 	^ self relations scalars! !
+
+!QuotientModule methodsFor: 'operations' stamp: 'len 5/19/2018 19:59:36'!
+span: aCollection
+	"Answer the submodule spanned by the module elements in aCollection."
+	^ (self base span: (aCollection apply: self lifting)) apply: self projection! !
+
+!QuotientModule methodsFor: 'operations' stamp: 'len 5/19/2018 20:10:33'!
+span: aCollection over: aRing
+	"Answer the submodule spanned by the module elements in aCollection over aRing."
+	aRing = self scalars ifFalse: [^ DomainError signal].
+	^ self span: aCollection! !
 
 !QuotientModule methodsFor: 'elements' stamp: 'len 1/16/2018 18:33:33'!
 zero
@@ -22102,13 +22105,14 @@ mod: aSubmodule
 	self generators do: [:each| (aModule includes: each) ifFalse: [^ false]].
 	^ true! !
 
-!FreeModule methodsFor: 'comparing' stamp: 'len 3/16/2018 19:25:51'!
+!FreeModule methodsFor: 'comparing' stamp: 'len 5/20/2018 15:45:33'!
 = anObject
 	self == anObject ifTrue: [^ true].
 	(anObject isKindOf: FreeModule) ifFalse: [^ false].
 	self scalars = anObject scalars ifFalse: [^ false].
 	self rank = anObject rank ifFalse: [^ false].
-	^ self generators allSatisfy: [:each| anObject includes: each]! !
+	self flag: #fix.
+	^ self generators allSatisfy: [:each| anObject includes: each] "or better test echelonized matrices are equal"! !
 
 !FreeModule methodsFor: 'operations' stamp: 'len 7/14/2016 23:23'!
 \/ aModule
@@ -22396,9 +22400,9 @@ isNonDegenerate
 isTrivial
 	^ self rank = 0! !
 
-!FreeModule methodsFor: 'testing' stamp: 'len 7/14/2016 23:58'!
+!FreeModule methodsFor: 'testing' stamp: 'len 5/19/2018 20:13:50'!
 isVectorSpace
-	^ self scalars isField! !
+	^ self scalars isField or: [self isTrivial]! !
 
 !FreeModule methodsFor: 'accessing' stamp: 'len 4/3/2018 06:37:26'!
 matrix
@@ -22418,6 +22422,22 @@ names
 names: anArray
 	"Set a list of names for use instead of the elements of the basis when printing linear maps."
 	self propertyAt: #names put: anArray! !
+
+!FreeModule methodsFor: 'private' stamp: 'len 5/20/2018 15:59:07'!
+newSublattice: aMatrix
+	| M |
+	M _ aMatrix." echelon."
+	M _ Matrix rows: (M rows select: [:each| each isZero not]).	
+	(self scalars isKindOf: RationalField)
+		ifTrue: [^ Lattice new ambient: self; matrix: M].
+	^ FreeModule new ambient: self; matrix: M; scalars: self scalars integers! !
+
+!FreeModule methodsFor: 'private' stamp: 'len 5/19/2018 22:07:01'!
+newSubspace: aMatrix
+	| M |
+	M _ aMatrix echelon.
+	M _ Matrix rows: (M rows select: [:each| each isZero not]).	
+	^ FreeModule new ambient: self; matrix: M! !
 
 !FreeModule methodsFor: 'accessing' stamp: 'len 12/28/2016 12:08:05'!
 norm
@@ -22511,10 +22531,23 @@ span: aCollection
 	"Answer the submodule spanned by the module elements in aCollection."
 	^ self span: aCollection over: self scalars! !
 
-!FreeModule methodsFor: 'operations' stamp: 'len 4/5/2018 01:04:47'!
+!FreeModule methodsFor: 'operations' stamp: 'len 5/20/2018 15:58:06'!
 span: aCollection over: aRing
 	"Answer the submodule spanned by the module elements in aCollection over aRing."
 	| A M K |
+	A _ self ambient.
+	M _ (aCollection isKindOf: Matrix) ifTrue: [(aCollection over: A scalars) * self matrix] ifFalse: [Matrix rows: (aCollection collect: [:each| A coordinatesOf: each])].
+	(aRing isField and: [aRing = self scalars])
+		ifTrue:[^ A newSubspace: M].
+	aRing isPID
+		ifFalse: [^ self notYetImplemented].
+	K _ aRing fractions.
+	A scalars = aRing
+		ifTrue: [^ (A over: K) newSublattice: (M over: K)].
+	A scalars = K
+		ifTrue: [^ A newSublattice: M].
+	^ self notYetImplemented
+"	| A M K |
 	A _ self ambient.
 	M _ (aCollection isKindOf: Matrix) ifTrue: [(aCollection over: A scalars) * self matrix] ifFalse: [Matrix rows: (aCollection collect: [:each| A coordinatesOf: each])].
 	(aRing isField and: [aRing = self scalars])
@@ -22526,7 +22559,7 @@ span: aCollection over: aRing
 		ifTrue: [^ Lattice on: (A over: K) matrix: (M over: K)].
 	A scalars = K
 		ifTrue: [^ Lattice on: A matrix: M].
-	^ self notYetImplemented! !
+	^ self notYetImplemented"! !
 
 !FreeModule methodsFor: 'operations' stamp: 'len 10/16/2016 08:38'!
 tensors: aPair
@@ -22547,10 +22580,6 @@ to: aModule matrix: aMatrix
 !FreeModule methodsFor: 'testing' stamp: 'len 12/18/2016 11:13:59'!
 torsion
 	^ self null! !
-
-!FreeModule methodsFor: 'operations' stamp: 'len 1/16/2017 08:17:52'!
-translatedBy: aVector
-	^ AffineSubspace representative: aVector direction: self! !
 
 !FreeModule methodsFor: 'basis' stamp: 'len 7/15/2016 00:04'!
 vectorAt: aTuple
@@ -22720,8 +22749,9 @@ e: anInteger
 embedding: i
 	^ ((self at: i) to: self evaluating: [:x| components withIndexCollect: [:each :k| k = i ifTrue: [x] ifFalse: [each zero]]]) name: 'i', i printText sub! !
 
-!FreeDirectSumModule methodsFor: 'testing' stamp: 'len 2/12/2016 20:14'!
+!FreeDirectSumModule methodsFor: 'testing' stamp: 'len 5/19/2018 18:38:38'!
 includes: anObject
+	anObject isSequenceableCollection ifFalse: [^ false].
 	anObject size = components size ifFalse: [^ false].
 	components with: anObject do: [:V :x| (V includes: x) ifFalse: [^ false]].
 	^ true! !
@@ -23013,66 +23043,21 @@ zero
 mod: aSubspace
 	^ self new relations: aSubspace! !
 
-!Subspace methodsFor: 'as yet unclassified' stamp: 'len 4/7/2018 18:29:10'!
-isEmbedded
-	^ true! !
-
-!Subspace methodsFor: 'as yet unclassified' stamp: 'len 4/4/2018 07:16:01'!
-isLattice
-	^ false! !
-
-!Subspace methodsFor: 'as yet unclassified' stamp: 'len 4/3/2018 03:55:39'!
-isVectorSpace
-	^ true! !
-
-!Subspace class methodsFor: 'as yet unclassified' stamp: 'len 5/18/2018 21:25:44'!
-on: aVectorSpace matrix: aMatrix
-	| M |
-	M _ aMatrix echelon.
-	M _ Matrix rows: (M rows select: [:each| each isZero not]).	
-	^ self new ambient: aVectorSpace; matrix: M! !
-
-!Lattice methodsFor: 'as yet unclassified' stamp: 'len 4/7/2018 18:24:28'!
-contains: anElement
-	^ (self coordinatesOf: anElement) notNil! !
-
-!Lattice methodsFor: 'as yet unclassified' stamp: 'len 4/7/2018 18:28:55'!
-isEmbedded
-	^ true! !
-
-!Lattice methodsFor: 'as yet unclassified' stamp: 'len 4/4/2018 07:15:31'!
-isLattice
-	^ true! !
-
-!Lattice methodsFor: 'as yet unclassified' stamp: 'len 4/4/2018 07:15:22'!
-isVectorSpace
-	^ false! !
-
-!Lattice methodsFor: 'as yet unclassified' stamp: 'len 4/4/2018 07:19:47'!
-scalars
-	^ self ambient scalars integers! !
-
-!Lattice class methodsFor: 'instance creation' stamp: 'len 4/5/2018 00:02:35'!
-on: aFreeModule matrix: aMatrix
-	^ ((aFreeModule scalars isKindOf: RationalField)
-		ifTrue: [RationalLattice]
-		ifFalse: [self]) new ambient: aFreeModule; matrix: aMatrix! !
-
-!RationalLattice methodsFor: 'accessing' stamp: 'len 4/10/2018 17:42:31'!
+!Lattice methodsFor: 'accessing' stamp: 'len 4/10/2018 17:42:31'!
 asQuadraticForm
 	"Answer the quadratic form associated to this lattice."
 	^ QuadraticForm from: self ambient matrix: self gramian! !
 
-!RationalLattice methodsFor: 'invariants' stamp: 'len 12/8/2017 18:41:52'!
+!Lattice methodsFor: 'invariants' stamp: 'len 12/8/2017 18:41:52'!
 coveringNormalizedThinkness
 	"Answer the normalized thickness (or central density) of the covering."
 	^ self coveringRadius ^ self rank / self fundamentalVolume! !
 
-!RationalLattice methodsFor: 'invariants' stamp: 'len 12/28/2016 11:30:25'!
+!Lattice methodsFor: 'invariants' stamp: 'len 12/28/2016 11:30:25'!
 coveringRadius
 	^ self propertyAt: #coveringRadius! !
 
-!RationalLattice methodsFor: 'invariants' stamp: 'len 12/8/2017 18:42:18'!
+!Lattice methodsFor: 'invariants' stamp: 'len 12/8/2017 18:42:18'!
 coveringSphereVolume
 	| n Vn pi p |
 	pi _ Float pi.
@@ -23083,17 +23068,17 @@ coveringSphereVolume
 	p _ self coveringRadius.
 	^ p ^ n * Vn! !
 
-!RationalLattice methodsFor: 'invariants' stamp: 'len 12/8/2017 18:42:49'!
+!Lattice methodsFor: 'invariants' stamp: 'len 12/8/2017 18:42:49'!
 coveringThickness
 	"Answer the thickness of the covering, i.e. the average number of spheres that contain a point of space. The thickness is also called the density or the sparsity of the covering."
 	^ self coveringSphereVolume / self fundamentalVolume! !
 
-!RationalLattice methodsFor: 'invariants' stamp: 'len 3/19/2018 15:28:26'!
+!Lattice methodsFor: 'invariants' stamp: 'len 3/19/2018 15:28:26'!
 determinant
 	"The determinant det(L) of a lattice L is defined as the volume of its fundamental paralleleliped."
 	^ self gramian determinant! !
 
-!RationalLattice methodsFor: 'invariants' stamp: 'len 3/19/2018 15:28:38'!
+!Lattice methodsFor: 'invariants' stamp: 'len 3/19/2018 15:28:38'!
 determinant2
 	"The determinant det(L) of a lattice L is defined as the volume of its fundamental paralleleliped."
 	| B |
@@ -23101,36 +23086,36 @@ determinant2
 	"B square means the lattice is full-rank:"
 	^ B isSquare ifTrue: [B determinant abs] ifFalse: [(B transposed * B) determinant squareRoot]! !
 
-!RationalLattice methodsFor: 'testing' stamp: 'len 5/6/2018 06:01:08'!
+!Lattice methodsFor: 'testing' stamp: 'len 5/6/2018 06:01:08'!
 even
 	^ self isIntegral and: [self gramian diagonal allSatisfy: [:each| each even]]! !
 
-!RationalLattice methodsFor: 'invariants' stamp: 'len 12/10/2015 01:00'!
+!Lattice methodsFor: 'invariants' stamp: 'len 12/10/2015 01:00'!
 fundamentalParallelepiped
 	^ self notYetImplemented! !
 
-!RationalLattice methodsFor: 'invariants' stamp: 'len 3/19/2018 15:29:23'!
+!Lattice methodsFor: 'invariants' stamp: 'len 3/19/2018 15:29:23'!
 fundamentalVolume
 	"Answer the volume of the fundamental region."
 	^ self determinant sqrt! !
 
-!RationalLattice methodsFor: 'accessing' stamp: 'len 12/8/2017 18:29:59'!
+!Lattice methodsFor: 'accessing' stamp: 'len 12/8/2017 18:29:59'!
 innerProduct
 	^ self ambient innerProduct! !
 
-!RationalLattice methodsFor: 'testing' stamp: 'len 4/4/2018 16:01:31'!
+!Lattice methodsFor: 'testing' stamp: 'len 4/4/2018 16:01:31'!
 isIntegral
 	"Answer true if the receiver is integral, i.e. if the inner product of any two lattice vectors is an integer. This is true iff the Gram matrix contains only integer entries. Equivalently, a lattice L is integral if and only if it is contained in its dual L*: L <= L*. Also, an integral lattice L has the property: L <= L* <= L / det(L)."
 	self gramian do: [:each| each isInteger ifFalse: [^ false]].
 	^ true! !
 
-!RationalLattice methodsFor: 'testing' stamp: 'len 12/8/2017 18:29:34'!
+!Lattice methodsFor: 'testing' stamp: 'len 12/8/2017 18:29:34'!
 isRootLattice
 	self isIntegral ifFalse: [^ false].
 	self basis do: [:v| (self innerProduct value: v value: v) = 2 ifFalse: [^ false]].
 	^ true! !
 
-!RationalLattice methodsFor: 'testing' stamp: 'len 4/7/2018 18:18:44'!
+!Lattice methodsFor: 'testing' stamp: 'len 4/7/2018 18:18:44'!
 isSelfDual
 	"A self-dual lattice is a lattice L that equals it's dual L*, L = L*.
 	A (integral) lattice is self-dual iff it is unimodular."
@@ -23140,31 +23125,31 @@ isSelfDual
 	^ self isUnimodular
 "! !
 
-!RationalLattice methodsFor: 'testing' stamp: 'len 12/30/2015 21:51'!
+!Lattice methodsFor: 'testing' stamp: 'len 12/30/2015 21:51'!
 isUnimodular
 	^ self isIntegral and: [self determinant abs = 1]! !
 
-!RationalLattice methodsFor: 'private' stamp: 'len 4/10/2018 16:55:26'!
+!Lattice methodsFor: 'private' stamp: 'len 4/10/2018 16:55:26'!
 matrix: aMatrix
 	| M |
 	M _ aMatrix HNF.
 	M _ Matrix rows: (M rows select: [:each| each isZero not]).	
 	super matrix: M! !
 
-!RationalLattice methodsFor: 'invariants' stamp: 'len 12/8/2017 18:44:28'!
+!Lattice methodsFor: 'invariants' stamp: 'len 12/8/2017 18:44:28'!
 packingCenterDensity
 	^ self packingRadius ^ self rank / self fundamentalVolume! !
 
-!RationalLattice methodsFor: 'invariants' stamp: 'len 12/8/2017 18:44:07'!
+!Lattice methodsFor: 'invariants' stamp: 'len 12/8/2017 18:44:07'!
 packingDensity
 	"Answer the density of the lattice packing, i.e. the volume of a sphere / the volume of the fundamental region."
 	^ self packingSphereVolume / self fundamentalVolume! !
 
-!RationalLattice methodsFor: 'invariants' stamp: 'len 12/28/2016 11:30:14'!
+!Lattice methodsFor: 'invariants' stamp: 'len 12/28/2016 11:30:14'!
 packingRadius
 	^ self propertyAt: #packingRadius! !
 
-!RationalLattice methodsFor: 'invariants' stamp: 'len 12/8/2017 18:43:48'!
+!Lattice methodsFor: 'invariants' stamp: 'len 12/8/2017 18:43:48'!
 packingSphereVolume
 	| n Vn pi p |
 	pi _ Float pi.
@@ -23175,7 +23160,7 @@ packingSphereVolume
 	p _ self packingRadius.
 	^ p ^ n * Vn! !
 
-!RationalLattice methodsFor: 'operations' stamp: 'len 4/5/2018 04:51:51'!
+!Lattice methodsFor: 'operations' stamp: 'len 4/5/2018 04:51:51'!
 reciprocal
 	"Answer the dual lattice of the receiver (or reciprocal lattice, or polar lattice)."
 	| B D |
@@ -23183,24 +23168,24 @@ reciprocal
 	D _ B * (B transposed * B) leftInverse.
 	^ self class basis: D rows! !
 
-!RationalLattice methodsFor: 'basis' stamp: 'len 12/8/2017 18:33:16'!
+!Lattice methodsFor: 'basis' stamp: 'len 12/8/2017 18:33:16'!
 reducedBasis
 	^ self propertyAt: #reducedBasis ifAbsentPut: [(LLL basis: self basis) reducedBasis]! !
 
-!RationalLattice methodsFor: 'accessing' stamp: 'len 12/8/2017 18:26:50'!
+!Lattice methodsFor: 'accessing' stamp: 'len 12/8/2017 18:26:50'!
 scalars
 	^ ZZ! !
 
-!RationalLattice methodsFor: 'accessing' stamp: 'len 3/28/2018 05:05:34'!
+!Lattice methodsFor: 'accessing' stamp: 'len 3/28/2018 05:05:34'!
 shortVector
 	^ self reducedBasis first! !
 
-!RationalLattice methodsFor: 'invariants' stamp: 'len 12/28/2016 11:30:19'!
+!Lattice methodsFor: 'invariants' stamp: 'len 12/28/2016 11:30:19'!
 thetaSeries
 	"Answer the theta series of the lattice."
 	^ self propertyAt: #thetaSeries! !
 
-!RationalLattice class methodsFor: 'examples' stamp: 'len 12/13/2017 21:33:29'!
+!Lattice class methodsFor: 'examples' stamp: 'len 12/13/2017 21:33:29'!
 A: n
 	"Answer the lattice A_n = {(x0,...,xn) in Z^{n+1} : x0 + ... + xn = 0}."
 	| t B |
@@ -23209,7 +23194,7 @@ A: n
 	n timesRepeat: [B add: t. t _ t >> 1].
 	^ self basis: B! !
 
-!RationalLattice class methodsFor: 'examples' stamp: 'len 4/5/2018 18:09:29'!
+!Lattice class methodsFor: 'examples' stamp: 'len 4/5/2018 18:09:29'!
 Adual: n
 	"Answer the dual of A_n."
 	| V B |
@@ -23219,12 +23204,12 @@ Adual: n
 	B add: (QQ tuple: n+1 evaluating: [:i| i=1 ifTrue: [n negated / (n+1)] ifFalse: [1 / (n+1)]]).
 	^ self basis: B! !
 
-!RationalLattice class methodsFor: 'examples' stamp: 'len 3/19/2018 15:37:24'!
+!Lattice class methodsFor: 'examples' stamp: 'len 3/19/2018 15:37:24'!
 D4
 	"Answer the D4 lattice, which is self-dual."
 	^ self basis: {(1,0,0,0). (0,1,0,0). (0,0,1,0). (1,1,1,1)/2}! !
 
-!RationalLattice class methodsFor: 'examples' stamp: 'len 12/13/2017 21:35:13'!
+!Lattice class methodsFor: 'examples' stamp: 'len 12/13/2017 21:35:13'!
 D: n
 	"Answer the checkboard lattice D_n = {(x1,...,xn) in Z^n : x0 + ... + xn is even}."
 	| t0 t B |
@@ -23235,7 +23220,7 @@ D: n
 	n-1 timesRepeat: [B add: t. t _ t >> 1].
 	^ self basis: B! !
 
-!RationalLattice class methodsFor: 'examples' stamp: 'len 12/13/2017 21:35:31'!
+!Lattice class methodsFor: 'examples' stamp: 'len 12/13/2017 21:35:31'!
 Ddual: n
 	"Answer the dual of D_n."
 	| V B |
@@ -23245,7 +23230,7 @@ Ddual: n
 	B add: (QQ tuple: n evaluating: [:i| 1/2]).
 	^ self basis: B! !
 
-!RationalLattice class methodsFor: 'examples' stamp: 'len 12/13/2017 21:32:24'!
+!Lattice class methodsFor: 'examples' stamp: 'len 12/13/2017 21:32:24'!
 E8
 	| t0 t B answer |
 	B _ OrderedCollection new.
@@ -23264,25 +23249,25 @@ E8
 		at: #thickness put: Float pi ^ 4 / 24.
 	^ answer! !
 
-!RationalLattice class methodsFor: 'examples' stamp: 'len 7/15/2016 18:34'!
+!Lattice class methodsFor: 'examples' stamp: 'len 7/15/2016 18:34'!
 Z: n
 	"Answer the n-dimensional cubic or integer lattice Z^n."
 	^ self basis: (QQ ^ n) basis! !
 
-!RationalLattice class methodsFor: 'instance creation' stamp: 'len 4/5/2018 15:36:39'!
+!Lattice class methodsFor: 'instance creation' stamp: 'len 4/5/2018 15:36:39'!
 basis: aCollection
 	| V M |
 	M _ Matrix rows: aCollection asArray.
 	V _ M scalars ^ M width.
 	^ self new ambient: V; matrix: M! !
 
-!RationalLattice class methodsFor: 'examples' stamp: 'len 3/19/2018 15:39:36'!
+!Lattice class methodsFor: 'examples' stamp: 'len 3/19/2018 15:39:36'!
 bcc
 	"Answer the body-centered cubic lattice (bcc).
 	D*_3 is equivalent to bcc."
 	^ self basis: {(2,0,0). (0,2,0). (1,1,1)}! !
 
-!RationalLattice class methodsFor: 'examples' stamp: 'len 3/19/2018 15:39:50'!
+!Lattice class methodsFor: 'examples' stamp: 'len 3/19/2018 15:39:50'!
 fcc
 	"Answer the face-centered cubic lattice (fcc).
 	Both A_3 and D_3 are equivalent to the fcc."
@@ -24207,8 +24192,15 @@ isZero
 negated
 	^ self class representative: representative negated direction: direction! !
 
-!AffineSubspace methodsFor: 'printing' stamp: 'len 3/18/2018 14:54:55'!
+!AffineSubspace methodsFor: 'printing' stamp: 'len 5/19/2018 19:46:43'!
 printOn: aStream
+"	self isEmpty ifTrue: [aStream nextPut: Character emptySet. ^ self].
+	self dimension = 0 ifTrue: [aStream nextPut: ${; print: representative; nextPut: $}. ^ self].
+	aStream nextPut: $[.
+	representative isTuple ifTrue: [representative printCoefficientsOn: aStream] ifFalse: [aStream print: representative].
+	aStream nextPut: $]
+
+alternative:"
 	direction isEmbedded ifFalse: [aStream print: direction. ^ self].
 	self isEmpty ifTrue: [aStream nextPut: Character emptySet. ^ self].
 	self dimension = 0 ifTrue: [aStream nextPut: ${; print: representative; nextPut: $}. ^ self].
@@ -24974,14 +24966,14 @@ ambient
 	"Answer the ambient vector space."
 	^ self asVectorSpace ambient! !
 
-!LinearCode methodsFor: 'converting' stamp: 'len 4/4/2018 06:55:06'!
+!LinearCode methodsFor: 'converting' stamp: 'len 5/20/2018 15:59:14'!
 asLattice
 	"A linear code in a finite field or ring can be lifted to a lattice."
 	| S F lift |
 	S _ self asVectorSpace.
 	F _ S scalars.
 	lift _ S to: (S apply: F projection section) evaluating: [:each| each apply: F section].
-	^ RationalLattice basis: (S basis apply: lift)! !
+	^ Lattice basis: (S basis apply: lift)! !
 
 !LinearCode methodsFor: 'converting' stamp: 'len 3/31/2016 02:33'!
 asVectorSpace
@@ -25698,10 +25690,19 @@ example
 	This is the initial object in the category of schemes."	
 	^ ZZ spec! !
 
-!AffineVariety methodsFor: 'operations' stamp: 'len 2/23/2017 08:18:12'!
+!AffineVariety methodsFor: 'operations' stamp: 'len 5/20/2018 16:16:00'!
++ aTuple
+	"Answer a new affine varieity that is the translation of the receiver by aTuple.
+	The origin is mappet to aTuple (any point p on the receiver is mapped to p + aTuple)."
+	| dx |
+	dx _ self ambient coordinateRing generators - aTuple.
+	^ self ambient subscheme: (self ideal apply: [:f| f value: dx])! !
+
+!AffineVariety methodsFor: 'operations' stamp: 'len 5/20/2018 16:16:39'!
 - aScheme
 	"Answer the difference of the receiver with the argument, whose associated ideal is the ideal (colon) quotient of the respective ideals.
 	This is the closure of the result of removing from the receiver the points in the intersection with the argument, counted with multiplicity. (See also the 'complement' >>-)."
+	aScheme isTuple ifTrue: [^ self + aScheme negated].
 	self ambient = aScheme ambient ifFalse: [^ DomainError signal: 'ambients don''t match'].
 	^ self ambient subscheme: self ideal ÷ aScheme ideal! !
 
@@ -25787,11 +25788,10 @@ isFinite
 isLinear
 	^ self reduced ideal generators allSatisfy: [:each| each isLinear]! !
 
-!AffineVariety methodsFor: 'operations' stamp: 'len 2/12/2017 06:02:00'!
+!AffineVariety methodsFor: 'operations' stamp: 'len 5/20/2018 16:19:58'!
 multiplicityAt: aTuple
 	"Answer the multiplicity at the given point."
-	^ ((self translatedBy: aTuple negated) ideal basisWithOrdering: #lglex)
-			max: [:each| each order]! !
+	^ ((self - aTuple) ideal basisWithOrdering: #lglex) max: [:each| each order]! !
 
 !AffineVariety methodsFor: 'points' stamp: 'len 11/7/2016 09:01'!
 pointAt: aTuple
@@ -25857,21 +25857,21 @@ singular
 species
 	^ AffineVariety! !
 
-!AffineVariety methodsFor: 'operations' stamp: 'len 4/6/2018 23:43:41'!
+!AffineVariety methodsFor: 'operations' stamp: 'len 5/20/2018 16:20:19'!
 tangentConeAt: aTuple
 	"Answer the affine tangent cone at the given point."
 	| R I |
 	R _ self ambient coordinateRing.
-	I _ (self translatedBy: aTuple negated) ideal.
-	^ (self ambient subscheme: ((I basisWithOrdering: #lglex) collect: [:each| R !! each leadingForm])) translatedBy: aTuple! !
+	I _ (self - aTuple) ideal.
+	^ (self ambient subscheme: ((I basisWithOrdering: #lglex) collect: [:each| R !! each leadingForm])) + aTuple! !
 
-!AffineVariety methodsFor: 'operations' stamp: 'len 2/10/2017 20:13:34'!
+!AffineVariety methodsFor: 'operations' stamp: 'len 5/20/2018 16:20:38'!
 tangentSpaceAt: aTuple
 	"Answer the affine tangent space at the given point."
 	| R I |
 	R _ self ambient coordinateRing.
-	I _ (self translatedBy: aTuple negated) ideal.
-	^ (self ambient subscheme: (I generators collect: [:f| (1 to: R rank) sum: [:i| (R x: i) * (f derivativeIn: i) independentCoefficient]])) translatedBy: aTuple! !
+	I _ (self - aTuple) ideal.
+	^ (self ambient subscheme: (I generators collect: [:f| (1 to: R rank) sum: [:i| (R x: i) * (f derivativeIn: i) independentCoefficient]])) + aTuple! !
 
 !AffineVariety methodsFor: 'morphisms' stamp: 'len 1/13/2017 19:17:50'!
 to: aScheme evaluating: aBlock
@@ -25880,14 +25880,6 @@ to: aScheme evaluating: aBlock
 !AffineVariety methodsFor: 'morphisms' stamp: 'len 5/15/2018 18:05:24'!
 to: aScheme representatives: anArrayOfRationalFunctions
 	^ RationalMap from: self to: aScheme representatives: anArrayOfRationalFunctions! !
-
-!AffineVariety methodsFor: 'operations' stamp: 'len 2/6/2017 07:09:40'!
-translatedBy: aTuple
-	"Answer a new affine scheme that is the translation of the receiver by aTuple.
-	The origin is mappet to aTuple (any point p on the receiver is mapped to p + aTuple)."
-	| dx |
-	dx _ self ambient coordinateRing generators - aTuple.
-	^ self ambient subscheme: (self ideal apply: [:f| f value: dx])! !
 
 !AffineVariety class methodsFor: 'examples' stamp: 'len 2/22/2017 08:17:35'!
 circle
@@ -25961,10 +25953,10 @@ degree
 dimension
 	^ self ambient dimension - 1! !
 
-!AffineHypersurface methodsFor: 'operations' stamp: 'len 2/3/2017 06:49:27'!
+!AffineHypersurface methodsFor: 'operations' stamp: 'len 5/20/2018 16:18:41'!
 multiplicityAt: aTuple
 	self scalars isField ifFalse: [DomainError signal: 'not over a field'].
-	^ (self translatedBy: aTuple negated) polynomial order! !
+	^ (self - aTuple) polynomial order! !
 
 !AffineHypersurface methodsFor: 'morphic' stamp: 'len 1/22/2017 09:31:15'!
 plot
@@ -25988,13 +25980,13 @@ plot
 plot: aRectangle
 	^ ImplicitFunctionPlotMorph new function: self polynomial; box: aRectangle! !
 
-!AffinePlaneCurve methodsFor: 'operations' stamp: 'len 2/3/2017 06:49:35'!
+!AffinePlaneCurve methodsFor: 'operations' stamp: 'len 5/20/2018 16:19:29'!
 tangentsAt: aTuple
 	| f r derivatives |
-	f _ (self translatedBy: aTuple negated) polynomial.
+	f _ (self - aTuple) polynomial.
 	r _ f order. "multiplicity at the point"
 	derivatives _ (0 to: r) collect: [:k| (f derivative: k in: 1) derivative: r-k in: 2].
-	^ (self ambient subscheme: ((0 to: r) sum: [:k| (r choose: k) * (derivatives at: k+1) * (f parent x: 1 to: k) * (f parent x: 2 to: r-k)])) translatedBy: aTuple! !
+	^ (self ambient subscheme: ((0 to: r) sum: [:k| (r choose: k) * (derivatives at: k+1) * (f parent x: 1 to: k) * (f parent x: 2 to: r-k)])) + aTuple! !
 
 !AffinePlaneCurve class methodsFor: 'examples' stamp: 'len 1/22/2017 08:22:42'!
 descartesFolium
@@ -28255,10 +28247,6 @@ trace
 	self isEndomorphism ifFalse: [DomainError signal: 'not an endomorphism'].
 	^ matrix trace! !
 
-!LinearMap methodsFor: 'arithmetic' stamp: 'len 1/22/2018 17:16:51'!
-translatedBy: aVector
-	^ AffineMap linearMap: self translation: aVector! !
-
 !LinearMap methodsFor: 'operations' stamp: 'len 1/21/2018 21:32:58'!
 value: anElement
 	(domain isTrivial or: [codomain isTrivial])
@@ -28315,9 +28303,9 @@ from: aFreeModule to: anotherFreeModule matrix: aMatrix
 asPolynomial
 	^ linearMap asPolynomial + (linearMap codomain coordinatesOf: translation) first! !
 
-!AffineMap methodsFor: 'converting' stamp: 'len 1/22/2018 17:15:15'!
+!AffineMap methodsFor: 'converting' stamp: 'len 5/20/2018 16:18:56'!
 asRationalMap
-	^ linearMap asRationalMap translatedBy: (linearMap codomain coordinatesOf: translation)! !
+	^ linearMap asRationalMap + (linearMap codomain coordinatesOf: translation)! !
 
 !AffineMap methodsFor: 'accessing' stamp: 'len 1/22/2018 17:20:55'!
 bitSize
@@ -28421,10 +28409,6 @@ rightInverse
 	"Answer a right inverse (or section) of the receiver.
 	Answer nil if the receiver is not an epimorphism."
 	^ linearMap rightInverse ifNotNil: [:aLinearMap| self class linearMap: aLinearMap translation: (aLinearMap value: translation negated)]! !
-
-!AffineMap methodsFor: 'arithmetic' stamp: 'len 1/22/2018 17:11:50'!
-translatedBy: aVector
-	^ self class linearMap: linearMap translation: translation + aVector! !
 
 !AffineMap methodsFor: 'accessing-private' stamp: 'len 1/2/2017 19:56:25'!
 translation
@@ -29502,8 +29486,10 @@ from: aSimplicialComplex to: anotherSimplicialComplex mapping: aBlock
 * anObject
 	^ self species from: self domain to: self codomain representatives: self representatives * anObject! !
 
-!RationalMap methodsFor: 'arithmetic' stamp: 'len 1/20/2018 22:05:48'!
+!RationalMap methodsFor: 'arithmetic' stamp: 'len 5/20/2018 16:27:16'!
 + aRationalMap
+	aRationalMap isTuple
+		ifTrue: [^ self species from: self domain to: self codomain representatives: self representatives + aRationalMap].
 	(self domain = aRationalMap domain and: [self codomain = aRationalMap codomain])
 		ifFalse: [^ DomainError signal].
 	^ self species from: self domain to: self codomain representatives: self representatives + aRationalMap representatives! !
@@ -29659,10 +29645,6 @@ size
 !RationalMap methodsFor: 'private' stamp: 'len 1/10/2017 18:47:11'!
 species
 	^ RationalMap! !
-
-!RationalMap methodsFor: 'arithmetic' stamp: 'len 1/20/2018 22:06:03'!
-translatedBy: aPoint
-	^ self species from: self domain to: self codomain representatives: self representatives + aPoint! !
 
 !RationalMap methodsFor: 'operations' stamp: 'len 5/15/2018 16:25:27'!
 value: aPoint
@@ -30465,10 +30447,10 @@ multiplicity
 	^ self codomain multiplicityAt: coordinates
 	"^ self localRing multiplicity"! !
 
-!AffinePoint methodsFor: 'accessing' stamp: 'len 4/12/2018 04:17:32'!
+!AffinePoint methodsFor: 'accessing' stamp: 'len 5/20/2018 16:19:38'!
 neighborhood
 	"Answer a neighborhood centered at the receiver."
-	^ self codomain translatedBy: coordinates negated! !
+	^ self codomain - coordinates! !
 
 !AffinePoint methodsFor: 'printing' stamp: 'len 12/30/2016 14:37:32'!
 printOn: aStream
@@ -33505,12 +33487,16 @@ polynomialValue: anObject
 	self reverseDo: [:each| answer _ anObject * answer + (one * each)].
 	^ answer! !
 
-!Tuple methodsFor: 'printing' stamp: 'len 2/28/2017 19:53:16'!
-printOn: aStream
+!Tuple methodsFor: 'printing' stamp: 'len 5/19/2018 19:44:02'!
+printCoefficientsOn: aStream
 	| separator |
-	aStream nextPut: $(.
 	separator _ (self anySatisfy: [:any| any printString includesAnyOf: ', ']) ifTrue: [', '] ifFalse: [','].
-	self do: [:x| aStream print: x] separatedBy: [aStream nextPutAll: separator].
+	self do: [:x| aStream print: x] separatedBy: [aStream nextPutAll: separator]! !
+
+!Tuple methodsFor: 'printing' stamp: 'len 5/19/2018 19:44:21'!
+printOn: aStream
+	aStream nextPut: $(.
+	self printCoefficientsOn: aStream.
 	aStream nextPut: $)! !
 
 !Tuple methodsFor: 'enumerating' stamp: 'len 11/6/2016 14:22'!
@@ -42823,10 +42809,10 @@ isIrreducible
 isNormalized
 	^ roots allSatisfy: [:each| (ambient innerProduct value: {each.each}) = 2]! !
 
-!RootSystem methodsFor: 'operations' stamp: 'len 4/4/2018 06:55:15'!
+!RootSystem methodsFor: 'operations' stamp: 'len 5/20/2018 15:59:24'!
 lattice
 	"Answer the root lattice, the Z-submodule spanned by roots of the receiver."
-	^ RationalLattice basis: self simpleRoots! !
+	^ Lattice basis: self simpleRoots! !
 
 !RootSystem methodsFor: 'roots' stamp: 'len 1/6/2016 03:52'!
 negativeRoots
@@ -42879,10 +42865,10 @@ simpleRoots
 	M _ Matrix columns: (self positiveRoots asArray collect: [:each| ambient coordinatesOf: each]).
 	^ LinearBasis on: ambient matrix: M imageMatrix! !
 
-!RootSystem methodsFor: 'operations' stamp: 'len 4/4/2018 06:55:20'!
+!RootSystem methodsFor: 'operations' stamp: 'len 5/20/2018 15:59:29'!
 weightLattice
 	"Answer the lattice spanned by the weights of the receiver. This lattice is invariant under the Weyl group and also under the map v -> -v. Also, the root lattice is contained in the weight lattice."
-	^ RationalLattice basis: self weights! !
+	^ Lattice basis: self weights! !
 
 !RootSystem methodsFor: 'operations' stamp: 'len 1/7/2016 05:42'!
 weights
