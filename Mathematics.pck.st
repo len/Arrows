@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 21 May 2018 at 7:31:45 am'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 21 May 2018 at 6:11:10 pm'!
 'Description A computational algebra system in Smalltalk'!
-!provides: 'Mathematics' 1 443!
+!provides: 'Mathematics' 1 445!
 !requires: 'RayTracer' 1 2 nil!
 !classDefinition: #RealAlgebraicNumber category: #'Mathematics-Fields'!
 Number subclass: #RealAlgebraicNumber
@@ -4057,10 +4057,10 @@ When the coefficients ring is a field K and the relations ideal I is maximal, th
 
 See also AlgebraicElement and AlgebraicExtensionSpace.!
 
-!GaloisRing commentStamp: 'len 5/21/2018 07:02:42' prior: 0!
+!GaloisRing commentStamp: '<historical>' prior: 0!
 The Galois ring GR(p^n,m) is a Galois extension of degree m of the ring Z/<p^n> of characteristic p^n. This is the unique (up to isomorphism) extension of degree m of the ring Z/<p^n> of integers modulo p^n (see PrimeRing). When n=1 they are fields (see GaloisField).
 
-Galois rings are local rings with maximal ideal <p> for some prime p. The maximal ideal is also the set of zero-divisors.
+Galois rings GR(p^n,m) are local rings with maximal ideal <p>. The maximal ideal is also the set of zero-divisors.
 
 The subrings of GR(p^n,m) correspond to the positive divisors of m.!
 
@@ -5233,10 +5233,10 @@ adaptToRealAlgebraic: rcvr andSend: selector
 squareRoot
 	^ self sqrt! !
 
-!Fraction methodsFor: '*mathematics' stamp: 'len 12/1/2016 21:12:07'!
+!Fraction methodsFor: '*mathematics' stamp: 'len 5/21/2018 17:30:09'!
 % anInteger
 	| R |
-	R _ ZZ / anInteger.
+	R _ ZZ % anInteger.
 	^ (R project: numerator) / (R project: denominator)! !
 
 !Fraction methodsFor: '*mathematics' stamp: 'len 1/20/2018 19:17:36'!
@@ -5268,9 +5268,9 @@ squareRoot
 	self positive ifTrue: [^ RealAlgebraicNumber sqrt: self].
 	^ ComplexAlgebraicNumber sqrt: self! !
 
-!Integer methodsFor: '*mathematics' stamp: 'len 11/30/2016 19:22:10'!
+!Integer methodsFor: '*mathematics' stamp: 'len 5/21/2018 17:30:01'!
 % anInteger
-	^ ZZ / anInteger project: self! !
+	^ ZZ % anInteger project: self! !
 
 !Integer methodsFor: '*mathematics' stamp: 'len 11/1/2016 00:23'!
 /// anInteger
@@ -17482,12 +17482,12 @@ dimension
 embedding
 	^ ZZ to: self evaluating: [:x| self one * x]! !
 
-!Ring methodsFor: 'operations' stamp: 'len 5/21/2018 04:43:15'!
+!Ring methodsFor: 'operations' stamp: 'len 5/21/2018 16:21:34'!
 extension: aPolynomial
 	"Answer the algebraic extension of the receiver defined by the given irreducible polynomial."
 "	self isField ifFalse: [DomainError signal: 'not a field']."
 	aPolynomial scalars = self ifFalse: [DomainError signal: 'polynomial coefficients not from this ring'].
-	aPolynomial parent isUnivariate ifFalse: [^ self error: 'not univariate poylnomial'].
+	aPolynomial parent isUnivariate ifFalse: [DomainError signal: 'not univariate poylnomial'].
 	^ AlgebraicExtension polynomial: aPolynomial! !
 
 !Ring methodsFor: 'operations' stamp: 'len 10/31/2016 05:46'!
@@ -17721,9 +17721,9 @@ maximalIdeal
 mod: anObject
 	^ self / (self * anObject)! !
 
-!Ring methodsFor: 'operations' stamp: 'len 5/4/2018 23:47:48'!
+!Ring methodsFor: 'operations' stamp: 'len 5/21/2018 15:39:32'!
 nilradical
-	"Answer the 'nilradical', the ideal consisting of all nilpoint elements."
+	"Answer the ideal consisting of all nilpotent elements, i.e. all x such that there exists some n with x^n = 0. It is the intersection of all prime ideals."
 	^ self zeroIdeal radical
 	
 "alternative:
@@ -17763,6 +17763,11 @@ primeIdealsDo: aBlock
 !Ring methodsFor: 'enumerating' stamp: 'len 5/19/2018 16:33:52'!
 relevantPrimeIdealsDo: aBlock
 	self primeIdealsDo: [:each| each isRelevant ifTrue: [aBlock value: each]]! !
+
+!Ring methodsFor: 'operations' stamp: 'len 5/21/2018 16:32:33'!
+residueField
+	"If the receiver is a local ring R with unique maximal ideal M, this returns R/M."
+	^ self / self maximalIdeal! !
 
 !Ring methodsFor: 'operations' stamp: 'len 2/13/2017 07:44:41'!
 spec
@@ -18169,11 +18174,11 @@ embed: anInteger
 embedding
 	^ self propertyAt: #embedding ifAbsentPut: [(self integers to: self evaluating: [:x| x]) name: 'i'] "because in Smalltalk Fractions of denominator 1 are always reduced to their Integer numerator"! !
 
-!RationalField methodsFor: 'operations' stamp: 'len 1/23/2017 11:45:27'!
+!RationalField methodsFor: 'operations' stamp: 'len 5/21/2018 16:20:48'!
 extension: aPolynomial
 	"Answer the algebraic extension of the receiver defined by the given irreducible polynomial."
 	aPolynomial scalars = self ifFalse: [DomainError signal: 'polynomial coefficients not from this field'].
-	aPolynomial parent isUnivariate ifFalse: [^ self error: 'not univariate poylnomial'].
+	aPolynomial parent isUnivariate ifFalse: [DomainError signal: 'not univariate poylnomial'].
 "	aPolynomial degree = 2 ifTrue: [^ QuadraticField polynomial: aPolynomial]."
 	^ NumberField polynomial: aPolynomial! !
 
@@ -18265,11 +18270,11 @@ initialize
 embed: aPolynomial
 	^ RationalFunction numerator: self integers !! aPolynomial denominator: self integers one! !
 
-!RationalFunctionField methodsFor: 'operations' stamp: 'len 1/23/2017 11:45:48'!
+!RationalFunctionField methodsFor: 'operations' stamp: 'len 5/21/2018 16:21:23'!
 extension: aPolynomial
 	"Answer the algebraic function field extension of the receiver defined by the given irreducible polynomial."
 	aPolynomial scalars = self ifFalse: [DomainError signal: 'polynomial coefficients not from this field'].
-	aPolynomial parent isUnivariate ifFalse: [^ self error: 'not univariate poylnomial'].
+	aPolynomial parent isUnivariate ifFalse: [DomainError signal: 'not univariate poylnomial'].
 	^ FunctionField polynomial: aPolynomial! !
 
 !RationalFunctionField methodsFor: 'testing' stamp: 'len 5/18/2018 18:33:11'!
@@ -18743,8 +18748,9 @@ isReduced
 isUnit: anElement
 	^ (anElement representative gcd: self modulus) = 1! !
 
-!ModularIntegerRing methodsFor: 'testing' stamp: 'len 5/2/2018 16:06:13'!
+!ModularIntegerRing methodsFor: 'testing' stamp: 'len 5/21/2018 16:02:42'!
 isZeroDivisor: anElement
+	"An element in a finite ring is either a unit or a zero-divisor."
 	^ (self isUnit: anElement) not! !
 
 !ModularIntegerRing methodsFor: 'morphisms' stamp: 'len 5/7/2018 22:53:40'!
@@ -18827,6 +18833,18 @@ new: anInteger
 exponent
 	^ self propertyAt: #exponent ifAbsentPut: [self modulusFactors size]! !
 
+!PrimeRing methodsFor: 'operations' stamp: 'len 5/21/2018 16:20:06'!
+extension: aPolynomial
+	"Answer the Galois overring of the receiver defined by the given irreducible polynomial."
+	aPolynomial scalars = self ifFalse: [DomainError signal: 'polynomial coefficients not from this ring'].
+	aPolynomial parent isUnivariate ifFalse: [DomainError signal: 'not univariate poylnomial'].
+	^ GaloisRing polynomial: aPolynomial! !
+
+!PrimeRing methodsFor: 'testing' stamp: 'len 5/21/2018 17:11:32'!
+isEuclidean
+	"Galois rings are euclidean."
+	^ true! !
+
 !PrimeRing methodsFor: 'testing' stamp: 'len 5/21/2018 04:26:10'!
 isField
 	^ self exponent = 1! !
@@ -18835,13 +18853,19 @@ isField
 isLocal
 	^ true! !
 
-!PrimeRing methodsFor: 'testing' stamp: 'len 5/21/2018 04:38:24'!
-isZeroDivisor: anElement
-	^ self p | anElement! !
+!PrimeRing methodsFor: 'testing' stamp: 'len 5/21/2018 16:52:07'!
+isUnit: anElement
+	^ (self p | anElement representative) not! !
 
 !PrimeRing methodsFor: 'accessing' stamp: 'len 5/21/2018 04:13:20'!
 maximalIdeal
 	^ self * self p! !
+
+!PrimeRing methodsFor: 'operations' stamp: 'len 5/21/2018 15:42:20'!
+nilradical
+	"Answer the ideal consisting of all nilpotent elements, i.e. all x such that there exists some n with x^n = 0. It is the intersection of all prime ideals.
+	A finite ring is a Galois ring iff its nilradical is of the form <p> for some prime p. This is also the unique maximal ideal."
+	^ self maximalIdeal! !
 
 !PrimeRing methodsFor: 'accessing' stamp: 'len 5/21/2018 04:18:30'!
 p
@@ -18856,15 +18880,30 @@ p: aPrime to: anInteger
 printOn: aStream
 	aStream print: self base; nextPut: $/; print: self p; nextPutAll: self exponent printString super; print: self base! !
 
+!PrimeRing methodsFor: 'operations' stamp: 'len 5/21/2018 16:34:26'!
+residueField
+	^ PrimeField new: self p! !
+
 !PrimeRing methodsFor: 'operations' stamp: 'len 5/21/2018 06:56:18'!
 zeroDivisors
 	"The zero-divisors of a Galois ring Z/<p^k> constitute the unique maximal ideal <p>."
 	^ self maximalIdeal! !
 
-!PrimeRing class methodsFor: 'instance creation' stamp: 'len 5/21/2018 07:18:45'!
-new: aPrime to: anInteger
-	anInteger = 1 ifTrue: [^ PrimeField new: aPrime].
-	^ self new p: aPrime to: anInteger! !
+!PrimeRing class methodsFor: 'examples' stamp: 'len 5/21/2018 16:28:45'!
+example1
+	"The Galois ring Z/<5^3>:"
+	^ PrimeRing new: 5 to: 3! !
+
+!PrimeRing class methodsFor: 'examples' stamp: 'len 5/21/2018 16:30:41'!
+example2
+	"Another way to create the Galois ring Z/<5^3>.
+	This is less efficient because internally it performs a factorization."
+	^ ZZ/(5^3)! !
+
+!PrimeRing class methodsFor: 'instance creation' stamp: 'len 5/21/2018 16:28:00'!
+new: p to: n
+	n = 1 ifTrue: [^ PrimeField new: p].
+	^ self new p: p to: n! !
 
 !PrimeField methodsFor: 'private' stamp: 'len 8/10/2016 06:01'!
 computePrimitiveRoot
@@ -18880,11 +18919,11 @@ computePrimitiveRoot
 			a >= m ifTrue: [self error: 'no primitive element, the modulus is not prime']].
 	^ a! !
 
-!PrimeField methodsFor: 'operations' stamp: 'len 1/23/2017 11:45:08'!
+!PrimeField methodsFor: 'operations' stamp: 'len 5/21/2018 16:20:33'!
 extension: aPolynomial
 	"Answer the Galois overfield of the receiver defined by the given irreducible polynomial."
 	aPolynomial scalars = self ifFalse: [DomainError signal: 'polynomial coefficients not from this field'].
-	aPolynomial parent isUnivariate ifFalse: [^ self error: 'not univariate poylnomial'].
+	aPolynomial parent isUnivariate ifFalse: [DomainError signal: 'not univariate poylnomial'].
 	^ GaloisField polynomial: aPolynomial! !
 
 !PrimeField methodsFor: 'morphisms' stamp: 'len 11/30/2016 19:10:05'!
@@ -19053,10 +19092,6 @@ isGlobal
 isGraded
 	^ self base isGraded and: [self relations isHomogeneous]! !
 
-!AffineRing methodsFor: 'testing' stamp: 'len 5/20/2018 21:59:33'!
-isLocal
-	^ self base isLocal! !
-
 !AffineRing methodsFor: 'testing' stamp: 'len 1/7/2018 17:28:33'!
 isMultivariate
 	^ self base isMultivariate! !
@@ -19071,12 +19106,6 @@ localization
 	Objects defined in this localization contain geometric information (usually only) about a Zariski neighbourhood of 0 in K^n, while objects in the global ring contain geometric information whish is valid in the whole affine space K^n."
 	self isGlobal ifFalse: [DomainError signal: 'the ring is not global'].
 	^ self orderedBy: #lglex! !
-
-!AffineRing methodsFor: 'accessing' stamp: 'len 5/20/2018 22:37:39'!
-maximalIdeal
-	"If the receiver is a local ring, answer the unique maximal ideal."
-	self isLocal ifFalse: [DomainError signal: 'the ring is not local'].
-	^ self * self generators! !
 
 !AffineRing methodsFor: 'accessing' stamp: 'len 12/28/2017 14:50:03'!
 monomials
@@ -19243,6 +19272,11 @@ polynomial: aPolynomial
 	"Answer a new algebraic field extension K(f) where f is the given polynomial in K[x]. The polynomial must be irreducible, otherwise there would be zero divisors."
 	^ self new polynomial: aPolynomial! !
 
+!GaloisRing methodsFor: 'testing' stamp: 'len 5/21/2018 17:11:23'!
+isEuclidean
+	"Galois rings are euclidean."
+	^ true! !
+
 !GaloisRing methodsFor: 'testing' stamp: 'len 5/21/2018 05:07:00'!
 isFinite
 	^ true! !
@@ -19251,9 +19285,27 @@ isFinite
 isGaloisExtension
 	^ true! !
 
+!GaloisRing methodsFor: 'testing' stamp: 'len 5/21/2018 16:54:03'!
+isLocal
+	^ true! !
+
+!GaloisRing methodsFor: 'accessing' stamp: 'len 5/21/2018 16:59:28'!
+maximalIdeal
+	^ self * self scalars p! !
+
+!GaloisRing methodsFor: 'operations' stamp: 'len 5/21/2018 15:42:01'!
+nilradical
+	"Answer the ideal consisting of all nilpotent elements, i.e. all x such that there exists some n with x^n = 0. It is the intersection of all prime ideals.
+	A finite ring is a Galois ring iff its nilradical is of the form <p> for some prime p. This is also the unique maximal ideal."
+	^ self maximalIdeal! !
+
 !GaloisRing methodsFor: 'printing' stamp: 'len 5/21/2018 07:20:18'!
 printOn: aStream
 	aStream nextPutAll: 'GR('; print: self scalars p; nextPutAll: self scalars exponent printString super; nextPut: $,; print: self degree; nextPut: $)! !
+
+!GaloisRing methodsFor: 'operations' stamp: 'len 5/21/2018 16:35:27'!
+residueField
+	^ self scalars residueField! !
 
 !GaloisRing methodsFor: 'operations' stamp: 'len 5/21/2018 06:53:52'!
 zeroDivisors
@@ -19571,16 +19623,19 @@ sqrt: anInteger
 	anObject isInteger ifTrue: [^ anObject].
 	^ super !! anObject! !
 
-!RationalIntegerRing methodsFor: 'operations' stamp: 'len 4/17/2018 00:10:06'!
+!RationalIntegerRing methodsFor: 'operations' stamp: 'len 5/21/2018 17:29:47'!
 % anInteger
-	^ self / anInteger! !
+	anInteger isPrime ifTrue: [^ PrimeField new: anInteger].
+	^ ModularIntegerRing new: anInteger! !
 
-!RationalIntegerRing methodsFor: 'operations' stamp: 'len 12/18/2016 20:08:24'!
+!RationalIntegerRing methodsFor: 'operations' stamp: 'len 5/21/2018 17:36:15'!
 / anInteger
+	| factors |
 	anInteger isInteger ifFalse: [^ super / anInteger].
-	^ anInteger isPrime
-		ifTrue: [PrimeField new: anInteger]
-		ifFalse: [ModularIntegerRing new: anInteger]! !
+	factors _ anInteger factors.
+	factors asSet size = 1 ifTrue:
+		[^ PrimeRing new: factors anyOne to: factors size].
+	^ ModularIntegerRing new: anInteger! !
 
 !RationalIntegerRing methodsFor: 'comparing' stamp: 'len 6/1/2016 23:56'!
 <= aDomain
@@ -21540,7 +21595,7 @@ reduce: anElement
 	"Answer the normal form of anElement with respect to the receiver."
 	^ self scalars project: (self representative reduce: anElement representative)! !
 
-!QuotientIdeal methodsFor: 'accessing' stamp: 'len 4/22/2018 00:03:35'!
+!QuotientIdeal methodsFor: 'accessing' stamp: 'len 5/21/2018 17:34:12'!
 representative
 	"If the receiver is an ideal I of a quotient ring A/J, return the lifting of I to A, this is the ideal in A generated by the representatives in A of the generators of I."
 	^ self propertyAt: #representative ifAbsentPut: [self scalars base * (self generators collect: [:each| each representative]) + self scalars relations]! !
@@ -26715,11 +26770,11 @@ pointsCountOver: aRing
 	(aRing isKindOf: PrimeField) ifTrue: [^ aRing characteristic + 1].
 	^ super pointsCountOver: aRing! !
 
-!EllipticCurve methodsFor: 'converting' stamp: 'len 12/18/2016 20:09:07'!
+!EllipticCurve methodsFor: 'converting' stamp: 'len 5/21/2018 17:30:18'!
 % anInteger
 	"Answer the reduction of the receiver modulo anInteger."
 	(self scalars isKindOf: RationalField) ifFalse: [^ DomainError signal: 'not over the rationals'].
-	^ self over: ZZ/anInteger! !
+	^ self over: ZZ % anInteger! !
 
 !EllipticCurve methodsFor: 'operations' stamp: 'len 1/7/2017 21:32:02'!
 badPrimes
@@ -30536,13 +30591,6 @@ isProjective
 isSingular
 	^ self isSmooth not! !
 
-!RationalPoint methodsFor: 'accessing' stamp: 'len 1/24/2017 11:39:05'!
-residueField
-	"Answer the residue field at this point."
-	| O |
-	O _ self localRing.
-	^ O / O maximalIdeal! !
-
 !RationalPoint methodsFor: 'accessing' stamp: 'len 11/7/2016 16:25'!
 scalars
 	^ self domain coordinateRing! !
@@ -33289,11 +33337,11 @@ dimension
 isCycle
 	^ self boundary isZero! !
 
-!Tuple methodsFor: 'operations' stamp: 'len 12/1/2016 16:52:32'!
+!Tuple methodsFor: 'operations' stamp: 'len 5/21/2018 17:30:36'!
 % anInteger
 	| ring |
 	self flag: #fix. "optimize. this is slow because creates lots of residue class objects"
-	ring _ ZZ / anInteger.
+	ring _ ZZ % anInteger.
 	anInteger = 2 ifTrue: [^ BitTuple new: self size evaluating: [:i| ring project: (self at: i)]].
 	^ ModularTuple new: self size over: ring evaluating: [:i| ring project: (self at: i)]! !
 
@@ -33772,13 +33820,13 @@ asInteger
 at: anInteger
 	^ (integer bitAt: anInteger) = 1 ifTrue: [One] ifFalse: [Zero]! !
 
-!BitTuple methodsFor: 'accessing' stamp: 'len 11/5/2016 09:21'!
+!BitTuple methodsFor: 'accessing' stamp: 'len 5/21/2018 17:40:49'!
 at: anInteger put: aBit
 	| bit |
 	anInteger > size ifTrue: [self error: 'index out of bounds'].
 	bit _ aBit.
-	bit isInteger ifTrue: [bit _ bit % 2].
-	(Zero = bit or: [One = bit]) ifFalse: [DomainError signal].
+	bit isInteger ifTrue: [bit _ bit even ifTrue: [Zero] ifFalse: [One]].
+"		ifFalse: [(Zero = bit or: [One = bit]) ifFalse: [DomainError signal]]."
 	(self at: anInteger) = bit
 		ifFalse: [integer _ integer bitXor: 1 << (anInteger - 1)].
 	^ bit! !
