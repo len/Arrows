@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 17 May 2018 at 7:25:56 pm'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 21 May 2018 at 6:12:46 pm'!
 'Description Please enter a description for this package'!
-!provides: 'MathematicsTests' 1 102!
+!provides: 'MathematicsTests' 1 103!
 !classDefinition: #AbelianGroupTest category: #MathematicsTests!
 TestCase subclass: #AbelianGroupTest
 	instanceVariableNames: ''
@@ -354,6 +354,15 @@ CASBenchmark class
 
 !AlgebraicNumbersBenchmark commentStamp: '<historical>' prior: 0!
 AlgebraicNumbersBenchmark new run
+
+testComplexAlgebraicNumberAddition	0.907 per second. (18 May 2018)
+testComplexAlgebraicNumberDivision	61 per second.
+testComplexAlgebraicNumberProduct	64.7 per second.
+testComplexAlgebraicNumberSquare	1,760 per second.
+testRealAlgebraicNumberAddition	0.997 per second.
+testRealAlgebraicNumberDivision	58.2 per second.
+testRealAlgebraicNumberProduct	62.6 per second.
+testRealAlgebraicNumberSquare	1,730 per second.
 
 testComplexAlgebraicNumberAddition	0.84 per second.
 testComplexAlgebraicNumberDivision	58.4 per second.
@@ -3329,10 +3338,10 @@ testTrivial
 	self assert: G size = 1.
 	self assert: G isTrivial! !
 
-!LatticeTest methodsFor: 'as yet unclassified' stamp: 'len 4/4/2018 06:53:22'!
+!LatticeTest methodsFor: 'as yet unclassified' stamp: 'len 5/20/2018 15:58:28'!
 testE8
 	| E8 a |
-	E8 _ RationalLattice E8.
+	E8 _ Lattice E8.
 	a _ E8 atRandomBits: 100.
 	self assert: ((a allSatisfy: [:x| x isInteger]) or: [a allSatisfy: [:x| x isInteger not and: [(x*2) isInteger]]]).
 	self assert: (a sum isInteger and: [a sum even]).
@@ -3349,42 +3358,42 @@ testLLL
 	lll _ LLL basis: { b1. b2. b3 }.
 	self assert: lll reducedBasis = {(0,1,0). (1,0,1). (-1,0,2)}! !
 
-!LatticeTest methodsFor: 'as yet unclassified' stamp: 'len 4/5/2018 04:22:35'!
+!LatticeTest methodsFor: 'as yet unclassified' stamp: 'len 5/20/2018 15:59:01'!
 testLatticeAnDual
 	| A3 D |
-	A3 _ RationalLattice A: 3.
-	D _ RationalLattice Adual: 3.
+	A3 _ Lattice A: 3.
+	D _ Lattice Adual: 3.
 	self assert: A3 reciprocal = D.
 	self assert: A3 = D reciprocal! !
 
-!LatticeTest methodsFor: 'as yet unclassified' stamp: 'len 4/4/2018 06:53:17'!
+!LatticeTest methodsFor: 'as yet unclassified' stamp: 'len 5/20/2018 15:58:52'!
 testLatticeD4SelfDual
 	| D4 |
-	D4 _ RationalLattice D4.
+	D4 _ Lattice D4.
 	self assert: D4 isSelfDual! !
 
-!LatticeTest methodsFor: 'as yet unclassified' stamp: 'len 4/6/2018 06:00:26'!
+!LatticeTest methodsFor: 'as yet unclassified' stamp: 'len 5/20/2018 15:58:35'!
 testLatticeDnDual
 	| D R |
-	D _ RationalLattice D: 5.
-	R _ RationalLattice Ddual: 5.
+	D _ Lattice D: 5.
+	R _ Lattice Ddual: 5.
 	self assert: D reciprocal = R.
 	self assert: D = R reciprocal! !
 
-!LatticeTest methodsFor: 'as yet unclassified' stamp: 'len 4/5/2018 04:49:25'!
+!LatticeTest methodsFor: 'as yet unclassified' stamp: 'len 5/20/2018 15:58:46'!
 testLatticeDual
 	| L R I |
-	L _ RationalLattice basis: {(-1,0,0). (0,1,2). (0,1,1)}.
+	L _ Lattice basis: {(-1,0,0). (0,1,2). (0,1,1)}.
 	R _ L reciprocal.
 	I _ L matrix identity.
 	self assert: (L ambient span: L basis) = (R ambient span: R basis).
 	self assert: L determinant = (1 / R determinant).
 	self assert: R matrix * L matrix transposed = I! !
 
-!LatticeTest methodsFor: 'as yet unclassified' stamp: 'len 4/5/2018 04:49:38'!
+!LatticeTest methodsFor: 'as yet unclassified' stamp: 'len 5/20/2018 15:58:41'!
 testLatticeDual2
 	| L R |
-	L _ RationalLattice basis: {(-1,0,0). (0,1,2)}. "not full rank"
+	L _ Lattice basis: {(-1,0,0). (0,1,2)}. "not full rank"
 	R _ L reciprocal.
 	self assert: (L ambient span: L basis) = (R ambient span: R basis).
 	self assert: L determinant = (1 / R determinant).
@@ -4289,37 +4298,37 @@ testSimilarity2
 	self assert: A ~ (P inverse * A * P).
 	self deny: A ~ B! !
 
-!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 7/15/2016 23:53'!
+!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/20/2018 18:29:35'!
 testSmithNormalForm
 	| M A |
 	M _ ZZ ^ (3@3).
 	A _ M rows: { (2,4,4). (-6,6,12). (10,-4,-16) }.
-	self assert: A SNF = (2,6,12)! !
+	self assert: A SNF = #(2 6 12)! !
 
-!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 7/15/2016 23:53'!
+!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/20/2018 18:29:48'!
 testSmithNormalForm2
 	| M A |
 	M _ ZZ ^ (3@3).
 	"Reduced Laplacian matrix of K_4:"
 	A _ M rows: { (3,-1,-1). (-1,3,-1). (-1,-1,3) }.
-	self assert: A SNF = (1,4,4)! !
+	self assert: A SNF = #(1 4 4)! !
 
-!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 1/20/2018 07:59:45'!
+!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/20/2018 18:29:58'!
 testSmithNormalForm3
 	"Example from Willian Stein, 'Algebraic Number Theory, A Computational Approach'."
 	| M A |
 	M _ ZZ ^ (3@3).
 	A _ M rows: { (1,4,9). (16,25,36). (49,64,81) }.
-	self assert: A SNF = (1,3,72)! !
+	self assert: A SNF = #(1 3 72)! !
 
-!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 1/28/2018 08:26:19'!
+!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/20/2018 18:30:22'!
 testSmithNormalForm4
 	"Smith form of a 3x3 matrix of rank 2.
 	Example from Willian Stein, 'Algebraic Number Theory, A Computational Approach'."
 	| M A |
 	M _ ZZ ^ (3@3).
 	A _ M rows: { (2,3,4). (5,6,7). (8,9,10) }.
-	self assert: A SNF = (1,3,0) "this fails, but Cohen defines SNF only for nonsingular matrices"! !
+	self assert: A SNF = #(1 3 0) "this fails, but Cohen defines SNF only for nonsingular matrices"! !
 
 !MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:48'!
 testTransposed
@@ -4355,12 +4364,19 @@ testIndexOf
 newFreeModule
 	^ self newFreeModuleOver: {ZZ. QQ. ZZ / (10 atRandom + 1)} atRandom! !
 
-!ModuleTest methodsFor: 'private' stamp: 'len 12/30/2016 12:19:23'!
+!ModuleTest methodsFor: 'private' stamp: 'len 5/19/2018 18:34:22'!
 newFreeModuleOver: scalars
-	| M |
+	| M N |
+"	M _ 2 atRandom = 1 ifTrue: [scalars ^ (5 atRandom - 1)] ifFalse: [scalars ^ (5 atRandom - 1 @ (5 atRandom - 1))]."
 	M _ 2 atRandom = 1 ifTrue: [scalars ^ 4 atRandom] ifFalse: [scalars ^ (4 atRandom @ 4 atRandom)].
 	"don't let it get too big, or the test is too slow:"
-	(M rank < 5 and: [3 atRandom = 1]) ifTrue: [^ M endomorphisms].
+	M rank < 4 ifTrue:
+		[3 atRandom = 1 ifTrue: [^ M endomorphisms].
+		N _ self newFreeModuleOver: scalars.
+		N rank < 5 ifFalse: [^ M  N].
+		2 atRandom = 1 ifTrue: [^ M hom: N].
+		"2 atRandom = 1 ifTrue: [^ self ’ N]".
+		^ M  N].
 	3 atRandom = 1 ifTrue: [^ M dual].
 	^ M! !
 
@@ -4368,13 +4384,13 @@ newFreeModuleOver: scalars
 newFreeModuleOverPID
 	^ self newFreeModuleOver: {QQ. ZZ/2. ZZ. QQ polynomials} atRandom! !
 
-!ModuleTest methodsFor: 'private' stamp: 'len 3/2/2017 04:47:40'!
+!ModuleTest methodsFor: 'private' stamp: 'len 5/19/2018 17:38:26'!
 newLinearMap
 	| K V W |
 	K _ {QQ. ZZ / #(2 3 5 7) atRandom} atRandom.
 	V _ self newFreeModuleOver: K.
 	W _ self newFreeModuleOver: K.
-	^ (V hom: W) matrix: (self newMatrix: W rank @ V rank over: K)! !
+	^ (V hom: W) !! (self newMatrix: W rank @ V rank over: K)! !
 
 !ModuleTest methodsFor: 'private' stamp: 'len 3/2/2017 04:43:47'!
 newMatrix: dim over: aRing
@@ -4811,12 +4827,13 @@ testMatrixTraceAsLinearMap
 	f _ F evaluating: [:x| x trace].
 	self assert: f = ((F x: 1) + (F x: 5) + (F x: 9))! !
 
-!ModuleTest methodsFor: 'other' stamp: 'len 4/3/2018 00:04:09'!
+!ModuleTest methodsFor: 'other' stamp: 'len 5/18/2018 19:44:40'!
 testOrthogonalProjection
 	| V S p v |
 	V _ QQ ^ 3.
 	S _ V span: {(1, 1, 0). (1, 0, 0)}.
 	p _ S orthogonalProjection.
+	self testProjection: p.
 	v _ (78, 21, 139).
 	self assert: (p value: v) = (p value: (p value: v)). "idempotent at v"
 	self assert: p isIdempotent.
@@ -4881,6 +4898,16 @@ testPerpZ2
 	self assert: (V innerProduct value: {S basis first. perp basis first}) isZero.
 	self assert: (V innerProduct value: {S basis first. perp basis second}) isZero! !
 
+!ModuleTest methodsFor: 'linear maps' stamp: 'len 5/18/2018 19:43:10'!
+testProjection: f
+	| v |
+	self testLinearMap: f.
+	v _ f domain atRandomBits: 20.
+	self assert: (f value: v) = (f value: (f value: v)). "idempotent at v"
+	self assert: f isIdempotent.
+	self assert: (f image apply: f) = f image.
+	self assert: (f codomain apply: f) = f image! !
+
 !ModuleTest methodsFor: 'other' stamp: 'len 10/6/2016 10:36'!
 testQuotientMaps
 	| V S Q pi v s |
@@ -4894,6 +4921,43 @@ testQuotientMaps
 	self assert: (V includes: (pi section value: s)).
 	self assert: s = (pi value: (pi section value: s))! !
 
+!ModuleTest methodsFor: 'other' stamp: 'len 5/20/2018 18:36:29'!
+testQuotientModuleAnnihilator
+	"Example from Sage"
+	| v1 v2 v3 V W |
+	v1 _ (1/2,0,0). v2 _ (3/2,2,1). v3 _ (0,0,1).
+	V _ QQ^3 span: {v1. v2. v3} over: ZZ.
+	W _ QQ^3 span: {v1 + (v2*2). v1*9 + (v2*2). v3*4} over: ZZ.
+	self assert: (V/W) annihilator = (ZZ*16)! !
+
+!ModuleTest methodsFor: 'other' stamp: 'len 5/20/2018 18:36:36'!
+testQuotientModuleInvariants
+	"Example from Sage"
+	| v1 v2 v3 V W |
+	v1 _ (1/2,1,1). v2 _ (3/2,2,1). v3 _ (0,0,1).
+	V _ QQ^3 span: {v1. v2. v3} over: ZZ.
+	W _ QQ^3 span: {v1*2 + (v2*4). v1*9 + (v2*12). v3*4} over: ZZ.
+	self assert: (V/W) invariants = #(1 4 12)! !
+
+!ModuleTest methodsFor: 'other' stamp: 'len 5/20/2018 18:36:42'!
+testQuotientModuleInvariants2
+	"Example from Sage"
+	| V W |
+	V _ ZZ^3.
+	W _ V span: {(1,2,0). (0,1,0). (0,2,0)}.
+	self assert: (V/W) invariants = #(1 1 0) "from example in sage fpg_module.py"! !
+
+!ModuleTest methodsFor: 'other' stamp: 'len 5/20/2018 18:39:57'!
+testQuotientModuleIsFinite
+	"Example from Sage"
+	| v1 v2 v3 V W |
+	v1 _ (1/2,0,0). v2 _ (3/2,2,1). v3 _ (0,0,1).
+	V _ QQ^3 span: {v1. v2. v3} over: ZZ.
+	W _ QQ^3 span: {v1 + (v2*2). v1*9 + (v2*2). v3*4} over: ZZ.
+	self assert: (V/W) isFinite.
+	W _ V null.
+	self assert: (V/W) isFinite not! !
+
 !ModuleTest methodsFor: 'other' stamp: 'len 3/2/2017 04:49:31'!
 testQuotientSpace
 	| M S Q |
@@ -4904,6 +4968,14 @@ testQuotientSpace
 	self assert: (Q includes: S + (M atRandomBits: M rank * 10)).
 	self assert: (M / M null) rank = M rank.
 	self assert: (M / M) rank = 0! !
+
+!ModuleTest methodsFor: 'other' stamp: 'len 5/19/2018 17:25:25'!
+testQuotientSpace2
+	| M x |
+	M _ QQ^3 / (1,2,3).
+	x _ M projection value: (1,2,3).
+	self assert: x isZero.
+"	self assert: (M lifting value: x) = (0,0,0)"! !
 
 !ModuleTest methodsFor: 'isomorphisms' stamp: 'len 5/2/2018 17:35:23'!
 testSecondIsomorphismTheorem: M
@@ -4957,12 +5029,13 @@ testSubmoduleInclusion
 	self assert: (S > P) not.
 	self assert: (P < S) not! !
 
-!ModuleTest methodsFor: 'other' stamp: 'len 4/5/2018 03:24:32'!
+!ModuleTest methodsFor: 'other' stamp: 'len 5/19/2018 03:57:01'!
 testSubmoduleIntersection
 	| V S T T2 |
 	V _ ZZ ^ 3.
 	S _ V span: {(1, 1, 1). (2, 0, -2)}.
-	self assert: S • V = S.
+	self assert: S • S ambient = S. "intersection with the ambient vector space Q^3"
+	self assert: S • V asLattice = S. "intersection with over lattice Z^3"
 	self assert: S • S = S.
 	T _ V span: {(3,1,-1)}.
 	self assert: S • T = T.
@@ -5651,12 +5724,12 @@ testDivisionZ2
 testDivisionZ65535
 	self testDivision: (PrimeField new: 2^17 - 1)! !
 
-!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:50'!
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 5/18/2018 20:47:02'!
 testDomainError
 	| f g |
 	f _ ZZ polynomials atRandomBits: 10.
-"	self should: [f / 2] raise: DomainError."
-	g _ QQ polynomials atRandomBits: 10.
+	self should: [f / 2] raise: DomainError.
+	g _ QQ polynomials atRandomBits: 100 maxDegree: 5. "will have denominators"
 	self should: [f + g] raise: DomainError.
 	self should: [f * g] raise: DomainError! !
 
@@ -6521,6 +6594,45 @@ testFiniteRing3
 	self assert: R zeroDivisors size = 12.
 	self assert: R units size = 4
 	"more about this ring: two maximal ideals (so not a local ring), and non-trivial jacobson radical"! !
+
+!RingTest methodsFor: 'as yet unclassified' stamp: 'len 5/21/2018 17:08:55'!
+testFiniteRing4
+	| R S |
+	R _ ZZ/6. "this is not a Galois ring, the zero-divisors dont form an ideal"
+	S _ ZZ/8. "this is a Galois ring"
+	self assert: R isLocal not.
+	self assert: S isLocal! !
+
+!RingTest methodsFor: 'as yet unclassified' stamp: 'len 5/21/2018 17:59:49'!
+testGaloisRing1
+	| R |
+	R _ PrimeRing new: 3 to: 3.
+	self assert: R characteristic = (3^3).
+	self assert: R size = (3^3).
+	self assert: R isLocal.
+	self assert: R isEuclidean.
+	self assert: R maximalIdeal = (R*3)! !
+
+!RingTest methodsFor: 'as yet unclassified' stamp: 'len 5/21/2018 17:59:12'!
+testGaloisRing2
+	| R |
+	R _ GaloisRing new: 3 to: 3 to: 2.
+	self assert: R characteristic = (3^3).
+	self assert: R size = (3^3^2).
+	self assert: R isLocal.
+	self assert: R isEuclidean! !
+
+!RingTest methodsFor: 'as yet unclassified' stamp: 'len 5/21/2018 16:37:04'!
+testGaloisRingNilradical
+	| R |
+	R _ PrimeRing new: 3 to: 3.
+	self assert: R nilradical = (R * 3)! !
+
+!RingTest methodsFor: 'as yet unclassified' stamp: 'len 5/21/2018 16:37:33'!
+testGaloisRingNilradical2
+	| R |
+	R _ GaloisRing new: 3 to: 3 to: 2.
+	self assert: R nilradical = (R * 3)! !
 
 !RingTest methodsFor: 'as yet unclassified' stamp: 'len 10/20/2016 06:06'!
 testKrullDimension
