@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 20 May 2018 at 10:15:34 pm'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 21 May 2018 at 7:31:45 am'!
 'Description A computational algebra system in Smalltalk'!
-!provides: 'Mathematics' 1 442!
+!provides: 'Mathematics' 1 443!
 !requires: 'RayTracer' 1 2 nil!
 !classDefinition: #RealAlgebraicNumber category: #'Mathematics-Fields'!
 Number subclass: #RealAlgebraicNumber
@@ -962,13 +962,13 @@ Group subclass: #UnitGroup
 UnitGroup class
 	instanceVariableNames: ''!
 
-!classDefinition: #ModularIntegersUnitGroup category: #'Mathematics-Rings'!
+!classDefinition: #ModularIntegersUnitGroup category: #'Mathematics-Rings-Finite'!
 UnitGroup subclass: #ModularIntegersUnitGroup
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Rings'!
-!classDefinition: 'ModularIntegersUnitGroup class' category: #'Mathematics-Rings'!
+	category: 'Mathematics-Rings-Finite'!
+!classDefinition: 'ModularIntegersUnitGroup class' category: #'Mathematics-Rings-Finite'!
 ModularIntegersUnitGroup class
 	instanceVariableNames: ''!
 
@@ -1152,18 +1152,28 @@ Ring subclass: #QuotientRing
 QuotientRing class
 	instanceVariableNames: ''!
 
-!classDefinition: #ModularIntegerRing category: #'Mathematics-Rings'!
+!classDefinition: #ModularIntegerRing category: #'Mathematics-Rings-Finite'!
 QuotientRing subclass: #ModularIntegerRing
 	instanceVariableNames: 'modulus'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Rings'!
-!classDefinition: 'ModularIntegerRing class' category: #'Mathematics-Rings'!
+	category: 'Mathematics-Rings-Finite'!
+!classDefinition: 'ModularIntegerRing class' category: #'Mathematics-Rings-Finite'!
 ModularIntegerRing class
 	instanceVariableNames: ''!
 
+!classDefinition: #PrimeRing category: #'Mathematics-Rings-Finite'!
+ModularIntegerRing subclass: #PrimeRing
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Rings-Finite'!
+!classDefinition: 'PrimeRing class' category: #'Mathematics-Rings-Finite'!
+PrimeRing class
+	instanceVariableNames: ''!
+
 !classDefinition: #PrimeField category: #'Mathematics-Fields-Finite'!
-ModularIntegerRing subclass: #PrimeField
+PrimeRing subclass: #PrimeField
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
@@ -1192,28 +1202,28 @@ QuotientRing subclass: #AffineRing
 AffineRing class
 	instanceVariableNames: ''!
 
-!classDefinition: #AlgebraicExtensionField category: #'Mathematics-Fields'!
-AffineRing subclass: #AlgebraicExtensionField
+!classDefinition: #AlgebraicExtension category: #'Mathematics-Fields'!
+AffineRing subclass: #AlgebraicExtension
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Fields'!
-!classDefinition: 'AlgebraicExtensionField class' category: #'Mathematics-Fields'!
-AlgebraicExtensionField class
+!classDefinition: 'AlgebraicExtension class' category: #'Mathematics-Fields'!
+AlgebraicExtension class
 	instanceVariableNames: ''!
 
-!classDefinition: #FunctionField category: #'Mathematics-Fields'!
-AlgebraicExtensionField subclass: #FunctionField
+!classDefinition: #GaloisRing category: #'Mathematics-Rings-Finite'!
+AlgebraicExtension subclass: #GaloisRing
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Fields'!
-!classDefinition: 'FunctionField class' category: #'Mathematics-Fields'!
-FunctionField class
+	category: 'Mathematics-Rings-Finite'!
+!classDefinition: 'GaloisRing class' category: #'Mathematics-Rings-Finite'!
+GaloisRing class
 	instanceVariableNames: ''!
 
 !classDefinition: #GaloisField category: #'Mathematics-Fields-Finite'!
-AlgebraicExtensionField subclass: #GaloisField
+GaloisRing subclass: #GaloisField
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
@@ -1222,8 +1232,18 @@ AlgebraicExtensionField subclass: #GaloisField
 GaloisField class
 	instanceVariableNames: ''!
 
+!classDefinition: #FunctionField category: #'Mathematics-Fields'!
+AlgebraicExtension subclass: #FunctionField
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Fields'!
+!classDefinition: 'FunctionField class' category: #'Mathematics-Fields'!
+FunctionField class
+	instanceVariableNames: ''!
+
 !classDefinition: #NumberField category: #'Mathematics-Fields-Number Fields'!
-AlgebraicExtensionField subclass: #NumberField
+AlgebraicExtension subclass: #NumberField
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
@@ -1482,14 +1502,14 @@ FreeModule subclass: #RingAsModule
 RingAsModule class
 	instanceVariableNames: ''!
 
-!classDefinition: #AlgebraicExtensionSpace category: #'Mathematics-Fields'!
-FreeModule subclass: #AlgebraicExtensionSpace
+!classDefinition: #AlgebraicExtensionAsModule category: #'Mathematics-Fields'!
+FreeModule subclass: #AlgebraicExtensionAsModule
 	instanceVariableNames: 'field'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Fields'!
-!classDefinition: 'AlgebraicExtensionSpace class' category: #'Mathematics-Fields'!
-AlgebraicExtensionSpace class
+!classDefinition: 'AlgebraicExtensionAsModule class' category: #'Mathematics-Fields'!
+AlgebraicExtensionAsModule class
 	instanceVariableNames: ''!
 
 !classDefinition: #OrderAsModule category: #'Mathematics-Fields-Number Fields'!
@@ -2552,13 +2572,13 @@ Object subclass: #ResidueClass
 ResidueClass class
 	instanceVariableNames: ''!
 
-!classDefinition: #ModularInteger category: #'Mathematics-Rings'!
+!classDefinition: #ModularInteger category: #'Mathematics-Rings-Finite'!
 ResidueClass subclass: #ModularInteger
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Mathematics-Rings'!
-!classDefinition: 'ModularInteger class' category: #'Mathematics-Rings'!
+	category: 'Mathematics-Rings-Finite'!
+!classDefinition: 'ModularInteger class' category: #'Mathematics-Rings-Finite'!
 ModularInteger class
 	instanceVariableNames: ''!
 
@@ -4015,8 +4035,11 @@ References:
 !ModularIntegerRing commentStamp: '<historical>' prior: 0!
 Residue class rings of Z, i.e. rings Z/mZ of residue classes of integers modulo m. Elements are instances of ModularInteger.!
 
+!PrimeRing commentStamp: '<historical>' prior: 0!
+Residue class rings Z/(p^n)Z of integers modulo p^n.!
+
 !PrimeField commentStamp: '<historical>' prior: 0!
-Fields of order p prime, i.e. the residue class fields Z/pZ of integers modulo p.!
+Residue class fields Z/pZ of integers modulo p.!
 
 !SmallPrimeField commentStamp: '<historical>' prior: 0!
 Prime fields Z/pZ for small primes p, such that it is feasable to build exponentiation and logarithmic tables and accelerate arithmetic through table lookups.
@@ -4029,17 +4052,24 @@ Quotients of polynomial rings. They are called affine rings or affine algebras b
 
 When the coefficients ring is a field K and the relations ideal I is maximal, the affine algebra K[X]/I is a field. In this way, affine algebras are multivariate generalizations of number fields and algebraic function fields.!
 
-!AlgebraicExtensionField commentStamp: '<historical>' prior: 0!
-(Finite) algebraic extensions E/F of a field F. They are defined by an irreducible polynomial f with coefficients in F, and are isomorphic to F[x]/<f>. An extension field E/F can also be viewed as a vector space over F.
+!AlgebraicExtension commentStamp: '<historical>' prior: 0!
+(Finite) algebraic extensions E/F of a field (or ring) F. They are defined by an irreducible polynomial f with coefficients in F, and are isomorphic to F[x]/<f>. An extension field (or ring) E/F can also be viewed as a vector space (or module) over F.
 
 See also AlgebraicElement and AlgebraicExtensionSpace.!
+
+!GaloisRing commentStamp: 'len 5/21/2018 07:02:42' prior: 0!
+The Galois ring GR(p^n,m) is a Galois extension of degree m of the ring Z/<p^n> of characteristic p^n. This is the unique (up to isomorphism) extension of degree m of the ring Z/<p^n> of integers modulo p^n (see PrimeRing). When n=1 they are fields (see GaloisField).
+
+Galois rings are local rings with maximal ideal <p> for some prime p. The maximal ideal is also the set of zero-divisors.
+
+The subrings of GR(p^n,m) correspond to the positive divisors of m.!
+
+!GaloisField commentStamp: '<historical>' prior: 0!
+Finite nonprime fields, i.e. fields GF(p^r) with r>1. These are finite algebraic extensions of prime fields. See also PrimeField.!
 
 !FunctionField commentStamp: '<historical>' prior: 0!
 Algebraic function fields, i.e. finite (and thus algebraic) field extensions of a rational function field. Function fields can also be viewed as vector spaces over the coefficients field.
 !
-
-!GaloisField commentStamp: '<historical>' prior: 0!
-Finite nonprime fields, i.e. fields GF(p^r) with r >= 2. These are finite algebraic extensions of prime fields. See also PrimeField.!
 
 !NumberField commentStamp: '<historical>' prior: 0!
 Algebraic number fields, i.e. finite (and thus algebraic) field extensions of the rational numbers Q. Number fields can also be viewed as vector spaces over Q.
@@ -4158,7 +4188,7 @@ Rank 1 free modules (or vector spaces) of scalars, i.e. a ring R viewed as a R-m
 
 Ideals of R are seen as submodules of this ambient module.!
 
-!AlgebraicExtensionSpace commentStamp: '<historical>' prior: 0!
+!AlgebraicExtensionAsModule commentStamp: '<historical>' prior: 0!
 Algebraic extension fields seen as vector spaces. See AlgebraicExtensionField.!
 
 !OrderAsModule commentStamp: '<historical>' prior: 0!
@@ -17452,13 +17482,13 @@ dimension
 embedding
 	^ ZZ to: self evaluating: [:x| self one * x]! !
 
-!Ring methodsFor: 'operations' stamp: 'len 1/20/2018 18:40:33'!
+!Ring methodsFor: 'operations' stamp: 'len 5/21/2018 04:43:15'!
 extension: aPolynomial
 	"Answer the algebraic extension of the receiver defined by the given irreducible polynomial."
-	self isField ifFalse: [DomainError signal: 'not a field'].
-	aPolynomial scalars = self ifFalse: [DomainError signal: 'polynomial coefficients not from this field'].
+"	self isField ifFalse: [DomainError signal: 'not a field']."
+	aPolynomial scalars = self ifFalse: [DomainError signal: 'polynomial coefficients not from this ring'].
 	aPolynomial parent isUnivariate ifFalse: [^ self error: 'not univariate poylnomial'].
-	^ AlgebraicExtensionField polynomial: aPolynomial! !
+	^ AlgebraicExtension polynomial: aPolynomial! !
 
 !Ring methodsFor: 'operations' stamp: 'len 10/31/2016 05:46'!
 extensionDegree: anInteger
@@ -17681,9 +17711,9 @@ matrix: dimension evaluatingDiagonal: aBlock
 matrix: dimension scalar: anElement
 	^ self matrix: dimension evaluatingDiagonal: [:i| anElement]! !
 
-!Ring methodsFor: 'accessing' stamp: 'len 5/20/2018 21:57:24'!
+!Ring methodsFor: 'accessing' stamp: 'len 5/20/2018 22:37:12'!
 maximalIdeal
-	"If the receiver is a local ring, answer its maximal ideal."
+	"If the receiver is a local ring, answer the unique maximal ideal."
 	self isDivisionRing ifTrue: [^ self zeroIdeal].
 	self subclassResponsibility! !
 
@@ -18568,6 +18598,12 @@ lifting
 	"Answer the map from the receiver to the base ring lifting the canonical projection."
 	^ self projection section! !
 
+!QuotientRing methodsFor: 'accessing' stamp: 'len 5/20/2018 22:39:51'!
+maximalIdeal
+	"If the receiver is a local ring, answer the unique maximal ideal."
+	self base isLocal ifTrue: [^ self base maximalIdeal apply: self projection].
+	^ super maximalIdeal! !
+
 !QuotientRing methodsFor: 'accessing' stamp: 'len 2/27/2017 20:53:04'!
 modulus
 	^ self relations generator! !
@@ -18670,6 +18706,10 @@ base
 characteristic
 	^ self modulus! !
 
+!ModularIntegerRing methodsFor: 'enumerating' stamp: 'len 5/21/2018 07:28:56'!
+do: aBlock
+	0 to: self modulus - 1 do: [:i| aBlock value: (self project: i)]! !
+
 !ModularIntegerRing methodsFor: 'private' stamp: 'len 1/5/2017 08:14:58'!
 elementClass
 	^ ModularInteger! !
@@ -18685,6 +18725,10 @@ includes: anObject
 !ModularIntegerRing methodsFor: 'testing' stamp: 'len 12/28/2016 12:13:20'!
 isField
 	^ self propertyAt: #isField ifAbsentPut: [self modulus isPrime]! !
+
+!ModularIntegerRing methodsFor: 'testing' stamp: 'len 5/21/2018 05:09:16'!
+isFinite
+	^ true! !
 
 !ModularIntegerRing methodsFor: 'testing' stamp: 'len 1/19/2018 22:33:59'!
 isIntegralDomain
@@ -18717,6 +18761,10 @@ modulus
 !ModularIntegerRing methodsFor: 'accessing-private' stamp: 'len 11/29/2016 21:47:19'!
 modulus: anInteger
 	modulus _ anInteger! !
+
+!ModularIntegerRing methodsFor: 'private' stamp: 'len 5/21/2018 04:19:36'!
+modulusFactors
+	^ self propertyAt: #modulusFactors ifAbsentPut: [self modulus factors]! !
 
 !ModularIntegerRing methodsFor: 'enumerating' stamp: 'len 5/4/2018 23:28:53'!
 primeIdealsDo: aBlock
@@ -18775,6 +18823,49 @@ units
 new: anInteger
 	^ self new modulus: anInteger! !
 
+!PrimeRing methodsFor: 'accessing' stamp: 'len 5/21/2018 04:19:07'!
+exponent
+	^ self propertyAt: #exponent ifAbsentPut: [self modulusFactors size]! !
+
+!PrimeRing methodsFor: 'testing' stamp: 'len 5/21/2018 04:26:10'!
+isField
+	^ self exponent = 1! !
+
+!PrimeRing methodsFor: 'testing' stamp: 'len 5/21/2018 04:12:49'!
+isLocal
+	^ true! !
+
+!PrimeRing methodsFor: 'testing' stamp: 'len 5/21/2018 04:38:24'!
+isZeroDivisor: anElement
+	^ self p | anElement! !
+
+!PrimeRing methodsFor: 'accessing' stamp: 'len 5/21/2018 04:13:20'!
+maximalIdeal
+	^ self * self p! !
+
+!PrimeRing methodsFor: 'accessing' stamp: 'len 5/21/2018 04:18:30'!
+p
+	^ self propertyAt: #p ifAbsentPut: [self modulusFactors anyOne]! !
+
+!PrimeRing methodsFor: 'accessing-private' stamp: 'len 5/21/2018 04:24:10'!
+p: aPrime to: anInteger
+	self modulus: aPrime^anInteger.
+	self propertyAt: #modulusFactorization put: (Bag new add: aPrime withOccurrences: anInteger; yourself)! !
+
+!PrimeRing methodsFor: 'printing' stamp: 'len 5/21/2018 04:31:00'!
+printOn: aStream
+	aStream print: self base; nextPut: $/; print: self p; nextPutAll: self exponent printString super; print: self base! !
+
+!PrimeRing methodsFor: 'operations' stamp: 'len 5/21/2018 06:56:18'!
+zeroDivisors
+	"The zero-divisors of a Galois ring Z/<p^k> constitute the unique maximal ideal <p>."
+	^ self maximalIdeal! !
+
+!PrimeRing class methodsFor: 'instance creation' stamp: 'len 5/21/2018 07:18:45'!
+new: aPrime to: anInteger
+	anInteger = 1 ifTrue: [^ PrimeField new: aPrime].
+	^ self new p: aPrime to: anInteger! !
+
 !PrimeField methodsFor: 'private' stamp: 'len 8/10/2016 06:01'!
 computePrimitiveRoot
 	"When the receiver is a field Z/<p>, answer a primitive root modulo p."
@@ -18812,10 +18903,6 @@ inverseOfRepresentative: anInteger
 isField
 	^ true! !
 
-!PrimeField methodsFor: 'testing' stamp: 'len 1/28/2018 08:00:48'!
-isFiniteField
-	^ true! !
-
 !PrimeField methodsFor: 'testing' stamp: 'len 10/18/2016 22:41'!
 isUnit: anElement
 	^ anElement isZero not! !
@@ -18823,6 +18910,11 @@ isUnit: anElement
 !PrimeField methodsFor: 'testing' stamp: 'len 5/2/2018 16:04:22'!
 isZeroDivisor: anElement
 	^ anElement isZero! !
+
+!PrimeField methodsFor: 'accessing-private' stamp: 'len 5/21/2018 04:28:02'!
+p: aPrime to: anInteger
+	anInteger = 1 ifFalse: [^ self error: 'exponent must be 1'].
+	super p: aPrime to: anInteger! !
 
 !PrimeField methodsFor: 'enumerating' stamp: 'len 5/4/2018 20:12:15'!
 primeIdealsDo: aBlock
@@ -18980,8 +19072,9 @@ localization
 	self isGlobal ifFalse: [DomainError signal: 'the ring is not global'].
 	^ self orderedBy: #lglex! !
 
-!AffineRing methodsFor: 'accessing' stamp: 'len 5/20/2018 21:52:35'!
+!AffineRing methodsFor: 'accessing' stamp: 'len 5/20/2018 22:37:39'!
 maximalIdeal
+	"If the receiver is a local ring, answer the unique maximal ideal."
 	self isLocal ifFalse: [DomainError signal: 'the ring is not local'].
 	^ self * self generators! !
 
@@ -19041,13 +19134,9 @@ y
 z
 	^ self x: 3! !
 
-!AlgebraicExtensionField methodsFor: 'converting' stamp: 'len 1/4/2017 18:18:51'!
+!AlgebraicExtension methodsFor: 'converting' stamp: 'len 5/21/2018 04:45:31'!
 asModule
-	^ self asVectorSpace! !
-
-!AlgebraicExtensionField methodsFor: 'converting' stamp: 'len 1/20/2018 18:40:59'!
-asVectorSpace
-	^ AlgebraicExtensionSpace on: self
+	^ AlgebraicExtensionAsModule on: self
 "	^ FreeModule
 		basis: ((1 to: self degree) collect: [:i| self x ^ (i-1)])
 		coordinates: [:aVector| self scalars tuple: self degree evaluating: [:i| aVector representative coefficientAtDegree: i-1]]
@@ -19057,110 +19146,146 @@ asVectorSpace
 	QQ extension: QQ polynomials x^4 - 2 :: asVectorSpace
 "! !
 
-!AlgebraicExtensionField methodsFor: 'morphisms' stamp: 'len 12/14/2016 11:14:19'!
+!AlgebraicExtension methodsFor: 'converting' stamp: 'len 5/21/2018 04:46:30'!
+asVectorSpace
+	self scalars isField ifFalse: [^ DomainError signal].
+	^ self asModule! !
+
+!AlgebraicExtension methodsFor: 'morphisms' stamp: 'len 12/14/2016 11:14:19'!
 automorphisms
 	"Answer the Galous group of the receiver (assuming the receiver is a Galois extension)."
 	self isFinite ifTrue: [^ TransformationGroup new generators: {self frobenius}].
 	self flag: #fix. "This is actually isomorphic to the Galois group, not the actual Galois group, it should act on elements of the extension and it's not the full symmetric group."
 	^ SymmetricGroup on: (self embeddings collect: [:each| each value: self x])! !
 
-!AlgebraicExtensionField methodsFor: 'accessing' stamp: 'len 11/3/2016 04:35'!
+!AlgebraicExtension methodsFor: 'accessing' stamp: 'len 11/3/2016 04:35'!
 characteristic
 	^ self scalars characteristic! !
 
-!AlgebraicExtensionField methodsFor: 'accessing' stamp: 'len 12/10/2016 20:46:42'!
+!AlgebraicExtension methodsFor: 'accessing' stamp: 'len 12/10/2016 20:46:42'!
 degree
 	"Answer the degree [E:F] of the relative extension E/F."
 	^ self polynomial degree! !
 
-!AlgebraicExtensionField methodsFor: 'accessing' stamp: 'len 1/5/2017 19:19:00'!
+!AlgebraicExtension methodsFor: 'accessing' stamp: 'len 1/5/2017 19:19:00'!
 degreeOver: aSubfield
 	"Answer the degree [E:F] of the relative extension E/F."
 	self = aSubfield ifTrue: [^ 1].
 	self scalars = aSubfield ifTrue: [^ self degree].
 	^ self degree * (self scalars degreeOver: aSubfield)! !
 
-!AlgebraicExtensionField methodsFor: 'private' stamp: 'len 1/20/2018 18:41:22'!
+!AlgebraicExtension methodsFor: 'private' stamp: 'len 1/20/2018 18:41:22'!
 elementClass
 	^ AlgebraicElement! !
 
-!AlgebraicExtensionField methodsFor: 'morphisms' stamp: 'len 1/15/2018 19:02:48'!
+!AlgebraicExtension methodsFor: 'morphisms' stamp: 'len 1/15/2018 19:02:48'!
 embed: aNumber
 	"This is the field homomorphism that embeds the base field into the receiver."
 	^ self project: (self relations scalars embed: aNumber)! !
 
-!AlgebraicExtensionField methodsFor: 'morphisms' stamp: 'len 12/28/2016 12:12:43'!
+!AlgebraicExtension methodsFor: 'morphisms' stamp: 'len 12/28/2016 12:12:43'!
 embedding
 	"Answer the field homomorphism that embeds the base field into the receiver."
 	^ self propertyAt: #embedding ifAbsentPut: [(self scalars to: self evaluating: [:x| self embed: x]) name: 'i']! !
 
-!AlgebraicExtensionField methodsFor: 'morphisms' stamp: 'len 12/28/2016 12:12:31'!
+!AlgebraicExtension methodsFor: 'morphisms' stamp: 'len 12/28/2016 12:12:31'!
 embeddings
 	"Answer the n distinct embeddings of the receiver in the algebraic closure of the base field, where n is the degree of the receiver. In the case of number fields, the embeddings go to the complex algebraic numbers.
 	When the receiver is a Galois extension, the embeddings send each element to one of its conjugates, and their images are the same."
 	^ self propertyAt: #embeddings ifAbsentPut: [self embeddingsIn: self scalars algebraicClosure]! !
 
-!AlgebraicExtensionField methodsFor: 'morphisms' stamp: 'len 4/29/2018 17:24:35'!
+!AlgebraicExtension methodsFor: 'morphisms' stamp: 'len 4/29/2018 17:24:35'!
 embeddingsIn: aField
 	^ (self polynomial rootsIn: aField) asArray
 		collect: [:x| self to: aField evaluating: [:alpha| alpha representative value: x]]! !
 
-!AlgebraicExtensionField methodsFor: 'morphisms' stamp: 'len 11/3/2016 09:28'!
+!AlgebraicExtension methodsFor: 'morphisms' stamp: 'len 11/3/2016 09:28'!
 from: aDomain
 	aDomain = self scalars ifTrue: [^ self embedding].
 	^ super from: aDomain! !
 
-!AlgebraicExtensionField methodsFor: 'testing' stamp: 'len 10/18/2016 20:47'!
+!AlgebraicExtension methodsFor: 'testing' stamp: 'len 5/21/2018 04:44:34'!
 isField
-	^ true! !
+	^ self scalars isField! !
 
-!AlgebraicExtensionField methodsFor: 'testing' stamp: 'len 4/2/2018 22:31:04'!
+!AlgebraicExtension methodsFor: 'testing' stamp: 'len 5/21/2018 05:12:35'!
 isIntegralDomain
-	^ true "because it's a field"! !
+	^ self isField or: [super isIntegralDomain]! !
 
-!AlgebraicExtensionField methodsFor: 'accessing' stamp: 'len 2/27/2017 20:56:46'!
+!AlgebraicExtension methodsFor: 'accessing' stamp: 'len 2/27/2017 20:56:46'!
 polynomial
 	^ self relations generator! !
 
-!AlgebraicExtensionField methodsFor: 'accessing-private' stamp: 'len 2/27/2017 20:48:43'!
+!AlgebraicExtension methodsFor: 'accessing-private' stamp: 'len 2/27/2017 20:48:43'!
 polynomial: aPolynomial
 	self relations: aPolynomial parent * aPolynomial! !
 
-!AlgebraicExtensionField methodsFor: 'printing' stamp: 'len 12/28/2016 12:27:58'!
+!AlgebraicExtension methodsFor: 'printing' stamp: 'len 12/28/2016 12:27:58'!
 printOn: aStream
 	(self hasProperty: #name) ifTrue: [^ super printOn: aStream].
 	aStream print: self scalars; nextPut: $(; print: self polynomial; nextPut: $)! !
 
-!AlgebraicExtensionField methodsFor: 'accessing' stamp: 'len 11/3/2016 04:36'!
+!AlgebraicExtension methodsFor: 'accessing' stamp: 'len 11/3/2016 04:36'!
 size
 	^ self scalars size ^ self degree! !
 
-!AlgebraicExtensionField methodsFor: 'accessing' stamp: 'len 11/3/2016 04:33'!
+!AlgebraicExtension methodsFor: 'accessing' stamp: 'len 11/3/2016 04:33'!
 x
 	"Answer the transcendental element of the receiver."
 	^ self project: self base x! !
 
-!AlgebraicExtensionField class methodsFor: 'examples' stamp: 'len 2/22/2017 08:47:43'!
+!AlgebraicExtension class methodsFor: 'examples' stamp: 'len 2/22/2017 08:47:43'!
 example
 	^ QQ extension: QQ polynomials x^4 - 2! !
 
-!AlgebraicExtensionField class methodsFor: 'instance creation' stamp: 'len 5/12/2016 10:05'!
+!AlgebraicExtension class methodsFor: 'instance creation' stamp: 'len 5/12/2016 10:05'!
 polynomial: aPolynomial
 	"Answer a new algebraic field extension K(f) where f is the given polynomial in K[x]. The polynomial must be irreducible, otherwise there would be zero divisors."
 	^ self new polynomial: aPolynomial! !
 
-!FunctionField methodsFor: 'as yet unclassified' stamp: 'len 1/5/2017 19:50:45'!
-genus
-	^ self notYetImplemented! !
+!GaloisRing methodsFor: 'testing' stamp: 'len 5/21/2018 05:07:00'!
+isFinite
+	^ true! !
 
-!FunctionField methodsFor: 'testing' stamp: 'len 1/28/2018 08:00:58'!
-isGlobalField
-	^ (self base isKindOf: RationalFunctionField) and: [self scalars isFiniteField]! !
+!GaloisRing methodsFor: 'testing' stamp: 'len 5/21/2018 05:06:26'!
+isGaloisExtension
+	^ true! !
 
-!FunctionField methodsFor: 'testing' stamp: 'len 1/5/2017 18:55:12'!
-isPerfectField
-	"A field is perfect if either it has characteristic 0 or has characteristic p and every element in the field has a p-th root in the field."
-	^ self characteristic = 0! !
+!GaloisRing methodsFor: 'printing' stamp: 'len 5/21/2018 07:20:18'!
+printOn: aStream
+	aStream nextPutAll: 'GR('; print: self scalars p; nextPutAll: self scalars exponent printString super; nextPut: $,; print: self degree; nextPut: $)! !
+
+!GaloisRing methodsFor: 'operations' stamp: 'len 5/21/2018 06:53:52'!
+zeroDivisors
+	^ self maximalIdeal! !
+
+!GaloisRing class methodsFor: 'examples' stamp: 'len 5/21/2018 07:19:51'!
+example1
+	"The Galois ring of characteristic 2^3 and order 2^6."
+	^ GaloisRing new: 2 to: 3 to: 6! !
+
+!GaloisRing class methodsFor: 'instance creation' stamp: 'len 5/21/2018 06:50:29'!
+new: q to: m
+	"Answer the Galois ring of characteristic q and order q^m."
+	| factors n p |
+	factors _ q factors.
+	factors asSet size = 1 ifFalse: [^ self error: 'not power of a prime'].
+	n _ factors size.
+	p _ factors anyOne.
+	^ self new: p to: n to: m! !
+
+!GaloisRing class methodsFor: 'instance creation' stamp: 'len 5/21/2018 07:23:30'!
+new: p to: n to: m
+	"Answer the Galois ring of characteristic p^n and order p^(n*m)."
+	| F Fp f |
+	n = 1 ifTrue: [^ GaloisField new: p to: m].
+	F _ PrimeRing new: p to: n.
+	m = 1 ifTrue: [^ F].
+	Fp _ PrimeField new: p.
+	f _ Fp polynomials findIrreducibleOfDegree: m.
+	"Hensel lift to F"
+	f _ f lift apply: F projection.
+	^ self polynomial: f! !
 
 !GaloisField methodsFor: 'morphisms' stamp: 'len 12/14/2016 11:14:22'!
 automorphisms
@@ -19172,25 +19297,19 @@ isAbelianExtension
 	"Galois fields are Abelian extensions."
 	^ true! !
 
-!GaloisField methodsFor: 'testing' stamp: 'len 1/28/2018 07:59:48'!
-isFiniteField
-	^ true! !
-
-!GaloisField methodsFor: 'testing' stamp: 'len 12/13/2016 21:47:29'!
-isGaloisExtension
-	^ true! !
-
 !GaloisField methodsFor: 'printing' stamp: 'len 12/17/2016 23:04:02'!
 printOn: aStream
 	aStream nextPut: Character FF; nextPutAll: self size printString sub
 "	aStream nextPutAll: 'GF('; print: self characteristic; nextPutAll: self degree printString super; nextPut: $)"! !
 
-!GaloisField class methodsFor: 'examples' stamp: 'len 12/12/2016 17:08:40'!
+!GaloisField class methodsFor: 'examples' stamp: 'len 5/21/2018 06:46:16'!
 example1
+	"The Galois field of order 2^3."
 	^ GaloisField new: 8! !
 
-!GaloisField class methodsFor: 'examples' stamp: 'len 12/12/2016 17:08:33'!
+!GaloisField class methodsFor: 'examples' stamp: 'len 5/21/2018 06:46:33'!
 example2
+	"The Galois field of order 5^3."
 	^ GaloisField new: 5 to: 3! !
 
 !GaloisField class methodsFor: 'instance creation' stamp: 'len 12/12/2016 08:40:10'!
@@ -19210,6 +19329,19 @@ new: p to: n
 	F _ PrimeField new: p.
 	n = 1 ifTrue: [^ F].
 	^ self polynomial: (F polynomials findIrreducibleOfDegree: n)! !
+
+!FunctionField methodsFor: 'as yet unclassified' stamp: 'len 1/5/2017 19:50:45'!
+genus
+	^ self notYetImplemented! !
+
+!FunctionField methodsFor: 'testing' stamp: 'len 1/28/2018 08:00:58'!
+isGlobalField
+	^ (self base isKindOf: RationalFunctionField) and: [self scalars isFiniteField]! !
+
+!FunctionField methodsFor: 'testing' stamp: 'len 1/5/2017 18:55:12'!
+isPerfectField
+	"A field is perfect if either it has characteristic 0 or has characteristic p and every element in the field has a p-th root in the field."
+	^ self characteristic = 0! !
 
 !NumberField methodsFor: 'accessing' stamp: 'len 4/16/2018 16:04:31'!
 adjoint
@@ -20557,8 +20689,9 @@ localization
 	self isGlobal ifFalse: [DomainError signal: 'the ring is not global'].
 	^ self orderedBy: #lglex! !
 
-!PolynomialRing methodsFor: 'accessing' stamp: 'len 2/12/2017 06:49:58'!
+!PolynomialRing methodsFor: 'accessing' stamp: 'len 5/20/2018 22:37:19'!
 maximalIdeal
+	"If the receiver is a local ring, answer the unique maximal ideal."
 	self isLocal ifFalse: [DomainError signal: 'the ring is not local'].
 	^ self * self generators! !
 
@@ -22670,40 +22803,40 @@ zero
 over: aField
 	^ self new scalars: aField! !
 
-!AlgebraicExtensionSpace methodsFor: 'as yet unclassified' stamp: 'len 1/20/2018 06:48:37'!
+!AlgebraicExtensionAsModule methodsFor: 'as yet unclassified' stamp: 'len 1/20/2018 06:48:37'!
 asField
 	^ field! !
 
-!AlgebraicExtensionSpace methodsFor: 'as yet unclassified' stamp: 'len 1/18/2018 19:33:08'!
+!AlgebraicExtensionAsModule methodsFor: 'as yet unclassified' stamp: 'len 1/18/2018 19:33:08'!
 coordinatesOf: anElement
 	"why not just anElement representative coefficients? must complete with 0"
 	^ self scalars tuple: self rank evaluating: [:i| anElement representative coefficientAtDegree: i-1]! !
 
-!AlgebraicExtensionSpace methodsFor: 'as yet unclassified' stamp: 'len 1/16/2017 07:36:52'!
+!AlgebraicExtensionAsModule methodsFor: 'as yet unclassified' stamp: 'len 1/16/2017 07:36:52'!
 e: anInteger
 	^ field x ^ (anInteger-1)! !
 
-!AlgebraicExtensionSpace methodsFor: 'as yet unclassified' stamp: 'len 1/16/2017 07:36:14'!
+!AlgebraicExtensionAsModule methodsFor: 'as yet unclassified' stamp: 'len 1/16/2017 07:36:14'!
 field
 	^ field! !
 
-!AlgebraicExtensionSpace methodsFor: 'as yet unclassified' stamp: 'len 1/16/2017 07:36:26'!
+!AlgebraicExtensionAsModule methodsFor: 'as yet unclassified' stamp: 'len 1/16/2017 07:36:26'!
 field: anExtensionField
 	field _ anExtensionField! !
 
-!AlgebraicExtensionSpace methodsFor: 'as yet unclassified' stamp: 'len 1/16/2017 07:36:35'!
+!AlgebraicExtensionAsModule methodsFor: 'as yet unclassified' stamp: 'len 1/16/2017 07:36:35'!
 rank
 	^ field degree! !
 
-!AlgebraicExtensionSpace methodsFor: 'as yet unclassified' stamp: 'len 1/16/2017 07:37:19'!
+!AlgebraicExtensionAsModule methodsFor: 'as yet unclassified' stamp: 'len 1/16/2017 07:37:19'!
 scalars
 	^ field scalars! !
 
-!AlgebraicExtensionSpace methodsFor: 'as yet unclassified' stamp: 'len 12/12/2017 18:36:20'!
+!AlgebraicExtensionAsModule methodsFor: 'as yet unclassified' stamp: 'len 12/12/2017 18:36:20'!
 zero
 	^ field zero! !
 
-!AlgebraicExtensionSpace class methodsFor: 'as yet unclassified' stamp: 'len 1/16/2017 07:39:37'!
+!AlgebraicExtensionAsModule class methodsFor: 'as yet unclassified' stamp: 'len 1/16/2017 07:39:37'!
 on: anExtensionField
 	^ self new field: anExtensionField! !
 
