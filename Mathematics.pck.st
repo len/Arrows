@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 21 May 2018 at 10:54:07 pm'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 22 May 2018 at 6:11:57 pm'!
 'Description A computational algebra system in Smalltalk'!
-!provides: 'Mathematics' 1 446!
+!provides: 'Mathematics' 1 447!
 !requires: 'RayTracer' 1 2 nil!
 !classDefinition: #RealAlgebraicNumber category: #'Mathematics-Fields'!
 Number subclass: #RealAlgebraicNumber
@@ -1504,7 +1504,7 @@ RingAsModule class
 
 !classDefinition: #AlgebraicExtensionAsModule category: #'Mathematics-Fields'!
 FreeModule subclass: #AlgebraicExtensionAsModule
-	instanceVariableNames: 'field'
+	instanceVariableNames: 'extension'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mathematics-Fields'!
@@ -2560,6 +2560,16 @@ FormalFraction subclass: #RationalFunction
 	category: 'Mathematics-Polynomials'!
 !classDefinition: 'RationalFunction class' category: #'Mathematics-Polynomials'!
 RationalFunction class
+	instanceVariableNames: ''!
+
+!classDefinition: #ProductRingElement category: #'Mathematics-Rings'!
+Object subclass: #ProductRingElement
+	instanceVariableNames: 'components'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mathematics-Rings'!
+!classDefinition: 'ProductRingElement class' category: #'Mathematics-Rings'!
+ProductRingElement class
 	instanceVariableNames: ''!
 
 !classDefinition: #ResidueClass category: #'Mathematics-Rings'!
@@ -4019,8 +4029,8 @@ The singletion global instance QQ is the field of rational numbers.!
 !RationalFunctionField commentStamp: '<historical>' prior: 0!
 The field of fractions of a polynomial ring with coefficients over a field.!
 
-!ProductRing commentStamp: '<historical>' prior: 0!
-Direct products of rings. Elements are tuples, and multiplication and addition are defined component wise.!
+!ProductRing commentStamp: 'len 5/22/2018 16:08:59' prior: 0!
+Direct products of rings. Elements are tuples where the i-th component corresponds to an element in the i-th ring of the product (see ProductRingElement), and multiplication and addition are defined component wise.!
 
 !QuotientRing commentStamp: '<historical>' prior: 0!
 Quotient rings (also called factor rings, difference rings or residue class rings). Their elements are residue classes (see ResidueClass and subclasses).
@@ -4036,10 +4046,14 @@ References:
 Residue class rings of Z, i.e. rings Z/mZ of residue classes of integers modulo m. Elements are instances of ModularInteger.!
 
 !PrimeRing commentStamp: '<historical>' prior: 0!
-Residue class rings Z/(p^n)Z of integers modulo p^n.!
+Residue class rings Z/(p^n)Z of integers modulo p^n.
+
+These are the simplest examples of Galois rings, GR(p^n,1). They are local rings with maximal ideal <p>, and the maximal ideal is also the set of zero-divisors. Other Galois rings are constructed by finite algebraic extensions (see GaloisRing).!
 
 !PrimeField commentStamp: '<historical>' prior: 0!
-Residue class fields Z/pZ of integers modulo p.!
+Residue class fields Z/pZ of integers modulo a prime p.
+
+These are the simplest examples of Galois fields, GF(p^1). Other Galois fields are constructed by finite algebraic extensions (see GaloisField).!
 
 !SmallPrimeField commentStamp: '<historical>' prior: 0!
 Prime fields Z/pZ for small primes p, such that it is feasable to build exponentiation and logarithmic tables and accelerate arithmetic through table lookups.
@@ -4055,12 +4069,12 @@ When the coefficients ring is a field K and the relations ideal I is maximal, th
 !AlgebraicExtension commentStamp: '<historical>' prior: 0!
 (Finite) algebraic extensions E/F of a field (or ring) F. They are defined by an irreducible polynomial f with coefficients in F, and are isomorphic to F[x]/<f>. An extension field (or ring) E/F can also be viewed as a vector space (or module) over F.
 
-See also AlgebraicElement and AlgebraicExtensionSpace.!
+See also AlgebraicElement.!
 
 !GaloisRing commentStamp: '<historical>' prior: 0!
-The Galois ring GR(p^n,m) is a Galois extension of degree m of the ring Z/<p^n> of characteristic p^n. This is the unique (up to isomorphism) extension of degree m of the ring Z/<p^n> of integers modulo p^n (see PrimeRing). When n=1 they are fields (see GaloisField).
+The Galois ring GR(p^n,m) is a Galois extension of degree m of the ring Z/(p^n)Z of characteristic p^n. This is the unique (up to isomorphism) extension of degree m of the ring Z/(p^n)Z of integers modulo p^n (see PrimeRing). When n=1 they are fields (see GaloisField).
 
-Galois rings GR(p^n,m) are local rings with maximal ideal <p>. The maximal ideal is also the set of zero-divisors.
+Galois rings GR(p^n,m) are local rings with maximal ideal <p>, and the maximal ideal is also the set of zero-divisors.
 
 The subrings of GR(p^n,m) correspond to the positive divisors of m.!
 
@@ -4189,7 +4203,7 @@ Rank 1 free modules (or vector spaces) of scalars, i.e. a ring R viewed as a R-m
 Ideals of R are seen as submodules of this ambient module.!
 
 !AlgebraicExtensionAsModule commentStamp: '<historical>' prior: 0!
-Algebraic extension fields seen as vector spaces. See AlgebraicExtensionField.!
+Algebraic extensions seen as modules or vector spaces. See AlgebraicExtension.!
 
 !OrderAsModule commentStamp: '<historical>' prior: 0!
 Orders of number fields seen as free Z-modules. They are embedded in the ambient vector space corresponding to the ambient number field of the order. See Order.!
@@ -4642,6 +4656,9 @@ They are elements of ring localizations or fraction fields. See LocalizationRing
 !RationalFunction commentStamp: '<historical>' prior: 0!
 Rational functions are fractions of polynomials. They are elements of the field of fractions of a polynomial ring over a field (see RationalFunctionField).!
 
+!ProductRingElement commentStamp: 'len 5/22/2018 16:08:11' prior: 0!
+Elements of direct products of rings. See ProductRing.!
+
 !ResidueClass commentStamp: '<historical>' prior: 0!
 Elements of a quotient ring. They are residue classes of elements of a ring modulo an ideal. See QuotientRing.!
 
@@ -4652,7 +4669,7 @@ Residue classes of integers modulo an integer m, i.e. elements of the quotient r
 Residue classes of polynomials modulo an ideal. They are elements of a quotient polynomial ring (an affine algebra, see AffineRing). They correspond to regular functions on an affine variety (see AffineVariety).!
 
 !AlgebraicElement commentStamp: '<historical>' prior: 0!
-Elements of finite algebraic field extensions. See AlgebraicExtensionField.!
+Elements of finite algebraic field (or ring) extensions. See AlgebraicExtension.!
 
 !ComplexAlgebraicNumber commentStamp: '<historical>' prior: 0!
 Complex algebraic numbers, i.e. zeros of polynomials with integer (or rational) coefficients, in 'minimal polynomial' representation. See also RealAlgebraicNumber.!
@@ -5121,6 +5138,11 @@ isMatrix
 !Object methodsFor: '*mathematics' stamp: 'len 8/5/2016 21:51'!
 isReal
 	"Answer true if the receiver is a real number."
+	^ false! !
+
+!Object methodsFor: '*mathematics' stamp: 'len 5/22/2018 16:53:19'!
+isSequenceable
+	"Answer true if the receiver is some sort of ordered tuple of objects, understands #at: and #size and it's indexed by integers starting at 1."
 	^ false! !
 
 !Object methodsFor: '*mathematics' stamp: 'len 3/28/2018 18:01:41'!
@@ -12642,10 +12664,11 @@ collect: aBlock
 	self do: [:each| elements add: (aBlock value: each)].
 	^ elements as: Domain! !
 
-!Domain methodsFor: 'testing' stamp: 'len 12/17/2016 22:32:08'!
+!Domain methodsFor: 'testing' stamp: 'len 5/22/2018 16:37:55'!
 contains: anElement
 	"Answer true if the receiver contains the given element of its ambient.
 	This is similar to >>includes: but less checks are needed, because the element is not an arbitrary object."
+	self isEmbedded ifFalse: [^ true].
 	^ self elements includes: anElement! !
 
 !Domain methodsFor: 'testing' stamp: 'len 12/13/2016 07:34:43'!
@@ -12704,11 +12727,15 @@ elements: aCollection
 endomorphisms
 	^ self hom: self! !
 
-!Domain methodsFor: 'morphisms' stamp: 'len 11/2/2016 04:17'!
+!Domain methodsFor: 'morphisms' stamp: 'len 5/22/2018 17:06:56'!
 from: aDomain
 	"Answer the canonical morphism from aDomain to the receiver."
 	self = aDomain ifTrue: [^ self id].
 	self >= aDomain ifTrue: [^ aDomain id restrictedTo: self].
+	self isQuotient
+		ifTrue: [aDomain  self base ifNotNil: [:aMorphism| ^ self projection ” aMorphism]].
+	self isCoproduct
+		ifTrue: [(1 to: self arity) do: [:i| aDomain  (self at: i) ifNotNil: [:aMorphism| ^ (self embedding: i) ” aMorphism]]].
 	^ nil! !
 
 !Domain methodsFor: 'elements' stamp: 'len 12/26/2016 11:31:05'!
@@ -12797,9 +12824,9 @@ isCommutativeRing
 isComplex
 	^ false! !
 
-!Domain methodsFor: 'testing' stamp: 'len 8/10/2016 01:05'!
+!Domain methodsFor: 'testing' stamp: 'len 5/22/2018 17:27:24'!
 isCoproduct
-	"Answer true if the receiver is some kind of categorical coproduct, such as direct sum of vector spaces or of other abelian groups."
+	"Answer true if the receiver is some kind of categorical coproduct, such as direct sum of vector spaces or of other abelian groups. Coproducts are equipped with canonical embeddings from their components (they must implement >>embedding:)."
 	^ false! !
 
 !Domain methodsFor: 'testing' stamp: 'len 5/20/2018 15:48:00'!
@@ -12849,14 +12876,14 @@ isModule
 isMonoid
 	^ self isGroup! !
 
-!Domain methodsFor: 'testing' stamp: 'len 8/10/2016 01:04'!
+!Domain methodsFor: 'testing' stamp: 'len 5/22/2018 17:28:40'!
 isProduct
-	"Answer true if the receiver is some kind of categorical product, such as cartesian product of sets, direct product of groups, etc."
+	"Answer true if the receiver is some kind of categorical product, such as cartesian product of sets, direct product of groups, etc. Products are equipped with canonical projections to their components (they must implement >>projection:)."
 	^ false! !
 
-!Domain methodsFor: 'testing' stamp: 'len 10/7/2016 09:52'!
+!Domain methodsFor: 'testing' stamp: 'len 5/22/2018 17:29:17'!
 isQuotient
-	"Answer true if the receiver is some kind of quotient object, such as a quotient of sets, gropus, vector spaces, etc."
+	"Answer true if the receiver is some kind of quotient object, such as a quotient of sets, gropus, vector spaces, etc. Quotients are equipped with a canonical embedding from their base object (they must implement >>embedding)."
 	^ false! !
 
 !Domain methodsFor: 'testing-category' stamp: 'len 2/11/2016 22:18'!
@@ -12978,11 +13005,12 @@ species
 sum: aBlock
 	^ self elements sum: aBlock! !
 
-!Domain methodsFor: 'morphisms' stamp: 'len 11/2/2016 04:11'!
+!Domain methodsFor: 'morphisms' stamp: 'len 5/22/2018 17:08:17'!
 to: aCodomain
 	"Answer the canonical morphism from the receiver to aCodomain."
 	self = aCodomain ifTrue: [^ self id].
 	self <= aCodomain ifTrue: [^ aCodomain id restrictedTo: self].
+	self isProduct ifTrue: [(1 to: self arity) do: [:i| (self at: i)  aCodomain ifNotNil: [:aMorphism| ^ aMorphism ” (self projection: i)]]].
 	^ nil! !
 
 !Domain methodsFor: 'morphisms' stamp: 'len 2/15/2017 11:08:53'!
@@ -14734,9 +14762,9 @@ hash
 identity
 	^ components collect: [:each| each identity]! !
 
-!DirectProductGroup methodsFor: 'testing' stamp: 'len 5/19/2018 18:39:28'!
+!DirectProductGroup methodsFor: 'testing' stamp: 'len 5/22/2018 16:54:23'!
 includes: anObject
-	anObject isSequenceableCollection ifFalse: [^ false].
+	anObject isSequenceable ifFalse: [^ false].
 	anObject size = components size ifFalse: [^ false].
 	components with: anObject do: [:G :x| (G includes: x) ifFalse: [^ false]].
 	^ true! !
@@ -14874,11 +14902,6 @@ do: aBlock
 	visited _ Set new.
 	self base do: [:each| | x |
 		visited add: (x _ self project: each) ifAbsent: [aBlock value: x]]! !
-
-!QuotientGroup methodsFor: 'morphisms' stamp: 'len 12/20/2016 11:59:52'!
-from: aDomain
-	aDomain  self base ifNotNil: [:aMorphism| ^ self projection ” aMorphism].
-	^ super from: aDomain! !
 
 !QuotientGroup methodsFor: 'accessing' stamp: 'len 12/22/2016 21:16:13'!
 identity
@@ -15253,14 +15276,14 @@ new: anInteger
 on: aCollection
 	^ self new ambient: (SymmetricGroup on: aCollection)! !
 
-!SymmetricGroup methodsFor: 'elements' stamp: 'len 5/19/2018 17:59:59'!
+!SymmetricGroup methodsFor: 'elements' stamp: 'len 5/22/2018 16:55:56'!
 !! anObject
 	"Coerce anObject to an element of the receiver (a permutation)."
 	anObject isEvaluable
 		ifTrue: [^ self evaluating: anObject].
-	anObject isSequenceableCollection
+	anObject isSequenceable
 		ifFalse: [^ super !! anObject].
-	(anObject allSatisfy: [:each| each isSequenceableCollection]) "cycles"
+	(anObject allSatisfy: [:each| each isSequenceable]) "cycles"
 		ifTrue: [^ self cycles: anObject].
 	^ super !! anObject! !
 
@@ -15384,14 +15407,14 @@ new: anInteger
 on: aCollection
 	^ self new space: aCollection! !
 
-!StandardSymmetricGroup methodsFor: 'elements' stamp: 'len 2/1/2018 22:39:20'!
+!StandardSymmetricGroup methodsFor: 'elements' stamp: 'len 5/22/2018 16:55:44'!
 !! anObject
 	"Coerce anObject to an element of the receiver (a permutation)."
-	anObject isSequenceableCollection
+	anObject isSequenceable
 		ifFalse: [^ super !! anObject].
 	(anObject allSatisfy: [:each| each isInteger and: [each between: 1 and: degree]])
 		ifTrue: [^ self mapping: anObject asArray].
-	(anObject allSatisfy: [:each| each isSequenceableCollection]) "cycles"
+	(anObject allSatisfy: [:each| each isSequenceable]) "cycles"
 		ifTrue: [^ self cycles: anObject].
 	^ super !! anObject! !
 
@@ -16332,9 +16355,9 @@ embedding: i
 identity
 	^ components collect: [:each| each identity]! !
 
-!DirectSumGroup methodsFor: 'testing' stamp: 'len 5/19/2018 18:37:54'!
+!DirectSumGroup methodsFor: 'testing' stamp: 'len 5/22/2018 16:54:30'!
 includes: anObject
-	anObject isSequenceableCollection ifFalse: [^ false].
+	anObject isSequenceable ifFalse: [^ false].
 	anObject size = components size ifFalse: [^ false].
 	components with: anObject do: [:V :x| (V includes: x) ifFalse: [^ false]].
 	^ true! !
@@ -17099,9 +17122,9 @@ do: aBlock
 hash
 	^ components hash! !
 
-!CartesianProduct methodsFor: 'testing' stamp: 'len 5/19/2018 18:39:11'!
+!CartesianProduct methodsFor: 'testing' stamp: 'len 5/22/2018 16:54:11'!
 includes: anObject
-	anObject isSequenceableCollection ifFalse: [^ false].
+	anObject isSequenceable ifFalse: [^ false].
 	components size = anObject size ifFalse: [^ false].
 	1 to: components size do: [:i|
 		((components at: i) includes: (anObject at: i))
@@ -17294,11 +17317,6 @@ do: aBlock
 		| x |
 		x _ self project: each.
 		visited add: x ifAbsent: [aBlock value: x]]! !
-
-!QuotientSet methodsFor: 'morphisms' stamp: 'len 12/20/2016 12:00:13'!
-from: aDomain
-	aDomain  self base ifNotNil: [:aMorphism| ^ self projection ” aMorphism].
-	^ super from: aDomain! !
 
 !QuotientSet methodsFor: 'testing' stamp: 'len 8/10/2016 01:01'!
 isQuotient
@@ -18375,6 +18393,12 @@ on: aPolynomialRing
 		ifFalse: [aPolynomialRing orderedBy: #llex].
 	^ super on: R! !
 
+!ProductRing methodsFor: 'elements' stamp: 'len 5/22/2018 16:55:14'!
+!! anObject
+	(anObject isSequenceable and: [anObject size = self arity])
+		ifTrue: [^ ProductRingElement components: (components with: anObject collect: [:eachRing :eachElement| eachRing !! eachElement])].
+	^ super !! anObject! !
+
 !ProductRing methodsFor: 'comparing' stamp: 'len 12/30/2017 15:14:48'!
 = anObject
 	^ (anObject isKindOf: ProductRing) and: [anObject components = components]! !
@@ -18391,13 +18415,13 @@ asCartesianProduct
 at: anInteger
 	^ components at: anInteger! !
 
-!ProductRing methodsFor: 'random' stamp: 'len 8/29/2016 04:12'!
+!ProductRing methodsFor: 'random' stamp: 'len 5/22/2018 16:16:13'!
 atRandom: aRandom
-	^ self asCartesianProduct atRandom: aRandom! !
+	^ ProductRingElement components: (self asCartesianProduct atRandom: aRandom)! !
 
-!ProductRing methodsFor: 'random' stamp: 'len 8/29/2016 04:12'!
+!ProductRing methodsFor: 'random' stamp: 'len 5/22/2018 16:16:03'!
 atRandom: aRandom bits: bits
-	^ self asCartesianProduct atRandom: aRandom bits: bits! !
+	^ ProductRingElement components: (self asCartesianProduct atRandom: aRandom bits: bits)! !
 
 !ProductRing methodsFor: 'accessing' stamp: 'len 5/3/2018 01:54:47'!
 characteristic
@@ -18411,21 +18435,21 @@ components
 components: anArray
 	components _ anArray! !
 
-!ProductRing methodsFor: 'enumerating' stamp: 'len 8/29/2016 04:11'!
+!ProductRing methodsFor: 'enumerating' stamp: 'len 5/22/2018 16:23:33'!
 do: aBlock
-	self asCartesianProduct do: aBlock! !
+	self asCartesianProduct do: [:each| aBlock value: self !! each]! !
 
-!ProductRing methodsFor: 'morphisms' stamp: 'len 12/30/2017 20:58:21'!
+!ProductRing methodsFor: 'morphisms' stamp: 'len 5/22/2018 17:13:47'!
 embedding: i
-	^ ((self at: i) to: self evaluating: [:x| components withIndexCollect: [:each :k| k = i ifTrue: [x] ifFalse: [each one]]]) name: 'i', i printText sub! !
+	^ ((self at: i) to: self evaluating: [:x| ProductRingElement components: (components withIndexCollect: [:each :k| k = i ifTrue: [x] ifFalse: [each zero]])]) name: 'i', i printText sub! !
 
 !ProductRing methodsFor: 'comparing' stamp: 'len 8/29/2016 04:13'!
 hash
 	^ components hash! !
 
-!ProductRing methodsFor: 'testing' stamp: 'len 5/19/2018 18:40:01'!
+!ProductRing methodsFor: 'testing' stamp: 'len 5/22/2018 16:17:05'!
 includes: anObject
-	anObject isSequenceableCollection ifFalse: [^ false].
+	(anObject isKindOf: ProductRingElement) ifFalse: [^ false].
 	anObject size = components size ifFalse: [^ false].
 	components with: anObject do: [:G :x| (G includes: x) ifFalse: [^ false]].
 	^ true! !
@@ -18452,7 +18476,7 @@ isReduced
 	(components allSatisfy: [:each| each isReduced]) ifTrue: [^ true]. "is it iff?"
 	^ super isReduced! !
 
-!ProductRing methodsFor: 'testing' stamp: 'len 5/3/2018 06:02:24'!
+!ProductRing methodsFor: 'testing' stamp: 'len 5/22/2018 16:23:44'!
 isUnit: anElement
 	components with: anElement do: [:each :x| (each isUnit: x) ifFalse: [^ false]].
 	^ true! !
@@ -18462,25 +18486,26 @@ isZeroDivisor: anElement
 	components with: anElement do: [:each :x| (each isZeroDivisor: x) ifTrue: [^ true]].
 	^ false! !
 
-!ProductRing methodsFor: 'accessing' stamp: 'len 8/29/2016 04:10'!
+!ProductRing methodsFor: 'elements' stamp: 'len 5/22/2018 16:15:03'!
 one
-	^ components collect: [:each| each one]! !
+	^ ProductRingElement components: (components collect: [:each| each one])! !
 
 !ProductRing methodsFor: 'printing' stamp: 'len 8/29/2016 04:12'!
 printOn: aStream
 	components do: [:each| aStream print: each] separatedBy: [aStream nextPut: Character times]! !
 
-!ProductRing methodsFor: 'morphisms' stamp: 'len 10/10/2016 08:42'!
+!ProductRing methodsFor: 'morphisms' stamp: 'len 5/22/2018 16:13:43'!
 projection: i
+	"Answer the canonical projection to the i-th component."
 	^ (self to: (self at: i) evaluating: [:x| x at: i]) name: Character pi asText, i printText sub! !
 
 !ProductRing methodsFor: 'accessing' stamp: 'len 2/26/2017 09:47:23'!
 size
 	^ components product: [:each| each size]! !
 
-!ProductRing methodsFor: 'accessing' stamp: 'len 8/29/2016 04:10'!
+!ProductRing methodsFor: 'elements' stamp: 'len 5/22/2018 16:15:15'!
 zero
-	^ components collect: [:each| each zero]! !
+	^ ProductRingElement components: (components collect: [:each| each zero])! !
 
 !ProductRing class methodsFor: 'instance creation' stamp: 'len 8/29/2016 04:09'!
 components: anArray
@@ -18541,11 +18566,6 @@ do: aBlock
 !QuotientRing methodsFor: 'private' stamp: 'len 1/5/2017 08:14:31'!
 elementClass
 	^ ResidueClass! !
-
-!QuotientRing methodsFor: 'morphisms' stamp: 'len 12/20/2016 12:00:06'!
-from: aDomain
-	aDomain  self base ifNotNil: [:aMorphism| ^ self projection ” aMorphism].
-	^ super from: aDomain! !
 
 !QuotientRing methodsFor: 'accessing' stamp: 'len 10/10/2016 16:29'!
 generators
@@ -18900,7 +18920,7 @@ p: aPrime to: anInteger
 printOn: aStream
 	aStream print: self base; nextPut: $/; print: self p; nextPutAll: self exponent printString super; print: self base! !
 
-!PrimeRing methodsFor: 'as yet unclassified' stamp: 'len 5/21/2018 19:14:12'!
+!PrimeRing methodsFor: 'morphisms' stamp: 'len 5/21/2018 19:14:12'!
 to: aCodomain
 	((aCodomain isKindOf: PrimeField) and: [aCodomain p = self p])
 		ifTrue: [^ self to: aCodomain evaluating: [:x| aCodomain project: x representative]].
@@ -19320,6 +19340,10 @@ nilradical
 	"Answer the ideal consisting of all nilpotent elements, i.e. all x such that there exists some n with x^n = 0. It is the intersection of all prime ideals.
 	A finite ring is a Galois ring iff its nilradical is of the form <p> for some prime p. This is also the unique maximal ideal."
 	^ self maximalIdeal! !
+
+!GaloisRing methodsFor: 'accessing' stamp: 'len 5/22/2018 04:08:03'!
+p
+	^ self scalars p! !
 
 !GaloisRing methodsFor: 'printing' stamp: 'len 5/21/2018 07:20:18'!
 printOn: aStream
@@ -21464,9 +21488,10 @@ isIntegral
 	"This is an integral ideal (not a fractional ideal)."
 	^ true! !
 
-!Ideal methodsFor: 'testing' stamp: 'len 5/15/2018 19:11:39'!
+!Ideal methodsFor: 'testing' stamp: 'len 5/22/2018 17:47:01'!
 isMaximal
-	"An ideal I of R is maximal iff R/I is a field."
+	"An ideal I of R is called 'maximal' if it is not contained in any other ideal but R itself.
+	I is maximal iff R/I is a field."
 	self scalars isPID ifFalse: [^ self propertyAt: #isMaximal].
 	(self scalars isField not and: [self isZero]) ifTrue: [^ false].
 	^ self isPrime! !
@@ -21779,11 +21804,16 @@ eliminateAllBut: anIndeterminate
 	"Answer the subideal of polynomials with only the given indeterminate."
 	^ self eliminateAll: (self scalars indeterminates select: [:each| each ~= anIndeterminate])! !
 
-!PolynomialIdeal methodsFor: 'accessing-private' stamp: 'len 1/25/2017 09:59:18'!
+!PolynomialIdeal methodsFor: 'accessing-private' stamp: 'len 5/22/2018 18:11:05'!
 generators: aCollection
-	super generators: aCollection.
+	| generators |
+	generators _ aCollection.
 	(aCollection isKindOf: StandardBasis)
-		ifTrue: [self propertyAt: #basis put: aCollection]! !
+		ifTrue: [self propertyAt: #basis put: aCollection].
+	"we normalize polynomial over Z in order to have consistent pseudo-division, but how about polynomials over other rings?"
+	(aCollection isEmpty not and: [aCollection anyOne parent scalars isKindOf: RationalIntegerRing])
+		ifTrue: [generators _ generators collect: [:each| each * each sign]].
+	super generators: generators! !
 
 !PolynomialIdeal methodsFor: 'accessing' stamp: 'len 2/3/2017 07:16:55'!
 groebnerBasis
@@ -22199,11 +22229,6 @@ buildProjection
 contains: anAffineSubspace
 	^ anAffineSubspace direction = self relations! !
 
-!QuotientModule methodsFor: 'morphisms' stamp: 'len 1/16/2018 18:29:01'!
-from: aDomain
-	aDomain  self base ifNotNil: [:aMorphism| ^ self projection ” aMorphism].
-	^ super from: aDomain! !
-
 !QuotientModule methodsFor: 'accessing' stamp: 'len 3/13/2018 18:12:23'!
 generators
 	^ self base generators collect: [:each| self project: each]! !
@@ -22295,9 +22320,9 @@ base: aModule relations: aSubmodule
 mod: aSubmodule
 	^ self new relations: aSubmodule! !
 
-!FreeModule methodsFor: 'elements' stamp: 'len 4/3/2018 03:04:45'!
+!FreeModule methodsFor: 'elements' stamp: 'len 5/22/2018 16:54:56'!
 !! anObject
-	((anObject isSequenceableCollection or: [anObject isTuple]) and: [anObject size = self rank])
+	(anObject isSequenceable and: [anObject size = self rank])
 		ifTrue: [^ self elementAt: anObject].
 	^ super !! anObject! !
 
@@ -22891,42 +22916,34 @@ zero
 over: aField
 	^ self new scalars: aField! !
 
-!AlgebraicExtensionAsModule methodsFor: 'as yet unclassified' stamp: 'len 1/20/2018 06:48:37'!
-asField
-	^ field! !
-
-!AlgebraicExtensionAsModule methodsFor: 'as yet unclassified' stamp: 'len 1/18/2018 19:33:08'!
+!AlgebraicExtensionAsModule methodsFor: 'basis' stamp: 'len 1/18/2018 19:33:08'!
 coordinatesOf: anElement
 	"why not just anElement representative coefficients? must complete with 0"
 	^ self scalars tuple: self rank evaluating: [:i| anElement representative coefficientAtDegree: i-1]! !
 
-!AlgebraicExtensionAsModule methodsFor: 'as yet unclassified' stamp: 'len 1/16/2017 07:36:52'!
+!AlgebraicExtensionAsModule methodsFor: 'basis' stamp: 'len 5/22/2018 00:50:56'!
 e: anInteger
-	^ field x ^ (anInteger-1)! !
+	^ extension x ^ (anInteger-1)! !
 
-!AlgebraicExtensionAsModule methodsFor: 'as yet unclassified' stamp: 'len 1/16/2017 07:36:14'!
-field
-	^ field! !
+!AlgebraicExtensionAsModule methodsFor: 'initialization' stamp: 'len 5/22/2018 00:51:46'!
+extension: anAlgebraicExtension
+	extension _ anAlgebraicExtension! !
 
-!AlgebraicExtensionAsModule methodsFor: 'as yet unclassified' stamp: 'len 1/16/2017 07:36:26'!
-field: anExtensionField
-	field _ anExtensionField! !
-
-!AlgebraicExtensionAsModule methodsFor: 'as yet unclassified' stamp: 'len 1/16/2017 07:36:35'!
+!AlgebraicExtensionAsModule methodsFor: 'basis' stamp: 'len 5/22/2018 00:52:27'!
 rank
-	^ field degree! !
+	^ extension degree! !
 
-!AlgebraicExtensionAsModule methodsFor: 'as yet unclassified' stamp: 'len 1/16/2017 07:37:19'!
+!AlgebraicExtensionAsModule methodsFor: 'accessing' stamp: 'len 5/22/2018 00:52:33'!
 scalars
-	^ field scalars! !
+	^ extension scalars! !
 
-!AlgebraicExtensionAsModule methodsFor: 'as yet unclassified' stamp: 'len 12/12/2017 18:36:20'!
+!AlgebraicExtensionAsModule methodsFor: 'elements' stamp: 'len 5/22/2018 00:52:38'!
 zero
-	^ field zero! !
+	^ extension zero! !
 
-!AlgebraicExtensionAsModule class methodsFor: 'as yet unclassified' stamp: 'len 1/16/2017 07:39:37'!
-on: anExtensionField
-	^ self new field: anExtensionField! !
+!AlgebraicExtensionAsModule class methodsFor: 'instance creation' stamp: 'len 5/22/2018 00:52:06'!
+on: anAlgebraicExtension
+	^ self new extension: anAlgebraicExtension! !
 
 !OrderAsModule methodsFor: 'basis' stamp: 'len 1/16/2017 07:45:46'!
 coordinatesOf: anElement
@@ -23003,9 +23020,9 @@ e: anInteger
 embedding: i
 	^ ((self at: i) to: self evaluating: [:x| components withIndexCollect: [:each :k| k = i ifTrue: [x] ifFalse: [each zero]]]) name: 'i', i printText sub! !
 
-!FreeDirectSumModule methodsFor: 'testing' stamp: 'len 5/19/2018 18:38:38'!
+!FreeDirectSumModule methodsFor: 'testing' stamp: 'len 5/22/2018 16:54:36'!
 includes: anObject
-	anObject isSequenceableCollection ifFalse: [^ false].
+	anObject isSequenceable ifFalse: [^ false].
 	anObject size = components size ifFalse: [^ false].
 	components with: anObject do: [:V :x| (V includes: x) ifFalse: [^ false]].
 	^ true! !
@@ -23233,11 +23250,6 @@ coordinatesOf: anAffineSubspace
 !QuotientSpace methodsFor: 'basis' stamp: 'len 2/27/2017 21:26:00'!
 e: anInteger
 	^ AffineSubspace representative: (self relations perp e: anInteger) direction: self relations! !
-
-!QuotientSpace methodsFor: 'morphisms' stamp: 'len 12/20/2016 12:00:00'!
-from: aDomain
-	aDomain  self base ifNotNil: [:aMorphism| ^ self projection ” aMorphism].
-	^ super from: aDomain! !
 
 !QuotientSpace methodsFor: 'testing' stamp: 'len 2/27/2017 21:26:59'!
 includes: anObject
@@ -32038,6 +32050,58 @@ numerator: aPolynomial denominator: anotherPolynomial
 	denominator = denominator one ifTrue: [^ numerator].
 	^ self reducedNumerator: numerator denominator: denominator! !
 
+!ProductRingElement methodsFor: 'arithmetic' stamp: 'len 5/22/2018 16:24:29'!
+* aProductRingElement
+	^ self class components: components * aProductRingElement components! !
+
+!ProductRingElement methodsFor: 'arithmetic' stamp: 'len 5/22/2018 16:11:33'!
++ aProductRingElement
+	^ self class components: components + aProductRingElement components! !
+
+!ProductRingElement methodsFor: 'arithmetic' stamp: 'len 5/22/2018 16:11:49'!
+- aProductRingElement
+	^ self + aProductRingElement negated! !
+
+!ProductRingElement methodsFor: 'arithmetic' stamp: 'len 5/22/2018 16:12:00'!
+/ aProductRingElement
+	^ self * aProductRingElement reciprocal! !
+
+!ProductRingElement methodsFor: 'accessing' stamp: 'len 5/22/2018 16:10:21'!
+at: anInteger
+	^ components at: anInteger! !
+
+!ProductRingElement methodsFor: 'private' stamp: 'len 5/22/2018 16:24:43'!
+components
+	^ components! !
+
+!ProductRingElement methodsFor: 'private' stamp: 'len 5/22/2018 16:10:02'!
+components: anArray
+	components _ anArray! !
+
+!ProductRingElement methodsFor: 'testing' stamp: 'len 5/22/2018 16:24:16'!
+isZero
+	^ components allSatisfy: [:each| each isZero]! !
+
+!ProductRingElement methodsFor: 'arithmetic' stamp: 'len 5/22/2018 16:12:18'!
+negated
+	^ self class components: (components collect: [:each| each negated])! !
+
+!ProductRingElement methodsFor: 'printing' stamp: 'len 5/22/2018 16:12:57'!
+printOn: aStream
+	aStream print: components! !
+
+!ProductRingElement methodsFor: 'arithmetic' stamp: 'len 5/22/2018 16:11:01'!
+reciprocal
+	^ self class components: (components collect: [:each| each reciprocal])! !
+
+!ProductRingElement methodsFor: 'accessing' stamp: 'len 5/22/2018 16:10:29'!
+size
+	^ components size! !
+
+!ProductRingElement class methodsFor: 'instance creation' stamp: 'len 5/22/2018 16:12:30'!
+components: anArray
+	^ self new components: anArray! !
+
 !ResidueClass methodsFor: 'operations' stamp: 'len 2/14/2017 08:17:55'!
 * anObject
 	anObject isInteger ifTrue: [^ parent project: representative * anObject].
@@ -33431,7 +33495,7 @@ isCycle
 \\ aNumber
 	^ self collect: [:each| each \\ aNumber]! !
 
-!Tuple methodsFor: 'comparing' stamp: 'len 5/3/2018 05:46:29'!
+!Tuple methodsFor: 'comparing' stamp: 'len 5/22/2018 18:00:58'!
 ~ aTuple
 	"Answer true if the receiver and the argument are equivalent as homogeneous tuples."
 "	| n |
@@ -33441,15 +33505,16 @@ isCycle
 		yi _ aTuple at: i.
 		i+1 to: n do: [:j|
 			xi * (aTuple at: j) = ((self at: j) * yi) ifFalse: [^ false]]].
-	^ true
-"
+	^ true"
+
 	| index x y |
 	index _ self lastNonZero.
 	x _ self at: index.
 	y _ aTuple at: index.
 	1 to: self size do: [:i|
 		(self at: i) * y = ((aTuple at: i) * x) ifFalse: [^ false]].
-	^ true! !
+	^ true
+"	^ self scalars units anySatisfy: [:any| self*any = aTuple]"! !
 
 !Tuple methodsFor: 'converting' stamp: 'len 11/8/2016 07:19'!
 adaptToCollection: aCollection andSend: selector
@@ -33652,6 +33717,10 @@ is: aSymbol
 !Tuple methodsFor: 'testing' stamp: 'len 11/5/2016 07:12'!
 isEmpty
 	^ self size = 0! !
+
+!Tuple methodsFor: 'testing' stamp: 'len 5/22/2018 16:53:54'!
+isSequenceable
+	^ true! !
 
 !Tuple methodsFor: 'testing' stamp: 'len 3/28/2018 18:01:30'!
 isTuple
