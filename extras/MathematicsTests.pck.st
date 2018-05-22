@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 21 May 2018 at 6:12:46 pm'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 22 May 2018 at 6:13:02 pm'!
 'Description Please enter a description for this package'!
-!provides: 'MathematicsTests' 1 103!
+!provides: 'MathematicsTests' 1 104!
 !classDefinition: #AbelianGroupTest category: #MathematicsTests!
 TestCase subclass: #AbelianGroupTest
 	instanceVariableNames: ''
@@ -6563,7 +6563,7 @@ testFiniteRing
 	self assert: R zeroDivisors size = 6
 	"also, this ring has two maximal ideals, and the Jacobson radical is {0, x^2 + x}"! !
 
-!RingTest methodsFor: 'as yet unclassified' stamp: 'len 5/3/2018 01:47:56'!
+!RingTest methodsFor: 'as yet unclassified' stamp: 'len 5/22/2018 17:52:20'!
 testFiniteRing2
 	| R |
 	R _ (ZZ/2) polynomials.
@@ -6572,9 +6572,10 @@ testFiniteRing2
 	self assert: R size = 4.
 	self assert: R zeroDivisors size = 3.
 	self assert: R characteristic = 2.
+	self assert: R isLocal not
 	"more about this ring: two maximal (and princial as well) ideals (so not a local ring)"! !
 
-!RingTest methodsFor: 'as yet unclassified' stamp: 'len 5/3/2018 01:52:45'!
+!RingTest methodsFor: 'as yet unclassified' stamp: 'len 5/22/2018 17:52:44'!
 testFiniteRing2Alternative
 	| R |
 	R _ ZZ/2 × (ZZ/2).
@@ -6582,6 +6583,7 @@ testFiniteRing2Alternative
 	self assert: R size = 4.
 	self assert: R zeroDivisors size = 3.
 	self assert: R characteristic = 2.
+	self assert: R isLocal not.
 	"more about this ring: two maximal (and princial as well) ideals (so not a local ring)"! !
 
 !RingTest methodsFor: 'as yet unclassified' stamp: 'len 5/3/2018 01:48:31'!
@@ -6603,33 +6605,30 @@ testFiniteRing4
 	self assert: R isLocal not.
 	self assert: S isLocal! !
 
-!RingTest methodsFor: 'as yet unclassified' stamp: 'len 5/21/2018 17:59:49'!
-testGaloisRing1
-	| R |
-	R _ PrimeRing new: 3 to: 3.
-	self assert: R characteristic = (3^3).
-	self assert: R size = (3^3).
-	self assert: R isLocal.
-	self assert: R isEuclidean.
-	self assert: R maximalIdeal = (R*3)! !
-
-!RingTest methodsFor: 'as yet unclassified' stamp: 'len 5/21/2018 17:59:12'!
-testGaloisRing2
+!RingTest methodsFor: 'as yet unclassified' stamp: 'len 5/22/2018 03:59:11'!
+testGaloisRing
 	| R |
 	R _ GaloisRing new: 3 to: 3 to: 2.
 	self assert: R characteristic = (3^3).
 	self assert: R size = (3^3^2).
 	self assert: R isLocal.
-	self assert: R isEuclidean! !
+	self assert: R isEuclidean.
+	self testRing: R! !
 
-!RingTest methodsFor: 'as yet unclassified' stamp: 'len 5/21/2018 16:37:04'!
+!RingTest methodsFor: 'as yet unclassified' stamp: 'len 5/22/2018 04:02:24'!
+testGaloisRingCanonicalHomomorphism
+	"Canonical homomorphism from GR(p^n,m) to ZZ/<p>."
+	| p n m A B phi |
+	p _ #(2 3 5) atRandom.
+	n _ 3 atRandom.
+	m _ 3 atRandom.
+	A _ GaloisRing new: p to: n to: m.
+	B _ ZZ/p.
+	phi _ A  B.
+	self testRingHomomorphism: phi! !
+
+!RingTest methodsFor: 'as yet unclassified' stamp: 'len 5/22/2018 03:53:54'!
 testGaloisRingNilradical
-	| R |
-	R _ PrimeRing new: 3 to: 3.
-	self assert: R nilradical = (R * 3)! !
-
-!RingTest methodsFor: 'as yet unclassified' stamp: 'len 5/21/2018 16:37:33'!
-testGaloisRingNilradical2
 	| R |
 	R _ GaloisRing new: 3 to: 3 to: 2.
 	self assert: R nilradical = (R * 3)! !
@@ -6717,6 +6716,38 @@ testPolynomialRingPrimeNotMaximalIdeal2
 	I _ R * R x.
 	self assert: I isPrime.
 	self assert: I isMaximal not! !
+
+!RingTest methodsFor: 'as yet unclassified' stamp: 'len 5/22/2018 03:58:25'!
+testPrimeRing
+	| R |
+	R _ PrimeRing new: 3 to: 3.
+	self assert: R characteristic = (3^3).
+	self assert: R size = (3^3).
+	self assert: R isLocal.
+	self assert: R isEuclidean.
+	self assert: R maximalIdeal = (R*3).
+	self testRing: R! !
+
+!RingTest methodsFor: 'as yet unclassified' stamp: 'len 5/22/2018 04:03:52'!
+testPrimeRingCanonicalHomomorphism
+	"Canonical homomorphism from ZZ/<p^n> to ZZ/<p>."
+	| p n A B phi a b |
+	p _ 100 atRandom nextPrime.
+	n _ 3 atRandom.
+	A _ ZZ/(p^n).
+	B _ ZZ/p.
+	phi _ A  B.
+	a _ A atRandom.
+	b _ phi value: a.
+	self assert: (B includes: b).
+	self assert: a representative \\ p = b representative.
+	self testRingHomomorphism: phi! !
+
+!RingTest methodsFor: 'as yet unclassified' stamp: 'len 5/22/2018 03:53:46'!
+testPrimeRingNilradical
+	| R |
+	R _ PrimeRing new: 3 to: 3.
+	self assert: R nilradical = (R * 3)! !
 
 !RingTest methodsFor: 'as yet unclassified' stamp: 'len 10/6/2016 20:32'!
 testQuotientRing
