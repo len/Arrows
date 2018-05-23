@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 22 May 2018 at 6:13:02 pm'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 23 May 2018 at 11:08:31 pm'!
 'Description Please enter a description for this package'!
-!provides: 'MathematicsTests' 1 104!
+!provides: 'MathematicsTests' 1 105!
 !classDefinition: #AbelianGroupTest category: #MathematicsTests!
 TestCase subclass: #AbelianGroupTest
 	instanceVariableNames: ''
@@ -1112,11 +1112,11 @@ testAffineSubspaceParallelism
 	self deny: A || C.
 	self deny: B || C! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 1/22/2017 08:23:16'!
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 5/22/2018 22:46:21'!
 testAffinePlaneCurveMultiplicity
 	| A C |
 	A _ AffineSpace new: #(x y) over: QQ.
-	C _ A subscheme: (A coordinateRing generate: [:x :y| y^2 - (x^3)]).
+	C _ A subscheme: A coordinateRing !! [:x :y| y^2 - (x^3)].
 	self assert: (C multiplicityAt: (1,1)) = 1.
 	self assert: (C multiplicityAt: (0,0)) = 2! !
 
@@ -1553,14 +1553,14 @@ testRationalMapAffineExample
 	self assert: phiInv isDominant.
 "	self assert: phiInv isSurjective not"! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 3/7/2017 07:22:16'!
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 5/22/2018 22:48:06'!
 testRationalMapImage
 	| A X X2 f |
 	A _ AffineSpace new: #(x y) over: QQ.
 	"circle centered at (0,0):"
-	X _ A subscheme: (A coordinateRing generate: [:x :y| x^2 + (y^2) - 1]).
+	X _ A subscheme: A coordinateRing !! [:x :y| x^2 + (y^2) - 1].
 	"circle centered at: (1,2):"
-	X2 _ A subscheme: (A coordinateRing generate: [:x :y| (x-1)^2 + ((y-2)^2) - 1]).
+	X2 _ A subscheme: A coordinateRing !! [:x :y| (x-1)^2 + ((y-2)^2) - 1].
 	"translation by (1,2):"
 	f _ X to: A evaluatingWithArguments: [:x :y| {x+1. y+2}].
 	self assert: f image = X2.
@@ -1568,7 +1568,7 @@ testRationalMapImage
 	f _ A to: A evaluatingWithArguments: [:x :y| {x+1. y+2}].
 	self assert: (X apply: f) = X2! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 3/7/2017 07:22:50'!
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2018 22:13:31'!
 testRationalMapLinearMapConversion
 	| A2 A3 V2 V3 f f2 p f3 |
 	A2 _ AffineSpace new: 2 over: QQ.
@@ -1577,19 +1577,19 @@ testRationalMapLinearMapConversion
 	V3 _ QQ^3.
 
 	f _ V2 hom: V3 :: atRandomBits: 100.
-	f2 _ f as: (A2 hom: A3).
+	f2 _ (A2 hom: A3) !! f.
 
 	p _ V2 atRandomBits: 100.
 	self assert: (f value: p) = (f2 value: p).
 
-	f3 _ f2 as: (V2 hom: V3).
+	f3 _ (V2 hom: V3) !! f2.
 	self assert: f = f3! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 12/23/2016 09:28:26'!
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 5/22/2018 22:36:45'!
 testRationalPointsOverFiniteField
 	| P C |
 	P _ ProjectiveSpace new: 2 over: ZZ/7.
-	C _ P subscheme: (P coordinateRing evaluating: [:x :y :z| x^3 + (y^3) - (z^3)]).
+	C _ P subscheme: P coordinateRing !! [:x :y :z| x^3 + (y^3) - (z^3)].
 	self assert: C points size = 9.
 	self assert: (Iterator on: C points performing: #do:) size = 9! !
 
@@ -1630,48 +1630,48 @@ testSingularCubics
 	C _ R / (x^3 + (x^2) - (y^2) homogenizedIn: 3) :: proj.
 	self assert: C isSingular! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 2/8/2017 07:13:41'!
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 5/22/2018 22:36:55'!
 testSmoothness
 	| R C |
 	R _ QQ polynomialsIn: #(x y).
 	"cuspidal curve:"
-	C _ (R / (R evaluating: [:x :y| y^2 - (x^3)])) spec.
+	C _ (R / (R !! [:x :y| y^2 - (x^3)])) spec.
 	self assert: C isSmooth not.
 	self assert: C isSingular.
 	self assert: (C !! (1,1)) isSmooth.
 	self assert: (C !! (0,0)) isSmooth not! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 11/1/2016 18:50'!
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 5/22/2018 22:37:26'!
 testSmoothnessOverCC
 	| P R C |
 	P _ ProjectiveSpace new: 2 over: CC.
 	R _ P coordinateRing.
-	C _ P subscheme: (R evaluating: [:x :y :z| x]).
+	C _ P subscheme: R !! [:x :y :z| x].
 	self assert: C isSingular not.
-	C _ P subscheme: (R evaluating: [:x :y :z| y^2*z - (x^3)]).
+	C _ P subscheme: R !! [:x :y :z| y^2*z - (x^3)].
 	self assert: C isSingular.
-	C _ P subscheme: (R evaluating: [:x :y :z| y^2*z - (x^3) + (z^3)]).
+	C _ P subscheme: R !! [:x :y :z| y^2*z - (x^3) + (z^3)].
 	self assert: C isSingular not! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 11/1/2016 18:50'!
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 5/22/2018 22:38:05'!
 testSmoothnessOverFiniteField
 	| P R C |
 	P _ ProjectiveSpace new: 2 over: ZZ/19.
 	R _ P coordinateRing.
-	C _ P subscheme: (R evaluating: [:x :y :z| x^3 + (y^3) + (z^3)]).
+	C _ P subscheme: R !! [:x :y :z| x^3 + (y^3) + (z^3)].
 	self assert: C isSingular not.
-	C _ P subscheme: (R evaluating: [:x :y :z| x^4 - (x*(z^3))]).
+	C _ P subscheme: R !! [:x :y :z| x^4 - (x*(z^3))].
 	self assert: C isSingular.
-	C _ P subscheme: (R evaluating: [:x :y :z| x^5 + (y^5*19) + (z^5)]).
+	C _ P subscheme: R !! [:x :y :z| x^5 + (y^5*19) + (z^5)].
 	self assert: C isSingular.
-	C _ P subscheme: (R evaluating: [:x :y :z| x^5 + (y^5*9) + (z^5)]).
+	C _ P subscheme: R !! [:x :y :z| x^5 + (y^5*9) + (z^5)].
 	self assert: C isSingular not! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 11/1/2016 18:50'!
+!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 5/22/2018 22:38:23'!
 testSmoothnessOverQQ
 	| P C |
 	P _ ProjectiveSpace new: 2 over: QQ.
-	C _ P subscheme: (P coordinateRing evaluating: [:x :y :z| x^3 - (y^2*z)]).
+	C _ P subscheme: P coordinateRing !! [:x :y :z| x^3 - (y^2*z)].
 	self assert: C isSingular! !
 
 !AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 1/13/2017 20:22:42'!
@@ -3575,11 +3575,11 @@ testFunctionComposition3
 	g _ Function from: ZZ to: ZZ evaluating: [:x| x + 1].
 	self should: [g ” f] raise: DomainError! !
 
-!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 10/2/2016 09:37'!
+!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2018 22:38:43'!
 testFunctionNewFrom
 	| f g |
 	f _ QQ^3 :: endomorphisms atRandomBits: 1000. "f is a LinearMap"
-	g _ f as: Function. "degrade it to a simple Function, not a LinearMap any more"
+	g _ f as: Function. "downgrade it to a simple Function, not a LinearMap any more"
 	self assert: (g as: LinearMap) = f! !
 
 !MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 12/11/2016 20:01:51'!
@@ -4234,6 +4234,15 @@ testQRDecomposition
 	self assert: Q * R = A.
 	self assert: Q isOrthogonal.
 	self assert: R isUpperTriangular! !
+
+!MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2018 03:58:33'!
+testQRDecomposition2
+	"Example from wikipedia:"
+	| A Q R |
+	A _ RR matrix: 3@3 coefficients: #(12 -51 4 6 167 -68 -4 24 -41).
+	Q _ RR matrix: 3@3 coefficients: {6/7. -69/175. -58/175. 3/7. 158/175. 6/175. -2/7. 6/35. -33/35}.
+	R _ RR matrix: 3@3 coefficients: #(14 21 -14 0 175 -70 0 0 35).
+	self assert: A QR = {Q. R}! !
 
 !MatrixTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:48'!
 testRank
@@ -6290,6 +6299,18 @@ testPseudoRemainder
 	self assert: (a pseudoRem: b) = r.
 	self assert: (a pseudoDivisionBy: b) remainder = r! !
 
+!PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 5/22/2018 18:26:13'!
+testQuotientRingBug
+	"This is fixed by making ideals of Z[x] have generators with positive leading coefficient. But it could be still a problem for polynomials over other rings."
+	| R f Q pi a b |
+	R _ ZZ polynomials.
+	f _ R !! [:x| x^2*-1 - 1].
+	Q _ R/f.
+	pi _ Q projection.
+	a _ R x - 1.
+	b _ R x^2 + 1.
+	self assert: (pi value: a) + (pi value: b) = (pi value: a+b)! !
+
 !PolynomialTest methodsFor: 'as yet unclassified' stamp: 'len 4/25/2018 15:46:49'!
 testRationalFactorization
 	| x f factors |
@@ -6575,7 +6596,7 @@ testFiniteRing2
 	self assert: R isLocal not
 	"more about this ring: two maximal (and princial as well) ideals (so not a local ring)"! !
 
-!RingTest methodsFor: 'as yet unclassified' stamp: 'len 5/22/2018 17:52:44'!
+!RingTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2018 02:14:27'!
 testFiniteRing2Alternative
 	| R |
 	R _ ZZ/2 × (ZZ/2).
@@ -6584,7 +6605,7 @@ testFiniteRing2Alternative
 	self assert: R zeroDivisors size = 3.
 	self assert: R characteristic = 2.
 	self assert: R isLocal not.
-	"more about this ring: two maximal (and princial as well) ideals (so not a local ring)"! !
+	"more about this ring: two maximal (and principal as well) ideals (so not a local ring)"! !
 
 !RingTest methodsFor: 'as yet unclassified' stamp: 'len 5/3/2018 01:48:31'!
 testFiniteRing3

@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 23 May 2018 at 3:42:35 am'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 23 May 2018 at 11:05:53 pm'!
 'Description A computational algebra system in Smalltalk'!
-!provides: 'Mathematics' 1 448!
+!provides: 'Mathematics' 1 449!
 !requires: 'RayTracer' 1 2 nil!
 !classDefinition: #RealAlgebraicNumber category: #'Mathematics-Fields'!
 Number subclass: #RealAlgebraicNumber
@@ -3691,7 +3691,7 @@ Counts are currently held in a WordArray, and limited to about 4 billion counts 
 A good number of bins can be n^(1/2) or n^(1/3), where n is the total number of samples. See Wikipedia article for rationale.!
 
 !Domain commentStamp: '<historical>' prior: 0!
-'Objects' of some category (such as groups, rings, fields, vector spaces, etc) connected by the corresponding Morphisms. In many practical situations, domains can be seen as sets of elements, and their morphisms as Functions.
+'Objects' of some category (such as Groups, Rings, Modules, Schemes, etc) connected by the corresponding Morphisms. In many practical situations, domains can be seen as sets of elements, and their morphisms as Functions.
 
 Domains with an underlying set can have finite or infinite cardinality, and whenever makes sense they implement some *Collection* protocol (such as #do:, #size, #asSet, #atRandom:, etc).
 
@@ -3699,11 +3699,11 @@ Domains can be built from other domains, for example by taking products or copro
 
 Domains can have subobjects: groups have subgroups, vector spaces have subspaces, rings have subrings and ideals, schemes have subschemes, etc. In general, there is an #ambient overobject, and there is a protocol for inclusion testing: #<, #<=, #>=, #>.
 
-Given two domains A and B in the same category, the set Hom(A,B) of morphisms between them is obtained by sending the message 'A hom: B' (see class HomSet). The #hom: message is the Hom(A,-) functor. The identity morphism is returned by the message #id. And a morphism from A to B can be constructed by sending 'A to: B evaluating: [:x| ...]'.
+Given two domains A and B in the same category, the set Hom(A,B) of morphisms between them is obtained by sending the message 'A hom: B' (see HomSet). The #hom: message is the Hom(A,-) functor. The identity morphism is returned by the message #id. And a morphism from A to B can be constructed by sending 'A to: B evaluating: [:x| ...]'.
 
-Domains often come equipped with cannonical morphisms. For example, field extensions and localizations have associated canonical embeddings (monomorphisms), and implement #embed: (the embedding implemented as a message) and #embedding (which returns the embedding morphism as an instance of some subclass of Morphism). Quotient objects have canonical projections (epimorphisms) and implement #project: and #projection. N-ary products and coproducts implement #projection: for the i-th projection map (and coproducts also implement #embedding: for the i-th coprojection).
+Domains often come equipped with cannonical morphisms. For example, field extensions and localizations have canonical embeddings (monomorphisms), and implement #embed: (the embedding implemented as a message) and #embedding (which returns the embedding morphism as an instance of some subclass of Morphism). Quotient objects have canonical projections (epimorphisms) and implement #project: and #projection. N-ary products and coproducts implement #projection: for the i-th projection map (and coproducts also implement #embedding: for the i-th coprojection).
 
-More generally, canonical morphisms that are uniquely determined by their domain and codomain can be retrieved by sending the message #. For example, for any ring R, 'ZZ  R' returns the canonical ring homomorphism that sends an integer 'n' to 'n times the unit of R'. This can be used for automatic coercion of elements between domains. In order for this mechanism to work, subclasses must reimplement the messages #to: and #from: to answer canonical morphisms when such morphisms are known, and call super otherwise. See examples in class Morphism.
+More generally, canonical morphisms that are uniquely determined by their domain and codomain can be retrieved by sending the message #. This can be used for automatic coercion of elements between domains. For example, for any ring R, 'ZZ  R' returns the canonical ring homomorphism that sends an integer 'n' to 'n times the unit of R', and coercion of 'n' to an element of R can be performed simply as 'R !! n'. In order for this mechanism to work, subclasses must reimplement the messages #to: and #from: to answer canonical morphisms when such morphisms are known, and call super otherwise.
 
 References:
 	https://en.wikipedia.org/wiki/Algebraic_structure
@@ -13882,9 +13882,9 @@ multiplicationTable2
 operation
 	^ self propertyAt: #operation ifAbsentPut: [((self, self) to: self evaluatingWithArguments: [:x :y| x * y]) name: '*']! !
 
-!Magma methodsFor: 'accessing-private' stamp: 'len 12/28/2016 11:26:10'!
+!Magma methodsFor: 'accessing-private' stamp: 'len 5/23/2018 22:18:15'!
 operation: aFunction
-	self propertyAt: #operation put: (aFunction as: ((self, self) hom: self))! !
+	self propertyAt: #operation put: ((self, self) hom: self) !! aFunction! !
 
 !Loop methodsFor: 'accessing' stamp: 'len 12/28/2016 11:26:22'!
 identity
@@ -14363,9 +14363,9 @@ innerAutomorphisms
 inverseMap
 	^ self propertyAt: #inverseMap ifAbsentPut: [self defaultInverseMap]! !
 
-!Group methodsFor: 'accessing-private' stamp: 'len 12/28/2016 11:27:50'!
+!Group methodsFor: 'accessing-private' stamp: 'len 5/23/2018 22:37:53'!
 inverseMap: aFunction
-	self propertyAt: #inverseMap put: (aFunction as: (self hom: self))! !
+	self propertyAt: #inverseMap put: (self hom: self) !! aFunction! !
 
 !Group methodsFor: 'testing' stamp: 'len 8/31/2016 08:48'!
 isAdditive
@@ -14889,13 +14889,13 @@ buildProjection
 		at: #rightInverse put: (self to: self base evaluating: [:each| each representative]).
 	^ answer! !
 
-!QuotientGroup methodsFor: 'private' stamp: 'len 11/2/2016 04:04'!
+!QuotientGroup methodsFor: 'private' stamp: 'len 5/23/2018 22:32:25'!
 defaultInverseMap
-	^ self base inverseMap as: self endomorphisms! !
+	^ self endomorphisms !! self base inverseMap! !
 
-!QuotientGroup methodsFor: 'private' stamp: 'len 11/2/2016 04:04'!
+!QuotientGroup methodsFor: 'private' stamp: 'len 5/23/2018 22:32:40'!
 defaultOperation
-	^ self base operation as: ((self, self) hom: self)! !
+	^ ((self, self) hom: self) !! self base operation! !
 
 !QuotientGroup methodsFor: 'enumerating' stamp: 'len 12/22/2016 21:17:54'!
 do: aBlock
@@ -17454,10 +17454,11 @@ zero
 on: aRing
 	^ self new ring: aRing! !
 
-!Ring methodsFor: 'elements' stamp: 'len 5/18/2018 21:13:58'!
+!Ring methodsFor: 'elements' stamp: 'len 5/23/2018 22:47:35'!
 !! anObject
 	anObject isInteger ifTrue: [^ self one * anObject].
 	anObject isFraction ifTrue: [^ (self one * anObject numerator) / (self one * anObject denominator)].
+	(anObject isKindOf: Ideal) ifTrue: [^ self * (anObject generators collect: [:each| self !! each])].
 	^ super !! anObject! !
 
 !Ring methodsFor: 'operations' stamp: 'len 5/4/2018 19:59:59'!
@@ -20192,7 +20193,7 @@ zero
 new: anInteger over: aRing
 	^ self new degree: anInteger; scalars: aRing! !
 
-!PolynomialRing methodsFor: 'elements' stamp: 'len 5/19/2018 17:57:18'!
+!PolynomialRing methodsFor: 'elements' stamp: 'len 5/23/2018 22:47:07'!
 !! anObject
 	| f parts |
 	(anObject isKindOf: Polynomial)
@@ -20215,7 +20216,7 @@ new: anInteger over: aRing
 			f coefficients withIndexDo: [:coefficient :i|
 				coefficient isZero ifFalse: [parts add: (monomials x: 1 to: i-1) -> coefficient]]]
 		ifFalse:
-			[parts _ f parts collect: [:each| each copy key: (each key as: self monomials)]].
+			[parts _ f parts collect: [:each| each copy key: self monomials !! each key]].
 	parts sort.
 	^ self parts: parts! !
 
@@ -21458,12 +21459,6 @@ apply: aMorphism
 		ifTrue: [^ aMorphism codomain * (self generators collect: aMorphism)].
 	^ super apply: aMorphism! !
 
-!Ideal methodsFor: 'converting' stamp: 'len 1/15/2018 18:47:45'!
-as: aRing
-	self scalars species = aRing species
-		ifFalse: [^ super as: aRing].
-	^ aRing * (self generators collect: [:each| each as: aRing])! !
-
 !Ideal methodsFor: 'converting' stamp: 'len 10/23/2016 21:09'!
 asIdeal
 	^ self! !
@@ -21609,9 +21604,9 @@ isZero
 numerator
 	^ self! !
 
-!Ideal methodsFor: 'converting' stamp: 'len 1/15/2018 18:51:00'!
+!Ideal methodsFor: 'converting' stamp: 'len 5/23/2018 23:02:06'!
 over: aRing
-	^ self as: (self scalars over: aRing)! !
+	^ (self scalars over: aRing) !! self! !
 
 !Ideal methodsFor: 'printing' stamp: 'len 1/15/2018 18:51:39'!
 printOn: aStream
@@ -21783,7 +21778,7 @@ remainderAtRandom: aRandom
 		answer _ answer • (R * ((R * g • self) basis apply: [:h| h /// g]))].
 	^ answer! !
 
-!PolynomialIdeal methodsFor: 'operations' stamp: 'len 1/15/2018 18:54:49'!
+!PolynomialIdeal methodsFor: 'operations' stamp: 'len 5/23/2018 22:49:04'!
 • anIdeal
 	"To compute the intersection we introduce a new variable t, then eliminate it from the ideal I*t + J*(1-t)."
 	| R S t |
@@ -21792,7 +21787,7 @@ remainderAtRandom: aRandom
 	R _ self scalars.
 	S _ R scalars polynomialsIn: R rank + 1.
 	t _ S x: S rank.
-	^ ((self as: S) * t + ((anIdeal as: S) * (t - S one)) eliminate: S rank) as: R! !
+	^ R !! (S !! self * t + (S !! anIdeal * (t - S one)) eliminate: S rank)! !
 
 !PolynomialIdeal methodsFor: 'accessing' stamp: 'len 5/8/2018 18:27:56'!
 basis
@@ -21824,13 +21819,13 @@ degree
 					ifTrue: [count _ count + 1]]].
 	^ count! !
 
-!PolynomialIdeal methodsFor: 'operations' stamp: 'len 1/15/2018 18:54:55'!
+!PolynomialIdeal methodsFor: 'operations' stamp: 'len 5/23/2018 22:50:08'!
 dehomogenizedIn: anIndeterminate
 	"Answer the dehomogenization of the receiver removing the given indeterminate."
 	| R S |
 	R _ self scalars.
 	S _ R copyWithout: anIndeterminate.
-	^ S * (self generators collect: [:each| (each dehomogenizedIn: anIndeterminate) as: S])! !
+	^ S * (self generators collect: [:each| S !! (each dehomogenizedIn: anIndeterminate)])! !
 
 !PolynomialIdeal methodsFor: 'accessing' stamp: 'len 10/23/2016 11:59'!
 depth
@@ -21851,7 +21846,7 @@ output: univariate eliminant g(xi) or there's no eliminant
 where n is minimal, then output eliminant g(xi) = sum akxi^k
 "! !
 
-!PolynomialIdeal methodsFor: 'operations' stamp: 'len 1/15/2018 18:55:02'!
+!PolynomialIdeal methodsFor: 'operations' stamp: 'len 5/23/2018 22:50:50'!
 eliminateAll: aCollection
 	"Answer the elimination ideal for the indeterminates in aCollection = {xi}, i.e. the subideal of polynomials without indeterminates {xi}."
 	| freeIndeterminates ordering G newGenerators |
@@ -21860,7 +21855,7 @@ eliminateAll: aCollection
 	ordering _ (MonomialOrdering lex: aCollection), (MonomialOrdering grevlex: freeIndeterminates). "if the ideal is homogeneous, should we use use tlex?"
 	G _ (self groebnerBasisWithOrdering: ordering) minimal.
 	newGenerators _ G asArray select: [:each| (aCollection noneSatisfy: [:none| each has: none])].
-	^ self scalars * (newGenerators collect: [:each| each as: self scalars])! !
+	^ self scalars * (newGenerators collect: [:each| self scalars !! each])! !
 
 !PolynomialIdeal methodsFor: 'operations' stamp: 'len 1/15/2018 18:55:06'!
 eliminateAllBut: anIndeterminate
@@ -21910,7 +21905,7 @@ hilbertSeriesAt: t
 	self isHomogeneous ifFalse: [^ self notYetImplemented].
 	^ self leadingIdeal hilbertSeriesAt: t! !
 
-!PolynomialIdeal methodsFor: 'operations' stamp: 'len 1/15/2018 18:55:18'!
+!PolynomialIdeal methodsFor: 'operations' stamp: 'len 5/23/2018 22:51:02'!
 homogenized
 	"Answer the homogenization of the receiver introducing a new indeterminate."
 	| R S G ordering |
@@ -21919,7 +21914,7 @@ homogenized
 	"Must use a graded monomial ordering such as glex or grevlex:"
 	ordering _ MonomialOrdering grevlex: R rank.
 	G _ self groebnerBasisWithOrdering: ordering.
-	^ S * (G collect: [:each| (each as: S) homogenizedIn: S rank])! !
+	^ S * (G collect: [:each| S !! each homogenizedIn: S rank])! !
 
 !PolynomialIdeal methodsFor: 'operations-elements' stamp: 'len 1/15/2018 18:55:27'!
 inverseOf: aPolynomial
@@ -22002,9 +21997,9 @@ maximallyIndependentIndeterminates
 				ifTrue: [^ indeterminates reject: [:any| combination includes: any]]]].
 	self error: 'this shouldn''t be reached'! !
 
-!PolynomialIdeal methodsFor: 'converting' stamp: 'len 1/15/2018 18:55:48'!
+!PolynomialIdeal methodsFor: 'converting' stamp: 'len 5/23/2018 22:51:15'!
 orderedBy: aMonomialOrdering
-	^ self as: (self scalars orderedBy: aMonomialOrdering)! !
+	^ (self scalars orderedBy: aMonomialOrdering) !! self! !
 
 !PolynomialIdeal methodsFor: 'accessing' stamp: 'len 1/15/2018 18:56:02'!
 ordering
@@ -22033,7 +22028,7 @@ radical
 	self flag: #fix. "this is not right, maybe only works for Q[x1..xn] and monomial ideals"
 	^ self squareFree! !
 
-!PolynomialIdeal methodsFor: 'testing' stamp: 'len 1/15/2018 18:56:15'!
+!PolynomialIdeal methodsFor: 'testing' stamp: 'len 5/23/2018 22:51:55'!
 radicalContains: aPolynomial
 	"(Radical Membership Problem)
 	Answer true if the radical of the receiver includes aPolynomial.
@@ -22043,16 +22038,16 @@ radicalContains: aPolynomial
 	S _ R scalars polynomialsIn: R rank + 1.
 	t _ S x: R rank + 1.
 	X _ OrderedCollection new.
-	self generators do: [:g| X add: (g as: S)].
-	X add: (aPolynomial as: S) * t - S one.
+	self generators do: [:g| X add: S !! g].
+	X add: S !! aPolynomial * t - S one.
 	^ (S * X) isTrivial! !
 
-!PolynomialIdeal methodsFor: 'operations-elements' stamp: 'len 1/15/2018 18:56:36'!
+!PolynomialIdeal methodsFor: 'operations-elements' stamp: 'len 5/23/2018 22:52:11'!
 reduce: aPolynomial
 	"Answer the normal form of anElement with respect to the receiver."
 	| f |
 	f _ aPolynomial.
-	f parent == self scalars ifFalse: [f _ f as: self scalars].
+	f parent == self scalars ifFalse: [f _ self scalars !! f].
 	self isZero ifTrue: [^ f].
 	self isUnivariate ifTrue: [^ f \\ self generator].
 	^ self basis reduce: f! !
@@ -22063,7 +22058,7 @@ remainderAtRandom: aRandom
 	self scalars isUnivariate ifFalse: [^ self error: 'not yet implemented'].
 	^ self scalars coefficients: ((0 to: self generator degree - 1) collect: [:i| self scalars scalars atRandom: aRandom])! !
 
-!PolynomialIdeal methodsFor: 'operations' stamp: 'len 1/15/2018 18:57:14'!
+!PolynomialIdeal methodsFor: 'operations' stamp: 'len 5/23/2018 22:54:39'!
 saturation: anIdeal
 	"Answer the saturation ideal I:J^infinity of the receiver I with the argument J."
 	"Cox IVA 205p
@@ -22071,11 +22066,11 @@ saturation: anIdeal
 	| P t J |
 	P _ self scalars scalars polynomialsIn: self scalars rank + 1.
 	t _ P x: P rank.
-	J _ self as: P.
-	(anIdeal asIdeal as: P) generators do: [:each|
+	J _ P !! self.
+	(P !! anIdeal asIdeal) generators do: [:each|
 		J _ J + (P * (t * each - P one)).
 		J _ J eliminate: P rank].
-	^ J as: self scalars! !
+	^ self scalars !! J! !
 
 !PolynomialIdeal methodsFor: 'operations' stamp: 'len 1/15/2018 18:57:29'!
 singular
@@ -22517,11 +22512,11 @@ apply: aLinearMap
 asAbelianGroup
 	^ (self as: FreeAbelianGroup) generators: self generators! !
 
-!FreeModule methodsFor: 'converting' stamp: 'len 1/16/2017 07:56:38'!
+!FreeModule methodsFor: 'converting' stamp: 'len 5/23/2018 22:16:32'!
 asAlgebraicVariety
 	| R |
 	R _ self scalars polynomialsIn: self ambient rank.
-	^ (R * (self annihilator basis asArray collect: [:each| each as: R])) variety! !
+	^ (R * (self annihilator basis asArray collect: [:each| R !! each])) variety! !
 
 !FreeModule methodsFor: 'converting' stamp: 'len 5/19/2018 03:53:20'!
 asLattice
@@ -36792,9 +36787,9 @@ lcm: aMonomial
 	exponents size >= aMonomial exponents size ifFalse: [^ aMonomial lcm: self].
 	^ self parent exponents: (exponents withIndexCollect: [:each :i| each max: (aMonomial at: i)])! !
 
-!Monomial methodsFor: 'converting' stamp: 'len 1/23/2017 11:36:14'!
+!Monomial methodsFor: 'converting' stamp: 'len 5/23/2018 22:18:46'!
 orderedBy: aMonomialOrdering
-	^ self as: (self parent orderedBy: aMonomialOrdering)! !
+	^ (self parent orderedBy: aMonomialOrdering) !! self! !
 
 !Monomial methodsFor: 'accessing' stamp: 'len 11/20/2016 11:56:47'!
 ordering
@@ -37621,7 +37616,7 @@ asLinearForm
 	self isLinear ifFalse: [^ DomainError signal: 'not a linear polynomial'].
 	^ (self scalars ^ self parent rank) dual evaluating: self! !
 
-!Polynomial methodsFor: 'converting' stamp: 'len 12/24/2017 20:17:43'!
+!Polynomial methodsFor: 'converting' stamp: 'len 5/23/2018 22:21:02'!
 asMultivariate
 	"Convert a polynomial in R[x][y][z] to a polynomial in R[x,y,z]."
 	| R S answer |
@@ -37630,7 +37625,7 @@ asMultivariate
 	S _ self parent asMultivariate.
 	answer _ S zero.
 	self partsDo: [:each|
-		answer _ answer + ((each value as: S) * (S x: R rank + 1 to: each key degree))].
+		answer _ answer + (S !! each value * (S x: R rank + 1 to: each key degree))].
 	^ answer! !
 
 !Polynomial methodsFor: 'converting' stamp: 'len 12/21/2017 20:09:56'!
@@ -37638,21 +37633,21 @@ asScalar
 	self isConstant ifFalse: [^ self error: 'not a constant polynomial'].
 	^ self leadingCoefficient! !
 
-!Polynomial methodsFor: 'converting' stamp: 'len 12/24/2017 20:18:11'!
+!Polynomial methodsFor: 'converting' stamp: 'len 5/23/2018 22:28:42'!
 asUnivariate
 	"Answer the receiver as univariate in the last indeterminate, e.g. go from R[x,y,z] to R[x,y][z]."
-	| term n d newCoefficients newParent |
+	| S term n d coefficients |
 	self parent isUnivariate ifTrue: [^ self].
 	n _ self parent rank.
-	newParent _ self parent asUnivariate.
+	S _ self parent asUnivariate.
 	(d _ self degreeIn: n) <= 0
-		ifTrue: [^ newParent constant: (self as: newParent scalars)].
-	newCoefficients _ Array new: d+1.
-	newCoefficients atAllPut: newParent scalars zero.
+		ifTrue: [^ S constant: S scalars !! self].
+	coefficients _ Array new: d+1.
+	coefficients atAllPut: S scalars zero.
 	self partsDo: [:each|
-		term _ newParent scalars coefficient: each value monomial: ((each key without: n) as: newParent scalars monomials).
-		newCoefficients at: (each key degreeIn: n)+1 add: term].
-	^ newParent coefficients: newCoefficients! !
+		term _ S scalars coefficient: each value monomial: S scalars monomials !! (each key without: n).
+		coefficients at: (each key degreeIn: n)+1 add: term].
+	^ S coefficients: coefficients! !
 
 !Polynomial methodsFor: 'converting' stamp: 'len 1/23/2017 11:40:38'!
 asUnivariateIn: anIndeterminate
@@ -37797,7 +37792,7 @@ formAt: anInteger
 	self terms do: [:each| each degree = anInteger ifTrue: [answer _ answer + each]].
 	^ answer! !
 
-!Polynomial methodsFor: 'arithmetic' stamp: 'len 1/23/2017 11:41:32'!
+!Polynomial methodsFor: 'arithmetic' stamp: 'len 5/23/2018 22:30:01'!
 gcd: aPolynomial
 	"Answer the greatest common divisor of the receiver and aPolynomial."
 	| a b r |
@@ -37810,7 +37805,7 @@ gcd: aPolynomial
 				ifTrue: [^ self scalars isField ifTrue: [self one] ifFalse: [self parent constant: (self content gcd: aPolynomial content)]].
 			a _ self asUnivariate.
 			b _ aPolynomial asUnivariate.
-			^ (((a primitive gcd: b primitive) * (a content gcd: b content)) asMultivariate as: self parent) primitive].
+			^ (self parent !! ((a primitive gcd: b primitive) * (a content gcd: b content)) asMultivariate) primitive].
 	self scalars isField
 		ifFalse: "If it's not a field we use the primitive PRS algorithm:"
 			[a _ self primitive.
@@ -37843,13 +37838,13 @@ hessian
 	self flag: #fix. "optimize"
 	^ self parent matrix: self parent rank evaluating: [:i :j| (self derivativeIn: i) derivativeIn: j]! !
 
-!Polynomial methodsFor: 'operations' stamp: 'len 3/6/2017 16:53:38'!
+!Polynomial methodsFor: 'operations' stamp: 'len 5/23/2018 22:30:27'!
 homogenized
 	"Answer the homogenization of the receiver introducing a new indeterminate."
 	| R S |
 	R _ self parent.
 	S _ R scalars polynomialsIn: R rank + 1.
-	^ (self as: S) homogenizedIn: S rank! !
+	^ S !! self homogenizedIn: S rank! !
 
 !Polynomial methodsFor: 'operations' stamp: 'len 3/22/2016 23:19'!
 homogenizedIn: anIndeterminate
@@ -38076,10 +38071,10 @@ order
 
 	^ self isZero ifTrue: [Infinity negative] ifFalse: [self monomials min: [:each| each degree]]! !
 
-!Polynomial methodsFor: 'converting' stamp: 'len 1/23/2017 11:43:02'!
+!Polynomial methodsFor: 'converting' stamp: 'len 5/23/2018 22:30:47'!
 orderedBy: aMonomialOrdering
 	"Answer a copy of the receiver with a different monomial ordering."
-	^ self as: (self parent orderedBy: aMonomialOrdering)! !
+	^ (self parent orderedBy: aMonomialOrdering) !! self! !
 
 !Polynomial methodsFor: 'accessing monomials' stamp: 'len 2/3/2017 07:17:54'!
 ordering
@@ -41448,9 +41443,9 @@ curve
 discriminant
 	^ (self b2 squared * self b8) negated - (self b4 ^ 3 * 8) - (self b6 squared * 27) + (self b2 * self b4 * self b6 * 9)! !
 
-!WeierstrassEquation methodsFor: 'accessing' stamp: 'len 11/9/2016 13:20'!
+!WeierstrassEquation methodsFor: 'accessing' stamp: 'len 5/23/2018 22:35:52'!
 homogeneousPolynomial
-	^ (self polynomial as: (self scalars polynomialsIn: #(x y z))) homogenizedIn: 3! !
+	^ (self scalars polynomialsIn: #(x y z)) !! self polynomial homogenizedIn: 3! !
 
 !WeierstrassEquation methodsFor: 'invariants' stamp: 'len 11/9/2016 07:28'!
 j
