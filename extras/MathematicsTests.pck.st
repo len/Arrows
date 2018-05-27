@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 23 May 2018 at 11:08:31 pm'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 27 May 2018 at 2:21:53 am'!
 'Description Please enter a description for this package'!
-!provides: 'MathematicsTests' 1 105!
+!provides: 'MathematicsTests' 1 106!
 !classDefinition: #AbelianGroupTest category: #MathematicsTests!
 TestCase subclass: #AbelianGroupTest
 	instanceVariableNames: ''
@@ -355,6 +355,15 @@ CASBenchmark class
 !AlgebraicNumbersBenchmark commentStamp: '<historical>' prior: 0!
 AlgebraicNumbersBenchmark new run
 
+testComplexAlgebraicNumberAddition	1.1 per second. (25 May 2018)
+testComplexAlgebraicNumberDivision	63.9 per second.
+testComplexAlgebraicNumberProduct	68.3 per second.
+testComplexAlgebraicNumberSquare	2,080 per second.
+testRealAlgebraicNumberAddition	0.936 per second.
+testRealAlgebraicNumberDivision	61.7 per second.
+testRealAlgebraicNumberProduct	67.1 per second.
+testRealAlgebraicNumberSquare	2,010 per second.
+
 testComplexAlgebraicNumberAddition	0.907 per second. (18 May 2018)
 testComplexAlgebraicNumberDivision	61 per second.
 testComplexAlgebraicNumberProduct	64.7 per second.
@@ -695,8 +704,27 @@ testGaussianElimination	1.81 per second.
 testSquared	1.32 per second.
 testTransposition	66.9 per second.!
 
-!PolynomialBenchmark commentStamp: '<historical>' prior: 0!
+!PolynomialBenchmark commentStamp: 'len 5/26/2018 19:40:36' prior: 0!
 PolynomialBenchmark new run
+
+testAdditionOverZ	25.4 per second.
+testAdditionOverZ2	283 per second.
+testDivisionOverQ	5.23 per second.
+testDivisionOverZ	5.25 per second.
+testFactorizationOverZ17	10.2 per second
+testFiniteField	20.1 per second.
+testFiniteFieldPolynomialFactorization	336 per second.
+testGCDOverQ	8.2 per second.
+testGCDOverZ	4.81 per second.
+testGCDOverZ2	10.3 per second.
+testMultiplication2OverZ	154 per second.
+testMultiplication2OverZ2	681 per second.
+testMultiplicationOverZ	2.7 per second.
+testMultiplicationOverZ2	4,060 per second.
+testMultivariatePolynomialAdditionOverZ	106 per second.
+testPseudoDivision	5,060 per second.
+testPseudoRemainder	5,050 per second.
+testRealRoots	24.4 per second.
 
 testFiniteField	18.2 per second. (25 Dec 2017, after refactoring MultivariatePolynomial and removing MonomialIndexedTuple)
 testFiniteFieldPolynomialFactorization	255 per second.
@@ -1920,11 +1948,10 @@ testTrace
 	a _ ComplexAlgebraicNumber phi.
 	self assert: a trace = a conjugates sum! !
 
-!CodesTest methodsFor: 'as yet unclassified' stamp: 'len 10/18/2016 20:58'!
+!CodesTest methodsFor: 'as yet unclassified' stamp: 'len 5/25/2018 18:42:02'!
 testDual
-	| F C |
-	F _ PrimeField new: 2.
-	C _ LinearCode subspace: (F^5 span: {(0,0,0,0,0) % 2. (1,1,1,1,1) % 2}).
+	| C |
+	C _ LinearCode subspace: (ZZ/2^5 span: {(0,0,0,0,0) % 2. (1,1,1,1,1) % 2}).
 	self assert: C dual size = (C ambient size / C size).
 	C dual do: [:v|
 		"check each codeword of the dual has an even number of 1's, because it must be perpendicular to 11111 (and 00000 of course)."
@@ -1981,10 +2008,10 @@ testParityCheckMatrix
 	M _ H7 parityCheckMatrix.
 	self assert: (M * H7 atRandom) isZero! !
 
-!CodesTest methodsFor: 'as yet unclassified' stamp: 'len 10/18/2016 20:58'!
+!CodesTest methodsFor: 'as yet unclassified' stamp: 'len 5/25/2018 18:40:58'!
 testSelfDual
 	| F C |
-	F _ PrimeField new: 2.
+	F _ ZZ/2.
 	"{00,11} is the smallest self-dual code"
 	C _ LinearCode subspace: (F^2 span: {(0,0) % 2. (1,1) % 2}).
 	self assert: C isSelfDual.
@@ -2005,8 +2032,8 @@ testSingletonBoundH7
 	"Any linear [n,k,d] code satisfies k + d <= n + 1."
 	self testSingletonBound: LinearCode H7! !
 
-!CodesTest methodsFor: 'as yet unclassified' stamp: 'len 5/12/2016 07:31'!
-testSingletonBoundTrtracode
+!CodesTest methodsFor: 'as yet unclassified' stamp: 'len 5/25/2018 18:40:31'!
+testSingletonBoundTetracode
 	"Any linear [n,k,d] code satisfies k + d <= n + 1."
 	self testSingletonBound: LinearCode tetracode! !
 
@@ -2021,11 +2048,11 @@ testTetracode
 	y _ P y.
 	self assert: C weightEnumerator = (x^4 + (x*(y^3)*8))! !
 
-!CodesTest methodsFor: 'as yet unclassified' stamp: 'len 1/23/2017 11:52:08'!
+!CodesTest methodsFor: 'as yet unclassified' stamp: 'len 5/25/2018 18:41:19'!
 testWeightEnumerator
 	"From youtube, Neil Sloane 'error correcting codes, group theory and invariant theory part 1' 19:30."
 	| F C w x y |
-	F _ PrimeField new: 2.
+	F _ ZZ/2.
 	C _ LinearCode subspace: (F^5 span: {(0,0,0,0,0) % 2. (1,1,1,1,1) % 2}).
 	w _ C weightEnumerator.
 	x _ w parent x.
@@ -6541,7 +6568,7 @@ testEvaluation
 	self assert: (Q value: (1,0,0)) = 0.
 	self assert: (Q value: (1,1,1)) = 15! !
 
-!RingTest methodsFor: 'as yet unclassified' stamp: 'len 12/2/2016 11:13:56'!
+!RingTest methodsFor: 'private' stamp: 'len 12/2/2016 11:13:56'!
 newQuotientRing
 	| R I |
 	2 atRandom = 1 ifTrue: [^ ZZ / (2 to: 10) atRandom].
@@ -6549,13 +6576,13 @@ newQuotientRing
 	I _ R * (R atRandomBits: 10 maxDegree: 5).
 	^ R / I! !
 
-!RingTest methodsFor: 'as yet unclassified' stamp: 'len 12/2/2016 11:14:00'!
+!RingTest methodsFor: 'private' stamp: 'len 12/2/2016 11:14:00'!
 newRing
 	2 atRandom = 1 ifTrue: [^ {ZZ. QQ. ZZ / (2 to: 10) atRandom} atRandom polynomialsIn: (1 to: 3) atRandom].
 	2 atRandom = 1 ifTrue: [^ self newQuotientRing].
 	^ ZZ! !
 
-!RingTest methodsFor: 'as yet unclassified' stamp: 'len 11/2/2016 08:18'!
+!RingTest methodsFor: 'general' stamp: 'len 11/2/2016 08:18'!
 testCanonicalMorphisms
 	| R x Q |
 	R _ QQ polynomials.
@@ -6564,7 +6591,7 @@ testCanonicalMorphisms
 	self assert: (ZZ  R value: 4) = (R embed: 4). "canonical morphism from initial object"
 	self assert: (R  Q value: x^2 + 2) = Q one. "canonical morphism to quotient object"! !
 
-!RingTest methodsFor: 'as yet unclassified' stamp: 'len 10/10/2016 09:58'!
+!RingTest methodsFor: 'general' stamp: 'len 10/10/2016 09:58'!
 testDirectProduct
 	| R S P |
 	R _ self newRing.
@@ -6573,7 +6600,7 @@ testDirectProduct
 	self testRing: P.
 	self testRingHomomorphism: (P projection: 2 atRandom)! !
 
-!RingTest methodsFor: 'as yet unclassified' stamp: 'len 5/3/2018 06:28:51'!
+!RingTest methodsFor: 'finite rings' stamp: 'len 5/3/2018 06:28:51'!
 testFiniteRing
 	| R |
 	R _ (ZZ/2) polynomials.
@@ -6584,7 +6611,7 @@ testFiniteRing
 	self assert: R zeroDivisors size = 6
 	"also, this ring has two maximal ideals, and the Jacobson radical is {0, x^2 + x}"! !
 
-!RingTest methodsFor: 'as yet unclassified' stamp: 'len 5/22/2018 17:52:20'!
+!RingTest methodsFor: 'finite rings' stamp: 'len 5/22/2018 17:52:20'!
 testFiniteRing2
 	| R |
 	R _ (ZZ/2) polynomials.
@@ -6596,7 +6623,7 @@ testFiniteRing2
 	self assert: R isLocal not
 	"more about this ring: two maximal (and princial as well) ideals (so not a local ring)"! !
 
-!RingTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2018 02:14:27'!
+!RingTest methodsFor: 'finite rings' stamp: 'len 5/23/2018 02:14:27'!
 testFiniteRing2Alternative
 	| R |
 	R _ ZZ/2 × (ZZ/2).
@@ -6607,7 +6634,7 @@ testFiniteRing2Alternative
 	self assert: R isLocal not.
 	"more about this ring: two maximal (and principal as well) ideals (so not a local ring)"! !
 
-!RingTest methodsFor: 'as yet unclassified' stamp: 'len 5/3/2018 01:48:31'!
+!RingTest methodsFor: 'finite rings' stamp: 'len 5/3/2018 01:48:31'!
 testFiniteRing3
 	| R |
 	R _ ZZ/4 × (ZZ/4).
@@ -6618,7 +6645,7 @@ testFiniteRing3
 	self assert: R units size = 4
 	"more about this ring: two maximal ideals (so not a local ring), and non-trivial jacobson radical"! !
 
-!RingTest methodsFor: 'as yet unclassified' stamp: 'len 5/21/2018 17:08:55'!
+!RingTest methodsFor: 'finite rings' stamp: 'len 5/21/2018 17:08:55'!
 testFiniteRing4
 	| R S |
 	R _ ZZ/6. "this is not a Galois ring, the zero-divisors dont form an ideal"
@@ -6626,7 +6653,7 @@ testFiniteRing4
 	self assert: R isLocal not.
 	self assert: S isLocal! !
 
-!RingTest methodsFor: 'as yet unclassified' stamp: 'len 5/22/2018 03:59:11'!
+!RingTest methodsFor: 'finite rings' stamp: 'len 5/22/2018 03:59:11'!
 testGaloisRing
 	| R |
 	R _ GaloisRing new: 3 to: 3 to: 2.
@@ -6636,7 +6663,7 @@ testGaloisRing
 	self assert: R isEuclidean.
 	self testRing: R! !
 
-!RingTest methodsFor: 'as yet unclassified' stamp: 'len 5/22/2018 04:02:24'!
+!RingTest methodsFor: 'finite rings' stamp: 'len 5/22/2018 04:02:24'!
 testGaloisRingCanonicalHomomorphism
 	"Canonical homomorphism from GR(p^n,m) to ZZ/<p>."
 	| p n m A B phi |
@@ -6648,13 +6675,13 @@ testGaloisRingCanonicalHomomorphism
 	phi _ A  B.
 	self testRingHomomorphism: phi! !
 
-!RingTest methodsFor: 'as yet unclassified' stamp: 'len 5/22/2018 03:53:54'!
+!RingTest methodsFor: 'finite rings' stamp: 'len 5/22/2018 03:53:54'!
 testGaloisRingNilradical
 	| R |
 	R _ GaloisRing new: 3 to: 3 to: 2.
 	self assert: R nilradical = (R * 3)! !
 
-!RingTest methodsFor: 'as yet unclassified' stamp: 'len 10/20/2016 06:06'!
+!RingTest methodsFor: 'general' stamp: 'len 10/20/2016 06:06'!
 testKrullDimension
 	| R I |
 	self assert: ZZ dimension = 1.
@@ -6664,7 +6691,7 @@ testKrullDimension
 	I _ R * {R x ^ 2 + (R y ^ 2) - 1}.
 	self assert: (R / I) dimension = 1! !
 
-!RingTest methodsFor: 'as yet unclassified' stamp: 'len 1/23/2018 21:19:56'!
+!RingTest methodsFor: 'localizations' stamp: 'len 1/23/2018 21:19:56'!
 testLocalizationInclusions
 	| Z2 Z3 Z6 |
 	Z2 _ ZZ localizationAt: 2.
@@ -6676,51 +6703,55 @@ testLocalizationInclusions
 	self deny: Z2 >= Z3.
 	self deny: Z2 >= Z6! !
 
-!RingTest methodsFor: 'as yet unclassified' stamp: 'len 1/23/2018 21:20:02'!
+!RingTest methodsFor: 'localizations' stamp: 'len 1/23/2018 21:20:02'!
 testLocalizationMaximalIdeal
 	| Z2 |
 	Z2 _ ZZ localizationAt: 2.
 	self assert: Z2 maximalIdeal = (Z2 * 2)! !
 
-!RingTest methodsFor: 'as yet unclassified' stamp: 'len 1/23/2018 21:21:19'!
+!RingTest methodsFor: 'localizations' stamp: 'len 5/25/2018 18:18:07'!
 testLocalizationOfZAt2
 	| L |
 	L _ ZZ localizationAt: 2.
 	self assert: (L includes: 1/3).
 	self assert: (L includes: 3/2) not.
-	self assert: (L atRandomBits: 10) denominator odd! !
+	self assert: (L includes: 2).
+	self assert: (L includes: 3).
+	self assert: (L atRandomBits: 10) denominator odd.
+	self testRing: L.
+	self testRingHomomorphism: L embedding! !
 
-!RingTest methodsFor: 'as yet unclassified' stamp: 'len 10/6/2016 20:34'!
+!RingTest methodsFor: 'general' stamp: 'len 10/6/2016 20:34'!
 testMatrixRing
 	self testRing: (ZZ ^ (5@5)) asRing! !
 
-!RingTest methodsFor: 'as yet unclassified' stamp: 'len 12/2/2016 11:14:10'!
+!RingTest methodsFor: 'finite rings' stamp: 'len 12/2/2016 11:14:10'!
 testModularIntegers
 	| Zm |
 	Zm _ ZZ / (10 atRandom + 1).
 	self testRing: Zm.
 	self testRingHomomorphism: Zm projection! !
 
-!RingTest methodsFor: 'as yet unclassified' stamp: 'len 10/7/2016 06:13'!
+!RingTest methodsFor: 'polynomials' stamp: 'len 10/7/2016 06:13'!
 testMultivariatePolynomialRing
 	| R |
 	R _ ZZ polynomialsIn: #(x y z).
 	self testRing: R.
 	self testRingHomomorphism: R embedding! !
 
-!RingTest methodsFor: 'as yet unclassified' stamp: 'len 5/4/2018 23:52:20'!
+!RingTest methodsFor: 'general' stamp: 'len 5/4/2018 23:52:20'!
 testNilradical
 	self assert: ZZ nilradical = (ZZ*0).
 	self assert: (ZZ/12) nilradical = (ZZ/12*6)! !
 
-!RingTest methodsFor: 'as yet unclassified' stamp: 'len 10/7/2016 06:14'!
+!RingTest methodsFor: 'polynomials' stamp: 'len 10/7/2016 06:14'!
 testPolynomialRing
 	| R |
 	R _ ZZ polynomials.
 	self testRing: R.
 	self testRingHomomorphism: R embedding! !
 
-!RingTest methodsFor: 'as yet unclassified' stamp: 'len 5/15/2018 19:18:02'!
+!RingTest methodsFor: 'polynomials' stamp: 'len 5/15/2018 19:18:02'!
 testPolynomialRingPrimeNotMaximalIdeal
 	"Z[x]/<x> is isomorphic to Z, which is an integral domain but not a field. So <x> is prime but not maximal."
 	| R I |
@@ -6729,7 +6760,7 @@ testPolynomialRingPrimeNotMaximalIdeal
 	self assert: I isPrime.
 	self assert: I isMaximal not! !
 
-!RingTest methodsFor: 'as yet unclassified' stamp: 'len 5/15/2018 19:19:26'!
+!RingTest methodsFor: 'polynomials' stamp: 'len 5/15/2018 19:19:26'!
 testPolynomialRingPrimeNotMaximalIdeal2
 	"Q[x,y]/<x> is isomorphic to Q[y], which is an integral domain but not a field. So <x> is prime but not maximal."
 	| R I |
@@ -6738,7 +6769,7 @@ testPolynomialRingPrimeNotMaximalIdeal2
 	self assert: I isPrime.
 	self assert: I isMaximal not! !
 
-!RingTest methodsFor: 'as yet unclassified' stamp: 'len 5/22/2018 03:58:25'!
+!RingTest methodsFor: 'finite rings' stamp: 'len 5/22/2018 03:58:25'!
 testPrimeRing
 	| R |
 	R _ PrimeRing new: 3 to: 3.
@@ -6749,7 +6780,7 @@ testPrimeRing
 	self assert: R maximalIdeal = (R*3).
 	self testRing: R! !
 
-!RingTest methodsFor: 'as yet unclassified' stamp: 'len 5/22/2018 04:03:52'!
+!RingTest methodsFor: 'finite rings' stamp: 'len 5/22/2018 04:03:52'!
 testPrimeRingCanonicalHomomorphism
 	"Canonical homomorphism from ZZ/<p^n> to ZZ/<p>."
 	| p n A B phi a b |
@@ -6764,20 +6795,20 @@ testPrimeRingCanonicalHomomorphism
 	self assert: a representative \\ p = b representative.
 	self testRingHomomorphism: phi! !
 
-!RingTest methodsFor: 'as yet unclassified' stamp: 'len 5/22/2018 03:53:46'!
+!RingTest methodsFor: 'finite rings' stamp: 'len 5/22/2018 03:53:46'!
 testPrimeRingNilradical
 	| R |
 	R _ PrimeRing new: 3 to: 3.
 	self assert: R nilradical = (R * 3)! !
 
-!RingTest methodsFor: 'as yet unclassified' stamp: 'len 10/6/2016 20:32'!
+!RingTest methodsFor: 'quotients' stamp: 'len 10/6/2016 20:32'!
 testQuotientRing
 	| Q |
 	Q _ self newQuotientRing.
 	self testRing: Q.
 	self testRingHomomorphism: Q projection! !
 
-!RingTest methodsFor: 'as yet unclassified' stamp: 'len 2/27/2017 20:51:24'!
+!RingTest methodsFor: 'quotients' stamp: 'len 2/27/2017 20:51:24'!
 testQuotientRing2
 	| Q pi f g |
 	Q _ self newQuotientRing.
@@ -6791,7 +6822,7 @@ testQuotientRing2
 "	h _ Q atRandomBits: 100.
 	self assert: (pi value: (pi section value: h)) = h"! !
 
-!RingTest methodsFor: 'as yet unclassified' stamp: 'len 4/8/2018 17:47:19'!
+!RingTest methodsFor: 'quotients' stamp: 'len 4/8/2018 17:47:19'!
 testQuotientRingNotIntegralDomain
 	| R |
 	R _ QQ polynomials.
@@ -6799,14 +6830,14 @@ testQuotientRingNotIntegralDomain
 	self assert: R isField not.
 	self assert: R isIntegralDomain not! !
 
-!RingTest methodsFor: 'as yet unclassified' stamp: 'len 4/8/2018 17:48:23'!
+!RingTest methodsFor: 'quotients' stamp: 'len 4/8/2018 17:48:23'!
 testQuotientRingWhichIsAField
 	| R |
 	R _ QQ polynomials.
 	R _ R / (R x^2 + (R x * 2) + 2).
 	self assert: R isField! !
 
-!RingTest methodsFor: 'as yet unclassified' stamp: 'len 10/6/2016 20:30'!
+!RingTest methodsFor: 'general' stamp: 'len 10/6/2016 20:30'!
 testRing: R
 	| one zero a b c |
 	one _ R one.
@@ -6825,7 +6856,7 @@ testRing: R
 	self assert: (a * b * c) = (a * (b * c)). "associativity of multiplication"
 	R isCommutative ifTrue: [self assert: a * b = (b * a)]. "commutativity of multiplication"! !
 
-!RingTest methodsFor: 'as yet unclassified' stamp: 'len 3/13/2018 20:15:02'!
+!RingTest methodsFor: 'general' stamp: 'len 3/13/2018 20:15:02'!
 testRingHomomorphism: phi
 	| R S a b |
 	R _ phi domain.
@@ -6837,11 +6868,11 @@ testRingHomomorphism: phi
 	self assert: (phi value: a + b) = ((phi value: a) + (phi value: b)).
 	self assert: (phi value: a * b) = ((phi value: a) * (phi value: b)) "this sometimes fails because f and -f are not equal regular functions, for example"! !
 
-!RingTest methodsFor: 'as yet unclassified' stamp: 'len 10/6/2016 20:27'!
+!RingTest methodsFor: 'general' stamp: 'len 10/6/2016 20:27'!
 testZZ
 	self testRing: ZZ! !
 
-!RingTest methodsFor: 'as yet unclassified' stamp: 'len 5/15/2018 19:17:51'!
+!RingTest methodsFor: 'general' stamp: 'len 5/15/2018 19:17:51'!
 testZZPrimeNotMaximalIdeal
 	| I |
 	I _ ZZ * 0.
@@ -7512,15 +7543,49 @@ testSquared
 testTransposition
 	matrix transposed! !
 
-!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 12/16/2016 13:36:15'!
-testFiniteField
-	"Benchmark Polynomial>>#= and Residue#>>="
-	| F |
-	F _ GaloisField new: 9.
-	((F^3) upTo: 9^3) asSet size = (9^3) ifFalse: [self halt]! !
+!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 5/26/2018 18:11:49'!
+testAdditionOverZ
+	| P f g |
+	P _ ZZ polynomials.
+	f _ P atRandomBits: 100 maxDegree: 50.
+	g _ P atRandomBits: 100 maxDegree: 50.
+	10000 timesRepeat: [f + g]! !
 
-!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 4/24/2018 15:39:10'!
-testFiniteFieldPolynomialFactorization
+!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 5/26/2018 18:11:56'!
+testAdditionOverZ2
+	| P f g |
+	P _ ZZ / 2 :: polynomials.
+	f _ P atRandomDegree: 50.
+	g _ P atRandomDegree: 50.
+	10000 timesRepeat: [f + g]! !
+
+!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 5/26/2018 18:12:03'!
+testDivisionOverQ
+	| P x f g |
+	P _ QQ polynomials.
+	x _ P x.
+	f _ x^2 + x + 1 ^ 10.
+	g _ 1 - x ^ 10.
+	2000 timesRepeat: [f // g. f \\ g]! !
+
+!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 5/26/2018 18:12:09'!
+testDivisionOverZ
+	| P x f g |
+	P _ ZZ polynomials.
+	x _ P x.
+	f _ x^2 + x + 1 ^ 10.
+	g _ 1 - x ^ 10.
+	2000 timesRepeat: [f // g. f \\ g]! !
+
+!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 5/26/2018 19:28:17'!
+testFactorizationOverZ17Degree100
+	| n f |
+	n _ 100.
+	f _ (ZZ/17) polynomials !! [:x| ((1 to: n) sum: [:i| x^i*i]) + 1].
+	f factors! !
+
+!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 5/26/2018 19:28:02'!
+testFactorizationOverZ3Degree11Times20
 	| F Fx x one f |
 	F _ ZZ / 3.
 	Fx _ F polynomials.
@@ -7528,6 +7593,72 @@ testFiniteFieldPolynomialFactorization
 	one _ Fx one.
 	f _ x^11 + (x^9 * 2) + (x^8 * 2) + (x^6) + (x^5) + (x^3 * 2) + (x^2 * 2) + one.
 	20 timesRepeat: [f factors]! !
+
+!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 5/26/2018 19:28:38'!
+testFiniteField
+	"Benchmark Polynomial>>#= and ResidueClass#>>="
+	| F |
+	F _ GaloisField new: 9.
+	((F^3) upTo: 9^3) asSet size = (9^3) ifFalse: [self halt]! !
+
+!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 5/26/2018 18:12:26'!
+testGCDOverQ
+	| P x f g |
+	P _ QQ polynomials.
+	x _ P x.
+	f _ x^4 - 1 ^ 5.
+	g _ x^6 - 1 ^ 5.
+	2000 timesRepeat: [f gcd: g]! !
+
+!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 5/26/2018 18:12:33'!
+testGCDOverZ
+	| P x f g |
+	P _ ZZ polynomials.
+	x _ P x.
+	f _ x^4 - 1 ^ 5.
+	g _ x^6 - 1 ^ 5.
+	2000 timesRepeat: [f gcd: g]! !
+
+!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 5/26/2018 18:12:39'!
+testGCDOverZ2
+	| P x f g |
+	P _ ZZ / 2 :: polynomials.
+	x _ P x.
+	f _ x^4 - 1 ^ 5.
+	g _ x^6 - 1 ^ 5.
+	2000 timesRepeat: [f gcd: g]! !
+
+!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 5/26/2018 18:12:46'!
+testMultiplication2OverZ
+	| P f g |
+	P _ ZZ polynomials.
+	f _ P atRandomBits: 100 maxDegree: 50.
+	g _ P atRandomBits: 100 maxDegree: 50.
+	100 timesRepeat: [f * g]! !
+
+!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 5/26/2018 18:13:05'!
+testMultiplication2OverZ2
+	| P f g |
+	P _ PrimeField new: 2 :: polynomials.
+	f _ P atRandomBits: 100 maxDegree: 50.
+	g _ P atRandomBits: 100 maxDegree: 50.
+	100 timesRepeat: [f * g]! !
+
+!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 5/26/2018 18:13:12'!
+testMultiplicationOverZ
+	| P x f |
+	P _ QQ polynomials.
+	x _ P x.
+	f _ x - 1.
+	1 to: 9 do: [:i| f _ x - i * f * f]! !
+
+!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 5/26/2018 18:13:19'!
+testMultiplicationOverZ2
+	| P x f |
+	P _ PrimeField new: 2 :: polynomials.
+	x _ P x.
+	f _ x - (1 % 2).
+	1 to: 9 do: [:i| f _ x - (i % 2) * f * f]! !
 
 !PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:49'!
 testMultivariatePolynomialAdditionOverZ
@@ -7537,101 +7668,8 @@ testMultivariatePolynomialAdditionOverZ
 	g _ P atRandomBits: 100 maxDegree: 50.
 	10000 timesRepeat: [f + g]! !
 
-!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:49'!
-testPolynomialAdditionOverZ
-	| P f g |
-	P _ ZZ polynomials.
-	f _ P atRandomBits: 100 maxDegree: 50.
-	g _ P atRandomBits: 100 maxDegree: 50.
-	10000 timesRepeat: [f + g]! !
-
-!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 12/2/2016 11:17:31'!
-testPolynomialAdditionOverZ2
-	| P f g |
-	P _ ZZ / 2 :: polynomials.
-	f _ P atRandomDegree: 50.
-	g _ P atRandomDegree: 50.
-	10000 timesRepeat: [f + g]! !
-
-!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:08'!
-testPolynomialDivisionOverQ
-	| P x f g |
-	P _ QQ polynomials.
-	x _ P x.
-	f _ x^2 + x + 1 ^ 10.
-	g _ 1 - x ^ 10.
-	2000 timesRepeat: [f // g. f \\ g]! !
-
-!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:49'!
-testPolynomialDivisionOverZ
-	| P x f g |
-	P _ ZZ polynomials.
-	x _ P x.
-	f _ x^2 + x + 1 ^ 10.
-	g _ 1 - x ^ 10.
-	2000 timesRepeat: [f // g. f \\ g]! !
-
-!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:08'!
-testPolynomialGCDOverQ
-	| P x f g |
-	P _ QQ polynomials.
-	x _ P x.
-	f _ x^4 - 1 ^ 5.
-	g _ x^6 - 1 ^ 5.
-	2000 timesRepeat: [f gcd: g]! !
-
-!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:49'!
-testPolynomialGCDOverZ
-	| P x f g |
-	P _ ZZ polynomials.
-	x _ P x.
-	f _ x^4 - 1 ^ 5.
-	g _ x^6 - 1 ^ 5.
-	2000 timesRepeat: [f gcd: g]! !
-
-!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 12/2/2016 11:17:28'!
-testPolynomialGCDOverZ2
-	| P x f g |
-	P _ ZZ / 2 :: polynomials.
-	x _ P x.
-	f _ x^4 - 1 ^ 5.
-	g _ x^6 - 1 ^ 5.
-	2000 timesRepeat: [f gcd: g]! !
-
-!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:49'!
-testPolynomialMultiplication2OverZ
-	| P f g |
-	P _ ZZ polynomials.
-	f _ P atRandomBits: 100 maxDegree: 50.
-	g _ P atRandomBits: 100 maxDegree: 50.
-	100 timesRepeat: [f * g]! !
-
-!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 10/18/2016 21:00'!
-testPolynomialMultiplication2OverZ2
-	| P f g |
-	P _ PrimeField new: 2 :: polynomials.
-	f _ P atRandomBits: 100 maxDegree: 50.
-	g _ P atRandomBits: 100 maxDegree: 50.
-	100 timesRepeat: [f * g]! !
-
-!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:08'!
-testPolynomialMultiplicationOverZ
-	| P x f |
-	P _ QQ polynomials.
-	x _ P x.
-	f _ x - 1.
-	1 to: 9 do: [:i| f _ x - i * f * f]! !
-
-!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 10/18/2016 21:01'!
-testPolynomialMultiplicationOverZ2
-	| P x f |
-	P _ PrimeField new: 2 :: polynomials.
-	x _ P x.
-	f _ x - (1 % 2).
-	1 to: 9 do: [:i| f _ x - (i % 2) * f * f]! !
-
-!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 4/24/2018 19:40:53'!
-testPolynomialPseudoDivision
+!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 5/26/2018 18:13:29'!
+testPseudoDivision
 	| Zx x a b |
 	Zx _ ZZ polynomials.
 	x _ Zx x.
@@ -7639,8 +7677,8 @@ testPolynomialPseudoDivision
 	b _ 3*(x^6) + (5*(x^4)) - (4*(x^2)) - (9*x) + 21.
 	20 timesRepeat: [(a pseudoDivisionBy: b) quotient]! !
 
-!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 05:49'!
-testPolynomialPseudoRemainder
+!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 5/26/2018 18:13:38'!
+testPseudoRemainder
 	| Zx x a b |
 	Zx _ ZZ polynomials.
 	x _ Zx x.
@@ -7648,8 +7686,8 @@ testPolynomialPseudoRemainder
 	b _ 3*(x^6) + (5*(x^4)) - (4*(x^2)) - (9*x) + 21.
 	20 timesRepeat: [a pseudoRem: b]! !
 
-!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 1/20/2018 19:03:23'!
-testPolynomialRealRoots
+!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 5/26/2018 18:13:48'!
+testRealRoots
 	| x f |
 	x _ QQ polynomials x.
 	f _ (x-(1/2))^2*(x-2)*(x^2 + 1)*(x^2-2).
