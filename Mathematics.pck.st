@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 23 May 2018 at 11:05:53 pm'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 27 May 2018 at 2:20:46 am'!
 'Description A computational algebra system in Smalltalk'!
-!provides: 'Mathematics' 1 449!
+!provides: 'Mathematics' 1 450!
 !requires: 'RayTracer' 1 2 nil!
 !classDefinition: #RealAlgebraicNumber category: #'Mathematics-Fields'!
 Number subclass: #RealAlgebraicNumber
@@ -3691,11 +3691,11 @@ Counts are currently held in a WordArray, and limited to about 4 billion counts 
 A good number of bins can be n^(1/2) or n^(1/3), where n is the total number of samples. See Wikipedia article for rationale.!
 
 !Domain commentStamp: '<historical>' prior: 0!
-'Objects' of some category (such as Groups, Rings, Modules, Schemes, etc) connected by the corresponding Morphisms. In many practical situations, domains can be seen as sets of elements, and their morphisms as Functions.
+'Objects' of some category (such as Groups, Rings, Modules, Schemes, etc) connected by the corresponding Morphisms. In many practical situations, domains can be seen as sets of elements, and their morphisms as some kind of Functions.
 
 Domains with an underlying set can have finite or infinite cardinality, and whenever makes sense they implement some *Collection* protocol (such as #do:, #size, #asSet, #atRandom:, etc).
 
-Domains can be built from other domains, for example by taking products or coproducts (cartesian products, direct products, direct sums), quotients, extensions, localizations, completions, duals, etc. These operations are functors, and are mostly implemented as Smalltalk messages.
+Domains can be derived from other domains, for example by taking products or coproducts (cartesian products, direct products, direct sums), quotients, extensions, localizations, completions, duals, etc. These operations are functors, and are mostly implemented as Smalltalk messages.
 
 Domains can have subobjects: groups have subgroups, vector spaces have subspaces, rings have subrings and ideals, schemes have subschemes, etc. In general, there is an #ambient overobject, and there is a protocol for inclusion testing: #<, #<=, #>=, #>.
 
@@ -3703,7 +3703,9 @@ Given two domains A and B in the same category, the set Hom(A,B) of morphisms be
 
 Domains often come equipped with cannonical morphisms. For example, field extensions and localizations have canonical embeddings (monomorphisms), and implement #embed: (the embedding implemented as a message) and #embedding (which returns the embedding morphism as an instance of some subclass of Morphism). Quotient objects have canonical projections (epimorphisms) and implement #project: and #projection. N-ary products and coproducts implement #projection: for the i-th projection map (and coproducts also implement #embedding: for the i-th coprojection).
 
-More generally, canonical morphisms that are uniquely determined by their domain and codomain can be retrieved by sending the message #. This can be used for automatic coercion of elements between domains. For example, for any ring R, 'ZZ  R' returns the canonical ring homomorphism that sends an integer 'n' to 'n times the unit of R', and coercion of 'n' to an element of R can be performed simply as 'R !! n'. In order for this mechanism to work, subclasses must reimplement the messages #to: and #from: to answer canonical morphisms when such morphisms are known, and call super otherwise.
+More generally, canonical morphisms that are uniquely determined by their domain and codomain can be retrieved by sending the message #. This can be used for automatic coercion of elements between domains. For example, for any ring R, 'ZZ  R' returns the canonical ring homomorphism that sends an integer 'n' to 'n times the unit of R'. In order for this mechanism to work, subclasses must sometimes reimplement the messages #to: and #from: to answer canonical morphisms when such morphisms are known, and call super otherwise.
+
+There's also a very simple coercion mechanism that allows to convert elements from one domain to another via the message #!!. For example, the coercion of an integer 'n' to an element of any ring R can be performed simply as 'R !! n'. Subclasses must sometimes reimplement the message #!! to convert the argument when possible, and call super otherwise.
 
 References:
 	https://en.wikipedia.org/wiki/Algebraic_structure
@@ -5126,6 +5128,11 @@ adaptToCollection: rcvr andSend: selector
 isEvaluable
 	^ self isBlock! !
 
+!Object methodsFor: '*mathematics' stamp: 'len 5/25/2018 17:55:58'!
+isFractional
+	"Answer true if this is an element of a localization, i.e. if it is some kind of fraction and understands #numerator and #denominator."
+	^ false! !
+
 !Object methodsFor: '*mathematics' stamp: 'len 11/19/2015 17:01'!
 isInfinity
 	^ false! !
@@ -5283,6 +5290,11 @@ bitSize
 !Fraction methodsFor: '*mathematics' stamp: 'len 1/8/2017 16:37:12'!
 height
 	^ numerator abs max: denominator! !
+
+!Fraction methodsFor: '*mathematics' stamp: 'len 5/25/2018 17:56:24'!
+isFractional
+	"Answer true if this is an element of a localization, i.e. if it is some kind of fraction and understands #numerator and #denominator."
+	^ true! !
 
 !Fraction methodsFor: '*mathematics' stamp: 'len 11/19/2015 17:20'!
 isRational
@@ -5444,10 +5456,6 @@ factors
 height
 	self = 0 ifTrue: [^ 1].
 	^ self abs! !
-
-!Integer methodsFor: '*mathematics' stamp: 'len 2/14/2017 08:22:27'!
-is: aSymbol
-	^ aSymbol == #Fraction or: [aSymbol == #Integer or: [super is: aSymbol]]! !
 
 !Integer methodsFor: '*mathematics' stamp: 'len 12/11/2016 19:58:37'!
 isFundamentalDiscriminant
@@ -5862,6 +5870,10 @@ anyIfNone: aBlock
 !Collection methodsFor: '*mathematics' stamp: 'len 4/27/2018 01:29:32'!
 apply: aFunction
 	^ self collect: aFunction! !
+
+!Collection methodsFor: '*mathematics' stamp: 'len 5/25/2018 18:10:51'!
+atRandom: aRandom bits: bitSize
+	^ self atRandom: aRandom! !
 
 !Collection methodsFor: '*mathematics' stamp: 'len 1/30/2018 21:35:53'!
 atRandomBits: anInteger
@@ -12640,10 +12652,10 @@ atRandom: aRandom
 	self propertyAt: #elements ifPresent: [:aCollection| aCollection atRandom: aRandom].
 	^ self atRandom: aRandom bits: Infinity positive! !
 
-!Domain methodsFor: 'random' stamp: 'len 12/28/2016 11:19:13'!
+!Domain methodsFor: 'random' stamp: 'len 5/25/2018 18:12:30'!
 atRandom: aRandom bits: bitSize
 	"Answer an element of the receiver of at most n bits (as measured by #bitSize). The total number of elements that could be returned shouldn't exceed 2^n."
-	self propertyAt: #elements ifPresent: [:aCollection| ^ (aCollection is: #Domain) ifTrue: [aCollection atRandom: aRandom bits: bitSize] ifFalse: [aCollection atRandom: aRandom]].
+	self propertyAt: #elements ifPresent: [:aCollection| ^ aCollection atRandom: aRandom bits: bitSize].
 	^ self subclassResponsibility! !
 
 !Domain methodsFor: 'random' stamp: 'len 7/5/2016 02:29'!
@@ -12944,12 +12956,12 @@ postCopy
 	super postCopy.
 	properties _ properties copy! !
 
-!Domain methodsFor: 'printing' stamp: 'len 12/28/2016 11:22:07'!
+!Domain methodsFor: 'printing' stamp: 'len 5/25/2018 18:11:49'!
 printOn: aStream
 	"Subclasses should reimplement defaultPrintOn: instead of this method."
 	self propertyAt: #name ifPresent: [:aString| aStream nextPutAll: aString italic. ^ self].
 	self propertyAt: #elements ifPresent: [:aCollection|
-		(aCollection is: #Domain) ifTrue: [aStream print: aCollection. ^ self].
+		(aCollection isKindOf: Domain) ifTrue: [aStream print: aCollection. ^ self].
 		aStream nextPut: ${. "Wildberger notation for unordered sets: elements separated by spaces"
 		aCollection asSet do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: ' '].
 		aStream nextPut: $}.
@@ -14061,11 +14073,10 @@ additiveOperation
 adjointAction
 	^ GroupAction from: (self, self) to: self evaluatingWithArguments: [:x :y| self operation value: {self operation value: {x. y}. self inverseMap value: x}]! !
 
-!Group methodsFor: 'random' stamp: 'len 12/28/2016 11:27:21'!
+!Group methodsFor: 'random' stamp: 'len 5/25/2018 18:10:13'!
 atRandom: aRandom bits: bitSize
-	self propertyAt: #elements ifPresent: [:aCollection| ^ (aCollection is: #Domain) ifTrue: [aCollection atRandom: aRandom bits: bitSize] ifFalse: [aCollection atRandom: aRandom]].
-	self generators notNil
-		ifTrue: [^ (GroupRandomGenerator on: self random: aRandom) bits: bitSize; next].
+	self propertyAt: #elements ifPresent: [:aCollection| ^ aCollection atRandom: aRandom bits: bitSize].
+	self generators notNil ifTrue: [^ (GroupRandomGenerator on: self random: aRandom) bits: bitSize; next].
 	^ self subclassResponsibility! !
 
 !Group methodsFor: 'graphs' stamp: 'len 5/25/2016 03:44'!
@@ -16823,9 +16834,9 @@ shortName
 contains: anElement
 	^ ring isUnit: anElement! !
 
-!UnitGroup methodsFor: 'enumerating' stamp: 'len 5/12/2016 23:17'!
+!UnitGroup methodsFor: 'enumerating' stamp: 'len 5/25/2018 18:22:31'!
 do: aBlock
-	ring do: [:each| (self includes: each) ifTrue: [aBlock value: each]]! !
+	ring do: [:each| (ring isUnit: each) ifTrue: [aBlock value: each]]! !
 
 !UnitGroup methodsFor: 'accessing' stamp: 'len 4/10/2016 06:17'!
 identity
@@ -17550,10 +17561,6 @@ extensionDegree: anInteger
 	"Answer the algebraic extension of the receiver of the given degree. Choose any irreducible polynomial."
 	^ self extension: (self polynomials findIrreducibleOfDegree: anInteger)! !
 
-!Ring methodsFor: 'private' stamp: 'len 11/1/2016 00:33'!
-fractionClass
-	^ FormalFraction! !
-
 !Ring methodsFor: 'private' stamp: 'len 1/20/2018 18:12:11'!
 fractionalIdealClass
 	^ FractionalIdeal! !
@@ -17991,9 +17998,10 @@ scalars: aRing
 on: aGroup over: aRing
 	^ self new group: aGroup; scalars: aRing! !
 
-!LocalizationRing methodsFor: 'elements' stamp: 'len 5/19/2018 18:07:20'!
+!LocalizationRing methodsFor: 'elements' stamp: 'len 5/25/2018 17:36:46'!
 !! anObject
 	(self integers includes: anObject) ifTrue: [^ self embed: anObject].
+	anObject isEvaluable ifTrue: [self integers !! anObject]. "assuming integral elements are the same objects as for the integers ring, just like Smalltalk Integer and Fraction."
 	^ super !! anObject! !
 
 !LocalizationRing methodsFor: 'comparing' stamp: 'len 10/29/2016 10:16'!
@@ -18043,10 +18051,9 @@ atRandom: aRandom bits: bitSize
 characteristic
 	^ self integers characteristic! !
 
-!LocalizationRing methodsFor: 'morphisms' stamp: 'len 12/18/2016 21:12:16'!
+!LocalizationRing methodsFor: 'morphisms' stamp: 'len 5/25/2018 17:53:41'!
 embed: anObject
-	(self integers isKindOf: RationalIntegerRing) ifTrue: [^ anObject].
-	^ self integers fractionClass numerator: anObject denominator: self integers one! !
+	^ anObject! !
 
 !LocalizationRing methodsFor: 'morphisms' stamp: 'len 1/23/2018 21:29:01'!
 embedding
@@ -18079,9 +18086,9 @@ ideal
 ideal: anIdeal
 	self propertyAt: #ideal put: anIdeal! !
 
-!LocalizationRing methodsFor: 'testing' stamp: 'len 1/15/2018 19:03:37'!
+!LocalizationRing methodsFor: 'testing' stamp: 'len 5/25/2018 17:40:36'!
 includes: anObject
-	^ (anObject is: #Fraction) and: [(self ideal scalars includes: anObject numerator) and: [(self ideal includes: anObject denominator) not]]! !
+	^ (self integers includes: anObject) or: [anObject isFractional and: [(self integers includes: anObject numerator) and: [(self ideal includes: anObject denominator) not]]]! !
 
 !LocalizationRing methodsFor: 'accessing' stamp: 'len 1/15/2018 19:03:59'!
 integers
@@ -18167,11 +18174,11 @@ exampleZZLocalizedAt2
 fractions
 	^ self! !
 
-!FractionRing methodsFor: 'testing' stamp: 'len 5/18/2018 18:34:02'!
+!FractionRing methodsFor: 'testing' stamp: 'len 5/25/2018 17:47:54'!
 includes: anObject
-	(anObject isKindOf: FormalFraction)
-		ifTrue: [^ (self integers includes: anObject numerator) and: [self integers includes: anObject denominator]].
-	^ self integers includes: anObject! !
+	| R |
+	R _ self integers.
+	^ (R includes: anObject) or: [anObject isFractional and: [R includes: anObject numerator]]! !
 
 !FractionRing methodsFor: 'testing' stamp: 'len 10/31/2016 15:21'!
 isField
@@ -18339,6 +18346,14 @@ initialize
 	super initialize.
 	Smalltalk at: #QQ put: self new! !
 
+!RationalFunctionField methodsFor: 'elements' stamp: 'len 5/25/2018 16:23:29'!
+!! anObject
+	(anObject isKindOf: Polynomial)
+		ifTrue: [^ self integers !! anObject].
+	(anObject isKindOf: RationalFunction)
+		ifTrue: [^ self integers !! anObject numerator / (self integers !! anObject denominator)].
+	^ super !! anObject! !
+
 !RationalFunctionField methodsFor: 'morphisms' stamp: 'len 4/6/2018 23:42:36'!
 embed: aPolynomial
 	^ RationalFunction numerator: self integers !! aPolynomial denominator: self integers one! !
@@ -18349,12 +18364,6 @@ extension: aPolynomial
 	aPolynomial scalars = self ifFalse: [DomainError signal: 'polynomial coefficients not from this field'].
 	aPolynomial parent isUnivariate ifFalse: [DomainError signal: 'not univariate poylnomial'].
 	^ FunctionField polynomial: aPolynomial! !
-
-!RationalFunctionField methodsFor: 'testing' stamp: 'len 5/18/2018 18:33:11'!
-includes: anObject
-	(anObject isKindOf: RationalFunction)
-		ifTrue: [^ anObject numerator parent = self integers].
-	^ self integers includes: anObject! !
 
 !RationalFunctionField methodsFor: 'accessing' stamp: 'len 10/14/2016 22:59'!
 indeterminates
@@ -19770,10 +19779,6 @@ do: aBlock
 	i _ 1.
 	[ aBlock value: i; value: i negated. i _ i + 1 ] repeat! !
 
-!RationalIntegerRing methodsFor: 'private' stamp: 'len 11/1/2016 00:34'!
-fractionClass
-	^ Fraction! !
-
 !RationalIntegerRing methodsFor: 'operations' stamp: 'len 7/15/2016 18:31'!
 fractions
 	^ QQ! !
@@ -20548,10 +20553,6 @@ findIrreducibleOfDegree: n
 	random _ Random new.
 	[(p _ self atRandom: random maxDegree: n) degree = n and: [p isIrreducible]] whileFalse.
 	^ p! !
-
-!PolynomialRing methodsFor: 'private' stamp: 'len 11/1/2016 00:36'!
-fractionClass
-	^ RationalFunction! !
 
 !PolynomialRing methodsFor: 'operations' stamp: 'len 12/24/2017 22:16:25'!
 fractions
@@ -21931,10 +21932,10 @@ isPrime
 	self isPrincipal ifTrue: [^ self generator isIrreducible].
 	^ self notYetImplemented! !
 
-!PolynomialIdeal methodsFor: 'testing' stamp: 'len 2/12/2017 07:40:26'!
+!PolynomialIdeal methodsFor: 'testing' stamp: 'len 5/26/2018 19:40:13'!
 isPrincipal
 	"Answer true if the receiver is generated by a single polynomial."
-	^ self basis reduced size <= 1! !
+	^ self scalars isPID or: [self generators size = 1 or: [self basis reduced size <= 1]]! !
 
 !PolynomialIdeal methodsFor: 'testing' stamp: 'len 10/20/2016 05:55'!
 isTrivial
@@ -25519,12 +25520,12 @@ G12
 			(0,0,0,0,1,0, 1,2,2,1,0,1) % 3.
 			(0,0,0,0,0,1, 1,1,2,2,1,0) % 3})! !
 
-!LinearCode class methodsFor: 'examples' stamp: 'len 12/2/2016 11:11:11'!
+!LinearCode class methodsFor: 'examples' stamp: 'len 5/25/2018 18:43:29'!
 G24
 	"Answer the extended binary Golary code [24,12,8].
 	Its generator matrix is I|A, where I is the 12x12 identity matrix and A is the complement of the adjacency matrix of the icosahedron."
 	| F A |
-	F _ ZZ / 2.
+	F _ ZZ/2.
 	A _ Graph icosahedron adjacencyMatrix: (1 to: 12).
 	A _ A apply: (Function from: A scalars to: F evaluating: [:x| x = 0 ifTrue: [F one] ifFalse: [F zero]]).
 	^ self matrix: A identity | A! !
@@ -25574,10 +25575,10 @@ simplex
 subspace: aLinearSubspace
 	^ self new subspace: aLinearSubspace! !
 
-!LinearCode class methodsFor: 'examples' stamp: 'len 10/18/2016 20:59'!
+!LinearCode class methodsFor: 'examples' stamp: 'len 5/25/2018 18:44:12'!
 tetracode
 	"Answer the tetracode, a self dual code of minimum distance 3."
-	^ self subspace: ((PrimeField new: 3) ^ 4 span: {(1,1,1,0) % 3. (0,1,2,1) % 3})! !
+	^ self subspace: ((ZZ/3)^4 span: {(1,1,1,0) % 3. (0,1,2,1) % 3})! !
 
 !CyclicCode2 methodsFor: 'converting' stamp: 'len 10/29/2016 08:28'!
 asIdeal
@@ -25630,14 +25631,10 @@ includes: aCodeword
 isIrreducible
 	^ generator isIrreducible! !
 
-!CyclicCode2 class methodsFor: 'examples-todo' stamp: 'len 10/18/2016 20:57'!
+!CyclicCode2 class methodsFor: 'examples-todo' stamp: 'len 5/25/2018 18:47:57'!
 H7
 	"Answer the Hamming code of length 7."
-	| F Fx x |
-	F _ PrimeField new: 2.
-	Fx _ F polynomials.
-	x _ Fx x.
-	^ self new: 7 generator: x^3 + x + 1! !
+	^ self new: 7 generator: (ZZ/2) polynomials !! [:x| x^3 + x + 1]! !
 
 !CyclicCode2 class methodsFor: 'instance creation' stamp: 'len 5/18/2016 07:20'!
 new: n generator: aPolynomial
@@ -25683,25 +25680,17 @@ rank
 size
 	^ generator parent scalars size ^ (self length - generator degree)! !
 
-!PolynomialCode class methodsFor: 'examples' stamp: 'len 10/18/2016 21:01'!
+!PolynomialCode class methodsFor: 'examples' stamp: 'len 5/25/2018 18:46:50'!
 G23
 	"Answer the perfect binary Golay code [23,12,7]."
-	| F Fx x g |
-	F _ PrimeField new: 2.
-	Fx _ F polynomials.
-	x _ Fx x.
-	g _ x^11 + (x^10) + (x^6) + (x^5) + (x^4) + (x^2) + Fx one.
+	| g |
+	g _ (ZZ/2) polynomials !! [:x| x^11 + (x^10) + (x^6) + (x^5) + (x^4) + (x^2) + 1].
 	^ self new: 23 generator: g! !
 
-!PolynomialCode class methodsFor: 'examples' stamp: 'len 10/18/2016 21:01'!
+!PolynomialCode class methodsFor: 'examples' stamp: 'len 5/25/2018 18:47:12'!
 H7
 	"Answer the Hamming code [7,4,3]."
-	| F Fx x g |
-	F _ PrimeField new: 2.
-	Fx _ F polynomials.
-	x _ Fx x.
-	g _ x^3 + x + Fx one.
-	^ self new: 7 generator: g! !
+	^ self new: 7 generator: (ZZ/2) polynomials !! [:x| x^3 + x + 1]! !
 
 !PolynomialCode class methodsFor: 'instance creation' stamp: 'len 5/12/2016 07:42'!
 generator: aPolynomial
@@ -31908,9 +31897,10 @@ denominator
 hash
 	^ 0! !
 
-!FormalFraction methodsFor: 'testing' stamp: 'len 2/14/2017 08:22:17'!
-is: aSymbol
-	^ aSymbol == #Fraction or: [super is: aSymbol]! !
+!FormalFraction methodsFor: 'testing' stamp: 'len 5/25/2018 17:56:07'!
+isFractional
+	"Answer true if this is an element of a localization, i.e. if it is some kind of fraction and understands #numerator and #denominator."
+	^ true! !
 
 !FormalFraction methodsFor: 'testing' stamp: 'len 11/28/2015 06:36'!
 isZero
@@ -32148,6 +32138,10 @@ numerator: aPolynomial denominator: anotherPolynomial
 / aProductRingElement
 	^ self * aProductRingElement reciprocal! !
 
+!ProductRingElement methodsFor: 'as yet unclassified' stamp: 'len 5/25/2018 18:50:31'!
+= anObject
+	^ anObject class = self class and: [anObject components = components]! !
+
 !ProductRingElement methodsFor: 'accessing' stamp: 'len 5/22/2018 16:10:21'!
 at: anInteger
 	^ components at: anInteger! !
@@ -32159,6 +32153,10 @@ components
 !ProductRingElement methodsFor: 'private' stamp: 'len 5/22/2018 16:10:02'!
 components: anArray
 	components _ anArray! !
+
+!ProductRingElement methodsFor: 'as yet unclassified' stamp: 'len 5/25/2018 18:50:35'!
+hash
+	^ components hash! !
 
 !ProductRingElement methodsFor: 'testing' stamp: 'len 5/22/2018 16:24:16'!
 isZero
@@ -33876,6 +33874,23 @@ parent
 	"Answer the tuple module where the receiver lives."
 	^ self scalars ^ self size! !
 
+!Tuple methodsFor: 'operations' stamp: 'len 5/26/2018 17:40:04'!
+polynomialDivisionBy: aTuple
+	| quo rem lc n m |
+	aTuple isZero ifTrue: [^ (ZeroDivide dividend: self) signal].
+	quo _ self zero.
+	rem _ self copy.
+	m _ aTuple lastNonZero. "m = degree(self)+1"
+	lc _ aTuple at: m.
+	[(n _ rem lastNonZero) >= m] "n = degree(rem)+1"
+		whileTrue:
+			[| i c |
+			i _ n-m+1.
+			c _ (rem at: n) / lc.
+			quo at: i put: (quo at: i) + c.
+			1 to: m do: [:j| rem at: j+i-1 put: (rem at: j+i-1) - ((aTuple at: j)*c)]].
+	^ {quo. rem}! !
+
 !Tuple methodsFor: 'operations' stamp: 'len 11/23/2016 05:43:12'!
 polynomialValue: anObject
 	"Evaluate the receiver (as an univariate polynomial) at the given argument using Horner's method."
@@ -33959,6 +33974,10 @@ y
 !Tuple methodsFor: 'accessing' stamp: 'len 3/29/2016 19:06'!
 z
 	^ self at: 3! !
+
+!Tuple methodsFor: 'accessing' stamp: 'len 5/26/2018 17:35:54'!
+zero
+	^ self apply: [:each| each zero]! !
 
 !BitTuple methodsFor: 'operations' stamp: 'len 3/29/2016 06:16'!
 * aBit
@@ -34523,6 +34542,26 @@ negated
 	modulus _ scalars modulus.
 	1 to: self size do: [:i| array at: i put: (array at: i) negated \\ modulus].
 	^ self class representatives: array over: scalars! !
+
+!ModularTuple methodsFor: 'operations' stamp: 'len 5/26/2018 17:54:17'!
+polynomialDivisionBy: aTuple
+	| quo rem lcInv n m b modulus |
+	aTuple isZero ifTrue: [^ (ZeroDivide dividend: self) signal].
+	quo _ self zero.
+	rem _ self copy.
+	m _ aTuple lastNonZero. "m = degree(self)+1"
+	lcInv _ (aTuple at: m) reciprocal.
+	b _ aTuple representatives.
+	modulus _ self modulus.
+	[(n _ rem lastNonZero) >= m] "n = degree(rem)+1"
+		whileTrue:
+			[| i c r |
+			i _ n-m+1.
+			c _ ((rem at: n) * lcInv) representative.
+			quo at: i put: (quo at: i) + c.
+			r _ rem representatives.
+			1 to: m do: [:j| r at: j+i-1 put: (r at: j+i-1) - ((b at: j)*c) \\ modulus]].
+	^ {quo. rem}! !
 
 !ModularTuple methodsFor: 'operations' stamp: 'len 12/1/2016 16:45:01'!
 polynomialValue: anObject
@@ -35125,12 +35164,15 @@ dot: aMatrix
 		matrix: self height @ aMatrix width
 		evaluating: [:i :j| (rows at: i) dot: (columns at: j)]! !
 
-!Matrix methodsFor: 'arithmetic' stamp: 'len 4/5/2018 15:30:42'!
+!Matrix methodsFor: 'arithmetic' stamp: 'len 5/24/2018 22:54:56'!
 dotProductWithTuple: aTuple
 	(self height = 0 or: [self width = aTuple size])
 		ifFalse: [^ DomainError signal: 'dimensions don''t match'].
-	self scalars >= aTuple scalars ifFalse: [^ DomainError signal: 'base rings don''t match'].
-	^ self scalars tuple: self height evaluating: [:i| (self rowAt: i) dot: aTuple]! !
+	self scalars >= aTuple scalars
+		ifTrue: [^ self scalars tuple: self height evaluating: [:i| (self rowAt: i) dot: aTuple]].
+	self scalars <= aTuple scalars
+		ifTrue: [^ aTuple scalars tuple: self height evaluating: [:i| (self rowAt: i) dot: aTuple]].
+	^ DomainError signal: 'base rings don''t match'! !
 
 !Matrix methodsFor: 'reduction' stamp: 'len 3/18/2018 16:17:54'!
 echelon
@@ -38145,10 +38187,12 @@ printCoefficient: coefficient on: aStream
 		ifTrue: [aStream print: c. ^ self].
 	aStream nextPut: $(; print: c; nextPut: $)! !
 
-!Polynomial methodsFor: 'printing' stamp: 'len 5/2/2018 18:23:29'!
+!Polynomial methodsFor: 'printing' stamp: 'len 5/25/2018 16:10:16'!
 printOn: aStream
 	| monomials leadingMonomial c |
 	self isBroken ifTrue: [aStream nextPutAll: '(broken) '].
+	(self scalars isKindOf: ModularIntegerRing)
+		ifTrue: [self lift printOn: aStream. ^ self].
 	self isConstant ifTrue: [aStream print: self leadingCoefficient. ^ self].
 	monomials _ self monomials asSortedCollection reversed.
 	c _ self at: (leadingMonomial _ monomials first).
@@ -38700,13 +38744,14 @@ parts: aCollection
 >> anInteger
 	^ self << anInteger negated! !
 
-!UnivariatePolynomial methodsFor: 'arithmetic' stamp: 'len 4/24/2018 19:38:47'!
+!UnivariatePolynomial methodsFor: 'arithmetic' stamp: 'len 5/26/2018 17:40:00'!
 \\ anObject
 	"Answer the remainder of the division of the receiver by the argument."
 
 	(self scalars includes: anObject)
 		ifTrue: [^ self parent coefficients: self coefficients \\ anObject].
-	^ (self divisionBy: anObject) remainder! !
+	^ self parent coefficients: (self coefficients polynomialDivisionBy: anObject coefficients) last
+	"^ (self divisionBy: anObject) remainder"! !
 
 !UnivariatePolynomial methodsFor: 'roots-private' stamp: 'len 4/29/2018 18:25:23'!
 allComplexRoots
@@ -38887,21 +38932,23 @@ discriminant0
 	n _ self degree.
 	^ (-1) ^ (n*(n-1)/2) / (self leadingCoefficient ^ (2*n-1)) * (self resultant: self derivative)! !
 
-!UnivariatePolynomial methodsFor: 'factorization' stamp: 'len 4/16/2018 20:21:04'!
+!UnivariatePolynomial methodsFor: 'factorization' stamp: 'len 5/26/2018 16:35:31'!
 distinctDegreeFactorization
-	"Answer the distinct-degree factorization of a monic square-free polynomial.
+	"Answer the distinct-degree factorization of a monic square-free polynomial over a finite field.
 	The factorizations is a Dictionary d -> g, where g is the product of all irreducible factors of degree d."
-	| answer i f f2 one q x |
+	| answer i f f2 one q x R h |
 	answer _ Dictionary new.
 	f _ self.
-	x _ f parent x.
-	one _ f parent one.
-	q _ f parent scalars size.
+	R _ f parent.
+	x _ R x.
+	one _ R one.
+	q _ R scalars size.
 	i _ 1.
 	f2 _ f.
+	h _ x.
 	[f2 degree >= (2*i)]
 		whileTrue:
-			[ | g | g _ f2 gcd: (x raisedTo: q^i modulo: f2) - x.
+			[ | g | g _ f2 gcd: (h _ h raisedTo: q modulo: f2) - x.
 			g ~= one ifTrue: [answer at: i put: g. f2 _ f2 // g].
 			i _ i + 1].
 	f2 ~= one ifTrue: [answer at: f2 degree put: f2].
@@ -40229,6 +40276,30 @@ divide: aPolynomial by: anotherPolynomial
 	dividend _ aPolynomial.
 	divisor _ anotherPolynomial! !
 
+!PolynomialDivision methodsFor: 'private' stamp: 'len 5/26/2018 16:57:26'!
+divideNoQuotient
+	"Compute the remainder polynomial."
+	| rem lc n m term |
+	divisor isZero ifTrue: [^ (ZeroDivide dividend: dividend) signal].
+	(m _ divisor degree) = 0
+		ifTrue: [quotient _ dividend * divisor leadingCoefficient reciprocal.
+					remainder _ dividend zero.
+					^ self].
+	dividend degree < m
+		ifTrue: [quotient _ dividend zero. remainder _ dividend.
+					^ self].
+"	indeterminate _ divisor leadingIndeterminate."
+	rem _ dividend copy.
+	lc _ divisor leadingCoefficient.
+	[(n _ rem degree) >= m]
+		whileTrue:
+			[term _ dividend parent coefficient: rem leadingCoefficient / lc degree: n-m.
+			rem _ rem + (divisor * term negated).
+			"or optimized as:
+			divisor monomialsAndCoefficientsDo: [:key :value|
+				rem coefficientAt: key * monomial add: value * minusC]."].
+	remainder _ rem! !
+
 !PolynomialDivision methodsFor: 'accessing' stamp: 'len 12/2/2015 02:43'!
 dividend
 	^ dividend! !
@@ -40260,9 +40331,9 @@ quotient
 	quotient isNil ifTrue: [self divide].
 	^ quotient! !
 
-!PolynomialDivision methodsFor: 'accessing' stamp: 'len 12/6/2015 06:19'!
+!PolynomialDivision methodsFor: 'accessing' stamp: 'len 5/26/2018 16:55:14'!
 remainder
-	remainder isNil ifTrue: [self divide].
+	remainder isNil ifTrue: [self divideNoQuotient].
 	^ remainder! !
 
 !PolynomialDivision class methodsFor: 'instance creation' stamp: 'len 1/23/98 16:03'!
