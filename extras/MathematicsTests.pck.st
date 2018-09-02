@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 27 May 2018 at 2:21:53 am'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 2 September 2018 at 9:59:55 pm'!
 'Description Please enter a description for this package'!
-!provides: 'MathematicsTests' 1 106!
+!provides: 'MathematicsTests' 1 107!
 !classDefinition: #AbelianGroupTest category: #MathematicsTests!
 TestCase subclass: #AbelianGroupTest
 	instanceVariableNames: ''
@@ -303,7 +303,7 @@ IntegersBenchmark class
 
 !classDefinition: #ModularMatrixBenchmark category: #MathematicsTests!
 Benchmark subclass: #ModularMatrixBenchmark
-	instanceVariableNames: 'matrix'
+	instanceVariableNames: 'field matrix'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'MathematicsTests'!
@@ -2839,6 +2839,13 @@ testGroupLaw
 	self assert: P+O = P.
 	self assert: P-P = O! !
 
+!EllipticCurvesTest methodsFor: 'as yet unclassified' stamp: 'len 8/27/2018 22:15:43'!
+testPointAtX
+	| E p |
+	E _ EllipticCurve secp256k1.
+	p _ E scalars modulus.
+	10 count: [(E pointsAtX: p atRandom) allSatisfy: [:each| E satisfies: each coordinates]]! !
+
 !EllipticCurvesTest methodsFor: 'as yet unclassified' stamp: 'len 11/9/2016 07:30'!
 testWeierstrassEquationInvariants
 	| W |
@@ -3365,7 +3372,7 @@ testTrivial
 	self assert: G size = 1.
 	self assert: G isTrivial! !
 
-!LatticeTest methodsFor: 'as yet unclassified' stamp: 'len 5/20/2018 15:58:28'!
+!LatticeTest methodsFor: 'as yet unclassified' stamp: 'len 6/2/2018 18:06:30'!
 testE8
 	| E8 a |
 	E8 _ Lattice E8.
@@ -3374,6 +3381,7 @@ testE8
 	self assert: (a sum isInteger and: [a sum even]).
 	self assert: E8 isIntegral.
 	self assert: E8 isUnimodular.
+	self assert: E8 isEven.
 	self assert: E8 isSelfDual! !
 
 !LatticeTest methodsFor: 'as yet unclassified' stamp: 'len 12/7/2017 20:45:47'!
@@ -3425,6 +3433,20 @@ testLatticeDual2
 	self assert: (L ambient span: L basis) = (R ambient span: R basis).
 	self assert: L determinant = (1 / R determinant).
 	self assert: (R matrix * L matrix transposed) isIdentity! !
+
+!LatticeTest methodsFor: 'as yet unclassified' stamp: 'len 6/2/2018 18:27:04'!
+testLeech
+	| L |
+	L _ Lattice leech.
+"	a _ L atRandomBits: 100.
+	self assert: ((a allSatisfy: [:x| x isInteger]) or: [a allSatisfy: [:x| x isInteger not and: [(x*2) isInteger]]]).
+	self assert: (a sum isInteger and: [a sum even])."
+	self assert: L determinant = 1.
+	self assert: L kissingNumber = 196560.
+	self assert: L minimalNorm = 4.
+	self assert: L isIntegral.
+	self assert: L isUnimodular.
+	self assert: L isEven! !
 
 !LinearGroupsTest methodsFor: 'as yet unclassified' stamp: 'len 8/26/2016 06:03'!
 testGeneralLinearAtRandom
@@ -3803,6 +3825,32 @@ testRealIntervalIntersects
 	self assert: (I intersects: J).
 	J _ RealInterval closed: -2 closed: -1.
 	self assert: (I intersects: J) not! !
+
+!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 6/9/2018 23:36:44'!
+testSmallPrimeField
+	| p F E |
+	p _ 20 atRandom nextPrime.
+	F _ ZZ/p.
+	E _ SmallPrimeField new: p.
+	F do: [:a|
+		F do: [:b| | c d |
+			c _ E !! a representative.
+			d _ E !! b representative.
+			self assert: (a+b) representative = (c+d) representative.
+			self assert: (a-b) representative = (c-d) representative.
+			self assert: (a*b) representative = (c*d) representative.
+			b isZero ifFalse:
+				[self assert: (a/b) representative = (c/d) representative.
+				self assert: b reciprocal representative = d reciprocal representative]]]! !
+
+!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 9/2/2018 21:43:27'!
+testSmallPrimeFieldTables
+	| p F g |
+	p _ 20 atRandom nextPrime.
+	F _ SmallPrimeField new: p.
+	g _ F primitiveRoot.
+	1 to: p-1 do: [:n| self assert: (F expTable at: n) = (g^n) representative].
+	0 to: p-2 do: [:n| self assert: (F logTable at: (g^n) representative) = n]! !
 
 !MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 12/29/2016 08:24:12'!
 testSquareRootModp
@@ -5173,12 +5221,53 @@ testTensorProductCommutativity
 	W _ QQ ^ 4.
 	self assert: V ’ W ~ (W ’ V)! !
 
+!ModuleTest methodsFor: 'tensor product' stamp: 'len 6/9/2018 18:17:21'!
+testTensorProductComposition
+	self notYetImplemented! !
+
 !ModuleTest methodsFor: 'other' stamp: 'len 12/19/2017 20:09:11'!
 testTensorProductDimension
 	| V1 V2 |
 	V1 _ QQ ^ 5 atRandom.
 	V2 _ QQ ^ 5 atRandom.
 	self assert: (V1 ’ V2) dimension = (V1 dimension * V2 dimension)! !
+
+!ModuleTest methodsFor: 'tensor product' stamp: 'len 6/3/2018 19:50:30'!
+testTensorProductDualHomIsomorphism
+	| V W A B phi |
+	V _ self newVectorSpace.
+	W _ self newFreeModuleOver: V scalars.
+	A _ V dual ’ W.
+	B _ V hom: W.
+	self assert: A ~ B.
+	phi _ A to: B evaluating: [:t| B evaluating: [:v| t second * (t first value: v)]].
+	self testLinearMap: phi.
+	self assert: phi isIsomorphism! !
+
+!ModuleTest methodsFor: 'tensor product' stamp: 'len 6/3/2018 19:53:46'!
+testTensorProductDualIsomorphism
+	| V W A B phi |
+	V _ self newVectorSpace.
+	W _ self newFreeModuleOver: V scalars.
+	A _ V dual ’ W dual.
+	B _ (V ’ W) dual.
+	self assert: A ~ B.
+	phi _ A to: B evaluating: [:s| B evaluating: [:t| (s first value: t first) * (s second value: t second)]].
+	self testLinearMap: phi.
+	self assert: phi isIsomorphism! !
+
+!ModuleTest methodsFor: 'tensor product' stamp: 'len 6/3/2018 19:45:30'!
+testTensorProductHomIsomorphism
+	| V W U A B phi |
+	V _ self newVectorSpace.
+	W _ self newFreeModuleOver: V scalars.
+	U _ self newFreeModuleOver: V scalars.
+	A _ V’W hom: U.
+	B _ V hom: (W hom: U).
+	self assert: A ~ B.
+	phi _ A to: B evaluating: [:f| B evaluating: [:v| (W to: U) evaluating: [:w| f value: v’w]]].
+	self testLinearMap: phi.
+	self assert: phi isIsomorphism! !
 
 !ModuleTest methodsFor: 'other' stamp: 'len 12/17/2017 22:31:20'!
 testTensorProductOfLinearForms
@@ -5190,6 +5279,24 @@ testTensorProductOfLinearForms
 	t _ f ’ g.
 	v _ W domain atRandomBits: 10.
 	self assert: (t value: v) = ((f value: v) * (g value: v))! !
+
+!ModuleTest methodsFor: 'tensor product' stamp: 'len 6/3/2018 22:56:49'!
+testTensorProductRelations
+	| V W T v v1 v2 w w1 w2 c |
+	V _ self newVectorSpace.
+	W _ self newFreeModuleOver: V scalars.
+	T _ V ’ W.
+	v _ V atRandomBits: 100.
+	v1 _ V atRandomBits: 100.
+	v2 _ V atRandomBits: 100.
+	w _ W atRandomBits: 100.
+	w1 _ W atRandomBits: 100.
+	w2 _ W atRandomBits: 100.
+	c _ V scalars atRandomBits: 100.
+	self assert: (T !! {v1. w}) + (T !! {v2. w}) = (T !! {v1 + v2. w}).
+	self assert: (T !! {v. w1}) + (T !! {v. w2}) = (T !! {v. w1 + w2}).
+	self assert: (T !! {v. w})*c = (T !! {v*c. w}).
+	self assert: (T !! {v. w})*c = (T !! {v. w*c})! !
 
 !ModuleTest methodsFor: 'isomorphisms' stamp: 'len 5/2/2018 17:33:15'!
 testThirdIsomorphismTheorem: M
@@ -6543,20 +6650,20 @@ testAsPolynomial
 	self assert: (Q value: p) = (f value: p).
 	self assert: (f degree = 2 and: [f isHomogeneous])! !
 
-!QuadraticFormTest methodsFor: 'as yet unclassified' stamp: 'len 3/27/2018 23:38:34'!
+!QuadraticFormTest methodsFor: 'as yet unclassified' stamp: 'len 6/3/2018 18:33:33'!
 testAssociatedBilinearForm
 	"Example from Sage."
 	| Q B |
 	Q _ QuadraticForm coefficients: ((1,4,0,1,4,1) over: ZZ).
-	B _ Q asBilinearForm.
+	B _ Q associatedBilinearForm.
 	self assert: (B value: {(1,2,0) over: ZZ. (0,1,1) over: ZZ}) = 8! !
 
-!QuadraticFormTest methodsFor: 'as yet unclassified' stamp: 'len 3/27/2018 23:30:25'!
+!QuadraticFormTest methodsFor: 'as yet unclassified' stamp: 'len 6/3/2018 18:33:42'!
 testAssociatedBilinearForm2
 	"Example from Sage."
 	| Q B |
 	Q _ QuadraticForm coefficients: (1/2, 2, 1).
-	B _ Q asBilinearForm.
+	B _ Q associatedBilinearForm.
 	self assert: (B value: {(1,1). (1/2,2)}) = (19/4)! !
 
 !QuadraticFormTest methodsFor: 'as yet unclassified' stamp: 'len 3/27/2018 23:47:33'!
@@ -6768,6 +6875,30 @@ testPolynomialRingPrimeNotMaximalIdeal2
 	I _ R * R x.
 	self assert: I isPrime.
 	self assert: I isMaximal not! !
+
+!RingTest methodsFor: 'finite rings' stamp: 'len 6/10/2018 00:39:19'!
+testPrimeFieldLogarithm
+	| F g a b p |
+	p _ 17.
+	F _ ZZ/p.
+	g _ F primitiveRoot.
+	[(a _ F atRandom) isZero] whileTrue.
+	[(b _ F atRandom) isZero] whileTrue.
+	self assert: g ^ (a log: g) = a.
+	self assert: (a log: g) + (b log: g) \\ (p-1) = ((a*b log: g) \\ (p-1)).
+	self assert: (a log: g) - (b log: g) \\ (p-1) = ((a/b log: g) \\ (p-1))! !
+
+!RingTest methodsFor: 'finite rings' stamp: 'len 6/11/2018 06:39:22'!
+testPrimeFieldPrimitiveRoot
+	| p F g i x |
+	p _ 100 atRandom nextPrime.
+	F _ ZZ/p.
+	g _ F primitiveRoot.
+	self assert: g multiplicativeOrder = (p-1).
+	i _ 1.
+	x _ g.
+	[x = F one] whileFalse: [x _ x*g. i _ i+1].
+	self assert: i = (p-1)! !
 
 !RingTest methodsFor: 'finite rings' stamp: 'len 5/22/2018 03:58:25'!
 testPrimeRing
@@ -7511,13 +7642,16 @@ testM12Order
 test1000Factorial
 	1000 factorial! !
 
-!ModularMatrixBenchmark methodsFor: 'as yet unclassified' stamp: 'len 12/1/2016 18:30:09'!
+!ModularMatrixBenchmark methodsFor: 'as yet unclassified' stamp: 'len 6/9/2018 20:09:17'!
+field: aField
+	field _ aField! !
+
+!ModularMatrixBenchmark methodsFor: 'as yet unclassified' stamp: 'len 6/9/2018 20:08:36'!
 setUp
-	| random F |
+	| random |
 	random _ Random seed: 1234.
-	F _ ZZ/32003.
-"	F _ SmallPrimeField new: 32003."
-	matrix _ F matrix: 300@300 evaluating: [:i :j| F atRandom: random]! !
+	field isNil ifTrue: [field _ 	ZZ/32003].
+	matrix _ field matrix: 300@300 evaluating: [:i :j| field atRandom: random]! !
 
 !ModularMatrixBenchmark methodsFor: 'as yet unclassified' stamp: 'len 11/22/2016 11:55:20'!
 testAddition
