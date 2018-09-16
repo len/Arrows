@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 2 September 2018 at 9:59:55 pm'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 16 September 2018 at 11:31:19 pm'!
 'Description Please enter a description for this package'!
-!provides: 'MathematicsTests' 1 107!
+!provides: 'MathematicsTests' 1 108!
 !classDefinition: #AbelianGroupTest category: #MathematicsTests!
 TestCase subclass: #AbelianGroupTest
 	instanceVariableNames: ''
@@ -1140,7 +1140,7 @@ testAffineSubspaceParallelism
 	self deny: A || C.
 	self deny: B || C! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 5/22/2018 22:46:21'!
+!AlgebraicGeometryTest methodsFor: 'affine' stamp: 'len 5/22/2018 22:46:21'!
 testAffinePlaneCurveMultiplicity
 	| A C |
 	A _ AffineSpace new: #(x y) over: QQ.
@@ -1148,7 +1148,7 @@ testAffinePlaneCurveMultiplicity
 	self assert: (C multiplicityAt: (1,1)) = 1.
 	self assert: (C multiplicityAt: (0,0)) = 2! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 1/5/2018 10:16:11'!
+!AlgebraicGeometryTest methodsFor: 'affine' stamp: 'len 1/5/2018 10:16:11'!
 testAffineSchemeCartesianProduct
 	| X1 X2 P |
 	X1 _ AffineVariety circle.
@@ -1161,7 +1161,7 @@ testAffineSchemeCartesianProduct
 	self assert: (X1 pointsCountOver: ZZ/3) * (X2 pointsCountOver: ZZ/3) = (P pointsCountOver: ZZ/3).
 	self assert: (P satisfies: (5,2,6,2,6) % 7)! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/12/2016 20:56'!
+!AlgebraicGeometryTest methodsFor: 'affine' stamp: 'len 10/12/2016 20:56'!
 testAffineSchemeCreation
 	| A x y z X Y |
 	A _ AffineSpace new: 3 over: QQ.
@@ -1174,7 +1174,7 @@ testAffineSchemeCreation
 	"Y is defined as subscheme of X, so it contains the equations of X plus the two new equations, but its ambient space is still A (not X):"
 	self assert: Y ambient = A! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/18/2016 20:58'!
+!AlgebraicGeometryTest methodsFor: 'affine' stamp: 'len 10/18/2016 20:58'!
 testAffineSpace
 	| K A |
 	K _ PrimeField new: 23.
@@ -1185,7 +1185,21 @@ testAffineSpace
 	self assert: A ambient = A.
 	self assert: A coordinateRing spec = A! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 1/12/2017 15:40:09'!
+!AlgebraicGeometryTest methodsFor: 'conics' stamp: 'len 9/3/2018 21:55:50'!
+testConicCoefficients
+	self assert: (Conic coefficients: (1,2,3,4,5,6)) coefficients = (1,2,3,4,5,6).
+	self assert: (Conic polynomial: (QQ polynomialsIn: 3) !! [:x :y :z| x^2 + (x*y*5) + (y^2) + (z^2)]) coefficients = (1,5,0,1,0,1)! !
+
+!AlgebraicGeometryTest methodsFor: 'conics' stamp: 'len 9/3/2018 21:37:52'!
+testConicDeterminant
+	self assert: (Conic coefficients: (1,2,3,4,5,6)) determinant = (41/4)! !
+
+!AlgebraicGeometryTest methodsFor: 'conics' stamp: 'len 9/3/2018 20:32:51'!
+testConicIsSmooth
+	self assert: (Conic coefficients: (1,-1,0)) isSmooth not.
+	self assert: (Conic coefficients: (1,1,1,1,1,0) % 2) isSmooth! !
+
+!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 1/12/2017 15:40:09'!
 testDifference
 	| A x y C X2 D O |
 	A _ AffineSpace new: 2 over: QQ.
@@ -1200,7 +1214,7 @@ testDifference
 	self assert: D = C.
 	self assert: (C - A) isEmpty "removing the ambient space removes all"! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/25/2016 14:09'!
+!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 10/25/2016 14:09'!
 testEllipticCurvesAreSmooth
 	| R x y C |
 	R _ QQ polynomialsIn: #(x y z).
@@ -1213,14 +1227,14 @@ testEllipticCurvesAreSmooth
 	C _ R / (x^3 - x - (y^2) homogenizedIn: 3) :: proj.
 	self assert: C isSmooth! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/15/2016 09:59'!
+!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 10/15/2016 09:59'!
 testEmpty
 	| A X |
 	A _ QQ polynomialsIn: #(x y z).
 	X _ A / {A continuantOfOrder: 2. A continuantOfOrder: 3} :: spec.
 	self assert: X isEmpty! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 3/7/2017 07:20:06'!
+!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 3/7/2017 07:20:06'!
 testEqualVarietiesDifferentIdeals
 	| A x I I2 V V2 |
 	A _ QQ polynomials.
@@ -1232,7 +1246,7 @@ testEqualVarietiesDifferentIdeals
 	self assert: V = V2.
 	self assert: I ~= I2! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 3/7/2017 07:20:25'!
+!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 3/7/2017 07:20:25'!
 testEqualVarietiesDifferentIdeals2
 	| A x y I I2 V V2 |
 	A _ QQ polynomialsIn: #(x y).
@@ -1245,7 +1259,7 @@ testEqualVarietiesDifferentIdeals2
 	self assert: V = V2.
 	self assert: I ~= I2! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/15/2016 09:55'!
+!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 10/15/2016 09:55'!
 testFinite
 	| A x y X |
 	A _ QQ polynomialsIn: #(x y).
@@ -1254,7 +1268,7 @@ testFinite
 	X _ A / {x*x - 1. y*y - (x*x) - 3} :: spec.
 	self assert: X isFinite! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 3/7/2017 07:21:16'!
+!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 3/7/2017 07:21:16'!
 testIntersection
 	| A x y V V2 W |
 	A _ QQ polynomialsIn: #(x y).
@@ -1266,7 +1280,7 @@ testIntersection
 	self assert: (W satisfies: (1, 0)).
 	self assert: (W satisfies: (0, 1)) not! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 1/13/2017 17:29:15'!
+!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 1/13/2017 17:29:15'!
 testLinearSubspaceAsAlgebraicVariety
 	| S V |
 	S _ QQ ^ 3 grassmannian: 2 :: atRandomBits: 10.
@@ -1275,7 +1289,7 @@ testLinearSubspaceAsAlgebraicVariety
 	self assert: (V satisfies: (S e: 1)).
 	self assert: (V satisfies: (S e: 2))! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 2/10/2017 19:10:14'!
+!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 2/10/2017 19:10:14'!
 testLocalAndGlobalDimension
 	"'A Singluar Introduction to Commutative Algebra', Example A.8.4 (local and global dimension)."
 	| R I X |
@@ -1287,7 +1301,7 @@ testLocalAndGlobalDimension
 	self assert: (X !! (1,0,0)) localRing dimension = 2. "dimension of X at (1,0,0)"
 	self assert: (X !! (0,0,1)) localRing dimension = 1. "dimension of X at (0,0,1)"! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 5/17/2018 18:48:59'!
+!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 5/17/2018 18:48:59'!
 testMorphismsOfProjectiveVarieties
 	"'A Singular Introduction To Commutative Algebra', Example A.6.8 (morphisms of projective varieties)."
 	| P A x y z X f1 f2 f3 I J Y phi Z |
@@ -1308,7 +1322,7 @@ testMorphismsOfProjectiveVarieties
 	self assert: Z isCurve.
 	self assert: Z degree = 6! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 2/9/2017 11:13:57'!
+!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 2/9/2017 11:13:57'!
 testMultiplicity
 	"Example from Sage documentation."
 	| A X q1 q2 |
@@ -1319,7 +1333,7 @@ testMultiplicity
 	self assert: q1 multiplicity = 1.
 	self assert: q2 multiplicity = 2! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 2/9/2017 11:20:49'!
+!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 2/9/2017 11:20:49'!
 testMultiplicity2
 	"Example from Sage documentation."
 	| P X q1 q2 q3 |
@@ -1332,7 +1346,7 @@ testMultiplicity2
 	q3 _ X !! (0,0,0,0,1).
 	self assert: q3 multiplicity = 7! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 2/10/2017 07:50:58'!
+!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 2/10/2017 07:50:58'!
 testMultiplicity3
 	"Example from Sage documentation."
 	| P X q |
@@ -1341,7 +1355,7 @@ testMultiplicity3
 	q _ X !! (2,0,0,1).
 	self assert: q multiplicity = 5! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 2/9/2017 10:26:45'!
+!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 2/9/2017 10:26:45'!
 testMultiplicityAndTangentCone
 	"'A Singular Introduction to Commutative Algebra', Example A.8.5."
 	| R C T p |
@@ -1355,7 +1369,7 @@ testMultiplicityAndTangentCone
 	...
 "! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/15/2016 09:57'!
+!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 10/15/2016 09:57'!
 testNotEmpty
 	| A x y X |
 	A _ QQ polynomialsIn: #(x y).
@@ -1364,7 +1378,7 @@ testNotEmpty
 	X _ A  / {x*x - 1. y*y - (x*x) - 3} :: spec.
 	self assert: X isEmpty not! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/15/2016 09:57'!
+!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 10/15/2016 09:57'!
 testNotFinite
 	| A x y X |
 	A _ QQ polynomialsIn: #(x y).
@@ -1373,7 +1387,19 @@ testNotFinite
 	X _ A / {y*y - (x*x) - 3} :: spec.
 	self assert: X isFinite not! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 1/12/2017 14:44:51'!
+!AlgebraicGeometryTest methodsFor: 'finite rings' stamp: 'len 9/16/2018 23:29:50'!
+testProductRingHomogeneousTuplesBug
+	"This tests a bug that makes Tuple>>~ not an equivalence relation (transitivity is broken)."
+	| A p1 p2 c1 c2 |
+	A _ ZZ/2 × (ZZ/2).
+	p1 _ A tuple: {A !! {1. 1}. A !! {1. 1}}.
+	p2 _ A tuple: {A !! {0. 1}. A !! {0. 1}}.
+	self assert: p1 ~ p2.
+	c1 _ A^2 count: [:each| each isZero not and: [each ~ p1]].
+	c2 _ A^2 count: [:each| each isZero not and: [each ~ p2]].
+	self assert: c1 = c2! !
+
+!AlgebraicGeometryTest methodsFor: 'affine' stamp: 'len 1/12/2017 14:44:51'!
 testProjectiveClosure
 	"From Magma Handbook example Scheme_projective-closure (H118E23)."
 	| A1 u v X PX X2 |
@@ -1386,7 +1412,7 @@ testProjectiveClosure
 	X2 _ PX patch: 2.
 	self assert: X2 projectiveClosure = X projectiveClosure! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 11/1/2016 05:31'!
+!AlgebraicGeometryTest methodsFor: 'affine' stamp: 'len 11/1/2016 05:31'!
 testProjectiveEmbedding
 	| A1 u v X PX affinePointsEmbedded projectivePoints |
 	A1 _ AffineSpace new: #(u v) over: ZZ/5.
@@ -1400,7 +1426,7 @@ testProjectiveEmbedding
 	"the projective scheme has one more point at infinity:"
 	self assert: affinePointsEmbedded size + 1 = projectivePoints size! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 4/8/2018 18:14:45'!
+!AlgebraicGeometryTest methodsFor: 'finite rings' stamp: 'len 4/8/2018 18:14:45'!
 testProjectiveLineOverFiniteRing
 	| P |
 	P _ ProjectiveLine over: ZZ/6.
@@ -1408,8 +1434,15 @@ testProjectiveLineOverFiniteRing
 	self assert: P points size = 12.
 	self assert: (Iterator on: P points performing: #do:) size = 12! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 4/8/2018 18:19:34'!
-testProjectiveLineOverFiniteRing2
+!AlgebraicGeometryTest methodsFor: 'finite rings' stamp: 'len 9/16/2018 23:29:59'!
+testProjectiveLineOverFiniteRing2AsDirectProduct
+	| P |
+	P _ ProjectiveLine over: ZZ/2 × (ZZ/2). "isomorphic to ZZ/2[x]/<x(x+1)>"
+	self assert: P points size = 9.
+	self assert: (Iterator on: P points performing: #do:) size = 9! !
+
+!AlgebraicGeometryTest methodsFor: 'finite rings' stamp: 'len 9/16/2018 23:30:04'!
+testProjectiveLineOverFiniteRing2AsQuotient
 	| R P |
 	R _ (ZZ/2) polynomials.
 	R _ R / (R x * (R x + 1)). "isomorphic to ZZ/2 × (ZZ/2)"
@@ -1417,28 +1450,21 @@ testProjectiveLineOverFiniteRing2
 	self assert: P points size = 9.
 	self assert: (Iterator on: P points performing: #do:) size = 9! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 5/3/2018 04:49:35'!
-testProjectiveLineOverFiniteRing3
-	| P |
-	P _ ProjectiveLine over: ZZ/2 × (ZZ/2). "isomorphic to ZZ/2[x]/<x(x+1)>"
-	self assert: P points size = 9.
-	self assert: (Iterator on: P points performing: #do:) size = 9! !
-
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 4/8/2018 18:20:24'!
+!AlgebraicGeometryTest methodsFor: 'finite rings' stamp: 'len 4/8/2018 18:20:24'!
 testProjectiveLineOverFiniteRing4
 	| P |
 	P _ ProjectiveLine over: ZZ/4 × (ZZ/4).
 	self assert: P points size = 36.
 	self assert: (Iterator on: P points performing: #do:) size = 36! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 4/8/2018 18:50:19'!
+!AlgebraicGeometryTest methodsFor: 'finite rings' stamp: 'len 4/8/2018 18:50:19'!
 testProjectiveLineOverFiniteRing5
 	| P |
 	P _ ProjectiveLine over: ZZ/2 × (ZZ/2) × (ZZ/2).
 	self assert: P points size = 27.
 	self assert: (Iterator on: P points performing: #do:) size = 27! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 5/3/2018 06:12:04'!
+!AlgebraicGeometryTest methodsFor: 'finite rings' stamp: 'len 5/3/2018 06:12:04'!
 testProjectiveLineOverFiniteRing6
 	| R P |
 	R _ (ZZ/2) polynomials.
@@ -1447,7 +1473,7 @@ testProjectiveLineOverFiniteRing6
 	self assert: P points size = 18.
 	self assert: (Iterator on: P points performing: #do:) size = 18! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 2/3/2017 06:59:34'!
+!AlgebraicGeometryTest methodsFor: 'projective' stamp: 'len 2/3/2017 06:59:34'!
 testProjectivePlaneCurveArithmeticGenus
 	| R f C |
 	R _  (ZZ/5) polynomialsIn: 3.
@@ -1456,21 +1482,21 @@ testProjectivePlaneCurveArithmeticGenus
 	self assert: C arithmeticGenus = 28.
 	"self assert: C genus = 4"! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 12/23/2016 09:30:59'!
+!AlgebraicGeometryTest methodsFor: 'projective' stamp: 'len 12/23/2016 09:30:59'!
 testProjectivePlaneOverFiniteField
 	| P |
 	P _ ProjectiveSpace new: 2 over: ZZ/5.
 	self assert: P points size = 31.
 	self assert: (Iterator on: P points performing: #do:) size = 31! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 5/3/2018 05:26:14'!
+!AlgebraicGeometryTest methodsFor: 'projective' stamp: 'len 5/3/2018 05:26:14'!
 testProjectivePlaneOverFiniteRing
 	| P |
 	P _ ProjectiveSpace new: 2 over: ZZ/4.
 	self assert: P points size = 28
 	"this plane has 28 points and 28 lines (falling into 7 neighbour classes of size 4), each line has 6 points and each point is on 6 lines"! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 1/12/2017 14:45:07'!
+!AlgebraicGeometryTest methodsFor: 'projective' stamp: 'len 1/12/2017 14:45:07'!
 testProjectiveSchemeAffinePatches
 	| E p a |
 	E _ EllipticCurve cremona37a.
@@ -1482,7 +1508,7 @@ testProjectiveSchemeAffinePatches
 	self assert: a homogenized = p.
 	self assert: a homogenized codomain == E! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 2/9/2017 10:51:38'!
+!AlgebraicGeometryTest methodsFor: 'projective' stamp: 'len 2/9/2017 10:51:38'!
 testProjectiveSchemeDegree
 	"Example from Sage documentation."
 	| P X |
@@ -1490,7 +1516,7 @@ testProjectiveSchemeDegree
 	X _ P subscheme: (P coordinateRing !! [:x :y :z :w :t :u| x^7 + (x*y*z*(t^4)) - (u^7)]).
 	self assert: X degree = 7! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 2/9/2017 10:53:18'!
+!AlgebraicGeometryTest methodsFor: 'projective' stamp: 'len 2/9/2017 10:53:18'!
 testProjectiveSchemeDegree2
 	"Example from Sage documentation."
 	| P X |
@@ -1498,7 +1524,7 @@ testProjectiveSchemeDegree2
 	X _ P subscheme: (P coordinateRing !! [:x :y :z :w| {y^3 - (w^3). x + (7*z)}]).
 	self assert: X degree = 3! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 2/9/2017 10:56:06'!
+!AlgebraicGeometryTest methodsFor: 'projective' stamp: 'len 2/9/2017 10:56:06'!
 testProjectiveSchemeDegree3
 	"Example from Sage documentation."
 	| P X |
@@ -1506,7 +1532,7 @@ testProjectiveSchemeDegree3
 	X _ P subscheme: (P coordinateRing !! [:x :y :z :w :u| {x^7 - (y*(z^3)*(w^2)*u). w*(z^2) - (y*(u^2)). z^3 + (y^3)}]).
 	self assert: X degree = 63! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/18/2016 20:58'!
+!AlgebraicGeometryTest methodsFor: 'projective' stamp: 'len 10/18/2016 20:58'!
 testProjectiveSpace
 	| K P |
 	K _ PrimeField new: 23.
@@ -1517,7 +1543,7 @@ testProjectiveSpace
 	self assert: P ambient = P.
 	self assert: P coordinateRing proj = P! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 4/11/2018 16:40:04'!
+!AlgebraicGeometryTest methodsFor: 'projective' stamp: 'len 4/11/2018 16:40:04'!
 testProjectiveSpaceOverFiniteField
 	| P S |
 	P _ ProjectiveSpace new: 1 over: ZZ/3.
@@ -1528,7 +1554,7 @@ testProjectiveSpaceOverFiniteField
 	self assert: S size = 10.
 	self assert: S asSet size = 10! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/17/2016 11:30'!
+!AlgebraicGeometryTest methodsFor: 'rational maps' stamp: 'len 10/17/2016 11:30'!
 testRationalMap
 	"Example from Magma handbook Scheme_map-creation (H118E32)."
 	| A1 A2 x y f X |
@@ -1545,7 +1571,7 @@ testRationalMap
 	X _ A2 subscheme: {x^2*-1 + (y^3) + (y^2*11) + (y*40) + 48}.
 	self assert: f image = X! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/17/2016 10:40'!
+!AlgebraicGeometryTest methodsFor: 'rational maps' stamp: 'len 10/17/2016 10:40'!
 testRationalMap2
 	"Example from Cox's IVA pag. 234. Parametrization of the tangent surface of the twisted cubic."
 	| A2 A3 x y z f X |
@@ -1560,7 +1586,7 @@ testRationalMap2
 	X _ A3 subscheme: {x^3*z - (x*y^2*(3/4)) - (x*y*z*(3/2)) + (y^3) + (z^2*(1/4))}.
 	self assert: f image = X! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 12/26/2016 09:15:15'!
+!AlgebraicGeometryTest methodsFor: 'rational maps' stamp: 'len 12/26/2016 09:15:15'!
 testRationalMapAffineExample
 	"From lecture notes MIT 18.782 Introduction to Arithmetic Geometry, Lecture #15, Fall 2013, 10/29/2013, Example 15.19."
 	| A2 x y X A1 phi phi2 phiInv |
@@ -1581,7 +1607,7 @@ testRationalMapAffineExample
 	self assert: phiInv isDominant.
 "	self assert: phiInv isSurjective not"! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 5/22/2018 22:48:06'!
+!AlgebraicGeometryTest methodsFor: 'rational maps' stamp: 'len 5/22/2018 22:48:06'!
 testRationalMapImage
 	| A X X2 f |
 	A _ AffineSpace new: #(x y) over: QQ.
@@ -1596,7 +1622,7 @@ testRationalMapImage
 	f _ A to: A evaluatingWithArguments: [:x :y| {x+1. y+2}].
 	self assert: (X apply: f) = X2! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2018 22:13:31'!
+!AlgebraicGeometryTest methodsFor: 'rational maps' stamp: 'len 5/23/2018 22:13:31'!
 testRationalMapLinearMapConversion
 	| A2 A3 V2 V3 f f2 p f3 |
 	A2 _ AffineSpace new: 2 over: QQ.
@@ -1613,7 +1639,7 @@ testRationalMapLinearMapConversion
 	f3 _ (V2 hom: V3) !! f2.
 	self assert: f = f3! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 5/22/2018 22:36:45'!
+!AlgebraicGeometryTest methodsFor: 'rational points' stamp: 'len 5/22/2018 22:36:45'!
 testRationalPointsOverFiniteField
 	| P C |
 	P _ ProjectiveSpace new: 2 over: ZZ/7.
@@ -1621,7 +1647,7 @@ testRationalPointsOverFiniteField
 	self assert: C points size = 9.
 	self assert: (Iterator on: C points performing: #do:) size = 9! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 10/31/2016 11:08'!
+!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 10/31/2016 11:08'!
 testReduced
 	| A R x y z X |
 	A _ AffineSpace new: 3 over: QQ.
@@ -1633,7 +1659,7 @@ testReduced
 	self assert: X isReduced not.
 	self assert: X reduced = (A subscheme: {x*y. x*z})! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 5/4/2018 00:40:00'!
+!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 5/4/2018 00:40:00'!
 testRingHomomorphismSpec
 	| A B x y phi |
 	A _ QQ polynomialsIn: #(x y z).
@@ -1645,7 +1671,7 @@ testRingHomomorphismSpec
 	self assert: phi spec codomain = A spec.
 	self assert: phi spec asRingHomomorphism = phi! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 2/8/2017 07:14:15'!
+!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 2/8/2017 07:14:15'!
 testSingularCubics
 	| R x y C |
 	R _ QQ polynomialsIn: #(x y z).
@@ -1658,7 +1684,7 @@ testSingularCubics
 	C _ R / (x^3 + (x^2) - (y^2) homogenizedIn: 3) :: proj.
 	self assert: C isSingular! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 5/22/2018 22:36:55'!
+!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 5/22/2018 22:36:55'!
 testSmoothness
 	| R C |
 	R _ QQ polynomialsIn: #(x y).
@@ -1669,7 +1695,7 @@ testSmoothness
 	self assert: (C !! (1,1)) isSmooth.
 	self assert: (C !! (0,0)) isSmooth not! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 5/22/2018 22:37:26'!
+!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 5/22/2018 22:37:26'!
 testSmoothnessOverCC
 	| P R C |
 	P _ ProjectiveSpace new: 2 over: CC.
@@ -1681,7 +1707,7 @@ testSmoothnessOverCC
 	C _ P subscheme: R !! [:x :y :z| y^2*z - (x^3) + (z^3)].
 	self assert: C isSingular not! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 5/22/2018 22:38:05'!
+!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 5/22/2018 22:38:05'!
 testSmoothnessOverFiniteField
 	| P R C |
 	P _ ProjectiveSpace new: 2 over: ZZ/19.
@@ -1695,14 +1721,14 @@ testSmoothnessOverFiniteField
 	C _ P subscheme: R !! [:x :y :z| x^5 + (y^5*9) + (z^5)].
 	self assert: C isSingular not! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 5/22/2018 22:38:23'!
+!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 5/22/2018 22:38:23'!
 testSmoothnessOverQQ
 	| P C |
 	P _ ProjectiveSpace new: 2 over: QQ.
 	C _ P subscheme: P coordinateRing !! [:x :y :z| x^3 - (y^2*z)].
 	self assert: C isSingular! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 1/13/2017 20:22:42'!
+!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 1/13/2017 20:22:42'!
 testSpecZ
 	self assert: ZZ spec dimension = 1.
 	self assert: ZZ spec isNoetherian.
@@ -1711,7 +1737,7 @@ testSpecZ
 	self assert: ZZ spec isInitial not.
 	self assert: ZZ spec isTerminal! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 5/15/2018 17:54:19'!
+!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 5/15/2018 17:54:19'!
 testSpecZSubschemes
 	self assert: ZZ spec >= (ZZ / 2) spec.
 	self assert: (ZZ / 10) spec >= (ZZ / 5) spec.
@@ -1719,7 +1745,7 @@ testSpecZSubschemes
 	self assert: (ZZ / 10) spec • (ZZ / 15) spec = (ZZ / 5) spec.
 	self assert: (ZZ / 10) spec – (ZZ / 15) spec = (ZZ / 30) spec! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 5/10/2018 18:17:19'!
+!AlgebraicGeometryTest methodsFor: 'rational points' stamp: 'len 5/10/2018 18:17:19'!
 testSturmfelsExample1
 	"Bernd Sturmfels, 'Ideals, Varieties and Macaulay 2', 1. A Curve in Affine 3-Space."
 	| R x y I C C1 C2 |
@@ -1744,7 +1770,7 @@ testSturmfelsExample1
 	self assert: C1 projectiveClosure degree = 13.
 	self assert: C1 isReduced "equivalent to C1 ideal = C1 ideal radical"! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 2/6/2017 05:24:15'!
+!AlgebraicGeometryTest methodsFor: 'rational points' stamp: 'len 2/6/2017 05:24:15'!
 testSturmfelsExample2
 	"Bernd Sturmfels, 'Ideals, Varieties and Macaulay 2', 2. Intersecting Our Curve With a Surface."
 	| R x y z C S theirunion ourpoints |
@@ -1767,7 +1793,7 @@ testSturmfelsExample2
 	"Each of the points is multiplicity-free:"
 	self assert: ourpoints isReduced. "equivalent to the original: ourpoints reduced projectiveClosure degree = 65."! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 2/9/2017 10:27:04'!
+!AlgebraicGeometryTest methodsFor: 'tangent cone' stamp: 'len 2/9/2017 10:27:04'!
 testTangentCone
 	"'A Singular Introduction to Commutative Algebra', Example 5.5.13."
 	| R I J X |
@@ -1777,7 +1803,7 @@ testTangentCone
 	J _ R * (R !! [:x :y :z| {y^2 + (x*z). y*z + (z^2). x*(z^2) - (y*(z^2))}]).
 	self assert: (X !! (0,0,0)) tangentCone ideal = J! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 2/14/2017 16:10:01'!
+!AlgebraicGeometryTest methodsFor: 'tangent cone' stamp: 'len 2/14/2017 16:10:01'!
 testTangentCone2
 	"M. Kreuzer, 'Computational Commutative Algebra', Example 6.5.27."
 	| R J T I |
@@ -1787,7 +1813,7 @@ testTangentCone2
 	I _ R * (R generate: [:x1 :x2 :x3 :x4| {x1*x2 - (x3^2). x2^2. x2*(x3^2). x3^4}]).
 	self assert: T ideal = I! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 2/9/2017 10:35:41'!
+!AlgebraicGeometryTest methodsFor: 'tangent cone' stamp: 'len 2/9/2017 10:35:41'!
 testTangentConeAndTangentSpace
 	"Example from https://en.wikipedia.org/wiki/Tangent_cone."
 	| A x y S o |
@@ -1802,7 +1828,7 @@ testTangentConeAndTangentSpace
 	"the tangent space is the whole plane:"
 	self assert: o tangentSpace = A! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 4/10/2018 15:45:55'!
+!AlgebraicGeometryTest methodsFor: 'rational points' stamp: 'len 4/10/2018 15:45:55'!
 testTwistedCubic
 	| P R M C |
 	P _ ProjectiveSpace new: 3 over: QQ.
@@ -1813,7 +1839,7 @@ testTwistedCubic
 	self assert: C dimension = 1.
 	self assert: C isSmooth! !
 
-!AlgebraicGeometryTest methodsFor: 'as yet unclassified' stamp: 'len 2/4/2017 07:50:26'!
+!AlgebraicGeometryTest methodsFor: 'rational points' stamp: 'len 2/4/2017 07:50:26'!
 testTwistedCubicDegree
 	"Twisted cubic in P^3 with homogeneous coordinates x,y,w,z."
 	| A x y z w X |
@@ -4448,7 +4474,7 @@ testIndexOf
 newFreeModule
 	^ self newFreeModuleOver: {ZZ. QQ. ZZ / (10 atRandom + 1)} atRandom! !
 
-!ModuleTest methodsFor: 'private' stamp: 'len 5/19/2018 18:34:22'!
+!ModuleTest methodsFor: 'private' stamp: 'len 9/16/2018 23:30:19'!
 newFreeModuleOver: scalars
 	| M N |
 "	M _ 2 atRandom = 1 ifTrue: [scalars ^ (5 atRandom - 1)] ifFalse: [scalars ^ (5 atRandom - 1 @ (5 atRandom - 1))]."
@@ -4459,7 +4485,7 @@ newFreeModuleOver: scalars
 		N _ self newFreeModuleOver: scalars.
 		N rank < 5 ifFalse: [^ M  N].
 		2 atRandom = 1 ifTrue: [^ M hom: N].
-		"2 atRandom = 1 ifTrue: [^ self ’ N]".
+		2 atRandom = 1 ifTrue: [^ M ’ N].
 		^ M  N].
 	3 atRandom = 1 ifTrue: [^ M dual].
 	^ M! !
@@ -4482,6 +4508,25 @@ newMatrix: dim over: aRing
 	2 atRandom = 1 ifTrue: [^ aRing^dim atRandomBits: 100].
 	samples _ {aRing zero. aRing one. aRing one negated}.
 	^ aRing matrix: dim evaluating: [:i :j| 2 atRandom > 1 ifTrue: [aRing zero] ifFalse: [samples atRandom]]! !
+
+!ModuleTest methodsFor: 'private' stamp: 'len 9/16/2018 23:30:24'!
+newSmallFreeModuleOver: scalars
+	| M N |
+	M _ 2 atRandom = 1 ifTrue: [scalars ^ 3 atRandom] ifFalse: [scalars ^ (3 atRandom @ 3 atRandom)].
+	"don't let it get too big, or the test is too slow:"
+	M rank < 3 ifTrue:
+		[3 atRandom = 1 ifTrue: [^ M endomorphisms].
+		N _ self newFreeModuleOver: scalars.
+		N rank < 4 ifFalse: [^ M  N].
+		2 atRandom = 1 ifTrue: [^ M hom: N].
+		2 atRandom = 1 ifTrue: [^ M ’ N].
+		^ M  N].
+	3 atRandom = 1 ifTrue: [^ M dual].
+	^ M! !
+
+!ModuleTest methodsFor: 'private' stamp: 'len 9/16/2018 23:30:28'!
+newSmallVectorSpace
+	^ self newSmallFreeModuleOver: {QQ. ZZ / #(2 3 5 7) atRandom} atRandom! !
 
 !ModuleTest methodsFor: 'private' stamp: 'len 3/2/2017 04:50:24'!
 newVectorSpace
@@ -4566,6 +4611,14 @@ testDirectSum
 	self testFreeModule: S.
 	self testLinearMap: (S ambient projection: 2 atRandom).
 	self testLinearMap: (S ambient embedding: 2 atRandom)! !
+
+!ModuleTest methodsFor: 'basis' stamp: 'len 9/16/2018 23:30:32'!
+testDiscriminant
+	| M |
+	M _ ZZ^3.
+	self assert: M discriminant = 1.
+	self assert: (M span: {(1,2,3)}) discriminant = 14.
+	self assert: (M span: {(1,2,3). (1,1,1)}) discriminant = 6 ! !
 
 !ModuleTest methodsFor: 'isomorphisms' stamp: 'len 1/16/2018 17:49:34'!
 testFirstIsomorphismTheorem2
@@ -5206,7 +5259,20 @@ testSubspaceSumRandom
 	self assert: S <= U.
 	self assert: T <= U! !
 
-!ModuleTest methodsFor: 'other' stamp: 'len 8/26/2016 06:03'!
+!ModuleTest methodsFor: 'tensor product' stamp: 'len 9/16/2018 23:30:36'!
+testTensorHomAdjunction
+	| V W U A B |
+	V _ self newSmallVectorSpace.
+	W _ self newSmallFreeModuleOver: V scalars.
+	U _ self newSmallFreeModuleOver: V scalars.
+	A _ V’W hom: U.
+	B _ V hom: (W hom: U).
+	self assert: A ~ B.
+"	phi _ A to: B evaluating: [:f| B evaluating: [:v| (W to: U) evaluating: [:w| f value: v’w]]].
+	self testLinearMap: phi.
+	self assert: phi isIsomorphism"! !
+
+!ModuleTest methodsFor: 'tensor product' stamp: 'len 8/26/2016 06:03'!
 testTensorProductAssociativity
 	| V1 V2 V3 |
 	V1 _ QQ ^ 2.
@@ -5214,71 +5280,54 @@ testTensorProductAssociativity
 	V3 _ QQ ^ 4.
 	self assert: (V1 ’ V2) ’ V3 ~ (V1 ’ (V2 ’ V3))! !
 
-!ModuleTest methodsFor: 'other' stamp: 'len 8/26/2016 06:03'!
+!ModuleTest methodsFor: 'tensor product' stamp: 'len 8/26/2016 06:03'!
 testTensorProductCommutativity
 	| V W |
 	V _ QQ ^ 3.
 	W _ QQ ^ 4.
 	self assert: V ’ W ~ (W ’ V)! !
 
-!ModuleTest methodsFor: 'tensor product' stamp: 'len 6/9/2018 18:17:21'!
-testTensorProductComposition
-	self notYetImplemented! !
-
-!ModuleTest methodsFor: 'other' stamp: 'len 12/19/2017 20:09:11'!
+!ModuleTest methodsFor: 'tensor product' stamp: 'len 12/19/2017 20:09:11'!
 testTensorProductDimension
 	| V1 V2 |
 	V1 _ QQ ^ 5 atRandom.
 	V2 _ QQ ^ 5 atRandom.
 	self assert: (V1 ’ V2) dimension = (V1 dimension * V2 dimension)! !
 
-!ModuleTest methodsFor: 'tensor product' stamp: 'len 6/3/2018 19:50:30'!
+!ModuleTest methodsFor: 'tensor product' stamp: 'len 9/16/2018 23:30:43'!
 testTensorProductDualHomIsomorphism
-	| V W A B phi |
+	| V W A B |
 	V _ self newVectorSpace.
 	W _ self newFreeModuleOver: V scalars.
 	A _ V dual ’ W.
 	B _ V hom: W.
-	self assert: A ~ B.
-	phi _ A to: B evaluating: [:t| B evaluating: [:v| t second * (t first value: v)]].
+	self assert: A ~ B
+"	phi _ A to: B evaluating: [:t| B evaluating: [:v| t second * (t first value: v)]].
 	self testLinearMap: phi.
-	self assert: phi isIsomorphism! !
+	self assert: phi isIsomorphism"! !
 
-!ModuleTest methodsFor: 'tensor product' stamp: 'len 6/3/2018 19:53:46'!
+!ModuleTest methodsFor: 'tensor product' stamp: 'len 9/16/2018 23:30:50'!
 testTensorProductDualIsomorphism
-	| V W A B phi |
+	| V W A B |
 	V _ self newVectorSpace.
 	W _ self newFreeModuleOver: V scalars.
 	A _ V dual ’ W dual.
 	B _ (V ’ W) dual.
-	self assert: A ~ B.
-	phi _ A to: B evaluating: [:s| B evaluating: [:t| (s first value: t first) * (s second value: t second)]].
+	self assert: A ~ B
+"	phi _ A to: B evaluating: [:s| B evaluating: [:t| (s first value: t first) * (s second value: t second)]].
 	self testLinearMap: phi.
-	self assert: phi isIsomorphism! !
+	self assert: phi isIsomorphism"! !
 
-!ModuleTest methodsFor: 'tensor product' stamp: 'len 6/3/2018 19:45:30'!
-testTensorProductHomIsomorphism
-	| V W U A B phi |
-	V _ self newVectorSpace.
-	W _ self newFreeModuleOver: V scalars.
-	U _ self newFreeModuleOver: V scalars.
-	A _ V’W hom: U.
-	B _ V hom: (W hom: U).
-	self assert: A ~ B.
-	phi _ A to: B evaluating: [:f| B evaluating: [:v| (W to: U) evaluating: [:w| f value: v’w]]].
-	self testLinearMap: phi.
-	self assert: phi isIsomorphism! !
-
-!ModuleTest methodsFor: 'other' stamp: 'len 12/17/2017 22:31:20'!
+!ModuleTest methodsFor: 'tensor product' stamp: 'len 9/16/2018 23:30:57'!
 testTensorProductOfLinearForms
-	| V W f g t v |
+	| V f g t v w |
 	V _ QQ ^ 3.
-	W _ V dual.
-	f _ W atRandomBits: 10.
-	g _ W atRandomBits: 10.
+	f _ V dual atRandomBits: 10.
+	g _ V dual atRandomBits: 10.
 	t _ f ’ g.
-	v _ W domain atRandomBits: 10.
-	self assert: (t value: v) = ((f value: v) * (g value: v))! !
+	v _ V atRandomBits: 10.
+	w _ V atRandomBits: 10.
+	self assert: (t value: t domain !! {v. w}) = (t codomain !! {f value: v. g value: w})! !
 
 !ModuleTest methodsFor: 'tensor product' stamp: 'len 6/3/2018 22:56:49'!
 testTensorProductRelations
@@ -6683,11 +6732,11 @@ newQuotientRing
 	I _ R * (R atRandomBits: 10 maxDegree: 5).
 	^ R / I! !
 
-!RingTest methodsFor: 'private' stamp: 'len 12/2/2016 11:14:00'!
+!RingTest methodsFor: 'private' stamp: 'len 9/16/2018 23:31:05'!
 newRing
+	4 atRandom = 1 ifTrue: [^ self newQuotientRing].
 	2 atRandom = 1 ifTrue: [^ {ZZ. QQ. ZZ / (2 to: 10) atRandom} atRandom polynomialsIn: (1 to: 3) atRandom].
-	2 atRandom = 1 ifTrue: [^ self newQuotientRing].
-	^ ZZ! !
+	^ {ZZ. QQ. ZZ / (2 to: 10) atRandom} atRandom! !
 
 !RingTest methodsFor: 'general' stamp: 'len 11/2/2016 08:18'!
 testCanonicalMorphisms
@@ -6770,9 +6819,9 @@ testGaloisRing
 	self assert: R isEuclidean.
 	self testRing: R! !
 
-!RingTest methodsFor: 'finite rings' stamp: 'len 5/22/2018 04:02:24'!
+!RingTest methodsFor: 'finite rings' stamp: 'len 9/16/2018 16:47:27'!
 testGaloisRingCanonicalHomomorphism
-	"Canonical homomorphism from GR(p^n,m) to ZZ/<p>."
+	"Canonical homomorphism from GR(p^n,m) to Z/<p>."
 	| p n m A B phi |
 	p _ #(2 3 5) atRandom.
 	n _ 3 atRandom.
