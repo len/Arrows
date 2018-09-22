@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 16 September 2018 at 11:28:57 pm'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 22 September 2018 at 7:01:52 pm'!
 'Description A computational algebra system in Smalltalk'!
-!provides: 'Mathematics' 1 452!
+!provides: 'Mathematics' 1 453!
 !requires: 'RayTracer' 1 2 nil!
 !classDefinition: #RealAlgebraicNumber category: #'Mathematics-Fields'!
 Number subclass: #RealAlgebraicNumber
@@ -4028,9 +4028,11 @@ Residue class rings of Z, i.e. rings Z/mZ of residue classes of integers modulo 
 !PrimeRing commentStamp: '<historical>' prior: 0!
 Residue class rings Z/(p^n)Z of integers modulo p^n.
 
-These are the simplest examples of Galois rings, GR(p^n,1). They are local rings with maximal ideal <p>, and the maximal ideal is also the set of zero-divisors. Other Galois rings are constructed by finite algebraic extensions (see GaloisRing).
+These are the simplest examples of Galois rings, GR(p^n,1). They are local rings with maximal ideal <p>, and <p> is also the set of zero-divisors as well as nilpotent elements. Other Galois rings are constructed by finite algebraic extensions (see GaloisRing).
 
-These are also the simplest examples of 'chain rings', rings whose ideals form a chain under inclusion. A finite chain ring is a principal ideal ring, and its maximal ideal is the nil-radical (the set of nil-potent elements).!
+These are also the simplest examples of 'chain rings', rings whose ideals form a chain under inclusion. A finite chain ring is a principal ideal ring, and its maximal ideal is the nilradical (the set of nilpotent elements).
+
+There are canonical projections from Z/(p^n)Z to Z/(p^m)Z for any 1 <= m <= n.!
 
 !PrimeField commentStamp: '<historical>' prior: 0!
 Residue class fields Z/pZ of integers modulo a prime p.
@@ -4056,9 +4058,11 @@ See also AlgebraicElement.!
 !GaloisRing commentStamp: '<historical>' prior: 0!
 The Galois ring GR(p^n,m) is a Galois extension of degree m of the ring Z/(p^n)Z of characteristic p^n. This is the unique (up to isomorphism) extension of degree m of the ring Z/(p^n)Z of integers modulo p^n (see PrimeRing). When n=1 they are fields (see GaloisField).
 
-Galois rings GR(p^n,m) are local rings with maximal ideal <p>, and the maximal ideal is also the set of zero-divisors.
+Galois rings GR(p^n,m) are local rings with maximal ideal <p>, and <p> is also the set of zero-divisors.
 
-The subrings of GR(p^n,m) correspond to the positive divisors of m.!
+The subrings of GR(p^n,m) correspond to the positive divisors of m.
+
+More generally, any finite local ring can be constructed as a finitely-generated GR(p^n,m)-algebra, i.e. a quotient of a polynomial ring (in a number of indeterminates) with coefficients in a Galois ring modulo a primary ideal of the polynomial ring (see AffineRing).!
 
 !GaloisField commentStamp: '<historical>' prior: 0!
 Finite nonprime fields, i.e. fields GF(p^r) with r>1. These are finite algebraic extensions of prime fields. See also PrimeField.!
@@ -16845,9 +16849,9 @@ shortName
 contains: anElement
 	^ ring isUnit: anElement! !
 
-!UnitGroup methodsFor: 'enumerating' stamp: 'len 5/25/2018 18:22:31'!
+!UnitGroup methodsFor: 'enumerating' stamp: 'len 9/22/2018 19:00:36'!
 do: aBlock
-	ring do: [:each| (ring isUnit: each) ifTrue: [aBlock value: each]]! !
+	ring unitsDo: aBlock! !
 
 !UnitGroup methodsFor: 'accessing' stamp: 'len 4/10/2016 06:17'!
 identity
@@ -17418,6 +17422,10 @@ addition
 additionInverseMap
 	^ (self to: self evaluating: [:each| each negated]) name: '-id'! !
 
+!Semiring methodsFor: 'morphic' stamp: 'len 9/22/2018 19:00:23'!
+additionTable
+	^ MultiplicationTableMorph elements: self elements asArray operation: self addition! !
+
 !Semiring methodsFor: 'accessing' stamp: 'len 2/22/2017 21:27:13'!
 characteristic
 	^ self propertyAt: #characteristic! !
@@ -17429,6 +17437,10 @@ multiplication
 !Semiring methodsFor: 'accessing' stamp: 'len 2/22/2017 21:27:24'!
 multiplicationInverseMap
 	^ (self to: self evaluating: [:each| each reciprocal]) name: 'x^-1'! !
+
+!Semiring methodsFor: 'morphic' stamp: 'len 9/22/2018 19:00:20'!
+multiplicationTable
+	^ MultiplicationTableMorph elements: self elements asArray operation: self multiplication! !
 
 !Semiring methodsFor: 'accessing' stamp: 'len 2/22/2017 21:30:29'!
 one
@@ -17447,6 +17459,10 @@ zero
 !IdealSemiring methodsFor: 'comparing' stamp: 'len 2/26/2017 09:43:57'!
 = anObject
 	^ (anObject isKindOf: IdealSemiring) and: [anObject ring = ring]! !
+
+!IdealSemiring methodsFor: 'enumerating' stamp: 'len 9/22/2018 18:55:03'!
+do: aBlock
+	^ ring idealsDo: aBlock! !
 
 !IdealSemiring methodsFor: 'comparing' stamp: 'len 12/2/2016 11:54:02'!
 hash
@@ -17620,13 +17636,25 @@ idealClass
 ideals
 	^ IdealSemiring on: self! !
 
-!Ring methodsFor: 'tuples and matrices' stamp: 'len 3/1/2017 11:26:46'!
+!Ring methodsFor: 'enumerating' stamp: 'len 9/22/2018 18:58:55'!
+idealsDo: aBlock
+	^ self subclassResponsibility! !
+
+!Ring methodsFor: 'elements-matrices' stamp: 'len 3/1/2017 11:26:46'!
 identityMatrix: dimension
 	^ self matrix: dimension scalar: self one! !
 
 !Ring methodsFor: 'testing' stamp: 'len 12/28/2016 12:09:46'!
 isAlgebraicallyClosed
 	^ self propertyAt: #isAlgebraicallyClosed ifAbsent: [false]! !
+
+!Ring methodsFor: 'testing' stamp: 'len 9/22/2018 18:58:52'!
+isArtinian
+	"Answer true if the receiver is an Artinian ring, i.e. it satisfied the descending chain condition on ideals.
+	In the non-commutative case one should talk about 'left Artinian' or 'right Artinian' rings."
+	self isIntegralDomain ifTrue: [^ self isField].
+	self isFinite ifTrue: [^ true].
+	^ self propertyAt: #isArtinian! !
 
 !Ring methodsFor: 'testing' stamp: 'len 12/28/2016 12:10:43'!
 isCommutative
@@ -17647,22 +17675,32 @@ isDivisionRing
 	self isField ifTrue: [^ true].
 	^ self propertyAt: #isDivisionRing ifAbsent: [false]! !
 
-!Ring methodsFor: 'testing' stamp: 'len 12/28/2016 12:09:51'!
+!Ring methodsFor: 'testing' stamp: 'len 9/22/2018 18:58:58'!
 isEuclidean
+	"Answer true if the receiver is an Euclidean ring, i.e. it has division with remainder."
 	^ self propertyAt: #isEuclidean ifAbsent: [self isField]! !
+
+!Ring methodsFor: 'testing' stamp: 'len 9/22/2018 18:59:01'!
+isEuclideanDomain
+	"Answer true if the receiver is an Euclidean domain, i.e. an integral domain that has division with remainder."
+	^ self isIntegralDomain and: [self isEuclidean]! !
 
 !Ring methodsFor: 'testing' stamp: 'len 12/28/2016 12:10:52'!
 isField
 	^ self propertyAt: #isField ifAbsent: [false]! !
 
-!Ring methodsFor: 'testing' stamp: 'len 4/25/2018 15:41:57'!
-isFiniteField
-	^ self isFinite and: [self isField]! !
-
 !Ring methodsFor: 'testing' stamp: 'len 12/28/2016 12:10:57'!
 isGCDDomain
 	"A GCD domain is an integral domain with the property that any two non-zero elements have GCD (or equivalently any two non-zero elements have a LCM)."
 	^ self propertyAt: #isGCDDomain! !
+
+!Ring methodsFor: 'testing' stamp: 'len 9/17/2018 00:41:55'!
+isGaloisField
+	^ self isFinite and: [self isField]! !
+
+!Ring methodsFor: 'testing' stamp: 'len 9/19/2018 07:15:55'!
+isGaloisRing
+	^ false! !
 
 !Ring methodsFor: 'testing' stamp: 'len 1/26/2018 18:58:30'!
 isGlobalField
@@ -17685,6 +17723,10 @@ isIntegrallyClosedDomain
 	"A ring is an integrally closed domain if it is an integral domain whose integral closure in its field of fractions is the ring itself."
 	^ self propertyAt: #isIntegrallyClosedDomain ifAbsent: [self isUFD]! !
 
+!Ring methodsFor: 'elements-testing' stamp: 'len 9/22/2018 18:59:16'!
+isIrreducible: anElement
+	^ self subclassResponsibility! !
+
 !Ring methodsFor: 'testing' stamp: 'len 5/20/2018 21:57:40'!
 isLocal
 	"Answer true if the receiver is a local ring. Subclasses should reimplement."
@@ -17698,6 +17740,11 @@ isLocalField
 isLocalization
 	^ false! !
 
+!Ring methodsFor: 'elements-testing' stamp: 'len 9/22/2018 18:59:19'!
+isNilpotent: anElement
+	"Answer true if anElement^n = 0 for some integer n >= 1."
+	^ self nilradical contains: anElement! !
+
 !Ring methodsFor: 'testing' stamp: 'len 12/28/2016 12:10:02'!
 isNoetherian
 	self isField ifTrue: [^ true].
@@ -17709,6 +17756,11 @@ isNoetherian
 isPID
 	"A principal ideal domain (PID) is an integral domain in which every ideal is principal, i.e. can be generated by a single element."
 	^ self propertyAt: #isPID ifAbsent: [self isEuclidean]! !
+
+!Ring methodsFor: 'testing' stamp: 'len 9/22/2018 18:59:49'!
+isPIR
+	"A principal ideal ring (PIR) is a ring in which every ideal is principal, i.e. can be generated by a single element."
+	^ self propertyAt: #isPIR ifAbsent: [self isPID]! !
 
 !Ring methodsFor: 'testing' stamp: 'len 5/5/2018 00:02:30'!
 isPerfectField
@@ -17731,6 +17783,13 @@ isReduced
 isRing
 	^ true! !
 
+!Ring methodsFor: 'testing' stamp: 'len 9/22/2018 18:59:54'!
+isSemilocal
+	"A ring is called 'semilocal' if it contains a finite number of maximal ideals."
+	self isFinite ifTrue: [^ true]. "Finite rings are semilocal."
+	self isLocal ifTrue: [^ true]. "Local rings have 1 maximal ideal"
+	^ self propertyAt: #isSemilocal! !
+
 !Ring methodsFor: 'testing' stamp: 'len 11/2/2016 03:36'!
 isTerminal
 	^ self isTrivial! !
@@ -17740,12 +17799,12 @@ isTrivial
 	"The trivial ring is the zero ring with a single element 0 = 1."
 	^ self size = 1! !
 
-!Ring methodsFor: 'testing' stamp: 'len 12/28/2016 12:10:16'!
+!Ring methodsFor: 'testing' stamp: 'len 9/22/2018 18:59:57'!
 isUFD
 	"A unique factorization domain (UFD) is a commutative ring in which every non-zero non-unit element can be written as a product of prime elements (or irreducible elements), uniquely up to order and units."
-	^ self propertyAt: #isUFD ifAbsent: [self isPID or: [self isEuclidean]]! !
+	^ self propertyAt: #isUFD ifAbsent: [self isPID or: [self isEuclideanDomain]]! !
 
-!Ring methodsFor: 'testing' stamp: 'len 9/16/2018 16:43:16'!
+!Ring methodsFor: 'elements-testing' stamp: 'len 9/16/2018 16:43:16'!
 isUnit: anElement
 	"Answer true if the argument is invertible."
 	| one |
@@ -17754,7 +17813,7 @@ isUnit: anElement
 	one _ self one.
 	^ self anySatisfy: [:any| anElement * any = one]! !
 
-!Ring methodsFor: 'testing' stamp: 'len 9/16/2018 17:56:27'!
+!Ring methodsFor: 'elements-testing' stamp: 'len 9/16/2018 17:56:27'!
 isZeroDivisor: anElement
 	"Answer true if there exists a nonzero element that multiplied by the argument is zero."
 	self isIntegralDomain ifTrue: [^ anElement isZero].
@@ -17773,29 +17832,29 @@ localizationAt: aPrimeIdeal
 			[self * aPrimeIdeal].
 	^ LocalizationRing at: P! !
 
-!Ring methodsFor: 'tuples and matrices' stamp: 'len 4/4/2018 00:03:12'!
+!Ring methodsFor: 'elements-matrices' stamp: 'len 4/4/2018 00:03:12'!
 matrix: aCollection
 	^ Matrix rows: (aCollection collect: [:each| self tuple: each])! !
 
-!Ring methodsFor: 'tuples and matrices' stamp: 'len 12/13/2016 10:15:36'!
+!Ring methodsFor: 'elements-matrices' stamp: 'len 12/13/2016 10:15:36'!
 matrix: dimension coefficients: aCollection
 	| stream |
 	stream _ aCollection readStream.
 	^ self matrix: dimension evaluating: [:i :j| stream next]! !
 
-!Ring methodsFor: 'tuples and matrices' stamp: 'len 12/11/2016 07:40:21'!
+!Ring methodsFor: 'elements-matrices' stamp: 'len 12/11/2016 07:40:21'!
 matrix: dimension evaluating: aBlock
 	| n m |
 	dimension isInteger ifTrue: [n _ m _ dimension] ifFalse: [n _ dimension x. m _ dimension y].
 	^ Matrix rows: ((1 to: n) collect: [:i| self tuple: m evaluating: [:j| aBlock value: i value: j]])! !
 
-!Ring methodsFor: 'tuples and matrices' stamp: 'len 11/5/2016 06:10'!
+!Ring methodsFor: 'elements-matrices' stamp: 'len 11/5/2016 06:10'!
 matrix: dimension evaluatingDiagonal: aBlock
 	| zero |
 	zero _ self zero.
 	^ self matrix: dimension evaluating: [:i :j| i == j ifTrue: [aBlock value: i] ifFalse: [zero]]! !
 
-!Ring methodsFor: 'tuples and matrices' stamp: 'len 11/5/2016 06:10'!
+!Ring methodsFor: 'elements-matrices' stamp: 'len 11/5/2016 06:10'!
 matrix: dimension scalar: anElement
 	^ self matrix: dimension evaluatingDiagonal: [:i| anElement]! !
 
@@ -17843,10 +17902,10 @@ polynomialsIn: anIntegerOrCollection ordering: aMonomialOrdering
 	answer names: anIntegerOrCollection.
 	^ answer! !
 
-!Ring methodsFor: 'enumerating' stamp: 'len 5/4/2018 20:12:50'!
+!Ring methodsFor: 'enumerating' stamp: 'len 9/22/2018 19:00:02'!
 primeIdealsDo: aBlock
 	self isField ifTrue: [aBlock value: self zeroIdeal. ^ self].
-	^ self subclassResponsibility! !
+	self idealsDo: [:each| each isPrime ifTrue: [aBlock value: each]]! !
 
 !Ring methodsFor: 'operations' stamp: 'len 5/21/2018 22:01:12'!
 radical
@@ -17886,28 +17945,28 @@ to: aRing evaluating: aBlock
 	aRing isRing ifFalse: [^ super to: aRing evaluating: aBlock].
 	^ RingMap from: self to: aRing evaluating: aBlock! !
 
-!Ring methodsFor: 'tuples and matrices' stamp: 'len 4/30/2018 18:28:30'!
+!Ring methodsFor: 'elements-tuples' stamp: 'len 4/30/2018 18:28:30'!
 tuple: anArray
 	^ DenseTuple coefficients: anArray over: self! !
 
-!Ring methodsFor: 'tuples and matrices' stamp: 'len 11/5/2016 06:57'!
+!Ring methodsFor: 'elements-tuples' stamp: 'len 11/5/2016 06:57'!
 tuple: anInteger constant: anElement
 	^ self tuple: anInteger evaluating: [:i| anElement]! !
 
-!Ring methodsFor: 'tuples and matrices' stamp: 'len 3/1/2017 11:28:27'!
+!Ring methodsFor: 'elements-tuples' stamp: 'len 3/1/2017 11:28:27'!
 tuple: anInteger e: index
 	| zero |
 	zero _ self zero.
 	^ self tuple: anInteger evaluating: [:i| i = index ifTrue: [self one] ifFalse: [zero]]! !
 
-!Ring methodsFor: 'tuples and matrices' stamp: 'len 4/30/2018 18:28:32'!
+!Ring methodsFor: 'elements-tuples' stamp: 'len 4/30/2018 18:28:32'!
 tuple: anInteger evaluating: aBlock
 	| array |
 	array _ Array new: anInteger.
 	1 to: anInteger do: [:i| array at: i put: (aBlock value: i)].
 	^ DenseTuple coefficients: array over: self! !
 
-!Ring methodsFor: 'tuples and matrices' stamp: 'len 4/30/2018 18:28:34'!
+!Ring methodsFor: 'elements-tuples' stamp: 'len 4/30/2018 18:28:34'!
 tupleClass
 	^ DenseTuple! !
 
@@ -17915,6 +17974,10 @@ tupleClass
 units
 	"Answer the multiplicative group of units of the receiver (i.e., elements that have multiplicative inverse)."
 	^ UnitGroup on: self! !
+
+!Ring methodsFor: 'enumerating' stamp: 'len 9/22/2018 19:00:06'!
+unitsDo: aBlock
+	self do: [:each| (self isUnit: each) ifTrue: [aBlock value: each]]! !
 
 !Ring methodsFor: 'accessing' stamp: 'len 9/2/2018 20:48:03'!
 valuation
@@ -17929,11 +17992,11 @@ zeroDivisors
 zeroIdeal
 	^ self * #()! !
 
-!Ring methodsFor: 'tuples and matrices' stamp: 'len 3/1/2017 11:26:55'!
+!Ring methodsFor: 'elements-matrices' stamp: 'len 3/1/2017 11:26:55'!
 zeroMatrix: dimension
 	^ self matrix: dimension scalar: self zero! !
 
-!Ring methodsFor: 'tuples and matrices' stamp: 'len 3/1/2017 11:29:02'!
+!Ring methodsFor: 'elements-tuples' stamp: 'len 3/1/2017 11:29:02'!
 zeroTuple: anInteger
 	^ self tuple: anInteger constant: self zero! !
 
@@ -18132,9 +18195,22 @@ includes: anObject
 integers
 	^ self ideal scalars! !
 
+!LocalizationRing methodsFor: 'testing' stamp: 'len 9/22/2018 18:55:12'!
+isArtinian
+	"Answer true if the receiver is an Artinian ring, i.e. it satisfied the descending chain condition on ideals.
+	In the non-commutative case, one should talk about 'left Artinian' or 'right Artinian' rings."
+	self integers isArtinian ifTrue: [^ true]. "only if commutative?"
+	^ super isArtinian! !
+
 !LocalizationRing methodsFor: 'testing' stamp: 'len 10/31/2016 11:27'!
 isCommutative
 	^ true! !
+
+!LocalizationRing methodsFor: 'testing' stamp: 'len 9/22/2018 18:55:09'!
+isEuclidean
+	"Answer true if the receiver is an Euclidean ring, i.e. it has division with remainder."
+	self integers isEuclidean ifTrue: [^ true].
+	^ super isEuclidean! !
 
 !LocalizationRing methodsFor: 'testing' stamp: 'len 10/28/2016 16:38'!
 isField
@@ -18278,6 +18354,11 @@ algebraicClosure
 !RationalField methodsFor: 'morphisms' stamp: 'len 12/14/2016 11:14:16'!
 automorphisms
 	^ TransformationGroup new elements: {self id}! !
+
+!RationalField methodsFor: 'accessing' stamp: 'len 9/22/2018 18:58:22'!
+degree
+	"Answer the degree of the receiver as an algebraic extension (as a number field)."
+	^ 1! !
 
 !RationalField methodsFor: 'enumerating' stamp: 'len 12/21/2015 22:42'!
 do: aBlock
@@ -18551,6 +18632,12 @@ includes: anObject
 isCommutative
 	^ components allSatisfy: [:each| each isCommutative]! !
 
+!ProductRing methodsFor: 'testing' stamp: 'len 9/22/2018 18:57:09'!
+isEuclidean
+	"Answer true if the receiver is an Euclidean ring, i.e. it has division with remainder."
+	(components allSatisfy: [:each| each isEuclidean]) ifTrue: [^ true]. "but how can it be, more than 2 components and it's not an integral domain"
+	^ super isEuclidean! !
+
 !ProductRing methodsFor: 'testing' stamp: 'len 9/16/2018 16:15:36'!
 isIntegralDomain
 	"The product of two or more non-trivial rings always has non-trivial zero divisors."
@@ -18696,15 +18783,17 @@ includes: anObject
 inverseOf: anElement
 	^ self project: ((self relations inverseOf: anElement representative) ifNil: [^ nil])! !
 
+!QuotientRing methodsFor: 'testing' stamp: 'len 9/22/2018 18:58:16'!
+isArtinian
+	"Answer true if the receiver is an Artinian ring, i.e. it satisfied the descending chain condition on ideals.
+	In the non-commutative case, one should talk about 'left Artinian' or 'right Artinian' rings."
+	self base isArtinian ifTrue: [^ true]. "only if commutative?"
+	^ super isArtinian! !
+
 !QuotientRing methodsFor: 'testing' stamp: 'len 11/29/2016 14:41:50'!
 isCommutative
 	self base isCommutative ifTrue: [^ true]. "if the ring is not commutative, we dont know if the quotient is or not"
 	^ super isCommutative! !
-
-!QuotientRing methodsFor: 'testing' stamp: 'len 2/28/2017 20:53:27'!
-isEuclidean
-	^ super isEuclidean
-"	^ self base isEuclidean" "wtf? this is wrong!!"! !
 
 !QuotientRing methodsFor: 'testing' stamp: 'len 2/28/2017 20:43:38'!
 isField
@@ -18770,10 +18859,10 @@ one
 over: aRing
 	^ (self relations over: aRing) quotientRing! !
 
-!QuotientRing methodsFor: 'enumerating' stamp: 'len 5/4/2018 23:25:21'!
+!QuotientRing methodsFor: 'enumerating' stamp: 'len 9/22/2018 18:58:10'!
 primeIdealsDo: aBlock
 	self isField ifTrue: [aBlock value: self zeroIdeal. ^ self].
-	self base primeIdealsDo: [:each| each >= self relations ifTrue: [aBlock value: each]]! !
+	self base primeIdealsDo: [:each| each >= self relations ifTrue: [aBlock value: (each apply: self projection)]]! !
 
 !QuotientRing methodsFor: 'printing' stamp: 'len 2/27/2017 20:53:15'!
 printOn: aStream
@@ -18980,6 +19069,11 @@ units
 new: anInteger
 	^ self new modulus: anInteger! !
 
+!PrimeRing methodsFor: 'accessing' stamp: 'len 9/22/2018 18:56:21'!
+degree
+	"Answer the degree of the receiver as an algebraic extension (as a Galois ring)."
+	^ 1! !
+
 !PrimeRing methodsFor: 'accessing' stamp: 'len 5/21/2018 04:19:07'!
 exponent
 	^ self propertyAt: #exponent ifAbsentPut: [self modulusFactors size]! !
@@ -18990,6 +19084,16 @@ extension: aPolynomial
 	aPolynomial scalars = self ifFalse: [DomainError signal: 'polynomial coefficients not from this ring'].
 	aPolynomial parent isUnivariate ifFalse: [DomainError signal: 'not univariate poylnomial'].
 	^ GaloisRing polynomial: aPolynomial! !
+
+!PrimeRing methodsFor: 'enumerating' stamp: 'len 9/22/2018 18:56:26'!
+idealsDo: aBlock
+	"The ideals of Z/(p^n)Z are {0} and <p^i> for 0 <= i < n-1."
+	| a |
+	aBlock value: self * 0.
+	a _ self one.
+	self exponent timesRepeat:
+		[aBlock value: self * a.
+		a _ a * self p]! !
 
 !PrimeRing methodsFor: 'testing' stamp: 'len 9/16/2018 23:16:07'!
 isChainRing
@@ -19006,8 +19110,22 @@ isEuclidean
 isField
 	^ self exponent = 1! !
 
+!PrimeRing methodsFor: 'testing' stamp: 'len 9/22/2018 18:56:29'!
+isGaloisRing
+	^ true! !
+
 !PrimeRing methodsFor: 'testing' stamp: 'len 5/21/2018 04:12:49'!
 isLocal
+	^ true! !
+
+!PrimeRing methodsFor: 'testing' stamp: 'len 9/22/2018 18:56:32'!
+isNilpotent: anElement
+	"Answer true if anElement^n = 0 for some integer n >= 1."
+	^ self isZeroDivisor: anElement! !
+
+!PrimeRing methodsFor: 'testing' stamp: 'len 9/22/2018 18:57:35'!
+isPIR
+	"All nontrivial ideals are of the form <p^i>."
 	^ true! !
 
 !PrimeRing methodsFor: 'testing' stamp: 'len 9/16/2018 16:24:53'!
@@ -19034,18 +19152,23 @@ nilradical
 p
 	^ self propertyAt: #p ifAbsentPut: [self modulusFactors anyOne]! !
 
-!PrimeRing methodsFor: 'accessing-private' stamp: 'len 5/21/2018 04:24:10'!
+!PrimeRing methodsFor: 'accessing-private' stamp: 'len 9/22/2018 18:56:42'!
 p: aPrime to: anInteger
 	self modulus: aPrime^anInteger.
-	self propertyAt: #modulusFactorization put: (Bag new add: aPrime withOccurrences: anInteger; yourself)! !
+	self propertyAt: #modulusFactors put: (Bag new add: aPrime withOccurrences: anInteger; yourself)! !
+
+!PrimeRing methodsFor: 'accessing' stamp: 'len 9/22/2018 18:56:46'!
+primeSubfield
+	^ self propertyAt: #primeSubfield ifAbsentPut: [PrimeField new: self p]! !
 
 !PrimeRing methodsFor: 'printing' stamp: 'len 5/21/2018 04:31:00'!
 printOn: aStream
 	aStream print: self base; nextPut: $/; print: self p; nextPutAll: self exponent printString super; print: self base! !
 
-!PrimeRing methodsFor: 'morphisms' stamp: 'len 5/21/2018 19:14:12'!
+!PrimeRing methodsFor: 'morphisms' stamp: 'len 9/22/2018 18:56:49'!
 to: aCodomain
-	((aCodomain isKindOf: PrimeField) and: [aCodomain p = self p])
+	"Cannonical projection from Z/(p^n)Z to Z/(p^m)Z, 1 <= m <= n."
+	((aCodomain isKindOf: PrimeRing) and: [aCodomain p = self p and: [aCodomain exponent < self exponent]])
 		ifTrue: [^ self to: aCodomain evaluating: [:x| aCodomain project: x representative]].
 	^ super to: aCodomain! !
 
@@ -19074,6 +19197,11 @@ example3
 new: p to: n
 	n = 1 ifTrue: [^ PrimeField new: p].
 	^ self new p: p to: n! !
+
+!PrimeField methodsFor: 'comparing' stamp: 'len 9/22/2018 18:56:11'!
+~ aRing
+	"Any two finite fields of the same cardinality are isomorphic."
+	^ aRing isField and: [self size = aRing size]! !
 
 !PrimeField methodsFor: 'private' stamp: 'len 9/2/2018 21:03:24'!
 computePrimitiveRoot
@@ -19111,6 +19239,10 @@ inverseOfRepresentative: anInteger
 isField
 	^ true! !
 
+!PrimeField methodsFor: 'testing' stamp: 'len 9/22/2018 18:56:07'!
+isGaloisField
+	^ true! !
+
 !PrimeField methodsFor: 'testing' stamp: 'len 9/16/2018 16:24:43'!
 isUnit: anElement
 	"Answer true if the argument is invertible."
@@ -19129,6 +19261,10 @@ p: aPrime to: anInteger
 !PrimeField methodsFor: 'enumerating' stamp: 'len 5/4/2018 20:12:15'!
 primeIdealsDo: aBlock
 	aBlock value: self zeroIdeal! !
+
+!PrimeField methodsFor: 'accessing' stamp: 'len 9/22/2018 18:56:03'!
+primeSubfield
+	^ self! !
 
 !PrimeField methodsFor: 'accessing' stamp: 'len 6/11/2018 06:33:23'!
 primitiveRoot
@@ -19226,9 +19362,9 @@ asModule
 characteristic
 	^ self base characteristic! !
 
-!AffineRing methodsFor: 'accessing' stamp: 'len 2/27/2017 20:57:13'!
+!AffineRing methodsFor: 'accessing' stamp: 'len 9/22/2018 18:46:29'!
 degree
-	^ self relations degree! !
+	^ self relations degree "conflicts with AlgebraicExtension>>degree?"! !
 
 !AffineRing methodsFor: 'accessing' stamp: 'len 2/27/2017 20:57:23'!
 dimension
@@ -19381,10 +19517,10 @@ automorphisms
 characteristic
 	^ self scalars characteristic! !
 
-!AlgebraicExtension methodsFor: 'accessing' stamp: 'len 12/10/2016 20:46:42'!
+!AlgebraicExtension methodsFor: 'accessing' stamp: 'len 9/22/2018 18:46:36'!
 degree
 	"Answer the degree [E:F] of the relative extension E/F."
-	^ self polynomial degree! !
+	^ self polynomial degree "conflicts with AffineRing>>degree?"! !
 
 !AlgebraicExtension methodsFor: 'accessing' stamp: 'len 1/5/2017 19:19:00'!
 degreeOver: aSubfield
@@ -19447,6 +19583,15 @@ polynomial: aPolynomial
 	"Answer a new algebraic field extension K(f) where f is the given polynomial in K[x]. The polynomial must be irreducible, otherwise there would be zero divisors."
 	^ self new polynomial: aPolynomial! !
 
+!GaloisRing methodsFor: 'enumerating' stamp: 'len 9/22/2018 18:53:46'!
+idealsDo: aBlock
+	| a |
+	aBlock value: self * 0.
+	a _ self one.
+	self exponent timesRepeat:
+		[aBlock value: self * a.
+		a _ a * self p]! !
+
 !GaloisRing methodsFor: 'testing' stamp: 'len 9/16/2018 23:15:40'!
 isChainRing
 	"A chain ring is a ring whose ideals form a chain under inclusion.
@@ -19464,6 +19609,10 @@ isFinite
 
 !GaloisRing methodsFor: 'testing' stamp: 'len 5/21/2018 05:06:26'!
 isGaloisExtension
+	^ true! !
+
+!GaloisRing methodsFor: 'testing' stamp: 'len 9/22/2018 18:54:20'!
+isGaloisRing
 	^ true! !
 
 !GaloisRing methodsFor: 'testing' stamp: 'len 5/21/2018 16:54:03'!
@@ -19494,25 +19643,37 @@ nilradical
 p
 	^ self scalars p! !
 
-!GaloisRing methodsFor: 'accessing' stamp: 'len 9/16/2018 23:24:29'!
+!GaloisRing methodsFor: 'accessing' stamp: 'len 9/22/2018 18:54:23'!
 primitiveRoot
 	"Answer a primitive root (or basic primitive element) of the receiver.
-	For GR(p^n,r), a basic primitive element is an element of multiplicative order p^r - 1, which is a root of a basic primitive polynomial of degree r over Z/(p^n)Z and dividing x^(p^r - 1) - 1 in Z/(p^n)Z[x]. Power of this element form a Teichmuller set."
+	For GR(p^n,r), a basic primitive element is an element of multiplicative order p^r - 1, which is a root of a basic primitive polynomial of degree r over Z/(p^n)Z and dividing x^(p^r - 1) - 1 in Z/(p^n)Z[x]. Powers of this element form a Teichmuller set."
 	^ self notYetImplemented! !
 
 !GaloisRing methodsFor: 'printing' stamp: 'len 5/21/2018 07:20:18'!
 printOn: aStream
 	aStream nextPutAll: 'GR('; print: self scalars p; nextPutAll: self scalars exponent printString super; nextPut: $,; print: self degree; nextPut: $)! !
 
-!GaloisRing methodsFor: 'accessing' stamp: 'len 9/16/2018 23:26:50'!
+!GaloisRing methodsFor: 'accessing' stamp: 'len 9/22/2018 18:54:27'!
 teichmuller
-	"Answer a Teichmuller set of the receiver. Any element of GR(p^n,r) can be written as a polynomial in p with coefficients in the Teichmuller set."
+	"Answer a Teichmuller set of the receiver.
+	Any element of GR(p^n,r) can be written as a polynomial in p with coefficients in the Teichmuller set."
 	| answer w |
 	answer _ OrderedCollection new: self characteristic.
 	answer add: self zero; add: self one.
 	w _ self primitiveRoot.
 	self characteristic - 2 timesRepeat: [answer add: (answer last * w)].
 	^ answer! !
+
+!GaloisRing methodsFor: 'morphisms' stamp: 'len 9/22/2018 18:54:31'!
+to: aCodomain
+	aCodomain isGaloisRing ifFalse: [^ super to: aCodomain].
+	"The subrings of GR(p^n,m) correspond to the positive divisors of m. If aCodomain is a suitable overring, answer an embedding of the receiver into the overring."
+	(self characteristic = aCodomain characteristic and: [self degree | aCodomain degree])
+		ifTrue: [^ self into: aCodomain evaluating: [:x| aCodomain project: (x representative ^ (self p ^ (aCodomain degree / self degree)))]].
+	"Given GR(p^n,r), there's a projection to GR(p^m,r) for all m<=n, with kernel <p^m>. This accounts for all ideals."
+	(self p = aCodomain p and: [self degree = aCodomain degree])
+		ifTrue: [self scalars  aCodomain scalars ifNotNil: [:aMorphism| ^ self to: aCodomain evaluating: [:x| aCodomain project: (x representative apply: aMorphism)]]].
+	^ super to: aCodomain! !
 
 !GaloisRing methodsFor: 'operations' stamp: 'len 5/21/2018 06:53:52'!
 zeroDivisors
@@ -19546,6 +19707,11 @@ new: p to: n to: m
 	f _ f lift apply: F projection.
 	^ self polynomial: f! !
 
+!GaloisField methodsFor: 'comparing' stamp: 'len 9/22/2018 18:53:34'!
+~ aRing
+	"Any two finite fields of the same cardinality are isomorphic."
+	^ aRing isField and: [self size = aRing size]! !
+
 !GaloisField methodsFor: 'morphisms' stamp: 'len 12/14/2016 11:14:22'!
 automorphisms
 	"Answer the Galous group of the receiver."
@@ -19556,12 +19722,16 @@ isAbelianExtension
 	"Galois fields are Abelian extensions."
 	^ true! !
 
+!GaloisField methodsFor: 'testing' stamp: 'len 9/22/2018 18:53:39'!
+isGaloisField
+	^ true! !
+
 !GaloisField methodsFor: 'printing' stamp: 'len 12/17/2016 23:04:02'!
 printOn: aStream
 	aStream nextPut: Character FF; nextPutAll: self size printString sub
 "	aStream nextPutAll: 'GF('; print: self characteristic; nextPutAll: self degree printString super; nextPut: $)"! !
 
-!GaloisField methodsFor: 'as yet unclassified' stamp: 'len 5/27/2018 04:39:39'!
+!GaloisField methodsFor: 'accessing' stamp: 'len 5/27/2018 04:39:39'!
 universalPolynomial
 	"Answer the universal polynomial of which all elements of the receiver are roots."
 	^ ZZ polynomials !! [:x| x^self size - x]! !
@@ -19598,9 +19768,9 @@ new: p to: n
 genus
 	^ self notYetImplemented! !
 
-!FunctionField methodsFor: 'testing' stamp: 'len 1/28/2018 08:00:58'!
+!FunctionField methodsFor: 'testing' stamp: 'len 9/22/2018 18:48:55'!
 isGlobalField
-	^ (self base isKindOf: RationalFunctionField) and: [self scalars isFiniteField]! !
+	^ self scalars isGaloisField! !
 
 !FunctionField methodsFor: 'testing' stamp: 'len 1/5/2017 18:55:12'!
 isPerfectField
@@ -19861,12 +20031,11 @@ sqrt: anInteger
 adic: aPrime
 	^ AdicIntegerRing p: aPrime! !
 
-!RationalIntegerRing methodsFor: 'random' stamp: 'len 10/20/2016 11:06'!
+!RationalIntegerRing methodsFor: 'random' stamp: 'len 9/22/2018 18:58:33'!
 atRandom: aRandom bits: bitSize
 	| n |
 	bitSize isInfinite ifTrue: [^ self error: 'infinite bitsize'].
 	bitSize < 0 ifTrue: [^ self error: 'negative bitsize'].
-"	bitSize = 0 ifTrue: [^ 0]."
 	self flag: #fix. "maybe this should be more like a flat gaussian distribution around 0?"
 	bitSize < 1 ifTrue: [^ 0].
 	n _ 2^(bitSize truncated - 1).
@@ -19924,6 +20093,10 @@ isInitial
 !RationalIntegerRing methodsFor: 'testing' stamp: 'len 1/8/2017 07:49:36'!
 isIntegralDomain
 	^ true! !
+
+!RationalIntegerRing methodsFor: 'testing' stamp: 'len 9/22/2018 18:58:26'!
+isIrreducible: anInteger
+	^ anInteger isPrime! !
 
 !RationalIntegerRing methodsFor: 'testing' stamp: 'len 10/20/2016 03:38'!
 isNoetherian
@@ -19983,6 +20156,10 @@ to: aCodomain
 units
 	"Answer the multiplicative group of units of the receiver (i.e., elements that have multiplicative inverse)."
 	^ super units elements: {1. -1}! !
+
+!RationalIntegerRing methodsFor: 'enumerating' stamp: 'len 9/22/2018 18:58:29'!
+unitsDo: aBlock
+	aBlock value: 1; value: -1! !
 
 !RationalIntegerRing methodsFor: 'accessing' stamp: 'len 9/2/2018 20:49:27'!
 valuation
@@ -20747,8 +20924,9 @@ interpolate: aCollection
 isCommutative
 	^ true! !
 
-!PolynomialRing methodsFor: 'testing' stamp: 'len 10/22/2016 18:11'!
+!PolynomialRing methodsFor: 'testing' stamp: 'len 9/21/2018 16:02:23'!
 isEuclidean
+	"Answer true if the receiver is an Euclidean ring, i.e. it has division with remainder."
 	^ self scalars isEuclidean! !
 
 !PolynomialRing methodsFor: 'testing' stamp: 'len 10/22/2016 18:08'!
@@ -21056,6 +21234,11 @@ isLocal
 !PowerSeriesRing methodsFor: 'testing' stamp: 'len 10/28/2016 14:17'!
 isMultivariate
 	^ self polynomials isMultivariate! !
+
+!PowerSeriesRing methodsFor: 'testing' stamp: 'len 9/22/2018 18:55:55'!
+isUnit: aPowerSeries
+	"Answer true if the argument is invertible."
+	^ self scalars isUnit: aPowerSeries independentCoefficient! !
 
 !PowerSeriesRing methodsFor: 'accessing' stamp: 'len 10/31/2016 04:02'!
 maximalIdeal
@@ -21528,11 +21711,12 @@ zero
 	self generators do: [:each| (anIdeal includes: each) ifFalse: [^ false]].
 	^ true! !
 
-!Ideal methodsFor: 'comparing' stamp: 'len 1/15/2018 18:47:10'!
+!Ideal methodsFor: 'comparing' stamp: 'len 9/22/2018 18:54:41'!
 = anIdeal
 	self == anIdeal ifTrue: [^ true].
 	(anIdeal isKindOf: Ideal) ifFalse: [^ false].
 	self scalars = anIdeal scalars ifFalse: [^ false].
+	self generators = anIdeal generators ifTrue: [^ true].
 	^ self <= anIdeal and: [anIdeal <= self]! !
 
 !Ideal methodsFor: 'operations' stamp: 'len 6/5/2016 22:46'!
@@ -21657,11 +21841,11 @@ height
 includes: anElement
 	^ (self scalars includes: anElement) and: [self contains: anElement]! !
 
-!Ideal methodsFor: 'operations-elements' stamp: 'len 4/18/2018 06:23:50'!
+!Ideal methodsFor: 'operations-elements' stamp: 'len 9/22/2018 18:54:45'!
 inverseOf: anElement
 	"This works only for ideals of an euclidean domain given by one generator."
 	| euclid |
-	self scalars isEuclidean ifFalse: [^ nil].
+	self scalars isEuclideanDomain ifFalse: [^ nil].
 	euclid _ ExtendedEuclid on: {anElement. self generator}.
 	euclid gcd = self scalars one ifFalse: [^ nil].
 	^ euclid bezout first! !
@@ -21683,16 +21867,28 @@ isMaximal
 	(self scalars isField not and: [self isZero]) ifTrue: [^ false].
 	^ self isPrime! !
 
+!Ideal methodsFor: 'testing' stamp: 'len 9/22/2018 18:54:48'!
+isNilIdeal
+	"An ideal is called nil-ideal if all its elements are nilpotent."
+	^ self generators allSatisfy: [:each| self ambient isNilpotent: each]! !
+
+!Ideal methodsFor: 'testing' stamp: 'len 9/22/2018 18:54:52'!
+isNilpotent
+	"An ideal I is called nilpotent if there is an integer n >= 1 such that I^n = 0."
+	^ self notYetImplemented! !
+
 !Ideal methodsFor: 'testing' stamp: 'len 1/15/2018 18:49:53'!
 isOne
 	"Answer true if the receiver is the unit ideal <1> that equals the whole ambient ring."
 	^ self includes: self scalars one! !
 
-!Ideal methodsFor: 'testing' stamp: 'len 5/15/2018 19:12:43'!
+!Ideal methodsFor: 'testing' stamp: 'len 9/22/2018 18:54:55'!
 isPrime
 	"An ideal I of R is prime iff R/I is an integral domain.
 	This method only works for zero ideals or ideals given by one generator. Subclasses should reimplement."
-	^ self propertyAt: #isPrime ifAbsentPut:[(self scalars isIntegralDomain and: [self isZero]) or: [self generator isPrime]]! !
+	(self scalars isIntegralDomain and: [self isZero]) ifTrue: [^ true].
+	(self scalars isUFD and: [self isPrincipal]) ifTrue: [^ self scalars isIrreducible: self generator].
+	^ self subclassResponsibility! !
 
 !Ideal methodsFor: 'testing' stamp: 'len 1/15/2018 18:49:58'!
 isPrincipal
@@ -21832,10 +22028,10 @@ reduce: anElement
 	"Answer the normal form of anElement with respect to the receiver."
 	^ self scalars project: (self representative reduce: anElement representative)! !
 
-!QuotientIdeal methodsFor: 'accessing' stamp: 'len 9/16/2018 18:22:36'!
+!QuotientIdeal methodsFor: 'accessing' stamp: 'len 9/22/2018 18:58:05'!
 representative
 	"If the receiver is an ideal I of a quotient ring A/J, return the lifting of I to A, this is the ideal in A generated by the representatives in A of the generators of I."
-	^ self propertyAt: #representative ifAbsentPut: [self scalars base * (self generators collect: [:each| each representative]) "+ self scalars relations"]! !
+	^ self propertyAt: #representative ifAbsentPut: [self scalars base * (self generators collect: [:each| each representative]) + self scalars relations]! !
 
 !RationalIntegerIdeal methodsFor: 'operations' stamp: 'len 1/15/2018 18:59:17'!
 • anIdeal
@@ -22047,10 +22243,10 @@ inverseOf: aPolynomial
 isHomogeneous
 	^ self generators allSatisfy: [:each| each isHomogeneous]! !
 
-!PolynomialIdeal methodsFor: 'testing' stamp: 'len 4/7/2018 18:13:01'!
+!PolynomialIdeal methodsFor: 'testing' stamp: 'len 9/22/2018 18:55:38'!
 isPrime
 	self isZero ifTrue: [^ true].
-	self isPrincipal ifTrue: [^ self generator isIrreducible].
+	(self isPrincipal and: [self scalars isUFD]) ifTrue: [^ self generator isIrreducible].
 	^ self notYetImplemented! !
 
 !PolynomialIdeal methodsFor: 'testing' stamp: 'len 5/26/2018 19:40:13'!
@@ -22164,13 +22360,13 @@ radicalContains: aPolynomial
 	X add: S !! aPolynomial * t - S one.
 	^ (S * X) isTrivial! !
 
-!PolynomialIdeal methodsFor: 'operations-elements' stamp: 'len 5/23/2018 22:52:11'!
+!PolynomialIdeal methodsFor: 'operations-elements' stamp: 'len 9/22/2018 18:55:34'!
 reduce: aPolynomial
 	"Answer the normal form of anElement with respect to the receiver."
 	| f |
 	f _ aPolynomial.
 	f parent == self scalars ifFalse: [f _ self scalars !! f].
-	self isZero ifTrue: [^ f].
+	(f isZero or: [self isZero]) ifTrue: [^ f].
 	self isUnivariate ifTrue: [^ f \\ self generator].
 	^ self basis reduce: f! !
 
@@ -27558,11 +27754,9 @@ zero
 over: aRing
 	^ self coordinateRing: (aRing polynomialsIn: #(x y))! !
 
-!ProjectivePlane methodsFor: 'accessing' stamp: 'len 9/15/2018 20:59:26'!
+!ProjectivePlane methodsFor: 'accessing' stamp: 'len 9/22/2018 18:57:41'!
 order
-	self scalars isFiniteField ifFalse: [^ self notYetImplemented].
-	(self scalars isKindOf: PrimeField) ifTrue: [^ 1].
-	(self scalars isKindOf: GaloisField) ifTrue: [^ self scalars degree].
+	self scalars isGaloisField ifTrue: [^ self scalars degree].
 	^ self notYetImplemented! !
 
 !ProjectivePlane class methodsFor: 'instance creation' stamp: 'len 9/16/2018 16:07:45'!
@@ -28477,14 +28671,15 @@ asModuleHomomorphism
 is: aSymbol
 	^ aSymbol == #RingHomomorphism or: [super is: aSymbol]! !
 
-!RingMap methodsFor: 'testing' stamp: 'len 1/11/2018 17:48:31'!
+!RingMap methodsFor: 'testing' stamp: 'len 9/22/2018 19:00:14'!
 isInjective
+	(self domain isField and: [self codomain isTrivial not]) ifTrue: [^ true]. "a ring homomorphism from a field to a nontrivial ring is injective."
 	^ self kernel isZero! !
 
-!RingMap methodsFor: 'testing' stamp: 'len 10/31/2016 03:59'!
+!RingMap methodsFor: 'testing' stamp: 'len 9/22/2018 19:00:11'!
 isLocal
-	"A ring homomorphism is local if it is a homomorphism of local rings and carries the maximal ideal to the maximal ideal."
-	^ self domain isLocal and: [self codomain isLocal and: [(self domain maximalIdeal apply: self) = self codomain maximalIdeal]]! !
+	"A ring homomorphism called 'local' if it is a homomorphism of local rings and carries the maximal ideal to the maximal ideal."
+	^ self domain isLocal and: [self codomain isLocal and: [(self domain maximalIdeal apply: self) <= self codomain maximalIdeal]]! !
 
 !RingMap methodsFor: 'testing' stamp: 'len 10/5/2016 10:27'!
 isZero
@@ -29138,6 +29333,11 @@ linearMap: aLinearMap translation: aVector
 	(aQuadraticForm isKindOf: QuadraticForm) ifFalse: [^ false].
 	^ self coefficients = aQuadraticForm coefficients! !
 
+!QuadraticForm methodsFor: 'comparing' stamp: 'len 9/22/2018 18:57:58'!
+~ aQuadraticForm
+	"Answer true if the receiver and the argument are integrally equivalent."
+	^ self hessian ~ aQuadraticForm hessian! !
+
 !QuadraticForm methodsFor: 'arithmetic' stamp: 'len 3/28/2018 03:00:18'!
  aQuadraticForm
 	"Answer the direct sum of the receiver and the argument."
@@ -29191,20 +29391,18 @@ coefficients
 coefficients: aTuple
 	coefficients _ aTuple! !
 
-!QuadraticForm methodsFor: 'accessing' stamp: 'len 3/28/2018 01:05:41'!
+!QuadraticForm methodsFor: 'accessing' stamp: 'len 9/22/2018 18:57:55'!
 content
-	| answer |
-	answer _ self scalars zero.
-	self coefficients do: [:each| answer _ answer gcd: each].
-	^ answer! !
+	^ self coefficients content! !
 
 !QuadraticForm methodsFor: 'accessing' stamp: 'len 3/28/2018 03:12:29'!
 determinant
 	"Answer the determinant of the Hessian matrix of the receiver. This is the determinant of the Gram matrix of twice the receiver."
 	^ self hessian determinant! !
 
-!QuadraticForm methodsFor: 'accessing' stamp: 'len 3/28/2018 18:20:42'!
+!QuadraticForm methodsFor: 'accessing' stamp: 'len 9/22/2018 18:57:51'!
 discriminant
+	"Note: this invariant is defined differently by different authors."
 	self rank odd ifTrue: [^ self determinant / 2].
 	(self rank // 2) odd ifTrue: [self determinant negated].
 	^ self determinant! !
@@ -29242,9 +29440,9 @@ isRegular
 negated
 	^ self class from: self domain coefficients: self coefficients negated! !
 
-!QuadraticForm methodsFor: 'operations' stamp: 'len 3/28/2018 03:03:55'!
+!QuadraticForm methodsFor: 'operations' stamp: 'len 9/22/2018 18:57:46'!
 primitive
-	^ self class from: self domain coefficients: self coefficients / self content! !
+	^ self class from: self domain coefficients: self coefficients primitive! !
 
 !QuadraticForm methodsFor: 'printing' stamp: 'len 4/21/2016 00:22'!
 printOn: aStream
@@ -32629,8 +32827,14 @@ includes: anObject
 is: aSymbol
 	^ aSymbol == #ResidueClass or: [super is: aSymbol]! !
 
-!ResidueClass methodsFor: 'testing' stamp: 'len 9/15/2018 04:31:13'!
+!ResidueClass methodsFor: 'testing' stamp: 'len 9/22/2018 18:58:41'!
+isNilpotent
+	"Answer true if self^n = 0 for some integer n >= 1."
+	^ parent isNilpotent: self! !
+
+!ResidueClass methodsFor: 'testing' stamp: 'len 9/22/2018 18:58:45'!
 isUnit
+	"Answer true if the receiver is invertible."
 	^ parent isUnit: self! !
 
 !ResidueClass methodsFor: 'testing' stamp: 'len 11/25/2015 03:10'!
@@ -32641,6 +32845,10 @@ isZero
 !ResidueClass methodsFor: 'testing' stamp: 'len 9/15/2018 04:30:06'!
 isZeroDivisor
 	^ parent isZeroDivisor: self! !
+
+!ResidueClass methodsFor: 'operations' stamp: 'len 9/22/2018 18:58:38'!
+lcm: aResidueClass
+	^ parent project: (representative lcm: aResidueClass representative)! !
 
 !ResidueClass methodsFor: 'accessing' stamp: 'len 4/23/2018 20:38:46'!
 lift
@@ -34108,6 +34316,23 @@ collect: aBlock
 conjugated
 	^ self collect: [:each| each conjugated]! !
 
+!Tuple methodsFor: 'operations' stamp: 'len 9/22/2018 19:00:32'!
+content
+	"Answer the GCD of the coefficients of the receiver.
+	In a field, it is convenient to define the content as 1."
+	| answer |
+	self scalars isField
+		ifTrue:
+			[^ self scalars isFractionRing
+				ifTrue:
+					[| c |
+					c _ self coefficients inject: self scalars one into: [:lcm :each| lcm lcm: each denominator].
+					(self coefficients inject: self scalars zero into: [:gcd :each| gcd gcd: each * c]) / c]
+				ifFalse: [self scalars one]].
+	answer _ self scalars zero.
+	self coefficients do: [:each| answer _ answer gcd: each].
+	^ answer! !
+
 !Tuple methodsFor: 'enumerating' stamp: 'len 11/5/2016 09:43'!
 count: aBlock
 	| count |
@@ -34322,6 +34547,11 @@ polynomialValue: anObject
 	self reverseDo: [:each| answer _ anObject * answer + (one * each)].
 	^ answer! !
 
+!Tuple methodsFor: 'operations' stamp: 'len 9/22/2018 19:00:28'!
+primitive
+	"Answer the primitive part of the receiver."
+	^ self isZero ifTrue: [self] ifFalse: [self /// self content]! !
+
 !Tuple methodsFor: 'printing' stamp: 'len 5/19/2018 19:44:02'!
 printCoefficientsOn: aStream
 	| separator |
@@ -34456,7 +34686,7 @@ at: anInteger put: aBit
 		ifFalse: [integer _ integer bitXor: 1 << (anInteger - 1)].
 	^ bit! !
 
-!BitTuple methodsFor: 'operations' stamp: 'len 11/22/2016 05:39:06'!
+!BitTuple methodsFor: 'operations' stamp: 'len 9/22/2018 18:46:55'!
 convolution: aBitTuple
 	| a b c |
 	a _ integer.
@@ -34465,7 +34695,7 @@ convolution: aBitTuple
 	1 to: a highBit do: [:i|
 		(a bitAt: i) = 1 ifTrue: [c _ c bitXor: b].
 		b _ b bitShift: 1].
-	^ self class new: self size + aBitTuple size - 1 fromInteger: c! !
+	^ self class new: (self size + aBitTuple size - 1 max: 0) fromInteger: c! !
 
 !BitTuple methodsFor: 'copying' stamp: 'len 7/2/2016 00:49'!
 copyFrom: start to: stop 
@@ -34507,10 +34737,11 @@ hadamard: aBitTuple
 hash
 	^ integer hash! !
 
-!BitTuple methodsFor: 'initialization' stamp: 'len 3/28/2016 05:41'!
+!BitTuple methodsFor: 'initialization' stamp: 'len 9/22/2018 18:46:50'!
 integer: anInteger size: anotherInteger
 	integer _ anInteger.
-	size _ anotherInteger! !
+	size _ anotherInteger.
+	size negative ifTrue: [self halt]! !
 
 !BitTuple methodsFor: 'testing' stamp: 'len 12/4/2016 15:19:45'!
 isZero
@@ -34579,9 +34810,10 @@ shift: anInteger
 size
 	^ size! !
 
-!BitTuple methodsFor: 'initialization' stamp: 'len 11/5/2016 09:22'!
+!BitTuple methodsFor: 'initialization' stamp: 'len 9/22/2018 18:46:43'!
 size: anInteger
-	size _ anInteger! !
+	size _ anInteger.
+	size negative ifTrue: [self halt]! !
 
 !BitTuple methodsFor: 'operations' stamp: 'len 7/2/2016 00:39'!
 sum
@@ -35750,8 +35982,9 @@ isLowerTriangular
 isMatrix
 	^ true! !
 
-!Matrix methodsFor: 'testing' stamp: 'len 3/21/2018 20:34:49'!
+!Matrix methodsFor: 'testing' stamp: 'len 9/22/2018 18:55:17'!
 isNilpotent
+	"Answer true if self^n = 0 for some integer n >= 1."
 	^ self trace isZero and: [self determinant isZero]! !
 
 !Matrix methodsFor: 'testing' stamp: 'len 12/31/2015 05:52'!
@@ -38316,6 +38549,11 @@ is: aSymbol
 isAffineLinear
 	^ self degree < 2! !
 
+!Polynomial methodsFor: 'testing' stamp: 'len 9/22/2018 18:55:28'!
+isBasicIrreducible
+	(self scalars isKindOf: PrimeRing) ifFalse: [DomainError signal].
+	^ (self apply: self scalars  self scalars primeSubfield) isIrreducible! !
+
 !Polynomial methodsFor: 'testing' stamp: 'len 2/17/2017 08:07:02'!
 isBinomial
 	^ self monomials size = 2! !
@@ -39555,9 +39793,9 @@ factorizationZassenhauss2
 			g | f ifTrue: [answer add: g]]].
 	^ answer! !
 
-!UnivariatePolynomial methodsFor: 'factorization' stamp: 'len 4/25/2018 17:07:37'!
+!UnivariatePolynomial methodsFor: 'factorization' stamp: 'len 9/22/2018 19:00:50'!
 factors
-	self scalars isFiniteField
+	self scalars isGaloisField
 		ifTrue: [^ self factorizationFiniteField].
 	(self scalars isKindOf: RationalIntegerRing)
 		ifTrue: [^ self factorizationIntegers].
@@ -39619,7 +39857,7 @@ henselLift: factors to: k
 independentCoefficient
 	^ self coefficientAtDegree: 0! !
 
-!UnivariatePolynomial methodsFor: 'testing' stamp: 'len 4/25/2018 21:42:02'!
+!UnivariatePolynomial methodsFor: 'testing' stamp: 'len 9/22/2018 19:00:42'!
 isIrreducible
 	| R |
 	self isConstant ifTrue: [^ false]. "constant polynomials are not reducible nor irreducible"
@@ -39629,7 +39867,7 @@ isIrreducible
 		ifTrue: [^ false].
 	(R isKindOf: ComplexField)
 		ifTrue: [^ self degree = 1].
-	R isFiniteField
+	R isGaloisField
 		ifTrue: [^ self isIrreducibleRabin].
 "	(R isKindOf: RationalField)
 		ifTrue: [^ self isIrreducibleHeuristic: ...]."
@@ -39992,10 +40230,10 @@ signature
 			h _ h ^ (1 - d) * (g ^ d)].
 	^ {r1. n - r1 / 2}! !
 
-!UnivariatePolynomial methodsFor: 'factorization' stamp: 'len 4/25/2018 17:12:51'!
+!UnivariatePolynomial methodsFor: 'factorization' stamp: 'len 9/22/2018 19:00:45'!
 squareFreeFactorization
 	"Answer a square-free factorization of the receiver."
-	self scalars isFiniteField
+	self scalars isGaloisField
 		ifTrue: [^ self squareFreeFactorizationFiniteField].
 	self scalars characteristic > 0 "finite ring"
 		ifTrue: [^ self notYetImplemented].
@@ -41160,9 +41398,9 @@ inverse
 					ifTrue: [b1]
 					ifFalse: [b1 negated * ((2 to: n) sum: [:i| (a at: i+1) * (b at: n-i+1)])]])! !
 
-!PowerSeries methodsFor: 'testing' stamp: 'len 6/30/2016 04:01'!
-isInvertible
-	^ self scalars isUnit: (coefficients at: 1)! !
+!PowerSeries methodsFor: 'testing' stamp: 'len 9/22/2018 18:55:49'!
+isUnit
+	^ self scalars isUnit: self independentCoefficient! !
 
 !PowerSeries methodsFor: 'testing' stamp: 'len 4/11/2016 23:09'!
 isZero
@@ -41210,11 +41448,11 @@ scalars
 squared
 	^ self * self! !
 
-!PowerSeries methodsFor: 'accessing' stamp: 'len 3/1/2016 22:14'!
+!PowerSeries methodsFor: 'accessing' stamp: 'len 9/22/2018 18:55:44'!
 terms
 	| P |
 	P _ self scalars polynomials.
-	^ Sequence evaluating: [:i| P coefficient: (coefficients at: i) degree: i-1]! !
+	^ Sequence to: P evaluating: [:i| P coefficient: (coefficients at: i) degree: i-1]! !
 
 !PowerSeries methodsFor: 'operations' stamp: 'len 2/29/2016 04:58'!
 value: anObject upTo: n
