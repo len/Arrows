@@ -1,6 +1,6 @@
-'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 16 September 2018 at 11:31:19 pm'!
+'From Cuis 5.0 of 7 November 2016 [latest update: #3059] on 22 September 2018 at 7:03:22 pm'!
 'Description Please enter a description for this package'!
-!provides: 'MathematicsTests' 1 108!
+!provides: 'MathematicsTests' 1 109!
 !classDefinition: #AbelianGroupTest category: #MathematicsTests!
 TestCase subclass: #AbelianGroupTest
 	instanceVariableNames: ''
@@ -5379,11 +5379,11 @@ testThirdIsomorphismTheoremOverQuadraticField
 testTuplesQ
 	self testFreeModule: (QQ ^ 5 atRandom)! !
 
-!ModuleTest methodsFor: 'other' stamp: 'len 8/26/2016 06:03'!
+!ModuleTest methodsFor: 'other' stamp: 'len 9/22/2018 19:02:24'!
 testTuplesRationalFunctionsQ
 	| F |
 	F _ QQ polynomials fractions.
-	self testFreeModule: (F ^ 3 atRandom)! !
+	self testFreeModule: F ^ 3 atRandom! !
 
 !ModuleTest methodsFor: 'other' stamp: 'len 8/26/2016 05:46'!
 testTuplesZ
@@ -6747,15 +6747,6 @@ testCanonicalMorphisms
 	self assert: (ZZ  R value: 4) = (R embed: 4). "canonical morphism from initial object"
 	self assert: (R  Q value: x^2 + 2) = Q one. "canonical morphism to quotient object"! !
 
-!RingTest methodsFor: 'general' stamp: 'len 10/10/2016 09:58'!
-testDirectProduct
-	| R S P |
-	R _ self newRing.
-	S _ self newRing.
-	P _ R × S.
-	self testRing: P.
-	self testRingHomomorphism: (P projection: 2 atRandom)! !
-
 !RingTest methodsFor: 'finite rings' stamp: 'len 5/3/2018 06:28:51'!
 testFiniteRing
 	| R |
@@ -6819,8 +6810,21 @@ testGaloisRing
 	self assert: R isEuclidean.
 	self testRing: R! !
 
-!RingTest methodsFor: 'finite rings' stamp: 'len 9/16/2018 16:47:27'!
-testGaloisRingCanonicalHomomorphism
+!RingTest methodsFor: 'finite rings' stamp: 'len 9/22/2018 19:02:42'!
+testGaloisRingCanonicalEmbeddingIntoOverring
+	"Canonical homomorphism from GR(p^n,m) to GR(p^n,m*k)."
+	| p n m k A B phi |
+	p _ #(2 3 5) atRandom.
+	n _ 3 atRandom.
+	m _ 3 atRandom.
+	k _ 3 atRandom.
+	A _ GaloisRing new: p to: n to: m.
+	B _ GaloisRing new: p to: n to: m * k.
+	phi _ A  B.
+	self testRingHomomorphism: phi! !
+
+!RingTest methodsFor: 'finite rings' stamp: 'len 9/22/2018 19:02:50'!
+testGaloisRingCanonicalHomomorphismToPrimeSubfield
 	"Canonical homomorphism from GR(p^n,m) to Z/<p>."
 	| p n m A B phi |
 	p _ #(2 3 5) atRandom.
@@ -6828,6 +6832,18 @@ testGaloisRingCanonicalHomomorphism
 	m _ 3 atRandom.
 	A _ GaloisRing new: p to: n to: m.
 	B _ ZZ/p.
+	phi _ A  B.
+	self testRingHomomorphism: phi! !
+
+!RingTest methodsFor: 'finite rings' stamp: 'len 9/22/2018 19:02:55'!
+testGaloisRingCanonicalProjectionOntoResidueField
+	"Canonical homomorphism from GR(p^n,m) to GF(p,m)."
+	| p n m A B phi |
+	p _ #(2 3 5) atRandom.
+	n _ 3 atRandom.
+	m _ 3 atRandom.
+	A _ GaloisRing new: p to: n to: m.
+	B _ GaloisField new: p to: m.
 	phi _ A  B.
 	self testRingHomomorphism: phi! !
 
@@ -6960,19 +6976,20 @@ testPrimeRing
 	self assert: R maximalIdeal = (R*3).
 	self testRing: R! !
 
-!RingTest methodsFor: 'finite rings' stamp: 'len 5/22/2018 04:03:52'!
-testPrimeRingCanonicalHomomorphism
-	"Canonical homomorphism from ZZ/<p^n> to ZZ/<p>."
-	| p n A B phi a b |
+!RingTest methodsFor: 'finite rings' stamp: 'len 9/22/2018 19:03:08'!
+testPrimeRingCanonicalProjections
+	"Canonical homomorphism from ZZ/<p^n> to ZZ/<p^m> with 1 <= m <= n."
+	| p n m A B phi a b |
 	p _ 100 atRandom nextPrime.
-	n _ 3 atRandom.
+	n _ 4 atRandom.
 	A _ ZZ/(p^n).
-	B _ ZZ/p.
+	m _ n atRandom.
+	B _ ZZ/(p^m).
 	phi _ A  B.
 	a _ A atRandom.
 	b _ phi value: a.
 	self assert: (B includes: b).
-	self assert: a representative \\ p = b representative.
+	self assert: a representative \\ (p^m) = b representative.
 	self testRingHomomorphism: phi! !
 
 !RingTest methodsFor: 'finite rings' stamp: 'len 5/22/2018 03:53:46'!
@@ -6980,6 +6997,15 @@ testPrimeRingNilradical
 	| R |
 	R _ PrimeRing new: 3 to: 3.
 	self assert: R nilradical = (R * 3)! !
+
+!RingTest methodsFor: 'general' stamp: 'len 9/22/2018 19:03:04'!
+testProductRing
+	| R S P |
+	R _ self newRing.
+	S _ self newRing.
+	P _ R × S.
+	self testRing: P.
+	self testRingHomomorphism: (P projection: 2 atRandom)! !
 
 !RingTest methodsFor: 'quotients' stamp: 'len 10/6/2016 20:32'!
 testQuotientRing
