@@ -1,6 +1,6 @@
-'From Cuis 5.0 [latest update: #4190] on 13 March 2021 at 11:18:51 am'!
+'From Cuis 5.0 [latest update: #4190] on 14 March 2021 at 12:49:03 pm'!
 'Description A computational algebra system in Smalltalk'!
-!provides: 'Domains' 1 609!
+!provides: 'Domains' 1 610!
 !requires: 'RayTracer' 1 2 nil!
 !requires: 'Complex' 1 7 nil!
 SystemOrganization addCategory: #'Domains-Kernel'!
@@ -4024,7 +4024,7 @@ Finite-dimensional algebras over a commutative ring R. They don't have to be ass
 See also AlgebraElement and AlgebraMap.!
 
 !EndomorphismAlgebra commentStamp: '<historical>' prior: 0!
-Algebra of R-module endomorphisms End(M). The underlying module is the hom module Hom(M,M) for a R-module M, and multiplication is composition of module maps.!
+Algebra of R-module endomorphisms End(M). The underlying module is the homomorphisms module Hom(M,M) for a R-module M, and multiplication is composition of module maps.!
 
 !MatrixAlgebra commentStamp: '<historical>' prior: 0!
 Full matrix algebras, i.e. n^2-dimensional associative algebras of square nxn matrices over a ring R under matrix multiplication.!
@@ -12203,12 +12203,13 @@ example5GL
 	its elements are linear maps, not matrices."
 	^ (Ñ ^ 3) automorphisms! !
 
-!Domain class methodsFor: 'initialization' stamp: 'len 3/13/2021 11:16:46'!
+!Domain class methodsFor: 'initialization' stamp: 'len 3/13/2021 11:27:47'!
 initializeAll
 	"First initialize all Domains, set globals like É, Ñ, etc:"
 	Domain withAllSubclassesDo: [:each| (each class selectors includes: #initialize) ifTrue: [each initialize]].
 	"Then initialize all Morphisms, set globals for categories like Sets, Groups, etc:"
 	Morphism withAllSubclassesDo: [:each| (each class selectors includes: #initialize) ifTrue: [each initialize]].
+	"And finally initialize any other classes that need initialization:"
 	BitTuple initialize! !
 
 !Structure methodsFor: 'accessing' stamp: 'len 4/22/2020 07:02:11'!
@@ -12691,10 +12692,6 @@ size
 !CartesianProduct methodsFor: 'comparing' stamp: 'len 11/10/2015 23:19'!
 hash
 	^ components hash! !
-
-!CartesianProduct methodsFor: 'converting' stamp: 'len 5/26/2019 04:31:21'!
-asArray
-	^ components! !
 
 !CartesianProduct methodsFor: 'elements' stamp: 'len 5/10/2020 16:25:06'!
 compose: anArray
@@ -20484,6 +20481,11 @@ exponent
 	self isAbelianGroup ifFalse: [^ DomainError signal: 'not an abelian group'].
 	^ self invariants inject: 1 into: [:answer :each| answer lcm: each]! !
 
+!Module methodsFor: 'accessing' stamp: 'len 3/13/2021 12:17:45'!
+generator
+	self isTrivial ifTrue: [^ self zero].
+	^ super generator! !
+
 !Module methodsFor: 'accessing' stamp: 'len 10/26/2020 15:26:48'!
 generatorMatrix
 	^ self propertyAt: #generatorMatrix! !
@@ -20533,10 +20535,6 @@ null
 	"Answer the trivial submodule, i.e. the zero object in the category of R-modules."
 	^ self ambient span: #()! !
 
-!Module methodsFor: 'accessing' stamp: 'len 10/13/2020 09:09:29'!
-presentation
-	^ self presentationMatrix cokernel! !
-
 !Module methodsFor: 'accessing' stamp: 'len 3/7/2021 12:33:30'!
 presentationMatrix
 	self isAmbient ifTrue: [^ self subclassResponsibility].
@@ -20561,11 +20559,11 @@ primaryInvariants
 			ifFalse: [each factors withOccurrencesDo: [:p :k| answer add: p^k]]].
 	^ self propertyAt: #primaryInvariants put: answer! !
 
-!Module methodsFor: 'accessing' stamp: 'len 4/22/2020 07:23:18'!
+!Module methodsFor: 'accessing' stamp: 'len 3/14/2021 04:43:01'!
 rank
 	self isTrivial ifTrue: [^ 0].
 	self scalars isPID ifTrue:
-		[self isFree ifTrue: [^ self generators size]. "the number of generators is kept minimal for submodules over PIDs"
+		[self isFree ifTrue: [^ self coordinates rank]. "the number of generators is kept minimal for submodules over PIDs"
 		^ self invariants count: [:each| each isZero]].
 	^ self notYetImplemented! !
 
@@ -20866,11 +20864,13 @@ to: aCodomain mapping: aBlock
 		ifTrue: [^ GroupMap from: self to: aCodomain mapping: aBlock].
 	^ DomainError signal! !
 
-!Module methodsFor: 'morphisms' stamp: 'len 3/12/2021 14:54:41'!
+!Module methodsFor: 'morphisms' stamp: 'len 3/14/2021 10:57:30'!
 to: aModule matrix: aMatrix
+	| M |
 	(aModule isModule and: [self scalars = aModule scalars]) ifFalse: [^ DomainError signal].
-"	self syzygies generators do: [:each| self assert: (aModule elementAt: aMatrix * each) isZero]."
-	^ ModuleMap from: self to: aModule matrix: aMatrix! !
+	M _ aMatrix "* (aMatrix kernelMapModulo: self presentationMatrix)".
+	self syzygies generators do: [:each| self assert: (aModule elementAt: M * each) isZero].
+	^ ModuleMap from: self to: aModule matrix: M! !
 
 !Module methodsFor: 'operations' stamp: 'len 3/5/2020 17:35:47'!
 * anIdeal
@@ -20886,18 +20886,15 @@ to: aModule matrix: aMatrix
 	self generators do: [:a| anIdeal generators do: [:b| newGenerators add: a*b]].
 	^ self ambient span: newGenerators! !
 
-!Module methodsFor: 'operations' stamp: 'len 4/7/2020 14:10:25'!
+!Module methodsFor: 'operations' stamp: 'len 3/13/2021 13:52:44'!
 + aSubmodule
 	(aSubmodule isModule and: [self ambient = aSubmodule ambient])
 		ifFalse: [^ super + aSubmodule].
 	self isTrivial ifTrue: [^ aSubmodule].
 	aSubmodule isTrivial ifTrue: [^ self].
-	^ self ambient span: self generators, aSubmodule generators
+	^ self ambient span: self generatorMatrix ê- aSubmodule generatorMatrix! !
 
-"alternately:
-	^ (self base -> self ambient coproduct: aSubmodule base -> self ambient) image"! !
-
-!Module methodsFor: 'operations' stamp: 'len 3/13/2021 09:39:24'!
+!Module methodsFor: 'operations' stamp: 'len 3/13/2021 13:53:46'!
 / aSubmodule
 	"Answer the quotient of the receiver by aSubmodule,
 	i.e. the module obtained by 'collapsing' the submodule to zero.
@@ -20911,7 +20908,7 @@ to: aModule matrix: aMatrix
 	aSubmodule = self ifTrue: [^ self null].
 "	^ (aSubmodule -> self) cokernel"
 	^ (self coordinates / (aSubmodule generators collect: [:each| self coordinatesOf: each]))
-"		addMap: self -> self base -> answer;"
+"		addMap: self -> self coordinates -> answer;"
 		yourself
 
 
@@ -21100,18 +21097,21 @@ reduce: anElement
 	(self contains: anElement) ifTrue: [^ self zero].
 	^ anElement! !
 
-!Module methodsFor: 'operations' stamp: 'len 3/13/2021 09:41:34'!
-span: aCollection
-	"Answer the submodule spanned by the elements in aCollection."
+!Module methodsFor: 'operations' stamp: 'len 3/13/2021 13:22:17'!
+span: aCollectionOrMatrix
+	"Answer the submodule spanned by the argument (either a Collection of elements or a generator matrix relative to the receiver's presentation)."
 	| generators G |
-	self isAmbient ifFalse: [^ self ambient span: aCollection].
-	self isTrivial ifTrue: [^ self].
-	generators _ (aCollection asArray collect: [:each| self !! each]) select: [:each| each isZero not].
-	G _ Matrix from: self coordinates rows: (generators collect: [:each| self coordinatesOf: each]).
+	G _ aCollectionOrMatrix isMatrix
+		ifTrue:
+			[aCollectionOrMatrix]
+		ifFalse:
+			[self isAmbient ifFalse: [^ self ambient span: aCollectionOrMatrix].
+			generators _ (aCollectionOrMatrix asArray collect: [:each| self !! each]) select: [:each| each isZero not].
+			Matrix to: self coordinates columns: (generators collect: [:each| self coordinatesOf: each])].
 	self scalars isPID ifTrue:
-		[G _ Matrix from: self coordinates rows: (G echelon rows select: [:each| each isZero not]).
-		G isIdentity ifTrue: [^ self]].
-	^ self species new ambient: self; generatorMatrix: G transpose! !
+		[G _ Matrix to: self coordinates columns: (G transpose echelon rows select: [:each| each isZero not])].
+	G isIdentity ifTrue: [^ self].
+	^ self species new ambient: self ambient; generatorMatrix: self generatorMatrix * G! !
 
 !Module methodsFor: 'operations' stamp: 'len 9/28/2018 19:12:28'!
 support
@@ -21201,12 +21201,12 @@ isFinite
 	self isAbelianGroup ifTrue: [^ (self invariants includes: 0) not].
 	^ self notYetImplemented! !
 
-!Module methodsFor: 'testing' stamp: 'len 3/10/2020 11:42:41'!
+!Module methodsFor: 'testing' stamp: 'len 3/14/2021 08:42:19'!
 isFree
 	"Answer true if the receiver is free on free generators."
 	self isTrivial ifTrue: [^ true].
 	self isAmbient ifFalse: [^ self ambient isFree and: [self scalars isPID]].
-	^ false! !
+	^ self presentationMatrix isTrivial! !
 
 !Module methodsFor: 'testing' stamp: 'len 3/6/2020 20:16:10'!
 isFullRank
@@ -21336,16 +21336,6 @@ example4Quotient
 example5QuotientInvariants
 	"Invariants of the Z-module Z^3 / <(1,2,3), (2,2,2)>."
 	^ (É^3 / {(1,2,3). (2,2,2)}) invariants! !
-
-!Ideal methodsFor: 'accessing' stamp: 'len 5/18/2020 06:55:53'!
-generator
-	| generator |
-	self generators size = 1 ifTrue: [^ self generators anyOne].
-	self generators size = 0 ifTrue: [^ self scalars zero].
-	self scalars isPIR ifFalse: [^ DomainError signal].
-	self generators do: [:each| generator _ generator isNil ifTrue: [each] ifFalse: [generator gcd: each]].
-	self generators: {generator}.
-	^ generator! !
 
 !Ideal methodsFor: 'accessing' stamp: 'len 6/10/2019 14:52:59'!
 height
@@ -22832,10 +22822,16 @@ lifting
 project: anElement
 	^ self representative: (self relations reduce: anElement)! !
 
-!QuotientModule methodsFor: 'morphisms' stamp: 'len 1/16/2018 18:29:19'!
+!QuotientModule methodsFor: 'morphisms' stamp: 'len 3/14/2021 08:30:40'!
 projection
 	"Answer the natural projection, or quotient map, or canonical homomorphism. This takes elements from the base module or vector space to the corresponding coset (an affine subspace) in the quotient."
-	^ self propertyAt: #projection ifAbsentPut: [self buildProjection]! !
+	^ self propertyAt: #projection ifAbsentPut:
+		[(self base onto: self evaluating: [:each| self project: each])
+			name: 'é';
+			propertyAt: #kernel put: self relations;
+			propertyAt: #image put: self;
+			"propertyAt: #section put: (self to: self base evaluating: [:each| each representative]);"
+			yourself]! !
 
 !QuotientModule methodsFor: 'operations' stamp: 'len 4/10/2020 06:13:32'!
 / aSubmodule
@@ -22856,18 +22852,6 @@ isNoetherian
 isSemisimple
 	"A module over a (not necessarily commutative) unital ring is said to be 'semisimple' (or 'completely reducible') if it is the direct sum of simple (irreducible) submodules."
 	^ self base isSemisimple or: [super isSemisimple]! !
-
-!QuotientModule methodsFor: 'private' stamp: 'len 8/14/2020 16:39:25'!
-buildProjection
-	"Answer the quotient map, the canonical projection from the base module to the quotient module, i.e. the mapping é:M->M/N that assigns to every x in M the coset x+N."
-	| answer |
-	answer _ self base onto: self evaluating: [:each| self project: each].
-	answer name: 'é'.
-	answer properties
-		at: #kernel put: self relations;
-		at: #image put: self;
-		at: #section put: (self to: self base evaluating: [:each| each representative]).
-	^ answer! !
 
 !QuotientModule methodsFor: 'private' stamp: 'len 2/27/2017 21:31:18'!
 relations: aSubmodule
@@ -22930,11 +22914,11 @@ coordinatesOf: anElement
 elementAt: anArray
 	^ anArray isEmpty ifTrue: [scalars zero] ifFalse: [scalars !! anArray first]! !
 
-!ScalarModule methodsFor: 'operations' stamp: 'len 3/12/2021 13:55:40'!
+!ScalarModule methodsFor: 'operations' stamp: 'len 3/13/2021 13:33:55'!
 span: aCollection
-	"Answer the submodule spanned by the elements in aCollection.
+	"Answer the submodule spanned by the argument (either a Collection of elements or a generator matrix relative to the receiver's presentation).
 	This is an ideal of the ring of scalars."
-	^ scalars span: aCollection! !
+	^ scalars span: (aCollection isMatrix ifTrue: [aCollection asTuple asArray] ifFalse: [aCollection])! !
 
 !ScalarModule methodsFor: 'testing' stamp: 'len 3/7/2020 16:56:04'!
 includes: anObject
@@ -24773,14 +24757,14 @@ to: aCodomain evaluating: aBlock
 ë aLattice
 	self notYetImplemented! !
 
-!Lattice methodsFor: 'operations' stamp: 'len 8/11/2020 08:02:21'!
+!Lattice methodsFor: 'operations' stamp: 'len 3/14/2021 12:47:15'!
 dual
 	"Answer the dual lattice of the receiver (or reciprocal lattice, or polar lattice).
 	Given a lattice L, the dual lattice L* is defined as the lattice of vectors having integral inner product with all vectors of L."
-	| B D |
+	| B G |
 	B _ self generatorMatrix.
-	D _ B retraction.
-	^ self class on: self innerProduct basis: (D rows collect: [:each| self space elementAt: each])! !
+	G _ self gramian.
+	^ self class on: self innerProduct basis: ((B * G inverse) columns collect: [:each| self space elementAt: each])! !
 
 !Lattice methodsFor: 'random' stamp: 'len 7/29/2020 06:21:59'!
 atRandom: aRandom bits: bitSize
@@ -27823,12 +27807,13 @@ codomain
 domain
 	^ self propertyAt: #domain! !
 
-!Map methodsFor: 'comparing' stamp: 'len 4/30/2020 09:40:07'!
-= aFunction
-	self == aFunction ifTrue: [^ true].
-	(self domain = aFunction domain and: [self codomain = aFunction codomain]) ifFalse: [^ false].
+!Map methodsFor: 'comparing' stamp: 'len 3/13/2021 13:46:45'!
+= anObject
+	self == anObject ifTrue: [^ true].
+	(anObject isKindOf: Map) ifFalse: [^ false].
+	(self domain = anObject domain and: [self codomain = anObject codomain]) ifFalse: [^ false].
 	self domain isFinite ifFalse: [^ self error: 'infinite domain'].
-	self domain do: [:each| (self value: each) = (aFunction value: each) ifFalse: [^ false]].
+	self domain do: [:each| (self value: each) = (anObject value: each) ifFalse: [^ false]].
 	^ true! !
 
 !Map methodsFor: 'converting' stamp: 'len 5/2/2020 08:14:38'!
@@ -29269,15 +29254,11 @@ parent
 scalars
 	^ self domain scalars! !
 
-!ModuleMap methodsFor: 'comparing' stamp: 'len 3/30/2020 07:38:22'!
+!ModuleMap methodsFor: 'comparing' stamp: 'len 3/13/2021 13:45:24'!
 = anObject
 	self == anObject ifTrue: [^ true].
 	(anObject isKindOf: ModuleMap) ifFalse: [^ super = anObject].
-	^ domain = anObject domain and: [codomain = anObject codomain and: [(self - anObject) isZero]]
-	
-"	(anObject domain = self domain and: [anObject codomain = self codomain])
-		ifFalse: [^ false].
-	^ (self domain generators ifNil: [self domain]) allSatisfy: [:each| (self value: each) = (anObject value: each)]"! !
+	^ domain = anObject domain and: [codomain = anObject codomain and: [(self - anObject) isZero]]! !
 
 !ModuleMap methodsFor: 'constants' stamp: 'len 5/29/2020 10:16:57'!
 one
@@ -29328,13 +29309,15 @@ asPolynomial
 	domain = aModuleMap domain ifFalse: [DomainError signal: 'domains don''t match'].
 	^ domain to: codomain ê aModuleMap codomain matrix: self matrix -ê aModuleMap matrix! !
 
-!ModuleMap methodsFor: 'operations' stamp: 'len 10/12/2020 12:15:19'!
-/ aModuleMap
+!ModuleMap methodsFor: 'operations' stamp: 'len 3/14/2021 11:02:04'!
+/ anObject
 	"If the argument is a monomorphism i:A->X, and the receiver is f:A->Y, answer f':X->Y such that the diagram commutes. This is a 'colift (or extension) of f along i'."
 	| M |
-	(self domain scalars includes: aModuleMap) ifTrue: [^ self * aModuleMap inverse].
-	M _ self domain isFree ifTrue: [self matrix / aModuleMap matrix] ifFalse: [aModuleMap matrix colift: self matrix modulo: self domain presentationMatrix].
-	^ M ifNotNil: [aModuleMap codomain to: codomain matrix: M]! !
+	(anObject isKindOf: ModuleMap) ifFalse: [^ self * (self domain scalars !! anObject) inverse].
+	"their presentations should be equal, actually:"
+	self domain = anObject domain ifFalse: [^ DomainError signal: 'domains don''t match'].
+	M _ self domain isFree ifTrue: [self matrix / anObject matrix] ifFalse: [anObject matrix colift: self matrix modulo: self domain presentationMatrix].
+	^ M ifNotNil: [anObject codomain to: codomain matrix: M]! !
 
 !ModuleMap methodsFor: 'operations' stamp: 'len 8/11/2020 12:58:46'!
 /\ aModuleMap
@@ -29346,10 +29329,12 @@ asPolynomial
 	answer addProjections: (coproduct domain -< (self domain, aModuleMap domain) collect: [:each| answer -> each]).
 	^ answer! !
 
-!ModuleMap methodsFor: 'operations' stamp: 'len 10/12/2020 12:15:27'!
+!ModuleMap methodsFor: 'operations' stamp: 'len 3/14/2021 11:01:21'!
 \ aModuleMap
 	"If the receiver is an epimorphism p:X->B, and the argument is f:Y->B, answer f':Y->X such that the diagram commutes. This is a 'lift of f along p'."
 	| M |
+	"their presentations should be equal, actually:"
+	self codomain = aModuleMap codomain ifFalse: [^ DomainError signal: 'codomains don''t match'].
 	M _ self codomain isFree ifTrue: [self matrix \ aModuleMap matrix] ifFalse: [self matrix lift: aModuleMap matrix modulo: self codomain presentationMatrix].
 	^ M ifNotNil: [aModuleMap domain to: domain matrix: M]! !
 
@@ -29407,21 +29392,18 @@ equalizer: aModuleMap
 		ifFalse: [^ DomainError signal: 'domains or codomains don''t match'].
 	^ (self - aModuleMap) kernel! !
 
-!ModuleMap methodsFor: 'operations' stamp: 'len 5/16/2019 20:59:53'!
+!ModuleMap methodsFor: 'operations' stamp: 'len 3/13/2021 13:22:51'!
 image
-	^ self propertyAt: #image ifAbsentPut: [codomain span: (domain generators collect: [:each| self value: each])]! !
+	^ self propertyAt: #image ifAbsentPut: [codomain span: self matrix]! !
 
-!ModuleMap methodsFor: 'operations' stamp: 'len 5/31/2020 15:37:00'!
+!ModuleMap methodsFor: 'operations' stamp: 'len 3/14/2021 08:34:24'!
 inverse
 	"Answer a two-sided inverse of the receiver (i.e., a morphism that is both a retraction and a section) or nil."
-	self propertyAt: #inverse ifAbsentPut: [self matrix inverse ifNotNil: [:aMatrix| domain to: codomain matrix: aMatrix]]! !
+	^ self propertyAt: #inverse ifAbsentPut: [self matrix inverse ifNotNil: [:aMatrix| domain to: codomain matrix: aMatrix]]! !
 
-!ModuleMap methodsFor: 'operations' stamp: 'len 10/28/2020 09:50:35'!
+!ModuleMap methodsFor: 'operations' stamp: 'len 3/13/2021 13:25:19'!
 kernel
-	^ self propertyAt: #kernel ifAbsentPut:
-		[| K |
-		K _ self matrix kernelMapModulo: self codomain presentationMatrix.
-		self domain span: (K columns collect: [:each| self domain elementAt: each])]! !
+	^ self propertyAt: #kernel ifAbsentPut: [self domain span: (self matrix kernelMapModulo: self codomain presentationMatrix)]! !
 
 !ModuleMap methodsFor: 'operations' stamp: 'len 5/29/2020 10:56:40'!
 negated
@@ -29442,15 +29424,15 @@ preimageRepresentative: anElement
 	Answer nil if anElement is not in the image of the receiver."
 	^ domain elementAt: (self matrix \ (codomain coordinatesOf: anElement) ifNil: [^ nil])! !
 
-!ModuleMap methodsFor: 'operations' stamp: 'len 8/14/2020 06:52:35'!
+!ModuleMap methodsFor: 'operations' stamp: 'len 3/14/2021 10:38:40'!
 retraction
-	"Answer a left inverse (or retraction) of the receiver, or nil"
-	^ self propertyAt: #retraction ifAbsentPut: [self isMonomorphism ifTrue: [self matrix retraction ifNotNil: [:aMatrix| codomain to: domain matrix: aMatrix]]]! !
+	"Answer a left inverse (or retraction) of the receiver, or nil."
+	^ self propertyAt: #retraction ifAbsentPut: [self domain id / self]! !
 
-!ModuleMap methodsFor: 'operations' stamp: 'len 8/14/2020 06:53:12'!
+!ModuleMap methodsFor: 'operations' stamp: 'len 3/14/2021 10:39:20'!
 section
 	"Answer a right inverse (or section) of the receiver, or nil."
-	^ self propertyAt: #section ifAbsentPut: [self isEpimorphism ifTrue: [self matrix section ifNotNil: [:aMatrix| codomain to: domain matrix: aMatrix]]]! !
+	^ self propertyAt: #section ifAbsentPut: [self \ self codomain id]! !
 
 !ModuleMap methodsFor: 'operations' stamp: 'len 10/8/2020 17:14:19'!
 trace
@@ -29462,10 +29444,10 @@ transpose
 	See also >>adjoint."
 	^ codomain to: domain matrix: self matrix transpose! !
 
-!ModuleMap methodsFor: 'operations' stamp: 'len 5/29/2020 10:58:22'!
+!ModuleMap methodsFor: 'operations' stamp: 'len 3/14/2021 08:37:54'!
 value: anElement
-	(domain isTrivial or: [codomain isTrivial])
-		ifTrue: [^ codomain ambient zero].
+"	(domain isTrivial or: [codomain isTrivial])
+		ifTrue: [^ codomain ambient zero]."
 	^ codomain elementAt: self matrix * (domain coordinatesOf: domain !! anElement)! !
 
 !ModuleMap methodsFor: 'testing' stamp: 'len 3/11/2020 18:49:29'!
@@ -29498,17 +29480,20 @@ isOne
 isProjection
 	^ self isIdempotent! !
 
-!ModuleMap methodsFor: 'testing' stamp: 'len 5/16/2019 20:43:02'!
+!ModuleMap methodsFor: 'testing' stamp: 'len 3/14/2021 04:40:46'!
 isSurjective
-	^ self cokernel isTrivial! !
+	^ self image = self codomain
+
+"alternatively:
+	^ self cokernel isTrivial"! !
 
 !ModuleMap methodsFor: 'testing' stamp: 'len 1/13/2018 21:53:54'!
 isTrivial
 	^ self isZero! !
 
-!ModuleMap methodsFor: 'testing' stamp: 'len 11/2/2016 07:58'!
+!ModuleMap methodsFor: 'testing' stamp: 'len 3/13/2021 13:36:11'!
 isZero
-	^ self domain generators allSatisfy: [:each| (self value: each) isZero]! !
+	^ self image isTrivial! !
 
 !ModuleMap methodsFor: 'private' stamp: 'len 5/16/2019 20:40:52'!
 codomain: aModule
@@ -29665,12 +29650,10 @@ width
 			(self at: i@j) = (anObject at: i@j) ifFalse: [^ false]]].
 	^ true! !
 
-!Matrix methodsFor: 'comparing' stamp: 'len 5/28/2019 09:23:46'!
+!Matrix methodsFor: 'comparing' stamp: 'len 3/13/2021 12:29:55'!
 ~ aMatrix
 	"Answer true if the receiver is similar to aMatrix.
 	Two matrices A and B are 'similar' if there exists an invertible matrix P such that B = P^-1 * A * P. This is the conjugacy equivalence relation in GL."
-	self isEmpty ifTrue: [^ aMatrix isEmpty].
-	aMatrix isEmpty ifTrue: [^ self isEmpty].
 	^ self characteristicMatrix SNF diagonal = aMatrix characteristicMatrix SNF diagonal! !
 
 !Matrix methodsFor: 'comparing' stamp: 'len 4/5/2018 15:31:22'!
@@ -29822,20 +29805,21 @@ rowsDo: aBlock
 	domain = aMatrix domain ifFalse: [DomainError signal: 'domains don''t match'].
 	^ self class from: domain to: codomain ê aMatrix codomain rows: self rows, aMatrix rows! !
 
-!Matrix methodsFor: 'operations' stamp: 'len 7/6/2020 09:38:50'!
+!Matrix methodsFor: 'operations' stamp: 'len 3/14/2021 10:46:01'!
 / anObject
 	"Answer X such that X * A = B, where B is self and A is the argument. X is called a colift (or extension) of B along A.
 	If the argument is a scalar, just divide each element of the matrix by the scalar."
 	anObject isMatrix ifTrue: [^ anObject colift: self].
-	^ self * (self scalars !! anObject) inverse! !
+	^ super / anObject! !
 
-!Matrix methodsFor: 'operations' stamp: 'len 4/21/2020 19:41:08'!
+!Matrix methodsFor: 'operations' stamp: 'len 3/14/2021 10:48:04'!
 \ aMatrix
 	"Answer X such that A * X = B, where A is self and B is aMatrix. X is called a lift of B along A.
 	The argument can also be a tuple, in which case it is considered as a column matrix and the returned value is also a tuple.
 	Answer nil if there's no solution.
 	This is the 'backlash' operator, as implemented in MATLAB, Octave and Sage."
-	^ self lift: aMatrix! !
+	(aMatrix isMatrix or: [aMatrix isTuple]) ifTrue: [^ self lift: aMatrix].
+	^ super \ aMatrix! !
 
 !Matrix methodsFor: 'operations' stamp: 'len 5/9/2020 19:06:10'!
 ^ anInteger
@@ -29873,10 +29857,11 @@ rowsDo: aBlock
 	codomain = aMatrix codomain ifFalse: [DomainError signal: 'codomains don''t match'].
 	^ self class from: domain ê aMatrix domain to: codomain columns: self columns, aMatrix columns! !
 
-!Matrix methodsFor: 'operations' stamp: 'len 6/1/2020 13:50:24'!
+!Matrix methodsFor: 'operations' stamp: 'len 3/13/2021 13:38:31'!
 ë aMatrix
 	"Answer the Kronecker product of the receiver by the argument."
 	| m n p q |
+	aMatrix isMatrix ifFalse: [^ super ë aMatrix].
 	self checkScalarsMatch: aMatrix.
 	m _ self height.
 	n _ self width.
@@ -30145,11 +30130,11 @@ index
 	This is precisely the Euler characteristic of the 2-term complex 0 -> domain -> codomain -> 0."
 	^ self kernel rank - self cokernel rank! !
 
-!Matrix methodsFor: 'operations' stamp: 'len 7/14/2020 18:11:22'!
+!Matrix methodsFor: 'operations' stamp: 'len 3/13/2021 12:32:45'!
 inverse
 	"Answer the multiplicative inverse of the receiver."
 	self isSquare ifFalse: [^ DomainError signal: 'not a square matrix'].
-	self isEmpty ifTrue: [^ self].
+	self isEmpty ifTrue: [^ self transpose].
 	self scalars isField
 		ifTrue:
 			[| inverse |
@@ -30274,13 +30259,12 @@ section
 	T _ self transpose.
 	^ T * (self * T) inverse"! !
 
-!Matrix methodsFor: 'operations' stamp: 'len 5/25/2020 07:10:41'!
+!Matrix methodsFor: 'operations' stamp: 'len 3/13/2021 11:51:00'!
 solve: aMatrix
 	"Answer N and X such that A * X - B = N, where A is self and B is aMatrix, satisfying that if the i-th column of B is a linear combination of the columns of A then the i-th column of N is zero."
 	| A B |
 	A _ self.
 	B _ aMatrix.
-	B isEmpty ifTrue: [^ {B. B}].
 	A height = B height ifFalse: [DomainError signal: 'matrix shapes don''t match'].
 	^ self scalars matrix: A solve: B! !
 
@@ -30348,11 +30332,10 @@ alternative:
 	^ self antitransposed CHNF antitransposed
 "! !
 
-!Matrix methodsFor: 'reduction' stamp: 'len 7/14/2019 03:57:40'!
+!Matrix methodsFor: 'reduction' stamp: 'len 3/13/2021 12:30:31'!
 HNFAndTransformation
 	"Answer the (row-style) Hermite normal form H of the receiver A and the unique unimodular matrix T such that T*A = H."
 	| reduction |
-	self isEmpty ifTrue: [^ {self. self}].
 	self scalars isLocalization ifTrue:
 		[| HT |
 		HT _ self numerator HNFAndTransformation.
@@ -30413,12 +30396,11 @@ SNFAfterHNF
 	n _ H diagonal findLast: [:each| each isZero not].
 	^ (H copyFrom: 1@1 to: n@n) SNF ê (self scalars^((H width max: H height) - n)) endomorphisms zero! !
 
-!Matrix methodsFor: 'reduction' stamp: 'len 3/12/2021 06:44:21'!
+!Matrix methodsFor: 'reduction' stamp: 'len 3/13/2021 12:30:56'!
 SNFAndTransformations
 	"Answer the Smith normal form S of the receiver A and the unique unimodular matrices P and Q such that P*A*Q = S.
 	This is a naive implementation of Kannan-Bachem algorithm."
 	| HT S a n P Q |
-	self isEmpty ifTrue: [^ {self. self. self}].
 	"Repeatedly compute the Hermite normal form and transpose until a diagonal form is obtained:"
 	P _ self leftIdentity.
 	Q _ self rightIdentity.
@@ -30646,9 +30628,9 @@ cokernelMap
 	For a matrix A, the output is X such that X*A = 0."
 	^ self scalars cokernelOf: self! !
 
-!Matrix methodsFor: 'subobjects' stamp: 'len 6/8/2020 14:52:31'!
+!Matrix methodsFor: 'subobjects' stamp: 'len 3/13/2021 13:28:05'!
 image
-	^ self codomain span: self columns! !
+	^ self codomain span: self! !
 
 !Matrix methodsFor: 'subobjects' stamp: 'len 8/9/2020 19:33:37'!
 imageMap
@@ -30668,11 +30650,10 @@ kernelMap
 	For a matrix A, the output is X such that A*X = 0."
 	^ self transpose cokernelMap transpose! !
 
-!Matrix methodsFor: 'subobjects' stamp: 'len 10/8/2020 15:43:05'!
+!Matrix methodsFor: 'subobjects' stamp: 'len 3/14/2021 09:41:46'!
 kernelMapModulo: aMatrix
 	| K |
 	K _ (self ê- aMatrix) kernelMap.
-"	K isEmpty ifTrue: [^ K]."
 	^ K copyFromRow: 1 to: self width! !
 
 !Matrix methodsFor: 'testing' stamp: 'len 5/30/2019 04:43:29'!
@@ -30912,10 +30893,9 @@ checkDimensionMatch: aMatrix
 	(self width = aMatrix width and: [self height = aMatrix height])
 		ifFalse: [^ DomainError signal: 'matrix sizes don''t match']! !
 
-!Matrix methodsFor: 'private' stamp: 'len 5/19/2018 17:04:00'!
+!Matrix methodsFor: 'private' stamp: 'len 3/13/2021 12:32:27'!
 checkScalarsMatch: aMatrix
-	(self isEmpty or: [self scalars = aMatrix scalars])
-		ifFalse: [^ DomainError signal: 'base rings don''t match']! !
+	self scalars = aMatrix scalars ifFalse: [^ DomainError signal: 'base rings don''t match']! !
 
 !Matrix methodsFor: 'private' stamp: 'len 12/13/2016 09:51:35'!
 hadamardBound
