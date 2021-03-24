@@ -6,7 +6,7 @@ SystemOrganization addCategory: #'Morphic-Domains'!
 
 
 !classDefinition: #ComplexPlotMorph category: #'Morphic-Domains'!
-RectangleLikeMorph subclass: #ComplexPlotMorph
+KernelMorph subclass: #ComplexPlotMorph
 	instanceVariableNames: 'function image box palette'
 	classVariableNames: ''
 	poolDictionaries: ''
@@ -16,7 +16,7 @@ ComplexPlotMorph class
 	instanceVariableNames: ''!
 
 !classDefinition: #FunctionPlotMorph category: #'Morphic-Domains'!
-RectangleLikeMorph subclass: #FunctionPlotMorph
+KernelMorph subclass: #FunctionPlotMorph
 	instanceVariableNames: 'backgroundColor fillColor textColor function xMin xMax yMin yMax evaluationPoints values firstMousePosition lastMousePosition'
 	classVariableNames: ''
 	poolDictionaries: ''
@@ -26,7 +26,7 @@ FunctionPlotMorph class
 	instanceVariableNames: ''!
 
 !classDefinition: #HistogramMorph category: #'Morphic-Domains'!
-RectangleLikeMorph subclass: #HistogramMorph
+KernelMorph subclass: #HistogramMorph
 	instanceVariableNames: 'backgroundColor textColor tallies extraBinsForClampedValues lowBinCenter highBinCenter'
 	classVariableNames: ''
 	poolDictionaries: ''
@@ -36,7 +36,7 @@ HistogramMorph class
 	instanceVariableNames: ''!
 
 !classDefinition: #ImplicitFunctionPlotMorph category: #'Morphic-Domains'!
-RectangleLikeMorph subclass: #ImplicitFunctionPlotMorph
+KernelMorph subclass: #ImplicitFunctionPlotMorph
 	instanceVariableNames: 'function image box'
 	classVariableNames: ''
 	poolDictionaries: ''
@@ -46,7 +46,7 @@ ImplicitFunctionPlotMorph class
 	instanceVariableNames: ''!
 
 !classDefinition: #ImplicitSurfacePlotMorph category: #'Morphic-Domains'!
-RectangleLikeMorph subclass: #ImplicitSurfacePlotMorph
+KernelMorph subclass: #ImplicitSurfacePlotMorph
 	instanceVariableNames: 'polynomial rotation scaling surface scene camera image resolutionRatio lastMousePosition'
 	classVariableNames: ''
 	poolDictionaries: ''
@@ -56,7 +56,7 @@ ImplicitSurfacePlotMorph class
 	instanceVariableNames: ''!
 
 !classDefinition: #MultiplicationTableMorph category: #'Morphic-Domains'!
-RectangleLikeMorph subclass: #MultiplicationTableMorph
+KernelMorph subclass: #MultiplicationTableMorph
 	instanceVariableNames: 'elements colors operation'
 	classVariableNames: ''
 	poolDictionaries: ''
@@ -66,7 +66,7 @@ MultiplicationTableMorph class
 	instanceVariableNames: ''!
 
 !classDefinition: #ScalarPlotMorph category: #'Morphic-Domains'!
-RectangleLikeMorph subclass: #ScalarPlotMorph
+KernelMorph subclass: #ScalarPlotMorph
 	instanceVariableNames: 'function palette xMin xMax yMin yMax form'
 	classVariableNames: ''
 	poolDictionaries: ''
@@ -76,7 +76,7 @@ ScalarPlotMorph class
 	instanceVariableNames: ''!
 
 !classDefinition: #ScatterPlotMorph category: #'Morphic-Domains'!
-RectangleLikeMorph subclass: #ScatterPlotMorph
+KernelMorph subclass: #ScatterPlotMorph
 	instanceVariableNames: 'points transformation max min positionBlock colorBlock sizeBlock lastMousePosition'
 	classVariableNames: ''
 	poolDictionaries: ''
@@ -86,7 +86,7 @@ ScatterPlotMorph class
 	instanceVariableNames: ''!
 
 !classDefinition: #UnitDiskPlotMorph category: #'Morphic-Domains'!
-RectangleLikeMorph subclass: #UnitDiskPlotMorph
+KernelMorph subclass: #UnitDiskPlotMorph
 	instanceVariableNames: 'function image palette inverseMap'
 	classVariableNames: ''
 	poolDictionaries: ''

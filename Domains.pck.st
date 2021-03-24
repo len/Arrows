@@ -1,6 +1,6 @@
-'From Cuis 5.0 [latest update: #4190] on 24 March 2021 at 9:43:54 am'!
+'From Cuis 5.0 [latest update: #4542] on 24 March 2021 at 2:09:23 pm'!
 'Description A computational algebra system in Smalltalk'!
-!provides: 'Domains' 1 613!
+!provides: 'Domains' 1 614!
 !requires: 'Complex' 1 7 nil!
 SystemOrganization addCategory: #'Domains-Kernel'!
 SystemOrganization addCategory: #'Domains-Kernel-Support'!
@@ -33,7 +33,6 @@ SystemOrganization addCategory: #'Domains-Sequences'!
 SystemOrganization addCategory: #'Domains-Graphs'!
 SystemOrganization addCategory: #'Domains-Graphs-Parts'!
 SystemOrganization addCategory: #'Domains-Graphs-Algorithms'!
-SystemOrganization addCategory: #'Domains-Graphs-Morphic'!
 SystemOrganization addCategory: #'Domains-Tableaux'!
 SystemOrganization addCategory: #'Domains-Simplicial Complexes'!
 SystemOrganization addCategory: #'Domains-Elliptic Curves'!
@@ -213,76 +212,6 @@ Collection subclass: #MonomialIndexedTuple
 	category: 'Domains-Etc'!
 !classDefinition: 'MonomialIndexedTuple class' category: #'Domains-Etc'!
 MonomialIndexedTuple class
-	instanceVariableNames: ''!
-
-!classDefinition: #CompositeGraphMorph category: #'Domains-Graphs-Morphic'!
-LayoutMorph subclass: #CompositeGraphMorph
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Domains-Graphs-Morphic'!
-!classDefinition: 'CompositeGraphMorph class' category: #'Domains-Graphs-Morphic'!
-CompositeGraphMorph class
-	instanceVariableNames: ''!
-
-!classDefinition: #GraphMorph category: #'Domains-Graphs-Morphic'!
-RectangleLikeMorph subclass: #GraphMorph
-	instanceVariableNames: 'graph nodeToMorph edgeToMorph focusNode dimension lastMousePosition components'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Domains-Graphs-Morphic'!
-!classDefinition: 'GraphMorph class' category: #'Domains-Graphs-Morphic'!
-GraphMorph class
-	instanceVariableNames: ''!
-
-!classDefinition: #SpringGraphMorph category: #'Domains-Graphs-Morphic'!
-GraphMorph subclass: #SpringGraphMorph
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Domains-Graphs-Morphic'!
-!classDefinition: 'SpringGraphMorph class' category: #'Domains-Graphs-Morphic'!
-SpringGraphMorph class
-	instanceVariableNames: ''!
-
-!classDefinition: #GraphNodeMorph category: #'Domains-Graphs-Morphic'!
-RectangleLikeMorph subclass: #GraphNodeMorph
-	instanceVariableNames: 'node x dx shape label labelMorph'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Domains-Graphs-Morphic'!
-!classDefinition: 'GraphNodeMorph class' category: #'Domains-Graphs-Morphic'!
-GraphNodeMorph class
-	instanceVariableNames: ''!
-
-!classDefinition: #SpringNodeMorph category: #'Domains-Graphs-Morphic'!
-GraphNodeMorph subclass: #SpringNodeMorph
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Domains-Graphs-Morphic'!
-!classDefinition: 'SpringNodeMorph class' category: #'Domains-Graphs-Morphic'!
-SpringNodeMorph class
-	instanceVariableNames: ''!
-
-!classDefinition: #GraphEdgeMorph category: #'Domains-Graphs-Morphic'!
-Morph subclass: #GraphEdgeMorph
-	instanceVariableNames: 'color source target width drawArrowHead label labelMorph multiplicity'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Domains-Graphs-Morphic'!
-!classDefinition: 'GraphEdgeMorph class' category: #'Domains-Graphs-Morphic'!
-GraphEdgeMorph class
-	instanceVariableNames: ''!
-
-!classDefinition: #SpringEdgeMorph category: #'Domains-Graphs-Morphic'!
-GraphEdgeMorph subclass: #SpringEdgeMorph
-	instanceVariableNames: 'desiredDistance'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Domains-Graphs-Morphic'!
-!classDefinition: 'SpringEdgeMorph class' category: #'Domains-Graphs-Morphic'!
-SpringEdgeMorph class
 	instanceVariableNames: ''!
 
 !classDefinition: #Domain category: #'Domains-Kernel'!
@@ -3472,25 +3401,6 @@ It is assumed that the vertices are objects that implement a total ordering with
 My instances are formal sums of monomials.
 
 Internally, they are represented by a list of associations monomial -> value. The list is kept sorted by the underlying monomial ordering.!
-
-!GraphMorph commentStamp: '<historical>' prior: 0!
-A GraphMorph is composed of nodes and edges (GraphNodeMorph and GraphEdgeMorph or subclasses). Subclasses of GraphMorph implement different layouts.
-
-Examples:
-	| S a b |
-	S _ SymmetricGroup on: (1 to: 4).
-	a _ S !! #(2 1 4 3).
-	b _ S !! #(2 3 1 4).
-	(S alternatingSubgroup cayleyGraphMorph: {a.b})
-
-	| G |
-	G _ Graph exampleImplicitGraph.
-	SpringGraphMorph new graph: G
-
-	| G |
-	G _ RootedDigraph exampleSmallLabelledTree.
-	SpringGraphMorph new graph: G
-!
 
 !Domain commentStamp: 'len 3/9/2021 13:05:26' prior: 0!
 Objects of a given Category, connected by the corresponding Morphisms. They don't necessarily have an underlying set of elements. Concrete examples are algebraic structures such as Groups, Rings and Modules.
@@ -7443,16 +7353,6 @@ removeEdgeFrom: src to: dest
 hash
 	^ self nodes hash! !
 
-!Graph methodsFor: 'converting' stamp: 'len 7/30/2016 07:33'!
-asMorph
-	| answer components |
-	(components _ self components) size = 1
-		ifTrue: [^ SpringGraphMorph new graph: self].
-	answer _ CompositeGraphMorph newRow.
-	components do: [:each|
-		answer addComponent: (SpringGraphMorph new graph: each)].
-	^ answer! !
-
 !Graph methodsFor: 'converting' stamp: 'len 7/21/2016 02:12'!
 asStandard
 	^ self asStandard: self values asArray! !
@@ -9489,6 +9389,23 @@ newFrom: aCollection
 vertices: aCollection
 	^ self new vertices: aCollection! !
 
+!MonomialIndexedTuple methodsFor: 'printing' stamp: 'len 2/25/2017 09:44:26'!
+printCoefficient: coefficient on: aStream
+	| c |
+	((c _ coefficient) printString first = $- "or: [coefficient isNumber and: [coefficient negative]]")
+		ifTrue: [aStream nextPut: $-. c _ c negated].
+	((c isKindOf: Polynomial) and: [c isMonomial])
+		ifTrue: [aStream print: c. ^ self].
+	(c printString allSatisfy: [:each| each isAlphaNumeric or: ['{}()/' includes: each]])
+		ifTrue: [aStream print: c. ^ self].
+	aStream nextPut: $(; print: c; nextPut: $)! !
+
+!MonomialIndexedTuple methodsFor: 'printing' stamp: 'len 2/25/2017 08:48:39'!
+printOn2: aStream
+	aStream nextPut: $(.
+	associations do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: ', '].
+	aStream nextPut: $)! !
+
 !MonomialIndexedTuple methodsFor: 'accessing' stamp: 'len 11/20/2016 10:36:07'!
 at: aMonomial
 	^ self at: aMonomial ifAbsent: [scalars zero]! !
@@ -9754,23 +9671,6 @@ multipliedByMonomial: aMonomial
 negated
 	^ self class associations: (associations collect: [:each| each copy value: each value negated]) over: scalars! !
 
-!MonomialIndexedTuple methodsFor: 'printing' stamp: 'len 2/25/2017 09:44:26'!
-printCoefficient: coefficient on: aStream
-	| c |
-	((c _ coefficient) printString first = $- "or: [coefficient isNumber and: [coefficient negative]]")
-		ifTrue: [aStream nextPut: $-. c _ c negated].
-	((c isKindOf: Polynomial) and: [c isMonomial])
-		ifTrue: [aStream print: c. ^ self].
-	(c printString allSatisfy: [:each| each isAlphaNumeric or: ['{}()/' includes: each]])
-		ifTrue: [aStream print: c. ^ self].
-	aStream nextPut: $(; print: c; nextPut: $)! !
-
-!MonomialIndexedTuple methodsFor: 'printing' stamp: 'len 2/25/2017 08:48:39'!
-printOn2: aStream
-	aStream nextPut: $(.
-	associations do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: ', '].
-	aStream nextPut: $)! !
-
 !MonomialIndexedTuple methodsFor: 'testing' stamp: 'len 11/26/2016 07:38:01'!
 isZero
 	^ associations isEmpty! !
@@ -9809,846 +9709,6 @@ new: anInteger over: aRing
 !MonomialIndexedTuple class methodsFor: 'instance creation' stamp: 'len 11/20/2016 16:52:13'!
 over: aRing
 	^ self basicNew scalars: aRing; associations: OrderedCollection new! !
-
-!CompositeGraphMorph methodsFor: 'as yet unclassified' stamp: 'len 7/30/2016 07:36'!
-addComponent: aGraphMorph
-	self addMorph: aGraphMorph proportionalWidth: 1! !
-
-!CompositeGraphMorph methodsFor: 'as yet unclassified' stamp: 'len 7/30/2016 07:41'!
-componentsDo: aBlock
-	self submorphsDo: [:each| (each isKindOf: GraphMorph) ifTrue: [aBlock value: each]]! !
-
-!CompositeGraphMorph methodsFor: 'as yet unclassified' stamp: 'len 7/30/2016 07:41'!
-dimension: anInteger
-	self componentsDo: [:each| each dimension: anInteger]! !
-
-!CompositeGraphMorph methodsFor: 'as yet unclassified' stamp: 'len 7/31/2016 05:08'!
-edgeAt: anEdge 
-	^ self nodeAt: anEdge ifAbsent: [self error: 'edge not found']! !
-
-!CompositeGraphMorph methodsFor: 'as yet unclassified' stamp: 'len 7/31/2016 05:08'!
-edgeAt: anEdge ifAbsent: exceptionBlock
-	self componentsDo: [:each| (each edgeAt: anEdge ifAbsent: []) ifNotNil: [:edge| ^edge]].
-	^ exceptionBlock value! !
-
-!CompositeGraphMorph methodsFor: 'as yet unclassified' stamp: 'len 7/31/2016 05:02'!
-edgesAndLabelsDo: aBlock 
-	self componentsDo: [:each| each edgesAndLabelsDo: aBlock]! !
-
-!CompositeGraphMorph methodsFor: 'as yet unclassified' stamp: 'len 7/30/2016 07:43'!
-hideLabels
-	self componentsDo: [:each| each hideLabels]! !
-
-!CompositeGraphMorph methodsFor: 'as yet unclassified' stamp: 'len 7/30/2016 07:38'!
-initialize
-	super initialize.
-	self color: Color transparent.
-	self morphExtent: 600 @ 300! !
-
-!CompositeGraphMorph methodsFor: 'as yet unclassified' stamp: 'len 7/31/2016 05:06'!
-nodeAt: anObject 
-	^ self nodeAt: anObject ifAbsent: [self error: 'node not found']! !
-
-!CompositeGraphMorph methodsFor: 'as yet unclassified' stamp: 'len 7/31/2016 05:05'!
-nodeAt: anObject ifAbsent: exceptionBlock
-	self componentsDo: [:each| (each nodeAt: anObject ifAbsent: []) ifNotNil: [:node| ^node]].
-	^ exceptionBlock value! !
-
-!CompositeGraphMorph methodsFor: 'as yet unclassified' stamp: 'len 7/31/2016 05:03'!
-nodesDo: aBlock
-	self componentsDo: [:each| each nodesDo: aBlock]! !
-
-!GraphMorph methodsFor: 'accessing' stamp: 'len 7/9/2016 22:45'!
-dimension
-	^ dimension! !
-
-!GraphMorph methodsFor: 'accessing' stamp: 'len 7/9/2016 22:45'!
-dimension: anInteger
-	dimension _ anInteger.
-	self nodesDo: [:each| each dimension: anInteger].
-	self startStepping! !
-
-!GraphMorph methodsFor: 'accessing' stamp: 'len 7/31/2016 05:09'!
-edgeAt: anEdge
-	^ self edgeAt: anEdge ifAbsent: [self error: 'edge not found']! !
-
-!GraphMorph methodsFor: 'accessing' stamp: 'len 7/31/2016 05:09'!
-edgeAt: anEdge ifAbsent: exceptionBlock
-	| edge |
-	edge _ anEdge key -> anEdge value.
-	graph isDirected ifFalse: [edge _ edge as: MutualAssociation].
-	^ edgeToMorph at: edge ifAbsent: exceptionBlock! !
-
-!GraphMorph methodsFor: 'accessing' stamp: 'len 5/4/2016 06:50'!
-edges
-	^ Iterator on: self performing: #edgesDo:! !
-
-!GraphMorph methodsFor: 'accessing' stamp: 'Samir Saidani 12/16/2003 02:02'!
-focusNode
-	^focusNode! !
-
-!GraphMorph methodsFor: 'accessing' stamp: 'len 7/9/2016 23:00'!
-focusOn: aNode
-	focusNode _ graph nodeAt: aNode.
-	nodeToMorph at: focusNode ifPresent: [:aMorph| aMorph freeze].
-	self startStepping! !
-
-!GraphMorph methodsFor: 'accessing' stamp: 'len 2/14/2016 22:45'!
-graph
-	^ graph! !
-
-!GraphMorph methodsFor: 'accessing' stamp: 'len 7/14/2016 05:42'!
-graph: aGraph
-	self clearAll.
-	graph _ aGraph.
-	graph nodesDo: [:each| self addNode: each].
-	graph edgesAndLabelsDo: [:each :label| self addEdge: each label: label].
-	graph
-		when: #addNode: send: #addNode: to: self;
-		when: #addEdge: send: #addEdge: to: self;
-		when: #removeNode: send: #removeNode: to: self;
-		when: #removeEdge: send: #removeEdge: to: self.
-	(graph isKindOf: RootedDigraph)
-		ifTrue: [self focusOn: graph rootNode]
-		ifFalse: [self focusOn: graph anyOne]! !
-
-!GraphMorph methodsFor: 'accessing' stamp: 'len 7/9/2016 22:45'!
-hideLabels
-	self nodesDo: [:each| each hideLabel].
-	self edgesDo: [:each| each hideLabel]! !
-
-!GraphMorph methodsFor: 'accessing' stamp: 'len 7/31/2016 05:07'!
-nodeAt: anObject
-	^ nodeToMorph at: anObject! !
-
-!GraphMorph methodsFor: 'accessing' stamp: 'len 7/31/2016 05:06'!
-nodeAt: anObject ifAbsent: exceptionBlock
-	^ nodeToMorph at: anObject ifAbsent: exceptionBlock! !
-
-!GraphMorph methodsFor: 'accessing' stamp: 'len 2/17/2016 23:11'!
-origin
-	^ (nodeToMorph at: (focusNode ifNil: [^ self morphExtent // 2])) morphBounds center! !
-
-!GraphMorph methodsFor: 'accessing' stamp: 'len 7/9/2016 22:45'!
-perturbate: n
-	self nodesDo: [:each| each perturbate: n].
-	self startStepping! !
-
-!GraphMorph methodsFor: 'enumerating' stamp: 'len 2/29/2016 21:44'!
-edgesAndLabelsDo: aBlock
-	graph edgesAndLabelsDo: [:each :label| aBlock value: (self edgeAt: each) value: label]! !
-
-!GraphMorph methodsFor: 'enumerating' stamp: 'len 2/15/2003 19:02'!
-edgesDo: aBlock
-	edgeToMorph do: aBlock! !
-
-!GraphMorph methodsFor: 'enumerating' stamp: 'len 2/15/2003 18:58'!
-nodesDo: aBlock
-	nodeToMorph do: aBlock! !
-
-!GraphMorph methodsFor: 'event handling' stamp: 'len 2/19/2016 02:05'!
-acceptDroppingMorph: aMorph event: evt
-	(aMorph isKindOf: self nodeClass)
-		ifTrue: [self addMorph: aMorph.
-				"self focusOn: aMorph node".
-				^ self startStepping].
-	^ super acceptDroppingMorph: aMorph event: evt! !
-
-!GraphMorph methodsFor: 'event handling' stamp: 'len 7/9/2016 22:52'!
-allowSubmorphExtraction
-	" allow extraction so submorphs can be grabbed and dragged to a new position.
-	  usefull to rearrange the vertices manually"
-	^ true! !
-
-!GraphMorph methodsFor: 'event handling' stamp: 'len 7/9/2016 22:51'!
-handlesMouseDown: aMouseButtonEvent
-	"Do I want to receive mouseDown events (mouseDown:, mouseMove:, mouseUp:)?"
-	^true! !
-
-!GraphMorph methodsFor: 'event handling' stamp: 'len 7/9/2016 22:51'!
-mouseButton1Down: aMouseButtonEvent localPosition: localEventPosition
-	super mouseButton1Down: aMouseButtonEvent localPosition: localEventPosition.
-	lastMousePosition _ localEventPosition! !
-
-!GraphMorph methodsFor: 'event handling' stamp: 'len 7/9/2016 22:51'!
-mouseMove: aMouseMoveEvent localPosition: localEventPosition
-	lastMousePosition isNil
-		ifFalse:
-			[aMouseMoveEvent shiftPressed
-				ifTrue:
-					[| bounds d |
-					bounds _ self morphLocalBounds.
-					d _ (localEventPosition dist: lastMousePosition) / (bounds width min: bounds height).
-					localEventPosition y >= lastMousePosition y ifTrue: [d _ d negated].
-					self scaleEdgesBy: 2.0 ^ d]
-				ifFalse: [self rotateNodesBy: lastMousePosition - localEventPosition]].
-	lastMousePosition _ localEventPosition! !
-
-!GraphMorph methodsFor: 'event handling' stamp: 'len 6/2/2020 17:21:26'!
-rotateNodesBy: aPoint
-	| xSpeed ySpeed |
-	self dimension < 3 ifTrue: [^ self].
-	xSpeed _ Float pi / self morphExtent x.
-	ySpeed _ Float pi / self morphExtent y.
-"	self dimension = 2 ifTrue: [self nodesDo: [:each| |p pp| p _ each x. pp _ p x @ p y rotatedBy: aPoint y * ySpeed negated + (aPoint x * xSpeed). each x: (pp x, pp y)]. ^ self]."
-	self nodesDo: [:each| | p xz yz |
-		p _ each x.
-		xz _ p x @ p z.
-		xz _ xz rotatedBy: aPoint x * xSpeed.
-		yz _ p y @ xz y.
-		yz _ yz rotatedBy: aPoint y * ySpeed.
-		p _ (xz x, yz x, yz y).
-		each x: p.
-		each dx: p * 0. "optimization, dont rotate the velocities"].
-	self startStepping! !
-
-!GraphMorph methodsFor: 'geometry' stamp: 'len 7/9/2016 22:53'!
-privateExtent: aPoint
-	^ (super privateExtent: aPoint) ifTrue: [self startStepping]; yourself! !
-
-!GraphMorph methodsFor: 'initialization' stamp: 'len 7/14/2016 02:56'!
-initialize
-	super initialize.
-	self morphExtent: 300 @ 300.
-	self color: Color transparent.
-	self initializeNodeToMorph.
-	self initializeEdgeToMorph.
-	dimension _ 3! !
-
-!GraphMorph methodsFor: 'initialization' stamp: 'Samir Saidani 12/7/2003 19:25'!
-initializeEdgeToMorph
-	edgeToMorph _ Dictionary new! !
-
-!GraphMorph methodsFor: 'initialization' stamp: 'Samir Saidani 12/7/2003 19:25'!
-initializeNodeToMorph
-	nodeToMorph _ Dictionary new! !
-
-!GraphMorph methodsFor: 'layout' stamp: 'sam 6/1/2004 14:37'!
-clearAll
-	self clearEdges.
-	self clearNodes.
-	! !
-
-!GraphMorph methodsFor: 'layout' stamp: 'len 2/14/2016 22:48'!
-clearEdges
-	self edgesDo: [:edgeMorph| edgeMorph delete].
-	self initializeEdgeToMorph! !
-
-!GraphMorph methodsFor: 'layout' stamp: 'len 2/14/2016 22:48'!
-clearNodes
-	self nodesDo: [:nodeMorph | nodeMorph delete].
-	self initializeNodeToMorph! !
-
-!GraphMorph methodsFor: 'stepping' stamp: 'len 6/2/2020 17:08:02'!
-alignToCenter
-	| centerOfMass delta |
-	centerOfMass _ nodeToMorph anyOne x zero.
-	self nodesDo: [:each| centerOfMass _ centerOfMass + each x].
-	centerOfMass _ centerOfMass / graph size.
-	centerOfMass norm2 < 1.0 ifTrue: [^ self].
-	delta _ centerOfMass negated.
-	self nodesDo: [:each| each translateBy: delta]! !
-
-!GraphMorph methodsFor: 'stepping' stamp: 'len 7/9/2016 22:48'!
-step
-	| maxDelta |
-	self nodesDo: [:each| each dampBy: 1.1]. "damping"
-	self alignToCenter.
-	maxDelta _ 0.
-	self nodesDo: [:each| maxDelta _ maxDelta max: each doMove].
-	self edgesDo: [:each| each adjustBounds].
-	self redrawNeeded.
-	maxDelta < 0.1 ifTrue: [self stopStepping]! !
-
-!GraphMorph methodsFor: 'stepping' stamp: 'len 7/9/2016 22:48'!
-stepTime
-	^ 0! !
-
-!GraphMorph methodsFor: 'stepping' stamp: 'len 7/9/2016 22:48'!
-wantsSteps
-	^ true! !
-
-!GraphMorph methodsFor: 'private' stamp: 'len 2/12/2003 23:34'!
-addEdge: anEdge
-	^ self addEdge: anEdge label: nil! !
-
-!GraphMorph methodsFor: 'private' stamp: 'len 7/14/2016 05:25'!
-addEdge: anEdge label: label 
-	| src dest |
-	src _ self graph nodeAt: anEdge key.
-	dest _ self graph nodeAt: anEdge value.
-	^ self privateAddEdgeFrom: src to: dest label: label! !
-
-!GraphMorph methodsFor: 'private' stamp: 'len 7/14/2016 05:42'!
-addNode: aGraphNode 
-	| morph |
-	(nodeToMorph includesKey: aGraphNode)
-		ifTrue: [^ nodeToMorph at: aGraphNode].
-	morph _ self nodeClass new node: aGraphNode.
-	morph dimension: dimension.
-	nodeToMorph at: aGraphNode put: morph.
-	morph morphPosition: self morphWidth asInteger atRandom @ self morphHeight asInteger atRandom.
-	self addMorph: morph.
-"	aGraphNode
-		neighborsAndLabelsDo: [:each :label|
-			self addNode: each.
-			self privateAddEdgeFrom: aGraphNode to: each label: label]."
-	^ morph! !
-
-!GraphMorph methodsFor: 'private' stamp: 'len 7/9/2016 22:26'!
-edgeClass
-	^ GraphEdgeMorph! !
-
-!GraphMorph methodsFor: 'private' stamp: 'len 7/9/2016 22:26'!
-nodeClass
-	^ GraphNodeMorph! !
-
-!GraphMorph methodsFor: 'private' stamp: 'len 7/14/2016 05:38'!
-privateAddEdgeFrom: source to: target label: label
-	| edge morph |
-	edge _ source -> target.
-	graph isDirected ifFalse: [edge _ edge as: MutualAssociation].
-	(edgeToMorph includesKey: edge)
-		ifTrue: [^ (edgeToMorph at: edge) incrementMultiplicity].
-	morph _ self edgeClass new.
-	edgeToMorph at: edge put: morph.
-	morph source: (nodeToMorph at: source); target: (nodeToMorph at: target).
-	morph label: label.
-	graph isDirected ifTrue: [morph showArrowHead] ifFalse: [morph hideArrowHead].
-	self addMorphBack: morph.
-	^ morph! !
-
-!GraphMorph methodsFor: 'private' stamp: 'len 7/14/2016 05:39'!
-privateRemoveEdgeFrom: source to: target label: label 
-	| edge |
-	edge _ source -> target.
-	graph isDirected ifFalse: [edge _ edge as: MutualAssociation].
-	(edgeToMorph removeKey: edge ifAbsent: [^ self]) delete! !
-
-!GraphMorph methodsFor: 'private' stamp: 'timestamp) (no'!
-removeEdge: anEdge 
-	^ self removeEdge: anEdge label: nil! !
-
-!GraphMorph methodsFor: 'private' stamp: 'len 2/17/2016 23:06'!
-removeEdge: anEdge label: label 
-	^ self privateRemoveEdgeFrom: anEdge key to: anEdge value label: label! !
-
-!SpringGraphMorph methodsFor: 'accessing' stamp: 'len 4/26/2016 02:06'!
-desiredDistance: aNumber
-	^ self edgesDo: [:each| each desiredDistance: aNumber]! !
-
-!SpringGraphMorph methodsFor: 'accessing' stamp: 'len 5/25/2016 03:15'!
-graph: aGraph
-	| morph desiredDistance |
-	super graph: aGraph.
-	(aGraph isKindOf: RootedDigraph)
-		ifTrue: [morph _ nodeToMorph at: aGraph rootNode.
-				morph morphAlign: morph morphBounds center with: self morphExtent // 2].
-	aGraph size < 100
-		ifTrue: [desiredDistance _ (self morphLocalBounds area / (aGraph radius min: 10) / 2) sqrt.
-			components _ graph components asArray collect: [:each| each asArray collect: [:node| nodeToMorph at: node]]]
-		ifFalse:
-			[desiredDistance _ 10.
-			components _ nil].
-	self edgesDo: [:each| each desiredDistance: desiredDistance "/ each source node degree sqrt"]! !
-
-!SpringGraphMorph methodsFor: 'event handling' stamp: 'len 2/8/2003 00:38'!
-allowSubmorphExtraction
-	" allow extraction so submorphs can be grabbed and dragged to a new position.
-	  usefull to rearrange the vertices manually"
-	^ true! !
-
-!SpringGraphMorph methodsFor: 'event handling' stamp: 'len 4/27/2016 08:01'!
-scaleEdgesBy: aNumber
-	self edgesDo: [:each| each desiredDistance: each desiredDistance * aNumber].
-	self startStepping! !
-
-!SpringGraphMorph methodsFor: 'stepping' stamp: 'len 4/30/2016 02:22'!
-approachComponents
-	| componentsDesiredDistance |
-	(components isNil or: [components size < 2])
-		ifTrue: [^ self].
-	componentsDesiredDistance _ 1.
-	components do: [:each|
-		components do: [:other|
-			each == other
-				ifFalse:
-					[| source target f currentDistance diff delta |
-					source _ each atRandom.
-					target _ other atRandom.
-					(currentDistance _ (diff _ source x + source dx - target x - target dx) norm) > componentsDesiredDistance
-						ifTrue:
-							[f _ (componentsDesiredDistance - currentDistance) asFloat / (currentDistance * 4).
-							delta _ diff * f / 2.
-							"target dx: target dx - delta."
-							source dx: source dx + (delta/other size)]]]]! !
-
-!SpringGraphMorph methodsFor: 'stepping' stamp: 'len 2/25/2016 16:36'!
-aproachConnectedNodes
-	self edgesDo: [:each| each approachNodes]! !
-
-!SpringGraphMorph methodsFor: 'stepping' stamp: 'len 2/19/2016 04:17'!
-separateAllNodes
-	self nodesDo: [:each | each separateFromAllNodes]! !
-
-!SpringGraphMorph methodsFor: 'stepping' stamp: 'len 6/2/2020 17:10:51'!
-step
-	| maxDelta |
-	self nodesDo: [:each| each dampBy: 1.1]. "damping"
-	self aproachConnectedNodes; separateAllNodes. "self approachComponents;"
-	maxDelta _ 0.0.
-	self nodesDo: [:each| maxDelta _ maxDelta max: each doMove].
-	self alignToCenter.
-	self edgesDo: [:each| each adjustBounds].
-	self redrawNeeded.
-	maxDelta < 0.1 ifTrue: [self stopStepping]! !
-
-!SpringGraphMorph methodsFor: 'private' stamp: 'len 2/15/2003 18:10'!
-edgeClass
-	^ SpringEdgeMorph! !
-
-!SpringGraphMorph methodsFor: 'private' stamp: 'len 2/25/2016 17:42'!
-nodeClass
-	^ SpringNodeMorph! !
-
-!GraphNodeMorph methodsFor: 'accessing' stamp: 'len 6/2/2020 17:25:00'!
-alpha
-	(self dimension > 2 and: [owner notNil]) ifFalse: [^ 1.0].
-	^ (x z / owner morphExtent y + 0.75) squared min: 1.0 max: 0.0! !
-
-!GraphNodeMorph methodsFor: 'accessing' stamp: 'len 7/9/2016 22:25'!
-color
-	^ color! !
-
-!GraphNodeMorph methodsFor: 'accessing' stamp: 'len 7/9/2016 22:25'!
-color: aColor
-	color _ aColor! !
-
-!GraphNodeMorph methodsFor: 'accessing' stamp: 'len 7/9/2016 22:39'!
-dimension
-	^ x size! !
-
-!GraphNodeMorph methodsFor: 'accessing' stamp: 'len 6/2/2020 14:54:27'!
-dimension: anInteger
-	| n |
-	(n _ x size) = anInteger
-		ifTrue: [^ self].
-	n > anInteger
-		ifTrue:
-			[x _ x copyFrom: 1 to: anInteger.
-			dx _ dx copyFrom: 1 to: anInteger]
-		ifFalse:
-			[| z |
-			z _ (Ö^(anInteger - n)) zero.
-			x _ x, z.
-			dx _ dx, z]! !
-
-!GraphNodeMorph methodsFor: 'accessing' stamp: 'len 7/9/2016 22:41'!
-dx
-	^ dx! !
-
-!GraphNodeMorph methodsFor: 'accessing' stamp: 'len 7/9/2016 22:41'!
-dx: aVector
-	dx _ aVector! !
-
-!GraphNodeMorph methodsFor: 'accessing' stamp: 'len 2/18/2016 21:42'!
-label
-	^ label! !
-
-!GraphNodeMorph methodsFor: 'accessing' stamp: 'len 2/18/2016 21:43'!
-label: aString
-	label _ aString.
-	label notNil ifTrue: [self showLabel] ifFalse: [self hideLabel]! !
-
-!GraphNodeMorph methodsFor: 'accessing' stamp: 'len 2/12/2003 23:20'!
-node
-	^ node! !
-
-!GraphNodeMorph methodsFor: 'accessing' stamp: 'len 4/8/2016 23:02'!
-node: aGraphNode 
-	node _ aGraphNode.
-	self label: node value printText! !
-
-!GraphNodeMorph methodsFor: 'accessing' stamp: 'len 12/19/2016 12:38:16'!
-radius
-	^ extent x! !
-
-!GraphNodeMorph methodsFor: 'accessing' stamp: 'len 12/19/2016 12:39:19'!
-radius: aNumber
-	self morphExtent: aNumber @ aNumber! !
-
-!GraphNodeMorph methodsFor: 'accessing' stamp: 'len 2/18/2016 21:25'!
-shape
-	^ shape! !
-
-!GraphNodeMorph methodsFor: 'accessing' stamp: 'len 2/18/2016 21:31'!
-shape: aShapeSymbol
-	shape _ aShapeSymbol.
-	self redrawNeeded! !
-
-!GraphNodeMorph methodsFor: 'accessing' stamp: 'len 2/18/2016 21:07'!
-value
-	^ node value! !
-
-!GraphNodeMorph methodsFor: 'accessing' stamp: 'len 7/9/2016 22:14'!
-x
-	^ x! !
-
-!GraphNodeMorph methodsFor: 'accessing' stamp: 'len 7/9/2016 22:14'!
-x: aPoint
-	x _ aPoint! !
-
-!GraphNodeMorph methodsFor: 'drawing' stamp: 'len 5/4/2016 06:37'!
-drawOn: aCanvas
-	(extent x abs < 2 and: [extent y abs < 2]) ifTrue: [^ self].
-	shape == #circle
-		ifTrue: [aCanvas fillEllipse: self morphLocalBounds color: self color. ^ self].
-	shape == #square
-		ifTrue: [aCanvas fillRectangle: self morphLocalBounds color: self color. ^ self].
-	shape == #squareFrame
-		ifTrue: [aCanvas frameRectangle: self morphLocalBounds borderWidth: 1 color: self color. ^ self].
-	shape == #circleFrame
-		ifTrue: [aCanvas frameEllipse: self morphLocalBounds borderWidth: 1 color: self color. ^ self].
-	"otherwise do nothing"
-	^ self! !
-
-!GraphNodeMorph methodsFor: 'initialization' stamp: 'len 6/2/2020 13:12:27'!
-initialize
-	super initialize.
-	self color: Color gray.
-	x _ (0.0,0.0).
-	dx _ x.
-	shape _ #circle.
-	extent _ 10@10! !
-
-!GraphNodeMorph methodsFor: 'moving' stamp: 'len 6/2/2020 15:03:08'!
-dampBy: aNumber
-	aNumber > 1.0 ifFalse: [^ self].
-	dx _ dx / aNumber! !
-
-!GraphNodeMorph methodsFor: 'moving' stamp: 'len 6/2/2020 17:05:30'!
-doMove
-	| ownerBounds bounds delta |
-	dx do: [:each| each isNaN ifTrue: [dx _ dx zero. ^ 0.0]].
-	x _ x + dx.
-	ownerBounds _ owner morphLocalBounds.
-	self morphPosition: ownerBounds center + ((x at: 1) @ (x at: 2)).
-	(ownerBounds containsRect: (bounds _ self morphBounds))
-		ifFalse: [delta _ 2.0 * (bounds amountToTranslateWithin: ownerBounds).
-				x _ x + (delta x, delta y).
-				self morphPosition: bounds center + ((x at: 1) @ (x at: 2)).
-				dx _ dx * 0.0].
-	^ dx norm! !
-
-!GraphNodeMorph methodsFor: 'moving' stamp: 'len 7/9/2016 22:54'!
-freeze
-	dx _ dx * 0.0! !
-
-!GraphNodeMorph methodsFor: 'moving' stamp: 'len 7/9/2016 22:42'!
-perturbate: n
-	dx _ dx + (dx collect: [:xi| n atRandom - n])! !
-
-!GraphNodeMorph methodsFor: 'moving' stamp: 'len 6/2/2020 16:01:50'!
-perturbation
-	^ x collect: [:xi| 3 atRandom - 2]! !
-
-!GraphNodeMorph methodsFor: 'moving' stamp: 'len 7/9/2016 22:42'!
-translateBy: delta
-	dx _ dx + delta! !
-
-!GraphNodeMorph methodsFor: 'private' stamp: 'len 2/18/2016 21:42'!
-hideLabel
-	labelMorph notNil ifTrue: [labelMorph delete. labelMorph _ nil]! !
-
-!GraphNodeMorph methodsFor: 'private' stamp: 'len 4/30/2016 06:55'!
-showLabel
-	(labelMorph notNil or: [label isNil]) ifTrue: [^ self].
-	labelMorph _ StringMorph contents: label font: Preferences standardMenuFont.
-	labelMorph color: Color white.
-	self addMorph: labelMorph.
-	labelMorph morphAlign: labelMorph morphBounds leftCenter with: self morphBounds rightCenter + (1@0)! !
-
-!SpringNodeMorph methodsFor: 'event handling testing' stamp: 'len 7/9/2016 22:10'!
-aboutToBeGrabbedBy: aHand 
-	super aboutToBeGrabbedBy: aHand.
-	(owner isKindOf: GraphMorph) ifTrue: ["owner focusOn: node; stopStepping"]! !
-
-!SpringNodeMorph methodsFor: 'event handling testing' stamp: 'sam 2/10/2004 01:56'!
-handlesMouseDown: evt 
-	evt shiftPressed
-		ifFalse: [^ super handlesMouseDown: evt]
-		ifTrue: [^ true]! !
-
-!SpringNodeMorph methodsFor: 'event handling testing' stamp: 'len 2/18/2016 06:02'!
-wantsToBeDroppedInto: aMorph
-	^ aMorph isKindOf: SpringGraphMorph! !
-
-!SpringNodeMorph methodsFor: 'moving' stamp: 'len 6/2/2020 16:03:40'!
-approachPoint: aPoint
-	| x1 x2 difference distanceSquared |
-	x1 _ x.
-	x2 _ aPoint.
-	difference _ x1 - x2.
-	distanceSquared _ difference norm2.
-	distanceSquared > 0.1 ifFalse: [^ self].
-	dx _ dx + (difference / difference norm * 2.0)! !
-
-!SpringNodeMorph methodsFor: 'moving' stamp: 'len 6/2/2020 16:08:12'!
-separateFromAllNodes
-	| force x1 x2 magnitude |
-	(owner isKindOf: SpringGraphMorph) ifFalse: [^ self].
-	force _ dx zero.
-	x1 _ x.
-	owner nodesDo: [:each|
-		x2 _ each x + each dx.
-		self == each
-			ifFalse:
-				[| difference distanceSquared |
-				difference _ x1 - x2.
-				distanceSquared _ difference norm2.
-				force _ force + (distanceSquared > 1.0 ifTrue: [difference / distanceSquared] ifFalse: [self perturbation])]].
-	magnitude _ force norm.
-	magnitude > 0.1 ifTrue: [dx _ dx + (force / magnitude * 2)]! !
-
-!SpringNodeMorph methodsFor: 'private' stamp: 'len 2/29/2016 21:28'!
-nearbyNodesDo: aBlock
-	| count |
-	count _ 0.
-	node markDo: [:each |
-		count _ count + 1.
-		count > 40 ifTrue: [^ self].
-		aBlock value: (owner nodeAt: each)]! !
-
-!GraphEdgeMorph methodsFor: 'accessing' stamp: 'len 7/9/2016 22:11'!
-alpha
-	^ source alpha + target alpha / 2.0! !
-
-!GraphEdgeMorph methodsFor: 'accessing' stamp: 'len 7/9/2016 22:26'!
-color
-	^ color alpha: self alpha! !
-
-!GraphEdgeMorph methodsFor: 'accessing' stamp: 'len 7/9/2016 22:27'!
-color: aColor
-	color _ aColor! !
-
-!GraphEdgeMorph methodsFor: 'accessing' stamp: 'len 2/19/2016 03:25'!
-hideArrowHead
-	drawArrowHead _ false! !
-
-!GraphEdgeMorph methodsFor: 'accessing' stamp: 'len 7/14/2016 05:33'!
-incrementMultiplicity
-	multiplicity _ multiplicity + 1! !
-
-!GraphEdgeMorph methodsFor: 'accessing' stamp: 'len 2/19/2016 19:00'!
-label
-	^ label! !
-
-!GraphEdgeMorph methodsFor: 'accessing' stamp: 'len 2/19/2016 19:00'!
-label: aString
-	label _ aString.
-	label notNil ifTrue: [self showLabel] ifFalse: [self hideLabel]! !
-
-!GraphEdgeMorph methodsFor: 'accessing' stamp: 'len 2/19/2016 03:25'!
-showArrowHead
-	drawArrowHead _ true! !
-
-!GraphEdgeMorph methodsFor: 'accessing' stamp: 'Samir Saidani 6/23/2003 21:17'!
-source
-	^ source! !
-
-!GraphEdgeMorph methodsFor: 'accessing' stamp: 'Samir Saidani 6/23/2003 21:17'!
-source: aMorph
-	source _ aMorph! !
-
-!GraphEdgeMorph methodsFor: 'accessing' stamp: 'len 3/1/2016 01:48'!
-sourcePoint
-	^ self internalizeFromWorld: source morphBoundsInWorld center! !
-
-!GraphEdgeMorph methodsFor: 'accessing' stamp: 'len 2/15/2016 22:56'!
-target
-	^ target! !
-
-!GraphEdgeMorph methodsFor: 'accessing' stamp: 'len 2/15/2016 22:56'!
-target: aMorph
-	target _ aMorph! !
-
-!GraphEdgeMorph methodsFor: 'accessing' stamp: 'len 2/17/2016 22:20'!
-targetPoint
-	^ self internalizeFromWorld: target morphBoundsInWorld center! !
-
-!GraphEdgeMorph methodsFor: 'accessing' stamp: 'len 2/18/2016 06:16'!
-width
-	^ width! !
-
-!GraphEdgeMorph methodsFor: 'accessing' stamp: 'len 2/18/2016 06:16'!
-width: anInteger
-	"Set the width of the line to draw."
-	width _ anInteger! !
-
-!GraphEdgeMorph methodsFor: 'drawing' stamp: 'len 3/1/2016 01:44'!
-direction
-	^ (self targetPoint - self sourcePoint) normalized! !
-
-!GraphEdgeMorph methodsFor: 'drawing' stamp: 'len 1/23/2017 09:35:06'!
-drawArcOn: aCanvas from: sourcePoint to: targetPoint
-	multiplicity odd
-		ifTrue: [aCanvas line: sourcePoint to: targetPoint width: width color: self color].
-	1 to: multiplicity - (multiplicity \\ 2) do: [:i|
-		self drawCurveOn: aCanvas from: sourcePoint to: targetPoint curvature: i+1//2 * (i odd ifTrue: [1] ifFalse: [-1])]! !
-
-!GraphEdgeMorph methodsFor: 'drawing' stamp: 'len 12/19/2016 12:29:46'!
-drawArrowOn: aCanvas from: aPoint to: anotherPoint
-	| sourcePoint targetPoint direction |
-	sourcePoint _ aPoint.
-	targetPoint _ anotherPoint.
-	direction _ (targetPoint - sourcePoint) normalized.
-	target identityHash < source identityHash
-		ifTrue:
-			[ | shift |
-			shift _ (direction rotatedBy: Float pi/2) * 4.
-			sourcePoint _ sourcePoint + shift.
-			targetPoint _ targetPoint + shift].
-	targetPoint _ targetPoint - (direction * target radius).
-	sourcePoint _ sourcePoint + (direction * source radius).
-	self drawArcOn: aCanvas from: sourcePoint to: targetPoint.
-	aCanvas line: targetPoint - (direction*3) - ((direction rotatedBy: Float pi / 4) * 4)
-		to: targetPoint width: width color: self color.
-	aCanvas line: targetPoint - (direction*2) - ((direction rotatedBy: Float pi / 4) * 4)
-		to: targetPoint width: width color: self color.
-	aCanvas line: targetPoint - (direction*3) - ((direction rotatedBy: Float pi * 7 / 4) * 4)
-		to: targetPoint width: width color: self color.
-	aCanvas line: targetPoint - (direction*2) - ((direction rotatedBy: Float pi * 7 / 4) * 4)
-		to: targetPoint width: width color: self color.
-
-"	self sourcePoint = self targetPoint
-		ifFalse: [aCanvas
-				drawThinArrowFrom: self sourcePoint
-				to: self targetPoint
-				width: 1
-				color: self color]"
-			
-	"| circle string |  
-	circle _ EllipseMorph new extent: 20 @ 20;  
-	 
-	color: (Color  
-	r: 1.0  
-	g: 0.452  
-	b: 0.065).  
-	circle align: circle center with: self center.  
-	self addMorph: circle.  
-	string _ StringMorph new contents: 'test'.  
-	string align: string bounds leftCenter with: bounds rightCenter + (4 @  
-	0). self addMorph: string"
-"	| aa |
-	aa _ PolygonMorph new.
-	aa computeArrowFormAt: self sourcePoint from: self destinationPoint.
-	self addMorph: aa"
-! !
-
-!GraphEdgeMorph methodsFor: 'drawing' stamp: 'len 1/23/2017 09:35:19'!
-drawCurveOn: aCanvas from: sourcePoint to: targetPoint curvature: curvature
-	| perp previous |
-	perp _ targetPoint - sourcePoint / 10.0 rotatedBy: Float pi / 2.
-	0.0 to: 1.0 count: 15 do: [:i|
-		| current |
-		current _ sourcePoint * i + (targetPoint * (1.0-i)).
-		current _ current + ((0.5 - (0.5-i) abs) sqrt * curvature * perp).
-		previous ifNotNil: [aCanvas line: previous to: current width: width color: self color].
-		previous _ current]! !
-
-!GraphEdgeMorph methodsFor: 'drawing' stamp: 'len 7/14/2016 02:51'!
-drawLoopOn: aCanvas at: aPoint
-	aCanvas frameEllipse: (aPoint - (10@20) extent: 20@20) borderWidth: width color: self color! !
-
-!GraphEdgeMorph methodsFor: 'drawing' stamp: 'len 7/14/2016 05:21'!
-drawOn: aCanvas 
-	"frameRectangle: self bounds color: Color black;"
-	| sourcePoint targetPoint |
-	"aCanvas frameRectangle: self morphLocalBounds borderWidth: 1 color: Color red."
-	[sourcePoint _ self sourcePoint.
-	targetPoint _ self targetPoint] on: Error do: [^ self].
-	targetPoint = sourcePoint ifTrue: [^ self drawLoopOn: aCanvas at: targetPoint].
-	drawArrowHead ifTrue: [^ self drawArrowOn: aCanvas from: sourcePoint to: targetPoint].
-	self drawArcOn: aCanvas from: sourcePoint to: targetPoint! !
-
-!GraphEdgeMorph methodsFor: 'geometry testing' stamp: 'len 4/28/2016 05:50'!
-morphContainsPoint: aLocalPoint
-	^ super morphContainsPoint: aLocalPoint! !
-
-!GraphEdgeMorph methodsFor: 'initialization' stamp: 'len 7/14/2016 05:37'!
-initialize
-	super initialize.
-	self color: Color gray.
-	width _ 1.
-	drawArrowHead _ true.
-	multiplicity _ 1! !
-
-!GraphEdgeMorph methodsFor: 'stepping' stamp: 'len 2/26/2016 03:03'!
-step
-	(source owner isNil or: [target owner isNil]) ifTrue: [^ self delete].
-	self adjustBounds! !
-
-!GraphEdgeMorph methodsFor: 'stepping' stamp: 'Samir Saidani 6/23/2003 21:17'!
-stepTime
-	^ 0! !
-
-!GraphEdgeMorph methodsFor: 'stepping' stamp: 'len 2/17/2016 22:15'!
-wantsSteps
-	^ true! !
-
-!GraphEdgeMorph methodsFor: 'private' stamp: 'len 6/2/2020 16:00:04'!
-adjustBounds
-	| newBounds |
-	newBounds _ (self externalize: self sourcePoint) rect: (self externalize: self targetPoint).
-	self morphBounds: newBounds.
-	labelMorph ifNotNil: [labelMorph morphAlign: labelMorph morphBounds center with: newBounds extent // 2]! !
-
-!GraphEdgeMorph methodsFor: 'private' stamp: 'len 2/19/2016 19:01'!
-hideLabel
-	labelMorph notNil ifTrue: [labelMorph delete. labelMorph _ nil]! !
-
-!GraphEdgeMorph methodsFor: 'private' stamp: 'len 4/30/2016 06:56'!
-showLabel
-	(labelMorph notNil or: [label isNil]) ifTrue: [^ self].
-	labelMorph _ StringMorph contents: label asString font: Preferences standardMenuFont.
-	labelMorph color: Color white.
-	self addMorph: labelMorph.
-	labelMorph morphAlign: labelMorph morphBounds leftCenter with: self morphBounds rightCenter + (1@0)! !
-
-!SpringEdgeMorph methodsFor: 'initialization' stamp: 'Michael Piel 4/21/2004 11:12'!
-initialize
-	super initialize.
-	desiredDistance _ 100! !
-
-!SpringEdgeMorph methodsFor: 'moving' stamp: 'len 2/25/2016 17:08'!
-approachNodes
-	"Connected nodes are tied with a rubber band."
-	| f currentDistance diff delta |
-	(currentDistance _ (diff _ source x + source dx - target x - target dx) norm) > desiredDistance
-		ifTrue:
-			[f _ (desiredDistance - currentDistance) asFloat / (currentDistance * 4).
-			delta _ diff * f / 2.
-			target dx: target dx - delta.
-			source dx: source dx + delta]! !
-
-!SpringEdgeMorph methodsFor: 'moving' stamp: 'len 4/27/2016 07:57'!
-desiredDistance
-	^ desiredDistance! !
-
-!SpringEdgeMorph methodsFor: 'moving' stamp: 'len 2/15/2003 18:07'!
-desiredDistance: anInteger
-	"Set the distance I want between my vertices."
-	desiredDistance _ anInteger! !
-
-!SpringEdgeMorph methodsFor: 'stepping' stamp: 'len 2/26/2016 03:04'!
-step
-	(source owner isNil or: [target owner isNil]) ifTrue: [^ self delete].
-"	self approachNodes."
-	self adjustBounds! !
-
-!SpringEdgeMorph methodsFor: 'stepping' stamp: 'len 2/24/2016 21:12'!
-wantsSteps
-	^ false! !
 
 !Domain methodsFor: 'accessing' stamp: 'len 4/22/2020 05:45:14'!
 arity
@@ -10916,6 +9976,10 @@ initializeAll
 	"And finally initialize any other classes that need initialization:"
 	BitTuple initialize! !
 
+!Structure methodsFor: 'copying' stamp: 'len 5/1/2016 23:35'!
+copyEmpty
+	^ self species new! !
+
 !Structure methodsFor: 'accessing' stamp: 'len 4/22/2020 07:02:11'!
 ambient
 	"Domains can be subobjects of other domains, for example subspeces are subobjects of vector spaces.
@@ -11019,10 +10083,6 @@ asCartesianProduct
 !Structure methodsFor: 'converting' stamp: 'len 4/19/2020 07:09:10'!
 asSet
 	^ self elements asSet! !
-
-!Structure methodsFor: 'copying' stamp: 'len 5/1/2016 23:35'!
-copyEmpty
-	^ self species new! !
 
 !Structure methodsFor: 'elements' stamp: 'len 8/1/2020 07:44:04'!
 !! anObject
@@ -13549,6 +12609,10 @@ new: anInteger
 on: aCollection
 	^ self new space: aCollection! !
 
+!MatrixGroup methodsFor: 'printing' stamp: 'len 12/8/2016 08:58:51'!
+shortName
+	^ nil! !
+
 !MatrixGroup methodsFor: 'accessing' stamp: 'len 9/27/2018 20:58:08'!
 action
 	"Answer the natural action that sends (f, x) to f(x)."
@@ -13601,10 +12665,6 @@ reynolds
 	order _ self size.
 	action _ self polynomialAction.
 	^ self space coordinateRing to: self invariantsRing evaluating: [:p| (self sum: [:g| action value: {g. p}]) / order]! !
-
-!MatrixGroup methodsFor: 'printing' stamp: 'len 12/8/2016 08:58:51'!
-shortName
-	^ nil! !
 
 !MatrixGroup methodsFor: 'testing' stamp: 'len 9/27/2018 21:01:22'!
 includes: anObject
@@ -13773,6 +12833,10 @@ new: anInteger over: aRing
 on: aFreeModule
 	^ self new space: aFreeModule! !
 
+!OrthogonalGroup methodsFor: 'printing' stamp: 'len 2/11/2016 05:14'!
+shortName
+	^ 'O'! !
+
 !OrthogonalGroup methodsFor: 'accessing' stamp: 'len 7/28/2020 09:39:51'!
 bilinearForm
 	^ self quadraticForm polarization! !
@@ -13791,10 +12855,6 @@ reflectionAt: aVector
 !OrthogonalGroup methodsFor: 'operations' stamp: 'len 7/28/2020 09:29:03'!
 special
 	^ SpecialOrthogonalGroup on: self quadraticForm! !
-
-!OrthogonalGroup methodsFor: 'printing' stamp: 'len 2/11/2016 05:14'!
-shortName
-	^ 'O'! !
 
 !OrthogonalGroup methodsFor: 'random' stamp: 'len 7/28/2020 10:30:25'!
 atRandom: aRandom
@@ -13895,14 +12955,14 @@ contains: aMatrix
 	"Answer true if the receiver contains the given element of its ambient."
 	^ aMatrix determinant = self scalars one! !
 
+!SpecialOrthogonalGroup methodsFor: 'printing' stamp: 'len 2/11/2016 05:20'!
+shortName
+	^ 'SO'! !
+
 !SpecialOrthogonalGroup methodsFor: 'as yet unclassified' stamp: 'len 6/3/2020 05:32:12'!
 affine
 	^ self notYetImplemented
 "	^ SpecialEuclideanGroup on: self space affine"! !
-
-!SpecialOrthogonalGroup methodsFor: 'printing' stamp: 'len 2/11/2016 05:20'!
-shortName
-	^ 'SO'! !
 
 !SpecialOrthogonalGroup methodsFor: 'testing' stamp: 'len 8/9/2020 07:56:48'!
 contains: aMatrix
@@ -14175,6 +13235,10 @@ matrix: aMatrix
 			m > 3 ifTrue: [graph addEdgeFrom: i to: j label: m]]].
 	^ self diagram: graph! !
 
+!AffineGroup methodsFor: 'printing' stamp: 'len 4/18/2016 08:43'!
+shortName
+	^ self subclassResponsibility! !
+
 !AffineGroup methodsFor: 'accessing' stamp: 'len 10/17/2016 11:04'!
 action
 	"Answer the natural action that sends (f, x) to f(x)."
@@ -14208,10 +13272,6 @@ asSemidirectProduct
 !AffineGroup methodsFor: 'operations' stamp: 'len 12/28/2016 11:29:15'!
 linear
 	^ self propertyAt: #linear! !
-
-!AffineGroup methodsFor: 'printing' stamp: 'len 4/18/2016 08:43'!
-shortName
-	^ self subclassResponsibility! !
 
 !AffineGroup methodsFor: 'testing' stamp: 'len 5/22/2016 22:34'!
 includes: anAffineMap
@@ -17891,6 +16951,10 @@ at: aPrime
 at: aPrime precision: anInteger
 	^ (self at: aPrime) precision: anInteger! !
 
+!PowerSeriesRing methodsFor: 'printing' stamp: 'len 6/6/2019 13:22:18'!
+printIndeterminatesOn: aStream
+	self base printIndeterminatesOn: aStream! !
+
 !PowerSeriesRing methodsFor: 'accessing' stamp: 'len 8/9/2019 11:32:16'!
 base
 	^ self propertyAt: #base! !
@@ -18015,10 +17079,6 @@ fractions
 over: aRing
 	^ self class on: (self base over: aRing)! !
 
-!PowerSeriesRing methodsFor: 'printing' stamp: 'len 6/6/2019 13:22:18'!
-printIndeterminatesOn: aStream
-	self base printIndeterminatesOn: aStream! !
-
 !PowerSeriesRing methodsFor: 'random' stamp: 'len 3/21/2021 13:13:20'!
 atRandom: aRandom bits: bitSize
 	^ self embed: (self base atRandom: aRandom bits: bitSize maxDegree: self defaultPrecision - 1)! !
@@ -18082,6 +17142,12 @@ precision: anInteger
 !PowerSeriesRing class methodsFor: 'instance creation' stamp: 'len 3/10/2020 09:43:30'!
 on: aPolynomialRing
 	^ self new base: aPolynomialRing! !
+
+!PolynomialRing methodsFor: 'printing' stamp: 'len 1/2/2017 10:23:51'!
+printIndeterminatesOn: aStream
+	self ordering indeterminates
+		do: [:i| aStream print: (self x: i)]
+		separatedBy: [aStream nextPut: $,]! !
 
 !PolynomialRing methodsFor: 'accessing' stamp: 'len 1/2/2017 10:08:58'!
 characteristic
@@ -18610,12 +17676,6 @@ span: aCollection
 spec
 	"Answer the spectrum of the receiver, Spec(R)."
 	^ self propertyAt: #spec ifAbsentPut: [AffineSpace coordinateRing: self]! !
-
-!PolynomialRing methodsFor: 'printing' stamp: 'len 1/2/2017 10:23:51'!
-printIndeterminatesOn: aStream
-	self ordering indeterminates
-		do: [:i| aStream print: (self x: i)]
-		separatedBy: [aStream nextPut: $,]! !
 
 !PolynomialRing methodsFor: 'random' stamp: 'len 6/16/2019 17:51:45'!
 atRandom: aRandom bits: bitSize
@@ -26006,6 +25066,58 @@ initialize
 	super initialize.
 	Smalltalk at: #HH put: self new! !
 
+!ChainComplex methodsFor: 'operations' stamp: 'len 11/4/2020 12:21:37'!
+/ aSubcomplex
+	"Answer the quotient of the receiver by the argument, equipped with the quotient map."
+	^ self class differentials: (differentials with: aSubcomplex differentials collect: [:f :g| (f domain -> (f domain / g domain)) section -> (f codomain / g codomain)]) shift: shift "assuming they are the same degree and length"! !
+
+!ChainComplex methodsFor: 'operations' stamp: 'len 5/14/2019 16:44:49'!
+<< n
+	"Answer the complex with degrees shifted by n."
+	^ self >> n negated! !
+
+!ChainComplex methodsFor: 'operations' stamp: 'len 11/4/2020 12:19:46'!
+=> aCodomain
+	aCodomain isMorphism ifTrue: [^ super => aCodomain].
+	^ self class differentials: (differentials collect: [:each| each => aCodomain]) reversed shift: shift! !
+
+!ChainComplex methodsFor: 'operations' stamp: 'len 11/4/2020 12:20:25'!
+ê aChainComplex
+	"Answer the cartesian product (direct sum) of the receiver with the argument."
+	^ self class differentials: (differentials with: aChainComplex differentials collect: [:f :g| f ê g]) shift: shift "assuming they are the same shift and length"! !
+
+!ChainComplex methodsFor: 'operations' stamp: 'len 11/4/2020 12:20:43'!
+ë aChainComplex
+	"Answer the tensor product of the receiver with the argument."
+	^ self class differentials: (differentials with: aChainComplex differentials collect: [:f :g| f ë g]) shift: shift "assuming they are the same degree and length"! !
+
+!ChainComplex methodsFor: 'operations' stamp: 'len 11/4/2020 12:20:59'!
+dual
+	"Answer the dual of the receiver. This is the cochain complex, taking dual in all objects and arrows reversed."
+	^ (self class differentials: (self differentials reversed collect: [:each| each adjoint]) shift: shift) opposite! !
+
+!ChainComplex methodsFor: 'operations' stamp: 'len 4/26/2020 04:01:30'!
+stupidTruncationAbove: n
+	"The 'stupid' truncation above is the subcomplex obtained by making 0 the i-th chain for all i > n."
+	^ self notYetImplemented! !
+
+!ChainComplex methodsFor: 'operations' stamp: 'len 4/26/2020 04:01:37'!
+stupidTruncationBelow: n
+	"The 'stupid' truncation below is the quotient complex obtained by making 0 the i-th chain for all i < n."
+	^ self notYetImplemented! !
+
+!ChainComplex methodsFor: 'operations' stamp: 'len 4/26/2020 04:01:58'!
+truncationAbove: n
+	"The 'stupid' truncation above is the complex obtained by making 0 the i-th chain for all i > n, and replacing the n-th chain with the kernel of the n-th differential.
+	This complex has the property that the i-th homology group equals that of the original complex for i >= n and it is 0 for i < n."
+	^ self notYetImplemented! !
+
+!ChainComplex methodsFor: 'operations' stamp: 'len 4/26/2020 04:01:52'!
+truncationBelow: n
+	"The canonical truncation below is the complex obtained by making 0 the i-th chain for all i < n, and replacing the n-th chain with the cokernel of the (n+1)-th differential.
+	This complex has the property that the i-th homology group equals that of the original complex for i <= n and it is 0 for i > n."
+	^ self notYetImplemented! !
+
 !ChainComplex methodsFor: 'accessing' stamp: 'len 11/4/2020 12:24:50'!
 at: k
 	"Answer the k-th differential or boundary map d(k):C(k)->C(k-1)."
@@ -26116,58 +25228,6 @@ id
 	"Answer the identity morphism."
 	^ self propertyAt: #id ifAbsentPut: [ChainMap from: self to: self components: (self chains collect: [:each| each id])]! !
 
-!ChainComplex methodsFor: 'operations' stamp: 'len 11/4/2020 12:21:37'!
-/ aSubcomplex
-	"Answer the quotient of the receiver by the argument, equipped with the quotient map."
-	^ self class differentials: (differentials with: aSubcomplex differentials collect: [:f :g| (f domain -> (f domain / g domain)) section -> (f codomain / g codomain)]) shift: shift "assuming they are the same degree and length"! !
-
-!ChainComplex methodsFor: 'operations' stamp: 'len 5/14/2019 16:44:49'!
-<< n
-	"Answer the complex with degrees shifted by n."
-	^ self >> n negated! !
-
-!ChainComplex methodsFor: 'operations' stamp: 'len 11/4/2020 12:19:46'!
-=> aCodomain
-	aCodomain isMorphism ifTrue: [^ super => aCodomain].
-	^ self class differentials: (differentials collect: [:each| each => aCodomain]) reversed shift: shift! !
-
-!ChainComplex methodsFor: 'operations' stamp: 'len 11/4/2020 12:20:25'!
-ê aChainComplex
-	"Answer the cartesian product (direct sum) of the receiver with the argument."
-	^ self class differentials: (differentials with: aChainComplex differentials collect: [:f :g| f ê g]) shift: shift "assuming they are the same shift and length"! !
-
-!ChainComplex methodsFor: 'operations' stamp: 'len 11/4/2020 12:20:43'!
-ë aChainComplex
-	"Answer the tensor product of the receiver with the argument."
-	^ self class differentials: (differentials with: aChainComplex differentials collect: [:f :g| f ë g]) shift: shift "assuming they are the same degree and length"! !
-
-!ChainComplex methodsFor: 'operations' stamp: 'len 11/4/2020 12:20:59'!
-dual
-	"Answer the dual of the receiver. This is the cochain complex, taking dual in all objects and arrows reversed."
-	^ (self class differentials: (self differentials reversed collect: [:each| each adjoint]) shift: shift) opposite! !
-
-!ChainComplex methodsFor: 'operations' stamp: 'len 4/26/2020 04:01:30'!
-stupidTruncationAbove: n
-	"The 'stupid' truncation above is the subcomplex obtained by making 0 the i-th chain for all i > n."
-	^ self notYetImplemented! !
-
-!ChainComplex methodsFor: 'operations' stamp: 'len 4/26/2020 04:01:37'!
-stupidTruncationBelow: n
-	"The 'stupid' truncation below is the quotient complex obtained by making 0 the i-th chain for all i < n."
-	^ self notYetImplemented! !
-
-!ChainComplex methodsFor: 'operations' stamp: 'len 4/26/2020 04:01:58'!
-truncationAbove: n
-	"The 'stupid' truncation above is the complex obtained by making 0 the i-th chain for all i > n, and replacing the n-th chain with the kernel of the n-th differential.
-	This complex has the property that the i-th homology group equals that of the original complex for i >= n and it is 0 for i < n."
-	^ self notYetImplemented! !
-
-!ChainComplex methodsFor: 'operations' stamp: 'len 4/26/2020 04:01:52'!
-truncationBelow: n
-	"The canonical truncation below is the complex obtained by making 0 the i-th chain for all i < n, and replacing the n-th chain with the cokernel of the (n+1)-th differential.
-	This complex has the property that the i-th homology group equals that of the original complex for i <= n and it is 0 for i > n."
-	^ self notYetImplemented! !
-
 !ChainComplex methodsFor: 'testing' stamp: 'len 11/4/2020 12:27:18'!
 isExact
 	self minDegree to: self maxDegree do: [:i| (self isExactAt: i) ifFalse: [^ false]].
@@ -26244,6 +25304,30 @@ parent
 !Morphism methodsFor: 'accessing' stamp: 'len 5/29/2020 10:15:11'!
 rightIdentity
 	^ self domain id! !
+
+!Morphism methodsFor: 'printing' stamp: 'len 5/2/2020 09:34:13'!
+arrow
+	^ Text streamContents: [:s | self arrowPrintOn: s]! !
+
+!Morphism methodsFor: 'printing' stamp: 'len 4/22/2020 14:37:56'!
+arrowPrintOn: aStream
+	aStream
+		print: self domain;
+		nextPut:
+			((self propertyAt: #inverse ifAbsent: []) notNil
+				ifTrue: [$õ]
+				ifFalse:
+					[(self propertyAt: #retraction ifAbsent: []) notNil
+						ifTrue: [$ö]
+						ifFalse:
+							[(self propertyAt: #section ifAbsent: []) notNil
+								ifTrue: [$ô]
+								ifFalse: [$]]]);
+		print: self codomain! !
+
+!Morphism methodsFor: 'printing' stamp: 'len 4/22/2020 14:36:41'!
+name: aString
+	self propertyAt: #name put: aString! !
 
 !Morphism methodsFor: 'comparing' stamp: 'len 4/22/2020 14:43:11'!
 hash
@@ -26332,30 +25416,6 @@ retraction
 section
 	"Answer a right inverse of the receiver or nil."
 	^ self propertyAt: #section ifAbsent: [self inverse]! !
-
-!Morphism methodsFor: 'printing' stamp: 'len 5/2/2020 09:34:13'!
-arrow
-	^ Text streamContents: [:s | self arrowPrintOn: s]! !
-
-!Morphism methodsFor: 'printing' stamp: 'len 4/22/2020 14:37:56'!
-arrowPrintOn: aStream
-	aStream
-		print: self domain;
-		nextPut:
-			((self propertyAt: #inverse ifAbsent: []) notNil
-				ifTrue: [$õ]
-				ifFalse:
-					[(self propertyAt: #retraction ifAbsent: []) notNil
-						ifTrue: [$ö]
-						ifFalse:
-							[(self propertyAt: #section ifAbsent: []) notNil
-								ifTrue: [$ô]
-								ifFalse: [$]]]);
-		print: self codomain! !
-
-!Morphism methodsFor: 'printing' stamp: 'len 4/22/2020 14:36:41'!
-name: aString
-	self propertyAt: #name put: aString! !
 
 !Morphism methodsFor: 'properties' stamp: 'len 4/22/2020 14:34:34'!
 hasProperty: aSymbol
@@ -26737,92 +25797,6 @@ initialize
 	super initialize.
 	Smalltalk at: #Sets put: (Category new name: #Sets)! !
 
-!Sequence methodsFor: 'accessing' stamp: 'len 6/4/2019 05:39:30'!
-at: anInteger
-	^ self at: anInteger ifAbsent: []! !
-
-!Sequence methodsFor: 'accessing' stamp: 'len 6/3/2019 17:30:31'!
-at: anInteger ifAbsent: aBlock
-	^ anInteger > 0 ifTrue: [super value: anInteger] ifFalse: [aBlock value]! !
-
-!Sequence methodsFor: 'accessing' stamp: 'len 5/23/2020 09:34:55'!
-codomain
-	^ self propertyAt: #codomain ifAbsent: [É]! !
-
-!Sequence methodsFor: 'accessing' stamp: 'len 5/23/2020 09:30:12'!
-domain
-	^ self propertyAt: #domain ifAbsent: [Ç]! !
-
-!Sequence methodsFor: 'accessing' stamp: 'len 6/1/2019 08:33:57'!
-scalars
-	"For compatibility with tuples."
-	^ self codomain! !
-
-!Sequence methodsFor: 'accessing' stamp: 'len 12/28/2016 11:13:26'!
-size
-	^ self propertyAt: #size ifAbsent: [Aleph new]! !
-
-!Sequence methodsFor: 'comparing' stamp: 'len 12/5/2015 01:11'!
-beginsWith: aSequenceableCollection
-	1 to: aSequenceableCollection size do: [:i| (self at: i) = (aSequenceableCollection at: i) ifFalse: [^ false]].
-	^ true! !
-
-!Sequence methodsFor: 'comparing' stamp: 'len 12/27/2015 01:29'!
-equals: aSequence upTo: n
-	^ self beginsWith: (aSequence copyFrom: 1 to: n)! !
-
-!Sequence methodsFor: 'comparing' stamp: 'len 12/27/2015 03:56'!
-hash
-	^ (self at: 1) hash + (self at: 3) hash + (self at: 5) hash! !
-
-!Sequence methodsFor: 'converting' stamp: 'len 12/2/2016 09:57:05'!
-asStream
-	^ ReadStream on: self! !
-
-!Sequence methodsFor: 'copying' stamp: 'len 6/1/2019 08:31:20'!
-copyFrom: start to: end
-	end isInfinite
-		ifTrue: [^ self >> (1 - start)].
-	^ (start to: end) collect: [:i| self at: i]! !
-
-!Sequence methodsFor: 'copying' stamp: 'len 4/20/2016 21:25'!
-first: n
-	^ self copyFrom: 1 to: n! !
-
-!Sequence methodsFor: 'enumerating' stamp: 'len 12/3/2015 20:34'!
-collect: aBlock
-	^ self species evaluating: [:i| aBlock value: (self at: i)]! !
-
-!Sequence methodsFor: 'enumerating' stamp: 'len 4/25/2016 07:08'!
-count: aBlock
-	^ (self collect: [:each| (aBlock value: each) ifTrue: [1] ifFalse: [0]]) sum! !
-
-!Sequence methodsFor: 'enumerating' stamp: 'len 12/27/2015 03:45'!
-do: aBlock
-	1 to: self size do: [:each| aBlock value: (self at: each)]! !
-
-!Sequence methodsFor: 'enumerating' stamp: 'len 6/2/2019 04:31:06'!
-findFirst: aBlock
-	"Return the index of my first element for which aBlock evaluates as true."
-	| index |
-	index _ 0.
-	[(aBlock value: (self at: (index _ index + 1))) ifTrue: [^ index]] repeat! !
-
-!Sequence methodsFor: 'enumerating' stamp: 'len 12/3/2015 23:16'!
-select: aBlock
-	^ self species evaluating: [:i|
-		| k j value |
-		k _ 1.
-		j _ 1.
-		[[aBlock value: (value _ self at: k)] whileFalse: [k _ k + 1]. j < i] whileTrue: [j _ j + 1. k _ k + 1].
-		value]! !
-
-!Sequence methodsFor: 'enumerating' stamp: 'len 3/27/2016 04:44'!
-withIndexDo: aBlock
-	| i |
-	i _ 1.
-	self do: [:each| aBlock value: each value: i. i _ i + 1]! !
-
 !Sequence methodsFor: 'operations' stamp: 'len 6/4/2019 09:20:19'!
 * anObject
 	^ (self codomain includes: anObject)
@@ -26963,6 +25937,92 @@ printOn: aStream base: base
 printStringBase: base
 	^ String streamContents:
 		[:aStream| self printOn: aStream base: base]! !
+
+!Sequence methodsFor: 'accessing' stamp: 'len 6/4/2019 05:39:30'!
+at: anInteger
+	^ self at: anInteger ifAbsent: []! !
+
+!Sequence methodsFor: 'accessing' stamp: 'len 6/3/2019 17:30:31'!
+at: anInteger ifAbsent: aBlock
+	^ anInteger > 0 ifTrue: [super value: anInteger] ifFalse: [aBlock value]! !
+
+!Sequence methodsFor: 'accessing' stamp: 'len 5/23/2020 09:34:55'!
+codomain
+	^ self propertyAt: #codomain ifAbsent: [É]! !
+
+!Sequence methodsFor: 'accessing' stamp: 'len 5/23/2020 09:30:12'!
+domain
+	^ self propertyAt: #domain ifAbsent: [Ç]! !
+
+!Sequence methodsFor: 'accessing' stamp: 'len 6/1/2019 08:33:57'!
+scalars
+	"For compatibility with tuples."
+	^ self codomain! !
+
+!Sequence methodsFor: 'accessing' stamp: 'len 12/28/2016 11:13:26'!
+size
+	^ self propertyAt: #size ifAbsent: [Aleph new]! !
+
+!Sequence methodsFor: 'comparing' stamp: 'len 12/5/2015 01:11'!
+beginsWith: aSequenceableCollection
+	1 to: aSequenceableCollection size do: [:i| (self at: i) = (aSequenceableCollection at: i) ifFalse: [^ false]].
+	^ true! !
+
+!Sequence methodsFor: 'comparing' stamp: 'len 12/27/2015 01:29'!
+equals: aSequence upTo: n
+	^ self beginsWith: (aSequence copyFrom: 1 to: n)! !
+
+!Sequence methodsFor: 'comparing' stamp: 'len 12/27/2015 03:56'!
+hash
+	^ (self at: 1) hash + (self at: 3) hash + (self at: 5) hash! !
+
+!Sequence methodsFor: 'converting' stamp: 'len 12/2/2016 09:57:05'!
+asStream
+	^ ReadStream on: self! !
+
+!Sequence methodsFor: 'copying' stamp: 'len 6/1/2019 08:31:20'!
+copyFrom: start to: end
+	end isInfinite
+		ifTrue: [^ self >> (1 - start)].
+	^ (start to: end) collect: [:i| self at: i]! !
+
+!Sequence methodsFor: 'copying' stamp: 'len 4/20/2016 21:25'!
+first: n
+	^ self copyFrom: 1 to: n! !
+
+!Sequence methodsFor: 'enumerating' stamp: 'len 12/3/2015 20:34'!
+collect: aBlock
+	^ self species evaluating: [:i| aBlock value: (self at: i)]! !
+
+!Sequence methodsFor: 'enumerating' stamp: 'len 4/25/2016 07:08'!
+count: aBlock
+	^ (self collect: [:each| (aBlock value: each) ifTrue: [1] ifFalse: [0]]) sum! !
+
+!Sequence methodsFor: 'enumerating' stamp: 'len 12/27/2015 03:45'!
+do: aBlock
+	1 to: self size do: [:each| aBlock value: (self at: each)]! !
+
+!Sequence methodsFor: 'enumerating' stamp: 'len 6/2/2019 04:31:06'!
+findFirst: aBlock
+	"Return the index of my first element for which aBlock evaluates as true."
+	| index |
+	index _ 0.
+	[(aBlock value: (self at: (index _ index + 1))) ifTrue: [^ index]] repeat! !
+
+!Sequence methodsFor: 'enumerating' stamp: 'len 12/3/2015 23:16'!
+select: aBlock
+	^ self species evaluating: [:i|
+		| k j value |
+		k _ 1.
+		j _ 1.
+		[[aBlock value: (value _ self at: k)] whileFalse: [k _ k + 1]. j < i] whileTrue: [j _ j + 1. k _ k + 1].
+		value]! !
+
+!Sequence methodsFor: 'enumerating' stamp: 'len 3/27/2016 04:44'!
+withIndexDo: aBlock
+	| i |
+	i _ 1.
+	self do: [:each| aBlock value: each value: i. i _ i + 1]! !
 
 !Sequence methodsFor: 'series' stamp: 'len 6/2/2019 16:58:56'!
 bellSeries: p
@@ -27225,6 +26285,43 @@ to: aDomain streaming: aBlock
 			[cache size < n] whileTrue: [cache add: aBlock value].
 			cache at: n]! !
 
+!CFiniteSequence methodsFor: 'operations' stamp: 'len 12/24/2015 03:35'!
+* anObject
+	(anObject isKindOf: self class)
+		ifTrue: [^ self class to: self codomain evaluating: super * anObject maxOrder: self order * anObject order].
+	(self codomain includes: anObject)
+		ifTrue: [^ self class to: self codomain evaluating: super * anObject maxOrder: self order].
+	^ super * anObject! !
+
+!CFiniteSequence methodsFor: 'operations' stamp: 'len 12/24/2015 03:29'!
++ aSequence
+	(aSequence isKindOf: self class) ifFalse: [^ super + aSequence].
+	^ self class to: self codomain evaluating: super + aSequence maxOrder: self order + aSequence order! !
+
+!CFiniteSequence methodsFor: 'operations' stamp: 'len 12/24/2015 03:28'!
+convolution: aSequence
+	(aSequence isKindOf: self class) ifFalse: [^ super convolution: aSequence].
+	^ self class to: self codomain evaluating: (super convolution: aSequence) maxOrder: self order * aSequence order! !
+
+!CFiniteSequence methodsFor: 'operations' stamp: 'len 12/28/2016 11:14:22'!
+minimal
+	^ self propertyAt: #minimal ifAbsentPut: [self class to: self codomain evaluating: self maxOrder: self order]! !
+
+!CFiniteSequence methodsFor: 'operations' stamp: 'len 12/24/2015 03:31'!
+negated
+	^ self class to: self codomain evaluating: super negated maxOrder: self order! !
+
+!CFiniteSequence methodsFor: 'operations' stamp: 'len 12/24/2015 03:39'!
+squared
+	| n |
+	n _ self order.
+	^ self class to: self codomain evaluating: super squared maxOrder: n*(n-1)/2! !
+
+!CFiniteSequence methodsFor: 'operations' stamp: 'len 12/27/2015 19:49'!
+sum
+	"Answer the indefinite sum of the receiver."
+	^ self class to: self codomain evaluating: super sum maxOrder: self order squared! !
+
 !CFiniteSequence methodsFor: 'accessing' stamp: 'len 6/4/2019 05:39:53'!
 at: n ifAbsent: aBlock
 	self order = 0 ifTrue: [^ self codomain zero].
@@ -27280,43 +26377,6 @@ initialValues: anArray
 	f _ self minimal.
 	g _ aSequence minimal.
 	^ f coefficients = g coefficients and: [f initialValues = g initialValues]! !
-
-!CFiniteSequence methodsFor: 'operations' stamp: 'len 12/24/2015 03:35'!
-* anObject
-	(anObject isKindOf: self class)
-		ifTrue: [^ self class to: self codomain evaluating: super * anObject maxOrder: self order * anObject order].
-	(self codomain includes: anObject)
-		ifTrue: [^ self class to: self codomain evaluating: super * anObject maxOrder: self order].
-	^ super * anObject! !
-
-!CFiniteSequence methodsFor: 'operations' stamp: 'len 12/24/2015 03:29'!
-+ aSequence
-	(aSequence isKindOf: self class) ifFalse: [^ super + aSequence].
-	^ self class to: self codomain evaluating: super + aSequence maxOrder: self order + aSequence order! !
-
-!CFiniteSequence methodsFor: 'operations' stamp: 'len 12/24/2015 03:28'!
-convolution: aSequence
-	(aSequence isKindOf: self class) ifFalse: [^ super convolution: aSequence].
-	^ self class to: self codomain evaluating: (super convolution: aSequence) maxOrder: self order * aSequence order! !
-
-!CFiniteSequence methodsFor: 'operations' stamp: 'len 12/28/2016 11:14:22'!
-minimal
-	^ self propertyAt: #minimal ifAbsentPut: [self class to: self codomain evaluating: self maxOrder: self order]! !
-
-!CFiniteSequence methodsFor: 'operations' stamp: 'len 12/24/2015 03:31'!
-negated
-	^ self class to: self codomain evaluating: super negated maxOrder: self order! !
-
-!CFiniteSequence methodsFor: 'operations' stamp: 'len 12/24/2015 03:39'!
-squared
-	| n |
-	n _ self order.
-	^ self class to: self codomain evaluating: super squared maxOrder: n*(n-1)/2! !
-
-!CFiniteSequence methodsFor: 'operations' stamp: 'len 12/27/2015 19:49'!
-sum
-	"Answer the indefinite sum of the receiver."
-	^ self class to: self codomain evaluating: super sum maxOrder: self order squared! !
 
 !CFiniteSequence methodsFor: 'printing' stamp: 'len 12/27/2015 01:25'!
 printLimit
@@ -31380,6 +30440,10 @@ degree
 opposite
 	^ opposite! !
 
+!CochainMap methodsFor: 'printing' stamp: 'len 10/30/2020 11:38:20'!
+verify
+	^ opposite verify! !
+
 !CochainMap methodsFor: 'cohomology' stamp: 'len 10/30/2020 11:28:31'!
 coboundaries: k
 	^ opposite boundaries: k negated! !
@@ -31447,10 +30511,6 @@ retraction
 !CochainMap methodsFor: 'operations' stamp: 'len 10/30/2020 11:38:05'!
 section
 	^ self class opposite: opposite section! !
-
-!CochainMap methodsFor: 'printing' stamp: 'len 10/30/2020 11:38:20'!
-verify
-	^ opposite verify! !
 
 !CochainMap methodsFor: 'testing' stamp: 'len 10/30/2020 11:34:57'!
 isIdentity
@@ -31649,6 +30709,13 @@ coordinates: aTuple
 on: anAffineVariety coordinates: aTuple
 	^ self new codomain: anAffineVariety; coordinates: aTuple! !
 
+!ProjectivePoint methodsFor: 'printing' stamp: 'len 2/10/2017 09:55:36'!
+printInsidesOn: aStream
+	| separator |
+	separator _ (self coordinates anySatisfy: [:any| any printString isAlphaNumeric not]) ifTrue: [' : '] ifFalse: [':'].
+	self coordinates do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: separator].
+! !
+
 !ProjectivePoint methodsFor: 'accessing' stamp: 'len 11/7/2016 13:16'!
 coordinates
 	^ coordinates! !
@@ -31739,13 +30806,6 @@ dehomogenizedIn: anInteger
 	^ (self codomain patch: anInteger) pointAt:
 		(self scalars^(coordinates size - 1)
 			filling: [:i| (i < anInteger ifTrue: [coordinates at: i] ifFalse: [coordinates at: i + 1]) / scalar])! !
-
-!ProjectivePoint methodsFor: 'printing' stamp: 'len 2/10/2017 09:55:36'!
-printInsidesOn: aStream
-	| separator |
-	separator _ (self coordinates anySatisfy: [:any| any printString isAlphaNumeric not]) ifTrue: [' : '] ifFalse: [':'].
-	self coordinates do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: separator].
-! !
 
 !ProjectivePoint methodsFor: 'testing' stamp: 'len 2/8/2017 07:19:00'!
 isSmooth
@@ -33182,6 +32242,37 @@ inverse
 isIdentity
 	^ self = self identity! !
 
+!Monomial methodsFor: 'copying' stamp: 'len 5/14/2019 03:30:59'!
+copyWith: anIndeterminate to: anInteger
+	^ parent exponents: (exponents copy at: anIndeterminate put: anInteger; yourself)! !
+
+!Monomial methodsFor: 'copying' stamp: 'len 5/14/2019 03:31:04'!
+copyWithout: anIndeterminate
+	"Answer a copy of the receiver with the given indeterminate removed."
+	^ parent exponents: (exponents copy at: anIndeterminate put: 0; yourself)! !
+
+!Monomial methodsFor: 'printing' stamp: 'len 6/7/2016 21:48'!
+printExponent: anInteger on: aStream
+	| exponent |
+	(exponent _ anInteger printString) = '1'
+		ifTrue: [^ self].
+	aStream isText
+		ifTrue:
+			[aStream nextPutAll: exponent super.
+			^ self].
+	aStream nextPut: $^.
+	exponent size = 1
+		ifTrue: [aStream nextPutAll: exponent]
+		ifFalse: [aStream nextPut: ${; nextPutAll: exponent; nextPut: $}]! !
+
+!Monomial methodsFor: 'printing' stamp: 'len 6/7/2016 21:49'!
+printIndeterminate: indeterminate on: aStream
+	indeterminate isInteger
+		ifFalse: [aStream nextPutAll: indeterminate displayStringOrText. ^ self].
+	aStream isText
+		ifTrue: [aStream nextPut: $x; nextPutAll: indeterminate printString sub]
+		ifFalse:[aStream nextPutAll: '{x', indeterminate printString, '}']! !
+
 !Monomial methodsFor: 'accessing' stamp: 'len 11/21/2016 15:56:16'!
 at: anIndeterminate
 	^ exponents at: anIndeterminate! !
@@ -33264,15 +32355,6 @@ hash
 !Monomial methodsFor: 'converting' stamp: 'len 5/23/2018 22:18:46'!
 orderedBy: aMonomialOrdering
 	^ (self parent orderedBy: aMonomialOrdering) !! self! !
-
-!Monomial methodsFor: 'copying' stamp: 'len 5/14/2019 03:30:59'!
-copyWith: anIndeterminate to: anInteger
-	^ parent exponents: (exponents copy at: anIndeterminate put: anInteger; yourself)! !
-
-!Monomial methodsFor: 'copying' stamp: 'len 5/14/2019 03:31:04'!
-copyWithout: anIndeterminate
-	"Answer a copy of the receiver with the given indeterminate removed."
-	^ parent exponents: (exponents copy at: anIndeterminate put: 0; yourself)! !
 
 !Monomial methodsFor: 'enumerating' stamp: 'len 5/14/2019 04:00:53'!
 do: aBinaryBlock
@@ -33394,28 +32476,6 @@ value: anObject
 without: anIndeterminate
 	^ (self has: anIndeterminate) ifFalse: [self] ifTrue: [self copyWithout: anIndeterminate]! !
 
-!Monomial methodsFor: 'printing' stamp: 'len 6/7/2016 21:48'!
-printExponent: anInteger on: aStream
-	| exponent |
-	(exponent _ anInteger printString) = '1'
-		ifTrue: [^ self].
-	aStream isText
-		ifTrue:
-			[aStream nextPutAll: exponent super.
-			^ self].
-	aStream nextPut: $^.
-	exponent size = 1
-		ifTrue: [aStream nextPutAll: exponent]
-		ifFalse: [aStream nextPut: ${; nextPutAll: exponent; nextPut: $}]! !
-
-!Monomial methodsFor: 'printing' stamp: 'len 6/7/2016 21:49'!
-printIndeterminate: indeterminate on: aStream
-	indeterminate isInteger
-		ifFalse: [aStream nextPutAll: indeterminate displayStringOrText. ^ self].
-	aStream isText
-		ifTrue: [aStream nextPut: $x; nextPutAll: indeterminate printString sub]
-		ifFalse:[aStream nextPutAll: '{x', indeterminate printString, '}']! !
-
 !Monomial methodsFor: 'testing' stamp: 'len 5/11/2018 06:54:29'!
 | aMonomial
 	"Answer true if the receiver divides the argument."
@@ -33477,6 +32537,34 @@ new: anInteger x: i
 new: anInteger x: i to: k
 	"Answer a new instance of the receiver with only one indeterminate, xi, raised to n."
 	^ self exponents: ((Array new: anInteger) atAllPut: 0; at: i put: k; yourself)! !
+
+!Word methodsFor: 'printing' stamp: 'len 7/2/2016 16:29'!
+printExponent: anInteger on: aStream
+	| exponent |
+	(exponent _ anInteger printString) = '1'
+		ifTrue: [^ self].
+	aStream isText
+		ifTrue:
+			[aStream nextPutAll: exponent super.
+			^ self].
+	aStream nextPut: $^.
+	exponent size = 1
+		ifTrue: [aStream nextPutAll: exponent]
+		ifFalse: [aStream nextPut: ${; nextPutAll: exponent; nextPut: $}]! !
+
+!Word methodsFor: 'printing' stamp: 'len 5/13/2019 13:39:13'!
+printLetter: letter on: aStream
+	letter isInteger
+		ifFalse:
+			[letter class = self class
+				ifTrue: [aStream nextPut: $(; print: letter; nextPut: $)]
+				ifFalse: [(aStream isText and: [letter isString])
+					ifTrue: [aStream nextPutAll: letter asText]
+					ifFalse: [aStream print: letter]].
+			^ self].
+	aStream isText
+		ifTrue: [aStream nextPut: $x; nextPutAll: letter printString sub]
+		ifFalse: [aStream nextPutAll: '{x', letter printString, '}']! !
 
 !Word methodsFor: 'accessing' stamp: 'len 1/10/2018 11:28:25'!
 length
@@ -33593,34 +32681,6 @@ reversed
 !Word methodsFor: 'operations' stamp: 'len 5/10/2019 16:13:53'!
 squared
 	^ self ∑ self! !
-
-!Word methodsFor: 'printing' stamp: 'len 7/2/2016 16:29'!
-printExponent: anInteger on: aStream
-	| exponent |
-	(exponent _ anInteger printString) = '1'
-		ifTrue: [^ self].
-	aStream isText
-		ifTrue:
-			[aStream nextPutAll: exponent super.
-			^ self].
-	aStream nextPut: $^.
-	exponent size = 1
-		ifTrue: [aStream nextPutAll: exponent]
-		ifFalse: [aStream nextPut: ${; nextPutAll: exponent; nextPut: $}]! !
-
-!Word methodsFor: 'printing' stamp: 'len 5/13/2019 13:39:13'!
-printLetter: letter on: aStream
-	letter isInteger
-		ifFalse:
-			[letter class = self class
-				ifTrue: [aStream nextPut: $(; print: letter; nextPut: $)]
-				ifFalse: [(aStream isText and: [letter isString])
-					ifTrue: [aStream nextPutAll: letter asText]
-					ifFalse: [aStream print: letter]].
-			^ self].
-	aStream isText
-		ifTrue: [aStream nextPut: $x; nextPutAll: letter printString sub]
-		ifFalse: [aStream nextPutAll: '{x', letter printString, '}']! !
 
 !Word methodsFor: 'testing' stamp: 'len 3/3/2016 05:23'!
 isEmpty
@@ -35075,6 +34135,10 @@ numerator: anElement denominator: anotherElement
 reducedNumerator: anObject denominator: anotherObject
 	^ self new setNumerator: anObject denominator: anotherObject! !
 
+!Rational methodsFor: 'printing' stamp: 'len 8/1/2020 18:41:49'!
+printOn: aStream base: base
+	^ self asFraction printOn: aStream base: base! !
+
 !Rational methodsFor: 'accessing' stamp: 'len 7/21/2019 04:48:21'!
 imaginary
 	^ self zero! !
@@ -35206,10 +34270,6 @@ squareRoot
 valuation: p
 	"Answer the p-adic valuation of the receiver."
 	^ (numerator valuation: p) - (denominator valuation: p)! !
-
-!Rational methodsFor: 'printing' stamp: 'len 8/1/2020 18:41:49'!
-printOn: aStream base: base
-	^ self asFraction printOn: aStream base: base! !
 
 !Rational methodsFor: 'testing' stamp: 'len 7/17/2019 08:44:18'!
 isFraction
@@ -36176,71 +35236,6 @@ components: anArray
 parent: aProductRing
 	parent _ aProductRing! !
 
-!AdicInteger methodsFor: 'accessing' stamp: 'len 8/11/2019 10:30:30'!
-absolutePrecision
-	^ precision! !
-
-!AdicInteger methodsFor: 'accessing' stamp: 'len 8/12/2019 11:25:18'!
-centeredRepresentative
-	| m |
-	m _ parent power: precision.
-	^ representative <= (m >> 1) ifTrue: [representative] ifFalse: [representative - m]! !
-
-!AdicInteger methodsFor: 'accessing' stamp: 'len 8/11/2019 02:23:45'!
-coefficients
-	| p q |
-	p _ parent p.
-	q _ representative.
-	^ Sequence streaming: [| r | r _ q \\ p. q _ q // p. r]! !
-
-!AdicInteger methodsFor: 'accessing' stamp: 'len 8/7/2019 10:13:08'!
-parent
-	^ parent! !
-
-!AdicInteger methodsFor: 'accessing' stamp: 'len 8/11/2019 02:22:45'!
-precision
-	^ precision! !
-
-!AdicInteger methodsFor: 'accessing' stamp: 'len 8/11/2019 10:30:22'!
-relativePrecision
-	representative isZero ifTrue: [^ 0].
-	^ self absolutePrecision - self valuation! !
-
-!AdicInteger methodsFor: 'accessing' stamp: 'len 8/11/2019 02:33:28'!
-representative
-	^ representative! !
-
-!AdicInteger methodsFor: 'accessing' stamp: 'len 5/8/2020 18:10:28'!
-unit
-	"Answer a unit 'u' such that 'self * u inverse' is a unique choice of associate. See >>normalized."
-	| p q v |
-	self isZero ifTrue: [^ parent one].
-	p _ parent p.
-	q _ representative.
-	v _ 0.
-	[p | q] whileTrue: [q _ q // p. v _ v + 1].
-	^ parent representative: q precision: precision - v! !
-
-!AdicInteger methodsFor: 'accessing' stamp: 'len 8/11/2019 02:23:15'!
-valuation
-	^ representative valuation: parent p! !
-
-!AdicInteger methodsFor: 'comparing' stamp: 'len 8/11/2019 02:25:00'!
-= anElement
-	^ self class = anElement class and: [representative = anElement representative and: [precision = anElement precision]]! !
-
-!AdicInteger methodsFor: 'comparing' stamp: 'len 8/11/2019 02:24:16'!
-hash
-	^ representative hash! !
-
-!AdicInteger methodsFor: 'comparing' stamp: 'len 5/9/2020 09:02:53'!
-isWeaklyEqualTo: anElement
-	"Answer true if the receiver is 'weakly equal' to the argument.
-	Note that this relation is not transitive."
-	anElement precision > precision ifTrue: [^ anElement isWeaklyEqualTo: self].
-	precision = anElement precision ifTrue: [^ representative = anElement representative].
-	^ representative = (anElement representative \\ precision)! !
-
 !AdicInteger methodsFor: 'operations' stamp: 'len 4/15/2020 08:00:19'!
 * anElement
 	(parent includes: anElement) ifFalse: [^ self adapt: anElement andSend: #*].
@@ -36339,6 +35334,71 @@ printOn: aStream shifted: valuationShift
 			aStream print: parent p.
 			v ~= 1 ifTrue: [aStream nextPutAll: v printString super]].
 	aStream nextPutAll: ' + ', 'O' italic; nextPut: $(; print: parent p; nextPutAll: (precision + valuationShift) printString super; nextPut: $)! !
+
+!AdicInteger methodsFor: 'accessing' stamp: 'len 8/11/2019 10:30:30'!
+absolutePrecision
+	^ precision! !
+
+!AdicInteger methodsFor: 'accessing' stamp: 'len 8/12/2019 11:25:18'!
+centeredRepresentative
+	| m |
+	m _ parent power: precision.
+	^ representative <= (m >> 1) ifTrue: [representative] ifFalse: [representative - m]! !
+
+!AdicInteger methodsFor: 'accessing' stamp: 'len 8/11/2019 02:23:45'!
+coefficients
+	| p q |
+	p _ parent p.
+	q _ representative.
+	^ Sequence streaming: [| r | r _ q \\ p. q _ q // p. r]! !
+
+!AdicInteger methodsFor: 'accessing' stamp: 'len 8/7/2019 10:13:08'!
+parent
+	^ parent! !
+
+!AdicInteger methodsFor: 'accessing' stamp: 'len 8/11/2019 02:22:45'!
+precision
+	^ precision! !
+
+!AdicInteger methodsFor: 'accessing' stamp: 'len 8/11/2019 10:30:22'!
+relativePrecision
+	representative isZero ifTrue: [^ 0].
+	^ self absolutePrecision - self valuation! !
+
+!AdicInteger methodsFor: 'accessing' stamp: 'len 8/11/2019 02:33:28'!
+representative
+	^ representative! !
+
+!AdicInteger methodsFor: 'accessing' stamp: 'len 5/8/2020 18:10:28'!
+unit
+	"Answer a unit 'u' such that 'self * u inverse' is a unique choice of associate. See >>normalized."
+	| p q v |
+	self isZero ifTrue: [^ parent one].
+	p _ parent p.
+	q _ representative.
+	v _ 0.
+	[p | q] whileTrue: [q _ q // p. v _ v + 1].
+	^ parent representative: q precision: precision - v! !
+
+!AdicInteger methodsFor: 'accessing' stamp: 'len 8/11/2019 02:23:15'!
+valuation
+	^ representative valuation: parent p! !
+
+!AdicInteger methodsFor: 'comparing' stamp: 'len 8/11/2019 02:25:00'!
+= anElement
+	^ self class = anElement class and: [representative = anElement representative and: [precision = anElement precision]]! !
+
+!AdicInteger methodsFor: 'comparing' stamp: 'len 8/11/2019 02:24:16'!
+hash
+	^ representative hash! !
+
+!AdicInteger methodsFor: 'comparing' stamp: 'len 5/9/2020 09:02:53'!
+isWeaklyEqualTo: anElement
+	"Answer true if the receiver is 'weakly equal' to the argument.
+	Note that this relation is not transitive."
+	anElement precision > precision ifTrue: [^ anElement isWeaklyEqualTo: self].
+	precision = anElement precision ifTrue: [^ representative = anElement representative].
+	^ representative = (anElement representative \\ precision)! !
 
 !AdicInteger methodsFor: 'testing' stamp: 'len 8/11/2019 11:42:47'!
 abs
@@ -36708,6 +35768,25 @@ precision: anInteger
 !PowerSeries methodsFor: 'private' stamp: 'len 8/9/2019 09:45:01'!
 representative: aPolynomial
 	representative _ aPolynomial! !
+
+!Polynomial methodsFor: 'printing' stamp: 'len 2/25/2017 09:40:48'!
+printCoefficient: coefficient on: aStream
+	| c |
+	((c _ coefficient) printString first = $- "or: [coefficient isNumber and: [coefficient negative]]")
+		ifTrue: [aStream nextPut: $-. c _ c negated].
+	((c isKindOf: Polynomial) and: [c isMonomial])
+		ifTrue: [aStream print: c. ^ self].
+	(c printString allSatisfy: [:each| each isAlphaNumeric or: ['{}()/' includes: each]])
+		ifTrue: [aStream print: c. ^ self].
+	aStream nextPut: $(; print: c; nextPut: $)! !
+
+!Polynomial methodsFor: 'printing' stamp: 'len 5/31/2020 12:16:15'!
+validate
+	self monomials do: [:each|
+		each indeterminates do: [:i| (self parent has: i) ifFalse: [^ false]].
+		each exponents size = self parent rank ifFalse: [^ false]].
+	(self coefficients allSatisfy: [:any| (self parent scalars includes: any)]) ifFalse: [^ false].
+	^ super validate! !
 
 !Polynomial methodsFor: 'accessing' stamp: 'len 4/23/2018 20:34:46'!
 lift
@@ -37340,25 +36419,6 @@ xgcd: aPolynomial
 			s _ s * u. t _ t * u. r _ r * u].
 	^ {r. t. s}! !
 
-!Polynomial methodsFor: 'printing' stamp: 'len 2/25/2017 09:40:48'!
-printCoefficient: coefficient on: aStream
-	| c |
-	((c _ coefficient) printString first = $- "or: [coefficient isNumber and: [coefficient negative]]")
-		ifTrue: [aStream nextPut: $-. c _ c negated].
-	((c isKindOf: Polynomial) and: [c isMonomial])
-		ifTrue: [aStream print: c. ^ self].
-	(c printString allSatisfy: [:each| each isAlphaNumeric or: ['{}()/' includes: each]])
-		ifTrue: [aStream print: c. ^ self].
-	aStream nextPut: $(; print: c; nextPut: $)! !
-
-!Polynomial methodsFor: 'printing' stamp: 'len 5/31/2020 12:16:15'!
-validate
-	self monomials do: [:each|
-		each indeterminates do: [:i| (self parent has: i) ifFalse: [^ false]].
-		each exponents size = self parent rank ifFalse: [^ false]].
-	(self coefficients allSatisfy: [:any| (self parent scalars includes: any)]) ifFalse: [^ false].
-	^ super validate! !
-
 !Polynomial methodsFor: 'remainder sequences' stamp: 'len 3/9/2016 00:07'!
 eprs: aPolynomial
 	"Answer the (Pseudo) Euclidean Polynomial Remainder Sequence of the receiver with the argument."
@@ -37818,6 +36878,323 @@ summedWith: aPolynomial
 parts: aCollection
 	^ self basicNew parts: aCollection! !
 
+!UnivariatePolynomial methodsFor: 'operations' stamp: 'len 8/8/2019 04:44:47'!
++ anObject
+	(self parent includes: anObject)
+		ifTrue: [^ self parent coefficients: self coefficients + anObject coefficients].
+	^ self  adapt: anObject andSend: #+! !
+
+!UnivariatePolynomial methodsFor: 'operations' stamp: 'len 8/8/2019 04:45:03'!
+- anObject
+	(self parent includes: anObject)
+		ifTrue: [^ self parent coefficients: self coefficients - anObject coefficients].
+	^ self adapt: anObject andSend: #-! !
+
+!UnivariatePolynomial methodsFor: 'operations' stamp: 'len 5/13/2020 08:50:14'!
+// anElement
+	"Answer the quotient of the division of the receiver by the argument."
+	(self scalars includes: anElement)
+		ifTrue: [^ self parent coefficients: self coefficients // anElement].
+	(self parent includes: anElement) ifFalse: [^ self adapt: anElement andSend: #//].
+	anElement leadingCoefficient isUnit
+		ifFalse: [^ self parent coefficients: (self coefficients polynomialPartialDivisionBy: anElement coefficients) first].
+	^ self parent coefficients: (self coefficients polynomialDivisionBy: anElement coefficients) first! !
+
+!UnivariatePolynomial methodsFor: 'operations' stamp: 'len 7/9/2016 03:05'!
+<< anInteger
+	^ self shift: anInteger! !
+
+!UnivariatePolynomial methodsFor: 'operations' stamp: 'len 5/15/2020 07:01:41'!
+\\ anElement
+	"Answer the remainder of the division of the receiver by the argument."
+	(self scalars includes: anElement)
+		ifTrue: [^ self parent coefficients: self coefficients \\ anElement].
+	(self parent includes: anElement) ifFalse: [^ self adapt: anElement andSend: #\\].
+	anElement leadingCoefficient isUnit
+		ifFalse: [^ self parent coefficients: (self coefficients polynomialRemainderOfPartialDivisionBy: anElement coefficients)].
+	^ self parent coefficients: (self coefficients polynomialRemainderOfDivisionBy: anElement coefficients)! !
+
+!UnivariatePolynomial methodsFor: 'operations' stamp: 'len 5/15/2020 07:04:25'!
+˜ anElement
+	"Answer quotient of the exact division of the receiver by the argument, i.e. answer 'c' such that 'a = b * c', where 'a' is the receiver and 'b' is the argument. If the receiver is 0, answer 0. The result is undefined if 'b' doesn't divide 'a'."
+	| result |
+	self isZero ifTrue: [^ self].
+	(anElement isKindOf: Monomial)
+		ifTrue: [^ self dividedByMonomial: anElement].
+	(self scalars includes: anElement)
+		ifTrue: [^ self parent coefficients: self coefficients ˜ anElement].
+	anElement isConstant
+		ifTrue: [^ self parent coefficients: self coefficients ˜ anElement leadingCoefficient].
+	"This is a minor optimization that avoids creating an instance of Division as it is done in the superclass.
+	Perhaps it is not worth it and this method should be removed."
+	result _ anElement leadingCoefficient isUnit
+		ifTrue: [self coefficients polynomialDivisionBy: anElement coefficients]
+		ifFalse: [self coefficients polynomialPartialDivisionBy: anElement coefficients].
+	result second isZero ifFalse: [^ self error: 'division not exact'].
+	^ self parent coefficients: result first! !
+
+!UnivariatePolynomial methodsFor: 'operations' stamp: 'len 12/21/2017 20:09:22'!
+apply: aMorphism
+	"Answer a new polynomial with coefficients obtainted by applying aMorphism to the coefficients of the receiver. This morphism is a ring homomorphism from the scalars ring.
+	If aMorphism is a block we assume the parent doesn't change, i.e. the block must evaluate to values within the scalars ring of the receiver."
+
+	aMorphism isBlock
+		ifTrue: [^ self parent coefficients: (self coefficients collect: aMorphism)].
+	^ (self parent over: aMorphism codomain) coefficients: (self coefficients apply: aMorphism)! !
+
+!UnivariatePolynomial methodsFor: 'operations' stamp: 'len 4/27/2018 07:38:13'!
+companion
+	"Answer the Frobenius companion matrix of the receiver.
+	The companion matrix of a polynomial f in R[x] is the matrix of the 'multiplication by x' map on the R-algebra R[x]/<f>. This is a matrix that has f as both the characteristic and minimal polynomial.
+	Also, given a linear recursive sequence with characteristic polynomial f, the transpose companion matrix of f generates the sequence."
+	| n one zero |
+	self isMonic ifFalse: [^ DomainError signal: 'Undefined for non-monic polynomials'].
+	n _ self degree.
+	zero _ self scalars zero.
+	one _ self scalars one.
+	^ self scalars matrix: n@n evaluating: [:i :j| i-1 = j ifTrue: [one] ifFalse: [j < n ifTrue: [zero] ifFalse: [(self coefficientAtDegree: i-1) negated]]]! !
+
+!UnivariatePolynomial methodsFor: 'operations' stamp: 'len 1/23/2017 11:47:41'!
+derivative
+	| newCoefficients |
+	self isZero ifTrue: [^ self].
+	newCoefficients _ Array new: self degree.
+	1 to: self degree do: [ :i | newCoefficients at: i put: (self coefficientAtDegree: i) * i ].
+	^ self parent coefficients: newCoefficients! !
+
+!UnivariatePolynomial methodsFor: 'operations' stamp: 'len 3/26/2016 23:05'!
+derivativeIn: anIndeterminate
+	^ (self has: anIndeterminate) ifTrue: [self derivative] ifFalse: [self zero]! !
+
+!UnivariatePolynomial methodsFor: 'operations' stamp: 'len 7/9/2016 03:06'!
+discriminant
+	"Answer the (standard) discriminant of the receiver."
+	| n |
+	n _ self degree.
+	^ (-1) ^ (n*(n-1)/2) / self leadingCoefficient * (self resultant: self derivative)! !
+
+!UnivariatePolynomial methodsFor: 'operations' stamp: 'len 7/9/2016 03:06'!
+discriminant0
+	"Answer the (normalized) discriminant of the receiver."
+	| n |
+	n _ self degree.
+	^ (-1) ^ (n*(n-1)/2) / (self leadingCoefficient ^ (2*n-1)) * (self resultant: self derivative)! !
+
+!UnivariatePolynomial methodsFor: 'operations' stamp: 'len 5/15/2020 06:46:33'!
+divisionBy: aPolynomial
+	| result |
+	result _ aPolynomial leadingCoefficient isUnit
+		ifTrue: [self coefficients polynomialDivisionBy: aPolynomial coefficients]
+		ifFalse: [self coefficients polynomialPartialDivisionBy: aPolynomial coefficients].
+	^ Division dividend: self divisor: aPolynomial quotient: (self parent coefficients: result first) remainder: (self parent coefficients: result second)! !
+
+!UnivariatePolynomial methodsFor: 'operations' stamp: 'len 1/23/2017 11:47:45'!
+even
+	"Decompose the receiver in the form f(x^2)x + g(x^2) and answer g(x)."
+	^ self parent coefficients: ((1 to: self coefficients size by: 2) collect: [:each| coefficients at: each])! !
+
+!UnivariatePolynomial methodsFor: 'operations' stamp: 'len 5/3/2020 08:27:11'!
+inverse
+	^ super inverse
+
+	"If not over a field, compute the inverse of the receoiver, provided the receiver is a unit."
+"
+	don't know when to finish, this is actually the power series expansion and if the independent coefficient is a unit and the other coefficients are all nilpotents this process is finite, but don't know when to end it..
+	| a b u |
+	self scalars isField ifTrue: [^ super reciprocal].
+	a _ coefficients.
+	a isEmpty ifTrue: [(ZeroDivide dividend: self one) signal].
+	u _ a first reciprocal.
+	b _ OrderedCollection new: self degree.
+	b add: u.
+	2 to: a size do: [:k| b add: ((1 to: k-1) sum: [:i| (b at: k-i) * (a at: i+1)]) negated * u].
+	^ self parent coefficients: b"! !
+
+!UnivariatePolynomial methodsFor: 'operations' stamp: 'len 12/21/2017 22:03:21'!
+negated
+	"Answer the additive inverse of the receiver."
+	^ self parent coefficients: self coefficients negated! !
+
+!UnivariatePolynomial methodsFor: 'operations' stamp: 'len 1/23/2017 11:48:16'!
+odd
+	"Decompose the receiver in the form f(x^2)x + g(x^2) and answer f(x)."
+	^ self parent coefficients: ((2 to: self coefficients size by: 2) collect: [:each| coefficients at: each])! !
+
+!UnivariatePolynomial methodsFor: 'operations' stamp: 'len 6/1/2020 13:42:47'!
+psc2: anInteger with: aPolynomial
+	"Answer the anInteger-th principal subresultant coefficient of the receiver with aPolynomial."
+
+	| f g n m t rows tuple V |
+	f _ self.
+	g _ aPolynomial.
+	m _ f degree.
+	n _ g degree.
+	t _ m + n - anInteger - anInteger.
+	t <= 0 ifTrue: [^ self scalars one].
+	V _ self scalars^t.
+	rows _ OrderedCollection new: t.
+	tuple _ V filling: [:i| f coefficientAtDegree: m - i + 1].
+	n - anInteger timesRepeat: [rows add: tuple. tuple _ tuple shift: 1].
+	tuple _ V filling: [:i| g coefficientAtDegree: n - i + 1].
+	m - anInteger timesRepeat: [rows add: tuple. tuple _ tuple shift: 1].
+	^ (Matrix rows: rows) determinant! !
+
+!UnivariatePolynomial methodsFor: 'operations' stamp: 'len 5/4/2018 19:30:29'!
+psc3: i with: aPolynomial
+	"Answer the anInteger-th principal subresultant coefficient of the receiver with aPolynomial."
+	self flag: #fix. "use version 2, more efficient, but must test"
+	^ (self subresultant: i with: aPolynomial) leadingCoefficient "WTF, sometimes subresultant returns nil, SemialgebraicSet circle"! !
+
+!UnivariatePolynomial methodsFor: 'operations' stamp: 'len 6/1/2020 13:42:41'!
+psc: anInteger with: aPolynomial
+	"Answer the anInteger-th principal subresultant coefficient of the receiver with aPolynomial."
+
+	| f g n m t rows tuple V |
+	f _ self.
+	g _ aPolynomial.
+	m _ f degree.
+	n _ g degree.
+	t _ m + n - anInteger - anInteger.
+	t <= 0 ifTrue: [^ self scalars one].
+	V _ self scalars^t.
+	rows _ OrderedCollection new: t.
+	tuple _ V filling: [:i| f coefficientAtDegree: m - i + 1].
+	n - anInteger timesRepeat: [rows add: tuple. tuple _ tuple shift: 1].
+	tuple _ V filling: [:i| g coefficientAtDegree: n - i + 1].
+	m - anInteger timesRepeat: [rows add: tuple. tuple _ tuple shift: 1].
+	^ (Matrix rows: rows) determinant! !
+
+!UnivariatePolynomial methodsFor: 'operations' stamp: 'len 7/9/2016 03:07'!
+resultant2: aPolynomial
+	"Answer the resultant of the receiver with the argument."
+	| f g mult |
+	self degree <= aPolynomial degree
+		ifTrue: [f _ self. g _ aPolynomial]
+		ifFalse: [f _ aPolynomial. g _ self].
+	f isConstant ifTrue: [^ (f ^ g degree)].
+	f isMonic
+		ifTrue:
+			[mult _ f leadingCoefficient]
+		ifFalse:
+			[mult _ f leadingCoefficient ^ g degree.
+			f _ f / f leadingCoefficient].
+	^ (g value: f companion) determinant * mult! !
+
+!UnivariatePolynomial methodsFor: 'operations' stamp: 'len 7/9/2016 03:07'!
+resultant3: aPolynomial
+	"Answer the resultant of the receiver with the argument."
+
+	| f g answer negate |
+	self degree > aPolynomial degree
+		ifTrue: [f _ aPolynomial. g _ self. negate _ true]
+		ifFalse: [f _ self. g _ aPolynomial. negate _ false].
+	answer _ f isConstant
+		ifTrue: [f ^ g degree]
+		ifFalse:
+			[(f resultant3: g \\ f) * (f leadingCoefficient ^ (g degree - f degree + 1))].
+	^ negate ifTrue: [answer negated] ifFalse: [answer]! !
+
+!UnivariatePolynomial methodsFor: 'operations' stamp: 'len 7/9/2016 03:07'!
+resultant: aPolynomial
+	"Answer the resultant of the receiver with aPolynomial."
+	self degree = 0
+		ifTrue: [^ aPolynomial ^ self degree].
+	aPolynomial degree = 0
+		ifTrue:
+			[^ (self degree even or: [aPolynomial degree even])
+					ifTrue: [(self ^ aPolynomial degree)]
+					ifFalse: [(self ^ aPolynomial degree) negated]].
+	^ (self sylvester: aPolynomial) determinant! !
+
+!UnivariatePolynomial methodsFor: 'operations' stamp: 'len 1/23/2017 11:48:20'!
+reversed
+	"Answer the reverse of the receiver."
+
+	^ self parent coefficients: coefficients reversed! !
+
+!UnivariatePolynomial methodsFor: 'operations' stamp: 'len 1/23/2017 11:48:25'!
+shift: anInteger
+	| n |
+	self isZero ifTrue: [^ self].
+	n _ self degree + anInteger.
+	n >= 0 ifFalse: [^ self zero].
+	^ self parent coefficients: coefficients >>> anInteger! !
+
+!UnivariatePolynomial methodsFor: 'operations' stamp: 'len 6/1/2020 13:44:08'!
+subresultant: i with: aPolynomial
+	"Answer the i-th subresultant of the receiver with aPolynomial."
+	| lambda mu n m c V rows matrix tuple |
+	m _ self degree.
+	n _ aPolynomial degree.
+	lambda _ m min: n.
+	mu _ (m max: n) - 1.
+	i = lambda
+		ifTrue:
+			[m + 1 < n
+				ifTrue: [c _ self]
+				ifFalse:
+					[n + 1 < m
+						ifTrue: [c _ aPolynomial] ifFalse: [^ nil]].
+			^ c * (c leadingCoefficient ^ ((m - n) abs - 1))].
+	(i between: lambda and: mu) ifTrue: [^ self zero].
+	(i between: 0 and: lambda - 1) ifFalse: [self error: 'index out of range'].
+	V _ self parent^(m + n - (2*i)).
+	rows _ OrderedCollection new.
+	tuple _ V filling: [:k| self parent constant: (self coefficientAtDegree: m - k + 1)].
+	n - i timesRepeat: [rows add: tuple. tuple _ tuple shift: 1].
+	tuple _ V filling: [:k| self parent constant: (aPolynomial coefficientAtDegree: n - k + 1)].
+	m - i timesRepeat: [rows add: tuple. tuple _ tuple shift: 1].
+	matrix _ Matrix rows: rows.
+	1 to: n - i do: [:k|
+		matrix at: k @ (m + n - (2*i)) put: (self shift: n - i - k)].
+	1 to: m - i do: [:k|
+		matrix at: n - i + k @ (m + n - (2*i)) put: (aPolynomial shift: m - i - k)].
+	^ matrix determinant! !
+
+!UnivariatePolynomial methodsFor: 'operations' stamp: 'len 7/9/2016 03:08'!
+subresultantChain: aPolynomial
+	"Answer the Subresultant Chain of the receiver with the argument."
+	| n answer |
+	n _ self degree > aPolynomial degree ifTrue: [self degree - 1] ifFalse: [aPolynomial degree].
+	answer _ OrderedCollection new: n + 2.
+	answer add: self; add: aPolynomial.
+	n - 1 to: 0 by: -1 do: [:i|
+		answer add: (self subresultant: i with: aPolynomial)].
+	^ answer! !
+
+!UnivariatePolynomial methodsFor: 'operations' stamp: 'len 6/1/2020 13:44:56'!
+sylvester: aPolynomial
+	"Answer the Sylvester matrix of the receiver with the argument.
+	If p,q polynomials of degrees m and n:
+		det S(p,q) = res (p,q)
+		deg (gcd(p,q)) = m - n + rank (S(p,q))
+	Also the kernel of the transposed Sylvester matrix gives all solutions of the Bezout equation:
+		f*p + g*q = 0
+	"
+	| m n V rows tuple |
+	m _ self degree.
+	n _ aPolynomial degree.
+	V _ self scalars^(m+n).
+	rows _ OrderedCollection new: m+n.
+	tuple _ V filling: [:i| self coefficientAtDegree: m-i+1].
+	n timesRepeat: [rows add: tuple. tuple _ tuple shift: 1].
+	tuple _ V filling: [:i| aPolynomial coefficientAtDegree: n-i+1].
+	m timesRepeat: [rows add: tuple. tuple _ tuple shift: 1].
+	^ Matrix rows: rows! !
+
+!UnivariatePolynomial methodsFor: 'operations' stamp: 'len 4/14/2020 14:26:43'!
+truncatedTo: anInteger
+	coefficients size <= anInteger ifTrue: [^ self].
+	^ parent coefficients: (coefficients copyFrom: 1 to: anInteger)! !
+
+!UnivariatePolynomial methodsFor: 'operations' stamp: 'len 3/28/2018 18:04:25'!
+value: anObject
+	"Evaluate the receiver at the given argument using Horner's method."
+	| x |
+	x _ (anObject isTuple or: [anObject isArray])
+		ifTrue: [anObject at: 1] ifFalse: [anObject].
+	^ coefficients polynomialValue: x! !
+
 !UnivariatePolynomial methodsFor: 'accessing' stamp: 'len 12/21/2017 18:20:42'!
 bitSize
 	^ self coefficients bitSize! !
@@ -38247,323 +37624,6 @@ squareFreeFactorizationYun
 					p _ p // gcd.
 					q _ q // gcd - p derivative]].
 	^ answer add: p withOccurrences: count; yourself! !
-
-!UnivariatePolynomial methodsFor: 'operations' stamp: 'len 8/8/2019 04:44:47'!
-+ anObject
-	(self parent includes: anObject)
-		ifTrue: [^ self parent coefficients: self coefficients + anObject coefficients].
-	^ self  adapt: anObject andSend: #+! !
-
-!UnivariatePolynomial methodsFor: 'operations' stamp: 'len 8/8/2019 04:45:03'!
-- anObject
-	(self parent includes: anObject)
-		ifTrue: [^ self parent coefficients: self coefficients - anObject coefficients].
-	^ self adapt: anObject andSend: #-! !
-
-!UnivariatePolynomial methodsFor: 'operations' stamp: 'len 5/13/2020 08:50:14'!
-// anElement
-	"Answer the quotient of the division of the receiver by the argument."
-	(self scalars includes: anElement)
-		ifTrue: [^ self parent coefficients: self coefficients // anElement].
-	(self parent includes: anElement) ifFalse: [^ self adapt: anElement andSend: #//].
-	anElement leadingCoefficient isUnit
-		ifFalse: [^ self parent coefficients: (self coefficients polynomialPartialDivisionBy: anElement coefficients) first].
-	^ self parent coefficients: (self coefficients polynomialDivisionBy: anElement coefficients) first! !
-
-!UnivariatePolynomial methodsFor: 'operations' stamp: 'len 7/9/2016 03:05'!
-<< anInteger
-	^ self shift: anInteger! !
-
-!UnivariatePolynomial methodsFor: 'operations' stamp: 'len 5/15/2020 07:01:41'!
-\\ anElement
-	"Answer the remainder of the division of the receiver by the argument."
-	(self scalars includes: anElement)
-		ifTrue: [^ self parent coefficients: self coefficients \\ anElement].
-	(self parent includes: anElement) ifFalse: [^ self adapt: anElement andSend: #\\].
-	anElement leadingCoefficient isUnit
-		ifFalse: [^ self parent coefficients: (self coefficients polynomialRemainderOfPartialDivisionBy: anElement coefficients)].
-	^ self parent coefficients: (self coefficients polynomialRemainderOfDivisionBy: anElement coefficients)! !
-
-!UnivariatePolynomial methodsFor: 'operations' stamp: 'len 5/15/2020 07:04:25'!
-˜ anElement
-	"Answer quotient of the exact division of the receiver by the argument, i.e. answer 'c' such that 'a = b * c', where 'a' is the receiver and 'b' is the argument. If the receiver is 0, answer 0. The result is undefined if 'b' doesn't divide 'a'."
-	| result |
-	self isZero ifTrue: [^ self].
-	(anElement isKindOf: Monomial)
-		ifTrue: [^ self dividedByMonomial: anElement].
-	(self scalars includes: anElement)
-		ifTrue: [^ self parent coefficients: self coefficients ˜ anElement].
-	anElement isConstant
-		ifTrue: [^ self parent coefficients: self coefficients ˜ anElement leadingCoefficient].
-	"This is a minor optimization that avoids creating an instance of Division as it is done in the superclass.
-	Perhaps it is not worth it and this method should be removed."
-	result _ anElement leadingCoefficient isUnit
-		ifTrue: [self coefficients polynomialDivisionBy: anElement coefficients]
-		ifFalse: [self coefficients polynomialPartialDivisionBy: anElement coefficients].
-	result second isZero ifFalse: [^ self error: 'division not exact'].
-	^ self parent coefficients: result first! !
-
-!UnivariatePolynomial methodsFor: 'operations' stamp: 'len 12/21/2017 20:09:22'!
-apply: aMorphism
-	"Answer a new polynomial with coefficients obtainted by applying aMorphism to the coefficients of the receiver. This morphism is a ring homomorphism from the scalars ring.
-	If aMorphism is a block we assume the parent doesn't change, i.e. the block must evaluate to values within the scalars ring of the receiver."
-
-	aMorphism isBlock
-		ifTrue: [^ self parent coefficients: (self coefficients collect: aMorphism)].
-	^ (self parent over: aMorphism codomain) coefficients: (self coefficients apply: aMorphism)! !
-
-!UnivariatePolynomial methodsFor: 'operations' stamp: 'len 4/27/2018 07:38:13'!
-companion
-	"Answer the Frobenius companion matrix of the receiver.
-	The companion matrix of a polynomial f in R[x] is the matrix of the 'multiplication by x' map on the R-algebra R[x]/<f>. This is a matrix that has f as both the characteristic and minimal polynomial.
-	Also, given a linear recursive sequence with characteristic polynomial f, the transpose companion matrix of f generates the sequence."
-	| n one zero |
-	self isMonic ifFalse: [^ DomainError signal: 'Undefined for non-monic polynomials'].
-	n _ self degree.
-	zero _ self scalars zero.
-	one _ self scalars one.
-	^ self scalars matrix: n@n evaluating: [:i :j| i-1 = j ifTrue: [one] ifFalse: [j < n ifTrue: [zero] ifFalse: [(self coefficientAtDegree: i-1) negated]]]! !
-
-!UnivariatePolynomial methodsFor: 'operations' stamp: 'len 1/23/2017 11:47:41'!
-derivative
-	| newCoefficients |
-	self isZero ifTrue: [^ self].
-	newCoefficients _ Array new: self degree.
-	1 to: self degree do: [ :i | newCoefficients at: i put: (self coefficientAtDegree: i) * i ].
-	^ self parent coefficients: newCoefficients! !
-
-!UnivariatePolynomial methodsFor: 'operations' stamp: 'len 3/26/2016 23:05'!
-derivativeIn: anIndeterminate
-	^ (self has: anIndeterminate) ifTrue: [self derivative] ifFalse: [self zero]! !
-
-!UnivariatePolynomial methodsFor: 'operations' stamp: 'len 7/9/2016 03:06'!
-discriminant
-	"Answer the (standard) discriminant of the receiver."
-	| n |
-	n _ self degree.
-	^ (-1) ^ (n*(n-1)/2) / self leadingCoefficient * (self resultant: self derivative)! !
-
-!UnivariatePolynomial methodsFor: 'operations' stamp: 'len 7/9/2016 03:06'!
-discriminant0
-	"Answer the (normalized) discriminant of the receiver."
-	| n |
-	n _ self degree.
-	^ (-1) ^ (n*(n-1)/2) / (self leadingCoefficient ^ (2*n-1)) * (self resultant: self derivative)! !
-
-!UnivariatePolynomial methodsFor: 'operations' stamp: 'len 5/15/2020 06:46:33'!
-divisionBy: aPolynomial
-	| result |
-	result _ aPolynomial leadingCoefficient isUnit
-		ifTrue: [self coefficients polynomialDivisionBy: aPolynomial coefficients]
-		ifFalse: [self coefficients polynomialPartialDivisionBy: aPolynomial coefficients].
-	^ Division dividend: self divisor: aPolynomial quotient: (self parent coefficients: result first) remainder: (self parent coefficients: result second)! !
-
-!UnivariatePolynomial methodsFor: 'operations' stamp: 'len 1/23/2017 11:47:45'!
-even
-	"Decompose the receiver in the form f(x^2)x + g(x^2) and answer g(x)."
-	^ self parent coefficients: ((1 to: self coefficients size by: 2) collect: [:each| coefficients at: each])! !
-
-!UnivariatePolynomial methodsFor: 'operations' stamp: 'len 5/3/2020 08:27:11'!
-inverse
-	^ super inverse
-
-	"If not over a field, compute the inverse of the receoiver, provided the receiver is a unit."
-"
-	don't know when to finish, this is actually the power series expansion and if the independent coefficient is a unit and the other coefficients are all nilpotents this process is finite, but don't know when to end it..
-	| a b u |
-	self scalars isField ifTrue: [^ super reciprocal].
-	a _ coefficients.
-	a isEmpty ifTrue: [(ZeroDivide dividend: self one) signal].
-	u _ a first reciprocal.
-	b _ OrderedCollection new: self degree.
-	b add: u.
-	2 to: a size do: [:k| b add: ((1 to: k-1) sum: [:i| (b at: k-i) * (a at: i+1)]) negated * u].
-	^ self parent coefficients: b"! !
-
-!UnivariatePolynomial methodsFor: 'operations' stamp: 'len 12/21/2017 22:03:21'!
-negated
-	"Answer the additive inverse of the receiver."
-	^ self parent coefficients: self coefficients negated! !
-
-!UnivariatePolynomial methodsFor: 'operations' stamp: 'len 1/23/2017 11:48:16'!
-odd
-	"Decompose the receiver in the form f(x^2)x + g(x^2) and answer f(x)."
-	^ self parent coefficients: ((2 to: self coefficients size by: 2) collect: [:each| coefficients at: each])! !
-
-!UnivariatePolynomial methodsFor: 'operations' stamp: 'len 6/1/2020 13:42:47'!
-psc2: anInteger with: aPolynomial
-	"Answer the anInteger-th principal subresultant coefficient of the receiver with aPolynomial."
-
-	| f g n m t rows tuple V |
-	f _ self.
-	g _ aPolynomial.
-	m _ f degree.
-	n _ g degree.
-	t _ m + n - anInteger - anInteger.
-	t <= 0 ifTrue: [^ self scalars one].
-	V _ self scalars^t.
-	rows _ OrderedCollection new: t.
-	tuple _ V filling: [:i| f coefficientAtDegree: m - i + 1].
-	n - anInteger timesRepeat: [rows add: tuple. tuple _ tuple shift: 1].
-	tuple _ V filling: [:i| g coefficientAtDegree: n - i + 1].
-	m - anInteger timesRepeat: [rows add: tuple. tuple _ tuple shift: 1].
-	^ (Matrix rows: rows) determinant! !
-
-!UnivariatePolynomial methodsFor: 'operations' stamp: 'len 5/4/2018 19:30:29'!
-psc3: i with: aPolynomial
-	"Answer the anInteger-th principal subresultant coefficient of the receiver with aPolynomial."
-	self flag: #fix. "use version 2, more efficient, but must test"
-	^ (self subresultant: i with: aPolynomial) leadingCoefficient "WTF, sometimes subresultant returns nil, SemialgebraicSet circle"! !
-
-!UnivariatePolynomial methodsFor: 'operations' stamp: 'len 6/1/2020 13:42:41'!
-psc: anInteger with: aPolynomial
-	"Answer the anInteger-th principal subresultant coefficient of the receiver with aPolynomial."
-
-	| f g n m t rows tuple V |
-	f _ self.
-	g _ aPolynomial.
-	m _ f degree.
-	n _ g degree.
-	t _ m + n - anInteger - anInteger.
-	t <= 0 ifTrue: [^ self scalars one].
-	V _ self scalars^t.
-	rows _ OrderedCollection new: t.
-	tuple _ V filling: [:i| f coefficientAtDegree: m - i + 1].
-	n - anInteger timesRepeat: [rows add: tuple. tuple _ tuple shift: 1].
-	tuple _ V filling: [:i| g coefficientAtDegree: n - i + 1].
-	m - anInteger timesRepeat: [rows add: tuple. tuple _ tuple shift: 1].
-	^ (Matrix rows: rows) determinant! !
-
-!UnivariatePolynomial methodsFor: 'operations' stamp: 'len 7/9/2016 03:07'!
-resultant2: aPolynomial
-	"Answer the resultant of the receiver with the argument."
-	| f g mult |
-	self degree <= aPolynomial degree
-		ifTrue: [f _ self. g _ aPolynomial]
-		ifFalse: [f _ aPolynomial. g _ self].
-	f isConstant ifTrue: [^ (f ^ g degree)].
-	f isMonic
-		ifTrue:
-			[mult _ f leadingCoefficient]
-		ifFalse:
-			[mult _ f leadingCoefficient ^ g degree.
-			f _ f / f leadingCoefficient].
-	^ (g value: f companion) determinant * mult! !
-
-!UnivariatePolynomial methodsFor: 'operations' stamp: 'len 7/9/2016 03:07'!
-resultant3: aPolynomial
-	"Answer the resultant of the receiver with the argument."
-
-	| f g answer negate |
-	self degree > aPolynomial degree
-		ifTrue: [f _ aPolynomial. g _ self. negate _ true]
-		ifFalse: [f _ self. g _ aPolynomial. negate _ false].
-	answer _ f isConstant
-		ifTrue: [f ^ g degree]
-		ifFalse:
-			[(f resultant3: g \\ f) * (f leadingCoefficient ^ (g degree - f degree + 1))].
-	^ negate ifTrue: [answer negated] ifFalse: [answer]! !
-
-!UnivariatePolynomial methodsFor: 'operations' stamp: 'len 7/9/2016 03:07'!
-resultant: aPolynomial
-	"Answer the resultant of the receiver with aPolynomial."
-	self degree = 0
-		ifTrue: [^ aPolynomial ^ self degree].
-	aPolynomial degree = 0
-		ifTrue:
-			[^ (self degree even or: [aPolynomial degree even])
-					ifTrue: [(self ^ aPolynomial degree)]
-					ifFalse: [(self ^ aPolynomial degree) negated]].
-	^ (self sylvester: aPolynomial) determinant! !
-
-!UnivariatePolynomial methodsFor: 'operations' stamp: 'len 1/23/2017 11:48:20'!
-reversed
-	"Answer the reverse of the receiver."
-
-	^ self parent coefficients: coefficients reversed! !
-
-!UnivariatePolynomial methodsFor: 'operations' stamp: 'len 1/23/2017 11:48:25'!
-shift: anInteger
-	| n |
-	self isZero ifTrue: [^ self].
-	n _ self degree + anInteger.
-	n >= 0 ifFalse: [^ self zero].
-	^ self parent coefficients: coefficients >>> anInteger! !
-
-!UnivariatePolynomial methodsFor: 'operations' stamp: 'len 6/1/2020 13:44:08'!
-subresultant: i with: aPolynomial
-	"Answer the i-th subresultant of the receiver with aPolynomial."
-	| lambda mu n m c V rows matrix tuple |
-	m _ self degree.
-	n _ aPolynomial degree.
-	lambda _ m min: n.
-	mu _ (m max: n) - 1.
-	i = lambda
-		ifTrue:
-			[m + 1 < n
-				ifTrue: [c _ self]
-				ifFalse:
-					[n + 1 < m
-						ifTrue: [c _ aPolynomial] ifFalse: [^ nil]].
-			^ c * (c leadingCoefficient ^ ((m - n) abs - 1))].
-	(i between: lambda and: mu) ifTrue: [^ self zero].
-	(i between: 0 and: lambda - 1) ifFalse: [self error: 'index out of range'].
-	V _ self parent^(m + n - (2*i)).
-	rows _ OrderedCollection new.
-	tuple _ V filling: [:k| self parent constant: (self coefficientAtDegree: m - k + 1)].
-	n - i timesRepeat: [rows add: tuple. tuple _ tuple shift: 1].
-	tuple _ V filling: [:k| self parent constant: (aPolynomial coefficientAtDegree: n - k + 1)].
-	m - i timesRepeat: [rows add: tuple. tuple _ tuple shift: 1].
-	matrix _ Matrix rows: rows.
-	1 to: n - i do: [:k|
-		matrix at: k @ (m + n - (2*i)) put: (self shift: n - i - k)].
-	1 to: m - i do: [:k|
-		matrix at: n - i + k @ (m + n - (2*i)) put: (aPolynomial shift: m - i - k)].
-	^ matrix determinant! !
-
-!UnivariatePolynomial methodsFor: 'operations' stamp: 'len 7/9/2016 03:08'!
-subresultantChain: aPolynomial
-	"Answer the Subresultant Chain of the receiver with the argument."
-	| n answer |
-	n _ self degree > aPolynomial degree ifTrue: [self degree - 1] ifFalse: [aPolynomial degree].
-	answer _ OrderedCollection new: n + 2.
-	answer add: self; add: aPolynomial.
-	n - 1 to: 0 by: -1 do: [:i|
-		answer add: (self subresultant: i with: aPolynomial)].
-	^ answer! !
-
-!UnivariatePolynomial methodsFor: 'operations' stamp: 'len 6/1/2020 13:44:56'!
-sylvester: aPolynomial
-	"Answer the Sylvester matrix of the receiver with the argument.
-	If p,q polynomials of degrees m and n:
-		det S(p,q) = res (p,q)
-		deg (gcd(p,q)) = m - n + rank (S(p,q))
-	Also the kernel of the transposed Sylvester matrix gives all solutions of the Bezout equation:
-		f*p + g*q = 0
-	"
-	| m n V rows tuple |
-	m _ self degree.
-	n _ aPolynomial degree.
-	V _ self scalars^(m+n).
-	rows _ OrderedCollection new: m+n.
-	tuple _ V filling: [:i| self coefficientAtDegree: m-i+1].
-	n timesRepeat: [rows add: tuple. tuple _ tuple shift: 1].
-	tuple _ V filling: [:i| aPolynomial coefficientAtDegree: n-i+1].
-	m timesRepeat: [rows add: tuple. tuple _ tuple shift: 1].
-	^ Matrix rows: rows! !
-
-!UnivariatePolynomial methodsFor: 'operations' stamp: 'len 4/14/2020 14:26:43'!
-truncatedTo: anInteger
-	coefficients size <= anInteger ifTrue: [^ self].
-	^ parent coefficients: (coefficients copyFrom: 1 to: anInteger)! !
-
-!UnivariatePolynomial methodsFor: 'operations' stamp: 'len 3/28/2018 18:04:25'!
-value: anObject
-	"Evaluate the receiver at the given argument using Horner's method."
-	| x |
-	x _ (anObject isTuple or: [anObject isArray])
-		ifTrue: [anObject at: 1] ifFalse: [anObject].
-	^ coefficients polynomialValue: x! !
 
 !UnivariatePolynomial methodsFor: 'roots' stamp: 'len 4/10/2018 16:11:32'!
 allRoots
@@ -39032,6 +38092,27 @@ valuation
 	[(digits at: (i _ i + 1)) isZero not ifTrue: [^ i].
 	precision > i ifFalse: [^ i]] repeat"! !
 
+!RelaxedAdicInteger methodsFor: 'printing' stamp: 'len 5/23/2020 07:42:09'!
+printOn: aStream withPowersShiftedBy: k
+	| printPrecision first |
+	self isZero
+		ifTrue: [aStream nextPut: $0]
+		ifFalse:
+			[printPrecision _ 10.
+			first _ true.
+			self valuation - k to: self valuation + printPrecision - 1 - k do: [:i|
+				| x |
+				(x _ self digits at: i+1+k) isZero
+					ifFalse:
+						[first ifFalse: [aStream nextPutAll: ' + '].
+						(x ~= 1 or: [i = 0]) ifTrue: [aStream print: x. i ~= 0 ifTrue: [aStream nextPut: $∑]].
+						i ~= 0 ifTrue: [aStream print: self p. i ~= 1 ifTrue: [aStream nextPutAll: i printString super]].
+						first _ false]]].
+	aStream nextPutAll: ' + ...'
+	"parent isBounded
+		ifTrue: [aStream nextPutAll: ' + ', 'O' italic; nextPut: $(; print: self p; nextPutAll: parent precision printString super; nextPut: $)]
+		ifFalse: [aStream nextPutAll: ' + ...']"! !
+
 !RelaxedAdicInteger methodsFor: 'arithmetic' stamp: 'len 6/2/2019 11:02:42'!
 * anAdic
 	| a b n carry  p |
@@ -39121,27 +38202,6 @@ hash
 jet: anInteger
 	"Answer the anInteger-th jet of the receiver, that is the truncation to anInteger terms."
 	^ (self parent jet: anInteger) !! self! !
-
-!RelaxedAdicInteger methodsFor: 'printing' stamp: 'len 5/23/2020 07:42:09'!
-printOn: aStream withPowersShiftedBy: k
-	| printPrecision first |
-	self isZero
-		ifTrue: [aStream nextPut: $0]
-		ifFalse:
-			[printPrecision _ 10.
-			first _ true.
-			self valuation - k to: self valuation + printPrecision - 1 - k do: [:i|
-				| x |
-				(x _ self digits at: i+1+k) isZero
-					ifFalse:
-						[first ifFalse: [aStream nextPutAll: ' + '].
-						(x ~= 1 or: [i = 0]) ifTrue: [aStream print: x. i ~= 0 ifTrue: [aStream nextPut: $∑]].
-						i ~= 0 ifTrue: [aStream print: self p. i ~= 1 ifTrue: [aStream nextPutAll: i printString super]].
-						first _ false]]].
-	aStream nextPutAll: ' + ...'
-	"parent isBounded
-		ifTrue: [aStream nextPutAll: ' + ', 'O' italic; nextPut: $(; print: self p; nextPutAll: parent precision printString super; nextPut: $)]
-		ifFalse: [aStream nextPutAll: ' + ...']"! !
 
 !RelaxedAdicInteger methodsFor: 'testing' stamp: 'len 6/2/2019 10:00:28'!
 isZero
@@ -39334,6 +38394,53 @@ coefficients: aSequence
 !RelaxedPowerSeries class methodsFor: 'instance creation' stamp: 'len 11/25/2016 10:32:44'!
 fromPolynomial: aPolynomial
 	^ self coefficients: (CFiniteSequence to: aPolynomial scalars initialValues: aPolynomial coefficients periodic: {aPolynomial scalars zero})! !
+
+!ComplexAlgebraicNumber methodsFor: 'printing' stamp: 'len 4/30/2018 00:27:26'!
+printOn: aStream base: base
+	| real imaginary isImaginary |
+	minimalPolynomial degree = 2 ifTrue: [^ self printQuadraticOn: aStream base: base].
+	self refineTo: self printPrecision.
+	real _ approximation real asFloat roundTo: self printPrecision.
+	imaginary _ approximation imaginary asFloat roundTo: self printPrecision.
+	(isImaginary _ self isImaginary)
+		ifFalse: [real printOn: aStream base: base].
+	self isReal
+		ifFalse:
+			[isImaginary ifFalse: [aStream nextPutAll: (0 <= imaginary ifTrue: [' + '] ifFalse: [imaginary _ imaginary negated. ' - '])].
+			imaginary printOn: aStream base: base.
+			aStream nextPutAll: 'i' italic].
+	aStream nextPutAll: '..'! !
+
+!ComplexAlgebraicNumber methodsFor: 'printing' stamp: 'len 1/11/2018 21:07:33'!
+printPrecision
+"	self absoluteError < 1 ifTrue: [^ self absoluteError asFloat].
+	^ 0.001"
+	^ 0.00001! !
+
+!ComplexAlgebraicNumber methodsFor: 'printing' stamp: 'len 5/4/2020 11:15:53'!
+printQuadraticOn: aStream base: base
+	| a b c discriminant z y x1 x2 sign |
+	a _ (minimalPolynomial atDegree: 2) asFraction.
+	b _ (minimalPolynomial atDegree: 1) asFraction.
+	c _ (minimalPolynomial atDegree: 0) asFraction.
+	discriminant _ b squared - (4*a*c).
+	z _ discriminant squareFree.
+	y _ (discriminant / z) sqrt.
+	x1 _ b negated + (discriminant negative ifTrue: [discriminant negated sqrt i] ifFalse: [discriminant sqrt]) / (2*a).
+	x2 _ b negated - (discriminant negative ifTrue: [discriminant negated sqrt i] ifFalse: [discriminant sqrt]) / (2*a).
+	(x1 - approximation) abs <= radius
+		ifTrue: [sign _ ' + ']
+		ifFalse: [(x2 - approximation) abs <= radius ifTrue: [sign _ ' - '. y _ y negated] ifFalse: [self halt]].
+	b = 0 ifFalse:
+		[b/(-2*a) printOn: aStream base: base.
+		aStream nextPutAll: sign.
+		y _ y abs].
+	y negative ifTrue: [aStream nextPut: $-. y _ y abs].
+	y/(2*a) = 1 ifFalse: [y/(2*a) printOn: aStream base: base].
+	z abs = 1 ifFalse:
+		[aStream nextPut: $ó.
+		z abs printOn: aStream base: base].
+	z negative ifTrue: [aStream nextPutAll: 'i' italic]! !
 
 !ComplexAlgebraicNumber methodsFor: 'accessing' stamp: 'len 5/23/2020 09:31:47'!
 conjugates
@@ -39585,53 +38692,6 @@ trace
 "alternatively:
 	^ self conjugates sum"! !
 
-!ComplexAlgebraicNumber methodsFor: 'printing' stamp: 'len 4/30/2018 00:27:26'!
-printOn: aStream base: base
-	| real imaginary isImaginary |
-	minimalPolynomial degree = 2 ifTrue: [^ self printQuadraticOn: aStream base: base].
-	self refineTo: self printPrecision.
-	real _ approximation real asFloat roundTo: self printPrecision.
-	imaginary _ approximation imaginary asFloat roundTo: self printPrecision.
-	(isImaginary _ self isImaginary)
-		ifFalse: [real printOn: aStream base: base].
-	self isReal
-		ifFalse:
-			[isImaginary ifFalse: [aStream nextPutAll: (0 <= imaginary ifTrue: [' + '] ifFalse: [imaginary _ imaginary negated. ' - '])].
-			imaginary printOn: aStream base: base.
-			aStream nextPutAll: 'i' italic].
-	aStream nextPutAll: '..'! !
-
-!ComplexAlgebraicNumber methodsFor: 'printing' stamp: 'len 1/11/2018 21:07:33'!
-printPrecision
-"	self absoluteError < 1 ifTrue: [^ self absoluteError asFloat].
-	^ 0.001"
-	^ 0.00001! !
-
-!ComplexAlgebraicNumber methodsFor: 'printing' stamp: 'len 5/4/2020 11:15:53'!
-printQuadraticOn: aStream base: base
-	| a b c discriminant z y x1 x2 sign |
-	a _ (minimalPolynomial atDegree: 2) asFraction.
-	b _ (minimalPolynomial atDegree: 1) asFraction.
-	c _ (minimalPolynomial atDegree: 0) asFraction.
-	discriminant _ b squared - (4*a*c).
-	z _ discriminant squareFree.
-	y _ (discriminant / z) sqrt.
-	x1 _ b negated + (discriminant negative ifTrue: [discriminant negated sqrt i] ifFalse: [discriminant sqrt]) / (2*a).
-	x2 _ b negated - (discriminant negative ifTrue: [discriminant negated sqrt i] ifFalse: [discriminant sqrt]) / (2*a).
-	(x1 - approximation) abs <= radius
-		ifTrue: [sign _ ' + ']
-		ifFalse: [(x2 - approximation) abs <= radius ifTrue: [sign _ ' - '. y _ y negated] ifFalse: [self halt]].
-	b = 0 ifFalse:
-		[b/(-2*a) printOn: aStream base: base.
-		aStream nextPutAll: sign.
-		y _ y abs].
-	y negative ifTrue: [aStream nextPut: $-. y _ y abs].
-	y/(2*a) = 1 ifFalse: [y/(2*a) printOn: aStream base: base].
-	z abs = 1 ifFalse:
-		[aStream nextPut: $ó.
-		z abs printOn: aStream base: base].
-	z negative ifTrue: [aStream nextPutAll: 'i' italic]! !
-
 !ComplexAlgebraicNumber methodsFor: 'testing' stamp: 'len 1/13/2016 03:33'!
 isAlgebraic
 	^ true! !
@@ -39856,6 +38916,288 @@ parent: aQuotientModule
 !ModuleCoset methodsFor: 'private' stamp: 'len 6/4/2016 04:30'!
 representative: aPoint
 	representative _ aPoint! !
+
+!Tuple methodsFor: 'operations' stamp: 'len 6/1/2020 13:40:06'!
+% anInteger
+	| R |
+	self flag: #fix. "optimize. this is slow because creates lots of residue class objects"
+	R _ É / anInteger.
+	^ R^self size filling: [:i| R project: (self at: i) asInteger]! !
+
+!Tuple methodsFor: 'operations' stamp: 'len 7/19/2019 07:00:27'!
+* anObject
+	anObject isMatrix ifTrue: [^ (self asRowMatrix * anObject) asTuple].
+	anObject isTuple ifTrue: [^ self ∑ anObject].
+	((self scalars includes: anObject) or: [anObject isInteger]) ifFalse: [^ DomainError signal].
+	^ self collect: [:each| each * anObject]! !
+
+!Tuple methodsFor: 'operations' stamp: 'len 7/30/2020 18:22:32'!
+/ anObject
+	"Answer X such that X * A = B, where B is self and A is the argument.  X is called a lift of B along A.
+	If the argument is a scalar, just divide each element of the tuple by it."
+	anObject isMatrix ifTrue: [^ anObject colift: self].
+	^ self * (self parent scalars !! anObject) inverse! !
+
+!Tuple methodsFor: 'operations' stamp: 'len 5/14/2020 12:31:37'!
+// anElement
+	^ self collect: [:each| each // anElement]! !
+
+!Tuple methodsFor: 'operations' stamp: 'len 3/29/2016 19:02'!
+<< anInteger
+	^ self >> anInteger negated! !
+
+!Tuple methodsFor: 'operations' stamp: 'len 3/29/2016 18:45'!
+<<< anInteger
+	^ self >>> anInteger negated! !
+
+!Tuple methodsFor: 'operations' stamp: 'len 5/28/2020 14:57:00'!
+>>> anInteger
+	anInteger == 0 ifTrue: [^ self].
+	anInteger < 0 ifTrue: [^ self copyFrom: anInteger negated + 1 to: self size].
+	^ (self scalars^anInteger) zero, self! !
+
+!Tuple methodsFor: 'operations' stamp: 'len 5/14/2020 12:31:03'!
+\\ anElement
+	^ self collect: [:each| each \\ anElement]! !
+
+!Tuple methodsFor: 'operations' stamp: 'len 7/9/2020 07:56:46'!
+| aTuple
+	"Answer the inner product of the receiver and the argument."
+	^ parent innerProduct value: aTuple value: self! !
+
+!Tuple methodsFor: 'operations' stamp: 'len 7/27/2020 14:52:43'!
+∑ aTuple
+	| answer |
+	answer _ self scalars zero.
+	1 to: (self depth min: aTuple depth) do: [:i| answer _ (self at: i) * (aTuple at: i) + answer].
+	^ answer! !
+
+!Tuple methodsFor: 'operations' stamp: 'len 7/8/2020 06:41:56'!
+◊ aTuple
+	"Answer the cross product of the receiver with the argument."
+	(self size = 3 and: [aTuple parent = self parent]) ifFalse: [DomainError signal].
+	^ self class
+		components:
+			{(self at: 2)*(aTuple at: 3) - ((self at: 3)*(aTuple at: 2)).
+			(self at: 3)*(aTuple at: 1) - ((self at: 1)*(aTuple at: 3)).
+			(self at: 1)*(aTuple at: 2) - ((self at: 2)*(aTuple at: 1))}
+		parent: self parent! !
+
+!Tuple methodsFor: 'operations' stamp: 'len 5/9/2020 17:52:00'!
+˜ anElement
+	^ self collect: [:each| each ˜ anElement]! !
+
+!Tuple methodsFor: 'operations' stamp: 'len 7/12/2020 19:18:43'!
+ë aTuple
+	"Answer the outer product of the receiver with the argument."
+	^ Matrix from: aTuple parent to: self parent filling: [:i :j| (self at: i)*(aTuple at: j)]! !
+
+!Tuple methodsFor: 'operations' stamp: 'len 6/6/2019 09:45:07'!
+add: aTuple shifted: delta from: startIndex to: stopIndex
+	startIndex to: stopIndex do: [:i| self at: i add: (aTuple at: i-delta)]! !
+
+!Tuple methodsFor: 'operations' stamp: 'len 5/30/2019 07:23:04'!
+add: aTuple times: aNumber
+	self add: aTuple times: aNumber startingAt: 1! !
+
+!Tuple methodsFor: 'operations' stamp: 'len 6/6/2019 09:45:24'!
+add: aTuple times: aNumber from: startIndex to: stopIndex
+	startIndex to: stopIndex do: [:i| self at: i add: (aTuple at: i) * aNumber]! !
+
+!Tuple methodsFor: 'operations' stamp: 'len 5/30/2019 07:10:41'!
+add: aTuple times: aNumber startingAt: startIndex
+	self add: aTuple times: aNumber from: startIndex to: (self size min: aTuple size)! !
+
+!Tuple methodsFor: 'operations' stamp: 'len 7/27/2020 14:54:43'!
+apply: aMorphism
+	"Apply a homomorphism to the coefficients of the receiver."
+	aMorphism isBlock ifTrue: [^ self collect: aMorphism].
+	aMorphism codomain isRing ifFalse: [^ DomainError signal].
+	^ aMorphism codomain^self size filling: [:i| aMorphism value: (self at: i)]! !
+
+!Tuple methodsFor: 'operations' stamp: 'len 8/9/2020 07:47:06'!
+conjugate
+	^ self collect: [:each| each conjugate]! !
+
+!Tuple methodsFor: 'operations' stamp: 'len 7/17/2019 11:02:11'!
+content
+	"Answer the GCD of the coefficients of the receiver.
+	In a field, it is convenient to define the content as 1.
+	For example, (2,4) has content 2 over Z and 1 over Q."
+	| answer |
+	self isZero ifTrue: [^ self scalars zero].
+	self scalars isField ifTrue: [^ self scalars one].
+	answer _ self scalars zero.
+	self do: [:each| answer _ answer gcd: each].
+	^ answer! !
+
+!Tuple methodsFor: 'operations' stamp: 'len 5/29/2020 16:31:30'!
+hadamard: aTuple
+	"Answer the entrywise product with the argument, also called Hadamard product."
+	
+	^ (self size <= aTuple size ifTrue: [parent] ifFalse: [aTuple parent]) filling: [:i| (self at: i) * (aTuple at: i)]! !
+
+!Tuple methodsFor: 'operations' stamp: 'len 11/27/2016 13:25:12'!
+height
+	| answer |
+	answer _ 1.
+	self do: [:each| answer _ answer max: each height].
+	^ answer! !
+
+!Tuple methodsFor: 'operations' stamp: 'len 7/27/2020 15:03:24'!
+length
+	^ self norm sqrt! !
+
+!Tuple methodsFor: 'operations' stamp: 'len 5/1/2020 18:48:04'!
+max
+	| answer |
+	answer _ self first.
+	2 to: self size do: [:i| answer _ answer max: (self at: i)].
+	^ answer! !
+
+!Tuple methodsFor: 'operations' stamp: 'len 5/1/2020 18:48:12'!
+min
+	| answer |
+	answer _ self first.
+	2 to: self size do: [:i| answer _ answer min: (self at: i)].
+	^ answer! !
+
+!Tuple methodsFor: 'operations' stamp: 'len 1/16/2018 22:02:42'!
+multiplyBy: aNumber
+	self multiplyBy: aNumber startingAt: 1! !
+
+!Tuple methodsFor: 'operations' stamp: 'len 1/16/2018 22:03:27'!
+multiplyBy: aNumber from: startIndex to: stopIndex
+	startIndex to: stopIndex do: [:i|
+		self at: i put: (self at: i) * aNumber]! !
+
+!Tuple methodsFor: 'operations' stamp: 'len 1/16/2018 22:01:18'!
+multiplyBy: aNumber startingAt: startIndex
+	self multiplyBy: aNumber from: startIndex to: self size! !
+
+!Tuple methodsFor: 'operations' stamp: 'len 3/29/2016 18:56'!
+negated
+	^ self collect: [:each| each negated]! !
+
+!Tuple methodsFor: 'operations' stamp: 'len 7/10/2020 09:23:39'!
+norm
+	^ self | self! !
+
+!Tuple methodsFor: 'operations' stamp: 'len 5/29/2020 19:46:38'!
+polynomialDivisionBy: aTuple
+	| q r n m bmInv |
+	(m _ aTuple depth) = 0 ifTrue: [^ (ZeroDivide receiver: self selector: #polynomialDivisionBy: argument: aTuple) signal].
+	bmInv _ (aTuple at: m) inverse. "m = degree(self)+1, bmInv = inverse of leading coefficient"
+	q _ self zero.
+	r _ self copy.
+	[(n _ r depth) >= m] "n = degree(r)+1"
+		whileTrue:
+			[| i c |
+			i _ n-m+1.
+			c _ (r at: n) * bmInv.
+			q at: i put: (q at: i) + c.
+			1 to: m do: [:j| r at: j+i-1 put: (r at: j+i-1) - ((aTuple at: j)*c)]].
+	^ {q. r}! !
+
+!Tuple methodsFor: 'operations' stamp: 'len 5/29/2020 19:46:55'!
+polynomialPartialDivisionBy: aTuple
+	| q r n m  bm |
+	(m _ aTuple depth) = 0 ifTrue: [^ (ZeroDivide receiver: self selector: #polynomialPartialDivisionBy: argument: aTuple) signal].
+	bm _ (aTuple at: m). "m = degree(self)+1, bm = leading coefficient"
+	q _ self zero.
+	r _ self copy.
+	[(n _ r depth) >= m] "n = degree(r)+1"
+		whileTrue:
+			[| i c |
+			i _ n-m+1.
+			c _ (r at: n) // bm.
+			c isZero ifTrue: [^ {q. r}].
+			q at: i put: (q at: i) + c.
+			1 to: m do: [:j| r at: j+i-1 put: (r at: j+i-1) - ((aTuple at: j)*c)]].
+	^ {q. r}! !
+
+!Tuple methodsFor: 'operations' stamp: 'len 5/29/2020 19:47:02'!
+polynomialRemainderOfDivisionBy: aTuple
+	"See >>polynomialDivisionBy:. This is the same, except that computation of the quotient was removed."
+	| r n m bmInv |
+	(m _ aTuple depth) = 0 ifTrue: [^ (ZeroDivide receiver: self selector: #polynomialRemainderOfDivisionBy: argument: aTuple) signal].
+	bmInv _ (aTuple at: m) inverse. "m = degree(self)+1, bm = inverse of leading coefficient"
+	r _ self copy.
+	[(n _ r depth) >= m] "n = degree(r)+1"
+		whileTrue:
+			[| i c |
+			i _ n-m+1.
+			c _ (r at: n) * bmInv.
+			1 to: m do: [:j| r at: j+i-1 put: (r at: j+i-1) - ((aTuple at: j)*c)]].
+	^ r! !
+
+!Tuple methodsFor: 'operations' stamp: 'len 5/29/2020 19:47:09'!
+polynomialRemainderOfPartialDivisionBy: aTuple
+	"See >>polynomialPartialDivisionBy:. This is the same, except that computation of the quotient was removed."
+	| r n m bm |
+	(m _ aTuple depth) = 0 ifTrue: [^ (ZeroDivide receiver: self selector: #polynomialRemainderOfPartialDivisionBy: argument: aTuple) signal].
+	bm _ (aTuple at: m). "m = degree(self)+1, bm = leading coefficient"
+	r _ self copy.
+	[(n _ r depth) >= m] "n = degree(r)+1"
+		whileTrue:
+			[| i c |
+			i _ n-m+1.
+			c _ (r at: n) // bm.
+			c isZero ifTrue: [^ r].
+			1 to: m do: [:j| r at: j+i-1 put: (r at: j+i-1) - ((aTuple at: j)*c)]].
+	^ r! !
+
+!Tuple methodsFor: 'operations' stamp: 'len 11/23/2016 05:43:12'!
+polynomialValue: anObject
+	"Evaluate the receiver (as an univariate polynomial) at the given argument using Horner's method."
+	| answer one |
+	answer _ anObject zero.
+	one _ anObject one.
+	self reverseDo: [:each| answer _ anObject * answer + (one * each)].
+	^ answer! !
+
+!Tuple methodsFor: 'operations' stamp: 'len 5/9/2020 18:00:31'!
+primitivePart
+	"Answer the primitive part of the receiver."
+	^ self isZero ifTrue: [self] ifFalse: [self ˜ self content]! !
+
+!Tuple methodsFor: 'operations' stamp: 'len 5/16/2020 13:32:19'!
+stabilizers
+	| answer last |
+	self size <= 1 ifTrue: [^ #()].
+	answer _ OrderedCollection new: self size - 1.
+	last _ self at: 1.
+	2 to: self size do: [:i| | ai ci |
+		ai _ self at: i.
+		ci _ last stabilizerWith: ai.
+		answer add: ci.
+		last _ ci*ai + last].
+	^ answer! !
+
+!Tuple methodsFor: 'operations' stamp: 'len 11/5/2016 09:27'!
+support
+	^ (1 to: self size) reject: [:each| (self at: each) isZero]! !
+
+!Tuple methodsFor: 'operations' stamp: 'len 11/12/2016 08:41'!
+weight
+	"Answer the Hamming weight of the receiver, i.e. the number of entries that are not zero."
+	^ self count: [:each| each isZero not]! !
+
+!Tuple methodsFor: 'operations' stamp: 'len 5/29/2020 16:32:26'!
+wrap: n
+	"Perform a cyclic right shift."
+	^ parent filling: [:i| self at: i-1-n \\ self size + 1]! !
+
+!Tuple methodsFor: 'printing' stamp: 'len 5/19/2018 19:44:02'!
+printCoefficientsOn: aStream
+	| separator |
+	separator _ (self anySatisfy: [:any| any printString includesAnyOf: ', ']) ifTrue: [', '] ifFalse: [','].
+	self do: [:x| aStream print: x] separatedBy: [aStream nextPutAll: separator]! !
+
+!Tuple methodsFor: 'printing' stamp: 'len 5/29/2020 06:29:52'!
+validate
+	self parent rank = self size ifFalse: [^ false].
+	^ self allSatisfy: [:each| self scalars includes: each]! !
 
 !Tuple methodsFor: 'accessing' stamp: 'len 5/10/2020 19:31:16'!
 annihilator
@@ -40187,288 +39529,6 @@ withNamesDo: aBlock
 !Tuple methodsFor: 'enumerating' stamp: 'len 7/19/2020 07:58:07'!
 withSupportDo: aBlock
 	1 to: self size do: [:index| (self isZeroAt: index) ifFalse: [aBlock value: (self at: index) value: index]]! !
-
-!Tuple methodsFor: 'operations' stamp: 'len 6/1/2020 13:40:06'!
-% anInteger
-	| R |
-	self flag: #fix. "optimize. this is slow because creates lots of residue class objects"
-	R _ É / anInteger.
-	^ R^self size filling: [:i| R project: (self at: i) asInteger]! !
-
-!Tuple methodsFor: 'operations' stamp: 'len 7/19/2019 07:00:27'!
-* anObject
-	anObject isMatrix ifTrue: [^ (self asRowMatrix * anObject) asTuple].
-	anObject isTuple ifTrue: [^ self ∑ anObject].
-	((self scalars includes: anObject) or: [anObject isInteger]) ifFalse: [^ DomainError signal].
-	^ self collect: [:each| each * anObject]! !
-
-!Tuple methodsFor: 'operations' stamp: 'len 7/30/2020 18:22:32'!
-/ anObject
-	"Answer X such that X * A = B, where B is self and A is the argument.  X is called a lift of B along A.
-	If the argument is a scalar, just divide each element of the tuple by it."
-	anObject isMatrix ifTrue: [^ anObject colift: self].
-	^ self * (self parent scalars !! anObject) inverse! !
-
-!Tuple methodsFor: 'operations' stamp: 'len 5/14/2020 12:31:37'!
-// anElement
-	^ self collect: [:each| each // anElement]! !
-
-!Tuple methodsFor: 'operations' stamp: 'len 3/29/2016 19:02'!
-<< anInteger
-	^ self >> anInteger negated! !
-
-!Tuple methodsFor: 'operations' stamp: 'len 3/29/2016 18:45'!
-<<< anInteger
-	^ self >>> anInteger negated! !
-
-!Tuple methodsFor: 'operations' stamp: 'len 5/28/2020 14:57:00'!
->>> anInteger
-	anInteger == 0 ifTrue: [^ self].
-	anInteger < 0 ifTrue: [^ self copyFrom: anInteger negated + 1 to: self size].
-	^ (self scalars^anInteger) zero, self! !
-
-!Tuple methodsFor: 'operations' stamp: 'len 5/14/2020 12:31:03'!
-\\ anElement
-	^ self collect: [:each| each \\ anElement]! !
-
-!Tuple methodsFor: 'operations' stamp: 'len 7/9/2020 07:56:46'!
-| aTuple
-	"Answer the inner product of the receiver and the argument."
-	^ parent innerProduct value: aTuple value: self! !
-
-!Tuple methodsFor: 'operations' stamp: 'len 7/27/2020 14:52:43'!
-∑ aTuple
-	| answer |
-	answer _ self scalars zero.
-	1 to: (self depth min: aTuple depth) do: [:i| answer _ (self at: i) * (aTuple at: i) + answer].
-	^ answer! !
-
-!Tuple methodsFor: 'operations' stamp: 'len 7/8/2020 06:41:56'!
-◊ aTuple
-	"Answer the cross product of the receiver with the argument."
-	(self size = 3 and: [aTuple parent = self parent]) ifFalse: [DomainError signal].
-	^ self class
-		components:
-			{(self at: 2)*(aTuple at: 3) - ((self at: 3)*(aTuple at: 2)).
-			(self at: 3)*(aTuple at: 1) - ((self at: 1)*(aTuple at: 3)).
-			(self at: 1)*(aTuple at: 2) - ((self at: 2)*(aTuple at: 1))}
-		parent: self parent! !
-
-!Tuple methodsFor: 'operations' stamp: 'len 5/9/2020 17:52:00'!
-˜ anElement
-	^ self collect: [:each| each ˜ anElement]! !
-
-!Tuple methodsFor: 'operations' stamp: 'len 7/12/2020 19:18:43'!
-ë aTuple
-	"Answer the outer product of the receiver with the argument."
-	^ Matrix from: aTuple parent to: self parent filling: [:i :j| (self at: i)*(aTuple at: j)]! !
-
-!Tuple methodsFor: 'operations' stamp: 'len 6/6/2019 09:45:07'!
-add: aTuple shifted: delta from: startIndex to: stopIndex
-	startIndex to: stopIndex do: [:i| self at: i add: (aTuple at: i-delta)]! !
-
-!Tuple methodsFor: 'operations' stamp: 'len 5/30/2019 07:23:04'!
-add: aTuple times: aNumber
-	self add: aTuple times: aNumber startingAt: 1! !
-
-!Tuple methodsFor: 'operations' stamp: 'len 6/6/2019 09:45:24'!
-add: aTuple times: aNumber from: startIndex to: stopIndex
-	startIndex to: stopIndex do: [:i| self at: i add: (aTuple at: i) * aNumber]! !
-
-!Tuple methodsFor: 'operations' stamp: 'len 5/30/2019 07:10:41'!
-add: aTuple times: aNumber startingAt: startIndex
-	self add: aTuple times: aNumber from: startIndex to: (self size min: aTuple size)! !
-
-!Tuple methodsFor: 'operations' stamp: 'len 7/27/2020 14:54:43'!
-apply: aMorphism
-	"Apply a homomorphism to the coefficients of the receiver."
-	aMorphism isBlock ifTrue: [^ self collect: aMorphism].
-	aMorphism codomain isRing ifFalse: [^ DomainError signal].
-	^ aMorphism codomain^self size filling: [:i| aMorphism value: (self at: i)]! !
-
-!Tuple methodsFor: 'operations' stamp: 'len 8/9/2020 07:47:06'!
-conjugate
-	^ self collect: [:each| each conjugate]! !
-
-!Tuple methodsFor: 'operations' stamp: 'len 7/17/2019 11:02:11'!
-content
-	"Answer the GCD of the coefficients of the receiver.
-	In a field, it is convenient to define the content as 1.
-	For example, (2,4) has content 2 over Z and 1 over Q."
-	| answer |
-	self isZero ifTrue: [^ self scalars zero].
-	self scalars isField ifTrue: [^ self scalars one].
-	answer _ self scalars zero.
-	self do: [:each| answer _ answer gcd: each].
-	^ answer! !
-
-!Tuple methodsFor: 'operations' stamp: 'len 5/29/2020 16:31:30'!
-hadamard: aTuple
-	"Answer the entrywise product with the argument, also called Hadamard product."
-	
-	^ (self size <= aTuple size ifTrue: [parent] ifFalse: [aTuple parent]) filling: [:i| (self at: i) * (aTuple at: i)]! !
-
-!Tuple methodsFor: 'operations' stamp: 'len 11/27/2016 13:25:12'!
-height
-	| answer |
-	answer _ 1.
-	self do: [:each| answer _ answer max: each height].
-	^ answer! !
-
-!Tuple methodsFor: 'operations' stamp: 'len 7/27/2020 15:03:24'!
-length
-	^ self norm sqrt! !
-
-!Tuple methodsFor: 'operations' stamp: 'len 5/1/2020 18:48:04'!
-max
-	| answer |
-	answer _ self first.
-	2 to: self size do: [:i| answer _ answer max: (self at: i)].
-	^ answer! !
-
-!Tuple methodsFor: 'operations' stamp: 'len 5/1/2020 18:48:12'!
-min
-	| answer |
-	answer _ self first.
-	2 to: self size do: [:i| answer _ answer min: (self at: i)].
-	^ answer! !
-
-!Tuple methodsFor: 'operations' stamp: 'len 1/16/2018 22:02:42'!
-multiplyBy: aNumber
-	self multiplyBy: aNumber startingAt: 1! !
-
-!Tuple methodsFor: 'operations' stamp: 'len 1/16/2018 22:03:27'!
-multiplyBy: aNumber from: startIndex to: stopIndex
-	startIndex to: stopIndex do: [:i|
-		self at: i put: (self at: i) * aNumber]! !
-
-!Tuple methodsFor: 'operations' stamp: 'len 1/16/2018 22:01:18'!
-multiplyBy: aNumber startingAt: startIndex
-	self multiplyBy: aNumber from: startIndex to: self size! !
-
-!Tuple methodsFor: 'operations' stamp: 'len 3/29/2016 18:56'!
-negated
-	^ self collect: [:each| each negated]! !
-
-!Tuple methodsFor: 'operations' stamp: 'len 7/10/2020 09:23:39'!
-norm
-	^ self | self! !
-
-!Tuple methodsFor: 'operations' stamp: 'len 5/29/2020 19:46:38'!
-polynomialDivisionBy: aTuple
-	| q r n m bmInv |
-	(m _ aTuple depth) = 0 ifTrue: [^ (ZeroDivide receiver: self selector: #polynomialDivisionBy: argument: aTuple) signal].
-	bmInv _ (aTuple at: m) inverse. "m = degree(self)+1, bmInv = inverse of leading coefficient"
-	q _ self zero.
-	r _ self copy.
-	[(n _ r depth) >= m] "n = degree(r)+1"
-		whileTrue:
-			[| i c |
-			i _ n-m+1.
-			c _ (r at: n) * bmInv.
-			q at: i put: (q at: i) + c.
-			1 to: m do: [:j| r at: j+i-1 put: (r at: j+i-1) - ((aTuple at: j)*c)]].
-	^ {q. r}! !
-
-!Tuple methodsFor: 'operations' stamp: 'len 5/29/2020 19:46:55'!
-polynomialPartialDivisionBy: aTuple
-	| q r n m  bm |
-	(m _ aTuple depth) = 0 ifTrue: [^ (ZeroDivide receiver: self selector: #polynomialPartialDivisionBy: argument: aTuple) signal].
-	bm _ (aTuple at: m). "m = degree(self)+1, bm = leading coefficient"
-	q _ self zero.
-	r _ self copy.
-	[(n _ r depth) >= m] "n = degree(r)+1"
-		whileTrue:
-			[| i c |
-			i _ n-m+1.
-			c _ (r at: n) // bm.
-			c isZero ifTrue: [^ {q. r}].
-			q at: i put: (q at: i) + c.
-			1 to: m do: [:j| r at: j+i-1 put: (r at: j+i-1) - ((aTuple at: j)*c)]].
-	^ {q. r}! !
-
-!Tuple methodsFor: 'operations' stamp: 'len 5/29/2020 19:47:02'!
-polynomialRemainderOfDivisionBy: aTuple
-	"See >>polynomialDivisionBy:. This is the same, except that computation of the quotient was removed."
-	| r n m bmInv |
-	(m _ aTuple depth) = 0 ifTrue: [^ (ZeroDivide receiver: self selector: #polynomialRemainderOfDivisionBy: argument: aTuple) signal].
-	bmInv _ (aTuple at: m) inverse. "m = degree(self)+1, bm = inverse of leading coefficient"
-	r _ self copy.
-	[(n _ r depth) >= m] "n = degree(r)+1"
-		whileTrue:
-			[| i c |
-			i _ n-m+1.
-			c _ (r at: n) * bmInv.
-			1 to: m do: [:j| r at: j+i-1 put: (r at: j+i-1) - ((aTuple at: j)*c)]].
-	^ r! !
-
-!Tuple methodsFor: 'operations' stamp: 'len 5/29/2020 19:47:09'!
-polynomialRemainderOfPartialDivisionBy: aTuple
-	"See >>polynomialPartialDivisionBy:. This is the same, except that computation of the quotient was removed."
-	| r n m bm |
-	(m _ aTuple depth) = 0 ifTrue: [^ (ZeroDivide receiver: self selector: #polynomialRemainderOfPartialDivisionBy: argument: aTuple) signal].
-	bm _ (aTuple at: m). "m = degree(self)+1, bm = leading coefficient"
-	r _ self copy.
-	[(n _ r depth) >= m] "n = degree(r)+1"
-		whileTrue:
-			[| i c |
-			i _ n-m+1.
-			c _ (r at: n) // bm.
-			c isZero ifTrue: [^ r].
-			1 to: m do: [:j| r at: j+i-1 put: (r at: j+i-1) - ((aTuple at: j)*c)]].
-	^ r! !
-
-!Tuple methodsFor: 'operations' stamp: 'len 11/23/2016 05:43:12'!
-polynomialValue: anObject
-	"Evaluate the receiver (as an univariate polynomial) at the given argument using Horner's method."
-	| answer one |
-	answer _ anObject zero.
-	one _ anObject one.
-	self reverseDo: [:each| answer _ anObject * answer + (one * each)].
-	^ answer! !
-
-!Tuple methodsFor: 'operations' stamp: 'len 5/9/2020 18:00:31'!
-primitivePart
-	"Answer the primitive part of the receiver."
-	^ self isZero ifTrue: [self] ifFalse: [self ˜ self content]! !
-
-!Tuple methodsFor: 'operations' stamp: 'len 5/16/2020 13:32:19'!
-stabilizers
-	| answer last |
-	self size <= 1 ifTrue: [^ #()].
-	answer _ OrderedCollection new: self size - 1.
-	last _ self at: 1.
-	2 to: self size do: [:i| | ai ci |
-		ai _ self at: i.
-		ci _ last stabilizerWith: ai.
-		answer add: ci.
-		last _ ci*ai + last].
-	^ answer! !
-
-!Tuple methodsFor: 'operations' stamp: 'len 11/5/2016 09:27'!
-support
-	^ (1 to: self size) reject: [:each| (self at: each) isZero]! !
-
-!Tuple methodsFor: 'operations' stamp: 'len 11/12/2016 08:41'!
-weight
-	"Answer the Hamming weight of the receiver, i.e. the number of entries that are not zero."
-	^ self count: [:each| each isZero not]! !
-
-!Tuple methodsFor: 'operations' stamp: 'len 5/29/2020 16:32:26'!
-wrap: n
-	"Perform a cyclic right shift."
-	^ parent filling: [:i| self at: i-1-n \\ self size + 1]! !
-
-!Tuple methodsFor: 'printing' stamp: 'len 5/19/2018 19:44:02'!
-printCoefficientsOn: aStream
-	| separator |
-	separator _ (self anySatisfy: [:any| any printString includesAnyOf: ', ']) ifTrue: [', '] ifFalse: [','].
-	self do: [:x| aStream print: x] separatedBy: [aStream nextPutAll: separator]! !
-
-!Tuple methodsFor: 'printing' stamp: 'len 5/29/2020 06:29:52'!
-validate
-	self parent rank = self size ifFalse: [^ false].
-	^ self allSatisfy: [:each| self scalars includes: each]! !
 
 !Tuple methodsFor: 'testing' stamp: 'len 8/11/2019 12:20:17'!
 beginsWith: anArray
@@ -41449,6 +40509,38 @@ components: anArray
 parent: aDirectSumModule
 	parent _ aDirectSumModule! !
 
+!Sum methodsFor: 'printing' stamp: 'len 2/25/2017 09:43:39'!
+printCoefficient: coefficient on: aStream
+	| c |
+	((c _ coefficient) printString first = $- "or: [coefficient isNumber and: [coefficient negative]]")
+		ifTrue: [aStream nextPut: $-. c _ c negated].
+	((c isKindOf: Polynomial) and: [c isMonomial])
+		ifTrue: [aStream print: c. ^ self].
+	(c printString allSatisfy: [:each| each isAlphaNumeric or: ['{}()/' includes: each]])
+		ifTrue: [aStream print: c. ^ self].
+	aStream nextPut: $(; print: c; nextPut: $)! !
+
+!Sum methodsFor: 'printing' stamp: 'len 2/28/2017 08:43:47'!
+printLiteral: anObject on: aStream
+	((anObject isKindOf: Word) and: [anObject isEmpty])
+		ifTrue: [^ self].
+	anObject isInteger
+		ifTrue:
+			[aStream isText
+				ifTrue: [aStream nextPut: $x; nextPutAll: anObject printString sub]
+				ifFalse: [aStream nextPutAll: '{x', anObject printString, '}'].
+			^ self].
+	(aStream isText and: [anObject isString])
+			ifTrue: [aStream nextPutAll: anObject asText]
+			ifFalse: [aStream print: anObject]! !
+
+!Sum methodsFor: 'printing' stamp: 'len 2/25/2017 08:38:18'!
+printOn2: aStream
+	aStream nextPut: $(.
+	(Iterator on: self performing: #associationsDo:)
+		do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: ', '].
+	aStream nextPut: $)! !
+
 !Sum methodsFor: 'accessing' stamp: 'len 1/10/2018 21:04:34'!
 at: anObject
 	^ coefficients at: anObject ifAbsent: [self scalars zero]! !
@@ -41658,38 +40750,6 @@ hadamard: aSum
 !Sum methodsFor: 'operations' stamp: 'len 11/18/2016 09:57:04'!
 negated
 	^ self collectNoZero: [:each| each negated]! !
-
-!Sum methodsFor: 'printing' stamp: 'len 2/25/2017 09:43:39'!
-printCoefficient: coefficient on: aStream
-	| c |
-	((c _ coefficient) printString first = $- "or: [coefficient isNumber and: [coefficient negative]]")
-		ifTrue: [aStream nextPut: $-. c _ c negated].
-	((c isKindOf: Polynomial) and: [c isMonomial])
-		ifTrue: [aStream print: c. ^ self].
-	(c printString allSatisfy: [:each| each isAlphaNumeric or: ['{}()/' includes: each]])
-		ifTrue: [aStream print: c. ^ self].
-	aStream nextPut: $(; print: c; nextPut: $)! !
-
-!Sum methodsFor: 'printing' stamp: 'len 2/28/2017 08:43:47'!
-printLiteral: anObject on: aStream
-	((anObject isKindOf: Word) and: [anObject isEmpty])
-		ifTrue: [^ self].
-	anObject isInteger
-		ifTrue:
-			[aStream isText
-				ifTrue: [aStream nextPut: $x; nextPutAll: anObject printString sub]
-				ifFalse: [aStream nextPutAll: '{x', anObject printString, '}'].
-			^ self].
-	(aStream isText and: [anObject isString])
-			ifTrue: [aStream nextPutAll: anObject asText]
-			ifFalse: [aStream print: anObject]! !
-
-!Sum methodsFor: 'printing' stamp: 'len 2/25/2017 08:38:18'!
-printOn2: aStream
-	aStream nextPut: $(.
-	(Iterator on: self performing: #associationsDo:)
-		do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: ', '].
-	aStream nextPut: $)! !
 
 !Sum methodsFor: 'testing' stamp: 'len 11/18/2016 09:56:53'!
 isZero
@@ -42404,6 +41464,32 @@ leadingMonomialOf: aTuple
 					ifTrue: [monomial _ aMonomial. position _ i]]].
 	^ monomial ifNotNil: [ModuleMonomial new ordering: self; monomial: monomial; position: position]! !
 
+!CochainComplex methodsFor: 'operations' stamp: 'len 11/4/2020 12:06:42'!
+/ aSubcomplex
+	^ self class opposite: opposite / aSubcomplex opposite! !
+
+!CochainComplex methodsFor: 'operations' stamp: 'len 10/26/2020 11:55:45'!
+<< n
+	"Answer the complex with degrees shifted by n."
+	^ self >> n negated! !
+
+!CochainComplex methodsFor: 'operations' stamp: 'len 10/30/2020 10:41:50'!
+=> aCodomain
+	aCodomain isMorphism ifTrue: [^ super => aCodomain].
+	^ self class opposite: aCodomain opposite => opposite! !
+
+!CochainComplex methodsFor: 'operations' stamp: 'len 11/4/2020 12:07:22'!
+~ aCochainComplex
+	^ opposite ~ aCochainComplex opposite! !
+
+!CochainComplex methodsFor: 'operations' stamp: 'len 10/30/2020 10:57:34'!
+ê aCochainComplex
+	^ self class opposite: opposite ê aCochainComplex opposite! !
+
+!CochainComplex methodsFor: 'operations' stamp: 'len 10/30/2020 10:57:45'!
+ë aCochainComplex
+	^ self class opposite: opposite ë aCochainComplex opposite! !
+
 !CochainComplex methodsFor: 'accessing' stamp: 'len 10/30/2020 10:57:51'!
 at: k
 	"Answer the k-th differential or boundary map d(k):C(k)->C(k-1)."
@@ -42444,32 +41530,6 @@ hash
 !CochainComplex methodsFor: 'morphisms' stamp: 'len 10/30/2020 10:58:28'!
 id
 	^ CochainMap opposite: opposite id! !
-
-!CochainComplex methodsFor: 'operations' stamp: 'len 11/4/2020 12:06:42'!
-/ aSubcomplex
-	^ self class opposite: opposite / aSubcomplex opposite! !
-
-!CochainComplex methodsFor: 'operations' stamp: 'len 10/26/2020 11:55:45'!
-<< n
-	"Answer the complex with degrees shifted by n."
-	^ self >> n negated! !
-
-!CochainComplex methodsFor: 'operations' stamp: 'len 10/30/2020 10:41:50'!
-=> aCodomain
-	aCodomain isMorphism ifTrue: [^ super => aCodomain].
-	^ self class opposite: aCodomain opposite => opposite! !
-
-!CochainComplex methodsFor: 'operations' stamp: 'len 11/4/2020 12:07:22'!
-~ aCochainComplex
-	^ opposite ~ aCochainComplex opposite! !
-
-!CochainComplex methodsFor: 'operations' stamp: 'len 10/30/2020 10:57:34'!
-ê aCochainComplex
-	^ self class opposite: opposite ê aCochainComplex opposite! !
-
-!CochainComplex methodsFor: 'operations' stamp: 'len 10/30/2020 10:57:45'!
-ë aCochainComplex
-	^ self class opposite: opposite ë aCochainComplex opposite! !
 
 !CochainComplex methodsFor: 'testing' stamp: 'len 10/30/2020 10:58:35'!
 isTrivial
@@ -46706,11 +45766,11 @@ primitivePermutationInverseInto: aByteArray
 	<primitive: 'primitiveBytesPermutationInvert' module: 'DomainsPlugin'>
 	self error: 'failed'! !
 
-!Float64Array methodsFor: '*domains' stamp: 'len 5/13/2019 21:32:22'!
+!FloatArray methodsFor: '*domains' stamp: 'len 5/13/2019 21:32:12'!
 ∑ anObject
 	^ self dot: anObject! !
 
-!FloatArray methodsFor: '*domains' stamp: 'len 5/13/2019 21:32:12'!
+!Float64Array methodsFor: '*domains' stamp: 'len 5/13/2019 21:32:22'!
 ∑ anObject
 	^ self dot: anObject! !
 
