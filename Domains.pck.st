@@ -1,7 +1,6 @@
-'From Cuis 5.0 [latest update: #4190] on 21 March 2021 at 2:48:21 pm'!
+'From Cuis 5.0 [latest update: #4190] on 24 March 2021 at 9:43:54 am'!
 'Description A computational algebra system in Smalltalk'!
-!provides: 'Domains' 1 611!
-!requires: 'RayTracer' 1 2 nil!
+!provides: 'Domains' 1 613!
 !requires: 'Complex' 1 7 nil!
 SystemOrganization addCategory: #'Domains-Kernel'!
 SystemOrganization addCategory: #'Domains-Kernel-Support'!
@@ -38,7 +37,6 @@ SystemOrganization addCategory: #'Domains-Graphs-Morphic'!
 SystemOrganization addCategory: #'Domains-Tableaux'!
 SystemOrganization addCategory: #'Domains-Simplicial Complexes'!
 SystemOrganization addCategory: #'Domains-Elliptic Curves'!
-SystemOrganization addCategory: #'Domains-Morphic'!
 SystemOrganization addCategory: #'Domains-Etc'!
 SystemOrganization addCategory: #'Domains-Etc-Lie'!
 SystemOrganization addCategory: #'Domains-Etc-Algebras'!
@@ -267,96 +265,6 @@ GraphNodeMorph subclass: #SpringNodeMorph
 SpringNodeMorph class
 	instanceVariableNames: ''!
 
-!classDefinition: #ComplexPlotMorph category: #'Domains-Morphic'!
-RectangleLikeMorph subclass: #ComplexPlotMorph
-	instanceVariableNames: 'function image box palette'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Domains-Morphic'!
-!classDefinition: 'ComplexPlotMorph class' category: #'Domains-Morphic'!
-ComplexPlotMorph class
-	instanceVariableNames: ''!
-
-!classDefinition: #FunctionPlotMorph category: #'Domains-Morphic'!
-RectangleLikeMorph subclass: #FunctionPlotMorph
-	instanceVariableNames: 'backgroundColor fillColor textColor function xMin xMax yMin yMax evaluationPoints values firstMousePosition lastMousePosition'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Domains-Morphic'!
-!classDefinition: 'FunctionPlotMorph class' category: #'Domains-Morphic'!
-FunctionPlotMorph class
-	instanceVariableNames: ''!
-
-!classDefinition: #HistogramMorph category: #'Domains-Morphic'!
-RectangleLikeMorph subclass: #HistogramMorph
-	instanceVariableNames: 'backgroundColor textColor tallies extraBinsForClampedValues lowBinCenter highBinCenter'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Domains-Morphic'!
-!classDefinition: 'HistogramMorph class' category: #'Domains-Morphic'!
-HistogramMorph class
-	instanceVariableNames: ''!
-
-!classDefinition: #ImplicitFunctionPlotMorph category: #'Domains-Morphic'!
-RectangleLikeMorph subclass: #ImplicitFunctionPlotMorph
-	instanceVariableNames: 'function image box'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Domains-Morphic'!
-!classDefinition: 'ImplicitFunctionPlotMorph class' category: #'Domains-Morphic'!
-ImplicitFunctionPlotMorph class
-	instanceVariableNames: ''!
-
-!classDefinition: #ImplicitSurfacePlotMorph category: #'Domains-Morphic'!
-RectangleLikeMorph subclass: #ImplicitSurfacePlotMorph
-	instanceVariableNames: 'polynomial rotation scaling surface scene camera image resolutionRatio lastMousePosition'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Domains-Morphic'!
-!classDefinition: 'ImplicitSurfacePlotMorph class' category: #'Domains-Morphic'!
-ImplicitSurfacePlotMorph class
-	instanceVariableNames: ''!
-
-!classDefinition: #MultiplicationTableMorph category: #'Domains-Morphic'!
-RectangleLikeMorph subclass: #MultiplicationTableMorph
-	instanceVariableNames: 'elements colors operation'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Domains-Morphic'!
-!classDefinition: 'MultiplicationTableMorph class' category: #'Domains-Morphic'!
-MultiplicationTableMorph class
-	instanceVariableNames: ''!
-
-!classDefinition: #ScalarPlotMorph category: #'Domains-Morphic'!
-RectangleLikeMorph subclass: #ScalarPlotMorph
-	instanceVariableNames: 'function palette xMin xMax yMin yMax form'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Domains-Morphic'!
-!classDefinition: 'ScalarPlotMorph class' category: #'Domains-Morphic'!
-ScalarPlotMorph class
-	instanceVariableNames: ''!
-
-!classDefinition: #ScatterPlotMorph category: #'Domains-Morphic'!
-RectangleLikeMorph subclass: #ScatterPlotMorph
-	instanceVariableNames: 'points transformation max min positionBlock colorBlock sizeBlock lastMousePosition'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Domains-Morphic'!
-!classDefinition: 'ScatterPlotMorph class' category: #'Domains-Morphic'!
-ScatterPlotMorph class
-	instanceVariableNames: ''!
-
-!classDefinition: #UnitDiskPlotMorph category: #'Domains-Morphic'!
-RectangleLikeMorph subclass: #UnitDiskPlotMorph
-	instanceVariableNames: 'function image palette inverseMap'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Domains-Morphic'!
-!classDefinition: 'UnitDiskPlotMorph class' category: #'Domains-Morphic'!
-UnitDiskPlotMorph class
-	instanceVariableNames: ''!
-
 !classDefinition: #GraphEdgeMorph category: #'Domains-Graphs-Morphic'!
 Morph subclass: #GraphEdgeMorph
 	instanceVariableNames: 'color source target width drawArrowHead label labelMorph multiplicity'
@@ -375,16 +283,6 @@ GraphEdgeMorph subclass: #SpringEdgeMorph
 	category: 'Domains-Graphs-Morphic'!
 !classDefinition: 'SpringEdgeMorph class' category: #'Domains-Graphs-Morphic'!
 SpringEdgeMorph class
-	instanceVariableNames: ''!
-
-!classDefinition: #ImplicitSurface category: #'Domains-Morphic'!
-RayTraceObject subclass: #ImplicitSurface
-	instanceVariableNames: 'polynomial gradient radiusSquared interiorTexture'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Domains-Morphic'!
-!classDefinition: 'ImplicitSurface class' category: #'Domains-Morphic'!
-ImplicitSurface class
 	instanceVariableNames: ''!
 
 !classDefinition: #Domain category: #'Domains-Kernel'!
@@ -1147,56 +1045,6 @@ Ring subclass: #PowerSeriesRing
 PowerSeriesRing class
 	instanceVariableNames: ''!
 
-!classDefinition: #Order category: #'Domains-Fields-Global'!
-Ring subclass: #Order
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Domains-Fields-Global'!
-!classDefinition: 'Order class' category: #'Domains-Fields-Global'!
-Order class
-	instanceVariableNames: ''!
-
-!classDefinition: #NumberRing category: #'Domains-Fields-Global'!
-Order subclass: #NumberRing
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Domains-Fields-Global'!
-!classDefinition: 'NumberRing class' category: #'Domains-Fields-Global'!
-NumberRing class
-	instanceVariableNames: ''!
-
-!classDefinition: #CyclotomicRing category: #'Domains-Fields-Global'!
-NumberRing subclass: #CyclotomicRing
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Domains-Fields-Global'!
-!classDefinition: 'CyclotomicRing class' category: #'Domains-Fields-Global'!
-CyclotomicRing class
-	instanceVariableNames: ''!
-
-!classDefinition: #QuadraticRing category: #'Domains-Fields-Global'!
-NumberRing subclass: #QuadraticRing
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Domains-Fields-Global'!
-!classDefinition: 'QuadraticRing class' category: #'Domains-Fields-Global'!
-QuadraticRing class
-	instanceVariableNames: ''!
-
-!classDefinition: #GaussianIntegerRing category: #'Domains-Fields-Global'!
-QuadraticRing subclass: #GaussianIntegerRing
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Domains-Fields-Global'!
-!classDefinition: 'GaussianIntegerRing class' category: #'Domains-Fields-Global'!
-GaussianIntegerRing class
-	instanceVariableNames: ''!
-
 !classDefinition: #PolynomialRing category: #'Domains-Polynomials'!
 Ring subclass: #PolynomialRing
 	instanceVariableNames: 'monomials scalars'
@@ -1385,6 +1233,46 @@ FiniteAlgebra subclass: #AssociativeFiniteAlgebra
 	category: 'Domains-Algebras'!
 !classDefinition: 'AssociativeFiniteAlgebra class' category: #'Domains-Algebras'!
 AssociativeFiniteAlgebra class
+	instanceVariableNames: ''!
+
+!classDefinition: #Order category: #'Domains-Fields-Global'!
+AssociativeFiniteAlgebra subclass: #Order
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Domains-Fields-Global'!
+!classDefinition: 'Order class' category: #'Domains-Fields-Global'!
+Order class
+	instanceVariableNames: ''!
+
+!classDefinition: #CyclotomicRing category: #'Domains-Fields-Global'!
+Order subclass: #CyclotomicRing
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Domains-Fields-Global'!
+!classDefinition: 'CyclotomicRing class' category: #'Domains-Fields-Global'!
+CyclotomicRing class
+	instanceVariableNames: ''!
+
+!classDefinition: #QuadraticRing category: #'Domains-Fields-Global'!
+Order subclass: #QuadraticRing
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Domains-Fields-Global'!
+!classDefinition: 'QuadraticRing class' category: #'Domains-Fields-Global'!
+QuadraticRing class
+	instanceVariableNames: ''!
+
+!classDefinition: #GaussianIntegerRing category: #'Domains-Fields-Global'!
+QuadraticRing subclass: #GaussianIntegerRing
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Domains-Fields-Global'!
+!classDefinition: 'GaussianIntegerRing class' category: #'Domains-Fields-Global'!
+GaussianIntegerRing class
 	instanceVariableNames: ''!
 
 !classDefinition: #CliffordAlgebra category: #'Domains-Algebras'!
@@ -3007,6 +2895,26 @@ Object subclass: #FiniteAlgebraElement
 FiniteAlgebraElement class
 	instanceVariableNames: ''!
 
+!classDefinition: #AlgebraicInteger category: #'Domains-Fields-Global'!
+FiniteAlgebraElement subclass: #AlgebraicInteger
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Domains-Fields-Global'!
+!classDefinition: 'AlgebraicInteger class' category: #'Domains-Fields-Global'!
+AlgebraicInteger class
+	instanceVariableNames: ''!
+
+!classDefinition: #GaussianInteger category: #'Domains-Fields-Global'!
+AlgebraicInteger subclass: #GaussianInteger
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Domains-Fields-Global'!
+!classDefinition: 'GaussianInteger class' category: #'Domains-Fields-Global'!
+GaussianInteger class
+	instanceVariableNames: ''!
+
 !classDefinition: #GroupSum category: #'Domains-Algebras'!
 FiniteAlgebraElement subclass: #GroupSum
 	instanceVariableNames: ''
@@ -3327,46 +3235,6 @@ Object subclass: #WeierstrassEquation
 WeierstrassEquation class
 	instanceVariableNames: ''!
 
-!classDefinition: #AutomaticPalette category: #'Domains-Morphic'!
-Object subclass: #AutomaticPalette
-	instanceVariableNames: 'map'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Domains-Morphic'!
-!classDefinition: 'AutomaticPalette class' category: #'Domains-Morphic'!
-AutomaticPalette class
-	instanceVariableNames: ''!
-
-!classDefinition: #ComplexPalette category: #'Domains-Morphic'!
-Object subclass: #ComplexPalette
-	instanceVariableNames: 'luminanceBlock hueBlock zeroColor infinityColor'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Domains-Morphic'!
-!classDefinition: 'ComplexPalette class' category: #'Domains-Morphic'!
-ComplexPalette class
-	instanceVariableNames: ''!
-
-!classDefinition: #DiscretePalette category: #'Domains-Morphic'!
-Object subclass: #DiscretePalette
-	instanceVariableNames: 'colors map'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Domains-Morphic'!
-!classDefinition: 'DiscretePalette class' category: #'Domains-Morphic'!
-DiscretePalette class
-	instanceVariableNames: ''!
-
-!classDefinition: #RealPalette category: #'Domains-Morphic'!
-Object subclass: #RealPalette
-	instanceVariableNames: 'colors min max'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Domains-Morphic'!
-!classDefinition: 'RealPalette class' category: #'Domains-Morphic'!
-RealPalette class
-	instanceVariableNames: ''!
-
 !classDefinition: #ExtendedSmithReduction category: #'Domains-Etc'!
 Object subclass: #ExtendedSmithReduction
 	instanceVariableNames: 'matrix elementaryDivisors L S R'
@@ -3623,12 +3491,6 @@ Examples:
 	G _ RootedDigraph exampleSmallLabelledTree.
 	SpringGraphMorph new graph: G
 !
-
-!HistogramMorph commentStamp: '<historical>' prior: 0!
-Histograms to be used for statistical purposes. Useful, for example, for many image processing algorithms. See http://en.wikipedia.org/wiki/Histogram .
-Counts are currently held in a WordArray, and limited to about 4 billion counts (32 bit unsigned integers)
-
-A good number of bins can be n^(1/2) or n^(1/3), where n is the total number of samples. See Wikipedia article for rationale.!
 
 !Domain commentStamp: 'len 3/9/2021 13:05:26' prior: 0!
 Objects of a given Category, connected by the corresponding Morphisms. They don't necessarily have an underlying set of elements. Concrete examples are algebraic structures such as Groups, Rings and Modules.
@@ -3940,19 +3802,6 @@ Ring R[[x1,...,xn]] of formal power series over a commutative ring R. See PowerS
 
 This is the completion of the polynomial ring R[x1,...,xn] at the maximal ideal <x1,...,xn>.!
 
-!Order commentStamp: '<historical>' prior: 0!
-Orders in a number field, i.e. subrings of a number field that as Z-modules are finitely generated and of maximal rank (with rank equal to the degree of the number field). See NumberField.!
-
-!NumberRing commentStamp: '<historical>' prior: 0!
-Rings of integers of number fields (i.e. maximal orders). They are the integral closure of Z (the rational integers) in a number field. See NumberField.
-!
-
-!CyclotomicRing commentStamp: '<historical>' prior: 0!
-Rings of integers of cyclotomic number fields. See CyclotomicField.!
-
-!QuadraticRing commentStamp: '<historical>' prior: 0!
-Rings of integers of quadratic number fields. See QuadraticField.!
-
 !PolynomialRing commentStamp: '<historical>' prior: 0!
 Polynomial ring R[x1,...,xn] in one or many indeterminates over a commutative ring R. These are the finitely-generated free commutative R-algebras.
 
@@ -4043,6 +3892,16 @@ Finitely generated algebras over a commutative ring, i.e. algebras of finite typ
 
 !FiniteAlgebra commentStamp: '<historical>' prior: 0!
 Finite algebras over a commutative ring R, i.e. R-algebras that are finitely generated as R-modules. They don't need to be associative, commutative or unital. They are defined over an R-module, with multiplication given by a bilinear map. When the module is free of rank n, the multiplication can be given by n^3 structure constants (elements of R), or equivalently by n matrixes of nxn. For most computations R is required to be a field.!
+
+!Order commentStamp: '<historical>' prior: 0!
+Rings of integers of number fields (i.e. maximal orders). They are the integral closure of Z (the rational integers) in a number field. See NumberField.
+!
+
+!CyclotomicRing commentStamp: '<historical>' prior: 0!
+Rings of integers of cyclotomic number fields. See CyclotomicField.!
+
+!QuadraticRing commentStamp: '<historical>' prior: 0!
+Rings of integers of quadratic number fields. See QuadraticField.!
 
 !EndomorphismAlgebra commentStamp: '<historical>' prior: 0!
 Algebra of R-module endomorphisms End(M). The underlying module is the homomorphisms module Hom(M,M) for a R-module M, and multiplication is composition of module maps.!
@@ -5043,10 +4902,6 @@ printOn: aStream
 		each key isIdentity
 			ifFalse: [aStream print: each key]]! !
 
-!HistogramMorph methodsFor: 'copying' stamp: 'jmv 4/10/2015 16:16'!
-postCopy
-	tallies _ tallies copy! !
-
 !Domain methodsFor: 'accessing' stamp: 'len 7/29/2020 08:34:23'!
 category
 	^ self propertyAt: #category ifAbsentPut: [self id category]! !
@@ -5359,21 +5214,6 @@ printOn: aStream
 	self printIndeterminatesOn: aStream.
 	aStream nextPutAll: ']]'! !
 
-!NumberRing methodsFor: 'printing' stamp: 'len 5/23/2020 07:39:47'!
-printOn: aStream
-	aStream nextPutAll: 'O' italic; nextPut: $(; print: self ambient; nextPut: $)! !
-
-!CyclotomicRing methodsFor: 'printing' stamp: 'len 5/23/2020 09:13:12'!
-printOn: aStream
-	aStream print: ƒ; nextPut: $[; print: self ambient x; nextPut: $]! !
-
-!QuadraticRing methodsFor: 'printing' stamp: 'len 5/23/2020 09:13:12'!
-printOn: aStream
-	| K a |
-	K _ self ambient.
-	a _ K d \\ 4 = 1 ifTrue: [K x + K one / (K one * 2)] ifFalse: [K x].
-	aStream print: ƒ; nextPut: $[; print: a; nextPut: $]! !
-
 !PolynomialRing methodsFor: 'printing' stamp: 'len 2/12/2017 06:49:02'!
 printOn: aStream
 	aStream print: self scalars; nextPut: $[.
@@ -5442,7 +5282,7 @@ printOn: aStream
 printOn: aStream
 	components do: [:each| aStream print: each] separatedBy: [aStream nextPut: $‘]! !
 
-!Algebra methodsFor: 'as yet unclassified' stamp: 'len 3/18/2021 15:33:38'!
+!Algebra methodsFor: 'accessing' stamp: 'len 3/18/2021 15:33:38'!
 category
 	^ self scalars Algebras! !
 
@@ -5457,6 +5297,21 @@ printOn: aStream
 	aStream nextPut: $<.
 	self generators do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: '; '].
 	aStream nextPut: $>! !
+
+!Order methodsFor: 'printing' stamp: 'len 3/22/2021 10:26:02'!
+printOn: aStream
+	aStream nextPutAll: 'O' italic; nextPut: $(; print: self ambientField; nextPut: $)! !
+
+!CyclotomicRing methodsFor: 'printing' stamp: 'len 3/22/2021 10:27:01'!
+printOn: aStream
+	aStream print: ƒ; nextPut: $[; print: self ambientField x; nextPut: $]! !
+
+!QuadraticRing methodsFor: 'printing' stamp: 'len 3/22/2021 10:27:21'!
+printOn: aStream
+	| K a |
+	K _ self ambientField.
+	a _ K d \\ 4 = 1 ifTrue: [K x + K one / (K one * 2)] ifFalse: [K x].
+	aStream print: ƒ; nextPut: $[; print: a; nextPut: $]! !
 
 !CliffordAlgebra methodsFor: 'printing' stamp: 'len 7/28/2020 11:00:38'!
 printOn: aStream
@@ -6104,6 +5959,10 @@ printOn: aStream
 !FiniteAlgebraElement methodsFor: 'printing' stamp: 'len 7/14/2020 09:54:14'!
 printOn: aStream
 	aStream print: moduleElement! !
+
+!AlgebraicInteger methodsFor: 'printing' stamp: 'len 3/23/2021 16:10:01'!
+printOn: aStream
+	aStream print: parent ambientField !! self! !
 
 !Multivector methodsFor: 'printing' stamp: 'len 7/5/2020 08:52:03'!
 printOn: aStream
@@ -10560,1048 +10419,6 @@ nearbyNodesDo: aBlock
 		count > 40 ifTrue: [^ self].
 		aBlock value: (owner nodeAt: each)]! !
 
-!ComplexPlotMorph methodsFor: 'as yet unclassified' stamp: 'len 12/6/2016 14:39:49'!
-box: aRectangle
-	box _ aRectangle.
-	image _ nil.
-	self redrawNeeded.
-	self matchBoxRatio.! !
-
-!ComplexPlotMorph methodsFor: 'as yet unclassified' stamp: 'len 12/6/2016 16:53:54'!
-buildImage
-	image _ Form extent: self morphExtent depth: Display depth.
-	1 to: image height do: [:j|
-		| y |
-		y _ j asFloat / image height * box height - box bottom.
-		1 to: image width do: [:i|
-			| x z c |
-			x _ i asFloat / image width * box width - box right.
-			z _ [function value: x + y i] on: ZeroDivide do: [Infinity projective].
-			image colorAt: i@(image height - j + 1) put: (palette at: z)]]! !
-
-!ComplexPlotMorph methodsFor: 'as yet unclassified' stamp: 'len 12/6/2016 09:56:06'!
-drawOn: aCanvas
-	image isNil ifTrue: [self buildImage].
-	aCanvas image: image at: 0@0! !
-
-!ComplexPlotMorph methodsFor: 'as yet unclassified' stamp: 'len 12/6/2016 09:56:01'!
-function: aFunction
-	function _ aFunction.
-	image _ nil.
-	self redrawNeeded! !
-
-!ComplexPlotMorph methodsFor: 'as yet unclassified' stamp: 'len 1/23/2017 09:46:10'!
-initialize
-	super initialize.
-	extent _ 300@300.
-	color _ Color lightGray.
-	box _ -2@0 extent: 4@2.
-	palette _ ComplexPalette default! !
-
-!ComplexPlotMorph methodsFor: 'as yet unclassified' stamp: 'len 12/6/2016 14:39:59'!
-matchBoxRatio
-	| ratio |
-	((ratio _ box width / box height asFloat) - (extent x / extent y)) abs < 1
-		ifFalse:
-			[(ratio >= 1 and: [extent x >= extent y])
-				ifTrue: [self morphExtent: extent x @ (extent x / ratio)]
-				ifFalse: [self morphExtent: extent y * ratio @ extent y]]! !
-
-!ComplexPlotMorph methodsFor: 'as yet unclassified' stamp: 'len 12/6/2016 14:40:16'!
-morphExtent: aPoint
-	image _ nil.
-	super morphExtent: aPoint! !
-
-!ComplexPlotMorph methodsFor: 'as yet unclassified' stamp: 'len 12/6/2016 16:54:28'!
-palette: aComplexPalette
-	palette _ aComplexPalette! !
-
-!ComplexPlotMorph class methodsFor: 'examples' stamp: 'len 8/9/2020 07:46:17'!
-exampleBlaschkeProduct
-	"This is a phase plot of the Blaschke product defined by 40 randomly choosen numbers in the unit disk."
-	| random A f |
-	random _ Random new.
-	A _ (1 to: 40) collect: [:each| Complex abs: random next arg: Float twoPi * random next].
-	f _ † carrier to: † carrier evaluating: [:z| A product: [:a| a abs / a * (a - z) / (1 - (a conjugate * z))]].
-	^ ComplexPlotMorph new box: (-1 @ -1 corner: 1 @ 1); palette: ComplexPalette phase; function: f! !
-
-!ComplexPlotMorph class methodsFor: 'examples' stamp: 'len 5/23/2020 09:31:47'!
-exampleReciprocalSinus
-	| f |
-	f _ † carrier to: † carrier evaluating: [:z| (1/z) sin].
-	^ ComplexPlotMorph new box: (-2 @ -1 corner: 2 @ 1); palette: ComplexPalette default; function: f! !
-
-!ComplexPlotMorph class methodsFor: 'examples' stamp: 'len 5/23/2020 09:31:47'!
-exampleRiemannZetaFunction
-	| f |
-	f _ † carrier to: † carrier evaluating: [:z| (1 to: 100) sum: [:n| n^z negated]].
-	^ ComplexPlotMorph new morphExtent: 300@300; box: (-5@-5 corner: 5@5); palette: (ComplexPalette grid: 1@5); function: f! !
-
-!ComplexPlotMorph class methodsFor: 'examples' stamp: 'len 5/23/2020 09:31:47'!
-exampleSinus
-	| f |
-	f _ † carrier to: † carrier evaluating: [:z| z sin].
-	^ ComplexPlotMorph new box: (-2*Float pi @ -1.5 corner: 2*Float pi @ 1.5); palette: (ComplexPalette grid: 1@10); function: f! !
-
-!FunctionPlotMorph methodsFor: 'accessing' stamp: 'len 1/2/2016 06:03'!
-evaluationPoints
-	evaluationPoints isNil ifTrue: [self computeEvaluationPoints].
-	^ evaluationPoints! !
-
-!FunctionPlotMorph methodsFor: 'accessing' stamp: 'len 4/27/2016 21:36'!
-evaluationPoints: aCollection
-	xMin _ aCollection first.
-	xMax _ aCollection last.
-	evaluationPoints _ aCollection.
-	values _ nil! !
-
-!FunctionPlotMorph methodsFor: 'accessing' stamp: 'len 1/6/2016 02:53'!
-function: aFunction
-	function _ aFunction.
-	yMin _ nil. yMax _ nil! !
-
-!FunctionPlotMorph methodsFor: 'accessing' stamp: 'len 4/21/2016 05:29'!
-yMin: min yMax: max
-	yMin _ min.
-	yMax _ max! !
-
-!FunctionPlotMorph methodsFor: 'drawing' stamp: 'len 4/28/2016 05:42'!
-drawOn: aCanvas
-	| rect p lastP font |
-	values isNil ifTrue: [self computeValues].
-	rect _ self morphLocalBounds.
-	aCanvas fillRectangle: rect color: backgroundColor.
-	aCanvas line: (self localToMorphic:0@yMin)-(0@1) to: (self localToMorphic: 0 @ yMax)+(0@1) width: 1 color: textColor.
-	aCanvas line: (self localToMorphic: xMin@0)+(1@0) to: (self localToMorphic: xMax@0)-(1@0) width: 1 color: textColor.
-
-	lastP _ nil.
-	self evaluationPoints with: values do: [:x :value|
-		| y |
-		y _ value ifNil: [0].
-		(y between: yMin and: yMax)
-			ifTrue:
-				[p _ (self xToMorphic: x)@(self yToMorphic: y).
-				p _ p rounded.
-				lastP notNil
-					ifTrue:
-						[| y0 |
-						aCanvas line: lastP to: p width: 1 color: color.
-						y0 _ (self yToMorphic: 0) rounded.
-						y > 0
-							ifTrue: [aCanvas fillRectangle: (lastP corner: (p x @ (y0 min: rect bottom))) color: fillColor]
-							ifFalse: [aCanvas fillRectangle: (lastP x @ (y0 max: rect top) corner: p) color: fillColor]].
-					lastP _ p]
-			ifFalse:
-				[lastP _ nil]].
-
-	font _ AbstractFont default. " Preferences standardButtonFont."
-	aCanvas drawString: (yMax roundTo: 0.01) printString at: rect left + 2 @ (rect top + 2) font: font color: textColor.
-	aCanvas drawString: (yMin roundTo: 0.01)  printString at: rect left + 2 @ (rect bottom - (font height * 2) - 2) font: font color: textColor.
-	aCanvas drawString: (xMax roundTo: 0.01) printString at: rect right - (font widthOfString: (xMax  roundTo: 0.01) printString) - 2 @ (rect bottom - font height - 2) font: font color: textColor.
-	aCanvas drawString: (xMin roundTo: 0.01) printString at: rect left + 2 + 20 @ (rect bottom - font height - 2) font: font color: textColor! !
-
-!FunctionPlotMorph methodsFor: 'drawing' stamp: 'len 4/28/2016 05:40'!
-localToMorphic: aPoint
-	^(self xToMorphic: aPoint x) @ (self yToMorphic: aPoint y)! !
-
-!FunctionPlotMorph methodsFor: 'drawing' stamp: 'len 4/27/2016 22:04'!
-morphicToLocal: aPoint
-	| bounds |
-	bounds _ self morphLocalBounds.
-	^ aPoint x - bounds left / bounds width * (xMax - xMin) + xMin @ (aPoint y - bounds top / bounds height * (yMax - yMin) + yMin)! !
-
-!FunctionPlotMorph methodsFor: 'drawing' stamp: 'len 12/4/2015 05:00'!
-xToMorphic: x
-	^x - xMin / (xMax - xMin ) * extent x! !
-
-!FunctionPlotMorph methodsFor: 'drawing' stamp: 'len 12/4/2015 05:00'!
-yToMorphic: y
-	^yMax - y / (yMax - yMin ) * extent y! !
-
-!FunctionPlotMorph methodsFor: 'event handling' stamp: 'len 4/27/2016 21:11'!
-handlesMouseDown: aMouseButtonEvent
-	"Do I want to receive mouseDown events (mouseDown:, mouseMove:, mouseUp:)?"
-	^true! !
-
-!FunctionPlotMorph methodsFor: 'event handling' stamp: 'len 4/27/2016 21:57'!
-mouseButton1Down: aMouseButtonEvent localPosition: localEventPosition
-	super mouseButton1Down: aMouseButtonEvent localPosition: localEventPosition.
-	firstMousePosition _ lastMousePosition _ localEventPosition! !
-
-!FunctionPlotMorph methodsFor: 'event handling' stamp: 'len 6/24/2016 21:36'!
-mouseButton1Up: aMouseButtonEvent localPosition: localEventPosition
-	super mouseButton1Up: aMouseButtonEvent localPosition: localEventPosition.
-	self flag: #fix.
-"	mouseMoveEventHandler _ nil"! !
-
-!FunctionPlotMorph methodsFor: 'event handling' stamp: 'len 4/27/2016 22:16'!
-mouseMove: aMouseMoveEvent localPosition: localEventPosition
-	firstMousePosition isNil
-		ifTrue: [firstMousePosition _ localEventPosition]
-		ifFalse:
-			[aMouseMoveEvent shiftPressed
-				ifTrue:
-					[| bounds anchor delta |
-					bounds _ self morphLocalBounds.
-					delta _ localEventPosition - lastMousePosition / (bounds width max: bounds height).
-					self scaleBy: 2.0 ^ delta x negated @ (2.0 ^ delta y) anchor: firstMousePosition]
-				ifFalse:
-					[| bounds delta |
-					bounds _ self morphLocalBounds.
-					delta _ localEventPosition - lastMousePosition / (bounds width max: bounds height).
-					self scrollBy: delta]].
-	lastMousePosition _ localEventPosition! !
-
-!FunctionPlotMorph methodsFor: 'event handling' stamp: 'len 4/27/2016 22:21'!
-scaleBy: aPoint anchor: anchorPoint
-	| p |
-	p _ self morphicToLocal: anchorPoint.
-	self evaluationPoints: (self evaluationPoints collect: [:each| each - p x * aPoint x + p x]).
-	self redrawNeeded! !
-
-!FunctionPlotMorph methodsFor: 'event handling' stamp: 'len 4/27/2016 21:33'!
-scrollBy: aPoint
-	| dx dy |
-	dx _ xMin - xMax * aPoint x.
-	self evaluationPoints: (self evaluationPoints collect: [:each| each + dx]).
-	dy _ yMax - yMin * aPoint y.
-	yMin _ yMin + dy.
-	yMax _ yMax + dy.
-	self redrawNeeded! !
-
-!FunctionPlotMorph methodsFor: 'initialization' stamp: 'len 4/24/2016 02:15'!
-initialize
-	super initialize.
-	extent _ 280@175.
-	color _ Color lightGray.
-	backgroundColor _ Color transparent.
-	fillColor _ Color transparent.
-	textColor _ Color gray alpha: 0.5! !
-
-!FunctionPlotMorph methodsFor: 'private' stamp: 'len 1/2/2016 06:07'!
-computeEvaluationPoints
-	evaluationPoints _ xMin to: xMax by: 1/100.0! !
-
-!FunctionPlotMorph methodsFor: 'private' stamp: 'len 4/27/2016 22:23'!
-computeValues
-	values _ self evaluationPoints collect: [:x| [function value: x] on: Error do: [0]].
-	yMin isNil
-		ifTrue:
-			[yMin _ values min.
-			yMax _ values max]! !
-
-!FunctionPlotMorph class methodsFor: 'examples' stamp: 'len 5/23/2020 09:31:27'!
-example1
-	"Plotting the sine function."
-	| sin |
-	sin _ … carrier to: … carrier evaluating: [:x| x sin].
-	^ FunctionPlotMorph new evaluationPoints: (0.0 to: Float pi * 2 count: 100); function: sin; color: (Color red alpha: 0.5)! !
-
-!FunctionPlotMorph class methodsFor: 'examples' stamp: 'len 5/1/2020 18:42:40'!
-example2
-	"Plotting Euler's totient function."
-	^ FunctionPlotMorph new
-		color: (Color lightBlue alpha: 0.5);
-		function: Sequence phi;
-		evaluationPoints: (1 to: 150)! !
-
-!FunctionPlotMorph class methodsFor: 'examples' stamp: 'len 5/1/2020 18:43:16'!
-example3
-	"Plotting the Calkin-Wilf sequence.
-	It enumerates the positive rational numbers by a breadth-first traversal of the Calkin-Wilf tree."
-	^ FunctionPlotMorph new
-		evaluationPoints: (1 to: 150);
-		function: Sequence calkinWilf;
-		color: (Color yellow alpha: 0.5)! !
-
-!FunctionPlotMorph class methodsFor: 'examples' stamp: 'len 5/1/2020 18:43:28'!
-example4
-	"Plotting the primes."
-	^ FunctionPlotMorph new
-		evaluationPoints: (1 to: 5);
-		function: Sequence primes;
-		yMin: 0 yMax: 12;
-		color: (Color orange alpha: 0.5)! !
-
-!HistogramMorph methodsFor: 'accessing' stamp: 'jmv 4/10/2015 16:11'!
-countAt: value
-	^tallies at: (self indexFor: value)! !
-
-!HistogramMorph methodsFor: 'as yet unclassified' stamp: 'len 4/24/2016 05:38'!
-handlesMouseDown: evt
-	^ true! !
-
-!HistogramMorph methodsFor: 'as yet unclassified' stamp: 'len 4/24/2016 05:35'!
-handlesMouseOver: evt
-	^ true! !
-
-!HistogramMorph methodsFor: 'as yet unclassified' stamp: 'len 4/25/2016 07:46'!
-mouseMove: aMouseMoveEvent localPosition: localEventPosition
-	| i |
-	i _ (localEventPosition x * tallies size / self morphLocalBounds width) truncated + 1.
-	i _ (i min: tallies size) max: 1.
-	self showBalloon: i printString, ' -> ', (tallies at: i) printString! !
-
-!HistogramMorph methodsFor: 'building' stamp: 'jmv 4/10/2015 16:12'!
-accumulate
-
-	2 to: tallies size do: [ :i |
-		tallies at: i put: (tallies at: i) + (tallies at: i-1) ]! !
-
-!HistogramMorph methodsFor: 'building' stamp: 'jmv 4/10/2015 16:13'!
-accumulated
-
-	^self copy accumulate! !
-
-!HistogramMorph methodsFor: 'building' stamp: 'jmv 4/6/2015 11:37'!
-addValue: aNumber
-
-	| i |
-	i _ self indexFor: aNumber.
-	tallies at: i put: (tallies at: i) + 1! !
-
-!HistogramMorph methodsFor: 'building' stamp: 'len 12/27/2015 22:45'!
-inverted
-	"For accumulated histograms, compute de inverse cummulative function.
-	This is not an exact inverse, and is so far an experiment.
-	Some tests to ensure good properties, and maybe more work, are in order. "
-	| answer answerTallies n i k |
-	n _ self regularTalliesCount.
-	answerTallies _ WordArray new: n.
-	answer _ HistogramMorph basicNew
-		tallies: answerTallies
-		lowBinCenter: 0
-		highBinCenter: n
-		extraBinsForClampedValues: false.
-	i _ 1.
-	k _ 1.0 * n / tallies last.
-	1 to: n do: [ :j |
-		[ (tallies at: i) * k < j ] whileTrue: [ i _ i + 1 ].
-		answerTallies at: j put: i
-		].
-	^answer! !
-
-!HistogramMorph methodsFor: 'drawing' stamp: 'len 4/27/2016 08:18'!
-drawOn: aCanvas
-	| rect x dx y min max font |
-	rect _ self morphLocalBounds.
-	aCanvas fillRectangle: rect color: backgroundColor.
-	min _ 0. max _ tallies max.
-	max = min ifTrue: [^ self].
-	dx _ rect width asFloat / tallies size.
-	x _ rect left.
-	tallies do: [:v|
-		| bar |
-		y _ (max-v) / (max-min) * rect height asFloat.
-		y _ y min: rect height.
-		y _ y max: 0.
-		bar _ x truncated @ y corner: ((x _ x + dx) ceiling @ rect bottom).
-		aCanvas fillRectangle: bar color: color].
-	
-	font _ AbstractFont default. " Preferences standardButtonFont."
-	aCanvas drawString: max printString at: rect left + 2 @ (rect top + 2) font: font color: textColor.
-	aCanvas drawString: min printString at: rect left + 2 @ (rect bottom - font height - 2) font: font color: textColor
-! !
-
-!HistogramMorph methodsFor: 'initialization' stamp: 'len 4/27/2016 07:28'!
-initialize
-	super initialize.
-	extent _ 280@175.
-	color _ Color darkGray.
-	backgroundColor _ Color transparent.
-	textColor _ Color gray alpha: 0.5! !
-
-!HistogramMorph methodsFor: 'private' stamp: 'len 4/25/2016 07:39'!
-indexFor: aValue
-	| slotIndex |
-	slotIndex _ ((aValue - lowBinCenter / (highBinCenter -lowBinCenter )) * (tallies size-1)) rounded + 1.
-	^slotIndex min: tallies size max: 1.! !
-
-!HistogramMorph methodsFor: 'private' stamp: 'jmv 4/6/2015 11:18'!
-regularTalliesCount
-
-	^ extraBinsForClampedValues
-		ifTrue: [ tallies size - 2 ]
-		ifFalse: [ tallies size ]! !
-
-!HistogramMorph methodsFor: 'private' stamp: 'len 4/25/2016 07:29'!
-tallies: anArray lowBinCenter: aNumber highBinCenter: anotherNumber extraBinsForClampedValues: aBoolean
-	tallies _ anArray.
-	lowBinCenter _ aNumber.
-	highBinCenter _ anotherNumber.
-	extraBinsForClampedValues _ aBoolean.
-	tallies size < 300 ifTrue: [extent _ (extent x / tallies size) truncated + 1 * tallies size @ extent y]! !
-
-!HistogramMorph class methodsFor: 'examples' stamp: 'len 4/23/2016 04:02'!
-example
-	"
-	HistogramMorph example
-	"
-	| r h |
-	r _ Random new.
-	h _ HistogramMorph new: 500 min: 0 max: 1.
-	100000 timesRepeat: [h addValue: r next].
-	h openInHand! !
-
-!HistogramMorph class methodsFor: 'examples' stamp: 'len 5/23/2020 09:34:55'!
-example2
-	"
-	HistogramMorph example2
-	"
-	| h S n |
-	S _ ƒ ^ 4.
-	n _ 40.
-	h _ HistogramMorph new: 500 min: 0 max: n.
-	100000 timesRepeat: [h addValue: (S atRandom: n) bitSize].
-	h openInHand! !
-
-!HistogramMorph class methodsFor: 'examples' stamp: 'len 3/6/2017 16:33:28'!
-example3
-	"primes conspiracy"
-	| h p r |
-	h _ HistogramMorph new: 22 min: 1 max: 100.
-	p _ 2. r _ p \\ 10.
-	100 timesRepeat:
-		[| p2 r2 |
-		p2 _ p nextPrime. r2 _ p2 \\ 10.
-		h addValue: (r * 10 + r2).
-		r _ r2. p _ p2].
-	^ h! !
-
-!HistogramMorph class methodsFor: 'instance creation' stamp: 'len 4/23/2016 04:02'!
-new: binCount lowBinCenter: lowBinCenter highBinCenter: highBinCenter
-	"lowBinCenter is the center value of the lowest bin.
-	highBinCenter is the center value of the highest bin.
-	
-	Values lower than the lower bound of the first bin go in the fist bin,
-	and values higher or equal than the upper bound of the last bin go in the last bin.
-		(i.e., out of range values are simply clamped)
-		
-	For example, the following will give a histogram where first and last bins have half the counts as all the rest:
-		| h r |
-		h _ Histogram binCount: 10 lowBinCenter: 0 highBinCenter: 100.
-		r _ Random new.
-		10000 timesRepeat: [ h addValue: r next * 100  ].
-		h plot
-		
-	Maybe what we wanted was:
-		| h r |
-		h _ Histogram binCount: 10 lowBinCenter: 5 highBinCenter: 95.
-		r _ Random new.
-		10000 timesRepeat: [ h addValue: r next  * 100 ].
-		h plot
-	
-	Or more simply
-		| h r |
-		h _ Histogram binCount: 10 minValue: 0 maxValue: 100.
-		r _ Random new.
-		10000 timesRepeat: [ h addValue: r next  * 100 ].
-		h plot
-"
-
-	^self new
-		tallies: (WordArray new: binCount)
-		lowBinCenter: lowBinCenter
-		highBinCenter: highBinCenter
-		extraBinsForClampedValues: false! !
-
-!HistogramMorph class methodsFor: 'instance creation' stamp: 'len 4/23/2016 04:03'!
-new: binCount min: min max: max
-	"min is the lower bound of the lowest bin.
-	max is the upper bound of the highest bin.
-	
-	Values lower than min go in the fist bin, and values higher or equal than max go in the last bin.
-		(i.e., out of range values are simply clamped)
-
-		| h r |
-		h _ Histogram binCount: 10 minValue: 0.0 maxValue: 1.0.
-		r _ Random new.
-		10000 timesRepeat: [ h addValue: r next  ].
-		h plot
-
-	"
-
-	^self new: binCount min: min max: max extraBinsForClampedValues: false! !
-
-!HistogramMorph class methodsFor: 'instance creation' stamp: 'len 4/23/2016 04:01'!
-new: regularBinCount min: min max: max extraBinsForClampedValues: aBoolean
-	"min is the lower bound of the lowest bin.
-	max is the upper bound of the highest bin.
-	
-	If aBoolean is false, values lower than min go in the fist bin, and values higher or equal than max go in the last bin.
-		(i.e., out of range values are simply clamped)
-	If aBoolean, then extra bins are added at each end for these 'out of range' values
-
-		| h r |
-		h _ Histogram binCount: 10 minValue: 0.0 maxValue: 1.0 extraBinsForClampedValues: true.
-		r _ Random new.
-		10000 timesRepeat: [ h addValue: r next  ].
-		h plot
-	"
-
-	| tallies highBinCenter lowBinCenter halfBinWidth |
-	halfBinWidth _ max - min / regularBinCount / 2.0.
-	aBoolean
-		ifTrue: [
-			tallies _ WordArray new: regularBinCount + 2.
-			lowBinCenter _ min - halfBinWidth.
-			highBinCenter _ max + halfBinWidth ]
-		ifFalse: [
-			tallies _ WordArray new: regularBinCount.
-			lowBinCenter _ min + halfBinWidth.
-			highBinCenter _ max - halfBinWidth ].
-	^self new
-		tallies: tallies
-		lowBinCenter: lowBinCenter
-		highBinCenter: highBinCenter
-		extraBinsForClampedValues: aBoolean! !
-
-!HistogramMorph class methodsFor: 'instance creation' stamp: 'len 8/14/2016 00:10'!
-new: binCount samples: aCollection
-	| answer |
-	answer _ self new: binCount min: aCollection min max: aCollection max.
-	aCollection do: [:each| answer addValue: each].
-	^ answer! !
-
-!ImplicitFunctionPlotMorph methodsFor: 'as yet unclassified' stamp: 'len 10/24/2016 21:38'!
-box: aRectangle
-	box _ aRectangle.
-	image _ nil.
-	self redrawNeeded! !
-
-!ImplicitFunctionPlotMorph methodsFor: 'as yet unclassified' stamp: 'len 10/24/2016 21:40'!
-buildImage
-	| lastRow |
-	image _ Form extent: self morphExtent depth: Display depth.
-	lastRow _ nil.
-	1 to: image height do: [:j|
-		| y row lastSign |
-		y _ j asFloat / image height * box height - box bottom.
-		row _ Array new: image width.
-		lastSign _ nil.
-		1 to: image width do: [:i|
-			| x sign |
-			x _ i asFloat / image width * box width - box right.
-			sign _ (function value: (x,y)) sign.
-			((lastSign notNil and: [lastSign ~= sign])
-				or: [lastRow notNil and: [(lastRow at: i) ~= sign]])
-					ifTrue: [image colorAt: i@(image height - j + 1) put: color].
-			row at: i put: sign.
-			lastSign _ sign].
-		lastRow _ row]! !
-
-!ImplicitFunctionPlotMorph methodsFor: 'as yet unclassified' stamp: 'len 10/24/2016 21:19'!
-drawOn: aCanvas
-	image isNil ifTrue: [self buildImage].
-	aCanvas image: image at: 0@0! !
-
-!ImplicitFunctionPlotMorph methodsFor: 'as yet unclassified' stamp: 'len 10/24/2016 21:38'!
-function: aFunction
-	function _ aFunction.
-	image _ nil.
-	self redrawNeeded! !
-
-!ImplicitFunctionPlotMorph methodsFor: 'as yet unclassified' stamp: 'len 10/24/2016 21:47'!
-initialize
-	super initialize.
-	extent _ 150@150.
-	color _ Color lightGray.
-	box _ -1@-1 extent: 2@2! !
-
-!ImplicitFunctionPlotMorph methodsFor: 'as yet unclassified' stamp: 'len 10/24/2016 20:55'!
-morphExtent: aPoint
-	image _ nil.
-	super morphExtent: aPoint! !
-
-!ImplicitFunctionPlotMorph class methodsFor: 'examples' stamp: 'len 5/23/2020 09:31:27'!
-example1
-	"Circle of radious 1."
-	| function |
-	function _ (…^2) carrier to: … carrier evaluatingWithArguments: [:x :y| x^2 + (y^2) - 1].
-	^ ImplicitFunctionPlotMorph new function: function! !
-
-!ImplicitFunctionPlotMorph class methodsFor: 'examples' stamp: 'len 5/23/2020 09:31:27'!
-example2
-	"Descartes folium."
-	| function |
-	function _ (…^2) carrier to: … carrier evaluatingWithArguments: [:x :y| x^3 + (y^3) - (3*x*y)].
-	^ ImplicitFunctionPlotMorph new function: function! !
-
-!ImplicitSurfacePlotMorph methodsFor: 'accessing' stamp: 'len 1/22/2017 07:44:33'!
-color: aColor
-	super color: aColor.
-	surface color: aColor! !
-
-!ImplicitSurfacePlotMorph methodsFor: 'accessing' stamp: 'len 1/22/2017 07:44:42'!
-interiorColor: aColor
-	surface interiorColor: aColor! !
-
-!ImplicitSurfacePlotMorph methodsFor: 'accessing' stamp: 'len 1/22/2017 20:34:55'!
-polynomial: aPolynomial
-	polynomial _ aPolynomial.
-	rotation _ Float64Quaternion identity.
-	scaling _ 1.0.
-	surface _ ImplicitSurface new polynomial: aPolynomial.
-	surface color: color.
-	camera _ Camera new
-				location: 0 @ 0 @ -2.5;
-				direction: 0 @ 0 @ 1;
-				up: 0 @ 1 @ 0;
-				right: 1 @ 0 @ 0.
-	scene _ Scene new
-				addLightSource: (LightSource new
-							location: 15 @ 5 @ -20;
-							color: Color lightYellow muchLighter);
-"				addLightSource: (LightSource new
-							location: -15 @ -5 @ 0;
-							color: Color cyan);"
-				addObject: surface;
-"				addObject: (Plane new
-							normal: 0 @ 1 @ 0;
-							offset: 1;
-							texture: (TextureWithFinish new
-										pigment: (CheckerBoardPigment new
-													center: 0 @ 0.1 @ 0;
-													color1: Color gray;
-													color2: Color white;
-													squareSize: 1);
-										finish: (CompoundFinish new
-													addFinish: (PhongLightingModelFinish new
-																ambient: 0.2;
-																specular: 0;
-																specularPower: 10);
-													addFinish: (ReflectionFinish new reflection: 0.3))));
-"				yourself.
-	self render! !
-
-!ImplicitSurfacePlotMorph methodsFor: 'drawing' stamp: 'len 1/20/2017 23:05:27'!
-drawOn: aCanvas
-	image isNil ifTrue: [^ super drawOn: aCanvas].
-	aCanvas image: (image magnifyBy: resolutionRatio) at: 0@0! !
-
-!ImplicitSurfacePlotMorph methodsFor: 'event handling testing' stamp: 'len 1/21/2017 18:24:36'!
-handlesMouseDown: aMouseButtonEvent
-	"Do I want to receive mouseDown events (mouseDown:, mouseMove:, mouseUp:)?"
-	^true! !
-
-!ImplicitSurfacePlotMorph methodsFor: 'events' stamp: 'len 1/21/2017 18:24:48'!
-mouseButton1Down: aMouseButtonEvent localPosition: localEventPosition
-	super mouseButton1Down: aMouseButtonEvent localPosition: localEventPosition.
-	lastMousePosition _ localEventPosition! !
-
-!ImplicitSurfacePlotMorph methodsFor: 'events' stamp: 'len 1/22/2017 09:57:36'!
-mouseButton1Up: aMouseButtonEvent localPosition: localEventPosition
-	super mouseButton1Up: aMouseButtonEvent localPosition: localEventPosition.
-	resolutionRatio _ self normalResolutionRatio.
-	self render! !
-
-!ImplicitSurfacePlotMorph methodsFor: 'events' stamp: 'len 1/22/2017 09:57:49'!
-mouseMove: aMouseMoveEvent localPosition: localEventPosition
-	lastMousePosition isNil
-		ifFalse:
-			[aMouseMoveEvent shiftPressed
-				ifTrue:
-					[| bounds d |
-					bounds _ self morphLocalBounds.
-					d _ (localEventPosition dist: lastMousePosition) / (bounds width min: bounds height) * 2.0.
-					localEventPosition y >= lastMousePosition y ifTrue: [d _ d negated].
-					resolutionRatio _ self fastResolutionRatio.
-					self scaleSurfaceBy: 2^d]
-				ifFalse: [resolutionRatio _ self fastResolutionRatio.
-					self rotateSurfaceBy: localEventPosition - lastMousePosition]].
-	lastMousePosition _ localEventPosition! !
-
-!ImplicitSurfacePlotMorph methodsFor: 'geometry' stamp: 'len 1/20/2017 21:55:28'!
-morphExtent: aPoint
-	image _ nil.
-	super morphExtent: aPoint! !
-
-!ImplicitSurfacePlotMorph methodsFor: 'initialization' stamp: 'len 5/16/2018 05:24:03'!
-initialize
-	super initialize.
-	self morphExtent: 300@300.
-	resolutionRatio _ self normalResolutionRatio.
-	self polynomial: AffineVariety clebschCubic asHypersurface polynomial! !
-
-!ImplicitSurfacePlotMorph methodsFor: 'surface geometry' stamp: 'len 1/22/2017 09:14:31'!
-rotateSurfaceBy: aPoint
-	| xSpeed ySpeed |
-	xSpeed _ Float pi / self morphLocalBounds width.
-	ySpeed _ Float pi / self morphLocalBounds height.
-	rotation _ ((Float64Quaternion radiansAngle: aPoint x * xSpeed axis: 0@1@0) * (Float64Quaternion radiansAngle: aPoint y * ySpeed axis: 1@0@0)) * rotation.
-	self updateTransformation! !
-
-!ImplicitSurfacePlotMorph methodsFor: 'surface geometry' stamp: 'len 1/22/2017 09:18:41'!
-scaleSurfaceBy: aNumber
-	scaling _ scaling * aNumber.
-	self updateTransformation! !
-
-!ImplicitSurfacePlotMorph methodsFor: 'surface geometry' stamp: 'len 1/22/2017 09:13:51'!
-updateTransformation
-	| M v |
-	M _ rotation asMatrix3x3.
-	v _ polynomial parent generate: [:x :y :z|
-		{x * M a11 + (y * M a12) + (z * M a13) * scaling.
-		x * M a21 + (y * M a22) + (z * M a23) * scaling.
-		x * M a31 + (y * M a32) + (z * M a33) * scaling}].
-	surface polynomial: (polynomial value: v).
-	self render! !
-
-!ImplicitSurfacePlotMorph methodsFor: 'private' stamp: 'len 1/22/2017 09:57:17'!
-fastResolutionRatio
-	^ 8! !
-
-!ImplicitSurfacePlotMorph methodsFor: 'private' stamp: 'len 1/22/2017 20:02:12'!
-normalResolutionRatio
-	^ 2! !
-
-!ImplicitSurfacePlotMorph methodsFor: 'private' stamp: 'len 1/20/2017 23:05:05'!
-render
-	camera imageSize: extent // resolutionRatio.
-	image _ camera renderScene: scene.
-	self redrawNeeded! !
-
-!ImplicitSurfacePlotMorph methodsFor: 'private' stamp: 'len 1/23/2017 10:13:53'!
-renderBest
-	resolutionRatio _ 1.
-	self render! !
-
-!ImplicitSurfacePlotMorph methodsFor: 'private' stamp: 'len 1/20/2017 22:31:58'!
-setCameraBack: distance
-	camera
-		location: 0 @ 0 @ distance negated;
-		direction: 0 @ 0 @ 1;
-		up: 0 @ 1 @ 0;
-		right: 1 @ 0 @ 0.
-	self render! !
-
-!ImplicitSurfacePlotMorph methodsFor: 'private' stamp: 'len 1/20/2017 22:32:04'!
-setCameraLocation: aPoint
-	camera location: aPoint.
-	self render! !
-
-!ImplicitSurfacePlotMorph methodsFor: 'private' stamp: 'len 1/20/2017 22:32:11'!
-setCameraRight: distance
-	camera
-		location: distance @ 0 @ 0;
-		direction: -1 @ 0 @ 0;
-		up: 0 @ 1 @ 0;
-		right: 0 @ 0 @ 1.
-	self render! !
-
-!ImplicitSurfacePlotMorph methodsFor: 'private' stamp: 'len 1/20/2017 22:32:28'!
-setCameraTop: distance
-	camera
-		location: 0 @ distance @ 0;
-		direction: 0 @ -1 @ 0;
-		up: 0 @ 0 @ 1;
-		right: 1 @ 0 @ 0.
-	self render! !
-
-!ImplicitSurfacePlotMorph methodsFor: 'private' stamp: 'len 1/20/2017 22:32:34'!
-setLightSourceAt: aPoint
-	scene lightSources first location: aPoint.
-	self render! !
-
-!ImplicitSurfacePlotMorph methodsFor: 'private' stamp: 'len 1/21/2017 19:11:40'!
-setRadius: aNumber
-	surface radius: aNumber.
-	self render! !
-
-!MultiplicationTableMorph methodsFor: 'as yet unclassified' stamp: 'len 7/31/2016 05:20'!
-drawOn: aCanvas
-	| h w |
-	w _ extent x / elements size.
-	h _ extent y / elements size.
-	w > 10
-		ifTrue:
-			[1 to: elements size do: [:i|
-				1 to: elements size do: [:j|
-					aCanvas fillRectangle: ((i-1*w @ (j-1*h)) truncated corner: (i*w-1 @ (j*h-1)) truncated) color: (colors at: (operation value: {elements at: i. elements at: j}))]]]
-		ifFalse:
-			[1 to: elements size do: [:i|
-				1 to: elements size do: [:j|
-					aCanvas fillRectangle: ((i-1*w @ (j-1*h)) truncated corner: (i*w @ (j*h)) truncated) color: (colors at: (operation value: {elements at: i. elements at: j}))]]]
-		! !
-
-!MultiplicationTableMorph methodsFor: 'as yet unclassified' stamp: 'len 7/31/2016 01:47'!
-elements: anArray
-	elements _ anArray asArray! !
-
-!MultiplicationTableMorph methodsFor: 'as yet unclassified' stamp: 'len 8/16/2016 04:03'!
-initialize
-	super initialize.
-	self morphExtent: 150@150.
-	colors _ AutomaticPalette new! !
-
-!MultiplicationTableMorph methodsFor: 'as yet unclassified' stamp: 'len 7/31/2016 04:28'!
-morphExtent: aPoint
-	| max |
-	max _ aPoint x max: aPoint y.
-	super morphExtent: max @ max! !
-
-!MultiplicationTableMorph methodsFor: 'as yet unclassified' stamp: 'len 7/31/2016 01:47'!
-operation: aBinaryOperation
-	operation _ aBinaryOperation! !
-
-!MultiplicationTableMorph class methodsFor: 'as yet unclassified' stamp: 'len 7/31/2016 01:48'!
-elements: anArray operation: aBinaryOperation
-	^ self new elements: anArray; operation: aBinaryOperation! !
-
-!ScalarPlotMorph methodsFor: 'as yet unclassified' stamp: 'len 8/17/2016 23:44'!
-drawOn: aCanvas
-	| r |
-	r _ 1.
-	0 to: extent x - r by: r do: [:x|
-		0 to: extent y - r by: r do: [:y|
-			aCanvas fillRectangle: (x@y extent: r@r) color: (palette at: (function value: (self morphToDomain: x@y)))]]
-! !
-
-!ScalarPlotMorph methodsFor: 'as yet unclassified' stamp: 'len 8/17/2016 23:23'!
-function: aFunction
-	function _ aFunction! !
-
-!ScalarPlotMorph methodsFor: 'as yet unclassified' stamp: 'len 12/6/2016 16:39:13'!
-initialize
-	super initialize.
-	extent _ 100@100.
-	function _ [:v| v x cos * v y sin].
-	xMin _ -4. xMax _ 4.
-	yMin _ -4. yMax _ 4.
-	palette _ RealPalette default min: -1.0; max: 1.0! !
-
-!ScalarPlotMorph methodsFor: 'as yet unclassified' stamp: 'len 8/17/2016 23:30'!
-morphToDomain: aPoint
-	^ (aPoint x * (xMax - xMin) / extent x + xMin, (aPoint y * (yMax - yMin) / extent y + yMin))! !
-
-!ScatterPlotMorph methodsFor: 'as yet unclassified' stamp: 'len 5/23/2020 09:31:27'!
-applyRotationBy: aPoint
-	| bounds xSpeed ySpeed rotation |
-	self dimension < 3 ifTrue: [^ self].
-	bounds _ self morphLocalBounds.
-	xSpeed _ Float pi / bounds width.
-	ySpeed _ Float pi / bounds height.
-	rotation _ (…^self dimension) endomorphisms evaluating: [:p|
-		| xz yz |
-		xz _ p x @ p z.
-		xz _ xz rotatedBy: aPoint x * xSpeed.
-		yz _ p y @ xz y.
-		yz _ yz rotatedBy: aPoint y * ySpeed.
-		(xz x, yz x, yz y), (p coordinates copyFrom: 4 to: p coordinates size)].
-	transformation _ rotation · (transformation ifNil: [rotation identity]).
-	self redrawNeeded! !
-
-!ScatterPlotMorph methodsFor: 'as yet unclassified' stamp: 'len 8/16/2016 02:00'!
-applyScaleBy: aNumber
-	transformation _ transformation * aNumber.
-	self redrawNeeded! !
-
-!ScatterPlotMorph methodsFor: 'as yet unclassified' stamp: 'len 8/21/2016 07:13'!
-colorBy: aBlock
-	colorBlock _ aBlock.
-	self redrawNeeded! !
-
-!ScatterPlotMorph methodsFor: 'as yet unclassified' stamp: 'len 8/15/2016 18:57'!
-dimension
-	^ points anyOne size! !
-
-!ScatterPlotMorph methodsFor: 'as yet unclassified' stamp: 'len 5/28/2020 18:25:49'!
-drawOn: aCanvas
-	| bounds range boxColor w |
-	bounds _ self morphLocalBounds insetBy: 1.
-	range _ max - min.
-	"draw box:"
-	self dimension >= 3 ifTrue:
-		[boxColor _ Color white alpha: 0.2.
-		self drawPolyline: {(-1,-1,-1). (-1,1,-1). (-1,1,1). (1,1,1). (1,-1,1). (1,-1,-1). (-1,-1,-1). (-1,-1,1). (-1,1,1)} color: boxColor on: aCanvas.
-		self drawPolyline: {(1,-1,1). (-1,-1,1)} color: boxColor on: aCanvas.
-		self drawPolyline: {(1,1,-1). (1,1,1)} color: boxColor on: aCanvas.
-		self drawPolyline: {(1,-1,-1). (1,1,-1). (-1,1,-1)} color: boxColor on: aCanvas].
-	
-	"draw points:"
-	w _ extent x min: extent y.
-	points withIndexDo: [:each :k|
-		| p xy z r shade c |
-		p _ positionBlock value: each.
-		p _ p collect: [:xi| xi - min / range - 0.5 * 2].
-		transformation ifNotNil: [p _ (transformation value: p)].
-		xy _ p x / 2 + 0.5 * w @ (p y / 2 + 0.5 * w).
-		z _ p size >= 3 ifTrue: [(p z / 2 + 0.5 max: 0.0) min: 1.0] ifFalse: [1.0].
-		r _ z * (sizeBlock value: each) :: rounded + 1.
-		shade _ z / 2 + 0.5.
-		c _ colorBlock value: each.
-		c _ c mixed: shade with: Color black.
-		c _ c alpha: c alpha * (shade / 2 + 0.5).
-		(bounds containsPoint: xy) ifTrue:
-			[aCanvas fillRectangle: (Rectangle center: xy extent: r@r) color: c]]! !
-
-!ScatterPlotMorph methodsFor: 'as yet unclassified' stamp: 'len 8/19/2016 18:39'!
-drawPolyline: anArray color: aColor on: aCanvas
-	| w lastPoint |
-	w _ extent x min: extent y.
-	lastPoint _ nil.
-	anArray do: [:each|
-		| p xy |
-		p _ transformation ifNil: [each] ifNotNil: [transformation value: each].
-		xy _ p x / 2 + 0.5 * w @ (p y / 2 + 0.5 * w).
-		lastPoint ifNotNil: [aCanvas line: lastPoint to: xy width: 1 color: aColor].
-		lastPoint _ xy]! !
-
-!ScatterPlotMorph methodsFor: 'as yet unclassified' stamp: 'len 8/13/2016 04:51'!
-handlesMouseDown: aMouseButtonEvent
-	"Do I want to receive mouseDown events (mouseDown:, mouseMove:, mouseUp:)?"
-	^true! !
-
-!ScatterPlotMorph methodsFor: 'as yet unclassified' stamp: 'len 12/6/2016 16:39:19'!
-initialize
-	| palette |
-	super initialize.
-	color _ Color white.
-	extent _ 250@250.
-	transformation _ nil.
-	positionBlock _ [:aTuple| aTuple copyFrom: 1 to: (aTuple size min: 3)].
-	palette _ RealPalette default.
-	colorBlock _ [:aTuple| palette at: (positionBlock value: aTuple) norm2 / (max - min) squared].
-	sizeBlock _ [:aTuple| 3]! !
-
-!ScatterPlotMorph methodsFor: 'as yet unclassified' stamp: 'len 8/13/2016 04:51'!
-mouseButton1Down: aMouseButtonEvent localPosition: localEventPosition
-	super mouseButton1Down: aMouseButtonEvent localPosition: localEventPosition.
-	lastMousePosition _ localEventPosition! !
-
-!ScatterPlotMorph methodsFor: 'as yet unclassified' stamp: 'len 8/16/2016 01:59'!
-mouseMove: aMouseMoveEvent localPosition: localEventPosition
-	lastMousePosition isNil
-		ifFalse:
-			[aMouseMoveEvent shiftPressed
-				ifTrue:
-					[| bounds d |
-					bounds _ self morphLocalBounds.
-					d _ (localEventPosition dist: lastMousePosition) / (bounds width min: bounds height).
-					localEventPosition y >= lastMousePosition y ifTrue: [d _ d negated].
-					self applyScaleBy: 2.0 ^ d]
-				ifFalse: [self applyRotationBy: lastMousePosition - localEventPosition]].
-	lastMousePosition _ localEventPosition! !
-
-!ScatterPlotMorph methodsFor: 'as yet unclassified' stamp: 'len 5/23/2020 09:31:27'!
-points: anArray
-	points _ anArray.
-	max _ points max: [:each| each max].
-	min _ points min: [:each| each min].
-	transformation _ …^self dimension :: id.
-	self redrawNeeded! !
-
-!ScatterPlotMorph methodsFor: 'as yet unclassified' stamp: 'len 8/21/2016 07:13'!
-positionBy: aBlock
-	positionBlock _ aBlock.
-	self redrawNeeded! !
-
-!ScatterPlotMorph methodsFor: 'as yet unclassified' stamp: 'len 8/21/2016 07:13'!
-sizeBy: aBlock
-	sizeBlock _ aBlock.
-	self redrawNeeded! !
-
-!ScatterPlotMorph class methodsFor: 'examples' stamp: 'len 5/1/2020 18:45:16'!
-example1
-	"Plotting prime gaps."
-	| palette |
-	palette _ RealPalette default.
-	^ (self timeDelayPlot: (Sequence primes difference first: 1000))
-			colorBy: [:each| palette at: each bitSize / 40.0]! !
-
-!ScatterPlotMorph class methodsFor: 'examples' stamp: 'len 5/1/2020 18:45:00'!
-example2
-	"Plotting random samples."
-	| samples |
-	samples _ 1 to: 1000 :: collect: [:i| Random new next].
-	^ ScatterPlotMorph timeDelayPlot: samples! !
-
-!ScatterPlotMorph class methodsFor: 'examples' stamp: 'len 8/19/2016 05:22'!
-example3
-	| samples |
-	samples _ 1 to: 1000 :: collect: [:i| | r | r _ Random new. 100 timesRepeat: [r next]. r next].
-	^ self timeDelayPlot: samples! !
-
-!ScatterPlotMorph class methodsFor: 'instance creation' stamp: 'len 8/18/2016 06:38'!
-timeDelayPlot: anArray
-	^ self timeDelayPlot: anArray lag: 1! !
-
-!ScatterPlotMorph class methodsFor: 'instance creation' stamp: 'len 6/1/2020 13:39:42'!
-timeDelayPlot: anArray dimension: m lag: r
-	^ self new
-		points: ((m*r+1 to: anArray size) collect: [:i|
-			…^m filling: [:j| anArray at: i-(j-1*r)]])! !
-
-!ScatterPlotMorph class methodsFor: 'instance creation' stamp: 'len 8/18/2016 06:39'!
-timeDelayPlot: anArray lag: r
-	^ self timeDelayPlot: anArray dimension: 3 lag: r! !
-
-!UnitDiskPlotMorph methodsFor: 'as yet unclassified' stamp: 'len 12/15/2016 18:43:01'!
-buildImage
-	image _ Form extent: self morphExtent depth: Display depth.
-	1 to: image height do: [:j|
-		| y |
-		y _ j asFloat / image height * 2 - 1.
-		1 to: image width do: [:i|
-			| x z c |
-			x _ i asFloat / image width * 2 - 1.
-			(x squared + y squared) sqrt < 1
-				ifTrue:
-					[| w |
-					z _ x + y i.
-					w _ [function value: (inverseMap value: z)] on: ZeroDivide do: [Infinity projective].
-					image colorAt: i@j put: (palette at: w)]]]! !
-
-!UnitDiskPlotMorph methodsFor: 'as yet unclassified' stamp: 'len 12/9/2016 10:27:16'!
-drawOn: aCanvas
-	image isNil ifTrue: [self buildImage].
-	aCanvas image: image at: 0@0! !
-
-!UnitDiskPlotMorph methodsFor: 'as yet unclassified' stamp: 'len 5/23/2020 10:11:27'!
-function: aFunction
-	function _ aFunction.
-"	function domain = HH
-		ifTrue: [self mapUpperHalfPlaneToUnitDisk]
-		ifFalse: [function domain = † ifTrue: [self mapPlaneToUnitDisk]]."
-	image _ nil.
-	self redrawNeeded! !
-
-!UnitDiskPlotMorph methodsFor: 'as yet unclassified' stamp: 'len 12/15/2016 18:38:39'!
-initialize
-	super initialize.
-	extent _ 300@300.
-	color _ Color lightGray.
-	palette _ ComplexPalette default.
-	inverseMap _ [:z| z] "by default use the identity map"! !
-
-!UnitDiskPlotMorph methodsFor: 'as yet unclassified' stamp: 'len 12/15/2016 18:36:26'!
-mapPlaneToUnitDisk
-	inverseMap _ [:z| z / (1 - z abs squared)]! !
-
-!UnitDiskPlotMorph methodsFor: 'as yet unclassified' stamp: 'len 12/15/2016 18:37:30'!
-mapUpperHalfPlaneToUnitDisk
-	inverseMap _ [:z| 1 + z / (1 - z) * 1 i]! !
-
-!UnitDiskPlotMorph methodsFor: 'as yet unclassified' stamp: 'len 12/9/2016 10:28:38'!
-morphExtent: aPoint
-	| side |
-	image _ nil.
-	side _ aPoint x min: aPoint y.
-	super morphExtent: side @ side! !
-
-!UnitDiskPlotMorph methodsFor: 'as yet unclassified' stamp: 'len 12/9/2016 10:27:55'!
-palette: aComplexPalette
-	palette _ aComplexPalette! !
-
-!UnitDiskPlotMorph class methodsFor: 'examples' stamp: 'len 8/9/2020 07:47:16'!
-exampleBlaschkeProduct
-	"This is a phase plot of the Blaschke product defined by 40 randomly choosen numbers in the unit disk, plotted through a conformal mapping of the complex plane into the unit disk."
-	| random A f |
-	random _ Random new.
-	A _ (1 to: 40) collect: [:each| Complex abs: random next arg: Float twoPi * random next].
-	f _ † carrier to: † carrier evaluating: [:z| A product: [:a| a abs / a * (a - z) / (1 - (a conjugate * z))]].
-	^ UnitDiskPlotMorph new mapPlaneToUnitDisk; palette: ComplexPalette phase; function: f! !
-
 !GraphEdgeMorph methodsFor: 'accessing' stamp: 'len 7/9/2016 22:11'!
 alpha
 	^ source alpha + target alpha / 2.0! !
@@ -11832,147 +10649,6 @@ step
 !SpringEdgeMorph methodsFor: 'stepping' stamp: 'len 2/24/2016 21:12'!
 wantsSteps
 	^ false! !
-
-!ImplicitSurface methodsFor: 'accessing' stamp: 'len 1/21/2017 22:33:19'!
-color: aColor
-	self texture: (self defaultTextureForColor: aColor)! !
-
-!ImplicitSurface methodsFor: 'accessing' stamp: 'len 1/21/2017 22:33:30'!
-interiorColor: aColor
-	self interiorTexture: (self defaultTextureForColor: aColor)! !
-
-!ImplicitSurface methodsFor: 'accessing' stamp: 'len 1/21/2017 22:33:42'!
-interiorTexture
-	^ interiorTexture ifNil: [texture]! !
-
-!ImplicitSurface methodsFor: 'accessing' stamp: 'len 1/21/2017 17:26:55'!
-interiorTexture: aTexture
-	interiorTexture _ aTexture! !
-
-!ImplicitSurface methodsFor: 'accessing' stamp: 'len 1/21/2017 19:08:58'!
-polynomial
-	^ polynomial! !
-
-!ImplicitSurface methodsFor: 'accessing' stamp: 'len 1/20/2017 21:07:10'!
-polynomial: aPolynomial
-	polynomial _ aPolynomial.
-	gradient _ polynomial gradient! !
-
-!ImplicitSurface methodsFor: 'accessing' stamp: 'len 1/21/2017 18:35:29'!
-radius
-	^ radiusSquared sqrt! !
-
-!ImplicitSurface methodsFor: 'accessing' stamp: 'len 1/20/2017 17:56:18'!
-radius: aNumber
-	radiusSquared _ aNumber squared! !
-
-!ImplicitSurface methodsFor: 'initializing' stamp: 'len 5/23/2020 10:10:00'!
-initialize
-"	self polynomial: (… polynomialsIn: #(x y z) :: generate: [:x :y :z| x**2 + (y**2) + (z**2) - 2])"
-"	self polynomial: (… polynomialsIn: #(x y z) :: generate: [:x :y :z| x**2 + (z**2) - (y**2)])."
-	self polynomial: AffineVariety clebschCubic asHypersurface polynomial.
-"	self polynomial: („ polynomialsIn: #(x y z) :: generate: [:x :y :z| x squared + y squared - ((1 - z) * (z**4))])."
-	self radius: 1.0! !
-
-!ImplicitSurface methodsFor: 'tracing' stamp: 'len 1/21/2017 19:35:11'!
-normalAt: aPoint
-	^ (Float32Vector3 x: ((gradient at: 1) value: aPoint) y: ((gradient at: 2) value: aPoint) z: ((gradient at: 3) value: aPoint)) normalize! !
-
-!ImplicitSurface methodsFor: 'tracing' stamp: 'len 5/23/2020 09:31:27'!
-writeIntersectionsWith: aRay into: aCollection
-	| t0 origin ox oy oz direction dx dy dz t f root intersection p |
-	(t0 _ self intersectionWithSphere: aRay) ifNil: [^ self].
-	origin _ aRay pointAtDistance: t0.
-	ox _ origin x.
-	oy _ origin y.
-	oz _ origin z.
-	direction _ aRay direction.
-	dx _ direction x.
-	dy _ direction y.
-	dz _ direction z.
-	t _ … polynomials x.
-	f _ polynomial value: {t*dx + ox. t*dy + oy. t*dz + oz}.
-	(root _ self solve: f max: radiusSquared sqrt*2) ifNil: [^ self].
-	intersection _ Intersection for: self ray: aRay distance: root+t0.
-	p _ intersection intersectionPoint. "this is expensive, can we do without computing this intersection point?"
-	(p dot: p) < (radiusSquared - 0.00001) ifTrue: [aCollection add: intersection]! !
-
-!ImplicitSurface methodsFor: 'tracing-private' stamp: 'len 1/20/2017 21:25:30'!
-intersectionWithSphere: aRay
-	| a b c determinant t1 t2 |
-	a _ aRay directionLengthSquared.
-	b _ (aRay origin dot: aRay direction) * 2.0.
-	c _ (aRay origin dot: aRay origin) - radiusSquared.
-	determinant _ b * b - (4.0 * a * c).
-	determinant < 0.0 ifTrue: [^ nil].
-	determinant _ determinant sqrt.
-	a _ a * 2.0.
-	t1 _ (determinant - b) / a.
-	t2 _ (determinant negated - b) / a.
-	t1 negative ifTrue: [^ t2 positive ifTrue: [t2]].
-	t2 negative ifTrue: [^ t1 positive ifTrue: [t1]].
-	^ t1 min: t2! !
-
-!ImplicitSurface methodsFor: 'tracing-private' stamp: 'len 1/20/2017 08:07:40'!
-signChanges: a
-	| lastSign count |
-	lastSign _ a at: 1.
-	count _ 0.
-	2 to: a size do: [:i| | ai sign | (ai _ a at: i) abs < Float epsilon ifFalse: [(sign _ ai sign) == lastSign ifFalse: [count _ count + 1. lastSign _ sign]]].
-	^ count! !
-
-!ImplicitSurface methodsFor: 'tracing-private' stamp: 'len 1/22/2017 19:56:38'!
-solve: f max: max
-	| left right n a b c r0 r1 count |
-	f isConstant ifTrue: [^ nil].
-"	(f independentCoefficient < Float epsilon) ifTrue: [^ 0.0]."
-	a _ f coefficients asArray reversed collect: [:each| each asFloat].
-	n _ a size.
-"	(self signChanges: a) > 0 ifFalse: [^ nil]." "no positive roots"
-	b _ Array new: n.
-	c _ Array new: n-1.
-	left _ 0.000001.
-	[right _ left + 0.1. (f value: left) * (f value: right) <= 0.0] whileFalse: [left _ right. left > max ifTrue: [^ nil]].
-	r0 _ left.
-	b at: 1 put: (a at: 1).
-	c at: 1 put: (b at: 1).
-	count _ 1.
-	[2 to: n do: [:i|
-		b at: i put: (a at: i) + (r0 * (b at: i-1)).
-		i < n ifTrue: [c at: i put: (b at: i) + (r0 * (c at: i-1))]].
-	r1 _ r0 - ((b at: n) / (c at: n-1)).
-	(r1 - r0) abs < 10.0e-6 ifTrue: [^ r1].
-	r0 _ r1.
-	(count _ count + 1) > 100 ifTrue: [^ nil]] repeat! !
-
-!ImplicitSurface methodsFor: 'private' stamp: 'len 1/22/2017 20:39:02'!
-defaultTextureForColor: aColor
-	^ TextureWithFinish new
-			pigment: (FlatColorPigment new color: aColor);
-			finish: (PhongLightingModelFinish new
-					ambient: 0.35;
-					specular: 0.8;
-					specularPower: 20)
-
-"			finish: (CompoundFinish new
-				addFinish: (PhongLightingModelFinish new
-					ambient: 0.35;
-					specular: 0.8;
-					specularPower: 20);
-				addFinish: (ReflectionFinish new reflection: 1);
-				yourself)"! !
-
-!ImplicitSurface class methodsFor: 'examples' stamp: 'len 5/23/2020 09:31:27'!
-example1
-	^ self new
-		polynomial: ((… polynomialsIn: #(x y z)) generate: [:x :y :z| x^2 + (y^2) + (z^3) + (x*y*z*2) - 1]);
-		radius: 1.0! !
-
-!ImplicitSurface class methodsFor: 'examples' stamp: 'len 5/23/2020 09:31:27'!
-example2
-	^ self new
-		polynomial: ((… polynomialsIn: #(x y z)) generate: [:x :y :z| x^2 - ((y^2)*(z^2))]);
-		radius: 5.0! !
 
 !Domain methodsFor: 'accessing' stamp: 'len 4/22/2020 05:45:14'!
 arity
@@ -13080,14 +11756,6 @@ identity
 	self isAmbient ifFalse: [^ self ambient identity].
 	^ self propertyAt: #identity ifAbsent: [self do: [:each| ^ self propertyAt: #identity put: each · each inverse]]! !
 
-!Monoid methodsFor: 'morphic' stamp: 'len 4/26/2020 06:22:44'!
-multiplicationTable
-	| elements identity |
-	identity _ self identity.
-	elements _ self elements asArray asSortedCollection:
-		[:a :b| a = identity or: [a printString <= b printString]].
-	^ MultiplicationTableMorph elements: elements operation: [:x :y| x·y]! !
-
 !Monoid methodsFor: 'morphisms' stamp: 'len 3/8/2021 16:36:17'!
 <- aDomain
 	aDomain isCartesianProduct
@@ -13495,25 +12163,6 @@ cayleyGraph: generators
 			G addEdgeFrom: g to: g · x label: x]].
 	^ G! !
 
-!Group methodsFor: 'graphs' stamp: 'len 4/29/2016 07:14'!
-cayleyGraphMorph
-	^ self cayleyGraphMorph: self generators! !
-
-!Group methodsFor: 'graphs' stamp: 'len 12/19/2016 12:23:54'!
-cayleyGraphMorph: generators
-	"Answer the colored Cayley graph of the receiver for the given set of generators.
-	The set of generators is usually assumed to be symmetric (contains all inverses too) and to not contain the identity."
-	| G answer colors |
-	G _ self cayleyGraph: generators.
-	answer _ G asMorph.
-	colors _ AutomaticPalette new.
-	answer nodesDo: [:each| each color: Color transparent; radius: 0].
-	generators do: [:each| colors at: each].
-	generators do: [:each| (answer nodeAt: each) color: (colors at: each); radius: 10].
-	answer edgesAndLabelsDo: [:each :label| each hideLabel; color: (colors at: label)].
-	(answer nodeAt: self identity) color: Color white; shape: #square; radius: 10.
-	^ answer! !
-
 !Group methodsFor: 'graphs' stamp: 'len 5/5/2019 18:39:32'!
 cycleGraph
 	| G elements id |
@@ -13550,22 +12199,6 @@ cycleGraph2
 			G addEdgeFrom: g to: g2.
 			(g _ g2) = id] whileFalse].
 	^ G! !
-
-!Group methodsFor: 'graphs' stamp: 'len 7/29/2016 06:30'!
-cycleGraphMorph
-	| answer |
-	answer _ self cycleGraph asMorph.
-"	answer hideLabels."
-	(answer nodeAt: self identity) color: Color white; shape: #square.
-	^ answer! !
-
-!Group methodsFor: 'morphic' stamp: 'len 4/26/2020 07:15:12'!
-multiplicationTable
-	| elements identity |
-	identity _ self identity.
-	elements _ self elements asArray asSortedCollection:
-		[:a :b| a = identity or: [a printString <= b printString]].
-	^ MultiplicationTableMorph elements: elements operation: [:x :y| x·y]! !
 
 !Group methodsFor: 'morphisms' stamp: 'len 3/9/2021 12:52:26'!
 -> aCodomain
@@ -16041,9 +14674,9 @@ matrixOverField: A solve: B
 	X _ Matrix rows: rows.
 	^ {A*X - B. X}! !
 
-!Ring methodsFor: 'converting' stamp: 'len 8/29/2016 16:30'!
+!Ring methodsFor: 'converting' stamp: 'len 3/23/2021 16:15:47'!
 asIdeal
-	"Answer the receiver R viewed as an ideal of itself."
+	"Answer the receiver viewed as an ideal of itself."
 	^ self * self one! !
 
 !Ring methodsFor: 'converting' stamp: 'len 5/2/2020 17:26:17'!
@@ -16092,14 +14725,6 @@ primeIdealsDo: aBlock
 !Ring methodsFor: 'enumerating' stamp: 'len 5/4/2020 10:08:39'!
 unitsDo: aBlock
 	self do: [:each| each isUnit ifTrue: [aBlock value: each]]! !
-
-!Ring methodsFor: 'morphic' stamp: 'len 4/26/2020 07:59:06'!
-additionTable
-	^ MultiplicationTableMorph elements: self elements asArray operation: [:x :y| x+y]! !
-
-!Ring methodsFor: 'morphic' stamp: 'len 4/26/2020 07:59:18'!
-multiplicationTable
-	^ MultiplicationTableMorph elements: self elements asArray operation: [:x :y| x*y]! !
 
 !Ring methodsFor: 'morphisms' stamp: 'len 3/9/2021 12:56:37'!
 -> aCodomain
@@ -16357,9 +14982,9 @@ isApproximate
 	Examples of approximate rings include completions such as the real numbers (see RealField), power series (see PowerSeriesRing and LaurentSeriesRing) and p-adic numbers (see AdicRing and AdicField)."
 	^ true! !
 
-!Ring methodsFor: 'testing' stamp: 'len 4/13/2020 09:42:46'!
+!Ring methodsFor: 'testing' stamp: 'len 3/21/2021 15:13:56'!
 isArtinian
-	"Answer true if the receiver is an Artinian ring, i.e. it satisfied the descending chain condition on ideals.
+	"A ring is called Artinian if it satisfies the descending chain condition on ideals.
 	In the non-commutative case, one should talk about 'left Artinian' or 'right Artinian' rings."
 	self isFinite ifTrue: [^ true].
 	self isIntegralDomain ifTrue: [^ self isField].
@@ -16477,9 +15102,10 @@ isLocalization
 	This means that elements of the receiver are formal fractions."
 	^ false! !
 
-!Ring methodsFor: 'testing' stamp: 'len 6/16/2019 13:27:18'!
+!Ring methodsFor: 'testing' stamp: 'len 3/21/2021 15:12:15'!
 isNoetherian
-	"Answer true if the receiver is a Noetherian ring, i.e. every ideal is finitely generated."
+	"A ring is called Noetherian if every ideal is finitely generated.
+	This is equivalent to the ring satisfying the ascending chain condition (every ascending chain of ideals is finite), and it is also equivalent to the condition that any set of ideals contains a maximal element."
 	self isFinite ifTrue: [^ true].
 "	self isField ifTrue: [^ true]. already included in isPID"
 	self isEuclidean ifTrue: [^ true]. "every Euclidean ring is PIR, i.e. it is Bezout and Noetherian"
@@ -16679,9 +15305,9 @@ isLocalization
 isMultivariate
 	^ self integers isMultivariate! !
 
-!FractionRing methodsFor: 'testing' stamp: 'len 6/21/2019 18:06:30'!
+!FractionRing methodsFor: 'testing' stamp: 'len 3/21/2021 15:11:25'!
 isNoetherian
-	"Answer true if the receiver is a Noetherian ring, i.e. every ideal is finitely generated."
+	"A ring is called Noetherian if every ideal is finitely generated."
 	^ self integers isNoetherian or: [super isNoetherian]! !
 
 !FractionRing methodsFor: 'testing' stamp: 'len 6/21/2019 18:06:40'!
@@ -17057,9 +15683,9 @@ atRandom: aRandom bits: bitSize
 includes: anObject
 	^ anObject parent == self! !
 
-!LocalRing methodsFor: 'testing' stamp: 'len 7/5/2019 10:03:33'!
+!LocalRing methodsFor: 'testing' stamp: 'len 3/21/2021 15:15:04'!
 isArtinian
-	"Answer true if the receiver is an Artinian ring, i.e. it satisfies the descending chain condition on ideals."
+	"A ring is called Artinian if it satisfies the descending chain condition on ideals."
 	^ self integers isArtinian or: [super isArtinian]! !
 
 !LocalRing methodsFor: 'testing' stamp: 'len 6/9/2019 08:41:30'!
@@ -17100,9 +15726,9 @@ isLocalization
 	This means that elements of the receiver are formal fractions."
 	^ true! !
 
-!LocalRing methodsFor: 'testing' stamp: 'len 6/4/2019 16:09:34'!
+!LocalRing methodsFor: 'testing' stamp: 'len 3/21/2021 15:11:20'!
 isNoetherian
-	"Answer true if the receiver is a Noetherian ring, i.e. every ideal is finitely generated."
+	"A ring is called Noetherian if every ideal is finitely generated."
 	^ self integers isNoetherian or: [super isNoetherian]! !
 
 !LocalRing methodsFor: 'testing' stamp: 'len 6/4/2019 15:14:04'!
@@ -17419,10 +16045,9 @@ atRandom: aRandom bits: bitSize
 includes: anObject
 	^ anObject parent = self! !
 
-!QuotientRing methodsFor: 'testing' stamp: 'len 7/5/2019 10:03:52'!
+!QuotientRing methodsFor: 'testing' stamp: 'len 3/21/2021 15:14:47'!
 isArtinian
-	"Answer true if the receiver is an Artinian ring, i.e. it satisfied the descending chain condition on ideals.
-	In the non-commutative case, one should talk about 'left Artinian' or 'right Artinian' rings."
+	"A ring is called Artinian if it satisfies the descending chain condition on ideals."
 	^ self base isArtinian or: [super isArtinian]! !
 
 !QuotientRing methodsFor: 'testing' stamp: 'len 6/4/2019 15:38:15'!
@@ -17443,8 +16068,9 @@ isIntegralDomain
 isLocal
 	^ self base isLocal or: [super isLocal]! !
 
-!QuotientRing methodsFor: 'testing' stamp: 'len 1/12/2018 21:31:43'!
+!QuotientRing methodsFor: 'testing' stamp: 'len 3/21/2021 15:10:53'!
 isNoetherian
+	"A ring is called Noetherian if every ideal is finitely generated."
 	^ self base isNoetherian or: [super isNoetherian]! !
 
 !QuotientRing methodsFor: 'testing' stamp: 'len 6/4/2019 15:37:07'!
@@ -18158,9 +16784,9 @@ spec
 	"Answer the spectrum of the receiver, Spec(R/I) as subscheme of Spec(R)."
 	^ self propertyAt: #spec ifAbsentPut: [AffineVariety coordinateRing: self]! !
 
-!AffineRing methodsFor: 'testing' stamp: 'len 8/4/2019 09:53:16'!
+!AffineRing methodsFor: 'testing' stamp: 'len 3/21/2021 15:15:16'!
 isArtinian
-	"Answer true if the receiver is an Artinian ring, i.e. it satisfies the descending chain condition on ideals.
+	"A ring is called Artinian if it satisfies the descending chain condition on ideals.
 	Given an affine K-algebra A, the following are equivalent:
 	- the Krull dimension of A is 0;
 	- A is algebraic over K;
@@ -18258,6 +16884,10 @@ embeddingsIn: aField
 	^ (self polynomial rootsIn: aField) asArray
 		collect: [:x| self to: aField evaluating: [:alpha| alpha representative value: x]]! !
 
+!AlgebraicExtensionRing methodsFor: 'testing' stamp: 'len 3/23/2021 11:37:58'!
+isAbsoluteExtension
+	^ self isRelativeExtension not! !
+
 !AlgebraicExtensionRing methodsFor: 'testing' stamp: 'len 6/9/2019 09:35:19'!
 isField
 	^ self scalars isField and: [self polynomial isIrreducible] "<- should assume all extensions are by an irreducible polynomial? QuasiGaloisRing is not"! !
@@ -18269,6 +16899,14 @@ isIntegralDomain
 !AlgebraicExtensionRing methodsFor: 'testing' stamp: 'len 6/6/2019 11:39:01'!
 isLocalField
 	^ self scalars isLocalField! !
+
+!AlgebraicExtensionRing methodsFor: 'testing' stamp: 'len 3/23/2021 11:38:12'!
+isRelativeExtension
+	^ self scalars isKindOf: AlgebraicExtensionRing! !
+
+!AlgebraicExtensionRing methodsFor: 'testing' stamp: 'len 3/23/2021 11:38:33'!
+isSimpleExtension
+	^ self base isUnivariate! !
 
 !AlgebraicExtensionRing class methodsFor: 'examples' stamp: 'len 5/23/2020 09:11:37'!
 example
@@ -18538,10 +17176,10 @@ discriminant
 	"The discriminant of an integral basis is independent of the choice of basis and it's called the discriminant of the field K and denoted d(K)."
 	^ self propertyAt: #discriminant ifAbsentPut: [self integralBasis discriminant]! !
 
-!NumberField methodsFor: 'accessing' stamp: 'len 3/4/2017 19:28:09'!
+!NumberField methodsFor: 'accessing' stamp: 'len 3/22/2021 10:38:33'!
 integers
 	"Answer the ring of integers of the receiver."
-	^ NumberRing on: self! !
+	^ Order on: self! !
 
 !NumberField methodsFor: 'accessing' stamp: 'len 1/11/2016 03:48'!
 integralBasis
@@ -18931,9 +17569,9 @@ isFinite
 isIntegralDomain
 	^ true! !
 
-!RationalIntegerRing methodsFor: 'testing' stamp: 'len 6/4/2019 16:09:50'!
+!RationalIntegerRing methodsFor: 'testing' stamp: 'len 3/21/2021 15:10:44'!
 isNoetherian
-	"Answer true if the receiver is a Noetherian ring, i.e. every ideal is finitely generated."
+	"A ring is called Noetherian if every ideal is finitely generated."
 	^ true! !
 
 !RationalIntegerRing methodsFor: 'testing' stamp: 'len 10/2/2018 01:52:16'!
@@ -19410,9 +18048,9 @@ isLocal
 isMultivariate
 	^ self base isMultivariate! !
 
-!PowerSeriesRing methodsFor: 'testing' stamp: 'len 6/4/2019 16:12:02'!
+!PowerSeriesRing methodsFor: 'testing' stamp: 'len 3/21/2021 15:11:00'!
 isNoetherian
-	"Answer true if the receiver is a Noetherian ring, i.e. every ideal is finitely generated."
+	"A ring is called Noetherian if every ideal is finitely generated."
 	^ self scalars isNoetherian or: [super isNoetherian]! !
 
 !PowerSeriesRing methodsFor: 'testing' stamp: 'len 8/10/2019 05:02:00'!
@@ -19444,148 +18082,6 @@ precision: anInteger
 !PowerSeriesRing class methodsFor: 'instance creation' stamp: 'len 3/10/2020 09:43:30'!
 on: aPolynomialRing
 	^ self new base: aPolynomialRing! !
-
-!Order methodsFor: 'accessing' stamp: 'len 12/28/2016 12:13:45'!
-basis
-	^ self propertyAt: #basis! !
-
-!Order methodsFor: 'accessing' stamp: 'len 1/18/2018 20:14:58'!
-degree
-	^ self ambient degree! !
-
-!Order methodsFor: 'accessing' stamp: 'len 1/18/2018 20:07:31'!
-dimension
-	"Answer the Krull dimension of the receiver."
-	^ 1! !
-
-!Order methodsFor: 'accessing' stamp: 'len 1/18/2018 20:11:14'!
-generators
-	"Answer the generators of the receiver as a ring."
-	^ self notYetImplemented! !
-
-!Order methodsFor: 'accessing' stamp: 'len 1/18/2018 20:04:17'!
-rank
-	"Answer the rank of the receiver as Z-module, which is the degree of the number field over Q."
-	^ self ambient degree! !
-
-!Order methodsFor: 'comparing' stamp: 'len 10/13/2018 18:07:10'!
-< anOrder
-	^ (self ambient <= anOrder) or: [(anOrder isKindOf: Order) and: [self asModule < anOrder asModule]]! !
-
-!Order methodsFor: 'comparing' stamp: 'len 10/13/2018 18:07:24'!
-<= anOrder
-	^ (self ambient <= anOrder) or: [(anOrder isKindOf: Order) and: [self asModule <= anOrder asModule]]! !
-
-!Order methodsFor: 'converting' stamp: 'len 6/7/2020 06:58:57'!
-asModule
-	^ self notYetImplemented! !
-
-!Order methodsFor: 'operations' stamp: 'len 1/19/2018 23:52:02'!
-integralClosure
-	^ self isMaximal ifTrue: [self] ifFalse: [self ambient integers]! !
-
-!Order methodsFor: 'testing' stamp: 'len 10/13/2018 17:48:08'!
-isField
-	^ false! !
-
-!Order methodsFor: 'testing' stamp: 'len 1/19/2018 23:50:53'!
-isIntegrallyClosedDomain
-	^ self isMaximal! !
-
-!Order methodsFor: 'testing' stamp: 'len 6/4/2019 16:10:11'!
-isNoetherian
-	"Answer true if the receiver is a Noetherian ring, i.e. every ideal is finitely generated."
-	^ true! !
-
-!NumberRing methodsFor: 'accessing' stamp: 'len 1/18/2018 19:22:57'!
-basis
-	^ self ambient integralBasis! !
-
-!NumberRing methodsFor: 'operations' stamp: 'len 5/31/2019 05:26:56'!
-fractions
-	"NOTE: Magma does this differently, the fractions field of a number ring is not its ambient field but an isomorphic field made of formal fractions with denominator a rational integer."
-	^ self ambient! !
-
-!NumberRing methodsFor: 'random' stamp: 'len 1/17/2019 03:23:26'!
-atRandom: aRandom bits: bitSize
-	^ (self ambient atRandom: aRandom bits: bitSize) numerator! !
-
-!NumberRing methodsFor: 'testing' stamp: 'len 12/18/2016 15:02:54'!
-isDedekindDomain
-	"Rings of integers of number fields are Dedekind domains."
-	^ true! !
-
-!NumberRing methodsFor: 'testing' stamp: 'len 1/19/2018 23:48:50'!
-isMaximal
-	^ true! !
-
-!NumberRing methodsFor: 'testing' stamp: 'len 12/18/2016 15:03:32'!
-isPID
-	"A Dedekind domain is a UFD iff it is a PID."
-	^ self isUFD! !
-
-!NumberRing methodsFor: 'testing' stamp: 'len 12/18/2016 15:03:20'!
-isUFD
-	"A Dedekind domain is a UFD iff it is a PID."
-	^ self isPID! !
-
-!NumberRing class methodsFor: 'instance creation' stamp: 'len 1/18/2018 19:26:33'!
-on: aNumberField
-	^ self new ambient: aNumberField! !
-
-!QuadraticRing methodsFor: 'elements-testing' stamp: 'len 9/27/2018 16:00:15'!
-isPrime: aNumber
-	"The norm of a (quadratic) prime is a (rational) integer prime or a prime squared.
-	If the norm is a prime, the number is prime."
-	| norm factors |
-	(norm _ aNumber norm) isPrime ifTrue: [^ true].
-	factors _ norm factors.
-	(factors size <= 2 and: [factors asSet size = 1]) ifFalse: [^ false].
-	self notYetImplemented! !
-
-!QuadraticRing methodsFor: 'elements-testing' stamp: 'len 9/26/2018 21:47:41'!
-isUnit: aNumber
-	^ aNumber norm abs = 1
-"there's also equations, a + bw is a unit if:
-	a^2 - Db^2 = 1 for D = 2,3 mod 4
-	(a + b/2)^2 - (1/4)Db^2 = 1 for D = 1 mod 4"! !
-
-!QuadraticRing methodsFor: 'testing' stamp: 'len 4/26/2020 08:48:48'!
-isEuclidean
-	"Answer true if the receiver is a Euclidean ring, i.e. it has division with remainder."
-	self ambient d negative ifFalse: [self notYetImplemented].
-	(#(-11 -7 -3 -2 -1) includes: self ambient d) ifFalse: [^ false].
-	self notYetImplemented! !
-
-!QuadraticRing methodsFor: 'testing' stamp: 'len 12/23/2016 16:47:35'!
-isIntegralDomain
-	^ true! !
-
-!QuadraticRing methodsFor: 'testing' stamp: 'len 1/18/2018 19:25:19'!
-isNormEuclidean
-	^ #(-11 -7 -3 -2 -1 2 3 5 6 7 11 13 17 19 21 29 33 37 41 57 73) includes: self ambient d! !
-
-!QuadraticRing methodsFor: 'testing' stamp: 'len 5/31/2019 05:27:48'!
-isPID
-	self ambient d negative ifTrue: [^ #(-1 -2 -3 -7 -11 -19 -43 -67 -163) includes: self ambient d].
-	^ self ambient classNumber = 1! !
-
-!GaussianIntegerRing methodsFor: 'as yet unclassified' stamp: 'len 5/31/2019 05:36:51'!
-isIrreducible: aNumber
-	"A Gaussian integer is irriducible if and only if it is prime."
-	^ self isPrime: aNumber! !
-
-!GaussianIntegerRing methodsFor: 'as yet unclassified' stamp: 'len 3/13/2020 19:58:53'!
-isPrime: aNumber
-	"a+bi is prime if either:
-	- one of a, b is zero and absolute value of the other is prime congruent to 3 mod 4;
-	- both are nonzero and a^2 + b%2 is prime"
-	^ super isPrime: aNumber! !
-
-!GaussianIntegerRing methodsFor: 'as yet unclassified' stamp: 'len 5/31/2019 05:38:24'!
-isUnit: aNumber
-	"All the units are: 1, -1, i, -i."
-	^ super isUnit: aNumber! !
 
 !PolynomialRing methodsFor: 'accessing' stamp: 'len 1/2/2017 10:08:58'!
 characteristic
@@ -20219,9 +18715,9 @@ isLocal
 isMultivariate
 	^ self rank > 1! !
 
-!PolynomialRing methodsFor: 'testing' stamp: 'len 6/4/2019 16:09:14'!
+!PolynomialRing methodsFor: 'testing' stamp: 'len 3/21/2021 15:11:06'!
 isNoetherian
-	"Answer true if the receiver is a Noetherian ring, i.e. every ideal is finitely generated."
+	"A ring is called Noetherian if every ideal is finitely generated."
 	self scalars isNoetherian ifTrue: [^ true]. "Hilber's basis theorem"
 	^ super isNoetherian! !
 
@@ -20827,10 +19323,14 @@ to: aCodomain mapping: aBlock
 		ifTrue: [^ GroupMap from: self to: aCodomain mapping: aBlock].
 	^ DomainError signal! !
 
-!Module methodsFor: 'morphisms' stamp: 'len 3/21/2021 14:28:17'!
+!Module methodsFor: 'morphisms' stamp: 'len 3/22/2021 11:32:44'!
 to: aModule matrix: aMatrix
+	^ self to: aModule matrix: aMatrix ifInvalid: [DomainError signal: 'invalid morphism']! !
+
+!Module methodsFor: 'morphisms' stamp: 'len 3/22/2021 11:32:23'!
+to: aModule matrix: aMatrix ifInvalid: exceptionBlock
 	(aModule isModule and: [self scalars = aModule scalars]) ifFalse: [^ DomainError signal].
-	(self syzygies generators allSatisfy: [:each| (aModule elementAt: aMatrix * each) isZero]) ifFalse: [^ DomainError signal: 'invalid morphism'].
+	(self syzygies generators allSatisfy: [:each| (aModule elementAt: aMatrix * each) isZero]) ifFalse: [^ exceptionBlock value].
 	^ ModuleMap from: self to: aModule matrix: aMatrix! !
 
 !Module methodsFor: 'operations' stamp: 'len 3/5/2020 17:35:47'!
@@ -21111,9 +19611,9 @@ includes: anObject
 	self isAmbient ifTrue: [^ anObject parent = self].
 	^ (self ambient includes: anObject) and: [self contains: anObject]! !
 
-!Module methodsFor: 'testing' stamp: 'len 7/5/2019 10:08:22'!
+!Module methodsFor: 'testing' stamp: 'len 3/21/2021 15:14:23'!
 isArtinian
-	"Answer true if the receiver is an Artinian module, i.e. it satisfies the descending chain condition."
+	"A module is called Artinian if it satisfies the descending chain condition."
 	(self isAmbient not and: [self ambient isArtinian]) ifTrue: [^ true].
 	^ self scalars isArtinian "because the receiver is finitely generated"! !
 
@@ -21193,9 +19693,10 @@ isMixed
 	"An abelian group is mixed if it is nother a torsion group nor free."
 	^ self isTorsion not and: [self isFree not]! !
 
-!Module methodsFor: 'testing' stamp: 'len 6/4/2019 16:14:26'!
+!Module methodsFor: 'testing' stamp: 'len 3/21/2021 16:56:55'!
 isNoetherian
-	"A module is called Noetherian if every submodule is finitely generated."
+	"A module is called Noetherian if every submodule is finitely generated.
+	This is equivalent to the module satisfying the ascending chain condition (every ascending chain of submodules is finite), and it is also equivalent to the condition that any set of submodules contains a maximal element."
 	(self isAmbient not and: [self ambient isNoetherian]) ifTrue: [^ true].
 	"A ring R is Noetherian if and only if every finitely generated R-module is a Noetherian module:"
 	^ self scalars isNoetherian "because the receiver is finitely generated"! !
@@ -21305,7 +19806,7 @@ example5QuotientInvariants
 	"Invariants of the Z-module Z^3 / <(1,2,3), (2,2,2)>."
 	^ (ƒ^3 / {(1,2,3). (2,2,2)}) invariants! !
 
-!Ideal methodsFor: 'accessing' stamp: 'len 3/16/2021 16:34:01'!
+!Ideal methodsFor: 'accessing' stamp: 'len 3/23/2021 11:33:43'!
 height
 	"Answer the height (or codimension, or rank) of the receiver.
 	This is the length of the longest ascending chain of prime ideals containing it.
@@ -23189,17 +21690,41 @@ computeType
 components: anArray
 	^ self new components: anArray! !
 
-!Algebra methodsFor: 'as yet unclassified' stamp: 'len 3/18/2021 15:33:56'!
+!Algebra methodsFor: 'accessing' stamp: 'len 3/18/2021 15:33:56'!
 characteristic
 	^ self scalars characteristic! !
 
-!Algebra methodsFor: 'as yet unclassified' stamp: 'len 3/18/2021 15:24:39'!
+!Algebra methodsFor: 'testing-categories' stamp: 'len 3/23/2021 12:18:59'!
+isRing
+	^ (self scalars isKindOf: RationalIntegerRing) and: [self isAssociative and: [self isUnital]]! !
+
+!Algebra methodsFor: 'private' stamp: 'len 3/18/2021 15:32:56'!
+species
+	^ Algebra! !
+
+!Algebra methodsFor: 'testing' stamp: 'len 3/18/2021 15:24:39'!
 isAlgebra
 	^ true! !
 
-!Algebra methodsFor: 'as yet unclassified' stamp: 'len 3/18/2021 15:32:56'!
-species
-	^ Algebra! !
+!Algebra methodsFor: 'categories' stamp: 'len 3/23/2021 16:13:34'!
+Algebras
+	(self isRing and: [self isCommutative]) ifFalse: [^ DomainError signal].
+	^ self propertyAt: #Algebras ifAbsentPut: [Algebras over: self]! !
+
+!Algebra methodsFor: 'categories' stamp: 'len 3/23/2021 16:14:23'!
+Modules
+	(self isUnital and: [self isAssociative]) ifFalse: [^ DomainError signal].
+	^ self propertyAt: #Modules ifAbsentPut: [Modules over: self]! !
+
+!Algebra methodsFor: 'converting' stamp: 'len 3/23/2021 16:15:43'!
+asIdeal
+	"Answer the receiver viewed as an ideal of itself."
+	^ self * self one! !
+
+!Algebra methodsFor: 'converting' stamp: 'len 3/23/2021 16:15:30'!
+asScalarModule
+	"Answer the receiver A viewed as A-module."
+	^ self propertyAt: #asScalarModule ifAbsentPut: [ScalarModule over: self]! !
 
 !AffineAlgebra methodsFor: 'as yet unclassified' stamp: 'len 3/18/2021 14:52:36'!
 ‘ anAlgebra
@@ -23579,6 +22104,16 @@ isUnital
 species
 	^ FiniteAlgebra! !
 
+!FiniteAlgebra methodsFor: 'as yet unclassified' stamp: 'len 3/22/2021 10:05:56'!
+< anAlgebra
+	"Answer true if the receiver is strictly included in the argument."
+	^ self asModule < anAlgebra asModule! !
+
+!FiniteAlgebra methodsFor: 'as yet unclassified' stamp: 'len 3/22/2021 10:05:18'!
+<= anAlgebra
+	"Answer true if the receiver is included in the argument."
+	^ self asModule <= anAlgebra asModule! !
+
 !FiniteAlgebra class methodsFor: 'instance creation' stamp: 'len 7/7/2020 06:19:20'!
 multiplication: aBilinearMap
 	^ self new multiplication: aBilinearMap! !
@@ -23659,6 +22194,83 @@ isIdecomposable
 !AssociativeFiniteAlgebra methodsFor: 'private' stamp: 'len 3/17/2021 08:53:10'!
 species
 	^ AssociativeFiniteAlgebra! !
+
+!Order methodsFor: 'accessing' stamp: 'len 1/18/2018 19:22:57'!
+basis
+	^ self ambient integralBasis! !
+
+!Order methodsFor: 'accessing' stamp: 'len 3/22/2021 10:30:07'!
+degree
+	^ self ambientField degree! !
+
+!Order methodsFor: 'operations' stamp: 'len 3/22/2021 10:25:46'!
+fractions
+	"NOTE: Magma does this differently, the fractions field of a number ring is not its ambient field but an isomorphic field made of formal fractions with denominator a rational integer."
+	^ self ambientField! !
+
+!Order methodsFor: 'testing' stamp: 'len 12/18/2016 15:02:54'!
+isDedekindDomain
+	"Rings of integers of number fields are Dedekind domains."
+	^ true! !
+
+!Order methodsFor: 'testing' stamp: 'len 3/22/2021 10:28:43'!
+isField
+	^ false! !
+
+!Order methodsFor: 'testing' stamp: 'len 3/22/2021 10:29:14'!
+isIntegrallyClosedDomain
+	^ true! !
+
+!Order methodsFor: 'testing' stamp: 'len 12/18/2016 15:03:32'!
+isPID
+	"A Dedekind domain is a UFD iff it is a PID."
+	^ self isUFD! !
+
+!Order methodsFor: 'testing' stamp: 'len 12/18/2016 15:03:20'!
+isUFD
+	"A Dedekind domain is a UFD iff it is a PID."
+	^ self isPID! !
+
+!Order class methodsFor: 'instance creation' stamp: 'len 3/23/2021 11:43:16'!
+on: aNumberField
+	^ self new propertyAt: #ambientField put: aNumberField; yourself! !
+
+!QuadraticRing methodsFor: 'elements-testing' stamp: 'len 9/27/2018 16:00:15'!
+isPrime: aNumber
+	"The norm of a (quadratic) prime is a (rational) integer prime or a prime squared.
+	If the norm is a prime, the number is prime."
+	| norm factors |
+	(norm _ aNumber norm) isPrime ifTrue: [^ true].
+	factors _ norm factors.
+	(factors size <= 2 and: [factors asSet size = 1]) ifFalse: [^ false].
+	self notYetImplemented! !
+
+!QuadraticRing methodsFor: 'elements-testing' stamp: 'len 9/26/2018 21:47:41'!
+isUnit: aNumber
+	^ aNumber norm abs = 1
+"there's also equations, a + bw is a unit if:
+	a^2 - Db^2 = 1 for D = 2,3 mod 4
+	(a + b/2)^2 - (1/4)Db^2 = 1 for D = 1 mod 4"! !
+
+!QuadraticRing methodsFor: 'testing' stamp: 'len 3/22/2021 10:31:13'!
+isEuclidean
+	"Answer true if the receiver is a Euclidean ring, i.e. it has division with remainder."
+	self ambientField d negative ifFalse: [self notYetImplemented].
+	(#(-11 -7 -3 -2 -1) includes: self ambientField d) ifFalse: [^ false].
+	self notYetImplemented! !
+
+!QuadraticRing methodsFor: 'testing' stamp: 'len 12/23/2016 16:47:35'!
+isIntegralDomain
+	^ true! !
+
+!QuadraticRing methodsFor: 'testing' stamp: 'len 3/22/2021 10:31:22'!
+isNormEuclidean
+	^ #(-11 -7 -3 -2 -1 2 3 5 6 7 11 13 17 19 21 29 33 37 41 57 73) includes: self ambientField d! !
+
+!QuadraticRing methodsFor: 'testing' stamp: 'len 3/22/2021 10:31:35'!
+isPID
+	self ambientField d negative ifTrue: [^ #(-1 -2 -3 -7 -11 -19 -43 -67 -163) includes: self ambientField d].
+	^ self ambientField classNumber = 1! !
 
 !CliffordAlgebra methodsFor: 'accessing' stamp: 'len 7/5/2020 09:59:31'!
 degree
@@ -24264,14 +22876,15 @@ asIdeal
 	g _ self generatorPolynomial.
 	^ g parent / {g parent x ^ self length - 1} * g! !
 
-!Code methodsFor: 'converting' stamp: 'len 8/11/2020 08:18:19'!
+!Code methodsFor: 'converting' stamp: 'len 3/21/2021 14:58:15'!
 asLattice
 	"A linear code in a finite field or ring can be lifted to a lattice.
 	This is called the Construction A lifting."
-	| B E |
+	| B E H |
 	B _ self generatorMatrix lift.
 	E _ B - (B codomain endomorphisms scalar: self scalars characteristic).
-	^ Lattice basis: ((E transpose HNF over: „) rows select: [:each| each isZero not])! !
+	H _ E transpose HNF over: „.
+	^ Lattice on: H domain innerProduct basis: (H rows select: [:each| each isZero not])! !
 
 !Code methodsFor: 'converting' stamp: 'len 8/2/2020 12:08:46'!
 asModule
@@ -24753,9 +23366,9 @@ coordinateLattice
 degree
 	^ self space rank! !
 
-!Lattice methodsFor: 'accessing' stamp: 'len 8/11/2020 08:01:18'!
+!Lattice methodsFor: 'accessing' stamp: 'len 3/21/2021 14:59:18'!
 generatorMatrix
-	^ self propertyAt: #generatorMatrix ifAbsentPut: [Matrix columns: (self basis collect: [:each| self space coordinatesOf: each])]! !
+	^ self propertyAt: #generatorMatrix ifAbsentPut: [Matrix to: self space coordinates columns: (self basis collect: [:each| self space coordinatesOf: each])]! !
 
 !Lattice methodsFor: 'accessing' stamp: 'len 7/29/2020 06:35:41'!
 generators
@@ -25177,9 +23790,9 @@ leech2
 		at: #coveringRadius put: 2 sqrt.
 	^ answer! !
 
-!Lattice class methodsFor: 'instance creation' stamp: 'len 7/8/2020 08:30:50'!
+!Lattice class methodsFor: 'instance creation' stamp: 'len 3/21/2021 14:55:54'!
 basis: aCollection
-	^ self new basis: aCollection innerProduct: aCollection first parent innerProduct! !
+	^ self on: aCollection first parent innerProduct basis: aCollection! !
 
 !Lattice class methodsFor: 'instance creation' stamp: 'len 8/1/2020 08:18:05'!
 gramian: aMatrix
@@ -25852,12 +24465,6 @@ dimension
 polynomial
 	^ self ideal generator! !
 
-!AffineHypersurface methodsFor: 'morphic' stamp: 'len 1/22/2017 09:31:15'!
-plot
-	(self scalars isField and: [self scalars isReal and: [self ambient dimension = 3]])
-		ifFalse: [^ DomainError signal].
-	^ ImplicitSurfacePlotMorph new polynomial: self polynomial! !
-
 !AffineHypersurface methodsFor: 'operations' stamp: 'len 5/20/2018 16:18:41'!
 multiplicityAt: aTuple
 	self scalars isField ifFalse: [DomainError signal: 'not over a field'].
@@ -25866,14 +24473,6 @@ multiplicityAt: aTuple
 !AffineHypersurface class methodsFor: 'instance creation' stamp: 'len 1/23/2017 11:30:29'!
 polynomial: aPolynomial
 	^ self coordinateRing: aPolynomial parent / aPolynomial! !
-
-!AffinePlaneCurve methodsFor: 'morphic' stamp: 'len 10/24/2016 21:43'!
-plot
-	^ self plot: (-5@-5 extent: 10@10)! !
-
-!AffinePlaneCurve methodsFor: 'morphic' stamp: 'len 10/24/2016 21:43'!
-plot: aRectangle
-	^ ImplicitFunctionPlotMorph new function: self polynomial; box: aRectangle! !
 
 !AffinePlaneCurve methodsFor: 'operations' stamp: 'len 5/20/2018 16:19:29'!
 tangentsAt: aTuple
@@ -27939,10 +26538,6 @@ domain
 asFunction
 	^ self domain carrier to: self codomain carrier evaluating: self! !
 
-!Map methodsFor: 'morphic' stamp: 'len 4/24/2016 02:04'!
-plot: aCollection
-	^ FunctionPlotMorph new evaluationPoints: aCollection; function: self! !
-
 !Map methodsFor: 'operations' stamp: 'len 5/1/2020 17:11:54'!
 , aFunction
 	"Answer the cartesian product of the receiver with the argument."
@@ -28954,6 +27549,13 @@ asRepresentation
 		to: self space automorphisms
 		evaluating: [:g| self space to: self space evaluating: [:x| self value: {g.x}]]! !
 
+!GroupAction methodsFor: 'graphs' stamp: 'len 3/24/2021 09:25:28'!
+actionGraph
+	"Answer the action diagram with respect to the group generators.
+	This is similar to a Cayley diagram.
+	The connected components of the action diagram are the orbits of the action."
+	^ self actionGraph: self group generators! !
+
 !GroupAction methodsFor: 'graphs' stamp: 'len 5/25/2016 03:45'!
 actionGraph: groupGenerators
 	"Answer the action diagram with respect to the given group generators.
@@ -28966,20 +27568,6 @@ actionGraph: groupGenerators
 		self space do: [:x|
 			G addEdgeFrom: x to: (self value: {g.x}) label: g]].
 	^ G! !
-
-!GroupAction methodsFor: 'graphs' stamp: 'len 5/18/2016 21:23'!
-actionGraphMorph
-	^ self actionGraphMorph: self group generators! !
-
-!GroupAction methodsFor: 'graphs' stamp: 'len 12/19/2016 12:24:08'!
-actionGraphMorph: generators
-	| G answer colors |
-	G _ self actionGraph: generators.
-	answer _ G asMorph.
-	colors _ DiscretePalette default.
-	answer edgesAndLabelsDo: [:each :label| each hideLabel; color: (colors at: label)].
-	answer nodesDo: [:each| each color: Color transparent; radius: 0].
-	^ answer! !
 
 !GroupAction methodsFor: 'testing' stamp: 'len 12/28/2016 11:12:53'!
 isFaithful
@@ -29960,12 +28548,13 @@ rowsDo: aBlock
 	columns _ aMatrix columns asArray.
 	^ self class from: aMatrix domain to: self codomain filling: [:i :j| (rows at: i) · (columns at: j)]! !
 
-!Matrix methodsFor: 'operations' stamp: 'len 5/31/2020 10:31:19'!
+!Matrix methodsFor: 'operations' stamp: 'len 3/24/2021 09:07:39'!
  aMatrix
 	"Answer the block sum of the receiver and the argument.
 	If the receiver is A and the argument is B, output a matrix of the form:
 	  [A 0]
 	  [0 B]"
+	aMatrix isMatrix ifFalse: [^ super  aMatrix].
 	^ self class from: domain  aMatrix domain to: codomain  aMatrix codomain filling: [:i :j| self at: i@j ifAbsent: [aMatrix at: i-self height@(j - self width) ifAbsent: [self scalars zero]]]! !
 
 !Matrix methodsFor: 'operations' stamp: 'len 10/26/2020 17:24:25'!
@@ -37489,23 +36078,17 @@ isZeroDivisor
 	^ parent maximalIdeal contains: self
 "! !
 
-!AlgebraicFunction methodsFor: 'comparing' stamp: 'len 3/6/2021 06:29:05'!
+!AlgebraicFunction methodsFor: 'comparing' stamp: 'len 3/22/2021 10:35:44'!
 = anObject
-	(self class = anObject class and: [parent = anObject parent])
-		ifTrue: [^ representative = anObject representative].
-	self flag: #fix. "should just return false:"
-	^ self = (parent !! anObject)! !
+	^ self class = anObject class and: [parent = anObject parent and: [representative = anObject representative]]! !
 
 !AlgebraicFunction methodsFor: 'comparing' stamp: 'len 3/6/2021 06:29:10'!
 hash
 	^ representative hash! !
 
-!AlgebraicNumber methodsFor: 'comparing' stamp: 'len 3/6/2021 06:28:56'!
+!AlgebraicNumber methodsFor: 'comparing' stamp: 'len 3/22/2021 10:35:52'!
 = anObject
-	(self class = anObject class and: [parent = anObject parent])
-		ifTrue: [^ representative = anObject representative].
-	self flag: #fix. "should just return false:"
-	^ self = (parent !! anObject)! !
+	^ self class = anObject class and: [parent = anObject parent and: [representative = anObject representative]]! !
 
 !AlgebraicNumber methodsFor: 'comparing' stamp: 'len 3/6/2021 06:28:52'!
 hash
@@ -43904,6 +42487,11 @@ opposite: aChainComplex
 characteristicPolynomial
 	^ self representation characteristicPolynomial! !
 
+!FiniteAlgebraElement methodsFor: 'accessing' stamp: 'len 3/23/2021 12:15:31'!
+leftRepresentation
+	"Answer the representation map, the module map defined by left multiplication by the receiver."
+	^ self parent asModule endomorphisms evaluating: [:x| (self * (self parent !! x)) asModuleElement]! !
+
 !FiniteAlgebraElement methodsFor: 'accessing' stamp: 'len 7/14/2020 09:24:05'!
 minimalPolynomial
 	self parent isUnital ifFalse: [^ self error: 'not unital algebra'].
@@ -44099,6 +42687,58 @@ isZeroDivisor
 !FiniteAlgebraElement class methodsFor: 'instance creation' stamp: 'len 7/14/2020 10:06:42'!
 parent: anAlgebra moduleElement: anElement
 	^ self new parent: anAlgebra moduleElement: anElement! !
+
+!GaussianInteger methodsFor: 'accessing' stamp: 'len 3/24/2021 07:45:20'!
+imaginary
+	^ moduleElement at: 2! !
+
+!GaussianInteger methodsFor: 'accessing' stamp: 'len 3/24/2021 07:45:16'!
+real
+	^ moduleElement at: 1! !
+
+!GaussianInteger methodsFor: 'testing' stamp: 'len 3/24/2021 07:43:10'!
+isIrreducible
+	"A Gaussian integer is irriducible if and only if it is prime."
+	^ self isPrime! !
+
+!GaussianInteger methodsFor: 'testing' stamp: 'len 3/24/2021 07:42:50'!
+isPrime
+	"A Gaussian integer a+bi is prime if either:
+	- one of a, b is zero and absolute value of the other is prime congruent to 3 mod 4;
+	- both are nonzero and a^2 + b%2 is prime."
+	| a b |
+	a _ self real.
+	b _ self imaginary.
+	a isZero ifTrue: [^ b \\ 4 = 3 and: [b abs isPrime]].
+	b isZero ifTrue: [^ a \\ 4 = 3 and: [a abs isPrime]].
+	^ (a squared + (b \\ 2)) isPrime! !
+
+!GaussianInteger methodsFor: 'testing' stamp: 'len 3/24/2021 07:39:22'!
+isUnit
+	"All the units are: 1, -1, i, -i."
+	^ (self real abs isOne and: [self imaginary isZero]) or: [self real isZero and: [self imaginary abs isOne]]! !
+
+!GaussianInteger methodsFor: 'operations' stamp: 'len 3/24/2021 07:47:00'!
+conjugate
+	^ self class parent: parent moduleElement: (moduleElement withIndexCollect: [:each :i| i=1 ifTrue: [each] ifFalse: [each negated]])
+
+"alternatively:
+	^ self negated + self trace
+"! !
+
+!GaussianInteger methodsFor: 'operations' stamp: 'len 3/24/2021 07:47:09'!
+inverse
+	^ self conjugate * self norm inverse! !
+
+!GaussianInteger methodsFor: 'operations' stamp: 'len 3/24/2021 07:47:24'!
+norm
+	"Answer the reduced norm of the receiver."
+	^ (self * self conjugate) asModuleElement at: 1! !
+
+!GaussianInteger methodsFor: 'operations' stamp: 'len 3/24/2021 07:47:27'!
+trace
+	"Answer the reduced trace of the receiver."
+	^ (self + self conjugate) asModuleElement at: 1! !
 
 !GroupSum methodsFor: 'operations' stamp: 'len 7/19/2020 08:01:35'!
 * anElement
@@ -46144,204 +44784,6 @@ j
 coefficients: aTuple
 	^ self new coefficients: aTuple! !
 
-!AutomaticPalette methodsFor: 'as yet unclassified' stamp: 'len 12/18/2016 23:10:48'!
-at: anObject
-	| i n |
-	i _ map at: anObject ifAbsentPut: [map size].
-	n _ map size.
-	^ Color h: i * 360.0 / (n + 1) + 90.0 \\ 360.0 s: 0.65 v: 0.95! !
-
-!AutomaticPalette methodsFor: 'as yet unclassified' stamp: 'len 7/31/2016 04:44'!
-initialize
-	map _ Dictionary new! !
-
-!ComplexPalette methodsFor: 'accessing' stamp: 'len 12/9/2016 16:39:28'!
-at: aNumber
-	aNumber isInfinite ifTrue: [^ infinityColor].
-	aNumber isZero ifTrue: [^ zeroColor].
-	^ self
-		colorHue: ([hueBlock value: aNumber] on: Error do: [^ infinityColor])
-		saturation: 1.0
-		luminance: ([luminanceBlock value: aNumber] on: Error do: [^ infinityColor])! !
-
-!ComplexPalette methodsFor: 'initialization' stamp: 'len 12/7/2016 22:25:44'!
-setGrid: scalePoint
-	hueBlock _ [:z| z arg radiansToDegrees \\ 360].
-	luminanceBlock _ [:z| (z isZero ifTrue: [1.0] ifFalse: [(z arg / Float twoPi + 0.5 * scalePoint y + 0.999 \\ 1.0) * (z abs ln * scalePoint x \\ 1.0)]) * 0.4 + 0.2].
-	zeroColor _ Color white.
-	infinityColor _ Color black! !
-
-!ComplexPalette methodsFor: 'initialization' stamp: 'len 12/7/2016 16:20:20'!
-setLog
-	hueBlock _ [:z| z arg radiansToDegrees \\ 360].
-	luminanceBlock _ [:z| z isZero ifTrue: [1.0] ifFalse: [z abs min: 0.6 max: 0.0]].
-	zeroColor _ Color white.
-	infinityColor _ Color black! !
-
-!ComplexPalette methodsFor: 'initialization' stamp: 'len 12/7/2016 22:15:26'!
-setLogReversed
-"	hueBlock _ [:z| (z arg + Float pi) radiansToDegrees \\ 360]."
-	hueBlock _ [:z| z arg radiansToDegrees \\ 360].
-	luminanceBlock _ [:z| z isZero ifTrue: [0.0] ifFalse: [1.0 - (z abs min: 0.6 max: 0.0)]].
-	zeroColor _ Color black.
-	infinityColor _ Color white! !
-
-!ComplexPalette methodsFor: 'initialization' stamp: 'len 12/18/2016 11:01:21'!
-setMagnitude
-	hueBlock _ [:z| z arg radiansToDegrees \\ 360].
-	luminanceBlock _ [:z| 2.0 ^ z abs negated].
-	zeroColor _ Color white.
-	infinityColor _ Color black! !
-
-!ComplexPalette methodsFor: 'initialization' stamp: 'len 12/7/2016 21:53:50'!
-setPhase
-	hueBlock _ [:z| z arg radiansToDegrees \\ 360].
-	luminanceBlock _ [:z| 0.5].
-	zeroColor _ Color white.
-	infinityColor _ Color black! !
-
-!ComplexPalette methodsFor: 'initialization' stamp: 'len 12/7/2016 22:15:20'!
-setReversed
-	hueBlock _ [:z| z arg radiansToDegrees \\ 360].
-"	hueBlock _ [:z| (z arg + Float pi) radiansToDegrees \\ 360]."
-	luminanceBlock _ [:z| 1.0 - (2.0 ^ z abs negated)].
-	zeroColor _ Color black.
-	infinityColor _ Color white! !
-
-!ComplexPalette methodsFor: 'initialization' stamp: 'len 12/7/2016 16:22:40'!
-setScaled: scale
-	hueBlock _ [:z| z arg radiansToDegrees \\ 360].
-	luminanceBlock _ [:z| 2.0 ^ (z abs * scale negated)].
-	zeroColor _ Color white.
-	infinityColor _ Color black! !
-
-!ComplexPalette methodsFor: 'private' stamp: 'len 12/6/2016 16:43:01'!
-colorHue: hue saturation: saturation luminance: luma
-	| chroma x hf i r1 g1 b1 m | 
-
-	chroma _ (1 - (2*luma - 1) abs) * saturation.
-	hf _ hue \\ 360.
-	i _ hf // 60.				"integer part of hue"
-	x _ (hf \\ 60) / 60.0.	"fractional part of hue"
-	x _ x \\ 2.
-	i \\ 2 = 1 ifTrue: [ x _ 1.0 - x ].
-	x _ chroma * x.
-
-	0 = i ifTrue: [ r1 _ chroma. g1 _ x. b1 _ 0.0 ].
-	1 = i ifTrue: [ r1 _ x. g1 _ chroma. b1 _ 0.0 ].
-	2 = i ifTrue: [ r1 _ 0.0. g1 _ chroma. b1 _ x ].
-	3 = i ifTrue: [ r1 _ 0.0. g1 _ x. b1 _ chroma ].
-	4 = i ifTrue: [ r1 _ x. g1 _ 0.0. b1 _ chroma ].
-	5 = i ifTrue: [ r1 _ chroma. g1 _ 0.0. b1 _ x ].
-
-	m _ luma - (chroma / 2) "(0.299*r1) - (0.587*g1) - (0.114*b1)".
-	r1 _ r1 + m min: 1.0 max: 0.0.
-	g1 _ g1 + m min: 1.0 max: 0.0.
-	b1 _ b1 + m min: 1.0 max: 0.0.
-	^ Color r: r1 g: g1 b: b1! !
-
-!ComplexPalette class methodsFor: 'as yet unclassified' stamp: 'len 12/18/2016 11:00:55'!
-default
-	^ self phase! !
-
-!ComplexPalette class methodsFor: 'as yet unclassified' stamp: 'len 12/7/2016 22:06:31'!
-grid: scalePoint
-	"This is a palette that colors each complex value z assigning a hue depending on its phase arg(z), and luminance depending on both phase and modulus |z|. The result is that of showing a grid of shadows over the Riemann sphere similar to a conformal grid mapping. The argument scalePoint determines the number of meridians and separation between parallels."
-	^ self basicNew setGrid: scalePoint! !
-
-!ComplexPalette class methodsFor: 'as yet unclassified' stamp: 'len 12/7/2016 16:18:14'!
-log
-	^ self basicNew setLog! !
-
-!ComplexPalette class methodsFor: 'as yet unclassified' stamp: 'len 12/7/2016 22:11:32'!
-logReversed
-	^ self basicNew setLogReversed! !
-
-!ComplexPalette class methodsFor: 'as yet unclassified' stamp: 'len 12/18/2016 11:00:45'!
-magnitude
-	^ self basicNew setMagnitude! !
-
-!ComplexPalette class methodsFor: 'as yet unclassified' stamp: 'len 12/6/2016 16:51:43'!
-new
-	^ self default! !
-
-!ComplexPalette class methodsFor: 'as yet unclassified' stamp: 'len 12/7/2016 21:59:06'!
-phase
-	"This is a palette that colors each complex value z assigning a hue depending only on its phase arg(z), and constant luminance. The modulus |z| is not depicted."
-	^ self basicNew setPhase! !
-
-!ComplexPalette class methodsFor: 'as yet unclassified' stamp: 'len 12/7/2016 22:11:44'!
-reversed
-	^ self basicNew setReversed! !
-
-!ComplexPalette class methodsFor: 'as yet unclassified' stamp: 'len 12/7/2016 16:22:58'!
-scaled: aNumber
-	^ self basicNew setScaled: aNumber! !
-
-!DiscretePalette methodsFor: 'as yet unclassified' stamp: 'len 2/18/2016 23:38'!
-at: anObject
-	^ map at: anObject ifAbsentPut: [self newColor]! !
-
-!DiscretePalette methodsFor: 'as yet unclassified' stamp: 'len 2/18/2016 23:42'!
-colors: anArray
-	colors _ anArray.
-	map _ Dictionary new! !
-
-!DiscretePalette methodsFor: 'as yet unclassified' stamp: 'len 7/31/2016 04:32'!
-newColor
-	| a b answer |
-	map size < colors size ifTrue: [^ colors at: map size + 1].
-	[a _ colors atRandom.
-	[b _ colors atRandom. a = b] whileTrue.
-	answer _ a mixed: 0.5 with: b.
-	colors includes: answer] whileTrue.
-	^ answer! !
-
-!DiscretePalette class methodsFor: 'as yet unclassified' stamp: 'len 2/18/2016 23:42'!
-colors: anArray
-	^ self new colors: anArray! !
-
-!DiscretePalette class methodsFor: 'as yet unclassified' stamp: 'len 5/2/2016 07:36'!
-default
-	^ self colors: (#("brightGreen" periwinkle seaGreen hotPink lightYellow cyan lightPink lightOrange  "lightGreen" "lightRed"  "mustard" ) collect: [:each| Color exactColorNamed: each]) "shuffled"! !
-
-!RealPalette methodsFor: 'as yet unclassified' stamp: 'len 8/17/2016 23:35'!
-at: aNumber
-	| v |
-	v _ (aNumber max: min) min: max.
-	^ colors at: (colors size - 1 * (v - min) / (max - min)) truncated + 1! !
-
-!RealPalette methodsFor: 'as yet unclassified' stamp: 'len 2/26/2016 06:43'!
-colors: anArray
-	colors _ anArray! !
-
-!RealPalette methodsFor: 'as yet unclassified' stamp: 'len 8/17/2016 23:33'!
-max: aNumber
-	max _ aNumber! !
-
-!RealPalette methodsFor: 'as yet unclassified' stamp: 'len 8/17/2016 23:33'!
-min: aNumber
-	min _ aNumber! !
-
-!RealPalette class methodsFor: 'as yet unclassified' stamp: 'len 5/23/2020 09:31:27'!
-default
-	| blue green red |
-	red _ … polynomials interpolate: {"0 -> 0.0." 40 -> 0. 65 -> 0.8. "90 -> 0." 100 -> 0. 150 -> 0.5. 200 -> 0.9. 215 -> 1. 255 -> 0.95}.
-	green _ … polynomials interpolate: {0 -> 0.2. 50 -> 0.48. 100 -> 0.68. 150 -> 0.75. 200 -> 0.70. 255 -> 1}.
-	blue _ … polynomials interpolate: {0 -> 0.5. 35 -> 0.9. 85 -> 0.8. 115 -> 0.7. 150 -> 0.5. 200 -> 0.3. 255 -> 0}.
-	^ self new colors: ((0 to: 255) collect: [:x| Color fromArray: ({x < 80 ifTrue: [0] ifFalse: [red value: x]. green value: x. blue value: x} collect: [:y| y abs min: 1.0])]); min: 0.0; max: 1.0! !
-
-!RealPalette class methodsFor: 'as yet unclassified' stamp: 'len 8/18/2016 07:30'!
-grayscale
-	^ (self new: 100 interpolating: {Color darkGray darker. Color white}) min: 0.0; max: 1.0! !
-
-!RealPalette class methodsFor: 'as yet unclassified' stamp: 'len 8/18/2016 07:21'!
-new: anInteger interpolating: anArray
-	^ self new colors: ((0 to: anInteger-1) collect: [:i|
-			| mu |
-			mu _ i * anArray size / (anInteger-1).
-			(anArray atPin: mu floor + 1) mixed: mu - mu floor with: (anArray atPin: mu ceiling + 1)])! !
-
 !ExtendedSmithReduction methodsFor: 'as yet unclassified' stamp: 'len 5/5/2019 12:43:36'!
 matrix
 	^ matrix! !
@@ -48045,10 +46487,6 @@ count
 	self whileTrue: [count _ count + 1].
 	^ count! !
 
-!BlockClosure methodsFor: '*domains' stamp: 'len 3/1/2017 17:00:08'!
-times: anInteger histogram: binCount
-	^ HistogramMorph new: binCount samples: ((1 to: anInteger) collect: [:each| self value])! !
-
 !Collection methodsFor: '*domains' stamp: 'len 5/10/2019 04:26:01'!
 /\ aCollection
 	^ self intersection: aCollection! !
@@ -48140,10 +46578,6 @@ isSingleton
 	seenOneElement _ false.
 	self do: [:each| seenOneElement ifTrue: [^ false]. seenOneElement _ true].
 	^ seenOneElement! !
-
-!Collection methodsFor: '*domains' stamp: 'len 4/25/2016 07:52'!
-plot: aFunction
-	^ FunctionPlotMorph new evaluationPoints: self; function: aFunction! !
 
 !Collection methodsFor: '*domains' stamp: 'len 5/8/2018 07:15:12'!
 printElementsOn: aStream
@@ -48243,10 +46677,6 @@ permutedBy: aPermutation
 	answer _ Array new: self size.
 	1 to: self size do: [:i| answer at: (aPermutation at: i) put: (self at: i)].
 	^ answer! !
-
-!SequenceableCollection methodsFor: '*domains' stamp: 'len 5/23/2020 10:05:45'!
-plot
-	^ FunctionPlotMorph new evaluationPoints: (1 to: self size); function: (ƒ carrier to: … carrier evaluating: [:n| self at: n])! !
 
 !SequenceableCollection methodsFor: '*domains' stamp: 'len 11/18/2016 08:58:16'!
 sum
