@@ -1,477 +1,477 @@
-'From Cuis 5.0 [latest update: #4190] on 24 March 2021 at 9:37:10 am'!
-'Description Please enter a description for this package'!
-!provides: 'DomainsTests' 1 181!
-!requires: 'Domains' 1 587 nil!
-SystemOrganization addCategory: #DomainsTests!
+'From Cuis 5.0 [latest update: #4190] on 24 March 2021 at 10:32:13 am'!
+'Description '!
+!provides: 'Tests-Domains' 1 1!
+!requires: 'Domains' 1 613 nil!
+SystemOrganization addCategory: #'Tests-Domains'!
 
 
-!classDefinition: #AbelianGroupTest category: #DomainsTests!
+!classDefinition: #AbelianGroupTest category: #'Tests-Domains'!
 TestCase subclass: #AbelianGroupTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'DomainsTests'!
-!classDefinition: 'AbelianGroupTest class' category: #DomainsTests!
+	category: 'Tests-Domains'!
+!classDefinition: 'AbelianGroupTest class' category: #'Tests-Domains'!
 AbelianGroupTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #AlgebraTest category: #DomainsTests!
+!classDefinition: #AlgebraTest category: #'Tests-Domains'!
 TestCase subclass: #AlgebraTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'DomainsTests'!
-!classDefinition: 'AlgebraTest class' category: #DomainsTests!
+	category: 'Tests-Domains'!
+!classDefinition: 'AlgebraTest class' category: #'Tests-Domains'!
 AlgebraTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #AlgebraicGeometryTest category: #DomainsTests!
+!classDefinition: #AlgebraicGeometryTest category: #'Tests-Domains'!
 TestCase subclass: #AlgebraicGeometryTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'DomainsTests'!
-!classDefinition: 'AlgebraicGeometryTest class' category: #DomainsTests!
+	category: 'Tests-Domains'!
+!classDefinition: 'AlgebraicGeometryTest class' category: #'Tests-Domains'!
 AlgebraicGeometryTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #AlgebraicNumbersTest category: #DomainsTests!
+!classDefinition: #AlgebraicNumbersTest category: #'Tests-Domains'!
 TestCase subclass: #AlgebraicNumbersTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'DomainsTests'!
-!classDefinition: 'AlgebraicNumbersTest class' category: #DomainsTests!
+	category: 'Tests-Domains'!
+!classDefinition: 'AlgebraicNumbersTest class' category: #'Tests-Domains'!
 AlgebraicNumbersTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #BilinearFormTest category: #DomainsTests!
+!classDefinition: #BilinearFormTest category: #'Tests-Domains'!
 TestCase subclass: #BilinearFormTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'DomainsTests'!
-!classDefinition: 'BilinearFormTest class' category: #DomainsTests!
+	category: 'Tests-Domains'!
+!classDefinition: 'BilinearFormTest class' category: #'Tests-Domains'!
 BilinearFormTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #ChainComplexTest category: #DomainsTests!
+!classDefinition: #ChainComplexTest category: #'Tests-Domains'!
 TestCase subclass: #ChainComplexTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'DomainsTests'!
-!classDefinition: 'ChainComplexTest class' category: #DomainsTests!
+	category: 'Tests-Domains'!
+!classDefinition: 'ChainComplexTest class' category: #'Tests-Domains'!
 ChainComplexTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #CodesTest category: #DomainsTests!
+!classDefinition: #CodesTest category: #'Tests-Domains'!
 TestCase subclass: #CodesTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'DomainsTests'!
-!classDefinition: 'CodesTest class' category: #DomainsTests!
+	category: 'Tests-Domains'!
+!classDefinition: 'CodesTest class' category: #'Tests-Domains'!
 CodesTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #CommutativeAlgebraTest category: #DomainsTests!
+!classDefinition: #CommutativeAlgebraTest category: #'Tests-Domains'!
 TestCase subclass: #CommutativeAlgebraTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'DomainsTests'!
-!classDefinition: 'CommutativeAlgebraTest class' category: #DomainsTests!
+	category: 'Tests-Domains'!
+!classDefinition: 'CommutativeAlgebraTest class' category: #'Tests-Domains'!
 CommutativeAlgebraTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #EllipticCurvesTest category: #DomainsTests!
+!classDefinition: #EllipticCurvesTest category: #'Tests-Domains'!
 TestCase subclass: #EllipticCurvesTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'DomainsTests'!
-!classDefinition: 'EllipticCurvesTest class' category: #DomainsTests!
+	category: 'Tests-Domains'!
+!classDefinition: 'EllipticCurvesTest class' category: #'Tests-Domains'!
 EllipticCurvesTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #GraphTest category: #DomainsTests!
+!classDefinition: #GraphTest category: #'Tests-Domains'!
 TestCase subclass: #GraphTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'DomainsTests'!
-!classDefinition: 'GraphTest class' category: #DomainsTests!
+	category: 'Tests-Domains'!
+!classDefinition: 'GraphTest class' category: #'Tests-Domains'!
 GraphTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #GroupTest category: #DomainsTests!
+!classDefinition: #GroupTest category: #'Tests-Domains'!
 TestCase subclass: #GroupTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'DomainsTests'!
-!classDefinition: 'GroupTest class' category: #DomainsTests!
+	category: 'Tests-Domains'!
+!classDefinition: 'GroupTest class' category: #'Tests-Domains'!
 GroupTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #LatticeTest category: #DomainsTests!
+!classDefinition: #LatticeTest category: #'Tests-Domains'!
 TestCase subclass: #LatticeTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'DomainsTests'!
-!classDefinition: 'LatticeTest class' category: #DomainsTests!
+	category: 'Tests-Domains'!
+!classDefinition: 'LatticeTest class' category: #'Tests-Domains'!
 LatticeTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #LinearGroupsTest category: #DomainsTests!
+!classDefinition: #LinearGroupsTest category: #'Tests-Domains'!
 TestCase subclass: #LinearGroupsTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'DomainsTests'!
-!classDefinition: 'LinearGroupsTest class' category: #DomainsTests!
+	category: 'Tests-Domains'!
+!classDefinition: 'LinearGroupsTest class' category: #'Tests-Domains'!
 LinearGroupsTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #MathematicsTest category: #DomainsTests!
+!classDefinition: #MathematicsTest category: #'Tests-Domains'!
 TestCase subclass: #MathematicsTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'DomainsTests'!
-!classDefinition: 'MathematicsTest class' category: #DomainsTests!
+	category: 'Tests-Domains'!
+!classDefinition: 'MathematicsTest class' category: #'Tests-Domains'!
 MathematicsTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #MatrixTest category: #DomainsTests!
+!classDefinition: #MatrixTest category: #'Tests-Domains'!
 TestCase subclass: #MatrixTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'DomainsTests'!
-!classDefinition: 'MatrixTest class' category: #DomainsTests!
+	category: 'Tests-Domains'!
+!classDefinition: 'MatrixTest class' category: #'Tests-Domains'!
 MatrixTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #ModuleTest category: #DomainsTests!
+!classDefinition: #ModuleTest category: #'Tests-Domains'!
 TestCase subclass: #ModuleTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'DomainsTests'!
-!classDefinition: 'ModuleTest class' category: #DomainsTests!
+	category: 'Tests-Domains'!
+!classDefinition: 'ModuleTest class' category: #'Tests-Domains'!
 ModuleTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #MonomialTest category: #DomainsTests!
+!classDefinition: #MonomialTest category: #'Tests-Domains'!
 TestCase subclass: #MonomialTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'DomainsTests'!
-!classDefinition: 'MonomialTest class' category: #DomainsTests!
+	category: 'Tests-Domains'!
+!classDefinition: 'MonomialTest class' category: #'Tests-Domains'!
 MonomialTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #NumberFieldTest category: #DomainsTests!
+!classDefinition: #NumberFieldTest category: #'Tests-Domains'!
 TestCase subclass: #NumberFieldTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'DomainsTests'!
-!classDefinition: 'NumberFieldTest class' category: #DomainsTests!
+	category: 'Tests-Domains'!
+!classDefinition: 'NumberFieldTest class' category: #'Tests-Domains'!
 NumberFieldTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #PAdicsTest category: #DomainsTests!
+!classDefinition: #PAdicsTest category: #'Tests-Domains'!
 TestCase subclass: #PAdicsTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'DomainsTests'!
-!classDefinition: 'PAdicsTest class' category: #DomainsTests!
+	category: 'Tests-Domains'!
+!classDefinition: 'PAdicsTest class' category: #'Tests-Domains'!
 PAdicsTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #PolynomialTest category: #DomainsTests!
+!classDefinition: #PolynomialTest category: #'Tests-Domains'!
 TestCase subclass: #PolynomialTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'DomainsTests'!
-!classDefinition: 'PolynomialTest class' category: #DomainsTests!
+	category: 'Tests-Domains'!
+!classDefinition: 'PolynomialTest class' category: #'Tests-Domains'!
 PolynomialTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #PowerSeriesTest category: #DomainsTests!
+!classDefinition: #PowerSeriesTest category: #'Tests-Domains'!
 TestCase subclass: #PowerSeriesTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'DomainsTests'!
-!classDefinition: 'PowerSeriesTest class' category: #DomainsTests!
+	category: 'Tests-Domains'!
+!classDefinition: 'PowerSeriesTest class' category: #'Tests-Domains'!
 PowerSeriesTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #QuadraticFormTest category: #DomainsTests!
+!classDefinition: #QuadraticFormTest category: #'Tests-Domains'!
 TestCase subclass: #QuadraticFormTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'DomainsTests'!
-!classDefinition: 'QuadraticFormTest class' category: #DomainsTests!
+	category: 'Tests-Domains'!
+!classDefinition: 'QuadraticFormTest class' category: #'Tests-Domains'!
 QuadraticFormTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #RandomTestCase category: #DomainsTests!
+!classDefinition: #RandomTestCase category: #'Tests-Domains'!
 TestCase subclass: #RandomTestCase
 	instanceVariableNames: 'seed random'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'DomainsTests'!
-!classDefinition: 'RandomTestCase class' category: #DomainsTests!
+	category: 'Tests-Domains'!
+!classDefinition: 'RandomTestCase class' category: #'Tests-Domains'!
 RandomTestCase class
 	instanceVariableNames: ''!
 
-!classDefinition: #AbstractModuleTest category: #DomainsTests!
+!classDefinition: #AbstractModuleTest category: #'Tests-Domains'!
 RandomTestCase subclass: #AbstractModuleTest
 	instanceVariableNames: 'scalars'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'DomainsTests'!
-!classDefinition: 'AbstractModuleTest class' category: #DomainsTests!
+	category: 'Tests-Domains'!
+!classDefinition: 'AbstractModuleTest class' category: #'Tests-Domains'!
 AbstractModuleTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #AbstractVectorSpaceTest category: #DomainsTests!
+!classDefinition: #AbstractVectorSpaceTest category: #'Tests-Domains'!
 AbstractModuleTest subclass: #AbstractVectorSpaceTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'DomainsTests'!
-!classDefinition: 'AbstractVectorSpaceTest class' category: #DomainsTests!
+	category: 'Tests-Domains'!
+!classDefinition: 'AbstractVectorSpaceTest class' category: #'Tests-Domains'!
 AbstractVectorSpaceTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #VectorSpaceOverBinaryFieldTest category: #DomainsTests!
+!classDefinition: #VectorSpaceOverBinaryFieldTest category: #'Tests-Domains'!
 AbstractVectorSpaceTest subclass: #VectorSpaceOverBinaryFieldTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'DomainsTests'!
-!classDefinition: 'VectorSpaceOverBinaryFieldTest class' category: #DomainsTests!
+	category: 'Tests-Domains'!
+!classDefinition: 'VectorSpaceOverBinaryFieldTest class' category: #'Tests-Domains'!
 VectorSpaceOverBinaryFieldTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #VectorSpaceOverCyclotomicFieldTest category: #DomainsTests!
+!classDefinition: #VectorSpaceOverCyclotomicFieldTest category: #'Tests-Domains'!
 AbstractVectorSpaceTest subclass: #VectorSpaceOverCyclotomicFieldTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'DomainsTests'!
-!classDefinition: 'VectorSpaceOverCyclotomicFieldTest class' category: #DomainsTests!
+	category: 'Tests-Domains'!
+!classDefinition: 'VectorSpaceOverCyclotomicFieldTest class' category: #'Tests-Domains'!
 VectorSpaceOverCyclotomicFieldTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #VectorSpaceOverFiniteFieldTest category: #DomainsTests!
+!classDefinition: #VectorSpaceOverFiniteFieldTest category: #'Tests-Domains'!
 AbstractVectorSpaceTest subclass: #VectorSpaceOverFiniteFieldTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'DomainsTests'!
-!classDefinition: 'VectorSpaceOverFiniteFieldTest class' category: #DomainsTests!
+	category: 'Tests-Domains'!
+!classDefinition: 'VectorSpaceOverFiniteFieldTest class' category: #'Tests-Domains'!
 VectorSpaceOverFiniteFieldTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #VectorSpaceOverQuadraticFieldTest category: #DomainsTests!
+!classDefinition: #VectorSpaceOverQuadraticFieldTest category: #'Tests-Domains'!
 AbstractVectorSpaceTest subclass: #VectorSpaceOverQuadraticFieldTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'DomainsTests'!
-!classDefinition: 'VectorSpaceOverQuadraticFieldTest class' category: #DomainsTests!
+	category: 'Tests-Domains'!
+!classDefinition: 'VectorSpaceOverQuadraticFieldTest class' category: #'Tests-Domains'!
 VectorSpaceOverQuadraticFieldTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #VectorSpaceOverRationalsTest category: #DomainsTests!
+!classDefinition: #VectorSpaceOverRationalsTest category: #'Tests-Domains'!
 AbstractVectorSpaceTest subclass: #VectorSpaceOverRationalsTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'DomainsTests'!
-!classDefinition: 'VectorSpaceOverRationalsTest class' category: #DomainsTests!
+	category: 'Tests-Domains'!
+!classDefinition: 'VectorSpaceOverRationalsTest class' category: #'Tests-Domains'!
 VectorSpaceOverRationalsTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #ModuleOverIntegersTest category: #DomainsTests!
+!classDefinition: #ModuleOverIntegersTest category: #'Tests-Domains'!
 AbstractModuleTest subclass: #ModuleOverIntegersTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'DomainsTests'!
-!classDefinition: 'ModuleOverIntegersTest class' category: #DomainsTests!
+	category: 'Tests-Domains'!
+!classDefinition: 'ModuleOverIntegersTest class' category: #'Tests-Domains'!
 ModuleOverIntegersTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #ModuleOverPolynomialsOverRationalsTest category: #DomainsTests!
+!classDefinition: #ModuleOverPolynomialsOverRationalsTest category: #'Tests-Domains'!
 AbstractModuleTest subclass: #ModuleOverPolynomialsOverRationalsTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'DomainsTests'!
-!classDefinition: 'ModuleOverPolynomialsOverRationalsTest class' category: #DomainsTests!
+	category: 'Tests-Domains'!
+!classDefinition: 'ModuleOverPolynomialsOverRationalsTest class' category: #'Tests-Domains'!
 ModuleOverPolynomialsOverRationalsTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #RingTest category: #DomainsTests!
+!classDefinition: #RingTest category: #'Tests-Domains'!
 TestCase subclass: #RingTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'DomainsTests'!
-!classDefinition: 'RingTest class' category: #DomainsTests!
+	category: 'Tests-Domains'!
+!classDefinition: 'RingTest class' category: #'Tests-Domains'!
 RingTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #SequenceTest category: #DomainsTests!
+!classDefinition: #SequenceTest category: #'Tests-Domains'!
 TestCase subclass: #SequenceTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'DomainsTests'!
-!classDefinition: 'SequenceTest class' category: #DomainsTests!
+	category: 'Tests-Domains'!
+!classDefinition: 'SequenceTest class' category: #'Tests-Domains'!
 SequenceTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #SimplicialComplexTest category: #DomainsTests!
+!classDefinition: #SimplicialComplexTest category: #'Tests-Domains'!
 TestCase subclass: #SimplicialComplexTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'DomainsTests'!
-!classDefinition: 'SimplicialComplexTest class' category: #DomainsTests!
+	category: 'Tests-Domains'!
+!classDefinition: 'SimplicialComplexTest class' category: #'Tests-Domains'!
 SimplicialComplexTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #TupleTest category: #DomainsTests!
+!classDefinition: #TupleTest category: #'Tests-Domains'!
 TestCase subclass: #TupleTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'DomainsTests'!
-!classDefinition: 'TupleTest class' category: #DomainsTests!
+	category: 'Tests-Domains'!
+!classDefinition: 'TupleTest class' category: #'Tests-Domains'!
 TupleTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #Benchmark category: #DomainsTests!
+!classDefinition: #Benchmark category: #'Tests-Domains'!
 Object subclass: #Benchmark
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'DomainsTests'!
-!classDefinition: 'Benchmark class' category: #DomainsTests!
+	category: 'Tests-Domains'!
+!classDefinition: 'Benchmark class' category: #'Tests-Domains'!
 Benchmark class
 	instanceVariableNames: ''!
 
-!classDefinition: #AlgebraicNumbersBenchmark category: #DomainsTests!
+!classDefinition: #AlgebraicNumbersBenchmark category: #'Tests-Domains'!
 Benchmark subclass: #AlgebraicNumbersBenchmark
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'DomainsTests'!
-!classDefinition: 'AlgebraicNumbersBenchmark class' category: #DomainsTests!
+	category: 'Tests-Domains'!
+!classDefinition: 'AlgebraicNumbersBenchmark class' category: #'Tests-Domains'!
 AlgebraicNumbersBenchmark class
 	instanceVariableNames: ''!
 
-!classDefinition: #GroebnerBasisBenchmark category: #DomainsTests!
+!classDefinition: #GroebnerBasisBenchmark category: #'Tests-Domains'!
 Benchmark subclass: #GroebnerBasisBenchmark
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'DomainsTests'!
-!classDefinition: 'GroebnerBasisBenchmark class' category: #DomainsTests!
+	category: 'Tests-Domains'!
+!classDefinition: 'GroebnerBasisBenchmark class' category: #'Tests-Domains'!
 GroebnerBasisBenchmark class
 	instanceVariableNames: ''!
 
-!classDefinition: #GroupBenchmark category: #DomainsTests!
+!classDefinition: #GroupBenchmark category: #'Tests-Domains'!
 Benchmark subclass: #GroupBenchmark
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'DomainsTests'!
-!classDefinition: 'GroupBenchmark class' category: #DomainsTests!
+	category: 'Tests-Domains'!
+!classDefinition: 'GroupBenchmark class' category: #'Tests-Domains'!
 GroupBenchmark class
 	instanceVariableNames: ''!
 
-!classDefinition: #IntegersBenchmark category: #DomainsTests!
+!classDefinition: #IntegersBenchmark category: #'Tests-Domains'!
 Benchmark subclass: #IntegersBenchmark
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'DomainsTests'!
-!classDefinition: 'IntegersBenchmark class' category: #DomainsTests!
+	category: 'Tests-Domains'!
+!classDefinition: 'IntegersBenchmark class' category: #'Tests-Domains'!
 IntegersBenchmark class
 	instanceVariableNames: ''!
 
-!classDefinition: #ModularMatrixBenchmark category: #DomainsTests!
+!classDefinition: #ModularMatrixBenchmark category: #'Tests-Domains'!
 Benchmark subclass: #ModularMatrixBenchmark
 	instanceVariableNames: 'field matrix'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'DomainsTests'!
-!classDefinition: 'ModularMatrixBenchmark class' category: #DomainsTests!
+	category: 'Tests-Domains'!
+!classDefinition: 'ModularMatrixBenchmark class' category: #'Tests-Domains'!
 ModularMatrixBenchmark class
 	instanceVariableNames: ''!
 
-!classDefinition: #PolynomialBenchmark category: #DomainsTests!
+!classDefinition: #PolynomialBenchmark category: #'Tests-Domains'!
 Benchmark subclass: #PolynomialBenchmark
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'DomainsTests'!
-!classDefinition: 'PolynomialBenchmark class' category: #DomainsTests!
+	category: 'Tests-Domains'!
+!classDefinition: 'PolynomialBenchmark class' category: #'Tests-Domains'!
 PolynomialBenchmark class
 	instanceVariableNames: ''!
 
-!classDefinition: #SmallMatrixBenchmark category: #DomainsTests!
+!classDefinition: #SmallMatrixBenchmark category: #'Tests-Domains'!
 Benchmark subclass: #SmallMatrixBenchmark
 	instanceVariableNames: 'integerMatrix binaryMatrix modularMatrix'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'DomainsTests'!
-!classDefinition: 'SmallMatrixBenchmark class' category: #DomainsTests!
+	category: 'Tests-Domains'!
+!classDefinition: 'SmallMatrixBenchmark class' category: #'Tests-Domains'!
 SmallMatrixBenchmark class
 	instanceVariableNames: ''!
 
-!classDefinition: #SparsePolynomialMultiplicationBenchmark category: #DomainsTests!
+!classDefinition: #SparsePolynomialMultiplicationBenchmark category: #'Tests-Domains'!
 Benchmark subclass: #SparsePolynomialMultiplicationBenchmark
 	instanceVariableNames: 'p pPlusOne pBigCoefficients pBigExponents pBigCoefficientsPlusOne pBigExponentsPlusOne'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'DomainsTests'!
-!classDefinition: 'SparsePolynomialMultiplicationBenchmark class' category: #DomainsTests!
+	category: 'Tests-Domains'!
+!classDefinition: 'SparsePolynomialMultiplicationBenchmark class' category: #'Tests-Domains'!
 SparsePolynomialMultiplicationBenchmark class
 	instanceVariableNames: ''!
 
-!classDefinition: #TupleConvolutionBenchmark category: #DomainsTests!
+!classDefinition: #TupleConvolutionBenchmark category: #'Tests-Domains'!
 Benchmark subclass: #TupleConvolutionBenchmark
 	instanceVariableNames: 'a b'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'DomainsTests'!
-!classDefinition: 'TupleConvolutionBenchmark class' category: #DomainsTests!
+	category: 'Tests-Domains'!
+!classDefinition: 'TupleConvolutionBenchmark class' category: #'Tests-Domains'!
 TupleConvolutionBenchmark class
 	instanceVariableNames: ''!
 
-!classDefinition: #CASBenchmark category: #DomainsTests!
+!classDefinition: #CASBenchmark category: #'Tests-Domains'!
 Object subclass: #CASBenchmark
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'DomainsTests'!
-!classDefinition: 'CASBenchmark class' category: #DomainsTests!
+	category: 'Tests-Domains'!
+!classDefinition: 'CASBenchmark class' category: #'Tests-Domains'!
 CASBenchmark class
 	instanceVariableNames: ''!
 
