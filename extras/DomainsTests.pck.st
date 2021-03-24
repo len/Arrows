@@ -1,6 +1,6 @@
-'From Cuis 5.0 [latest update: #4190] on 13 March 2021 at 2:15:33 pm'!
+'From Cuis 5.0 [latest update: #4190] on 24 March 2021 at 9:37:10 am'!
 'Description Please enter a description for this package'!
-!provides: 'DomainsTests' 1 180!
+!provides: 'DomainsTests' 1 181!
 !requires: 'Domains' 1 587 nil!
 SystemOrganization addCategory: #DomainsTests!
 
@@ -223,6 +223,106 @@ TestCase subclass: #QuadraticFormTest
 	category: 'DomainsTests'!
 !classDefinition: 'QuadraticFormTest class' category: #DomainsTests!
 QuadraticFormTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #RandomTestCase category: #DomainsTests!
+TestCase subclass: #RandomTestCase
+	instanceVariableNames: 'seed random'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'DomainsTests'!
+!classDefinition: 'RandomTestCase class' category: #DomainsTests!
+RandomTestCase class
+	instanceVariableNames: ''!
+
+!classDefinition: #AbstractModuleTest category: #DomainsTests!
+RandomTestCase subclass: #AbstractModuleTest
+	instanceVariableNames: 'scalars'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'DomainsTests'!
+!classDefinition: 'AbstractModuleTest class' category: #DomainsTests!
+AbstractModuleTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #AbstractVectorSpaceTest category: #DomainsTests!
+AbstractModuleTest subclass: #AbstractVectorSpaceTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'DomainsTests'!
+!classDefinition: 'AbstractVectorSpaceTest class' category: #DomainsTests!
+AbstractVectorSpaceTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #VectorSpaceOverBinaryFieldTest category: #DomainsTests!
+AbstractVectorSpaceTest subclass: #VectorSpaceOverBinaryFieldTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'DomainsTests'!
+!classDefinition: 'VectorSpaceOverBinaryFieldTest class' category: #DomainsTests!
+VectorSpaceOverBinaryFieldTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #VectorSpaceOverCyclotomicFieldTest category: #DomainsTests!
+AbstractVectorSpaceTest subclass: #VectorSpaceOverCyclotomicFieldTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'DomainsTests'!
+!classDefinition: 'VectorSpaceOverCyclotomicFieldTest class' category: #DomainsTests!
+VectorSpaceOverCyclotomicFieldTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #VectorSpaceOverFiniteFieldTest category: #DomainsTests!
+AbstractVectorSpaceTest subclass: #VectorSpaceOverFiniteFieldTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'DomainsTests'!
+!classDefinition: 'VectorSpaceOverFiniteFieldTest class' category: #DomainsTests!
+VectorSpaceOverFiniteFieldTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #VectorSpaceOverQuadraticFieldTest category: #DomainsTests!
+AbstractVectorSpaceTest subclass: #VectorSpaceOverQuadraticFieldTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'DomainsTests'!
+!classDefinition: 'VectorSpaceOverQuadraticFieldTest class' category: #DomainsTests!
+VectorSpaceOverQuadraticFieldTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #VectorSpaceOverRationalsTest category: #DomainsTests!
+AbstractVectorSpaceTest subclass: #VectorSpaceOverRationalsTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'DomainsTests'!
+!classDefinition: 'VectorSpaceOverRationalsTest class' category: #DomainsTests!
+VectorSpaceOverRationalsTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #ModuleOverIntegersTest category: #DomainsTests!
+AbstractModuleTest subclass: #ModuleOverIntegersTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'DomainsTests'!
+!classDefinition: 'ModuleOverIntegersTest class' category: #DomainsTests!
+ModuleOverIntegersTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #ModuleOverPolynomialsOverRationalsTest category: #DomainsTests!
+AbstractModuleTest subclass: #ModuleOverPolynomialsOverRationalsTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'DomainsTests'!
+!classDefinition: 'ModuleOverPolynomialsOverRationalsTest class' category: #DomainsTests!
+ModuleOverPolynomialsOverRationalsTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #RingTest category: #DomainsTests!
@@ -1246,7 +1346,7 @@ testQuaternionAlgebra1
 	A _ QuaternionAlgebra over: „ invariants: #(-17 -271).
 	self testAlgebra: A! !
 
-!AlgebraTest methodsFor: 'quaternions' stamp: 'len 6/20/2020 12:48:41'!
+!AlgebraTest methodsFor: 'quaternions' stamp: 'len 3/23/2021 11:30:22'!
 testQuaternionAlgebra2
 	| A |
 	A _ QuaternionAlgebra over: „ invariants: #(-17 -271).
@@ -1367,7 +1467,7 @@ testCliffordAlgebra1
 	C _ self newCliffordAlgebra.
 	self testAlgebra: C! !
 
-!AlgebraTest methodsFor: 'clifford algebra' stamp: 'len 7/20/2020 11:54:31'!
+!AlgebraTest methodsFor: 'clifford algebra' stamp: 'len 3/23/2021 11:30:11'!
 testCliffordAlgebra2
 	| C |
 	C _ self newCliffordAlgebra.
@@ -1580,7 +1680,7 @@ testGroupAlgebraInverse
 	self assert: a * a inverse = A one.
 	self assert: a inverse * a = A one! !
 
-!AlgebraTest methodsFor: 'matrix algebra' stamp: 'len 7/15/2020 10:12:53'!
+!AlgebraTest methodsFor: 'matrix algebra' stamp: 'len 3/23/2021 11:29:50'!
 testMatrixAlgebra
 	| R A |
 	R _ 2 atRandom = 1 ifTrue: [„] ifFalse: [ƒ/64 atRandom nextPrime].
@@ -5716,25 +5816,21 @@ testHomBug2
 	W _ ƒ^(5 atRandom).
 	self assert: (V => W) isTrivial! !
 
-!ModuleTest methodsFor: 'bugs' stamp: 'len 5/23/2020 09:34:55'!
+!ModuleTest methodsFor: 'bugs' stamp: 'len 3/22/2021 11:46:44'!
 testModuleMapBug
 	| M f |
 	M _ ƒ^1 / {2}.
 	f _ M dual atRandomBits: 100.
-	self testLinearMap: f! !
+	self testModuleMap: f! !
 
-!ModuleTest methodsFor: 'bugs' stamp: 'len 6/27/2020 07:45:29'!
+!ModuleTest methodsFor: 'bugs' stamp: 'len 3/14/2021 13:37:42'!
 testModuleMapBug2
-	| M N f g |
+	| M N |
 	M _ ƒ^1/{3}.
 	N _ ƒ^1.
-	"f and g are not valid module homomorphisms:"
-	f _ M to: N mapping: [:i| i].
-	g _ M to: N mapping: [:i| i*2].
-	self assert: f = g.
-	self assert: f isZero.
-	self assert: g isZero.
-	self testLinearMap: f! !
+	"these are not valid module homomorphisms:"
+	self should: [M to: N mapping: [:i| i]] raise: DomainError withMessageText: 'invalid morphism'.
+	self should: [M to: N mapping: [:i| i*2]] raise: DomainError withMessageText: 'invalid morphism'! !
 
 !ModuleTest methodsFor: 'bugs' stamp: 'len 4/21/2020 05:55:42'!
 testPIDCoordinatesOfBug
@@ -5750,242 +5846,6 @@ testQuotientModuleSpanBug
 	M _ ƒ^2 / {(1,2)}.
 	self assert: M = (M span: M generators)! !
 
-!ModuleTest methodsFor: 'isomorphisms' stamp: 'len 8/17/2019 16:39:14'!
-testFirstIsomorphismTheorem: f
-	self assert: f codomain >= f image.
-	self assert: f domain >= f kernel.
-	self assert: f domain / f kernel ~ f image! !
-
-!ModuleTest methodsFor: 'isomorphisms' stamp: 'len 8/17/2019 16:41:10'!
-testFirstIsomorphismTheoremOver: aRing
-	| M N f |
-	M _ self newFreeModuleOver: aRing.
-	N _ self newFreeModuleOver: aRing.
-	f _ M => N atRandomBits: 100.
-	self testFirstIsomorphismTheorem: f
-! !
-
-!ModuleTest methodsFor: 'isomorphisms' stamp: 'len 8/17/2019 16:41:54'!
-testFirstIsomorphismTheoremOverCyclotomicField
-	self testFirstIsomorphismTheoremOver: (CyclotomicField new: 7)! !
-
-!ModuleTest methodsFor: 'isomorphisms' stamp: 'len 8/4/2020 14:32:12'!
-testFirstIsomorphismTheoremOverGaloisField
-	self testFirstIsomorphismTheoremOver: (GaloisField new: 10 atRandom nextPrime to: 3 atRandom)! !
-
-!ModuleTest methodsFor: 'isomorphisms' stamp: 'len 5/23/2020 09:33:01'!
-testFirstIsomorphismTheoremOverPolynomials
-	self testFirstIsomorphismTheoremOver: „ polynomials! !
-
-!ModuleTest methodsFor: 'isomorphisms' stamp: 'len 5/23/2020 09:33:01'!
-testFirstIsomorphismTheoremOverQ
-	self testFirstIsomorphismTheoremOver: „! !
-
-!ModuleTest methodsFor: 'isomorphisms' stamp: 'len 8/17/2019 16:42:25'!
-testFirstIsomorphismTheoremOverQuadraticField
-	self testFirstIsomorphismTheoremOver: (QuadraticField sqrt: -5)! !
-
-!ModuleTest methodsFor: 'isomorphisms' stamp: 'len 5/23/2020 09:34:55'!
-testFirstIsomorphismTheoremOverZ
-	self testFirstIsomorphismTheoremOver: ƒ! !
-
-!ModuleTest methodsFor: 'isomorphisms' stamp: 'len 8/17/2019 17:20:25'!
-testSecondIsomorphismTheorem: M
-	| S T |
-	S _ M grassmannian: (0 to: M rank) atRandom :: atRandomBits: 50.
-	T _ M grassmannian: (0 to: M rank) atRandom :: atRandomBits: 50.
-	self assert: S+T <= M.
-	self assert: S /\ T <= M.
-	self assert: (S+T)/T ~ (S/(S /\ T))! !
-
-!ModuleTest methodsFor: 'isomorphisms' stamp: 'len 5/2/2018 17:43:35'!
-testSecondIsomorphismTheoremOverCyclotomicField
-	self testSecondIsomorphismTheorem: (CyclotomicField new: 7) ^ 5! !
-
-!ModuleTest methodsFor: 'isomorphisms' stamp: 'len 8/4/2020 14:31:53'!
-testSecondIsomorphismTheoremOverGaloisField
-	self testSecondIsomorphismTheorem: (GaloisField new: 10 atRandom nextPrime to: 3 atRandom) ^ 5 atRandom! !
-
-!ModuleTest methodsFor: 'isomorphisms' stamp: 'len 5/23/2020 09:33:01'!
-testSecondIsomorphismTheoremOverPolynomials
-	self testSecondIsomorphismTheorem: „ polynomials ^ 2! !
-
-!ModuleTest methodsFor: 'isomorphisms' stamp: 'len 5/23/2020 09:33:01'!
-testSecondIsomorphismTheoremOverQ
-	self testSecondIsomorphismTheorem: „ ^ 5! !
-
-!ModuleTest methodsFor: 'isomorphisms' stamp: 'len 5/2/2018 17:42:41'!
-testSecondIsomorphismTheoremOverQuadraticField
-	self testSecondIsomorphismTheorem: (QuadraticField sqrt: -5) ^ 5! !
-
-!ModuleTest methodsFor: 'isomorphisms' stamp: 'len 5/23/2020 09:34:55'!
-testSecondIsomorphismTheoremOverZ
-	self testSecondIsomorphismTheorem: ƒ^3! !
-
-!ModuleTest methodsFor: 'isomorphisms' stamp: 'len 5/2/2018 17:33:15'!
-testThirdIsomorphismTheorem: M
-	| S T |
-	S _ M grassmannian: (0 to: M rank) atRandom :: atRandomBits: 50.
-	T _ S grassmannian: (0 to: S rank) atRandom :: atRandomBits: 50.
-	self assert: S/T <= (M/T).
-	self assert: (M/T)/(S/T) ~ (M/S)! !
-
-!ModuleTest methodsFor: 'isomorphisms' stamp: 'len 8/4/2020 14:32:37'!
-testThirdIsomorphismTheoremOverCyclotomicField
-	self testThirdIsomorphismTheorem: (CyclotomicField new: 7) ^ 5 atRandom! !
-
-!ModuleTest methodsFor: 'isomorphisms' stamp: 'len 8/4/2020 14:32:32'!
-testThirdIsomorphismTheoremOverGaloisField
-	self testThirdIsomorphismTheorem: (GaloisField new: 10 atRandom nextPrime to: 3 atRandom) ^ 5 atRandom! !
-
-!ModuleTest methodsFor: 'isomorphisms' stamp: 'len 5/23/2020 09:33:01'!
-testThirdIsomorphismTheoremOverPolynomials
-	self testThirdIsomorphismTheorem: „ polynomials ^ 2! !
-
-!ModuleTest methodsFor: 'isomorphisms' stamp: 'len 8/4/2020 14:32:46'!
-testThirdIsomorphismTheoremOverQ
-	self testThirdIsomorphismTheorem: „ ^ 5 atRandom! !
-
-!ModuleTest methodsFor: 'isomorphisms' stamp: 'len 8/4/2020 14:32:50'!
-testThirdIsomorphismTheoremOverQuadraticField
-	self testThirdIsomorphismTheorem: (QuadraticField sqrt: -5) ^ 5 atRandom! !
-
-!ModuleTest methodsFor: 'isomorphisms' stamp: 'len 5/23/2020 09:34:55'!
-testThirdIsomorphismTheoremOverZ
-	self testThirdIsomorphismTheorem: ƒ^3! !
-
-!ModuleTest methodsFor: 'maps' stamp: 'len 5/23/2020 09:33:01'!
-testAdjoint
-	| V W f fAdjoint phi |
-	V _ self newFreeModuleOver: „.
-	W _ self newFreeModuleOver: „.
-	f _ V => W atRandomBits: 50.
-	fAdjoint _ f adjoint.
-	self assert: fAdjoint domain = f codomain dual.
-	self assert: fAdjoint codomain = f domain dual.
-	phi _ W dual atRandomBits: 20.
-	self assert: (fAdjoint value: phi) = (phi · f)! !
-
-!ModuleTest methodsFor: 'maps' stamp: 'len 5/23/2020 09:33:01'!
-testAdjointAndHomFunctor
-	"Given a R-linear map f, applying the Hom(-, R) produces the adjoint (the dual map).
-	Example from 'A Singular Introduction To Commutative Algebra, pp. 115, procedure kontraHom."
-	| f |
-	f _ „^3 => („^4) :: atRandomBits: 100.
-	self assert: (f => „ asScalarModule) = f adjoint! !
-
-!ModuleTest methodsFor: 'maps' stamp: 'len 8/12/2020 08:12:17'!
-testCoequalizer
-	| A B f g Q |
-	A _ self newFreeModule.
-	B _ self newFreeModuleOver: A scalars.
-	f _ (A => B) atRandomBits: 50 atRandom.
-	g _ (A => B) atRandomBits: 50 atRandom.
-	Q _ f coequalizer: g.
-	self assert: (f -> Q) notNil.
-	self assert: f -> Q = (g -> Q)! !
-
-!ModuleTest methodsFor: 'maps' stamp: 'len 8/12/2020 08:13:35'!
-testCokernelAndCoequalizer
-	| A B f |
-	A _ self newFreeModule.
-	B _ self newFreeModuleOver: A scalars.
-	f _ (A => B) atRandomBits: 100 atRandom.
-	self assert: f cokernel = (f coequalizer: f zero)! !
-
-!ModuleTest methodsFor: 'maps' stamp: 'len 10/26/2020 14:27:25'!
-testColift
-	| M X A i Y f g |
-	M _ „^3.
-	X _ „^4.
-	A _ (X => M atRandomBits: 20) kernel.
-	i _ A -> X.
-	self assert: i isInjective.
-	Y _ „^5.
-	f _ A => Y atRandomBits: 20.
-	g _ f / i.
-	self assert: (X => Y includes: g).
-	self assert: i -> g = f
-
-"	| M N phi cokernel L eta eta0 |
-	M _ „^3.
-	N _ „^4.
-	phi _ (M => N) atRandomBits: 20.
-	cokernel _ phi cokernel.
-	L _ „^5.
-	eta _ N to: L evaluating: [:x| L atRandomBits: 20]. ???
-	self assert: (phi -> eta) isZero.
-	eta0 _ eta / (M ->> cokernel).
-	self assert: (cokernel => L includes: eta0).
-	self assert: M ->> cokernel -> eta0 = eta"! !
-
-!ModuleTest methodsFor: 'maps' stamp: 'len 5/23/2020 09:33:01'!
-testComposition
-	| X Y Z f g x |
-	X _ „ ^ 3.
-	Y _ „ ^ 5.
-	Z _ „ ^ 4.
-	f _ X => Y atRandomBits: 1000.
-	g _ Y => Z atRandomBits: 1000.
-	x _ X atRandomBits: 1000.
-	self assert: (X => Z includes: g · f).
-	self assert: (g · f value: x) = (g value: (f value: x)).
-	self should: [f · g] raise: DomainError! !
-
-!ModuleTest methodsFor: 'maps' stamp: 'len 5/23/2020 09:33:01'!
-testCompositionError
-	| X Y Z f g |
-	X _ „ ^ 3.
-	Y _ „ ^ 5.
-	Z _ „ ^ 4.
-	f _ X => Y atRandomBits: 1000.
-	g _ Y => Z atRandomBits: 1000.
-	self should: [f · g] raise: DomainError! !
-
-!ModuleTest methodsFor: 'maps' stamp: 'len 8/12/2020 08:12:29'!
-testEqualizer
-	| A B f g Q |
-	A _ self newFreeModule.
-	B _ self newFreeModuleOver: A scalars.
-	f _ (A => B) atRandomBits: 100 atRandom.
-	g _ (A => B) atRandomBits: 100 atRandom.
-	Q _ f equalizer: g.
-	self assert: (Q -> f) notNil.
-	self assert: Q -> f = (Q -> g)! !
-
-!ModuleTest methodsFor: 'maps' stamp: 'len 4/19/2020 08:01:52'!
-testImage
-	| f image v w |
-	f _ self newLinearMap.
-	image _ f image.
-	v _ f domain atRandomBits: 100.
-	w _ f value: v.
-	self assert: (image includes: w)! !
-
-!ModuleTest methodsFor: 'maps' stamp: 'len 5/23/2020 09:33:01'!
-testInverse
-	| V f |
-	V _ „ ^ 3.
-	f _ V automorphisms atRandomBits: 1000.
-	self assert: (f · f inverse) isIdentity.
-	self assert: (f inverse · f) isIdentity! !
-
-!ModuleTest methodsFor: 'maps' stamp: 'len 4/19/2020 08:03:08'!
-testKernel
-	| f kernel v |
-	f _ self newLinearMap.
-	kernel _ f kernel.
-	v _ kernel atRandomBits: 100.
-	self assert: (f value: v) isZero! !
-
-!ModuleTest methodsFor: 'maps' stamp: 'len 8/12/2020 08:13:11'!
-testKernelAndEqualizer
-	| A B f |
-	A _ self newFreeModule.
-	B _ self newFreeModuleOver: A scalars.
-	f _ (A => B) atRandomBits: 100 atRandom.
-	self assert: f kernel = (f equalizer: f zero)! !
-
 !ModuleTest methodsFor: 'maps' stamp: 'len 5/28/2020 18:22:37'!
 testKernelZ2
 	| V f kernel |
@@ -5995,32 +5855,6 @@ testKernelZ2
 	self assert: (kernel apply: f) isTrivial.
 	self assert: kernel rank = 2.
 	self assert: (kernel includes: V !! (0,1,1))! !
-
-!ModuleTest methodsFor: 'maps' stamp: 'len 10/26/2020 14:27:48'!
-testLift
-	| M X B Y p f g |
-	M _ „^3.
-	X _ „^4.
-	B _ (M => X atRandomBits: 20) cokernel.
-	p _ X -> B.
-	self assert: p isSurjective.
-	Y _ „^5.
-	f _ Y => B atRandomBits: 20.
-	g _ p \ f.
-	self assert: (Y => X includes: g).
-	self assert: g -> p = f
-
-"	| M N phi kernel L tau tau0 |
-	M _ „^3.
-	N _ „^4.
-	phi _ (M => N) atRandomBits: 20.
-	kernel _ phi kernel.
-	L _ „^5.
-	tau _ L to: M evaluating: [:x| kernel atRandomBits: 20].
-	self assert: (tau -> phi) isZero.
-	tau0 _ kernel >-> M \ tau.
-	self assert: (L => kernel includes: tau0).
-	self assert: tau0 -> (kernel >-> M) = tau"! !
 
 !ModuleTest methodsFor: 'maps' stamp: 'len 5/23/2020 09:33:01'!
 testLinearForm1
@@ -6059,61 +5893,6 @@ testLinearFormZ2
 	self assert: f image rank = 1.
 	self assert: (f kernel includes: V !! (1,1,1,1))! !
 
-!ModuleTest methodsFor: 'maps' stamp: 'len 3/2/2017 04:46:35'!
-testLinearMap
-	| f |
-	f _ self newLinearMap.
-	self testLinearMap: f! !
-
-!ModuleTest methodsFor: 'maps' stamp: 'len 10/16/2016 09:17'!
-testLinearMap: f
-	| a1 a2 b1 b2 x |
-	a1 _ f domain atRandomBits: 20.
-	a2 _ f domain atRandomBits: 20.
-	b1 _ f value: a1.
-	b2 _ f value: a2.
-	self assert: (f value: f domain zero) isZero.
-	x _ f domain scalars atRandomBits: 20.
-	self assert: (f value: a1 * x + a2) = (b1 * x + b2)! !
-
-!ModuleTest methodsFor: 'maps' stamp: 'len 11/2/2016 04:01'!
-testLinearMapZ2
-	| V f kernel v |
-	V _ (PrimeField new: 2) ^ (5 atRandom + 1).
-	[f _ V endomorphisms atRandom.
-	(kernel _ f kernel) isTrivial or: [kernel = V]] whileTrue. "find one with non-trivial kernel"
-	[v _ V atRandom. kernel includes: v] whileTrue.
-	self assert: (f value: v) isZero not.
-	v _ kernel atRandom.
-	self assert: (f value: v) isZero! !
-
-!ModuleTest methodsFor: 'maps' stamp: 'len 5/23/2020 09:34:55'!
-testMapDirectSumAndTensorProductBug
-	| V W f g |
-	V _ ƒ^3.
-	W _ ƒ^2.
-	f _ V endomorphisms atRandomBits: 100.
-	g _ W endomorphisms atRandomBits: 100.
-	"doing it twice should give the same thing:"
-	self assert: (f‘g) domain = (f‘g) domain.
-	self assert: (fg) domain = (fg) domain! !
-
-!ModuleTest methodsFor: 'maps' stamp: 'len 5/23/2020 09:33:01'!
-testMapToBiggerDimensionIsNotSurjective
-	| V W f |
-	 V _ „^4 atRandom.
-	W _ „^(V rank atRandom - 1).
-	f _ (W => V) atRandomBits: 100.
-	self assert: f isSurjective not! !
-
-!ModuleTest methodsFor: 'maps' stamp: 'len 5/23/2020 09:33:01'!
-testMapToSmallerDimensionIsNotInjective
-	| V W f |
-	 V _ „^4 atRandom.
-	W _ „^(V rank atRandom - 1).
-	f _ (V => W) atRandomBits: 100.
-	self assert: f isInjective not! !
-
 !ModuleTest methodsFor: 'maps' stamp: 'len 8/9/2020 07:56:02'!
 testMapsInducedByHom
 	"Example from 'A Singular Introduction to Commutative Algebra', Example 2.1.7 (Maps Induced by Hom)."
@@ -6135,155 +5914,37 @@ testMapsInducedByHom
 	zx _ Z => X atRandomBits: 100.
 	self assert: (h value: zx) = (f · zx)! !
 
-!ModuleTest methodsFor: 'maps' stamp: 'len 4/19/2020 08:03:33'!
-testPreimage
-	| f w v |
-	f _ self newLinearMap.
-	w _ f image atRandomBits: 100.
-	v _ f preimage: w.
-	self assert: (f value: v) = w! !
+!ModuleTest methodsFor: 'maps' stamp: 'len 3/22/2021 11:46:14'!
+testModuleMap: f
+	| a1 a2 b1 b2 x |
+	a1 _ f domain atRandomBits: 20.
+	a2 _ f domain atRandomBits: 20.
+	b1 _ f value: a1.
+	b2 _ f value: a2.
+	self assert: (f value: f domain zero) isZero.
+	x _ f domain scalars atRandomBits: 20.
+	self assert: (f value: a1 * x + a2) = (b1 * x + b2)! !
 
-!ModuleTest methodsFor: 'maps' stamp: 'len 5/18/2018 19:43:10'!
+!ModuleTest methodsFor: 'maps' stamp: 'len 3/22/2021 11:47:16'!
+testModuleMapZ2
+	| V f kernel v |
+	V _ (PrimeField new: 2) ^ (5 atRandom + 1).
+	[f _ V endomorphisms atRandom.
+	(kernel _ f kernel) isTrivial or: [kernel = V]] whileTrue. "find one with non-trivial kernel"
+	[v _ V atRandom. kernel includes: v] whileTrue.
+	self assert: (f value: v) isZero not.
+	v _ kernel atRandom.
+	self assert: (f value: v) isZero! !
+
+!ModuleTest methodsFor: 'maps' stamp: 'len 3/22/2021 11:46:57'!
 testProjection: f
 	| v |
-	self testLinearMap: f.
+	self testModuleMap: f.
 	v _ f domain atRandomBits: 20.
 	self assert: (f value: v) = (f value: (f value: v)). "idempotent at v"
 	self assert: f isIdempotent.
 	self assert: (f image apply: f) = f image.
 	self assert: (f codomain apply: f) = f image! !
-
-!ModuleTest methodsFor: 'maps' stamp: 'len 8/11/2020 13:00:50'!
-testPullback
-	| X Y Z f g P projections |
-	Z _ self newFreeModule.
-	X _ self newFreeModuleOver: Z scalars.
-	Y _ self newFreeModuleOver: Z scalars.
-	f _ (X => Z) atRandomBits: 20.
-	g _ (Y => Z) atRandomBits: 20.
-	P _ f /\ g.
-	projections _ P -< (X, Y).
-	self assert: projections first -> f = (projections second -> g)! !
-
-!ModuleTest methodsFor: 'maps' stamp: 'len 8/11/2020 12:59:58'!
-testPushout
-	| X Y Z f g P coprojections |
-	Z _ self newFreeModule.
-	X _ self newFreeModuleOver: Z scalars.
-	Y _ self newFreeModuleOver: Z scalars.
-	f _ (Z => X) atRandomBits: 20.
-	g _ (Z => Y) atRandomBits: 20.
-	P _ f \/ g.
-	coprojections _ (X, Y) >- P.
-	self assert: f -> coprojections first = (g -> coprojections second)! !
-
-!ModuleTest methodsFor: 'maps' stamp: 'len 8/14/2020 06:48:59'!
-testRetraction
-	| V W f r |
-	[V _ self newVectorSpace.
-	W _ self newFreeModuleOver: V scalars.
-	f _ V => W atRandomBits: 100. f isInjective] whileFalse.
-	r _ f retraction.
-	self assert: r isSurjective.
-	self assert: r · f = V id! !
-
-!ModuleTest methodsFor: 'maps' stamp: 'len 3/9/2021 18:59:53'!
-testSection
-	| V W f s |
-	[V _ self newVectorSpace.
-	W _ self newFreeModuleOver: V scalars.
-	f _ V => W atRandomBits: 50. f isSurjective] whileFalse.
-	s _ f section.
-	self assert: s isInjective.
-	self assert: f · s = W id! !
-
-!ModuleTest methodsFor: 'other' stamp: 'len 5/23/2020 09:33:01'!
-testAdjointMap
-	| V W f a |
-	V _ „ ^ (1 to: 3) atRandom.
-	W _ „ ^ (1 to: 5) atRandom.
-	f _ V => W atRandomBits: 100.
-	a _ f adjoint.
-	self assert: a kernel = f image annihilatorSpace.
-	self assert: a image = f kernel annihilatorSpace.
-	self assert: f isSurjective = a isInjective.
-	self assert: f isInjective = a isSurjective! !
-
-!ModuleTest methodsFor: 'other' stamp: 'len 5/23/2020 09:33:01'!
-testAdjointProperties
-	| V W U f g a |
-	V _ „ ^ (1 to: 4) atRandom.
-	W _ „ ^ (1 to: 4) atRandom.
-	f _ V => W atRandomBits: 100.
-	g _ V => W atRandomBits: 100.
-	a _ „ atRandomBits: 10.
-	self assert: (f + g) adjoint = (f adjoint + g adjoint).
-	self assert: (f * a) adjoint = (f adjoint * a).
-	U _ „ ^ (1 to: 4) atRandom.
-	f _ U => V atRandomBits: 100.
-	self assert: (g · f) adjoint = (f adjoint · g adjoint)! !
-
-!ModuleTest methodsFor: 'other' stamp: 'len 5/23/2020 09:33:01'!
-testAnnihilator
-	| V v S S0 |
-	V _ „ ^ 3.
-	v _ (1,-2,1).
-	S _ V span: {v}.
-	S0 _ S annihilatorSpace.
-	self assert: S0 rank = S corank.
-	S0 basis do: [:f| self assert: (f value: v) isZero]! !
-
-!ModuleTest methodsFor: 'other' stamp: 'len 5/23/2020 09:33:01'!
-testAnnihilatorProperties
-	| V S T |
-	V _ „ ^ 5.
-	S _ (V grassmannian: 4) atRandomBits: 100.
-	T _ (S grassmannian: 2) atRandomBits: 100.
-	T _ V span: T basis. "hack, otherwise T ambient = S"
-	self assert: T <= S.
-	self assert: T annihilatorSpace >= S annihilatorSpace. "reverses inclusions"
-	self assert: (S + T) annihilatorSpace = (S annihilatorSpace /\ T annihilatorSpace).
-	self assert: S rank + S annihilatorSpace rank = V rank.
-	self assert: V annihilatorSpace isTrivial.
-"	self assert: S annihilator annihilator = S dual dual"! !
-
-!ModuleTest methodsFor: 'other' stamp: 'len 5/23/2020 09:34:55'!
-testAnnihilatorZ2
-	| V v S S0 |
-	V _ (ƒ / 2) ^ 4.
-	[(v _ V atRandom) isZero] whileTrue.
-	S _ V span: {v}.
-	S0 _ S annihilatorSpace.
-	self assert: S0 rank = S corank.
-	S0 generators do: [:f| self assert: (f value: v) isZero]! !
-
-!ModuleTest methodsFor: 'other' stamp: 'len 5/23/2020 09:33:01'!
-testCanonicalMorphisms
-	| V W |
-	V _ „^3.
-	W _ V span: {(1,2,3)}.
-	self assert: (V null -> W) isZero. "canonical morphism from initial object"
-	self assert: (V -> W null) isZero. "canonical morphism to terminal object"
-	self assert: ((W -> W null) value: (V !! (1,2,3))) isZero.
-	self assert: (W -> V value: (V !! (2,4,6))) = (V !! (2,4,6)). "canonical morphism to overobject"! !
-
-!ModuleTest methodsFor: 'other' stamp: 'len 7/8/2020 11:59:35'!
-testDirectSum
-	| M N S |
-	M _ self newFreeModule.
-	N _ self newFreeModuleOver: M scalars.
-	S _ M  N.
-	self testFreeModule: S.
-	(M, N) >- S do: [:each| self testLinearMap: each].
-	S -< (M, N) do: [:each| self testLinearMap: each]! !
-
-!ModuleTest methodsFor: 'other' stamp: 'len 5/23/2020 09:34:55'!
-testDiscriminant
-	| M |
-	M _ ƒ^3.
-	self assert: M discriminant = 1.
-	self assert: (M span: {(1,2,3)}) discriminant = 14.
-	self assert: (M span: {(1,2,3). (1,1,1)}) discriminant = 6 ! !
 
 !ModuleTest methodsFor: 'other' stamp: 'len 5/23/2020 09:34:55'!
 testExampleModulesOverZ12
@@ -6293,7 +5954,7 @@ testExampleModulesOverZ12
 	B _ M span: {(8,5,5). (0,9,8). (0,0,10)}.
 	self assert: A = B! !
 
-!ModuleTest methodsFor: 'other' stamp: 'len 1/21/2018 21:47:53'!
+!ModuleTest methodsFor: 'other' stamp: 'len 3/22/2021 12:08:56'!
 testFreeModule: M
 	| c t v x y |
 	x _ M atRandomBits: 10 * M rank.
@@ -6302,34 +5963,7 @@ testFreeModule: M
 	c _ M scalars atRandomBits: 20.
 	v _ x * c + y.
 	t _ (M coordinatesOf: x) * c + (M coordinatesOf: y).
-	self assert: v = (M elementAt: t).
-"	self testLinearMap: M basis coordinatesMap"! !
-
-!ModuleTest methodsFor: 'other' stamp: 'len 5/23/2020 09:34:55'!
-testFreeModuleDiscriminant
-	"From Sage documentation of FreeModule."
-	| M |
-	M _ ƒ^3.
-	self assert: M discriminant = 1.
-	self assert: (M span: {(1,2,3)}) discriminant = 14.
-	self assert: (M span: {(1,2,3). (1,1,1)}) discriminant = 6! !
-
-!ModuleTest methodsFor: 'other' stamp: 'len 3/14/2020 17:35:53'!
-testGrassmannRelation
-	| V S T |
-	V _ self newVectorSpace.
-	S _ (V grassmannian: V rank atRandom) atRandomBits: 20.
-	T _ (V grassmannian: V rank atRandom) atRandomBits: 20.
-	self assert: S rank + T rank = ((S + T) rank + (S /\ T) rank)! !
-
-!ModuleTest methodsFor: 'other' stamp: 'len 3/9/2021 13:32:07'!
-testGrassmannian
-	| G S |
-	G _ „^3 grassmannian: 2.
-	S _ G atRandomBits: 20.
-	self assert: S rank = 2.
-	self assert: (G includes: S).
-	self assert: (G dual includes: S annihilatorSpace)! !
+	self assert: v = (M elementAt: t)! !
 
 !ModuleTest methodsFor: 'other' stamp: 'len 7/18/2020 10:01:37'!
 testIsSemisimple
@@ -6338,33 +5972,6 @@ testIsSemisimple
 	self assert: V isSemisimple.
 	V _ ƒ asScalarModule. "because Z is not artinian"
 	self assert: V isSemisimple not! !
-
-!ModuleTest methodsFor: 'other' stamp: 'len 5/14/2019 18:51:08'!
-testSubmoduleInclusionOver: aRing
-	| V S P v w |
-	V _ aRing^3.
-	[v _ V atRandomBits: 10. v isZero] whileTrue.
-	S _ V span: {v}.
-	[w _ V atRandomBits: 10. S includes: w] whileTrue.
-	P _ V span: {w*(V scalars atRandomBits: 10)-v. w}.
-	self assert: S < P.
-	self assert: P > S.
-	self assert: S ~= P.
-	self assert: P ~= S.
-	self assert: (S > P) not.
-	self assert: (P < S) not! !
-
-!ModuleTest methodsFor: 'other' stamp: 'len 5/23/2020 09:34:55'!
-testSubmoduleInclusionOverBinaryPolynomials
-	self testSubmoduleInclusionOver: (ƒ/2) polynomials! !
-
-!ModuleTest methodsFor: 'other' stamp: 'len 5/23/2020 09:33:01'!
-testSubmoduleInclusionOverRationalPolynomials
-	self testSubmoduleInclusionOver: „ polynomials! !
-
-!ModuleTest methodsFor: 'other' stamp: 'len 5/23/2020 09:34:55'!
-testSubmoduleInclusionOverZ
-	self testSubmoduleInclusionOver: ƒ! !
 
 !ModuleTest methodsFor: 'other' stamp: 'len 5/23/2020 09:34:55'!
 testSubmoduleIntersection
@@ -6378,35 +5985,6 @@ testSubmoduleIntersection
 	self assert: S /\ T = T.
 	T2 _ M span: {(3,1,-1). (0,1,0)}.
 	self assert: S /\ T2 = T! !
-
-!ModuleTest methodsFor: 'other' stamp: 'len 5/23/2020 09:34:55'!
-testSubmoduleSum
-	| V v w S T P |
-	V _ ƒ ^ 3.
-	[v _ V atRandomBits: 10. v isZero not] whileFalse.
-	[w _ V atRandomBits: 10. w isZero not and: [v ~= w]] whileFalse.
-	S _ V span: {v}.
-	T _ V span: {w}.
-	P _ V span: {v. w}.
-	self assert: S + T = P.
-	self assert: T + S = P.
-	T _ V span: {v - w. v + w}.
-	self assert: S + T = P! !
-
-!ModuleTest methodsFor: 'other' stamp: 'len 5/23/2020 09:33:01'!
-testSubspaceInclusion
-	| V S P v w |
-	V _ „ ^ 3.
-	[v _ V atRandomBits: 10. v isZero] whileTrue.
-	S _ V span: {v}.
-	[w _ V atRandomBits: 10. S includes: w] whileTrue.
-	P _ V span: {v-w. w}.
-	self assert: S < P.
-	self assert: P > S.
-	self assert: S ~= P.
-	self assert: P ~= S.
-	self assert: (S > P) not.
-	self assert: (P < S) not! !
 
 !ModuleTest methodsFor: 'other' stamp: 'len 5/23/2020 09:33:01'!
 testSubspaceIntersection
@@ -6430,17 +6008,17 @@ testSubspaceIntersectionAndSum
 	self assert: U + W = (V span: {(1,0,0,0). (0,1,0,-1). (0,0,1,-1)}).
 	self assert: U /\ W = (V span: {(1,-1,0,1)})! !
 
-!ModuleTest methodsFor: 'other' stamp: 'len 5/23/2020 09:33:01'!
+!ModuleTest methodsFor: 'other' stamp: 'len 3/22/2021 12:06:13'!
 testSubspaceOfSubspace
 	| V S s T t |
 	V _ „ ^ 3.
-	S _ (V grassmannian: 2) atRandomBits: 100.
-	T _ (S grassmannian: 1) atRandomBits: 100.
+	S _ (V grassmannian: 2) atRandomBits: 100 atRandom.
+	T _ (S grassmannian: 1) atRandomBits: 100 atRandom.
 	self assert: S < V.
 	self assert: T < S.
 	self assert: T < V.
-	[s _ S atRandomBits: 100. T includes: s] whileTrue.
-	[t _ T atRandomBits: 100. t isZero] whileTrue.
+	[s _ S atRandomBits: 100 atRandom. T includes: s] whileTrue.
+	[t _ T atRandomBits: 100 atRandom. t isZero] whileTrue.
 	self assert: (S includes: s).
 	self assert: (S includes: t).
 	self assert: (T includes: t)! !
@@ -6459,12 +6037,12 @@ testSubspaceSum
 	T _ V span: {v - w. v + w}.
 	self assert: S + T = P! !
 
-!ModuleTest methodsFor: 'other' stamp: 'len 5/23/2020 09:33:01'!
+!ModuleTest methodsFor: 'other' stamp: 'len 3/22/2021 12:05:42'!
 testSubspaceSumRandom
 	| V S T U |
 	V _ „^5.
-	S _ (V grassmannian: (0 to: V rank) atRandom) atRandomBits: 100.
-	T _ (V grassmannian: (0 to: V rank) atRandom) atRandomBits: 100.
+	S _ (V grassmannian: (0 to: V rank) atRandom) atRandomBits: 100 atRandom.
+	T _ (V grassmannian: (0 to: V rank) atRandom) atRandomBits: 100 atRandom.
 	U _ S + T.
 	self assert: S <= U.
 	self assert: T <= U! !
@@ -6484,22 +6062,10 @@ testSyzygies2
 	self assert: (X elementAt: (X syzygies atRandomBits: 100)) isZero! !
 
 !ModuleTest methodsFor: 'other' stamp: 'len 5/23/2020 09:33:01'!
-testTuplesQ
-	self testFreeModule: („ ^ 5 atRandom)! !
-
-!ModuleTest methodsFor: 'other' stamp: 'len 5/23/2020 09:33:01'!
 testTuplesRationalFunctionsQ
 	| F |
 	F _ „ polynomials fractions.
 	self testFreeModule: F ^ 3 atRandom! !
-
-!ModuleTest methodsFor: 'other' stamp: 'len 5/23/2020 09:34:55'!
-testTuplesZ
-	self testFreeModule: (ƒ ^ 5 atRandom)! !
-
-!ModuleTest methodsFor: 'other' stamp: 'len 5/23/2020 09:34:55'!
-testTuplesZ2
-	self testFreeModule: ((ƒ / 2) ^ 5 atRandom)! !
 
 !ModuleTest methodsFor: 'other' stamp: 'len 5/23/2020 09:34:55'!
 testTuplesZ4
@@ -6525,34 +6091,6 @@ testZModuleInvariantsAndIsomorphismExample3
 	M _ ƒ^1 / {2}  (ƒ^1) / {(1,2)}.
 	self assert: M invariants = #(4).
 	self assert: M ~ (ƒ^1/{4})! !
-
-!ModuleTest methodsFor: 'quotient and complement' stamp: 'len 5/23/2020 09:33:01'!
-testOrthogonalProjection
-	| V S p v |
-	V _ „ ^ 3.
-	S _ V span: {(1, 1, 0). (1, 0, 0)}.
-	p _ S orthogonalProjection.
-	self testProjection: p.
-	v _ (78, 21, 139).
-	self assert: (p value: v) = (p value: (p value: v)). "idempotent at v"
-	self assert: p isIdempotent.
-	self assert: p kernel = S complement.
-	self assert: p image = S.
-	self assert: (S apply: p) = S! !
-
-!ModuleTest methodsFor: 'quotient and complement' stamp: 'len 5/23/2020 09:33:01'!
-testOrthogonalProjection2
-	| V S p v |
-	V _ „ ^ 3.
-	S _ (V grassmannian: 2) atRandomBits: 30.
-	p _ S orthogonalProjection.
-	self testProjection: p.
-	v _ V atRandomBits: 50.
-	self assert: (p value: v) = (p value: (p value: v)). "idempotent at v"
-	self assert: p isIdempotent.
-	self assert: p kernel = S complement.
-	self assert: p image = S.
-	self assert: (S apply: p) = S! !
 
 !ModuleTest methodsFor: 'quotient and complement' stamp: 'len 7/1/2020 19:47:54'!
 testPerp
@@ -6609,19 +6147,6 @@ testQuotientGolay2
 	Q _ S complement.
 	self assert: Q rank = 5.
 	self assert: Q degree = 11! !
-
-!ModuleTest methodsFor: 'quotient and complement' stamp: 'len 5/23/2020 09:33:01'!
-testQuotientMaps
-	| V S Q pi v s |
-	V _ „ ^ 5.
-	S _ V grassmannian: (1 to: V rank) atRandom :: atRandomBits: 50.
-	Q _ V/S.
-	pi _ V -> Q.
-	v _ V atRandomBits: 100.
-	s _ pi value: v.
-	self assert: (Q includes: s).
-	self assert: (V includes: (pi section value: s)).
-	self assert: s = (pi value: (pi section value: s))! !
 
 !ModuleTest methodsFor: 'quotient and complement' stamp: 'len 5/23/2020 09:34:55'!
 testQuotientModuleAnnihilator
@@ -6686,19 +6211,8 @@ testQuotientModuleIsFinite
 	self assert: (V/W) isFinite not
 "! !
 
-!ModuleTest methodsFor: 'quotient and complement' stamp: 'len 8/17/2019 12:46:13'!
-testQuotientSpace
-	| V S Q |
-	V _ self newVectorSpace.
-	S _ V grassmannian: (1 to: V rank) atRandom :: atRandomBits: V rank * 10.
-	Q _ V/S.
-	self assert: Q rank = (V rank - S rank).
-"	self assert: (Q includes: S + (V atRandomBits: V rank * 10))."
-	self assert: (V / V null) rank = V rank.
-	self assert: (V / V) rank = 0! !
-
-!ModuleTest methodsFor: 'quotient and complement' stamp: 'len 10/8/2020 17:08:15'!
-testQuotientSpace2
+!ModuleTest methodsFor: 'quotient and complement' stamp: 'len 3/24/2021 08:48:20'!
+testQuotientSpaceExample
 	| V M x |
 	V _ „^3.
 	M _ V / {V !! (1,2,3)}.
@@ -6706,7 +6220,7 @@ testQuotientSpace2
 	self assert: x isZero.
 "	self assert: (M lifting value: x) = (0,0,0)"! !
 
-!ModuleTest methodsFor: 'tensor product' stamp: 'len 6/8/2020 15:58:35'!
+!ModuleTest methodsFor: 'tensor product' stamp: 'len 3/22/2021 11:47:06'!
 testTensorHomAdjunction
 	| V W U A B phi |
 	V _ self newSmallVectorSpace.
@@ -6716,62 +6230,8 @@ testTensorHomAdjunction
 	B _ V => (W => U).
 	self assert: A ~ B.
 	phi _ A to: B evaluating: [:f| B evaluating: [:v| W to: U evaluating: [:w| f value: ((V,W) -> A domain carrier value: {v. w})]]].
-	self testLinearMap: phi.
+	self testModuleMap: phi.
 	self assert: phi isIsomorphism! !
-
-!ModuleTest methodsFor: 'tensor product' stamp: 'len 5/23/2020 09:33:01'!
-testTensorProductAssociativity
-	| V1 V2 V3 |
-	V1 _ „ ^ 2.
-	V2 _ „ ^ 3.
-	V3 _ „ ^ 4.
-	self assert: (V1 ‘ V2) ‘ V3 ~ (V1 ‘ (V2 ‘ V3))! !
-
-!ModuleTest methodsFor: 'tensor product' stamp: 'len 5/23/2020 09:33:01'!
-testTensorProductCommutativity
-	| V W |
-	V _ „ ^ 3.
-	W _ „ ^ 4.
-	self assert: V ‘ W ~ (W ‘ V)! !
-
-!ModuleTest methodsFor: 'tensor product' stamp: 'len 5/23/2020 09:33:01'!
-testTensorProductDimension
-	| V1 V2 |
-	V1 _ „ ^ 5 atRandom.
-	V2 _ „ ^ 5 atRandom.
-	self assert: (V1 ‘ V2) rank = (V1 rank * V2 rank)! !
-
-!ModuleTest methodsFor: 'tensor product' stamp: 'len 5/23/2020 09:33:01'!
-testTensorProductDistributivity
-	| A B C |
-	A _ „ ^ 3.
-	B _ „ ^ 4.
-	C _ „ ^ 2.
-	self assert: A  B ‘ C ~ (A ‘ C  (B ‘ C))! !
-
-!ModuleTest methodsFor: 'tensor product' stamp: 'len 4/21/2020 13:54:31'!
-testTensorProductDualHomIsomorphism
-	| V W A B |
-	V _ self newVectorSpace.
-	W _ self newFreeModuleOver: V scalars.
-	A _ V dual ‘ W.
-	B _ V => W.
-	self assert: A ~ B.
-"	phi _ A to: B evaluating: [:t| B evaluating: [:v| t second * (t first value: v)]].
-	self testLinearMap: phi.
-	self assert: phi isIsomorphism"! !
-
-!ModuleTest methodsFor: 'tensor product' stamp: 'len 4/21/2020 13:54:46'!
-testTensorProductDualIsomorphism
-	| V W A B |
-	V _ self newVectorSpace.
-	W _ self newFreeModuleOver: V scalars.
-	A _ V dual ‘ W dual.
-	B _ (V ‘ W) dual.
-	self assert: A ~ B.
-"	phi _ A to: B evaluating: [:s| B evaluating: [:t| (s first value: t first) * (s second value: t second)]].
-	self testLinearMap: phi.
-	self assert: phi isIsomorphism"! !
 
 !ModuleTest methodsFor: 'tensor product' stamp: 'len 5/23/2020 09:34:55'!
 testTensorProductExample
@@ -6791,48 +6251,20 @@ testTensorProductOfLinearForms
 	w _ W atRandomBits: 10.
 	self assert: (t value: ((V, W) -> t domain carrier value: {v. w})) = ( (f codomain, g codomain) -> t codomain carrier value: {f value: v. g value: w})! !
 
-!ModuleTest methodsFor: 'tensor product' stamp: 'len 6/8/2020 15:56:47'!
-testTensorProductRelations
-	| V W T v v1 v2 w w1 w2 c composition |
-	V _ self newVectorSpace.
-	W _ self newFreeModuleOver: V scalars.
-	T _ V ‘ W.
-	composition _ (V, W) -> T carrier.
-	v _ V atRandomBits: 40.
-	v1 _ V atRandomBits: 40.
-	v2 _ V atRandomBits: 40.
-	w _ W atRandomBits: 40.
-	w1 _ W atRandomBits: 40.
-	w2 _ W atRandomBits: 40.
-	c _ V scalars atRandomBits: 40.
-	self assert: (composition value: {v1. w}) + (composition value: {v2. w}) = (composition value: {v1 + v2. w}).
-	self assert: (composition value: {v. w1}) + (composition value: {v. w2}) = (composition value: {v. w1 + w2}).
-	self assert: (composition value: {v. w})*c = (composition value: {v*c. w}).
-	self assert: (composition value: {v. w})*c = (composition value: {v. w*c})! !
-
 !ModuleTest methodsFor: 'private' stamp: 'len 4/21/2020 05:52:54'!
 newFreeModule
 	^ self newFreeModuleOver: self newScalarsRing! !
 
-!ModuleTest methodsFor: 'private' stamp: 'len 8/13/2020 08:15:29'!
+!ModuleTest methodsFor: 'private' stamp: 'len 3/22/2021 12:00:26'!
 newFreeModuleOver: aRing
 	| M N |
 	M _ 3 atRandom = 1 ifTrue: [aRing asScalarModule] ifFalse: [aRing ^ 3 atRandom].
-	4 atRandom = 1 ifTrue:
+	5 atRandom = 1 ifTrue:
 		[N _ self newFreeModuleOver: aRing.
 		2 atRandom = 1 ifTrue: [^ M => N].
 		^ M ‘ N].
-	4 atRandom = 1 ifTrue: [^ M endomorphisms asModule].
-	4 atRandom = 1 ifTrue: [^ M dual].
+	5 atRandom = 1 ifTrue: [^ M dual].
 	^ M! !
-
-!ModuleTest methodsFor: 'private' stamp: 'len 5/23/2020 09:34:55'!
-newLinearMap
-	| K V W |
-	K _ {„. ƒ / #(2 3 5 7) atRandom} atRandom.
-	V _ self newFreeModuleOver: K.
-	W _ self newFreeModuleOver: K.
-	^ V => W !! (self newMatrix: W rank @ V rank over: K)! !
 
 !ModuleTest methodsFor: 'private' stamp: 'len 6/1/2020 14:14:17'!
 newMatrix: shape over: aRing
@@ -6841,6 +6273,26 @@ newMatrix: shape over: aRing
 	2 atRandom = 1 ifTrue: [^ hom atRandomBits: 100].
 	samples _ {aRing zero. aRing one. aRing one negated}.
 	^ hom filling: [:i :j| 2 atRandom > 1 ifTrue: [aRing zero] ifFalse: [samples atRandom]]! !
+
+!ModuleTest methodsFor: 'private' stamp: 'len 3/22/2021 12:02:55'!
+newModule
+	^ self newModuleOver: self newScalarsRing! !
+
+!ModuleTest methodsFor: 'private' stamp: 'len 3/22/2021 11:51:07'!
+newModuleMap
+	| R V W |
+	R _ self newScalarsRing.
+	V _ self newFreeModuleOver: R.
+	W _ self newFreeModuleOver: R.
+	^ V => W !! (self newMatrix: W rank @ V rank over: R)! !
+
+!ModuleTest methodsFor: 'private' stamp: 'len 3/22/2021 12:03:17'!
+newModuleOver: aRing
+	| M N |
+	M _ self newFreeModuleOver: aRing.
+	2 atRandom = 1 ifTrue: [^ M].
+	N _ M grassmannian: (0 to: M rank) atRandom :: atRandomBits: 50 atRandom.
+	^ M / N! !
 
 !ModuleTest methodsFor: 'private' stamp: 'len 5/23/2020 09:34:55'!
 newScalarsField
@@ -7142,14 +6594,14 @@ testMinimalPolynomial
 	self assert: a minimalPolynomial = (x^2 - 2).
 	self assert: (a/2 + 3) minimalPolynomial = (x^2 - (x*6) + (17/2))! !
 
-!NumberFieldTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2020 09:33:01'!
+!NumberFieldTest methodsFor: 'as yet unclassified' stamp: 'len 3/22/2021 10:37:04'!
 testMinimalPolynomial2
 	"Example from 'Algebraic Number Theory: A Computational Approach' by William Stein (29 pp)."
 	| x K a alpha |
 	x _ „ polynomials x.
 	K _ QuadraticField sqrt: 5.
 	a _ K x.
-	self assert: a squared = 5.
+	self assert: a squared = (K !! 5).
 	alpha _ (1 + a) / 2.
 	self assert: alpha minimalPolynomial = (x^2 - x - 1)! !
 
@@ -8639,6 +8091,692 @@ testGramian
 	10 timesRepeat:
 		[x _ Q domain atRandomBits: 100 atRandom.
 		self assert: (Q value: x) = (x · (M * x))]! !
+
+!RandomTestCase methodsFor: 'as yet unclassified' stamp: 'len 3/23/2021 13:58:30'!
+initialize
+	super initialize.
+	seed _ 16rFFFFFFFF atRandom! !
+
+!RandomTestCase methodsFor: 'as yet unclassified' stamp: 'len 3/23/2021 14:09:58'!
+setUp
+	super setUp.
+	random _ Random seed: seed! !
+
+!RandomTestCase methodsFor: 'as yet unclassified' stamp: 'len 3/23/2021 14:10:11'!
+tearDown
+	super tearDown.
+	random _ nil! !
+
+!RandomTestCase class methodsFor: 'as yet unclassified' stamp: 'len 3/23/2021 13:59:51'!
+isAbstract
+	^ self == RandomTestCase! !
+
+!AbstractModuleTest methodsFor: 'private' stamp: 'len 3/23/2021 14:05:53'!
+newFreeModule
+	| M N |
+	M _ (3 atRandom: random) = 1 ifTrue: [scalars asScalarModule] ifFalse: [scalars ^ (3 atRandom: random)].
+	(5 atRandom: random) = 1 ifTrue:
+		[N _ self newFreeModule.
+		(2 atRandom: random) = 1 ifTrue: [^ M => N].
+		^ M ‘ N].
+	(5 atRandom: random) = 1 ifTrue: [^ M dual].
+	^ M! !
+
+!AbstractModuleTest methodsFor: 'private' stamp: 'len 3/24/2021 09:15:31'!
+newMatrix: shape
+	| hom samples |
+	hom _ scalars^shape y => (scalars^shape x).
+	(2 atRandom: random) = 1 ifTrue: [^ hom atRandom: random bits: 100].
+	samples _ {scalars zero. scalars one. scalars one negated}.
+	^ hom filling: [:i :j| (2 atRandom: random) > 1 ifTrue: [scalars zero] ifFalse: [samples atRandom: random]]! !
+
+!AbstractModuleTest methodsFor: 'private' stamp: 'len 3/23/2021 14:06:06'!
+newModule
+	| M N |
+	M _ self newFreeModule.
+	(2 atRandom: random) = 1 ifTrue: [^ M].
+	N _ M grassmannian: ((0 to: M rank) atRandom: random) :: atRandom: random bits: (50 atRandom: random).
+	^ M / N! !
+
+!AbstractModuleTest methodsFor: 'private' stamp: 'len 3/23/2021 13:27:06'!
+newModuleMap
+	| V W |
+	V _ self newFreeModule.
+	W _ self newFreeModule.
+	^ V => W !! (self newMatrix: W rank @ V rank)! !
+
+!AbstractModuleTest methodsFor: 'private' stamp: 'len 3/24/2021 08:52:39'!
+newSmallFreeModule
+	| M |
+	M _ (3 atRandom: random) = 1 ifTrue: [scalars asScalarModule] ifFalse: [scalars ^ (3 atRandom: random)].
+	(3 atRandom: random) = 1 ifTrue: [^ M dual].
+	^ M! !
+
+!AbstractModuleTest methodsFor: 'private' stamp: 'len 3/24/2021 08:53:30'!
+newSmallModule
+	| M N |
+	M _ self newSmallFreeModule.
+	(2 atRandom: random) = 1 ifTrue: [^ M].
+	N _ M grassmannian: ((0 to: M rank) atRandom: random) :: atRandom: random bits: (50 atRandom: random).
+	^ M / N! !
+
+!AbstractModuleTest methodsFor: 'isomorphism theorems' stamp: 'len 3/23/2021 14:05:03'!
+testFirstIsomorphismTheorem
+	| M N f |
+	M _ self newFreeModule.
+	N _ self newFreeModule.
+	f _ M => N atRandom: random bits: 100.
+	self assert: f codomain >= f image.
+	self assert: f domain >= f kernel.
+	self assert: f domain / f kernel ~ f image! !
+
+!AbstractModuleTest methodsFor: 'isomorphism theorems' stamp: 'len 3/23/2021 14:04:51'!
+testSecondIsomorphismTheorem
+	| M S T |
+	M _ self newFreeModule.
+	S _ M grassmannian: ((0 to: M rank) atRandom: random) :: atRandom: random bits: (50 atRandom: random).
+	T _ M grassmannian: ((0 to: M rank) atRandom: random) :: atRandom: random bits: (50 atRandom: random).
+	self assert: S+T <= M.
+	self assert: S /\ T <= M.
+	self assert: (S+T)/T ~ (S/(S /\ T))! !
+
+!AbstractModuleTest methodsFor: 'isomorphism theorems' stamp: 'len 3/23/2021 14:05:14'!
+testThirdIsomorphismTheorem
+	| M S T |
+	M _ self newFreeModule.
+	S _ M grassmannian: ((0 to: M rank) atRandom: random) :: atRandom: random bits: (50 atRandom: random).
+	T _ M grassmannian: ((0 to: M rank) atRandom: random) :: atRandom: random bits: (50 atRandom: random).
+	self assert: S/T <= (M/T).
+	self assert: (M/T)/(S/T) ~ (M/S)! !
+
+!AbstractModuleTest methodsFor: 'maps' stamp: 'len 3/24/2021 09:16:56'!
+testAdjoint
+	| V W f fAdjoint phi |
+	V _ self newFreeModule.
+	W _ self newFreeModule.
+	f _ V => W atRandom: random bits: 50.
+	fAdjoint _ f adjoint.
+	self assert: fAdjoint domain = f codomain dual.
+	self assert: fAdjoint codomain = f domain dual.
+	phi _ W dual atRandom: random bits: 20.
+	self assert: (fAdjoint value: phi) = (phi · f)! !
+
+!AbstractModuleTest methodsFor: 'maps' stamp: 'len 3/24/2021 08:19:21'!
+testAdjoint2
+	| V W f a |
+	V _ scalars ^ (3 atRandom: random).
+	W _ scalars ^ (5 atRandom: random).
+	f _ V => W atRandom: random bits: 100.
+	a _ f adjoint.
+	self assert: a kernel = f image annihilatorSpace.
+	self assert: a image = f kernel annihilatorSpace.
+	self assert: f isSurjective = a isInjective.
+	self assert: f isInjective = a isSurjective! !
+
+!AbstractModuleTest methodsFor: 'maps' stamp: 'len 3/24/2021 07:57:01'!
+testAdjointAndHomFunctor
+	"Given a R-linear map f, applying the Hom(-, R) produces the adjoint (the dual map).
+	Example from 'A Singular Introduction To Commutative Algebra, pp. 115, procedure kontraHom."
+	| f |
+	f _ self newFreeModule => self newFreeModule :: atRandom: random bits: 100.
+	self assert: (f => scalars asScalarModule) = f adjoint! !
+
+!AbstractModuleTest methodsFor: 'maps' stamp: 'len 3/24/2021 08:20:37'!
+testAdjointProperties
+	| V W U f g a |
+	V _ self newFreeModule.
+	W _ self newFreeModule.
+	f _ V => W atRandom: random bits: 100.
+	g _ V => W atRandom: random bits: 100.
+	a _ scalars atRandom: random bits: 10.
+	self assert: (f + g) adjoint = (f adjoint + g adjoint).
+	self assert: (f * a) adjoint = (f adjoint * a).
+	U _ self newFreeModule.
+	f _ U => V atRandom: random bits: 100.
+	self assert: (g · f) adjoint = (f adjoint · g adjoint)! !
+
+!AbstractModuleTest methodsFor: 'maps' stamp: 'len 3/24/2021 07:58:17'!
+testCoequalizer
+	| A B f g Q |
+	A _ self newFreeModule.
+	B _ self newFreeModule.
+	f _ (A => B) atRandom: random bits: (50 atRandom: random).
+	g _ (A => B) atRandom: random bits: (50 atRandom: random).
+	Q _ f coequalizer: g.
+	self assert: (f -> Q) notNil.
+	self assert: f -> Q = (g -> Q)! !
+
+!AbstractModuleTest methodsFor: 'maps' stamp: 'len 3/24/2021 07:58:37'!
+testCokernelAndCoequalizer
+	| A B f |
+	A _ self newFreeModule.
+	B _ self newFreeModule.
+	f _ (A => B) atRandom: random bits: (100 atRandom: random).
+	self assert: f cokernel = (f coequalizer: f zero)! !
+
+!AbstractModuleTest methodsFor: 'maps' stamp: 'len 3/24/2021 07:59:43'!
+testColift
+	| M X A i Y f g |
+	M _ self newFreeModule.
+	X _ self newFreeModule.
+	A _ (X => M atRandom: random bits: 20) kernel.
+	i _ A -> X.
+	self assert: i isInjective.
+	Y _ self newFreeModule.
+	f _ A => Y atRandom: random bits: 20.
+	g _ f / i.
+	self assert: (X => Y includes: g).
+	self assert: i -> g = f
+
+"	| M N phi cokernel L eta eta0 |
+	M _ „^3.
+	N _ „^4.
+	phi _ (M => N) atRandomBits: 20.
+	cokernel _ phi cokernel.
+	L _ „^5.
+	eta _ N to: L evaluating: [:x| L atRandomBits: 20]. ???
+	self assert: (phi -> eta) isZero.
+	eta0 _ eta / (M ->> cokernel).
+	self assert: (cokernel => L includes: eta0).
+	self assert: M ->> cokernel -> eta0 = eta"! !
+
+!AbstractModuleTest methodsFor: 'maps' stamp: 'len 3/24/2021 08:00:34'!
+testComposition
+	| X Y Z f g x |
+	X _ self newFreeModule.
+	Y _ self newFreeModule.
+	Z _ self newFreeModule.
+	f _ X => Y atRandom: random bits: 1000.
+	g _ Y => Z atRandom: random bits: 1000.
+	x _ X atRandom: random bits: 1000.
+	self assert: (X => Z includes: g · f).
+	self assert: (g · f value: x) = (g value: (f value: x)).
+	self should: [f · g] raise: DomainError! !
+
+!AbstractModuleTest methodsFor: 'maps' stamp: 'len 3/24/2021 08:01:13'!
+testCompositionError
+	| X Y Z f g |
+	X _ self newFreeModule.
+	Y _ self newFreeModule.
+	Z _ self newFreeModule.
+	f _ X => Y atRandom: random bits: 1000.
+	g _ Y => Z atRandom: random bits: 1000.
+	self should: [f · g] raise: DomainError! !
+
+!AbstractModuleTest methodsFor: 'maps' stamp: 'len 3/24/2021 08:01:55'!
+testEqualizer
+	| A B f g Q |
+	A _ self newFreeModule.
+	B _ self newFreeModule.
+	f _ A => B atRandom: random bits: (100 atRandom: random).
+	g _ A => B atRandom: random bits: (100 atRandom: random).
+	Q _ f equalizer: g.
+	self assert: (Q -> f) notNil.
+	self assert: Q -> f = (Q -> g)! !
+
+!AbstractModuleTest methodsFor: 'maps' stamp: 'len 3/24/2021 07:57:09'!
+testImage
+	| f image v w |
+	f _ self newModuleMap.
+	image _ f image.
+	v _ f domain atRandom: random bits: 100.
+	w _ f value: v.
+	self assert: (image includes: w)! !
+
+!AbstractModuleTest methodsFor: 'maps' stamp: 'len 3/24/2021 08:03:18'!
+testKernel
+	| f kernel v |
+	f _ self newModuleMap.
+	kernel _ f kernel.
+	v _ kernel atRandom: random bits: 100.
+	self assert: (f value: v) isZero! !
+
+!AbstractModuleTest methodsFor: 'maps' stamp: 'len 3/24/2021 09:15:41'!
+testKernelAndEqualizer
+	| A B f |
+	A _ self newFreeModule.
+	B _ self newFreeModule.
+	f _ A => B atRandom: random bits: (100 atRandom: random).
+	self assert: f kernel = (f equalizer: f zero)! !
+
+!AbstractModuleTest methodsFor: 'maps' stamp: 'len 3/24/2021 08:05:16'!
+testLift
+	| M X B Y p f g |
+	M _ self newFreeModule.
+	X _ self newFreeModule.
+	B _ (M => X atRandom: random bits: 20) cokernel.
+	p _ X -> B.
+	self assert: p isSurjective.
+	Y _ self newFreeModule.
+	f _ Y => B atRandom: random bits: 20.
+	g _ p \ f.
+	self assert: (Y => X includes: g).
+	self assert: g -> p = f
+
+"	| M N phi kernel L tau tau0 |
+	M _ „^3.
+	N _ „^4.
+	phi _ (M => N) atRandomBits: 20.
+	kernel _ phi kernel.
+	L _ „^5.
+	tau _ L to: M evaluating: [:x| kernel atRandomBits: 20].
+	self assert: (tau -> phi) isZero.
+	tau0 _ kernel >-> M \ tau.
+	self assert: (L => kernel includes: tau0).
+	self assert: tau0 -> (kernel >-> M) = tau"! !
+
+!AbstractModuleTest methodsFor: 'maps' stamp: 'len 3/24/2021 08:09:14'!
+testMapToBiggerDimensionIsNotSurjective
+	| V W f |
+	 V _ scalars^(4 atRandom: random).
+	W _ scalars^((V rank atRandom: random) - 1).
+	f _ W => V atRandom: random bits: 100.
+	self assert: f isSurjective not! !
+
+!AbstractModuleTest methodsFor: 'maps' stamp: 'len 3/24/2021 08:08:52'!
+testMapToSmallerDimensionIsNotInjective
+	| V W f |
+	 V _ scalars^(4 atRandom: random).
+	W _ scalars^((V rank atRandom: random) - 1).
+	f _ V => W atRandom: random bits: 100.
+	self assert: f isInjective not! !
+
+!AbstractModuleTest methodsFor: 'maps' stamp: 'len 3/23/2021 13:55:24'!
+testModuleMap
+	| f |
+	f _ self newModuleMap.
+	self testModuleMap: f! !
+
+!AbstractModuleTest methodsFor: 'maps' stamp: 'len 3/24/2021 07:57:30'!
+testModuleMap: f
+	| a1 a2 b1 b2 x |
+	a1 _ f domain atRandom: random bits: 20.
+	a2 _ f domain atRandom: random bits: 20.
+	b1 _ f value: a1.
+	b2 _ f value: a2.
+	self assert: (f value: f domain zero) isZero.
+	x _ f domain scalars atRandom: random bits: 20.
+	self assert: (f value: a1 * x + a2) = (b1 * x + b2)! !
+
+!AbstractModuleTest methodsFor: 'maps' stamp: 'len 3/24/2021 07:57:36'!
+testPreimage
+	| f w v |
+	f _ self newModuleMap.
+	w _ f image atRandom: random bits: 100.
+	v _ f preimage: w.
+	self assert: (f value: v) = w! !
+
+!AbstractModuleTest methodsFor: 'maps' stamp: 'len 3/24/2021 08:10:07'!
+testProjection: f
+	| v |
+	self testModuleMap: f.
+	v _ f domain atRandom: random bits: 20.
+	self assert: (f value: v) = (f value: (f value: v)). "idempotent at v"
+	self assert: f isIdempotent.
+	self assert: (f image apply: f) = f image.
+	self assert: (f codomain apply: f) = f image! !
+
+!AbstractModuleTest methodsFor: 'maps' stamp: 'len 3/24/2021 08:10:42'!
+testPullback
+	| X Y Z f g P projections |
+	Z _ self newFreeModule.
+	X _ self newFreeModule.
+	Y _ self newFreeModule.
+	f _ X => Z atRandom: random bits: 20.
+	g _ Y => Z atRandom: random bits: 20.
+	P _ f /\ g.
+	projections _ P -< (X, Y).
+	self assert: projections first -> f = (projections second -> g)! !
+
+!AbstractModuleTest methodsFor: 'maps' stamp: 'len 3/24/2021 08:11:12'!
+testPushout
+	| X Y Z f g P coprojections |
+	Z _ self newFreeModule.
+	X _ self newFreeModule.
+	Y _ self newFreeModule.
+	f _ Z => X atRandom: random bits: 20.
+	g _ Z => Y atRandom: random bits: 20.
+	P _ f \/ g.
+	coprojections _ (X, Y) >- P.
+	self assert: f -> coprojections first = (g -> coprojections second)! !
+
+!AbstractModuleTest methodsFor: 'bugs' stamp: 'len 3/24/2021 08:07:18'!
+testMapDirectSumAndTensorProductBug
+	| V W f g |
+	V _ self newFreeModule.
+	W _ self newFreeModule.
+	f _ V endomorphisms atRandom: random bits: 100.
+	g _ W endomorphisms atRandom: random bits: 100.
+	"doing it twice should give the same thing:"
+	self assert: (f‘g) domain = (f‘g) domain.
+	self assert: (fg) domain = (fg) domain! !
+
+!AbstractModuleTest methodsFor: 'other' stamp: 'len 3/24/2021 08:26:32'!
+testCanonicalMorphisms
+	| V v W w |
+	V _ self newModule.
+	v _ V atRandom: random bits: 100.
+	W _ V span: {v}.
+	w _ W atRandom: random bits: 100.
+	self assert: (V null -> W) isZero. "canonical morphism from initial object"
+	self assert: (V -> W null) isZero. "canonical morphism to terminal object"
+	self assert: ((W -> W null) value: w) isZero.
+	self assert: (W -> V value: w) = w. "canonical morphism to overobject"! !
+
+!AbstractModuleTest methodsFor: 'other' stamp: 'len 3/24/2021 08:26:53'!
+testDirectSum
+	| M N S |
+	M _ self newModule.
+	N _ self newModule.
+	S _ M  N.
+	(M, N) >- S do: [:each| self testModuleMap: each].
+	S -< (M, N) do: [:each| self testModuleMap: each]! !
+
+!AbstractModuleTest methodsFor: 'other' stamp: 'len 3/24/2021 08:27:15'!
+testDirectSumFree
+	| M N S |
+	M _ self newFreeModule.
+	N _ self newFreeModule.
+	S _ M  N.
+	self testFreeModule: S.
+	(M, N) >- S do: [:each| self testModuleMap: each].
+	S -< (M, N) do: [:each| self testModuleMap: each]! !
+
+!AbstractModuleTest methodsFor: 'other' stamp: 'len 3/24/2021 08:57:34'!
+testFreeModule: M
+	| c t v x y |
+	x _ M atRandom: random bits: 10 * M rank.
+	self assert: x = (M elementAt: (M coordinatesOf: x)).
+	y _ M atRandom: random bits: 10 * M rank.
+	c _ M scalars atRandom: random bits: 20.
+	v _ x * c + y.
+	t _ (M coordinatesOf: x) * c + (M coordinatesOf: y).
+	self assert: v = (M elementAt: t)! !
+
+!AbstractModuleTest methodsFor: 'other' stamp: 'len 3/24/2021 08:32:58'!
+testSubmoduleInclusion
+	| V S P v w |
+	[[V _ self newModule.
+	v _ V atRandom: random bits: 10. v isZero] whileTrue.
+	S _ V span: {v}.
+	w _ V atRandom: random bits: 10. S includes: w] whileTrue.
+	P _ V span: {w*(V scalars atRandom: random bits: 10)-v. w}.
+	self assert: S < P.
+	self assert: P > S.
+	self assert: S ~= P.
+	self assert: P ~= S.
+	self assert: (S > P) not.
+	self assert: (P < S) not! !
+
+!AbstractModuleTest methodsFor: 'other' stamp: 'len 3/24/2021 09:17:06'!
+testSubmoduleSum
+	| V v w S T P |
+	[[V _ self newModule.
+	v _ V atRandom: random bits: 10. v isZero not] whileFalse.
+	w _ V atRandom: random bits: 10. w isZero not and: [v ~= w]] whileFalse.
+	S _ V span: {v}.
+	T _ V span: {w}.
+	P _ V span: {v. w}.
+	self assert: S + T = P.
+	self assert: T + S = P.
+	T _ V span: {v - w. v + w}.
+	self assert: S + T = P! !
+
+!AbstractModuleTest methodsFor: 'other' stamp: 'len 3/24/2021 09:15:57'!
+testTuples
+	self testFreeModule: (scalars ^ ((0 to: 5) atRandom: random))! !
+
+!AbstractModuleTest methodsFor: 'tensor product' stamp: 'len 3/24/2021 08:50:46'!
+testTensorProductAssociativity
+	| V1 V2 V3 |
+	V1 _ self newSmallModule.
+	V2 _ self newSmallModule.
+	V3 _ self newSmallModule.
+	self assert: (V1 ‘ V2) ‘ V3 ~ (V1 ‘ (V2 ‘ V3))! !
+
+!AbstractModuleTest methodsFor: 'tensor product' stamp: 'len 3/24/2021 08:51:12'!
+testTensorProductCommutativity
+	| V W |
+	V _ self newSmallModule.
+	W _ self newSmallModule.
+	self assert: V ‘ W ~ (W ‘ V)! !
+
+!AbstractModuleTest methodsFor: 'tensor product' stamp: 'len 3/24/2021 08:51:50'!
+testTensorProductDimension
+	| V1 V2 |
+	V1 _ self newSmallFreeModule.
+	V2 _ self newSmallFreeModule.
+	self assert: (V1 ‘ V2) rank = (V1 rank * V2 rank)! !
+
+!AbstractModuleTest methodsFor: 'tensor product' stamp: 'len 3/24/2021 08:54:17'!
+testTensorProductDistributivity
+	| A B C |
+	A _ self newSmallFreeModule.
+	B _ self newSmallFreeModule.
+	C _ self newSmallFreeModule.
+	self assert: A  B ‘ C ~ (A ‘ C  (B ‘ C))! !
+
+!AbstractModuleTest methodsFor: 'tensor product' stamp: 'len 3/24/2021 08:54:44'!
+testTensorProductDualHomIsomorphism
+	| V W A B |
+	V _ self newFreeModule.
+	W _ self newFreeModule.
+	A _ V dual ‘ W.
+	B _ V => W.
+	self assert: A ~ B.
+"	phi _ A to: B evaluating: [:t| B evaluating: [:v| t second * (t first value: v)]].
+	self testLinearMap: phi.
+	self assert: phi isIsomorphism"! !
+
+!AbstractModuleTest methodsFor: 'tensor product' stamp: 'len 3/24/2021 08:55:00'!
+testTensorProductDualIsomorphism
+	| V W A B |
+	V _ self newFreeModule.
+	W _ self newFreeModule.
+	A _ V dual ‘ W dual.
+	B _ (V ‘ W) dual.
+	self assert: A ~ B.
+"	phi _ A to: B evaluating: [:s| B evaluating: [:t| (s first value: t first) * (s second value: t second)]].
+	self testLinearMap: phi.
+	self assert: phi isIsomorphism"! !
+
+!AbstractModuleTest methodsFor: 'tensor product' stamp: 'len 3/24/2021 08:56:18'!
+testTensorProductRelations
+	| V W T v v1 v2 w w1 w2 c composition |
+	V _ self newFreeModule.
+	W _ self newFreeModule.
+	T _ V ‘ W.
+	composition _ (V, W) -> T carrier.
+	v _ V atRandom: random bits: 40.
+	v1 _ V atRandom: random bits: 40.
+	v2 _ V atRandom: random bits: 40.
+	w _ W atRandom: random bits: 40.
+	w1 _ W atRandom: random bits: 40.
+	w2 _ W atRandom: random bits: 40.
+	c _ V scalars atRandom: random bits: 40.
+	self assert: (composition value: {v1. w}) + (composition value: {v2. w}) = (composition value: {v1 + v2. w}).
+	self assert: (composition value: {v. w1}) + (composition value: {v. w2}) = (composition value: {v. w1 + w2}).
+	self assert: (composition value: {v. w})*c = (composition value: {v*c. w}).
+	self assert: (composition value: {v. w})*c = (composition value: {v. w*c})! !
+
+!AbstractModuleTest class methodsFor: 'as yet unclassified' stamp: 'len 3/24/2021 07:36:04'!
+isAbstract
+	^ self == AbstractModuleTest! !
+
+!AbstractVectorSpaceTest methodsFor: 'maps' stamp: 'len 3/24/2021 08:02:36'!
+testInverse
+	| V f |
+	V _ self newVectorSpace.
+	[(f _ V endomorphisms atRandom: random bits: 1000) isIsomorphism] whileFalse.
+	self assert: (f · f inverse) isIdentity.
+	self assert: (f inverse · f) isIdentity! !
+
+!AbstractVectorSpaceTest methodsFor: 'maps' stamp: 'len 3/24/2021 08:11:49'!
+testRetraction
+	| V W f r |
+	[V _ self newVectorSpace.
+	W _ self newVectorSpace.
+	f _ V => W atRandom: random bits: 100. f isInjective] whileFalse.
+	r _ f retraction.
+	self assert: r isSurjective.
+	self assert: r · f = V id! !
+
+!AbstractVectorSpaceTest methodsFor: 'maps' stamp: 'len 3/24/2021 08:12:10'!
+testSection
+	| V W f s |
+	[V _ self newVectorSpace.
+	W _ self newVectorSpace.
+	f _ V => W atRandom: random bits: 50. f isSurjective] whileFalse.
+	s _ f section.
+	self assert: s isInjective.
+	self assert: f · s = W id! !
+
+!AbstractVectorSpaceTest methodsFor: 'private' stamp: 'len 3/24/2021 08:02:48'!
+newVectorSpace
+	^ self newFreeModule! !
+
+!AbstractVectorSpaceTest methodsFor: 'other' stamp: 'len 3/24/2021 08:23:12'!
+testAnnihilator
+	| V v S S0 |
+	[(V _ self newVectorSpace) isTrivial] whileTrue.
+	[(v _ V atRandom: random bits: 100) isZero] whileTrue.
+	S _ V span: {v}.
+	S0 _ S annihilatorSpace.
+	self assert: S0 rank = S corank.
+	S0 generators do: [:f| self assert: (f value: v) isZero]! !
+
+!AbstractVectorSpaceTest methodsFor: 'other' stamp: 'len 3/24/2021 09:04:59'!
+testAnnihilatorProperties
+	| V n m S T |
+	V _ self newVectorSpace.
+	n _ (0 to: V rank) atRandom: random.
+	S _ (V grassmannian: n) atRandom: random bits: (100 atRandom: random).
+	m _ (0 to: n) atRandom: random.
+	T _ (S grassmannian: m) atRandom: random bits: (100 atRandom: random).
+	self assert: T <= S.
+	self assert: T annihilatorSpace >= S annihilatorSpace. "reverses inclusions"
+	self assert: (S + T) annihilatorSpace = (S annihilatorSpace /\ T annihilatorSpace).
+	self assert: S rank + S annihilatorSpace rank = V rank.
+	self assert: V annihilatorSpace isTrivial.
+"	self assert: S annihilator annihilator = S dual dual"! !
+
+!AbstractVectorSpaceTest methodsFor: 'other' stamp: 'len 3/24/2021 09:16:15'!
+testGrassmannRelation
+	| V S T |
+	V _ self newVectorSpace.
+	S _ (V grassmannian: ((0 to: V rank) atRandom: random)) atRandom: random bits: (20 atRandom: random).
+	T _ (V grassmannian: ((0 to: V rank) atRandom: random)) atRandom: random bits: (20 atRandom: random).
+	self assert: S rank + T rank = ((S + T) rank + (S /\ T) rank)! !
+
+!AbstractVectorSpaceTest methodsFor: 'other' stamp: 'len 3/24/2021 09:16:26'!
+testGrassmannian
+	| V r G S |
+	V _ self newVectorSpace.
+	r _ (0 to: V rank) atRandom: random.
+	G _ self newVectorSpace grassmannian: r.
+	S _ G atRandom: random bits: (20 atRandom: random).
+	self assert: S rank = r.
+	self assert: (G includes: S).
+	self assert: (G dual includes: S annihilatorSpace)! !
+
+!AbstractVectorSpaceTest methodsFor: 'quotients' stamp: 'len 3/24/2021 09:06:07'!
+testOrthogonalProjection
+	| V S p v |
+	V _ self newVectorSpace.
+	S _ (V grassmannian: ((0 to: V rank) atRandom: random)) atRandom: random bits: (30 atRandom: random).
+	p _ S orthogonalProjection.
+	self testProjection: p.
+	v _ V atRandom: random bits: (50 atRandom: random).
+	self assert: (p value: v) = (p value: (p value: v)). "idempotent at v"
+	self assert: p isIdempotent.
+	self assert: p kernel = S complement.
+	self assert: p image = S.
+	self assert: (S apply: p) = S! !
+
+!AbstractVectorSpaceTest methodsFor: 'quotients' stamp: 'len 3/24/2021 08:46:27'!
+testQuotientMaps
+	| V S Q pi v s |
+	V _ self newVectorSpace.
+	S _ V grassmannian: (V rank atRandom: random) :: atRandom: random bits: 50.
+	Q _ V/S.
+	pi _ V -> Q.
+	v _ V atRandom: random bits: 100.
+	s _ pi value: v.
+	self assert: (Q includes: s).
+	self assert: (V includes: (pi section value: s)).
+	self assert: s = (pi value: (pi section value: s))! !
+
+!AbstractVectorSpaceTest methodsFor: 'quotients' stamp: 'len 3/24/2021 08:48:11'!
+testQuotientSpace
+	| V S Q |
+	V _ self newVectorSpace.
+	S _ V grassmannian: (V rank atRandom: random) :: atRandom: random bits: V rank * 10.
+	Q _ V/S.
+	self assert: Q rank = (V rank - S rank).
+"	self assert: (Q includes: S + (V atRandomBits: V rank * 10))."
+	self assert: (V / V null) rank = V rank.
+	self assert: (V / V) rank = 0! !
+
+!AbstractVectorSpaceTest methodsFor: 'tensor product' stamp: 'len 3/24/2021 08:50:03'!
+testTensorHomAdjunction
+	| V W U A B phi |
+	V _ self newVectorSpace.
+	W _ self newVectorSpace.
+	U _ self newVectorSpace.
+	A _ V‘W => U.
+	B _ V => (W => U).
+	self assert: A ~ B.
+	phi _ A to: B evaluating: [:f| B evaluating: [:v| W to: U evaluating: [:w| f value: ((V,W) -> A domain carrier value: {v. w})]]].
+	self testModuleMap: phi.
+	self assert: phi isIsomorphism! !
+
+!AbstractVectorSpaceTest class methodsFor: 'as yet unclassified' stamp: 'len 3/24/2021 07:36:14'!
+isAbstract
+	^ self == AbstractVectorSpaceTest! !
+
+!VectorSpaceOverBinaryFieldTest methodsFor: 'as yet unclassified' stamp: 'len 3/24/2021 08:37:49'!
+initialize
+	super initialize.
+	scalars _ ƒ/2! !
+
+!VectorSpaceOverCyclotomicFieldTest methodsFor: 'as yet unclassified' stamp: 'len 3/24/2021 08:13:22'!
+initialize
+	super initialize.
+	scalars _ CyclotomicField new: 5 atRandom + 2! !
+
+!VectorSpaceOverFiniteFieldTest methodsFor: 'as yet unclassified' stamp: 'len 3/24/2021 07:51:41'!
+initialize
+	super initialize.
+	scalars _ GaloisField new: 10 atRandom nextPrime to: 3 atRandom! !
+
+!VectorSpaceOverQuadraticFieldTest methodsFor: 'as yet unclassified' stamp: 'len 3/23/2021 13:51:16'!
+initialize
+	super initialize.
+	scalars _ QuadraticField sqrt: -5! !
+
+!VectorSpaceOverRationalsTest methodsFor: 'as yet unclassified' stamp: 'len 3/23/2021 13:49:39'!
+initialize
+	super initialize.
+	scalars _ „! !
+
+!ModuleOverIntegersTest methodsFor: 'as yet unclassified' stamp: 'len 3/23/2021 13:49:57'!
+initialize
+	super initialize.
+	scalars _ ƒ! !
+
+!ModuleOverIntegersTest methodsFor: 'as yet unclassified' stamp: 'len 3/24/2021 08:28:50'!
+testFreeModuleDiscriminant
+	"From Sage documentation of FreeModule."
+	| M |
+	M _ ƒ^3.
+	self assert: M discriminant = 1.
+	self assert: (M span: {(1,2,3)}) discriminant = 14.
+	self assert: (M span: {(1,2,3). (1,1,1)}) discriminant = 6! !
+
+!ModuleOverPolynomialsOverRationalsTest methodsFor: 'as yet unclassified' stamp: 'len 3/23/2021 13:50:37'!
+initialize
+	super initialize.
+	scalars _ „ polynomials! !
 
 !RingTest methodsFor: 'euclidean' stamp: 'len 5/23/2020 09:34:55'!
 testCongruenceSolving1
