@@ -1,9 +1,7 @@
 # Domains
-A computational algebra system in Smalltalk ([Cuis Smalltalk](https://github.com/Cuis-Smalltalk/Cuis-Smalltalk-Dev) more precisely).
+A computational algebra system in [Cuis Smalltalk](https://github.com/Cuis-Smalltalk/Cuis-Smalltalk-Dev).
 
-This is a continuation of some projects started in the MathMorphs group in the University of Buenos Aires in 1997 and 1998.
-
-The goal is to build an extensible and mathematically rigorous environment where one can construct mathematical objects (such as groups, rings, modules, algebras, schemes, etc) and operate with them, their morphisms and their elements.
+The goal of the project is to build an extensible and mathematically rigorous environment where one can construct mathematical objects (such as groups, rings, modules, algebras, schemes, etc) and operate with them, their morphisms and their elements.
 
 For more details refer to the [online documentation](https://github.com/len/Domains/wiki) in the wiki.
 
