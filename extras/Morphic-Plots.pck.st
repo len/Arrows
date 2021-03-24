@@ -2,146 +2,146 @@
 'Description '!
 !provides: 'Morphic-Domains' 1 1!
 !requires: 'RayTracer' 1 4 nil!
-SystemOrganization addCategory: #'Morphic-Domains'!
+SystemOrganization addCategory: #'Morphic-Plots'!
 
 
-!classDefinition: #ComplexPlotMorph category: #'Morphic-Domains'!
+!classDefinition: #ComplexPlotMorph category: #'Morphic-Plots'!
 KernelMorph subclass: #ComplexPlotMorph
 	instanceVariableNames: 'function image box palette'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Morphic-Domains'!
-!classDefinition: 'ComplexPlotMorph class' category: #'Morphic-Domains'!
+	category: 'Morphic-Plots'!
+!classDefinition: 'ComplexPlotMorph class' category: #'Morphic-Plots'!
 ComplexPlotMorph class
 	instanceVariableNames: ''!
 
-!classDefinition: #FunctionPlotMorph category: #'Morphic-Domains'!
+!classDefinition: #FunctionPlotMorph category: #'Morphic-Plots'!
 KernelMorph subclass: #FunctionPlotMorph
 	instanceVariableNames: 'backgroundColor fillColor textColor function xMin xMax yMin yMax evaluationPoints values firstMousePosition lastMousePosition'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Morphic-Domains'!
-!classDefinition: 'FunctionPlotMorph class' category: #'Morphic-Domains'!
+	category: 'Morphic-Plots'!
+!classDefinition: 'FunctionPlotMorph class' category: #'Morphic-Plots'!
 FunctionPlotMorph class
 	instanceVariableNames: ''!
 
-!classDefinition: #HistogramMorph category: #'Morphic-Domains'!
+!classDefinition: #HistogramMorph category: #'Morphic-Plots'!
 KernelMorph subclass: #HistogramMorph
 	instanceVariableNames: 'backgroundColor textColor tallies extraBinsForClampedValues lowBinCenter highBinCenter'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Morphic-Domains'!
-!classDefinition: 'HistogramMorph class' category: #'Morphic-Domains'!
+	category: 'Morphic-Plots'!
+!classDefinition: 'HistogramMorph class' category: #'Morphic-Plots'!
 HistogramMorph class
 	instanceVariableNames: ''!
 
-!classDefinition: #ImplicitFunctionPlotMorph category: #'Morphic-Domains'!
+!classDefinition: #ImplicitFunctionPlotMorph category: #'Morphic-Plots'!
 KernelMorph subclass: #ImplicitFunctionPlotMorph
 	instanceVariableNames: 'function image box'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Morphic-Domains'!
-!classDefinition: 'ImplicitFunctionPlotMorph class' category: #'Morphic-Domains'!
+	category: 'Morphic-Plots'!
+!classDefinition: 'ImplicitFunctionPlotMorph class' category: #'Morphic-Plots'!
 ImplicitFunctionPlotMorph class
 	instanceVariableNames: ''!
 
-!classDefinition: #ImplicitSurfacePlotMorph category: #'Morphic-Domains'!
+!classDefinition: #ImplicitSurfacePlotMorph category: #'Morphic-Plots'!
 KernelMorph subclass: #ImplicitSurfacePlotMorph
 	instanceVariableNames: 'polynomial rotation scaling surface scene camera image resolutionRatio lastMousePosition'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Morphic-Domains'!
-!classDefinition: 'ImplicitSurfacePlotMorph class' category: #'Morphic-Domains'!
+	category: 'Morphic-Plots'!
+!classDefinition: 'ImplicitSurfacePlotMorph class' category: #'Morphic-Plots'!
 ImplicitSurfacePlotMorph class
 	instanceVariableNames: ''!
 
-!classDefinition: #MultiplicationTableMorph category: #'Morphic-Domains'!
+!classDefinition: #MultiplicationTableMorph category: #'Morphic-Plots'!
 KernelMorph subclass: #MultiplicationTableMorph
 	instanceVariableNames: 'elements colors operation'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Morphic-Domains'!
-!classDefinition: 'MultiplicationTableMorph class' category: #'Morphic-Domains'!
+	category: 'Morphic-Plots'!
+!classDefinition: 'MultiplicationTableMorph class' category: #'Morphic-Plots'!
 MultiplicationTableMorph class
 	instanceVariableNames: ''!
 
-!classDefinition: #ScalarPlotMorph category: #'Morphic-Domains'!
+!classDefinition: #ScalarPlotMorph category: #'Morphic-Plots'!
 KernelMorph subclass: #ScalarPlotMorph
 	instanceVariableNames: 'function palette xMin xMax yMin yMax form'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Morphic-Domains'!
-!classDefinition: 'ScalarPlotMorph class' category: #'Morphic-Domains'!
+	category: 'Morphic-Plots'!
+!classDefinition: 'ScalarPlotMorph class' category: #'Morphic-Plots'!
 ScalarPlotMorph class
 	instanceVariableNames: ''!
 
-!classDefinition: #ScatterPlotMorph category: #'Morphic-Domains'!
+!classDefinition: #ScatterPlotMorph category: #'Morphic-Plots'!
 KernelMorph subclass: #ScatterPlotMorph
 	instanceVariableNames: 'points transformation max min positionBlock colorBlock sizeBlock lastMousePosition'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Morphic-Domains'!
-!classDefinition: 'ScatterPlotMorph class' category: #'Morphic-Domains'!
+	category: 'Morphic-Plots'!
+!classDefinition: 'ScatterPlotMorph class' category: #'Morphic-Plots'!
 ScatterPlotMorph class
 	instanceVariableNames: ''!
 
-!classDefinition: #UnitDiskPlotMorph category: #'Morphic-Domains'!
+!classDefinition: #UnitDiskPlotMorph category: #'Morphic-Plots'!
 KernelMorph subclass: #UnitDiskPlotMorph
 	instanceVariableNames: 'function image palette inverseMap'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Morphic-Domains'!
-!classDefinition: 'UnitDiskPlotMorph class' category: #'Morphic-Domains'!
+	category: 'Morphic-Plots'!
+!classDefinition: 'UnitDiskPlotMorph class' category: #'Morphic-Plots'!
 UnitDiskPlotMorph class
 	instanceVariableNames: ''!
 
-!classDefinition: #ImplicitSurface category: #'Morphic-Domains'!
+!classDefinition: #ImplicitSurface category: #'Morphic-Plots'!
 RayTraceObject subclass: #ImplicitSurface
 	instanceVariableNames: 'polynomial gradient radiusSquared interiorTexture'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Morphic-Domains'!
-!classDefinition: 'ImplicitSurface class' category: #'Morphic-Domains'!
+	category: 'Morphic-Plots'!
+!classDefinition: 'ImplicitSurface class' category: #'Morphic-Plots'!
 ImplicitSurface class
 	instanceVariableNames: ''!
 
-!classDefinition: #AutomaticPalette category: #'Morphic-Domains'!
+!classDefinition: #AutomaticPalette category: #'Morphic-Plots'!
 Object subclass: #AutomaticPalette
 	instanceVariableNames: 'map'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Morphic-Domains'!
-!classDefinition: 'AutomaticPalette class' category: #'Morphic-Domains'!
+	category: 'Morphic-Plots'!
+!classDefinition: 'AutomaticPalette class' category: #'Morphic-Plots'!
 AutomaticPalette class
 	instanceVariableNames: ''!
 
-!classDefinition: #ComplexPalette category: #'Morphic-Domains'!
+!classDefinition: #ComplexPalette category: #'Morphic-Plots'!
 Object subclass: #ComplexPalette
 	instanceVariableNames: 'luminanceBlock hueBlock zeroColor infinityColor'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Morphic-Domains'!
-!classDefinition: 'ComplexPalette class' category: #'Morphic-Domains'!
+	category: 'Morphic-Plots'!
+!classDefinition: 'ComplexPalette class' category: #'Morphic-Plots'!
 ComplexPalette class
 	instanceVariableNames: ''!
 
-!classDefinition: #DiscretePalette category: #'Morphic-Domains'!
+!classDefinition: #DiscretePalette category: #'Morphic-Plots'!
 Object subclass: #DiscretePalette
 	instanceVariableNames: 'colors map'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Morphic-Domains'!
-!classDefinition: 'DiscretePalette class' category: #'Morphic-Domains'!
+	category: 'Morphic-Plots'!
+!classDefinition: 'DiscretePalette class' category: #'Morphic-Plots'!
 DiscretePalette class
 	instanceVariableNames: ''!
 
-!classDefinition: #RealPalette category: #'Morphic-Domains'!
+!classDefinition: #RealPalette category: #'Morphic-Plots'!
 Object subclass: #RealPalette
 	instanceVariableNames: 'colors min max'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Morphic-Domains'!
-!classDefinition: 'RealPalette class' category: #'Morphic-Domains'!
+	category: 'Morphic-Plots'!
+!classDefinition: 'RealPalette class' category: #'Morphic-Plots'!
 RealPalette class
 	instanceVariableNames: ''!
 
@@ -1537,19 +1537,19 @@ new: anInteger interpolating: anArray
 			mu _ i * anArray size / (anInteger-1).
 			(anArray atPin: mu floor + 1) mixed: mu - mu floor with: (anArray atPin: mu ceiling + 1)])! !
 
-!BlockClosure methodsFor: '*Morphic-Domains' stamp: 'len 3/1/2017 17:00:08'!
+!BlockClosure methodsFor: '*Morphic-Plots' stamp: 'len 3/1/2017 17:00:08'!
 times: anInteger histogram: binCount
 	^ HistogramMorph new: binCount samples: ((1 to: anInteger) collect: [:each| self value])! !
 
-!Collection methodsFor: '*Morphic-Domains' stamp: 'len 4/25/2016 07:52'!
+!Collection methodsFor: '*Morphic-Plots' stamp: 'len 4/25/2016 07:52'!
 plot: aFunction
 	^ FunctionPlotMorph new evaluationPoints: self; function: aFunction! !
 
-!SequenceableCollection methodsFor: '*Morphic-Domains' stamp: 'len 5/23/2020 10:05:45'!
+!SequenceableCollection methodsFor: '*Morphic-Plots' stamp: 'len 5/23/2020 10:05:45'!
 plot
 	^ FunctionPlotMorph new evaluationPoints: (1 to: self size); function: (ƒ carrier to: … carrier evaluating: [:n| self at: n])! !
 
-!Monoid methodsFor: '*Morphic-Domains' stamp: 'len 4/26/2020 06:22:44'!
+!Monoid methodsFor: '*Morphic-Plots' stamp: 'len 4/26/2020 06:22:44'!
 multiplicationTable
 	| elements identity |
 	identity _ self identity.
@@ -1557,11 +1557,11 @@ multiplicationTable
 		[:a :b| a = identity or: [a printString <= b printString]].
 	^ MultiplicationTableMorph elements: elements operation: [:x :y| x·y]! !
 
-!Group methodsFor: '*Morphic-Domains' stamp: 'len 4/29/2016 07:14'!
+!Group methodsFor: '*Morphic-Plots' stamp: 'len 4/29/2016 07:14'!
 cayleyGraphMorph
 	^ self cayleyGraphMorph: self generators! !
 
-!Group methodsFor: '*Morphic-Domains' stamp: 'len 12/19/2016 12:23:54'!
+!Group methodsFor: '*Morphic-Plots' stamp: 'len 12/19/2016 12:23:54'!
 cayleyGraphMorph: generators
 	"Answer the colored Cayley graph of the receiver for the given set of generators.
 	The set of generators is usually assumed to be symmetric (contains all inverses too) and to not contain the identity."
@@ -1576,7 +1576,7 @@ cayleyGraphMorph: generators
 	(answer nodeAt: self identity) color: Color white; shape: #square; radius: 10.
 	^ answer! !
 
-!Group methodsFor: '*Morphic-Domains' stamp: 'len 7/29/2016 06:30'!
+!Group methodsFor: '*Morphic-Plots' stamp: 'len 7/29/2016 06:30'!
 cycleGraphMorph
 	| answer |
 	answer _ self cycleGraph asMorph.
@@ -1584,7 +1584,7 @@ cycleGraphMorph
 	(answer nodeAt: self identity) color: Color white; shape: #square.
 	^ answer! !
 
-!Group methodsFor: '*Morphic-Domains' stamp: 'len 4/26/2020 07:15:12'!
+!Group methodsFor: '*Morphic-Plots' stamp: 'len 4/26/2020 07:15:12'!
 multiplicationTable
 	| elements identity |
 	identity _ self identity.
@@ -1592,37 +1592,37 @@ multiplicationTable
 		[:a :b| a = identity or: [a printString <= b printString]].
 	^ MultiplicationTableMorph elements: elements operation: [:x :y| x·y]! !
 
-!Ring methodsFor: '*Morphic-Domains' stamp: 'len 4/26/2020 07:59:06'!
+!Ring methodsFor: '*Morphic-Plots' stamp: 'len 4/26/2020 07:59:06'!
 additionTable
 	^ MultiplicationTableMorph elements: self elements asArray operation: [:x :y| x+y]! !
 
-!Ring methodsFor: '*Morphic-Domains' stamp: 'len 4/26/2020 07:59:18'!
+!Ring methodsFor: '*Morphic-Plots' stamp: 'len 4/26/2020 07:59:18'!
 multiplicationTable
 	^ MultiplicationTableMorph elements: self elements asArray operation: [:x :y| x*y]! !
 
-!AffineHypersurface methodsFor: '*Morphic-Domains' stamp: 'len 1/22/2017 09:31:15'!
+!AffineHypersurface methodsFor: '*Morphic-Plots' stamp: 'len 1/22/2017 09:31:15'!
 plot
 	(self scalars isField and: [self scalars isReal and: [self ambient dimension = 3]])
 		ifFalse: [^ DomainError signal].
 	^ ImplicitSurfacePlotMorph new polynomial: self polynomial! !
 
-!AffinePlaneCurve methodsFor: '*Morphic-Domains' stamp: 'len 10/24/2016 21:43'!
+!AffinePlaneCurve methodsFor: '*Morphic-Plots' stamp: 'len 10/24/2016 21:43'!
 plot
 	^ self plot: (-5@-5 extent: 10@10)! !
 
-!AffinePlaneCurve methodsFor: '*Morphic-Domains' stamp: 'len 10/24/2016 21:43'!
+!AffinePlaneCurve methodsFor: '*Morphic-Plots' stamp: 'len 10/24/2016 21:43'!
 plot: aRectangle
 	^ ImplicitFunctionPlotMorph new function: self polynomial; box: aRectangle! !
 
-!Map methodsFor: '*Morphic-Domains' stamp: 'len 4/24/2016 02:04'!
+!Map methodsFor: '*Morphic-Plots' stamp: 'len 4/24/2016 02:04'!
 plot: aCollection
 	^ FunctionPlotMorph new evaluationPoints: aCollection; function: self! !
 
-!GroupAction methodsFor: '*Morphic-Domains' stamp: 'len 5/18/2016 21:23'!
+!GroupAction methodsFor: '*Morphic-Plots' stamp: 'len 5/18/2016 21:23'!
 actionGraphMorph
 	^ self actionGraphMorph: self group generators! !
 
-!GroupAction methodsFor: '*Morphic-Domains' stamp: 'len 12/19/2016 12:24:08'!
+!GroupAction methodsFor: '*Morphic-Plots' stamp: 'len 12/19/2016 12:24:08'!
 actionGraphMorph: generators
 	| G answer colors |
 	G _ self actionGraph: generators.
