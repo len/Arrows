@@ -1,6 +1,6 @@
-'From Cuis 5.0 [latest update: #4542] on 24 March 2021 at 2:09:23 pm'!
+'From Cuis 5.0 [latest update: #4542] on 25 March 2021 at 12:52:45 pm'!
 'Description A computational algebra system in Smalltalk'!
-!provides: 'Domains' 1 614!
+!provides: 'Domains' 1 615!
 !requires: 'Complex' 1 7 nil!
 SystemOrganization addCategory: #'Domains-Kernel'!
 SystemOrganization addCategory: #'Domains-Kernel-Support'!
@@ -33849,12 +33849,15 @@ hash
 	(parent integers includes: anObject) ifTrue: [^ self / (parent embed: anObject)].
 	^ super / anObject! !
 
-!Germ methodsFor: 'operations' stamp: 'len 3/3/2021 14:43:11'!
+!Germ methodsFor: 'operations' stamp: 'len 3/25/2021 12:50:11'!
 // anElement
-	"Answer the quotient of the division of the receiver by anElement."
-	anElement isUnit ifTrue: [^ self / anElement].
-	self flag: #fix. "this looks wrong:"
-	^ parent numerator: numerator * anElement denominator // anElement numerator denominator: denominator! !
+	"Answer the quotient of the Euclidean division of the receiver by the argument."
+	| v |
+	(parent includes: anElement) ifFalse: [^ self adapt: anElement andSend: #//].
+	anElement isZero ifTrue: [^ (ZeroDivide receiver: self selector: #// argument: anElement) signal].
+	self isZero ifTrue: [^ self].
+	(v _ self valuation - anElement valuation) < 0 ifTrue: [^ self zero].
+	^ self unit * anElement unit inverse * (parent p ^ v)! !
 
 !Germ methodsFor: 'operations' stamp: 'len 3/3/2021 14:43:30'!
 ^ anInteger
