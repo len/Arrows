@@ -1,6 +1,6 @@
-'From Cuis 5.0 [latest update: #4542] on 25 March 2021 at 12:52:45 pm'!
+'From Cuis 5.0 [latest update: #4542] on 26 March 2021 at 12:06:31 pm'!
 'Description A computational algebra system in Smalltalk'!
-!provides: 'Domains' 1 615!
+!provides: 'Domains' 1 616!
 !requires: 'Complex' 1 7 nil!
 SystemOrganization addCategory: #'Domains-Kernel'!
 SystemOrganization addCategory: #'Domains-Kernel-Support'!
@@ -2604,6 +2604,26 @@ Tuple subclass: #ModularTuple
 ModularTuple class
 	instanceVariableNames: ''!
 
+!classDefinition: #ByteModularTuple category: #'Domains-Modules-Support'!
+ModularTuple subclass: #ByteModularTuple
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Domains-Modules-Support'!
+!classDefinition: 'ByteModularTuple class' category: #'Domains-Modules-Support'!
+ByteModularTuple class
+	instanceVariableNames: ''!
+
+!classDefinition: #WordModularTuple category: #'Domains-Modules-Support'!
+ModularTuple subclass: #WordModularTuple
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Domains-Modules-Support'!
+!classDefinition: 'WordModularTuple class' category: #'Domains-Modules-Support'!
+WordModularTuple class
+	instanceVariableNames: ''!
+
 !classDefinition: #SparseTuple category: #'Domains-Modules-Support'!
 Tuple subclass: #SparseTuple
 	instanceVariableNames: 'components'
@@ -3728,7 +3748,7 @@ Completion of a given commutative ring R at a given maximal ideal I. This is the
 !Module commentStamp: '<historical>' prior: 0!
 Finitely presented right R-modules.
 
-Most functionality is implemented for the cases where R is a field (vector spaces, relying on gaussian elimination), or a PID such as Z or Q[x] (relying on the Hermite normal form or computing in the field of fractions), or a multivariate polynomial ring (relying on Groebner bases). In general, the algorithms rely on the ability to solve (in)homogeneous systems of linear equations over the coefficient ring.
+Most functionality is implemented for the cases where R is a field (vector spaces, relying on gaussian elimination), or a PID such as Z or Q[x] (relying on the Hermite normal form and Smith normal form), or a multivariate polynomial ring (relying on Groebner bases). In general, the algorithms rely on the ability to solve (in)homogeneous systems of linear equations over the coefficient ring.
 
 See also ModuleMap and HomModule.!
 
@@ -3759,7 +3779,7 @@ Monomial ideals have a rich theory with connections to convex geometry and combi
 See also SimplicialComplex.!
 
 !FreeModule commentStamp: '<historical>' prior: 0!
-Finite-rank free R-modules on free generators indexed by integers 1 to n. These are modules of n-tuples with coefficients over R.
+Finite-rank free R-modules on free generators indexed by integers 1 to n. These are modules of n-tuples with coefficients in R.
 
 See also Tuple and Matrix.!
 
@@ -3769,9 +3789,9 @@ R-modules of linear maps from a R-module A to another R-module B, i.e. the inter
 See Module and ModuleMap.!
 
 !MatrixModule commentStamp: '<historical>' prior: 0!
-R-modules of nxm matrices with cofficients in R, considered as linear maps between free R-modules of tuples.
+R-modules of matrices with m rows and n columns and cofficients in R, considered as linear maps between free modules of tuples R^n and R^m.
 
-See Matrix and TupleModule.
+See Matrix and FreeModule.
 !
 
 !QuotientModule commentStamp: '<historical>' prior: 0!
@@ -4075,9 +4095,9 @@ Homomorphisms of modules. They are internally represented by a matrix (assuming 
 See Module and HomModule.!
 
 !Matrix commentStamp: '<historical>' prior: 0!
-Matrices with coefficients in a commutative ring R.
+Matrices with coefficients in a ring R.
 
-A matrix A with n columns and m rows is a morphism of free modules of tuples R^n -> R^m following left action convention: A(x) = A*x; and the composition of A with a matrix B with n rows is A*B, and in this way A(B(x)) = A*B*x.
+A matrix A with m rows and n columns is a morphism of free modules of tuples R^n -> R^m following left action convention: A(x) = A·x; and the composition of A with a matrix B with n rows is A·B, and in this way A(B(x)) = A·B·x.
 
 See also TupleModule and Tuple.!
 
@@ -15399,15 +15419,12 @@ relations: anIdeal
 	super relations: anIdeal.
 	self modulus: anIdeal generator! !
 
-!ModularIntegerRing methodsFor: 'private' stamp: 'len 3/11/2021 13:43:40'!
-representativesArrayClass
-	modulus <= 255 ifTrue: [^ ByteArray].
-	modulus <= 16rFFFFFFFF ifTrue: [^ WordArray].
-	^ Array! !
-
-!ModularIntegerRing methodsFor: 'private' stamp: 'len 5/4/2019 07:47:29'!
+!ModularIntegerRing methodsFor: 'private' stamp: 'len 3/25/2021 14:48:47'!
 tupleClass
-	^ self modulus = 2 ifTrue: [BitTuple] ifFalse: [ModularTuple]! !
+	modulus = 2 ifTrue: [^ BitTuple].
+	modulus <= 256 ifTrue: [^ ByteModularTuple].
+	modulus <= 16r100000000 ifTrue: [^ WordModularTuple].
+	^ ModularTuple! !
 
 !ModularIntegerRing class methodsFor: 'instance creation' stamp: 'len 11/29/2016 21:46:49'!
 new: anInteger
@@ -16061,6 +16078,10 @@ isEuclidean
 	"Galois rings are Euclidean."
 	^ true! !
 
+!GaloisRing methodsFor: 'testing' stamp: 'len 3/25/2021 15:04:26'!
+isField
+	^ self exponent = 1! !
+
 !GaloisRing methodsFor: 'testing' stamp: 'len 5/21/2018 05:07:00'!
 isFinite
 	^ true! !
@@ -16072,6 +16093,10 @@ isGaloisExtension
 !GaloisRing methodsFor: 'testing' stamp: 'len 9/22/2018 18:54:20'!
 isGaloisRing
 	^ true! !
+
+!GaloisRing methodsFor: 'testing' stamp: 'len 3/25/2021 15:05:32'!
+isIntegralDomain
+	^ self isField! !
 
 !GaloisRing methodsFor: 'testing' stamp: 'len 5/21/2018 16:54:03'!
 isLocal
@@ -16101,7 +16126,7 @@ new: q to: m
 	p _ factors anyOne.
 	^ self new: p to: n to: m! !
 
-!GaloisRing class methodsFor: 'instance creation' stamp: 'len 5/15/2019 10:41:24'!
+!GaloisRing class methodsFor: 'instance creation' stamp: 'len 3/26/2021 11:56:37'!
 new: p to: n to: m
 	"Answer the Galois ring of characteristic p^n and order p^(n*m)."
 	| F f |
@@ -19269,11 +19294,12 @@ variety
 	"Answer the algebraic variety that is the set of zeroes of all polynomials in the receiver."
 	^ self isHomogeneous ifTrue: [(self scalars / self radical) proj] ifFalse: [(self scalars / self radical) spec]! !
 
-!PolynomialIdeal methodsFor: 'elements-operations' stamp: 'len 3/6/2021 21:15:26'!
+!PolynomialIdeal methodsFor: 'elements-operations' stamp: 'len 3/26/2021 12:05:35'!
 invert: aPolynomial
 	| R S y z X G T P Q Q0 P1 |
 	aPolynomial = self scalars one ifTrue: [^ aPolynomial].
-	self scalars isEuclidean ifTrue:
+	"Should we require something on the coefficients ring? Must it be a PIR or Euclidean?"
+	(self scalars isEuclidean or: [self generators size = 1 and: [self generator leadingCoefficient isUnit]]) ifTrue:
 		[| euclid |
 		euclid _ aPolynomial xgcd: self generator.
 		(euclid at: 1) = self scalars one ifFalse: [^ nil].
@@ -35076,6 +35102,11 @@ trace
 "alternatively:
 	^ self representation trace"! !
 
+!GaloisResidue methodsFor: 'accessing' stamp: 'len 3/26/2021 12:03:38'!
+normalized
+	"Answer a unique choice of associate. See >>unit."
+	^ self * self unit inverse! !
+
 !GaloisResidue methodsFor: 'accessing' stamp: 'len 5/8/2020 18:10:52'!
 unit
 	"Answer a unit 'u' such that 'self * u inverse' is a unique choice of associate. See >>normalized."
@@ -35809,15 +35840,17 @@ representative
 scalars
 	^ parent scalars! !
 
-!Polynomial methodsFor: 'accessing' stamp: 'len 5/16/2020 16:04:18'!
+!Polynomial methodsFor: 'accessing' stamp: 'len 3/26/2021 11:54:28'!
 unit
-	"Answer a unit 'u' such that 'self * u inverse' is a unique choice of associate. See >>normalized."
-	| u |
+	"Answer a unit 'u' such that 'self * u inverse' is a unique choice of associate. See >>normalized.
+	NOTE: when the coefficients ring is not an integral domain this choice of unit might not be unique."
 	self isZero ifTrue: [^ parent one].
-	parent scalars isIntegralDomain ifTrue: [^ parent constant: self leadingCoefficient unit].
+	^ parent constant: self leadingCoefficient unit
+
+"	parent scalars isIntegralDomain ifTrue: [^ parent constant: self leadingCoefficient unit].
 	u _ parent scalars one.
 	self coefficients do: [:each| u _ u * each unit].
-	^ parent constant: u! !
+	^ parent constant: u"! !
 
 !Polynomial methodsFor: 'accessing' stamp: 'len 5/8/2020 18:22:10'!
 valuation
@@ -40331,17 +40364,29 @@ representatives: anArray
 	representatives _ anArray
 "	representatives do: [:each| (each between: 0 and: modulus) ifFalse: [self halt]]"! !
 
-!ModularTuple class methodsFor: 'instance creation' stamp: 'len 5/28/2020 14:52:49'!
+!ModularTuple class methodsFor: 'instance creation' stamp: 'len 3/25/2021 14:46:18'!
 components: anArray parent: aFreeModule
 	| n array |
 	n _ anArray size.
-	array _ aFreeModule scalars representativesArrayClass new: n.
+	array _ self representativesArrayClass new: n.
 	1 to: n do: [:i| array at: i put: (anArray at: i) representative].
 	^ self representatives: array parent: aFreeModule! !
 
 !ModularTuple class methodsFor: 'instance creation' stamp: 'len 5/28/2020 13:13:06'!
 representatives: anArray parent: aFreeModule
 	^ self basicNew parent: aFreeModule; representatives: anArray! !
+
+!ModularTuple class methodsFor: 'private' stamp: 'len 3/25/2021 14:46:36'!
+representativesArrayClass
+	^ Array! !
+
+!ByteModularTuple class methodsFor: 'private' stamp: 'len 3/25/2021 14:47:10'!
+representativesArrayClass
+	^ ByteArray! !
+
+!WordModularTuple class methodsFor: 'private' stamp: 'len 3/25/2021 14:47:23'!
+representativesArrayClass
+	^ WordArray! !
 
 !SparseTuple methodsFor: 'accessing' stamp: 'len 7/18/2020 05:41:20'!
 at: key
