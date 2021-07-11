@@ -1,6 +1,6 @@
-'From Cuis 5.0 [latest update: #4542] on 30 April 2021 at 1:38:29 pm'!
+'From Cuis 5.0 [latest update: #4542] on 11 July 2021 at 7:25:07 pm'!
 'Description '!
-!provides: 'Tests-Domains' 1 4!
+!provides: 'Tests-Domains' 1 5!
 !requires: 'Domains' 1 613 nil!
 SystemOrganization addCategory: #'Tests-Domains'!
 SystemOrganization addCategory: #'Tests-Domains-Tuples'!
@@ -39,8 +39,18 @@ AbstractTest subclass: #AbstractTupleTest
 AbstractTupleTest class
 	instanceVariableNames: ''!
 
+!classDefinition: #AbstractTupleOverCommutativeRingTest category: #'Tests-Domains-Tuples'!
+AbstractTupleTest subclass: #AbstractTupleOverCommutativeRingTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Domains-Tuples'!
+!classDefinition: 'AbstractTupleOverCommutativeRingTest class' category: #'Tests-Domains-Tuples'!
+AbstractTupleOverCommutativeRingTest class
+	instanceVariableNames: ''!
+
 !classDefinition: #TuplesOverIntegersTest category: #'Tests-Domains-Tuples'!
-AbstractTupleTest subclass: #TuplesOverIntegersTest
+AbstractTupleOverCommutativeRingTest subclass: #TuplesOverIntegersTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
@@ -50,7 +60,7 @@ TuplesOverIntegersTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #TuplesOverModularIntegersTest category: #'Tests-Domains-Tuples'!
-AbstractTupleTest subclass: #TuplesOverModularIntegersTest
+AbstractTupleOverCommutativeRingTest subclass: #TuplesOverModularIntegersTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
@@ -70,7 +80,7 @@ TuplesOverBinaryFieldTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #TuplesOverPolynomialsOverRationalsTest category: #'Tests-Domains-Tuples'!
-AbstractTupleTest subclass: #TuplesOverPolynomialsOverRationalsTest
+AbstractTupleOverCommutativeRingTest subclass: #TuplesOverPolynomialsOverRationalsTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
@@ -1632,48 +1642,6 @@ testAddition
 	self assert: a + a = (a*2).
 	self assert: a - b = (a + b negated)! !
 
-!AbstractTupleTest methodsFor: 'as yet unclassified' stamp: 'len 4/22/2021 10:17:44'!
-testCrossProduct
-	| V a b c r |
-	V _ scalars^3.
-	a _ V atRandom: random bits: 20.
-	b _ V atRandom: random bits: 20.
-	c _ V atRandom: random bits: 20.
-	r _ V scalars atRandom: random bits: 10.
-	self assert: (a × a) isZero.
-	self assert: a × b = (b × a) negated.
-	self assert: a × (b + c) = (a × b + (a × c)).
-	self assert: (a*r) × b = (a × (b*r)).
-	self assert: (a*r) × b = (a × b * r).
-	self assert: (a × (b × c) + (b × (c × a)) + (c × (a × b))) isZero! !
-
-!AbstractTupleTest methodsFor: 'as yet unclassified' stamp: 'len 4/22/2021 10:18:05'!
-testCrossProductAndDotProduct
-	| V a b c d |
-	V _ scalars^3.
-	a _ V atRandom: random bits: 20.
-	b _ V atRandom: random bits: 20.
-	c _ V atRandom: random bits: 20.
-	d _ V atRandom: random bits: 20.
-	self assert: a · (b × c) = (b · (c × a)).
-	self assert: a · (b × c) = (c · (a × b)).
-	"Lagrange identity:"
-	self assert: (a × b) norm = (a norm * b norm - (a · b) squared).
-	"Binet-Chauchy identity:"
-	self assert: a × b · (c × d) = (a · c *(b · d) - (a · d * (b · c)))! !
-
-!AbstractTupleTest methodsFor: 'as yet unclassified' stamp: 'len 4/22/2021 10:41:13'!
-testHomogeneousTuples
-	| n a b c d |
-	n _ 5 atRandom: random.
-	[a _ scalars^n atRandom: random bits: 20. a isZero] whileTrue.
-	b _ a * (scalars units atRandom: random bits: 20).
-	self assert: a ~ b.
-	n >= 2 ifFalse: [n _ (2 to: 5) atRandom: random].
-	c _ scalars^n x: 1.
-	d _ scalars^n x: 2.
-	self deny: c ~ d! !
-
 !AbstractTupleTest methodsFor: 'as yet unclassified' stamp: 'len 4/22/2021 10:16:59'!
 testScalarAction
 	| n a b x |
@@ -1707,6 +1675,48 @@ testTuplesOfDifferentSize
 	self assert: a hash = (a,zeros) hash.
 	self assert: a · (b,zeros) = (a · b).
 	self assert: a,zeros · b = (a · b)! !
+
+!AbstractTupleOverCommutativeRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/2/2021 12:30:57'!
+testCrossProduct
+	| V a b c r |
+	V _ scalars^3.
+	a _ V atRandom: random bits: 20.
+	b _ V atRandom: random bits: 20.
+	c _ V atRandom: random bits: 20.
+	r _ V scalars atRandom: random bits: 10.
+	self assert: (a × a) isZero.
+	self assert: a × b = (b × a) negated.
+	self assert: a × (b + c) = (a × b + (a × c)).
+	self assert: (a*r) × b = (a × (b*r)).
+	self assert: (a*r) × b = (a × b * r).
+	self assert: (a × (b × c) + (b × (c × a)) + (c × (a × b))) isZero! !
+
+!AbstractTupleOverCommutativeRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/2/2021 12:31:07'!
+testCrossProductAndDotProduct
+	| V a b c d |
+	V _ scalars^3.
+	a _ V atRandom: random bits: 20.
+	b _ V atRandom: random bits: 20.
+	c _ V atRandom: random bits: 20.
+	d _ V atRandom: random bits: 20.
+	self assert: a · (b × c) = (b · (c × a)).
+	self assert: a · (b × c) = (c · (a × b)).
+	"Lagrange identity:"
+	self assert: (a × b) norm = (a norm * b norm - (a · b) squared).
+	"Binet-Chauchy identity:"
+	self assert: a × b · (c × d) = (a · c *(b · d) - (a · d * (b · c)))! !
+
+!AbstractTupleOverCommutativeRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/2/2021 12:31:23'!
+testHomogeneousTuples
+	| n a b c d |
+	n _ 5 atRandom: random.
+	[a _ scalars^n atRandom: random bits: 20. a isZero] whileTrue.
+	b _ a * (scalars units atRandom: random bits: 20).
+	self assert: a ~ b.
+	n >= 2 ifFalse: [n _ (2 to: 5) atRandom: random].
+	c _ scalars^n x: 1.
+	d _ scalars^n x: 2.
+	self deny: c ~ d! !
 
 !TuplesOverIntegersTest methodsFor: 'as yet unclassified' stamp: 'len 4/22/2021 10:23:35'!
 initialize
@@ -3147,13 +3157,13 @@ testPullback
 	projections _ P -< (X, Y).
 	self assert: projections first -> f = (projections second -> g)! !
 
-!AbstractModuleTest methodsFor: 'maps' stamp: 'len 3/27/2021 11:35:33'!
+!AbstractModuleTest methodsFor: 'maps' stamp: 'len 7/8/2021 12:09:49'!
 testPullbackSquaresSharingMorphism
 	| A B C D f g h P r s Q t u |
-	C _ self newFreeModule.
-	A _ self newFreeModule.
-	B _ self newFreeModule.
-	D _ self newFreeModule.
+	C _ self newSmallFreeModule.
+	A _ self newSmallFreeModule.
+	B _ self newSmallFreeModule.
+	D _ self newSmallFreeModule.
 	f _ A => C atRandom: random bits: 20.
 	g _ B => C atRandom: random bits: 20.
 	h _ D => B atRandom: random bits: 20.
@@ -3177,13 +3187,13 @@ testPushout
 	coprojections _ (X, Y) >- P.
 	self assert: f -> coprojections first = (g -> coprojections second)! !
 
-!AbstractModuleTest methodsFor: 'maps' stamp: 'len 3/27/2021 11:36:58'!
+!AbstractModuleTest methodsFor: 'maps' stamp: 'len 7/8/2021 12:10:01'!
 testPushoutSquaresSharingMorphism
 	| A B C D f g h P i j Q k l |
-	C _ self newFreeModule.
-	A _ self newFreeModule.
-	B _ self newFreeModule.
-	D _ self newFreeModule.
+	C _ self newSmallFreeModule.
+	A _ self newSmallFreeModule.
+	B _ self newSmallFreeModule.
+	D _ self newSmallFreeModule.
 	f _ C => A atRandom: random bits: 20.
 	g _ C => B atRandom: random bits: 20.
 	h _ B => D atRandom: random bits: 20.
@@ -3888,11 +3898,11 @@ testFractions
 	self testRing: F.
 	self testRingHomomorphism: R -> F! !
 
-!AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 4/28/2021 14:29:15'!
+!AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 7/6/2021 09:50:03'!
 testPolynomials
 	| P |
 	P _ R polynomialsIn: (3 atRandom: random).
-	self testRing: P.
+	self testRingAxioms: P.
 	self testRingHomomorphism: R -> P! !
 
 !AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 4/28/2021 13:42:11'!
@@ -3930,17 +3940,17 @@ testRingAxioms: aRing
 		"commutativity of multiplication:"
 		R isCommutative ifTrue: [self assert: a * b = (b * a)]]! !
 
-!AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 4/21/2021 08:25:34'!
+!AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 7/6/2021 10:53:01'!
 testRingHomomorphism: phi
-	| A B a b |
+	| A B x y |
 	A _ phi domain.
 	B _ phi codomain.
-	a _ A atRandom: random bits: 10.
-	b _ B atRandom: random bits: 10.
+	x _ A atRandom: random bits: 10.
+	y _ A atRandom: random bits: 10.
 	self assert: (phi value: A zero) = B zero.
 	self assert: (phi value: A one) = B one.
-	self assert: (phi value: a + b) = ((phi value: a) + (phi value: b)).
-	self assert: (phi value: a * b) = ((phi value: a) * (phi value: b))! !
+	self assert: (phi value: x + y) = ((phi value: x) + (phi value: y)).
+	self assert: (phi value: x * y) = ((phi value: x) * (phi value: y))! !
 
 !AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 4/28/2021 13:41:24'!
 testRingUnitsAndAssociates
@@ -4032,7 +4042,7 @@ testQuaternionAlgebra1
 	A _ QuaternionAlgebra over: „ invariants: #(-17 -271).
 	self testAlgebra: A! !
 
-!AlgebraTest methodsFor: 'quaternions' stamp: 'len 3/23/2021 11:30:22'!
+!AlgebraTest methodsFor: 'quaternions' stamp: 'len 7/5/2021 12:18:39'!
 testQuaternionAlgebra2
 	| A |
 	A _ QuaternionAlgebra over: „ invariants: #(-17 -271).
@@ -4072,6 +4082,13 @@ testQuaternionAlgebraInverse
 	self assert: a * a inverse = A one.
 	self assert: a inverse * a = A one! !
 
+!AlgebraTest methodsFor: 'quaternions' stamp: 'len 7/8/2021 11:39:28'!
+testQuaternionAlgebraIsCentral
+	| A |
+	A _ QuaternionAlgebra over: „ invariants: #(-5 -2).
+	self assert: A isCentral.
+	self assert: A center = (A span: {A one})! !
+
 !AlgebraTest methodsFor: 'quaternions' stamp: 'len 6/20/2020 12:57:40'!
 testQuaternionAlgebraNormAndTrace
 	"Example from Magma handbook, H92E9."
@@ -4098,7 +4115,7 @@ testAlgebra: A
 "	self testRingUnitsAndAssociates: R.
 	self testDivisionByUnits: R"! !
 
-!AlgebraTest methodsFor: 'general' stamp: 'len 6/20/2020 13:32:39'!
+!AlgebraTest methodsFor: 'general' stamp: 'len 7/5/2021 12:18:26'!
 testAlgebraAxioms: A
 	| one zero x y z a |
 	one _ A one.
@@ -4153,7 +4170,7 @@ testCliffordAlgebra1
 	C _ self newCliffordAlgebra.
 	self testAlgebra: C! !
 
-!AlgebraTest methodsFor: 'clifford algebra' stamp: 'len 3/23/2021 11:30:11'!
+!AlgebraTest methodsFor: 'clifford algebra' stamp: 'len 7/5/2021 12:18:34'!
 testCliffordAlgebra2
 	| C |
 	C _ self newCliffordAlgebra.
@@ -6237,14 +6254,14 @@ testLocalIdeals
 	self deny: A = M.
 	self assert: A <= M! !
 
-!CommutativeAlgebraTest methodsFor: 'ideal operations' stamp: 'len 5/23/2020 09:33:01'!
+!CommutativeAlgebraTest methodsFor: 'ideal operations' stamp: 'len 5/2/2021 12:34:57'!
 testPolynomialRingHomomorphismKernel
 	| A B x y phi |
 	A _ „ polynomialsIn: #(x y z).
 	B _ „ polynomialsIn: #(x y).
 	x _ B x.
 	y _ B y.
-	phi _ A to: B evaluating: [:f| f value: {x-y. x. y}].
+	phi _ A to: B mapping: [:i| {x-y. x. y} at: i].
 	self assert: phi kernel = (A * (A x - A y + A z)).
 	self assert: (phi value: (phi kernel atRandomBits: 15)) isZero! !
 
@@ -7879,11 +7896,11 @@ testNormAndTrace
 	self assert: (a + b) trace = (a trace + b trace).
 	self assert: (a * b) norm = (a norm * b norm)! !
 
-!NumberFieldTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2020 09:33:01'!
+!NumberFieldTest methodsFor: 'as yet unclassified' stamp: 'len 7/11/2021 19:16:06'!
 testNormOfAlgebraicInteger
 	| F a |
 	F _ „ extensionDegree: (2 to: 4) atRandom.
-	a _ F integers atRandomBits: 100.
+	a _ F !! (F integers atRandomBits: 100).
 	self assert: a norm isIntegral! !
 
 !NumberFieldTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2020 09:33:01'!
