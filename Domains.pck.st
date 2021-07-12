@@ -1,6 +1,6 @@
-'From Cuis 5.0 [latest update: #4542] on 11 July 2021 at 7:24:18 pm'!
+'From Cuis 5.0 [latest update: #4542] on 12 July 2021 at 5:11:46 pm'!
 'Description A computational algebra system in Smalltalk'!
-!provides: 'Domains' 1 619!
+!provides: 'Domains' 1 620!
 !requires: 'Complex' 1 7 nil!
 SystemOrganization addCategory: #'Domains-Kernel'!
 SystemOrganization addCategory: #'Domains-Kernel-Support'!
@@ -20233,6 +20233,10 @@ basis
 	The coordinates of an element correspond to coefficients of the polynomial representing the element."
 	^ (0 to: self degree - 1) collect: [:k| self x ^ k]! !
 
+!NumberField methodsFor: 'accessing' stamp: 'len 7/12/2021 13:17:44'!
+classNumber
+	^ self propertyAt: #classNumber! !
+
 !NumberField methodsFor: 'accessing' stamp: 'len 7/11/2021 18:23:33'!
 discriminant
 	"The discriminant of an integral basis is independent of the choice of basis and it's called the discriminant of the field K and denoted d(K)."
@@ -20391,6 +20395,13 @@ isGaloisExtension
 !CyclotomicField methodsFor: 'testing' stamp: 'len 12/18/2016 21:54:02'!
 isMonogenic
 	^ true! !
+
+!CyclotomicField methodsFor: 'as yet unclassified' stamp: 'len 7/12/2021 13:17:27'!
+classNumber
+	self order <= 22 ifTrue: [^ 1].
+	self order = 23 ifTrue: [^ 3].
+	self order <= 28 ifTrue: [^ 1].
+	^ super classNumber! !
 
 !CyclotomicField class methodsFor: 'examples' stamp: 'len 12/12/2016 17:12:54'!
 example
@@ -21476,19 +21487,39 @@ zero
 	"Answer true if the receiver is included in the argument."
 	^ self asModule <= anAlgebra asModule! !
 
-!FiniteAlgebra methodsFor: 'computing' stamp: 'len 7/11/2021 10:43:58'!
+!FiniteAlgebra methodsFor: 'comparing' stamp: 'len 7/12/2021 17:00:39'!
+= anObject
+	^ (anObject isKindOf: FiniteAlgebra) and: [self ambient asModule = anObject ambient asModule and: [self asModule = anObject asModule]]! !
+
+!FiniteAlgebra methodsFor: 'computing' stamp: 'len 7/12/2021 11:57:52'!
+collapseMatrix: aMatrix
+	| d |
+	d _ self dimension.
+	^ self^(aMatrix width / d) => (self^(aMatrix height / d)) filling: [:i :j|
+		(self asModule endomorphisms filling: [:i0 :j0| aMatrix at: (i-1*d+i0) @ (j-1*d+j0)]) * (self one asModuleElement)]! !
+
+!FiniteAlgebra methodsFor: 'computing' stamp: 'len 7/12/2021 17:05:51'!
+expandMatrix: aMatrix
+	| d answer |
+	d _ self dimension.
+	answer _ self scalars^(aMatrix width*d) -> (self scalars^0).
+	1 to: aMatrix height do: [:i|
+		| a |
+		a _ self scalars^0 -> (self scalars^d).
+		1 to: aMatrix width do: [:j| a _ a ” (aMatrix at: i@j) representation].
+		answer _ answer “ a].
+	^ answer! !
+
+!FiniteAlgebra methodsFor: 'computing' stamp: 'len 7/12/2021 12:00:03'!
+matrix: A solve: B
+	"Answer N and X such that A*X - B = N, satisfying that if the i-th column of B is a linear combination of the columns of A then the i-th column of N is zero."
+	^ ((self expandMatrix: A) solve: (self expandMatrix: B)) collect: [:each| self collapseMatrix: each]! !
+
+!FiniteAlgebra methodsFor: 'computing' stamp: 'len 7/12/2021 11:58:20'!
 syzygiesOf: aMatrix
 	"Answer a matrix whose rows span the kernel of the given matrix.
 	For a matrix A, the output is X such that A*X = 0."
-	| A X |
-	A _ self scalars^0 -> (self scalars^0).
-	1 to: aMatrix height do: [:i|
-		| a |
-		a _ self scalars^0 -> (self scalars^0).
-		1 to: aMatrix width do: [:j| a _ a ” (aMatrix at: i@j) representation].
-		A _ A “ a].
-	X _ A syzygies.
-	^ X "self matrix: aMatrix width @ (X width / self dimension) evaluating: [:i :j| self  !! (X rowAt: i)]"! !
+	^ self collapseMatrix: (self expandMatrix: aMatrix) syzygies! !
 
 !FiniteAlgebra methodsFor: 'converting' stamp: 'len 6/11/2020 11:38:33'!
 asModule
@@ -22182,10 +22213,14 @@ isField
 isIntegrallyClosedDomain
 	^ true! !
 
-!NumberRing methodsFor: 'testing' stamp: 'len 7/11/2021 11:54:02'!
+!NumberRing methodsFor: 'testing' stamp: 'len 7/12/2021 13:20:29'!
 isPID
 	"A Dedekind domain is a UFD iff it is a PID."
-	^ self fractions classNumber = 1! !
+	^ "self fractions classNumber = 1" false! !
+
+!NumberRing methodsFor: 'testing' stamp: 'len 7/12/2021 13:19:16'!
+isPIR
+	^ self isPID! !
 
 !NumberRing methodsFor: 'testing' stamp: 'len 12/18/2016 15:03:20'!
 isUFD
@@ -40672,10 +40707,10 @@ annihilator
 characteristicPolynomial
 	^ self representation characteristicPolynomial! !
 
-!FiniteAlgebraElement methodsFor: 'accessing' stamp: 'len 3/23/2021 12:15:31'!
+!FiniteAlgebraElement methodsFor: 'accessing' stamp: 'len 7/12/2021 17:05:25'!
 leftRepresentation
 	"Answer the representation map, the module map defined by left multiplication by the receiver."
-	^ self parent asModule endomorphisms evaluating: [:x| (self * (self parent !! x)) asModuleElement]! !
+	^ self parent asModule endomorphisms evaluating: [:x| (self parent !! x * self) asModuleElement]! !
 
 !FiniteAlgebraElement methodsFor: 'accessing' stamp: 'len 7/11/2021 10:37:14'!
 minimalPolynomial
@@ -40694,10 +40729,10 @@ norm
 parent
 	^ parent! !
 
-!FiniteAlgebraElement methodsFor: 'accessing' stamp: 'len 7/14/2020 09:50:07'!
+!FiniteAlgebraElement methodsFor: 'accessing' stamp: 'len 7/12/2021 17:04:57'!
 representation
 	"Answer the representation map, the module map defined by multiplication by the receiver."
-	^ self parent asModule endomorphisms evaluating: [:x| (self parent !! x * self) asModuleElement]! !
+	^ self parent asModule endomorphisms evaluating: [:x| (self * (self parent !! x)) asModuleElement]! !
 
 !FiniteAlgebraElement methodsFor: 'accessing' stamp: 'len 6/11/2020 12:35:55'!
 trace
