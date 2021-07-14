@@ -1,6 +1,6 @@
-'From Cuis 5.0 [latest update: #4542] on 12 July 2021 at 5:11:46 pm'!
+'From Cuis 5.0 [latest update: #4542] on 14 July 2021 at 6:11:54 pm'!
 'Description A computational algebra system in Smalltalk'!
-!provides: 'Domains' 1 620!
+!provides: 'Domains' 1 621!
 !requires: 'Complex' 1 7 nil!
 SystemOrganization addCategory: #'Domains-Kernel'!
 SystemOrganization addCategory: #'Domains-Kernel-Support'!
@@ -2755,7 +2755,7 @@ UnivariatePolynomial class
 
 !classDefinition: #FiniteAlgebraElement category: #'Domains-Finite Algebras'!
 RingElement subclass: #FiniteAlgebraElement
-	instanceVariableNames: 'parent moduleElement'
+	instanceVariableNames: 'parent moduleElement representation'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Domains-Finite Algebras'!
@@ -2763,14 +2763,14 @@ RingElement subclass: #FiniteAlgebraElement
 FiniteAlgebraElement class
 	instanceVariableNames: ''!
 
-!classDefinition: #GroupAlgebraElement category: #'Domains-Finite Algebras'!
-FiniteAlgebraElement subclass: #GroupAlgebraElement
+!classDefinition: #GroupVector category: #'Domains-Finite Algebras'!
+FiniteAlgebraElement subclass: #GroupVector
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Domains-Finite Algebras'!
-!classDefinition: 'GroupAlgebraElement class' category: #'Domains-Finite Algebras'!
-GroupAlgebraElement class
+!classDefinition: 'GroupVector class' category: #'Domains-Finite Algebras'!
+GroupVector class
 	instanceVariableNames: ''!
 
 !classDefinition: #Multivector category: #'Domains-Finite Algebras'!
@@ -3815,7 +3815,9 @@ See also PolynomialRingMap, PolynomialIdeal, AffineAlgebra, RationalFunctionFiel
 !
 
 !FiniteAlgebra commentStamp: '<historical>' prior: 0!
-Finite algebras over a commutative ring R, i.e. R-algebras that are finitely generated as R-modules. Since they are implemented in the category of rings they are assumed to be associative and unital, but they don't need to be commutative. They are defined over an R-module, with multiplication given by an associative and unital R-bilinear map. When the module is free of rank n, the multiplication can be given by n^3 structure constants (elements of R), or equivalently by n matrices of nxn.!
+Finite algebras over a commutative ring R, i.e. R-algebras that are finitely generated as R-modules. Since they are implemented in the category of rings they are assumed to be associative and unital, but they don't need to be commutative.
+
+Finite algebras are constructed over an R-module, with multiplication given by an associative and unital R-bilinear map. When the module is free of rank n, the multiplication can be given by n^3 structure constants (elements of R), or equivalently by n matrices of nxn.!
 
 !EndomorphismAlgebra commentStamp: '<historical>' prior: 0!
 Algebra of R-module endomorphisms End(M). The underlying module is the homomorphisms module Hom(M,M) for a R-module M, and multiplication is composition of module maps.!
@@ -4477,7 +4479,7 @@ Elements of a quotient ring (see QuotientRing). These are residue classes of ele
 Residue classes of integers modulo an integer m, i.e. elements of the quotient ring Z/mZ (see ModularIntegerRing).!
 
 !RegularFunction commentStamp: '<historical>' prior: 0!
-Elements of an affine ring (a quotient of a polynomial ring). See AffineRing.!
+Elements of an affine algebra (a quotient of a polynomial ring). See AffineRing.!
 
 !GaloisResidue commentStamp: '<historical>' prior: 0!
 Elements of Galois rings. See GaloisRing.!
@@ -4511,7 +4513,7 @@ They are stored as a Tuple indexed by degree (the first element of the coefficie
 !FiniteAlgebraElement commentStamp: '<historical>' prior: 0!
 Elements of finite algebras over a commutative ring R, i.e. R-algebras that are finitely generated as R-modules. See FiniteAlgebra and FiniteAlgebraMap.!
 
-!GroupAlgebraElement commentStamp: '<historical>' prior: 0!
+!GroupVector commentStamp: '<historical>' prior: 0!
 Linear combinations of group elements. These are elements of GroupAlgebras.!
 
 !Multivector commentStamp: 'len 7/15/2020 06:06:04' prior: 0!
@@ -17563,14 +17565,14 @@ Modules
 	self = aRing ifTrue: [^ true].
 	^ self < aRing! !
 
-!Ring methodsFor: 'computing' stamp: 'len 7/11/2021 10:45:06'!
+!Ring methodsFor: 'computing-matrices' stamp: 'len 7/11/2021 10:45:06'!
 matrix: A solve: B
 	"Answer N and X such that A*X - B = N, satisfying that if the i-th column of B is a linear combination of the columns of A then the i-th column of N is zero."
 	self isField ifTrue: [^ self matrixOverField: A solve: B].
 	self isEuclideanDomain ifTrue: [^ self matrixOverEuclideanDomain: A solve: B].
 	^ self notYetImplemented! !
 
-!Ring methodsFor: 'computing' stamp: 'len 4/9/2021 09:27:57'!
+!Ring methodsFor: 'computing-matrices' stamp: 'len 4/9/2021 09:27:57'!
 syzygiesOf: aMatrix
 	"Answer a matrix whose rows span the kernel of the given matrix.
 	For a matrix A, the output is X such that A*X = 0."
@@ -17578,7 +17580,7 @@ syzygiesOf: aMatrix
 	self isEuclideanDomain ifTrue: [^ self syzygiesOverEuclideanDomainOf: aMatrix].
 	^ self notYetImplemented! !
 
-!Ring methodsFor: 'computing-private' stamp: 'len 5/3/2021 10:48:55'!
+!Ring methodsFor: 'computing-matrices-private' stamp: 'len 5/3/2021 10:48:55'!
 matrixOverEuclideanDomain: A solve: B
 	"Answer N and X such that A*X - B = N, satisfying that if the i-th column of B is a linear combination of the columns of A then the i-th column of N is zero.
 	This is based on [1] but extended to work over any Euclidean domain and also to cover the case of B having more than 1 column.
@@ -17600,7 +17602,7 @@ matrixOverEuclideanDomain: A solve: B
 	X _ (P copyFrom: n @ 1 to: n + B width - 1 @ A width) transpose negated.
 	^ {A*X - B. X}"! !
 
-!Ring methodsFor: 'computing-private' stamp: 'len 5/3/2021 10:51:19'!
+!Ring methodsFor: 'computing-matrices-private' stamp: 'len 5/3/2021 10:51:19'!
 matrixOverField: A solve: B
 	"Answer N and X such that A*X - B = N, satisfying that if the i-th column of B is a linear combination of the columns of A then the i-th column of N is zero.
 	The algorithm performs gaussian elimination in essentially O(n^3) scalar operations.
@@ -17627,7 +17629,7 @@ matrixOverField: A solve: B
 	X _ Matrix from: B domain rows: rows.
 	^ {A*X - B. X}"! !
 
-!Ring methodsFor: 'computing-private' stamp: 'len 5/3/2021 10:56:47'!
+!Ring methodsFor: 'computing-matrices-private' stamp: 'len 5/3/2021 10:56:47'!
 syzygiesOverEuclideanDomainOf: aMatrix
 	"Reduce the augmented matrix [A^t | I], then a linear basis of the kernel is given by the rows of the extension corresponding to zero rows in the reduced matrix."
 	| n E |
@@ -17642,9 +17644,50 @@ syzygiesOverEuclideanDomainOf: aMatrix
 		row isZero ifTrue: [kernel add: (reduction extension rowAt: i)]].
 	^ Matrix to: aMatrix domain columns: kernel"! !
 
-!Ring methodsFor: 'computing-private' stamp: 'len 4/6/2021 11:38:39'!
+!Ring methodsFor: 'computing-matrices-private' stamp: 'len 4/6/2021 11:38:39'!
 syzygiesOverLocalizationOf: aMatrix
 	^ aMatrix numerator syzygies over: self! !
+
+!Ring methodsFor: 'computing-polynomials' stamp: 'len 7/13/2021 14:56:26'!
+allRootsOf: aPolynomial
+	"Answer the roots (counted with multiplicity) of aPolynomial in the receiver."
+	| answer |
+	self isUFD ifFalse: [^ self subclassResponsibility].
+	answer _ Bag new.
+	(aPolynomial over: self) factors withOccurrencesDo: [:f :e|
+			f degree = 1 ifTrue: [answer add: (f independentCoefficient negated / f leadingCoefficient) withOccurrences: e]].
+	^ answer! !
+
+!Ring methodsFor: 'computing-polynomials' stamp: 'len 7/13/2021 14:52:21'!
+anyRootOf: aPolynomial
+	^ (self rootsOf: aPolynomial) anyOne! !
+
+!Ring methodsFor: 'computing-polynomials' stamp: 'len 7/12/2021 17:24:37'!
+factorizationOf: aPolynomial
+	self isGaloisField ifTrue: [^ self factorizationOverFiniteFieldOf: aPolynomial].
+	^ self subclassResponsibility! !
+
+!Ring methodsFor: 'computing-polynomials' stamp: 'len 7/13/2021 14:54:05'!
+rootsOf: aPolynomial
+	"Answer the distinct roots (not counted with multiplicity) of aPolynomial in the receiver."
+	^ (self allRootsOf: aPolynomial) asSet! !
+
+!Ring methodsFor: 'computing-polynomials' stamp: 'len 7/12/2021 17:31:03'!
+squareFreeFactorizationOf: aPolynomial
+	self isGaloisField ifTrue: [^ aPolynomial squareFreeFactorizationFiniteField].
+	self characteristic > 0 "finite ring" ifTrue: [^ self notYetImplemented].
+	self isField ifTrue: [^ aPolynomial squareFreeFactorizationYun].
+	self isUFD ifFalse: [^ self notYetImplemented].
+	^ (aPolynomial primitivePart over: self fractions) squareFreeFactorizationYun apply: [:each| aPolynomial parent !! each integerPrimitivePart]! !
+
+!Ring methodsFor: 'computing-polynomials-private' stamp: 'len 7/12/2021 17:37:22'!
+factorizationOverFiniteFieldOf: aPolynomial
+	| answer |
+	answer _ Bag new.
+	aPolynomial monic squareFreeFactorization withOccurrencesDo: [:f :r|
+		f distinctDegreeFactorization keysAndValuesDo: [:d :g|
+			(g equalDegreeFactorization: d) do: [:each| answer add: each withOccurrences: r]]].
+	^ answer! !
 
 !Ring methodsFor: 'converting' stamp: 'len 4/30/2021 13:13:58'!
 asAbelianGroup
@@ -18243,6 +18286,14 @@ adapt: anElement
 	(self integers adapt: anElement) ifNotNil: [:integerElement| ^ self embed: integerElement].
 	^ super adapt: anElement! !
 
+!FractionRing methodsFor: 'elements' stamp: 'len 7/14/2021 09:40:13'!
+numerator: anElement denominator: anotherElement
+	^ (self embed: anElement) / (self embed: anotherElement)! !
+
+!FractionRing methodsFor: 'elements' stamp: 'len 7/14/2021 09:40:29'!
+reducedNumerator: anElement denominator: anotherElement
+	^ self numerator: anElement denominator: anotherElement! !
+
 !FractionRing methodsFor: 'elements' stamp: 'len 3/21/2021 13:28:22'!
 x
 	^ self x: 1! !
@@ -18258,9 +18309,10 @@ x: anInteger
 	"aDomain class = self class ifTrue: [aDomain integers -> self integers ifNotNil: [:aMorphism| ^ self to: aDomain evaluating: [:each| (aMorphism value: each numerator) / (aMorphism value: each denominator)]]]."
 	^ super <- aDomain! !
 
-!FractionRing methodsFor: 'morphisms' stamp: 'len 5/9/2020 09:34:55'!
+!FractionRing methodsFor: 'morphisms' stamp: 'len 7/14/2021 09:46:39'!
 embed: anElement
-	^ anElement asRatio! !
+	self assert: (self integers includes: anElement).
+	^ Ratio reducedNumerator: anElement denominator: anElement one! !
 
 !FractionRing methodsFor: 'operations' stamp: 'len 2/28/2017 19:59:48'!
 fractions
@@ -18369,6 +18421,52 @@ size
 hash
 	^ self class hash! !
 
+!RationalField methodsFor: 'computing-polynomials' stamp: 'len 7/13/2021 15:06:48'!
+allRootsOf: aPolynomial
+	"Answer the (real) rational roots of the polynomial."
+	| roots f n k tau visited fourier |
+	roots _ Bag new.
+	f _ aPolynomial integerPrimitivePart over: ƒ.
+	n _ f degree.
+	(k _ f order) > 0 ifTrue: [roots add: 0 withOccurrences: k. f _ f shift: k negated].
+	f isConstant ifTrue: [^ roots].
+	visited _ Set new.
+	fourier _ OrderedCollection with: f.
+	f independentCoefficient divisorsDo: [:each|
+		f leadingCoefficient divisorsDo: [:one|
+			tau _ each / one.
+			visited add: tau ifAbsent:
+					[(f value: tau) isZero
+						ifTrue: [roots add: tau withOccurrences: (self multiplicityAt: tau fourier: fourier). roots size = n ifTrue: [^ roots]].
+					tau _ tau negated.
+					(f value: tau) isZero
+						ifTrue: [roots add: tau withOccurrences: (self multiplicityAt: tau fourier: fourier). roots size = n ifTrue: [^ roots]]]]].
+	^ roots! !
+
+!RationalField methodsFor: 'computing-polynomials' stamp: 'len 7/12/2021 17:35:46'!
+factorizationOf: aPolynomial
+	^ (aPolynomial integerPrimitivePart over: ƒ) factors apply: [:each| aPolynomial parent !! each]! !
+
+!RationalField methodsFor: 'computing-polynomials-private' stamp: 'len 7/13/2021 15:03:04'!
+multiplicityAt: aRoot fourier: fourier
+	| count |
+	count _ 0.
+	fourier do: [:each| (each value: aRoot) isZero ifFalse: [^ count]. count _ count + 1].
+	[fourier last isConstant]
+		whileFalse:
+			[((fourier add: fourier last derivative) value: aRoot) isZero ifFalse: [^ count]. count _ count + 1].
+	^ count! !
+
+!RationalField methodsFor: 'elements' stamp: 'len 7/14/2021 09:50:11'!
+numerator: anInteger denominator: anotherInteger
+	self assert: (anInteger isInteger and: [anotherInteger isInteger]).
+	^ Rational numerator: anInteger denominator: anotherInteger! !
+
+!RationalField methodsFor: 'elements' stamp: 'len 7/14/2021 09:50:04'!
+reducedNumerator: anInteger denominator: anotherInteger
+	self assert: (anInteger isInteger and: [anotherInteger isInteger]).
+	^ Rational reducedNumerator: anInteger denominator: anotherInteger! !
+
 !RationalField methodsFor: 'enumerating' stamp: 'len 7/16/2019 16:29:51'!
 do: aBlock
 	"Iterate over the rational numbers by breadth-first traversal of the Calkin-Wilf tree. This is an extension of the Calkin-Wilf sequence to include 0 and the negative numbers."
@@ -18394,6 +18492,10 @@ positiveDo: aBlock
 !RationalField methodsFor: 'morphisms' stamp: 'len 5/6/2019 03:35:14'!
 automorphisms
 	^ Group new elements: {self id}! !
+
+!RationalField methodsFor: 'morphisms' stamp: 'len 7/14/2021 09:44:41'!
+embed: anInteger
+	^ self reducedNumerator: anInteger denominator: 1! !
 
 !RationalField methodsFor: 'operations' stamp: 'len 9/23/2018 01:37:20'!
 adic: aPrime
@@ -18458,6 +18560,20 @@ initialize
 size
 	^ Aleph new * self scalars size! !
 
+!RationalFunctionField methodsFor: 'elements' stamp: 'len 7/14/2021 09:51:28'!
+numerator: aPolynomial denominator: anotherPolynomial
+	self assert: ((self integers includes: aPolynomial) and: [self integers includes: anotherPolynomial]).
+	^ RationalFunction numerator: aPolynomial denominator: anotherPolynomial! !
+
+!RationalFunctionField methodsFor: 'elements' stamp: 'len 7/14/2021 09:51:43'!
+reducedNumerator: aPolynomial denominator: anotherPolynomial
+	self assert: ((self integers includes: aPolynomial) and: [self integers includes: anotherPolynomial]).
+	^ RationalFunction reducedNumerator: aPolynomial denominator: anotherPolynomial! !
+
+!RationalFunctionField methodsFor: 'morphisms' stamp: 'len 7/14/2021 09:44:33'!
+embed: aPolynomial
+	^ self reducedNumerator: aPolynomial denominator: aPolynomial one! !
+
 !RationalFunctionField methodsFor: 'operations' stamp: 'len 5/21/2018 16:21:23'!
 extension: aPolynomial
 	"Answer the algebraic function field extension of the receiver defined by the given irreducible polynomial."
@@ -18502,9 +18618,10 @@ power: anInteger
 primeSubfield
 	^ self! !
 
-!AdicField methodsFor: 'morphisms' stamp: 'len 5/8/2020 18:09:22'!
+!AdicField methodsFor: 'morphisms' stamp: 'len 7/14/2021 09:49:16'!
 embed: anAdicInteger
 	| v |
+	self assert: (self integers includes: anAdicInteger).
 	v _ anAdicInteger valuation.
 	^ AdicNumber new valuation: v unit: anAdicInteger unit! !
 
@@ -18524,9 +18641,10 @@ isField
 isLocalField
 	^ true! !
 
-!LaurentSeriesRing methodsFor: 'morphisms' stamp: 'len 6/7/2020 15:12:59'!
+!LaurentSeriesRing methodsFor: 'morphisms' stamp: 'len 7/14/2021 09:49:32'!
 embed: aPowerSeries
 	| v |
+	self assert: (self integers includes: aPowerSeries).
 	v _ aPowerSeries valuation.
 	^ LaurentSeries new valuation: v unit: aPowerSeries unit! !
 
@@ -20137,9 +20255,9 @@ matrix: A solve: B
 	"Answer N and X such that A*X - B = N, satisfying that if the i-th column of B is a linear combination of the columns of A then the i-th column of N is zero."
 	^ self matrixOverField: A solve: B! !
 
-!GaloisField methodsFor: 'morphisms' stamp: 'len 5/6/2019 03:35:29'!
+!GaloisField methodsFor: 'morphisms' stamp: 'len 7/13/2021 14:36:18'!
 automorphisms
-	"Answer the Galous group of the receiver."
+	"Answer the Galous group of the receiver, i.e. the gruop of endomorphisms fixing the scalar field Z/pZ."
 	^ Group new generators: {self frobenius}! !
 
 !GaloisField methodsFor: 'testing' stamp: 'len 12/14/2016 10:15:29'!
@@ -20378,10 +20496,10 @@ order: anInteger
 	self propertyAt: #order put: anInteger.
 	self polynomial: ((„ polynomialsIn: {'', anInteger printString sub}) cyclotomic: anInteger)! !
 
-!CyclotomicField methodsFor: 'morphisms' stamp: 'len 12/10/2016 21:08:51'!
+!CyclotomicField methodsFor: 'morphisms' stamp: 'len 7/14/2021 09:19:20'!
 automorphisms
-	"this is easy to implement, it's isomorphic to (Z/nZ)*"
-	self notYetImplemented! !
+	"Answer the Galois group of the receiver, i.e. the group of endomorphisms fixing the rationals."
+	^ (ƒ/self order) units "TODO: add coercion map to hom-set"! !
 
 !CyclotomicField methodsFor: 'testing' stamp: 'len 12/10/2016 20:13:22'!
 isAbelianExtension
@@ -20501,6 +20619,28 @@ zero
 !RationalIntegerRing methodsFor: 'comparing' stamp: 'len 12/14/2015 01:59'!
 hash
 	^ self class hash! !
+
+!RationalIntegerRing methodsFor: 'computing' stamp: 'len 7/12/2021 17:35:23'!
+factorizationOf2: aPolynomial
+	| answer f g |
+	answer _ Bag new.
+	aPolynomial content factorizationDo: [:p :e| answer add: (aPolynomial parent constant: p) withOccurrences: e].
+	g _ aPolynomial gcd: aPolynomial derivative.
+	f _ aPolynomial ÷ g.
+	"TODO: if the receiver is not square-free, we're missing powers of factors"
+	(f / (f content * f sign)) factorizationZassenhauss
+		withOccurrencesDo: [:each :k|
+			answer add: each withOccurrences: k].
+	^ answer! !
+
+!RationalIntegerRing methodsFor: 'computing' stamp: 'len 7/12/2021 17:34:30'!
+factorizationOf: aPolynomial
+	| answer content |
+	answer _ Bag new.
+	(content _ aPolynomial content) factorizationDo: [:p :e| answer add: (aPolynomial parent constant: p) withOccurrences: e].
+	(aPolynomial // (content * aPolynomial sign)) squareFreeFactorization withOccurrencesDo: [:f :r|
+		f factorizationZassenhauss do: [:each| answer add: each withOccurrences: r]].
+	^ answer! !
 
 !RationalIntegerRing methodsFor: 'computing' stamp: 'len 4/4/2021 10:37:42'!
 matrix: A solve: B
@@ -21451,10 +21591,6 @@ characteristic
 	self asModule isFree ifTrue: [^ self scalars characteristic].
 	^ (P _ self primeSubring) isFinite ifTrue: [P size] ifFalse: [0]! !
 
-!FiniteAlgebra methodsFor: 'accessing' stamp: 'len 6/11/2020 07:29:19'!
-dimension
-	^ self asModule rank! !
-
 !FiniteAlgebra methodsFor: 'accessing' stamp: 'len 3/18/2021 15:22:29'!
 generators
 	"Note: a basis is not necessarily a minimal set of generators (as algebra)."
@@ -21464,6 +21600,10 @@ generators
 multiplication
 	"Answer the multiplication as a bilinear map on the underlying module."
 	^ self propertyAt: #multiplication ifAbsentPut: [BilinearMap from: self asModule, self asModule to: self asModule evaluatingWithArguments: [:x :y| (self !! x) * (self !! y)]]! !
+
+!FiniteAlgebra methodsFor: 'accessing' stamp: 'len 7/14/2021 16:54:27'!
+rank
+	^ self asModule rank! !
 
 !FiniteAlgebra methodsFor: 'accessing' stamp: 'len 6/11/2020 06:39:27'!
 scalars
@@ -21491,17 +21631,17 @@ zero
 = anObject
 	^ (anObject isKindOf: FiniteAlgebra) and: [self ambient asModule = anObject ambient asModule and: [self asModule = anObject asModule]]! !
 
-!FiniteAlgebra methodsFor: 'computing' stamp: 'len 7/12/2021 11:57:52'!
+!FiniteAlgebra methodsFor: 'computing' stamp: 'len 7/14/2021 16:52:26'!
 collapseMatrix: aMatrix
 	| d |
-	d _ self dimension.
+	d _ self rank.
 	^ self^(aMatrix width / d) => (self^(aMatrix height / d)) filling: [:i :j|
 		(self asModule endomorphisms filling: [:i0 :j0| aMatrix at: (i-1*d+i0) @ (j-1*d+j0)]) * (self one asModuleElement)]! !
 
-!FiniteAlgebra methodsFor: 'computing' stamp: 'len 7/12/2021 17:05:51'!
+!FiniteAlgebra methodsFor: 'computing' stamp: 'len 7/14/2021 16:52:33'!
 expandMatrix: aMatrix
 	| d answer |
-	d _ self dimension.
+	d _ self rank.
 	answer _ self scalars^(aMatrix width*d) -> (self scalars^0).
 	1 to: aMatrix height do: [:i|
 		| a |
@@ -21540,9 +21680,9 @@ elementAt: anArray
 fromModuleElement: anElement
 	^ FiniteAlgebraElement parent: self moduleElement: anElement! !
 
-!FiniteAlgebra methodsFor: 'elements' stamp: 'len 6/11/2020 15:33:15'!
+!FiniteAlgebra methodsFor: 'elements' stamp: 'len 7/14/2021 16:52:43'!
 newFrom: anObject
-	(anObject isSequenceable and: [anObject size = self dimension])
+	(anObject isSequenceable and: [anObject size = self rank])
 		ifTrue: [^ self elementAt: anObject].
 	^ super newFrom: anObject! !
 
@@ -21573,10 +21713,10 @@ id
 	"Answer the identity morphism."
 	^ self propertyAt: #id ifAbsentPut: [self to: self moduleMap: self asModule id]! !
 
-!FiniteAlgebra methodsFor: 'morphisms' stamp: 'len 3/17/2021 08:52:47'!
+!FiniteAlgebra methodsFor: 'morphisms' stamp: 'len 7/14/2021 11:06:32'!
 to: anAlgebra evaluating: aBlock
 	(anAlgebra isKindOf: FiniteAlgebra) ifTrue: [^ self to: anAlgebra moduleMap: (self asModule to: anAlgebra asModule evaluating: [:x| (aBlock value: self !! x) asModuleElement])].
-	^ super to: anAlgebra mapping: aBlock! !
+	^ super to: anAlgebra evaluating: aBlock! !
 
 !FiniteAlgebra methodsFor: 'morphisms' stamp: 'len 4/28/2021 14:54:32'!
 to: anAlgebra mapping: aBlock
@@ -21629,10 +21769,10 @@ to: anAlgebra moduleMap: aModuleMap
 		addCoprojections: (coprojections with: {self. aFiniteAlgebra} collect: [:i :domain| domain => answer !! i]).
 	^ answer! !
 
-!FiniteAlgebra methodsFor: 'operations' stamp: 'len 7/8/2021 11:33:25'!
+!FiniteAlgebra methodsFor: 'operations' stamp: 'len 7/14/2021 16:52:08'!
 centralizerOf: aSubalgebra
 	| rows |
-	rows _ OrderedCollection new: self dimension squared.
+	rows _ OrderedCollection new: self rank squared.
 	self basis do: [:x|
 		aSubalgebra basis do: [:y|
 			rows add: self asModule \ (x*y - (y*x)) asModuleElement]].
@@ -21837,19 +21977,19 @@ over: aRing table: anArray
 degree
 	^ self space rank! !
 
-!CliffordAlgebra methodsFor: 'accessing' stamp: 'len 7/22/2020 12:01:09'!
+!CliffordAlgebra methodsFor: 'accessing' stamp: 'len 7/14/2021 16:51:09'!
 evenSubalgebra
 	"Answer the subalgebra of the receiver spanned by the product of an even number of basis elements of the receiver. This are the fixed points of the main involution."
-	^ self span: (((1 to: self dimension) select: [:i| (i-1) bitParity = 0]) collect: [:i| self basis at: i])! !
+	^ self span: (((1 to: self rank) select: [:i| (i-1) bitParity = 0]) collect: [:i| self basis at: i])! !
 
 !CliffordAlgebra methodsFor: 'accessing' stamp: 'len 7/7/2020 10:44:05'!
 generators
 	^ self propertyAt: #generators ifAbsentPut: [(0 to: self degree - 1) collect: [:i| self basis at: 1 << i + 1]]! !
 
-!CliffordAlgebra methodsFor: 'accessing' stamp: 'len 7/19/2020 20:12:32'!
+!CliffordAlgebra methodsFor: 'accessing' stamp: 'len 7/14/2021 16:51:15'!
 grade: anInteger
 	"Answer the subalgebra of grade anInteger."
-	^ self span: (((1 to: self dimension) select: [:i| (i - 1) bitCount = anInteger]) collect: [:i| self basis at: i])! !
+	^ self span: (((1 to: self rank) select: [:i| (i - 1) bitCount = anInteger]) collect: [:i| self basis at: i])! !
 
 !CliffordAlgebra methodsFor: 'accessing' stamp: 'len 7/5/2020 10:18:39'!
 one
@@ -21889,7 +22029,7 @@ adapt: anElement
 fromModuleElement: anElement
 	^ Multivector parent: self moduleElement: anElement! !
 
-!CliffordAlgebra methodsFor: 'initialization' stamp: 'len 4/8/2021 12:20:31'!
+!CliffordAlgebra methodsFor: 'initialization' stamp: 'len 7/14/2021 16:51:29'!
 quadraticForm: aQuadraticForm
 	| V n basis C T table |
 	V _ aQuadraticForm domain.
@@ -21903,8 +22043,8 @@ quadraticForm: aQuadraticForm
 	C addMap: (T -> (V to: C mapping: [:i| C basis at: 1 << (i-1) + 1]) name: 'i').
 	self propertyAt: #asModule put: C; propertyAt: #quadraticForm put: aQuadraticForm.
 	"Compute the multiplication table of the basis elements:"
-	table _ (0 to: self dimension - 1) collect: [:x|
-		(0 to: self dimension - 1) collect: [:y|
+	table _ (0 to: self rank - 1) collect: [:x|
+		(0 to: self rank - 1) collect: [:y|
 			| scalar index |
 			scalar _ self scalars one.
 			index _ x.
@@ -22069,9 +22209,9 @@ adapt: anElement
 		ifTrue: [^ self one * anElement].
 	^ super adapt: anElement! !
 
-!GroupAlgebra methodsFor: 'elements' stamp: 'len 4/30/2021 13:07:18'!
+!GroupAlgebra methodsFor: 'elements' stamp: 'len 7/14/2021 17:00:58'!
 fromModuleElement: anElement
-	^ GroupAlgebraElement parent: self moduleElement: anElement! !
+	^ GroupVector parent: self moduleElement: anElement! !
 
 !GroupAlgebra methodsFor: 'initialization' stamp: 'len 10/28/2020 13:33:27'!
 group: aGroup scalars: aRing
@@ -22177,6 +22317,12 @@ over: aField invariants: anArray
 		{j. k*-1. u*b. i*b*-1}.
 		{k. j*a*-1.  i*b. u*a*b*-1}})! !
 
+!NumberRing methodsFor: 'accessing' stamp: 'len 7/14/2021 11:06:05'!
+-> aCodomain
+	super -> aCodomain ifNotNil: [:aMorphism| ^ aMorphism].
+	aCodomain = self fractions ifTrue: [^ self addMap: (self to: aCodomain evaluating: [:x| aCodomain !! x])].
+	^ nil! !
+
 !NumberRing methodsFor: 'accessing' stamp: 'len 7/10/2021 11:37:20'!
 degree
 	^ self fractions degree! !
@@ -22261,10 +22407,10 @@ isPID
 	self fractions d negative ifTrue: [^ #(-1 -2 -3 -7 -11 -19 -43 -67 -163) includes: self fractions d].
 	^ super isPID! !
 
-!LieAlgebra methodsFor: 'as yet unclassified' stamp: 'len 7/7/2020 20:04:59'!
+!LieAlgebra methodsFor: 'as yet unclassified' stamp: 'len 7/14/2021 16:53:29'!
 center
 	| rows |
-	rows _ OrderedCollection new: self dimension squared.
+	rows _ OrderedCollection new: self rank squared.
 	self basis do: [:each| rows addAll: each representation rows].
 	^ self span: (Matrix rows: rows) kernel generators! !
 
@@ -22326,6 +22472,19 @@ zero
 !ComplexField methodsFor: 'comparing' stamp: 'len 1/20/2018 19:07:25'!
 hash
 	^ self class hash! !
+
+!ComplexField methodsFor: 'computing-polynomials' stamp: 'len 7/13/2021 15:01:13'!
+allRootsOf: aPolynomial
+	| answer |
+	answer _ Bag new.
+	aPolynomial integerPrimitivePart factors withOccurrencesDo: [:f :e|
+		f degree = 1
+			ifTrue:
+				[answer add: (f independentCoefficient negated / f leadingCoefficient) withOccurrences: e]
+			ifFalse:
+				[(ComplexRootIsolator on: f) roots do: [:each|
+	 				answer add: (ComplexAlgebraicNumber minimalPolynomial: f approximation: each center radius: each radius) withOccurrences: e]]].
+	^ answer! !
 
 !ComplexField methodsFor: 'enumerating' stamp: 'len 8/6/2016 03:50'!
 do: aBlock
@@ -22391,6 +22550,19 @@ zero
 !RealField methodsFor: 'comparing' stamp: 'len 1/20/2018 19:00:05'!
 hash
 	^ self class hash! !
+
+!RealField methodsFor: 'computing-polynomials' stamp: 'len 7/13/2021 15:00:57'!
+allRootsOf: aPolynomial
+	| answer |
+	answer _ Bag new.
+	aPolynomial integerPrimitivePart factors withOccurrencesDo: [:f :e|
+		f degree = 1
+			ifTrue:
+				[answer add: (f independentCoefficient negated / f leadingCoefficient) withOccurrences: e]
+			ifFalse:
+				[(RealRootIsolator on: f) roots do: [:each|
+	 				answer add: (RealAlgebraicNumber minimalPolynomial: f bounds: each) withOccurrences: e]]].
+	^ answer! !
 
 !RealField methodsFor: 'enumerating' stamp: 'len 8/6/2016 03:50'!
 do: aBlock
@@ -36632,10 +36804,6 @@ adaptToInteger: rcvr andSend: selector
 	selector = #/ ifTrue: [^ self one * rcvr / self].
 	^ super adaptToInteger: rcvr andSend: selector! !
 
-!RingElement methodsFor: 'converting' stamp: 'len 5/9/2020 09:29:14'!
-asRatio
-	^ Ratio numerator: self denominator: self one! !
-
 !RingElement methodsFor: 'operations' stamp: 'len 6/17/2019 11:19:47'!
 * anElement
 	^ self subclassResponsibility! !
@@ -37179,10 +37347,6 @@ one
 !Ratio methodsFor: 'constants' stamp: 'len 11/28/2015 06:38'!
 zero
 	^ self class numerator: numerator zero denominator: denominator one! !
-
-!Ratio methodsFor: 'converting' stamp: 'len 5/9/2020 09:30:37'!
-asRatio
-	^ self! !
 
 !Ratio methodsFor: 'operations' stamp: 'len 5/9/2020 09:41:09'!
 * anElement
@@ -38230,15 +38394,16 @@ representation
 symmetricFunction: i
 	^ self notYetImplemented! !
 
-!RegularFunction methodsFor: 'accessing' stamp: 'len 5/4/2018 17:20:34'!
+!RegularFunction methodsFor: 'accessing' stamp: 'len 7/14/2021 17:59:55'!
 trace
 	"Answer the absolute trace of the receiver."
-	| f |
-	f _ self minimalPolynomial.
-	^ (f coefficientAtDegree: f degree - 1) negated
+	^ self representation trace
 	
 "alternatively:
-	^ self representation trace"! !
+	| f |
+	f _ self minimalPolynomial.
+	^ (f coefficientAtDegree: f degree - 1) negated"
+! !
 
 !RegularFunction methodsFor: 'testing' stamp: 'len 7/8/2021 12:02:31'!
 isIntegral
@@ -38594,10 +38759,6 @@ asQuadraticForm
 			coefficients add: (self coefficientAt: ((self parent monomials x: i) * (self parent monomials x: j)))]].
 	^ QuadraticForm from: (self scalars ^ self parent rank) coefficients: (self parent scalars tuple: coefficients asArray)! !
 
-!Polynomial methodsFor: 'converting' stamp: 'len 5/9/2020 09:34:34'!
-asRatio
-	^ RationalFunction numerator: self denominator: self one! !
-
 !Polynomial methodsFor: 'converting' stamp: 'len 12/21/2017 20:09:56'!
 asScalar
 	self isConstant ifFalse: [^ self error: 'not a constant polynomial'].
@@ -38653,10 +38814,10 @@ content
 	self coefficients do: [:each| answer _ answer gcd: each].
 	^ answer! !
 
-!Polynomial methodsFor: 'factorization' stamp: 'len 7/6/2021 09:37:22'!
+!Polynomial methodsFor: 'factorization' stamp: 'len 7/14/2021 09:26:12'!
 integerContent
 	"Answer the integer content of the receiver.
-	NOTE: assumes the receiver is a polynomial over the rational numbers."
+	NOTE: assumes the receiver is a polynomial over the rationals."
 	| a b |
 "	(self scalars isKindOf: RationalIntegerRing) ifFalse: [DomainError signal]."
 	self isZero ifTrue: [^ self].
@@ -38665,7 +38826,7 @@ integerContent
 	self coefficientsDo: [:each|
 		a _ a gcd: each numerator.
 		b _ b lcm: each denominator].
-	^ Rational numerator: a abs denominator: b abs! !
+	^ self scalars numerator: a abs denominator: b abs! !
 
 !Polynomial methodsFor: 'factorization' stamp: 'len 7/17/2019 10:53:46'!
 integerPrimitivePart
@@ -39530,6 +39691,389 @@ summedWith: aPolynomial
 parts: aCollection
 	^ self basicNew parts: aCollection! !
 
+!UnivariatePolynomial methodsFor: 'accessing' stamp: 'len 12/21/2017 18:20:42'!
+bitSize
+	^ self coefficients bitSize! !
+
+!UnivariatePolynomial methodsFor: 'accessing' stamp: 'len 12/21/2017 18:26:42'!
+coefficients
+	^ coefficients! !
+
+!UnivariatePolynomial methodsFor: 'accessing' stamp: 'len 4/4/2021 09:49:59'!
+lift
+	"If the coefficients ring is a quotient R/I, answer a representative of the receiver over R. See >>%."
+	^ parent lift coefficients: coefficients lift! !
+
+!UnivariatePolynomial methodsFor: 'accessing' stamp: 'len 3/3/2021 07:43:21'!
+representative
+	"If the coefficients ring is a quotient R/I, answer a representative of the receiver over R. See >>%."
+	^ (parent over: parent scalars base) coefficients: coefficients representative! !
+
+!UnivariatePolynomial methodsFor: 'accessing-coefficients' stamp: 'len 12/22/2017 17:55:54'!
+at: aMonomial
+	^ self atDegree: aMonomial degree! !
+
+!UnivariatePolynomial methodsFor: 'accessing-coefficients' stamp: 'len 12/22/2017 17:55:35'!
+atDegree: i
+	^ coefficients at: i+1 ifAbsent: [self scalars zero]! !
+
+!UnivariatePolynomial methodsFor: 'accessing-coefficients' stamp: 'len 3/24/2016 03:50'!
+degree
+	coefficients isEmpty ifTrue: [^ Infinity negative].
+	^ coefficients size - 1! !
+
+!UnivariatePolynomial methodsFor: 'accessing-coefficients' stamp: 'len 5/16/2020 15:59:53'!
+independentCoefficient
+	^ self atDegree: 0! !
+
+!UnivariatePolynomial methodsFor: 'accessing-coefficients' stamp: 'len 6/7/2020 14:34:53'!
+initialCoefficient
+	^ self coefficients detect: [:one| one isZero not] ifNone: [self scalars zero]! !
+
+!UnivariatePolynomial methodsFor: 'accessing-coefficients' stamp: 'len 8/12/2019 16:51:05'!
+leadingCoefficient
+	parent isLocal ifTrue: [^ self coefficients detect: [:one| one isZero not] ifNone: [self scalars zero]].
+	^ self coefficientAtDegree: self degree! !
+
+!UnivariatePolynomial methodsFor: 'accessing-monomials' stamp: 'len 2/6/2017 05:53:46'!
+leadingMonomial
+	| answer |
+	self monomialsDo: [:each| (answer isNil or: [each > answer]) ifTrue: [answer _ each]].
+	^ answer
+
+"this could be faster, but it fails with local orderings for example:
+	^ self isZero ifFalse: [self parent monomials x: self parent indeterminate to: self degree]
+"! !
+
+!UnivariatePolynomial methodsFor: 'accessing-monomials' stamp: 'len 4/14/2020 18:53:35'!
+order
+	"Answer the minimum degree of the monomials present in the receiver."
+
+	^ self isZero ifTrue: [Infinity negative] ifFalse: [(coefficients findFirst: [:one| one isZero not]) - 1]! !
+
+!UnivariatePolynomial methodsFor: 'comparing' stamp: 'len 7/9/2016 03:00'!
+= anObject
+	(anObject isKindOf: UnivariatePolynomial) ifFalse: [^ false].
+	^ self coefficients = anObject coefficients
+"	self degree = anObject degree ifFalse: [^ false].
+	0 to: self degree do: [:i| (self coefficientAtDegree: i) = (anObject coefficientAtDegree: i) ifFalse: [^ false]].
+	^ true"! !
+
+!UnivariatePolynomial methodsFor: 'comparing' stamp: 'len 4/11/2016 05:13'!
+hash
+	| answer |
+	self isZero ifTrue: [^ 0].
+	answer _ self degree.
+	0 to: self degree do: [:i| answer _ answer + (self coefficientAtDegree: i) hash].
+	^ answer! !
+
+!UnivariatePolynomial methodsFor: 'converting' stamp: 'len 12/21/2017 21:52:44'!
+over: aRing
+	^ (self parent over: aRing) coefficients: (self coefficients over: aRing)! !
+
+!UnivariatePolynomial methodsFor: 'copying' stamp: 'len 12/21/2017 22:06:33'!
+copy
+	^ self parent coefficients: self coefficients copy! !
+
+!UnivariatePolynomial methodsFor: 'deprecated' stamp: 'len 3/23/2016 04:08'!
+coefficientAt: aMonomial
+	^ self coefficientAtDegree: aMonomial degree! !
+
+!UnivariatePolynomial methodsFor: 'deprecated' stamp: 'len 3/22/2016 23:57'!
+coefficientAtDegree: i
+	^ coefficients at: i+1 ifAbsent: [self scalars zero]! !
+
+!UnivariatePolynomial methodsFor: 'enumerating' stamp: 'len 12/21/2017 21:51:15'!
+coefficientsDo: aBlock
+	self coefficients do: aBlock! !
+
+!UnivariatePolynomial methodsFor: 'enumerating' stamp: 'len 5/15/2019 01:52:21'!
+monomialsApply: aBlock
+	| monomials n newCoefficients |
+	monomials _ (1 to: coefficients size) collect: [:i|
+		(aBlock value: (self parent monomials x: 1 to: i-1)) -> (coefficients at: i)].
+	n _ monomials max: [:each| each key degree].
+	newCoefficients _ (Array new: n+1) atAllPut: self scalars zero.
+	monomials do: [:each| newCoefficients at: each key degree + 1 add: each value].
+	^ self parent coefficients: newCoefficients ! !
+
+!UnivariatePolynomial methodsFor: 'enumerating' stamp: 'len 4/22/2019 04:04:20'!
+monomialsDo: aBlock
+	"Iterate over the support of the receiver, i.e. the monomials with non-zero coefficient."
+	1 to: coefficients size do: [:i|
+		(coefficients at: i) isZero
+			ifFalse: [aBlock value: (self parent monomials x: 1 to: i-1)]]! !
+
+!UnivariatePolynomial methodsFor: 'enumerating' stamp: 'len 4/22/2019 04:04:31'!
+partsDo: aBlock
+	coefficients withIndexDo: [:value :index| value isZero ifFalse: [aBlock value: (self parent monomials x: 1 to: index-1) -> value]]! !
+
+!UnivariatePolynomial methodsFor: 'factorization' stamp: 'len 5/26/2018 16:35:31'!
+distinctDegreeFactorization
+	"Answer the distinct-degree factorization of a monic square-free polynomial over a finite field.
+	The factorizations is a Dictionary d -> g, where g is the product of all irreducible factors of degree d."
+	| answer i f f2 one q x R h |
+	answer _ Dictionary new.
+	f _ self.
+	R _ f parent.
+	x _ R x.
+	one _ R one.
+	q _ R scalars size.
+	i _ 1.
+	f2 _ f.
+	h _ x.
+	[f2 degree >= (2*i)]
+		whileTrue:
+			[ | g | g _ f2 gcd: (h _ h raisedTo: q modulo: f2) - x.
+			g ~= one ifTrue: [answer at: i put: g. f2 _ f2 // g].
+			i _ i + 1].
+	f2 ~= one ifTrue: [answer at: f2 degree put: f2].
+	answer isEmpty ifTrue: [answer at: 1 put: f].
+	^ answer! !
+
+!UnivariatePolynomial methodsFor: 'factorization' stamp: 'len 5/24/2019 11:10:35'!
+equalDegreeFactorization: d
+	"Cantor-Zassenhaus algorithm. Answer the equal-degree factorization of a monic squarefree univariate polynomial which has r>=2 pairwise distinct irreducible factors each of degree d."
+	| f r q h g one factors c |
+	f _ self.
+	q _ f scalars size.
+	q odd ifFalse: [^ self equalDegreeFactorization2: d].
+	r _ f degree / d.
+	one _ f parent one.
+	factors _ OrderedCollection with: f.
+	[factors size < r]
+		whileTrue:
+			[[h _ (f parent atRandomMaxDegree: 2*d-1). "should be monic? should: d <= deg(h) <= 2d-1"
+			h isZero] whileTrue. "ensure it's not 0"
+			h _ h monic.
+			g _ (h raisedTo: q^d - 1 / 2 modulo: f) - one. "<- most time is spent here"
+			factors do: [:u|
+				u degree > d
+					ifTrue:
+						[c _ g gcd: u.
+						(c ~= one and: [c ~= u])
+							ifTrue: "found non-trivial common factor c"
+								[factors _ factors copyWithout: u.
+								factors add: c; add: u // c]]]].
+	^ factors! !
+
+!UnivariatePolynomial methodsFor: 'factorization' stamp: 'len 7/12/2021 17:25:04'!
+factors
+	^ self scalars factorizationOf: self! !
+
+!UnivariatePolynomial methodsFor: 'factorization' stamp: 'len 7/12/2021 17:31:51'!
+squareFreeFactorization
+	"Answer a square-free factorization of the receiver."
+	^ self scalars squareFreeFactorizationOf: self! !
+
+!UnivariatePolynomial methodsFor: 'factorization-private' stamp: 'len 4/16/2018 20:24:33'!
+equalDegreeFactorization2: d
+	"Cantor-Zassenhaus algorithm. Answer the equal-degree factorization of a monic squarefree univariate polynomial which has r>=2 pairwise distinct irreducible factors each of degree d."
+	| f r h g one factors c |
+	f _ self.
+"	q _ f parent scalars size.
+	q even ifFalse: [^ self error: 'order not even']."
+	r _ f degree / d.
+	one _ f parent one.
+	factors _ OrderedCollection with: f.
+	h _ f parent x.
+	[factors size < r]
+		whileTrue:
+			[g _ h.
+			d - 1 timesRepeat: [g _ h + g squared \\ f].
+			factors do: [:u|
+				u degree > d
+					ifTrue:
+						[c _ g gcd: u.
+						(c ~= one and: [c ~= u])
+							ifTrue:
+								[factors _ factors copyWithout: u.
+								factors add: c; add: u // c]]].
+			h _ h << 2].
+	^ factors! !
+
+!UnivariatePolynomial methodsFor: 'factorization-private' stamp: 'len 7/13/2021 15:09:58'!
+factorizationZassenhauss
+	"Zassenhauss algorithm. Answer the irreducible factors of a square-free primitive polynomial with integer coefficients."
+	| f n A b B C Š df p Zp fp dfp k factors r answer |
+	f _ self.
+	n _ f degree.
+	n = 1 ifTrue: [^ {f}].
+	A _ f normMax.
+	b _ f leadingCoefficient.
+	B _ (n+1) sqrt * (1<<n) * A * b. "float will fail"
+	C _ (n+1)^(2*n)*(A^(2*n-1)).
+"	Š _ (2 * (C log: 2)) ceiling."
+	Š _ 2 * C highBit. "+1?"
+	df _ f derivative.
+	[[p _ (2*Š*Š ln) asInteger atRandom nextPrime.
+	p | b] whileTrue.
+	Zp _ PrimeField new: p.
+	fp _ f over: Zp.
+	dfp _ df over: Zp.
+	(fp gcd: dfp) isConstant] whileFalse.
+	"modular factorization"
+	factors _ fp monic factors.
+	r _ factors size. "should repeat this 5 times and choose smallest r"
+	r = 1 ifTrue: [^ {f}]. "if irreducible mod p, also irreducible over Z"
+"	self assert: (self % p - (factors product * b)) isZero."
+	"hensel lifting"
+	k _ ((2*B+1) log: p) abs ceiling. "p^k > 2B"
+	k _ 1 << k highBit. "<- in order to do quadratic liftings, maybe shouldn't"
+	factors _ f henselLift: factors asArray to: (PrimePowerRing new: p to: k). "lift to p^k" "<- about 20% of time is spent here"
+"	1 to: k do: [:i|
+		self assert: (self - ((factors product: [:fi| fi lift]) * b) % (p^i)) isZero]."
+	"recombination"
+	answer _ Bag new.
+	1 to: r do: [:j|
+		(factors combinations: j) do: [:each| | g division | "<- about 50% of time is spent in this recombination step"
+			g _ (each product * b) lift primitivePart.
+			division _ f divisionBy: g.
+			division remainder isZero ifTrue: [answer add: g. f _ division quotient. f isConstant ifTrue: [^ answer]]]].
+	^ answer add: f; yourself! !
+
+!UnivariatePolynomial methodsFor: 'factorization-private' stamp: 'len 7/17/2019 10:54:47'!
+factorizationZassenhauss2
+	"ZassenHauss algorithm. Answer the irreducible factors of a square-free polynomial with integer coefficients."
+	| answer f df p fp dfp factors r B e g |
+	answer _ Bag new.
+	f _ self integerPrimitivePart.
+	"remove x factor"
+"	f leadingCoefficient abs > f independentCoefficient abs ifTrue: [f _ f reversed]."
+	df _ f derivative.
+	B _ f landauMignotteBound.
+	"1. Choose a prime p such that gcd(f,df) = 1 mod p:"
+	[p _ 1000 atRandom nextPrime.
+	fp _ f % p.
+	dfp _ df % p.
+	(fp gcd: dfp) = fp one] whileFalse.
+	"2. Modular factorization: factor f mod p."
+	factors _ fp factors.
+	r _ factors size. "should repeat this 5 times and choose smallest r"
+	r = 1 ifTrue: [^ {f}]. "if irreducible mod p, also irreducible over Z"
+	"3. Compute Landau-Mignotte bound and p^a with enough precision for Hensel lifting:"
+	e _ (B*2*f leadingCoefficient log: p) ceiling.
+	"4. Hensel lift to precision p^a:"
+		"..."
+	"5. Recombination: try all combinations of factors and find divisors of f:"
+	1 to: r do: [:k|
+		(factors combinations: k) do: [:each|
+			g _ each product.
+			g | f ifTrue: [answer add: g]]].
+	^ answer! !
+
+!UnivariatePolynomial methodsFor: 'factorization-private' stamp: 'len 5/9/2020 14:06:47'!
+henselLift: factors to: Zpk
+	"The receiver is a polynomial in Z[x].
+	The argument 'factors' is a factorization of the receiver's projection to (Z/pZ)[x].
+	Answer the Hensel lift of the factorization to (Z/(p^k)Z)[x]."
+	| r mid g h s t euclid gFactors hFactors |
+"	p _ factors anyOne scalars characteristic."
+	r _ factors size.
+	r = 1 ifTrue: "can be optimized, compute inverse modulo p using extended euclid, then lift to p^k with newton iteration algorithm 9.10 (modern computer algebra)"
+		[^ {(self over: Zpk) * (Zpk !! self leadingCoefficient) inverse}].
+	mid _ r // 2.
+	gFactors _ factors copyFrom: 1 to: mid.
+	hFactors _ factors copyFrom: mid+1 to: r.
+	g _ gFactors product * self leadingCoefficient.
+	h _ hFactors product.
+	euclid _ g xgcd: h.
+	s _ euclid at: 2.
+	t _ euclid at: 3.
+"	m _ p."
+	Zpk quadraticLiftingsDo: [:phi| "Hensel step:"
+		| e division c d b |
+"		self assert: (self % m - (g*h)) isZero.
+		self assert: (s*g + (t*h) - 1) isZero.
+		m _ m squared."
+		g _ g apply: phi. h _ h apply: phi. s _ s apply: phi. t _ t apply: phi.
+		e _ (self over: phi codomain) - (g*h).
+		division _ s*e divisionBy: h.
+		c _ division quotient.
+		d _ division remainder.
+		g _ g + (t*e) + (c*g).
+		h _ h + d.
+		b _ s*g + (t*h) - 1.
+		division _ s*b divisionBy: h.
+		c _ division quotient.
+		d _ division remainder.
+		s _ s - d.
+		t _ t - (t*b) - (c*g).
+"		self assert: (self % m - (g*h)) isZero.
+		self assert: (s*g + (t*h) - 1) isZero"].
+	^ (g lift henselLift: gFactors to: Zpk), (h lift henselLift: hFactors to: Zpk)! !
+
+!UnivariatePolynomial methodsFor: 'factorization-private' stamp: 'len 4/24/2018 01:32:31'!
+landauMignotteBound
+	"Answer the Landau-Mignotte bounds for the receiver.
+	This is an upper bound for the absolute value of the coefficients of any nontrivial factor of a polynomial with integer coefficients. The bound depends on both the degree and the size of the coefficients of the receiver."
+	| d h |
+	d _ self degree // 2.
+	h _ d // 2.
+	^ (d - 1 choose: h) * self norm2 + (d - 1 choose: h - 1)! !
+
+!UnivariatePolynomial methodsFor: 'factorization-private' stamp: 'len 7/11/2019 09:08:36'!
+squareFreeFactorizationFiniteField
+	"Answer the square-free decomposition of a monic polynomial."
+	"NOTE: this only works on prime fields. For non-prime fields, after substituting x^p by x we must also apply the inverse of the Frobenius automorphism to the coefficients."
+	| answer f one p i g c w y z |
+	self isMonic ifFalse: [self error: 'not monic'].
+	answer _ Bag new.
+	f _ self.
+	one _ f one.
+	p _ f scalars characteristic.
+	(g _ f derivative) isZero
+		ifTrue:
+			[f _ f monomialsApply: [:m| m root: p]. "not enough if the field is non-prime"
+			f squareFreeFactorizationFiniteField
+				do: [:each| answer add: each withOccurrences: p].
+			^ answer].
+	c _ f gcd: g.
+	w _ f // c.
+	i _ 1.
+	[w = one]
+		whileFalse:
+			[y _ w gcd: c. z _ w // y.
+			z ^ i = one ifFalse: [answer add: z withOccurrences: i].
+			i _ i + 1.
+			w _ y. c _ c // y].
+	c = one
+		ifFalse:
+			[c _ c monomialsApply: [:m| m root: p]. "not enough if the field is non-prime"
+			c squareFreeFactorizationFiniteField
+				do: [:each| answer add: each withOccurrences: p]].
+	^ answer! !
+
+!UnivariatePolynomial methodsFor: 'factorization-private' stamp: 'len 4/26/2018 00:03:55'!
+squareFreeFactorizationYun
+	"Answer a square-free decomposition of the receiver.
+	Use Yun's algorithm. Assume the coefficients are in a unique
+	factorization domain or in a field of characteristic 0.
+	Yun's algorithm on an input polynomial of degree n uses O(M(n)log(n)) operations in the base field F, where M(n) is the number of operations in F required to multiply two polynomias of degree n in F[x]."
+
+	| p q gcd count answer |
+	answer _ Bag new.
+	count _ 1.
+"	lc _ self leadingCoefficient.
+	lc = self scalars one
+		ifFalse: [answer add: (self parent constant: lc)].
+	p _ self / lc."
+	p _ self monic.
+	q _ p derivative.
+	gcd _ p gcd: q.
+	gcd degree > 0
+		ifTrue:
+			[p _ p // gcd.
+			q _ q // gcd - p derivative.
+			[q isZero]
+				whileFalse:
+					[gcd _ p gcd: q.
+					gcd degree > 0 ifTrue: [answer add: gcd withOccurrences: count].
+					count _ count + 1.
+					p _ p // gcd.
+					q _ q // gcd - p derivative]].
+	^ answer add: p withOccurrences: count; yourself! !
+
 !UnivariatePolynomial methodsFor: 'operations' stamp: 'len 8/8/2019 04:44:47'!
 + anObject
 	(self parent includes: anObject)
@@ -39847,462 +40391,23 @@ value: anObject
 		ifTrue: [anObject at: 1] ifFalse: [anObject].
 	^ coefficients polynomialValue: x! !
 
-!UnivariatePolynomial methodsFor: 'accessing' stamp: 'len 12/21/2017 18:20:42'!
-bitSize
-	^ self coefficients bitSize! !
-
-!UnivariatePolynomial methodsFor: 'accessing' stamp: 'len 12/21/2017 18:26:42'!
-coefficients
-	^ coefficients! !
-
-!UnivariatePolynomial methodsFor: 'accessing' stamp: 'len 4/4/2021 09:49:59'!
-lift
-	"If the coefficients ring is a quotient R/I, answer a representative of the receiver over R. See >>%."
-	^ parent lift coefficients: coefficients lift! !
-
-!UnivariatePolynomial methodsFor: 'accessing' stamp: 'len 3/3/2021 07:43:21'!
-representative
-	"If the coefficients ring is a quotient R/I, answer a representative of the receiver over R. See >>%."
-	^ (parent over: parent scalars base) coefficients: coefficients representative! !
-
-!UnivariatePolynomial methodsFor: 'accessing-coefficients' stamp: 'len 12/22/2017 17:55:54'!
-at: aMonomial
-	^ self atDegree: aMonomial degree! !
-
-!UnivariatePolynomial methodsFor: 'accessing-coefficients' stamp: 'len 12/22/2017 17:55:35'!
-atDegree: i
-	^ coefficients at: i+1 ifAbsent: [self scalars zero]! !
-
-!UnivariatePolynomial methodsFor: 'accessing-coefficients' stamp: 'len 3/24/2016 03:50'!
-degree
-	coefficients isEmpty ifTrue: [^ Infinity negative].
-	^ coefficients size - 1! !
-
-!UnivariatePolynomial methodsFor: 'accessing-coefficients' stamp: 'len 5/16/2020 15:59:53'!
-independentCoefficient
-	^ self atDegree: 0! !
-
-!UnivariatePolynomial methodsFor: 'accessing-coefficients' stamp: 'len 6/7/2020 14:34:53'!
-initialCoefficient
-	^ self coefficients detect: [:one| one isZero not] ifNone: [self scalars zero]! !
-
-!UnivariatePolynomial methodsFor: 'accessing-coefficients' stamp: 'len 8/12/2019 16:51:05'!
-leadingCoefficient
-	parent isLocal ifTrue: [^ self coefficients detect: [:one| one isZero not] ifNone: [self scalars zero]].
-	^ self coefficientAtDegree: self degree! !
-
-!UnivariatePolynomial methodsFor: 'accessing-monomials' stamp: 'len 2/6/2017 05:53:46'!
-leadingMonomial
-	| answer |
-	self monomialsDo: [:each| (answer isNil or: [each > answer]) ifTrue: [answer _ each]].
-	^ answer
-
-"this could be faster, but it fails with local orderings for example:
-	^ self isZero ifFalse: [self parent monomials x: self parent indeterminate to: self degree]
-"! !
-
-!UnivariatePolynomial methodsFor: 'accessing-monomials' stamp: 'len 4/14/2020 18:53:35'!
-order
-	"Answer the minimum degree of the monomials present in the receiver."
-
-	^ self isZero ifTrue: [Infinity negative] ifFalse: [(coefficients findFirst: [:one| one isZero not]) - 1]! !
-
-!UnivariatePolynomial methodsFor: 'comparing' stamp: 'len 7/9/2016 03:00'!
-= anObject
-	(anObject isKindOf: UnivariatePolynomial) ifFalse: [^ false].
-	^ self coefficients = anObject coefficients
-"	self degree = anObject degree ifFalse: [^ false].
-	0 to: self degree do: [:i| (self coefficientAtDegree: i) = (anObject coefficientAtDegree: i) ifFalse: [^ false]].
-	^ true"! !
-
-!UnivariatePolynomial methodsFor: 'comparing' stamp: 'len 4/11/2016 05:13'!
-hash
-	| answer |
-	self isZero ifTrue: [^ 0].
-	answer _ self degree.
-	0 to: self degree do: [:i| answer _ answer + (self coefficientAtDegree: i) hash].
-	^ answer! !
-
-!UnivariatePolynomial methodsFor: 'converting' stamp: 'len 12/21/2017 21:52:44'!
-over: aRing
-	^ (self parent over: aRing) coefficients: (self coefficients over: aRing)! !
-
-!UnivariatePolynomial methodsFor: 'copying' stamp: 'len 12/21/2017 22:06:33'!
-copy
-	^ self parent coefficients: self coefficients copy! !
-
-!UnivariatePolynomial methodsFor: 'deprecated' stamp: 'len 3/23/2016 04:08'!
-coefficientAt: aMonomial
-	^ self coefficientAtDegree: aMonomial degree! !
-
-!UnivariatePolynomial methodsFor: 'deprecated' stamp: 'len 3/22/2016 23:57'!
-coefficientAtDegree: i
-	^ coefficients at: i+1 ifAbsent: [self scalars zero]! !
-
-!UnivariatePolynomial methodsFor: 'enumerating' stamp: 'len 12/21/2017 21:51:15'!
-coefficientsDo: aBlock
-	self coefficients do: aBlock! !
-
-!UnivariatePolynomial methodsFor: 'enumerating' stamp: 'len 5/15/2019 01:52:21'!
-monomialsApply: aBlock
-	| monomials n newCoefficients |
-	monomials _ (1 to: coefficients size) collect: [:i|
-		(aBlock value: (self parent monomials x: 1 to: i-1)) -> (coefficients at: i)].
-	n _ monomials max: [:each| each key degree].
-	newCoefficients _ (Array new: n+1) atAllPut: self scalars zero.
-	monomials do: [:each| newCoefficients at: each key degree + 1 add: each value].
-	^ self parent coefficients: newCoefficients ! !
-
-!UnivariatePolynomial methodsFor: 'enumerating' stamp: 'len 4/22/2019 04:04:20'!
-monomialsDo: aBlock
-	"Iterate over the support of the receiver, i.e. the monomials with non-zero coefficient."
-	1 to: coefficients size do: [:i|
-		(coefficients at: i) isZero
-			ifFalse: [aBlock value: (self parent monomials x: 1 to: i-1)]]! !
-
-!UnivariatePolynomial methodsFor: 'enumerating' stamp: 'len 4/22/2019 04:04:31'!
-partsDo: aBlock
-	coefficients withIndexDo: [:value :index| value isZero ifFalse: [aBlock value: (self parent monomials x: 1 to: index-1) -> value]]! !
-
-!UnivariatePolynomial methodsFor: 'factorization' stamp: 'len 5/26/2018 16:35:31'!
-distinctDegreeFactorization
-	"Answer the distinct-degree factorization of a monic square-free polynomial over a finite field.
-	The factorizations is a Dictionary d -> g, where g is the product of all irreducible factors of degree d."
-	| answer i f f2 one q x R h |
-	answer _ Dictionary new.
-	f _ self.
-	R _ f parent.
-	x _ R x.
-	one _ R one.
-	q _ R scalars size.
-	i _ 1.
-	f2 _ f.
-	h _ x.
-	[f2 degree >= (2*i)]
-		whileTrue:
-			[ | g | g _ f2 gcd: (h _ h raisedTo: q modulo: f2) - x.
-			g ~= one ifTrue: [answer at: i put: g. f2 _ f2 // g].
-			i _ i + 1].
-	f2 ~= one ifTrue: [answer at: f2 degree put: f2].
-	answer isEmpty ifTrue: [answer at: 1 put: f].
-	^ answer! !
-
-!UnivariatePolynomial methodsFor: 'factorization' stamp: 'len 5/24/2019 11:10:35'!
-equalDegreeFactorization: d
-	"Cantor-Zassenhaus algorithm. Answer the equal-degree factorization of a monic squarefree univariate polynomial which has r>=2 pairwise distinct irreducible factors each of degree d."
-	| f r q h g one factors c |
-	f _ self.
-	q _ f scalars size.
-	q odd ifFalse: [^ self equalDegreeFactorization2: d].
-	r _ f degree / d.
-	one _ f parent one.
-	factors _ OrderedCollection with: f.
-	[factors size < r]
-		whileTrue:
-			[[h _ (f parent atRandomMaxDegree: 2*d-1). "should be monic? should: d <= deg(h) <= 2d-1"
-			h isZero] whileTrue. "ensure it's not 0"
-			h _ h monic.
-			g _ (h raisedTo: q^d - 1 / 2 modulo: f) - one. "<- most time is spent here"
-			factors do: [:u|
-				u degree > d
-					ifTrue:
-						[c _ g gcd: u.
-						(c ~= one and: [c ~= u])
-							ifTrue: "found non-trivial common factor c"
-								[factors _ factors copyWithout: u.
-								factors add: c; add: u // c]]]].
-	^ factors! !
-
-!UnivariatePolynomial methodsFor: 'factorization' stamp: 'len 4/26/2021 10:53:06'!
-factors
-	self scalars isGaloisField
-		ifTrue: [^ self factorizationFiniteField].
-	self scalars == ƒ
-		ifTrue: [^ self factorizationIntegers].
-	self scalars == „
-		ifTrue: [^ (self integerPrimitivePart over: ƒ) factorizationIntegers apply: [:each| self parent !! each]].
-	self parent isUFD
-		ifFalse: [^ DomainError signal: 'not an UFD'].
-	^ self notYetImplemented! !
-
-!UnivariatePolynomial methodsFor: 'factorization' stamp: 'len 7/17/2019 11:08:55'!
-squareFreeFactorization
-	"Answer a square-free factorization of the receiver."
-	self scalars isGaloisField
-		ifTrue: [^ self squareFreeFactorizationFiniteField].
-	self scalars characteristic > 0 "finite ring"
-		ifTrue: [^ self notYetImplemented].
-	self scalars isField
-		ifTrue: [^ self squareFreeFactorizationYun].
-	self scalars isUFD
-		ifFalse: [^ self notYetImplemented].
-	^ (self primitivePart over: self scalars fractions) squareFreeFactorizationYun apply: [:each| self parent !! each integerPrimitivePart]! !
-
-!UnivariatePolynomial methodsFor: 'factorization-private' stamp: 'len 4/16/2018 20:24:33'!
-equalDegreeFactorization2: d
-	"Cantor-Zassenhaus algorithm. Answer the equal-degree factorization of a monic squarefree univariate polynomial which has r>=2 pairwise distinct irreducible factors each of degree d."
-	| f r h g one factors c |
-	f _ self.
-"	q _ f parent scalars size.
-	q even ifFalse: [^ self error: 'order not even']."
-	r _ f degree / d.
-	one _ f parent one.
-	factors _ OrderedCollection with: f.
-	h _ f parent x.
-	[factors size < r]
-		whileTrue:
-			[g _ h.
-			d - 1 timesRepeat: [g _ h + g squared \\ f].
-			factors do: [:u|
-				u degree > d
-					ifTrue:
-						[c _ g gcd: u.
-						(c ~= one and: [c ~= u])
-							ifTrue:
-								[factors _ factors copyWithout: u.
-								factors add: c; add: u // c]]].
-			h _ h << 2].
-	^ factors! !
-
-!UnivariatePolynomial methodsFor: 'factorization-private' stamp: 'len 7/11/2019 05:34:11'!
-factorizationFiniteField
-	| answer |
-	answer _ Bag new.
-	self monic squareFreeFactorizationFiniteField withOccurrencesDo: [:f :r|
-		f distinctDegreeFactorization keysAndValuesDo: [:d :g|
-			(g equalDegreeFactorization: d) do: [:each| answer add: each withOccurrences: r]]].
-	^ answer! !
-
-!UnivariatePolynomial methodsFor: 'factorization-private' stamp: 'len 7/19/2019 08:36:44'!
-factorizationIntegers
-	| answer content |
-	answer _ Bag new.
-	(content _ self content) factorizationDo: [:p :e| answer add: (self parent constant: p) withOccurrences: e].
-	(self // (content * self sign)) squareFreeFactorization withOccurrencesDo: [:f :r|
-		f factorizationZassenhauss do: [:each| answer add: each withOccurrences: r]].
-	^ answer! !
-
-!UnivariatePolynomial methodsFor: 'factorization-private' stamp: 'len 5/9/2020 18:00:40'!
-factorizationIntegers2
-	| answer f g |
-	answer _ Bag new.
-	self content factorizationDo: [:p :e| answer add: (self parent constant: p) withOccurrences: e].
-	g _ self gcd: self derivative.
-	f _ self ÷ g.
-	"TODO: if the receiver is not square-free, we're missing powers of factors"
-	(f / (f content * f sign)) factorizationZassenhauss
-		withOccurrencesDo: [:each :k|
-			answer add: each withOccurrences: k].
-	^ answer! !
-
-!UnivariatePolynomial methodsFor: 'factorization-private' stamp: 'len 8/4/2019 09:41:29'!
-factorizationZassenhauss
-	"Zassenhauss algorithm. Answer the irreducible factors of a square-free primitive polynomial with integer coefficients."
-	| f n A b B C gamma df p Zp fp dfp k factors r answer |
-	f _ self.
-	n _ f degree.
-	n = 1 ifTrue: [^ {f}].
-	A _ f normMax.
-	b _ f leadingCoefficient.
-	B _ (n+1) sqrt * (1<<n) * A * b. "float will fail"
-	C _ (n+1)^(2*n)*(A^(2*n-1)).
-"	gamma _ (2 * (C log: 2)) ceiling."
-	gamma _ 2 * C highBit. "+1?"
-	df _ f derivative.
-	[[p _ (2*gamma*gamma ln) asInteger atRandom nextPrime.
-	p | b] whileTrue.
-	Zp _ PrimeField new: p.
-	fp _ f over: Zp.
-	dfp _ df over: Zp.
-	(fp gcd: dfp) isConstant] whileFalse.
-	"modular factorization"
-	factors _ fp monic factors.
-	r _ factors size. "should repeat this 5 times and choose smallest r"
-	r = 1 ifTrue: [^ {f}]. "if irreducible mod p, also irreducible over Z"
-"	self assert: (self % p - (factors product * b)) isZero."
-	"hensel lifting"
-	k _ ((2*B+1) log: p) abs ceiling. "p^k > 2B"
-	k _ 1 << k highBit. "<- in order to do quadratic liftings, maybe shouldn't"
-	factors _ f henselLift: factors asArray to: (PrimePowerRing new: p to: k). "lift to p^k" "<- about 20% of time is spent here"
-"	1 to: k do: [:i|
-		self assert: (self - ((factors product: [:fi| fi lift]) * b) % (p^i)) isZero]."
-	"recombination"
-	answer _ Bag new.
-	1 to: r do: [:j|
-		(factors combinations: j) do: [:each| | g division | "<- about 50% of time is spent in this recombination step"
-			g _ (each product * b) lift primitivePart.
-			division _ f divisionBy: g.
-			division remainder isZero ifTrue: [answer add: g. f _ division quotient. f isConstant ifTrue: [^ answer]]]].
-	^ answer add: f; yourself! !
-
-!UnivariatePolynomial methodsFor: 'factorization-private' stamp: 'len 7/17/2019 10:54:47'!
-factorizationZassenhauss2
-	"ZassenHauss algorithm. Answer the irreducible factors of a square-free polynomial with integer coefficients."
-	| answer f df p fp dfp factors r B e g |
-	answer _ Bag new.
-	f _ self integerPrimitivePart.
-	"remove x factor"
-"	f leadingCoefficient abs > f independentCoefficient abs ifTrue: [f _ f reversed]."
-	df _ f derivative.
-	B _ f landauMignotteBound.
-	"1. Choose a prime p such that gcd(f,df) = 1 mod p:"
-	[p _ 1000 atRandom nextPrime.
-	fp _ f % p.
-	dfp _ df % p.
-	(fp gcd: dfp) = fp one] whileFalse.
-	"2. Modular factorization: factor f mod p."
-	factors _ fp factors.
-	r _ factors size. "should repeat this 5 times and choose smallest r"
-	r = 1 ifTrue: [^ {f}]. "if irreducible mod p, also irreducible over Z"
-	"3. Compute Landau-Mignotte bound and p^a with enough precision for Hensel lifting:"
-	e _ (B*2*f leadingCoefficient log: p) ceiling.
-	"4. Hensel lift to precision p^a:"
-		"..."
-	"5. Recombination: try all combinations of factors and find divisors of f:"
-	1 to: r do: [:k|
-		(factors combinations: k) do: [:each|
-			g _ each product.
-			g | f ifTrue: [answer add: g]]].
-	^ answer! !
-
-!UnivariatePolynomial methodsFor: 'factorization-private' stamp: 'len 5/9/2020 14:06:47'!
-henselLift: factors to: Zpk
-	"The receiver is a polynomial in Z[x].
-	The argument 'factors' is a factorization of the receiver's projection to (Z/pZ)[x].
-	Answer the Hensel lift of the factorization to (Z/(p^k)Z)[x]."
-	| r mid g h s t euclid gFactors hFactors |
-"	p _ factors anyOne scalars characteristic."
-	r _ factors size.
-	r = 1 ifTrue: "can be optimized, compute inverse modulo p using extended euclid, then lift to p^k with newton iteration algorithm 9.10 (modern computer algebra)"
-		[^ {(self over: Zpk) * (Zpk !! self leadingCoefficient) inverse}].
-	mid _ r // 2.
-	gFactors _ factors copyFrom: 1 to: mid.
-	hFactors _ factors copyFrom: mid+1 to: r.
-	g _ gFactors product * self leadingCoefficient.
-	h _ hFactors product.
-	euclid _ g xgcd: h.
-	s _ euclid at: 2.
-	t _ euclid at: 3.
-"	m _ p."
-	Zpk quadraticLiftingsDo: [:phi| "Hensel step:"
-		| e division c d b |
-"		self assert: (self % m - (g*h)) isZero.
-		self assert: (s*g + (t*h) - 1) isZero.
-		m _ m squared."
-		g _ g apply: phi. h _ h apply: phi. s _ s apply: phi. t _ t apply: phi.
-		e _ (self over: phi codomain) - (g*h).
-		division _ s*e divisionBy: h.
-		c _ division quotient.
-		d _ division remainder.
-		g _ g + (t*e) + (c*g).
-		h _ h + d.
-		b _ s*g + (t*h) - 1.
-		division _ s*b divisionBy: h.
-		c _ division quotient.
-		d _ division remainder.
-		s _ s - d.
-		t _ t - (t*b) - (c*g).
-"		self assert: (self % m - (g*h)) isZero.
-		self assert: (s*g + (t*h) - 1) isZero"].
-	^ (g lift henselLift: gFactors to: Zpk), (h lift henselLift: hFactors to: Zpk)! !
-
-!UnivariatePolynomial methodsFor: 'factorization-private' stamp: 'len 4/24/2018 01:32:31'!
-landauMignotteBound
-	"Answer the Landau-Mignotte bounds for the receiver.
-	This is an upper bound for the absolute value of the coefficients of any nontrivial factor of a polynomial with integer coefficients. The bound depends on both the degree and the size of the coefficients of the receiver."
-	| d h |
-	d _ self degree // 2.
-	h _ d // 2.
-	^ (d - 1 choose: h) * self norm2 + (d - 1 choose: h - 1)! !
-
-!UnivariatePolynomial methodsFor: 'factorization-private' stamp: 'len 7/11/2019 09:08:36'!
-squareFreeFactorizationFiniteField
-	"Answer the square-free decomposition of a monic polynomial."
-	"NOTE: this only works on prime fields. For non-prime fields, after substituting x^p by x we must also apply the inverse of the Frobenius automorphism to the coefficients."
-	| answer f one p i g c w y z |
-	self isMonic ifFalse: [self error: 'not monic'].
-	answer _ Bag new.
-	f _ self.
-	one _ f one.
-	p _ f scalars characteristic.
-	(g _ f derivative) isZero
-		ifTrue:
-			[f _ f monomialsApply: [:m| m root: p]. "not enough if the field is non-prime"
-			f squareFreeFactorizationFiniteField
-				do: [:each| answer add: each withOccurrences: p].
-			^ answer].
-	c _ f gcd: g.
-	w _ f // c.
-	i _ 1.
-	[w = one]
-		whileFalse:
-			[y _ w gcd: c. z _ w // y.
-			z ^ i = one ifFalse: [answer add: z withOccurrences: i].
-			i _ i + 1.
-			w _ y. c _ c // y].
-	c = one
-		ifFalse:
-			[c _ c monomialsApply: [:m| m root: p]. "not enough if the field is non-prime"
-			c squareFreeFactorizationFiniteField
-				do: [:each| answer add: each withOccurrences: p]].
-	^ answer! !
-
-!UnivariatePolynomial methodsFor: 'factorization-private' stamp: 'len 4/26/2018 00:03:55'!
-squareFreeFactorizationYun
-	"Answer a square-free decomposition of the receiver.
-	Use Yun's algorithm. Assume the coefficients are in a unique
-	factorization domain or in a field of characteristic 0.
-	Yun's algorithm on an input polynomial of degree n uses O(M(n)log(n)) operations in the base field F, where M(n) is the number of operations in F required to multiply two polynomias of degree n in F[x]."
-
-	| p q gcd count answer |
-	answer _ Bag new.
-	count _ 1.
-"	lc _ self leadingCoefficient.
-	lc = self scalars one
-		ifFalse: [answer add: (self parent constant: lc)].
-	p _ self / lc."
-	p _ self monic.
-	q _ p derivative.
-	gcd _ p gcd: q.
-	gcd degree > 0
-		ifTrue:
-			[p _ p // gcd.
-			q _ q // gcd - p derivative.
-			[q isZero]
-				whileFalse:
-					[gcd _ p gcd: q.
-					gcd degree > 0 ifTrue: [answer add: gcd withOccurrences: count].
-					count _ count + 1.
-					p _ p // gcd.
-					q _ q // gcd - p derivative]].
-	^ answer add: p withOccurrences: count; yourself! !
-
 !UnivariatePolynomial methodsFor: 'roots' stamp: 'len 4/10/2018 16:11:32'!
 allRoots
 	"Answer the roots (counted with multiplicity) in the coefficients ring or field."
 	^ self allRootsIn: self scalars! !
 
-!UnivariatePolynomial methodsFor: 'roots' stamp: 'len 8/4/2019 13:08:02'!
+!UnivariatePolynomial methodsFor: 'roots' stamp: 'len 7/13/2021 15:00:25'!
 allRootsIn: aRing
-	"Answer the roots (counted with multiplicity) in the given domain."
-	| answer |
-	(aRing isKindOf: RealField)
-		ifTrue: [^ self allRealRoots].
-	(aRing isKindOf: ComplexField)
-		ifTrue: [^ self allComplexRoots].
-	aRing isUFD ifFalse: [DomainError signal: 'not an UFD'].
-	answer _ Bag new.
-	(self over: aRing) factors withOccurrencesDo: [:f :e|
-			f degree = 1 ifTrue: [answer add: (f independentCoefficient negated / f leadingCoefficient) withOccurrences: e]].
-	^ answer! !
+	"Answer the roots (counted with multiplicity) in aRing."
+	^ aRing allRootsOf: self! !
 
 !UnivariatePolynomial methodsFor: 'roots' stamp: 'len 4/16/2018 19:49:43'!
 anyRoot
 	^ self anyRootIn: self scalars! !
 
-!UnivariatePolynomial methodsFor: 'roots' stamp: 'len 4/24/2018 16:24:11'!
+!UnivariatePolynomial methodsFor: 'roots' stamp: 'len 7/13/2021 14:58:03'!
 anyRootIn: aRing
-	^ (self rootsIn: aRing) anyOne! !
+	^ aRing anyRootOf: self! !
 
 !UnivariatePolynomial methodsFor: 'roots' stamp: 'len 4/16/2018 20:38:44'!
 cauchyRootBound
@@ -40335,10 +40440,10 @@ roots
 	"Answer the set of distinct roots in the coefficients ring or field."
 	^ self rootsIn: self scalars! !
 
-!UnivariatePolynomial methodsFor: 'roots' stamp: 'len 4/29/2018 17:21:15'!
+!UnivariatePolynomial methodsFor: 'roots' stamp: 'len 7/13/2021 14:58:45'!
 rootsIn: aRing
 	"Answer the distinct roots (not counted with multiplicity) in the given domain."
-	^ (self allRootsIn: aRing) asSet! !
+	^ aRing rootsOf: self! !
 
 !UnivariatePolynomial methodsFor: 'roots' stamp: 'len 7/17/2019 10:52:20'!
 signature
@@ -40420,64 +40525,6 @@ zeroReciprocal
 !UnivariatePolynomial methodsFor: 'roots' stamp: 'len 12/4/2017 10:22:45'!
 zeroSquareRoot
 	^ self value: self parent x squared! !
-
-!UnivariatePolynomial methodsFor: 'roots-private' stamp: 'len 7/17/2019 10:54:20'!
-allComplexRoots
-	| answer |
-	answer _ Bag new.
-	self integerPrimitivePart factors withOccurrencesDo: [:f :e|
-		f degree = 1
-			ifTrue:
-				[answer add: (f independentCoefficient negated / f leadingCoefficient) withOccurrences: e]
-			ifFalse:
-				[(ComplexRootIsolator on: f) roots do: [:each|
-	 				answer add: (ComplexAlgebraicNumber minimalPolynomial: f approximation: each center radius: each radius) withOccurrences: e]]].
-	^ answer! !
-
-!UnivariatePolynomial methodsFor: 'roots-private' stamp: 'len 7/17/2019 10:54:34'!
-allRationalRoots
-	"Answer the (real) rational roots of the polynomial."
-	| roots f n k tau visited fourier |
-	roots _ Bag new.
-	f _ self integerPrimitivePart.
-	n _ f degree.
-	(k _ f order) > 0 ifTrue: [roots add: 0 withOccurrences: k. f _ f shift: k negated].
-	f isConstant ifTrue: [^ roots].
-	visited _ Set new.
-	fourier _ OrderedCollection with: f.
-	f independentCoefficient divisorsDo: [:each|
-		f leadingCoefficient divisorsDo: [:one|
-			tau _ each / one.
-			visited add: tau ifAbsent:
-					[(f value: tau) isZero
-						ifTrue: [roots add: tau withOccurrences: (self multiplicityAt: tau fourier: fourier). roots size = n ifTrue: [^ roots]].
-					tau _ tau negated.
-					(f value: tau) isZero
-						ifTrue: [roots add: tau withOccurrences: (self multiplicityAt: tau fourier: fourier). roots size = n ifTrue: [^ roots]]]]].
-	^ roots! !
-
-!UnivariatePolynomial methodsFor: 'roots-private' stamp: 'len 7/17/2019 10:54:42'!
-allRealRoots
-	| answer |
-	answer _ Bag new.
-	self integerPrimitivePart factors withOccurrencesDo: [:f :e|
-		f degree = 1
-			ifTrue:
-				[answer add: (f independentCoefficient negated / f leadingCoefficient) withOccurrences: e]
-			ifFalse:
-				[(RealRootIsolator on: f) roots do: [:each|
-	 				answer add: (RealAlgebraicNumber minimalPolynomial: f bounds: each) withOccurrences: e]]].
-	^ answer! !
-
-!UnivariatePolynomial methodsFor: 'roots-private' stamp: 'len 4/24/2018 17:46:40'!
-multiplicityAt: aRoot fourier: fourier
-	| count |
-	count _ 0.
-	fourier do: [:each| (each value: aRoot) isZero ifFalse: [^ count]. count _ count + 1].
-	[fourier last isConstant]
-		whileFalse:
-			[((fourier add: fourier last derivative) value: aRoot) isZero ifFalse: [^ count]. count _ count + 1].
-	^ count! !
 
 !UnivariatePolynomial methodsFor: 'testing' stamp: 'len 1/23/2017 11:47:49'!
 has: anIndeterminate
@@ -40729,20 +40776,20 @@ norm
 parent
 	^ parent! !
 
-!FiniteAlgebraElement methodsFor: 'accessing' stamp: 'len 7/12/2021 17:04:57'!
+!FiniteAlgebraElement methodsFor: 'accessing' stamp: 'len 7/14/2021 16:44:37'!
 representation
 	"Answer the representation map, the module map defined by multiplication by the receiver."
-	^ self parent asModule endomorphisms evaluating: [:x| (self * (self parent !! x)) asModuleElement]! !
+	^ representation ifNil: [representation _ self parent asModule endomorphisms evaluating: [:x| (self * (self parent !! x)) asModuleElement]]! !
 
-!FiniteAlgebraElement methodsFor: 'accessing' stamp: 'len 6/11/2020 12:35:55'!
+!FiniteAlgebraElement methodsFor: 'accessing' stamp: 'len 7/14/2021 18:01:13'!
 trace
 	"Answer the absolute trace of the receiver."
+	^ self representation trace
+
+"alternatively:
 	| f |
 	f _ self minimalPolynomial.
-	^ (f coefficientAtDegree: f degree - 1) negated
-	
-"alternatively:
-	^ self representation trace"! !
+	^ (f coefficientAtDegree: f degree - 1) negated"! !
 
 !FiniteAlgebraElement methodsFor: 'comparing' stamp: 'len 7/14/2020 09:50:46'!
 = anObject
@@ -40822,7 +40869,7 @@ isZeroDivisor
 parent: anAlgebra moduleElement: anElement
 	^ self new parent: anAlgebra moduleElement: anElement! !
 
-!GroupAlgebraElement methodsFor: 'operations' stamp: 'len 7/19/2020 08:01:35'!
+!GroupVector methodsFor: 'operations' stamp: 'len 7/19/2020 08:01:35'!
 * anElement
 	| groupElementToIndex indexToGroupElement result |
 	(anElement isInteger or: [self parent scalars includes: anElement])
@@ -40959,14 +41006,14 @@ isBivector
 isEven
 	^ self parent evenSubalgebra contains: self! !
 
-!Multivector methodsFor: 'testing' stamp: 'len 7/22/2020 09:29:24'!
+!Multivector methodsFor: 'testing' stamp: 'len 7/14/2021 16:53:37'!
 isParavector
 	"A paravector is the sum of a vector and a scalar."
-	^ (self parent degree + 2 to: self parent dimension) allSatisfy: [:i| (moduleElement at: i) isZero]! !
+	^ (self parent degree + 2 to: self parent rank) allSatisfy: [:i| (moduleElement at: i) isZero]! !
 
-!Multivector methodsFor: 'testing' stamp: 'len 7/22/2020 09:42:08'!
+!Multivector methodsFor: 'testing' stamp: 'len 7/14/2021 16:53:43'!
 isPseudoscalar
-	moduleElement supportDo: [:i| i = parent dimension ifFalse: [^ false]].
+	moduleElement supportDo: [:i| i = parent rank ifFalse: [^ false]].
 	^ true! !
 
 !Multivector methodsFor: 'testing' stamp: 'len 7/22/2020 09:40:55'!
@@ -45243,10 +45290,6 @@ additiveOrder
 annihilator
 	"Answer the ideal of all elements that multiplied by the receiver are zero."
 	^ ƒ asIdeal null! !
-
-!Integer methodsFor: '*domains' stamp: 'len 5/9/2020 10:17:06'!
-asRatio
-	^ self asRational! !
 
 !Integer methodsFor: '*domains' stamp: 'len 3/3/2021 15:03:36'!
 asRational
