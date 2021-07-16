@@ -1,6 +1,6 @@
-'From Cuis 5.0 [latest update: #4542] on 15 July 2021 at 5:08:59 pm'!
+'From Cuis 5.0 [latest update: #4542] on 16 July 2021 at 9:47:09 am'!
 'Description A computational algebra system in Smalltalk'!
-!provides: 'Domains' 1 623!
+!provides: 'Domains' 1 624!
 !requires: 'Complex' 1 7 nil!
 SystemOrganization addCategory: #'Domains-Kernel'!
 SystemOrganization addCategory: #'Domains-Kernel-Support'!
@@ -1013,6 +1013,16 @@ QuotientRing subclass: #AffineAlgebra
 AffineAlgebra class
 	instanceVariableNames: ''!
 
+!classDefinition: #QuasiGaloisRing category: #'Domains-Rings-Finite'!
+AffineAlgebra subclass: #QuasiGaloisRing
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Domains-Rings-Finite'!
+!classDefinition: 'QuasiGaloisRing class' category: #'Domains-Rings-Finite'!
+QuasiGaloisRing class
+	instanceVariableNames: ''!
+
 !classDefinition: #ExtensionRing category: #'Domains-Polynomials'!
 AffineAlgebra subclass: #ExtensionRing
 	instanceVariableNames: ''
@@ -1041,16 +1051,6 @@ GaloisRing subclass: #GaloisField
 	category: 'Domains-Rings-Finite'!
 !classDefinition: 'GaloisField class' category: #'Domains-Rings-Finite'!
 GaloisField class
-	instanceVariableNames: ''!
-
-!classDefinition: #QuasiGaloisRing category: #'Domains-Rings-Finite'!
-ExtensionRing subclass: #QuasiGaloisRing
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Domains-Rings-Finite'!
-!classDefinition: 'QuasiGaloisRing class' category: #'Domains-Rings-Finite'!
-QuasiGaloisRing class
 	instanceVariableNames: ''!
 
 !classDefinition: #FunctionField category: #'Domains-Fields-Global'!
@@ -3760,6 +3760,10 @@ When the coefficients ring is a field K and the relations ideal I is maximal, th
 
 See also PolynomialRing.!
 
+!QuasiGaloisRing commentStamp: '<historical>' prior: 0!
+The quasi-Galois ring A(p^r,n) is an extension of degree n of the Galois field GF(p^r) isomorphic to GF(p^r)[x]/<x^n>. See also GaloisRing.
+!
+
 !ExtensionRing commentStamp: '<historical>' prior: 0!
 Simple finite algebraic extension E/F of a field (or ring) F. It is defined by an irreducible univariate polynomial f with coefficients in F, and it is constructed as the quotient F[x]/<f>.
 
@@ -3782,10 +3786,6 @@ References:
 
 !GaloisField commentStamp: '<historical>' prior: 0!
 Finite nonprime fields, i.e. fields GF(p^r) with r>1. These are finite algebraic extensions of prime fields. See also PrimeField.!
-
-!QuasiGaloisRing commentStamp: '<historical>' prior: 0!
-The quasi-Galois ring A(p^r,n) is an extension of degree n of the Galois field GF(p^r) isomorphic to GF(p^r)[x]/<x^n>. See also GaloisRing.
-!
 
 !FunctionField commentStamp: '<historical>' prior: 0!
 Algebraic function fields, i.e. finite (and thus algebraic) field extensions of a rational function field. Function fields can also be viewed as vector spaces over the coefficients field.
@@ -4519,8 +4519,8 @@ Elements of a Clifford algebra or an exterior algebra. See CliffordAlgebra.!
 !Quaternion commentStamp: 'len 7/14/2020 21:25:41' prior: 0!
 Elements of a quaternion algebra. See QuaternionAlgebra.!
 
-!AlgebraicInteger commentStamp: 'len 7/11/2021 11:26:31' prior: 0!
-Elements of maximal orders in number fields. See NumberRing.!
+!AlgebraicInteger commentStamp: '<historical>' prior: 0!
+Elements of maximal orders in number fields or function fields. See MaximalOrder.!
 
 !LaurentSeries commentStamp: 'len 6/7/2020 17:51:33' prior: 0!
 Formal Laurent series with coefficients over a commutative ring. See LaurentSeriesRing.!
@@ -5140,6 +5140,10 @@ printOn: aStream
 printOn: aStream
 	aStream nextPut: $F; nextPutAll: self modulus printString sub! !
 
+!QuasiGaloisRing methodsFor: 'printing' stamp: 'len 5/9/2019 09:53:57'!
+printOn: aStream
+	aStream nextPutAll: 'A('; print: self scalars p; nextPutAll: self scalars degree printString super; nextPut: $,; print: self degree; nextPut: $)! !
+
 !ExtensionRing methodsFor: 'printing' stamp: 'len 7/11/2021 18:08:40'!
 printOn: aStream
 	aStream print: self scalars; nextPut: $(; print: self polynomial; nextPut: $)! !
@@ -5152,10 +5156,6 @@ printOn: aStream
 printOn: aStream
 	aStream nextPut: $F; nextPutAll: self size printString sub
 "	aStream nextPutAll: 'GF('; print: self characteristic; nextPutAll: self degree printString super; nextPut: $)"! !
-
-!QuasiGaloisRing methodsFor: 'printing' stamp: 'len 5/9/2019 09:53:57'!
-printOn: aStream
-	aStream nextPutAll: 'A('; print: self scalars p; nextPutAll: self scalars degree printString super; nextPut: $,; print: self degree; nextPut: $)! !
 
 !NumberField methodsFor: 'printing' stamp: 'len 2/22/2017 08:49:34'!
 printOn: aStream
@@ -17836,11 +17836,12 @@ cyclotomicRing: n
 	phi _ Fx cyclotomic: n. "cyclotomic polynomial of order n"
 	^ Fx / phi "answer the quotient ring modulo <phi>"! !
 
-!Ring methodsFor: 'operations' stamp: 'len 7/11/2021 18:08:22'!
+!Ring methodsFor: 'operations' stamp: 'len 7/15/2021 19:09:04'!
 extension: aPolynomial
 	"Answer the algebraic extension of the receiver defined by the given irreducible polynomial."
 	aPolynomial scalars = self ifFalse: [self error: 'polynomial coefficients not from this ring'].
-	^ ExtensionRing polynomial: aPolynomial! !
+	aPolynomial parent isUnivariate ifFalse: [DomainError signal: 'not univariate poylnomial'].
+	^ self extensionClass polynomial: aPolynomial! !
 
 !Ring methodsFor: 'operations' stamp: 'len 10/31/2016 05:46'!
 extensionDegree: anInteger
@@ -18223,6 +18224,10 @@ isUFD
 isUnital
 	^ true! !
 
+!Ring methodsFor: 'private' stamp: 'len 7/15/2021 19:09:52'!
+extensionClass
+	^ ExtensionRing! !
+
 !Ring methodsFor: 'private' stamp: 'len 4/6/2021 13:28:11'!
 idealClass
 	^ Ideal! !
@@ -18522,14 +18527,6 @@ adjoin: anAlgebraicNumber
 algebraicClosure
 	^ †! !
 
-!RationalField methodsFor: 'operations' stamp: 'len 5/21/2018 16:20:48'!
-extension: aPolynomial
-	"Answer the algebraic extension of the receiver defined by the given irreducible polynomial."
-	aPolynomial scalars = self ifFalse: [DomainError signal: 'polynomial coefficients not from this field'].
-	aPolynomial parent isUnivariate ifFalse: [DomainError signal: 'not univariate poylnomial'].
-"	aPolynomial degree = 2 ifTrue: [^ QuadraticField polynomial: aPolynomial]."
-	^ NumberField polynomial: aPolynomial! !
-
 !RationalField methodsFor: 'operations' stamp: 'len 5/23/2020 09:04:18'!
 realClosure
 	^ …! !
@@ -18560,6 +18557,10 @@ isReal
 	"Answer true if the receiver is a subring of the real field."
 	^ true! !
 
+!RationalField methodsFor: 'private' stamp: 'len 7/15/2021 19:10:23'!
+extensionClass
+	^ NumberField! !
+
 !RationalField class methodsFor: 'initialization' stamp: 'len 5/23/2020 08:51:27'!
 initialize
 	super initialize.
@@ -18583,12 +18584,9 @@ reducedNumerator: aPolynomial denominator: anotherPolynomial
 embed: aPolynomial
 	^ self reducedNumerator: aPolynomial denominator: aPolynomial one! !
 
-!RationalFunctionField methodsFor: 'operations' stamp: 'len 5/21/2018 16:21:23'!
-extension: aPolynomial
-	"Answer the algebraic function field extension of the receiver defined by the given irreducible polynomial."
-	aPolynomial scalars = self ifFalse: [DomainError signal: 'polynomial coefficients not from this field'].
-	aPolynomial parent isUnivariate ifFalse: [DomainError signal: 'not univariate poylnomial'].
-	^ FunctionField polynomial: aPolynomial! !
+!RationalFunctionField methodsFor: 'private' stamp: 'len 7/15/2021 19:09:28'!
+extensionClass
+	^ FunctionField! !
 
 !RationalFunctionField class methodsFor: 'examples' stamp: 'len 5/23/2020 09:11:37'!
 example1
@@ -19615,13 +19613,6 @@ quadraticLiftingsDo: aBlock
 		R quadraticLiftingsDo: aBlock.
 		aBlock value: (R to: self evaluating: [:x| self project: x lift])]! !
 
-!PrimePowerRing methodsFor: 'operations' stamp: 'len 5/21/2018 16:20:06'!
-extension: aPolynomial
-	"Answer the Galois overring of the receiver defined by the given irreducible polynomial."
-	aPolynomial scalars = self ifFalse: [DomainError signal: 'polynomial coefficients not from this ring'].
-	aPolynomial parent isUnivariate ifFalse: [DomainError signal: 'not univariate poylnomial'].
-	^ GaloisRing polynomial: aPolynomial! !
-
 !PrimePowerRing methodsFor: 'operations' stamp: 'len 5/21/2018 15:42:20'!
 nilradical
 	"Answer the ideal consisting of all nilpotent elements, i.e. all x such that there exists some n with x^n = 0. It is the intersection of all prime ideals.
@@ -19665,6 +19656,10 @@ isPIR
 !PrimePowerRing methodsFor: 'private' stamp: 'len 6/8/2019 12:34:31'!
 elementClass
 	^ PrimePowerResidue! !
+
+!PrimePowerRing methodsFor: 'private' stamp: 'len 7/15/2021 19:11:10'!
+extensionClass
+	^ GaloisRing! !
 
 !PrimePowerRing methodsFor: 'private' stamp: 'len 9/22/2018 18:56:42'!
 p: aPrime to: anInteger
@@ -19742,14 +19737,6 @@ primeIdealsDo: aBlock
 unitsDo: aBlock
 	1 to: modulus - 1 do: [:each| aBlock value: (self representative: each)]! !
 
-!PrimeField methodsFor: 'operations' stamp: 'len 3/11/2020 06:00:46'!
-extension: aPolynomial
-	"Answer the Galois overfield of the receiver defined by the given irreducible polynomial."
-	self flag: #fix. "this should be =="
-	aPolynomial scalars = self ifFalse: [DomainError signal: 'polynomial coefficients not from this field'].
-	aPolynomial parent isUnivariate ifFalse: [DomainError signal: 'not univariate poylnomial'].
-	^ GaloisField polynomial: aPolynomial! !
-
 !PrimeField methodsFor: 'operations' stamp: 'len 5/2/2018 16:04:38'!
 zeroDivisors
 	^ {self zero}! !
@@ -19765,6 +19752,10 @@ isFiniteField
 !PrimeField methodsFor: 'private' stamp: 'len 6/8/2019 12:43:54'!
 elementClass
 	^ PrimeResidue! !
+
+!PrimeField methodsFor: 'private' stamp: 'len 7/15/2021 19:11:34'!
+extensionClass
+	^ GaloisField! !
 
 !PrimeField methodsFor: 'private' stamp: 'len 11/30/2016 19:12:00'!
 inverseOfRepresentative: anInteger
@@ -20003,6 +19994,27 @@ isZeroDimensional
 !AffineAlgebra methodsFor: 'private' stamp: 'len 3/6/2021 06:05:59'!
 elementClass
 	^ RegularFunction! !
+
+!QuasiGaloisRing methodsFor: 'testing' stamp: 'len 5/9/2019 09:48:43'!
+isFinite
+	^ true! !
+
+!QuasiGaloisRing methodsFor: 'testing' stamp: 'len 5/9/2019 09:54:52'!
+isIntegralDomain
+	^ false! !
+
+!QuasiGaloisRing methodsFor: 'testing' stamp: 'len 5/9/2019 09:48:39'!
+isLocal
+	^ true! !
+
+!QuasiGaloisRing class methodsFor: 'instance creation' stamp: 'len 7/15/2021 19:18:19'!
+new: p to: r to: n
+	"Answer the quasi-Galois ring of characteristic p and order p^(r*n)."
+	| F f |
+	F _ GaloisField new: p to: r.
+	n = 1 ifTrue: [^ F].
+	f _ F polynomials x: 1 to: n.
+	^ self relations: f parent * f! !
 
 !ExtensionRing methodsFor: 'accessing' stamp: 'len 7/15/2021 17:05:13'!
 basis
@@ -20342,27 +20354,6 @@ new: p to: n
 	n = 1 ifTrue: [^ PrimeField new: p].
 	^ self polynomial: (self irreduciblePolynomialOfDegree: n mod: p)! !
 
-!QuasiGaloisRing methodsFor: 'testing' stamp: 'len 5/9/2019 09:48:43'!
-isFinite
-	^ true! !
-
-!QuasiGaloisRing methodsFor: 'testing' stamp: 'len 5/9/2019 09:54:52'!
-isIntegralDomain
-	^ false! !
-
-!QuasiGaloisRing methodsFor: 'testing' stamp: 'len 5/9/2019 09:48:39'!
-isLocal
-	^ true! !
-
-!QuasiGaloisRing class methodsFor: 'instance creation' stamp: 'len 3/21/2021 13:55:03'!
-new: p to: r to: n
-	"Answer the quasi-Galois ring of characteristic p and order p^(r*n)."
-	| F f |
-	F _ GaloisField new: p to: r.
-	n = 1 ifTrue: [^ F].
-	f _ F polynomials x: 1 to: n.
-	^ self polynomial: f! !
-
 !FunctionField methodsFor: 'accessing' stamp: 'len 1/5/2017 19:50:45'!
 genus
 	^ self notYetImplemented! !
@@ -20380,6 +20371,10 @@ isPerfectField
 	"A field is perfect if either it has characteristic 0 or has characteristic p and every element in the field has a p-th root in the field."
 	^ self characteristic = 0! !
 
+!FunctionField methodsFor: 'private' stamp: 'len 7/15/2021 19:12:04'!
+extensionClass
+	^ FunctionField! !
+
 !NumberField methodsFor: 'accessing' stamp: 'len 5/23/2020 09:03:57'!
 adjoint
 	^ self propertyAt: #adjoint ifAbsentPut: [self polynomial anyRootIn: †]! !
@@ -20388,10 +20383,13 @@ adjoint
 classNumber
 	^ self propertyAt: #classNumber! !
 
-!NumberField methodsFor: 'accessing' stamp: 'len 7/11/2021 18:23:33'!
+!NumberField methodsFor: 'accessing' stamp: 'len 7/15/2021 20:10:22'!
 discriminant
 	"The discriminant of an integral basis is independent of the choice of basis and it's called the discriminant of the field K and denoted d(K)."
-	^ self notYetImplemented! !
+	^ self propertyAt: #discriminant ifAbsentPut:
+		[| B |
+		B _ self integralBasis.
+		(self asVectorSpace endomorphisms filling: [:i :j| ((B at: i) * (B at: j)) trace]) determinant]! !
 
 !NumberField methodsFor: 'accessing' stamp: 'len 7/15/2021 16:52:28'!
 integers
@@ -20451,10 +20449,6 @@ nonArchimedeanPlaces
 regulator
 	^ self notYetImplemented! !
 
-!NumberField methodsFor: 'testing' stamp: 'len 1/2/2017 10:53:30'!
-isCubic
-	^ self degree = 3! !
-
 !NumberField methodsFor: 'testing' stamp: 'len 6/9/2019 09:36:07'!
 isField
 	^ true! !
@@ -20477,10 +20471,6 @@ isImaginary
 isMonogenic
 	^ self propertyAt: #isMonogenic! !
 
-!NumberField methodsFor: 'testing' stamp: 'len 1/2/2017 10:53:25'!
-isQuadratic
-	^ self degree = 2! !
-
 !NumberField methodsFor: 'testing' stamp: 'len 12/10/2016 21:44:39'!
 isReal
 	"Answer true if every embedding into the complex numbers has image contained in the real numbers."
@@ -20491,6 +20481,10 @@ adjoint: anAlgebraicNumber
 	self propertyAt: #adjoint put: anAlgebraicNumber.
 	self polynomial: anAlgebraicNumber minimalPolynomial! !
 
+!NumberField methodsFor: 'private' stamp: 'len 7/15/2021 19:12:19'!
+extensionClass
+	^ NumberField! !
+
 !NumberField class methodsFor: 'examples' stamp: 'len 5/23/2020 09:11:37'!
 example
 	^ „ adjoin: RealAlgebraicNumber sqrt2! !
@@ -20498,6 +20492,13 @@ example
 !NumberField class methodsFor: 'instance creation' stamp: 'len 1/11/2016 02:03'!
 adjoint: anAlgebraicNumber
 	^ self new adjoint: anAlgebraicNumber! !
+
+!CyclotomicField methodsFor: 'accessing' stamp: 'len 7/12/2021 13:17:27'!
+classNumber
+	self order <= 22 ifTrue: [^ 1].
+	self order = 23 ifTrue: [^ 3].
+	self order <= 28 ifTrue: [^ 1].
+	^ super classNumber! !
 
 !CyclotomicField methodsFor: 'accessing' stamp: 'len 12/10/2016 21:11:10'!
 discriminant
@@ -20543,13 +20544,6 @@ isGaloisExtension
 isMonogenic
 	^ true! !
 
-!CyclotomicField methodsFor: 'as yet unclassified' stamp: 'len 7/12/2021 13:17:27'!
-classNumber
-	self order <= 22 ifTrue: [^ 1].
-	self order = 23 ifTrue: [^ 3].
-	self order <= 28 ifTrue: [^ 1].
-	^ super classNumber! !
-
 !CyclotomicField class methodsFor: 'examples' stamp: 'len 12/12/2016 17:12:54'!
 example
 	^ CyclotomicField new: 7! !
@@ -20576,10 +20570,6 @@ integralBasis
 
 !QuadraticField methodsFor: 'testing' stamp: 'len 12/18/2016 21:54:14'!
 isMonogenic
-	^ true! !
-
-!QuadraticField methodsFor: 'testing' stamp: 'len 1/2/2017 10:54:11'!
-isQuadratic
 	^ true! !
 
 !QuadraticField methodsFor: 'private' stamp: 'len 7/21/2019 08:51:32'!
@@ -38424,6 +38414,35 @@ trace
 	f _ self minimalPolynomial.
 	^ (f coefficientAtDegree: f degree - 1) negated"
 ! !
+
+!RegularFunction methodsFor: 'converting' stamp: 'len 7/16/2021 09:30:45'!
+asRationalFunction
+	"Answer the rational function reconstruction of the receiver, or nil if it doesn't exist.
+	This is Wang's rational reconstruction algorithm extended to rational functions."
+	| f g M N r0 r1 t0 t1 |
+	self assert: self parent scalars isField.
+	self assert: self parent isUnivariate.
+	f _ self parent modulus.
+	g _ self representative.
+	M _ f degree.
+	N _ M // 2.
+	"D _ M - N - 1."
+	r0 _ f. t0 _ f parent zero.
+	r1 _ g. t1 _ f parent one.
+	[r1 degree > N]
+		whileTrue:
+			[| q temp |
+			q _ r0 // r1.
+			temp _ r0.
+			r0 _ r1.
+			r1 _ temp - (q*r1).
+			temp _ t0.
+			t0 _ t1.
+			t1 _ temp - (q*t1)].
+	(r1 gcd: t1) isOne ifFalse: [^ nil].
+	^ self parent base fractions
+		reducedNumerator: r1 / t1 leadingCoefficient
+		denominator: t1 / t1 leadingCoefficient! !
 
 !RegularFunction methodsFor: 'testing' stamp: 'len 7/8/2021 12:02:31'!
 isIntegral
