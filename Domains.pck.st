@@ -1,6 +1,6 @@
-'From Cuis 5.0 [latest update: #4542] on 16 July 2021 at 9:47:09 am'!
+'From Cuis 5.0 [latest update: #4542] on 16 July 2021 at 11:25:34 am'!
 'Description A computational algebra system in Smalltalk'!
-!provides: 'Domains' 1 624!
+!provides: 'Domains' 1 625!
 !requires: 'Complex' 1 7 nil!
 SystemOrganization addCategory: #'Domains-Kernel'!
 SystemOrganization addCategory: #'Domains-Kernel-Support'!
@@ -1013,28 +1013,8 @@ QuotientRing subclass: #AffineAlgebra
 AffineAlgebra class
 	instanceVariableNames: ''!
 
-!classDefinition: #QuasiGaloisRing category: #'Domains-Rings-Finite'!
-AffineAlgebra subclass: #QuasiGaloisRing
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Domains-Rings-Finite'!
-!classDefinition: 'QuasiGaloisRing class' category: #'Domains-Rings-Finite'!
-QuasiGaloisRing class
-	instanceVariableNames: ''!
-
-!classDefinition: #ExtensionRing category: #'Domains-Polynomials'!
-AffineAlgebra subclass: #ExtensionRing
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Domains-Polynomials'!
-!classDefinition: 'ExtensionRing class' category: #'Domains-Polynomials'!
-ExtensionRing class
-	instanceVariableNames: ''!
-
 !classDefinition: #GaloisRing category: #'Domains-Rings-Finite'!
-ExtensionRing subclass: #GaloisRing
+AffineAlgebra subclass: #GaloisRing
 	instanceVariableNames: ''
 	classVariableNames: 'IrreduciblePolynomialsCache'
 	poolDictionaries: ''
@@ -1053,8 +1033,18 @@ GaloisRing subclass: #GaloisField
 GaloisField class
 	instanceVariableNames: ''!
 
+!classDefinition: #QuasiGaloisRing category: #'Domains-Rings-Finite'!
+AffineAlgebra subclass: #QuasiGaloisRing
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Domains-Rings-Finite'!
+!classDefinition: 'QuasiGaloisRing class' category: #'Domains-Rings-Finite'!
+QuasiGaloisRing class
+	instanceVariableNames: ''!
+
 !classDefinition: #FunctionField category: #'Domains-Fields-Global'!
-ExtensionRing subclass: #FunctionField
+AffineAlgebra subclass: #FunctionField
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
@@ -1064,7 +1054,7 @@ FunctionField class
 	instanceVariableNames: ''!
 
 !classDefinition: #NumberField category: #'Domains-Fields-Global'!
-ExtensionRing subclass: #NumberField
+AffineAlgebra subclass: #NumberField
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
@@ -2693,18 +2683,8 @@ Residue subclass: #RegularFunction
 RegularFunction class
 	instanceVariableNames: ''!
 
-!classDefinition: #ExtensionElement category: #'Domains-Polynomials'!
-RegularFunction subclass: #ExtensionElement
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Domains-Polynomials'!
-!classDefinition: 'ExtensionElement class' category: #'Domains-Polynomials'!
-ExtensionElement class
-	instanceVariableNames: ''!
-
 !classDefinition: #GaloisResidue category: #'Domains-Rings-Finite'!
-ExtensionElement subclass: #GaloisResidue
+RegularFunction subclass: #GaloisResidue
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
@@ -3760,15 +3740,6 @@ When the coefficients ring is a field K and the relations ideal I is maximal, th
 
 See also PolynomialRing.!
 
-!QuasiGaloisRing commentStamp: '<historical>' prior: 0!
-The quasi-Galois ring A(p^r,n) is an extension of degree n of the Galois field GF(p^r) isomorphic to GF(p^r)[x]/<x^n>. See also GaloisRing.
-!
-
-!ExtensionRing commentStamp: '<historical>' prior: 0!
-Simple finite algebraic extension E/F of a field (or ring) F. It is defined by an irreducible univariate polynomial f with coefficients in F, and it is constructed as the quotient F[x]/<f>.
-
-An extension field (or ring) E/F can also be viewed as a vector space (or module) over F, and as a finite dimensional F-algebra.!
-
 !GaloisRing commentStamp: '<historical>' prior: 0!
 The Galois ring GR(p^n,m) is a Galois extension of degree m of the prime power ring Z/(p^n)Z of characteristic p^n. This is the unique (up to isomorphism) extension of degree m of the ring Z/(p^n)Z of integers modulo p^n (see PrimePowerRing). When n=1 they are fields (see GaloisField).
 
@@ -3786,6 +3757,10 @@ References:
 
 !GaloisField commentStamp: '<historical>' prior: 0!
 Finite nonprime fields, i.e. fields GF(p^r) with r>1. These are finite algebraic extensions of prime fields. See also PrimeField.!
+
+!QuasiGaloisRing commentStamp: '<historical>' prior: 0!
+The quasi-Galois ring A(p^r,n) is an extension of degree n of the Galois field GF(p^r) isomorphic to GF(p^r)[x]/<x^n>. See also GaloisRing.
+!
 
 !FunctionField commentStamp: '<historical>' prior: 0!
 Algebraic function fields, i.e. finite (and thus algebraic) field extensions of a rational function field. Function fields can also be viewed as vector spaces over the coefficients field.
@@ -4481,9 +4456,6 @@ Residue classes of integers modulo an integer m, i.e. elements of the quotient r
 !RegularFunction commentStamp: '<historical>' prior: 0!
 Elements of an affine algebra (a quotient of a polynomial ring). See AffineAlgebra.!
 
-!ExtensionElement commentStamp: '<historical>' prior: 0!
-Elements of simple finite algebraic extensions. See ExtensionRing.!
-
 !GaloisResidue commentStamp: '<historical>' prior: 0!
 Elements of Galois rings. See GaloisRing.!
 
@@ -5140,13 +5112,11 @@ printOn: aStream
 printOn: aStream
 	aStream nextPut: $F; nextPutAll: self modulus printString sub! !
 
-!QuasiGaloisRing methodsFor: 'printing' stamp: 'len 5/9/2019 09:53:57'!
+!AffineAlgebra methodsFor: 'printing' stamp: 'len 7/16/2021 10:10:33'!
 printOn: aStream
-	aStream nextPutAll: 'A('; print: self scalars p; nextPutAll: self scalars degree printString super; nextPut: $,; print: self degree; nextPut: $)! !
-
-!ExtensionRing methodsFor: 'printing' stamp: 'len 7/11/2021 18:08:40'!
-printOn: aStream
-	aStream print: self scalars; nextPut: $(; print: self polynomial; nextPut: $)! !
+	self isSimpleExtension
+		ifTrue: [aStream print: self scalars; nextPut: $(; print: self modulus; nextPut: $)]
+		ifFalse: [super printOn: aStream]! !
 
 !GaloisRing methodsFor: 'printing' stamp: 'len 5/21/2018 07:20:18'!
 printOn: aStream
@@ -5157,10 +5127,9 @@ printOn: aStream
 	aStream nextPut: $F; nextPutAll: self size printString sub
 "	aStream nextPutAll: 'GF('; print: self characteristic; nextPutAll: self degree printString super; nextPut: $)"! !
 
-!NumberField methodsFor: 'printing' stamp: 'len 2/22/2017 08:49:34'!
+!QuasiGaloisRing methodsFor: 'printing' stamp: 'len 5/9/2019 09:53:57'!
 printOn: aStream
-	"aStream print: self scalars; nextPut: $(; print: self adjoint; nextPut: $)"
-	aStream print: self scalars; nextPut: $(; print: self polynomial; nextPut: $)! !
+	aStream nextPutAll: 'A('; print: self scalars p; nextPutAll: self scalars degree printString super; nextPut: $,; print: self degree; nextPut: $)! !
 
 !CyclotomicField methodsFor: 'printing' stamp: 'len 5/23/2020 07:18:16'!
 printOn: aStream
@@ -17836,12 +17805,12 @@ cyclotomicRing: n
 	phi _ Fx cyclotomic: n. "cyclotomic polynomial of order n"
 	^ Fx / phi "answer the quotient ring modulo <phi>"! !
 
-!Ring methodsFor: 'operations' stamp: 'len 7/15/2021 19:09:04'!
+!Ring methodsFor: 'operations' stamp: 'len 7/16/2021 11:20:13'!
 extension: aPolynomial
 	"Answer the algebraic extension of the receiver defined by the given irreducible polynomial."
 	aPolynomial scalars = self ifFalse: [self error: 'polynomial coefficients not from this ring'].
 	aPolynomial parent isUnivariate ifFalse: [DomainError signal: 'not univariate poylnomial'].
-	^ self extensionClass polynomial: aPolynomial! !
+	^ self extensionClass modulus: aPolynomial! !
 
 !Ring methodsFor: 'operations' stamp: 'len 10/31/2016 05:46'!
 extensionDegree: anInteger
@@ -18224,9 +18193,9 @@ isUFD
 isUnital
 	^ true! !
 
-!Ring methodsFor: 'private' stamp: 'len 7/15/2021 19:09:52'!
+!Ring methodsFor: 'private' stamp: 'len 7/16/2021 11:14:25'!
 extensionClass
-	^ ExtensionRing! !
+	^ AffineAlgebra! !
 
 !Ring methodsFor: 'private' stamp: 'len 4/6/2021 13:28:11'!
 idealClass
@@ -19245,6 +19214,10 @@ atRandom: aRandom bits: bitSize
 "	^ self atRandom: aRandom"
 	^ self project: (self base atRandom: aRandom bits: bitSize)! !
 
+!QuotientRing methodsFor: 'testing' stamp: 'len 7/16/2021 11:11:52'!
+hasCanonicalReduction
+	^ false! !
+
 !QuotientRing methodsFor: 'testing' stamp: 'len 4/22/2020 06:12:13'!
 includes: anObject
 	^ anObject parent = self! !
@@ -19328,6 +19301,10 @@ exampleZ6Projection
 	"The canonical projection from the integers ring Z
 	to the quotient ring of residue classes modulo 6."
 	^ (É/6) projection! !
+
+!QuotientRing class methodsFor: 'instance creation' stamp: 'len 7/16/2021 10:24:11'!
+modulus: anElement
+	^ self relations: anElement parent * anElement! !
 
 !QuotientRing class methodsFor: 'instance creation' stamp: 'len 7/31/2019 08:22:46'!
 relations: anIdeal
@@ -19809,9 +19786,29 @@ inverseOfRepresentative: anInteger
 	anInteger == 1 ifTrue: [^ 1].
 	^ expTable at: modulus - 1 - (logTable at: anInteger)! !
 
+!AffineAlgebra methodsFor: 'accessing' stamp: 'len 7/16/2021 10:14:10'!
+basis
+	"Answer a basis of the receiver as vector space.
+	If the receiver is a simple algebraic field extension, answer the power basis of the receiver.
+	The coordinates of an element correspond to coefficients of the polynomial representing the element."
+	self isSimpleExtension ifFalse: [^ self notYetImplemented].
+	^ (0 to: self degree - 1) collect: [:k| self x ^ k]! !
+
 !AffineAlgebra methodsFor: 'accessing' stamp: 'len 11/3/2016 04:30'!
 characteristic
 	^ self base characteristic! !
+
+!AffineAlgebra methodsFor: 'accessing' stamp: 'len 7/16/2021 10:15:55'!
+degree
+	"If the receiver is a field extension, answer the degree [E:F] of the relative extension E/F."
+	^ self modulus degree! !
+
+!AffineAlgebra methodsFor: 'accessing' stamp: 'len 7/16/2021 10:16:37'!
+degreeOver: aSubfield
+	"If the receiver is a simple extension, answer the degree [E:F] of the relative extension E/F."
+	self = aSubfield ifTrue: [^ 1].
+	self scalars = aSubfield ifTrue: [^ self degree].
+	^ self degree * (self scalars degreeOver: aSubfield)! !
 
 !AffineAlgebra methodsFor: 'accessing' stamp: 'len 6/6/2019 19:06:52'!
 dimension
@@ -19845,12 +19842,64 @@ rank
 	"Answer the number of indeterminates in the receiver."
 	^ self base rank! !
 
+!AffineAlgebra methodsFor: 'accessing' stamp: 'len 7/16/2021 10:15:09'!
+size
+	self isSimpleExtension ifTrue: [^ self scalars size ^ self degree].
+	^ super size! !
+
 !AffineAlgebra methodsFor: 'accessing' stamp: 'len 8/12/2019 09:14:52'!
 vectorSpaceDimension
 	"Answer the dimension of the receiver as vector space over the coefficients field."
 	self scalars isField ifFalse: [DomainError signal: 'not over a field'].
 	self dimension = 0 ifFalse: [^ Infinity positive].
 	^ self hilbertSeries numerator coefficients sum! !
+
+!AffineAlgebra methodsFor: 'computing-polynomials' stamp: 'len 7/16/2021 10:19:31'!
+factorizationOf: aPolynomial
+	self isGlobalField ifTrue: [^ self factorizationOverGlobalFieldOf: aPolynomial].
+	^ super factorizationOf: aPolynomial! !
+
+!AffineAlgebra methodsFor: 'computing-polynomials-private' stamp: 'len 7/16/2021 10:32:13'!
+factorizationOverGlobalFieldOf: aPolynomial
+	"Reference: Henri Cohen, 'A Course In Computational Algebraic Number Theory', Algorithm 3.6.4: Polynomial Factorization over Number Fields."
+	| u v S x y g k N answer |
+	"1. Reduce to squarefree:"
+	u _ aPolynomial ˜ (v _ aPolynomial gcd: aPolynomial derivative).
+	"2. Initialize search:"
+	S _ self scalars polynomialsIn: 2. x _ S x. y _ S y.
+	g _ S zero.
+	u coefficients withIndexDo: [:ui :i| g _ (ui representative value: y) * (x^(i-1)) + g].
+	"3. Search for squarefree norm polynomial:"
+	k _ 0.
+	[N _ ((self modulus value: y) asUnivariateIn: 2) resultant: ((g value: {x - (y*k). y}) asUnivariateIn: 2).
+	N isSquareFree] whileFalse: [k _ k + 1].
+	"4 and 5. Factor norm polynomial and find factors over the number field:"
+	answer _ Bag new.
+	N factors withOccurrencesDo: [:f :e|
+		answer add: (u gcd: (f value: (u parent x + (k*self x)))) withOccurrences: e].
+	"Count multiplicities in the original polynomial (that was not necessarily squarefree):"
+	v order > 0 ifTrue: [answer add: v parent x withOccurrences: v order. v _ v >> v order].
+	[v isConstant] whileFalse: [v _ v ˜ (answer add: (answer detect: [:one| one | v]))].
+	answer add: v * aPolynomial leadingCoefficient.
+	^ answer! !
+
+!AffineAlgebra methodsFor: 'converting' stamp: 'len 7/16/2021 10:12:09'!
+asModule
+	| answer |
+	self propertyAt: #asModule ifPresent: [:aModule| ^ aModule].
+	self isSimpleExtension ifFalse: [^ self notYetImplemented].
+	(answer _ self scalars ^ self degree) carrier
+		addMap:
+			(self carrier to: answer carrier evaluating:
+				[:a| answer elementAt: a representative coefficients]);
+		addMap:
+			(answer carrier to: self carrier evaluating:
+				[:v| (1 to: answer rank) sum: [:i| self x ^ (i-1) * (v at: i)]]).
+	^ self propertyAt: #asModule put: answer
+
+"
+	Ñ extension: Ñ polynomials x^4 - 2 :: asVectorSpace
+"! !
 
 !AffineAlgebra methodsFor: 'elements' stamp: 'len 4/9/2020 18:03:30'!
 adapt: anElement
@@ -19880,10 +19929,31 @@ z
 	aDomain -> self scalars ifNotNil: [:aMorphism| ^ aMorphism -> self].
 	^ super <- aDomain! !
 
+!AffineAlgebra methodsFor: 'morphisms' stamp: 'len 7/16/2021 10:19:03'!
+automorphisms
+	"Answer the Galous group of the receiver (assuming the receiver is a Galois extension)."
+	self isSimpleExtension ifFalse: [self notYetImplemented].
+	self isFinite ifTrue: [^ Group new generators: {self frobenius}].
+	self flag: #fix. "This is actually isomorphic to the Galois group, not the actual Galois group, it should act on elements of the extension and it's not the full symmetric group."
+	^ SymmetricGroup on: (self embeddings collect: [:each| each value: self x])! !
+
 !AffineAlgebra methodsFor: 'morphisms' stamp: 'len 3/18/2021 15:13:56'!
 embed: anElement
 	"Answer the embedding of an element of the coefficients ring into the receiver."
 	^ self project: (self base embed: anElement)! !
+
+!AffineAlgebra methodsFor: 'morphisms' stamp: 'len 7/16/2021 10:17:38'!
+embeddings
+	"Answer the n distinct embeddings of the receiver in the algebraic closure of the base field, where n is the degree of the receiver. In the case of number fields, the embeddings go to the complex algebraic numbers.
+	When the receiver is a Galois extension, the embeddings send each element to one of its conjugates, and their images are the same."
+	^ self propertyAt: #embeddings ifAbsentPut:
+		[self isSimpleExtension ifFalse: [^ self error: 'not a simple field extension'].
+		self embeddingsIn: self scalars algebraicClosure]! !
+
+!AffineAlgebra methodsFor: 'morphisms' stamp: 'len 7/16/2021 10:18:11'!
+embeddingsIn: aField
+	^ (self modulus rootsIn: aField) asArray
+		collect: [:x| self to: aField evaluating: [:alpha| alpha representative value: x]]! !
 
 !AffineAlgebra methodsFor: 'morphisms' stamp: 'len 3/3/2021 13:08:22'!
 fractions
@@ -19982,6 +20052,10 @@ isGraded
 isMultivariate
 	^ self base isMultivariate! !
 
+!AffineAlgebra methodsFor: 'testing' stamp: 'len 7/16/2021 11:18:07'!
+isSimpleExtension
+	^ self base isUnivariate and: [self generators size = 1 and: [self modulus isIrreducible]]! !
+
 !AffineAlgebra methodsFor: 'testing' stamp: 'len 4/8/2018 18:45:19'!
 isUnivariate
 	^ self base isUnivariate! !
@@ -19994,158 +20068,6 @@ isZeroDimensional
 !AffineAlgebra methodsFor: 'private' stamp: 'len 3/6/2021 06:05:59'!
 elementClass
 	^ RegularFunction! !
-
-!QuasiGaloisRing methodsFor: 'testing' stamp: 'len 5/9/2019 09:48:43'!
-isFinite
-	^ true! !
-
-!QuasiGaloisRing methodsFor: 'testing' stamp: 'len 5/9/2019 09:54:52'!
-isIntegralDomain
-	^ false! !
-
-!QuasiGaloisRing methodsFor: 'testing' stamp: 'len 5/9/2019 09:48:39'!
-isLocal
-	^ true! !
-
-!QuasiGaloisRing class methodsFor: 'instance creation' stamp: 'len 7/15/2021 19:18:19'!
-new: p to: r to: n
-	"Answer the quasi-Galois ring of characteristic p and order p^(r*n)."
-	| F f |
-	F _ GaloisField new: p to: r.
-	n = 1 ifTrue: [^ F].
-	f _ F polynomials x: 1 to: n.
-	^ self relations: f parent * f! !
-
-!ExtensionRing methodsFor: 'accessing' stamp: 'len 7/15/2021 17:05:13'!
-basis
-	"Answer the power basis of the receiver.
-	The coordinates of an element correspond to coefficients of the polynomial representing the element."
-	^ (0 to: self degree - 1) collect: [:k| self x ^ k]! !
-
-!ExtensionRing methodsFor: 'accessing' stamp: 'len 4/26/2021 10:43:23'!
-degree
-	"Answer the degree [E:F] of the relative extension E/F."
-	^ self polynomial degree! !
-
-!ExtensionRing methodsFor: 'accessing' stamp: 'len 1/5/2017 19:19:00'!
-degreeOver: aSubfield
-	"Answer the degree [E:F] of the relative extension E/F."
-	self = aSubfield ifTrue: [^ 1].
-	self scalars = aSubfield ifTrue: [^ self degree].
-	^ self degree * (self scalars degreeOver: aSubfield)! !
-
-!ExtensionRing methodsFor: 'accessing' stamp: 'len 2/27/2017 20:56:46'!
-polynomial
-	^ self relations generator! !
-
-!ExtensionRing methodsFor: 'accessing' stamp: 'len 11/3/2016 04:36'!
-size
-	^ self scalars size ^ self degree! !
-
-!ExtensionRing methodsFor: 'computing-polynomials' stamp: 'len 7/15/2021 16:02:21'!
-factorizationOf: aPolynomial
-	self isGlobalField ifTrue: [^ self factorizationOverGlobalFieldOf: aPolynomial].
-	^ super factorizationOf: aPolynomial! !
-
-!ExtensionRing methodsFor: 'computing-polynomials-private' stamp: 'len 7/15/2021 16:02:35'!
-factorizationOverGlobalFieldOf: aPolynomial
-	"Reference: Henri Cohen, 'A Course In Computational Algebraic Number Theory', Algorithm 3.6.4: Polynomial Factorization over Number Fields."
-	| u v S x y g k N answer |
-	"1. Reduce to squarefree:"
-	u _ aPolynomial ˜ (v _ aPolynomial gcd: aPolynomial derivative).
-	"2. Initialize search:"
-	S _ self scalars polynomialsIn: 2. x _ S x. y _ S y.
-	g _ S zero.
-	u coefficients withIndexDo: [:ui :i| g _ (ui representative value: y) * (x^(i-1)) + g].
-	"3. Search for squarefree norm polynomial:"
-	k _ 0.
-	[N _ ((self polynomial value: y) asUnivariateIn: 2) resultant: ((g value: {x - (y*k). y}) asUnivariateIn: 2).
-	N isSquareFree] whileFalse: [k _ k + 1].
-	"4 and 5. Factor norm polynomial and find factors over the number field:"
-	answer _ Bag new.
-	N factors withOccurrencesDo: [:f :e|
-		answer add: (u gcd: (f value: (u parent x + (k*self x)))) withOccurrences: e].
-	"Count multiplicities in the original polynomial (that was not necessarily squarefree):"
-	v order > 0 ifTrue: [answer add: v parent x withOccurrences: v order. v _ v >> v order].
-	[v isConstant] whileFalse: [v _ v ˜ (answer add: (answer detect: [:one| one | v]))].
-	answer add: v * aPolynomial leadingCoefficient.
-	^ answer! !
-
-!ExtensionRing methodsFor: 'converting' stamp: 'len 6/7/2020 06:56:14'!
-asModule
-	| answer |
-	self propertyAt: #asModule ifPresent: [:aModule| ^ aModule].
-	(answer _ self scalars ^ self degree) carrier
-		addMap:
-			(self carrier to: answer carrier evaluating:
-				[:a| answer elementAt: a representative coefficients]);
-		addMap:
-			(answer carrier to: self carrier evaluating:
-				[:v| (1 to: answer rank) sum: [:i| self x ^ (i-1) * (v at: i)]]).
-	^ self propertyAt: #asModule put: answer
-
-"
-	Ñ extension: Ñ polynomials x^4 - 2 :: asVectorSpace
-"! !
-
-!ExtensionRing methodsFor: 'morphisms' stamp: 'len 5/6/2019 03:35:42'!
-automorphisms
-	"Answer the Galous group of the receiver (assuming the receiver is a Galois extension)."
-	self isFinite ifTrue: [^ Group new generators: {self frobenius}].
-	self flag: #fix. "This is actually isomorphic to the Galois group, not the actual Galois group, it should act on elements of the extension and it's not the full symmetric group."
-	^ SymmetricGroup on: (self embeddings collect: [:each| each value: self x])! !
-
-!ExtensionRing methodsFor: 'morphisms' stamp: 'len 7/15/2021 16:23:45'!
-embeddings
-	"Answer the n distinct embeddings of the receiver in the algebraic closure of the base field, where n is the degree of the receiver. In the case of number fields, the embeddings go to the complex algebraic numbers.
-	When the receiver is a Galois extension, the embeddings send each element to one of its conjugates, and their images are the same."
-	^ self propertyAt: #embeddings ifAbsentPut: [self embeddingsIn: self scalars algebraicClosure]! !
-
-!ExtensionRing methodsFor: 'morphisms' stamp: 'len 4/29/2018 17:24:35'!
-embeddingsIn: aField
-	^ (self polynomial rootsIn: aField) asArray
-		collect: [:x| self to: aField evaluating: [:alpha| alpha representative value: x]]! !
-
-!ExtensionRing methodsFor: 'testing' stamp: 'len 3/23/2021 11:37:58'!
-isAbsoluteExtension
-	^ self isRelativeExtension not! !
-
-!ExtensionRing methodsFor: 'testing' stamp: 'len 6/9/2019 09:35:19'!
-isField
-	^ self scalars isField and: [self polynomial isIrreducible] "<- should assume all extensions are by an irreducible polynomial? QuasiGaloisRing is not"! !
-
-!ExtensionRing methodsFor: 'testing' stamp: 'len 5/21/2018 05:12:35'!
-isIntegralDomain
-	^ self isField or: [super isIntegralDomain]! !
-
-!ExtensionRing methodsFor: 'testing' stamp: 'len 6/6/2019 11:39:01'!
-isLocalField
-	^ self scalars isLocalField! !
-
-!ExtensionRing methodsFor: 'testing' stamp: 'len 4/30/2021 12:48:45'!
-isRelativeExtension
-	^ self scalars isKindOf: ExtensionRing! !
-
-!ExtensionRing methodsFor: 'testing' stamp: 'len 3/23/2021 11:38:33'!
-isSimpleExtension
-	^ self base isUnivariate! !
-
-!ExtensionRing methodsFor: 'private' stamp: 'len 7/15/2021 16:57:20'!
-elementClass
-	^ ExtensionElement! !
-
-!ExtensionRing methodsFor: 'private' stamp: 'len 2/27/2017 20:48:43'!
-polynomial: aPolynomial
-	self relations: aPolynomial parent * aPolynomial! !
-
-!ExtensionRing class methodsFor: 'examples' stamp: 'len 5/23/2020 09:11:37'!
-example
-	^ Ñ extension: Ñ polynomials x^4 - 2! !
-
-!ExtensionRing class methodsFor: 'instance creation' stamp: 'len 5/12/2016 10:05'!
-polynomial: aPolynomial
-	"Answer a new algebraic field extension K(f) where f is the given polynomial in K[x]. The polynomial must be irreducible, otherwise there would be zero divisors."
-	^ self new polynomial: aPolynomial! !
 
 !GaloisRing methodsFor: 'accessing' stamp: 'len 5/9/2019 09:25:41'!
 exponent
@@ -20165,11 +20087,11 @@ primitiveRoot
 	For GR(p^n,r), a basic primitive element is an element of multiplicative order p^r - 1, which is a root of a basic primitive polynomial of degree r over Z/(p^n)Z and dividing x^(p^r - 1) - 1 in Z/(p^n)Z[x]. Powers of this element form a Teichmuller set."
 	^ self notYetImplemented! !
 
-!GaloisRing methodsFor: 'accessing' stamp: 'len 8/7/2019 07:13:27'!
+!GaloisRing methodsFor: 'accessing' stamp: 'len 7/16/2021 11:06:57'!
 residueField
 	"Answer the Galois field GF(p,r) isomorphic to the residue field of the receiver, equipped with the canonical projection."
 	^ self propertyAt: #residueField ifAbsentPut:
-		[GaloisField polynomial: (self polynomial apply: self scalars -> self scalars residueField)]! !
+		[GaloisField modulus: (self modulus apply: self scalars -> self scalars residueField)]! !
 
 !GaloisRing methodsFor: 'accessing' stamp: 'len 9/22/2018 18:54:27'!
 teichmuller
@@ -20213,6 +20135,10 @@ nilradical
 zeroDivisors
 	^ self maximalIdeal! !
 
+!GaloisRing methodsFor: 'testing' stamp: 'len 7/16/2021 11:13:25'!
+hasCanonicalReduction
+	^ true! !
+
 !GaloisRing methodsFor: 'testing' stamp: 'len 6/4/2019 15:59:26'!
 isBezout
 	"Answer true if the receiver is a Bezout ring, i.e. every finitely generated ideal is principal."
@@ -20247,12 +20173,16 @@ isGaloisExtension
 isGaloisRing
 	^ true! !
 
-!GaloisRing methodsFor: 'testing' stamp: 'len 3/25/2021 15:05:32'!
+!GaloisRing methodsFor: 'testing' stamp: 'len 7/16/2021 10:08:25'!
 isIntegralDomain
 	^ self isField! !
 
 !GaloisRing methodsFor: 'testing' stamp: 'len 5/21/2018 16:54:03'!
 isLocal
+	^ true! !
+
+!GaloisRing methodsFor: 'testing' stamp: 'len 7/16/2021 11:18:33'!
+isSimpleExtension
 	^ true! !
 
 !GaloisRing methodsFor: 'private' stamp: 'len 3/6/2021 06:01:00'!
@@ -20279,7 +20209,7 @@ new: q to: m
 	p _ factors anyOne.
 	^ self new: p to: n to: m! !
 
-!GaloisRing class methodsFor: 'instance creation' stamp: 'len 3/26/2021 11:56:37'!
+!GaloisRing class methodsFor: 'instance creation' stamp: 'len 7/16/2021 10:25:36'!
 new: p to: n to: m
 	"Answer the Galois ring of characteristic p^n and order p^(n*m)."
 	| F f |
@@ -20289,7 +20219,7 @@ new: p to: n to: m
 	f _ self irreduciblePolynomialOfDegree: m mod: p.
 	"Hensel lift to F"
 	f _ f lift apply: F projection.
-	^ self polynomial: f! !
+	^ self modulus: f! !
 
 !GaloisRing class methodsFor: 'private' stamp: 'len 5/15/2019 10:41:16'!
 irreduciblePolynomialOfDegree: m mod: p
@@ -20348,15 +20278,48 @@ new: q
 	p _ factors anyOne.
 	^ self new: p to: n! !
 
-!GaloisField class methodsFor: 'instance creation' stamp: 'len 5/15/2019 10:42:11'!
+!GaloisField class methodsFor: 'instance creation' stamp: 'len 7/16/2021 10:25:18'!
 new: p to: n
 	"Answer the Galois field of order q = p^n."
 	n = 1 ifTrue: [^ PrimeField new: p].
-	^ self polynomial: (self irreduciblePolynomialOfDegree: n mod: p)! !
+	^ self modulus: (self irreduciblePolynomialOfDegree: n mod: p)! !
+
+!QuasiGaloisRing methodsFor: 'testing' stamp: 'len 7/16/2021 11:14:09'!
+hasCanonicalReduction
+	^ true! !
+
+!QuasiGaloisRing methodsFor: 'testing' stamp: 'len 5/9/2019 09:48:43'!
+isFinite
+	^ true! !
+
+!QuasiGaloisRing methodsFor: 'testing' stamp: 'len 5/9/2019 09:54:52'!
+isIntegralDomain
+	^ false! !
+
+!QuasiGaloisRing methodsFor: 'testing' stamp: 'len 5/9/2019 09:48:39'!
+isLocal
+	^ true! !
+
+!QuasiGaloisRing methodsFor: 'testing' stamp: 'len 7/16/2021 11:18:50'!
+isSimpleExtension
+	^ true! !
+
+!QuasiGaloisRing class methodsFor: 'instance creation' stamp: 'len 7/15/2021 19:18:19'!
+new: p to: r to: n
+	"Answer the quasi-Galois ring of characteristic p and order p^(r*n)."
+	| F f |
+	F _ GaloisField new: p to: r.
+	n = 1 ifTrue: [^ F].
+	f _ F polynomials x: 1 to: n.
+	^ self relations: f parent * f! !
 
 !FunctionField methodsFor: 'accessing' stamp: 'len 1/5/2017 19:50:45'!
 genus
 	^ self notYetImplemented! !
+
+!FunctionField methodsFor: 'testing' stamp: 'len 7/16/2021 11:13:14'!
+hasCanonicalReduction
+	^ true! !
 
 !FunctionField methodsFor: 'testing' stamp: 'len 6/9/2019 09:35:47'!
 isField
@@ -20366,18 +20329,26 @@ isField
 isGlobalField
 	^ self scalars isFiniteField! !
 
+!FunctionField methodsFor: 'testing' stamp: 'len 7/16/2021 10:08:10'!
+isIntegralDomain
+	^ true! !
+
 !FunctionField methodsFor: 'testing' stamp: 'len 1/5/2017 18:55:12'!
 isPerfectField
 	"A field is perfect if either it has characteristic 0 or has characteristic p and every element in the field has a p-th root in the field."
 	^ self characteristic = 0! !
 
+!FunctionField methodsFor: 'testing' stamp: 'len 7/16/2021 11:18:25'!
+isSimpleExtension
+	^ true! !
+
 !FunctionField methodsFor: 'private' stamp: 'len 7/15/2021 19:12:04'!
 extensionClass
 	^ FunctionField! !
 
-!NumberField methodsFor: 'accessing' stamp: 'len 5/23/2020 09:03:57'!
+!NumberField methodsFor: 'accessing' stamp: 'len 7/16/2021 11:07:47'!
 adjoint
-	^ self propertyAt: #adjoint ifAbsentPut: [self polynomial anyRootIn: Ü]! !
+	^ self propertyAt: #adjoint ifAbsentPut: [self modulus anyRootIn: Ü]! !
 
 !NumberField methodsFor: 'accessing' stamp: 'len 7/12/2021 13:17:44'!
 classNumber
@@ -20405,10 +20376,10 @@ integralBasisMatrix
 	"Answer the matrix that sends power basis coordinates to integral basis coordinates."
 	^ self propertyAt: #integralBasisMatrix ifAbsentPut: [self asVectorSpace endomorphisms columns: (self integralBasis collect: [:each| self asVectorSpace !! each])]! !
 
-!NumberField methodsFor: 'accessing' stamp: 'len 3/19/2016 09:33'!
+!NumberField methodsFor: 'accessing' stamp: 'len 7/16/2021 11:08:15'!
 signature
 	"Answer the signature (r1,r2) of the receiver, i.e. r1 the number of embeddings whose image is real, and 2*r2 the number of non-real complex embeddings."
-	^ self polynomial signature! !
+	^ self modulus signature! !
 
 !NumberField methodsFor: 'elements' stamp: 'len 7/11/2021 11:16:06'!
 adapt: anElement
@@ -20416,15 +20387,15 @@ adapt: anElement
 		ifTrue: [^ self representative: (self base coefficients: self integralBasisMatrix * anElement asModuleElement)].
 	^ super adapt: anElement! !
 
-!NumberField methodsFor: 'morphisms' stamp: 'len 7/11/2021 18:24:52'!
+!NumberField methodsFor: 'morphisms' stamp: 'len 7/16/2021 11:07:36'!
 <-> aNumberField
 	"Field Isomorphism Problem. Answer an isomorphism to aNumberField if there's any, or nil.
 	Reference: Henri Cohen, 'A Course In Computational Algebraic Number Theory', Algorithm 4.5.5 and 4.5.6."
-	(self polynomial isIrreducible and: [self polynomial isPrimitive])
+	(self modulus isIrreducible and: [self modulus isPrimitive])
 		ifFalse: [^ self error: 'not irreducible and primitive defining polynomial'].
-	(aNumberField polynomial isIrreducible and: [aNumberField polynomial isPrimitive])
+	(aNumberField modulus isIrreducible and: [aNumberField modulus isPrimitive])
 		ifFalse: [^ self error: 'not irreducible and primitive defining polynomial'].
-	self polynomial degree = aNumberField polynomial degree
+	self modulus degree = aNumberField modulus degree
 		ifFalse: [^ nil].
 	"..."
 	self notYetImplemented! !
@@ -20449,13 +20420,17 @@ nonArchimedeanPlaces
 regulator
 	^ self notYetImplemented! !
 
+!NumberField methodsFor: 'testing' stamp: 'len 7/16/2021 11:13:37'!
+hasCanonicalReduction
+	^ true! !
+
 !NumberField methodsFor: 'testing' stamp: 'len 6/9/2019 09:36:07'!
 isField
 	^ true! !
 
-!NumberField methodsFor: 'testing' stamp: 'len 1/7/2017 21:04:57'!
+!NumberField methodsFor: 'testing' stamp: 'len 7/16/2021 11:07:54'!
 isGaloisExtension
-	self degree = 3 ifTrue: [^ self polynomial discriminant isPerfectSquare].
+	self degree = 3 ifTrue: [^ self modulus discriminant isPerfectSquare].
 	self notYetImplemented! !
 
 !NumberField methodsFor: 'testing' stamp: 'len 1/26/2018 18:59:52'!
@@ -20467,6 +20442,10 @@ isImaginary
 	"Answer true if no embedding into the complex numbers has image contained in the real numbers."
 	^ self signature first = 0! !
 
+!NumberField methodsFor: 'testing' stamp: 'len 7/16/2021 10:08:38'!
+isIntegralDomain
+	^ true! !
+
 !NumberField methodsFor: 'testing' stamp: 'len 12/28/2016 12:13:05'!
 isMonogenic
 	^ self propertyAt: #isMonogenic! !
@@ -20476,10 +20455,9 @@ isReal
 	"Answer true if every embedding into the complex numbers has image contained in the real numbers."
 	^ self signature second = 0! !
 
-!NumberField methodsFor: 'private' stamp: 'len 12/28/2016 12:12:50'!
-adjoint: anAlgebraicNumber
-	self propertyAt: #adjoint put: anAlgebraicNumber.
-	self polynomial: anAlgebraicNumber minimalPolynomial! !
+!NumberField methodsFor: 'testing' stamp: 'len 7/16/2021 11:18:41'!
+isSimpleExtension
+	^ true! !
 
 !NumberField methodsFor: 'private' stamp: 'len 7/15/2021 19:12:19'!
 extensionClass
@@ -20489,9 +20467,11 @@ extensionClass
 example
 	^ Ñ adjoin: RealAlgebraicNumber sqrt2! !
 
-!NumberField class methodsFor: 'instance creation' stamp: 'len 1/11/2016 02:03'!
+!NumberField class methodsFor: 'instance creation' stamp: 'len 7/16/2021 10:29:58'!
 adjoint: anAlgebraicNumber
-	^ self new adjoint: anAlgebraicNumber! !
+	^ (self modulus: anAlgebraicNumber minimalPolynomial)
+		propertyAt: #adjoint put: anAlgebraicNumber;
+		yourself! !
 
 !CyclotomicField methodsFor: 'accessing' stamp: 'len 7/12/2021 13:17:27'!
 classNumber
@@ -20520,12 +20500,6 @@ integralBasis
 order
 	^ self propertyAt: #order! !
 
-!CyclotomicField methodsFor: 'accessing-private' stamp: 'len 5/23/2020 09:11:37'!
-order: anInteger
-	anInteger > 2 ifFalse: [^ self error: 'the order of a cyclotomic field must be > 2'].
-	self propertyAt: #order put: anInteger.
-	self polynomial: ((Ñ polynomialsIn: {'è', anInteger printString sub}) cyclotomic: anInteger)! !
-
 !CyclotomicField methodsFor: 'morphisms' stamp: 'len 7/14/2021 09:19:20'!
 automorphisms
 	"Answer the Galois group of the receiver, i.e. the group of endomorphisms fixing the rationals."
@@ -20548,9 +20522,12 @@ isMonogenic
 example
 	^ CyclotomicField new: 7! !
 
-!CyclotomicField class methodsFor: 'instance creation' stamp: 'len 12/10/2016 20:42:15'!
+!CyclotomicField class methodsFor: 'instance creation' stamp: 'len 7/16/2021 10:24:27'!
 new: anInteger
-	^ self new order: anInteger! !
+	anInteger > 2 ifFalse: [^ self error: 'the order of a cyclotomic field must be > 2'].
+	^ (self modulus: ((Ñ polynomialsIn: {'è', anInteger printString sub}) cyclotomic: anInteger))
+		propertyAt: #order put: anInteger;
+		yourself! !
 
 !QuadraticField methodsFor: 'accessing' stamp: 'len 12/10/2016 21:33:00'!
 discriminant
@@ -20572,32 +20549,22 @@ integralBasis
 isMonogenic
 	^ true! !
 
-!QuadraticField methodsFor: 'private' stamp: 'len 7/21/2019 08:51:32'!
+!QuadraticField methodsFor: 'private' stamp: 'len 7/16/2021 11:08:48'!
 d
-	^ self polynomial independentCoefficient asInteger negated! !
-
-!QuadraticField methodsFor: 'private' stamp: 'len 12/10/2016 21:27:04'!
-polynomial: aPolynomial
-	(aPolynomial degree = 2 and: [aPolynomial terms size = 2 and: [aPolynomial independentCoefficient isZero not]])
-		ifFalse: [self error: 'malformed polynomial'].
-	super polynomial: aPolynomial! !
-
-!QuadraticField methodsFor: 'private' stamp: 'len 5/23/2020 09:11:37'!
-sqrt: anInteger
-	| P d |
-	d _ anInteger squareFree.
-	(d == 0 or: [d == 1]) ifTrue: [DomainError signal: 'not a quadratic field'].
-	P _ Ñ polynomialsIn: {d == -1 ifTrue: ['i' italic] ifFalse: ['ü', d printString]}.
-	self polynomial: P x squared - d! !
+	^ self modulus independentCoefficient asInteger negated! !
 
 !QuadraticField class methodsFor: 'examples' stamp: 'len 7/10/2021 12:06:32'!
 example
 	"The Gaussian numbers, i.e. complex numbers with real and imaginary parts both rational."
 	^ QuadraticField sqrt: -2! !
 
-!QuadraticField class methodsFor: 'instance creation' stamp: 'len 12/14/2016 14:57:22'!
+!QuadraticField class methodsFor: 'instance creation' stamp: 'len 7/16/2021 11:23:14'!
 sqrt: anInteger
-	^ self new sqrt: anInteger! !
+	| P d |
+	d _ anInteger squareFree.
+	(d == 0 or: [d == 1]) ifTrue: [DomainError signal: 'not a quadratic field'].
+	P _ Ñ polynomialsIn: {d == -1 ifTrue: ['i' italic] ifFalse: ['ü', d printString]}.
+	^ self modulus: P x squared - d! !
 
 !RationalIntegerRing methodsFor: 'accessing' stamp: 'len 11/5/2015 17:34'!
 characteristic
@@ -37802,9 +37769,9 @@ tail
 		ifTrue: [^ self contains: anObject representative].
 	^ self = (parent !! anObject)! !
 
-!Residue methodsFor: 'comparing' stamp: 'len 5/10/2019 08:56:24'!
+!Residue methodsFor: 'comparing' stamp: 'len 7/16/2021 11:10:35'!
 hash
-	^ parent hash! !
+	^ parent hasCanonicalReduction ifTrue: [representative hash] ifFalse: [parent hash]! !
 
 !Residue methodsFor: 'conjugation' stamp: 'len 8/9/2020 07:45:57'!
 conjugate
@@ -37924,8 +37891,9 @@ xxgcd: anElement
 	v _ v * x.
 	^ {g. s. t. u. v}! !
 
-!Residue methodsFor: 'testing' stamp: 'len 9/15/2018 16:07:02'!
+!Residue methodsFor: 'testing' stamp: 'len 7/16/2021 11:12:47'!
 contains: anObject
+	parent hasCanonicalReduction ifTrue: [^ representative = anObject].
 	^ parent relations contains: anObject - representative! !
 
 !Residue methodsFor: 'testing' stamp: 'len 9/15/2018 16:07:16'!
@@ -38447,14 +38415,6 @@ asRationalFunction
 !RegularFunction methodsFor: 'testing' stamp: 'len 7/8/2021 12:02:31'!
 isIntegral
 	^ self minimalPolynomial coefficients allSatisfy: [:each| each isIntegral]! !
-
-!ExtensionElement methodsFor: 'comparing' stamp: 'len 3/22/2021 10:35:52'!
-= anObject
-	^ self class = anObject class and: [parent = anObject parent and: [representative = anObject representative]]! !
-
-!ExtensionElement methodsFor: 'comparing' stamp: 'len 3/6/2021 06:28:52'!
-hash
-	^ representative hash! !
 
 !GaloisResidue methodsFor: 'accessing' stamp: 'len 3/26/2021 12:03:38'!
 normalized

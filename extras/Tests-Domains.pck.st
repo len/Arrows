@@ -1,12 +1,13 @@
-'From Cuis 5.0 [latest update: #4542] on 11 July 2021 at 7:25:07 pm'!
+'From Cuis 5.0 [latest update: #4542] on 16 July 2021 at 11:25:43 am'!
 'Description '!
-!provides: 'Tests-Domains' 1 5!
+!provides: 'Tests-Domains' 1 6!
 !requires: 'Domains' 1 613 nil!
 SystemOrganization addCategory: #'Tests-Domains'!
 SystemOrganization addCategory: #'Tests-Domains-Tuples'!
 SystemOrganization addCategory: #'Tests-Domains-Matrices'!
 SystemOrganization addCategory: #'Tests-Domains-Modules'!
 SystemOrganization addCategory: #'Tests-Domains-Rings'!
+SystemOrganization addCategory: #'Tests-Domains-Benchmarks'!
 
 
 !classDefinition: #AbelianGroupTest category: #'Tests-Domains'!
@@ -19,18 +20,18 @@ TestCase subclass: #AbelianGroupTest
 AbelianGroupTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #AbstractTest category: #'Tests-Domains'!
-TestCase subclass: #AbstractTest
+!classDefinition: #AbstractTestCase category: #'Tests-Domains'!
+TestCase subclass: #AbstractTestCase
 	instanceVariableNames: 'random'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Domains'!
-!classDefinition: 'AbstractTest class' category: #'Tests-Domains'!
-AbstractTest class
+!classDefinition: 'AbstractTestCase class' category: #'Tests-Domains'!
+AbstractTestCase class
 	instanceVariableNames: ''!
 
 !classDefinition: #AbstractTupleTest category: #'Tests-Domains-Tuples'!
-AbstractTest subclass: #AbstractTupleTest
+AbstractTestCase subclass: #AbstractTupleTest
 	instanceVariableNames: 'scalars'
 	classVariableNames: ''
 	poolDictionaries: ''
@@ -100,7 +101,7 @@ TuplesOverQuaternionsTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #AbstractMatrixTest category: #'Tests-Domains-Matrices'!
-AbstractTest subclass: #AbstractMatrixTest
+AbstractTestCase subclass: #AbstractMatrixTest
 	instanceVariableNames: 'scalars'
 	classVariableNames: ''
 	poolDictionaries: ''
@@ -109,8 +110,18 @@ AbstractTest subclass: #AbstractMatrixTest
 AbstractMatrixTest class
 	instanceVariableNames: ''!
 
+!classDefinition: #AbstractMatrixOverCommutativeRingTest category: #'Tests-Domains-Matrices'!
+AbstractMatrixTest subclass: #AbstractMatrixOverCommutativeRingTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Domains-Matrices'!
+!classDefinition: 'AbstractMatrixOverCommutativeRingTest class' category: #'Tests-Domains-Matrices'!
+AbstractMatrixOverCommutativeRingTest class
+	instanceVariableNames: ''!
+
 !classDefinition: #AbstractMatrixOverIntegralDomainTest category: #'Tests-Domains-Matrices'!
-AbstractMatrixTest subclass: #AbstractMatrixOverIntegralDomainTest
+AbstractMatrixOverCommutativeRingTest subclass: #AbstractMatrixOverIntegralDomainTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
@@ -129,6 +140,16 @@ AbstractMatrixOverIntegralDomainTest subclass: #AbstractMatrixOverFieldTest
 AbstractMatrixOverFieldTest class
 	instanceVariableNames: ''!
 
+!classDefinition: #MatrixOverCyclotomicFieldTest category: #'Tests-Domains-Matrices'!
+AbstractMatrixOverFieldTest subclass: #MatrixOverCyclotomicFieldTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Domains-Matrices'!
+!classDefinition: 'MatrixOverCyclotomicFieldTest class' category: #'Tests-Domains-Matrices'!
+MatrixOverCyclotomicFieldTest class
+	instanceVariableNames: ''!
+
 !classDefinition: #MatrixOverFiniteFieldTest category: #'Tests-Domains-Matrices'!
 AbstractMatrixOverFieldTest subclass: #MatrixOverFiniteFieldTest
 	instanceVariableNames: ''
@@ -137,6 +158,16 @@ AbstractMatrixOverFieldTest subclass: #MatrixOverFiniteFieldTest
 	category: 'Tests-Domains-Matrices'!
 !classDefinition: 'MatrixOverFiniteFieldTest class' category: #'Tests-Domains-Matrices'!
 MatrixOverFiniteFieldTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #MatrixOverPolynomialsOverPrimeFieldTest category: #'Tests-Domains-Matrices'!
+AbstractMatrixOverFieldTest subclass: #MatrixOverPolynomialsOverPrimeFieldTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Domains-Matrices'!
+!classDefinition: 'MatrixOverPolynomialsOverPrimeFieldTest class' category: #'Tests-Domains-Matrices'!
+MatrixOverPolynomialsOverPrimeFieldTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #MatrixOverRationalsTest category: #'Tests-Domains-Matrices'!
@@ -159,6 +190,16 @@ AbstractMatrixOverIntegralDomainTest subclass: #MatrixOverAdicIntegersTest
 MatrixOverAdicIntegersTest class
 	instanceVariableNames: ''!
 
+!classDefinition: #MatrixOverCyclotomicRingTest category: #'Tests-Domains-Matrices'!
+AbstractMatrixOverIntegralDomainTest subclass: #MatrixOverCyclotomicRingTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Domains-Matrices'!
+!classDefinition: 'MatrixOverCyclotomicRingTest class' category: #'Tests-Domains-Matrices'!
+MatrixOverCyclotomicRingTest class
+	instanceVariableNames: ''!
+
 !classDefinition: #MatrixOverIntegersTest category: #'Tests-Domains-Matrices'!
 AbstractMatrixOverIntegralDomainTest subclass: #MatrixOverIntegersTest
 	instanceVariableNames: ''
@@ -179,16 +220,6 @@ AbstractMatrixOverIntegralDomainTest subclass: #MatrixOverMultivariatePolynomial
 MatrixOverMultivariatePolynomialsOverRationalsTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #MatrixOverPolynomialsOverPrimeFieldTest category: #'Tests-Domains-Matrices'!
-AbstractMatrixOverIntegralDomainTest subclass: #MatrixOverPolynomialsOverPrimeFieldTest
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Tests-Domains-Matrices'!
-!classDefinition: 'MatrixOverPolynomialsOverPrimeFieldTest class' category: #'Tests-Domains-Matrices'!
-MatrixOverPolynomialsOverPrimeFieldTest class
-	instanceVariableNames: ''!
-
 !classDefinition: #MatrixOverPolynomialsOverRationalsTest category: #'Tests-Domains-Matrices'!
 AbstractMatrixOverIntegralDomainTest subclass: #MatrixOverPolynomialsOverRationalsTest
 	instanceVariableNames: ''
@@ -199,18 +230,8 @@ AbstractMatrixOverIntegralDomainTest subclass: #MatrixOverPolynomialsOverRationa
 MatrixOverPolynomialsOverRationalsTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #MatrixOverQuaternionsTest category: #'Tests-Domains-Matrices'!
-AbstractMatrixOverIntegralDomainTest subclass: #MatrixOverQuaternionsTest
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Tests-Domains-Matrices'!
-!classDefinition: 'MatrixOverQuaternionsTest class' category: #'Tests-Domains-Matrices'!
-MatrixOverQuaternionsTest class
-	instanceVariableNames: ''!
-
 !classDefinition: #MatrixOverModularIntegersTest category: #'Tests-Domains-Matrices'!
-AbstractMatrixTest subclass: #MatrixOverModularIntegersTest
+AbstractMatrixOverCommutativeRingTest subclass: #MatrixOverModularIntegersTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
@@ -220,7 +241,7 @@ MatrixOverModularIntegersTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #MatrixOverPrimePowerRingTest category: #'Tests-Domains-Matrices'!
-AbstractMatrixTest subclass: #MatrixOverPrimePowerRingTest
+AbstractMatrixOverCommutativeRingTest subclass: #MatrixOverPrimePowerRingTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
@@ -230,7 +251,7 @@ MatrixOverPrimePowerRingTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #MatrixOverProductRingTest category: #'Tests-Domains-Matrices'!
-AbstractMatrixTest subclass: #MatrixOverProductRingTest
+AbstractMatrixOverCommutativeRingTest subclass: #MatrixOverProductRingTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
@@ -239,8 +260,18 @@ AbstractMatrixTest subclass: #MatrixOverProductRingTest
 MatrixOverProductRingTest class
 	instanceVariableNames: ''!
 
+!classDefinition: #MatrixOverQuaternionsTest category: #'Tests-Domains-Matrices'!
+AbstractMatrixTest subclass: #MatrixOverQuaternionsTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Domains-Matrices'!
+!classDefinition: 'MatrixOverQuaternionsTest class' category: #'Tests-Domains-Matrices'!
+MatrixOverQuaternionsTest class
+	instanceVariableNames: ''!
+
 !classDefinition: #AbstractModuleTest category: #'Tests-Domains-Modules'!
-AbstractTest subclass: #AbstractModuleTest
+AbstractTestCase subclass: #AbstractModuleTest
 	instanceVariableNames: 'scalars'
 	classVariableNames: ''
 	poolDictionaries: ''
@@ -340,7 +371,7 @@ ModuleOverPolynomialsOverRationalsTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #AbstractRingTest category: #'Tests-Domains-Rings'!
-AbstractTest subclass: #AbstractRingTest
+AbstractTestCase subclass: #AbstractRingTest
 	instanceVariableNames: 'R'
 	classVariableNames: ''
 	poolDictionaries: ''
@@ -639,113 +670,113 @@ TestCase subclass: #TupleTest
 TupleTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #Benchmark category: #'Tests-Domains'!
+!classDefinition: #Benchmark category: #'Tests-Domains-Benchmarks'!
 Object subclass: #Benchmark
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Tests-Domains'!
-!classDefinition: 'Benchmark class' category: #'Tests-Domains'!
+	category: 'Tests-Domains-Benchmarks'!
+!classDefinition: 'Benchmark class' category: #'Tests-Domains-Benchmarks'!
 Benchmark class
 	instanceVariableNames: ''!
 
-!classDefinition: #AlgebraicNumbersBenchmark category: #'Tests-Domains'!
+!classDefinition: #AlgebraicNumbersBenchmark category: #'Tests-Domains-Benchmarks'!
 Benchmark subclass: #AlgebraicNumbersBenchmark
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Tests-Domains'!
-!classDefinition: 'AlgebraicNumbersBenchmark class' category: #'Tests-Domains'!
+	category: 'Tests-Domains-Benchmarks'!
+!classDefinition: 'AlgebraicNumbersBenchmark class' category: #'Tests-Domains-Benchmarks'!
 AlgebraicNumbersBenchmark class
 	instanceVariableNames: ''!
 
-!classDefinition: #GroebnerBasisBenchmark category: #'Tests-Domains'!
+!classDefinition: #GroebnerBasisBenchmark category: #'Tests-Domains-Benchmarks'!
 Benchmark subclass: #GroebnerBasisBenchmark
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Tests-Domains'!
-!classDefinition: 'GroebnerBasisBenchmark class' category: #'Tests-Domains'!
+	category: 'Tests-Domains-Benchmarks'!
+!classDefinition: 'GroebnerBasisBenchmark class' category: #'Tests-Domains-Benchmarks'!
 GroebnerBasisBenchmark class
 	instanceVariableNames: ''!
 
-!classDefinition: #GroupBenchmark category: #'Tests-Domains'!
+!classDefinition: #GroupBenchmark category: #'Tests-Domains-Benchmarks'!
 Benchmark subclass: #GroupBenchmark
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Tests-Domains'!
-!classDefinition: 'GroupBenchmark class' category: #'Tests-Domains'!
+	category: 'Tests-Domains-Benchmarks'!
+!classDefinition: 'GroupBenchmark class' category: #'Tests-Domains-Benchmarks'!
 GroupBenchmark class
 	instanceVariableNames: ''!
 
-!classDefinition: #IntegersBenchmark category: #'Tests-Domains'!
+!classDefinition: #IntegersBenchmark category: #'Tests-Domains-Benchmarks'!
 Benchmark subclass: #IntegersBenchmark
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Tests-Domains'!
-!classDefinition: 'IntegersBenchmark class' category: #'Tests-Domains'!
+	category: 'Tests-Domains-Benchmarks'!
+!classDefinition: 'IntegersBenchmark class' category: #'Tests-Domains-Benchmarks'!
 IntegersBenchmark class
 	instanceVariableNames: ''!
 
-!classDefinition: #ModularMatrixBenchmark category: #'Tests-Domains'!
+!classDefinition: #ModularMatrixBenchmark category: #'Tests-Domains-Benchmarks'!
 Benchmark subclass: #ModularMatrixBenchmark
 	instanceVariableNames: 'field matrix'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Tests-Domains'!
-!classDefinition: 'ModularMatrixBenchmark class' category: #'Tests-Domains'!
+	category: 'Tests-Domains-Benchmarks'!
+!classDefinition: 'ModularMatrixBenchmark class' category: #'Tests-Domains-Benchmarks'!
 ModularMatrixBenchmark class
 	instanceVariableNames: ''!
 
-!classDefinition: #PolynomialBenchmark category: #'Tests-Domains'!
+!classDefinition: #PolynomialBenchmark category: #'Tests-Domains-Benchmarks'!
 Benchmark subclass: #PolynomialBenchmark
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Tests-Domains'!
-!classDefinition: 'PolynomialBenchmark class' category: #'Tests-Domains'!
+	category: 'Tests-Domains-Benchmarks'!
+!classDefinition: 'PolynomialBenchmark class' category: #'Tests-Domains-Benchmarks'!
 PolynomialBenchmark class
 	instanceVariableNames: ''!
 
-!classDefinition: #SmallMatrixBenchmark category: #'Tests-Domains'!
+!classDefinition: #SmallMatrixBenchmark category: #'Tests-Domains-Benchmarks'!
 Benchmark subclass: #SmallMatrixBenchmark
 	instanceVariableNames: 'integerMatrix binaryMatrix modularMatrix'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Tests-Domains'!
-!classDefinition: 'SmallMatrixBenchmark class' category: #'Tests-Domains'!
+	category: 'Tests-Domains-Benchmarks'!
+!classDefinition: 'SmallMatrixBenchmark class' category: #'Tests-Domains-Benchmarks'!
 SmallMatrixBenchmark class
 	instanceVariableNames: ''!
 
-!classDefinition: #SparsePolynomialMultiplicationBenchmark category: #'Tests-Domains'!
+!classDefinition: #SparsePolynomialMultiplicationBenchmark category: #'Tests-Domains-Benchmarks'!
 Benchmark subclass: #SparsePolynomialMultiplicationBenchmark
 	instanceVariableNames: 'p pPlusOne pBigCoefficients pBigExponents pBigCoefficientsPlusOne pBigExponentsPlusOne'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Tests-Domains'!
-!classDefinition: 'SparsePolynomialMultiplicationBenchmark class' category: #'Tests-Domains'!
+	category: 'Tests-Domains-Benchmarks'!
+!classDefinition: 'SparsePolynomialMultiplicationBenchmark class' category: #'Tests-Domains-Benchmarks'!
 SparsePolynomialMultiplicationBenchmark class
 	instanceVariableNames: ''!
 
-!classDefinition: #TupleConvolutionBenchmark category: #'Tests-Domains'!
+!classDefinition: #TupleConvolutionBenchmark category: #'Tests-Domains-Benchmarks'!
 Benchmark subclass: #TupleConvolutionBenchmark
 	instanceVariableNames: 'a b'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Tests-Domains'!
-!classDefinition: 'TupleConvolutionBenchmark class' category: #'Tests-Domains'!
+	category: 'Tests-Domains-Benchmarks'!
+!classDefinition: 'TupleConvolutionBenchmark class' category: #'Tests-Domains-Benchmarks'!
 TupleConvolutionBenchmark class
 	instanceVariableNames: ''!
 
-!classDefinition: #CASBenchmark category: #'Tests-Domains'!
+!classDefinition: #CASBenchmark category: #'Tests-Domains-Benchmarks'!
 Object subclass: #CASBenchmark
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Tests-Domains'!
-!classDefinition: 'CASBenchmark class' category: #'Tests-Domains'!
+	category: 'Tests-Domains-Benchmarks'!
+!classDefinition: 'CASBenchmark class' category: #'Tests-Domains-Benchmarks'!
 CASBenchmark class
 	instanceVariableNames: ''!
 
@@ -1614,17 +1645,17 @@ testTorsionAbelianGroup
 	self assert: G isMixed not.
 	self assert: G torsionFree isTrivial! !
 
-!AbstractTest methodsFor: 'setUp/tearDown' stamp: 'len 4/20/2021 06:52:42'!
+!AbstractTestCase methodsFor: 'setUp/tearDown' stamp: 'len 4/20/2021 06:52:42'!
 setUp
 	super setUp.
 	random _ self random! !
 
-!AbstractTest methodsFor: 'setUp/tearDown' stamp: 'len 4/20/2021 06:56:32'!
+!AbstractTestCase methodsFor: 'setUp/tearDown' stamp: 'len 4/20/2021 06:56:32'!
 tearDown
 	super tearDown.
 	random _ nil! !
 
-!AbstractTest class methodsFor: 'testing' stamp: 'len 4/20/2021 06:53:33'!
+!AbstractTestCase class methodsFor: 'testing' stamp: 'len 4/20/2021 06:53:33'!
 isAbstract
 	^ self name beginsWith: 'Abstract'! !
 
@@ -1777,59 +1808,12 @@ initialize
 	super initialize.
 	scalars _ QuaternionAlgebra over: „ invariants: #(1 1)! !
 
-!AbstractMatrixTest methodsFor: 'other' stamp: 'len 3/26/2021 12:48:33'!
-testAdjugateCramerRule
-	| A I |
-	A _ scalars matrix: 3 evaluating: [:i :j| scalars atRandom: random bits: 10].
-	I _ A identity.
-	self assert: A * A adjugate = (I * A determinant)! !
-
-!AbstractMatrixTest methodsFor: 'other' stamp: 'len 3/26/2021 13:01:57'!
-testCayleyHamiltorTheorem
-	| A |
-	A _ (scalars^(6 atRandom: random)) endomorphisms atRandom: random bits: 100.
-	self assert: (A characteristicPolynomial value: A) isZero! !
-
-!AbstractMatrixTest methodsFor: 'other' stamp: 'len 3/26/2021 13:10:46'!
-testCharacteristicMatrixAndPolynomial
-	| A |
-	A _ self newSquareMatrix.
-	self assert: A characteristicPolynomial = A characteristicMatrix determinant! !
-
-!AbstractMatrixTest methodsFor: 'other' stamp: 'len 4/23/2021 12:59:57'!
-testCharacteristicPolynomial
-	| A p B |
-	A _ self newSquareMatrix.
-	p _ A characteristicPolynomial.
-	self assert: (p value: A) isZero.
-	self assert: p degree = A width.
-	self assert: p isMonic.
-	self assert: A transpose characteristicPolynomial = p.
-	B _ A parent atRandom: random bits: 100.
-	scalars isCommutative ifTrue: [self assert: (A*B) characteristicPolynomial = (B*A) characteristicPolynomial]! !
-
-!AbstractMatrixTest methodsFor: 'other' stamp: 'len 4/1/2021 06:22:04'!
-testColumnExtended
-	| A B |
-	A _ self newMatrix.
-	B _ A columnExtended.
-	self assert: B height = A height.
-	self assert: B isSquare.
-	self assert: A image <= B image! !
-
 !AbstractMatrixTest methodsFor: 'other' stamp: 'len 4/5/2021 04:36:52'!
 testLeftRightIdentity
 	| A |
 	A _ scalars^(5 atRandom: random) => (scalars^(7 atRandom: random)) atRandom: random bits: 100.
 	self assert: A leftIdentity * A = A.
 	self assert: A * A rightIdentity = A! !
-
-!AbstractMatrixTest methodsFor: 'other' stamp: 'len 4/1/2021 06:23:04'!
-testRowExtended
-	| A B |
-	A _ self newMatrix.
-	B _ A rowExtended.
-	self assert: B = A transpose columnExtended transpose! !
 
 !AbstractMatrixTest methodsFor: 'other' stamp: 'len 3/26/2021 13:23:21'!
 testTranspose
@@ -1947,6 +1931,13 @@ newSquareMatrix
 	n _ 5 atRandom: random.
 	^ (scalars^n) endomorphisms atRandom: random bits: (n*n*5 atRandom: random)! !
 
+!AbstractMatrixOverCommutativeRingTest methodsFor: 'as yet unclassified' stamp: 'len 7/12/2021 17:10:55'!
+testAdjugateCramerRule
+	| A I |
+	A _ scalars matrix: 3 evaluating: [:i :j| scalars atRandom: random bits: 10].
+	I _ A identity.
+	self assert: A * A adjugate = (I * A determinant)! !
+
 !AbstractMatrixOverFieldTest methodsFor: 'as yet unclassified' stamp: 'len 3/29/2021 11:10:53'!
 testAbstractRankNullity
 	| n m A |
@@ -1955,6 +1946,33 @@ testAbstractRankNullity
 	A _ scalars^n => (scalars^m) atRandom: random bits: (100 atRandom: random).
 	self assert: A kernel = A transpose image complement.
 	self assert: A image = A transpose kernel complement! !
+
+!AbstractMatrixOverFieldTest methodsFor: 'as yet unclassified' stamp: 'len 7/12/2021 16:52:04'!
+testCharacteristicMatrixAndPolynomial
+	| A |
+	A _ self newSquareMatrix.
+	self assert: A characteristicPolynomial = A characteristicMatrix determinant! !
+
+!AbstractMatrixOverFieldTest methodsFor: 'as yet unclassified' stamp: 'len 7/12/2021 16:52:11'!
+testCharacteristicPolynomial
+	| A p B |
+	A _ self newSquareMatrix.
+	p _ A characteristicPolynomial.
+	self assert: (p value: A) isZero.
+	self assert: p degree = A width.
+	self assert: p isMonic.
+	self assert: A transpose characteristicPolynomial = p.
+	B _ A parent atRandom: random bits: 100.
+	scalars isCommutative ifTrue: [self assert: (A*B) characteristicPolynomial = (B*A) characteristicPolynomial]! !
+
+!AbstractMatrixOverFieldTest methodsFor: 'as yet unclassified' stamp: 'len 7/12/2021 16:52:25'!
+testColumnExtended
+	| A B |
+	A _ self newMatrix.
+	B _ A columnExtended.
+	self assert: B height = A height.
+	self assert: B isSquare.
+	self assert: A image <= B image! !
 
 !AbstractMatrixOverFieldTest methodsFor: 'as yet unclassified' stamp: 'len 3/27/2021 12:08:32'!
 testFundamentalSubspacesDimensions
@@ -1999,6 +2017,24 @@ testRankNullityTheorem
 	A _ self newMatrix: n@n.
 	self assert: A rank + A nullity = n! !
 
+!AbstractMatrixOverFieldTest methodsFor: 'as yet unclassified' stamp: 'len 7/12/2021 16:52:32'!
+testRowExtended
+	| A B |
+	A _ self newMatrix.
+	B _ A rowExtended.
+	self assert: B = A transpose columnExtended transpose! !
+
+!AbstractMatrixOverFieldTest methodsFor: 'other' stamp: 'len 7/12/2021 16:51:38'!
+testCayleyHamiltorTheorem
+	| A |
+	A _ (scalars^(6 atRandom: random)) endomorphisms atRandom: random bits: 100.
+	self assert: (A characteristicPolynomial value: A) isZero! !
+
+!MatrixOverCyclotomicFieldTest methodsFor: 'as yet unclassified' stamp: 'len 7/15/2021 12:47:42'!
+initialize
+	super initialize.
+	scalars _ CyclotomicField new: 3 atRandom + 2! !
+
 !MatrixOverFiniteFieldTest methodsFor: 'initialization' stamp: 'len 3/26/2021 12:49:47'!
 initialize
 	super initialize.
@@ -2012,6 +2048,44 @@ testEchelonExample
 	w _ K x.
 	A _ K^3 => (K^4) !! {1. w. w^5. 0. w^3. w^4. w. 1. w^6. w^3. 1. w^4}.
 	self assert: A echelon = (A parent !! {1. 0. 0. 0. 1. 0. 0. 0. 1. 0. 0. 0})! !
+
+!MatrixOverPolynomialsOverPrimeFieldTest methodsFor: 'as yet unclassified' stamp: 'len 4/5/2021 04:06:29'!
+initialize
+	super initialize.
+	scalars _ ƒ/5! !
+
+!MatrixOverPolynomialsOverPrimeFieldTest methodsFor: 'as yet unclassified' stamp: 'len 4/5/2021 04:05:50'!
+testRankOverPolynomialsOverZ5
+	"Example form Magma handbook (H88E7)."
+	| K P x a |
+	K _ ƒ/5.
+	P _ K polynomials.
+	x _ P x.
+	a _ P matrix: 5 evaluating: [:i :j| x^i + (x^j)].
+	self assert: a rank = 2! !
+
+!MatrixOverPolynomialsOverPrimeFieldTest methodsFor: 'as yet unclassified' stamp: 'len 4/5/2021 04:05:18'!
+testSmithNormalFormOverPolynomialsOverPrimeField1
+	"Example form Magma handbook (H88E7)."
+	| K P x a |
+	K _ ƒ/5.
+	P _ K polynomials.
+	x _ P x.
+	a _ P matrix: 5 evaluating: [:i :j| x^i + (x^j)].
+	self assert: a elementaryDivisors = {x. x^3 + (x^2*3) + x}! !
+
+!MatrixOverPolynomialsOverPrimeFieldTest methodsFor: 'as yet unclassified' stamp: 'len 4/5/2021 04:05:31'!
+testSmithNormalFormOverPolynomialsOverPrimeField2
+	"Example form Magma handbook (H88E7)."
+	| K P x a ax |
+	K _ ƒ/5.
+	P _ K polynomials.
+	x _ P x.
+	a _ (ƒ^5) endomorphisms !! #(0 2 4 2 0 2 2 2 3 3 3 4 4 1 3 0 0 0 0 1 0 0 0 1 0).
+	a _ a over: P.
+	ax _ a identity * x - a.
+	self assert: ax SNF = ((P^5) endomorphisms diagonal: {P one. P one. x - 1. x^2 - 1. x^2 - 1}).
+	self assert: ax elementaryDivisors = {P one. P one. x - 1. x^2 - 1. x^2 - 1}! !
 
 !MatrixOverRationalsTest methodsFor: 'initialization' stamp: 'len 3/26/2021 12:54:30'!
 initialize
@@ -2296,6 +2370,11 @@ testSlashWithTupleExample
 initialize
 	super initialize.
 	scalars _ ƒ adic: 64 atRandom nextPrime! !
+
+!MatrixOverCyclotomicRingTest methodsFor: 'as yet unclassified' stamp: 'len 7/15/2021 12:48:01'!
+initialize
+	super initialize.
+	scalars _ (CyclotomicField new: 5 atRandom + 2) integers! !
 
 !MatrixOverIntegersTest methodsFor: 'initialization' stamp: 'len 3/26/2021 12:50:25'!
 initialize
@@ -2690,44 +2769,6 @@ initialize
 	super initialize.
 	scalars _ „ polynomialsIn: #(x y z)! !
 
-!MatrixOverPolynomialsOverPrimeFieldTest methodsFor: 'as yet unclassified' stamp: 'len 4/5/2021 04:06:29'!
-initialize
-	super initialize.
-	scalars _ ƒ/5! !
-
-!MatrixOverPolynomialsOverPrimeFieldTest methodsFor: 'as yet unclassified' stamp: 'len 4/5/2021 04:05:50'!
-testRankOverPolynomialsOverZ5
-	"Example form Magma handbook (H88E7)."
-	| K P x a |
-	K _ ƒ/5.
-	P _ K polynomials.
-	x _ P x.
-	a _ P matrix: 5 evaluating: [:i :j| x^i + (x^j)].
-	self assert: a rank = 2! !
-
-!MatrixOverPolynomialsOverPrimeFieldTest methodsFor: 'as yet unclassified' stamp: 'len 4/5/2021 04:05:18'!
-testSmithNormalFormOverPolynomialsOverPrimeField1
-	"Example form Magma handbook (H88E7)."
-	| K P x a |
-	K _ ƒ/5.
-	P _ K polynomials.
-	x _ P x.
-	a _ P matrix: 5 evaluating: [:i :j| x^i + (x^j)].
-	self assert: a elementaryDivisors = {x. x^3 + (x^2*3) + x}! !
-
-!MatrixOverPolynomialsOverPrimeFieldTest methodsFor: 'as yet unclassified' stamp: 'len 4/5/2021 04:05:31'!
-testSmithNormalFormOverPolynomialsOverPrimeField2
-	"Example form Magma handbook (H88E7)."
-	| K P x a ax |
-	K _ ƒ/5.
-	P _ K polynomials.
-	x _ P x.
-	a _ (ƒ^5) endomorphisms !! #(0 2 4 2 0 2 2 2 3 3 3 4 4 1 3 0 0 0 0 1 0 0 0 1 0).
-	a _ a over: P.
-	ax _ a identity * x - a.
-	self assert: ax SNF = ((P^5) endomorphisms diagonal: {P one. P one. x - 1. x^2 - 1. x^2 - 1}).
-	self assert: ax elementaryDivisors = {P one. P one. x - 1. x^2 - 1. x^2 - 1}! !
-
 !MatrixOverPolynomialsOverRationalsTest methodsFor: 'initialization' stamp: 'len 3/26/2021 12:58:50'!
 initialize
 	super initialize.
@@ -2751,11 +2792,6 @@ testSmithNormalFormOverExample1
 	x _ R x.
 	A _ (R^2) id * x - (R matrix: #((3 -4) (1 -1))).
 	self assert: A SNF = ((R^2) endomorphisms diagonal: {R one. x^2 - (x*2) + 1})! !
-
-!MatrixOverQuaternionsTest methodsFor: 'as yet unclassified' stamp: 'len 4/22/2021 10:37:20'!
-initialize
-	super initialize.
-	scalars _ QuaternionAlgebra over: „ invariants: #(1 1)! !
 
 !MatrixOverModularIntegersTest methodsFor: 'initialization' stamp: 'len 4/26/2021 11:49:04'!
 initialize
@@ -2805,6 +2841,11 @@ initialize
 initialize
 	super initialize.
 	scalars _ ƒ × ƒ "(ƒ/(64 atRandom + 1))"! !
+
+!MatrixOverQuaternionsTest methodsFor: 'as yet unclassified' stamp: 'len 4/22/2021 10:37:20'!
+initialize
+	super initialize.
+	scalars _ QuaternionAlgebra over: „ invariants: #(1 1)! !
 
 !AbstractModuleTest methodsFor: 'private' stamp: 'len 4/8/2021 12:19:42'!
 newFreeModule
@@ -3576,10 +3617,10 @@ testPerpZ2
 	self assert: (S basis first · perp basis first) isZero.
 	self assert: (S basis first · perp basis second) isZero! !
 
-!VectorSpaceOverCyclotomicFieldTest methodsFor: 'as yet unclassified' stamp: 'len 3/24/2021 08:13:22'!
+!VectorSpaceOverCyclotomicFieldTest methodsFor: 'as yet unclassified' stamp: 'len 7/15/2021 12:47:15'!
 initialize
 	super initialize.
-	scalars _ CyclotomicField new: 5 atRandom + 2! !
+	scalars _ CyclotomicField new: 3 atRandom + 2! !
 
 !VectorSpaceOverFiniteFieldTest methodsFor: 'as yet unclassified' stamp: 'len 3/24/2021 07:51:41'!
 initialize
@@ -4042,13 +4083,13 @@ testQuaternionAlgebra1
 	A _ QuaternionAlgebra over: „ invariants: #(-17 -271).
 	self testAlgebra: A! !
 
-!AlgebraTest methodsFor: 'quaternions' stamp: 'len 7/5/2021 12:18:39'!
+!AlgebraTest methodsFor: 'quaternions' stamp: 'len 7/14/2021 16:50:28'!
 testQuaternionAlgebra2
 	| A |
 	A _ QuaternionAlgebra over: „ invariants: #(-17 -271).
 	self assert: A isAssociative.
 	self assert: A isCommutative not.
-	self assert: A dimension = 4.
+	self assert: A rank = 4.
 	self assert: A scalars = „.
 	self assert: A invariants = #(-17 -271).
 	self assert: A zero isZero.
@@ -4170,14 +4211,14 @@ testCliffordAlgebra1
 	C _ self newCliffordAlgebra.
 	self testAlgebra: C! !
 
-!AlgebraTest methodsFor: 'clifford algebra' stamp: 'len 7/5/2021 12:18:34'!
+!AlgebraTest methodsFor: 'clifford algebra' stamp: 'len 7/14/2021 16:49:45'!
 testCliffordAlgebra2
 	| C |
 	C _ self newCliffordAlgebra.
 	self assert: C isAssociative.
 	self assert: C isCommutative not.
 	self assert: C isUnital.
-	self assert: C dimension = (2^C space rank).
+	self assert: C rank = (2^C space rank).
 	self assert: C scalars = „.
 	self assert: C zero isZero.
 	self assert: C one isOne.
@@ -4383,14 +4424,14 @@ testGroupAlgebraInverse
 	self assert: a * a inverse = A one.
 	self assert: a inverse * a = A one! !
 
-!AlgebraTest methodsFor: 'matrix algebra' stamp: 'len 3/23/2021 11:29:50'!
+!AlgebraTest methodsFor: 'matrix algebra' stamp: 'len 7/14/2021 16:49:59'!
 testMatrixAlgebra
 	| R A |
 	R _ 2 atRandom = 1 ifTrue: [„] ifFalse: [ƒ/64 atRandom nextPrime].
 	A _ MatrixAlgebra new: 5 atRandom over: R.
 	self testAlgebra: A.
 	self assert: A scalars = R.
-	self assert: A dimension = A degree squared.
+	self assert: A rank = A degree squared.
 	self assert: A zero isZero.
 	self assert: A one isOne.
 	self assert: A id isIdentity! !
@@ -7914,20 +7955,20 @@ testNormTraceAndMinimalPolynomial
 	self assert: a norm = 2500.
 	self assert: a minimalPolynomial = (x^4 - (x^2*105) + 2500)! !
 
-!NumberFieldTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2020 09:33:01'!
+!NumberFieldTest methodsFor: 'as yet unclassified' stamp: 'len 7/16/2021 11:08:21'!
 testQSqrt2
 	| E x |
 	x _ „ polynomials x.
 	E _ „ adjoin: RealAlgebraicNumber sqrt2.
-	self assert: E x minimalPolynomial = E polynomial.
+	self assert: E x minimalPolynomial = E modulus.
 	self assert: E x squared minimalPolynomial = (x - 2)! !
 
-!NumberFieldTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2020 09:33:01'!
+!NumberFieldTest methodsFor: 'as yet unclassified' stamp: 'len 7/16/2021 11:08:27'!
 testQSqrt2RealEmbeddings
 	| E embeddings roots |
 	E _ „ adjoin: RealAlgebraicNumber sqrt2.
 	embeddings _ E realEmbeddings.
-	roots _ (E polynomial rootsIn: …) asSet.
+	roots _ (E modulus rootsIn: …) asSet.
 	self assert: (embeddings collect: [:f| f value: E x]) asSet = roots! !
 
 !NumberFieldTest methodsFor: 'as yet unclassified' stamp: 'len 12/14/2016 14:59:36'!
@@ -7936,59 +7977,59 @@ testQuadraticFieldFundamentalDiscriminant
 	self assert: (QuadraticField sqrt: 720) discriminant = 5.
 	self assert: (QuadraticField sqrt: 2) discriminant = 8! !
 
-!NumberFieldTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2020 09:33:01'!
+!NumberFieldTest methodsFor: 'as yet unclassified' stamp: 'len 7/16/2021 11:08:32'!
 testQuadraticFieldSqrt2
 	| E x |
 	E _ QuadraticField sqrt: 2.
 	x _ „ polynomials x.
-	self assert: E x minimalPolynomial = E polynomial.
+	self assert: E x minimalPolynomial = E modulus.
 	self assert: E x squared minimalPolynomial = (x - 2).
 	self assert: E discriminant = 8! !
 
-!NumberFieldTest methodsFor: 'as yet unclassified' stamp: 'len 12/10/2016 21:42:04'!
+!NumberFieldTest methodsFor: 'as yet unclassified' stamp: 'len 7/16/2021 11:08:37'!
 testQuadraticFieldSqrtMinusFive
 	| E |
 	E _ QuadraticField sqrt: -5.
-	self assert: E x minimalPolynomial = E polynomial.
+	self assert: E x minimalPolynomial = E modulus.
 	self assert: E x squared = (E embed: -5).
 	self assert: E x ^ 4 = (E embed: 25).
 	self assert: E discriminant = -20! !
 
-!NumberFieldTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2020 09:33:01'!
+!NumberFieldTest methodsFor: 'as yet unclassified' stamp: 'len 7/16/2021 10:26:19'!
 testSignature
 	| x F |
 	x _ „ polynomials x.
-	F _ NumberField polynomial: x^2 + 1.
+	F _ NumberField modulus: x^2 + 1.
 	self assert: F signature = #(0 1).
-	F _ NumberField polynomial: x^3 - 2.
+	F _ NumberField modulus: x^3 - 2.
 	self assert: F signature = #(1 1).
 	F _ CyclotomicField new: 5.
 	self assert: F signature = #(0 2).
-	F _ NumberField polynomial: x^6 + x + 1.
+	F _ NumberField modulus: x^6 + x + 1.
 	self assert: F signature = #(0 3).
-	F _ NumberField polynomial: x^3 + (x^2) - (x*5) - 1.
+	F _ NumberField modulus: x^3 + (x^2) - (x*5) - 1.
 	self assert: F signature = #(3 0)! !
 
-!NumberFieldTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2020 09:33:01'!
+!NumberFieldTest methodsFor: 'as yet unclassified' stamp: 'len 7/16/2021 10:26:32'!
 testTotallyImaginary
 	| x E |
 	x _ „ polynomials x.
-	E _ NumberField polynomial: x^2 + 2.
+	E _ NumberField modulus: x^2 + 2.
 	self assert: E isImaginary.
-	E _ NumberField polynomial: x^2 - 2.
+	E _ NumberField modulus: x^2 - 2.
 	self assert: E isImaginary not.
-	E _ NumberField polynomial: x^4 - 2.
+	E _ NumberField modulus: x^4 - 2.
 	self assert: E isImaginary not! !
 
-!NumberFieldTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2020 09:33:01'!
+!NumberFieldTest methodsFor: 'as yet unclassified' stamp: 'len 7/16/2021 10:26:44'!
 testTotallyReal
 	| x E |
 	x _ „ polynomials x.
-	E _ NumberField polynomial: x^2 + 2.
+	E _ NumberField modulus: x^2 + 2.
 	self assert: E isReal not.
-	E _ NumberField polynomial: x^2 - 2.
+	E _ NumberField modulus: x^2 - 2.
 	self assert: E isReal.
-	E _ NumberField polynomial: x^4 - 2.
+	E _ NumberField modulus: x^4 - 2.
 	self assert: E isReal not! !
 
 !PAdicsTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2020 09:34:55'!
@@ -8713,16 +8754,16 @@ testResultant2
 	g _ 3 * (x - 7).
 	self assert: (f resultant: g) = ((2 ^ 1) * (3^2) * (5 - 7) * (11 - 7))! !
 
-!PolynomialTest methodsFor: 'etc' stamp: 'len 5/23/2020 09:34:55'!
+!PolynomialTest methodsFor: 'etc' stamp: 'len 7/15/2021 12:36:36'!
 testShift
 	| Zx x f |
 	Zx _ ƒ polynomials.
 	x _ Zx x.
 	f _ Zx atRandomBits: 10.
-	self assert: (f shift: 10) degree = (f degree + 10).
-	self assert: ((f shift: 10) shift: -10) = f.
-	self assert: f * (x^3) = (f shift: 3).
-	self assert: (f * (x^3) shift: -3) = f! !
+	self assert: (f << 10) degree = (f degree + 10).
+	self assert: ((f << 10) << -10) = f.
+	self assert: f * (x^3) = (f << 3).
+	self assert: (f * (x^3) << -3) = f! !
 
 !PolynomialTest methodsFor: 'etc' stamp: 'len 5/23/2020 09:33:01'!
 testSquareFree
@@ -9142,6 +9183,15 @@ testSPRS
 		#(9326 -12300)
 		#(260708))
 ! !
+
+!PolynomialTest methodsFor: 'roots' stamp: 'len 7/15/2021 16:12:29'!
+testCyclotomicFieldRoots
+	| K f roots x |
+	K _ CyclotomicField new: (3 to: 5) atRandom.
+	roots _ (1 to: 3 atRandom) collect: [:i| K atRandomBits: 10].
+	x _ K polynomials x.
+	f _ roots product: [:ˆ| x - ˆ].
+	self assert: f allRoots = roots asBag! !
 
 !PolynomialTest methodsFor: 'roots' stamp: 'len 5/23/2020 09:34:55'!
 testFiniteFieldRoots
@@ -9867,15 +9917,16 @@ testModularIntegers
 	self testSmallRingUnitsAndAssociates: R.
 	self testRingHomomorphism: R projection! !
 
-!RingTest methodsFor: 'finite rings' stamp: 'len 5/23/2020 09:34:55'!
+!RingTest methodsFor: 'finite rings' stamp: 'len 7/15/2021 10:40:39'!
 testModularIntegersAnnihilator
 	| R |
 	R _ ƒ/64 atRandom.
 	R do: [:x|
-		| ann |
-		ann _ x annihilator.
-		self assert: (x * ann generator) isZero.
-		R do: [:y| (x*y) isZero ifTrue: [self assert: (ann includes: y)]]]! !
+		| a A |
+		a _ x annihilator.
+		A _ x annihilatorIdeal.
+		self assert: (x * a) isZero.
+		R do: [:y| (x*y) isZero ifTrue: [self assert: (A includes: y)]]]! !
 
 !RingTest methodsFor: 'finite rings' stamp: 'len 5/9/2020 17:22:07'!
 testModularIntegersLift
@@ -10430,6 +10481,19 @@ testPolynomialRingPrimeNotMaximalIdeal2
 	I _ R * R x.
 	self assert: I isPrime.
 	self assert: I isMaximal not! !
+
+!RingTest methodsFor: 'polynomials' stamp: 'len 7/16/2021 09:39:46'!
+testRationalFunctionReconstruction
+	"Example taken from 'Fast Rational Function Reconstruction', Sara Khodadad, 2005."
+	| F x f g h |
+	F _ ƒ/11.
+	x _ F polynomials x.
+	f _ (1 to: 7) product: [:i| x - i].
+	g _ x^6 + (x^5*3) + (x^4*8) + (x^3*4) + (x^2*6) + x + 9.
+	h _ ((F polynomials / f) !! g) asRationalFunction.
+	self assert: h numerator = (x^3*10 + 9).
+	self assert: h denominator = (x + 2)
+! !
 
 !RingTest methodsFor: 'polynomials' stamp: 'len 5/13/2020 06:28:58'!
 testRationalFunctions
