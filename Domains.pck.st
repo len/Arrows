@@ -1,6 +1,6 @@
-'From Cuis 5.0 [latest update: #4542] on 27 July 2021 at 1:48:56 pm'!
+'From Cuis 5.0 [latest update: #4542] on 28 July 2021 at 5:10:33 pm'!
 'Description A computational algebra system in Smalltalk'!
-!provides: 'Domains' 1 628!
+!provides: 'Domains' 1 629!
 !requires: 'Complex' 1 7 nil!
 SystemOrganization addCategory: #'Domains-Kernel'!
 SystemOrganization addCategory: #'Domains-Kernel-Support'!
@@ -2294,13 +2294,13 @@ Tuple subclass: #DenseTuple
 DenseTuple class
 	instanceVariableNames: ''!
 
-!classDefinition: #PolynomialTuple category: #'Domains-Algebras-Affine'!
+!classDefinition: #PolynomialTuple category: #'Domains-Modules-Multivariate'!
 DenseTuple subclass: #PolynomialTuple
 	instanceVariableNames: 'leadingMonomial'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Domains-Algebras-Affine'!
-!classDefinition: 'PolynomialTuple class' category: #'Domains-Algebras-Affine'!
+	category: 'Domains-Modules-Multivariate'!
+!classDefinition: 'PolynomialTuple class' category: #'Domains-Modules-Multivariate'!
 PolynomialTuple class
 	instanceVariableNames: ''!
 
@@ -2504,14 +2504,14 @@ Object subclass: #TupleMonomialOrdering
 TupleMonomialOrdering class
 	instanceVariableNames: ''!
 
-!classDefinition: #PositionOverTermOrdering category: #'Domains-Modules-Multivariate'!
-TupleMonomialOrdering subclass: #PositionOverTermOrdering
+!classDefinition: #POTOrdering category: #'Domains-Modules-Multivariate'!
+TupleMonomialOrdering subclass: #POTOrdering
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Domains-Modules-Multivariate'!
-!classDefinition: 'PositionOverTermOrdering class' category: #'Domains-Modules-Multivariate'!
-PositionOverTermOrdering class
+!classDefinition: 'POTOrdering class' category: #'Domains-Modules-Multivariate'!
+POTOrdering class
 	instanceVariableNames: ''!
 
 !classDefinition: #SchreyerOrdering category: #'Domains-Modules-Multivariate'!
@@ -2524,14 +2524,14 @@ TupleMonomialOrdering subclass: #SchreyerOrdering
 SchreyerOrdering class
 	instanceVariableNames: ''!
 
-!classDefinition: #TermOverPositionOrdering category: #'Domains-Modules-Multivariate'!
-TupleMonomialOrdering subclass: #TermOverPositionOrdering
+!classDefinition: #TOPOrdering category: #'Domains-Modules-Multivariate'!
+TupleMonomialOrdering subclass: #TOPOrdering
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Domains-Modules-Multivariate'!
-!classDefinition: 'TermOverPositionOrdering class' category: #'Domains-Modules-Multivariate'!
-TermOverPositionOrdering class
+!classDefinition: 'TOPOrdering class' category: #'Domains-Modules-Multivariate'!
+TOPOrdering class
 	instanceVariableNames: ''!
 
 !classDefinition: #CochainComplex category: #'Domains-Complexes'!
@@ -2904,26 +2904,6 @@ RingElement subclass: #FreePolynomial
 FreePolynomial class
 	instanceVariableNames: ''!
 
-!classDefinition: #Buchberger category: #'Domains-Algebras-Affine-Algorithms'!
-Object subclass: #Buchberger
-	instanceVariableNames: 'matrix basis'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Domains-Algebras-Affine-Algorithms'!
-!classDefinition: 'Buchberger class' category: #'Domains-Algebras-Affine-Algorithms'!
-Buchberger class
-	instanceVariableNames: ''!
-
-!classDefinition: #ExtendedBuchberger category: #'Domains-Algebras-Affine-Algorithms'!
-Buchberger subclass: #ExtendedBuchberger
-	instanceVariableNames: 'transformation'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Domains-Algebras-Affine-Algorithms'!
-!classDefinition: 'ExtendedBuchberger class' category: #'Domains-Algebras-Affine-Algorithms'!
-ExtendedBuchberger class
-	instanceVariableNames: ''!
-
 !classDefinition: #ComplexRootIsolator category: #'Domains-Algebras-Affine-Algorithms'!
 Object subclass: #ComplexRootIsolator
 	instanceVariableNames: 'polynomial derivatives'
@@ -3202,6 +3182,26 @@ Object subclass: #WeierstrassEquation
 	category: 'Domains-Elliptic Curves'!
 !classDefinition: 'WeierstrassEquation class' category: #'Domains-Elliptic Curves'!
 WeierstrassEquation class
+	instanceVariableNames: ''!
+
+!classDefinition: #Buchberger category: #'Domains-Etc'!
+Object subclass: #Buchberger
+	instanceVariableNames: 'matrix basis'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Domains-Etc'!
+!classDefinition: 'Buchberger class' category: #'Domains-Etc'!
+Buchberger class
+	instanceVariableNames: ''!
+
+!classDefinition: #ExtendedBuchberger category: #'Domains-Etc'!
+Buchberger subclass: #ExtendedBuchberger
+	instanceVariableNames: 'transformation'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Domains-Etc'!
+!classDefinition: 'ExtendedBuchberger class' category: #'Domains-Etc'!
+ExtendedBuchberger class
 	instanceVariableNames: ''!
 
 !classDefinition: #ExtendedSmithReduction category: #'Domains-Etc'!
@@ -4436,6 +4436,18 @@ Monomials in multivariate R-modules (where R is a multivariate ring such as a po
 !TupleMonomialOrdering commentStamp: '<historical>' prior: 0!
 Generalizations of monomial orderings to multivariate R-modules (where R is a multivariate ring such as a polynomial ring or an affine ring). They extend the ordering of the coefficients ring R to elements of the R-module.!
 
+!POTOrdering commentStamp: '<historical>' prior: 0!
+"Position over Term" ordering.
+
+Given tuple monomials x[i] and y[i], x[i] < y[j] iff i < j or i = j and x < y.
+
+A Grobner basis computed with the POT ordering is analogous to a matrix echelon form.!
+
+!TOPOrdering commentStamp: '<historical>' prior: 0!
+"Term over Position" ordering.
+
+Given tuple monomials x[i] and y[i], x[i] < y[j] iff x < y or x = y and i < j.!
+
 !CochainComplex commentStamp: '<historical>' prior: 0!
 (Bounded) cochain complexes.
 
@@ -4544,23 +4556,6 @@ Univariate formal power series with coefficients over a commutative ring. See Po
 Polynomials in a finite set of non-commuting indeterminates. They are elements of a free associative algebra (FreeAlgebra).
 
 A free polynomial is a formal linear combination of Words, that in turn are formal (noncommutative) products of arbitrary objects (indeterminates).!
-
-!Buchberger commentStamp: 'len 5/7/2018 23:50:07' prior: 0!
-This is the Buchberger's algorithm.
-
-Input: a polynomial ideal given by generators, with a choice of monomial ordering;
-Output: a standard basis or a Groebner basis.
-
-When the monomial ordering is global, the algorithm outputs a Groebner basis. In case of a local monomial ordering, the algorithm uses Mora's normal form and outputs a standard basis.
-!
-
-!ExtendedBuchberger commentStamp: 'len 4/10/2021 11:48:50' prior: 0!
-This is the extended Buchberger algorithm. It keeps track of how the polynomials in the Groebner basis arise as linear combinations of the original generators of the ideal, and produces a matrix that maps the original generators to the Groebner basis.
-
-Input: a polynomial ideal given by generators, with a choice of *global* monomial ordering;
-Output: a Groebner basis, and a 'change of basis' matrix that maps the original generators to the Groebner basis.
-
-See Buchberger for a more general algorithm that works with both global and local monomial orderings.!
 
 !ComplexRootIsolator commentStamp: '<historical>' prior: 0!
 This is the CEVAL algorithm [1] for isolating the complex roots of a square-free polynomial.
@@ -4730,6 +4725,23 @@ Weierstrass equations are equations of the form
 with coefficients (a1,a2,a3,a4,a6) in some field.
 
 When the discriminant is not zero, they define an elliptic curve. See EllipticCurve.!
+
+!Buchberger commentStamp: 'len 5/7/2018 23:50:07' prior: 0!
+This is the Buchberger's algorithm.
+
+Input: a polynomial ideal given by generators, with a choice of monomial ordering;
+Output: a standard basis or a Groebner basis.
+
+When the monomial ordering is global, the algorithm outputs a Groebner basis. In case of a local monomial ordering, the algorithm uses Mora's normal form and outputs a standard basis.
+!
+
+!ExtendedBuchberger commentStamp: 'len 4/10/2021 11:48:50' prior: 0!
+This is the extended Buchberger algorithm. It keeps track of how the polynomials in the Groebner basis arise as linear combinations of the original generators of the ideal, and produces a matrix that maps the original generators to the Groebner basis.
+
+Input: a polynomial ideal given by generators, with a choice of *global* monomial ordering;
+Output: a Groebner basis, and a 'change of basis' matrix that maps the original generators to the Groebner basis.
+
+See Buchberger for a more general algorithm that works with both global and local monomial orderings.!
 
 !SmithReduction commentStamp: '<historical>' prior: 0!
 This is the Smith reduction algorithm. Given a matrix with coefficients in a PID, it reduces the matrix to its Smith normal form.
@@ -5729,11 +5741,13 @@ printOn: aStream
 	monomial isIdentity ifFalse: [aStream print: monomial].
 	aStream nextPutAll: 'Œ', position printString sub! !
 
-!TupleMonomialOrdering methodsFor: 'printing' stamp: 'len 1/5/2018 11:15:24'!
+!POTOrdering methodsFor: 'printing' stamp: 'len 7/28/2021 11:54:21'!
 printOn: aStream
-	self type isNil
-		ifTrue: [super printOn: aStream]
-		ifFalse: [aStream nextPutAll: self type]! !
+	aStream nextPutAll: 'POT'! !
+
+!TOPOrdering methodsFor: 'printing' stamp: 'len 7/28/2021 11:54:12'!
+printOn: aStream
+	aStream nextPutAll: 'TOP'! !
 
 !CochainComplex methodsFor: 'operations' stamp: 'len 10/30/2020 10:42:04'!
 >> n
@@ -6920,7 +6934,7 @@ reduce1: aPolynomial
 			h _ h - (g * (h leadingMonomial / g leadingMonomial) * (h leadingCoefficient / g leadingCoefficient))].
 	^ h! !
 
-!StandardBasis methodsFor: 'operations' stamp: 'len 1/26/2017 22:07:58'!
+!StandardBasis methodsFor: 'operations' stamp: 'len 7/27/2021 19:44:59'!
 reduce: aPolynomial 
 	"Answer Mora's normal form of aPolynomial with respect to the receiver."
 	| h L lmh g ecartg |
@@ -6936,7 +6950,7 @@ reduce: aPolynomial
 			ifTrue: [g _ each. ecartg _ ecart]].
 	g isNil ifTrue: [^ h].
 	ecartg > h ecart ifTrue: [L add: h].
-	h _ h - (g * (lmh / g leadingMonomial) * (h leadingCoefficient / g leadingCoefficient))] repeat! !
+	h _ h + (g * (lmh / g leadingMonomial) * (h leadingCoefficient negated / g leadingCoefficient))] repeat! !
 
 !StandardBasis methodsFor: 'operations' stamp: 'len 5/11/2018 06:26:35'!
 reduceFull: aPolynomial
@@ -6974,15 +6988,13 @@ reduced
 sort: aBlock
 	elements sort: aBlock! !
 
-!StandardBasis methodsFor: 'testing' stamp: 'len 5/10/2018 17:16:20'!
+!StandardBasis methodsFor: 'testing' stamp: 'len 7/28/2021 15:19:12'!
 isMinimal
 	"A Groebner basis G of an ideal I is called 'minimal' if the lead terms of the elements in G minimally generate in(I); or equivalently, if for all p in G:
 	- LC(p) = 1, and
 	- LT(p) is not in <G-{p}> (i.e., leading-term-minimal).
 	Note that any leading-term-minimal Groebner basis is also cardinality-minimal."
-	| one |
-	one _ self first scalars one.
-	self do: [:g| g leadingCoefficient ~= one ifTrue: [^ false]].
+	self do: [:g| g leadingCoefficient isOne ifFalse: [^ false]].
 	self do: [:g|
 		self do: [:f|
 			(f ~~ g and: [f leadingMonomial | g leadingMonomial]) ifTrue: [^ false]]].
@@ -7002,17 +7014,15 @@ isMinimal2
 				ifTrue: [^ false]].
 	^ true! !
 
-!StandardBasis methodsFor: 'testing' stamp: 'len 5/10/2018 17:18:12'!
+!StandardBasis methodsFor: 'testing' stamp: 'len 7/28/2021 15:18:41'!
 isReduced
 	"A Groebner basis G is called 'reduced' (or 'auto-reduced') if for all p in G:
 	- LC(p) = 1, and
 	- no monomial of p is in <G-{p}>.
 	In particular, a reduced Groebner basis is leading-term-minimal (no leading term of any generator divides any other generator's leading term), and a leading-term-minimal basis is also cardinality-minimal."
-	| one |
-	one _ self first scalars one.
-	self do: [:g| g leadingCoefficient ~= one ifTrue: [^ false]].
+	self do: [:g| g leadingCoefficient isOne ifFalse: [^ false]].
 	self do: [:g|
-		g monomials do: [:gi|
+		g monomialsDo: [:gi|
 			self do: [:f|
 				(f ~~ g and: [f leadingMonomial | gi]) ifTrue: [^ false]]]].
 	^ true! !
@@ -7055,15 +7065,7 @@ verify
 				ifFalse: [^ false]]].
 	^ true! !
 
-!GroebnerBasis methodsFor: 'operations' stamp: 'len 5/15/2020 09:34:09'!
-reduce2: aPolynomial 
-	"Answer the remainder of the argument when divided by the receiver (i.e. the normal form with respect to the receiver)."
-	| division |
-	division _ MultivariateDivision divide: aPolynomial by: self.
-"	division verify ifFalse: [self halt]."
-	^ division remainder! !
-
-!GroebnerBasis methodsFor: 'operations' stamp: 'len 5/11/2018 06:45:06'!
+!GroebnerBasis methodsFor: 'operations' stamp: 'len 7/27/2021 19:42:40'!
 reduce: aPolynomial
 	"Answer a top-reduced normal form of aPolynomial with respect to the receiver (i.e. without doing tail reduction)."
 	| h |
@@ -7073,10 +7075,10 @@ reduce: aPolynomial
 			[| lmh lmg g |
 			lmh _ h leadingMonomial.
 			g _ elements detect: [:one| (lmg _ one leadingMonomial) | lmh] ifNone: [^ h].
-			h _ h - (g * (lmh / lmg) * (h leadingCoefficient / g leadingCoefficient))].
+			h _ h + (g * (lmh / lmg) * (h leadingCoefficient negated / g leadingCoefficient))].
 	^ h! !
 
-!GroebnerBasis methodsFor: 'operations' stamp: 'len 5/12/2018 17:56:55'!
+!GroebnerBasis methodsFor: 'operations' stamp: 'len 7/27/2021 19:42:13'!
 reduce: aPolynomial startingAt: startIndex
 	"Answer a top-reduced normal form of aPolynomial with respect to the receiver (.e. without doing tail reduction)."
 	| h |
@@ -7085,8 +7087,8 @@ reduce: aPolynomial startingAt: startIndex
 		whileFalse:
 			[| lmh lmg g |
 			lmh _ h leadingMonomial.
-			(startIndex to: elements size) detect: [:one| (lmg _ (g _ elements at: one) leadingMonomial) | lmh] ifNone: [^ h].
-			h _ h - (g * (lmh / lmg) * (h leadingCoefficient / g leadingCoefficient))].
+			(startIndex to: elements size) detect: [:i| (lmg _ (g _ elements at: i) leadingMonomial) | lmh] ifNone: [^ h].
+			h _ h + (g * (lmh / lmg) * (h leadingCoefficient negated / g leadingCoefficient))].
 	^ h! !
 
 !GroebnerBasis methodsFor: 'operations' stamp: 'len 5/11/2018 06:50:34'!
@@ -7112,11 +7114,6 @@ reduceFull: aPolynomial startingAt: startIndex
 			[g _ self reduce: g startingAt: startIndex.
 			g isZero ifFalse: [h _ h + g leadingTerm. g _ g tail]].
 	^ h / h leadingCoefficient! !
-
-!GroebnerBasis methodsFor: 'deprecated' stamp: 'len 4/26/2021 11:44:49'!
-coordinatesOf: aPolynomial
-	self halt.
-	^ (MultivariateDivision divide: aPolynomial by: self) quotients! !
 
 !KeyedSet methodsFor: 'accessing' stamp: 'len 2/26/2016 21:26'!
 at: anObject
@@ -14661,21 +14658,21 @@ scalars
 zero
 	^ scalars tupleClass components: ((1 to: rank) collect: [:each| scalars zero]) parent: self! !
 
-!FreeModule methodsFor: 'accessing-multivariate' stamp: 'len 3/19/2020 19:04:03'!
-orderedBy: aModuleMonomialOrdering
-	^ self class new: self rank over: self scalars ordering: aModuleMonomialOrdering! !
+!FreeModule methodsFor: 'accessing-multivariate' stamp: 'len 7/28/2021 11:07:17'!
+orderedBy: aTupleMonomialOrdering
+	^ self class new: self rank over: self scalars ordering: aTupleMonomialOrdering! !
 
 !FreeModule methodsFor: 'accessing-multivariate' stamp: 'len 7/27/2021 13:29:58'!
 ordering
 	"Answer the module monomial ordering of the receiver."
 	^ self propertyAt: #ordering ifAbsentPut: [TupleMonomialOrdering top]! !
 
-!FreeModule methodsFor: 'accessing-multivariate' stamp: 'len 7/27/2021 13:29:58'!
-ordering: aModuleMonomialOrdering
+!FreeModule methodsFor: 'accessing-multivariate' stamp: 'len 7/28/2021 11:52:52'!
+ordering: aTupleMonomialOrdering
 	self propertyAt: #ordering put:
-		(aModuleMonomialOrdering isSymbol
-			ifTrue: [TupleMonomialOrdering perform: aModuleMonomialOrdering]
-			ifFalse: [aModuleMonomialOrdering])! !
+		(aTupleMonomialOrdering isSymbol
+			ifTrue: [TupleMonomialOrdering perform: aTupleMonomialOrdering]
+			ifFalse: [aTupleMonomialOrdering])! !
 
 !FreeModule methodsFor: 'comparing' stamp: 'len 7/27/2021 11:37:50'!
 = anObject
@@ -28923,15 +28920,16 @@ orthogonalized
 primaryInvariantFactors
 	^ self characteristicPolynomial factors! !
 
-!Matrix methodsFor: 'reduction' stamp: 'len 7/27/2021 09:24:15'!
+!Matrix methodsFor: 'reduction' stamp: 'len 7/28/2021 16:58:53'!
 standardBasis
 	"Buchberger's algorithm.
-	Compute a standard basis from the rows with the specified ordering."
-	| basis S i0 |
+	Compute a standard basis from the rows with the specified ordering.
+	When the monomial ordering is global, the algorithm outputs a Groebner basis. In case of a local monomial ordering, the algorithm uses Mora's normal form and outputs a standard basis."
+	| basis S i0 rankOne |
 	basis _ self scalars ordering isGlobal ifTrue: [GroebnerBasis new] ifFalse: [StandardBasis new].
 	self isZero ifTrue: [^ basis].
 	self scalars scalars isField ifFalse: [^ DomainError signal: 'not over a field'].
-	S _ self width = 1 ifTrue: [self asTuple asArray] ifFalse: [self rows].
+	S _ (rankOne _ self width = 1) ifTrue: [self asTuple asArray] ifFalse: [self rows].
 	[i0 _ basis size + 1.
 	S _ S asSortedCollection: [:a :b| a leadingMonomial <= b leadingMonomial].
 	"Full reduction in this step produces a reduced basis:"
@@ -28945,8 +28943,9 @@ standardBasis
 			fj _ basis at: j.
 			hj _ fj leadingMonomial.
 			(hi lcm: hj) ifNotNil: [:lcm|
-				"Buchberger criterium 1 and 2:"
-				(lcm ~= (hi * hj) and: [((1 to: i-1) noneSatisfy: [:k| (basis at: k) leadingMonomial | lcm])])
+				"Buchberger Product Criterion and Chain Criterion
+				(Product Criterion is only applicable to rank 1):"
+				((rankOne not or: [lcm ~= (hi * hj)]) and: [((1 to: i-1) noneSatisfy: [:k| (basis at: k) leadingMonomial | lcm])])
 					ifTrue:
 						[cj _ fj leadingCoefficient.
 						"Perform only top-reduction here (do full-reduction just before adding to the basis):"
@@ -28959,17 +28958,16 @@ standardBasis
 	S isEmpty] whileFalse.
 	^ basis! !
 
-!Matrix methodsFor: 'reduction' stamp: 'len 7/26/2021 16:22:54'!
+!Matrix methodsFor: 'reduction' stamp: 'len 7/28/2021 17:00:25'!
 standardBasisAndTransformation
-	"Extended Buchberger algorithm.
-	Compute a standard basis from the input polynomials with the specified ordering."
-	| basis R S combinations division i0 |
+	"This is the extended Buchberger algorithm. It keeps track of how the polynomials in the Groebner basis arise as linear combinations of the original generators (rows of this matrix), and produces a matrix that maps the original generators to the Groebner basis."
+	| basis R S combinations division i0 rankOne |
 	self scalars ordering isGlobal ifFalse: [DomainError signal: 'not a global ordering'].
 	basis _ GroebnerBasis new.
 	combinations _ OrderedCollection new.
 	R _ self scalars.
 	R scalars isField ifFalse: [^ DomainError signal: 'not over a field'].
-	S _ (self width = 1 ifTrue: [self asTuple asArray] ifFalse: [self rows])
+	S _ ((rankOne _ self width = 1) ifTrue: [self asTuple asArray] ifFalse: [self rows])
 		withIndexCollect: [:each :i| Association key: each value: (self codomain x: i)].
 	S _ S asSortedCollection: [:a :b| a key leadingMonomial <= b key leadingMonomial].
 	[i0 _ basis size + 1.
@@ -28984,8 +28982,9 @@ standardBasisAndTransformation
 			fk _ basis at: k.
 			hk _ fk leadingMonomial.
 			lcm _ hi lcm: hk.
-			"Buchberger criterium 1 and 2:"
-			(lcm ~= (hi * hk) and: [((1 to: i-1) noneSatisfy: [:j| (basis at: j) leadingMonomial | lcm])])
+			"Buchberger Product Criterion and Chain Criterion
+			(Product Criterion is only applicable to rank 1):"
+			((rankOne not or: [lcm ~= (hi * hk)]) and: [((1 to: i-1) noneSatisfy: [:j| (basis at: j) leadingMonomial | lcm])])
 				ifTrue:
 					[ck _ fk leadingCoefficient.
 					ak _ combinations at: k.
@@ -32485,10 +32484,6 @@ new: anInteger
 hash
 	^ blocks hash! !
 
-!BlockMonomialOrdering methodsFor: 'operations' stamp: 'len 3/6/2021 14:53:47'!
-, aMonomialOrdering
-	^ self class blocks: blocks, aMonomialOrdering! !
-
 !BlockMonomialOrdering methodsFor: 'operations' stamp: 'len 3/6/2021 20:59:57'!
 slice: anArray
 	"Answer the ordering corresponding to a subset of the indeterminates."
@@ -34387,9 +34382,9 @@ y
 z
 	^ self at: 3! !
 
-!Tuple methodsFor: 'accessing-multivariate' stamp: 'len 5/28/2020 18:28:13'!
-coefficientAt: aModuleMonomial
-	^ (self at: aModuleMonomial position) at: aModuleMonomial monomial! !
+!Tuple methodsFor: 'accessing-multivariate' stamp: 'len 7/28/2021 07:14:43'!
+coefficientAt: aTupleMonomial
+	^ (self at: aTupleMonomial position) at: aTupleMonomial monomial! !
 
 !Tuple methodsFor: 'accessing-multivariate' stamp: 'len 5/28/2020 18:28:20'!
 leadingCoefficient
@@ -34411,9 +34406,9 @@ ordering
 tail
 	^ self - self leadingTerm! !
 
-!Tuple methodsFor: 'accessing-multivariate' stamp: 'len 5/28/2020 18:29:02'!
-termAt: aModuleMonomial
-	^ (parent x: aModuleMonomial position) * ((self at: aModuleMonomial position) termAt: aModuleMonomial monomial)! !
+!Tuple methodsFor: 'accessing-multivariate' stamp: 'len 7/28/2021 07:15:05'!
+termAt: aTupleMonomial
+	^ (parent x: aTupleMonomial position) * ((self at: aTupleMonomial position) termAt: aTupleMonomial monomial)! !
 
 !Tuple methodsFor: 'comparing' stamp: 'len 4/30/2021 13:27:29'!
 ~ aTuple
@@ -35146,33 +35141,32 @@ new
 	anObject class = TupleMonomial ifFalse: [^ super * anObject].
 	^ (self parent x: anObject position) * ((self at: anObject position) * anObject monomial)! !
 
-!PolynomialTuple methodsFor: 'as yet unclassified' stamp: 'len 7/27/2021 13:29:26'!
+!PolynomialTuple methodsFor: 'as yet unclassified' stamp: 'len 7/28/2021 07:23:29'!
 // anObject
-	anObject isCollection ifTrue: [^ (MultivariateDivision divide: self by: anObject) quotients].
+	anObject isCollection ifTrue: [^ (self divisionBy: anObject) quotients].
 	anObject class = TupleMonomial ifTrue: [^ self withIndexCollect: [:each :i| i = anObject position ifTrue: [each // anObject monomial] ifFalse: [each]]].
 	^ super // anObject! !
 
-!PolynomialTuple methodsFor: 'as yet unclassified' stamp: 'len 7/27/2021 13:09:09'!
+!PolynomialTuple methodsFor: 'as yet unclassified' stamp: 'len 7/28/2021 07:44:12'!
 \\ anArray
-	| p s zero remainder fi headp headfi i |
-	anArray isCollection ifFalse: [^ super \\ anArray].
-	anArray isEmpty ifTrue: [^ self].
-	zero _ self zero.
-	remainder _ zero.
-	s _ anArray size.
+	anArray isCollection ifTrue: [^ (self divisionBy: anArray) remainderAlone].
+	^ super \\ anArray
+	
+"	| p remainder head |
+	remainder _ self zero.
 	p _ self.
 	[p isZero] whileFalse:
-		[headp _ p leadingMonomial.
-		i _ 1.
-		[headfi _ (fi _ anArray at: i) leadingMonomial.
-		headfi | headp or: [(i _ i + 1) > s]] whileFalse.
-		i <= s "i.e. found fi such that headfi | headp"
-			ifTrue:
-				[p _ p - (fi * (p leadingCoefficient negated * fi leadingCoefficient inverse) * (headp / headfi))]
-			ifFalse:
+		[head _ p leadingMonomial.
+		anArray detect: [:fi| fi leadingMonomial | head]
+			ifFound: [:fi| p _ p + (fi * (head / fi leadingMonomial) * (p leadingCoefficient negated / fi leadingCoefficient))]
+			ifNone:
 				[remainder _ remainder + p leadingTerm.
 				p _ p - p leadingTerm]].
-	^ remainder! !
+	^ remainder"! !
+
+!PolynomialTuple methodsFor: 'as yet unclassified' stamp: 'len 7/28/2021 07:18:06'!
+divisionBy: anArray
+	^ MultivariateDivision divide: self by: (anArray isCollection ifTrue: [anArray] ifFalse: [{anArray}])! !
 
 !PolynomialTuple methodsFor: 'as yet unclassified' stamp: 'len 4/11/2021 11:01:33'!
 leadingMonomial
@@ -35181,6 +35175,22 @@ leadingMonomial
 !PolynomialTuple methodsFor: 'as yet unclassified' stamp: 'len 7/27/2021 09:42:10'!
 monic
 	^ self / self leadingCoefficient! !
+
+!PolynomialTuple methodsFor: 'as yet unclassified' stamp: 'len 7/28/2021 10:18:46'!
+monomialsDo: aBlock
+	| ordering |
+	ordering _ self ordering.
+	self withIndexDo: [:fi :i|
+		fi monomialsDo: [:m| aBlock value: (TupleMonomial new ordering: ordering; position: i; monomial: m)]]! !
+
+!PolynomialTuple methodsFor: 'as yet unclassified' stamp: 'len 7/28/2021 13:06:02'!
+s: aPolynomialTuple
+	"Answer the S-tuple of the receiver with the argument."
+	| h1 h2 lcm |
+	h1 _ self leadingMonomial.
+	h2 _ aPolynomialTuple leadingMonomial.
+	lcm _ (h1 lcm: h2) ifNil: [^ self zero].
+	^ self * (lcm / h1) / self leadingCoefficient - (aPolynomialTuple * (lcm / h2) / aPolynomialTuple leadingCoefficient)! !
 
 !SparseTuple methodsFor: 'accessing' stamp: 'len 7/18/2020 05:41:20'!
 at: key
@@ -36692,129 +36702,148 @@ monomial
 position
 	^ position! !
 
-!TupleMonomial methodsFor: 'comparing' stamp: 'len 1/5/2018 11:20:58'!
-< aModuleMonomial
-	^ (self >= aModuleMonomial) not! !
+!TupleMonomial methodsFor: 'comparing' stamp: 'len 7/27/2021 19:07:53'!
+< aTupleMonomial
+	^ (self >= aTupleMonomial) not! !
 
-!TupleMonomial methodsFor: 'comparing' stamp: 'len 1/5/2018 11:21:09'!
-<= aModuleMonomial
-	self == aModuleMonomial ifTrue: [^ true].
-	^ (self > aModuleMonomial) not! !
+!TupleMonomial methodsFor: 'comparing' stamp: 'len 7/27/2021 19:08:05'!
+<= aTupleMonomial
+	self == aTupleMonomial ifTrue: [^ true].
+	^ (self > aTupleMonomial) not! !
 
-!TupleMonomial methodsFor: 'comparing' stamp: 'len 1/5/2018 11:19:20'!
-= aModuleMonomial
-	^ monomial = aModuleMonomial monomial and: [position = aModuleMonomial position]! !
+!TupleMonomial methodsFor: 'comparing' stamp: 'len 7/27/2021 19:09:17'!
+= aTupleMonomial
+	^ self class == aTupleMonomial class and: [monomial = aTupleMonomial monomial and: [position = aTupleMonomial position]]! !
 
-!TupleMonomial methodsFor: 'comparing' stamp: 'len 1/5/2018 11:20:49'!
-> aModuleMonomial
-	^ (self compare: aModuleMonomial) > 0! !
+!TupleMonomial methodsFor: 'comparing' stamp: 'len 7/27/2021 19:08:51'!
+> aTupleMonomial
+	^ (self compare: aTupleMonomial) > 0! !
 
-!TupleMonomial methodsFor: 'comparing' stamp: 'len 1/5/2018 11:21:27'!
->= aModuleMonomial
-	self == aModuleMonomial ifTrue: [^ true].
-	^ (self compare: aModuleMonomial) >= 0! !
+!TupleMonomial methodsFor: 'comparing' stamp: 'len 7/27/2021 19:09:03'!
+>= aTupleMonomial
+	self == aTupleMonomial ifTrue: [^ true].
+	^ (self compare: aTupleMonomial) >= 0! !
 
-!TupleMonomial methodsFor: 'comparing' stamp: 'len 5/18/2020 20:01:43'!
-compare: aModuleMonomial
+!TupleMonomial methodsFor: 'comparing' stamp: 'len 7/27/2021 19:09:33'!
+compare: aTupleMonomial
 	"Answer -1 if the receiver is < than the argument, 0 if they are equal, 1 if it is > than the argument."
-	^ ordering compare: self with: aModuleMonomial! !
+	^ ordering compare: self with: aTupleMonomial! !
 
 !TupleMonomial methodsFor: 'comparing' stamp: 'len 1/5/2018 11:20:11'!
 hash
 	^ monomial hash + position hash hashMultiply! !
 
-!TupleMonomial methodsFor: 'testing' stamp: 'len 1/5/2018 11:23:44'!
-| aModuleMonomial
+!TupleMonomial methodsFor: 'operations' stamp: 'len 7/27/2021 19:19:23'!
+* aTupleMonomial
+	self assert: position = aTupleMonomial position.
+	^ self class new ordering: ordering; position: position; monomial: monomial * aTupleMonomial monomial! !
+
+!TupleMonomial methodsFor: 'operations' stamp: 'len 7/27/2021 19:11:00'!
+/ aTupleMonomial
+	self assert: position = aTupleMonomial position.
+	^ monomial / aTupleMonomial monomial! !
+
+!TupleMonomial methodsFor: 'operations' stamp: 'len 7/27/2021 19:20:54'!
+lcm: aTupleMonomial
+	^ position = aTupleMonomial position ifTrue: [self class new ordering: ordering; position: position; monomial: (monomial lcm: aTupleMonomial monomial)]! !
+
+!TupleMonomial methodsFor: 'testing' stamp: 'len 7/27/2021 19:07:36'!
+| aTupleMonomial
 	"Answer true if the receiver divides the argument."
-	^ position = aModuleMonomial position and: [monomial | aModuleMonomial monomial]! !
+	^ position = aTupleMonomial position and: [monomial | aTupleMonomial monomial]! !
 
 !TupleMonomial methodsFor: 'private' stamp: 'len 1/14/2017 20:20:31'!
 monomial: aMonomial
 	monomial _ aMonomial! !
 
-!TupleMonomial methodsFor: 'private' stamp: 'len 5/18/2020 20:02:15'!
-ordering: aModuleMonomialOrdering
-	ordering _ aModuleMonomialOrdering! !
+!TupleMonomial methodsFor: 'private' stamp: 'len 7/27/2021 19:11:32'!
+ordering: aTupleMonomialOrdering
+	ordering _ aTupleMonomialOrdering! !
 
 !TupleMonomial methodsFor: 'private' stamp: 'len 1/14/2017 20:20:41'!
 position: anInteger
 	position _ anInteger! !
 
-!TupleMonomial methodsFor: 'as yet unclassified' stamp: 'len 7/27/2021 09:57:10'!
-* aModuleMonomial
-	self assert: position = aModuleMonomial position.
-	^ self class new ordering: ordering; position: position; monomial: monomial * aModuleMonomial monomial! !
-
-!TupleMonomial methodsFor: 'as yet unclassified' stamp: 'len 7/27/2021 09:19:41'!
-/ aModuleMonomial
-	self assert: position = aModuleMonomial position.
-	^ self class new ordering: ordering; position: position; monomial: monomial / aModuleMonomial monomial! !
-
-!TupleMonomial methodsFor: 'as yet unclassified' stamp: 'len 7/27/2021 09:25:00'!
-lcm: aModuleMonomial
-	^ position = aModuleMonomial position ifTrue: [self class new ordering: ordering; position: position; monomial: (monomial lcm: aModuleMonomial monomial)]! !
-
-!TupleMonomialOrdering methodsFor: 'accessing' stamp: 'len 1/5/2018 11:14:14'!
-type
-	^ nil! !
-
-!TupleMonomialOrdering methodsFor: 'ordering' stamp: 'len 1/14/2017 20:54:49'!
-compare: aModuleMonomial with: anotherModuleMonomial
+!TupleMonomialOrdering methodsFor: 'ordering' stamp: 'len 7/28/2021 09:54:41'!
+compare: aTupleMonomial with: anotherTupleMonomial
 	^ self subclassResponsibility! !
 
-!TupleMonomialOrdering methodsFor: 'ordering' stamp: 'len 5/18/2020 20:06:20'!
+!TupleMonomialOrdering methodsFor: 'ordering' stamp: 'len 7/28/2021 10:18:29'!
 leadingMonomialOf: aTuple
-	self subclassResponsibility! !
+	| answer |
+	answer _ nil.
+	aTuple monomialsDo: [:each| (answer isNil or: [each > answer]) ifTrue: [answer _ each]].
+	^ answer! !
 
-!TupleMonomialOrdering class methodsFor: 'examples' stamp: 'len 1/7/2018 17:10:27'!
-pos
-	^ PositionOverTermOrdering new! !
+!TupleMonomialOrdering class methodsFor: 'examples' stamp: 'len 7/28/2021 11:52:09'!
+pot
+	^ POTOrdering new! !
 
-!TupleMonomialOrdering class methodsFor: 'examples' stamp: 'len 1/7/2018 17:10:09'!
+!TupleMonomialOrdering class methodsFor: 'examples' stamp: 'len 7/28/2021 11:52:02'!
 top
-	^ TermOverPositionOrdering new! !
+	^ TOPOrdering new! !
 
-!PositionOverTermOrdering methodsFor: 'accessing' stamp: 'len 1/5/2018 11:15:41'!
-type
-	^ #pos! !
+!POTOrdering methodsFor: 'comparing' stamp: 'len 7/28/2021 11:51:12'!
+= anObject
+	^ self class = anObject class! !
 
-!PositionOverTermOrdering methodsFor: 'ordering' stamp: 'len 5/26/2020 14:57:24'!
-compare: aModuleMonomial with: anotherModuleMonomial
+!POTOrdering methodsFor: 'comparing' stamp: 'len 7/28/2021 11:53:26'!
+hash
+	^ self class hash! !
+
+!POTOrdering methodsFor: 'ordering' stamp: 'len 7/28/2021 11:49:53'!
+compare: aTupleMonomial with: anotherTupleMonomial
 	| result |
-	(result _ (aModuleMonomial position - anotherModuleMonomial position) sign) == 0
-		ifFalse: [^ result].
-	^ aModuleMonomial monomial compare: anotherModuleMonomial monomial! !
+	(result _ (aTupleMonomial position - anotherTupleMonomial position) sign) == 0 ifFalse: [^ result].
+	^ aTupleMonomial monomial compare: anotherTupleMonomial monomial! !
 
-!PositionOverTermOrdering methodsFor: 'ordering' stamp: 'len 7/27/2021 13:29:26'!
+!POTOrdering methodsFor: 'ordering' stamp: 'len 7/27/2021 13:29:26'!
 leadingMonomialOf: aTuple
 	aTuple size to: 1 by: -1 do: [:i| | f |
 		(f _ aTuple at: i) isZero ifFalse: [^ TupleMonomial new ordering: self; monomial: f leadingMonomial; position: i]].
 	^ nil! !
 
-!PositionOverTermOrdering methodsFor: 'nil' stamp: 'len 7/27/2021 11:41:15'!
-= anObject
-	^ self class = anObject class! !
-
 !SchreyerOrdering methodsFor: 'accessing' stamp: 'len 1/5/2018 11:25:47'!
 type
 	^ #schreyer! !
 
-!SchreyerOrdering methodsFor: 'nil' stamp: 'len 7/27/2021 11:42:24'!
+!SchreyerOrdering methodsFor: 'comparing' stamp: 'len 7/27/2021 11:42:24'!
 = anObject
 	^ self class = anObject class and: [weights = anObject weights]! !
 
-!TermOverPositionOrdering methodsFor: 'accessing' stamp: 'len 1/5/2018 11:15:34'!
-type
-	^ #top! !
+!SchreyerOrdering methodsFor: 'comparing' stamp: 'len 7/27/2021 19:24:47'!
+hash
+	^ weights hash! !
 
-!TermOverPositionOrdering methodsFor: 'ordering' stamp: 'len 1/14/2017 21:01:40'!
-compare: aModuleMonomial with: anotherModuleMonomial
+!SchreyerOrdering methodsFor: 'ordering' stamp: 'len 7/28/2021 09:59:31'!
+compare: aTupleMonomial with: anotherTupleMonomial
 	| result |
-	(result _ aModuleMonomial monomial compare: anotherModuleMonomial monomial) == 0
-		ifFalse: [^ result].
-	^ (aModuleMonomial position - anotherModuleMonomial position) sign! !
+	(result _ ((weights at: aTupleMonomial position) * aTupleMonomial monomial) leadingMonomial compare: ((weights at: anotherTupleMonomial position) * anotherTupleMonomial monomial) leadingMonomial) == 0 ifFalse: [^ result].
+	^ (anotherTupleMonomial position - aTupleMonomial position) sign! !
 
-!TermOverPositionOrdering methodsFor: 'ordering' stamp: 'len 7/27/2021 13:29:26'!
+!SchreyerOrdering methodsFor: 'private' stamp: 'len 7/28/2021 10:04:41'!
+weights: anArray
+	weights _ anArray! !
+
+!SchreyerOrdering class methodsFor: 'instance creation' stamp: 'len 7/28/2021 09:53:43'!
+weights: anArray
+	^ self new weights: anArray! !
+
+!TOPOrdering methodsFor: 'comparing' stamp: 'len 7/28/2021 11:51:16'!
+= anObject
+	^ self class = anObject class! !
+
+!TOPOrdering methodsFor: 'comparing' stamp: 'len 7/28/2021 11:53:41'!
+hash
+	^ self class hash! !
+
+!TOPOrdering methodsFor: 'ordering' stamp: 'len 7/27/2021 19:23:19'!
+compare: aTupleMonomial with: anotherTupleMonomial
+	| result |
+	(result _ aTupleMonomial monomial compare: anotherTupleMonomial monomial) == 0 ifFalse: [^ result].
+	^ (aTupleMonomial position - anotherTupleMonomial position) sign! !
+
+!TOPOrdering methodsFor: 'ordering' stamp: 'len 7/27/2021 13:29:26'!
 leadingMonomialOf: aTuple
 	| monomial position |
 	monomial _ nil.
@@ -36824,10 +36853,6 @@ leadingMonomialOf: aTuple
 				(monomial isNil or: [aMonomial > monomial])
 					ifTrue: [monomial _ aMonomial. position _ i]]].
 	^ monomial ifNotNil: [TupleMonomial new ordering: self; monomial: monomial; position: position]! !
-
-!TermOverPositionOrdering methodsFor: 'nil' stamp: 'len 7/27/2021 11:41:35'!
-= anObject
-	^ self class = anObject class! !
 
 !CochainComplex methodsFor: 'operations' stamp: 'len 11/4/2020 12:06:42'!
 / aSubcomplex
@@ -37086,6 +37111,10 @@ quotient
 !Division methodsFor: 'accessing' stamp: 'len 5/17/2020 07:32:15'!
 remainder
 	^ remainder ifNil: [remainder _ dividend - (divisor * self quotient)]! !
+
+!Division methodsFor: 'accessing' stamp: 'len 7/28/2021 12:58:42'!
+remainderAlone
+	^ self remainder! !
 
 !Division methodsFor: 'private' stamp: 'len 5/29/2020 19:41:24'!
 dividend: a divisor: b
@@ -39311,12 +39340,11 @@ sign
 		ifTrue: [^ self apply: [:each| each // anElement]].
 	^ (self divisionBy: anElement) quotient! !
 
-!Polynomial methodsFor: 'operations' stamp: 'len 5/14/2020 12:30:55'!
+!Polynomial methodsFor: 'operations' stamp: 'len 7/28/2021 12:57:14'!
 \\ anObject
 	"Answer the remainder of the division of the receiver by the argument."
-	(self scalars includes: anObject)
-		ifTrue: [^ self apply: [:each| each \\ anObject]].
-	^ (self divisionBy: anObject) remainder! !
+	(self scalars includes: anObject) ifTrue: [^ self apply: [:each| each \\ anObject]].
+	^ (self divisionBy: anObject) remainderAlone! !
 
 !Polynomial methodsFor: 'operations' stamp: 'len 5/5/2019 18:28:02'!
 · anObject
@@ -41064,10 +41092,11 @@ isUnivariate
 isZero
 	^ coefficients isZero! !
 
-!UnivariatePolynomial methodsFor: 'private' stamp: 'len 3/29/2016 20:37'!
+!UnivariatePolynomial methodsFor: 'private' stamp: 'len 7/28/2021 10:12:53'!
 coefficients: aTuple
-	coefficients _ aTuple.
-	self normalize! !
+	| n |
+	coefficients _ (n _ aTuple depth) < aTuple size
+		ifTrue: [aTuple copyFrom: 1 to: n] ifFalse: [aTuple]! !
 
 !UnivariatePolynomial methodsFor: 'private' stamp: 'len 7/15/2021 12:34:04'!
 dividedByMonomial: aMonomial
@@ -41137,12 +41166,6 @@ multipliedByMonomial: aMonomial
 !UnivariatePolynomial methodsFor: 'private' stamp: 'len 12/24/2017 19:32:53'!
 multipliedByScalar: aNumber
 	^ self parent coefficients: self coefficients * aNumber! !
-
-!UnivariatePolynomial methodsFor: 'private' stamp: 'len 8/17/2019 08:51:58'!
-normalize
-	| n |
-	(n _ coefficients depth) < coefficients size
-		ifTrue: [coefficients _ coefficients copyFrom: 1 to: n]! !
 
 !UnivariatePolynomial class methodsFor: 'instance creation' stamp: 'len 12/22/2017 18:22:09'!
 coefficients: aTuple
@@ -42565,107 +42588,6 @@ isStandard
 	self monomialsDo: [:each| each isStandard ifFalse: [^ false]].
 	^ true! !
 
-!Buchberger methodsFor: 'as yet unclassified' stamp: 'len 5/7/2018 18:14:03'!
-basis
-	basis ifNil: [self run].
-	^ basis! !
-
-!Buchberger methodsFor: 'as yet unclassified' stamp: 'len 4/9/2021 09:59:01'!
-matrix: aMatrix
-	matrix _ aMatrix! !
-
-!Buchberger methodsFor: 'as yet unclassified' stamp: 'len 4/10/2021 11:41:25'!
-run
-	"Buchberger's algorithm.
-	Compute a standard basis from the input polynomials with the specified ordering."
-	| S i0 |
-	basis _ matrix scalars ordering isGlobal ifTrue: [GroebnerBasis new] ifFalse: [StandardBasis new].
-	matrix isZero ifTrue: [^ basis].
-	matrix scalars scalars isField ifFalse: [^ DomainError signal: 'not over a field'].
-	matrix width = 1 ifFalse: [self notYetImplemented].
-	S _ matrix asTuple asArray.	"TODO: work with the rows"
-	[i0 _ basis size + 1.
-	S _ S asSortedCollection: [:a :b| a leadingMonomial <= b leadingMonomial].
-	"Full reduction in this step produces a reduced basis:"
-	S do: [:f| | r | (r _ basis reduceFull: f) isZero ifFalse: [basis add: r]].
-	S _ OrderedCollection new.
-	1 to: basis size do: [:i| | fi hi ci |
-		fi _ basis at: i.
-		hi _ fi leadingMonomial.
-		ci _ fi leadingCoefficient.
-		(i+1 max: i0) to: basis size do: [:j| | fj hj cj lcm r |
-			fj _ basis at: j.
-			hj _ fj leadingMonomial.
-			lcm _ hi lcm: hj.
-			"Buchberger criterium 1 and 2:"
-			(lcm ~= (hi * hj) and: [((1 to: i-1) noneSatisfy: [:k| (basis at: k) leadingMonomial | lcm])])
-				ifTrue:
-					[cj _ fj leadingCoefficient.
-					"Perform only top-reduction here (do full-reduction just before adding to the basis):"
-					r _ basis reduce: fi * (lcm / hi) / ci - (fj * (lcm / hj) / cj).
-					r isZero
-						"ifTrue: [Display fill: (i@k*4 extent: 3@3) fillColor: Color red]"
-						ifFalse: [
-							"Display fill: (i@k*4 extent: 3@3) fillColor: Color green."
-							S add: r]]]].
-	S isEmpty] whileFalse! !
-
-!Buchberger class methodsFor: 'instance creation' stamp: 'len 4/9/2021 09:59:20'!
-on: aMatrix
-	^ self new matrix: aMatrix! !
-
-!ExtendedBuchberger methodsFor: 'as yet unclassified' stamp: 'len 4/10/2021 11:45:44'!
-run
-	"Extended Buchberger algorithm.
-	Compute a standard basis from the input polynomials with the specified ordering."
-	| R S combinations division i0 |
-	matrix scalars ordering isGlobal ifFalse: [DomainError signal: 'not a global ordering'].
-	basis _ GroebnerBasis new.
-	combinations _ OrderedCollection new.
-	R _ matrix scalars.
-	R scalars isField ifFalse: [^ DomainError signal: 'not over a field'].
-	"TODO: work with the rows"
-	S _ matrix asTuple asArray withIndexCollect: [:each :i| Association key: each value: (matrix codomain x: i)].
-	S _ S asSortedCollection: [:a :b| a key leadingMonomial <= b key leadingMonomial].
-	[i0 _ basis size + 1.
-	S do: [:f| (basis reduce: f key) isZero ifFalse: [basis add: f key. combinations add: f value]].
-	S removeAll.
-	1 to: basis size do: [:i| | fi hi ci ai |
-		fi _ basis at: i.
-		hi _ fi leadingMonomial.
-		ci _ fi leadingCoefficient.
-		ai _ combinations at: i.
-		(i+1 max: i0) to: basis size do: [:k| | fk hk ck lcm r f ak |
-			fk _ basis at: k.
-			hk _ fk leadingMonomial.
-			lcm _ hi lcm: hk.
-			"Buchberger criterium 1 and 2:"
-			(lcm ~= (hi * hk) and: [((1 to: i-1) noneSatisfy: [:j| (basis at: j) leadingMonomial | lcm])])
-				ifTrue:
-					[ck _ fk leadingCoefficient.
-					ak _ combinations at: k.
-					f _ fi * (lcm / hi) / ci - (fk * (lcm / hk) / ck).
-					division _ MultivariateDivision divide: f by: basis.
-					r _ division remainder.
-					r isZero
-"						ifTrue: [Display fill: (i@k*4 extent: 3@3) fillColor: Color red]"
-						ifFalse:
-							["Display fill: (i@k*4 extent: 3@3) fillColor: Color green."
-							S add: (Association key: r value: ((ai * (R one * (lcm / hi) / ci) - (ak * (R one * (lcm / hk) / ck))) - (combinations * division quotients) sum))]]]].
-	S isEmpty] whileFalse.
-	transformation _ matrix domain to: (R^combinations size) filling: [:i :j| (combinations at: i) at: j]! !
-
-!ExtendedBuchberger methodsFor: 'as yet unclassified' stamp: 'len 4/9/2021 09:53:38'!
-transformation
-	transformation ifNil: [self run].
-	^ transformation! !
-
-!ExtendedBuchberger methodsFor: 'as yet unclassified' stamp: 'len 4/10/2021 11:44:51'!
-verify
-	| G |
-	G _ matrix scalars ^ self basis size !! self basis.
-	^ transformation * matrix = G! !
-
 !ComplexRootIsolator methodsFor: 'as yet unclassified' stamp: 'len 3/6/2017 16:56:02'!
 T2: K at: m radius: r
 	| t |
@@ -42807,15 +42729,31 @@ remainder
 	remainder isNil ifTrue: [self divide].
 	^ remainder! !
 
+!MultivariateDivision methodsFor: 'accessing' stamp: 'len 7/28/2021 07:41:51'!
+remainderAlone
+	| p head |
+	remainder ifNotNil: [^ remainder].
+	divisors isEmpty ifTrue: [^ remainder _ dividend].
+	remainder _ dividend zero.
+	p _ dividend.
+	[p isZero] whileFalse:
+		[head _ p leadingMonomial.
+		divisors detect: [:fi| fi leadingMonomial | head]
+			ifFound: [:fi| p _ p + (fi * (head / fi leadingMonomial) * (p leadingCoefficient negated / fi leadingCoefficient))]
+			ifNone:
+				[remainder _ remainder + p leadingTerm.
+				p _ p tail]].
+	^ remainder! !
+
 !MultivariateDivision methodsFor: 'initialization' stamp: 'len 12/6/2015 19:03'!
 divide: aPolynomial by: anArrayOfPolynomials
 	dividend _ aPolynomial.
 	divisors _ anArrayOfPolynomials! !
 
-!MultivariateDivision methodsFor: 'private' stamp: 'len 5/3/2020 10:06:59'!
+!MultivariateDivision methodsFor: 'private' stamp: 'len 7/28/2021 07:42:48'!
 divide
 	"Perform the division algorithm computing quotients and remainder."
-	| p s zero fi q headp headfi t i |
+	| p s zero fi q head t i |
 	zero _ dividend zero.
 	quotients _ (1 to: divisors size) collect: [:each| zero].
 	divisors isEmpty ifTrue: [remainder _ dividend. ^ self].
@@ -42823,19 +42761,18 @@ divide
 	s _ divisors size.
 	p _ dividend.
 	[p isZero] whileFalse:
-		[headp _ p leadingMonomial.
+		[head _ p leadingMonomial.
 		t _ p leadingTerm.
 		i _ 1.
-		[headfi _ (fi _ divisors at: i) leadingMonomial.
-		headfi | headp or: [(i _ i + 1) > s]] whileFalse.
-		i <= s "i.e. found fi such that headfi | headp"
+		[(fi _ divisors at: i) leadingMonomial | head or: [(i _ i + 1) > s]] whileFalse.
+		i <= s "i.e. found fi with leading monomial dividing head"
 			ifTrue:
-				[q _ t // headfi * fi leadingCoefficient inverse.
+				[q _ t // fi leadingMonomial / fi leadingCoefficient.
 				quotients at: i put: (quotients at: i) + q.
 				p _ p - (fi * q)]
 			ifFalse:
 				[remainder _ remainder + t.
-				p _ p - t]]! !
+				p _ p tail]]! !
 
 !MultivariateDivision methodsFor: 'private' stamp: 'len 5/3/2020 10:07:05'!
 divide2
@@ -43014,6 +42951,10 @@ quotient
 remainder
 	remainder isNil ifTrue: [self divide].
 	^ remainder! !
+
+!PseudoDivision methodsFor: 'accessing' stamp: 'len 7/28/2021 12:59:10'!
+remainderAlone
+	^ self remainder! !
 
 !PseudoDivision methodsFor: 'initialization' stamp: 'len 12/11/2015 06:56'!
 divide: aPolynomial by: anotherPolynomial
@@ -44763,6 +44704,107 @@ j
 !WeierstrassEquation class methodsFor: 'instance creation' stamp: 'len 11/9/2016 07:08'!
 coefficients: aTuple
 	^ self new coefficients: aTuple! !
+
+!Buchberger methodsFor: 'as yet unclassified' stamp: 'len 5/7/2018 18:14:03'!
+basis
+	basis ifNil: [self run].
+	^ basis! !
+
+!Buchberger methodsFor: 'as yet unclassified' stamp: 'len 4/9/2021 09:59:01'!
+matrix: aMatrix
+	matrix _ aMatrix! !
+
+!Buchberger methodsFor: 'as yet unclassified' stamp: 'len 4/10/2021 11:41:25'!
+run
+	"Buchberger's algorithm.
+	Compute a standard basis from the input polynomials with the specified ordering."
+	| S i0 |
+	basis _ matrix scalars ordering isGlobal ifTrue: [GroebnerBasis new] ifFalse: [StandardBasis new].
+	matrix isZero ifTrue: [^ basis].
+	matrix scalars scalars isField ifFalse: [^ DomainError signal: 'not over a field'].
+	matrix width = 1 ifFalse: [self notYetImplemented].
+	S _ matrix asTuple asArray.	"TODO: work with the rows"
+	[i0 _ basis size + 1.
+	S _ S asSortedCollection: [:a :b| a leadingMonomial <= b leadingMonomial].
+	"Full reduction in this step produces a reduced basis:"
+	S do: [:f| | r | (r _ basis reduceFull: f) isZero ifFalse: [basis add: r]].
+	S _ OrderedCollection new.
+	1 to: basis size do: [:i| | fi hi ci |
+		fi _ basis at: i.
+		hi _ fi leadingMonomial.
+		ci _ fi leadingCoefficient.
+		(i+1 max: i0) to: basis size do: [:j| | fj hj cj lcm r |
+			fj _ basis at: j.
+			hj _ fj leadingMonomial.
+			lcm _ hi lcm: hj.
+			"Buchberger criterium 1 and 2:"
+			(lcm ~= (hi * hj) and: [((1 to: i-1) noneSatisfy: [:k| (basis at: k) leadingMonomial | lcm])])
+				ifTrue:
+					[cj _ fj leadingCoefficient.
+					"Perform only top-reduction here (do full-reduction just before adding to the basis):"
+					r _ basis reduce: fi * (lcm / hi) / ci - (fj * (lcm / hj) / cj).
+					r isZero
+						"ifTrue: [Display fill: (i@k*4 extent: 3@3) fillColor: Color red]"
+						ifFalse: [
+							"Display fill: (i@k*4 extent: 3@3) fillColor: Color green."
+							S add: r]]]].
+	S isEmpty] whileFalse! !
+
+!Buchberger class methodsFor: 'instance creation' stamp: 'len 4/9/2021 09:59:20'!
+on: aMatrix
+	^ self new matrix: aMatrix! !
+
+!ExtendedBuchberger methodsFor: 'as yet unclassified' stamp: 'len 4/10/2021 11:45:44'!
+run
+	"Extended Buchberger algorithm.
+	Compute a standard basis from the input polynomials with the specified ordering."
+	| R S combinations division i0 |
+	matrix scalars ordering isGlobal ifFalse: [DomainError signal: 'not a global ordering'].
+	basis _ GroebnerBasis new.
+	combinations _ OrderedCollection new.
+	R _ matrix scalars.
+	R scalars isField ifFalse: [^ DomainError signal: 'not over a field'].
+	"TODO: work with the rows"
+	S _ matrix asTuple asArray withIndexCollect: [:each :i| Association key: each value: (matrix codomain x: i)].
+	S _ S asSortedCollection: [:a :b| a key leadingMonomial <= b key leadingMonomial].
+	[i0 _ basis size + 1.
+	S do: [:f| (basis reduce: f key) isZero ifFalse: [basis add: f key. combinations add: f value]].
+	S removeAll.
+	1 to: basis size do: [:i| | fi hi ci ai |
+		fi _ basis at: i.
+		hi _ fi leadingMonomial.
+		ci _ fi leadingCoefficient.
+		ai _ combinations at: i.
+		(i+1 max: i0) to: basis size do: [:k| | fk hk ck lcm r f ak |
+			fk _ basis at: k.
+			hk _ fk leadingMonomial.
+			lcm _ hi lcm: hk.
+			"Buchberger criterium 1 and 2:"
+			(lcm ~= (hi * hk) and: [((1 to: i-1) noneSatisfy: [:j| (basis at: j) leadingMonomial | lcm])])
+				ifTrue:
+					[ck _ fk leadingCoefficient.
+					ak _ combinations at: k.
+					f _ fi * (lcm / hi) / ci - (fk * (lcm / hk) / ck).
+					division _ MultivariateDivision divide: f by: basis.
+					r _ division remainder.
+					r isZero
+"						ifTrue: [Display fill: (i@k*4 extent: 3@3) fillColor: Color red]"
+						ifFalse:
+							["Display fill: (i@k*4 extent: 3@3) fillColor: Color green."
+							S add: (Association key: r value: ((ai * (R one * (lcm / hi) / ci) - (ak * (R one * (lcm / hk) / ck))) - (combinations * division quotients) sum))]]]].
+	S isEmpty] whileFalse.
+	transformation _ matrix domain to: (R^combinations size) filling: [:i :j| (combinations at: i) at: j]! !
+
+!ExtendedBuchberger methodsFor: 'as yet unclassified' stamp: 'len 4/9/2021 09:53:38'!
+transformation
+	transformation ifNil: [self run].
+	^ transformation! !
+
+!ExtendedBuchberger methodsFor: 'as yet unclassified' stamp: 'len 4/10/2021 11:44:51'!
+verify
+	| G |
+	G _ matrix scalars ^ self basis size !! self basis.
+	^ transformation * matrix = G! !
 
 !ExtendedSmithReduction methodsFor: 'as yet unclassified' stamp: 'len 5/5/2019 12:43:36'!
 matrix
