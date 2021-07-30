@@ -1,6 +1,9 @@
-'From Cuis 5.0 [latest update: #4542] on 28 July 2021 at 5:10:33 pm'!
-'Description A computational algebra system in Smalltalk'!
-!provides: 'Domains' 1 629!
+'From Cuis 5.0 [latest update: #4542] on 30 July 2021 at 11:06:51 am'!
+'Description A computational algebra system in Smalltalk.
+
+References:
+[Sto00] Storjohann, Arne, ''Algorithms for Matrix Canonical Forms'' (2000)'!
+!provides: 'Domains' 1 630!
 !requires: 'Complex' 1 7 nil!
 SystemOrganization addCategory: #'Domains-Kernel'!
 SystemOrganization addCategory: #'Domains-Kernel-Support'!
@@ -4241,11 +4244,11 @@ The graded reverse lexicographic ordering has the property that for each subring
 Elimination by the graded reverse lexicographic ordering produces elements of a homogeneous ideal which are divisible by the last variable.!
 
 !LexicographicOrdering commentStamp: '<historical>' prior: 0!
-The lexicographic ordering is the 'dictionary' ordering.
+The lexicographic ordering is the 'dictionary' ordering. The first indeterminate is the greatest.
 
 The lexicographic ordering has the property that for each subring S[x1..xn] <= R, and each polynomial f in R, f is in S iff its leading monomial is in S.
 
-Elimination by the lexicographic ordering produces elements of an ideal which are free of the first variable.!
+The lexicographic ordering is useful for solving systems of algebraic equations. Elimination by the lexicographic ordering produces elements of an ideal which are free of the first variable.!
 
 !LocalGradedLexicographicOrdering commentStamp: 'len 2/12/2017 06:10:10' prior: 0!
 The local graded lexicographic order (lglex) is the negation of the global graded lexicographic order (glex).
@@ -4566,8 +4569,8 @@ This is the CEVAL algorithm [1] for isolating the complex roots of a square-free
 This is the multivariate polynomial division algorithm for polynomials over a field.
 
 Input: dividend f and divisors f1,..,fs in K[x1..xd] with a monomial ordering;
-Output: quotients q1,..,qs and remander r in K[x1..xd] such that f = q1*f1 + ... + qn*fn + r, such that:
-1. LM(qifi) <= LM(f);
+Output: quotients q1,..,qs and remander r in K[x1..xd] such that f = q1*f1 + ... + qs*fs + r, such that:
+1. LM(qi*fi) <= LM(f);
 2. None of the monomials in r is divisible by any LM(fi).
 
 The algorithm performs O(n^d m^d) operations in the coefficients field K, where n is the total degree of f and m is the maximal total degree of f1..fs.!
@@ -6934,23 +6937,23 @@ reduce1: aPolynomial
 			h _ h - (g * (h leadingMonomial / g leadingMonomial) * (h leadingCoefficient / g leadingCoefficient))].
 	^ h! !
 
-!StandardBasis methodsFor: 'operations' stamp: 'len 7/27/2021 19:44:59'!
+!StandardBasis methodsFor: 'operations' stamp: 'len 7/29/2021 17:12:23'!
 reduce: aPolynomial 
 	"Answer Mora's normal form of aPolynomial with respect to the receiver."
-	| h L lmh g ecartg |
+	| h L lh g ecartg |
 	h _ aPolynomial.
 	L _ OrderedCollection withAll: self.
 	[h isZero ifTrue: [^ h].
-	lmh _ h leadingMonomial.
+	lh _ h leadingMonomial.
 	g _ nil.
 	ecartg _ -1.
 	L do: [:each|
 		| ecart |
-		(each leadingMonomial | lmh and: [ecart _ each ecart. g isNil or: [ecart < ecartg]])
+		(each leadingMonomial | lh and: [ecart _ each ecart. g isNil or: [ecart < ecartg]])
 			ifTrue: [g _ each. ecartg _ ecart]].
 	g isNil ifTrue: [^ h].
 	ecartg > h ecart ifTrue: [L add: h].
-	h _ h + (g * (lmh / g leadingMonomial) * (h leadingCoefficient negated / g leadingCoefficient))] repeat! !
+	h _ h + (g * (lh / g leadingMonomial) * (h leadingCoefficient negated / g leadingCoefficient))] repeat! !
 
 !StandardBasis methodsFor: 'operations' stamp: 'len 5/11/2018 06:26:35'!
 reduceFull: aPolynomial
@@ -7065,33 +7068,33 @@ verify
 				ifFalse: [^ false]]].
 	^ true! !
 
-!GroebnerBasis methodsFor: 'operations' stamp: 'len 7/27/2021 19:42:40'!
+!GroebnerBasis methodsFor: 'operations' stamp: 'len 7/29/2021 16:58:08'!
 reduce: aPolynomial
-	"Answer a top-reduced normal form of aPolynomial with respect to the receiver (i.e. without doing tail reduction)."
+	"Answer a top-reduced normal form of aPolynomial with respect to the receiver (without doing tail reduction)."
 	| h |
 	h _ aPolynomial.
 	[h isZero]
 		whileFalse:
-			[| lmh lmg g |
-			lmh _ h leadingMonomial.
-			g _ elements detect: [:one| (lmg _ one leadingMonomial) | lmh] ifNone: [^ h].
-			h _ h + (g * (lmh / lmg) * (h leadingCoefficient negated / g leadingCoefficient))].
+			[| lh lg g |
+			lh _ h leadingMonomial.
+			g _ elements detect: [:one| (lg _ one leadingMonomial) | lh] ifNone: [^ h].
+			h _ h + (g * (lh / lg) * (h leadingCoefficient negated / g leadingCoefficient))].
 	^ h! !
 
-!GroebnerBasis methodsFor: 'operations' stamp: 'len 7/27/2021 19:42:13'!
+!GroebnerBasis methodsFor: 'operations' stamp: 'len 7/29/2021 16:58:21'!
 reduce: aPolynomial startingAt: startIndex
-	"Answer a top-reduced normal form of aPolynomial with respect to the receiver (.e. without doing tail reduction)."
+	"Answer a top-reduced normal form of aPolynomial with respect to the receiver (without doing tail reduction)."
 	| h |
 	h _ aPolynomial.
 	[h isZero]
 		whileFalse:
-			[| lmh lmg g |
-			lmh _ h leadingMonomial.
-			(startIndex to: elements size) detect: [:i| (lmg _ (g _ elements at: i) leadingMonomial) | lmh] ifNone: [^ h].
-			h _ h + (g * (lmh / lmg) * (h leadingCoefficient negated / g leadingCoefficient))].
+			[| lh lg g |
+			lh _ h leadingMonomial.
+			(startIndex to: elements size) detect: [:i| (lg _ (g _ elements at: i) leadingMonomial) | lh] ifNone: [^ h].
+			h _ h + (g * (lh / lg) * (h leadingCoefficient negated / g leadingCoefficient))].
 	^ h! !
 
-!GroebnerBasis methodsFor: 'operations' stamp: 'len 5/11/2018 06:50:34'!
+!GroebnerBasis methodsFor: 'operations' stamp: 'len 7/29/2021 16:55:57'!
 reduceFull: aPolynomial
 	"Answer the tail-reduced normal form of aPolynomial with respect to the receiver (doing full tail reduction)."
 	| g h |
@@ -7101,9 +7104,9 @@ reduceFull: aPolynomial
 		whileFalse:
 			[g _ self reduce: g.
 			g isZero ifFalse: [h _ h + g leadingTerm. g _ g tail]].
-	^ h / h leadingCoefficient! !
+	^ h monic! !
 
-!GroebnerBasis methodsFor: 'operations' stamp: 'len 5/12/2018 17:54:55'!
+!GroebnerBasis methodsFor: 'operations' stamp: 'len 7/29/2021 16:56:09'!
 reduceFull: aPolynomial startingAt: startIndex
 	"Answer the tail-reduced normal form of aPolynomial with respect to the receiver (doing full tail reduction)."
 	| g h |
@@ -7113,7 +7116,7 @@ reduceFull: aPolynomial startingAt: startIndex
 		whileFalse:
 			[g _ self reduce: g startingAt: startIndex.
 			g isZero ifFalse: [h _ h + g leadingTerm. g _ g tail]].
-	^ h / h leadingCoefficient! !
+	^ h monic! !
 
 !KeyedSet methodsFor: 'accessing' stamp: 'len 2/26/2016 21:26'!
 at: anObject
@@ -13013,13 +13016,13 @@ space
 do: aBlock
 	self space unitsDo: aBlock! !
 
-!UnitGroup methodsFor: 'random' stamp: 'len 5/8/2020 18:02:29'!
+!UnitGroup methodsFor: 'random' stamp: 'len 7/30/2021 10:54:52'!
 atRandom: aRandom
-	^ (self space atRandom: aRandom) unit! !
+	^ (self space atRandom: aRandom) normalization! !
 
-!UnitGroup methodsFor: 'random' stamp: 'len 5/8/2020 18:02:34'!
+!UnitGroup methodsFor: 'random' stamp: 'len 7/30/2021 10:54:59'!
 atRandom: aRandom bits: bitSize
-	^ (self space atRandom: aRandom bits: bitSize) unit! !
+	^ (self space atRandom: aRandom bits: bitSize) normalization! !
 
 !UnitGroup methodsFor: 'testing' stamp: 'len 5/4/2020 10:09:03'!
 contains: anElement
@@ -14734,6 +14737,10 @@ newFrom: anObject
 		ifTrue: [^ self elementAt: anObject].
 	anObject isBlock ifTrue: [^ self filling: anObject].
 	^ super newFrom: anObject! !
+
+!FreeModule methodsFor: 'elements' stamp: 'len 7/30/2021 09:16:59'!
+x: anInteger monomial: aMonomial
+	^ self filling: [:i| i = anInteger ifTrue: [scalars monomial: aMonomial] ifFalse: [scalars zero]]! !
 
 !FreeModule methodsFor: 'enumerating' stamp: 'len 3/11/2020 16:56:12'!
 do: aBlock
@@ -17607,6 +17614,14 @@ cosyzygiesOf: aMatrix
 	self isInvolutive ifTrue: [^ (self syzygiesOf: aMatrix conjugate) conjugate].
 	^ self notYetImplemented! !
 
+!Ring methodsFor: 'computing-matrices' stamp: 'len 7/29/2021 09:27:34'!
+echelonizationOf: aMatrix
+	self isField ifTrue: [^ (GaussianElimination on: aMatrix) reduced].
+	self isEuclideanDomain ifTrue: [^ (HermiteReduction on: aMatrix) reduced].
+	self isIntegralDomain ifTrue: [^ (GaussBareiss on: aMatrix) reduced].
+	self isPIR ifTrue: [^ (HowellReduction on: aMatrix) reduced].
+	^ self notYetImplemented! !
+
 !Ring methodsFor: 'computing-matrices' stamp: 'len 7/24/2021 14:00:15'!
 matrix: A solve: B
 	"Answer N and X such that A*X - B = N, satisfying that if the i-th column of B is a linear combination of the columns of A then the i-th column of N is zero."
@@ -18680,12 +18695,12 @@ power: anInteger
 primeSubfield
 	^ self! !
 
-!AdicField methodsFor: 'morphisms' stamp: 'len 7/14/2021 09:49:16'!
+!AdicField methodsFor: 'morphisms' stamp: 'len 7/30/2021 10:42:18'!
 embed: anAdicInteger
 	| v |
 	self assert: (self integers includes: anAdicInteger).
 	v _ anAdicInteger valuation.
-	^ AdicNumber new valuation: v unit: anAdicInteger unit! !
+	^ AdicNumber new valuation: v unit: anAdicInteger normalizationInverse! !
 
 !AdicField methodsFor: 'testing' stamp: 'len 5/8/2020 17:54:13'!
 includes: anElement
@@ -18703,12 +18718,12 @@ isField
 isLocalField
 	^ true! !
 
-!LaurentSeriesRing methodsFor: 'morphisms' stamp: 'len 7/14/2021 09:49:32'!
+!LaurentSeriesRing methodsFor: 'morphisms' stamp: 'len 7/30/2021 10:45:35'!
 embed: aPowerSeries
 	| v |
 	self assert: (self integers includes: aPowerSeries).
 	v _ aPowerSeries valuation.
-	^ LaurentSeries new valuation: v unit: aPowerSeries unit! !
+	^ LaurentSeries new valuation: v unit: aPowerSeries normalizationInverse! !
 
 !LaurentSeriesRing methodsFor: 'operations' stamp: 'len 7/10/2021 18:27:54'!
 algebraicClosure
@@ -20976,20 +20991,48 @@ zero
 hash
 	^ self scalars hash + self rank! !
 
-!PolynomialRing methodsFor: 'computing' stamp: 'len 7/24/2021 13:58:52'!
+!PolynomialRing methodsFor: 'computing' stamp: 'len 7/29/2021 11:13:31'!
 matrix: A solve: B
 	"Answer N and X such that A*X - B = N, satisfying that if the i-th column of B is a linear combination of the columns of A then the i-th column of N is zero."
+	| basisAndTransformation G T X N |
 	self isEuclideanDomain ifTrue: [^ self matrixOverEuclideanDomain: A solve: B].
-	A width = 1 ifFalse: [^ self notYetImplemented].
-	self notYetImplemented! !
+	basisAndTransformation _ A transpose standardBasisAndTransformation.
+	G _ basisAndTransformation first.
+	T _ basisAndTransformation second transpose.
+	X _ Matrix columns: (B columns collect: [:each| T * (T domain !! (each // G rows))]).
+	N _ A*X - B.
+	^ {N. X}! !
 
-!PolynomialRing methodsFor: 'computing' stamp: 'len 4/9/2021 09:36:54'!
+!PolynomialRing methodsFor: 'computing' stamp: 'len 7/30/2021 09:50:42'!
 syzygiesOf: aMatrix
 	"Answer a matrix whose rows span the kernel of the given matrix.
 	For a matrix A, the output is X such that A*X = 0."
+	| basisAndTransformation G T S syzygies |
 	self isEuclideanDomain ifTrue: [^ self syzygiesOverEuclideanDomainOf: aMatrix].
-	aMatrix width = 1 ifFalse: [^ self notYetImplemented].
-	self notYetImplemented! !
+	basisAndTransformation _ aMatrix transpose standardBasisAndTransformation.
+	G _ basisAndTransformation first.
+	T _ basisAndTransformation second.
+	self assert: T*aMatrix transpose = G.
+	S _ Matrix rows: (aMatrix columns collect: [:each| G codomain !! (each // G rows)]).
+	self assert: S*G = aMatrix transpose.
+	syzygies _ OrderedCollection new.
+	1 to: G height - 1 do: [:i|
+		| gi hi |
+		gi _ G rowAt: i.
+		hi _ gi leadingMonomial.
+		i+1 to: G height do: [:j|
+			| gj hj q s |
+			gj _ G rowAt: j.
+			hj _ gj leadingMonomial.
+			(hi lcm: hj) ifNotNil: [:lcm|
+				| ri rj |
+				ri _ lcm / hi.
+				rj _ lcm / hj.
+				q _ G codomain !! (gi * ri - (gj * rj) // G rows).
+				s _ (G codomain x: i monomial: ri) - (G codomain x: j monomial: rj) - q.
+				s _ s * T.
+				s isZero ifFalse: [syzygies add: s]]]].
+	^ Matrix to: aMatrix domain columns: syzygies, ((aMatrix domain id - (S*T)) rows select: [:each| each isZero not])! !
 
 !PolynomialRing methodsFor: 'converting' stamp: 'len 4/27/2021 15:46:56'!
 asMultivariate
@@ -28834,19 +28877,11 @@ dependentColumns
 	answer addAll: (d to: self width).
 	^ answer! !
 
-!Matrix methodsFor: 'reduction' stamp: 'len 3/28/2021 12:59:01'!
+!Matrix methodsFor: 'reduction' stamp: 'len 7/29/2021 09:31:23'!
 echelon
 	"Answer the echelon form of the receiver."
 	self isEmpty ifTrue: [^ self].
-	self scalars isField
-		ifTrue: [^ (GaussianElimination on: self) reduced].
-	self scalars isEuclideanDomain
-		ifTrue: [^ (HermiteReduction on: self) reduced].
-	self scalars isIntegralDomain
-		ifTrue: [^ (GaussBareiss on: self) reduced].
-	self scalars isPIR
-		ifTrue: [^ (HowellReduction on: self) reduced].
-	^ DomainError signal! !
+	^ self propertyAt: #echelon ifAbsentPut: [self scalars echelonizationOf: self]! !
 
 !Matrix methodsFor: 'reduction' stamp: 'len 6/9/2019 10:08:46'!
 elementaryDivisors
@@ -28920,7 +28955,7 @@ orthogonalized
 primaryInvariantFactors
 	^ self characteristicPolynomial factors! !
 
-!Matrix methodsFor: 'reduction' stamp: 'len 7/28/2021 16:58:53'!
+!Matrix methodsFor: 'reduction' stamp: 'len 7/29/2021 11:27:05'!
 standardBasis
 	"Buchberger's algorithm.
 	Compute a standard basis from the rows with the specified ordering.
@@ -28929,7 +28964,7 @@ standardBasis
 	basis _ self scalars ordering isGlobal ifTrue: [GroebnerBasis new] ifFalse: [StandardBasis new].
 	self isZero ifTrue: [^ basis].
 	self scalars scalars isField ifFalse: [^ DomainError signal: 'not over a field'].
-	S _ (rankOne _ self width = 1) ifTrue: [self asTuple asArray] ifFalse: [self rows].
+	S _ ((rankOne _ self width = 1) ifTrue: [self asTuple asArray] ifFalse: [self rows]) select: [:each| each isZero not].
 	[i0 _ basis size + 1.
 	S _ S asSortedCollection: [:a :b| a leadingMonomial <= b leadingMonomial].
 	"Full reduction in this step produces a reduced basis:"
@@ -28958,10 +28993,10 @@ standardBasis
 	S isEmpty] whileFalse.
 	^ basis! !
 
-!Matrix methodsFor: 'reduction' stamp: 'len 7/28/2021 17:00:25'!
+!Matrix methodsFor: 'reduction' stamp: 'len 7/29/2021 16:50:17'!
 standardBasisAndTransformation
 	"This is the extended Buchberger algorithm. It keeps track of how the polynomials in the Groebner basis arise as linear combinations of the original generators (rows of this matrix), and produces a matrix that maps the original generators to the Groebner basis."
-	| basis R S combinations division i0 rankOne |
+	| basis R S combinations division i0 rankOne G T |
 	self scalars ordering isGlobal ifFalse: [DomainError signal: 'not a global ordering'].
 	basis _ GroebnerBasis new.
 	combinations _ OrderedCollection new.
@@ -28969,35 +29004,37 @@ standardBasisAndTransformation
 	R scalars isField ifFalse: [^ DomainError signal: 'not over a field'].
 	S _ ((rankOne _ self width = 1) ifTrue: [self asTuple asArray] ifFalse: [self rows])
 		withIndexCollect: [:each :i| Association key: each value: (self codomain x: i)].
-	S _ S asSortedCollection: [:a :b| a key leadingMonomial <= b key leadingMonomial].
+	S _ S asSortedCollection: [:a :b| (a key isZero not and: [b key isZero not]) and: [a key leadingMonomial <= b key leadingMonomial]].
 	[i0 _ basis size + 1.
 	S do: [:f| (basis reduce: f key) isZero ifFalse: [basis add: f key. combinations add: f value]].
-	S removeAll.
+	S _ SortedCollection sortBlock: [:a :b| a key leadingMonomial <= b key leadingMonomial].
 	1 to: basis size do: [:i| | fi hi ci ai |
 		fi _ basis at: i.
 		hi _ fi leadingMonomial.
 		ci _ fi leadingCoefficient.
 		ai _ combinations at: i.
-		(i+1 max: i0) to: basis size do: [:k| | fk hk ck lcm r f ak |
+		(i+1 max: i0) to: basis size do: [:k| | fk hk ck r f ak |
 			fk _ basis at: k.
 			hk _ fk leadingMonomial.
-			lcm _ hi lcm: hk.
-			"Buchberger Product Criterion and Chain Criterion
-			(Product Criterion is only applicable to rank 1):"
-			((rankOne not or: [lcm ~= (hi * hk)]) and: [((1 to: i-1) noneSatisfy: [:j| (basis at: j) leadingMonomial | lcm])])
-				ifTrue:
-					[ck _ fk leadingCoefficient.
-					ak _ combinations at: k.
-					f _ fi * (lcm / hi) / ci - (fk * (lcm / hk) / ck).
-					division _ MultivariateDivision divide: f by: basis.
-					r _ division remainder.
-					r isZero
-"						ifTrue: [Display fill: (i@k*4 extent: 3@3) fillColor: Color red]"
-						ifFalse:
-							["Display fill: (i@k*4 extent: 3@3) fillColor: Color green."
-							S add: (Association key: r value: ((ai * (R one * (lcm / hi) / ci) - (ak * (R one * (lcm / hk) / ck))) - (combinations * division quotients) sum))]]]].
+			(hi lcm: hk) ifNotNil: [:lcm|
+				"Buchberger Product Criterion and Chain Criterion
+				(Product Criterion is only applicable to rank 1):"
+				((rankOne not or: [lcm ~= (hi * hk)]) and: [((1 to: i-1) noneSatisfy: [:j| (basis at: j) leadingMonomial | lcm])])
+					ifTrue:
+						[ck _ fk leadingCoefficient.
+						ak _ combinations at: k.
+						f _ fi * (lcm / hi) / ci - (fk * (lcm / hk) / ck).
+						division _ f divisionBy: basis.
+						r _ division remainder.
+						r isZero
+"							ifTrue: [Display fill: (i@k*4 extent: 3@3) fillColor: Color red]"
+							ifFalse:
+								["Display fill: (i@k*4 extent: 3@3) fillColor: Color green."
+								S add: (Association key: r value: ((ai * (R one * (lcm / hi) / ci) - (ak * (R one * (lcm / hk) / ck))) - (combinations * division quotients) sum))]]]]].
 	S isEmpty] whileFalse.
-	^ {basis. self codomain to: R^combinations size filling: [:i :j| (combinations at: i) at: j]}! !
+	G _ rankOne ifTrue: [(R^basis size !! basis) asMatrix] ifFalse: [Matrix from: self domain rows: (basis collect: [:each| self domain !! each])].
+	T _ self codomain to: R^combinations size filling: [:i :j| (combinations at: i) at: j].
+	^ {G. T}! !
 
 !Matrix methodsFor: 'spectrum' stamp: 'len 5/29/2020 05:03:52'!
 eigenspaceAt: anEigenvalue
@@ -29027,11 +29064,11 @@ cosyzygies
 kernel
 	^ self syzygies image! !
 
-!Matrix methodsFor: 'subobjects' stamp: 'len 7/26/2021 16:13:24'!
+!Matrix methodsFor: 'subobjects' stamp: 'len 7/30/2021 07:42:53'!
 syzygies
 	"Answer a matrix whose columns span the (right) kernel or nullspace of the receiver.
 	For a matrix A, the output is X such that A*X = 0."
-	^ self propertyAt: #syzygies ifAbsentPut: [self scalars syzygiesOf: self]! !
+	^ "self propertyAt: #syzygies ifAbsentPut: ["self scalars syzygiesOf: self"]"! !
 
 !Matrix methodsFor: 'subobjects' stamp: 'len 5/3/2021 10:57:53'!
 syzygiesModulo: aMatrix
@@ -32466,6 +32503,10 @@ lgrevlex: anArray
 llex: anArray
 	^ LocalLexicographicOrdering indeterminates: anArray! !
 
+!MonomialOrdering class methodsFor: 'examples' stamp: 'len 7/29/2021 17:25:04'!
+revlex: anArray
+	^ LexicographicOrdering indeterminates: anArray reversed! !
+
 !MonomialOrdering class methodsFor: 'instance creation' stamp: 'len 1/28/2017 10:04:02'!
 indeterminates: anArray
 	anArray isInteger ifTrue: [^ self new: anArray].
@@ -34132,15 +34173,15 @@ verify
 root: aPoint generators: anArray action: aGroupAction
 	^ self new root: aPoint generators: anArray action: aGroupAction! !
 
-!ModuleElement methodsFor: 'accessing' stamp: 'len 5/8/2020 18:07:20'!
-normalized
-	"Answer a unique choice of associate. See >>unit."
-	^ self * self unit inverse! !
-
-!ModuleElement methodsFor: 'accessing' stamp: 'len 10/12/2020 12:24:48'!
-unit
-	"Answer a unit 'u' such that 'self * u inverse' is a unique choice of associate. See >>normalized."
+!ModuleElement methodsFor: 'accessing' stamp: 'len 7/30/2021 10:14:14'!
+normalization
+	"Answer a unit 'u' such that 'u * self' is a unique choice of associate. See >>normalized."
 	^ self subclassResponsibility! !
+
+!ModuleElement methodsFor: 'accessing' stamp: 'len 7/30/2021 10:25:59'!
+normalized
+	"Answer a unique choice of associate. See >>normalization."
+	^ self * self normalization! !
 
 !ModuleElement methodsFor: 'comparing' stamp: 'len 4/25/2020 09:25:18'!
 = anObject
@@ -34324,10 +34365,18 @@ lift
 	"If the coefficients ring is a quotient R/I, answer a representative of the receiver over R. See >>%."
 	^ parent lift filling: [:i| (self at: i) lift]! !
 
-!Tuple methodsFor: 'accessing' stamp: 'len 5/8/2020 18:05:32'!
-normalized
-	"Answer a unique choice of associate. See >>unit."
-	^ self * self unit inverse! !
+!Tuple methodsFor: 'accessing' stamp: 'len 7/30/2021 10:53:47'!
+normalization
+	"Answer a unit 'u' such that 'self * u' is a unique choice of associate. See >>normalized."
+	| d |
+	self reverseDo: [:each| each isUnit ifTrue: [^ each]].
+	(d _ self depth) > 0 ifFalse: [^ self scalars one].
+	^ (self at: d) normalization
+"	u _ (self at: d) unit.
+	a _ (self at: d) * u inverse.
+	u2 _ (self copyFrom: 1 to: d-1) unit.
+	a * u2 inverse = a ifTrue: [^ u*u2].
+	^ u"! !
 
 !Tuple methodsFor: 'accessing' stamp: 'len 5/9/2020 10:01:13'!
 numerator
@@ -34357,18 +34406,6 @@ second
 !Tuple methodsFor: 'accessing' stamp: 'len 7/26/2020 13:24:26'!
 size
 	^ parent rank! !
-
-!Tuple methodsFor: 'accessing' stamp: 'len 5/16/2020 19:02:24'!
-unit
-	"Answer a unit 'u' such that 'self * u inverse' is a unique choice of associate. See >>normalized."
-	| a d u u2 |
-	self reverseDo: [:each| each isUnit ifTrue: [^ each]].
-	(d _ self depth) > 0 ifFalse: [^ self scalars one].
-	u _ (self at: d) unit.
-	a _ (self at: d) * u inverse.
-	u2 _ (self copyFrom: 1 to: d-1) unit.
-	a * u2 inverse = a ifTrue: [^ u*u2].
-	^ u! !
 
 !Tuple methodsFor: 'accessing' stamp: 'len 3/29/2016 19:06'!
 x
@@ -35183,14 +35220,14 @@ monomialsDo: aBlock
 	self withIndexDo: [:fi :i|
 		fi monomialsDo: [:m| aBlock value: (TupleMonomial new ordering: ordering; position: i; monomial: m)]]! !
 
-!PolynomialTuple methodsFor: 'as yet unclassified' stamp: 'len 7/28/2021 13:06:02'!
-s: aPolynomialTuple
+!PolynomialTuple methodsFor: 'as yet unclassified' stamp: 'len 7/30/2021 09:43:19'!
+s: aTuple
 	"Answer the S-tuple of the receiver with the argument."
 	| h1 h2 lcm |
 	h1 _ self leadingMonomial.
-	h2 _ aPolynomialTuple leadingMonomial.
+	h2 _ aTuple leadingMonomial.
 	lcm _ (h1 lcm: h2) ifNil: [^ self zero].
-	^ self * (lcm / h1) / self leadingCoefficient - (aPolynomialTuple * (lcm / h2) / aPolynomialTuple leadingCoefficient)! !
+	^ self * (lcm / h1) / self leadingCoefficient + (aTuple * (lcm / h2) / aTuple leadingCoefficient negated)! !
 
 !SparseTuple methodsFor: 'accessing' stamp: 'len 7/18/2020 05:41:20'!
 at: key
@@ -36583,18 +36620,18 @@ reduceStep
 				[self multiplyRow: i by: pivot.
 				self addRow: row times: value negated toRow: i]]! !
 
-!HermiteReduction methodsFor: 'private' stamp: 'len 5/14/2020 12:27:26'!
+!HermiteReduction methodsFor: 'private' stamp: 'len 7/30/2021 10:45:05'!
 reduceStep: k column: j
 	"Perform the reduction step on row k and column j."
 	| i0 b |
 	"2. Column finished?"
 	[i0 _ (matrix height to: k+1 by: -1)
 		detect: [:i| (matrix at: i@j) isZero not]
-		ifNone: [self multiplyRow: k by: (matrix at: k@j) unit inverse. ^ self "go to step 5"].
+		ifNone: [self multiplyRow: k by: (matrix at: k@j) normalization. ^ self "go to step 5"].
 	"3. Choose non-zero entry with smallest absolute value:"
 	i0 _ ((k to: i0) select: [:i| (matrix at: i@j) isZero not]) detectMin: [:i| (matrix at: i@j) valuation].
 	i0 > k ifTrue: [self swapRow: i0 with: k].
-	self multiplyRow: k by: (matrix at: k@j) unit inverse.
+	self multiplyRow: k by: (matrix at: k@j) normalization.
 	b _ matrix at: k@j.
 	"4. Reduce:"
 	matrix height to: k+1 by: -1 do: [:i| | q |
@@ -36664,7 +36701,7 @@ cancel: aPoint withTemporary: aTuple
 	matrix rowAt: j put: Aj*s + (aTuple*t).
 	^ Aj*u + (aTuple*v)! !
 
-!HowellReduction methodsFor: 'private' stamp: 'len 7/15/2021 10:38:50'!
+!HowellReduction methodsFor: 'private' stamp: 'len 7/30/2021 10:45:21'!
 run
 	| n |
 	n _ matrix width.
@@ -36686,7 +36723,7 @@ run
 			ifTrue:
 				[B _ (matrix rowAt: j) copy]
 			ifFalse:
-				[self multiplyRow: j by: (matrix at: j@j) unit inverse.
+				[self multiplyRow: j by: (matrix at: j@j) normalization.
 				1 to: j-1 do: [:i| self addRow: j times: ((matrix at: i@j) // (matrix at: j@j)) negated toRow: i].
 				B _ (matrix rowAt: j) * (matrix at: j@j) annihilator].
 "		Transcript nextPut: $.; print: matrix; newLine."
@@ -37159,21 +37196,21 @@ annihilatorIdeal
 associates
 	^ self parent units collect: [:each| self*each]! !
 
-!RingElement methodsFor: 'accessing' stamp: 'len 5/8/2020 18:05:23'!
+!RingElement methodsFor: 'accessing' stamp: 'len 7/30/2021 09:57:30'!
+normalization
+	"Answer a unit 'u' such that 'u * self' is a unique choice of associate. See >>normalized."
+	self isUnit ifTrue: [^ self inverse].
+	self isZero ifTrue: [^ self parent one].
+	^ self subclassResponsibility! !
+
+!RingElement methodsFor: 'accessing' stamp: 'len 7/30/2021 10:27:06'!
 normalized
-	"Answer a unique choice of associate. See >>unit."
-	^ self * self unit inverse! !
+	"Answer a unique choice of associate. See >>normalization."
+	^ self * self normalization! !
 
 !RingElement methodsFor: 'accessing' stamp: 'len 9/24/2018 22:58:16'!
 one
 	^ self parent one! !
-
-!RingElement methodsFor: 'accessing' stamp: 'len 5/8/2020 18:13:13'!
-unit
-	"Answer a unit 'u' such that 'self * u inverse' is a unique choice of associate. See >>normalized."
-	self isUnit ifTrue: [^ self].
-	self isZero ifTrue: [^ self parent one].
-	^ self subclassResponsibility! !
 
 !RingElement methodsFor: 'accessing' stamp: 'len 5/8/2020 18:22:38'!
 valuation
@@ -37413,7 +37450,7 @@ stabilizerWith: b modulo: N
 	"If the receiver is 'a', answer 'c' such that '<a + cb, N> = <a, b, N>'."
 	self notYetImplemented! !
 
-!RingElement methodsFor: 'operations' stamp: 'len 5/18/2020 08:40:36'!
+!RingElement methodsFor: 'operations' stamp: 'len 7/30/2021 10:48:36'!
 xgcd: anElement
 	"Extended Euclidean algorithm.
 	If the receiver is 'a' and the argument is 'b'. answer an array {g. s. t} where as + bt = g = (a gcd: b)."
@@ -37433,8 +37470,8 @@ xgcd: anElement
 			temp _ r1. r1 _ r - (q * r1). r _ temp.
 			temp _ s1. s1 _ s - (q * s1). s _ temp.
 			temp _ t1. t1 _ t - (q * t1). t _ temp].
-	s _ s * b unit inverse. t _ t * a unit inverse.
-	u _ r unit inverse.
+	s _ s * b normalization. t _ t * a normalization.
+	u _ r normalization.
 	s _ s * u. t _ t * u. r _ r * u.
 	^ {r. t. s}! !
 
@@ -37523,16 +37560,13 @@ isZeroDivisor
 denominator
 	^ denominator! !
 
-!Germ methodsFor: 'accessing' stamp: 'len 3/3/2021 14:19:50'!
-numerator
-	^ numerator! !
+!Germ methodsFor: 'accessing' stamp: 'len 7/30/2021 10:29:02'!
+normalization
+	"Answer a unit 'u' such that 'u * self' is a unique choice of associate. See >>normalized."
+	^ self normalizationInverse inverse! !
 
-!Germ methodsFor: 'accessing' stamp: 'len 6/29/2019 18:19:48'!
-parent
-	^ parent! !
-
-!Germ methodsFor: 'accessing' stamp: 'len 3/3/2021 14:48:37'!
-unit
+!Germ methodsFor: 'accessing' stamp: 'len 7/30/2021 10:28:43'!
+normalizationInverse
 	"Answer a unit 'u' such that 'self * u inverse' is a unique choice of associate. See >>normalized."
 	| p q |
 	self isZero ifTrue: [^ parent one].
@@ -37540,6 +37574,14 @@ unit
 	q _ numerator.
 	[p | q] whileTrue: [q _ q // p].
 	^ parent reducedNumerator: q denominator: denominator ! !
+
+!Germ methodsFor: 'accessing' stamp: 'len 3/3/2021 14:19:50'!
+numerator
+	^ numerator! !
+
+!Germ methodsFor: 'accessing' stamp: 'len 6/29/2019 18:19:48'!
+parent
+	^ parent! !
 
 !Germ methodsFor: 'accessing' stamp: 'len 3/3/2021 14:36:20'!
 valuation
@@ -37607,7 +37649,7 @@ hash
 	(parent integers includes: anObject) ifTrue: [^ self / (parent embed: anObject)].
 	^ super / anObject! !
 
-!Germ methodsFor: 'operations' stamp: 'len 3/25/2021 12:50:11'!
+!Germ methodsFor: 'operations' stamp: 'len 7/30/2021 10:44:21'!
 // anElement
 	"Answer the quotient of the Euclidean division of the receiver by the argument."
 	| v |
@@ -37615,7 +37657,7 @@ hash
 	anElement isZero ifTrue: [^ (ZeroDivide receiver: self selector: #// argument: anElement) signal].
 	self isZero ifTrue: [^ self].
 	(v _ self valuation - anElement valuation) < 0 ifTrue: [^ self zero].
-	^ self unit * anElement unit inverse * (parent p ^ v)! !
+	^ self normalization inverse * anElement normalization * (parent p ^ v)! !
 
 !Germ methodsFor: 'operations' stamp: 'len 3/3/2021 14:43:30'!
 ^ anInteger
@@ -37638,11 +37680,11 @@ gcd: anElement
 height
 	^ numerator height max: denominator height! !
 
-!Germ methodsFor: 'operations' stamp: 'len 3/3/2021 14:58:22'!
+!Germ methodsFor: 'operations' stamp: 'len 7/30/2021 10:44:33'!
 inverse
 	| u |
 	self isUnit ifFalse: [^ DomainError signal: 'not a unit'].
-	u _ numerator unit inverse.
+	u _ numerator normalization.
 	^ parent reducedNumerator: denominator * u denominator: numerator * u! !
 
 !Germ methodsFor: 'operations' stamp: 'len 6/29/2019 17:46:38'!
@@ -37682,14 +37724,14 @@ isZeroDivisor
 parent: aLocalRing
 	parent _ aLocalRing! !
 
-!Germ methodsFor: 'private' stamp: 'len 3/3/2021 14:23:36'!
+!Germ methodsFor: 'private' stamp: 'len 7/30/2021 10:44:44'!
 reduce
 	| gcd u |
 	numerator isZero ifTrue: [denominator _ numerator one. ^ self].
 	gcd _ numerator gcd: denominator.
 	numerator _ numerator ÷ gcd.
 	denominator _ denominator ÷ gcd.
-	u _ denominator unit inverse.
+	u _ denominator normalization.
 	numerator _ numerator * u.
 	denominator _ denominator * u! !
 
@@ -37705,6 +37747,12 @@ bitSize
 !Ratio methodsFor: 'accessing' stamp: 'len 11/28/2015 06:28'!
 denominator
 	^ denominator! !
+
+!Ratio methodsFor: 'accessing' stamp: 'len 7/30/2021 11:02:59'!
+normalization
+	"Answer a unit 'u' such that 'u * self' is a unique choice of associate. See >>normalized."
+	self isUnit ifTrue: [^ self inverse].
+	^ self class reducedNumerator: denominator * numerator normalization denominator: denominator one! !
 
 !Ratio methodsFor: 'accessing' stamp: 'len 11/28/2015 06:28'!
 numerator
@@ -37723,13 +37771,6 @@ representative
 	| F |
 	F _ self parent integers base fractions.
 	^ F !! self numerator representative / (F !! self denominator representative)! !
-
-!Ratio methodsFor: 'accessing' stamp: 'len 7/23/2021 11:22:44'!
-unit
-	"Answer a unit 'u' such that 'self * u inverse' is a unique choice of associate. See >>normalized."
-	self isUnit ifTrue: [^ self].
-	"is this right?"
-	^ self class reducedNumerator: numerator unit denominator: denominator! !
 
 !Ratio methodsFor: 'accessing' stamp: 'len 5/8/2020 18:22:25'!
 valuation
@@ -37823,11 +37864,11 @@ hash
 height
 	^ numerator height max: denominator height! !
 
-!Ratio methodsFor: 'operations' stamp: 'len 3/3/2021 14:56:05'!
+!Ratio methodsFor: 'operations' stamp: 'len 7/30/2021 10:46:59'!
 inverse
 	| u |
 	self isUnit ifFalse: [^ DomainError signal: 'not an unit'].
-	u _ numerator unit inverse.
+	u _ numerator normalization.
 	^ self class reducedNumerator: denominator * u denominator: numerator * u! !
 
 !Ratio methodsFor: 'operations' stamp: 'len 3/3/2021 14:59:41'!
@@ -37863,14 +37904,14 @@ isZeroDivisor
 	"Answer true if there exists a nonzero element that multiplied by the receiver is zero."
 	^ numerator isZeroDivisor! !
 
-!Ratio methodsFor: 'private' stamp: 'len 6/7/2020 13:14:40'!
+!Ratio methodsFor: 'private' stamp: 'len 7/30/2021 10:47:45'!
 reduce
 	| gcd u |
 	numerator isZero ifTrue: [denominator _ numerator one. ^ self].
 	gcd _ numerator gcd: denominator.
 	numerator _ numerator ÷ gcd.
 	denominator _ denominator ÷ gcd.
-	u _ denominator unit inverse.
+	u _ denominator normalization.
 	numerator _ numerator * u.
 	denominator _ denominator * u! !
 
@@ -37896,6 +37937,11 @@ imaginary
 minimalPolynomial
 	^ „ polynomials x - self! !
 
+!Rational methodsFor: 'accessing' stamp: 'len 7/30/2021 10:36:03'!
+normalization
+	"Answer a unit 'u' such that 'u * self' is a unique choice of associate. See >>normalized."
+	^ self isZero ifTrue: [self one] ifFalse: [self inverse]! !
+
 !Rational methodsFor: 'accessing' stamp: 'len 5/23/2020 09:33:01'!
 parent
 	^ „! !
@@ -37903,11 +37949,6 @@ parent
 !Rational methodsFor: 'accessing' stamp: 'len 7/21/2019 04:48:12'!
 real
 	^ self! !
-
-!Rational methodsFor: 'accessing' stamp: 'len 5/8/2020 18:12:44'!
-unit
-	"Answer a unit 'u' such that 'self * u inverse' is a unique choice of associate. See >>normalized."
-	^ self isZero ifTrue: [self one] ifFalse: [self]! !
 
 !Rational methodsFor: 'comparing' stamp: 'len 7/17/2019 08:41:44'!
 < anElement
@@ -38169,9 +38210,25 @@ lift
 modulus
 	^ parent modulus! !
 
-!Residue methodsFor: 'accessing' stamp: 'len 5/10/2020 19:22:39'!
+!Residue methodsFor: 'accessing' stamp: 'len 7/30/2021 10:07:00'!
+normalization
+	"Answer a unit 'u' such that 'u * self' is a unique choice of associate. See >>normalized."
+	"Adapted from ModularInteger>>\. This algorithm solves the congruence ax = self (mod m) where 'a' is the canonical associate of the receiver, and then looks for a solution 'x' that is a unit."
+	| a x modulus m euclid |
+	self isZero ifTrue: [^ parent one].
+	self flag: #fix. "optimize and generalize for when base is not a PIR"
+	"See [Sto00], pag. 15."
+	parent base isPIR ifFalse: [^ DomainError signal].
+	a _ representative gcd: (modulus _ parent modulus).
+	a isOne ifTrue: [^ self].
+	x _ representative // a.
+	m _ modulus // a.
+	[(euclid _ x xgcd: modulus) first isOne] whileFalse: [x _ x + m].
+	^ parent project: euclid second! !
+
+!Residue methodsFor: 'accessing' stamp: 'len 7/30/2021 10:26:40'!
 normalized
-	"Answer a unique choice of associate. See >>unit."
+	"Answer a unique choice of associate. See >>normalization."
 	representative = 0 ifTrue: [^ self].
 	self flag: #fix. "optimize and generalize for when base is not a PIR"
 "	parent base isPIR ifFalse: [^ DomainError signal: 'base ring is not a PIR']."
@@ -38188,22 +38245,6 @@ parent
 !Residue methodsFor: 'accessing' stamp: 'len 11/25/2015 03:11'!
 representative
 	^ representative! !
-
-!Residue methodsFor: 'accessing' stamp: 'len 5/18/2020 06:56:47'!
-unit
-	"Answer a unit 'u' such that 'self * u inverse' is a unique choice of associate. See >>normalized."
-	"Adapted from ModularInteger>>\. This algorithm solves the congruence ax = self (mod m) where 'a' is the canonical associate of the receiver, and then looks for a solution 'x' that is a unit."
-	| a x modulus m |
-	self isZero ifTrue: [^ parent one].
-	self flag: #fix. "optimize and generalize for when base is not a PIR"
-	"See Storjohann. 'Algorithms for Matrix canonical Forms', pag. 15."
-	parent base isPIR ifFalse: [^ DomainError signal].
-	a _ representative gcd: (modulus _ parent modulus).
-	a isOne ifTrue: [^ self].
-	x _ representative // a.
-	m _ modulus // a.
-	[(x gcd: modulus) isOne] whileFalse: [x _ x + m].
-	^ parent project: x! !
 
 !Residue methodsFor: 'accessing' stamp: 'len 5/10/2020 18:24:04'!
 valuation
@@ -38321,7 +38362,7 @@ value: anObject
 valueWithArguments: anArray
 	^ representative valueWithArguments: anArray! !
 
-!Residue methodsFor: 'operations' stamp: 'len 5/18/2020 06:55:26'!
+!Residue methodsFor: 'operations' stamp: 'len 7/30/2021 10:47:54'!
 xgcd2: anElement
 	"Extended Euclidean algorithm.
 	Answer an array {g. u. v} where self * u + (anElement * v) = g, and g = (self gcd: anElement)."
@@ -38330,10 +38371,10 @@ xgcd2: anElement
 	parent base isPIR ifFalse: [^ DomainError signal].
 	xgcd _ representative xgcd: anElement representative.
 	g _ parent project: (xgcd at: 1).
-	u _ g unit inverse.
+	u _ g normalization.
 	^ {g * u. (parent project: (xgcd at: 2)) * u. (parent project: (xgcd at: 3)) * u}! !
 
-!Residue methodsFor: 'operations' stamp: 'len 5/18/2020 08:40:12'!
+!Residue methodsFor: 'operations' stamp: 'len 7/30/2021 10:48:01'!
 xgcd: anElement
 	"Extended Euclidean algorithm.
 	If the receiver is 'a' and the argument is 'b'. answer an array {g. s. t} where as + bt = g = (a gcd: b)."
@@ -38341,9 +38382,9 @@ xgcd: anElement
 	self flag: #fix. "optimize"
 	parent base isPIR ifFalse: [^ DomainError signal].
 	result _ (representative xgcd: anElement representative) collect: [:each| parent project: each].
-	^ result * result first unit inverse! !
+	^ result * result first normalization! !
 
-!Residue methodsFor: 'operations' stamp: 'len 5/19/2020 13:14:48'!
+!Residue methodsFor: 'operations' stamp: 'len 7/30/2021 10:48:11'!
 xxgcd: anElement
 	"(More) Extended Euclidean algorithm.
 	If the receiver is 'a' and the argument is 'b'. answer an array {g. s. t. u. v} where as + bt = g = (a gcd: b), au + bv = 0, and sv - ut = 1, i.e. answer the coefficients of a unimodular matrix such that:.
@@ -38353,7 +38394,7 @@ xxgcd: anElement
 	(self isZero and: [anElement isZero]) ifTrue: [^ {self. self parent one. self. self. self parent one}].
 	result _ representative xxgcd: anElement representative.
 	g _ parent project: (result at: 1).
-	x _ g unit inverse.
+	x _ g normalization.
 	g _ g * x.
 	s _ (parent project: (result at: 2)) * x.
 	t _ (parent project: (result at: 3)) * x.
@@ -38415,18 +38456,13 @@ lift
 	m _ parent modulus.
 	^ representative <= (m >> 1) ifTrue: [representative] ifFalse: [representative - m]! !
 
-!ModularInteger methodsFor: 'accessing' stamp: 'len 5/8/2020 18:05:05'!
-normalized
-	"Answer a unique choice of associate. See >>unit."
-	representative = 0 ifTrue: [^ self].
-	^ parent representative: (representative gcd: parent modulus)! !
+!ModularInteger methodsFor: 'accessing' stamp: 'len 7/30/2021 10:30:10'!
+normalization
+	"Answer a unit 'u' such that 'u * self' is a unique choice of associate. See >>normalized."
+	^ self normalizationInverse inverse! !
 
-!ModularInteger methodsFor: 'accessing' stamp: 'len 3/29/2016 20:49'!
-representative
-	^ representative! !
-
-!ModularInteger methodsFor: 'accessing' stamp: 'len 5/8/2020 18:11:31'!
-unit
+!ModularInteger methodsFor: 'accessing' stamp: 'len 7/30/2021 10:29:49'!
+normalizationInverse
 	"Answer a unit 'u' such that 'self * u inverse' is a unique choice of associate. See >>normalized."
 	"Adapted from ModularInteger>>\. This algorithm solves the congruence ax = self (mod m) where 'a' is the canonical associate of the receiver, and then looks for a solution 'x' that is a unit."
 	| a x modulus m |
@@ -38445,6 +38481,16 @@ unit
 	| associate |
 	associate _ self normalized.
 	^ self units detect: [:u| associate * u = self]"! !
+
+!ModularInteger methodsFor: 'accessing' stamp: 'len 7/30/2021 10:25:31'!
+normalized
+	"Answer a unique choice of associate. See >>normalization."
+	representative = 0 ifTrue: [^ self].
+	^ parent representative: (representative gcd: parent modulus)! !
+
+!ModularInteger methodsFor: 'accessing' stamp: 'len 3/29/2016 20:49'!
+representative
+	^ representative! !
 
 !ModularInteger methodsFor: 'comparing' stamp: 'len 9/16/2018 16:14:36'!
 = aModularInteger
@@ -38670,8 +38716,13 @@ isZeroDivisor
 representative: anInteger
 	representative _ anInteger! !
 
-!PrimePowerResidue methodsFor: 'accessing' stamp: 'len 5/8/2020 18:12:18'!
-unit
+!PrimePowerResidue methodsFor: 'accessing' stamp: 'len 7/30/2021 10:31:53'!
+normalization
+	"Answer a unit 'u' such that 'u * self' is a unique choice of associate. See >>normalized."
+	^ self normalizationInverse inverse! !
+
+!PrimePowerResidue methodsFor: 'accessing' stamp: 'len 7/30/2021 10:31:36'!
+normalizationInverse
 	"Answer a unit 'u' such that 'self * u inverse' is a unique choice of associate. See >>normalized."
 	| p q |
 	self isZero ifTrue: [^ parent one].
@@ -38697,7 +38748,7 @@ squareRoot
 	e _ q - (2*r) + 1 // 2.
 	^ ((parent representative: x) ^ r * ((parent representative: a) ^ e)) * ((parent representative: p) ^ (v // 2))! !
 
-!PrimePowerResidue methodsFor: 'operations-euclidean' stamp: 'len 5/29/2020 19:43:44'!
+!PrimePowerResidue methodsFor: 'operations-euclidean' stamp: 'len 7/30/2021 10:46:50'!
 // anElement
 	"Answer the quotient of the Euclidean division of the receiver by the argument."
 	| v |
@@ -38705,7 +38756,7 @@ squareRoot
 	anElement isZero ifTrue: [^ (ZeroDivide receiver: self selector: #// argument: anElement) signal].
 	self isZero ifTrue: [^ self].
 	(v _ self valuation - anElement valuation) < 0 ifTrue: [^ self zero].
-	^ self unit / anElement unit * (parent p ^ v)! !
+	^ anElement normalization / self normalization * (parent p ^ v)! !
 
 !PrimePowerResidue methodsFor: 'operations-euclidean' stamp: 'len 5/3/2020 23:17:48'!
 gcd: anElement
@@ -38737,9 +38788,9 @@ isZeroDivisor
 	"Answer true if there exists a nonzero element that multiplied by the receiver is zero."
 	^ parent p | representative! !
 
-!PrimeResidue methodsFor: 'accessing' stamp: 'len 5/8/2020 18:05:18'!
+!PrimeResidue methodsFor: 'accessing' stamp: 'len 7/30/2021 10:26:29'!
 normalized
-	"Answer a unique choice of associate. See >>unit."
+	"Answer a unique choice of associate. See >>normalization."
 	representative = 0 ifTrue: [^ self].
 	^ parent one! !
 
@@ -38891,22 +38942,27 @@ asRationalFunction
 isIntegral
 	^ self minimalPolynomial coefficients allSatisfy: [:each| each isIntegral]! !
 
-!GaloisResidue methodsFor: 'accessing' stamp: 'len 3/26/2021 12:03:38'!
-normalized
-	"Answer a unique choice of associate. See >>unit."
-	^ self * self unit inverse! !
+!GaloisResidue methodsFor: 'accessing' stamp: 'len 7/30/2021 10:33:35'!
+normalization
+	"Answer a unit 'u' such that 'u * self' is a unique choice of associate. See >>normalized."
+	^ self normalizationInverse inverse! !
 
-!GaloisResidue methodsFor: 'accessing' stamp: 'len 5/8/2020 18:10:52'!
-unit
+!GaloisResidue methodsFor: 'accessing' stamp: 'len 7/30/2021 10:24:18'!
+normalizationInverse
 	"Answer a unit 'u' such that 'self * u inverse' is a unique choice of associate. See >>normalized."
 	self isZero ifTrue: [^ parent one].
 	^ parent representative: representative primitivePart! !
+
+!GaloisResidue methodsFor: 'accessing' stamp: 'len 7/30/2021 10:28:13'!
+normalized
+	"Answer a unique choice of associate. See >>normalization."
+	^ self * self normalization! !
 
 !GaloisResidue methodsFor: 'accessing' stamp: 'len 6/25/2019 02:34:22'!
 valuation
 	^ representative content valuation! !
 
-!GaloisResidue methodsFor: 'operations' stamp: 'len 5/29/2020 19:41:41'!
+!GaloisResidue methodsFor: 'operations' stamp: 'len 7/30/2021 10:44:07'!
 // anElement
 	"Answer the quotient of the Euclidean division of the receiver by the argument."
 	| v |
@@ -38914,7 +38970,7 @@ valuation
 	self isZero ifTrue: [^ self].
 	(parent includes: anElement) ifFalse: [^ self adapt: anElement andSend: #//].
 	(v _ self valuation - anElement valuation) < 0 ifTrue: [^ self zero].
-	^ self unit * anElement unit inverse * (parent p ^ v)! !
+	^ self normalization inverse * anElement normalization * (parent p ^ v)! !
 
 !GaloisResidue methodsFor: 'operations' stamp: 'len 9/7/2019 10:32:44'!
 gcd: anElement
@@ -38954,6 +39010,11 @@ isZeroDivisor
 at: anInteger
 	^ components at: anInteger! !
 
+!RingTuple methodsFor: 'accessing' stamp: 'len 7/30/2021 10:36:57'!
+normalization
+	"Answer a unit 'u' such that 'u * self' is a unique choice of associate. See >>normalized."
+	^ parent compose: (components collect: [:each| each normalization])! !
+
 !RingTuple methodsFor: 'accessing' stamp: 'len 4/23/2020 01:37:47'!
 parent
 	^ parent! !
@@ -38961,11 +39022,6 @@ parent
 !RingTuple methodsFor: 'accessing' stamp: 'len 4/23/2020 01:41:55'!
 size
 	^ components size! !
-
-!RingTuple methodsFor: 'accessing' stamp: 'len 5/8/2020 18:13:23'!
-unit
-	"Answer a unit 'u' such that 'self * u inverse' is a unique choice of associate. See >>normalized."
-	^ parent compose: (components collect: [:each| each unit])! !
 
 !RingTuple methodsFor: 'comparing' stamp: 'len 4/23/2020 01:40:33'!
 = anObject
@@ -39032,6 +39088,13 @@ components: anArray
 parent: aProductRing
 	parent _ aProductRing! !
 
+!Polynomial methodsFor: 'accessing' stamp: 'len 7/30/2021 10:15:29'!
+normalization
+	"Answer a unit 'u' such that 'u * self' is a unique choice of associate. See >>normalized.
+	NOTE: when the coefficients ring is not an integral domain this choice of unit might not be unique."
+	self isZero ifTrue: [^ parent one].
+	^ parent constant: self leadingCoefficient normalization! !
+
 !Polynomial methodsFor: 'accessing' stamp: 'len 10/6/2016 15:34'!
 parent
 	^ parent! !
@@ -39044,18 +39107,6 @@ representative
 !Polynomial methodsFor: 'accessing' stamp: 'len 10/6/2016 15:34'!
 scalars
 	^ parent scalars! !
-
-!Polynomial methodsFor: 'accessing' stamp: 'len 3/26/2021 11:54:28'!
-unit
-	"Answer a unit 'u' such that 'self * u inverse' is a unique choice of associate. See >>normalized.
-	NOTE: when the coefficients ring is not an integral domain this choice of unit might not be unique."
-	self isZero ifTrue: [^ parent one].
-	^ parent constant: self leadingCoefficient unit
-
-"	parent scalars isIntegralDomain ifTrue: [^ parent constant: self leadingCoefficient unit].
-	u _ parent scalars one.
-	self coefficients do: [:each| u _ u * each unit].
-	^ parent constant: u"! !
 
 !Polynomial methodsFor: 'accessing' stamp: 'len 5/8/2020 18:22:10'!
 valuation
@@ -39567,14 +39618,14 @@ pseudoRem: aPolynomial
 	self isUnivariate ifFalse: [^ (self pseudoDivisionBy: aPolynomial in: self leadingIndeterminate) remainder asMultivariate].
 	^ (self pseudoDivisionBy: aPolynomial) remainder! !
 
-!Polynomial methodsFor: 'operations' stamp: 'len 2/12/2017 12:26:39'!
+!Polynomial methodsFor: 'operations' stamp: 'len 7/30/2021 09:43:41'!
 s: aPolynomial
 	"Answer the S-polynomial of the receiver with the argument."
 	| h1 h2 lcm |
 	h1 _ self leadingMonomial.
 	h2 _ aPolynomial leadingMonomial.
 	lcm _ h1 lcm: h2.
-	^ self * (lcm / h1) / self leadingCoefficient - (aPolynomial * (lcm / h2) / aPolynomial leadingCoefficient)! !
+	^ self * (lcm / h1) / self leadingCoefficient + (aPolynomial * (lcm / h2) / aPolynomial leadingCoefficient negated)! !
 
 !Polynomial methodsFor: 'operations' stamp: 'len 5/9/2020 17:55:10'!
 squareFree
@@ -39612,7 +39663,7 @@ value: anObject
 valueWithArguments: anArray
 	^ self value: anArray! !
 
-!Polynomial methodsFor: 'operations' stamp: 'len 5/9/2020 14:05:56'!
+!Polynomial methodsFor: 'operations' stamp: 'len 7/30/2021 10:46:22'!
 xgcd: aPolynomial
 	"Extended Euclidean algorithm.
 	Answer an array {g. u. v} where self * u + (aPolynomial * v) = g, and g = (self gcd: aPolynomial)."
@@ -39634,8 +39685,8 @@ xgcd: aPolynomial
 					temp _ r1. r1 _ r - (q * r1). r _ temp.
 					temp _ s1. s1 _ s - (q * s1). s _ temp.
 					temp _ t1. t1 _ t - (q * t1). t _ temp].
-			s _ s * b unit inverse. t _ t * a unit inverse.
-			u _ r unit inverse.
+			s _ s * b normalization. t _ t * a normalization.
+			u _ r normalization.
 			s _ s * u. t _ t * u. r _ r * u]
 		ifFalse:
 			[r1 _ a primitivePart normalized.
@@ -39649,8 +39700,8 @@ xgcd: aPolynomial
 					temp _ r1. r1 _ r*m - (q * r1). r _ temp.
 					temp _ s1. s1 _ s*m - (q * s1). s _ temp.
 					temp _ t1. t1 _ t*m - (q * t1). t _ temp].
-			s _ s * b unit inverse. t _ t * a unit inverse.
-			u _ (a content gcd: b content) * r unit inverse.
+			s _ s * b normalization. t _ t * a normalization.
+			u _ (a content gcd: b content) * r normalization.
 			s _ s * u. t _ t * u. r _ r * u].
 	^ {r. t. s}! !
 
@@ -41621,6 +41672,22 @@ coefficients
 	q _ representative.
 	^ Sequence streaming: [| r | r _ q \\ p. q _ q // p. r]! !
 
+!AdicInteger methodsFor: 'accessing' stamp: 'len 7/30/2021 10:23:13'!
+normalization
+	"Answer a unit 'u' such that 'u * self' is a unique choice of associate. See >>normalized."
+	^ self normalizationInverse inverse! !
+
+!AdicInteger methodsFor: 'accessing' stamp: 'len 7/30/2021 10:23:00'!
+normalizationInverse
+	"Answer a unit 'u' such that 'self * u inverse' is a unique choice of associate. See >>normalized."
+	| p q v |
+	self isZero ifTrue: [^ parent one].
+	p _ parent p.
+	q _ representative.
+	v _ 0.
+	[p | q] whileTrue: [q _ q // p. v _ v + 1].
+	^ parent representative: q precision: precision - v! !
+
 !AdicInteger methodsFor: 'accessing' stamp: 'len 8/7/2019 10:13:08'!
 parent
 	^ parent! !
@@ -41637,17 +41704,6 @@ relativePrecision
 !AdicInteger methodsFor: 'accessing' stamp: 'len 8/11/2019 02:33:28'!
 representative
 	^ representative! !
-
-!AdicInteger methodsFor: 'accessing' stamp: 'len 5/8/2020 18:10:28'!
-unit
-	"Answer a unit 'u' such that 'self * u inverse' is a unique choice of associate. See >>normalized."
-	| p q v |
-	self isZero ifTrue: [^ parent one].
-	p _ parent p.
-	q _ representative.
-	v _ 0.
-	[p | q] whileTrue: [q _ q // p. v _ v + 1].
-	^ parent representative: q precision: precision - v! !
 
 !AdicInteger methodsFor: 'accessing' stamp: 'len 8/11/2019 02:23:15'!
 valuation
@@ -41681,7 +41737,7 @@ isWeaklyEqualTo: anElement
 	(parent includes: anElement) ifFalse: [^ self adapt: anElement andSend: #+].
 	^ parent project: representative + anElement representative precision: (precision min: anElement precision)! !
 
-!AdicInteger methodsFor: 'operations' stamp: 'len 5/29/2020 19:39:28'!
+!AdicInteger methodsFor: 'operations' stamp: 'len 7/30/2021 10:42:49'!
 // anElement
 	"Answer the quotient of the Euclidean division of the receiver by the argument."
 	| v |
@@ -41689,7 +41745,7 @@ isWeaklyEqualTo: anElement
 	anElement isZero ifTrue: [^ (ZeroDivide receiver: self selector: #// argument: anElement) signal].
 	self isZero ifTrue: [^ self].
 	(v _ self valuation - anElement valuation) < 0 ifTrue: [^ self zero].
-	^ self unit * anElement unit inverse * (parent power: v)! !
+	^ self normalization inverse * anElement normalization * (parent power: v)! !
 
 !AdicInteger methodsFor: 'operations' stamp: 'len 8/11/2019 11:22:59'!
 << anInteger
@@ -41752,12 +41808,12 @@ printExpansionOn: aStream shifted: v
 				first _ false]].
 	aStream nextPutAll: ' + ', 'O' italic; nextPut: $(; print: parent p; nextPutAll: (precision + v) printString super; nextPut: $)! !
 
-!AdicInteger methodsFor: 'printing' stamp: 'len 5/23/2020 07:28:18'!
+!AdicInteger methodsFor: 'printing' stamp: 'len 7/30/2021 10:43:01'!
 printOn: aStream shifted: valuationShift
 	| v u |
 	self isZero ifTrue: [aStream nextPut: $0. ^ self].
 	v _ self valuation - valuationShift.
-	u _ self unit centeredRepresentative.
+	u _ self normalizationInverse centeredRepresentative.
 	v = 0
 		ifTrue: [aStream print: u]
 		ifFalse:
@@ -42012,6 +42068,23 @@ leadingMonomial
 leadingTerm
 	^ representative initialTerm! !
 
+!PowerSeries methodsFor: 'accessing' stamp: 'len 7/30/2021 10:31:22'!
+normalization
+	"Answer a unit 'u' such that 'u * self' is a unique choice of associate. See >>normalized."
+	^ self normalizationInverse inverse! !
+
+!PowerSeries methodsFor: 'accessing' stamp: 'len 7/30/2021 10:31:07'!
+normalizationInverse
+	"Answer a unit 'u' such that 'self * u inverse' is a unique choice of associate. See >>normalized."
+	self isUnit ifTrue: [^ self].
+	self isZero ifTrue: [^ self parent one].
+	self parent isUnivariate
+		ifTrue:
+			[| v |
+			v _ representative order.
+			^ self parent representative: representative >> v precision: precision - v].
+	^ self notYetImplemented! !
+
 !PowerSeries methodsFor: 'accessing' stamp: 'len 8/9/2019 09:44:38'!
 parent
 	^ parent! !
@@ -42028,18 +42101,6 @@ relativePrecision
 !PowerSeries methodsFor: 'accessing' stamp: 'len 8/9/2019 09:45:12'!
 representative
 	^ representative! !
-
-!PowerSeries methodsFor: 'accessing' stamp: 'len 6/7/2020 14:47:17'!
-unit
-	"Answer a unit 'u' such that 'self * u inverse' is a unique choice of associate. See >>normalized."
-	self isUnit ifTrue: [^ self].
-	self isZero ifTrue: [^ self parent one].
-	self parent isUnivariate
-		ifTrue:
-			[| v |
-			v _ representative order.
-			^ self parent representative: representative >> v precision: precision - v].
-	^ self notYetImplemented! !
 
 !PowerSeries methodsFor: 'accessing' stamp: 'len 4/14/2020 18:54:45'!
 valuation
@@ -42750,84 +42811,28 @@ divide: aPolynomial by: anArrayOfPolynomials
 	dividend _ aPolynomial.
 	divisors _ anArrayOfPolynomials! !
 
-!MultivariateDivision methodsFor: 'private' stamp: 'len 7/28/2021 07:42:48'!
+!MultivariateDivision methodsFor: 'private' stamp: 'len 7/29/2021 10:11:02'!
 divide
 	"Perform the division algorithm computing quotients and remainder."
-	| p s zero fi q head t i |
-	zero _ dividend zero.
-	quotients _ (1 to: divisors size) collect: [:each| zero].
+	| R p s fi q head i |
+	R _ dividend isTuple ifTrue: [dividend scalars] ifFalse: [dividend parent].
+	quotients _ Array new: divisors size withAll: R zero.
 	divisors isEmpty ifTrue: [remainder _ dividend. ^ self].
-	remainder _ zero.
+	remainder _ dividend zero.
 	s _ divisors size.
 	p _ dividend.
 	[p isZero] whileFalse:
 		[head _ p leadingMonomial.
-		t _ p leadingTerm.
 		i _ 1.
 		[(fi _ divisors at: i) leadingMonomial | head or: [(i _ i + 1) > s]] whileFalse.
 		i <= s "i.e. found fi with leading monomial dividing head"
 			ifTrue:
-				[q _ t // fi leadingMonomial / fi leadingCoefficient.
+				[q _ R coefficient: p leadingCoefficient / fi leadingCoefficient monomial: head / fi leadingMonomial.
 				quotients at: i put: (quotients at: i) + q.
-				p _ p - (fi * q)]
+				p _ p + (fi * q negated)]
 			ifFalse:
-				[remainder _ remainder + t.
+				[remainder _ remainder + p leadingTerm.
 				p _ p tail]]! !
-
-!MultivariateDivision methodsFor: 'private' stamp: 'len 5/3/2020 10:07:05'!
-divide2
-	"Perform the division algorithm computing quotients and remainder."
-	| p s zero fi q headp headfi t heads i inverses |
-	zero _ dividend zero.
-	quotients _ (1 to: divisors size) collect: [:each| zero].
-	divisors isEmpty ifTrue: [remainder _ dividend. ^ self].
-	remainder _ zero.
-	s _ divisors size.
-	p _ dividend.
-	heads _ Array new: divisors size.
-	inverses _ Array new: divisors size.
-	[p isZero] whileFalse:
-		[headp _ p leadingMonomial.
-		t _ p termAt: headp.
-		i _ 1.
-		[headfi _ (heads at: i) ifNil: [heads at: i put: (fi _ divisors at: i) leadingMonomial].
-		(headfi | headp) or: [(i _ i + 1) > s]] whileFalse.
-		i <= s "i.e. found fi such that headfi | headp"
-			ifTrue:
-				[fi _ divisors at: i.
-				q _ t / headfi * ((inverses at: i) ifNil: [inverses at: i put: (fi at: headfi) inverse]).
-				quotients at: i put: (quotients at: i) + q.
-				p _ p - (fi * q)]
-			ifFalse:
-				[remainder _ remainder + t.
-				p _ p - t]]! !
-
-!MultivariateDivision methodsFor: 'private' stamp: 'len 5/3/2020 10:07:11'!
-divide3
-	"Perform the division algorithm computing quotients and remainder."
-	| p s zero fi q headp headfi t heads i |
-	zero _ dividend zero.
-	quotients _ (1 to: divisors size) collect: [:each| zero].
-	divisors isEmpty ifTrue: [remainder _ dividend. ^ self].
-	remainder _ zero.
-	s _ divisors size.
-	p _ dividend.
-	heads _ Array new: divisors size.
-	[p isZero] whileFalse:
-		[headp _ p leadingMonomial.
-		t _ p termAt: headp.
-		i _ 1.
-		[headfi _ (heads at: i) ifNil: [heads at: i put: (fi _ divisors at: i) leadingMonomial].
-		(headfi | headp) or: [(i _ i + 1) > s]] whileFalse.
-		i <= s "i.e. found fi such that headfi | headp"
-			ifTrue:
-				[fi _ divisors at: i.
-				q _ t / headfi * (fi at: headfi) inverse.
-				quotients at: i put: (quotients at: i) + q.
-				p _ p - (fi * q)]
-			ifFalse:
-				[remainder _ remainder + t.
-				p _ p - t]]! !
 
 !MultivariateDivision methodsFor: 'private' stamp: 'len 5/10/2018 07:23:22'!
 verify
@@ -43806,7 +43811,7 @@ gcd
 elements: anArray
 	elements _ anArray! !
 
-!ExtendedEuclid methodsFor: 'private' stamp: 'len 5/8/2020 18:08:20'!
+!ExtendedEuclid methodsFor: 'private' stamp: 'len 7/30/2021 10:43:43'!
 run
 	| a b zero one s1 t1 s t r1 r u |
 	self assert: elements size = 2.
@@ -43824,8 +43829,8 @@ run
 			temp _ s1. s1 _ s - (q * s1). s _ temp.
 			temp _ t1. t1 _ t - (q * t1). t _ temp].
 	gcd _ r.
-	s _ s * b unit inverse. t _ t * a unit inverse.
-	u _ gcd unit inverse.
+	s _ s * b normalization. t _ t * a normalization.
+	u _ gcd normalization.
 	s _ s * u. t _ t * u. gcd _ gcd * u.
 	bezout _ {t. s}! !
 
@@ -46173,9 +46178,14 @@ multichoose: anInteger
 multiplicativeOrder
 	^ self == 1 ifTrue: [1] ifFalse: [self == -1 ifTrue: [2] ifFalse: [Infinity positive]]! !
 
-!Integer methodsFor: '*domains' stamp: 'len 5/8/2020 18:04:59'!
+!Integer methodsFor: '*domains' stamp: 'len 7/30/2021 10:11:48'!
+normalization
+	"Answer a unit 'u' such that 'u * self' is a unique choice of associate. See >>normalized."
+	^ self < 0 ifTrue: [-1] ifFalse: [1]! !
+
+!Integer methodsFor: '*domains' stamp: 'len 7/30/2021 10:25:24'!
 normalized
-	"Answer a unique choice of associate. See >>unit."
+	"Answer a unique choice of associate. See >>normalization."
 	^ self abs! !
 
 !Integer methodsFor: '*domains' stamp: 'len 12/13/2015 02:00'!
@@ -46329,11 +46339,6 @@ stirling: anInteger
 	self = anInteger ifTrue: [^ self Stirling: anInteger].
 	self+1 = anInteger ifTrue: [^ self choose: 2].
 	^ (self-1) * (self-1 stirling: anInteger) + (self-1 stirling: anInteger-1)! !
-
-!Integer methodsFor: '*domains' stamp: 'len 5/8/2020 18:11:15'!
-unit
-	"Answer a unit 'u' such that 'self * u inverse' is a unique choice of associate. See >>normalized."
-	^ self < 0 ifTrue: [-1] ifFalse: [1]! !
 
 !Integer methodsFor: '*domains' stamp: 'len 6/9/2019 07:58:03'!
 valuation
