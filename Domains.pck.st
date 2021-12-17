@@ -1,4 +1,4 @@
-'From Cuis 5.0 [latest update: #4542] on 16 December 2021 at 6:09:01 pm'!
+'From Cuis 5.0 [latest update: #4542] on 17 December 2021 at 2:36:04 pm'!
 'Description A computational algebra system in Smalltalk.
 
 References:
@@ -37,7 +37,7 @@ References:
 [] Victor Shoup; "A Computational Introduction to Number Theory and Algebra"
 [] Joseph. H. Silverman; "The Arithmetic of Elliptic Curves"
 '!
-!provides: 'Domains' 1 634!
+!provides: 'Domains' 1 635!
 !requires: 'Complex' 1 7 nil!
 SystemOrganization addCategory: #'Domains-Kernel'!
 SystemOrganization addCategory: #'Domains-Kernel-Support'!
@@ -1853,7 +1853,7 @@ AffineSchemeMap class
 
 !classDefinition: #RationalPoint category: #'Domains-Varieties'!
 SchemeMap subclass: #RationalPoint
-	instanceVariableNames: 'codomain'
+	instanceVariableNames: 'codomain coordinates'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Domains-Varieties'!
@@ -1863,7 +1863,7 @@ RationalPoint class
 
 !classDefinition: #AffinePoint category: #'Domains-Varieties'!
 RationalPoint subclass: #AffinePoint
-	instanceVariableNames: 'coordinates'
+	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Domains-Varieties'!
@@ -1873,7 +1873,7 @@ AffinePoint class
 
 !classDefinition: #ProjectivePoint category: #'Domains-Varieties'!
 RationalPoint subclass: #ProjectivePoint
-	instanceVariableNames: 'coordinates'
+	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Domains-Varieties'!
@@ -3913,7 +3913,7 @@ An important class of schemes are those defined by polynomial equations in some 
 The Grassmannian Gr(r,V) is the set of r-dimensional subspaces of the vector space V.!
 
 !AffineScheme commentStamp: '<historical>' prior: 0!
-An affine scheme is the prime spectrum Spec(R) of a commutative ring R, equipped with a sheaf of local rings (which makes it a locally ringed space). As a set, its elements are the prime ideals of the coordinate ring R.
+The prime spectrum Spec(R) of a commutative ring R, equipped with a sheaf of local rings (which makes it a locally ringed space). As a set, its elements are the prime ideals of the coordinate ring R.
 
 The ring R should be thought as the ring of regular functions on Spec(R). Concretely, each element f of R defines a function that takes a point p of Spec(R) (i.e., a prime ideal p of R) to the image of f by the canonical map to the residue field at p.
 
@@ -3921,7 +3921,7 @@ Affine schemes are the fundamental building blocks of general schemes. Any schem
 !
 
 !AffineVariety commentStamp: '<historical>' prior: 0!
-Closed subschemes of an affine space (see AffineSpace). Their coordinate rings are quotients of multivariate polynomial rings by an ideal (i.e. affine algebras, see AffineRing). Their rational points are AffinePoints.
+Closed subschemes of an affine space (see AffineSpace). Their coordinate rings are quotients of multivariate polynomial rings by an ideal (i.e. affine algebras, see AffineAlgebra). Their rational points are AffinePoints.
 
 These are schemes, not classical algebraic varieties. Here the name 'variety' only means that they are defined by polynomial equations. The integral (reduced and irreducible) closed subschemes of affine space over an algebraically closed field correspond to the classical affine algebraic varieties.
 !
@@ -20265,11 +20265,9 @@ integers
 	"Answer the ring of integers of the receiver."
 	^ self propertyAt: #integers ifAbsentPut: [QuadraticRing on: self]! !
 
-!QuadraticField methodsFor: 'accessing' stamp: 'len 11/12/2016 07:31'!
+!QuadraticField methodsFor: 'accessing' stamp: 'len 12/17/2021 14:24:58'!
 integralBasis
-	| w |
-	w _ self x + (self embed: self discriminant) / (self embed: 2).
-	^ {self one. w}! !
+	^ {self one. self d \\ 4 = 1 ifTrue: [self one + self x / 2] ifFalse: [self x]}! !
 
 !QuadraticField methodsFor: 'testing' stamp: 'len 12/18/2016 21:54:14'!
 isMonogenic
@@ -23208,11 +23206,6 @@ patches
 	"Answer an affine cover of the receiver."
 	^ self propertyAt: #patches! !
 
-!Scheme methodsFor: 'accessing' stamp: 'len 12/15/2021 13:04:58'!
-stalkAt: aPoint
-	"Answer the local ring at aPoint. This is the stalk of the structure sheaf (i.e. the ring of germs) at aPoint."
-	^ self notYetImplemented! !
-
 !Scheme methodsFor: 'operations' stamp: 'len 3/13/2020 09:43:58'!
 apply: aMorphism
 	"Answer the homomorphic image of the receiver."
@@ -23226,9 +23219,9 @@ subscheme: anObject
 	self isAmbient ifTrue: [^ self subclassResponsibility].
 	^ self /\ (self ambient subscheme: anObject)! !
 
-!Scheme methodsFor: 'testing' stamp: 'len 1/13/2017 16:30:27'!
+!Scheme methodsFor: 'testing' stamp: 'len 12/17/2021 11:56:22'!
 isAffine
-	^ false! !
+	^ self notYetImplemented! !
 
 !Scheme methodsFor: 'testing' stamp: 'len 3/15/2021 13:49:38'!
 isConnected
@@ -23489,6 +23482,11 @@ decomposition
 	"Answer the irreducible components of the receiver."
 	^ self asIdeal associatedPrimes collect: [:each| self subscheme: each]! !
 
+!AffineScheme methodsFor: 'operations' stamp: 'len 12/17/2021 12:08:58'!
+reduced
+	"Answer the reduced subscheme of the receiver."
+	^ self propertyAt: #reducedSubscheme ifAbsentPut: [self ambient subscheme: self asIdeal radical]! !
+
 !AffineScheme methodsFor: 'operations' stamp: 'len 8/1/2021 10:49:51'!
 subscheme: anObject
 	| I |
@@ -23666,11 +23664,6 @@ projectiveClosure
 projectivized
 	"Answer the projectivization of the receiver."
 	^ self coordinateRing proj! !
-
-!AffineVariety methodsFor: 'operations' stamp: 'len 12/15/2021 11:59:26'!
-reduced
-	"Answer the reduced subscheme of the receiver."
-	^ self propertyAt: #reducedSubscheme ifAbsentPut: [self ambient subscheme: self asIdeal radical]! !
 
 !AffineVariety methodsFor: 'operations' stamp: 'len 12/15/2021 11:59:40'!
 singular
@@ -30242,33 +30235,45 @@ ambient
 codomain
 	^ codomain! !
 
+!RationalPoint methodsFor: 'accessing' stamp: 'len 12/17/2021 11:50:46'!
+coordinates
+	^ coordinates! !
+
 !RationalPoint methodsFor: 'accessing' stamp: 'len 11/16/2016 08:45'!
 domain
 	^ self scalars spec! !
 
-!RationalPoint methodsFor: 'accessing' stamp: 'len 11/7/2016 16:25'!
+!RationalPoint methodsFor: 'accessing' stamp: 'len 12/17/2021 11:51:49'!
 scalars
-	^ self domain coordinateRing! !
+	^ coordinates scalars! !
 
-!RationalPoint methodsFor: 'private' stamp: 'len 11/16/2016 08:43'!
-codomain: aScheme
-	codomain _ aScheme! !
+!RationalPoint methodsFor: 'converting' stamp: 'len 12/17/2021 11:53:17'!
+asTuple
+	^ coordinates! !
 
-!RationalPoint methodsFor: 'testing' stamp: 'len 11/7/2016 13:33'!
+!RationalPoint methodsFor: 'testing' stamp: 'len 12/17/2021 11:55:00'!
 isAffine
-	^ self codomain isAffine! !
+	^ false! !
 
 !RationalPoint methodsFor: 'testing' stamp: 'len 1/11/2017 13:32:11'!
 isFlex
 	^ self multiplicity >= 3! !
 
-!RationalPoint methodsFor: 'testing' stamp: 'len 11/7/2016 13:33'!
+!RationalPoint methodsFor: 'testing' stamp: 'len 12/17/2021 11:55:07'!
 isProjective
-	^ self codomain isProjective! !
+	^ false! !
 
 !RationalPoint methodsFor: 'testing' stamp: 'len 11/7/2016 08:27'!
 isSingular
 	^ self isSmooth not! !
+
+!RationalPoint methodsFor: 'private' stamp: 'len 11/16/2016 08:43'!
+codomain: aScheme
+	codomain _ aScheme! !
+
+!RationalPoint methodsFor: 'private' stamp: 'len 12/17/2021 11:50:58'!
+coordinates: aTuple
+	coordinates _ aTuple! !
 
 !AffinePoint methodsFor: 'accessing' stamp: 'len 12/15/2021 11:55:03'!
 asIdeal
@@ -30278,10 +30283,6 @@ asIdeal
 	R _ self codomain ambient coordinateRing.
 	^ R * (R generators - self coordinates)! !
 
-!AffinePoint methodsFor: 'accessing' stamp: 'len 11/7/2016 13:16'!
-coordinates
-	^ coordinates! !
-
 !AffinePoint methodsFor: 'accessing' stamp: 'len 1/7/2017 22:07:07'!
 height
 	^ coordinates height! !
@@ -30290,10 +30291,6 @@ height
 multiplicity
 	^ self codomain multiplicityAt: coordinates
 	"^ self localRing multiplicity"! !
-
-!AffinePoint methodsFor: 'accessing' stamp: 'len 11/7/2016 13:31'!
-scalars
-	^ coordinates scalars! !
 
 !AffinePoint methodsFor: 'accessing' stamp: 'len 12/13/2021 17:27:53'!
 stalk
@@ -30332,33 +30329,22 @@ hash
 asRingMap
 	^ self codomain coordinateRing to: self domain coordinateRing evaluating: [:f| f value: self coordinates]! !
 
-!AffinePoint methodsFor: 'converting' stamp: 'len 11/7/2016 13:48'!
-asTuple
-	^ coordinates! !
-
 !AffinePoint methodsFor: 'converting' stamp: 'len 1/10/2017 20:47:52'!
 homogenized
 	"Answer the corresponding point in the projective closure."
 	^ self codomain projectiveEmbedding value: self! !
 
+!AffinePoint methodsFor: 'testing' stamp: 'len 12/17/2021 11:55:18'!
+isAffine
+	^ true! !
+
 !AffinePoint methodsFor: 'testing' stamp: 'len 2/8/2017 07:15:41'!
 isSmooth
 	^ (self codomain singular satisfies: self coordinates) not! !
 
-!AffinePoint methodsFor: 'private' stamp: 'len 11/7/2016 13:16'!
-coordinates: aTuple
-	coordinates _ aTuple! !
-
 !AffinePoint class methodsFor: 'instance creation' stamp: 'len 2/13/2017 21:16:06'!
 on: anAffineVariety coordinates: aTuple
 	^ self new codomain: anAffineVariety; coordinates: aTuple! !
-
-!ProjectivePoint methodsFor: 'printing' stamp: 'len 2/10/2017 09:55:36'!
-printInsidesOn: aStream
-	| separator |
-	separator _ (self coordinates anySatisfy: [:any| any printString isAlphaNumeric not]) ifTrue: [' : '] ifFalse: [':'].
-	self coordinates do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: separator].
-! !
 
 !ProjectivePoint methodsFor: 'accessing' stamp: 'len 12/15/2021 11:56:14'!
 asIdeal
@@ -30377,17 +30363,9 @@ asIdeal
 		generators add: (R x: i)].
 	^ R * generators! !
 
-!ProjectivePoint methodsFor: 'accessing' stamp: 'len 11/7/2016 13:16'!
-coordinates
-	^ coordinates! !
-
 !ProjectivePoint methodsFor: 'accessing' stamp: 'len 2/13/2017 07:53:19'!
 multiplicity
 	^ self dehomogenized multiplicity "assuming none of the components of the projective variety lies on the hyperplane at infinity"! !
-
-!ProjectivePoint methodsFor: 'accessing' stamp: 'len 11/7/2016 13:30'!
-scalars
-	^ coordinates scalars! !
 
 !ProjectivePoint methodsFor: 'accessing' stamp: 'len 7/1/2019 09:09:11'!
 stalk
@@ -30428,10 +30406,6 @@ hashIntegralDomain
 	1 to: coordinates size do: [:i | hash _ (hash + ((Q embed: (coordinates at: i)) / x) hash) hashMultiply].
 	^ hash! !
 
-!ProjectivePoint methodsFor: 'converting' stamp: 'len 11/7/2016 13:47'!
-asTuple
-	^ coordinates! !
-
 !ProjectivePoint methodsFor: 'converting' stamp: 'len 8/17/2019 08:51:02'!
 dehomogenized
 	"Answer the dehomogenization of the receiver."
@@ -30446,6 +30420,17 @@ dehomogenizedIn: anInteger
 		(self scalars^(coordinates size - 1)
 			filling: [:i| (i < anInteger ifTrue: [coordinates at: i] ifFalse: [coordinates at: i + 1]) / scalar])! !
 
+!ProjectivePoint methodsFor: 'printing' stamp: 'len 2/10/2017 09:55:36'!
+printInsidesOn: aStream
+	| separator |
+	separator _ (self coordinates anySatisfy: [:any| any printString isAlphaNumeric not]) ifTrue: [' : '] ifFalse: [':'].
+	self coordinates do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: separator].
+! !
+
+!ProjectivePoint methodsFor: 'testing' stamp: 'len 12/17/2021 11:55:29'!
+isProjective
+	^ true! !
+
 !ProjectivePoint methodsFor: 'testing' stamp: 'len 2/8/2017 07:19:00'!
 isSmooth
 	^ (self codomain singular satisfies: self coordinates) not
@@ -30454,10 +30439,6 @@ isSmooth
 	^ self dehomogenized isSmooth
 but dehomogenizing requires it be be over a field"
 ! !
-
-!ProjectivePoint methodsFor: 'private' stamp: 'len 11/7/2016 13:17'!
-coordinates: aTuple
-	coordinates _ aTuple! !
 
 !ProjectivePoint class methodsFor: 'instance creation' stamp: 'len 2/13/2017 21:15:36'!
 on: aProjectiveVariety coordinates: aTuple
@@ -43516,6 +43497,10 @@ polynomial: aPolynomial approximation: aComplex radius: aNumber
 	minimalPolynomial _ aPolynomial factorization detectMin: [:f| (f value: aComplex) abs].
 	minimalPolynomial degree = 1 ifTrue: [^ minimalPolynomial independentCoefficient negated / minimalPolynomial leadingCoefficient].
 	^ self minimalPolynomial: minimalPolynomial approximation: aComplex radius: aNumber! !
+
+!SchemePoint methodsFor: 'as yet unclassified' stamp: 'len 12/16/2021 18:26:04'!
+asIdeal
+	^ ideal! !
 
 !SchemePoint methodsFor: 'as yet unclassified' stamp: 'len 12/15/2021 13:11:57'!
 stalk
