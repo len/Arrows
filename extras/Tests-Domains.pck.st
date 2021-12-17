@@ -1,6 +1,6 @@
-'From Cuis 5.0 [latest update: #4542] on 6 December 2021 at 8:15:46 am'!
+'From Cuis 5.0 [latest update: #4542] on 17 December 2021 at 2:35:30 pm'!
 'Description '!
-!provides: 'Tests-Domains' 1 8!
+!provides: 'Tests-Domains' 1 9!
 !requires: 'Domains' 1 613 nil!
 SystemOrganization addCategory: #'Tests-Domains'!
 SystemOrganization addCategory: #'Tests-Domains-Tuples'!
@@ -180,6 +180,16 @@ AbstractMatrixOverFieldTest subclass: #MatrixOverPolynomialsOverPrimeFieldTest
 MatrixOverPolynomialsOverPrimeFieldTest class
 	instanceVariableNames: ''!
 
+!classDefinition: #MatrixOverQuadraticFieldTest category: #'Tests-Domains-Matrices'!
+AbstractMatrixOverFieldTest subclass: #MatrixOverQuadraticFieldTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Domains-Matrices'!
+!classDefinition: 'MatrixOverQuadraticFieldTest class' category: #'Tests-Domains-Matrices'!
+MatrixOverQuadraticFieldTest class
+	instanceVariableNames: ''!
+
 !classDefinition: #MatrixOverRationalsTest category: #'Tests-Domains-Matrices'!
 AbstractMatrixOverFieldTest subclass: #MatrixOverRationalsTest
 	instanceVariableNames: ''
@@ -228,6 +238,16 @@ AbstractMatrixOverIntegralDomainTest subclass: #MatrixOverPolynomialsOverRationa
 	category: 'Tests-Domains-Matrices'!
 !classDefinition: 'MatrixOverPolynomialsOverRationalsTest class' category: #'Tests-Domains-Matrices'!
 MatrixOverPolynomialsOverRationalsTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #MatrixOverQuadraticRingTest category: #'Tests-Domains-Matrices'!
+AbstractMatrixOverIntegralDomainTest subclass: #MatrixOverQuadraticRingTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Domains-Matrices'!
+!classDefinition: 'MatrixOverQuadraticRingTest class' category: #'Tests-Domains-Matrices'!
+MatrixOverQuadraticRingTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #MatrixOverModularIntegersTest category: #'Tests-Domains-Matrices'!
@@ -430,6 +450,16 @@ AbstractCommutativeModuleTest subclass: #ModuleOverPolynomialsOverRationalsTest
 ModuleOverPolynomialsOverRationalsTest class
 	instanceVariableNames: ''!
 
+!classDefinition: #ModuleOverQuadraticRingTest category: #'Tests-Domains-Modules'!
+AbstractCommutativeModuleTest subclass: #ModuleOverQuadraticRingTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Domains-Modules'!
+!classDefinition: 'ModuleOverQuadraticRingTest class' category: #'Tests-Domains-Modules'!
+ModuleOverQuadraticRingTest class
+	instanceVariableNames: ''!
+
 !classDefinition: #AbstractModuleTODOTest category: #'Tests-Domains-Modules'!
 AbstractModuleTest subclass: #AbstractModuleTODOTest
 	instanceVariableNames: ''
@@ -498,6 +528,36 @@ AbstractAlgebraTest subclass: #AbstractFiniteAlgebraTest
 	category: 'Tests-Domains-Rings'!
 !classDefinition: 'AbstractFiniteAlgebraTest class' category: #'Tests-Domains-Rings'!
 AbstractFiniteAlgebraTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #AbstractMaximalOrderTest category: #'Tests-Domains-Rings'!
+AbstractFiniteAlgebraTest subclass: #AbstractMaximalOrderTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Domains-Rings'!
+!classDefinition: 'AbstractMaximalOrderTest class' category: #'Tests-Domains-Rings'!
+AbstractMaximalOrderTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #CyclotomicRingTest category: #'Tests-Domains-Rings'!
+AbstractMaximalOrderTest subclass: #CyclotomicRingTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Domains-Rings'!
+!classDefinition: 'CyclotomicRingTest class' category: #'Tests-Domains-Rings'!
+CyclotomicRingTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #QuadraticRingTest category: #'Tests-Domains-Rings'!
+AbstractMaximalOrderTest subclass: #QuadraticRingTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Domains-Rings'!
+!classDefinition: 'QuadraticRingTest class' category: #'Tests-Domains-Rings'!
+QuadraticRingTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #CliffordAlgebraTest category: #'Tests-Domains-Rings'!
@@ -2107,6 +2167,23 @@ testBackslashZeroMatrix
 	X _ A \ B.
 	self assert: A*X = B! !
 
+!AbstractMatrixTest methodsFor: 'solving' stamp: 'len 12/16/2021 17:36:40'!
+testCosolve
+	| A B n result N X combinations |
+	n _ 5 atRandom: random.
+	A _ scalars^5 => (scalars^n) atRandom: random bits: 100.
+	combinations _ (1 to: n) collect: [:each| (2 atRandom: random) = 1].
+	B _ Matrix rows:
+		(combinations collect: [:isCombination|
+			isCombination
+				ifTrue: [(A codomain atRandom: random bits: 20) * A]
+				ifFalse: [A domain atRandom: random bits: 20]]).
+	result _ A cosolve: B.
+	X _ result first.
+	N _ result second.
+	self assert: X*A + N = B.
+	combinations withIndexDo: [:isCombination :i| isCombination ifTrue: [self assert: (N rowAt: i) isZero]]! !
+
 !AbstractMatrixTest methodsFor: 'solving' stamp: 'len 7/22/2021 11:25:00'!
 testSlashMatrix
 	| n m n2 A B X |
@@ -2385,6 +2462,14 @@ testSmithNormalFormOverPolynomialsOverPrimeField2
 	ax _ a identity * x - a.
 	self assert: ax SNF = ((P^5) endomorphisms diagonal: {P one. P one. x - 1. x^2 - 1. x^2 - 1}).
 	self assert: ax elementaryDivisors = {P one. P one. x - 1. x^2 - 1. x^2 - 1}! !
+
+!MatrixOverQuadraticFieldTest methodsFor: 'as yet unclassified' stamp: 'len 12/17/2021 14:29:04'!
+initialize
+	| n |
+	super initialize.
+	[(n _ (2 to: 100) atRandom squareFree) > 1] whileFalse.
+	2 atRandom = 1 ifTrue: [n _ n negated].
+	scalars _ QuadraticField sqrt: n! !
 
 !MatrixOverRationalsTest methodsFor: 'initialization' stamp: 'len 3/26/2021 12:54:30'!
 initialize
@@ -3085,6 +3170,14 @@ testSmithNormalFormOverExample1
 	x _ R x.
 	A _ (R^2) id * x - (R matrix: #((3 -4) (1 -1))).
 	self assert: A SNF = ((R^2) endomorphisms diagonal: {R one. x^2 - (x*2) + 1})! !
+
+!MatrixOverQuadraticRingTest methodsFor: 'as yet unclassified' stamp: 'len 12/17/2021 14:28:18'!
+initialize
+	| n |
+	super initialize.
+	[(n _ (2 to: 100) atRandom squareFree) > 1] whileFalse.
+	2 atRandom = 1 ifTrue: [n _ n negated].
+	scalars _ (QuadraticField sqrt: n) integers! !
 
 !MatrixOverModularIntegersTest methodsFor: 'initialization' stamp: 'len 4/26/2021 11:49:04'!
 initialize
@@ -3838,10 +3931,10 @@ testQuotientMaps
 	self assert: (Ž value: s) isZero.
 	self assert: (Ž value: v) = (Ž value: v+s)! !
 
-!AbstractVectorSpaceTest methodsFor: 'quotients' stamp: 'len 3/24/2021 08:48:11'!
+!AbstractVectorSpaceTest methodsFor: 'quotients' stamp: 'len 12/10/2021 19:55:03'!
 testQuotientSpace
 	| V S Q |
-	V _ self newVectorSpace.
+	[(V _ self newVectorSpace) isTrivial] whileTrue.
 	S _ V grassmannian: (V rank atRandom: random) :: atRandom: random bits: V rank * 10.
 	Q _ V/S.
 	self assert: Q rank = (V rank - S rank).
@@ -3862,7 +3955,7 @@ testTensorHomAdjunction
 	self testModuleMap: phi.
 	self assert: phi isIsomorphism! !
 
-!AbstractVectorSpaceTest methodsFor: 'tensor product' stamp: 'len 4/5/2021 04:41:55'!
+!AbstractVectorSpaceTest methodsFor: 'tensor product' stamp: 'len 12/15/2021 14:29:26'!
 testTensorProductOfLinearForms
 	| V W f g t v w |
 	V _ self newFreeModule.
@@ -3874,7 +3967,7 @@ testTensorProductOfLinearForms
 	self assert: t codomain = (f codomain ‘ g codomain).
 	v _ V atRandom: random bits: 10.
 	w _ W atRandom: random bits: 10.
-	self assert: (t value: ((V, W) -> t domain carrier value: {v. w})) = ( (f codomain, g codomain) -> t codomain carrier value: {f value: v. g value: w})! !
+	self assert: (t value: t domain !! {v. w}) = (t codomain !! {f value: v. g value: w})! !
 
 !AbstractVectorSpaceTest methodsFor: 'private' stamp: 'len 3/24/2021 08:02:48'!
 newVectorSpace
@@ -4310,6 +4403,14 @@ initialize
 	super initialize.
 	scalars _ „ polynomials! !
 
+!ModuleOverQuadraticRingTest methodsFor: 'as yet unclassified' stamp: 'len 12/17/2021 14:31:47'!
+initialize
+	| n |
+	super initialize.
+	[(n _ (2 to: 100) atRandom squareFree) > 1] whileFalse.
+	2 atRandom = 1 ifTrue: [n _ n negated].
+	scalars _ (QuadraticField sqrt: n) integers! !
+
 !AbstractModuleTODOTest methodsFor: 'as yet unclassified' stamp: 'len 7/25/2021 13:09:01'!
 testPullbackSquaresSharingMorphism
 	| A B C D f g h P r s Q t u |
@@ -4438,7 +4539,7 @@ testRingUnitsAndAssociates: aRing
 testAlgebra
 	self testAlgebraAxioms: R! !
 
-!AbstractAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/20/2021 16:42:09'!
+!AbstractAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 12/15/2021 19:41:50'!
 testAlgebraAxioms: anAlgebra
 	| one zero x y z a |
 	one _ anAlgebra one.
@@ -4459,7 +4560,7 @@ testAlgebraAxioms: anAlgebra
 		"associativity of addition:"
 		self assert: x + y + z = (x + (y + z)).
 		"associativity of multiplication:"
-		anAlgebra isAssociative ifTrue: [self assert: x * y * z = (x * (y * z))].
+		self assert: x * y * z = (x * (y * z)).
 		"distributivity:"
 		self assert: (x + y) * z = (x * z + (y * z)).
 		self assert: z * (x + y) = (z * x + (z * y)).
@@ -4498,6 +4599,29 @@ testNormAndTrace
 	a _ R scalars atRandom: random bits: 10.
 	self assert: (x * a + y) trace = (x trace * a + y trace).
 	self assert: (x * y) norm = (x norm * y norm)! !
+
+!AbstractMaximalOrderTest methodsFor: 'as yet unclassified' stamp: 'len 12/17/2021 12:15:56'!
+testCoercionToAndFromFractions
+	| x |
+	x _ R atRandomBits: 100.
+	self assert: R !! (R fractions !! x) = x! !
+
+!AbstractMaximalOrderTest methodsFor: 'as yet unclassified' stamp: 'len 12/17/2021 12:25:21'!
+testHomomorphismToFractions
+	self testRingHomomorphism: R -> R fractions! !
+
+!CyclotomicRingTest methodsFor: 'as yet unclassified' stamp: 'len 12/17/2021 12:13:25'!
+initialize
+	super initialize.
+	R _ (CyclotomicField new: 3 atRandom + 2) integers! !
+
+!QuadraticRingTest methodsFor: 'as yet unclassified' stamp: 'len 12/17/2021 14:25:48'!
+initialize
+	| n |
+	super initialize.
+	[(n _ (2 to: 100) atRandom squareFree) > 1] whileFalse.
+	2 atRandom = 1 ifTrue: [n _ n negated].
+	R _ (QuadraticField sqrt: n) integers! !
 
 !CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 7/25/2021 12:21:35'!
 initialize
@@ -4611,9 +4735,8 @@ testCliffordAlgebraProductsPropertiesWithVectors
 	self assert: v /\ x = (x reflection /\ v).
 	self assert: v <· (x*y) = ((v <· x)*y + (x reflection * (v <· y)))! !
 
-!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/20/2021 16:17:53'!
+!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 12/15/2021 19:42:00'!
 testCliffordAlgebraProperties
-	self assert: R isAssociative.
 	self assert: R isCommutative not.
 	self assert: R isUnital.
 	self assert: R rank = (2^R space rank).
@@ -5018,7 +5141,7 @@ testProjectiveLineOverFiniteRing6
 	self assert: P points size = 18.
 	self assert: (Iterator on: P points performing: #do:) size = 18! !
 
-!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 5/23/2020 09:33:01'!
+!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 12/15/2021 12:00:00'!
 testDifference
 	| A x y C X2 D O |
 	A _ AffineSpace new: 2 over: „.
@@ -5027,7 +5150,7 @@ testDifference
 	C _ A subscheme: x * y. "union of x-axis and y-axis"
 	X2 _ A subscheme: x^2. "y-axis with double multiplicity"
 	D _ X2 - C. "y-axis with multiplicity 1"
-	self assert: D ideal = (A coordinateRing * x).
+	self assert: D asIdeal = (A coordinateRing * x).
 	O _ A subscheme: {x. y}.
 	D _ C - O.
 	self assert: D = C.
@@ -5120,7 +5243,7 @@ testLocalAndGlobalDimension
 	self assert: (X !! (1,0,0)) stalk dimension = 2. "dimension of X at (1,0,0)"
 	self assert: (X !! (0,0,1)) stalk dimension = 1. "dimension of X at (0,0,1)"! !
 
-!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 5/23/2020 09:31:47'!
+!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 12/15/2021 12:55:03'!
 testMorphismsOfProjectiveVarieties
 	"'A Singular Introduction To Commutative Algebra', Example A.6.8 (morphisms of projective varieties)."
 	| P A x y z X f1 f2 f3 I J Y phi Z |
@@ -5130,12 +5253,12 @@ testMorphismsOfProjectiveVarieties
 	X _ P subscheme: {z^3 - (x*(y^2)) + (y^3)}.
 	f1 _ x*z. f2 _ x*y. f3 _ x^2 + (y*z).
 	"In order for (f1,f2,f3) to define a projective morphism (not just a rational map) it must never be zero at any point of X, this means the intersection of X with V(J) must be empty:"
-	I _ X ideal.
+	I _ X asIdeal.
 	J _ A * {f1. f2. f3}.
 	self assert: (A / (I + J)) dimension = 0.
 	Y _ P subscheme: J.
 	self assert: (X /\ Y) isEmpty.
-	phi _ X to: P representatives: {f1. f2. f3}.
+	phi _ RationalMap from: X to: P representatives: {f1. f2. f3}.
 	"The image is a curve of degree 6:"
 	Z _ phi image.
 	self assert: Z isCurve.
@@ -5394,14 +5517,14 @@ testProjectiveSpaceOverModularIntegers
 	self assert: P points asSet size = numberOfPoints.
 	self assert: P points size = numberOfPoints! !
 
-!AlgebraicGeometryTest methodsFor: 'rational maps' stamp: 'len 5/23/2020 09:33:01'!
+!AlgebraicGeometryTest methodsFor: 'rational maps' stamp: 'len 12/15/2021 13:21:53'!
 testRationalMap
 	"Example from Magma handbook Scheme_map-creation (H118E32)."
 	| A1 A2 x y f X |
 	A1 _ AffineSpace new: #(t) over: „.
 	A2 _ AffineSpace new: #(x y) over: „.
 
-	f _ A1 to: A2 evaluatingWithArguments: [:t| {t^3 + t. (t^2 - 3)}].
+	f _ RationalMap from: A1 to: A2 evaluatingWithArguments: [:t| {t^3 + t. (t^2 - 3)}].
 
 	self assert: f domain = A1.
 	self assert: f codomain = A2.
@@ -5411,14 +5534,14 @@ testRationalMap
 	X _ A2 subscheme: {x^2*-1 + (y^3) + (y^2*11) + (y*40) + 48}.
 	self assert: f image = X! !
 
-!AlgebraicGeometryTest methodsFor: 'rational maps' stamp: 'len 5/23/2020 09:33:01'!
+!AlgebraicGeometryTest methodsFor: 'rational maps' stamp: 'len 12/15/2021 13:22:43'!
 testRationalMap2
 	"Example from Cox's IVA pag. 234. Parametrization of the tangent surface of the twisted cubic."
 	| A2 A3 x y z f X |
 	A2 _ AffineSpace new: #(t u) over: „.
 	A3 _ AffineSpace new: 3 over: „.
 
-	f _ A2 to: A3 evaluatingWithArguments: [:t :u| {t + u. t^2 + (t*u*2). t^3 + (t^2*u*3)}].
+	f _ RationalMap from: A2 to: A3 evaluatingWithArguments: [:t :u| {t + u. t^2 + (t*u*2). t^3 + (t^2*u*3)}].
 
 	x _ A3 coordinateRing x.
 	y _ A3 coordinateRing y.
@@ -5426,7 +5549,7 @@ testRationalMap2
 	X _ A3 subscheme: {x^3*z - (x*y^2*(3/4)) - (x*y*z*(3/2)) + (y^3) + (z^2*(1/4))}.
 	self assert: f image = X! !
 
-!AlgebraicGeometryTest methodsFor: 'rational maps' stamp: 'len 5/23/2020 09:33:01'!
+!AlgebraicGeometryTest methodsFor: 'rational maps' stamp: 'len 12/15/2021 13:23:05'!
 testRationalMapAffineExample
 	"From lecture notes MIT 18.782 Introduction to Arithmetic Geometry, Lecture #15, Fall 2013, 10/29/2013, Example 15.19."
 	| A2 x y X A1 phi phi2 phiInv |
@@ -5435,10 +5558,10 @@ testRationalMapAffineExample
 	y _ A2 coordinateRing y.
 	X _ A2 subscheme: x^2 + (y^2) - 1.
 	A1 _ AffineSpace new: 1 over: „.
-	phi _ X to: A1 evaluatingWithArguments: [:x0 :y0| {y0 / (x0 + 1)}].
-	phi2 _ X to: A1 evaluatingWithArguments: [:x0 :y0| {1 - x0 / y0}].
+	phi _ RationalMap from: X to: A1 evaluatingWithArguments: [:x0 :y0| {y0 / (x0 + 1)}].
+	phi2 _ RationalMap from: X to: A1 evaluatingWithArguments: [:x0 :y0| {1 - x0 / y0}].
 	self assert: phi = phi2.
-	phiInv _ A1 to: X evaluatingWithArguments: [:t| {1 - (t^2) / (1 + (t^2)). t*2 / (1 + (t^2))}].
+	phiInv _ RationalMap from: A1 to: X evaluatingWithArguments: [:t| {1 - (t^2) / (1 + (t^2)). t*2 / (1 + (t^2))}].
 	self assert: (phi · phiInv) isIdentity.
 	self assert: phi isRegular not.
 	self assert: phi isDominant.
@@ -5447,7 +5570,7 @@ testRationalMapAffineExample
 	self assert: phiInv isDominant.
 "	self assert: phiInv isSurjective not"! !
 
-!AlgebraicGeometryTest methodsFor: 'rational maps' stamp: 'len 5/23/2020 09:33:01'!
+!AlgebraicGeometryTest methodsFor: 'rational maps' stamp: 'len 12/15/2021 13:23:23'!
 testRationalMapImage
 	| A X X2 f |
 	A _ AffineSpace new: #(x y) over: „.
@@ -5456,10 +5579,10 @@ testRationalMapImage
 	"circle centered at: (1,2):"
 	X2 _ A subscheme: A coordinateRing !! [:x :y| (x-1)^2 + ((y-2)^2) - 1].
 	"translation by (1,2):"
-	f _ X to: A evaluatingWithArguments: [:x :y| {x+1. y+2}].
+	f _ RationalMap from: X to: A evaluatingWithArguments: [:x :y| {x+1. y+2}].
 	self assert: f image = X2.
 	"global translation by (1,2):"
-	f _ A to: A evaluatingWithArguments: [:x :y| {x+1. y+2}].
+	f _ RationalMap from: A to: A evaluatingWithArguments: [:x :y| {x+1. y+2}].
 	self assert: (X apply: f) = X2! !
 
 !AlgebraicGeometryTest methodsFor: 'rational maps' stamp: 'len 6/7/2020 12:57:04'!
@@ -5513,7 +5636,7 @@ testSturmfelsExample1
 	self assert: C1 projectiveClosure degree = 13.
 	self assert: C1 isReduced "equivalent to C1 ideal = C1 ideal radical"! !
 
-!AlgebraicGeometryTest methodsFor: 'rational points' stamp: 'len 5/23/2020 09:33:01'!
+!AlgebraicGeometryTest methodsFor: 'rational points' stamp: 'len 12/15/2021 12:00:19'!
 testSturmfelsExample2
 	"Bernd Sturmfels, 'Ideals, Varieties and Macaulay 2', 2. Intersecting Our Curve With a Surface."
 	| R x y z C S theirunion ourpoints |
@@ -5526,7 +5649,7 @@ testSturmfelsExample2
 	S _ (R / (x^5 + (y^5) + (z^5) - 1)) spec.
 	theirunion _ C \/ S.
 	"In this case, the union's ideal coincides with the product of the ideals:"
-	self assert: theirunion ideal = (C ideal * S ideal).
+	self assert: theirunion asIdeal = (C asIdeal * S asIdeal).
 	"The intersection of the curve and the surface (whose defining ideal is the sum of the respective ideals):"
 	ourpoints _ C /\ S.
 	"We get a finite set of points:"
@@ -5561,7 +5684,7 @@ testTwistedCubicDegree
 	(BUT NOT REALLY, MAGMA GIVES 3 LIKE US, I DONT REMEMBER WHERE I GOT THIS EXAMPLE FROM BUT THE CORRECT ANSWER IS 3)"
 	self assert: X degree = 3! !
 
-!AlgebraicGeometryTest methodsFor: 'tangent cone' stamp: 'len 5/23/2020 09:33:01'!
+!AlgebraicGeometryTest methodsFor: 'tangent cone' stamp: 'len 12/15/2021 12:00:25'!
 testTangentCone
 	"'A Singular Introduction to Commutative Algebra', Example 5.5.13."
 	| R I J X |
@@ -5569,9 +5692,9 @@ testTangentCone
 	I _ R * (R !! [:x :y :z| {y*z + (z^2) + (x^3). y^2 + (x*z) + (y^4)}]).
 	X _ (R/I) spec.
 	J _ R * (R !! [:x :y :z| {y^2 + (x*z). y*z + (z^2). x*(z^2) - (y*(z^2))}]).
-	self assert: (X !! (0,0,0)) tangentCone ideal = J! !
+	self assert: (X !! (0,0,0)) tangentCone asIdeal = J! !
 
-!AlgebraicGeometryTest methodsFor: 'tangent cone' stamp: 'len 5/23/2020 09:33:01'!
+!AlgebraicGeometryTest methodsFor: 'tangent cone' stamp: 'len 12/15/2021 12:00:32'!
 testTangentCone2
 	"M. Kreuzer, 'Computational Commutative Algebra', Example 6.5.27."
 	| R J T I |
@@ -5579,7 +5702,7 @@ testTangentCone2
 	J _ R * (R generate: [:x1 :x2 :x3 :x4| {x1*x2 - (x3^2). x2^2 - (x4^5)}]).
 	T _ (R/J) spec tangentConeAt: (0,0,0,0).
 	I _ R * (R generate: [:x1 :x2 :x3 :x4| {x1*x2 - (x3^2). x2^2. x2*(x3^2). x3^4}]).
-	self assert: T ideal = I! !
+	self assert: T asIdeal = I! !
 
 !AlgebraicGeometryTest methodsFor: 'tangent cone' stamp: 'len 5/23/2020 09:33:01'!
 testTangentConeAndTangentSpace
