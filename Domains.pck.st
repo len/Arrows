@@ -1,4 +1,4 @@
-'From Cuis 5.0 [latest update: #4542] on 1 January 2022 at 1:10:32 pm'!
+'From Cuis 5.0 [latest update: #4542] on 1 January 2022 at 9:58:34 pm'!
 'Description A computational algebra system in Smalltalk.
 
 References:
@@ -41,7 +41,7 @@ References:
 [] Victor Shoup; "A Computational Introduction to Number Theory and Algebra"
 [] Joseph. H. Silverman; "The Arithmetic of Elliptic Curves"
 '!
-!provides: 'Domains' 1 639!
+!provides: 'Domains' 1 640!
 !requires: 'Complex' 1 7 nil!
 SystemOrganization addCategory: #'Domains-Kernel'!
 SystemOrganization addCategory: #'Domains-Kernel-Support'!
@@ -54,7 +54,6 @@ SystemOrganization addCategory: #'Domains-Groups-Algorithms'!
 SystemOrganization addCategory: #'Domains-Modules'!
 SystemOrganization addCategory: #'Domains-Modules-Support'!
 SystemOrganization addCategory: #'Domains-Modules-Algorithms'!
-SystemOrganization addCategory: #'Domains-Modules-Multilinear'!
 SystemOrganization addCategory: #'Domains-Complexes'!
 SystemOrganization addCategory: #'Domains-Lattices'!
 SystemOrganization addCategory: #'Domains-Rings'!
@@ -1684,6 +1683,26 @@ GroupMap subclass: #DirichletCharacter
 DirichletCharacter class
 	instanceVariableNames: ''!
 
+!classDefinition: #BilinearMap category: #'Domains-Modules'!
+Function subclass: #BilinearMap
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Domains-Modules'!
+!classDefinition: 'BilinearMap class' category: #'Domains-Modules'!
+BilinearMap class
+	instanceVariableNames: ''!
+
+!classDefinition: #BilinearForm category: #'Domains-Modules'!
+BilinearMap subclass: #BilinearForm
+	instanceVariableNames: 'space matrix'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Domains-Modules'!
+!classDefinition: 'BilinearForm class' category: #'Domains-Modules'!
+BilinearForm class
+	instanceVariableNames: ''!
+
 !classDefinition: #ModuleMap category: #'Domains-Modules'!
 Function subclass: #ModuleMap
 	instanceVariableNames: 'domain codomain'
@@ -1732,36 +1751,6 @@ Matrix subclass: #RowMajorMatrix
 	category: 'Domains-Etc'!
 !classDefinition: 'RowMajorMatrix class' category: #'Domains-Etc'!
 RowMajorMatrix class
-	instanceVariableNames: ''!
-
-!classDefinition: #MultilinearMap category: #'Domains-Modules-Multilinear'!
-Function subclass: #MultilinearMap
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Domains-Modules-Multilinear'!
-!classDefinition: 'MultilinearMap class' category: #'Domains-Modules-Multilinear'!
-MultilinearMap class
-	instanceVariableNames: ''!
-
-!classDefinition: #BilinearMap category: #'Domains-Modules-Multilinear'!
-MultilinearMap subclass: #BilinearMap
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Domains-Modules-Multilinear'!
-!classDefinition: 'BilinearMap class' category: #'Domains-Modules-Multilinear'!
-BilinearMap class
-	instanceVariableNames: ''!
-
-!classDefinition: #BilinearForm category: #'Domains-Modules-Multilinear'!
-BilinearMap subclass: #BilinearForm
-	instanceVariableNames: 'space matrix'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Domains-Modules-Multilinear'!
-!classDefinition: 'BilinearForm class' category: #'Domains-Modules-Multilinear'!
-BilinearForm class
 	instanceVariableNames: ''!
 
 !classDefinition: #LatticeMap category: #'Domains-Lattices'!
@@ -3673,12 +3662,14 @@ Finite-rank free R-modules on free generators indexed by integers 1 to n. These 
 See also Tuple and Matrix.!
 
 !HomModule commentStamp: '<historical>' prior: 0!
-R-modules of linear maps from a R-module A to another R-module B, i.e. the internal Hom(A,B) of the category of R-modules. When A = B, it is noted End(A). Note that this is an R-module when R is commutative, otherwise it is a Z-module (or a S-module if R is an S-algebra).
+R-modules of linear maps from a R-module A to another R-module B, for a commutative ring R. They are the internal Hom(A,B) of the category of R-modules. When A = B, it is noted End(A).
+
+Note that Hom(A,B) is an R-module if R is commutative, but otherwise it is just a Z-module (not necessarily finitely generated), or a S-module if R is a S-algebra.
 
 See Module and ModuleMap.!
 
 !MatrixModule commentStamp: '<historical>' prior: 0!
-R-modules of matrices with m rows and n columns and cofficients in R, considered as linear maps between free modules of tuples R^n and R^m.
+R-modules of matrices with m rows and n columns and cofficients in a commutative ring R, considered as linear maps between free modules of tuples R^n and R^m.
 
 See Matrix and FreeModule.
 !
@@ -4085,6 +4076,15 @@ Group homomorphisms defined as conjugation by a given element. These are the inn
 !DirichletCharacter commentStamp: '<historical>' prior: 0!
 Characters on the units of Z/nZ, i.e. group homomorphisms (Z/nZ)* -> C* from the unit group of the ring Z/nZ to the multiplicative group of nonzero complex numbers.!
 
+!BilinearMap commentStamp: '<historical>' prior: 0!
+BilinearMaps are functions from a cartesian product of two R-modules to (the underlying set of) a R-module, that are linear when fixing one of the arguments.!
+
+!BilinearForm commentStamp: '<historical>' prior: 0!
+Bilinear forms are functions from the cartesian square of an R-module to R that are linear when fixing one of the arguments, i.e. that satisfy:
+	B(v+cv', w) = B(v, w) + cB(v', w)
+	B(v, w+cw') = B(v, w) + cB(v, w')
+!
+
 !ModuleMap commentStamp: '<historical>' prior: 0!
 Homomorphisms of R-modules. They are internally represented by a matrix (assuming a choice of finite presentations for the domain and codomain, or more concretely a choice of an ordered set of generators).
 
@@ -4102,18 +4102,6 @@ Matrices with coefficients in a commutative ring, represented as a list of colum
 
 !RowMatrix commentStamp: 'len 3/12/2020 09:40:21' prior: 0!
 Matrices with coefficients in a commutative ring, represented as a list of row tuples. Row operations are fast on these matrices.!
-
-!MultilinearMap commentStamp: '<historical>' prior: 0!
-MultilinearMaps are functions from a cartesian product of R-modules to (the underlying set of) a R-module, that are linear when fixing all but one of the arguments.!
-
-!BilinearMap commentStamp: '<historical>' prior: 0!
-BilinearMaps are functions from a cartesian product of two R-modules to (the underlying set of) a R-module, that are linear when fixing one of the arguments.!
-
-!BilinearForm commentStamp: '<historical>' prior: 0!
-Bilinear forms are functions from the cartesian square of an R-module to R that are linear when fixing one of the arguments, i.e. that satisfy:
-	B(v+cv', w) = B(v, w) + cB(v', w)
-	B(v, w+cw') = B(v, w) + cB(v, w')
-!
 
 !QuadraticForm commentStamp: '<historical>' prior: 0!
 Quadratic forms as homogeneous quadratic functions M->R from a finite-rank free R-module to R. Given a basis of M, they can be represented as homogeneous quadratic polynomials or as symmetric matrices that define symmetric bilinear forms MxM->R.!
@@ -5430,6 +5418,10 @@ category
 category
 	^ Groups! !
 
+!BilinearForm methodsFor: 'printing' stamp: 'len 3/18/2018 18:42:28'!
+printOn: aStream
+	aStream print: self asPolynomial! !
+
 !ModuleMap methodsFor: 'accessing' stamp: 'len 10/26/2020 10:41:24'!
 category
 	^ self domain scalars Modules! !
@@ -5481,10 +5473,6 @@ printOn: aStream
 		pad timesRepeat: [aStream space].
 		aStream nextPut: $]]
 			separatedBy: [aStream newLine]! !
-
-!BilinearForm methodsFor: 'printing' stamp: 'len 3/18/2018 18:42:28'!
-printOn: aStream
-	aStream print: self asPolynomial! !
 
 !LatticeMap methodsFor: 'accessing' stamp: 'len 7/29/2020 08:36:30'!
 category
@@ -18111,14 +18099,15 @@ isNoetherian
 	self isDedekindDomain ifTrue: [^ true].
 	^ self propertyAt: #isNoetherian! !
 
-!Ring methodsFor: 'testing' stamp: 'len 2/28/2021 14:16:55'!
+!Ring methodsFor: 'testing' stamp: 'len 1/1/2022 21:15:49'!
 isPID
 	"A principal ideal domain (PID) is an integral domain in which every ideal is principal, i.e. can be generated by a single element.
 	PIDs are Noetherian, integrally closed, and they are UFDs and Dedekind domains.
 	All Euclidean domains and all fields are PIDs."
 	self isEuclideanDomain ifTrue: [^ true].
 	self isIntegralDomain ifFalse: [^ false].
-	^ self propertyAt: #isPID! !
+	self flag: #fix. "it might still be a PID, we just don't know:"
+	^ false! !
 
 !Ring methodsFor: 'testing' stamp: 'len 6/16/2019 14:05:16'!
 isPIR
@@ -18513,18 +18502,10 @@ initialize
 	super initialize.
 	Smalltalk at: #„ put: self new! !
 
-!RationalFunctionField methodsFor: 'accessing' stamp: 'len 12/29/2021 11:55:57'!
-size
-	^ Cardinal new * self scalars size! !
-
 !RationalFunctionField methodsFor: 'elements' stamp: 'len 7/14/2021 09:51:43'!
 reducedNumerator: aPolynomial denominator: anotherPolynomial
 	self assert: ((self integers includes: aPolynomial) and: [self integers includes: anotherPolynomial]).
 	^ RationalFunction reducedNumerator: aPolynomial denominator: anotherPolynomial! !
-
-!RationalFunctionField methodsFor: 'morphisms' stamp: 'len 7/14/2021 09:44:33'!
-embed: aPolynomial
-	^ self reducedNumerator: aPolynomial denominator: aPolynomial one! !
 
 !RationalFunctionField methodsFor: 'private' stamp: 'len 7/15/2021 19:09:28'!
 extensionClass
@@ -21258,9 +21239,11 @@ do: aBlock
 	[self scalars ^ k do: [:t| t last isZero ifFalse: [aBlock value: (self coefficients: t)]].
 	k _ k + 1] repeat! !
 
-!PolynomialRing methodsFor: 'enumerating' stamp: 'len 5/8/2020 12:14:41'!
+!PolynomialRing methodsFor: 'enumerating' stamp: 'len 1/1/2022 19:24:41'!
 unitsDo: aBlock
-	self scalars isIntegralDomain ifTrue: [self scalars do: [:each| aBlock value: (self constant: each)]. ^ self].
+	self scalars isIntegralDomain ifTrue:
+		[self scalars do: [:each| each isZero ifFalse: [aBlock value: (self constant: each)]].
+		^ self].
 	super unitsDo: aBlock! !
 
 !PolynomialRing methodsFor: 'examples' stamp: 'len 10/22/2016 18:12'!
@@ -27069,6 +27052,313 @@ modulus
 odd
 	^ (self value: self domain !! -1) = self codomain one negated! !
 
+!BilinearMap methodsFor: 'as yet unclassified' stamp: 'len 7/8/2021 15:02:06'!
+ aBilinearMap
+	"Answer the direct sum of the receiver and the argument."
+	^ self class
+		from: (self domain at: 1)  (aBilinearMap domain at: 1), ((self domain at: 2)  (aBilinearMap domain at: 2))
+		to: self codomain  aBilinearMap codomain
+		evaluatingWithArguments: [:x :y| self notYetImplemented]! !
+
+!BilinearMap methodsFor: 'as yet unclassified' stamp: 'len 7/8/2021 14:58:34'!
+left
+	"Answer the linear map that fixes the first argument."
+	| X Y Z |
+	X _ self domain at: 1.
+	Y _ self domain at: 2.
+	Z _ self codomain.
+	^ X to: Y => Z evaluating: [:x| Y to: Z evaluating: [:y| self value: x value: y]]! !
+
+!BilinearMap methodsFor: 'as yet unclassified' stamp: 'len 7/8/2021 14:59:06'!
+right
+	"Answer the linear map that fixes the second argument."
+	| X Y Z |
+	X _ self domain at: 1.
+	Y _ self domain at: 2.
+	Z _ self codomain.
+	^ Y to: X => Z evaluating: [:y| X to: Z evaluating: [:x| self value: x value: y]]! !
+
+!BilinearMap methodsFor: 'as yet unclassified' stamp: 'len 7/14/2020 07:31:45'!
+table
+	^ self propertyAt: #table! !
+
+!BilinearMap methodsFor: 'as yet unclassified' stamp: 'len 7/14/2020 07:31:36'!
+table: anArray
+	self propertyAt: #table put: anArray! !
+
+!BilinearMap methodsFor: 'as yet unclassified' stamp: 'len 7/14/2020 07:01:41'!
+value: anArray
+	self assert: anArray size = 2.
+	^ self value: anArray first value: anArray second! !
+
+!BilinearMap methodsFor: 'as yet unclassified' stamp: 'len 4/26/2021 11:39:30'!
+value: anElement value: anotherElement
+	| v w t |
+	v _ (self domain at: 1) \ anElement.
+	w _ (self domain at: 2) \ anotherElement. 
+	t _ self codomain coordinates zero.
+	self table withIndexDo: [:ai :i|
+		ai withIndexDo: [:aij :j|
+			t _ (aij collect: [:each| (v at: i) * each * (w at: j)]) + t]].
+	^ self codomain elementAt: t! !
+
+!BilinearMap class methodsFor: 'instance creation' stamp: 'len 7/7/2020 09:18:44'!
+from: aDomain to: aCodomain evaluating: aBlock
+	^ self from: aDomain to: aCodomain evaluatingWithArguments: [:x :y| aBlock value: {x. y}]! !
+
+!BilinearMap class methodsFor: 'instance creation' stamp: 'len 4/26/2021 11:39:37'!
+from: aDomain to: aCodomain evaluatingWithArguments: aBlock
+	| table |
+	table _ aDomain components first generators collect: [:x| aDomain components second generators collect: [:y| aCodomain \ (aBlock value: x value: y)]].
+	^ self from: aDomain to: aCodomain table: table! !
+
+!BilinearMap class methodsFor: 'instance creation' stamp: 'len 4/26/2021 11:39:43'!
+from: aDomain to: aCodomain mapping: aBlock
+	| table |
+	table _ (1 to: (aDomain at: 1) generators size) collect: [:i|
+		(1 to: (aDomain at: 2) generators size) collect: [:j|
+			aCodomain \ (aBlock value: i value: j)]].
+	^ self from: aDomain to: aCodomain table: table! !
+
+!BilinearMap class methodsFor: 'instance creation' stamp: 'len 7/14/2020 07:31:21'!
+from: aDomain to: aCodomain table: anArray
+	^ self new domain: aDomain; codomain: aCodomain; table: anArray! !
+
+!BilinearMap class methodsFor: 'instance creation' stamp: 'len 7/7/2020 09:32:03'!
+on: aModule evaluating: aBlock
+	^ self on: aModule evaluatingWithArguments: [:x :y| aBlock value: {x. y}]! !
+
+!BilinearMap class methodsFor: 'instance creation' stamp: 'len 7/7/2020 09:31:30'!
+on: aModule evaluatingWithArguments: aBlock
+	^ self from: (aModule, aModule) to: aModule evaluatingWithArguments: aBlock! !
+
+!BilinearMap class methodsFor: 'instance creation' stamp: 'len 7/14/2020 17:13:29'!
+on: aModule mapping: aBlock
+	^ self from: (aModule, aModule) to: aModule mapping: aBlock! !
+
+!BilinearMap class methodsFor: 'instance creation' stamp: 'len 7/14/2020 07:35:34'!
+on: aModule table: anArray
+	^ self from: (aModule, aModule) to: aModule table: anArray! !
+
+!BilinearForm methodsFor: 'accessing' stamp: 'len 12/28/2015 21:09'!
+bitSize
+	^ matrix bitSize! !
+
+!BilinearForm methodsFor: 'accessing' stamp: 'len 1/8/2016 06:36'!
+codomain
+	^ self scalars! !
+
+!BilinearForm methodsFor: 'accessing' stamp: 'len 7/28/2020 19:33:01'!
+domain
+	^ (space, space)! !
+
+!BilinearForm methodsFor: 'accessing' stamp: 'len 11/7/2015 23:26'!
+matrix
+	^ matrix! !
+
+!BilinearForm methodsFor: 'accessing' stamp: 'len 7/28/2020 19:33:13'!
+scalars
+	^ space scalars! !
+
+!BilinearForm methodsFor: 'accessing' stamp: 'len 7/29/2020 06:30:58'!
+space
+	^ space! !
+
+!BilinearForm methodsFor: 'comparing' stamp: 'len 7/28/2020 19:32:00'!
+= anObject
+	^ self class = anObject class and: [space = anObject space and: [matrix = anObject matrix]]! !
+
+!BilinearForm methodsFor: 'comparing' stamp: 'len 7/27/2020 19:20:48'!
+hash
+	^ matrix hash! !
+
+!BilinearForm methodsFor: 'converting' stamp: 'len 5/29/2020 15:20:02'!
+asPolynomial
+	| n P x y |
+	n _ matrix height.
+	P _ self scalars polynomialsIn: ((1 to: n) collect: [:i| 'x' asText, i printString sub]), ((1 to: n) collect: [:i| 'y' asText, i printString sub]).
+	x _ P^n filling: [:i| P x: i].
+	y _ P^n filling: [:i| P x: n+i].
+	^ x · ((matrix over: P) * y)! !
+
+!BilinearForm methodsFor: 'converting' stamp: 'len 7/28/2020 19:32:47'!
+depolarization
+	"Answer the associated quadratic form Q(v) := B(v,v)."
+	^ QuadraticForm from: space gramian: matrix! !
+
+!BilinearForm methodsFor: 'initialization' stamp: 'len 8/23/97 15:35'!
+matrix: aMatrix
+	matrix _ aMatrix! !
+
+!BilinearForm methodsFor: 'initialization' stamp: 'len 7/28/2020 19:33:47'!
+space: aFreeModule
+	space _ aFreeModule! !
+
+!BilinearForm methodsFor: 'operations' stamp: 'len 7/28/2020 19:32:35'!
+* anObject
+	^ self class on: space matrix: matrix * anObject! !
+
+!BilinearForm methodsFor: 'operations' stamp: 'len 7/28/2020 19:35:54'!
++ aBilinearForm
+	space == aBilinearForm space ifTrue: [^ self class on: space matrix: matrix + aBilinearForm matrix].
+	space = aBilinearForm space ifFalse: [^ self error: 'domains don''t match'].
+	^ self class on: space evaluating: [:each| (self value: each) + (aBilinearForm value: each)]! !
+
+!BilinearForm methodsFor: 'operations' stamp: 'len 7/28/2020 19:32:18'!
+‘ anObject
+	(anObject isKindOf: BilinearForm)
+		ifTrue: [^ self class on: space ‘ anObject space matrix: matrix ‘ anObject matrix].
+	(anObject isKindOf: QuadraticForm)
+		ifTrue: [^ (self ‘ anObject polarization) depolarization].
+	^ DomainError signal! !
+
+!BilinearForm methodsFor: 'operations' stamp: 'len 5/3/2021 11:00:44'!
+” aBilinearForm
+	"Answer the orthogonal sum of the receiver and the argument."
+	^ self class on: space  aBilinearForm space matrix: matrix  aBilinearForm matrix! !
+
+!BilinearForm methodsFor: 'operations' stamp: 'len 7/28/2020 09:38:10'!
+automorphisms
+	"Answer the orthogonal group consisting of the self-isometries with respect to the receiver."
+	^ self depolarization automorphisms! !
+
+!BilinearForm methodsFor: 'operations' stamp: 'len 7/10/2020 08:42:17'!
+gramianOf: anArray
+	"Answer the Gramian matrix of the vectors in anArray."
+	^ (self scalars^anArray size) endomorphisms filling: [:i :j| self value: (anArray at: i) value: (anArray at: j)]! !
+
+!BilinearForm methodsFor: 'operations' stamp: 'len 7/28/2020 20:08:32'!
+left
+	"Answer the linear map from the space to its dual that fixes the right argument. If the bilinear form is non-degenerate, this map is an isomorphism."
+	| V L |
+	V _ self domain at: 1.
+	L _ V dual.
+	^ V to: L evaluating: [:v| L evaluating: [:w| self value: w value: v]]! !
+
+!BilinearForm methodsFor: 'operations' stamp: 'len 1/8/2016 06:06'!
+leftRadical
+	^ self left kernel! !
+
+!BilinearForm methodsFor: 'operations' stamp: 'len 7/28/2020 19:33:08'!
+negated
+	^ self class on: space matrix: matrix negated! !
+
+!BilinearForm methodsFor: 'operations' stamp: 'len 7/21/2020 18:37:25'!
+orthogonalizationOf: aCollection
+	"Answer an orthogonalization of the given basis.
+	Perform the Gram-Schmidt orthogonalization process."
+	| answer norms u uv |
+	answer _ OrderedCollection new: aCollection size.
+	norms _ OrderedCollection new: aCollection size.
+	aCollection do: [:each|
+		u _ each.
+		answer with: norms do: [:v :vv|
+			uv _ self value: u value: v.
+			u _ u - (v * uv / vv)].
+		answer add: u.
+		norms add: (self value: u value: u)].
+	^ answer! !
+
+!BilinearForm methodsFor: 'operations' stamp: 'len 7/6/2020 11:36:32'!
+radical
+	"Assuming the receiver is symmetric, answer the radical subspace."
+	^ self leftRadical! !
+
+!BilinearForm methodsFor: 'operations' stamp: 'len 1/8/2016 06:29'!
+rank
+	^ matrix rank! !
+
+!BilinearForm methodsFor: 'operations' stamp: 'len 7/6/2020 08:14:12'!
+right
+	"Answer the linear map from the domain to its dual that fixes the left argument. If the bilinear form is non-degenerate, this map is an isomorphism."
+	| V L |
+	V _ self domain at: 2.
+	L _ V dual.
+	^ V to: L evaluating: [:v| L evaluating: [:w| self value: v value: w]]! !
+
+!BilinearForm methodsFor: 'operations' stamp: 'len 1/8/2016 06:06'!
+rightRadical
+	^ self right kernel! !
+
+!BilinearForm methodsFor: 'operations' stamp: 'len 8/9/2020 07:50:29'!
+skewSymmetricPart
+	| two |
+	two _ self scalars one * 2.
+	^ self class
+		on: space
+		matrix: matrix - matrix transpose / two! !
+
+!BilinearForm methodsFor: 'operations' stamp: 'len 8/9/2020 07:50:34'!
+symmetricPart
+	| two |
+	two _ self scalars one * 2.
+	^ self class
+		on: space
+		matrix: matrix + matrix transpose / two! !
+
+!BilinearForm methodsFor: 'operations' stamp: 'len 8/9/2020 07:48:52'!
+transpose
+	"The transpose of a bilinear form B(x,y) is B(y,x)."
+	^ self class on: space matrix: matrix transpose! !
+
+!BilinearForm methodsFor: 'operations' stamp: 'len 4/26/2021 11:39:17'!
+value: anElement value: anotherElement
+	^ space \ anElement · (matrix * (space \ anotherElement))! !
+
+!BilinearForm methodsFor: 'testing' stamp: 'len 1/8/2016 06:30'!
+isAlternating
+	"A bilinear form B is called 'alternating' if B(v,v) = 0 for all v."
+	matrix isSkewSymmetric ifFalse: [^ false].
+	matrix diagonalDo: [:each| each isZero ifFalse: [^ false]].
+	^ true! !
+
+!BilinearForm methodsFor: 'testing' stamp: 'len 1/8/2016 06:25'!
+isNonDegenerate
+	"A bilinear form B is called 'non-degenerate' if B(v,w) = 0 for all w implies v = 0.
+	B is non-degenerate iff the left and right radicals are trivial."
+	^ self rank = self domain dimension! !
+
+!BilinearForm methodsFor: 'testing' stamp: 'len 7/10/2020 07:46:31'!
+isPositiveDefinite
+	"A bilinear form B over the real or complex number is called 'positive definite' if B(v,v) > 0 for all v."
+	^ matrix isPositiveDefinite! !
+
+!BilinearForm methodsFor: 'testing' stamp: 'len 1/7/2016 23:40'!
+isReflexive
+	"A bilinear form B is called 'reflexive' if B(v,w) = 0 implies B(w,v) = 0 for all v,w."
+	^ self isSymmetric or: [self isAlternating]! !
+
+!BilinearForm methodsFor: 'testing' stamp: 'len 7/27/2020 19:06:58'!
+isSkewSymmetric
+	"A bilinear form B is called 'skew-symmetric' (or 'anti-symmetric') if B(v,w) = -B(w,v) for all v,w."
+	^ matrix isSkewSymmetric! !
+
+!BilinearForm methodsFor: 'testing' stamp: 'len 7/28/2020 10:27:27'!
+isStandardDotProduct
+	"Answer true if the receiver is the standard dot product."
+	^ matrix isIdentity! !
+
+!BilinearForm methodsFor: 'testing' stamp: 'len 1/8/2016 06:30'!
+isSymmetric
+	"A bilinear form B is called 'symmetric' if B(v,w) = B(w,v) for all v,w."
+	^ matrix isSymmetric! !
+
+!BilinearForm class methodsFor: 'instance creation' stamp: 'len 7/14/2020 07:37:24'!
+from: aDomain to: aCodomain table: anArray
+	^ self on: (aDomain at: 1) matrix: (anArray at: 1)! !
+
+!BilinearForm class methodsFor: 'instance creation' stamp: 'len 10/25/2020 10:10:31'!
+on: aModule evaluatingWithArguments: aBlock
+	| generators matrix |
+	generators _ aModule generators.
+	matrix _ aModule coordinates endomorphisms filling: [:i :j| aBlock value: (generators at: i) value: (generators at: j)].
+	^ self on: aModule matrix: matrix! !
+
+!BilinearForm class methodsFor: 'instance creation' stamp: 'len 7/28/2020 19:33:55'!
+on: aFreeModule matrix: aMatrix
+	"Answer a new instance of the receiver representing the bilinear form associated to aMatrix in the given bases."
+	^ self new space: aFreeModule; matrix: aMatrix! !
+
 !ModuleMap methodsFor: 'accessing' stamp: 'len 4/1/2021 06:41:51'!
 bitSize
 	^ self asMatrix bitSize! !
@@ -27789,10 +28079,10 @@ apply: aMorphism
 	"Apply a homomorphism to the coefficients of the receiver."
 	^ aMorphism codomain matrix: self extent filling: [:i :j| aMorphism value: (self at: i@j)]! !
 
-!Matrix methodsFor: 'operations' stamp: 'len 1/1/2022 12:48:00'!
+!Matrix methodsFor: 'operations' stamp: 'len 1/1/2022 21:10:51'!
 berkowitz
 	"Answer the coefficients of the characteristic polynomial of the receiver.
-	It's computed by the Berkowitz division-free algorithm and works over any commutative ring without zero divisors.
+	It's computed by the Berkowitz division-free algorithm and works over any commutative ring.
 	It uses small space in comparision with classic gaussian elimination and performs O(n^4) scalar operations."
 	| v C Ar R S Q one |
 	self isSquare ifFalse: [^ self error: 'not square'].
@@ -27837,19 +28127,6 @@ berkowitz
 
 	^ self height even ifTrue: [v] ifFalse: [v negated]! !
 
-!Matrix methodsFor: 'operations' stamp: 'len 4/13/2021 10:33:35'!
-berkowitz: x
-	"Answer the evaluation of the characteristic polynomial at x by Berkowitz algorithm."
-	| answer r v power |
-	r _ self height + 1.
-	v _ self berkowitz.
-	answer _ x zero.
-	power _ x one.
-	r to: 1 by: -1 do: [:i|
-		answer _ power * (v at: i) + answer.
-		power _ power * x].
-	^ answer! !
-
 !Matrix methodsFor: 'operations' stamp: 'len 1/1/2022 11:25:39'!
 characteristicMatrix
 	"Answer the characteristic matrix I*x - A."
@@ -27861,10 +28138,9 @@ characteristicMatrix
 			ifTrue: [x - (P constant: (self at: i @ j))]
 			ifFalse: [P constant: (self at: i @ j) negated]]! !
 
-!Matrix methodsFor: 'operations' stamp: 'len 1/1/2022 12:47:40'!
+!Matrix methodsFor: 'operations' stamp: 'len 1/1/2022 19:56:27'!
 characteristicPolynomial
-	self scalars isIntegralDomain ifTrue: [^ self scalars polynomials coefficients: self berkowitz reversed].
-	^ self characteristicMatrix determinant
+	^ self scalars polynomials coefficients: self berkowitz reversed
 
 "TODO: best algorithms choices are:
 	- for Z use modular algorithm: compute modulo p for many primes p, then CRT;
@@ -27971,16 +28247,14 @@ content
 	self do: [:each| answer _ answer gcd: each].
 	^ answer! !
 
-!Matrix methodsFor: 'operations' stamp: 'len 1/1/2022 12:44:02'!
+!Matrix methodsFor: 'operations' stamp: 'len 1/1/2022 21:12:12'!
 determinant
+	| a0 |
 	self isSquare ifFalse: [self error: 'not square matrix'].
 	self isEmpty ifTrue: [^ self scalars one].
 	self scalars isField ifTrue: [^ (GaussianElimination on: self) determinant].
-	self scalars isIntegralDomain ifTrue:
-		[| a0 |
-		a0 _ self characteristicPolynomial independentCoefficient.
-		^ self height even ifTrue: [a0] ifFalse: [a0 negated]].
-	^ (1 to: self height) sum: [:i| (self at: i@1) * (self cofactor: i@1)]! !
+	a0 _ self characteristicPolynomial independentCoefficient.
+	^ self height even ifTrue: [a0] ifFalse: [a0 negated]! !
 
 !Matrix methodsFor: 'operations' stamp: 'len 7/12/2019 04:58:17'!
 determinant1
@@ -28008,6 +28282,12 @@ determinant2
 	c | t ifFalse: [self halt].
 	k+1 to: n do: [:j| t _ p * (M at: i@j) - ((M at: i@k) * (M at: k@j)). M at: i@j put: t/c].
 	c _ p] repeat! !
+
+!Matrix methodsFor: 'operations' stamp: 'len 1/1/2022 19:51:07'!
+determinant3
+	self isSquare ifFalse: [self error: 'not square matrix'].
+	self isEmpty ifTrue: [^ self scalars one].
+	^ (1 to: self height) sum: [:i| (self at: i@1) * (self cofactor: i@1)]! !
 
 !Matrix methodsFor: 'operations' stamp: 'len 7/27/2020 14:31:31'!
 determinantModular
@@ -29404,340 +29684,6 @@ validate
 !RowMajorMatrix class methodsFor: 'instance creation' stamp: 'len 5/29/2020 04:08:08'!
 from: aDomain to: aCodomain coefficients: aTuple
 	^ self new domain: aDomain; codomain: aCodomain; coefficients: aTuple! !
-
-!MultilinearMap methodsFor: 'as yet unclassified' stamp: 'len 7/13/2020 11:04:10'!
-+ aMultilinearMap
-	(self domain = aMultilinearMap domain and: [self codomain = aMultilinearMap codomain]) ifFalse: [^ DomainError signal].
-	^ self class from: self domain to: self codomain table: self table + aMultilinearMap table! !
-
-!MultilinearMap methodsFor: 'as yet unclassified' stamp: 'len 7/13/2020 10:55:00'!
-asPolynomial
-	| R |
-	R _ self scalars polynomialsIn: #().
-	self frame components do: [:each| R _ R ‘ each coordinateRing].
-	"..."
-	self notYetImplemented! !
-
-!MultilinearMap methodsFor: 'as yet unclassified' stamp: 'len 9/22/2018 21:51:57'!
-asTensorMap
-	^ self propertyAt: #tensorMap! !
-
-!MultilinearMap methodsFor: 'as yet unclassified' stamp: 'len 9/22/2018 21:53:00'!
-tensorMap: aLinearMap
-	self propertyAt: #tensorMap put: aLinearMap! !
-
-!MultilinearMap methodsFor: 'as yet unclassified' stamp: 'len 7/6/2020 07:54:15'!
-value: anArray
-	| T |
-	T _ self asTensorMap.
-	^ T value: (self domain -> T domain value: anArray)! !
-
-!BilinearMap methodsFor: 'as yet unclassified' stamp: 'len 7/8/2021 15:02:06'!
- aBilinearMap
-	"Answer the direct sum of the receiver and the argument."
-	^ self class
-		from: (self domain at: 1)  (aBilinearMap domain at: 1), ((self domain at: 2)  (aBilinearMap domain at: 2))
-		to: self codomain  aBilinearMap codomain
-		evaluatingWithArguments: [:x :y| self notYetImplemented]! !
-
-!BilinearMap methodsFor: 'as yet unclassified' stamp: 'len 7/8/2021 14:58:34'!
-left
-	"Answer the linear map that fixes the first argument."
-	| X Y Z |
-	X _ self domain at: 1.
-	Y _ self domain at: 2.
-	Z _ self codomain.
-	^ X to: Y => Z evaluating: [:x| Y to: Z evaluating: [:y| self value: x value: y]]! !
-
-!BilinearMap methodsFor: 'as yet unclassified' stamp: 'len 7/8/2021 14:59:06'!
-right
-	"Answer the linear map that fixes the second argument."
-	| X Y Z |
-	X _ self domain at: 1.
-	Y _ self domain at: 2.
-	Z _ self codomain.
-	^ Y to: X => Z evaluating: [:y| X to: Z evaluating: [:x| self value: x value: y]]! !
-
-!BilinearMap methodsFor: 'as yet unclassified' stamp: 'len 7/14/2020 07:31:45'!
-table
-	^ self propertyAt: #table! !
-
-!BilinearMap methodsFor: 'as yet unclassified' stamp: 'len 7/14/2020 07:31:36'!
-table: anArray
-	self propertyAt: #table put: anArray! !
-
-!BilinearMap methodsFor: 'as yet unclassified' stamp: 'len 7/14/2020 07:01:41'!
-value: anArray
-	self assert: anArray size = 2.
-	^ self value: anArray first value: anArray second! !
-
-!BilinearMap methodsFor: 'as yet unclassified' stamp: 'len 4/26/2021 11:39:30'!
-value: anElement value: anotherElement
-	| v w t |
-	v _ (self domain at: 1) \ anElement.
-	w _ (self domain at: 2) \ anotherElement. 
-	t _ self codomain coordinates zero.
-	self table withIndexDo: [:ai :i|
-		ai withIndexDo: [:aij :j|
-			t _ (aij collect: [:each| (v at: i) * each * (w at: j)]) + t]].
-	^ self codomain elementAt: t! !
-
-!BilinearMap class methodsFor: 'instance creation' stamp: 'len 7/7/2020 09:18:44'!
-from: aDomain to: aCodomain evaluating: aBlock
-	^ self from: aDomain to: aCodomain evaluatingWithArguments: [:x :y| aBlock value: {x. y}]! !
-
-!BilinearMap class methodsFor: 'instance creation' stamp: 'len 4/26/2021 11:39:37'!
-from: aDomain to: aCodomain evaluatingWithArguments: aBlock
-	| table |
-	table _ aDomain components first generators collect: [:x| aDomain components second generators collect: [:y| aCodomain \ (aBlock value: x value: y)]].
-	^ self from: aDomain to: aCodomain table: table! !
-
-!BilinearMap class methodsFor: 'instance creation' stamp: 'len 4/26/2021 11:39:43'!
-from: aDomain to: aCodomain mapping: aBlock
-	| table |
-	table _ (1 to: (aDomain at: 1) generators size) collect: [:i|
-		(1 to: (aDomain at: 2) generators size) collect: [:j|
-			aCodomain \ (aBlock value: i value: j)]].
-	^ self from: aDomain to: aCodomain table: table! !
-
-!BilinearMap class methodsFor: 'instance creation' stamp: 'len 7/14/2020 07:31:21'!
-from: aDomain to: aCodomain table: anArray
-	^ self new domain: aDomain; codomain: aCodomain; table: anArray! !
-
-!BilinearMap class methodsFor: 'instance creation' stamp: 'len 7/7/2020 09:32:03'!
-on: aModule evaluating: aBlock
-	^ self on: aModule evaluatingWithArguments: [:x :y| aBlock value: {x. y}]! !
-
-!BilinearMap class methodsFor: 'instance creation' stamp: 'len 7/7/2020 09:31:30'!
-on: aModule evaluatingWithArguments: aBlock
-	^ self from: (aModule, aModule) to: aModule evaluatingWithArguments: aBlock! !
-
-!BilinearMap class methodsFor: 'instance creation' stamp: 'len 7/14/2020 17:13:29'!
-on: aModule mapping: aBlock
-	^ self from: (aModule, aModule) to: aModule mapping: aBlock! !
-
-!BilinearMap class methodsFor: 'instance creation' stamp: 'len 7/14/2020 07:35:34'!
-on: aModule table: anArray
-	^ self from: (aModule, aModule) to: aModule table: anArray! !
-
-!BilinearForm methodsFor: 'accessing' stamp: 'len 12/28/2015 21:09'!
-bitSize
-	^ matrix bitSize! !
-
-!BilinearForm methodsFor: 'accessing' stamp: 'len 1/8/2016 06:36'!
-codomain
-	^ self scalars! !
-
-!BilinearForm methodsFor: 'accessing' stamp: 'len 7/28/2020 19:33:01'!
-domain
-	^ (space, space)! !
-
-!BilinearForm methodsFor: 'accessing' stamp: 'len 11/7/2015 23:26'!
-matrix
-	^ matrix! !
-
-!BilinearForm methodsFor: 'accessing' stamp: 'len 7/28/2020 19:33:13'!
-scalars
-	^ space scalars! !
-
-!BilinearForm methodsFor: 'accessing' stamp: 'len 7/29/2020 06:30:58'!
-space
-	^ space! !
-
-!BilinearForm methodsFor: 'comparing' stamp: 'len 7/28/2020 19:32:00'!
-= anObject
-	^ self class = anObject class and: [space = anObject space and: [matrix = anObject matrix]]! !
-
-!BilinearForm methodsFor: 'comparing' stamp: 'len 7/27/2020 19:20:48'!
-hash
-	^ matrix hash! !
-
-!BilinearForm methodsFor: 'converting' stamp: 'len 5/29/2020 15:20:02'!
-asPolynomial
-	| n P x y |
-	n _ matrix height.
-	P _ self scalars polynomialsIn: ((1 to: n) collect: [:i| 'x' asText, i printString sub]), ((1 to: n) collect: [:i| 'y' asText, i printString sub]).
-	x _ P^n filling: [:i| P x: i].
-	y _ P^n filling: [:i| P x: n+i].
-	^ x · ((matrix over: P) * y)! !
-
-!BilinearForm methodsFor: 'converting' stamp: 'len 7/28/2020 19:32:47'!
-depolarization
-	"Answer the associated quadratic form Q(v) := B(v,v)."
-	^ QuadraticForm from: space gramian: matrix! !
-
-!BilinearForm methodsFor: 'initialization' stamp: 'len 8/23/97 15:35'!
-matrix: aMatrix
-	matrix _ aMatrix! !
-
-!BilinearForm methodsFor: 'initialization' stamp: 'len 7/28/2020 19:33:47'!
-space: aFreeModule
-	space _ aFreeModule! !
-
-!BilinearForm methodsFor: 'operations' stamp: 'len 7/28/2020 19:32:35'!
-* anObject
-	^ self class on: space matrix: matrix * anObject! !
-
-!BilinearForm methodsFor: 'operations' stamp: 'len 7/28/2020 19:35:54'!
-+ aBilinearForm
-	space == aBilinearForm space ifTrue: [^ self class on: space matrix: matrix + aBilinearForm matrix].
-	space = aBilinearForm space ifFalse: [^ self error: 'domains don''t match'].
-	^ self class on: space evaluating: [:each| (self value: each) + (aBilinearForm value: each)]! !
-
-!BilinearForm methodsFor: 'operations' stamp: 'len 7/28/2020 19:32:18'!
-‘ anObject
-	(anObject isKindOf: BilinearForm)
-		ifTrue: [^ self class on: space ‘ anObject space matrix: matrix ‘ anObject matrix].
-	(anObject isKindOf: QuadraticForm)
-		ifTrue: [^ (self ‘ anObject polarization) depolarization].
-	^ DomainError signal! !
-
-!BilinearForm methodsFor: 'operations' stamp: 'len 5/3/2021 11:00:44'!
-” aBilinearForm
-	"Answer the orthogonal sum of the receiver and the argument."
-	^ self class on: space  aBilinearForm space matrix: matrix  aBilinearForm matrix! !
-
-!BilinearForm methodsFor: 'operations' stamp: 'len 7/28/2020 09:38:10'!
-automorphisms
-	"Answer the orthogonal group consisting of the self-isometries with respect to the receiver."
-	^ self depolarization automorphisms! !
-
-!BilinearForm methodsFor: 'operations' stamp: 'len 7/10/2020 08:42:17'!
-gramianOf: anArray
-	"Answer the Gramian matrix of the vectors in anArray."
-	^ (self scalars^anArray size) endomorphisms filling: [:i :j| self value: (anArray at: i) value: (anArray at: j)]! !
-
-!BilinearForm methodsFor: 'operations' stamp: 'len 7/28/2020 20:08:32'!
-left
-	"Answer the linear map from the space to its dual that fixes the right argument. If the bilinear form is non-degenerate, this map is an isomorphism."
-	| V L |
-	V _ self domain at: 1.
-	L _ V dual.
-	^ V to: L evaluating: [:v| L evaluating: [:w| self value: w value: v]]! !
-
-!BilinearForm methodsFor: 'operations' stamp: 'len 1/8/2016 06:06'!
-leftRadical
-	^ self left kernel! !
-
-!BilinearForm methodsFor: 'operations' stamp: 'len 7/28/2020 19:33:08'!
-negated
-	^ self class on: space matrix: matrix negated! !
-
-!BilinearForm methodsFor: 'operations' stamp: 'len 7/21/2020 18:37:25'!
-orthogonalizationOf: aCollection
-	"Answer an orthogonalization of the given basis.
-	Perform the Gram-Schmidt orthogonalization process."
-	| answer norms u uv |
-	answer _ OrderedCollection new: aCollection size.
-	norms _ OrderedCollection new: aCollection size.
-	aCollection do: [:each|
-		u _ each.
-		answer with: norms do: [:v :vv|
-			uv _ self value: u value: v.
-			u _ u - (v * uv / vv)].
-		answer add: u.
-		norms add: (self value: u value: u)].
-	^ answer! !
-
-!BilinearForm methodsFor: 'operations' stamp: 'len 7/6/2020 11:36:32'!
-radical
-	"Assuming the receiver is symmetric, answer the radical subspace."
-	^ self leftRadical! !
-
-!BilinearForm methodsFor: 'operations' stamp: 'len 1/8/2016 06:29'!
-rank
-	^ matrix rank! !
-
-!BilinearForm methodsFor: 'operations' stamp: 'len 7/6/2020 08:14:12'!
-right
-	"Answer the linear map from the domain to its dual that fixes the left argument. If the bilinear form is non-degenerate, this map is an isomorphism."
-	| V L |
-	V _ self domain at: 2.
-	L _ V dual.
-	^ V to: L evaluating: [:v| L evaluating: [:w| self value: v value: w]]! !
-
-!BilinearForm methodsFor: 'operations' stamp: 'len 1/8/2016 06:06'!
-rightRadical
-	^ self right kernel! !
-
-!BilinearForm methodsFor: 'operations' stamp: 'len 8/9/2020 07:50:29'!
-skewSymmetricPart
-	| two |
-	two _ self scalars one * 2.
-	^ self class
-		on: space
-		matrix: matrix - matrix transpose / two! !
-
-!BilinearForm methodsFor: 'operations' stamp: 'len 8/9/2020 07:50:34'!
-symmetricPart
-	| two |
-	two _ self scalars one * 2.
-	^ self class
-		on: space
-		matrix: matrix + matrix transpose / two! !
-
-!BilinearForm methodsFor: 'operations' stamp: 'len 8/9/2020 07:48:52'!
-transpose
-	"The transpose of a bilinear form B(x,y) is B(y,x)."
-	^ self class on: space matrix: matrix transpose! !
-
-!BilinearForm methodsFor: 'operations' stamp: 'len 4/26/2021 11:39:17'!
-value: anElement value: anotherElement
-	^ space \ anElement · (matrix * (space \ anotherElement))! !
-
-!BilinearForm methodsFor: 'testing' stamp: 'len 1/8/2016 06:30'!
-isAlternating
-	"A bilinear form B is called 'alternating' if B(v,v) = 0 for all v."
-	matrix isSkewSymmetric ifFalse: [^ false].
-	matrix diagonalDo: [:each| each isZero ifFalse: [^ false]].
-	^ true! !
-
-!BilinearForm methodsFor: 'testing' stamp: 'len 1/8/2016 06:25'!
-isNonDegenerate
-	"A bilinear form B is called 'non-degenerate' if B(v,w) = 0 for all w implies v = 0.
-	B is non-degenerate iff the left and right radicals are trivial."
-	^ self rank = self domain dimension! !
-
-!BilinearForm methodsFor: 'testing' stamp: 'len 7/10/2020 07:46:31'!
-isPositiveDefinite
-	"A bilinear form B over the real or complex number is called 'positive definite' if B(v,v) > 0 for all v."
-	^ matrix isPositiveDefinite! !
-
-!BilinearForm methodsFor: 'testing' stamp: 'len 1/7/2016 23:40'!
-isReflexive
-	"A bilinear form B is called 'reflexive' if B(v,w) = 0 implies B(w,v) = 0 for all v,w."
-	^ self isSymmetric or: [self isAlternating]! !
-
-!BilinearForm methodsFor: 'testing' stamp: 'len 7/27/2020 19:06:58'!
-isSkewSymmetric
-	"A bilinear form B is called 'skew-symmetric' (or 'anti-symmetric') if B(v,w) = -B(w,v) for all v,w."
-	^ matrix isSkewSymmetric! !
-
-!BilinearForm methodsFor: 'testing' stamp: 'len 7/28/2020 10:27:27'!
-isStandardDotProduct
-	"Answer true if the receiver is the standard dot product."
-	^ matrix isIdentity! !
-
-!BilinearForm methodsFor: 'testing' stamp: 'len 1/8/2016 06:30'!
-isSymmetric
-	"A bilinear form B is called 'symmetric' if B(v,w) = B(w,v) for all v,w."
-	^ matrix isSymmetric! !
-
-!BilinearForm class methodsFor: 'instance creation' stamp: 'len 7/14/2020 07:37:24'!
-from: aDomain to: aCodomain table: anArray
-	^ self on: (aDomain at: 1) matrix: (anArray at: 1)! !
-
-!BilinearForm class methodsFor: 'instance creation' stamp: 'len 10/25/2020 10:10:31'!
-on: aModule evaluatingWithArguments: aBlock
-	| generators matrix |
-	generators _ aModule generators.
-	matrix _ aModule coordinates endomorphisms filling: [:i :j| aBlock value: (generators at: i) value: (generators at: j)].
-	^ self on: aModule matrix: matrix! !
-
-!BilinearForm class methodsFor: 'instance creation' stamp: 'len 7/28/2020 19:33:55'!
-on: aFreeModule matrix: aMatrix
-	"Answer a new instance of the receiver representing the bilinear form associated to aMatrix in the given bases."
-	^ self new space: aFreeModule; matrix: aMatrix! !
 
 !LatticeMap methodsFor: 'accessing' stamp: 'len 7/29/2020 08:39:41'!
 matrix
@@ -35236,15 +35182,14 @@ components: anArrayOrDictionary parent: aFreeModule
 at: anInteger
 	^ (bits bitAt: anInteger) = 1 ifTrue: [One] ifFalse: [Zero]! !
 
-!BitTuple methodsFor: 'accessing' stamp: 'len 5/8/2019 03:06:10'!
+!BitTuple methodsFor: 'accessing' stamp: 'len 1/1/2022 21:56:38'!
 at: anInteger put: aBit
 	| bit |
 	anInteger > self size ifTrue: [self error: 'index out of bounds'].
 	bit _ aBit.
 	bit isInteger ifTrue: [bit _ bit even ifTrue: [Zero] ifFalse: [One]].
-"		ifFalse: [(Zero = bit or: [One = bit]) ifFalse: [DomainError signal]]."
 	(self at: anInteger) = bit
-		ifFalse: [bits _ bits bitXor: 1 << (anInteger - 1)].
+		ifFalse: [bits _ bits bitXor: (1 bitShift: anInteger - 1)].
 	^ bit! !
 
 !BitTuple methodsFor: 'accessing' stamp: 'len 7/19/2020 08:06:56'!
@@ -35295,11 +35240,13 @@ asInteger
 		ifTrue: [^ self class bits: (bits bitXor: (anObject asInteger bitShift: self size)) parent: self scalars^(self size+anObject size)].
 	^ self copyWith: anObject! !
 
-!BitTuple methodsFor: 'copying' stamp: 'len 5/28/2020 14:33:29'!
+!BitTuple methodsFor: 'copying' stamp: 'len 1/1/2022 21:09:00'!
 copyFrom: start to: stop 
 	"Answer a copy of a subset of the receiver, starting from element at 
 	index start until element at index stop."
-	^ self class bits: (bits bitShift: 1 - start) parent: self scalars^(stop - start + 1 max: 0)! !
+	| n |
+	n _ stop - start + 1 max: 0.
+	^ self class bits: ((bits bitShift: 1 - start) bitAnd: (1 bitShift: n) - 1) parent: self scalars^n! !
 
 !BitTuple methodsFor: 'copying' stamp: 'len 5/28/2020 14:24:12'!
 copyWith: aBit
@@ -35440,9 +35387,9 @@ weight
 	"Answer the Hamming weight of the receiver, i.e. the number of entries that are not zero."
 	^ self asInteger bitCount! !
 
-!BitTuple methodsFor: 'testing' stamp: 'len 5/8/2019 03:07:48'!
+!BitTuple methodsFor: 'testing' stamp: 'len 1/1/2022 20:17:51'!
 isZero
-	^ bits == 0! !
+	^ bits = 0! !
 
 !BitTuple methodsFor: 'testing' stamp: 'len 12/30/2021 11:34:15'!
 isZeroAt: anInteger
@@ -35460,8 +35407,9 @@ initialize
 	One _ Z2 one.
 	Zero _ Z2 zero! !
 
-!BitTuple class methodsFor: 'instance creation' stamp: 'len 5/28/2020 14:22:54'!
+!BitTuple class methodsFor: 'instance creation' stamp: 'len 1/1/2022 20:27:22'!
 bits: anInteger parent: aFreeModule
+	self assert: anInteger highBit <= aFreeModule rank.
 	^ self basicNew bits: anInteger; parent: aFreeModule! !
 
 !BitTuple class methodsFor: 'instance creation' stamp: 'len 5/28/2020 14:51:42'!
