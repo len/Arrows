@@ -1,4 +1,4 @@
-'From Cuis 5.0 [latest update: #4542] on 1 January 2022 at 9:58:34 pm'!
+'From Cuis 5.0 [latest update: #4542] on 2 January 2022 at 12:05:33 pm'!
 'Description A computational algebra system in Smalltalk.
 
 References:
@@ -41,7 +41,7 @@ References:
 [] Victor Shoup; "A Computational Introduction to Number Theory and Algebra"
 [] Joseph. H. Silverman; "The Arithmetic of Elliptic Curves"
 '!
-!provides: 'Domains' 1 640!
+!provides: 'Domains' 1 641!
 !requires: 'Complex' 1 7 nil!
 SystemOrganization addCategory: #'Domains-Kernel'!
 SystemOrganization addCategory: #'Domains-Kernel-Support'!
@@ -3584,7 +3584,7 @@ This is the group of scalar linear maps of a free R-module over a commutative ri
 SL(V), the Special Linear Group of automorphisms with determinant 1.!
 
 !UnitGroup commentStamp: '<historical>' prior: 0!
-Given a ring R, the group of units of R is the set of elements of R that have multiplicative inverse, and they form a group under multiplication. For a field F (or more generally a division ring), the units are all the non-zero elements F \ {0}.
+Given a ring R, the group of units of R is the set of elements of R that have multiplicative inverse, and they form a group under multiplication. For a field F (or more generally a division ring), the units are all the nonzero elements F \ {0}.
 
 Categorically, this construction is a functor from the cateogory of rings to the category of groups. This functor has a left adjoint which is the integral group ring construction (see GroupAlgebra).!
 
@@ -3738,7 +3738,7 @@ Rings can be thought as continuous functions on some topological space. In the c
 Rings can be constructed from existing rings for example by taking quotients by a two-sided ideal (see QuotientRing), by direct product (see ProductRing), and in the case of commutative rings by making transcendental extensions (see PolynomialRing), localization (see FractionRing and LocalRing), completion (for example PowerSeriesRing and AdicRing), etc.!
 
 !FractionRing commentStamp: '<historical>' prior: 0!
-Total ring of fractions Frac(R) of a commutative ring R, also called the "total quotient ring" of R. The elements are formal fractions a/b with a and b in R and b regular (not a zero divisor). When the ring R is an integral domain, Frac(R) is a field and it is called the "field of fractions" of R. See Ring>>fractions.
+Total ring of fractions Frac(R) of a commutative ring R, also called the "total quotient ring" of R. The elements are formal fractions a/b with a and b in R and b regular (not a zerodivisor). When the ring R is an integral domain, Frac(R) is a field and it is called the "field of fractions" of R. See Ring>>fractions.
 
 The ring of fractions is a particular case of the more general construction of the localization of a ring or module. The field of fractions of an integral domain is the localization at the zero ideal. See also LocalRing for localizations at prime ideals.!
 
@@ -5414,6 +5414,14 @@ category
 category
 	^ Monoids! !
 
+!MonoidMap methodsFor: 'printing' stamp: 'len 1/2/2022 11:23:13'!
+printOn: aStream
+	aStream nextPut: $(.
+	(1 to: self domain rank)
+		do: [:i| aStream print: (self value: (self domain x: i))]
+		separatedBy: [aStream nextPutAll: ', '].
+	aStream nextPut: $)! !
+
 !GroupMap methodsFor: 'accessing' stamp: 'len 4/26/2020 18:08:26'!
 category
 	^ Groups! !
@@ -5853,25 +5861,23 @@ printOn: aStream
 printOn: aStream
 	aStream nextPutAll: representative printText italic! !
 
-!Polynomial methodsFor: 'printing' stamp: 'len 7/21/2019 12:47:30'!
+!Polynomial methodsFor: 'printing' stamp: 'len 1/2/2022 10:45:59'!
 printOn: aStream
 	| monomials leadingMonomial c |
 	(self scalars isKindOf: ModularIntegerRing)
-		ifTrue: [self lift printOn: aStream. ^ self].
+		ifTrue: [aStream print: self lift. ^ self].
 	self isConstant ifTrue: [aStream print: self leadingCoefficient. ^ self].
 	monomials _ self monomials asSortedCollection reversed.
 	c _ self at: (leadingMonomial _ monomials first).
 	(c printString first = $- or: [c isReal and: [c negative]])
 		ifTrue: [c _ c negated. aStream nextPut: $-].
-	(c ~= parent scalars one or: [leadingMonomial degree = 0]) ifTrue: [self printCoefficient: c on: aStream].
-	leadingMonomial degree > 0 ifTrue: [aStream print: leadingMonomial].
+	self printCoefficient: c monomial: leadingMonomial on: aStream.
 	monomials allButFirst do: [:m|
 		c _ self at: m.
 		(c printString first = $- or: [c isReal and: [c negative]])
 			ifTrue: [aStream nextPutAll: ' - '. c _ c negated]
 			ifFalse: [aStream nextPutAll: ' + '].
-		(c ~= parent scalars one or: [m degree = 0]) ifTrue: [self printCoefficient: c on: aStream].
-		m degree > 0 ifTrue: [aStream print: m]]! !
+		self printCoefficient: c monomial: m on: aStream]! !
 
 !UnivariatePolynomial methodsFor: 'operations' stamp: 'len 7/9/2016 03:05'!
 >> anInteger
@@ -14486,9 +14492,9 @@ isSemisimple
 	self isVectorSpace ifTrue: [^ true].
 	^ self isArtinian and: [self radical isTrivial] "because the receiver is finitely generated"! !
 
-!Module methodsFor: 'testing' stamp: 'len 10/20/2020 18:47:49'!
+!Module methodsFor: 'testing' stamp: 'len 1/2/2022 10:12:50'!
 isSimple
-	"A module is 'simple' if it is non-trivial and has no non-trivial proper submodules. An abelian group is 'simple' if the only normal subgroups are the trivial group and itself."
+	"A module is 'simple' if it is nontrivial and has no nontrivial proper submodules. An abelian group is 'simple' if the only normal subgroups are the trivial group and itself."
 	self isAbelianGroup ifTrue: [^ self isTorsion and: [self isCyclic and: [self size isPrime]]].
 	^ self length = 1! !
 
@@ -14499,10 +14505,10 @@ isTorsion
 	self isAbelianGroup ifTrue: [^ self invariants noneSatisfy: [:each| each = 0]].
 	^ self torsion = self! !
 
-!Module methodsFor: 'testing' stamp: 'len 10/20/2020 19:36:09'!
+!Module methodsFor: 'testing' stamp: 'len 1/2/2022 10:04:23'!
 isTorsionFree
 	"Answer true if the receiver is a torsion-free module.
-	An abelian group is called 'torsion-free' if every non-zero element has infinite order."
+	An abelian group is called 'torsion-free' if every nonzero element has infinite order."
 	^ self torsion isTrivial! !
 
 !Module methodsFor: 'testing' stamp: 'len 4/1/2021 12:49:40'!
@@ -17363,10 +17369,10 @@ scalars
 	Subclasses can override."
 	^ ƒ! !
 
-!Ring methodsFor: 'accessing' stamp: 'len 6/14/2019 01:06:08'!
+!Ring methodsFor: 'accessing' stamp: 'len 1/2/2022 10:10:03'!
 uniformizer
 	"If the receiver is a DVR, answer the uniformizer.
-	A uniformizer (or uniformizing parameter, uniformizer element or prime element) is any irreducible element of a DVR, or equivalently a generator of the maximal ideal. All non-zero ideals are generated by some power of the uniformizer."
+	A uniformizer (or uniformizing parameter, uniformizer element or prime element) is any irreducible element of a DVR, or equivalently a generator of the maximal ideal. All nonzero ideals are generated by some power of the uniformizer."
 	self isDVR ifFalse: [^ self error: 'not a DVR'].
 	^ self propertyAt: #uniformizer ifAbsentPut: [self maximalIdeal generator normalized]! !
 
@@ -17781,9 +17787,9 @@ extensionDegree: anInteger
 	"Answer the algebraic extension of the receiver of the given degree. Choose any irreducible polynomial."
 	^ self extension: (self polynomials findIrreducibleOfDegree: anInteger)! !
 
-!Ring methodsFor: 'operations' stamp: 'len 12/29/2021 12:39:13'!
+!Ring methodsFor: 'operations' stamp: 'len 1/2/2022 10:15:58'!
 fractions
-	"Answer the total ring of fractions of the receiver. If the receiver is an integral domain, the fraction ring will be a field. If the receiver is a finite rings, it is its own total ring of fractions, because an element in a finite ring is either a zero divisor or a unit."
+	"Answer the total ring of fractions of the receiver. If the receiver is an integral domain, the fraction ring will be a field. If the receiver is a finite rings, it is its own total ring of fractions, because an element in a finite ring is either a zerodivisor or a unit."
 	^ self propertyAt: #fractions ifAbsentPut:
 		[self isCommutative ifFalse: [^ self error: 'not a commutative ring'].
 		(self isField or: [self isFinite]) ifTrue: [self] ifFalse: [FractionRing on: self]]! !
@@ -17952,10 +17958,10 @@ isApproximate
 	Examples of approximate rings include completions such as the real numbers (see RealField), power series (see PowerSeriesRing and LaurentSeriesRing) and p-adic numbers (see AdicRing and AdicField)."
 	^ false! !
 
-!Ring methodsFor: 'testing' stamp: 'len 3/21/2021 15:13:56'!
+!Ring methodsFor: 'testing' stamp: 'len 1/2/2022 10:14:15'!
 isArtinian
 	"A ring is called Artinian if it satisfies the descending chain condition on ideals.
-	In the non-commutative case, one should talk about 'left Artinian' or 'right Artinian' rings."
+	In the noncommutative case, one should talk about 'left Artinian' or 'right Artinian' rings."
 	self isFinite ifTrue: [^ true].
 	self isIntegralDomain ifTrue: [^ self isField].
 	^ self isNoetherian and: [self dimension = 0]! !
@@ -18006,15 +18012,15 @@ isDVR
 	Equivalently, a DVR is a Noetherian local domain whose maximal ideal is principal and different from {0}."
 	^ self isLocal and: [self isPID and: [self isField not]]! !
 
-!Ring methodsFor: 'testing' stamp: 'len 6/4/2019 07:43:57'!
+!Ring methodsFor: 'testing' stamp: 'len 1/2/2022 10:09:09'!
 isDedekindDomain
-	"A Dedekind domain is an integral domain in which every non-zero proper ideal factors into a product of prime ideals."
+	"A Dedekind domain is an integral domain in which every nonzero proper ideal factors into a product of prime ideals."
 	self isPID ifTrue: [^ true].
 	^ self propertyAt: #isDedekindDomain! !
 
-!Ring methodsFor: 'testing' stamp: 'len 7/6/2021 10:47:56'!
+!Ring methodsFor: 'testing' stamp: 'len 1/2/2022 10:09:15'!
 isDivisionRing
-	"A division ring, or skewfield, is a ring where division is possible, i.e. every non-zero element has a multiplicative inverse. The only difference with a field is that a division ring is not requiered to be commutative."
+	"A division ring, or skewfield, is a ring where division is possible, i.e. every nonzero element has a multiplicative inverse. The only difference with a field is that a division ring is not requiered to be commutative."
 	self isField ifTrue: [^ true].
 	^ false "it might still be a division ring, we just don't know"! !
 
@@ -18036,9 +18042,9 @@ isField
 isFiniteField
 	^ self isFinite and: [self isField]! !
 
-!Ring methodsFor: 'testing' stamp: 'len 6/16/2019 15:52:33'!
+!Ring methodsFor: 'testing' stamp: 'len 1/2/2022 10:09:25'!
 isGCDDomain
-	"A GCD domain is an integral domain with the property that any two non-zero elements have GCD (or equivalently any two non-zero elements have a LCM)."
+	"A GCD domain is an integral domain with the property that any two nonzero elements have GCD (or equivalently any two nonzero elements have a LCM)."
 	self isUFD ifTrue: [^ true].
 	^ self propertyAt: #isGCDDomain! !
 
@@ -18050,9 +18056,9 @@ isGaloisRing
 isGlobalField
 	^ false! !
 
-!Ring methodsFor: 'testing' stamp: 'len 7/22/2021 12:53:31'!
+!Ring methodsFor: 'testing' stamp: 'len 1/2/2022 10:09:31'!
 isIntegralDomain
-	"A ring is an integral domain if the product of any two non-zero elements is non-zero."
+	"A ring is an integral domain if the product of any two nonzero elements is nonzero."
 	self propertyAt: #isIntegralDomain ifPresent: [:aBoolean| ^ aBoolean].
 	self isCommutative ifFalse: [^ false].
 	self isFinite ifTrue: [^ self propertyAt: #isIntegralDomain put: (self zeroDivisors allSatisfy: [:each| each isZero])].
@@ -18124,9 +18130,9 @@ isPerfectField
 	self isAlgebraicallyClosed ifTrue: [^ true].
 	^ self propertyAt: #isPerfectField! !
 
-!Ring methodsFor: 'testing' stamp: 'len 4/30/2019 08:16:28'!
+!Ring methodsFor: 'testing' stamp: 'len 1/2/2022 10:16:17'!
 isPruferDomain
-	"A Prufer domain is a semihereditary integral domain, i.e. an integral domain R such that all finitely generated submodules of projective modules over R are again projective. Equivalently, a Prufer domain is a commutative ring without zero divisors in which every non-zero finitely generated ideal is invertible."
+	"A Prufer domain is a semihereditary integral domain, i.e. an integral domain R such that all finitely generated submodules of projective modules over R are again projective. Equivalently, a Prufer domain is a commutative ring without zerodivisors in which every nonzero finitely generated ideal is invertible."
 	^ self propertyAt: #isPruferDomain! !
 
 !Ring methodsFor: 'testing' stamp: 'len 4/12/2021 14:53:51'!
@@ -18139,9 +18145,9 @@ isReal
 	"Answer true if the receiver is a subring of the real field."
 	^ false! !
 
-!Ring methodsFor: 'testing' stamp: 'len 3/15/2021 13:51:40'!
+!Ring methodsFor: 'testing' stamp: 'len 1/2/2022 10:09:45'!
 isReduced
-	"A ring is called 'reduced' if it has no non-zero nilpotents, i.e. if r^n = 0 for some n >> 0, then r = 0. In other words, its nilradical is trivial."
+	"A ring is called 'reduced' if it has no nonzero nilpotents, i.e. if r^n = 0 for some n >> 0, then r = 0. In other words, its nilradical is trivial."
 	self isIntegralDomain ifTrue: [^ true].
 	^ self noneSatisfy: [:any| any squared isZero and: [any isZero not]]
 	
@@ -18164,9 +18170,9 @@ isTrivial
 	"The trivial ring is the zero ring with a single element 0 = 1."
 	^ self size = 1! !
 
-!Ring methodsFor: 'testing' stamp: 'len 7/30/2019 03:19:11'!
+!Ring methodsFor: 'testing' stamp: 'len 1/2/2022 10:09:58'!
 isUFD
-	"A unique factorization domain (UFD) is a commutative ring in which every non-zero non-unit element can be written as a product of prime elements (or irreducible elements), uniquely up to order and units."
+	"A unique factorization domain (UFD) is a commutative ring in which every nonzero nonunit element can be written as a product of prime elements (or irreducible elements), uniquely up to order and units."
 	self isPID ifTrue: [^ true].
 	self isIntegralDomain ifFalse: [^ false].
 	^ self propertyAt: #isUFD! !
@@ -18212,9 +18218,9 @@ size
 	self integers isFinite ifFalse: [^ self integers size].
 	^ super size! !
 
-!FractionRing methodsFor: 'accessing' stamp: 'len 6/10/2019 14:08:19'!
+!FractionRing methodsFor: 'accessing' stamp: 'len 1/2/2022 09:57:29'!
 uniformizer
-	"A uniformizer (or uniformizing parameter, uniformizer element or prime element) is any irreducible element of a DVR, or equivalently a generator of the maximal ideal. All non-zero ideals are generated by some power of the uniformizer."
+	"A uniformizer (or uniformizing parameter, uniformizer element or prime element) is any irreducible element of a DVR, or equivalently a generator of the maximal ideal. All nonzero ideals are generated by some power of the uniformizer."
 	^ self embed: self integers uniformizer! !
 
 !FractionRing methodsFor: 'accessing' stamp: 'len 6/21/2019 17:59:43'!
@@ -18329,9 +18335,9 @@ isPIR
 	self integers isPIR ifTrue: [^ true].
 	^ super isPIR! !
 
-!FractionRing methodsFor: 'testing' stamp: 'len 6/21/2019 18:07:43'!
+!FractionRing methodsFor: 'testing' stamp: 'len 1/2/2022 09:57:19'!
 isReduced
-	"Answer true if the receiver has no non-zero nilpotent elements, or equivalently if it has no non-zero elements with square zero, i.e. x^2 = 0 implies x = 0."
+	"Answer true if the receiver has no nonzero nilpotent elements, or equivalently if it has no nonzero elements with square zero, i.e. x^2 = 0 implies x = 0."
 	^ self integers isReduced! !
 
 !FractionRing methodsFor: 'testing' stamp: 'len 6/21/2019 18:07:59'!
@@ -18625,9 +18631,9 @@ size
 	self integers isFinite ifFalse: [^ self integers size].
 	^ super size! !
 
-!LocalRing methodsFor: 'accessing' stamp: 'len 6/21/2019 05:12:24'!
+!LocalRing methodsFor: 'accessing' stamp: 'len 1/2/2022 10:01:07'!
 uniformizer
-	"A uniformizer (or uniformizing parameter, uniformizer element or prime element) is any irreducible element of a DVR, or equivalently a generator of the maximal ideal. All non-zero ideals are generated by some power of the uniformizer."
+	"A uniformizer (or uniformizing parameter, uniformizer element or prime element) is any irreducible element of a DVR, or equivalently a generator of the maximal ideal. All nonzero ideals are generated by some power of the uniformizer."
 	self isDVR ifFalse: [^ DomainError signal: 'not a DVR'].
 	^ self maximalIdeal generator! !
 
@@ -18748,10 +18754,10 @@ isArtinian
 isCommutative
 	^ true! !
 
-!LocalRing methodsFor: 'testing' stamp: 'len 6/9/2019 08:41:30'!
+!LocalRing methodsFor: 'testing' stamp: 'len 1/2/2022 09:57:57'!
 isDVR
 	"Answer true if the receiver is a discrete valuation ring, i.e. a local PID that is not a field."
-	"The localization of a Dedekind domain at a non-zero prime ideal is a DVR."
+	"The localization of a Dedekind domain at a nonzero prime ideal is a DVR."
 	^ self integers isDedekindDomain and: [self localizationIdeal isTrivial not]! !
 
 !LocalRing methodsFor: 'testing' stamp: 'len 6/4/2019 07:42:45'!
@@ -18798,9 +18804,9 @@ isPIR
 	self integers isPIR ifTrue: [^ true].
 	^ super isPIR! !
 
-!LocalRing methodsFor: 'testing' stamp: 'len 4/28/2018 05:11:31'!
+!LocalRing methodsFor: 'testing' stamp: 'len 1/2/2022 10:01:02'!
 isReduced
-	"Answer true if the receiver has no non-zero nilpotent elements, or equivalently if it has no non-zero elements with square zero, i.e. x^2 = 0 implies x = 0."
+	"Answer true if the receiver has no nonzero nilpotent elements, or equivalently if it has no nonzero elements with square zero, i.e. x^2 = 0 implies x = 0."
 	self integers isReduced ifTrue: [^ true]. "is it iff?"
 	^ super isReduced! !
 
@@ -19023,9 +19029,9 @@ isCoherent
 isCommutative
 	^ components allSatisfy: [:each| each isCommutative]! !
 
-!ProductRing methodsFor: 'testing' stamp: 'len 4/29/2020 18:59:41'!
+!ProductRing methodsFor: 'testing' stamp: 'len 1/2/2022 10:13:55'!
 isIntegralDomain
-	"The product of two or more non-trivial rings always has non-trivial zero divisors."
+	"The product of two or more nontrivial rings always has nontrivial zerodivisors."
 	| count |
 	count _ 0.
 	components do: [:each| each isTrivial ifFalse: [(count _ count + 1) > 1 ifTrue: [^ false]]].
@@ -19045,9 +19051,9 @@ isPIR
 isProduct
 	^ true! !
 
-!ProductRing methodsFor: 'testing' stamp: 'len 4/28/2018 05:12:00'!
+!ProductRing methodsFor: 'testing' stamp: 'len 1/2/2022 10:08:41'!
 isReduced
-	"Answer true if the receiver has no non-zero nilpotent elements, or equivalently if it has no non-zero elements with square zero, i.e. x^2 = 0 implies x = 0."
+	"Answer true if the receiver has no nonzero nilpotent elements, or equivalently if it has no nonzero elements with square zero, i.e. x^2 = 0 implies x = 0."
 	(components allSatisfy: [:each| each isReduced]) ifTrue: [^ true]. "is it iff?"
 	^ super isReduced! !
 
@@ -19282,9 +19288,9 @@ isQuotient
 	"Answer true if the receiver is a quotient ring R/I."
 	^ true! !
 
-!QuotientRing methodsFor: 'testing' stamp: 'len 5/5/2018 00:37:05'!
+!QuotientRing methodsFor: 'testing' stamp: 'len 1/2/2022 10:08:49'!
 isReduced
-	"Answer true if the receiver has no non-zero nilpotent elements, or equivalently if it has no non-zero elements with square zero, i.e. x^2 = 0 implies x = 0.
+	"Answer true if the receiver has no nonzero nilpotent elements, or equivalently if it has no nonzero elements with square zero, i.e. x^2 = 0 implies x = 0.
 	A quotient ring is reduced iff the relations ideal is radical."
 	^ self relations isRadical! !
 
@@ -19485,9 +19491,9 @@ isPIR
 	"Answer true if the receiver is a principal ideal ring, i.e. all ideals are principal (but it is not necesarily a PID, i.e. it is not necesarily an integral domain)."
 	^ true! !
 
-!ModularIntegerRing methodsFor: 'testing' stamp: 'len 5/18/2020 09:56:13'!
+!ModularIntegerRing methodsFor: 'testing' stamp: 'len 1/2/2022 10:01:34'!
 isReduced
-	"Answer true if the receiver has no non-zero nilpotent elements, or equivalently if it has no non-zero elements with square zero, i.e. x^2 = 0 implies x = 0.
+	"Answer true if the receiver has no nonzero nilpotent elements, or equivalently if it has no nonzero elements with square zero, i.e. x^2 = 0 implies x = 0.
 	This is true if the modulus is square-free."
 	modulus = 0 ifTrue: [^ true].
 	self modulusFactors withOccurrencesDo: [:p :e| e > 1 ifTrue: [^ false]].
@@ -20115,9 +20121,9 @@ isSimpleExtension
 isUnivariate
 	^ self base isUnivariate! !
 
-!AffineAlgebra methodsFor: 'testing' stamp: 'len 8/14/2019 04:19:53'!
+!AffineAlgebra methodsFor: 'testing' stamp: 'len 1/2/2022 09:55:36'!
 isZeroDimensional
-	"Answer true if the receiver is zero-dimensional (Krull dimension 0). Being zero-dimensional means that it has non-zero finite dimension as vector space over the coefficients field."
+	"Answer true if the receiver is zero-dimensional (Krull dimension 0). Being zero-dimensional means that it has nonzero finite dimension as vector space over the coefficients field."
 	^ self dimension = 0! !
 
 !AffineAlgebra methodsFor: 'private' stamp: 'len 3/6/2021 06:05:59'!
@@ -20174,11 +20180,11 @@ idealsDo: aBlock
 		[aBlock value: self * a.
 		a _ a * self p]! !
 
-!GaloisRing methodsFor: 'morphisms' stamp: 'len 12/22/2021 14:55:59'!
+!GaloisRing methodsFor: 'morphisms' stamp: 'len 1/2/2022 11:54:32'!
 to: aCodomain
 	aCodomain isGaloisRing ifFalse: [^ nil].
 	"The subrings of GR(p^n,r) correspond to the positive divisors of r. If aCodomain is a suitable overring, answer an embedding of the receiver into the overring."
-	(self characteristic = aCodomain characteristic and: [self degree | aCodomain degree])
+	(self ~= aCodomain and: [self characteristic = aCodomain characteristic and: [self degree | aCodomain degree]])
 		ifTrue: [^ self into: aCodomain evaluating: [:x| aCodomain project: (x representative ^ (self p ^ (aCodomain degree / self degree)))]].
 	"Given GR(p^n,r), there's a projection to GR(p^m,r) for all m<=n, with kernel <p^m>. This accounts for all ideals."
 	(self p = aCodomain p and: [self degree = aCodomain degree])
@@ -20199,10 +20205,10 @@ zeroDivisors
 hasCanonicalReduction
 	^ true! !
 
-!GaloisRing methodsFor: 'testing' stamp: 'len 6/4/2019 15:59:26'!
+!GaloisRing methodsFor: 'testing' stamp: 'len 1/2/2022 09:57:36'!
 isBezout
 	"Answer true if the receiver is a Bezout ring, i.e. every finitely generated ideal is principal."
-	"All non-zero ideals are of the form <p^i>."
+	"All nonzero ideals are of the form <p^i>."
 	^ true! !
 
 !GaloisRing methodsFor: 'testing' stamp: 'len 9/16/2018 23:15:40'!
@@ -20833,9 +20839,9 @@ isBezout
 isCommutative
 	^ true! !
 
-!RationalIntegerRing methodsFor: 'testing' stamp: 'len 3/27/2018 19:46:01'!
+!RationalIntegerRing methodsFor: 'testing' stamp: 'len 1/2/2022 10:08:56'!
 isDedekindDomain
-	"A Dedekind domain is an integral domain in which every non-zero proper ideal factors into a product of prime ideals."
+	"A Dedekind domain is an integral domain in which every nonzero proper ideal factors into a product of prime ideals."
 	^ true! !
 
 !RationalIntegerRing methodsFor: 'testing' stamp: 'len 12/31/2021 11:50:30'!
@@ -20865,9 +20871,9 @@ isReal
 	"Answer true if the receiver is a subring of the real field."
 	^ true! !
 
-!RationalIntegerRing methodsFor: 'testing' stamp: 'len 4/28/2018 05:12:24'!
+!RationalIntegerRing methodsFor: 'testing' stamp: 'len 1/2/2022 10:09:04'!
 isReduced
-	"Answer true if the receiver has no non-zero nilpotent elements, or equivalently if it has no non-zero elements with square zero, i.e. x^2 = 0 implies x = 0."
+	"Answer true if the receiver has no nonzero nilpotent elements, or equivalently if it has no nonzero elements with square zero, i.e. x^2 = 0 implies x = 0."
 	^ true! !
 
 !RationalIntegerRing methodsFor: 'private' stamp: 'len 12/15/2021 15:21:39'!
@@ -21091,21 +21097,20 @@ asUnivariateIn: anIndeterminate
 lift
 	^ self propertyAt: #lift ifAbsentPut: [self class monomials: monomials over: scalars base]! !
 
-!PolynomialRing methodsFor: 'elements' stamp: 'len 7/19/2021 20:25:09'!
+!PolynomialRing methodsFor: 'elements' stamp: 'len 1/2/2022 11:43:14'!
 adapt: anElement
 	| f parts |
 	(anElement isInteger or: [anElement isFraction])
-		ifTrue: [^ self constant: self scalars !! anElement].
-	(self scalars includes: anElement)
+		ifTrue: [^ self constant: scalars !! anElement].
+	(scalars includes: anElement)
 		ifTrue: [^ self constant: anElement].
-	(self monomials includes: anElement)
+	(monomials includes: anElement)
 		ifTrue: [^ self monomial: anElement].
 	(super adapt: anElement) ifNotNil: [:aPolynomial| ^ aPolynomial].
 	(anElement isKindOf: Polynomial) ifFalse: [^ nil].
 	f _ anElement.
-	f parent scalars = self scalars ifFalse: [f _ f over: self scalars].
-	(f indeterminates allSatisfy: [:each| each <= self rank])
-		ifFalse: [^ nil]. "self error: 'unknown indeterminates are present'"
+	f parent scalars = scalars ifFalse: [f _ f over: scalars].
+	(f indeterminates allSatisfy: [:each| each <= self rank]) ifFalse: [^ nil]. "unknown indeterminates present"
 	(f isKindOf: UnivariatePolynomial)
 		ifTrue:
 			[self isUnivariate ifTrue: [^ self coefficients: f coefficients].
@@ -21113,7 +21118,7 @@ adapt: anElement
 			f coefficients withIndexDo: [:coefficient :i|
 				coefficient isZero ifFalse: [parts add: (monomials x: 1 to: i-1) -> coefficient]]]
 		ifFalse:
-			[parts _ f parts collect: [:each| each copy key: self monomials !! each key]].
+			[parts _ f parts collect: [:each| each copy key: monomials !! each key]].
 	parts sort.
 	^ self parts: parts! !
 
@@ -22060,9 +22065,9 @@ isDivisionAlgebra
 	For finite dimensional algebra, a division algebra can be defined by the following condition: ab=0 implies a=0 or b=0."
 	^ false "it might be a division algebra, we just don't know, should implement an algorithm to determine it"! !
 
-!Algebra methodsFor: 'testing' stamp: 'len 7/6/2021 10:49:48'!
+!Algebra methodsFor: 'testing' stamp: 'len 1/2/2022 09:55:44'!
 isDivisionRing
-	"A division ring, or skewfield, is a ring where division is possible, i.e. every non-zero element has a multiplicative inverse. The only difference with a field is that a division ring is not requiered to be commutative."
+	"A division ring, or skewfield, is a ring where division is possible, i.e. every nonzero element has a multiplicative inverse. The only difference with a field is that a division ring is not requiered to be commutative."
 	^ self isDivisionAlgebra! !
 
 !Algebra methodsFor: 'testing' stamp: 'len 7/6/2021 08:44:21'!
@@ -22842,9 +22847,9 @@ residueField
 size
 	^ Cardinal new! !
 
-!AdicRing methodsFor: 'accessing' stamp: 'len 6/6/2019 12:08:03'!
+!AdicRing methodsFor: 'accessing' stamp: 'len 1/2/2022 09:55:27'!
 uniformizer
-	"A uniformizer (or uniformizing parameter, uniformizer element or prime element) is any irreducible element of a DVR, or equivalently a generator of the maximal ideal. All non-zero ideals are generated by some power of the uniformizer."
+	"A uniformizer (or uniformizing parameter, uniformizer element or prime element) is any irreducible element of a DVR, or equivalently a generator of the maximal ideal. All nonzero ideals are generated by some power of the uniformizer."
 	^ self !! self p! !
 
 !AdicRing methodsFor: 'accessing' stamp: 'len 8/11/2019 11:18:51'!
@@ -23021,9 +23026,9 @@ scalars
 size
 	^ Cardinal new: 1! !
 
-!PowerSeriesRing methodsFor: 'accessing' stamp: 'len 6/3/2019 03:14:32'!
+!PowerSeriesRing methodsFor: 'accessing' stamp: 'len 1/2/2022 10:08:34'!
 uniformizer
-	"A uniformizer (or uniformizing parameter, uniformizer element or prime element) is any irreducible element of a DVR, or equivalently a generator of the maximal ideal. All non-zero ideals are generated by some power of the uniformizer."
+	"A uniformizer (or uniformizing parameter, uniformizer element or prime element) is any irreducible element of a DVR, or equivalently a generator of the maximal ideal. All nonzero ideals are generated by some power of the uniformizer."
 	self isDVR ifFalse: [DomainError signal: 'not a DVR'].
 	^ self x! !
 
@@ -23838,10 +23843,10 @@ dimension
 	This is the Krull dimension of the coordinate ring."
 	^ self coordinateRing dimension! !
 
-!AffineScheme methodsFor: 'accessing' stamp: 'len 12/21/2021 19:59:24'!
+!AffineScheme methodsFor: 'accessing' stamp: 'len 1/2/2022 10:11:15'!
 functionField
 	"Answer the function field (or field of rational functions) of the receiver. This is the fractions field of the coordinate ring and it's noted K(V) (analogous to the coordinate ring noted K[V]).
-	This assumes the receiver is reduced. The definition of function field can be extended to the case of non-reduced schemes as Frac(R/N) where N is the nilradical of R."
+	This assumes the receiver is reduced. The definition of function field can be extended to the case of nonreduced schemes as Frac(R/N) where N is the nilradical of R."
 	^ self coordinateRing fractions! !
 
 !AffineScheme methodsFor: 'accessing' stamp: 'len 12/20/2021 18:16:30'!
@@ -28583,7 +28588,7 @@ SNFAndTransformations
 	S isSmithNormalForm] whileFalse.
 	^ {S. P. Q}! !
 
-!Matrix methodsFor: 'reduction' stamp: 'len 12/23/2021 17:50:52'!
+!Matrix methodsFor: 'reduction' stamp: 'len 1/2/2022 10:01:17'!
 SNFOneStep
 	| L S R zero one j k |
 	L _ self codomain id.
@@ -28593,14 +28598,14 @@ SNFOneStep
 	zero _ self scalars zero.
 	one _ self scalars one.
 
-	"put a non-zero column as first column"
+	"put a nonzero column as first column"
 	j _ 1.
 	[(S columnAt: j) isZero] whileTrue: [j _ j + 1].
 	j > 1 ifTrue: [R at: 1@1 put: zero; at: j@j put: zero; at: 1@j put: one; at: j@1 put: one negated. S _ S * R].
 
 	self assert: self * R = S.
 
-	"put a non-zero value at 1@1:"
+	"put a nonzero value at 1@1:"
 	k _ 1.
 	[(S at: k@1) isZero] whileTrue: [k _ k + 1].
 	k > 1 ifTrue: [L at: 1@1 put: zero; at: k@k put: zero; at: 1@k put: one; at: k@1 put: one negated. S _ L * S].
@@ -29058,9 +29063,9 @@ isMinimalStandardBasis
 			(f ~~ g and: [f leadingMonomial | g leadingMonomial]) ifTrue: [^ false]]].
 	^ true! !
 
-!Matrix methodsFor: 'testing' stamp: 'len 8/13/2020 09:23:10'!
+!Matrix methodsFor: 'testing' stamp: 'len 1/2/2022 10:01:23'!
 isMonomial
-	"A matrix is called a 'monomial matrix' if it has exactly one non-zero entry in each column and each row."
+	"A matrix is called a 'monomial matrix' if it has exactly one nonzero entry in each column and each row."
 	self rowsDo: [:row| (row count: [:each| each isZero not]) = 1 ifFalse: [^ false]].
 	self columnsDo: [:column| (column count: [:each| each isZero not]) = 1 ifFalse: [^ false]].
 	^ true! !
@@ -29975,9 +29980,9 @@ isLocal
 isRingHomomorphism
 	^ true! !
 
-!RingMap methodsFor: 'testing' stamp: 'len 10/5/2016 10:27'!
+!RingMap methodsFor: 'testing' stamp: 'len 1/2/2022 10:14:24'!
 isZero
-	"A ring homomorphism to a non-trivial ring cannot be zero, because 1 maps to 1."
+	"A ring homomorphism to a nontrivial ring cannot be zero, because 1 maps to 1."
 	^ (self value: self domain one) = self codomain zero
 "	^ self codomain isTrivial"! !
 
@@ -32881,9 +32886,9 @@ bitSize
 exponents
 	^ exponents! !
 
-!Monomial methodsFor: 'accessing' stamp: 'len 2/18/2017 19:54:47'!
+!Monomial methodsFor: 'accessing' stamp: 'len 1/2/2022 10:04:35'!
 indeterminates
-	"Answer the list of indeterminates effectively present in this monomial (with non-zero exponent). This is called the 'support' of a monomial."
+	"Answer the list of indeterminates effectively present in this monomial (with nonzero exponent). This is called the 'support' of a monomial."
 	^ (1 to: exponents size) select: [:i| (exponents at: i) ~= 0]! !
 
 !Monomial methodsFor: 'accessing' stamp: 'len 6/6/2016 07:00'!
@@ -32899,9 +32904,9 @@ ordering
 parent
 	^ parent! !
 
-!Monomial methodsFor: 'accessing' stamp: 'len 2/18/2017 19:54:35'!
+!Monomial methodsFor: 'accessing' stamp: 'len 1/2/2022 10:04:42'!
 support
-	"Answer the list of indeterminates effectively present in this monomial (with non-zero exponent)."
+	"Answer the list of indeterminates effectively present in this monomial (with nonzero exponent)."
 	^ self indeterminates! !
 
 !Monomial methodsFor: 'comparing' stamp: 'len 11/20/2016 16:44:54'!
@@ -34128,11 +34133,11 @@ denominator
 	self do: [:each| answer _ each denominator lcm: answer].
 	^ answer! !
 
-!Tuple methodsFor: 'accessing' stamp: 'len 4/15/2021 09:48:19'!
+!Tuple methodsFor: 'accessing' stamp: 'len 1/2/2022 09:56:42'!
 depth
-	"Answer the index of the last non-zero entry, or 0.
-	(Instead, Magma defines this as the index of the *first* non-zero entry.)
-	See >>pivot for the index of the first non-zero entry."
+	"Answer the index of the last nonzero entry, or 0.
+	(Instead, Magma defines this as the index of the *first* nonzero entry.)
+	See >>pivot for the index of the first nonzero entry."
 	self size to: 1 by: -1 do: [:i| (self isZeroAt: i) ifFalse: [^ i]].
 	^ 0! !
 
@@ -34158,10 +34163,10 @@ numerator
 parent
 	^ parent! !
 
-!Tuple methodsFor: 'accessing' stamp: 'len 4/15/2021 09:47:53'!
+!Tuple methodsFor: 'accessing' stamp: 'len 1/2/2022 10:10:17'!
 pivot
-	"Answer the index of the first non-zero entry, or 0.
-	See >>depth for the index of the last non-zero entry."
+	"Answer the index of the first nonzero entry, or 0.
+	See >>depth for the index of the last nonzero entry."
 	1 to: self size do: [:i| (self isZeroAt: i) ifFalse: [^ i]].
 	^ 0! !
 
@@ -35203,10 +35208,11 @@ bitAt: anInteger put: oneOrZero
 		ifFalse: [bits _ bits bitXor: 1 << (anInteger - 1)].
 	^ oneOrZero! !
 
-!BitTuple methodsFor: 'accessing' stamp: 'len 5/15/2020 07:37:21'!
+!BitTuple methodsFor: 'accessing' stamp: 'len 1/2/2022 09:56:51'!
 depth
-	"Answer the index of the last non-zero entry, or 0.
-	(Instead, Magma defines this as the index of the *first* non-zero entry.)"
+	"Answer the index of the last nonzero entry, or 0.
+	(Instead, Magma defines this as the index of the *first* nonzero entry.)
+	See >>pivot for the index of the first nonzero entry."
 	^ bits highBit! !
 
 !BitTuple methodsFor: 'accessing' stamp: 'len 5/29/2020 15:21:10'!
@@ -35438,9 +35444,11 @@ at: anInteger put: anElement
 	representatives at: anInteger put: anElement representative.
 	^ anElement! !
 
-!ModularTuple methodsFor: 'accessing' stamp: 'len 1/19/2018 22:04:11'!
-lastNonZero
-	"Answer the index of the last non-zero entry, or 0."
+!ModularTuple methodsFor: 'accessing' stamp: 'len 1/2/2022 10:02:55'!
+depth
+	"Answer the index of the last nonzero entry, or 0.
+	(Instead, Magma defines this as the index of the *first* nonzero entry.)
+	See >>pivot for the index of the first nonzero entry."
 	representatives size to: 1 by: -1 do: [:i| (representatives at: i) = 0 ifFalse: [^ i]].
 	^ 0! !
 
@@ -35451,6 +35459,13 @@ lift
 	m _ self scalars modulus.
 	h _ m >> 1.
 	^ parent lift filling: [:i| | r | r _ representatives at: i. r <= h ifTrue: [r] ifFalse: [r - m]]! !
+
+!ModularTuple methodsFor: 'accessing' stamp: 'len 1/2/2022 10:04:08'!
+pivot
+	"Answer the index of the first nonzero entry, or 0.
+	See >>depth for the index of the last nonzero entry."
+	1 to: representatives size do: [:i| (representatives at: i) = 0 ifFalse: [^ i]].
+	^ 0! !
 
 !ModularTuple methodsFor: 'accessing' stamp: 'len 5/29/2020 15:22:21'!
 representative
@@ -36613,7 +36628,7 @@ reduceStep
 				[self multiplyRow: i by: pivot.
 				self addRow: row times: value negated toRow: i]]! !
 
-!HermiteReduction methodsFor: 'private' stamp: 'len 12/29/2021 12:17:04'!
+!HermiteReduction methodsFor: 'private' stamp: 'len 1/2/2022 10:12:09'!
 reduceStep: k column: j
 	"Perform the reduction step on row k and column j."
 	| i0 b |
@@ -36621,7 +36636,7 @@ reduceStep: k column: j
 	[i0 _ (matrix height to: k+1 by: -1)
 		detect: [:i| (matrix at: i@j) isZero not]
 		ifNone: [self multiplyRow: k by: (matrix at: k@j) normalization. ^ self "go to step 5"].
-	"3. Choose non-zero entry with smallest absolute value:"
+	"3. Choose nonzero entry with smallest absolute value:"
 	i0 _ ((k to: i0) select: [:i| (matrix at: i@j) isZero not]) detectMin: [:i| (matrix at: i@j) gauge].
 	i0 > k ifTrue: [self swapRow: i0 with: k].
 	self multiplyRow: k by: (matrix at: k@j) normalization.
@@ -37683,13 +37698,13 @@ isZeroDivisor
 	"Answer true if there exists a nonzero element that multiplied by the receiver is zero."
 	^ numerator isZeroDivisor! !
 
-!Ratio methodsFor: 'private' stamp: 'len 7/30/2021 10:47:45'!
+!Ratio methodsFor: 'private' stamp: 'len 1/2/2022 09:49:29'!
 reduce
 	| gcd u |
 	numerator isZero ifTrue: [denominator _ numerator one. ^ self].
 	gcd _ numerator gcd: denominator.
-	numerator _ numerator ÷ gcd.
-	denominator _ denominator ÷ gcd.
+	numerator _ numerator / gcd.
+	denominator _ denominator / gcd.
 	u _ denominator normalization.
 	numerator _ numerator * u.
 	denominator _ denominator * u! !
@@ -37698,11 +37713,6 @@ reduce
 setNumerator: anElement denominator: anotherElement
 	numerator _ anElement.
 	denominator _ anotherElement! !
-
-!Ratio class methodsFor: 'instance creation' stamp: 'len 6/7/2020 13:14:58'!
-numerator: anElement denominator: anotherElement
-	anotherElement isZeroDivisor ifTrue: [^ (ZeroDivide receiver: anElement selector: #/ argument: anotherElement) signal].
-	^ (self new setNumerator: anElement denominator: anotherElement) reduce! !
 
 !Ratio class methodsFor: 'instance creation' stamp: 'len 4/7/2018 00:41:16'!
 reducedNumerator: anObject denominator: anotherObject
@@ -37969,25 +37979,25 @@ positive
 strictlyPositive
 	^ numerator strictlyPositive! !
 
-!RationalFunction methodsFor: 'operations' stamp: 'len 5/9/2020 23:28:55'!
+!RationalFunction methodsFor: 'operations' stamp: 'len 1/2/2022 09:43:05'!
 derivative
 	| a g |
 	a _ denominator * numerator derivative - (numerator * denominator derivative).
 	g _ denominator gcd: a.
-	^ self class numerator: a // g denominator: (denominator // g) squared * g! !
+	^ self parent numerator: a // g denominator: (denominator // g) squared * g! !
 
-!RationalFunction methodsFor: 'operations' stamp: 'len 4/7/2018 01:06:26'!
+!RationalFunction methodsFor: 'operations' stamp: 'len 1/2/2022 09:43:10'!
 homogenized
 	"Answer the homogenization of the receiver introducing a new indeterminate."
 	| R S |
 	R _ numerator parent.
 	S _ R scalars polynomialsIn: R rank + 1.
-	^ self class numerator: (S !! numerator homogenizedIn: S rank) denominator: (S !! denominator homogenizedIn: S rank)! !
+	^ self parent numerator: (S !! numerator homogenizedIn: S rank) denominator: (S !! denominator homogenizedIn: S rank)! !
 
-!RationalFunction methodsFor: 'operations' stamp: 'len 4/7/2018 01:06:42'!
+!RationalFunction methodsFor: 'operations' stamp: 'len 1/2/2022 09:43:18'!
 homogenizedIn: anIndeterminate
 	"Answer the homogenization of the receiver in the given indeterminate."
-	^ self class numerator: (numerator homogenizedIn: anIndeterminate) denominator: (denominator homogenizedIn: anIndeterminate)! !
+	^ self parent numerator: (numerator homogenizedIn: anIndeterminate) denominator: (denominator homogenizedIn: anIndeterminate)! !
 
 !RationalFunction methodsFor: 'operations' stamp: 'len 4/7/2018 01:06:56'!
 value: anObject
@@ -38991,9 +39001,9 @@ valuation
 	self isZero ifTrue: [^ Infinity negative].
 	^ self leadingMonomial degree! !
 
-!Polynomial methodsFor: 'accessing-coefficients' stamp: 'len 12/21/2017 22:02:18'!
+!Polynomial methodsFor: 'accessing-coefficients' stamp: 'len 1/2/2022 10:07:54'!
 coefficients
-	"Answer the collection of non-zero coefficients of this polynomial (with repetitions)."
+	"Answer the collection of coefficients of the receiver, possibly including zero entries."
 	^ Iterator on: self performing: #coefficientsDo:! !
 
 !Polynomial methodsFor: 'accessing-coefficients' stamp: 'len 4/4/2018 21:34:43'!
@@ -39042,9 +39052,9 @@ density
 ecart
 	^ self degree - self leadingMonomial degree! !
 
-!Polynomial methodsFor: 'accessing-monomials' stamp: 'len 2/18/2017 19:53:44'!
+!Polynomial methodsFor: 'accessing-monomials' stamp: 'len 1/2/2022 10:08:16'!
 monomials
-	"Answer the collection of monomials effectively present in this polynomial (with non-zero coefficient). This is called the 'support' of a polynomial."
+	"Answer the collection of monomials effectively present in this polynomial (with nonzero coefficient). This is called the 'support' of a polynomial."
 	^ Iterator on: self performing: #monomialsDo:! !
 
 !Polynomial methodsFor: 'accessing-monomials' stamp: 'len 2/3/2017 06:51:05'!
@@ -39058,9 +39068,9 @@ ordering
 	"Answer the monomial ordering of the receiver."
 	^ self parent ordering! !
 
-!Polynomial methodsFor: 'accessing-monomials' stamp: 'len 2/18/2017 19:54:05'!
+!Polynomial methodsFor: 'accessing-monomials' stamp: 'len 1/2/2022 10:08:28'!
 support
-	"Answer the collection of monomials effectively present in this polynomial (with non-zero coefficient)."
+	"Answer the collection of monomials effectively present in this polynomial (with nonzero coefficient)."
 	^ self monomials! !
 
 !Polynomial methodsFor: 'accessing-terms' stamp: 'len 2/7/2017 03:38:56'!
@@ -39120,9 +39130,9 @@ asBilinearForm
 	self parent rank even ifFalse: [^ self error: 'not even rank'].
 	^ BilinearForm on: self scalars ^ (self parent rank / 2) evaluatingWithArguments: [:x :y| self value: (x, y)]! !
 
-!Polynomial methodsFor: 'converting' stamp: 'len 4/27/2021 15:46:56'!
+!Polynomial methodsFor: 'converting' stamp: 'len 1/2/2022 11:14:14'!
 asMultivariate
-	"Convert a polynomial in R[x][y][z] to a polynomial in R[x,y,z]."
+	"Convert a polynomial in R[x1,...,xn][y] to a polynomial in R[x1,...,xn,y]."
 	(self scalars isKindOf: PolynomialRing) ifFalse: [^ self].
 	self parent isUnivariate ifFalse: [^ self].
 	^ self parent asMultivariate !! self! !
@@ -39575,13 +39585,16 @@ xgcd: aPolynomial
 			s _ s * u. t _ t * u. r _ r * u].
 	^ {r. t. s}! !
 
-!Polynomial methodsFor: 'printing' stamp: 'len 2/25/2017 09:40:48'!
+!Polynomial methodsFor: 'printing' stamp: 'len 1/2/2022 10:44:52'!
+printCoefficient: c monomial: m on: aStream
+	(c isOne not or: [m degree = 0]) ifTrue: [self printCoefficient: c on: aStream].
+	m degree = 0 ifFalse: [aStream print: m]! !
+
+!Polynomial methodsFor: 'printing' stamp: 'len 1/2/2022 11:03:12'!
 printCoefficient: coefficient on: aStream
 	| c |
-	((c _ coefficient) printString first = $- "or: [coefficient isNumber and: [coefficient negative]]")
+	(c _ coefficient) printString first = $-
 		ifTrue: [aStream nextPut: $-. c _ c negated].
-	((c isKindOf: Polynomial) and: [c isMonomial])
-		ifTrue: [aStream print: c. ^ self].
 	(c printString allSatisfy: [:each| each isAlphaNumeric or: ['{}()/' includes: each]])
 		ifTrue: [aStream print: c. ^ self].
 	aStream nextPut: $(; print: c; nextPut: $)! !
@@ -39781,12 +39794,12 @@ isUnivariateIn: anInteger
 	self monomialsDo: [:each| (each isUnivariateIn: anInteger) ifFalse: [^ false]].
 	^ true! !
 
-!Polynomial methodsFor: 'testing' stamp: 'len 7/15/2021 10:39:17'!
+!Polynomial methodsFor: 'testing' stamp: 'len 1/2/2022 10:15:52'!
 isZeroDivisor
 	"Answer true if there exists a nonzero element that multiplied by the receiver is zero."
 	| annihilator |
 	parent isIntegralDomain ifTrue: [^ self isZero].
-	"If the receiver has only 1 term, we can just check if the coefficient is a zero divisor:"
+	"If the receiver has only 1 term, we can just check if the coefficient is a zerodivisor:"
 	self support isSingleton ifTrue: [^ self leadingCoefficient isZeroDivisor].
 	"McCoy's theorem: a polynomial f in R[X] is a zerodivisor iff there is r in R with fr = 0."
 	annihilator _ self scalars asIdeal.
@@ -39950,9 +39963,9 @@ monomialsApply: aBlock
 	newParts sort.
 	^ self parent parts: newParts! !
 
-!MultivariatePolynomial methodsFor: 'enumerating' stamp: 'len 12/22/2017 17:49:12'!
+!MultivariatePolynomial methodsFor: 'enumerating' stamp: 'len 1/2/2022 10:04:47'!
 monomialsDo: aBlock
-	"Iterate over the support of the receiver, i.e. the monomials with non-zero coefficient."
+	"Iterate over the support of the receiver, i.e. the monomials with nonzero coefficient."
 	parts do: [:each| aBlock value: each key]! !
 
 !MultivariatePolynomial methodsFor: 'enumerating' stamp: 'len 12/24/2017 20:10:01'!
@@ -40206,9 +40219,9 @@ monomialsApply: aBlock
 	monomials do: [:each| newCoefficients at: each key degree + 1 add: each value].
 	^ self parent coefficients: newCoefficients ! !
 
-!UnivariatePolynomial methodsFor: 'enumerating' stamp: 'len 4/22/2019 04:04:20'!
+!UnivariatePolynomial methodsFor: 'enumerating' stamp: 'len 1/2/2022 10:10:42'!
 monomialsDo: aBlock
-	"Iterate over the support of the receiver, i.e. the monomials with non-zero coefficient."
+	"Iterate over the support of the receiver, i.e. the monomials with nonzero coefficient."
 	1 to: coefficients size do: [:i|
 		(coefficients at: i) isZero
 			ifFalse: [aBlock value: (self parent monomials x: 1 to: i-1)]]! !
