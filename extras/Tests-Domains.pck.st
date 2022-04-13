@@ -1,6 +1,6 @@
-'From Cuis 5.0 [latest update: #4542] on 28 January 2022 at 7:19:25 am'!
+'From Cuis 6.0 [latest update: #5053] on 13 April 2022 at 1:36:24 pm'!
 'Description '!
-!provides: 'Tests-Domains' 1 11!
+!provides: 'Tests-Domains' 1 12!
 !requires: 'Domains' 1 613 nil!
 SystemOrganization addCategory: #'Tests-Domains'!
 SystemOrganization addCategory: #'Tests-Domains-Tuples'!
@@ -858,16 +858,6 @@ TestCase subclass: #CommutativeAlgebraTest
 	category: 'Tests-Domains'!
 !classDefinition: 'CommutativeAlgebraTest class' category: #'Tests-Domains'!
 CommutativeAlgebraTest class
-	instanceVariableNames: ''!
-
-!classDefinition: #EllipticCurvesTest category: #'Tests-Domains'!
-TestCase subclass: #EllipticCurvesTest
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Tests-Domains'!
-!classDefinition: 'EllipticCurvesTest class' category: #'Tests-Domains'!
-EllipticCurvesTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #GraphTest category: #'Tests-Domains'!
@@ -5738,10 +5728,12 @@ testProjectivePlaneOverFiniteRing
 	self assert: P points size = 28
 	"this plane has 28 points and 28 lines (falling into 7 neighbour classes of size 4), each line has 6 points and each point is on 6 lines"! !
 
-!AlgebraicGeometryTest methodsFor: 'projective' stamp: 'len 5/23/2020 09:33:01'!
+!AlgebraicGeometryTest methodsFor: 'projective' stamp: 'len 4/13/2022 13:34:43'!
 testProjectiveSchemeAffinePatches
-	| E p a |
-	E _ EllipticCurve cremona37a.
+	| P E p a |
+	P _ ProjectivePlane over: „.
+	"cremona37a elliptic curve:"
+	E _ P subscheme: (P coordinateRing !! [:x :y :z| y^2*z + (z^2*x) + (z^2*y) - (x^3)]).
 	p _ E !! ((2,-3) over: „).
 	a _ p dehomogenizedIn: 2.
 	"the affine point is in the second standard affine patch:"
@@ -7264,50 +7256,6 @@ testKatsura7Correctness
 	txt _ ((„ polynomialsIn: 7) katsuraIdeal generators sorted: [:a :b| a leadingMonomial >= b leadingMonomial]) printString.
 	#('(' ')' '{' '}' ' ') do: [:each| txt _ txt copyReplaceAll: each with: ''].
 	self assert: txt = 'x1^2+2x2^2+2x3^2+2x4^2+2x5^2+2x6^2+2x7^2-x1,2x1x2+2x2x3+2x3x4+2x4x5+2x5x6+2x6x7-x2,x2^2+2x1x3+2x2x4+2x3x5+2x4x6+2x5x7-x3,2x2x3+2x1x4+2x2x5+2x3x6+2x4x7-x4,x3^2+2x2x4+2x1x5+2x2x6+2x3x7-x5,2x3x4+2x2x5+2x1x6+2x2x7-x6,x1+2x2+2x3+2x4+2x5+2x6+2x7-1'! !
-
-!EllipticCurvesTest methodsFor: 'as yet unclassified' stamp: 'len 11/11/2016 10:14'!
-testBInvariants
-	| W |
-	W _ WeierstrassEquation coefficients: (1,2,3,4,5).
-	self assert: W b2 = 9.
-	self assert: W b4 = 11.
-	self assert: W b6 = 29.
-	self assert: W b8 = 35! !
-
-!EllipticCurvesTest methodsFor: 'as yet unclassified' stamp: 'len 11/11/2016 10:30'!
-testCInvariants
-	| W |
-	W _ WeierstrassEquation coefficients: (0,-1,1,-10,-20).
-	self assert: W c4 = 496.
-	self assert: W c6 = 20008! !
-
-!EllipticCurvesTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2020 09:33:01'!
-testGroupLaw
-	| E P Q O |
-	E _ EllipticCurve cremona389a1.
-	P _ E pointAt: („ tuple: #(-1 1)).
-	Q _ E pointAt: („ tuple: #(0 -1)).
-	O _ E pointAt: („ tuple: #(0 1 0)).
-	self assert: P+Q = (E pointAt: („ tuple: #(4 8))).
-	self assert: P-Q = (E pointAt: („ tuple: #(1 0))).
-	self assert: 3*P - (5*Q) = (E pointAt: („ tuple: {328/361. -2800/6859})).
-	self assert: O+P = P.
-	self assert: P+O = P.
-	self assert: P-P = O! !
-
-!EllipticCurvesTest methodsFor: 'as yet unclassified' stamp: 'len 8/27/2018 22:15:43'!
-testPointAtX
-	| E p |
-	E _ EllipticCurve secp256k1.
-	p _ E scalars modulus.
-	10 count: [(E pointsAtX: p atRandom) allSatisfy: [:each| E satisfies: each coordinates]]! !
-
-!EllipticCurvesTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2020 09:34:55'!
-testWeierstrassEquationInvariants
-	| W |
-	W _ WeierstrassEquation coefficients: (ƒ ^ 5 atRandomBits: 100).
-	self assert: W b8 * 4 = (W b2 * W b6 - W b4 squared).
-	self assert: W discriminant * 1728 = (W c4 ^ 3 - W c6 squared)! !
 
 !GraphTest methodsFor: 'as yet unclassified' stamp: 'len 11/16/2016 10:04'!
 testAutomorphismsK3
@@ -11086,32 +11034,6 @@ testQuasiGaloisRing1
 	self assert: A isLocal.
 	self assert: A isFinite.
 	self assert: A isField not! !
-
-!RingTest methodsFor: 'finite rings' stamp: 'len 5/23/2020 09:34:55'!
-testSmallPrimeField
-	| p F E |
-	p _ 20 atRandom nextPrime.
-	F _ ƒ/p.
-	E _ SmallPrimeField new: p.
-	F do: [:a|
-		F do: [:b| | c d |
-			c _ E !! a representative.
-			d _ E !! b representative.
-			self assert: (a+b) representative = (c+d) representative.
-			self assert: (a-b) representative = (c-d) representative.
-			self assert: (a*b) representative = (c*d) representative.
-			b isZero ifFalse:
-				[self assert: (a/b) representative = (c/d) representative.
-				self assert: b inverse representative = d inverse representative]]]! !
-
-!RingTest methodsFor: 'finite rings' stamp: 'len 5/9/2020 17:27:49'!
-testSmallPrimeFieldTables
-	| p F g |
-	p _ 20 atRandom nextPrime.
-	F _ SmallPrimeField new: p.
-	g _ F primitiveRoot.
-	1 to: p-1 do: [:n| self assert: (F expTable at: n) = (g^n) representative].
-	0 to: p-2 do: [:n| self assert: (F logTable at: (g^n) representative) = n]! !
 
 !RingTest methodsFor: 'finite rings' stamp: 'len 5/9/2020 17:28:07'!
 testSquareRootModulo2
