@@ -1,6 +1,6 @@
-'From Cuis 5.0 [latest update: #4542] on 1 January 2022 at 1:11:57 pm'!
+'From Cuis 5.0 [latest update: #4542] on 28 January 2022 at 7:19:25 am'!
 'Description '!
-!provides: 'Tests-Domains' 1 10!
+!provides: 'Tests-Domains' 1 11!
 !requires: 'Domains' 1 613 nil!
 SystemOrganization addCategory: #'Tests-Domains'!
 SystemOrganization addCategory: #'Tests-Domains-Tuples'!
@@ -208,6 +208,16 @@ AbstractMatrixOverIntegralDomainTest subclass: #MatrixOverCyclotomicRingTest
 	category: 'Tests-Domains-Matrices'!
 !classDefinition: 'MatrixOverCyclotomicRingTest class' category: #'Tests-Domains-Matrices'!
 MatrixOverCyclotomicRingTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #MatrixOverGaussianIntegersTest category: #'Tests-Domains-Matrices'!
+AbstractMatrixOverIntegralDomainTest subclass: #MatrixOverGaussianIntegersTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Domains-Matrices'!
+!classDefinition: 'MatrixOverGaussianIntegersTest class' category: #'Tests-Domains-Matrices'!
+MatrixOverGaussianIntegersTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #MatrixOverIntegersTest category: #'Tests-Domains-Matrices'!
@@ -450,6 +460,16 @@ AbstractCommutativeModuleTest subclass: #ModuleOverGaloisRingTest
 ModuleOverGaloisRingTest class
 	instanceVariableNames: ''!
 
+!classDefinition: #ModuleOverGaussianIntegersTest category: #'Tests-Domains-Modules'!
+AbstractCommutativeModuleTest subclass: #ModuleOverGaussianIntegersTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Domains-Modules'!
+!classDefinition: 'ModuleOverGaussianIntegersTest class' category: #'Tests-Domains-Modules'!
+ModuleOverGaussianIntegersTest class
+	instanceVariableNames: ''!
+
 !classDefinition: #ModuleOverIntegersTest category: #'Tests-Domains-Modules'!
 AbstractCommutativeModuleTest subclass: #ModuleOverIntegersTest
 	instanceVariableNames: ''
@@ -680,6 +700,16 @@ AbstractEuclideanRingTest subclass: #GaloisRingTest
 GaloisRingTest class
 	instanceVariableNames: ''!
 
+!classDefinition: #GaussianRingTest category: #'Tests-Domains-Rings'!
+AbstractEuclideanRingTest subclass: #GaussianRingTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Domains-Rings'!
+!classDefinition: 'GaussianRingTest class' category: #'Tests-Domains-Rings'!
+GaussianRingTest class
+	instanceVariableNames: ''!
+
 !classDefinition: #LocalIntegerRingTest category: #'Tests-Domains-Rings'!
 AbstractEuclideanRingTest subclass: #LocalIntegerRingTest
 	instanceVariableNames: ''
@@ -718,6 +748,16 @@ AbstractEuclideanRingTest subclass: #PolynomialRingOverRationalsTest
 	category: 'Tests-Domains-Rings'!
 !classDefinition: 'PolynomialRingOverRationalsTest class' category: #'Tests-Domains-Rings'!
 PolynomialRingOverRationalsTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #PrimePowerRingTest category: #'Tests-Domains-Rings'!
+AbstractEuclideanRingTest subclass: #PrimePowerRingTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Domains-Rings'!
+!classDefinition: 'PrimePowerRingTest class' category: #'Tests-Domains-Rings'!
+PrimePowerRingTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #RationalIntegerRingTest category: #'Tests-Domains-Rings'!
@@ -2444,13 +2484,6 @@ testEchelonization
 "	self assert: E isReducedEchelon."
 	self assert: A*T = E! !
 
-!AbstractMatrixOverCommutativeRingTest methodsFor: 'as yet unclassified' stamp: 'len 12/30/2021 22:41:24'!
-testStandardBasis
-	| A |
-	scalars hasStandardBases ifFalse: [^ self].
-	A _ self newMatrix.
-	[:B :T| self assert: A*T=B] valueWithArguments: A basisAndTransformation! !
-
 !AbstractMatrixOverFieldTest methodsFor: 'as yet unclassified' stamp: 'len 3/29/2021 11:10:53'!
 testAbstractRankNullity
 	| n m A |
@@ -2537,11 +2570,11 @@ testEchelonExample
 	A _ K^3 => (K^4) !! {1. w. w^5. 0. w^3. w^4. w. 1. w^6. w^3. 1. w^4}.
 	self assert: A echelon = (A parent !! {1. 0. 0. 0. 1. 0. 0. 0. 1. 0. 0. 0})! !
 
-!MatrixOverQuadraticFieldTest methodsFor: 'as yet unclassified' stamp: 'len 12/17/2021 14:29:04'!
+!MatrixOverQuadraticFieldTest methodsFor: 'as yet unclassified' stamp: 'len 1/9/2022 08:34:10'!
 initialize
 	| n |
 	super initialize.
-	[(n _ (2 to: 100) atRandom squareFree) > 1] whileFalse.
+	[(n _ (2 to: 100) atRandom squarefreePart) > 1] whileFalse.
 	2 atRandom = 1 ifTrue: [n _ n negated].
 	scalars _ QuadraticField sqrt: n! !
 
@@ -2826,6 +2859,11 @@ initialize
 	super initialize.
 	scalars _ (CyclotomicField new: 3 atRandom + 2) integers! !
 
+!MatrixOverGaussianIntegersTest methodsFor: 'as yet unclassified' stamp: 'len 1/7/2022 13:52:55'!
+initialize
+	super initialize.
+	scalars _ GaussianField new integers! !
+
 !MatrixOverIntegersTest methodsFor: 'initialization' stamp: 'len 3/26/2021 12:50:25'!
 initialize
 	super initialize.
@@ -2957,11 +2995,11 @@ testDeterminantExample2
 	vandermonde _ ƒ matrix: {(1,1,1). (3,5,7). (9,25,49)}.
 	self assert: vandermonde determinant = 16! !
 
-!MatrixOverIntegersTest methodsFor: 'as yet unclassified' stamp: 'len 4/5/2021 04:08:12'!
+!MatrixOverIntegersTest methodsFor: 'as yet unclassified' stamp: 'len 1/6/2022 19:57:19'!
 testDomainError
 	| A B |
 	A _ (ƒ^4) id.
-	self should: [A / 2] raise: DomainError.
+	self should: [A / 2] raise: InversionError.
 	B _ („^4) id.
 	self should: [A + B] raise: DomainError.
 	self should: [A * B] raise: DomainError! !
@@ -3286,11 +3324,11 @@ testSmithNormalFormOverExample1
 	A _ (R^2) id * x - (R matrix: #((3 -4) (1 -1))).
 	self assert: A SNF = ((R^2) endomorphisms diagonal: {R one. x^2 - (x*2) + 1})! !
 
-!MatrixOverQuadraticRingTest methodsFor: 'as yet unclassified' stamp: 'len 12/17/2021 14:28:18'!
+!MatrixOverQuadraticRingTest methodsFor: 'as yet unclassified' stamp: 'len 1/9/2022 08:34:13'!
 initialize
 	| n |
 	super initialize.
-	[(n _ (2 to: 100) atRandom squareFree) > 1] whileFalse.
+	[(n _ (2 to: 100) atRandom squarefreePart) > 1] whileFalse.
 	2 atRandom = 1 ifTrue: [n _ n negated].
 	scalars _ (QuadraticField sqrt: n) integers! !
 
@@ -3319,7 +3357,7 @@ testHowellNormalForm1
 	self assert: C echelon = H.
 	self assert: D echelon = H! !
 
-!MatrixOverModularIntegersTest methodsFor: 'as yet unclassified' stamp: 'len 4/5/2021 04:38:53'!
+!MatrixOverModularIntegersTest methodsFor: 'as yet unclassified' stamp: 'len 1/1/2022 21:47:55'!
 testHowellNormalForm2
 	| m R t u |
 	100 timesRepeat:
@@ -3409,13 +3447,13 @@ newSmallFreeModule
 	(3 atRandom: random) = 1 ifTrue: [^ M dual].
 	^ M! !
 
-!AbstractModuleTest methodsFor: 'private' stamp: 'len 8/22/2021 12:16:18'!
+!AbstractModuleTest methodsFor: 'private' stamp: 'len 1/6/2022 14:38:20'!
 newSmallModule
 	| M N |
 	M _ self newSmallFreeModule.
 	(3 atRandom: random) = 1 ifTrue: [^ M].
 	N _ M span: ((1 to: ((0 to: M rank) atRandom: random)) collect: [:i| M atRandom: random bits: (10 atRandom: random)]).
-	(3 atRandom: random) = 1 ifTrue: [^ N].
+	(2 atRandom: random) = 1 ifTrue: [^ N].
 	^ M / N! !
 
 !AbstractModuleTest methodsFor: 'isomorphism theorems' stamp: 'len 3/23/2021 14:05:03'!
@@ -3762,17 +3800,6 @@ testPushoutFree
 	coprojections _ (X, Y) >- P.
 	self assert: f -> coprojections first = (g -> coprojections second)! !
 
-!AbstractModuleTest methodsFor: 'bugs' stamp: 'len 3/24/2021 08:07:18'!
-testMapDirectSumAndTensorProductBug
-	| V W f g |
-	V _ self newFreeModule.
-	W _ self newFreeModule.
-	f _ V endomorphisms atRandom: random bits: 100.
-	g _ W endomorphisms atRandom: random bits: 100.
-	"doing it twice should give the same thing:"
-	self assert: (f‘g) domain = (f‘g) domain.
-	self assert: (fg) domain = (fg) domain! !
-
 !AbstractModuleTest methodsFor: 'other' stamp: 'len 3/24/2021 08:26:32'!
 testCanonicalMorphisms
 	| V v W w |
@@ -3953,6 +3980,17 @@ testTensorProductRelations
 	self assert: T !! {v. w1} + (T !! {v. w2}) = (T !! {v. w1 + w2}).
 	self assert: (T !! {v. w})*c = (T !! {v*c. w}).
 	self assert: (T !! {v. w})*c = (T !! {v. w*c})! !
+
+!AbstractCommutativeModuleTest methodsFor: 'bugs' stamp: 'len 1/3/2022 11:24:40'!
+testMapDirectSumAndTensorProductBug
+	| V W f g |
+	V _ self newFreeModule.
+	W _ self newFreeModule.
+	f _ V endomorphisms atRandom: random bits: 100.
+	g _ W endomorphisms atRandom: random bits: 100.
+	"doing it twice should give the same thing:"
+	self assert: (f‘g) domain = (f‘g) domain.
+	self assert: (fg) domain = (fg) domain! !
 
 !AbstractVectorSpaceTest methodsFor: 'maps' stamp: 'len 3/24/2021 08:02:36'!
 testInverse
@@ -4311,6 +4349,11 @@ initialize
 	super initialize.
 	scalars _ GaloisRing new: 3 atRandom nextPrime to: 2 atRandom to: 2 atRandom! !
 
+!ModuleOverGaussianIntegersTest methodsFor: 'as yet unclassified' stamp: 'len 1/7/2022 13:52:03'!
+initialize
+	super initialize.
+	scalars _ GaussianField new integers! !
+
 !ModuleOverIntegersTest methodsFor: 'as yet unclassified' stamp: 'len 3/23/2021 13:49:57'!
 initialize
 	super initialize.
@@ -4530,11 +4573,11 @@ initialize
 	super initialize.
 	scalars _ „ polynomials! !
 
-!ModuleOverQuadraticRingTest methodsFor: 'as yet unclassified' stamp: 'len 12/17/2021 14:31:47'!
+!ModuleOverQuadraticRingTest methodsFor: 'as yet unclassified' stamp: 'len 1/9/2022 08:34:16'!
 initialize
 	| n |
 	super initialize.
-	[(n _ (2 to: 100) atRandom squareFree) > 1] whileFalse.
+	[(n _ (2 to: 100) atRandom squarefreePart) > 1] whileFalse.
 	2 atRandom = 1 ifTrue: [n _ n negated].
 	scalars _ (QuadraticField sqrt: n) integers! !
 
@@ -4589,17 +4632,27 @@ initialize
 	super initialize.
 	scalars _ QuaternionAlgebra over: „ invariants: #(1 1)! !
 
+!AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 1/3/2022 10:32:18'!
+testDivisionByUnits: aRing
+	100 timesRepeat:
+		[| x u |
+		x _ aRing atRandomBits: 30.
+		u _ aRing units atRandomBits: 30.
+		self assert: x*u / u = x.
+		self assert: x / u = (x * u inverse)]! !
+
 !AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 12/26/2021 12:17:45'!
 testRing
 	self testRing: R! !
 
-!AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 12/26/2021 12:17:14'!
+!AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 1/3/2022 10:31:23'!
 testRing: aRing
 	self testRingAxioms: aRing.
-	aRing hasCanonicalAssociates ifTrue: [self testRingUnitsAndAssociates: aRing].
+	self testRingUnits: aRing.
+	aRing hasCanonicalAssociates ifTrue: [self testRingCanonicalAssociates: aRing].
 	aRing isInvolutive ifTrue: [self testRingInvolution: aRing]! !
 
-!AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 4/28/2021 13:40:25'!
+!AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 1/1/2022 21:51:54'!
 testRingAxioms: aRing
 	| one zero a b c |
 	one _ aRing one.
@@ -4614,6 +4667,9 @@ testRingAxioms: aRing
 		self assert: a * zero = zero.
 		self assert: zero + a = a.
 		self assert: a + zero = a.
+		"additive inverse"
+		self assert: a - a = zero.
+		self assert: a + b - b = a. "not really necessary to test this, but there was a bug before"
 		"commutativity of addition:"
 		self assert: a + b = (b + a).
 		"associativity of addition:"
@@ -4624,6 +4680,19 @@ testRingAxioms: aRing
 		self assert: (a + b) * c = (a * c + (b * c)).
 		"commutativity of multiplication:"
 		R isCommutative ifTrue: [self assert: a * b = (b * a)]]! !
+
+!AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 1/3/2022 14:12:31'!
+testRingCanonicalAssociates: aRing
+	100 timesRepeat:
+		[| x u |
+		x _ aRing atRandom: random bits: 30.
+		u _ (aRing atRandom: random bits: 30) normalization.
+		self assert: x normalization isUnit.
+		self assert: u normalization = u inverse.
+		self assert: u * u inverse = aRing one.
+		self assert: u normalized = aRing one.
+		self assert: x normalization * x = x normalized.
+		self assert: x normalized = (x * u) normalized]! !
 
 !AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 7/6/2021 10:53:01'!
 testRingHomomorphism: phi
@@ -4648,18 +4717,13 @@ testRingInvolution: aRing
 		self assert: (a * b) conjugate = (b conjugate * a conjugate).
 		self assert: a conjugate conjugate = a]! !
 
-!AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 8/1/2021 12:12:23'!
-testRingUnitsAndAssociates: aRing
-	100 timesRepeat:
-		[| x u |
-		x _ aRing atRandom: random bits: 30.
-		u _ (aRing atRandom: random bits: 30) normalization.
-		self assert: x normalization isUnit.
-		self assert: u normalization = u inverse.
-		self assert: u * u inverse = aRing one.
-		self assert: u normalized = aRing one.
-		self assert: x normalization * x = x normalized.
-		self assert: x normalized = (x * u) normalized]! !
+!AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 1/3/2022 10:30:09'!
+testRingUnits: aRing
+	10 timesRepeat:
+		[| u |
+		u _ aRing units atRandom: random bits: 30.
+		self assert: u isUnit.
+		self assert: u * u inverse = aRing one]! !
 
 !AbstractAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/20/2021 16:42:41'!
 testAlgebra
@@ -4741,11 +4805,11 @@ initialize
 	super initialize.
 	R _ (CyclotomicField new: 3 atRandom + 2) integers! !
 
-!QuadraticRingTest methodsFor: 'as yet unclassified' stamp: 'len 12/17/2021 14:25:48'!
+!QuadraticRingTest methodsFor: 'as yet unclassified' stamp: 'len 1/9/2022 08:34:42'!
 initialize
 	| n |
 	super initialize.
-	[(n _ (2 to: 100) atRandom squareFree) > 1] whileFalse.
+	[(n _ (2 to: 100) atRandom squarefreePart) > 1] whileFalse.
 	2 atRandom = 1 ifTrue: [n _ n negated].
 	R _ (QuadraticField sqrt: n) integers! !
 
@@ -4861,10 +4925,9 @@ testCliffordAlgebraProductsPropertiesWithVectors
 	self assert: v /\ x = (x reflection /\ v).
 	self assert: v <· (x*y) = ((v <· x)*y + (x reflection * (v <· y)))! !
 
-!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 12/15/2021 19:42:00'!
+!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 1/3/2022 11:47:12'!
 testCliffordAlgebraProperties
 	self assert: R isCommutative not.
-	self assert: R isUnital.
 	self assert: R rank = (2^R space rank).
 	self assert: R scalars = „.
 	self assert: R zero isZero.
@@ -4938,18 +5001,18 @@ initialize
 	super initialize.
 	R _ QuaternionAlgebra over: „ invariants: #(1 1)! !
 
-!QuaternionAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/20/2021 16:31:03'!
+!QuaternionAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 1/6/2022 09:25:53'!
 testQuaternionAlgebraAnnihilatorIdeal
 	| H a b I |
 	H _  QuaternionAlgebra over: „ invariants: #(1 1).
 	a _ 1 + H i.
-	self assert: a isZeroDivisor.
+	self assert: a isZerodivisor.
 	I _ a annihilatorIdeal.
 	self assert: (I includes: 1 - H i).
 	self assert: (I includes: H j - H k).
 	self assert: (I generators allSatisfy: [:each| (a * each) isZero]).
 	b _ H j.
-	self assert: b isZeroDivisor not.
+	self assert: b isZerodivisor not.
 	I _ b annihilatorIdeal.
 	self assert: I isTrivial! !
 
@@ -5021,6 +5084,10 @@ testFractions
 	self testRing: F.
 	self testRingHomomorphism: R -> F! !
 
+!AbstractCommutativeRingTest methodsFor: 'as yet unclassified' stamp: 'len 1/4/2022 18:12:21'!
+testIsCommutative
+	self assert: R isCommutative! !
+
 !AbstractCommutativeRingTest methodsFor: 'as yet unclassified' stamp: 'len 7/25/2021 12:17:51'!
 testPolynomials
 	| P |
@@ -5028,37 +5095,104 @@ testPolynomials
 	self testRingAxioms: P.
 	self testRingHomomorphism: R -> P! !
 
-!AbstractCommutativeRingTest methodsFor: 'as yet unclassified' stamp: 'len 7/25/2021 12:18:20'!
-testRingUnitsAndAssociates
-	self testRingUnitsAndAssociates: R! !
-
-!AbstractEuclideanRingTest methodsFor: 'as yet unclassified' stamp: 'len 12/29/2021 12:15:27'!
+!AbstractEuclideanRingTest methodsFor: 'as yet unclassified' stamp: 'len 1/12/2022 18:44:59'!
 testEuclideanDivision
 	"Test division on a pair of elements:"
-	| a b q r |
+	R isTrivial ifTrue: [^ self].
+	R size < 300 ifTrue:
+		[R do: [:a| R do: [:b| self testEuclideanDivisionOf: a by: b]]. ^ self].
+	100 timesRepeat:
+		[| a b |
+		a _ R atRandom: random bits: 30.
+		[b _ R atRandom: random bits: 30. b isZero] whileTrue.
+		self testEuclideanDivisionOf: a by: b]! !
+
+!AbstractEuclideanRingTest methodsFor: 'as yet unclassified' stamp: 'len 1/12/2022 18:42:37'!
+testEuclideanDivisionOf: a by: b
+	| q r |
+	b isZero ifTrue:
+		[self should: [a // b] raise: Error.
+		self should: [a \\ b] raise: Error.
+		^ self].
+	q _ a // b.
+	r _ a \\ b.
+	self assert: a = (q * b + r).
+	self assert: (r isZero or: [r gauge < b gauge])! !
+
+!AbstractEuclideanRingTest methodsFor: 'as yet unclassified' stamp: 'len 1/3/2022 11:04:18'!
+testExactDivisionCompatibleWithEuclideanDivision
 	R isTrivial ifTrue: [^ self].
 	100 timesRepeat:
-		[a _ R atRandom: random bits: 30.
-		[b _ R atRandom: random bits: 30. b isZero] whileTrue.
-		q _ a // b.
-		r _ a \\ b.
-		self assert: a = (q * b + r).
-		self assert: (r isZero or: [r gauge < b gauge])]! !
+		[| x y xy |
+		x _ R atRandom: random bits: 30.
+		[y _ R atRandom: random bits: 30. y isZero] whileTrue.
+		xy _ x * y.
+		self assert: xy / y = (xy // y).
+		self assert: (xy \\ y) isZero]! !
 
-!AbstractEuclideanRingTest methodsFor: 'as yet unclassified' stamp: 'len 12/29/2021 12:15:37'!
-testSmallEuclideanRing: ring
-	"Test division on all pairs of elements:"
-	ring do: [:b|
-		b isZero ifFalse:
-			[ring do: [:a|
-				| q r |
-				q _ a // b.
-				r _ a \\ b.
-				self assert: a = (q * b + r).
-				self assert: (r isZero or: [r gauge < b gauge])]]]! !
+!AbstractEuclideanRingTest methodsFor: 'as yet unclassified' stamp: 'len 1/13/2022 05:33:19'!
+testGCD
+	R size < 60 ifTrue:
+		[R do: [:a| R do: [:b| self testGCD: a with: b]]. ^ self].
+	100 timesRepeat:
+		[ | a b |
+		[(a _ R atRandom: random bits: 30) isZero] whileTrue.
+		[(b _ R atRandom: random bits: 30) isZero] whileTrue.
+		self testGCD: a with: b]! !
 
-!AbstractEuclideanRingTest methodsFor: 'as yet unclassified' stamp: 'len 4/21/2021 08:19:52'!
+!AbstractEuclideanRingTest methodsFor: 'as yet unclassified' stamp: 'len 1/13/2022 05:32:36'!
+testGCD: a with: b
+	| gcd |
+	gcd _ a gcd: b.
+	self assert: gcd | a.
+	self assert: gcd | b.
+	self assert: gcd = gcd normalized! !
+
+!AbstractEuclideanRingTest methodsFor: 'as yet unclassified' stamp: 'len 1/13/2022 05:33:06'!
+testGCDZero
+	| a gcd |
+	a _ R atRandom: random bits: 100.
+	gcd _ a gcd: R zero.
+	self assert: gcd = (R zero gcd: a).
+	self assert: gcd = a normalized.
+	self assert: (R zero gcd: R zero) = R zero! !
+
+!AbstractEuclideanRingTest methodsFor: 'as yet unclassified' stamp: 'len 1/4/2022 18:12:54'!
+testIsEuclidean
+	self assert: R isEuclidean.
+	self assert: R isPIR! !
+
+!AbstractEuclideanRingTest methodsFor: 'as yet unclassified' stamp: 'len 1/13/2022 05:34:01'!
+testLCM
+	R size < 60 ifTrue:
+		[R do: [:a| R do: [:b| self testLCM: a with: b]]. ^ self].
+	100 timesRepeat:
+		[| a b |
+		[(a _ R atRandom: random bits: 30) isZero] whileTrue.
+		[(b _ R atRandom: random bits: 30) isZero] whileTrue.
+		self testLCM: a with: b]! !
+
+!AbstractEuclideanRingTest methodsFor: 'as yet unclassified' stamp: 'len 1/13/2022 05:33:40'!
+testLCM: a with: b
+	| lcm |
+	lcm _ a lcm: b.
+	self assert: a | lcm.
+	self assert: b | lcm.
+	self assert: lcm = lcm normalized! !
+
+!AbstractEuclideanRingTest methodsFor: 'as yet unclassified' stamp: 'len 1/13/2022 05:33:35'!
+testLCMZero
+	| a lcm |
+	a _ R atRandom: random bits: 100.
+	lcm _ a lcm: R zero.
+	self assert: lcm = (R zero lcm: a).
+	self assert: lcm = R zero.
+	self assert: (R zero lcm: R zero) = R zero! !
+
+!AbstractEuclideanRingTest methodsFor: 'as yet unclassified' stamp: 'len 1/13/2022 05:32:16'!
 testXXGCD
+	R size < 60 ifTrue:
+		[R do: [:a| R do: [:b| self testXXGCD: a with: b]]. ^ self].
 	100 timesRepeat:
 		[| a b |
 		a _ R atRandom: random bits: 30.
@@ -5079,15 +5213,20 @@ testXXGCD: a with: b
 	self assert: (u*a + (v*b)) isZero.
 	self assert: (s*v - (t*u)) isUnit! !
 
-!EuclideanProductRingTest methodsFor: 'as yet unclassified' stamp: 'len 12/29/2021 12:36:17'!
+!EuclideanProductRingTest methodsFor: 'as yet unclassified' stamp: 'len 1/4/2022 11:39:20'!
 initialize
 	super initialize.
-	R _ ƒ × ƒ! !
+	R _ 2 atRandom = 1 ifTrue: [ƒ × ƒ] ifFalse: [ƒ/4 × (ƒ/6)]! !
 
 !GaloisRingTest methodsFor: 'as yet unclassified' stamp: 'len 4/21/2021 08:18:32'!
 initialize
 	super initialize.
 	R _ GaloisRing new: 3 atRandom nextPrime to: 2 atRandom to: 2 atRandom! !
+
+!GaussianRingTest methodsFor: 'as yet unclassified' stamp: 'len 1/4/2022 15:21:01'!
+initialize
+	super initialize.
+	R _ GaussianField new integers! !
 
 !LocalIntegerRingTest methodsFor: 'as yet unclassified' stamp: 'len 12/29/2021 14:17:29'!
 initialize
@@ -5129,6 +5268,14 @@ initialize
 initialize
 	super initialize.
 	R _ „ polynomials! !
+
+!PrimePowerRingTest methodsFor: 'as yet unclassified' stamp: 'len 1/13/2022 05:28:18'!
+initialize
+	| k p |
+	super initialize.
+	p _ 10 atRandom nextPrime.
+	k _ 10 atRandom.
+	R _ PrimePowerRing new: p to: k! !
 
 !RationalIntegerRingTest methodsFor: 'as yet unclassified' stamp: 'len 4/22/2021 10:32:40'!
 initialize
@@ -5209,7 +5356,7 @@ testProjectiveClosure
 	X2 _ PX patch: 2.
 	self assert: X2 projectiveClosure = X projectiveClosure! !
 
-!AlgebraicGeometryTest methodsFor: 'affine' stamp: 'len 5/23/2020 08:56:14'!
+!AlgebraicGeometryTest methodsFor: 'affine' stamp: 'len 1/14/2022 11:28:54'!
 testProjectiveEmbedding
 	| A1 u v X PX affinePointsEmbedded projectivePoints |
 	A1 _ AffineSpace new: #(u v) over: ƒ/5.
@@ -5219,7 +5366,7 @@ testProjectiveEmbedding
 	PX _ X projectiveClosure.
 	affinePointsEmbedded _ X points asSet apply: X projectiveEmbedding.
 	projectivePoints _ PX points asSet.
-	self assert: projectivePoints >= affinePointsEmbedded.
+	self assert: (projectivePoints includesAllOf: affinePointsEmbedded).
 	"the projective scheme has one more point at infinity:"
 	self assert: affinePointsEmbedded size + 1 = projectivePoints size! !
 
@@ -5754,7 +5901,7 @@ testRationalPointsOverFiniteField
 	self assert: C points size = 9.
 	self assert: (Iterator on: C points performing: #do:) size = 9! !
 
-!AlgebraicGeometryTest methodsFor: 'rational points' stamp: 'len 5/23/2020 09:33:01'!
+!AlgebraicGeometryTest methodsFor: 'rational points' stamp: 'len 1/14/2022 11:32:38'!
 testSturmfelsExample1
 	"Bernd Sturmfels, 'Ideals, Varieties and Macaulay 2', 1. A Curve in Affine 3-Space."
 	| R x y I C C1 C2 |
@@ -5763,7 +5910,7 @@ testSturmfelsExample1
 	y _ R y.
 "	z _ R z."
 	I _ R * {x^4 - (y^5). x^3 - (y^7)}.
-	self assert: I groebnerBasis reduced printString = '{x^8 - x^3y^3, x^4y^2 - x^3, y^5 - x^4}'.
+	self assert: I basis "reduced" printString = '(x^8 - x^3y^3, x^4y^2 - x^3, y^5 - x^4)'.
 	C _ I variety.
 	self assert: C dimension = 1.
 	self assert: C codimension = 2.
@@ -6394,37 +6541,41 @@ testAffineRingIdealOperations
 	self assert: I radical = J. "this fails probably because PolynomialIdeal>>radical is broken"
 	"... and then some tests of primary decomposition"! !
 
-!CommutativeAlgebraTest methodsFor: 'algorithms' stamp: 'len 12/31/2021 11:33:09'!
+!CommutativeAlgebraTest methodsFor: 'algorithms' stamp: 'len 1/13/2022 12:02:33'!
 testExtendedBuchberger
-	| R I A |
+	| R I A basisAndTransformation G T |
 	R _ „ polynomialsIn: #(a b c d).
 	I _ R cyclicIdeal.
 	I _ I orderedBy: #grevlex.
-	A _ I generatorMatrix transpose.
-	[:G :T| self assert: T * A = G] valueWithArguments: A standardBasisAndTransformation! !
+	A _ I generatorMatrix.
+	basisAndTransformation _ A basisAndTransformation.
+	G _ basisAndTransformation first.
+	T _ basisAndTransformation second.
+	self assert: (A * T) = G! !
 
-!CommutativeAlgebraTest methodsFor: 'division and normal forms' stamp: 'len 5/23/2020 09:33:01'!
+!CommutativeAlgebraTest methodsFor: 'division and normal forms' stamp: 'len 1/13/2022 10:45:56'!
 testBuchbergerNormalForm
 	"A Singular Introduction to Commutative Algebra, Example 1.6.12."
 	| R x y z f G h |
 	R _ „ polynomialsIn: #(x y z) ordering: #glex.
 	x _ R x. y _ R y. z _ R z.
 	f _ x^3 + (y^2) + (z^2*2) + x + y + 1.
-	G _ GroebnerBasis new add: R x; add: R y; yourself.
-	h _ G reduce: f.
+	G _ {x. y}.
+	h _ f reductionBy: G.
 	self assert: h = (z^2*2 + x + y + 1).
-	h _ G reduceFull: f.
+	h _ f reductionFullBy: G.
 	self assert: h = (z^2 + (1/2))! !
 
-!CommutativeAlgebraTest methodsFor: 'division and normal forms' stamp: 'len 5/23/2020 09:33:01'!
+!CommutativeAlgebraTest methodsFor: 'division and normal forms' stamp: 'len 1/13/2022 10:41:54'!
 testMoraNormalForm
 	"A Singular Introduction to Commutative Algebra, Example 1.7.7."
-	| R f G h |
+	| R f G h x y z |
 	R _ „ polynomialsIn: #(x y z) ordering: #lgrevlex.
-	f _ R !! [:x :y :z| x^2 + (y^2) + (z^3) + (x^4) + (y^5)].
-	G _ StandardBasis new add: R x; add: R y; yourself.
-	h _ G reduce: f.
-	self assert: h = (R !! [:x :y :z| z^3 + (x^4) + (y^5)])! !
+	x _ R x. y _ R y. z _ R z.
+	f _ x^2 + (y^2) + (z^3) + (x^4) + (y^5).
+	G _ {x. y}.
+	h _ f reductionBy: G.
+	self assert: h = (z^3 + (x^4) + (y^5))! !
 
 !CommutativeAlgebraTest methodsFor: 'division and normal forms' stamp: 'len 5/23/2020 09:33:01'!
 testMultivariateDivisionExample
@@ -6465,120 +6616,119 @@ testMultivariateDivisionExample4
 	self assert: (f divisionBy: {f1. f2}) printString = 'x^2y^3 - 2xy^2 = (y^2)(x^2y - 2x) + (0)(y^3 + 4) + 0'.
 	self assert: (f divisionBy: {f2. f1}) printString = 'x^2y^3 - 2xy^2 = (x^2)(y^3 + 4) + (0)(x^2y - 2x) + -4x^2 - 2xy^2'! !
 
-!CommutativeAlgebraTest methodsFor: 'groebner' stamp: 'len 4/14/2020 00:53:45'!
+!CommutativeAlgebraTest methodsFor: 'groebner' stamp: 'len 1/13/2022 11:52:22'!
 testGroebnerBasis: G ideal: I
 	"Test G is a Groebner basis of the ideal I."
 	| g division |
-	self assert: G verify.
-	I generators do: [:each| self assert: (G reduces: each)].
+"	self assert: G verify."
+	I generators do: [:each| self assert: (each reductionBy: G) isZero].
 	G do: [:each| self assert: (I includes: each)]. "but this will use Groebner bases.."
 	[g _ I atRandomBits: 200. g isZero] whileTrue.
-	self assert: (G reduces: g).
+	self assert: (g reductionBy: G) isZero.
 	"The leading term of any polynomial in I is divisible by the leading term of some polynomial in G:"
 	self assert: (G anySatisfy: [:any| any leadingMonomial | g leadingMonomial]).
 	"The multivariate division of any polynomial in I by G gives the remainder 0:"
 	division _ g divisionBy: G.
 	self assert: division remainder isZero.
 	self assert: division verify.
-	self assert: G reduced isReduced.
-	self assert: G minimal isMinimal! !
+"	self assert: G reduced isReduced.
+	self assert: G minimal isMinimal"! !
 
-!CommutativeAlgebraTest methodsFor: 'groebner' stamp: 'len 5/23/2020 09:33:01'!
+!CommutativeAlgebraTest methodsFor: 'groebner' stamp: 'len 1/13/2022 11:33:38'!
 testGroebnerCyclic3
 	| I G |
 	I _ („ polynomialsIn: 3) cyclicIdeal.
-	G _ I groebnerBasis.
+	G _ I basis.
 	self testGroebnerBasis: G ideal: I! !
 
-!CommutativeAlgebraTest methodsFor: 'groebner' stamp: 'len 7/27/2021 08:34:04'!
+!CommutativeAlgebraTest methodsFor: 'groebner' stamp: 'len 1/13/2022 11:33:43'!
 testGroebnerCyclic3Lexicographic
 	| I G |
 	I _ („ polynomialsIn: 3 ordering: #lex) cyclicIdeal.
-	G _ I groebnerBasis.
+	G _ I basis.
 	self testGroebnerBasis: G ideal: I! !
 
-!CommutativeAlgebraTest methodsFor: 'groebner' stamp: 'len 5/23/2020 09:00:08'!
+!CommutativeAlgebraTest methodsFor: 'groebner' stamp: 'len 1/13/2022 11:33:53'!
 testGroebnerCyclic3OverZ2
 	| I G |
 	I _ (ƒ/2 polynomialsIn: 3) cyclicIdeal.
-	G _ I groebnerBasis.
+	G _ I basis.
 	self testGroebnerBasis: G ideal: I! !
 
-!CommutativeAlgebraTest methodsFor: 'groebner' stamp: 'len 7/27/2021 08:34:11'!
+!CommutativeAlgebraTest methodsFor: 'groebner' stamp: 'len 1/13/2022 12:03:25'!
 testGroebnerCyclic3Reduced
 	| I G |
 	I _ („ polynomialsIn: #(x y z)) cyclicIdeal.
 	I _ I orderedBy: #lex.
-	G _ I groebnerBasis reduced.
-	self assert: G printString = '{x + y + z, y^2 + yz + z^2, z^3 - 1}' 
-! !
+	G _ I basis "reduced".
+	self assert: G printString = '(x + y + z, y^2 + yz + z^2, z^3 - 1)'! !
 
-!CommutativeAlgebraTest methodsFor: 'groebner' stamp: 'len 7/27/2021 08:34:17'!
+!CommutativeAlgebraTest methodsFor: 'groebner' stamp: 'len 1/13/2022 11:33:56'!
 testGroebnerCyclic3TotalLexicographic
 	| I G |
 	I _ („ polynomialsIn: 3 ordering: #glex) cyclicIdeal.
-	G _ I groebnerBasis.
+	G _ I basis.
 	self testGroebnerBasis: G ideal: I! !
 
-!CommutativeAlgebraTest methodsFor: 'groebner' stamp: 'len 7/27/2021 08:34:22'!
+!CommutativeAlgebraTest methodsFor: 'groebner' stamp: 'len 1/13/2022 11:33:59'!
 testGroebnerCyclic3TotalReverseLexicographic
 	| I G |
 	I _ („ polynomialsIn: 3 ordering: #grevlex) cyclicIdeal.
-	G _ I groebnerBasis.
+	G _ I basis.
 	self testGroebnerBasis: G ideal: I! !
 
-!CommutativeAlgebraTest methodsFor: 'groebner' stamp: 'len 5/23/2020 09:33:01'!
+!CommutativeAlgebraTest methodsFor: 'groebner' stamp: 'len 1/13/2022 11:34:02'!
 testGroebnerCyclic4
 	| I G |
 	I _ („ polynomialsIn: 4) cyclicIdeal.
-	G _ I groebnerBasis.
+	G _ I basis.
 	self testGroebnerBasis: G ideal: I! !
 
-!CommutativeAlgebraTest methodsFor: 'groebner' stamp: 'len 5/23/2020 09:00:11'!
+!CommutativeAlgebraTest methodsFor: 'groebner' stamp: 'len 1/13/2022 11:34:04'!
 testGroebnerCyclic4OverZ127
 	| I G |
 	I _ (ƒ/127 polynomialsIn: 4) cyclicIdeal.
-	G _ I groebnerBasis.
+	G _ I basis.
 	self testGroebnerBasis: G ideal: I! !
 
-!CommutativeAlgebraTest methodsFor: 'groebner' stamp: 'len 5/23/2020 09:00:13'!
+!CommutativeAlgebraTest methodsFor: 'groebner' stamp: 'len 1/13/2022 11:34:06'!
 testGroebnerCyclic4OverZ2
 	| I G |
 	I _ (ƒ/2 polynomialsIn: 4) cyclicIdeal.
-	G _ I groebnerBasis.
+	G _ I basis.
 	self testGroebnerBasis: G ideal: I! !
 
-!CommutativeAlgebraTest methodsFor: 'groebner' stamp: 'len 5/23/2020 09:33:01'!
+!CommutativeAlgebraTest methodsFor: 'groebner' stamp: 'len 1/13/2022 11:34:09'!
 testGroebnerCyclic5
 	| I G |
 	I _ („ polynomialsIn: 5) cyclicIdeal.
-	G _ I groebnerBasis.
+	G _ I basis.
 	self testGroebnerBasis: G ideal: I! !
 
-!CommutativeAlgebraTest methodsFor: 'groebner' stamp: 'len 5/23/2020 09:00:16'!
+!CommutativeAlgebraTest methodsFor: 'groebner' stamp: 'len 1/13/2022 11:34:11'!
 testGroebnerCyclic5OverZ127
 	| I G |
 	I _ (ƒ/127 polynomialsIn: 5) cyclicIdeal.
-	G _ I groebnerBasis.
+	G _ I basis.
 	self testGroebnerBasis: G ideal: I! !
 
-!CommutativeAlgebraTest methodsFor: 'groebner' stamp: 'len 5/23/2020 09:00:20'!
+!CommutativeAlgebraTest methodsFor: 'groebner' stamp: 'len 1/13/2022 11:34:14'!
 testGroebnerCyclic5OverZ2
 	| I G |
 	I _ (ƒ/2 polynomialsIn: 5) cyclicIdeal.
-	G _ I groebnerBasis.
+	G _ I basis.
 	self testGroebnerBasis: G ideal: I! !
 
-!CommutativeAlgebraTest methodsFor: 'groebner' stamp: 'len 5/23/2020 09:33:01'!
+!CommutativeAlgebraTest methodsFor: 'groebner' stamp: 'len 1/13/2022 11:56:59'!
 testGroebnerCyclic5Reduced
 	| I G |
 	I _ („ polynomialsIn: 5) cyclicIdeal.
-	G _ I groebnerBasis reduced.
-	self assert: G isReduced.
+	G _ I basis "reduced".
+	self assert: I basisMatrix isReducedStandardBasis.
 	self testGroebnerBasis: G ideal: I.
-	self assert: (I scalars * G) groebnerBasis reduced = G! !
+	self assert: (I scalars * G) basis "reduced" = G! !
 
-!CommutativeAlgebraTest methodsFor: 'groebner' stamp: 'len 7/27/2021 08:34:28'!
+!CommutativeAlgebraTest methodsFor: 'groebner' stamp: 'len 1/13/2022 11:34:43'!
 testGroebnerExample
 	| P x y z I G |
 	P _ „ polynomialsIn: #(x y z) ordering: #lex.
@@ -6586,10 +6736,10 @@ testGroebnerExample
 	y _ P y.
 	z _ P z.
 	I _ P * {x^2 - (y*z). y^2 - (z*x). z^2 - (x*y)}.
-	G _ I groebnerBasis minimal.
+	G _ I basis "minimal".
 	self assert: G asSet = {x^2 - (y*z). x*z - (y^2). x*y - (z^2). y^3 - (z^3)} asSet! !
 
-!CommutativeAlgebraTest methodsFor: 'groebner' stamp: 'len 7/27/2021 08:34:34'!
+!CommutativeAlgebraTest methodsFor: 'groebner' stamp: 'len 1/13/2022 12:00:51'!
 testGroebnerExample2
 	| R x y f1 f2 I G |
 	R _ „ polynomialsIn: #(x y) ordering: #lex.
@@ -6598,43 +6748,42 @@ testGroebnerExample2
 	f1 _ (x-1)^2 + (y-2^2) - (3^2).
 	f2 _ (x+1)^2 + (y-1^2) - (2^2).
 	I _ R * {f1. f2}.
-	G _ I groebnerBasis reduced.
-	self assert: G printString = '{x + (1/2)y + (1/2), y^2 - 2y - (11/5)}' ! !
+	G _ I basis "reduced".
+	self assert: G printString = '(x + (1/2)y + (1/2), y^2 - 2y - (11/5))'! !
 
-!CommutativeAlgebraTest methodsFor: 'groebner' stamp: 'len 7/27/2021 08:34:44'!
+!CommutativeAlgebraTest methodsFor: 'groebner' stamp: 'len 1/13/2022 12:01:04'!
 testGroebnerExample3
 	"From some question in math.stackexchange.com."
 	| R I G |
 	R _ „ polynomialsIn: #(x y) ordering: #glex.
 	I _ R * (R !! [:x :y| {x^2*y + x + 1. x*(y^2) + y + 1. x - y}]).
-	G _ I groebnerBasis reduced.
-	self assert: G printString = '{y^3 + y + 1, x - y}' "this is as computed by Singular"! !
+	G _ I basis "reduced".
+	self assert: G printString = '(y^3 + y + 1, x - y)' "this is as computed by Singular"! !
 
-!CommutativeAlgebraTest methodsFor: 'groebner' stamp: 'len 7/27/2021 08:34:49'!
+!CommutativeAlgebraTest methodsFor: 'groebner' stamp: 'len 1/13/2022 12:01:43'!
 testGroebnerExample4Minimal
 	"Example from Cox, Little, O'Shea, 'Ideals, Varieties and Algorithms', p. 90, continued in p. 93."
 	| R I G |
 	R _ „ polynomialsIn: #(x y) ordering: #grevlex.
 	I _ R * (R !! [:x :y| {x^3 - (x*y*2). x^2*y - (y^2*2) + x}]).
-	G _ I groebnerBasis minimal.
-	self assert: G printString = '{x^2, xy, y^2 - (1/2)x}' 
-! !
+	G _ I basis "minimal".
+	self assert: G printString = '(x^2, xy, y^2 - (1/2)x)'! !
 
-!CommutativeAlgebraTest methodsFor: 'groebner' stamp: 'len 5/23/2020 09:33:01'!
+!CommutativeAlgebraTest methodsFor: 'groebner' stamp: 'len 1/13/2022 11:35:21'!
 testGroebnerKatsura2
 	| I G |
 	I _ („ polynomialsIn: 2) katsuraIdeal.
-	G _ I groebnerBasis.
+	G _ I basis.
 	self testGroebnerBasis: G ideal: I! !
 
-!CommutativeAlgebraTest methodsFor: 'groebner' stamp: 'len 5/23/2020 09:33:01'!
+!CommutativeAlgebraTest methodsFor: 'groebner' stamp: 'len 1/13/2022 11:35:25'!
 testGroebnerKatsura3
 	| I G |
 	I _ („ polynomialsIn: 3) katsuraIdeal.
-	G _ I groebnerBasis.
+	G _ I basis.
 	self testGroebnerBasis: G ideal: I! !
 
-!CommutativeAlgebraTest methodsFor: 'groebner' stamp: 'len 5/23/2020 09:33:01'!
+!CommutativeAlgebraTest methodsFor: 'groebner' stamp: 'len 1/13/2022 11:35:53'!
 testGroebnerTrivial
 	"The 3 polynomials have no common zeroes, the Groebner basis should be {1}."
 	| Qx x y I |
@@ -6642,7 +6791,7 @@ testGroebnerTrivial
 	x _ Qx x.
 	y _ Qx y.
 	I _ Qx * {x + y. x^2 - 1. y^2 - (x*2)}.
-	self assert: I groebnerBasis minimal isTrivial! !
+	self assert: I isOne! !
 
 !CommutativeAlgebraTest methodsFor: 'hilbert series' stamp: 'len 12/30/2021 17:28:47'!
 testAffineRingDimensionAsVectorSpace
@@ -8137,11 +8286,11 @@ testPrimeSignature
 	self assert: 42 primeSignature = #(1 1 1).
 	self assert: 16 primeSignature = #(4)! !
 
-!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 12/21/2016 20:21:11'!
-testRadicalAndIsSquareFree
+!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 1/9/2022 08:38:58'!
+testRadicalAndIsSquarefree
 	| n |
 	n _ (-1000 to: 1000) atRandom.
-	self assert: n isSquareFree = (n radical = n)! !
+	self assert: n isSquarefree = (n radical = n)! !
 
 !MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 6/4/2016 21:48'!
 testRealIntervalIntersects
@@ -8593,7 +8742,7 @@ testWeightedMonomialOrderingsConsistency
 	self assert: (f orderedBy: grevlex) monomials asArray = (f orderedBy: #grevlex) monomials asArray.
 "	self assert: (f orderedBy: revlex) monomials asArray = (f orderedBy: #revlex) monomials asArray"! !
 
-!MultivariateModuleTest methodsFor: 'as yet unclassified' stamp: 'len 7/30/2021 13:28:08'!
+!MultivariateModuleTest methodsFor: 'as yet unclassified' stamp: 'len 1/5/2022 11:43:23'!
 testModuleGroebnerBasisReduced
 	"William W. Adams, Philippe Loustaunau, 'An Introduction to Groebner Bases' (1994), Example 3.6.1."
 	| R x y M f1 f2 f3 f4 A |
@@ -8607,7 +8756,7 @@ testModuleGroebnerBasisReduced
 	f3 _ M !! {y negated. x. y} reversed.
 	f4 _ M !! {x^2. x. y} reversed.
 	A _ Matrix rows: {f1. f2. f3. f4}.
-	self assert: A standardBasis reduced size = 6
+	self assert: A basis "reduced" size = 6 "it's already reduced"
 	"TODO: verify that it matches the book"! !
 
 !MultivariateModuleTest methodsFor: 'as yet unclassified' stamp: 'len 7/30/2021 13:28:14'!
@@ -9382,15 +9531,15 @@ testDivisionZ9
 	self assert: f // g = (P !! 3).
 	self assert: f \\ g = (x*(-1))! !
 
-!PolynomialTest methodsFor: 'division' stamp: 'len 5/23/2020 09:34:55'!
+!PolynomialTest methodsFor: 'division' stamp: 'len 1/9/2022 08:17:56'!
 testExactDivisionBug
 	| Zx x f |
 	Zx _ ƒ polynomials.
 	x _ Zx x.
 	f _ x*2.
-	self assert: f ÷ f = Zx one! !
+	self assert: f / f = Zx one! !
 
-!PolynomialTest methodsFor: 'division' stamp: 'len 5/23/2020 09:33:01'!
+!PolynomialTest methodsFor: 'division' stamp: 'len 1/9/2022 08:18:03'!
 testExactDivisionMultivariate
 	| Qxy x y f g |
 	Qxy _ „ polynomialsIn: #(x y).
@@ -9398,8 +9547,8 @@ testExactDivisionMultivariate
 	y _ Qxy y.
 	f _ x-y.
 	g _ x+y.
-	self assert: f * g ÷ g = f.
-	self assert: f * g ÷ f = g! !
+	self assert: f * g / g = f.
+	self assert: f * g / f = g! !
 
 !PolynomialTest methodsFor: 'division' stamp: 'len 5/23/2020 09:33:01'!
 testExactDivisionMultivariate2
@@ -9412,32 +9561,32 @@ testExactDivisionMultivariate2
 	self assert: (f * g divisionBy: g) quotient = f.
 	self assert: (f * g divisionBy: f) quotient = g! !
 
-!PolynomialTest methodsFor: 'division' stamp: 'len 5/23/2020 09:33:01'!
+!PolynomialTest methodsFor: 'division' stamp: 'len 1/9/2022 08:18:09'!
 testExactDivisionQ
 	| x f g |
 	x _ „ polynomials x.
 	f _ x^2 + x + 1.
 	g _ 1 - x.
-	self assert: f * g ÷ g = f.
-	self assert: f * g ÷ f = g! !
+	self assert: f * g / g = f.
+	self assert: f * g / f = g! !
 
-!PolynomialTest methodsFor: 'division' stamp: 'len 5/23/2020 09:33:01'!
+!PolynomialTest methodsFor: 'division' stamp: 'len 1/9/2022 08:18:14'!
 testExactDivisionQRandom
 	| Qx f g |
 	Qx _ „ polynomials.
 	f _ Qx atRandomBits: 100 maxDegree: (1 to: 10) atRandom.
 	g _ Qx atRandomBits: 100 maxDegree: (1 to: 10) atRandom.
-	self assert: f * g ÷ g = f.
-	self assert: f * g ÷ f = g! !
+	self assert: f * g / g = f.
+	self assert: f * g / f = g! !
 
-!PolynomialTest methodsFor: 'division' stamp: 'len 5/23/2020 09:34:55'!
+!PolynomialTest methodsFor: 'division' stamp: 'len 1/9/2022 08:18:21'!
 testExactDivisionZ
 	| x f g |
 	x _ ƒ polynomials x.
 	f _ x^2 + x + 1.
 	g _ 1 - x.
-	self assert: f * g ÷ g = f.
-	self assert: f * g ÷ f = g! !
+	self assert: f * g / g = f.
+	self assert: f * g / f = g! !
 
 !PolynomialTest methodsFor: 'division' stamp: 'len 5/23/2020 09:34:55'!
 testMultivariateDivision
@@ -9635,14 +9784,14 @@ testDiscriminant2
 	f _ x^2 - x - 36042.
 	self assert: f discriminant = 144169 "this is a prime, although looks like a square :)"! !
 
-!PolynomialTest methodsFor: 'etc' stamp: 'len 5/23/2020 09:34:55'!
+!PolynomialTest methodsFor: 'etc' stamp: 'len 1/7/2022 20:38:05'!
 testDomainError
 	| f g |
 	f _ ƒ polynomials atRandomBits: 10.
-	self should: [f / 2] raise: DomainError.
+	self should: [f / 2] raise: Error.
 	g _ „ polynomials atRandomBits: 100 maxDegree: 5. "will have denominators"
-	self should: [f + g] raise: DomainError.
-	self should: [f * g] raise: DomainError! !
+	self should: [f + g] raise: Error.
+	self should: [f * g] raise: Error! !
 
 !PolynomialTest methodsFor: 'etc' stamp: 'len 5/23/2020 09:34:55'!
 testGaussLemma
@@ -9824,8 +9973,8 @@ testShift
 	self assert: f * (x^3) = (f << 3).
 	self assert: (f * (x^3) << -3) = f! !
 
-!PolynomialTest methodsFor: 'etc' stamp: 'len 5/23/2020 09:33:01'!
-testSquareFree
+!PolynomialTest methodsFor: 'etc' stamp: 'len 1/9/2022 08:39:20'!
+testSquarefreePart
 	| P x f1 f2 f3 f |
 	P _ „ polynomials.
 	x _ P x.
@@ -9833,10 +9982,10 @@ testSquareFree
 	f2 _ 1 - x.
 	f3 _ x - 2.
 	f _ f1*f1*f2*f3*f3*f3.
-	self assert: f squareFree = (f1 * f2 * f3)! !
+	self assert: f squarefreePart = (f1 * f2 * f3)! !
 
-!PolynomialTest methodsFor: 'etc' stamp: 'len 5/23/2020 09:33:01'!
-testSquareFreeMultivariate
+!PolynomialTest methodsFor: 'etc' stamp: 'len 1/9/2022 08:39:32'!
+testSquarefreePartMultivariate
 	| P x y f1 f2 f |
 	P _ „ polynomialsIn: #(x y).
 	x _ P x.
@@ -9844,7 +9993,7 @@ testSquareFreeMultivariate
 	f1 _ x + 1.
 	f2 _ y + 1.
 	f _ f1*f1*f2*f2.
-	self assert: f squareFree = (f1 * f2)! !
+	self assert: f squarefreePart = (f1 * f2)! !
 
 !PolynomialTest methodsFor: 'etc' stamp: 'len 5/23/2020 09:34:55'!
 testSubresultant
@@ -10043,7 +10192,7 @@ testFiniteFieldIsIrreducible
 	self assert: f factorization size = 1.
 	self assert: f isIrreducible! !
 
-!PolynomialTest methodsFor: 'factorization' stamp: 'len 5/23/2020 09:34:55'!
+!PolynomialTest methodsFor: 'factorization' stamp: 'len 1/9/2022 08:35:52'!
 testFiniteFieldSFF
 	| F Fx x one f factors |
 	F _ ƒ / 3.
@@ -10051,7 +10200,7 @@ testFiniteFieldSFF
 	x _ Fx x.
 	one _ Fx one.
 	f _ x^11 + (x^9 * 2) + (x^8 * 2) + (x^6) + (x^5) + (x^3 * 2) + (x^2 * 2) + one.
-	factors _ f squareFreeFactorization.
+	factors _ f squarefreeFactorization.
 	self assert: factors size = 8.
 	self assert: (factors occurrencesOf: x + (one*2)) = 4.
 	self assert: (factors occurrencesOf: x^2 + one) = 3.
@@ -10446,114 +10595,6 @@ testGramian
 		[x _ Q domain atRandomBits: 100 atRandom.
 		self assert: (Q value: x) = (x · (M * x))]! !
 
-!RingTest methodsFor: 'euclidean' stamp: 'len 12/29/2021 12:17:36'!
-testEuclideanRing: R
-	"Test division on a pair of elements:"
-	| a b q r |
-	self assert: R isEuclidean.
-	R size < 300 ifTrue: [self testSmallEuclideanRing: R].
-	100 timesRepeat:
-		[a _ R atRandomBits: 30.
-		[b _ R atRandomBits: 30. b isZero] whileTrue.
-		q _ a // b.
-		r _ a \\ b.
-		self assert: a = (q * b + r).
-		self assert: (r isZero or: [r gauge < b gauge])]! !
-
-!RingTest methodsFor: 'euclidean' stamp: 'len 6/19/2019 14:13:07'!
-testGCD: R
-	R size < 60 ifTrue: [self testGCDAll: R].
-	self testGCDZero: R.
-	100 timesRepeat:
-		[| a b gcd |
-		[(a _ R atRandomBits: 30) isZero] whileTrue.
-		[(b _ R atRandomBits: 30) isZero] whileTrue.
-		gcd _ a gcd: b.
-		self assert: gcd | a.
-		self assert: gcd | b.
-		self assert: gcd = gcd normalized]! !
-
-!RingTest methodsFor: 'euclidean' stamp: 'len 12/29/2021 12:17:48'!
-testGCDAll: R
-	R do: [:a|
-		a isZero ifFalse:
-			[R do: [:b|
-				b isZero ifFalse:
-					[| gcd |
-					gcd _ a gcd: b.
-					self assert: gcd | a.
-					self assert: gcd | b.
-					self assert: gcd = gcd normalized.
-					R do: [:c| (c | a and: [c | b]) ifTrue: [self assert: c gauge <= gcd gauge]]]]]]! !
-
-!RingTest methodsFor: 'euclidean' stamp: 'len 6/16/2019 16:43:23'!
-testGCDZero: R
-	| a gcd |
-	a _ R atRandomBits: 100.
-	gcd _ a gcd: R zero.
-	self assert: gcd = (R zero gcd: a).
-	self assert: gcd = a normalized.
-	self assert: (R zero gcd: R zero) = R zero! !
-
-!RingTest methodsFor: 'euclidean' stamp: 'len 5/4/2020 05:30:23'!
-testGaloisRingGCD
-	| R |
-	R _ GaloisRing new: 3 atRandom nextPrime to: 2 atRandom to: 2 atRandom.
-	self testGCD: R! !
-
-!RingTest methodsFor: 'euclidean' stamp: 'len 5/3/2020 11:06:05'!
-testGaloisRingIsEuclidean
-	| R |
-	R _ GaloisRing new: 3 atRandom nextPrime to: 2 atRandom to: 2 atRandom.
-	self testEuclideanRing: R! !
-
-!RingTest methodsFor: 'euclidean' stamp: 'len 5/12/2020 12:41:30'!
-testGaloisRingLCM
-	| R |
-	R _ GaloisRing new: 3 atRandom nextPrime to: 2 atRandom to: 2 atRandom.
-	self testLCM: R! !
-
-!RingTest methodsFor: 'euclidean' stamp: 'len 5/18/2020 08:51:45'!
-testIntegersXXGCD
-	-100 to: 100 do: [:a|
-		-100 to: 100 do: [:b|
-			self testXXGCD: a with: b]]! !
-
-!RingTest methodsFor: 'euclidean' stamp: 'len 6/19/2019 14:13:15'!
-testLCM: R
-	R size < 60 ifTrue: [self testLCMAll: R].
-	self testLCMZero: R.
-	100 timesRepeat:
-		[| a b lcm |
-		[(a _ R atRandomBits: 30) isZero] whileTrue.
-		[(b _ R atRandomBits: 30) isZero] whileTrue.
-		lcm _ a lcm: b.
-		self assert: a | lcm.
-		self assert: b | lcm.
-		self assert: lcm = lcm normalized]! !
-
-!RingTest methodsFor: 'euclidean' stamp: 'len 12/29/2021 12:17:58'!
-testLCMAll: R
-	R do: [:a|
-		a isZero ifFalse:
-			[R do: [:b|
-				b isZero ifFalse:
-					[| lcm |
-					lcm _ a lcm: b.
-					self assert: a | lcm.
-					self assert: b | lcm.
-					self assert: lcm = lcm normalized.
-					R do: [:c| (c isZero not and: [a | c and: [b | c]]) ifTrue: [self assert: c gauge >= lcm gauge]]]]]]! !
-
-!RingTest methodsFor: 'euclidean' stamp: 'len 6/17/2019 04:37:30'!
-testLCMZero: R
-	| a lcm |
-	a _ R atRandomBits: 100.
-	lcm _ a lcm: R zero.
-	self assert: lcm = (R zero lcm: a).
-	self assert: lcm = R zero.
-	self assert: (R zero lcm: R zero) = R zero! !
-
 !RingTest methodsFor: 'euclidean' stamp: 'len 5/23/2020 09:34:55'!
 testModularIntegersEuclideanExample
 	"Some random example built in Magma online calculator."
@@ -10646,128 +10687,7 @@ testModularIntegersEuclideanExample9
 	self assert: a // b = (R !! 8).
 	self assert: b // a = (R !! 2)! !
 
-!RingTest methodsFor: 'euclidean' stamp: 'len 5/23/2020 09:34:55'!
-testModularIntegersRingGCD
-	| R |
-	R _ ƒ/(2 to: 256) atRandom.
-	self testGCD: R! !
-
-!RingTest methodsFor: 'euclidean' stamp: 'len 5/23/2020 09:34:55'!
-testModularIntegersRingIsEuclidean
-	| R |
-	R _ ƒ/(2 to: 256) atRandom.
-	self testEuclideanRing: R! !
-
-!RingTest methodsFor: 'euclidean' stamp: 'len 5/23/2020 09:34:55'!
-testModularIntegersRingLCM
-	| R |
-	R _ ƒ/(2 to: 256) atRandom.
-	self testLCM: R! !
-
-!RingTest methodsFor: 'euclidean' stamp: 'len 5/23/2020 09:34:55'!
-testModularIntegersXXGCD
-	| R |
-	R _ ƒ/12.
-	R do: [:a| R do: [:b| self testXXGCD: a with: b]]! !
-
-!RingTest methodsFor: 'euclidean' stamp: 'len 5/23/2020 09:33:01'!
-testPolynomialsOverFieldGCD
-	| F R |
-	F _ 2 atRandom = 1 ifTrue: [„] ifFalse: [GaloisField new: 5 atRandom nextPrime to: 3 atRandom].
-	R _ F polynomials.
-	self testGCD: R! !
-
-!RingTest methodsFor: 'euclidean' stamp: 'len 5/23/2020 09:33:01'!
-testPolynomialsOverFieldIsEuclidean
-	| F R |
-	F _ 2 atRandom = 1 ifTrue: [„] ifFalse: [GaloisField new: 5 atRandom nextPrime to: 3 atRandom].
-	R _ F polynomials.
-	self testEuclideanRing: R! !
-
-!RingTest methodsFor: 'euclidean' stamp: 'len 5/23/2020 09:33:01'!
-testPolynomialsOverFieldLCM
-	| F R |
-	F _ 2 atRandom = 1 ifTrue: [„] ifFalse: [GaloisField new: 5 atRandom nextPrime to: 3 atRandom].
-	R _ F polynomials.
-	self testLCM: R! !
-
-!RingTest methodsFor: 'euclidean' stamp: 'len 5/23/2020 09:33:01'!
-testPolynomialsOverFieldXXGCD
-	| F R |
-	F _ 2 atRandom = 1 ifTrue: [„] ifFalse: [GaloisField new: 5 atRandom nextPrime to: 3 atRandom].
-	R _ F polynomials.
-	self testXXGCD: R! !
-
-!RingTest methodsFor: 'euclidean' stamp: 'len 6/16/2019 17:46:04'!
-testPrimePowerRingIsEuclidean
-	| p k R |
-	p _ 10 atRandom nextPrime.
-	k _ 10 atRandom.
-	R _ PrimePowerRing new: p to: k.
-	self testEuclideanRing: R! !
-
-!RingTest methodsFor: 'euclidean' stamp: 'len 5/23/2020 09:34:55'!
-testRationalIntegerRingGCDAndLCM
-	self testGCD: ƒ.
-	self testLCM: ƒ! !
-
-!RingTest methodsFor: 'euclidean' stamp: 'len 5/23/2020 09:34:55'!
-testRationalIntegerRingIsEuclidean
-	self testEuclideanRing: ƒ! !
-
-!RingTest methodsFor: 'euclidean' stamp: 'len 12/29/2021 12:18:15'!
-testSmallEuclideanRing: R
-	"Test division on all pairs of elements:"
-	R do: [:b|
-		b isZero ifFalse:
-			[R do: [:a|
-				| q r |
-				q _ a // b.
-				r _ a \\ b.
-				self assert: a = (q * b + r).
-				self assert: (r isZero or: [r gauge < b gauge])]]]! !
-
-!RingTest methodsFor: 'euclidean' stamp: 'len 12/22/2021 14:20:42'!
-testValuationRingGCD
-	| R |
-	R _ ƒ @ 5.
-	self testGCD: R! !
-
-!RingTest methodsFor: 'euclidean' stamp: 'len 12/22/2021 14:20:47'!
-testValuationRingIsEuclidean
-	| R |
-	R _ ƒ @ 5.
-	self testEuclideanRing: R! !
-
-!RingTest methodsFor: 'euclidean' stamp: 'len 12/22/2021 14:20:52'!
-testValuationRingLCM
-	| R |
-	R _ ƒ @ 5.
-	self testLCM: R! !
-
-!RingTest methodsFor: 'euclidean' stamp: 'len 5/18/2020 09:02:31'!
-testXXGCD: R
-	100 timesRepeat:
-		[| a b |
-		a _ R atRandomBits: 30.
-		b _ R atRandomBits: 30.
-		self testXXGCD: a with: b]! !
-
-!RingTest methodsFor: 'euclidean' stamp: 'len 5/18/2020 08:50:20'!
-testXXGCD: a with: b
-	| result g s t u v |
-	result _ a xxgcd: b.
-	g _ result at: 1.
-	s _ result at: 2.
-	t _ result at: 3.
-	u _ result at: 4.
-	v _ result at: 5.
-	self assert: g = (a gcd: b).
-	self assert: s*a + (t*b) = g.
-	self assert: (u*a + (v*b)) isZero.
-	self assert: (s*v - (t*u)) isUnit! !
-
-!RingTest methodsFor: 'finite rings' stamp: 'len 5/23/2020 09:34:55'!
+!RingTest methodsFor: 'finite rings' stamp: 'len 1/6/2022 09:23:48'!
 testFiniteRing1
 	| R |
 	R _ (ƒ/2) polynomials.
@@ -10777,11 +10697,11 @@ testFiniteRing1
 	self assert: R isField not.
 	self assert: R size = 8.
 	self assert: R units size = 2.
-	self assert: R zeroDivisors size = 6.
+	self assert: R zerodivisors size = 6.
 	self assert: R radical asSet = {R zero. R x^2 + R x} asSet
 	"also, this ring has two maximal ideals"! !
 
-!RingTest methodsFor: 'finite rings' stamp: 'len 5/23/2020 09:34:55'!
+!RingTest methodsFor: 'finite rings' stamp: 'len 1/6/2022 09:23:53'!
 testFiniteRing2
 	| R |
 	R _ (ƒ/2) polynomials.
@@ -10790,12 +10710,12 @@ testFiniteRing2
 	self testSmallRingUnitsAndAssociates: R.
 	self assert: R isField not.
 	self assert: R size = 4.
-	self assert: R zeroDivisors size = 3.
+	self assert: R zerodivisors size = 3.
 	self assert: R characteristic = 2.
 	self assert: R isLocal not.
 	"more about this ring: two maximal (and princial as well) ideals (so not a local ring)"! !
 
-!RingTest methodsFor: 'finite rings' stamp: 'len 5/23/2020 09:34:55'!
+!RingTest methodsFor: 'finite rings' stamp: 'len 1/6/2022 09:23:58'!
 testFiniteRing2Alternative
 	| R |
 	R _ ƒ/2 × (ƒ/2).
@@ -10803,12 +10723,12 @@ testFiniteRing2Alternative
 	self testSmallRingUnitsAndAssociates: R.
 	self assert: R isField not.
 	self assert: R size = 4.
-	self assert: R zeroDivisors size = 3.
+	self assert: R zerodivisors size = 3.
 	self assert: R characteristic = 2.
 	self assert: R isLocal not.
 	"more about this ring: two maximal (and principal as well) ideals (so not a local ring)"! !
 
-!RingTest methodsFor: 'finite rings' stamp: 'len 5/23/2020 09:34:55'!
+!RingTest methodsFor: 'finite rings' stamp: 'len 1/6/2022 09:24:02'!
 testFiniteRing3
 	| R |
 	R _ ƒ/4 × (ƒ/4).
@@ -10817,7 +10737,7 @@ testFiniteRing3
 	self assert: R characteristic = 4.
 	self assert: R isField not.
 	self assert: R size = 16.
-	self assert: R zeroDivisors size = 12.
+	self assert: R zerodivisors size = 12.
 	self assert: R units size = 4.
 	self assert: R radical isTrivial not.
 	"more about this ring: two maximal ideals (so not a local ring), and non-trivial jacobson radical"! !
@@ -11395,14 +11315,6 @@ testValuationRing2
 	| V |
 	V _ ƒ @ 5.
 	self testDVR: V! !
-
-!RingTest methodsFor: 'localizations' stamp: 'len 5/13/2020 06:50:08'!
-testFractionsRing
-	| R F |
-	R _ self newRing.
-	F _ R fractions.
-	self testRing: R.
-	self testRingHomomorphism: R -> F! !
 
 !RingTest methodsFor: 'localizations' stamp: 'len 12/22/2021 14:19:40'!
 testLocalizationInclusions
@@ -12240,17 +12152,17 @@ testRealAlgebraicNumberSquare
 	sqrt2 _ RealAlgebraicNumber sqrt2.
 	10 timesRepeat: [sqrt2 squared]! !
 
-!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 5/23/2020 09:33:01'!
+!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 1/13/2022 11:36:02'!
 testCyclic3
-	(„ polynomialsIn: 3) cyclicIdeal groebnerBasis! !
+	(„ polynomialsIn: 3) cyclicIdeal basis! !
 
-!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 5/23/2020 09:33:01'!
+!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 1/13/2022 11:36:06'!
 testCyclic4
-	(„ polynomialsIn: 4) cyclicIdeal groebnerBasis! !
+	(„ polynomialsIn: 4) cyclicIdeal basis! !
 
-!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 5/23/2020 09:33:01'!
+!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 1/13/2022 11:36:13'!
 testCyclic5
-	(„ polynomialsIn: 5) cyclicIdeal groebnerBasis! !
+	(„ polynomialsIn: 5) cyclicIdeal basis! !
 
 !GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 5/23/2020 09:33:01'!
 testEliminationExample
@@ -12260,41 +12172,41 @@ testEliminationExample
 	I _ Qx * {x^2 + y + z - 1. x + (y^2) + z - 1. x + y + (z^2) - 1}.
 	I eliminateAll: #(1 2)! !
 
-!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 5/23/2020 09:33:01'!
+!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 1/13/2022 11:36:17'!
 testKatsura2
-	(„ polynomialsIn: 2) katsuraIdeal groebnerBasis! !
+	(„ polynomialsIn: 2) katsuraIdeal basis! !
 
-!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 5/23/2020 09:33:01'!
+!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 1/13/2022 11:36:21'!
 testKatsura3
-	(„ polynomialsIn: 3) katsuraIdeal groebnerBasis! !
+	(„ polynomialsIn: 3) katsuraIdeal basis! !
 
-!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 5/23/2020 09:33:01'!
+!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 1/13/2022 11:36:25'!
 testKatsura4
-	(„ polynomialsIn: 4) katsuraIdeal groebnerBasis! !
+	(„ polynomialsIn: 4) katsuraIdeal basis! !
 
-!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 5/12/2018 17:03:54'!
+!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 1/13/2022 11:36:29'!
 testModularCyclic3
-	((PrimeField new: 32003) polynomialsIn: 3) cyclicIdeal groebnerBasis! !
+	((PrimeField new: 32003) polynomialsIn: 3) cyclicIdeal basis! !
 
-!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 5/5/2019 05:10:15'!
+!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 1/13/2022 11:36:33'!
 testModularCyclic4
-	((PrimeField new: 32003) polynomialsIn: 4) cyclicIdeal groebnerBasis! !
+	((PrimeField new: 32003) polynomialsIn: 4) cyclicIdeal basis! !
 
-!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 5/5/2019 05:09:43'!
+!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 1/13/2022 11:36:38'!
 testModularCyclic5
-	((PrimeField new: 32003) polynomialsIn: 5) cyclicIdeal groebnerBasis! !
+	((PrimeField new: 32003) polynomialsIn: 5) cyclicIdeal basis! !
 
-!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 5/12/2018 17:15:14'!
+!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 1/13/2022 11:36:42'!
 testModularKatsura2
-	((PrimeField new: 32003) polynomialsIn: 2) katsuraIdeal groebnerBasis! !
+	((PrimeField new: 32003) polynomialsIn: 2) katsuraIdeal basis! !
 
-!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 5/12/2018 17:15:31'!
+!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 1/13/2022 11:36:46'!
 testModularKatsura3
-	((PrimeField new: 32003) polynomialsIn: 3) katsuraIdeal groebnerBasis! !
+	((PrimeField new: 32003) polynomialsIn: 3) katsuraIdeal basis! !
 
-!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 5/12/2018 17:15:39'!
+!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 1/13/2022 11:36:50'!
 testModularKatsura4
-	((PrimeField new: 32003) polynomialsIn: 4) katsuraIdeal groebnerBasis! !
+	((PrimeField new: 32003) polynomialsIn: 4) katsuraIdeal basis! !
 
 !GroupBenchmark methodsFor: 'as yet unclassified' stamp: 'len 11/15/2016 06:42'!
 testJ1Order
