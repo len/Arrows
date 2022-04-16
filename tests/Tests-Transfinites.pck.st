@@ -1,27 +1,27 @@
-'From Cuis 6.0 [latest update: #5053] on 16 April 2022 at 2:13:19 pm'!
+'From Cuis 6.0 [latest update: #5053] on 16 April 2022 at 8:08:42 pm'!
 'Description '!
-!provides: 'Tests-Transfinite' 1 0!
-!requires: 'Transfinite' 1 0 nil!
-SystemOrganization addCategory: #'Tests-Transfinite'!
+!provides: 'Tests-Transfinites' 1 1!
+!requires: 'Transfinites' 1 0 nil!
+SystemOrganization addCategory: #'Tests-Transfinites'!
 
 
-!classDefinition: #InfinityTest category: #'Tests-Transfinite'!
+!classDefinition: #InfinityTest category: #'Tests-Transfinites'!
 TestCase subclass: #InfinityTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Tests-Transfinite'!
-!classDefinition: 'InfinityTest class' category: #'Tests-Transfinite'!
+	category: 'Tests-Transfinites'!
+!classDefinition: 'InfinityTest class' category: #'Tests-Transfinites'!
 InfinityTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #OrdinalsTest category: #'Tests-Transfinite'!
+!classDefinition: #OrdinalsTest category: #'Tests-Transfinites'!
 TestCase subclass: #OrdinalsTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Tests-Transfinite'!
-!classDefinition: 'OrdinalsTest class' category: #'Tests-Transfinite'!
+	category: 'Tests-Transfinites'!
+!classDefinition: 'OrdinalsTest class' category: #'Tests-Transfinites'!
 OrdinalsTest class
 	instanceVariableNames: ''!
 

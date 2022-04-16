@@ -1,36 +1,36 @@
-'From Cuis 6.0 [latest update: #5053] on 16 April 2022 at 1:27:05 pm'!
+'From Cuis 6.0 [latest update: #5053] on 16 April 2022 at 8:04:19 pm'!
 'Description '!
-!provides: 'Transfinite' 1 0!
-SystemOrganization addCategory: #Transfinite!
+!provides: 'Transfinites' 1 0!
+SystemOrganization addCategory: #Transfinites!
 
 
-!classDefinition: #Cardinal category: #Transfinite!
+!classDefinition: #Cardinal category: #Transfinites!
 Magnitude subclass: #Cardinal
 	instanceVariableNames: 'order'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Transfinite'!
-!classDefinition: 'Cardinal class' category: #Transfinite!
+	category: 'Transfinites'!
+!classDefinition: 'Cardinal class' category: #Transfinites!
 Cardinal class
 	instanceVariableNames: ''!
 
-!classDefinition: #Infinity category: #Transfinite!
+!classDefinition: #Infinity category: #Transfinites!
 Magnitude subclass: #Infinity
 	instanceVariableNames: 'sign'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Transfinite'!
-!classDefinition: 'Infinity class' category: #Transfinite!
+	category: 'Transfinites'!
+!classDefinition: 'Infinity class' category: #Transfinites!
 Infinity class
 	instanceVariableNames: ''!
 
-!classDefinition: #Ordinal category: #Transfinite!
+!classDefinition: #Ordinal category: #Transfinites!
 Magnitude subclass: #Ordinal
 	instanceVariableNames: 'terms'
 	classVariableNames: 'Zero'
 	poolDictionaries: ''
-	category: 'Transfinite'!
-!classDefinition: 'Ordinal class' category: #Transfinite!
+	category: 'Transfinites'!
+!classDefinition: 'Ordinal class' category: #Transfinites!
 Ordinal class
 	instanceVariableNames: ''!
 
@@ -483,15 +483,15 @@ initialize
 	Zero _ self terms: #().
 	Smalltalk at: #˜ put: Zero exp exp! !
 
-!Object methodsFor: '*transfinite' stamp: 'len 11/19/2015 17:01'!
+!Object methodsFor: '*transfinites' stamp: 'len 11/19/2015 17:01'!
 isInfinity
 	^ false! !
 
-!Magnitude methodsFor: '*transfinite' stamp: 'len 10/18/2016 13:58'!
+!Magnitude methodsFor: '*transfinites' stamp: 'len 10/18/2016 13:58'!
 isFinite
 	^ self isInfinite not! !
 
-!Magnitude methodsFor: '*transfinite' stamp: 'len 10/18/2016 13:57'!
+!Magnitude methodsFor: '*transfinites' stamp: 'len 10/18/2016 13:57'!
 isInfinite
 	^ false! !
 Ordinal initialize!
