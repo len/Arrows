@@ -1,7 +1,7 @@
-'From Cuis 6.0 [latest update: #5053] on 13 April 2022 at 1:37:03 pm'!
+'From Cuis 6.0 [latest update: #5053] on 16 April 2022 at 2:12:59 pm'!
 'Description '!
-!provides: 'Modular Forms' 1 1!
-!requires: 'Domains' 1 647 nil!
+!provides: 'Modular Forms' 1 2!
+!requires: 'Algebra' 1 0 nil!
 SystemOrganization addCategory: #'Modular Forms'!
 
 

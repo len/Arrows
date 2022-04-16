@@ -1,7 +1,7 @@
-'From Cuis 6.0 [latest update: #5053] on 16 April 2022 at 1:26:28 pm'!
+'From Cuis 6.0 [latest update: #5053] on 16 April 2022 at 2:12:51 pm'!
 'Description '!
-!provides: 'Lattices' 1 0!
-!requires: 'Domains' 1 648 nil!
+!provides: 'Lattices' 1 1!
+!requires: 'Algebra' 1 0 nil!
 SystemOrganization addCategory: #Lattices!
 
 

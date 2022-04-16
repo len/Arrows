@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5053] on 16 April 2022 at 1:26:24 pm'!
+'From Cuis 6.0 [latest update: #5053] on 16 April 2022 at 2:12:47 pm'!
 'Description '!
-!provides: 'Graphs' 1 0!
+!provides: 'Graphs' 1 1!
 !requires: 'Collections-Extras' 1 1 nil!
 !requires: 'Collections-Iterator' 1 1 nil!
 SystemOrganization addCategory: #Graphs!

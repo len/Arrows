@@ -1,7 +1,7 @@
-'From Cuis 6.0 [latest update: #5053] on 16 April 2022 at 1:26:36 pm'!
+'From Cuis 6.0 [latest update: #5053] on 16 April 2022 at 2:13:04 pm'!
 'Description '!
-!provides: 'Tableaux' 1 0!
-!requires: 'Domains' 1 648 nil!
+!provides: 'Tableaux' 1 1!
+!requires: 'Algebra' 1 0 nil!
 SystemOrganization addCategory: #Tableaux!
 
 
