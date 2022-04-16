@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5053] on 13 April 2022 at 1:36:24 pm'!
+'From Cuis 6.0 [latest update: #5053] on 16 April 2022 at 1:26:44 pm'!
 'Description '!
-!provides: 'Tests-Domains' 1 12!
+!provides: 'Tests-Domains' 1 13!
 !requires: 'Domains' 1 613 nil!
 SystemOrganization addCategory: #'Tests-Domains'!
 SystemOrganization addCategory: #'Tests-Domains-Tuples'!
@@ -810,6 +810,16 @@ TestCase subclass: #AlgebraicGeometryTest
 AlgebraicGeometryTest class
 	instanceVariableNames: ''!
 
+!classDefinition: #AlgebraicGraphTest category: #'Tests-Domains'!
+TestCase subclass: #AlgebraicGraphTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Domains'!
+!classDefinition: 'AlgebraicGraphTest class' category: #'Tests-Domains'!
+AlgebraicGraphTest class
+	instanceVariableNames: ''!
+
 !classDefinition: #AlgebraicNumbersTest category: #'Tests-Domains'!
 TestCase subclass: #AlgebraicNumbersTest
 	instanceVariableNames: ''
@@ -840,16 +850,6 @@ TestCase subclass: #ChainComplexTest
 ChainComplexTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #CodesTest category: #'Tests-Domains'!
-TestCase subclass: #CodesTest
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Tests-Domains'!
-!classDefinition: 'CodesTest class' category: #'Tests-Domains'!
-CodesTest class
-	instanceVariableNames: ''!
-
 !classDefinition: #CommutativeAlgebraTest category: #'Tests-Domains'!
 TestCase subclass: #CommutativeAlgebraTest
 	instanceVariableNames: ''
@@ -860,16 +860,6 @@ TestCase subclass: #CommutativeAlgebraTest
 CommutativeAlgebraTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #GraphTest category: #'Tests-Domains'!
-TestCase subclass: #GraphTest
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Tests-Domains'!
-!classDefinition: 'GraphTest class' category: #'Tests-Domains'!
-GraphTest class
-	instanceVariableNames: ''!
-
 !classDefinition: #GroupTest category: #'Tests-Domains'!
 TestCase subclass: #GroupTest
 	instanceVariableNames: ''
@@ -878,16 +868,6 @@ TestCase subclass: #GroupTest
 	category: 'Tests-Domains'!
 !classDefinition: 'GroupTest class' category: #'Tests-Domains'!
 GroupTest class
-	instanceVariableNames: ''!
-
-!classDefinition: #LatticeTest category: #'Tests-Domains'!
-TestCase subclass: #LatticeTest
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Tests-Domains'!
-!classDefinition: 'LatticeTest class' category: #'Tests-Domains'!
-LatticeTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #LinearGroupsTest category: #'Tests-Domains'!
@@ -948,16 +928,6 @@ TestCase subclass: #NumberFieldTest
 	category: 'Tests-Domains'!
 !classDefinition: 'NumberFieldTest class' category: #'Tests-Domains'!
 NumberFieldTest class
-	instanceVariableNames: ''!
-
-!classDefinition: #OrdinalsTest category: #'Tests-Domains'!
-TestCase subclass: #OrdinalsTest
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Tests-Domains'!
-!classDefinition: 'OrdinalsTest class' category: #'Tests-Domains'!
-OrdinalsTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #PAdicsTest category: #'Tests-Domains'!
@@ -6001,6 +5971,109 @@ testTangentConeAndTangentSpace
 	"the tangent space is the whole plane:"
 	self assert: o tangentSpace = A! !
 
+!AlgebraicGraphTest methodsFor: 'as yet unclassified' stamp: 'len 4/16/2022 13:08:30'!
+testAutomorphismsK3
+	"Aut(K3) = Sym(3)"
+	| G A |
+	G _ Graph K: 3.
+	A _ G automorphisms.
+	self assert: A = A ambient
+! !
+
+!AlgebraicGraphTest methodsFor: 'as yet unclassified' stamp: 'len 4/16/2022 13:08:37'!
+testAutomorphismsP3
+	"Aut(P3) = {id, (1 3)}"
+	| G A |
+	G _ Graph P: 3.
+	A _ G automorphisms.
+	self assert: A = (PermutationGroup on: G values generators: {#((1 3))})! !
+
+!AlgebraicGraphTest methodsFor: 'as yet unclassified' stamp: 'len 4/16/2022 13:08:46'!
+testChromaticNumber
+	| G |
+	G _ Graph unordered add: 1; add: 2; add: 3; yourself. 
+	self assert: G chromaticNumber = 1. "edgeless graph"
+	self assert: (Graph K: 3) chromaticNumber = 3.
+	self assert: (Graph C: 5) chromaticNumber = 3.
+	self assert: (Graph C: 6) chromaticNumber = 2.
+	self assert: (Graph W: 6) chromaticNumber = 4.
+	self assert: (Graph W: 5) chromaticNumber = 3.
+	self assert: (Graph S: 6) chromaticNumber = 2! !
+
+!AlgebraicGraphTest methodsFor: 'as yet unclassified' stamp: 'len 4/16/2022 13:08:55'!
+testChromaticPolynomialComplete
+	| x |
+	x _ É polynomials x.
+	self assert: (Graph K: 3) chromaticPolynomial = (x*(x-1)*(x-2))! !
+
+!AlgebraicGraphTest methodsFor: 'as yet unclassified' stamp: 'len 4/16/2022 13:09:03'!
+testChromaticPolynomialCylic
+	| x n |
+	x _ É polynomials x.
+	n _ 4 atRandom.
+	self assert: (Graph C: n) chromaticPolynomial = (x-1^n + ((-1)^n * (x-1)))! !
+
+!AlgebraicGraphTest methodsFor: 'as yet unclassified' stamp: 'len 4/16/2022 13:09:12'!
+testChromaticPolynomialPath
+	| x n |
+	x _ É polynomials x.
+	n _ 4 atRandom + 1.
+	self assert: (Graph P: n) chromaticPolynomial = (x-1^(n-1)*x)! !
+
+!AlgebraicGraphTest methodsFor: 'as yet unclassified' stamp: 'len 4/16/2022 13:09:52'!
+testIsomorphism
+	| G H |
+	G _ Graph unordered.
+	5 timesRepeat: [G addEdge: 5 atRandom -> 5 atRandom].
+	H _ G shuffled.
+	self assert: G ~ H.
+	G _ Graph C: 5. "pentagon"
+	H _ G copy.
+	G addEdges: {1 -> 6. 6 -> 2}. "make a little triangle"
+	H addEdges: {1 -> 6. 6 -> 3}. "same, but skip vertex 2 in the middle"
+	H _ H shuffled.
+	self deny: G ~ H! !
+
+!AlgebraicGraphTest methodsFor: 'as yet unclassified' stamp: 'len 4/16/2022 13:10:09'!
+testTuttePolynomial
+	| G P x y T |
+	G _ Graph ordered addEdges: {1->2. 2->3. 3->4. 4->1. 1->3}; yourself.
+	P _ É polynomialsIn: #(x y).
+	x _ P x.
+	y _ P y.
+	T _ x*(x^2 + (x+y)) + (x^2 + (x+y)) + (x*y + (y^2)).
+	self assert: G tuttePolynomial = T! !
+
+!AlgebraicGraphTest methodsFor: 'as yet unclassified' stamp: 'len 4/16/2022 13:10:14'!
+testTuttePolynomial2
+	| G P x y T |
+	G _ Graph ordered addEdges: {1->2. 2->3. 3->4. 4->1. 1->3}; yourself.
+	P _ É polynomialsIn: #(x y).
+	x _ P x.
+	y _ P y.
+	T _ x*(x^2 + (x+y)) + (x^2 + (x+y)) + (x*y + (y^2)).
+	self assert: G tuttePolynomial = T! !
+
+!AlgebraicGraphTest methodsFor: 'as yet unclassified' stamp: 'len 4/16/2022 13:10:19'!
+testTuttePolynomialK3
+	| G P x y T |
+	G _ Graph K: 3.
+	P _ É polynomialsIn: #(x y).
+	x _ P x.
+	y _ P y.
+	T _ x^2 + x + y.
+	self assert: G tuttePolynomial = T! !
+
+!AlgebraicGraphTest methodsFor: 'as yet unclassified' stamp: 'len 4/16/2022 13:10:25'!
+testTuttePolynomialK4
+	| G P x y T |
+	G _ Graph K: 4.
+	P _ É polynomialsIn: #(x y).
+	x _ P x.
+	y _ P y.
+	T _ x^3 + (x^2*3) + (x*2) + (x*y*4) + (y*2) + (y^2*3) + (y^3).
+	self assert: G tuttePolynomial = T! !
+
 !AlgebraicNumbersTest methodsFor: 'as yet unclassified' stamp: 'len 4/30/2018 05:39:40'!
 testArithmetic
 	| sqrt2 sqrt3 sqrt5 sqrt6 |
@@ -6213,270 +6286,6 @@ testShift
 	self assert: (C >> k) maxDegree = (C maxDegree + k).
 	i _ (-5 to: 5) atRandom.
 	self assert: (C >> k at: i+k) = ((C at: i) * ((-1)^k))! !
-
-!CodesTest methodsFor: 'as yet unclassified' stamp: 'len 8/3/2020 09:24:05'!
-newBinaryCode
-	3 atRandom = 1 ifTrue: [| r m | m _ (1 to: 4) atRandom. r _ (0 to: m) atRandom. ^ Code RM: {r. m}].
-	^ Code perform: #(H7 H8 G23 G24 hadamard8 simplex) atRandom! !
-
-!CodesTest methodsFor: 'as yet unclassified' stamp: 'len 8/3/2020 09:39:35'!
-newCode
-	^ 3 atRandom = 1 ifTrue: [self newTernaryCode] ifFalse: [self newBinaryCode]! !
-
-!CodesTest methodsFor: 'as yet unclassified' stamp: 'len 8/3/2020 09:24:54'!
-newTernaryCode
-	^ Code perform: #(G11 G12 tetracode) atRandom! !
-
-!CodesTest methodsFor: 'as yet unclassified' stamp: 'len 8/3/2020 09:54:45'!
-testAugmentedCode
-	| C A |
-	C _ self newCode.
-	A _ C augmented.
-	self assert: (A includes: (A space filling: [:i| 1])).
-	(C includes: (C space filling: [:i| 1])) ifTrue: [self assert: C = A]! !
-
-!CodesTest methodsFor: 'as yet unclassified' stamp: 'len 8/3/2020 09:39:56'!
-testConstructionADeterminant
-	| C L |
-	C _ self newCode.
-	L _ C asLattice.
-	self assert: L determinant = (C scalars characteristic ^ (C length - C rank))! !
-
-!CodesTest methodsFor: 'as yet unclassified' stamp: 'len 8/3/2020 09:39:45'!
-testConstructionADual
-	| C |
-	C _ self newCode.
-	self assert: C asLattice dual = C dual asLattice! !
-
-!CodesTest methodsFor: 'as yet unclassified' stamp: 'len 8/3/2020 09:28:39'!
-testDirectSumCode
-	| C1 C2 C x y z |
-	C1 _ self newBinaryCode.
-	C2 _ self newBinaryCode.
-	C _ C1 ê C2.
-	x _ C1 atRandom.
-	y _ C2 atRandom.
-	self assert: (C includes: x, y).
-	z _ C atRandom.
-	self assert: (C1 includes: (z copyFrom: 1 to: C1 length)).
-	self assert: (C2 includes: (z copyFrom: C1 length + 1 to: C length))! !
-
-!CodesTest methodsFor: 'as yet unclassified' stamp: 'len 8/2/2020 18:35:34'!
-testDual
-	| C |
-	C _ Code on: (É/2^5 span: {(0,0,0,0,0) % 2. (1,1,1,1,1) % 2}).
-	self assert: C dual size = (C space size / C size).
-	C dual do: [:v|
-		"check each codeword of the dual has an even number of 1's, because it must be perpendicular to 11111 (and 00000 of course)."
-		self assert: (v count: [:each| each = (1 % 2)]) even]
-! !
-
-!CodesTest methodsFor: 'as yet unclassified' stamp: 'len 8/3/2020 09:55:28'!
-testExtendedCode
-	| C E |
-	C _ self newCode.
-	E _ C extended.
-	self assert: (E asModule generators allSatisfy: [:each| each sum isZero])! !
-
-!CodesTest methodsFor: 'as yet unclassified' stamp: 'len 8/2/2020 18:45:14'!
-testGolay11
-	| C |
-	C _ Code G11.
-	self assert: C length = 11.
-	self assert: C rank = 6.
-	self assert: C minimumDistance = 5! !
-
-!CodesTest methodsFor: 'as yet unclassified' stamp: 'len 8/2/2020 18:45:37'!
-testGolay12
-	| C |
-	C _ Code G12.
-	self assert: C length = 12.
-	self assert: C rank = 6.
-	self assert: C minimumDistance = 6! !
-
-!CodesTest methodsFor: 'as yet unclassified' stamp: 'len 8/2/2020 18:47:05'!
-testGolay23
-	| C |
-	C _ Code G23.
-	self assert: C length = 23.
-	self assert: C rank = 12.
-	self assert: C minimumDistance = 7.
-"	self assert: C isPerfect"! !
-
-!CodesTest methodsFor: 'as yet unclassified' stamp: 'len 8/2/2020 18:48:00'!
-testGolay24
-	| C W x y |
-	C _ Code G24.
-	self assert: C length = 24.
-	self assert: C rank = 12.
-	self assert: C minimumDistance = 8.
-	self assert: C isSelfDual.
-	W _ C weightEnumerator.
-	x _ W parent x.
-	y _ W parent y.
-	self assert: W = (x^24 + (x^16*(y^8)*759) + (x^12*(y^12)*2576) + (x^8*(y^16)*759) + (y^24)) "typo in neil's video 22:20"! !
-
-!CodesTest methodsFor: 'as yet unclassified' stamp: 'len 8/2/2020 18:59:37'!
-testHamming743
-	| H7 |
-	H7 _ Code H7.
-	self assert: H7 isCyclic.
-	self assert: H7 length = 7.
-	self assert: H7 rank = 4.
-	self assert: H7 minimumDistance = 3.
-	self assert: H7 weightDistribution = #(0 3 3 3 3 3 3 3 4 4 4 4 4 4 4 7) asBag.
-	self assert: H7 dual minimumDistance = 4! !
-
-!CodesTest methodsFor: 'as yet unclassified' stamp: 'len 8/2/2020 18:59:24'!
-testHamming743p
-	| H7 |
-	H7 _ Code H7p.
-	self assert: H7 isCyclic.
-	self assert: H7 length = 7.
-	self assert: H7 rank = 4.
-	self assert: H7 minimumDistance = 3.
-	self assert: H7 weightDistribution = #(0 3 3 3 3 3 3 3 4 4 4 4 4 4 4 7) asBag.
-	self assert: H7 dual minimumDistance = 4! !
-
-!CodesTest methodsFor: 'as yet unclassified' stamp: 'len 8/2/2020 19:00:05'!
-testHamming844
-	| C P x y |
-	C _ Code H8.
-	self assert: C isSelfDual.
-	self assert: C isSelfOrthogonal.
-	self assert: C length = 8.
-	self assert: C rank = 4.
-	self assert: C minimumDistance = 4.
-	self assert: C dual minimumDistance = 4.
-	P _ É polynomialsIn: 2.
-	x _ P x. y _ P y.
-	self assert: C weightEnumerator = (x^8 + (x*y^4*14) + (y^8))! !
-
-!CodesTest methodsFor: 'as yet unclassified' stamp: 'len 8/2/2020 18:35:34'!
-testMacWilliamsTheorem
-	"(MacWilliams, 1962) the theorem relates the weight enumerator of a linear code to the weight enumerator of its dual."
-	"From youtube, Neil Sloane 'Error Correcting Codes, Group Theory and Invariant Theory, Part 1' 20:30."
-	| C W Wperp x y |
-	C _ Code H7.
-	W _ C weightEnumerator.
-	Wperp _ C dual weightEnumerator.
-	x _ Wperp parent x.
-	y _ Wperp parent y.
-	self assert: Wperp = ((W value: {x+y. x-y}) / C size)! !
-
-!CodesTest methodsFor: 'as yet unclassified' stamp: 'len 8/10/2020 06:35:48'!
-testParityCheckMatrix
-	| C G P |
-	C _ self newCode.
-	G _ C generatorMatrix.
-	P _ C parityCheckMatrix.
-	self assert: (P * G) isZero.
-	self assert: (P * C atRandom) isZero! !
-
-!CodesTest methodsFor: 'as yet unclassified' stamp: 'len 8/10/2020 06:34:49'!
-testParityCheckMatrix2
-	| H7 M |
-	H7 _ Code H7.
-	M _ H7 parityCheckMatrix.
-	self assert: (M * H7 atRandom) isZero! !
-
-!CodesTest methodsFor: 'as yet unclassified' stamp: 'len 8/3/2020 09:25:14'!
-testProductCode
-	| C1 C2 C |
-	C1 _ self newBinaryCode.
-	C2 _ self newBinaryCode.
-	C _ C1 ◊ C2.
-	self assert: C length = (C1 length * C2 length).
-	self assert: C dimension = (C1 dimension * C2 dimension)! !
-
-!CodesTest methodsFor: 'as yet unclassified' stamp: 'len 8/3/2020 07:02:46'!
-testReedMuller
-	| m r C |
-	m _ (1 to: 4) atRandom.
-	r _ (0 to: m) atRandom.
-	C _ Code RM: {r. m}.
-	C isTrivial ifTrue: [^ self].
-	self assert: C length = (2^m).
-	self assert: C minimumDistance = (2^(m-r)).
-	self assert: C dimension = ((0 to: r) sum: [:k| m choose: k])! !
-
-!CodesTest methodsFor: 'as yet unclassified' stamp: 'len 8/3/2020 06:34:39'!
-testReedMuller2
-	| m i j Ci Cj |
-	m _ (0 to: 4) atRandom.
-	j _ (0 to: m) atRandom.
-	i _ (0 to: j) atRandom.
-	Ci _ Code RM: {i. m}.
-	Cj _ Code RM: {j. m}.
-	self assert: Ci <= Cj! !
-
-!CodesTest methodsFor: 'as yet unclassified' stamp: 'len 8/3/2020 06:49:54'!
-testReedMuller3
-	| m C |
-	m _ (0 to: 4) atRandom.
-	C _ Code RM: {m. m}.
-	self assert: C dual isTrivial! !
-
-!CodesTest methodsFor: 'as yet unclassified' stamp: 'len 8/3/2020 06:51:28'!
-testReedMuller4
-	| m r C D |
-	m _ (1 to: 4) atRandom.
-	r _ (0 to: m-1) atRandom.
-	C _ Code RM: {r. m}.
-	D _ Code RM: {m-r-1. m}.
-	self assert: C dual = D! !
-
-!CodesTest methodsFor: 'as yet unclassified' stamp: 'len 8/2/2020 18:35:34'!
-testSelfDual
-	| F C |
-	F _ É/2.
-	"{00,11} is the smallest self-dual code"
-	C _ Code on: (F^2 span: {(0,0) % 2. (1,1) % 2}).
-	self assert: C isSelfDual.
-	self assert: C isSelfOrthogonal.
-	"TODO: test other examples of self-dual codes: H8, G24"! !
-
-!CodesTest methodsFor: 'as yet unclassified' stamp: 'len 5/12/2016 07:28'!
-testSingletonBound: C
-	"Any linear [n,k,d] code satisfies k + d <= n + 1."
-	| n k d |
-	n _ C length.
-	k _ C rank.
-	d _ C minimumDistance.
-	self assert: k + d <= (n + 1).! !
-
-!CodesTest methodsFor: 'as yet unclassified' stamp: 'len 8/2/2020 18:35:34'!
-testSingletonBoundH7
-	"Any linear [n,k,d] code satisfies k + d <= n + 1."
-	self testSingletonBound: Code H7! !
-
-!CodesTest methodsFor: 'as yet unclassified' stamp: 'len 8/2/2020 18:35:34'!
-testSingletonBoundTetracode
-	"Any linear [n,k,d] code satisfies k + d <= n + 1."
-	self testSingletonBound: Code tetracode! !
-
-!CodesTest methodsFor: 'as yet unclassified' stamp: 'len 8/2/2020 18:35:34'!
-testTetracode
-	| C P x y |
-	C _ Code on: (É/3 ^ 4 span: {(1,1,1,0) % 3. (0,1,2,1) % 3}).
-	self assert: C isSelfDual.
-	self assert: C minimumDistance = 3.
-	P _ É polynomialsIn: #(x y).
-	x _ P x.
-	y _ P y.
-	self assert: C weightEnumerator = (x^4 + (x*(y^3)*8))! !
-
-!CodesTest methodsFor: 'as yet unclassified' stamp: 'len 8/2/2020 18:35:34'!
-testWeightEnumerator
-	"From youtube, Neil Sloane 'error correcting codes, group theory and invariant theory part 1' 19:30."
-	| F C w x y |
-	F _ É/2.
-	C _ Code on: (F^5 span: {(0,0,0,0,0) % 2. (1,1,1,1,1) % 2}).
-	w _ C weightEnumerator.
-	x _ w parent x.
-	y _ w parent y.
-	self assert: w = (x^5 + (y^5)).
-	self assert: C dual weightEnumerator = (x^5 + (x^3*(y^2)*10) + (y^4*x*5))! !
 
 !CommutativeAlgebraTest methodsFor: 'affine ring' stamp: 'len 5/23/2020 09:33:01'!
 testAffineRingElementOperations
@@ -7257,261 +7066,6 @@ testKatsura7Correctness
 	#('(' ')' '{' '}' ' ') do: [:each| txt _ txt copyReplaceAll: each with: ''].
 	self assert: txt = 'x1^2+2x2^2+2x3^2+2x4^2+2x5^2+2x6^2+2x7^2-x1,2x1x2+2x2x3+2x3x4+2x4x5+2x5x6+2x6x7-x2,x2^2+2x1x3+2x2x4+2x3x5+2x4x6+2x5x7-x3,2x2x3+2x1x4+2x2x5+2x3x6+2x4x7-x4,x3^2+2x2x4+2x1x5+2x2x6+2x3x7-x5,2x3x4+2x2x5+2x1x6+2x2x7-x6,x1+2x2+2x3+2x4+2x5+2x6+2x7-1'! !
 
-!GraphTest methodsFor: 'as yet unclassified' stamp: 'len 11/16/2016 10:04'!
-testAutomorphismsK3
-	"Aut(K3) = Sym(3)"
-	| G A |
-	G _ Graph K: 3.
-	A _ G automorphisms.
-	self assert: A = A ambient
-! !
-
-!GraphTest methodsFor: 'as yet unclassified' stamp: 'len 4/8/2018 05:49:45'!
-testAutomorphismsP3
-	"Aut(P3) = {id, (1 3)}"
-	| G A |
-	G _ Graph P: 3.
-	A _ G automorphisms.
-	self assert: A = (PermutationGroup on: G values generators: {#((1 3))})! !
-
-!GraphTest methodsFor: 'as yet unclassified' stamp: 'len 12/30/2017 16:17:24'!
-testCartesianProduct
-	| G H |
-	G _ Graph unordered addEdge: 1 -> 2; yourself.
-	H _ G ◊ G.
-	self assert: H size = 4.
-	self assert: H numberOfEdges = 4! !
-
-!GraphTest methodsFor: 'as yet unclassified' stamp: 'len 11/16/2016 10:08'!
-testChromaticNumber
-	| G |
-	G _ Graph unordered add: 1; add: 2; add: 3; yourself. 
-	self assert: G chromaticNumber = 1. "edgeless graph"
-	self assert: (Graph K: 3) chromaticNumber = 3.
-	self assert: (Graph C: 5) chromaticNumber = 3.
-	self assert: (Graph C: 6) chromaticNumber = 2.
-	self assert: (Graph W: 6) chromaticNumber = 4.
-	self assert: (Graph W: 5) chromaticNumber = 3.
-	self assert: (Graph S: 6) chromaticNumber = 2! !
-
-!GraphTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2020 09:34:55'!
-testChromaticPolynomialComplete
-	| x |
-	x _ É polynomials x.
-	self assert: (Graph K: 3) chromaticPolynomial = (x*(x-1)*(x-2))! !
-
-!GraphTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2020 09:34:55'!
-testChromaticPolynomialCylic
-	| x n |
-	x _ É polynomials x.
-	n _ 4 atRandom.
-	self assert: (Graph C: n) chromaticPolynomial = (x-1^n + ((-1)^n * (x-1)))! !
-
-!GraphTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2020 09:34:55'!
-testChromaticPolynomialPath
-	| x n |
-	x _ É polynomials x.
-	n _ 4 atRandom + 1.
-	self assert: (Graph P: n) chromaticPolynomial = (x-1^(n-1)*x)! !
-
-!GraphTest methodsFor: 'as yet unclassified' stamp: 'len 5/10/2019 04:31:47'!
-testComplement
-	| G H |
-	G _ Graph unordered addEdges: {#a -> #b. #b -> #c. #d -> #e}; yourself.
-	H _ G complement.
-	self assert: (G \/ H) isComplete.
-	self assert: (G /\ H) isEdgeless.
-	self assert: H complement = G! !
-
-!GraphTest methodsFor: 'as yet unclassified' stamp: 'len 11/16/2016 10:08'!
-testConnectedComponents
-	| G |
-	G _ Graph unordered addEdges: {#a -> #b. #b -> #c. #d -> #e}; yourself.
-	self assert: G components size = 2.
-	self assert: (G components collect: [:each| each order]) = #(2 3) asSet.
-	self assert: G components anyOne components size = 1! !
-
-!GraphTest methodsFor: 'as yet unclassified' stamp: 'len 5/25/2016 03:39'!
-testDistance
-	| G |
-	G _ Digraph unordered addEdges: {#a -> #b. #b -> #c. #d -> #e}; yourself.
-	self assert: (G distanceFrom: #a to: #c) = 2.
-	self assert: (G distanceFrom: #d to: #e) = 1.
-	self assert: (G distanceFrom: #b to: #b) = 0.
-	self assert: (G distanceFrom: #a to: #e) isInfinite! !
-
-!GraphTest methodsFor: 'as yet unclassified' stamp: 'len 5/25/2016 03:39'!
-testEquals
-	| G H |
-	G _ Digraph ordered addEdges: {#a -> #b. #b -> #c. #c -> #a. #X -> #Y}; yourself.
-	H _ Digraph ordered addEdges: {#a -> #b. #b -> #c. #c -> #a}; yourself.
-	self assert: G ~= H.
-	H addEdge: #X -> #Y.
-	self assert: G = H.
-	self assert: G hash = H hash! !
-
-!GraphTest methodsFor: 'as yet unclassified' stamp: 'len 5/25/2016 03:15'!
-testImplicit
-	| G |
-	G _ RootedDigraph unordered roots: {2^3} children: [:each| each divisors copyWithout: each].
-	self assert: G size = 4.
-	self assert: G values asSet = #(1 2 4 8) asSet.
-	self assert: G edges size = 6! !
-
-!GraphTest methodsFor: 'as yet unclassified' stamp: 'len 5/10/2019 04:31:55'!
-testIntersection
-	| G H I |
-	G _ Digraph unordered addEdges: {#a -> #b. #b -> #c. #d -> #e. #x -> #b}; yourself.
-	H _ Digraph unordered addEdges: {#A -> #B. #b -> #c. #d -> #e. #X -> #X. #b -> #a}; yourself.
-	I _ G /\ H.
-	self assert: I numberOfEdges = 2.
-	self assert: (I hasEdge: #b -> #c).
-	self assert: (I hasEdge: #d -> #e)! !
-
-!GraphTest methodsFor: 'as yet unclassified' stamp: 'len 5/25/2016 03:40'!
-testIsComplete
-	| G |
-	G _ Digraph unordered.
-	G addEdges: {#a -> #b. #b -> #a. #b -> #c. #a -> #c. #c -> #a}.
-	G _ G reflexive.
-	self assert: G isComplete not.
-	G addEdge: #c -> #b.
-	self assert: G isComplete! !
-
-!GraphTest methodsFor: 'as yet unclassified' stamp: 'len 11/16/2016 10:03'!
-testIsConnected
-	| G |
-	G _ Graph unordered addEdges: {#a -> #b. #b -> #c. #d -> #e}; yourself.
-	self assert: G isConnected not.
-	G addEdge: #e -> #a.
-	self assert: G isConnected! !
-
-!GraphTest methodsFor: 'as yet unclassified' stamp: 'len 5/25/2016 03:39'!
-testIsCyclic
-	| G |
-	G _ Digraph unordered addEdges: {#a -> #b. #b -> #c. #d -> #e}; yourself.
-	self assert: G isCyclic not.
-	G addEdge: #e -> #a.
-	self assert: G isCyclic not.
-	G addEdge: #c -> #a.
-	self assert: G isCyclic! !
-
-!GraphTest methodsFor: 'as yet unclassified' stamp: 'len 5/25/2016 03:40'!
-testIsSimple
-	| G |
-	G _ Digraph ordered addEdges: {#a -> #b. #b -> #c. #d -> #e}; yourself.
-	self assert: G isSimple.
-	G addEdge: #c -> #b.
-	self assert: G isSimple.
-	G addEdge: #c -> #b.
-	self assert: G isSimple not! !
-
-!GraphTest methodsFor: 'as yet unclassified' stamp: 'len 5/25/2016 03:41'!
-testIsSimple2
-	| G |
-	G _ Digraph ordered addEdges: {#a -> #b. #b -> #c. #d -> #e}; yourself.
-	self assert: G isSimple.
-	G addEdge: #c -> #c.
-	self assert: G isSimple not "a graph with a loop is not simple"! !
-
-!GraphTest methodsFor: 'as yet unclassified' stamp: 'len 11/16/2016 10:08'!
-testIsomorphism
-	| G H |
-	G _ Graph unordered.
-	5 timesRepeat: [G addEdge: 5 atRandom -> 5 atRandom].
-	H _ G shuffled.
-	self assert: G ~ H.
-	G _ Graph C: 5. "pentagon"
-	H _ G copy.
-	G addEdges: {1 -> 6. 6 -> 2}. "make a little triangle"
-	H addEdges: {1 -> 6. 6 -> 3}. "same, but skip vertex 2 in the middle"
-	H _ H shuffled.
-	self deny: G ~ H! !
-
-!GraphTest methodsFor: 'as yet unclassified' stamp: 'len 11/16/2016 10:04'!
-testPetersenGraph
-	| G |
-	G _ Graph petersen.
-	self assert: G nodes size = 10.
-	self assert: G edges size = 15.
-	self assert: G isCubic.
-	self assert: G radius = 2.
-	self assert: G diameter = 2.
-"	self assert: G girth = 5"! !
-
-!GraphTest methodsFor: 'as yet unclassified' stamp: 'len 5/25/2016 03:41'!
-testShortestPath
-	| G |
-	G _ Digraph unordered.
-	G addEdges: {#a -> #b. #b -> #a. #b -> #c. #a -> #c. #c -> #a}.
-	self assert: (G shortestPathFrom: #c to: #b) asArray = #(a b).
-	G addEdge: #c -> #b.
-	self assert: (G shortestPathFrom: #c to: #b) asArray = #(b)! !
-
-!GraphTest methodsFor: 'as yet unclassified' stamp: 'len 8/9/2020 07:51:20'!
-testTranspose
-	| G T |
-	G _ Digraph unordered addEdges: {#a -> #b. #b -> #c. #d -> #e}; yourself.
-	T _ G transpose.
-	self assert: (G hasEdge: #b -> #c).
-	self assert: (G hasEdge: #c -> #b) not.
-	self assert: (T hasEdge: #b -> #c) not.
-	self assert: (T hasEdge: #c -> #b)! !
-
-!GraphTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2020 09:34:55'!
-testTuttePolynomial
-	| G P x y T |
-	G _ Graph ordered addEdges: {1->2. 2->3. 3->4. 4->1. 1->3}; yourself.
-	P _ É polynomialsIn: #(x y).
-	x _ P x.
-	y _ P y.
-	T _ x*(x^2 + (x+y)) + (x^2 + (x+y)) + (x*y + (y^2)).
-	self assert: G tuttePolynomial = T! !
-
-!GraphTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2020 09:34:55'!
-testTuttePolynomial2
-	| G P x y T |
-	G _ Graph ordered addEdges: {1->2. 2->3. 3->4. 4->1. 1->3}; yourself.
-	P _ É polynomialsIn: #(x y).
-	x _ P x.
-	y _ P y.
-	T _ x*(x^2 + (x+y)) + (x^2 + (x+y)) + (x*y + (y^2)).
-	self assert: G tuttePolynomial = T! !
-
-!GraphTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2020 09:34:55'!
-testTuttePolynomialK3
-	| G P x y T |
-	G _ Graph K: 3.
-	P _ É polynomialsIn: #(x y).
-	x _ P x.
-	y _ P y.
-	T _ x^2 + x + y.
-	self assert: G tuttePolynomial = T! !
-
-!GraphTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2020 09:34:55'!
-testTuttePolynomialK4
-	| G P x y T |
-	G _ Graph K: 4.
-	P _ É polynomialsIn: #(x y).
-	x _ P x.
-	y _ P y.
-	T _ x^3 + (x^2*3) + (x*2) + (x*y*4) + (y*2) + (y^2*3) + (y^3).
-	self assert: G tuttePolynomial = T! !
-
-!GraphTest methodsFor: 'as yet unclassified' stamp: 'len 11/16/2016 10:08'!
-testUndirectedEdgeContraction
-	| G |
-	G _ Graph ordered addEdges: {1->2. 2->3. 3->4. 4->1. 1->3}; yourself.
-	self assert: G edges size = 5.
-	self assert: (G / (1->2)) edges size = 4.
-	self assert: (G / (1->2) / ((1->2)->3)) edges size = 3! !
-
-!GraphTest methodsFor: 'as yet unclassified' stamp: 'len 8/9/2020 07:51:30'!
-testUnion
-	| G |
-	G _ Digraph unordered addEdges: {#a -> #b. #b -> #c. #d -> #e. #x -> #b}; yourself.
-	self assert: (G \/ G transpose) = G symmetric! !
-
 !GroupTest methodsFor: 'as yet unclassified' stamp: 'len 4/1/2021 12:19:16'!
 smallGroupAtRandom
 	^ {[SymmetricGroup new: 3].
@@ -7772,118 +7326,6 @@ testTrivial
 	self assert: G size = 1.
 	self assert: G isTrivial! !
 
-!LatticeTest methodsFor: 'as yet unclassified' stamp: 'len 7/31/2020 18:22:45'!
-newLattice
-	^ {[Lattice A: 5 atRandom]. [Lattice Z: 5 atRandom]. [Lattice D: (2 to: 5) atRandom]. [Lattice bcc]. [Lattice fcc]} atRandom value! !
-
-!LatticeTest methodsFor: 'as yet unclassified' stamp: 'len 7/31/2020 18:09:03'!
-testE8
-	| E8 v |
-	E8 _ Lattice E8.
-	v _ (E8 atRandomBits: 100) asVector.
-	self assert: ((v allSatisfy: [:x| x isIntegral]) or: [v allSatisfy: [:x| x isIntegral not and: [(x*2) isIntegral]]]).
-	self assert: (v sum isIntegral and: [v sum asInteger even]).
-	self assert: E8 isIntegral.
-	self assert: E8 isUnimodular.
-	self assert: E8 isEven.
-	self assert: E8 isSelfDual! !
-
-!LatticeTest methodsFor: 'as yet unclassified' stamp: 'len 7/8/2020 08:26:24'!
-testLLL
-	| V b1 b2 b3 reducer |
-	V _ Ñ^3.
-	b1 _ V !! (1, 1, 1).
-	b2 _ V !! (-1, 0, 2).
-	b3 _ V !! (3, 5, 6).
-	reducer _ LLL basis: { b1. b2. b3 } innerProduct: V innerProduct.
-	self assert: reducer reducedBasis = {V !! (0,1,0). V !! (1,0,1). V !! (-1,0,2)}! !
-
-!LatticeTest methodsFor: 'as yet unclassified' stamp: 'len 7/28/2020 19:46:17'!
-testLLL2
-	"Example from Magma handbook (H30E1)."
-	| V b1 b2 reducer |
-	V _ Ñ^3.
-	b1 _ V !! (1, 2, 3).
-	b2 _ V !! (3, 2, 1).
-	reducer _ LLL basis: { b1. b2 } innerProduct: V innerProduct.
-	self assert: reducer reducedBasis = {V !! (2,0,-2). V !! (1,2,3)}! !
-
-!LatticeTest methodsFor: 'as yet unclassified' stamp: 'len 8/11/2020 08:02:37'!
-testLatticeDual
-	| V L R |
-	V _ Ñ^3.
-	L _ Lattice basis: {V !! (-1,0,0). V !! (0,1,2). V !! (0,1,1)}.
-	R _ L dual.
-	self assert: (L space span: L basis) = (R space span: R basis).
-	self assert: L determinant = (1 / R determinant).
-	self assert: (R generatorMatrix * L generatorMatrix transpose) isIdentity.
-	self assert: L gramian = R gramian inverse! !
-
-!LatticeTest methodsFor: 'as yet unclassified' stamp: 'len 8/11/2020 08:02:45'!
-testLatticeDual2
-	| V L R |
-	V _ Ñ^3.
-	L _ Lattice basis: {V !! (-1,0,0). V !! (0,1,2)}. "not full rank"
-	R _ L dual.
-	self assert: (L space span: L basis) = (R space span: R basis).
-	self assert: L determinant = (1 / R determinant).
-	self assert: (R generatorMatrix transpose * L generatorMatrix) isIdentity.
-	self assert: L gramian = R gramian inverse! !
-
-!LatticeTest methodsFor: 'as yet unclassified' stamp: 'len 8/3/2020 07:59:09'!
-testLatticeDual3
-	| L |
-	L _ Lattice Z: 3.
-	self assert: L dual = L.
-	self assert: (L*3) dual = (L*(1/3))! !
-
-!LatticeTest methodsFor: 'as yet unclassified' stamp: 'len 8/3/2020 07:59:14'!
-testLatticeDualDeterminant
-	| L R |
-	L _ self newLattice.
-	R _ L dual.
-	self assert: L determinant = (1 / R determinant)! !
-
-!LatticeTest methodsFor: 'as yet unclassified' stamp: 'len 8/3/2020 07:59:20'!
-testLatticeDualDual
-	| L |
-	L _ self newLattice.
-	self assert: L dual dual = L! !
-
-!LatticeTest methodsFor: 'as yet unclassified' stamp: 'len 8/3/2020 07:59:24'!
-testLatticeDualGramian
-	| L R |
-	L _ self newLattice.
-	R _ L dual.
-	self assert: L gramian = R gramian inverse! !
-
-!LatticeTest methodsFor: 'as yet unclassified' stamp: 'len 7/30/2020 18:15:32'!
-testLatticeElements
-	| V L v w |
-	V _ Ñ^3.
-	L _ Lattice basis: {V !! (1,0,0). V !! (1,2,3). V !! (3,6,2)}.
-	v _ L elementAt: #(1 2 1).
-	self assert: v asVector = (V !! (6,10,8)).
-	v _ L x: 2.
-	self assert: v asVector = (V !! (1,2,3)).
-	w _ v*2.
-	self assert: w asVector = (V !! (2,4,6)).
-	self assert: v norm = 14.
-	self assert: (v | w) = 28! !
-
-!LatticeTest methodsFor: 'as yet unclassified' stamp: 'len 8/1/2020 19:16:10'!
-testLeech
-	| L v |
-	L _ Lattice leech.
-	v _ (L atRandomBits: 100) asVector.
-	self assert: L determinant = 1.
-"	self assert: L kissingNumber = 196560."
-"	self assert: L minimalNorm = 4."
-	self assert: L isIntegral.
-	self assert: L isUnimodular.
-	self assert: L isEven.
-	self assert: L isSelfDual! !
-
 !LinearGroupsTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2020 09:33:01'!
 testGeneralLinearAtRandom
 	| V G |
@@ -8066,24 +7508,6 @@ testFunctionComposition3
 testFundamentalDiscriminant
 	self assert: ((1 to: 33) select: [:each| each isFundamentalDiscriminant]) =  #(1 5 8 12 13 17 21 24 28 29 33).
 	self assert: ((0 to: -31 by: -1) select: [:each| each isFundamentalDiscriminant]) = #(-3 -4 -7 -8 -11 -15 -19 -20 -23 -24 -31) 
-! !
-
-!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 6/4/2016 21:56'!
-testInfinity
-	self assert: Infinity positive > Infinity negative.
-	self assert: Infinity positive > 127934879182734.
-	self assert: Infinity negative < -198273498712341.
-	self assert: Infinity positive >= 127934879182734.
-	self assert: Infinity negative <= -198273498712341.
-	self assert: -918723948719 > Infinity negative.
-	self assert: 91872123948719 < Infinity positive! !
-
-!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 7/8/2016 05:34'!
-testInfinityUndeterminates
-	self should: [Infinity positive + Infinity negative] raise: Error.
-	self should: [Infinity positive * 0] raise: Error.
-	self should: [Infinity positive / Infinity positive] raise: Error.
-	self should: [Infinity positive ^ 0] raise: Error
 ! !
 
 !MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 12/13/2015 02:02'!
@@ -8274,21 +7698,6 @@ testWordOrdering
 	p _ q * r.
 	self assert: (p > q or: [p = q and: [r isEmpty]]).
 	self assert: (p > r or: [p = r and: [q isEmpty]])! !
-
-!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 8/1/2016 03:30'!
-testYoungTableauxSemistandard
-	| T |
-	T _ YoungTableau rows: #((1 1 2 2 3) (2 3 4 4) (4) (5)).
-	self assert: T isSemistandard.
-	self assert: T shape = #(5 4 1 1)! !
-
-!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 8/1/2016 03:30'!
-testYoungTableauxStandard
-	| T |
-	T _ YoungTableau rows: #((1 4 6 8) (2 5 7) (3)).
-	self assert: T isStandard.
-	self assert: T weight = #(1 1 1 1 1 1 1 1).
-	self assert: T shape = #(4 3 1)! !
 
 !ModuleTest methodsFor: 'bugs' stamp: 'len 4/26/2021 11:43:09'!
 testPIDCoordinatesOfBug
@@ -8967,210 +8376,6 @@ testTotallyReal
 	self assert: E isReal.
 	E _ NumberField modulus: x^4 - 2.
 	self assert: E isReal not! !
-
-!OrdinalsTest methodsFor: 'as yet unclassified' stamp: 'len 12/28/2021 12:03:01'!
-newOrdinal
-	| answer |
-	answer _ (0 to: 2) atRandom asOrdinal.
-	2 atRandom = 1 ifTrue: [answer _ answer exp].
-	^ answer! !
-
-!OrdinalsTest methodsFor: 'as yet unclassified' stamp: 'len 12/28/2021 12:41:47'!
-testAdditionAssociativity
-	| a b c |
-	a _ self newOrdinal.
-	b _ self newOrdinal.
-	c _ self newOrdinal.
-	self assert: a + (b + c) = ((a + b) + c)! !
-
-!OrdinalsTest methodsFor: 'as yet unclassified' stamp: 'len 12/29/2021 11:30:24'!
-testAdditionExamples
-	| ò |
-	ò _ 1 asOrdinal exp.
-	self assert: ò + 1 + 1 = (ò + 2).
-	self assert: 1 + ò = ò.
-	self assert: ò^5*3 + (ò^3*2) + (ò^3*3) = (ò^5*3 + (ò^3*5)).
-	self assert: ò^5*3 + (ò^3*2) + (ò^4*2) = (ò^5*3 + (ò^4*2)).
-	self assert: ò^ò^2*2 + (ò^3*2) + (ò^4*2) = (ò^ò^2*2 + (ò^4*2)).
-	self assert: 3 + (ò^5*3) = (ò^5*3).
-	self assert: ò^5*3 + 2 + 1 = (ò^5*3 + 3)! !
-
-!OrdinalsTest methodsFor: 'as yet unclassified' stamp: 'len 12/28/2021 13:46:41'!
-testAdditionIncreasing
-	"Ordinal addition is strictly increasing in the addend."
-	| a b c |
-	a _ self newOrdinal.
-	[b _ self newOrdinal.
-	c _ self newOrdinal.
-	b < c] whileFalse.
-	self assert: a + b < (a + c)! !
-
-!OrdinalsTest methodsFor: 'as yet unclassified' stamp: 'len 12/28/2021 13:44:15'!
-testAdditionNeutral
-	"The empty ordinal 0 is a two-sided neutral element for the ordinal addition."
-	| a |
-	a _ self newOrdinal.
-	self assert: a + 0 asOrdinal = a.
-	self assert: 0 asOrdinal + a = a! !
-
-!OrdinalsTest methodsFor: 'as yet unclassified' stamp: 'len 12/28/2021 13:49:00'!
-testAdditionNondecreasing
-	"Ordinal addition is nondecreasing in the augend."
-	| a b c |
-	[a _ self newOrdinal.
-	b _ self newOrdinal.
-	a <= b] whileFalse.
-	c _ self newOrdinal.
-	self assert: a + c <= (b + c)! !
-
-!OrdinalsTest methodsFor: 'as yet unclassified' stamp: 'len 12/28/2021 18:38:45'!
-testAdditionTruncationProperty
-	| a b |
-	a _ self newOrdinal.
-	b _ self newOrdinal.
-	self assert: a + b = ((a truncatedAt: b degree) + b)! !
-
-!OrdinalsTest methodsFor: 'as yet unclassified' stamp: 'len 12/28/2021 14:21:04'!
-testArithmeticExamples
-	| ò a b |
-	ò _ 1 asOrdinal exp.
-	a _ ò^4*2 + (ò^2) + 3.
-	b _ ò^3*5 + (ò*7).
-	self assert: a + b = (ò^4*2 + (ò^3*5) + (ò*7)).
-	self assert: a * b = (ò^7*5 + (ò^5*7))! !
-
-!OrdinalsTest methodsFor: 'as yet unclassified' stamp: 'len 12/28/2021 11:53:37'!
-testConvertingIntegers
-	self assert: 0 asOrdinal asInteger = 0.
-	self assert: 1 asOrdinal asInteger = 1.
-	self assert: 42 asOrdinal asInteger = 42! !
-
-!OrdinalsTest methodsFor: 'as yet unclassified' stamp: 'len 12/28/2021 11:54:37'!
-testExp
-	self assert: 0 asOrdinal exp = 1 asOrdinal.
-	self assert: 0 asOrdinal exp exp isFinite not! !
-
-!OrdinalsTest methodsFor: 'as yet unclassified' stamp: 'len 12/28/2021 14:08:33'!
-testExp2
-	"If a < b, then w^a + w^b = w^b."
-	| a b |
-	[a _ self newOrdinal.
-	b _ self newOrdinal.
-	a < b] whileFalse.
-	self assert: a exp + b exp = b exp! !
-
-!OrdinalsTest methodsFor: 'as yet unclassified' stamp: 'len 12/28/2021 12:44:36'!
-testExponentiation
-	| a b c |
-	a _ self newOrdinal.
-	b _ self newOrdinal.
-	c _ self newOrdinal.
-	self assert: a^(b*c) = (a^b^c).
-	self assert: a^(b+c) = (a^b * (a^c))! !
-
-!OrdinalsTest methodsFor: 'as yet unclassified' stamp: 'len 12/28/2021 16:01:00'!
-testExponentiationIncreasing
-	"Ordinal exponentiation is strictly increasing in the exponent for bases exceeing 1."
-	| a b c |
-	[a _ self newOrdinal. a > 1 asOrdinal] whileFalse.
-	[b _ self newOrdinal.
-	c _ self newOrdinal.
-	b < c] whileFalse.
-	self assert: a^b < (a^c)! !
-
-!OrdinalsTest methodsFor: 'as yet unclassified' stamp: 'len 12/28/2021 16:02:06'!
-testExponentiationNondecreasing
-	"Ordinal exponentiation is nondecreasing in the base."
-	| a b c |
-	[a _ self newOrdinal.
-	b _ self newOrdinal.
-	a <= b] whileFalse.
-	c _ self newOrdinal.
-	self assert: a^c <= (b^c)! !
-
-!OrdinalsTest methodsFor: 'as yet unclassified' stamp: 'len 12/28/2021 11:52:34'!
-testFinite
-	self assert: 0 asOrdinal isFinite.
-	self assert: 1 asOrdinal isFinite.
-	self assert: (0 to: 10) atRandom asOrdinal isFinite! !
-
-!OrdinalsTest methodsFor: 'as yet unclassified' stamp: 'len 12/28/2021 11:55:39'!
-testFiniteOrdering
-	self assert: 0 asOrdinal < 1 asOrdinal.
-	self assert: 1 asOrdinal < 42 asOrdinal! !
-
-!OrdinalsTest methodsFor: 'as yet unclassified' stamp: 'len 12/28/2021 12:31:53'!
-testIncludesIntegers
-	self assert: (1 asOrdinal includes: 0).
-	self assert: (42 asOrdinal includes: 0).
-	self assert: (42 asOrdinal includes: 41).
-	self deny: (42 asOrdinal includes: 42).
-	self deny: (42 asOrdinal includes: -1).
-	self assert: (1 asOrdinal exp includes: 0).
-	self assert: (1 asOrdinal exp includes: 1000)! !
-
-!OrdinalsTest methodsFor: 'as yet unclassified' stamp: 'len 12/28/2021 12:43:15'!
-testMultiplicationAssociativity
-	| a b c |
-	a _ self newOrdinal.
-	b _ self newOrdinal.
-	c _ self newOrdinal.
-	self assert: a*b*c = (a*(b*c))! !
-
-!OrdinalsTest methodsFor: 'as yet unclassified' stamp: 'len 12/29/2021 11:41:17'!
-testMultiplicationExamples
-	| ò |
-	ò _ 1 asOrdinal exp.
-	self assert: ò * (ò + 1) = (ò*ò + ò).
-	self assert: (ò + 1) * (ò + 1) = (ò*ò + ò + 1).
-	self assert: 1 * ò = ò.
-	self assert: ò * 1 = ò.
-	self assert: ò * 0 = 0 asOrdinal.
-	self assert: 0 * ò = 0 asOrdinal.
-	self assert: ò^ò * ò * ò = (ò ^ (ò + 2))! !
-
-!OrdinalsTest methodsFor: 'as yet unclassified' stamp: 'len 12/28/2021 13:53:43'!
-testMultiplicationIncreasing
-	"Ordinal multiplication is strictly increasing in the multiplier provided the multiplicand is nonzero."
-	| a b c |
-	[a _ self newOrdinal. a isZero not] whileFalse.
-	[b _ self newOrdinal.
-	c _ self newOrdinal.
-	b < c] whileFalse.
-	self assert: a * b < (a * c)! !
-
-!OrdinalsTest methodsFor: 'as yet unclassified' stamp: 'len 12/28/2021 12:54:59'!
-testMultiplicationLeftDistributivityOverAddition
-	| a b c |
-	a _ self newOrdinal.
-	b _ self newOrdinal.
-	c _ self newOrdinal.
-	self assert: a*(b + c) = (a*b + (a*c))! !
-
-!OrdinalsTest methodsFor: 'as yet unclassified' stamp: 'len 12/28/2021 13:51:25'!
-testMultiplicationNondecreasing
-	"Ordinal multiplication is nondecreasing in the multiplicand."
-	| a b c |
-	[a _ self newOrdinal.
-	b _ self newOrdinal.
-	a <= b] whileFalse.
-	c _ self newOrdinal.
-	self assert: a * c <= (b * c)! !
-
-!OrdinalsTest methodsFor: 'as yet unclassified' stamp: 'len 12/31/2021 11:26:03'!
-testOmega
-	| ò |
-	ò _ 1 asOrdinal exp.
-	self assert: ò isOmega! !
-
-!OrdinalsTest methodsFor: 'as yet unclassified' stamp: 'len 12/31/2021 11:25:22'!
-testOne
-	self assert: 1 asOrdinal isOne.
-	self assert: 1 asOrdinal = 0 asOrdinal exp! !
-
-!OrdinalsTest methodsFor: 'as yet unclassified' stamp: 'len 12/28/2021 11:51:55'!
-testZero
-	self assert: 0 asOrdinal isZero! !
 
 !PAdicsTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2020 09:34:55'!
 testAddition
