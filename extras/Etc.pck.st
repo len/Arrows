@@ -1,11 +1,21 @@
-'From Cuis 6.0 [latest update: #5053] on 13 April 2022 at 1:37:00 pm'!
+'From Cuis 6.0 [latest update: #5053] on 21 April 2022 at 5:27:01 am'!
 'Description '!
-!provides: 'Etc' 1 1!
+!provides: 'Etc' 1 2!
 !requires: 'Domains' 1 647 nil!
 SystemOrganization addCategory: #Etc!
 SystemOrganization addCategory: #'Etc-Algebras'!
 SystemOrganization addCategory: #'Etc-Lie'!
 
+
+!classDefinition: #IdentityArray category: #Etc!
+Array variableSubclass: #IdentityArray
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Etc'!
+!classDefinition: 'IdentityArray class' category: #Etc!
+IdentityArray class
+	instanceVariableNames: ''!
 
 !classDefinition: #BitArray2 category: #Etc!
 ArrayedCollection subclass: #BitArray2
@@ -87,26 +97,6 @@ Module subclass: #TensorModule
 TensorModule class
 	instanceVariableNames: ''!
 
-!classDefinition: #PolynomialCode category: #Etc!
-Code subclass: #PolynomialCode
-	instanceVariableNames: 'generator'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Etc'!
-!classDefinition: 'PolynomialCode class' category: #Etc!
-PolynomialCode class
-	instanceVariableNames: ''!
-
-!classDefinition: #CyclicCode category: #Etc!
-PolynomialCode subclass: #CyclicCode
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Etc'!
-!classDefinition: 'CyclicCode class' category: #Etc!
-CyclicCode class
-	instanceVariableNames: ''!
-
 !classDefinition: #SmallPrimeField category: #Etc!
 PrimeField subclass: #SmallPrimeField
 	instanceVariableNames: 'expTable logTable'
@@ -137,6 +127,26 @@ Ring subclass: #FreeAlgebra
 FreeAlgebra class
 	instanceVariableNames: ''!
 
+!classDefinition: #PolynomialCode category: #Etc!
+Code subclass: #PolynomialCode
+	instanceVariableNames: 'generator'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Etc'!
+!classDefinition: 'PolynomialCode class' category: #Etc!
+PolynomialCode class
+	instanceVariableNames: ''!
+
+!classDefinition: #CyclicCode category: #Etc!
+PolynomialCode subclass: #CyclicCode
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Etc'!
+!classDefinition: 'CyclicCode class' category: #Etc!
+CyclicCode class
+	instanceVariableNames: ''!
+
 !classDefinition: #CoxeterSystem category: #'Etc-Lie'!
 Structure subclass: #CoxeterSystem
 	instanceVariableNames: 'group generators matrix diagram'
@@ -145,16 +155,6 @@ Structure subclass: #CoxeterSystem
 	category: 'Etc-Lie'!
 !classDefinition: 'CoxeterSystem class' category: #'Etc-Lie'!
 CoxeterSystem class
-	instanceVariableNames: ''!
-
-!classDefinition: #RowMajorMatrix category: #Etc!
-Matrix subclass: #RowMajorMatrix
-	instanceVariableNames: 'coefficients'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Etc'!
-!classDefinition: 'RowMajorMatrix class' category: #Etc!
-RowMajorMatrix class
 	instanceVariableNames: ''!
 
 !classDefinition: #SemidirectProductElement category: #Etc!
@@ -277,6 +277,26 @@ Object subclass: #BerlekampMassey
 BerlekampMassey class
 	instanceVariableNames: ''!
 
+!classDefinition: #BitTuple category: #Etc!
+Object subclass: #BitTuple
+	instanceVariableNames: 'bits'
+	classVariableNames: 'One Zero'
+	poolDictionaries: ''
+	category: 'Etc'!
+!classDefinition: 'BitTuple class' category: #Etc!
+BitTuple class
+	instanceVariableNames: ''!
+
+!classDefinition: #DenseTuple category: #Etc!
+Object subclass: #DenseTuple
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Etc'!
+!classDefinition: 'DenseTuple class' category: #Etc!
+DenseTuple class
+	instanceVariableNames: ''!
+
 !classDefinition: #ExtendedSmithReduction category: #Etc!
 Object subclass: #ExtendedSmithReduction
 	instanceVariableNames: 'matrix elementaryDivisors L S R'
@@ -295,6 +315,36 @@ Object subclass: #ModularHermiteReduction
 	category: 'Etc'!
 !classDefinition: 'ModularHermiteReduction class' category: #Etc!
 ModularHermiteReduction class
+	instanceVariableNames: ''!
+
+!classDefinition: #ModularTuple category: #Etc!
+Object subclass: #ModularTuple
+	instanceVariableNames: 'representatives'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Etc'!
+!classDefinition: 'ModularTuple class' category: #Etc!
+ModularTuple class
+	instanceVariableNames: ''!
+
+!classDefinition: #ByteModularTuple category: #Etc!
+ModularTuple subclass: #ByteModularTuple
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Etc'!
+!classDefinition: 'ByteModularTuple class' category: #Etc!
+ByteModularTuple class
+	instanceVariableNames: ''!
+
+!classDefinition: #WordModularTuple category: #Etc!
+ModularTuple subclass: #WordModularTuple
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Etc'!
+!classDefinition: 'WordModularTuple class' category: #Etc!
+WordModularTuple class
 	instanceVariableNames: ''!
 
 !classDefinition: #MultivariateReducer category: #Etc!
@@ -335,6 +385,16 @@ Object subclass: #SmithReduction
 	category: 'Etc'!
 !classDefinition: 'SmithReduction class' category: #Etc!
 SmithReduction class
+	instanceVariableNames: ''!
+
+!classDefinition: #SparseTuple category: #Etc!
+Object subclass: #SparseTuple
+	instanceVariableNames: 'components'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Etc'!
+!classDefinition: 'SparseTuple class' category: #Etc!
+SparseTuple class
 	instanceVariableNames: ''!
 
 !classDefinition: #SturmChain category: #Etc!
@@ -415,12 +475,6 @@ Tensor product over R of a list of free R-modules. This is a free R-module with 
 
 See Tensor.!
 
-!PolynomialCode commentStamp: '<historical>' prior: 0!
-In coding theory, a polynomial code is a type of linear code whose set of valid codewords consists of those polynomials (usually of some fixed length) that are divisible by some fixed polynomial (of shorter length, called the generator polynomial).
-
-A polynomial code is cyclic if and only if the generator polynomial divides x^n - 1. See CyclicCode.
-!
-
 !SmallPrimeField commentStamp: '<historical>' prior: 0!
 Prime fields Z/pZ for small primes p, such that it is feasable to build exponentiation and logarithmic tables and accelerate arithmetic through table lookups.
 
@@ -434,6 +488,12 @@ Completion of a given commutative ring R at a given maximal ideal I. This is the
 Algebras of noncommutative polynomials in a finite set of indeterminates. These are finitely generated free associative unital algebras, and their elements are FreePolynomials.
 
 This is the noncommutative analogue of a polynomial ring.!
+
+!PolynomialCode commentStamp: '<historical>' prior: 0!
+In coding theory, a polynomial code is a type of linear code whose set of valid codewords consists of those polynomials (usually of some fixed length) that are divisible by some fixed polynomial (of shorter length, called the generator polynomial).
+
+A polynomial code is cyclic if and only if the generator polynomial divides x^n - 1. See CyclicCode.
+!
 
 !SemidirectProductElement commentStamp: '<historical>' prior: 0!
 Elements of a semidirect product of groups. See SemidirectProductGroup.!
@@ -476,12 +536,34 @@ Output: the minimal polynomial of the sequence.
 
 The algorithm performs O(n^2/2) multiplications; more precisely, at most 2 floor(n^2/4) - n + 1 multiplications.!
 
+!BitTuple commentStamp: '<historical>' prior: 0!
+Tuples of integer residue classes modulo 2, i.e. binary tuples, bit strings, or tuples of bits. The coefficient field is ƒ/2ƒ.
+
+Example:
+	"A handy way to create a binary tuple:"
+	(1,0,1,1,0,1,1,1) % 2
+!
+
+!DenseTuple commentStamp: '<historical>' prior: 0!
+General n-tuples internally represented as an Array. These are the tuples used by default for an arbitrary ring.!
+
+!ModularTuple commentStamp: '<historical>' prior: 0!
+Tuples with coefficients in an integer residue class ring (or field) ƒ/mƒ. See ModularInteger, ModularIntegerRing, PrimeField.
+
+Example:
+	"A handy way to create a tuple of integers modulo 3:"
+	(1,2,3,4) % 3
+!
+
 !SmithReduction commentStamp: '<historical>' prior: 0!
 This is the Smith reduction algorithm. Given a matrix with coefficients in a PID, it reduces the matrix to its Smith normal form.
 
 The Smith normal form is very useful for working with finitely generated modules over a PID, and in particular for deducing the structure of a quotient of a free module.
 
 Reference: Henri Cohen, 'A Course in Computational Algebraic Number Theory', Algorithm 2.4.14.!
+
+!SparseTuple commentStamp: 'len 7/21/2020 17:34:32' prior: 0!
+Sparse tuples are tuples that use a Dictionary to store the components, and zero entries are not stored explicitly. This makes them more efficient when most of the entries are zero.!
 
 !BitArray2 methodsFor: 'printing' stamp: 'len 12/21/2015 20:42'!
 printOn: aStream
@@ -565,11 +647,64 @@ printOn: aStream
 	f _ (P coefficients: (coefficients first: n)) orderedBy: #llex.
 	aStream print: f; nextPutAll: ' + ', 'O' italic, '('; print: P x ^ (n+1); nextPut: $)! !
 
+!BitTuple methodsFor: 'operations' stamp: 'len 7/15/2021 12:42:04'!
+>> anInteger
+	^ self class bits: (bits bitShift: anInteger) parent: parent! !
+
+!BitTuple methodsFor: 'printing' stamp: 'len 3/28/2016 04:52'!
+printOn: aStream
+	1 to: self size do: [:i| aStream print: (self at: i)]! !
+
+!DenseTuple methodsFor: 'operations' stamp: 'len 4/17/2022 17:17:47'!
+>> anInteger
+	anInteger == 0 ifTrue: [^ self].
+	^ self class components: components >> anInteger parent: parent! !
+
+!DenseTuple methodsFor: 'printing' stamp: 'len 4/18/2022 12:31:35'!
+printOn: aStream
+	components printOn: aStream! !
+
+!ModularTuple methodsFor: 'printing' stamp: 'len 5/18/2020 13:47:12'!
+printOn: aStream
+	self modulus > 16 ifTrue: [^ super printOn: aStream].
+	representatives do: [:each| each printOn: aStream base: 16]! !
+
+!SparseTuple methodsFor: 'copying' stamp: 'len 7/18/2020 06:12:12'!
+postCopy
+	components _ components copy! !
+
 !RootSystem methodsFor: 'printing' stamp: 'len 2/11/2016 01:34'!
 printOn: aStream
 	aStream nextPut: ${.
 	roots do: [:each| aStream print: each] separatedBy: [aStream nextPut: $,].
 	aStream nextPut: $}! !
+
+!IdentityArray methodsFor: 'as yet unclassified' stamp: 'len 12/23/2021 15:35:29'!
+hasEqualElements: otherCollection
+	"Answer whether the receiver's size is the same as otherCollection's
+	size, and each of the receiver's elements equal the corresponding 
+	element of otherCollection.
+	This should probably replace the current definition of #= ."
+
+	| size |
+	otherCollection isSequenceable ifFalse: [^ false].
+	(size _ self size) = otherCollection size ifFalse: [^ false].
+	1 to: size do:
+		[:index |
+		(self at: index) == (otherCollection at: index) ifFalse: [^ false]].
+	^ true! !
+
+!IdentityArray methodsFor: 'as yet unclassified' stamp: 'len 12/23/2021 15:37:27'!
+hashQuick
+	| hash size step |
+	size _ self size.
+	hash _ (self species hash + size hash) hashMultiply.
+	step _ size < 64 ifTrue: [1] ifFalse: [size//64].
+	1 to: size by: step do: [ :i | | elem |
+		elem _ self at: i.
+		elem == self ifFalse: [
+			hash _ (hash + elem identityHash) hashMultiply]].
+	^hash! !
 
 !BitArray2 methodsFor: 'accessing' stamp: 'len 12/21/2015 22:30'!
 at: anInteger
@@ -1281,101 +1416,6 @@ computeType
 components: anArray
 	^ self new components: anArray! !
 
-!PolynomialCode methodsFor: 'accessing' stamp: 'len 4/4/2016 20:19'!
-generator
-	^ generator! !
-
-!PolynomialCode methodsFor: 'accessing' stamp: 'len 5/12/2016 07:20'!
-rank
-	^ self length - generator degree! !
-
-!PolynomialCode methodsFor: 'accessing' stamp: 'len 1/23/2017 11:44:09'!
-size
-	^ generator parent scalars size ^ (self length - generator degree)! !
-
-!PolynomialCode methodsFor: 'converting' stamp: 'len 7/31/2020 10:28:26'!
-asIdeal
-	^ generator parent * generator! !
-
-!PolynomialCode methodsFor: 'encoding/decoding' stamp: 'len 5/12/2016 09:33'!
-decode: aPolynomial
-	self flag: #fix. "add error-detection and correction"
-	^ aPolynomial // generator! !
-
-!PolynomialCode methodsFor: 'encoding/decoding' stamp: 'len 7/15/2021 12:38:39'!
-encode: aPolynomial
-	| f |
-	f _ aPolynomial << generator degree.
-	^ f - (f \\ generator)! !
-
-!PolynomialCode methodsFor: 'enumerating' stamp: 'len 7/31/2020 10:31:23'!
-do: aBlock
-	self asIdeal do: aBlock! !
-
-!PolynomialCode methodsFor: 'initialization' stamp: 'len 4/4/2016 20:19'!
-generator: aPolynomial
-	generator _ aPolynomial! !
-
-!PolynomialCode methodsFor: 'testing' stamp: 'len 5/12/2016 07:17'!
-includes: aCodeword
-	^ aCodeword | generator! !
-
-!PolynomialCode methodsFor: 'testing' stamp: 'len 1/23/2017 11:44:04'!
-isCyclic
-	| n x |
-	n _ self length.
-	x _ generator parent x.
-	^ generator | (x ^ n - x parent one)! !
-
-!PolynomialCode class methodsFor: 'examples' stamp: 'len 5/23/2020 09:13:12'!
-G23
-	"Answer the perfect binary Golay code [23,12,7]."
-	| g |
-	g _ (ƒ/2) polynomials !! [:x| x^11 + (x^10) + (x^6) + (x^5) + (x^4) + (x^2) + 1].
-	^ self new: 23 generator: g! !
-
-!PolynomialCode class methodsFor: 'examples' stamp: 'len 5/23/2020 09:13:12'!
-H7
-	"Answer the Hamming code [7,4,3]."
-	^ self new: 7 generator: (ƒ/2) polynomials !! [:x| x^3 + x + 1]! !
-
-!PolynomialCode class methodsFor: 'instance creation' stamp: 'len 5/12/2016 07:42'!
-generator: aPolynomial
-	^ self new: aPolynomial degree generator: aPolynomial! !
-
-!PolynomialCode class methodsFor: 'instance creation' stamp: 'len 8/2/2020 12:23:40'!
-new: n generator: aPolynomial
-	| V W subspace |
-	V _ aPolynomial parent filtrationAt: n - 1.
-	W _ aPolynomial parent filtrationAt: n - aPolynomial degree - 1.
-	subspace _ V span: (W asArray collect: [:f| aPolynomial * f]).
-	^ (self on: subspace) generator: aPolynomial! !
-
-!CyclicCode methodsFor: 'accessing' stamp: 'len 1/23/2017 11:31:24'!
-checkPolynomial
-	| x one |
-	x _ generator parent x.
-	one _ generator parent one.
-	^ x ^ self length - one / generator! !
-
-!CyclicCode methodsFor: 'accessing' stamp: 'len 7/31/2020 10:30:03'!
-dimension
-	^ self length - generator degree! !
-
-!CyclicCode methodsFor: 'operations' stamp: 'len 6/29/2016 22:18'!
-dual
-	^ self class new: self length generator: self generator reversed! !
-
-!CyclicCode methodsFor: 'testing' stamp: 'len 5/15/2019 01:42:35'!
-includes: aCodeword
-	| x |
-	x _ generator parent x.
-	^ (self checkPolynomial * aCodeword \\ (x ^ self length - x one)) isZero! !
-
-!CyclicCode methodsFor: 'testing' stamp: 'len 6/29/2016 22:18'!
-isIrreducible
-	^ generator isIrreducible! !
-
 !SmallPrimeField methodsFor: 'accessing' stamp: 'len 6/9/2018 20:23:46'!
 expTable
 	^ expTable! !
@@ -1610,6 +1650,101 @@ over: aRing
 words: aMonoid over: aRing
 	^ self new words: aMonoid; scalars: aRing! !
 
+!PolynomialCode methodsFor: 'accessing' stamp: 'len 4/4/2016 20:19'!
+generator
+	^ generator! !
+
+!PolynomialCode methodsFor: 'accessing' stamp: 'len 5/12/2016 07:20'!
+rank
+	^ self length - generator degree! !
+
+!PolynomialCode methodsFor: 'accessing' stamp: 'len 1/23/2017 11:44:09'!
+size
+	^ generator parent scalars size ^ (self length - generator degree)! !
+
+!PolynomialCode methodsFor: 'converting' stamp: 'len 7/31/2020 10:28:26'!
+asIdeal
+	^ generator parent * generator! !
+
+!PolynomialCode methodsFor: 'encoding/decoding' stamp: 'len 5/12/2016 09:33'!
+decode: aPolynomial
+	self flag: #fix. "add error-detection and correction"
+	^ aPolynomial // generator! !
+
+!PolynomialCode methodsFor: 'encoding/decoding' stamp: 'len 7/15/2021 12:38:39'!
+encode: aPolynomial
+	| f |
+	f _ aPolynomial << generator degree.
+	^ f - (f \\ generator)! !
+
+!PolynomialCode methodsFor: 'enumerating' stamp: 'len 7/31/2020 10:31:23'!
+do: aBlock
+	self asIdeal do: aBlock! !
+
+!PolynomialCode methodsFor: 'initialization' stamp: 'len 4/4/2016 20:19'!
+generator: aPolynomial
+	generator _ aPolynomial! !
+
+!PolynomialCode methodsFor: 'testing' stamp: 'len 5/12/2016 07:17'!
+includes: aCodeword
+	^ aCodeword | generator! !
+
+!PolynomialCode methodsFor: 'testing' stamp: 'len 1/23/2017 11:44:04'!
+isCyclic
+	| n x |
+	n _ self length.
+	x _ generator parent x.
+	^ generator | (x ^ n - x parent one)! !
+
+!PolynomialCode class methodsFor: 'examples' stamp: 'len 5/23/2020 09:13:12'!
+G23
+	"Answer the perfect binary Golay code [23,12,7]."
+	| g |
+	g _ (ƒ/2) polynomials !! [:x| x^11 + (x^10) + (x^6) + (x^5) + (x^4) + (x^2) + 1].
+	^ self new: 23 generator: g! !
+
+!PolynomialCode class methodsFor: 'examples' stamp: 'len 5/23/2020 09:13:12'!
+H7
+	"Answer the Hamming code [7,4,3]."
+	^ self new: 7 generator: (ƒ/2) polynomials !! [:x| x^3 + x + 1]! !
+
+!PolynomialCode class methodsFor: 'instance creation' stamp: 'len 5/12/2016 07:42'!
+generator: aPolynomial
+	^ self new: aPolynomial degree generator: aPolynomial! !
+
+!PolynomialCode class methodsFor: 'instance creation' stamp: 'len 8/2/2020 12:23:40'!
+new: n generator: aPolynomial
+	| V W subspace |
+	V _ aPolynomial parent filtrationAt: n - 1.
+	W _ aPolynomial parent filtrationAt: n - aPolynomial degree - 1.
+	subspace _ V span: (W asArray collect: [:f| aPolynomial * f]).
+	^ (self on: subspace) generator: aPolynomial! !
+
+!CyclicCode methodsFor: 'accessing' stamp: 'len 1/23/2017 11:31:24'!
+checkPolynomial
+	| x one |
+	x _ generator parent x.
+	one _ generator parent one.
+	^ x ^ self length - one / generator! !
+
+!CyclicCode methodsFor: 'accessing' stamp: 'len 7/31/2020 10:30:03'!
+dimension
+	^ self length - generator degree! !
+
+!CyclicCode methodsFor: 'operations' stamp: 'len 6/29/2016 22:18'!
+dual
+	^ self class new: self length generator: self generator reversed! !
+
+!CyclicCode methodsFor: 'testing' stamp: 'len 5/15/2019 01:42:35'!
+includes: aCodeword
+	| x |
+	x _ generator parent x.
+	^ (self checkPolynomial * aCodeword \\ (x ^ self length - x one)) isZero! !
+
+!CyclicCode methodsFor: 'testing' stamp: 'len 6/29/2016 22:18'!
+isIrreducible
+	^ generator isIrreducible! !
+
 !CoxeterSystem methodsFor: 'as yet unclassified' stamp: 'len 4/5/2018 15:27:04'!
 computeDiagram
 	| n graph |
@@ -1663,80 +1798,6 @@ schlafliMatrix
 !CoxeterSystem methodsFor: 'as yet unclassified' stamp: 'len 4/18/2016 03:28'!
 simpleReflections
 	^ generators! !
-
-!RowMajorMatrix methodsFor: 'accessing' stamp: 'len 5/28/2020 12:49:58'!
-at: aPoint
-	"Answer the coefficient at i@j (row i, column j)."
-	^ coefficients at: aPoint x - 1 * self width + aPoint y! !
-
-!RowMajorMatrix methodsFor: 'accessing' stamp: 'len 5/28/2020 12:50:03'!
-at: aPoint put: anElement
-	"Set the coefficient at i@j (row i, column j)."
-	^ coefficients at: aPoint x - 1 * self width + aPoint y put: anElement! !
-
-!RowMajorMatrix methodsFor: 'accessing' stamp: 'len 5/28/2020 09:57:19'!
-coefficients
-	^ coefficients! !
-
-!RowMajorMatrix methodsFor: 'constants' stamp: 'len 5/28/2020 10:13:51'!
-identity
-	self isEmpty ifTrue: [^ self].
-	^ self domain to: self codomain scalar: self scalars one! !
-
-!RowMajorMatrix methodsFor: 'constants' stamp: 'len 5/28/2020 10:15:24'!
-zero
-	^ self domain to: self codomain scalar: self scalars zero! !
-
-!RowMajorMatrix methodsFor: 'converting' stamp: 'len 5/28/2020 10:16:21'!
-asTuple
-	"Answer the receiver converted to Tuple by concatenating its rows (which is also the coordinates of the receiver in the canonical basis)."
-	^ coefficients! !
-
-!RowMajorMatrix methodsFor: 'copying' stamp: 'len 5/28/2020 10:37:35'!
-copyFromColumn: start to: end
-	^ self domain to: self codomain columns: ((start to: end) collect: [:each| self columnAt: each])! !
-
-!RowMajorMatrix methodsFor: 'copying' stamp: 'len 5/30/2020 05:00:20'!
-copyFromRow: start to: end
-	^ self class from: domain to: codomain rows: ((start to: end) collect: [:each| self rowAt: each])! !
-
-!RowMajorMatrix methodsFor: 'enumerating' stamp: 'len 5/29/2020 04:11:36'!
-collect: aBlock
-	^ self class from: domain to: codomain coefficients: (coefficients collect: aBlock)! !
-
-!RowMajorMatrix methodsFor: 'enumerating' stamp: 'len 5/28/2020 10:32:10'!
-diagonalDo: aBlock
-	| i w |
-	i _ 1.
-	w _ self width + 1.
-	[i <= coefficients size]
-		whileTrue:
-			[aBlock value: (coefficients at: i).
-			i _ i + w]! !
-
-!RowMajorMatrix methodsFor: 'enumerating' stamp: 'len 5/28/2020 10:34:42'!
-do: aBlock
-	coefficients do: aBlock! !
-
-!RowMajorMatrix methodsFor: 'operations' stamp: 'len 5/29/2020 04:39:45'!
-+ aMatrix
-	(aMatrix isKindOf: RowMajorMatrix) ifFalse: [^ self adapt: aMatrix andSend: #+].
-	(self domain = aMatrix domain and: [self codomain = aMatrix codomain])
-			ifFalse: [^ DomainError signal: 'domains don''t match'].
-	^ self class from: domain to: codomain coefficients: coefficients + aMatrix coefficients! !
-
-!RowMajorMatrix methodsFor: 'private' stamp: 'len 5/29/2020 07:04:34'!
-coefficients: aTuple
-	coefficients _ aTuple! !
-
-!RowMajorMatrix methodsFor: 'private' stamp: 'len 5/29/2020 09:16:50'!
-validate
-	coefficients size = (domain rank * codomain rank) ifFalse: [^ false].
-	^ super validate! !
-
-!RowMajorMatrix class methodsFor: 'instance creation' stamp: 'len 5/29/2020 04:08:08'!
-from: aDomain to: aCodomain coefficients: aTuple
-	^ self new domain: aDomain; codomain: aCodomain; coefficients: aTuple! !
 
 !SemidirectProductElement methodsFor: 'accessing' stamp: 'len 5/5/98 00:18'!
 left
@@ -2678,6 +2739,477 @@ run
 					m _ m + 1]]].
 	^ L! !
 
+!BitTuple methodsFor: 'operations' stamp: 'len 5/15/2019 23:57:46'!
+* aBit
+	aBit isMatrix ifTrue: [^ super * aBit].
+	^ ((aBit isInteger and: [aBit even]) or: [aBit isZero]) ifTrue: [self zero] ifFalse: [self]! !
+
+!BitTuple methodsFor: 'operations' stamp: 'len 5/28/2020 14:27:21'!
++ aBitTuple
+	^ self class
+		bits: (bits bitXor: aBitTuple asInteger)
+		parent: (self size >= aBitTuple size ifTrue: [parent] ifFalse: [aBitTuple parent])! !
+
+!BitTuple methodsFor: 'operations' stamp: 'len 3/28/2016 06:51'!
+- aBitTuple
+	^ self + aBitTuple! !
+
+!BitTuple methodsFor: 'operations' stamp: 'len 5/28/2020 14:30:57'!
+>>> anInteger
+	anInteger = 0 ifTrue: [^ self].
+	^ self class bits: (bits bitShift: anInteger) parent: self scalars^(self size + anInteger max: 0)! !
+
+!BitTuple methodsFor: 'operations' stamp: 'len 5/8/2019 03:09:41'!
+· aBitTuple
+	^ (bits bitAnd: aBitTuple asInteger) bitParity = 0 ifTrue: [Zero] ifFalse: [One]
+
+"	^ self hadamard: aBitTuple :: sum
+"
+
+"	| x |
+	x _ self asInteger bitAnd: aBitTuple asInteger.
+	[x > 1]
+		whileTrue: [x _ x >> (x highBit // 2) bitAnd: x].
+	^ x"! !
+
+!BitTuple methodsFor: 'operations' stamp: 'len 5/29/2020 07:47:48'!
+convolution: aBitTuple
+	| a b c |
+	a _ bits.
+	b _ aBitTuple asInteger.
+	c _ 0.
+	1 to: a highBit do: [:i|
+		(a bitAt: i) = 1 ifTrue: [c _ c bitXor: b].
+		b _ b bitShift: 1].
+	^ self class bits: c parent: self scalars ^ (self size + aBitTuple size - 1 max: 0)! !
+
+!BitTuple methodsFor: 'operations' stamp: 'len 5/28/2020 14:34:18'!
+hadamard: aBitTuple
+	"Answer the entrywise product with the argument, also called Hadamard product."
+	^ self class bits: (bits bitAnd: aBitTuple asInteger) parent: (self size <= aBitTuple size ifTrue: [parent] ifFalse: [aBitTuple parent])! !
+
+!BitTuple methodsFor: 'operations' stamp: 'len 7/10/2020 17:23:55'!
+length
+	^ self norm! !
+
+!BitTuple methodsFor: 'operations' stamp: 'len 5/8/2019 03:09:27'!
+lift
+	"Answer a representative integer tuple."
+	^ self representative! !
+
+!BitTuple methodsFor: 'operations' stamp: 'len 3/28/2016 07:30'!
+negated
+	^ self! !
+
+!BitTuple methodsFor: 'operations' stamp: 'len 7/10/2020 17:25:49'!
+norm
+	self flag: #fix. "this assumes the inner product is the dot product"
+	^ self sum! !
+
+!BitTuple methodsFor: 'operations' stamp: 'len 5/8/2019 03:08:16'!
+parity
+	"Answer 1 if the receiver has an odd number of bits on, 0 if it has an even number of bits on."
+	| n parity |
+	bits = 0 ifTrue: [^ 0].
+"	n _ bits >> (bits lowBit - 1). skip initial zeros, we could also skip chunks of zeros in the middle"
+	n _ bits.
+	parity _ 0.
+	[n = 0] whileFalse: [parity _ parity bitXor: (n bitAnd: 1). n _ n >> 1].
+	^ parity! !
+
+!BitTuple methodsFor: 'operations' stamp: 'len 5/29/2020 19:40:07'!
+polynomialDivisionBy: aTuple
+	| q r b n m |
+	b _ aTuple asInteger.
+	(m _ b highBit) = 0 ifTrue: [^ (ZeroDivide receiver: self selector: #polynomialDivisionBy: argument: aTuple) signal].
+	q _ 0.
+	r _ self asInteger.
+	[(n _ r highBit) >= m] "n = degree(r)+1"
+		whileTrue:
+			[| i |
+			i _ n-m.
+			q _ q bitXor: 1 << i. "wasting some memory while creating 2^i"
+			r _ r bitXor: b << i]. "also wasting some memory here"
+	^ {self class newFrom: q. self class newFrom: r}! !
+
+!BitTuple methodsFor: 'operations' stamp: 'len 5/29/2020 19:40:15'!
+polynomialRemainderOfDivisionBy: aTuple
+	| r b n m |
+	b _ aTuple asInteger.
+	(m _ b highBit) = 0 ifTrue: [^ (ZeroDivide receiver: self selector: #polynomialRemainderOfDivisionBy: argument: aTuple) signal].
+	r _ self asInteger.
+	[(n _ r highBit) >= m] "n = degree(r)+1"
+		whileTrue:
+			[r _ r bitXor: b << (n-m)]. "wasting some memory here"
+	^ self class newFrom: r! !
+
+!BitTuple methodsFor: 'operations' stamp: 'len 11/23/2016 05:42:05'!
+polynomialValue: anObject
+	Zero = anObject ifTrue: [^ self at: 1].
+	One = anObject ifFalse: [^ super polynomialValue: anObject].
+	^ self sum! !
+
+!BitTuple methodsFor: 'operations' stamp: 'len 5/28/2020 14:25:18'!
+reversed
+	^ self class bits: (bits bitReverse: self size) parent: parent! !
+
+!BitTuple methodsFor: 'operations' stamp: 'len 5/8/2019 02:58:43'!
+sum
+	"Answer the sum of the bits, i.e. the parity."
+	^ bits bitParity = 0 ifTrue: [Zero] ifFalse: [One]! !
+
+!BitTuple methodsFor: 'operations' stamp: 'len 11/12/2016 08:41'!
+weight
+	"Answer the Hamming weight of the receiver, i.e. the number of entries that are not zero."
+	^ self asInteger bitCount! !
+
+!BitTuple methodsFor: 'accessing' stamp: 'len 5/8/2019 02:58:37'!
+at: anInteger
+	^ (bits bitAt: anInteger) = 1 ifTrue: [One] ifFalse: [Zero]! !
+
+!BitTuple methodsFor: 'accessing' stamp: 'len 1/1/2022 21:56:38'!
+at: anInteger put: aBit
+	| bit |
+	anInteger > self size ifTrue: [self error: 'index out of bounds'].
+	bit _ aBit.
+	bit isInteger ifTrue: [bit _ bit even ifTrue: [Zero] ifFalse: [One]].
+	(self at: anInteger) = bit
+		ifFalse: [bits _ bits bitXor: (1 bitShift: anInteger - 1)].
+	^ bit! !
+
+!BitTuple methodsFor: 'accessing' stamp: 'len 7/19/2020 08:06:56'!
+bitAt: anInteger
+	^ bits bitAt: anInteger! !
+
+!BitTuple methodsFor: 'accessing' stamp: 'len 7/19/2020 08:08:54'!
+bitAt: anInteger put: oneOrZero
+	anInteger > self size ifTrue: [self error: 'index out of bounds'].
+	(self bitAt: anInteger) = oneOrZero
+		ifFalse: [bits _ bits bitXor: 1 << (anInteger - 1)].
+	^ oneOrZero! !
+
+!BitTuple methodsFor: 'accessing' stamp: 'len 1/2/2022 09:56:51'!
+depth
+	"Answer the index of the last nonzero entry, or 0.
+	(Instead, Magma defines this as the index of the *first* nonzero entry.)
+	See >>pivot for the index of the first nonzero entry."
+	^ bits highBit! !
+
+!BitTuple methodsFor: 'accessing' stamp: 'len 5/29/2020 15:21:10'!
+representative
+	"Answer a representative integer tuple."
+	^ parent lift filling: [:i| bits bitAt: i]! !
+
+!BitTuple methodsFor: 'accessing' stamp: 'len 5/4/2018 19:09:27'!
+scalars
+	^ One parent! !
+
+!BitTuple methodsFor: 'comparing' stamp: 'len 7/27/2020 08:43:41'!
+= anObject
+	^ self class = anObject class and: [bits = anObject asInteger]! !
+
+!BitTuple methodsFor: 'comparing' stamp: 'len 5/8/2019 03:06:15'!
+hash
+	^ bits hash! !
+
+!BitTuple methodsFor: 'constants' stamp: 'len 5/28/2020 14:24:55'!
+zero
+	^ self class bits: 0 parent: parent! !
+
+!BitTuple methodsFor: 'converting' stamp: 'len 5/8/2019 03:10:19'!
+asInteger
+	^ bits! !
+
+!BitTuple methodsFor: 'copying' stamp: 'len 5/28/2020 14:29:53'!
+, anObject
+	anObject isTuple
+		ifTrue: [^ self class bits: (bits bitXor: (anObject asInteger bitShift: self size)) parent: self scalars^(self size+anObject size)].
+	^ self copyWith: anObject! !
+
+!BitTuple methodsFor: 'copying' stamp: 'len 1/1/2022 21:09:00'!
+copyFrom: start to: stop 
+	"Answer a copy of a subset of the receiver, starting from element at 
+	index start until element at index stop."
+	| n |
+	n _ stop - start + 1 max: 0.
+	^ self class bits: ((bits bitShift: 1 - start) bitAnd: (1 bitShift: n) - 1) parent: self scalars^n! !
+
+!BitTuple methodsFor: 'copying' stamp: 'len 5/28/2020 14:24:12'!
+copyWith: aBit
+	| answer |
+	answer _ self class bits: bits parent: self scalars^(self size + 1).
+	aBit = One ifTrue: [answer at: self size+1 put: One. ^ answer].
+	aBit = Zero ifFalse: [DomainError signal].
+	^ answer! !
+
+!BitTuple methodsFor: 'enumerating' stamp: 'len 11/5/2016 09:14'!
+anySatisfy: aBlock
+	"Optimized. There are only two possible elements that could satisfy aBlock (1 or 0)."
+	self isEmpty ifTrue: [^ false].
+	(self isZero not and: [aBlock value: One]) ifTrue: [^ true].
+	^ (aBlock value: Zero) and: [super anySatisfy: [:any| any = Zero]]! !
+
+!BitTuple methodsFor: 'testing' stamp: 'len 1/3/2022 18:29:45'!
+isZero
+	^ bits == 0! !
+
+!BitTuple methodsFor: 'testing' stamp: 'len 12/30/2021 11:34:15'!
+isZeroAt: anInteger
+	^ (bits bitAt: anInteger) = 0! !
+
+!BitTuple methodsFor: 'private' stamp: 'len 5/8/2019 03:03:28'!
+bits: anInteger
+	bits _ anInteger! !
+
+!BitTuple class methodsFor: 'initialization' stamp: 'len 5/23/2020 08:58:58'!
+initialize
+	| Z2 |
+	super initialize.
+	Z2 _ ƒ / 2.
+	One _ Z2 one.
+	Zero _ Z2 zero! !
+
+!BitTuple class methodsFor: 'instance creation' stamp: 'len 1/1/2022 20:27:22'!
+bits: anInteger parent: aFreeModule
+	self assert: anInteger highBit <= aFreeModule rank.
+	^ self basicNew bits: anInteger; parent: aFreeModule! !
+
+!BitTuple class methodsFor: 'instance creation' stamp: 'len 5/28/2020 14:51:42'!
+components: anArray parent: aFreeModule
+	| answer |
+	answer _ self bits: 0 parent: aFreeModule.
+	anArray withIndexDo: [:each :i| answer at: i put: each].
+	^ answer! !
+
+!BitTuple class methodsFor: 'instance creation' stamp: 'len 11/5/2016 07:09'!
+new
+	^ self shouldNotImplement! !
+
+!BitTuple class methodsFor: 'instance creation' stamp: 'len 5/28/2020 14:38:16'!
+newFrom: anInteger
+	anInteger isInteger ifTrue: [^ self bits: anInteger parent: One parent^anInteger highBit].
+	^ super newFrom: anInteger! !
+
+!DenseTuple methodsFor: 'accessing' stamp: 'len 1/1/2022 10:24:41'!
+at: anInteger
+	anInteger isInteger ifFalse: [^ (components at: anInteger position) at: anInteger monomial].
+	^ components at: anInteger! !
+
+!DenseTuple methodsFor: 'accessing' stamp: 'len 1/1/2022 10:23:49'!
+at: anInteger ifAbsent: aBlock
+	anInteger isInteger ifFalse: [^ (components at: anInteger position ifAbsent: [^aBlock value]) at: anInteger monomial ifAbsent: aBlock].
+	^ components at: anInteger ifAbsent: aBlock! !
+
+!DenseTuple methodsFor: 'accessing' stamp: 'len 7/26/2020 13:29:00'!
+size
+	^ components size! !
+
+!DenseTuple methodsFor: 'comparing' stamp: 'len 4/15/2021 09:47:16'!
+= anObject
+	| n otherComponents |
+	self class = anObject class ifFalse: [^ false].
+"	scalars = anObject scalars ifFalse: [^ false]."
+	otherComponents _ anObject components.
+	(n _ components size) = otherComponents size ifFalse:
+		[(n _ self depth) = anObject depth ifFalse: [^ false]].
+	1 to: n do: [:i| (components at: i) = (otherComponents at: i) ifFalse: [^ false]].
+	^ true! !
+
+!DenseTuple methodsFor: 'comparing' stamp: 'len 7/27/2020 08:31:26'!
+hash
+	| answer |
+	answer _ 0.
+	components do: [:each| each isZero ifFalse: [answer _ answer hashMultiply + each hash]].
+	^ answer! !
+
+!DenseTuple methodsFor: 'converting' stamp: 'len 4/18/2022 15:10:39'!
+asArray
+	self flag: #review.
+	^ components asArray
+"	^ components"! !
+
+!DenseTuple methodsFor: 'copying' stamp: 'len 4/18/2022 15:18:12'!
+, anObject
+	anObject isTuple
+		ifTrue: [^ self scalars^(self size + anObject size) elementAt: components, anObject components].
+	anObject isArray
+		ifTrue: [^ self scalars^(self size + anObject size) elementAt: components asArray, anObject asArray].
+	^ self copyWith: anObject! !
+
+!DenseTuple methodsFor: 'copying' stamp: 'len 5/28/2020 14:41:59'!
+copy
+	^ self class components: components copy parent: parent! !
+
+!DenseTuple methodsFor: 'copying' stamp: 'len 5/28/2020 14:42:15'!
+copyFrom: start to: stop
+	^ self class components: (components copyFrom: start to: stop) parent: self scalars^(stop-start+1)! !
+
+!DenseTuple methodsFor: 'copying' stamp: 'len 5/28/2020 14:42:40'!
+copyWith: anElement
+	^ self class components: (components copyWith: self scalars !! anElement) parent: self scalars^(self size + 1)! !
+
+!DenseTuple methodsFor: 'enumerating' stamp: 'len 8/18/2019 18:46:09'!
+allSatisfy: aBlock
+	^ components allSatisfy: aBlock! !
+
+!DenseTuple methodsFor: 'enumerating' stamp: 'len 8/18/2019 18:49:31'!
+anySatisfy: aBlock
+	^ components anySatisfy: aBlock! !
+
+!DenseTuple methodsFor: 'enumerating' stamp: 'len 8/4/2021 14:37:35'!
+collect: aBlock
+	| R |
+	R _ self scalars.
+	^ self class components: (components collect: [:each| R !! (aBlock value: each)]) parent: parent! !
+
+!DenseTuple methodsFor: 'enumerating' stamp: 'len 8/12/2019 16:51:45'!
+detect: aBlock ifNone: exceptionBlock 
+	"Evaluate aBlock with each of the receiver's elements as the argument. 
+	Answer the first element for which aBlock evaluates to true. If none 
+	evaluate to true, then evaluate the argument, exceptionBlock."
+
+	self do: [:each | (aBlock value: each) ifTrue: [^each]].
+	^exceptionBlock value! !
+
+!DenseTuple methodsFor: 'enumerating' stamp: 'len 8/18/2019 18:50:26'!
+do: aBlock
+	components do: aBlock! !
+
+!DenseTuple methodsFor: 'enumerating' stamp: 'len 8/18/2019 18:45:55'!
+findFirst: aBlock
+	^ components findFirst: aBlock! !
+
+!DenseTuple methodsFor: 'enumerating' stamp: 'len 8/18/2019 18:44:35'!
+findLast: aBlock
+	^ components findLast: aBlock! !
+
+!DenseTuple methodsFor: 'enumerating' stamp: 'len 8/18/2019 18:45:37'!
+reverseDo: aBlock
+	components reverseDo: aBlock! !
+
+!DenseTuple methodsFor: 'enumerating' stamp: 'len 8/18/2019 18:45:43'!
+withIndexDo: aBlock
+	components withIndexDo: aBlock! !
+
+!DenseTuple methodsFor: 'operations' stamp: 'len 4/18/2022 12:52:28'!
+* anObject
+	((self scalars includes: anObject) or: [anObject isInteger]) ifTrue: [^ self class components: components * anObject parent: parent].
+	anObject isMatrix ifTrue: [^ (self asRowMatrix * anObject) asTuple].
+	anObject isTuple ifTrue: [^ self · anObject].
+	^ self * (self scalars !! anObject)! !
+
+!DenseTuple methodsFor: 'operations' stamp: 'len 4/17/2022 17:11:42'!
++ aTuple
+	(aTuple isTuple and: [self scalars = aTuple scalars]) ifFalse: [^ self adapt: aTuple andSend: #+].
+	^ self class components: components + aTuple components parent: (self size >= aTuple size ifTrue: [parent] ifFalse: [aTuple parent])
+
+"
+	| a b n m c |
+	a _ components.
+	b _ aTuple components.
+	n _ a size.
+	m _ b size.
+	c _ Array new: (n max: m).
+	1 to: (n min: m) do: [:i| c at: i put: (a at: i) + (b at: i)].
+	m > n
+		ifTrue: [c replaceFrom: n+1 to: m with: b startingAt: n+1]
+		ifFalse: [m < n ifTrue: [c replaceFrom: m+1 to: n with: a startingAt: m+1]].
+	^ self class components: c parent: (n >= m ifTrue: [parent] ifFalse: [aTuple parent])"! !
+
+!DenseTuple methodsFor: 'operations' stamp: 'len 4/17/2022 17:12:18'!
+- aTuple
+	(aTuple isTuple and: [self scalars = aTuple scalars]) ifFalse: [^ self adapt: aTuple andSend: #-].
+	^ self class components: components - aTuple components parent: (self size >= aTuple size ifTrue: [parent] ifFalse: [aTuple parent])
+
+"	| a b n m c |
+	a _ components.
+	b _ aTuple components.
+	n _ a size.
+	m _ b size.
+	c _ Array new: (n max: m).
+	1 to: (n min: m) do: [:i| c at: i put: (a at: i) - (b at: i)].
+	n > m
+		ifTrue: [c replaceFrom: m+1 to: n with: a startingAt: m+1]
+		ifFalse: [n < m ifTrue: [n+1 to: m do: [:i| c at: i put: (b at: i) negated]]].
+	^ self class components: c parent: (n >= m ifTrue: [parent] ifFalse: [aTuple parent])"! !
+
+!DenseTuple methodsFor: 'operations' stamp: 'len 4/18/2022 13:07:34'!
+· aTuple
+	(self isEmpty or: [aTuple isEmpty]) ifTrue: [^ self scalars zero].
+	^ components · aTuple components
+
+"	| answer |
+	answer _ self scalars zero.
+	1 to: (self depth min: aTuple depth) do: [:i| answer _ (self at: i) * (aTuple at: i) + answer].
+	^ answer"! !
+
+!DenseTuple methodsFor: 'operations' stamp: 'len 6/6/2019 10:00:36'!
+convolution2: aTuple
+	| a aH aHbH aL aLbL b bH bL mid n m |
+	self size >= aTuple size ifTrue: [a _ self. b _ aTuple] ifFalse: [a _ aTuple. b _ self].
+	n _ a size.
+	m _ b size.
+	m > 200 ifFalse: [^ self convolution: aTuple].
+	mid _ n // 2.
+	m > mid ifFalse: [^ self convolution: aTuple].
+	aL _ a copyFrom: 1 to: mid.
+	aH _ a copyFrom: mid+1 to: n.
+	bL _ b copyFrom: 1 to: mid.
+	bH _ b copyFrom: mid+1 to: m.
+	aLbL _ aL convolution2: bL.
+	aHbH _ aH convolution2: bH.
+	^ aLbL + ((aL + aH convolution2: bL + bH) - aLbL - aHbH >>> mid) + (aHbH >>> (mid*2))! !
+
+!DenseTuple methodsFor: 'operations' stamp: 'len 4/17/2022 17:14:43'!
+convolution: aTuple
+	| result |
+	self isEmpty ifTrue: [^ self].
+	aTuple isEmpty ifTrue: [^ aTuple].
+	(aTuple isTuple and: [self scalars = aTuple scalars]) ifFalse: [^ self adapt: aTuple andSend: #convolution:].
+	result _ components convolution: aTuple components.
+	^ self class components: result parent: self scalars ^ result size
+
+"	array _ Array new: self size + aTuple size - 1.
+	array atAllPut: self scalars zero.
+	self withIndexDo: [:xi :i|
+		xi isZero ifFalse:
+			[aTuple withIndexDo: [:yj :j|
+				array at: i+j-1 add: xi*yj]]].
+	^ self class components: array parent: self scalars^array size"! !
+
+!DenseTuple methodsFor: 'operations' stamp: 'len 5/28/2020 14:42:52'!
+reversed
+	^ self class components: components reversed parent: parent! !
+
+!DenseTuple methodsFor: 'testing' stamp: 'len 8/18/2019 18:50:44'!
+includes: anObject
+	^ components includes: anObject! !
+
+!DenseTuple methodsFor: 'private' stamp: 'len 8/18/2019 18:50:39'!
+at: anInteger put: anObject
+	^ components at: anInteger put: anObject! !
+
+!DenseTuple methodsFor: 'private' stamp: 'len 9/4/2019 12:54:27'!
+components
+	^ components! !
+
+!DenseTuple methodsFor: 'private' stamp: 'len 4/18/2022 12:29:34'!
+components: anArray parent: aFreeModule
+	components _ anArray.
+	parent _ aFreeModule! !
+
+!DenseTuple methodsFor: 'private' stamp: 'len 8/18/2019 18:45:24'!
+swap: i with: j
+	components swap: i with: j! !
+
+!DenseTuple class methodsFor: 'instance creation' stamp: 'len 4/18/2022 12:29:47'!
+components: anArray parent: aFreeModule
+	^ self basicNew components: anArray parent: aFreeModule! !
+
+!DenseTuple class methodsFor: 'instance creation' stamp: 'len 11/5/2016 07:13'!
+new
+	^ self shouldNotImplement! !
+
 !ExtendedSmithReduction methodsFor: 'as yet unclassified' stamp: 'len 5/5/2019 12:43:36'!
 matrix
 	^ matrix! !
@@ -2777,6 +3309,332 @@ run
 		x _ self addColumn: a.
 		HNF _ addRow: a to: HNF | x
 "! !
+
+!ModularTuple methodsFor: 'accessing' stamp: 'len 5/28/2020 13:18:42'!
+at: anInteger
+	^ self scalars representative: (representatives at: anInteger ifAbsent: [^ self scalars zero])! !
+
+!ModularTuple methodsFor: 'accessing' stamp: 'len 5/28/2020 13:19:19'!
+at: anInteger put: anElement
+	anElement isInteger ifTrue: [^ representatives at: anInteger put: anElement \\ self scalars modulus].
+	representatives at: anInteger put: anElement representative.
+	^ anElement! !
+
+!ModularTuple methodsFor: 'accessing' stamp: 'len 1/6/2022 14:25:27'!
+depth
+	"Answer the index of the last nonzero entry, or 0.
+	(Instead, Magma defines this as the index of the *first* nonzero entry.)
+	See >>pivot for the index of the first nonzero entry."
+	representatives size to: 1 by: -1 do: [:i| (representatives at: i) == 0 ifFalse: [^ i]].
+	^ 0! !
+
+!ModularTuple methodsFor: 'accessing' stamp: 'len 4/4/2021 09:51:28'!
+lift
+	"Answer a balanced representative integer tuple."
+	| m h |
+	m _ self scalars modulus.
+	h _ m >> 1.
+	^ parent lift filling: [:i| | r | r _ representatives at: i. r <= h ifTrue: [r] ifFalse: [r - m]]! !
+
+!ModularTuple methodsFor: 'accessing' stamp: 'len 1/6/2022 14:25:11'!
+pivot
+	"Answer the index of the first nonzero entry, or nil.
+	See >>depth for the index of the last nonzero entry."
+	1 to: representatives size do: [:i| (representatives at: i) == 0 ifFalse: [^ i]].
+	^ nil! !
+
+!ModularTuple methodsFor: 'accessing' stamp: 'len 5/29/2020 15:22:21'!
+representative
+	"Answer a representative integer tuple."
+	^ parent lift elementAt: representatives! !
+
+!ModularTuple methodsFor: 'accessing' stamp: 'len 7/26/2020 13:29:14'!
+size
+	^ representatives size! !
+
+!ModularTuple methodsFor: 'comparing' stamp: 'len 4/15/2021 09:37:30'!
+= anObject
+	| n otherRepresentatives |
+	(self class = anObject class and: [self scalars = anObject scalars]) ifFalse: [^ false].
+	otherRepresentatives _ anObject representatives.
+	(n _ representatives size) = otherRepresentatives size ifFalse:
+		[(n _ self depth) = anObject depth ifFalse: [^ false]].
+	1 to: n do: [:i| (representatives at: i) = (otherRepresentatives at: i) ifFalse: [^ false]].
+	^ true! !
+
+!ModularTuple methodsFor: 'comparing' stamp: 'len 7/27/2020 08:39:57'!
+hash
+	| answer |
+	answer _ 0.
+	representatives do: [:each| each = 0 ifFalse: [answer _ answer hashMultiply + each hash]].
+	^ answer! !
+
+!ModularTuple methodsFor: 'copying' stamp: 'len 5/28/2020 14:35:37'!
+, anObject
+	anObject isTuple
+		ifTrue:
+			[self scalars = anObject scalars ifFalse: [^ DomainError signal].
+			^ self class representatives: representatives, anObject representatives parent: self scalars^(self size + anObject size)].
+	^ self copyWith: anObject! !
+
+!ModularTuple methodsFor: 'copying' stamp: 'len 5/28/2020 14:35:50'!
+copy
+	^ self class representatives: representatives copy parent: parent! !
+
+!ModularTuple methodsFor: 'copying' stamp: 'len 5/28/2020 14:35:56'!
+copyFrom: start to: stop
+	^ self class representatives: (representatives copyFrom: start to: stop) parent: self scalars^(stop-start+1)! !
+
+!ModularTuple methodsFor: 'copying' stamp: 'len 5/28/2020 14:36:06'!
+copyWith: anElement
+	(self scalars includes: anElement) ifFalse: [^ DomainError signal].
+	^ self class representatives: (representatives copyWith: anElement representative) parent: self scalars^(self size + 1)! !
+
+!ModularTuple methodsFor: 'operations' stamp: 'len 5/28/2020 14:35:16'!
+* anElement
+	| modulus x array |
+	anElement isMatrix ifTrue: [^ super * anElement].
+	x _ anElement isInteger ifTrue: [anElement] ifFalse: [anElement representative].
+	modulus _ self scalars modulus.
+	array _ representatives copy.
+	1 to: self size do: [:i| array at: i put: (array at: i) * x \\ modulus].
+	^ self class representatives: array parent: parent! !
+
+!ModularTuple methodsFor: 'operations' stamp: 'len 5/29/2020 19:53:28'!
++ aTuple
+	| modulus a an b bn c |
+	(an _ self size) <= (bn _ aTuple size) ifFalse: [^ aTuple + self].
+	modulus _ self scalars modulus.
+	a _ representatives.
+	b _ aTuple representatives.
+	c _ representatives class new: bn.
+	1 to: an do: [:i| c at: i put: (a at: i) + (b at: i) \\ modulus].
+	c replaceFrom: an+1 to: bn with: b startingAt: an+1.
+	^ self class representatives: c parent: aTuple parent! !
+
+!ModularTuple methodsFor: 'operations' stamp: 'len 5/28/2020 13:18:02'!
+· aTuple
+	| modulus representatives2 answer |
+	(aTuple class = self class and: [self scalars = aTuple scalars])
+		ifFalse: [^ super · aTuple].
+	modulus _ self scalars modulus.
+	representatives2 _ aTuple representatives.
+	answer _ 0.
+	1 to: (representatives size min: representatives2 size) do: [:i|
+		answer _ (representatives at: i) * (representatives2 at: i) + answer \\ modulus].
+	^ self scalars representative: answer! !
+
+!ModularTuple methodsFor: 'operations' stamp: 'len 3/11/2021 17:20:32'!
+add: aTuple times: aNumber from: startIndex to: stopIndex
+	| m representatives2 x |
+	(self class = aTuple class "and: [self scalars = aTuple scalars]")
+		ifFalse: [^ super add: aTuple times: aNumber from: startIndex to: stopIndex].
+	m _ self scalars modulus.
+	representatives2 _ aTuple representatives.
+	x _ aNumber representative.
+	0 = x ifTrue: [^ self].
+	startIndex to: stopIndex do: [:i|
+		| y |
+		y _ (representatives2 at: i) * x + (representatives at: i).
+		y >= m ifTrue: [y _ y \\ m].
+		representatives at: i put: y]! !
+
+!ModularTuple methodsFor: 'operations' stamp: 'len 5/28/2020 14:35:44'!
+convolution: aTuple
+	| modulus array |
+	self isEmpty ifTrue: [^ self].
+	aTuple isEmpty ifTrue: [^ aTuple].
+	modulus _ self scalars modulus.
+	array _ representatives class new: self size + aTuple size - 1.
+	array atAllPut: 0. "in case it's Array"
+	representatives withIndexDo: [:xi :i|
+		xi = 0 ifFalse:
+			[aTuple representatives withIndexDo: [:yj :j| | index |
+				index _ i+j-1.
+				array at: index put: xi*yj + (array at: index) \\ modulus]]].
+	^ self class representatives: array parent: self scalars^array size! !
+
+!ModularTuple methodsFor: 'operations' stamp: 'len 5/28/2020 14:36:16'!
+hadamard: aTuple
+	| modulus c b answerParent |
+	(self class = aTuple class and: [self scalars = aTuple scalars])
+		ifFalse: [^ super hadamard: aTuple].
+	modulus _ self scalars modulus.
+	answerParent _ self size <= aTuple size ifTrue: [parent] ifFalse: [aTuple parent].
+	c _ representatives class new: answerParent rank.
+	b _ aTuple representatives.
+	1 to: c size do: [:i| c at: i put: (representatives at: i) * (b at: i) \\ modulus].
+	^ self class representatives: c parent: answerParent! !
+
+!ModularTuple methodsFor: 'operations' stamp: 'len 3/11/2021 17:22:19'!
+multiplyBy: aNumber from: startIndex to: stopIndex
+	| m x |
+	m _ self modulus.
+	x _ aNumber representative.
+	startIndex to: stopIndex do: [:i|
+		| y |
+		y _ (representatives at: i) * x.
+		y >= m ifTrue: [y _ y \\ m].
+		representatives at: i put: y]! !
+
+!ModularTuple methodsFor: 'operations' stamp: 'len 5/28/2020 14:36:27'!
+negated
+	| modulus array |
+	array _ representatives copy.
+	modulus _ self modulus.
+	1 to: self size do: [:i| array at: i put: (array at: i) negated \\ modulus].
+	^ self class representatives: array parent: parent! !
+
+!ModularTuple methodsFor: 'operations' stamp: 'len 5/29/2020 19:42:36'!
+polynomialDivisionBy: aTuple
+	| quo q rem r bmInv n m b modulus |
+	aTuple isZero ifTrue: [^ (ZeroDivide receiver: self selector: #polynomialDivisionBy: argument: aTuple) signal].
+	quo _ self zero.
+	q _ quo representatives.
+	rem _ self copy.
+	r _ rem representatives.
+	m _ aTuple depth. "m = degree(self)+1"
+	bmInv _ (aTuple at: m) inverse representative.
+	b _ aTuple representatives.
+	modulus _ self modulus.
+	[(n _ rem depth) >= m] "n = degree(rem)+1"
+		whileTrue:
+			[| i c |
+			i _ n-m+1.
+			c _ (r at: n) * bmInv \\ modulus. "<- is it better to reduce or not reduce here?"
+			q at: i put: (q at: i) + c \\ modulus.
+			1 to: m do: [:j| r at: j+i-1 put: (r at: j+i-1) - ((b at: j)*c) \\ modulus]].
+	^ {quo. rem}! !
+
+!ModularTuple methodsFor: 'operations' stamp: 'len 5/29/2020 19:42:51'!
+polynomialPartialDivisionBy: aTuple
+	| quo q rem r n m b bm modulus |
+	aTuple isZero ifTrue: [^ (ZeroDivide receiver: self selector: #polynomialPartialDivisionBy: argument: aTuple) signal].
+	quo _ self zero.
+	q _ quo representatives.
+	rem _ self copy.
+	r _ rem representatives.
+	m _ aTuple depth. "m = degree(self)+1"
+	b _ aTuple representatives.
+	bm _ b at: m.
+	modulus _ self modulus.
+	[(n _ rem depth) >= m] "n = degree(rem)+1"
+		whileTrue:
+			[| i c |
+			i _ n-m+1.
+			c _ (r at: n) quotientBy: bm modulo: modulus.
+			c = 0 ifTrue: [^ {quo. rem}].
+			q at: i put: (q at: i) + c \\ modulus.
+			1 to: m do: [:j| r at: j+i-1 put: (r at: j+i-1) - ((b at: j)*c) \\ modulus]].
+	^ {quo. rem}! !
+
+!ModularTuple methodsFor: 'operations' stamp: 'len 5/29/2020 19:42:57'!
+polynomialRemainderOfDivisionBy: aTuple
+	| rem r bmInv n m b modulus |
+	aTuple isZero ifTrue: [^ (ZeroDivide receiver: self selector: #polynomialRemainderOfDivisionBy: argument: aTuple) signal].
+	rem _ self copy.
+	r _ rem representatives.
+	m _ aTuple depth. "m = degree(self)+1"
+	bmInv _ (aTuple at: m) inverse representative.
+	b _ aTuple representatives.
+	modulus _ self modulus.
+	[(n _ rem depth) >= m] "n = degree(rem)+1"
+		whileTrue:
+			[| i c |
+			i _ n-m+1.
+			c _ (r at: n) * bmInv \\ modulus. "<- is it better to reduce or not reduce here?"
+			1 to: m do: [:j| r at: j+i-1 put: (r at: j+i-1) - ((b at: j)*c) \\ modulus]].
+	^ rem! !
+
+!ModularTuple methodsFor: 'operations' stamp: 'len 5/29/2020 19:43:05'!
+polynomialRemainderOfPartialDivisionBy: aTuple
+	| rem r n m b bm modulus |
+	aTuple isZero ifTrue: [^ (ZeroDivide receiver: self selector: #polynomialRemainderOfPartialDivisionBy: argument: aTuple) signal].
+	rem _ self copy.
+	r _ rem representatives.
+	m _ aTuple depth. "m = degree(self)+1"
+	b _ aTuple representatives.
+	bm _ b at: m.
+	modulus _ self modulus.
+	[(n _ rem depth) >= m] "n = degree(rem)+1"
+		whileTrue:
+			[| i c |
+			i _ n-m+1.
+			c _ (r at: n) quotientBy: bm modulo: modulus.
+			c = 0 ifTrue: [^ rem].
+			1 to: m do: [:j| r at: j+i-1 put: (r at: j+i-1) - ((b at: j)*c) \\ modulus]].
+	^ rem! !
+
+!ModularTuple methodsFor: 'operations' stamp: 'len 5/28/2020 13:25:10'!
+polynomialValue: anElement
+	| modulus x answer |
+	(self scalars includes: anElement)
+		ifFalse: [^ super polynomialValue: anElement].
+	modulus _ self modulus.
+	x _ anElement representative.
+	answer _ 0.
+	representatives reverseDo: [:each| answer _ x * answer + each \\ modulus].
+	^ self scalars representative: answer! !
+
+!ModularTuple methodsFor: 'operations' stamp: 'len 5/28/2020 14:36:34'!
+reversed
+	^ self class representatives: representatives reversed parent: parent! !
+
+!ModularTuple methodsFor: 'operations' stamp: 'len 12/3/2016 09:13:11'!
+weight
+	"Answer the Hamming weight of the receiver, i.e. the number of entries that are not zero."
+	^ representatives count: [:each| each ~~ 0]! !
+
+!ModularTuple methodsFor: 'testing' stamp: 'len 12/5/2016 17:54:18'!
+isZero
+	1 to: representatives size do: [:i| (representatives at: i) == 0 ifFalse: [^ false]].
+	^ true! !
+
+!ModularTuple methodsFor: 'testing' stamp: 'len 12/30/2021 11:34:38'!
+isZeroAt: anInteger
+	^ (representatives at: anInteger) = 0! !
+
+!ModularTuple methodsFor: 'testing' stamp: 'len 4/12/2021 12:28:13'!
+isZeroFrom: start to: stop
+	start to: stop do: [:i| (representatives at: i) == 0 ifFalse: [^ false]].
+	^ true! !
+
+!ModularTuple methodsFor: 'private' stamp: 'len 5/28/2020 13:23:21'!
+modulus
+	^ self scalars modulus! !
+
+!ModularTuple methodsFor: 'private' stamp: 'len 3/31/2016 07:43'!
+representatives
+	^ representatives! !
+
+!ModularTuple methodsFor: 'private' stamp: 'len 12/1/2016 16:36:25'!
+representatives: anArray
+	representatives _ anArray
+"	representatives do: [:each| (each between: 0 and: modulus) ifFalse: [self halt]]"! !
+
+!ModularTuple class methodsFor: 'instance creation' stamp: 'len 3/25/2021 14:46:18'!
+components: anArray parent: aFreeModule
+	| n array |
+	n _ anArray size.
+	array _ self representativesArrayClass new: n.
+	1 to: n do: [:i| array at: i put: (anArray at: i) representative].
+	^ self representatives: array parent: aFreeModule! !
+
+!ModularTuple class methodsFor: 'instance creation' stamp: 'len 5/28/2020 13:13:06'!
+representatives: anArray parent: aFreeModule
+	^ self basicNew parent: aFreeModule; representatives: anArray! !
+
+!ModularTuple class methodsFor: 'private' stamp: 'len 3/25/2021 14:46:36'!
+representativesArrayClass
+	^ Array! !
+
+!ByteModularTuple class methodsFor: 'private' stamp: 'len 3/25/2021 14:47:10'!
+representativesArrayClass
+	^ ByteArray! !
+
+!WordModularTuple class methodsFor: 'private' stamp: 'len 3/25/2021 14:47:23'!
+representativesArrayClass
+	^ WordArray! !
 
 !MultivariateReducer methodsFor: 'as yet unclassified' stamp: 'len 1/14/2022 11:24:18'!
 divide: anElement
@@ -2990,6 +3848,120 @@ run
 		whileFalse: [i _ i - 1].
 	invariants add: ((matrix at: 1@1) gcd: R).
 "	diagonal _ matrix scalars tuple: diagonal"! !
+
+!SparseTuple methodsFor: 'accessing' stamp: 'len 7/18/2020 05:41:20'!
+at: key
+	^ components at: key ifAbsent: [self scalars zero]! !
+
+!SparseTuple methodsFor: 'accessing' stamp: 'len 7/18/2020 05:42:55'!
+at: key ifAbsent: exceptionBlock
+	^ components at: key ifAbsent: exceptionBlock! !
+
+!SparseTuple methodsFor: 'accessing' stamp: 'len 7/18/2020 06:10:41'!
+at: anObject ifPresent: aBlock
+	^ components at: anObject ifPresent: aBlock! !
+
+!SparseTuple methodsFor: 'accessing' stamp: 'len 7/18/2020 05:43:24'!
+at: key put: value
+	value isZero ifTrue: [components removeKey: key ifAbsent: []. ^ value].
+	^ components at: key put: value! !
+
+!SparseTuple methodsFor: 'accessing' stamp: 'len 7/18/2020 05:43:40'!
+bitSize
+	| answer |
+	answer _ 0.
+	components keysAndValuesDo: [:key :value| answer _ answer + key bitSize + value bitSize].
+	^ answer! !
+
+!SparseTuple methodsFor: 'accessing' stamp: 'len 7/18/2020 07:00:41'!
+size
+	^ components size! !
+
+!SparseTuple methodsFor: 'comparing' stamp: 'len 7/18/2020 06:08:29'!
+= anObject
+	^ self class = anObject class and: [components = anObject components]! !
+
+!SparseTuple methodsFor: 'comparing' stamp: 'len 7/18/2020 06:08:44'!
+hash
+	^ components hash! !
+
+!SparseTuple methodsFor: 'enumerating' stamp: 'len 7/18/2020 07:02:56'!
+collect: aBlock 
+	| newComponents |
+	newComponents _ Dictionary new: self size.
+	components associationsDo: [:each| | newValue |
+		(newValue _ aBlock value: each value) isZero ifFalse: [newComponents at: each key put: newValue]].
+	^ self class components: newComponents parent: parent! !
+
+!SparseTuple methodsFor: 'enumerating' stamp: 'len 7/18/2020 06:57:14'!
+withIndexDo: elementAndIndexBlock 
+	components keysAndValuesDo: [:key :value| elementAndIndexBlock value: value value: key]! !
+
+!SparseTuple methodsFor: 'initialization' stamp: 'len 7/18/2020 07:04:57'!
+components: aDictionary
+	components _ aDictionary! !
+
+!SparseTuple methodsFor: 'initialization' stamp: 'len 7/18/2020 05:37:44'!
+initialize
+	super initialize.
+	components _ Dictionary new! !
+
+!SparseTuple methodsFor: 'operations' stamp: 'len 7/18/2020 06:58:12'!
++ aTuple
+	| other answer |
+	(aTuple isTuple and: [self scalars = aTuple scalars]) ifFalse: [^ self adapt: aTuple andSend: #+].
+	self size <= aTuple size
+		ifTrue: [answer _ aTuple copy. other _ self]
+		ifFalse: [answer _ self copy. other _ aTuple].
+	other withIndexDo: [:each :index| answer at: index add: each].
+	^ answer! !
+
+!SparseTuple methodsFor: 'operations' stamp: 'len 7/18/2020 06:58:49'!
+- aTuple
+	| answer |
+	(aTuple isTuple and: [self scalars = aTuple scalars]) ifFalse: [^ self adapt: aTuple andSend: #-].
+	self size <= aTuple size
+		ifTrue:
+			[answer _ aTuple negated.
+			self withIndexDo: [:each :index| answer at: index add: each]]
+		ifFalse:
+			[answer _ self copy.
+			aTuple withIndexDo: [:each :index| answer at: index add: each negated]].
+	^ answer! !
+
+!SparseTuple methodsFor: 'operations' stamp: 'len 7/18/2020 06:59:44'!
+· aTuple
+	| answer |
+	answer _ self scalars zero.
+	self withIndexDo: [:each :index|
+		aTuple at: index ifPresent: [:other| answer _ each*other + answer]].
+	^ answer! !
+
+!SparseTuple methodsFor: 'operations' stamp: 'len 7/18/2020 07:00:07'!
+negated
+	^ self copy components associationsDo: [:each| each value: each value negated]! !
+
+!SparseTuple methodsFor: 'operations' stamp: 'len 7/27/2020 15:48:16'!
+weight
+	"Answer the Hamming weight of the receiver, i.e. the number of entries that are not zero."
+	^ components size! !
+
+!SparseTuple methodsFor: 'private' stamp: 'len 7/18/2020 05:41:14'!
+at: key add: value
+	^ components at: key addAndRemoveIfZero: value! !
+
+!SparseTuple methodsFor: 'private' stamp: 'len 7/18/2020 06:04:59'!
+components
+	^ components! !
+
+!SparseTuple class methodsFor: 'instance creation' stamp: 'len 7/18/2020 07:03:57'!
+components: anArrayOrDictionary parent: aFreeModule
+	| answer |
+	anArrayOrDictionary class = Dictionary
+		ifTrue: [^ self basicNew components: anArrayOrDictionary; parent: aFreeModule].
+	answer _ self new parent: aFreeModule.
+	anArrayOrDictionary withIndexDo: [:each :i| each isZero ifFalse: [answer at: i put: each]].
+	^ answer! !
 
 !SturmChain methodsFor: 'as yet unclassified' stamp: 'len 11/3/2015 06:50'!
 countSignChanges: signs
@@ -3409,3 +4381,4 @@ testWeylGroupAndSimpleRoots
 	R _ self rootSystem1.
 	W _ R weylGroup.
 	R roots do: [:r| self assert: (W anySatisfy: [:w| R simpleRoots includes: (w value: r)])]! !
+BitTuple initialize!

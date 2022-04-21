@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5053] on 16 April 2022 at 2:18:23 pm'!
+'From Cuis 6.0 [latest update: #5053] on 21 April 2022 at 5:27:12 am'!
 'Description '!
-!provides: 'Tests-Algebra' 1 0!
+!provides: 'Tests-Algebra' 1 1!
 SystemOrganization addCategory: #'Tests-Algebra'!
 SystemOrganization addCategory: #'Tests-Algebra-Tuples'!
 SystemOrganization addCategory: #'Tests-Algebra-Matrices'!
@@ -2137,10 +2137,10 @@ testBitTupleBug
 	self assert: ((1,1,0) % 2 :: sum = Z2 zero).
 	self assert: ((1,1,1) % 2 :: sum = Z2 one)! !
 
-!TuplesOverBinaryFieldTest methodsFor: 'as yet unclassified' stamp: 'len 4/22/2021 10:29:35'!
+!TuplesOverBinaryFieldTest methodsFor: 'as yet unclassified' stamp: 'len 4/18/2022 15:22:37'!
 testBitTupleSum
-	self assert: (BitTuple newFrom: 2r1011101) sum representative = 1.
-	self assert: (BitTuple newFrom: 2r10000100100010) sum representative = 0! !
+	self assert: (ModularBitArray newFrom: 2r1011101) sum representative = 1.
+	self assert: (ModularBitArray newFrom: 2r10000100100010) sum representative = 0! !
 
 !TuplesOverPolynomialsOverRationalsTest methodsFor: 'as yet unclassified' stamp: 'len 4/22/2021 10:31:32'!
 initialize
@@ -8537,9 +8537,9 @@ testArithmeticZ2
 testArithmeticZ3
 	self testArithmeticOver: ƒ/3! !
 
-!PolynomialTest methodsFor: 'arithmetic' stamp: 'len 5/23/2020 09:34:55'!
+!PolynomialTest methodsFor: 'arithmetic' stamp: 'len 4/20/2022 13:12:40'!
 testArithmeticZm
-	self testArithmeticOver: ƒ/(2 + 100 atRandom)! !
+	self testArithmeticOver: ƒ/(2 + 10000000000000 atRandom)! !
 
 !PolynomialTest methodsFor: 'division' stamp: 'len 5/12/2020 12:33:23'!
 testDivision: F
@@ -10992,10 +10992,10 @@ testBitTupleReversed
 	self assert: (v reversed at: i) = (v at: v size - i + 1).
 	self assert: v reversed reversed = v! !
 
-!TupleTest methodsFor: 'bit tuples' stamp: 'len 5/8/2019 04:24:02'!
+!TupleTest methodsFor: 'bit tuples' stamp: 'len 4/18/2022 15:23:56'!
 testBitTupleSum
-	self assert: (BitTuple newFrom: 2r1011101) sum representative = 1.
-	self assert: (BitTuple newFrom: 2r10000100100010) sum representative = 0! !
+	self assert: (ModularBitArray newFrom: 2r1011101) sum representative = 1.
+	self assert: (ModularBitArray newFrom: 2r10000100100010) sum representative = 0! !
 
 !TupleTest methodsFor: 'bit tuples' stamp: 'len 7/27/2020 08:51:53'!
 testBitTuplesOfDifferentSize
