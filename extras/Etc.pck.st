@@ -1,9 +1,8 @@
-'From Cuis 6.0 [latest update: #5053] on 21 April 2022 at 5:27:01 am'!
+'From Cuis 6.0 [latest update: #5053] on 27 April 2022 at 8:02:52 pm'!
 'Description '!
-!provides: 'Etc' 1 2!
+!provides: 'Etc' 1 3!
 !requires: 'Domains' 1 647 nil!
 SystemOrganization addCategory: #Etc!
-SystemOrganization addCategory: #'Etc-Algebras'!
 SystemOrganization addCategory: #'Etc-Lie'!
 
 
@@ -115,16 +114,6 @@ Ring subclass: #CompletionRing
 	category: 'Etc'!
 !classDefinition: 'CompletionRing class' category: #Etc!
 CompletionRing class
-	instanceVariableNames: ''!
-
-!classDefinition: #FreeAlgebra category: #'Etc-Algebras'!
-Ring subclass: #FreeAlgebra
-	instanceVariableNames: 'scalars words'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Etc-Algebras'!
-!classDefinition: 'FreeAlgebra class' category: #'Etc-Algebras'!
-FreeAlgebra class
 	instanceVariableNames: ''!
 
 !classDefinition: #PolynomialCode category: #Etc!
@@ -257,16 +246,6 @@ RingElement subclass: #RelaxedPowerSeries
 RelaxedPowerSeries class
 	instanceVariableNames: ''!
 
-!classDefinition: #FreePolynomial category: #'Etc-Algebras'!
-RingElement subclass: #FreePolynomial
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Etc-Algebras'!
-!classDefinition: 'FreePolynomial class' category: #'Etc-Algebras'!
-FreePolynomial class
-	instanceVariableNames: ''!
-
 !classDefinition: #BerlekampMassey category: #Etc!
 Object subclass: #BerlekampMassey
 	instanceVariableNames: ''
@@ -345,6 +324,16 @@ ModularTuple subclass: #WordModularTuple
 	category: 'Etc'!
 !classDefinition: 'WordModularTuple class' category: #Etc!
 WordModularTuple class
+	instanceVariableNames: ''!
+
+!classDefinition: #MultivariatePolynomialOld category: #Etc!
+Object subclass: #MultivariatePolynomialOld
+	instanceVariableNames: 'parts'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Etc'!
+!classDefinition: 'MultivariatePolynomialOld class' category: #Etc!
+MultivariatePolynomialOld class
 	instanceVariableNames: ''!
 
 !classDefinition: #MultivariateReducer category: #Etc!
@@ -484,11 +473,6 @@ The initialization of the tables is very fast. The main concern is memory usage.
 !CompletionRing commentStamp: '<historical>' prior: 0!
 Completion of a given commutative ring R at a given maximal ideal I. This is the inverse limit of the quotient rings R / I^n.!
 
-!FreeAlgebra commentStamp: '<historical>' prior: 0!
-Algebras of noncommutative polynomials in a finite set of indeterminates. These are finitely generated free associative unital algebras, and their elements are FreePolynomials.
-
-This is the noncommutative analogue of a polynomial ring.!
-
 !PolynomialCode commentStamp: '<historical>' prior: 0!
 In coding theory, a polynomial code is a type of linear code whose set of valid codewords consists of those polynomials (usually of some fixed length) that are divisible by some fixed polynomial (of shorter length, called the generator polynomial).
 
@@ -523,11 +507,6 @@ A p-adic number z is represented uniquely by an integer k (the valuation) and a 
 !RelaxedPowerSeries commentStamp: '<historical>' prior: 0!
 Univariate formal power series with coefficients over a commutative ring. See PowerSeriesRing.!
 
-!FreePolynomial commentStamp: '<historical>' prior: 0!
-Polynomials in a finite set of noncommuting indeterminates. They are elements of a free associative algebra (FreeAlgebra).
-
-A free polynomial is a formal linear combination of Words, that in turn are formal (noncommutative) products of arbitrary objects (indeterminates).!
-
 !BerlekampMassey commentStamp: '<historical>' prior: 0!
 This is the Berlekamp-Massey algorithm. The initial purpose of this algorithm was to evaluate Binary BCH codes, but it has found many uses, including inverting matrices of constant diagonal, solving linear recurrences (synthesizing LFSRs with a specified output sequence), etc.
 
@@ -554,6 +533,11 @@ Example:
 	"A handy way to create a tuple of integers modulo 3:"
 	(1,2,3,4) % 3
 !
+
+!MultivariatePolynomialOld commentStamp: '<historical>' prior: 0!
+Polynomials in one or more indeterminates, represented in sparse form.
+
+Multivariate polynomials are internally stored as a list of associations 'monomial -> coefficient'. Zero coefficients are excluded, and the list is kept sorted according to the monomial ordering.!
 
 !SmithReduction commentStamp: '<historical>' prior: 0!
 This is the Smith reduction algorithm. Given a matrix with coefficients in a PID, it reduces the matrix to its Smith normal form.
@@ -586,15 +570,6 @@ printOn: aStream
 !TensorModule methodsFor: 'printing' stamp: 'len 5/23/2020 07:22:26'!
 printOn: aStream
 	components do: [:each| aStream print: each] separatedBy: [aStream nextPut: $‘]! !
-
-!FreeAlgebra methodsFor: 'printing' stamp: 'len 1/10/2018 12:24:54'!
-printOn: aStream
-	aStream print: scalars.
-	aStream nextPut: $<.
-	self indeterminates
-		do: [:i| aStream print: (self x: i)]
-		separatedBy: [aStream nextPut: $,].
-	aStream nextPut: $>! !
 
 !SemidirectProductElement methodsFor: 'printing' stamp: 'len 2/12/2016 06:10'!
 printOn: aStream
@@ -1532,123 +1507,6 @@ completionIdeal: anIdeal
 !CompletionRing class methodsFor: 'instance creation' stamp: 'len 6/6/2019 12:04:12'!
 at: anIdeal
 	^ self new completionIdeal: anIdeal! !
-
-!FreeAlgebra methodsFor: 'accessing' stamp: 'len 8/25/2016 08:22'!
-indeterminates
-	^ words symbols! !
-
-!FreeAlgebra methodsFor: 'accessing' stamp: 'len 1/20/2016 14:06'!
-one
-	^ self constant: scalars one! !
-
-!FreeAlgebra methodsFor: 'accessing' stamp: 'len 1/23/2022 08:42:36'!
-rank
-	^ self indeterminates size! !
-
-!FreeAlgebra methodsFor: 'accessing' stamp: 'len 1/20/2016 14:58'!
-scalars
-	^ scalars! !
-
-!FreeAlgebra methodsFor: 'accessing' stamp: 'len 8/25/2016 08:27'!
-words
-	^ words! !
-
-!FreeAlgebra methodsFor: 'accessing' stamp: 'len 1/10/2018 21:46:27'!
-zero
-	^ self coefficients: (Dictionary new: 0)! !
-
-!FreeAlgebra methodsFor: 'accessing-private' stamp: 'len 1/20/2016 13:39'!
-scalars: aCommutativeRing
-	scalars _ aCommutativeRing! !
-
-!FreeAlgebra methodsFor: 'accessing-private' stamp: 'len 8/25/2016 08:24'!
-words: aMonoid
-	words _ aMonoid! !
-
-!FreeAlgebra methodsFor: 'comparing' stamp: 'len 8/25/2016 08:22'!
-= anObject
-	self == anObject ifTrue: [^ true].
-	^ (anObject isKindOf: FreeAlgebra) and: [anObject scalars = scalars and: [anObject words = words]]! !
-
-!FreeAlgebra methodsFor: 'comparing' stamp: 'len 8/25/2016 08:21'!
-hash
-	^ scalars hash + words hash hashMultiply! !
-
-!FreeAlgebra methodsFor: 'elements' stamp: 'len 1/10/2018 21:45:38'!
-coefficient: aNumber word: aWord
-	aNumber isZero ifTrue: [^ self zero].
-	^ self coefficients: ((Dictionary new: 1) at: aWord put: aNumber; yourself)! !
-
-!FreeAlgebra methodsFor: 'elements' stamp: 'len 1/10/2018 21:47:02'!
-coefficients: aDictionary
-	^ (FreePolynomial coefficients: aDictionary) parent: self! !
-
-!FreeAlgebra methodsFor: 'elements' stamp: 'len 1/10/2018 21:45:59'!
-constant: aNumber
-	^ self coefficient: aNumber word: words identity! !
-
-!FreeAlgebra methodsFor: 'elements' stamp: 'len 8/25/2016 08:21'!
-x
-	^ self x: self indeterminates first! !
-
-!FreeAlgebra methodsFor: 'elements' stamp: 'len 1/10/2018 12:58:14'!
-x: anIndeterminate
-	^ self coefficient: scalars one word: (words x: anIndeterminate)! !
-
-!FreeAlgebra methodsFor: 'elements' stamp: 'len 1/10/2018 13:22:40'!
-x: anIndeterminate to: anInteger
-	^ self coefficient: scalars one word: (words x: anIndeterminate to: anInteger)! !
-
-!FreeAlgebra methodsFor: 'elements' stamp: 'len 8/25/2016 08:22'!
-y
-	^ self x: self indeterminates second! !
-
-!FreeAlgebra methodsFor: 'elements' stamp: 'len 8/25/2016 08:21'!
-z
-	^ self x: self indeterminates third! !
-
-!FreeAlgebra methodsFor: 'random' stamp: 'len 3/25/2018 19:36:09'!
-atRandom: aRandom bits: bitSize
-	^ self atRandom: aRandom bits: bitSize maxDegree: ((bitSize raisedTo: (1/self rank)) min: bitSize - 1) truncated! !
-
-!FreeAlgebra methodsFor: 'random' stamp: 'len 1/10/2018 13:21:35'!
-atRandom: aRandom bits: bitSize maxDegree: d
-	| answer n term |
-	answer _ self zero.
-	n _ 2 ^ self rank.
-	n timesRepeat:
-		[term _ ((1 to: d) product: [:i| self x: (self rank atRandom: aRandom) to: (2 atRandom: aRandom) - 1]) * (self scalars atRandom: aRandom bits: bitSize/(self rank*d)).
-		answer _ answer + term].
-	^ answer! !
-
-!FreeAlgebra methodsFor: 'testing' stamp: 'len 4/25/2020 10:02:08'!
-includes: anObject
-	^ anObject parent == self! !
-
-!FreeAlgebra methodsFor: 'testing' stamp: 'len 8/25/2016 08:29'!
-isCommutative
-	^ words isCommutative and: [scalars isCommutative]! !
-
-!FreeAlgebra methodsFor: 'testing' stamp: 'len 8/25/2016 08:30'!
-isFinite
-	^ words isFinite and: [scalars isFinite]! !
-
-!FreeAlgebra methodsFor: 'as yet unclassified' stamp: 'len 4/28/2021 13:38:01'!
-names: anArray
-	"Set indeterminate names to use when printing polynomials."
-	words names: anArray! !
-
-!FreeAlgebra class methodsFor: 'instance creation' stamp: 'len 5/11/2019 02:43:48'!
-new: aCollection over: aRing
-	^ self words: (FreeMonoid new: aCollection) over: aRing! !
-
-!FreeAlgebra class methodsFor: 'instance creation' stamp: 'len 1/20/2016 13:38'!
-over: aRing
-	^ self new: 1 over: aRing! !
-
-!FreeAlgebra class methodsFor: 'instance creation' stamp: 'len 8/25/2016 08:24'!
-words: aMonoid over: aRing
-	^ self new words: aMonoid; scalars: aRing! !
 
 !PolynomialCode methodsFor: 'accessing' stamp: 'len 4/4/2016 20:19'!
 generator
@@ -2648,68 +2506,6 @@ coefficients: aSequence
 fromPolynomial: aPolynomial
 	^ self coefficients: (CFiniteSequence to: aPolynomial scalars initialValues: aPolynomial coefficients periodic: {aPolynomial scalars zero})! !
 
-!FreePolynomial methodsFor: 'accessing' stamp: 'len 3/3/2016 05:27'!
-degree
-	"Answer the total degree of the receiver."
-	self isZero ifTrue: [^ Infinity negative].
-	^ self monomials max: [:each| each length]! !
-
-!FreePolynomial methodsFor: 'accessing' stamp: 'len 1/10/2018 13:29:49'!
-leadingCoefficient
-	^ self at: self leadingMonomial! !
-
-!FreePolynomial methodsFor: 'accessing' stamp: 'len 1/10/2018 13:29:36'!
-leadingMonomial
-	^ self monomials asSortedCollection first! !
-
-!FreePolynomial methodsFor: 'accessing' stamp: 'len 1/10/2018 16:56:38'!
-monomials
-	^ Iterator on: self performing: #monomialsDo:! !
-
-!FreePolynomial methodsFor: 'accessing' stamp: 'len 1/10/2018 16:56:11'!
-monomialsDo: aBlock
-	self keysDo: aBlock! !
-
-!FreePolynomial methodsFor: 'accessing' stamp: 'len 1/10/2018 20:07:45'!
-one
-	^ self parent one! !
-
-!FreePolynomial methodsFor: 'arithmetic' stamp: 'len 1/10/2018 21:49:36'!
-* anObject
-	((self scalars includes: anObject) or: [anObject isInteger])
-		ifTrue: [^ super * anObject].
-	(self parent includes: anObject)
-		ifTrue: [^ self convolution: anObject].
-	(self parent words includes: anObject)
-		ifTrue: [^ self multipliedByMonomial: anObject].
-	^ DomainError signal! !
-
-!FreePolynomial methodsFor: 'arithmetic' stamp: 'len 6/8/2019 02:24:51'!
-^ anInteger
-	"Answer the receiver raised to the power anInteger."
-	(anInteger isInteger and: [anInteger >= 0])
-		ifFalse: [^ DomainError signal: 'undefinted'].
-	anInteger = 0 ifTrue: [^ self one].
-	anInteger = 1 ifTrue: [^ self].
-	^ anInteger even ifTrue: [self squared ^ (anInteger // 2)] ifFalse: [self squared ^ (anInteger // 2) * self]! !
-
-!FreePolynomial methodsFor: 'arithmetic' stamp: 'len 1/10/2018 20:18:46'!
-multipliedByMonomial: aWord
-	| newCoefficients |
-	newCoefficients _ Dictionary new: self size.
-	self associationsDo: [:each| newCoefficients at: each key * aWord put: each value].
-	^ self parent coefficients: newCoefficients! !
-
-!FreePolynomial methodsFor: 'arithmetic' stamp: 'len 3/2/2016 05:35'!
-squared
-	^ self * self! !
-
-!FreePolynomial methodsFor: 'testing' stamp: 'len 1/10/2018 16:57:08'!
-isStandard
-	"Answer true if the receiver is a standard polynomial, i.e. all its monomials are standard words."
-	self monomialsDo: [:each| each isStandard ifFalse: [^ false]].
-	^ true! !
-
 !BerlekampMassey methodsFor: 'as yet unclassified' stamp: 'len 1/1/2022 09:33:44'!
 run
 	| F Fx x C L N m B d b s |
@@ -3635,6 +3431,254 @@ representativesArrayClass
 !WordModularTuple class methodsFor: 'private' stamp: 'len 3/25/2021 14:47:23'!
 representativesArrayClass
 	^ WordArray! !
+
+!MultivariatePolynomialOld methodsFor: 'accessing' stamp: 'len 12/22/2017 17:51:19'!
+bitSize
+	self isZero ifTrue: [^ 0].
+	^ parts sum: [:each| each key bitSize + each value bitSize]! !
+
+!MultivariatePolynomialOld methodsFor: 'accessing-coefficients' stamp: 'len 1/1/2022 09:39:33'!
+at: aMonomial
+	aMonomial isInteger ifTrue: [^ self at: (self parent monomials x: self leadingIndeterminate to: aMonomial) ifAbsent: [self scalars zero]].
+	^ self at: aMonomial ifAbsent: [self scalars zero]! !
+
+!MultivariatePolynomialOld methodsFor: 'accessing-coefficients' stamp: 'len 6/7/2020 14:34:08'!
+initialCoefficient
+	^ parts isEmpty ifTrue: [self scalars zero] ifFalse: [parts first value]! !
+
+!MultivariatePolynomialOld methodsFor: 'accessing-coefficients' stamp: 'len 8/18/2019 06:07:09'!
+leadingCoefficient
+	^ parts isEmpty ifTrue: [self scalars zero] ifFalse: [parts last value]! !
+
+!MultivariatePolynomialOld methodsFor: 'accessing-monomials' stamp: 'len 6/7/2020 14:28:56'!
+initialMonomial
+	^ parts isEmpty ifFalse: [parts first key]! !
+
+!MultivariatePolynomialOld methodsFor: 'accessing-monomials' stamp: 'len 8/18/2019 06:07:17'!
+leadingMonomial
+	^ parts isEmpty ifFalse: [parts last key]! !
+
+!MultivariatePolynomialOld methodsFor: 'accessing-terms' stamp: 'len 5/9/2018 15:41:18'!
+leadingTerm
+	"Answer the first term of the receiver."
+
+	| leadingPart |
+	self isZero ifTrue: [^ self].
+	leadingPart _ parts last.
+	^ self parent coefficient: leadingPart value monomial: leadingPart key! !
+
+!MultivariatePolynomialOld methodsFor: 'accessing-terms' stamp: 'len 4/20/2022 09:53:02'!
+tail
+	self isZero ifTrue: [^ self].
+	^ self class parts: parts allButLast parent: parent! !
+
+!MultivariatePolynomialOld methodsFor: 'comparing' stamp: 'len 4/20/2022 13:03:10'!
+= anObject
+	^ self == anObject or: [self class = anObject class and: [parts = anObject parts]]! !
+
+!MultivariatePolynomialOld methodsFor: 'comparing' stamp: 'len 12/22/2017 17:51:38'!
+hash
+	^ parts hash! !
+
+!MultivariatePolynomialOld methodsFor: 'converting' stamp: 'len 4/4/2021 09:49:25'!
+lift
+	"If the coefficients ring is a quotient R/I, answer a representative of the receiver over R. See >>%."
+	^ parent lift parts: (parts collect: [:each| each copy value: each value lift])! !
+
+!MultivariatePolynomialOld methodsFor: 'converting' stamp: 'len 4/20/2022 18:14:45'!
+over: aRing
+	| newParts |
+	self scalars = aRing ifTrue: [^ self].
+	newParts _ OrderedCollection new: parts size.
+	newParts resetTo: 1.
+	parts do: [:each| | newValue |
+		(newValue _ aRing !! each value) isZero
+			ifFalse: [newParts add: (each copy value: newValue)]].
+	^ (self parent over: aRing) parts: newParts! !
+
+!MultivariatePolynomialOld methodsFor: 'copying' stamp: 'len 4/20/2022 09:49:39'!
+copy
+	^ self class parts: (parts collect: [:each| each copy]) parent: parent! !
+
+!MultivariatePolynomialOld methodsFor: 'enumerating' stamp: 'len 12/22/2017 17:51:42'!
+coefficientsDo: aBlock
+	parts do: [:each| aBlock value: each value]! !
+
+!MultivariatePolynomialOld methodsFor: 'enumerating' stamp: 'len 4/20/2022 09:51:03'!
+monomialsApply: aBlock
+	| dictionary newParts |
+	dictionary _ Dictionary new: parts size.
+	parts do: [:each|
+		dictionary at: (aBlock value: each key) add: each value].
+	newParts _ OrderedCollection new: dictionary size.
+	newParts resetTo: 1.
+	dictionary associationsDo: [:each| each value isZero ifFalse: [newParts add: each]].
+	newParts sort.
+	^ self class parts: newParts parent: parent! !
+
+!MultivariatePolynomialOld methodsFor: 'enumerating' stamp: 'len 1/2/2022 10:04:47'!
+monomialsDo: aBlock
+	"Iterate over the support of the receiver, i.e. the monomials with nonzero coefficient."
+	parts do: [:each| aBlock value: each key]! !
+
+!MultivariatePolynomialOld methodsFor: 'enumerating' stamp: 'len 12/24/2017 20:10:01'!
+partsDo: aBlock
+	parts do: aBlock! !
+
+!MultivariatePolynomialOld methodsFor: 'operations' stamp: 'len 4/26/2022 22:03:37'!
++ anElement
+	| newAssociations |
+	(self parent includes: anElement) ifFalse: [^ self adapt: anElement andSend: #+].
+	newAssociations _ OrderedCollection new: parts size + anElement parts size.
+	newAssociations resetTo: 1.
+	self sum: parts with: anElement parts into: newAssociations.
+	^ self class parts: newAssociations parent: parent! !
+
+!MultivariatePolynomialOld methodsFor: 'operations' stamp: 'len 1/13/2022 09:50:18'!
+\\ anObject
+	"Answer the remainder of the division of the receiver by the argument."
+	(self scalars includes: anObject) ifTrue: [^ self apply: [:each| each \\ anObject]].
+	^ self reductionFullBy: (anObject isCollection ifTrue: [anObject] ifFalse: [{anObject}])! !
+
+!MultivariatePolynomialOld methodsFor: 'operations' stamp: 'len 4/20/2022 18:15:34'!
+apply: aMorphism
+	"Answer a new polynomial with coefficients obtainted by applying aMorphism to the coefficients of the receiver. This map is a ring homomorphism from the scalars ring.
+	If aMorphism is a block we assume the parent doesn't change, i.e. the block must evaluate to values within the scalars ring of the receiver."
+
+	| newParts |
+	newParts _ OrderedCollection new: parts size.
+	newParts resetTo: 1.
+	parts do: [:each| | newValue |
+		(newValue _ aMorphism value: each value) isZero
+			ifFalse: [newParts add: (each copy value: newValue)]].
+	^ (aMorphism isBlock ifTrue: [parent] ifFalse: [parent over: aMorphism codomain]) parts: newParts! !
+
+!MultivariatePolynomialOld methodsFor: 'operations' stamp: 'len 1/13/2022 09:54:22'!
+divisionBy: anArray
+	self ordering isGlobal ifFalse: [^ self notYetImplemented].
+	^ MultivariateDivision divide: self by: (anArray isCollection ifTrue: [anArray] ifFalse: [{anArray}])! !
+
+!MultivariatePolynomialOld methodsFor: 'operations' stamp: 'len 4/20/2022 09:52:02'!
+negated
+	"Answer the additive inverse of the receiver."
+	^ self class parts: (parts collect: [:each| each key -> each value negated]) parent: parent! !
+
+!MultivariatePolynomialOld methodsFor: 'operations' stamp: 'len 4/20/2022 09:53:13'!
+truncatedTo: anInteger
+	self degree < anInteger ifTrue: [^ self].
+	^ self class parts: (parts select: [:each| each key degree < anInteger]) parent: parent! !
+
+!MultivariatePolynomialOld methodsFor: 'testing' stamp: 'len 12/22/2017 17:49:16'!
+isZero
+	^ parts isEmpty! !
+
+!MultivariatePolynomialOld methodsFor: 'private' stamp: 'len 12/22/2017 17:47:53'!
+at: aMonomial add: aNumber
+	parts isEmpty ifTrue: [aNumber isZero ifFalse: [parts add: aMonomial -> aNumber]. ^ self].
+	parts
+		findBinaryIndex: [:each| (each key compare: aMonomial) negated]
+		do: [:index| | association newValue |
+			association _ parts at: index.
+			(newValue _ association value + aNumber) isZero
+				ifTrue: [parts removeIndex: index]
+				ifFalse: [association value: newValue "associations at: index put: aMonomial -> newValue"]]
+		ifNone: [:low :high| aNumber isZero ifFalse: [parts add: aMonomial -> aNumber beforeIndex: high]]! !
+
+!MultivariatePolynomialOld methodsFor: 'private' stamp: 'len 12/22/2017 17:51:33'!
+at: aMonomial ifAbsent: exceptionBlock
+	^ parts findBinary: [:each| (each key compare: aMonomial) negated] do: [:each| each value] ifNone: [:high :low| exceptionBlock value]! !
+
+!MultivariatePolynomialOld methodsFor: 'private' stamp: 'len 12/21/2017 17:44:14'!
+at: key ifPresent: presentBlock
+	"Lookup the given key in the receiver. If it is present, answer the value of evaluating the given block with the value associated with the key. Otherwise, answer nil."
+
+	| v |
+	v _ self at: key ifAbsent: [ ^ nil ].
+	^ presentBlock value: v! !
+
+!MultivariatePolynomialOld methodsFor: 'private' stamp: 'len 12/22/2017 17:49:08'!
+at: aMonomial put: aNumber
+	parts isEmpty ifTrue: [aNumber isZero ifFalse: [parts add: aMonomial -> aNumber]. ^ self].
+	parts
+		findBinaryIndex: [:each| (each key compare: aMonomial) negated]
+		do: [:index| aNumber isZero ifTrue: [parts removeIndex: index] ifFalse: [(parts at: index) value: aNumber]]
+		ifNone: [:low :high| aNumber isZero ifFalse: [parts add: aMonomial -> aNumber beforeIndex: high]].
+	^ aNumber! !
+
+!MultivariatePolynomialOld methodsFor: 'private' stamp: 'len 4/20/2022 09:50:07'!
+dividedByMonomial: aMonomial
+	"The monomial ordering is preserved by this operation."
+	^ self class parts: (parts collect: [:each| each key / aMonomial -> each value]) parent: parent! !
+
+!MultivariatePolynomialOld methodsFor: 'private' stamp: 'len 4/20/2022 09:50:19'!
+dividedByScalar: anElement
+	^ self class parts: (parts collect: [:each| each copy value: each value / anElement]) parent: parent! !
+
+!MultivariatePolynomialOld methodsFor: 'private' stamp: 'len 4/20/2022 09:51:25'!
+multipliedBy: aPolynomial
+	| dictionary newAssociations |
+	dictionary _ Dictionary new: parts size + aPolynomial parts size.
+	parts do: [:each|
+		aPolynomial parts do: [:other|
+			dictionary at: each key * other key add: each value * other value]].
+	newAssociations _ OrderedCollection new: dictionary size.
+	newAssociations resetTo: 1.
+	dictionary associationsDo: [:each| each value isZero ifFalse: [newAssociations add: each]].
+	newAssociations sort.
+	^ self class parts: newAssociations parent: parent! !
+
+!MultivariatePolynomialOld methodsFor: 'private' stamp: 'len 4/20/2022 09:51:40'!
+multipliedByMonomial: aMonomial
+	"The monomial ordering is preserved by this operation."
+	^ self class parts: (parts collect: [:each| each key * aMonomial -> each value]) parent: parent! !
+
+!MultivariatePolynomialOld methodsFor: 'private' stamp: 'len 4/20/2022 09:51:52'!
+multipliedByScalar: aNumber
+	| newAssociations |
+	aNumber isZero ifTrue: [^ parent zero].
+"	parent scalars isIntegralDomain ifTrue: [^ parent parts: (parts collect: [:each| each copy value: each value * aNumber])]."
+	newAssociations _ OrderedCollection new: parts size.
+	newAssociations resetTo: 1.
+	parts do: [:each| | newValue |
+		(newValue _ each value * aNumber) isZero
+			ifFalse: [newAssociations add: (each copy value: newValue)]].
+	^ self class parts: newAssociations parent: parent! !
+
+!MultivariatePolynomialOld methodsFor: 'private' stamp: 'len 12/22/2017 17:52:34'!
+parts
+	^ parts! !
+
+!MultivariatePolynomialOld methodsFor: 'private' stamp: 'len 4/20/2022 10:38:18'!
+parts: aCollection parent: aPolynomialRing
+	parts _ aCollection.
+	parent _ aPolynomialRing! !
+
+!MultivariatePolynomialOld methodsFor: 'private' stamp: 'len 12/21/2017 18:38:44'!
+sum: someAssociations with: otherAssociations into: newAssociations
+	| stream1 stream2 |
+	stream1 _ someAssociations readStream.
+	stream2 _ otherAssociations readStream.
+	[stream1 atEnd or: [stream2 atEnd]]
+		whileFalse:
+			[| cmp |
+			cmp _ stream1 peek key compare: stream2 peek key.
+			cmp < 0
+				ifTrue: [newAssociations add: stream1 next copy]
+				ifFalse: [cmp > 0
+					ifTrue: [newAssociations add: stream2 next copy]
+					ifFalse:
+						[| a b newValue |
+						a _ stream1 next.
+						b _ stream2 next.
+						(newValue _ a value + b value) isZero
+							ifFalse: [newAssociations add: (a copy value: newValue)]]]].
+	[stream1 atEnd] whileFalse: [newAssociations add: stream1 next copy].
+	[stream2 atEnd] whileFalse: [newAssociations add: stream2 next copy].
+	^ newAssociations! !
+
+!MultivariatePolynomialOld class methodsFor: 'instance creation' stamp: 'len 4/20/2022 09:49:05'!
+parts: aCollection parent: aPolynomialRing
+	^ self basicNew parts: aCollection parent: aPolynomialRing! !
 
 !MultivariateReducer methodsFor: 'as yet unclassified' stamp: 'len 1/14/2022 11:24:18'!
 divide: anElement

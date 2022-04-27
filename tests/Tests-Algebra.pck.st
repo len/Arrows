@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5053] on 21 April 2022 at 5:27:12 am'!
+'From Cuis 6.0 [latest update: #5053] on 27 April 2022 at 8:04:21 pm'!
 'Description '!
-!provides: 'Tests-Algebra' 1 1!
+!provides: 'Tests-Algebra' 1 2!
 SystemOrganization addCategory: #'Tests-Algebra'!
 SystemOrganization addCategory: #'Tests-Algebra-Tuples'!
 SystemOrganization addCategory: #'Tests-Algebra-Matrices'!
@@ -827,6 +827,16 @@ TestCase subclass: #AlgebraicNumbersTest
 	category: 'Tests-Algebra'!
 !classDefinition: 'AlgebraicNumbersTest class' category: #'Tests-Algebra'!
 AlgebraicNumbersTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #ArrayArithmeticTest category: #'Tests-Algebra'!
+TestCase subclass: #ArrayArithmeticTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra'!
+!classDefinition: 'ArrayArithmeticTest class' category: #'Tests-Algebra'!
+ArrayArithmeticTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #BilinearFormTest category: #'Tests-Algebra'!
@@ -2103,14 +2113,14 @@ initialize
 	super initialize.
 	scalars _ ƒ/(2 to: 64) atRandom! !
 
-!TuplesOverModularIntegersTest methodsFor: 'as yet unclassified' stamp: 'len 4/22/2021 10:28:36'!
+!TuplesOverModularIntegersTest methodsFor: 'as yet unclassified' stamp: 'len 4/22/2022 12:26:29'!
 testModTupleOperations
 	| n a b modulus |
 	modulus _ scalars modulus.
 	n _ 5 atRandom.
 	a _ ƒ^n atRandomBits: 30.
 	b _ ƒ^n atRandomBits: 30.
-	#(+ - · convolution: hadamard:) do: [:op|
+	#(+ - · convolution: *) do: [:op|
 		self testTuple: a with: b operation: op modulo: modulus].
 	#(negated reversed copy sum product) do: [:op|
 		self testTuple: a operation: op modulo: modulus].! !
@@ -2137,10 +2147,10 @@ testBitTupleBug
 	self assert: ((1,1,0) % 2 :: sum = Z2 zero).
 	self assert: ((1,1,1) % 2 :: sum = Z2 one)! !
 
-!TuplesOverBinaryFieldTest methodsFor: 'as yet unclassified' stamp: 'len 4/18/2022 15:22:37'!
+!TuplesOverBinaryFieldTest methodsFor: 'as yet unclassified' stamp: 'len 4/25/2022 12:33:55'!
 testBitTupleSum
-	self assert: (ModularBitArray newFrom: 2r1011101) sum representative = 1.
-	self assert: (ModularBitArray newFrom: 2r10000100100010) sum representative = 0! !
+	self assert: (BinaryArray newFrom: 2r1011101) sum representative = 1.
+	self assert: (BinaryArray newFrom: 2r10000100100010) sum representative = 0! !
 
 !TuplesOverPolynomialsOverRationalsTest methodsFor: 'as yet unclassified' stamp: 'len 4/22/2021 10:31:32'!
 initialize
@@ -6190,6 +6200,72 @@ testTrace
 	| a |
 	a _ ComplexAlgebraicNumber phi.
 	self assert: a trace = a conjugates sum! !
+
+!ArrayArithmeticTest methodsFor: 'as yet unclassified' stamp: 'len 4/23/2022 12:35:01'!
+testArrayMinusArray
+	self assert: #(5 8 9) - #(1 2 4) = #(4 6 5)! !
+
+!ArrayArithmeticTest methodsFor: 'as yet unclassified' stamp: 'len 4/23/2022 12:40:24'!
+testArrayMinusArrayInplace
+	| a |
+	a _ {5. 8. 9}.
+	a -= #(1 2 4).
+	self assert: a = #(4 6 5)! !
+
+!ArrayArithmeticTest methodsFor: 'as yet unclassified' stamp: 'len 4/23/2022 12:36:54'!
+testArrayMinusScalar
+	self assert: #(5 6 8) - 2 = #(3 4 6)! !
+
+!ArrayArithmeticTest methodsFor: 'as yet unclassified' stamp: 'len 4/23/2022 12:38:26'!
+testArrayMinusScalarInplace
+	| a |
+	a _ {5. 2. 3}.
+	a -= 2.
+	self assert: a = #(3 0 1)! !
+
+!ArrayArithmeticTest methodsFor: 'as yet unclassified' stamp: 'len 4/23/2022 12:23:00'!
+testArrayPlusArray
+	self assert: #(1 2 3) + #(2 3 4) = #(3 5 7)! !
+
+!ArrayArithmeticTest methodsFor: 'as yet unclassified' stamp: 'len 4/23/2022 12:23:11'!
+testArrayPlusArrayInplace
+	| a |
+	a _ {1. 2. 3}.
+	a += #(2 3 4).
+	self assert: a = #(3 5 7)! !
+
+!ArrayArithmeticTest methodsFor: 'as yet unclassified' stamp: 'len 4/23/2022 12:23:20'!
+testArrayPlusScalar
+	self assert: #(1 2 3) + 2 = #(3 4 5)! !
+
+!ArrayArithmeticTest methodsFor: 'as yet unclassified' stamp: 'len 4/23/2022 12:37:49'!
+testArrayPlusScalarInplace
+	| a |
+	a _ {1. 2. 3}.
+	a += 2.
+	self assert: a = #(3 4 5)! !
+
+!ArrayArithmeticTest methodsFor: 'as yet unclassified' stamp: 'len 4/23/2022 12:22:33'!
+testArrayTimesArray
+	self assert: #(1 2 3) * #(2 3 4) = #(2 6 12)! !
+
+!ArrayArithmeticTest methodsFor: 'as yet unclassified' stamp: 'len 4/23/2022 12:22:48'!
+testArrayTimesArrayInplace
+	| a |
+	a _ {1. 2. 3}.
+	a *= #(2 3 4).
+	self assert: a = #(2 6 12)! !
+
+!ArrayArithmeticTest methodsFor: 'as yet unclassified' stamp: 'len 4/23/2022 12:22:22'!
+testArrayTimesScalar
+	self assert: #(1 2 3) * 2 = #(2 4 6)! !
+
+!ArrayArithmeticTest methodsFor: 'as yet unclassified' stamp: 'len 4/23/2022 12:39:06'!
+testArrayTimesScalarInplace
+	| a |
+	a _ {1. 2. 3}.
+	a *= 2.
+	self assert: a = #(2 4 6)! !
 
 !BilinearFormTest methodsFor: 'as yet unclassified' stamp: 'len 7/27/2020 19:19:26'!
 testBilinearFormDecomposition
@@ -10748,19 +10824,19 @@ testRecursiveSum
 	self assert: (c isKindOf: CFiniteSequence).
 	self assert: (c equals: c2 upTo: 20)! !
 
-!SimplicialComplexTest methodsFor: 'as yet unclassified' stamp: 'len 2/20/2017 08:36:51'!
+!SimplicialComplexTest methodsFor: 'as yet unclassified' stamp: 'len 4/26/2022 08:04:25'!
 test2Sphere
 	| X |
 	X _ SimplicialComplex sphere: 2.
 	self assert: X dimension = 2.
-	self assert: X fVector = (1,4,6,4)! !
+	self assert: X fVector = #(1 4 6 4)! !
 
-!SimplicialComplexTest methodsFor: 'as yet unclassified' stamp: 'len 2/20/2017 08:37:08'!
+!SimplicialComplexTest methodsFor: 'as yet unclassified' stamp: 'len 4/26/2022 08:04:41'!
 test5Sphere
 	| X |
 	X _ SimplicialComplex sphere: 5.
 	self assert: X dimension = 5.
-	self assert: X fVector = (1,7,21,35,35,21,7)! !
+	self assert: X fVector = #(1 7 21 35 35 21 7)! !
 
 !SimplicialComplexTest methodsFor: 'as yet unclassified' stamp: 'len 2/19/2017 10:28:26'!
 testAlexanderDual
@@ -10911,15 +10987,15 @@ testSimplicialComplex
 	self assert: (S faces: 1) asSet size = 5.
 	self assert: (S faces: 0) asSet size = 5! !
 
-!SimplicialComplexTest methodsFor: 'as yet unclassified' stamp: 'len 2/19/2017 10:00:52'!
+!SimplicialComplexTest methodsFor: 'as yet unclassified' stamp: 'len 4/26/2022 07:45:36'!
 testSimplicialComplexExample
 	"Example from Herzog, 'Monomial Ideals', pag. 16."
 	| X |
 	X _ SimplicialComplex on: (1 to: 5) faces: #((1 2 4) (1 2 5) (2 3) (3 4)).
 	self assert: X facets = (#((1 2 4) (1 2 5) (2 3) (3 4)) collect: [:each| Simplex vertices: each]) asSet.
 	self assert: X nonfaces = (#((1 3) (3 5) (4 5) (2 3 4)) collect: [:each| Simplex vertices: each]) asSet.
-	self assert: X fVector = (1,5,7,2).
-	self assert: X hVector = (1,2,0,-1)! !
+	self assert: X fVector = #(1 5 7 2).
+	self assert: X hVector = #(1 2 0 -1)! !
 
 !SimplicialComplexTest methodsFor: 'as yet unclassified' stamp: 'len 2/20/2017 18:52:39'!
 testSimplicialMap
@@ -10957,12 +11033,12 @@ testStanleyReisnerRing
 	R _ „ polynomialsIn: #(x y z w).
 	self assert: X stanleyReisnerRing relations generators asSet = (R generate: [:x :y :z :w| {y*w. x*z}]) asSet! !
 
-!SimplicialComplexTest methodsFor: 'as yet unclassified' stamp: 'len 2/14/2017 19:45:41'!
+!SimplicialComplexTest methodsFor: 'as yet unclassified' stamp: 'len 4/26/2022 08:04:52'!
 testTorus
 	| X |
 	X _ SimplicialComplex torus.
 	self assert: X dimension = 2.
-	self assert: X fVector = (1,7,21,14)! !
+	self assert: X fVector = #(1 7 21 14)! !
 
 !TupleTest methodsFor: 'bit tuples' stamp: 'len 11/6/2016 11:35'!
 testBitTupleBug
@@ -10973,13 +11049,13 @@ testBitTupleBug
 	self assert: ((1,1,0) % 2 :: sum = Z2 zero).
 	self assert: ((1,1,1) % 2 :: sum = Z2 one)! !
 
-!TupleTest methodsFor: 'bit tuples' stamp: 'len 6/1/2020 13:38:19'!
+!TupleTest methodsFor: 'bit tuples' stamp: 'len 4/22/2022 12:26:48'!
 testBitTupleOperations
 	| n a b |
 	n _ 120 atRandom.
 	a _ ƒ^n atRandomBits: n*2.
 	b _ ƒ^n atRandomBits: n*2.
-	#(+ - · convolution: hadamard:) do: [:op|
+	#(+ - · convolution: *) do: [:op|
 		self testTuple: a with: b operation: op modulo: 2].
 	#(negated reversed copy sum product) do: [:op|
 		self testTuple: a operation: op modulo: 2]! !
@@ -10992,10 +11068,10 @@ testBitTupleReversed
 	self assert: (v reversed at: i) = (v at: v size - i + 1).
 	self assert: v reversed reversed = v! !
 
-!TupleTest methodsFor: 'bit tuples' stamp: 'len 4/18/2022 15:23:56'!
+!TupleTest methodsFor: 'bit tuples' stamp: 'len 4/25/2022 12:33:55'!
 testBitTupleSum
-	self assert: (ModularBitArray newFrom: 2r1011101) sum representative = 1.
-	self assert: (ModularBitArray newFrom: 2r10000100100010) sum representative = 0! !
+	self assert: (BinaryArray newFrom: 2r1011101) sum representative = 1.
+	self assert: (BinaryArray newFrom: 2r10000100100010) sum representative = 0! !
 
 !TupleTest methodsFor: 'bit tuples' stamp: 'len 7/27/2020 08:51:53'!
 testBitTuplesOfDifferentSize
@@ -11091,14 +11167,14 @@ testModTupleConvolution
 	b _ (2,3,4).
 	self assert: (a % 7 convolution: b % 7) = ((a convolution: b) % 7)! !
 
-!TupleTest methodsFor: 'modular integer tuples' stamp: 'len 6/1/2020 13:39:06'!
+!TupleTest methodsFor: 'modular integer tuples' stamp: 'len 4/22/2022 12:26:53'!
 testModTupleOperations
 	| n a b modulus |
 	modulus _ 10 atRandom + 1.
 	n _ 5 atRandom.
 	a _ ƒ^n atRandomBits: 30.
 	b _ ƒ^n atRandomBits: 30.
-	#(+ - · convolution: hadamard:) do: [:op|
+	#(+ - · convolution: *) do: [:op|
 		self testTuple: a with: b operation: op modulo: modulus].
 	#(negated reversed copy sum product) do: [:op|
 		self testTuple: a operation: op modulo: modulus].! !
