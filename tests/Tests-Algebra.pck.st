@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5053] on 27 April 2022 at 8:04:21 pm'!
+'From Cuis 6.0 [latest update: #5053] on 29 April 2022 at 10:15:47 am'!
 'Description '!
-!provides: 'Tests-Algebra' 1 2!
+!provides: 'Tests-Algebra' 1 3!
 SystemOrganization addCategory: #'Tests-Algebra'!
 SystemOrganization addCategory: #'Tests-Algebra-Tuples'!
 SystemOrganization addCategory: #'Tests-Algebra-Matrices'!
@@ -6323,9 +6323,9 @@ newChainComplexOver: aRing
 	X _ SimplicialComplex perform: #(kleinBottle realProjectivePlane torus) atRandom.
 	^ X chainComplexOver: aRing! !
 
-!ChainComplexTest methodsFor: 'as yet unclassified' stamp: 'len 4/29/2020 12:43:53'!
+!ChainComplexTest methodsFor: 'as yet unclassified' stamp: 'len 4/28/2022 12:50:17'!
 testChainComplexExample
-	self assert: self newChainComplex verify! !
+	self assert: self newChainComplex validate! !
 
 !ChainComplexTest methodsFor: 'as yet unclassified' stamp: 'len 4/23/2020 00:38:24'!
 testIdentity
@@ -6348,13 +6348,13 @@ testIdentityKernel
 	id _ C id.
 	self assert: id kernel isTrivial! !
 
-!ChainComplexTest methodsFor: 'as yet unclassified' stamp: 'len 11/4/2020 12:29:06'!
+!ChainComplexTest methodsFor: 'as yet unclassified' stamp: 'len 4/28/2022 12:50:24'!
 testShift
 	| C k i |
 	C _ self newChainComplex.
 	self assert: C >> 0 = C.
 	k _ (-5 to: 5) atRandom.
-	self assert: (C >> k) verify.
+	self assert: (C >> k) validate.
 	self assert: C >> k << k = C.
 	self assert: C >> k = (C << k negated).
 	self assert: (C >> k) minDegree = (C minDegree + k).
@@ -6492,7 +6492,7 @@ testMultivariateDivisionExample4
 	self assert: (f divisionBy: {f1. f2}) printString = 'x^2y^3 - 2xy^2 = (y^2)(x^2y - 2x) + (0)(y^3 + 4) + 0'.
 	self assert: (f divisionBy: {f2. f1}) printString = 'x^2y^3 - 2xy^2 = (x^2)(y^3 + 4) + (0)(x^2y - 2x) + -4x^2 - 2xy^2'! !
 
-!CommutativeAlgebraTest methodsFor: 'groebner' stamp: 'len 1/13/2022 11:52:22'!
+!CommutativeAlgebraTest methodsFor: 'groebner' stamp: 'len 4/28/2022 12:50:34'!
 testGroebnerBasis: G ideal: I
 	"Test G is a Groebner basis of the ideal I."
 	| g division |
@@ -6506,7 +6506,7 @@ testGroebnerBasis: G ideal: I
 	"The multivariate division of any polynomial in I by G gives the remainder 0:"
 	division _ g divisionBy: G.
 	self assert: division remainder isZero.
-	self assert: division verify.
+	self assert: division validate.
 "	self assert: G reduced isReduced.
 	self assert: G minimal isMinimal"! !
 
@@ -8816,7 +8816,7 @@ testExactDivisionZ
 	self assert: f * g / g = f.
 	self assert: f * g / f = g! !
 
-!PolynomialTest methodsFor: 'division' stamp: 'len 5/23/2020 09:34:55'!
+!PolynomialTest methodsFor: 'division' stamp: 'len 4/28/2022 12:50:39'!
 testMultivariateDivision
 	"Example from Cox IVA 62 p."
 	| Zxy x y f f1 f2 division |
@@ -8829,9 +8829,9 @@ testMultivariateDivision
 	division _ f divisionBy: {f1. f2}.
 	self assert: division quotients = {y. y one negated}.
 	self assert: division remainder = (y one * 2).
-	self assert: division verify! !
+	self assert: division validate! !
 
-!PolynomialTest methodsFor: 'division' stamp: 'len 5/23/2020 09:34:55'!
+!PolynomialTest methodsFor: 'division' stamp: 'len 4/28/2022 12:50:43'!
 testMultivariateDivision2
 	"Example from Cox IVA 63 p."
 	| Zxy x y f f1 f2 division |
@@ -8844,9 +8844,9 @@ testMultivariateDivision2
 	division _ f divisionBy: {f1. f2}.
 	self assert: division quotients = {x+y. y one}.
 	self assert: division remainder = (x+y+1).
-	self assert: division verify! !
+	self assert: division validate! !
 
-!PolynomialTest methodsFor: 'division' stamp: 'len 5/23/2020 09:34:55'!
+!PolynomialTest methodsFor: 'division' stamp: 'len 4/28/2022 12:50:48'!
 testMultivariateDivision3
 	"Example from Cox IVA 67 p."
 	| Zxy x y f f1 f2 division |
@@ -8859,9 +8859,9 @@ testMultivariateDivision3
 	division _ f divisionBy: {f2. f1}.
 	self assert: division quotients = {x+1. x}.
 	self assert: division remainder = (x*2+1).
-	self assert: division verify! !
+	self assert: division validate! !
 
-!PolynomialTest methodsFor: 'division' stamp: 'len 5/23/2020 09:34:55'!
+!PolynomialTest methodsFor: 'division' stamp: 'len 4/28/2022 12:50:52'!
 testPseudoDivision1
 	| Zxy x y division |
 	Zxy _ ƒ polynomialsIn: #(x y).
@@ -8870,9 +8870,9 @@ testPseudoDivision1
 	division _ x^2 + (y^2) pseudoDivisionBy: y - x in: 2.
 	self assert: division quotient asMultivariate = (x + y).
 	self assert: division remainder asMultivariate = (x^2 * 2).
-	self assert: division verify! !
+	self assert: division validate! !
 
-!PolynomialTest methodsFor: 'division' stamp: 'len 5/23/2020 09:33:01'!
+!PolynomialTest methodsFor: 'division' stamp: 'len 4/28/2022 12:57:06'!
 testPseudoDivision2
 	| Zxy x y division |
 	Zxy _ „ polynomialsIn: #(x y).
@@ -8881,9 +8881,9 @@ testPseudoDivision2
 	division _ x^2 + (y^2) pseudoDivisionBy: (y-x)*2 in: 2.
 	self assert: division quotient asMultivariate = ((x+y) * 2).
 	self assert: division remainder asMultivariate = (x^2 * 8).
-	self assert: division verify! !
+	self assert: division validate! !
 
-!PolynomialTest methodsFor: 'division' stamp: 'len 5/23/2020 09:34:55'!
+!PolynomialTest methodsFor: 'division' stamp: 'len 4/28/2022 12:57:14'!
 testPseudoDivision3
 	| Zxy x y division |
 	Zxy _ ƒ polynomialsIn: #(x y).
@@ -8892,21 +8892,21 @@ testPseudoDivision3
 	division _ x^2 + (y^2) pseudoDivisionBy: y - x in: 2.
 	self assert: division quotient asMultivariate = (x + y).
 	self assert: division remainder asMultivariate = (x^2 * 2).
-	self assert: division verify.
+	self assert: division validate.
 
 	division _ x^2 + (y^2) pseudoDivisionBy: x - y in: 2.
 	self assert: division quotient asMultivariate = (x + y) negated.
 	self assert: division remainder asMultivariate = (x^2 * 2).
-	self assert: division verify! !
+	self assert: division validate! !
 
-!PolynomialTest methodsFor: 'division' stamp: 'len 5/12/2020 12:33:15'!
+!PolynomialTest methodsFor: 'division' stamp: 'len 4/28/2022 12:57:18'!
 testPseudoDivision: R
 	| Rx f g division |
 	Rx _ R polynomials.
 	f _ Rx atRandomBits: 50 maxDegree: 5 atRandom.
 	[g _ Rx atRandomBits: 50 maxDegree: 5 atRandom. g isZero] whileTrue.
 	division _ f pseudoDivisionBy: g.
-	self assert: division verify! !
+	self assert: division validate! !
 
 !PolynomialTest methodsFor: 'division' stamp: 'len 5/23/2020 09:33:01'!
 testPseudoDivisionOverPolynomialRing1
@@ -8916,7 +8916,7 @@ testPseudoDivisionOverPolynomialRing1
 testPseudoDivisionOverPolynomialRing2
 	self testPseudoDivision: („ polynomialsIn: 2)! !
 
-!PolynomialTest methodsFor: 'division' stamp: 'len 5/23/2020 09:34:55'!
+!PolynomialTest methodsFor: 'division' stamp: 'len 4/28/2022 12:57:23'!
 testPseudoDivisionUnivariate
 	| Zx x division |
 	Zx _ ƒ polynomials.
@@ -8925,16 +8925,16 @@ testPseudoDivisionUnivariate
 	self assert: division quotient = (x*3 - 1).
 	self assert: division remainder = (x*7 + 10).
 	self assert: division delta = 2.
-	self assert: division verify! !
+	self assert: division validate! !
 
-!PolynomialTest methodsFor: 'division' stamp: 'len 5/23/2020 09:34:55'!
+!PolynomialTest methodsFor: 'division' stamp: 'len 4/28/2022 12:57:27'!
 testPseudoDivisionUnivariate2
 	"Example from Zippel book"
 	| Zx a b |
 	Zx _ ƒ polynomials.
 	a _ Zx coefficients: #(1 0 1 0 -3 -3 8 2 -5) reversed.
 	b _ Zx coefficients: #(3 0 5 0 -4 -9 21) reversed.
-	^ self assert: (a pseudoDivisionBy: b) verify! !
+	^ self assert: (a pseudoDivisionBy: b) validate! !
 
 !PolynomialTest methodsFor: 'division' stamp: 'len 5/23/2020 09:34:55'!
 testPseudoDivisionZ
