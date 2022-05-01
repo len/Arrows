@@ -1,26 +1,26 @@
-'From Cuis 6.0 [latest update: #5053] on 30 April 2022 at 12:43:51 pm'!
-'Description '!
-!provides: 'Collections-Extras' 1 2!
-SystemOrganization addCategory: 'Collections-Extras'!
+'From Cuis 6.0 [latest update: #5053] on 1 May 2022 at 10:27:29 am'!
+'Description This package includes some extra methods for Collection and subclasses and some new collection classes.'!
+!provides: 'Collections-Extras' 1 3!
+SystemOrganization addCategory: #'Collections-Extras'!
 
 
-!classDefinition: #Iterator category: 'Collections-Extras'!
+!classDefinition: #Iterator category: #'Collections-Extras'!
 Collection subclass: #Iterator
 	instanceVariableNames: 'block'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Collections-Extras'!
-!classDefinition: 'Iterator class' category: 'Collections-Extras'!
+!classDefinition: 'Iterator class' category: #'Collections-Extras'!
 Iterator class
 	instanceVariableNames: ''!
 
-!classDefinition: #SparseDictionary category: 'Collections-Extras'!
+!classDefinition: #SparseDictionary category: #'Collections-Extras'!
 Collection subclass: #SparseDictionary
 	instanceVariableNames: 'associations'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Collections-Extras'!
-!classDefinition: 'SparseDictionary class' category: 'Collections-Extras'!
+!classDefinition: 'SparseDictionary class' category: #'Collections-Extras'!
 SparseDictionary class
 	instanceVariableNames: ''!
 
@@ -386,6 +386,39 @@ new
 new: anInteger
 	^ self associations: (OrderedCollection new: anInteger)! !
 
+!Collection methodsFor: '*collections-extras' stamp: 'len 2/18/2003 21:40'!
+anyIfNone: aBlock
+	"Answer a representative sample of the receiver. This method can
+	be helpful when needing to preinfer the nature of the contents of 
+	semi-homogeneous collections."
+
+	self do: [:each | ^ each].
+	^aBlock value! !
+
+!Collection methodsFor: '*collections-extras' stamp: 'len 2/13/2003 23:19'!
+copyEmpty
+	^ self species new! !
+
+!Collection methodsFor: '*collections-extras' stamp: 'len 2/13/2003 23:19'!
+copyEmpty: anInteger
+	^ self species new: anInteger! !
+
+!Collection methodsFor: '*collections-extras' stamp: 'len 5/1/2022 07:51:04'!
+count: aBlock
+	"Evaluate aBlock with each of the receiver's elements as the argument.  Return the number that answered true."
+	| count |
+	count _ 0.
+	self do: [:each| (aBlock value: each) ifTrue: [count _ count + 1]].
+	^ count! !
+
+!Collection methodsFor: '*collections-extras' stamp: 'len 5/10/2020 12:26:12'!
+isSingleton
+	"Answer true if the receiver contains exactly one element."
+	| seenOneElement |
+	seenOneElement _ false.
+	self do: [:each| seenOneElement ifTrue: [^ false]. seenOneElement _ true].
+	^ seenOneElement! !
+
 !Collection class methodsFor: '*collections-extras'!
 accumulate: iteratorBlock
 	"Return a new instance of myself by evaluating the iteratorBlock.
@@ -401,6 +434,27 @@ accumulate: iteratorBlock
 	collection := self new.
 	iteratorBlock value: [ :element | collection add: element].
 	^collection! !
+
+!Bag methodsFor: '*collections-extras' stamp: 'len 5/1/2022 10:25:40'!
+collect: aBlock 
+	"Evaluate aBlock with each of the receiver's elements as the argument. Collect the resulting values into a collection that is like the receiver and nswer the new collection.
+	NOTE: This method assumes aBlock is a function."
+	| answer |
+	answer _ self species new.
+	self withOccurrencesDo: [:each :times| answer add: (aBlock value: each) withOccurrences: times].
+	^ answer! !
+
+!Bag methodsFor: '*collections-extras' stamp: 'len 5/1/2022 10:22:53'!
+count: aBlock
+	"Evaluate aBlock with each of the receiver's elements as the argument.  Return the number that answered true."
+	| count |
+	count _ 0.
+	self withOccurrencesDo: [:each :times| (aBlock value: each) ifTrue: [count _ count + times]].
+	^ count! !
+
+!Bag methodsFor: '*collections-extras' stamp: 'len 12/10/2016 11:26:24'!
+withOccurrencesDo: aBlock
+	contents associationsDo: [:each| aBlock value: each key value: each value]! !
 
 !Set methodsFor: '*collections-extras' stamp: 'len 4/27/2016 02:28'!
 add: newObject ifAbsent: aBlock
