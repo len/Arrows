@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5053] on 16 April 2022 at 2:24:56 pm'!
+'From Cuis 6.0 [latest update: #5053] on 1 May 2022 at 11:28:53 am'!
 'Description '!
-!provides: 'Lattices' 1 2!
+!provides: 'Lattices' 1 3!
 !requires: 'Algebra' 1 0 nil!
 SystemOrganization addCategory: #Lattices!
 
@@ -173,12 +173,6 @@ newFrom: anObject
 		ifTrue: [^ self elementAt: (self scalars tuple: anObject)]."
 	^ super newFrom: anObject! !
 
-!Lattice methodsFor: 'initialization' stamp: 'len 7/22/2021 18:48:14'!
-basis: aCollection innerProduct: aBilinearForm
-	(aBilinearForm space scalars = „ or: [aBilinearForm space scalars isKindOf: RealField]) ifFalse: [^ self error: 'the ambient vector space of a lattice must be real or rational'].
-	self propertyAt: #basis put: aCollection; propertyAt: #innerProduct put: aBilinearForm.
-	self addCoercionTo: self space evaluating: [:each| each asVector]! !
-
 !Lattice methodsFor: 'invariants' stamp: 'len 12/8/2017 18:41:52'!
 coveringNormalizedThinkness
 	"Answer the normalized thickness (or central density) of the covering."
@@ -350,6 +344,12 @@ isTypeII
 !Lattice methodsFor: 'testing' stamp: 'len 12/30/2015 21:51'!
 isUnimodular
 	^ self isIntegral and: [self determinant abs = 1]! !
+
+!Lattice methodsFor: 'private' stamp: 'len 7/22/2021 18:48:14'!
+basis: aCollection innerProduct: aBilinearForm
+	(aBilinearForm space scalars = „ or: [aBilinearForm space scalars isKindOf: RealField]) ifFalse: [^ self error: 'the ambient vector space of a lattice must be real or rational'].
+	self propertyAt: #basis put: aCollection; propertyAt: #innerProduct put: aBilinearForm.
+	self addCoercionTo: self space evaluating: [:each| each asVector]! !
 
 !Lattice methodsFor: 'private' stamp: 'len 7/31/2020 11:42:31'!
 species

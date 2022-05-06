@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5053] on 16 April 2022 at 2:24:39 pm'!
+'From Cuis 6.0 [latest update: #5053] on 6 May 2022 at 5:47:23 pm'!
 'Description '!
-!provides: 'Codes' 1 0!
+!provides: 'Codes' 1 2!
 !requires: 'Algebra' 1 0 nil!
 SystemOrganization addCategory: #Codes!
 
@@ -199,10 +199,6 @@ tannerGraph
 					G addEdgeFrom: subcode to: digit]]].
 	^ G! !
 
-!Code methodsFor: 'initialization' stamp: 'len 8/2/2020 12:24:36'!
-submodule: aModule
-	self propertyAt: #asModule put: aModule! !
-
 !Code methodsFor: 'morphisms' stamp: 'len 4/20/2016 20:56'!
 automorphisms
 	"Answer the subgroup of Perm(F^k) (permutation of coordinates) that leave the receiver invariant.
@@ -278,10 +274,10 @@ includesPolynomial: aPolynomial
 	g _ self generatorPolynomial.
 	^ (self parityCheckPolynomial * aPolynomial \\ (g parent x ^ self length - 1)) isZero! !
 
-!Code methodsFor: 'testing' stamp: 'len 8/2/2020 18:33:25'!
+!Code methodsFor: 'testing' stamp: 'len 5/6/2022 06:05:57'!
 isCyclic
 	"A code is called a cylic code if for each codeword (c1,...,cn) it also contains the cyclic right shifted word (cn,c1,c2,...,cn-1), i.e. the code is invariant under cylic shifts."
-	self asModule generators do: [:each| (self includes: (each wrap: 1)) ifFalse: [^ false]].
+	self asModule generators do: [:each| (self includes: each >>> 1) ifFalse: [^ false]].
 	^ true
 
 "alternative for polynomial codes:
@@ -338,6 +334,10 @@ computeMinimumDistance
 	answer _ Infinity positive.
 	self do: [:each| each isZero ifFalse: [answer _ answer min: each weight]].
 	^ answer! !
+
+!Code methodsFor: 'private' stamp: 'len 8/2/2020 12:24:36'!
+submodule: aModule
+	self propertyAt: #asModule put: aModule! !
 
 !Code class methodsFor: 'examples' stamp: 'len 8/10/2020 06:27:00'!
 G11

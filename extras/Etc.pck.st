@@ -1,7 +1,7 @@
-'From Cuis 6.0 [latest update: #5053] on 29 April 2022 at 10:16:14 am'!
+'From Cuis 6.0 [latest update: #5053] on 6 May 2022 at 5:47:19 pm'!
 'Description '!
-!provides: 'Etc' 1 4!
-!requires: 'Domains' 1 647 nil!
+!provides: 'Etc' 1 5!
+!requires: 'Algebra' 1 7 nil!
 SystemOrganization addCategory: #Etc!
 SystemOrganization addCategory: #'Etc-Lie'!
 
@@ -1069,6 +1069,10 @@ inverseOfRepresentative: anInteger
 	anInteger == 0 ifTrue: [^ nil].
 	anInteger == 1 ifTrue: [^ 1].
 	^ expTable at: modulus - 1 - (logTable at: anInteger)! !
+
+!SmallPrimeField class methodsFor: 'instance creation' stamp: 'len 5/1/2022 12:35:48'!
+new: aPrime
+	^ self new modulus: aPrime! !
 
 !CompletionRing methodsFor: 'accessing' stamp: 'len 6/6/2019 11:56:17'!
 base
