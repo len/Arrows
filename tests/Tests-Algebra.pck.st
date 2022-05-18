@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5053] on 6 May 2022 at 5:46:14 pm'!
+'From Cuis 6.0 [latest update: #5053] on 18 May 2022 at 12:47:18 pm'!
 'Description '!
-!provides: 'Tests-Algebra' 1 4!
+!provides: 'Tests-Algebra' 1 5!
 SystemOrganization addCategory: #'Tests-Algebra'!
 SystemOrganization addCategory: #'Tests-Algebra-Arrays'!
 SystemOrganization addCategory: #'Tests-Algebra-Rings'!
@@ -1544,10 +1544,17 @@ test1000Factorial	5,620 per second. (spur 32 bits)
 test1000Factorial	1,250 per second.
 !
 
-!ModularMatrixBenchmark commentStamp: 'len 5/3/2022 12:53:21' prior: 0!
+!ModularMatrixBenchmark commentStamp: 'len 5/16/2022 20:25:50' prior: 0!
 Some tests on a 300x300 matrix over Z/32003.
 
 self new run
+
+testAddition	392.93  runs per second
+testGaussianElimination	1.90  runs per second
+testImage	1.50  runs per second
+testKernel	1.41  seconds per run
+testSquared	1.36  runs per second
+testTransposition	651.41  runs per second' 
 
 testAddition	384 per second.
 testGaussianElimination	1.88 per second.
@@ -2705,18 +2712,18 @@ initialize
 	super initialize.
 	R _ QuaternionAlgebra over: „ invariants: #(1 1)! !
 
-!QuaternionAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 1/6/2022 09:25:53'!
+!QuaternionAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 5/7/2022 07:27:25'!
 testQuaternionAlgebraAnnihilatorIdeal
 	| H a b I |
 	H _  QuaternionAlgebra over: „ invariants: #(1 1).
 	a _ 1 + H i.
-	self assert: a isZerodivisor.
+	self assert: a isZeroDivisor.
 	I _ a annihilatorIdeal.
 	self assert: (I includes: 1 - H i).
 	self assert: (I includes: H j - H k).
 	self assert: (I generators allSatisfy: [:each| (a * each) isZero]).
 	b _ H j.
-	self assert: b isZerodivisor not.
+	self assert: b isZeroDivisor not.
 	I _ b annihilatorIdeal.
 	self assert: I isTrivial! !
 
@@ -3119,6 +3126,12 @@ initialize
 	super initialize.
 	scalars _ ƒ! !
 
+!TuplesOverIntegersTest methodsFor: 'as yet unclassified' stamp: 'len 5/16/2022 19:45:51'!
+testDomainError
+	| v |
+	v _ ƒ^3 !! #(1 2 3).
+	self should: [v / 2] raise: Error! !
+
 !TuplesOverModularIntegersTest methodsFor: 'as yet unclassified' stamp: 'len 4/26/2021 11:48:50'!
 initialize
 	super initialize.
@@ -3211,12 +3224,58 @@ testScalarAction
 	B _ A*b.
 	A withIndicesDo: [:each :i :j| self assert: each*b = (B at: i@j)]! !
 
+!AbstractMatrixTest methodsFor: 'other' stamp: 'len 5/16/2022 11:10:49'!
+testCoproductMatrix
+	| A B C |
+	A _ self newMatrix.
+	B _ self newMatrix: A height @ ((0 to: 10) atRandom: random).
+	C _ A ” B.
+	self assert: (C copyFromColumn: 1 to: A width) = A.
+	self assert: (C copyFromColumn: A width + 1 to: C width) = B! !
+
+!AbstractMatrixTest methodsFor: 'other' stamp: 'len 5/16/2022 11:27:33'!
+testCopyFromTo
+	| A startRow stopRow startColumn stopColumn start stop B |
+	A _ self newMatrix.
+	startRow _ A height > 0 ifTrue: [A height atRandom: random] ifFalse: [0].
+	stopRow _ A height > 0 ifTrue: [A height atRandom: random] ifFalse: [-1].
+	startColumn _ A width > 0 ifTrue: [A width atRandom: random] ifFalse: [0].
+	stopColumn _ A width > 0 ifTrue: [A width atRandom: random] ifFalse: [-1].
+	start _ startRow @ startColumn.
+	stop _ stopRow @ stopColumn.
+	B _ A copyFrom: start to: stop.
+	start x to: stop x do: [:i|
+		start y to: stop y do: [:j|
+			self assert: (A at: i@j) = (B at: i - start x + 1 @ (j - start y + 1))]	]! !
+
+!AbstractMatrixTest methodsFor: 'other' stamp: 'len 5/16/2022 11:41:01'!
+testDirectSumMatrix
+	| A B C |
+	A _ self newMatrix.
+	B _ self newMatrix.
+	C _ A  B.
+	self assert: A width + B width = C width.
+	self assert: A height + B height = C height.
+	self assert: (C copyFrom: 1 @ 1 to: A height @ A width) = A.
+	self assert: (C copyFrom: A height + 1 @ (A width + 1) to: C height @ C width) = B.
+	self assert: (C copyFrom: A height + 1 @ 1 to: C height @ A width) isZero.
+	self assert: (C copyFrom: 1 @ (A width + 1) to: A height @ C width) isZero! !
+
 !AbstractMatrixTest methodsFor: 'other' stamp: 'len 12/23/2021 17:49:39'!
 testLeftRightIdentity
 	| A |
 	A _ scalars^(5 atRandom: random) => (scalars^(7 atRandom: random)) atRandom: random bits: 100.
 	self assert: A codomain id * A = A.
 	self assert: A * A domain id = A! !
+
+!AbstractMatrixTest methodsFor: 'other' stamp: 'len 5/16/2022 11:10:32'!
+testProductMatrix
+	| A B C |
+	A _ self newMatrix.
+	B _ self newMatrix: ((0 to: 10) atRandom: random) @ A width.
+	C _ A “ B.
+	self assert: (C copyFromRow: 1 to: A height) = A.
+	self assert: (C copyFromRow: A height + 1 to: C height) = B! !
 
 !AbstractMatrixTest methodsFor: 'other' stamp: 'len 3/26/2021 13:23:21'!
 testTranspose
@@ -4567,12 +4626,12 @@ testComposition
 	self assert: (g · f value: x) = (g value: (f value: x)).
 	X = Z ifFalse: [self should: [f · g] raise: DomainError]! !
 
-!AbstractModuleTest methodsFor: 'maps' stamp: 'len 8/22/2021 12:24:50'!
+!AbstractModuleTest methodsFor: 'maps' stamp: 'len 5/16/2022 11:59:28'!
 testCompositionError
 	| X Y Z f g |
 	X _ self newModule.
 	Y _ self newModule.
-	[Z _ self newModule. X = Z] whileTrue.
+	[Z _ self newModule. X >= Z] whileTrue.
 	f _ X => Y atRandom: random bits: 1000.
 	g _ Y => Z atRandom: random bits: 1000.
 	self should: [f · g] raise: DomainError! !
@@ -4587,6 +4646,14 @@ testEqualizer
 	Q _ f equalizer: g.
 	self assert: (Q -> f) notNil.
 	self assert: Q -> f = (Q -> g)! !
+
+!AbstractModuleTest methodsFor: 'maps' stamp: 'len 5/10/2022 10:48:02'!
+testIdenittyImage
+	| M id |
+	M _ self newModule.
+	id _ M id.
+	self assert: id image = M.
+	self assert: id isSurjective! !
 
 !AbstractModuleTest methodsFor: 'maps' stamp: 'len 3/24/2021 07:57:09'!
 testImage
@@ -10193,7 +10260,7 @@ testModularIntegersEuclideanExample9
 	self assert: a // b = (R !! 8).
 	self assert: b // a = (R !! 2)! !
 
-!RingTest methodsFor: 'finite rings' stamp: 'len 1/6/2022 09:23:48'!
+!RingTest methodsFor: 'finite rings' stamp: 'len 5/7/2022 07:34:11'!
 testFiniteRing1
 	| R |
 	R _ (ƒ/2) polynomials.
@@ -10203,11 +10270,11 @@ testFiniteRing1
 	self assert: R isField not.
 	self assert: R size = 8.
 	self assert: R units size = 2.
-	self assert: R zerodivisors size = 6.
+	self assert: R zeroDivisors size = 6.
 	self assert: R radical asSet = {R zero. R x^2 + R x} asSet
 	"also, this ring has two maximal ideals"! !
 
-!RingTest methodsFor: 'finite rings' stamp: 'len 1/6/2022 09:23:53'!
+!RingTest methodsFor: 'finite rings' stamp: 'len 5/7/2022 07:34:17'!
 testFiniteRing2
 	| R |
 	R _ (ƒ/2) polynomials.
@@ -10216,12 +10283,12 @@ testFiniteRing2
 	self testSmallRingUnitsAndAssociates: R.
 	self assert: R isField not.
 	self assert: R size = 4.
-	self assert: R zerodivisors size = 3.
+	self assert: R zeroDivisors size = 3.
 	self assert: R characteristic = 2.
 	self assert: R isLocal not.
 	"more about this ring: two maximal (and princial as well) ideals (so not a local ring)"! !
 
-!RingTest methodsFor: 'finite rings' stamp: 'len 1/6/2022 09:23:58'!
+!RingTest methodsFor: 'finite rings' stamp: 'len 5/7/2022 07:34:21'!
 testFiniteRing2Alternative
 	| R |
 	R _ ƒ/2 × (ƒ/2).
@@ -10229,12 +10296,12 @@ testFiniteRing2Alternative
 	self testSmallRingUnitsAndAssociates: R.
 	self assert: R isField not.
 	self assert: R size = 4.
-	self assert: R zerodivisors size = 3.
+	self assert: R zeroDivisors size = 3.
 	self assert: R characteristic = 2.
 	self assert: R isLocal not.
 	"more about this ring: two maximal (and principal as well) ideals (so not a local ring)"! !
 
-!RingTest methodsFor: 'finite rings' stamp: 'len 1/6/2022 09:24:02'!
+!RingTest methodsFor: 'finite rings' stamp: 'len 5/7/2022 07:34:27'!
 testFiniteRing3
 	| R |
 	R _ ƒ/4 × (ƒ/4).
@@ -10243,7 +10310,7 @@ testFiniteRing3
 	self assert: R characteristic = 4.
 	self assert: R isField not.
 	self assert: R size = 16.
-	self assert: R zerodivisors size = 12.
+	self assert: R zeroDivisors size = 12.
 	self assert: R units size = 4.
 	self assert: R radical isTrivial not.
 	"more about this ring: two maximal ideals (so not a local ring), and non-trivial jacobson radical"! !
@@ -10254,10 +10321,10 @@ testFiniteRingJacobsonRadical
 	R _ ƒ/12.
 	self assert: R radical = (R*6)! !
 
-!RingTest methodsFor: 'finite rings' stamp: 'len 5/1/2022 10:47:00'!
+!RingTest methodsFor: 'finite rings' stamp: 'len 5/7/2022 07:36:06'!
 testFiniteRingLocalAndNotLocal
 	| R S |
-	R _ ƒ/6. "this is not a Galois ring, the zerodivisors dont form an ideal"
+	R _ ƒ/6. "this is not a Galois ring, the zero divisors dont form an ideal"
 	S _ ƒ/8. "this is a Galois ring"
 	self assert: R isLocal not.
 	self assert: S isLocal! !
@@ -11704,28 +11771,31 @@ test1000Factorial
 field: aField
 	field _ aField! !
 
-!ModularMatrixBenchmark methodsFor: 'as yet unclassified' stamp: 'len 12/18/2021 20:30:00'!
+!ModularMatrixBenchmark methodsFor: 'as yet unclassified' stamp: 'len 5/16/2022 20:23:29'!
 setUp
 	| random |
 	random _ Random seed: 1234.
-	field isNil ifTrue: [field _ 	ƒ/32003].
+	field isNil ifTrue: [field _ 	PrimeField new: 32003].
 	matrix _ field matrix: 300@300 filling: [:i :j| field atRandom: random]! !
 
 !ModularMatrixBenchmark methodsFor: 'as yet unclassified' stamp: 'len 11/22/2016 11:55:20'!
 testAddition
 	matrix + matrix! !
 
-!ModularMatrixBenchmark methodsFor: 'as yet unclassified' stamp: 'len 5/3/2022 12:49:14'!
+!ModularMatrixBenchmark methodsFor: 'as yet unclassified' stamp: 'len 5/16/2022 20:14:37'!
 testGaussianElimination
-	matrix scalars echelonOf: matrix! !
+	matrix properties removeKey: #echelon ifAbsent: [].
+	matrix echelon! !
 
-!ModularMatrixBenchmark methodsFor: 'as yet unclassified' stamp: 'len 3/1/2017 09:33:07'!
+!ModularMatrixBenchmark methodsFor: 'as yet unclassified' stamp: 'len 5/16/2022 20:13:00'!
 testImage
+	matrix properties removeKey: #image ifAbsent: [].
 	matrix image! !
 
-!ModularMatrixBenchmark methodsFor: 'as yet unclassified' stamp: 'len 5/3/2022 12:49:46'!
+!ModularMatrixBenchmark methodsFor: 'as yet unclassified' stamp: 'len 5/16/2022 20:24:27'!
 testKernel
-	matrix scalars syzygiesOf: matrix! !
+	matrix properties removeKey: #coechelonAndTransformation ifAbsent: [].
+	matrix kernel! !
 
 !ModularMatrixBenchmark methodsFor: 'as yet unclassified' stamp: 'len 11/22/2016 11:54:33'!
 testSquared
