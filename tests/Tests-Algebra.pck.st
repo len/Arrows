@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5053] on 20 May 2022 at 6:53:51 am'!
+'From Cuis 6.0 [latest update: #5053] on 20 May 2022 at 9:04:11 pm'!
 'Description '!
-!provides: 'Tests-Algebra' 1 6!
+!provides: 'Tests-Algebra' 1 7!
 SystemOrganization addCategory: #'Tests-Algebra'!
 SystemOrganization addCategory: #'Tests-Algebra-Arrays'!
 SystemOrganization addCategory: #'Tests-Algebra-Rings'!
@@ -278,6 +278,16 @@ AbstractEuclideanRingTest subclass: #ModularIntegerRingTest
 	category: 'Tests-Algebra-Rings'!
 !classDefinition: 'ModularIntegerRingTest class' category: #'Tests-Algebra-Rings'!
 ModularIntegerRingTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #PolynomialRingOverBinaryFieldTest category: #'Tests-Algebra-Rings'!
+AbstractEuclideanRingTest subclass: #PolynomialRingOverBinaryFieldTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra-Rings'!
+!classDefinition: 'PolynomialRingOverBinaryFieldTest class' category: #'Tests-Algebra-Rings'!
+PolynomialRingOverBinaryFieldTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #PolynomialRingOverFiniteFieldTest category: #'Tests-Algebra-Rings'!
@@ -2115,6 +2125,13 @@ testArrayConvolutionArray
 	b _ self newArray.
 	self assert: (a convolution: b) asArray = (a asArray convolution: b asArray)! !
 
+!AbstractArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/20/2022 20:39:50'!
+testArrayDotArray
+	| a b |
+	a _ self newArray.
+	b _ self newArray.
+	self assert: a · b = (a asArray · b asArray)! !
+
 !AbstractArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/1/2022 21:02:19'!
 testArrayMinusArray
 	| a b c |
@@ -2232,6 +2249,26 @@ testAtPut
 	a at: i put: x.
 	self assert: (a at: i) = x! !
 
+!AbstractArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/20/2022 11:00:14'!
+testCircularShift
+	| a b n |
+	a _ self newArray.
+	n _ (a size negated to: a size) atRandom: random.
+	b _ a >>> n.
+	self assert: b size = a size.
+	1 to: b size do: [:i|
+		self assert: (b at: i) = (a atWrap: i-n)]! !
+
+!AbstractArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/20/2022 09:18:32'!
+testConcatenation
+	| a b c |
+	a _ self newArray.
+	b _ self newArray.
+	c _ a, b.
+	self assert: a size + b size = c size.
+	1 to: a size do: [:i| self assert: (c at: i) = (a at: i)].
+	1 to: b size do: [:i| self assert: (c at: a size + i) = (b at: i)]! !
+
 !AbstractArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/4/2022 12:28:01'!
 testCopyFromTo
 	| a b start stop |
@@ -2242,6 +2279,15 @@ testCopyFromTo
 	self assert: b size = (stop-start+1 max: 0).
 	start to: stop do: [:i| self assert: (a at: i) = (b at: i-start+1)]! !
 
+!AbstractArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/20/2022 10:41:30'!
+testFirstNonzeroIndex
+	| a i |
+	a _ self newArray.
+	(2 atRandom: random) = 1 ifTrue: [a _ (self newArray: (100 atRandom: random)) zero, a].
+	i _ a findFirst: [:x| x isZero not].
+	i = 0 ifTrue: [i _ nil].
+	self assert: a firstNonzeroIndex = i! !
+
 !AbstractArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/4/2022 12:39:59'!
 testIsZeroAt
 	| a x index |
@@ -2251,6 +2297,15 @@ testIsZeroAt
 	a at: index put: x.
 	self assert: (a isZeroAt: index).
 	1 to: a size do: [:i| self assert: (a isZeroAt: i) = (a at: i) isZero].! !
+
+!AbstractArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/20/2022 10:41:16'!
+testLastNonzeroIndex
+	| a i |
+	a _ self newArray.
+	(2 atRandom: random) = 1 ifTrue: [a _ a, (self newArray: (100 atRandom: random)) zero].
+	i _ a findLast: [:x| x isZero not].
+	i = 0 ifTrue: [i _ nil].
+	self assert: a lastNonzeroIndex = i! !
 
 !AbstractArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/4/2022 20:41:28'!
 testReplaceFromToWithStartingAt
@@ -2969,6 +3024,11 @@ testCongruenceSolvingExample2
 	self assert: (solutions includes: (A !! 2491)).
 	self assert: solutions size = 23.
 	self assert: (solutions allSatisfy: [:x| a*x = b])! !
+
+!PolynomialRingOverBinaryFieldTest methodsFor: 'as yet unclassified' stamp: 'len 5/20/2022 08:49:16'!
+initialize
+	super initialize.
+	R _ ƒ/2! !
 
 !PolynomialRingOverFiniteFieldTest methodsFor: 'as yet unclassified' stamp: 'len 8/1/2021 12:09:15'!
 initialize
@@ -4072,14 +4132,14 @@ testDeterminantExample2
 	vandermonde _ ƒ matrix: {(1,1,1). (3,5,7). (9,25,49)}.
 	self assert: vandermonde determinant = 16! !
 
-!MatrixOverIntegersTest methodsFor: 'as yet unclassified' stamp: 'len 1/6/2022 19:57:19'!
+!MatrixOverIntegersTest methodsFor: 'as yet unclassified' stamp: 'len 5/20/2022 09:45:40'!
 testDomainError
 	| A B |
 	A _ (ƒ^4) id.
 	self should: [A / 2] raise: InversionError.
 	B _ („^4) id.
-	self should: [A + B] raise: DomainError.
-	self should: [A * B] raise: DomainError! !
+	self should: [A + B] raise: Error.
+	self should: [A * B] raise: Error! !
 
 !MatrixOverIntegersTest methodsFor: 'as yet unclassified' stamp: 'len 3/28/2021 11:13:46'!
 testHermiteNormalFormBug
@@ -4645,7 +4705,7 @@ testColiftFree
 	self assert: (cokernel => L includes: eta0).
 	self assert: M ->> cokernel -> eta0 = eta"! !
 
-!AbstractModuleTest methodsFor: 'maps' stamp: 'len 8/22/2021 12:24:37'!
+!AbstractModuleTest methodsFor: 'maps' stamp: 'len 5/20/2022 09:46:43'!
 testComposition
 	| X Y Z f g x |
 	X _ self newModule.
@@ -4656,7 +4716,7 @@ testComposition
 	x _ X atRandom: random bits: 1000.
 	self assert: (X => Z includes: g · f).
 	self assert: (g · f value: x) = (g value: (f value: x)).
-	X = Z ifFalse: [self should: [f · g] raise: DomainError]! !
+	X >= Z ifFalse: [self should: [f · g] raise: Error]! !
 
 !AbstractModuleTest methodsFor: 'maps' stamp: 'len 5/16/2022 11:59:28'!
 testCompositionError

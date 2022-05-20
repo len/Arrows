@@ -1,4 +1,4 @@
-'From Cuis 6.0 [latest update: #5053] on 20 May 2022 at 6:53:42 am'!
+'From Cuis 6.0 [latest update: #5053] on 20 May 2022 at 9:04:02 pm'!
 'Description This package implements among other things: permutation groups, linear groups, modular integers, finite fields, Galois rings, polynomial rings, affine algebras, number fields, function fields, p-adic fields, power series rings, coherent modules, (co)chain complexes, finite (finitely generated as modules) associative algebras, finite distributive (not necessarily associative) algebras, schemes, and sheaves of modules.
 
 References:
@@ -45,7 +45,7 @@ References:
 [] Victor Shoup; "A Computational Introduction to Number Theory and Algebra"
 [] Joseph. H. Silverman; "The Arithmetic of Elliptic Curves"
 '!
-!provides: 'Algebra' 1 10!
+!provides: 'Algebra' 1 11!
 !requires: 'Graphs' 1 0 nil!
 !requires: 'Collections-Extras' 1 1 nil!
 !requires: 'Complex' 1 8 nil!
@@ -3607,6 +3607,12 @@ printOn: aStream
 >> anInteger
 	^ self class new: size bits: ((bits bitShift: anInteger) bitAnd: 1<<size - 1)! !
 
+!GaloisArray methodsFor: 'operations' stamp: 'len 5/20/2022 10:50:01'!
+>> anInteger
+	"Answer the right shift of the receiver by anInteger places.
+	The answer is a new array of the same size as the receiver."
+	^ self class coefficients: coefficients >> (anInteger * scalars degree) scalars: scalars! !
+
 !GaloisArray methodsFor: 'printing' stamp: 'len 4/26/2022 07:20:49'!
 printOn: aStream
 	aStream nextPut: $(.
@@ -5149,6 +5155,11 @@ at: anInteger put: aBit
 	self bitAt: anInteger put: aBit representative.
 	^ aBit! !
 
+!BinaryArray methodsFor: 'accessing' stamp: 'len 5/20/2022 09:10:35'!
+lift
+	"Answer a representative integer array."
+	^ (1 to: self size) collect: [:i| self bitAt: i]! !
+
 !BinaryArray methodsFor: 'accessing' stamp: 'len 4/30/2022 06:53:15'!
 scalars
 	^ One parent! !
@@ -5159,6 +5170,10 @@ anySatisfy: aBlock
 	self isEmpty ifTrue: [^ false].
 	(self isZero not and: [aBlock value: One]) ifTrue: [^ true].
 	^ (aBlock value: Zero) and: [super anySatisfy: [:any| any = Zero]]! !
+
+!BinaryArray methodsFor: 'operations' stamp: 'len 5/20/2022 09:55:07'!
+- anObject
+	^ self + anObject! !
 
 !BinaryArray methodsFor: 'operations' stamp: 'len 4/30/2022 12:29:13'!
 length
@@ -5183,6 +5198,16 @@ polynomialValue: anObject
 sum
 	"Answer the sum of the bits, i.e. the parity."
 	^ self parity = 0 ifTrue: [Zero] ifFalse: [One]! !
+
+!BinaryArray methodsFor: 'operations-lowlevel' stamp: 'len 5/20/2022 10:16:09'!
+add: anArray from: start1 to: stop1 convolution: anotherArray from: start2 to: stop2
+	start1 to: stop1 do: [:i|
+		(anArray isZeroAt: i) ifFalse:
+			[| index |
+			index _ i-start1+1.
+			self replaceFrom: index to: index+stop2-start2
+				with: self startingAt: index
+				plus: anotherArray startingAt: start2]]! !
 
 !BinaryArray methodsFor: 'operations-lowlevel' stamp: 'len 5/2/2022 10:08:33'!
 replaceFrom: start to: stop with: anArray1 startingAt: start1 minus: anArray2 startingAt: start2
@@ -5222,20 +5247,22 @@ initialize
 new: anInteger
 	^ (anInteger <= 60 ifTrue: [SmallBinaryArray] ifFalse: [LargeBinaryArray]) new: anInteger! !
 
-!LargeBinaryArray methodsFor: 'accessing' stamp: 'len 5/4/2022 11:21:23'!
+!LargeBinaryArray methodsFor: 'accessing' stamp: 'len 5/20/2022 10:02:52'!
 bitAt: anInteger
+	anInteger <= size ifFalse: [^ self errorOutOfBounds].
 	^ words bitAt: anInteger! !
 
-!LargeBinaryArray methodsFor: 'accessing' stamp: 'len 5/4/2022 11:21:33'!
+!LargeBinaryArray methodsFor: 'accessing' stamp: 'len 5/20/2022 10:02:56'!
 bitAt: anInteger put: aBit
+	anInteger <= size ifFalse: [^ self errorOutOfBounds].
 	^ words bitAt: anInteger put: aBit! !
 
-!LargeBinaryArray methodsFor: 'accessing' stamp: 'len 5/19/2022 05:53:06'!
+!LargeBinaryArray methodsFor: 'accessing' stamp: 'len 5/20/2022 09:06:14'!
 lastNonzeroIndex
 	"Answer the index of the last nonzero entry, or nil."
 	| wordIndex |
 	(wordIndex _ words lastNonzeroIndex) ifNil: [^ nil].
-	^ wordIndex - 1 * 32 + 1 + (words at: wordIndex) highBit! !
+	^ wordIndex - 1 * 32 + (words at: wordIndex) highBit! !
 
 !LargeBinaryArray methodsFor: 'accessing' stamp: 'len 4/30/2022 06:18:18'!
 size
@@ -5256,17 +5283,12 @@ asInteger
 	words reverseDo: [:each| answer _ answer << 32 bitXor: each].
 	^ answer! !
 
-!LargeBinaryArray methodsFor: 'copying' stamp: 'len 4/30/2022 18:18:47'!
+!LargeBinaryArray methodsFor: 'copying' stamp: 'len 5/20/2022 09:22:05'!
 , anObject
-	| n newWords |
 	anObject class = self class ifFalse: [^ self copyWith: anObject].
-	n _ size + anObject size.
-	newWords _ WordArray new: n - 1 // 32 + 1.
-	newWords replaceFrom: 1 to: words size with: words.
-	size \\ 32 = 0
-		ifTrue: [newWords replaceFrom: words size + 1 to: newWords size with: anObject words]
-		ifFalse: [self notYetImplemented].	
-	^ self class new: size+anObject size words: newWords! !
+	^ (self class new: self size + anObject size)
+		replaceFrom: 1 to: self size with: self;
+		replaceFrom: self size + 1 to: self size + anObject size with: anObject! !
 
 !LargeBinaryArray methodsFor: 'copying' stamp: 'len 5/2/2022 07:38:33'!
 copy
@@ -5306,6 +5328,14 @@ copyWith: aBit
 	aBit = Zero ifTrue: [^ answer].
 	^ self error: 'not one or zero'! !
 
+!LargeBinaryArray methodsFor: 'operations' stamp: 'len 5/20/2022 09:38:40'!
+* anObject
+	| newWords |
+	self class = anObject class ifFalse: [^ ((anObject isInteger and: [anObject even]) or: [anObject isZero]) ifTrue: [self zero] ifFalse: [self]].
+	newWords _ WordArray new: (words size min: anObject words size).
+	1 to: newWords size do: [:i| newWords at: i put: ((words at: i) bitAnd: (anObject words at: i))].
+	^ self class new: (self size min: anObject size) words: newWords! !
+
 !LargeBinaryArray methodsFor: 'operations' stamp: 'len 4/30/2022 12:27:10'!
 parity
 	^ words inject: 0 into: [:result :each| result bitXor: each bitParity]! !
@@ -5315,14 +5345,15 @@ weight
 	"Answer the Hamming weight of the receiver, i.e. the number of entries that are not zero."
 	^ words inject: 0 into: [:sum :each| sum + each bitCount]! !
 
-!LargeBinaryArray methodsFor: 'operations-lowlevel' stamp: 'len 5/2/2022 08:11:55'!
+!LargeBinaryArray methodsFor: 'operations-lowlevel' stamp: 'len 5/20/2022 20:43:43'!
 dot: aBinaryArray
 	| sum |
 	sum _ 0.
-	words with: aBinaryArray words do: [:x :y| sum _ (x bitAnd: y) bitParity + sum].
+	1 to: (words size min: aBinaryArray words size) do: [:i|
+		sum _ ((words at: i) bitAnd: (aBinaryArray words at: i)) bitParity bitXor: sum].
 	^ sum bitParity = 0 ifTrue: [Zero] ifFalse: [One]! !
 
-!LargeBinaryArray methodsFor: 'operations-lowlevel' stamp: 'len 5/4/2022 21:50:37'!
+!LargeBinaryArray methodsFor: 'operations-lowlevel' stamp: 'len 5/20/2022 09:12:27'!
 replaceFrom: start to: stop with: replacement startingAt: repStart	
 	| n shift i j w r |
 	(n _ stop - start + 1) <= 0 ifTrue: [^ self].
@@ -5387,14 +5418,9 @@ wordAtBitIndex: bitIndex
 	wordIndex = words size ifTrue: [^ answer].
 	^ answer bitXor: ((words at: wordIndex+1) << (32 - shift) bitAnd: 0xFFFFFFFF)! !
 
-!LargeBinaryArray methodsFor: 'testing' stamp: 'len 5/4/2022 12:35:13'!
+!LargeBinaryArray methodsFor: 'testing' stamp: 'len 5/20/2022 11:58:11'!
 isZero
-	^ words allSatisfy: [:each| each = 0]! !
-
-!LargeBinaryArray methodsFor: 'testing' stamp: 'len 5/4/2022 12:36:57'!
-isZeroAt: anInteger
-	| word |
-	^ (word _ words at: anInteger - 1 // 32 + 1) = 0 or: [(word bitAt: anInteger - 1 \\ 32 + 1) = 0]! !
+	^ words isZero! !
 
 !LargeBinaryArray methodsFor: 'private' stamp: 'len 4/30/2022 06:54:28'!
 words
@@ -5504,18 +5530,9 @@ copyWith: aBit
 		new: (self size max: anObject size)
 		bits: (bits bitXor: anObject asInteger)! !
 
-!SmallBinaryArray methodsFor: 'operations' stamp: 'len 5/2/2022 07:52:29'!
-- anObject
-	^ self + anObject! !
-
 !SmallBinaryArray methodsFor: 'operations' stamp: 'len 5/3/2022 05:58:50'!
 convolution: aBinaryArray
 	^ self class new: (size + aBinaryArray size - 1 max: 0) bits: (bits bitConvolution: aBinaryArray asInteger)! !
-
-!SmallBinaryArray methodsFor: 'operations' stamp: 'len 4/20/2022 13:44:59'!
-lift
-	"Answer a representative integer array."
-	^ (1 to: self size) collect: [:i| self bitAt: i]! !
 
 !SmallBinaryArray methodsFor: 'operations' stamp: 'len 4/30/2022 12:27:40'!
 parity
@@ -5609,9 +5626,9 @@ replaceFrom: start to: stop with: anArray1 startingAt: start1 times: anArray2 st
 	slice _ anArray2 asInteger >> (start2-1) bitAnd: slice.
 	bits _ (bits bitAnd: (mask << (start-1)) bitInvert) bitXor: slice << (start-1)! !
 
-!SmallBinaryArray methodsFor: 'testing' stamp: 'len 1/3/2022 18:29:45'!
+!SmallBinaryArray methodsFor: 'testing' stamp: 'len 5/20/2022 11:22:46'!
 isZero
-	^ bits == 0! !
+	^ bits = 0! !
 
 !SmallBinaryArray methodsFor: 'private' stamp: 'len 4/17/2022 11:30:54'!
 bits: anInteger size: anotherInteger
@@ -5702,6 +5719,12 @@ replaceFrom: start to: stop with: replacement startingAt: repStart
 	n _ scalars degree.
 	coefficients replaceFrom: start-1*n+1 to: stop*n with: replacement coefficients startingAt: repStart-1*n+1! !
 
+!GaloisArray methodsFor: 'operations' stamp: 'len 5/20/2022 10:50:28'!
+>>> anInteger
+	"Answer the circular right shift of the receiver by anInteger places.
+	The answer is a new array of the same size as the receiver."
+	^ self class coefficients: coefficients >>> (anInteger * scalars degree) scalars: scalars! !
+
 !GaloisArray methodsFor: 'operations' stamp: 'len 5/1/2022 20:08:16'!
 reversed
 	| m n newCoefficients |
@@ -5716,6 +5739,20 @@ reversed
 !GaloisArray methodsFor: 'operations-lowlevel' stamp: 'len 5/4/2022 22:03:09'!
 dot: anArray
 	^ self from: 1 to: (self size min: anArray size) dot: anArray startingAt: 1 by: 1! !
+
+!GaloisArray methodsFor: 'operations-lowlevel' stamp: 'len 5/20/2022 11:47:39'!
+findFirstNonzeroFrom: start to: stop
+	"Answer the index of the first nonzero entry between start and stop, or nil."
+	| n |
+	n _ scalars degree.
+	^ ((coefficients findFirstNonzeroFrom: start-1*n+1 to: stop*n) ifNil: [^ nil]) - 1 // n + 1! !
+
+!GaloisArray methodsFor: 'operations-lowlevel' stamp: 'len 5/20/2022 11:48:16'!
+findLastNonzeroFrom: start to: stop
+	"Answer the index of the last nonzero entry between start and stop, or nil."
+	| n |
+	n _ scalars degree.
+	^ ((coefficients findLastNonzeroFrom: start-1*n+1 to: stop*n) ifNil: [^ nil]) - 1 // n + 1! !
 
 !GaloisArray methodsFor: 'operations-lowlevel' stamp: 'len 5/5/2022 18:12:40'!
 from: start to: stop dot: anArray startingAt: start2 by: increment2
@@ -5748,6 +5785,27 @@ replaceFrom: start to: stop with: anArray1 startingAt: start1 plus: anArray2 sta
 		replaceFrom: start-1*n+1 to: stop*n
 		with: anArray1 coefficients startingAt: start1-1*n+1
 		plus: anArray2 coefficients startingAt: start2-1*n+1! !
+
+!GaloisArray methodsFor: 'operations-lowlevel' stamp: 'len 5/20/2022 11:19:28'!
+replaceFrom: start to: stop with: anArray1 startingAt: start1 plus: anArray2 startingAt: start2 timesScalar: anElement
+	| n scalarCoefficients modulusCoefficients inv tmp zero j1 j2 |
+	n _ scalars degree.
+	modulusCoefficients _ scalars modulus coefficients.
+	inv _ modulusCoefficients last "inverse".
+	self assert: inv isOne. "the modulus should be monic"
+	scalarCoefficients _ anElement coefficients.
+	tmp _ scalars scalars new: n*2-1.
+	zero _ scalars scalars zero.
+	j1 _ start1-1*n+1.
+	j2 _ start2-1*n+1.
+	start-1*n+1 to: stop-1*n+1 by: n do: [:i|
+		tmp replaceFrom: 1 to: n with: anArray1 coefficients startingAt: j1.
+		tmp from: n+1 to: tmp size put: zero.
+		tmp add: anArray2 coefficients from: j2 to: j2+n-1 convolution: scalarCoefficients from: 1 to: n.
+		tmp reduceBy: modulusCoefficients leadingInverse: inv addingQuotientTo: nil.
+		coefficients replaceFrom: i to: i+n-1 with: tmp startingAt: 1.
+		j1 _ j1 + n.
+		j2 _ j2 + n]! !
 
 !GaloisArray methodsFor: 'operations-lowlevel' stamp: 'len 5/2/2022 07:43:03'!
 replaceFrom: start to: stop with: anArray startingAt: srcStart plusScalar: anElement
@@ -5795,6 +5853,16 @@ swapFrom: start to: stop with: anArray startingAt: start2
 !GaloisArray methodsFor: 'operations-lowlevel' stamp: 'len 4/26/2022 09:23:50'!
 zero: anInteger
 	^ self class coefficients: (scalars scalars zeros: anInteger * scalars degree) scalars: scalars! !
+
+!GaloisArray methodsFor: 'testing' stamp: 'len 5/20/2022 11:53:38'!
+isZero
+	^ coefficients isZero! !
+
+!GaloisArray methodsFor: 'testing' stamp: 'len 5/20/2022 11:55:02'!
+isZeroAt: anInteger
+	| n |
+	n _ scalars degree.
+	^ (coefficients findFirstNonzeroFrom: anInteger-1*n+1 to: anInteger*n) isNil! !
 
 !GaloisArray methodsFor: 'private' stamp: 'len 4/26/2022 11:05:35'!
 coefficients
@@ -5941,6 +6009,16 @@ dot: anArray
 fillWithMatrixTranspose: anArray width: width
 	representatives fillWithMatrixTranspose: anArray representatives width: width! !
 
+!ModularArray methodsFor: 'operations-lowlevel' stamp: 'len 5/20/2022 11:43:29'!
+findFirstNonzeroFrom: start to: stop
+	"Answer the index of the first nonzero entry between start and stop, or nil."
+	^ representatives findFirstNonzeroFrom: start to: stop! !
+
+!ModularArray methodsFor: 'operations-lowlevel' stamp: 'len 5/20/2022 11:43:49'!
+findLastNonzeroFrom: start to: stop
+	"Answer the index of the last nonzero entry between start and stop, or nil."
+	^ representatives findLastNonzeroFrom: start to: stop! !
+
 !ModularArray methodsFor: 'operations-lowlevel' stamp: 'len 5/2/2022 08:14:15'!
 from: start to: stop dot: anArray startingAt: start2 by: increment2
 	^ scalars representative: (representatives from: start to: stop dot: anArray representatives startingAt: start2 by: increment2 modulo: scalars modulus)! !
@@ -6034,19 +6112,13 @@ zero: anInteger
 		ifTrue: [^ self class representatives: (Array new: anInteger withAll: 0) scalars: scalars].
 	^ self class representatives: (representatives class new: anInteger) scalars: scalars! !
 
-!ModularArray methodsFor: 'testing' stamp: 'len 12/5/2016 17:54:18'!
+!ModularArray methodsFor: 'testing' stamp: 'len 5/20/2022 11:56:59'!
 isZero
-	1 to: representatives size do: [:i| (representatives at: i) == 0 ifFalse: [^ false]].
-	^ true! !
+	^ representatives isZero! !
 
-!ModularArray methodsFor: 'testing' stamp: 'len 5/20/2022 06:28:57'!
+!ModularArray methodsFor: 'testing' stamp: 'len 5/20/2022 11:57:23'!
 isZeroAt: anInteger
-	^ (representatives at: anInteger) = 0! !
-
-!ModularArray methodsFor: 'testing' stamp: 'len 4/12/2021 12:28:13'!
-isZeroFrom: start to: stop
-	start to: stop do: [:i| (representatives at: i) == 0 ifFalse: [^ false]].
-	^ true! !
+	^ representatives isZeroAt: anInteger! !
 
 !ModularArray methodsFor: 'private' stamp: 'len 5/28/2020 13:23:21'!
 modulus
@@ -14236,27 +14308,28 @@ asModule
 			addCoercionTo: self evaluating: [:each| self !! (each representative at: 1)];
 			yourself]! !
 
-!ModularIntegerRing methodsFor: 'elements' stamp: 'len 4/30/2022 06:42:47'!
+!ModularIntegerRing methodsFor: 'elements' stamp: 'len 5/20/2022 08:50:01'!
 !!!! anArray
 	"Answer an array of elements of the receiver from anArray.
 	If the elements of anArray are not elements of the receiver, they are coerced."
 	| representatives |
 	(anArray class = ModularArray and: [anArray scalars = self]) ifTrue: [^ anArray].
-	(anArray class = SmallBinaryArray and: [anArray scalars = self]) ifTrue: [^ anArray].
-	modulus == 2 ifTrue: [^ SmallBinaryArray newFrom: super !!!! anArray].
+	modulus = 2 ifTrue:
+		[anArray class = LargeBinaryArray ifTrue: [^ anArray].
+		^ LargeBinaryArray newFrom: super !!!! anArray].
 	representatives _ self representativesArrayClass new: anArray size.
 	1 to: anArray size do: [:i| representatives at: i put: (self !! (anArray at: i)) representative].
 	^ ModularArray representatives: representatives scalars: self! !
 
-!ModularIntegerRing methodsFor: 'elements' stamp: 'len 4/30/2022 06:42:47'!
+!ModularIntegerRing methodsFor: 'elements' stamp: 'len 5/20/2022 08:50:08'!
 new: anInteger
-	modulus = 2 ifTrue: [^ SmallBinaryArray new: anInteger].
+	modulus = 2 ifTrue: [^ LargeBinaryArray new: anInteger].
 	^ ModularArray representatives: (self representativesArrayClass new: anInteger) scalars: self! !
 
-!ModularIntegerRing methodsFor: 'elements' stamp: 'len 4/26/2022 12:43:16'!
+!ModularIntegerRing methodsFor: 'elements' stamp: 'len 5/20/2022 10:39:54'!
 zeros: anInteger
 	modulus <= 16r100000000 ifTrue: [^ self new: anInteger]. "because in this case the arrays are created already filled with 0"
-	^ super new: anInteger! !
+	^ super zeros: anInteger! !
 
 !ModularIntegerRing methodsFor: 'enumerating' stamp: 'len 4/14/2020 13:34:12'!
 do: aBlock
@@ -23784,14 +23857,14 @@ diagonalDo: aBlock
 do: aBlock
 	coefficients do: aBlock! !
 
-!DenseMatrix methodsFor: 'enumerating' stamp: 'len 5/20/2022 06:21:47'!
+!DenseMatrix methodsFor: 'enumerating' stamp: 'len 5/20/2022 11:37:50'!
 pivotsDo: aBlock
 	"Enumerate the row-style pivot indices. These are the pairs i@j corresponding to the first nonzero entry of each row."
 	| w rowStart |
 	w _ self width.
 	rowStart _ 1.
 	1 to: self height do: [:i|
-		(coefficients findNonzeroFrom: rowStart to: rowStart + w - 1 by: 1) ifNotNil: [:j| aBlock value: i@(j - rowStart + 1)].
+		(coefficients findFirstNonzeroFrom: rowStart to: rowStart + w - 1) ifNotNil: [:j| aBlock value: i@(j - rowStart + 1)].
 		rowStart _ rowStart + w]! !
 
 !DenseMatrix methodsFor: 'enumerating' stamp: 'len 4/21/2022 12:35:08'!
@@ -28486,10 +28559,6 @@ isZero
 isZeroAt: anInteger
 	^ coefficients isZeroAt: anInteger! !
 
-!Tuple methodsFor: 'testing' stamp: 'len 4/20/2022 18:29:49'!
-isZeroFrom: start to: stop
-	^ coefficients isZeroFrom: start to: stop! !
-
 !Tuple methodsFor: 'private' stamp: 'len 6/6/2019 09:41:21'!
 at: anInteger add: anElement
 	^ self at: anInteger put: (self at: anInteger) + anElement! !
@@ -32219,13 +32288,12 @@ isSquarefree
 	self isMonomial ifTrue: [^ self monomials anyOne isSquarefree].
 	^ self isZero not and: [(self gcd: self derivative) isConstant]! !
 
-!Polynomial methodsFor: 'testing' stamp: 'len 1/1/2022 09:28:28'!
+!Polynomial methodsFor: 'testing' stamp: 'len 5/20/2022 20:52:31'!
 isUnit
 	"Answer true if the receiver is invertible."
 	self isConstant ifTrue: [^ self independentCoefficient isUnit].
 	parent scalars isIntegralDomain ifTrue: [^ false].
 	self independentCoefficient isUnit ifFalse: [^ false].
-	"this assumes the polynomial is univariate, can it be generalized to multivariate?"
 	^ (1 to: self degree) allSatisfy: [:i| (self at: i) isNilpotent]
 	"Also: for a local ring R with residue field K, a polynomial in R[x] is a unit iff its projection to K[x] is a unit."! !
 
@@ -32240,14 +32308,14 @@ isUnivariateIn: anInteger
 	self monomialsDo: [:each| (each isUnivariateIn: anInteger) ifFalse: [^ false]].
 	^ true! !
 
-!Polynomial methodsFor: 'testing' stamp: 'len 5/7/2022 07:38:45'!
+!Polynomial methodsFor: 'testing' stamp: 'len 5/20/2022 20:54:21'!
 isZeroDivisor
 	"Answer true if there exists a nonzero element that multiplied by the receiver is zero."
 	| annihilator |
 	parent isIntegralDomain ifTrue: [^ self isZero].
 	"If the receiver has only 1 term, we can just check if the coefficient is a zero divisor:"
 	self support isSingleton ifTrue: [^ self leadingCoefficient isZeroDivisor].
-	"McCoy's theorem: a polynomial f in R[X] is a zero divisor iff there is r in R with fr = 0."
+	"McCoy's theorem: a polynomial f in R[X] is a zero divisor iff there is nonzero r in R with fr = 0."
 	annihilator _ self scalars asIdeal.
 	self coefficients do: [:each| each isZero ifFalse: [(annihilator _ annihilator /\ each annihilatorIdeal) isTrivial ifTrue: [^ false]]].
 	^ annihilator isTrivial not! !
@@ -37709,19 +37777,14 @@ copyWithoutIndex: index
 	answer replaceFrom: index to: answer size with: self startingAt: index + 1.
 	^ answer! !
 
-!SequenceableCollection methodsFor: '*algebra' stamp: 'len 11/6/2016 09:06'!
+!SequenceableCollection methodsFor: '*algebra' stamp: 'len 5/20/2022 11:55:54'!
 isZero
-	self do: [:each| each isZero ifFalse: [^ false]].
+	1 to: self size do: [:i| (self isZeroAt: i) ifFalse: [^ false]].
 	^ true! !
 
 !SequenceableCollection methodsFor: '*algebra' stamp: 'len 4/17/2022 13:11:30'!
 isZeroAt: anInteger
 	^ (self at: anInteger) isZero! !
-
-!SequenceableCollection methodsFor: '*algebra' stamp: 'len 4/17/2022 16:52:39'!
-isZeroFrom: start to: stop
-	start to: stop do: [:i| (self isZeroAt: i) ifFalse: [^ false]].
-	^ true! !
 
 !SequenceableCollection methodsFor: '*algebra' stamp: 'len 2/21/2017 19:00:52'!
 permutations
@@ -37932,16 +37995,22 @@ fillWithMatrixTranspose: anArray width: width
 				j to: j + blockSize - 1 do: [:l|
 					self at: l-1*height + k put: (anArray at: k-1*width + l)]]]]"! !
 
-!ArrayedCollection methodsFor: '*algebra-lowlevel' stamp: 'len 5/19/2022 05:57:07'!
-findNonzeroFrom: start to: stop by: increment
-	"Answer the index of the last nonzero entry between start and stop, or nil."
-	start to: stop by: increment do: [:i| (self isZeroAt: i) ifFalse: [^ i]].
+!ArrayedCollection methodsFor: '*algebra-lowlevel' stamp: 'len 5/20/2022 11:36:55'!
+findFirstNonzeroFrom: start to: stop
+	"Answer the index of the first nonzero entry between start and stop, or nil."
+	start to: stop do: [:i| (self isZeroAt: i) ifFalse: [^ i]].
 	^ nil! !
 
-!ArrayedCollection methodsFor: '*algebra' stamp: 'len 5/19/2022 05:46:41'!
+!ArrayedCollection methodsFor: '*algebra-lowlevel' stamp: 'len 5/20/2022 11:36:44'!
+findLastNonzeroFrom: start to: stop
+	"Answer the index of the last nonzero entry between start and stop, or nil."
+	stop to: start by: -1 do: [:i| (self isZeroAt: i) ifFalse: [^ i]].
+	^ nil! !
+
+!ArrayedCollection methodsFor: '*algebra' stamp: 'len 5/20/2022 11:37:09'!
 firstNonzeroIndex
 	"Answer the index of the first nonzero entry, or nil."
-	^ self findNonzeroFrom: 1 to: self size by: 1! !
+	^ self findFirstNonzeroFrom: 1 to: self size! !
 
 !ArrayedCollection methodsFor: '*algebra-lowlevel' stamp: 'len 4/24/2022 18:11:18'!
 from: start to: stop dot: anArray startingAt: start2 by: increment2
@@ -37964,15 +38033,19 @@ from: start to: stop dot: anArray startingAt: start2 by: increment2 modulo: modu
 		j _ j + increment2].
 	^ answer! !
 
-!ArrayedCollection methodsFor: '*algebra' stamp: 'len 5/19/2022 05:52:55'!
+!ArrayedCollection methodsFor: '*algebra' stamp: 'len 5/20/2022 20:57:37'!
+isZero
+	^ (self findFirstNonzeroFrom: 1 to: self size) isNil! !
+
+!ArrayedCollection methodsFor: '*algebra' stamp: 'len 5/20/2022 11:37:29'!
 lastNonzeroIndex
 	"Answer the index of the last nonzero entry, or nil."
-	^ self findNonzeroFrom: self size to: 1 by: -1! !
+	^ self findLastNonzeroFrom: 1 to: self size! !
 
-!ArrayedCollection methodsFor: '*algebra' stamp: 'len 4/19/2022 12:19:43'!
+!ArrayedCollection methodsFor: '*algebra' stamp: 'len 5/20/2022 09:09:44'!
 lift
 	"If the coefficients ring is a quotient R/I, answer a representative of the receiver over R. See >>%."
-	^ self collect: [:each| each lift]! !
+	^ (1 to: self size) collect: [:i| (self at: i) lift]! !
 
 !ArrayedCollection methodsFor: '*algebra' stamp: 'len 4/25/2022 08:03:31'!
 negated
