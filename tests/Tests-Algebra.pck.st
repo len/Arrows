@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5053] on 18 May 2022 at 12:47:18 pm'!
+'From Cuis 6.0 [latest update: #5053] on 20 May 2022 at 6:53:51 am'!
 'Description '!
-!provides: 'Tests-Algebra' 1 5!
+!provides: 'Tests-Algebra' 1 6!
 SystemOrganization addCategory: #'Tests-Algebra'!
 SystemOrganization addCategory: #'Tests-Algebra-Arrays'!
 SystemOrganization addCategory: #'Tests-Algebra-Rings'!
@@ -3224,15 +3224,6 @@ testScalarAction
 	B _ A*b.
 	A withIndicesDo: [:each :i :j| self assert: each*b = (B at: i@j)]! !
 
-!AbstractMatrixTest methodsFor: 'other' stamp: 'len 5/16/2022 11:10:49'!
-testCoproductMatrix
-	| A B C |
-	A _ self newMatrix.
-	B _ self newMatrix: A height @ ((0 to: 10) atRandom: random).
-	C _ A ” B.
-	self assert: (C copyFromColumn: 1 to: A width) = A.
-	self assert: (C copyFromColumn: A width + 1 to: C width) = B! !
-
 !AbstractMatrixTest methodsFor: 'other' stamp: 'len 5/16/2022 11:27:33'!
 testCopyFromTo
 	| A startRow stopRow startColumn stopColumn start stop B |
@@ -3268,8 +3259,17 @@ testLeftRightIdentity
 	self assert: A codomain id * A = A.
 	self assert: A * A domain id = A! !
 
-!AbstractMatrixTest methodsFor: 'other' stamp: 'len 5/16/2022 11:10:32'!
-testProductMatrix
+!AbstractMatrixTest methodsFor: 'other' stamp: 'len 5/19/2022 12:56:56'!
+testMatrixConcatenation
+	| A B C |
+	A _ self newMatrix.
+	B _ self newMatrix: A height @ ((0 to: 10) atRandom: random).
+	C _ A ” B.
+	self assert: (C copyFromColumn: 1 to: A width) = A.
+	self assert: (C copyFromColumn: A width + 1 to: C width) = B! !
+
+!AbstractMatrixTest methodsFor: 'other' stamp: 'len 5/19/2022 12:56:39'!
+testMatrixStacking
 	| A B C |
 	A _ self newMatrix.
 	B _ self newMatrix: ((0 to: 10) atRandom: random) @ A width.
@@ -3462,6 +3462,44 @@ newSquareMatrix
 	| n |
 	n _ (0 to: 5) atRandom: random.
 	^ (scalars^n) endomorphisms atRandom: random bits: (n*n*5+1 atRandom: random)! !
+
+!AbstractMatrixTest methodsFor: 'row operations' stamp: 'len 5/19/2022 13:06:33'!
+testAddRowTimesScalar
+	| A B i1 i2 j x |
+	[A _ self newMatrix. A height > 0 and: [A width > 0]] whileFalse.
+	i1 _ A height atRandom: random.
+	i2 _ A height atRandom: random.
+	j _ A width atRandom: random.
+	B _ A copy.
+	x _ scalars atRandom: random bits: 50.
+	B addRow: i1 times: x toRow: i2 startingAt: j.
+	self assert: ((B rowAt: i2) copyFrom: j to: A width) = ((A rowAt: i1) * x + (A rowAt: i2) copyFrom: j to: A width).
+	self assert: ((B rowAt: i2) copyFrom: 1 to: j-1) = ((A rowAt: i2) copyFrom: 1 to: j-1)! !
+
+!AbstractMatrixTest methodsFor: 'row operations' stamp: 'len 5/20/2022 05:42:43'!
+testMultiplyRowByScalar
+	| A B i j x |
+	[A _ self newMatrix. A height > 0 and: [A width > 0]] whileFalse.
+	i _ A height atRandom: random.
+	j _ A width atRandom: random.
+	B _ A copy.
+	x _ scalars atRandom: random bits: 50.
+	B multiplyRow: i by: x startingAt: j.
+	self assert: ((B rowAt: i) copyFrom: j to: A width) = ((A rowAt: i) * x copyFrom: j to: A width).
+	self assert: ((B rowAt: i) copyFrom: 1 to: j-1) = ((A rowAt: i) copyFrom: 1 to: j-1)! !
+
+!AbstractMatrixTest methodsFor: 'row operations' stamp: 'len 5/20/2022 05:44:57'!
+testSwapRows
+	| A B i1 i2 |
+	[A _ self newMatrix. A height > 0 and: [A width > 0]] whileFalse.
+	i1 _ A height atRandom: random.
+	i2 _ A height atRandom: random.
+	B _ A copy.
+	B swapRow: i1 with: i2.
+	self assert: (B rowAt: i1) = (A rowAt: i2).
+	self assert: (B rowAt: i2) = (A rowAt: i1).
+	B swapRow: i1 with: i2.
+	self assert: A = B! !
 
 !AbstractMatrixOverCommutativeRingTest methodsFor: 'as yet unclassified' stamp: 'len 12/18/2021 20:27:24'!
 testAdjugateCramerRule
@@ -4042,12 +4080,6 @@ testDomainError
 	B _ („^4) id.
 	self should: [A + B] raise: DomainError.
 	self should: [A * B] raise: DomainError! !
-
-!MatrixOverIntegersTest methodsFor: 'as yet unclassified' stamp: 'len 4/5/2021 04:39:23'!
-testHNFvsCHNF
-	| A |
-	A _ (ƒ^(4 atRandom: random)) endomorphisms atRandom: random bits: 50.
-	self assert: A HNF = A antitranspose CHNF antitranspose! !
 
 !MatrixOverIntegersTest methodsFor: 'as yet unclassified' stamp: 'len 3/28/2021 11:13:46'!
 testHermiteNormalFormBug

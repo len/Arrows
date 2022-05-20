@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5053] on 6 May 2022 at 5:47:19 pm'!
+'From Cuis 6.0 [latest update: #5053] on 20 May 2022 at 6:53:36 am'!
 'Description '!
-!provides: 'Etc' 1 5!
+!provides: 'Etc' 1 6!
 !requires: 'Algebra' 1 7 nil!
 SystemOrganization addCategory: #Etc!
 SystemOrganization addCategory: #'Etc-Lie'!
@@ -126,6 +126,26 @@ Structure subclass: #CoxeterSystem
 CoxeterSystem class
 	instanceVariableNames: ''!
 
+!classDefinition: #ColumnMatrix category: #Etc!
+Matrix subclass: #ColumnMatrix
+	instanceVariableNames: 'columns'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Etc'!
+!classDefinition: 'ColumnMatrix class' category: #Etc!
+ColumnMatrix class
+	instanceVariableNames: ''!
+
+!classDefinition: #RowMatrix category: #Etc!
+Matrix subclass: #RowMatrix
+	instanceVariableNames: 'rows'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Etc'!
+!classDefinition: 'RowMatrix class' category: #Etc!
+RowMatrix class
+	instanceVariableNames: ''!
+
 !classDefinition: #SemidirectProductElement category: #Etc!
 GroupElement subclass: #SemidirectProductElement
 	instanceVariableNames: 'parent left right'
@@ -224,6 +244,16 @@ Object subclass: #ExtendedSmithReduction
 	category: 'Etc'!
 !classDefinition: 'ExtendedSmithReduction class' category: #Etc!
 ExtendedSmithReduction class
+	instanceVariableNames: ''!
+
+!classDefinition: #HermiteColumnReduction category: #Etc!
+Object subclass: #HermiteColumnReduction
+	instanceVariableNames: 'matrix'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Etc'!
+!classDefinition: 'HermiteColumnReduction class' category: #Etc!
+HermiteColumnReduction class
 	instanceVariableNames: ''!
 
 !classDefinition: #ModularHermiteReduction category: #Etc!
@@ -371,6 +401,12 @@ In coding theory, a polynomial code is a type of linear code whose set of valid 
 A polynomial code is cyclic if and only if the generator polynomial divides x^n - 1. See CyclicCode.
 !
 
+!ColumnMatrix commentStamp: '<historical>' prior: 0!
+Matrices stored as a list of column tuples. Column operations are fast on these matrices.!
+
+!RowMatrix commentStamp: '<historical>' prior: 0!
+Matrices stored as a list of row tuples. Row operations are fast on these matrices.!
+
 !SemidirectProductElement commentStamp: '<historical>' prior: 0!
 Elements of a semidirect product of groups. See SemidirectProductGroup.!
 
@@ -406,6 +442,13 @@ Example:
 	"A handy way to create a binary tuple:"
 	(1,0,1,1,0,1,1,1) % 2
 !
+
+!HermiteColumnReduction commentStamp: '<historical>' prior: 0!
+This is the Hermite column reduction algorithm. Given a matrix with coefficients in the rational integers Z, it reduces the matrix to its column-style Hermite normal form.
+
+Reference: Henri Cohen, 'A Course in Computational Algebraic Number Theory', Algorithm 2.4.4.
+
+See HermiteReduction for the algorithm modified to do row reduction instead of column reduction, and generalized to work over any computable Euclidean domain.!
 
 !SmithReduction commentStamp: '<historical>' prior: 0!
 This is the Smith reduction algorithm. Given a matrix with coefficients in a PID, it reduces the matrix to its Smith normal form.
@@ -1302,6 +1345,322 @@ schlafliMatrix
 !CoxeterSystem methodsFor: 'as yet unclassified' stamp: 'len 4/18/2016 03:28'!
 simpleReflections
 	^ generators! !
+
+!ColumnMatrix methodsFor: 'accessing' stamp: 'len 12/20/2021 13:24:06'!
+atRow: i column: j
+	^ (columns at: j) at: i! !
+
+!ColumnMatrix methodsFor: 'accessing' stamp: 'len 12/20/2021 13:24:26'!
+atRow: i column: j ifAbsent: exceptionBlock
+	^ (columns at: j ifAbsent: [^ exceptionBlock value]) at: i ifAbsent: exceptionBlock! !
+
+!ColumnMatrix methodsFor: 'accessing' stamp: 'len 12/20/2021 13:24:40'!
+atRow: i column: j put: anObject
+	^ (columns at: j) at: i put: anObject! !
+
+!ColumnMatrix methodsFor: 'accessing' stamp: 'len 3/23/2016 02:53'!
+columnAt: j
+	^ columns at: j! !
+
+!ColumnMatrix methodsFor: 'accessing' stamp: 'len 3/23/2016 02:54'!
+columnAt: i put: aTuple
+	^ columns at: i put: aTuple! !
+
+!ColumnMatrix methodsFor: 'accessing' stamp: 'len 3/23/2016 02:55'!
+columns
+	^ columns! !
+
+!ColumnMatrix methodsFor: 'accessing' stamp: 'len 3/23/2016 02:56'!
+columns: anArray
+	columns _ anArray! !
+
+!ColumnMatrix methodsFor: 'accessing' stamp: 'len 4/23/2018 21:09:52'!
+denominator
+	| answer |
+	self scalars isLocalization ifFalse: [^ self scalars one].
+	answer _ self scalars integers one.
+	columns do: [:each| answer _ each denominator lcm: answer].
+	^ answer! !
+
+!ColumnMatrix methodsFor: 'accessing' stamp: 'len 5/29/2020 05:47:14'!
+lift
+	"If the coefficients ring is a quotient R/I, answer a representative of the receiver over R. See >>%."
+	^ self class from: domain lift to: codomain lift columns: (columns collect: [:each| each lift])! !
+
+!ColumnMatrix methodsFor: 'accessing' stamp: 'len 5/29/2020 05:48:17'!
+representative
+	"If the coefficients ring is a quotient R/I, answer a representative of the receiver over R. See >>%."
+	^ self class from: domain lift to: codomain lift columns: (columns collect: [:each| each representative])! !
+
+!ColumnMatrix methodsFor: 'accessing' stamp: 'len 5/29/2020 16:35:32'!
+rowAt: i
+	^ domain filling: [:j| (columns at: j) at: i]! !
+
+!ColumnMatrix methodsFor: 'converting' stamp: 'len 7/30/2021 14:27:52'!
+asTuple
+	"Answer the receiver converted to Tuple by concatenating its rows (which is also the coordinates of the receiver in the canonical basis)."
+	^ columns size = 1 ifTrue: [columns first] ifFalse: [super asTuple]! !
+
+!ColumnMatrix methodsFor: 'converting' stamp: 'len 5/29/2020 08:52:58'!
+over: aRing
+	| newCodomain |
+	self scalars = aRing ifTrue: [^ self].
+	^ self class from: (self domain over: aRing) to: (newCodomain _ self codomain over: aRing) columns: (columns collect: [:each| newCodomain !! each])! !
+
+!ColumnMatrix methodsFor: 'copying' stamp: 'len 5/29/2020 05:46:48'!
+copy
+	^ self class from: domain to: codomain columns: (columns collect: [:each| each copy])! !
+
+!ColumnMatrix methodsFor: 'enumerating' stamp: 'len 3/24/2018 19:28:43'!
+allSatisfy: aBlock
+	^ columns allSatisfy: [:each| each allSatisfy: aBlock]! !
+
+!ColumnMatrix methodsFor: 'enumerating' stamp: 'len 5/29/2020 05:46:38'!
+collect: aBlock
+	^ self class from: domain to: codomain columns: (columns collect: [:each| each collect: aBlock])! !
+
+!ColumnMatrix methodsFor: 'enumerating' stamp: 'len 3/23/2016 02:57'!
+columnsDo: aBlock
+	columns do: aBlock! !
+
+!ColumnMatrix methodsFor: 'enumerating' stamp: 'len 7/14/2019 15:20:19'!
+do: aBlock
+	columns do: [:each| each do: aBlock]! !
+
+!ColumnMatrix methodsFor: 'enumerating' stamp: 'len 7/16/2021 22:24:56'!
+withIndicesDo: aBlock
+	columns withIndexDo: [:column :j| column withIndexDo: [:each :i| aBlock value: each value: i value: j]]! !
+
+!ColumnMatrix methodsFor: 'operations' stamp: 'len 5/29/2020 05:46:08'!
++ aMatrix
+	self checkDimensionMatch: aMatrix.
+	self checkScalarsMatch: aMatrix.
+	^ self class from: domain to: codomain columns: columns + aMatrix columns! !
+
+!ColumnMatrix methodsFor: 'operations' stamp: 'len 5/29/2020 05:46:21'!
+- aMatrix
+	self checkDimensionMatch: aMatrix.
+	self checkScalarsMatch: aMatrix.
+	^ self class from: domain to: codomain columns: columns - aMatrix columns! !
+
+!ColumnMatrix methodsFor: 'operations' stamp: 'len 5/29/2020 05:47:22'!
+negated
+	^ self class from: domain to: codomain columns: columns negated! !
+
+!ColumnMatrix methodsFor: 'operations' stamp: 'len 8/9/2020 07:49:04'!
+transpose
+	^ Matrix from: codomain to: domain rows: columns! !
+
+!ColumnMatrix methodsFor: 'reduction-operations' stamp: 'len 5/30/2019 07:11:23'!
+addColumn: src times: aNumber toColumn: dst
+	self addColumn: src times: aNumber toColumn: dst startingAt: 1! !
+
+!ColumnMatrix methodsFor: 'reduction-operations' stamp: 'len 5/30/2019 07:11:05'!
+addColumn: src times: aNumber toColumn: dst startingAt: columnIndex
+	(columns at: dst) add: (columns at: src) times: aNumber startingAt: columnIndex! !
+
+!ColumnMatrix methodsFor: 'reduction-operations' stamp: 'len 5/30/2019 07:18:45'!
+addRow: i times: aNumber toRow: j
+	columns do: [:each| each at: j put: (each at: i) * aNumber + (each at: j)]! !
+
+!ColumnMatrix methodsFor: 'reduction-operations' stamp: 'len 1/16/2018 22:10:18'!
+multiplyColumn: i by: aNumber
+	self multiplyColumn: i by: aNumber startingAt: 1! !
+
+!ColumnMatrix methodsFor: 'reduction-operations' stamp: 'len 1/16/2018 22:10:00'!
+multiplyColumn: i by: aNumber startingAt: startIndex
+	(columns at: i) multiplyBy: aNumber startingAt: startIndex! !
+
+!ColumnMatrix methodsFor: 'reduction-operations' stamp: 'len 1/16/2018 22:10:27'!
+multiplyRow: i by: aNumber
+	columns do: [:each| each at: i put: (each at: i) * aNumber]! !
+
+!ColumnMatrix methodsFor: 'reduction-operations' stamp: 'len 3/3/2017 12:11:47'!
+swapColumn: i with: j
+	columns swap: i with: j! !
+
+!ColumnMatrix methodsFor: 'reduction-operations' stamp: 'len 3/3/2017 12:07:39'!
+swapRow: i with: j
+	columns do: [:each| each swap: i with: j]! !
+
+!ColumnMatrix methodsFor: 'testing' stamp: 'len 3/23/2016 02:44'!
+isZero
+	^ columns allSatisfy: [:each| each isZero]! !
+
+!ColumnMatrix methodsFor: 'testing' stamp: 'len 12/1/2016 17:05:02'!
+isZeroAt: aPoint
+	^ (columns at: aPoint y) isZeroAt: aPoint x! !
+
+!ColumnMatrix methodsFor: 'private' stamp: 'len 5/29/2020 09:15:50'!
+validate
+	columns size = domain rank ifFalse: [^ false].
+	^ super validate! !
+
+!ColumnMatrix class methodsFor: 'instance creation' stamp: 'len 5/29/2020 05:45:24'!
+from: aDomain to: aCodomain columns: anArray
+	^ self new domain: aDomain; codomain: aCodomain; columns: anArray! !
+
+!ColumnMatrix class methodsFor: 'instance creation' stamp: 'len 5/29/2020 05:48:59'!
+newFrom: aMatrix
+	^ self from: aMatrix domain to: aMatrix codomain columns: (aMatrix columns collect: [:each| each copy])! !
+
+!RowMatrix methodsFor: 'accessing' stamp: 'len 12/20/2021 13:28:22'!
+atRow: i column: j
+	^ (rows at: i) at: j! !
+
+!RowMatrix methodsFor: 'accessing' stamp: 'len 12/20/2021 13:28:38'!
+atRow: i column: j ifAbsent: exceptionBlock
+	^ (rows at: i ifAbsent: [^ exceptionBlock value]) at: j ifAbsent: exceptionBlock! !
+
+!RowMatrix methodsFor: 'accessing' stamp: 'len 12/20/2021 13:28:50'!
+atRow: i column: j put: anObject
+	^ (rows at: i) at: j put: anObject! !
+
+!RowMatrix methodsFor: 'accessing' stamp: 'len 5/29/2020 16:36:51'!
+columnAt: j
+	^ codomain filling: [:i| (rows at: i) at: j]! !
+
+!RowMatrix methodsFor: 'accessing' stamp: 'len 4/23/2018 21:09:39'!
+denominator
+	| answer |
+	self scalars isLocalization ifFalse: [^ self scalars one].
+	answer _ self scalars integers one.
+	rows do: [:each| answer _ each denominator lcm: answer].
+	^ answer! !
+
+!RowMatrix methodsFor: 'accessing' stamp: 'len 5/29/2020 09:02:16'!
+lift
+	"If the coefficients ring is a quotient R/I, answer a representative of the receiver over R. See >>%."
+	^ self class from: domain lift to: codomain lift rows: (rows collect: [:each| each lift])! !
+
+!RowMatrix methodsFor: 'accessing' stamp: 'len 5/29/2020 09:02:30'!
+representative
+	"If the coefficients ring is a quotient R/I, answer a representative of the receiver over R. See >>%."
+	^ self class from: domain lift to: codomain lift rows: (rows collect: [:each| each representative])! !
+
+!RowMatrix methodsFor: 'accessing' stamp: 'len 3/23/2016 00:16'!
+rowAt: i
+	^ rows at: i! !
+
+!RowMatrix methodsFor: 'accessing' stamp: 'len 3/23/2016 00:18'!
+rowAt: i put: aTuple
+	^ rows at: i put: aTuple! !
+
+!RowMatrix methodsFor: 'accessing' stamp: 'len 3/23/2016 00:17'!
+rows
+	^ rows! !
+
+!RowMatrix methodsFor: 'converting' stamp: 'len 7/30/2021 14:28:43'!
+asTuple
+	"Answer the receiver converted to Tuple by concatenating its rows (which is also the coordinates of the receiver in the canonical basis)."
+	^ rows size = 1 ifTrue: [rows first] ifFalse: [super asTuple]! !
+
+!RowMatrix methodsFor: 'converting' stamp: 'len 5/29/2020 08:53:54'!
+over: aRing
+	| newDomain |
+	self scalars = aRing ifTrue: [^ self].
+	^ self class from: (newDomain _ self domain over: aRing) to: (self codomain over: aRing) rows: (rows collect: [:each| newDomain !! each])! !
+
+!RowMatrix methodsFor: 'copying' stamp: 'len 5/29/2020 09:02:03'!
+copy
+	^ self class from: domain to: codomain rows: (rows collect: [:each| each copy])! !
+
+!RowMatrix methodsFor: 'enumerating' stamp: 'len 3/24/2018 19:28:25'!
+allSatisfy: aBlock
+	^ rows allSatisfy: [:each| each allSatisfy: aBlock]! !
+
+!RowMatrix methodsFor: 'enumerating' stamp: 'len 5/29/2020 09:01:43'!
+collect: aBlock
+	^ self class from: domain to: codomain rows: (rows collect: [:each| each collect: aBlock])! !
+
+!RowMatrix methodsFor: 'enumerating' stamp: 'len 7/14/2019 15:20:53'!
+do: aBlock
+	rows do: [:each| each do: aBlock]! !
+
+!RowMatrix methodsFor: 'enumerating' stamp: 'len 3/23/2016 00:18'!
+rowsDo: aBlock
+	rows do: aBlock! !
+
+!RowMatrix methodsFor: 'enumerating' stamp: 'len 7/16/2021 22:24:07'!
+withIndicesDo: aBlock
+	rows withIndexDo: [:row :i| row withIndexDo: [:each :j| aBlock value: each value: i value: j]]! !
+
+!RowMatrix methodsFor: 'initialization' stamp: 'len 3/23/2016 00:20'!
+rows: anArray
+	rows _ anArray! !
+
+!RowMatrix methodsFor: 'operations' stamp: 'len 5/29/2020 09:01:17'!
++ aMatrix
+	self checkDimensionMatch: aMatrix.
+	self checkScalarsMatch: aMatrix.
+	^ self class from: domain to: codomain rows: rows + aMatrix rows! !
+
+!RowMatrix methodsFor: 'operations' stamp: 'len 5/29/2020 09:01:24'!
+- aMatrix
+	self checkDimensionMatch: aMatrix.
+	self checkScalarsMatch: aMatrix.
+	^ self class from: domain to: codomain rows: rows - aMatrix rows! !
+
+!RowMatrix methodsFor: 'operations' stamp: 'len 5/29/2020 09:01:31'!
+negated
+	^ self class from: domain to: codomain rows: rows negated! !
+
+!RowMatrix methodsFor: 'operations' stamp: 'len 8/9/2020 07:50:03'!
+transpose
+	^ Matrix from: codomain to: domain columns: rows! !
+
+!RowMatrix methodsFor: 'reduction-operations' stamp: 'len 5/30/2019 07:22:05'!
+addColumn: i times: aNumber toColumn: j
+	rows do: [:each| each at: j put: (each at: i) * aNumber + (each at: j)]! !
+
+!RowMatrix methodsFor: 'reduction-operations' stamp: 'len 5/30/2019 07:21:28'!
+addRow: src times: aNumber toRow: dst
+	self addRow: src times: aNumber toRow: dst startingAt: 1! !
+
+!RowMatrix methodsFor: 'reduction-operations' stamp: 'len 5/30/2019 07:21:44'!
+addRow: src times: aNumber toRow: dst startingAt: columnIndex
+	(rows at: dst) add: (rows at: src) times: aNumber startingAt: columnIndex! !
+
+!RowMatrix methodsFor: 'reduction-operations' stamp: 'len 1/16/2018 22:11:15'!
+multiplyColumn: i by: aNumber
+	rows do: [:each| each at: i put: (each at: i) * aNumber]! !
+
+!RowMatrix methodsFor: 'reduction-operations' stamp: 'len 1/16/2018 22:08:39'!
+multiplyRow: i by: aNumber
+	self multiplyRow: i by: aNumber startingAt: 1! !
+
+!RowMatrix methodsFor: 'reduction-operations' stamp: 'len 1/16/2018 22:08:30'!
+multiplyRow: i by: aNumber startingAt: startIndex
+	(rows at: i) multiplyBy: aNumber startingAt: startIndex! !
+
+!RowMatrix methodsFor: 'reduction-operations' stamp: 'len 3/23/2016 00:20'!
+swapColumn: i with: j
+	rows do: [:each| each swap: i with: j]! !
+
+!RowMatrix methodsFor: 'reduction-operations' stamp: 'len 3/23/2016 00:17'!
+swapRow: i with: j
+	rows swap: i with: j! !
+
+!RowMatrix methodsFor: 'testing' stamp: 'len 3/23/2016 00:19'!
+isZero
+	^ rows allSatisfy: [:each| each isZero]! !
+
+!RowMatrix methodsFor: 'testing' stamp: 'len 12/1/2016 17:04:49'!
+isZeroAt: aPoint
+	^ (rows at: aPoint x) isZeroAt: aPoint y! !
+
+!RowMatrix methodsFor: 'private' stamp: 'len 5/29/2020 09:16:26'!
+validate
+	rows size = codomain rank ifFalse: [^ false].
+	^ super validate! !
+
+!RowMatrix class methodsFor: 'instance creation' stamp: 'len 5/29/2020 06:36:44'!
+from: aDomain to: aCodomain rows: anArray
+	^ self new domain: aDomain; codomain: aCodomain; rows: anArray! !
+
+!RowMatrix class methodsFor: 'instance creation' stamp: 'len 5/29/2020 05:49:49'!
+newFrom: aMatrix
+	^ self from: aMatrix domain to: aMatrix codomain rows: (aMatrix rows collect: [:each| each copy])! !
 
 !SemidirectProductElement methodsFor: 'accessing' stamp: 'len 5/5/98 00:18'!
 left
@@ -2390,6 +2749,60 @@ run
 		whileFalse: [i _ i - 1].
 	elementaryDivisors add: ((S at: 1@1) gcd: D).
 	^ {L. S. R}! !
+
+!HermiteColumnReduction methodsFor: 'as yet unclassified' stamp: 'len 9/28/2018 19:46:17'!
+matrix: aMatrix
+	matrix _ ColumnMatrix newFrom: aMatrix.
+	self run! !
+
+!HermiteColumnReduction methodsFor: 'as yet unclassified' stamp: 'len 7/10/2019 16:42:08'!
+reduceStep: k row: i
+	| j0 b |
+	"2. Row finished?"
+	[j0 _ (1 to: k-1)
+		detect: [:j| (matrix at: i@j) ~= 0]
+		ifNone: [(matrix at: i@k) < 0 ifTrue: [matrix multiplyColumn: k by: -1]. ^ self "go to step 5"].
+	"3. Choose non-zero entry with smallest absolute value:"
+	j0 _ ((k to: j0 by: -1) select: [:j| (matrix at: i@j) ~= 0]) detectMin: [:j| (matrix at: i@j) abs].
+	j0 < k ifTrue: [matrix swapColumn: j0 with: k].
+	(matrix at: i@k) < 0 ifTrue: [matrix multiplyColumn: k by: -1].
+	b _ matrix at: i@k.
+	"4. Reduce:"
+	1 to: k-1 do: [:j| | q |
+		q _ ((matrix at: i@j) / b) rounded.
+"		q _ (matrix at: i@j) // b."
+		matrix addColumn: k times: q negated toColumn: j]] repeat! !
+
+!HermiteColumnReduction methodsFor: 'as yet unclassified' stamp: 'len 9/28/2018 19:46:34'!
+reduced
+	^ matrix! !
+
+!HermiteColumnReduction methodsFor: 'as yet unclassified' stamp: 'len 5/30/2019 07:11:48'!
+run
+	| n m i k l b |
+	m _ matrix height.
+	n _ matrix width.
+	"1. Initialize:"
+	i _ m.
+	k _ n.
+	l _ m > n ifTrue: [m-n+1] ifFalse: [1].
+	[self reduceStep: k row: i.
+	"5. Final reductions:"
+	b _ matrix at: i@k.
+	b = 0
+		ifTrue:
+			[k _ k + 1]
+		ifFalse:
+			[k+1 to: n do: [:j| | q |
+				q _ ((matrix at: i@j) / b) floor. "(matrix at: i@j) // b."
+				matrix addColumn: k times: q negated toColumn: j]].
+	"6. Finished?"
+	i = l] whileFalse: [i _ i - 1. k _ k - 1].
+	^ matrix "copyFrom: 1@k to: m@n"! !
+
+!HermiteColumnReduction class methodsFor: 'instance creation' stamp: 'len 9/28/2018 19:47:06'!
+on: aMatrix
+	^ self new matrix: aMatrix! !
 
 !ModularHermiteReduction methodsFor: 'as yet unclassified' stamp: 'len 4/5/2018 15:36:20'!
 addColumn: a to: B

@@ -1,4 +1,4 @@
-'From Cuis 6.0 [latest update: #5053] on 18 May 2022 at 12:47:31 pm'!
+'From Cuis 6.0 [latest update: #5053] on 20 May 2022 at 6:53:42 am'!
 'Description This package implements among other things: permutation groups, linear groups, modular integers, finite fields, Galois rings, polynomial rings, affine algebras, number fields, function fields, p-adic fields, power series rings, coherent modules, (co)chain complexes, finite (finitely generated as modules) associative algebras, finite distributive (not necessarily associative) algebras, schemes, and sheaves of modules.
 
 References:
@@ -12,10 +12,10 @@ References:
 [Dix82] John D. Dixon, "Exact Solution of Linear Equations Using p-Adic Expansions" (1982)
 [Eis95] David Eisenbud; "Commutative Algebra With a View Towards Algebraic Geometry", GTM 150, Springer, 1995
 [EIP00] Michele Elia; J. Carmelo Interlando; Reginaldo Palazzo Jr.; "Computing the reciprocal of units in Galois rings" (2000)
-[] Claus Flieker, Tommy Hofmann, "Computing in quotients of rings of integers" (2016)
+[FH16] Claus Flieker, Tommy Hofmann, "Computing in quotients of rings of integers" (2016)
 [GM73] Ganske, G.; McDonald, B.R. "Finite local rings". Rocky Mountain J. Math. 3 (1973), no. 4, 521-540
 [HH11] Jurgen Herzog, Takayuki Hibi, "Monomial Ideals" (2011)
-[] John A. Howell, "Spans in the module (Z/mZ)^s" (1986)
+[How86] John A. Howell, "Spans in the module (Z/mZ)^s" (1986)
 [] Mitsuo Kanemitsu; Ken-ichi Yoshida; "Euclidean rings" (1986)
 [KSWZ17] Deepak Kapur, Yao Sun, Dingkang Wang, Jie Zhou, "The Generalized Rabinowitsch Trick" (2017)
 [McD74] Bernard R. McDonald; "Finite Rings with Identity" (1974)
@@ -25,7 +25,7 @@ References:
 [SY09] Michael Sagraloff, Chee K. Yap, "An Efficient and Exact Subdivision Algorithm for Isolating Complex Roots of a Polynomial and its Complexity Analysis" (2009)
 [Sam71] Pierre Samuel, "About Euclidean Rings", J. Algebra, 19:282-301, 1971
 [Sto00] Arne Storjohann, "Algorithms for Matrix Canonical Forms" (2000)
-[] Arne Storjohann, Thom Mulders, "Fast algorithms for linear algebra modulo N" (1998)
+[SM98] Arne Storjohann, Thom Mulders, "Fast algorithms for linear algebra modulo N" (1998)
 [] Thomas Becker; "Groebner Bases: A Computational Approach"
 [] David Cox; John Little; Donals O''Shea; "Using Algebraic Geometry"
 [] John Cremona; "Algorithms for Modular Elliptic Curves"
@@ -45,7 +45,7 @@ References:
 [] Victor Shoup; "A Computational Introduction to Number Theory and Algebra"
 [] Joseph. H. Silverman; "The Arithmetic of Elliptic Curves"
 '!
-!provides: 'Algebra' 1 9!
+!provides: 'Algebra' 1 10!
 !requires: 'Graphs' 1 0 nil!
 !requires: 'Collections-Extras' 1 1 nil!
 !requires: 'Complex' 1 8 nil!
@@ -1379,34 +1379,14 @@ Matrix subclass: #BlockSparseMatrix
 BlockSparseMatrix class
 	instanceVariableNames: ''!
 
-!classDefinition: #ColumnMatrix category: #'Algebra-Modules-Matrices'!
-Matrix subclass: #ColumnMatrix
-	instanceVariableNames: 'columns'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Algebra-Modules-Matrices'!
-!classDefinition: 'ColumnMatrix class' category: #'Algebra-Modules-Matrices'!
-ColumnMatrix class
-	instanceVariableNames: ''!
-
-!classDefinition: #RowMajorMatrix category: #'Algebra-Modules-Matrices'!
-Matrix subclass: #RowMajorMatrix
+!classDefinition: #DenseMatrix category: #'Algebra-Modules-Matrices'!
+Matrix subclass: #DenseMatrix
 	instanceVariableNames: 'coefficients'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Modules-Matrices'!
-!classDefinition: 'RowMajorMatrix class' category: #'Algebra-Modules-Matrices'!
-RowMajorMatrix class
-	instanceVariableNames: ''!
-
-!classDefinition: #RowMatrix category: #'Algebra-Modules-Matrices'!
-Matrix subclass: #RowMatrix
-	instanceVariableNames: 'rows'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Algebra-Modules-Matrices'!
-!classDefinition: 'RowMatrix class' category: #'Algebra-Modules-Matrices'!
-RowMatrix class
+!classDefinition: 'DenseMatrix class' category: #'Algebra-Modules-Matrices'!
+DenseMatrix class
 	instanceVariableNames: ''!
 
 !classDefinition: #SparseMatrix category: #'Algebra-Modules-Matrices'!
@@ -1917,16 +1897,6 @@ TupleMonomialOrdering subclass: #TOPOrdering
 	category: 'Algebra-Modules-Multivariate'!
 !classDefinition: 'TOPOrdering class' category: #'Algebra-Modules-Multivariate'!
 TOPOrdering class
-	instanceVariableNames: ''!
-
-!classDefinition: #HermiteColumnReduction category: #'Algebra-Modules-Algorithms'!
-Object subclass: #HermiteColumnReduction
-	instanceVariableNames: 'matrix'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Algebra-Modules-Algorithms'!
-!classDefinition: 'HermiteColumnReduction class' category: #'Algebra-Modules-Algorithms'!
-HermiteColumnReduction class
 	instanceVariableNames: ''!
 
 !classDefinition: #MatrixReduction category: #'Algebra-Modules-Algorithms'!
@@ -3115,14 +3085,8 @@ See also MatrixModule, FreeModule and Tuple.!
 !BlockSparseMatrix commentStamp: '<historical>' prior: 0!
 Sparse matrices stored in Block CSR (Block Compressed Sparse Row) format. They are fast at matrix-tuple multiplication and generally useful over ƒ/2ƒ with small blocks.!
 
-!ColumnMatrix commentStamp: '<historical>' prior: 0!
-Matrices stored as a list of column tuples. Column operations are fast on these matrices.!
-
-!RowMajorMatrix commentStamp: '<historical>' prior: 0!
+!DenseMatrix commentStamp: '<historical>' prior: 0!
 Matrices stored in row-major format. The coefficients are enumerated left to right starting from the first row, and they are stored in an array in this order.!
-
-!RowMatrix commentStamp: '<historical>' prior: 0!
-Matrices stored as a list of row tuples. Row operations are fast on these matrices.!
 
 !SparseMatrix commentStamp: '<historical>' prior: 0!
 Sparse matrices stored in CSR (Compressed Sparse Row) format. They are fast at matrix-tuple multiplication.!
@@ -3374,13 +3338,6 @@ A Grobner basis computed with the POT ordering is analogous to a matrix echelon 
 
 Given tuple monomials x[i] and y[i], x[i] < y[j] iff x < y or x = y and i < j.!
 
-!HermiteColumnReduction commentStamp: '<historical>' prior: 0!
-This is the Hermite column reduction algorithm. Given a matrix with coefficients in the rational integers Z, it reduces the matrix to its column-style Hermite normal form.
-
-Reference: Henri Cohen, 'A Course in Computational Algebraic Number Theory', Algorithm 2.4.4.
-
-See HermiteReduction for the algorithm modified to do row reduction instead of column reduction, and generalized to work over any computable Euclidean domain.!
-
 !MatrixReduction commentStamp: '<historical>' prior: 0!
 Abstract superclass for matrix (row) echelonization algorithms.!
 
@@ -3409,14 +3366,7 @@ This is the Hermite row reduction algorithm. Given a matrix with coefficients in
 The algorithm is essentially Algorithm 2.4.4 in [Coh96] but modified to do row reduction instead of column reduction and generalized to Euclidean domains.!
 
 !HowellReduction commentStamp: '<historical>' prior: 0!
-This is the Howell row reduction algorithm. Given a matrix with coefficients in a PIR such as Z/mZ, it reduces the matrix to its Howell normal form.
-
-References:
-John A. Howell, "Spans in the module (Z/mZ)^s" (1986)
-Arne Storjohann, "Algorithms for Matrix Canonical Forms" (2000)
-Arne Storjohann, Thom Mulders, "Fast algorithms for linear algebra modulo N" (1998)
-Claus Flieker, Tommy Hofmann, "Computing in quotients of rings of integers" (2016)
-!
+This is the Howell row reduction algorithm. Given a matrix with coefficients in a PIR such as Z/mZ, it reduces the matrix to its Howell normal form. See [How86], [Sto00], [SM98], [FH16].!
 
 !CochainComplex commentStamp: '<historical>' prior: 0!
 (Bounded) cochain complexes.
@@ -5280,9 +5230,9 @@ bitAt: anInteger
 bitAt: anInteger put: aBit
 	^ words bitAt: anInteger put: aBit! !
 
-!LargeBinaryArray methodsFor: 'accessing' stamp: 'len 5/18/2022 06:40:10'!
+!LargeBinaryArray methodsFor: 'accessing' stamp: 'len 5/19/2022 05:53:06'!
 lastNonzeroIndex
-	"Answer the index of the last nonzero entry, or 0."
+	"Answer the index of the last nonzero entry, or nil."
 	| wordIndex |
 	(wordIndex _ words lastNonzeroIndex) ifNil: [^ nil].
 	^ wordIndex - 1 * 32 + 1 + (words at: wordIndex) highBit! !
@@ -5498,18 +5448,19 @@ bitAt: anInteger put: oneOrZero
 	bits _ bits bitAt: anInteger put: oneOrZero.
 	^ oneOrZero! !
 
-!SmallBinaryArray methodsFor: 'accessing' stamp: 'len 4/26/2022 06:01:11'!
+!SmallBinaryArray methodsFor: 'accessing' stamp: 'len 5/19/2022 05:53:28'!
 lastNonzeroIndex
-	"Answer the index of the last nonzero entry, or 0."
-	^ bits highBit! !
+	"Answer the index of the last nonzero entry, or nil."
+	| n |
+	^ (n _ bits highBit) = 0 ifFalse: [n]! !
 
 !SmallBinaryArray methodsFor: 'accessing' stamp: 'len 4/17/2022 11:31:59'!
 size
 	^ size! !
 
-!SmallBinaryArray methodsFor: 'comparing' stamp: 'len 7/27/2020 08:43:41'!
+!SmallBinaryArray methodsFor: 'comparing' stamp: 'len 5/20/2022 06:33:17'!
 = anObject
-	^ self class = anObject class and: [bits = anObject asInteger]! !
+	^ self class = anObject class and: [size = anObject size and: [bits = anObject asInteger]]! !
 
 !SmallBinaryArray methodsFor: 'comparing' stamp: 'len 5/8/2019 03:06:15'!
 hash
@@ -5903,15 +5854,9 @@ swap: oneIndex with: anotherIndex
 	"Move the element at oneIndex to anotherIndex, and vice-versa."
 	representatives swap: oneIndex with: anotherIndex! !
 
-!ModularArray methodsFor: 'comparing' stamp: 'len 4/26/2022 06:02:18'!
+!ModularArray methodsFor: 'comparing' stamp: 'len 5/20/2022 06:34:09'!
 = anObject
-	| n otherRepresentatives |
-	(self class = anObject class and: [scalars = anObject scalars]) ifFalse: [^ false].
-	otherRepresentatives _ anObject representatives.
-	(n _ representatives size) = otherRepresentatives size ifFalse:
-		[(n _ self lastNonzeroIndex) = anObject lastNonzeroIndex ifFalse: [^ false]].
-	1 to: n do: [:i| (representatives at: i) = (otherRepresentatives at: i) ifFalse: [^ false]].
-	^ true! !
+	^ self class = anObject class and: [scalars = anObject scalars and: [representatives = anObject representatives]]! !
 
 !ModularArray methodsFor: 'comparing' stamp: 'len 7/27/2020 08:39:57'!
 hash
@@ -6094,9 +6039,9 @@ isZero
 	1 to: representatives size do: [:i| (representatives at: i) == 0 ifFalse: [^ false]].
 	^ true! !
 
-!ModularArray methodsFor: 'testing' stamp: 'len 4/18/2022 08:09:32'!
+!ModularArray methodsFor: 'testing' stamp: 'len 5/20/2022 06:28:57'!
 isZeroAt: anInteger
-	^ (representatives at: anInteger) == 0! !
+	^ (representatives at: anInteger) = 0! !
 
 !ModularArray methodsFor: 'testing' stamp: 'len 4/12/2021 12:28:13'!
 isZeroFrom: start to: stop
@@ -19906,10 +19851,10 @@ pointsOverField: aRing do: aBlock
 			ifTrue: [aBlock value: (self pointAt: V !! (each copyWith: zero))].
 		aBlock value: (self pointAt: V !! (each copyWith: one))]! !
 
-!ProjectiveSpace methodsFor: 'points-private' stamp: 'len 4/26/2022 06:03:20'!
+!ProjectiveSpace methodsFor: 'points-private' stamp: 'len 5/19/2022 05:49:23'!
 pointsOverIntegersDo: aBlock
 	ƒ ^ self rank do: [:each| | d |
-		((d _ each lastNonzeroIndex) > 0 and: [(each at: d) > 0 and: [each content = 1]])
+		((d _ each lastNonzeroIndex) notNil and: [(each at: d) notNil and: [each content = 1]])
 			ifTrue: [aBlock value: each]]! !
 
 !ProjectiveSpace methodsFor: 'points-private' stamp: 'len 5/28/2020 18:09:02'!
@@ -22474,13 +22419,6 @@ asRationalMap
 	polynomials _ (self over: P) * (P^P rank filling: [:i| P x: i]).
 	^ RationalMap from: P spec to: self codomain coordinateRing spec representatives: polynomials! !
 
-!Matrix methodsFor: 'converting' stamp: 'len 4/25/2022 15:44:12'!
-asRowMajorMatrix
-	| coefficients |
-	coefficients _ domain scalars !!!! #().
-	self rowsDo: [:each| coefficients _ coefficients, each coefficients].
-	^ RowMajorMatrix from: domain to: codomain coefficients: coefficients! !
-
 !Matrix methodsFor: 'converting' stamp: 'len 5/29/2020 10:59:00'!
 asTensor
 	"Answer the tensor expansion of the receiver."
@@ -22541,15 +22479,6 @@ collect: aBlock
 !Matrix methodsFor: 'enumerating' stamp: 'len 4/5/2018 15:28:54'!
 columnsDo: aBlock
 	1 to: self width do: [:i| aBlock value: (self columnAt: i)]! !
-
-!Matrix methodsFor: 'enumerating' stamp: 'len 5/18/2022 06:31:15'!
-copivotsDo: aBlock
-	"Enumerate the column-style pivot indices. These are the pairs i@j corresponding to the first nonzero entry of each column."
-	| j |
-	j _ 1.
-	self columnsDo: [:each|
-		each firstNonzeroIndex ifNotNil: [:i| aBlock value: i@j].
-		j _ j + 1]! !
 
 !Matrix methodsFor: 'enumerating' stamp: 'len 5/29/2020 13:07:39'!
 diagonalDo: aBlock
@@ -23048,16 +22977,6 @@ value: aTuple
 		ifTrue: [^ (self codomain over: aTuple scalars) filling: [:i| (self rowAt: i) · aTuple]].
 	^ DomainError signal: 'base rings don''t match'"! !
 
-!Matrix methodsFor: 'reduction' stamp: 'len 4/26/2021 10:54:56'!
-CHNF
-	"Answer the column-style Hermite normal form of the receiver."
-	| D |
-	self isEmpty ifTrue: [^ self].
-	self scalars == ƒ ifTrue: [^ (HermiteColumnReduction on: self) reduced].
-	self scalars == „ ifFalse: [^ DomainError signal: 'nonrational coefficients'].
-	D _ self denominator.
-	^ (HermiteColumnReduction on: self * D) reduced / D! !
-
 !Matrix methodsFor: 'reduction' stamp: 'len 12/26/2021 12:33:11'!
 HNF
 	"Answer the (row-style) Hermite normal form of the receiver."
@@ -23260,11 +23179,6 @@ coechelon
 coechelonization
 	"Answer the transformation to column echelon form."
 	^ (self propertyAt: #coechelonAndTransformation ifAbsentPut: [(self scalars echelonizationOf: self transpose) collect: [:each| each transpose]]) second! !
-
-!Matrix methodsFor: 'reduction' stamp: 'len 12/31/2021 17:03:30'!
-copivots
-	"Answer the collection of column-style pivot indices. These are the pairs i@j corresponding to the first nonzero entry of each column."
-	^ Iterator on: self performing: #copivotsDo:! !
 
 !Matrix methodsFor: 'reduction' stamp: 'len 4/10/2021 12:28:33'!
 dependentColumns
@@ -23765,9 +23679,9 @@ from: aDomain to: aCodomain filling: aBlock
 from: aDomain to: aCodomain matrix: aMatrix
 	^ self shouldNotImplement! !
 
-!Matrix class methodsFor: 'instance creation' stamp: 'len 5/18/2022 12:42:52'!
+!Matrix class methodsFor: 'instance creation' stamp: 'len 5/20/2022 06:04:30'!
 from: aDomain to: aCodomain rows: anArray
-	^ RowMajorMatrix
+	^ DenseMatrix
 		from: aDomain
 		to: aCodomain
 		coefficients: (anArray inject: (aDomain scalars new: 0) into: [:result :each| result, each coefficients])! !
@@ -23782,217 +23696,59 @@ to: aCodomain columns: anArray
 	domain _ aCodomain scalars ^ anArray size.
 	^ self from: domain to: aCodomain columns: anArray! !
 
-!ColumnMatrix methodsFor: 'accessing' stamp: 'len 12/20/2021 13:24:06'!
-atRow: i column: j
-	^ (columns at: j) at: i! !
-
-!ColumnMatrix methodsFor: 'accessing' stamp: 'len 12/20/2021 13:24:26'!
-atRow: i column: j ifAbsent: exceptionBlock
-	^ (columns at: j ifAbsent: [^ exceptionBlock value]) at: i ifAbsent: exceptionBlock! !
-
-!ColumnMatrix methodsFor: 'accessing' stamp: 'len 12/20/2021 13:24:40'!
-atRow: i column: j put: anObject
-	^ (columns at: j) at: i put: anObject! !
-
-!ColumnMatrix methodsFor: 'accessing' stamp: 'len 3/23/2016 02:53'!
-columnAt: j
-	^ columns at: j! !
-
-!ColumnMatrix methodsFor: 'accessing' stamp: 'len 3/23/2016 02:54'!
-columnAt: i put: aTuple
-	^ columns at: i put: aTuple! !
-
-!ColumnMatrix methodsFor: 'accessing' stamp: 'len 3/23/2016 02:55'!
-columns
-	^ columns! !
-
-!ColumnMatrix methodsFor: 'accessing' stamp: 'len 3/23/2016 02:56'!
-columns: anArray
-	columns _ anArray! !
-
-!ColumnMatrix methodsFor: 'accessing' stamp: 'len 4/23/2018 21:09:52'!
-denominator
-	| answer |
-	self scalars isLocalization ifFalse: [^ self scalars one].
-	answer _ self scalars integers one.
-	columns do: [:each| answer _ each denominator lcm: answer].
-	^ answer! !
-
-!ColumnMatrix methodsFor: 'accessing' stamp: 'len 5/29/2020 05:47:14'!
-lift
-	"If the coefficients ring is a quotient R/I, answer a representative of the receiver over R. See >>%."
-	^ self class from: domain lift to: codomain lift columns: (columns collect: [:each| each lift])! !
-
-!ColumnMatrix methodsFor: 'accessing' stamp: 'len 5/29/2020 05:48:17'!
-representative
-	"If the coefficients ring is a quotient R/I, answer a representative of the receiver over R. See >>%."
-	^ self class from: domain lift to: codomain lift columns: (columns collect: [:each| each representative])! !
-
-!ColumnMatrix methodsFor: 'accessing' stamp: 'len 5/29/2020 16:35:32'!
-rowAt: i
-	^ domain filling: [:j| (columns at: j) at: i]! !
-
-!ColumnMatrix methodsFor: 'converting' stamp: 'len 7/30/2021 14:27:52'!
-asTuple
-	"Answer the receiver converted to Tuple by concatenating its rows (which is also the coordinates of the receiver in the canonical basis)."
-	^ columns size = 1 ifTrue: [columns first] ifFalse: [super asTuple]! !
-
-!ColumnMatrix methodsFor: 'converting' stamp: 'len 5/29/2020 08:52:58'!
-over: aRing
-	| newCodomain |
-	self scalars = aRing ifTrue: [^ self].
-	^ self class from: (self domain over: aRing) to: (newCodomain _ self codomain over: aRing) columns: (columns collect: [:each| newCodomain !! each])! !
-
-!ColumnMatrix methodsFor: 'copying' stamp: 'len 5/29/2020 05:46:48'!
-copy
-	^ self class from: domain to: codomain columns: (columns collect: [:each| each copy])! !
-
-!ColumnMatrix methodsFor: 'enumerating' stamp: 'len 3/24/2018 19:28:43'!
-allSatisfy: aBlock
-	^ columns allSatisfy: [:each| each allSatisfy: aBlock]! !
-
-!ColumnMatrix methodsFor: 'enumerating' stamp: 'len 5/29/2020 05:46:38'!
-collect: aBlock
-	^ self class from: domain to: codomain columns: (columns collect: [:each| each collect: aBlock])! !
-
-!ColumnMatrix methodsFor: 'enumerating' stamp: 'len 3/23/2016 02:57'!
-columnsDo: aBlock
-	columns do: aBlock! !
-
-!ColumnMatrix methodsFor: 'enumerating' stamp: 'len 7/14/2019 15:20:19'!
-do: aBlock
-	columns do: [:each| each do: aBlock]! !
-
-!ColumnMatrix methodsFor: 'enumerating' stamp: 'len 7/16/2021 22:24:56'!
-withIndicesDo: aBlock
-	columns withIndexDo: [:column :j| column withIndexDo: [:each :i| aBlock value: each value: i value: j]]! !
-
-!ColumnMatrix methodsFor: 'operations' stamp: 'len 5/29/2020 05:46:08'!
-+ aMatrix
-	self checkDimensionMatch: aMatrix.
-	self checkScalarsMatch: aMatrix.
-	^ self class from: domain to: codomain columns: columns + aMatrix columns! !
-
-!ColumnMatrix methodsFor: 'operations' stamp: 'len 5/29/2020 05:46:21'!
-- aMatrix
-	self checkDimensionMatch: aMatrix.
-	self checkScalarsMatch: aMatrix.
-	^ self class from: domain to: codomain columns: columns - aMatrix columns! !
-
-!ColumnMatrix methodsFor: 'operations' stamp: 'len 5/29/2020 05:47:22'!
-negated
-	^ self class from: domain to: codomain columns: columns negated! !
-
-!ColumnMatrix methodsFor: 'operations' stamp: 'len 8/9/2020 07:49:04'!
-transpose
-	^ Matrix from: codomain to: domain rows: columns! !
-
-!ColumnMatrix methodsFor: 'reduction-operations' stamp: 'len 5/30/2019 07:11:23'!
-addColumn: src times: aNumber toColumn: dst
-	self addColumn: src times: aNumber toColumn: dst startingAt: 1! !
-
-!ColumnMatrix methodsFor: 'reduction-operations' stamp: 'len 5/30/2019 07:11:05'!
-addColumn: src times: aNumber toColumn: dst startingAt: columnIndex
-	(columns at: dst) add: (columns at: src) times: aNumber startingAt: columnIndex! !
-
-!ColumnMatrix methodsFor: 'reduction-operations' stamp: 'len 5/30/2019 07:18:45'!
-addRow: i times: aNumber toRow: j
-	columns do: [:each| each at: j put: (each at: i) * aNumber + (each at: j)]! !
-
-!ColumnMatrix methodsFor: 'reduction-operations' stamp: 'len 1/16/2018 22:10:18'!
-multiplyColumn: i by: aNumber
-	self multiplyColumn: i by: aNumber startingAt: 1! !
-
-!ColumnMatrix methodsFor: 'reduction-operations' stamp: 'len 1/16/2018 22:10:00'!
-multiplyColumn: i by: aNumber startingAt: startIndex
-	(columns at: i) multiplyBy: aNumber startingAt: startIndex! !
-
-!ColumnMatrix methodsFor: 'reduction-operations' stamp: 'len 1/16/2018 22:10:27'!
-multiplyRow: i by: aNumber
-	columns do: [:each| each at: i put: (each at: i) * aNumber]! !
-
-!ColumnMatrix methodsFor: 'reduction-operations' stamp: 'len 3/3/2017 12:11:47'!
-swapColumn: i with: j
-	columns swap: i with: j! !
-
-!ColumnMatrix methodsFor: 'reduction-operations' stamp: 'len 3/3/2017 12:07:39'!
-swapRow: i with: j
-	columns do: [:each| each swap: i with: j]! !
-
-!ColumnMatrix methodsFor: 'testing' stamp: 'len 3/23/2016 02:44'!
-isZero
-	^ columns allSatisfy: [:each| each isZero]! !
-
-!ColumnMatrix methodsFor: 'testing' stamp: 'len 12/1/2016 17:05:02'!
-isZeroAt: aPoint
-	^ (columns at: aPoint y) isZeroAt: aPoint x! !
-
-!ColumnMatrix methodsFor: 'private' stamp: 'len 5/29/2020 09:15:50'!
-validate
-	columns size = domain rank ifFalse: [^ false].
-	^ super validate! !
-
-!ColumnMatrix class methodsFor: 'instance creation' stamp: 'len 5/29/2020 05:45:24'!
-from: aDomain to: aCodomain columns: anArray
-	^ self new domain: aDomain; codomain: aCodomain; columns: anArray! !
-
-!ColumnMatrix class methodsFor: 'instance creation' stamp: 'len 5/29/2020 05:48:59'!
-newFrom: aMatrix
-	^ self from: aMatrix domain to: aMatrix codomain columns: (aMatrix columns collect: [:each| each copy])! !
-
-!RowMajorMatrix methodsFor: 'accessing' stamp: 'len 4/20/2022 18:37:50'!
+!DenseMatrix methodsFor: 'accessing' stamp: 'len 4/20/2022 18:37:50'!
 atRow: i column: j
 	^ coefficients at: i - 1 * self width + j! !
 
-!RowMajorMatrix methodsFor: 'accessing' stamp: 'len 5/15/2022 22:37:43'!
+!DenseMatrix methodsFor: 'accessing' stamp: 'len 5/15/2022 22:37:43'!
 atRow: i column: j ifAbsent: exceptionBlock
 	((i between: 1 and: self height) and: [j between: 1 and: self width])
 		ifFalse: [^ exceptionBlock value].
 	^ coefficients at: i - 1 * self width + j "ifAbsent: exceptionBlock"! !
 
-!RowMajorMatrix methodsFor: 'accessing' stamp: 'len 5/15/2022 22:38:15'!
+!DenseMatrix methodsFor: 'accessing' stamp: 'len 5/15/2022 22:38:15'!
 atRow: i column: j put: anObject
 	((i between: 1 and: self height) and: [j between: 1 and: self width])
 		ifFalse: [^ self error: 'indices out of bounds'].
 	^ coefficients at: i - 1 * self width + j put: anObject! !
 
-!RowMajorMatrix methodsFor: 'accessing' stamp: 'len 4/20/2022 18:44:00'!
+!DenseMatrix methodsFor: 'accessing' stamp: 'len 4/20/2022 18:44:00'!
 lift
 	"If the coefficients ring is a quotient R/I, answer a representative of the receiver over R. See >>%."
 	^ self class from: domain lift to: codomain lift coefficients: coefficients lift! !
 
-!RowMajorMatrix methodsFor: 'accessing' stamp: 'len 4/20/2022 18:44:51'!
+!DenseMatrix methodsFor: 'accessing' stamp: 'len 4/20/2022 18:44:51'!
 representative
 	"If the coefficients ring is a quotient R/I, answer a representative of the receiver over R. See >>%."
 	^ self class from: domain lift to: codomain lift coefficients: coefficients representative! !
 
-!RowMajorMatrix methodsFor: 'accessing' stamp: 'len 5/16/2022 11:50:37'!
+!DenseMatrix methodsFor: 'accessing' stamp: 'len 5/16/2022 11:50:37'!
 rowAt: i
 	^ domain elementAt: (coefficients copyFrom: i - 1 * self width + 1 to: i * self width)! !
 
-!RowMajorMatrix methodsFor: 'accessing' stamp: 'len 5/16/2022 11:51:37'!
+!DenseMatrix methodsFor: 'accessing' stamp: 'len 5/16/2022 11:51:37'!
 rowAt: i put: aTuple
 	coefficients replaceFrom: i - 1 * self width + 1 to: i * self width with: aTuple coefficients startingAt: 1! !
 
-!RowMajorMatrix methodsFor: 'accessing' stamp: 'len 5/15/2022 12:06:01'!
+!DenseMatrix methodsFor: 'accessing' stamp: 'len 5/15/2022 12:06:01'!
 zero
 	^ self class from: domain to: codomain coefficients: coefficients zero! !
 
-!RowMajorMatrix methodsFor: 'converting' stamp: 'len 4/20/2022 18:39:46'!
+!DenseMatrix methodsFor: 'converting' stamp: 'len 4/20/2022 18:39:46'!
 asTuple
 	"Answer the receiver converted to Tuple by concatenating its rows (which is also the coordinates of the receiver in the canonical basis)."
 	^ self scalars tuple: coefficients! !
 
-!RowMajorMatrix methodsFor: 'converting' stamp: 'len 5/15/2022 12:08:21'!
+!DenseMatrix methodsFor: 'converting' stamp: 'len 5/15/2022 12:08:21'!
 over: aRing
 	self scalars = aRing ifTrue: [^ self].
 	^ self class from: (domain over: aRing) to: (codomain over: aRing) coefficients: aRing !!!! coefficients! !
 
-!RowMajorMatrix methodsFor: 'copying' stamp: 'len 4/20/2022 18:43:25'!
+!DenseMatrix methodsFor: 'copying' stamp: 'len 4/20/2022 18:43:25'!
 copy
 	^ self class from: domain to: codomain coefficients: coefficients copy! !
 
-!RowMajorMatrix methodsFor: 'copying' stamp: 'len 5/16/2022 11:09:18'!
+!DenseMatrix methodsFor: 'copying' stamp: 'len 5/16/2022 11:09:18'!
 copyFrom: start to: stop
 	"Answer the submatrix of the receiver from start to stop."
 	| h w subcoefficients |
@@ -24006,15 +23762,15 @@ copyFrom: start to: stop
 		to: (codomain copyFrom: start x to: stop x)
 		coefficients: subcoefficients! !
 
-!RowMajorMatrix methodsFor: 'enumerating' stamp: 'len 4/21/2022 12:32:12'!
+!DenseMatrix methodsFor: 'enumerating' stamp: 'len 4/21/2022 12:32:12'!
 allSatisfy: aBlock
 	^ coefficients allSatisfy: aBlock! !
 
-!RowMajorMatrix methodsFor: 'enumerating' stamp: 'len 5/29/2020 04:11:36'!
+!DenseMatrix methodsFor: 'enumerating' stamp: 'len 5/29/2020 04:11:36'!
 collect: aBlock
 	^ self class from: domain to: codomain coefficients: (coefficients collect: aBlock)! !
 
-!RowMajorMatrix methodsFor: 'enumerating' stamp: 'len 5/28/2020 10:32:10'!
+!DenseMatrix methodsFor: 'enumerating' stamp: 'len 5/28/2020 10:32:10'!
 diagonalDo: aBlock
 	| i w |
 	i _ 1.
@@ -24024,11 +23780,21 @@ diagonalDo: aBlock
 			[aBlock value: (coefficients at: i).
 			i _ i + w]! !
 
-!RowMajorMatrix methodsFor: 'enumerating' stamp: 'len 5/28/2020 10:34:42'!
+!DenseMatrix methodsFor: 'enumerating' stamp: 'len 5/28/2020 10:34:42'!
 do: aBlock
 	coefficients do: aBlock! !
 
-!RowMajorMatrix methodsFor: 'enumerating' stamp: 'len 4/21/2022 12:35:08'!
+!DenseMatrix methodsFor: 'enumerating' stamp: 'len 5/20/2022 06:21:47'!
+pivotsDo: aBlock
+	"Enumerate the row-style pivot indices. These are the pairs i@j corresponding to the first nonzero entry of each row."
+	| w rowStart |
+	w _ self width.
+	rowStart _ 1.
+	1 to: self height do: [:i|
+		(coefficients findNonzeroFrom: rowStart to: rowStart + w - 1 by: 1) ifNotNil: [:j| aBlock value: i@(j - rowStart + 1)].
+		rowStart _ rowStart + w]! !
+
+!DenseMatrix methodsFor: 'enumerating' stamp: 'len 4/21/2022 12:35:08'!
 withIndicesDo: aBlock
 	| width i j |
 	width _ self width.
@@ -24038,7 +23804,7 @@ withIndicesDo: aBlock
 		aBlock value: each value: i value: j.
 		(j _ j + 1) > width ifTrue: [j _ 1. i _ i + 1]].! !
 
-!RowMajorMatrix methodsFor: 'operations' stamp: 'len 4/25/2022 13:33:57'!
+!DenseMatrix methodsFor: 'operations' stamp: 'len 4/25/2022 13:33:57'!
 * anObject
 	((self scalars includes: anObject) or: [anObject isInteger])
 		ifTrue: [^ self class from: domain to: codomain coefficients: coefficients * anObject].
@@ -24047,21 +23813,21 @@ withIndicesDo: aBlock
 	(anObject isKindOf: ModuleMap) ifTrue: [^ self · anObject].
 	^ DomainError signal! !
 
-!RowMajorMatrix methodsFor: 'operations' stamp: 'len 4/21/2022 12:37:35'!
+!DenseMatrix methodsFor: 'operations' stamp: 'len 4/21/2022 12:37:35'!
 + aMatrix
 	self class = aMatrix class ifFalse: [^ super + aMatrix].
 	(self domain = aMatrix domain and: [self codomain = aMatrix codomain])
 			ifFalse: [^ DomainError signal: 'domains don''t match'].
 	^ self class from: domain to: codomain coefficients: coefficients + aMatrix coefficients! !
 
-!RowMajorMatrix methodsFor: 'operations' stamp: 'len 4/21/2022 12:37:51'!
+!DenseMatrix methodsFor: 'operations' stamp: 'len 4/21/2022 12:37:51'!
 - aMatrix
 	self class = aMatrix class ifFalse: [^ super - aMatrix].
 	(self domain = aMatrix domain and: [self codomain = aMatrix codomain])
 			ifFalse: [^ DomainError signal: 'domains don''t match'].
 	^ self class from: domain to: codomain coefficients: coefficients - aMatrix coefficients! !
 
-!RowMajorMatrix methodsFor: 'operations' stamp: 'len 5/15/2022 12:25:38'!
+!DenseMatrix methodsFor: 'operations' stamp: 'len 5/15/2022 12:25:38'!
 · aMatrix
 	self class = aMatrix class ifFalse: [^ super · aMatrix].
 	domain = aMatrix codomain ifFalse: [^ DomainError signal: 'domains don''t match'].
@@ -24075,7 +23841,7 @@ withIndicesDo: aBlock
 				fillWithMatrix: coefficients width: self width
 				timesMatrix: aMatrix coefficients width: aMatrix width)! !
 
-!RowMajorMatrix methodsFor: 'operations' stamp: 'len 5/16/2022 11:32:28'!
+!DenseMatrix methodsFor: 'operations' stamp: 'len 5/16/2022 11:32:28'!
  aMatrix
 	"Answer the block sum of the receiver and the argument.
 	If the receiver is A and the argument is B, output a matrix of the form:
@@ -24092,7 +23858,7 @@ withIndicesDo: aBlock
 	^ self class from: domain  aMatrix domain to: codomain  aMatrix codomain coefficients: newCoefficients
 ! !
 
-!RowMajorMatrix methodsFor: 'operations' stamp: 'len 5/16/2022 10:08:04'!
+!DenseMatrix methodsFor: 'operations' stamp: 'len 5/16/2022 10:08:04'!
 “ aMatrix
 	"Answer the product morphism of the receiver and the argument.
 	This is the row-augmented matrix with the receiver stacked on top of the argument.
@@ -24103,7 +23869,7 @@ withIndicesDo: aBlock
 	domain = aMatrix domain ifFalse: [DomainError signal: 'domains don''t match'].
 	^ self class from: domain to: codomain  aMatrix codomain coefficients: coefficients, aMatrix coefficients! !
 
-!RowMajorMatrix methodsFor: 'operations' stamp: 'len 5/16/2022 11:26:09'!
+!DenseMatrix methodsFor: 'operations' stamp: 'len 5/16/2022 11:26:09'!
 ” aMatrix
 	"Answer the coproduct morphism of the receiver and the argument.
 	This is the column-augmented matrix with the receiver concatenated with the argument.
@@ -24120,7 +23886,7 @@ withIndicesDo: aBlock
 			replaceFrom: i - 1 * w + self width + 1 to: i * w with: aMatrix coefficients startingAt: i - 1 * aMatrix width + 1].
 	^ self class from: domain  aMatrix domain to: codomain coefficients: newCoefficients! !
 
-!RowMajorMatrix methodsFor: 'operations' stamp: 'len 4/28/2022 06:28:52'!
+!DenseMatrix methodsFor: 'operations' stamp: 'len 4/28/2022 06:28:52'!
 apply: aFunction
 	"Answer a new tuple with coefficients obtainted by applying aFunction to the coefficients of the receiver.
 	If aFunction is a block we assume the parent doesn't change, i.e. the block must evaluate to values within the scalars ring of the receiver."
@@ -24128,11 +23894,11 @@ apply: aFunction
 	aFunction isBlock ifTrue: [^ self collect: aFunction].
 	^ self class from: (domain over: aFunction codomain) to: (codomain over: aFunction codomain) coefficients: (coefficients apply: aFunction)! !
 
-!RowMajorMatrix methodsFor: 'operations' stamp: 'len 4/21/2022 12:38:12'!
+!DenseMatrix methodsFor: 'operations' stamp: 'len 4/21/2022 12:38:12'!
 negated
 	^ self class from: domain to: codomain coefficients: coefficients negated! !
 
-!RowMajorMatrix methodsFor: 'operations' stamp: 'len 5/4/2022 09:01:15'!
+!DenseMatrix methodsFor: 'operations' stamp: 'len 5/4/2022 09:01:15'!
 transpose
 	^ self class
 		from: codomain
@@ -24141,7 +23907,7 @@ transpose
 			((coefficients copyEmpty: coefficients size)
 				fillWithMatrixTranspose: coefficients width: self width)! !
 
-!RowMajorMatrix methodsFor: 'operations' stamp: 'len 5/15/2022 12:26:34'!
+!DenseMatrix methodsFor: 'operations' stamp: 'len 5/15/2022 12:26:34'!
 value: aTuple
 "	(self domain includes: aTuple) ifFalse: [^ DomainError signal]."
 	(coefficients isEmpty or: [aTuple coefficients isEmpty]) ifTrue: [^ codomain zero].
@@ -24151,58 +23917,58 @@ value: aTuple
 			withMatrix: coefficients width: self width
 			timesTuple: aTuple coefficients startingAt: 1)! !
 
-!RowMajorMatrix methodsFor: 'testing' stamp: 'len 4/21/2022 12:45:41'!
+!DenseMatrix methodsFor: 'testing' stamp: 'len 4/21/2022 12:45:41'!
 isZero
 	^ coefficients isZero! !
 
-!RowMajorMatrix methodsFor: 'testing' stamp: 'len 4/21/2022 12:47:28'!
+!DenseMatrix methodsFor: 'testing' stamp: 'len 4/21/2022 12:47:28'!
 isZeroAt: aPoint
 	^ coefficients isZeroAt: aPoint x - 1 * self width + aPoint y! !
 
-!RowMajorMatrix methodsFor: 'private' stamp: 'len 5/28/2020 09:57:19'!
+!DenseMatrix methodsFor: 'private' stamp: 'len 5/28/2020 09:57:19'!
 coefficients
 	^ coefficients! !
 
-!RowMajorMatrix methodsFor: 'private' stamp: 'len 5/29/2020 07:04:34'!
+!DenseMatrix methodsFor: 'private' stamp: 'len 5/29/2020 07:04:34'!
 coefficients: aTuple
 	coefficients _ aTuple! !
 
-!RowMajorMatrix methodsFor: 'private' stamp: 'len 5/29/2020 09:16:50'!
+!DenseMatrix methodsFor: 'private' stamp: 'len 5/29/2020 09:16:50'!
 validate
 	coefficients size = (domain rank * codomain rank) ifFalse: [^ false].
 	^ super validate! !
 
-!RowMajorMatrix methodsFor: 'row operations' stamp: 'len 4/24/2022 20:33:20'!
+!DenseMatrix methodsFor: 'row operations' stamp: 'len 4/24/2022 20:33:20'!
 addRow: src times: aNumber toRow: dst
 	self addRow: src times: aNumber toRow: dst startingAt: 1! !
 
-!RowMajorMatrix methodsFor: 'row operations' stamp: 'len 4/25/2022 12:56:21'!
-addRow: src times: aNumber toRow: dst startingAt: columnIndex
+!DenseMatrix methodsFor: 'row operations' stamp: 'len 5/20/2022 05:37:46'!
+addRow: src times: aNumber toRow: dst startingAt: startColumn
 	| width dstStart srcStart |
 	width _ self width.
-	dstStart _ dst - 1 * width + 1.
-	srcStart _ src - 1 * width + 1.
+	dstStart _ dst - 1 * width + startColumn.
+	srcStart _ src - 1 * width + startColumn.
 	coefficients
-		replaceFrom: dstStart to: dstStart + width - 1
+		replaceFrom: dstStart to: dstStart + width - startColumn
 		with: coefficients startingAt: dstStart
 		plus: coefficients startingAt: srcStart
 		timesScalar: aNumber! !
 
-!RowMajorMatrix methodsFor: 'row operations' stamp: 'len 4/24/2022 20:33:32'!
+!DenseMatrix methodsFor: 'row operations' stamp: 'len 4/24/2022 20:33:32'!
 multiplyRow: i by: aNumber
 	self multiplyRow: i by: aNumber startingAt: 1! !
 
-!RowMajorMatrix methodsFor: 'row operations' stamp: 'len 4/25/2022 12:58:58'!
-multiplyRow: i by: aNumber startingAt: startIndex
+!DenseMatrix methodsFor: 'row operations' stamp: 'len 5/20/2022 05:39:01'!
+multiplyRow: i by: aNumber startingAt: startColumn
 	| width start |
 	width _ self width.
-	start _ i - 1 * width + 1.
+	start _ i - 1 * width + startColumn.
 	coefficients
-		replaceFrom: start + startIndex to: start + width - 1
-		with: coefficients startingAt: start + startIndex
+		replaceFrom: start to: start + width - startColumn
+		with: coefficients startingAt: start
 		timesScalar: aNumber! !
 
-!RowMajorMatrix methodsFor: 'row operations' stamp: 'len 4/25/2022 08:01:26'!
+!DenseMatrix methodsFor: 'row operations' stamp: 'len 4/25/2022 08:01:26'!
 swapRow: i1 with: i2
 	| width start1 start2 |
 	width _ self width.
@@ -24212,171 +23978,13 @@ swapRow: i1 with: i2
 		swapFrom: start1 to: start1 + width - 1
 		with: coefficients startingAt: start2! !
 
-!RowMajorMatrix class methodsFor: 'instance creation' stamp: 'len 4/20/2022 20:57:36'!
+!DenseMatrix class methodsFor: 'instance creation' stamp: 'len 4/20/2022 20:57:36'!
 from: aDomain to: aCodomain coefficients: anArray
 	^ self new domain: aDomain; codomain: aCodomain; coefficients: anArray! !
 
-!RowMajorMatrix class methodsFor: 'as yet unclassified' stamp: 'len 5/3/2022 13:12:30'!
+!DenseMatrix class methodsFor: 'as yet unclassified' stamp: 'len 5/20/2022 06:04:30'!
 example
-	^ RowMajorMatrix from: ƒ^4 to: ƒ^2 coefficients: #(11 12 13 14 21 22 23 24)! !
-
-!RowMatrix methodsFor: 'accessing' stamp: 'len 12/20/2021 13:28:22'!
-atRow: i column: j
-	^ (rows at: i) at: j! !
-
-!RowMatrix methodsFor: 'accessing' stamp: 'len 12/20/2021 13:28:38'!
-atRow: i column: j ifAbsent: exceptionBlock
-	^ (rows at: i ifAbsent: [^ exceptionBlock value]) at: j ifAbsent: exceptionBlock! !
-
-!RowMatrix methodsFor: 'accessing' stamp: 'len 12/20/2021 13:28:50'!
-atRow: i column: j put: anObject
-	^ (rows at: i) at: j put: anObject! !
-
-!RowMatrix methodsFor: 'accessing' stamp: 'len 5/29/2020 16:36:51'!
-columnAt: j
-	^ codomain filling: [:i| (rows at: i) at: j]! !
-
-!RowMatrix methodsFor: 'accessing' stamp: 'len 4/23/2018 21:09:39'!
-denominator
-	| answer |
-	self scalars isLocalization ifFalse: [^ self scalars one].
-	answer _ self scalars integers one.
-	rows do: [:each| answer _ each denominator lcm: answer].
-	^ answer! !
-
-!RowMatrix methodsFor: 'accessing' stamp: 'len 5/29/2020 09:02:16'!
-lift
-	"If the coefficients ring is a quotient R/I, answer a representative of the receiver over R. See >>%."
-	^ self class from: domain lift to: codomain lift rows: (rows collect: [:each| each lift])! !
-
-!RowMatrix methodsFor: 'accessing' stamp: 'len 5/29/2020 09:02:30'!
-representative
-	"If the coefficients ring is a quotient R/I, answer a representative of the receiver over R. See >>%."
-	^ self class from: domain lift to: codomain lift rows: (rows collect: [:each| each representative])! !
-
-!RowMatrix methodsFor: 'accessing' stamp: 'len 3/23/2016 00:16'!
-rowAt: i
-	^ rows at: i! !
-
-!RowMatrix methodsFor: 'accessing' stamp: 'len 3/23/2016 00:18'!
-rowAt: i put: aTuple
-	^ rows at: i put: aTuple! !
-
-!RowMatrix methodsFor: 'accessing' stamp: 'len 3/23/2016 00:17'!
-rows
-	^ rows! !
-
-!RowMatrix methodsFor: 'converting' stamp: 'len 7/30/2021 14:28:43'!
-asTuple
-	"Answer the receiver converted to Tuple by concatenating its rows (which is also the coordinates of the receiver in the canonical basis)."
-	^ rows size = 1 ifTrue: [rows first] ifFalse: [super asTuple]! !
-
-!RowMatrix methodsFor: 'converting' stamp: 'len 5/29/2020 08:53:54'!
-over: aRing
-	| newDomain |
-	self scalars = aRing ifTrue: [^ self].
-	^ self class from: (newDomain _ self domain over: aRing) to: (self codomain over: aRing) rows: (rows collect: [:each| newDomain !! each])! !
-
-!RowMatrix methodsFor: 'copying' stamp: 'len 5/29/2020 09:02:03'!
-copy
-	^ self class from: domain to: codomain rows: (rows collect: [:each| each copy])! !
-
-!RowMatrix methodsFor: 'enumerating' stamp: 'len 3/24/2018 19:28:25'!
-allSatisfy: aBlock
-	^ rows allSatisfy: [:each| each allSatisfy: aBlock]! !
-
-!RowMatrix methodsFor: 'enumerating' stamp: 'len 5/29/2020 09:01:43'!
-collect: aBlock
-	^ self class from: domain to: codomain rows: (rows collect: [:each| each collect: aBlock])! !
-
-!RowMatrix methodsFor: 'enumerating' stamp: 'len 7/14/2019 15:20:53'!
-do: aBlock
-	rows do: [:each| each do: aBlock]! !
-
-!RowMatrix methodsFor: 'enumerating' stamp: 'len 3/23/2016 00:18'!
-rowsDo: aBlock
-	rows do: aBlock! !
-
-!RowMatrix methodsFor: 'enumerating' stamp: 'len 7/16/2021 22:24:07'!
-withIndicesDo: aBlock
-	rows withIndexDo: [:row :i| row withIndexDo: [:each :j| aBlock value: each value: i value: j]]! !
-
-!RowMatrix methodsFor: 'initialization' stamp: 'len 3/23/2016 00:20'!
-rows: anArray
-	rows _ anArray! !
-
-!RowMatrix methodsFor: 'operations' stamp: 'len 5/29/2020 09:01:17'!
-+ aMatrix
-	self checkDimensionMatch: aMatrix.
-	self checkScalarsMatch: aMatrix.
-	^ self class from: domain to: codomain rows: rows + aMatrix rows! !
-
-!RowMatrix methodsFor: 'operations' stamp: 'len 5/29/2020 09:01:24'!
-- aMatrix
-	self checkDimensionMatch: aMatrix.
-	self checkScalarsMatch: aMatrix.
-	^ self class from: domain to: codomain rows: rows - aMatrix rows! !
-
-!RowMatrix methodsFor: 'operations' stamp: 'len 5/29/2020 09:01:31'!
-negated
-	^ self class from: domain to: codomain rows: rows negated! !
-
-!RowMatrix methodsFor: 'operations' stamp: 'len 8/9/2020 07:50:03'!
-transpose
-	^ Matrix from: codomain to: domain columns: rows! !
-
-!RowMatrix methodsFor: 'reduction-operations' stamp: 'len 5/30/2019 07:22:05'!
-addColumn: i times: aNumber toColumn: j
-	rows do: [:each| each at: j put: (each at: i) * aNumber + (each at: j)]! !
-
-!RowMatrix methodsFor: 'reduction-operations' stamp: 'len 5/30/2019 07:21:28'!
-addRow: src times: aNumber toRow: dst
-	self addRow: src times: aNumber toRow: dst startingAt: 1! !
-
-!RowMatrix methodsFor: 'reduction-operations' stamp: 'len 5/30/2019 07:21:44'!
-addRow: src times: aNumber toRow: dst startingAt: columnIndex
-	(rows at: dst) add: (rows at: src) times: aNumber startingAt: columnIndex! !
-
-!RowMatrix methodsFor: 'reduction-operations' stamp: 'len 1/16/2018 22:11:15'!
-multiplyColumn: i by: aNumber
-	rows do: [:each| each at: i put: (each at: i) * aNumber]! !
-
-!RowMatrix methodsFor: 'reduction-operations' stamp: 'len 1/16/2018 22:08:39'!
-multiplyRow: i by: aNumber
-	self multiplyRow: i by: aNumber startingAt: 1! !
-
-!RowMatrix methodsFor: 'reduction-operations' stamp: 'len 1/16/2018 22:08:30'!
-multiplyRow: i by: aNumber startingAt: startIndex
-	(rows at: i) multiplyBy: aNumber startingAt: startIndex! !
-
-!RowMatrix methodsFor: 'reduction-operations' stamp: 'len 3/23/2016 00:20'!
-swapColumn: i with: j
-	rows do: [:each| each swap: i with: j]! !
-
-!RowMatrix methodsFor: 'reduction-operations' stamp: 'len 3/23/2016 00:17'!
-swapRow: i with: j
-	rows swap: i with: j! !
-
-!RowMatrix methodsFor: 'testing' stamp: 'len 3/23/2016 00:19'!
-isZero
-	^ rows allSatisfy: [:each| each isZero]! !
-
-!RowMatrix methodsFor: 'testing' stamp: 'len 12/1/2016 17:04:49'!
-isZeroAt: aPoint
-	^ (rows at: aPoint x) isZeroAt: aPoint y! !
-
-!RowMatrix methodsFor: 'private' stamp: 'len 5/29/2020 09:16:26'!
-validate
-	rows size = codomain rank ifFalse: [^ false].
-	^ super validate! !
-
-!RowMatrix class methodsFor: 'instance creation' stamp: 'len 5/29/2020 06:36:44'!
-from: aDomain to: aCodomain rows: anArray
-	^ self new domain: aDomain; codomain: aCodomain; rows: anArray! !
-
-!RowMatrix class methodsFor: 'instance creation' stamp: 'len 5/29/2020 05:49:49'!
-newFrom: aMatrix
-	^ self from: aMatrix domain to: aMatrix codomain rows: (aMatrix rows collect: [:each| each copy])! !
+	^ DenseMatrix from: ƒ^4 to: ƒ^2 coefficients: #(11 12 13 14 21 22 23 24)! !
 
 !SparseMatrix methodsFor: 'accessing' stamp: 'len 5/3/2022 05:36:15'!
 atRow: i column: j ifAbsent: exceptionBlock
@@ -28367,9 +27975,9 @@ firstNonzeroIndex
 last
 	^ self at: self size! !
 
-!Tuple methodsFor: 'accessing' stamp: 'len 4/26/2022 06:00:24'!
+!Tuple methodsFor: 'accessing' stamp: 'len 5/19/2022 05:53:36'!
 lastNonzeroIndex
-	"Answer the index of the last nonzero entry, or 0."
+	"Answer the index of the last nonzero entry, or nil."
 	^ coefficients lastNonzeroIndex! !
 
 !Tuple methodsFor: 'accessing' stamp: 'len 4/4/2021 08:04:20'!
@@ -28414,7 +28022,7 @@ y
 z
 	^ self at: 3! !
 
-!Tuple methodsFor: 'comparing' stamp: 'len 4/26/2022 06:03:55'!
+!Tuple methodsFor: 'comparing' stamp: 'len 5/19/2022 05:50:52'!
 = anObject
 	| n otherCoefficients |
 	self class = anObject class ifFalse: [^ false].
@@ -28422,16 +28030,16 @@ z
 	otherCoefficients _ anObject coefficients.
 	(n _ coefficients size) = otherCoefficients size ifFalse:
 		[(n _ self lastNonzeroIndex) = anObject lastNonzeroIndex ifFalse: [^ false]].
-	1 to: n do: [:i| (coefficients at: i) = (otherCoefficients at: i) ifFalse: [^ false]].
+	n ifNotNil: [1 to: n do: [:i| (coefficients at: i) = (otherCoefficients at: i) ifFalse: [^ false]]].
 	^ true! !
 
-!Tuple methodsFor: 'comparing' stamp: 'len 4/26/2022 06:04:09'!
+!Tuple methodsFor: 'comparing' stamp: 'len 5/19/2022 05:51:39'!
 ~ aTuple
 	"Answer true if the receiver and the argument are equivalent as homogeneous tuples."
 	self scalars isIntegralDomain ifTrue:
 		[| depth x y |
 		depth _ self lastNonzeroIndex.
-		(depth = 0 or: [aTuple lastNonzeroIndex ~= depth]) ifTrue: [^ false].
+		(depth isNil or: [aTuple lastNonzeroIndex ~= depth]) ifTrue: [^ false].
 		x _ self at: depth.
 		y _ aTuple at: depth.
 		1 to: depth do: [:i| (self at: i) * y = ((aTuple at: i) * x) ifFalse: [^ false]].
@@ -28787,12 +28395,12 @@ negated
 norm
 	^ self | self! !
 
-!Tuple methodsFor: 'operations' stamp: 'len 4/26/2022 06:04:13'!
+!Tuple methodsFor: 'operations' stamp: 'len 5/19/2022 05:52:00'!
 normalization
 	"Answer a unit u such that 'self * u' is a unique choice of associate. See >>normalized."
 	| d |
 	self reverseDo: [:each| each isUnit ifTrue: [^ each]].
-	(d _ self lastNonzeroIndex) > 0 ifFalse: [^ self scalars one].
+	(d _ self lastNonzeroIndex) ifNil: [^ self scalars one].
 	^ (self at: d) normalization
 "	u _ (self at: d) unit.
 	a _ (self at: d) * u inverse.
@@ -29218,60 +28826,6 @@ leadingMonomialOf: aTuple
 					ifTrue: [monomial _ aMonomial. position _ i]]].
 	^ monomial ifNotNil: [TupleMonomial new ordering: self; monomial: monomial; position: position]! !
 
-!HermiteColumnReduction methodsFor: 'as yet unclassified' stamp: 'len 9/28/2018 19:46:17'!
-matrix: aMatrix
-	matrix _ ColumnMatrix newFrom: aMatrix.
-	self run! !
-
-!HermiteColumnReduction methodsFor: 'as yet unclassified' stamp: 'len 7/10/2019 16:42:08'!
-reduceStep: k row: i
-	| j0 b |
-	"2. Row finished?"
-	[j0 _ (1 to: k-1)
-		detect: [:j| (matrix at: i@j) ~= 0]
-		ifNone: [(matrix at: i@k) < 0 ifTrue: [matrix multiplyColumn: k by: -1]. ^ self "go to step 5"].
-	"3. Choose non-zero entry with smallest absolute value:"
-	j0 _ ((k to: j0 by: -1) select: [:j| (matrix at: i@j) ~= 0]) detectMin: [:j| (matrix at: i@j) abs].
-	j0 < k ifTrue: [matrix swapColumn: j0 with: k].
-	(matrix at: i@k) < 0 ifTrue: [matrix multiplyColumn: k by: -1].
-	b _ matrix at: i@k.
-	"4. Reduce:"
-	1 to: k-1 do: [:j| | q |
-		q _ ((matrix at: i@j) / b) rounded.
-"		q _ (matrix at: i@j) // b."
-		matrix addColumn: k times: q negated toColumn: j]] repeat! !
-
-!HermiteColumnReduction methodsFor: 'as yet unclassified' stamp: 'len 9/28/2018 19:46:34'!
-reduced
-	^ matrix! !
-
-!HermiteColumnReduction methodsFor: 'as yet unclassified' stamp: 'len 5/30/2019 07:11:48'!
-run
-	| n m i k l b |
-	m _ matrix height.
-	n _ matrix width.
-	"1. Initialize:"
-	i _ m.
-	k _ n.
-	l _ m > n ifTrue: [m-n+1] ifFalse: [1].
-	[self reduceStep: k row: i.
-	"5. Final reductions:"
-	b _ matrix at: i@k.
-	b = 0
-		ifTrue:
-			[k _ k + 1]
-		ifFalse:
-			[k+1 to: n do: [:j| | q |
-				q _ ((matrix at: i@j) / b) floor. "(matrix at: i@j) // b."
-				matrix addColumn: k times: q negated toColumn: j]].
-	"6. Finished?"
-	i = l] whileFalse: [i _ i - 1. k _ k - 1].
-	^ matrix "copyFrom: 1@k to: m@n"! !
-
-!HermiteColumnReduction class methodsFor: 'instance creation' stamp: 'len 9/28/2018 19:47:06'!
-on: aMatrix
-	^ self new matrix: aMatrix! !
-
 !MatrixReduction methodsFor: 'accessing' stamp: 'len 4/5/2018 15:35:51'!
 dependentColumns
 	"Answer the collection of indices of dependent columns."
@@ -29324,13 +28878,6 @@ reduced
 	"Answer the reduced matrix."
 	^ matrix! !
 
-!MatrixReduction methodsFor: 'initialization' stamp: 'len 5/16/2022 19:59:02'!
-matrix: aMatrix extension: anotherMatrix
-	matrix _ RowMatrix newFrom: aMatrix.
-	extension _ anotherMatrix ifNotNil: [RowMatrix newFrom: anotherMatrix].
-	determinantFactor _ aMatrix scalars one.
-	self run! !
-
 !MatrixReduction methodsFor: 'operations' stamp: 'len 5/30/2019 07:21:15'!
 addRow: i0 times: aNumber toRow: i1
 	self addRow: i0 times: aNumber toRow: i1 startingAt: 1! !
@@ -29359,6 +28906,13 @@ swapRow: i with: j
 	extension ifNotNil: [extension swapRow: i with: j].
 	determinantFactor _ determinantFactor negated! !
 
+!MatrixReduction methodsFor: 'private' stamp: 'len 5/20/2022 05:48:29'!
+matrix: aMatrix extension: anotherMatrix
+	matrix _ aMatrix copy.
+	extension _ anotherMatrix ifNotNil: [anotherMatrix copy].
+	determinantFactor _ aMatrix scalars one.
+	self run! !
+
 !MatrixReduction class methodsFor: 'instance creation' stamp: 'len 12/26/2015 05:41'!
 on: aMatrix
 	^ self on: aMatrix extension: nil! !
@@ -29366,12 +28920,6 @@ on: aMatrix
 !MatrixReduction class methodsFor: 'instance creation' stamp: 'len 12/26/2015 05:15'!
 on: aMatrix extension: anotherMatrix
 	^ self new matrix: aMatrix extension: anotherMatrix! !
-
-!GaussianElimination methodsFor: 'initialization' stamp: 'len 4/5/2018 15:37:44'!
-matrix: aMatrix extension: anotherMatrix
-	pivots _ OrderedCollection new: aMatrix height.
-	currentPivot _ 0 @ 0.
-	super matrix: aMatrix extension: anotherMatrix! !
 
 !GaussianElimination methodsFor: 'operations' stamp: 'len 5/30/2019 07:21:00'!
 addRow: i0 times: aNumber toRow: i1
@@ -29393,6 +28941,12 @@ swapRow: i
 addPivot: aPoint
 	currentPivot _ aPoint.
 	^ pivots add: aPoint! !
+
+!GaussianElimination methodsFor: 'private' stamp: 'len 4/5/2018 15:37:44'!
+matrix: aMatrix extension: anotherMatrix
+	pivots _ OrderedCollection new: aMatrix height.
+	currentPivot _ 0 @ 0.
+	super matrix: aMatrix extension: anotherMatrix! !
 
 !GaussianElimination methodsFor: 'private' stamp: 'len 4/5/2018 15:37:51'!
 nextPivot
@@ -33730,10 +33284,10 @@ isUnivariate
 isZero
 	^ coefficients isZero! !
 
-!UnivariatePolynomial methodsFor: 'private' stamp: 'len 4/26/2022 06:04:17'!
+!UnivariatePolynomial methodsFor: 'private' stamp: 'len 5/19/2022 05:52:24'!
 coefficients: anArray parent: aPolynomialRing
 	| n |
-	coefficients _ (n _ anArray lastNonzeroIndex) < anArray size
+	coefficients _ (n _ anArray lastNonzeroIndex ifNil: [0]) < anArray size
 		ifTrue: [anArray copyFrom: 1 to: n] ifFalse: [anArray].
 	parent _ aPolynomialRing! !
 
@@ -38378,23 +37932,16 @@ fillWithMatrixTranspose: anArray width: width
 				j to: j + blockSize - 1 do: [:l|
 					self at: l-1*height + k put: (anArray at: k-1*width + l)]]]]"! !
 
-!ArrayedCollection methodsFor: '*algebra-lowlevel' stamp: 'len 5/18/2022 06:27:32'!
-findFirstNonzeroFrom: start to: stop
-	"Answer the index of the first nonzero entry between start and stop, or nil."
-	start to: stop do: [:i| (self isZeroAt: i) ifFalse: [^ i]].
-	^ nil! !
-
-!ArrayedCollection methodsFor: '*algebra-lowlevel' stamp: 'len 5/18/2022 06:28:09'!
-findLastNonzeroFrom: start to: stop
+!ArrayedCollection methodsFor: '*algebra-lowlevel' stamp: 'len 5/19/2022 05:57:07'!
+findNonzeroFrom: start to: stop by: increment
 	"Answer the index of the last nonzero entry between start and stop, or nil."
-	stop to: start by: -1 do: [:i| (self isZeroAt: i) ifFalse: [^ i]].
+	start to: stop by: increment do: [:i| (self isZeroAt: i) ifFalse: [^ i]].
 	^ nil! !
 
-!ArrayedCollection methodsFor: '*algebra' stamp: 'len 4/26/2022 05:57:43'!
+!ArrayedCollection methodsFor: '*algebra' stamp: 'len 5/19/2022 05:46:41'!
 firstNonzeroIndex
 	"Answer the index of the first nonzero entry, or nil."
-	1 to: self size do: [:i| (self isZeroAt: i) ifFalse: [^ i]].
-	^ nil! !
+	^ self findNonzeroFrom: 1 to: self size by: 1! !
 
 !ArrayedCollection methodsFor: '*algebra-lowlevel' stamp: 'len 4/24/2022 18:11:18'!
 from: start to: stop dot: anArray startingAt: start2 by: increment2
@@ -38417,11 +37964,10 @@ from: start to: stop dot: anArray startingAt: start2 by: increment2 modulo: modu
 		j _ j + increment2].
 	^ answer! !
 
-!ArrayedCollection methodsFor: '*algebra' stamp: 'len 4/26/2022 06:00:51'!
+!ArrayedCollection methodsFor: '*algebra' stamp: 'len 5/19/2022 05:52:55'!
 lastNonzeroIndex
-	"Answer the index of the last nonzero entry, or 0."
-	self size to: 1 by: -1 do: [:i| (self isZeroAt: i) ifFalse: [^ i]].
-	^ 0! !
+	"Answer the index of the last nonzero entry, or nil."
+	^ self findNonzeroFrom: self size to: 1 by: -1! !
 
 !ArrayedCollection methodsFor: '*algebra' stamp: 'len 4/19/2022 12:19:43'!
 lift
@@ -38432,12 +37978,12 @@ lift
 negated
 	^ (self copyEmpty: self size) replaceFrom: 1 to: self size withNegated: self startingAt: 1! !
 
-!ArrayedCollection methodsFor: '*algebra-lowlevel' stamp: 'len 5/5/2022 13:05:12'!
+!ArrayedCollection methodsFor: '*algebra-lowlevel' stamp: 'len 5/19/2022 05:47:44'!
 partiallyReduceBy: g addingQuotientTo: q
 	| n m lead |
-	m _ g lastNonzeroIndex.
+	m _ g lastNonzeroIndex ifNil: [^ self error: 'division by zero'].
 	lead _ g at: m.
-	[(n _ self lastNonzeroIndex) >= m]
+	[(n _ self lastNonzeroIndex ifNil: [0]) >= m]
 		whileTrue:
 			[| i c |
 			i _ n-m+1.
@@ -38446,12 +37992,12 @@ partiallyReduceBy: g addingQuotientTo: q
 			q ifNotNil: [q at: i put: (q at: i) - c].
 			self replaceFrom: i to: i+m-1 with: self startingAt: i plus: g startingAt: 1 timesScalar: c]! !
 
-!ArrayedCollection methodsFor: '*algebra-lowlevel' stamp: 'len 5/5/2022 13:05:01'!
+!ArrayedCollection methodsFor: '*algebra-lowlevel' stamp: 'len 5/19/2022 05:47:55'!
 partiallyReduceBy: g addingQuotientTo: q modulo: modulus
 	| n m lead |
-	m _ g lastNonzeroIndex.
+	m _ g lastNonzeroIndex ifNil: [^ self error: 'division by zero'].
 	lead _ g at: m.
-	[(n _ self lastNonzeroIndex) >= m]
+	[(n _ self lastNonzeroIndex ifNil: [0]) >= m]
 		whileTrue:
 			[| i c |
 			i _ n-m+1.
@@ -38493,13 +38039,13 @@ polynomialValue: anObject modulo: modulus
 	self reverseDo: [:each| answer _ anObject * answer + each \\ modulus].
 	^ answer! !
 
-!ArrayedCollection methodsFor: '*algebra-lowlevel' stamp: 'len 5/5/2022 12:50:45'!
+!ArrayedCollection methodsFor: '*algebra-lowlevel' stamp: 'len 5/19/2022 05:48:06'!
 reduceBy: g leadingInverse: inv addingQuotientTo: q
 	| n m minusInv |
 	m _ g size "lastNonzeroIndex".
 	"inv _ (g at: m) inverse."
 	minusInv _ inv negated.
-	[(n _ self lastNonzeroIndex) >= m]
+	[(n _ self lastNonzeroIndex ifNil: [0]) >= m]
 		whileTrue:
 			[| i c |
 			i _ n-m+1.
@@ -38507,13 +38053,13 @@ reduceBy: g leadingInverse: inv addingQuotientTo: q
 			q ifNotNil: [q at: i put: (q at: i) - c].
 			self replaceFrom: i to: i+m-1 with: self startingAt: i plus: g startingAt: 1 timesScalar: c]! !
 
-!ArrayedCollection methodsFor: '*algebra-lowlevel' stamp: 'len 5/5/2022 12:52:12'!
+!ArrayedCollection methodsFor: '*algebra-lowlevel' stamp: 'len 5/19/2022 05:48:21'!
 reduceBy: g leadingInverse: inv addingQuotientTo: q modulo: modulus
 	| n m minusInv |
 	m _ g size "lastNonzeroIndex".
 	"inv _ (g at: m) inverse."
 	minusInv _ modulus - inv.
-	[(n _ self lastNonzeroIndex) >= m]
+	[(n _ self lastNonzeroIndex ifNil: [0]) >= m]
 		whileTrue:
 			[| i c |
 			i _ n-m+1.
