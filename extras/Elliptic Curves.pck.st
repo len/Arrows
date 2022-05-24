@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5053] on 16 April 2022 at 2:12:43 pm'!
+'From Cuis 6.0 [latest update: #5053] on 24 May 2022 at 9:08:45 pm'!
 'Description '!
-!provides: 'Elliptic Curves' 1 2!
+!provides: 'Elliptic Curves' 1 3!
 !requires: 'Algebra' 1 0 nil!
 SystemOrganization addCategory: #'Elliptic Curves'!
 
@@ -124,10 +124,10 @@ identity
 scalars
 	^ scalars! !
 
-!EllipticCurveGroup methodsFor: 'accessing' stamp: 'len 4/2/2017 10:31:48'!
+!EllipticCurveGroup methodsFor: 'accessing' stamp: 'len 5/22/2022 11:08:16'!
 torsion
 	"Answer the torsion subgroup of the receiver."
-	"Henri Cohen, 'A Course in Computational Algebraic Number Theory', Algorithm 7.5.5."
+	"[Coh96] Algorithm 7.5.5."
 "	| E b2 b4 b6 b8 discriminant |
 	E _ self curve equation.
 	b2 _ E b2.
@@ -389,10 +389,10 @@ y
 		ifTrue: [self doubled * (anInteger // 2)]
 		ifFalse: [self doubled * (anInteger // 2) + self]! !
 
-!EllipticCurvePoint methodsFor: 'arithmetic' stamp: 'len 11/11/2016 09:53'!
+!EllipticCurvePoint methodsFor: 'arithmetic' stamp: 'len 5/22/2022 11:09:53'!
 + aPoint
 	"Answer the sum of the receiver and the argument.
-	Reference: Henri Cohen, 'A Course In Computational Algebraic Number Theory', Proposition 7.1.7."
+	[Coh96] Proposition 7.1.7."
 	| W x1 y1 x2 y2 m x3 y3 |
 	aPoint isZero ifTrue: [^ self].
 	self isZero ifTrue: [^ aPoint].
@@ -412,10 +412,10 @@ y
 - aPoint
 	^ self + aPoint negated! !
 
-!EllipticCurvePoint methodsFor: 'arithmetic' stamp: 'len 11/11/2016 09:56'!
+!EllipticCurvePoint methodsFor: 'arithmetic' stamp: 'len 5/22/2022 11:10:06'!
 doubled
 	"Answer the receiver times 2, i.e. self + self.
-	Reference: Henri Cohen, 'A Course In Computational Algebraic Number Theory', Proposition 7.1.7."
+	[Coh96] Proposition 7.1.7."
 	| W x1 y1 m x3 y3 |
 	self isZero ifTrue: [^ self].
 	W _ self codomain equation.

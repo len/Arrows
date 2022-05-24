@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5053] on 16 April 2022 at 2:12:59 pm'!
+'From Cuis 6.0 [latest update: #5053] on 24 May 2022 at 9:08:53 pm'!
 'Description '!
-!provides: 'Modular Forms' 1 2!
+!provides: 'Modular Forms' 1 3!
 !requires: 'Algebra' 1 0 nil!
 SystemOrganization addCategory: #'Modular Forms'!
 
@@ -476,10 +476,10 @@ level
 level: anInteger
 	^ self shouldNotImplement! !
 
-!ModularGroup methodsFor: 'as yet unclassified' stamp: 'len 8/9/2020 07:46:51'!
+!ModularGroup methodsFor: 'as yet unclassified' stamp: 'len 5/22/2022 11:08:35'!
 reduce: aPoint
 	"Given a point in the upper half plane, return an element of the receiver that maps the point to a representative in the standard fundamental domain.
-	Reference: Henri Cohen, 'A Course in Computational Algebraic Number Theory', Algorithm 7.4.2."
+	[Coh96] Algorithm 7.4.2."
 	| tau A n m |
 	tau _ aPoint.
 	A _ self identity.

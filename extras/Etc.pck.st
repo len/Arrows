@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5053] on 20 May 2022 at 6:53:36 am'!
+'From Cuis 6.0 [latest update: #5053] on 24 May 2022 at 9:08:49 pm'!
 'Description '!
-!provides: 'Etc' 1 6!
+!provides: 'Etc' 1 7!
 !requires: 'Algebra' 1 7 nil!
 SystemOrganization addCategory: #Etc!
 SystemOrganization addCategory: #'Etc-Lie'!
@@ -174,6 +174,26 @@ Sum subclass: #Divisor
 	category: 'Etc'!
 !classDefinition: 'Divisor class' category: #Etc!
 Divisor class
+	instanceVariableNames: ''!
+
+!classDefinition: #EuclideanGaussianElimination category: #Etc!
+GaussianElimination subclass: #EuclideanGaussianElimination
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Etc'!
+!classDefinition: 'EuclideanGaussianElimination class' category: #Etc!
+EuclideanGaussianElimination class
+	instanceVariableNames: ''!
+
+!classDefinition: #GaussBareiss category: #Etc!
+GaussianElimination subclass: #GaussBareiss
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Etc'!
+!classDefinition: 'GaussBareiss class' category: #Etc!
+GaussBareiss class
 	instanceVariableNames: ''!
 
 !classDefinition: #SmallPrimeResidue category: #Etc!
@@ -416,6 +436,15 @@ Formal sums (or formal linear combinations) of arbitrary symbols with coefficien
 !Divisor commentStamp: '<historical>' prior: 0!
 Weil divisors, i.e. formal sums (with integer coefficients) of prime divisors (integral closed subschemes of codimension 1) of an integral locally Noetherian scheme.!
 
+!GaussBareiss commentStamp: '<historical>' prior: 0!
+This is the Gauss-Bereiss algorithm, a variant of Gassian elimination. It performs division-free Gaussian elimination on a matrix with coefficients in an integral domain, and computes the echelon form.
+
+Input: a matrix with coefficients in a an integral domain;
+Output: the reduced echelon form and the determinant.
+
+The algorithm performs O(n^3) ring operations for nxn matrices. While the standard Gaussian elimination suffers from exponential intermediate coefficients growth, the Gauss-Bareiss algorithm has bit complexity O(n^5).
+!
+
 !RelaxedAdicInteger commentStamp: '<historical>' prior: 0!
 Elements of the p-adic ring Zp. See AdicRing.!
 
@@ -446,7 +475,7 @@ Example:
 !HermiteColumnReduction commentStamp: '<historical>' prior: 0!
 This is the Hermite column reduction algorithm. Given a matrix with coefficients in the rational integers Z, it reduces the matrix to its column-style Hermite normal form.
 
-Reference: Henri Cohen, 'A Course in Computational Algebraic Number Theory', Algorithm 2.4.4.
+See [Coh96], Algorithm 2.4.4.
 
 See HermiteReduction for the algorithm modified to do row reduction instead of column reduction, and generalized to work over any computable Euclidean domain.!
 
@@ -455,7 +484,7 @@ This is the Smith reduction algorithm. Given a matrix with coefficients in a PID
 
 The Smith normal form is very useful for working with finitely generated modules over a PID, and in particular for deducing the structure of a quotient of a free module.
 
-Reference: Henri Cohen, 'A Course in Computational Algebraic Number Theory', Algorithm 2.4.14.!
+See [Coh96], Algorithm 2.4.14.!
 
 !SparseTuple commentStamp: 'len 7/21/2020 17:34:32' prior: 0!
 Sparse tuples are tuples that use a Dictionary to store the components, and zero entries are not stored explicitly. This makes them more efficient when most of the entries are zero.!
@@ -2031,6 +2060,42 @@ lcm: aDivisor
 isEffective
 	^ self allSatisfy: [:each| each positive]! !
 
+!EuclideanGaussianElimination methodsFor: 'private' stamp: 'len 4/28/2022 12:58:26'!
+reduceStep
+	"Perform one step in the reduction of the matrix using the current pivot."
+	| row j |
+	row _ currentPivot x.
+	j _ currentPivot y.
+	self assert: row = j.
+	1 to: matrix height do: [:i|
+		(i = j or: [matrix isZeroAt: i @ j])
+			ifFalse:
+				[| ajj aij euclid g bi bj ri rj |
+				ajj _ matrix at: j @ j.
+				aij _ matrix at: i @ j.
+				euclid _ ExtendedEuclid on: {aij. ajj}.
+				g _ euclid gcd.
+				bi _ euclid bezout first.
+				bj _ euclid bezout last.
+"				euclid validate ifFalse: [self halt]."
+				ri _ matrix rowAt: i.
+				rj _ matrix rowAt: j.
+				matrix rowAt: j put: ri * bi + (rj * bj).
+				matrix rowAt: i put: rj * (aij // g) - (ri * (ajj // g))]]! !
+
+!GaussBareiss methodsFor: 'private' stamp: 'len 5/30/2019 07:18:55'!
+reduceStep
+	"Perform one step reduction of the matrix using the current pivot."
+	| row col pivot value |
+	row _ currentPivot x.
+	col _ currentPivot y.
+	pivot _ matrix at: row @ col.
+	1 to: matrix height do: [:i|
+		(i = row or: [(value _ matrix at: i @ col) isZero])
+			ifFalse:
+				[self multiplyRow: i by: pivot.
+				self addRow: row times: value negated toRow: i]]! !
+
 !SmallPrimeResidue methodsFor: 'operations' stamp: 'len 9/2/2018 21:50:50'!
 * aModularInteger
 	| b i p |
@@ -2042,13 +2107,13 @@ isEffective
 	i >= (p _ parent modulus) ifTrue: [i _ i - p + 1].
 	^ parent representative: (parent expTable at: i)! !
 
-!SmallPrimeResidue methodsFor: 'operations' stamp: 'len 1/6/2022 19:42:05'!
+!SmallPrimeResidue methodsFor: 'operations' stamp: 'len 5/23/2022 12:30:39'!
 / anElement
 	| b i |
 	anElement class == self class ifFalse: [^ super / anElement].
 	b _ anElement representative.
 	(representative = 0 or: [b = 1]) ifTrue: [^ self].
-	b = 0 ifTrue: [^ InversionError signal: anElement].
+	b = 0 ifTrue: [^ DivisionError new signalReceiver: self selector: #/ argument: anElement].
 	i _ (parent logTable at: representative) - (parent logTable at: b).
 	i <= 0 ifTrue: [i _ i + parent modulus - 1].
 	^ parent representative: (parent expTable at: i)! !
