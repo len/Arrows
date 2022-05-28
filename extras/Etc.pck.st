@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5053] on 24 May 2022 at 9:08:49 pm'!
+'From Cuis 6.0 [latest update: #5053] on 28 May 2022 at 9:56:51 pm'!
 'Description '!
-!provides: 'Etc' 1 7!
+!provides: 'Etc' 1 8!
 !requires: 'Algebra' 1 7 nil!
 SystemOrganization addCategory: #Etc!
 SystemOrganization addCategory: #'Etc-Lie'!
@@ -2107,14 +2107,15 @@ reduceStep
 	i >= (p _ parent modulus) ifTrue: [i _ i - p + 1].
 	^ parent representative: (parent expTable at: i)! !
 
-!SmallPrimeResidue methodsFor: 'operations' stamp: 'len 5/23/2022 12:30:39'!
-/ anElement
-	| b i |
-	anElement class == self class ifFalse: [^ super / anElement].
-	b _ anElement representative.
-	(representative = 0 or: [b = 1]) ifTrue: [^ self].
-	b = 0 ifTrue: [^ DivisionError new signalReceiver: self selector: #/ argument: anElement].
-	i _ (parent logTable at: representative) - (parent logTable at: b).
+!SmallPrimeResidue methodsFor: 'operations' stamp: 'len 5/28/2022 12:20:51'!
+colift: anElement
+	"Answer x such that xa = b, where a is the receiver and b is the argument. Answer nil if there's no solution.
+	This is the right division of b by a, written b / a."
+	| i |
+	anElement class == self class ifFalse: [^ super colift: anElement].
+	(anElement isZero or: [representative = 1]) ifTrue: [^ anElement].
+	representative = 0 ifTrue: [^ nil].
+	i _ (parent logTable at: anElement representative) - (parent logTable at: representative).
 	i <= 0 ifTrue: [i _ i + parent modulus - 1].
 	^ parent representative: (parent expTable at: i)! !
 
