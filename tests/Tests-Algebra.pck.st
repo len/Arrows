@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5053] on 24 May 2022 at 9:09:26 pm'!
+'From Cuis 6.0 [latest update: #5053] on 28 May 2022 at 9:58:08 pm'!
 'Description '!
-!provides: 'Tests-Algebra' 1 8!
+!provides: 'Tests-Algebra' 1 9!
 SystemOrganization addCategory: #'Tests-Algebra'!
 SystemOrganization addCategory: #'Tests-Algebra-Arrays'!
 SystemOrganization addCategory: #'Tests-Algebra-Rings'!
@@ -229,6 +229,26 @@ AbstractCommutativeRingTest subclass: #AbstractEuclideanRingTest
 	category: 'Tests-Algebra-Rings'!
 !classDefinition: 'AbstractEuclideanRingTest class' category: #'Tests-Algebra-Rings'!
 AbstractEuclideanRingTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #AbstractFieldTest category: #'Tests-Algebra-Rings'!
+AbstractEuclideanRingTest subclass: #AbstractFieldTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra-Rings'!
+!classDefinition: 'AbstractFieldTest class' category: #'Tests-Algebra-Rings'!
+AbstractFieldTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #GaloisFieldTest category: #'Tests-Algebra-Rings'!
+AbstractFieldTest subclass: #GaloisFieldTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra-Rings'!
+!classDefinition: 'GaloisFieldTest class' category: #'Tests-Algebra-Rings'!
+GaloisFieldTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #EuclideanProductRingTest category: #'Tests-Algebra-Rings'!
@@ -649,6 +669,16 @@ AbstractMatrixOverIntegralDomainTest subclass: #MatrixOverQuadraticRingTest
 	category: 'Tests-Algebra-Matrices'!
 !classDefinition: 'MatrixOverQuadraticRingTest class' category: #'Tests-Algebra-Matrices'!
 MatrixOverQuadraticRingTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #MatrixOverAffineAlgebraOverPrimeFieldTest category: #'Tests-Algebra-Matrices'!
+AbstractMatrixOverCommutativeRingTest subclass: #MatrixOverAffineAlgebraOverPrimeFieldTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra-Matrices'!
+!classDefinition: 'MatrixOverAffineAlgebraOverPrimeFieldTest class' category: #'Tests-Algebra-Matrices'!
+MatrixOverAffineAlgebraOverPrimeFieldTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #MatrixOverGaloisRingTest category: #'Tests-Algebra-Matrices'!
@@ -2519,12 +2549,12 @@ initialize
 	super initialize.
 	R _ ƒ/(1<<32 :: atRandom max: 2)! !
 
-!AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2022 11:27:24'!
+!AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/28/2022 20:01:46'!
 testDivisionByUnits
-	100 timesRepeat:
+	10 timesRepeat:
 		[| x u |
-		x _ R atRandomBits: 30.
-		u _ R units atRandomBits: 30.
+		x _ R atRandom: random bits: 30.
+		u _ R units atRandom: random.
 		self assert: x*u / u = x.
 		self assert: x / u = (x * u inverse)]! !
 
@@ -2599,20 +2629,20 @@ testRingInvolution: aRing
 		self assert: (a * b) conjugate = (b conjugate * a conjugate).
 		self assert: a conjugate conjugate = a]! !
 
-!AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2022 11:26:22'!
+!AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/28/2022 20:01:09'!
 testRingUnits
 	10 timesRepeat:
 		[| u |
-		u _ R units atRandom: random bits: 30.
+		u _ R units atRandom: random.
 		self assert: u isUnit.
 		self assert: u * u inverse = R one]! !
 
-!AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2022 12:01:40'!
+!AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/28/2022 20:01:28'!
 testUnitsAreDivisorsOfEveryElement
-	100 timesRepeat:
+	10 timesRepeat:
 		[| x u |
-		x _ R atRandomBits: 30.
-		u _ R units atRandomBits: 30.
+		x _ R atRandom: random bits: 30.
+		u _ R units atRandom: random.
 		self assert: u | x]! !
 
 !AbstractAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/20/2021 16:42:41'!
@@ -3103,6 +3133,11 @@ testXXGCD: a with: b
 	self assert: (u*a + (v*b)) isZero.
 	self assert: (s*v - (t*u)) isUnit! !
 
+!GaloisFieldTest methodsFor: 'as yet unclassified' stamp: 'len 5/28/2022 20:21:39'!
+initialize
+	super initialize.
+	R _ GaloisField new: 5 atRandom nextPrime to: 3 atRandom! !
+
 !EuclideanProductRingTest methodsFor: 'as yet unclassified' stamp: 'len 1/4/2022 11:39:20'!
 initialize
 	super initialize.
@@ -3172,10 +3207,65 @@ initialize
 	k _ 10 atRandom.
 	R _ PrimePowerRing new: p to: k! !
 
+!PrimePowerRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/25/2022 19:03:53'!
+testEuclideanDivisionCompatibleWithModularIntegerRing
+	| S r1 r2 s1 s2 |
+	S _ ModularIntegerRing new: R modulus.
+	100 timesRepeat:
+		[r1 _ R atRandom: random.
+		[r2 _ R atRandom: random. r2 isZero] whileTrue.
+		s1 _ S !! r1 representative.
+		s2 _ S !! r2 representative.
+		self assert: (r1 // r2) representative = (s1 // s2) representative]! !
+
+!PrimePowerRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/25/2022 20:18:13'!
+testEuclideanFunctionCompatibleWithModularIntegerRing
+	| S r s |
+	S _ ModularIntegerRing new: R modulus.
+	100 timesRepeat:
+		[r _ R atRandom: random.
+		s _ S !! r representative.
+		self assert: r gauge = s gauge]! !
+
+!PrimePowerRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/27/2022 12:53:48'!
+testGCDCompatibleWithModularIntegerRing
+	| S r1 r2 s1 s2 |
+	S _ ModularIntegerRing new: R modulus.
+	100 timesRepeat:
+		[r1 _ R atRandom: random.
+		r2 _ R atRandom: random.
+		s1 _ S !! r1 representative.
+		s2 _ S !! r2 representative.
+		self assert: (r1 gcd: r2) representative = (s1 gcd: s2) representative]! !
+
+!PrimePowerRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/27/2022 12:54:08'!
+testLCMCompatibleWithModularIntegerRing
+	| S r1 r2 s1 s2 |
+	S _ ModularIntegerRing new: R modulus.
+	100 timesRepeat:
+		[r1 _ R atRandom: random.
+		r2 _ R atRandom: random.
+		s1 _ S !! r1 representative.
+		s2 _ S !! r2 representative.
+		self assert: (r1 lcm: r2) representative = (s1 lcm: s2) representative]! !
+
+!PrimePowerRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/25/2022 20:17:37'!
+testNormalizationCompatibleWithModularIntegerRing
+	| S r s |
+	S _ ModularIntegerRing new: R modulus.
+	100 timesRepeat:
+		[r _ R atRandom: random.
+		s _ S !! r representative.
+		self assert: r normalization representative = s normalization representative]! !
+
 !RationalIntegerRingTest methodsFor: 'as yet unclassified' stamp: 'len 4/22/2021 10:32:40'!
 initialize
 	super initialize.
 	R _ ƒ! !
+
+!AbstractIntegralDomainTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2022 12:18:58'!
+testIsIntegralDomain
+	self assert: R isIntegralDomain! !
 
 !AbstractIntegralDomainTest methodsFor: 'as yet unclassified' stamp: 'len 12/20/2021 17:43:37'!
 testZeroIdeal
@@ -3293,12 +3383,12 @@ testCrossProductAndDotProduct
 	"Binet-Chauchy identity:"
 	self assert: a × b · (c × d) = (a · c *(b · d) - (a · d * (b · c)))! !
 
-!AbstractTupleOverCommutativeRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/2/2021 12:31:23'!
+!AbstractTupleOverCommutativeRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/28/2022 20:02:18'!
 testHomogeneousTuples
 	| n a b c d |
 	n _ 5 atRandom: random.
 	[a _ scalars^n atRandom: random bits: 20. a isZero] whileTrue.
-	b _ a * (scalars units atRandom: random bits: 20).
+	b _ a * (scalars units atRandom: random bits: 10).
 	self assert: a ~ b.
 	n >= 2 ifFalse: [n _ (2 to: 5) atRandom: random].
 	c _ scalars^n x: 1.
@@ -3973,11 +4063,11 @@ testDeterminantExample2
 	vandermonde _ „ matrix: {(1,1,1). (3,5,7). (9,25,49)}.
 	self assert: vandermonde determinant = 16! !
 
-!MatrixOverRationalsTest methodsFor: 'as yet unclassified' stamp: 'len 8/25/2021 18:30:56'!
+!MatrixOverRationalsTest methodsFor: 'as yet unclassified' stamp: 'len 5/28/2022 11:45:21'!
 testInverseBug
 	| X |
 	X _ („^2) endomorphisms !! #(1 2 0 0).
-	self assert: X inverse isNil! !
+	self should: [X inverse] raise: Error! !
 
 !MatrixOverRationalsTest methodsFor: 'as yet unclassified' stamp: 'len 3/28/2021 11:16:38'!
 testInverseExample
@@ -4601,6 +4691,16 @@ initialize
 	[(n _ (2 to: 100) atRandom squarefreePart) > 1] whileFalse.
 	2 atRandom = 1 ifTrue: [n _ n negated].
 	scalars _ (QuadraticField sqrt: n) integers! !
+
+!MatrixOverAffineAlgebraOverPrimeFieldTest methodsFor: 'as yet unclassified' stamp: 'len 5/28/2022 21:41:31'!
+initialize
+	| R f1 f2 I |
+	super initialize.
+	R _ ƒ/64 atRandom nextPrime polynomialsIn: 3 atRandom.
+	[(f1 _ R atRandomBits: 10) isZero] whileTrue.
+	[(f2 _ R atRandomBits: 10) isZero] whileTrue.
+	I _ R * {f1. f2}.
+	scalars _ R/I! !
 
 !MatrixOverGaloisRingTest methodsFor: 'as yet unclassified' stamp: 'len 1/1/2022 10:51:06'!
 initialize
@@ -8123,6 +8223,16 @@ testRotationsBy90Degrees
 	self flag: #todo.
 	"test invariant ring K[x,y]^G = K[x^2+y^2, x^2y^2, x^3y-xy^3], isomorphic to K[a,b,c]/<c^2-a^2b+4b^2>"
 	"test hilbert series is 1-z^8 / ((1-z^2)^2(1-z^4)) = 1 + z^2 + 3z^4 + 3z^6 + ..."! !
+
+!LinearGroupsTest methodsFor: 'as yet unclassified' stamp: 'len 5/28/2022 12:05:15'!
+testSpecialLinearAtRandom
+	| V G g |
+	V _ „ ^ 3.
+	G _ V automorphisms special.
+	g _ G atRandomBits: 100.
+	self assert: g isAutomorphism.
+	g determinant = V scalars one.
+	self assert: (G includes: g)! !
 
 !MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2020 09:33:01'!
 testAlgebraicExtension
