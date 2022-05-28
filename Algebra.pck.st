@@ -1,4 +1,4 @@
-'From Cuis 6.0 [latest update: #5053] on 28 May 2022 at 12:34:07 pm'!
+'From Cuis 6.0 [latest update: #5053] on 28 May 2022 at 10:00:38 pm'!
 'Description This package implements among other things: permutation groups, linear groups, modular integers, finite fields, Galois rings, polynomial rings, affine algebras, number fields, function fields, p-adic fields, power series rings, coherent modules, (co)chain complexes, finite (finitely generated as modules) associative algebras, finite distributive (not necessarily associative) algebras, schemes, and sheaves of modules.
 
 References:
@@ -50,7 +50,7 @@ References:
 [] Victor Shoup; "A Computational Introduction to Number Theory and Algebra"
 [] Joseph. H. Silverman; "The Arithmetic of Elliptic Curves"
 '!
-!provides: 'Algebra' 1 13!
+!provides: 'Algebra' 1 14!
 !requires: 'Graphs' 1 0 nil!
 !requires: 'Collections-Extras' 1 1 nil!
 !requires: 'Complex' 1 8 nil!
@@ -6381,10 +6381,10 @@ divisor
 isLeftDivision
 	^ self isRightDivision not! !
 
-!DivisionError methodsFor: 'testing' stamp: 'len 5/28/2022 11:52:11'!
+!DivisionError methodsFor: 'testing' stamp: 'len 5/28/2022 17:52:12'!
 isRightDivision
-	(#(/ // \\) includes: selector) ifTrue: [^ false].
-	selector = #\ ifTrue: [^ true].
+	(#(/ // \\) includes: selector) ifTrue: [^ true].
+	selector = #\ ifTrue: [^ false].
 	^ self error: 'unknown division selector'! !
 
 !Domain methodsFor: 'accessing' stamp: 'len 4/22/2020 05:45:14'!
@@ -14147,23 +14147,23 @@ zero
 hash
 	^ self relations hash! !
 
-!QuotientRing methodsFor: 'computing-matrices' stamp: 'len 12/31/2021 09:45:22'!
+!QuotientRing methodsFor: 'computing-matrices' stamp: 'len 5/28/2022 21:43:31'!
 matrix: B divisionBy: A
 	"Answer X and N such that AX + N = B, satisfying that if the i-th column of B is a linear combination of the columns of A then the i-th column of N is zero."
 	| L |
 	L _ self relators
-		inject: A codomain lift -> (self base^0)
-		into: [:matrix :each| matrix “ (A codomain lift endomorphisms scalar: each)].
+		inject: (self base^0) -> A codomain lift
+		into: [:matrix :each| matrix ” (A codomain lift endomorphisms scalar: each)].
 	^ (B lift divisionBy: A lift modulo: L) collect: [:each| each apply: self projection]! !
 
-!QuotientRing methodsFor: 'computing-matrices' stamp: 'len 12/31/2021 08:19:19'!
+!QuotientRing methodsFor: 'computing-matrices' stamp: 'len 5/28/2022 21:47:24'!
 syzygiesOf: aMatrix
 	"Answer a matrix whose rows span the kernel of the given matrix.
 	For a matrix A, the output is X with AX = 0."
 	| N |
 	N _ self relators
-		inject: aMatrix codomain lift -> (self base^0)
-		into: [:matrix :each| matrix “ (aMatrix codomain lift endomorphisms scalar: each)].
+		inject: (self base^0) -> aMatrix codomain lift
+		into: [:matrix :each| matrix ” (aMatrix codomain lift endomorphisms scalar: each)].
 	^ (aMatrix lift syzygiesModulo: N) apply: self projection! !
 
 !QuotientRing methodsFor: 'converting' stamp: 'len 12/25/2021 12:44:40'!
@@ -14917,9 +14917,9 @@ rank
 	"Answer the number of indeterminates in the receiver."
 	^ self base rank! !
 
-!AffineAlgebra methodsFor: 'accessing' stamp: 'len 7/16/2021 10:15:09'!
+!AffineAlgebra methodsFor: 'accessing' stamp: 'len 5/28/2022 20:14:51'!
 size
-	self isSimpleExtension ifTrue: [^ self scalars size ^ self degree].
+	self isSimpleExtension ifTrue: [^ self propertyAt: #size ifAbsentPut: [self scalars size ^ self degree]].
 	^ super size! !
 
 !AffineAlgebra methodsFor: 'accessing' stamp: 'len 8/12/2019 09:14:52'!
@@ -17680,7 +17680,7 @@ fractions
 	NOTE: Magma does this differently, the fractions field of a number ring is not its ambient field but an isomorphic field made of formal fractions with denominator a rational integer."
 	^ self propertyAt: #fractions! !
 
-!MaximalOrder methodsFor: 'random' stamp: 'len 5/27/2022 15:37:19'!
+!MaximalOrder methodsFor: 'random' stamp: 'len 5/28/2022 20:00:11'!
 unitAtRandom: aRandom
 	| f roots |
 	[f _ self scalars polynomials atRandom: aRandom maxDegree: self degree - 2.
@@ -17689,7 +17689,7 @@ unitAtRandom: aRandom
 	(roots _ f roots) isEmpty] whileTrue.
 	^ self !! roots anyOne! !
 
-!MaximalOrder methodsFor: 'random' stamp: 'len 5/27/2022 15:39:02'!
+!MaximalOrder methodsFor: 'random' stamp: 'len 5/28/2022 19:59:24'!
 unitAtRandom: aRandom bits: bitSize
 	| f roots |
 	[f _ self scalars polynomials atRandom: aRandom bits: bitSize maxDegree: self degree - 2.
@@ -17778,6 +17778,17 @@ real: anInteger imaginary: anotherInteger
 !GaussianRing methodsFor: 'elements' stamp: 'len 1/4/2022 14:53:49'!
 unitsDo: aBlock
 	aBlock value: self one; value: self one negated; value: self i; value: self i negated! !
+
+!GaussianRing methodsFor: 'random' stamp: 'len 5/28/2022 12:46:51'!
+unitAtRandom: aRandom
+	| answer |
+	answer _ aRandom nextBoolean ifTrue: [self one] ifFalse: [self i].
+	aRandom nextBoolean ifTrue: [answer _ answer negated].
+	^ answer! !
+
+!GaussianRing methodsFor: 'random' stamp: 'len 5/28/2022 12:47:02'!
+unitAtRandom: aRandom bits: bitSize
+	^ self unitAtRandom: aRandom! !
 
 !GaussianRing methodsFor: 'testing' stamp: 'len 1/4/2022 18:52:12'!
 isEuclidean
@@ -29692,17 +29703,12 @@ asIdeal
 	See also #// and #gauge."
 	^ self - (anElement * (self // anElement))! !
 
-!RingElement methodsFor: 'operations' stamp: 'len 7/5/2021 12:16:36'!
+!RingElement methodsFor: 'operations' stamp: 'len 5/28/2022 20:11:32'!
 ^ anInteger
 	"Answer the receiver raised to the power anInteger."
 	anInteger = 1 ifTrue: [^ self].
 	anInteger = 0 ifTrue: [^ self one].
 	anInteger < 0 ifTrue: [^ self  inverse ^ anInteger negated].
-"	self parent isAssociative ifFalse:
-		[| answer |
-		answer _ self.
-		anInteger - 1 timesRepeat: [answer _ answer * self].
-		^ answer]."
 	^ anInteger even ifTrue: [self squared ^ (anInteger // 2)] ifFalse: [self squared ^ (anInteger // 2) * self]! !
 
 !RingElement methodsFor: 'operations' stamp: 'len 6/17/2019 11:20:04'!
@@ -31574,11 +31580,16 @@ isZeroDivisor
 	"Answer true if the receiver divides the argument."
 	^ anElement isZero or: [self isZero not]! !
 
-!GaloisFieldElement methodsFor: 'operations' stamp: 'len 5/28/2022 11:39:35'!
+!GaloisFieldElement methodsFor: 'operations' stamp: 'len 5/28/2022 20:13:13'!
+^ anInteger
+	"Answer the receiver raised to the power anInteger."
+	^ parent representative: (representative raisedTo: anInteger \\ (parent size - 1) modulo: parent modulus)! !
+
+!GaloisFieldElement methodsFor: 'operations' stamp: 'len 5/28/2022 20:18:51'!
 inverse
 	"This is faster than using the extended Euclidean algorithm to compute the inverse."
 	self isZero ifTrue: [^ DivisionError new signalReceiver: self one selector: #/ argument: self].
-	^ self ^ parent inversionExponent! !
+	^ parent representative: (representative raisedTo: parent inversionExponent modulo: parent modulus)! !
 
 !GaloisFieldElement methodsFor: 'operations' stamp: 'len 5/9/2022 11:11:30'!
 normalizationInverse
@@ -32111,12 +32122,12 @@ homogenizedIn: anIndeterminate
 	degree _ self degree.
 	^ self applyToMonomials: [:each| each complete: degree in: anIndeterminate]! !
 
-!Polynomial methodsFor: 'operations' stamp: 'len 5/28/2022 11:41:51'!
+!Polynomial methodsFor: 'operations' stamp: 'len 5/28/2022 12:43:03'!
 inverse
-	"Naive but general power series inversion algorithm."
 	| answer g g1 u |
 	self isConstant ifTrue: [^ self parent constant: self independentCoefficient inverse].
 	self isUnit ifFalse: [^ DivisionError new signalReceiver: self one selector: #/ argument: self].
+	"Naive but general power series inversion algorithm:"
 	u _ self independentCoefficient inverse.
 	answer _ g _ self one.
 	g1 _ g - (self * u).
