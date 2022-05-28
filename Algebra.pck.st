@@ -1,4 +1,4 @@
-'From Cuis 6.0 [latest update: #5053] on 24 May 2022 at 9:07:21 pm'!
+'From Cuis 6.0 [latest update: #5053] on 28 May 2022 at 12:34:07 pm'!
 'Description This package implements among other things: permutation groups, linear groups, modular integers, finite fields, Galois rings, polynomial rings, affine algebras, number fields, function fields, p-adic fields, power series rings, coherent modules, (co)chain complexes, finite (finitely generated as modules) associative algebras, finite distributive (not necessarily associative) algebras, schemes, and sheaves of modules.
 
 References:
@@ -30,6 +30,7 @@ References:
 [Sam71] Pierre Samuel, "About Euclidean Rings", J. Algebra, 19:282-301, 1971
 [Sto00] Arne Storjohann, "Algorithms for Matrix Canonical Forms" (2000)
 [SM98] Arne Storjohann, Thom Mulders, "Fast algorithms for linear algebra modulo N" (1998)
+
 [] Thomas Becker; "Groebner Bases: A Computational Approach"
 [] David Cox; John Little; Donals O''Shea; "Using Algebraic Geometry"
 [] John Cremona; "Algorithms for Modular Elliptic Curves"
@@ -49,7 +50,7 @@ References:
 [] Victor Shoup; "A Computational Introduction to Number Theory and Algebra"
 [] Joseph. H. Silverman; "The Arithmetic of Elliptic Curves"
 '!
-!provides: 'Algebra' 1 12!
+!provides: 'Algebra' 1 13!
 !requires: 'Graphs' 1 0 nil!
 !requires: 'Collections-Extras' 1 1 nil!
 !requires: 'Complex' 1 8 nil!
@@ -2797,7 +2798,7 @@ The quotient ring R/I is equipped with the projection map that sends elements of
 Ring ƒ/mƒ of residue classes of integers modulo m. Elements are instances of ModularInteger.!
 
 !PrimePowerRing commentStamp: '<historical>' prior: 0!
-Residue class ring ƒ/(p^n)ƒ of integers modulo p^n.
+Residue class ring ƒ/(p^n)ƒ of integers modulo p^n for a prime p.
 
 These are Euclidean rings, and the simplest examples of Galois rings, GR(p^n,1). They are local rings with maximal ideal <p> and residue field isomorphic to ƒ/pƒ. The maximal ideal <p> is also the set of zero divisors as well as nilpotent elements. Other Galois rings are constructed by finite algebraic extensions (see GaloisRing).
 
@@ -6368,6 +6369,24 @@ newFrom: aCollection
 vertices: aCollection
 	^ self new vertices: aCollection! !
 
+!DivisionError methodsFor: 'accessing' stamp: 'len 5/28/2022 11:53:50'!
+dividend
+	^ self isRightDivision ifTrue: [receiver] ifFalse: [arguments first]! !
+
+!DivisionError methodsFor: 'accessing' stamp: 'len 5/28/2022 11:54:13'!
+divisor
+	^ self isRightDivision ifTrue: [arguments first] ifFalse: [receiver]! !
+
+!DivisionError methodsFor: 'testing' stamp: 'len 5/28/2022 11:52:33'!
+isLeftDivision
+	^ self isRightDivision not! !
+
+!DivisionError methodsFor: 'testing' stamp: 'len 5/28/2022 11:52:11'!
+isRightDivision
+	(#(/ // \\) includes: selector) ifTrue: [^ false].
+	selector = #\ ifTrue: [^ true].
+	^ self error: 'unknown division selector'! !
+
 !Domain methodsFor: 'accessing' stamp: 'len 4/22/2020 05:45:14'!
 arity
 	(self isProduct or: [self isCoproduct]) ifFalse: [^ DomainError signal: 'not a product or coproduct'].
@@ -7068,11 +7087,11 @@ atRandom
 	"Answer an element in the receiver choosen at random. This will fail if the receiver is not finite."
 	^ self atRandom: self newRandom! !
 
-!Structure methodsFor: 'random' stamp: 'len 4/19/2020 07:12:07'!
+!Structure methodsFor: 'random' stamp: 'len 5/26/2022 20:11:04'!
 atRandom: aRandom
 	"Answer an element in the receiver choosen at random. This will fail if the receiver is not finite."
 	self propertyAt: #elements ifPresent: [:aCollectionOrDomain| ^ aCollectionOrDomain atRandom: aRandom].
-	^ self atRandom: aRandom bits: Infinity positive! !
+	^ self atRandom: aRandom bits: [aRandom nextBoolean] count + 1! !
 
 !Structure methodsFor: 'random' stamp: 'len 5/25/2020 07:55:53'!
 atRandom: aRandom bits: bitSize
@@ -9487,26 +9506,53 @@ commutator
 		ifFalse: [^ SpecialLinearGroup on: self space].
 	^ self propertyAt: #commutator! !
 
-!GeneralLinearGroup methodsFor: 'operations' stamp: 'len 9/26/2018 23:01:08'!
+!GeneralLinearGroup methodsFor: 'operations' stamp: 'len 5/27/2022 18:30:39'!
 special
 	"Answer the special linear group SL(n) which is a subgroup of the receiver."
-	^ SpecialLinearGroup on: self space! !
+	^ SpecialLinearGroup new ambient: self! !
 
 !GeneralLinearGroup methodsFor: 'printing' stamp: 'len 2/11/2016 05:04'!
 shortName
 	^ 'GL'! !
 
-!GeneralLinearGroup methodsFor: 'random' stamp: 'len 5/16/2019 12:41:45'!
+!GeneralLinearGroup methodsFor: 'random' stamp: 'len 5/27/2022 18:26:55'!
 atRandom: aRandom
-	| answer |
-	[(answer _ self space endomorphisms atRandom: aRandom) isIsomorphism] whileFalse.
-	^ answer! !
+	| matrix n |
+	self isTrivial ifTrue: [^ self identity].
+	self space coordinates rank > 1 ifFalse: [^ self identity * (self scalars units atRandom: aRandom)].
+	matrix _ self space coordinates id copy.
+	n _ matrix width.
+	n timesRepeat:
+		[| i j |
+		i _ n atRandom: aRandom.
+		[j _ n atRandom: aRandom. j = i] whileTrue.
+		matrix swapRow: i with: j.
+		i _ n atRandom: aRandom.
+		[j _ n atRandom: aRandom. j = i] whileTrue.
+		matrix addRow: i times: (self scalars atRandom: aRandom) toRow: j.
+		i _ n atRandom: aRandom.
+		matrix multiplyRow: i by: (self scalars units atRandom: aRandom)].
+	^ self space to: self space matrix: matrix! !
 
-!GeneralLinearGroup methodsFor: 'random' stamp: 'len 5/16/2019 12:41:35'!
+!GeneralLinearGroup methodsFor: 'random' stamp: 'len 5/27/2022 18:27:03'!
 atRandom: aRandom bits: bitSize
-	| answer |
-	[(answer _ self space endomorphisms atRandom: aRandom bits: bitSize) isIsomorphism] whileFalse.
-	^ answer! !
+	| matrix n scalarsBitSize |
+	self isTrivial ifTrue: [^ self identity].
+	self space coordinates rank > 1 ifFalse: [^ self identity * (self scalars units atRandom: aRandom bits: bitSize)].
+	matrix _ self space coordinates id copy.
+	n _ matrix width.
+	scalarsBitSize _ bitSize / n squared max: 1.
+	n timesRepeat:
+		[| i j |
+		i _ n atRandom: aRandom.
+		[j _ n atRandom: aRandom. j = i] whileTrue.
+		matrix swapRow: i with: j.
+		i _ n atRandom: aRandom.
+		[j _ n atRandom: aRandom. j = i] whileTrue.
+		matrix addRow: i times: (self scalars atRandom: aRandom bits: scalarsBitSize) toRow: j.
+		i _ n atRandom: aRandom.
+		matrix multiplyRow: i by: (self scalars units atRandom: aRandom bits: scalarsBitSize)].
+	^ self space to: self space matrix: matrix! !
 
 !GeneralLinearGroup methodsFor: 'testing' stamp: 'len 9/27/2018 20:55:25'!
 contains: anElement
@@ -9515,6 +9561,10 @@ contains: anElement
 !GeneralLinearGroup methodsFor: 'testing' stamp: 'len 5/29/2020 14:18:10'!
 includes: anObject
 	^ anObject isMatrix and: [anObject domain = self space and: [anObject isAutomorphism]]! !
+
+!GeneralLinearGroup methodsFor: 'testing' stamp: 'len 5/25/2022 11:00:14'!
+isTrivial
+	^ self space isTrivial! !
 
 !GeneralLinearGroup methodsFor: 'private' stamp: 'len 6/7/2020 06:24:39'!
 space: aFreeModule
@@ -9608,17 +9658,13 @@ special
 shortName
 	^ 'Z'! !
 
-!ScalarGroup methodsFor: 'random' stamp: 'len 9/27/2018 21:05:06'!
+!ScalarGroup methodsFor: 'random' stamp: 'len 5/27/2022 13:02:19'!
 atRandom: aRandom
-	| a |
-	[a _ self scalars atRandom: aRandom. a isZero] whileTrue.
-	^ self identity * a! !
+	^ self identity * (self scalars units atRandom: aRandom)! !
 
-!ScalarGroup methodsFor: 'random' stamp: 'len 9/27/2018 21:06:01'!
+!ScalarGroup methodsFor: 'random' stamp: 'len 5/27/2022 13:02:52'!
 atRandom: aRandom bits: bitSize
-	| a |
-	[a _ self scalars atRandom: aRandom bits: bitSize. a isZero] whileTrue.
-	^ self identity * a! !
+	^ self identity * (self scalars units atRandom: aRandom bits: bitSize)! !
 
 !ScalarGroup methodsFor: 'testing' stamp: 'len 7/28/2020 11:05:25'!
 contains: aMatrix
@@ -9645,10 +9691,51 @@ center
 shortName
 	^ 'SL'! !
 
+!SpecialLinearGroup methodsFor: 'random' stamp: 'len 5/27/2022 18:36:56'!
+atRandom: aRandom
+	| matrix n |
+	self isTrivial ifTrue: [^ self identity].
+	self space coordinates rank > 1 ifFalse: [^ self identity * (self scalars units atRandom: aRandom)].
+	matrix _ self space coordinates id copy.
+	n _ matrix width.
+	n timesRepeat:
+		[| i j |
+		i _ n atRandom: aRandom.
+		[j _ n atRandom: aRandom. j = i] whileTrue.
+		matrix swapRow: i with: j.
+		matrix multiplyRow: i by: self scalars one negated.
+		i _ n atRandom: aRandom.
+		[j _ n atRandom: aRandom. j = i] whileTrue.
+		matrix addRow: i times: (self scalars atRandom: aRandom) toRow: j].
+	^ self space to: self space matrix: matrix! !
+
+!SpecialLinearGroup methodsFor: 'random' stamp: 'len 5/27/2022 18:28:34'!
+atRandom: aRandom bits: bitSize
+	| matrix n scalarsBitSize |
+	self isTrivial ifTrue: [^ self identity].
+	self space coordinates rank > 1 ifFalse: [^ self identity].
+	matrix _ self space coordinates id copy.
+	n _ matrix width.
+	scalarsBitSize _ bitSize / n squared max: 1.
+	n timesRepeat:
+		[| i j |
+		i _ n atRandom: aRandom.
+		[j _ n atRandom: aRandom. j = i] whileTrue.
+		matrix swapRow: i with: j.
+		matrix multiplyRow: i by: self scalars one negated.
+		i _ n atRandom: aRandom.
+		[j _ n atRandom: aRandom. j = i] whileTrue.
+		matrix addRow: i times: (self scalars atRandom: aRandom bits: scalarsBitSize) toRow: j].
+	^ self space to: self space matrix: matrix! !
+
 !SpecialLinearGroup methodsFor: 'testing' stamp: 'len 7/28/2020 11:05:34'!
 contains: aMatrix
 	"Answer true if the receiver contains the given element of its ambient."
 	^ aMatrix determinant = self scalars one! !
+
+!SpecialLinearGroup methodsFor: 'testing' stamp: 'len 5/27/2022 18:31:59'!
+isTrivial
+	^ self ambient isTrivial! !
 
 !SpecialOrthogonalGroup methodsFor: 'accessing' stamp: 'len 6/3/2020 05:32:12'!
 affine
@@ -11490,9 +11577,9 @@ representative
 	anObject isAmbient ifTrue: [^ self isOne].
 	^ super = anObject! !
 
-!Ideal methodsFor: 'comparing' stamp: 'len 3/28/2018 19:49:45'!
+!Ideal methodsFor: 'comparing' stamp: 'len 5/27/2022 19:02:52'!
 | anIdeal
-	"Answer true if the receiver divides anIdeal."
+	"Answer true if the receiver divides the argument."
 	^ self >= anIdeal! !
 
 !Ideal methodsFor: 'comparing' stamp: 'len 5/23/2022 11:35:10'!
@@ -12749,11 +12836,11 @@ localizationAwayFrom: aPrimeElement
 	L addMap: (L into: F evaluating: [:f| F numerator: f numerator denominator: f denominator])." "<- add also retraction"
 	^ L! !
 
-!Ring methodsFor: 'operations' stamp: 'len 4/8/2021 12:39:09'!
+!Ring methodsFor: 'operations' stamp: 'len 5/25/2022 11:13:18'!
 nilradical
 	"Answer the ideal consisting of all nilpotent elements, i.e. all x such that there exists some n with x^n = 0. It is the intersection of all prime ideals. (See also >>radical.)"
-	^ self asIdeal null radical
-	
+	^ self propertyAt: #nilradical ifAbsentPut: [self asIdeal null radical]
+
 "alternative:
 	| answer |
 	answer _ self oneIdeal.
@@ -12856,19 +12943,23 @@ zeroDivisors
 atRandom: aRandom modulo: anIdeal
 	^ self subclassResponsibility! !
 
-!Ring methodsFor: 'random' stamp: 'len 5/23/2022 13:36:51'!
+!Ring methodsFor: 'random' stamp: 'len 5/26/2022 20:47:34'!
 unitAtRandom: aRandom
 	self hasCanonicalAssociates ifTrue: [^ (self atRandom: aRandom) normalization].
-	^ self subclassResponsibility
-"	[(answer _ self atRandom: aRandom) isUnit] whileFalse.
-	^ answer"! !
+	self isFinite ifTrue:
+		[| answer |
+		[(answer _ self atRandom: aRandom) isUnit] whileFalse.
+		^ answer].
+	^ self subclassResponsibility! !
 
-!Ring methodsFor: 'random' stamp: 'len 5/23/2022 13:37:05'!
+!Ring methodsFor: 'random' stamp: 'len 5/26/2022 20:48:06'!
 unitAtRandom: aRandom bits: bitSize
 	self hasCanonicalAssociates ifTrue: [^ (self atRandom: aRandom bits: bitSize) normalization].
-	^ self subclassResponsibility
-"	[(answer _ self atRandom: aRandom bits: bitSize) isUnit] whileFalse.
-	^ answer"! !
+	self isFinite ifTrue:
+		[| answer |
+		[(answer _ self atRandom: aRandom bits: bitSize) isUnit] whileFalse.
+		^ answer].
+	^ self subclassResponsibility! !
 
 !Ring methodsFor: 'testing' stamp: 'len 12/30/2021 11:48:03'!
 hasCanonicalAssociates
@@ -13948,10 +14039,12 @@ isBezout
 isCommutative
 	^ components allSatisfy: [:each| each isCommutative]! !
 
-!ProductRing methodsFor: 'testing' stamp: 'len 1/4/2022 19:00:21'!
+!ProductRing methodsFor: 'testing' stamp: 'len 5/26/2022 21:04:19'!
 isEuclidean
 	"Answer true if the receiver is a Euclidean ring, i.e. it has Euclidean division with remainder."
-	^ components allSatisfy: [:each| each isEuclidean]! !
+	self flag: #fixme. "answer false for now because the Euclidean division is not fully implemented"
+	^ false
+"	^ components allSatisfy: [:each| each isEuclidean]"! !
 
 !ProductRing methodsFor: 'testing' stamp: 'len 5/7/2022 07:37:14'!
 isIntegralDomain
@@ -14400,9 +14493,9 @@ units
 	"Answer the multiplicative group of units of the receiver (i.e., elements that have multiplicative inverse)."
 	^ self propertyAt: #units ifAbsentPut: [ModularIntegerUnitGroup on: self]! !
 
-!ModularIntegerRing methodsFor: 'random' stamp: 'len 4/25/2016 00:26'!
+!ModularIntegerRing methodsFor: 'random' stamp: 'len 5/26/2022 13:07:15'!
 atRandom: aRandom
-	^ self project: (self modulus atRandom: aRandom) - 1! !
+	^ self representative: (self modulus atRandom: aRandom) - 1! !
 
 !ModularIntegerRing methodsFor: 'random' stamp: 'len 4/19/2016 22:14'!
 atRandom: aRandom bits: bitSize
@@ -16557,6 +16650,28 @@ atRandomMaxDegree: d
 	self isUnivariate ifFalse: [^ self notYetImplemented].
 	^ self coefficients: (self scalars^(d+1)) atRandom! !
 
+!PolynomialRing methodsFor: 'random' stamp: 'len 5/25/2022 19:34:42'!
+unitAtRandom: aRandom
+	| answer |
+	answer _ self constant: (self scalars units atRandom: aRandom).
+	(self scalars isIntegralDomain or: [self monomials isTrivial]) ifTrue: [^ answer].
+	[aRandom nextBoolean] whileTrue: 
+		[| m |
+		[(m _ self monomials atRandom: aRandom) isIdentity] whileTrue.
+		answer _ (self coefficient: (self scalars nilradical atRandom: aRandom) monomial: m) + answer].
+	^ answer! !
+
+!PolynomialRing methodsFor: 'random' stamp: 'len 5/25/2022 19:35:01'!
+unitAtRandom: aRandom bits: bitSize
+	| answer |
+	answer _ self constant: (self scalars units atRandom: aRandom bits: bitSize).
+	(self scalars isIntegralDomain or: [self monomials isTrivial]) ifTrue: [^ answer].
+	[aRandom nextBoolean] whileTrue: 
+		[| m |
+		[(m _ self monomials atRandom: aRandom bits: ((bitSize log: 2) max: 2)) isIdentity] whileTrue.
+		answer _ (self coefficient: (self scalars nilradical atRandom: aRandom bits: bitSize) monomial: m) + answer].
+	^ answer! !
+
 !PolynomialRing methodsFor: 'testing' stamp: 'len 6/4/2016 05:13'!
 has: anIndeterminate
 	^ self indeterminates includes: anIndeterminate! !
@@ -17160,6 +17275,18 @@ involution
 	"Answer the main involution of the receiver. This is an automorphism J such that J(u) = u if u is in the even subalgebra, and J(u) = -u if u is in the odd subspace."
 	^ self to: self evaluating: [:x| x reflection]! !
 
+!CliffordAlgebra methodsFor: 'random' stamp: 'len 5/27/2022 19:24:35'!
+unitAtRandom: aRandom
+	| answer |
+	[(answer _ self atRandom: aRandom) isUnit] whileFalse.
+	^ answer! !
+
+!CliffordAlgebra methodsFor: 'random' stamp: 'len 5/27/2022 19:24:47'!
+unitAtRandom: aRandom bits: bitSize
+	| answer |
+	[(answer _ self atRandom: aRandom bits: bitSize) isUnit] whileFalse.
+	^ answer! !
+
 !CliffordAlgebra methodsFor: 'testing' stamp: 'len 7/7/2020 19:48:03'!
 isCommutative
 	^ self space rank < 2! !
@@ -17376,6 +17503,18 @@ one
 fromModuleElement: anElement
 	^ Quaternion parent: self moduleElement: anElement! !
 
+!QuaternionAlgebra methodsFor: 'random' stamp: 'len 5/26/2022 20:54:59'!
+unitAtRandom: aRandom
+	| answer |
+	[(answer _ self atRandom: aRandom) isUnit] whileFalse.
+	^ answer! !
+
+!QuaternionAlgebra methodsFor: 'random' stamp: 'len 5/26/2022 20:55:27'!
+unitAtRandom: aRandom bits: bitSize
+	| answer |
+	[(answer _ self atRandom: aRandom bits: bitSize) isUnit] whileFalse.
+	^ answer! !
+
 !QuaternionAlgebra methodsFor: 'testing' stamp: 'len 6/11/2020 19:36:38'!
 isCentral
 	^ true! !
@@ -17540,6 +17679,24 @@ fractions
 	"Answer the abient number field.
 	NOTE: Magma does this differently, the fractions field of a number ring is not its ambient field but an isomorphic field made of formal fractions with denominator a rational integer."
 	^ self propertyAt: #fractions! !
+
+!MaximalOrder methodsFor: 'random' stamp: 'len 5/27/2022 15:37:19'!
+unitAtRandom: aRandom
+	| f roots |
+	[f _ self scalars polynomials atRandom: aRandom maxDegree: self degree - 2.
+	f _ f << 1 + 1 + (self scalars polynomials x: 1 to: self degree).
+	f _ f over: self fractions.
+	(roots _ f roots) isEmpty] whileTrue.
+	^ self !! roots anyOne! !
+
+!MaximalOrder methodsFor: 'random' stamp: 'len 5/27/2022 15:39:02'!
+unitAtRandom: aRandom bits: bitSize
+	| f roots |
+	[f _ self scalars polynomials atRandom: aRandom bits: bitSize maxDegree: self degree - 2.
+	f _ f << 1 + 1 + (self scalars polynomials x: 1 to: self degree).
+	f _ f over: self fractions.
+	(roots _ f roots) isEmpty] whileTrue.
+	^ self !! roots anyOne! !
 
 !MaximalOrder methodsFor: 'testing' stamp: 'len 7/15/2021 16:51:30'!
 isDedekindDomain
@@ -22105,9 +22262,9 @@ asPolynomial
 	"Answer the localization of the receiver at aPrimeIdeal."
 	^ self domain @ aPrimeIdeal to: self codomain @ aPrimeIdeal matrix: self matrix @ aPrimeIdeal! !
 
-!ModuleMap methodsFor: 'operations' stamp: 'len 4/19/2021 10:56:45'!
+!ModuleMap methodsFor: 'operations' stamp: 'len 5/28/2022 06:14:09'!
 \ aModuleMap
-	"If the receiver is an epimorphism p:X->B, and the argument is f:Y->B, answer f':Y->X such that the diagram commutes. This is a 'lift of f along p' and it is noted p\f."
+	"If the receiver is an epimorphism p:X->B, and the argument is f:Y->B, answer f':Y->X such that the diagram commutes. This is a 'lift of f along p', noted p \ f."
 	| M |
 	self codomain = aModuleMap codomain ifFalse: [^ DomainError signal: 'codomains don''t match'].
 	self codomain presentationMatrix = aModuleMap codomain presentationMatrix ifFalse: [^ self notYetImplemented].
@@ -22307,9 +22464,20 @@ isSurjective
 isTrivial
 	^ self isZero! !
 
+!ModuleMap methodsFor: 'testing' stamp: 'len 5/25/2022 13:36:36'!
+isUnit
+	"Answer true if the receiver is invertible."
+	^ self isAutomorphism! !
+
 !ModuleMap methodsFor: 'testing' stamp: 'len 3/13/2021 13:36:11'!
 isZero
 	^ self image isTrivial! !
+
+!ModuleMap methodsFor: 'testing' stamp: 'len 5/25/2022 11:05:19'!
+isZeroDivisor
+	"Answer true if there exists a nonzero element that multiplied by the receiver is zero.
+	Assumes the receiver is an endomorphism."
+	^ self kernel isTrivial not! !
 
 !ModuleMap methodsFor: 'private' stamp: 'len 5/16/2019 20:40:52'!
 codomain: aModule
@@ -22467,6 +22635,13 @@ zero
 		1 to: self width do: [:j|
 			(self at: i@j) = (anObject at: i@j) ifFalse: [^ false]]].
 	^ true! !
+
+!Matrix methodsFor: 'comparing' stamp: 'len 5/27/2022 19:02:40'!
+| aMatrix
+	"Answer true if the receiver is a left divisor of the argument
+	(or equivalently, the argument is a right multiple of the receiver),
+	i.e. if the receiver is A and the argument is B, there exists X with AX = B."
+	^ (self lift: aMatrix) notNil! !
 
 !Matrix methodsFor: 'comparing' stamp: 'len 5/17/2022 04:53:35'!
 ~ aMatrix
@@ -22627,9 +22802,10 @@ rowsDo: aBlock
 - aMatrix
 	^ self + aMatrix negated! !
 
-!Matrix methodsFor: 'operations' stamp: 'len 8/28/2021 10:55:50'!
+!Matrix methodsFor: 'operations' stamp: 'len 5/28/2022 07:10:54'!
 / anObject
-	"Answer X such that XA = B, where B is self and A is the argument. X is called a colift (or extension) of B along A and it is noted B/A.
+	"Answer X such that XA = B, where B is the receiver and A is the argument.
+	X is called a colift (or extension) of B along A, written B / A.
 	If the argument is a scalar, just divide each element of the matrix by the scalar."
 	(anObject isMatrix and: [self scalars = anObject scalars]) ifTrue: [^ anObject colift: self].
 	^ super / anObject! !
@@ -22639,11 +22815,12 @@ rowsDo: aBlock
 	"Answer the localization of the receiver at aPrimeIdeal."
 	^ self apply: self scalars -> (self scalars @ aPrimeIdeal)! !
 
-!Matrix methodsFor: 'operations' stamp: 'len 8/28/2021 10:57:03'!
+!Matrix methodsFor: 'operations' stamp: 'len 5/28/2022 07:11:13'!
 \ aMatrix
-	"Answer X such that AX = B, where A is self and B is aMatrix. X is called a lift of B along A and it is noted A\B.
-	The argument can also be a tuple, in which case it is considered as a column matrix and the returned value is also a tuple.
+	"Answer X such that AX = B, where A is the receiver and B is the argument.
+	X is called a lift of B along A, written A \ B.
 	Answer nil if there's no solution.
+	The argument can also be a tuple, in which case it is considered as a column matrix and the returned value is also a tuple.
 	This is the 'backslash' operator, as implemented in MATLAB, Octave and Sage."
 	(aMatrix isMatrix and: [self scalars = aMatrix scalars]) ifTrue: [^ self lift: aMatrix].
 	(aMatrix isTuple and: [self scalars = aMatrix scalars]) ifTrue: [^ (self lift: aMatrix asMatrix) ifNotNil: [:answer| answer asTuple]].
@@ -23372,10 +23549,10 @@ codivisionBy: aMatrix
 	self width = aMatrix width ifFalse: [^ DomainError signal: 'matrix shapes don''t match'].
 	^ self scalars matrix: self codivisionBy: aMatrix! !
 
-!Matrix methodsFor: 'solving' stamp: 'len 12/31/2021 09:15:01'!
+!Matrix methodsFor: 'solving' stamp: 'len 5/28/2022 07:28:52'!
 colift: aMatrix
-	"Answer X such that XA = B, where A is self and B is aMatrix. X is called a colift (or extension) of B along A.
-	Answer nil if there's no solution."
+	"Answer X such that XA = B, where A is the receiver and B is the argument. Answer nil if there's no solution.
+	X is called a colift (or extension) of B along A, written B / A."
 	^ (self scalars matrix: aMatrix codivisionBy: self) ifNotNil: [:anArray| anArray second isZero ifTrue: [anArray first]]! !
 
 !Matrix methodsFor: 'solving' stamp: 'len 1/4/2022 09:01:04'!
@@ -23398,10 +23575,10 @@ divisionBy: aMatrix modulo: aRelationsMatrix
 	^ (self divisionBy: aMatrix ” aRelationsMatrix)
 		ifNotNil: [:anArray| {anArray first copyFromRow: 1 to: aMatrix width. anArray second}]! !
 
-!Matrix methodsFor: 'solving' stamp: 'len 12/31/2021 09:38:05'!
+!Matrix methodsFor: 'solving' stamp: 'len 5/28/2022 07:13:39'!
 lift: aMatrix
-	"Answer X such that AX = B, where B is self and A is aMatrix. X is called a lift of B along A.
-	Answer nil if there's no solution."
+	"Answer X such that AX = B, where A is the receiver and B is the argument. 	Answer nil if there's no solution.
+	X is called a lift of B along A, written A \ B."
 	^ (aMatrix divisionBy: self) ifNotNil: [:anArray| anArray second isZero ifTrue: [anArray first]]! !
 
 !Matrix methodsFor: 'solving' stamp: 'len 1/4/2022 09:01:24'!
@@ -23458,6 +23635,11 @@ syzygies
 syzygiesModulo: aMatrix
 	aMatrix isZero ifTrue: [^ self syzygies].
 	^ (self ” aMatrix) syzygies copyFromRow: 1 to: self width! !
+
+!Matrix methodsFor: 'testing' stamp: 'len 5/25/2022 13:36:26'!
+isAutomorphism
+	"Answer true if the receiver is invertible."
+	^ self isSquare and: [self determinant isUnit]! !
 
 !Matrix methodsFor: 'testing' stamp: 'len 5/30/2019 04:43:29'!
 isDiagonal
@@ -26791,12 +26973,16 @@ order
 * anElement
 	^ self · anElement! !
 
-!GroupElement methodsFor: 'operations' stamp: 'len 12/4/2021 13:22:41'!
+!GroupElement methodsFor: 'operations' stamp: 'len 5/28/2022 08:16:23'!
 / anElement
+	"Answer x such that xa = b, where b is the receiver and a is the argument.
+	This is the right division of b by a, written b / a."
 	^ self · anElement inverse! !
 
-!GroupElement methodsFor: 'operations' stamp: 'len 12/4/2021 13:24:02'!
+!GroupElement methodsFor: 'operations' stamp: 'len 5/28/2022 07:04:52'!
 \ anElement
+	"Answer x such that ax = b, where a is the receiver and b is the argument.
+	This is the left division of b by a, written a \ b."
 	^ self inverse · anElement! !
 
 !GroupElement methodsFor: 'operations' stamp: 'len 8/11/2020 08:47:00'!
@@ -29393,9 +29579,10 @@ zero
 
 	^anElement <= self! !
 
-!RingElement methodsFor: 'comparing' stamp: 'len 5/23/2022 11:57:33'!
+!RingElement methodsFor: 'comparing' stamp: 'len 5/27/2022 19:02:28'!
 | anElement
-	"Answer true if the receiver is a left divisor of the argument,
+	"Answer true if the receiver is a left divisor of the argument
+	(or equivalently, the argument is a right multiple of the receiver),
 	i.e. if the receiver is a and the argument is b, there exists x with ax = b."
 	anElement isZero ifTrue: [^ true].
 	self isZero ifTrue: [^ false].
@@ -29477,34 +29664,32 @@ asIdeal
 - anElement
 	^ self + anElement negated! !
 
-!RingElement methodsFor: 'operations' stamp: 'len 1/3/2022 11:31:22'!
+!RingElement methodsFor: 'operations' stamp: 'len 5/28/2022 11:48:39'!
 / anElement
-	"Answer x such that xa = b, where b is self and a is anElement.
-	The behavior is undefined if a doesn't divide b."
+	"Answer x such that xa = b, where b is the receiver and a is the argument.
+	This is the right division of b by a, written b / a."
 	(self parent includes: anElement) ifFalse: [^ self adapt: anElement andSend: #/].
-	anElement isUnit ifTrue: [^ self * anElement inverse].
-	^ self // anElement! !
+	^ (anElement colift: self) ifNil: [DivisionError new signalReceiver: self selector: #/ argument: anElement]! !
 
-!RingElement methodsFor: 'operations' stamp: 'len 5/14/2020 14:29:55'!
+!RingElement methodsFor: 'operations' stamp: 'len 5/26/2022 12:21:06'!
 // anElement
 	"Answer the quotient of the division of the receiver by the argument.
-	In Euclidean rings, this is the quotient of the Euclidean division."
+	In Euclidean rings, this is the quotient of the Euclidean division.
+	See also #\\ and #gauge."
 	^ self subclassResponsibility! !
 
-!RingElement methodsFor: 'operations' stamp: 'len 1/3/2022 11:37:17'!
+!RingElement methodsFor: 'operations' stamp: 'len 5/28/2022 11:48:54'!
 \ anElement
-	"Answer x such that ax = b, where a is self and b is anElement.
-	The behavior is undefined if a doesn't divide b."
-	self parent isCommutative ifTrue: [^ anElement / self].
+	"Answer x such that ax = b, where a is the receiver and b is the argument.
+	This is the left division of b by a, written a \ b."
 	(self parent includes: anElement) ifFalse: [^ self adapt: anElement andSend: #\].
-	self parent isInvolutive ifTrue: [^ (anElement conjugate / self conjugate) conjugate].
-	self parent isFinite ifFalse: [^ self subclassResponsibility].
-	^ self parent detect: [:x| self * x = anElement] ifNone: []! !
+	^ (self lift: anElement) ifNil: [DivisionError new signalReceiver: self selector: #\ argument: anElement]! !
 
-!RingElement methodsFor: 'operations' stamp: 'len 8/22/2021 16:33:53'!
+!RingElement methodsFor: 'operations' stamp: 'len 5/26/2022 12:21:18'!
 \\ anElement
 	"Answer the remainder of the division of the receiver by the argument.
-	In Euclidean rings, this is the remainder of the Euclidean division."
+	In Euclidean rings, this is the remainder of the Euclidean division.
+	See also #// and #gauge."
 	^ self - (anElement * (self // anElement))! !
 
 !RingElement methodsFor: 'operations' stamp: 'len 7/5/2021 12:16:36'!
@@ -29542,6 +29727,16 @@ centralizer
 	"Answer the subalgebra of the parent algebra commuting with the receiver."
 	^ self parent centralizerOf: (self parent span: {self})! !
 
+!RingElement methodsFor: 'operations' stamp: 'len 5/28/2022 11:48:12'!
+colift: anElement
+	"Answer x such that xa = b, where a is the receiver and b is the argument. Answer nil if there's no solution.
+	This is the right division of b by a, written b / a."
+	self isUnit ifTrue: [^ anElement * self inverse].
+	(self parent isCommutative and: [self parent isEuclidean])
+		ifTrue: [| division | ^ (division _ anElement divisionBy: self) remainder isZero ifTrue: [division quotient]].
+	self parent isFinite ifTrue: [^ self parent detect: [:x| x * self = anElement] ifNone: []].
+	^ self subclassResponsibility! !
+
 !RingElement methodsFor: 'operations' stamp: 'len 4/30/2021 12:47:47'!
 commutator: anElement
 	"Answer the Lie bracket between the receiver and the argument."
@@ -29551,11 +29746,11 @@ commutator: anElement
 divisionBy: anElement
 	^ Division divide: self by: anElement! !
 
-!RingElement methodsFor: 'operations' stamp: 'len 5/17/2020 07:26:13'!
+!RingElement methodsFor: 'operations' stamp: 'len 5/26/2022 12:33:19'!
 gcd: anElement
 	"Answer the greatest common divisor of the receiver and the argument,
-	i.e. a generator of the principal ideal generated by the reciever and the argument.
-	The result is the canonical associate (normalized)."
+	i.e. the normalized generator of the principal ideal generated by the reciever and the argument.
+	This is the Euclidean algorithm, and assumes the receiver and argument are element of an Euclidean ring."
 	| a b |
 	(self parent includes: anElement) ifFalse: [^ self adapt: anElement andSend: #gcd:].
 	a _ self.
@@ -29574,6 +29769,15 @@ lcm: anElement
 	self isZero ifTrue: [^ self].
 	anElement isZero ifTrue: [^ anElement].
 	^ (self / (self gcd: anElement) * anElement) normalized! !
+
+!RingElement methodsFor: 'operations' stamp: 'len 5/28/2022 11:49:14'!
+lift: anElement
+	"Answer x such that ax = b, where a is the receiver and b is the argument. Answer nil if there's no solution.
+	This is the left division of b by a, written a \ b."
+	self parent isCommutative ifTrue: [^ anElement colift: self].
+	self parent isInvolutive ifTrue: [^ (anElement conjugate colift: self conjugate) conjugate].
+	self parent isFinite ifTrue: [^ self parent detect: [:x| self * x = anElement] ifNone: []].
+	^ self subclassResponsibility! !
 
 !RingElement methodsFor: 'operations' stamp: 'len 5/29/2020 07:53:44'!
 negated
@@ -29598,10 +29802,10 @@ opposite
 	self parent isInvolutive ifTrue: [^ self conjugate].
 	^ OppositeRingElement opposite: self! !
 
-!RingElement methodsFor: 'operations' stamp: 'len 5/16/2022 20:35:56'!
+!RingElement methodsFor: 'operations' stamp: 'len 5/25/2022 19:56:39'!
 quotientBy: anElement modulo: m
 	"Answer the Euclidean quotient of the receiver by anElement modulo m.
-	If the receiver is 'a' and anElement is 'b', answer 'q' such that 'b*q = a mod m', or in other words 'b*q - a' is divisible by 'm' and 'q' is either 0 or the Euclidean degree of 'q' is strictly smaller than the Euclidean degree of 'm'."
+	If the receiver is 'r' and anElement is 's', answer 'q' such that 's*q = r mod m', or in other words 's*q - r' is divisible by 'm' and 'q' is either 0 (if 'r' is divisible by 'm') or the Euclidean degree of 'q' is strictly smaller than the Euclidean degree of 'm'."
 	| f g fs gs h hs q r |
 	f _ anElement. fs _ self one.
 	g _ m. gs _ self zero.
@@ -29611,7 +29815,11 @@ quotientBy: anElement modulo: m
 		g _ r. gs _ fs - (q*gs).
 		f _ h. fs _ hs].
 	q _ self // f.
-	^ fs * q \\ m! !
+	^ fs * q \\ m
+	
+"alternative:
+	xgcd _ anElement xgcd: m.
+	^ self // (xgcd at: 1) * (xgcd at: 2) \\ m"! !
 
 !RingElement methodsFor: 'operations' stamp: 'len 5/14/2020 06:53:56'!
 raisedTo: anInteger modulo: anElement
@@ -29635,10 +29843,11 @@ stabilizerWith: b modulo: N
 	"If the receiver is 'a', answer 'c' such that '<a + cb, N> = <a, b, N>'."
 	self notYetImplemented! !
 
-!RingElement methodsFor: 'operations' stamp: 'len 7/30/2021 10:48:36'!
+!RingElement methodsFor: 'operations' stamp: 'len 5/26/2022 12:36:16'!
 xgcd: anElement
-	"Extended Euclidean algorithm.
-	If the receiver is 'a' and the argument is 'b'. answer an array {g. s. t} where as + bt = g = (a gcd: b)."
+	"Answer the GCD of the receiver and the argument and the Bezout coefficients.
+	If the receiver is 'a', the argument is 'b' and their GCD is 'g', answer an array {g. s. t} where as + bt = g.
+	This is the extended Euclidean algorithm."
 	| a b zero one s1 t1 s t r1 r u |
 	(self parent includes: anElement) ifFalse: [^ self adapt: anElement andSend: #xgcd:].
 	a _ self.
@@ -29660,10 +29869,10 @@ xgcd: anElement
 	s _ s * u. t _ t * u. r _ r * u.
 	^ {r. t. s}! !
 
-!RingElement methodsFor: 'operations' stamp: 'len 5/21/2022 13:40:19'!
+!RingElement methodsFor: 'operations' stamp: 'len 5/26/2022 12:36:03'!
 xxgcd: anElement
-	"(More) Extended Euclidean algorithm.
-	If the receiver is 'a' and the argument is 'b'. answer an array {g. s. t. u. v} where as + bt = g = (a gcd: b), au + bv = 0, and sv - ut = 1, i.e. answer the coefficients of a unimodular matrix such that:.
+	"(More) Extended GCD.
+	If the receiver is 'a', the argument is 'b' and their GCD is 'g'. answer an array {g. s. t. u. v} where as + bt = g, au + bv = 0, and sv - ut = 1, i.e. answer the coefficients of a unimodular matrix such that:.
 		[s  t] [a]     [g]
 		[u v] [b] = [0]."
 	| xgcd g |
@@ -29728,11 +29937,11 @@ isReducible
 	"A nonzero nonunit element is called 'reducible' if it is not irreducible."
 	^ self isZero not and: [self isUnit not and: [self isIrreducible not]]! !
 
-!RingElement methodsFor: 'testing' stamp: 'len 4/23/2021 11:17:20'!
+!RingElement methodsFor: 'testing' stamp: 'len 5/28/2022 11:46:57'!
 isUnit
 	"Answer true if the receiver is invertible."
 	self parent isDivisionRing ifTrue: [^ self isZero not].
-	^ self inverse notNil! !
+	^ (self lift: self one) notNil! !
 
 !RingElement methodsFor: 'testing' stamp: 'len 9/24/2018 02:10:54'!
 isZero
@@ -29771,9 +29980,21 @@ hash
 "	(self parent includes: anElement) ifFalse: [^ self adapt: anElement andSend: #-]."
 	^ self class opposite: opposite - anElement opposite! !
 
+!OppositeRingElement methodsFor: 'operations' stamp: 'len 5/28/2022 08:15:23'!
+colift: anElement
+	"Answer x such that xa = b, where a is the receiver and b is the argument. Answer nil if there's no solution.
+	This is the right division of b by a, written b / a."
+	^ self class opposite: ((opposite lift: anElement opposite) ifNil: [^ nil])! !
+
 !OppositeRingElement methodsFor: 'operations' stamp: 'len 4/26/2021 11:21:32'!
 inverse
 	^ self class opposite: opposite inverse! !
+
+!OppositeRingElement methodsFor: 'operations' stamp: 'len 5/28/2022 08:09:06'!
+lift: anElement
+	"Answer x such that ax = b, where a is the receiver and b is the argument. Answer nil if there's no solution.
+	This is the left division of b by a, written a \ b."
+	^ self class opposite: ((anElement opposite colift: opposite) ifNil: [^ nil])! !
 
 !OppositeRingElement methodsFor: 'operations' stamp: 'len 5/13/2022 07:11:10'!
 negated
@@ -29849,7 +30070,7 @@ hash
 annihilator
 	^ parent compose: (components collect: [:each| each annihilator])! !
 
-!ProductRingElement methodsFor: 'operations' stamp: 'len 5/17/2020 07:26:25'!
+!ProductRingElement methodsFor: 'operations' stamp: 'len 5/26/2022 12:32:57'!
 gcd: anElement
 	(parent includes: anElement) ifFalse: [^ self adapt: anElement andSend: #gcd:].
 	^ parent compose: (components with: anElement components collect: [:a :b| a gcd: b])! !
@@ -30126,11 +30347,8 @@ factorization
 	"If the parent of the receiver is a DVR, this means it is an UFD with unique irreducible element up to multiplication by units."
 	^ Bag new add: parent uniformizer withOccurrences: self valuation; yourself! !
 
-!Germ methodsFor: 'operations' stamp: 'len 1/9/2022 21:23:53'!
+!Germ methodsFor: 'operations' stamp: 'len 5/26/2022 12:32:52'!
 gcd: anElement
-	"Answer the greatest common divisor of the receiver and the argument,
-	i.e. a generator of the principal ideal generated by the reciever and the argument.
-	The result is the canonical associate (normalized)."
 	self isZero ifTrue: [^ anElement normalized].
 	anElement isZero ifTrue: [^ self normalized].
 	^ parent uniformizer ^ (self valuation min: anElement valuation)! !
@@ -30196,9 +30414,9 @@ real
 	anObject isFraction ifTrue: [^ numerator = anObject numerator and: [denominator = anObject denominator]].
 	^ super = anObject! !
 
-!Rational methodsFor: 'comparing' stamp: 'len 5/21/2022 20:25:50'!
+!Rational methodsFor: 'comparing' stamp: 'len 5/27/2022 19:02:18'!
 | anElement
-	"Answer true if the receiver divides anElement."
+	"Answer true if the receiver divides the argument."
 	^ anElement isZero or: [self isZero not]! !
 
 !Rational methodsFor: 'comparing' stamp: 'len 7/17/2019 11:24:56'!
@@ -30509,32 +30727,24 @@ conjugatesDo: aBlock
 	(parent includes: anElement) ifFalse: [^ self  adapt: anElement andSend: #+].
 	^ parent project: representative + anElement representative! !
 
-!Residue methodsFor: 'operations' stamp: 'len 5/23/2022 19:20:07'!
-/ anElement
-	"Answer x such that xa = b, where b is self and a is anElement.
-	The behavior is undefined if a doesn't divide b."
-	self isZero ifTrue: [^ self].
-	(parent includes: anElement) ifFalse: [^ self adapt: anElement andSend: #/].
-	parent base isEuclidean ifTrue:
-		[| euclid |
-		euclid _ anElement representative xgcd: self modulus.
-		^ parent project: (euclid at: 2) * (representative / (euclid at: 1))].
-	^ super / anElement! !
-
-!Residue methodsFor: 'operations' stamp: 'len 5/23/2022 12:29:34'!
+!Residue methodsFor: 'operations' stamp: 'len 5/26/2022 12:48:30'!
 // anElement
 	"Answer the quotient of the division of the receiver by the argument."
 	(parent includes: anElement) ifFalse: [^ self adapt: anElement andSend: #//].
 	anElement isZero ifTrue: [^ DivisionError new signalReceiver: self selector: #// argument: anElement].
 	self isZero ifTrue: [^ self].
-	^ parent representative: (representative quotientBy: anElement representative modulo: parent modulus)! !
+	^ parent representative: (representative quotientBy: anElement representative modulo: parent modulus)
+	
+"alternative:
+	^ self - (self \\ anElement) / b
+"! !
 
-!Residue methodsFor: 'operations' stamp: 'len 5/23/2022 19:32:00'!
+!Residue methodsFor: 'operations' stamp: 'len 5/26/2022 12:47:16'!
 annihilator
 	"Answer a generator of the ideal of all elements that multiplied by the receiver are zero."
-	| euclid |
-	euclid _ representative xgcd: parent modulus.
-	^ parent project: ((euclid at: 2) annihilator gcd: parent modulus / (euclid at: 1))! !
+	| xgcd |
+	xgcd _ representative xgcd: parent modulus.
+	^ parent project: ((xgcd at: 2) annihilator gcd: parent modulus / (xgcd at: 1))! !
 
 !Residue methodsFor: 'operations' stamp: 'len 7/15/2021 10:38:02'!
 annihilatorIdeal
@@ -30542,26 +30752,35 @@ annihilatorIdeal
 	parent base isPIR ifFalse: [^ super annihilatorIdeal].
 	^ parent * self annihilator! !
 
+!Residue methodsFor: 'operations' stamp: 'len 5/28/2022 12:19:22'!
+colift: anElement
+	"Answer x such that xa = b, where a is the receiver and b is the argument. Answer nil if there's no solution.
+	This is the right division of b by a, written b / a."
+	anElement isZero ifTrue: [^ anElement].
+	parent base isEuclidean ifTrue:
+		[| euclid |
+		euclid _ representative xgcd: self modulus.
+		^ parent project: (euclid at: 2) * (anElement representative / (euclid at: 1))].
+	^ super colift: anElement! !
+
 !Residue methodsFor: 'operations' stamp: 'len 12/29/2021 12:13:20'!
 gauge
 	"Answer the value of the Euclidean function at the receiver."
 	^ self normalized lift gauge "assuming the lift has minimal Euclidean valuation in the base ring"! !
 
-!Residue methodsFor: 'operations' stamp: 'len 1/9/2022 21:22:09'!
+!Residue methodsFor: 'operations' stamp: 'len 5/26/2022 12:32:48'!
 gcd: anElement
-	"Answer the greatest common divisor of the receiver and the argument,
-	i.e. a generator of the principal ideal generated by the reciever and the argument.
-	The result is the canonical associate (normalized)."
 	parent base isEuclidean ifFalse: [^ self notYetImplemented].
 	(parent includes: anElement) ifFalse: [^ self adapt: anElement andSend: #gcd:].
 	^ (parent project: (representative gcd: anElement representative)) normalized! !
 
-!Residue methodsFor: 'operations' stamp: 'len 1/10/2022 11:45:08'!
+!Residue methodsFor: 'operations' stamp: 'len 5/28/2022 11:35:22'!
 inverse
 	| euclid |
 	self isOne ifTrue: [^ self].
 	euclid _ representative xgcd: self modulus.
-	^ (euclid at: 1) isOne ifTrue: [parent project: (euclid at: 2)]! !
+	(euclid at: 1) isOne ifFalse: [^ DivisionError new signalReceiver: self one selector: #/ argument: self].
+	^ parent project: (euclid at: 2)! !
 
 !Residue methodsFor: 'operations' stamp: 'len 10/16/2016 15:57'!
 negated
@@ -30583,6 +30802,12 @@ normalization
 	[(euclid _ x xgcd: modulus) first isOne] whileFalse: [x _ x + m].
 	^ parent project: euclid second! !
 
+!Residue methodsFor: 'operations' stamp: 'len 5/26/2022 12:52:00'!
+stabilizerWith: b modulo: N
+	"If the receiver is 'a', answer 'c' such that '<a + cb, N> = <a, b, N>'."
+	parent base isEuclidean ifFalse: [^ self notYetImplemented].
+	parent project: (representative stabilizerWith: b representative modulo: (N representative gcd: parent modulus))! !
+
 !Residue methodsFor: 'operations' stamp: 'len 8/14/2019 08:11:36'!
 value: anObject
 	^ representative value: anObject! !
@@ -30591,10 +30816,10 @@ value: anObject
 valueWithArguments: anArray
 	^ representative valueWithArguments: anArray! !
 
-!Residue methodsFor: 'operations' stamp: 'len 5/23/2022 19:27:43'!
+!Residue methodsFor: 'operations' stamp: 'len 5/26/2022 12:34:21'!
 xgcd: anElement
-	"Extended Euclidean algorithm.
-	If the receiver is 'a' and the argument is 'b'. answer an array {g. s. t} where as + bt = g = (a gcd: b)."
+	"Answer the GCD of the receiver and the argument and the Bezout coefficients.
+	If the receiver is 'a', the argument is 'b' and their GCD is 'g', answer an array {g. s. t} where as + bt = g."
 	| euclid g u |
 	parent base isEuclidean ifFalse: [^ super xgcd: anElement].
 	euclid _ representative xgcd: anElement representative.
@@ -30602,10 +30827,10 @@ xgcd: anElement
 	u _ g normalization.
 	^ {g * u. (parent project: (euclid at: 2)) * u. (parent project: (euclid at: 3)) * u}! !
 
-!Residue methodsFor: 'operations' stamp: 'len 5/21/2022 13:40:39'!
+!Residue methodsFor: 'operations' stamp: 'len 5/26/2022 12:36:46'!
 xxgcd: anElement
-	"(More) Extended Euclidean algorithm.
-	If the receiver is 'a' and the argument is 'b'. answer an array {g. s. t. u. v} where as + bt = g = (a gcd: b), au + bv = 0, and sv - ut = 1, i.e. answer the coefficients of a unimodular matrix such that:.
+	"(More) Extended GCD.
+	If the receiver is 'a', the argument is 'b' and their GCD is 'g'. answer an array {g. s. t. u. v} where as + bt = g, au + bv = 0, and sv - ut = 1, i.e. answer the coefficients of a unimodular matrix such that:.
 		[s  t] [a]     [g]
 		[u v] [b] = [0]."
 	| result g s t u v x |
@@ -30631,10 +30856,10 @@ contains: anElement
 includes: anObject
 	^ (parent base includes: anObject) and: [self contains: anObject]! !
 
-!Residue methodsFor: 'testing' stamp: 'len 8/3/2021 13:19:10'!
+!Residue methodsFor: 'testing' stamp: 'len 5/28/2022 11:41:33'!
 isUnit
 	"Answer true if the receiver is invertible."
-	^ self inverse notNil! !
+	^ ((representative xgcd: self modulus) at: 1) isOne! !
 
 !Residue methodsFor: 'testing' stamp: 'len 5/24/2022 06:32:19'!
 isZero
@@ -30674,9 +30899,9 @@ representative
 	self == aModularInteger ifTrue: [^ true].
 	^ representative = aModularInteger representative and: [parent = aModularInteger parent]! !
 
-!ModularInteger methodsFor: 'comparing' stamp: 'len 5/23/2022 12:43:13'!
+!ModularInteger methodsFor: 'comparing' stamp: 'len 5/27/2022 19:02:13'!
 | anElement
-	"Answer true if the receiver divides anElement."
+	"Answer true if the receiver divides the argument."
 	anElement isZero ifTrue: [^ true].
 	self isZero ifTrue: [^ false].
 	^ (anElement \\ self) isZero
@@ -30752,31 +30977,12 @@ asRationalMaxNumerator: N maxDenominator: D
 	r >= m ifTrue: [r _ r - m].
 	^ parent representative: r! !
 
-!ModularInteger methodsFor: 'operations' stamp: 'len 5/23/2022 12:40:30'!
-/ anElement
-	"Answer x such that xa = b, where b is self and a is anElement.
-	The behavior is undefined if a doesn't divide b."
-	| a b d m |
-	anElement isInteger ifTrue: [^ self * (parent inverseOfRepresentative: anElement)].
-	(parent includes: anElement) ifFalse: [^ self adapt: anElement andSend: #/].
-	m _ parent modulus.
-	m = 1 ifTrue: [^ self]. "case for the trivial ring"
-	b _ representative.
-	a _ anElement representative.
-	d _ a gcd: m.
-	d = 1 ifTrue: [^ parent project: (a reciprocalModulo: m) * b].
-	d | b ifFalse: [^ DivisionError new signalReceiver: self selector: #/ argument: anElement].
-	a _ a // d.
-	b _ b // d.
-	m _ m // d.
-	^ parent project: (a reciprocalModulo: m) * b "up to adding multiples of the new m, see >>solve:"! !
-
-!ModularInteger methodsFor: 'operations' stamp: 'len 5/23/2022 12:29:52'!
+!ModularInteger methodsFor: 'operations' stamp: 'len 5/26/2022 12:55:35'!
 // anElement
 	"Answer the quotient of the Euclidean division of the receiver by the argument."
 	anElement isZero ifTrue: [^ DivisionError new signalReceiver: self selector: #// argument: anElement].
 	self isZero ifTrue: [^ self].
-	^ parent project: (representative quotientBy: anElement representative modulo: parent modulus)! !
+	^ parent representative: (representative quotientBy: anElement representative modulo: parent modulus)! !
 
 !ModularInteger methodsFor: 'operations' stamp: 'len 1/9/2022 20:57:13'!
 ^ anInteger
@@ -30792,6 +30998,26 @@ additiveOrder
 annihilator
 	"Answer a generator of the ideal of all elements that multiplied by the receiver are zero."
 	^ parent project: parent modulus // (representative gcd: parent modulus)! !
+
+!ModularInteger methodsFor: 'operations' stamp: 'len 5/28/2022 11:36:11'!
+colift: anElement
+	"Answer x such that xa = b, where a is the receiver and b is the argument. Answer nil if there's no solution.
+	This is the right division of b by a, written b / a."
+	^ super colift: anElement
+"	| a b d m |
+	anElement isInteger ifTrue: [^ self * (parent inverseOfRepresentative: anElement)].
+	(parent includes: anElement) ifFalse: [^ self adapt: anElement andSend: #/].
+	m _ parent modulus.
+	m = 1 ifTrue: [^ self].
+	b _ representative.
+	a _ anElement representative.
+	d _ a gcd: m.
+	d = 1 ifTrue: [^ parent project: (a reciprocalModulo: m) * b].
+	d | b ifFalse: [^ DivisionError new signalReceiver: self selector: #/ argument: anElement].
+	a _ a // d.
+	b _ b // d.
+	m _ m // d.
+	^ parent project: (a reciprocalModulo: m) * b "! !
 
 !ModularInteger methodsFor: 'operations' stamp: 'len 12/29/2021 12:09:48'!
 gauge
@@ -30853,11 +31079,12 @@ normalized
 	representative = 0 ifTrue: [^ self].
 	^ parent representative: (representative gcd: parent modulus)! !
 
-!ModularInteger methodsFor: 'operations' stamp: 'len 4/23/2021 11:09:05'!
+!ModularInteger methodsFor: 'operations' stamp: 'len 5/25/2022 13:55:47'!
 solve: anElement
 	"Answer all solutions 'x' such that 'ax = b (mod m)', where the receiver is 'a (mod m)' and the argument is 'b (mod m)'."
 	| a b d m x |
 	m _ parent modulus.
+	m = 1 ifTrue: [^ {self}]. "case for the zero ring"
 	a _ representative.
 	b _ anElement isInteger ifTrue: [anElement] ifFalse: [anElement representative].
 	d _ a gcd: m.
@@ -30936,6 +31163,31 @@ isZeroDivisor
 representative: anInteger
 	representative _ anInteger! !
 
+!PrimePowerResidue methodsFor: 'operations' stamp: 'len 5/26/2022 12:58:06'!
+// anElement
+	"Answer the quotient of the Euclidean division of the receiver by the argument."
+	^ super // anElement
+"	| v |
+	(parent includes: anElement) ifFalse: [^ self adapt: anElement andSend: #//].
+	anElement isZero ifTrue: [^ DivisionError new signalReceiver: self selector: #// argument: anElement].
+	self isZero ifTrue: [^ self].
+	(v _ self valuation - anElement valuation) < 0 ifTrue: [^ self zero].
+	^ self normalization inverse * anElement normalization * (parent p ^ v)"! !
+
+!PrimePowerResidue methodsFor: 'operations' stamp: 'len 5/3/2020 23:17:48'!
+gcd: anElement
+	(parent includes: anElement) ifFalse: [^ self adapt: anElement andSend: #gcd:].
+	self isZero ifTrue: [^ anElement normalized].
+	anElement isZero ifTrue: [^ self normalized].
+	^ parent representative: parent p ^ (self valuation min: anElement valuation)! !
+
+!PrimePowerResidue methodsFor: 'operations' stamp: 'len 5/10/2020 19:40:31'!
+lcm: anElement
+	parent = anElement parent ifFalse: [^ self adapt: anElement andSend: #lcm:].
+	self isZero ifTrue: [^ self].
+	anElement isZero ifTrue: [^ anElement].
+	^ parent representative: parent p ^ (self valuation max: anElement valuation)! !
+
 !PrimePowerResidue methodsFor: 'operations' stamp: 'len 12/10/2021 19:19:27'!
 normalization
 	"Answer a unit u such that 'self * u' is a unique choice of associate. See >>normalized."
@@ -30951,13 +31203,13 @@ normalizationInverse
 	[p | q] whileTrue: [q _ q // p].
 	^ parent representative: q! !
 
-!PrimePowerResidue methodsFor: 'operations' stamp: 'len 7/8/2019 12:53:17'!
+!PrimePowerResidue methodsFor: 'operations' stamp: 'len 5/26/2022 20:17:22'!
 squareRoot
 	"Assuming the receiver is a quadratic residue, answer a square root."
 	| p a v x q r e |
-	(representative == 0 or: [representative == 1]) ifTrue: [^ self].
+	(representative = 0 or: [representative = 1]) ifTrue: [^ self].
 	p _ parent p.
-	p == 2 ifTrue: [^ self notYetImplemented].
+	p = 2 ifTrue: [^ self notYetImplemented].
 	a _ representative.
 	v _ 0.
 	[p | a] whileTrue: [v _ v + 1. a _ a // p].
@@ -30968,31 +31220,7 @@ squareRoot
 	e _ q - (2*r) + 1 // 2.
 	^ ((parent representative: x) ^ r * ((parent representative: a) ^ e)) * ((parent representative: p) ^ (v // 2))! !
 
-!PrimePowerResidue methodsFor: 'operations-euclidean' stamp: 'len 5/23/2022 12:30:20'!
-// anElement
-	"Answer the quotient of the Euclidean division of the receiver by the argument."
-	| v |
-	(parent includes: anElement) ifFalse: [^ self adapt: anElement andSend: #//].
-	anElement isZero ifTrue: [^ DivisionError new signalReceiver: self selector: #// argument: anElement].
-	self isZero ifTrue: [^ self].
-	(v _ self valuation - anElement valuation) < 0 ifTrue: [^ self zero].
-	^ self normalization inverse * anElement normalization * (parent p ^ v)! !
-
-!PrimePowerResidue methodsFor: 'operations-euclidean' stamp: 'len 5/3/2020 23:17:48'!
-gcd: anElement
-	(parent includes: anElement) ifFalse: [^ self adapt: anElement andSend: #gcd:].
-	self isZero ifTrue: [^ anElement normalized].
-	anElement isZero ifTrue: [^ self normalized].
-	^ parent representative: parent p ^ (self valuation min: anElement valuation)! !
-
-!PrimePowerResidue methodsFor: 'operations-euclidean' stamp: 'len 5/10/2020 19:40:31'!
-lcm: anElement
-	parent = anElement parent ifFalse: [^ self adapt: anElement andSend: #lcm:].
-	self isZero ifTrue: [^ self].
-	anElement isZero ifTrue: [^ anElement].
-	^ parent representative: parent p ^ (self valuation max: anElement valuation)! !
-
-!PrimePowerResidue methodsFor: 'operations-euclidean' stamp: 'len 12/29/2021 12:11:59'!
+!PrimePowerResidue methodsFor: 'operations' stamp: 'len 12/29/2021 12:11:59'!
 valuation
 	"Answer the p-adic valuation of the receiver."
 	^ representative valuation: parent p! !
@@ -31007,9 +31235,9 @@ isZeroDivisor
 	"Answer true if there exists a nonzero element that multiplied by the receiver is zero."
 	^ parent p | representative! !
 
-!PrimeResidue methodsFor: 'comparing' stamp: 'len 5/21/2022 20:26:28'!
+!PrimeResidue methodsFor: 'comparing' stamp: 'len 5/27/2022 19:02:09'!
 | anElement
-	"Answer true if the receiver divides anElement."
+	"Answer true if the receiver divides the argument."
 	^ anElement isZero or: [self isZero not]! !
 
 !PrimeResidue methodsFor: 'operations' stamp: 'len 7/8/2019 03:40:28'!
@@ -31020,9 +31248,23 @@ allSquareRoots
 	x _ self squareRoot ifNil: [^ #()].
 	^ {x. x negated}! !
 
-!PrimeResidue methodsFor: 'operations' stamp: 'len 8/3/2021 13:21:48'!
+!PrimeResidue methodsFor: 'operations' stamp: 'len 5/3/2020 23:17:34'!
+gcd: anElement
+	(parent includes: anElement) ifFalse: [^ self adapt: anElement andSend: #gcd:].
+	representative = 0 ifTrue: [^ anElement normalized].
+	^ parent one! !
+
+!PrimeResidue methodsFor: 'operations' stamp: 'len 5/28/2022 11:37:43'!
 inverse
-	^ parent representative: ((parent inverseOfRepresentative: representative) ifNil: [^ nil])! !
+	^ parent representative:
+		((parent inverseOfRepresentative: representative)
+			ifNil: [^ DivisionError new signalReceiver: self one selector: #/ argument: self])! !
+
+!PrimeResidue methodsFor: 'operations' stamp: 'len 8/14/2019 05:06:05'!
+lcm: anElement
+	parent = anElement parent ifFalse: [^ self adapt: anElement andSend: #lcm:].
+	representative = 0 ifTrue: [^ parent zero].
+	^ anElement normalized! !
 
 !PrimeResidue methodsFor: 'operations' stamp: 'len 7/30/2021 10:26:29'!
 normalized
@@ -31030,27 +31272,15 @@ normalized
 	representative = 0 ifTrue: [^ self].
 	^ parent one! !
 
-!PrimeResidue methodsFor: 'operations' stamp: 'len 7/8/2019 02:28:37'!
+!PrimeResidue methodsFor: 'operations' stamp: 'len 5/26/2022 20:17:03'!
 squareRoot
 	"Assuming the receiver is a quadratic residue, answer a square root."
 	| p |
-	(representative == 0 or: [representative == 1]) ifTrue: [^ self].
+	(representative = 0 or: [representative = 1]) ifTrue: [^ self].
 	p _ parent modulus.
 	p == 2 ifTrue: [^ self].
-	(p bitAnd: 3) == 3 ifTrue: [^ self ^ (p + 1 // 4)].
+	(p bitAnd: 3) = 3 ifTrue: [^ self ^ (p + 1 // 4)].
 	^ parent representative: ((parent squareRootOfRepresentative: representative) ifNil: [^ nil])! !
-
-!PrimeResidue methodsFor: 'operations-euclidean' stamp: 'len 5/3/2020 23:17:34'!
-gcd: anElement
-	(parent includes: anElement) ifFalse: [^ self adapt: anElement andSend: #gcd:].
-	representative = 0 ifTrue: [^ anElement normalized].
-	^ parent one! !
-
-!PrimeResidue methodsFor: 'operations-euclidean' stamp: 'len 8/14/2019 05:06:05'!
-lcm: anElement
-	parent = anElement parent ifFalse: [^ self adapt: anElement andSend: #lcm:].
-	representative = 0 ifTrue: [^ parent zero].
-	^ anElement normalized! !
 
 !PrimeResidue methodsFor: 'testing' stamp: 'len 1/9/2022 21:04:59'!
 isQuadraticResidue
@@ -31339,15 +31569,15 @@ isZeroDivisor
 	^ parent maximalIdeal contains: self
 "! !
 
-!GaloisFieldElement methodsFor: 'comparing' stamp: 'len 5/21/2022 20:26:55'!
+!GaloisFieldElement methodsFor: 'comparing' stamp: 'len 5/27/2022 19:02:05'!
 | anElement
-	"Answer true if the receiver divides anElement."
+	"Answer true if the receiver divides the argument."
 	^ anElement isZero or: [self isZero not]! !
 
-!GaloisFieldElement methodsFor: 'operations' stamp: 'len 5/15/2022 11:56:01'!
+!GaloisFieldElement methodsFor: 'operations' stamp: 'len 5/28/2022 11:39:35'!
 inverse
 	"This is faster than using the extended Euclidean algorithm to compute the inverse."
-	self isZero ifTrue: [^ self].
+	self isZero ifTrue: [^ DivisionError new signalReceiver: self one selector: #/ argument: self].
 	^ self ^ parent inversionExponent! !
 
 !GaloisFieldElement methodsFor: 'operations' stamp: 'len 5/9/2022 11:11:30'!
@@ -31728,17 +31958,17 @@ sign
 	(parent includes: anElement) ifFalse: [^ self adapt: anElement andSend: #-].
 	^ self class coefficients: coefficients - anElement coefficients parent: parent! !
 
-!Polynomial methodsFor: 'operations' stamp: 'len 5/24/2022 07:37:18'!
+!Polynomial methodsFor: 'operations' stamp: 'len 5/28/2022 08:17:03'!
 / anElement
-	"Answer x such that xa = b, where b is self and a is anElement.
-	The behavior is undefined if a doesn't divide b."
+	"Answer x such that xa = b, where b is the receiver and a is the argument.
+	This is the right division of b by a, written b / a."
 	self isZero ifTrue: [^ self].
 	(anElement isKindOf: Monomial) ifTrue: [^ self dividedByMonomial: anElement].
 	(self scalars includes: anElement) ifTrue: [^ self dividedByScalar: anElement].
 	(parent includes: anElement) ifFalse: [^ self  adapt: anElement andSend: #/].
 	anElement isConstant ifTrue: [^ self dividedByScalar: anElement leadingCoefficient].
 	anElement isUnit ifTrue: [^ self * anElement inverse].
-	^ (self divisionBy: anElement) exactQuotient! !
+	^ self exactlyDividedBy: anElement! !
 
 !Polynomial methodsFor: 'operations' stamp: 'len 1/5/2022 12:45:48'!
 // anObject
@@ -31821,11 +32051,8 @@ g: aPolynomial
 	xgcd _ self leadingCoefficient xgcd: aPolynomial leadingCoefficient.
 	^ self * (m / self leadingMonomial) * (xgcd at: 2) + (aPolynomial * (m / aPolynomial leadingMonomial) * (xgcd at: 3))! !
 
-!Polynomial methodsFor: 'operations' stamp: 'len 1/12/2022 18:21:42'!
+!Polynomial methodsFor: 'operations' stamp: 'len 5/26/2022 12:31:56'!
 gcd: aPolynomial
-	"Answer the greatest common divisor of the receiver and the argument,
-	i.e. a generator of the principal ideal generated by the reciever and the argument.
-	The result is the canonical associate (normalized)."
 	| a b r |
 	self isZero ifTrue: [^ aPolynomial normalized].
 	aPolynomial isZero ifTrue: [^ self normalized].
@@ -31884,12 +32111,12 @@ homogenizedIn: anIndeterminate
 	degree _ self degree.
 	^ self applyToMonomials: [:each| each complete: degree in: anIndeterminate]! !
 
-!Polynomial methodsFor: 'operations' stamp: 'len 5/24/2022 07:36:29'!
+!Polynomial methodsFor: 'operations' stamp: 'len 5/28/2022 11:41:51'!
 inverse
 	"Naive but general power series inversion algorithm."
 	| answer g g1 u |
 	self isConstant ifTrue: [^ self parent constant: self independentCoefficient inverse].
-	self isUnit ifFalse: [^ DivisionError signalReceiver: self one selector: #/ argument: self].
+	self isUnit ifFalse: [^ DivisionError new signalReceiver: self one selector: #/ argument: self].
 	u _ self independentCoefficient inverse.
 	answer _ g _ self one.
 	g1 _ g - (self * u).
@@ -32063,10 +32290,11 @@ value: anObject
 valueWithArguments: anArray
 	^ self value: anArray! !
 
-!Polynomial methodsFor: 'operations' stamp: 'len 1/9/2022 21:16:21'!
+!Polynomial methodsFor: 'operations' stamp: 'len 5/26/2022 12:26:45'!
 xgcd: aPolynomial
-	"Extended Euclidean algorithm.
-	If the receiver is 'a' and the argument is 'b'. answer an array {g. s. t} where as + bt = g = (a gcd: b)."
+	"Answer the GCD of the receiver and the argument and the Bezout coefficients.
+	If the receiver is 'a', the argument is 'b' and their GCD is 'g', answer an array {g. s. t} where as + bt = g.
+	This is the extended Euclidean algorithm."
 	| a b zero one s1 t1 s t r1 r u |
 	(self parent includes: aPolynomial) ifFalse: [^ self adapt: aPolynomial andSend: #xgcd:].
 	a _ self.
@@ -32271,13 +32499,15 @@ sprs: aPolynomial
 			f2 _ f1. f1 _ r].
 	^ answer! !
 
-!Polynomial methodsFor: 'testing' stamp: 'len 5/23/2022 11:58:23'!
+!Polynomial methodsFor: 'testing' stamp: 'len 5/27/2022 18:49:56'!
 | aPolynomial
 	"Answer true if the receiver divides the argument."
 	aPolynomial isZero ifTrue: [^ true].
 	self isZero ifTrue: [^ false].
 	self scalars isField ifTrue: [^ (aPolynomial \\ self) isZero].
-	^ (aPolynomial pseudoRem: self) isZero! !
+	self isUnit ifTrue: [^ true].
+	self scalars isIntegralDomain ifTrue: [^ (aPolynomial pseudoRem: self) isZero].
+	^ (self parent matrix: {{self}}) | (self parent matrix: {{aPolynomial}})! !
 
 !Polynomial methodsFor: 'testing' stamp: 'len 12/30/2016 20:10:56'!
 isAffineLinear
@@ -32386,6 +32616,10 @@ coefficients: aCollection parent: aPolynomialRing
 !Polynomial methodsFor: 'private' stamp: 'len 4/28/2022 06:09:02'!
 dividedByScalar: anElement
 	^ self class coefficients: coefficients / anElement parent: parent! !
+
+!Polynomial methodsFor: 'private' stamp: 'len 5/27/2022 19:10:22'!
+exactlyDividedBy: anElement
+	^ (self divisionBy: anElement) exactQuotient! !
 
 !Polynomial methodsFor: 'private' stamp: 'len 8/10/2019 08:47:34'!
 karatsubaMultipliedBy: aPolynomial
@@ -32866,25 +33100,6 @@ squarefreeFactorizationYun
 					p _ p // gcd.
 					q _ q // gcd - p derivative]].
 	^ answer add: p withOccurrences: count; yourself! !
-
-!UnivariatePolynomial methodsFor: 'operations' stamp: 'len 5/24/2022 12:47:29'!
-/ anElement
-	"Answer x such that xa = b, where b is self and a is anElement.
-	The behavior is undefined if a doesn't divide b."
-	| division |
-	self isZero ifTrue: [^ self].
-	(anElement isKindOf: Monomial) ifTrue: [^ self dividedByMonomial: anElement].
-	(self scalars includes: anElement) ifTrue: [^ self dividedByScalar: anElement].
-	(self parent includes: anElement) ifFalse: [^ self adapt: anElement andSend: #/].
-	anElement isConstant ifTrue: [^ self class coefficients: coefficients / anElement leadingCoefficient parent: parent].
-	anElement isUnit ifTrue: [^ self * anElement inverse].
-	"This is a minor optimization that avoids creating an instance of Division as it is done in the superclass.
-	Perhaps it is not worth it and this method should be removed."
-	division _ anElement leadingCoefficient isUnit
-		ifTrue: [coefficients polynomialDivisionBy: anElement coefficients]
-		ifFalse: [coefficients polynomialPartialDivisionBy: anElement coefficients].
-	division second isZero ifFalse: [^ DivisionError new signalReceiver: self selector: #/ argument: anElement].
-	^ self class coefficients: division first parent: parent! !
 
 !UnivariatePolynomial methodsFor: 'operations' stamp: 'len 5/21/2022 06:28:31'!
 // anElement
@@ -33457,6 +33672,15 @@ exactlyDividedBy2: aPolynomial
 
 	^ self parent coefficients: q! !
 
+!UnivariatePolynomial methodsFor: 'private' stamp: 'len 5/27/2022 19:08:50'!
+exactlyDividedBy: aPolynomial
+	| division |
+	division _ aPolynomial leadingCoefficient isUnit
+		ifTrue: [coefficients polynomialDivisionBy: aPolynomial coefficients]
+		ifFalse: [coefficients polynomialPartialDivisionBy: aPolynomial coefficients].
+	division second isZero ifFalse: [^ DivisionError new signalReceiver: self selector: #/ argument: aPolynomial].
+	^ self class coefficients: division first parent: parent! !
+
 !UnivariatePolynomial methodsFor: 'private' stamp: 'len 7/15/2021 12:34:10'!
 multipliedByMonomial: aMonomial
 	^ self << aMonomial degree! !
@@ -33539,25 +33763,23 @@ parent: anAlgebra moduleElement: anElement
 	(parent includes: anElement) ifFalse: [^ self adapt: anElement andSend: #+].
 	^ self class parent: parent moduleElement: moduleElement + anElement asModuleElement! !
 
-!AlgebraElement methodsFor: 'operations' stamp: 'len 1/4/2022 15:28:47'!
-/ anElement
-	"Answer x such that xa = b, where b is self and a is anElement.
-	Answer nil if there's no solution."
-	parent isCommutative ifTrue: [^ super / anElement].
-	(parent includes: anElement) ifFalse: [^ self adapt: anElement andSend: #/].
-	^ self parent !! ((self corepresentation preimage: anElement asModuleElement) ifNil: [^ nil])! !
-
-!AlgebraElement methodsFor: 'operations' stamp: 'len 12/3/2021 16:03:04'!
-\ anElement
-	"Answer x such that ax = b, where a is self and b is anElement.
-	Answer nil if there's no solution."
-	(parent includes: anElement) ifFalse: [^ self adapt: anElement andSend: #\].
-	^ self parent !! ((self representation preimage: anElement asModuleElement) ifNil: [^ nil])! !
-
 !AlgebraElement methodsFor: 'operations' stamp: 'len 7/22/2021 10:59:56'!
 annihilatorIdeal
 	"Answer the ideal of all elements that multiplied by the receiver are zero."
 	^ self parent * self representation kernel generators! !
+
+!AlgebraElement methodsFor: 'operations' stamp: 'len 5/28/2022 11:50:16'!
+colift: anElement
+	"Answer x such that xa = b, where a is the receiver and b is the argument. Answer nil if there's no solution.
+	This is the right division of b by a, written b / a."
+	parent isCommutative ifTrue: [^ self lift: anElement].
+	^ self parent !! ((self corepresentation preimage: anElement asModuleElement) ifNil: [^ nil])! !
+
+!AlgebraElement methodsFor: 'operations' stamp: 'len 5/28/2022 11:49:30'!
+lift: anElement
+	"Answer x such that ax = b, where a is the receiver and b is the argument. Answer nil if there's no solution.
+	This is the left division of b by a, written a \ b."
+	^ self parent !! ((self representation preimage: anElement asModuleElement) ifNil: [^ nil])! !
 
 !AlgebraElement methodsFor: 'operations' stamp: 'len 7/14/2020 09:54:04'!
 negated
@@ -34096,6 +34318,60 @@ coefficients: aCollection parent: aFreeAlgebra
 coefficients: aSparseDictionary parent: aFreeAlgebra
 	^ self basicNew coefficients: aSparseDictionary parent: aFreeAlgebra! !
 
+!AdicInteger methodsFor: 'accessing' stamp: 'len 8/11/2019 10:30:30'!
+absolutePrecision
+	^ precision! !
+
+!AdicInteger methodsFor: 'accessing' stamp: 'len 8/12/2019 11:25:18'!
+centeredRepresentative
+	| m |
+	m _ parent power: precision.
+	^ representative <= (m >> 1) ifTrue: [representative] ifFalse: [representative - m]! !
+
+!AdicInteger methodsFor: 'accessing' stamp: 'len 8/11/2019 02:23:45'!
+coefficients
+	| p q |
+	p _ parent p.
+	q _ representative.
+	^ Sequence streaming: [| r | r _ q \\ p. q _ q // p. r]! !
+
+!AdicInteger methodsFor: 'accessing' stamp: 'len 8/7/2019 10:13:08'!
+parent
+	^ parent! !
+
+!AdicInteger methodsFor: 'accessing' stamp: 'len 8/11/2019 02:22:45'!
+precision
+	^ precision! !
+
+!AdicInteger methodsFor: 'accessing' stamp: 'len 8/11/2019 10:30:22'!
+relativePrecision
+	representative isZero ifTrue: [^ 0].
+	^ self absolutePrecision - self valuation! !
+
+!AdicInteger methodsFor: 'accessing' stamp: 'len 8/11/2019 02:33:28'!
+representative
+	^ representative! !
+
+!AdicInteger methodsFor: 'accessing' stamp: 'len 8/11/2019 02:23:15'!
+valuation
+	^ representative valuation: parent p! !
+
+!AdicInteger methodsFor: 'comparing' stamp: 'len 4/28/2021 13:49:34'!
+= anObject
+	^ self class = anObject class and: [representative = anObject representative and: [precision = anObject precision]]! !
+
+!AdicInteger methodsFor: 'comparing' stamp: 'len 8/11/2019 02:24:16'!
+hash
+	^ representative hash! !
+
+!AdicInteger methodsFor: 'comparing' stamp: 'len 5/9/2020 09:02:53'!
+isWeaklyEqualTo: anElement
+	"Answer true if the receiver is 'weakly equal' to the argument.
+	Note that this relation is not transitive."
+	anElement precision > precision ifTrue: [^ anElement isWeaklyEqualTo: self].
+	precision = anElement precision ifTrue: [^ representative = anElement representative].
+	^ representative = (anElement representative \\ precision)! !
+
 !AdicInteger methodsFor: 'operations' stamp: 'len 4/15/2020 08:00:19'!
 * anElement
 	(parent includes: anElement) ifFalse: [^ self adapt: anElement andSend: #*].
@@ -34145,11 +34421,14 @@ gcd: anElement
 	v >= N ifTrue: [parent zero O: N].
 	^ parent representative: (parent power: v) precision: N! !
 
-!AdicInteger methodsFor: 'operations' stamp: 'len 8/12/2019 10:51:29'!
+!AdicInteger methodsFor: 'operations' stamp: 'len 5/28/2022 11:42:27'!
 inverse
 	representative = 1 ifTrue: [^ self].
-	representative = 0 ifTrue: [^ DomainError signal: 'not invertible'].
-	^ parent representative: ((representative reciprocalModulo: (parent power: precision)) ifNil: [^ DomainError signal: 'not invertible']) precision: precision! !
+	^ parent
+		representative:
+			((representative reciprocalModulo: (parent power: precision))
+				ifNil: [^ DivisionError new signalReceiver: self one selector: #/ argument: self])
+		precision: precision! !
 
 !AdicInteger methodsFor: 'operations' stamp: 'len 8/11/2019 08:47:35'!
 negated
@@ -34206,60 +34485,6 @@ printOn: aStream shifted: valuationShift
 			aStream print: parent p.
 			v ~= 1 ifTrue: [aStream nextPutAll: v printString super]].
 	aStream nextPutAll: ' + ', 'O' italic; nextPut: $(; print: parent p; nextPutAll: (precision + valuationShift) printString super; nextPut: $)! !
-
-!AdicInteger methodsFor: 'accessing' stamp: 'len 8/11/2019 10:30:30'!
-absolutePrecision
-	^ precision! !
-
-!AdicInteger methodsFor: 'accessing' stamp: 'len 8/12/2019 11:25:18'!
-centeredRepresentative
-	| m |
-	m _ parent power: precision.
-	^ representative <= (m >> 1) ifTrue: [representative] ifFalse: [representative - m]! !
-
-!AdicInteger methodsFor: 'accessing' stamp: 'len 8/11/2019 02:23:45'!
-coefficients
-	| p q |
-	p _ parent p.
-	q _ representative.
-	^ Sequence streaming: [| r | r _ q \\ p. q _ q // p. r]! !
-
-!AdicInteger methodsFor: 'accessing' stamp: 'len 8/7/2019 10:13:08'!
-parent
-	^ parent! !
-
-!AdicInteger methodsFor: 'accessing' stamp: 'len 8/11/2019 02:22:45'!
-precision
-	^ precision! !
-
-!AdicInteger methodsFor: 'accessing' stamp: 'len 8/11/2019 10:30:22'!
-relativePrecision
-	representative isZero ifTrue: [^ 0].
-	^ self absolutePrecision - self valuation! !
-
-!AdicInteger methodsFor: 'accessing' stamp: 'len 8/11/2019 02:33:28'!
-representative
-	^ representative! !
-
-!AdicInteger methodsFor: 'accessing' stamp: 'len 8/11/2019 02:23:15'!
-valuation
-	^ representative valuation: parent p! !
-
-!AdicInteger methodsFor: 'comparing' stamp: 'len 4/28/2021 13:49:34'!
-= anObject
-	^ self class = anObject class and: [representative = anObject representative and: [precision = anObject precision]]! !
-
-!AdicInteger methodsFor: 'comparing' stamp: 'len 8/11/2019 02:24:16'!
-hash
-	^ representative hash! !
-
-!AdicInteger methodsFor: 'comparing' stamp: 'len 5/9/2020 09:02:53'!
-isWeaklyEqualTo: anElement
-	"Answer true if the receiver is 'weakly equal' to the argument.
-	Note that this relation is not transitive."
-	anElement precision > precision ifTrue: [^ anElement isWeaklyEqualTo: self].
-	precision = anElement precision ifTrue: [^ representative = anElement representative].
-	^ representative = (anElement representative \\ precision)! !
 
 !AdicInteger methodsFor: 'testing' stamp: 'len 8/11/2019 11:42:47'!
 abs
@@ -34365,10 +34590,11 @@ hash
 				unit: u].
 	^ answer! !
 
-!AdicNumber methodsFor: 'operations' stamp: 'len 5/23/2022 12:32:02'!
-/ anElement
-"	(parent includes: anElement) ifFalse: [^ self adapt: anElement andSend: #/]."
-	anElement isWeaklyZero ifTrue: [^ DivisionError new signalReceiver: self selector: #/ argument: anElement].
+!AdicNumber methodsFor: 'operations' stamp: 'len 5/28/2022 11:50:24'!
+colift: anElement
+	"Answer x such that xa = b, where a is the receiver and b is the argument. Answer nil if there's no solution.
+	This is the right division of b by a, written b / a."
+	anElement isWeaklyZero ifTrue: [^ nil].
 	self isWeaklyZero ifTrue: [^ self].
 	^ self class new
 		valuation: valuation - anElement valuation
@@ -36181,11 +36407,29 @@ asModuleElement
 	(parent includes: anElement) ifFalse: [^ self adapt: anElement andSend: #+].
 	^ self class parent: parent moduleElement: moduleElement + anElement asModuleElement! !
 
-!DistributiveAlgebraElement methodsFor: 'operations' stamp: 'len 12/3/2021 16:03:47'!
+!DistributiveAlgebraElement methodsFor: 'operations' stamp: 'len 5/28/2022 06:17:32'!
+/ anElement
+	"Answer x such that xa = b, where a is the receiver and b is the argument.
+	This is the right division of a by b, noted a / b."
+	^ (self colift: anElement) ifNil: [DivisionError signalReceiver: self selector: #/ argument: anElement]! !
+
+!DistributiveAlgebraElement methodsFor: 'operations' stamp: 'len 5/28/2022 07:05:03'!
 \ anElement
-	"Answer x such that ax = b, where a is self and b is anElement.
-	Answer nil if there's no solution."
-	(parent includes: anElement) ifFalse: [^ self adapt: anElement andSend: #\].
+	"Answer x such that ax = b, where a is the receiver and b is the argument.
+	This is the left division of b by a, written a \ b."
+	^ (self lift: anElement) ifNil: [DivisionError signalReceiver: self selector: #\ argument: anElement]! !
+
+!DistributiveAlgebraElement methodsFor: 'operations' stamp: 'len 5/28/2022 11:50:30'!
+colift: anElement
+	"Answer x such that xa = b, where a is the receiver and b is the argument. Answer nil if there's no solution.
+	This is the right division of b by a, written b / a."
+	parent isCommutative ifTrue: [^ self lift: anElement].
+	^ self parent !! ((self corepresentation preimage: anElement asModuleElement) ifNil: [^ nil])! !
+
+!DistributiveAlgebraElement methodsFor: 'operations' stamp: 'len 5/28/2022 11:49:37'!
+lift: anElement
+	"Answer x such that ax = b, where a is the receiver and b is the argument. Answer nil if there's no solution.
+	This is the left division of b by a, written a \ b."
 	^ self parent !! ((self representation preimage: anElement asModuleElement) ifNil: [^ nil])! !
 
 !DistributiveAlgebraElement methodsFor: 'operations' stamp: 'len 7/19/2021 06:12:42'!
@@ -37226,9 +37470,13 @@ valuation: p
 , aTuple
 	^ (ƒ tuple: {self}), aTuple! !
 
-!Integer methodsFor: '*algebra' stamp: 'len 5/23/2022 11:37:50'!
+!Integer methodsFor: '*algebra' stamp: 'len 5/28/2022 06:30:41'!
+\ aNumber
+	^ aNumber / self! !
+
+!Integer methodsFor: '*algebra' stamp: 'len 5/27/2022 19:03:00'!
 | anInteger
-	"Answer true if the receiver divides anInteger."
+	"Answer true if the receiver divides the argument."
 	anInteger = 0 ifTrue: [^ true].
 	self = 0 ifTrue: [^ false].
 	^ anInteger \\ self = 0! !
@@ -37783,10 +38031,11 @@ valuation: p
 	[p | q] whileTrue: [answer _ answer + 1. q _ q // p].
 	^ answer! !
 
-!Integer methodsFor: '*algebra' stamp: 'len 1/9/2022 21:16:07'!
+!Integer methodsFor: '*algebra' stamp: 'len 5/26/2022 12:34:43'!
 xgcd: anInteger
-	"Extended Euclidean algorithm.
-	If the receiver is 'a' and the argument is 'b'. answer an array {g. s. t} where as + bt = g = (a gcd: b)."
+	"Answer the GCD of the receiver and the argument and the Bezout coefficients.
+	If the receiver is 'a', the argument is 'b' and their GCD is 'g', answer an array {g. s. t} where as + bt = g.
+	This is the extended Euclidean algorithm."
 	| a b s1 t1 s t r1 r |
 	a _ self. b _ anInteger.
 	s1 _ 0. s _ 1.
@@ -37802,10 +38051,10 @@ xgcd: anInteger
 	s _ s * b sign. t _ t * a sign.
 	^ {r. t. s}! !
 
-!Integer methodsFor: '*algebra' stamp: 'len 5/21/2022 13:40:47'!
+!Integer methodsFor: '*algebra' stamp: 'len 5/26/2022 12:36:54'!
 xxgcd: anInteger
-	"(More) Extended Euclidean algorithm.
-	If the receiver is 'a' and the argument is 'b'. answer an array {g. s. t. u. v} where as + bt = g = (a gcd: b), au + bv = 0, and sv - ut = 1, i.e. answer the coefficients of a unimodular matrix such that:.
+	"(More) Extended GCD.
+	If the receiver is 'a', the argument is 'b' and their GCD is 'g'. answer an array {g. s. t. u. v} where as + bt = g, au + bv = 0, and sv - ut = 1, i.e. answer the coefficients of a unimodular matrix such that:.
 		[s  t] [a]     [g]
 		[u v] [b] = [0]."
 	| xgcd g |
