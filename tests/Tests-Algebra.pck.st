@@ -1,13 +1,12 @@
-'From Cuis 6.0 [latest update: #5053] on 28 May 2022 at 9:58:08 pm'!
+'From Cuis 6.0 [latest update: #5053] on 29 May 2022 at 7:55:07 pm'!
 'Description '!
-!provides: 'Tests-Algebra' 1 9!
+!provides: 'Tests-Algebra' 1 10!
 SystemOrganization addCategory: #'Tests-Algebra'!
 SystemOrganization addCategory: #'Tests-Algebra-Arrays'!
 SystemOrganization addCategory: #'Tests-Algebra-Rings'!
 SystemOrganization addCategory: #'Tests-Algebra-Tuples'!
 SystemOrganization addCategory: #'Tests-Algebra-Matrices'!
 SystemOrganization addCategory: #'Tests-Algebra-Modules'!
-SystemOrganization addCategory: #'Tests-Algebra-Polynomials'!
 SystemOrganization addCategory: #'Tests-Algebra-Benchmarks'!
 
 
@@ -29,6 +28,66 @@ TestCase subclass: #AbstractTestCase
 	category: 'Tests-Algebra'!
 !classDefinition: 'AbstractTestCase class' category: #'Tests-Algebra'!
 AbstractTestCase class
+	instanceVariableNames: ''!
+
+!classDefinition: #AbstractGroebnerBasisTest category: #'Tests-Algebra'!
+AbstractTestCase subclass: #AbstractGroebnerBasisTest
+	instanceVariableNames: 'scalars'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra'!
+!classDefinition: 'AbstractGroebnerBasisTest class' category: #'Tests-Algebra'!
+AbstractGroebnerBasisTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #GroebnerBasisOverFiniteFieldTest category: #'Tests-Algebra'!
+AbstractGroebnerBasisTest subclass: #GroebnerBasisOverFiniteFieldTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra'!
+!classDefinition: 'GroebnerBasisOverFiniteFieldTest class' category: #'Tests-Algebra'!
+GroebnerBasisOverFiniteFieldTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #GroebnerBasisOverGaloisRingTest category: #'Tests-Algebra'!
+AbstractGroebnerBasisTest subclass: #GroebnerBasisOverGaloisRingTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra'!
+!classDefinition: 'GroebnerBasisOverGaloisRingTest class' category: #'Tests-Algebra'!
+GroebnerBasisOverGaloisRingTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #GroebnerBasisOverIntegersTest category: #'Tests-Algebra'!
+AbstractGroebnerBasisTest subclass: #GroebnerBasisOverIntegersTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra'!
+!classDefinition: 'GroebnerBasisOverIntegersTest class' category: #'Tests-Algebra'!
+GroebnerBasisOverIntegersTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #GroebnerBasisOverModularIntegersTest category: #'Tests-Algebra'!
+AbstractGroebnerBasisTest subclass: #GroebnerBasisOverModularIntegersTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra'!
+!classDefinition: 'GroebnerBasisOverModularIntegersTest class' category: #'Tests-Algebra'!
+GroebnerBasisOverModularIntegersTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #GroebnerBasisOverRationalsTest category: #'Tests-Algebra'!
+AbstractGroebnerBasisTest subclass: #GroebnerBasisOverRationalsTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra'!
+!classDefinition: 'GroebnerBasisOverRationalsTest class' category: #'Tests-Algebra'!
+GroebnerBasisOverRationalsTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #AbstractArrayTest category: #'Tests-Algebra-Arrays'!
@@ -681,6 +740,16 @@ AbstractMatrixOverCommutativeRingTest subclass: #MatrixOverAffineAlgebraOverPrim
 MatrixOverAffineAlgebraOverPrimeFieldTest class
 	instanceVariableNames: ''!
 
+!classDefinition: #MatrixOverAffineAlgebraOverRationalsTest category: #'Tests-Algebra-Matrices'!
+AbstractMatrixOverCommutativeRingTest subclass: #MatrixOverAffineAlgebraOverRationalsTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra-Matrices'!
+!classDefinition: 'MatrixOverAffineAlgebraOverRationalsTest class' category: #'Tests-Algebra-Matrices'!
+MatrixOverAffineAlgebraOverRationalsTest class
+	instanceVariableNames: ''!
+
 !classDefinition: #MatrixOverGaloisRingTest category: #'Tests-Algebra-Matrices'!
 AbstractMatrixOverCommutativeRingTest subclass: #MatrixOverGaloisRingTest
 	instanceVariableNames: ''
@@ -989,66 +1058,6 @@ AbstractModuleTest subclass: #ModuleOverQuaternionsTest
 	category: 'Tests-Algebra-Modules'!
 !classDefinition: 'ModuleOverQuaternionsTest class' category: #'Tests-Algebra-Modules'!
 ModuleOverQuaternionsTest class
-	instanceVariableNames: ''!
-
-!classDefinition: #AbstractPolynomialIdealTest category: #'Tests-Algebra-Polynomials'!
-AbstractTestCase subclass: #AbstractPolynomialIdealTest
-	instanceVariableNames: 'scalars'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Tests-Algebra-Polynomials'!
-!classDefinition: 'AbstractPolynomialIdealTest class' category: #'Tests-Algebra-Polynomials'!
-AbstractPolynomialIdealTest class
-	instanceVariableNames: ''!
-
-!classDefinition: #PolynomialIdealOverFiniteFieldTest category: #'Tests-Algebra-Polynomials'!
-AbstractPolynomialIdealTest subclass: #PolynomialIdealOverFiniteFieldTest
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Tests-Algebra-Polynomials'!
-!classDefinition: 'PolynomialIdealOverFiniteFieldTest class' category: #'Tests-Algebra-Polynomials'!
-PolynomialIdealOverFiniteFieldTest class
-	instanceVariableNames: ''!
-
-!classDefinition: #PolynomialIdealOverGaloisRingTest category: #'Tests-Algebra-Polynomials'!
-AbstractPolynomialIdealTest subclass: #PolynomialIdealOverGaloisRingTest
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Tests-Algebra-Polynomials'!
-!classDefinition: 'PolynomialIdealOverGaloisRingTest class' category: #'Tests-Algebra-Polynomials'!
-PolynomialIdealOverGaloisRingTest class
-	instanceVariableNames: ''!
-
-!classDefinition: #PolynomialIdealOverIntegersTest category: #'Tests-Algebra-Polynomials'!
-AbstractPolynomialIdealTest subclass: #PolynomialIdealOverIntegersTest
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Tests-Algebra-Polynomials'!
-!classDefinition: 'PolynomialIdealOverIntegersTest class' category: #'Tests-Algebra-Polynomials'!
-PolynomialIdealOverIntegersTest class
-	instanceVariableNames: ''!
-
-!classDefinition: #PolynomialIdealOverModularIntegersTest category: #'Tests-Algebra-Polynomials'!
-AbstractPolynomialIdealTest subclass: #PolynomialIdealOverModularIntegersTest
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Tests-Algebra-Polynomials'!
-!classDefinition: 'PolynomialIdealOverModularIntegersTest class' category: #'Tests-Algebra-Polynomials'!
-PolynomialIdealOverModularIntegersTest class
-	instanceVariableNames: ''!
-
-!classDefinition: #PolynomialIdealOverRationalsTest category: #'Tests-Algebra-Polynomials'!
-AbstractPolynomialIdealTest subclass: #PolynomialIdealOverRationalsTest
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Tests-Algebra-Polynomials'!
-!classDefinition: 'PolynomialIdealOverRationalsTest class' category: #'Tests-Algebra-Polynomials'!
-PolynomialIdealOverRationalsTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #AlgebraicGeometryTest category: #'Tests-Algebra'!
@@ -2256,6 +2265,124 @@ tearDown
 !AbstractTestCase class methodsFor: 'testing' stamp: 'len 4/20/2021 06:53:33'!
 isAbstract
 	^ self name beginsWith: 'Abstract'! !
+
+!AbstractGroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2022 19:06:56'!
+testExtendedBuchbergerWithCyclic3
+	| R I A basisAndTransformation G T |
+	R _ scalars polynomialsIn: 3.
+	I _ R cyclicIdeal.
+	I _ I orderedBy: #grevlex.
+	A _ I generatorMatrix.
+	basisAndTransformation _ A basisAndTransformation.
+	G _ basisAndTransformation first.
+	T _ basisAndTransformation second.
+	self assert: (A * T) = G! !
+
+!AbstractGroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2022 18:59:43'!
+testGroebnerBasis: G ideal: I
+	"Test G is a Groebner basis of the ideal I."
+	| g division |
+"	self assert: G verify."
+	I generators do: [:each| self assert: (each reductionBy: G) isZero].
+	G do: [:each| self assert: (I includes: each)]. "but this will use Groebner bases.."
+	[g _ I atRandomBits: 200. g isZero] whileTrue.
+	self assert: (g reductionBy: G) isZero.
+	"The leading term of any polynomial in I is divisible by the leading term of some polynomial in G:"
+	self assert: (G anySatisfy: [:any| any leadingMonomial | g leadingMonomial]).
+	"The multivariate division of any polynomial in I by G gives the remainder 0:"
+	division _ g divisionBy: G.
+	self assert: division remainder isZero.
+	self assert: division validate.
+"	self assert: G reduced isReduced.
+	self assert: G minimal isMinimal"! !
+
+!AbstractGroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2022 19:06:13'!
+testGroebnerCyclic3
+	| I G |
+	I _ (scalars polynomialsIn: 3) cyclicIdeal.
+	G _ I basis.
+	self testGroebnerBasis: G ideal: I! !
+
+!AbstractGroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2022 19:07:18'!
+testGroebnerCyclic3Lexicographic
+	| I G |
+	I _ (scalars polynomialsIn: 3 ordering: #lex) cyclicIdeal.
+	G _ I basis.
+	self testGroebnerBasis: G ideal: I! !
+
+!AbstractGroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2022 19:07:35'!
+testGroebnerCyclic3TotalLexicographic
+	| I G |
+	I _ (scalars polynomialsIn: 3 ordering: #glex) cyclicIdeal.
+	G _ I basis.
+	self testGroebnerBasis: G ideal: I! !
+
+!AbstractGroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2022 19:07:46'!
+testGroebnerCyclic3TotalReverseLexicographic
+	| I G |
+	I _ (scalars polynomialsIn: 3 ordering: #grevlex) cyclicIdeal.
+	G _ I basis.
+	self testGroebnerBasis: G ideal: I! !
+
+!AbstractGroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 5/29/2022 19:37:28'!
+testGroebnerKatsura2
+	| I G |
+	I _ (scalars polynomialsIn: 2) katsuraIdeal.
+	G _ I basis.
+	self testGroebnerBasis: G ideal: I! !
+
+!AbstractGroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 5/29/2022 19:37:35'!
+testGroebnerKatsura3
+	| I G |
+	I _ (scalars polynomialsIn: 3) katsuraIdeal.
+	G _ I basis.
+	self testGroebnerBasis: G ideal: I! !
+
+!AbstractGroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2022 19:01:57'!
+testIdealMembership
+	| R f1 f2 f3 I g |
+	R _ scalars polynomialsIn: (3 atRandom: random).
+	[(f1 _ R atRandomBits: 10) isZero] whileTrue.
+	[(f2 _ R atRandomBits: 10) isZero] whileTrue.
+	[(f3 _ R atRandomBits: 10) isZero] whileTrue.
+	I _ R * {f1. f2. f3}.
+	g _ I atRandomBits: 100.
+	self assert: (I includes: g)! !
+
+!AbstractGroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2022 19:05:01'!
+testZeroIdeal
+	| R I f |
+	R _ scalars polynomialsIn: (3 atRandom: random).
+	I _ R * #(). "the zero ideal {0}"
+	self assert: I isTrivial.
+	self assert: (I includes: R zero).
+	[f _ R atRandom: random bits: 10. f isZero] whileTrue.
+	self deny: (I includes: f)! !
+
+!GroebnerBasisOverFiniteFieldTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2022 18:58:16'!
+initialize
+	super initialize.
+	scalars _ GaloisField new: 5 atRandom nextPrime to: 3 atRandom! !
+
+!GroebnerBasisOverGaloisRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2022 19:12:06'!
+initialize
+	super initialize.
+	scalars _ GaloisRing new: 5 atRandom nextPrime to: 3 atRandom to: 2 atRandom! !
+
+!GroebnerBasisOverIntegersTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2022 18:58:29'!
+initialize
+	super initialize.
+	scalars _ ƒ! !
+
+!GroebnerBasisOverModularIntegersTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2022 19:11:24'!
+initialize
+	super initialize.
+	scalars _ ƒ/1024 atRandom! !
+
+!GroebnerBasisOverRationalsTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2022 18:59:15'!
+initialize
+	super initialize.
+	scalars _ ƒ! !
 
 !AbstractArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/4/2022 21:52:17'!
 newArray
@@ -4361,11 +4488,11 @@ testDeterminantExample2
 	vandermonde _ ƒ matrix: {(1,1,1). (3,5,7). (9,25,49)}.
 	self assert: vandermonde determinant = 16! !
 
-!MatrixOverIntegersTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2022 12:26:57'!
+!MatrixOverIntegersTest methodsFor: 'as yet unclassified' stamp: 'len 5/29/2022 19:39:19'!
 testDomainError
 	| A B |
 	A _ (ƒ^4) id.
-	self should: [A / 2] raise: DivisionError.
+	self should: [A / 2] raise: DivisibilityError.
 	B _ („^4) id.
 	self should: [A + B] raise: Error.
 	self should: [A * B] raise: Error! !
@@ -4692,15 +4819,19 @@ initialize
 	2 atRandom = 1 ifTrue: [n _ n negated].
 	scalars _ (QuadraticField sqrt: n) integers! !
 
-!MatrixOverAffineAlgebraOverPrimeFieldTest methodsFor: 'as yet unclassified' stamp: 'len 5/28/2022 21:41:31'!
+!MatrixOverAffineAlgebraOverPrimeFieldTest methodsFor: 'as yet unclassified' stamp: 'len 5/29/2022 19:43:54'!
 initialize
-	| R f1 f2 I |
+	| P |
 	super initialize.
-	R _ ƒ/64 atRandom nextPrime polynomialsIn: 3 atRandom.
-	[(f1 _ R atRandomBits: 10) isZero] whileTrue.
-	[(f2 _ R atRandomBits: 10) isZero] whileTrue.
-	I _ R * {f1. f2}.
-	scalars _ R/I! !
+	P _ ƒ/64 atRandom nextPrime polynomialsIn: 3 atRandom.
+	scalars _ P / ((1 to: 3 atRandom - 1) collect: [:i| P atRandomBits: 10])! !
+
+!MatrixOverAffineAlgebraOverRationalsTest methodsFor: 'as yet unclassified' stamp: 'len 5/29/2022 19:44:34'!
+initialize
+	| P |
+	super initialize.
+	P _ „ polynomialsIn: 3 atRandom.
+	scalars _ P / ((1 to: 3 atRandom - 1) collect: [:i| P atRandomBits: 10])! !
 
 !MatrixOverGaloisRingTest methodsFor: 'as yet unclassified' stamp: 'len 1/1/2022 10:51:06'!
 initialize
@@ -6024,110 +6155,6 @@ initialize
 initialize
 	super initialize.
 	scalars _ QuaternionAlgebra over: „ invariants: #(1 1)! !
-
-!AbstractPolynomialIdealTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2022 19:06:56'!
-testExtendedBuchbergerWithCyclic3
-	| R I A basisAndTransformation G T |
-	R _ scalars polynomialsIn: 3.
-	I _ R cyclicIdeal.
-	I _ I orderedBy: #grevlex.
-	A _ I generatorMatrix.
-	basisAndTransformation _ A basisAndTransformation.
-	G _ basisAndTransformation first.
-	T _ basisAndTransformation second.
-	self assert: (A * T) = G! !
-
-!AbstractPolynomialIdealTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2022 18:59:43'!
-testGroebnerBasis: G ideal: I
-	"Test G is a Groebner basis of the ideal I."
-	| g division |
-"	self assert: G verify."
-	I generators do: [:each| self assert: (each reductionBy: G) isZero].
-	G do: [:each| self assert: (I includes: each)]. "but this will use Groebner bases.."
-	[g _ I atRandomBits: 200. g isZero] whileTrue.
-	self assert: (g reductionBy: G) isZero.
-	"The leading term of any polynomial in I is divisible by the leading term of some polynomial in G:"
-	self assert: (G anySatisfy: [:any| any leadingMonomial | g leadingMonomial]).
-	"The multivariate division of any polynomial in I by G gives the remainder 0:"
-	division _ g divisionBy: G.
-	self assert: division remainder isZero.
-	self assert: division validate.
-"	self assert: G reduced isReduced.
-	self assert: G minimal isMinimal"! !
-
-!AbstractPolynomialIdealTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2022 19:06:13'!
-testGroebnerCyclic3
-	| I G |
-	I _ (scalars polynomialsIn: 3) cyclicIdeal.
-	G _ I basis.
-	self testGroebnerBasis: G ideal: I! !
-
-!AbstractPolynomialIdealTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2022 19:07:18'!
-testGroebnerCyclic3Lexicographic
-	| I G |
-	I _ (scalars polynomialsIn: 3 ordering: #lex) cyclicIdeal.
-	G _ I basis.
-	self testGroebnerBasis: G ideal: I! !
-
-!AbstractPolynomialIdealTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2022 19:07:35'!
-testGroebnerCyclic3TotalLexicographic
-	| I G |
-	I _ (scalars polynomialsIn: 3 ordering: #glex) cyclicIdeal.
-	G _ I basis.
-	self testGroebnerBasis: G ideal: I! !
-
-!AbstractPolynomialIdealTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2022 19:07:46'!
-testGroebnerCyclic3TotalReverseLexicographic
-	| I G |
-	I _ (scalars polynomialsIn: 3 ordering: #grevlex) cyclicIdeal.
-	G _ I basis.
-	self testGroebnerBasis: G ideal: I! !
-
-!AbstractPolynomialIdealTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2022 19:01:57'!
-testIdealMembership
-	| R f1 f2 f3 I g |
-	R _ scalars polynomialsIn: (3 atRandom: random).
-	[(f1 _ R atRandomBits: 10) isZero] whileTrue.
-	[(f2 _ R atRandomBits: 10) isZero] whileTrue.
-	[(f3 _ R atRandomBits: 10) isZero] whileTrue.
-	I _ R * {f1. f2. f3}.
-	g _ I atRandomBits: 100.
-	self assert: (I includes: g)! !
-
-!AbstractPolynomialIdealTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2022 19:05:01'!
-testZeroIdeal
-	| R I f |
-	R _ scalars polynomialsIn: (3 atRandom: random).
-	I _ R * #(). "the zero ideal {0}"
-	self assert: I isTrivial.
-	self assert: (I includes: R zero).
-	[f _ R atRandom: random bits: 10. f isZero] whileTrue.
-	self deny: (I includes: f)! !
-
-!PolynomialIdealOverFiniteFieldTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2022 18:58:16'!
-initialize
-	super initialize.
-	scalars _ GaloisField new: 5 atRandom nextPrime to: 3 atRandom! !
-
-!PolynomialIdealOverGaloisRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2022 19:12:06'!
-initialize
-	super initialize.
-	scalars _ GaloisRing new: 5 atRandom nextPrime to: 3 atRandom to: 2 atRandom! !
-
-!PolynomialIdealOverIntegersTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2022 18:58:29'!
-initialize
-	super initialize.
-	scalars _ ƒ! !
-
-!PolynomialIdealOverModularIntegersTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2022 19:11:24'!
-initialize
-	super initialize.
-	scalars _ ƒ/1024 atRandom! !
-
-!PolynomialIdealOverRationalsTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2022 18:59:15'!
-initialize
-	super initialize.
-	scalars _ ƒ! !
 
 !AlgebraicGeometryTest methodsFor: 'affine' stamp: 'len 5/23/2020 09:33:01'!
 testAffinePlaneCurveMultiplicity
