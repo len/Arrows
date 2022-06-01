@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5053] on 29 May 2022 at 7:55:07 pm'!
+'From Cuis 6.0 [latest update: #5053] on 1 June 2022 at 9:14:27 pm'!
 'Description '!
-!provides: 'Tests-Algebra' 1 10!
+!provides: 'Tests-Algebra' 1 11!
 SystemOrganization addCategory: #'Tests-Algebra'!
 SystemOrganization addCategory: #'Tests-Algebra-Arrays'!
 SystemOrganization addCategory: #'Tests-Algebra-Rings'!
@@ -310,6 +310,16 @@ AbstractFieldTest subclass: #GaloisFieldTest
 GaloisFieldTest class
 	instanceVariableNames: ''!
 
+!classDefinition: #RationalFieldTest category: #'Tests-Algebra-Rings'!
+AbstractFieldTest subclass: #RationalFieldTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra-Rings'!
+!classDefinition: 'RationalFieldTest class' category: #'Tests-Algebra-Rings'!
+RationalFieldTest class
+	instanceVariableNames: ''!
+
 !classDefinition: #EuclideanProductRingTest category: #'Tests-Algebra-Rings'!
 AbstractEuclideanRingTest subclass: #EuclideanProductRingTest
 	instanceVariableNames: ''
@@ -420,6 +430,16 @@ AbstractCommutativeRingTest subclass: #AbstractIntegralDomainTest
 AbstractIntegralDomainTest class
 	instanceVariableNames: ''!
 
+!classDefinition: #MultivariatePolynomialRingOverRationalsTest category: #'Tests-Algebra-Rings'!
+AbstractIntegralDomainTest subclass: #MultivariatePolynomialRingOverRationalsTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra-Rings'!
+!classDefinition: 'MultivariatePolynomialRingOverRationalsTest class' category: #'Tests-Algebra-Rings'!
+MultivariatePolynomialRingOverRationalsTest class
+	instanceVariableNames: ''!
+
 !classDefinition: #MultivariatePolynomialRingOverFiniteFieldTest category: #'Tests-Algebra-Rings'!
 AbstractCommutativeRingTest subclass: #MultivariatePolynomialRingOverFiniteFieldTest
 	instanceVariableNames: ''
@@ -448,16 +468,6 @@ AbstractCommutativeRingTest subclass: #MultivariatePolynomialRingOverModularInte
 	category: 'Tests-Algebra-Rings'!
 !classDefinition: 'MultivariatePolynomialRingOverModularIntegersTest class' category: #'Tests-Algebra-Rings'!
 MultivariatePolynomialRingOverModularIntegersTest class
-	instanceVariableNames: ''!
-
-!classDefinition: #MultivariatePolynomialRingOverRationalsTest category: #'Tests-Algebra-Rings'!
-AbstractCommutativeRingTest subclass: #MultivariatePolynomialRingOverRationalsTest
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Tests-Algebra-Rings'!
-!classDefinition: 'MultivariatePolynomialRingOverRationalsTest class' category: #'Tests-Algebra-Rings'!
-MultivariatePolynomialRingOverRationalsTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #AbstractTupleTest category: #'Tests-Algebra-Tuples'!
@@ -2676,14 +2686,38 @@ initialize
 	super initialize.
 	R _ ƒ/(1<<32 :: atRandom max: 2)! !
 
-!AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/28/2022 20:01:46'!
+!AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/31/2022 16:25:17'!
+testDivisibility
+	20 timesRepeat:
+		[| a b |
+		a _ R atRandom: random bits: 30.
+		b _ R atRandom: random bits: 30.
+		self assert: (a isZero or: [a | (a*b)])]! !
+
+!AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/31/2022 16:25:31'!
 testDivisionByUnits
 	10 timesRepeat:
 		[| x u |
 		x _ R atRandom: random bits: 30.
 		u _ R units atRandom: random.
-		self assert: x*u / u = x.
+		self assert: x * u / u = x.
 		self assert: x / u = (x * u inverse)]! !
+
+!AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/31/2022 16:23:37'!
+testLeftDivision
+	20 timesRepeat:
+		[| a b |
+		a _ R atRandom: random bits: 30.
+		b _ a * (R atRandom: random bits: 30).
+		self assert: (a isZero or: [a * (a \ b) = b])]! !
+
+!AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/31/2022 16:23:08'!
+testRightDivision
+	20 timesRepeat:
+		[| a b |
+		a _ R atRandom: random bits: 30.
+		b _ (R atRandom: random bits: 30) * a.
+		self assert: (a isZero or: [(b / a) * a = b])]! !
 
 !AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2022 11:25:34'!
 testRing
@@ -3117,19 +3151,13 @@ testQuaternionAlgebraTraceExample
 	self assert: A j trace isZero.
 	self assert: (A !! {1/3. 1/5. 1/7. 1}) trace = (2/3)! !
 
-!AffineAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/20/2021 15:45:46'!
+!AffineAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 5/31/2022 18:50:38'!
 initialize
 	| P |
 	super initialize.
 	P _ „ polynomialsIn: 3 atRandom.
-	R _ P / ((1 to: 3 atRandom - 1) collect: [:i| P atRandomBits: 10])! !
-
-!AbstractCommutativeRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2022 11:14:35'!
-testFractions
-	| F |
-	F _ R fractions.
-	self testRingAxioms: F.
-	self testRingHomomorphism: R -> F! !
+	[R _ P / ((1 to: 4 atRandom - 1) collect: [:i| P atRandomBits: 20]).
+	R isTrivial] whileTrue! !
 
 !AbstractCommutativeRingTest methodsFor: 'as yet unclassified' stamp: 'len 1/4/2022 18:12:21'!
 testIsCommutative
@@ -3141,6 +3169,15 @@ testPolynomials
 	P _ R polynomialsIn: (3 atRandom: random).
 	self testRingAxioms: P.
 	self testRingHomomorphism: R -> P! !
+
+!AbstractEuclideanRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/31/2022 21:22:35'!
+testAnnihilator
+	100 timesRepeat:
+		[| x a |
+		x _ R atRandom: random bits: 30.
+		a _ x annihilator.
+		self assert: (x * a) isZero.
+		self assert: x isZeroDivisor not = a isZero]! !
 
 !AbstractEuclideanRingTest methodsFor: 'as yet unclassified' stamp: 'len 1/12/2022 18:44:59'!
 testEuclideanDivision
@@ -3176,6 +3213,13 @@ testExactDivisionCompatibleWithEuclideanDivision
 		xy _ x * y.
 		self assert: xy / y = (xy // y).
 		self assert: (xy \\ y) isZero]! !
+
+!AbstractEuclideanRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/1/2022 11:58:05'!
+testFractions
+	| F |
+	F _ R fractions.
+	self testRingAxioms: F.
+	self testRingHomomorphism: R -> F! !
 
 !AbstractEuclideanRingTest methodsFor: 'as yet unclassified' stamp: 'len 1/13/2022 05:33:19'!
 testGCD
@@ -3260,10 +3304,34 @@ testXXGCD: a with: b
 	self assert: (u*a + (v*b)) isZero.
 	self assert: (s*v - (t*u)) isUnit! !
 
+!AbstractFieldTest methodsFor: 'as yet unclassified' stamp: 'len 6/1/2022 12:23:12'!
+testIsDivisionRing
+	self assert: R isDivisionRing! !
+
+!AbstractFieldTest methodsFor: 'as yet unclassified' stamp: 'len 6/1/2022 11:51:45'!
+testIsField
+	self assert: R isField! !
+
+!AbstractFieldTest methodsFor: 'as yet unclassified' stamp: 'len 6/1/2022 11:51:32'!
+testIsIntegralDomain
+	self assert: R isIntegralDomain! !
+
+!AbstractFieldTest methodsFor: 'as yet unclassified' stamp: 'len 6/1/2022 11:52:48'!
+testZeroIdealIsPrimeAndMinimalPrime
+	| P |
+	P _ R * 0.
+	self assert: P isPrime.
+	self assert: P isMinimalPrime! !
+
 !GaloisFieldTest methodsFor: 'as yet unclassified' stamp: 'len 5/28/2022 20:21:39'!
 initialize
 	super initialize.
 	R _ GaloisField new: 5 atRandom nextPrime to: 3 atRandom! !
+
+!RationalFieldTest methodsFor: 'as yet unclassified' stamp: 'len 6/1/2022 11:55:11'!
+initialize
+	super initialize.
+	R _ „! !
 
 !EuclideanProductRingTest methodsFor: 'as yet unclassified' stamp: 'len 1/4/2022 11:39:20'!
 initialize
@@ -3401,6 +3469,11 @@ testZeroIdeal
 	self assert: P isPrime.
 	self assert: P isMinimalPrime! !
 
+!MultivariatePolynomialRingOverRationalsTest methodsFor: 'as yet unclassified' stamp: 'len 8/20/2021 15:33:31'!
+initialize
+	super initialize.
+	R _ „ polynomialsIn: 3 atRandom! !
+
 !MultivariatePolynomialRingOverFiniteFieldTest methodsFor: 'as yet unclassified' stamp: 'len 8/20/2021 15:32:40'!
 initialize
 	super initialize.
@@ -3415,11 +3488,6 @@ initialize
 initialize
 	super initialize.
 	R _ ƒ/1024 atRandom polynomialsIn: 3 atRandom! !
-
-!MultivariatePolynomialRingOverRationalsTest methodsFor: 'as yet unclassified' stamp: 'len 8/20/2021 15:33:31'!
-initialize
-	super initialize.
-	R _ „ polynomialsIn: 3 atRandom! !
 
 !AbstractTupleTest methodsFor: 'as yet unclassified' stamp: 'len 4/22/2021 10:17:19'!
 testAddition
@@ -3747,25 +3815,8 @@ testBackslashZeroMatrix
 	X _ A \ B.
 	self assert: A*X = B! !
 
-!AbstractMatrixTest methodsFor: 'solving' stamp: 'len 12/31/2021 09:31:37'!
-testCodivision
-	| A B n result N X combinations |
-	n _ 5 atRandom: random.
-	A _ scalars^5 => (scalars^n) atRandom: random bits: 100.
-	combinations _ (1 to: n) collect: [:each| (2 atRandom: random) = 1].
-	B _ Matrix rows:
-		(combinations collect: [:isCombination|
-			isCombination
-				ifTrue: [(A codomain atRandom: random bits: 20) * A]
-				ifFalse: [A domain atRandom: random bits: 20]]).
-	result _ B codivisionBy: A.
-	X _ result first.
-	N _ result second.
-	self assert: X*A + N = B.
-	combinations withIndexDo: [:isCombination :i| isCombination ifTrue: [self assert: (N rowAt: i) isZero]]! !
-
-!AbstractMatrixTest methodsFor: 'solving' stamp: 'len 12/31/2021 09:31:59'!
-testDivision
+!AbstractMatrixTest methodsFor: 'solving' stamp: 'len 5/30/2022 18:51:06'!
+testMatrixDivision
 	| A B n result N X combinations |
 	n _ 5 atRandom: random.
 	A _ scalars^5 => (scalars^n) atRandom: random bits: 100.
@@ -4819,19 +4870,21 @@ initialize
 	2 atRandom = 1 ifTrue: [n _ n negated].
 	scalars _ (QuadraticField sqrt: n) integers! !
 
-!MatrixOverAffineAlgebraOverPrimeFieldTest methodsFor: 'as yet unclassified' stamp: 'len 5/29/2022 19:43:54'!
+!MatrixOverAffineAlgebraOverPrimeFieldTest methodsFor: 'as yet unclassified' stamp: 'len 5/31/2022 18:52:06'!
 initialize
 	| P |
 	super initialize.
 	P _ ƒ/64 atRandom nextPrime polynomialsIn: 3 atRandom.
-	scalars _ P / ((1 to: 3 atRandom - 1) collect: [:i| P atRandomBits: 10])! !
+	[scalars _ P / ((1 to: 4 atRandom - 1) collect: [:i| P atRandomBits: 20]).
+	scalars isTrivial] whileTrue! !
 
-!MatrixOverAffineAlgebraOverRationalsTest methodsFor: 'as yet unclassified' stamp: 'len 5/29/2022 19:44:34'!
+!MatrixOverAffineAlgebraOverRationalsTest methodsFor: 'as yet unclassified' stamp: 'len 5/31/2022 18:52:28'!
 initialize
 	| P |
 	super initialize.
 	P _ „ polynomialsIn: 3 atRandom.
-	scalars _ P / ((1 to: 3 atRandom - 1) collect: [:i| P atRandomBits: 10])! !
+	[scalars _ P / ((1 to: 4 atRandom - 1) collect: [:i| P atRandomBits: 20]).
+	scalars isTrivial] whileTrue! !
 
 !MatrixOverGaloisRingTest methodsFor: 'as yet unclassified' stamp: 'len 1/1/2022 10:51:06'!
 initialize
@@ -12042,7 +12095,7 @@ testModularIntegersTupleAssociateBug2
 	self assert: t*5*5 = t.
 	self assert: (t*5) normalized = t normalized! !
 
-!TupleTest methodsFor: 'modular integer tuples' stamp: 'len 7/30/2021 10:54:45'!
+!TupleTest methodsFor: 'modular integer tuples' stamp: 'len 5/30/2022 09:09:57'!
 testModularIntegersTupleUnitsAndAssociates
 	| R t tt |
 	100 timesRepeat:
@@ -12050,7 +12103,7 @@ testModularIntegersTupleUnitsAndAssociates
 		t _ (R^5 atRandom) atRandom.
 		tt _ t normalized.
 		self assert: t * t normalization = tt.
-		R unitsDo: [:u| self assert: (t*u) normalized = tt]]! !
+		R units do: [:u| self assert: (t*u) normalized = tt]]! !
 
 !TupleTest methodsFor: 'modular integer tuples' stamp: 'len 5/23/2020 09:34:55'!
 testModularIntegersTupleUnitsAndAssociates2
