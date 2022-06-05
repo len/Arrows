@@ -1,5 +1,5 @@
-'From Cuis 6.0 [latest update: #5053] on 1 June 2022 at 9:12:53 pm'!
-'Description This package implements among other things: permutation groups, linear groups, modular integers, finite fields, Galois rings, polynomial rings, affine algebras, number fields, function fields, p-adic fields, power series rings, coherent modules, (co)chain complexes, finite (finitely generated as modules) associative algebras, finite distributive (not necessarily associative) algebras, schemes, and sheaves of modules.
+'From Cuis 6.0 [latest update: #5053] on 5 June 2022 at 7:15:31 pm'!
+'Description This package implements among other things: permutation groups, linear groups, modular integers, finite fields, Galois rings, polynomial rings, affine algebras, number fields, function fields, p-adic fields, power series rings, finitely presented modules, (co)chain complexes, finite (finitely generated as modules) associative algebras, finite distributive (not necessarily associative) algebras, schemes, and sheaves of modules.
 
 References:
 [AL94] William W. Adams; Philippe Loustaunau; "An Introduction To Groebner Bases", GSM Vol 3, AMS (1994)
@@ -18,6 +18,7 @@ References:
 [Fie71] D. E. Fields; "Zero divisors and nilpotent elements in power series rings" (1971)
 [FH16] Claus Flieker, Tommy Hofmann, "Computing in quotients of rings of integers" (2016)
 [GM73] Ganske, G.; McDonald, B.R. "Finite local rings". Rocky Mountain J. Math. 3 (1973), no. 4, 521-540
+[GP08] Gert-Martin Greuel; Gerhard Pfister; "A Singular Introduction to Commutative Algebra" (2008)
 [HH11] Jurgen Herzog, Takayuki Hibi, "Monomial Ideals" (2011)
 [How86] John A. Howell, "Spans in the module (Z/mZ)^s" (1986)
 [] Mitsuo Kanemitsu; Ken-ichi Yoshida; "Euclidean rings" (1986)
@@ -39,7 +40,6 @@ References:
 [] David Eisenbud; D. Grayson; M. Stillman; B. Sturmfels; "Computations in Algebraic Geometry with Macaulay 2"
 [EH99] David Eisenbud; Joe Harris; "The Geometry of Schemes", GTM 197, Springer, 1999
 [] Joachim von zur Gathen; Jurgen Gerhard; "Modern Computer Algebra"
-[] Gert-Martin Greuel; Gerhard Pfister; "A Singular Introduction to Commutative Algebra"
 [] Robin Hartshorne; "Algebraic Geometry", GTM 52, Springer, 1977
 [] Derek F. Holt; B. Eick; E. A. O''Brien; "Handbook of Computational Group Theory"
 [] Gregor Kemper; "A Course in Commutative Algebra", GTM 256, Springer, 2011
@@ -52,7 +52,7 @@ References:
 [] Victor Shoup; "A Computational Introduction to Number Theory and Algebra"
 [] Joseph. H. Silverman; "The Arithmetic of Elliptic Curves"
 '!
-!provides: 'Algebra' 1 16!
+!provides: 'Algebra' 1 17!
 !requires: 'Graphs' 1 0 nil!
 !requires: 'Collections-Extras' 1 1 nil!
 !requires: 'Complex' 1 8 nil!
@@ -2696,9 +2696,9 @@ Categorically, this construction is a functor from the cateogory of rings to the
 The group of units of ƒ/nƒ, i.e. the multiplicative group of units modulo n. This group is cyclic for n = 2, 4, p^k or 2p^k where p is an odd prime number. When the group is cyclic, its generator is called a 'primitive root modulo n'.!
 
 !Module commentStamp: '<historical>' prior: 0!
-Finitely-presented right R-modules, for a unital ring R. These include the particular cases of vector spaces over any computable field, finitely generated abelian groups (i.e. ƒ-modules), modules over polynomial rings or quotients of polynomial rings, and modules over finite associative algebras. Ideals are also modeled as modules.
+Finitely presented right R-modules, for a unital ring R. These include the particular cases of vector spaces over any computable field, finitely generated abelian groups (i.e. ƒ-modules), modules over polynomial rings or quotients of polynomial rings, and modules over finite associative algebras. Ideals are also modeled as modules.
 
-The implementation relies on the ability to solve systems of linear equations over the coefficients ring. As long as there are algorithms for solving AX = B and AX = 0 for matrices over R, many important computations with finitely presented R-modules are supported (with the notable exception of isomorphism testing, that requires some kind of matrix normal form algorithm).
+The implementation relies on the ability to solve systems of linear equations over the coefficients ring. As long as there are algorithms for solving AX = B and AX = 0 for matrices over R, many important computations with finitely presented R-modules are supported (with the notable exception of isomorphism testing, that requires some kind of matrix normal form algorithm). See [BLH11].
 
 See also ModuleMap and HomModule.!
 
@@ -2727,7 +2727,7 @@ The elements of a quotient module M/N are cosets N + x with x in M. See ModuleCo
 !
 
 !Ideal commentStamp: '<historical>' prior: 0!
-Finitely-generated right ideals of a ring R, i.e. R-submodules of R.!
+Finitely generated right ideals of a ring R, i.e. R-submodules of R.!
 
 !RationalIntegerIdeal commentStamp: '<historical>' prior: 0!
 Ideal in the ring of rational integers.
@@ -2794,7 +2794,7 @@ Quotient of a commutative ring R modulo an ideal I, written R/I. Elements are re
 
 Given a commutative ring R and an ideal I of R, the quotient ring R/I (read 'R modulo I' or 'R mod I') is the set of cosets (residue clases) of I in R by the equivalence relation a ~ b if a - b is in I. If the ideal is maximal, the resulting quotient ring is a field. If it's only prime, the quotient ring is an integral domain.
 
-The quotient ring R/I is equipped with the projection map that sends elements of R to their residue classes in R/I. The projection map is a canonical homomorphism of rings. See >>project: and >>projection.!
+The quotient ring R/I is equipped with the projection map that sends elements of R to their residue classes in R/I. The projection map is a canonical homomorphism of rings.!
 
 !ModularIntegerRing commentStamp: '<historical>' prior: 0!
 Ring ƒ/mƒ of residue classes of integers modulo m. Elements are instances of ModularInteger.!
@@ -2814,7 +2814,7 @@ Residue class fields ƒ/pƒ of integers modulo a prime p.
 These are the simplest examples of Galois fields, GF(p^1). Other Galois fields are constructed by finite algebraic extensions (see GaloisField).!
 
 !AffineAlgebra commentStamp: '<historical>' prior: 0!
-Finitely-generated commutative (associative) algebras, implemented as quotients of polynomial rings. They are the coordinate rings of affine varieties (closed subschemes of affine space, see AffineVariety). They are also sometimes called the 'rings of regular functions' (on affine varieties).
+Finitely generated commutative (associative) algebras, implemented as quotients of polynomial rings. They are the coordinate rings of affine varieties (closed subschemes of affine space, see AffineVariety). They are also sometimes called the 'rings of regular functions' (on affine varieties).
 
 When the coefficients ring is a field K and the relations ideal I is maximal, the affine algebra K[X]/I is a field. In this way, affine algebras are multivariate generalizations of number fields and algebraic function fields.
 
@@ -2827,7 +2827,7 @@ Galois rings GR(p^n,m) are local rings with maximal ideal <p>, and <p> is also t
 
 The subrings of GR(p^n,m) correspond to the positive divisors of m.
 
-More generally, any finite local ring can be constructed as a finitely-generated GR(p^n,m)-algebra, i.e. a quotient of a polynomial ring (in a number of indeterminates) with coefficients in a Galois ring modulo a primary ideal of the polynomial ring (see AffineAlgebra).
+More generally, any finite local ring can be constructed as a finitely generated GR(p^n,m)-algebra, i.e. a quotient of a polynomial ring (in a number of indeterminates) with coefficients in a Galois ring modulo a primary ideal of the polynomial ring (see AffineAlgebra).
 
 Just as prime power rings (see PrimePowerRing) are approximations of the p-adic integer ring ƒp, general Galois rings are approximations of the ring of integers of unramified extensions of the p-adic field Qp generated by a (p^m)-th root of unity z: GR(p^n,m) = ƒp[z]/<p^n>.
 
@@ -2858,7 +2858,7 @@ Quadratic number fields, i.e. number fields with defining quadratic polynomial o
 The singletion global instance ƒ is the ring of rational integers.!
 
 !PolynomialRing commentStamp: '<historical>' prior: 0!
-Polynomial ring R[x1,...,xn] in one or many indeterminates over a commutative ring R. These are the finitely-generated free commutative (associative) R-algebras.
+Polynomial ring R[x1,...,xn] in one or many indeterminates over a commutative ring R. These are the finitely generated free commutative (associative) R-algebras.
 
 The number of indeterimnates is called the rank of the polynomial ring. The indeterminates are referred by index (positive integer numbers).
 
@@ -9911,11 +9911,6 @@ generatorMatrix
 generators
 	^ self propertyAt: #generators ifAbsentPut: [self generatorMatrix columns collect: [:each| self ambient elementAt: each]]! !
 
-!Module methodsFor: 'accessing' stamp: 'len 1/25/2022 11:09:21'!
-genericRank
-	self scalars isIntegralDomain ifFalse: [^ self error: 'not over integral domain'].
-	^ (self over: self scalars fractions) rank! !
-
 !Module methodsFor: 'accessing' stamp: 'len 8/10/2020 08:07:46'!
 gramian
 	"Answer the Gramian of the receiver, or Gram matrix.
@@ -9982,11 +9977,20 @@ primaryInvariants
 			ifFalse: [each factorization withOccurrencesDo: [:p :k| answer add: p^k]]].
 	^ self propertyAt: #primaryInvariants put: answer! !
 
-!Module methodsFor: 'accessing' stamp: 'len 5/3/2021 11:22:54'!
+!Module methodsFor: 'accessing' stamp: 'len 6/5/2022 19:04:43'!
 rank
+	"The rank of a finitely generated R-module M is the rank of M ‘ Frac(R), where Frac(R) is the total fraction ring of R.
+	Note that the rank doesn't need to exist. When R is an integral domain Frac(R) is a field and the rank is defined.
+	See [GP08, Definition 7.2.1]."
+	| i F |
 	self isTrivial ifTrue: [^ 0].
 	self isFreelyGenerated ifTrue: [^ self coordinates rank].
 	self scalars isPID ifTrue: [^ self invariants count: [:each| each isZero]].
+	"self scalars isIntegralDomain ifTrue: [^ (self over: self scalars fractions) rank]."
+	self propertyAt: #rank ifPresent: [:anInteger| ^ anInteger].
+	i _ 0.
+	[(F _ self fittingIdeal: i) isTrivial] whileTrue: [i _ i + 1].
+	F isOne ifTrue: [^ self propertyAt: #rank put: i].
 	^ self notYetImplemented! !
 
 !Module methodsFor: 'accessing' stamp: 'len 12/26/2021 11:15:24'!
@@ -10072,13 +10076,13 @@ zero
 	^ (self generators allSatisfy: [:each| anObject contains: each])
 		and: [anObject generators allSatisfy: [:each| self contains: each]]! !
 
-!Module methodsFor: 'comparing' stamp: 'len 12/17/2021 15:45:28'!
+!Module methodsFor: 'comparing' stamp: 'len 6/3/2022 06:26:59'!
 ~ aModule
 	"Answer true if the receiver is isomorphic to the argument."
 	self = aModule ifTrue: [^ true].
 	self scalars = aModule scalars ifFalse: [^ false].
 	self presentationMatrix = aModule presentationMatrix ifTrue: [^ true].
-	self scalars isPID ifTrue: [^ self invariants = aModule invariants].
+	self scalars isElementaryDivisorRing ifTrue: [^ self invariants = aModule invariants].
 	self notYetImplemented! !
 
 !Module methodsFor: 'comparing' stamp: 'len 1/13/2018 22:42:28'!
@@ -10566,11 +10570,25 @@ eliminateAllBut: anIndeterminate
 endomorphisms
 	^ self scalars isCommutative ifTrue: [(self => self) asAlgebra] ifFalse: [self => self]! !
 
+!Module methodsFor: 'operations' stamp: 'len 6/4/2022 21:05:36'!
+ext: aModule
+	^ (self resolution => aModule) cohomology! !
+
 !Module methodsFor: 'operations' stamp: 'len 5/1/2021 11:27:42'!
 exteriorAlgebra
 	| T |
 	T _ self tensorAlgebra.
 	^ T / (T generators collect: [:each| each squared])! !
+
+!Module methodsFor: 'operations' stamp: 'len 6/5/2022 12:57:00'!
+fittingIdeal: anInteger
+	"Answer the i-th Fitting ideal of the receiver.
+	See [GP08, 7.2 Fitting Ideals]."
+	| M n |
+	M _ self presentationMatrix.
+	(n _ M height - anInteger) <= 0 ifTrue: [^ self scalars asIdeal].
+	(n > M height or: [n > M width]) ifTrue: [^ self scalars zero asIdeal].
+	^ self scalars * (M minor: n)! !
 
 !Module methodsFor: 'operations' stamp: 'len 3/15/2020 16:57:32'!
 grassmannian: r
@@ -10656,6 +10674,10 @@ symmetricAlgebra
 tensorAlgebra
 	^ self propertyAt: #tensorAlgebra ifAbsentPut: [self scalars freeAlgebraIn: (self coordinateNames ifNil: [self rank])]! !
 
+!Module methodsFor: 'operations' stamp: 'len 6/4/2022 12:57:03'!
+tor: aModule
+	^ (self relations resolution ‘ aModule) homology! !
+
 !Module methodsFor: 'operations' stamp: 'len 8/4/2020 14:25:07'!
 transversal
 	^ self complement generators! !
@@ -10722,12 +10744,27 @@ isFinite
 	self isFreelyGenerated ifTrue: [^ self generators isEmpty or: [self scalars isFinite]].
 	^ self notYetImplemented! !
 
-!Module methodsFor: 'testing' stamp: 'len 4/1/2021 10:20:23'!
+!Module methodsFor: 'testing' stamp: 'len 6/5/2022 18:36:08'!
+isFlat
+	"A module M is called flat if, for every injective homomorphism i:N->L, the induced map i‘M:N‘M->L‘M is again injective.
+	Equivalently, M is flat if -‘M is an exact functor.
+	See [GP08, 7.3. Flatness]."
+	| i F |
+	self isFreelyGenerated ifTrue: [^ true].
+	i _ 0.
+	[(F _ self fittingIdeal: i) isTrivial] whileTrue: [i _ i + 1].
+	^ F isOne! !
+
+!Module methodsFor: 'testing' stamp: 'len 6/5/2022 19:01:37'!
 isFree
 	"Answer true if the receiver is a free module."
 	self isFreelyGenerated ifTrue: [^ true].
 	self isAbelianGroup ifTrue: [^ false]. "not freely generated f.g. abelian group is not free"
 	(self isAmbient not and: [self ambient isFree and: [self scalars isPID]]) ifTrue: [^ true].
+	"Quillen-Suslin theorem: every projective module over a PID or a polynomial ring over a field is free:"
+	(self scalars isPID or: [(self scalars isKindOf: PolynomialRing) and: [self scalars scalars isField]]) ifTrue: [^ self isProjective].
+	"Kaplansky's theorem:"
+	self scalars isLocal ifTrue: [^ self isProjective].
 	^ self notYetImplemented! !
 
 !Module methodsFor: 'testing' stamp: 'len 12/30/2021 13:13:14'!
@@ -10748,6 +10785,12 @@ isHomogeneous
 !Module methodsFor: 'testing' stamp: 'len 1/23/2018 21:56:53'!
 isLocal
 	^ self scalars isLocal! !
+
+!Module methodsFor: 'testing' stamp: 'len 6/5/2022 18:28:25'!
+isLocallyFree
+	"A finitely generated module over a Noetherian ring is locally free precisely if it is flat."
+	self scalars isNoetherian ifFalse: [^ self notYetImplemented].
+	^ self isFlat! !
 
 !Module methodsFor: 'testing' stamp: 'len 10/20/2020 18:49:36'!
 isMixed
@@ -10771,13 +10814,12 @@ isNoetherian
 isNonDegenerate
 	^ self radical isTrivial! !
 
-!Module methodsFor: 'testing' stamp: 'len 3/3/2021 12:10:44'!
+!Module methodsFor: 'testing' stamp: 'len 6/5/2022 18:52:35'!
 isProjective
 	"Answer true if the receiver is a projective module."
-	self isFree ifTrue: [^ true]. "every free module is projective"
-	self scalars isPID ifTrue: [^ false]. "Quillen-Suslin theorem: every projective module over a PID is free"
-	self scalars isLocal ifTrue: [^ false]. "Kaplansky's theorem"
-	self scalars isDedekindDomain ifTrue: [^ self isTorsionFree].
+	self isFreelyGenerated ifTrue: [^ true]. "free modules are projective"
+	self scalars isNoetherian ifTrue: [^ self isFlat]. "because every finitely presented module that is flat is also projective"
+	self isFlat ifFalse: [^ false].
 	^ self notYetImplemented! !
 
 !Module methodsFor: 'testing' stamp: 'len 7/18/2020 08:37:53'!
@@ -11618,19 +11660,6 @@ copy
 	self isAmbient ifTrue: [^ self coordinates elementAt: {anElement}].
 	^ super \ anElement! !
 
-!Ideal methodsFor: 'elements-operations' stamp: 'len 1/14/2022 12:47:20'!
-reduce: anElement
-	"Answer zero if anElement is in the receiver, and otherwise answer some representative of the coset 'anElement + self' (not necessarily a normal form).
-	It is required that:
-		(I reduce: x) = (I reduce: y) <=> x - y is in I, and
-		x - (I reduce: x) is in I for all x, y in I.
-	Subclasses should override."
-	self isAmbient ifTrue: [^ self zero].
-	self isTrivial ifTrue: [^ anElement].
-"	self scalars isQuotient ifTrue: [^ self scalars project: (self representative reduce: anElement representative)]."
-	self scalars isEuclidean ifTrue: [^ anElement \\ self generator].
-	^ super reduce: anElement! !
-
 !Ideal methodsFor: 'morphisms' stamp: 'len 12/15/2021 21:05:37'!
 apply: aMorphism
 	"Answer the homomorphic image of the receiver."
@@ -11681,6 +11710,19 @@ adapt: anElement
 radical
 	self scalars isQuotient ifTrue: [^ self representative radical apply: self scalars projection].
 	^ self subclassResponsibility! !
+
+!Ideal methodsFor: 'operations' stamp: 'len 1/14/2022 12:47:20'!
+reduce: anElement
+	"Answer zero if anElement is in the receiver, and otherwise answer some representative of the coset 'anElement + self' (not necessarily a normal form).
+	It is required that:
+		(I reduce: x) = (I reduce: y) <=> x - y is in I, and
+		x - (I reduce: x) is in I for all x, y in I.
+	Subclasses should override."
+	self isAmbient ifTrue: [^ self zero].
+	self isTrivial ifTrue: [^ anElement].
+"	self scalars isQuotient ifTrue: [^ self scalars project: (self representative reduce: anElement representative)]."
+	self scalars isEuclidean ifTrue: [^ anElement \\ self generator].
+	^ super reduce: anElement! !
 
 !Ideal methodsFor: 'operations' stamp: 'len 2/14/2017 10:24:02'!
 saturation
@@ -11913,19 +11955,6 @@ variety
 	"Answer the algebraic variety that is the set of zeroes of all polynomials in the receiver."
 	^ self isHomogeneous ifTrue: [(self scalars / self radical) proj] ifFalse: [(self scalars / self radical) spec]! !
 
-!PolynomialIdeal methodsFor: 'elements-operations' stamp: 'len 1/23/2022 08:40:49'!
-reduce: aPolynomial
-	"Answer the normal form of anElement with respect to the receiver."
-	| f |
-	f _ aPolynomial.
-	self flag: #fix.
-	f parent == self scalars ifFalse: [f _ self scalars !! f]. "<- should remove this"
-	(f isZero or: [self isZero]) ifTrue: [^ f].
-	"in some cases we can divide even if the ring is not euclidean, for example by a monic polynomial:"
-	(self scalars isEuclidean or: [self generators size = 1 and: [self generator isMonic]]) ifTrue: [^ f \\ self generator].
-"	self scalars scalars isField ifFalse: [^ super reduce: aPolynomial]."
-	^ f reductionBy: self basis! !
-
 !PolynomialIdeal methodsFor: 'operations' stamp: 'len 7/30/2021 12:33:47'!
 /\ anIdeal
 	| R S t |
@@ -12086,6 +12115,13 @@ radical
 	self isMonomial ifTrue: [^ self squarefreePart]. "[HH11] Proposition 1.2.4"
 	self flag: #fix. "this is not right, maybe only works for Q[x1..xn] and monomial ideals"
 	^ self squarefreePart! !
+
+!PolynomialIdeal methodsFor: 'operations' stamp: 'len 6/3/2022 21:27:56'!
+reduce: anElement
+	(anElement isZero or: [self isTrivial]) ifTrue: [^ anElement].
+	(self scalars isEuclidean or: [self generators size = 1 and: [self generator isMonic and: [self generator isUnivariate]]]) ifTrue: [^ anElement \\ self generator].
+	^ anElement reductionFullBy: self basis
+"	^ super reduce: anElement"! !
 
 !PolynomialIdeal methodsFor: 'operations' stamp: 'len 7/30/2021 12:31:29'!
 saturation: anIdeal
@@ -12485,6 +12521,11 @@ matrix: B quotientBy: A
 	self isField ifTrue: [^ self matrixOverField: B quotientBy: A].
 	self isEuclideanDomain ifTrue: [^ self matrixOverEuclideanDomain: B quotientBy: A].
 	^ self subclassResponsibility! !
+
+!Ring methodsFor: 'computing-matrices' stamp: 'len 6/4/2022 21:11:48'!
+matrix: B reductionBy: A
+	"Answer N such that AX + N = B, satisfying that if the i-th column of B is a linear combination of the columns of A then the i-th column of N is zero."
+	^ B - (A * (self matrix: B quotientBy: A))! !
 
 !Ring methodsFor: 'computing-matrices' stamp: 'len 1/6/2022 18:23:06'!
 syzygiesOf: aMatrix
@@ -12937,39 +12978,48 @@ zeroDivisors
 atRandom: aRandom modulo: anIdeal
 	^ self subclassResponsibility! !
 
-!Ring methodsFor: 'random' stamp: 'len 5/26/2022 20:47:34'!
+!Ring methodsFor: 'random' stamp: 'len 6/5/2022 13:21:22'!
 unitAtRandom: aRandom
+	| answer |
 	self hasCanonicalAssociates ifTrue: [^ (self atRandom: aRandom) normalization].
-	self isFinite ifTrue:
-		[| answer |
-		[(answer _ self atRandom: aRandom) isUnit] whileFalse.
-		^ answer].
-	^ self subclassResponsibility! !
+	[(answer _ self atRandom: aRandom) isUnit] whileFalse.
+	^ answer! !
 
-!Ring methodsFor: 'random' stamp: 'len 5/26/2022 20:48:06'!
+!Ring methodsFor: 'random' stamp: 'len 6/5/2022 13:24:26'!
 unitAtRandom: aRandom bits: bitSize
+	| answer |
 	self hasCanonicalAssociates ifTrue: [^ (self atRandom: aRandom bits: bitSize) normalization].
-	self isFinite ifTrue:
-		[| answer |
-		[(answer _ self atRandom: aRandom bits: bitSize) isUnit] whileFalse.
-		^ answer].
-	^ self subclassResponsibility! !
+	bitSize > 0 ifFalse: [^ self one].
+	bitSize > 1 ifFalse: [^ aRandom nextBoolean ifTrue: [self one] ifFalse: [self one negated]].
+	[(answer _ self atRandom: aRandom bits: bitSize) isUnit] whileFalse.
+	^ answer! !
 
-!Ring methodsFor: 'testing' stamp: 'len 12/30/2021 11:48:03'!
+!Ring methodsFor: 'testing' stamp: 'len 6/3/2022 07:31:13'!
 hasCanonicalAssociates
 	"Answer true if this ring is equipped with an algorithm to make a canonical choice of associate for each element.
 	See RingElement>>#normalized."
-	^ self isPID! !
+	^ self isField! !
 
 !Ring methodsFor: 'testing' stamp: 'len 1/9/2022 09:46:34'!
 hasCanonicalBases
 	"Answer true if there's an algorithm to compute canonical bases for modules over the receiver."
 	^ self hasEchelonization! !
 
+!Ring methodsFor: 'testing' stamp: 'len 6/3/2022 20:44:21'!
+hasCanonicalReduction
+	"Answer true if this ring is equipped with an algorithm to make canonical choices of coset representatives modulo an ideal."
+	^ self isField! !
+
 !Ring methodsFor: 'testing' stamp: 'len 5/17/2022 12:22:32'!
 hasEchelonization
 	"Answer true if matrices over the receiver can be put into echelon form or an analoge normal form."
 	^ self isField or: [self isPIR and: [self isEuclidean]]! !
+
+!Ring methodsFor: 'testing' stamp: 'len 6/3/2022 07:33:50'!
+hasGCD
+	"Answer true if the receiver is known to have computable GCDs
+	(for example if it's a UFD or an Euclidean ring and implements an algorithm for GCDs)."
+	^ self isEuclidean! !
 
 !Ring methodsFor: 'testing' stamp: 'len 1/12/2022 18:06:48'!
 isAlgebraicallyClosed
@@ -13031,10 +13081,17 @@ isDivisionRing
 	self isField ifTrue: [^ true].
 	^ false "undefined"! !
 
-!Ring methodsFor: 'testing' stamp: 'len 1/12/2022 18:08:27'!
+!Ring methodsFor: 'testing' stamp: 'len 6/3/2022 06:58:39'!
+isElementaryDivisorRing
+	"Answer true if every matrix over the receiver is equivalent to a diagonal matrix.
+	Warning: it might be an elementary divisor ring without being a PID, but in the constructive setting we may not have a way of testing if it is, or we may not have an algorithm to compute the Smith normal form."
+	^ self isPID! !
+
+!Ring methodsFor: 'testing' stamp: 'len 6/3/2022 06:54:43'!
 isEuclidean
 	"Answer true if the receiver is a Euclidean ring, i.e. it has Euclidean division with remainder."
 	self isField ifTrue: [^ true].
+	"Warning: it might be Euclidean, but in the constructive setting we may not have a way to testing if it is, or we may not have an implementation of Euclidean division"
 	^ false "undefined"! !
 
 !Ring methodsFor: 'testing' stamp: 'len 5/8/2020 18:21:38'!
@@ -13042,13 +13099,20 @@ isEuclideanDomain
 	"Answer true if the receiver is a Euclidean domain, i.e. an integral domain that has division with remainder."
 	^ self isIntegralDomain and: [self isEuclidean]! !
 
-!Ring methodsFor: 'testing' stamp: 'len 1/12/2022 18:09:02'!
+!Ring methodsFor: 'testing' stamp: 'len 6/3/2022 06:56:14'!
 isField
+	"Answer true if the receiver is a field.
+	Warning: it might be a field, but in the constructive setting we may not have a way of testing if it is a field."
 	^ false "undefined"! !
 
 !Ring methodsFor: 'testing' stamp: 'len 7/15/2021 16:07:41'!
 isFiniteField
 	^ self isFinite and: [self isField]! !
+
+!Ring methodsFor: 'testing' stamp: 'len 6/5/2022 18:24:31'!
+isFlat
+	"An R-algebra is called flat if it is flat as R-module."
+	^ self asModule isFlat! !
 
 !Ring methodsFor: 'testing' stamp: 'len 9/19/2018 07:15:55'!
 isGaloisRing
@@ -13058,18 +13122,23 @@ isGaloisRing
 isGlobalField
 	^ false! !
 
-!Ring methodsFor: 'testing' stamp: 'len 5/7/2022 07:34:33'!
+!Ring methodsFor: 'testing' stamp: 'len 6/3/2022 07:10:34'!
 isIntegralDomain
-	"A ring is an integral domain if the product of any two nonzero elements is nonzero."
+	"A ring is an integral domain if the product of any two nonzero elements is nonzero.
+	Warning: it might be an integral domain, but in the constructive setting we may not have a way of testing if it is."
+	^ self isField
+	
+"
 	self propertyAt: #isIntegralDomain ifPresent: [:aBoolean| ^ aBoolean].
 	self isCommutative ifFalse: [^ false].
 	self isFinite ifTrue: [^ self propertyAt: #isIntegralDomain put: (self zeroDivisors allSatisfy: [:each| each isZero])].
-	^ self isField! !
+"! !
 
-!Ring methodsFor: 'testing' stamp: 'len 1/12/2022 18:09:28'!
+!Ring methodsFor: 'testing' stamp: 'len 6/3/2022 06:55:55'!
 isIntegrallyClosedDomain
 	"A ring is an integrally closed domain if it is an integral domain whose integral closure in its field of fractions is the ring itself."
 	self isUFD ifTrue: [^ true].
+	"Warning: it might be an integrally closed domain, but in the constructive setting we may not have a way of testing if it is."
 	^ false "undefined"! !
 
 !Ring methodsFor: 'testing' stamp: 'len 7/25/2021 10:08:44'!
@@ -13303,6 +13372,10 @@ atRandom: aRandom bits: bitSize
 	a _ self integers atRandom: aRandom bits: bitSize/2.
 	[(b _ self integers atRandom: aRandom bits: bitSize/2) isZeroDivisor] whileTrue.
 	^ (self embed: a) / (self embed: b)! !
+
+!FractionRing methodsFor: 'testing' stamp: 'len 6/3/2022 06:02:19'!
+hasCanonicalAssociates
+	^ self integers hasCanonicalAssociates! !
 
 !FractionRing methodsFor: 'testing' stamp: 'len 4/25/2020 09:57:00'!
 includes: anObject
@@ -13750,6 +13823,10 @@ atRandom: aRandom bits: bitSize
 	[b _ self integers atRandom: aRandom bits: bitSize/2. self localizationIdeal includes: b] whileTrue.
 	^ self !! ((self fractions !! a) / (self fractions !! b))! !
 
+!LocalRing methodsFor: 'testing' stamp: 'len 6/3/2022 06:05:08'!
+hasCanonicalAssociates
+	^ true! !
+
 !LocalRing methodsFor: 'testing' stamp: 'len 4/22/2020 06:11:00'!
 includes: anObject
 	^ anObject parent == self! !
@@ -13775,21 +13852,19 @@ isDedekindDomain
 	self integers isDedekindDomain ifTrue: [^ true].
 	^ super isDedekindDomain! !
 
-!LocalRing methodsFor: 'testing' stamp: 'len 12/31/2021 11:51:43'!
+!LocalRing methodsFor: 'testing' stamp: 'len 6/3/2022 07:04:52'!
 isEuclidean
 	"Answer true if the receiver is a Euclidean ring, i.e. it has Euclidean division with remainder."
-	self integers isEuclidean ifTrue: [^ true].
-	^ super isEuclidean! !
+	^ self integers isEuclidean or: [super isEuclidean]! !
 
 !LocalRing methodsFor: 'testing' stamp: 'len 6/6/2019 11:09:20'!
 isField
 	^ self integers isIntegralDomain and: [self localizationIdeal isZero]! !
 
-!LocalRing methodsFor: 'testing' stamp: 'len 7/31/2019 05:30:49'!
+!LocalRing methodsFor: 'testing' stamp: 'len 6/3/2022 07:10:52'!
 isIntegralDomain
 	"The localization of an integral domain at a prime ideal (or even at a multiplicative closed set not containing zero) continues to be an integral domain."
-	self integers isIntegralDomain ifTrue: [^ true].
-	^ super isIntegralDomain! !
+	^ self integers isIntegralDomain or: [super isIntegralDomain]! !
 
 !LocalRing methodsFor: 'testing' stamp: 'len 10/28/2016 16:06'!
 isLocal
@@ -14139,12 +14214,12 @@ zero
 hash
 	^ self relations hash! !
 
-!QuotientRing methodsFor: 'computing-matrices' stamp: 'len 6/1/2022 20:27:53'!
+!QuotientRing methodsFor: 'computing-matrices' stamp: 'len 6/4/2022 21:09:01'!
 matrix: B quotientBy: A
 	"Answer X such that AX + N = B, satisfying that if the i-th column of B is a linear combination of the columns of A then the i-th column of N is zero."
 	| L |
 	L _ self relators
-		inject: (self base^0) -> A codomain lift
+		inject: self base^0 -> A codomain lift
 		into: [:matrix :each| matrix ” (A codomain lift endomorphisms scalar: each)].
 	^ (B lift quotientBy: A lift modulo: L) apply: self projection! !
 
@@ -14242,9 +14317,9 @@ atRandom: aRandom
 atRandom: aRandom bits: bitSize
 	^ self project: (self base atRandom: aRandom bits: bitSize)! !
 
-!QuotientRing methodsFor: 'testing' stamp: 'len 7/16/2021 11:11:52'!
+!QuotientRing methodsFor: 'testing' stamp: 'len 6/3/2022 20:41:15'!
 hasCanonicalReduction
-	^ false! !
+	^ self isField or: [self base hasCanonicalReduction]! !
 
 !QuotientRing methodsFor: 'testing' stamp: 'len 4/22/2020 06:12:13'!
 includes: anObject
@@ -14269,18 +14344,33 @@ isBezout
 isCommutative
 	^ self base isCommutative or: [super isCommutative]! !
 
-!QuotientRing methodsFor: 'testing' stamp: 'len 1/8/2022 10:40:03'!
+!QuotientRing methodsFor: 'testing' stamp: 'len 6/3/2022 06:59:14'!
+isElementaryDivisorRing
+	"Answer true if every matrix over the receiver is equivalent to a diagonal matrix."
+	^ self base isElementaryDivisorRing! !
+
+!QuotientRing methodsFor: 'testing' stamp: 'len 6/3/2022 07:05:35'!
 isEuclidean
 	"Answer true if the receiver is a Euclidean ring, i.e. it has Euclidean division with remainder."
-	^ self base isEuclidean! !
+	^ self base isEuclidean or: [super isEuclidean]! !
 
-!QuotientRing methodsFor: 'testing' stamp: 'len 6/7/2020 13:49:22'!
+!QuotientRing methodsFor: 'testing' stamp: 'len 6/3/2022 07:00:34'!
 isField
-	^ self base isTrivial not and: [self relations isMaximal]! !
+	"Answer true if the receiver is a field.
+	Warning: it might be a field, but in the constructive setting we may not have a way of testing if it is a field."
+	^ false
 
-!QuotientRing methodsFor: 'testing' stamp: 'len 6/7/2020 13:49:07'!
+"alternative (but we may not be able to test if an ideal is maximal):
+	^ self base isTrivial not and: [self relations isMaximal]"! !
+
+!QuotientRing methodsFor: 'testing' stamp: 'len 6/3/2022 07:11:55'!
 isIntegralDomain
-	^ self base isTrivial not and: [self relations isPrime]! !
+	"A ring is an integral domain if the product of any two nonzero elements is nonzero.
+	Warning: it might be an integral domain, but in the constructive setting we may not have a way of testing if it is."
+	^ super isIntegralDomain
+"alternative:
+	^ self base isTrivial not and: [self relations isPrime]
+"! !
 
 !QuotientRing methodsFor: 'testing' stamp: 'len 5/20/2018 21:59:53'!
 isLocal
@@ -14507,9 +14597,14 @@ isEuclidean
 	"Answer true if the receiver is a Euclidean ring, i.e. it has Euclidean division with remainder."
 	^ true! !
 
-!ModularIntegerRing methodsFor: 'testing' stamp: 'len 12/28/2016 12:13:20'!
+!ModularIntegerRing methodsFor: 'testing' stamp: 'len 6/3/2022 07:02:02'!
 isField
-	^ self propertyAt: #isField ifAbsentPut: [self modulus isPrime]! !
+	"Answer true if the receiver is a field.
+	Warning: it might be a field, but we consider it as a general ring without assuming anything."
+	^ false
+
+"alternative:
+	^ self modulus isPrime"! !
 
 !ModularIntegerRing methodsFor: 'testing' stamp: 'len 5/21/2018 05:09:16'!
 isFinite
@@ -14677,12 +14772,6 @@ zeroDivisors
 isChainRing
 	"A chain ring is a ring whose ideals form a chain under inclusion.
 	Prime power rings, and more generally Galois rings, are chain rings."
-	^ true! !
-
-!PrimePowerRing methodsFor: 'testing' stamp: 'len 12/31/2021 11:51:22'!
-isEuclidean
-	"Answer true if the receiver is a Euclidean ring, i.e. it has Euclidean division with remainder."
-	"Galois rings are euclidean."
 	^ true! !
 
 !PrimePowerRing methodsFor: 'testing' stamp: 'len 5/21/2018 04:26:10'!
@@ -15240,8 +15329,8 @@ nilradical
 zeroDivisors
 	^ self maximalIdeal! !
 
-!GaloisRing methodsFor: 'testing' stamp: 'len 7/16/2021 11:13:25'!
-hasCanonicalReduction
+!GaloisRing methodsFor: 'testing' stamp: 'len 6/3/2022 06:06:27'!
+hasCanonicalAssociates
 	^ true! !
 
 !GaloisRing methodsFor: 'testing' stamp: 'len 5/17/2022 12:27:22'!
@@ -15260,10 +15349,10 @@ isChainRing
 	Galois rings are chain rings."
 	^ true! !
 
-!GaloisRing methodsFor: 'testing' stamp: 'len 12/31/2021 11:51:50'!
+!GaloisRing methodsFor: 'testing' stamp: 'len 6/3/2022 07:05:55'!
 isEuclidean
-	"Answer true if the receiver is a Euclidean ring, i.e. it has Euclidean division with remainder."
-	"Galois rings are Euclidean."
+	"Answer true if the receiver is a Euclidean ring, i.e. it has Euclidean division with remainder.
+	Galois rings are Euclidean."
 	^ true! !
 
 !GaloisRing methodsFor: 'testing' stamp: 'len 3/25/2021 15:04:26'!
@@ -15418,10 +15507,6 @@ new: p to: n
 	n = 1 ifTrue: [^ PrimeField new: p].
 	^ self modulus: (self irreduciblePolynomialOfDegree: n mod: p)! !
 
-!QuasiGaloisRing methodsFor: 'testing' stamp: 'len 7/16/2021 11:14:09'!
-hasCanonicalReduction
-	^ true! !
-
 !QuasiGaloisRing methodsFor: 'testing' stamp: 'len 5/9/2019 09:48:43'!
 isFinite
 	^ true! !
@@ -15481,10 +15566,6 @@ genus
 project: anElement
 	^ self representative: anElement \\ self modulus! !
 
-!FunctionField methodsFor: 'testing' stamp: 'len 7/16/2021 11:13:14'!
-hasCanonicalReduction
-	^ true! !
-
 !FunctionField methodsFor: 'testing' stamp: 'len 7/27/2021 08:48:44'!
 hasEchelonization
 	^ true! !
@@ -15496,10 +15577,6 @@ isField
 !FunctionField methodsFor: 'testing' stamp: 'len 7/15/2021 16:04:56'!
 isGlobalField
 	^ self scalars isFiniteField! !
-
-!FunctionField methodsFor: 'testing' stamp: 'len 7/16/2021 10:08:10'!
-isIntegralDomain
-	^ true! !
 
 !FunctionField methodsFor: 'testing' stamp: 'len 1/5/2017 18:55:12'!
 isPerfectField
@@ -15592,10 +15669,6 @@ nonArchimedeanPlaces
 regulator
 	^ self notYetImplemented! !
 
-!NumberField methodsFor: 'testing' stamp: 'len 7/16/2021 11:13:37'!
-hasCanonicalReduction
-	^ true! !
-
 !NumberField methodsFor: 'testing' stamp: 'len 7/27/2021 08:49:22'!
 hasEchelonization
 	^ true! !
@@ -15617,10 +15690,6 @@ isGlobalField
 isImaginary
 	"Answer true if no embedding into the complex numbers has image contained in the real numbers."
 	^ self signature first = 0! !
-
-!NumberField methodsFor: 'testing' stamp: 'len 7/16/2021 10:08:38'!
-isIntegralDomain
-	^ true! !
 
 !NumberField methodsFor: 'testing' stamp: 'len 12/28/2016 12:13:05'!
 isMonogenic
@@ -15949,6 +16018,14 @@ atRandom: aRandom bits: bitSize
 atRandom: aRandom modulo: anIdeal
 	^ (anIdeal generator abs atRandom: aRandom) - 1! !
 
+!RationalIntegerRing methodsFor: 'testing' stamp: 'len 6/3/2022 06:06:54'!
+hasCanonicalAssociates
+	^ true! !
+
+!RationalIntegerRing methodsFor: 'testing' stamp: 'len 6/3/2022 20:41:32'!
+hasCanonicalReduction
+	^ true! !
+
 !RationalIntegerRing methodsFor: 'testing' stamp: 'len 11/23/2015 02:37'!
 includes: anObject
 	^ anObject isInteger! !
@@ -16127,6 +16204,22 @@ matrix: B quotientBy: A
 		ifTrue: [C _ B asTuple asArray. basis _ G asTuple asArray]
 		ifFalse: [C _ B columns. basis _ G columns].
 	^ Matrix to: A domain columns: (C collect: [:each| T * (T domain !! (each // basis))])! !
+
+!PolynomialRing methodsFor: 'computing-matrices' stamp: 'len 6/5/2022 19:08:31'!
+matrix: B reductionBy: A
+	"Answer N such that AX + N = B, satisfying that if the i-th column of B is a linear combination of the columns of A then the i-th column of N is zero."
+	| G C basis |
+	self isEuclideanDomain ifTrue: [^ super matrix: B reductionBy: A].
+	G _ A basis.
+	A height = 1
+		ifTrue:
+			[basis _ G asTuple asArray.
+			C _ (B asTuple asArray collect: [:each| A codomain !! (each reductionFullBy: basis)])]
+		ifFalse:
+			[basis _ G columns.
+			C _ (B columns collect: [:each| each reductionFullBy: basis])].
+	^ Matrix to: B codomain columns: C
+		! !
 
 !PolynomialRing methodsFor: 'computing-matrices' stamp: 'len 1/14/2022 11:34:26'!
 syzygiesOf: aMatrix
@@ -16684,6 +16777,10 @@ hasCanonicalBases
 	"Answer true if there's an algorithm to compute canonical bases for modules over the receiver."
 	^ self scalars isField! !
 
+!PolynomialRing methodsFor: 'testing' stamp: 'len 6/3/2022 20:41:51'!
+hasCanonicalReduction
+	^ self scalars hasCanonicalReduction! !
+
 !PolynomialRing methodsFor: 'testing' stamp: 'len 4/25/2020 10:05:43'!
 includes: anObject
 	^ anObject parent = self! !
@@ -16697,13 +16794,13 @@ isBezout
 isCommutative
 	^ true! !
 
-!PolynomialRing methodsFor: 'testing' stamp: 'len 1/12/2022 18:24:50'!
+!PolynomialRing methodsFor: 'testing' stamp: 'len 6/3/2022 07:06:30'!
 isEuclidean
 	"Answer true if the receiver is a Euclidean ring, i.e. it has Euclidean division with remainder."
 	self isUnivariate ifFalse: [^ false].
 	self scalars isField ifTrue: [^ true].
 	"TODO: Z/6Z[x] is a PIR (and thus Euclidean), Z/8Z is not a PIR. For R a finite commutative ring, the polynomial ring R[x] is a PIR iff R is a direct product of finite fields. Also R[x] is a PIR iff it is isomorphic to a direct product of PIDs."
-	^ false "undefined"! !
+	^ super isEuclidean! !
 
 !PolynomialRing methodsFor: 'testing' stamp: 'len 2/12/2017 06:13:48'!
 isGraded
@@ -17146,13 +17243,15 @@ isDivisionRing
 	"A division ring, or skewfield, is a ring where division is possible, i.e. every nonzero element has a multiplicative inverse. The only difference with a field is that a division ring is not requiered to be commutative."
 	^ self isDivisionAlgebra! !
 
-!Algebra methodsFor: 'testing' stamp: 'len 7/6/2021 08:44:21'!
+!Algebra methodsFor: 'testing' stamp: 'len 6/3/2022 07:03:41'!
 isField
+	^ super isField
+
+"alternative:
 	self isFinite ifFalse: [^ super isField].
-	"the following only works for finite rings:"
 	^ self propertyAt: #isField
 		ifAbsentPut:
-		[self isCommutative and: [self characteristic isPrime and: [(self to: self mapping: [:i| (self x: i)^self characteristic]) isInjective]]]! !
+		[self isCommutative and: [self characteristic isPrime and: [(self to: self mapping: [:i| (self x: i)^self characteristic]) isInjective]]]"! !
 
 !Algebra methodsFor: 'testing' stamp: 'len 7/16/2020 19:16:51'!
 isJordan
@@ -17166,9 +17265,9 @@ isJordan
 				x*y*xx = (x*(y*xx)) ifFalse: [^ self propertyAt: #isJordan put: false]]].
 	^ self propertyAt: #isJordan put: true! !
 
-!Algebra methodsFor: 'testing' stamp: 'len 5/4/2021 11:14:14'!
+!Algebra methodsFor: 'testing' stamp: 'len 6/2/2022 13:06:09'!
 isNoetherian
-	"Finite algebras are Noetherian because they are finitely-generated as modules."
+	"Finite algebras are Noetherian because they are finitely generated as modules."
 	^ true! !
 
 !Algebra methodsFor: 'testing' stamp: 'len 6/11/2020 12:19:44'!
@@ -17273,18 +17372,6 @@ antiautomorphism
 involution
 	"Answer the main involution of the receiver. This is an automorphism J such that J(u) = u if u is in the even subalgebra, and J(u) = -u if u is in the odd subspace."
 	^ self to: self evaluating: [:x| x reflection]! !
-
-!CliffordAlgebra methodsFor: 'random' stamp: 'len 5/27/2022 19:24:35'!
-unitAtRandom: aRandom
-	| answer |
-	[(answer _ self atRandom: aRandom) isUnit] whileFalse.
-	^ answer! !
-
-!CliffordAlgebra methodsFor: 'random' stamp: 'len 5/27/2022 19:24:47'!
-unitAtRandom: aRandom bits: bitSize
-	| answer |
-	[(answer _ self atRandom: aRandom bits: bitSize) isUnit] whileFalse.
-	^ answer! !
 
 !CliffordAlgebra methodsFor: 'testing' stamp: 'len 7/7/2020 19:48:03'!
 isCommutative
@@ -17501,18 +17588,6 @@ one
 !QuaternionAlgebra methodsFor: 'elements' stamp: 'len 7/16/2020 09:31:53'!
 fromModuleElement: anElement
 	^ Quaternion parent: self moduleElement: anElement! !
-
-!QuaternionAlgebra methodsFor: 'random' stamp: 'len 5/26/2022 20:54:59'!
-unitAtRandom: aRandom
-	| answer |
-	[(answer _ self atRandom: aRandom) isUnit] whileFalse.
-	^ answer! !
-
-!QuaternionAlgebra methodsFor: 'random' stamp: 'len 5/26/2022 20:55:27'!
-unitAtRandom: aRandom bits: bitSize
-	| answer |
-	[(answer _ self atRandom: aRandom bits: bitSize) isUnit] whileFalse.
-	^ answer! !
 
 !QuaternionAlgebra methodsFor: 'testing' stamp: 'len 6/11/2020 19:36:38'!
 isCentral
@@ -17767,13 +17842,16 @@ unitAtRandom: aRandom bits: bitSize
 	self fractions d < 0 ifFalse: [^ super unitAtRandom: aRandom bits: bitSize].
 	^ self unitsList atRandom: aRandom! !
 
-!QuadraticRing methodsFor: 'testing' stamp: 'len 12/31/2021 11:51:12'!
+!QuadraticRing methodsFor: 'testing' stamp: 'len 6/3/2022 07:08:19'!
 isEuclidean
-	"Answer true if the receiver is a Euclidean ring, i.e. it has Euclidean division with remainder."
+	"Answer true if the receiver is a Euclidean ring, i.e. it has Euclidean division with remainder.
+	Warning: it might be Euclidean, but in the constructive setting we may not have a way to testing if it is, or we may not have an implementation of Euclidean division."
+	^ false
+	
 "	self fractions d negative ifFalse: [self notYetImplemented].
 	(#(-11 -7 -3 -2 -1) includes: self fractions d) ifFalse: [^ false].
 	self notYetImplemented"
-	^ super isEuclidean! !
+! !
 
 !QuadraticRing methodsFor: 'testing' stamp: 'len 12/23/2016 16:47:35'!
 isIntegralDomain
@@ -17818,8 +17896,17 @@ i
 real: anInteger imaginary: anotherInteger
 	^ self fromModuleElement: (self asModule elementAt: {anInteger. anotherInteger})! !
 
-!GaussianRing methodsFor: 'testing' stamp: 'len 1/4/2022 18:52:12'!
+!GaussianRing methodsFor: 'testing' stamp: 'len 6/3/2022 06:00:46'!
+hasCanonicalAssociates
+	^ true! !
+
+!GaussianRing methodsFor: 'testing' stamp: 'len 6/3/2022 20:42:03'!
+hasCanonicalReduction
+	^ true! !
+
+!GaussianRing methodsFor: 'testing' stamp: 'len 6/3/2022 07:08:30'!
 isEuclidean
+	"Answer true if the receiver is a Euclidean ring, i.e. it has Euclidean division with remainder."
 	^ true! !
 
 !GaussianRing methodsFor: 'testing' stamp: 'len 1/4/2022 18:54:42'!
@@ -18243,6 +18330,10 @@ atRandom: aRandom bits: bitSize
 	n _ ƒ atRandom: aRandom bits: bitSize.
 	n = 0 ifTrue: [n _ 1].
 	^ self !! n! !
+
+!AdicRing methodsFor: 'testing' stamp: 'len 6/3/2022 05:59:17'!
+hasCanonicalAssociates
+	^ true! !
 
 !AdicRing methodsFor: 'testing' stamp: 'len 4/25/2020 09:54:31'!
 includes: anObject
@@ -20730,62 +20821,6 @@ on: aVertexSet facets: aCollection
 	The faces in aCollection are assumed to be maximal."
 	^ (self facets: aCollection) vertices: aVertexSet! !
 
-!ChainComplex methodsFor: 'operations' stamp: 'len 11/4/2020 12:21:37'!
-/ aSubcomplex
-	"Answer the quotient of the receiver by the argument, equipped with the quotient map."
-	^ self class differentials: (differentials with: aSubcomplex differentials collect: [:f :g| (f domain -> (f domain / g domain)) section -> (f codomain / g codomain)]) shift: shift "assuming they are the same degree and length"! !
-
-!ChainComplex methodsFor: 'operations' stamp: 'len 5/14/2019 16:44:49'!
-<< n
-	"Answer the complex with degrees shifted by n."
-	^ self >> n negated! !
-
-!ChainComplex methodsFor: 'operations' stamp: 'len 1/3/2022 10:52:46'!
-@ aPrimeIdeal
-	"Answer the localization of the receiver at aPrimeIdeal."
-	^ self class differentials: (differentials collect: [:each| each @ aPrimeIdeal]) shift: shift! !
-
-!ChainComplex methodsFor: 'operations' stamp: 'len 5/29/2022 11:39:49'!
- aChainComplex
-	"Answer the direct sum of the receiver with the argument."
-	^ self class differentials: (differentials with: aChainComplex differentials collect: [:f :g| f  g]) shift: shift "assuming they are the same shift and length"! !
-
-!ChainComplex methodsFor: 'operations' stamp: 'len 11/4/2020 12:20:43'!
-‘ aChainComplex
-	"Answer the tensor product of the receiver with the argument."
-	^ self class differentials: (differentials with: aChainComplex differentials collect: [:f :g| f ‘ g]) shift: shift "assuming they are the same degree and length"! !
-
-!ChainComplex methodsFor: 'operations' stamp: 'len 11/4/2020 12:20:59'!
-dual
-	"Answer the dual of the receiver. This is the cochain complex, taking dual in all objects and arrows reversed."
-	^ (self class differentials: (self differentials reversed collect: [:each| each adjoint]) shift: shift) opposite! !
-
-!ChainComplex methodsFor: 'operations' stamp: 'len 12/24/2021 08:25:54'!
-hom: aCodomain
-	^ self class differentials: (differentials collect: [:each| each => aCodomain]) reversed shift: shift! !
-
-!ChainComplex methodsFor: 'operations' stamp: 'len 4/26/2020 04:01:30'!
-stupidTruncationAbove: n
-	"The 'stupid' truncation above is the subcomplex obtained by making 0 the i-th chain for all i > n."
-	^ self notYetImplemented! !
-
-!ChainComplex methodsFor: 'operations' stamp: 'len 4/26/2020 04:01:37'!
-stupidTruncationBelow: n
-	"The 'stupid' truncation below is the quotient complex obtained by making 0 the i-th chain for all i < n."
-	^ self notYetImplemented! !
-
-!ChainComplex methodsFor: 'operations' stamp: 'len 4/26/2020 04:01:58'!
-truncationAbove: n
-	"The 'stupid' truncation above is the complex obtained by making 0 the i-th chain for all i > n, and replacing the n-th chain with the kernel of the n-th differential.
-	This complex has the property that the i-th homology group equals that of the original complex for i >= n and it is 0 for i < n."
-	^ self notYetImplemented! !
-
-!ChainComplex methodsFor: 'operations' stamp: 'len 4/26/2020 04:01:52'!
-truncationBelow: n
-	"The canonical truncation below is the complex obtained by making 0 the i-th chain for all i < n, and replacing the n-th chain with the cokernel of the (n+1)-th differential.
-	This complex has the property that the i-th homology group equals that of the original complex for i <= n and it is 0 for i > n."
-	^ self notYetImplemented! !
-
 !ChainComplex methodsFor: 'accessing' stamp: 'len 11/4/2020 12:24:50'!
 at: k
 	"Answer the k-th differential or boundary map d(k):C(k)->C(k-1)."
@@ -20877,6 +20912,12 @@ cycles: k
 	This is the kernel of the k-th differential d(k)."
 	^ (self at: k) kernel! !
 
+!ChainComplex methodsFor: 'homology' stamp: 'len 6/4/2022 13:04:41'!
+homology
+	| objects |
+	objects _ self indices collect: [:i| self homology: i].
+	^ self class differentials: ((1 to: objects size - 1) collect: [:i| ((objects at: i) => (objects at: i+1)) zero])! !
+
 !ChainComplex methodsFor: 'homology' stamp: 'len 2/24/2017 19:00:35'!
 homology: k
 	"Answer the k-th homology group H(k).
@@ -20894,6 +20935,62 @@ to: aCodomain
 		ifFalse: [^ nil].
 	..."
 	^ super to: aCodomain! !
+
+!ChainComplex methodsFor: 'operations' stamp: 'len 11/4/2020 12:21:37'!
+/ aSubcomplex
+	"Answer the quotient of the receiver by the argument, equipped with the quotient map."
+	^ self class differentials: (differentials with: aSubcomplex differentials collect: [:f :g| (f domain -> (f domain / g domain)) section -> (f codomain / g codomain)]) shift: shift "assuming they are the same degree and length"! !
+
+!ChainComplex methodsFor: 'operations' stamp: 'len 5/14/2019 16:44:49'!
+<< n
+	"Answer the complex with degrees shifted by n."
+	^ self >> n negated! !
+
+!ChainComplex methodsFor: 'operations' stamp: 'len 1/3/2022 10:52:46'!
+@ aPrimeIdeal
+	"Answer the localization of the receiver at aPrimeIdeal."
+	^ self class differentials: (differentials collect: [:each| each @ aPrimeIdeal]) shift: shift! !
+
+!ChainComplex methodsFor: 'operations' stamp: 'len 5/29/2022 11:39:49'!
+ aChainComplex
+	"Answer the direct sum of the receiver with the argument."
+	^ self class differentials: (differentials with: aChainComplex differentials collect: [:f :g| f  g]) shift: shift "assuming they are the same shift and length"! !
+
+!ChainComplex methodsFor: 'operations' stamp: 'len 11/4/2020 12:20:43'!
+‘ aChainComplex
+	"Answer the tensor product of the receiver with the argument."
+	^ self class differentials: (differentials with: aChainComplex differentials collect: [:f :g| f ‘ g]) shift: shift "assuming they are the same degree and length"! !
+
+!ChainComplex methodsFor: 'operations' stamp: 'len 11/4/2020 12:20:59'!
+dual
+	"Answer the dual of the receiver. This is the cochain complex, taking dual in all objects and arrows reversed."
+	^ (self class differentials: (self differentials reversed collect: [:each| each adjoint]) shift: shift) opposite! !
+
+!ChainComplex methodsFor: 'operations' stamp: 'len 12/24/2021 08:25:54'!
+hom: aCodomain
+	^ self class differentials: (differentials collect: [:each| each => aCodomain]) reversed shift: shift! !
+
+!ChainComplex methodsFor: 'operations' stamp: 'len 4/26/2020 04:01:30'!
+stupidTruncationAbove: n
+	"The 'stupid' truncation above is the subcomplex obtained by making 0 the i-th chain for all i > n."
+	^ self notYetImplemented! !
+
+!ChainComplex methodsFor: 'operations' stamp: 'len 4/26/2020 04:01:37'!
+stupidTruncationBelow: n
+	"The 'stupid' truncation below is the quotient complex obtained by making 0 the i-th chain for all i < n."
+	^ self notYetImplemented! !
+
+!ChainComplex methodsFor: 'operations' stamp: 'len 4/26/2020 04:01:58'!
+truncationAbove: n
+	"The 'stupid' truncation above is the complex obtained by making 0 the i-th chain for all i > n, and replacing the n-th chain with the kernel of the n-th differential.
+	This complex has the property that the i-th homology group equals that of the original complex for i >= n and it is 0 for i < n."
+	^ self notYetImplemented! !
+
+!ChainComplex methodsFor: 'operations' stamp: 'len 4/26/2020 04:01:52'!
+truncationBelow: n
+	"The canonical truncation below is the complex obtained by making 0 the i-th chain for all i < n, and replacing the n-th chain with the cokernel of the (n+1)-th differential.
+	This complex has the property that the i-th homology group equals that of the original complex for i <= n and it is 0 for i > n."
+	^ self notYetImplemented! !
 
 !ChainComplex methodsFor: 'testing' stamp: 'len 11/4/2020 12:27:18'!
 isExact
@@ -23634,7 +23731,7 @@ lift: aMatrix
 	X _ aMatrix quotientBy: self.
 	^ self * X = aMatrix ifTrue: [X]! !
 
-!Matrix methodsFor: 'solving' stamp: 'len 1/4/2022 09:01:24'!
+!Matrix methodsFor: 'solving' stamp: 'len 6/2/2022 19:25:01'!
 lift: aMatrix modulo: aRelationsMatrix
 	"Answer X such that AX = B modulo L, i.e. X such that there exists Y with AX + LY = B, where A is self, B is aMatrix and aRelationsMatrix is L."
 	aRelationsMatrix isZero ifTrue: [^ self lift: aMatrix].
@@ -23653,10 +23750,12 @@ quotientBy: aMatrix modulo: aRelationsMatrix
 	aRelationsMatrix isZero ifTrue: [^ self quotientBy: aMatrix].
 	^ (self quotientBy: aMatrix ” aRelationsMatrix) copyFromRow: 1 to: aMatrix width! !
 
-!Matrix methodsFor: 'solving' stamp: 'len 6/1/2022 20:07:38'!
+!Matrix methodsFor: 'solving' stamp: 'len 6/4/2022 21:15:05'!
 reductionBy: aMatrix
 	"Answer N with AX + N = B. See >>quotientBy:."
-	^ self - (aMatrix * (self quotientBy: aMatrix))! !
+	self height = aMatrix height ifFalse: [^ self error: 'matrix shapes don''t match'].
+	(self isZero or: [aMatrix isZero]) ifTrue: [^ self].
+	^ self scalars matrix: self reductionBy: aMatrix! !
 
 !Matrix methodsFor: 'solving' stamp: 'len 6/1/2022 20:35:23'!
 reductionBy: aMatrix modulo: aRelationsMatrix
@@ -28226,9 +28325,18 @@ parent
 representative
 	^ representative! !
 
-!ModuleCoset methodsFor: 'comparing' stamp: 'len 7/6/2020 16:13:01'!
+!ModuleCoset methodsFor: 'comparing' stamp: 'len 6/5/2022 13:06:25'!
 = anObject
-	^ self class == anObject class and: [parent == anObject parent and: [self contains: anObject representative]]! !
+	(self class = anObject class and: [parent = anObject parent]) ifFalse: [^ false].
+	^ self contains: anObject representative
+"	^ parent scalars hasCanonicalReduction
+		ifTrue: [representative = anObject representative]
+		ifFalse: [self contains: anObject representative]"! !
+
+!ModuleCoset methodsFor: 'comparing' stamp: 'len 6/5/2022 13:06:06'!
+hash
+	^ parent hash
+"	^ parent base hasCanonicalReduction ifTrue: [representative hash] ifFalse: [parent hash]"! !
 
 !ModuleCoset methodsFor: 'enumerating' stamp: 'len 3/18/2020 17:36:16'!
 do: aBlock
@@ -28263,15 +28371,9 @@ contains: anObject
 includes: anObject
 	^ (parent base includes: anObject) and: [self contains: anObject]! !
 
-!ModuleCoset methodsFor: 'testing' stamp: 'len 7/6/2020 16:04:43'!
+!ModuleCoset methodsFor: 'testing' stamp: 'len 6/5/2022 13:06:45'!
 isZero
-	^ representative isZero
-"	^ parent relations contains: representative"
-
-"this is unnecesary if the representative of 0 is ensured to be 0:
-	^ parent relations includes: representative
-"
-! !
+	^ representative isZero! !
 
 !ModuleCoset methodsFor: 'private' stamp: 'len 3/18/2020 17:17:12'!
 parent: aQuotientModule
@@ -30777,13 +30879,16 @@ leadingTerm
 tail
 	^ parent representative: representative tail! !
 
-!Residue methodsFor: 'comparing' stamp: 'len 7/16/2021 11:31:37'!
+!Residue methodsFor: 'comparing' stamp: 'len 6/3/2022 21:22:53'!
 = anObject
-	^ self class = anObject class and: [parent = anObject parent and: [self contains: anObject representative]]! !
+	(self class = anObject class and: [parent = anObject parent]) ifFalse: [^ false].
+	^ parent base hasCanonicalReduction
+		ifTrue: [representative = anObject representative]
+		ifFalse: [self contains: anObject representative]! !
 
-!Residue methodsFor: 'comparing' stamp: 'len 7/16/2021 11:10:35'!
+!Residue methodsFor: 'comparing' stamp: 'len 6/3/2022 20:40:28'!
 hash
-	^ parent hasCanonicalReduction ifTrue: [representative hash] ifFalse: [parent hash]! !
+	^ parent base hasCanonicalReduction ifTrue: [representative hash] ifFalse: [parent hash]! !
 
 !Residue methodsFor: 'conjugation' stamp: 'len 8/9/2020 07:45:57'!
 conjugate
@@ -30825,11 +30930,11 @@ conjugatesDo: aBlock
 	^ self - (self \\ anElement) / b
 "! !
 
-!Residue methodsFor: 'operations' stamp: 'len 5/31/2022 21:13:57'!
+!Residue methodsFor: 'operations' stamp: 'len 6/3/2022 07:25:21'!
 annihilator
 	"Answer a generator of the ideal of all elements that multiplied by the receiver are zero."
 	| xgcd |
-"	parent base isEuclidean ifFalse: [^ super annihilator]."
+	parent base isEuclidean ifFalse: [^ super annihilator].
 	xgcd _ representative xgcd: parent modulus.
 	^ parent project: ((xgcd at: 2) annihilator gcd: parent modulus // (xgcd at: 1))! !
 
@@ -30982,11 +31087,9 @@ lift
 representative
 	^ representative! !
 
-!ModularInteger methodsFor: 'comparing' stamp: 'len 9/16/2018 16:14:36'!
-= aModularInteger
-	self class == aModularInteger class ifFalse: [^ false].
-	self == aModularInteger ifTrue: [^ true].
-	^ representative = aModularInteger representative and: [parent = aModularInteger parent]! !
+!ModularInteger methodsFor: 'comparing' stamp: 'len 6/3/2022 20:50:28'!
+= anObject
+	^ self class = anObject class and: [representative = anObject representative and: [parent = anObject parent]]! !
 
 !ModularInteger methodsFor: 'comparing' stamp: 'len 5/31/2022 11:25:54'!
 | anElement
@@ -31575,6 +31678,11 @@ valuation
 	self isZero ifTrue: [^ self].
 	(v _ self valuation - anElement valuation) < 0 ifTrue: [^ self zero].
 	^ self normalizationInverse * anElement normalization * (parent p ^ v)! !
+
+!GaloisRingElement methodsFor: 'operations' stamp: 'len 6/3/2022 07:24:49'!
+annihilator
+	"Answer a generator of the ideal of all elements that multiplied by the receiver are zero."
+	^ parent project: representative annihilator! !
 
 !GaloisRingElement methodsFor: 'operations' stamp: 'len 6/1/2022 18:07:18'!
 gcd: anElement
@@ -35063,15 +35171,18 @@ run
 	self sort.
 "	self validate"! !
 
-!Buchberger methodsFor: 'computing' stamp: 'len 5/24/2022 14:44:46'!
+!Buchberger methodsFor: 'computing' stamp: 'len 6/3/2022 06:20:37'!
 sort
 	"Sort the basis to make an autoreduced basis unique."
-	self flag: #fixme. "should sort also by leading coefficient"
-	basis sort: [:a :b| a leadingMonomial >= b leadingMonomial]! !
+	basis sort: [:a :b| self compare: a with: b]! !
 
 !Buchberger methodsFor: 'testing' stamp: 'len 1/10/2022 12:12:04'!
 isRankOne
 	^ matrix height = 1! !
+
+!Buchberger methodsFor: 'private' stamp: 'len 6/3/2022 06:20:20'!
+compare: a with: b
+	^ a leadingMonomial >= b leadingMonomial! !
 
 !Buchberger methodsFor: 'private' stamp: 'len 1/10/2022 12:12:41'!
 matrix: aMatrix
@@ -35159,13 +35270,12 @@ run
 	self sort.
 "	self validate"! !
 
-!ExtendedBuchberger methodsFor: 'computing' stamp: 'len 5/24/2022 14:44:04'!
+!ExtendedBuchberger methodsFor: 'computing' stamp: 'len 6/3/2022 06:19:51'!
 sort
 	"Sort the basis to make an autoreduced basis unique."
 	| temp |
 	temp _ (1 to: basis size) collect: [:i| Association key: (basis at: i) value: (combinations at: i)].
-	self flag: #fixme. "should sort also by leading coefficient"
-	temp sort: [:a :b| a key leadingMonomial >= b key leadingMonomial].
+	temp sort: [:a :b| self compare: a key with: b key].
 	basis _ temp collect: [:each| each key].
 	combinations _ temp collect: [:each| each value]! !
 
@@ -35242,6 +35352,10 @@ process: anArray
 						[queue add: (Association key: division remainder value: ((ai * (matrix scalars one * (m / hi) * (xgcd at: 2)) + (ak * (matrix scalars one * (m / hk) * (xgcd at: 3)))) - (combinations * division quotients) sum))]]]]].
 	^ queue! !
 
+!ExtendedStrongBuchberger methodsFor: 'private' stamp: 'len 6/3/2022 06:21:32'!
+compare: a with: b
+	^ a leadingMonomial > b leadingMonomial or: [a leadingMonomial = b leadingMonomial and: [a leadingCoefficient gauge >= b leadingCoefficient gauge]]! !
+
 !StrongBuchberger methodsFor: 'computing' stamp: 'len 5/24/2022 20:18:21'!
 autoreduce
 	"Make the basis a reduced basis.
@@ -35289,6 +35403,10 @@ process: anArray
 					[g _ fi * (m / hi) * (xgcd at: 2) + (fk * (m / hk) * (xgcd at: 3)).
 					(r _ g reductionBy: basis) isZero ifFalse: [queue add: r]]]]].
 	^ queue! !
+
+!StrongBuchberger methodsFor: 'private' stamp: 'len 6/3/2022 06:21:20'!
+compare: a with: b
+	^ a leadingMonomial > b leadingMonomial or: [a leadingMonomial = b leadingMonomial and: [a leadingCoefficient gauge >= b leadingCoefficient gauge]]! !
 
 !ComplexBox methodsFor: 'accessing' stamp: 'len 1/16/2016 05:56'!
 area
