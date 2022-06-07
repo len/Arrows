@@ -1,4 +1,4 @@
-'From Cuis 6.0 [latest update: #5053] on 5 June 2022 at 7:15:31 pm'!
+'From Cuis 6.0 [latest update: #5053] on 7 June 2022 at 5:42:07 am'!
 'Description This package implements among other things: permutation groups, linear groups, modular integers, finite fields, Galois rings, polynomial rings, affine algebras, number fields, function fields, p-adic fields, power series rings, finitely presented modules, (co)chain complexes, finite (finitely generated as modules) associative algebras, finite distributive (not necessarily associative) algebras, schemes, and sheaves of modules.
 
 References:
@@ -52,7 +52,7 @@ References:
 [] Victor Shoup; "A Computational Introduction to Number Theory and Algebra"
 [] Joseph. H. Silverman; "The Arithmetic of Elliptic Curves"
 '!
-!provides: 'Algebra' 1 17!
+!provides: 'Algebra' 1 18!
 !requires: 'Graphs' 1 0 nil!
 !requires: 'Collections-Extras' 1 1 nil!
 !requires: 'Complex' 1 8 nil!
@@ -554,16 +554,6 @@ Module subclass: #Ideal
 	category: 'Algebra-Rings'!
 !classDefinition: 'Ideal class' category: #'Algebra-Rings'!
 Ideal class
-	instanceVariableNames: ''!
-
-!classDefinition: #RationalIntegerIdeal category: #'Algebra-Rings'!
-Ideal subclass: #RationalIntegerIdeal
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Algebra-Rings'!
-!classDefinition: 'RationalIntegerIdeal class' category: #'Algebra-Rings'!
-RationalIntegerIdeal class
 	instanceVariableNames: ''!
 
 !classDefinition: #PolynomialIdeal category: #'Algebra-Algebras-Affine'!
@@ -2729,11 +2719,6 @@ The elements of a quotient module M/N are cosets N + x with x in M. See ModuleCo
 !Ideal commentStamp: '<historical>' prior: 0!
 Finitely generated right ideals of a ring R, i.e. R-submodules of R.!
 
-!RationalIntegerIdeal commentStamp: '<historical>' prior: 0!
-Ideal in the ring of rational integers.
-
-Ideals of the integers are principal (or cyclic), i.e. they are all multiples of a given integer (the generator).!
-
 !PolynomialIdeal commentStamp: '<historical>' prior: 0!
 Ideal in a polynomial ring. See PolynomialRing and AffineAlgebra.!
 
@@ -2757,9 +2742,9 @@ Rings can be thought as continuous functions on some topological space. In the c
 Rings can be constructed from existing rings for example by taking quotients by a two-sided ideal (see QuotientRing), by direct product (see ProductRing), and in the case of commutative rings by making transcendental extensions (see PolynomialRing), localization (see FractionRing and LocalRing), completion (for example PowerSeriesRing and AdicRing), etc.!
 
 !FractionRing commentStamp: '<historical>' prior: 0!
-Total ring of fractions Frac(R) of a commutative ring R, also called the "total quotient ring" of R. The elements are formal fractions a/b with a and b in R and b regular (not a zero divisor). When the ring R is an integral domain, Frac(R) is a field and it is called the "field of fractions" of R. See Ring>>fractions.
+Total ring of fractions Frac(R) of a commutative ring R, also called the "total quotient ring" of R. The elements are formal fractions a/b with a and b in R and b regular (not a zero divisor), under the equivalence relation a/b ~ c/d if ad = cb. When the ring R is an integral domain, Frac(R) is a field and it is called the "field of fractions" of R. See Ring>>fractions.
 
-The ring of fractions is a particular case of the more general construction of the localization of a ring or module. The field of fractions of an integral domain is the localization at the zero ideal. See also LocalRing for localizations at prime ideals.!
+The ring of fractions is a particular case of the more general construction of the localization of a ring or module. Frac(R) is the localization of R at the multiplicative set formed by the regular elements of R. The field of fractions of an integral domain is the localization at the zero ideal. See also LocalRing for localizations at prime ideals.!
 
 !RationalField commentStamp: '<historical>' prior: 0!
 The singletion global instance „ is the field of rational numbers.!
@@ -3842,20 +3827,16 @@ printOn: aStream
 printOn: aStream
 	aStream print: self scalars; nextPutAll: (self height printString, '×', self width printString) super! !
 
-!Ideal methodsFor: 'printing' stamp: 'len 12/20/2021 17:48:38'!
+!Ideal methodsFor: 'printing' stamp: 'len 6/6/2022 11:32:58'!
 printOn: aStream
 	self isTrivial ifTrue: [^ super printOn: aStream].
 	(self scalars isKindOf: ModularIntegerRing)
 		ifTrue: [aStream print: self generator; print: self scalars. ^ self].
 	self isOne ifTrue: [aStream print: self scalars. ^ self].
+	self scalars = ƒ ifTrue: [aStream print: self generator; nextPut: $ƒ. ^ self].
 	aStream nextPut: $<.
 	self printGeneratorsOn: aStream.
 	aStream nextPut: $>! !
-
-!RationalIntegerIdeal methodsFor: 'printing' stamp: 'len 12/15/2021 15:26:14'!
-printOn: aStream
-	(self isTrivial or: [self isAmbient]) ifTrue: [^ super printOn: aStream].
-	aStream print: self generator; nextPut: $ƒ! !
 
 !Ring methodsFor: 'accessing' stamp: 'len 7/26/2021 18:16:20'!
 category
@@ -9977,7 +9958,7 @@ primaryInvariants
 			ifFalse: [each factorization withOccurrencesDo: [:p :k| answer add: p^k]]].
 	^ self propertyAt: #primaryInvariants put: answer! !
 
-!Module methodsFor: 'accessing' stamp: 'len 6/5/2022 19:04:43'!
+!Module methodsFor: 'accessing' stamp: 'len 6/6/2022 06:29:35'!
 rank
 	"The rank of a finitely generated R-module M is the rank of M ‘ Frac(R), where Frac(R) is the total fraction ring of R.
 	Note that the rank doesn't need to exist. When R is an integral domain Frac(R) is a field and the rank is defined.
@@ -9991,7 +9972,7 @@ rank
 	i _ 0.
 	[(F _ self fittingIdeal: i) isTrivial] whileTrue: [i _ i + 1].
 	F isOne ifTrue: [^ self propertyAt: #rank put: i].
-	^ self notYetImplemented! !
+	^ self error: 'rank undefined'! !
 
 !Module methodsFor: 'accessing' stamp: 'len 12/26/2021 11:15:24'!
 relations
@@ -10443,10 +10424,11 @@ to: aModule validMatrix: aMatrix
 	aSubmodule isTrivial ifTrue: [^ aSubmodule].
 	^ ((self -> self ambient /\ (aSubmodule -> self ambient) -< {self. aSubmodule}) first -> self ambient) image! !
 
-!Module methodsFor: 'operations' stamp: 'len 8/14/2019 17:42:10'!
+!Module methodsFor: 'operations' stamp: 'len 6/6/2022 09:54:24'!
 : aModuleOrIdeal
-	"For the receiver N and the argument P two submodules of an R-module M, answer the colon quotient N : P defined as the ideal {a in R | aP is contained in N}.
-	For the receiver N, a submodule of an R-module M, and the argument I, an ideal of R, answer the colon quotient N : I defined as the submodule {m in M | I * m is containted in N}."
+	"Answer the conductor P : N of the argument N into the receiver P (also called colon quotient).
+	This is defined as the ideal {a in R | aN <= P}.
+	For the receiver P a submodule of an R-module M, and the argument I an ideal of R, answer the conductor P : I of I into P defined as the submodule {m in M | Im <= P}."
 	self notYetImplemented! !
 
 !Module methodsFor: 'operations' stamp: 'len 1/7/2022 20:48:32'!
@@ -10802,13 +10784,13 @@ isMonomial
 	"Answer true if the receiver is generated by monomials."
 	^ self scalars scalars isField and: [self generators allSatisfy: [:each| each isMonomial]]! !
 
-!Module methodsFor: 'testing' stamp: 'len 3/21/2021 16:56:55'!
+!Module methodsFor: 'testing' stamp: 'len 6/6/2022 06:37:53'!
 isNoetherian
 	"A module is called Noetherian if every submodule is finitely generated.
 	This is equivalent to the module satisfying the ascending chain condition (every ascending chain of submodules is finite), and it is also equivalent to the condition that any set of submodules contains a maximal element."
-	(self isAmbient not and: [self ambient isNoetherian]) ifTrue: [^ true].
-	"A ring R is Noetherian if and only if every finitely generated R-module is a Noetherian module:"
-	^ self scalars isNoetherian "because the receiver is finitely generated"! !
+	"A ring R is Noetherian if and only if every finitely generated R-module is a Noetherian module. Also, every finitely presented module is finitely generated:"
+	self scalars isNoetherian ifTrue: [^ true].
+	^ self notYetImplemented! !
 
 !Module methodsFor: 'testing' stamp: 'len 3/11/2020 18:57:48'!
 isNonDegenerate
@@ -11685,10 +11667,10 @@ apply: aMorphism
 	self scalars isEuclidean ifTrue: [^ self scalars * (self generator lcm: anIdeal generator)].
 	^super /\ anIdeal! !
 
-!Ideal methodsFor: 'operations' stamp: 'len 12/15/2021 16:15:30'!
+!Ideal methodsFor: 'operations' stamp: 'len 6/6/2022 09:50:42'!
 : anIdeal
-	"Answer the colon quotient I:J of the receiver I with the argument J.
-	This is defined as I:J := {r in R | rJ <= I} and it is isomorphic to Hom(R/I, R/J)."
+	"Answer the conductor I : J of the argument J into the receiver I (also called colon quotient).
+	This is defined as I : J := {r in R | rJ <= I} and it is isomorphic to Hom(R/I, R/J)."
 	self isAmbient ifTrue: [^ self].
 	self scalars isQuotient ifTrue: [^ self representative : anIdeal representative apply: self scalars projection].
 	^ super : anIdeal! !
@@ -11706,9 +11688,11 @@ apply: aMorphism
 adapt: anElement
 	^ (super adapt: anElement) ifNil: [self scalars adapt: anElement]! !
 
-!Ideal methodsFor: 'operations' stamp: 'len 4/12/2021 14:56:44'!
+!Ideal methodsFor: 'operations' stamp: 'len 6/6/2022 12:06:11'!
 radical
 	self scalars isQuotient ifTrue: [^ self representative radical apply: self scalars projection].
+	(self isTrivial or: [self isOne]) ifTrue: [^ self].
+	(self generators size = 1 and: [self scalars isUFD]) ifTrue: [^ self scalars * self generator factorization asSet product].
 	^ self subclassResponsibility! !
 
 !Ideal methodsFor: 'operations' stamp: 'len 1/14/2022 12:47:20'!
@@ -11734,20 +11718,18 @@ saturation: anIdeal
 	"Answer the saturation ideal I:J^infinity of the receiver I with the argument J."
 	^ self subclassResponsibility! !
 
-!Ideal methodsFor: 'operations' stamp: 'len 1/7/2022 20:20:48'!
-span: aCollection
-"	| generators |
-	self flag: #fix. ""not sure where to put this, it should happen automatically in Module>>span: by echelonization""
-	aCollection isCollection ifFalse: [^ super span: aCollection].
-	generators _ Set new: aCollection size.
-	aCollection do: [:each| each isZero ifFalse: [generators add: each normalized]].
-	(generators size > 1 and: [self scalars isEuclidean])
-		ifTrue:
-			[| generator |
-			generators do: [:each| generator _ generator isNil ifTrue: [each] ifFalse: [generator gcd: each]].
-			generators _ {generator}].
-	(generators anySatisfy: [:any| any isUnit]) ifTrue: [^ self ambient]."
-	^ super span: aCollection! !
+!Ideal methodsFor: 'operations' stamp: 'len 6/6/2022 11:08:25'!
+span: aCollectionOrMatrix
+	| generator generators |
+	self scalars isEuclidean ifFalse: [^ super span: aCollectionOrMatrix].
+	generators _ aCollectionOrMatrix isMatrix
+		ifTrue: [aCollectionOrMatrix width > 1 ifFalse: [^ super span: aCollectionOrMatrix].
+			aCollectionOrMatrix asTuple asArray]
+		ifFalse: [aCollectionOrMatrix].
+	generator _ self scalars zero.
+	generators do: [:each| generator _ generator gcd: each].
+	generator isUnit ifTrue: [^ self ambient].
+	^ super span: {generator}! !
 
 !Ideal methodsFor: 'operations' stamp: 'len 6/6/2019 12:04:50'!
 squared
@@ -11817,6 +11799,12 @@ isOne
 	"Answer true if the receiver is the unit ideal <1> (the whole ring)."
 	^ self contains: self scalars one! !
 
+!Ideal methodsFor: 'testing' stamp: 'len 6/6/2022 11:51:44'!
+isPrimary
+	"An ideal I of a commutative ring is called 'primary' if for all x*y in I, x or y^n (n>0) is also in I."
+	self scalars = ƒ ifTrue: [^ self isTrivial or: [self generator factorization asSet size = 1]].
+	^ self notYetImplemented! !
+
 !Ideal methodsFor: 'testing' stamp: 'len 1/12/2022 17:57:52'!
 isPrime
 	"An ideal I of R is prime iff R/I is an integral domain.
@@ -11847,6 +11835,13 @@ isRadical
 !Ideal methodsFor: 'testing' stamp: 'len 2/14/2017 10:24:17'!
 isSaturated
 	^ self = self saturation! !
+
+!Ideal methodsFor: 'testing' stamp: 'len 6/6/2022 11:48:53'!
+isSemiprime
+	"An ideal I of a commutative ring is called 'semiprime' if for all x^k (k>0) in I, also x is in I.
+	Equivalently, for all y not in I, y^k (k>0) is also not in I."
+	self scalars = ƒ ifTrue: [^ self isTrivial or: [self generator isSquarefree]].
+	^ self notYetImplemented! !
 
 !Ideal methodsFor: 'testing' stamp: 'len 1/9/2022 08:34:02'!
 isSquarefree
@@ -11881,28 +11876,6 @@ example2
 	y _ R y.
 	z _ R z.
 	^ R * {x^2 + (y^2). x*y + (y^2) + (y*z). y^2 + (z^2) + z}! !
-
-!RationalIntegerIdeal methodsFor: 'accessing' stamp: 'len 3/16/2021 16:16:20'!
-height
-	"Answer the height (or codimension, or rank) of the receiver.
-	This is the length of the longest ascending chain of prime ideals containing it.
-	The height of a prime ideal is also the Krull dimension of the ring localization at that ideal."
-	^ self isTrivial ifTrue: [0] ifFalse: [1]! !
-
-!RationalIntegerIdeal methodsFor: 'operations' stamp: 'len 5/4/2018 23:46:45'!
-radical
-	^ self scalars * self generator radical! !
-
-!RationalIntegerIdeal methodsFor: 'testing' stamp: 'len 8/5/2021 08:40:01'!
-isPrimary
-	"An ideal I of a commutative ring is called 'primary' if for all x*y in I, x or y^n (n>0) is also in I."
-	^ self propertyAt: #isPrimary ifAbsentPut: [self isZero or: [self generator factorization asSet size = 1]]! !
-
-!RationalIntegerIdeal methodsFor: 'testing' stamp: 'len 1/9/2022 08:32:40'!
-isSemiprime
-	"An ideal I of a commutative ring is called 'semiprime' if for all x^k (k>0) in I, also x is in I.
-	Equivalently, for all y not in I, y^k (k>0) is also not in I."
-	^ self propertyAt: #isSemiprime ifAbsentPut: [self isZero or: [self generator isSquarefree]]! !
 
 !PolynomialIdeal methodsFor: 'accessing' stamp: 'len 1/13/2022 10:31:49'!
 degree
@@ -14480,15 +14453,13 @@ unitsSize
 	This is Euler's totient function at the modulus of the receiver."
 	^ self propertyAt: #unitsSize ifAbsentPut: [self modulus phi]! !
 
-!ModularIntegerRing methodsFor: 'comparing' stamp: 'len 4/26/2018 20:11:02'!
+!ModularIntegerRing methodsFor: 'comparing' stamp: 'len 6/5/2022 19:32:02'!
 = anObject
-	self == anObject ifTrue: [^ true].
-	(anObject isKindOf: ModularIntegerRing) ifFalse: [^ false].
-	^ self modulus = anObject modulus! !
+	^ self == anObject or: [self class = anObject class and: [modulus = anObject modulus]]! !
 
-!ModularIntegerRing methodsFor: 'comparing' stamp: 'len 4/26/2018 20:11:10'!
+!ModularIntegerRing methodsFor: 'comparing' stamp: 'len 6/5/2022 19:29:37'!
 hash
-	^ self modulus hash! !
+	^ modulus hash! !
 
 !ModularIntegerRing methodsFor: 'converting' stamp: 'len 7/22/2021 18:55:25'!
 asModule
@@ -16076,10 +16047,6 @@ isReduced
 	"Answer true if the receiver has no nonzero nilpotent elements, or equivalently if it has no nonzero elements with square zero, i.e. x^2 = 0 implies x = 0."
 	^ true! !
 
-!RationalIntegerRing methodsFor: 'private' stamp: 'len 12/15/2021 15:21:39'!
-idealClass
-	^ RationalIntegerIdeal! !
-
 !RationalIntegerRing class methodsFor: 'initialization' stamp: 'len 5/23/2020 08:50:48'!
 initialize
 	super initialize.
@@ -17020,10 +16987,11 @@ syzygiesOf: aMatrix
 asModule
 	^ self propertyAt: #asModule! !
 
-!Algebra methodsFor: 'elements' stamp: 'len 4/23/2021 12:55:37'!
+!Algebra methodsFor: 'elements' stamp: 'len 6/6/2022 11:01:51'!
 adapt: anElement
 	self isAmbient ifFalse: [^ super adapt: anElement].
 	(self asModule includes: anElement) ifTrue: [^ self fromModuleElement: anElement].
+	(self scalars includes: anElement) ifTrue: [^ self one * anElement].
 	^ super adapt: anElement! !
 
 !Algebra methodsFor: 'elements' stamp: 'len 7/16/2020 09:29:19'!
@@ -17230,18 +17198,6 @@ isCommutative
 !Algebra methodsFor: 'testing' stamp: 'len 7/5/2021 12:27:08'!
 isDecomposable
 	^self decomposition size > 1! !
-
-!Algebra methodsFor: 'testing' stamp: 'len 7/6/2021 10:49:15'!
-isDivisionAlgebra
-	"An algebra is called a 'division algebra' if ax=b and xa=b have unique solutions for nonzero a.
-	If the algebra is unital, this condition implies that each nonzero element has a left inverse and a right inverse. If the algebra is associative, the left and right inverse coincide.
-	For finite dimensional algebra, a division algebra can be defined by the following condition: ab=0 implies a=0 or b=0."
-	^ false "it might be a division algebra, we just don't know, should implement an algorithm to determine it"! !
-
-!Algebra methodsFor: 'testing' stamp: 'len 1/2/2022 09:55:44'!
-isDivisionRing
-	"A division ring, or skewfield, is a ring where division is possible, i.e. every nonzero element has a multiplicative inverse. The only difference with a field is that a division ring is not requiered to be commutative."
-	^ self isDivisionAlgebra! !
 
 !Algebra methodsFor: 'testing' stamp: 'len 6/3/2022 07:03:41'!
 isField
@@ -17598,12 +17554,13 @@ isCommutative
 	"Quaternion algebras are always noncommutative."
 	^ false! !
 
-!QuaternionAlgebra methodsFor: 'testing' stamp: 'len 5/2/2021 11:21:22'!
-isDivisionAlgebra
-	"An algebra is called a 'division algebra' if ax=b and xa=b have unique solutions for nonzero a.
+!QuaternionAlgebra methodsFor: 'testing' stamp: 'len 6/6/2022 17:30:48'!
+isDivisionRing
+	"A division ring, or skewfield, is a ring where division is possible, i.e. every nonzero element has a multiplicative inverse. The only difference with a field is that a division ring is not requiered to be commutative.
+	An algebra is called a 'division algebra' if ax=b and xa=b have unique solutions for nonzero a.
 	If the receiver is not a division algebra, it is isomorphic to the algebra of 2x2 matrices."
 	self scalars = „ ifTrue: [^ self discriminant ~= self scalars one].
-	^ super isDivisionAlgebra! !
+	^ super isDivisionRing! !
 
 !QuaternionAlgebra methodsFor: 'testing' stamp: 'len 7/21/2021 16:01:23'!
 isInvolutive
@@ -24247,10 +24204,10 @@ withIndicesDo: aBlock
 		aBlock value: each value: i value: j.
 		(j _ j + 1) > width ifTrue: [j _ 1. i _ i + 1]].! !
 
-!DenseMatrix methodsFor: 'operations' stamp: 'len 4/25/2022 13:33:57'!
+!DenseMatrix methodsFor: 'operations' stamp: 'len 6/6/2022 10:58:46'!
 * anObject
-	((self scalars includes: anObject) or: [anObject isInteger])
-		ifTrue: [^ self class from: domain to: codomain coefficients: coefficients * anObject].
+	(self scalars includes: anObject) ifTrue: [^ self class from: domain to: codomain coefficients: coefficients * anObject].
+	anObject isInteger ifTrue: [^ self * (self scalars !! anObject)].
 	anObject isMatrix ifTrue: [^ self · anObject].
 	anObject isTuple ifTrue: [^ self value: anObject].
 	(anObject isKindOf: ModuleMap) ifTrue: [^ self · anObject].
@@ -30879,9 +30836,9 @@ leadingTerm
 tail
 	^ parent representative: representative tail! !
 
-!Residue methodsFor: 'comparing' stamp: 'len 6/3/2022 21:22:53'!
+!Residue methodsFor: 'comparing' stamp: 'len 6/5/2022 19:25:43'!
 = anObject
-	(self class = anObject class and: [parent = anObject parent]) ifFalse: [^ false].
+	parent = anObject parent ifFalse: [^ false].
 	^ parent base hasCanonicalReduction
 		ifTrue: [representative = anObject representative]
 		ifFalse: [self contains: anObject representative]! !
@@ -31008,18 +30965,18 @@ value: anObject
 valueWithArguments: anArray
 	^ representative valueWithArguments: anArray! !
 
-!Residue methodsFor: 'operations' stamp: 'len 6/1/2022 18:10:41'!
+!Residue methodsFor: 'operations' stamp: 'len 6/5/2022 19:35:04'!
 xgcd: anElement
 	"Answer the GCD of the receiver and the argument and the Bezout coefficients.
 	If the receiver is 'a', the argument is 'b' and their GCD is 'g', answer an array {g. s. t} where as + bt = g."
 	| xgcd g u |
-"	parent base isEuclidean ifFalse: [^ super xgcd: anElement]."
+	parent base isEuclidean ifFalse: [^ super xgcd: anElement].
 	xgcd _ representative xgcd: anElement representative.
 	g _ parent project: (xgcd at: 1).
 	u _ g normalization.
 	^ {g * u. (parent project: (xgcd at: 2)) * u. (parent project: (xgcd at: 3)) * u}! !
 
-!Residue methodsFor: 'operations' stamp: 'len 6/1/2022 18:11:11'!
+!Residue methodsFor: 'operations' stamp: 'len 6/5/2022 19:33:26'!
 xxgcd: anElement
 	"(More) Extended GCD.
 	If the receiver is 'a', the argument is 'b' and their GCD is 'g'. answer an array {g. s. t. u. v} where as + bt = g, au + bv = 0, and sv - ut = 1, i.e. answer the coefficients of a unimodular matrix such that:.
@@ -31027,7 +30984,7 @@ xxgcd: anElement
 		[u v] [b] = [0]."
 	| xxgcd g s t u v x |
 	(self isZero and: [anElement isZero]) ifTrue: [^ {self. self parent one. self. self. self parent one}].
-"	parent base isEuclidean ifFalse: [^ super xxgcd: anElement]."
+	parent base isEuclidean ifFalse: [^ super xxgcd: anElement].
 	xxgcd _ representative xxgcd: anElement representative.
 	g _ parent project: (xxgcd at: 1).
 	x _ g normalization.
@@ -31087,9 +31044,9 @@ lift
 representative
 	^ representative! !
 
-!ModularInteger methodsFor: 'comparing' stamp: 'len 6/3/2022 20:50:28'!
+!ModularInteger methodsFor: 'comparing' stamp: 'len 6/5/2022 19:30:27'!
 = anObject
-	^ self class = anObject class and: [representative = anObject representative and: [parent = anObject parent]]! !
+	^ parent = anObject parent and: [representative = anObject representative]! !
 
 !ModularInteger methodsFor: 'comparing' stamp: 'len 5/31/2022 11:25:54'!
 | anElement
