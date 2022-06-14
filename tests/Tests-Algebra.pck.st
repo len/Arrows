@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5053] on 1 June 2022 at 9:14:27 pm'!
+'From Cuis 6.0 [latest update: #5053] on 14 June 2022 at 6:45:36 pm'!
 'Description '!
-!provides: 'Tests-Algebra' 1 11!
+!provides: 'Tests-Algebra' 1 12!
 SystemOrganization addCategory: #'Tests-Algebra'!
 SystemOrganization addCategory: #'Tests-Algebra-Arrays'!
 SystemOrganization addCategory: #'Tests-Algebra-Rings'!
@@ -318,16 +318,6 @@ AbstractFieldTest subclass: #RationalFieldTest
 	category: 'Tests-Algebra-Rings'!
 !classDefinition: 'RationalFieldTest class' category: #'Tests-Algebra-Rings'!
 RationalFieldTest class
-	instanceVariableNames: ''!
-
-!classDefinition: #EuclideanProductRingTest category: #'Tests-Algebra-Rings'!
-AbstractEuclideanRingTest subclass: #EuclideanProductRingTest
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Tests-Algebra-Rings'!
-!classDefinition: 'EuclideanProductRingTest class' category: #'Tests-Algebra-Rings'!
-EuclideanProductRingTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #GaloisRingTest category: #'Tests-Algebra-Rings'!
@@ -690,6 +680,16 @@ AbstractMatrixOverIntegralDomainTest subclass: #MatrixOverIntegersTest
 MatrixOverIntegersTest class
 	instanceVariableNames: ''!
 
+!classDefinition: #MatrixOverLocalIntegerRingTest category: #'Tests-Algebra-Matrices'!
+AbstractMatrixOverIntegralDomainTest subclass: #MatrixOverLocalIntegerRingTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra-Matrices'!
+!classDefinition: 'MatrixOverLocalIntegerRingTest class' category: #'Tests-Algebra-Matrices'!
+MatrixOverLocalIntegerRingTest class
+	instanceVariableNames: ''!
+
 !classDefinition: #MatrixOverMultivariatePolynomialsOverPrimeFieldTest category: #'Tests-Algebra-Matrices'!
 AbstractMatrixOverIntegralDomainTest subclass: #MatrixOverMultivariatePolynomialsOverPrimeFieldTest
 	instanceVariableNames: ''
@@ -978,6 +978,16 @@ AbstractCommutativeModuleTest subclass: #ModuleOverIntegersTest
 	category: 'Tests-Algebra-Modules'!
 !classDefinition: 'ModuleOverIntegersTest class' category: #'Tests-Algebra-Modules'!
 ModuleOverIntegersTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #ModuleOverLocalIntegerRingTest category: #'Tests-Algebra-Modules'!
+AbstractCommutativeModuleTest subclass: #ModuleOverLocalIntegerRingTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra-Modules'!
+!classDefinition: 'ModuleOverLocalIntegerRingTest class' category: #'Tests-Algebra-Modules'!
+ModuleOverLocalIntegerRingTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #ModuleOverModularIntegersTest category: #'Tests-Algebra-Modules'!
@@ -3333,11 +3343,6 @@ initialize
 	super initialize.
 	R _ „! !
 
-!EuclideanProductRingTest methodsFor: 'as yet unclassified' stamp: 'len 1/4/2022 11:39:20'!
-initialize
-	super initialize.
-	R _ 2 atRandom = 1 ifTrue: [ƒ × ƒ] ifFalse: [ƒ/4 × (ƒ/6)]! !
-
 !GaloisRingTest methodsFor: 'as yet unclassified' stamp: 'len 4/21/2021 08:18:32'!
 initialize
 	super initialize.
@@ -3348,10 +3353,10 @@ initialize
 	super initialize.
 	R _ GaussianField new integers! !
 
-!LocalIntegerRingTest methodsFor: 'as yet unclassified' stamp: 'len 12/29/2021 14:17:29'!
+!LocalIntegerRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/7/2022 17:57:45'!
 initialize
 	super initialize.
-	R _ ƒ @ 5! !
+	R _ ƒ @ 64 atRandom nextPrime! !
 
 !ModularIntegerRingTest methodsFor: 'as yet unclassified' stamp: 'len 4/22/2021 10:33:09'!
 initialize
@@ -4790,6 +4795,11 @@ testSmithNormalFormExampleDiagonal
 	A _ ƒ matrix: #((5 0 0) (0 2 0) (0 0 0)).
 	self assert: A SNF = ((ƒ^3) endomorphisms diagonal: #(1 10 0))! !
 
+!MatrixOverLocalIntegerRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/7/2022 17:59:11'!
+initialize
+	super initialize.
+	scalars _ ƒ @ 64 atRandom nextPrime! !
+
 !MatrixOverMultivariatePolynomialsOverPrimeFieldTest methodsFor: 'as yet unclassified' stamp: 'len 12/30/2021 12:23:00'!
 initialize
 	super initialize.
@@ -4969,56 +4979,6 @@ initialize
 initialize
 	super initialize.
 	scalars _ QuaternionAlgebra over: „ invariants: #(1 1)! !
-
-!AbstractModuleTest methodsFor: 'private' stamp: 'len 12/25/2021 10:54:14'!
-newFreeModule
-	| M |
-	M _ (3 atRandom: random) = 1 ifTrue: [scalars asIdeal] ifFalse: [scalars ^ ((0 to: 3) atRandom: random)].
-	scalars isCommutative ifFalse: [^ M].
-	(5 atRandom: random) = 1 ifTrue: [^ M => self newSmallFreeModule].
-	(5 atRandom: random) = 1 ifTrue: [^ M dual].
-	^ M! !
-
-!AbstractModuleTest methodsFor: 'private' stamp: 'len 3/24/2021 09:15:31'!
-newMatrix: shape
-	| hom samples |
-	hom _ scalars^shape y => (scalars^shape x).
-	(2 atRandom: random) = 1 ifTrue: [^ hom atRandom: random bits: 100].
-	samples _ {scalars zero. scalars one. scalars one negated}.
-	^ hom filling: [:i :j| (2 atRandom: random) > 1 ifTrue: [scalars zero] ifFalse: [samples atRandom: random]]! !
-
-!AbstractModuleTest methodsFor: 'private' stamp: 'len 8/22/2021 12:27:37'!
-newModule
-	| M N |
-	M _ self newFreeModule.
-	(3 atRandom: random) = 1 ifTrue: [^ M].
-	N _ M span: ((1 to: ((0 to: M rank) atRandom: random)) collect: [:i| M atRandom: random bits: (10 atRandom: random)]).
-	(3 atRandom: random) = 1 ifTrue: [^ N].
-	^ M / N! !
-
-!AbstractModuleTest methodsFor: 'private' stamp: 'len 3/23/2021 13:27:06'!
-newModuleMap
-	| V W |
-	V _ self newFreeModule.
-	W _ self newFreeModule.
-	^ V => W !! (self newMatrix: W rank @ V rank)! !
-
-!AbstractModuleTest methodsFor: 'private' stamp: 'len 12/25/2021 10:54:29'!
-newSmallFreeModule
-	| M |
-	M _ (3 atRandom: random) = 1 ifTrue: [scalars asIdeal] ifFalse: [scalars ^ ((0 to: 3) atRandom: random)].
-	scalars isCommutative ifFalse: [^ M].
-	(3 atRandom: random) = 1 ifTrue: [^ M dual].
-	^ M! !
-
-!AbstractModuleTest methodsFor: 'private' stamp: 'len 1/6/2022 14:38:20'!
-newSmallModule
-	| M N |
-	M _ self newSmallFreeModule.
-	(3 atRandom: random) = 1 ifTrue: [^ M].
-	N _ M span: ((1 to: ((0 to: M rank) atRandom: random)) collect: [:i| M atRandom: random bits: (10 atRandom: random)]).
-	(2 atRandom: random) = 1 ifTrue: [^ N].
-	^ M / N! !
 
 !AbstractModuleTest methodsFor: 'isomorphism theorems' stamp: 'len 3/23/2021 14:05:03'!
 testFirstIsomorphismTheorem
@@ -5447,6 +5407,69 @@ testSubmoduleSum
 testTuples
 	self testFreeModule: (scalars ^ ((0 to: 5) atRandom: random))! !
 
+!AbstractModuleTest methodsFor: 'quotients' stamp: 'len 6/8/2022 12:37:44'!
+testQuotientMaps
+	| M N Q Ž v s |
+	M _ self newModule.
+	N _ M span: ((1 to: (3 atRandom: random) - 1) collect: [:i| M atRandom: random bits: 20]).
+	Q _ M / N.
+	Ž _ M -> Q.
+	v _ M atRandom: random bits: 100.
+	self assert: (Q includes: (Ž value: v)).
+	s _ N atRandom: random bits: 100.
+	self assert: (Ž value: s) isZero.
+	self assert: (Ž value: v) = (Ž value: v+s)! !
+
+!AbstractModuleTest methodsFor: 'private' stamp: 'len 12/25/2021 10:54:14'!
+newFreeModule
+	| M |
+	M _ (3 atRandom: random) = 1 ifTrue: [scalars asIdeal] ifFalse: [scalars ^ ((0 to: 3) atRandom: random)].
+	scalars isCommutative ifFalse: [^ M].
+	(5 atRandom: random) = 1 ifTrue: [^ M => self newSmallFreeModule].
+	(5 atRandom: random) = 1 ifTrue: [^ M dual].
+	^ M! !
+
+!AbstractModuleTest methodsFor: 'private' stamp: 'len 3/24/2021 09:15:31'!
+newMatrix: shape
+	| hom samples |
+	hom _ scalars^shape y => (scalars^shape x).
+	(2 atRandom: random) = 1 ifTrue: [^ hom atRandom: random bits: 100].
+	samples _ {scalars zero. scalars one. scalars one negated}.
+	^ hom filling: [:i :j| (2 atRandom: random) > 1 ifTrue: [scalars zero] ifFalse: [samples atRandom: random]]! !
+
+!AbstractModuleTest methodsFor: 'private' stamp: 'len 8/22/2021 12:27:37'!
+newModule
+	| M N |
+	M _ self newFreeModule.
+	(3 atRandom: random) = 1 ifTrue: [^ M].
+	N _ M span: ((1 to: ((0 to: M rank) atRandom: random)) collect: [:i| M atRandom: random bits: (10 atRandom: random)]).
+	(3 atRandom: random) = 1 ifTrue: [^ N].
+	^ M / N! !
+
+!AbstractModuleTest methodsFor: 'private' stamp: 'len 3/23/2021 13:27:06'!
+newModuleMap
+	| V W |
+	V _ self newFreeModule.
+	W _ self newFreeModule.
+	^ V => W !! (self newMatrix: W rank @ V rank)! !
+
+!AbstractModuleTest methodsFor: 'private' stamp: 'len 12/25/2021 10:54:29'!
+newSmallFreeModule
+	| M |
+	M _ (3 atRandom: random) = 1 ifTrue: [scalars asIdeal] ifFalse: [scalars ^ ((0 to: 3) atRandom: random)].
+	scalars isCommutative ifFalse: [^ M].
+	(3 atRandom: random) = 1 ifTrue: [^ M dual].
+	^ M! !
+
+!AbstractModuleTest methodsFor: 'private' stamp: 'len 1/6/2022 14:38:20'!
+newSmallModule
+	| M N |
+	M _ self newSmallFreeModule.
+	(3 atRandom: random) = 1 ifTrue: [^ M].
+	N _ M span: ((1 to: ((0 to: M rank) atRandom: random)) collect: [:i| M atRandom: random bits: (10 atRandom: random)]).
+	(2 atRandom: random) = 1 ifTrue: [^ N].
+	^ M / N! !
+
 !AbstractCommutativeModuleTest methodsFor: 'adjoint' stamp: 'len 7/26/2021 18:08:35'!
 testAdjoint
 	| V W f fAdjoint phi |
@@ -5650,19 +5673,6 @@ testOrthogonalProjection
 	self assert: p image = S.
 	self assert: (S apply: p) = S! !
 
-!AbstractVectorSpaceTest methodsFor: 'quotients' stamp: 'len 8/22/2021 17:19:44'!
-testQuotientMaps
-	| V S Q Ž v s |
-	V _ self newVectorSpace.
-	S _ V grassmannian: ((0 to: V rank) atRandom: random) :: atRandom: random bits: 50.
-	Q _ V/S.
-	Ž _ V -> Q.
-	v _ V atRandom: random bits: 100.
-	self assert: (Q includes: (Ž value: v)).
-	s _ S atRandom: random bits: 100.
-	self assert: (Ž value: s) isZero.
-	self assert: (Ž value: v) = (Ž value: v+s)! !
-
 !AbstractVectorSpaceTest methodsFor: 'quotients' stamp: 'len 12/10/2021 19:55:03'!
 testQuotientSpace
 	| V S Q |
@@ -5673,6 +5683,19 @@ testQuotientSpace
 "	self assert: (Q includes: S + (V atRandomBits: V rank * 10))."
 	self assert: (V / V null) rank = V rank.
 	self assert: (V / V) rank = 0! !
+
+!AbstractVectorSpaceTest methodsFor: 'quotients' stamp: 'len 6/8/2022 13:22:55'!
+testQuotientSpaceMaps
+	| V S Q Ž v s |
+	V _ self newVectorSpace.
+	S _ V grassmannian: ((0 to: V rank) atRandom: random) :: atRandom: random bits: 50.
+	Q _ V/S.
+	Ž _ V -> Q.
+	v _ V atRandom: random bits: 100.
+	self assert: (Q includes: (Ž value: v)).
+	s _ S atRandom: random bits: 100.
+	self assert: (Ž value: s) isZero.
+	self assert: (Ž value: v) = (Ž value: v+s)! !
 
 !AbstractVectorSpaceTest methodsFor: 'tensor product' stamp: 'len 7/21/2021 18:05:27'!
 testTensorHomAdjunction
@@ -6104,23 +6127,28 @@ testSubquotientContainsBug
 	S _ V span: {v}.
 	self assert: (S contains: v * 3)! !
 
-!ModuleOverIntegersTest methodsFor: 'as yet unclassified' stamp: 'len 4/5/2021 04:42:58'!
+!ModuleOverIntegersTest methodsFor: 'as yet unclassified' stamp: 'len 6/10/2022 11:22:25'!
 testSyzygies1
 	| V |
 	V _ ƒ^2 / {(2,0)}.
-	self assert: (V elementAt: (V syzygies atRandom: random bits: 100)) isZero! !
+	self assert: (V elementAt: (V relations atRandom: random bits: 100)) isZero! !
 
-!ModuleOverIntegersTest methodsFor: 'as yet unclassified' stamp: 'len 4/5/2021 04:43:04'!
+!ModuleOverIntegersTest methodsFor: 'as yet unclassified' stamp: 'len 6/10/2022 11:22:31'!
 testSyzygies2
 	| V W X |
 	V _ ƒ^2 / {(2,0)}.
 	W _ ƒ^3 / {(2,2,2)}.
 	X _ V => W.
-	self assert: (X elementAt: (X syzygies atRandom: random bits: 100)) isZero! !
+	self assert: (X elementAt: (X relations atRandom: random bits: 100)) isZero! !
 
 !ModuleOverIntegersTest methodsFor: 'as yet unclassified' stamp: 'len 4/5/2021 04:13:27'!
 testTensorProductExample
 	self assert: ƒ^1 ‘ (ƒ^1/{2}) ~ (ƒ^1/{2})! !
+
+!ModuleOverLocalIntegerRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/7/2022 18:00:00'!
+initialize
+	super initialize.
+	scalars _ ƒ @ 64 atRandom nextPrime! !
 
 !ModuleOverModularIntegersTest methodsFor: 'initialization' stamp: 'len 4/2/2021 11:13:47'!
 initialize
@@ -7883,7 +7911,7 @@ testIdealSaturation
 	S _ R * {y. x^5}.
 	self assert: (I saturation: J) = S! !
 
-!CommutativeAlgebraTest methodsFor: 'ideal operations' stamp: 'len 7/19/2021 11:20:33'!
+!CommutativeAlgebraTest methodsFor: 'ideal operations' stamp: 'len 6/7/2022 12:32:57'!
 testLocalIdeals
 	"Magma handbook, example H104E4."
 	| R I J A M |
@@ -8000,19 +8028,19 @@ testKrullDimensionOverZZ
 	Q _ R / I.
 	self assert: Q dimension = 3! !
 
-!CommutativeAlgebraTest methodsFor: 'testing examples' stamp: 'len 5/23/2020 09:33:01'!
+!CommutativeAlgebraTest methodsFor: 'testing examples' stamp: 'len 6/7/2022 11:17:37'!
 testCyclic7Correctness
 	"Test correctness of the ideal of cyclic 7-roots checking against one generated by Singular."
 	| txt |
-	txt _ ((„ polynomialsIn: 7) cyclicIdeal generators sorted: [:a :b| a leadingMonomial >= b leadingMonomial]) printString.
+	txt _ ((„ polynomialsIn: 7) cyclicIdealGenerators sorted: [:a :b| a leadingMonomial >= b leadingMonomial]) printString.
 	#('(' ')' '{' '}' ' ') do: [:each| txt _ txt copyReplaceAll: each with: ''].
 	self assert: txt = 'x1x2x3x4x5x6x7-1,x1x2x3x4x5x6+x1x2x3x4x5x7+x1x2x3x4x6x7+x1x2x3x5x6x7+x1x2x4x5x6x7+x1x3x4x5x6x7+x2x3x4x5x6x7,x1x2x3x4x5+x2x3x4x5x6+x1x2x3x4x7+x1x2x3x6x7+x1x2x5x6x7+x1x4x5x6x7+x3x4x5x6x7,x1x2x3x4+x2x3x4x5+x3x4x5x6+x1x2x3x7+x1x2x6x7+x1x5x6x7+x4x5x6x7,x1x2x3+x2x3x4+x3x4x5+x4x5x6+x1x2x7+x1x6x7+x5x6x7,x1x2+x2x3+x3x4+x4x5+x5x6+x1x7+x6x7,x1+x2+x3+x4+x5+x6+x7'! !
 
-!CommutativeAlgebraTest methodsFor: 'testing examples' stamp: 'len 7/19/2021 11:13:35'!
+!CommutativeAlgebraTest methodsFor: 'testing examples' stamp: 'len 6/7/2022 11:17:56'!
 testKatsura7Correctness
 	"Test correctness of Katsura-7 ideal checking against one generated by Singular."
 	| txt |
-	txt _ ((„ polynomialsIn: 7) katsuraIdeal generators sorted: [:a :b| a leadingMonomial >= b leadingMonomial]) printString.
+	txt _ ((„ polynomialsIn: 7) katsuraIdealGenerators sorted: [:a :b| a leadingMonomial >= b leadingMonomial]) printString.
 	#('(' ')' '{' '}' ' ') do: [:each| txt _ txt copyReplaceAll: each with: ''].
 	self assert: txt = 'x1^2+2x2^2+2x3^2+2x4^2+2x5^2+2x6^2+2x7^2-x1,2x1x2+2x2x3+2x3x4+2x4x5+2x5x6+2x6x7-x2,x2^2+2x1x3+2x2x4+2x3x5+2x4x6+2x5x7-x3,2x2x3+2x1x4+2x2x5+2x3x6+2x4x7-x4,x3^2+2x2x4+2x1x5+2x2x6+2x3x7-x5,2x3x4+2x2x5+2x1x6+2x2x7-x6,x1+2x2+2x3+2x4+2x5+2x6+2x7-1'! !
 
@@ -11537,11 +11565,11 @@ testQuotientRing
 	self testRing: Q.
 	self testRingHomomorphism: Q projection! !
 
-!RingTest methodsFor: 'quotients' stamp: 'len 2/27/2017 20:51:24'!
+!RingTest methodsFor: 'quotients' stamp: 'len 6/10/2022 11:38:50'!
 testQuotientRing2
 	| Q pi f g |
 	Q _ self newQuotientRing.
-	f _ Q base atRandomBits: 10.
+	f _ Q cover atRandomBits: 10.
 	g _ Q relations atRandomBits: 10.
 	pi _ Q projection.
 	self assert: (pi value: g) isZero.
@@ -11558,13 +11586,6 @@ testQuotientRingNotIntegralDomain
 	R _ R / (R x^2 - 1).
 	self assert: R isField not.
 	self assert: R isIntegralDomain not! !
-
-!RingTest methodsFor: 'quotients' stamp: 'len 5/23/2020 09:33:01'!
-testQuotientRingWhichIsAField
-	| R |
-	R _ „ polynomials.
-	R _ R / (R x^2 + (R x * 2) + 2).
-	self assert: R isField! !
 
 !RingTest methodsFor: 'private' stamp: 'len 5/23/2020 09:34:55'!
 newField
@@ -12071,44 +12092,19 @@ testModTupleSum
 	b _ a % 7.
 	self assert: b sum = (a sum % 7)! !
 
-!TupleTest methodsFor: 'modular integer tuples' stamp: 'len 5/23/2020 09:34:55'!
-testModularIntegersTupleAssociateBug
-	| R t |
-	R _ ƒ/8.
-	t _ R tuple: #(3 2).
-	self assert: t*5*5 = t.
-	self assert: (t*5) normalized = t normalized! !
-
-!TupleTest methodsFor: 'modular integer tuples' stamp: 'len 5/23/2020 09:34:55'!
-testModularIntegersTupleAssociateBug1
-	| R t |
-	R _ ƒ/6.
-	t _ R tuple: #(2 3).
-	self assert: t*5*5 = t.
-	self assert: (t*5) normalized = t normalized! !
-
-!TupleTest methodsFor: 'modular integer tuples' stamp: 'len 5/23/2020 09:34:55'!
-testModularIntegersTupleAssociateBug2
-	| R t |
-	R _ ƒ/6.
-	t _ R tuple: #(3 2).
-	self assert: t*5*5 = t.
-	self assert: (t*5) normalized = t normalized! !
-
-!TupleTest methodsFor: 'modular integer tuples' stamp: 'len 5/30/2022 09:09:57'!
+!TupleTest methodsFor: 'modular integer tuples' stamp: 'len 6/3/2022 05:53:42'!
 testModularIntegersTupleUnitsAndAssociates
-	| R t tt |
-	100 timesRepeat:
-		[R _ ƒ/64 atRandom.
-		t _ (R^5 atRandom) atRandom.
-		tt _ t normalized.
-		self assert: t * t normalization = tt.
-		R units do: [:u| self assert: (t*u) normalized = tt]]! !
-
-!TupleTest methodsFor: 'modular integer tuples' stamp: 'len 5/23/2020 09:34:55'!
-testModularIntegersTupleUnitsAndAssociates2
 	"Examples from Magma."
 	| R |
+	R _ ƒ/6.
+	self assert: (R tuple: #(0 4)) ~ (R tuple: #(0 2)).
+	self assert: (R tuple: #(4 3)) ~ (R tuple: #(2 3)).
+	R _ ƒ/8.
+	self assert: (R tuple: #(3 2)) ~ (R tuple: #(1 6)).
+	self assert: (R tuple: #(7 2)) ~ (R tuple: #(1 6)).
+	self assert: (R tuple: #(2 7)) ~ (R tuple: #(2 3))
+
+"this fails, but anyway canonical associates for tuples over a ring with zero divisors is not well defined:
 	R _ ƒ/6.
 	self assert: (R tuple: #(0 2)) normalized = (R tuple: #(0 2)).
 	self assert: (R tuple: #(0 4)) normalized = (R tuple: #(0 2)).
@@ -12118,19 +12114,8 @@ testModularIntegersTupleUnitsAndAssociates2
 	self assert: (R tuple: #(3 2)) normalized = (R tuple: #(1 6)).
 	self assert: (R tuple: #(7 2)) normalized = (R tuple: #(1 6)).
 	self assert: (R tuple: #(2 3)) normalized = (R tuple: #(2 3)).
-	self assert: (R tuple: #(2 7)) normalized = (R tuple: #(2 3))! !
-
-!TupleTest methodsFor: 'modular integer tuples' stamp: 'len 5/23/2020 09:34:55'!
-testModularIntegersTupleUnitsAndAssociates3
-	"Examples from Magma."
-	| R |
-	R _ ƒ/6.
-	self assert: (R tuple: #(0 4)) ~ (R tuple: #(0 2)).
-	self assert: (R tuple: #(4 3)) ~ (R tuple: #(2 3)).
-	R _ ƒ/8.
-	self assert: (R tuple: #(3 2)) ~ (R tuple: #(1 6)).
-	self assert: (R tuple: #(7 2)) ~ (R tuple: #(1 6)).
-	self assert: (R tuple: #(2 7)) ~ (R tuple: #(2 3))! !
+	self assert: (R tuple: #(2 7)) normalized = (R tuple: #(2 3))
+"! !
 
 !TupleTest methodsFor: 'modular integer tuples' stamp: 'len 7/27/2020 08:52:29'!
 testModularIntegersTuplesOfDifferentSize

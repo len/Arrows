@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5053] on 28 May 2022 at 9:56:51 pm'!
+'From Cuis 6.0 [latest update: #5053] on 14 June 2022 at 6:45:27 pm'!
 'Description '!
-!provides: 'Etc' 1 8!
+!provides: 'Etc' 1 9!
 !requires: 'Algebra' 1 7 nil!
 SystemOrganization addCategory: #Etc!
 SystemOrganization addCategory: #'Etc-Lie'!
@@ -1460,15 +1460,15 @@ do: aBlock
 withIndicesDo: aBlock
 	columns withIndexDo: [:column :j| column withIndexDo: [:each :i| aBlock value: each value: i value: j]]! !
 
-!ColumnMatrix methodsFor: 'operations' stamp: 'len 5/29/2020 05:46:08'!
+!ColumnMatrix methodsFor: 'operations' stamp: 'len 6/9/2022 07:14:12'!
 + aMatrix
-	self checkDimensionMatch: aMatrix.
+	self checkShapesMatch: aMatrix.
 	self checkScalarsMatch: aMatrix.
 	^ self class from: domain to: codomain columns: columns + aMatrix columns! !
 
-!ColumnMatrix methodsFor: 'operations' stamp: 'len 5/29/2020 05:46:21'!
+!ColumnMatrix methodsFor: 'operations' stamp: 'len 6/9/2022 07:14:21'!
 - aMatrix
-	self checkDimensionMatch: aMatrix.
+	self checkShapesMatch: aMatrix.
 	self checkScalarsMatch: aMatrix.
 	^ self class from: domain to: codomain columns: columns - aMatrix columns! !
 
@@ -1618,15 +1618,15 @@ withIndicesDo: aBlock
 rows: anArray
 	rows _ anArray! !
 
-!RowMatrix methodsFor: 'operations' stamp: 'len 5/29/2020 09:01:17'!
+!RowMatrix methodsFor: 'operations' stamp: 'len 6/9/2022 07:14:29'!
 + aMatrix
-	self checkDimensionMatch: aMatrix.
+	self checkShapesMatch: aMatrix.
 	self checkScalarsMatch: aMatrix.
 	^ self class from: domain to: codomain rows: rows + aMatrix rows! !
 
-!RowMatrix methodsFor: 'operations' stamp: 'len 5/29/2020 09:01:24'!
+!RowMatrix methodsFor: 'operations' stamp: 'len 6/9/2022 07:14:37'!
 - aMatrix
-	self checkDimensionMatch: aMatrix.
+	self checkShapesMatch: aMatrix.
 	self checkScalarsMatch: aMatrix.
 	^ self class from: domain to: codomain rows: rows - aMatrix rows! !
 
