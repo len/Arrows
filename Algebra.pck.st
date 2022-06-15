@@ -1,4 +1,4 @@
-'From Cuis 6.0 [latest update: #5053] on 15 June 2022 at 9:56:45 am'!
+'From Cuis 6.0 [latest update: #5053] on 15 June 2022 at 10:48:19 am'!
 'Description This package implements among other things: permutation groups, linear groups, modular integers, finite fields, Galois rings, polynomial rings, affine algebras, number fields, function fields, p-adic fields, power series rings, finitely presented modules, (co)chain complexes, finite (finitely generated as modules) associative algebras, finite distributive (not necessarily associative) algebras, schemes, and sheaves of modules.
 
 References:
@@ -19,6 +19,7 @@ References:
 [FH16] Claus Flieker, Tommy Hofmann, "Computing in quotients of rings of integers" (2016)
 [GM73] Ganske, G.; McDonald, B.R. "Finite local rings". Rocky Mountain J. Math. 3 (1973), no. 4, 521-540
 [GP08] Gert-Martin Greuel; Gerhard Pfister; "A Singular Introduction to Commutative Algebra" (2008)
+[HEO05] Derek F. Holt; B. Eick; E. A. O''Brien; "Handbook of Computational Group Theory" (2005)
 [HH11] Jurgen Herzog, Takayuki Hibi, "Monomial Ideals" (2011)
 [How86] John A. Howell, "Spans in the module (Z/mZ)^s" (1986)
 [] Mitsuo Kanemitsu; Ken-ichi Yoshida; "Euclidean rings" (1986)
@@ -31,8 +32,9 @@ References:
 [Pos17] Sebastian Posur; "Linear Systems over Localizations of Rings" (2017)
 [SY09] Michael Sagraloff, Chee K. Yap, "An Efficient and Exact Subdivision Algorithm for Isolating Complex Roots of a Polynomial and its Complexity Analysis" (2009)
 [Sam71] Pierre Samuel, "About Euclidean Rings", J. Algebra, 19:282-301, 1971
-[Sto00] Arne Storjohann, "Algorithms for Matrix Canonical Forms" (2000)
+[Sim70], Charles C. Sims, "Computational methods in the study of permutation groups" (1970)
 [SM98] Arne Storjohann, Thom Mulders, "Fast algorithms for linear algebra modulo N" (1998)
+[Sto00] Arne Storjohann, "Algorithms for Matrix Canonical Forms" (2000)
 
 [] Thomas Becker; "Groebner Bases: A Computational Approach"
 [] David Cox; John Little; Donals O''Shea; "Using Algebraic Geometry"
@@ -41,7 +43,6 @@ References:
 [EH99] David Eisenbud; Joe Harris; "The Geometry of Schemes", GTM 197, Springer, 1999
 [] Joachim von zur Gathen; Jurgen Gerhard; "Modern Computer Algebra"
 [] Robin Hartshorne; "Algebraic Geometry", GTM 52, Springer, 1977
-[] Derek F. Holt; B. Eick; E. A. O''Brien; "Handbook of Computational Group Theory"
 [] Gregor Kemper; "A Course in Commutative Algebra", GTM 256, Springer, 2011
 [] Dimitry Kozlov; "Combinatorial Algebraic Topology"
 [] Martin Kreuzer; "Computational Commutative Algebra"
@@ -52,7 +53,7 @@ References:
 [] Victor Shoup; "A Computational Introduction to Number Theory and Algebra"
 [] Joseph. H. Silverman; "The Arithmetic of Elliptic Curves"
 '!
-!provides: 'Algebra' 1 20!
+!provides: 'Algebra' 1 21!
 !requires: 'Graphs' 1 0 nil!
 !requires: 'Collections-Extras' 1 1 nil!
 !requires: 'Complex' 1 8 nil!
@@ -326,16 +327,6 @@ Structure subclass: #Group
 Group class
 	instanceVariableNames: ''!
 
-!classDefinition: #DirectProductGroup category: #'Algebra-Groups'!
-Group subclass: #DirectProductGroup
-	instanceVariableNames: 'components'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Algebra-Groups'!
-!classDefinition: 'DirectProductGroup class' category: #'Algebra-Groups'!
-DirectProductGroup class
-	instanceVariableNames: ''!
-
 !classDefinition: #FreeGroup category: #'Algebra-Groups'!
 Group subclass: #FreeGroup
 	instanceVariableNames: ''
@@ -354,6 +345,16 @@ Group subclass: #OppositeGroup
 	category: 'Algebra-Groups'!
 !classDefinition: 'OppositeGroup class' category: #'Algebra-Groups'!
 OppositeGroup class
+	instanceVariableNames: ''!
+
+!classDefinition: #ProductGroup category: #'Algebra-Groups'!
+Group subclass: #ProductGroup
+	instanceVariableNames: 'components'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Algebra-Groups'!
+!classDefinition: 'ProductGroup class' category: #'Algebra-Groups'!
+ProductGroup class
 	instanceVariableNames: ''!
 
 !classDefinition: #QuotientGroup category: #'Algebra-Groups'!
@@ -1716,16 +1717,6 @@ GroupElement subclass: #Coset
 Coset class
 	instanceVariableNames: ''!
 
-!classDefinition: #DirectProductGroupElement category: #'Algebra-Groups'!
-GroupElement subclass: #DirectProductGroupElement
-	instanceVariableNames: 'parent components'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Algebra-Groups'!
-!classDefinition: 'DirectProductGroupElement class' category: #'Algebra-Groups'!
-DirectProductGroupElement class
-	instanceVariableNames: ''!
-
 !classDefinition: #OppositeGroupElement category: #'Algebra-Groups'!
 GroupElement subclass: #OppositeGroupElement
 	instanceVariableNames: 'opposite'
@@ -1734,6 +1725,16 @@ GroupElement subclass: #OppositeGroupElement
 	category: 'Algebra-Groups'!
 !classDefinition: 'OppositeGroupElement class' category: #'Algebra-Groups'!
 OppositeGroupElement class
+	instanceVariableNames: ''!
+
+!classDefinition: #ProductGroupElement category: #'Algebra-Groups'!
+GroupElement subclass: #ProductGroupElement
+	instanceVariableNames: 'parent components'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Algebra-Groups'!
+!classDefinition: 'ProductGroupElement class' category: #'Algebra-Groups'!
+ProductGroupElement class
 	instanceVariableNames: ''!
 
 !classDefinition: #Permutation category: #'Algebra-Groups-Permutations'!
@@ -2628,15 +2629,15 @@ Groups consist of a set with an associative binary operation, an inverse map (ev
 
 Some specific groups (such as permutation groups and matrix groups) can be represented in more efficient ways, and operate with more efficient algorithms. See subclasses.!
 
-!DirectProductGroup commentStamp: '<historical>' prior: 0!
-Direct products of groups. Elements are tuples (see DirectProductGroupElement), and the group composition law is defined component-wise.!
-
 !OppositeGroup commentStamp: 'len 5/8/2019 14:55:05' prior: 0!
 The opposite group G^op of a group G is a group constructed from the original group G inverting the order of the group operation. This way, it is possible to define a left action as a special case of a right action.
 
 Abelian groups are equal to their opposites. Also, every group is naturally isomorphic to its opposite by the isomorphism that takes an element and sends it to its inverse.
 
 See also OppositeGroupElement.!
+
+!ProductGroup commentStamp: '<historical>' prior: 0!
+Direct products of groups. Elements are tuples (see ProductGroupElement), and the group composition law is defined component-wise.!
 
 !QuotientGroup commentStamp: '<historical>' prior: 0!
 Quotient groups (or factor groups) G/N (read "G mod N"), i.e. the quotient of a group G by a normal subgroup N. The elements are the cosets of N (see Coset).!
@@ -3259,11 +3260,11 @@ See also Monomial for the commutative analog.!
 !Coset commentStamp: '<historical>' prior: 0!
 Elements of a QuotientGroup.!
 
-!DirectProductGroupElement commentStamp: '<historical>' prior: 0!
-Elements of group direct products, i.e. tuples of group elements. See DirectProductGroup.!
-
 !OppositeGroupElement commentStamp: 'len 5/8/2019 14:34:38' prior: 0!
 Elements of the opposite group of a given group. See OppositeGroup.!
+
+!ProductGroupElement commentStamp: '<historical>' prior: 0!
+Elements of group direct products, i.e. tuples of group elements. See DirectProductGroup.!
 
 !Permutation commentStamp: '<historical>' prior: 0!
 Permutations can be thought as bijective functions on a finite set. Permutations under composition form groups (see SymmetricGroup and PermutationGroup).!
@@ -3278,7 +3279,8 @@ Product Replacement Algorithm for generating random elements in a group from a s
 Given a finite group G with a generating set S, and an action of G on X, a Schreier tree with root x for S is a representation of the orbit of x: it's a tree rooted at x with the elements of x^G as its vertices, and its edges describing the elements of S needed to get from x to each vertex, i.e. each edge {i,j} in the tree with i closer to the root than j is labeled by a generator s in S moving i to j.
 
 Schreier trees allow for fast computation of stabilizers by Schreier's Lemma: with the notation above, the stabilizer of x is generated by the set of Schreier generators <t(i) * s * t(s(i))^-1> where i runs over the orbit of x, s runs over the generating set S, and t(i) is an element of G moving x to i, i.e. a coset representative of i (see >>trace: and >>traceInverse:).
-!
+
+See [Sim70], [HEO05, 4.4.2 The Schreier-Sims Algorithm].!
 
 !ModuleElement commentStamp: '<historical>' prior: 0!
 Elements of R-modules. See Module.!
@@ -3720,10 +3722,6 @@ printOn: aStream
 	generators do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: '; '].
 	aStream nextPut: $>! !
 
-!DirectProductGroup methodsFor: 'printing' stamp: 'len 5/23/2020 07:19:05'!
-printOn: aStream
-	components do: [:each| aStream print: each] separatedBy: [aStream nextPut: $×]! !
-
 !FreeGroup methodsFor: 'printing' stamp: 'len 10/20/2020 16:39:23'!
 printOn: aStream
 	self isTrivial ifTrue: [aStream print: 1. ^ self].
@@ -3734,6 +3732,10 @@ printOn: aStream
 !OppositeGroup methodsFor: 'printing' stamp: 'len 5/8/2019 13:52:38'!
 printOn: aStream
 	aStream print: opposite; nextPutAll: 'op' super! !
+
+!ProductGroup methodsFor: 'printing' stamp: 'len 5/23/2020 07:19:05'!
+printOn: aStream
+	components do: [:each| aStream print: each] separatedBy: [aStream nextPut: $×]! !
 
 !QuotientGroup methodsFor: 'printing' stamp: 'len 6/14/2022 13:01:52'!
 printOn: aStream
@@ -4312,13 +4314,13 @@ printOn: aStream
 printOn: aStream
 	aStream print: representative! !
 
-!DirectProductGroupElement methodsFor: 'printing' stamp: 'len 4/25/2020 06:38:47'!
-printOn: aStream
-	aStream print: components! !
-
 !OppositeGroupElement methodsFor: 'printing' stamp: 'len 5/9/2019 08:05:24'!
 printOn: aStream
 	opposite printOn: aStream! !
+
+!ProductGroupElement methodsFor: 'printing' stamp: 'len 4/25/2020 06:38:47'!
+printOn: aStream
+	aStream print: components! !
 
 !Permutation methodsFor: 'printing' stamp: 'len 5/1/2019 02:47:04'!
 printOn: aStream
@@ -7998,10 +8000,10 @@ to: aGroup mapping: aBlock
 	self checkIsSibling: aGroup.
 	^ self select: [:each| aGroup includes: each]! !
 
-!Group methodsFor: 'operations' stamp: 'len 4/25/2020 08:21:21'!
+!Group methodsFor: 'operations' stamp: 'len 6/15/2022 10:47:47'!
 × aGroup
 	(aGroup isKindOf: Group) ifFalse: [^ super × aGroup].
-	^ DirectProductGroup components: {self. aGroup}
+	^ ProductGroup components: {self. aGroup}
 
 "× aGroupOrAction
 	(aGroupOrAction isKindOf: GroupAction)
@@ -8438,84 +8440,6 @@ tetrahedral
 	F _ FreeGroup new: #(s t).
 	^ F / (F !! [:s :t| {s^2. t^3. (s·t)^3}])! !
 
-!DirectProductGroup methodsFor: 'accessing' stamp: 'len 4/19/2019 07:14:28'!
-ambient
-	^ self propertyAt: #ambient ifAbsentPut: [(components allSatisfy: [:each| each isAmbient]) ifTrue: [self] ifFalse: [self class components: (components collect: [:each| each ambient])]]! !
-
-!DirectProductGroup methodsFor: 'accessing' stamp: 'len 2/12/2016 20:00'!
-components
-	^ components! !
-
-!DirectProductGroup methodsFor: 'accessing' stamp: 'len 4/25/2020 07:46:26'!
-identity
-	^ self compose: (components collect: [:each| each identity])! !
-
-!DirectProductGroup methodsFor: 'accessing' stamp: 'len 2/12/2016 20:10'!
-size
-	^ components product: [:each| each size]! !
-
-!DirectProductGroup methodsFor: 'comparing' stamp: 'len 2/12/2016 20:05'!
-= anObject
-	^ (anObject isKindOf: DirectProductGroup) and: [anObject components = components]! !
-
-!DirectProductGroup methodsFor: 'comparing' stamp: 'len 2/12/2016 20:05'!
-hash
-	^ components hash! !
-
-!DirectProductGroup methodsFor: 'elements' stamp: 'len 12/18/2021 06:53:27'!
-compose: anArray
-	^ DirectProductGroupElement new parent: self; components: anArray asArray! !
-
-!DirectProductGroup methodsFor: 'enumerating' stamp: 'len 10/17/2020 19:59:54'!
-do: aBlock
-	self asCartesianProduct do: [:each| aBlock value: (self compose: each)]! !
-
-!DirectProductGroup methodsFor: 'morphisms' stamp: 'len 4/25/2020 06:55:32'!
-coprojection: i
-	^ ((self at: i) to: self evaluating: [:x| self compose: (components withIndexCollect: [:each :k| k = i ifTrue: [x] ifFalse: [each identity]])]) name: 'i', i printText sub! !
-
-!DirectProductGroup methodsFor: 'morphisms' stamp: 'len 5/23/2020 07:30:26'!
-projection: i
-	^ (self to: (self at: i) evaluating: [:x| x at: i]) name: 'Ž', i printText sub! !
-
-!DirectProductGroup methodsFor: 'random' stamp: 'len 10/17/2020 19:59:29'!
-atRandom: aRandom
-	^ self compose: (self asCartesianProduct atRandom: aRandom)! !
-
-!DirectProductGroup methodsFor: 'random' stamp: 'len 10/17/2020 19:59:42'!
-atRandom: aRandom bits: bits
-	^ self compose: (self asCartesianProduct atRandom: aRandom bits: bits)! !
-
-!DirectProductGroup methodsFor: 'testing' stamp: 'len 4/25/2020 06:54:01'!
-includes: anObject
-	^ anObject parent = self! !
-
-!DirectProductGroup methodsFor: 'testing' stamp: 'len 4/14/2020 21:09:53'!
-isCoproduct
-	^ true! !
-
-!DirectProductGroup methodsFor: 'testing' stamp: 'len 4/14/2020 21:09:49'!
-isProduct
-	^ true! !
-
-!DirectProductGroup methodsFor: 'private' stamp: 'len 11/5/2016 06:40'!
-components: anArray
-	components _ anArray! !
-
-!DirectProductGroup methodsFor: 'private' stamp: 'len 12/30/2017 15:11:22'!
-computeGenerators
-	| answer |
-	answer _ OrderedCollection new.
-	1 to: self arity do: [:i|
-		| p |
-		p _ self projection: i.
-		(self at: i) generators do: [:each| answer add: (p value: each)]].
-	^ answer! !
-
-!DirectProductGroup class methodsFor: 'instance creation' stamp: 'len 2/12/2016 20:02'!
-components: anArray
-	^ self new components: anArray! !
-
 !FreeGroup methodsFor: 'accessing' stamp: 'len 6/10/2022 11:37:16'!
 cover
 	^ self! !
@@ -8733,6 +8657,84 @@ opposite: aGroup
 !OppositeGroup class methodsFor: 'instance creation' stamp: 'len 5/8/2019 13:54:20'!
 opposite: aGroup
 	^ self new opposite: aGroup! !
+
+!ProductGroup methodsFor: 'accessing' stamp: 'len 4/19/2019 07:14:28'!
+ambient
+	^ self propertyAt: #ambient ifAbsentPut: [(components allSatisfy: [:each| each isAmbient]) ifTrue: [self] ifFalse: [self class components: (components collect: [:each| each ambient])]]! !
+
+!ProductGroup methodsFor: 'accessing' stamp: 'len 2/12/2016 20:00'!
+components
+	^ components! !
+
+!ProductGroup methodsFor: 'accessing' stamp: 'len 4/25/2020 07:46:26'!
+identity
+	^ self compose: (components collect: [:each| each identity])! !
+
+!ProductGroup methodsFor: 'accessing' stamp: 'len 2/12/2016 20:10'!
+size
+	^ components product: [:each| each size]! !
+
+!ProductGroup methodsFor: 'comparing' stamp: 'len 6/15/2022 10:47:47'!
+= anObject
+	^ (anObject isKindOf: ProductGroup) and: [anObject components = components]! !
+
+!ProductGroup methodsFor: 'comparing' stamp: 'len 2/12/2016 20:05'!
+hash
+	^ components hash! !
+
+!ProductGroup methodsFor: 'elements' stamp: 'len 6/15/2022 10:47:34'!
+compose: anArray
+	^ ProductGroupElement new parent: self; components: anArray asArray! !
+
+!ProductGroup methodsFor: 'enumerating' stamp: 'len 10/17/2020 19:59:54'!
+do: aBlock
+	self asCartesianProduct do: [:each| aBlock value: (self compose: each)]! !
+
+!ProductGroup methodsFor: 'morphisms' stamp: 'len 4/25/2020 06:55:32'!
+coprojection: i
+	^ ((self at: i) to: self evaluating: [:x| self compose: (components withIndexCollect: [:each :k| k = i ifTrue: [x] ifFalse: [each identity]])]) name: 'i', i printText sub! !
+
+!ProductGroup methodsFor: 'morphisms' stamp: 'len 5/23/2020 07:30:26'!
+projection: i
+	^ (self to: (self at: i) evaluating: [:x| x at: i]) name: 'Ž', i printText sub! !
+
+!ProductGroup methodsFor: 'random' stamp: 'len 10/17/2020 19:59:29'!
+atRandom: aRandom
+	^ self compose: (self asCartesianProduct atRandom: aRandom)! !
+
+!ProductGroup methodsFor: 'random' stamp: 'len 10/17/2020 19:59:42'!
+atRandom: aRandom bits: bits
+	^ self compose: (self asCartesianProduct atRandom: aRandom bits: bits)! !
+
+!ProductGroup methodsFor: 'testing' stamp: 'len 4/25/2020 06:54:01'!
+includes: anObject
+	^ anObject parent = self! !
+
+!ProductGroup methodsFor: 'testing' stamp: 'len 4/14/2020 21:09:53'!
+isCoproduct
+	^ true! !
+
+!ProductGroup methodsFor: 'testing' stamp: 'len 4/14/2020 21:09:49'!
+isProduct
+	^ true! !
+
+!ProductGroup methodsFor: 'private' stamp: 'len 11/5/2016 06:40'!
+components: anArray
+	components _ anArray! !
+
+!ProductGroup methodsFor: 'private' stamp: 'len 12/30/2017 15:11:22'!
+computeGenerators
+	| answer |
+	answer _ OrderedCollection new.
+	1 to: self arity do: [:i|
+		| p |
+		p _ self projection: i.
+		(self at: i) generators do: [:each| answer add: (p value: each)]].
+	^ answer! !
+
+!ProductGroup class methodsFor: 'instance creation' stamp: 'len 2/12/2016 20:02'!
+components: anArray
+	^ self new components: anArray! !
 
 !QuotientGroup methodsFor: 'accessing' stamp: 'len 6/10/2022 11:37:26'!
 cover
@@ -11656,6 +11658,11 @@ apply: aMorphism
 adapt: anElement
 	^ (super adapt: anElement) ifNil: [self scalars adapt: anElement]! !
 
+!Ideal methodsFor: 'operations' stamp: 'len 6/15/2022 10:04:10'!
+leadingIdeal
+	"Answer the initial ideal. This is the ideal of all leading terms of the receiver."
+	^ self leadingSubmodule! !
+
 !Ideal methodsFor: 'operations' stamp: 'len 6/6/2022 12:06:11'!
 radical
 	self scalars isQuotient ifTrue: [^ self representative radical apply: self scalars projection].
@@ -12006,11 +12013,6 @@ homogenized
 	"Must use a graded monomial ordering such as glex or grevlex:"
 	G _ (self orderedBy: (MonomialOrdering grevlex: R rank)) basis.
 	^ S * (G collect: [:each| S !! each homogenizedIn: S rank])! !
-
-!PolynomialIdeal methodsFor: 'operations' stamp: 'len 7/27/2021 11:31:32'!
-leadingIdeal
-	"Answer the initial ideal. This is the ideal of all leading terms of the receiver."
-	^ self leadingSubmodule! !
 
 !PolynomialIdeal methodsFor: 'operations' stamp: 'len 1/14/2022 11:49:43'!
 localization
@@ -27617,47 +27619,6 @@ parent: aQuotientGroup
 representative: anObject
 	representative _ anObject! !
 
-!DirectProductGroupElement methodsFor: 'accessing' stamp: 'len 4/25/2020 06:38:06'!
-at: anInteger
-	^ components at: anInteger! !
-
-!DirectProductGroupElement methodsFor: 'accessing' stamp: 'len 4/25/2020 06:38:11'!
-parent
-	^ parent! !
-
-!DirectProductGroupElement methodsFor: 'accessing' stamp: 'len 4/25/2020 06:38:16'!
-size
-	^ components size! !
-
-!DirectProductGroupElement methodsFor: 'comparing' stamp: 'len 4/25/2020 06:38:33'!
-= anObject
-	^ self class = anObject class and: [components = anObject components]! !
-
-!DirectProductGroupElement methodsFor: 'comparing' stamp: 'len 4/25/2020 06:38:37'!
-hash
-	^ components hash! !
-
-!DirectProductGroupElement methodsFor: 'operations' stamp: 'len 4/25/2020 07:48:01'!
-· anElement
-	(parent includes: anElement) ifFalse: [^ self adapt: anElement andSend: #·].
-	^ self class new parent: parent; components: components · anElement components! !
-
-!DirectProductGroupElement methodsFor: 'operations' stamp: 'len 4/25/2020 06:39:38'!
-inverse
-	^ self class new parent: parent; components: (components collect: [:each| each inverse])! !
-
-!DirectProductGroupElement methodsFor: 'private' stamp: 'len 4/25/2020 06:39:26'!
-components
-	^ components! !
-
-!DirectProductGroupElement methodsFor: 'private' stamp: 'len 4/25/2020 06:38:54'!
-components: anArray
-	components _ anArray! !
-
-!DirectProductGroupElement methodsFor: 'private' stamp: 'len 4/25/2020 06:39:20'!
-parent: aDirectProductGroup
-	parent _ aDirectProductGroup! !
-
 !OppositeGroupElement methodsFor: 'accessing' stamp: 'len 5/9/2019 08:04:46'!
 opposite
 	^ opposite! !
@@ -27685,6 +27646,47 @@ inverse
 !OppositeGroupElement class methodsFor: 'instance creation' stamp: 'len 5/9/2019 08:05:39'!
 opposite: anElement
 	^ self new opposite: anElement! !
+
+!ProductGroupElement methodsFor: 'accessing' stamp: 'len 4/25/2020 06:38:06'!
+at: anInteger
+	^ components at: anInteger! !
+
+!ProductGroupElement methodsFor: 'accessing' stamp: 'len 4/25/2020 06:38:11'!
+parent
+	^ parent! !
+
+!ProductGroupElement methodsFor: 'accessing' stamp: 'len 4/25/2020 06:38:16'!
+size
+	^ components size! !
+
+!ProductGroupElement methodsFor: 'comparing' stamp: 'len 4/25/2020 06:38:33'!
+= anObject
+	^ self class = anObject class and: [components = anObject components]! !
+
+!ProductGroupElement methodsFor: 'comparing' stamp: 'len 4/25/2020 06:38:37'!
+hash
+	^ components hash! !
+
+!ProductGroupElement methodsFor: 'operations' stamp: 'len 6/15/2022 10:45:11'!
+· anElement
+	(parent includes: anElement) ifFalse: [^ self adapt: anElement andSend: #·].
+	^ self class new parent: parent; components: (components withIndexCollect: [:each :i| each · (anElement components at: i)])! !
+
+!ProductGroupElement methodsFor: 'operations' stamp: 'len 4/25/2020 06:39:38'!
+inverse
+	^ self class new parent: parent; components: (components collect: [:each| each inverse])! !
+
+!ProductGroupElement methodsFor: 'private' stamp: 'len 4/25/2020 06:39:26'!
+components
+	^ components! !
+
+!ProductGroupElement methodsFor: 'private' stamp: 'len 4/25/2020 06:38:54'!
+components: anArray
+	components _ anArray! !
+
+!ProductGroupElement methodsFor: 'private' stamp: 'len 4/25/2020 06:39:20'!
+parent: aDirectProductGroup
+	parent _ aDirectProductGroup! !
 
 !Permutation methodsFor: 'accessing' stamp: 'len 5/25/2019 05:27:21'!
 aChange
@@ -27783,9 +27785,9 @@ permute: anArray
 	1 to: anArray size do: [:i| answer at: i put: (anArray at: (self at: i))].
 	^ answer! !
 
-!Permutation methodsFor: 'actions' stamp: 'len 5/1/2019 02:43:35'!
+!Permutation methodsFor: 'actions' stamp: 'len 6/15/2022 10:38:11'!
 value: anObject
-	^ self at: (parent spaceToIndex at: anObject ifAbsent: [^ anObject])! !
+	^ parent indexToSpace at: (self at: (parent spaceToIndex at: anObject ifAbsent: [^ anObject]))! !
 
 !Permutation methodsFor: 'comparing' stamp: 'len 5/25/2019 06:21:34'!
 = aPermutation
