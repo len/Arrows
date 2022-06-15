@@ -1,4 +1,4 @@
-'From Cuis 6.0 [latest update: #5053] on 14 June 2022 at 6:58:04 pm'!
+'From Cuis 6.0 [latest update: #5053] on 15 June 2022 at 9:56:45 am'!
 'Description This package implements among other things: permutation groups, linear groups, modular integers, finite fields, Galois rings, polynomial rings, affine algebras, number fields, function fields, p-adic fields, power series rings, finitely presented modules, (co)chain complexes, finite (finitely generated as modules) associative algebras, finite distributive (not necessarily associative) algebras, schemes, and sheaves of modules.
 
 References:
@@ -52,7 +52,7 @@ References:
 [] Victor Shoup; "A Computational Introduction to Number Theory and Algebra"
 [] Joseph. H. Silverman; "The Arithmetic of Elliptic Curves"
 '!
-!provides: 'Algebra' 1 19!
+!provides: 'Algebra' 1 20!
 !requires: 'Graphs' 1 0 nil!
 !requires: 'Collections-Extras' 1 1 nil!
 !requires: 'Complex' 1 8 nil!
@@ -3755,9 +3755,11 @@ printOn: aStream
 		ifTrue: [aStream nextPut: $(; print: self relations; nextPut: $)]
 		ifFalse: [aStream print: self relations]! !
 
-!AlternatingGroup methodsFor: 'printing' stamp: 'len 1/31/2018 17:31:29'!
+!AlternatingGroup methodsFor: 'printing' stamp: 'len 6/15/2022 09:44:17'!
 printOn: aStream
-	aStream nextPutAll: 'Alt('; print: self space; nextPut: $)! !
+	self isStandard
+		ifTrue: [aStream nextPutAll: 'A', self degree printText sub]
+		ifFalse: [aStream nextPutAll: 'Alt('; print: self space; nextPut: $)]! !
 
 !SymmetricGroup methodsFor: 'printing' stamp: 'len 4/30/2019 17:59:53'!
 printOn: aStream
@@ -6725,9 +6727,9 @@ size
 	(self isSet and: [aDomain isSet]) ifFalse: [^ self subclassResponsibility].
 	^ self size = aDomain size! !
 
-!Structure methodsFor: 'comparing' stamp: 'len 4/23/2016 00:41'!
+!Structure methodsFor: 'comparing' stamp: 'len 6/15/2022 09:50:57'!
 hash
-	^ self isFinite ifTrue: [self size hash] ifFalse: [super hash]! !
+	^ 0! !
 
 !Structure methodsFor: 'converting' stamp: 'len 4/19/2020 07:08:55'!
 asArray
@@ -7828,6 +7830,13 @@ order
 	"Synonym for size."
 	^ self size! !
 
+!Group methodsFor: 'elements' stamp: 'len 7/31/2021 12:29:42'!
+elementAt: aWord
+	| answer |
+	answer _ self identity.
+	aWord syllables do: [:each| answer _ answer * ((self x: each key) ^ each value)].
+	^ answer! !
+
 !Group methodsFor: 'converting' stamp: 'len 8/5/2021 08:39:21'!
 asAbelianGroup
 	| generators elementaryDivisors G H |
@@ -7973,11 +7982,12 @@ to: aGroup mapping: aBlock
 	This is the coproduct in the category of groups."
 	^ self notYetImplemented! !
 
-!Group methodsFor: 'operations' stamp: 'len 6/7/2022 06:15:04'!
+!Group methodsFor: 'operations' stamp: 'len 6/15/2022 09:47:11'!
 / aSubgroup
 	"Answer the quotient group (or factor group) of the receiver by the argument.
 	Assume aSubgroup is normal in the receiver, otherwise this is just the set of right cosets."
-	^ self notYetImplemented
+	self == aSubgroup ambient ifFalse: [^ self error: 'not a subgroup of the receiver'].
+	^ QuotientGroup relations: aSubgroup
 	"Answer the right factor group (or right quotient group) of the receiver by the argument.
 	If aSubgroup is not normal in the receiver, this is just the set of left cosets."
 "	^ self collect: [:each| LeftCoset on: aSubgroup representative: each]"! !
@@ -8313,13 +8323,6 @@ raise: anElement to: anInteger
 !Group methodsFor: 'private' stamp: 'len 5/1/2016 23:40'!
 species
 	^ Group! !
-
-!Group methodsFor: 'as yet unclassified' stamp: 'len 7/31/2021 12:29:42'!
-elementAt: aWord
-	| answer |
-	answer _ self identity.
-	aWord syllables do: [:each| answer _ answer * ((self x: each key) ^ each value)].
-	^ answer! !
 
 !Group class methodsFor: 'examples' stamp: 'len 10/26/2020 21:28:52'!
 D
@@ -10081,13 +10084,13 @@ asElementaryAbelianGroup
 	(self scalars isKindOf: PrimeField) ifFalse: [^ DomainError signal].
 	^ self asAbelianGroup! !
 
-!Module methodsFor: 'converting' stamp: 'len 10/25/2020 10:28:29'!
+!Module methodsFor: 'converting' stamp: 'len 6/15/2022 05:16:35'!
 asFPGroup
 	| F relators answer |
 	self isAbelianGroup ifFalse: [DomainError signal: 'not a Z-module'].
 	F _ FreeGroup new: self invariants size.
 	relators _ OrderedCollection new.
-	self orders withIndexDo: [:k :i| k ~= 0 ifTrue: [relators add: (F x: i)^k]].
+	self invariants withIndexDo: [:k :i| k ~= 0 ifTrue: [relators add: (F x: i)^k]].
 	1 to: F rank do: [:i| 1 to: F rank do: [:j| i ~= j ifTrue: [relators add: ((F x: i) commutator: (F x: j))]]].
 	^ (answer _ F / relators)
 		addMap: (self to: answer mapping: [:i| answer x: i]);
@@ -10800,9 +10803,9 @@ isTrivial
 	"Answer true if the receiver is the trivial submodule {0}."
 	^ self generatorMatrix isZero! !
 
-!Module methodsFor: 'testing-categories' stamp: 'len 4/26/2021 10:54:20'!
+!Module methodsFor: 'testing-categories' stamp: 'len 6/15/2022 09:52:05'!
 isAbelianGroup
-	^ self scalars == ƒ! !
+	^ self scalars = ƒ! !
 
 !Module methodsFor: 'testing-categories' stamp: 'len 10/20/2020 18:37:14'!
 isGroup
@@ -13371,9 +13374,9 @@ integers
 size
 	^ Cardinal new! !
 
-!RationalField methodsFor: 'comparing' stamp: 'len 11/10/2015 23:14'!
+!RationalField methodsFor: 'comparing' stamp: 'len 6/15/2022 09:53:13'!
 = anObject
-	^ anObject class == self class! !
+	^ anObject class = self class! !
 
 !RationalField methodsFor: 'comparing' stamp: 'len 6/28/2016 09:27'!
 hash
@@ -13719,9 +13722,9 @@ to: aCodomain
 	((aCodomain isKindOf: LocalRing) and: [aCodomain localizationIdeal <= self localizationIdeal]) ifTrue: [^ self to: aCodomain evaluating: [:each| each copy parent: aCodomain]].
 	^ super to: aCodomain! !
 
-!LocalRing methodsFor: 'operations' stamp: 'len 12/18/2021 11:36:53'!
+!LocalRing methodsFor: 'operations' stamp: 'len 6/15/2022 09:52:08'!
 completion
-	self integers == ƒ ifTrue: [^ self integers adic: self localizationIdeal generator].
+	self integers = ƒ ifTrue: [^ self integers adic: self localizationIdeal generator].
 	^ super completion! !
 
 !LocalRing methodsFor: 'operations' stamp: 'len 1/19/2017 07:19:45'!
@@ -15778,9 +15781,9 @@ zero
 < aDomain
 	^ aDomain isRing! !
 
-!RationalIntegerRing methodsFor: 'comparing' stamp: 'len 11/10/2015 23:14'!
+!RationalIntegerRing methodsFor: 'comparing' stamp: 'len 6/15/2022 09:52:54'!
 = anObject
-	^ anObject class == self class! !
+	^ anObject class = self class! !
 
 !RationalIntegerRing methodsFor: 'comparing' stamp: 'len 12/14/2015 01:59'!
 hash
@@ -20110,10 +20113,10 @@ pointsCountOver: aRing
 			[^ aRing modulus ^ (self rank - 1) * (aRing modulus factorization asSet product: [:p| (0 to: self rank - 1) sum: [:i| 1 / (p^i)]])].
 	^ super pointsCountOver: aRing! !
 
-!ProjectiveSpace methodsFor: 'points' stamp: 'len 4/26/2021 10:53:26'!
+!ProjectiveSpace methodsFor: 'points' stamp: 'len 6/15/2022 09:52:12'!
 pointsOver: aRing do: aBlock
 	aRing isField ifTrue: [^ self pointsOverField: aRing do: aBlock].
-	aRing == ƒ ifTrue: [^ self pointsOverIntegersDo: aBlock].
+	aRing = ƒ ifTrue: [^ self pointsOverIntegersDo: aBlock].
 	self pointsOverRing: aRing do: aBlock! !
 
 !ProjectiveSpace methodsFor: 'points-private' stamp: 'len 5/31/2020 17:02:32'!
@@ -22252,9 +22255,9 @@ zero
 	self isZero ifTrue: [^ false].
 	^ (self lift: aModuleMap) notNil! !
 
-!ModuleMap methodsFor: 'converting' stamp: 'len 4/26/2021 10:54:13'!
+!ModuleMap methodsFor: 'converting' stamp: 'len 6/15/2022 09:52:16'!
 asAbelianGroupMap
-	self scalars == ƒ ifFalse: [^ DomainError signal].
+	self scalars = ƒ ifFalse: [^ DomainError signal].
 	^ self! !
 
 !ModuleMap methodsFor: 'converting' stamp: 'len 4/1/2021 06:34:04'!
@@ -32132,15 +32135,7 @@ derivativeIn: anIndeterminate
 				[answer _ answer + (parent coefficient: each value * degree monomial: (each key parent exponents: (each key exponents copy at: anIndeterminate put: degree - 1; yourself)))]].
 	^ answer! !
 
-!Polynomial methodsFor: 'operations' stamp: 'len 5/22/2022 12:36:46'!
-g: aPolynomial
-	"Answer the GCD-tuple of the receiver with the argument."
-	| m xgcd |
-	m _ self leadingMonomial lcm: aPolynomial leadingMonomial.
-	xgcd _ self leadingCoefficient xgcd: aPolynomial leadingCoefficient.
-	^ self * (m / self leadingMonomial) * (xgcd at: 2) + (aPolynomial * (m / aPolynomial leadingMonomial) * (xgcd at: 3))! !
-
-!Polynomial methodsFor: 'operations' stamp: 'len 5/26/2022 12:31:56'!
+!Polynomial methodsFor: 'operations' stamp: 'len 6/15/2022 09:38:35'!
 gcd: aPolynomial
 	| a b r |
 	self isZero ifTrue: [^ aPolynomial normalized].
@@ -32148,7 +32143,7 @@ gcd: aPolynomial
 	(self parent includes: aPolynomial) ifFalse: [^ self adapt: aPolynomial andSend: #gcd:].
 	(self isUnivariate and: [aPolynomial isUnivariate])
 		ifFalse: "Multivariate case:"
-			[self scalars isUFD ifFalse: [^ self error: 'not a UFD'].
+			[self scalars hasGCD ifFalse: [^ self error: 'the coefficients ring doesn''t have GCD'].
 			(self isConstant or: [aPolynomial isConstant])
 				ifTrue: [^ self scalars isField ifTrue: [self one] ifFalse: [self parent constant: (self content gcd: aPolynomial content)]].
 			a _ self asUnivariate.
@@ -32259,11 +32254,11 @@ permutedBy: aPermutation
 	"Permute the variables of the receiver. The argument can be an Array (a permutation in 'image format'). For example given a polynomial in x,z,y, #(1 2 3) doesn't change anything, and #(2 1 3) exchanges variables x and y."
 	^ self applyToMonomials: [:each| each permutedBy: aPermutation]! !
 
-!Polynomial methodsFor: 'operations' stamp: 'len 4/26/2021 10:53:47'!
+!Polynomial methodsFor: 'operations' stamp: 'len 6/15/2022 09:56:23'!
 pgcd: aPolynomial
 	"Answer the greatest common divisor of the receiver and aPolynomial using a probabilistic algorithm."
 	| f g maps samples n |
-	self parent scalars == ƒ ifFalse: [^ DomainError signal: 'polynomial not in Z[x]'].
+	self parent scalars = ƒ ifFalse: [^ DomainError signal: 'not over rational integers'].
 	f _ self primitivePart.
 	g _ aPolynomial primitivePart.
 	n _ f degree max: g degree.
@@ -32334,14 +32329,6 @@ pseudoRem: aPolynomial
 	"Answer the remainder of the pseudo-division of the receiver by the argument."
 	self isUnivariate ifFalse: [^ (self pseudoDivisionBy: aPolynomial in: self leadingIndeterminate) remainder asMultivariate].
 	^ (self pseudoDivisionBy: aPolynomial) remainder! !
-
-!Polynomial methodsFor: 'operations' stamp: 'len 5/22/2022 12:04:20'!
-s: aPolynomial
-	"Answer the S-polynomial of the receiver with the argument."
-	| m c |
-	m _ self leadingMonomial lcm: aPolynomial leadingMonomial.
-	c _ self leadingCoefficient lcm: aPolynomial leadingCoefficient.
-	^ self * (m / self leadingMonomial) * (c / self leadingCoefficient) + (aPolynomial * (m / aPolynomial leadingMonomial) * (c negated / aPolynomial leadingCoefficient))! !
 
 !Polynomial methodsFor: 'operations' stamp: 'len 11/11/2015 02:29'!
 squared
@@ -32443,6 +32430,14 @@ validate
 	(self coefficients allSatisfy: [:any| (self parent scalars includes: any)]) ifFalse: [^ false].
 	^ super validate! !
 
+!Polynomial methodsFor: 'reduction' stamp: 'len 5/22/2022 12:36:46'!
+g: aPolynomial
+	"Answer the GCD-tuple of the receiver with the argument."
+	| m xgcd |
+	m _ self leadingMonomial lcm: aPolynomial leadingMonomial.
+	xgcd _ self leadingCoefficient xgcd: aPolynomial leadingCoefficient.
+	^ self * (m / self leadingMonomial) * (xgcd at: 2) + (aPolynomial * (m / aPolynomial leadingMonomial) * (xgcd at: 3))! !
+
 !Polynomial methodsFor: 'reduction' stamp: 'len 1/13/2022 09:08:39'!
 reductionBy: anArray
 	"If the ordering is global answer a top-reduction of the receiver with respect to the argument (without doing tail reduction). Otherwise answer the Mora normal form."
@@ -32495,6 +32490,14 @@ reductionMoraBy: anArray
 	g isNil ifTrue: [^ h].
 	ecartg > h ecart ifTrue: [L add: h].
 	h _ h + (g * (m / g leadingMonomial) * (c negated / g leadingCoefficient))] repeat! !
+
+!Polynomial methodsFor: 'reduction' stamp: 'len 5/22/2022 12:04:20'!
+s: aPolynomial
+	"Answer the S-polynomial of the receiver with the argument."
+	| m c |
+	m _ self leadingMonomial lcm: aPolynomial leadingMonomial.
+	c _ self leadingCoefficient lcm: aPolynomial leadingCoefficient.
+	^ self * (m / self leadingMonomial) * (c / self leadingCoefficient) + (aPolynomial * (m / aPolynomial leadingMonomial) * (c negated / aPolynomial leadingCoefficient))! !
 
 !Polynomial methodsFor: 'remainder sequences' stamp: 'len 3/9/2016 00:07'!
 eprs: aPolynomial
@@ -32595,6 +32598,12 @@ sprs: aPolynomial
 	self isUnit ifTrue: [^ true].
 	self scalars isIntegralDomain ifTrue: [^ (aPolynomial pseudoRem: self) isZero].
 	^ (self lift: aPolynomial) notNil! !
+
+!Polynomial methodsFor: 'testing' stamp: 'len 6/15/2022 09:37:45'!
+hasGCD
+	"Answer true if the receiver is known to have computable GCDs
+	(for example if it's a UFD or an Euclidean ring and implements an algorithm for GCDs)."
+	^ self scalars hasGCD! !
 
 !Polynomial methodsFor: 'testing' stamp: 'len 12/30/2016 20:10:56'!
 isAffineLinear
