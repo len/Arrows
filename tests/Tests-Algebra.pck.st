@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5053] on 14 June 2022 at 6:45:36 pm'!
+'From Cuis 6.0 [latest update: #5053] on 27 June 2022 at 1:31:05 pm'!
 'Description '!
-!provides: 'Tests-Algebra' 1 12!
+!provides: 'Tests-Algebra' 1 13!
 SystemOrganization addCategory: #'Tests-Algebra'!
 SystemOrganization addCategory: #'Tests-Algebra-Arrays'!
 SystemOrganization addCategory: #'Tests-Algebra-Rings'!
@@ -280,8 +280,18 @@ AbstractRingTest subclass: #AbstractCommutativeRingTest
 AbstractCommutativeRingTest class
 	instanceVariableNames: ''!
 
+!classDefinition: #AbstractGCDRingTest category: #'Tests-Algebra-Rings'!
+AbstractCommutativeRingTest subclass: #AbstractGCDRingTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra-Rings'!
+!classDefinition: 'AbstractGCDRingTest class' category: #'Tests-Algebra-Rings'!
+AbstractGCDRingTest class
+	instanceVariableNames: ''!
+
 !classDefinition: #AbstractEuclideanRingTest category: #'Tests-Algebra-Rings'!
-AbstractCommutativeRingTest subclass: #AbstractEuclideanRingTest
+AbstractGCDRingTest subclass: #AbstractEuclideanRingTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
@@ -318,6 +328,26 @@ AbstractFieldTest subclass: #RationalFieldTest
 	category: 'Tests-Algebra-Rings'!
 !classDefinition: 'RationalFieldTest class' category: #'Tests-Algebra-Rings'!
 RationalFieldTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #RationalFunctionFieldOverFiniteFieldTest category: #'Tests-Algebra-Rings'!
+AbstractFieldTest subclass: #RationalFunctionFieldOverFiniteFieldTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra-Rings'!
+!classDefinition: 'RationalFunctionFieldOverFiniteFieldTest class' category: #'Tests-Algebra-Rings'!
+RationalFunctionFieldOverFiniteFieldTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #RationalFunctionFieldOverRationalsTest category: #'Tests-Algebra-Rings'!
+AbstractFieldTest subclass: #RationalFunctionFieldOverRationalsTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra-Rings'!
+!classDefinition: 'RationalFunctionFieldOverRationalsTest class' category: #'Tests-Algebra-Rings'!
+RationalFunctionFieldOverRationalsTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #GaloisRingTest category: #'Tests-Algebra-Rings'!
@@ -410,18 +440,18 @@ AbstractEuclideanRingTest subclass: #RationalIntegerRingTest
 RationalIntegerRingTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #AbstractIntegralDomainTest category: #'Tests-Algebra-Rings'!
-AbstractCommutativeRingTest subclass: #AbstractIntegralDomainTest
+!classDefinition: #MultivariatePolynomialRingOverFiniteFieldTest category: #'Tests-Algebra-Rings'!
+AbstractGCDRingTest subclass: #MultivariatePolynomialRingOverFiniteFieldTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Rings'!
-!classDefinition: 'AbstractIntegralDomainTest class' category: #'Tests-Algebra-Rings'!
-AbstractIntegralDomainTest class
+!classDefinition: 'MultivariatePolynomialRingOverFiniteFieldTest class' category: #'Tests-Algebra-Rings'!
+MultivariatePolynomialRingOverFiniteFieldTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #MultivariatePolynomialRingOverRationalsTest category: #'Tests-Algebra-Rings'!
-AbstractIntegralDomainTest subclass: #MultivariatePolynomialRingOverRationalsTest
+AbstractGCDRingTest subclass: #MultivariatePolynomialRingOverRationalsTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
@@ -430,14 +460,24 @@ AbstractIntegralDomainTest subclass: #MultivariatePolynomialRingOverRationalsTes
 MultivariatePolynomialRingOverRationalsTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #MultivariatePolynomialRingOverFiniteFieldTest category: #'Tests-Algebra-Rings'!
-AbstractCommutativeRingTest subclass: #MultivariatePolynomialRingOverFiniteFieldTest
+!classDefinition: #ProductRingTest category: #'Tests-Algebra-Rings'!
+AbstractGCDRingTest subclass: #ProductRingTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Rings'!
-!classDefinition: 'MultivariatePolynomialRingOverFiniteFieldTest class' category: #'Tests-Algebra-Rings'!
-MultivariatePolynomialRingOverFiniteFieldTest class
+!classDefinition: 'ProductRingTest class' category: #'Tests-Algebra-Rings'!
+ProductRingTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #AbstractIntegralDomainTest category: #'Tests-Algebra-Rings'!
+AbstractCommutativeRingTest subclass: #AbstractIntegralDomainTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra-Rings'!
+!classDefinition: 'AbstractIntegralDomainTest class' category: #'Tests-Algebra-Rings'!
+AbstractIntegralDomainTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #MultivariatePolynomialRingOverGaloisRingTest category: #'Tests-Algebra-Rings'!
@@ -2735,12 +2775,12 @@ testRing
 	R hasCanonicalAssociates ifTrue: [self testRingCanonicalAssociates: R].
 	R isInvolutive ifTrue: [self testRingInvolution: R]! !
 
-!AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 1/1/2022 21:51:54'!
+!AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/19/2022 09:23:36'!
 testRingAxioms: aRing
 	| one zero a b c |
 	one _ aRing one.
 	zero _ aRing zero.
-	100 timesRepeat:
+	20 timesRepeat:
 		[a _ aRing atRandom: random bits: 20.
 		b _ aRing atRandom: random bits: 20.
 		c _ aRing atRandom: random bits: 20.
@@ -2762,9 +2802,9 @@ testRingAxioms: aRing
 		"distributivity:"
 		self assert: (a + b) * c = (a * c + (b * c)).
 		"commutativity of multiplication:"
-		R isCommutative ifTrue: [self assert: a * b = (b * a)]]! !
+		aRing isCommutative ifTrue: [self assert: a * b = (b * a)]]! !
 
-!AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 1/3/2022 14:12:31'!
+!AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/19/2022 12:14:02'!
 testRingCanonicalAssociates: aRing
 	100 timesRepeat:
 		[| x u |
@@ -2774,7 +2814,7 @@ testRingCanonicalAssociates: aRing
 		self assert: u normalization = u inverse.
 		self assert: u * u inverse = aRing one.
 		self assert: u normalized = aRing one.
-		self assert: x normalization * x = x normalized.
+		self assert: x * x normalization = x normalized.
 		self assert: x normalized = (x * u) normalized]! !
 
 !AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 7/6/2021 10:53:01'!
@@ -3180,6 +3220,81 @@ testPolynomials
 	self testRingAxioms: P.
 	self testRingHomomorphism: R -> P! !
 
+!AbstractGCDRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/16/2022 12:06:25'!
+testFractions
+	| F |
+	F _ R fractions.
+	self testRingAxioms: F.
+	self testRingHomomorphism: R -> F! !
+
+!AbstractGCDRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/16/2022 12:06:00'!
+testGCD
+	R size < 60 ifTrue:
+		[R do: [:a| R do: [:b| self testGCD: a with: b]]. ^ self].
+	100 timesRepeat:
+		[ | a b |
+		[(a _ R atRandom: random bits: 30) isZero] whileTrue.
+		[(b _ R atRandom: random bits: 30) isZero] whileTrue.
+		self testGCD: a with: b]! !
+
+!AbstractGCDRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/16/2022 12:11:27'!
+testGCD2
+	100 timesRepeat:
+		[ | a b c gcd |
+		[(a _ R atRandom: random bits: 30) isZero] whileTrue.
+		[(b _ R atRandom: random bits: 30) isZero] whileTrue.
+		[(c _ R atRandom: random bits: 30) isZero] whileTrue.
+		gcd _ a*c gcd: b*c.
+		self assert: c | gcd]! !
+
+!AbstractGCDRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/16/2022 12:06:07'!
+testGCD: a with: b
+	| gcd |
+	gcd _ a gcd: b.
+	self assert: gcd | a.
+	self assert: gcd | b.
+	self assert: gcd = gcd normalized! !
+
+!AbstractGCDRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/16/2022 12:06:13'!
+testGCDZero
+	| a gcd |
+	a _ R atRandom: random bits: 100.
+	gcd _ a gcd: R zero.
+	self assert: gcd = (R zero gcd: a).
+	self assert: gcd = a normalized.
+	self assert: (R zero gcd: R zero) = R zero! !
+
+!AbstractGCDRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/16/2022 12:07:21'!
+testHasGCD
+	self assert: R hasGCD! !
+
+!AbstractGCDRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/16/2022 12:06:35'!
+testLCM
+	R size < 60 ifTrue:
+		[R do: [:a| R do: [:b| self testLCM: a with: b]]. ^ self].
+	100 timesRepeat:
+		[| a b |
+		[(a _ R atRandom: random bits: 30) isZero] whileTrue.
+		[(b _ R atRandom: random bits: 30) isZero] whileTrue.
+		self testLCM: a with: b]! !
+
+!AbstractGCDRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/16/2022 12:06:43'!
+testLCM: a with: b
+	| lcm |
+	lcm _ a lcm: b.
+	self assert: a | lcm.
+	self assert: b | lcm.
+	self assert: lcm = lcm normalized! !
+
+!AbstractGCDRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/16/2022 12:06:50'!
+testLCMZero
+	| a lcm |
+	a _ R atRandom: random bits: 100.
+	lcm _ a lcm: R zero.
+	self assert: lcm = (R zero lcm: a).
+	self assert: lcm = R zero.
+	self assert: (R zero lcm: R zero) = R zero! !
+
 !AbstractEuclideanRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/31/2022 21:22:35'!
 testAnnihilator
 	100 timesRepeat:
@@ -3188,6 +3303,10 @@ testAnnihilator
 		a _ x annihilator.
 		self assert: (x * a) isZero.
 		self assert: x isZeroDivisor not = a isZero]! !
+
+!AbstractEuclideanRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/18/2022 09:02:25'!
+testAnnihilatorOfZero
+	self assert: R zero annihilator isOne! !
 
 !AbstractEuclideanRingTest methodsFor: 'as yet unclassified' stamp: 'len 1/12/2022 18:44:59'!
 testEuclideanDivision
@@ -3224,71 +3343,10 @@ testExactDivisionCompatibleWithEuclideanDivision
 		self assert: xy / y = (xy // y).
 		self assert: (xy \\ y) isZero]! !
 
-!AbstractEuclideanRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/1/2022 11:58:05'!
-testFractions
-	| F |
-	F _ R fractions.
-	self testRingAxioms: F.
-	self testRingHomomorphism: R -> F! !
-
-!AbstractEuclideanRingTest methodsFor: 'as yet unclassified' stamp: 'len 1/13/2022 05:33:19'!
-testGCD
-	R size < 60 ifTrue:
-		[R do: [:a| R do: [:b| self testGCD: a with: b]]. ^ self].
-	100 timesRepeat:
-		[ | a b |
-		[(a _ R atRandom: random bits: 30) isZero] whileTrue.
-		[(b _ R atRandom: random bits: 30) isZero] whileTrue.
-		self testGCD: a with: b]! !
-
-!AbstractEuclideanRingTest methodsFor: 'as yet unclassified' stamp: 'len 1/13/2022 05:32:36'!
-testGCD: a with: b
-	| gcd |
-	gcd _ a gcd: b.
-	self assert: gcd | a.
-	self assert: gcd | b.
-	self assert: gcd = gcd normalized! !
-
-!AbstractEuclideanRingTest methodsFor: 'as yet unclassified' stamp: 'len 1/13/2022 05:33:06'!
-testGCDZero
-	| a gcd |
-	a _ R atRandom: random bits: 100.
-	gcd _ a gcd: R zero.
-	self assert: gcd = (R zero gcd: a).
-	self assert: gcd = a normalized.
-	self assert: (R zero gcd: R zero) = R zero! !
-
 !AbstractEuclideanRingTest methodsFor: 'as yet unclassified' stamp: 'len 1/4/2022 18:12:54'!
 testIsEuclidean
 	self assert: R isEuclidean.
 	self assert: R isPIR! !
-
-!AbstractEuclideanRingTest methodsFor: 'as yet unclassified' stamp: 'len 1/13/2022 05:34:01'!
-testLCM
-	R size < 60 ifTrue:
-		[R do: [:a| R do: [:b| self testLCM: a with: b]]. ^ self].
-	100 timesRepeat:
-		[| a b |
-		[(a _ R atRandom: random bits: 30) isZero] whileTrue.
-		[(b _ R atRandom: random bits: 30) isZero] whileTrue.
-		self testLCM: a with: b]! !
-
-!AbstractEuclideanRingTest methodsFor: 'as yet unclassified' stamp: 'len 1/13/2022 05:33:40'!
-testLCM: a with: b
-	| lcm |
-	lcm _ a lcm: b.
-	self assert: a | lcm.
-	self assert: b | lcm.
-	self assert: lcm = lcm normalized! !
-
-!AbstractEuclideanRingTest methodsFor: 'as yet unclassified' stamp: 'len 1/13/2022 05:33:35'!
-testLCMZero
-	| a lcm |
-	a _ R atRandom: random bits: 100.
-	lcm _ a lcm: R zero.
-	self assert: lcm = (R zero lcm: a).
-	self assert: lcm = R zero.
-	self assert: (R zero lcm: R zero) = R zero! !
 
 !AbstractEuclideanRingTest methodsFor: 'as yet unclassified' stamp: 'len 1/13/2022 05:32:16'!
 testXXGCD
@@ -3343,6 +3401,16 @@ initialize
 	super initialize.
 	R _ „! !
 
+!RationalFunctionFieldOverFiniteFieldTest methodsFor: 'as yet unclassified' stamp: 'len 6/17/2022 09:41:39'!
+initialize
+	super initialize.
+	R _ ((	GaloisField new: 5 atRandom nextPrime to: 3 atRandom) polynomialsIn: 3 atRandom) fractions! !
+
+!RationalFunctionFieldOverRationalsTest methodsFor: 'as yet unclassified' stamp: 'len 6/17/2022 09:41:16'!
+initialize
+	super initialize.
+	R _ („ polynomialsIn: 3 atRandom) fractions! !
+
 !GaloisRingTest methodsFor: 'as yet unclassified' stamp: 'len 4/21/2021 08:18:32'!
 initialize
 	super initialize.
@@ -3358,10 +3426,10 @@ initialize
 	super initialize.
 	R _ ƒ @ 64 atRandom nextPrime! !
 
-!ModularIntegerRingTest methodsFor: 'as yet unclassified' stamp: 'len 4/22/2021 10:33:09'!
+!ModularIntegerRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/19/2022 12:38:35'!
 initialize
 	super initialize.
-	R _ ƒ/64 atRandom! !
+	R _ ƒ/(64 atRandom + 1)! !
 
 !ModularIntegerRingTest methodsFor: 'as yet unclassified' stamp: 'len 8/1/2021 12:04:12'!
 testCongruenceSolvingExample1
@@ -3463,6 +3531,21 @@ initialize
 	super initialize.
 	R _ ƒ! !
 
+!MultivariatePolynomialRingOverFiniteFieldTest methodsFor: 'as yet unclassified' stamp: 'len 8/20/2021 15:32:40'!
+initialize
+	super initialize.
+	R _ (	GaloisField new: 5 atRandom nextPrime to: 3 atRandom) polynomialsIn: 3 atRandom! !
+
+!MultivariatePolynomialRingOverRationalsTest methodsFor: 'as yet unclassified' stamp: 'len 8/20/2021 15:33:31'!
+initialize
+	super initialize.
+	R _ „ polynomialsIn: 3 atRandom! !
+
+!ProductRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/18/2022 12:53:32'!
+initialize
+	super initialize.
+	R _ ƒ × ƒ × (ƒ/4)! !
+
 !AbstractIntegralDomainTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2022 12:18:58'!
 testIsIntegralDomain
 	self assert: R isIntegralDomain! !
@@ -3473,16 +3556,6 @@ testZeroIdeal
 	P _ R * 0.
 	self assert: P isPrime.
 	self assert: P isMinimalPrime! !
-
-!MultivariatePolynomialRingOverRationalsTest methodsFor: 'as yet unclassified' stamp: 'len 8/20/2021 15:33:31'!
-initialize
-	super initialize.
-	R _ „ polynomialsIn: 3 atRandom! !
-
-!MultivariatePolynomialRingOverFiniteFieldTest methodsFor: 'as yet unclassified' stamp: 'len 8/20/2021 15:32:40'!
-initialize
-	super initialize.
-	R _ (	GaloisField new: 5 atRandom nextPrime to: 3 atRandom) polynomialsIn: 3 atRandom! !
 
 !MultivariatePolynomialRingOverGaloisRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2022 18:04:18'!
 initialize
@@ -4955,6 +5028,14 @@ initialize
 	super initialize.
 	scalars _ PrimePowerRing new: 10 atRandom nextPrime to: 3 atRandom! !
 
+!MatrixOverPrimePowerRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/19/2022 12:12:22'!
+testSyzygiesBug
+	| R A X |
+	R _ ƒ/(7^3).
+	A _ R matrix: #((15 48 278 40)).
+	X _ A syzygies.
+	self assert: (A*X) isZero! !
+
 !MatrixOverProductRingTest methodsFor: 'initialization' stamp: 'len 4/2/2021 10:22:25'!
 initialize
 	super initialize.
@@ -4990,23 +5071,25 @@ testFirstIsomorphismTheorem
 	self assert: f domain >= f kernel.
 	self assert: f domain / f kernel ~ f image! !
 
-!AbstractModuleTest methodsFor: 'isomorphism theorems' stamp: 'len 7/26/2021 18:36:51'!
+!AbstractModuleTest methodsFor: 'isomorphism theorems' stamp: 'len 6/21/2022 11:29:54'!
 testSecondIsomorphismTheorem
-	| M S T |
+	| M k S T |
 	M _ self newFreeModule.
-	S _ M span: ((1 to: M rank atRandom) collect: [:i| M atRandom: random bits: (10 atRandom: random)]).
-	T _ M span: ((1 to: M rank atRandom) collect: [:i| M atRandom: random bits: (10 atRandom: random)]).
+	k _ M rank > 0 ifTrue: [M rank atRandom: random] ifFalse: [0].
+	S _ M span: ((1 to: k) collect: [:i| M atRandom: random bits: (10 atRandom: random)]).
+	k _ M rank > 0 ifTrue: [M rank atRandom: random] ifFalse: [0].
+	T _ M span: ((1 to: k) collect: [:i| M atRandom: random bits: (10 atRandom: random)]).
 	self assert: S+T <= M.
 	self assert: S /\ T <= M.
 	self assert: (S+T)/T ~ (S/(S /\ T))! !
 
-!AbstractModuleTest methodsFor: 'isomorphism theorems' stamp: 'len 7/26/2021 18:38:37'!
+!AbstractModuleTest methodsFor: 'isomorphism theorems' stamp: 'len 6/19/2022 21:22:59'!
 testThirdIsomorphismTheorem
 	| M S T k |
 	M _ self newFreeModule.
-	k _ M rank atRandom.
+	k _ M rank > 0 ifTrue: [M rank atRandom: random] ifFalse: [0].
 	S _ M span: ((1 to: k) collect: [:i| M atRandom: random bits: (10 atRandom: random)]).
-	T _ S span: ((1 to: k atRandom) collect: [:i| S atRandom: random bits: (10 atRandom: random)]).
+	T _ S span: ((1 to: (k > 0 ifTrue: [k atRandom: random] ifFalse: [0])) collect: [:i| S atRandom: random bits: (10 atRandom: random)]).
 	self assert: S/T <= (M/T).
 	self assert: (M/T)/(S/T) ~ (M/S)! !
 
@@ -5029,14 +5112,14 @@ testCoimage
 	self assert: A coimage = J image.
 	self assert: J isEpimorphism! !
 
-!AbstractModuleTest methodsFor: 'maps' stamp: 'len 3/29/2021 04:26:42'!
+!AbstractModuleTest methodsFor: 'maps' stamp: 'len 6/21/2022 07:22:08'!
 testCokernel
 	| A Q |
 	A _ self newModuleMap.
 	Q _ A cokernelMap.
 	self assert: (Q · A) isZero.
 	self assert: Q isEpimorphism.
-	self assert: A cokernel = Q coimage "what?"! !
+	self assert: A cokernel = Q image! !
 
 !AbstractModuleTest methodsFor: 'maps' stamp: 'len 3/24/2021 07:58:37'!
 testCokernelAndCoequalizer
@@ -6638,12 +6721,13 @@ testSmoothnessOverQQ
 	C _ P subscheme: P coordinateRing !! [:x :y :z| x^3 - (y^2*z)].
 	self assert: C isSingular! !
 
-!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 10/26/2020 14:31:04'!
+!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 6/25/2022 10:54:06'!
 testSpecZ
+	| p |
 	self assert: ƒ spec dimension = 1.
 	self assert: ƒ spec isNoetherian.
-	self assert: (ƒ spec includes: ƒ*5).
-	self deny: (ƒ spec includes: ƒ*6)! !
+	p _ ƒ spec !! (ƒ * 5).
+	self assert: (ƒ spec includes: p)! !
 
 !AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 5/23/2020 08:57:54'!
 testSpecZSubschemes
@@ -6948,6 +7032,16 @@ testTangentConeAndTangentSpace
 	self assert: o tangentCone = (A subscheme: (x + y) * (x - y)).
 	"the tangent space is the whole plane:"
 	self assert: o tangentSpace = A! !
+
+!AlgebraicGeometryTest methodsFor: 'stalks' stamp: 'len 6/25/2022 11:49:51'!
+testLocalIntegerRingSpecStalks
+	| R X p |
+	R _ ƒ @ 5.
+	X _ R spec.
+	p _ X !! (R * 0).
+	self assert: p localRing = „.
+	p _ X !! (R * 5).
+	self assert: p localRing = R! !
 
 !AlgebraicGraphTest methodsFor: 'as yet unclassified' stamp: 'len 4/16/2022 13:08:30'!
 testAutomorphismsK3
