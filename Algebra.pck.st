@@ -1,4 +1,4 @@
-'From Cuis 6.0 [latest update: #5053] on 21 June 2022 at 11:37:08 am'!
+'From Cuis 6.0 [latest update: #5053] on 27 June 2022 at 1:32:01 pm'!
 'Description This package implements among other things: permutation groups, linear groups, modular integers, finite fields, Galois rings, polynomial rings, affine algebras, number fields, function fields, p-adic fields, power series rings, finitely presented modules, (co)chain complexes, finite (finitely generated as modules) associative algebras, finite distributive (not necessarily associative) algebras, schemes, and sheaves of modules.
 
 References:
@@ -37,6 +37,7 @@ References:
 [Sim70], Charles C. Sims, "Computational methods in the study of permutation groups" (1970)
 [SM98] Arne Storjohann, Thom Mulders, "Fast algorithms for linear algebra modulo N" (1998)
 [Sto00] Arne Storjohann, "Algorithms for Matrix Canonical Forms" (2000)
+[Vak17] Ravi Vakil, "The Rising Sea: Foundations of Algebraic Geometry" (2017)
 
 [] Thomas Becker; "Groebner Bases: A Computational Approach"
 [] David Cox; John Little; Donals O''Shea; "Using Algebraic Geometry"
@@ -55,7 +56,7 @@ References:
 [] Victor Shoup; "A Computational Introduction to Number Theory and Algebra"
 [] Joseph. H. Silverman; "The Arithmetic of Elliptic Curves"
 '!
-!provides: 'Algebra' 1 23!
+!provides: 'Algebra' 1 24!
 !requires: 'Graphs' 1 0 nil!
 !requires: 'Collections-Extras' 1 1 nil!
 !requires: 'Complex' 1 8 nil!
@@ -1239,16 +1240,6 @@ Domain subclass: #Sheaf
 Sheaf class
 	instanceVariableNames: ''!
 
-!classDefinition: #HomSheaf category: #'Algebra-Schemes'!
-Sheaf subclass: #HomSheaf
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Algebra-Schemes'!
-!classDefinition: 'HomSheaf class' category: #'Algebra-Schemes'!
-HomSheaf class
-	instanceVariableNames: ''!
-
 !classDefinition: #Morphism category: #'Algebra-Categories'!
 Object subclass: #Morphism
 	instanceVariableNames: 'properties'
@@ -1499,38 +1490,38 @@ Morphism subclass: #CochainMap
 CochainMap class
 	instanceVariableNames: ''!
 
-!classDefinition: #SchemeMorphism category: #'Algebra-Schemes'!
-Morphism subclass: #SchemeMorphism
+!classDefinition: #SchemeMap category: #'Algebra-Schemes'!
+Morphism subclass: #SchemeMap
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Schemes'!
-!classDefinition: 'SchemeMorphism class' category: #'Algebra-Schemes'!
-SchemeMorphism class
+!classDefinition: 'SchemeMap class' category: #'Algebra-Schemes'!
+SchemeMap class
 	instanceVariableNames: ''!
 
-!classDefinition: #AffineMorphism category: #'Algebra-Schemes'!
-SchemeMorphism subclass: #AffineMorphism
+!classDefinition: #AffineMap category: #'Algebra-Schemes'!
+SchemeMap subclass: #AffineMap
 	instanceVariableNames: 'adjoint'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Schemes'!
-!classDefinition: 'AffineMorphism class' category: #'Algebra-Schemes'!
-AffineMorphism class
+!classDefinition: 'AffineMap class' category: #'Algebra-Schemes'!
+AffineMap class
 	instanceVariableNames: ''!
 
-!classDefinition: #ProjectiveMorphism category: #'Algebra-Schemes'!
-SchemeMorphism subclass: #ProjectiveMorphism
+!classDefinition: #ProjectiveMap category: #'Algebra-Schemes'!
+SchemeMap subclass: #ProjectiveMap
 	instanceVariableNames: 'adjoint'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Schemes'!
-!classDefinition: 'ProjectiveMorphism class' category: #'Algebra-Schemes'!
-ProjectiveMorphism class
+!classDefinition: 'ProjectiveMap class' category: #'Algebra-Schemes'!
+ProjectiveMap class
 	instanceVariableNames: ''!
 
 !classDefinition: #RationalPoint category: #'Algebra-Varieties'!
-SchemeMorphism subclass: #RationalPoint
+SchemeMap subclass: #RationalPoint
 	instanceVariableNames: 'codomain coordinates'
 	classVariableNames: ''
 	poolDictionaries: ''
@@ -2683,7 +2674,7 @@ Rings with identity (unital rings). They are associative and contain a multiplic
 
 Rings can be thought as continuous functions on some topological space. In the case of a commutative ring R this space is the prime spectrum Spec(R), the set of prime ideals with the Zariski topology. See AffineScheme.
 
-Rings can be constructed from existing rings for example by taking quotients by a two-sided ideal (see QuotientRing), by direct product (see ProductRing), and in the case of commutative rings by making transcendental extensions (see PolynomialRing), localization (see FractionRing and LocalRing), completion (for example PowerSeriesRing and AdicRing), etc.!
+Rings can be constructed from existing rings, for example by taking quotients by a two-sided ideal (see QuotientRing), by direct product (see ProductRing), and in the case of commutative rings by making transcendental extensions (see PolynomialRing), localization (see FractionRing and LocalRing), completion (for example PowerSeriesRing and AdicRing), etc.!
 
 !FractionRing commentStamp: '<historical>' prior: 0!
 Total ring of fractions Frac(R) of a commutative ring R, also called the "total quotient ring" of R. The elements are formal fractions a/b with a and b in R and b regular (not a zero divisor), under the equivalence relation a/b ~ c/d if ad = cb. When the ring R is an integral domain, Frac(R) is a field and it is called the "field of fractions" of R. See Ring>>fractions.
@@ -2702,14 +2693,14 @@ Field of p-adic numbers Qp. This is the fraction field of the ring of p-adic int
 !LaurentSeriesRing commentStamp: 'len 6/7/2020 17:52:33' prior: 0!
 Ring R((x)) of formal Laurent series over a commutative ring R in an indetermiate x. See LaurentSeries.!
 
-!LocalRing commentStamp: 'len 6/7/2022 17:55:59' prior: 0!
-Localization of a commutative ring R at a prime ideal P. The elements are "germs at P" (see Germ), and can be thought as fractions a/b with a and b in R and b not in P. This is a subring of the total ring of fractions Frac(R) (see FractionRing).
+!LocalRing commentStamp: '<historical>' prior: 0!
+Localization of a commutative ring R at a prime ideal p. The elements are "germs at p" (see Germ), and can be thought as fractions a/b with a and b in R and b not in p. This is a subring of the total ring of fractions Frac(R) (see FractionRing).
 
-The localization of R at a prime ideal P is the stalk of the structure sheaf of Spec(R) at the point P. As the elements of R are thought as functions on the space Spec(R), the elements of the localization at P are thought as germs of functions, i.e. functions that characterize the local behavior of Spec(R) near P.
+The localization of R at a prime ideal P is the stalk of the structure sheaf of Spec(R) at the point [p]. As the elements of R are thought as functions on the space Spec(R), the elements of the localization at p are thought as germs of functions, i.e. functions that characterize the local behavior of Spec(R) near [p].
 
-The localization of R at the prime ideal P is equipped with a canonical map (the localization map) from the ring of integers R, as well as a canonical embedding into the total ring of fractions Frac(R).
+The localization of R at the prime ideal p is equipped with a canonical map (the localization map) from the ring of integers R, as well as a canonical embedding into the total ring of fractions Frac(R).
 
-The localization of R at the prime ideal P is a local ring, with maximal ideal equal to the extension of the ideal P by the localization map. The quotient by the maximal ideal is called the "residue field".!
+The localization of R at the prime ideal p is a local ring, with maximal ideal equal to the extension of the ideal p by the localization map. The quotient by the maximal ideal is called the 'residue field'.!
 
 !OppositeRing commentStamp: '<historical>' prior: 0!
 The opposite ring of a given noncommutative ring.!
@@ -2922,7 +2913,7 @@ The prime spectrum Spec(R) of a commutative ring R, equipped with a sheaf of loc
 
 The ring R should be thought as the ring of regular functions on Spec(R). Concretely, each element f of R defines a function that takes a point p of Spec(R) (i.e., a prime ideal p of R) to the image of f by the canonical map to the residue field at p.
 
-Affine schemes are the fundamental building blocks of general schemes. Any scheme can be constructed by glueing together finitely many affine schemes, and conversely schemes that are not affine can be covered by a finite number of affine patches.
+Affine schemes are the fundamental building blocks of general schemes. Any scheme can be constructed by glueing together finitely many affine schemes, and conversely any scheme can be covered by a finite number of affine patches.
 !
 
 !AffineVariety commentStamp: '<historical>' prior: 0!
@@ -3009,9 +3000,7 @@ Chain complexes form an abelian cateogory with chain maps as morphisms. See Chai
 See also CochainComplex for the dual notion.!
 
 !Sheaf commentStamp: '<historical>' prior: 0!
-Coherent sheaves of R-modules over Proj(R).
-
-See also HomSheaf and SheafMap.!
+Coherent sheaves of R-modules over Proj(R). See also SheafMap.!
 
 !Morphism commentStamp: '<historical>' prior: 0!
 Morphisms belonging to a given Category. See Map and other subclasses for morphisms of specific categories, and Domain and HomSet.!
@@ -3152,16 +3141,16 @@ A chain map between two chain complexes defined by differentials d(k):C(k)->C(k-
 
 Chain maps are morphisms in the category of chain complexes. See ChainComplex.!
 
-!SchemeMorphism commentStamp: '<historical>' prior: 0!
+!SchemeMap commentStamp: '<historical>' prior: 0!
 Morphisms of schemes are morphisms of locally ringed spaces.
 
 A scheme is covered by open affine patches, and a morphism of schemes is locally induced by affine morphisms between affine patches (or dually, ring homomorphisms between the coordinate rings of affine patches).!
 
-!AffineMorphism commentStamp: '<historical>' prior: 0!
-Scheme morphism between affine schemes Spec A -> Spec B. It is induced by its adjoint map, a ring homomorphism B -> A.!
+!AffineMap commentStamp: '<historical>' prior: 0!
+Scheme morphism between affine schemes Spec A -> Spec B. It is induced by a ring homomorphism B -> A.!
 
-!ProjectiveMorphism commentStamp: '<historical>' prior: 0!
-Scheme morphism between projective schemes Proj A -> Proj B. It is induced by its adjoint map, a graded ring homomorphism B -> A of degree 0.!
+!ProjectiveMap commentStamp: '<historical>' prior: 0!
+Scheme morphism between projective schemes Proj A -> Proj B. It is induced by a graded ring homomorphism B -> A of degree 0.!
 
 !RationalPoint commentStamp: '<historical>' prior: 0!
 Abstract superclass for K-rational points on a variety X, seen as morphisms Spec(K) -> X.
@@ -3536,7 +3525,7 @@ For some examples try this:
 Complex algebraic numbers, i.e. zeros of polynomials with integer (or rational) coefficients, in 'minimal polynomial' representation. See also RealAlgebraicNumber.!
 
 !SchemePoint commentStamp: '<historical>' prior: 0!
-Topological points on a general scheme given by a point on an affine patch.!
+Topological points on a scheme given by a prime ideal on the coordinate ring of an affine patch.!
 
 !CRT commentStamp: '<historical>' prior: 0!
 This is the Chinese Remainder Theorem. My instances find solutions to systems of linear Diophantine equations x = x_i (mod m_i). The algorithm works on any Euclidean domain.
@@ -3673,17 +3662,17 @@ printOn: aStream
 name
 	^ #ChainComplexes! !
 
-!ChainComplexes methodsFor: 'printing' stamp: 'len 10/26/2020 10:37:03'!
+!ChainComplexes methodsFor: 'printing' stamp: 'len 6/27/2022 13:21:03'!
 printOn: aStream
-	aStream nextPutAll: 'Ch', '“' sub; nextPut: $(; print: self chains; nextPut: $)! !
+	aStream nextPutAll: 'Ch', '*' sub; nextPut: $(; print: self chains; nextPut: $)! !
 
 !CochainComplexes methodsFor: 'accessing' stamp: 'len 10/30/2020 11:14:22'!
 name
 	^ #CochainComplexes! !
 
-!CochainComplexes methodsFor: 'printing' stamp: 'len 10/26/2020 10:42:38'!
+!CochainComplexes methodsFor: 'printing' stamp: 'len 6/27/2022 13:21:12'!
 printOn: aStream
-	aStream nextPutAll: 'Ch', '“' super; nextPut: $(; print: self cochains; nextPut: $)! !
+	aStream nextPutAll: 'Ch', '*' super; nextPut: $(; print: self cochains; nextPut: $)! !
 
 !HomSet methodsFor: 'printing' stamp: 'len 12/5/2016 11:56:13'!
 printOn: aStream
@@ -4637,9 +4626,12 @@ printOn: aStream
 printOn: aStream
 	self printOn: aStream base: 10! !
 
-!SchemePoint methodsFor: 'as yet unclassified' stamp: 'len 12/21/2021 20:12:54'!
+!SchemePoint methodsFor: 'printing' stamp: 'len 6/25/2022 10:24:00'!
 printOn: aStream
-	ideal printOn: aStream! !
+	ideal isTrivial ifTrue: [aStream nextPutAll: '[0]'. ^ self].
+	aStream nextPut: $[.
+	ideal isOne ifTrue: [aStream print: ideal scalars] ifFalse: [ideal printGeneratorsOn: aStream].
+	aStream nextPut: $]! !
 
 !ExtendedEuclid methodsFor: 'printing' stamp: 'len 4/28/2022 12:59:40'!
 printOn: aStream
@@ -6389,7 +6381,7 @@ at: anInteger
 	self propertyAt: #projections ifPresent: [:aDictionary| aDictionary at: components ifPresent: [:anArrayOfMorphisms| ^ anArrayOfMorphisms]].
 	^ self toAll: components! !
 
-!Domain methodsFor: 'morphisms' stamp: 'len 5/6/2022 07:33:03'!
+!Domain methodsFor: 'morphisms' stamp: 'len 6/26/2022 09:54:42'!
 -> aCodomain
 	"Answer the canonical morphism from the receiver to aCodomain.
 	If the argument is a morphism, answer the composition with a canonical morphism to its domain. See also Morphism>>->."
@@ -7295,6 +7287,10 @@ includes: aMorphism
 isAbelian
 	^ false! !
 
+!Category methodsFor: 'testing' stamp: 'len 6/27/2022 13:18:40'!
+isMonoidal
+	^ false! !
+
 !Category methodsFor: 'testing-categories' stamp: 'len 5/2/2020 21:33:26'!
 isCategory
 	^ true! !
@@ -7336,6 +7332,10 @@ hash
 isAbelian
 	^ true! !
 
+!Modules methodsFor: 'testing' stamp: 'len 6/27/2022 13:19:48'!
+isMonoidal
+	^ true! !
+
 !Modules methodsFor: 'private' stamp: 'len 4/26/2020 17:46:15'!
 scalars: aRing
 	self propertyAt: #scalars put: aRing! !
@@ -7352,8 +7352,16 @@ chains
 opposite
 	^ self propertyAt: #opposite ifAbsentPut: [CochainComplexes opposite: self]! !
 
+!ChainComplexes methodsFor: 'accessing' stamp: 'len 6/27/2022 13:22:57'!
+unit
+	^ self chains unit asChainComplex! !
+
 !ChainComplexes methodsFor: 'testing' stamp: 'len 10/30/2020 11:21:35'!
 isAbelian
+	^ true! !
+
+!ChainComplexes methodsFor: 'testing' stamp: 'len 6/27/2022 13:20:11'!
+isMonoidal
 	^ true! !
 
 !ChainComplexes methodsFor: 'private' stamp: 'len 4/26/2020 17:43:27'!
@@ -7372,8 +7380,16 @@ cochains
 opposite
 	^ opposite! !
 
+!CochainComplexes methodsFor: 'accessing' stamp: 'len 6/27/2022 13:23:14'!
+unit
+	^ self cochains unit asCochainComplex! !
+
 !CochainComplexes methodsFor: 'testing' stamp: 'len 10/30/2020 11:22:24'!
 isAbelian
+	^ true! !
+
+!CochainComplexes methodsFor: 'testing' stamp: 'len 6/27/2022 13:21:30'!
+isMonoidal
 	^ true! !
 
 !CochainComplexes methodsFor: 'private' stamp: 'len 10/30/2020 11:15:00'!
@@ -10192,7 +10208,7 @@ to: aRing evaluating: aBlock
 	anIdeal isTrivial ifTrue: [^ self].
 	^ QuotientRing relations: anIdeal! !
 
-!Ring methodsFor: 'operations' stamp: 'len 12/22/2021 14:16:10'!
+!Ring methodsFor: 'operations' stamp: 'len 6/25/2022 11:45:43'!
 @ aPrimeIdeal
 	"Answer the localization of the receiver at aPrimeIdeal."
 	| P |
@@ -10204,6 +10220,7 @@ to: aRing evaluating: aBlock
 		ifFalse:
 			[self * aPrimeIdeal].
 	(P isTrivial and: [self isIntegralDomain]) ifTrue: [^ self fractions].
+	(self isLocal and: [P = self maximalIdeal]) ifTrue: [^ self].
 	^ LocalRing at: P! !
 
 !Ring methodsFor: 'operations' stamp: 'len 12/25/2021 10:13:02'!
@@ -11308,6 +11325,11 @@ isField
 isIntegralDomain
 	"The localization of an integral domain at a prime ideal (or even at a multiplicative closed set not containing zero) continues to be an integral domain."
 	^ self integers isIntegralDomain or: [super isIntegralDomain]! !
+
+!LocalRing methodsFor: 'testing' stamp: 'len 6/24/2022 07:13:28'!
+isIntegrallyClosedDomain
+	"A ring is an integrally closed domain if it is an integral domain whose integral closure in its field of fractions is the ring itself."
+	^ self integers isIntegrallyClosedDomain or: [super isIntegrallyClosedDomain]! !
 
 !LocalRing methodsFor: 'testing' stamp: 'len 10/28/2016 16:06'!
 isLocal
@@ -16294,9 +16316,9 @@ asAlgebraicVariety
 asChainComplex
 	^ ChainComplex differentials: {self null -> self. self -> self null}! !
 
-!Module methodsFor: 'converting' stamp: 'len 10/26/2020 12:08:11'!
+!Module methodsFor: 'converting' stamp: 'len 6/27/2022 13:23:51'!
 asCochainComplex
-	^ self asChainComplex dual! !
+	^ self asChainComplex opposite! !
 
 !Module methodsFor: 'converting' stamp: 'len 10/19/2020 13:28:39'!
 asElementaryAbelianGroup
@@ -16656,7 +16678,7 @@ to: aModule validMatrix: aMatrix
 		addProjections: (R codomain -< {self cover. aModule cover} with: {self. aModule} collect: [:Ž :Y| answer to: Y validMatrix: Ž]).
 	^ answer! !
 
-!Module methodsFor: 'operations' stamp: 'len 6/10/2022 11:05:34'!
+!Module methodsFor: 'operations' stamp: 'len 6/24/2022 09:38:48'!
 ‘ aModule
 	"Answer the tensor product of the receiver with the argument."
 	| answer M N |
@@ -16841,10 +16863,6 @@ support
 "This is not very useful, just works with small finite rings:
 	^ self scalars spectrum reject: [:each| (self localizationAt: each) isTrivial]"! !
 
-!Module methodsFor: 'operations' stamp: 'len 5/1/2021 11:25:16'!
-symmetricAlgebra
-	^ self propertyAt: #symmetricAlgebra ifAbsentPut: [self scalars polynomialsIn: (self coordinateNames ifNil: [self rank])]! !
-
 !Module methodsFor: 'operations' stamp: 'len 5/1/2021 11:25:59'!
 tensorAlgebra
 	^ self propertyAt: #tensorAlgebra ifAbsentPut: [self scalars freeAlgebraIn: (self coordinateNames ifNil: [self rank])]! !
@@ -16953,9 +16971,9 @@ isFreelyGenerated
 isFullRank
 	^ self rank = self degree! !
 
-!Module methodsFor: 'testing' stamp: 'len 1/14/2022 11:02:31'!
+!Module methodsFor: 'testing' stamp: 'len 6/27/2022 13:13:39'!
 isHomogeneous
-	^ self generators allSatisfy: [:each| each isHomogeneous]! !
+	^ self generatorMatrix isHomogeneous! !
 
 !Module methodsFor: 'testing' stamp: 'len 1/23/2018 21:56:53'!
 isLocal
@@ -18347,6 +18365,11 @@ to: aCodomain
 	answer addCoercionFrom: (self, aModule) evaluatingWithArguments: [:f :g| f ‘ g].
 	^ answer! !
 
+!HomModule methodsFor: 'operations' stamp: 'len 6/27/2022 13:12:06'!
+symmetricAlgebra
+	(self isDual and: [self domain isFreelyGenerated]) ifTrue: [^ self domain coordinateRing].
+	^ self notYetImplemented! !
+
 !HomModule methodsFor: 'testing' stamp: 'len 3/6/2020 21:04:55'!
 includes: anObject
 	^ (anObject isKindOf: ModuleMap) and: [anObject domain = domain and: [anObject codomain = codomain]]! !
@@ -18844,6 +18867,11 @@ patches
 	"Answer an affine cover of the receiver."
 	^ self propertyAt: #patches! !
 
+!Scheme methodsFor: 'accessing' stamp: 'len 6/24/2022 12:29:51'!
+sections
+	"Answer the global sections of the structure sheaf."
+	^ self subclassResponsibility! !
+
 !Scheme methodsFor: 'morphisms' stamp: 'len 12/22/2021 15:07:24'!
 from: aDomain
 	aDomain ~~ self ifTrue: [self patches do: [:each| each == aDomain ifTrue: [^ self addMap: ((aDomain to: self evaluating: [:x| SchemePoint new parent: self; patch: aDomain; patchPoint: x]) name: 'i')]]].
@@ -19013,24 +19041,24 @@ space: aVectorSpace
 new: anInteger over: aSpace
 	^ self new space: aSpace; rank: anInteger! !
 
-!AffineScheme methodsFor: 'accessing' stamp: 'len 12/22/2021 14:17:19'!
+!AffineScheme methodsFor: 'accessing' stamp: 'len 6/25/2022 10:45:43'!
 @ aPoint
 	"Answer the local ring corresponding to the stalk of the structure sheaf at aPoint.
 	For Spec(R) aPoint is a prime ideal of R."
-	^ self coordinateRing @ aPoint! !
+	^ self coordinateRing @ aPoint asIdeal! !
 
-!AffineScheme methodsFor: 'accessing' stamp: 'len 6/10/2022 11:52:15'!
+!AffineScheme methodsFor: 'accessing' stamp: 'len 6/25/2022 10:27:20'!
 ambient
-	^ self propertyAt: #ambient ifAbsent: [self coordinateRing isQuotient ifTrue: [self coordinateRing cover spec] ifFalse: [self]]! !
+	^ self propertyAt: #ambient ifAbsent: [self coordinateRing isQuotient ifTrue: [self coordinateRing cover spec ambient] ifFalse: [self]]! !
 
 !AffineScheme methodsFor: 'accessing' stamp: 'len 7/9/2019 08:17:49'!
 base
 	"Answer the base scheme of the receiver."
 	^ self scalars spec! !
 
-!AffineScheme methodsFor: 'accessing' stamp: 'len 1/13/2017 16:59:19'!
+!AffineScheme methodsFor: 'accessing' stamp: 'len 6/23/2022 11:23:28'!
 coordinateRing
-	"Answer the affine coordinate ring."
+	"Answer the affine coordinate ring, or ring of regular functions, or ring of global sections of the structure sheaf."
 	^ self propertyAt: #coordinateRing! !
 
 !AffineScheme methodsFor: 'accessing' stamp: 'len 1/13/2017 16:01:28'!
@@ -19045,11 +19073,11 @@ functionField
 	This assumes the receiver is reduced. The definition of function field can be extended to the case of nonreduced schemes as Frac(R/N) where N is the nilradical of R."
 	^ self coordinateRing fractions! !
 
-!AffineScheme methodsFor: 'accessing' stamp: 'len 12/20/2021 18:16:30'!
+!AffineScheme methodsFor: 'accessing' stamp: 'len 6/25/2022 10:45:29'!
 genericPoint
 	"If the receiver is an integral scheme, answer the generic point."
-	self isIntegral ifTrue: [^ self coordinateRing * 0].
-	^ self error: 'not integral scheme'! !
+	self isIntegral ifFalse: [^ self error: 'not integral scheme'].
+	^ self !! self coordinateRing asIdeal null! !
 
 !AffineScheme methodsFor: 'accessing' stamp: 'len 12/15/2021 12:49:42'!
 patches
@@ -19059,6 +19087,10 @@ patches
 !AffineScheme methodsFor: 'accessing' stamp: 'len 7/9/2019 08:18:31'!
 scalars
 	^ self coordinateRing scalars! !
+
+!AffineScheme methodsFor: 'accessing' stamp: 'len 6/24/2022 08:45:42'!
+sections
+	^ self coordinateRing! !
 
 !AffineScheme methodsFor: 'comparing' stamp: 'len 12/15/2021 11:57:12'!
 < aScheme
@@ -19089,9 +19121,15 @@ asRing
 over: aRing
 	^ self class coordinateRing: (self coordinateRing over: aRing)! !
 
-!AffineScheme methodsFor: 'enumerating' stamp: 'len 5/4/2018 19:34:21'!
+!AffineScheme methodsFor: 'elements' stamp: 'len 6/25/2022 10:42:32'!
+!! anObject
+	((anObject isKindOf: Ideal) and: [anObject scalars = self coordinateRing])
+		ifTrue: [^ SchemePoint parent: self ideal: anObject].
+	^ super !! anObject! !
+
+!AffineScheme methodsFor: 'enumerating' stamp: 'len 6/25/2022 10:45:07'!
 do: aBlock
-	self coordinateRing primeIdealsDo: aBlock! !
+	self coordinateRing primeIdealsDo: [:each| aBlock value: self !! each]! !
 
 !AffineScheme methodsFor: 'morphisms' stamp: 'len 12/22/2021 14:52:18'!
 from: aCodomain
@@ -19105,9 +19143,13 @@ fromAll: anArray
 		[(self coordinateRing -< (anArray collect: [:each| each coordinateRing])) ifNotNil: [:anArrayOfMorphisms| ^ anArrayOfMorphisms collect: [:each| each spec]]].
 	^ super fromAll: anArray! !
 
-!AffineScheme methodsFor: 'morphisms' stamp: 'len 6/21/2022 06:56:56'!
+!AffineScheme methodsFor: 'morphisms' stamp: 'len 6/24/2022 07:55:26'!
+id
+	^ self coordinateRing id spec! !
+
+!AffineScheme methodsFor: 'morphisms' stamp: 'len 6/24/2022 10:11:56'!
 inclusion
-	^ self propertyAt: #inclusion ifAbsentPut: [self coordinateRing isQuotient ifTrue: [self coordinateRing projection spec] ifFalse: [self id]]! !
+	^ self propertyAt: #inclusion ifAbsentPut: [(self ambient coordinateRing -> self coordinateRing) spec]! !
 
 !AffineScheme methodsFor: 'morphisms' stamp: 'len 12/22/2021 14:51:31'!
 to: aCodomain
@@ -19153,14 +19195,10 @@ subscheme: anObject
 	I _ (anObject isKindOf: Ideal) ifTrue: [anObject] ifFalse: [self coordinateRing * anObject].
 	^ (self coordinateRing / I) spec! !
 
-!AffineScheme methodsFor: 'testing' stamp: 'len 1/13/2017 20:20:05'!
-contains: anIdeal
-	"Answer true if the receiver contains the given point (a prime ideal of its coordinate ring)."
-	^ true! !
-
-!AffineScheme methodsFor: 'testing' stamp: 'len 1/15/2018 18:45:05'!
-includes: anObject
-	^ (anObject isKindOf: Ideal) and: [anObject scalars = self coordinateRing and: [anObject isPrime]]! !
+!AffineScheme methodsFor: 'testing' stamp: 'len 6/25/2022 10:48:48'!
+contains: aPoint
+	"Answer true if the receiver contains the given point of its ambient."
+	^ self asIdeal >= aPoint asIdeal! !
 
 !AffineScheme methodsFor: 'testing' stamp: 'len 1/13/2017 16:02:42'!
 isAffine
@@ -19183,12 +19221,12 @@ isIntegral
 	An affine scheme Spec(R) is integral iff R is an integral domain."
 	^ self coordinateRing isIntegralDomain! !
 
-!AffineScheme methodsFor: 'testing' stamp: 'len 3/15/2021 14:15:13'!
+!AffineScheme methodsFor: 'testing' stamp: 'len 6/26/2022 10:05:10'!
 isIrreducible
 	"A scheme is called 'irreducible' if its underlying topological space is irreducible, i.e. it is not empty and it is not the union of two proper closed subsets."
 	self isIntegral ifTrue: [^ true].
-	"If the R has nilpotents, Spec(R) might not be irreducible even if R is an integral domain."
-	^ super isIrreducible! !
+	self flag: #fix.
+	^ self asIdeal isPrime "or if the nilradical of the coordinate ring is prime?"! !
 
 !AffineScheme methodsFor: 'testing' stamp: 'len 1/13/2017 16:57:08'!
 isNoetherian
@@ -19379,11 +19417,6 @@ pointsOver: aRing
 pointsOver: aRing do: aBlock
 	"Naive enumeration of rational points on the receiver."
 	self ambient pointsOver: aRing do: [:each| (self satisfies: each coordinates) ifTrue: [aBlock value: (self pointAt: each coordinates)]]! !
-
-!AffineVariety methodsFor: 'testing' stamp: 'len 12/15/2021 11:58:26'!
-contains: anIdeal
-	"Answer true if the receiver contains the given point (a prime ideal)."
-	^ self asIdeal >= anIdeal! !
 
 !AffineVariety methodsFor: 'testing' stamp: 'len 1/9/2017 16:35:09'!
 isComplete
@@ -19679,11 +19712,6 @@ saturated
 	(self propertyAt: #isSaturated ifAbsent: [false]) ifTrue: [^ self].
 	self coordinateRing: self ambient coordinateRing / self asIdeal saturation.
 	self propertyAt: #isSaturated put: true! !
-
-!ProjectiveScheme methodsFor: 'testing' stamp: 'len 12/21/2021 21:00:33'!
-contains: anIdeal
-	"Answer true if the receiver contains the given point (a prime homogeneous relevant ideal of its coordinate ring)."
-	^ true! !
 
 !ProjectiveScheme methodsFor: 'testing' stamp: 'len 12/21/2021 20:59:59'!
 includes: anObject
@@ -21010,6 +21038,16 @@ differentials: anArray shift: anInteger
 	"Answer the module corresponding to the stalk at aPoint."
 	^ self asModule over: (self space at: aPoint)! !
 
+!Sheaf methodsFor: 'accessing' stamp: 'len 6/26/2022 22:21:13'!
+codomain
+	"If this is a Hom sheaf, answer the codomain sheaf."
+	^ self class module: self asModule codomain on: self space! !
+
+!Sheaf methodsFor: 'accessing' stamp: 'len 6/26/2022 22:21:17'!
+domain
+	"If this is a Hom sheaf, answer the domain sheaf."
+	^ self class module: self asModule domain on: self space! !
+
 !Sheaf methodsFor: 'accessing' stamp: 'len 12/13/2021 18:07:52'!
 space
 	^ self propertyAt: #space! !
@@ -21018,24 +21056,34 @@ space
 asModule
 	^ self propertyAt: #module! !
 
-!Sheaf methodsFor: 'morphisms' stamp: 'len 12/24/2021 08:29:16'!
+!Sheaf methodsFor: 'morphisms' stamp: 'len 6/26/2022 22:34:41'!
+from: aDomain
+	(self asModule from: aDomain asModule) ifNotNil: [:aModuleMap| ^ SheafMap from: aDomain to: self moduleMap: aModuleMap].
+	^ super from: aDomain! !
+
+!Sheaf methodsFor: 'morphisms' stamp: 'len 6/26/2022 22:21:29'!
 hom: aSheaf
 	self assert: ((aSheaf isKindOf: Sheaf) and: [aSheaf space = self space]).
-	^ HomSheaf from: self to: aSheaf! !
+	^ self class module: self asModule => aSheaf asModule on: self space! !
 
-!Sheaf methodsFor: 'operations' stamp: 'len 12/13/2021 18:10:51'!
+!Sheaf methodsFor: 'morphisms' stamp: 'len 6/26/2022 22:34:31'!
+to: aCodomain
+	(self asModule to: aCodomain asModule) ifNotNil: [:aModuleMap| ^ SheafMap from: self to: aCodomain moduleMap: aModuleMap].
+	^ super to: aCodomain! !
+
+!Sheaf methodsFor: 'operations' stamp: 'len 6/26/2022 22:16:12'!
  aSheaf
 	self assert: ((aSheaf isKindOf: Sheaf) and: [aSheaf space = self space]).
-	^ Sheaf module: self asModule  aSheaf asModule on: self space! !
+	^ self class module: self asModule  aSheaf asModule on: self space! !
 
-!Sheaf methodsFor: 'operations' stamp: 'len 12/13/2021 18:11:29'!
+!Sheaf methodsFor: 'operations' stamp: 'len 6/26/2022 22:16:17'!
 ‘ aSheaf
 	self assert: ((aSheaf isKindOf: Sheaf) and: [aSheaf space = self space]).
-	^ Sheaf module: self asModule ‘ aSheaf asModule on: self space! !
+	^ self class module: self asModule ‘ aSheaf asModule on: self space! !
 
-!Sheaf methodsFor: 'operations' stamp: 'len 12/13/2021 18:11:07'!
+!Sheaf methodsFor: 'operations' stamp: 'len 6/26/2022 22:21:23'!
 dual
-	^ Sheaf module: self asModule dual space: self space! !
+	^ self class module: self asModule dual on: self space! !
 
 !Sheaf methodsFor: 'testing' stamp: 'len 12/13/2021 18:12:04'!
 isTrivial
@@ -21056,34 +21104,6 @@ species
 !Sheaf class methodsFor: 'as yet unclassified' stamp: 'len 12/21/2021 20:45:36'!
 module: aGradedModule on: aScheme
 	^ self new module: aGradedModule; space: aScheme! !
-
-!HomSheaf methodsFor: 'accessing' stamp: 'len 12/21/2021 20:32:43'!
-codomain
-	^ self propertyAt: #codomain! !
-
-!HomSheaf methodsFor: 'accessing' stamp: 'len 12/21/2021 20:32:38'!
-domain
-	^ self propertyAt: #domain! !
-
-!HomSheaf methodsFor: 'accessing' stamp: 'len 12/13/2021 18:08:01'!
-space
-	^ self domain space! !
-
-!HomSheaf methodsFor: 'converting' stamp: 'len 12/13/2021 18:08:22'!
-asModule
-	^ self domain asModule => self codomain asModule! !
-
-!HomSheaf methodsFor: 'private' stamp: 'len 12/21/2021 20:40:44'!
-codomain: aSheaf
-	self propertyAt: #codomain put: aSheaf! !
-
-!HomSheaf methodsFor: 'private' stamp: 'len 12/21/2021 20:40:39'!
-domain: aSheaf
-	self propertyAt: #domain put: aSheaf! !
-
-!HomSheaf class methodsFor: 'instance creation' stamp: 'len 12/21/2021 20:31:53'!
-from: aDomain to: aCodomain
-	^ self new domain: aDomain; codomain: aCodomain; module: aDomain asModule => aCodomain asModule! !
 
 !Morphism methodsFor: 'accessing' stamp: 'len 4/22/2020 14:43:39'!
 codomain
@@ -21973,6 +21993,14 @@ asAbelianGroupMap
 asModuleMap
 	^ self domain asModule to: self codomain asModule evaluating: self! !
 
+!RingMap methodsFor: 'operations' stamp: 'len 6/24/2022 09:42:41'!
+@ aPrimeIdeal
+	"Answer the induced ring homomorphism at the respective localizations."
+	| A B |
+	A _ self domain @ (self preimage: aPrimeIdeal).
+	B _ self codomain @ aPrimeIdeal.
+	^ A to: B evaluating: [:x| (B embed: (self value: x numerator)) / (B embed: (self value: x denominator))]! !
+
 !RingMap methodsFor: 'operations' stamp: 'len 8/14/2019 10:18:26'!
 kernel
 	^ self propertyAt: #kernel! !
@@ -21990,15 +22018,15 @@ preimage: anObject
 	((anObject isKindOf: Ideal) and: [anObject scalars = self codomain]) ifFalse: [DomainError signal].
 	^ self domain * (anObject generators collect: [:each| section value: each]) + self kernel! !
 
-!RingMap methodsFor: 'operations' stamp: 'len 12/23/2021 14:08:57'!
+!RingMap methodsFor: 'operations' stamp: 'len 6/24/2022 07:22:33'!
 proj
 	"This is the Proj functor. Answer the morphism between projective schemes induced by the receiver, i.e. given a graded ring homomorphism f:R->S, Proj(f) is a scheme morphism Proj(S)->Proj(R)."
-	^ ProjectiveMorphism adjoint: self! !
+	^ ProjectiveMap adjoint: self! !
 
-!RingMap methodsFor: 'operations' stamp: 'len 12/23/2021 14:08:35'!
+!RingMap methodsFor: 'operations' stamp: 'len 6/24/2022 07:22:19'!
 spec
 	"This is the Spec functor. Answer the morphism between affine schemes induced by the receiver, i.e. given a ring homomorphism f:R->S, Spec(f) is a scheme morphism Spec(S)->Spec(R)."
-	^ AffineMorphism adjoint: self
+	^ AffineMap adjoint: self
 
 "
 	^ self codomain spec to: self domain spec evaluating: [:anIdeal| self preimage: anIdeal]"! !
@@ -22089,11 +22117,6 @@ kernel
 proj
 	"This is the Proj functor. Answer the morphism between projective schemes induced by the receiver, i.e. given a graded ring homomorphism f:R->S, Proj(f) is a scheme morphism Proj(S)->Proj(R)."
 	^ self notYetImplemented! !
-
-!AffineAlgebraMap methodsFor: 'operations' stamp: 'len 12/15/2021 12:54:47'!
-spec
-	"This is the Spec functor. Answer the morphism between affine schemes induced by the receiver, i.e. given a ring homomorphism f:R->S, Spec(f) is a scheme morphism Spec(S)->Spec(R)."
-	^ RationalMap from: self codomain spec to: self domain spec representatives: ((1 to: self domain rank) collect: [:i| self value: (self domain x: i)])! !
 
 !AffineAlgebraMap methodsFor: 'testing' stamp: 'len 2/12/2017 13:04:30'!
 imageContains: aPolynomial
@@ -24037,6 +24060,10 @@ isHermitian
 	"Answer true if the receiver is Hermitian (or self-adjoint)."
 	^ self = self conjugate! !
 
+!Matrix methodsFor: 'testing' stamp: 'len 6/27/2022 13:14:20'!
+isHomogeneous
+	^ self coefficients allSatisfy: [:each| each isHomogeneous]! !
+
 !Matrix methodsFor: 'testing' stamp: 'len 8/14/2020 17:13:22'!
 isIdentity
 	^ self isSquare and: [self = self identity]! !
@@ -24934,11 +24961,11 @@ asRingMap
 graph
 	^ self domain × self image! !
 
-!RationalMap methodsFor: 'operations' stamp: 'len 12/15/2021 12:01:55'!
+!RationalMap methodsFor: 'operations' stamp: 'len 6/21/2022 11:42:31'!
 image
 	"Answer (the Zeriski closure of) the image of the receiver. This is a subscheme of the codomain.
 	Performs ideal elimination (a Groebner basis computation with the lexicographical order).
-	See PolynomialRingMap>>kernel."
+	See AffineAlgebraMap>>kernel."
 	| A B m n P t embedding generators g I |
 	A _ self domain ambient coordinateRing.
 	B _ self codomain ambient coordinateRing.
@@ -26004,85 +26031,208 @@ isSurjective
 isZero
 	^ opposite isZero! !
 
-!AffineMorphism methodsFor: 'accessing' stamp: 'len 7/3/2019 10:22:00'!
+!SchemeMap methodsFor: 'operations' stamp: 'len 6/24/2022 08:55:45'!
+@ aPoint
+	"Answer the induced map on stalks. See [Vak17, Exercise 6.2.C]."
+	^ self notYetImplemented! !
+
+!SchemeMap methodsFor: 'operations' stamp: 'len 6/24/2022 08:34:15'!
+image
+	"Answer (the Zeriski closure of) the image of the receiver. This is a closed subscheme of the codomain."
+	"It can be computed affine-locally. See [Vak17, Theorem 8.3.4]."
+	^ self notYetImplemented! !
+
+!SchemeMap methodsFor: 'testing' stamp: 'len 6/24/2022 09:06:58'!
+isAffine
+	"Affineness is affine-local on the target. See [Val17, 7.3.4]."
+	^ self notYetImplemented! !
+
+!SchemeMap methodsFor: 'testing' stamp: 'len 6/24/2022 09:17:34'!
+isFinite
+	"Finiteness is affine-local on the target. A morphism Ž:X -> Y is finite if there's a cover of Y by affine open sets Spec A such that Ž^-1(Spec A) is the spectrum of a finite A-algebra. See [Val17, 7.3.G].
+	Also finite = integral + finite type [Val17, 7.3.P]."
+	^ self notYetImplemented! !
+
+!SchemeMap methodsFor: 'testing' stamp: 'len 6/24/2022 09:19:25'!
+isFiniteType
+	^ self isLocallyOfFiniteType and: [self isQuasicompact]! !
+
+!SchemeMap methodsFor: 'testing' stamp: 'len 6/24/2022 09:14:06'!
+isIntegral
+	"A morphism Ž:X -> Y is integral is Ž is affine, and for every affine open subset Spec B <= Y, with Ž^-1(Spec B) = Spec A, the induced map B -> A is an integral ring homomorphism."
+	"Integrality is affine-local. See [Val17, 7.3.10]."
+	^ self notYetImplemented! !
+
+!SchemeMap methodsFor: 'testing' stamp: 'len 6/24/2022 09:19:09'!
+isLocallyOfFinitePresentation
+	"Locally of finite presentation is affine-local on the source. See [Val17, 7.3.U]."
+	^ self notYetImplemented! !
+
+!SchemeMap methodsFor: 'testing' stamp: 'len 6/24/2022 09:18:20'!
+isLocallyOfFiniteType
+	"Locally of finite type is affine-local on the target. See [Val17, 7.3.O]."
+	^ self notYetImplemented! !
+
+!SchemeMap methodsFor: 'testing' stamp: 'len 6/24/2022 09:22:44'!
+isQuasiaffine
+	"Quasiaffineness is affine-local on the target. See [Val17, 17.3.H]."
+	^ self notYetImplemented! !
+
+!SchemeMap methodsFor: 'testing' stamp: 'len 6/24/2022 09:05:59'!
+isQuasicompact
+	"Quasicompactness is affine-local on the target. See [Val17, 7.3.C]."
+	^ self notYetImplemented! !
+
+!SchemeMap methodsFor: 'testing' stamp: 'len 6/24/2022 09:06:12'!
+isQuasiseparated
+	"Quasiseparatedness is affine-local on the target. See [Val17, 7.3.C]."
+	^ self notYetImplemented! !
+
+!AffineMap methodsFor: 'accessing' stamp: 'len 7/3/2019 10:22:00'!
 adjoint
 	^ adjoint! !
 
-!AffineMorphism methodsFor: 'accessing' stamp: 'len 7/3/2019 10:23:31'!
+!AffineMap methodsFor: 'accessing' stamp: 'len 7/3/2019 10:23:31'!
 codomain
 	^ adjoint domain spec! !
 
-!AffineMorphism methodsFor: 'accessing' stamp: 'len 7/3/2019 10:23:26'!
+!AffineMap methodsFor: 'accessing' stamp: 'len 7/3/2019 10:23:26'!
 domain
 	^ adjoint codomain spec! !
 
-!AffineMorphism methodsFor: 'comparing' stamp: 'len 12/23/2021 14:08:35'!
+!AffineMap methodsFor: 'comparing' stamp: 'len 6/24/2022 07:22:19'!
 = anObject
-	^ (anObject isKindOf: AffineMorphism) and: [adjoint = anObject adjoint]! !
+	^ (anObject isKindOf: AffineMap) and: [adjoint = anObject adjoint]! !
 
-!AffineMorphism methodsFor: 'comparing' stamp: 'len 12/19/2021 19:33:42'!
+!AffineMap methodsFor: 'comparing' stamp: 'len 12/19/2021 19:33:42'!
 hash
 	^ adjoint hash! !
 
-!AffineMorphism methodsFor: 'converting' stamp: 'len 12/20/2021 13:59:40'!
+!AffineMap methodsFor: 'converting' stamp: 'len 6/24/2022 10:11:36'!
+asRationalMap
+	^ RationalMap from: self domain to: self codomain representatives: ((1 to: adjoint domain rank) collect: [:i| adjoint value: (adjoint domain x: i)])! !
+
+!AffineMap methodsFor: 'converting' stamp: 'len 12/20/2021 13:59:40'!
 asRingMap
 	^ adjoint! !
 
-!AffineMorphism methodsFor: 'operations' stamp: 'len 12/19/2021 19:36:10'!
+!AffineMap methodsFor: 'operations' stamp: 'len 6/24/2022 09:44:41'!
+@ aPoint
+	"Answer the induced map on stalks."
+	^ (adjoint @ aPoint asIdeal) spec! !
+
+!AffineMap methodsFor: 'operations' stamp: 'len 6/24/2022 08:22:30'!
+· aSchemeMap
+	(aSchemeMap isKindOf: AffineMap) ifFalse: [^ super · aSchemeMap].
+	^ (aSchemeMap asRingMap · adjoint) spec! !
+
+!AffineMap methodsFor: 'operations' stamp: 'len 6/24/2022 08:30:13'!
+image
+	"Answer (the Zeriski closure of) the image of the receiver. This is a closed subscheme of the codomain."
+	^ self codomain subscheme: adjoint kernel! !
+
+!AffineMap methodsFor: 'operations' stamp: 'len 6/24/2022 07:51:47'!
+inverse
+	^ adjoint inverse spec! !
+
+!AffineMap methodsFor: 'operations' stamp: 'len 6/24/2022 12:27:53'!
+projectiveClosure
+	^ self notYetImplemented! !
+
+!AffineMap methodsFor: 'operations' stamp: 'len 6/24/2022 08:00:42'!
 pullback: aScheme
 	"Answer the preimage of aScheme. The argument is a subscheme of the codomain, and the answer is a subscheme of the domain."
-	^ self domain subscheme: (aScheme asIdeal apply: self asRingMap)! !
+	^ self domain subscheme: (aScheme asIdeal apply: adjoint)! !
 
-!AffineMorphism methodsFor: 'operations' stamp: 'len 12/15/2021 11:57:44'!
+!AffineMap methodsFor: 'operations' stamp: 'len 12/15/2021 11:57:44'!
 value: aPoint
 	^ self codomain !! (adjoint preimage: aPoint asIdeal)! !
 
-!AffineMorphism methodsFor: 'private' stamp: 'len 7/3/2019 10:21:54'!
+!AffineMap methodsFor: 'testing' stamp: 'len 6/24/2022 12:23:10'!
+isClosedImmersion
+	"A morphism Ž:X -> Y is a closed embedding (or closed immersion) if it is an affine morphism, and for every affine open subset Spec B <= Y with Ž^-1(Spec B) ~ Spec A, the map B -> A is surjective."
+	^ adjoint isSurjective! !
+
+!AffineMap methodsFor: 'testing' stamp: 'len 6/26/2022 10:01:22'!
+isDominant
+	"Answer true if the image is dense."
+	^ adjoint kernel <= adjoint domain nilradical! !
+
+!AffineMap methodsFor: 'testing' stamp: 'len 6/24/2022 07:54:06'!
+isIdentity
+	^ adjoint isIdentity! !
+
+!AffineMap methodsFor: 'testing' stamp: 'len 6/24/2022 09:14:19'!
+isIntegral
+	^ adjoint isIntegral! !
+
+!AffineMap methodsFor: 'testing' stamp: 'len 6/24/2022 07:51:05'!
+isIsomorphism
+	^ adjoint isIsomorphism! !
+
+!AffineMap methodsFor: 'testing' stamp: 'len 6/24/2022 12:23:22'!
+isOpenImmersion
+	^ self notYetImplemented! !
+
+!AffineMap methodsFor: 'testing' stamp: 'len 6/24/2022 09:04:37'!
+isQuasicompact
+	^ true! !
+
+!AffineMap methodsFor: 'testing' stamp: 'len 6/24/2022 09:04:47'!
+isQuasiseparated
+	^ true! !
+
+!AffineMap methodsFor: 'private' stamp: 'len 7/3/2019 10:21:54'!
 adjoint: aRingMap
 	adjoint _ aRingMap! !
 
-!AffineMorphism class methodsFor: 'instance creation' stamp: 'len 7/3/2019 10:21:41'!
+!AffineMap class methodsFor: 'instance creation' stamp: 'len 7/3/2019 10:21:41'!
 adjoint: aRingMap
 	^ self new adjoint: aRingMap! !
 
-!ProjectiveMorphism methodsFor: 'accessing' stamp: 'len 12/20/2021 13:59:51'!
+!ProjectiveMap methodsFor: 'accessing' stamp: 'len 12/20/2021 13:59:51'!
 adjoint
 	^ adjoint! !
 
-!ProjectiveMorphism methodsFor: 'accessing' stamp: 'len 12/20/2021 14:00:42'!
+!ProjectiveMap methodsFor: 'accessing' stamp: 'len 12/20/2021 14:00:42'!
 codomain
 	^ adjoint domain proj! !
 
-!ProjectiveMorphism methodsFor: 'accessing' stamp: 'len 12/20/2021 14:00:36'!
+!ProjectiveMap methodsFor: 'accessing' stamp: 'len 12/20/2021 14:00:36'!
 domain
 	^ adjoint codomain proj! !
 
-!ProjectiveMorphism methodsFor: 'comparing' stamp: 'len 12/23/2021 14:08:57'!
+!ProjectiveMap methodsFor: 'comparing' stamp: 'len 6/24/2022 07:22:33'!
 = anObject
-	^ (anObject isKindOf: ProjectiveMorphism) and: [adjoint = anObject adjoint]! !
+	^ (anObject isKindOf: ProjectiveMap) and: [adjoint = anObject adjoint]! !
 
-!ProjectiveMorphism methodsFor: 'comparing' stamp: 'len 12/20/2021 13:59:27'!
+!ProjectiveMap methodsFor: 'comparing' stamp: 'len 12/20/2021 13:59:27'!
 hash
 	^ adjoint hash! !
 
-!ProjectiveMorphism methodsFor: 'converting' stamp: 'len 12/20/2021 13:59:34'!
+!ProjectiveMap methodsFor: 'converting' stamp: 'len 12/20/2021 13:59:34'!
 asRingMap
 	^ adjoint! !
 
-!ProjectiveMorphism methodsFor: 'operations' stamp: 'len 12/20/2021 14:01:02'!
+!ProjectiveMap methodsFor: 'operations' stamp: 'len 6/21/2022 11:45:37'!
+image
+	"Answer (the Zeriski closure of) the image of the receiver. This is a subscheme of the codomain."
+	^ self codomain subscheme: adjoint kernel! !
+
+!ProjectiveMap methodsFor: 'operations' stamp: 'len 12/20/2021 14:01:02'!
 pullback: aScheme
 	"Answer the preimage of aScheme. The argument is a subscheme of the codomain, and the answer is a subscheme of the domain."
 	^ self domain subscheme: (aScheme asIdeal apply: self asRingMap)! !
 
-!ProjectiveMorphism methodsFor: 'operations' stamp: 'len 12/20/2021 14:00:48'!
+!ProjectiveMap methodsFor: 'operations' stamp: 'len 12/20/2021 14:00:48'!
 value: aPoint
 	^ self codomain !! (adjoint preimage: aPoint asIdeal)! !
 
-!ProjectiveMorphism methodsFor: 'private' stamp: 'len 12/20/2021 13:58:40'!
+!ProjectiveMap methodsFor: 'private' stamp: 'len 12/20/2021 13:58:40'!
 adjoint: aGradedRingMap
 	adjoint _ aGradedRingMap! !
 
-!ProjectiveMorphism class methodsFor: 'instance creation' stamp: 'len 12/20/2021 13:58:10'!
+!ProjectiveMap class methodsFor: 'instance creation' stamp: 'len 12/20/2021 13:58:10'!
 adjoint: aGradedRingMap
 	^ self new adjoint: aGradedRingMap! !
 
@@ -26156,9 +26306,9 @@ multiplicity
 	^ self codomain multiplicityAt: coordinates
 	"^ self localRing multiplicity"! !
 
-!AffinePoint methodsFor: 'accessing' stamp: 'len 12/20/2021 13:53:30'!
+!AffinePoint methodsFor: 'accessing' stamp: 'len 6/25/2022 11:00:57'!
 neighborhood
-	"Answer a neighborhood certered at this point."
+	"Answer a neighborhood centered at this point."
 	^ self codomain - coordinates! !
 
 !AffinePoint methodsFor: 'accessing' stamp: 'len 4/12/2018 04:17:39'!
@@ -26433,8 +26583,10 @@ kernel
 moduleMap: aModuleMap
 	moduleMap _ aModuleMap! !
 
-!SheafMap class methodsFor: 'instance creation' stamp: 'len 12/21/2021 20:36:22'!
+!SheafMap class methodsFor: 'instance creation' stamp: 'len 6/26/2022 22:38:29'!
 from: aDomain to: aCodomain moduleMap: aModuleMap
+	self assert: aDomain space = aCodomain space.
+	self assert: (aModuleMap domain = self asModule and: [aModuleMap codomain = aCodomain asModule]).
 	^ self new domain: aDomain; codomain: aCodomain; moduleMap: aModuleMap! !
 
 !MonomialOrdering methodsFor: 'accessing' stamp: 'len 7/4/2016 00:40'!
@@ -37170,13 +37322,54 @@ polynomial: aPolynomial approximation: aComplex radius: aNumber
 	minimalPolynomial degree = 1 ifTrue: [^ minimalPolynomial independentCoefficient negated / minimalPolynomial leadingCoefficient].
 	^ self minimalPolynomial: minimalPolynomial approximation: aComplex radius: aNumber! !
 
-!SchemePoint methodsFor: 'as yet unclassified' stamp: 'len 12/21/2021 20:12:41'!
-ideal: anIdeal
+!SchemePoint methodsFor: 'accessing' stamp: 'len 6/24/2022 10:01:53'!
+localRing
+	^ ideal scalars @ ideal! !
+
+!SchemePoint methodsFor: 'accessing' stamp: 'len 6/26/2022 22:07:33'!
+patch
+	"Answer the open affine patch where this point is represented."
+	^ ideal scalars spec! !
+
+!SchemePoint methodsFor: 'comparing' stamp: 'len 6/25/2022 10:39:27'!
+hash
+	^ parent isAffine ifTrue: [ideal hash] ifFalse: [0]! !
+
+!SchemePoint methodsFor: 'converting' stamp: 'len 6/26/2022 22:07:53'!
+asIdeal
+	"Answer the prime ideal representing this point in the coordinate ring of some open affine patch."
+	^ ideal! !
+
+!SchemePoint methodsFor: 'testing' stamp: 'len 6/26/2022 10:03:22'!
+isClosed
+	^ ideal isMaximal! !
+
+!SchemePoint methodsFor: 'testing' stamp: 'len 6/26/2022 10:07:31'!
+isGeneric
+	parent isAffine ifTrue: [^ ideal isMaximal].
+	^ self closure = parent! !
+
+!SchemePoint methodsFor: 'testing' stamp: 'len 6/26/2022 10:03:28'!
+isLocallyClosed
+	^ ideal isMaximal! !
+
+!SchemePoint methodsFor: 'testing' stamp: 'len 6/26/2022 10:06:54'!
+isMaximal
+	parent isAffine ifTrue: [^ ideal isMinimalPrime].
+	^ self closure isIrreducible! !
+
+!SchemePoint methodsFor: 'private' stamp: 'len 6/25/2022 10:55:01'!
+parent
+	^ parent! !
+
+!SchemePoint methodsFor: 'private' stamp: 'len 6/25/2022 10:43:31'!
+parent: aScheme ideal: anIdeal
+	parent _ aScheme.
 	ideal _ anIdeal! !
 
-!SchemePoint methodsFor: 'as yet unclassified' stamp: 'len 12/21/2021 20:12:18'!
-parent: aScheme
-	^ parent _ aScheme! !
+!SchemePoint class methodsFor: 'instance creation' stamp: 'len 6/25/2022 10:43:14'!
+parent: aScheme ideal: anIdeal
+	^ self new parent: aScheme ideal: anIdeal! !
 
 !CRT methodsFor: 'computing' stamp: 'len 5/14/2020 12:28:51'!
 solve: remainders
@@ -38741,14 +38934,14 @@ from: start to: stop dot: anArray startingAt: start2 by: increment2
 		j _ j + increment2].
 	^ answer! !
 
-!ArrayedCollection methodsFor: '*algebra-lowlevel' stamp: 'len 5/1/2022 12:08:41'!
+!ArrayedCollection methodsFor: '*algebra-lowlevel' stamp: 'len 6/21/2022 12:07:17'!
 from: start to: stop dot: anArray startingAt: start2 by: increment2 modulo: modulus
 	| answer j |
 	answer _ self first zero.
 	j _ start2.
 	start to: stop do: [:i|
 		answer _ (self at: i) * (anArray at: j) + answer.
-		answer > modulus ifTrue: [answer _ answer \\ modulus].
+		answer >= modulus ifTrue: [answer _ answer \\ modulus].
 		j _ j + increment2].
 	^ answer! !
 
