@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5053] on 14 June 2022 at 6:45:27 pm'!
+'From Cuis 6.0 [latest update: #5053] on 27 June 2022 at 1:31:30 pm'!
 'Description '!
-!provides: 'Etc' 1 9!
+!provides: 'Etc' 1 10!
 !requires: 'Algebra' 1 7 nil!
 SystemOrganization addCategory: #Etc!
 SystemOrganization addCategory: #'Etc-Lie'!
@@ -156,46 +156,6 @@ GroupElement subclass: #SemidirectProductElement
 SemidirectProductElement class
 	instanceVariableNames: ''!
 
-!classDefinition: #Sum category: #Etc!
-ModuleElement subclass: #Sum
-	instanceVariableNames: 'coefficients parent'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Etc'!
-!classDefinition: 'Sum class' category: #Etc!
-Sum class
-	instanceVariableNames: ''!
-
-!classDefinition: #Divisor category: #Etc!
-Sum subclass: #Divisor
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Etc'!
-!classDefinition: 'Divisor class' category: #Etc!
-Divisor class
-	instanceVariableNames: ''!
-
-!classDefinition: #EuclideanGaussianElimination category: #Etc!
-GaussianElimination subclass: #EuclideanGaussianElimination
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Etc'!
-!classDefinition: 'EuclideanGaussianElimination class' category: #Etc!
-EuclideanGaussianElimination class
-	instanceVariableNames: ''!
-
-!classDefinition: #GaussBareiss category: #Etc!
-GaussianElimination subclass: #GaussBareiss
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Etc'!
-!classDefinition: 'GaussBareiss class' category: #Etc!
-GaussBareiss class
-	instanceVariableNames: ''!
-
 !classDefinition: #SmallPrimeResidue category: #Etc!
 PrimeResidue subclass: #SmallPrimeResidue
 	instanceVariableNames: ''
@@ -234,6 +194,46 @@ RingElement subclass: #RelaxedPowerSeries
 	category: 'Etc'!
 !classDefinition: 'RelaxedPowerSeries class' category: #Etc!
 RelaxedPowerSeries class
+	instanceVariableNames: ''!
+
+!classDefinition: #Sum category: #Etc!
+ModuleElement subclass: #Sum
+	instanceVariableNames: 'coefficients parent'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Etc'!
+!classDefinition: 'Sum class' category: #Etc!
+Sum class
+	instanceVariableNames: ''!
+
+!classDefinition: #Divisor category: #Etc!
+Sum subclass: #Divisor
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Etc'!
+!classDefinition: 'Divisor class' category: #Etc!
+Divisor class
+	instanceVariableNames: ''!
+
+!classDefinition: #EuclideanGaussianElimination category: #Etc!
+GaussianElimination subclass: #EuclideanGaussianElimination
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Etc'!
+!classDefinition: 'EuclideanGaussianElimination class' category: #Etc!
+EuclideanGaussianElimination class
+	instanceVariableNames: ''!
+
+!classDefinition: #GaussBareiss category: #Etc!
+GaussianElimination subclass: #GaussBareiss
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Etc'!
+!classDefinition: 'GaussBareiss class' category: #Etc!
+GaussBareiss class
 	instanceVariableNames: ''!
 
 !classDefinition: #BerlekampMassey category: #Etc!
@@ -430,6 +430,17 @@ Matrices stored as a list of row tuples. Row operations are fast on these matric
 !SemidirectProductElement commentStamp: '<historical>' prior: 0!
 Elements of a semidirect product of groups. See SemidirectProductGroup.!
 
+!RelaxedAdicInteger commentStamp: '<historical>' prior: 0!
+Elements of the p-adic ring Zp. See AdicRing.!
+
+!RelaxedAdicNumber commentStamp: '<historical>' prior: 0!
+Elements of the p-adic field Qp. See AdicField.
+
+A p-adic number z is represented uniquely by an integer k (the valuation) and a unit u in Zp, such that z = (p^k)*u.!
+
+!RelaxedPowerSeries commentStamp: '<historical>' prior: 0!
+Univariate formal power series with coefficients over a commutative ring. See PowerSeriesRing.!
+
 !Sum commentStamp: '<historical>' prior: 0!
 Formal sums (or formal linear combinations) of arbitrary symbols with coefficients over a given ring R. They can be thought of as Tuples indexed not by positive integers but by arbitrary symbols. They form free R-modules (see FreeModule).!
 
@@ -444,17 +455,6 @@ Output: the reduced echelon form and the determinant.
 
 The algorithm performs O(n^3) ring operations for nxn matrices. While the standard Gaussian elimination suffers from exponential intermediate coefficients growth, the Gauss-Bareiss algorithm has bit complexity O(n^5).
 !
-
-!RelaxedAdicInteger commentStamp: '<historical>' prior: 0!
-Elements of the p-adic ring Zp. See AdicRing.!
-
-!RelaxedAdicNumber commentStamp: '<historical>' prior: 0!
-Elements of the p-adic field Qp. See AdicField.
-
-A p-adic number z is represented uniquely by an integer k (the valuation) and a unit u in Zp, such that z = (p^k)*u.!
-
-!RelaxedPowerSeries commentStamp: '<historical>' prior: 0!
-Univariate formal power series with coefficients over a commutative ring. See PowerSeriesRing.!
 
 !BerlekampMassey commentStamp: '<historical>' prior: 0!
 This is the Berlekamp-Massey algorithm. The initial purpose of this algorithm was to evaluate Binary BCH codes, but it has found many uses, including inverting matrices of constant diagonal, solving linear recurrences (synthesizing LFSRs with a specified output sequence), etc.
@@ -507,6 +507,27 @@ printOn: aStream
 printOn: aStream
 	aStream nextPut: $(; print: left; nextPutAll: ', '; print: right; nextPut: $)! !
 
+!RelaxedAdicInteger methodsFor: 'accessing' stamp: 'len 6/3/2019 17:28:33'!
+>> anInteger
+	"Multiply the receiver by p^anInteger shifting the digits by anInteger places."
+	^ parent digits: digits >> anInteger! !
+
+!RelaxedAdicInteger methodsFor: 'printing' stamp: 'len 6/2/2019 10:09:25'!
+printOn: aStream
+	self printOn: aStream withPowersShiftedBy: 0! !
+
+!RelaxedAdicNumber methodsFor: 'printing' stamp: 'len 6/3/2019 18:28:16'!
+printOn: aStream
+	unit printOn: aStream withPowersShiftedBy: valuation negated! !
+
+!RelaxedPowerSeries methodsFor: 'printing' stamp: 'len 6/6/2019 13:22:39'!
+printOn: aStream
+	| P f n |
+	n _ coefficients printLimit.
+	P _ parent base.
+	f _ (P coefficients: (coefficients first: n)) orderedBy: #llex.
+	aStream print: f; nextPutAll: ' + ', 'O' italic, '('; print: P x ^ (n+1); nextPut: $)! !
+
 !Sum methodsFor: 'copying' stamp: 'len 11/18/2016 17:34:33'!
 postCopy
 	coefficients _ coefficients copy! !
@@ -528,27 +549,6 @@ printOn: aStream
 			ifFalse: [aStream nextPutAll: ' + '].
 		c ~= c one ifTrue: [self printCoefficient: c on: aStream].
 		self printLiteral: each on: aStream]! !
-
-!RelaxedAdicInteger methodsFor: 'accessing' stamp: 'len 6/3/2019 17:28:33'!
->> anInteger
-	"Multiply the receiver by p^anInteger shifting the digits by anInteger places."
-	^ parent digits: digits >> anInteger! !
-
-!RelaxedAdicInteger methodsFor: 'printing' stamp: 'len 6/2/2019 10:09:25'!
-printOn: aStream
-	self printOn: aStream withPowersShiftedBy: 0! !
-
-!RelaxedAdicNumber methodsFor: 'printing' stamp: 'len 6/3/2019 18:28:16'!
-printOn: aStream
-	unit printOn: aStream withPowersShiftedBy: valuation negated! !
-
-!RelaxedPowerSeries methodsFor: 'printing' stamp: 'len 6/6/2019 13:22:39'!
-printOn: aStream
-	| P f n |
-	n _ coefficients printLimit.
-	P _ parent base.
-	f _ (P coefficients: (coefficients first: n)) orderedBy: #llex.
-	aStream print: f; nextPutAll: ' + ', 'O' italic, '('; print: P x ^ (n+1); nextPut: $)! !
 
 !BitTuple methodsFor: 'operations' stamp: 'len 7/15/2021 12:42:04'!
 >> anInteger
@@ -999,10 +999,6 @@ action
 arity
 	^ 2! !
 
-!SemidirectProductGroup methodsFor: 'accessing' stamp: 'len 4/22/2016 20:49'!
-identity
-	^ self project: {left identity. right identity}! !
-
 !SemidirectProductGroup methodsFor: 'accessing' stamp: 'len 2/12/2016 06:16'!
 left
 	^ left! !
@@ -1018,6 +1014,11 @@ size
 !SemidirectProductGroup methodsFor: 'converting' stamp: 'len 4/19/2016 20:55'!
 asCartesianProduct
 	^ (left, right)! !
+
+!SemidirectProductGroup methodsFor: 'elements' stamp: 'len 6/19/2022 12:29:46'!
+identity
+	"Answer the identity element of the receiver."
+	^ self project: {left identity. right identity}! !
 
 !SemidirectProductGroup methodsFor: 'enumerating' stamp: 'len 2/12/2016 06:57'!
 do: aBlock
@@ -1735,367 +1736,6 @@ parent: aSemidirectProductGroup
 right: anObject
 	right _ anObject! !
 
-!Sum methodsFor: 'printing' stamp: 'len 2/25/2017 09:43:39'!
-printCoefficient: coefficient on: aStream
-	| c |
-	((c _ coefficient) printString first = $- "or: [coefficient isNumber and: [coefficient negative]]")
-		ifTrue: [aStream nextPut: $-. c _ c negated].
-	((c isKindOf: Polynomial) and: [c isMonomial])
-		ifTrue: [aStream print: c. ^ self].
-	(c printString allSatisfy: [:each| each isAlphaNumeric or: ['{}()/' includes: each]])
-		ifTrue: [aStream print: c. ^ self].
-	aStream nextPut: $(; print: c; nextPut: $)! !
-
-!Sum methodsFor: 'printing' stamp: 'len 2/28/2017 08:43:47'!
-printLiteral: anObject on: aStream
-	((anObject isKindOf: Word) and: [anObject isEmpty])
-		ifTrue: [^ self].
-	anObject isInteger
-		ifTrue:
-			[aStream isText
-				ifTrue: [aStream nextPut: $x; nextPutAll: anObject printString sub]
-				ifFalse: [aStream nextPutAll: '{x', anObject printString, '}'].
-			^ self].
-	(aStream isText and: [anObject isString])
-			ifTrue: [aStream nextPutAll: anObject asText]
-			ifFalse: [aStream print: anObject]! !
-
-!Sum methodsFor: 'printing' stamp: 'len 2/25/2017 08:38:18'!
-printOn2: aStream
-	aStream nextPut: $(.
-	(Iterator on: self performing: #associationsDo:)
-		do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: ', '].
-	aStream nextPut: $)! !
-
-!Sum methodsFor: 'accessing' stamp: 'len 1/10/2018 21:04:34'!
-at: anObject
-	^ coefficients at: anObject ifAbsent: [self scalars zero]! !
-
-!Sum methodsFor: 'accessing' stamp: 'len 11/18/2016 10:02:25'!
-at: key add: value
-	^ coefficients at: key addAndRemoveIfZero: value! !
-
-!Sum methodsFor: 'accessing' stamp: 'len 11/18/2016 17:29:29'!
-at: anObject ifAbsent: aBlock
-	^ coefficients at: anObject ifAbsent: aBlock! !
-
-!Sum methodsFor: 'accessing' stamp: 'len 11/18/2016 17:29:44'!
-at: anObject ifPresent: aBlock
-	^ coefficients at: anObject ifPresent: aBlock! !
-
-!Sum methodsFor: 'accessing' stamp: 'len 11/18/2016 17:27:44'!
-at: key put: value
-	value isZero ifTrue: [coefficients removeKey: key ifAbsent: []. ^ value].
-	^ coefficients at: key put: value! !
-
-!Sum methodsFor: 'accessing' stamp: 'len 7/22/2020 09:33:46'!
-bitSize
-	| answer |
-	answer _ 0.
-	coefficients withSupportDo: [:value :key| answer _ answer + key bitSize + value bitSize].
-	^ answer! !
-
-!Sum methodsFor: 'accessing' stamp: 'len 4/23/2018 21:08:15'!
-denominator
-	| answer |
-	self scalars isLocalization ifFalse: [^ self scalars one].
-	answer _ self scalars integers one.
-	self do: [:each| answer _ each denominator lcm: answer].
-	^ answer! !
-
-!Sum methodsFor: 'accessing' stamp: 'len 11/18/2016 20:33:21'!
-keys
-	^ coefficients keys! !
-
-!Sum methodsFor: 'accessing' stamp: 'len 4/23/2018 21:08:38'!
-numerator
-	self scalars isLocalization ifFalse: [^ self].
-	^ self * self denominator over: self scalars integers! !
-
-!Sum methodsFor: 'accessing' stamp: 'len 7/21/2020 17:39:14'!
-parent
-	^ parent! !
-
-!Sum methodsFor: 'accessing' stamp: 'len 4/23/2018 20:40:20'!
-representative
-	"If the coefficients ring is a quotient R/I, answer a representative of the receiver over R. See >>%."
-	^ self apply: self scalars projection section! !
-
-!Sum methodsFor: 'accessing' stamp: 'len 1/10/2018 19:57:14'!
-scalars
-	^ parent scalars! !
-
-!Sum methodsFor: 'accessing' stamp: 'len 11/18/2016 09:55:05'!
-size
-	^ coefficients size! !
-
-!Sum methodsFor: 'accessing' stamp: 'len 1/10/2018 21:09:50'!
-zero
-	^ parent zero! !
-
-!Sum methodsFor: 'comparing' stamp: 'len 7/23/2020 08:15:05'!
-= aSum
-	^ coefficients = aSum coefficients! !
-
-!Sum methodsFor: 'comparing' stamp: 'len 11/18/2016 20:11:39'!
-hash
-	^ coefficients hash! !
-
-!Sum methodsFor: 'converting' stamp: 'len 1/10/2018 21:09:44'!
-over: aRing
-	| newCoefficients |
-	self scalars = aRing ifTrue: [^ self].
-	newCoefficients _ Dictionary new: self size.
-	self associationsDo: [:each| | newValue |
-		(newValue _ aRing !! each value) isZero
-			ifFalse: [newCoefficients add: (each copy value: newValue)]].
-	^ (self class coefficients: newCoefficients) parent: (parent over: aRing)! !
-
-!Sum methodsFor: 'enumerating' stamp: 'len 11/18/2016 09:54:31'!
-associationsDo: aBlock
-	coefficients associationsDo: aBlock! !
-
-!Sum methodsFor: 'enumerating' stamp: 'len 1/10/2018 21:43:05'!
-coefficientsDo: aBlock
-	coefficients do: aBlock! !
-
-!Sum methodsFor: 'enumerating' stamp: 'len 1/10/2018 21:22:05'!
-collect: aBlock 
-	| newCoefficients |
-	newCoefficients _ Dictionary new: self size.
-	self associationsDo: [:each| | newValue |
-		(newValue _ aBlock value: each value) isZero ifFalse: [newCoefficients at: each key put: newValue]].
-	^ (self class coefficients: newCoefficients) parent: parent! !
-
-!Sum methodsFor: 'enumerating' stamp: 'len 11/18/2016 09:54:10'!
-collectNoZero: aBlock
-	"The result of aBlock must never be zero."
-	^ self copy associationsDo: [:each| each value: (aBlock value: each value)]! !
-
-!Sum methodsFor: 'enumerating' stamp: 'len 11/18/2016 20:24:16'!
-do: aBlock
-	coefficients do: aBlock! !
-
-!Sum methodsFor: 'enumerating' stamp: 'len 11/18/2016 17:45:00'!
-keysAndValuesDo: aBlock
-	coefficients keysAndValuesDo: aBlock! !
-
-!Sum methodsFor: 'enumerating' stamp: 'len 11/18/2016 17:45:38'!
-keysDo: aBlock
-	coefficients keysDo: aBlock! !
-
-!Sum methodsFor: 'enumerating' stamp: 'len 7/22/2020 09:32:43'!
-supportDo: aBlock
-	coefficients keysDo: aBlock! !
-
-!Sum methodsFor: 'enumerating' stamp: 'len 7/24/2020 12:14:38'!
-withIndexDo: elementAndIndexBlock 
-	"Just like with:do: except that the iteration index supplies the second argument to the block."
-	self withSupportDo: elementAndIndexBlock! !
-
-!Sum methodsFor: 'enumerating' stamp: 'len 7/24/2020 12:14:26'!
-withSupportDo: elementAndIndexBlock 
-	"Just like with:do: except that the iteration index supplies the second argument to the block."
-	coefficients keysAndValuesDo: [:key :value| elementAndIndexBlock value: value value: key]! !
-
-!Sum methodsFor: 'operations' stamp: 'len 11/18/2016 09:51:39'!
-* aNumber
-	^ self collect: [:each| each*aNumber]! !
-
-!Sum methodsFor: 'operations' stamp: 'len 5/6/2019 02:56:21'!
-+ aSum
-	| other answer |
-	self size <= aSum size
-		ifTrue: [answer _ aSum copy. other _ self]
-		ifFalse: [answer _ self copy. other _ aSum].
-	other associationsDo: [:each| answer at: each key add: each value].
-	^ answer! !
-
-!Sum methodsFor: 'operations' stamp: 'len 5/6/2019 02:56:07'!
-- aSum
-	| answer |
-	self size <= aSum size
-		ifTrue:
-			[answer _ aSum negated.
-			self associationsDo: [:each| answer at: each key add: each value]]
-		ifFalse:
-			[answer _ self copy.
-			aSum associationsDo: [:each| answer at: each key add: each value negated]].
-	^ answer! !
-
-!Sum methodsFor: 'operations' stamp: 'len 2/6/2017 03:13:39'!
-/ aNumber
-	^ self collect: [:each| each / aNumber]! !
-
-!Sum methodsFor: 'operations' stamp: 'len 5/14/2020 12:31:41'!
-// anElement
-	^ self collect: [:each| each // anElement]! !
-
-!Sum methodsFor: 'operations' stamp: 'len 5/14/2020 12:31:08'!
-\\ anElement
-	^ self collect: [:each| each \\ anElement]! !
-
-!Sum methodsFor: 'operations' stamp: 'len 5/6/2019 02:55:32'!
-� aSum
-	| answer |
-	self size <= aSum size ifFalse: [^ aSum � self].
-	answer _ self scalars zero.
-	coefficients associationsDo: [:each|
-		aSum at: each key ifPresent: [:value2| answer _ answer + (each value*value2)]].
-	^ answer! !
-
-!Sum methodsFor: 'operations' stamp: 'len 7/18/2020 05:17:14'!
-convolution: aSum
-	| newCoefficients |
-	newCoefficients _ Dictionary new: self size + aSum size.
-	self associationsDo: [:each|
-		aSum associationsDo: [:other|
-			newCoefficients at: each key * other key addAndRemoveIfZero: each value * other value]].
-	^ (self class coefficients: newCoefficients) parent: parent! !
-
-!Sum methodsFor: 'operations' stamp: 'len 5/6/2019 02:55:06'!
-hadamard: aSum
-	"Answer the pointwise product with the argument, also called Hadamard product."
-	| answer |
-	self size <= aSum size ifFalse: [^ aSum hadamard: self]. "assuming it's commutative"
-	answer _ self copyEmpty.
-	coefficients associationsDo: [:each| | key |
-		key _ each key.
-		answer at: key put: each value * (aSum at: key)].
-	^ answer! !
-
-!Sum methodsFor: 'operations' stamp: 'len 11/18/2016 09:57:04'!
-negated
-	^ self collectNoZero: [:each| each negated]! !
-
-!Sum methodsFor: 'testing' stamp: 'len 11/18/2016 09:56:53'!
-isZero
-	^ coefficients isEmpty! !
-
-!Sum methodsFor: 'private' stamp: 'len 11/18/2016 20:11:53'!
-coefficients
-	^ coefficients! !
-
-!Sum methodsFor: 'private' stamp: 'len 9/16/2018 16:12:06'!
-coefficients: aDictionary
-	coefficients _ aDictionary.
-	coefficients associationsDo: [:each| each value isZero ifTrue: [self error: 'the coefficinets dictionary contains zeroes']]! !
-
-!Sum methodsFor: 'private' stamp: 'len 7/21/2020 17:39:28'!
-parent: aFreeModule
-	parent _ aFreeModule! !
-
-!Sum class methodsFor: 'instance creation' stamp: 'len 1/10/2018 19:58:43'!
-coefficients: aDictionary
-	^ self basicNew coefficients: aDictionary! !
-
-!Sum class methodsFor: 'instance creation' stamp: 'len 7/23/2020 08:13:42'!
-coefficients: aDictionary parent: aFreeModule
-	^ self basicNew coefficients: aDictionary; parent: aFreeModule! !
-
-!Sum class methodsFor: 'instance creation' stamp: 'len 9/16/2018 16:12:13'!
-new
-	^ self coefficients: Dictionary new! !
-
-!Sum class methodsFor: 'instance creation' stamp: 'len 1/10/2018 19:58:56'!
-new: anInteger
-	^ self coefficients: (Dictionary new: anInteger)! !
-
-!Sum class methodsFor: 'instance creation' stamp: 'len 7/23/2020 08:14:37'!
-new: anInteger parent: aFreeModule
-	^ self coefficients: (Dictionary new: anInteger) parent: aFreeModule! !
-
-!Sum class methodsFor: 'instance creation' stamp: 'len 7/23/2020 08:14:21'!
-parent: aFreeModule
-	^ self coefficients: Dictionary new parent: aFreeModule! !
-
-!Divisor methodsFor: 'accessing' stamp: 'len 1/10/2018 21:59:43'!
-degree
-	| answer |
-	answer _ 0.
-	self coefficientsDo: [:each| answer _ answer + each].
-	^ answer! !
-
-!Divisor methodsFor: 'accessing' stamp: 'len 5/10/2019 04:36:00'!
-support
-	| answer |
-	answer _ nil. "should start from the empty variety"
-	self keysDo: [:each| answer _ answer ifNil: [each] ifNotNil: [answer \/ each]].
-	^ answer! !
-
-!Divisor methodsFor: 'comparing' stamp: 'len 1/11/2017 16:34:02'!
-<= aDivisor
-	^ (aDivisor - self) isEffective! !
-
-!Divisor methodsFor: 'comparing' stamp: 'len 1/2/2017 15:43:41'!
-= anObject
-	^ (anObject isKindOf: Divisor) and: [self ~ anObject]! !
-
-!Divisor methodsFor: 'comparing' stamp: 'len 10/27/2016 10:26'!
->= aDivisor
-	^ (self - aDivisor) isEffective! !
-
-!Divisor methodsFor: 'comparing' stamp: 'len 1/2/2017 15:43:29'!
-~ aDivisor
-	"Answer true if the receiver and the argument are linearly equivalent."
-	^ (self - aDivisor) isPrincipal! !
-
-!Divisor methodsFor: 'operations' stamp: 'len 1/10/2018 21:58:23'!
-gcd: aDivisor
-	| newCoefficients |
-	newCoefficients _ Dictionary new.
-	self keysAndValuesDo: [:key :value|
-		aDivisor at: key ifPresent: [:value2| newCoefficients at: key put: (value min: value2)]].
-	^ (self class coefficients: newCoefficients) parent: parent! !
-
-!Divisor methodsFor: 'operations' stamp: 'len 2/25/2017 09:09:10'!
-lcm: aDivisor
-	| answer |
-	answer _ self copy.
-	aDivisor keysAndValuesDo: [:key :value|
-		answer at: key put: ((self at: key) max: value)].
-	^ answer! !
-
-!Divisor methodsFor: 'testing' stamp: 'len 2/25/2017 09:09:25'!
-isEffective
-	^ self allSatisfy: [:each| each positive]! !
-
-!EuclideanGaussianElimination methodsFor: 'private' stamp: 'len 4/28/2022 12:58:26'!
-reduceStep
-	"Perform one step in the reduction of the matrix using the current pivot."
-	| row j |
-	row _ currentPivot x.
-	j _ currentPivot y.
-	self assert: row = j.
-	1 to: matrix height do: [:i|
-		(i = j or: [matrix isZeroAt: i @ j])
-			ifFalse:
-				[| ajj aij euclid g bi bj ri rj |
-				ajj _ matrix at: j @ j.
-				aij _ matrix at: i @ j.
-				euclid _ ExtendedEuclid on: {aij. ajj}.
-				g _ euclid gcd.
-				bi _ euclid bezout first.
-				bj _ euclid bezout last.
-"				euclid validate ifFalse: [self halt]."
-				ri _ matrix rowAt: i.
-				rj _ matrix rowAt: j.
-				matrix rowAt: j put: ri * bi + (rj * bj).
-				matrix rowAt: i put: rj * (aij // g) - (ri * (ajj // g))]]! !
-
-!GaussBareiss methodsFor: 'private' stamp: 'len 5/30/2019 07:18:55'!
-reduceStep
-	"Perform one step reduction of the matrix using the current pivot."
-	| row col pivot value |
-	row _ currentPivot x.
-	col _ currentPivot y.
-	pivot _ matrix at: row @ col.
-	1 to: matrix height do: [:i|
-		(i = row or: [(value _ matrix at: i @ col) isZero])
-			ifFalse:
-				[self multiplyRow: i by: pivot.
-				self addRow: row times: value negated toRow: i]]! !
-
 !SmallPrimeResidue methodsFor: 'operations' stamp: 'len 9/2/2018 21:50:50'!
 * aModularInteger
 	| b i p |
@@ -2468,6 +2108,367 @@ coefficients: aSequence
 !RelaxedPowerSeries class methodsFor: 'instance creation' stamp: 'len 11/25/2016 10:32:44'!
 fromPolynomial: aPolynomial
 	^ self coefficients: (CFiniteSequence to: aPolynomial scalars initialValues: aPolynomial coefficients periodic: {aPolynomial scalars zero})! !
+
+!Sum methodsFor: 'printing' stamp: 'len 2/25/2017 09:43:39'!
+printCoefficient: coefficient on: aStream
+	| c |
+	((c _ coefficient) printString first = $- "or: [coefficient isNumber and: [coefficient negative]]")
+		ifTrue: [aStream nextPut: $-. c _ c negated].
+	((c isKindOf: Polynomial) and: [c isMonomial])
+		ifTrue: [aStream print: c. ^ self].
+	(c printString allSatisfy: [:each| each isAlphaNumeric or: ['{}()/' includes: each]])
+		ifTrue: [aStream print: c. ^ self].
+	aStream nextPut: $(; print: c; nextPut: $)! !
+
+!Sum methodsFor: 'printing' stamp: 'len 2/28/2017 08:43:47'!
+printLiteral: anObject on: aStream
+	((anObject isKindOf: Word) and: [anObject isEmpty])
+		ifTrue: [^ self].
+	anObject isInteger
+		ifTrue:
+			[aStream isText
+				ifTrue: [aStream nextPut: $x; nextPutAll: anObject printString sub]
+				ifFalse: [aStream nextPutAll: '{x', anObject printString, '}'].
+			^ self].
+	(aStream isText and: [anObject isString])
+			ifTrue: [aStream nextPutAll: anObject asText]
+			ifFalse: [aStream print: anObject]! !
+
+!Sum methodsFor: 'printing' stamp: 'len 2/25/2017 08:38:18'!
+printOn2: aStream
+	aStream nextPut: $(.
+	(Iterator on: self performing: #associationsDo:)
+		do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: ', '].
+	aStream nextPut: $)! !
+
+!Sum methodsFor: 'accessing' stamp: 'len 1/10/2018 21:04:34'!
+at: anObject
+	^ coefficients at: anObject ifAbsent: [self scalars zero]! !
+
+!Sum methodsFor: 'accessing' stamp: 'len 11/18/2016 10:02:25'!
+at: key add: value
+	^ coefficients at: key addAndRemoveIfZero: value! !
+
+!Sum methodsFor: 'accessing' stamp: 'len 11/18/2016 17:29:29'!
+at: anObject ifAbsent: aBlock
+	^ coefficients at: anObject ifAbsent: aBlock! !
+
+!Sum methodsFor: 'accessing' stamp: 'len 11/18/2016 17:29:44'!
+at: anObject ifPresent: aBlock
+	^ coefficients at: anObject ifPresent: aBlock! !
+
+!Sum methodsFor: 'accessing' stamp: 'len 11/18/2016 17:27:44'!
+at: key put: value
+	value isZero ifTrue: [coefficients removeKey: key ifAbsent: []. ^ value].
+	^ coefficients at: key put: value! !
+
+!Sum methodsFor: 'accessing' stamp: 'len 7/22/2020 09:33:46'!
+bitSize
+	| answer |
+	answer _ 0.
+	coefficients withSupportDo: [:value :key| answer _ answer + key bitSize + value bitSize].
+	^ answer! !
+
+!Sum methodsFor: 'accessing' stamp: 'len 4/23/2018 21:08:15'!
+denominator
+	| answer |
+	self scalars isLocalization ifFalse: [^ self scalars one].
+	answer _ self scalars integers one.
+	self do: [:each| answer _ each denominator lcm: answer].
+	^ answer! !
+
+!Sum methodsFor: 'accessing' stamp: 'len 11/18/2016 20:33:21'!
+keys
+	^ coefficients keys! !
+
+!Sum methodsFor: 'accessing' stamp: 'len 4/23/2018 21:08:38'!
+numerator
+	self scalars isLocalization ifFalse: [^ self].
+	^ self * self denominator over: self scalars integers! !
+
+!Sum methodsFor: 'accessing' stamp: 'len 7/21/2020 17:39:14'!
+parent
+	^ parent! !
+
+!Sum methodsFor: 'accessing' stamp: 'len 4/23/2018 20:40:20'!
+representative
+	"If the coefficients ring is a quotient R/I, answer a representative of the receiver over R. See >>%."
+	^ self apply: self scalars projection section! !
+
+!Sum methodsFor: 'accessing' stamp: 'len 1/10/2018 19:57:14'!
+scalars
+	^ parent scalars! !
+
+!Sum methodsFor: 'accessing' stamp: 'len 11/18/2016 09:55:05'!
+size
+	^ coefficients size! !
+
+!Sum methodsFor: 'accessing' stamp: 'len 1/10/2018 21:09:50'!
+zero
+	^ parent zero! !
+
+!Sum methodsFor: 'comparing' stamp: 'len 7/23/2020 08:15:05'!
+= aSum
+	^ coefficients = aSum coefficients! !
+
+!Sum methodsFor: 'comparing' stamp: 'len 11/18/2016 20:11:39'!
+hash
+	^ coefficients hash! !
+
+!Sum methodsFor: 'converting' stamp: 'len 1/10/2018 21:09:44'!
+over: aRing
+	| newCoefficients |
+	self scalars = aRing ifTrue: [^ self].
+	newCoefficients _ Dictionary new: self size.
+	self associationsDo: [:each| | newValue |
+		(newValue _ aRing !! each value) isZero
+			ifFalse: [newCoefficients add: (each copy value: newValue)]].
+	^ (self class coefficients: newCoefficients) parent: (parent over: aRing)! !
+
+!Sum methodsFor: 'enumerating' stamp: 'len 11/18/2016 09:54:31'!
+associationsDo: aBlock
+	coefficients associationsDo: aBlock! !
+
+!Sum methodsFor: 'enumerating' stamp: 'len 1/10/2018 21:43:05'!
+coefficientsDo: aBlock
+	coefficients do: aBlock! !
+
+!Sum methodsFor: 'enumerating' stamp: 'len 1/10/2018 21:22:05'!
+collect: aBlock 
+	| newCoefficients |
+	newCoefficients _ Dictionary new: self size.
+	self associationsDo: [:each| | newValue |
+		(newValue _ aBlock value: each value) isZero ifFalse: [newCoefficients at: each key put: newValue]].
+	^ (self class coefficients: newCoefficients) parent: parent! !
+
+!Sum methodsFor: 'enumerating' stamp: 'len 11/18/2016 09:54:10'!
+collectNoZero: aBlock
+	"The result of aBlock must never be zero."
+	^ self copy associationsDo: [:each| each value: (aBlock value: each value)]! !
+
+!Sum methodsFor: 'enumerating' stamp: 'len 11/18/2016 20:24:16'!
+do: aBlock
+	coefficients do: aBlock! !
+
+!Sum methodsFor: 'enumerating' stamp: 'len 11/18/2016 17:45:00'!
+keysAndValuesDo: aBlock
+	coefficients keysAndValuesDo: aBlock! !
+
+!Sum methodsFor: 'enumerating' stamp: 'len 11/18/2016 17:45:38'!
+keysDo: aBlock
+	coefficients keysDo: aBlock! !
+
+!Sum methodsFor: 'enumerating' stamp: 'len 7/22/2020 09:32:43'!
+supportDo: aBlock
+	coefficients keysDo: aBlock! !
+
+!Sum methodsFor: 'enumerating' stamp: 'len 7/24/2020 12:14:38'!
+withIndexDo: elementAndIndexBlock 
+	"Just like with:do: except that the iteration index supplies the second argument to the block."
+	self withSupportDo: elementAndIndexBlock! !
+
+!Sum methodsFor: 'enumerating' stamp: 'len 7/24/2020 12:14:26'!
+withSupportDo: elementAndIndexBlock 
+	"Just like with:do: except that the iteration index supplies the second argument to the block."
+	coefficients keysAndValuesDo: [:key :value| elementAndIndexBlock value: value value: key]! !
+
+!Sum methodsFor: 'operations' stamp: 'len 11/18/2016 09:51:39'!
+* aNumber
+	^ self collect: [:each| each*aNumber]! !
+
+!Sum methodsFor: 'operations' stamp: 'len 5/6/2019 02:56:21'!
++ aSum
+	| other answer |
+	self size <= aSum size
+		ifTrue: [answer _ aSum copy. other _ self]
+		ifFalse: [answer _ self copy. other _ aSum].
+	other associationsDo: [:each| answer at: each key add: each value].
+	^ answer! !
+
+!Sum methodsFor: 'operations' stamp: 'len 5/6/2019 02:56:07'!
+- aSum
+	| answer |
+	self size <= aSum size
+		ifTrue:
+			[answer _ aSum negated.
+			self associationsDo: [:each| answer at: each key add: each value]]
+		ifFalse:
+			[answer _ self copy.
+			aSum associationsDo: [:each| answer at: each key add: each value negated]].
+	^ answer! !
+
+!Sum methodsFor: 'operations' stamp: 'len 2/6/2017 03:13:39'!
+/ aNumber
+	^ self collect: [:each| each / aNumber]! !
+
+!Sum methodsFor: 'operations' stamp: 'len 5/14/2020 12:31:41'!
+// anElement
+	^ self collect: [:each| each // anElement]! !
+
+!Sum methodsFor: 'operations' stamp: 'len 5/14/2020 12:31:08'!
+\\ anElement
+	^ self collect: [:each| each \\ anElement]! !
+
+!Sum methodsFor: 'operations' stamp: 'len 5/6/2019 02:55:32'!
+� aSum
+	| answer |
+	self size <= aSum size ifFalse: [^ aSum � self].
+	answer _ self scalars zero.
+	coefficients associationsDo: [:each|
+		aSum at: each key ifPresent: [:value2| answer _ answer + (each value*value2)]].
+	^ answer! !
+
+!Sum methodsFor: 'operations' stamp: 'len 7/18/2020 05:17:14'!
+convolution: aSum
+	| newCoefficients |
+	newCoefficients _ Dictionary new: self size + aSum size.
+	self associationsDo: [:each|
+		aSum associationsDo: [:other|
+			newCoefficients at: each key * other key addAndRemoveIfZero: each value * other value]].
+	^ (self class coefficients: newCoefficients) parent: parent! !
+
+!Sum methodsFor: 'operations' stamp: 'len 5/6/2019 02:55:06'!
+hadamard: aSum
+	"Answer the pointwise product with the argument, also called Hadamard product."
+	| answer |
+	self size <= aSum size ifFalse: [^ aSum hadamard: self]. "assuming it's commutative"
+	answer _ self copyEmpty.
+	coefficients associationsDo: [:each| | key |
+		key _ each key.
+		answer at: key put: each value * (aSum at: key)].
+	^ answer! !
+
+!Sum methodsFor: 'operations' stamp: 'len 11/18/2016 09:57:04'!
+negated
+	^ self collectNoZero: [:each| each negated]! !
+
+!Sum methodsFor: 'testing' stamp: 'len 11/18/2016 09:56:53'!
+isZero
+	^ coefficients isEmpty! !
+
+!Sum methodsFor: 'private' stamp: 'len 11/18/2016 20:11:53'!
+coefficients
+	^ coefficients! !
+
+!Sum methodsFor: 'private' stamp: 'len 9/16/2018 16:12:06'!
+coefficients: aDictionary
+	coefficients _ aDictionary.
+	coefficients associationsDo: [:each| each value isZero ifTrue: [self error: 'the coefficinets dictionary contains zeroes']]! !
+
+!Sum methodsFor: 'private' stamp: 'len 7/21/2020 17:39:28'!
+parent: aFreeModule
+	parent _ aFreeModule! !
+
+!Sum class methodsFor: 'instance creation' stamp: 'len 1/10/2018 19:58:43'!
+coefficients: aDictionary
+	^ self basicNew coefficients: aDictionary! !
+
+!Sum class methodsFor: 'instance creation' stamp: 'len 7/23/2020 08:13:42'!
+coefficients: aDictionary parent: aFreeModule
+	^ self basicNew coefficients: aDictionary; parent: aFreeModule! !
+
+!Sum class methodsFor: 'instance creation' stamp: 'len 9/16/2018 16:12:13'!
+new
+	^ self coefficients: Dictionary new! !
+
+!Sum class methodsFor: 'instance creation' stamp: 'len 1/10/2018 19:58:56'!
+new: anInteger
+	^ self coefficients: (Dictionary new: anInteger)! !
+
+!Sum class methodsFor: 'instance creation' stamp: 'len 7/23/2020 08:14:37'!
+new: anInteger parent: aFreeModule
+	^ self coefficients: (Dictionary new: anInteger) parent: aFreeModule! !
+
+!Sum class methodsFor: 'instance creation' stamp: 'len 7/23/2020 08:14:21'!
+parent: aFreeModule
+	^ self coefficients: Dictionary new parent: aFreeModule! !
+
+!Divisor methodsFor: 'accessing' stamp: 'len 1/10/2018 21:59:43'!
+degree
+	| answer |
+	answer _ 0.
+	self coefficientsDo: [:each| answer _ answer + each].
+	^ answer! !
+
+!Divisor methodsFor: 'accessing' stamp: 'len 5/10/2019 04:36:00'!
+support
+	| answer |
+	answer _ nil. "should start from the empty variety"
+	self keysDo: [:each| answer _ answer ifNil: [each] ifNotNil: [answer \/ each]].
+	^ answer! !
+
+!Divisor methodsFor: 'comparing' stamp: 'len 1/11/2017 16:34:02'!
+<= aDivisor
+	^ (aDivisor - self) isEffective! !
+
+!Divisor methodsFor: 'comparing' stamp: 'len 1/2/2017 15:43:41'!
+= anObject
+	^ (anObject isKindOf: Divisor) and: [self ~ anObject]! !
+
+!Divisor methodsFor: 'comparing' stamp: 'len 10/27/2016 10:26'!
+>= aDivisor
+	^ (self - aDivisor) isEffective! !
+
+!Divisor methodsFor: 'comparing' stamp: 'len 1/2/2017 15:43:29'!
+~ aDivisor
+	"Answer true if the receiver and the argument are linearly equivalent."
+	^ (self - aDivisor) isPrincipal! !
+
+!Divisor methodsFor: 'operations' stamp: 'len 1/10/2018 21:58:23'!
+gcd: aDivisor
+	| newCoefficients |
+	newCoefficients _ Dictionary new.
+	self keysAndValuesDo: [:key :value|
+		aDivisor at: key ifPresent: [:value2| newCoefficients at: key put: (value min: value2)]].
+	^ (self class coefficients: newCoefficients) parent: parent! !
+
+!Divisor methodsFor: 'operations' stamp: 'len 2/25/2017 09:09:10'!
+lcm: aDivisor
+	| answer |
+	answer _ self copy.
+	aDivisor keysAndValuesDo: [:key :value|
+		answer at: key put: ((self at: key) max: value)].
+	^ answer! !
+
+!Divisor methodsFor: 'testing' stamp: 'len 2/25/2017 09:09:25'!
+isEffective
+	^ self allSatisfy: [:each| each positive]! !
+
+!EuclideanGaussianElimination methodsFor: 'private' stamp: 'len 4/28/2022 12:58:26'!
+reduceStep
+	"Perform one step in the reduction of the matrix using the current pivot."
+	| row j |
+	row _ currentPivot x.
+	j _ currentPivot y.
+	self assert: row = j.
+	1 to: matrix height do: [:i|
+		(i = j or: [matrix isZeroAt: i @ j])
+			ifFalse:
+				[| ajj aij euclid g bi bj ri rj |
+				ajj _ matrix at: j @ j.
+				aij _ matrix at: i @ j.
+				euclid _ ExtendedEuclid on: {aij. ajj}.
+				g _ euclid gcd.
+				bi _ euclid bezout first.
+				bj _ euclid bezout last.
+"				euclid validate ifFalse: [self halt]."
+				ri _ matrix rowAt: i.
+				rj _ matrix rowAt: j.
+				matrix rowAt: j put: ri * bi + (rj * bj).
+				matrix rowAt: i put: rj * (aij // g) - (ri * (ajj // g))]]! !
+
+!GaussBareiss methodsFor: 'private' stamp: 'len 5/30/2019 07:18:55'!
+reduceStep
+	"Perform one step reduction of the matrix using the current pivot."
+	| row col pivot value |
+	row _ currentPivot x.
+	col _ currentPivot y.
+	pivot _ matrix at: row @ col.
+	1 to: matrix height do: [:i|
+		(i = row or: [(value _ matrix at: i @ col) isZero])
+			ifFalse:
+				[self multiplyRow: i by: pivot.
+				self addRow: row times: value negated toRow: i]]! !
 
 !BerlekampMassey methodsFor: 'as yet unclassified' stamp: 'len 1/1/2022 09:33:44'!
 run

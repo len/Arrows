@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5053] on 24 May 2022 at 9:08:45 pm'!
+'From Cuis 6.0 [latest update: #5053] on 27 June 2022 at 1:31:34 pm'!
 'Description '!
-!provides: 'Elliptic Curves' 1 3!
+!provides: 'Elliptic Curves' 1 4!
 !requires: 'Algebra' 1 0 nil!
 SystemOrganization addCategory: #'Elliptic Curves'!
 
@@ -115,11 +115,6 @@ ambient
 curve
 	^ curve! !
 
-!EllipticCurveGroup methodsFor: 'accessing' stamp: 'len 12/14/2016 22:09:37'!
-identity
-	"This is the point at infinity."
-	^ curve pointAt: (scalars tuple: {scalars zero. scalars one. scalars zero})! !
-
 !EllipticCurveGroup methodsFor: 'accessing' stamp: 'len 11/10/2016 08:06'!
 scalars
 	^ scalars! !
@@ -146,6 +141,12 @@ curve: anEllipticCurve
 !EllipticCurveGroup methodsFor: 'accessing-private' stamp: 'len 11/10/2016 08:11'!
 scalars: aField
 	scalars _ aField! !
+
+!EllipticCurveGroup methodsFor: 'elements' stamp: 'len 6/19/2022 12:29:40'!
+identity
+	"Answer the identity element of the receiver.
+	This is the point at infinity."
+	^ curve pointAt: (scalars tuple: {scalars zero. scalars one. scalars zero})! !
 
 !EllipticCurveGroup methodsFor: 'enumerating' stamp: 'len 11/10/2016 08:10'!
 do: aBlock

@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5053] on 24 May 2022 at 9:08:53 pm'!
+'From Cuis 6.0 [latest update: #5053] on 27 June 2022 at 1:31:27 pm'!
 'Description '!
-!provides: 'Modular Forms' 1 3!
+!provides: 'Modular Forms' 1 4!
 !requires: 'Algebra' 1 0 nil!
 SystemOrganization addCategory: #'Modular Forms'!
 
@@ -315,8 +315,9 @@ action
 ambient
 	^ ModularGroup new! !
 
-!ArithmeticGroup methodsFor: 'as yet unclassified' stamp: 'len 12/21/2016 16:04:00'!
+!ArithmeticGroup methodsFor: 'as yet unclassified' stamp: 'len 6/19/2022 12:29:50'!
 identity
+	"Answer the identity element of the receiver."
 	^ ModularMap I! !
 
 !ArithmeticGroup methodsFor: 'as yet unclassified' stamp: 'len 12/21/2016 16:02:29'!
