@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5053] on 27 June 2022 at 1:31:34 pm'!
+'From Cuis 6.0 [latest update: #5053] on 5 August 2022 at 8:06:57 am'!
 'Description '!
-!provides: 'Elliptic Curves' 1 4!
+!provides: 'Elliptic Curves' 1 5!
 !requires: 'Algebra' 1 0 nil!
 SystemOrganization addCategory: #'Elliptic Curves'!
 
@@ -134,14 +134,6 @@ torsion
 	..."
 	self notYetImplemented! !
 
-!EllipticCurveGroup methodsFor: 'accessing-private' stamp: 'len 11/10/2016 08:11'!
-curve: anEllipticCurve
-	curve _ anEllipticCurve! !
-
-!EllipticCurveGroup methodsFor: 'accessing-private' stamp: 'len 11/10/2016 08:11'!
-scalars: aField
-	scalars _ aField! !
-
 !EllipticCurveGroup methodsFor: 'elements' stamp: 'len 6/19/2022 12:29:40'!
 identity
 	"Answer the identity element of the receiver.
@@ -156,6 +148,18 @@ do: aBlock
 atRandom: aRandom
 	^ curve pointAtRandom: aRandom! !
 
+!EllipticCurveGroup methodsFor: 'testing-categories' stamp: 'len 7/13/2022 12:14:07'!
+isAdditiveGroup
+	^ true! !
+
+!EllipticCurveGroup methodsFor: 'private' stamp: 'len 11/10/2016 08:11'!
+curve: anEllipticCurve
+	curve _ anEllipticCurve! !
+
+!EllipticCurveGroup methodsFor: 'private' stamp: 'len 11/10/2016 08:11'!
+scalars: aField
+	scalars _ aField! !
+
 !EllipticCurveGroup class methodsFor: 'instance creation' stamp: 'len 11/10/2016 08:11'!
 on: anEllipticCurve over: aField
 	^ self new curve: anEllipticCurve; scalars: aField! !
@@ -168,13 +172,6 @@ equation
 genus
 	"Answer the geometric genus of the receiver."
 	^ 1! !
-
-!EllipticCurve methodsFor: 'accessing-private' stamp: 'len 7/31/2020 10:24:36'!
-equation: aWeierstrassEquation
-	| f |
-	equation _ aWeierstrassEquation.
-	f _ equation homogeneousPolynomial.
-	self coordinateRing: f parent / f! !
 
 !EllipticCurve methodsFor: 'converting' stamp: 'len 5/2/2021 11:19:44'!
 % anInteger
@@ -312,6 +309,13 @@ divisionPolynomial0: n at: x
 			m even
 				ifTrue: [(self divisionPolynomial: m at: x)^3 * (self divisionPolynomial: -2 at: x) * (self divisionPolynomial: m+2 at: x) - ((self divisionPolynomial: m+1 at: x)^3 * (self divisionPolynomial: m-1 at: x))]
 				ifFalse: [(self divisionPolynomial: m at: x)^3 * (self divisionPolynomial: m+2 at: x) - ((self divisionPolynomial: m+1 at: x)^3 * (self divisionPolynomial: m-1 at: x) * (self divisionPolynomial: -2 at: x))]]! !
+
+!EllipticCurve methodsFor: 'private' stamp: 'len 7/31/2020 10:24:36'!
+equation: aWeierstrassEquation
+	| f |
+	equation _ aWeierstrassEquation.
+	f _ equation homogeneousPolynomial.
+	self coordinateRing: f parent / f! !
 
 !EllipticCurve class methodsFor: 'examples' stamp: 'len 5/23/2020 09:11:37'!
 cremona11a1

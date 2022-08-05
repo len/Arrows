@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5053] on 27 June 2022 at 1:31:30 pm'!
+'From Cuis 6.0 [latest update: #5053] on 5 August 2022 at 8:07:01 am'!
 'Description '!
-!provides: 'Etc' 1 10!
+!provides: 'Etc' 1 11!
 !requires: 'Algebra' 1 7 nil!
 SystemOrganization addCategory: #Etc!
 SystemOrganization addCategory: #'Etc-Lie'!
@@ -54,6 +54,16 @@ TestCase subclass: #SmallPrimeFieldTest
 	category: 'Etc'!
 !classDefinition: 'SmallPrimeFieldTest class' category: #Etc!
 SmallPrimeFieldTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #DivisorGroup category: #Etc!
+Group subclass: #DivisorGroup
+	instanceVariableNames: 'scalars space'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Etc'!
+!classDefinition: 'DivisorGroup class' category: #Etc!
+DivisorGroup class
 	instanceVariableNames: ''!
 
 !classDefinition: #SemidirectProductGroup category: #Etc!
@@ -146,6 +156,16 @@ Matrix subclass: #RowMatrix
 RowMatrix class
 	instanceVariableNames: ''!
 
+!classDefinition: #Divisor category: #Etc!
+GroupElement subclass: #Divisor
+	instanceVariableNames: 'coefficients parent'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Etc'!
+!classDefinition: 'Divisor class' category: #Etc!
+Divisor class
+	instanceVariableNames: ''!
+
 !classDefinition: #SemidirectProductElement category: #Etc!
 GroupElement subclass: #SemidirectProductElement
 	instanceVariableNames: 'parent left right'
@@ -204,16 +224,6 @@ ModuleElement subclass: #Sum
 	category: 'Etc'!
 !classDefinition: 'Sum class' category: #Etc!
 Sum class
-	instanceVariableNames: ''!
-
-!classDefinition: #Divisor category: #Etc!
-Sum subclass: #Divisor
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Etc'!
-!classDefinition: 'Divisor class' category: #Etc!
-Divisor class
 	instanceVariableNames: ''!
 
 !classDefinition: #EuclideanGaussianElimination category: #Etc!
@@ -314,6 +324,16 @@ Object subclass: #OEIS
 	category: 'Etc'!
 !classDefinition: 'OEIS class' category: #Etc!
 OEIS class
+	instanceVariableNames: ''!
+
+!classDefinition: #RealBox category: #Etc!
+Object subclass: #RealBox
+	instanceVariableNames: 'components'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Etc'!
+!classDefinition: 'RealBox class' category: #Etc!
+RealBox class
 	instanceVariableNames: ''!
 
 !classDefinition: #SmithReduction category: #Etc!
@@ -427,6 +447,9 @@ Matrices stored as a list of column tuples. Column operations are fast on these 
 !RowMatrix commentStamp: '<historical>' prior: 0!
 Matrices stored as a list of row tuples. Row operations are fast on these matrices.!
 
+!Divisor commentStamp: '<historical>' prior: 0!
+Formal sums with integer or rational coefficients of prime divisors (integral closed subschemes of codimension 1) of an integral locally Noetherian scheme.!
+
 !SemidirectProductElement commentStamp: '<historical>' prior: 0!
 Elements of a semidirect product of groups. See SemidirectProductGroup.!
 
@@ -443,9 +466,6 @@ Univariate formal power series with coefficients over a commutative ring. See Po
 
 !Sum commentStamp: '<historical>' prior: 0!
 Formal sums (or formal linear combinations) of arbitrary symbols with coefficients over a given ring R. They can be thought of as Tuples indexed not by positive integers but by arbitrary symbols. They form free R-modules (see FreeModule).!
-
-!Divisor commentStamp: '<historical>' prior: 0!
-Weil divisors, i.e. formal sums (with integer coefficients) of prime divisors (integral closed subschemes of codimension 1) of an integral locally Noetherian scheme.!
 
 !GaussBareiss commentStamp: '<historical>' prior: 0!
 This is the Gauss-Bereiss algorithm, a variant of Gassian elimination. It performs division-free Gaussian elimination on a matrix with coefficients in an integral domain, and computes the echelon form.
@@ -479,6 +499,17 @@ See [Coh96], Algorithm 2.4.4.
 
 See HermiteReduction for the algorithm modified to do row reduction instead of column reduction, and generalized to work over any computable Euclidean domain.!
 
+!RealBox commentStamp: '<historical>' prior: 0!
+Boxes in R^n built by the cartesian product of one-dimensional intervals (instances of RealInterval).
+
+Example:
+	RealBox new
+		add: (RealInterval closed: -1 closed: 1);
+		add: (RealInterval open: 3 open: 4);
+		add: (RealInterval closed: 0 open: Infinity positive);
+		yourself.
+!
+
 !SmithReduction commentStamp: '<historical>' prior: 0!
 This is the Smith reduction algorithm. Given a matrix with coefficients in a PID, it reduces the matrix to its Smith normal form.
 
@@ -498,6 +529,12 @@ printOn: aStream
 	aStream nextPut: ${.
 	elements do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: ', '].
 	aStream nextPut: $}! !
+
+!DivisorGroup methodsFor: 'as yet unclassified' stamp: 'len 7/25/2022 11:58:39'!
+printOn: aStream
+	aStream nextPutAll: 'Div'.
+	scalars = ƒ ifFalse: [aStream nextPutAll: scalars printString sub].
+	aStream nextPut: $(; print: space; nextPut: $)! !
 
 !SemidirectProductGroup methodsFor: 'printing' stamp: 'len 4/21/2016 00:16'!
 printOn: aStream
@@ -557,6 +594,10 @@ printOn: aStream
 !BitTuple methodsFor: 'printing' stamp: 'len 3/28/2016 04:52'!
 printOn: aStream
 	1 to: self size do: [:i| aStream print: (self at: i)]! !
+
+!RealBox methodsFor: 'printing' stamp: 'len 5/23/2020 07:19:23'!
+printOn: aStream
+	components do: [:each| aStream print: each] separatedBy: [aStream nextPut: $×]! !
 
 !SparseTuple methodsFor: 'copying' stamp: 'len 7/18/2020 06:12:12'!
 postCopy
@@ -905,15 +946,13 @@ reduces: aPolynomial
 species
 	^ Array! !
 
-!StandardBasis methodsFor: 'private' stamp: 'len 4/28/2022 13:00:32'!
+!StandardBasis methodsFor: 'private' stamp: 'len 7/8/2022 11:12:23'!
 validate
 	1 to: self size do: [:i| | fi |
 		fi _ self at: i.
 		i+1 to: self size do: [:j| | fj |
 			fj _ self at: j.
-			(self reduces: (fi s: fj))
-				ifFalse: [^ false]]].
-	^ true! !
+			self assert: (self reduces: (fi s: fj))]]! !
 
 !GroebnerBasis methodsFor: 'operations' stamp: 'len 7/29/2021 16:58:08'!
 reduce: aPolynomial
@@ -990,6 +1029,31 @@ testSmallPrimeFieldTables
 	g _ F primitiveRoot.
 	1 to: p-1 do: [:n| self assert: (F expTable at: n) = (g^n) representative].
 	0 to: p-2 do: [:n| self assert: (F logTable at: (g^n) representative) = n]! !
+
+!DivisorGroup methodsFor: 'as yet unclassified' stamp: 'len 7/15/2022 11:43:09'!
+isAdditiveGroup
+	^ true! !
+
+!DivisorGroup methodsFor: 'as yet unclassified' stamp: 'len 7/25/2022 11:57:29'!
+scalars
+	^ scalars! !
+
+!DivisorGroup methodsFor: 'as yet unclassified' stamp: 'len 7/25/2022 11:57:21'!
+space
+	^ space! !
+
+!DivisorGroup methodsFor: 'as yet unclassified' stamp: 'len 7/25/2022 12:00:07'!
+space: aScheme scalars: aRing
+	scalars _ aRing.
+	space _ aScheme! !
+
+!DivisorGroup class methodsFor: 'as yet unclassified' stamp: 'len 7/25/2022 11:59:50'!
+on: aScheme
+	^ self on: aScheme over: ƒ! !
+
+!DivisorGroup class methodsFor: 'as yet unclassified' stamp: 'len 7/25/2022 11:59:31'!
+on: aScheme over: aRing
+	^ self new space: aScheme scalars: aRing! !
 
 !SemidirectProductGroup methodsFor: 'accessing' stamp: 'len 2/12/2016 06:15'!
 action
@@ -1521,9 +1585,9 @@ isZero
 isZeroAt: aPoint
 	^ (columns at: aPoint y) isZeroAt: aPoint x! !
 
-!ColumnMatrix methodsFor: 'private' stamp: 'len 5/29/2020 09:15:50'!
+!ColumnMatrix methodsFor: 'private' stamp: 'len 7/8/2022 11:08:53'!
 validate
-	columns size = domain rank ifFalse: [^ false].
+	self assert: columns size = domain rank.
 	^ super validate! !
 
 !ColumnMatrix class methodsFor: 'instance creation' stamp: 'len 5/29/2020 05:45:24'!
@@ -1679,9 +1743,9 @@ isZero
 isZeroAt: aPoint
 	^ (rows at: aPoint x) isZeroAt: aPoint y! !
 
-!RowMatrix methodsFor: 'private' stamp: 'len 5/29/2020 09:16:26'!
+!RowMatrix methodsFor: 'private' stamp: 'len 7/8/2022 11:09:05'!
 validate
-	rows size = codomain rank ifFalse: [^ false].
+	self assert: rows size = codomain rank.
 	^ super validate! !
 
 !RowMatrix class methodsFor: 'instance creation' stamp: 'len 5/29/2020 06:36:44'!
@@ -1691,6 +1755,92 @@ from: aDomain to: aCodomain rows: anArray
 !RowMatrix class methodsFor: 'instance creation' stamp: 'len 5/29/2020 05:49:49'!
 newFrom: aMatrix
 	^ self from: aMatrix domain to: aMatrix codomain rows: (aMatrix rows collect: [:each| each copy])! !
+
+!Divisor methodsFor: 'accessing' stamp: 'len 7/18/2022 06:23:40'!
+degree
+	coefficients isEmpty ifTrue: [^ self scalars zero].
+	^ coefficients sum! !
+
+!Divisor methodsFor: 'accessing' stamp: 'len 7/18/2022 06:22:38'!
+scalars
+	^ parent scalars! !
+
+!Divisor methodsFor: 'accessing' stamp: 'len 7/18/2022 06:22:58'!
+support
+	| answer |
+	answer _ nil. "should start from the empty variety"
+	coefficients keysDo: [:each| answer _ answer ifNil: [each] ifNotNil: [answer \/ each]].
+	^ answer! !
+
+!Divisor methodsFor: 'comparing' stamp: 'len 1/11/2017 16:34:02'!
+<= aDivisor
+	^ (aDivisor - self) isEffective! !
+
+!Divisor methodsFor: 'comparing' stamp: 'len 1/2/2017 15:43:41'!
+= anObject
+	^ (anObject isKindOf: Divisor) and: [self ~ anObject]! !
+
+!Divisor methodsFor: 'comparing' stamp: 'len 10/27/2016 10:26'!
+>= aDivisor
+	^ (self - aDivisor) isEffective! !
+
+!Divisor methodsFor: 'comparing' stamp: 'len 1/2/2017 15:43:29'!
+~ aDivisor
+	"Answer true if the receiver and the argument are linearly equivalent."
+	^ (self - aDivisor) isPrincipal! !
+
+!Divisor methodsFor: 'comparing' stamp: 'len 7/25/2022 11:56:06'!
+hash
+	^ 0! !
+
+!Divisor methodsFor: 'operations' stamp: 'len 7/18/2022 06:22:17'!
+* anElement
+	(anElement isInteger or: [self scalars includes: anElement])
+		ifTrue: [^ self class coefficients: coefficients * anElement parent: parent].
+	^ self error: 'not a scalar'! !
+
+!Divisor methodsFor: 'operations' stamp: 'len 7/18/2022 06:21:07'!
++ aDivisor
+	(parent includes: aDivisor) ifFalse: [^ self adapt: aDivisor andSend: #+].
+	^ self class coefficients: coefficients + aDivisor coefficients parent: parent! !
+
+!Divisor methodsFor: 'operations' stamp: 'len 7/18/2022 06:21:26'!
+- aDivisor
+	(parent includes: aDivisor) ifFalse: [^ self adapt: aDivisor andSend: #-].
+	^ self class coefficients: coefficients - aDivisor coefficients parent: parent! !
+
+!Divisor methodsFor: 'operations' stamp: 'len 7/18/2022 06:18:06'!
+gcd: aDivisor
+	| newCoefficients |
+	newCoefficients _ SparseDictionary new.
+	coefficients keysAndValuesDo: [:key :value|
+		aDivisor coefficients at: key ifPresent: [:value2| newCoefficients at: key put: (value min: value2)]].
+	^ self class coefficients: newCoefficients parent: parent! !
+
+!Divisor methodsFor: 'operations' stamp: 'len 7/18/2022 06:19:06'!
+lcm: aDivisor
+	| newCoefficients |
+	newCoefficients _ coefficients copy.
+	aDivisor coefficients keysAndValuesDo: [:key :value|
+		newCoefficients at: key put: ((coefficients at: key) max: value)].
+	^ self class coefficients: newCoefficients parent: parent! !
+
+!Divisor methodsFor: 'operations' stamp: 'len 7/18/2022 06:21:39'!
+negated
+	^ self class coefficients: coefficients negated parent: parent! !
+
+!Divisor methodsFor: 'testing' stamp: 'len 2/25/2017 09:09:25'!
+isEffective
+	^ self allSatisfy: [:each| each positive]! !
+
+!Divisor methodsFor: 'private' stamp: 'len 7/18/2022 06:20:16'!
+coefficients: aDictionary parent: aDivisorGroup
+	coefficients _ aDictionary.
+	parent _ aDivisorGroup! !
+
+!Divisor class methodsFor: 'instance creation' stamp: 'len 7/18/2022 06:19:38'!
+coefficients: aDictionary parent: aDivisorGroup
+	^ self new coefficients: aDictionary parent: aDivisorGroup! !
 
 !SemidirectProductElement methodsFor: 'accessing' stamp: 'len 5/5/98 00:18'!
 left
@@ -2383,57 +2533,6 @@ new: anInteger parent: aFreeModule
 parent: aFreeModule
 	^ self coefficients: Dictionary new parent: aFreeModule! !
 
-!Divisor methodsFor: 'accessing' stamp: 'len 1/10/2018 21:59:43'!
-degree
-	| answer |
-	answer _ 0.
-	self coefficientsDo: [:each| answer _ answer + each].
-	^ answer! !
-
-!Divisor methodsFor: 'accessing' stamp: 'len 5/10/2019 04:36:00'!
-support
-	| answer |
-	answer _ nil. "should start from the empty variety"
-	self keysDo: [:each| answer _ answer ifNil: [each] ifNotNil: [answer \/ each]].
-	^ answer! !
-
-!Divisor methodsFor: 'comparing' stamp: 'len 1/11/2017 16:34:02'!
-<= aDivisor
-	^ (aDivisor - self) isEffective! !
-
-!Divisor methodsFor: 'comparing' stamp: 'len 1/2/2017 15:43:41'!
-= anObject
-	^ (anObject isKindOf: Divisor) and: [self ~ anObject]! !
-
-!Divisor methodsFor: 'comparing' stamp: 'len 10/27/2016 10:26'!
->= aDivisor
-	^ (self - aDivisor) isEffective! !
-
-!Divisor methodsFor: 'comparing' stamp: 'len 1/2/2017 15:43:29'!
-~ aDivisor
-	"Answer true if the receiver and the argument are linearly equivalent."
-	^ (self - aDivisor) isPrincipal! !
-
-!Divisor methodsFor: 'operations' stamp: 'len 1/10/2018 21:58:23'!
-gcd: aDivisor
-	| newCoefficients |
-	newCoefficients _ Dictionary new.
-	self keysAndValuesDo: [:key :value|
-		aDivisor at: key ifPresent: [:value2| newCoefficients at: key put: (value min: value2)]].
-	^ (self class coefficients: newCoefficients) parent: parent! !
-
-!Divisor methodsFor: 'operations' stamp: 'len 2/25/2017 09:09:10'!
-lcm: aDivisor
-	| answer |
-	answer _ self copy.
-	aDivisor keysAndValuesDo: [:key :value|
-		answer at: key put: ((self at: key) max: value)].
-	^ answer! !
-
-!Divisor methodsFor: 'testing' stamp: 'len 2/25/2017 09:09:25'!
-isEffective
-	^ self allSatisfy: [:each| each positive]! !
-
 !EuclideanGaussianElimination methodsFor: 'private' stamp: 'len 4/28/2022 12:58:26'!
 reduceStep
 	"Perform one step in the reduction of the matrix using the current pivot."
@@ -3044,6 +3143,105 @@ lookup: anArray
 !OEIS class methodsFor: 'as yet unclassified' stamp: 'len 4/25/2016 07:16'!
 default
 	^ Default ifNil: [Default _ self new]! !
+
+!RealBox methodsFor: 'accessing' stamp: 'len 1/11/2016 02:33'!
+add: aRealInterval
+	^ components add: aRealInterval! !
+
+!RealBox methodsFor: 'accessing' stamp: 'len 12/13/97 15:21'!
+addAll: aCollection
+	"Add the elements in the argument to the receiver. Answer the argument."
+
+	aCollection do: [ :each | self add: each].
+	^ aCollection! !
+
+!RealBox methodsFor: 'accessing' stamp: 'len 1/11/2016 02:33'!
+at: anInteger
+	"Answer the anInteger-th component of the receiver."
+	^ components at: anInteger! !
+
+!RealBox methodsFor: 'accessing' stamp: 'len 1/11/2016 02:35'!
+dimension
+	^ components inject: 0 into: [:sum :each| sum + each]! !
+
+!RealBox methodsFor: 'accessing' stamp: 'len 1/11/2016 02:35'!
+first
+	^ self at: 1! !
+
+!RealBox methodsFor: 'accessing' stamp: 'len 1/11/2016 02:35'!
+last
+	^ self at: self size! !
+
+!RealBox methodsFor: 'accessing' stamp: 'len 1/11/2016 02:36'!
+measure
+	^ components inject: 1 into: [:measure :each| measure * each measure]! !
+
+!RealBox methodsFor: 'accessing' stamp: 'len 5/23/2020 09:31:27'!
+midpoint
+	^ … tuple: (components collect: [:each| each midpoint])! !
+
+!RealBox methodsFor: 'accessing' stamp: 'len 6/1/2020 13:27:25'!
+sample
+	"Answer a sample point in the receiver."
+	^ …^self size filling: [:each| (self at: each) sample]! !
+
+!RealBox methodsFor: 'accessing' stamp: 'len 1/11/2016 02:37'!
+size
+	^ components size! !
+
+!RealBox methodsFor: 'accessing-private' stamp: 'len 1/11/2016 02:37'!
+components
+	^ components! !
+
+!RealBox methodsFor: 'accessing-private' stamp: 'len 1/11/2016 02:37'!
+components: aCollection
+	components _ aCollection! !
+
+!RealBox methodsFor: 'comparing' stamp: 'len 12/19/97 22:06'!
+= anObject
+	"Answer true if the receiver equals the argument."
+
+	self size = anObject size ifFalse: [^ false].
+	1 to: self size do: [ :each | (self at: each) = (anObject at: each) ifFalse: [^ false]].
+	^ true! !
+
+!RealBox methodsFor: 'comparing' stamp: 'len 6/28/2016 09:28'!
+hash
+	"Answer the hash value of the receiver."
+
+	^ self size = 0
+		ifTrue: [0]
+		ifFalse: [self first hash hashMultiply + self last hash hashMultiply + self size hash]! !
+
+!RealBox methodsFor: 'enumerating' stamp: 'len 1/11/2016 02:38'!
+do: aBlock
+	"Enumerate the components of the receiver."
+	components do: aBlock! !
+
+!RealBox methodsFor: 'initialization' stamp: 'len 1/11/2016 02:38'!
+initialize
+	components _ OrderedCollection new: 3! !
+
+!RealBox methodsFor: 'testing' stamp: 'len 1/11/2016 02:40'!
+includes: aTuple
+	1 to: self size do: [:each|
+		((self at: each) includes: (aTuple at: each)) ifFalse: [^ false]].
+	^ true! !
+
+!RealBox methodsFor: 'testing' stamp: 'len 1/11/2016 02:40'!
+isBounded
+	self do: [:each| each isBounded ifFalse: [^ false]].
+	^ true! !
+
+!RealBox methodsFor: 'testing' stamp: 'len 1/11/2016 02:40'!
+isClosed
+	self do: [:each| each isClosed ifFalse: [^ false]].
+	^ true! !
+
+!RealBox methodsFor: 'testing' stamp: 'len 1/11/2016 02:41'!
+isOpen
+	self do: [ :each | each isOpen ifFalse: [^ false]].
+	^ true! !
 
 !SmithReduction methodsFor: 'accessing' stamp: 'len 5/28/2019 08:51:31'!
 invariants

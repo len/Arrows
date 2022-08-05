@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5053] on 29 April 2022 at 10:14:54 am'!
+'From Cuis 6.0 [latest update: #5053] on 5 August 2022 at 8:07:18 am'!
 'Description '!
-!provides: 'Transfinites' 1 1!
+!provides: 'Transfinites' 1 2!
 SystemOrganization addCategory: #Transfinites!
 
 
@@ -455,7 +455,7 @@ terms
 terms: anArray
 	terms _ anArray! !
 
-!Ordinal methodsFor: 'private' stamp: 'len 4/28/2022 12:50:02'!
+!Ordinal methodsFor: 'private' stamp: 'len 7/8/2022 11:11:54'!
 validate
 	"Verify that the receiver is in Cantor normal form:
 		1) exponents in decreasing order,
@@ -464,8 +464,7 @@ validate
 		| a b |
 		a _ terms at: i.
 		b _ terms at: i+1.
-		(a key > b key and: [a value > 0 and: [a value < b value]]) ifFalse: [^ false]].
-	^ true! !
+		self assert: (a key > b key and: [a value > 0 and: [a value < b value]])]! !
 
 !Ordinal class methodsFor: 'instance creation' stamp: 'len 12/31/2021 11:28:03'!
 fromInteger: anInteger

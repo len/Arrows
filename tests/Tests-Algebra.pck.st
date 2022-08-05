@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5053] on 27 June 2022 at 1:31:05 pm'!
+'From Cuis 6.0 [latest update: #5053] on 5 August 2022 at 8:07:11 am'!
 'Description '!
-!provides: 'Tests-Algebra' 1 13!
+!provides: 'Tests-Algebra' 1 14!
 SystemOrganization addCategory: #'Tests-Algebra'!
 SystemOrganization addCategory: #'Tests-Algebra-Arrays'!
 SystemOrganization addCategory: #'Tests-Algebra-Rings'!
@@ -2338,7 +2338,7 @@ testExtendedBuchbergerWithCyclic3
 	T _ basisAndTransformation second.
 	self assert: (A * T) = G! !
 
-!AbstractGroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2022 18:59:43'!
+!AbstractGroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 7/8/2022 11:06:33'!
 testGroebnerBasis: G ideal: I
 	"Test G is a Groebner basis of the ideal I."
 	| g division |
@@ -2352,7 +2352,7 @@ testGroebnerBasis: G ideal: I
 	"The multivariate division of any polynomial in I by G gives the remainder 0:"
 	division _ g divisionBy: G.
 	self assert: division remainder isZero.
-	self assert: division validate.
+	division validate.
 "	self assert: G reduced isReduced.
 	self assert: G minimal isMinimal"! !
 
@@ -3421,10 +3421,10 @@ initialize
 	super initialize.
 	R _ GaussianField new integers! !
 
-!LocalIntegerRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/7/2022 17:57:45'!
+!LocalIntegerRingTest methodsFor: 'as yet unclassified' stamp: 'len 7/23/2022 13:17:15'!
 initialize
 	super initialize.
-	R _ ƒ @ 64 atRandom nextPrime! !
+	R _ ƒ @ (ƒ * 64 atRandom nextPrime)! !
 
 !ModularIntegerRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/19/2022 12:38:35'!
 initialize
@@ -4868,10 +4868,10 @@ testSmithNormalFormExampleDiagonal
 	A _ ƒ matrix: #((5 0 0) (0 2 0) (0 0 0)).
 	self assert: A SNF = ((ƒ^3) endomorphisms diagonal: #(1 10 0))! !
 
-!MatrixOverLocalIntegerRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/7/2022 17:59:11'!
+!MatrixOverLocalIntegerRingTest methodsFor: 'as yet unclassified' stamp: 'len 7/23/2022 13:16:34'!
 initialize
 	super initialize.
-	scalars _ ƒ @ 64 atRandom nextPrime! !
+	scalars _ ƒ @ (ƒ * 64 atRandom nextPrime)! !
 
 !MatrixOverMultivariatePolynomialsOverPrimeFieldTest methodsFor: 'as yet unclassified' stamp: 'len 12/30/2021 12:23:00'!
 initialize
@@ -5349,12 +5349,12 @@ testModuleMap: f
 	x _ f domain scalars atRandom: random bits: 20.
 	self assert: (f value: a1 * x + a2) = (b1 * x + b2)! !
 
-!AbstractModuleTest methodsFor: 'maps' stamp: 'len 3/24/2021 07:57:36'!
+!AbstractModuleTest methodsFor: 'maps' stamp: 'len 7/19/2022 11:17:19'!
 testPreimage
 	| f w v |
 	f _ self newModuleMap.
 	w _ f image atRandom: random bits: 100.
-	v _ f preimage: w.
+	v _ f preimageRepresentative: w.
 	self assert: (f value: v) = w! !
 
 !AbstractModuleTest methodsFor: 'maps' stamp: 'len 3/24/2021 08:10:07'!
@@ -6228,10 +6228,10 @@ testSyzygies2
 testTensorProductExample
 	self assert: ƒ^1 ‘ (ƒ^1/{2}) ~ (ƒ^1/{2})! !
 
-!ModuleOverLocalIntegerRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/7/2022 18:00:00'!
+!ModuleOverLocalIntegerRingTest methodsFor: 'as yet unclassified' stamp: 'len 7/23/2022 13:16:57'!
 initialize
 	super initialize.
-	scalars _ ƒ @ 64 atRandom nextPrime! !
+	scalars _ ƒ @ (ƒ * 64 atRandom nextPrime)! !
 
 !ModuleOverModularIntegersTest methodsFor: 'initialization' stamp: 'len 4/2/2021 11:13:47'!
 initialize
@@ -6328,7 +6328,7 @@ testAffinePlaneCurveMultiplicity
 	self assert: (C multiplicityAt: (1,1)) = 1.
 	self assert: (C multiplicityAt: (0,0)) = 2! !
 
-!AlgebraicGeometryTest methodsFor: 'affine' stamp: 'len 7/8/2020 12:01:44'!
+!AlgebraicGeometryTest methodsFor: 'affine' stamp: 'len 7/25/2022 11:32:48'!
 testAffineSchemeCartesianProduct
 	| X1 X2 P |
 	X1 _ AffineVariety circle.
@@ -6364,25 +6364,25 @@ testAffineSpace
 	self assert: A ambient = A.
 	self assert: A coordinateRing spec = A! !
 
-!AlgebraicGeometryTest methodsFor: 'affine' stamp: 'len 5/23/2020 08:56:11'!
+!AlgebraicGeometryTest methodsFor: 'affine' stamp: 'len 7/6/2022 10:01:27'!
 testProjectiveClosure
 	"From Magma Handbook example Scheme_projective-closure (H118E23)."
 	| A1 u v X PX X2 |
 	A1 _ AffineSpace new: #(u v) over: ƒ/5.
-	u _ A1 coordinateRing x: #u.
-	v _ A1 coordinateRing x: #v.
+	u _ A1 coordinateRing x: 1.
+	v _ A1 coordinateRing x: 2.
 	X _ A1 subscheme: u^2 - (v^5).
 	PX _ X projectiveClosure.
 	self assert: (PX patch: 3) = X.
 	X2 _ PX patch: 2.
 	self assert: X2 projectiveClosure = X projectiveClosure! !
 
-!AlgebraicGeometryTest methodsFor: 'affine' stamp: 'len 1/14/2022 11:28:54'!
+!AlgebraicGeometryTest methodsFor: 'affine' stamp: 'len 7/6/2022 10:01:14'!
 testProjectiveEmbedding
 	| A1 u v X PX affinePointsEmbedded projectivePoints |
 	A1 _ AffineSpace new: #(u v) over: ƒ/5.
-	u _ A1 coordinateRing x: #u.
-	v _ A1 coordinateRing x: #v.
+	u _ A1 coordinateRing x: 1.
+	v _ A1 coordinateRing x: 2.
 	X _ A1 subscheme: u^2 - (v^5).
 	PX _ X projectiveClosure.
 	affinePointsEmbedded _ X points asSet apply: X projectiveEmbedding.
@@ -6542,24 +6542,24 @@ testLinearSubspaceAsAlgebraicVariety
 	self assert: (V satisfies: (S x: 1)).
 	self assert: (V satisfies: (S x: 2))! !
 
-!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 12/18/2021 07:02:58'!
+!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 7/26/2022 19:08:49'!
 testLocalAndGlobalDimension
 	"'A Singluar Introduction to Commutative Algebra', Example A.8.4 (local and global dimension)."
 	| R I X |
 	R _ „ polynomialsIn: #(x y z).
-	I _ R * (R generate: [:x :y :z| {x*z. y*z}]).
+	I _ R * (R !! [:x :y :z| {x*z. y*z}]).
 	X _ (R / I) spec.
 	self assert: X dimension = 2. "global dimension of X"
-	self assert: (X !! (0,0,0)) localRing dimension = 2. "dimension of X at (0,0,0)"
-	self assert: (X !! (1,0,0)) localRing dimension = 2. "dimension of X at (1,0,0)"
-	self assert: (X !! (0,0,1)) localRing dimension = 1. "dimension of X at (0,0,1)"! !
+	self assert: (X @ (0,0,0)) dimension = 2. "dimension of X at (0,0,0)"
+	self assert: (X @ (1,0,0)) dimension = 2. "dimension of X at (1,0,0)"
+	self assert: (X @ (0,0,1)) dimension = 1. "dimension of X at (0,0,1)"! !
 
-!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 12/15/2021 12:55:03'!
+!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 7/25/2022 11:45:12'!
 testMorphismsOfProjectiveVarieties
 	"'A Singular Introduction To Commutative Algebra', Example A.6.8 (morphisms of projective varieties)."
 	| P A x y z X f1 f2 f3 I J Y phi Z |
-	P _ ProjectiveSpace new: #(x y z) over: †. "Œ^2ˆ"
-	A _ P coordinateRing. "ˆ[x,y,z]"
+	P _ ProjectiveSpace new: #(x y z) over: †. "projective plane"
+	A _ P coordinateRing. "C[x,y,z]"
 	x _ A x. y _ A y. z _ A z.
 	X _ P subscheme: {z^3 - (x*(y^2)) + (y^3)}.
 	f1 _ x*z. f2 _ x*y. f3 _ x^2 + (y*z).
@@ -6569,7 +6569,7 @@ testMorphismsOfProjectiveVarieties
 	self assert: (A / (I + J)) dimension = 0.
 	Y _ P subscheme: J.
 	self assert: (X /\ Y) isEmpty.
-	phi _ RationalMap from: X to: P representatives: {f1. f2. f3}.
+	phi _ X to: P representatives: {f1. f2. f3}.
 	"The image is a curve of degree 6:"
 	Z _ phi image.
 	self assert: Z isCurve.
@@ -6721,13 +6721,12 @@ testSmoothnessOverQQ
 	C _ P subscheme: P coordinateRing !! [:x :y :z| x^3 - (y^2*z)].
 	self assert: C isSingular! !
 
-!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 6/25/2022 10:54:06'!
+!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 7/26/2022 13:39:32'!
 testSpecZ
-	| p |
 	self assert: ƒ spec dimension = 1.
 	self assert: ƒ spec isNoetherian.
-	p _ ƒ spec !! (ƒ * 5).
-	self assert: (ƒ spec includes: p)! !
+"	p _ ƒ * 5.
+	self assert: (ƒ spec includes: p)"! !
 
 !AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 5/23/2020 08:57:54'!
 testSpecZSubschemes
@@ -6760,13 +6759,13 @@ testProjectivePlaneOverFiniteRing
 	self assert: P points size = 28
 	"this plane has 28 points and 28 lines (falling into 7 neighbour classes of size 4), each line has 6 points and each point is on 6 lines"! !
 
-!AlgebraicGeometryTest methodsFor: 'projective' stamp: 'len 4/13/2022 13:34:43'!
+!AlgebraicGeometryTest methodsFor: 'projective' stamp: 'len 7/25/2022 10:13:15'!
 testProjectiveSchemeAffinePatches
 	| P E p a |
 	P _ ProjectivePlane over: „.
 	"cremona37a elliptic curve:"
 	E _ P subscheme: (P coordinateRing !! [:x :y :z| y^2*z + (z^2*x) + (z^2*y) - (x^3)]).
-	p _ E !! ((2,-3) over: „).
+	p _ E !! ((2,-3,1) over: „).
 	a _ p dehomogenizedIn: 2.
 	"the affine point is in the second standard affine patch:"
 	self assert: (E patch: 2) == a codomain.
@@ -6831,14 +6830,14 @@ testProjectiveSpaceOverModularIntegers
 	self assert: P points asSet size = numberOfPoints.
 	self assert: P points size = numberOfPoints! !
 
-!AlgebraicGeometryTest methodsFor: 'rational maps' stamp: 'len 12/15/2021 13:21:53'!
+!AlgebraicGeometryTest methodsFor: 'rational maps' stamp: 'len 7/9/2022 14:08:42'!
 testRationalMap
 	"Example from Magma handbook Scheme_map-creation (H118E32)."
 	| A1 A2 x y f X |
 	A1 _ AffineSpace new: #(t) over: „.
 	A2 _ AffineSpace new: #(x y) over: „.
 
-	f _ RationalMap from: A1 to: A2 evaluatingWithArguments: [:t| {t^3 + t. (t^2 - 3)}].
+	f _ A1 to: A2 evaluatingWithArguments: [:t| {t^3 + t. (t^2 - 3)}].
 
 	self assert: f domain = A1.
 	self assert: f codomain = A2.
@@ -6848,14 +6847,14 @@ testRationalMap
 	X _ A2 subscheme: {x^2*-1 + (y^3) + (y^2*11) + (y*40) + 48}.
 	self assert: f image = X! !
 
-!AlgebraicGeometryTest methodsFor: 'rational maps' stamp: 'len 12/15/2021 13:22:43'!
+!AlgebraicGeometryTest methodsFor: 'rational maps' stamp: 'len 7/9/2022 14:08:57'!
 testRationalMap2
 	"Example from Cox's IVA pag. 234. Parametrization of the tangent surface of the twisted cubic."
 	| A2 A3 x y z f X |
 	A2 _ AffineSpace new: #(t u) over: „.
 	A3 _ AffineSpace new: 3 over: „.
 
-	f _ RationalMap from: A2 to: A3 evaluatingWithArguments: [:t :u| {t + u. t^2 + (t*u*2). t^3 + (t^2*u*3)}].
+	f _ A2 to: A3 evaluatingWithArguments: [:t :u| {t + u. t^2 + (t*u*2). t^3 + (t^2*u*3)}].
 
 	x _ A3 coordinateRing x.
 	y _ A3 coordinateRing y.
@@ -6863,7 +6862,7 @@ testRationalMap2
 	X _ A3 subscheme: {x^3*z - (x*y^2*(3/4)) - (x*y*z*(3/2)) + (y^3) + (z^2*(1/4))}.
 	self assert: f image = X! !
 
-!AlgebraicGeometryTest methodsFor: 'rational maps' stamp: 'len 12/15/2021 13:23:05'!
+!AlgebraicGeometryTest methodsFor: 'rational maps' stamp: 'len 7/9/2022 14:09:25'!
 testRationalMapAffineExample
 	"From lecture notes MIT 18.782 Introduction to Arithmetic Geometry, Lecture #15, Fall 2013, 10/29/2013, Example 15.19."
 	| A2 x y X A1 phi phi2 phiInv |
@@ -6872,10 +6871,10 @@ testRationalMapAffineExample
 	y _ A2 coordinateRing y.
 	X _ A2 subscheme: x^2 + (y^2) - 1.
 	A1 _ AffineSpace new: 1 over: „.
-	phi _ RationalMap from: X to: A1 evaluatingWithArguments: [:x0 :y0| {y0 / (x0 + 1)}].
-	phi2 _ RationalMap from: X to: A1 evaluatingWithArguments: [:x0 :y0| {1 - x0 / y0}].
+	phi _ X to: A1 evaluatingWithArguments: [:x0 :y0| {y0 / (x0 + 1)}].
+	phi2 _ X to: A1 evaluatingWithArguments: [:x0 :y0| {1 - x0 / y0}].
 	self assert: phi = phi2.
-	phiInv _ RationalMap from: A1 to: X evaluatingWithArguments: [:t| {1 - (t^2) / (1 + (t^2)). t*2 / (1 + (t^2))}].
+	phiInv _ A1 to: X evaluatingWithArguments: [:t| {1 - (t^2) / (1 + (t^2)). t*2 / (1 + (t^2))}].
 	self assert: (phi · phiInv) isIdentity.
 	self assert: phi isRegular not.
 	self assert: phi isDominant.
@@ -6884,7 +6883,7 @@ testRationalMapAffineExample
 	self assert: phiInv isDominant.
 "	self assert: phiInv isSurjective not"! !
 
-!AlgebraicGeometryTest methodsFor: 'rational maps' stamp: 'len 12/15/2021 13:23:23'!
+!AlgebraicGeometryTest methodsFor: 'rational maps' stamp: 'len 7/9/2022 14:09:45'!
 testRationalMapImage
 	| A X X2 f |
 	A _ AffineSpace new: #(x y) over: „.
@@ -6893,10 +6892,10 @@ testRationalMapImage
 	"circle centered at: (1,2):"
 	X2 _ A subscheme: A coordinateRing !! [:x :y| (x-1)^2 + ((y-2)^2) - 1].
 	"translation by (1,2):"
-	f _ RationalMap from: X to: A evaluatingWithArguments: [:x :y| {x+1. y+2}].
+	f _ X to: A evaluatingWithArguments: [:x :y| {x+1. y+2}].
 	self assert: f image = X2.
 	"global translation by (1,2):"
-	f _ RationalMap from: A to: A evaluatingWithArguments: [:x :y| {x+1. y+2}].
+	f _ A to: A evaluatingWithArguments: [:x :y| {x+1. y+2}].
 	self assert: (X apply: f) = X2! !
 
 !AlgebraicGeometryTest methodsFor: 'rational maps' stamp: 'len 6/7/2020 12:57:04'!
@@ -7008,14 +7007,14 @@ testTangentCone
 	J _ R * (R !! [:x :y :z| {y^2 + (x*z). y*z + (z^2). x*(z^2) - (y*(z^2))}]).
 	self assert: (X !! (0,0,0)) tangentCone asIdeal = J! !
 
-!AlgebraicGeometryTest methodsFor: 'tangent cone' stamp: 'len 12/15/2021 12:00:32'!
+!AlgebraicGeometryTest methodsFor: 'tangent cone' stamp: 'len 7/26/2022 13:43:08'!
 testTangentCone2
 	"M. Kreuzer, 'Computational Commutative Algebra', Example 6.5.27."
 	| R J T I |
 	R _ „ polynomialsIn: 4.
-	J _ R * (R generate: [:x1 :x2 :x3 :x4| {x1*x2 - (x3^2). x2^2 - (x4^5)}]).
+	J _ R * (R !! [:x1 :x2 :x3 :x4| {x1*x2 - (x3^2). x2^2 - (x4^5)}]).
 	T _ (R/J) spec tangentConeAt: (0,0,0,0).
-	I _ R * (R generate: [:x1 :x2 :x3 :x4| {x1*x2 - (x3^2). x2^2. x2*(x3^2). x3^4}]).
+	I _ R * (R !! [:x1 :x2 :x3 :x4| {x1*x2 - (x3^2). x2^2. x2*(x3^2). x3^4}]).
 	self assert: T asIdeal = I! !
 
 !AlgebraicGeometryTest methodsFor: 'tangent cone' stamp: 'len 5/23/2020 09:33:01'!
@@ -7033,15 +7032,15 @@ testTangentConeAndTangentSpace
 	"the tangent space is the whole plane:"
 	self assert: o tangentSpace = A! !
 
-!AlgebraicGeometryTest methodsFor: 'stalks' stamp: 'len 6/25/2022 11:49:51'!
+!AlgebraicGeometryTest methodsFor: 'stalks' stamp: 'len 7/26/2022 13:32:06'!
 testLocalIntegerRingSpecStalks
 	| R X p |
-	R _ ƒ @ 5.
+	R _ ƒ @ (ƒ * 5) .
 	X _ R spec.
-	p _ X !! (R * 0).
-	self assert: p localRing = „.
-	p _ X !! (R * 5).
-	self assert: p localRing = R! !
+	p _ R * 0.
+	self assert: X @ p = „.
+	p _ R * 5.
+	self assert: X @ p = R! !
 
 !AlgebraicGraphTest methodsFor: 'as yet unclassified' stamp: 'len 4/16/2022 13:08:30'!
 testAutomorphismsK3
@@ -7165,6 +7164,14 @@ testDivision
 	sqrt5 _ ComplexAlgebraicNumber sqrt: 5.
 	self assert: sqrt3 / sqrt5 / sqrt3 / sqrt5 = (1/5)! !
 
+!AlgebraicNumbersTest methodsFor: 'as yet unclassified' stamp: 'len 7/4/2022 13:22:08'!
+testMinimalPolynomial
+	"Example from 'Algebraic Number Theory: A Computational Approach' by William Stein (29 pp)."
+	| x alpha |
+	x _ „ polynomials x.
+	alpha _ 1 + 5 squareRoot / 2.
+	self assert: alpha minimalPolynomial = (x^2 - x - 1)! !
+
 !AlgebraicNumbersTest methodsFor: 'as yet unclassified' stamp: 'len 4/29/2018 23:50:51'!
 testMultiplicationByi
 	| a |
@@ -7202,6 +7209,17 @@ testRealDivision
 	sqrt3 _ RealAlgebraicNumber sqrt: 3.
 	sqrt5 _ RealAlgebraicNumber sqrt: 5.
 	self assert: (sqrt3 / sqrt5 / sqrt3 / sqrt5) asRational = (1/5)! !
+
+!AlgebraicNumbersTest methodsFor: 'as yet unclassified' stamp: 'len 7/4/2022 12:03:58'!
+testRealIntervalIntersects
+	| I J |
+	I _ RealInterval open: -1 closed: 0.
+	J _ RealInterval open: 0 closed: 1.
+	self assert: (I intersects: J) not.
+	J _ RealInterval closed: 0 open: 1.
+	self assert: (I intersects: J).
+	J _ RealInterval closed: -2 closed: -1.
+	self assert: (I intersects: J) not! !
 
 !AlgebraicNumbersTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2020 09:33:01'!
 testRealNormalizationBug
@@ -7320,9 +7338,9 @@ newChainComplexOver: aRing
 	X _ SimplicialComplex perform: #(kleinBottle realProjectivePlane torus) atRandom.
 	^ X chainComplexOver: aRing! !
 
-!ChainComplexTest methodsFor: 'as yet unclassified' stamp: 'len 4/28/2022 12:50:17'!
+!ChainComplexTest methodsFor: 'as yet unclassified' stamp: 'len 7/8/2022 11:06:40'!
 testChainComplexExample
-	self assert: self newChainComplex validate! !
+	self newChainComplex validate! !
 
 !ChainComplexTest methodsFor: 'as yet unclassified' stamp: 'len 4/23/2020 00:38:24'!
 testIdentity
@@ -7345,13 +7363,13 @@ testIdentityKernel
 	id _ C id.
 	self assert: id kernel isTrivial! !
 
-!ChainComplexTest methodsFor: 'as yet unclassified' stamp: 'len 4/28/2022 12:50:24'!
+!ChainComplexTest methodsFor: 'as yet unclassified' stamp: 'len 7/8/2022 11:06:52'!
 testShift
 	| C k i |
 	C _ self newChainComplex.
 	self assert: C >> 0 = C.
 	k _ (-5 to: 5) atRandom.
-	self assert: (C >> k) validate.
+	(C >> k) validate.
 	self assert: C >> k << k = C.
 	self assert: C >> k = (C << k negated).
 	self assert: (C >> k) minDegree = (C minDegree + k).
@@ -7359,12 +7377,12 @@ testShift
 	i _ (-5 to: 5) atRandom.
 	self assert: (C >> k at: i+k) = ((C at: i) * ((-1)^k))! !
 
-!CommutativeAlgebraTest methodsFor: 'affine ring' stamp: 'len 5/23/2020 09:33:01'!
+!CommutativeAlgebraTest methodsFor: 'affine ring' stamp: 'len 7/26/2022 13:43:15'!
 testAffineRingElementOperations
 	"Magma handbook example H105E1."
 	| R A x y |
 	R _ „ polynomialsIn: #(x y).
-	A _ R / (R generate: [:x1 :y1| {x1^2 - (y1^2) + 2. y1^3 - 5}]).
+	A _ R / (R !! [:x1 :y1| {x1^2 - (y1^2) + 2. y1^3 - 5}]).
 	x _ A x. y _ A y.
 	self assert: x^2 = (y^2 - 2).
 	"self assert: x reciprocal = ..."! !
@@ -7402,15 +7420,15 @@ testAffineRingIdealMembershipRandom
 	h _ I atRandomBits: 10.
 	self assert: (I includes: h)! !
 
-!CommutativeAlgebraTest methodsFor: 'affine ring' stamp: 'len 5/23/2020 09:33:01'!
+!CommutativeAlgebraTest methodsFor: 'affine ring' stamp: 'len 7/26/2022 13:43:49'!
 testAffineRingIdealOperations
 	"Magma handbook, example H105E2."
 	| R A I J |
 	R _ „ polynomialsIn: #(x y z) "ordering: #lex".
-	A _ R / (R generate: [:x :y :z| {x^2 - y + 1. y^3 + z - 1}]).
-	I _ A * (A generate: [:x :y :z| x^3*y*(z^2)]).
+	A _ R / (R !! [:x :y :z| {x^2 - y + 1. y^3 + z - 1}]).
+	I _ A * (A !! [:x :y :z| x^3*y*(z^2)]).
 	self deny: I isRadical.
-	J _ A * (A generate: [:x :y :z| {x*(y^2) + (x*y) - (x*z) + x. y*z. z^2 - z}]).
+	J _ A * (A !! [:x :y :z| {x*(y^2) + (x*y) - (x*z) + x. y*z. z^2 - z}]).
 	self assert: I radical = J. "this fails probably because PolynomialIdeal>>radical is broken"
 	"... and then some tests of primary decomposition"! !
 
@@ -7489,7 +7507,7 @@ testMultivariateDivisionExample4
 	self assert: (f divisionBy: {f1. f2}) printString = 'x^2y^3 - 2xy^2 = (y^2)(x^2y - 2x) + (0)(y^3 + 4) + 0'.
 	self assert: (f divisionBy: {f2. f1}) printString = 'x^2y^3 - 2xy^2 = (x^2)(y^3 + 4) + (0)(x^2y - 2x) + -4x^2 - 2xy^2'! !
 
-!CommutativeAlgebraTest methodsFor: 'groebner' stamp: 'len 4/28/2022 12:50:34'!
+!CommutativeAlgebraTest methodsFor: 'groebner' stamp: 'len 7/8/2022 11:07:01'!
 testGroebnerBasis: G ideal: I
 	"Test G is a Groebner basis of the ideal I."
 	| g division |
@@ -7503,7 +7521,7 @@ testGroebnerBasis: G ideal: I
 	"The multivariate division of any polynomial in I by G gives the remainder 0:"
 	division _ g divisionBy: G.
 	self assert: division remainder isZero.
-	self assert: division validate.
+	division validate.
 "	self assert: G reduced isReduced.
 	self assert: G minimal isMinimal"! !
 
@@ -7867,14 +7885,12 @@ testIdealIsPrime
 	I _ R * {x^2 - (y^2) - 1}.
 	self assert: I isPrime! !
 
-!CommutativeAlgebraTest methodsFor: 'ideal operations' stamp: 'len 5/23/2020 09:33:01'!
+!CommutativeAlgebraTest methodsFor: 'ideal operations' stamp: 'len 7/5/2022 12:21:34'!
 testIdealIsRadical
 	"Becker, Weispfenning, 'Groebner Bases', Exercise 8.21."
-	| R x y I |
+	| R I |
 	R _ „ polynomialsIn: #(x y).
-	x _ R x: #x.
-	y _ R x: #y.
-	I _ R * {x^2 + y. y^2 + x}.
+	I _ R !! [:x :y| R * {x^2 + y. y^2 + x}].
 	self assert: (R / I) dimension = 0.
 	self assert: I isRadical! !
 
@@ -7904,14 +7920,14 @@ testIdealMembership2
 	I _ Qxy * {x*x. y*2 + x}.
 	self assert: (I includes: (x + y) squared)! !
 
-!CommutativeAlgebraTest methodsFor: 'ideal operations' stamp: 'len 5/23/2020 09:33:01'!
+!CommutativeAlgebraTest methodsFor: 'ideal operations' stamp: 'len 7/5/2022 12:22:00'!
 testIdealMembership3
 	| Qx x y z w f g I |
 	Qx _ „ polynomialsIn: #(x y z w).
 	x _ Qx x.
 	y _ Qx y.
 	z _ Qx z.
-	w _ Qx x: #w.
+	w _ Qx x: 4.
 	f _ x*z-(y^2). "twisted cubic"
 	g _ z*(y*w-(z^2)) - (w*(x*w-(y*z))).
 	I _ Qx * {f. g}.
@@ -7955,12 +7971,12 @@ testIdealMembershipRandom: aRing
 	g _ I atRandomBits: 100.
 	self assert: (I includes: g)! !
 
-!CommutativeAlgebraTest methodsFor: 'ideal operations' stamp: 'len 5/23/2020 09:33:01'!
+!CommutativeAlgebraTest methodsFor: 'ideal operations' stamp: 'len 7/5/2022 12:22:25'!
 testIdealRadical
 	| R x y I J |
 	R _ „ polynomialsIn: #(x y).
-	x _ R x: #x.
-	y _ R x: #y.
+	x _ R x: 1.
+	y _ R x: 2.
 	I _ R * {x^3. y^2}.
 	J _ R * {x. y}.
 	self assert: I radical = J! !
@@ -7981,13 +7997,13 @@ testIdealRadicalZeroDimNotPerfectField
 	self deny: (I includes: x - y).
 	self assert: (I radical includes: x - y)! !
 
-!CommutativeAlgebraTest methodsFor: 'ideal operations' stamp: 'len 5/23/2020 09:33:01'!
+!CommutativeAlgebraTest methodsFor: 'ideal operations' stamp: 'len 7/5/2022 12:22:42'!
 testIdealRadicalZeroDimPerfectField
 	"Seidenberg algorithm works for 0-dimensional ideals over a perfect field." 
 	| R y z I J |
 	R _ „ polynomialsIn: #(y z).
-	y _ R x: #y.
-	z _ R x: #z.
+	y _ R x: 1.
+	z _ R x: 2.
 	I _ R * {y + z. z^2}.
 	J _ R * {y. z}.
 	self assert: I radical = J! !
@@ -8005,14 +8021,14 @@ testIdealSaturation
 	S _ R * {y. x^5}.
 	self assert: (I saturation: J) = S! !
 
-!CommutativeAlgebraTest methodsFor: 'ideal operations' stamp: 'len 6/7/2022 12:32:57'!
+!CommutativeAlgebraTest methodsFor: 'ideal operations' stamp: 'len 7/26/2022 13:44:06'!
 testLocalIdeals
 	"Magma handbook, example H104E4."
 	| R I J A M |
 	R _ „ polynomialsIn: #(x y z) ordering: #llex.
-	I _ R * (R generate: [:x :y :z| {x*y - z. x^3*(z^2) - (y^2). x*(z^3) - x - y}]).
-	J _ R * (R generate: [:x :y :z| {x*y - z. x^2*z - y. x*(z^3) - x - y}]).
-	A _ R * (R generate: [:x :y :z|
+	I _ R * (R !! [:x :y :z| {x*y - z. x^3*(z^2) - (y^2). x*(z^3) - x - y}]).
+	J _ R * (R !! [:x :y :z| {x*y - z. x^2*z - y. x*(z^3) - x - y}]).
+	A _ R * (R !! [:x :y :z|
 		{x^2 - (y^2) + (2*(x^3)*z).
 		x*y + (y^2) - (x^3*z).
 		y^3.
@@ -8020,7 +8036,7 @@ testLocalIdeals
 		y*z.
 		z^2}]).
 	self assert: I * J = A.
-	M _ R * (R generate: [:x :y :z| {x + y. y^2. z}]).
+	M _ R * (R !! [:x :y :z| {x + y. y^2. z}]).
 	self assert: I /\ J = M.
 	self deny: A = M.
 	self assert: A <= M! !
@@ -8746,17 +8762,6 @@ testRadicalAndIsSquarefree
 	n _ (-1000 to: 1000) atRandom.
 	self assert: n isSquarefree = (n radical = n)! !
 
-!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 6/4/2016 21:48'!
-testRealIntervalIntersects
-	| I J |
-	I _ RealInterval open: -1 closed: 0.
-	J _ RealInterval open: 0 closed: 1.
-	self assert: (I intersects: J) not.
-	J _ RealInterval closed: 0 open: 1.
-	self assert: (I intersects: J).
-	J _ RealInterval closed: -2 closed: -1.
-	self assert: (I intersects: J) not! !
-
 !MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 3/3/2016 23:22'!
 testWord
 	| x y |
@@ -8828,7 +8833,7 @@ testIsSemisimple
 	V _ ƒ asIdeal. "because Z is not artinian"
 	self assert: V isSemisimple not! !
 
-!ModuleTest methodsFor: 'quotient and complement' stamp: 'len 3/10/2021 14:12:48'!
+!ModuleTest methodsFor: 'quotient and complement' stamp: 'len 6/29/2022 07:07:43'!
 testQuotientGolay1
 	"Construct the quotient (Z/3Z)^11 by the Golay code.
 	(Example from Magma H28E10.)"
@@ -8837,9 +8842,9 @@ testQuotientGolay1
 	S _ V span: {(1,0,0,0,0,0,1,1,1,1,1). (0,1,0,0,0,0,0,1,2,2,1). (0,0,1,0,0,0,1,0,1,2,2). (0,0,0,1,0,0,2,1,0,1,2). (0,0,0,0,1,0,2,2,1,0,1). (0,0,0,0,0,1,1,2,2,1,0)}.
 	Q _ V/S.
 	self assert: Q rank = 5.
-	self assert: Q degree = 5! !
+	self assert: Q ambient rank = 5! !
 
-!ModuleTest methodsFor: 'quotient and complement' stamp: 'len 5/23/2020 09:34:55'!
+!ModuleTest methodsFor: 'quotient and complement' stamp: 'len 6/29/2022 07:07:55'!
 testQuotientGolay2
 	"Construct the quotient (Z/3Z)^11 by the Golay code as a subspace (the orthogonal complement of the Golay code).
 	(Example from Magma H28E11.)"
@@ -8848,7 +8853,7 @@ testQuotientGolay2
 	S _ V span: ({(1,0,0,0,0,0,1,1,1,1,1). (0,1,0,0,0,0,0,1,2,2,1). (0,0,1,0,0,0,1,0,1,2,2). (0,0,0,1,0,0,2,1,0,1,2). (0,0,0,0,1,0,2,2,1,0,1). (0,0,0,0,0,1,1,2,2,1,0)} collect: [:each| each over: V scalars]).
 	Q _ S complement.
 	self assert: Q rank = 5.
-	self assert: Q degree = 11! !
+	self assert: Q ambient rank = 11! !
 
 !ModuleTest methodsFor: 'private' stamp: 'len 4/21/2020 05:52:54'!
 newFreeModule
@@ -8951,18 +8956,18 @@ testAntigradedRevlexOrdering
 	self assert: (x*z) > (y*z).
 	self assert: (y*z) > (z^2)! !
 
-!MonomialTest methodsFor: 'as yet unclassified' stamp: 'len 11/22/2016 08:31:09'!
+!MonomialTest methodsFor: 'as yet unclassified' stamp: 'len 7/4/2022 12:29:28'!
 testHash
 	| m1 m2 |
-	m1 _ Monomial exponents: #(1 2 0).
-	m2 _ Monomial exponents: #(1 2 0 0 0 0 0).
+	m1 _ Monomial exponents: #(1 2 0) parent: nil.
+	m2 _ Monomial exponents: #(1 2 0 0 0 0 0) parent: nil.
 	self assert: m1 hash = m2 hash! !
 
-!MonomialTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2020 09:34:55'!
+!MonomialTest methodsFor: 'as yet unclassified' stamp: 'len 7/26/2022 13:44:21'!
 testLocalMonomialOrderings
 	"Examples from Magma handbook."
 	| f |
-	f _ ƒ polynomialsIn: #(x y z) ordering: #llex :: generate: [:x :y :z| 1 + x + y + z + (x^7) + (x^8*(y^7)) + (y^5) + (z^10)].
+	f _ (ƒ polynomialsIn: #(x y z) ordering: #llex) !! [:x :y :z| 1 + x + y + z + (x^7) + (x^8*(y^7)) + (y^5) + (z^10)].
 	self assert: f printString = '1 + x + x^7 + y + y^5 + x^8y^7 + z + z^{10}'.
 	self assert: (f orderedBy: #lgrevlex) printString = '1 + z + y + x + y^5 + x^7 + z^{10} + x^8y^7'! !
 
@@ -9343,14 +9348,6 @@ testMinimalPolynomial2
 	a _ K x.
 	self assert: a squared = (K !! 5).
 	alpha _ (1 + a) / 2.
-	self assert: alpha minimalPolynomial = (x^2 - x - 1)! !
-
-!NumberFieldTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2020 09:33:01'!
-testMinimalPolynomial3
-	"Example from 'Algebraic Number Theory: A Computational Approach' by William Stein (29 pp)."
-	| x alpha |
-	x _ „ polynomials x.
-	alpha _ 1 + 5 squareRoot / 2.
 	self assert: alpha minimalPolynomial = (x^2 - x - 1)! !
 
 !NumberFieldTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2020 09:33:01'!
@@ -9823,7 +9820,7 @@ testExactDivisionZ
 	self assert: f * g / g = f.
 	self assert: f * g / f = g! !
 
-!PolynomialTest methodsFor: 'division' stamp: 'len 4/28/2022 12:50:39'!
+!PolynomialTest methodsFor: 'division' stamp: 'len 7/8/2022 11:07:09'!
 testMultivariateDivision
 	"Example from Cox IVA 62 p."
 	| Zxy x y f f1 f2 division |
@@ -9836,9 +9833,9 @@ testMultivariateDivision
 	division _ f divisionBy: {f1. f2}.
 	self assert: division quotients = {y. y one negated}.
 	self assert: division remainder = (y one * 2).
-	self assert: division validate! !
+	division validate! !
 
-!PolynomialTest methodsFor: 'division' stamp: 'len 4/28/2022 12:50:43'!
+!PolynomialTest methodsFor: 'division' stamp: 'len 7/8/2022 11:07:14'!
 testMultivariateDivision2
 	"Example from Cox IVA 63 p."
 	| Zxy x y f f1 f2 division |
@@ -9851,9 +9848,9 @@ testMultivariateDivision2
 	division _ f divisionBy: {f1. f2}.
 	self assert: division quotients = {x+y. y one}.
 	self assert: division remainder = (x+y+1).
-	self assert: division validate! !
+	division validate! !
 
-!PolynomialTest methodsFor: 'division' stamp: 'len 4/28/2022 12:50:48'!
+!PolynomialTest methodsFor: 'division' stamp: 'len 7/8/2022 11:07:21'!
 testMultivariateDivision3
 	"Example from Cox IVA 67 p."
 	| Zxy x y f f1 f2 division |
@@ -9866,9 +9863,9 @@ testMultivariateDivision3
 	division _ f divisionBy: {f2. f1}.
 	self assert: division quotients = {x+1. x}.
 	self assert: division remainder = (x*2+1).
-	self assert: division validate! !
+	division validate! !
 
-!PolynomialTest methodsFor: 'division' stamp: 'len 4/28/2022 12:50:52'!
+!PolynomialTest methodsFor: 'division' stamp: 'len 7/8/2022 11:07:28'!
 testPseudoDivision1
 	| Zxy x y division |
 	Zxy _ ƒ polynomialsIn: #(x y).
@@ -9877,9 +9874,9 @@ testPseudoDivision1
 	division _ x^2 + (y^2) pseudoDivisionBy: y - x in: 2.
 	self assert: division quotient asMultivariate = (x + y).
 	self assert: division remainder asMultivariate = (x^2 * 2).
-	self assert: division validate! !
+	division validate! !
 
-!PolynomialTest methodsFor: 'division' stamp: 'len 4/28/2022 12:57:06'!
+!PolynomialTest methodsFor: 'division' stamp: 'len 7/8/2022 11:07:35'!
 testPseudoDivision2
 	| Zxy x y division |
 	Zxy _ „ polynomialsIn: #(x y).
@@ -9888,9 +9885,9 @@ testPseudoDivision2
 	division _ x^2 + (y^2) pseudoDivisionBy: (y-x)*2 in: 2.
 	self assert: division quotient asMultivariate = ((x+y) * 2).
 	self assert: division remainder asMultivariate = (x^2 * 8).
-	self assert: division validate! !
+	division validate! !
 
-!PolynomialTest methodsFor: 'division' stamp: 'len 4/28/2022 12:57:14'!
+!PolynomialTest methodsFor: 'division' stamp: 'len 7/8/2022 11:07:46'!
 testPseudoDivision3
 	| Zxy x y division |
 	Zxy _ ƒ polynomialsIn: #(x y).
@@ -9899,21 +9896,21 @@ testPseudoDivision3
 	division _ x^2 + (y^2) pseudoDivisionBy: y - x in: 2.
 	self assert: division quotient asMultivariate = (x + y).
 	self assert: division remainder asMultivariate = (x^2 * 2).
-	self assert: division validate.
+	division validate.
 
 	division _ x^2 + (y^2) pseudoDivisionBy: x - y in: 2.
 	self assert: division quotient asMultivariate = (x + y) negated.
 	self assert: division remainder asMultivariate = (x^2 * 2).
-	self assert: division validate! !
+	division validate! !
 
-!PolynomialTest methodsFor: 'division' stamp: 'len 4/28/2022 12:57:18'!
+!PolynomialTest methodsFor: 'division' stamp: 'len 7/8/2022 11:07:54'!
 testPseudoDivision: R
 	| Rx f g division |
 	Rx _ R polynomials.
 	f _ Rx atRandomBits: 50 maxDegree: 5 atRandom.
 	[g _ Rx atRandomBits: 50 maxDegree: 5 atRandom. g isZero] whileTrue.
 	division _ f pseudoDivisionBy: g.
-	self assert: division validate! !
+	division validate! !
 
 !PolynomialTest methodsFor: 'division' stamp: 'len 5/23/2020 09:33:01'!
 testPseudoDivisionOverPolynomialRing1
@@ -9923,7 +9920,7 @@ testPseudoDivisionOverPolynomialRing1
 testPseudoDivisionOverPolynomialRing2
 	self testPseudoDivision: („ polynomialsIn: 2)! !
 
-!PolynomialTest methodsFor: 'division' stamp: 'len 4/28/2022 12:57:23'!
+!PolynomialTest methodsFor: 'division' stamp: 'len 7/8/2022 11:08:00'!
 testPseudoDivisionUnivariate
 	| Zx x division |
 	Zx _ ƒ polynomials.
@@ -9932,16 +9929,16 @@ testPseudoDivisionUnivariate
 	self assert: division quotient = (x*3 - 1).
 	self assert: division remainder = (x*7 + 10).
 	self assert: division delta = 2.
-	self assert: division validate! !
+	division validate! !
 
-!PolynomialTest methodsFor: 'division' stamp: 'len 4/28/2022 12:57:27'!
+!PolynomialTest methodsFor: 'division' stamp: 'len 7/8/2022 11:08:07'!
 testPseudoDivisionUnivariate2
 	"Example from Zippel book"
 	| Zx a b |
 	Zx _ ƒ polynomials.
 	a _ Zx coefficients: #(1 0 1 0 -3 -3 8 2 -5) reversed.
 	b _ Zx coefficients: #(3 0 5 0 -4 -9 21) reversed.
-	^ self assert: (a pseudoDivisionBy: b) validate! !
+	(a pseudoDivisionBy: b) validate! !
 
 !PolynomialTest methodsFor: 'division' stamp: 'len 5/23/2020 09:34:55'!
 testPseudoDivisionZ
@@ -10775,14 +10772,14 @@ testAssociatedBilinearForm2
 	self assert: (B value: {(1,1). (1/2,2)}) = (19/4).
 	self assert: B depolarization = Q! !
 
-!QuadraticFormTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2022 12:30:27'!
+!QuadraticFormTest methodsFor: 'as yet unclassified' stamp: 'len 7/26/2022 13:44:33'!
 testDiscriminant
 	"Test the discriminant of a binary quadratic form matches the definition in Magma."
 	| a b c f Q |
 	a _ (-10 to: 10) atRandom.
 	b _ (-10 to: 10) atRandom.
 	c _ (-10 to: 10) atRandom.
-	f _ („ polynomialsIn: #(x y)) generate: [:x :y| x^2*a + (x*y*b) + (y^2*c)].
+	f _ („ polynomialsIn: #(x y)) !! [:x :y| x^2*a + (x*y*b) + (y^2*c)].
 	Q _ f asQuadraticForm.
 	self assert: Q discriminant = (b^2 - (4*a*c))! !
 
@@ -11512,35 +11509,35 @@ testLocalHomomorphism
 	self assert: f isLocal
 ! !
 
-!RingTest methodsFor: 'local rings' stamp: 'len 12/22/2021 14:20:33'!
+!RingTest methodsFor: 'local rings' stamp: 'len 7/25/2022 12:07:59'!
 testValuationRing1
 	| V |
-	V _ ƒ @ 5.
+	V _ ƒ @ (ƒ * 5).
 	self testRing: V.
 	self testRingHomomorphism: V -> „! !
 
-!RingTest methodsFor: 'local rings' stamp: 'len 12/22/2021 14:20:38'!
+!RingTest methodsFor: 'local rings' stamp: 'len 7/25/2022 12:08:13'!
 testValuationRing2
 	| V |
-	V _ ƒ @ 5.
+	V _ ƒ @ (ƒ * 5).
 	self testDVR: V! !
 
-!RingTest methodsFor: 'localizations' stamp: 'len 12/22/2021 14:19:40'!
+!RingTest methodsFor: 'localizations' stamp: 'len 7/23/2022 13:19:01'!
 testLocalizationInclusions
 	| Z2 Z3 Z6 |
-	Z2 _ ƒ @ 2.
-	Z3 _ ƒ @ 3.
-	Z6 _ ƒ @ 6. "<- this is not a prime ideal, it shouldn't be allowed"
+	Z2 _ ƒ @ (ƒ * 2).
+	Z3 _ ƒ @ (ƒ * 3).
+	Z6 _ ƒ @ (ƒ * 6). "<- this is not a prime ideal, it shouldn't be allowed"
 	self assert: Z6 >= Z2.
 	self assert: Z6 >= Z3.
 	self deny: Z3 >= Z2.
 	self deny: Z2 >= Z3.
 	self deny: Z2 >= Z6! !
 
-!RingTest methodsFor: 'localizations' stamp: 'len 12/22/2021 14:19:49'!
+!RingTest methodsFor: 'localizations' stamp: 'len 7/23/2022 13:19:11'!
 testLocalizationMaximalIdeal
 	| Z2 |
-	Z2 _ ƒ @ 2.
+	Z2 _ ƒ @ (ƒ * 2).
 	self assert: Z2 maximalIdeal = (Z2 * (Z2 !! 2))! !
 
 !RingTest methodsFor: 'localizations' stamp: 'len 12/22/2021 14:20:01'!
@@ -11575,10 +11572,10 @@ testLocalizationOfModularIntegers3
 	"everything not in P maps to a unit:"
 	R do: [:each| self assert: ((P includes: each) or: [(phi value: each) isUnit])]! !
 
-!RingTest methodsFor: 'localizations' stamp: 'len 12/22/2021 14:20:24'!
+!RingTest methodsFor: 'localizations' stamp: 'len 7/23/2022 13:19:19'!
 testLocalizationOfZAt2
 	| L |
-	L _ ƒ @ 2.
+	L _ ƒ @ (ƒ * 2).
 	self assert: „ !! (L !! (1/3)) = (1/3).
 	self should: [L !! (3/2)] raise: Error.
 	self assert: „ !! (L !! 2) = 2.
@@ -12026,12 +12023,12 @@ testStanleyReisnerIdealAndFacetIdealDuality
 	X _ SimplicialComplex on: (1 to: 5) faces: #((1 2 4) (1 2 5) (2 3) (3 4)).
 	self assert: X dual stanleyReisnerIdeal = X complement facetIdeal! !
 
-!SimplicialComplexTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2020 09:33:01'!
+!SimplicialComplexTest methodsFor: 'as yet unclassified' stamp: 'len 7/26/2022 13:44:41'!
 testStanleyReisnerRing
 	| X R |
 	X _ SimplicialComplex faces: #((0 1) (1 2) (2 3) (3 0)).
 	R _ „ polynomialsIn: #(x y z w).
-	self assert: X stanleyReisnerRing relations generators asSet = (R generate: [:x :y :z :w| {y*w. x*z}]) asSet! !
+	self assert: X stanleyReisnerRing relations generators asSet = (R !! [:x :y :z :w| {y*w. x*z}]) asSet! !
 
 !SimplicialComplexTest methodsFor: 'as yet unclassified' stamp: 'len 4/26/2022 08:04:52'!
 testTorus
