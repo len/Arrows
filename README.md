@@ -3,10 +3,10 @@ A computational algebra system in [Cuis Smalltalk](https://github.com/Cuis-Small
 
 The goal of the project is to build an extensible and mathematically rigorous environment where one can construct mathematical objects (such as groups, rings, modules, chain complexes, schemes, sheaves, etc) and operate with them, their morphisms and their elements.
 
-Some of the objects currently implemented include: permutation groups, linear groups, finite rings (Z/mZ, Z/(p^k)Z, Galois rings) and finite fields, polynomial rings over arbitrary commutative rings, affine algebras, number fields, function fields, finitely presented modules over arbitrary rings, bounded (co)chain complexes (of modules, sheaves of modules, or other complexes), finite (finitely generated as modules) associative algebras, finite distributive (not necessarily associative) algebras, schemes (affine schemes, and closed subschemes of affine or projective space), and sheaves of modules.
+Some of the objects currently implemented include: permutation groups, linear groups, finite rings (ℤ/mℤ, ℤ/(p^k)ℤ, Galois rings) and finite fields, polynomial rings over arbitrary commutative rings, affine algebras, number fields, function fields, finitely presented modules over arbitrary rings, bounded (co)chain complexes (of modules, sheaves of modules, or other complexes), finite (finitely generated as modules) associative algebras, finite distributive (not necessarily associative) algebras, schemes (affine schemes, and closed subschemes of affine or projective space), and sheaves of modules.
 
 ### Where to start?
-The most fundamental classes of the system are *Domain* and *Morphism*, corresponding to *objects* and *arrows* of category theory. Most domains in the system are algebraic structures such as groups, rings and modules.
+The most fundamental classes of the system are *Domain* and *Morphism*, corresponding to *objects* and *arrows* of category theory. Most objects in the system are algebraic structures such as groups, rings and modules.
 
 ### Smalltalk
 The system is based on Smalltalk-80, in particular Cuis Smalltalk. It is multiplatform and runs with the OpenSmalltalk Virtual Machine. Conveniently, Smalltalk-80 comes equipped with arbitrary precision integers and rationals.
