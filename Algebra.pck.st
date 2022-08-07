@@ -1,4 +1,4 @@
-'From Cuis 6.0 [latest update: #5438] on 7 August 2022 at 10:49:30 am'!
+'From Cuis 6.0 [latest update: #5438] on 7 August 2022 at 12:18:23 pm'!
 'Description This package implements among other things: permutation groups, linear groups, modular integers, finite fields, Galois rings, polynomial rings, affine algebras, number fields, function fields, p-adic fields, power series rings, finitely presented modules, (co)chain complexes, finite (finitely generated as modules) associative algebras, finite distributive (not necessarily associative) algebras, schemes, and sheaves of modules.
 
 References:
@@ -9,9 +9,12 @@ References:
 [BF15] Bini, G.; Flamini, F. "Finite commutative rings and their applications" (2015)
 [Coh96] Henri Cohen, "A Course in Computational Algebraic Number Theory" (1996)
 [CLO97] David Cox; John Little; Donals O''Shea; "Ideals, Varieties and Algorithms", UTM, Springer, 1997
+[CLO05] David Cox; John Little; Donals O''Shea; "Using Algebraic Geometry", GTM, Springer, 2005
 [DK02] Harm Derksen; Gregor Kemper; "Computational Invariant Theory"
 [Dix82] John D. Dixon, "Exact Solution of Linear Equations Using p-Adic Expansions" (1982)
 [Eis95] David Eisenbud; "Commutative Algebra With a View Towards Algebraic Geometry", GTM 150, Springer, 1995
+[EH99] David Eisenbud; Joe Harris; "The Geometry of Schemes", GTM 197, Springer, 1999
+[ESS02] David Eisenbud; D. Grayson; M. Stillman; B. Sturmfels; "Computations in Algebraic Geometry with Macaulay 2" (2002)
 [EIP00] Michele Elia; J. Carmelo Interlando; Reginaldo Palazzo Jr.; "Computing the reciprocal of units in Galois rings" (2000)
 [EH19] Christian Eder; Tommy Hofmann; "Efficient Groebner Bases Computation over Principal Ideal Rings" (2019)
 [EPP18] Christian Eder; Gerhard Pfister; Adrian Popescu; "Standard Bases over Euclidean Domains" (2018)
@@ -21,11 +24,13 @@ References:
 [Gal78] Steven Galovich, "Unique Factorization Rings with Zero Divisors" (1978)
 [GM73] Ganske, G.; McDonald, B.R. "Finite local rings". Rocky Mountain J. Math. 3 (1973), no. 4, 521-540
 [GP08] Gert-Martin Greuel; Gerhard Pfister; "A Singular Introduction to Commutative Algebra" (2008)
+[Har77] Robin Hartshorne; "Algebraic Geometry", GTM 52, Springer, 1977
 [HEO05] Derek F. Holt; B. Eick; E. A. O''Brien; "Handbook of Computational Group Theory" (2005)
 [HH11] Jurgen Herzog, Takayuki Hibi, "Monomial Ideals" (2011)
 [How86] John A. Howell, "Spans in the module (Z/mZ)^s" (1986)
-[] Mitsuo Kanemitsu; Ken-ichi Yoshida; "Euclidean rings" (1986)
+[KY86] Mitsuo Kanemitsu; Ken-ichi Yoshida; "Euclidean rings" (1986)
 [KSWZ17] Deepak Kapur, Yao Sun, Dingkang Wang, Jie Zhou, "The Generalized Rabinowitsch Trick" (2017)
+[Kem11] Gregor Kemper; "A Course in Commutative Algebra", GTM 256, Springer, 2011
 [Mat11] Keith Matthews, "Solving AX=B using the Hermite normal form" (2011)
 [McC42] N. H. McCoy; "Remarks on divisors of zero" (1942)
 [McD74] Bernard R. McDonald; "Finite Rings with Identity" (1974)
@@ -34,29 +39,23 @@ References:
 [Pos17] Sebastian Posur; "Linear Systems over Localizations of Rings" (2017)
 [SY09] Michael Sagraloff, Chee K. Yap, "An Efficient and Exact Subdivision Algorithm for Isolating Complex Roots of a Polynomial and its Complexity Analysis" (2009)
 [Sam71] Pierre Samuel, "About Euclidean Rings", J. Algebra, 19:282-301, 1971
+[San11] Metod Saniga; "Projective Lines over Finite Rings", 2011
+[Sho09] Victor Shoup; "A Computational Introduction to Number Theory and Algebra" (2009)
 [Sim70], Charles C. Sims, "Computational methods in the study of permutation groups" (1970)
 [SM98] Arne Storjohann, Thom Mulders, "Fast algorithms for linear algebra modulo N" (1998)
 [Sto00] Arne Storjohann, "Algorithms for Matrix Canonical Forms" (2000)
 [Vak17] Ravi Vakil, "The Rising Sea: Foundations of Algebraic Geometry" (2017)
 
-[] Thomas Becker; "Groebner Bases: A Computational Approach"
-[] David Cox; John Little; Donals O''Shea; "Using Algebraic Geometry"
 [] John Cremona; "Algorithms for Modular Elliptic Curves"
-[] David Eisenbud; D. Grayson; M. Stillman; B. Sturmfels; "Computations in Algebraic Geometry with Macaulay 2"
-[EH99] David Eisenbud; Joe Harris; "The Geometry of Schemes", GTM 197, Springer, 1999
 [] Joachim von zur Gathen; Jurgen Gerhard; "Modern Computer Algebra"
-[] Robin Hartshorne; "Algebraic Geometry", GTM 52, Springer, 1977
-[] Gregor Kemper; "A Course in Commutative Algebra", GTM 256, Springer, 2011
 [] Dimitry Kozlov; "Combinatorial Algebraic Topology"
 [] Martin Kreuzer; "Computational Commutative Algebra"
 [] Henri Lombardi; Claude Quitte; "Commutative Algebra: Constructive Methods, Finite Projective Modules"
 [] Ezra Miller; Bernd Sturmfels; "Combinatorial Commutative Algebra"
 [] Qing Liu; "Algebraic Geometry and Arithmetic Curves"
-[] Metod Saniga; "Projective Lines over Finite Rings", 2011
-[] Victor Shoup; "A Computational Introduction to Number Theory and Algebra"
 [] Joseph. H. Silverman; "The Arithmetic of Elliptic Curves"
 '!
-!provides: 'Algebra' 1 30!
+!provides: 'Algebra' 1 31!
 !requires: 'Collections-TwoAndEightByteArrays' 1 1 nil!
 !requires: 'Graphs' 1 0 nil!
 !requires: 'Collections-Extras' 1 1 nil!
