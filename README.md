@@ -1,9 +1,9 @@
 # Arrows
 A computational algebra system in [Cuis Smalltalk](https://github.com/Cuis-Smalltalk/Cuis-Smalltalk-Dev).
 
-The goal of the project is to build an extensible and mathematically rigorous environment where one can construct mathematical objects (such as groups, rings, modules, chain complexes, schemes, sheaves, etc) and operate with them, their morphisms and their elements.
+The goal of the project is to build an extensible and mathematically rigorous environment where one can construct mathematical objects (such as groups, rings, modules, etc) and operate with them, their morphisms and their elements.
 
-Some of the objects currently implemented include: permutation groups, linear groups, finite rings (ℤ/mℤ, ℤ/(p^k)ℤ, Galois rings) and finite fields, polynomial rings over arbitrary commutative rings, affine algebras, number fields, function fields, finitely presented modules over arbitrary rings, bounded (co)chain complexes (of modules, sheaves of modules, or other complexes), finite (finitely generated as modules) associative algebras, finite distributive (not necessarily associative) algebras, schemes (affine schemes, and closed subschemes of affine or projective space), and sheaves of modules.
+Some of the objects currently implemented include: finite rings (ℤ/mℤ, ℤ/(p^k)ℤ, Galois rings) and finite fields, polynomial rings over arbitrary commutative rings, affine algebras, number fields, function fields, finitely presented modules over arbitrary rings, finite (finitely generated as modules) associative algebras, finite distributive (not necessarily associative) algebras, schemes (affine schemes, and closed subschemes of affine or projective space), coherent sheaves, and bounded (co)chain complexes in arbitrary abelian categories (e.g. modules, coherent sheaves, or recursively other categories of complexes).
 
 ### Where to start?
 The most fundamental classes of the system are *Domain* and *Morphism*, corresponding to *objects* and *arrows* of category theory. Most objects in the system are algebraic structures such as groups, rings and modules.
@@ -14,9 +14,7 @@ The system is based on Smalltalk-80, in particular Cuis Smalltalk. It is multipl
 As many systems based on Smalltalk-80, it comes complete with an environment for interactive programming, blurring the distinction between user and programmer. It contains a complete development environment that allows you to browse classes, inspect objects, debug, and change anything 'live' while it is running.
 
 ### Notation
-The notation is intended to be as close as possible to standard mathematical notation, yet adhering completly to Smalltalk syntax. For this we use unicode in Smalltalk code. Special characters can be input by typing the backslash character followed by the character name, similar to LaTeX. For example, ℤ can be input as \\Z, α as \\alpha and ⊗ as \\otimes.
-
-Groups use multiplicative notation with the &centerdot; (\\cdot) binary operator, and the same operator is used for composition of morphisms, so that automorphisms can seemlessly be group elements. Rings and modules use operator \* for multiplication, and ring elements also support the &centerdot; operator as a synonym in order to seemlessly be members of groups of ring units. The ! operator is used for coercion. The ^ operator is used for exponentiation as well as conjugation by group elements, and for creating free modules. &oplus; (\\oplus) is used for direct sums, &otimes; (\\otimes) for tensor products, &times; (\\times) for cartesian product, direct product of groups, ring products, and in general for categorical products. Intersection or meet is implemented with the /\\ operator (as well as pullback of morphisms), and union or join with \\/ (as well as pushout of morphisms). The double arrow =\> is used for the internal hom functor, -\> for accessing canonical morphisms between objects, and the branching arrows -\< and \>- are used for retrieving canonical projections and coprojections in objects that were constructed as products or coproducts.
+The notation is intended to be as close as possible to standard mathematical notation, yet adhering completly to Smalltalk syntax. For this we use unicode in Smalltalk code. Special characters can be input by typing backslash followed by the character name, similar to LaTeX. For example, ℤ can be input as \\Z, α as \\alpha and ⊗ as \\otimes.
 
 ### Tests
 Unit tests are used to verify the algebraic structures behave as they are supposed to. The simplest tests verify *axioms*. For example, a test for a ring would create random elements of the ring and verify associativity, distributivity, etc. Other tests verify *theorems*: given a theorem, the test builds random examples and corner cases and verifies the theorem holds in those particular cases.
@@ -67,6 +65,4 @@ Unit tests are used to verify the algebraic structures behave as they are suppos
 \[Vak17\] Ravi Vakil, "The Rising Sea: Foundations of Algebraic Geometry" (2017)  
 
 Two other invaluable references are [the nLab](https://ncatlab.org/nlab/show/HomePage) and [The Stacks Project](https://stacks.math.columbia.edu/browse).
-
-
 
