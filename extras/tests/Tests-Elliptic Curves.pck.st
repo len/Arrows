@@ -1,17 +1,17 @@
-'From Cuis 6.0 [latest update: #5053] on 16 April 2022 at 2:13:09 pm'!
+'From Cuis 6.0 [latest update: #5434] on 5 August 2022 at 9:27:56 am'!
 'Description '!
 !provides: 'Tests-Elliptic Curves' 1 1!
 !requires: 'Elliptic Curves' 1 2 nil!
-SystemOrganization addCategory: #'Tests-Elliptic Curves'!
+SystemOrganization addCategory: 'Tests-Elliptic Curves'!
 
 
-!classDefinition: #EllipticCurvesTest category: #'Tests-Elliptic Curves'!
+!classDefinition: #EllipticCurvesTest category: 'Tests-Elliptic Curves'!
 TestCase subclass: #EllipticCurvesTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Elliptic Curves'!
-!classDefinition: 'EllipticCurvesTest class' category: #'Tests-Elliptic Curves'!
+!classDefinition: 'EllipticCurvesTest class' category: 'Tests-Elliptic Curves'!
 EllipticCurvesTest class
 	instanceVariableNames: ''!
 
@@ -36,12 +36,12 @@ testCInvariants
 testGroupLaw
 	| E P Q O |
 	E _ EllipticCurve cremona389a1.
-	P _ E pointAt: („ tuple: #(-1 1)).
-	Q _ E pointAt: („ tuple: #(0 -1)).
-	O _ E pointAt: („ tuple: #(0 1 0)).
-	self assert: P+Q = (E pointAt: („ tuple: #(4 8))).
-	self assert: P-Q = (E pointAt: („ tuple: #(1 0))).
-	self assert: 3*P - (5*Q) = (E pointAt: („ tuple: {328/361. -2800/6859})).
+	P _ E pointAt: (â„š tuple: #(-1 1)).
+	Q _ E pointAt: (â„š tuple: #(0 -1)).
+	O _ E pointAt: (â„š tuple: #(0 1 0)).
+	self assert: P+Q = (E pointAt: (â„š tuple: #(4 8))).
+	self assert: P-Q = (E pointAt: (â„š tuple: #(1 0))).
+	self assert: 3*P - (5*Q) = (E pointAt: (â„š tuple: {328/361. -2800/6859})).
 	self assert: O+P = P.
 	self assert: P+O = P.
 	self assert: P-P = O! !
@@ -56,6 +56,6 @@ testPointAtX
 !EllipticCurvesTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2020 09:34:55'!
 testWeierstrassEquationInvariants
 	| W |
-	W _ WeierstrassEquation coefficients: (ƒ ^ 5 atRandomBits: 100).
+	W _ WeierstrassEquation coefficients: (â„¤ ^ 5 atRandomBits: 100).
 	self assert: W b8 * 4 = (W b2 * W b6 - W b4 squared).
 	self assert: W discriminant * 1728 = (W c4 ^ 3 - W c6 squared)! !

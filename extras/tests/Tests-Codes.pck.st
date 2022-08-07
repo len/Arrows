@@ -1,17 +1,17 @@
-'From Cuis 6.0 [latest update: #5053] on 16 April 2022 at 2:24:48 pm'!
+'From Cuis 6.0 [latest update: #5434] on 5 August 2022 at 9:27:51 am'!
 'Description '!
 !provides: 'Tests-Codes' 1 0!
 !requires: 'Codes' 1 0 nil!
-SystemOrganization addCategory: #'Tests-Codes'!
+SystemOrganization addCategory: 'Tests-Codes'!
 
 
-!classDefinition: #CodesTest category: #'Tests-Codes'!
+!classDefinition: #CodesTest category: 'Tests-Codes'!
 TestCase subclass: #CodesTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Codes'!
-!classDefinition: 'CodesTest class' category: #'Tests-Codes'!
+!classDefinition: 'CodesTest class' category: 'Tests-Codes'!
 CodesTest class
 	instanceVariableNames: ''!
 
@@ -55,7 +55,7 @@ testDirectSumCode
 	| C1 C2 C x y z |
 	C1 _ self newBinaryCode.
 	C2 _ self newBinaryCode.
-	C _ C1 ê C2.
+	C _ C1 ‚äï C2.
 	x _ C1 atRandom.
 	y _ C2 atRandom.
 	self assert: (C includes: x, y).
@@ -66,7 +66,7 @@ testDirectSumCode
 !CodesTest methodsFor: 'as yet unclassified' stamp: 'len 8/2/2020 18:35:34'!
 testDual
 	| C |
-	C _ Code on: (É/2^5 span: {(0,0,0,0,0) % 2. (1,1,1,1,1) % 2}).
+	C _ Code on: (‚Ñ§/2^5 span: {(0,0,0,0,0) % 2. (1,1,1,1,1) % 2}).
 	self assert: C dual size = (C space size / C size).
 	C dual do: [:v|
 		"check each codeword of the dual has an even number of 1's, because it must be perpendicular to 11111 (and 00000 of course)."
@@ -150,7 +150,7 @@ testHamming844
 	self assert: C rank = 4.
 	self assert: C minimumDistance = 4.
 	self assert: C dual minimumDistance = 4.
-	P _ É polynomialsIn: 2.
+	P _ ‚Ñ§ polynomialsIn: 2.
 	x _ P x. y _ P y.
 	self assert: C weightEnumerator = (x^8 + (x*y^4*14) + (y^8))! !
 
@@ -187,7 +187,7 @@ testProductCode
 	| C1 C2 C |
 	C1 _ self newBinaryCode.
 	C2 _ self newBinaryCode.
-	C _ C1 ◊ C2.
+	C _ C1 √ó C2.
 	self assert: C length = (C1 length * C2 length).
 	self assert: C dimension = (C1 dimension * C2 dimension)! !
 
@@ -231,7 +231,7 @@ testReedMuller4
 !CodesTest methodsFor: 'as yet unclassified' stamp: 'len 8/2/2020 18:35:34'!
 testSelfDual
 	| F C |
-	F _ É/2.
+	F _ ‚Ñ§/2.
 	"{00,11} is the smallest self-dual code"
 	C _ Code on: (F^2 span: {(0,0) % 2. (1,1) % 2}).
 	self assert: C isSelfDual.
@@ -260,10 +260,10 @@ testSingletonBoundTetracode
 !CodesTest methodsFor: 'as yet unclassified' stamp: 'len 8/2/2020 18:35:34'!
 testTetracode
 	| C P x y |
-	C _ Code on: (É/3 ^ 4 span: {(1,1,1,0) % 3. (0,1,2,1) % 3}).
+	C _ Code on: (‚Ñ§/3 ^ 4 span: {(1,1,1,0) % 3. (0,1,2,1) % 3}).
 	self assert: C isSelfDual.
 	self assert: C minimumDistance = 3.
-	P _ É polynomialsIn: #(x y).
+	P _ ‚Ñ§ polynomialsIn: #(x y).
 	x _ P x.
 	y _ P y.
 	self assert: C weightEnumerator = (x^4 + (x*(y^3)*8))! !
@@ -272,7 +272,7 @@ testTetracode
 testWeightEnumerator
 	"From youtube, Neil Sloane 'error correcting codes, group theory and invariant theory part 1' 19:30."
 	| F C w x y |
-	F _ É/2.
+	F _ ‚Ñ§/2.
 	C _ Code on: (F^5 span: {(0,0,0,0,0) % 2. (1,1,1,1,1) % 2}).
 	w _ C weightEnumerator.
 	x _ w parent x.

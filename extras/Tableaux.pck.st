@@ -1,47 +1,47 @@
-'From Cuis 6.0 [latest update: #5053] on 16 April 2022 at 2:13:04 pm'!
+'From Cuis 6.0 [latest update: #5434] on 5 August 2022 at 9:27:36 am'!
 'Description '!
 !provides: 'Tableaux' 1 1!
 !requires: 'Algebra' 1 0 nil!
-SystemOrganization addCategory: #Tableaux!
+SystemOrganization addCategory: 'Tableaux'!
 
 
-!classDefinition: #YoungTableau category: #Tableaux!
+!classDefinition: #YoungTableau category: 'Tableaux'!
 Collection subclass: #YoungTableau
 	instanceVariableNames: 'rows'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tableaux'!
-!classDefinition: 'YoungTableau class' category: #Tableaux!
+!classDefinition: 'YoungTableau class' category: 'Tableaux'!
 YoungTableau class
 	instanceVariableNames: ''!
 
-!classDefinition: #SemistandardTableaux category: #Tableaux!
+!classDefinition: #SemistandardTableaux category: 'Tableaux'!
 Structure subclass: #SemistandardTableaux
 	instanceVariableNames: 'shape alphabet'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tableaux'!
-!classDefinition: 'SemistandardTableaux class' category: #Tableaux!
+!classDefinition: 'SemistandardTableaux class' category: 'Tableaux'!
 SemistandardTableaux class
 	instanceVariableNames: ''!
 
-!classDefinition: #StandardTableaux category: #Tableaux!
+!classDefinition: #StandardTableaux category: 'Tableaux'!
 SemistandardTableaux subclass: #StandardTableaux
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tableaux'!
-!classDefinition: 'StandardTableaux class' category: #Tableaux!
+!classDefinition: 'StandardTableaux class' category: 'Tableaux'!
 StandardTableaux class
 	instanceVariableNames: ''!
 
-!classDefinition: #YoungDiagram category: #Tableaux!
+!classDefinition: #YoungDiagram category: 'Tableaux'!
 Object subclass: #YoungDiagram
 	instanceVariableNames: 'shape'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tableaux'!
-!classDefinition: 'YoungDiagram class' category: #Tableaux!
+!classDefinition: 'YoungDiagram class' category: 'Tableaux'!
 YoungDiagram class
 	instanceVariableNames: ''!
 
@@ -51,13 +51,6 @@ printOn: aStream
 	self rows do: [:row|
 		aStream nextPut: $[.
 		row do: [:each| aStream print: each] separatedBy: [aStream nextPut: $|].
-		aStream nextPut: $]] separatedBy: [aStream newLine; space]! !
-
-!YoungDiagram methodsFor: 'as yet unclassified' stamp: 'len 5/17/2020 12:36:48'!
-printOn: aStream
-	self shape do: [:k|
-		aStream nextPut: $[.
-		(1 to: k) do: [:ignore| aStream space] separatedBy: [aStream nextPut: $|].
 		aStream nextPut: $]] separatedBy: [aStream newLine; space]! !
 
 !YoungTableau methodsFor: 'accessing' stamp: 'len 8/1/2016 02:52'!
@@ -204,6 +197,13 @@ hookLengthAt: aPoint
 			ifFalse: [^ answer].
 		answer _ answer + 1].
 	^ answer! !
+
+!YoungDiagram methodsFor: 'as yet unclassified' stamp: 'len 5/17/2020 12:36:48'!
+printOn: aStream
+	self shape do: [:k|
+		aStream nextPut: $[.
+		(1 to: k) do: [:ignore| aStream space] separatedBy: [aStream nextPut: $|].
+		aStream nextPut: $]] separatedBy: [aStream newLine; space]! !
 
 !YoungDiagram methodsFor: 'as yet unclassified' stamp: 'len 8/1/2016 03:12'!
 shape

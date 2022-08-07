@@ -1,57 +1,57 @@
-'From Cuis 6.0 [latest update: #5053] on 5 August 2022 at 8:06:57 am'!
+'From Cuis 6.0 [latest update: #5434] on 6 August 2022 at 7:17:20 am'!
 'Description '!
-!provides: 'Elliptic Curves' 1 5!
+!provides: 'Elliptic Curves' 1 6!
 !requires: 'Algebra' 1 0 nil!
-SystemOrganization addCategory: #'Elliptic Curves'!
+SystemOrganization addCategory: 'Elliptic Curves'!
 
 
-!classDefinition: #EllipticCurveGroup category: #'Elliptic Curves'!
+!classDefinition: #EllipticCurveGroup category: 'Elliptic Curves'!
 Group subclass: #EllipticCurveGroup
 	instanceVariableNames: 'curve scalars'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Elliptic Curves'!
-!classDefinition: 'EllipticCurveGroup class' category: #'Elliptic Curves'!
+!classDefinition: 'EllipticCurveGroup class' category: 'Elliptic Curves'!
 EllipticCurveGroup class
 	instanceVariableNames: ''!
 
-!classDefinition: #EllipticCurve category: #'Elliptic Curves'!
+!classDefinition: #EllipticCurve category: 'Elliptic Curves'!
 ProjectivePlaneCurve subclass: #EllipticCurve
 	instanceVariableNames: 'equation'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Elliptic Curves'!
-!classDefinition: 'EllipticCurve class' category: #'Elliptic Curves'!
+!classDefinition: 'EllipticCurve class' category: 'Elliptic Curves'!
 EllipticCurve class
 	instanceVariableNames: ''!
 
-!classDefinition: #EllipticCurveIsogeny category: #'Elliptic Curves'!
+!classDefinition: #EllipticCurveIsogeny category: 'Elliptic Curves'!
 RationalMap subclass: #EllipticCurveIsogeny
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Elliptic Curves'!
-!classDefinition: 'EllipticCurveIsogeny class' category: #'Elliptic Curves'!
+!classDefinition: 'EllipticCurveIsogeny class' category: 'Elliptic Curves'!
 EllipticCurveIsogeny class
 	instanceVariableNames: ''!
 
-!classDefinition: #EllipticCurvePoint category: #'Elliptic Curves'!
+!classDefinition: #EllipticCurvePoint category: 'Elliptic Curves'!
 ProjectivePoint subclass: #EllipticCurvePoint
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Elliptic Curves'!
-!classDefinition: 'EllipticCurvePoint class' category: #'Elliptic Curves'!
+!classDefinition: 'EllipticCurvePoint class' category: 'Elliptic Curves'!
 EllipticCurvePoint class
 	instanceVariableNames: ''!
 
-!classDefinition: #WeierstrassEquation category: #'Elliptic Curves'!
+!classDefinition: #WeierstrassEquation category: 'Elliptic Curves'!
 Object subclass: #WeierstrassEquation
 	instanceVariableNames: 'coefficients'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Elliptic Curves'!
-!classDefinition: 'WeierstrassEquation class' category: #'Elliptic Curves'!
+!classDefinition: 'WeierstrassEquation class' category: 'Elliptic Curves'!
 WeierstrassEquation class
 	instanceVariableNames: ''!
 
@@ -81,31 +81,6 @@ Weierstrass equations are equations of the form
 with coefficients (a1,a2,a3,a4,a6) in some field.
 
 When the discriminant is not zero, they define an elliptic curve. See EllipticCurve.!
-
-!EllipticCurveGroup methodsFor: 'printing' stamp: 'len 11/10/2016 08:13'!
-printOn: aStream
-	aStream nextPutAll: 'E('; print: self scalars; nextPut: $)! !
-
-!EllipticCurve methodsFor: 'printing' stamp: 'len 12/11/2016 20:43:15'!
-printOn: aStream
-	aStream "nextPutAll: 'E : ';" print: self equation! !
-
-!EllipticCurvePoint methodsFor: 'printing' stamp: 'len 11/11/2016 05:21'!
-printOn: aStream
-	self isZero
-		ifTrue: [aStream nextPutAll: 'O' italic]
-		ifFalse: [aStream nextPut: $(; print: self x; nextPut: $,; print: self y; nextPut: $)]! !
-
-!WeierstrassEquation methodsFor: 'printing' stamp: 'len 2/12/2017 06:05:00'!
-printOn: aStream
-	| P x y |
-	P _ self scalars polynomialsIn: #(x y) ordering: (MonomialOrdering glex: #(2 1)).
-	x _ P x.
-	y _ P y.
-	aStream print: y^2 + (x*y * self a1) + (y * self a3).
-	aStream
-		nextPutAll: ' = ';
-		print: (x^3) + (x^2 * self a2) + (x * self a4) + self a6! !
 
 !EllipticCurveGroup methodsFor: 'accessing' stamp: 'len 9/28/2018 06:40:54'!
 ambient
@@ -144,6 +119,10 @@ identity
 do: aBlock
 	self curve pointsOver: self scalars do: aBlock! !
 
+!EllipticCurveGroup methodsFor: 'printing' stamp: 'len 11/10/2016 08:13'!
+printOn: aStream
+	aStream nextPutAll: 'E('; print: self scalars; nextPut: $)! !
+
 !EllipticCurveGroup methodsFor: 'random' stamp: 'len 8/27/2018 22:24:49'!
 atRandom: aRandom
 	^ curve pointAtRandom: aRandom! !
@@ -176,8 +155,8 @@ genus
 !EllipticCurve methodsFor: 'converting' stamp: 'len 5/2/2021 11:19:44'!
 % anInteger
 	"Answer the reduction of the receiver modulo anInteger."
-	self scalars = „ ifFalse: [^ DomainError signal: 'not over the rationals'].
-	^ self over: ƒ / anInteger! !
+	self scalars = â„š ifFalse: [^ DomainError signal: 'not over the rationals'].
+	^ self over: â„¤ / anInteger! !
 
 !EllipticCurve methodsFor: 'converting' stamp: 'len 1/20/2017 09:37:28'!
 over: aRing
@@ -206,7 +185,7 @@ divisionPolynomial: n at: x
 divisionPolynomialNew: n
 	"Answer the n-th division polynomial."
 	| R w x y |
-	R _ ƒ polynomialsIn: #(x y).
+	R _ â„¤ polynomialsIn: #(x y).
 	n == 1 ifTrue: [^ R one].
 	w _ self equation.
 	x _ R x.
@@ -283,6 +262,10 @@ pointsOver: aField
 	"Answer the group of K-rational points on the receiver."
 	^ EllipticCurveGroup on: self over: aField! !
 
+!EllipticCurve methodsFor: 'printing' stamp: 'len 12/11/2016 20:43:15'!
+printOn: aStream
+	aStream "nextPutAll: 'E : ';" print: self equation! !
+
 !EllipticCurve methodsFor: 'testing' stamp: 'len 10/25/2016 14:11'!
 isSmooth
 	^ self discriminant isZero not! !
@@ -320,28 +303,28 @@ equation: aWeierstrassEquation
 !EllipticCurve class methodsFor: 'examples' stamp: 'len 5/23/2020 09:11:37'!
 cremona11a1
 	"Elliptic curve 11a1, first curve in the Cremona database."
-	^ EllipticCurve coefficients: ((0,-1,1,-10,-20) over: „)! !
+	^ EllipticCurve coefficients: ((0,-1,1,-10,-20) over: â„š)! !
 
 !EllipticCurve class methodsFor: 'examples' stamp: 'len 5/23/2020 09:11:37'!
 cremona11a2
 	"Elliptic curve 11a2 from the Cremona database."
-	^ EllipticCurve coefficients: ((0,-1,1,-7820,-263580) over: „)! !
+	^ EllipticCurve coefficients: ((0,-1,1,-7820,-263580) over: â„š)! !
 
 !EllipticCurve class methodsFor: 'examples' stamp: 'len 5/23/2020 09:11:37'!
 cremona11a3
 	"Elliptic curve 11a3 from the Cremona database."
-	^ EllipticCurve coefficients: ((0,-1,1,0,0) over: „)! !
+	^ EllipticCurve coefficients: ((0,-1,1,0,0) over: â„š)! !
 
 !EllipticCurve class methodsFor: 'examples' stamp: 'len 5/23/2020 09:11:37'!
 cremona37a
 	"Elliptic curve 37a from the Cremona database.
 	This is the elliptic curve of rank 1 with smallest conductor."
-	^ EllipticCurve coefficients: ((0,0,1,-1,0) over: „)! !
+	^ EllipticCurve coefficients: ((0,0,1,-1,0) over: â„š)! !
 
 !EllipticCurve class methodsFor: 'examples' stamp: 'len 5/23/2020 09:11:37'!
 cremona389a1
 	"Elliptic curve 389a1 from the Cremona database."
-	^ EllipticCurve coefficients: ((0,1,1,-2,0) over: „)! !
+	^ EllipticCurve coefficients: ((0,1,1,-2,0) over: â„š)! !
 
 !EllipticCurve class methodsFor: 'examples' stamp: 'len 8/24/2018 20:06:52'!
 secp256k1
@@ -449,9 +432,26 @@ adaptToInteger: anInteger andSend: selector
 	selector = #* ifTrue: [^ self * anInteger].
 	self error: 'undefined operation'! !
 
+!EllipticCurvePoint methodsFor: 'printing' stamp: 'len 11/11/2016 05:21'!
+printOn: aStream
+	self isZero
+		ifTrue: [aStream nextPutAll: 'O' italic]
+		ifFalse: [aStream nextPut: $(; print: self x; nextPut: $,; print: self y; nextPut: $)]! !
+
 !EllipticCurvePoint methodsFor: 'testing' stamp: 'len 11/9/2016 13:33'!
 isZero
 	^ (self coordinates at: 1) isZero and: [(self coordinates at: 3) isZero]! !
+
+!WeierstrassEquation methodsFor: 'printing' stamp: 'len 2/12/2017 06:05:00'!
+printOn: aStream
+	| P x y |
+	P _ self scalars polynomialsIn: #(x y) ordering: (MonomialOrdering glex: #(2 1)).
+	x _ P x.
+	y _ P y.
+	aStream print: y^2 + (x*y * self a1) + (y * self a3).
+	aStream
+		nextPutAll: ' = ';
+		print: (x^3) + (x^2 * self a2) + (x * self a4) + self a6! !
 
 !WeierstrassEquation methodsFor: 'accessing' stamp: 'len 11/9/2016 13:01'!
 curve

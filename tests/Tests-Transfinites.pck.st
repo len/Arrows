@@ -1,27 +1,27 @@
-'From Cuis 6.0 [latest update: #5053] on 5 August 2022 at 8:07:22 am'!
+'From Cuis 6.0 [latest update: #5434] on 5 August 2022 at 9:28:10 am'!
 'Description '!
 !provides: 'Tests-Transfinites' 1 2!
 !requires: 'Transfinites' 1 0 nil!
-SystemOrganization addCategory: #'Tests-Transfinites'!
+SystemOrganization addCategory: 'Tests-Transfinites'!
 
 
-!classDefinition: #InfinityTest category: #'Tests-Transfinites'!
+!classDefinition: #InfinityTest category: 'Tests-Transfinites'!
 TestCase subclass: #InfinityTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Transfinites'!
-!classDefinition: 'InfinityTest class' category: #'Tests-Transfinites'!
+!classDefinition: 'InfinityTest class' category: 'Tests-Transfinites'!
 InfinityTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #OrdinalsTest category: #'Tests-Transfinites'!
+!classDefinition: #OrdinalsTest category: 'Tests-Transfinites'!
 TestCase subclass: #OrdinalsTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Transfinites'!
-!classDefinition: 'OrdinalsTest class' category: #'Tests-Transfinites'!
+!classDefinition: 'OrdinalsTest class' category: 'Tests-Transfinites'!
 OrdinalsTest class
 	instanceVariableNames: ''!
 
@@ -61,15 +61,15 @@ testAdditionAssociativity
 
 !OrdinalsTest methodsFor: 'as yet unclassified' stamp: 'len 7/30/2022 12:21:17'!
 testAdditionExamples
-	| ˜ |
-	˜ _ 1 asOrdinal exp.
-	self assert: ˜ + 1 + 1 = (˜ + 2).
-	self assert: 1 + ˜ = ˜.
-	self assert: ˜^5*3 + (˜^3*2) + (˜^3*3) = (˜^5*3 + (˜^3*5)).
-	self assert: ˜^5*3 + (˜^3*2) + (˜^4*2) = (˜^5*3 + (˜^4*2)).
-"	self assert: ˜^˜^2*2 + (˜^3*2) + (˜^4*2) = (˜^˜^2*2 + (˜^4*2))."
-	self assert: 3 + (˜^5*3) = (˜^5*3).
-	self assert: ˜^5*3 + 2 + 1 = (˜^5*3 + 3)! !
+	| Ï‰ |
+	Ï‰ _ 1 asOrdinal exp.
+	self assert: Ï‰ + 1 + 1 = (Ï‰ + 2).
+	self assert: 1 + Ï‰ = Ï‰.
+	self assert: Ï‰^5*3 + (Ï‰^3*2) + (Ï‰^3*3) = (Ï‰^5*3 + (Ï‰^3*5)).
+	self assert: Ï‰^5*3 + (Ï‰^3*2) + (Ï‰^4*2) = (Ï‰^5*3 + (Ï‰^4*2)).
+"	self assert: Ï‰^Ï‰^2*2 + (Ï‰^3*2) + (Ï‰^4*2) = (Ï‰^Ï‰^2*2 + (Ï‰^4*2))."
+	self assert: 3 + (Ï‰^5*3) = (Ï‰^5*3).
+	self assert: Ï‰^5*3 + 2 + 1 = (Ï‰^5*3 + 3)! !
 
 !OrdinalsTest methodsFor: 'as yet unclassified' stamp: 'len 12/28/2021 13:46:41'!
 testAdditionIncreasing
@@ -108,12 +108,12 @@ testAdditionTruncationProperty
 
 !OrdinalsTest methodsFor: 'as yet unclassified' stamp: 'len 12/28/2021 14:21:04'!
 testArithmeticExamples
-	| ˜ a b |
-	˜ _ 1 asOrdinal exp.
-	a _ ˜^4*2 + (˜^2) + 3.
-	b _ ˜^3*5 + (˜*7).
-	self assert: a + b = (˜^4*2 + (˜^3*5) + (˜*7)).
-	self assert: a * b = (˜^7*5 + (˜^5*7))! !
+	| Ï‰ a b |
+	Ï‰ _ 1 asOrdinal exp.
+	a _ Ï‰^4*2 + (Ï‰^2) + 3.
+	b _ Ï‰^3*5 + (Ï‰*7).
+	self assert: a + b = (Ï‰^4*2 + (Ï‰^3*5) + (Ï‰*7)).
+	self assert: a * b = (Ï‰^7*5 + (Ï‰^5*7))! !
 
 !OrdinalsTest methodsFor: 'as yet unclassified' stamp: 'len 12/28/2021 11:53:37'!
 testConvertingIntegers
@@ -195,15 +195,15 @@ testMultiplicationAssociativity
 
 !OrdinalsTest methodsFor: 'as yet unclassified' stamp: 'len 12/29/2021 11:41:17'!
 testMultiplicationExamples
-	| ˜ |
-	˜ _ 1 asOrdinal exp.
-	self assert: ˜ * (˜ + 1) = (˜*˜ + ˜).
-	self assert: (˜ + 1) * (˜ + 1) = (˜*˜ + ˜ + 1).
-	self assert: 1 * ˜ = ˜.
-	self assert: ˜ * 1 = ˜.
-	self assert: ˜ * 0 = 0 asOrdinal.
-	self assert: 0 * ˜ = 0 asOrdinal.
-	self assert: ˜^˜ * ˜ * ˜ = (˜ ^ (˜ + 2))! !
+	| Ï‰ |
+	Ï‰ _ 1 asOrdinal exp.
+	self assert: Ï‰ * (Ï‰ + 1) = (Ï‰*Ï‰ + Ï‰).
+	self assert: (Ï‰ + 1) * (Ï‰ + 1) = (Ï‰*Ï‰ + Ï‰ + 1).
+	self assert: 1 * Ï‰ = Ï‰.
+	self assert: Ï‰ * 1 = Ï‰.
+	self assert: Ï‰ * 0 = 0 asOrdinal.
+	self assert: 0 * Ï‰ = 0 asOrdinal.
+	self assert: Ï‰^Ï‰ * Ï‰ * Ï‰ = (Ï‰ ^ (Ï‰ + 2))! !
 
 !OrdinalsTest methodsFor: 'as yet unclassified' stamp: 'len 12/28/2021 13:53:43'!
 testMultiplicationIncreasing
@@ -235,9 +235,9 @@ testMultiplicationNondecreasing
 
 !OrdinalsTest methodsFor: 'as yet unclassified' stamp: 'len 12/31/2021 11:26:03'!
 testOmega
-	| ˜ |
-	˜ _ 1 asOrdinal exp.
-	self assert: ˜ isOmega! !
+	| Ï‰ |
+	Ï‰ _ 1 asOrdinal exp.
+	self assert: Ï‰ isOmega! !
 
 !OrdinalsTest methodsFor: 'as yet unclassified' stamp: 'len 12/31/2021 11:25:22'!
 testOne

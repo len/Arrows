@@ -1,409 +1,409 @@
-'From Cuis 6.0 [latest update: #5053] on 5 August 2022 at 8:07:01 am'!
+'From Cuis 6.0 [latest update: #5434] on 6 August 2022 at 7:17:24 am'!
 'Description '!
-!provides: 'Etc' 1 11!
+!provides: 'Etc' 1 12!
 !requires: 'Algebra' 1 7 nil!
-SystemOrganization addCategory: #Etc!
-SystemOrganization addCategory: #'Etc-Lie'!
+SystemOrganization addCategory: 'Etc'!
+SystemOrganization addCategory: 'Etc-Lie'!
 
 
-!classDefinition: #IdentityArray category: #Etc!
+!classDefinition: #IdentityArray category: 'Etc'!
 Array variableSubclass: #IdentityArray
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Etc'!
-!classDefinition: 'IdentityArray class' category: #Etc!
+!classDefinition: 'IdentityArray class' category: 'Etc'!
 IdentityArray class
 	instanceVariableNames: ''!
 
-!classDefinition: #BitArray2 category: #Etc!
+!classDefinition: #BitArray2 category: 'Etc'!
 ArrayedCollection subclass: #BitArray2
 	instanceVariableNames: 'bytes length'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Etc'!
-!classDefinition: 'BitArray2 class' category: #Etc!
+!classDefinition: 'BitArray2 class' category: 'Etc'!
 BitArray2 class
 	instanceVariableNames: ''!
 
-!classDefinition: #StandardBasis category: #Etc!
+!classDefinition: #StandardBasis category: 'Etc'!
 SequenceableCollection subclass: #StandardBasis
 	instanceVariableNames: 'elements'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Etc'!
-!classDefinition: 'StandardBasis class' category: #Etc!
+!classDefinition: 'StandardBasis class' category: 'Etc'!
 StandardBasis class
 	instanceVariableNames: ''!
 
-!classDefinition: #GroebnerBasis category: #Etc!
+!classDefinition: #GroebnerBasis category: 'Etc'!
 StandardBasis subclass: #GroebnerBasis
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Etc'!
-!classDefinition: 'GroebnerBasis class' category: #Etc!
+!classDefinition: 'GroebnerBasis class' category: 'Etc'!
 GroebnerBasis class
 	instanceVariableNames: ''!
 
-!classDefinition: #SmallPrimeFieldTest category: #Etc!
+!classDefinition: #SmallPrimeFieldTest category: 'Etc'!
 TestCase subclass: #SmallPrimeFieldTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Etc'!
-!classDefinition: 'SmallPrimeFieldTest class' category: #Etc!
+!classDefinition: 'SmallPrimeFieldTest class' category: 'Etc'!
 SmallPrimeFieldTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #DivisorGroup category: #Etc!
+!classDefinition: #DivisorGroup category: 'Etc'!
 Group subclass: #DivisorGroup
 	instanceVariableNames: 'scalars space'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Etc'!
-!classDefinition: 'DivisorGroup class' category: #Etc!
+!classDefinition: 'DivisorGroup class' category: 'Etc'!
 DivisorGroup class
 	instanceVariableNames: ''!
 
-!classDefinition: #SemidirectProductGroup category: #Etc!
+!classDefinition: #SemidirectProductGroup category: 'Etc'!
 Group subclass: #SemidirectProductGroup
 	instanceVariableNames: 'left right action'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Etc'!
-!classDefinition: 'SemidirectProductGroup class' category: #Etc!
+!classDefinition: 'SemidirectProductGroup class' category: 'Etc'!
 SemidirectProductGroup class
 	instanceVariableNames: ''!
 
-!classDefinition: #CoxeterGroup category: #'Etc-Lie'!
+!classDefinition: #CoxeterGroup category: 'Etc-Lie'!
 Group subclass: #CoxeterGroup
 	instanceVariableNames: 'diagram'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Etc-Lie'!
-!classDefinition: 'CoxeterGroup class' category: #'Etc-Lie'!
+!classDefinition: 'CoxeterGroup class' category: 'Etc-Lie'!
 CoxeterGroup class
 	instanceVariableNames: ''!
 
-!classDefinition: #SmallPrimeField category: #Etc!
+!classDefinition: #SmallPrimeField category: 'Etc'!
 PrimeField subclass: #SmallPrimeField
 	instanceVariableNames: 'expTable logTable'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Etc'!
-!classDefinition: 'SmallPrimeField class' category: #Etc!
+!classDefinition: 'SmallPrimeField class' category: 'Etc'!
 SmallPrimeField class
 	instanceVariableNames: ''!
 
-!classDefinition: #CompletionRing category: #Etc!
+!classDefinition: #CompletionRing category: 'Etc'!
 Ring subclass: #CompletionRing
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Etc'!
-!classDefinition: 'CompletionRing class' category: #Etc!
+!classDefinition: 'CompletionRing class' category: 'Etc'!
 CompletionRing class
 	instanceVariableNames: ''!
 
-!classDefinition: #PolynomialCode category: #Etc!
-Code subclass: #PolynomialCode
-	instanceVariableNames: 'generator'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Etc'!
-!classDefinition: 'PolynomialCode class' category: #Etc!
-PolynomialCode class
-	instanceVariableNames: ''!
-
-!classDefinition: #CyclicCode category: #Etc!
-PolynomialCode subclass: #CyclicCode
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Etc'!
-!classDefinition: 'CyclicCode class' category: #Etc!
-CyclicCode class
-	instanceVariableNames: ''!
-
-!classDefinition: #CoxeterSystem category: #'Etc-Lie'!
+!classDefinition: #CoxeterSystem category: 'Etc-Lie'!
 Structure subclass: #CoxeterSystem
 	instanceVariableNames: 'group generators matrix diagram'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Etc-Lie'!
-!classDefinition: 'CoxeterSystem class' category: #'Etc-Lie'!
+!classDefinition: 'CoxeterSystem class' category: 'Etc-Lie'!
 CoxeterSystem class
 	instanceVariableNames: ''!
 
-!classDefinition: #ColumnMatrix category: #Etc!
+!classDefinition: #ColumnMatrix category: 'Etc'!
 Matrix subclass: #ColumnMatrix
 	instanceVariableNames: 'columns'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Etc'!
-!classDefinition: 'ColumnMatrix class' category: #Etc!
+!classDefinition: 'ColumnMatrix class' category: 'Etc'!
 ColumnMatrix class
 	instanceVariableNames: ''!
 
-!classDefinition: #RowMatrix category: #Etc!
+!classDefinition: #RowMatrix category: 'Etc'!
 Matrix subclass: #RowMatrix
 	instanceVariableNames: 'rows'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Etc'!
-!classDefinition: 'RowMatrix class' category: #Etc!
+!classDefinition: 'RowMatrix class' category: 'Etc'!
 RowMatrix class
 	instanceVariableNames: ''!
 
-!classDefinition: #Divisor category: #Etc!
+!classDefinition: #Divisor category: 'Etc'!
 GroupElement subclass: #Divisor
 	instanceVariableNames: 'coefficients parent'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Etc'!
-!classDefinition: 'Divisor class' category: #Etc!
+!classDefinition: 'Divisor class' category: 'Etc'!
 Divisor class
 	instanceVariableNames: ''!
 
-!classDefinition: #SemidirectProductElement category: #Etc!
+!classDefinition: #SemidirectProductElement category: 'Etc'!
 GroupElement subclass: #SemidirectProductElement
 	instanceVariableNames: 'parent left right'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Etc'!
-!classDefinition: 'SemidirectProductElement class' category: #Etc!
+!classDefinition: 'SemidirectProductElement class' category: 'Etc'!
 SemidirectProductElement class
 	instanceVariableNames: ''!
 
-!classDefinition: #SmallPrimeResidue category: #Etc!
+!classDefinition: #SmallPrimeResidue category: 'Etc'!
 PrimeResidue subclass: #SmallPrimeResidue
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Etc'!
-!classDefinition: 'SmallPrimeResidue class' category: #Etc!
+!classDefinition: 'SmallPrimeResidue class' category: 'Etc'!
 SmallPrimeResidue class
 	instanceVariableNames: ''!
 
-!classDefinition: #RelaxedAdicInteger category: #Etc!
+!classDefinition: #RelaxedAdicInteger category: 'Etc'!
 RingElement subclass: #RelaxedAdicInteger
 	instanceVariableNames: 'parent digits'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Etc'!
-!classDefinition: 'RelaxedAdicInteger class' category: #Etc!
+!classDefinition: 'RelaxedAdicInteger class' category: 'Etc'!
 RelaxedAdicInteger class
 	instanceVariableNames: ''!
 
-!classDefinition: #RelaxedAdicNumber category: #Etc!
+!classDefinition: #RelaxedAdicNumber category: 'Etc'!
 RingElement subclass: #RelaxedAdicNumber
 	instanceVariableNames: 'parent valuation unit precision'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Etc'!
-!classDefinition: 'RelaxedAdicNumber class' category: #Etc!
+!classDefinition: 'RelaxedAdicNumber class' category: 'Etc'!
 RelaxedAdicNumber class
 	instanceVariableNames: ''!
 
-!classDefinition: #RelaxedPowerSeries category: #Etc!
+!classDefinition: #RelaxedPowerSeries category: 'Etc'!
 RingElement subclass: #RelaxedPowerSeries
 	instanceVariableNames: 'parent coefficients'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Etc'!
-!classDefinition: 'RelaxedPowerSeries class' category: #Etc!
+!classDefinition: 'RelaxedPowerSeries class' category: 'Etc'!
 RelaxedPowerSeries class
 	instanceVariableNames: ''!
 
-!classDefinition: #Sum category: #Etc!
+!classDefinition: #Sum category: 'Etc'!
 ModuleElement subclass: #Sum
 	instanceVariableNames: 'coefficients parent'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Etc'!
-!classDefinition: 'Sum class' category: #Etc!
+!classDefinition: 'Sum class' category: 'Etc'!
 Sum class
 	instanceVariableNames: ''!
 
-!classDefinition: #EuclideanGaussianElimination category: #Etc!
+!classDefinition: #EuclideanGaussianElimination category: 'Etc'!
 GaussianElimination subclass: #EuclideanGaussianElimination
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Etc'!
-!classDefinition: 'EuclideanGaussianElimination class' category: #Etc!
+!classDefinition: 'EuclideanGaussianElimination class' category: 'Etc'!
 EuclideanGaussianElimination class
 	instanceVariableNames: ''!
 
-!classDefinition: #GaussBareiss category: #Etc!
+!classDefinition: #GaussBareiss category: 'Etc'!
 GaussianElimination subclass: #GaussBareiss
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Etc'!
-!classDefinition: 'GaussBareiss class' category: #Etc!
+!classDefinition: 'GaussBareiss class' category: 'Etc'!
 GaussBareiss class
 	instanceVariableNames: ''!
 
-!classDefinition: #BerlekampMassey category: #Etc!
+!classDefinition: #BerlekampMassey category: 'Etc'!
 Object subclass: #BerlekampMassey
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Etc'!
-!classDefinition: 'BerlekampMassey class' category: #Etc!
+!classDefinition: 'BerlekampMassey class' category: 'Etc'!
 BerlekampMassey class
 	instanceVariableNames: ''!
 
-!classDefinition: #BitTuple category: #Etc!
+!classDefinition: #BitTuple category: 'Etc'!
 Object subclass: #BitTuple
 	instanceVariableNames: 'bits'
 	classVariableNames: 'One Zero'
 	poolDictionaries: ''
 	category: 'Etc'!
-!classDefinition: 'BitTuple class' category: #Etc!
+!classDefinition: 'BitTuple class' category: 'Etc'!
 BitTuple class
 	instanceVariableNames: ''!
 
-!classDefinition: #ExtendedSmithReduction category: #Etc!
+!classDefinition: #ExtendedSmithReduction category: 'Etc'!
 Object subclass: #ExtendedSmithReduction
 	instanceVariableNames: 'matrix elementaryDivisors L S R'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Etc'!
-!classDefinition: 'ExtendedSmithReduction class' category: #Etc!
+!classDefinition: 'ExtendedSmithReduction class' category: 'Etc'!
 ExtendedSmithReduction class
 	instanceVariableNames: ''!
 
-!classDefinition: #HermiteColumnReduction category: #Etc!
+!classDefinition: #HermiteColumnReduction category: 'Etc'!
 Object subclass: #HermiteColumnReduction
 	instanceVariableNames: 'matrix'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Etc'!
-!classDefinition: 'HermiteColumnReduction class' category: #Etc!
+!classDefinition: 'HermiteColumnReduction class' category: 'Etc'!
 HermiteColumnReduction class
 	instanceVariableNames: ''!
 
-!classDefinition: #ModularHermiteReduction category: #Etc!
+!classDefinition: #ModularHermiteReduction category: 'Etc'!
 Object subclass: #ModularHermiteReduction
 	instanceVariableNames: 'matrix HNF'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Etc'!
-!classDefinition: 'ModularHermiteReduction class' category: #Etc!
+!classDefinition: 'ModularHermiteReduction class' category: 'Etc'!
 ModularHermiteReduction class
 	instanceVariableNames: ''!
 
-!classDefinition: #MultivariateReducer category: #Etc!
+!classDefinition: #MultivariateReducer category: 'Etc'!
 Object subclass: #MultivariateReducer
 	instanceVariableNames: 'divisors'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Etc'!
-!classDefinition: 'MultivariateReducer class' category: #Etc!
+!classDefinition: 'MultivariateReducer class' category: 'Etc'!
 MultivariateReducer class
 	instanceVariableNames: ''!
 
-!classDefinition: #GlobalMultivariateReducer category: #Etc!
+!classDefinition: #GlobalMultivariateReducer category: 'Etc'!
 MultivariateReducer subclass: #GlobalMultivariateReducer
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Etc'!
-!classDefinition: 'GlobalMultivariateReducer class' category: #Etc!
+!classDefinition: 'GlobalMultivariateReducer class' category: 'Etc'!
 GlobalMultivariateReducer class
 	instanceVariableNames: ''!
 
-!classDefinition: #OEIS category: #Etc!
+!classDefinition: #OEIS category: 'Etc'!
 Object subclass: #OEIS
 	instanceVariableNames: 'entries'
 	classVariableNames: 'Default'
 	poolDictionaries: ''
 	category: 'Etc'!
-!classDefinition: 'OEIS class' category: #Etc!
+!classDefinition: 'OEIS class' category: 'Etc'!
 OEIS class
 	instanceVariableNames: ''!
 
-!classDefinition: #RealBox category: #Etc!
+!classDefinition: #RealBox category: 'Etc'!
 Object subclass: #RealBox
 	instanceVariableNames: 'components'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Etc'!
-!classDefinition: 'RealBox class' category: #Etc!
+!classDefinition: 'RealBox class' category: 'Etc'!
 RealBox class
 	instanceVariableNames: ''!
 
-!classDefinition: #SmithReduction category: #Etc!
+!classDefinition: #SmithReduction category: 'Etc'!
 Object subclass: #SmithReduction
 	instanceVariableNames: 'matrix invariants'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Etc'!
-!classDefinition: 'SmithReduction class' category: #Etc!
+!classDefinition: 'SmithReduction class' category: 'Etc'!
 SmithReduction class
 	instanceVariableNames: ''!
 
-!classDefinition: #SparseTuple category: #Etc!
+!classDefinition: #SparseTuple category: 'Etc'!
 Object subclass: #SparseTuple
 	instanceVariableNames: 'components'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Etc'!
-!classDefinition: 'SparseTuple class' category: #Etc!
+!classDefinition: 'SparseTuple class' category: 'Etc'!
 SparseTuple class
 	instanceVariableNames: ''!
 
-!classDefinition: #SturmChain category: #Etc!
+!classDefinition: #SturmChain category: 'Etc'!
 Object subclass: #SturmChain
 	instanceVariableNames: 'chain'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Etc'!
-!classDefinition: 'SturmChain class' category: #Etc!
+!classDefinition: 'SturmChain class' category: 'Etc'!
 SturmChain class
 	instanceVariableNames: ''!
 
-!classDefinition: #SubgroupSeries category: #Etc!
+!classDefinition: #SubgroupSeries category: 'Etc'!
 Object subclass: #SubgroupSeries
 	instanceVariableNames: 'subgroups'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Etc'!
-!classDefinition: 'SubgroupSeries class' category: #Etc!
+!classDefinition: 'SubgroupSeries class' category: 'Etc'!
 SubgroupSeries class
 	instanceVariableNames: ''!
 
-!classDefinition: #CoxeterDiagram category: #'Etc-Lie'!
+!classDefinition: #CoxeterDiagram category: 'Etc-Lie'!
 Object subclass: #CoxeterDiagram
 	instanceVariableNames: 'matrix'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Etc-Lie'!
-!classDefinition: 'CoxeterDiagram class' category: #'Etc-Lie'!
+!classDefinition: 'CoxeterDiagram class' category: 'Etc-Lie'!
 CoxeterDiagram class
 	instanceVariableNames: ''!
 
-!classDefinition: #RootSystem category: #'Etc-Lie'!
+!classDefinition: #RootSystem category: 'Etc-Lie'!
 Object subclass: #RootSystem
 	instanceVariableNames: 'roots ambient'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Etc-Lie'!
-!classDefinition: 'RootSystem class' category: #'Etc-Lie'!
+!classDefinition: 'RootSystem class' category: 'Etc-Lie'!
 RootSystem class
 	instanceVariableNames: ''!
 
-!classDefinition: #RootSystemTest category: #'Etc-Lie'!
+!classDefinition: #RootSystemTest category: 'Etc-Lie'!
 Object subclass: #RootSystemTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Etc-Lie'!
-!classDefinition: 'RootSystemTest class' category: #'Etc-Lie'!
+!classDefinition: 'RootSystemTest class' category: 'Etc-Lie'!
 RootSystemTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #PolynomialCode category: 'Etc'!
+ProtoObject subclass: #PolynomialCode
+	instanceVariableNames: 'generator'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Etc'!
+!classDefinition: 'PolynomialCode class' category: 'Etc'!
+PolynomialCode class
+	instanceVariableNames: ''!
+
+!classDefinition: #CyclicCode category: 'Etc'!
+PolynomialCode subclass: #CyclicCode
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Etc'!
+!classDefinition: 'CyclicCode class' category: 'Etc'!
+CyclicCode class
 	instanceVariableNames: ''!
 
 
@@ -434,12 +434,6 @@ The initialization of the tables is very fast. The main concern is memory usage.
 
 !CompletionRing commentStamp: '<historical>' prior: 0!
 Completion of a given commutative ring R at a given maximal ideal I. This is the inverse limit of the quotient rings R / I^n.!
-
-!PolynomialCode commentStamp: '<historical>' prior: 0!
-In coding theory, a polynomial code is a type of linear code whose set of valid codewords consists of those polynomials (usually of some fixed length) that are divisible by some fixed polynomial (of shorter length, called the generator polynomial).
-
-A polynomial code is cyclic if and only if the generator polynomial divides x^n - 1. See CyclicCode.
-!
 
 !ColumnMatrix commentStamp: '<historical>' prior: 0!
 Matrices stored as a list of column tuples. Column operations are fast on these matrices.!
@@ -485,7 +479,7 @@ Output: the minimal polynomial of the sequence.
 The algorithm performs O(n^2/2) multiplications; more precisely, at most 2 floor(n^2/4) - n + 1 multiplications.!
 
 !BitTuple commentStamp: '<historical>' prior: 0!
-Tuples of integer residue classes modulo 2, i.e. binary tuples, bit strings, or tuples of bits. The coefficient field is É/2É.
+Tuples of integer residue classes modulo 2, i.e. binary tuples, bit strings, or tuples of bits. The coefficient field is ‚Ñ§/2‚Ñ§.
 
 Example:
 	"A handy way to create a binary tuple:"
@@ -520,94 +514,11 @@ See [Coh96], Algorithm 2.4.14.!
 !SparseTuple commentStamp: 'len 7/21/2020 17:34:32' prior: 0!
 Sparse tuples are tuples that use a Dictionary to store the components, and zero entries are not stored explicitly. This makes them more efficient when most of the entries are zero.!
 
-!BitArray2 methodsFor: 'printing' stamp: 'len 12/21/2015 20:42'!
-printOn: aStream
-	1 to: self size do: [:i| aStream print: (self at: i)]! !
+!PolynomialCode commentStamp: '<historical>' prior: 0!
+In coding theory, a polynomial code is a type of linear code whose set of valid codewords consists of those polynomials (usually of some fixed length) that are divisible by some fixed polynomial (of shorter length, called the generator polynomial).
 
-!StandardBasis methodsFor: 'printing' stamp: 'len 5/7/2018 23:22:28'!
-printOn: aStream
-	aStream nextPut: ${.
-	elements do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: ', '].
-	aStream nextPut: $}! !
-
-!DivisorGroup methodsFor: 'as yet unclassified' stamp: 'len 7/25/2022 11:58:39'!
-printOn: aStream
-	aStream nextPutAll: 'Div'.
-	scalars = É ifFalse: [aStream nextPutAll: scalars printString sub].
-	aStream nextPut: $(; print: space; nextPut: $)! !
-
-!SemidirectProductGroup methodsFor: 'printing' stamp: 'len 4/21/2016 00:16'!
-printOn: aStream
-	aStream print: left; nextPutAll: ' X| '; print: right! !
-
-!SemidirectProductElement methodsFor: 'printing' stamp: 'len 2/12/2016 06:10'!
-printOn: aStream
-	aStream nextPut: $(; print: left; nextPutAll: ', '; print: right; nextPut: $)! !
-
-!RelaxedAdicInteger methodsFor: 'accessing' stamp: 'len 6/3/2019 17:28:33'!
->> anInteger
-	"Multiply the receiver by p^anInteger shifting the digits by anInteger places."
-	^ parent digits: digits >> anInteger! !
-
-!RelaxedAdicInteger methodsFor: 'printing' stamp: 'len 6/2/2019 10:09:25'!
-printOn: aStream
-	self printOn: aStream withPowersShiftedBy: 0! !
-
-!RelaxedAdicNumber methodsFor: 'printing' stamp: 'len 6/3/2019 18:28:16'!
-printOn: aStream
-	unit printOn: aStream withPowersShiftedBy: valuation negated! !
-
-!RelaxedPowerSeries methodsFor: 'printing' stamp: 'len 6/6/2019 13:22:39'!
-printOn: aStream
-	| P f n |
-	n _ coefficients printLimit.
-	P _ parent base.
-	f _ (P coefficients: (coefficients first: n)) orderedBy: #llex.
-	aStream print: f; nextPutAll: ' + ', 'O' italic, '('; print: P x ^ (n+1); nextPut: $)! !
-
-!Sum methodsFor: 'copying' stamp: 'len 11/18/2016 17:34:33'!
-postCopy
-	coefficients _ coefficients copy! !
-
-!Sum methodsFor: 'printing' stamp: 'len 1/10/2018 21:04:41'!
-printOn: aStream
-	| elements c |
-	self isZero ifTrue: [aStream nextPutAll: '0'. ^ self].
-	elements _ self keys asSortedCollection: [:a :b| a printString <= b printString].
-	c _ self at: elements first.
-	c printString first = $-
-		ifTrue: [c _ c negated. aStream nextPut: $-].
-	c ~= self scalars one ifTrue: [self printCoefficient: c on: aStream].
-	self printLiteral: elements first on: aStream.
-	elements allButFirst do: [:each|
-		c _ self at: each.
-		c printString first = $-
-			ifTrue: [aStream nextPutAll: ' - '. c _ c negated]
-			ifFalse: [aStream nextPutAll: ' + '].
-		c ~= c one ifTrue: [self printCoefficient: c on: aStream].
-		self printLiteral: each on: aStream]! !
-
-!BitTuple methodsFor: 'operations' stamp: 'len 7/15/2021 12:42:04'!
->> anInteger
-	^ self class bits: (bits bitShift: anInteger) parent: parent! !
-
-!BitTuple methodsFor: 'printing' stamp: 'len 3/28/2016 04:52'!
-printOn: aStream
-	1 to: self size do: [:i| aStream print: (self at: i)]! !
-
-!RealBox methodsFor: 'printing' stamp: 'len 5/23/2020 07:19:23'!
-printOn: aStream
-	components do: [:each| aStream print: each] separatedBy: [aStream nextPut: $◊]! !
-
-!SparseTuple methodsFor: 'copying' stamp: 'len 7/18/2020 06:12:12'!
-postCopy
-	components _ components copy! !
-
-!RootSystem methodsFor: 'printing' stamp: 'len 2/11/2016 01:34'!
-printOn: aStream
-	aStream nextPut: ${.
-	roots do: [:each| aStream print: each] separatedBy: [aStream nextPut: $,].
-	aStream nextPut: $}! !
+A polynomial code is cyclic if and only if the generator polynomial divides x^n - 1. See CyclicCode.
+!
 
 !IdentityArray methodsFor: 'as yet unclassified' stamp: 'len 12/23/2021 15:35:29'!
 hasEqualElements: otherCollection
@@ -635,6 +546,10 @@ hashQuick
 		elem == self ifFalse: [
 			hash _ (hash + elem identityHash) hashMultiply]].
 	^hash! !
+
+!BitArray2 methodsFor: 'printing' stamp: 'len 12/21/2015 20:42'!
+printOn: aStream
+	1 to: self size do: [:i| aStream print: (self at: i)]! !
 
 !BitArray2 methodsFor: 'accessing' stamp: 'len 12/21/2015 22:30'!
 at: anInteger
@@ -711,6 +626,12 @@ random: anInteger
 	answer _ self new: anInteger.
 	1 to: answer size do: [:i| answer at: i put: 2 atRandom - 1].
 	^ answer! !
+
+!StandardBasis methodsFor: 'printing' stamp: 'len 5/7/2018 23:22:28'!
+printOn: aStream
+	aStream nextPut: ${.
+	elements do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: ', '].
+	aStream nextPut: $}! !
 
 !StandardBasis methodsFor: 'accessing' stamp: 'len 5/7/2018 23:22:50'!
 add: aPolynomial
@@ -1008,7 +929,7 @@ reduceFull: aPolynomial startingAt: startIndex
 testSmallPrimeField
 	| p F E |
 	p _ 20 atRandom nextPrime.
-	F _ É/p.
+	F _ ‚Ñ§/p.
 	E _ SmallPrimeField new: p.
 	F do: [:a|
 		F do: [:b| | c d |
@@ -1034,6 +955,12 @@ testSmallPrimeFieldTables
 isAdditiveGroup
 	^ true! !
 
+!DivisorGroup methodsFor: 'as yet unclassified' stamp: 'len 7/25/2022 11:58:39'!
+printOn: aStream
+	aStream nextPutAll: 'Div'.
+	scalars = ‚Ñ§ ifFalse: [aStream nextPutAll: scalars printString sub].
+	aStream nextPut: $(; print: space; nextPut: $)! !
+
 !DivisorGroup methodsFor: 'as yet unclassified' stamp: 'len 7/25/2022 11:57:29'!
 scalars
 	^ scalars! !
@@ -1049,7 +976,7 @@ space: aScheme scalars: aRing
 
 !DivisorGroup class methodsFor: 'as yet unclassified' stamp: 'len 7/25/2022 11:59:50'!
 on: aScheme
-	^ self on: aScheme over: É! !
+	^ self on: aScheme over: ‚Ñ§! !
 
 !DivisorGroup class methodsFor: 'as yet unclassified' stamp: 'len 7/25/2022 11:59:31'!
 on: aScheme over: aRing
@@ -1099,7 +1026,11 @@ project: anArray
 !SemidirectProductGroup methodsFor: 'morphisms' stamp: 'len 5/23/2020 07:33:35'!
 projection
 	"Answer the projection from the cartesian product of two groups to their semidirect product."
-	^ ((left, right) to: self evaluating: [:each| self project: each]) name: 'é'! !
+	^ ((left, right) to: self evaluating: [:each| self project: each]) name: 'œÄ'! !
+
+!SemidirectProductGroup methodsFor: 'printing' stamp: 'len 4/21/2016 00:16'!
+printOn: aStream
+	aStream print: left; nextPutAll: ' X| '; print: right! !
 
 !SemidirectProductGroup methodsFor: 'random' stamp: 'len 4/19/2016 20:52'!
 atRandom: aRandom
@@ -1290,101 +1221,6 @@ completionIdeal: anIdeal
 !CompletionRing class methodsFor: 'instance creation' stamp: 'len 6/6/2019 12:04:12'!
 at: anIdeal
 	^ self new completionIdeal: anIdeal! !
-
-!PolynomialCode methodsFor: 'accessing' stamp: 'len 4/4/2016 20:19'!
-generator
-	^ generator! !
-
-!PolynomialCode methodsFor: 'accessing' stamp: 'len 5/12/2016 07:20'!
-rank
-	^ self length - generator degree! !
-
-!PolynomialCode methodsFor: 'accessing' stamp: 'len 1/23/2017 11:44:09'!
-size
-	^ generator parent scalars size ^ (self length - generator degree)! !
-
-!PolynomialCode methodsFor: 'converting' stamp: 'len 7/31/2020 10:28:26'!
-asIdeal
-	^ generator parent * generator! !
-
-!PolynomialCode methodsFor: 'encoding/decoding' stamp: 'len 5/12/2016 09:33'!
-decode: aPolynomial
-	self flag: #fix. "add error-detection and correction"
-	^ aPolynomial // generator! !
-
-!PolynomialCode methodsFor: 'encoding/decoding' stamp: 'len 7/15/2021 12:38:39'!
-encode: aPolynomial
-	| f |
-	f _ aPolynomial << generator degree.
-	^ f - (f \\ generator)! !
-
-!PolynomialCode methodsFor: 'enumerating' stamp: 'len 7/31/2020 10:31:23'!
-do: aBlock
-	self asIdeal do: aBlock! !
-
-!PolynomialCode methodsFor: 'initialization' stamp: 'len 4/4/2016 20:19'!
-generator: aPolynomial
-	generator _ aPolynomial! !
-
-!PolynomialCode methodsFor: 'testing' stamp: 'len 5/12/2016 07:17'!
-includes: aCodeword
-	^ aCodeword | generator! !
-
-!PolynomialCode methodsFor: 'testing' stamp: 'len 1/23/2017 11:44:04'!
-isCyclic
-	| n x |
-	n _ self length.
-	x _ generator parent x.
-	^ generator | (x ^ n - x parent one)! !
-
-!PolynomialCode class methodsFor: 'examples' stamp: 'len 5/23/2020 09:13:12'!
-G23
-	"Answer the perfect binary Golay code [23,12,7]."
-	| g |
-	g _ (É/2) polynomials !! [:x| x^11 + (x^10) + (x^6) + (x^5) + (x^4) + (x^2) + 1].
-	^ self new: 23 generator: g! !
-
-!PolynomialCode class methodsFor: 'examples' stamp: 'len 5/23/2020 09:13:12'!
-H7
-	"Answer the Hamming code [7,4,3]."
-	^ self new: 7 generator: (É/2) polynomials !! [:x| x^3 + x + 1]! !
-
-!PolynomialCode class methodsFor: 'instance creation' stamp: 'len 5/12/2016 07:42'!
-generator: aPolynomial
-	^ self new: aPolynomial degree generator: aPolynomial! !
-
-!PolynomialCode class methodsFor: 'instance creation' stamp: 'len 8/2/2020 12:23:40'!
-new: n generator: aPolynomial
-	| V W subspace |
-	V _ aPolynomial parent filtrationAt: n - 1.
-	W _ aPolynomial parent filtrationAt: n - aPolynomial degree - 1.
-	subspace _ V span: (W asArray collect: [:f| aPolynomial * f]).
-	^ (self on: subspace) generator: aPolynomial! !
-
-!CyclicCode methodsFor: 'accessing' stamp: 'len 1/23/2017 11:31:24'!
-checkPolynomial
-	| x one |
-	x _ generator parent x.
-	one _ generator parent one.
-	^ x ^ self length - one / generator! !
-
-!CyclicCode methodsFor: 'accessing' stamp: 'len 7/31/2020 10:30:03'!
-dimension
-	^ self length - generator degree! !
-
-!CyclicCode methodsFor: 'operations' stamp: 'len 6/29/2016 22:18'!
-dual
-	^ self class new: self length generator: self generator reversed! !
-
-!CyclicCode methodsFor: 'testing' stamp: 'len 5/15/2019 01:42:35'!
-includes: aCodeword
-	| x |
-	x _ generator parent x.
-	^ (self checkPolynomial * aCodeword \\ (x ^ self length - x one)) isZero! !
-
-!CyclicCode methodsFor: 'testing' stamp: 'len 6/29/2016 22:18'!
-isIrreducible
-	^ generator isIrreducible! !
 
 !CoxeterSystem methodsFor: 'as yet unclassified' stamp: 'len 4/5/2018 15:27:04'!
 computeDiagram
@@ -1861,11 +1697,11 @@ identity
 	^ self parent identity! !
 
 !SemidirectProductElement methodsFor: 'operations' stamp: 'len 5/5/2019 18:19:05'!
-∑ aSemidirectProduct
+¬∑ aSemidirectProduct
 	^ self parent
 		project:
-			{left ∑ aSemidirectProduct left.
-			parent action value: {aSemidirectProduct left. right} ∑ aSemidirectProduct right}! !
+			{left ¬∑ aSemidirectProduct left.
+			parent action value: {aSemidirectProduct left. right} ¬∑ aSemidirectProduct right}! !
 
 !SemidirectProductElement methodsFor: 'operations' stamp: 'len 5/5/2019 18:17:09'!
 inverse
@@ -1873,6 +1709,10 @@ inverse
 	leftInverse _ left inverse.
 	rightInverse _ right inverse.
 	^ parent project: {leftInverse. (parent action value: {leftInverse. rightInverse}) inverse}! !
+
+!SemidirectProductElement methodsFor: 'printing' stamp: 'len 2/12/2016 06:10'!
+printOn: aStream
+	aStream nextPut: $(; print: left; nextPutAll: ', '; print: right; nextPut: $)! !
 
 !SemidirectProductElement methodsFor: 'private' stamp: 'len 5/5/98 00:17'!
 left: anObject
@@ -1912,6 +1752,11 @@ colift: anElement
 !RelaxedAdicInteger methodsFor: 'accessing' stamp: 'len 6/3/2019 17:26:18'!
 << anInteger
 	^ self >> anInteger negated! !
+
+!RelaxedAdicInteger methodsFor: 'accessing' stamp: 'len 6/3/2019 17:28:33'!
+>> anInteger
+	"Multiply the receiver by p^anInteger shifting the digits by anInteger places."
+	^ parent digits: digits >> anInteger! !
 
 !RelaxedAdicInteger methodsFor: 'accessing' stamp: 'len 6/5/2019 13:18:16'!
 abs
@@ -1955,27 +1800,6 @@ valuation
 	precision _ parent precision.
 	[(digits at: (i _ i + 1)) isZero not ifTrue: [^ i].
 	precision > i ifFalse: [^ i]] repeat"! !
-
-!RelaxedAdicInteger methodsFor: 'printing' stamp: 'len 5/23/2020 07:42:09'!
-printOn: aStream withPowersShiftedBy: k
-	| printPrecision first |
-	self isZero
-		ifTrue: [aStream nextPut: $0]
-		ifFalse:
-			[printPrecision _ 10.
-			first _ true.
-			self valuation - k to: self valuation + printPrecision - 1 - k do: [:i|
-				| x |
-				(x _ self digits at: i+1+k) isZero
-					ifFalse:
-						[first ifFalse: [aStream nextPutAll: ' + '].
-						(x ~= 1 or: [i = 0]) ifTrue: [aStream print: x. i ~= 0 ifTrue: [aStream nextPut: $∑]].
-						i ~= 0 ifTrue: [aStream print: self p. i ~= 1 ifTrue: [aStream nextPutAll: i printString super]].
-						first _ false]]].
-	aStream nextPutAll: ' + ...'
-	"parent isBounded
-		ifTrue: [aStream nextPutAll: ' + ', 'O' italic; nextPut: $(; print: self p; nextPutAll: parent precision printString super; nextPut: $)]
-		ifFalse: [aStream nextPutAll: ' + ...']"! !
 
 !RelaxedAdicInteger methodsFor: 'arithmetic' stamp: 'len 6/2/2019 11:02:42'!
 * anAdic
@@ -2067,6 +1891,31 @@ jet: anInteger
 	"Answer the anInteger-th jet of the receiver, that is the truncation to anInteger terms."
 	^ (self parent jet: anInteger) !! self! !
 
+!RelaxedAdicInteger methodsFor: 'printing' stamp: 'len 6/2/2019 10:09:25'!
+printOn: aStream
+	self printOn: aStream withPowersShiftedBy: 0! !
+
+!RelaxedAdicInteger methodsFor: 'printing' stamp: 'len 5/23/2020 07:42:09'!
+printOn: aStream withPowersShiftedBy: k
+	| printPrecision first |
+	self isZero
+		ifTrue: [aStream nextPut: $0]
+		ifFalse:
+			[printPrecision _ 10.
+			first _ true.
+			self valuation - k to: self valuation + printPrecision - 1 - k do: [:i|
+				| x |
+				(x _ self digits at: i+1+k) isZero
+					ifFalse:
+						[first ifFalse: [aStream nextPutAll: ' + '].
+						(x ~= 1 or: [i = 0]) ifTrue: [aStream print: x. i ~= 0 ifTrue: [aStream nextPut: $¬∑]].
+						i ~= 0 ifTrue: [aStream print: self p. i ~= 1 ifTrue: [aStream nextPutAll: i printString super]].
+						first _ false]]].
+	aStream nextPutAll: ' + ...'
+	"parent isBounded
+		ifTrue: [aStream nextPutAll: ' + ', 'O' italic; nextPut: $(; print: self p; nextPutAll: parent precision printString super; nextPut: $)]
+		ifFalse: [aStream nextPutAll: ' + ...']"! !
+
 !RelaxedAdicInteger methodsFor: 'testing' stamp: 'len 6/2/2019 10:00:28'!
 isZero
 	parent isBounded ifFalse: [^ false].
@@ -2120,6 +1969,10 @@ unit
 !RelaxedAdicNumber methodsFor: 'accessing' stamp: 'len 6/2/2019 10:48:05'!
 valuation
 	^ valuation! !
+
+!RelaxedAdicNumber methodsFor: 'printing' stamp: 'len 6/3/2019 18:28:16'!
+printOn: aStream
+	unit printOn: aStream withPowersShiftedBy: valuation negated! !
 
 !RelaxedAdicNumber methodsFor: 'private' stamp: 'len 6/3/2019 18:26:19'!
 valuation: anInteger unit: anAdicInteger
@@ -2229,6 +2082,14 @@ value: anObject upTo: n
 	self terms do: [:each| each degree > n ifTrue: [^ answer]. answer _ answer + (each value: anObject)].
 	^ answer! !
 
+!RelaxedPowerSeries methodsFor: 'printing' stamp: 'len 6/6/2019 13:22:39'!
+printOn: aStream
+	| P f n |
+	n _ coefficients printLimit.
+	P _ parent base.
+	f _ (P coefficients: (coefficients first: n)) orderedBy: #llex.
+	aStream print: f; nextPutAll: ' + ', 'O' italic, '('; print: P x ^ (n+1); nextPut: $)! !
+
 !RelaxedPowerSeries methodsFor: 'testing' stamp: 'len 4/11/2016 23:09'!
 isZero
 	^ coefficients isZero! !
@@ -2236,20 +2097,20 @@ isZero
 !RelaxedPowerSeries class methodsFor: 'examples' stamp: 'len 5/23/2020 09:33:01'!
 cos
 	"The power series expansion of cos(x)."
-	^ Ñ powerSeries coefficients:
-		(Sequence to: Ñ evaluating: [:n| n even ifTrue: [0] ifFalse: [|k| k _ n-1/2. (-1)^k / (2*k) factorial]])! !
+	^ ‚Ñö powerSeries coefficients:
+		(Sequence to: ‚Ñö evaluating: [:n| n even ifTrue: [0] ifFalse: [|k| k _ n-1/2. (-1)^k / (2*k) factorial]])! !
 
 !RelaxedPowerSeries class methodsFor: 'examples' stamp: 'len 5/23/2020 09:33:01'!
 exp
 	"The power series expansion of exp(x)."
-	^ Ñ powerSeries
-		coefficients: (Sequence to: Ñ evaluating: [:n| 1 / n factorial])! !
+	^ ‚Ñö powerSeries
+		coefficients: (Sequence to: ‚Ñö evaluating: [:n| 1 / n factorial])! !
 
 !RelaxedPowerSeries class methodsFor: 'examples' stamp: 'len 5/23/2020 09:33:01'!
 sin
 	"The power series expansion of sin(x)."
-	^ Ñ powerSeries
-		coefficients: (Sequence to: Ñ evaluating: [:n| n odd ifTrue: [0] ifFalse: [|k| k _ n/2-1. (-1)^k / (2*k+1) factorial]])! !
+	^ ‚Ñö powerSeries
+		coefficients: (Sequence to: ‚Ñö evaluating: [:n| n odd ifTrue: [0] ifFalse: [|k| k _ n/2-1. (-1)^k / (2*k+1) factorial]])! !
 
 !RelaxedPowerSeries class methodsFor: 'instance creation' stamp: 'len 12/27/2015 16:21'!
 coefficients: aSequence
@@ -2258,38 +2119,6 @@ coefficients: aSequence
 !RelaxedPowerSeries class methodsFor: 'instance creation' stamp: 'len 11/25/2016 10:32:44'!
 fromPolynomial: aPolynomial
 	^ self coefficients: (CFiniteSequence to: aPolynomial scalars initialValues: aPolynomial coefficients periodic: {aPolynomial scalars zero})! !
-
-!Sum methodsFor: 'printing' stamp: 'len 2/25/2017 09:43:39'!
-printCoefficient: coefficient on: aStream
-	| c |
-	((c _ coefficient) printString first = $- "or: [coefficient isNumber and: [coefficient negative]]")
-		ifTrue: [aStream nextPut: $-. c _ c negated].
-	((c isKindOf: Polynomial) and: [c isMonomial])
-		ifTrue: [aStream print: c. ^ self].
-	(c printString allSatisfy: [:each| each isAlphaNumeric or: ['{}()/' includes: each]])
-		ifTrue: [aStream print: c. ^ self].
-	aStream nextPut: $(; print: c; nextPut: $)! !
-
-!Sum methodsFor: 'printing' stamp: 'len 2/28/2017 08:43:47'!
-printLiteral: anObject on: aStream
-	((anObject isKindOf: Word) and: [anObject isEmpty])
-		ifTrue: [^ self].
-	anObject isInteger
-		ifTrue:
-			[aStream isText
-				ifTrue: [aStream nextPut: $x; nextPutAll: anObject printString sub]
-				ifFalse: [aStream nextPutAll: '{x', anObject printString, '}'].
-			^ self].
-	(aStream isText and: [anObject isString])
-			ifTrue: [aStream nextPutAll: anObject asText]
-			ifFalse: [aStream print: anObject]! !
-
-!Sum methodsFor: 'printing' stamp: 'len 2/25/2017 08:38:18'!
-printOn2: aStream
-	aStream nextPut: $(.
-	(Iterator on: self performing: #associationsDo:)
-		do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: ', '].
-	aStream nextPut: $)! !
 
 !Sum methodsFor: 'accessing' stamp: 'len 1/10/2018 21:04:34'!
 at: anObject
@@ -2374,6 +2203,10 @@ over: aRing
 		(newValue _ aRing !! each value) isZero
 			ifFalse: [newCoefficients add: (each copy value: newValue)]].
 	^ (self class coefficients: newCoefficients) parent: (parent over: aRing)! !
+
+!Sum methodsFor: 'copying' stamp: 'len 11/18/2016 17:34:33'!
+postCopy
+	coefficients _ coefficients copy! !
 
 !Sum methodsFor: 'enumerating' stamp: 'len 11/18/2016 09:54:31'!
 associationsDo: aBlock
@@ -2460,9 +2293,9 @@ withSupportDo: elementAndIndexBlock
 	^ self collect: [:each| each \\ anElement]! !
 
 !Sum methodsFor: 'operations' stamp: 'len 5/6/2019 02:55:32'!
-∑ aSum
+¬∑ aSum
 	| answer |
-	self size <= aSum size ifFalse: [^ aSum ∑ self].
+	self size <= aSum size ifFalse: [^ aSum ¬∑ self].
 	answer _ self scalars zero.
 	coefficients associationsDo: [:each|
 		aSum at: each key ifPresent: [:value2| answer _ answer + (each value*value2)]].
@@ -2491,6 +2324,56 @@ hadamard: aSum
 !Sum methodsFor: 'operations' stamp: 'len 11/18/2016 09:57:04'!
 negated
 	^ self collectNoZero: [:each| each negated]! !
+
+!Sum methodsFor: 'printing' stamp: 'len 2/25/2017 09:43:39'!
+printCoefficient: coefficient on: aStream
+	| c |
+	((c _ coefficient) printString first = $- "or: [coefficient isNumber and: [coefficient negative]]")
+		ifTrue: [aStream nextPut: $-. c _ c negated].
+	((c isKindOf: Polynomial) and: [c isMonomial])
+		ifTrue: [aStream print: c. ^ self].
+	(c printString allSatisfy: [:each| each isAlphaNumeric or: ['{}()/' includes: each]])
+		ifTrue: [aStream print: c. ^ self].
+	aStream nextPut: $(; print: c; nextPut: $)! !
+
+!Sum methodsFor: 'printing' stamp: 'len 2/28/2017 08:43:47'!
+printLiteral: anObject on: aStream
+	((anObject isKindOf: Word) and: [anObject isEmpty])
+		ifTrue: [^ self].
+	anObject isInteger
+		ifTrue:
+			[aStream isText
+				ifTrue: [aStream nextPut: $x; nextPutAll: anObject printString sub]
+				ifFalse: [aStream nextPutAll: '{x', anObject printString, '}'].
+			^ self].
+	(aStream isText and: [anObject isString])
+			ifTrue: [aStream nextPutAll: anObject asText]
+			ifFalse: [aStream print: anObject]! !
+
+!Sum methodsFor: 'printing' stamp: 'len 2/25/2017 08:38:18'!
+printOn2: aStream
+	aStream nextPut: $(.
+	(Iterator on: self performing: #associationsDo:)
+		do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: ', '].
+	aStream nextPut: $)! !
+
+!Sum methodsFor: 'printing' stamp: 'len 1/10/2018 21:04:41'!
+printOn: aStream
+	| elements c |
+	self isZero ifTrue: [aStream nextPutAll: '0'. ^ self].
+	elements _ self keys asSortedCollection: [:a :b| a printString <= b printString].
+	c _ self at: elements first.
+	c printString first = $-
+		ifTrue: [c _ c negated. aStream nextPut: $-].
+	c ~= self scalars one ifTrue: [self printCoefficient: c on: aStream].
+	self printLiteral: elements first on: aStream.
+	elements allButFirst do: [:each|
+		c _ self at: each.
+		c printString first = $-
+			ifTrue: [aStream nextPutAll: ' - '. c _ c negated]
+			ifFalse: [aStream nextPutAll: ' + '].
+		c ~= c one ifTrue: [self printCoefficient: c on: aStream].
+		self printLiteral: each on: aStream]! !
 
 !Sum methodsFor: 'testing' stamp: 'len 11/18/2016 09:56:53'!
 isZero
@@ -2613,13 +2496,17 @@ run
 - aBitTuple
 	^ self + aBitTuple! !
 
+!BitTuple methodsFor: 'operations' stamp: 'len 7/15/2021 12:42:04'!
+>> anInteger
+	^ self class bits: (bits bitShift: anInteger) parent: parent! !
+
 !BitTuple methodsFor: 'operations' stamp: 'len 5/28/2020 14:30:57'!
 >>> anInteger
 	anInteger = 0 ifTrue: [^ self].
 	^ self class bits: (bits bitShift: anInteger) parent: self scalars^(self size + anInteger max: 0)! !
 
 !BitTuple methodsFor: 'operations' stamp: 'len 5/8/2019 03:09:41'!
-∑ aBitTuple
+¬∑ aBitTuple
 	^ (bits bitAnd: aBitTuple asInteger) bitParity = 0 ifTrue: [Zero] ifFalse: [One]
 
 "	^ self hadamard: aBitTuple :: sum
@@ -2721,6 +2608,10 @@ sum
 weight
 	"Answer the Hamming weight of the receiver, i.e. the number of entries that are not zero."
 	^ self asInteger bitCount! !
+
+!BitTuple methodsFor: 'printing' stamp: 'len 3/28/2016 04:52'!
+printOn: aStream
+	1 to: self size do: [:i| aStream print: (self at: i)]! !
 
 !BitTuple methodsFor: 'accessing' stamp: 'len 5/8/2019 02:58:37'!
 at: anInteger
@@ -2824,7 +2715,7 @@ bits: anInteger
 initialize
 	| Z2 |
 	super initialize.
-	Z2 _ É / 2.
+	Z2 _ ‚Ñ§ / 2.
 	One _ Z2 one.
 	Zero _ Z2 zero! !
 
@@ -3144,6 +3035,10 @@ lookup: anArray
 default
 	^ Default ifNil: [Default _ self new]! !
 
+!RealBox methodsFor: 'printing' stamp: 'len 5/23/2020 07:19:23'!
+printOn: aStream
+	components do: [:each| aStream print: each] separatedBy: [aStream nextPut: $√ó]! !
+
 !RealBox methodsFor: 'accessing' stamp: 'len 1/11/2016 02:33'!
 add: aRealInterval
 	^ components add: aRealInterval! !
@@ -3178,12 +3073,12 @@ measure
 
 !RealBox methodsFor: 'accessing' stamp: 'len 5/23/2020 09:31:27'!
 midpoint
-	^ Ö tuple: (components collect: [:each| each midpoint])! !
+	^ ‚Ñù tuple: (components collect: [:each| each midpoint])! !
 
 !RealBox methodsFor: 'accessing' stamp: 'len 6/1/2020 13:27:25'!
 sample
 	"Answer a sample point in the receiver."
-	^ Ö^self size filling: [:each| (self at: each) sample]! !
+	^ ‚Ñù^self size filling: [:each| (self at: each) sample]! !
 
 !RealBox methodsFor: 'accessing' stamp: 'len 1/11/2016 02:37'!
 size
@@ -3315,6 +3210,10 @@ run
 	invariants add: ((matrix at: 1@1) gcd: R).
 "	diagonal _ matrix scalars tuple: diagonal"! !
 
+!SparseTuple methodsFor: 'copying' stamp: 'len 7/18/2020 06:12:12'!
+postCopy
+	components _ components copy! !
+
 !SparseTuple methodsFor: 'accessing' stamp: 'len 7/18/2020 05:41:20'!
 at: key
 	^ components at: key ifAbsent: [self scalars zero]! !
@@ -3396,7 +3295,7 @@ initialize
 	^ answer! !
 
 !SparseTuple methodsFor: 'operations' stamp: 'len 7/18/2020 06:59:44'!
-∑ aTuple
+¬∑ aTuple
 	| answer |
 	answer _ self scalars zero.
 	self withIndexDo: [:each :index|
@@ -3544,6 +3443,12 @@ isParabolic
 	spectrum _ self gramMatrix spectrum.
 	^ (spectrum occurrencesOf: 0) = 1 and: [spectrum allSatisfy: [:each| each >= 0]]! !
 
+!RootSystem methodsFor: 'printing' stamp: 'len 2/11/2016 01:34'!
+printOn: aStream
+	aStream nextPut: ${.
+	roots do: [:each| aStream print: each] separatedBy: [aStream nextPut: $,].
+	aStream nextPut: $}! !
+
 !RootSystem methodsFor: 'accessing' stamp: 'len 5/23/2016 05:00'!
 ambient
 	"Answer the ambient space of the receiver."
@@ -3570,7 +3475,7 @@ coxeterElement
 	| O answer |
 	O _ ambient automorphisms orthogonal.
 	answer _ ambient id.
-	self simpleRoots do: [:each| answer _ answer ∑ (O reflectionAt: each)].
+	self simpleRoots do: [:each| answer _ answer ¬∑ (O reflectionAt: each)].
 	^ answer! !
 
 !RootSystem methodsFor: 'operations' stamp: 'len 12/18/2021 20:31:19'!
@@ -3599,9 +3504,9 @@ exponents
 	h _ self coxeterNumber.
 	^ self coxeterElement eigenvalues collect: [:each| each log / (Float pi * 2 i / h)]! !
 
-!RootSystem methodsFor: 'operations' stamp: 'len 5/20/2018 15:59:24'!
+!RootSystem methodsFor: 'operations' stamp: 'len 8/6/2022 07:13:23'!
 lattice
-	"Answer the root lattice, the Z-submodule spanned by roots of the receiver."
+	"Answer the root lattice, the ‚Ñ§-submodule spanned by roots of the receiver."
 	^ Lattice basis: self simpleRoots! !
 
 !RootSystem methodsFor: 'operations' stamp: 'len 5/23/2016 05:01'!
@@ -3737,7 +3642,7 @@ D: V
 example1
 	"This is a normalized root system in R^n. The Weyl group associated to it is the symmetric group S_n."
 	| V roots |
-	V _ Ñ ^ 3.
+	V _ ‚Ñö ^ 3.
 	roots _ Set new.
 	1 to: V dimension do: [:i|
 		1 to: i-1 do: [:j|
@@ -3748,7 +3653,7 @@ example1
 example2
 	"This is a normalized root system in R^n. The Weyl group associated to it is the hyperoctahedral group."
 	| V roots |
-	V _ Ö ^ 3.
+	V _ ‚Ñù ^ 3.
 	roots _ Set new.
 	1 to: V dimension do: [:i|
 		1 to: i-1 do: [:j|
@@ -3765,7 +3670,7 @@ example2
 example3
 	"This is a normalized root system in R^n. The Weyl group associated to it is an index 2 subgroup of the hyperoctahedral group."
 	| V roots |
-	V _ Ñ ^ 3.
+	V _ ‚Ñö ^ 3.
 	roots _ Set new.
 	1 to: 3 do: [:i|
 		1 to: i-1 do: [:j|
@@ -3778,7 +3683,7 @@ example3
 
 !RootSystem class methodsFor: 'examples' stamp: 'len 5/23/2020 09:33:01'!
 hexagonal
-	^ self A: Ñ ^ 2! !
+	^ self A: ‚Ñö ^ 2! !
 
 !RootSystem class methodsFor: 'instance creation' stamp: 'len 5/23/2016 05:00'!
 on: aVectorSpace roots: aCollection
@@ -3787,7 +3692,7 @@ on: aVectorSpace roots: aCollection
 !RootSystemTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2020 09:33:01'!
 rootSystem1
 	| V roots |
-	V _ Ñ ^ 3.
+	V _ ‚Ñö ^ 3.
 	roots _ Set new.
 	1 to: 3 do: [:i| 1 to: i-1 do: [:j| |r| roots add: (r _ (V x: i) - (V x: j)); add: r negated]].
 	^ RootSystem on: V roots: roots! !
@@ -3795,7 +3700,7 @@ rootSystem1
 !RootSystemTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2020 09:33:01'!
 rootSystem2
 	| V roots |
-	V _ Ñ ^ 3.
+	V _ ‚Ñö ^ 3.
 	roots _ Set new.
 	1 to: 3 do: [:i|
 		1 to: i-1 do: [:j|
@@ -3847,4 +3752,99 @@ testWeylGroupAndSimpleRoots
 	R _ self rootSystem1.
 	W _ R weylGroup.
 	R roots do: [:r| self assert: (W anySatisfy: [:w| R simpleRoots includes: (w value: r)])]! !
+
+!PolynomialCode methodsFor: 'accessing' stamp: 'len 4/4/2016 20:19'!
+generator
+	^ generator! !
+
+!PolynomialCode methodsFor: 'accessing' stamp: 'len 5/12/2016 07:20'!
+rank
+	^ self length - generator degree! !
+
+!PolynomialCode methodsFor: 'accessing' stamp: 'len 1/23/2017 11:44:09'!
+size
+	^ generator parent scalars size ^ (self length - generator degree)! !
+
+!PolynomialCode methodsFor: 'converting' stamp: 'len 7/31/2020 10:28:26'!
+asIdeal
+	^ generator parent * generator! !
+
+!PolynomialCode methodsFor: 'encoding/decoding' stamp: 'len 5/12/2016 09:33'!
+decode: aPolynomial
+	self flag: #fix. "add error-detection and correction"
+	^ aPolynomial // generator! !
+
+!PolynomialCode methodsFor: 'encoding/decoding' stamp: 'len 7/15/2021 12:38:39'!
+encode: aPolynomial
+	| f |
+	f _ aPolynomial << generator degree.
+	^ f - (f \\ generator)! !
+
+!PolynomialCode methodsFor: 'enumerating' stamp: 'len 7/31/2020 10:31:23'!
+do: aBlock
+	self asIdeal do: aBlock! !
+
+!PolynomialCode methodsFor: 'initialization' stamp: 'len 4/4/2016 20:19'!
+generator: aPolynomial
+	generator _ aPolynomial! !
+
+!PolynomialCode methodsFor: 'testing' stamp: 'len 5/12/2016 07:17'!
+includes: aCodeword
+	^ aCodeword | generator! !
+
+!PolynomialCode methodsFor: 'testing' stamp: 'len 1/23/2017 11:44:04'!
+isCyclic
+	| n x |
+	n _ self length.
+	x _ generator parent x.
+	^ generator | (x ^ n - x parent one)! !
+
+!PolynomialCode class methodsFor: 'examples' stamp: 'len 5/23/2020 09:13:12'!
+G23
+	"Answer the perfect binary Golay code [23,12,7]."
+	| g |
+	g _ (‚Ñ§/2) polynomials !! [:x| x^11 + (x^10) + (x^6) + (x^5) + (x^4) + (x^2) + 1].
+	^ self new: 23 generator: g! !
+
+!PolynomialCode class methodsFor: 'examples' stamp: 'len 5/23/2020 09:13:12'!
+H7
+	"Answer the Hamming code [7,4,3]."
+	^ self new: 7 generator: (‚Ñ§/2) polynomials !! [:x| x^3 + x + 1]! !
+
+!PolynomialCode class methodsFor: 'instance creation' stamp: 'len 5/12/2016 07:42'!
+generator: aPolynomial
+	^ self new: aPolynomial degree generator: aPolynomial! !
+
+!PolynomialCode class methodsFor: 'instance creation' stamp: 'len 8/2/2020 12:23:40'!
+new: n generator: aPolynomial
+	| V W subspace |
+	V _ aPolynomial parent filtrationAt: n - 1.
+	W _ aPolynomial parent filtrationAt: n - aPolynomial degree - 1.
+	subspace _ V span: (W asArray collect: [:f| aPolynomial * f]).
+	^ (self on: subspace) generator: aPolynomial! !
+
+!CyclicCode methodsFor: 'accessing' stamp: 'len 1/23/2017 11:31:24'!
+checkPolynomial
+	| x one |
+	x _ generator parent x.
+	one _ generator parent one.
+	^ x ^ self length - one / generator! !
+
+!CyclicCode methodsFor: 'accessing' stamp: 'len 7/31/2020 10:30:03'!
+dimension
+	^ self length - generator degree! !
+
+!CyclicCode methodsFor: 'operations' stamp: 'len 6/29/2016 22:18'!
+dual
+	^ self class new: self length generator: self generator reversed! !
+
+!CyclicCode methodsFor: 'testing' stamp: 'len 5/15/2019 01:42:35'!
+includes: aCodeword
+	| x |
+	x _ generator parent x.
+	^ (self checkPolynomial * aCodeword \\ (x ^ self length - x one)) isZero! !
+
+!CyclicCode methodsFor: 'testing' stamp: 'len 6/29/2016 22:18'!
+isIrreducible
+	^ generator isIrreducible! !
 BitTuple initialize!

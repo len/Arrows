@@ -1,17 +1,17 @@
-'From Cuis 6.0 [latest update: #5053] on 16 April 2022 at 2:13:13 pm'!
+'From Cuis 6.0 [latest update: #5434] on 5 August 2022 at 9:28:00 am'!
 'Description '!
 !provides: 'Tests-Graphs' 1 1!
 !requires: 'Graphs' 1 1 nil!
-SystemOrganization addCategory: #'Tests-Graphs'!
+SystemOrganization addCategory: 'Tests-Graphs'!
 
 
-!classDefinition: #GraphTest category: #'Tests-Graphs'!
+!classDefinition: #GraphTest category: 'Tests-Graphs'!
 TestCase subclass: #GraphTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Graphs'!
-!classDefinition: 'GraphTest class' category: #'Tests-Graphs'!
+!classDefinition: 'GraphTest class' category: 'Tests-Graphs'!
 GraphTest class
 	instanceVariableNames: ''!
 
@@ -20,7 +20,7 @@ GraphTest class
 testCartesianProduct
 	| G H |
 	G _ Graph unordered addEdge: 1 -> 2; yourself.
-	H _ G × G.
+	H _ G Ã— G.
 	self assert: H size = 4.
 	self assert: H numberOfEdges = 4! !
 

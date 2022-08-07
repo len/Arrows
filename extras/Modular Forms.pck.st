@@ -1,187 +1,187 @@
-'From Cuis 6.0 [latest update: #5053] on 27 June 2022 at 1:31:27 pm'!
+'From Cuis 6.0 [latest update: #5434] on 6 August 2022 at 7:17:31 am'!
 'Description '!
-!provides: 'Modular Forms' 1 4!
+!provides: 'Modular Forms' 1 6!
 !requires: 'Algebra' 1 0 nil!
-SystemOrganization addCategory: #'Modular Forms'!
+SystemOrganization addCategory: 'Modular Forms'!
 
 
-!classDefinition: #ArithmeticGroup category: #'Modular Forms'!
+!classDefinition: #ArithmeticGroup category: 'Modular Forms'!
 Group subclass: #ArithmeticGroup
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Modular Forms'!
-!classDefinition: 'ArithmeticGroup class' category: #'Modular Forms'!
+!classDefinition: 'ArithmeticGroup class' category: 'Modular Forms'!
 ArithmeticGroup class
 	instanceVariableNames: ''!
 
-!classDefinition: #CongruenceSubgroup category: #'Modular Forms'!
+!classDefinition: #CongruenceSubgroup category: 'Modular Forms'!
 ArithmeticGroup subclass: #CongruenceSubgroup
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Modular Forms'!
-!classDefinition: 'CongruenceSubgroup class' category: #'Modular Forms'!
+!classDefinition: 'CongruenceSubgroup class' category: 'Modular Forms'!
 CongruenceSubgroup class
 	instanceVariableNames: ''!
 
-!classDefinition: #Gamma0CongruenceSubgroup category: #'Modular Forms'!
+!classDefinition: #Gamma0CongruenceSubgroup category: 'Modular Forms'!
 CongruenceSubgroup subclass: #Gamma0CongruenceSubgroup
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Modular Forms'!
-!classDefinition: 'Gamma0CongruenceSubgroup class' category: #'Modular Forms'!
+!classDefinition: 'Gamma0CongruenceSubgroup class' category: 'Modular Forms'!
 Gamma0CongruenceSubgroup class
 	instanceVariableNames: ''!
 
-!classDefinition: #Gamma1CongruenceSubgroup category: #'Modular Forms'!
+!classDefinition: #Gamma1CongruenceSubgroup category: 'Modular Forms'!
 CongruenceSubgroup subclass: #Gamma1CongruenceSubgroup
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Modular Forms'!
-!classDefinition: 'Gamma1CongruenceSubgroup class' category: #'Modular Forms'!
+!classDefinition: 'Gamma1CongruenceSubgroup class' category: 'Modular Forms'!
 Gamma1CongruenceSubgroup class
 	instanceVariableNames: ''!
 
-!classDefinition: #PrincipalCongruenceSubgroup category: #'Modular Forms'!
+!classDefinition: #PrincipalCongruenceSubgroup category: 'Modular Forms'!
 CongruenceSubgroup subclass: #PrincipalCongruenceSubgroup
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Modular Forms'!
-!classDefinition: 'PrincipalCongruenceSubgroup class' category: #'Modular Forms'!
+!classDefinition: 'PrincipalCongruenceSubgroup class' category: 'Modular Forms'!
 PrincipalCongruenceSubgroup class
 	instanceVariableNames: ''!
 
-!classDefinition: #ModularGroup category: #'Modular Forms'!
+!classDefinition: #ModularGroup category: 'Modular Forms'!
 PrincipalCongruenceSubgroup subclass: #ModularGroup
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Modular Forms'!
-!classDefinition: 'ModularGroup class' category: #'Modular Forms'!
+!classDefinition: 'ModularGroup class' category: 'Modular Forms'!
 ModularGroup class
 	instanceVariableNames: ''!
 
-!classDefinition: #DirichletGroup category: #'Modular Forms'!
+!classDefinition: #DirichletGroup category: 'Modular Forms'!
 Group subclass: #DirichletGroup
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Modular Forms'!
-!classDefinition: 'DirichletGroup class' category: #'Modular Forms'!
+!classDefinition: 'DirichletGroup class' category: 'Modular Forms'!
 DirichletGroup class
 	instanceVariableNames: ''!
 
-!classDefinition: #MoebiusGroup category: #'Modular Forms'!
+!classDefinition: #MoebiusGroup category: 'Modular Forms'!
 Group subclass: #MoebiusGroup
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Modular Forms'!
-!classDefinition: 'MoebiusGroup class' category: #'Modular Forms'!
+!classDefinition: 'MoebiusGroup class' category: 'Modular Forms'!
 MoebiusGroup class
 	instanceVariableNames: ''!
 
-!classDefinition: #UpperHalfPlane category: #'Modular Forms'!
+!classDefinition: #UpperHalfPlane category: 'Modular Forms'!
 Structure subclass: #UpperHalfPlane
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Modular Forms'!
-!classDefinition: 'UpperHalfPlane class' category: #'Modular Forms'!
+!classDefinition: 'UpperHalfPlane class' category: 'Modular Forms'!
 UpperHalfPlane class
 	instanceVariableNames: ''!
 
-!classDefinition: #DirichletCharacter category: #'Modular Forms'!
+!classDefinition: #DirichletCharacter category: 'Modular Forms'!
 GroupMap subclass: #DirichletCharacter
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Modular Forms'!
-!classDefinition: 'DirichletCharacter class' category: #'Modular Forms'!
+!classDefinition: 'DirichletCharacter class' category: 'Modular Forms'!
 DirichletCharacter class
 	instanceVariableNames: ''!
 
-!classDefinition: #LinearFractionalMap category: #'Modular Forms'!
-RationalMap subclass: #LinearFractionalMap
-	instanceVariableNames: 'a b c d'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Modular Forms'!
-!classDefinition: 'LinearFractionalMap class' category: #'Modular Forms'!
-LinearFractionalMap class
-	instanceVariableNames: ''!
-
-!classDefinition: #ModularMap category: #'Modular Forms'!
-LinearFractionalMap subclass: #ModularMap
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Modular Forms'!
-!classDefinition: 'ModularMap class' category: #'Modular Forms'!
-ModularMap class
-	instanceVariableNames: ''!
-
-!classDefinition: #ModularForm category: #'Modular Forms'!
+!classDefinition: #ModularForm category: 'Modular Forms'!
 Function subclass: #ModularForm
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Modular Forms'!
-!classDefinition: 'ModularForm class' category: #'Modular Forms'!
+!classDefinition: 'ModularForm class' category: 'Modular Forms'!
 ModularForm class
 	instanceVariableNames: ''!
 
-!classDefinition: #EisensteinSeries category: #'Modular Forms'!
+!classDefinition: #EisensteinSeries category: 'Modular Forms'!
 ModularForm subclass: #EisensteinSeries
 	instanceVariableNames: 'weight'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Modular Forms'!
-!classDefinition: 'EisensteinSeries class' category: #'Modular Forms'!
+!classDefinition: 'EisensteinSeries class' category: 'Modular Forms'!
 EisensteinSeries class
 	instanceVariableNames: ''!
 
-!classDefinition: #FareySymbol category: #'Modular Forms'!
+!classDefinition: #LinearFractionalMap category: 'Modular Forms'!
+RationalMap subclass: #LinearFractionalMap
+	instanceVariableNames: 'a b c d'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Modular Forms'!
+!classDefinition: 'LinearFractionalMap class' category: 'Modular Forms'!
+LinearFractionalMap class
+	instanceVariableNames: ''!
+
+!classDefinition: #ModularMap category: 'Modular Forms'!
+LinearFractionalMap subclass: #ModularMap
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Modular Forms'!
+!classDefinition: 'ModularMap class' category: 'Modular Forms'!
+ModularMap class
+	instanceVariableNames: ''!
+
+!classDefinition: #FareySymbol category: 'Modular Forms'!
 Object subclass: #FareySymbol
 	instanceVariableNames: 'group fractions pairings'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Modular Forms'!
-!classDefinition: 'FareySymbol class' category: #'Modular Forms'!
+!classDefinition: 'FareySymbol class' category: 'Modular Forms'!
 FareySymbol class
 	instanceVariableNames: ''!
 
-!classDefinition: #ManinSymbol category: #'Modular Forms'!
+!classDefinition: #ManinSymbol category: 'Modular Forms'!
 Object subclass: #ManinSymbol
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Modular Forms'!
-!classDefinition: 'ManinSymbol class' category: #'Modular Forms'!
+!classDefinition: 'ManinSymbol class' category: 'Modular Forms'!
 ManinSymbol class
 	instanceVariableNames: ''!
 
-!classDefinition: #ModularGroupTest category: #'Modular Forms'!
+!classDefinition: #ModularGroupTest category: 'Modular Forms'!
 Object subclass: #ModularGroupTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Modular Forms'!
-!classDefinition: 'ModularGroupTest class' category: #'Modular Forms'!
+!classDefinition: 'ModularGroupTest class' category: 'Modular Forms'!
 ModularGroupTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #ModularSymbol category: #'Modular Forms'!
+!classDefinition: #ModularSymbol category: 'Modular Forms'!
 Object subclass: #ModularSymbol
 	instanceVariableNames: 'alpha beta'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Modular Forms'!
-!classDefinition: 'ModularSymbol class' category: #'Modular Forms'!
+!classDefinition: 'ModularSymbol class' category: 'Modular Forms'!
 ModularSymbol class
 	instanceVariableNames: ''!
 
@@ -230,11 +230,6 @@ The group of hyperbolic isometries, as well as conformal automorphisms, is the g
 !DirichletCharacter commentStamp: '<historical>' prior: 0!
 Characters on the units of Z/nZ, i.e. group homomorphisms (Z/nZ)* -> C* from the unit group of the ring Z/nZ to the multiplicative group of nonzero complex numbers.!
 
-!LinearFractionalMap commentStamp: '<historical>' prior: 0!
-Transformations of the form
-	z |-> az + b / (cz + d)
-where ad - cb ~= 0.!
-
 !ModularForm commentStamp: '<historical>' prior: 0!
 A modular form of weight k is a holomorphic function f:H -> C from the upper half plane to the complex plane, satisfying for a,b,c,d coefficients of a matrix in SL(2,R)
 	f((az + b) / (cz + d)) = (cz + d)^k f(z)
@@ -246,6 +241,11 @@ A modular form f(z) can be seen as power series on a new variable q = e^(2 pi i 
 
 Given a group G, the set of modular forms of a given weight k form a finite-dimensional vector space M_k(G). See ModularFormSpace. The set of all modular forms of all weights is noted M_*(G) and it's a ring. All modular functions form a field.!
 
+!LinearFractionalMap commentStamp: '<historical>' prior: 0!
+Transformations of the form
+	z |-> az + b / (cz + d)
+where ad - cb ~= 0.!
+
 !FareySymbol commentStamp: '<historical>' prior: 0!
 Farey symbols give information about finite index subgroups of the modular group (such as index, generators, etc) and about the associated modular curve (such as genus and rank of the fundamental group).
 
@@ -254,62 +254,9 @@ References
 	Chris A. Kurth, Ling Long, "Computations with finite index subgroups of PSL(2,Z) using Farey symbols".
 	John Voight, "Computational methods for modular and Shimura curves", lecture videos in youtube.!
 
-!Gamma0CongruenceSubgroup methodsFor: 'as yet unclassified' stamp: 'len 5/23/2020 07:37:35'!
-printOn: aStream
-	aStream nextPutAll: '—', '0' sub,'('; print: self level; nextPut: $)! !
-
-!Gamma1CongruenceSubgroup methodsFor: 'as yet unclassified' stamp: 'len 5/23/2020 07:37:47'!
-printOn: aStream
-	aStream nextPutAll: '—', '1' sub,'('; print: self level; nextPut: $)! !
-
-!PrincipalCongruenceSubgroup methodsFor: 'as yet unclassified' stamp: 'len 5/23/2020 07:40:36'!
-printOn: aStream
-	aStream nextPut: $—.
-	self level ~= 1 ifTrue: [aStream nextPut: $(; print: self level; nextPut: $)]! !
-
-!ModularGroup methodsFor: 'as yet unclassified' stamp: 'len 5/23/2020 07:38:23'!
-printOn: aStream
-	aStream nextPut: $—! !
-
-!DirichletGroup methodsFor: 'as yet unclassified' stamp: 'len 5/23/2020 09:13:12'!
-printOn: aStream
-	aStream nextPut: $(; print: ƒ; nextPut: $/; print: self modulus; nextPutAll: ')', '*' super! !
-
-!UpperHalfPlane methodsFor: 'printing' stamp: 'len 5/23/2020 07:42:50'!
-printOn: aStream
-	aStream nextPut: $H! !
-
-!LinearFractionalMap methodsFor: 'printing' stamp: 'len 5/23/2020 09:31:47'!
-printOn: aStream
-	| z denominator numerator |
-	z _ († polynomialsIn: #(z)) x.
-	c isZero ifTrue: [aStream print: z * a + b / d. ^ self].
-	numerator _ z * a + b.
-	(a = 0 or: [b = 0])
-		ifTrue: [aStream print: numerator]
-		ifFalse: [aStream nextPut: $(; print: numerator; nextPut: $)].
-	aStream nextPut: $/.
-	denominator _ z * c + d.
-	(c = 0 or: [d = 0])
-		ifTrue: [aStream print: denominator]
-		ifFalse: [aStream nextPut: $(; print: denominator; nextPut: $)]! !
-
-!EisensteinSeries methodsFor: 'as yet unclassified' stamp: 'len 12/6/2016 20:41:01'!
-printOn: aStream
-	aStream nextPutAll: 'G', weight printString sub! !
-
-!FareySymbol methodsFor: 'as yet unclassified' stamp: 'len 12/20/2016 21:30:43'!
-printOn: aStream
-	| n |
-	n _ self size.
-	aStream print: Infinity negative.
-	1 to: n do: [:i|
-		aStream nextPutAll: ' (', (self pairingAt: i) asString, ') '; print: (self numeratorAt: i); nextPut: $/; print: (self denominatorAt: i)].
-	aStream nextPutAll: ' (', (self pairingAt: n+1) asString, ') '; print: Infinity positive! !
-
 !ArithmeticGroup methodsFor: 'as yet unclassified' stamp: 'len 5/23/2020 09:03:47'!
 action
-	^ GroupAction from: (self, †) to: † evaluatingWithArguments: [:f :z| f value: z]! !
+	^ GroupAction from: (self, â„‚) to: â„‚ evaluatingWithArguments: [:f :z| f value: z]! !
 
 !ArithmeticGroup methodsFor: 'as yet unclassified' stamp: 'len 12/20/2016 12:20:53'!
 ambient
@@ -415,9 +362,17 @@ numberOfCusps
 	n _ self level.
 	^ n divisors sum: [:d| (d gcd: n // d) phi]! !
 
+!Gamma0CongruenceSubgroup methodsFor: 'as yet unclassified' stamp: 'len 8/5/2022 09:36:37'!
+printOn: aStream
+	aStream nextPutAll: 'Î“' asText, '0' sub, '(' asText; print: self level; nextPut: $)! !
+
 !Gamma1CongruenceSubgroup methodsFor: 'as yet unclassified' stamp: 'len 12/10/2016 12:28:30'!
 even
 	^ self level = 1 or: [self level = 2]! !
+
+!Gamma1CongruenceSubgroup methodsFor: 'as yet unclassified' stamp: 'len 8/5/2022 09:36:55'!
+printOn: aStream
+	aStream nextPutAll: 'Î“' asText, '1' sub, '(' asText; print: self level; nextPut: $)! !
 
 !PrincipalCongruenceSubgroup methodsFor: 'as yet unclassified' stamp: 'len 12/15/2016 23:02:54'!
 * aGroup
@@ -453,6 +408,11 @@ numberOfCusps
 numberOfIrregularCusps
 	^ 0! !
 
+!PrincipalCongruenceSubgroup methodsFor: 'as yet unclassified' stamp: 'len 5/23/2020 07:40:36'!
+printOn: aStream
+	aStream nextPut: $Î“.
+	self level ~= 1 ifTrue: [aStream nextPut: $(; print: self level; nextPut: $)]! !
+
 !ModularGroup methodsFor: 'as yet unclassified' stamp: 'len 12/24/2016 12:06:20'!
 S
 	^ ModularMap S! !
@@ -477,6 +437,10 @@ level
 level: anInteger
 	^ self shouldNotImplement! !
 
+!ModularGroup methodsFor: 'as yet unclassified' stamp: 'len 5/23/2020 07:38:23'!
+printOn: aStream
+	aStream nextPut: $Î“! !
+
 !ModularGroup methodsFor: 'as yet unclassified' stamp: 'len 5/22/2022 11:08:35'!
 reduce: aPoint
 	"Given a point in the upper half plane, return an element of the receiver that maps the point to a representative in the standard fundamental domain.
@@ -486,11 +450,11 @@ reduce: aPoint
 	A _ self identity.
 	[n _ tau real rounded.
 	tau _ tau - n.
-	A _ (self T: n negated) · A.
+	A _ (self T: n negated) Â· A.
 	m _ tau * tau conjugate.
 	m >= 1 ifTrue: [^ {tau. A}].
 	tau _ tau conjugate negated / m.
-	A _ self S · A] repeat! !
+	A _ self S Â· A] repeat! !
 
 !DirichletGroup methodsFor: 'as yet unclassified' stamp: 'len 12/28/2016 11:30:39'!
 codomain
@@ -523,7 +487,11 @@ modulus
 
 !DirichletGroup methodsFor: 'as yet unclassified' stamp: 'len 5/23/2020 09:13:12'!
 modulus: anInteger
-	self propertyAt: #domain put: (ƒ / anInteger) units! !
+	self propertyAt: #domain put: (â„¤ / anInteger) units! !
+
+!DirichletGroup methodsFor: 'as yet unclassified' stamp: 'len 8/5/2022 09:42:46'!
+printOn: aStream
+	aStream nextPut: $(; print: â„¤; nextPut: $/; print: self modulus; nextPut: $); nextPutAll: '*' super! !
 
 !DirichletGroup class methodsFor: 'instance creation' stamp: 'len 12/9/2016 15:51:30'!
 new: anInteger
@@ -532,6 +500,10 @@ new: anInteger
 !DirichletGroup class methodsFor: 'instance creation' stamp: 'len 12/10/2016 13:26:28'!
 new: anInteger to: aCodomain
 	^ self new modulus: anInteger; codomain: aCodomain! !
+
+!UpperHalfPlane methodsFor: 'printing' stamp: 'len 5/23/2020 07:42:50'!
+printOn: aStream
+	aStream nextPut: $H! !
 
 !UpperHalfPlane methodsFor: 'testing' stamp: 'len 12/7/2016 12:11:09'!
 includes: anObject
@@ -570,6 +542,48 @@ modulus
 odd
 	^ (self value: self domain !! -1) = self codomain one negated! !
 
+!ModularForm methodsFor: 'as yet unclassified' stamp: 'len 5/23/2020 09:31:47'!
+codomain
+	^ â„‚! !
+
+!ModularForm methodsFor: 'as yet unclassified' stamp: 'len 12/11/2016 08:26:35'!
+domain
+	^ HH! !
+
+!ModularForm methodsFor: 'as yet unclassified' stamp: 'len 12/8/2016 22:05:02'!
+expansion
+	"Answer the q-expansion (Fourier expansion) of the receiver."
+	self notYetImplemented! !
+
+!ModularForm methodsFor: 'as yet unclassified' stamp: 'len 12/8/2016 22:04:11'!
+group
+	^ self notYetImplemented! !
+
+!ModularForm methodsFor: 'as yet unclassified' stamp: 'len 12/8/2016 22:04:15'!
+level
+	^ self notYetImplemented! !
+
+!ModularForm methodsFor: 'as yet unclassified' stamp: 'len 12/8/2016 22:04:14'!
+weight
+	^ self notYetImplemented! !
+
+!EisensteinSeries methodsFor: 'as yet unclassified' stamp: 'len 8/5/2022 09:39:57'!
+printOn: aStream
+	aStream nextPutAll: 'G' asText, weight printString sub! !
+
+!EisensteinSeries methodsFor: 'as yet unclassified' stamp: 'len 12/6/2016 20:40:21'!
+weight
+	^ weight! !
+
+!EisensteinSeries methodsFor: 'as yet unclassified' stamp: 'len 12/6/2016 20:42:07'!
+weight: anInteger
+	(anInteger even and: [anInteger >= 4]) ifFalse: [^ self error: 'the weight must be even >= 4'].
+	weight _ anInteger! !
+
+!EisensteinSeries class methodsFor: 'as yet unclassified' stamp: 'len 12/6/2016 20:42:26'!
+new: anInteger
+	^ self new weight: anInteger! !
+
 !LinearFractionalMap methodsFor: 'accessing' stamp: 'len 12/9/2016 10:07:23'!
 a
 	^ a! !
@@ -584,7 +598,7 @@ c
 
 !LinearFractionalMap methodsFor: 'accessing' stamp: 'len 5/23/2020 09:31:47'!
 codomain
-	^ †! !
+	^ â„‚! !
 
 !LinearFractionalMap methodsFor: 'accessing' stamp: 'len 12/9/2016 10:07:31'!
 d
@@ -592,7 +606,7 @@ d
 
 !LinearFractionalMap methodsFor: 'accessing' stamp: 'len 5/23/2020 09:31:47'!
 domain
-	^ †! !
+	^ â„‚! !
 
 !LinearFractionalMap methodsFor: 'accessing' stamp: 'len 12/9/2016 16:30:21'!
 identity
@@ -634,8 +648,8 @@ asRationalFunction
 	^ z * a + b / (z * c + d)! !
 
 !LinearFractionalMap methodsFor: 'operations' stamp: 'len 3/13/2020 06:14:59'!
-· aModularMap
-	self species = aModularMap species ifFalse: [^ super · aModularMap].
+Â· aModularMap
+	self species = aModularMap species ifFalse: [^ super Â· aModularMap].
 	^ self class
 		a: a * aModularMap a + (b * aModularMap c)
 		b: a * aModularMap b + (b * aModularMap d)
@@ -657,6 +671,21 @@ traceSquared
 !LinearFractionalMap methodsFor: 'operations' stamp: 'len 12/9/2016 10:07:06'!
 value: anObject
 	^ anObject * a + b / (anObject * c + d)! !
+
+!LinearFractionalMap methodsFor: 'printing' stamp: 'len 5/23/2020 09:31:47'!
+printOn: aStream
+	| z denominator numerator |
+	z _ (â„‚ polynomialsIn: #(z)) x.
+	c isZero ifTrue: [aStream print: z * a + b / d. ^ self].
+	numerator _ z * a + b.
+	(a = 0 or: [b = 0])
+		ifTrue: [aStream print: numerator]
+		ifFalse: [aStream nextPut: $(; print: numerator; nextPut: $)].
+	aStream nextPut: $/.
+	denominator _ z * c + d.
+	(c = 0 or: [d = 0])
+		ifTrue: [aStream print: denominator]
+		ifFalse: [aStream nextPut: $(; print: denominator; nextPut: $)]! !
 
 !LinearFractionalMap methodsFor: 'testing' stamp: 'len 12/14/2016 10:31:41'!
 isCircular
@@ -709,7 +738,7 @@ matrix: aMatrix
 
 !ModularMap methodsFor: 'as yet unclassified' stamp: 'len 6/1/2020 13:05:39'!
 asMatrix
-	^ (ƒ^2) endomorphisms !! {a. b. c. d}! !
+	^ (â„¤^2) endomorphisms !! {a. b. c. d}! !
 
 !ModularMap methodsFor: 'as yet unclassified' stamp: 'len 12/14/2016 10:26:46'!
 isElliptic
@@ -722,44 +751,6 @@ isHyperbolic
 !ModularMap methodsFor: 'as yet unclassified' stamp: 'len 12/14/2016 10:27:12'!
 isParabolic
 	^ self trace abs = 2! !
-
-!ModularForm methodsFor: 'as yet unclassified' stamp: 'len 5/23/2020 09:31:47'!
-codomain
-	^ †! !
-
-!ModularForm methodsFor: 'as yet unclassified' stamp: 'len 12/11/2016 08:26:35'!
-domain
-	^ HH! !
-
-!ModularForm methodsFor: 'as yet unclassified' stamp: 'len 12/8/2016 22:05:02'!
-expansion
-	"Answer the q-expansion (Fourier expansion) of the receiver."
-	self notYetImplemented! !
-
-!ModularForm methodsFor: 'as yet unclassified' stamp: 'len 12/8/2016 22:04:11'!
-group
-	^ self notYetImplemented! !
-
-!ModularForm methodsFor: 'as yet unclassified' stamp: 'len 12/8/2016 22:04:15'!
-level
-	^ self notYetImplemented! !
-
-!ModularForm methodsFor: 'as yet unclassified' stamp: 'len 12/8/2016 22:04:14'!
-weight
-	^ self notYetImplemented! !
-
-!EisensteinSeries methodsFor: 'as yet unclassified' stamp: 'len 12/6/2016 20:40:21'!
-weight
-	^ weight! !
-
-!EisensteinSeries methodsFor: 'as yet unclassified' stamp: 'len 12/6/2016 20:42:07'!
-weight: anInteger
-	(anInteger even and: [anInteger >= 4]) ifFalse: [^ self error: 'the weight must be even >= 4'].
-	weight _ anInteger! !
-
-!EisensteinSeries class methodsFor: 'as yet unclassified' stamp: 'len 12/6/2016 20:42:26'!
-new: anInteger
-	^ self new weight: anInteger! !
 
 !FareySymbol methodsFor: 'as yet unclassified' stamp: 'len 12/19/2016 22:32:21'!
 cusps
@@ -826,6 +817,15 @@ pairingMapAt: i
 	ak1 _ self numeratorAt: k+1.
 	bk1 _ self denominatorAt: k+1.
 	^ ModularMap a: ak1*b1 + (ak*b) b: ak*ak negated - (ak1*a1) c: bk*b + (bk1*b1) d: a1*bk1 negated - (a*bk)! !
+
+!FareySymbol methodsFor: 'as yet unclassified' stamp: 'len 12/20/2016 21:30:43'!
+printOn: aStream
+	| n |
+	n _ self size.
+	aStream print: Infinity negative.
+	1 to: n do: [:i|
+		aStream nextPutAll: ' (', (self pairingAt: i) asString, ') '; print: (self numeratorAt: i); nextPut: $/; print: (self denominatorAt: i)].
+	aStream nextPutAll: ' (', (self pairingAt: n+1) asString, ') '; print: Infinity positive! !
 
 !FareySymbol methodsFor: 'as yet unclassified' stamp: 'len 12/20/2016 21:23:12'!
 r

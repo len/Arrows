@@ -1,17 +1,17 @@
-'From Cuis 6.0 [latest update: #5053] on 16 April 2022 at 2:25:13 pm'!
+'From Cuis 6.0 [latest update: #5434] on 5 August 2022 at 9:28:03 am'!
 'Description '!
 !provides: 'Tests-Lattices' 1 0!
 !requires: 'Lattices' 1 0 nil!
-SystemOrganization addCategory: #'Tests-Lattices'!
+SystemOrganization addCategory: 'Tests-Lattices'!
 
 
-!classDefinition: #LatticeTest category: #'Tests-Lattices'!
+!classDefinition: #LatticeTest category: 'Tests-Lattices'!
 TestCase subclass: #LatticeTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Lattices'!
-!classDefinition: 'LatticeTest class' category: #'Tests-Lattices'!
+!classDefinition: 'LatticeTest class' category: 'Tests-Lattices'!
 LatticeTest class
 	instanceVariableNames: ''!
 
@@ -35,7 +35,7 @@ testE8
 !LatticeTest methodsFor: 'as yet unclassified' stamp: 'len 7/8/2020 08:26:24'!
 testLLL
 	| V b1 b2 b3 reducer |
-	V _ „^3.
+	V _ â„š^3.
 	b1 _ V !! (1, 1, 1).
 	b2 _ V !! (-1, 0, 2).
 	b3 _ V !! (3, 5, 6).
@@ -46,7 +46,7 @@ testLLL
 testLLL2
 	"Example from Magma handbook (H30E1)."
 	| V b1 b2 reducer |
-	V _ „^3.
+	V _ â„š^3.
 	b1 _ V !! (1, 2, 3).
 	b2 _ V !! (3, 2, 1).
 	reducer _ LLL basis: { b1. b2 } innerProduct: V innerProduct.
@@ -55,7 +55,7 @@ testLLL2
 !LatticeTest methodsFor: 'as yet unclassified' stamp: 'len 8/11/2020 08:02:37'!
 testLatticeDual
 	| V L R |
-	V _ „^3.
+	V _ â„š^3.
 	L _ Lattice basis: {V !! (-1,0,0). V !! (0,1,2). V !! (0,1,1)}.
 	R _ L dual.
 	self assert: (L space span: L basis) = (R space span: R basis).
@@ -66,7 +66,7 @@ testLatticeDual
 !LatticeTest methodsFor: 'as yet unclassified' stamp: 'len 8/11/2020 08:02:45'!
 testLatticeDual2
 	| V L R |
-	V _ „^3.
+	V _ â„š^3.
 	L _ Lattice basis: {V !! (-1,0,0). V !! (0,1,2)}. "not full rank"
 	R _ L dual.
 	self assert: (L space span: L basis) = (R space span: R basis).
@@ -104,7 +104,7 @@ testLatticeDualGramian
 !LatticeTest methodsFor: 'as yet unclassified' stamp: 'len 7/30/2020 18:15:32'!
 testLatticeElements
 	| V L v w |
-	V _ „^3.
+	V _ â„š^3.
 	L _ Lattice basis: {V !! (1,0,0). V !! (1,2,3). V !! (3,6,2)}.
 	v _ L elementAt: #(1 2 1).
 	self assert: v asVector = (V !! (6,10,8)).

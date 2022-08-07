@@ -1,17 +1,17 @@
-'From Cuis 6.0 [latest update: #5053] on 6 May 2022 at 5:47:23 pm'!
+'From Cuis 6.0 [latest update: #5434] on 6 August 2022 at 7:17:15 am'!
 'Description '!
-!provides: 'Codes' 1 2!
+!provides: 'Codes' 1 3!
 !requires: 'Algebra' 1 0 nil!
-SystemOrganization addCategory: #Codes!
+SystemOrganization addCategory: 'Codes'!
 
 
-!classDefinition: #Code category: #Codes!
+!classDefinition: #Code category: 'Codes'!
 Structure subclass: #Code
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Codes'!
-!classDefinition: 'Code class' category: #Codes!
+!classDefinition: 'Code class' category: 'Codes'!
 Code class
 	instanceVariableNames: ''!
 
@@ -22,19 +22,12 @@ Linear codes over rings or fields.
 In coding theory, a linear code is an error-correcting code in which any linear combination of codewords is also a codeword. A linear code of length n over a ring R is a proper subset of the free module R^n that forms a submodule.
 !
 
-!Code methodsFor: 'printing' stamp: 'len 7/31/2020 08:46:28'!
-printOn: aStream
-	aStream nextPut: $[; print: self length; nextPut: $,; print: self rank; nextPut: $,; print: self minimumDistance; nextPut: $].
-	aStream isText
-		ifTrue: [aStream nextPutAll: self scalars size printString sub]
-		ifFalse: [aStream nextPut: $-; print: self scalars size]! !
-
 !Code methodsFor: 'accessing' stamp: 'len 7/31/2020 08:43:47'!
 completeWeightEnumerator
 	"Answer the complete weight enumerator polynomial."
 	| F P |
 	F _ self scalars elements asArray.
-	P _ ƒ polynomialsIn: F size.
+	P _ â„¤ polynomialsIn: F size.
 	^ self elements sum: [:each| P monomial: (P monomials exponents: (F collect: [:i| each occurrencesOf: i]))]! !
 
 !Code methodsFor: 'accessing' stamp: 'len 8/2/2020 17:34:11'!
@@ -123,7 +116,7 @@ weightDistribution: aCodeword
 weightEnumerator
 	"Answer the Hamming weight enumerator polynomial."
 	| P x y weights answer n |
-	P _ ƒ polynomialsIn: #(x y).
+	P _ â„¤ polynomialsIn: #(x y).
 	x _ P x.
 	y _ P y.
 	answer _ P zero.
@@ -157,8 +150,8 @@ asLattice
 	This is called the Construction A lifting."
 	| B E H |
 	B _ self generatorMatrix lift.
-	E _ B ” (B codomain endomorphisms scalar: self scalars characteristic).
-	H _ E transpose HNF over: „.
+	E _ B âŠ” (B codomain endomorphisms scalar: self scalars characteristic).
+	H _ E transpose HNF over: â„š.
 	^ Lattice on: H domain innerProduct basis: (H rows select: [:each| each isZero not])! !
 
 !Code methodsFor: 'converting' stamp: 'len 8/2/2020 12:08:46'!
@@ -219,14 +212,14 @@ isometries
 	^ self class on: self asModule /\ aCode asModule! !
 
 !Code methodsFor: 'operations' stamp: 'len 8/3/2020 20:35:51'!
-× aCode
+Ã— aCode
 	"Answer the direct product of the receiver and the argument."
-	^ self class generatorMatrix: self generatorMatrix ‘ aCode generatorMatrix! !
+	^ self class generatorMatrix: self generatorMatrix âŠ— aCode generatorMatrix! !
 
 !Code methodsFor: 'operations' stamp: 'len 8/3/2020 20:35:57'!
- aCode
+âŠ• aCode
 	"Answer the direct sum of the receiver and the argument."
-	^ self class generatorMatrix: self generatorMatrix  aCode generatorMatrix! !
+	^ self class generatorMatrix: self generatorMatrix âŠ• aCode generatorMatrix! !
 
 !Code methodsFor: 'operations' stamp: 'len 8/3/2020 09:46:45'!
 augmented
@@ -259,6 +252,13 @@ hull
 span: aCollection
 	"Answer the subcode spanned by the elements in aCollection."
 	^ (Code on: (self asModule span: aCollection)) ambient: self! !
+
+!Code methodsFor: 'printing' stamp: 'len 7/31/2020 08:46:28'!
+printOn: aStream
+	aStream nextPut: $[; print: self length; nextPut: $,; print: self rank; nextPut: $,; print: self minimumDistance; nextPut: $].
+	aStream isText
+		ifTrue: [aStream nextPutAll: self scalars size printString sub]
+		ifFalse: [aStream nextPut: $-; print: self scalars size]! !
 
 !Code methodsFor: 'random' stamp: 'len 8/2/2020 12:11:03'!
 atRandom: aRandom bits: bitSize
@@ -367,7 +367,7 @@ G12
 G23
 	"Answer the perfect binary Golay code [23,12,7]."
 	| g |
-	g _ (ƒ/2) polynomials !! [:x| x^11 + (x^10) + (x^6) + (x^5) + (x^4) + (x^2) + 1].
+	g _ (â„¤/2) polynomials !! [:x| x^11 + (x^10) + (x^6) + (x^5) + (x^4) + (x^2) + 1].
 	^ self new: 23 generatorPolynomial: g! !
 
 !Code class methodsFor: 'examples' stamp: 'len 5/3/2021 10:49:28'!
@@ -375,10 +375,10 @@ G24
 	"Answer the extended binary Golay code [24,12,8].
 	Its generator matrix is I|A, where I is the 12x12 identity matrix and A is the complement of the adjacency matrix of the icosahedron."
 	| F A |
-	F _ ƒ/2.
+	F _ â„¤/2.
 	A _ Graph icosahedron adjacencyMatrix: (1 to: 12).
-	A _ (A collect: [:each| each = 0 ifTrue: [1] ifFalse: [0]]) apply: ƒ -> F.
-	^ self generatorMatrix: A identity “ A! !
+	A _ (A collect: [:each| each = 0 ifTrue: [1] ifFalse: [0]]) apply: â„¤ -> F.
+	^ self generatorMatrix: A identity âŠ“ A! !
 
 !Code class methodsFor: 'examples' stamp: 'len 8/10/2020 06:26:04'!
 H7
@@ -391,7 +391,7 @@ H7
 !Code class methodsFor: 'examples' stamp: 'len 8/2/2020 18:28:58'!
 H7p
 	"Answer the Hamming code [7,4,3], from a generator polynomial."
-	^ self new: 7 generatorPolynomial: (ƒ/2) polynomials !! [:x| x^3 + x + 1]! !
+	^ self new: 7 generatorPolynomial: (â„¤/2) polynomials !! [:x| x^3 + x + 1]! !
 
 !Code class methodsFor: 'examples' stamp: 'len 8/10/2020 06:25:55'!
 H8
@@ -413,9 +413,9 @@ RM: parameters
 	| r m F S d |
 	r _ parameters at: 1.
 	m _ parameters at: 2.
-	F _ (ƒ/2^2) endomorphisms !! #(1 0 1 1).
-	S _ (ƒ/2^0) endomorphisms zero.
-	m timesRepeat: [S _ S ‘ F].
+	F _ (â„¤/2^2) endomorphisms !! #(1 0 1 1).
+	S _ (â„¤/2^0) endomorphisms zero.
+	m timesRepeat: [S _ S âŠ— F].
 	d _ 2^(m-r).
 	^ self on: (S domain span: (S rows select: [:each| each weight >= d]))! !
 
@@ -440,7 +440,7 @@ simplex
 !Code class methodsFor: 'examples' stamp: 'len 8/2/2020 12:25:10'!
 tetracode
 	"Answer the tetracode, a self dual code of minimum distance 3."
-	^ self on: ((ƒ/3)^4 span: {(1,1,1,0) % 3. (0,1,2,1) % 3})! !
+	^ self on: ((â„¤/3)^4 span: {(1,1,1,0) % 3. (0,1,2,1) % 3})! !
 
 !Code class methodsFor: 'instance creation' stamp: 'len 8/10/2020 06:39:05'!
 generatorMatrix: aMatrix

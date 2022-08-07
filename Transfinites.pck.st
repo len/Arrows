@@ -1,36 +1,36 @@
-'From Cuis 6.0 [latest update: #5053] on 5 August 2022 at 8:07:18 am'!
+'From Cuis 6.0 [latest update: #5434] on 5 August 2022 at 9:24:04 am'!
 'Description '!
 !provides: 'Transfinites' 1 2!
-SystemOrganization addCategory: #Transfinites!
+SystemOrganization addCategory: 'Transfinites'!
 
 
-!classDefinition: #Cardinal category: #Transfinites!
+!classDefinition: #Cardinal category: 'Transfinites'!
 Magnitude subclass: #Cardinal
 	instanceVariableNames: 'order'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Transfinites'!
-!classDefinition: 'Cardinal class' category: #Transfinites!
+!classDefinition: 'Cardinal class' category: 'Transfinites'!
 Cardinal class
 	instanceVariableNames: ''!
 
-!classDefinition: #Infinity category: #Transfinites!
+!classDefinition: #Infinity category: 'Transfinites'!
 Magnitude subclass: #Infinity
 	instanceVariableNames: 'sign'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Transfinites'!
-!classDefinition: 'Infinity class' category: #Transfinites!
+!classDefinition: 'Infinity class' category: 'Transfinites'!
 Infinity class
 	instanceVariableNames: ''!
 
-!classDefinition: #Ordinal category: #Transfinites!
+!classDefinition: #Ordinal category: 'Transfinites'!
 Magnitude subclass: #Ordinal
 	instanceVariableNames: 'terms'
 	classVariableNames: 'Zero'
 	poolDictionaries: ''
 	category: 'Transfinites'!
-!classDefinition: 'Ordinal class' category: #Transfinites!
+!classDefinition: 'Ordinal class' category: 'Transfinites'!
 Ordinal class
 	instanceVariableNames: ''!
 
@@ -61,24 +61,7 @@ The following are examples of undeterminations (they produce an error):
 
 !Cardinal methodsFor: 'printing' stamp: 'len 5/23/2020 07:28:29'!
 printOn: aStream
-	aStream nextPut: $Å; nextPutAll: order printString sub! !
-
-!Infinity methodsFor: 'printing' stamp: 'len 5/23/2020 07:36:16'!
-printOn: aStream
-	self negative ifTrue: [aStream nextPut: $-].
-	aStream nextPut: $Ä! !
-
-!Ordinal methodsFor: 'printing' stamp: 'len 12/31/2021 11:26:42'!
-printOn: aStream
-	self isFinite ifTrue: [aStream print: self asInteger. ^ self].
-	terms do: [:each|
-		each key isZero
-			ifTrue: [aStream print: each value]
-			ifFalse:
-				[aStream nextPut: $ò.
-				each key isOne ifFalse: [aStream nextPutAll: each key printString super].
-				each value > 1 ifTrue: [aStream print: each value]]]
-		separatedBy: [aStream nextPut: $+]! !
+	aStream nextPut: $‚Ñµ; nextPutAll: order printString sub! !
 
 !Cardinal methodsFor: 'accessing' stamp: 'len 4/22/2016 05:06'!
 order
@@ -141,6 +124,11 @@ new
 !Cardinal class methodsFor: 'instance creation' stamp: 'len 4/22/2016 05:07'!
 new: anInteger
 	^ self basicNew order: anInteger! !
+
+!Infinity methodsFor: 'printing' stamp: 'len 5/23/2020 07:36:16'!
+printOn: aStream
+	self negative ifTrue: [aStream nextPut: $-].
+	aStream nextPut: $‚àû! !
 
 !Infinity methodsFor: 'accessing' stamp: 'len 10/9/97 20:17'!
 sign
@@ -308,6 +296,18 @@ sign: anInteger
 
 	^ self new sign: anInteger! !
 
+!Ordinal methodsFor: 'printing' stamp: 'len 12/31/2021 11:26:42'!
+printOn: aStream
+	self isFinite ifTrue: [aStream print: self asInteger. ^ self].
+	terms do: [:each|
+		each key isZero
+			ifTrue: [aStream print: each value]
+			ifFalse:
+				[aStream nextPut: $œâ.
+				each key isOne ifFalse: [aStream nextPutAll: each key printString super].
+				each value > 1 ifTrue: [aStream print: each value]]]
+		separatedBy: [aStream nextPut: $+]! !
+
 !Ordinal methodsFor: 'accessing' stamp: 'len 12/31/2021 11:23:44'!
 degree
 	^ self isZero ifTrue: [self] ifFalse: [terms first key]! !
@@ -388,21 +388,21 @@ asOrdinal
 	^ self notYetImplemented! !
 
 !Ordinal methodsFor: 'operations' stamp: 'len 12/28/2021 12:50:46'!
-◊ anOrdinal
+√ó anOrdinal
 	"Answer the Jacobsthal multiplication of the receiver with the argument."
-	anOrdinal isInteger ifTrue: [^ self ◊ anOrdinal asOrdinal].
+	anOrdinal isInteger ifTrue: [^ self √ó anOrdinal asOrdinal].
 	^ self notYetImplemented! !
 
 !Ordinal methodsFor: 'operations' stamp: 'len 12/28/2021 12:40:02'!
-ê anOrdinal
+‚äï anOrdinal
 	"Answer the natural (or Hessenberg) addition of the receiver with the argument."
-	anOrdinal isInteger ifTrue: [^ self ê anOrdinal asOrdinal].
+	anOrdinal isInteger ifTrue: [^ self ‚äï anOrdinal asOrdinal].
 	^ self notYetImplemented! !
 
 !Ordinal methodsFor: 'operations' stamp: 'len 12/28/2021 12:40:15'!
-ë anOrdinal
+‚äó anOrdinal
 	"Answer the natural (or Hessenberg) multiplication of the receiver with the argument."
-	anOrdinal isInteger ifTrue: [^ self ë anOrdinal asOrdinal].
+	anOrdinal isInteger ifTrue: [^ self ‚äó anOrdinal asOrdinal].
 	^ self notYetImplemented! !
 
 !Ordinal methodsFor: 'operations' stamp: 'len 12/31/2021 11:27:57'!
@@ -480,7 +480,7 @@ terms: anArray
 initialize
 	super initialize.
 	Zero _ self terms: #().
-	Smalltalk at: #ò put: Zero exp exp! !
+	Smalltalk at: #œâ put: Zero exp exp! !
 
 !Object methodsFor: '*transfinites' stamp: 'len 11/19/2015 17:01'!
 isInfinity

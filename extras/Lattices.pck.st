@@ -1,53 +1,53 @@
-'From Cuis 6.0 [latest update: #5053] on 14 June 2022 at 6:45:22 pm'!
+'From Cuis 6.0 [latest update: #5434] on 6 August 2022 at 7:17:28 am'!
 'Description '!
-!provides: 'Lattices' 1 4!
+!provides: 'Lattices' 1 5!
 !requires: 'Algebra' 1 0 nil!
-SystemOrganization addCategory: #Lattices!
+SystemOrganization addCategory: 'Lattices'!
 
 
-!classDefinition: #Lattice category: #Lattices!
+!classDefinition: #Lattice category: 'Lattices'!
 Structure subclass: #Lattice
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Lattices'!
-!classDefinition: 'Lattice class' category: #Lattices!
+!classDefinition: 'Lattice class' category: 'Lattices'!
 Lattice class
 	instanceVariableNames: ''!
 
-!classDefinition: #LatticeMap category: #Lattices!
+!classDefinition: #LatticeMap category: 'Lattices'!
 Function subclass: #LatticeMap
 	instanceVariableNames: 'matrix'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Lattices'!
-!classDefinition: 'LatticeMap class' category: #Lattices!
+!classDefinition: 'LatticeMap class' category: 'Lattices'!
 LatticeMap class
 	instanceVariableNames: ''!
 
-!classDefinition: #LLL category: #Lattices!
+!classDefinition: #LLL category: 'Lattices'!
 Object subclass: #LLL
 	instanceVariableNames: 'basis innerProduct delta orthogonalBasis mu orthogonalBasisNorms'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Lattices'!
-!classDefinition: 'LLL class' category: #Lattices!
+!classDefinition: 'LLL class' category: 'Lattices'!
 LLL class
 	instanceVariableNames: ''!
 
-!classDefinition: #LatticeElement category: #Lattices!
+!classDefinition: #LatticeElement category: 'Lattices'!
 Object subclass: #LatticeElement
 	instanceVariableNames: 'parent coordinates'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Lattices'!
-!classDefinition: 'LatticeElement class' category: #Lattices!
+!classDefinition: 'LatticeElement class' category: 'Lattices'!
 LatticeElement class
 	instanceVariableNames: ''!
 
 
 !Lattice commentStamp: '<historical>' prior: 0!
-A lattice is the set of integer linear combinations of a basis of a rational or real vector space. This is a discrete subgroup of the ambient vector space (as abelian group) isomorphic to É^n.
+A lattice is the set of integer linear combinations of a basis of a rational or real vector space. This is a discrete subgroup of the ambient vector space (as abelian group) isomorphic to ‚Ñ§^n.
 
 More generally, given an integral domain R and a finite dimensional vector space V over its field of fractions, a lattice or R-lattice in V is a finitely generated R-module over R that spans V. In particular, lattices are defined to have full rank in V.
 
@@ -61,25 +61,6 @@ Output: an almost H-reduced basis of the lattice.
 
 The algorithm takes at most O(d^6 ln^3(B)), where the input vectors bi all satisfy |bi|^2 <= B. In practice however, this upper bound is quite pessimistic.
 !
-
-!Lattice methodsFor: 'printing' stamp: 'len 7/29/2020 06:28:51'!
-printOn: aStream
-	self isTrivial ifTrue: [aStream print: 0. ^ self].
-	aStream nextPut: $<.
-	self basis do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: '; '].
-	aStream nextPut: $>; nextPutAll: 'É' sub! !
-
-!LatticeMap methodsFor: 'accessing' stamp: 'len 7/29/2020 08:36:30'!
-category
-	^ Lattices! !
-
-!LatticeMap methodsFor: 'printing' stamp: 'len 7/29/2020 08:40:33'!
-printOn: aStream
-	aStream print: matrix! !
-
-!LatticeElement methodsFor: 'printing' stamp: 'len 7/8/2020 19:13:32'!
-printOn: aStream
-	aStream print: self asVector! !
 
 !Lattice methodsFor: 'accessing' stamp: 'len 7/8/2020 08:36:35'!
 basis
@@ -157,7 +138,7 @@ asAbelianGroup
 asModule
 	^ self propertyAt: #asModule ifAbsentPut:
 		[| answer |
-		answer _ É^self rank.
+		answer _ ‚Ñ§^self rank.
 		self addCoercionTo: answer evaluating: [:each| each coordinates].
 		self addCoercionFrom: answer evaluating: [:each| self elementAt: each].
 		answer]! !
@@ -266,11 +247,11 @@ to: aLattice evaluating: aBlock
 	^ self notYetImplemented! !
 
 !Lattice methodsFor: 'operations' stamp: 'len 8/1/2020 19:08:46'!
-ê aLattice
+‚äï aLattice
 	self notYetImplemented! !
 
 !Lattice methodsFor: 'operations' stamp: 'len 8/1/2020 19:08:50'!
-ë aLattice
+‚äó aLattice
 	self notYetImplemented! !
 
 !Lattice methodsFor: 'operations' stamp: 'len 3/14/2021 12:47:15'!
@@ -281,6 +262,13 @@ dual
 	B _ self generatorMatrix.
 	G _ self gramian.
 	^ self class on: self innerProduct basis: ((B * G inverse) columns collect: [:each| self space elementAt: each])! !
+
+!Lattice methodsFor: 'printing' stamp: 'len 7/29/2020 06:28:51'!
+printOn: aStream
+	self isTrivial ifTrue: [aStream print: 0. ^ self].
+	aStream nextPut: $<.
+	self basis do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: '; '].
+	aStream nextPut: $>; nextPutAll: '‚Ñ§' sub! !
 
 !Lattice methodsFor: 'random' stamp: 'len 7/29/2020 06:21:59'!
 atRandom: aRandom bits: bitSize
@@ -347,7 +335,7 @@ isUnimodular
 
 !Lattice methodsFor: 'private' stamp: 'len 7/22/2021 18:48:14'!
 basis: aCollection innerProduct: aBilinearForm
-	(aBilinearForm space scalars = Ñ or: [aBilinearForm space scalars isKindOf: RealField]) ifFalse: [^ self error: 'the ambient vector space of a lattice must be real or rational'].
+	(aBilinearForm space scalars = ‚Ñö or: [aBilinearForm space scalars isKindOf: RealField]) ifFalse: [^ self error: 'the ambient vector space of a lattice must be real or rational'].
 	self propertyAt: #basis put: aCollection; propertyAt: #innerProduct put: aBilinearForm.
 	self addCoercionTo: self space evaluating: [:each| each asVector]! !
 
@@ -359,7 +347,7 @@ species
 A: n
 	"Answer the lattice A_n = {(x0,...,xn) in Z^{n+1} : x0 + ... + xn = 0}."
 	| V t B |
-	V _ Ñ^(n+1).
+	V _ ‚Ñö^(n+1).
 	t _ (V x: 2) - (V x: 1).
 	B _ OrderedCollection new.
 	n timesRepeat: [B add: t. t _ t >> 1].
@@ -369,7 +357,7 @@ A: n
 Adual: n
 	"Answer the dual of A_n."
 	| V B |
-	V _ Ñ^(n+1).
+	V _ ‚Ñö^(n+1).
 	B _ OrderedCollection new.
 	1 to: n do: [:i| B add: (V x: 1) - (V x: i+1)].
 	B add: (V filling: [:i| i=1 ifTrue: [n negated / (n+1)] ifFalse: [1 / (n+1)]]).
@@ -379,14 +367,14 @@ Adual: n
 D4
 	"Another basis for the D4 lattice."
 	| V |
-	V _ Ñ^4.
+	V _ ‚Ñö^4.
 	^ self basis: {V !! (1,0,0,0). V !! (0,1,0,0). V !! (0,0,1,0). V !! (1,1,1,1) / 2}! !
 
 !Lattice class methodsFor: 'examples' stamp: 'len 5/31/2020 20:35:11'!
 D: n
 	"Answer the checkboard lattice D_n = {(x1,...,xn) in Z^n : x0 + ... + xn is even}."
 	| V t0 t B |
-	V _ Ñ^n.
+	V _ ‚Ñö^n.
 	B _ OrderedCollection new.
 	t0 _ ((V x: 1) + (V x: 2)) negated.
 	B add: t0.
@@ -398,7 +386,7 @@ D: n
 Ddual: n
 	"Answer the dual of D_n."
 	| V B |
-	V _ Ñ^n.
+	V _ ‚Ñö^n.
 	B _ OrderedCollection new.
 	1 to: n-1 do: [:i| B add: (V x: i)].
 	B add: (V filling: [:i| 1/2]).
@@ -407,7 +395,7 @@ Ddual: n
 !Lattice class methodsFor: 'examples' stamp: 'len 5/31/2020 20:36:26'!
 E8
 	| V t0 t B answer |
-	V _ Ñ^8.
+	V _ ‚Ñö^8.
 	B _ OrderedCollection new.
 	t0 _ (V x: 1) * 2.
 	B add: t0.
@@ -427,14 +415,14 @@ E8
 !Lattice class methodsFor: 'examples' stamp: 'len 5/23/2020 09:11:37'!
 Z: n
 	"Answer the n-dimensional cubic or integer lattice Z^n."
-	^ self basis: (Ñ ^ n) basis! !
+	^ self basis: (‚Ñö ^ n) basis! !
 
 !Lattice class methodsFor: 'examples' stamp: 'len 7/30/2020 18:18:23'!
 bcc
 	"Answer the body-centered cubic lattice (bcc).
 	D*_3 is equivalent to bcc."
 	| V |
-	V _ Ñ^3.
+	V _ ‚Ñö^3.
 	^ self basis: {V !! (2,0,0). V !! (0,2,0). V !! (1,1,1)}! !
 
 !Lattice class methodsFor: 'examples' stamp: 'len 7/30/2020 18:18:06'!
@@ -442,14 +430,14 @@ fcc
 	"Answer the face-centered cubic lattice (fcc).
 	Both A_3 and D_3 are equivalent to the fcc."
 	| V |
-	V _ Ñ^3.
+	V _ ‚Ñö^3.
 	^ self basis: {V !! (-1,-1,0). V !! (1,-1,0). V !! (0,1,-1)}! !
 
 !Lattice class methodsFor: 'examples' stamp: 'len 6/1/2020 12:37:32'!
 leech
 	"The Leech lattice is the unique even unimodular lattice in R^24 with with no norm 2 vectors."
 	| G answer |
-	G _ (Ñ^24) endomorphisms !!
+	G _ (‚Ñö^24) endomorphisms !!
 #(8 4 4 4 4 4 4 2 4 4 4 2 4 2 2 2 4 2 2 2 0 0 0 -3
  4 4 2 2 2 2 2 2 2 2 2 2 2 2 1 1 2 1 1 2 1 0 0 -1
  4 2 4 2 2 2 2 2 2 2 2 2 2 1 2 1 2 2 1 1 1 0 0 -1
@@ -485,7 +473,7 @@ leech
 leech2
 	"Another version of the Leech lattice."
 	| G answer |
-	G _ (Ñ^24) endomorphisms !!
+	G _ (‚Ñö^24) endomorphisms !!
 #(4 -2 -2 2 2 2 -1 -1 2 2 -2 2 -2 1 -1 1 1 2 0 -1 0 -2 -2 2
 -2 4 0 0 -2 0 -1 2 0 0 2 -1 1 1 -1 1 -2 -2 -1 1 1 2 1 -2
 -2 0 4 0 0 -2 0 0 0 0 2 0 0 -2 1 -1 -1 -1 1 -1 -1 1 0 -1
@@ -532,6 +520,10 @@ gramian: aMatrix
 on: aBilinearForm basis: aCollection
 	^ self new basis: aCollection innerProduct: aBilinearForm! !
 
+!LatticeMap methodsFor: 'accessing' stamp: 'len 7/29/2020 08:36:30'!
+category
+	^ Lattices! !
+
 !LatticeMap methodsFor: 'accessing' stamp: 'len 7/29/2020 08:39:41'!
 matrix
 	^ matrix! !
@@ -543,6 +535,10 @@ matrix: aMatrix
 !LatticeMap methodsFor: 'operations' stamp: 'len 7/29/2020 08:40:16'!
 value: anElement
 	^ self codomain elementAt: matrix * (self domain !! anElement) coordinates! !
+
+!LatticeMap methodsFor: 'printing' stamp: 'len 7/29/2020 08:40:33'!
+printOn: aStream
+	aStream print: matrix! !
 
 !LatticeMap class methodsFor: 'class initialization' stamp: 'len 7/29/2020 08:35:50'!
 initialize
@@ -572,7 +568,7 @@ basis: aCollection innerProduct: aBilinearForm
 computeMu
 	| n bi oj |
 	n _ basis size.
-	mu _ (Ñ^n) endomorphisms filling: [:i :j|
+	mu _ (‚Ñö^n) endomorphisms filling: [:i :j|
 		bi _ basis at: i.
 		oj _ orthogonalBasis at: j.
 		(innerProduct value: bi value: oj) / (orthogonalBasisNorms at: j)] "redundant matrix multiplication by oj"! !
@@ -625,7 +621,7 @@ update: k
 !LLL class methodsFor: 'examples' stamp: 'len 7/8/2020 08:27:58'!
 example
 	| V b1 b2 b3 reducer |
-	V _ Ñ^3.
+	V _ ‚Ñö^3.
 	b1 _ V !! (1, 1, 1).
 	b2 _ V !! (-1, 0, 2).
 	b3 _ V !! (3, 5, 6).
@@ -636,7 +632,7 @@ example
 example2
 	"Find polynomial x^2 - x - 1 that has the golden ratio phi as root."
 	| V r b1 b2 b3 reducer |
-	V _ Ñ^4.
+	V _ ‚Ñö^4.
 	r _ 1.618034.
 	b1 _ V !! (1, 0, 0, (10000 * r squared) rounded).
 	b2 _ V !! (0, 1, 0, (10000 * r) rounded).
@@ -647,6 +643,10 @@ example2
 !LLL class methodsFor: 'instance creation' stamp: 'len 7/8/2020 08:18:40'!
 basis: aCollection innerProduct: aBilinearForm
 	^ self new basis: aCollection innerProduct: aBilinearForm! !
+
+!LatticeElement methodsFor: 'printing' stamp: 'len 7/8/2020 19:13:32'!
+printOn: aStream
+	aStream print: self asVector! !
 
 !LatticeElement methodsFor: 'converting' stamp: 'len 7/29/2020 06:32:28'!
 asVector

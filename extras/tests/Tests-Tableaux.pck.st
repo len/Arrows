@@ -1,17 +1,17 @@
-'From Cuis 6.0 [latest update: #5053] on 16 April 2022 at 1:27:01 pm'!
+'From Cuis 6.0 [latest update: #5434] on 5 August 2022 at 9:28:07 am'!
 'Description '!
 !provides: 'Tests-Tableaux' 1 0!
 !requires: 'Tableaux' 1 0 nil!
-SystemOrganization addCategory: #'Tests-Tableaux'!
+SystemOrganization addCategory: 'Tests-Tableaux'!
 
 
-!classDefinition: #TableauxTest category: #'Tests-Tableaux'!
+!classDefinition: #TableauxTest category: 'Tests-Tableaux'!
 TestCase subclass: #TableauxTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Tableaux'!
-!classDefinition: 'TableauxTest class' category: #'Tests-Tableaux'!
+!classDefinition: 'TableauxTest class' category: 'Tests-Tableaux'!
 TableauxTest class
 	instanceVariableNames: ''!
 
