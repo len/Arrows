@@ -1,4 +1,4 @@
-'From Cuis 6.0 [latest update: #5438] on 7 August 2022 at 12:18:23 pm'!
+'From Cuis 6.0 [latest update: #5438] on 10 August 2022 at 10:36:25 am'!
 'Description This package implements among other things: permutation groups, linear groups, modular integers, finite fields, Galois rings, polynomial rings, affine algebras, number fields, function fields, p-adic fields, power series rings, finitely presented modules, (co)chain complexes, finite (finitely generated as modules) associative algebras, finite distributive (not necessarily associative) algebras, schemes, and sheaves of modules.
 
 References:
@@ -44,6 +44,7 @@ References:
 [Sim70], Charles C. Sims, "Computational methods in the study of permutation groups" (1970)
 [SM98] Arne Storjohann, Thom Mulders, "Fast algorithms for linear algebra modulo N" (1998)
 [Sto00] Arne Storjohann, "Algorithms for Matrix Canonical Forms" (2000)
+[Teo16] Iuliana C. Teodorescu, "Algorithms for finite rings" (2016)
 [Vak17] Ravi Vakil, "The Rising Sea: Foundations of Algebraic Geometry" (2017)
 
 [] John Cremona; "Algorithms for Modular Elliptic Curves"
@@ -55,7 +56,7 @@ References:
 [] Qing Liu; "Algebraic Geometry and Arithmetic Curves"
 [] Joseph. H. Silverman; "The Arithmetic of Elliptic Curves"
 '!
-!provides: 'Algebra' 1 31!
+!provides: 'Algebra' 1 34!
 !requires: 'Collections-TwoAndEightByteArrays' 1 1 nil!
 !requires: 'Graphs' 1 0 nil!
 !requires: 'Collections-Extras' 1 1 nil!
@@ -2877,7 +2878,7 @@ Finite (finitely generated as modules) associative unital algebras over a commut
 An R-algebra is constructed from a R-module, with multiplication given by an associative and unital R-bilinear map. When the module is free of rank n, the multiplication can be given by n^3 structure constants (elements of R), or equivalently by n matrices of nxn.!
 
 !EndomorphismAlgebra commentStamp: '<historical>' prior: 0!
-Algebra of R-module endomorphisms End(M). The underlying module is the homomorphisms module Hom(M,M) for a R-module M, and multiplication is composition of module maps.!
+Algebra of R-module endomorphisms End(M) for an R-module M. The underlying module is the homomorphisms module Hom(M,M), and multiplication is composition of module maps.!
 
 !MatrixAlgebra commentStamp: '<historical>' prior: 0!
 Full matrix algebra, i.e. (n^2)-dimensional associative algebra of square n by n matrices over a ring R under matrix multiplication.!
@@ -2891,7 +2892,7 @@ The elements of the group ring R[G] are finite formal linear combinations of ele
 
 When the ring R is commutative, the group ring is also referred to as a group algebra.
 
-Categorically, the group ring construction is left adjoint to the group of units (see UnitGroup). It's also a 'category algebra' analogous to the monoid ring for monoids and incidence algebra for posets.
+Categorically, the group ring construction is left adjoint to the group of units (see UnitsGroup). It's also a 'category algebra' analogous to the monoid ring for monoids and incidence algebra for posets.
 !
 
 !QuaternionAlgebra commentStamp: 'len 7/15/2020 06:05:17' prior: 0!
@@ -7356,16 +7357,16 @@ span: aCollection
 	self isAmbient ifFalse: [^ self ambient span: aCollection].
 	^ self species new ambient: self; generators: (aCollection collect: [:each| self !! each])! !
 
-!Group methodsFor: 'printing' stamp: 'len 7/11/2021 18:11:17'!
+!Group methodsFor: 'printing' stamp: 'len 8/9/2022 10:12:40'!
 printOn: aStream
 	| generators |
 	(generators _ self generators) ifNil: [^ super printOn: aStream].
 	"use the original printOn for wrapped objects:"
 	self propertyAt: #elements ifPresent: [:elements| (elements isKindOf: Structure) ifTrue: [aStream print: elements. ^ self]].
-	generators isEmpty ifTrue: [aStream print: 1. ^ self].
-	aStream nextPut: $<.
+	generators isEmpty ifTrue: [aStream print: (self isAdditiveGroup ifTrue: [0] ifFalse: [1]). ^ self].
+	aStream nextPut: $⟨.
 	generators do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: '; '].
-	aStream nextPut: $>! !
+	aStream nextPut: $⟩! !
 
 !Group methodsFor: 'random' stamp: 'len 5/25/2019 04:43:18'!
 atRandom: aRandom
@@ -7800,12 +7801,12 @@ abelianization
 normalClosureOf: aSubset
 	^ self shouldNotImplement! !
 
-!FreeGroup methodsFor: 'printing' stamp: 'len 10/20/2020 16:39:23'!
+!FreeGroup methodsFor: 'printing' stamp: 'len 8/9/2022 10:11:11'!
 printOn: aStream
 	self isTrivial ifTrue: [aStream print: 1. ^ self].
-	aStream nextPut: $<.
+	aStream nextPut: $⟨.
 	self generators do: [:each| aStream print: each] separatedBy: [aStream nextPut: $,].
-	aStream nextPutAll: '>'! !
+	aStream nextPut: $⟩! !
 
 !FreeGroup methodsFor: 'random' stamp: 'len 10/28/2020 14:42:24'!
 atRandom: aRandom bits: bitSize
@@ -8076,25 +8077,19 @@ projection
 	relators addAll: (aGroup relators apply: coprojections second).
 	^ F / relators! !
 
-!QuotientGroup methodsFor: 'printing' stamp: 'len 6/14/2022 13:01:52'!
+!QuotientGroup methodsFor: 'printing' stamp: 'len 8/9/2022 10:22:12'!
 printOn: aStream
-	self generators isEmpty ifTrue: [aStream print: 1. ^ self].
+	self generators isEmpty ifTrue: [aStream print: (self isAdditiveGroup ifTrue: [0] ifFalse: [1]). ^ self].
 	self isFPGroup ifTrue:
-		[aStream nextPut: $<.
+		[aStream nextPut: $⟨.
 		self generators do: [:each| aStream print: each] separatedBy: [aStream nextPut: $,].
 		self relators isEmpty
 			ifFalse:
 				[aStream nextPutAll: ' | '.
 				self relators do: [:each| aStream print: each] separatedBy: [aStream nextPut: $,]].
-		aStream nextPut: $>.
+		aStream nextPut: $⟩.
 		^ self].
-	(self cover printString includes: $/)
-		ifTrue: [aStream nextPut: $(; print: self cover; nextPut: $)]
-		ifFalse: [aStream print: self cover].
-	aStream nextPut: $/.
-	(self relations printString includes: $/)
-		ifTrue: [aStream nextPut: $(; print: self relations; nextPut: $)]
-		ifFalse: [aStream print: self relations]! !
+	aStream print: self cover; nextPut: $╱; print: self relations! !
 
 !QuotientGroup methodsFor: 'random' stamp: 'len 6/10/2022 11:40:39'!
 atRandom: aRandom bits: bitSize
@@ -11119,13 +11114,10 @@ projection
 			yourself).
 	^ answer! !
 
-!QuotientRing methodsFor: 'printing' stamp: 'len 6/10/2022 11:55:05'!
+!QuotientRing methodsFor: 'printing' stamp: 'len 8/9/2022 10:21:33'!
 printOn: aStream
 	self isTrivial ifTrue: [aStream nextPutAll: '{0}'. ^ self].
-	(self cover printString includes: $/)
-		ifTrue: [aStream nextPut: $(; print: self cover; nextPut: $)]
-		ifFalse: [aStream print: self cover].
-	aStream nextPut: $/; print: self relations! !
+	aStream print: self cover; nextPut: $╱; print: self relations! !
 
 !QuotientRing methodsFor: 'random' stamp: 'len 6/14/2022 17:53:13'!
 atRandom: aRandom
@@ -11405,10 +11397,10 @@ units
 	"Answer the multiplicative group of units of the receiver (i.e., elements that have multiplicative inverse)."
 	^ self propertyAt: #units ifAbsentPut: [ModularUnitsGroup on: self]! !
 
-!ModularIntegerRing methodsFor: 'printing' stamp: 'len 6/10/2022 11:48:38'!
+!ModularIntegerRing methodsFor: 'printing' stamp: 'len 8/9/2022 10:22:39'!
 printOn: aStream
 	self isTrivial ifTrue: [aStream nextPutAll: '{0}'. ^ self].
-	aStream print: self cover; nextPut: $/; print: self modulus; print: self cover! !
+	aStream print: self cover; nextPut: $╱; print: self modulus; print: self cover! !
 
 !ModularIntegerRing methodsFor: 'random' stamp: 'len 5/26/2022 13:07:15'!
 atRandom: aRandom
@@ -11607,9 +11599,9 @@ zeroDivisors
 	"The zero divisors of a Galois ring ℤ/<p^k> constitute the unique maximal ideal <p>."
 	^ self maximalIdeal! !
 
-!PrimePowerRing methodsFor: 'printing' stamp: 'len 6/10/2022 11:48:44'!
+!PrimePowerRing methodsFor: 'printing' stamp: 'len 8/9/2022 10:23:27'!
 printOn: aStream
-	aStream print: self cover; nextPut: $/; print: self p; nextPutAll: self exponent printString super; print: self cover! !
+	aStream print: self cover; nextPut: $╱; print: self p; nextPutAll: self exponent printString super; print: self cover! !
 
 !PrimePowerRing methodsFor: 'testing' stamp: 'len 6/25/2019 02:19:48'!
 isChainRing
@@ -11714,9 +11706,9 @@ unitsDo: aBlock
 zeroDivisors
 	^ {self zero}! !
 
-!PrimeField methodsFor: 'printing' stamp: 'len 5/23/2020 07:40:14'!
+!PrimeField methodsFor: 'printing' stamp: 'len 8/9/2022 08:27:23'!
 printOn: aStream
-	aStream nextPut: $F; nextPutAll: self modulus printString sub! !
+	aStream nextPut: $𝔽; nextPutAll: self modulus printString sub! !
 
 !PrimeField methodsFor: 'testing' stamp: 'len 10/18/2016 20:46'!
 isField
@@ -12307,9 +12299,10 @@ automorphisms
 	"Answer the Galous group of the receiver, i.e. the gruop of endomorphisms fixing the scalar field Z/pZ."
 	^ Group new generators: {self frobenius}! !
 
-!GaloisField methodsFor: 'printing' stamp: 'len 5/23/2020 07:36:41'!
+!GaloisField methodsFor: 'printing' stamp: 'len 8/10/2022 10:07:18'!
 printOn: aStream
-	aStream nextPut: $F; nextPutAll: self size printString sub
+	aStream nextPut: $𝔽; nextPutAll: self size printString sub
+"	aStream nextPut: $𝔽; nextPutAll: (self characteristic printString, '^', self degree printString) sub"
 "	aStream nextPutAll: 'GF('; print: self characteristic; nextPutAll: self degree printString super; nextPut: $)"! !
 
 !GaloisField methodsFor: 'testing' stamp: 'len 7/27/2021 08:48:56'!
@@ -14428,9 +14421,9 @@ filling: aBlock
 rows: anArray
 	^ self asModule rows: anArray! !
 
-!MatrixAlgebra methodsFor: 'printing' stamp: 'len 8/7/2022 10:44:05'!
+!MatrixAlgebra methodsFor: 'printing' stamp: 'len 8/9/2022 09:13:21'!
 printOn: aStream
-	aStream nextPutAll: 'M', self degree printString sub, '('; print: self scalars; nextPut: $)! !
+	aStream nextPutAll: 'ℳ', self degree printString sub, '('; print: self scalars; nextPut: $)! !
 
 !MatrixAlgebra methodsFor: 'testing' stamp: 'len 12/26/2021 12:19:17'!
 hasCanonicalAssociates
@@ -14668,9 +14661,9 @@ fractions
 	NOTE: Magma does this differently, the fractions field of a number ring is not its ambient field but an isomorphic field made of formal fractions with denominator a rational integer."
 	^ self propertyAt: #fractions! !
 
-!MaximalOrder methodsFor: 'printing' stamp: 'len 7/15/2021 16:51:39'!
+!MaximalOrder methodsFor: 'printing' stamp: 'len 8/9/2022 10:29:38'!
 printOn: aStream
-	aStream nextPutAll: 'O' italic; nextPut: $(; print: self fractions; nextPut: $)! !
+	aStream nextPut: $𝕆; nextPut: $(; print: self fractions; nextPut: $)! !
 
 !MaximalOrder methodsFor: 'random' stamp: 'len 5/30/2022 10:32:53'!
 unitAtRandom: aRandom
@@ -16577,12 +16570,12 @@ printGeneratorsOn: aStream
 	self isTrivial ifTrue: [aStream print: self zero. ^ self].
 	self generators do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: '; ']! !
 
-!Module methodsFor: 'printing' stamp: 'len 6/19/2022 21:06:38'!
+!Module methodsFor: 'printing' stamp: 'len 8/9/2022 09:24:00'!
 printOn: aStream
 	self isTrivial ifTrue: [aStream print: 0. ^ self].
-	aStream nextPut: $<.
+	aStream nextPut: $⟨.
 	self printGeneratorsOn: aStream.
-	aStream nextPut: $>.
+	aStream nextPut: $⟩.
 	self ambient isQuotient ifTrue: [aStream nextPut: $/; print: self ambient relations]! !
 
 !Module methodsFor: 'random' stamp: 'len 6/10/2022 11:14:01'!
@@ -17003,16 +16996,16 @@ printGeneratorsOn: aStream
 	self generators "asSortedCollection: [:a :b| a printString <= b printString])"
 		do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: ', ']! !
 
-!Ideal methodsFor: 'printing' stamp: 'len 6/6/2022 11:32:58'!
+!Ideal methodsFor: 'printing' stamp: 'len 8/9/2022 09:24:29'!
 printOn: aStream
 	self isTrivial ifTrue: [^ super printOn: aStream].
 	(self scalars isKindOf: ModularIntegerRing)
 		ifTrue: [aStream print: self generator; print: self scalars. ^ self].
 	self isOne ifTrue: [aStream print: self scalars. ^ self].
 	self scalars = ℤ ifTrue: [aStream print: self generator; nextPut: $ℤ. ^ self].
-	aStream nextPut: $<.
+	aStream nextPut: $⟨.
 	self printGeneratorsOn: aStream.
-	aStream nextPut: $>! !
+	aStream nextPut: $⟩! !
 
 !Ideal methodsFor: 'testing' stamp: 'len 12/15/2021 20:55:08'!
 contains: anElement
@@ -18297,10 +18290,10 @@ from: aDomain
 project: anElement
 	^ self representative: (self relations reduce: anElement)! !
 
-!QuotientModule methodsFor: 'printing' stamp: 'len 6/19/2022 21:06:06'!
+!QuotientModule methodsFor: 'printing' stamp: 'len 8/9/2022 10:21:02'!
 printOn: aStream
 	self isTrivial ifTrue: [aStream print: 0. ^ self].
-	aStream print: self cover; nextPut: $/; print: self relations! !
+	aStream print: self cover; nextPut: $╱; print: self relations! !
 
 !QuotientModule methodsFor: 'testing' stamp: 'len 4/22/2020 06:12:03'!
 includes: anObject
@@ -19366,8 +19359,9 @@ pointsCountOver: aRing
 pointsOver: aRing do: aBlock
 	^ aRing ^ self rank do: [:each| aBlock value: (self pointAt: each)]! !
 
-!AffineSpace methodsFor: 'printing' stamp: 'len 1/1/2017 21:29:19'!
+!AffineSpace methodsFor: 'printing' stamp: 'len 8/8/2022 12:01:25'!
 printOn: aStream
+"	aStream nextPut: $𝔸; nextPutAll: self rank printString super; print: self scalars"
 	aStream print: self scalars; nextPutAll: self rank printString super! !
 
 !AffineSpace methodsFor: 'testing' stamp: 'len 2/22/2017 07:54:37'!
@@ -32904,12 +32898,6 @@ asVector
 	(parent includes: anElement) ifFalse: [^ self adapt: anElement andSend: #/\].
 	^ self product: anElement condition: [:i :j| (i bitAnd: j) = 0]! !
 
-!Multivector methodsFor: 'operations' stamp: 'len 7/20/2020 07:13:58'!
-<· anElement
-	"Answer the left inner or interior product of the receiver with the argument."
-	(parent includes: anElement) ifFalse: [^ self adapt: anElement andSend: #<·].
-	^ self product: anElement condition: [:i :j| (i bitAnd: j) = i]! !
-
 !Multivector methodsFor: 'operations' stamp: 'len 7/20/2020 06:34:44'!
 \/ anElement
 	"Answer the regressive product of the receiver with the argument.
@@ -32917,17 +32905,23 @@ asVector
 	(parent includes: anElement) ifFalse: [^ self adapt: anElement andSend: #\/].
 	^ (self dual /\ anElement dual) * parent pseudoscalar! !
 
+!Multivector methodsFor: 'operations' stamp: 'len 8/10/2022 10:29:01'!
+|· anElement
+	"Answer the right contraction (or right inner or interior product) of the receiver with the argument."
+	(parent includes: anElement) ifFalse: [^ self adapt: anElement andSend: #'|·'].
+	^ self product: anElement condition: [:i :j| (i bitAnd: j) = j]! !
+
 !Multivector methodsFor: 'operations' stamp: 'len 7/22/2020 15:58:27'!
 · anElement
 	"Answer the dot product of the receiver with the argument."
 	(parent includes: anElement) ifFalse: [^ self adapt: anElement andSend: #·].
 	^ self product: anElement condition: [:i :j| i = j] "this can be optimized, lots of unnecesary iterations here"! !
 
-!Multivector methodsFor: 'operations' stamp: 'len 7/20/2020 07:14:15'!
-·> anElement
-	"Answer the right inner or interior product of the receiver with the argument."
-	(parent includes: anElement) ifFalse: [^ self adapt: anElement andSend: #·>].
-	^ self product: anElement condition: [:i :j| (i bitAnd: j) = j]! !
+!Multivector methodsFor: 'operations' stamp: 'len 8/10/2022 10:27:52'!
+·| anElement
+	"Answer the left contraction (or left inner or interior product) of the receiver with the argument."
+	(parent includes: anElement) ifFalse: [^ self adapt: anElement andSend: #'·|'].
+	^ self product: anElement condition: [:i :j| (i bitAnd: j) = i]! !
 
 !Multivector methodsFor: 'operations' stamp: 'len 7/22/2020 15:59:30'!
 conjugate
@@ -39009,6 +39003,21 @@ raisedToInteger: anInteger
 !Association methodsFor: '*algebra' stamp: 'len 10/26/2020 10:45:16'!
 inverse
 	^ self class key: value value: key! !
+
+!Character class methodsFor: '*Algebra' stamp: 'len 8/10/2022 10:31:56'!
+namedCharactersTable
+	"Table of named characters that we can enter in an editor using \name.
+	Please keep the names short and try to follow the naming convention used in LaTeX."
+	^ #("(left $) (right $) (up $) (down $)"
+	(mapsto $↦) (implies $⟹) (iff $⟺)
+	(oplus $⊕) (otimes $⊗) (times $×) (div $÷) #(circ $∘) "(bullet $∙)" (cdot $·) "(lowast $⁎) (dagger $†)"
+	(prod $⊓) (coprod $⊔) (wedge $∧) (vee $∨) (cap $∩) (cup $∪) (perp $⊥) (parallel $∥)
+	(in $∈) (notin $∉) (exists $∃) (nexists $∄) (forall $∀) (emptyset $∅) (infty $∞) (aleph $ℵ)
+	(alpha $α) (beta $β) (gamma $γ) (delta $δ) (epsilon $ε) (zeta $ζ) (eta $η) (theta $θ) (iota $ι) (kappa $κ) (lambda $λ) (mu $µ) (pi $π)  (nu $ν) (xi $ξ) (rho $ρ) (sigma $σ) (tau $τ) (phi $φ) (chi $χ) (psi $ψ) (omega $ω)
+	(Delta $Δ) (Gamma $Γ) (Theta $Θ) (Lambda $Λ) (Pi $Π) (Sigma $Σ) (Phi $Φ) (Psi $Ψ) (Omega $Ω)
+	(N $ℕ) (Z $ℤ) (Q $ℚ) (R $ℝ) (C $ℂ)
+	(sqrt $√) (partial $∂) (deg $°)
+	(leq $≤) (geq $≥) (neq $≠) (prec $≺) (succ $≻) (simeq $≃) (cong $≅) (equiv $≡) (approx $≈) (subset $⊂) (supset $⊃))! !
 
 !BlockClosure methodsFor: '*algebra' stamp: 'len 5/1/2022 10:18:05'!
 count
