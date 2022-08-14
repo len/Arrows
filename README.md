@@ -3,12 +3,11 @@ A computational algebra system in [Cuis Smalltalk](https://github.com/Cuis-Small
 
 The goal of this project is to build an extensible and mathematically rigorous environment where one can construct mathematical objects (such as groups, rings, modules, etc) and operate with them, their morphisms and their elements.
 
+The most fundamental classes of the system are *Domain* and *Morphism*, corresponding to *objects* and *arrows* of category theory. You can explore the hierarchy starting from these classes and read the class comments. The code is well documented and contains references to the bibliography.
+
 Some of the objects currently implemented include: finite rings (ℤ/mℤ, ℤ/(p^k)ℤ, Galois rings) and finite fields, polynomial rings over arbitrary commutative rings, affine algebras, number fields, function fields, finitely presented modules over arbitrary rings, finite (finitely generated as modules) associative algebras, finite distributive (not necessarily associative) algebras, schemes (affine schemes, and closed subschemes of affine or projective space), coherent sheaves, and bounded (co)chain complexes in arbitrary abelian categories (e.g. modules, coherent sheaves, or recursively other categories of complexes).
 
-Many computations with these objects reduce to systems of linear equations over some relatively simple ring. Some of the most important algorithms implemented include: Hermite normal form over any Euclidean domain, Howell form over any Euclidean ring (possibly with zero divisors), and a generalization of Buchberger's algorithm for computing strong Groebner bases of modules over polynomial rings over any Euclidean ring (possibly with zero divisors).
-
-### Where to start?
-The most fundamental classes of the system are *Domain* and *Morphism*, corresponding to *objects* and *arrows* of category theory. You can explore the hierarchy starting from these classes and read the class comments. The code is well documented and contains references to the bibliography.
+Many computations with these objects reduce to systems of linear equations over some relatively simple commutative ring. The core of the system relies on Gaussian elimination over fields, algorithms for computing Hermite normal form over Euclidean domains and Howell form over Euclidean rings (possibly with zero divisors), and a generalization of Buchberger's algorithm for computing strong Groebner bases of modules over polynomial rings over Euclidean rings (possibly with zero divisors).
 
 ### Smalltalk
 The system is based on Smalltalk-80, in particular Cuis Smalltalk. It is multiplatform and runs with the OpenSmalltalk Virtual Machine. Conveniently, Smalltalk comes equipped with arbitrary precision integers and rationals.
@@ -25,8 +24,8 @@ The notation is intended to be as close as possible to standard mathematical not
 \[BLH11\] Mohamed Barakat; Markus Lange-Hegermann; "An Axiomatic Setup for Algorithmic Homological Algebra and an Alternative Approach to Localization" (2017)  
 \[BF15\] Bini, G.; Flamini, F. "Finite commutative rings and their applications" (2015)  
 \[Coh96\] Henri Cohen, "A Course in Computational Algebraic Number Theory" (1996)  
-\[CLO97\] David Cox; John Little; Donals O''Shea; "Ideals, Varieties and Algorithms", UTM, Springer, 1997  
-\[CLO05\] David Cox; John Little; Donals O''Shea; "Using Algebraic Geometry", GTM, Springer, 2005  
+\[CLO97\] David Cox; John Little; Donals O'Shea; "Ideals, Varieties and Algorithms", UTM, Springer, 1997  
+\[CLO05\] David Cox; John Little; Donals O'Shea; "Using Algebraic Geometry", GTM, Springer, 2005  
 \[DK02\] Harm Derksen; Gregor Kemper; "Computational Invariant Theory"  
 \[Dix82\] John D. Dixon, "Exact Solution of Linear Equations Using p-Adic Expansions" (1982)  
 \[Eis95\] David Eisenbud; "Commutative Algebra With a View Towards Algebraic Geometry", GTM 150, Springer, 1995  
@@ -42,7 +41,7 @@ The notation is intended to be as close as possible to standard mathematical not
 \[GM73\] Ganske, G.; McDonald, B.R. "Finite local rings". Rocky Mountain J. Math. 3 (1973), no. 4, 521-540  
 \[GP08\] Gert-Martin Greuel; Gerhard Pfister; "A Singular Introduction to Commutative Algebra" (2008)  
 \[Har77\] Robin Hartshorne; "Algebraic Geometry", GTM 52, Springer, 1977  
-\[HEO05\] Derek F. Holt; B. Eick; E. A. O''Brien; "Handbook of Computational Group Theory" (2005)  
+\[HEO05\] Derek F. Holt; B. Eick; E. A. O'Brien; "Handbook of Computational Group Theory" (2005)  
 \[HH11\] Jurgen Herzog, Takayuki Hibi, "Monomial Ideals" (2011)  
 \[How86\] John A. Howell, "Spans in the module (Z/mZ)^s" (1986)  
 \[KY86\] Mitsuo Kanemitsu; Ken-ichi Yoshida; "Euclidean rings" (1986)  
@@ -52,7 +51,7 @@ The notation is intended to be as close as possible to standard mathematical not
 \[McC42\] N. H. McCoy; "Remarks on divisors of zero" (1942)  
 \[McD74\] Bernard R. McDonald; "Finite Rings with Identity" (1974)  
 \[Mis93\] Mishra, B; "Algorithmic Algebra", Springer, Monographs in Computer Science, 1993  
-\[Mon04\] Michael Monagan; ''Maximal Quotient Rational Reconstruction: An Almost Optimal Algorithm for Rational Reconstructoin'' (2004)  
+\[Mon04\] Michael Monagan; "Maximal Quotient Rational Reconstruction: An Almost Optimal Algorithm for Rational Reconstructoin" (2004)  
 \[Pos17\] Sebastian Posur; "Linear Systems over Localizations of Rings" (2017)  
 \[SY09\] Michael Sagraloff, Chee K. Yap, "An Efficient and Exact Subdivision Algorithm for Isolating Complex Roots of a Polynomial and its Complexity Analysis" (2009)  
 \[Sam71\] Pierre Samuel, "About Euclidean Rings", J. Algebra, 19:282-301, 1971  
