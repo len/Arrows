@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5434] on 5 August 2022 at 9:53:28 am'!
+'From Cuis 6.0 [latest update: #5438] on 14 August 2022 at 11:20:50 am'!
 'Description '!
-!provides: 'Tests-Algebra' 1 15!
+!provides: 'Tests-Algebra' 1 16!
 SystemOrganization addCategory: 'Tests-Algebra'!
 SystemOrganization addCategory: 'Tests-Algebra-Arrays'!
 SystemOrganization addCategory: 'Tests-Algebra-Rings'!
@@ -2312,10 +2312,10 @@ testTorsionAbelianGroup
 	self assert: G isMixed not.
 	self assert: G torsionFree isTrivial! !
 
-!AbstractTestCase methodsFor: 'initialization' stamp: 'len 8/5/2022 09:49:11'!
+!AbstractTestCase methodsFor: 'initialization' stamp: 'len 8/12/2022 13:29:03'!
 initialize
 	super initialize.
-	seed _ 1000000 atRandom! !
+	seed _ 16rFFFFFFFF atRandom! !
 
 !AbstractTestCase methodsFor: 'setUp/tearDown' stamp: 'len 8/5/2022 09:49:31'!
 setUp
@@ -2766,6 +2766,11 @@ testLeftDivision
 		b _ a * (R atRandom: random bits: 30).
 		self assert: (a isZero or: [a * (a \ b) = b])]! !
 
+!AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 8/12/2022 12:36:42'!
+testLiftColiftOfZero
+	self assert: (R zero colift: R zero) = R zero.
+	self assert: (R zero lift: R zero) = R zero! !
+
 !AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/31/2022 16:23:08'!
 testRightDivision
 	20 timesRepeat:
@@ -2961,13 +2966,13 @@ testCliffordAlgebraDualGrade
 	x _ (R grade: k) atRandom: random bits: 10.
 	self assert: ((R grade: R degree - k) includes: x dual)! !
 
-!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/20/2021 16:19:00'!
+!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/12/2022 13:01:34'!
 testCliffordAlgebraDualProperties
 	| x y |
 	x _ R atRandom: random bits: 10.
 	y _ R atRandom: random bits: 10.
-	self assert: x <· y dual = (x /\ y) dual.
-	self assert: x /\ y dual = (x <· y) dual! !
+	self assert: x ·| y dual = (x ∧ y) dual.
+	self assert: x ∧ y dual = (x ·| y) dual! !
 
 !CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/20/2021 16:20:22'!
 testCliffordAlgebraEvenSubalgebra
@@ -3030,36 +3035,36 @@ testCliffordAlgebraMultiplication
 	self assert: (x*0) isZero.
 	self assert: (0*x) isZero! !
 
-!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/20/2021 16:24:46'!
+!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/12/2022 13:02:22'!
 testCliffordAlgebraProductsProperties
 	| x y z one |
 	x _ R atRandomBits: 10.
 	y _ R atRandomBits: 10.
 	z _ R atRandomBits: 10.
 	"Associativity of wedge product:"
-	self assert: x /\ (y /\ z) = (x /\ y /\ z).
+	self assert: x ∧ (y ∧ z) = (x ∧  y ∧ z).
 	"Associativity of left and right interior products:"
-	self assert: x <· (y ·> z) = (x <· y ·> z).
-	self assert: x <· (y <· z) = (x /\ y <· z).
-	self assert: x · (y <· z) = (x /\ y · z).
+	self assert: x ·| (y |· z) = (x ·| y |· z).
+	self assert: x ·| (y ·| z) = (x ∧ y ·| z).
+	self assert: x · (y ·| z) = (x ∧ y · z).
 	one _ R one.
-	self assert: one /\ x = x.
-	self assert: x /\ one = x.
-	self assert: one <· x = x.
-	self assert: x ·> one = x! !
+	self assert: one ∧ x = x.
+	self assert: x ∧ one = x.
+	self assert: one ·| x = x.
+	self assert: x |· one = x! !
 
-!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/20/2021 16:25:34'!
+!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/12/2022 13:03:00'!
 testCliffordAlgebraProductsPropertiesWithVectors
 	| x y v |
 	x _ R atRandom: random bits: 10.
 	y _ R atRandom: random bits: 10.
 	v _ R !! (R space atRandom: random bits: 10).
-	self assert: v*x = (v <· x + (v /\ x)).
-	self assert: v <· x = (v*x - (x reflection * v) / 2).
-	self assert: v <· x = (x reflection negated ·> v).
-	self assert: v /\ x = (v*x + (x reflection * v) / 2).
-	self assert: v /\ x = (x reflection /\ v).
-	self assert: v <· (x*y) = ((v <· x)*y + (x reflection * (v <· y)))! !
+	self assert: v * x = (v ·| x + (v ∧ x)).
+	self assert: v ·| x = (v*x - (x reflection * v) / 2).
+	self assert: v ·| x = (x reflection negated |· v).
+	self assert: v ∧ x = (v*x + (x reflection * v) / 2).
+	self assert: v ∧ x = (x reflection ∧ v).
+	self assert: v ·| (x*y) = ((v ·| x)*y + (x reflection * (v ·| y)))! !
 
 !CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 1/3/2022 11:47:12'!
 testCliffordAlgebraProperties
@@ -5076,7 +5081,7 @@ testFirstIsomorphismTheorem
 	self assert: f domain >= f kernel.
 	self assert: f domain / f kernel ~ f image! !
 
-!AbstractModuleTest methodsFor: 'isomorphism theorems' stamp: 'len 6/21/2022 11:29:54'!
+!AbstractModuleTest methodsFor: 'isomorphism theorems' stamp: 'len 8/12/2022 13:17:01'!
 testSecondIsomorphismTheorem
 	| M k S T |
 	M _ self newFreeModule.
@@ -5085,8 +5090,8 @@ testSecondIsomorphismTheorem
 	k _ M rank > 0 ifTrue: [M rank atRandom: random] ifFalse: [0].
 	T _ M span: ((1 to: k) collect: [:i| M atRandom: random bits: (10 atRandom: random)]).
 	self assert: S+T <= M.
-	self assert: S /\ T <= M.
-	self assert: (S+T)/T ~ (S/(S /\ T))! !
+	self assert: S ∩ T <= M.
+	self assert: (S+T)/T ~ (S/(S ∩ T))! !
 
 !AbstractModuleTest methodsFor: 'isomorphism theorems' stamp: 'len 6/19/2022 21:22:59'!
 testThirdIsomorphismTheorem
@@ -5372,7 +5377,7 @@ testProjection: f
 	self assert: (f image apply: f) = f image.
 	self assert: (f codomain apply: f) = f image! !
 
-!AbstractModuleTest methodsFor: 'maps' stamp: 'len 8/1/2021 12:30:26'!
+!AbstractModuleTest methodsFor: 'maps' stamp: 'len 8/12/2022 13:31:54'!
 testPullback
 	| X Y Z f g P projections |
 	Z _ self newSmallModule.
@@ -5380,11 +5385,11 @@ testPullback
 	Y _ self newSmallModule.
 	f _ X => Z atRandom: random bits: 20.
 	g _ Y => Z atRandom: random bits: 20.
-	P _ f /\ g.
+	P _ f ∧ g.
 	projections _ P -< (X, Y).
 	self assert: projections first -> f = (projections second -> g)! !
 
-!AbstractModuleTest methodsFor: 'maps' stamp: 'len 8/1/2021 12:22:15'!
+!AbstractModuleTest methodsFor: 'maps' stamp: 'len 8/12/2022 13:32:03'!
 testPullbackFree
 	| X Y Z f g P projections |
 	Z _ self newFreeModule.
@@ -5392,11 +5397,11 @@ testPullbackFree
 	Y _ self newFreeModule.
 	f _ X => Z atRandom: random bits: 20.
 	g _ Y => Z atRandom: random bits: 20.
-	P _ f /\ g.
+	P _ f ∧ g.
 	projections _ P -< (X, Y).
 	self assert: projections first -> f = (projections second -> g)! !
 
-!AbstractModuleTest methodsFor: 'maps' stamp: 'len 8/1/2021 12:30:40'!
+!AbstractModuleTest methodsFor: 'maps' stamp: 'len 8/12/2022 13:33:14'!
 testPushout
 	| X Y Z f g P coprojections |
 	Z _ self newSmallModule.
@@ -5404,11 +5409,11 @@ testPushout
 	Y _ self newSmallModule.
 	f _ Z => X atRandom: random bits: 20.
 	g _ Z => Y atRandom: random bits: 20.
-	P _ f \/ g.
+	P _ f ∨ g.
 	coprojections _ (X, Y) >- P.
 	self assert: f -> coprojections first = (g -> coprojections second)! !
 
-!AbstractModuleTest methodsFor: 'maps' stamp: 'len 8/1/2021 12:22:21'!
+!AbstractModuleTest methodsFor: 'maps' stamp: 'len 8/12/2022 13:33:20'!
 testPushoutFree
 	| X Y Z f g P coprojections |
 	Z _ self newFreeModule.
@@ -5416,7 +5421,7 @@ testPushoutFree
 	Y _ self newFreeModule.
 	f _ Z => X atRandom: random bits: 20.
 	g _ Z => Y atRandom: random bits: 20.
-	P _ f \/ g.
+	P _ f ∨ g.
 	coprojections _ (X, Y) >- P.
 	self assert: f -> coprojections first = (g -> coprojections second)! !
 
@@ -5713,7 +5718,7 @@ testAnnihilator
 	self assert: S0 rank = S corank.
 	S0 generators do: [:f| self assert: (f value: v) isZero]! !
 
-!AbstractVectorSpaceTest methodsFor: 'other' stamp: 'len 3/24/2021 09:04:59'!
+!AbstractVectorSpaceTest methodsFor: 'other' stamp: 'len 8/12/2022 13:13:38'!
 testAnnihilatorProperties
 	| V n m S T |
 	V _ self newVectorSpace.
@@ -5723,18 +5728,18 @@ testAnnihilatorProperties
 	T _ (S grassmannian: m) atRandom: random bits: (100 atRandom: random).
 	self assert: T <= S.
 	self assert: T annihilatorSpace >= S annihilatorSpace. "reverses inclusions"
-	self assert: (S + T) annihilatorSpace = (S annihilatorSpace /\ T annihilatorSpace).
+	self assert: (S + T) annihilatorSpace = (S annihilatorSpace ∩ T annihilatorSpace).
 	self assert: S rank + S annihilatorSpace rank = V rank.
 	self assert: V annihilatorSpace isTrivial.
 "	self assert: S annihilator annihilator = S dual dual"! !
 
-!AbstractVectorSpaceTest methodsFor: 'other' stamp: 'len 3/24/2021 09:16:15'!
+!AbstractVectorSpaceTest methodsFor: 'other' stamp: 'len 8/12/2022 13:13:49'!
 testGrassmannRelation
 	| V S T |
 	V _ self newVectorSpace.
 	S _ (V grassmannian: ((0 to: V rank) atRandom: random)) atRandom: random bits: (20 atRandom: random).
 	T _ (V grassmannian: ((0 to: V rank) atRandom: random)) atRandom: random bits: (20 atRandom: random).
-	self assert: S rank + T rank = ((S + T) rank + (S /\ T) rank)! !
+	self assert: S rank + T rank = ((S + T) rank + (S ∩ T) rank)! !
 
 !AbstractVectorSpaceTest methodsFor: 'other' stamp: 'len 3/26/2021 14:23:01'!
 testGrassmannian
@@ -5979,7 +5984,7 @@ testPerpExample
 	p _ S orthogonalProjection.
 	self assert: p kernel = perp! !
 
-!VectorSpaceOverRationalsTest methodsFor: 'as yet unclassified' stamp: 'len 4/5/2021 04:18:35'!
+!VectorSpaceOverRationalsTest methodsFor: 'as yet unclassified' stamp: 'len 8/12/2022 13:04:35'!
 testPerpProperties
 	| V S T |
 	V _ ℚ ^ 3.
@@ -5987,7 +5992,7 @@ testPerpProperties
 	T _ V span: {(1, -1, -3)}. "subspace of S"
 	self assert: S + S complement = V.
 	self assert: T + T complement = V.
-	self assert: (S /\ S complement) isTrivial.
+	self assert: (S ∩ S complement) isTrivial.
 	self assert: S <= S complement complement.
 	self assert: S complement < T complement "because S > T"! !
 
@@ -6000,7 +6005,7 @@ testQuotientSpaceExample
 	self assert: x isZero.
 "	self assert: (M lifting value: x) = (0,0,0)"! !
 
-!VectorSpaceOverRationalsTest methodsFor: 'as yet unclassified' stamp: 'len 4/5/2021 04:25:40'!
+!VectorSpaceOverRationalsTest methodsFor: 'as yet unclassified' stamp: 'len 8/12/2022 13:04:41'!
 testSubspaceIntersectionAndSumExample
 	"Example from wikipedia Zassenhaus algorithm"
 	| V U W |
@@ -6008,19 +6013,19 @@ testSubspaceIntersectionAndSumExample
 	U _ V span: {(1,-1,0,1). (0,0,1,-1)}.
 	W _ V span: {(5,0,-3,3). (0,5,-3,-2)}.
 	self assert: U + W = (V span: {(1,0,0,0). (0,1,0,-1). (0,0,1,-1)}).
-	self assert: U /\ W = (V span: {(1,-1,0,1)})! !
+	self assert: U ∩ W = (V span: {(1,-1,0,1)})! !
 
-!VectorSpaceOverRationalsTest methodsFor: 'as yet unclassified' stamp: 'len 4/5/2021 04:25:31'!
+!VectorSpaceOverRationalsTest methodsFor: 'as yet unclassified' stamp: 'len 8/12/2022 13:04:58'!
 testSubspaceIntersectionExample
 	| V S T T2 |
 	V _ ℚ ^ 3.
 	S _ V span: {(1, 1, 1). (2, 0, -2)}.
-	self assert: S /\ V = S.
-	self assert: S /\ S = S.
+	self assert: S ∩ V = S.
+	self assert: S ∩ S = S.
 	T _ V span: {(3,1,-1)}.
-	self assert: S /\ T = T.
+	self assert: S ∩ T = T.
 	T2 _ V span: {(3,1,-1). (0,1,0)}.
-	self assert: S /\ T2 = T! !
+	self assert: S ∩ T2 = T! !
 
 !ModuleOverCyclotomicRingTest methodsFor: 'as yet unclassified' stamp: 'len 7/26/2021 10:20:31'!
 initialize
@@ -6194,18 +6199,18 @@ testQuotientModuleSpanBug
 	M _ ℤ^2 / {(1,2)}.
 	self assert: M = (M span: M generators)! !
 
-!ModuleOverIntegersTest methodsFor: 'as yet unclassified' stamp: 'len 4/5/2021 04:25:11'!
+!ModuleOverIntegersTest methodsFor: 'as yet unclassified' stamp: 'len 8/12/2022 13:05:23'!
 testSubmoduleIntersectionExample
 	| M S T T2 |
 	M _ ℤ ^ 3.
 	S _ M span: {(1, 1, 1). (2, 0, -2)}.
-	self assert: S /\ M = S.
-	self assert: M /\ S = S.
-	self assert: S /\ S = S.
+	self assert: S ∩ M = S.
+	self assert: M ∩ S = S.
+	self assert: S ∩ S = S.
 	T _ M span: {(3,1,-1)}.
-	self assert: S /\ T = T.
+	self assert: S ∩ T = T.
 	T2 _ M span: {(3,1,-1). (0,1,0)}.
-	self assert: S /\ T2 = T! !
+	self assert: S ∩ T2 = T! !
 
 !ModuleOverIntegersTest methodsFor: 'as yet unclassified' stamp: 'len 4/5/2021 04:17:27'!
 testSubquotientContainsBug
@@ -6274,7 +6279,7 @@ initialize
 	2 atRandom = 1 ifTrue: [n _ n negated].
 	scalars _ (QuadraticField sqrt: n) integers! !
 
-!AbstractModuleTODOTest methodsFor: 'as yet unclassified' stamp: 'len 7/25/2021 13:09:01'!
+!AbstractModuleTODOTest methodsFor: 'as yet unclassified' stamp: 'len 8/12/2022 13:32:27'!
 testPullbackSquaresSharingMorphism
 	| A B C D f g h P r s Q t u |
 	C _ self newSmallFreeModule.
@@ -6284,15 +6289,15 @@ testPullbackSquaresSharingMorphism
 	f _ A => C atRandom: random bits: 20.
 	g _ B => C atRandom: random bits: 20.
 	h _ D => B atRandom: random bits: 20.
-	P _ f /\ g.
+	P _ f ∧ g.
 	r _ P -< (A, B) at: 1.
 	s _ P -< (A, B) at: 2.
-	Q _ s /\ h.
+	Q _ s ∧ h.
 	t _ Q -< (P, D) at: 1.
 	u _ Q -< (P, D) at: 2.
-	self assert: (r·t) -> f = (u -> (g·h))! !
+	self assert: (r · t) -> f = (u -> (g · h))! !
 
-!AbstractModuleTODOTest methodsFor: 'as yet unclassified' stamp: 'len 7/25/2021 13:09:18'!
+!AbstractModuleTODOTest methodsFor: 'as yet unclassified' stamp: 'len 8/12/2022 13:33:41'!
 testPushoutSquaresSharingMorphism
 	| A B C D f g h P i j Q k l |
 	C _ self newSmallFreeModule.
@@ -6302,13 +6307,13 @@ testPushoutSquaresSharingMorphism
 	f _ C => A atRandom: random bits: 20.
 	g _ C => B atRandom: random bits: 20.
 	h _ B => D atRandom: random bits: 20.
-	P _ f \/ g.
+	P _ f ∨ g.
 	i _ (A, B) >- P at: 1.
 	j _ (A, B) >- P at: 2.
-	Q _ j \/ h.
+	Q _ j ∨ h.
 	k _ (P, D) >- Q at: 1.
 	l _ (P, D) >- Q at: 2.
-	self assert: f -> (k·i) = (h·g -> l)! !
+	self assert: f -> (k · i) = (h · g -> l)! !
 
 !ModuleOverCliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 7/26/2021 10:19:57'!
 initialize
@@ -6526,7 +6531,7 @@ testFinite
 	X _ A / {x*x - 1. y*y - (x*x) - 3} :: spec.
 	self assert: X isFinite! !
 
-!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 5/23/2020 09:33:01'!
+!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 8/12/2022 13:05:39'!
 testIntersection
 	| A x y V V2 W |
 	A _ ℚ polynomialsIn: #(x y).
@@ -6534,7 +6539,7 @@ testIntersection
 	y _ A y.
 	V _ A / {y} :: spec.
 	V2 _ A / {x*x - 1} :: spec.
-	W _ V /\ V2.
+	W _ V ∩ V2.
 	self assert: (W satisfies: (1, 0)).
 	self assert: (W satisfies: (0, 1)) not! !
 
@@ -6559,7 +6564,7 @@ testLocalAndGlobalDimension
 	self assert: (X @ (1,0,0)) dimension = 2. "dimension of X at (1,0,0)"
 	self assert: (X @ (0,0,1)) dimension = 1. "dimension of X at (0,0,1)"! !
 
-!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 7/25/2022 11:45:12'!
+!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 8/12/2022 13:05:55'!
 testMorphismsOfProjectiveVarieties
 	"'A Singular Introduction To Commutative Algebra', Example A.6.8 (morphisms of projective varieties)."
 	| P A x y z X f1 f2 f3 I J Y phi Z |
@@ -6573,7 +6578,7 @@ testMorphismsOfProjectiveVarieties
 	J _ A * {f1. f2. f3}.
 	self assert: (A / (I + J)) dimension = 0.
 	Y _ P subscheme: J.
-	self assert: (X /\ Y) isEmpty.
+	self assert: (X ∩ Y) isEmpty.
 	phi _ X to: P representatives: {f1. f2. f3}.
 	"The image is a curve of degree 6:"
 	Z _ phi image.
@@ -6733,13 +6738,13 @@ testSpecZ
 "	p _ ℤ * 5.
 	self assert: (ℤ spec includes: p)"! !
 
-!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 5/23/2020 08:57:54'!
+!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 8/12/2022 13:06:11'!
 testSpecZSubschemes
 	self assert: ℤ spec >= (ℤ / 2) spec.
 	self assert: (ℤ / 10) spec >= (ℤ / 5) spec.
 	self deny: (ℤ / 10) spec >= (ℤ / 3) spec.
-	self assert: (ℤ / 10) spec /\ (ℤ / 15) spec = (ℤ / 5) spec.
-	self assert: (ℤ / 10) spec \/ (ℤ / 15) spec = (ℤ / 30) spec! !
+	self assert: (ℤ / 10) spec ∩ (ℤ / 15) spec = (ℤ / 5) spec.
+	self assert: (ℤ / 10) spec ∪ (ℤ / 15) spec = (ℤ / 30) spec! !
 
 !AlgebraicGeometryTest methodsFor: 'projective' stamp: 'len 5/23/2020 08:56:56'!
 testProjectivePlaneCurveArithmeticGenus
@@ -6954,7 +6959,7 @@ testSturmfelsExample1
 	self assert: C1 projectiveClosure degree = 13.
 	self assert: C1 isReduced "equivalent to C1 ideal = C1 ideal radical"! !
 
-!AlgebraicGeometryTest methodsFor: 'rational points' stamp: 'len 12/15/2021 12:00:19'!
+!AlgebraicGeometryTest methodsFor: 'rational points' stamp: 'len 8/12/2022 13:06:48'!
 testSturmfelsExample2
 	"Bernd Sturmfels, 'Ideals, Varieties and Macaulay 2', 2. Intersecting Our Curve With a Surface."
 	| R x y z C S theirunion ourpoints |
@@ -6965,11 +6970,11 @@ testSturmfelsExample2
 	C _ (R / {x^4 - (y^5). x^3 - (y^7)}) spec.
 	C _ C \ (R / R x) spec. "this is C1 from example1"
 	S _ (R / (x^5 + (y^5) + (z^5) - 1)) spec.
-	theirunion _ C \/ S.
+	theirunion _ C ∪ S.
 	"In this case, the union's ideal coincides with the product of the ideals:"
 	self assert: theirunion asIdeal = (C asIdeal * S asIdeal).
 	"The intersection of the curve and the surface (whose defining ideal is the sum of the respective ideals):"
-	ourpoints _ C /\ S.
+	ourpoints _ C ∩ S.
 	"We get a finite set of points:"
 	self assert: ourpoints dimension = 0.
 	"The number of points is 65:"
@@ -7392,7 +7397,7 @@ testAffineRingElementOperations
 	self assert: x^2 = (y^2 - 2).
 	"self assert: x reciprocal = ..."! !
 
-!CommutativeAlgebraTest methodsFor: 'affine ring' stamp: 'len 8/1/2021 12:00:06'!
+!CommutativeAlgebraTest methodsFor: 'affine ring' stamp: 'len 8/12/2022 13:07:01'!
 testAffineRingIdealIntersectionBug
 	| P x y A I J |
 	P _ ℚ polynomialsIn: #(x y).
@@ -7400,7 +7405,7 @@ testAffineRingIdealIntersectionBug
 	A _ P / {y^2 - x + 1. y - 1}.
 	I _ A * {1. 2}.
 	J _ A * {-1. 2}.
-	self assert: I /\ J = A asIdeal! !
+	self assert: I ∩ J = A asIdeal! !
 
 !CommutativeAlgebraTest methodsFor: 'affine ring' stamp: 'len 5/23/2020 09:33:01'!
 testAffineRingIdealIntersectionRandom
@@ -7802,7 +7807,7 @@ testIdealColon
 	J _ R * {I atRandomBits: 10. I atRandomBits: 10}. "J <= I"
 	self assert: I : J = R asIdeal! !
 
-!CommutativeAlgebraTest methodsFor: 'ideal operations' stamp: 'len 5/23/2020 09:33:01'!
+!CommutativeAlgebraTest methodsFor: 'ideal operations' stamp: 'len 8/12/2022 13:07:11'!
 testIdealColon2
 	"Example from Cox IVA 205p."
 	| R x y z I J Q |
@@ -7813,7 +7818,7 @@ testIdealColon2
 	I _ R * {x*z - (y^2). x^3 - (y*z)}.
 	J _ R * {x. y}.
 	Q _ I : J.
-	self assert: Q = (I : (R * x) /\ (I : (R * y))).
+	self assert: Q = (I : (R * x) ∩ (I : (R * y))).
 	self assert: Q = (R * {x*z - (y^2). x^3 - (y*z). x^2*y - (z^2)})! !
 
 !CommutativeAlgebraTest methodsFor: 'ideal operations' stamp: 'len 5/23/2020 09:33:01'!
@@ -7853,7 +7858,7 @@ testIdealHomogenization
 	J _ (ℚ polynomialsIn: 4) * {f1 homogenized. f2 homogenized}.
 	self deny: (J includes: f3 homogenized)! !
 
-!CommutativeAlgebraTest methodsFor: 'ideal operations' stamp: 'len 5/23/2020 09:33:01'!
+!CommutativeAlgebraTest methodsFor: 'ideal operations' stamp: 'len 8/12/2022 13:07:19'!
 testIdealIntersection
 	"Example from Cox IVA 194 p."
 	| Qxy x y I J K |
@@ -7863,13 +7868,13 @@ testIdealIntersection
 	I _ Qxy * {x^2 * y}.
 	J _ Qxy * {x * (y^2)}.
 	K _ Qxy * {x^2*(y^2)}.
-	self assert: I /\ J = K! !
+	self assert: I ∩ J = K! !
 
 !CommutativeAlgebraTest methodsFor: 'ideal operations' stamp: 'len 5/23/2020 09:33:01'!
 testIdealIntersectionRandom
 	self testIdealIntersectionRandom: (ℚ polynomialsIn: #(x y))! !
 
-!CommutativeAlgebraTest methodsFor: 'ideal operations' stamp: 'len 5/10/2019 04:31:29'!
+!CommutativeAlgebraTest methodsFor: 'ideal operations' stamp: 'len 8/12/2022 13:07:26'!
 testIdealIntersectionRandom: aRing
 	| R f1 f2 g I J K |
 	R _ aRing.
@@ -7879,16 +7884,42 @@ testIdealIntersectionRandom: aRing
 	I _ R * {f1. g}.
 	J _ R * {f2. g}.
 	K _ R * {g}.
-	self assert: I /\ J >= K! !
+	self assert: I ∩ J >= K! !
 
-!CommutativeAlgebraTest methodsFor: 'ideal operations' stamp: 'len 5/23/2020 09:33:01'!
-testIdealIsPrime
+!CommutativeAlgebraTest methodsFor: 'ideal operations' stamp: 'len 8/14/2022 10:27:18'!
+testIdealIsPrimeExample1
 	| R x y I |
 	R _ ℚ polynomialsIn: #(x y).
-	x _ R x: #x.
-	y _ R x: #y.
+	x _ R x: 1. y _ R x: 2.
 	I _ R * {x^2 - (y^2) - 1}.
 	self assert: I isPrime! !
+
+!CommutativeAlgebraTest methodsFor: 'ideal operations' stamp: 'len 8/14/2022 10:21:46'!
+testIdealIsPrimeExample2
+	"[AL94, Example 4.4.10]"
+	| R x y z I |
+	R _ ℚ polynomialsIn: #(x y z).
+	x _ R x: 1. y _ R x: 2. z _ R x: 3.
+	I _ R * {x*z - (y^2). x^3 - (y*z). x^2*y - (z^2)}.
+	self assert: I isPrime! !
+
+!CommutativeAlgebraTest methodsFor: 'ideal operations' stamp: 'len 8/14/2022 10:24:16'!
+testIdealIsPrimeExample3
+	"[AL94, Exercise 4.4.4]"
+	| R x y z I |
+	R _ ℚ polynomialsIn: #(x y z).
+	x _ R x: 1. y _ R x: 2. z _ R x: 3.
+	I _ R * {y^4 - (z^3). y^2 - (x*z). x*(y^2) - (z^2). x^2 - z}.
+	self assert: I isPrime! !
+
+!CommutativeAlgebraTest methodsFor: 'ideal operations' stamp: 'len 8/14/2022 10:25:16'!
+testIdealIsPrimeExample4
+	"[AL94, Exercise 4.4.3]"
+	| R x y z I |
+	R _ ℚ polynomialsIn: #(x y z).
+	x _ R x: 1. y _ R x: 2. z _ R x: 3.
+	I _ R * {x*z - (y^3). y*z - (x^2)}.
+	self assert: I isPrime not! !
 
 !CommutativeAlgebraTest methodsFor: 'ideal operations' stamp: 'len 7/5/2022 12:21:34'!
 testIdealIsRadical
@@ -8026,7 +8057,7 @@ testIdealSaturation
 	S _ R * {y. x^5}.
 	self assert: (I saturation: J) = S! !
 
-!CommutativeAlgebraTest methodsFor: 'ideal operations' stamp: 'len 7/26/2022 13:44:06'!
+!CommutativeAlgebraTest methodsFor: 'ideal operations' stamp: 'len 8/12/2022 13:07:34'!
 testLocalIdeals
 	"Magma handbook, example H104E4."
 	| R I J A M |
@@ -8042,7 +8073,7 @@ testLocalIdeals
 		z^2}]).
 	self assert: I * J = A.
 	M _ R * (R !! [:x :y :z| {x + y. y^2. z}]).
-	self assert: I /\ J = M.
+	self assert: I ∩ J = M.
 	self deny: A = M.
 	self assert: A <= M! !
 

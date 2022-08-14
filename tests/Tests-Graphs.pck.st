@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5434] on 5 August 2022 at 9:28:00 am'!
+'From Cuis 6.0 [latest update: #5438] on 14 August 2022 at 11:20:57 am'!
 'Description '!
-!provides: 'Tests-Graphs' 1 1!
+!provides: 'Tests-Graphs' 1 2!
 !requires: 'Graphs' 1 1 nil!
 SystemOrganization addCategory: 'Tests-Graphs'!
 
@@ -24,13 +24,13 @@ testCartesianProduct
 	self assert: H size = 4.
 	self assert: H numberOfEdges = 4! !
 
-!GraphTest methodsFor: 'as yet unclassified' stamp: 'len 5/10/2019 04:31:47'!
+!GraphTest methodsFor: 'as yet unclassified' stamp: 'len 8/12/2022 13:16:32'!
 testComplement
 	| G H |
 	G _ Graph unordered addEdges: {#a -> #b. #b -> #c. #d -> #e}; yourself.
 	H _ G complement.
-	self assert: (G \/ H) isComplete.
-	self assert: (G /\ H) isEdgeless.
+	self assert: (G ∪ H) isComplete.
+	self assert: (G ∩ H) isEdgeless.
 	self assert: H complement = G! !
 
 !GraphTest methodsFor: 'as yet unclassified' stamp: 'len 11/16/2016 10:08'!
@@ -68,12 +68,12 @@ testImplicit
 	self assert: G values asSet = #(1 2 4 8) asSet.
 	self assert: G edges size = 6! !
 
-!GraphTest methodsFor: 'as yet unclassified' stamp: 'len 5/10/2019 04:31:55'!
+!GraphTest methodsFor: 'as yet unclassified' stamp: 'len 8/12/2022 13:16:40'!
 testIntersection
 	| G H I |
 	G _ Digraph unordered addEdges: {#a -> #b. #b -> #c. #d -> #e. #x -> #b}; yourself.
 	H _ Digraph unordered addEdges: {#A -> #B. #b -> #c. #d -> #e. #X -> #X. #b -> #a}; yourself.
-	I _ G /\ H.
+	I _ G ∩ H.
 	self assert: I numberOfEdges = 2.
 	self assert: (I hasEdge: #b -> #c).
 	self assert: (I hasEdge: #d -> #e)! !
@@ -162,8 +162,8 @@ testUndirectedEdgeContraction
 	self assert: (G / (1->2)) edges size = 4.
 	self assert: (G / (1->2) / ((1->2)->3)) edges size = 3! !
 
-!GraphTest methodsFor: 'as yet unclassified' stamp: 'len 8/9/2020 07:51:30'!
+!GraphTest methodsFor: 'as yet unclassified' stamp: 'len 8/12/2022 13:18:28'!
 testUnion
 	| G |
 	G _ Digraph unordered addEdges: {#a -> #b. #b -> #c. #d -> #e. #x -> #b}; yourself.
-	self assert: (G \/ G transpose) = G symmetric! !
+	self assert: (G ∪ G transpose) = G symmetric! !

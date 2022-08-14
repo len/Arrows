@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5434] on 6 August 2022 at 7:17:28 am'!
+'From Cuis 6.0 [latest update: #5438] on 14 August 2022 at 11:20:43 am'!
 'Description '!
-!provides: 'Lattices' 1 5!
+!provides: 'Lattices' 1 6!
 !requires: 'Algebra' 1 0 nil!
 SystemOrganization addCategory: 'Lattices'!
 
@@ -241,11 +241,6 @@ to: aLattice evaluating: aBlock
 	"Answer the sum of the receiver and the argument, assuming they are compatible."
 	^ self notYetImplemented! !
 
-!Lattice methodsFor: 'operations' stamp: 'len 8/1/2020 21:34:30'!
-/\ aLattice
-	"Answer the intersection of the receiver and the argument, assuming they are compatible."
-	^ self notYetImplemented! !
-
 !Lattice methodsFor: 'operations' stamp: 'len 8/1/2020 19:08:46'!
 ⊕ aLattice
 	self notYetImplemented! !
@@ -262,6 +257,11 @@ dual
 	B _ self generatorMatrix.
 	G _ self gramian.
 	^ self class on: self innerProduct basis: ((B * G inverse) columns collect: [:each| self space elementAt: each])! !
+
+!Lattice methodsFor: 'operations' stamp: 'len 8/12/2022 13:15:53'!
+∩ aLattice
+	"Answer the intersection of the receiver and the argument, assuming they are compatible."
+	^ self notYetImplemented! !
 
 !Lattice methodsFor: 'printing' stamp: 'len 7/29/2020 06:28:51'!
 printOn: aStream

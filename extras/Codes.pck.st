@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5434] on 6 August 2022 at 7:17:15 am'!
+'From Cuis 6.0 [latest update: #5438] on 14 August 2022 at 11:20:26 am'!
 'Description '!
-!provides: 'Codes' 1 3!
+!provides: 'Codes' 1 4!
 !requires: 'Algebra' 1 0 nil!
 SystemOrganization addCategory: 'Codes'!
 
@@ -207,10 +207,6 @@ isometries
 + aCode
 	^ self class on: self asModule + aCode asModule! !
 
-!Code methodsFor: 'operations' stamp: 'len 8/2/2020 22:28:10'!
-/\ aCode
-	^ self class on: self asModule /\ aCode asModule! !
-
 !Code methodsFor: 'operations' stamp: 'len 8/3/2020 20:35:51'!
 × aCode
 	"Answer the direct product of the receiver and the argument."
@@ -243,15 +239,19 @@ dual
 extended
 	^ self class on: (self space scalars ^ (self length + 1) span: (self asModule generators collect: [:each| each, each sum negated]))! !
 
-!Code methodsFor: 'operations' stamp: 'len 8/2/2020 17:07:18'!
+!Code methodsFor: 'operations' stamp: 'len 8/12/2022 13:12:32'!
 hull
 	"The hull of a linear code is the intersection of the code with its dual."
-	^ self /\ self dual! !
+	^ self ∩ self dual! !
 
 !Code methodsFor: 'operations' stamp: 'len 8/2/2020 18:35:34'!
 span: aCollection
 	"Answer the subcode spanned by the elements in aCollection."
 	^ (Code on: (self asModule span: aCollection)) ambient: self! !
+
+!Code methodsFor: 'operations' stamp: 'len 8/12/2022 13:12:21'!
+∩ aCode
+	^ self class on: self asModule ∩ aCode asModule! !
 
 !Code methodsFor: 'printing' stamp: 'len 7/31/2020 08:46:28'!
 printOn: aStream

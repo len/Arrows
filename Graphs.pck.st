@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5434] on 5 August 2022 at 9:23:26 am'!
+'From Cuis 6.0 [latest update: #5438] on 14 August 2022 at 11:20:38 am'!
 'Description The package implements directed and undirected graphs.'!
-!provides: 'Graphs' 1 2!
+!provides: 'Graphs' 1 3!
 !requires: 'Collections-Extras' 1 1 nil!
 SystemOrganization addCategory: 'Graphs'!
 
@@ -441,11 +441,11 @@ select: aBlock
 	"Answer the graph with all edges that connect the vertices of the receiver with the vertices of the argument. This is a commutative operation (for unlabeled graphs)."
 	^ self join: aGraph! !
 
-!Graph methodsFor: 'operations' stamp: 'len 5/10/2019 04:36:17'!
+!Graph methodsFor: 'operations' stamp: 'len 8/12/2022 13:18:19'!
 + aGraphOrEdge
 	"Answer the dijoint union of the receiver with the argument. Assume they are disjoint."
 	(aGraphOrEdge isKindOf: Association)
-		ifFalse: [^ self \/ aGraphOrEdge].
+		ifFalse: [^ self ∪ aGraphOrEdge].
 	(self hasEdge: aGraphOrEdge)
 		ifFalse: [^ self copy addEdge: aGraphOrEdge; yourself]! !
 
@@ -477,29 +477,6 @@ select: aBlock
 				(e value = anEdge key or: [e value = anEdge value])
 					ifTrue: [e _ e key -> newNode].
 				answer addEdge: e]].
-	^ answer! !
-
-!Graph methodsFor: 'operations' stamp: 'len 5/10/2019 04:27:18'!
-/\ aGraph
-	"Answer the graph whose vertices and edges is the intersection of the vertices and edges of the receiver and the argument."
-	| answer |
-	answer _ self copyEmpty.
-	aGraph nodesDo: [:each|
-		(self nodeAt: each ifAbsent: [])
-			ifNotNil: [:node|
-				answer add: each.
-				each neighborsDo: [:n|
-					(node hasEdgeTo: n)
-						ifTrue: [answer addEdgeFrom: each to: n]]]].
-	^ answer! !
-
-!Graph methodsFor: 'operations' stamp: 'len 5/10/2019 04:27:27'!
-\/ aGraph
-	"Answer the graph whose vertices and edges are the union of the vertices and edges of the receiver and the argument."
-	| answer |
-	answer _ self copy.
-	aGraph do: [:each| answer add: each].
-	aGraph edgesDo: [:each| answer addEdgeFrom: each key to: each value].
 	^ answer! !
 
 !Graph methodsFor: 'operations' stamp: 'len 12/30/2017 16:16:58'!
@@ -721,6 +698,29 @@ transpose
 	| answer |
 	answer _ self copyEmpty.
 	self edgesDo: [:each | answer addEdge: (Association key: each value value: each key)].
+	^ answer! !
+
+!Graph methodsFor: 'operations' stamp: 'len 8/12/2022 13:14:49'!
+∩ aGraph
+	"Answer the graph whose vertices and edges is the intersection of the vertices and edges of the receiver and the argument."
+	| answer |
+	answer _ self copyEmpty.
+	aGraph nodesDo: [:each|
+		(self nodeAt: each ifAbsent: [])
+			ifNotNil: [:node|
+				answer add: each.
+				each neighborsDo: [:n|
+					(node hasEdgeTo: n)
+						ifTrue: [answer addEdgeFrom: each to: n]]]].
+	^ answer! !
+
+!Graph methodsFor: 'operations' stamp: 'len 8/12/2022 13:15:00'!
+∪ aGraph
+	"Answer the graph whose vertices and edges are the union of the vertices and edges of the receiver and the argument."
+	| answer |
+	answer _ self copy.
+	aGraph do: [:each| answer add: each].
+	aGraph edgesDo: [:each| answer addEdgeFrom: each key to: each value].
 	^ answer! !
 
 !Graph methodsFor: 'random' stamp: 'len 7/13/2016 23:14'!
@@ -2410,11 +2410,11 @@ isInitial
 	"o-->..."
 	^ self inDegree = 0 and: [self degree = 1]! !
 
-!ExplicitGraphNode methodsFor: 'testing' stamp: 'len 5/10/2019 04:36:13'!
+!ExplicitGraphNode methodsFor: 'testing' stamp: 'len 8/12/2022 13:18:40'!
 isMiddle
 	"..--o--..."
 	^ (self inDegree + self degree between: 2 and: 4)
-		and: [(self inNeighbors \/ self neighbors) size = 2]! !
+		and: [(self inNeighbors ∪ self neighbors) size = 2]! !
 
 !ExplicitGraphNode methodsFor: 'testing' stamp: 'timestamp) (no'!
 isOrdered

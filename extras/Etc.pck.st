@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5434] on 6 August 2022 at 7:17:24 am'!
+'From Cuis 6.0 [latest update: #5438] on 14 August 2022 at 11:20:34 am'!
 'Description '!
-!provides: 'Etc' 1 12!
+!provides: 'Etc' 1 13!
 !requires: 'Algebra' 1 7 nil!
 SystemOrganization addCategory: 'Etc'!
 SystemOrganization addCategory: 'Etc-Lie'!
@@ -1601,11 +1601,11 @@ degree
 scalars
 	^ parent scalars! !
 
-!Divisor methodsFor: 'accessing' stamp: 'len 7/18/2022 06:22:58'!
+!Divisor methodsFor: 'accessing' stamp: 'len 8/12/2022 13:18:46'!
 support
 	| answer |
 	answer _ nil. "should start from the empty variety"
-	coefficients keysDo: [:each| answer _ answer ifNil: [each] ifNotNil: [answer \/ each]].
+	coefficients keysDo: [:each| answer _ answer ifNil: [each] ifNotNil: [answer ∪ each]].
 	^ answer! !
 
 !Divisor methodsFor: 'comparing' stamp: 'len 1/11/2017 16:34:02'!
