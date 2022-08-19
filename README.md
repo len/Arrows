@@ -5,9 +5,13 @@ The goal of this project is to build an extensible and mathematically rigorous e
 
 The most fundamental classes of the system are *Domain* and *Morphism*, corresponding to *objects* and *arrows* of category theory. You can explore the hierarchy starting from these classes and read the class comments. The code is well documented and contains references to the bibliography.
 
-Some of the objects currently implemented include: finite rings (ℤ/mℤ, ℤ/(p^k)ℤ, Galois rings) and finite fields, polynomial rings over arbitrary commutative rings, affine algebras, number fields, function fields, finitely presented modules over arbitrary rings, finite (finitely generated as modules) associative algebras, finite distributive (not necessarily associative) algebras, schemes (affine schemes, and closed subschemes of affine or projective space), coherent sheaves, and bounded (co)chain complexes in arbitrary abelian categories (e.g. modules, coherent sheaves, or recursively other categories of complexes).
+Some of the objects currently implemented include: finite rings and finite fields, polynomial rings over arbitrary commutative rings, affine algebras, number fields, function fields, finitely presented modules over arbitrary rings, finite (finitely generated as modules) associative algebras, finite distributive (not necessarily associative) algebras, schemes (affine schemes, and closed subschemes of affine or projective space), coherent sheaves (WIP), and bounded (co)chain complexes in arbitrary abelian categories (e.g. modules, coherent sheaves, or recursively other categories of complexes).
 
-Many computations with these objects reduce to systems of linear equations over some relatively simple commutative ring. The core of the system relies on Gaussian elimination over fields, algorithms for computing Hermite normal form over Euclidean domains and Howell form over Euclidean rings (possibly with zero divisors), and a generalization of Buchberger's algorithm for computing strong Groebner bases of modules over polynomial rings over Euclidean rings (possibly with zero divisors).
+Many computations with these objects reduce to systems of linear equations over some relatively simple commutative ring. The core of the system relies on Gaussian elimination over fields, algorithms for computing Hermite normal form over Euclidean domains and Howell normal form over Euclidean rings (possibly with zero divisors), and a generalization of Buchberger's algorithm for computing strong Groebner bases of modules over polynomial rings over Euclidean rings (possibly with zero divisors). Some of the Euclidean rings implemented include ℤ/mℤ, ℤ/p<sup>k</sup>ℤ, Galois rings, ℤ\[i\], K\[x\], and general localizations, quotients and products of Euclidean rings.
+
+The system also includes some support for permutation groups, linear groups, groups of units of rings, lattices, linear codes, graphs, simplicial complexes, etc.
+
+For performance, special arrays are used internally to store coefficients of tuples, matrices and univariate polynomials over small finite rings. For example, an n-tuple over ℤ/mℤ is stored as n bits for m=2, n bytes for 2 < m <= 256, n 32-bit words for 256 < m <= 2<sup>32</sup>. These compact representations are already in place, and they will allow the integration of external highly optimized libraries to accelerate linear algebra and polynomial arithmetic over these rings.
 
 ### Smalltalk
 The system is based on Smalltalk-80, in particular Cuis Smalltalk. It is multiplatform and runs with the OpenSmalltalk Virtual Machine. Conveniently, Smalltalk comes equipped with arbitrary precision integers and rationals.
@@ -57,7 +61,8 @@ The notation is intended to be as close as possible to standard mathematical not
 \[Sam71\] Pierre Samuel, "About Euclidean Rings", J. Algebra, 19:282-301, 1971  
 \[San11\] Metod Saniga; "Projective Lines over Finite Rings", 2011  
 \[Sho09\] Victor Shoup; "A Computational Introduction to Number Theory and Algebra" (2009)  
-\[Sim70\], Charles C. Sims, "Computational methods in the study of permutation groups" (1970)  
+\[Sim70\] Charles C. Sims, "Computational methods in the study of permutation groups" (1970)  
+\[Sti06\] Michael Stillman, "Computing with sheaves and sheaf cohomology in algebraic geometry" (2006)  
 \[SM98\] Arne Storjohann, Thom Mulders, "Fast algorithms for linear algebra modulo N" (1998)  
 \[Sto00\] Arne Storjohann, "Algorithms for Matrix Canonical Forms" (2000)  
 \[Teo16\] Iuliana C. Teodorescu, "Algorithms for finite rings" (2016)  
