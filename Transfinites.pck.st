@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5434] on 5 August 2022 at 9:24:04 am'!
+'From Cuis 6.0 [latest update: #5438] on 21 August 2022 at 8:28:50 am'!
 'Description '!
-!provides: 'Transfinites' 1 2!
+!provides: 'Transfinites' 1 3!
 SystemOrganization addCategory: 'Transfinites'!
 
 
@@ -59,10 +59,6 @@ The following are examples of undeterminations (they produce an error):
 	Infinity positive raisedToInteger: 0.
 !
 
-!Cardinal methodsFor: 'printing' stamp: 'len 5/23/2020 07:28:29'!
-printOn: aStream
-	aStream nextPut: $ℵ; nextPutAll: order printString sub! !
-
 !Cardinal methodsFor: 'accessing' stamp: 'len 4/22/2016 05:06'!
 order
 	^ order! !
@@ -101,9 +97,9 @@ adaptToNumber: rcvr andSend: selector
 	selector == #<= ifTrue:[^true].
 	^super adaptToNumber: rcvr andSend: selector! !
 
-!Cardinal methodsFor: 'initialization' stamp: 'len 4/22/2016 05:06'!
-order: anInteger
-	order _ anInteger! !
+!Cardinal methodsFor: 'printing' stamp: 'len 5/23/2020 07:28:29'!
+printOn: aStream
+	aStream nextPut: $ℵ; nextPutAll: order printString sub! !
 
 !Cardinal methodsFor: 'testing' stamp: 'len 4/22/2016 05:06'!
 isCountable
@@ -117,6 +113,10 @@ isInfinite
 errorUndetermined
 	^ self error: 'undetermined'! !
 
+!Cardinal methodsFor: 'private' stamp: 'len 4/22/2016 05:06'!
+order: anInteger
+	order _ anInteger! !
+
 !Cardinal class methodsFor: 'instance creation' stamp: 'len 4/22/2016 02:37'!
 new
 	^ self new: 0! !
@@ -125,20 +125,11 @@ new
 new: anInteger
 	^ self basicNew order: anInteger! !
 
-!Infinity methodsFor: 'printing' stamp: 'len 5/23/2020 07:36:16'!
-printOn: aStream
-	self negative ifTrue: [aStream nextPut: $-].
-	aStream nextPut: $∞! !
-
 !Infinity methodsFor: 'accessing' stamp: 'len 10/9/97 20:17'!
 sign
 	"Answer the sign of the receiver."
 
 	^ sign! !
-
-!Infinity methodsFor: 'accessing-private' stamp: 'len 10/9/97 20:16'!
-sign: anInteger
-	sign _ anInteger! !
 
 !Infinity methodsFor: 'arithmetic' stamp: 'len 11/14/97 14:49'!
 * anObject
@@ -238,6 +229,11 @@ adaptToNumber: rcvr andSend: selector
 	selector == #<= ifTrue:[^self >= rcvr].
 	^super adaptToNumber: rcvr andSend: selector! !
 
+!Infinity methodsFor: 'printing' stamp: 'len 5/23/2020 07:36:16'!
+printOn: aStream
+	self negative ifTrue: [aStream nextPut: $-].
+	aStream nextPut: $∞! !
+
 !Infinity methodsFor: 'testing' stamp: 'len 10/18/2016 14:00'!
 isInfinite
 	^ true! !
@@ -272,6 +268,10 @@ strictlyPositive
 errorUndetermined
 	^ self error: 'undetermined'! !
 
+!Infinity methodsFor: 'private' stamp: 'len 10/9/97 20:16'!
+sign: anInteger
+	sign _ anInteger! !
+
 !Infinity class methodsFor: 'instance creation' stamp: 'len 10/17/97 04:07'!
 negative
 	"Answer a new instance of the receiver representing -infinity."
@@ -295,18 +295,6 @@ sign: anInteger
 	"Answer a new instance of the receiver with sign anInteger."
 
 	^ self new sign: anInteger! !
-
-!Ordinal methodsFor: 'printing' stamp: 'len 12/31/2021 11:26:42'!
-printOn: aStream
-	self isFinite ifTrue: [aStream print: self asInteger. ^ self].
-	terms do: [:each|
-		each key isZero
-			ifTrue: [aStream print: each value]
-			ifFalse:
-				[aStream nextPut: $ω.
-				each key isOne ifFalse: [aStream nextPutAll: each key printString super].
-				each value > 1 ifTrue: [aStream print: each value]]]
-		separatedBy: [aStream nextPut: $+]! !
 
 !Ordinal methodsFor: 'accessing' stamp: 'len 12/31/2021 11:23:44'!
 degree
@@ -417,6 +405,18 @@ log
 !Ordinal methodsFor: 'operations' stamp: 'len 12/31/2021 11:26:52'!
 truncatedAt: anOrdinal
 	^ self class terms: (terms first: (terms findLast: [:x| x key >= anOrdinal]))! !
+
+!Ordinal methodsFor: 'printing' stamp: 'len 12/31/2021 11:26:42'!
+printOn: aStream
+	self isFinite ifTrue: [aStream print: self asInteger. ^ self].
+	terms do: [:each|
+		each key isZero
+			ifTrue: [aStream print: each value]
+			ifFalse:
+				[aStream nextPut: $ω.
+				each key isOne ifFalse: [aStream nextPutAll: each key printString super].
+				each value > 1 ifTrue: [aStream print: each value]]]
+		separatedBy: [aStream nextPut: $+]! !
 
 !Ordinal methodsFor: 'testing' stamp: 'len 12/28/2021 12:33:38'!
 includes: anObject

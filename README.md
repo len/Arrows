@@ -9,8 +9,6 @@ Some of the objects currently implemented include: finite rings and finite field
 
 Many computations with these objects reduce to systems of linear equations over some relatively simple commutative ring. The core of the system relies on Gaussian elimination over fields, algorithms for computing Hermite normal form over Euclidean domains and Howell normal form over Euclidean rings (possibly with zero divisors), and a generalization of Buchberger's algorithm for computing strong Groebner bases of modules over polynomial rings over Euclidean rings (possibly with zero divisors). Some of the Euclidean rings implemented include ℤ/mℤ, ℤ/p<sup>k</sup>ℤ, Galois rings, ℤ\[i\], K\[x\], and general localizations, quotients and products of Euclidean rings.
 
-The system also includes some support for permutation groups, linear groups, groups of units of rings, lattices, linear codes, graphs, simplicial complexes, etc.
-
 For performance, special arrays are used internally to store coefficients of tuples, matrices and univariate polynomials over small finite rings. For example, an n-tuple over ℤ/mℤ is stored as n bits for m=2, n bytes for 2 < m <= 256, n 32-bit words for 256 < m <= 2<sup>32</sup>. These compact representations are already in place, and they will allow the integration of external highly optimized libraries to accelerate linear algebra and polynomial arithmetic over these rings.
 
 ### Smalltalk
