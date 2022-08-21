@@ -1,4 +1,4 @@
-'From Cuis 6.0 [latest update: #5438] on 14 August 2022 at 11:20:18 am'!
+'From Cuis 6.0 [latest update: #5438] on 21 August 2022 at 8:28:31 am'!
 'Description This package implements among other things: permutation groups, linear groups, modular integers, finite fields, Galois rings, polynomial rings, affine algebras, number fields, function fields, p-adic fields, power series rings, finitely presented modules, (co)chain complexes, finite (finitely generated as modules) associative algebras, finite distributive (not necessarily associative) algebras, schemes, and sheaves of modules.
 
 References:
@@ -41,7 +41,8 @@ References:
 [Sam71] Pierre Samuel, "About Euclidean Rings", J. Algebra, 19:282-301, 1971
 [San11] Metod Saniga; "Projective Lines over Finite Rings", 2011
 [Sho09] Victor Shoup; "A Computational Introduction to Number Theory and Algebra" (2009)
-[Sim70], Charles C. Sims, "Computational methods in the study of permutation groups" (1970)
+[Sim70] Charles C. Sims, "Computational methods in the study of permutation groups" (1970)
+[Sti06] Michael Stillman; "Computing with sheaves and sheaf cohomology in algebraic geometry" (2006)
 [SM98] Arne Storjohann, Thom Mulders, "Fast algorithms for linear algebra modulo N" (1998)
 [Sto00] Arne Storjohann, "Algorithms for Matrix Canonical Forms" (2000)
 [Teo16] Iuliana C. Teodorescu, "Algorithms for finite rings" (2016)
@@ -56,7 +57,7 @@ References:
 [] Qing Liu; "Algebraic Geometry and Arithmetic Curves"
 [] Joseph. H. Silverman; "The Arithmetic of Elliptic Curves"
 '!
-!provides: 'Algebra' 1 35!
+!provides: 'Algebra' 1 36!
 !requires: 'Collections-TwoAndEightByteArrays' 1 1 nil!
 !requires: 'Graphs' 1 0 nil!
 !requires: 'Collections-Extras' 1 1 nil!
@@ -3616,7 +3617,7 @@ The algorithm performs O(n^d m^d) operations in the coefficients field K, where 
 !MatrixReduction commentStamp: '<historical>' prior: 0!
 Abstract superclass for matrix (row) echelonization algorithms.!
 
-!GaussianElimination commentStamp: '<historical>' prior: 0!
+!GaussianElimination commentStamp: 'len 8/14/2022 11:57:43' prior: 0!
 This is the Gaussian Elimination algorithm.
 
 My instances perform Gaussian reduction on a matrix to compute its echelon form, linear dependency of the columns, rank, determinant, inverse matrix, etc.
@@ -3624,15 +3625,15 @@ My instances perform Gaussian reduction on a matrix to compute its echelon form,
 Input: a matrix with coefficients in a field;
 Output: the reduced echelon form of the matrix, determinant and left inverse.
 
-The algorithm performs O(2n^3/3) field operations for nxn matrices, but due to exponential growth of intermediate coefficients it can be impractical in many situations (for example, with rational coefficients).!
+The algorithm performs O(2n^3/3) field operations for n by n matrices, but due to exponential growth of intermediate coefficients it can be impractical in many situations (for example, with rational coefficients).!
 
 !HermiteReduction commentStamp: '<historical>' prior: 0!
 This is the Hermite row reduction algorithm. Given a matrix with coefficients in a computable Euclidean domain, it reduces the matrix to its row-style Hermite normal form.
 
 The algorithm is essentially Algorithm 2.4.4 in [Coh96] but modified to do row reduction instead of column reduction and generalized to Euclidean domains.!
 
-!HowellReduction commentStamp: '<historical>' prior: 0!
-This is the Howell row reduction algorithm. Given a matrix with coefficients in a PIR such as ℤ/mℤ, it reduces the matrix to its Howell normal form. See [How86], [Sto00], [SM98], [FH16].!
+!HowellReduction commentStamp: 'len 8/14/2022 11:56:40' prior: 0!
+This is the Howell row reduction algorithm. Given a matrix with coefficients in a PIR with an extended GCD algorithm to compute Bezout coefficients (for example ℤ/mℤ or other Euclidean ring, possibly with zero divisors), it reduces the matrix to its Howell normal form. See [How86], [Sto00], [SM98], [FH16].!
 
 !ProductReplacementRandomGenerator commentStamp: '<historical>' prior: 0!
 Product Replacement Algorithm for generating random elements in a group from a set of generators. Essentially, it performs a random walk on a Cayley graph.!
@@ -4119,10 +4120,6 @@ newFrom: aNumber
 	aNumber isFraction ifTrue: [^ self fromFraction: aNumber].
 	^ super newFrom: aNumber! !
 
-!BinaryArray methodsFor: 'printing' stamp: 'len 4/30/2022 06:52:27'!
-printOn: aStream
-	1 to: self size do: [:i| aStream print: (self at: i)]! !
-
 !BinaryArray methodsFor: 'accessing' stamp: 'len 5/4/2022 11:28:25'!
 at: anInteger
 	^ (self bitAt: anInteger) = 1 ifTrue: [One] ifFalse: [Zero]! !
@@ -4207,6 +4204,10 @@ replaceFrom: start to: stop withNegated: anArray startingAt: srcStart
 !BinaryArray methodsFor: 'operations-lowlevel' stamp: 'len 4/30/2022 12:55:23'!
 zero: anInteger
 	^ self species new: anInteger! !
+
+!BinaryArray methodsFor: 'printing' stamp: 'len 4/30/2022 06:52:27'!
+printOn: aStream
+	1 to: self size do: [:i| aStream print: (self at: i)]! !
 
 !BinaryArray methodsFor: 'testing' stamp: 'len 5/4/2022 12:34:30'!
 isZeroAt: anInteger
@@ -4432,6 +4433,69 @@ newFrom: anObject
 		n _ n >> 32].
 	^ self new: r words: words! !
 
+!SmallBinaryArray methodsFor: 'accessing' stamp: 'len 5/1/2022 21:22:41'!
+atAllPut: aBit
+	| bit |
+	bit _ aBit.
+	bit isInteger ifTrue: [bit _ bit even ifTrue: [Zero] ifFalse: [One]].
+	bit = One
+		ifTrue: [bits _ 1 << size - 1]
+		ifFalse: [bit = Zero ifTrue: [bits _ 0] ifFalse: [self error: 'not a bit']]! !
+
+!SmallBinaryArray methodsFor: 'accessing' stamp: 'len 7/19/2020 08:06:56'!
+bitAt: anInteger
+	^ bits bitAt: anInteger! !
+
+!SmallBinaryArray methodsFor: 'accessing' stamp: 'len 5/4/2022 11:24:19'!
+bitAt: anInteger put: oneOrZero
+	(anInteger > self size and: [oneOrZero ~= 0]) ifTrue: [self error: 'index out of bounds'].
+	bits _ bits bitAt: anInteger put: oneOrZero.
+	^ oneOrZero! !
+
+!SmallBinaryArray methodsFor: 'accessing' stamp: 'len 5/19/2022 05:53:28'!
+lastNonzeroIndex
+	"Answer the index of the last nonzero entry, or nil."
+	| n |
+	^ (n _ bits highBit) = 0 ifFalse: [n]! !
+
+!SmallBinaryArray methodsFor: 'accessing' stamp: 'len 4/17/2022 11:31:59'!
+size
+	^ size! !
+
+!SmallBinaryArray methodsFor: 'comparing' stamp: 'len 5/20/2022 06:33:17'!
+= anObject
+	^ self class = anObject class and: [size = anObject size and: [bits = anObject asInteger]]! !
+
+!SmallBinaryArray methodsFor: 'comparing' stamp: 'len 5/8/2019 03:06:15'!
+hash
+	^ bits hash! !
+
+!SmallBinaryArray methodsFor: 'converting' stamp: 'len 5/8/2019 03:10:19'!
+asInteger
+	^ bits! !
+
+!SmallBinaryArray methodsFor: 'copying' stamp: 'len 4/30/2022 13:00:55'!
+, anObject
+	anObject class = self class
+		ifTrue: [^ self class new: self size+anObject size bits: (bits bitXor: (anObject asInteger bitShift: self size))].
+	^ self copyWith: anObject! !
+
+!SmallBinaryArray methodsFor: 'copying' stamp: 'len 4/30/2022 13:02:18'!
+copyFrom: start to: stop 
+	"Answer a copy of a subset of the receiver, starting from element at 
+	index start until element at index stop."
+	| n |
+	n _ stop - start + 1 max: 0.
+	^ self class new: n bits: ((bits bitShift: 1 - start) bitAnd: (1 bitShift: n) - 1)! !
+
+!SmallBinaryArray methodsFor: 'copying' stamp: 'len 4/30/2022 13:02:32'!
+copyWith: aBit
+	| answer |
+	answer _ self class new: self size + 1 bits: bits.
+	aBit = One ifTrue: [answer at: self size+1 put: One. ^ answer].
+	aBit = Zero ifFalse: [DomainError signal].
+	^ answer! !
+
 !SmallBinaryArray methodsFor: 'operations' stamp: 'len 5/2/2022 07:54:09'!
 * anObject
 	self class = anObject class ifFalse: [^ ((anObject isInteger and: [anObject even]) or: [anObject isZero]) ifTrue: [self zero] ifFalse: [self]].
@@ -4495,69 +4559,6 @@ reversed
 weight
 	"Answer the Hamming weight of the receiver, i.e. the number of entries that are not zero."
 	^ self asInteger bitCount! !
-
-!SmallBinaryArray methodsFor: 'accessing' stamp: 'len 5/1/2022 21:22:41'!
-atAllPut: aBit
-	| bit |
-	bit _ aBit.
-	bit isInteger ifTrue: [bit _ bit even ifTrue: [Zero] ifFalse: [One]].
-	bit = One
-		ifTrue: [bits _ 1 << size - 1]
-		ifFalse: [bit = Zero ifTrue: [bits _ 0] ifFalse: [self error: 'not a bit']]! !
-
-!SmallBinaryArray methodsFor: 'accessing' stamp: 'len 7/19/2020 08:06:56'!
-bitAt: anInteger
-	^ bits bitAt: anInteger! !
-
-!SmallBinaryArray methodsFor: 'accessing' stamp: 'len 5/4/2022 11:24:19'!
-bitAt: anInteger put: oneOrZero
-	(anInteger > self size and: [oneOrZero ~= 0]) ifTrue: [self error: 'index out of bounds'].
-	bits _ bits bitAt: anInteger put: oneOrZero.
-	^ oneOrZero! !
-
-!SmallBinaryArray methodsFor: 'accessing' stamp: 'len 5/19/2022 05:53:28'!
-lastNonzeroIndex
-	"Answer the index of the last nonzero entry, or nil."
-	| n |
-	^ (n _ bits highBit) = 0 ifFalse: [n]! !
-
-!SmallBinaryArray methodsFor: 'accessing' stamp: 'len 4/17/2022 11:31:59'!
-size
-	^ size! !
-
-!SmallBinaryArray methodsFor: 'comparing' stamp: 'len 5/20/2022 06:33:17'!
-= anObject
-	^ self class = anObject class and: [size = anObject size and: [bits = anObject asInteger]]! !
-
-!SmallBinaryArray methodsFor: 'comparing' stamp: 'len 5/8/2019 03:06:15'!
-hash
-	^ bits hash! !
-
-!SmallBinaryArray methodsFor: 'converting' stamp: 'len 5/8/2019 03:10:19'!
-asInteger
-	^ bits! !
-
-!SmallBinaryArray methodsFor: 'copying' stamp: 'len 4/30/2022 13:00:55'!
-, anObject
-	anObject class = self class
-		ifTrue: [^ self class new: self size+anObject size bits: (bits bitXor: (anObject asInteger bitShift: self size))].
-	^ self copyWith: anObject! !
-
-!SmallBinaryArray methodsFor: 'copying' stamp: 'len 4/30/2022 13:02:18'!
-copyFrom: start to: stop 
-	"Answer a copy of a subset of the receiver, starting from element at 
-	index start until element at index stop."
-	| n |
-	n _ stop - start + 1 max: 0.
-	^ self class new: n bits: ((bits bitShift: 1 - start) bitAnd: (1 bitShift: n) - 1)! !
-
-!SmallBinaryArray methodsFor: 'copying' stamp: 'len 4/30/2022 13:02:32'!
-copyWith: aBit
-	| answer |
-	answer _ self class new: self size + 1 bits: bits.
-	aBit = One ifTrue: [answer at: self size+1 put: One. ^ answer].
-	aBit = Zero ifFalse: [DomainError signal].
-	^ answer! !
 
 !SmallBinaryArray methodsFor: 'operations-lowlevel' stamp: 'len 5/5/2022 18:15:58'!
 add: anArray from: start1 to: stop1 convolution: anotherArray from: start2 to: stop2
@@ -4638,35 +4639,6 @@ newFrom: anInteger
 	anInteger isInteger ifTrue: [^ self bits: anInteger].
 	^ super newFrom: anInteger! !
 
-!GaloisArray methodsFor: 'operations' stamp: 'len 5/20/2022 10:50:01'!
->> anInteger
-	"Answer the right shift of the receiver by anInteger places.
-	The answer is a new array of the same size as the receiver."
-	^ self class coefficients: coefficients >> (anInteger * scalars degree) scalars: scalars! !
-
-!GaloisArray methodsFor: 'operations' stamp: 'len 5/20/2022 10:50:28'!
->>> anInteger
-	"Answer the circular right shift of the receiver by anInteger places.
-	The answer is a new array of the same size as the receiver."
-	^ self class coefficients: coefficients >>> (anInteger * scalars degree) scalars: scalars! !
-
-!GaloisArray methodsFor: 'operations' stamp: 'len 5/1/2022 20:08:16'!
-reversed
-	| m n newCoefficients |
-	true ifTrue: [^ super reversed].
-	n _ scalars degree.
-	m _ coefficients size.
-	newCoefficients _ coefficients copyEmpty: m.
-	1 to: m-n+1 by: n do: [:i|
-		newCoefficients replaceFrom: i to: i+n-1 with: coefficients startingAt: m-n-i+2].
-	^ self class coefficients: newCoefficients scalars: scalars! !
-
-!GaloisArray methodsFor: 'printing' stamp: 'len 4/26/2022 07:20:49'!
-printOn: aStream
-	aStream nextPut: $(.
-	self do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: ', '].
-	aStream nextPut: $)! !
-
 !GaloisArray methodsFor: 'accessing' stamp: 'len 4/26/2022 07:19:17'!
 at: anInteger
 	| n startIndex |
@@ -4728,6 +4700,29 @@ replaceFrom: start to: stop with: replacement startingAt: repStart
 		ifFalse: [^ super replaceFrom: start to: stop with: replacement startingAt: repStart].
 	n _ scalars degree.
 	coefficients replaceFrom: start-1*n+1 to: stop*n with: replacement coefficients startingAt: repStart-1*n+1! !
+
+!GaloisArray methodsFor: 'operations' stamp: 'len 5/20/2022 10:50:01'!
+>> anInteger
+	"Answer the right shift of the receiver by anInteger places.
+	The answer is a new array of the same size as the receiver."
+	^ self class coefficients: coefficients >> (anInteger * scalars degree) scalars: scalars! !
+
+!GaloisArray methodsFor: 'operations' stamp: 'len 5/20/2022 10:50:28'!
+>>> anInteger
+	"Answer the circular right shift of the receiver by anInteger places.
+	The answer is a new array of the same size as the receiver."
+	^ self class coefficients: coefficients >>> (anInteger * scalars degree) scalars: scalars! !
+
+!GaloisArray methodsFor: 'operations' stamp: 'len 5/1/2022 20:08:16'!
+reversed
+	| m n newCoefficients |
+	true ifTrue: [^ super reversed].
+	n _ scalars degree.
+	m _ coefficients size.
+	newCoefficients _ coefficients copyEmpty: m.
+	1 to: m-n+1 by: n do: [:i|
+		newCoefficients replaceFrom: i to: i+n-1 with: coefficients startingAt: m-n-i+2].
+	^ self class coefficients: newCoefficients scalars: scalars! !
 
 !GaloisArray methodsFor: 'operations-lowlevel' stamp: 'len 5/4/2022 22:03:09'!
 dot: anArray
@@ -4846,6 +4841,12 @@ swapFrom: start to: stop with: anArray startingAt: start2
 !GaloisArray methodsFor: 'operations-lowlevel' stamp: 'len 4/26/2022 09:23:50'!
 zero: anInteger
 	^ self class coefficients: (scalars scalars zeros: anInteger * scalars degree) scalars: scalars! !
+
+!GaloisArray methodsFor: 'printing' stamp: 'len 4/26/2022 07:20:49'!
+printOn: aStream
+	aStream nextPut: $(.
+	self do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: ', '].
+	aStream nextPut: $)! !
 
 !GaloisArray methodsFor: 'testing' stamp: 'len 5/20/2022 11:53:38'!
 isZero
@@ -11325,7 +11326,7 @@ asModule
 			addCoercionTo: self evaluating: [:each| self !! (each representative at: 1)];
 			yourself]! !
 
-!ModularIntegerRing methodsFor: 'elements' stamp: 'len 5/20/2022 08:50:01'!
+!ModularIntegerRing methodsFor: 'elements' stamp: 'len 8/17/2022 13:05:48'!
 !!!! anArray
 	"Answer an array of elements of the receiver from anArray.
 	If the elements of anArray are not elements of the receiver, they are coerced."
@@ -11338,7 +11339,7 @@ asModule
 	1 to: anArray size do: [:i| representatives at: i put: (self !! (anArray at: i)) representative].
 	^ ModularArray representatives: representatives scalars: self! !
 
-!ModularIntegerRing methodsFor: 'elements' stamp: 'len 5/20/2022 08:50:08'!
+!ModularIntegerRing methodsFor: 'elements' stamp: 'len 8/17/2022 13:05:56'!
 new: anInteger
 	modulus = 2 ifTrue: [^ LargeBinaryArray new: anInteger].
 	^ ModularArray representatives: (self representativesArrayClass new: anInteger) scalars: self! !
@@ -13153,7 +13154,7 @@ adapt: anElement
 			[parts _ f parts collect: [:each| each copy key: monomials !! each key]]."
 ! !
 
-!PolynomialRing methodsFor: 'elements' stamp: 'len 5/11/2022 09:34:10'!
+!PolynomialRing methodsFor: 'elements' stamp: 'len 8/21/2022 08:15:14'!
 associations: aCollection
 	"Answer a polynomial created from a list of  'monomial -> coefficient' associations.
 	Assume no repeated monomials."
@@ -13172,7 +13173,7 @@ associations: aCollection
 		"WARNING: this assumes no repeated monomials"
 		(coefficient _ scalars !! each value) isZero ifFalse: [associations add: (monomials !! each key) -> coefficient]].
 	associations sort.
-	^ MultivariatePolynomial coefficients: (SparseDictionary associations: associations) parent: self! !
+	^ MultivariatePolynomial coefficients: (SortedDictionary associations: associations) parent: self! !
 
 !PolynomialRing methodsFor: 'elements' stamp: 'len 4/20/2022 10:28:49'!
 coefficient: aNumber degree: anInteger
@@ -14900,7 +14901,7 @@ adapt: anElement
 	(anElement indeterminates allSatisfy: [:each| each <= self rank]) ifFalse: [^ nil]. "unknown indeterminates present"
 	^ self associations: anElement associations! !
 
-!FreeAlgebra methodsFor: 'elements' stamp: 'len 6/29/2022 06:37:07'!
+!FreeAlgebra methodsFor: 'elements' stamp: 'len 8/21/2022 08:15:14'!
 associations: aCollection
 	"Answer a polynomial created from a list of  'monomial -> coefficient' associations.
 	Assume no repeated monomials."
@@ -14911,7 +14912,7 @@ associations: aCollection
 		"WARNING: this assumes no repeated monomials"
 		(coefficient _ scalars !! each value) isZero ifFalse: [associations add: (monomials !! each key) -> coefficient]].
 	associations sort.
-	^ FreePolynomial coefficients: (SparseDictionary associations: associations) parent: self! !
+	^ FreePolynomial coefficients: (SortedDictionary associations: associations) parent: self! !
 
 !FreeAlgebra methodsFor: 'elements' stamp: 'len 4/28/2022 07:47:34'!
 coefficient: aNumber word: aWord
@@ -17664,13 +17665,10 @@ generators
 	^ self propertyAt: #generators ifAbsentPut:
 		[(1 to: rank) collect: [:i| self elementAt: ((1 to: rank) collect: [:j| i=j ifTrue: [scalars one] ifFalse: [scalars zero]])]]! !
 
-!FreeModule methodsFor: 'accessing' stamp: 'len 4/26/2021 11:40:06'!
+!FreeModule methodsFor: 'accessing' stamp: 'len 8/19/2022 10:13:41'!
 innerProduct
 	"Answer the bilinear form defining the Euclidean inner product."
-	^ self propertyAt: #innerProduct ifAbsentPut:
-		[BilinearForm
-			on: self
-			evaluatingWithArguments: [:x :y| (self \ x) · (self \ y)]]! !
+	^ self propertyAt: #innerProduct ifAbsentPut: [BilinearForm on: self evaluatingWithArguments: [:x :y| x · y]]! !
 
 !FreeModule methodsFor: 'accessing' stamp: 'len 7/24/2020 08:51:53'!
 keys
@@ -20193,13 +20191,13 @@ gVector
 	h _ self hVector.
 	^ (1 to: h size // 2 + 1) collect: [:i| i == 1 ifTrue: [1] ifFalse: [(h at: i) - (h at: i-1)]]! !
 
-!CellComplex methodsFor: 'invariants' stamp: 'len 9/7/2019 10:19:29'!
+!CellComplex methodsFor: 'invariants' stamp: 'len 8/15/2022 06:48:19'!
 hPolynomial
 	"Answer the h-polynomial of this cell complex. This is the result of composing the f-polynomial with 'x - 1'."
 	| f x |
 	f _ self fPolynomial.
 	x _ f parent x.
-	^ f  · (x - 1)! !
+	^ f  ∘ (x - 1)! !
 
 !CellComplex methodsFor: 'invariants' stamp: 'len 2/15/2017 15:48:22'!
 hVector
@@ -26072,12 +26070,12 @@ size
 		(I includes: f numerator * g denominator - (f denominator * g numerator)) ifFalse: [^ false]].
 	^ true! !
 
-!RationalMap methodsFor: 'converting' stamp: 'len 6/7/2020 06:21:51'!
+!RationalMap methodsFor: 'converting' stamp: 'len 8/16/2022 09:37:28'!
 asRingMap
 	"Answer the induced ring homomorphism between the coordinate rings.
 	This is the adjoint of the Spec functor."
 	self isPolynomial ifFalse: [DomainError signal: 'not a polynomial map'].
-	^ self codomain coordinateRing to: self domain coordinateRing evaluating: [:f| f value: (self representatives collect: [:each| each numerator])]! !
+	^ self codomain coordinateRing to: self domain coordinateRing mapping: [:i| (self representatives at: i) numerator]! !
 
 !RationalMap methodsFor: 'operations' stamp: 'len 1/20/2018 22:05:44'!
 * anObject
@@ -26242,11 +26240,11 @@ partiallyFrom: aDomain to: aCodomain evaluating: aBlock
 	F _ aDomain ambient functionField.
 	^ self partiallyFrom: aDomain to: aCodomain representatives: (aBlock value: (F^aDomain ambient rank filling: [:i| F x: i]))! !
 
-!RationalMap class methodsFor: 'instance creation' stamp: 'len 7/25/2022 11:39:18'!
+!RationalMap class methodsFor: 'instance creation' stamp: 'len 8/16/2022 09:32:28'!
 partiallyFrom: aDomain to: aCodomain representatives: anArray
 	((aDomain isProjective or: [aCodomain isProjective]) and: [anArray anySatisfy: [:any| any isHomogeneous not]])
 		ifTrue: [^ self error: 'not homogeneous'].
-	^ self new partialDomain: aDomain; codomain: aCodomain; representatives: (aDomain ambient functionField tuple: anArray)! !
+	^ self new partialDomain: aDomain; codomain: aCodomain; representatives: (aDomain ambient coordinateRing fractions tuple: anArray)! !
 
 !RationalPoint methodsFor: 'accessing' stamp: 'len 2/9/2017 09:54:09'!
 ambient
@@ -31729,9 +31727,9 @@ multipliedByMonomial: aMonomial
 	"The monomial ordering is preserved by this operation."
 	^ self class coefficients: (coefficients collectByKey: [:each| each * aMonomial]) parent: parent! !
 
-!MultivariatePolynomial class methodsFor: 'instance creation' stamp: 'len 4/27/2022 13:51:07'!
-coefficients: aSparseDictionary parent: aPolynomialRing
-	^ self basicNew coefficients: aSparseDictionary parent: aPolynomialRing! !
+!MultivariatePolynomial class methodsFor: 'instance creation' stamp: 'len 8/21/2022 08:25:52'!
+coefficients: aSortedDictionary parent: aPolynomialRing
+	^ self basicNew coefficients: aSortedDictionary parent: aPolynomialRing! !
 
 !UnivariatePolynomial methodsFor: 'accessing' stamp: 'len 12/21/2017 18:20:42'!
 bitSize
@@ -33361,9 +33359,9 @@ coefficients: aCollection parent: aFreeAlgebra
 	coefficients _ aCollection.
 	parent _ aFreeAlgebra! !
 
-!FreePolynomial class methodsFor: 'instance creation' stamp: 'len 4/28/2022 07:06:07'!
-coefficients: aSparseDictionary parent: aFreeAlgebra
-	^ self basicNew coefficients: aSparseDictionary parent: aFreeAlgebra! !
+!FreePolynomial class methodsFor: 'instance creation' stamp: 'len 8/21/2022 08:25:59'!
+coefficients: aSortedDictionary parent: aFreeAlgebra
+	^ self basicNew coefficients: aSortedDictionary parent: aFreeAlgebra! !
 
 !GAlgebraElement methodsFor: 'accessing' stamp: 'len 7/4/2022 12:20:47'!
 at: aMonomial
@@ -34611,11 +34609,6 @@ withSupportDo: aBlock
 \\ anElement
 	^ self collect: [:each| each \\ anElement]! !
 
-!Tuple methodsFor: 'operations' stamp: 'len 7/9/2020 07:56:46'!
-| aTuple
-	"Answer the inner product of the receiver and the argument."
-	^ parent innerProduct value: aTuple value: self! !
-
 !Tuple methodsFor: 'operations' stamp: 'len 4/20/2022 18:27:03'!
 · aTuple
 	(self isEmpty or: [aTuple isEmpty]) ifTrue: [^ self scalars zero].
@@ -34708,9 +34701,9 @@ min
 negated
 	^ self class coefficients: coefficients negated parent: parent! !
 
-!Tuple methodsFor: 'operations' stamp: 'len 7/10/2020 09:23:39'!
+!Tuple methodsFor: 'operations' stamp: 'len 8/14/2022 12:24:20'!
 norm
-	^ self | self! !
+	^ self · self! !
 
 !Tuple methodsFor: 'operations' stamp: 'len 5/23/2022 20:20:56'!
 normalization
@@ -34975,6 +34968,12 @@ s: aTuple
 	m _ (self leadingMonomial lcm: aTuple leadingMonomial) ifNil: [^ nil].
 	c _ self leadingCoefficient lcm: aTuple leadingCoefficient.
 	^ self * (m / self leadingMonomial) * (c / self leadingCoefficient) + (aTuple * (m / aTuple leadingMonomial) * (c negated / aTuple leadingCoefficient))! !
+
+!MultivariateTuple methodsFor: 'testing' stamp: 'len 8/16/2022 09:48:19'!
+isHomogeneous
+	| n |
+	n _ self degree.
+	^ coefficients allSatisfy: [:each| each isZero or: [each degree = n]]! !
 
 !TupleMonomial methodsFor: 'printing' stamp: 'len 8/7/2022 10:45:41'!
 printOn: aStream
@@ -37899,7 +37898,7 @@ cancel: aPoint withTemporary: aTuple
 	matrix rowAt: j put: Aj*s + (aTuple*t).
 	^ Aj*u + (aTuple*v)! !
 
-!HowellReduction methodsFor: 'private' stamp: 'len 5/21/2022 13:16:55'!
+!HowellReduction methodsFor: 'private' stamp: 'len 8/14/2022 11:49:03'!
 run
 	| n m |
 	n _ matrix width.
@@ -37911,7 +37910,7 @@ run
 		m _ n].
 	"Put it in upper triangular form:"
 	1 to: n do: [:j| j+1 to: m do: [:i| self cancel: j@j with: i@j]].
-	self assert: matrix isUpperTriangular.			
+	self assert: matrix isUpperTriangular.
 	"Put it in Howell form:"
 	1 to: n do: [:j|
 		| B |
@@ -39016,18 +39015,19 @@ raisedToInteger: anInteger
 inverse
 	^ self class key: value value: key! !
 
-!Character class methodsFor: '*Algebra' stamp: 'len 8/10/2022 10:31:56'!
+!Character class methodsFor: '*algebra' stamp: 'len 8/14/2022 11:36:23'!
 namedCharactersTable
 	"Table of named characters that we can enter in an editor using \name.
 	Please keep the names short and try to follow the naming convention used in LaTeX."
-	^ #("(left $) (right $) (up $) (down $)"
-	(mapsto $↦) (implies $⟹) (iff $⟺)
-	(oplus $⊕) (otimes $⊗) (times $×) (div $÷) #(circ $∘) "(bullet $∙)" (cdot $·) "(lowast $⁎) (dagger $†)"
+	^ #("(left $←) (right $→) (up $↑) (down $↓) (leftright $↔) (updown $↕)
+	(Left $⇐) (Up $⇑) (Right $⇒) (Down $⇓) (Leftright $⇔) (Updown ⇕)
+	(mapsto $↦) (implies $⟹) (iff $⟺)"
+	(oplus $⊕) (otimes $⊗) (times $×) (div $÷) #(circ $∘) "(bullet $∙)" (cdot $·) "(lowast $⁎) (dag $†) (ddag $‡)"
 	(prod $⊓) (coprod $⊔) (wedge $∧) (vee $∨) (cap $∩) (cup $∪) (perp $⊥) (parallel $∥)
 	(in $∈) (notin $∉) (exists $∃) (nexists $∄) (forall $∀) (emptyset $∅) (infty $∞) (aleph $ℵ)
 	(alpha $α) (beta $β) (gamma $γ) (delta $δ) (epsilon $ε) (zeta $ζ) (eta $η) (theta $θ) (iota $ι) (kappa $κ) (lambda $λ) (mu $µ) (pi $π)  (nu $ν) (xi $ξ) (rho $ρ) (sigma $σ) (tau $τ) (phi $φ) (chi $χ) (psi $ψ) (omega $ω)
 	(Delta $Δ) (Gamma $Γ) (Theta $Θ) (Lambda $Λ) (Pi $Π) (Sigma $Σ) (Phi $Φ) (Psi $Ψ) (Omega $Ω)
-	(N $ℕ) (Z $ℤ) (Q $ℚ) (R $ℝ) (C $ℂ)
+	(N $ℕ) (Z $ℤ) (Q $ℚ) (R $ℝ) (C $ℂ) (ell $ℓ)
 	(sqrt $√) (partial $∂) (deg $°)
 	(leq $≤) (geq $≥) (neq $≠) (prec $≺) (succ $≻) (simeq $≃) (cong $≅) (equiv $≡) (approx $≈) (subset $⊂) (supset $⊃))! !
 
@@ -39854,7 +39854,7 @@ printElementsOn: aStream
 		[:key | aStream print: key; nextPutAll: '->'; print: (self at: key)] separatedBy: [aStream space].
 	aStream nextPut: $}! !
 
-!SparseDictionary methodsFor: '*algebra' stamp: 'len 4/27/2022 13:39:42'!
+!SortedDictionary methodsFor: '*algebra' stamp: 'len 4/27/2022 13:39:42'!
 collectByKey: aBlock
 	| dictionary newAssociations |
 	dictionary _ Dictionary new: associations size.
@@ -39865,12 +39865,12 @@ collectByKey: aBlock
 	newAssociations sort.
 	^ self class associations: newAssociations! !
 
-!SparseDictionary methodsFor: '*algebra' stamp: 'len 4/28/2022 17:36:35'!
-convolution: aSparseDictionary
+!SortedDictionary methodsFor: '*algebra' stamp: 'len 8/21/2022 08:21:25'!
+convolution: aSortedDictionary
 	| dictionary newAssociations |
-	dictionary _ Dictionary new: self size + aSparseDictionary size.
+	dictionary _ Dictionary new: self size + aSortedDictionary size.
 	self associationsDo: [:each|
-		aSparseDictionary associationsDo: [:other|
+		aSortedDictionary associationsDo: [:other|
 			dictionary at: each key * other key add: each value * other value]].
 	newAssociations _ OrderedCollection new: dictionary size.
 	newAssociations resetTo: 1.
@@ -39878,7 +39878,7 @@ convolution: aSparseDictionary
 	newAssociations sort.
 	^ self class associations: newAssociations! !
 
-!SparseDictionary methodsFor: '*algebra' stamp: 'len 4/27/2022 13:39:29'!
+!SortedDictionary methodsFor: '*algebra' stamp: 'len 4/27/2022 13:39:29'!
 selectByKey: aBlock
 	| newAssociations |
 	newAssociations _ OrderedCollection new.

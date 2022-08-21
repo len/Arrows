@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5438] on 14 August 2022 at 11:20:50 am'!
+'From Cuis 6.0 [latest update: #5438] on 21 August 2022 at 8:28:42 am'!
 'Description '!
-!provides: 'Tests-Algebra' 1 16!
+!provides: 'Tests-Algebra' 1 17!
 SystemOrganization addCategory: 'Tests-Algebra'!
 SystemOrganization addCategory: 'Tests-Algebra-Arrays'!
 SystemOrganization addCategory: 'Tests-Algebra-Rings'!
@@ -6934,79 +6934,6 @@ testRationalPointsOverFiniteField
 	self assert: C points size = 9.
 	self assert: (Iterator on: C points performing: #do:) size = 9! !
 
-!AlgebraicGeometryTest methodsFor: 'rational points' stamp: 'len 1/14/2022 11:32:38'!
-testSturmfelsExample1
-	"Bernd Sturmfels, 'Ideals, Varieties and Macaulay 2', 1. A Curve in Affine 3-Space."
-	| R x y I C C1 C2 |
-	R _ ℚ polynomialsIn: #(x y z). "default ordering is trevlex"
-	x _ R x.
-	y _ R y.
-"	z _ R z."
-	I _ R * {x^4 - (y^5). x^3 - (y^7)}.
-	self assert: I basis "reduced" printString = '(x^8 - x^3y^3, x^4y^2 - x^3, y^5 - x^4)'.
-	C _ I variety.
-	self assert: C dimension = 1.
-	self assert: C codimension = 2.
-	"The degree of a curve in complex affine 3-space is the number of intersection points with a general plane. It coincides with the degree of the projective closure of our curve:"
-	self assert: C projectiveClosure degree = 28.
-	"We first extract the components which are transverse to the plane x = 0:"
-	C1 _ C \ (R / R x) spec.
-	self assert: C1 = (R / {x*(y^2) - 1. y^5 - (x^4). x^5 - (y^3)}) spec.
-	"And next we extract the component which lies in the clane x = 0:"
-	C2 _ C - C1. "NOTE: the article uses ideal saturation, and this is colon"
-	self assert: C2 = (R / {x^3. y^5}) spec.
-	"self deny: C isReduced." "this fails!!!!!!"
-	self assert: C1 projectiveClosure degree = 13.
-	self assert: C1 isReduced "equivalent to C1 ideal = C1 ideal radical"! !
-
-!AlgebraicGeometryTest methodsFor: 'rational points' stamp: 'len 8/12/2022 13:06:48'!
-testSturmfelsExample2
-	"Bernd Sturmfels, 'Ideals, Varieties and Macaulay 2', 2. Intersecting Our Curve With a Surface."
-	| R x y z C S theirunion ourpoints |
-	R _ ℚ polynomialsIn: #(x y z). "default ordering is trevlex"
-	x _ R x.
-	y _ R y.
-	z _ R z.
-	C _ (R / {x^4 - (y^5). x^3 - (y^7)}) spec.
-	C _ C \ (R / R x) spec. "this is C1 from example1"
-	S _ (R / (x^5 + (y^5) + (z^5) - 1)) spec.
-	theirunion _ C ∪ S.
-	"In this case, the union's ideal coincides with the product of the ideals:"
-	self assert: theirunion asIdeal = (C asIdeal * S asIdeal).
-	"The intersection of the curve and the surface (whose defining ideal is the sum of the respective ideals):"
-	ourpoints _ C ∩ S.
-	"We get a finite set of points:"
-	self assert: ourpoints dimension = 0.
-	"The number of points is 65:"
-	self assert: ourpoints projectiveClosure degree = 65.
-	"Each of the points is multiplicity-free:"
-	self assert: ourpoints isReduced. "equivalent to the original: ourpoints reduced projectiveClosure degree = 65."! !
-
-!AlgebraicGeometryTest methodsFor: 'rational points' stamp: 'len 3/6/2021 07:07:05'!
-testTwistedCubic
-	| P R M C |
-	P _ ProjectiveSpace new: 3 over: ℚ.
-	R _ P coordinateRing.
-	"R indeterminateNames: #(u v w t)"
-	M _ R^3 => (R^2) !! (#(1 2 3 2 3 4) collect: [:i| R x: i]).
-	C _ P subscheme: (M minors: 2).
-	self assert: C dimension = 1.
-	self assert: C isSmooth! !
-
-!AlgebraicGeometryTest methodsFor: 'rational points' stamp: 'len 5/23/2020 09:33:01'!
-testTwistedCubicDegree
-	"Twisted cubic in P^3 with homogeneous coordinates x,y,w,z."
-	| A X |
-	A _ ℚ polynomialsIn: #(x y z w).
-	X _ (A / [:x :y :z :w| {x^2 - (y*w). x*z - (y^2)}]) proj.
-	"At this point X is still reducible, it is the union of a line x=y=0 and the twisted cubic:"
-	self assert: X degree = 4.
-	"To cut out X, we impose an additional equation x^3 - (z * (w^2)) = 0:"
-	X _ (A / [:x :y :z :w| {x^2 - (y*w). x*z - (y^2). x^3 - (z*(w^2))}]) proj.
-	"But we get the twisted cubic (in some sense) 'counted with multiplicity 2', so the degree is 6
-	(BUT NOT REALLY, MAGMA GIVES 3 LIKE US, I DONT REMEMBER WHERE I GOT THIS EXAMPLE FROM BUT THE CORRECT ANSWER IS 3)"
-	self assert: X degree = 3! !
-
 !AlgebraicGeometryTest methodsFor: 'tangent cone' stamp: 'len 12/15/2021 12:00:25'!
 testTangentCone
 	"'A Singular Introduction to Commutative Algebra', Example 5.5.13."
@@ -7051,6 +6978,100 @@ testLocalIntegerRingSpecStalks
 	self assert: X @ p = ℚ.
 	p _ R * 5.
 	self assert: X @ p = R! !
+
+!AlgebraicGeometryTest methodsFor: 'examples' stamp: 'len 8/16/2022 11:31:49'!
+testStillmanExample1
+	"Example from [Sti06]"
+	| K P s t S P1 P3 φ C M |
+	K _ ℤ/32003.
+	P _ K polynomialsIn: #(s t).
+	s _ P coordinateRing x: 1.
+	t _ P coordinateRing x: 2.
+	S _ K polynomialsIn: #(a b c d).
+	P1 _ P proj.
+	P3 _ S proj.
+	φ _ P1 to: P3 representatives: {s^4. s^3*t. s*(t^3). t^4}.
+	C _ φ image.
+	self assert: φ asRingMap kernel = C asIdeal.
+	self assert: C codimension = 2.
+	self assert: C degree = 4.
+	self assert: C genus = 0.
+	M _ S asIdeal / C asIdeal.
+	self assert: M isGraded.
+	"M resolution..."! !
+
+!AlgebraicGeometryTest methodsFor: 'examples' stamp: 'len 1/14/2022 11:32:38'!
+testSturmfelsExample1
+	"Bernd Sturmfels, 'Ideals, Varieties and Macaulay 2', 1. A Curve in Affine 3-Space."
+	| R x y I C C1 C2 |
+	R _ ℚ polynomialsIn: #(x y z). "default ordering is trevlex"
+	x _ R x.
+	y _ R y.
+"	z _ R z."
+	I _ R * {x^4 - (y^5). x^3 - (y^7)}.
+	self assert: I basis "reduced" printString = '(x^8 - x^3y^3, x^4y^2 - x^3, y^5 - x^4)'.
+	C _ I variety.
+	self assert: C dimension = 1.
+	self assert: C codimension = 2.
+	"The degree of a curve in complex affine 3-space is the number of intersection points with a general plane. It coincides with the degree of the projective closure of our curve:"
+	self assert: C projectiveClosure degree = 28.
+	"We first extract the components which are transverse to the plane x = 0:"
+	C1 _ C \ (R / R x) spec.
+	self assert: C1 = (R / {x*(y^2) - 1. y^5 - (x^4). x^5 - (y^3)}) spec.
+	"And next we extract the component which lies in the clane x = 0:"
+	C2 _ C - C1. "NOTE: the article uses ideal saturation, and this is colon"
+	self assert: C2 = (R / {x^3. y^5}) spec.
+	"self deny: C isReduced." "this fails!!!!!!"
+	self assert: C1 projectiveClosure degree = 13.
+	self assert: C1 isReduced "equivalent to C1 ideal = C1 ideal radical"! !
+
+!AlgebraicGeometryTest methodsFor: 'examples' stamp: 'len 8/12/2022 13:06:48'!
+testSturmfelsExample2
+	"Bernd Sturmfels, 'Ideals, Varieties and Macaulay 2', 2. Intersecting Our Curve With a Surface."
+	| R x y z C S theirunion ourpoints |
+	R _ ℚ polynomialsIn: #(x y z). "default ordering is trevlex"
+	x _ R x.
+	y _ R y.
+	z _ R z.
+	C _ (R / {x^4 - (y^5). x^3 - (y^7)}) spec.
+	C _ C \ (R / R x) spec. "this is C1 from example1"
+	S _ (R / (x^5 + (y^5) + (z^5) - 1)) spec.
+	theirunion _ C ∪ S.
+	"In this case, the union's ideal coincides with the product of the ideals:"
+	self assert: theirunion asIdeal = (C asIdeal * S asIdeal).
+	"The intersection of the curve and the surface (whose defining ideal is the sum of the respective ideals):"
+	ourpoints _ C ∩ S.
+	"We get a finite set of points:"
+	self assert: ourpoints dimension = 0.
+	"The number of points is 65:"
+	self assert: ourpoints projectiveClosure degree = 65.
+	"Each of the points is multiplicity-free:"
+	self assert: ourpoints isReduced. "equivalent to the original: ourpoints reduced projectiveClosure degree = 65."! !
+
+!AlgebraicGeometryTest methodsFor: 'examples' stamp: 'len 3/6/2021 07:07:05'!
+testTwistedCubic
+	| P R M C |
+	P _ ProjectiveSpace new: 3 over: ℚ.
+	R _ P coordinateRing.
+	"R indeterminateNames: #(u v w t)"
+	M _ R^3 => (R^2) !! (#(1 2 3 2 3 4) collect: [:i| R x: i]).
+	C _ P subscheme: (M minors: 2).
+	self assert: C dimension = 1.
+	self assert: C isSmooth! !
+
+!AlgebraicGeometryTest methodsFor: 'examples' stamp: 'len 5/23/2020 09:33:01'!
+testTwistedCubicDegree
+	"Twisted cubic in P^3 with homogeneous coordinates x,y,w,z."
+	| A X |
+	A _ ℚ polynomialsIn: #(x y z w).
+	X _ (A / [:x :y :z :w| {x^2 - (y*w). x*z - (y^2)}]) proj.
+	"At this point X is still reducible, it is the union of a line x=y=0 and the twisted cubic:"
+	self assert: X degree = 4.
+	"To cut out X, we impose an additional equation x^3 - (z * (w^2)) = 0:"
+	X _ (A / [:x :y :z :w| {x^2 - (y*w). x*z - (y^2). x^3 - (z*(w^2))}]) proj.
+	"But we get the twisted cubic (in some sense) 'counted with multiplicity 2', so the degree is 6
+	(BUT NOT REALLY, MAGMA GIVES 3 LIKE US, I DONT REMEMBER WHERE I GOT THIS EXAMPLE FROM BUT THE CORRECT ANSWER IS 3)"
+	self assert: X degree = 3! !
 
 !AlgebraicGraphTest methodsFor: 'as yet unclassified' stamp: 'len 4/16/2022 13:08:30'!
 testAutomorphismsK3

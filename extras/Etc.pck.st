@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5438] on 14 August 2022 at 11:20:34 am'!
+'From Cuis 6.0 [latest update: #5438] on 21 August 2022 at 8:28:22 am'!
 'Description '!
-!provides: 'Etc' 1 13!
+!provides: 'Etc' 1 14!
 !requires: 'Algebra' 1 7 nil!
 SystemOrganization addCategory: 'Etc'!
 SystemOrganization addCategory: 'Etc-Lie'!
@@ -1645,10 +1645,10 @@ hash
 	(parent includes: aDivisor) ifFalse: [^ self adapt: aDivisor andSend: #-].
 	^ self class coefficients: coefficients - aDivisor coefficients parent: parent! !
 
-!Divisor methodsFor: 'operations' stamp: 'len 7/18/2022 06:18:06'!
+!Divisor methodsFor: 'operations' stamp: 'len 8/21/2022 08:15:14'!
 gcd: aDivisor
 	| newCoefficients |
-	newCoefficients _ SparseDictionary new.
+	newCoefficients _ SortedDictionary new.
 	coefficients keysAndValuesDo: [:key :value|
 		aDivisor coefficients at: key ifPresent: [:value2| newCoefficients at: key put: (value min: value2)]].
 	^ self class coefficients: newCoefficients parent: parent! !
