@@ -1,4 +1,4 @@
-'From Cuis 6.0 [latest update: #5438] on 21 August 2022 at 8:28:31 am'!
+'From Cuis 6.0 [latest update: #5438] on 16 September 2022 at 6:42:58 am'!
 'Description This package implements among other things: permutation groups, linear groups, modular integers, finite fields, Galois rings, polynomial rings, affine algebras, number fields, function fields, p-adic fields, power series rings, finitely presented modules, (co)chain complexes, finite (finitely generated as modules) associative algebras, finite distributive (not necessarily associative) algebras, schemes, and sheaves of modules.
 
 References:
@@ -57,7 +57,7 @@ References:
 [] Qing Liu; "Algebraic Geometry and Arithmetic Curves"
 [] Joseph. H. Silverman; "The Arithmetic of Elliptic Curves"
 '!
-!provides: 'Algebra' 1 36!
+!provides: 'Algebra' 1 37!
 !requires: 'Collections-TwoAndEightByteArrays' 1 1 nil!
 !requires: 'Graphs' 1 0 nil!
 !requires: 'Collections-Extras' 1 1 nil!
@@ -1396,14 +1396,14 @@ Function subclass: #RingMap
 RingMap class
 	instanceVariableNames: ''!
 
-!classDefinition: #PolynomialMap category: 'Algebra-Algebras-Affine'!
-RingMap subclass: #PolynomialMap
+!classDefinition: #AffineAlgebraMap category: 'Algebra-Algebras-Affine'!
+RingMap subclass: #AffineAlgebraMap
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algebras-Affine'!
-!classDefinition: 'PolynomialMap class' category: 'Algebra-Algebras-Affine'!
-PolynomialMap class
+!classDefinition: 'AffineAlgebraMap class' category: 'Algebra-Algebras-Affine'!
+AffineAlgebraMap class
 	instanceVariableNames: ''!
 
 !classDefinition: #FiniteAlgebraMap category: 'Algebra-Algebras-Finite'!
@@ -2645,22 +2645,22 @@ It is assumed that the vertices are objects that implement a total ordering with
 !Domain commentStamp: '<historical>' prior: 0!
 Objects of a given Category, i.e. domains and codomains of Morphisms in a Category. They don't necessarily have an underlying set of elements. Concrete examples are algebraic structures such as Groups, Rings and Modules.
 
-Domains can be derived from other domains, for example by taking products, coproducts, quotients, extensions, localizations, completions, duals, etc.
+Domains can be constructed from other domains, for example by taking products, coproducts, quotients, extensions, localizations, completions, duals, etc.
 
 Domains can have subobjects: groups have subgroups, vector spaces have subspaces, rings have subrings, schemes have subschemes, etc. Subobjects of an ambient object can be implemented either concretely as subsets of the ambient object (i.e., their elements are elements of the ambient domain), or more abstractly as isomorphism classes of injective monomorphisms from another object of the same category into the ambient object.
 
-Given two objects A and B in the same category, the set Hom(A,B) of morphisms between them is obtained by sending the message 'A hom: B' (see HomSet). The #hom: message is the external Hom(A,-) functor. The internal hom(A,-) functor is implemented as 'A => B'. The identity morphism is returned by the message #id.
+Given two objects A and B in the same category, the set Hom(A,B) of morphisms between them is obtained by sending the message 'A => B' (see HomSet). This is the Hom(A,-) functor. The identity morphism is returned by the message #id.
 
 Domains can be equipped with canonical and universal morphisms. For example, field extensions and localizations come with embeddings, and quotient objects come with projections, products have projection maps to their components, and coproducts have coprojection maps from their components.
 
-More generally, canonical and universal morphisms are uniquely determined by their domain and codomain and can be retrieved by sending the message #->. For example, for any ring R, 'ℤ -> R' returns the canonical ring homomorphism that sends an integer 'n' to 'n times the multiplicative identity of R'. In order for this mechanism to work, subclasses must sometimes extend the messages #to: and #from: to answer canonical and universal morphisms, and #toAll: and #fromAll: to answer projections and coprojections.!
+More generally, canonical and universal morphisms are uniquely determined by their domain and codomain and can be retrieved by sending the message 'A -> B'. For example, for any ring R, 'ℤ -> R' returns the canonical ring homomorphism that sends an integer 'n' to '1·n' (where 1 is the multiplicative identity of R). In order for this mechanism to work, subclasses must sometimes extend the messages #to: and #from: to answer canonical and universal morphisms, and #toAll: and #fromAll: to answer projections and coprojections.!
 
 !Structure commentStamp: '<historical>' prior: 0!
 Domains with an underlying set of elements (the 'carrier' set). These can be simple sets, or algebraic structures such as Groups, Rings, Modules, etc. In terms of category theory, these are objects of concrete categories, i.e. they are realized as sets of elements endowed with certain algebraic structure, and their morphisms are structure-preserving Functions.
 
-The underlying set of a domain can have finite or infinite cardinality, and whenever it makes sense they implement some Collection protocol (such as #do:, #size, #asSet, #atRandom:, etc).
+Whenever it makes sense they implement some Collection protocol such as #do:, #size, #asSet, #atRandom:, etc.
 
-There's also a simple coercion mechanism that allows the conversion of elements from a domain to another via the message #!!. Known canonical or universal morphisms are used for automatic coercion of elements between domains. For example, for any unital ring R there's a canonical ring homomorphism from the ring of rational integers ℤ to R that sends an integer 'n' to 'n times the multiplicative identity of R', and this means that coercion of an integer 'n' to an element of R can be performed simply as 'R !! n'. Subclasses can also extend the coercion mechanism by implementing methods for #adapt: and #newFrom:.!
+A simple coercion mechanism allows the conversion of an element x from a domain X to another domain Y via the message 'Y !! x'. Known canonical or universal morphisms are used for coercion of elements between domains. For example, for any unital ring R there's a canonical ring homomorphism from the ring of rational integers ℤ to R that sends an integer 'n' to '1·n' (where 1 is the multiplicative identity of R), and this means that coercion of an integer 'n' to an element of R can be performed simply as 'R !! n'. Subclasses can also extend the coercion mechanism by implementing methods for #adapt: and #newFrom:.!
 
 !CartesianProduct commentStamp: '<historical>' prior: 0!
 Cartesian products of sets. The elements of the cartesian product of two or more sets are arrays of elements in the sets corresponding to each component of the cartesian product.!
@@ -2673,6 +2673,18 @@ Categories are commonly defined as two sets: a set of objects (Domains) and a se
 References:
 	https://ncatlab.org/nlab/show/single-sorted+definition+of+a+category
 !
+
+!Modules commentStamp: '<historical>' prior: 0!
+Category of finitely presented right R-modules, for a unital ring R. See Module and ModuleMap.!
+
+!ChainComplexes commentStamp: '<historical>' prior: 0!
+Category of chain complexes over a given abelian category of chains. See ChainComplex and ChainMap.!
+
+!CochainComplexes commentStamp: '<historical>' prior: 0!
+Category of cochain complexes over a given abelian category of cochains. See CochainComplex and CochainMap.!
+
+!Sheaves commentStamp: '<historical>' prior: 0!
+Category of coherent sheaves on a given scheme. See Sheaf and SheafMap.!
 
 !HomSet commentStamp: '<historical>' prior: 0!
 Hom-Set objects Hom(A,B) for domain A and codomain B, i.e. sets of all morphisms between two Domains. When A = B, this is the set of endomorphisms of A and it's noted End(A).!
@@ -2760,7 +2772,7 @@ Rings with identity (unital rings). They are associative and contain a multiplic
 
 Rings can be thought as continuous functions on some topological space. In the case of a commutative ring R this space is the prime spectrum Spec(R), the set of prime ideals with the Zariski topology. See AffineScheme.
 
-Rings can be constructed from existing rings, for example by taking quotients by a two-sided ideal (see QuotientRing), by direct product (see ProductRing), and in the case of commutative rings by making transcendental extensions (see PolynomialRing), localization (see FractionRing and LocalRing), completion (for example PowerSeriesRing and AdicRing), etc.!
+Rings can be constructed from existing rings, for example by taking quotients by two-sided ideals (see QuotientRing), by direct products (see ProductRing), and in the case of commutative rings by making transcendental extensions (see PolynomialRing), localization (see FractionRing and LocalRing), completion (for example PowerSeriesRing and AdicRing), etc.!
 
 !FractionRing commentStamp: '<historical>' prior: 0!
 Total ring of fractions Frac(R) of a commutative ring R, also called the "total quotient ring" of R. The elements are formal fractions a/b with a and b in R and b regular (not a zero divisor), under the equivalence relation a/b ~ c/d if ad = cb. When the ring R is an integral domain, Frac(R) is a field and it is called the "field of fractions" of R. See Ring>>fractions.
@@ -2774,15 +2786,15 @@ The singletion global instance ℚ is the field of rational numbers.!
 The field of fractions of a polynomial ring with coefficients over a field.!
 
 !AdicField commentStamp: '<historical>' prior: 0!
-Field of p-adic numbers Qp. This is the fraction field of the ring of p-adic integers Zp. Elements are AdicNumbers. See also AdicRing and AdicInteger.!
+Field of p-adic numbers ℚp. This is the fraction field of the ring of p-adic integers ℤp. Elements are AdicNumbers. See also AdicRing and AdicInteger.!
 
 !LaurentSeriesRing commentStamp: 'len 6/7/2020 17:52:33' prior: 0!
 Ring R((x)) of formal Laurent series over a commutative ring R in an indetermiate x. See LaurentSeries.!
 
-!LocalRing commentStamp: '<historical>' prior: 0!
-Localization of a commutative ring R at a prime ideal p. The elements are "germs at p" (see Germ), and can be thought as fractions a/b with a and b in R and b not in p. This is a subring of the total ring of fractions Frac(R) (see FractionRing).
+!LocalRing commentStamp: 'len 9/1/2022 11:33:38' prior: 0!
+Localization of a commutative ring R at a prime ideal p. The elements are 'germs at p' (see Germ), and can be thought as fractions a/b with a and b in R and b not in p. This is a subring of the total ring of fractions Frac(R) (see FractionRing).
 
-The localization of R at a prime ideal P is the stalk of the structure sheaf of Spec(R) at the point [p]. As the elements of R are thought as functions on the space Spec(R), the elements of the localization at p are thought as germs of functions, i.e. functions that characterize the local behavior of Spec(R) near [p].
+The localization of R at a prime ideal P is the stalk of the structure sheaf of Spec(R) at the point p. As the elements of R are thought as functions on the space Spec(R), the elements of the localization at p are thought as germs of functions, i.e. functions that characterize the local behavior of Spec(R) near p.
 
 The localization of R at the prime ideal p is equipped with a canonical map (the localization map) from the ring of integers R, as well as a canonical embedding into the total ring of fractions Frac(R).
 
@@ -2835,7 +2847,7 @@ The subrings of GR(p^n,m) correspond to the positive divisors of m.
 
 More generally, any finite local ring can be constructed as a finitely generated GR(p^n,m)-algebra, i.e. a quotient of a polynomial ring (in a number of indeterminates) with coefficients in a Galois ring modulo a primary ideal of the polynomial ring (see AffineRing).
 
-Just as prime power rings (see PrimePowerRing) are approximations of the p-adic integer ring ℤp, general Galois rings are approximations of the ring of integers of unramified extensions of the p-adic field Qp generated by a (p^m)-th root of unity z: GR(p^n,m) = ℤp[z]/<p^n>.
+Just as prime power rings (see PrimePowerRing) are approximations of the p-adic integer ring ℤp, general Galois rings are approximations of the ring of integers of unramified extensions of the p-adic field Qp generated by a (p^m)-th root of unity ζ: GR(p^n,m) = ℤp[ζ]/<p^n>.
 
 For reference see [GM73] and [BF15].!
 
@@ -2855,10 +2867,13 @@ Algebraic number fields, i.e. finite field extensions of the rational numbers. N
 !
 
 !CyclotomicField commentStamp: '<historical>' prior: 0!
-Cyclotomic fields, i.e. number fields obtained by adjoining a complex primitive root of unity to Q. The n-th cyclotomic field is obtained by adjoining a primitive n-th root of unity to the rational numbers.!
+Cyclotomic fields, i.e. number fields obtained by adjoining a complex primitive root of unity to ℚ. The n-th cyclotomic field is obtained by adjoining a primitive n-th root of unity to the rational numbers.!
 
 !QuadraticField commentStamp: '<historical>' prior: 0!
 Quadratic number fields, i.e. number fields with defining quadratic polynomial of the form x^2 - d, with d a squarefree integer.!
+
+!GaussianField commentStamp: '<historical>' prior: 0!
+The field of Gaussian numbers ℚ[i]. See GaussianRing.!
 
 !RationalIntegerRing commentStamp: '<historical>' prior: 0!
 The singletion global instance ℤ is the ring of rational integers.!
@@ -2882,7 +2897,7 @@ An R-algebra is constructed from a R-module, with multiplication given by an ass
 Algebra of R-module endomorphisms End(M) for an R-module M. The underlying module is the homomorphisms module Hom(M,M), and multiplication is composition of module maps.!
 
 !MatrixAlgebra commentStamp: '<historical>' prior: 0!
-Full matrix algebra, i.e. (n^2)-dimensional associative algebra of square n by n matrices over a ring R under matrix multiplication.!
+Full matrix algebra, i.e. (n^2)-dimensional associative algebra of square n×n matrices over a ring R under matrix multiplication.!
 
 !GroupAlgebra commentStamp: '<historical>' prior: 0!
 Group algebra R[G] of a finite group G over a commutative ring R.
@@ -2909,6 +2924,9 @@ Rings of integers of cyclotomic number fields. See CyclotomicField.!
 !QuadraticRing commentStamp: '<historical>' prior: 0!
 Rings of integers of quadratic number fields. See QuadraticField.!
 
+!GaussianRing commentStamp: '<historical>' prior: 0!
+Ring of Gaussian integers ℤ[i]. This is the ring of integers of the field of Gaussian numbers ℚ[i]. See GaussianField.!
+
 !FreeAlgebra commentStamp: '<historical>' prior: 0!
 Algebras of noncommutative polynomials in a finite set of indeterminates. These are finitely generated free associative unital algebras, and their elements are FreePolynomials.
 
@@ -2921,12 +2939,12 @@ The singletion global instance ℝ is the field of real numbers.!
 The singletion global instance ℂ is the field of complex numbers.!
 
 !AdicRing commentStamp: '<historical>' prior: 0!
-Ring of p-adic integers Zp. Elements are AdicIntegers. See also AdicField, AdicNumber and PrimePowerRing.
+Ring of p-adic integers ℤp. Elements are AdicIntegers. See also AdicField, AdicNumber and PrimePowerRing.
 
-For each prime number p, the ring of p-adic integers Zp is the formal completion of the ring Z at the prime ideal <p>. Geometrically this means that Zp is the ring of functions on a formal neighbourhood of p inside Spec(Z). Algebaically it means that the elements in Zp look like formal power series where the formal variable is the prime number p.!
+For each prime number p, the ring of p-adic integers ℤp is the formal completion of the ring ℤ at the prime ideal <p>. Geometrically this means that ℤp is the ring of functions on a formal neighbourhood of p inside Spec(ℤ). Algebaically it means that the elements in ℤp look like formal power series where the formal variable is the prime number p.!
 
-!PowerSeriesRing commentStamp: 'len 6/7/2020 17:53:32' prior: 0!
-Ring R[[x1,...,xn]] of formal power series over a commutative ring R. See PowerSeries.
+!PowerSeriesRing commentStamp: 'len 9/9/2022 20:41:18' prior: 0!
+Ring R⟦x1,...,xn⟧ of formal power series over a commutative ring R. See PowerSeries.
 
 This is the completion of the polynomial ring R[x1,...,xn] at the maximal ideal <x1,...,xn>.!
 
@@ -2935,7 +2953,7 @@ Finitely presented right R-modules, for a unital ring R. These include the parti
 
 The implementation relies on the ability to solve systems of linear equations over the coefficients ring. As long as there are algorithms for solving AX = B and AX = 0 for matrices over R, many important computations with finitely presented R-modules are supported. See [BLH11].
 
-Since the category of ℤ-modules is isomorphic to the category of abelian groups, ℤ-modules are also groups, and group homomorphisms between groups and ℤ-modules are allowed. Similarly, given a commutative ring R, R-modules are also sheaves of modules on Spec(R).
+Since the category of ℤ-modules is isomorphic to the category of abelian groups, ℤ-modules are also groups, and group homomorphisms between groups and ℤ-modules are allowed. Similarly, given a commutative ring R, R-modules are also identified with sheaves of modules on Spec(R).
 
 See also ModuleMap and HomModule.!
 
@@ -3017,7 +3035,7 @@ Affine algebraic hypersurfaces, i.e. schemes of codimension 1 over an affine spa
 Affine plane algebraic curves, i.e. schemes of dimension 1 over an affine plane.!
 
 !AffineSpace commentStamp: '<historical>' prior: 0!
-Affine spaces R^n as schemes, i.e. Spec R[x1,...,xn] for some commutative ring R. They are seen as schemes over Spec R.
+Affine spaces 𝔸^nR as schemes, i.e. Spec R[x1,...,xn] for some commutative ring R. They are seen as schemes over Spec R.
 
 Note that the dimension of an affine space as scheme is the Krull dimension of its coordinate ring, and this can be bigger than the number of indeterminates (see >>dimension and >>rank). For affine spaces over fields, the dimension and the rank are equal (because fields have Krull dimension 0).!
 
@@ -3052,8 +3070,8 @@ Projective plane curves of genus 0 and degree 1. They are defined by linear poly
 
 Rational curves, together with Conics, are the only curves of genus 0.!
 
-!ProjectiveSpace commentStamp: 'len 5/17/2018 19:02:53' prior: 0!
-Projective spaces P^nR as schemes, i.e. Proj R[x1,...,xn] for some commutative ring R.
+!ProjectiveSpace commentStamp: '<historical>' prior: 0!
+Projective spaces ℙ^nR as schemes, i.e. Proj R[x1,...,xn] for some commutative ring R. They are seen as schemes over Spec R.
 !
 
 !ProjectiveLine commentStamp: '<historical>' prior: 0!
@@ -3121,7 +3139,7 @@ Group homomorphisms defined as conjugation by a given element. These are the inn
 !RingMap commentStamp: '<historical>' prior: 0!
 Unital ring homomorphisms.!
 
-!PolynomialMap commentStamp: '<historical>' prior: 0!
+!AffineAlgebraMap commentStamp: '<historical>' prior: 0!
 Algebra homomorphisms of polynomial rings and their quotients (see PolynomialRing and AffineRing).!
 
 !FiniteAlgebraMap commentStamp: '<historical>' prior: 0!
@@ -3248,6 +3266,9 @@ See also ProjectiveVariety.!
 
 !ProjectiveLinePoint commentStamp: '<historical>' prior: 0!
 Points on the projective line P^1(R) for some ring R. See also ProjectiveLine.!
+
+!SheafMap commentStamp: '<historical>' prior: 0!
+Morphisms of coherent sheaves. See Sheaf.!
 
 !MonomialOrdering commentStamp: '<historical>' prior: 0!
 A monomial ordering is a total order on the set of all monomials in n indeterminates, satisfying the properties:
@@ -5419,11 +5440,11 @@ category
 	aCodomain propertyAt: #inputs ifPresent: [:aDictionary| aDictionary at: self ifPresent: [:aMorphism| ^ aMorphism]].
 	^ (self to: aCodomain) ifNil: [aCodomain from: self]! !
 
-!Domain methodsFor: 'morphisms' stamp: 'len 12/25/2021 11:54:57'!
+!Domain methodsFor: 'morphisms' stamp: 'len 8/31/2022 19:50:32'!
 => anObject
 	"This is the Hom(A,-) functor, where A is the receiver:
-	- if the argument is a domain X, answer Hom(A,X), the morphisms from A to X;
-	- if the argument is a morphism g:X->Y, answer the morphism Hom(A,g):Hom(A,X)->Hom(A,Y) that sends the morphism f to g·f.
+	- if the argument is a domain X in the same category, answer Hom(A,X), the morphisms from A to X;
+	- if the argument is a morphism g:X->Y, answer the morphism Hom(A,g):Hom(A,X)->Hom(A,Y) that sends the morphism f to g ∘ f.
 	When appropriate, subclasses can implement #hom: to answer the internal Hom."
 	anObject isMorphism ifTrue: [^ self => anObject domain to: self => anObject codomain evaluating: [:f| anObject · f]].
 	^ (self propertyAt: #homs ifAbsentPut: [WeakIdentityKeyDictionary new]) at: anObject ifAbsentPut: [self hom: anObject]! !
@@ -6606,14 +6627,12 @@ example2
 	This is Hom(Z,Z), the set of ring homomorphisms from Z to itself."
 	^ ℤ endomorphisms! !
 
-!HomSet class methodsFor: 'examples' stamp: 'len 5/23/2020 09:11:37'!
+!HomSet class methodsFor: 'examples' stamp: 'len 9/16/2022 06:35:28'!
 example3
-	"In some categories the Hom-Set has actually richer structure,
-	and can be seen as an object of the category.
+	"In some categories the Hom-Set has actually richer structure.
 	Here's the vector space of linear maps from the Q^3 to Q^5.
-	This is the internal hom(Q^3,Q^5), and it is a vector space itself.
-	(It is not an instance of HomSet.)"
-	^ (ℚ^3) => (ℚ^5)! !
+	This is the internal hom(Q^3,Q^5), and it is a vector space (not just a set)."
+	^ ℚ^3 => (ℚ^5)! !
 
 !HomSet class methodsFor: 'instance creation' stamp: 'len 8/7/2020 15:07:48'!
 from: aDomain to: aCodomain
@@ -8578,12 +8597,12 @@ action
 degree
 	^ self space rank! !
 
-!LinearGroup methodsFor: 'accessing' stamp: 'len 4/1/2021 06:35:26'!
+!LinearGroup methodsFor: 'accessing' stamp: 'len 9/3/2022 11:51:17'!
 polynomialAction
 	"Answer the action of the receiver on the polynomial ring K[x1...xn]."
 	| R X |
 	R _ self space coordinateRing.
-	X _ R^R rank filling: [:i| R x: i].
+	X _ R tuple: R generators.
 	^ GroupAction from: (self, R) to: R evaluatingWithArguments: [:a :f| f value: (a asMatrix over: R) * X]! !
 
 !LinearGroup methodsFor: 'accessing' stamp: 'len 9/25/2018 17:07:38'!
@@ -9236,10 +9255,11 @@ matrix: B reductionBy: A
 	"Answer N such that AX + N = B, satisfying that if the i-th column of B is a linear combination of the columns of A then the i-th column of N is zero."
 	^ B - (A * (self matrix: B quotientBy: A))! !
 
-!Ring methodsFor: 'computing-matrices' stamp: 'len 6/7/2022 17:50:25'!
+!Ring methodsFor: 'computing-matrices' stamp: 'len 9/1/2022 13:33:39'!
 syzygiesOf: aMatrix
 	"Answer a matrix whose rows span the kernel of the given matrix.
 	For a matrix A, the output is X with AX = 0."
+	self isLocalization ifTrue: [^ self syzygiesOverLocalizationOf: aMatrix].
 	self isEuclideanDomain ifTrue: [^ self syzygiesOverEuclideanDomainOf: aMatrix].
 	^ self subclassResponsibility! !
 
@@ -9292,6 +9312,20 @@ matrixOverField: B quotientBy: A
 	A width - rows size timesRepeat: [rows add: B domain zero].
 	^ Matrix from: B domain rows: rows"! !
 
+!Ring methodsFor: 'computing-matrices-private' stamp: 'len 9/3/2022 13:22:02'!
+matrixOverLocalization: B quotientBy: A
+	"Answer X such that AX + N = B, satisfying that if the i-th column of B is a linear combination of the columns of A then the i-th column of N is zero."
+	| X d1 d2 |
+	X _ self^0 -> A domain.
+	d1 _ A denominator.
+	d2 _ B denominator.
+	B numerator columnsDo: [:b| | L i x |
+		L _ (b asMatrix ⊔ A numerator) syzygies.
+		i _ (1 to: L width) detect: [:k| (self localizationIdeal includes: (L at: 1@k)) not] ifNone: [].
+		x _ i isNil ifTrue: [A domain zero] ifFalse: [((L copyFrom: 2@i to: L height@i) over: self) * (self numerator: d1 negated denominator: d2 * (L at: 1@i))].
+		X _ X ⊔ x].
+	^ X! !
+
 !Ring methodsFor: 'computing-matrices-private' stamp: 'len 1/7/2022 14:28:21'!
 syzygiesOverEuclideanDomainOf: aMatrix
 	| E T |
@@ -9313,6 +9347,12 @@ syzygiesOverEuclideanDomainOf: aMatrix
 	reduction reduced rows withIndexDo: [:row :i|
 		row isZero ifTrue: [kernel add: (reduction extension rowAt: i)]].
 	^ Matrix to: aMatrix domain columns: kernel"! !
+
+!Ring methodsFor: 'computing-matrices-private' stamp: 'len 9/1/2022 13:33:10'!
+syzygiesOverLocalizationOf: aMatrix
+	"Answer a matrix whose rows span the kernel of the given matrix.
+	For a matrix A, the output is X with AX = 0."
+	^ aMatrix numerator syzygies over: self! !
 
 !Ring methodsFor: 'computing-polynomials' stamp: 'len 6/16/2022 18:44:37'!
 allRootsOf: aPolynomial
@@ -9411,13 +9451,14 @@ isCompletion
 	(anObject isKindOf: Ideal) ifTrue: [^ self * (anObject generators collect: [:each| self !! each])].
 	^ super !! anObject! !
 
-!Ring methodsFor: 'elements' stamp: 'len 3/4/2021 18:16:10'!
+!Ring methodsFor: 'elements' stamp: 'len 9/2/2022 07:35:55'!
 adapt: anElement
 	anElement isInteger ifTrue: [^ self one * anElement].
 	anElement isFraction ifTrue:
 		[anElement isIntegral ifTrue: [^ self one * anElement asInteger].
 		(self isField and: [self characteristic = 0])
 			ifTrue: [^ (self one * anElement numerator) / (self one * anElement denominator)]].
+"	(anElement parent isLocalization and: [anElement isIntegral]) ifTrue: [^ self !! anElement numerator]."
 	^ super adapt: anElement! !
 
 !Ring methodsFor: 'elements' stamp: 'len 4/4/2018 00:03:12'!
@@ -10058,12 +10099,6 @@ zero
 hash
 	^ self integers hash! !
 
-!FractionRing methodsFor: 'computing-matrices' stamp: 'len 6/7/2022 17:50:17'!
-syzygiesOf: aMatrix
-	"Answer a matrix whose rows span the kernel of the given matrix.
-	For a matrix A, the output is X with AX = 0."
-	^ aMatrix numerator syzygies over: self! !
-
 !FractionRing methodsFor: 'converting' stamp: 'len 1/20/2017 09:07:54'!
 over: aRing
 	"Change the base ring."
@@ -10515,12 +10550,6 @@ zero
 hash
 	^ self localizationIdeal hash! !
 
-!LocalRing methodsFor: 'computing-matrices' stamp: 'len 6/7/2022 17:50:44'!
-syzygiesOf: aMatrix
-	"Answer a matrix whose rows span the kernel of the given matrix.
-	For a matrix A, the output is X with AX = 0."
-	^ aMatrix numerator syzygies over: self! !
-
 !LocalRing methodsFor: 'converting' stamp: 'len 6/14/2022 17:58:15'!
 over: aRing
 	"Change the base ring."
@@ -10589,9 +10618,9 @@ completion
 fractions
 	^ self integers fractions! !
 
-!LocalRing methodsFor: 'printing' stamp: 'len 12/18/2016 21:05:06'!
+!LocalRing methodsFor: 'printing' stamp: 'len 9/1/2022 14:04:19'!
 printOn: aStream
-	aStream print: self integers; nextPutAll: self maximalIdeal printString sub! !
+	aStream print: self integers; nextPutAll: self localizationIdeal printString sub! !
 
 !LocalRing methodsFor: 'random' stamp: 'len 6/6/2019 11:06:59'!
 atRandom: aRandom
@@ -11033,13 +11062,13 @@ matrix: B quotientBy: A
 		into: [:matrix :each| matrix ⊔ (A codomain lift endomorphisms scalar: each)].
 	^ (B lift quotientBy: A lift modulo: L) apply: self projection! !
 
-!QuotientRing methodsFor: 'computing-matrices' stamp: 'len 6/10/2022 11:48:24'!
+!QuotientRing methodsFor: 'computing-matrices' stamp: 'len 9/11/2022 19:35:54'!
 syzygiesOf: aMatrix
 	"Answer a matrix whose rows span the kernel of the given matrix.
 	For a matrix A, the output is X with AX = 0."
 	| N |
 	N _ self relators
-		inject: (self cover^0) -> aMatrix codomain lift
+		inject: self cover^0 -> aMatrix codomain lift
 		into: [:matrix :each| matrix ⊔ (aMatrix codomain lift endomorphisms scalar: each)].
 	^ (aMatrix lift syzygiesModulo: N) apply: self projection! !
 
@@ -11961,9 +11990,9 @@ from: aDomain
 	aDomain -> self scalars ifNotNil: [:aMorphism| ^ aMorphism -> self].
 	^ super from: aDomain! !
 
-!AffineRing methodsFor: 'morphisms' stamp: 'len 6/30/2022 15:57:50'!
+!AffineRing methodsFor: 'morphisms' stamp: 'len 9/9/2022 20:44:11'!
 to: aRing mapping: aBlock
-	^ PolynomialMap from: self to: aRing mapping: aBlock! !
+	^ AffineAlgebraMap from: self to: aRing mapping: aBlock! !
 
 !AffineRing methodsFor: 'operations' stamp: 'len 6/30/2022 15:58:11'!
 ⊗ aRing
@@ -13425,9 +13454,9 @@ from: aDomain
 						answer]]]].
 	^ super from: aDomain! !
 
-!PolynomialRing methodsFor: 'morphisms' stamp: 'len 6/30/2022 15:57:50'!
+!PolynomialRing methodsFor: 'morphisms' stamp: 'len 9/9/2022 20:44:11'!
 to: aRing mapping: aBlock
-	^ PolynomialMap from: self to: aRing mapping: aBlock! !
+	^ AffineAlgebraMap from: self to: aRing mapping: aBlock! !
 
 !PolynomialRing methodsFor: 'operations' stamp: 'len 6/30/2022 15:58:11'!
 / anIdeal
@@ -15675,11 +15704,11 @@ over: aRing
 printIndeterminatesOn: aStream
 	self base printIndeterminatesOn: aStream! !
 
-!PowerSeriesRing methodsFor: 'printing' stamp: 'len 9/22/2018 19:20:17'!
+!PowerSeriesRing methodsFor: 'printing' stamp: 'len 9/9/2022 20:16:34'!
 printOn: aStream
-	aStream print: self scalars; nextPutAll: '[['.
+	aStream print: self scalars; nextPut: $⟦.
 	self printIndeterminatesOn: aStream.
-	aStream nextPutAll: ']]'! !
+	aStream nextPut: $⟧! !
 
 !PowerSeriesRing methodsFor: 'random' stamp: 'len 3/21/2021 13:13:20'!
 atRandom: aRandom bits: bitSize
@@ -15753,11 +15782,11 @@ precision: anInteger
 on: aPolynomialRing
 	^ self new base: aPolynomialRing! !
 
-!PuiseuxSeriesRing methodsFor: 'as yet unclassified' stamp: 'len 7/10/2021 18:13:49'!
+!PuiseuxSeriesRing methodsFor: 'as yet unclassified' stamp: 'len 9/9/2022 20:17:12'!
 printOn: aStream
-	aStream print: self scalars; nextPutAll: '<<'.
+	aStream print: self scalars; nextPut: $⟪.
 	self integers printIndeterminatesOn: aStream.
-	aStream nextPutAll: '>>'! !
+	aStream nextPut: $⟫! !
 
 !Module methodsFor: 'accessing' stamp: 'len 1/13/2022 11:48:12'!
 basis
@@ -15995,12 +16024,12 @@ asAbelianGroup
 	self isGroup ifTrue: [^ self].
 	^ self notYetImplemented "should implement for Z/m-modules."! !
 
-!Module methodsFor: 'converting' stamp: 'len 4/1/2021 06:35:40'!
+!Module methodsFor: 'converting' stamp: 'len 9/3/2022 11:50:57'!
 asAlgebraicVariety
-	| R generators |
+	| R X |
 	R _ self scalars polynomialsIn: self ambient rank.
-	generators _ R tuple: R generators.
-	^ (R * (self annihilatorSpace basis asArray collect: [:each| (each asMatrix over: R) * generators at: 1])) variety! !
+	X _ R tuple: R generators.
+	^ (R * (self annihilatorSpace basis asArray collect: [:each| (each asMatrix over: R) * X at: 1])) variety! !
 
 !Module methodsFor: 'converting' stamp: 'len 4/22/2020 17:56:50'!
 asChainComplex
@@ -19357,10 +19386,10 @@ pointsCountOver: aRing
 pointsOver: aRing do: aBlock
 	^ aRing ^ self rank do: [:each| aBlock value: (self pointAt: each)]! !
 
-!AffineSpace methodsFor: 'printing' stamp: 'len 8/8/2022 12:01:25'!
+!AffineSpace methodsFor: 'printing' stamp: 'len 9/1/2022 10:50:52'!
 printOn: aStream
-"	aStream nextPut: $𝔸; nextPutAll: self rank printString super; print: self scalars"
-	aStream print: self scalars; nextPutAll: self rank printString super! !
+	aStream nextPut: $𝔸; nextPutAll: self rank printString super; print: self scalars
+"	aStream print: self scalars; nextPutAll: self rank printString super"! !
 
 !AffineSpace methodsFor: 'testing' stamp: 'len 2/22/2017 07:54:37'!
 isPlane
@@ -20994,12 +21023,12 @@ hash
 	"Answer the composition with the canonical morphism from the codomain of the receiver to aCodomain. See also Domain>>->."
 	^ self codomain -> aCodomain ifNotNil: [:aMorphism| aMorphism · self]! !
 
-!Morphism methodsFor: 'operations' stamp: 'len 12/25/2021 11:56:21'!
+!Morphism methodsFor: 'operations' stamp: 'len 8/31/2022 19:50:25'!
 => aCodomain
 	"This is the Hom(-,B) functor, where B is the argument.
-	If the receiver is a morphism g:X->Y, answer the morphism Hom(g,B):Hom(Y,B)->Hom(X,B) that sends a morphism f to f composed with g.
+	If the receiver is a morphism g:X->Y, answer the morphism Hom(g,B):Hom(Y,B)->Hom(X,B) that sends a morphism f to f ∘ g.
 	This is a contravariant functor, and it is often called the 'functor of points' of B."
-	^ self codomain => aCodomain to: self domain => aCodomain evaluating: [:f| f · self]! !
+	^ self codomain => aCodomain to: self domain => aCodomain evaluating: [:f| f ∘ self]! !
 
 !Morphism methodsFor: 'operations' stamp: 'len 6/9/2022 07:17:47'!
 ^ anInteger
@@ -21990,13 +22019,13 @@ initialize
 	super initialize.
 	Smalltalk at: #Rings put: (Category new name: #Rings)! !
 
-!PolynomialMap methodsFor: 'operations' stamp: 'len 4/27/2018 01:28:13'!
+!AffineAlgebraMap methodsFor: 'operations' stamp: 'len 4/27/2018 01:28:13'!
 implicitization
 	"As implemented in RationalMap. Maybe shouldn't implement it here.
 	Magma uses the algorithm in p. 97 of [CLO96]."
 	self notYetImplemented! !
 
-!PolynomialMap methodsFor: 'operations' stamp: 'len 3/18/2021 16:44:53'!
+!AffineAlgebraMap methodsFor: 'operations' stamp: 'len 3/18/2021 16:44:53'!
 kernel
 	"See RationalMap>>image."
 	| A B m n P t embedding generators I |
@@ -22015,14 +22044,14 @@ kernel
 	I _ P * generators eliminateAll: (n+1 to: P rank).
 	^ self propertyAt: #kernel put: A * (I generators collect: [:each| A !! each])! !
 
-!PolynomialMap methodsFor: 'operations' stamp: 'len 7/25/2022 11:43:09'!
+!AffineAlgebraMap methodsFor: 'operations' stamp: 'len 7/25/2022 11:43:09'!
 spec
 	"This is the Spec functor. Answer the morphism between affine schemes induced by the receiver, i.e. given a ring homomorphism f:R->S, Spec(f) is a scheme morphism Spec(S)->Spec(R)."
 	| representatives |
 	representatives _ self codomain isQuotient ifTrue: [self domain generators collect: [:each| (self value: each) representative]] ifFalse: [self domain generators collect: [:each| self value: each]].
 	^ self codomain spec to: self domain spec representatives: representatives! !
 
-!PolynomialMap methodsFor: 'printing' stamp: 'len 1/11/2017 07:55:38'!
+!AffineAlgebraMap methodsFor: 'printing' stamp: 'len 1/11/2017 07:55:38'!
 printOn: aStream
 "	self isIdentity ifTrue: [aStream nextPutAll: 'id'. ^ self].
 	self negated isIdentity ifTrue: [aStream nextPutAll: '-id'. ^ self].
@@ -22033,12 +22062,12 @@ printOn: aStream
 		separatedBy: [aStream nextPutAll: ', '].
 	aStream nextPut: $)! !
 
-!PolynomialMap methodsFor: 'testing' stamp: 'len 2/12/2017 13:04:30'!
+!AffineAlgebraMap methodsFor: 'testing' stamp: 'len 2/12/2017 13:04:30'!
 imageContains: aPolynomial
 	"As in Magma, algorithm in p. 82 of [AL94]."
 	self notYetImplemented! !
 
-!PolynomialMap class methodsFor: 'as yet unclassified' stamp: 'len 4/30/2021 13:03:08'!
+!AffineAlgebraMap class methodsFor: 'as yet unclassified' stamp: 'len 4/30/2021 13:03:08'!
 from: aDomain to: aCodomain mapping: aBlock
 	| images |
 	images _ (1 to: aDomain rank) collect: [:i| aBlock value: i].
@@ -23886,6 +23915,14 @@ colift: aMatrix modulo: aRelationsMatrix
 	aRelationsMatrix isZero ifTrue: [^ self colift: aMatrix].
 	^ (self ⊓ aRelationsMatrix transpose colift: aMatrix) ifNotNil: [:X| X copyFromColumn: 1 to: self height]! !
 
+!Matrix methodsFor: 'solving' stamp: 'len 6/7/2022 17:47:26'!
+cosyzygies
+	"Answer a matrix whose columns span the cokernel or left nullspace of the receiver.
+	For a matrix A, the output is X such that XA = 0."
+	self scalars isCommutative ifTrue: [^ self transpose syzygies transpose].
+	self scalars isInvolutive ifTrue: [^ self conjugate syzygies conjugate].
+	^ self notYetImplemented! !
+
 !Matrix methodsFor: 'solving' stamp: 'len 6/1/2022 20:42:52'!
 divisionBy: aMatrix
 	"Answer X and N such that AX + N = B, where B is self and A is aMatrix, satisfying that if the i-th column of B is a linear combination of the columns of A then the i-th column of N is zero."
@@ -23935,6 +23972,17 @@ reductionBy: aMatrix modulo: aRelationsMatrix
 	A _ aMatrix ⊔ aRelationsMatrix.
 	^ self - (A * (self quotientBy: A))! !
 
+!Matrix methodsFor: 'solving' stamp: 'len 5/16/2022 20:33:54'!
+syzygies
+	"Answer a matrix whose columns span the (right) kernel or nullspace of the receiver.
+	For a matrix A, the output is X such that AX = 0."
+	^ self scalars syzygiesOf: self! !
+
+!Matrix methodsFor: 'solving' stamp: 'len 9/11/2022 19:37:15'!
+syzygiesModulo: aRelationsMatrix
+	aRelationsMatrix isZero ifTrue: [^ self syzygies].
+	^ (self ⊔ aRelationsMatrix) syzygies copyFromRow: 1 to: self width! !
+
 !Matrix methodsFor: 'spectrum' stamp: 'len 5/29/2020 05:03:52'!
 eigenspaceAt: anEigenvalue
 	^ (self - (self identity * anEigenvalue)) kernel! !
@@ -23953,28 +24001,9 @@ spectralRadius
 spectrum
 	^ self characteristicPolynomial allRoots! !
 
-!Matrix methodsFor: 'subobjects' stamp: 'len 6/7/2022 17:47:26'!
-cosyzygies
-	"Answer a matrix whose columns span the cokernel or left nullspace of the receiver.
-	For a matrix A, the output is X such that XA = 0."
-	self scalars isCommutative ifTrue: [^ self transpose syzygies transpose].
-	self scalars isInvolutive ifTrue: [^ self conjugate syzygies conjugate].
-	^ self notYetImplemented! !
-
 !Matrix methodsFor: 'subobjects' stamp: 'len 4/6/2021 11:06:49'!
 kernel
 	^ self syzygies image! !
-
-!Matrix methodsFor: 'subobjects' stamp: 'len 5/16/2022 20:33:54'!
-syzygies
-	"Answer a matrix whose columns span the (right) kernel or nullspace of the receiver.
-	For a matrix A, the output is X such that AX = 0."
-	^ self scalars syzygiesOf: self! !
-
-!Matrix methodsFor: 'subobjects' stamp: 'len 1/15/2022 17:15:31'!
-syzygiesModulo: aMatrix
-	aMatrix isZero ifTrue: [^ self syzygies].
-	^ (self ⊔ aMatrix) syzygies copyFromRow: 1 to: self width! !
 
 !Matrix methodsFor: 'testing' stamp: 'len 5/25/2022 13:36:26'!
 isAutomorphism
@@ -34271,10 +34300,12 @@ lift
 	"If the coefficients ring is a quotient R/I, answer a representative of the receiver over R. See >>%."
 	^ parent lift filling: [:i| (self at: i) lift]! !
 
-!Tuple methodsFor: 'accessing' stamp: 'len 5/9/2020 10:01:13'!
+!Tuple methodsFor: 'accessing' stamp: 'len 9/2/2022 07:35:03'!
 numerator
+	| d |
 	self scalars isLocalization ifFalse: [^ self].
-	^ self * (self scalars !! self denominator) over: self scalars integers! !
+	d _ self scalars !! self denominator.
+	^ self scalars integers ^ self size filling: [:i| ((self at: i) * d) numerator]! !
 
 !Tuple methodsFor: 'accessing' stamp: 'len 5/28/2020 13:09:52'!
 parent
@@ -38174,6 +38205,11 @@ validate
 	"Check the internal invariants of this object and produce an error if any invariant is broken."
 	^ self! !
 
+!Object methodsFor: '*algebra' stamp: 'len 9/8/2022 12:00:40'!
+∈ aCollection
+	"Answer true if the receiver is a member of aCollection."
+	^ aCollection includes: self! !
+
 !Object class methodsFor: '*algebra' stamp: 'len 7/7/2020 11:06:32'!
 !! anObject
 	(self newFrom: anObject) ifNotNil: [:anInstance| ^ anInstance].
@@ -39015,7 +39051,7 @@ raisedToInteger: anInteger
 inverse
 	^ self class key: value value: key! !
 
-!Character class methodsFor: '*algebra' stamp: 'len 8/14/2022 11:36:23'!
+!Character class methodsFor: '*algebra' stamp: 'len 9/1/2022 10:57:18'!
 namedCharactersTable
 	"Table of named characters that we can enter in an editor using \name.
 	Please keep the names short and try to follow the naming convention used in LaTeX."
@@ -39027,7 +39063,7 @@ namedCharactersTable
 	(in $∈) (notin $∉) (exists $∃) (nexists $∄) (forall $∀) (emptyset $∅) (infty $∞) (aleph $ℵ)
 	(alpha $α) (beta $β) (gamma $γ) (delta $δ) (epsilon $ε) (zeta $ζ) (eta $η) (theta $θ) (iota $ι) (kappa $κ) (lambda $λ) (mu $µ) (pi $π)  (nu $ν) (xi $ξ) (rho $ρ) (sigma $σ) (tau $τ) (phi $φ) (chi $χ) (psi $ψ) (omega $ω)
 	(Delta $Δ) (Gamma $Γ) (Theta $Θ) (Lambda $Λ) (Pi $Π) (Sigma $Σ) (Phi $Φ) (Psi $Ψ) (Omega $Ω)
-	(N $ℕ) (Z $ℤ) (Q $ℚ) (R $ℝ) (C $ℂ) (ell $ℓ)
+	(N $ℕ) (Z $ℤ) (Q $ℚ) (R $ℝ) (C $ℂ) (P $ℙ) (A $𝔸) (F $𝔽) (K $𝕂) (ell $ℓ)
 	(sqrt $√) (partial $∂) (deg $°)
 	(leq $≤) (geq $≥) (neq $≠) (prec $≺) (succ $≻) (simeq $≃) (cong $≅) (equiv $≡) (approx $≈) (subset $⊂) (supset $⊃))! !
 
