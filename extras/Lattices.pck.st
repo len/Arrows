@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5438] on 14 August 2022 at 11:20:43 am'!
+'From Cuis 6.0 [latest update: #5438] on 6 October 2022 at 11:43:33 am'!
 'Description '!
-!provides: 'Lattices' 1 6!
+!provides: 'Lattices' 1 7!
 !requires: 'Algebra' 1 0 nil!
 SystemOrganization addCategory: 'Lattices'!
 
@@ -49,7 +49,7 @@ LatticeElement class
 !Lattice commentStamp: '<historical>' prior: 0!
 A lattice is the set of integer linear combinations of a basis of a rational or real vector space. This is a discrete subgroup of the ambient vector space (as abelian group) isomorphic to ℤ^n.
 
-More generally, given an integral domain R and a finite dimensional vector space V over its field of fractions, a lattice or R-lattice in V is a finitely generated R-module over R that spans V. In particular, lattices are defined to have full rank in V.
+More generally, given an integral domain R and a finite-dimensional vector space V over its field of fractions, a lattice or R-lattice in V is a finitely generated R-module over R that spans V. In particular, lattices are defined to have full rank in V.
 
 A lattice is defined by giving a basis {v1,...,vn} consisting of linearly independent vectors of the ambient vector space V, and an inner product (a positive definite symmetric bilinear form) or equivalently the Gramian matrix aij := <vi, vj>. The inner product or the Gramian matrix correspond also to the associated quadratic form.!
 
@@ -134,13 +134,13 @@ hash
 asAbelianGroup
 	^ self asModule! !
 
-!Lattice methodsFor: 'converting' stamp: 'len 7/22/2021 18:48:04'!
+!Lattice methodsFor: 'converting' stamp: 'len 9/16/2022 08:24:47'!
 asModule
 	^ self propertyAt: #asModule ifAbsentPut:
 		[| answer |
 		answer _ ℤ^self rank.
-		self addCoercionTo: answer evaluating: [:each| each coordinates].
-		self addCoercionFrom: answer evaluating: [:each| self elementAt: each].
+		self addCoercionTo: answer map: [:each| each coordinates].
+		self addCoercionFrom: answer map: [:each| self elementAt: each].
 		answer]! !
 
 !Lattice methodsFor: 'elements' stamp: 'len 7/28/2020 19:57:44'!
@@ -226,9 +226,9 @@ packingSphereVolume
 	p _ self packingRadius.
 	^ p ^ n * Vn! !
 
-!Lattice methodsFor: 'morphisms' stamp: 'len 12/15/2021 13:01:24'!
-to: aLattice evaluating: aBlock
-	^ LatticeMap from: self to: aLattice matrix: (self asModule to: aLattice asModule evaluating: aBlock)! !
+!Lattice methodsFor: 'morphisms' stamp: 'len 9/16/2022 08:01:03'!
+to: aLattice map: aBlock
+	^ LatticeMap from: self to: aLattice matrix: (self asModule to: aLattice asModule map: aBlock)! !
 
 !Lattice methodsFor: 'operations' stamp: 'len 8/3/2020 07:30:24'!
 * aScalar
@@ -333,11 +333,11 @@ isTypeII
 isUnimodular
 	^ self isIntegral and: [self determinant abs = 1]! !
 
-!Lattice methodsFor: 'private' stamp: 'len 7/22/2021 18:48:14'!
+!Lattice methodsFor: 'private' stamp: 'len 9/16/2022 08:24:53'!
 basis: aCollection innerProduct: aBilinearForm
 	(aBilinearForm space scalars = ℚ or: [aBilinearForm space scalars isKindOf: RealField]) ifFalse: [^ self error: 'the ambient vector space of a lattice must be real or rational'].
 	self propertyAt: #basis put: aCollection; propertyAt: #innerProduct put: aBilinearForm.
-	self addCoercionTo: self space evaluating: [:each| each asVector]! !
+	self addCoercionTo: self space map: [:each| each asVector]! !
 
 !Lattice methodsFor: 'private' stamp: 'len 7/31/2020 11:42:31'!
 species

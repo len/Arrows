@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5438] on 21 August 2022 at 8:28:22 am'!
+'From Cuis 6.0 [latest update: #5438] on 6 October 2022 at 11:43:38 am'!
 'Description '!
-!provides: 'Etc' 1 14!
+!provides: 'Etc' 1 15!
 !requires: 'Algebra' 1 7 nil!
 SystemOrganization addCategory: 'Etc'!
 SystemOrganization addCategory: 'Etc-Lie'!
@@ -1023,10 +1023,10 @@ project: anArray
 		left: (anArray at: 1);
 		right: (anArray at: 2)! !
 
-!SemidirectProductGroup methodsFor: 'morphisms' stamp: 'len 5/23/2020 07:33:35'!
+!SemidirectProductGroup methodsFor: 'morphisms' stamp: 'len 9/16/2022 07:54:21'!
 projection
 	"Answer the projection from the cartesian product of two groups to their semidirect product."
-	^ ((left, right) to: self evaluating: [:each| self project: each]) name: 'π'! !
+	^ ((left, right) to: self map: [:each| self project: each]) name: 'π'! !
 
 !SemidirectProductGroup methodsFor: 'printing' stamp: 'len 4/21/2016 00:16'!
 printOn: aStream
@@ -1196,9 +1196,9 @@ hilbertSeriesAt: t
 hash
 	^ self completionIdeal hash + self base hash! !
 
-!CompletionRing methodsFor: 'morphisms' stamp: 'len 12/22/2021 15:04:23'!
+!CompletionRing methodsFor: 'morphisms' stamp: 'len 10/6/2022 11:38:03'!
 from: aDomain
-	aDomain = self base ifTrue: [^ self addMap: ((self base into: self evaluating: [:x| self embed: x]) name: 'i')].
+	aDomain = self base ifTrue: [^ self addMap: ((self base into: self map: [:x| self embed: x]) name: 'ι')].
 	^ super from: aDomain! !
 
 !CompletionRing methodsFor: 'operations' stamp: 'len 6/6/2019 11:59:39'!
@@ -1999,11 +1999,11 @@ parent
 scalars
 	^ coefficients codomain! !
 
-!RelaxedPowerSeries methodsFor: 'accessing' stamp: 'len 9/22/2018 18:55:44'!
+!RelaxedPowerSeries methodsFor: 'accessing' stamp: 'len 9/16/2022 08:08:19'!
 terms
 	| P |
 	P _ self scalars polynomials.
-	^ Sequence to: P evaluating: [:i| P coefficient: (coefficients at: i) degree: i-1]! !
+	^ Sequence to: P map: [:i| P coefficient: (coefficients at: i) degree: i-1]! !
 
 !RelaxedPowerSeries methodsFor: 'accessing' stamp: 'len 6/14/2019 01:33:51'!
 valuation
@@ -2094,23 +2094,23 @@ printOn: aStream
 isZero
 	^ coefficients isZero! !
 
-!RelaxedPowerSeries class methodsFor: 'examples' stamp: 'len 5/23/2020 09:33:01'!
+!RelaxedPowerSeries class methodsFor: 'examples' stamp: 'len 9/16/2022 08:08:03'!
 cos
 	"The power series expansion of cos(x)."
 	^ ℚ powerSeries coefficients:
-		(Sequence to: ℚ evaluating: [:n| n even ifTrue: [0] ifFalse: [|k| k _ n-1/2. (-1)^k / (2*k) factorial]])! !
+		(Sequence to: ℚ map: [:n| n even ifTrue: [0] ifFalse: [|k| k _ n-1/2. (-1)^k / (2*k) factorial]])! !
 
-!RelaxedPowerSeries class methodsFor: 'examples' stamp: 'len 5/23/2020 09:33:01'!
+!RelaxedPowerSeries class methodsFor: 'examples' stamp: 'len 9/16/2022 08:08:09'!
 exp
 	"The power series expansion of exp(x)."
 	^ ℚ powerSeries
-		coefficients: (Sequence to: ℚ evaluating: [:n| 1 / n factorial])! !
+		coefficients: (Sequence to: ℚ map: [:n| 1 / n factorial])! !
 
-!RelaxedPowerSeries class methodsFor: 'examples' stamp: 'len 5/23/2020 09:33:01'!
+!RelaxedPowerSeries class methodsFor: 'examples' stamp: 'len 9/16/2022 08:08:14'!
 sin
 	"The power series expansion of sin(x)."
 	^ ℚ powerSeries
-		coefficients: (Sequence to: ℚ evaluating: [:n| n odd ifTrue: [0] ifFalse: [|k| k _ n/2-1. (-1)^k / (2*k+1) factorial]])! !
+		coefficients: (Sequence to: ℚ map: [:n| n odd ifTrue: [0] ifFalse: [|k| k _ n/2-1. (-1)^k / (2*k+1) factorial]])! !
 
 !RelaxedPowerSeries class methodsFor: 'instance creation' stamp: 'len 12/27/2015 16:21'!
 coefficients: aSequence
@@ -3529,12 +3529,12 @@ weights
 	A vector v is integral iff it can be expressed as integer linear combination of the fundamental weights."
 	^ self notYetImplemented! !
 
-!RootSystem methodsFor: 'operations' stamp: 'len 10/17/2016 11:03'!
+!RootSystem methodsFor: 'operations' stamp: 'len 9/16/2022 08:17:49'!
 weylAction
 	| W |
 	W _ self weylGroup.
 	W name: 'W'.
-	^ GroupAction from: (W, self roots) to: self roots evaluatingWithArguments: [:f :x| f value: x]! !
+	^ GroupAction from: (W, self roots) to: self roots mapWithArguments: [:f :x| f value: x]! !
 
 !RootSystem methodsFor: 'operations' stamp: 'len 9/27/2018 21:19:17'!
 weylGroup
