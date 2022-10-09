@@ -1,4 +1,4 @@
-'From Cuis 6.0 [latest update: #5438] on 6 October 2022 at 11:43:55 am'!
+'From Cuis 6.0 [latest update: #5438] on 9 October 2022 at 10:57:14 am'!
 'Description This package implements among other things: permutation groups, linear groups, modular integers, finite fields, Galois rings, polynomial rings, affine algebras, number fields, function fields, p-adic fields, power series rings, finitely presented modules, (co)chain complexes, finite (finitely generated as modules) associative algebras, finite distributive (not necessarily associative) algebras, schemes, and sheaves of modules.
 
 References:
@@ -57,7 +57,7 @@ References:
 [] Qing Liu; "Algebraic Geometry and Arithmetic Curves"
 [] Joseph. H. Silverman; "The Arithmetic of Elliptic Curves"
 '!
-!provides: 'Algebra' 1 38!
+!provides: 'Algebra' 1 39!
 !requires: 'Collections-TwoAndEightByteArrays' 1 1 nil!
 !requires: 'Graphs' 1 0 nil!
 !requires: 'Collections-Extras' 1 1 nil!
@@ -5471,11 +5471,11 @@ fromAll: anArray
 		ifTrue: [^ self addCoprojections: ((1 to: self arity) collect: [:i| self coprojection: i])].
 	^ nil! !
 
-!Domain methodsFor: 'morphisms' stamp: 'len 10/5/2022 17:19:05'!
+!Domain methodsFor: 'morphisms' stamp: 'len 10/6/2022 11:47:33'!
 hom: aCodomain
 	"If the argument is a domain X in the same category, answer Hom(A,X), the morphisms from A to X.
 	When appropriate, subclasses can implement #hom: to answer an internal Hom object.
-	See also >>=>."
+	See also >>⇒."
 	(aCodomain isKindOf: ChainComplex)
 		ifTrue: [^ ChainComplex differentials: (aCodomain differentials collect: [:each| self ⇒ each]) shift: aCodomain shift].
 	^ HomSet from: self to: aCodomain! !
@@ -6674,6 +6674,15 @@ size
 !RationalPointSet methodsFor: 'enumerating' stamp: 'len 11/7/2016 16:25'!
 do: aBlock
 	self codomain pointsOver: self scalars do: aBlock! !
+
+!RationalPointSet methodsFor: 'as yet unclassified' stamp: 'len 10/8/2022 13:07:15'!
+coordinates
+	^ self propertyAt: #coordinates ifAbsentPut: [self scalars ^ self codomain ambient rank]! !
+
+!RationalPointSet methodsFor: 'as yet unclassified' stamp: 'len 10/8/2022 13:08:48'!
+newFrom: anObject
+	(anObject isSequenceable and: [anObject size = self coordinates rank]) ifTrue: [^ self codomain pointAt: self coordinates !! anObject].
+	^ super newFrom: anObject! !
 
 !Naturals methodsFor: 'accessing' stamp: 'len 2/13/2016 20:41'!
 identity
@@ -9507,9 +9516,24 @@ tuple: anArray
 zeros: anInteger
 	^ (self new: anInteger) atAllPut: self zero! !
 
-!Ring methodsFor: 'enumerating' stamp: 'len 9/22/2018 18:58:55'!
+!Ring methodsFor: 'enumerating' stamp: 'len 10/9/2022 09:30:42'!
 idealsDo: aBlock
-	^ self subclassResponsibility! !
+	| elements I ideals |
+	(self isCommutative and: [self isFinite]) ifFalse: [^ self subclassResponsibility].
+	I _ self asIdeal null.
+	aBlock value: I.
+	ideals _ Set with: I.
+	elements _ self elements asArray.
+	1 to: self size do: [:k|
+		elements combinations: k atATimeDo: [:gens|
+			I _ self * gens.
+			ideals add: I ifAbsent: [aBlock value: I]]]! !
+
+!Ring methodsFor: 'enumerating' stamp: 'len 10/9/2022 09:33:33'!
+maximalIdealsDo: aBlock
+	self isField ifTrue: [aBlock value: self asIdeal null. ^ self].
+	self isLocal ifTrue: [aBlock value: self maximalIdeal. ^ self].
+	self idealsDo: [:each| each isMaximal ifTrue: [aBlock value: each]]! !
 
 !Ring methodsFor: 'enumerating' stamp: 'len 4/8/2021 12:39:23'!
 primeIdealsDo: aBlock
@@ -9683,6 +9707,10 @@ localizationAwayFrom: anElement
 	F _ self fractions.
 	L addMap: (L into: F map: [:f| F numerator: f numerator denominator: f denominator]). "<- add also retraction"
 	^ L! !
+
+!Ring methodsFor: 'operations' stamp: 'len 10/9/2022 09:34:09'!
+maximalIdeals
+	^ Iterator on: self performing: #maximalIdealsDo:! !
 
 !Ring methodsFor: 'operations' stamp: 'len 8/12/2022 13:36:05'!
 nilradical
@@ -10895,9 +10923,9 @@ asModule
 	ℤ × (ℤ/3) × (ℤ/4) :: asAbelianGroup
 "! !
 
-!ProductRing methodsFor: 'elements' stamp: 'len 12/15/2021 16:38:38'!
+!ProductRing methodsFor: 'elements' stamp: 'len 10/8/2022 19:37:30'!
 compose: anArray
-	^ ProductRingElement new parent: self; components: anArray asArray! !
+	^ ProductRingElement components: anArray asArray parent: self! !
 
 !ProductRing methodsFor: 'enumerating' stamp: 'len 10/17/2020 20:06:58'!
 do: aBlock
@@ -12188,8 +12216,9 @@ new: anInteger
 zeros: anInteger
 	^ GaloisArray coefficients: (self scalars zeros: anInteger * self degree) scalars: self! !
 
-!GaloisRing methodsFor: 'enumerating' stamp: 'len 9/22/2018 18:53:46'!
+!GaloisRing methodsFor: 'enumerating' stamp: 'len 10/9/2022 09:02:38'!
 idealsDo: aBlock
+	"The ideals of GR(p^n,m) are {0} and <p^i> for 0 <= i < n-1."
 	| a |
 	aBlock value: self * 0.
 	a _ self one.
@@ -16577,12 +16606,12 @@ orderOf: anElement
 radical
 	^ self ∩ self complement! !
 
-!Module methodsFor: 'operations' stamp: 'len 6/10/2022 11:06:13'!
+!Module methodsFor: 'operations' stamp: 'len 10/6/2022 11:50:40'!
 reduce: anElement
 	"Answer zero if anElement is in the receiver, and otherwise answer some representative of the coset 'anElement + self' (not necessarily a normal form).
 	It is required that:
-		(M reduce: x) = (M reduce: y) <=> x - y is in M, and
-		x - (M reduce: x) is in M for all x, y in M."
+		(M reduce: x) = (M reduce: y) ⟺ x - y ∈ M, and
+		∀ x, y ∈ M, x - (M reduce: x) ∈ M."
 	self isAmbient ifTrue: [^ self zero].
 	self isTrivial ifTrue: [^ anElement].
 	^ self ambient elementAt: ((self ambient \ anElement) asMatrix reductionBy: self generatorMatrix modulo: self ambient relationsMatrix) asTuple! !
@@ -17005,12 +17034,12 @@ radical
 	(self generators size = 1 and: [self scalars isUFR]) ifTrue: [^ self scalars * self generator factorization asSet product].
 	^ self subclassResponsibility! !
 
-!Ideal methodsFor: 'operations' stamp: 'len 6/7/2022 12:53:23'!
+!Ideal methodsFor: 'operations' stamp: 'len 10/6/2022 11:49:54'!
 reduce: anElement
 	"Answer zero if anElement is in the receiver, and otherwise answer some representative of the coset 'anElement + self' (not necessarily a normal form).
 	It is required that:
-		(I reduce: x) = (I reduce: y) <=> x - y is in I, and
-		x - (I reduce: x) is in I for all x, y in I.
+		(I reduce: x) = (I reduce: y) ⟺ x - y ∈ I, and
+		∀ x, y ∈ I, x - (I reduce: x) ∈ I.
 	Subclasses should override."
 	self isAmbient ifTrue: [^ self zero].
 	(anElement isZero or: [self isTrivial]) ifTrue: [^ anElement].
@@ -17146,14 +17175,19 @@ isPrimary
 	self scalars = ℤ ifTrue: [^ self isTrivial or: [self generator factorization asSet size = 1]].
 	^ self notYetImplemented! !
 
-!Ideal methodsFor: 'testing' stamp: 'len 1/12/2022 17:57:52'!
+!Ideal methodsFor: 'testing' stamp: 'len 10/9/2022 09:21:23'!
 isPrime
 	"An ideal I of R is prime iff R/I is an integral domain.
 	Every maximal ideal is prime, and in a PID every nonzero prime ideal is maximal."
-	"This method only works for zero ideals or ideals given by one generator; subclasses should reimplement."
+	self isProper ifFalse: [^ false].
 	self scalars isQuotient ifTrue: [^ self representative isPrime].
 	(self scalars isIntegralDomain and: [self isZero]) ifTrue: [^ true].
 	(self scalars isUFD and: [self isPrincipal]) ifTrue: [^ self generator isIrreducible].
+	(self scalars isCommutative and: [self scalars isFinite])
+		ifTrue: [^ self scalars allSatisfy: [:a|
+					self scalars allSatisfy: [:b|
+						(self includes: a*b) not or: [(self includes: a) or: [self includes: b]]	]]].
+	"This method only works for zero ideals or ideals given by one generator; subclasses should reimplement."
 	self flag: #fix.
 	^ false "undefined"! !
 
@@ -19426,10 +19460,11 @@ pointsCountOver: aRing
 pointsOver: aRing do: aBlock
 	^ aRing ^ self rank do: [:each| aBlock value: (self pointAt: each)]! !
 
-!AffineSpace methodsFor: 'printing' stamp: 'len 9/1/2022 10:50:52'!
+!AffineSpace methodsFor: 'printing' stamp: 'len 10/8/2022 19:27:12'!
 printOn: aStream
-	aStream nextPut: $𝔸; nextPutAll: self rank printString super; print: self scalars
-"	aStream print: self scalars; nextPutAll: self rank printString super"! !
+	aStream nextPut: $𝔸.
+	self rank = 1 ifFalse: [aStream nextPutAll: self rank printString super].
+	aStream nextPut: $(; print: self scalars; nextPut: $)! !
 
 !AffineSpace methodsFor: 'testing' stamp: 'len 2/22/2017 07:54:37'!
 isPlane
@@ -20086,9 +20121,11 @@ pointsOverRing: aRing do: aBlock
 		each isUnimodular
 			ifTrue: [visited add: (point _ self pointAt: each) ifAbsent: [aBlock value: point]]]! !
 
-!ProjectiveSpace methodsFor: 'printing' stamp: 'len 5/23/2020 07:23:08'!
+!ProjectiveSpace methodsFor: 'printing' stamp: 'len 10/8/2022 19:27:41'!
 printOn: aStream
-	aStream nextPut: $ℙ; nextPutAll: (self rank - 1) printString super; print: self scalars! !
+	aStream nextPut: $ℙ.
+	self rank = 2 ifFalse: [aStream nextPutAll: (self rank - 1) printString super].
+	aStream nextPut: $(; print: self scalars; nextPut: $)! !
 
 !ProjectiveSpace methodsFor: 'testing' stamp: 'len 7/6/2022 11:18:05'!
 isOrdinaryProjectiveSpace
@@ -26583,8 +26620,16 @@ printOn: aStream
 		ifTrue: [aStream nextPut: $∞]
 		ifFalse: [self scalars isField ifTrue: [aStream print: self value] ifFalse: [super printOn: aStream]]! !
 
-!ProjectiveLinePoint methodsFor: 'testing' stamp: 'len 5/4/2020 10:07:37'!
-|| aPoint
+!ProjectiveLinePoint methodsFor: 'testing' stamp: 'len 12/4/2016 22:09:36'!
+isInfinity
+	^ (self coordinates at: 2) isZero! !
+
+!ProjectiveLinePoint methodsFor: 'testing' stamp: 'len 12/4/2016 22:13:31'!
+isZero
+	^ self isInfinity not and: [self value isZero]! !
+
+!ProjectiveLinePoint methodsFor: 'testing' stamp: 'len 10/7/2022 11:13:13'!
+∥ aPoint
 	"Answer true if the receiver is parallel with aPoint.
 	Two points [a:b] and [c:d] of a projective line over a ring R are called 'neighbours' or 'parallel' if the matrix:
 		[a b]
@@ -26593,14 +26638,6 @@ printOn: aStream
 	Points that are not neighbours are called 'distant'."
 
 	^ (self coordinates x * aPoint coordinates y - (aPoint coordinates x * self coordinates y)) isUnit not! !
-
-!ProjectiveLinePoint methodsFor: 'testing' stamp: 'len 12/4/2016 22:09:36'!
-isInfinity
-	^ (self coordinates at: 2) isZero! !
-
-!ProjectiveLinePoint methodsFor: 'testing' stamp: 'len 12/4/2016 22:13:31'!
-isZero
-	^ self isInfinity not and: [self value isZero]! !
 
 !SheafMap methodsFor: 'accessing' stamp: 'len 6/27/2022 13:45:51'!
 category
@@ -28870,9 +28907,9 @@ size
 hash
 	^ components hash! !
 
-!ProductRingElement methodsFor: 'operations' stamp: 'len 5/31/2022 11:44:00'!
+!ProductRingElement methodsFor: 'operations' stamp: 'len 10/8/2022 19:35:29'!
 * anElement
-	anElement isInteger ifTrue: [^ self class new parent: parent; components: components * anElement].
+	anElement isInteger ifTrue: [^ self class components: components * anElement parent: parent].
 	(parent includes: anElement) ifFalse: [^ self adapt: anElement andSend: #*].
 	^ self class components: components * anElement components parent: parent! !
 
@@ -28907,11 +28944,11 @@ hash
 annihilator
 	^ parent compose: (components collect: [:each| each annihilator])! !
 
-!ProductRingElement methodsFor: 'operations' stamp: 'len 5/31/2022 11:44:45'!
+!ProductRingElement methodsFor: 'operations' stamp: 'len 10/8/2022 19:38:22'!
 colift: anElement
 	"Answer x such that xa = b, where a is the receiver and b is the argument. Answer nil if there's no solution.
 	This is the right division of b by a, written b / a."
-	^ self class components: ((1 to: self size) collect: [:i| ((self at: i) colift: (anElement at: i)) ifNil: [^ nil]]) parent: parent! !
+	^ parent compose: ((1 to: self size) collect: [:i| ((self at: i) colift: (anElement at: i)) ifNil: [^ nil]])! !
 
 !ProductRingElement methodsFor: 'operations' stamp: 'len 6/19/2022 07:12:06'!
 factorization
@@ -28928,30 +28965,30 @@ factorization
 gcd: anElement
 	^ parent compose: (components with: anElement components collect: [:a :b| a gcd: b])! !
 
-!ProductRingElement methodsFor: 'operations' stamp: 'len 5/31/2022 11:45:16'!
+!ProductRingElement methodsFor: 'operations' stamp: 'len 10/8/2022 19:40:07'!
 inverse
-	^ self class components: (components collect: [:each| each inverse]) parent: parent! !
+	^ self class components: components inverse parent: parent! !
 
 !ProductRingElement methodsFor: 'operations' stamp: 'len 6/1/2022 18:08:15'!
 lcm: anElement
 	^ parent compose: (components with: anElement components collect: [:a :b| a lcm: b])! !
 
-!ProductRingElement methodsFor: 'operations' stamp: 'len 5/31/2022 11:45:27'!
+!ProductRingElement methodsFor: 'operations' stamp: 'len 10/8/2022 19:38:53'!
 lift: anElement
 	"Answer x such that ax = b, where a is the receiver and b is the argument. Answer nil if there's no solution.
 	This is the left division of b by a, written a \ b."
-	^ self class components: ((1 to: self size) collect: [:i| ((self at: i) lift: (anElement at: i)) ifNil: [^ nil]]) parent: parent! !
+	^ parent compose: ((1 to: self size) collect: [:i| ((self at: i) lift: (anElement at: i)) ifNil: [^ nil]])! !
 
-!ProductRingElement methodsFor: 'operations' stamp: 'len 5/31/2022 11:45:39'!
+!ProductRingElement methodsFor: 'operations' stamp: 'len 10/8/2022 19:39:08'!
 negated
-	^ self class components: (components collect: [:each| each negated]) parent: parent! !
+	^ self class components: components negated parent: parent! !
 
 !ProductRingElement methodsFor: 'operations' stamp: 'len 12/10/2021 19:20:25'!
 normalization
 	"Answer a unit u such that 'self * u' is a unique choice of associate. See >>normalized."
 	^ parent compose: (components collect: [:each| each normalization])! !
 
-!ProductRingElement methodsFor: 'operations' stamp: 'len 6/18/2022 12:50:26'!
+!ProductRingElement methodsFor: 'operations' stamp: 'len 10/8/2022 19:40:47'!
 xgcd: anElement
 	"Answer the GCD of the receiver and the argument and the Bezout coefficients.
 	If the receiver is 'a', the argument is 'b' and their GCD is 'g', answer an array {g. s. t} where as + bt = g."
@@ -28965,7 +29002,7 @@ xgcd: anElement
 		g at: i put: (xgcd at: 1).
 		s at: i put: (xgcd at: 2).
 		t at: i put: (xgcd at: 3)].
-	^ {parent components: g. parent components: s. parent components: t}! !
+	^ {parent compose: g. parent compose: s. parent compose: t}! !
 
 !ProductRingElement methodsFor: 'printing' stamp: 'len 4/23/2020 01:41:46'!
 printOn: aStream
@@ -39061,13 +39098,13 @@ raisedToInteger: anInteger
 inverse
 	^ self class key: value value: key! !
 
-!Character class methodsFor: '*algebra' stamp: 'len 10/5/2022 16:47:26'!
+!Character class methodsFor: '*algebra' stamp: 'len 10/6/2022 11:48:23'!
 namedCharactersTable
 	"Table of named characters that we can enter in an editor using \name.
 	Please keep the names short and try to follow the naming convention used in LaTeX."
 	^ #("(left $←) (right $→) (up $↑) (down $↓) (leftright $↔) (updown $↕)
-	(Left $⇐) (Up $⇑) (Right $⇒) (Down $⇓) (Leftright $⇔) (Updown ⇕)
-	(mapsto $↦) (implies $⟹) (iff $⟺)"
+	(Left $⇐) (Up $⇑) (Right $⇒) (Down $⇓) (Leftright $⇔) (Updown ⇕)"
+	(mapsto $↦) (implies $⟹) (iff $⟺)
 	(gets $←) (to $→) (hom $⇒) #(fromall $⇇) (toall $⇉)
 	(oplus $⊕) (otimes $⊗) (times $×) (div $÷) #(circ $∘) "(bullet $∙)" (cdot $·) "(lowast $⁎) (dag $†) (ddag $‡)"
 	(cap $∩) (cup $∪) (sqcap $⊓) (sqcup $⊔) (wedge $∧) (vee $∨) (perp $⊥) (parallel $∥)
