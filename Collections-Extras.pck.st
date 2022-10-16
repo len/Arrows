@@ -1,26 +1,26 @@
-'From Cuis 6.0 [latest update: #5438] on 21 August 2022 at 8:28:26 am'!
+'From Cuis 6.0 [latest update: #5438] on 16 October 2022 at 6:10:16 am'!
 'Description This package includes some extra methods for Collection and subclasses and some new collection classes.'!
-!provides: 'Collections-Extras' 1 4!
-SystemOrganization addCategory: 'Collections-Extras'!
+!provides: 'Collections-Extras' 1 5!
+SystemOrganization addCategory: #'Collections-Extras'!
 
 
-!classDefinition: #Iterator category: 'Collections-Extras'!
+!classDefinition: #Iterator category: #'Collections-Extras'!
 Collection subclass: #Iterator
 	instanceVariableNames: 'block'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Collections-Extras'!
-!classDefinition: 'Iterator class' category: 'Collections-Extras'!
+!classDefinition: 'Iterator class' category: #'Collections-Extras'!
 Iterator class
 	instanceVariableNames: ''!
 
-!classDefinition: #SortedDictionary category: 'Collections-Extras'!
+!classDefinition: #SortedDictionary category: #'Collections-Extras'!
 Collection subclass: #SortedDictionary
 	instanceVariableNames: 'associations'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Collections-Extras'!
-!classDefinition: 'SortedDictionary class' category: 'Collections-Extras'!
+!classDefinition: 'SortedDictionary class' category: #'Collections-Extras'!
 SortedDictionary class
 	instanceVariableNames: ''!
 
@@ -30,14 +30,6 @@ An Iterator is a read-only collection that evaluates a block to yield the elemen
 
 !SortedDictionary commentStamp: 'len 8/21/2022 08:24:28' prior: 0!
 A SortedDictionary is a dictionary that is kept sorted by an ordering in its keys. The keys must implement #compare:.!
-
-!Iterator methodsFor: 'printing' stamp: 'len 5/10/2020 10:16:19'!
-printOn: aStream
-	| count |
-	aStream nextPut: ${.
-	count _ 0.
-	self do: [:element| aStream print: element] separatedBy: [(count _ count + 1) > 10 ifTrue: [aStream nextPutAll: '...)'. ^ self] ifFalse: [aStream nextPutAll: ', ']].
-	aStream nextPut: $}! !
 
 !Iterator methodsFor: 'accessing' stamp: 'len 4/12/2021 12:31:20'!
 first
@@ -127,6 +119,12 @@ keysAndValuesDo: aBlock
 	| index |
 	index := 1.
 	self do: [:el | aBlock value: index value: el.  index := index + 1]! !
+
+!Iterator methodsFor: 'printing' stamp: 'len 10/11/2022 06:28:44'!
+printOn: aStream
+	| count |
+	count _ 0.
+	self do: [:element| aStream print: element] separatedBy: [(count _ count + 1) > 20 ifTrue: [aStream nextPutAll: '...'. ^ self] ifFalse: [aStream nextPutAll: ', ']]! !
 
 !Iterator methodsFor: 'removing'!
 remove: oldObject ifAbsent: anExceptionBlock 

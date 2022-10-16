@@ -1,57 +1,57 @@
-'From Cuis 6.0 [latest update: #5434] on 6 August 2022 at 7:17:20 am'!
+'From Cuis 6.0 [latest update: #5438] on 16 October 2022 at 6:10:11 am'!
 'Description '!
-!provides: 'Elliptic Curves' 1 6!
+!provides: 'Elliptic Curves' 1 7!
 !requires: 'Algebra' 1 0 nil!
-SystemOrganization addCategory: 'Elliptic Curves'!
+SystemOrganization addCategory: #'Elliptic Curves'!
 
 
-!classDefinition: #EllipticCurveGroup category: 'Elliptic Curves'!
+!classDefinition: #EllipticCurveGroup category: #'Elliptic Curves'!
 Group subclass: #EllipticCurveGroup
 	instanceVariableNames: 'curve scalars'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Elliptic Curves'!
-!classDefinition: 'EllipticCurveGroup class' category: 'Elliptic Curves'!
+!classDefinition: 'EllipticCurveGroup class' category: #'Elliptic Curves'!
 EllipticCurveGroup class
 	instanceVariableNames: ''!
 
-!classDefinition: #EllipticCurve category: 'Elliptic Curves'!
+!classDefinition: #EllipticCurve category: #'Elliptic Curves'!
 ProjectivePlaneCurve subclass: #EllipticCurve
 	instanceVariableNames: 'equation'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Elliptic Curves'!
-!classDefinition: 'EllipticCurve class' category: 'Elliptic Curves'!
+!classDefinition: 'EllipticCurve class' category: #'Elliptic Curves'!
 EllipticCurve class
 	instanceVariableNames: ''!
 
-!classDefinition: #EllipticCurveIsogeny category: 'Elliptic Curves'!
+!classDefinition: #EllipticCurveIsogeny category: #'Elliptic Curves'!
 RationalMap subclass: #EllipticCurveIsogeny
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Elliptic Curves'!
-!classDefinition: 'EllipticCurveIsogeny class' category: 'Elliptic Curves'!
+!classDefinition: 'EllipticCurveIsogeny class' category: #'Elliptic Curves'!
 EllipticCurveIsogeny class
 	instanceVariableNames: ''!
 
-!classDefinition: #EllipticCurvePoint category: 'Elliptic Curves'!
+!classDefinition: #EllipticCurvePoint category: #'Elliptic Curves'!
 ProjectivePoint subclass: #EllipticCurvePoint
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Elliptic Curves'!
-!classDefinition: 'EllipticCurvePoint class' category: 'Elliptic Curves'!
+!classDefinition: 'EllipticCurvePoint class' category: #'Elliptic Curves'!
 EllipticCurvePoint class
 	instanceVariableNames: ''!
 
-!classDefinition: #WeierstrassEquation category: 'Elliptic Curves'!
+!classDefinition: #WeierstrassEquation category: #'Elliptic Curves'!
 Object subclass: #WeierstrassEquation
 	instanceVariableNames: 'coefficients'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Elliptic Curves'!
-!classDefinition: 'WeierstrassEquation class' category: 'Elliptic Curves'!
+!classDefinition: 'WeierstrassEquation class' category: #'Elliptic Curves'!
 WeierstrassEquation class
 	instanceVariableNames: ''!
 
@@ -223,20 +223,20 @@ divisionPolynomials
 				[m _ n // 2.
 				(phi at: m-1) squared * (phi at: m) * (phi at: m+2) - ((phi at: m-2) * (phi at: m) * (phi at: m+1) squared // phi2)]]! !
 
-!EllipticCurve methodsFor: 'operations' stamp: 'len 1/8/2017 21:07:11'!
+!EllipticCurve methodsFor: 'operations' stamp: 'len 10/14/2022 08:45:21'!
 multiplicationBy: m
-	| F f omega phi psi x |
-	psi _ self divisionPolynomials.
-	f _ psi at: m.
-	x _ psi codomain x.
+	| F f omega φ ψ x |
+	ψ _ self divisionPolynomials.
+	f _ ψ at: m.
+	x _ ψ codomain x.
 "	y _ psi codomain y."
 	F _ self ambient functionField.
-	phi _ x * f squared - ((psi at: m+1) * (psi at: m-1)).
-	omega _ (psi at: m+2) * (psi at: m-1) squared - ((psi at: m-2) * (psi at: m+1) squared).
+	φ _ x * f squared - ((ψ at: m+1) * (ψ at: m-1)).
+	omega _ (ψ at: m+2) * (ψ at: m-1) squared - ((ψ at: m-2) * (ψ at: m+1) squared).
 	f _ f value: {F x. F y}.
 	omega _ (omega value: {F x. F y}) / (F y * 4).
-	phi _ phi value: {F x. F y}.
-	^ "self from: self to: self representatives:" {phi / f squared. omega / (f^3). F z}! !
+	φ _ φ value: {F x. F y}.
+	^ "self from: self to: self representatives:" {φ / f squared. omega / (f^3). F z}! !
 
 !EllipticCurve methodsFor: 'points' stamp: 'len 7/4/2019 03:48:39'!
 pointAt: aTuple

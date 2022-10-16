@@ -1,17 +1,17 @@
-'From Cuis 6.0 [latest update: #5438] on 6 October 2022 at 11:43:50 am'!
+'From Cuis 6.0 [latest update: #5438] on 16 October 2022 at 6:10:20 am'!
 'Description '!
-!provides: 'Codes' 1 5!
+!provides: 'Codes' 1 6!
 !requires: 'Algebra' 1 0 nil!
-SystemOrganization addCategory: 'Codes'!
+SystemOrganization addCategory: #Codes!
 
 
-!classDefinition: #LinearCode category: 'Codes'!
+!classDefinition: #LinearCode category: #Codes!
 Structure subclass: #LinearCode
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Codes'!
-!classDefinition: 'LinearCode class' category: 'Codes'!
+!classDefinition: 'LinearCode class' category: #Codes!
 LinearCode class
 	instanceVariableNames: ''!
 
@@ -22,13 +22,13 @@ Linear codes over rings or fields.
 In coding theory, a linear code is an error-correcting code in which any linear combination of codewords is also a codeword. A linear code of length n over a ring R is a proper subset of the free module R^n that forms a submodule.
 !
 
-!LinearCode methodsFor: 'accessing' stamp: 'len 7/31/2020 08:43:47'!
+!LinearCode methodsFor: 'accessing' stamp: 'len 10/11/2022 10:55:26'!
 completeWeightEnumerator
 	"Answer the complete weight enumerator polynomial."
 	| F P |
-	F _ self scalars elements asArray.
+	F _ self scalars asArray.
 	P _ ℤ polynomialsIn: F size.
-	^ self elements sum: [:each| P monomial: (P monomials exponents: (F collect: [:i| each occurrencesOf: i]))]! !
+	^ self sum: [:each| P monomial: (P monomials exponents: (F collect: [:i| each occurrencesOf: i]))]! !
 
 !LinearCode methodsFor: 'accessing' stamp: 'len 8/2/2020 17:34:11'!
 diameter
@@ -167,14 +167,12 @@ asVectorSpace
 do: aBlock
 	self asModule do: aBlock! !
 
-!LinearCode methodsFor: 'graphs' stamp: 'len 8/2/2020 17:17:21'!
+!LinearCode methodsFor: 'graphs' stamp: 'len 10/11/2022 10:54:01'!
 distanceGraph: d
 	"Answer the graph of the codewords of the receiver, with two codewords adjacent if their Hamming distance is d."
 	| G |
 	G _ Graph unordered.
-	self elements do: [:x|
-		self elements do: [:y|
-			(x-y) weight = d ifTrue: [G addEdgeFrom: x to: y]]].
+	self do: [:x| self do: [:y| (x-y) weight = d ifTrue: [G addEdgeFrom: x to: y]]].
 	^ G! !
 
 !LinearCode methodsFor: 'graphs' stamp: 'len 4/5/2018 15:27:59'!
