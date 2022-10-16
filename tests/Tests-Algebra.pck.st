@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5438] on 16 October 2022 at 6:10:41 am'!
+'From Cuis 6.0 [latest update: #5438] on 16 October 2022 at 11:18:30 am'!
 'Description '!
-!provides: 'Tests-Algebra' 1 19!
+!provides: 'Tests-Algebra' 1 20!
 SystemOrganization addCategory: #'Tests-Algebra'!
 SystemOrganization addCategory: #'Tests-Algebra-Arrays'!
 SystemOrganization addCategory: #'Tests-Algebra-Rings'!
@@ -3400,7 +3400,7 @@ testEuclideanDivision
 		[b _ R atRandom: random bits: 30. b isZero] whileTrue.
 		self testEuclideanDivisionOf: a by: b]! !
 
-!AbstractEuclideanRingTest methodsFor: 'as yet unclassified' stamp: 'len 9/29/2022 07:10:53'!
+!AbstractEuclideanRingTest methodsFor: 'as yet unclassified' stamp: 'len 10/16/2022 10:44:43'!
 testEuclideanDivisionOf: a by: b
 	| q r |
 	b isZero ifTrue:
@@ -3410,7 +3410,7 @@ testEuclideanDivisionOf: a by: b
 	q _ a // b.
 	r _ a \\ b.
 	self assert: a = (q * b + r).
-	self assert: (r isZero or: [r norm < b norm])! !
+	self assert: (r isZero or: [r gauge < b gauge])! !
 
 !AbstractEuclideanRingTest methodsFor: 'as yet unclassified' stamp: 'len 1/3/2022 11:04:18'!
 testExactDivisionCompatibleWithEuclideanDivision
@@ -3566,14 +3566,14 @@ testEuclideanDivisionCompatibleWithModularIntegerRing
 		s2 _ S !! r2 representative.
 		self assert: (r1 // r2) representative = (s1 // s2) representative]! !
 
-!PrimePowerRingTest methodsFor: 'as yet unclassified' stamp: 'len 9/29/2022 07:11:02'!
+!PrimePowerRingTest methodsFor: 'as yet unclassified' stamp: 'len 10/16/2022 10:44:51'!
 testEuclideanFunctionCompatibleWithModularIntegerRing
 	| S r s |
 	S _ ModularIntegerRing new: R modulus.
 	100 timesRepeat:
 		[r _ R atRandom: random.
 		s _ S !! r representative.
-		self assert: r norm = s norm]! !
+		self assert: r gauge = s gauge]! !
 
 !PrimePowerRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/27/2022 12:53:48'!
 testGCDCompatibleWithModularIntegerRing
