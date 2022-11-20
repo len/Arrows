@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5438] on 16 October 2022 at 11:18:30 am'!
+'From Cuis 6.0 [latest update: #5438] on 20 November 2022 at 12:12:33 pm'!
 'Description '!
-!provides: 'Tests-Algebra' 1 20!
+!provides: 'Tests-Algebra' 1 21!
 SystemOrganization addCategory: #'Tests-Algebra'!
 SystemOrganization addCategory: #'Tests-Algebra-Arrays'!
 SystemOrganization addCategory: #'Tests-Algebra-Rings'!
@@ -310,6 +310,16 @@ AbstractEuclideanRingTest subclass: #AbstractFieldTest
 AbstractFieldTest class
 	instanceVariableNames: ''!
 
+!classDefinition: #CyclotomicFieldTest category: #'Tests-Algebra-Rings'!
+AbstractFieldTest subclass: #CyclotomicFieldTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra-Rings'!
+!classDefinition: 'CyclotomicFieldTest class' category: #'Tests-Algebra-Rings'!
+CyclotomicFieldTest class
+	instanceVariableNames: ''!
+
 !classDefinition: #GaloisFieldTest category: #'Tests-Algebra-Rings'!
 AbstractFieldTest subclass: #GaloisFieldTest
 	instanceVariableNames: ''
@@ -318,6 +328,16 @@ AbstractFieldTest subclass: #GaloisFieldTest
 	category: 'Tests-Algebra-Rings'!
 !classDefinition: 'GaloisFieldTest class' category: #'Tests-Algebra-Rings'!
 GaloisFieldTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #GaussianFieldTest category: #'Tests-Algebra-Rings'!
+AbstractFieldTest subclass: #GaussianFieldTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra-Rings'!
+!classDefinition: 'GaussianFieldTest class' category: #'Tests-Algebra-Rings'!
+GaussianFieldTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #RationalFieldTest category: #'Tests-Algebra-Rings'!
@@ -348,6 +368,16 @@ AbstractFieldTest subclass: #RationalFunctionFieldOverRationalsTest
 	category: 'Tests-Algebra-Rings'!
 !classDefinition: 'RationalFunctionFieldOverRationalsTest class' category: #'Tests-Algebra-Rings'!
 RationalFunctionFieldOverRationalsTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #EisensteinRingTest category: #'Tests-Algebra-Rings'!
+AbstractEuclideanRingTest subclass: #EisensteinRingTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra-Rings'!
+!classDefinition: 'EisensteinRingTest class' category: #'Tests-Algebra-Rings'!
+EisensteinRingTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #GaloisRingTest category: #'Tests-Algebra-Rings'!
@@ -660,14 +690,14 @@ AbstractMatrixOverIntegralDomainTest subclass: #AbstractMatrixOverFieldTest
 AbstractMatrixOverFieldTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #MatrixOverCyclotomicFieldTest category: #'Tests-Algebra-Matrices'!
-AbstractMatrixOverFieldTest subclass: #MatrixOverCyclotomicFieldTest
+!classDefinition: #MatrixOverCyclotomicsTest category: #'Tests-Algebra-Matrices'!
+AbstractMatrixOverFieldTest subclass: #MatrixOverCyclotomicsTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Matrices'!
-!classDefinition: 'MatrixOverCyclotomicFieldTest class' category: #'Tests-Algebra-Matrices'!
-MatrixOverCyclotomicFieldTest class
+!classDefinition: 'MatrixOverCyclotomicsTest class' category: #'Tests-Algebra-Matrices'!
+MatrixOverCyclotomicsTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #MatrixOverFiniteFieldTest category: #'Tests-Algebra-Matrices'!
@@ -700,14 +730,24 @@ AbstractMatrixOverFieldTest subclass: #MatrixOverRationalsTest
 MatrixOverRationalsTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #MatrixOverCyclotomicRingTest category: #'Tests-Algebra-Matrices'!
-AbstractMatrixOverIntegralDomainTest subclass: #MatrixOverCyclotomicRingTest
+!classDefinition: #MatrixOverCyclotomicIntegersTest category: #'Tests-Algebra-Matrices'!
+AbstractMatrixOverIntegralDomainTest subclass: #MatrixOverCyclotomicIntegersTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Matrices'!
-!classDefinition: 'MatrixOverCyclotomicRingTest class' category: #'Tests-Algebra-Matrices'!
-MatrixOverCyclotomicRingTest class
+!classDefinition: 'MatrixOverCyclotomicIntegersTest class' category: #'Tests-Algebra-Matrices'!
+MatrixOverCyclotomicIntegersTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #MatrixOverEisensteinIntegersTest category: #'Tests-Algebra-Matrices'!
+AbstractMatrixOverIntegralDomainTest subclass: #MatrixOverEisensteinIntegersTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra-Matrices'!
+!classDefinition: 'MatrixOverEisensteinIntegersTest class' category: #'Tests-Algebra-Matrices'!
+MatrixOverEisensteinIntegersTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #MatrixOverGaussianIntegersTest category: #'Tests-Algebra-Matrices'!
@@ -738,6 +778,16 @@ AbstractMatrixOverIntegralDomainTest subclass: #MatrixOverLocalIntegerRingTest
 	category: 'Tests-Algebra-Matrices'!
 !classDefinition: 'MatrixOverLocalIntegerRingTest class' category: #'Tests-Algebra-Matrices'!
 MatrixOverLocalIntegerRingTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #MatrixOverLocalPolynomialRingOverRationalsTest category: #'Tests-Algebra-Matrices'!
+AbstractMatrixOverIntegralDomainTest subclass: #MatrixOverLocalPolynomialRingOverRationalsTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra-Matrices'!
+!classDefinition: 'MatrixOverLocalPolynomialRingOverRationalsTest class' category: #'Tests-Algebra-Matrices'!
+MatrixOverLocalPolynomialRingOverRationalsTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #MatrixOverMultivariatePolynomialsOverPrimeFieldTest category: #'Tests-Algebra-Matrices'!
@@ -960,14 +1010,14 @@ AbstractVectorSpaceTest subclass: #VectorSpaceOverBinaryFieldTest
 VectorSpaceOverBinaryFieldTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #VectorSpaceOverCyclotomicFieldTest category: #'Tests-Algebra-Modules'!
-AbstractVectorSpaceTest subclass: #VectorSpaceOverCyclotomicFieldTest
+!classDefinition: #VectorSpaceOverCyclotomicsTest category: #'Tests-Algebra-Modules'!
+AbstractVectorSpaceTest subclass: #VectorSpaceOverCyclotomicsTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Modules'!
-!classDefinition: 'VectorSpaceOverCyclotomicFieldTest class' category: #'Tests-Algebra-Modules'!
-VectorSpaceOverCyclotomicFieldTest class
+!classDefinition: 'VectorSpaceOverCyclotomicsTest class' category: #'Tests-Algebra-Modules'!
+VectorSpaceOverCyclotomicsTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #VectorSpaceOverFiniteFieldTest category: #'Tests-Algebra-Modules'!
@@ -1000,14 +1050,24 @@ AbstractVectorSpaceTest subclass: #VectorSpaceOverRationalsTest
 VectorSpaceOverRationalsTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #ModuleOverCyclotomicRingTest category: #'Tests-Algebra-Modules'!
-AbstractCommutativeModuleTest subclass: #ModuleOverCyclotomicRingTest
+!classDefinition: #ModuleOverCyclotomicIntegersTest category: #'Tests-Algebra-Modules'!
+AbstractCommutativeModuleTest subclass: #ModuleOverCyclotomicIntegersTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Modules'!
-!classDefinition: 'ModuleOverCyclotomicRingTest class' category: #'Tests-Algebra-Modules'!
-ModuleOverCyclotomicRingTest class
+!classDefinition: 'ModuleOverCyclotomicIntegersTest class' category: #'Tests-Algebra-Modules'!
+ModuleOverCyclotomicIntegersTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #ModuleOverEisensteinIntegersTest category: #'Tests-Algebra-Modules'!
+AbstractCommutativeModuleTest subclass: #ModuleOverEisensteinIntegersTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra-Modules'!
+!classDefinition: 'ModuleOverEisensteinIntegersTest class' category: #'Tests-Algebra-Modules'!
+ModuleOverEisensteinIntegersTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #ModuleOverGaloisRingTest category: #'Tests-Algebra-Modules'!
@@ -1368,16 +1428,6 @@ TestCase subclass: #TupleTest
 	category: 'Tests-Algebra'!
 !classDefinition: 'TupleTest class' category: #'Tests-Algebra'!
 TupleTest class
-	instanceVariableNames: ''!
-
-!classDefinition: #MatrixOverLocalPolynomialRingOverRationalsTest category: #'Tests-Algebra-Matrices'!
-Object subclass: #MatrixOverLocalPolynomialRingOverRationalsTest
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Tests-Algebra-Matrices'!
-!classDefinition: 'MatrixOverLocalPolynomialRingOverRationalsTest class' category: #'Tests-Algebra-Matrices'!
-MatrixOverLocalPolynomialRingOverRationalsTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #MatrixOverRationalFunctionFieldOverFiniteFieldTest category: #'Tests-Algebra-Matrices'!
@@ -2909,16 +2959,16 @@ testRingHomomorphism: φ
 	self assert: (φ value: x + y) = ((φ value: x) + (φ value: y)).
 	self assert: (φ value: x * y) = ((φ value: x) * (φ value: y))! !
 
-!AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 7/25/2021 12:30:01'!
+!AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 11/5/2022 14:07:34'!
 testRingInvolution: aRing
 	| a b |
-	self assert: aRing one conjugate = aRing one.
+	self assert: aRing one opposite = aRing one.
 	100 timesRepeat:
 		[a _ aRing atRandom: random bits: 20.
 		b _ aRing atRandom: random bits: 20.
-		self assert: (a + b) conjugate = (a conjugate + b conjugate).
-		self assert: (a * b) conjugate = (b conjugate * a conjugate).
-		self assert: a conjugate conjugate = a]! !
+		self assert: (a + b) opposite = (a opposite + b opposite).
+		self assert: (a * b) opposite = (b opposite * a opposite).
+		self assert: a opposite opposite = a]! !
 
 !AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/28/2022 20:01:09'!
 testRingUnits
@@ -3428,6 +3478,16 @@ testIsEuclidean
 	self assert: R isEuclidean.
 	self assert: R isPIR! !
 
+!AbstractEuclideanRingTest methodsFor: 'as yet unclassified' stamp: 'len 10/18/2022 06:13:00'!
+testNormalization
+	| a u |
+	100 timesRepeat:
+		[a _ R atRandom: random.
+		a _ a normalized.
+		self assert: a normalized = a.
+		u _ R units atRandom: random.
+		self assert: (a*u) normalized = a]! !
+
 !AbstractEuclideanRingTest methodsFor: 'as yet unclassified' stamp: 'len 1/13/2022 05:32:16'!
 testXXGCD
 	R size < 60 ifTrue:
@@ -3471,10 +3531,20 @@ testZeroIdealIsPrimeAndMinimalPrime
 	self assert: P isPrime.
 	self assert: P isMinimalPrime! !
 
+!CyclotomicFieldTest methodsFor: 'as yet unclassified' stamp: 'len 10/17/2022 18:26:42'!
+initialize
+	super initialize.
+	R _ CyclotomicField new: 3 atRandom + 2! !
+
 !GaloisFieldTest methodsFor: 'as yet unclassified' stamp: 'len 5/28/2022 20:21:39'!
 initialize
 	super initialize.
 	R _ GaloisField new: 5 atRandom nextPrime to: 3 atRandom! !
+
+!GaussianFieldTest methodsFor: 'as yet unclassified' stamp: 'len 10/17/2022 18:27:13'!
+initialize
+	super initialize.
+	R _ GaussianField new! !
 
 !RationalFieldTest methodsFor: 'as yet unclassified' stamp: 'len 6/1/2022 11:55:11'!
 initialize
@@ -3490,6 +3560,18 @@ initialize
 initialize
 	super initialize.
 	R _ (ℚ polynomialsIn: 3 atRandom) fractions! !
+
+!EisensteinRingTest methodsFor: 'as yet unclassified' stamp: 'len 10/17/2022 18:01:19'!
+initialize
+	super initialize.
+	R _ (CyclotomicField new: 3) integers! !
+
+!EisensteinRingTest methodsFor: 'as yet unclassified' stamp: 'len 10/18/2022 06:24:15'!
+testIsPrimary
+	| a |
+	200 timesRepeat:
+		[a _ R atRandom: random.
+		a isPrimary ifTrue: [self assert: a norm \\ 3 = 1]]! !
 
 !GaloisRingTest methodsFor: 'as yet unclassified' stamp: 'len 4/21/2021 08:18:32'!
 initialize
@@ -4251,7 +4333,7 @@ testRowExtended
 	B _ A rowExtended.
 	self assert: B = A transpose columnExtended transpose! !
 
-!MatrixOverCyclotomicFieldTest methodsFor: 'as yet unclassified' stamp: 'len 7/21/2021 17:35:18'!
+!MatrixOverCyclotomicsTest methodsFor: 'as yet unclassified' stamp: 'len 7/21/2021 17:35:18'!
 initialize
 	super initialize.
 	scalars _ CyclotomicField new: 3 atRandom + 2! !
@@ -4561,10 +4643,15 @@ testSlashWithTupleExample
 	self assert: x = (ℚ^3 !! #(1 2 3)).
 	self assert: x * A = b! !
 
-!MatrixOverCyclotomicRingTest methodsFor: 'as yet unclassified' stamp: 'len 7/21/2021 17:35:09'!
+!MatrixOverCyclotomicIntegersTest methodsFor: 'as yet unclassified' stamp: 'len 7/21/2021 17:35:09'!
 initialize
 	super initialize.
 	scalars _ (CyclotomicField new: 3 atRandom + 2) integers! !
+
+!MatrixOverEisensteinIntegersTest methodsFor: 'as yet unclassified' stamp: 'len 10/17/2022 18:22:58'!
+initialize
+	super initialize.
+	scalars _ (CyclotomicField new: 3) integers! !
 
 !MatrixOverGaussianIntegersTest methodsFor: 'as yet unclassified' stamp: 'len 1/7/2022 13:52:55'!
 initialize
@@ -4957,6 +5044,26 @@ testSmithNormalFormExampleDiagonal
 initialize
 	super initialize.
 	scalars _ ℤ @ (ℤ * 64 atRandom nextPrime)! !
+
+!MatrixOverLocalPolynomialRingOverRationalsTest methodsFor: 'as yet unclassified' stamp: 'len 10/18/2022 12:31:01'!
+initialize
+	super initialize.
+	scalars _
+		{[| R x y |
+		R _ ℚ polynomialsIn: #(x y).
+		x _ R x: 1. y _ R x: 2.
+		R @ (R * {x. y})].
+"		R @ (R * {x^2 - (y^2) - 1})]."
+
+"		[| R x y z |
+		R _ ℚ polynomialsIn: #(x y z).
+		x _ R x: 1. y _ R x: 2. z _ R x: 3.
+		R @ (R * {x*z - (y^2). x^3 - (y*z). x^2*y - (z^2)})].
+
+		[| R x y z |
+		R _ ℚ polynomialsIn: #(x y z).
+		x _ R x: 1. y _ R x: 2. z _ R x: 3.
+		R @ (R * {y^4 - (z^3). y^2 - (x*z). x*(y^2) - (z^2). x^2 - z})]"} atRandom value! !
 
 !MatrixOverMultivariatePolynomialsOverPrimeFieldTest methodsFor: 'as yet unclassified' stamp: 'len 12/30/2021 12:23:00'!
 initialize
@@ -5643,6 +5750,13 @@ newSmallModule
 	(2 atRandom: random) = 1 ifTrue: [^ N].
 	^ M / N! !
 
+!AbstractModuleTest methodsFor: 'bugs' stamp: 'len 10/17/2022 18:32:22'!
+testModuleQuotientBySelfBug
+	| V M |
+	V _ scalars ^ 3.
+	M _ V span: {V atRandom: random. V atRandom: random}.
+	self assert: (M / M) isTrivial! !
+
 !AbstractCommutativeModuleTest methodsFor: 'adjoint' stamp: 'len 10/14/2022 08:38:59'!
 testAdjoint
 	| V W f fAdjoint φ |
@@ -5984,7 +6098,7 @@ testPerpZ2
 	self assert: (S basis first · perp basis first) isZero.
 	self assert: (S basis first · perp basis second) isZero! !
 
-!VectorSpaceOverCyclotomicFieldTest methodsFor: 'as yet unclassified' stamp: 'len 7/15/2021 12:47:15'!
+!VectorSpaceOverCyclotomicsTest methodsFor: 'as yet unclassified' stamp: 'len 7/15/2021 12:47:15'!
 initialize
 	super initialize.
 	scalars _ CyclotomicField new: 3 atRandom + 2! !
@@ -6107,10 +6221,15 @@ testSubspaceIntersectionExample
 	T2 _ V span: {(3,1,-1). (0,1,0)}.
 	self assert: S ∩ T2 = T! !
 
-!ModuleOverCyclotomicRingTest methodsFor: 'as yet unclassified' stamp: 'len 7/26/2021 10:20:31'!
+!ModuleOverCyclotomicIntegersTest methodsFor: 'as yet unclassified' stamp: 'len 7/26/2021 10:20:31'!
 initialize
 	super initialize.
 	scalars _ (CyclotomicField new: 3 atRandom + 2) integers! !
+
+!ModuleOverEisensteinIntegersTest methodsFor: 'as yet unclassified' stamp: 'len 10/17/2022 18:23:50'!
+initialize
+	super initialize.
+	scalars _ (CyclotomicField new: 3) integers! !
 
 !ModuleOverGaloisRingTest methodsFor: 'as yet unclassified' stamp: 'len 1/1/2022 10:56:30'!
 initialize
@@ -12380,25 +12499,6 @@ testTuplesOfDifferentSizeOver: aRing
 	self assert: a hash = (a,zeros) hash.
 	self assert: a · (b,zeros) = (a · b).
 	self assert: a,zeros · b = (a · b)! !
-
-!MatrixOverLocalPolynomialRingOverRationalsTest methodsFor: 'as yet unclassified' stamp: 'len 9/1/2022 13:29:17'!
-initialize
-	super initialize.
-	scalars _
-		{[| R x y |
-		R _ ℚ polynomialsIn: #(x y).
-		x _ R x: 1. y _ R x: 2.
-		R @ (R * {x^2 - (y^2) - 1})].
-
-"		[| R x y z |
-		R _ ℚ polynomialsIn: #(x y z).
-		x _ R x: 1. y _ R x: 2. z _ R x: 3.
-		R @ (R * {x*z - (y^2). x^3 - (y*z). x^2*y - (z^2)})].
-
-		[| R x y z |
-		R _ ℚ polynomialsIn: #(x y z).
-		x _ R x: 1. y _ R x: 2. z _ R x: 3.
-		R @ (R * {y^4 - (z^3). y^2 - (x*z). x*(y^2) - (z^2). x^2 - z})]"} atRandom value! !
 
 !MatrixOverRationalFunctionFieldOverFiniteFieldTest methodsFor: 'as yet unclassified' stamp: 'len 9/3/2022 11:14:29'!
 initialize

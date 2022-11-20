@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5438] on 16 October 2022 at 6:10:20 am'!
+'From Cuis 6.0 [latest update: #5438] on 20 November 2022 at 12:13:29 pm'!
 'Description '!
-!provides: 'Codes' 1 6!
+!provides: 'Codes' 1 7!
 !requires: 'Algebra' 1 0 nil!
 SystemOrganization addCategory: #Codes!
 
@@ -228,10 +228,10 @@ complement
 	"If the receiver is a subcode C1 <= C, answer C2 such that C = C1 + C2."
 	self notYetImplemented! !
 
-!LinearCode methodsFor: 'operations' stamp: 'len 10/2/2022 17:41:37'!
+!LinearCode methodsFor: 'operations' stamp: 'len 11/5/2022 14:20:17'!
 dual
 	"Answer the dual or orthogonal code of the receiver."
-	^ LinearCode on: self asModule complement! !
+	^ self class on: self asModule complement! !
 
 !LinearCode methodsFor: 'operations' stamp: 'len 8/11/2020 08:42:37'!
 extended
@@ -242,10 +242,10 @@ hull
 	"The hull of a linear code is the intersection of the code with its dual."
 	^ self ∩ self dual! !
 
-!LinearCode methodsFor: 'operations' stamp: 'len 10/2/2022 17:41:37'!
+!LinearCode methodsFor: 'operations' stamp: 'len 11/5/2022 14:20:28'!
 span: aCollection
 	"Answer the subcode spanned by the elements in aCollection."
-	^ (LinearCode on: (self asModule span: aCollection)) ambient: self! !
+	^ (self class on: (self asModule span: aCollection)) ambient: self! !
 
 !LinearCode methodsFor: 'operations' stamp: 'len 8/12/2022 13:12:21'!
 ∩ aCode
