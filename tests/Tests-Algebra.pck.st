@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5438] on 20 November 2022 at 12:12:33 pm'!
+'From Cuis 6.0 [latest update: #5438] on 22 November 2022 at 4:55:45 pm'!
 'Description '!
-!provides: 'Tests-Algebra' 1 21!
+!provides: 'Tests-Algebra' 1 22!
 SystemOrganization addCategory: #'Tests-Algebra'!
 SystemOrganization addCategory: #'Tests-Algebra-Arrays'!
 SystemOrganization addCategory: #'Tests-Algebra-Rings'!
@@ -400,6 +400,16 @@ AbstractEuclideanRingTest subclass: #GaussianRingTest
 GaussianRingTest class
 	instanceVariableNames: ''!
 
+!classDefinition: #IntegerRingTest category: #'Tests-Algebra-Rings'!
+AbstractEuclideanRingTest subclass: #IntegerRingTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra-Rings'!
+!classDefinition: 'IntegerRingTest class' category: #'Tests-Algebra-Rings'!
+IntegerRingTest class
+	instanceVariableNames: ''!
+
 !classDefinition: #LocalIntegerRingTest category: #'Tests-Algebra-Rings'!
 AbstractEuclideanRingTest subclass: #LocalIntegerRingTest
 	instanceVariableNames: ''
@@ -458,16 +468,6 @@ AbstractEuclideanRingTest subclass: #PrimePowerRingTest
 	category: 'Tests-Algebra-Rings'!
 !classDefinition: 'PrimePowerRingTest class' category: #'Tests-Algebra-Rings'!
 PrimePowerRingTest class
-	instanceVariableNames: ''!
-
-!classDefinition: #RationalIntegerRingTest category: #'Tests-Algebra-Rings'!
-AbstractEuclideanRingTest subclass: #RationalIntegerRingTest
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Tests-Algebra-Rings'!
-!classDefinition: 'RationalIntegerRingTest class' category: #'Tests-Algebra-Rings'!
-RationalIntegerRingTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #MultivariatePolynomialRingOverFiniteFieldTest category: #'Tests-Algebra-Rings'!
@@ -3583,6 +3583,11 @@ initialize
 	super initialize.
 	R _ GaussianField new integers! !
 
+!IntegerRingTest methodsFor: 'as yet unclassified' stamp: 'len 4/22/2021 10:32:40'!
+initialize
+	super initialize.
+	R _ ℤ! !
+
 !LocalIntegerRingTest methodsFor: 'as yet unclassified' stamp: 'len 7/23/2022 13:17:15'!
 initialize
 	super initialize.
@@ -3687,11 +3692,6 @@ testNormalizationCompatibleWithModularIntegerRing
 		[r _ R atRandom: random.
 		s _ S !! r representative.
 		self assert: r normalization representative = s normalization representative]! !
-
-!RationalIntegerRingTest methodsFor: 'as yet unclassified' stamp: 'len 4/22/2021 10:32:40'!
-initialize
-	super initialize.
-	R _ ℤ! !
 
 !MultivariatePolynomialRingOverFiniteFieldTest methodsFor: 'as yet unclassified' stamp: 'len 8/20/2021 15:32:40'!
 initialize

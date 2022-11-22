@@ -1,4 +1,4 @@
-'From Cuis 6.0 [latest update: #5438] on 20 November 2022 at 12:14:31 pm'!
+'From Cuis 6.0 [latest update: #5438] on 22 November 2022 at 4:55:25 pm'!
 'Description This package implements among other things: permutation groups, linear groups, modular integers, finite fields, Galois rings, polynomial rings, affine algebras, number fields, function fields, p-adic fields, power series rings, finitely presented modules, (co)chain complexes, finite (finitely generated as modules) associative algebras, finite distributive (not necessarily associative) algebras, schemes, and sheaves of modules.
 
 References:
@@ -57,7 +57,7 @@ References:
 [] Qing Liu; "Algebraic Geometry and Arithmetic Curves"
 [] Joseph. H. Silverman; "The Arithmetic of Elliptic Curves"
 '!
-!provides: 'Algebra' 1 42!
+!provides: 'Algebra' 1 43!
 !requires: 'Collections-TwoAndEightByteArrays' 1 1 nil!
 !requires: 'Graphs' 1 0 nil!
 !requires: 'Collections-Extras' 1 1 nil!
@@ -114,6 +114,16 @@ Number subclass: #ContinuedFraction
 	category: 'Algebra-Sequences'!
 !classDefinition: 'ContinuedFraction class' category: #'Algebra-Sequences'!
 ContinuedFraction class
+	instanceVariableNames: ''!
+
+!classDefinition: #ProductArray category: #'Algebra-Rings'!
+ArrayedCollection subclass: #ProductArray
+	instanceVariableNames: 'components scalars'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Algebra-Rings'!
+!classDefinition: 'ProductArray class' category: #'Algebra-Rings'!
+ProductArray class
 	instanceVariableNames: ''!
 
 !classDefinition: #BinaryArray category: #'Algebra-Rings-Finite'!
@@ -566,6 +576,16 @@ FractionRing subclass: #LaurentSeriesRing
 LaurentSeriesRing class
 	instanceVariableNames: ''!
 
+!classDefinition: #IntegerRing category: #'Algebra-Rings'!
+Ring subclass: #IntegerRing
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Algebra-Rings'!
+!classDefinition: 'IntegerRing class' category: #'Algebra-Rings'!
+IntegerRing class
+	instanceVariableNames: ''!
+
 !classDefinition: #LocalRing category: #'Algebra-Rings'!
 Ring subclass: #LocalRing
 	instanceVariableNames: ''
@@ -764,16 +784,6 @@ GRAlgebra subclass: #ExteriorAlgebra
 	category: 'Algebra-Algebras-Solvable'!
 !classDefinition: 'ExteriorAlgebra class' category: #'Algebra-Algebras-Solvable'!
 ExteriorAlgebra class
-	instanceVariableNames: ''!
-
-!classDefinition: #RationalIntegerRing category: #'Algebra-Rings'!
-Ring subclass: #RationalIntegerRing
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Algebra-Rings'!
-!classDefinition: 'RationalIntegerRing class' category: #'Algebra-Rings'!
-RationalIntegerRing class
 	instanceVariableNames: ''!
 
 !classDefinition: #PolynomialRing category: #'Algebra-Algebras-Affine'!
@@ -2663,6 +2673,9 @@ Given a Float, and assuming the number is actually rational, its continued fract
   (2.117647 as: ContinuedFraction) convergents
 !
 
+!ProductArray commentStamp: 'len 11/20/2022 12:19:48' prior: 0!
+Arrays of elements of a product ring. See ProductRing.!
+
 !BinaryArray commentStamp: '<historical>' prior: 0!
 Arrays of integer residue classes modulo 2, i.e. binary arrays, bit strings, or arrays of bits. The coefficient field is ℤ/2ℤ.
 !
@@ -2841,6 +2854,9 @@ Field of p-adic numbers ℚp. This is the fraction field of the ring of p-adic i
 !LaurentSeriesRing commentStamp: 'len 6/7/2020 17:52:33' prior: 0!
 Ring R((x)) of formal Laurent series over a commutative ring R in an indetermiate x. See LaurentSeries.!
 
+!IntegerRing commentStamp: '<historical>' prior: 0!
+The singletion global instance ℤ is the ring of rational integers.!
+
 !LocalRing commentStamp: 'len 9/1/2022 11:33:38' prior: 0!
 Localization of a commutative ring R at a prime ideal p. The elements are 'germs at p' (see Germ), and can be thought as fractions a/b with a and b in R and b not in p. This is a subring of the total ring of fractions Frac(R) (see FractionRing).
 
@@ -2927,9 +2943,6 @@ Quadratic number fields, i.e. number fields with defining quadratic polynomial o
 
 !GaussianField commentStamp: '<historical>' prior: 0!
 The field of Gaussian numbers ℚ[i]. See GaussianRing.!
-
-!RationalIntegerRing commentStamp: '<historical>' prior: 0!
-The singletion global instance ℤ is the ring of rational integers.!
 
 !PolynomialRing commentStamp: '<historical>' prior: 0!
 Polynomial ring R[x1,...,xn] in one or many indeterminates over a commutative ring R. These are the finitely generated free commutative (associative) R-algebras.
@@ -4194,6 +4207,192 @@ newFrom: aNumber
 	aNumber isFraction ifTrue: [^ self fromFraction: aNumber].
 	^ super newFrom: aNumber! !
 
+!ProductArray methodsFor: 'accessing' stamp: 'len 11/20/2022 12:24:44'!
+at: anInteger
+	^ scalars compose: (components collect: [:each| each at: anInteger])! !
+
+!ProductArray methodsFor: 'accessing' stamp: 'len 11/21/2022 16:26:17'!
+at: anInteger put: anElement
+	components withIndexDo: [:each :i| each at: anInteger put: (anElement at: i)].
+	^ anElement! !
+
+!ProductArray methodsFor: 'accessing' stamp: 'len 11/22/2022 16:06:58'!
+atAllPut: anElement
+	components withIndexDo: [:each :i| each atAllPut: (anElement at: i)]! !
+
+!ProductArray methodsFor: 'accessing' stamp: 'len 11/20/2022 12:21:56'!
+projection: anInteger
+	^ components at: anInteger! !
+
+!ProductArray methodsFor: 'accessing' stamp: 'len 11/21/2022 16:18:42'!
+scalars
+	^ scalars! !
+
+!ProductArray methodsFor: 'accessing' stamp: 'len 11/20/2022 12:24:16'!
+size
+	^ components first size! !
+
+!ProductArray methodsFor: 'accessing' stamp: 'len 11/22/2022 16:08:53'!
+swap: oneIndex with: anotherIndex 
+	"Move the element at oneIndex to anotherIndex, and vice-versa."
+	components do: [:each| each swap: oneIndex with: anotherIndex]! !
+
+!ProductArray methodsFor: 'comparing' stamp: 'len 11/21/2022 16:22:24'!
+= anObject
+	^ self class = anObject class and: [scalars = anObject scalars and: [components = anObject components]]! !
+
+!ProductArray methodsFor: 'comparing' stamp: 'len 11/21/2022 16:21:57'!
+hash
+	^ components hash! !
+
+!ProductArray methodsFor: 'copying' stamp: 'len 11/22/2022 16:24:37'!
+postCopy
+	components _ components collect: [:each| each copy]! !
+
+!ProductArray methodsFor: 'operations-lowlevel' stamp: 'len 11/22/2022 15:12:06'!
+add: anArray from: start1 to: stop1 convolution: anotherArray from: start2 to: stop2
+	components withIndexDo: [:each :i|
+		each
+			add: (anArray projection: i) from: start1 to: stop1
+			convolution: (anotherArray projection: i) from: start2 to: stop2]! !
+
+!ProductArray methodsFor: 'operations-lowlevel' stamp: 'len 11/22/2022 15:13:40'!
+dot: anArray
+	^ scalars compose: (components withIndexCollect: [:each :i| each dot: (anArray projection: i)])! !
+
+!ProductArray methodsFor: 'operations-lowlevel' stamp: 'len 11/22/2022 15:16:01'!
+fillWithMatrixTranspose: anArray width: width
+	components withIndexDo: [:each :i | each fillWithMatrixTranspose: (anArray projection: i) width: width]! !
+
+!ProductArray methodsFor: 'operations-lowlevel' stamp: 'len 11/22/2022 15:18:51'!
+findFirstNonzeroFrom: start to: stop
+	| answer |
+	answer _ nil.
+	components do: [:each| (each findFirstNonzeroFrom: start to: stop) ifNotNil: [:index| answer _ answer isNil ifTrue: [index] ifFalse: [answer min: index]]].
+	^ answer! !
+
+!ProductArray methodsFor: 'operations-lowlevel' stamp: 'len 11/22/2022 15:19:51'!
+findLastNonzeroFrom: start to: stop
+	| answer |
+	answer _ nil.
+	components do: [:each| (each findLastNonzeroFrom: start to: stop) ifNotNil: [:index| answer _ answer isNil ifTrue: [index] ifFalse: [answer max: index]]].
+	^ answer! !
+
+!ProductArray methodsFor: 'operations-lowlevel' stamp: 'len 11/22/2022 15:21:00'!
+from: start to: stop dot: anArray startingAt: start2 by: increment2
+	^ scalars compose: (components withIndexCollect: [:each :i| each from: start to: stop dot: (anArray projection: i) startingAt: start2 by: increment2])! !
+
+!ProductArray methodsFor: 'operations-lowlevel' stamp: 'len 11/22/2022 16:36:07'!
+partiallyReduceBy: g addingQuotientTo: q
+	components withIndexDo: [:each :i|
+		each partiallyReduceBy: (g projection: i) addingQuotientTo: (q ifNotNil: [q projection: i])]! !
+
+!ProductArray methodsFor: 'operations-lowlevel' stamp: 'len 11/22/2022 16:37:15'!
+reduceBy: g leadingInverse: inv addingQuotientTo: q
+	components withIndexDo: [:each :i|
+		each
+			reduceBy: (g projection: i)
+			leadingInverse: (inv at: i)
+			addingQuotientTo: (q ifNotNil: [q projection: i])]! !
+
+!ProductArray methodsFor: 'operations-lowlevel' stamp: 'len 11/22/2022 16:38:03'!
+replaceFrom: start to: stop with: anArray1 startingAt: start1 minus: anArray2 startingAt: start2
+	components withIndexDo: [:each :i|
+		each
+			replaceFrom: start to: stop
+			with: (anArray1 projection: i) startingAt: start1
+			minus: (anArray2 projection: i) startingAt: start2]! !
+
+!ProductArray methodsFor: 'operations-lowlevel' stamp: 'len 11/22/2022 16:38:24'!
+replaceFrom: start to: stop with: anArray1 startingAt: start1 plus: anArray2 startingAt: start2
+	components withIndexDo: [:each :i|
+		each
+			replaceFrom: start to: stop
+			with: (anArray1 projection: i) startingAt: start1
+			plus: (anArray2 projection: i) startingAt: start2]! !
+
+!ProductArray methodsFor: 'operations-lowlevel' stamp: 'len 11/22/2022 16:39:20'!
+replaceFrom: start to: stop with: anArray1 startingAt: start1 plus: anArray2 startingAt: start2 timesScalar: anElement
+	components withIndexDo: [:each :i|
+		each
+			replaceFrom: start to: stop
+			with: (anArray1 projection: i) startingAt: start1
+			plus: (anArray2 projection: i) startingAt: start2
+			timesScalar: (anElement at: i)]! !
+
+!ProductArray methodsFor: 'operations-lowlevel' stamp: 'len 11/22/2022 16:40:35'!
+replaceFrom: start to: stop with: anArray startingAt: srcStart plusScalar: anElement
+	components withIndexDo: [:each :i|
+		each
+			replaceFrom: start to: stop
+			with: (anArray projection: i) startingAt: srcStart
+			plusScalar: (anElement at: i)]! !
+
+!ProductArray methodsFor: 'operations-lowlevel' stamp: 'len 11/22/2022 16:41:13'!
+replaceFrom: start to: stop with: anArray1 startingAt: start1 times: anArray2 startingAt: start2
+	components withIndexDo: [:each :i|
+		each
+			replaceFrom: start to: stop
+			with: (anArray1 projection: i) startingAt: start1
+			times: (anArray2 projection: i) startingAt: start2]! !
+
+!ProductArray methodsFor: 'operations-lowlevel' stamp: 'len 11/22/2022 16:41:40'!
+replaceFrom: start to: stop with: anArray startingAt: srcStart timesScalar: anElement
+	components withIndexDo: [:each :i|
+		each
+			replaceFrom: start to: stop
+			with: (anArray projection: i) startingAt: srcStart
+			timesScalar: (anElement at: i)]! !
+
+!ProductArray methodsFor: 'operations-lowlevel' stamp: 'len 11/22/2022 16:42:38'!
+replaceFrom: start to: stop withMatrix: anArray width: width timesTuple: anotherArray startingAt: start2
+	components withIndexDo: [:each :i|
+		each
+			replaceFrom: start to: stop
+			withMatrix: (anArray projection: i) width: width
+			timesTuple: (anotherArray projection: i) startingAt: start2]! !
+
+!ProductArray methodsFor: 'operations-lowlevel' stamp: 'len 11/22/2022 16:43:40'!
+replaceFrom: start to: stop withNegated: anArray startingAt: srcStart
+	components withIndexDo: [:each :i|
+		each
+			replaceFrom: start to: stop
+			withNegated: (anArray projection: i) startingAt: srcStart]! !
+
+!ProductArray methodsFor: 'operations-lowlevel' stamp: 'len 11/22/2022 16:44:38'!
+swapFrom: start to: stop with: anArray startingAt: start2
+	components withIndexDo: [:each :i|
+		each swapFrom: start to: stop with: (anArray projection: i) startingAt: start2]! !
+
+!ProductArray methodsFor: 'testing' stamp: 'len 11/22/2022 16:31:05'!
+isZero
+	^ components allSatisfy: [:each| each isZero]! !
+
+!ProductArray methodsFor: 'testing' stamp: 'len 11/22/2022 16:31:40'!
+isZeroAt: anInteger
+	^ components allSatisfy: [:each| (each isZeroAt: anInteger)]! !
+
+!ProductArray methodsFor: 'private' stamp: 'len 11/21/2022 16:22:29'!
+components
+	^ components! !
+
+!ProductArray methodsFor: 'private' stamp: 'len 11/20/2022 12:20:45'!
+components: anArray scalars: aProductRing
+	components _ anArray.
+	scalars _ aProductRing! !
+
+!ProductArray methodsFor: 'private' stamp: 'len 11/21/2022 16:18:36'!
+species
+	^ scalars! !
+
+!ProductArray methodsFor: 'private' stamp: 'len 11/21/2022 16:27:55'!
+zero: anInteger
+	^ scalars zeros: anInteger! !
+
+!ProductArray class methodsFor: 'as yet unclassified' stamp: 'len 11/20/2022 12:21:40'!
+components: anArray scalars: aProductRing
+	^ self basicNew components: anArray scalars: aProductRing! !
+
 !BinaryArray methodsFor: 'accessing' stamp: 'len 5/4/2022 11:28:25'!
 at: anInteger
 	^ (self bitAt: anInteger) = 1 ifTrue: [One] ifFalse: [Zero]! !
@@ -4335,42 +4534,13 @@ asInteger
 	words reverseDo: [:each| answer _ answer << 32 bitXor: each].
 	^ answer! !
 
-!LargeBinaryArray methodsFor: 'copying' stamp: 'len 5/20/2022 09:22:05'!
+!LargeBinaryArray methodsFor: 'copying' stamp: 'len 11/22/2022 16:17:57'!
 , anObject
+	self flag: #deprecated.
 	anObject class = self class ifFalse: [^ self copyWith: anObject].
 	^ (self class new: self size + anObject size)
 		replaceFrom: 1 to: self size with: self;
 		replaceFrom: self size + 1 to: self size + anObject size with: anObject! !
-
-!LargeBinaryArray methodsFor: 'copying' stamp: 'len 5/2/2022 07:38:33'!
-copy
-	^ self class new: size words: words copy! !
-
-!LargeBinaryArray methodsFor: 'copying' stamp: 'len 5/4/2022 16:38:59'!
-copyFrom: start to: stop 
-	"Answer a copy of a subset of the receiver, starting from element at 
-	index start until element at index stop."
-	| n |
-	(n _ stop - start + 1) <= 0 ifTrue: [^ self class new: 0].
-	^ (self copyEmpty: n)
-		replaceFrom: 1 to: n
-		with: self startingAt: start
-
-"	| n shift carry j newWords |
-	n _ stop - start + 1.
-	n <= 0 ifTrue: [^ self class new: 0].
-	shift _ start - 1 \\ 32.
-	(shift = 0 and: [stop \\ 32 = 0])
-		ifTrue: [^ self class new: n words: (words copyFrom: start - 1 // 32 + 1 to: stop - 1 // 32 + 1)].
-	newWords _ WordArray new: n - 1 // 32 + 1.
-	carry _ 0.
-	j _ start - 1 // 32 + 1.
-	1 to: newWords size do: [:i|
-		newWords at: i put: ((words at: j) >> shift bitXor: carry).
-		carry _ (words at: j) << (32 - shift) bitAnd: 16rFFFFFFFF.
-		j _ j + 1].
-	n > 0 ifTrue: [newWords at: newWords size put: ((newWords at: newWords size) bitAnd: 16rFFFFFFFF >> (32 - (n \\ 32)))].
-	^ self class new: n words: newWords"! !
 
 !LargeBinaryArray methodsFor: 'copying' stamp: 'len 4/30/2022 18:11:24'!
 copyWith: aBit
@@ -4379,6 +4549,10 @@ copyWith: aBit
 	aBit = One ifTrue: [^ answer at: self size+1 put: One; yourself].
 	aBit = Zero ifTrue: [^ answer].
 	^ self error: 'not one or zero'! !
+
+!LargeBinaryArray methodsFor: 'copying' stamp: 'len 11/22/2022 15:43:23'!
+postCopy
+	words _ words copy! !
 
 !LargeBinaryArray methodsFor: 'operations' stamp: 'len 5/20/2022 09:38:40'!
 * anObject
@@ -4548,8 +4722,9 @@ hash
 asInteger
 	^ bits! !
 
-!SmallBinaryArray methodsFor: 'copying' stamp: 'len 4/30/2022 13:00:55'!
+!SmallBinaryArray methodsFor: 'copying' stamp: 'len 11/22/2022 16:17:48'!
 , anObject
+	self flag: #deprecated.
 	anObject class = self class
 		ifTrue: [^ self class new: self size+anObject size bits: (bits bitXor: (anObject asInteger bitShift: self size))].
 	^ self copyWith: anObject! !
@@ -4757,15 +4932,9 @@ swap: oneIndex with: anotherIndex
 hash
 	^ coefficients hash! !
 
-!GaloisArray methodsFor: 'copying' stamp: 'len 5/2/2022 07:38:03'!
-copy
-	^ self class coefficients: coefficients copy scalars: scalars! !
-
-!GaloisArray methodsFor: 'copying' stamp: 'len 5/2/2022 07:44:56'!
-copyFrom: start to: stop
-	| n |
-	n _ scalars degree.
-	^ self class coefficients: (coefficients copyFrom: start-1*n+1 to: stop*n) scalars: scalars! !
+!GaloisArray methodsFor: 'copying' stamp: 'len 11/22/2022 15:44:54'!
+postCopy
+	coefficients _ coefficients copy! !
 
 !GaloisArray methodsFor: 'copying' stamp: 'len 5/2/2022 07:44:49'!
 replaceFrom: start to: stop with: replacement startingAt: repStart
@@ -5002,26 +5171,9 @@ hash
 	representatives do: [:each| each = 0 ifFalse: [answer _ answer hashMultiply + each hash]].
 	^ answer! !
 
-!ModularArray methodsFor: 'copying' stamp: 'len 4/17/2022 11:53:31'!
-, anObject
-	anObject class = self class
-		ifTrue:
-			[self scalars = anObject scalars ifFalse: [^ DomainError signal].
-			^ self class representatives: representatives, anObject representatives scalars: self scalars].
-	^ self copyWith: anObject! !
-
-!ModularArray methodsFor: 'copying' stamp: 'len 4/17/2022 11:56:10'!
-copy
-	^ self class representatives: representatives copy scalars: scalars! !
-
-!ModularArray methodsFor: 'copying' stamp: 'len 4/17/2022 11:56:21'!
-copyFrom: start to: stop
-	^ self class representatives: (representatives copyFrom: start to: stop) scalars: scalars! !
-
-!ModularArray methodsFor: 'copying' stamp: 'len 4/17/2022 11:56:40'!
-copyWith: anElement
-	(self scalars includes: anElement) ifFalse: [^ DomainError signal].
-	^ self class representatives: (representatives copyWith: anElement representative) scalars: scalars! !
+!ModularArray methodsFor: 'copying' stamp: 'len 11/22/2022 15:45:32'!
+postCopy
+	representatives _ representatives copy! !
 
 !ModularArray methodsFor: 'copying' stamp: 'len 5/1/2022 19:42:47'!
 replaceFrom: start to: stop with: replacement startingAt: repStart
@@ -10294,11 +10446,10 @@ includes: anObject
 isCommutative
 	^ true! !
 
-!FractionRing methodsFor: 'testing' stamp: 'len 11/20/2022 11:23:28'!
+!FractionRing methodsFor: 'testing' stamp: 'len 11/20/2022 12:30:37'!
 isDedekindDomain
 	"A localization of a Dedekind domain at any multiplicative set is also a Dedekind domain."
-	self numerators isDedekindDomain ifTrue: [^ true].
-	^ super isDedekindDomain! !
+	^ self numerators isDedekindDomain or: [super isDedekindDomain]! !
 
 !FractionRing methodsFor: 'testing' stamp: 'len 11/20/2022 11:23:32'!
 isField
@@ -10616,6 +10767,254 @@ isApproximate
 !LaurentSeriesRing methodsFor: 'testing' stamp: 'len 7/15/2021 16:05:06'!
 isLocalField
 	^ self scalars isFiniteField! !
+
+!IntegerRing methodsFor: 'accessing' stamp: 'len 11/5/2015 17:34'!
+characteristic
+	^ 0! !
+
+!IntegerRing methodsFor: 'accessing' stamp: 'len 10/20/2016 03:32'!
+dimension
+	"Answer the Krull dimension of the receiver."
+	^ 1! !
+
+!IntegerRing methodsFor: 'accessing' stamp: 'len 11/5/2015 19:19'!
+one
+	^ 1! !
+
+!IntegerRing methodsFor: 'accessing' stamp: 'len 12/29/2021 11:55:57'!
+size
+	^ Cardinal new! !
+
+!IntegerRing methodsFor: 'accessing' stamp: 'len 5/30/2022 10:03:20'!
+unitsSize
+	"Answer the order of the units group.
+	The rational integers have two units: 1 and -1."
+	^ 2! !
+
+!IntegerRing methodsFor: 'accessing' stamp: 'len 11/3/2015 20:50'!
+zero
+	^ 0! !
+
+!IntegerRing methodsFor: 'comparing' stamp: 'len 6/22/2019 03:32:02'!
+< aDomain
+	^ aDomain isRing! !
+
+!IntegerRing methodsFor: 'comparing' stamp: 'len 6/15/2022 09:52:54'!
+= anObject
+	^ anObject class = self class! !
+
+!IntegerRing methodsFor: 'comparing' stamp: 'len 12/14/2015 01:59'!
+hash
+	^ self class hash! !
+
+!IntegerRing methodsFor: 'computing-matrices' stamp: 'len 6/21/2022 11:26:55'!
+matrix: B quotientBy: A
+	"Answer X such that AX + N = B, satisfying that if the i-th column of B is a linear combination of the columns of A then the i-th column of N is zero.
+	Attempt to use Dixon's p-adic method [Dix82] for non-singular square matrices, and fallback to the general method for Euclidean domains if this fails."
+	| p F C lengths m M T |
+	((A isSquare and: [B width > 0]) not or: [A width = 1]) ifTrue: [^ self matrixOverEuclideanDomain: B quotientBy: A].
+"	β _ 2.
+	A do: [:each| β _ β max: each abs].
+	B do: [:each| β _ β max: each abs].
+	p _ (β min: 16rFFFFFFFF) atRandom nextPrime."
+	p _ 16rFFFFFFFF atRandom nextPrime.
+	F _ PrimeField new: p.
+	C _ (A over: F) inverse. "this can fail if p divides det(A)"
+	C isNil ifTrue: [^ self matrixOverEuclideanDomain: B quotientBy: A].
+	lengths _ OrderedCollection new: A width + 1.
+"	lengths add: (B columns max: [:b| b length])."
+	lengths add: (B columns max: [:b| b norm sqrtFloor + 1]).
+"	A columnsDo: [:each| lengths add: each length]."
+	A columnsDo: [:each| lengths add: each norm sqrtFloor + 1].
+"	δ _ lengths sorted allButFirst product.
+	λ _ 0.6180339887498949. ""root of x^2 + x - 1""
+	m _ ((δ / λ) log / p log * 2) ceiling."
+	m _ ((lengths sorted allButFirst sum: [:each| each log]) + 0.20898764024997868 / p log * 2) ceiling. "the constant is -log(λ)"
+	M _ (PrimePowerRing new: p to: m)^B height.
+	T _ (M scalars modulus // 2) sqrtFloor.
+	^ Matrix from: B domain to: A domain columns:
+		(B columns collect: [:b|
+			| xx bb x reconstruction |
+			xx _ OrderedCollection new: m.
+			bb _ b.
+			m timesRepeat:
+				[xx add: (C*(bb over: F)) lift.
+				bb _ bb - (A*xx last) // p].
+			x _ (0 to: m - 1) sum: [:i| M !! (xx at: i+1) * (p^i)].
+			"self assert: (A over: M scalars) * x = (B over: M scalars) asTuple."
+			reconstruction _ x asArray collect: [:each| each asRational: T].
+			(reconstruction allSatisfy: [:each| each notNil and: [each isIntegral]])
+				ifTrue: [M lift filling: [:i| reconstruction at: i]]
+				ifFalse: [M lift zero]])! !
+
+!IntegerRing methodsFor: 'computing-polynomials' stamp: 'len 1/9/2022 08:18:48'!
+factorizationOf2: aPolynomial
+	| answer f g |
+	answer _ Bag new.
+	aPolynomial content factorizationDo: [:p :e| answer add: (aPolynomial parent constant: p) withOccurrences: e].
+	g _ aPolynomial gcd: aPolynomial derivative.
+	f _ aPolynomial / g.
+	"TODO: if the receiver is not squarefree, we're missing powers of factors"
+	(f / (f content * f sign)) factorizationZassenhauss
+		withOccurrencesDo: [:each :k|
+			answer add: each withOccurrences: k].
+	^ answer! !
+
+!IntegerRing methodsFor: 'computing-polynomials' stamp: 'len 1/9/2022 08:35:58'!
+factorizationOf: aPolynomial
+	| answer content |
+	answer _ Bag new.
+	(content _ aPolynomial content) factorizationDo: [:p :e| answer add: (aPolynomial parent constant: p) withOccurrences: e].
+	(aPolynomial // (content * aPolynomial sign)) squarefreeFactorization withOccurrencesDo: [:f :r|
+		f factorizationZassenhauss do: [:each| answer add: each withOccurrences: r]].
+	^ answer! !
+
+!IntegerRing methodsFor: 'converting' stamp: 'len 4/30/2021 13:12:57'!
+asModule
+	^ self asIdeal! !
+
+!IntegerRing methodsFor: 'enumerating' stamp: 'len 11/10/2015 17:57'!
+do: aBlock
+	| i |
+	aBlock value: 0.
+	i _ 1.
+	[ aBlock value: i; value: i negated. i _ i + 1 ] repeat! !
+
+!IntegerRing methodsFor: 'enumerating' stamp: 'len 10/15/2022 08:49:53'!
+idealsDo: aBlock
+	| x |
+	x _ 0.
+	[aBlock value: self * x.
+	x _ x + 1] repeat! !
+
+!IntegerRing methodsFor: 'enumerating' stamp: 'len 5/4/2018 19:42:06'!
+primeIdealsDo: aBlock
+	| p |
+	p _ 0.
+	[aBlock value: self * p.
+	p _ p nextPrime] repeat! !
+
+!IntegerRing methodsFor: 'enumerating' stamp: 'len 7/16/2022 11:26:04'!
+primesDo: aBlock
+	| p |
+	p _ 2.
+	[aBlock value: p.
+	p _ p nextPrime] repeat! !
+
+!IntegerRing methodsFor: 'enumerating' stamp: 'len 9/22/2018 18:58:29'!
+unitsDo: aBlock
+	aBlock value: 1; value: -1! !
+
+!IntegerRing methodsFor: 'morphisms' stamp: 'len 9/16/2022 07:56:39'!
+to: aCodomain
+	aCodomain isRing ifTrue: [^ aCodomain addMap: (self to: aCodomain map: [:x| aCodomain one * x])].
+	^ super to: aCodomain! !
+
+!IntegerRing methodsFor: 'operations' stamp: 'len 1/9/2022 21:00:29'!
+/ anInteger
+	anInteger isInteger ifTrue:
+		[| factors |
+		factors _ anInteger factorization.
+		factors asSet size = 1 ifTrue:
+			[^ PrimePowerRing new: factors anyOne to: factors size].
+		^ (ModularIntegerRing new: anInteger) modulusFactors: factors].
+	(anInteger isKindOf: Ideal) ifFalse: [^ self / (self * anInteger)].
+	self = anInteger scalars ifFalse: [^ self error: 'ideal belongs to a different ring'].
+	^ self / anInteger generator! !
+
+!IntegerRing methodsFor: 'operations' stamp: 'len 8/6/2019 17:33:17'!
+adic: aPrime
+	^ AdicRing at: aPrime! !
+
+!IntegerRing methodsFor: 'operations' stamp: 'len 8/6/2019 17:33:17'!
+adic: aPrime precision: anInteger
+	^ AdicRing at: aPrime precision: anInteger! !
+
+!IntegerRing methodsFor: 'operations' stamp: 'len 5/23/2020 09:11:37'!
+fractions
+	^ ℚ! !
+
+!IntegerRing methodsFor: 'operations' stamp: 'len 4/8/2021 12:38:46'!
+radical
+	"Answer the Jacobson radical J(R) of the receiver R. This is the ideal consisting of all elements that annihilate all simple R-modules. It is the intersection of all maximal ideals."
+	^ self asIdeal null! !
+
+!IntegerRing methodsFor: 'operations' stamp: 'len 5/7/2022 07:35:14'!
+zeroDivisors
+	^ #(0)! !
+
+!IntegerRing methodsFor: 'printing' stamp: 'len 5/23/2020 07:41:41'!
+printOn: aStream
+	aStream nextPut: $ℤ! !
+
+!IntegerRing methodsFor: 'random' stamp: 'len 7/14/2020 17:33:43'!
+atRandom: aRandom bits: bitSize
+	| n |
+	bitSize isInfinite ifTrue: [^ self error: 'infinite bitsize'].
+	bitSize < 0 ifTrue: [^ self error: 'negative bitsize'].
+	bitSize = 0 ifTrue: [^ 0].
+	bitSize < 1 ifTrue: [^ ((2/bitSize) truncated atRandom: aRandom) = 1 ifTrue: [(-1 to: 1) atRandom: aRandom] ifFalse: [0]].
+	n _ 2^(bitSize truncated - 1).
+	^ (0-n to: n) atRandom: aRandom! !
+
+!IntegerRing methodsFor: 'testing' stamp: 'len 6/3/2022 06:06:54'!
+hasCanonicalAssociates
+	^ true! !
+
+!IntegerRing methodsFor: 'testing' stamp: 'len 6/3/2022 20:41:32'!
+hasCanonicalReduction
+	^ true! !
+
+!IntegerRing methodsFor: 'testing' stamp: 'len 11/23/2015 02:37'!
+includes: anObject
+	^ anObject isInteger! !
+
+!IntegerRing methodsFor: 'testing' stamp: 'len 6/4/2019 16:15:35'!
+isBezout
+	"Answer true if the receiver is a Bezout ring, i.e. every finitely generated ideal is principal."
+	^ true! !
+
+!IntegerRing methodsFor: 'testing' stamp: 'len 4/28/2021 09:35:15'!
+isCommutative
+	^ true! !
+
+!IntegerRing methodsFor: 'testing' stamp: 'len 1/2/2022 10:08:56'!
+isDedekindDomain
+	"A Dedekind domain is an integral domain in which every nonzero proper ideal factors into a product of prime ideals."
+	^ true! !
+
+!IntegerRing methodsFor: 'testing' stamp: 'len 12/31/2021 11:50:30'!
+isEuclidean
+	"Answer true if the receiver is a Euclidean ring, i.e. it has Euclidean division with remainder."
+	^ true! !
+
+!IntegerRing methodsFor: 'testing' stamp: 'len 11/7/2015 21:58'!
+isFinite
+	^ false! !
+
+!IntegerRing methodsFor: 'testing' stamp: 'len 1/8/2017 07:49:36'!
+isIntegralDomain
+	^ true! !
+
+!IntegerRing methodsFor: 'testing' stamp: 'len 3/21/2021 15:10:44'!
+isNoetherian
+	"A ring is called Noetherian if every ideal is finitely generated."
+	^ true! !
+
+!IntegerRing methodsFor: 'testing' stamp: 'len 8/9/2020 08:00:07'!
+isReal
+	"Answer true if the receiver is a subring of the real field."
+	^ true! !
+
+!IntegerRing methodsFor: 'testing' stamp: 'len 1/2/2022 10:09:04'!
+isReduced
+	"Answer true if the receiver has no nonzero nilpotent elements, or equivalently if it has no nonzero elements with square zero, i.e. x^2 = 0 implies x = 0."
+	^ true! !
+
+!IntegerRing class methodsFor: 'initialization' stamp: 'len 5/23/2020 08:50:48'!
+initialize
+	super initialize.
+	Smalltalk at: #ℤ put: self new! !
 
 !LocalRing methodsFor: 'accessing' stamp: 'len 11/20/2022 11:26:56'!
 characteristic
@@ -11000,9 +11399,24 @@ asModule
 	ℤ × (ℤ/3) × (ℤ/4) :: asAbelianGroup
 "! !
 
+!ProductRing methodsFor: 'elements' stamp: 'len 11/21/2022 15:57:33'!
+!!!! anArray
+	"Answer an array of elements of the receiver from anArray.
+	If the elements of anArray are not elements of the receiver, they are coerced."
+	(anArray class = ProductArray and: [anArray scalars = self]) ifTrue: [^ anArray].
+	^ super !!!! anArray! !
+
 !ProductRing methodsFor: 'elements' stamp: 'len 10/8/2022 19:37:30'!
 compose: anArray
 	^ ProductRingElement components: anArray asArray parent: self! !
+
+!ProductRing methodsFor: 'elements' stamp: 'len 11/21/2022 15:50:49'!
+new: anInteger
+	^ ProductArray components: (components collect: [:each| each new: anInteger]) scalars: self! !
+
+!ProductRing methodsFor: 'elements' stamp: 'len 11/21/2022 15:50:26'!
+zeros: anInteger
+	^ ProductArray components: (components collect: [:each| each zeros: anInteger]) scalars: self! !
 
 !ProductRing methodsFor: 'enumerating' stamp: 'len 10/17/2020 20:06:58'!
 do: aBlock
@@ -11488,23 +11902,19 @@ asModule
 			addCoercionTo: self map: [:each| self !! (each representative at: 1)];
 			yourself]! !
 
-!ModularIntegerRing methodsFor: 'elements' stamp: 'len 8/17/2022 13:05:48'!
+!ModularIntegerRing methodsFor: 'elements' stamp: 'len 11/21/2022 16:03:33'!
 !!!! anArray
 	"Answer an array of elements of the receiver from anArray.
 	If the elements of anArray are not elements of the receiver, they are coerced."
-	| representatives |
-	(anArray class = ModularArray and: [anArray scalars = self]) ifTrue: [^ anArray].
-	modulus = 2 ifTrue:
-		[anArray class = LargeBinaryArray ifTrue: [^ anArray].
-		^ LargeBinaryArray newFrom: super !!!! anArray].
-	representatives _ self representativesArrayClass new: anArray size.
-	1 to: anArray size do: [:i| representatives at: i put: (self !! (anArray at: i)) representative].
-	^ ModularArray representatives: representatives scalars: self! !
+	((anArray class = ModularArray and: [anArray scalars = self]) or: [modulus = 2 and: [anArray class = LargeBinaryArray]]) ifTrue: [^ anArray].
+	^ super !!!! anArray! !
 
-!ModularIntegerRing methodsFor: 'elements' stamp: 'len 8/17/2022 13:05:56'!
+!ModularIntegerRing methodsFor: 'elements' stamp: 'len 11/21/2022 16:04:48'!
 new: anInteger
+	| representativesArrayClass |
 	modulus = 2 ifTrue: [^ LargeBinaryArray new: anInteger].
-	^ ModularArray representatives: (self representativesArrayClass new: anInteger) scalars: self! !
+	representativesArrayClass _ modulus <= 256 ifTrue: [ByteArray] ifFalse: [modulus <= 16r100000000 ifTrue: [WordArray] ifFalse: [Array]].
+	^ ModularArray representatives: (representativesArrayClass new: anInteger) scalars: self! !
 
 !ModularIntegerRing methodsFor: 'elements' stamp: 'len 5/20/2022 10:39:54'!
 zeros: anInteger
@@ -11660,10 +12070,6 @@ modulusPrimes
 relations: anIdeal
 	super relations: anIdeal.
 	self modulus: anIdeal generator! !
-
-!ModularIntegerRing methodsFor: 'private' stamp: 'len 4/25/2022 16:03:24'!
-representativesArrayClass
-	^ modulus <= 256 ifTrue: [ByteArray] ifFalse: [modulus <= 16r100000000 ifTrue: [WordArray] ifFalse: [Array]]! !
 
 !ModularIntegerRing class methodsFor: 'class initialization' stamp: 'len 5/1/2022 10:37:37'!
 initialize
@@ -12893,254 +13299,6 @@ new
 	| P |
 	P _ ℚ polynomialsIn: {'i' italic}.
 	^ super new relations: P * (P x squared + 1)! !
-
-!RationalIntegerRing methodsFor: 'accessing' stamp: 'len 11/5/2015 17:34'!
-characteristic
-	^ 0! !
-
-!RationalIntegerRing methodsFor: 'accessing' stamp: 'len 10/20/2016 03:32'!
-dimension
-	"Answer the Krull dimension of the receiver."
-	^ 1! !
-
-!RationalIntegerRing methodsFor: 'accessing' stamp: 'len 11/5/2015 19:19'!
-one
-	^ 1! !
-
-!RationalIntegerRing methodsFor: 'accessing' stamp: 'len 12/29/2021 11:55:57'!
-size
-	^ Cardinal new! !
-
-!RationalIntegerRing methodsFor: 'accessing' stamp: 'len 5/30/2022 10:03:20'!
-unitsSize
-	"Answer the order of the units group.
-	The rational integers have two units: 1 and -1."
-	^ 2! !
-
-!RationalIntegerRing methodsFor: 'accessing' stamp: 'len 11/3/2015 20:50'!
-zero
-	^ 0! !
-
-!RationalIntegerRing methodsFor: 'comparing' stamp: 'len 6/22/2019 03:32:02'!
-< aDomain
-	^ aDomain isRing! !
-
-!RationalIntegerRing methodsFor: 'comparing' stamp: 'len 6/15/2022 09:52:54'!
-= anObject
-	^ anObject class = self class! !
-
-!RationalIntegerRing methodsFor: 'comparing' stamp: 'len 12/14/2015 01:59'!
-hash
-	^ self class hash! !
-
-!RationalIntegerRing methodsFor: 'computing-matrices' stamp: 'len 6/21/2022 11:26:55'!
-matrix: B quotientBy: A
-	"Answer X such that AX + N = B, satisfying that if the i-th column of B is a linear combination of the columns of A then the i-th column of N is zero.
-	Attempt to use Dixon's p-adic method [Dix82] for non-singular square matrices, and fallback to the general method for Euclidean domains if this fails."
-	| p F C lengths m M T |
-	((A isSquare and: [B width > 0]) not or: [A width = 1]) ifTrue: [^ self matrixOverEuclideanDomain: B quotientBy: A].
-"	β _ 2.
-	A do: [:each| β _ β max: each abs].
-	B do: [:each| β _ β max: each abs].
-	p _ (β min: 16rFFFFFFFF) atRandom nextPrime."
-	p _ 16rFFFFFFFF atRandom nextPrime.
-	F _ PrimeField new: p.
-	C _ (A over: F) inverse. "this can fail if p divides det(A)"
-	C isNil ifTrue: [^ self matrixOverEuclideanDomain: B quotientBy: A].
-	lengths _ OrderedCollection new: A width + 1.
-"	lengths add: (B columns max: [:b| b length])."
-	lengths add: (B columns max: [:b| b norm sqrtFloor + 1]).
-"	A columnsDo: [:each| lengths add: each length]."
-	A columnsDo: [:each| lengths add: each norm sqrtFloor + 1].
-"	δ _ lengths sorted allButFirst product.
-	λ _ 0.6180339887498949. ""root of x^2 + x - 1""
-	m _ ((δ / λ) log / p log * 2) ceiling."
-	m _ ((lengths sorted allButFirst sum: [:each| each log]) + 0.20898764024997868 / p log * 2) ceiling. "the constant is -log(λ)"
-	M _ (PrimePowerRing new: p to: m)^B height.
-	T _ (M scalars modulus // 2) sqrtFloor.
-	^ Matrix from: B domain to: A domain columns:
-		(B columns collect: [:b|
-			| xx bb x reconstruction |
-			xx _ OrderedCollection new: m.
-			bb _ b.
-			m timesRepeat:
-				[xx add: (C*(bb over: F)) lift.
-				bb _ bb - (A*xx last) // p].
-			x _ (0 to: m - 1) sum: [:i| M !! (xx at: i+1) * (p^i)].
-			"self assert: (A over: M scalars) * x = (B over: M scalars) asTuple."
-			reconstruction _ x asArray collect: [:each| each asRational: T].
-			(reconstruction allSatisfy: [:each| each notNil and: [each isIntegral]])
-				ifTrue: [M lift filling: [:i| reconstruction at: i]]
-				ifFalse: [M lift zero]])! !
-
-!RationalIntegerRing methodsFor: 'computing-polynomials' stamp: 'len 1/9/2022 08:18:48'!
-factorizationOf2: aPolynomial
-	| answer f g |
-	answer _ Bag new.
-	aPolynomial content factorizationDo: [:p :e| answer add: (aPolynomial parent constant: p) withOccurrences: e].
-	g _ aPolynomial gcd: aPolynomial derivative.
-	f _ aPolynomial / g.
-	"TODO: if the receiver is not squarefree, we're missing powers of factors"
-	(f / (f content * f sign)) factorizationZassenhauss
-		withOccurrencesDo: [:each :k|
-			answer add: each withOccurrences: k].
-	^ answer! !
-
-!RationalIntegerRing methodsFor: 'computing-polynomials' stamp: 'len 1/9/2022 08:35:58'!
-factorizationOf: aPolynomial
-	| answer content |
-	answer _ Bag new.
-	(content _ aPolynomial content) factorizationDo: [:p :e| answer add: (aPolynomial parent constant: p) withOccurrences: e].
-	(aPolynomial // (content * aPolynomial sign)) squarefreeFactorization withOccurrencesDo: [:f :r|
-		f factorizationZassenhauss do: [:each| answer add: each withOccurrences: r]].
-	^ answer! !
-
-!RationalIntegerRing methodsFor: 'converting' stamp: 'len 4/30/2021 13:12:57'!
-asModule
-	^ self asIdeal! !
-
-!RationalIntegerRing methodsFor: 'enumerating' stamp: 'len 11/10/2015 17:57'!
-do: aBlock
-	| i |
-	aBlock value: 0.
-	i _ 1.
-	[ aBlock value: i; value: i negated. i _ i + 1 ] repeat! !
-
-!RationalIntegerRing methodsFor: 'enumerating' stamp: 'len 10/15/2022 08:49:53'!
-idealsDo: aBlock
-	| x |
-	x _ 0.
-	[aBlock value: self * x.
-	x _ x + 1] repeat! !
-
-!RationalIntegerRing methodsFor: 'enumerating' stamp: 'len 5/4/2018 19:42:06'!
-primeIdealsDo: aBlock
-	| p |
-	p _ 0.
-	[aBlock value: self * p.
-	p _ p nextPrime] repeat! !
-
-!RationalIntegerRing methodsFor: 'enumerating' stamp: 'len 7/16/2022 11:26:04'!
-primesDo: aBlock
-	| p |
-	p _ 2.
-	[aBlock value: p.
-	p _ p nextPrime] repeat! !
-
-!RationalIntegerRing methodsFor: 'enumerating' stamp: 'len 9/22/2018 18:58:29'!
-unitsDo: aBlock
-	aBlock value: 1; value: -1! !
-
-!RationalIntegerRing methodsFor: 'morphisms' stamp: 'len 9/16/2022 07:56:39'!
-to: aCodomain
-	aCodomain isRing ifTrue: [^ aCodomain addMap: (self to: aCodomain map: [:x| aCodomain one * x])].
-	^ super to: aCodomain! !
-
-!RationalIntegerRing methodsFor: 'operations' stamp: 'len 1/9/2022 21:00:29'!
-/ anInteger
-	anInteger isInteger ifTrue:
-		[| factors |
-		factors _ anInteger factorization.
-		factors asSet size = 1 ifTrue:
-			[^ PrimePowerRing new: factors anyOne to: factors size].
-		^ (ModularIntegerRing new: anInteger) modulusFactors: factors].
-	(anInteger isKindOf: Ideal) ifFalse: [^ self / (self * anInteger)].
-	self = anInteger scalars ifFalse: [^ self error: 'ideal belongs to a different ring'].
-	^ self / anInteger generator! !
-
-!RationalIntegerRing methodsFor: 'operations' stamp: 'len 8/6/2019 17:33:17'!
-adic: aPrime
-	^ AdicRing at: aPrime! !
-
-!RationalIntegerRing methodsFor: 'operations' stamp: 'len 8/6/2019 17:33:17'!
-adic: aPrime precision: anInteger
-	^ AdicRing at: aPrime precision: anInteger! !
-
-!RationalIntegerRing methodsFor: 'operations' stamp: 'len 5/23/2020 09:11:37'!
-fractions
-	^ ℚ! !
-
-!RationalIntegerRing methodsFor: 'operations' stamp: 'len 4/8/2021 12:38:46'!
-radical
-	"Answer the Jacobson radical J(R) of the receiver R. This is the ideal consisting of all elements that annihilate all simple R-modules. It is the intersection of all maximal ideals."
-	^ self asIdeal null! !
-
-!RationalIntegerRing methodsFor: 'operations' stamp: 'len 5/7/2022 07:35:14'!
-zeroDivisors
-	^ #(0)! !
-
-!RationalIntegerRing methodsFor: 'printing' stamp: 'len 5/23/2020 07:41:41'!
-printOn: aStream
-	aStream nextPut: $ℤ! !
-
-!RationalIntegerRing methodsFor: 'random' stamp: 'len 7/14/2020 17:33:43'!
-atRandom: aRandom bits: bitSize
-	| n |
-	bitSize isInfinite ifTrue: [^ self error: 'infinite bitsize'].
-	bitSize < 0 ifTrue: [^ self error: 'negative bitsize'].
-	bitSize = 0 ifTrue: [^ 0].
-	bitSize < 1 ifTrue: [^ ((2/bitSize) truncated atRandom: aRandom) = 1 ifTrue: [(-1 to: 1) atRandom: aRandom] ifFalse: [0]].
-	n _ 2^(bitSize truncated - 1).
-	^ (0-n to: n) atRandom: aRandom! !
-
-!RationalIntegerRing methodsFor: 'testing' stamp: 'len 6/3/2022 06:06:54'!
-hasCanonicalAssociates
-	^ true! !
-
-!RationalIntegerRing methodsFor: 'testing' stamp: 'len 6/3/2022 20:41:32'!
-hasCanonicalReduction
-	^ true! !
-
-!RationalIntegerRing methodsFor: 'testing' stamp: 'len 11/23/2015 02:37'!
-includes: anObject
-	^ anObject isInteger! !
-
-!RationalIntegerRing methodsFor: 'testing' stamp: 'len 6/4/2019 16:15:35'!
-isBezout
-	"Answer true if the receiver is a Bezout ring, i.e. every finitely generated ideal is principal."
-	^ true! !
-
-!RationalIntegerRing methodsFor: 'testing' stamp: 'len 4/28/2021 09:35:15'!
-isCommutative
-	^ true! !
-
-!RationalIntegerRing methodsFor: 'testing' stamp: 'len 1/2/2022 10:08:56'!
-isDedekindDomain
-	"A Dedekind domain is an integral domain in which every nonzero proper ideal factors into a product of prime ideals."
-	^ true! !
-
-!RationalIntegerRing methodsFor: 'testing' stamp: 'len 12/31/2021 11:50:30'!
-isEuclidean
-	"Answer true if the receiver is a Euclidean ring, i.e. it has Euclidean division with remainder."
-	^ true! !
-
-!RationalIntegerRing methodsFor: 'testing' stamp: 'len 11/7/2015 21:58'!
-isFinite
-	^ false! !
-
-!RationalIntegerRing methodsFor: 'testing' stamp: 'len 1/8/2017 07:49:36'!
-isIntegralDomain
-	^ true! !
-
-!RationalIntegerRing methodsFor: 'testing' stamp: 'len 3/21/2021 15:10:44'!
-isNoetherian
-	"A ring is called Noetherian if every ideal is finitely generated."
-	^ true! !
-
-!RationalIntegerRing methodsFor: 'testing' stamp: 'len 8/9/2020 08:00:07'!
-isReal
-	"Answer true if the receiver is a subring of the real field."
-	^ true! !
-
-!RationalIntegerRing methodsFor: 'testing' stamp: 'len 1/2/2022 10:09:04'!
-isReduced
-	"Answer true if the receiver has no nonzero nilpotent elements, or equivalently if it has no nonzero elements with square zero, i.e. x^2 = 0 implies x = 0."
-	^ true! !
-
-!RationalIntegerRing class methodsFor: 'initialization' stamp: 'len 5/23/2020 08:50:48'!
-initialize
-	super initialize.
-	Smalltalk at: #ℤ put: self new! !
 
 !PolynomialRing methodsFor: 'accessing' stamp: 'len 1/2/2017 10:08:58'!
 characteristic
@@ -24787,10 +24945,6 @@ over: aRing
 	self scalars = aRing ifTrue: [^ self].
 	^ self class from: (domain over: aRing) to: (codomain over: aRing) coefficients: aRing !!!! coefficients! !
 
-!DenseMatrix methodsFor: 'copying' stamp: 'len 4/20/2022 18:43:25'!
-copy
-	^ self class from: domain to: codomain coefficients: coefficients copy! !
-
 !DenseMatrix methodsFor: 'copying' stamp: 'len 5/16/2022 11:09:18'!
 copyFrom: start to: stop
 	"Answer the submatrix of the receiver from start to stop."
@@ -24804,6 +24958,10 @@ copyFrom: start to: stop
 		from: (domain copyFrom: start y to: stop y)
 		to: (codomain copyFrom: start x to: stop x)
 		coefficients: subcoefficients! !
+
+!DenseMatrix methodsFor: 'copying' stamp: 'len 11/22/2022 15:54:11'!
+postCopy
+	coefficients _ coefficients copy! !
 
 !DenseMatrix methodsFor: 'enumerating' stamp: 'len 4/21/2022 12:32:12'!
 allSatisfy: aBlock
@@ -31272,9 +31430,9 @@ orderedBy: aMonomialOrdering
 	"Answer a copy of the receiver with a different monomial ordering."
 	^ (self parent orderedBy: aMonomialOrdering) !! self! !
 
-!Polynomial methodsFor: 'copying' stamp: 'len 4/28/2022 07:05:11'!
-copy
-	^ self class coefficients: coefficients copy parent: parent! !
+!Polynomial methodsFor: 'copying' stamp: 'len 11/22/2022 15:50:20'!
+postCopy
+	coefficients _ coefficients copy! !
 
 !Polynomial methodsFor: 'enumerating' stamp: 'len 4/27/2022 16:55:56'!
 associationsDo: aBlock
@@ -31301,12 +31459,12 @@ content
 	self coefficients do: [:each| answer _ answer gcd: each].
 	^ answer! !
 
-!Polynomial methodsFor: 'factorization' stamp: 'len 4/27/2022 16:46:23'!
+!Polynomial methodsFor: 'factorization' stamp: 'len 11/22/2022 16:51:11'!
 integerContent
 	"Answer the integer content of the receiver.
 	NOTE: assumes the receiver is a polynomial over the rationals."
 	| a b |
-"	(self scalars isKindOf: RationalIntegerRing) ifFalse: [DomainError signal]."
+"	self scalars = ℤ ifFalse: [DomainError signal]."
 	self isZero ifTrue: [^ self].
 	a _ self leadingCoefficient numerator.
 	b _ self leadingCoefficient denominator.
@@ -32553,7 +32711,7 @@ squarefreeFactorizationYun
 		ifFalse: [^ self class coefficients: (coefficients polynomialPartialDivisionBy: anElement coefficients) first parent: parent].
 	^ self class coefficients: (coefficients polynomialDivisionBy: anElement coefficients) first parent: parent! !
 
-!UnivariatePolynomial methodsFor: 'operations' stamp: 'len 5/2/2022 12:08:48'!
+!UnivariatePolynomial methodsFor: 'operations' stamp: 'len 11/21/2022 16:14:48'!
 << anInteger
 	(anInteger = 0 or: [self isZero]) ifTrue: [^ self].
 	self degree + anInteger >= 0 ifFalse: [^ self zero].
@@ -32562,7 +32720,7 @@ squarefreeFactorizationYun
 			(anInteger < 0
 				ifTrue: [coefficients copyFrom: 1 - anInteger to: coefficients size]
 				"could be faster for polynomials over Z/2Z, delegating the shift to the coefficients array:"
-				ifFalse: [(coefficients zero: anInteger), coefficients])
+				ifFalse: [(parent scalars zeros: anInteger), coefficients])
 		parent: parent! !
 
 !UnivariatePolynomial methodsFor: 'operations' stamp: 'len 7/9/2016 03:05'!
@@ -33759,9 +33917,9 @@ tail
 hash
 	^ coefficients hash! !
 
-!FreePolynomial methodsFor: 'copying' stamp: 'len 4/28/2022 07:05:38'!
-copy
-	^ self class coefficients: coefficients copy parent: parent! !
+!FreePolynomial methodsFor: 'copying' stamp: 'len 11/22/2022 15:50:45'!
+postCopy
+	coefficients _ coefficients copy! !
 
 !FreePolynomial methodsFor: 'enumerating' stamp: 'len 4/28/2022 06:59:02'!
 associationsDo: aBlock
@@ -34900,10 +35058,6 @@ coproject: aList
 	aList do: [:i| answer at: i put: (self at: i)].
 	^ answer! !
 
-!Tuple methodsFor: 'copying' stamp: 'len 4/20/2022 18:28:25'!
-copy
-	^ self class coefficients: coefficients copy parent: parent! !
-
 !Tuple methodsFor: 'copying' stamp: 'len 4/20/2022 18:28:33'!
 copyFrom: start to: stop
 	^ self class coefficients: (coefficients copyFrom: start to: stop) parent: self scalars^(stop-start+1)! !
@@ -34911,6 +35065,10 @@ copyFrom: start to: stop
 !Tuple methodsFor: 'copying' stamp: 'len 4/20/2022 18:28:43'!
 copyWith: anElement
 	^ self class coefficients: (coefficients copyWith: self scalars !! anElement) parent: self scalars^(self size + 1)! !
+
+!Tuple methodsFor: 'copying' stamp: 'len 11/22/2022 15:51:10'!
+postCopy
+	coefficients _ coefficients copy! !
 
 !Tuple methodsFor: 'deprecated' stamp: 'len 5/30/2019 07:23:04'!
 add: aTuple times: aNumber
@@ -40578,9 +40736,9 @@ zero
 BinaryArray initialize!
 Naturals initialize!
 RationalField initialize!
+IntegerRing initialize!
 ModularIntegerRing initialize!
 GaloisRing initialize!
-RationalIntegerRing initialize!
 RealField initialize!
 ComplexField initialize!
 Function initialize!
