@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5438] on 16 October 2022 at 6:10:16 am'!
+'From Cuis 6.0 [latest update: #5438] on 22 November 2022 at 4:57:29 pm'!
 'Description This package includes some extra methods for Collection and subclasses and some new collection classes.'!
-!provides: 'Collections-Extras' 1 5!
+!provides: 'Collections-Extras' 1 6!
 SystemOrganization addCategory: #'Collections-Extras'!
 
 
@@ -322,9 +322,9 @@ negated
 hash
 	^ associations hash! !
 
-!SortedDictionary methodsFor: 'copying' stamp: 'len 4/27/2022 13:12:08'!
-copy
-	^ self class associations: (associations collect: [:each| each copy])! !
+!SortedDictionary methodsFor: 'copying' stamp: 'len 11/22/2022 15:53:25'!
+postCopy
+	associations _ associations collect: [:each| each copy]! !
 
 !SortedDictionary methodsFor: 'enumerating' stamp: 'len 4/27/2022 13:14:43'!
 associationsDo: aBlock 

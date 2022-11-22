@@ -1,47 +1,47 @@
-'From Cuis 6.0 [latest update: #5434] on 5 August 2022 at 9:27:36 am'!
+'From Cuis 6.0 [latest update: #5438] on 22 November 2022 at 4:57:22 pm'!
 'Description '!
-!provides: 'Tableaux' 1 1!
+!provides: 'Tableaux' 1 2!
 !requires: 'Algebra' 1 0 nil!
-SystemOrganization addCategory: 'Tableaux'!
+SystemOrganization addCategory: #Tableaux!
 
 
-!classDefinition: #YoungTableau category: 'Tableaux'!
+!classDefinition: #YoungTableau category: #Tableaux!
 Collection subclass: #YoungTableau
 	instanceVariableNames: 'rows'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tableaux'!
-!classDefinition: 'YoungTableau class' category: 'Tableaux'!
+!classDefinition: 'YoungTableau class' category: #Tableaux!
 YoungTableau class
 	instanceVariableNames: ''!
 
-!classDefinition: #SemistandardTableaux category: 'Tableaux'!
+!classDefinition: #SemistandardTableaux category: #Tableaux!
 Structure subclass: #SemistandardTableaux
 	instanceVariableNames: 'shape alphabet'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tableaux'!
-!classDefinition: 'SemistandardTableaux class' category: 'Tableaux'!
+!classDefinition: 'SemistandardTableaux class' category: #Tableaux!
 SemistandardTableaux class
 	instanceVariableNames: ''!
 
-!classDefinition: #StandardTableaux category: 'Tableaux'!
+!classDefinition: #StandardTableaux category: #Tableaux!
 SemistandardTableaux subclass: #StandardTableaux
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tableaux'!
-!classDefinition: 'StandardTableaux class' category: 'Tableaux'!
+!classDefinition: 'StandardTableaux class' category: #Tableaux!
 StandardTableaux class
 	instanceVariableNames: ''!
 
-!classDefinition: #YoungDiagram category: 'Tableaux'!
+!classDefinition: #YoungDiagram category: #Tableaux!
 Object subclass: #YoungDiagram
 	instanceVariableNames: 'shape'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tableaux'!
-!classDefinition: 'YoungDiagram class' category: 'Tableaux'!
+!classDefinition: 'YoungDiagram class' category: #Tableaux!
 YoungDiagram class
 	instanceVariableNames: ''!
 
@@ -102,9 +102,9 @@ negated
 sign
 	self notYetImplemented! !
 
-!YoungTableau methodsFor: 'copying' stamp: 'len 7/11/2016 22:07'!
-copy
-	^ self class rows: (rows collect: [:each| each copy])! !
+!YoungTableau methodsFor: 'copying' stamp: 'len 11/22/2022 15:48:55'!
+postCopy
+	rows _ rows collect: [:each| each copy]! !
 
 !YoungTableau methodsFor: 'enumerating' stamp: 'len 7/11/2016 22:11'!
 do: aBlock
