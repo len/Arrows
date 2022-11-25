@@ -1,17 +1,17 @@
-'From Cuis 6.0 [latest update: #5434] on 5 August 2022 at 9:27:56 am'!
+'From Cuis 6.0 [latest update: #5438] on 25 November 2022 at 10:26:38 am'!
 'Description '!
-!provides: 'Tests-Elliptic Curves' 1 1!
+!provides: 'Tests-Elliptic Curves' 1 2!
 !requires: 'Elliptic Curves' 1 2 nil!
-SystemOrganization addCategory: 'Tests-Elliptic Curves'!
+SystemOrganization addCategory: #'Tests-Elliptic Curves'!
 
 
-!classDefinition: #EllipticCurvesTest category: 'Tests-Elliptic Curves'!
+!classDefinition: #EllipticCurvesTest category: #'Tests-Elliptic Curves'!
 TestCase subclass: #EllipticCurvesTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Elliptic Curves'!
-!classDefinition: 'EllipticCurvesTest class' category: 'Tests-Elliptic Curves'!
+!classDefinition: 'EllipticCurvesTest class' category: #'Tests-Elliptic Curves'!
 EllipticCurvesTest class
 	instanceVariableNames: ''!
 
@@ -32,16 +32,16 @@ testCInvariants
 	self assert: W c4 = 496.
 	self assert: W c6 = 20008! !
 
-!EllipticCurvesTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2020 09:33:01'!
+!EllipticCurvesTest methodsFor: 'as yet unclassified' stamp: 'len 11/23/2022 17:07:42'!
 testGroupLaw
 	| E P Q O |
 	E _ EllipticCurve cremona389a1.
-	P _ E pointAt: (ℚ tuple: #(-1 1)).
-	Q _ E pointAt: (ℚ tuple: #(0 -1)).
-	O _ E pointAt: (ℚ tuple: #(0 1 0)).
-	self assert: P+Q = (E pointAt: (ℚ tuple: #(4 8))).
-	self assert: P-Q = (E pointAt: (ℚ tuple: #(1 0))).
-	self assert: 3*P - (5*Q) = (E pointAt: (ℚ tuple: {328/361. -2800/6859})).
+	P _ E pointAt: (ℚ !!!! #(-1 1)).
+	Q _ E pointAt: (ℚ !!!! #(0 -1)).
+	O _ E pointAt: (ℚ !!!! #(0 1 0)).
+	self assert: P+Q = (E pointAt: (ℚ !!!! #(4 8))).
+	self assert: P-Q = (E pointAt: (ℚ !!!! #(1 0))).
+	self assert: 3*P - (5*Q) = (E pointAt: (ℚ !!!! {328/361. -2800/6859})).
 	self assert: O+P = P.
 	self assert: P+O = P.
 	self assert: P-P = O! !

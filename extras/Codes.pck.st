@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5438] on 20 November 2022 at 12:13:29 pm'!
+'From Cuis 6.0 [latest update: #5438] on 25 November 2022 at 10:26:00 am'!
 'Description '!
-!provides: 'Codes' 1 7!
+!provides: 'Codes' 1 8!
 !requires: 'Algebra' 1 0 nil!
 SystemOrganization addCategory: #Codes!
 
@@ -215,11 +215,11 @@ isometries
 	"Answer the direct sum of the receiver and the argument."
 	^ self class generatorMatrix: self generatorMatrix ⊕ aCode generatorMatrix! !
 
-!LinearCode methodsFor: 'operations' stamp: 'len 8/3/2020 09:46:45'!
+!LinearCode methodsFor: 'operations' stamp: 'len 11/23/2022 21:26:45'!
 augmented
 	"Answer a code like the receiver but including the all-ones vector amoung its codewords."
 	| ones |
-	ones _ self space filling: [:i| self scalars one].
+	ones _ self space fill: [:i| self scalars one].
 	(self includes: ones) ifTrue: [^ self].
 	^ self class on: self asModule + (self space span: {ones})! !
 

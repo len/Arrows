@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5438] on 16 October 2022 at 6:10:11 am'!
+'From Cuis 6.0 [latest update: #5438] on 25 November 2022 at 10:26:08 am'!
 'Description '!
-!provides: 'Elliptic Curves' 1 7!
+!provides: 'Elliptic Curves' 1 8!
 !requires: 'Algebra' 1 0 nil!
 SystemOrganization addCategory: #'Elliptic Curves'!
 
@@ -109,11 +109,11 @@ torsion
 	..."
 	self notYetImplemented! !
 
-!EllipticCurveGroup methodsFor: 'elements' stamp: 'len 6/19/2022 12:29:40'!
+!EllipticCurveGroup methodsFor: 'elements' stamp: 'len 11/23/2022 17:08:03'!
 identity
 	"Answer the identity element of the receiver.
 	This is the point at infinity."
-	^ curve pointAt: (scalars tuple: {scalars zero. scalars one. scalars zero})! !
+	^ curve pointAt: scalars !!!! {scalars zero. scalars one. scalars zero}! !
 
 !EllipticCurveGroup methodsFor: 'enumerating' stamp: 'len 11/10/2016 08:10'!
 do: aBlock
@@ -377,7 +377,7 @@ y
 		ifTrue: [self doubled * (anInteger // 2)]
 		ifFalse: [self doubled * (anInteger // 2) + self]! !
 
-!EllipticCurvePoint methodsFor: 'arithmetic' stamp: 'len 5/22/2022 11:09:53'!
+!EllipticCurvePoint methodsFor: 'arithmetic' stamp: 'len 11/23/2022 17:13:14'!
 + aPoint
 	"Answer the sum of the receiver and the argument.
 	[Coh96] Proposition 7.1.7."
@@ -394,13 +394,13 @@ y
 		ifFalse: [y1 - y2 / (x1 - x2)].
 	x3 _ x1 negated - x2 - W a2 + (m*(m + W a1)).
 	y3 _ y1 negated - W a3 - (W a1 * x3) + (m*(x1 - x3)).
-	^ self shallowCopy coordinates: (self scalars tuple: {x3. y3. self scalars one})! !
+	^ self shallowCopy coordinates: self scalars !!!! {x3. y3. self scalars one}! !
 
 !EllipticCurvePoint methodsFor: 'arithmetic' stamp: 'len 11/9/2016 08:28'!
 - aPoint
 	^ self + aPoint negated! !
 
-!EllipticCurvePoint methodsFor: 'arithmetic' stamp: 'len 5/22/2022 11:10:06'!
+!EllipticCurvePoint methodsFor: 'arithmetic' stamp: 'len 11/23/2022 17:13:24'!
 doubled
 	"Answer the receiver times 2, i.e. self + self.
 	[Coh96] Proposition 7.1.7."
@@ -411,21 +411,21 @@ doubled
 	m _ x1 squared * 3 + (W a2 * x1 * 2) + W a4 - (W a1 * y1) / (y1 * 2 + (W a1 * x1) + W a3).
 	x3 _ x1*(-2) - W a2 + (m*(m + W a1)).
 	y3 _ y1 negated - W a3 - (W a1 * x3) + (m*(x1 - x3)).
-	^ self shallowCopy coordinates: (self scalars tuple: {x3. y3. self scalars one})! !
+	^ self shallowCopy coordinates: self scalars !!!! {x3. y3. self scalars one}! !
 
-!EllipticCurvePoint methodsFor: 'arithmetic' stamp: 'len 11/11/2016 05:23'!
+!EllipticCurvePoint methodsFor: 'arithmetic' stamp: 'len 11/23/2022 17:13:32'!
 negated
 	| W x |
 	self isZero ifTrue: [^ self].
 	W _ self codomain equation.
 	x _ self x.
-	^ self shallowCopy coordinates: (self scalars tuple: {x. self y negated + (W a1 * x) - W a3. self scalars one})! !
+	^ self shallowCopy coordinates: self scalars !!!! {x. self y negated + (W a1 * x) - W a3. self scalars one}! !
 
-!EllipticCurvePoint methodsFor: 'arithmetic' stamp: 'len 11/9/2016 15:19'!
+!EllipticCurvePoint methodsFor: 'arithmetic' stamp: 'len 11/23/2022 17:13:43'!
 zero
 	| R |
 	R _ self scalars.
-	^ self shallowCopy coordinates: (R tuple: {R zero. R one. R zero})! !
+	^ self shallowCopy coordinates: R !!!! {R zero. R one. R zero}! !
 
 !EllipticCurvePoint methodsFor: 'converting' stamp: 'len 11/11/2016 08:24'!
 adaptToInteger: anInteger andSend: selector

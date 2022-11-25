@@ -1,17 +1,17 @@
-'From Cuis 6.0 [latest update: #5438] on 6 October 2022 at 11:43:24 am'!
+'From Cuis 6.0 [latest update: #5438] on 25 November 2022 at 10:26:32 am'!
 'Description '!
-!provides: 'Tests-Codes' 1 1!
+!provides: 'Tests-Codes' 1 2!
 !requires: 'Codes' 1 0 nil!
-SystemOrganization addCategory: 'Tests-Codes'!
+SystemOrganization addCategory: #'Tests-Codes'!
 
 
-!classDefinition: #CodesTest category: 'Tests-Codes'!
+!classDefinition: #CodesTest category: #'Tests-Codes'!
 TestCase subclass: #CodesTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Codes'!
-!classDefinition: 'CodesTest class' category: 'Tests-Codes'!
+!classDefinition: 'CodesTest class' category: #'Tests-Codes'!
 CodesTest class
 	instanceVariableNames: ''!
 
@@ -29,13 +29,13 @@ newCode
 newTernaryCode
 	^ LinearCode perform: #(G11 G12 tetracode) atRandom! !
 
-!CodesTest methodsFor: 'as yet unclassified' stamp: 'len 8/3/2020 09:54:45'!
+!CodesTest methodsFor: 'as yet unclassified' stamp: 'len 11/23/2022 21:24:20'!
 testAugmentedCode
 	| C A |
 	C _ self newCode.
 	A _ C augmented.
-	self assert: (A includes: (A space filling: [:i| 1])).
-	(C includes: (C space filling: [:i| 1])) ifTrue: [self assert: C = A]! !
+	self assert: (A includes: (A space fill: [:i| 1])).
+	(C includes: (C space fill: [:i| 1])) ifTrue: [self assert: C = A]! !
 
 !CodesTest methodsFor: 'as yet unclassified' stamp: 'len 8/3/2020 09:39:56'!
 testConstructionADeterminant

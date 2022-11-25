@@ -1,8 +1,7 @@
-'From Cuis 6.0 [latest update: #5438] on 22 November 2022 at 4:55:45 pm'!
+'From Cuis 6.0 [latest update: #5438] on 25 November 2022 at 10:26:25 am'!
 'Description '!
-!provides: 'Tests-Algebra' 1 22!
+!provides: 'Tests-Algebra' 1 23!
 SystemOrganization addCategory: #'Tests-Algebra'!
-SystemOrganization addCategory: #'Tests-Algebra-Arrays'!
 SystemOrganization addCategory: #'Tests-Algebra-Rings'!
 SystemOrganization addCategory: #'Tests-Algebra-Tuples'!
 SystemOrganization addCategory: #'Tests-Algebra-Matrices'!
@@ -88,86 +87,6 @@ AbstractGroebnerBasisTest subclass: #GroebnerBasisOverRationalsTest
 	category: 'Tests-Algebra'!
 !classDefinition: 'GroebnerBasisOverRationalsTest class' category: #'Tests-Algebra'!
 GroebnerBasisOverRationalsTest class
-	instanceVariableNames: ''!
-
-!classDefinition: #AbstractArrayTest category: #'Tests-Algebra-Arrays'!
-AbstractTestCase subclass: #AbstractArrayTest
-	instanceVariableNames: 'R'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Tests-Algebra-Arrays'!
-!classDefinition: 'AbstractArrayTest class' category: #'Tests-Algebra-Arrays'!
-AbstractArrayTest class
-	instanceVariableNames: ''!
-
-!classDefinition: #ByteModularArrayTest category: #'Tests-Algebra-Arrays'!
-AbstractArrayTest subclass: #ByteModularArrayTest
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Tests-Algebra-Arrays'!
-!classDefinition: 'ByteModularArrayTest class' category: #'Tests-Algebra-Arrays'!
-ByteModularArrayTest class
-	instanceVariableNames: ''!
-
-!classDefinition: #GaloisArrayTest category: #'Tests-Algebra-Arrays'!
-AbstractArrayTest subclass: #GaloisArrayTest
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Tests-Algebra-Arrays'!
-!classDefinition: 'GaloisArrayTest class' category: #'Tests-Algebra-Arrays'!
-GaloisArrayTest class
-	instanceVariableNames: ''!
-
-!classDefinition: #IntegerArrayTest category: #'Tests-Algebra-Arrays'!
-AbstractArrayTest subclass: #IntegerArrayTest
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Tests-Algebra-Arrays'!
-!classDefinition: 'IntegerArrayTest class' category: #'Tests-Algebra-Arrays'!
-IntegerArrayTest class
-	instanceVariableNames: ''!
-
-!classDefinition: #LargeBinaryArrayTest category: #'Tests-Algebra-Arrays'!
-AbstractArrayTest subclass: #LargeBinaryArrayTest
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Tests-Algebra-Arrays'!
-!classDefinition: 'LargeBinaryArrayTest class' category: #'Tests-Algebra-Arrays'!
-LargeBinaryArrayTest class
-	instanceVariableNames: ''!
-
-!classDefinition: #LargeModularArrayTest category: #'Tests-Algebra-Arrays'!
-AbstractArrayTest subclass: #LargeModularArrayTest
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Tests-Algebra-Arrays'!
-!classDefinition: 'LargeModularArrayTest class' category: #'Tests-Algebra-Arrays'!
-LargeModularArrayTest class
-	instanceVariableNames: ''!
-
-!classDefinition: #SmallBinaryArrayTest category: #'Tests-Algebra-Arrays'!
-AbstractArrayTest subclass: #SmallBinaryArrayTest
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Tests-Algebra-Arrays'!
-!classDefinition: 'SmallBinaryArrayTest class' category: #'Tests-Algebra-Arrays'!
-SmallBinaryArrayTest class
-	instanceVariableNames: ''!
-
-!classDefinition: #WordModularArrayTest category: #'Tests-Algebra-Arrays'!
-AbstractArrayTest subclass: #WordModularArrayTest
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Tests-Algebra-Arrays'!
-!classDefinition: 'WordModularArrayTest class' category: #'Tests-Algebra-Arrays'!
-WordModularArrayTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #AbstractRingTest category: #'Tests-Algebra-Rings'!
@@ -490,16 +409,6 @@ AbstractGCDRingTest subclass: #MultivariatePolynomialRingOverRationalsTest
 MultivariatePolynomialRingOverRationalsTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #PowerAlgebraGCDRingTest category: #'Tests-Algebra-Rings'!
-AbstractGCDRingTest subclass: #PowerAlgebraGCDRingTest
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Tests-Algebra-Rings'!
-!classDefinition: 'PowerAlgebraGCDRingTest class' category: #'Tests-Algebra-Rings'!
-PowerAlgebraGCDRingTest class
-	instanceVariableNames: ''!
-
 !classDefinition: #ProductRingTest category: #'Tests-Algebra-Rings'!
 AbstractGCDRingTest subclass: #ProductRingTest
 	instanceVariableNames: ''
@@ -560,6 +469,56 @@ AbstractTupleTest subclass: #AbstractTupleOverCommutativeRingTest
 AbstractTupleOverCommutativeRingTest class
 	instanceVariableNames: ''!
 
+!classDefinition: #AbstractTupleOverModularIntegersTest category: #'Tests-Algebra-Tuples'!
+AbstractTupleOverCommutativeRingTest subclass: #AbstractTupleOverModularIntegersTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra-Tuples'!
+!classDefinition: 'AbstractTupleOverModularIntegersTest class' category: #'Tests-Algebra-Tuples'!
+AbstractTupleOverModularIntegersTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #TupleOverBinaryFieldTest category: #'Tests-Algebra-Tuples'!
+AbstractTupleOverModularIntegersTest subclass: #TupleOverBinaryFieldTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra-Tuples'!
+!classDefinition: 'TupleOverBinaryFieldTest class' category: #'Tests-Algebra-Tuples'!
+TupleOverBinaryFieldTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #TupleOverByteModularIntegersTest category: #'Tests-Algebra-Tuples'!
+AbstractTupleOverModularIntegersTest subclass: #TupleOverByteModularIntegersTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra-Tuples'!
+!classDefinition: 'TupleOverByteModularIntegersTest class' category: #'Tests-Algebra-Tuples'!
+TupleOverByteModularIntegersTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #TupleOverLargeModularIntegersTest category: #'Tests-Algebra-Tuples'!
+AbstractTupleOverModularIntegersTest subclass: #TupleOverLargeModularIntegersTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra-Tuples'!
+!classDefinition: 'TupleOverLargeModularIntegersTest class' category: #'Tests-Algebra-Tuples'!
+TupleOverLargeModularIntegersTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #TupleOverWordModularIntegersTest category: #'Tests-Algebra-Tuples'!
+AbstractTupleOverModularIntegersTest subclass: #TupleOverWordModularIntegersTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra-Tuples'!
+!classDefinition: 'TupleOverWordModularIntegersTest class' category: #'Tests-Algebra-Tuples'!
+TupleOverWordModularIntegersTest class
+	instanceVariableNames: ''!
+
 !classDefinition: #TuplesOverFiniteFieldTest category: #'Tests-Algebra-Tuples'!
 AbstractTupleOverCommutativeRingTest subclass: #TuplesOverFiniteFieldTest
 	instanceVariableNames: ''
@@ -590,26 +549,6 @@ AbstractTupleOverCommutativeRingTest subclass: #TuplesOverIntegersTest
 TuplesOverIntegersTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #TuplesOverModularIntegersTest category: #'Tests-Algebra-Tuples'!
-AbstractTupleOverCommutativeRingTest subclass: #TuplesOverModularIntegersTest
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Tests-Algebra-Tuples'!
-!classDefinition: 'TuplesOverModularIntegersTest class' category: #'Tests-Algebra-Tuples'!
-TuplesOverModularIntegersTest class
-	instanceVariableNames: ''!
-
-!classDefinition: #TuplesOverBinaryFieldTest category: #'Tests-Algebra-Tuples'!
-TuplesOverModularIntegersTest subclass: #TuplesOverBinaryFieldTest
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Tests-Algebra-Tuples'!
-!classDefinition: 'TuplesOverBinaryFieldTest class' category: #'Tests-Algebra-Tuples'!
-TuplesOverBinaryFieldTest class
-	instanceVariableNames: ''!
-
 !classDefinition: #TuplesOverPolynomialsOverRationalsTest category: #'Tests-Algebra-Tuples'!
 AbstractTupleOverCommutativeRingTest subclass: #TuplesOverPolynomialsOverRationalsTest
 	instanceVariableNames: ''
@@ -618,6 +557,16 @@ AbstractTupleOverCommutativeRingTest subclass: #TuplesOverPolynomialsOverRationa
 	category: 'Tests-Algebra-Tuples'!
 !classDefinition: 'TuplesOverPolynomialsOverRationalsTest class' category: #'Tests-Algebra-Tuples'!
 TuplesOverPolynomialsOverRationalsTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #TuplesOverProductRingTest category: #'Tests-Algebra-Tuples'!
+AbstractTupleOverCommutativeRingTest subclass: #TuplesOverProductRingTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra-Tuples'!
+!classDefinition: 'TuplesOverProductRingTest class' category: #'Tests-Algebra-Tuples'!
+TuplesOverProductRingTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #TuplesOverRationalsTest category: #'Tests-Algebra-Tuples'!
@@ -900,16 +849,6 @@ AbstractMatrixOverCommutativeRingTest subclass: #MatrixOverMultivariatePolynomia
 MatrixOverMultivariatePolynomialsOverModularIntegersTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #MatrixOverPowerAlgebraTest category: #'Tests-Algebra-Matrices'!
-AbstractMatrixOverCommutativeRingTest subclass: #MatrixOverPowerAlgebraTest
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Tests-Algebra-Matrices'!
-!classDefinition: 'MatrixOverPowerAlgebraTest class' category: #'Tests-Algebra-Matrices'!
-MatrixOverPowerAlgebraTest class
-	instanceVariableNames: ''!
-
 !classDefinition: #MatrixOverPrimePowerRingTest category: #'Tests-Algebra-Matrices'!
 AbstractMatrixOverCommutativeRingTest subclass: #MatrixOverPrimePowerRingTest
 	instanceVariableNames: ''
@@ -1148,16 +1087,6 @@ AbstractCommutativeModuleTest subclass: #ModuleOverPolynomialsOverRationalsTest
 	category: 'Tests-Algebra-Modules'!
 !classDefinition: 'ModuleOverPolynomialsOverRationalsTest class' category: #'Tests-Algebra-Modules'!
 ModuleOverPolynomialsOverRationalsTest class
-	instanceVariableNames: ''!
-
-!classDefinition: #ModuleOverPowerAlgebraTest category: #'Tests-Algebra-Modules'!
-AbstractCommutativeModuleTest subclass: #ModuleOverPowerAlgebraTest
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Tests-Algebra-Modules'!
-!classDefinition: 'ModuleOverPowerAlgebraTest class' category: #'Tests-Algebra-Modules'!
-ModuleOverPowerAlgebraTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #ModuleOverProductRingTest category: #'Tests-Algebra-Modules'!
@@ -1430,6 +1359,36 @@ TestCase subclass: #TupleTest
 TupleTest class
 	instanceVariableNames: ''!
 
+!classDefinition: #PowerAlgebraGCDRingTest category: #'Tests-Algebra-Rings'!
+Object subclass: #PowerAlgebraGCDRingTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra-Rings'!
+!classDefinition: 'PowerAlgebraGCDRingTest class' category: #'Tests-Algebra-Rings'!
+PowerAlgebraGCDRingTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #TuplesOverPowerAlgebraTest category: #'Tests-Algebra-Tuples'!
+Object subclass: #TuplesOverPowerAlgebraTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra-Tuples'!
+!classDefinition: 'TuplesOverPowerAlgebraTest class' category: #'Tests-Algebra-Tuples'!
+TuplesOverPowerAlgebraTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #MatrixOverPowerAlgebraTest category: #'Tests-Algebra-Matrices'!
+Object subclass: #MatrixOverPowerAlgebraTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra-Matrices'!
+!classDefinition: 'MatrixOverPowerAlgebraTest class' category: #'Tests-Algebra-Matrices'!
+MatrixOverPowerAlgebraTest class
+	instanceVariableNames: ''!
+
 !classDefinition: #MatrixOverRationalFunctionFieldOverFiniteFieldTest category: #'Tests-Algebra-Matrices'!
 Object subclass: #MatrixOverRationalFunctionFieldOverFiniteFieldTest
 	instanceVariableNames: ''
@@ -1448,6 +1407,16 @@ Object subclass: #MatrixOverRationalFunctionFieldOverRationalsTest
 	category: 'Tests-Algebra-Matrices'!
 !classDefinition: 'MatrixOverRationalFunctionFieldOverRationalsTest class' category: #'Tests-Algebra-Matrices'!
 MatrixOverRationalFunctionFieldOverRationalsTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #ModuleOverPowerAlgebraTest category: #'Tests-Algebra-Modules'!
+Object subclass: #ModuleOverPowerAlgebraTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra-Modules'!
+!classDefinition: 'ModuleOverPowerAlgebraTest class' category: #'Tests-Algebra-Modules'!
+ModuleOverPowerAlgebraTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #Benchmark category: #'Tests-Algebra-Benchmarks'!
@@ -2569,298 +2538,6 @@ initialize
 	super initialize.
 	scalars _ ℤ! !
 
-!AbstractArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/4/2022 21:52:17'!
-newArray
-	^ self newArray: (200 atRandom: random)! !
-
-!AbstractArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/4/2022 10:55:02'!
-newArray: n
-	^ R new: n filling: [:each| self newScalar]! !
-
-!AbstractArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/1/2022 21:25:30'!
-newScalar
-	^ R atRandom: random bits: (60 atRandom: random)! !
-
-!AbstractArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/2/2022 07:37:03'!
-testArrayConvolutionArray
-	| a b |
-	a _ self newArray.
-	b _ self newArray.
-	self assert: (a convolution: b) asArray = (a asArray convolution: b asArray)! !
-
-!AbstractArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/20/2022 20:39:50'!
-testArrayDotArray
-	| a b |
-	a _ self newArray.
-	b _ self newArray.
-	self assert: a · b = (a asArray · b asArray)! !
-
-!AbstractArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/1/2022 21:02:19'!
-testArrayMinusArray
-	| a b c |
-	a _ self newArray.
-	b _ self newArray: a size.
-	c _ a - b.
-	self assert: c size = a size.
-	1 to: a size do: [:i| self assert: (a at: i) - (b at: i) = (c at: i)]! !
-
-!AbstractArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/1/2022 20:59:14'!
-testArrayMinusArrayInplace
-	| a b c |
-	a _ self newArray.
-	b _ self newArray: a size.
-	c _ a copy.
-	c -= b.
-	1 to: a size do: [:i| self assert: (a at: i) - (b at: i) = (c at: i)]	! !
-
-!AbstractArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/1/2022 20:58:42'!
-testArrayMinusScalar
-	| a c x |
-	a _ self newArray.
-	x _ self newScalar.
-	c _ a - x.
-	self assert: c size = a size.
-	1 to: a size do: [:i| self assert: (a at: i) - x = (c at: i)]! !
-
-!AbstractArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/1/2022 21:00:47'!
-testArrayMinusScalarInplace
-	| a c x |
-	a _ self newArray.
-	x _ self newScalar.
-	c _ a copy.
-	c -= x.
-	1 to: a size do: [:i| self assert: (a at: i) - x = (c at: i)]! !
-
-!AbstractArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/1/2022 21:02:12'!
-testArrayPlusArray
-	| a b c |
-	a _ self newArray.
-	b _ self newArray: a size.
-	c _ a + b.
-	self assert: c size = a size.
-	1 to: a size do: [:i| self assert: (a at: i) + (b at: i) = (c at: i)]! !
-
-!AbstractArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/1/2022 20:59:37'!
-testArrayPlusArrayInplace
-	| a b c |
-	a _ self newArray.
-	b _ self newArray: a size.
-	c _ a copy.
-	c += b.
-	1 to: a size do: [:i| self assert: (a at: i) + (b at: i) = (c at: i)]	! !
-
-!AbstractArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/1/2022 21:00:04'!
-testArrayPlusScalar
-	| a c x |
-	a _ self newArray.
-	x _ self newScalar.
-	c _ a + x.
-	self assert: c size = a size.
-	1 to: a size do: [:i| self assert: (a at: i) + x = (c at: i)]! !
-
-!AbstractArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/1/2022 21:01:48'!
-testArrayPlusScalarInplace
-	| a c x |
-	a _ self newArray.
-	x _ self newScalar.
-	c _ a copy.
-	c += x.
-	1 to: a size do: [:i| self assert: (a at: i) + x = (c at: i)]! !
-
-!AbstractArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/1/2022 21:02:49'!
-testArrayTimesArray
-	| a b c |
-	a _ self newArray.
-	b _ self newArray: a size.
-	c _ a * b.
-	self assert: c size = a size.
-	1 to: a size do: [:i| self assert: (a at: i) * (b at: i) = (c at: i)]! !
-
-!AbstractArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/1/2022 21:03:18'!
-testArrayTimesArrayInplace
-	| a b c |
-	a _ self newArray.
-	b _ self newArray: a size.
-	c _ a copy.
-	c *= b.
-	1 to: a size do: [:i| self assert: (a at: i) * (b at: i) = (c at: i)]	! !
-
-!AbstractArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/1/2022 21:03:37'!
-testArrayTimesScalar
-	| a c x |
-	a _ self newArray.
-	x _ self newScalar.
-	c _ a * x.
-	self assert: c size = a size.
-	1 to: a size do: [:i| self assert: (a at: i) * x = (c at: i)]! !
-
-!AbstractArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/1/2022 21:03:54'!
-testArrayTimesScalarInplace
-	| a c x |
-	a _ self newArray.
-	x _ self newScalar.
-	c _ a copy.
-	c *= x.
-	1 to: a size do: [:i| self assert: (a at: i) * x = (c at: i)]! !
-
-!AbstractArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/4/2022 12:38:22'!
-testAtPut
-	| a i x |
-	a _ self newArray.
-	x _ self newScalar.
-	i _ (1 to: a size) atRandom: random.
-	a at: i put: x.
-	self assert: (a at: i) = x! !
-
-!AbstractArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/20/2022 11:00:14'!
-testCircularShift
-	| a b n |
-	a _ self newArray.
-	n _ (a size negated to: a size) atRandom: random.
-	b _ a >>> n.
-	self assert: b size = a size.
-	1 to: b size do: [:i|
-		self assert: (b at: i) = (a atWrap: i-n)]! !
-
-!AbstractArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/20/2022 09:18:32'!
-testConcatenation
-	| a b c |
-	a _ self newArray.
-	b _ self newArray.
-	c _ a, b.
-	self assert: a size + b size = c size.
-	1 to: a size do: [:i| self assert: (c at: i) = (a at: i)].
-	1 to: b size do: [:i| self assert: (c at: a size + i) = (b at: i)]! !
-
-!AbstractArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/4/2022 12:28:01'!
-testCopyFromTo
-	| a b start stop |
-	a _ self newArray.
-	start _ (1 to: a size) atRandom: random.
-	stop _ (1 to: a size) atRandom: random.
-	b _ a copyFrom: start to: stop.
-	self assert: b size = (stop-start+1 max: 0).
-	start to: stop do: [:i| self assert: (a at: i) = (b at: i-start+1)]! !
-
-!AbstractArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/20/2022 10:41:30'!
-testFirstNonzeroIndex
-	| a i |
-	a _ self newArray.
-	(2 atRandom: random) = 1 ifTrue: [a _ (self newArray: (100 atRandom: random)) zero, a].
-	i _ a findFirst: [:x| x isZero not].
-	i = 0 ifTrue: [i _ nil].
-	self assert: a firstNonzeroIndex = i! !
-
-!AbstractArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/4/2022 12:39:59'!
-testIsZeroAt
-	| a x index |
-	a _ self newArray.
-	x _ R zero.
-	index _ (1 to: a size) atRandom: random.
-	a at: index put: x.
-	self assert: (a isZeroAt: index).
-	1 to: a size do: [:i| self assert: (a isZeroAt: i) = (a at: i) isZero].! !
-
-!AbstractArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/20/2022 10:41:16'!
-testLastNonzeroIndex
-	| a i |
-	a _ self newArray.
-	(2 atRandom: random) = 1 ifTrue: [a _ a, (self newArray: (100 atRandom: random)) zero].
-	i _ a findLast: [:x| x isZero not].
-	i = 0 ifTrue: [i _ nil].
-	self assert: a lastNonzeroIndex = i! !
-
-!AbstractArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/4/2022 20:41:28'!
-testReplaceFromToWithStartingAt
-	| a b start stop aCopy start2 stop2 |
-	a _ self newArray.
-	b _ self newArray.
-	start _ (1 to: a size) atRandom: random.
-	start2 _ (1 to: b size) atRandom: random.
-	stop _ (1 to: a size) atRandom: random.
-	stop _ stop min: b size - start2 +1.
-	stop2 _ start2 + stop - start.
-	aCopy _ a copy.
-	a replaceFrom: start to: stop with: b startingAt: start2.
-	self assert: (a copyFrom: 1 to: start - 1) = (aCopy copyFrom: 1 to: start - 1).
-	self assert: (a copyFrom: start to: stop) = (b copyFrom: start2 to: stop2).
-	self assert: (a copyFrom: stop + 1 to: a size) = (aCopy copyFrom: stop + 1 to: a size)! !
-
-!AbstractArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/4/2022 12:28:11'!
-testShift
-	| a b n |
-	a _ self newArray.
-	n _ (a size negated to: a size) atRandom: random.
-	b _ a >> n.
-	self assert: b size = a size.
-	1 to: b size do: [:i|
-		self assert: (b at: i) = ((i-n between: 1 and: a size) ifTrue: [a at: i-n] ifFalse: [R zero])]! !
-
-!AbstractArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/4/2022 12:28:19'!
-testSwapFromToWithStartingAt
-	| a b start stop aCopy bCopy start2 stop2 |
-	a _ self newArray.
-	b _ self newArray.
-	start _ (1 to: a size) atRandom: random.
-	start2 _ (1 to: b size) atRandom: random.
-	stop _ (1 to: a size) atRandom: random.
-	stop _ stop min: b size - start2 +1.
-	stop2 _ start2 + stop - start.
-	aCopy _ a copy.
-	bCopy _ b copy.
-	a swapFrom: start to: stop with: b startingAt: start2.
-	self assert: (a copyFrom: start to: stop) = (bCopy copyFrom: start2 to: stop2).
-	self assert: (b copyFrom: start2 to: stop2) = (aCopy copyFrom: start to: stop).
-	a swapFrom: start to: stop with: b startingAt: start2.
-	self assert: a = aCopy.
-	self assert: b = bCopy! !
-
-!ByteModularArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/1/2022 21:20:49'!
-initialize
-	super initialize.
-	R _ ℤ/(1<<8 :: atRandom max: 2)! !
-
-!GaloisArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/1/2022 21:16:55'!
-initialize
-	super initialize.
-	R _ GaloisField new: 5 atRandom nextPrime to: 3 atRandom! !
-
-!IntegerArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/1/2022 21:08:47'!
-initialize
-	super initialize.
-	R _ ℤ! !
-
-!LargeBinaryArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/4/2022 10:57:29'!
-initialize
-	super initialize.
-	R _ ℤ/2! !
-
-!LargeBinaryArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/4/2022 10:57:14'!
-newArray: n
-	| answer |
-	answer _ LargeBinaryArray new: n.
-	1 to: n do: [:i| (2 atRandom: random) = 1 ifTrue: [answer bitAt: i put: 1]].
-	^ answer! !
-
-!LargeModularArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/1/2022 21:27:36'!
-initialize
-	super initialize.
-	R _ ModularIntegerRing new: (1<<100 :: atRandom max: 2)! !
-
-!SmallBinaryArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/1/2022 21:09:10'!
-initialize
-	super initialize.
-	R _ ℤ/2! !
-
-!SmallBinaryArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/4/2022 10:55:53'!
-newArray: n
-	^ SmallBinaryArray new: n bits: (random nextBits: n)! !
-
-!WordModularArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/1/2022 21:20:33'!
-initialize
-	super initialize.
-	R _ ℤ/(1<<32 :: atRandom max: 2)! !
-
 !AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/31/2022 16:25:17'!
 testDivisibility
 	20 timesRepeat:
@@ -3703,11 +3380,6 @@ initialize
 	super initialize.
 	R _ ℚ polynomialsIn: 3 atRandom! !
 
-!PowerAlgebraGCDRingTest methodsFor: 'as yet unclassified' stamp: 'len 10/13/2022 05:04:30'!
-initialize
-	super initialize.
-	R _ ℤ × ℤ! !
-
 !ProductRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/18/2022 12:53:32'!
 initialize
 	super initialize.
@@ -3734,6 +3406,18 @@ initialize
 	super initialize.
 	R _ ℤ/1024 atRandom polynomialsIn: 3 atRandom! !
 
+!AbstractTupleTest methodsFor: 'as yet unclassified' stamp: 'len 11/24/2022 11:14:20'!
+newScalar
+	^ scalars atRandom: random bits: (60 atRandom: random)! !
+
+!AbstractTupleTest methodsFor: 'as yet unclassified' stamp: 'len 11/24/2022 11:13:57'!
+newTuple
+	^ self newTuple: (200 atRandom: random)! !
+
+!AbstractTupleTest methodsFor: 'as yet unclassified' stamp: 'len 11/24/2022 11:14:11'!
+newTuple: n
+	^ scalars new: n fill: [:each| self newScalar]! !
+
 !AbstractTupleTest methodsFor: 'as yet unclassified' stamp: 'len 4/22/2021 10:17:19'!
 testAddition
 	| n a b c |
@@ -3748,26 +3432,230 @@ testAddition
 	self assert: a + a = (a*2).
 	self assert: a - b = (a + b negated)! !
 
-!AbstractTupleTest methodsFor: 'as yet unclassified' stamp: 'len 5/1/2022 11:11:51'!
-testCopyFromTo
-	| v i j w k |
-	v _ (scalars^(10 atRandom: random)) atRandom: random bits: 50.
-	i _ v size atRandom: random.
-	j _ (i to: v size) atRandom: random.
-	w _ v copyFrom: i to: j.
-	self assert: w size = (j - i + 1).
-	k _ (1 to: w size) atRandom: random.
-	self assert: (w at: k) = (v at: i+k-1)! !
+!AbstractTupleTest methodsFor: 'as yet unclassified' stamp: 'len 11/24/2022 11:21:36'!
+testAtPut
+	| a i x |
+	a _ self newTuple.
+	x _ self newScalar.
+	i _ (1 to: a size) atRandom: random.
+	a at: i put: x.
+	self assert: (a at: i) = x! !
 
-!AbstractTupleTest methodsFor: 'as yet unclassified' stamp: 'len 4/22/2021 10:16:59'!
+!AbstractTupleTest methodsFor: 'as yet unclassified' stamp: 'len 11/24/2022 11:21:52'!
+testCircularShift
+	| a b n |
+	a _ self newTuple.
+	n _ (a size negated to: a size) atRandom: random.
+	b _ a >>> n.
+	self assert: b size = a size.
+	1 to: b size do: [:i| self assert: (b at: i) = (a atWrap: i-n)]! !
+
+!AbstractTupleTest methodsFor: 'as yet unclassified' stamp: 'len 11/24/2022 11:22:05'!
+testConcatenation
+	| a b c |
+	a _ self newTuple.
+	b _ self newTuple.
+	c _ a, b.
+	self assert: a size + b size = c size.
+	1 to: a size do: [:i| self assert: (c at: i) = (a at: i)].
+	1 to: b size do: [:i| self assert: (c at: a size + i) = (b at: i)]! !
+
+!AbstractTupleTest methodsFor: 'as yet unclassified' stamp: 'len 11/24/2022 11:19:13'!
+testConvolution
+	| a b |
+	a _ self newTuple.
+	b _ self newTuple.
+	self assert: (a convolution: b) asArray = (a asArray convolution: b asArray)! !
+
+!AbstractTupleTest methodsFor: 'as yet unclassified' stamp: 'len 11/24/2022 11:22:42'!
+testCopyFromTo
+	| a b start stop |
+	a _ self newTuple.
+	start _ (1 to: a size) atRandom: random.
+	stop _ (1 to: a size) atRandom: random.
+	b _ a copyFrom: start to: stop.
+	self assert: b size = (stop-start+1 max: 0).
+	start to: stop do: [:i| self assert: (a at: i) = (b at: i-start+1)]! !
+
+!AbstractTupleTest methodsFor: 'as yet unclassified' stamp: 'len 11/24/2022 11:15:45'!
+testDotProduct
+	| a b |
+	a _ self newTuple.
+	b _ self newTuple.
+	self assert: a · b = (a asArray · b asArray)! !
+
+!AbstractTupleTest methodsFor: 'as yet unclassified' stamp: 'len 11/24/2022 11:23:01'!
+testFirstNonzeroIndex
+	| a i |
+	a _ self newTuple.
+	(2 atRandom: random) = 1 ifTrue: [a _ (self newTuple: (100 atRandom: random)) zero, a].
+	i _ a findFirst: [:x| x isZero not].
+	i = 0 ifTrue: [i _ nil].
+	self assert: a firstNonzeroIndex = i! !
+
+!AbstractTupleTest methodsFor: 'as yet unclassified' stamp: 'len 11/24/2022 11:23:14'!
+testIsZeroAt
+	| a x index |
+	a _ self newTuple.
+	x _ scalars zero.
+	index _ (1 to: a size) atRandom: random.
+	a at: index put: x.
+	self assert: (a isZeroAt: index).
+	1 to: a size do: [:i| self assert: (a isZeroAt: i) = (a at: i) isZero].! !
+
+!AbstractTupleTest methodsFor: 'as yet unclassified' stamp: 'len 11/24/2022 11:23:28'!
+testLastNonzeroIndex
+	| a i |
+	a _ self newTuple.
+	(2 atRandom: random) = 1 ifTrue: [a _ a, (self newTuple: (100 atRandom: random)) zero].
+	i _ a findLast: [:x| x isZero not].
+	i = 0 ifTrue: [i _ nil].
+	self assert: a lastNonzeroIndex = i! !
+
+!AbstractTupleTest methodsFor: 'as yet unclassified' stamp: 'len 11/24/2022 11:20:30'!
+testProduct
+	| a b c |
+	a _ self newTuple.
+	b _ self newTuple: a size.
+	c _ a * b.
+	self assert: c size = a size.
+	1 to: a size do: [:i| self assert: (a at: i) * (b at: i) = (c at: i)]! !
+
+!AbstractTupleTest methodsFor: 'as yet unclassified' stamp: 'len 11/24/2022 11:20:48'!
+testProductInplace
+	| a b c |
+	a _ self newTuple.
+	b _ self newTuple: a size.
+	c _ a copy.
+	c *= b.
+	1 to: a size do: [:i| self assert: (a at: i) * (b at: i) = (c at: i)]	! !
+
+!AbstractTupleTest methodsFor: 'as yet unclassified' stamp: 'len 11/24/2022 11:23:44'!
+testReplaceFromToWithStartingAt
+	| a b start stop aCopy start2 stop2 |
+	a _ self newTuple.
+	b _ self newTuple.
+	start _ (1 to: a size) atRandom: random.
+	start2 _ (1 to: b size) atRandom: random.
+	stop _ (1 to: a size) atRandom: random.
+	stop _ stop min: b size - start2 +1.
+	stop2 _ start2 + stop - start.
+	aCopy _ a copy.
+	a replaceFrom: start to: stop with: b startingAt: start2.
+	self assert: (a copyFrom: 1 to: start - 1) = (aCopy copyFrom: 1 to: start - 1).
+	self assert: (a copyFrom: start to: stop) = (b copyFrom: start2 to: stop2).
+	self assert: (a copyFrom: stop + 1 to: a size) = (aCopy copyFrom: stop + 1 to: a size)! !
+
+!AbstractTupleTest methodsFor: 'as yet unclassified' stamp: 'len 11/24/2022 11:19:44'!
 testScalarAction
 	| n a b x |
 	n _ 5 atRandom: random.
-	a _ scalars^n atRandom: random bits: 30.
-	x _ scalars atRandom: random bits: 10.
+	a _ self newTuple: n.
+	x _ self newScalar.
 	b _ a * x.
 	self assert: b size = n.
 	1 to: n do: [:i| self assert: (a at: i)*x = (b at: i)]! !
+
+!AbstractTupleTest methodsFor: 'as yet unclassified' stamp: 'len 11/24/2022 11:24:00'!
+testShift
+	| a b n |
+	a _ self newTuple.
+	n _ (a size negated to: a size) atRandom: random.
+	b _ a >> n.
+	self assert: b size = a size.
+	1 to: b size do: [:i|
+		self assert: (b at: i) = ((i-n between: 1 and: a size) ifTrue: [a at: i-n] ifFalse: [scalars zero])]! !
+
+!AbstractTupleTest methodsFor: 'as yet unclassified' stamp: 'len 11/24/2022 11:16:36'!
+testSubstraction
+	| a b c |
+	a _ self newTuple.
+	b _ self newTuple: a size.
+	c _ a - b.
+	self assert: c size = a size.
+	1 to: a size do: [:i| self assert: (a at: i) - (b at: i) = (c at: i)]! !
+
+!AbstractTupleTest methodsFor: 'as yet unclassified' stamp: 'len 11/24/2022 11:17:03'!
+testSubstractionInplace
+	| a b c |
+	a _ self newTuple.
+	b _ self newTuple: a size.
+	c _ a copy.
+	c -= b.
+	1 to: a size do: [:i| self assert: (a at: i) - (b at: i) = (c at: i)]	! !
+
+!AbstractTupleTest methodsFor: 'as yet unclassified' stamp: 'len 11/24/2022 11:24:13'!
+testSwapFromToWithStartingAt
+	| a b start stop aCopy bCopy start2 stop2 |
+	a _ self newTuple.
+	b _ self newTuple.
+	start _ (1 to: a size) atRandom: random.
+	start2 _ (1 to: b size) atRandom: random.
+	stop _ (1 to: a size) atRandom: random.
+	stop _ stop min: b size - start2 +1.
+	stop2 _ start2 + stop - start.
+	aCopy _ a copy.
+	bCopy _ b copy.
+	a swapFrom: start to: stop with: b startingAt: start2.
+	self assert: (a copyFrom: start to: stop) = (bCopy copyFrom: start2 to: stop2).
+	self assert: (b copyFrom: start2 to: stop2) = (aCopy copyFrom: start to: stop).
+	a swapFrom: start to: stop with: b startingAt: start2.
+	self assert: a = aCopy.
+	self assert: b = bCopy! !
+
+!AbstractTupleTest methodsFor: 'as yet unclassified' stamp: 'len 11/24/2022 11:17:19'!
+testTupleMinusScalar
+	| a c x |
+	a _ self newTuple.
+	x _ self newScalar.
+	c _ a - x.
+	self assert: c size = a size.
+	1 to: a size do: [:i| self assert: (a at: i) - x = (c at: i)]! !
+
+!AbstractTupleTest methodsFor: 'as yet unclassified' stamp: 'len 11/24/2022 11:17:36'!
+testTupleMinusScalarInplace
+	| a c x |
+	a _ self newTuple.
+	x _ self newScalar.
+	c _ a copy.
+	c -= x.
+	1 to: a size do: [:i| self assert: (a at: i) - x = (c at: i)]! !
+
+!AbstractTupleTest methodsFor: 'as yet unclassified' stamp: 'len 11/24/2022 11:18:28'!
+testTuplePlusScalar
+	| a c x |
+	a _ self newTuple.
+	x _ self newScalar.
+	c _ a + x.
+	self assert: c size = a size.
+	1 to: a size do: [:i| self assert: (a at: i) + x = (c at: i)]! !
+
+!AbstractTupleTest methodsFor: 'as yet unclassified' stamp: 'len 11/24/2022 11:20:06'!
+testTuplePlusScalarInplace
+	| a c x |
+	a _ self newTuple.
+	x _ self newScalar.
+	c _ a copy.
+	c += x.
+	1 to: a size do: [:i| self assert: (a at: i) + x = (c at: i)]! !
+
+!AbstractTupleTest methodsFor: 'as yet unclassified' stamp: 'len 11/24/2022 11:17:57'!
+testTuplePlusTuple
+	| a b c |
+	a _ self newTuple.
+	b _ self newTuple: a size.
+	c _ a + b.
+	self assert: c size = a size.
+	1 to: a size do: [:i| self assert: (a at: i) + (b at: i) = (c at: i)]! !
+
+!AbstractTupleTest methodsFor: 'as yet unclassified' stamp: 'len 11/24/2022 11:42:08'!
+testTuplePlusTupleInplace
+	| a b c |
+	a _ self newTuple.
+	b _ self newTuple: a size.
+	c _ a copy.
+	c += b.
+	1 to: a size do: [:i| self assert: (a at: i) + (b at: i) = (c at: i)]	! !
 
 !AbstractTupleTest methodsFor: 'as yet unclassified' stamp: 'len 4/22/2021 10:25:15'!
 testTupleReversed
@@ -3777,19 +3665,38 @@ testTupleReversed
 	self assert: (v reversed at: i) = (v at: v size - i + 1).
 	self assert: v reversed reversed = v! !
 
-!AbstractTupleTest methodsFor: 'as yet unclassified' stamp: 'len 4/19/2021 10:18:33'!
+!AbstractTupleTest methodsFor: 'as yet unclassified' stamp: 'len 11/24/2022 11:21:07'!
+testTupleTimesScalar
+	| a c x |
+	a _ self newTuple.
+	x _ self newScalar.
+	c _ a * x.
+	self assert: c size = a size.
+	1 to: a size do: [:i| self assert: (a at: i) * x = (c at: i)]! !
+
+!AbstractTupleTest methodsFor: 'as yet unclassified' stamp: 'len 11/24/2022 11:21:22'!
+testTupleTimesScalarInplace
+	| a c x |
+	a _ self newTuple.
+	x _ self newScalar.
+	c _ a copy.
+	c *= x.
+	1 to: a size do: [:i| self assert: (a at: i) * x = (c at: i)]! !
+
+!AbstractTupleTest methodsFor: 'as yet unclassified' stamp: 'len 11/25/2022 06:10:13'!
 testTuplesOfDifferentSize
-	| a b zeros |
-	a _ scalars^5 atRandom atRandomBits: 10.
-	b _ scalars^5 atRandom atRandomBits: 10.
+	| n a b zeros |
+	n _ 5 atRandom.
+	a _ scalars^n atRandomBits: 10.
+	b _ scalars^n atRandomBits: 10.
 	zeros _ (scalars^5 atRandom) zero.
-	self assert: a + (b,zeros) = (a + b).
-	self assert: (a,zeros) + b = (a + b).
-	self assert: a - (b,zeros) = (a - b).
-	self assert: (a,zeros) - b = (a - b).
-	self assert: a = (a,zeros).
-	self assert: a,zeros = a.
-	self assert: a hash = (a,zeros) hash.
+	self assert: a + (b,zeros) = (a,zeros + b).
+	self assert: (a,zeros) + b = (a + b , zeros).
+	self assert: a - (b,zeros) = (a,zeros - b).
+	self assert: (a,zeros) - b = (a - b , zeros).
+	self assert: a * (b,zeros) = (a * b).
+	self assert: (a,zeros) * b = (a * b).
+	self assert: (a,zeros) * (b,zeros) = (a * b , zeros).
 	self assert: a · (b,zeros) = (a · b).
 	self assert: a,zeros · b = (a · b)! !
 
@@ -3835,6 +3742,60 @@ testHomogeneousTuples
 	d _ scalars^n x: 2.
 	self deny: c ~ d! !
 
+!AbstractTupleOverModularIntegersTest methodsFor: 'as yet unclassified' stamp: 'len 4/22/2022 12:26:29'!
+testModTupleOperations
+	| n a b modulus |
+	modulus _ scalars modulus.
+	n _ 5 atRandom.
+	a _ ℤ^n atRandomBits: 30.
+	b _ ℤ^n atRandomBits: 30.
+	#(+ - · convolution: *) do: [:op|
+		self testTuple: a with: b operation: op modulo: modulus].
+	#(negated reversed copy sum product) do: [:op|
+		self testTuple: a operation: op modulo: modulus].! !
+
+!AbstractTupleOverModularIntegersTest methodsFor: 'as yet unclassified' stamp: 'len 4/22/2021 10:28:45'!
+testTuple: a operation: aSymbol modulo: modulus
+	self assert: (a perform: aSymbol) % modulus = (a % modulus perform: aSymbol)! !
+
+!AbstractTupleOverModularIntegersTest methodsFor: 'as yet unclassified' stamp: 'len 4/22/2021 10:28:53'!
+testTuple: a with: b operation: aSymbol modulo: modulus
+	self assert: (a perform: aSymbol with: b) % modulus = (a % modulus perform: aSymbol with: b % modulus)! !
+
+!TupleOverBinaryFieldTest methodsFor: 'as yet unclassified' stamp: 'len 4/22/2021 10:26:20'!
+initialize
+	super initialize.
+	scalars _ ℤ/2! !
+
+!TupleOverBinaryFieldTest methodsFor: 'as yet unclassified' stamp: 'len 4/22/2021 10:29:12'!
+testBitTupleBug
+	| Z2 |
+	Z2 _ PrimeField new: 2.
+	self assert: ((1,0,0) % 2 :: sum = Z2 one).
+	self assert: ((0,1,0) % 2 :: sum = Z2 one).
+	self assert: ((1,1,0) % 2 :: sum = Z2 zero).
+	self assert: ((1,1,1) % 2 :: sum = Z2 one)! !
+
+!TupleOverBinaryFieldTest methodsFor: 'as yet unclassified' stamp: 'len 11/23/2022 10:48:59'!
+testBitTupleSum
+	self assert: (SmallBitTuple newFrom: 2r1011101) sum representative = 1.
+	self assert: (SmallBitTuple newFrom: 2r10000100100010) sum representative = 0! !
+
+!TupleOverByteModularIntegersTest methodsFor: 'as yet unclassified' stamp: 'len 11/24/2022 11:08:41'!
+initialize
+	super initialize.
+	scalars _ ℤ / (2 to: 256) atRandom! !
+
+!TupleOverLargeModularIntegersTest methodsFor: 'as yet unclassified' stamp: 'len 11/24/2022 11:10:05'!
+initialize
+	super initialize.
+	scalars _ ℤ / (16r100000001 to: 16r100000001 + 1000) atRandom! !
+
+!TupleOverWordModularIntegersTest methodsFor: 'as yet unclassified' stamp: 'len 11/24/2022 11:09:26'!
+initialize
+	super initialize.
+	scalars _ ℤ / (257 to: 16r100000000) atRandom! !
+
 !TuplesOverFiniteFieldTest methodsFor: 'initialization' stamp: 'len 4/29/2022 12:52:38'!
 initialize
 	super initialize.
@@ -3856,54 +3817,15 @@ testDomainError
 	v _ ℤ^3 !! #(1 2 3).
 	self should: [v / 2] raise: Error! !
 
-!TuplesOverModularIntegersTest methodsFor: 'as yet unclassified' stamp: 'len 4/26/2021 11:48:50'!
-initialize
-	super initialize.
-	scalars _ ℤ/(2 to: 64) atRandom! !
-
-!TuplesOverModularIntegersTest methodsFor: 'as yet unclassified' stamp: 'len 4/22/2022 12:26:29'!
-testModTupleOperations
-	| n a b modulus |
-	modulus _ scalars modulus.
-	n _ 5 atRandom.
-	a _ ℤ^n atRandomBits: 30.
-	b _ ℤ^n atRandomBits: 30.
-	#(+ - · convolution: *) do: [:op|
-		self testTuple: a with: b operation: op modulo: modulus].
-	#(negated reversed copy sum product) do: [:op|
-		self testTuple: a operation: op modulo: modulus].! !
-
-!TuplesOverModularIntegersTest methodsFor: 'as yet unclassified' stamp: 'len 4/22/2021 10:28:45'!
-testTuple: a operation: aSymbol modulo: modulus
-	self assert: (a perform: aSymbol) % modulus = (a % modulus perform: aSymbol)! !
-
-!TuplesOverModularIntegersTest methodsFor: 'as yet unclassified' stamp: 'len 4/22/2021 10:28:53'!
-testTuple: a with: b operation: aSymbol modulo: modulus
-	self assert: (a perform: aSymbol with: b) % modulus = (a % modulus perform: aSymbol with: b % modulus)! !
-
-!TuplesOverBinaryFieldTest methodsFor: 'as yet unclassified' stamp: 'len 4/22/2021 10:26:20'!
-initialize
-	super initialize.
-	scalars _ ℤ/2! !
-
-!TuplesOverBinaryFieldTest methodsFor: 'as yet unclassified' stamp: 'len 4/22/2021 10:29:12'!
-testBitTupleBug
-	| Z2 |
-	Z2 _ PrimeField new: 2.
-	self assert: ((1,0,0) % 2 :: sum = Z2 one).
-	self assert: ((0,1,0) % 2 :: sum = Z2 one).
-	self assert: ((1,1,0) % 2 :: sum = Z2 zero).
-	self assert: ((1,1,1) % 2 :: sum = Z2 one)! !
-
-!TuplesOverBinaryFieldTest methodsFor: 'as yet unclassified' stamp: 'len 4/30/2022 06:42:47'!
-testBitTupleSum
-	self assert: (SmallBinaryArray newFrom: 2r1011101) sum representative = 1.
-	self assert: (SmallBinaryArray newFrom: 2r10000100100010) sum representative = 0! !
-
 !TuplesOverPolynomialsOverRationalsTest methodsFor: 'as yet unclassified' stamp: 'len 4/22/2021 10:31:32'!
 initialize
 	super initialize.
 	scalars _ ℚ polynomials! !
+
+!TuplesOverProductRingTest methodsFor: 'as yet unclassified' stamp: 'len 11/24/2022 11:11:10'!
+initialize
+	super initialize.
+	scalars _ ℤ × (ℤ/(64 atRandom + 1))! !
 
 !TuplesOverRationalsTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2022 18:59:05'!
 initialize
@@ -4161,13 +4083,13 @@ newMatrix
 	m _ (0 to: 5) atRandom: random.
 	^ scalars^n ⇒ (scalars^m) atRandom: random bits: (m*n*5+1 atRandom: random)! !
 
-!AbstractMatrixTest methodsFor: 'private' stamp: 'len 10/5/2022 17:07:42'!
+!AbstractMatrixTest methodsFor: 'private' stamp: 'len 11/23/2022 21:23:57'!
 newMatrix: shape
 	| samples hom |
 	hom _ scalars^shape y ⇒ (scalars^shape x).
 	(2 atRandom: random) = 1 ifTrue: [^ hom atRandom: random bits: 100].
 	samples _ {scalars zero. scalars one. scalars one negated}.
-	^ hom filling: [:i :j| (2 atRandom: random) > 1 ifTrue: [scalars zero] ifFalse: [samples atRandom: random]]! !
+	^ hom fill: [:i :j| (2 atRandom: random) > 1 ifTrue: [scalars zero] ifFalse: [samples atRandom: random]]! !
 
 !AbstractMatrixTest methodsFor: 'private' stamp: 'len 8/4/2021 14:42:41'!
 newSquareMatrix
@@ -4213,10 +4135,10 @@ testSwapRows
 	B swapRow: i1 with: i2.
 	self assert: A = B! !
 
-!AbstractMatrixOverCommutativeRingTest methodsFor: 'as yet unclassified' stamp: 'len 12/18/2021 20:27:24'!
+!AbstractMatrixOverCommutativeRingTest methodsFor: 'as yet unclassified' stamp: 'len 11/23/2022 21:37:50'!
 testAdjugateCramerRule
 	| A I |
-	A _ scalars matrix: 3 filling: [:i :j| scalars atRandom: random bits: 10].
+	A _ scalars matrix: 3 fill: [:i :j| scalars atRandom: random bits: 10].
 	I _ A identity.
 	self assert: A * A adjugate = (I * A determinant)! !
 
@@ -4244,14 +4166,14 @@ testCharacteristicPolynomial
 	B _ A parent atRandom: random bits: 100.
 	self assert: (A*B) characteristicPolynomial = (B*A) characteristicPolynomial! !
 
-!AbstractMatrixOverCommutativeRingTest methodsFor: 'as yet unclassified' stamp: 'len 1/1/2022 12:56:13'!
+!AbstractMatrixOverCommutativeRingTest methodsFor: 'as yet unclassified' stamp: 'len 11/23/2022 21:37:57'!
 testDeterminant
 	| n I A B c |
 	n _ (0 to: 4) atRandom: random.
 	I _ (scalars^n) id.
 	self assert: I determinant = scalars one.
-	A _ scalars matrix: n filling: [:i :j| scalars atRandom: random bits: 10].
-	B _ scalars matrix: n filling: [:i :j| scalars atRandom: random bits: 10].
+	A _ scalars matrix: n fill: [:i :j| scalars atRandom: random bits: 10].
+	B _ scalars matrix: n fill: [:i :j| scalars atRandom: random bits: 10].
 	self assert: (A * B) determinant = (A determinant * B determinant).
 	c _ scalars atRandomBits: 10.
 	self assert: (A * c) determinant = (c^n * A determinant).
@@ -4441,13 +4363,13 @@ testBackslashRationalTuple
 	self assert: x = (-13/12, (23/12), (-7/12)).
 	self assert: A * x = v! !
 
-!MatrixOverRationalsTest methodsFor: 'as yet unclassified' stamp: 'len 8/1/2021 10:28:38'!
+!MatrixOverRationalsTest methodsFor: 'as yet unclassified' stamp: 'len 11/23/2022 17:05:03'!
 testBackslashRationalTuple2
 	"Example from GAP manual."
 	| A b x |
 	A _ ℚ matrix: #((1 2 7) (4 5 6) (7 8 9) (10 11 19) (5 7 12)).
-	b _ ℚ tuple: #(95 115 182).
-	x _ ℚ tuple: {47/4. -17/2. 67/4. 0. 0}.
+	b _ ℚ !!!! #(95 115 182).
+	x _ ℚ !!!! {47/4. -17/2. 67/4. 0. 0}.
 	self assert: A transpose \ b = x! !
 
 !MatrixOverRationalsTest methodsFor: 'as yet unclassified' stamp: 'len 10/5/2022 17:10:01'!
@@ -4687,23 +4609,23 @@ testBackslashIntegerTuple
 "	self assert: x = (-1, 0, 0)."
 	self assert: A * x = v! !
 
-!MatrixOverIntegersTest methodsFor: 'as yet unclassified' stamp: 'len 8/1/2021 10:29:26'!
+!MatrixOverIntegersTest methodsFor: 'as yet unclassified' stamp: 'len 11/23/2022 17:05:14'!
 testBackslashIntegerTuple2
 	"Example from GAP manual."
 	| A b |
 	A _ ℤ matrix: #((1 2 7) (4 5 6) (7 8 9) (10 11 19) (5 7 12)).
 	A _ A transpose.
-	b _ ℤ tuple: #(95 115 182).
+	b _ ℤ !!!! #(95 115 182).
 "	x _ ℤ tuple: #(2285 -5854 4888 -1299 0)." "<- GAP comes up with this solution, but this is not very small"
 	self assert: A * (A \ b) = b! !
 
-!MatrixOverIntegersTest methodsFor: 'as yet unclassified' stamp: 'len 8/1/2021 10:29:34'!
+!MatrixOverIntegersTest methodsFor: 'as yet unclassified' stamp: 'len 11/23/2022 17:05:23'!
 testBackslashIntegerTuple3
 	| A b |
 	A _ ℤ matrix: #((-8 1 -7 -9 -2 -1) (5 -2 3 -3 1 1) (7 0 6 4 -5 -8) (-7 -10 5 9 -4 4) (3 -4 1 -2 3 -8) (-7 3 2 6 7 -1) (4 8 5 1 -8 -9) (9 5 0 -10 -8 8) (-6 2 -6 -9 -5 6)).
 	A _ A transpose.
-	b _ ℤ tuple: #(3 -1 -1 -7 9 8).
-	"x _ ℤ tuple: #(38 25 -6 1 -34 -12 3 -3 -44)." "shortest solution"
+	b _ ℤ !!!! #(3 -1 -1 -7 9 8).
+	"x _ ℤ !!!! #(38 25 -6 1 -34 -12 3 -3 -44)." "shortest solution"
 	self assert: A * (A \ b) = b! !
 
 !MatrixOverIntegersTest methodsFor: 'as yet unclassified' stamp: 'len 8/1/2021 10:29:40'!
@@ -5080,24 +5002,24 @@ initialize
 	super initialize.
 	scalars _ ℤ/5! !
 
-!MatrixOverPolynomialsOverPrimeFieldTest methodsFor: 'as yet unclassified' stamp: 'len 12/18/2021 20:29:45'!
+!MatrixOverPolynomialsOverPrimeFieldTest methodsFor: 'as yet unclassified' stamp: 'len 11/23/2022 21:38:03'!
 testRankOverPolynomialsOverZ5
 	"Example form Magma handbook (H88E7)."
 	| K P x a |
 	K _ ℤ/5.
 	P _ K polynomials.
 	x _ P x.
-	a _ P matrix: 5 filling: [:i :j| x^i + (x^j)].
+	a _ P matrix: 5 fill: [:i :j| x^i + (x^j)].
 	self assert: a rank = 2! !
 
-!MatrixOverPolynomialsOverPrimeFieldTest methodsFor: 'as yet unclassified' stamp: 'len 12/18/2021 20:29:53'!
+!MatrixOverPolynomialsOverPrimeFieldTest methodsFor: 'as yet unclassified' stamp: 'len 11/23/2022 21:38:08'!
 testSmithNormalFormOverPolynomialsOverPrimeField1
 	"Example form Magma handbook (H88E7)."
 	| K P x a |
 	K _ ℤ/5.
 	P _ K polynomials.
 	x _ P x.
-	a _ P matrix: 5 filling: [:i :j| x^i + (x^j)].
+	a _ P matrix: 5 fill: [:i :j| x^i + (x^j)].
 	self assert: a elementaryDivisors = {x. x^3 + (x^2*3) + x}! !
 
 !MatrixOverPolynomialsOverPrimeFieldTest methodsFor: 'as yet unclassified' stamp: 'len 4/5/2021 04:05:31'!
@@ -5214,11 +5136,6 @@ initialize
 initialize
 	super initialize.
 	scalars _ ℤ/1024 atRandom polynomialsIn: 3 atRandom! !
-
-!MatrixOverPowerAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 10/13/2022 05:00:40'!
-initialize
-	super initialize.
-	scalars _ ℤ × ℤ! !
 
 !MatrixOverPrimePowerRingTest methodsFor: 'as yet unclassified' stamp: 'len 3/26/2021 12:57:12'!
 initialize
@@ -5709,13 +5626,13 @@ newFreeModule
 	(5 atRandom: random) = 1 ifTrue: [^ M dual].
 	^ M! !
 
-!AbstractModuleTest methodsFor: 'private' stamp: 'len 10/5/2022 17:10:35'!
+!AbstractModuleTest methodsFor: 'private' stamp: 'len 11/23/2022 21:24:08'!
 newMatrix: shape
 	| hom samples |
 	hom _ scalars^shape y ⇒ (scalars^shape x).
 	(2 atRandom: random) = 1 ifTrue: [^ hom atRandom: random bits: 100].
 	samples _ {scalars zero. scalars one. scalars one negated}.
-	^ hom filling: [:i :j| (2 atRandom: random) > 1 ifTrue: [scalars zero] ifFalse: [samples atRandom: random]]! !
+	^ hom fill: [:i :j| (2 atRandom: random) > 1 ifTrue: [scalars zero] ifFalse: [samples atRandom: random]]! !
 
 !AbstractModuleTest methodsFor: 'private' stamp: 'len 8/22/2021 12:27:37'!
 newModule
@@ -6470,11 +6387,6 @@ initialize
 	super initialize.
 	scalars _ ℚ polynomials! !
 
-!ModuleOverPowerAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 10/13/2022 05:03:14'!
-initialize
-	super initialize.
-	scalars _ ℤ × ℤ! !
-
 !ModuleOverProductRingTest methodsFor: 'as yet unclassified' stamp: 'len 10/13/2022 05:02:42'!
 initialize
 	super initialize.
@@ -6610,10 +6522,10 @@ testProjectiveEmbedding
 	"the projective scheme has one more point at infinity:"
 	self assert: affinePointsEmbedded size + 1 = projectivePoints size! !
 
-!AlgebraicGeometryTest methodsFor: 'conics' stamp: 'len 5/23/2020 09:33:01'!
+!AlgebraicGeometryTest methodsFor: 'conics' stamp: 'len 11/24/2022 19:12:48'!
 testConicCoefficients
 	self assert: (Conic coefficients: (1,2,3,4,5,6)) coefficients = (1,2,3,4,5,6).
-	self assert: (Conic polynomial: (ℚ polynomialsIn: 3) !! [:x :y :z| x^2 + (x*y*5) + (y^2) + (z^2)]) coefficients = (1,5,0,1,0,1)! !
+	self assert: (Conic polynomial: (ℚ polynomialsIn: 3) !! [:x :y :z| x^2 + (x*y*5) + (y^2) + (z^2)]) coefficients = (ℚ !!!! (1,5,0,1,0,1))! !
 
 !AlgebraicGeometryTest methodsFor: 'conics' stamp: 'len 5/23/2020 09:33:01'!
 testConicDeterminant
@@ -9136,13 +9048,13 @@ newFreeModuleOver: aRing
 	5 atRandom = 1 ifTrue: [^ M dual].
 	^ M! !
 
-!ModuleTest methodsFor: 'private' stamp: 'len 10/5/2022 17:18:44'!
+!ModuleTest methodsFor: 'private' stamp: 'len 11/23/2022 21:24:13'!
 newMatrix: shape over: aRing
 	| hom samples |
 	hom _ aRing^shape y ⇒ (aRing^shape x).
 	2 atRandom = 1 ifTrue: [^ hom atRandomBits: 100].
 	samples _ {aRing zero. aRing one. aRing one negated}.
-	^ hom filling: [:i :j| 2 atRandom > 1 ifTrue: [aRing zero] ifFalse: [samples atRandom]]! !
+	^ hom fill: [:i :j| 2 atRandom > 1 ifTrue: [aRing zero] ifFalse: [samples atRandom]]! !
 
 !ModuleTest methodsFor: 'private' stamp: 'len 3/22/2021 12:02:55'!
 newModule
@@ -12329,14 +12241,10 @@ testBitTupleReversed
 	self assert: (v reversed at: i) = (v at: v size - i + 1).
 	self assert: v reversed reversed = v! !
 
-!TupleTest methodsFor: 'bit tuples' stamp: 'len 4/30/2022 06:42:47'!
+!TupleTest methodsFor: 'bit tuples' stamp: 'len 11/23/2022 10:48:59'!
 testBitTupleSum
-	self assert: (SmallBinaryArray newFrom: 2r1011101) sum representative = 1.
-	self assert: (SmallBinaryArray newFrom: 2r10000100100010) sum representative = 0! !
-
-!TupleTest methodsFor: 'bit tuples' stamp: 'len 7/27/2020 08:51:53'!
-testBitTuplesOfDifferentSize
-	self testTuplesOfDifferentSizeOver: ℤ/2! !
+	self assert: (SmallBitTuple newFrom: 2r1011101) sum representative = 1.
+	self assert: (SmallBitTuple newFrom: 2r10000100100010) sum representative = 0! !
 
 !TupleTest methodsFor: 'integer tuples' stamp: 'len 7/27/2020 08:20:55'!
 testIntegerTupleOperations
@@ -12351,10 +12259,6 @@ testIntegerTupleOperations
 !TupleTest methodsFor: 'integer tuples' stamp: 'len 7/27/2020 08:59:41'!
 testIntegerTupleSum
 	self assert: (1,2,3) sum = (1 + 2 + 3)! !
-
-!TupleTest methodsFor: 'integer tuples' stamp: 'len 7/27/2020 08:51:24'!
-testIntegerTuplesOfDifferentSize
-	self testTuplesOfDifferentSizeOver: ℤ! !
 
 !TupleTest methodsFor: 'misc' stamp: 'len 7/4/2020 11:34:03'!
 testCrossProduct
@@ -12401,13 +12305,13 @@ testHomogeneousTuples2
 	Q _ (1,0) over: ℤ.
 	self deny: P ~ Q! !
 
-!TupleTest methodsFor: 'misc' stamp: 'len 5/23/2020 09:33:01'!
+!TupleTest methodsFor: 'misc' stamp: 'len 11/23/2022 17:05:31'!
 testHomogeneousTuples3
 	| R x P Q |
 	R _ ℚ polynomials.
 	x _ R x.
-	P _ R tuple: {x. x^2 + 1}.
-	Q _ R tuple: {x^2. x^3 + x}.
+	P _ R !!!! {x. x^2 + 1}.
+	Q _ R !!!! {x^2. x^3 + x}.
 	self assert: P ~ Q! !
 
 !TupleTest methodsFor: 'misc' stamp: 'len 4/11/2018 17:27:20'!
@@ -12440,41 +12344,37 @@ testModTupleOperations
 	#(negated reversed copy sum product) do: [:op|
 		self testTuple: a operation: op modulo: modulus].! !
 
-!TupleTest methodsFor: 'modular integer tuples' stamp: 'len 5/23/2020 09:34:55'!
+!TupleTest methodsFor: 'modular integer tuples' stamp: 'len 11/23/2022 17:05:37'!
 testModTupleSum
 	| a b |
-	a _ ℤ tuple: ((1 to: 10) collect: [:i| 100 atRandom]).
+	a _ ℤ !!!! ((1 to: 10) collect: [:i| 100 atRandom]).
 	b _ a % 7.
 	self assert: b sum = (a sum % 7)! !
 
-!TupleTest methodsFor: 'modular integer tuples' stamp: 'len 6/3/2022 05:53:42'!
+!TupleTest methodsFor: 'modular integer tuples' stamp: 'len 11/23/2022 17:14:54'!
 testModularIntegersTupleUnitsAndAssociates
 	"Examples from Magma."
 	| R |
 	R _ ℤ/6.
-	self assert: (R tuple: #(0 4)) ~ (R tuple: #(0 2)).
-	self assert: (R tuple: #(4 3)) ~ (R tuple: #(2 3)).
+	self assert: (R !!!! #(0 4)) ~ (R !!!! #(0 2)).
+	self assert: (R !!!! #(4 3)) ~ (R !!!! #(2 3)).
 	R _ ℤ/8.
-	self assert: (R tuple: #(3 2)) ~ (R tuple: #(1 6)).
-	self assert: (R tuple: #(7 2)) ~ (R tuple: #(1 6)).
-	self assert: (R tuple: #(2 7)) ~ (R tuple: #(2 3))
+	self assert: (R !!!! #(3 2)) ~ (R !!!! #(1 6)).
+	self assert: (R !!!! #(7 2)) ~ (R !!!! #(1 6)).
+	self assert: (R !!!! #(2 7)) ~ (R !!!! #(2 3))
 
 "this fails, but anyway canonical associates for tuples over a ring with zero divisors is not well defined:
 	R _ ℤ/6.
-	self assert: (R tuple: #(0 2)) normalized = (R tuple: #(0 2)).
-	self assert: (R tuple: #(0 4)) normalized = (R tuple: #(0 2)).
-	self assert: (R tuple: #(2 3)) normalized = (R tuple: #(2 3)).
-	self assert: (R tuple: #(4 3)) normalized = (R tuple: #(2 3)).
+	self assert: (R !!!! #(0 2)) normalized = (R !!!! #(0 2)).
+	self assert: (R !!!! #(0 4)) normalized = (R !!!! #(0 2)).
+	self assert: (R !!!! #(2 3)) normalized = (R !!!! #(2 3)).
+	self assert: (R !!!! #(4 3)) normalized = (R !!!! #(2 3)).
 	R _ ℤ/8.
-	self assert: (R tuple: #(3 2)) normalized = (R tuple: #(1 6)).
-	self assert: (R tuple: #(7 2)) normalized = (R tuple: #(1 6)).
-	self assert: (R tuple: #(2 3)) normalized = (R tuple: #(2 3)).
-	self assert: (R tuple: #(2 7)) normalized = (R tuple: #(2 3))
+	self assert: (R !!!! #(3 2)) normalized = (R !!!! #(1 6)).
+	self assert: (R !!!! #(7 2)) normalized = (R !!!! #(1 6)).
+	self assert: (R !!!! #(2 3)) normalized = (R !!!! #(2 3)).
+	self assert: (R !!!! #(2 7)) normalized = (R !!!! #(2 3))
 "! !
-
-!TupleTest methodsFor: 'modular integer tuples' stamp: 'len 7/27/2020 08:52:29'!
-testModularIntegersTuplesOfDifferentSize
-	self testTuplesOfDifferentSizeOver: ℤ/64 atRandom! !
 
 !TupleTest methodsFor: 'private' stamp: 'len 11/6/2016 14:24'!
 testTuple: a operation: aSymbol modulo: modulus
@@ -12484,21 +12384,20 @@ testTuple: a operation: aSymbol modulo: modulus
 testTuple: a with: b operation: aSymbol modulo: modulus
 	self assert: (a perform: aSymbol with: b) % modulus = (a % modulus perform: aSymbol with: b % modulus)! !
 
-!TupleTest methodsFor: 'private' stamp: 'len 7/27/2020 08:50:46'!
-testTuplesOfDifferentSizeOver: aRing
-	| a b zeros |
-	a _ aRing^5 atRandom atRandomBits: 10.
-	b _ aRing^5 atRandom atRandomBits: 10.
-	zeros _ (aRing^5 atRandom) zero.
-	self assert: a + (b,zeros) = (a + b).
-	self assert: (a,zeros) + b = (a + b).
-	self assert: a - (b,zeros) = (a - b).
-	self assert: (a,zeros) - b = (a - b).
-	self assert: a = (a,zeros).
-	self assert: a,zeros = a.
-	self assert: a hash = (a,zeros) hash.
-	self assert: a · (b,zeros) = (a · b).
-	self assert: a,zeros · b = (a · b)! !
+!PowerAlgebraGCDRingTest methodsFor: 'as yet unclassified' stamp: 'len 10/13/2022 05:04:30'!
+initialize
+	super initialize.
+	R _ ℤ × ℤ! !
+
+!TuplesOverPowerAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 11/24/2022 11:11:37'!
+initialize
+	super initialize.
+	scalars _ ℤ × ℤ! !
+
+!MatrixOverPowerAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 10/13/2022 05:00:40'!
+initialize
+	super initialize.
+	scalars _ ℤ × ℤ! !
 
 !MatrixOverRationalFunctionFieldOverFiniteFieldTest methodsFor: 'as yet unclassified' stamp: 'len 9/3/2022 11:14:29'!
 initialize
@@ -12509,6 +12408,11 @@ initialize
 initialize
 	super initialize.
 	scalars _ (ℚ polynomialsIn: 3 atRandom) fractions! !
+
+!ModuleOverPowerAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 10/13/2022 05:03:14'!
+initialize
+	super initialize.
+	scalars _ ℤ × ℤ! !
 
 !Benchmark methodsFor: 'as yet unclassified' stamp: 'len 3/1/2016 04:20'!
 run
@@ -12661,12 +12565,12 @@ test1000Factorial
 field: aField
 	field _ aField! !
 
-!ModularMatrixBenchmark methodsFor: 'as yet unclassified' stamp: 'len 5/16/2022 20:23:29'!
+!ModularMatrixBenchmark methodsFor: 'as yet unclassified' stamp: 'len 11/23/2022 21:40:24'!
 setUp
 	| random |
 	random _ Random seed: 1234.
 	field isNil ifTrue: [field _ 	PrimeField new: 32003].
-	matrix _ field matrix: 300@300 filling: [:i :j| field atRandom: random]! !
+	matrix _ field matrix: 300@300 fill: [:i :j| field atRandom: random]! !
 
 !ModularMatrixBenchmark methodsFor: 'as yet unclassified' stamp: 'len 11/22/2016 11:55:20'!
 testAddition

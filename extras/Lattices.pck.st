@@ -1,47 +1,47 @@
-'From Cuis 6.0 [latest update: #5438] on 6 October 2022 at 11:43:33 am'!
+'From Cuis 6.0 [latest update: #5438] on 25 November 2022 at 10:26:18 am'!
 'Description '!
-!provides: 'Lattices' 1 7!
+!provides: 'Lattices' 1 8!
 !requires: 'Algebra' 1 0 nil!
-SystemOrganization addCategory: 'Lattices'!
+SystemOrganization addCategory: #Lattices!
 
 
-!classDefinition: #Lattice category: 'Lattices'!
+!classDefinition: #Lattice category: #Lattices!
 Structure subclass: #Lattice
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Lattices'!
-!classDefinition: 'Lattice class' category: 'Lattices'!
+!classDefinition: 'Lattice class' category: #Lattices!
 Lattice class
 	instanceVariableNames: ''!
 
-!classDefinition: #LatticeMap category: 'Lattices'!
+!classDefinition: #LatticeMap category: #Lattices!
 Function subclass: #LatticeMap
 	instanceVariableNames: 'matrix'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Lattices'!
-!classDefinition: 'LatticeMap class' category: 'Lattices'!
+!classDefinition: 'LatticeMap class' category: #Lattices!
 LatticeMap class
 	instanceVariableNames: ''!
 
-!classDefinition: #LLL category: 'Lattices'!
+!classDefinition: #LLL category: #Lattices!
 Object subclass: #LLL
 	instanceVariableNames: 'basis innerProduct delta orthogonalBasis mu orthogonalBasisNorms'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Lattices'!
-!classDefinition: 'LLL class' category: 'Lattices'!
+!classDefinition: 'LLL class' category: #Lattices!
 LLL class
 	instanceVariableNames: ''!
 
-!classDefinition: #LatticeElement category: 'Lattices'!
+!classDefinition: #LatticeElement category: #Lattices!
 Object subclass: #LatticeElement
 	instanceVariableNames: 'parent coordinates'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Lattices'!
-!classDefinition: 'LatticeElement class' category: 'Lattices'!
+!classDefinition: 'LatticeElement class' category: #Lattices!
 LatticeElement class
 	instanceVariableNames: ''!
 
@@ -353,14 +353,14 @@ A: n
 	n timesRepeat: [B add: t. t _ t >> 1].
 	^ self basis: B! !
 
-!Lattice class methodsFor: 'examples' stamp: 'len 7/8/2020 08:44:10'!
+!Lattice class methodsFor: 'examples' stamp: 'len 11/23/2022 21:26:24'!
 Adual: n
 	"Answer the dual of A_n."
 	| V B |
 	V _ ℚ^(n+1).
 	B _ OrderedCollection new.
 	1 to: n do: [:i| B add: (V x: 1) - (V x: i+1)].
-	B add: (V filling: [:i| i=1 ifTrue: [n negated / (n+1)] ifFalse: [1 / (n+1)]]).
+	B add: (V fill: [:i| i=1 ifTrue: [n negated / (n+1)] ifFalse: [1 / (n+1)]]).
 	^ self basis: B! !
 
 !Lattice class methodsFor: 'examples' stamp: 'len 8/1/2020 19:06:12'!
@@ -382,17 +382,17 @@ D: n
 	n-1 timesRepeat: [B add: t. t _ t >> 1].
 	^ self basis: B! !
 
-!Lattice class methodsFor: 'examples' stamp: 'len 5/31/2020 20:35:48'!
+!Lattice class methodsFor: 'examples' stamp: 'len 11/23/2022 21:26:30'!
 Ddual: n
 	"Answer the dual of D_n."
 	| V B |
 	V _ ℚ^n.
 	B _ OrderedCollection new.
 	1 to: n-1 do: [:i| B add: (V x: i)].
-	B add: (V filling: [:i| 1/2]).
+	B add: (V fill: [:i| 1/2]).
 	^ self basis: B! !
 
-!Lattice class methodsFor: 'examples' stamp: 'len 5/31/2020 20:36:26'!
+!Lattice class methodsFor: 'examples' stamp: 'len 11/23/2022 21:26:35'!
 E8
 	| V t0 t B answer |
 	V _ ℚ^8.
@@ -401,7 +401,7 @@ E8
 	B add: t0.
 	t _ (V x: 2) - (V x: 1).
 	6 timesRepeat: [B add: t. t _ t >> 1].
-	B add: (V filling: [:i| 1/2]).
+	B add: (V fill: [:i| 1/2]).
 	answer _ self basis: B.
 	answer properties
 		at: #minimalNorm put: 2;
@@ -564,11 +564,11 @@ basis: aCollection innerProduct: aBilinearForm
 	"d _ basis size."
 	delta _ 3/4 "(4/3 + 0.0000000001)^((d-1)/2)"! !
 
-!LLL methodsFor: 'private' stamp: 'len 7/13/2020 11:57:10'!
+!LLL methodsFor: 'private' stamp: 'len 11/23/2022 21:31:31'!
 computeMu
 	| n bi oj |
 	n _ basis size.
-	mu _ (ℚ^n) endomorphisms filling: [:i :j|
+	mu _ (ℚ^n) endomorphisms fill: [:i :j|
 		bi _ basis at: i.
 		oj _ orthogonalBasis at: j.
 		(innerProduct value: bi value: oj) / (orthogonalBasisNorms at: j)] "redundant matrix multiplication by oj"! !
