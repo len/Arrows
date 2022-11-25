@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5438] on 22 November 2022 at 4:57:29 pm'!
+'From Cuis 6.0 [latest update: #5438] on 25 November 2022 at 10:25:28 am'!
 'Description This package includes some extra methods for Collection and subclasses and some new collection classes.'!
-!provides: 'Collections-Extras' 1 6!
+!provides: 'Collections-Extras' 1 7!
 SystemOrganization addCategory: #'Collections-Extras'!
 
 
@@ -399,10 +399,6 @@ anyIfNone: aBlock
 !Collection methodsFor: '*collections-extras' stamp: 'len 2/13/2003 23:19'!
 copyEmpty
 	^ self species new! !
-
-!Collection methodsFor: '*collections-extras' stamp: 'len 2/13/2003 23:19'!
-copyEmpty: anInteger
-	^ self species new: anInteger! !
 
 !Collection methodsFor: '*collections-extras' stamp: 'len 5/1/2022 07:51:04'!
 count: aBlock
