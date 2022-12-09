@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5438] on 25 November 2022 at 10:25:28 am'!
+'From Cuis 6.0 [latest update: #5438] on 9 December 2022 at 8:36:10 am'!
 'Description This package includes some extra methods for Collection and subclasses and some new collection classes.'!
-!provides: 'Collections-Extras' 1 7!
+!provides: 'Collections-Extras' 1 8!
 SystemOrganization addCategory: #'Collections-Extras'!
 
 
@@ -309,10 +309,6 @@ size
 !SortedDictionary methodsFor: 'arithmetic' stamp: 'len 4/27/2022 13:47:27'!
 / aNumber
 	^ self collect: [:each| each / aNumber]! !
-
-!SortedDictionary methodsFor: 'arithmetic' stamp: 'len 4/27/2022 16:53:29'!
-negated
-	^ self collect: [:each| each negated]! !
 
 !SortedDictionary methodsFor: 'comparing' stamp: 'len 4/26/2022 22:32:45'!
 = anObject

@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5438] on 25 November 2022 at 10:26:11 am'!
+'From Cuis 6.0 [latest update: #5438] on 9 December 2022 at 8:36:14 am'!
 'Description '!
-!provides: 'Etc' 1 17!
+!provides: 'Etc' 1 18!
 !requires: 'Algebra' 1 7 nil!
 SystemOrganization addCategory: #Etc!
 SystemOrganization addCategory: #'Etc-Lie'!
@@ -94,6 +94,16 @@ PrimeField subclass: #SmallPrimeField
 	category: 'Etc'!
 !classDefinition: 'SmallPrimeField class' category: #Etc!
 SmallPrimeField class
+	instanceVariableNames: ''!
+
+!classDefinition: #PowerAlgebra category: #Etc!
+FiniteAlgebra subclass: #PowerAlgebra
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Etc'!
+!classDefinition: 'PowerAlgebra class' category: #Etc!
+PowerAlgebra class
 	instanceVariableNames: ''!
 
 !classDefinition: #CompletionRing category: #Etc!
@@ -1117,6 +1127,153 @@ inverseOfRepresentative: anInteger
 !SmallPrimeField class methodsFor: 'instance creation' stamp: 'len 5/1/2022 12:35:48'!
 new: aPrime
 	^ self new modulus: aPrime! !
+
+!PowerAlgebra methodsFor: 'accessing' stamp: 'len 10/13/2022 04:40:15'!
+arity
+	^ self rank! !
+
+!PowerAlgebra methodsFor: 'accessing' stamp: 'len 10/13/2022 05:09:10'!
+components
+	^ (1 to: self rank) collect: [:each| self scalars]! !
+
+!PowerAlgebra methodsFor: 'accessing' stamp: 'len 10/13/2022 04:40:52'!
+dimension
+	"Answer the Krull dimension of the receiver. This is the length of the longest ascending chain of prime ideals."
+	^ self scalars dimension! !
+
+!PowerAlgebra methodsFor: 'accessing' stamp: 'len 10/13/2022 04:48:22'!
+one
+	| one |
+	one _ self scalars one.
+	^ self compose: self scalars !!!! ((1 to: self rank) collect: [:each| one])! !
+
+!PowerAlgebra methodsFor: 'accessing' stamp: 'len 10/13/2022 04:42:30'!
+size
+	^ self scalars size ^ self rank! !
+
+!PowerAlgebra methodsFor: 'comparing' stamp: 'len 10/13/2022 04:45:09'!
+= anObject
+	^ self class = anObject class and: [self asModule = anObject asModule]! !
+
+!PowerAlgebra methodsFor: 'comparing' stamp: 'len 10/13/2022 04:44:48'!
+hash
+	^ self asModule hash! !
+
+!PowerAlgebra methodsFor: 'computing-matrices' stamp: 'len 11/23/2022 21:38:37'!
+matrix: B quotientBy: A
+	"Answer X such that AX + N = B, satisfying that if the i-th column of B is a linear combination of the columns of A then the i-th column of N is zero.
+	The algorithm solves the system for each projection and then composes back to the product ring."
+	| results |
+	results _ self ⇉ self components collect: [:p| (B apply: p) quotientBy: (A apply: p)].
+	^ self matrix: A width @ B width fill: [:i :j| self compose: (results collect: [:each| each at: i@j])]! !
+
+!PowerAlgebra methodsFor: 'computing-matrices' stamp: 'len 11/23/2022 21:38:47'!
+syzygiesOf: aMatrix
+	"Answer a matrix whose rows span the kernel of the given matrix.
+	For a matrix A, the output is X with AX = 0.
+	The algorithm computes syzygies for each projection and then composes back to the product ring."
+	| results |
+	results _ self ⇉ self components collect: [:p| (aMatrix apply: p) syzygies].
+	^ self matrix: aMatrix width @ (results max: [:each| each width]) fill: [:i :j| self compose: (results withIndexCollect: [:each :k| each at: i@j ifAbsent: [(self components at: k) zero]])]! !
+
+!PowerAlgebra methodsFor: 'converting' stamp: 'len 10/14/2022 08:51:41'!
+asAbelianGroup
+	"Answer the receiver as a ℤ-module."
+	^ self scalars asAbelianGroup ^⊕ self rank! !
+
+!PowerAlgebra methodsFor: 'elements' stamp: 'len 10/13/2022 04:40:39'!
+compose: anArray
+	^ ProductRingElement components: self scalars !!!! anArray parent: self! !
+
+!PowerAlgebra methodsFor: 'elements' stamp: 'len 11/24/2022 17:50:53'!
+fromModuleElement: aTuple
+	^ ProductRingElement components: aTuple parent: self! !
+
+!PowerAlgebra methodsFor: 'morphisms' stamp: 'len 10/13/2022 04:50:49'!
+projection: i
+	"Answer the canonical projection to the i-th component."
+	^ (self to: self scalars map: [:x| x at: i]) name: 'π', i printString sub! !
+
+!PowerAlgebra methodsFor: 'operations' stamp: 'len 10/13/2022 07:39:54'!
+nilradical
+	"Answer the ideal consisting of all nilpotent elements, i.e. all x such that there exists some n with x^n = 0. It is the intersection of all prime ideals."
+	| generators |
+	generators _ OrderedCollection new.
+	self scalars nilradical generators do: [:g|
+		1 to: self rank do: [:i|
+			generators add: self !! ((self asModule x: i) * g)]].
+	^ self * generators! !
+
+!PowerAlgebra methodsFor: 'printing' stamp: 'len 10/13/2022 04:40:08'!
+printOn: aStream
+	aStream print: self scalars; nextPutAll: ('×', self rank printString) super! !
+
+!PowerAlgebra methodsFor: 'random' stamp: 'len 10/13/2022 04:51:54'!
+unitAtRandom: aRandom
+	^ self compose: ((1 to: self rank) collect: [:each| self scalars unitAtRandom: aRandom])! !
+
+!PowerAlgebra methodsFor: 'random' stamp: 'len 10/13/2022 04:52:25'!
+unitAtRandom: aRandom bits: bitSize
+	| n |
+	n _ bitSize / self rank.
+	^ self compose: ((1 to: self rank) collect: [:each| self scalars unitAtRandom: aRandom bits: n])! !
+
+!PowerAlgebra methodsFor: 'testing' stamp: 'len 10/13/2022 04:41:02'!
+hasCanonicalAssociates
+	^ self scalars hasCanonicalAssociates! !
+
+!PowerAlgebra methodsFor: 'testing' stamp: 'len 10/13/2022 04:41:12'!
+hasGCD
+	^ self scalars hasGCD! !
+
+!PowerAlgebra methodsFor: 'testing' stamp: 'len 10/13/2022 04:41:24'!
+isBezout
+	"Answer true if the receiver is a Bezout ring, i.e. every finitely generated ideal is principal."
+	"Bezout rings (like PIRs) are closed under products:"
+	^ self scalars isBezout or: [super isBezout]! !
+
+!PowerAlgebra methodsFor: 'testing' stamp: 'len 10/13/2022 04:41:33'!
+isCommutative
+	^ self scalars isCommutative! !
+
+!PowerAlgebra methodsFor: 'testing' stamp: 'len 10/13/2022 04:41:46'!
+isIntegralDomain
+	"The product of two or more nontrivial rings always has nontrivial zero divisors."
+	^ self scalars isTrivial or: [self rank < 2]! !
+
+!PowerAlgebra methodsFor: 'testing' stamp: 'len 10/13/2022 04:41:55'!
+isInvolutive
+	^ self scalars isInvolutive! !
+
+!PowerAlgebra methodsFor: 'testing' stamp: 'len 10/13/2022 04:42:03'!
+isPIR
+	"Answer true if the receiver is a principal ideal ring, i.e. all ideals are principal (but it is not necessarily a PID, i.e. it is not necessarily an integral domain)."
+	"A product ring is a PIR if and only if all its components are PIRs."
+	^ self scalars isPIR! !
+
+!PowerAlgebra methodsFor: 'testing' stamp: 'len 10/13/2022 04:48:50'!
+isProduct
+	^ true! !
+
+!PowerAlgebra methodsFor: 'testing' stamp: 'len 10/13/2022 04:49:17'!
+isReduced
+	"Answer true if the receiver has no nonzero nilpotent elements, or equivalently if it has no nonzero elements with square zero, i.e. x^2 = 0 implies x = 0."
+	self scalars isReduced ifTrue: [^ true]. "is it iff?"
+	^ super isReduced! !
+
+!PowerAlgebra methodsFor: 'testing' stamp: 'len 10/13/2022 04:42:11'!
+isTrivial
+	^ self scalars isTrivial! !
+
+!PowerAlgebra methodsFor: 'testing' stamp: 'len 10/13/2022 04:42:19'!
+isUFR
+	"A unique factorization ring (UFR) is a commutative ring in which every nonzero nonunit element can be written as a product of irreducible elements, uniquely up to order and associates."
+	"The product of a finite number of UFRs is a UFR. In particular, the product of a finite number of UFDs is a UFR [Fle69]."
+	^ self scalars isUFR! !
+
+!PowerAlgebra class methodsFor: 'instance creation' stamp: 'len 10/13/2022 04:58:29'!
+on: aFreeModule
+	^ self new module: aFreeModule! !
 
 !CompletionRing methodsFor: 'accessing' stamp: 'len 6/6/2019 11:56:17'!
 base
