@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5438] on 25 November 2022 at 10:26:25 am'!
+'From Cuis 6.0 [latest update: #5438] on 9 December 2022 at 8:36:48 am'!
 'Description '!
-!provides: 'Tests-Algebra' 1 23!
+!provides: 'Tests-Algebra' 1 24!
 SystemOrganization addCategory: #'Tests-Algebra'!
 SystemOrganization addCategory: #'Tests-Algebra-Rings'!
 SystemOrganization addCategory: #'Tests-Algebra-Tuples'!
@@ -1439,6 +1439,46 @@ Benchmark subclass: #AlgebraicNumbersBenchmark
 AlgebraicNumbersBenchmark class
 	instanceVariableNames: ''!
 
+!classDefinition: #CharacteristicPolynomialOverIntegersBenchmark category: #'Tests-Algebra-Benchmarks'!
+Benchmark subclass: #CharacteristicPolynomialOverIntegersBenchmark
+	instanceVariableNames: 'M'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra-Benchmarks'!
+!classDefinition: 'CharacteristicPolynomialOverIntegersBenchmark class' category: #'Tests-Algebra-Benchmarks'!
+CharacteristicPolynomialOverIntegersBenchmark class
+	instanceVariableNames: ''!
+
+!classDefinition: #DeterminantOverCommutativeRingBenchmark category: #'Tests-Algebra-Benchmarks'!
+Benchmark subclass: #DeterminantOverCommutativeRingBenchmark
+	instanceVariableNames: 'M'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra-Benchmarks'!
+!classDefinition: 'DeterminantOverCommutativeRingBenchmark class' category: #'Tests-Algebra-Benchmarks'!
+DeterminantOverCommutativeRingBenchmark class
+	instanceVariableNames: ''!
+
+!classDefinition: #DeterminantOverPolynomialRingBenchmark category: #'Tests-Algebra-Benchmarks'!
+Benchmark subclass: #DeterminantOverPolynomialRingBenchmark
+	instanceVariableNames: 'M'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra-Benchmarks'!
+!classDefinition: 'DeterminantOverPolynomialRingBenchmark class' category: #'Tests-Algebra-Benchmarks'!
+DeterminantOverPolynomialRingBenchmark class
+	instanceVariableNames: ''!
+
+!classDefinition: #FatemanBenchmark category: #'Tests-Algebra-Benchmarks'!
+Benchmark subclass: #FatemanBenchmark
+	instanceVariableNames: 'f p'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra-Benchmarks'!
+!classDefinition: 'FatemanBenchmark class' category: #'Tests-Algebra-Benchmarks'!
+FatemanBenchmark class
+	instanceVariableNames: ''!
+
 !classDefinition: #GroebnerBasisBenchmark category: #'Tests-Algebra-Benchmarks'!
 Benchmark subclass: #GroebnerBasisBenchmark
 	instanceVariableNames: ''
@@ -1569,6 +1609,23 @@ testRealAlgebraicNumberDivision	55.8 per second.
 testRealAlgebraicNumberProduct	59.1 per second.
 testRealAlgebraicNumberSquare	1,610 per second.' 
 !
+
+!CharacteristicPolynomialOverIntegersBenchmark commentStamp: 'len 11/25/2022 10:50:24' prior: 0!
+CharacteristicPolynomialOverIntegersBenchmark new run
+
+testCharacteristicPolynomial	2.85  seconds per run!
+
+!DeterminantOverCommutativeRingBenchmark commentStamp: 'len 11/25/2022 11:07:20' prior: 0!
+https://www.nemocas.org/benchmarks/
+
+SageMath 6.8: 43.5s
+Pari/GP 2.7.4: 456s
+Magma v2.21-4: -
+Nemo-0.4: 7.5s
+
+DeterminantOverCommutativeRingBenchmark new run
+
+testDeterminant	376.23  seconds per run!
 
 !GroebnerBasisBenchmark commentStamp: 'len 5/12/2018 18:35:32' prior: 0!
 GroebnerBasisBenchmark new run
@@ -2151,13 +2208,17 @@ testTranspositionZ	1,580 per second.
 testTranspositionZ2	565 per second.
 !
 
-!SparsePolynomialMultiplicationBenchmark commentStamp: '<historical>' prior: 0!
+!SparsePolynomialMultiplicationBenchmark commentStamp: 'len 11/25/2022 11:20:32' prior: 0!
 Timings giving in [1] on computers with 0.8ghz - 1ghz intel cpus: general purpose system 20s-100s, tuned systems 2.3s-10s. For big coefficients: singular 28s, pari 77s.
 
 [1] R.J. Fateman, Comparing the speed of sparse polynomial multiplication.
 
 
 self new run
+
+testBigCoefficientsProduct	5.25  seconds per run (25 Nov 2022)
+testBigExponentsProduct	2.00  seconds per run
+testProduct	2.00  seconds per run
 
 testBigCoefficientsProduct	8.5 seconds. (25 Dec 2017, after refactoring MultivariatePolynomial and removing MonomialIndexedTuple)
 testBigExponentsProduct	6.38 seconds.
@@ -3441,6 +3502,13 @@ testAtPut
 	a at: i put: x.
 	self assert: (a at: i) = x! !
 
+!AbstractTupleTest methodsFor: 'as yet unclassified' stamp: 'len 12/9/2022 08:24:09'!
+testAutoconvolution
+	| a |
+	a _ self newTuple.
+	self assert: a autoconvolution asArray = a asArray autoconvolution.
+	self assert: a autoconvolution = (a convolution: a)! !
+
 !AbstractTupleTest methodsFor: 'as yet unclassified' stamp: 'len 11/24/2022 11:21:52'!
 testCircularShift
 	| a b n |
@@ -3742,7 +3810,7 @@ testHomogeneousTuples
 	d _ scalars^n x: 2.
 	self deny: c ~ d! !
 
-!AbstractTupleOverModularIntegersTest methodsFor: 'as yet unclassified' stamp: 'len 4/22/2022 12:26:29'!
+!AbstractTupleOverModularIntegersTest methodsFor: 'as yet unclassified' stamp: 'len 12/9/2022 08:23:07'!
 testModTupleOperations
 	| n a b modulus |
 	modulus _ scalars modulus.
@@ -3751,7 +3819,7 @@ testModTupleOperations
 	b _ ℤ^n atRandomBits: 30.
 	#(+ - · convolution: *) do: [:op|
 		self testTuple: a with: b operation: op modulo: modulus].
-	#(negated reversed copy sum product) do: [:op|
+	#(negated reversed copy sum product autoconvolution) do: [:op|
 		self testTuple: a operation: op modulo: modulus].! !
 
 !AbstractTupleOverModularIntegersTest methodsFor: 'as yet unclassified' stamp: 'len 4/22/2021 10:28:45'!
@@ -12222,7 +12290,7 @@ testBitTupleBug
 	self assert: ((1,1,0) % 2 :: sum = Z2 zero).
 	self assert: ((1,1,1) % 2 :: sum = Z2 one)! !
 
-!TupleTest methodsFor: 'bit tuples' stamp: 'len 4/22/2022 12:26:48'!
+!TupleTest methodsFor: 'bit tuples' stamp: 'len 12/9/2022 07:10:46'!
 testBitTupleOperations
 	| n a b |
 	n _ 120 atRandom.
@@ -12230,7 +12298,7 @@ testBitTupleOperations
 	b _ ℤ^n atRandomBits: n*2.
 	#(+ - · convolution: *) do: [:op|
 		self testTuple: a with: b operation: op modulo: 2].
-	#(negated reversed copy sum product) do: [:op|
+	#(negated reversed copy sum product autoconvolution) do: [:op|
 		self testTuple: a operation: op modulo: 2]! !
 
 !TupleTest methodsFor: 'bit tuples' stamp: 'len 6/1/2020 13:30:24'!
@@ -12332,7 +12400,7 @@ testModTupleConvolution
 	b _ (2,3,4).
 	self assert: (a % 7 convolution: b % 7) = ((a convolution: b) % 7)! !
 
-!TupleTest methodsFor: 'modular integer tuples' stamp: 'len 4/22/2022 12:26:53'!
+!TupleTest methodsFor: 'modular integer tuples' stamp: 'len 12/9/2022 07:10:27'!
 testModTupleOperations
 	| n a b modulus |
 	modulus _ 10 atRandom + 1.
@@ -12341,7 +12409,7 @@ testModTupleOperations
 	b _ ℤ^n atRandomBits: 30.
 	#(+ - · convolution: *) do: [:op|
 		self testTuple: a with: b operation: op modulo: modulus].
-	#(negated reversed copy sum product) do: [:op|
+	#(negated reversed copy sum product autoconvolution) do: [:op|
 		self testTuple: a operation: op modulo: modulus].! !
 
 !TupleTest methodsFor: 'modular integer tuples' stamp: 'len 11/23/2022 17:05:37'!
@@ -12492,6 +12560,46 @@ testRealAlgebraicNumberSquare
 	| sqrt2 |
 	sqrt2 _ RealAlgebraicNumber sqrt2.
 	10 timesRepeat: [sqrt2 squared]! !
+
+!CharacteristicPolynomialOverIntegersBenchmark methodsFor: 'as yet unclassified' stamp: 'len 11/25/2022 10:46:22'!
+setUp
+	M _ ℤ matrix: 80 @ 80 fill: [:i :j| (-20 to: 20) atRandom]! !
+
+!CharacteristicPolynomialOverIntegersBenchmark methodsFor: 'as yet unclassified' stamp: 'len 11/25/2022 10:49:34'!
+testCharacteristicPolynomial
+	M copy characteristicPolynomial! !
+
+!DeterminantOverCommutativeRingBenchmark methodsFor: 'as yet unclassified' stamp: 'len 11/25/2022 10:57:20'!
+setUp
+	| n R |
+	n _ 2003*1009.
+	R _ (ℤ/n) polynomials.
+	M _ R matrix: 80 @ 80 fill: [:i :j| R coefficients: ((1 to: 6) collect: [:k| R scalars !! (-100 to: 100) atRandom])]! !
+
+!DeterminantOverCommutativeRingBenchmark methodsFor: 'as yet unclassified' stamp: 'len 11/25/2022 10:55:39'!
+testDeterminant
+	M copy determinant! !
+
+!DeterminantOverPolynomialRingBenchmark methodsFor: 'as yet unclassified' stamp: 'len 11/25/2022 10:42:27'!
+setUp
+	| R |
+	R _ ℤ polynomials.
+	M _ R matrix: 40 @ 40 fill: [:i :j| R coefficients: ((1 to: 3) collect: [:k| (-20 to: 20) atRandom])]! !
+
+!DeterminantOverPolynomialRingBenchmark methodsFor: 'as yet unclassified' stamp: 'len 11/25/2022 10:43:00'!
+testDeterminant
+	M copy determinant! !
+
+!FatemanBenchmark methodsFor: 'as yet unclassified' stamp: 'len 11/25/2022 10:30:50'!
+setUp
+	| R |
+	R _ ℤ polynomialsIn: #(x y z t).
+	f _ 1 + R generators sum.
+	p _ f^30! !
+
+!FatemanBenchmark methodsFor: 'as yet unclassified' stamp: 'len 11/25/2022 10:31:11'!
+testFateman
+	p * (p + 1)! !
 
 !GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 1/13/2022 11:36:02'!
 testCyclic3
