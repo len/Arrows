@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5438] on 9 December 2022 at 8:36:48 am'!
+'From Cuis 6.0 [latest update: #5438] on 9 December 2022 at 5:26:40 pm'!
 'Description '!
-!provides: 'Tests-Algebra' 1 24!
+!provides: 'Tests-Algebra' 1 25!
 SystemOrganization addCategory: #'Tests-Algebra'!
 SystemOrganization addCategory: #'Tests-Algebra-Rings'!
 SystemOrganization addCategory: #'Tests-Algebra-Tuples'!
@@ -1610,12 +1610,13 @@ testRealAlgebraicNumberProduct	59.1 per second.
 testRealAlgebraicNumberSquare	1,610 per second.' 
 !
 
-!CharacteristicPolynomialOverIntegersBenchmark commentStamp: 'len 11/25/2022 10:50:24' prior: 0!
+!CharacteristicPolynomialOverIntegersBenchmark commentStamp: 'len 12/9/2022 13:23:51' prior: 0!
 CharacteristicPolynomialOverIntegersBenchmark new run
 
+testCharacteristicPolynomial	2.23  seconds per run
 testCharacteristicPolynomial	2.85  seconds per run!
 
-!DeterminantOverCommutativeRingBenchmark commentStamp: 'len 11/25/2022 11:07:20' prior: 0!
+!DeterminantOverCommutativeRingBenchmark commentStamp: '<historical>' prior: 0!
 https://www.nemocas.org/benchmarks/
 
 SageMath 6.8: 43.5s
@@ -1625,7 +1626,13 @@ Nemo-0.4: 7.5s
 
 DeterminantOverCommutativeRingBenchmark new run
 
+testDeterminant	395.23  seconds per run
 testDeterminant	376.23  seconds per run!
+
+!DeterminantOverPolynomialRingBenchmark commentStamp: 'len 12/9/2022 13:17:21' prior: 0!
+DeterminantOverPolynomialRingBenchmark new run
+
+'testDeterminant	20.14  seconds per run'!
 
 !GroebnerBasisBenchmark commentStamp: 'len 5/12/2018 18:35:32' prior: 0!
 GroebnerBasisBenchmark new run
@@ -1920,10 +1927,17 @@ test1000Factorial	5,620 per second. (spur 32 bits)
 test1000Factorial	1,250 per second.
 !
 
-!ModularMatrixBenchmark commentStamp: 'len 5/16/2022 20:25:50' prior: 0!
+!ModularMatrixBenchmark commentStamp: '<historical>' prior: 0!
 Some tests on a 300x300 matrix over Z/32003.
 
 self new run
+
+testAddition	504.30  runs per second
+testGaussianElimination	2.16  runs per second
+testImage	1.19  seconds per run
+testKernel	1.26  seconds per run
+testSquared	1.39  runs per second
+testTransposition	607.39  runs per second
 
 testAddition	392.93  runs per second
 testGaussianElimination	1.90  runs per second

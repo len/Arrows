@@ -1,4 +1,4 @@
-'From Cuis 6.0 [latest update: #5438] on 9 December 2022 at 8:36:35 am'!
+'From Cuis 6.0 [latest update: #5438] on 9 December 2022 at 5:26:27 pm'!
 'Description This package implements among other things: permutation groups, linear groups, modular integers, finite fields, Galois rings, polynomial rings, affine algebras, number fields, function fields, p-adic fields, power series rings, finitely presented modules, (co)chain complexes, finite (finitely generated as modules) associative algebras, finite distributive (not necessarily associative) algebras, schemes, and sheaves of modules.
 
 References:
@@ -58,7 +58,7 @@ References:
 [] Qing Liu; "Algebraic Geometry and Arithmetic Curves"
 [] Joseph. H. Silverman; "The Arithmetic of Elliptic Curves"
 '!
-!provides: 'Algebra' 1 45!
+!provides: 'Algebra' 1 46!
 !requires: 'Collections-TwoAndEightByteArrays' 1 1 nil!
 !requires: 'Graphs' 1 0 nil!
 !requires: 'Collections-Extras' 1 1 nil!
@@ -2675,14 +2675,13 @@ Given a Float, and assuming the number is actually rational, its continued fract
 !
 
 !Tuple commentStamp: '<historical>' prior: 0!
-R-tuples with coefficients in a ring R, i.e. finite ordered lists of n elements of R indexed by integers 1 to n. They are special types of arrays whose elements belong to a single ring R. They are elements of free modules R^n (see FreeModule).
+Tuples with coefficients in a ring R, i.e. finite ordered lists of n elements of R indexed by integers 1 to n. They are special types of arrays whose elements belong to a single ring R. They are elements of free modules R^n (see FreeModule).
 
 Different ways to create the 4-tuple (1,2,4,8) with integer coefficients:
+	(1,2,4,8).
 	ℤ !!!! #(1 2 4 8).
 	ℤ^4 !! #(1 2 4 8).
-	ℤ^4 fill: [:i| 2^(i-1)].
-	(1,2,4,8)
-!
+	ℤ^4 fill: [:i| 2^(i-1)]!
 
 !BitTuple commentStamp: '<historical>' prior: 0!
 Arrays of integer residue classes modulo 2, i.e. binary arrays, bit strings, or arrays of bits. The coefficient field is ℤ/2ℤ.
@@ -4359,11 +4358,11 @@ withSupportDo: aBlock
 		ifTrue: [self replaceFrom: 1 to: self size with: self startingAt: 1 minus: anObject startingAt: 1]
 		ifFalse: [self replaceFrom: 1 to: self size with: self startingAt: 1 plusScalar: self scalars !! anObject negated]! !
 
-!Tuple methodsFor: 'operations' stamp: 'len 11/25/2022 07:15:01'!
+!Tuple methodsFor: 'operations' stamp: 'len 12/9/2022 09:04:32'!
 / anObject
 	"If the argument is a matrix, answer X such that XA = B, where B is self and A is the argument.  X is called a lift of B along A.
 	If the argument is a scalar, just divide each element of the tuple by it."
-	(self scalars includes: anObject) ifTrue: [^ self collect: [:each| self scalars !! (each / anObject)]].
+	(self scalars includes: anObject) ifTrue: [^ self collect: [:each| each / anObject]].
 	anObject isMatrix ifTrue: [^ (anObject colift: self asRowMatrix) asTuple].
 	anObject isTuple ifTrue: [^ 	super / anObject].
 	^ self / (self scalars !! anObject)! !
@@ -5186,10 +5185,6 @@ asArray
 postCopy
 	coefficients _ coefficients copy! !
 
-!DenseTuple methodsFor: 'enumerating' stamp: 'len 11/23/2022 10:26:55'!
-collect: aBlock
-	^ self class coefficients: (coefficients collect: aBlock) scalars: scalars! !
-
 !DenseTuple methodsFor: 'private' stamp: 'len 11/23/2022 10:26:01'!
 coefficients
 	^ coefficients! !
@@ -5584,6 +5579,23 @@ replaceFrom: start to: stop with: anArray startingAt: srcStart plusScalar: anEle
 			with: anArray coefficients startingAt: j
 			plus: scalarCoefficients startingAt: 1.
 		j _ j + n]! !
+
+!GaloisTuple methodsFor: 'operations-low level' stamp: 'len 12/9/2022 13:47:56'!
+replaceFrom: start to: stop with: anArray1 startingAt: start1 times: anArray2 startingAt: start2
+	| n modulusCoefficients inv tmp j1 j2 |
+	n _ scalars degree.
+	modulusCoefficients _ scalars modulus coefficients.
+	inv _ modulusCoefficients last "inverse".
+	self assert: inv isOne. "the modulus should be monic"
+	tmp _ scalars scalars new: n*2-1.
+	j1 _ start1-1*n+1.
+	j2 _ start2-1*n+1.
+	start-1*n+1 to: stop-1*n+1 by: n do: [:i|
+		tmp replaceFrom: 1 with: anArray1 coefficients from: j1 to: j1+n-1 convolution: anArray2 coefficients from: j2 to: j2+n-1.
+		tmp reduceBy: modulusCoefficients leadingInverse: inv addingQuotientTo: nil.
+		coefficients replaceFrom: i to: i+n-1 with: tmp startingAt: 1.
+		j1 _ j1 + n.
+		j2 _ j2 + n]! !
 
 !GaloisTuple methodsFor: 'operations-low level' stamp: 'len 12/7/2022 12:06:17'!
 replaceFrom: start to: stop with: anArray startingAt: srcStart timesScalar: anElement
@@ -11518,7 +11530,7 @@ zero
 hash
 	^ self class hash! !
 
-!IntegerRing methodsFor: 'computing-matrices' stamp: 'len 11/23/2022 21:22:04'!
+!IntegerRing methodsFor: 'computing-matrices' stamp: 'len 12/9/2022 10:44:49'!
 matrix: B quotientBy: A
 	"Answer X such that AX + N = B, satisfying that if the i-th column of B is a linear combination of the columns of A then the i-th column of N is zero.
 	Attempt to use Dixon's p-adic method [Dix82] for non-singular square matrices, and fallback to the general method for Euclidean domains if this fails."
@@ -11530,8 +11542,7 @@ matrix: B quotientBy: A
 	p _ (β min: 16rFFFFFFFF) atRandom nextPrime."
 	p _ 16rFFFFFFFF atRandom nextPrime.
 	F _ PrimeField new: p.
-	C _ (A over: F) inverse. "this can fail if p divides det(A)"
-	C isNil ifTrue: [^ self matrixOverEuclideanDomain: B quotientBy: A].
+	[C _ (A over: F) inverse] on: Error do: [^ self matrixOverEuclideanDomain: B quotientBy: A].
 	lengths _ OrderedCollection new: A width + 1.
 "	lengths add: (B columns max: [:b| b length])."
 	lengths add: (B columns max: [:b| b norm sqrtFloor + 1]).
@@ -13861,10 +13872,6 @@ elementClass
 extensionClass
 	^ NumberField! !
 
-!NumberField class methodsFor: 'examples' stamp: 'len 5/23/2020 09:11:37'!
-example
-	^ ℚ adjoin: RealAlgebraicNumber sqrt2! !
-
 !NumberField class methodsFor: 'instance creation' stamp: 'len 7/16/2021 10:29:58'!
 adjoint: anAlgebraicNumber
 	^ (self modulus: anAlgebraicNumber minimalPolynomial)
@@ -15305,11 +15312,6 @@ space
 	"Answer the space this Clifford algebra acts on."
 	^ self quadraticForm domain! !
 
-!CliffordAlgebra methodsFor: 'elements' stamp: 'len 7/21/2020 18:38:43'!
-adapt: anElement
-	(self space includes: anElement) ifTrue: [^ self fromModuleElement: self asModule !! anElement].
-	^ super adapt: anElement! !
-
 !CliffordAlgebra methodsFor: 'elements' stamp: 'len 7/16/2020 09:30:59'!
 fromModuleElement: anElement
 	^ Multivector parent: self moduleElement: anElement! !
@@ -15342,19 +15344,19 @@ isExteriorAlgebra
 isInvolutive
 	^ true! !
 
-!CliffordAlgebra methodsFor: 'private' stamp: 'len 10/6/2022 11:39:00'!
+!CliffordAlgebra methodsFor: 'private' stamp: 'len 12/9/2022 10:24:22'!
 quadraticForm: aQuadraticForm
 	| V n basis C T table |
+	self propertyAt: #quadraticForm put: aQuadraticForm.
 	V _ aQuadraticForm domain.
 	n _ V rank.
 	basis _ aQuadraticForm polarization orthogonalizationOf: V basis.
 	self propertyAt: #orthogonalBasis put: basis.
 	C _ V scalars ^ (2 ^ n).
-	C addMap: ((V scalars asIdeal to: C mapping: [:i| C basis at: 1]) name: 'ι').
+	self propertyAt: #asModule put: C.
 	"The embedding of V in the receiver is built such that the i-th element of the computed orthogonal basis is sent to the (2^(i-1) + 1)-th element of the basis of the receiver:"
-	T _ (V endomorphisms images: basis) inverse.
-	C addMap: (T → (V to: C images: ((1 to: n) collect: [:i| C basis at: 1 << (i-1) + 1])) name: 'ι').
-	self propertyAt: #asModule put: C; propertyAt: #quadraticForm put: aQuadraticForm.
+	T _ (V endomorphisms images: basis) inverse → (V to: C images: ((1 to: n) collect: [:i| C basis at: 1 << (i-1) + 1])).
+	self addCoercionFrom: V map: [:v| self fromModuleElement: (T value: v)].
 	"Compute the multiplication table of the basis elements:"
 	table _ (0 to: self rank - 1) collect: [:x|
 		(0 to: self rank - 1) collect: [:y|
@@ -18949,9 +18951,9 @@ atRandom: aRandom bits: bitSize
 	k _ bitSize / n.
 	^ self fill: [:i| scalars atRandom: aRandom bits: k]! !
 
-!FreeModule methodsFor: 'testing' stamp: 'len 11/25/2022 10:19:41'!
+!FreeModule methodsFor: 'testing' stamp: 'len 12/9/2022 10:13:39'!
 includes: anObject
-	^ anObject isTuple and: [anObject scalars == scalars]! !
+	^ anObject isTuple and: [anObject scalars == scalars and: [anObject size = rank]]! !
 
 !FreeModule methodsFor: 'testing' stamp: 'len 5/31/2020 10:40:45'!
 isCoproduct
@@ -23663,10 +23665,11 @@ equalizer: aModuleMap
 image
 	^ self propertyAt: #image ifAbsentPut: [codomain span: self asMatrix]! !
 
-!ModuleMap methodsFor: 'operations' stamp: 'len 7/17/2021 13:44:40'!
+!ModuleMap methodsFor: 'operations' stamp: 'len 12/9/2022 10:42:02'!
 inverse
 	"Answer a two-sided inverse of the receiver (i.e., a morphism that is both a retraction and a section) or nil."
-	^ self isSurjective ifTrue: [^ self section]! !
+	self flag: #fixme. "this is a right inverse, not two-sided inverse"
+	^ self section ifNil: [self error: 'not invertible']! !
 
 !ModuleMap methodsFor: 'operations' stamp: 'len 6/10/2022 11:08:00'!
 kernel
@@ -26810,9 +26813,9 @@ image
 	chains _ components collect: [:each| each image].
 	^ ChainComplex differentials:  (self codomain differentials withIndexCollect: [:each :i| (chains at: i) to: (chains at: i+1) map: each])! !
 
-!ChainMap methodsFor: 'operations' stamp: 'len 4/23/2020 00:22:25'!
+!ChainMap methodsFor: 'operations' stamp: 'len 12/9/2022 10:40:53'!
 inverse
-	^ self class from: self codomain to: self domain components: (components collect: [:each| each inverse ifNil: [^ nil]])! !
+	^ self class from: self codomain to: self domain components: (components collect: [:each| each inverse])! !
 
 !ChainMap methodsFor: 'operations' stamp: 'len 9/16/2022 08:07:50'!
 kernel
@@ -39699,9 +39702,9 @@ from: start to: stop dot: anArray startingAt: start2 by: increment2 modulo: modu
 isZero
 	^ (self findFirstNonzeroFrom: 1 to: self size) isNil! !
 
-!ArrayedCollection methodsFor: '*algebra-low level' stamp: 'len 12/9/2022 07:49:50'!
+!ArrayedCollection methodsFor: '*algebra-low level' stamp: 'len 12/9/2022 13:22:32'!
 karatsubaThreshold
-	^ 8! !
+	^ 32! !
 
 !ArrayedCollection methodsFor: '*algebra' stamp: 'len 5/20/2022 11:37:29'!
 lastNonzeroIndex
