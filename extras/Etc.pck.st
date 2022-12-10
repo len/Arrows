@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5438] on 9 December 2022 at 8:36:14 am'!
+'From Cuis 6.0 [latest update: #5438] on 10 December 2022 at 11:43:00 am'!
 'Description '!
-!provides: 'Etc' 1 18!
+!provides: 'Etc' 1 19!
 !requires: 'Algebra' 1 7 nil!
 SystemOrganization addCategory: #Etc!
 SystemOrganization addCategory: #'Etc-Lie'!
@@ -4018,10 +4018,12 @@ example1
 			roots add: (V e: i) - (V e: j); add: (V e: j) - (V e: i)]].
 	^ RootSystem on: V roots: roots! !
 
-!RootSystem class methodsFor: 'examples' stamp: 'len 5/23/2020 09:31:27'!
+!RootSystem class methodsFor: 'examples' stamp: 'len 12/9/2022 21:35:13'!
 example2
 	"This is a normalized root system in R^n. The Weyl group associated to it is the hyperoctahedral group."
-	| V roots |
+	
+	self notYetImplemented
+"	| V roots |
 	V _ ℝ ^ 3.
 	roots _ Set new.
 	1 to: V dimension do: [:i|
@@ -4033,7 +4035,7 @@ example2
 				add: (V e: j) - (V e: i);
 				add: (V e: i) + (V e: j);
 				add: ((V e: i) + (V e: j)) negated]].
-	^ RootSystem on: V roots: roots! !
+	^ RootSystem on: V roots: roots"! !
 
 !RootSystem class methodsFor: 'examples' stamp: 'len 5/23/2020 09:33:01'!
 example3

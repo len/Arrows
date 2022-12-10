@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5438] on 25 November 2022 at 10:26:18 am'!
+'From Cuis 6.0 [latest update: #5438] on 10 December 2022 at 11:42:55 am'!
 'Description '!
-!provides: 'Lattices' 1 8!
+!provides: 'Lattices' 1 9!
 !requires: 'Algebra' 1 0 nil!
 SystemOrganization addCategory: #Lattices!
 
@@ -333,9 +333,9 @@ isTypeII
 isUnimodular
 	^ self isIntegral and: [self determinant abs = 1]! !
 
-!Lattice methodsFor: 'private' stamp: 'len 9/16/2022 08:24:53'!
+!Lattice methodsFor: 'private' stamp: 'len 12/9/2022 17:35:54'!
 basis: aCollection innerProduct: aBilinearForm
-	(aBilinearForm space scalars = ℚ or: [aBilinearForm space scalars isKindOf: RealField]) ifFalse: [^ self error: 'the ambient vector space of a lattice must be real or rational'].
+	aBilinearForm space scalars = ℚ ifFalse: [^ self error: 'the ambient vector space of a lattice must be rational'].
 	self propertyAt: #basis put: aCollection; propertyAt: #innerProduct put: aBilinearForm.
 	self addCoercionTo: self space map: [:each| each asVector]! !
 
