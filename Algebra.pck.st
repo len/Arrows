@@ -1,4 +1,4 @@
-'From Cuis 6.0 [latest update: #5438] on 10 December 2022 at 11:43:07 am'!
+'From Cuis 6.0 [latest update: #5438] on 10 December 2022 at 12:12:07 pm'!
 'Description This package implements among other things: permutation groups, linear groups, modular integers, finite fields, Galois rings, polynomial rings, affine algebras, number fields, function fields, p-adic fields, power series rings, finitely presented modules, (co)chain complexes, finite (finitely generated as modules) associative algebras, finite distributive (not necessarily associative) algebras, schemes, and sheaves of modules.
 
 References:
@@ -58,7 +58,7 @@ References:
 [] Qing Liu; "Algebraic Geometry and Arithmetic Curves"
 [] Joseph. H. Silverman; "The Arithmetic of Elliptic Curves"
 '!
-!provides: 'Algebra' 1 47!
+!provides: 'Algebra' 1 49!
 !requires: 'Collections-TwoAndEightByteArrays' 1 1 nil!
 !requires: 'Graphs' 1 0 nil!
 !requires: 'Collections-Extras' 1 1 nil!
@@ -15752,7 +15752,7 @@ zero
 hash
 	^ self class hash! !
 
-!ComplexField methodsFor: 'computing-polynomials' stamp: 'len 12/10/2022 11:20:08'!
+!ComplexField methodsFor: 'computing-polynomials' stamp: 'len 12/10/2022 11:59:39'!
 allRootsOf: aPolynomial
 	| answer |
 	answer _ Bag new.
@@ -15761,10 +15761,56 @@ allRootsOf: aPolynomial
 			ifTrue:
 				[answer add: (f independentCoefficient negated / f leadingCoefficient) withOccurrences: e]
 			ifFalse:
-				[self notYetImplemented
-				"(ComplexRootIsolator on: f) roots do: [:each|
-	 				answer add: (ComplexAlgebraicNumber minimalPolynomial: f approximation: each center radius: each radius) withOccurrences: e]"]].
+				[answer addAll: (self allRootsOf: (f over: self) tolerance: Float epsilon)]].
 	^ answer! !
+
+!ComplexField methodsFor: 'computing-polynomials' stamp: 'len 12/10/2022 12:11:59'!
+allRootsOf: aPolynomial tolerance: tolerance
+	"Given a squarefree polynomial with real or complex coefficients, this algorithm finds
+	approximations with absolute error < tolerance for all the complex roots of the polynomial.
+	This is Newton's modified algorithm with quadratic convergence, based on [Coh96, Algorithm 3.6.6]."
+	| roots X P Q P2 Q2 n x v m c dx x1 v1 m1 realCoefficients |
+	X _ aPolynomial parent x.
+	P _ aPolynomial.
+	Q _ P.
+	P2 _ P derivative.
+	Q2 _ P2.
+	n _ P degree.
+	roots _ OrderedCollection new: n.
+	realCoefficients _ P coefficients allSatisfy: [:each| (each isKindOf: Number) or: [each imaginary isZero]].
+	["Initialize root finding:"
+	x _ 1.3 + 0.314159 i. "some initial value"
+	v _ Q value: x.
+	m _ v norm2.
+	"Initialize recursion:"
+	c _ 0. dx _ v / (Q2 value: x).
+	[dx abs < tolerance]
+		whileFalse:
+			[x1 _ x - dx.
+			v1 _ Q value: x1.
+			m1 _ v1 norm2.
+			m1 < m
+				ifTrue: [x _ x1. v _ v1. m _ m1. c _ 0. dx _ v / (Q2 value: x)]
+				ifFalse: [c _ c + 1. dx _ dx / 4. c > 20 ifTrue: [self error: 'failed']]].
+	"Polish root:"
+	2 timesRepeat: [x _ x - ((P value: x) / (P2 value: x))].
+	"Divide:"
+	((realCoefficients not or: [n = 1]) or: [x imaginary abs < tolerance "###"])
+		ifTrue: "found one root"
+			[x imaginary abs < tolerance ifTrue: [x _ x real]. "###"
+			roots add: x.
+			Q _ Q // (X - x).
+			Q2 _ Q derivative. "###"
+			n _ n - 1]
+		ifFalse: "found a root and (if the root is not real) also found its conjugate"
+			[roots
+				add: x;
+				add: x conjugate.
+			Q _ Q // (X^2 - (X * (x real * 2)) + x abs squared).
+			Q2 _ Q derivative. "###"
+			n _ n - 2].
+	n > 0] whileTrue.
+	^ roots! !
 
 !ComplexField methodsFor: 'computing-polynomials' stamp: 'len 7/4/2022 13:13:58'!
 isIrreducibleUnivariatePolynomial: aPolynomial
@@ -15843,7 +15889,7 @@ zero
 hash
 	^ self class hash! !
 
-!RealField methodsFor: 'computing-polynomials' stamp: 'len 12/10/2022 11:21:19'!
+!RealField methodsFor: 'computing-polynomials' stamp: 'len 12/10/2022 11:59:11'!
 allRootsOf: aPolynomial
 	| answer |
 	answer _ Bag new.
@@ -15852,9 +15898,7 @@ allRootsOf: aPolynomial
 			ifTrue:
 				[answer add: (f independentCoefficient negated / f leadingCoefficient) withOccurrences: e]
 			ifFalse:
-				[self notYetImplemented
-				"(RealRootIsolator on: f) roots do: [:each|
-	 				answer add: (RealAlgebraicNumber minimalPolynomial: f bounds: each) withOccurrences: e]"]].
+				[answer addAll: ((ℂ allRootsOf: (f over: ℂ) tolerance: Float epsilon) select: [:each| each isReal])]].
 	^ answer! !
 
 !RealField methodsFor: 'computing-polynomials' stamp: 'len 7/4/2022 13:14:21'!
