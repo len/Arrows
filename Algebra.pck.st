@@ -1,4 +1,4 @@
-'From Cuis 6.0 [latest update: #5438] on 10 December 2022 at 12:12:07 pm'!
+'From Cuis 6.0 [latest update: #5438] on 11 December 2022 at 10:25:28 am'!
 'Description This package implements among other things: permutation groups, linear groups, modular integers, finite fields, Galois rings, polynomial rings, affine algebras, number fields, function fields, p-adic fields, power series rings, finitely presented modules, (co)chain complexes, finite (finitely generated as modules) associative algebras, finite distributive (not necessarily associative) algebras, schemes, and sheaves of modules.
 
 References:
@@ -58,7 +58,7 @@ References:
 [] Qing Liu; "Algebraic Geometry and Arithmetic Curves"
 [] Joseph. H. Silverman; "The Arithmetic of Elliptic Curves"
 '!
-!provides: 'Algebra' 1 49!
+!provides: 'Algebra' 1 50!
 !requires: 'Collections-TwoAndEightByteArrays' 1 1 nil!
 !requires: 'Graphs' 1 0 nil!
 !requires: 'Collections-Extras' 1 1 nil!
@@ -2604,7 +2604,7 @@ Arrays of integer residue classes modulo 2, i.e. binary arrays, bit strings, or 
 They are stored as an Integer, and they are fast and memory-efficient when they fit in a SmallInteger.!
 
 !PolynomialTuple commentStamp: '<historical>' prior: 0!
-R-tuples with coefficients in a polynomial ring R. They are elements of free modules R^n (see FreeModule).
+Tuples with coefficients in a polynomial ring R. They are elements of free modules R^n (see FreeModule).
 !
 
 !GaloisTuple commentStamp: '<historical>' prior: 0!
@@ -3438,7 +3438,7 @@ Elements of quotient modules. See QuotientModule.
 Monomials of R^n where R is a polynomial ring. They are the formal product of a monomial of R by a basis element.!
 
 !TupleMonomialOrdering commentStamp: '<historical>' prior: 0!
-Monomial orderings for R^n where R is a polynomial ring. They extend the monomial ordering of R to R-tuples.!
+Monomial orderings for R^n where R is a polynomial ring. They extend the monomial ordering of R to tuples with coefficients in R.!
 
 !POTOrdering commentStamp: '<historical>' prior: 0!
 "Position Over Term" ordering.
@@ -4105,13 +4105,6 @@ reduceBy: g leadingInverse: inv addingQuotientTo: q
 			q ifNotNil: [q at: i put: (q at: i) - c].
 			self replaceFrom: i to: i+m-1 with: self startingAt: i plus: g startingAt: 1 timesScalar: c]! !
 
-!Tuple methodsFor: 'operations-low level' stamp: 'len 12/6/2022 11:59:03'!
-traceWidth: n
-	| answer |
-	answer _ self at: 1.
-	n+1 to: self size by: n+1 do: [:i| answer _ answer + (self at: i)].
-	^ answer! !
-
 !Tuple methodsFor: 'operations-low level' stamp: 'len 12/1/2022 10:01:32'!
 zeroFrom: start to: stop
 	self from: start to: stop put: self scalars zero! !
@@ -4338,12 +4331,12 @@ postCopy
 	1 to: newWords size do: [:i| newWords at: i put: ((words at: i) bitAnd: (anObject words at: i))].
 	^ self class new: (self size min: anObject size) words: newWords! !
 
-!LargeBitTuple methodsFor: 'operations' stamp: 'len 12/7/2022 19:16:33'!
-· aBitTuple
+!LargeBitTuple methodsFor: 'operations' stamp: 'len 12/10/2022 12:38:45'!
+· aTuple
 	| sum |
 	sum _ 0.
-	1 to: (words size min: aBitTuple words size) do: [:i|
-		sum _ ((words at: i) bitAnd: (aBitTuple words at: i)) bitParity bitXor: sum].
+	1 to: (words size min: aTuple words size) do: [:i|
+		sum _ ((words at: i) bitAnd: (aTuple words at: i)) bitParity bitXor: sum].
 	^ sum bitParity = 0 ifTrue: [Zero] ifFalse: [One]! !
 
 !LargeBitTuple methodsFor: 'operations' stamp: 'len 4/30/2022 12:27:10'!
@@ -4537,9 +4530,9 @@ copyWith: aBit
 >> anInteger
 	^ self class new: size bits: ((bits bitShift: anInteger) bitAnd: 1<<size - 1)! !
 
-!SmallBitTuple methodsFor: 'operations' stamp: 'len 12/7/2022 19:17:10'!
-· aBitTuple
-	^ (bits bitAnd: aBitTuple asInteger) bitParity = 0 ifTrue: [Zero] ifFalse: [One]! !
+!SmallBitTuple methodsFor: 'operations' stamp: 'len 12/10/2022 12:39:11'!
+· aTuple
+	^ (bits bitAnd: aTuple asInteger) bitParity = 0 ifTrue: [Zero] ifFalse: [One]! !
 
 !SmallBitTuple methodsFor: 'operations' stamp: 'len 12/9/2022 08:09:23'!
 autoconvolution
@@ -5369,16 +5362,13 @@ replaceFrom: start with: anArray1 from: start1 to: stop1 convolutionLong: anArra
 replaceFrom: start withAutoconvolutionLong: anArray1 from: start1 to: stop1
 	representatives replaceFrom: start withAutoconvolutionLong: anArray1 representatives from: start1 to: stop1 modulo: scalars modulus! !
 
+!ModularTuple methodsFor: 'operations-low level' stamp: 'len 12/10/2022 12:25:01'!
+sumFrom: start to: stop by: increment
+	^ scalars representative: (representatives sumFrom: start to: stop by: increment modulo: scalars modulus)! !
+
 !ModularTuple methodsFor: 'operations-low level' stamp: 'len 5/1/2022 07:34:01'!
 swapFrom: start to: stop with: anArray startingAt: start2
 	representatives swapFrom: start to: stop with: anArray representatives startingAt: start2! !
-
-!ModularTuple methodsFor: 'operations-low level' stamp: 'len 11/13/2022 10:43:11'!
-traceWidth: n
-	| sum |
-	sum _ 0.
-	1 to: representatives size by: n+1 do: [:i| sum _ sum + (representatives at: i)].
-	^ scalars project: sum! !
 
 !ModularTuple methodsFor: 'operations-low level' stamp: 'len 12/2/2022 11:47:10'!
 zeroFrom: start to: stop
@@ -5573,6 +5563,10 @@ replaceFrom: start with: anArray1 from: start1 to: stop1 convolution: anArray2 f
 replaceFrom: start withAutoconvolution: anArray1 from: start1 to: stop1
 	components withIndexDo: [:each :i|
 		each replaceFrom: start withAutoconvolution: (anArray1 projection: i) from: start1 to: stop1]! !
+
+!ProductTuple methodsFor: 'operations-low level' stamp: 'len 12/10/2022 12:31:41'!
+sumFrom: start to: stop by: increment
+	^ scalars compose: (components withIndexCollect: [:each :i| each sumFrom: start to: stop by: increment])! !
 
 !ProductTuple methodsFor: 'operations-low level' stamp: 'len 11/22/2022 16:44:38'!
 swapFrom: start to: stop with: anArray startingAt: start2
@@ -23532,10 +23526,12 @@ zero
 			(self at: i@j) = (anObject at: i@j) ifFalse: [^ false]]].
 	^ true! !
 
-!Matrix methodsFor: 'comparing' stamp: 'len 5/17/2022 04:53:35'!
+!Matrix methodsFor: 'comparing' stamp: 'len 12/11/2022 10:13:21'!
 ~ aMatrix
-	self flag: #fixme. "this should be equivalence, not similarity"
-	^ self isSimilarTo: aMatrix! !
+	"Two rectangular matrices A and B are 'column equivalent' if there exists an invertible matrix P such that B = A * P. Two matrices are column equivalent if they have the same column reduced echelon form.
+	In the case of square matrices, answer true if the receiver and the argument are associates.
+	Note that we define 'a ~ b' if there's a unit 'u' such that 'au = b' (this relation is called 'strongly associate' by some authors)."
+	^ self coechelon = aMatrix coechelon! !
 
 !Matrix methodsFor: 'comparing' stamp: 'len 4/5/2018 15:31:22'!
 hash
@@ -23546,16 +23542,23 @@ hash
 			answer _ answer hashMultiply + (self at: i@j) hash]].
 	^ answer! !
 
-!Matrix methodsFor: 'comparing' stamp: 'len 5/17/2022 04:40:52'!
-isEquivalentTo: aMatrix
-	"Two rectangular matrices A and B are 'equivalent' if there exist invertible matrices P and Q such that B = Q^-1 * A * P."
-	^ self echelon = aMatrix echelon! !
-
-!Matrix methodsFor: 'comparing' stamp: 'len 5/17/2022 04:53:09'!
-isSimilarTo: aMatrix
-	"Two matrices A and B are 'similar' if there exists an invertible matrix P such that B = P^-1 * A * P.
-	This is the conjugacy equivalence relation in GL."
+!Matrix methodsFor: 'comparing' stamp: 'len 12/11/2022 09:59:03'!
+≃ aMatrix
+	"Two square matrices A and B are 'similar' or 'conjugate' if there exists an invertible matrix P such that B = P^-1 * A * P. This is the conjugacy equivalence relation in GL.
+	Two matrices are similar if and only if they have the same rational canonical form (or Frobenius normal form)."
 	^ self invariantFactors = aMatrix invariantFactors! !
+
+!Matrix methodsFor: 'comparing' stamp: 'len 12/11/2022 09:35:34'!
+≅ aMatrix
+	"Two square matrices A and B over a field are 'congruent' if there exists an invertible matrix P such that B = P^T * A * P.
+	Assuming the matrices are invertible, this congruence of A and B is equivalent to similarity of their associated cosquares."
+	^ self cosquare ≃ aMatrix cosquare! !
+
+!Matrix methodsFor: 'comparing' stamp: 'len 12/11/2022 09:50:26'!
+≡ aMatrix
+	"Two rectangular matrices A and B are 'equivalent' if there exist invertible matrices P and Q such that B = Q^-1 * A * P.
+	Two matrices over a field are equivalent if and only if they have the same rank, and over a PID they are equivalent if and only if they have the same Smith normal form."
+	^ self elementaryDivisors = aMatrix elementaryDivisors! !
 
 !Matrix methodsFor: 'converting' stamp: 'len 4/1/2021 06:34:34'!
 asMatrix
@@ -23976,6 +23979,10 @@ content
 	self do: [:each| answer _ answer gcd: each].
 	^ answer! !
 
+!Matrix methodsFor: 'operations' stamp: 'len 12/11/2022 09:29:30'!
+cosquare
+	^ self transpose inverse * self! !
+
 !Matrix methodsFor: 'operations' stamp: 'len 12/2/2022 14:36:08'!
 determinant
 	| n a0 |
@@ -24196,7 +24203,7 @@ printOn: aStream
 		aStream nextPut: $]]
 			separatedBy: [aStream newLine]! !
 
-!Matrix methodsFor: 'reduction' stamp: 'len 12/26/2021 12:33:11'!
+!Matrix methodsFor: 'normal forms' stamp: 'len 12/26/2021 12:33:11'!
 HNF
 	"Answer the (row-style) Hermite normal form of the receiver."
 	self isEmpty ifTrue: [^ self].
@@ -24207,7 +24214,7 @@ alternative:
 	^ self antitransposed CHNF antitransposed
 "! !
 
-!Matrix methodsFor: 'reduction' stamp: 'len 12/23/2021 17:50:05'!
+!Matrix methodsFor: 'normal forms' stamp: 'len 12/23/2021 17:50:05'!
 HNFAndTransformation
 	"Answer the (row-style) Hermite normal form H of the receiver A and the unique unimodular matrix T such that T*A = H."
 	| reduction |
@@ -24218,19 +24225,19 @@ HNFAndTransformation
 	reduction _ HermiteReduction on: self extension: self codomain id.
 	^ {reduction reduced. reduction extension}! !
 
-!Matrix methodsFor: 'reduction' stamp: 'len 5/29/2020 15:05:40'!
+!Matrix methodsFor: 'normal forms' stamp: 'len 5/29/2020 15:05:40'!
 PRCF
 	"Answer the primary rational canonical form of the receiver, assuming it's a square matrix over a field.
 	The PRCF reflects a decomposition of the vector space into a maximal number of cyclic subspaces. Unlike the RCF, finding this form requires factorization of polynomials over the coefficients field, and as a consequence the primary rational canonical form may change when the same matrix is considered over an extension field of the coefficients field."
 	^ self primaryInvariantFactors inject: (self scalars^0) id into: [:result :each| result ⊕ each companion]! !
 
-!Matrix methodsFor: 'reduction' stamp: 'len 5/29/2020 15:06:07'!
+!Matrix methodsFor: 'normal forms' stamp: 'len 5/29/2020 15:06:07'!
 RCF
 	"Answer the Frobenius normal form (or rational canonical form) of the receiver, assuming it's a square matrix over a field.
 	The RCF of a matrix A reflects a minimal decomposition of the vector space into subspaces that are cyclic for A (i.e., spanned by some vector and its repeated images under A). A matrix B is similar to A iff it has the same rational canonical form as A. Unlike the PRCF, finding this form doesn't require factorization of polynomials or any operation that might change when extending the coefficients field (hence the 'rational'), showing that matrix similarity does not change upon field extensions."
 	^ self invariantFactors inject: (self scalars^0) id into: [:result :each| result ⊕ each companion]! !
 
-!Matrix methodsFor: 'reduction' stamp: 'len 12/20/2021 13:25:43'!
+!Matrix methodsFor: 'normal forms' stamp: 'len 12/20/2021 13:25:43'!
 SNF
 	"Given a matrix with coefficients in a PID, answer the Smith normal form of the receiver.
 	The Smith normal form is very useful for working with finitely generated modules over a PID, and in particular for deducing the structure of a quotient of a free module.
@@ -24250,7 +24257,7 @@ SNF
 	S isSmithNormalForm] whileFalse.
 	^ S! !
 
-!Matrix methodsFor: 'reduction' stamp: 'len 5/31/2020 20:24:20'!
+!Matrix methodsFor: 'normal forms' stamp: 'len 5/31/2020 20:24:20'!
 SNF2
 	"Answer the Smith normal form of the receiver. Perform first a HNF reduction."
 	| H n |
@@ -24258,7 +24265,7 @@ SNF2
 	n _ H diagonal findLast: [:each| each isZero not].
 	^ (H copyFrom: 1@1 to: n@n) SNF ⊕ (self scalars ^ ((H width max: H height) - n)) endomorphisms zero! !
 
-!Matrix methodsFor: 'reduction' stamp: 'len 5/31/2020 20:24:46'!
+!Matrix methodsFor: 'normal forms' stamp: 'len 5/31/2020 20:24:46'!
 SNFAfterHNF
 	"Answer the Smith normal form of the receiver. Perform first a HNF reduction."
 	| H n |
@@ -24266,7 +24273,7 @@ SNFAfterHNF
 	n _ H diagonal findLast: [:each| each isZero not].
 	^ (H copyFrom: 1@1 to: n@n) SNF ⊕ (self scalars^((H width max: H height) - n)) endomorphisms zero! !
 
-!Matrix methodsFor: 'reduction' stamp: 'len 12/23/2021 17:50:15'!
+!Matrix methodsFor: 'normal forms' stamp: 'len 12/23/2021 17:50:15'!
 SNFAndTransformations
 	"Answer the Smith normal form S of the receiver A and the unique unimodular matrices P and Q such that P*A*Q = S.
 	This is a naive implementation of Kannan-Bachem algorithm."
@@ -24292,7 +24299,7 @@ SNFAndTransformations
 	S isSmithNormalForm] whileFalse.
 	^ {S. P. Q}! !
 
-!Matrix methodsFor: 'reduction' stamp: 'len 1/2/2022 10:01:17'!
+!Matrix methodsFor: 'normal forms' stamp: 'len 1/2/2022 10:01:17'!
 SNFOneStep
 	| L S R zero one j k |
 	L _ self codomain id.
@@ -24354,7 +24361,7 @@ SNFOneStep
 
 	^ {L. S. R}! !
 
-!Matrix methodsFor: 'reduction' stamp: 'len 12/23/2021 17:50:35'!
+!Matrix methodsFor: 'normal forms' stamp: 'len 12/23/2021 17:50:35'!
 SNFRecursive
 	| L S R LL SS RR I result |
 	L _ self codomain id.
@@ -24379,27 +24386,27 @@ SNFRecursive
 	
 	^ {L. S. R}! !
 
-!Matrix methodsFor: 'reduction' stamp: 'len 1/9/2022 13:13:14'!
+!Matrix methodsFor: 'normal forms' stamp: 'len 1/9/2022 13:13:14'!
 basis
 	self propertyAt: #basisAndTransformation ifPresent: [:anArray| anArray first].
 	^ self propertyAt: #basis ifAbsentPut: [self scalars basisOf: self]! !
 
-!Matrix methodsFor: 'reduction' stamp: 'len 1/9/2022 13:13:24'!
+!Matrix methodsFor: 'normal forms' stamp: 'len 1/9/2022 13:13:24'!
 basisAndTransformation
 	^ self propertyAt: #basisAndTransformation ifAbsentPut: [self scalars basisAndTransformationOf: self]! !
 
-!Matrix methodsFor: 'reduction' stamp: 'len 1/6/2022 18:28:18'!
+!Matrix methodsFor: 'normal forms' stamp: 'len 1/6/2022 18:28:18'!
 coechelon
 	"Answer the column echelon form of the receiver."
 	self propertyAt: #coechelonAndTransformation ifPresent: [:anArray| ^ anArray first].
 	^ self propertyAt: #coechelon ifAbsentPut: [(self scalars echelonOf: self transpose) transpose]! !
 
-!Matrix methodsFor: 'reduction' stamp: 'len 1/6/2022 18:28:49'!
+!Matrix methodsFor: 'normal forms' stamp: 'len 1/6/2022 18:28:49'!
 coechelonization
 	"Answer the transformation to column echelon form."
 	^ (self propertyAt: #coechelonAndTransformation ifAbsentPut: [(self scalars echelonizationOf: self transpose) collect: [:each| each transpose]]) second! !
 
-!Matrix methodsFor: 'reduction' stamp: 'len 4/10/2021 12:28:33'!
+!Matrix methodsFor: 'normal forms' stamp: 'len 4/10/2021 12:28:33'!
 dependentColumns
 	"Answer the collection of indices of linearly dependent columns."
 	| independent d answer |
@@ -24410,40 +24417,40 @@ dependentColumns
 	answer addAll: (d to: self width).
 	^ answer! !
 
-!Matrix methodsFor: 'reduction' stamp: 'len 1/6/2022 18:29:19'!
+!Matrix methodsFor: 'normal forms' stamp: 'len 1/6/2022 18:29:19'!
 echelon
 	"Answer the row echelon form of the receiver."
 	self propertyAt: #echelonAndTransformation ifPresent: [:anArray| ^ anArray first].
 	^ self propertyAt: #echelon ifAbsentPut: [self scalars echelonOf: self]! !
 
-!Matrix methodsFor: 'reduction' stamp: 'len 1/6/2022 18:29:49'!
+!Matrix methodsFor: 'normal forms' stamp: 'len 1/6/2022 18:29:49'!
 echelonization
 	"Answer the transformation to row echelon form."
 	^ (self propertyAt: #echelonAndTransformation ifAbsentPut: [self scalars echelonizationOf: self]) second! !
 
-!Matrix methodsFor: 'reduction' stamp: 'len 6/9/2019 10:08:46'!
+!Matrix methodsFor: 'normal forms' stamp: 'len 6/9/2019 10:08:46'!
 elementaryDivisors
 	"Answer the diagonal of the Smith normal form."
 	self isEmpty ifTrue: [^ #()].
 	self scalars isField ifTrue: [^ (1 to: self rank) collect: [:each| self scalars one]].
 	^ self SNF diagonal asArray select: [:each| each isZero not]! !
 
-!Matrix methodsFor: 'reduction' stamp: 'len 7/13/2019 04:31:49'!
+!Matrix methodsFor: 'normal forms' stamp: 'len 7/13/2019 04:31:49'!
 hessenberg
 	"Answer the matrix similar to the receiver but in upper Hessenberg form (zeroes below the first subdiagonal)."
 	^ self notYetImplemented! !
 
-!Matrix methodsFor: 'reduction' stamp: 'len 4/10/2021 12:28:27'!
+!Matrix methodsFor: 'normal forms' stamp: 'len 4/10/2021 12:28:27'!
 independentColumns
 	"Answer the collection of indices of linearly independent columns."
 	^ self echelon pivots collect: [:each| each y]! !
 
-!Matrix methodsFor: 'reduction' stamp: 'len 5/17/2022 04:52:23'!
+!Matrix methodsFor: 'normal forms' stamp: 'len 5/17/2022 04:52:23'!
 invariantFactors
 	"Answer the invariant factors of the receiver, corresponding to the Frobenius normal form (or rational canonical form), assuming it's a square matrix over a field."
 	^ self characteristicMatrix elementaryDivisors select: [:each| each degree > 0]! !
 
-!Matrix methodsFor: 'reduction' stamp: 'len 11/23/2022 21:29:21'!
+!Matrix methodsFor: 'normal forms' stamp: 'len 11/23/2022 21:29:21'!
 jordan
 	"Answer the Jordan blocks of the receiver's Jordan normal form."
 	| spectrum blocks one zero |
@@ -24468,7 +24475,7 @@ jordan
 			count _ count + k]].
 	^ blocks! !
 
-!Matrix methodsFor: 'reduction' stamp: 'len 8/10/2020 05:25:58'!
+!Matrix methodsFor: 'normal forms' stamp: 'len 8/10/2020 05:25:58'!
 orthogonalized
 	"Perform the Gram-Schmidt orthogonalization process on the columns of the receiver."
 	| orthogonalVectors orthogonalVectorsNorms2 u uv |
@@ -24483,12 +24490,12 @@ orthogonalized
 		orthogonalVectorsNorms2 add: u · u].
 	^ self class from: domain to: codomain columns: orthogonalVectors! !
 
-!Matrix methodsFor: 'reduction' stamp: 'len 3/7/2017 08:34:26'!
+!Matrix methodsFor: 'normal forms' stamp: 'len 3/7/2017 08:34:26'!
 pivots
 	"Answer the collection of row-style pivot indices. These are the pairs i@j corresponding to the first nonzero entry of each row."
 	^ Iterator on: self performing: #pivotsDo:! !
 
-!Matrix methodsFor: 'reduction' stamp: 'len 8/5/2021 08:40:26'!
+!Matrix methodsFor: 'normal forms' stamp: 'len 8/5/2021 08:40:26'!
 primaryInvariantFactors
 	^ self characteristicPolynomial factorization! !
 
@@ -24980,6 +24987,10 @@ rowAt: i put: aTuple
 zero
 	^ self class from: domain to: codomain coefficients: coefficients zero! !
 
+!DenseMatrix methodsFor: 'comparing' stamp: 'len 12/11/2022 09:53:10'!
+= anObject
+	^ (self class = anObject class and: [coefficients = anObject coefficients]) or: [super = anObject]! !
+
 !DenseMatrix methodsFor: 'converting' stamp: 'len 11/23/2022 17:10:29'!
 asTuple
 	"Answer the receiver converted to Tuple by concatenating its rows (which is also the coordinates of the receiver in the canonical basis)."
@@ -25143,6 +25154,11 @@ apply: aFunction
 !DenseMatrix methodsFor: 'operations' stamp: 'len 4/21/2022 12:38:12'!
 negated
 	^ self class from: domain to: codomain coefficients: coefficients negated! !
+
+!DenseMatrix methodsFor: 'operations' stamp: 'len 12/10/2022 12:28:12'!
+trace
+	self checkIsSquare.
+	^ coefficients sumFrom: 1 to: coefficients size by: self width + 1! !
 
 !DenseMatrix methodsFor: 'operations' stamp: 'len 11/24/2022 11:49:53'!
 transpose
@@ -38226,6 +38242,20 @@ replaceFrom: start withAutoconvolutionLong: anArray1 from: start1 to: stop1
 replaceFrom: start withAutoconvolutionLong: anArray1 from: start1 to: stop1 modulo: modulus
 	self flag: #fixme. "TOOD"
 	self replaceFrom: start with: anArray1 from: start1 to: stop1 convolutionLong: anArray1 from: start1 to: stop1 modulo: modulus! !
+
+!ArrayedCollection methodsFor: '*algebra-low level' stamp: 'len 12/10/2022 12:26:18'!
+sumFrom: start to: stop by: increment
+	| answer |
+	answer _ self at: start.
+	start + increment to: stop by: increment do: [:i| answer _ answer + (self at: i)].
+	^ answer! !
+
+!ArrayedCollection methodsFor: '*algebra-low level' stamp: 'len 12/11/2022 10:24:08'!
+sumFrom: start to: stop by: increment modulo: modulus
+	| answer |
+	answer _ 0.
+	start to: stop by: increment do: [:i| answer _ answer + (self at: i)].
+	^ answer \\ modulus! !
 
 !ArrayedCollection methodsFor: '*algebra-low level' stamp: 'len 5/2/2022 11:10:00'!
 swapFrom: start to: stop with: anArray startingAt: start2

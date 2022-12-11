@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5438] on 10 December 2022 at 11:42:49 am'!
+'From Cuis 6.0 [latest update: #5438] on 11 December 2022 at 10:25:16 am'!
 'Description '!
-!provides: 'Tests-Algebra' 1 26!
+!provides: 'Tests-Algebra' 1 27!
 SystemOrganization addCategory: #'Tests-Algebra'!
 SystemOrganization addCategory: #'Tests-Algebra-Rings'!
 SystemOrganization addCategory: #'Tests-Algebra-Tuples'!
@@ -4226,6 +4226,15 @@ testAbstractRankNullity
 	self assert: A kernel = A transpose image complement.
 	self assert: A image = A transpose kernel complement! !
 
+!AbstractMatrixOverFieldTest methodsFor: 'as yet unclassified' stamp: 'len 12/11/2022 10:12:30'!
+testColumnEquivalence
+	| n m A P |
+	n _ 5 atRandom: random.
+	m _ 5 atRandom: random.
+	A _ scalars^n ⇒ (scalars^m) atRandom: random bits: 10*n*m.
+	P _ A domain automorphisms atRandom: random bits: 10*n*n.
+	self assert: A * P ~ A! !
+
 !AbstractMatrixOverFieldTest methodsFor: 'as yet unclassified' stamp: 'len 7/12/2021 16:52:25'!
 testColumnExtended
 	| A B |
@@ -4234,6 +4243,24 @@ testColumnExtended
 	self assert: B height = A height.
 	self assert: B isSquare.
 	self assert: A image <= B image! !
+
+!AbstractMatrixOverFieldTest methodsFor: 'as yet unclassified' stamp: 'len 12/11/2022 10:16:21'!
+testCongruence
+	| n A P |
+	n _ 5 atRandom: random.
+	A _ (scalars^n) endomorphisms atRandom: random bits: 10*n*n.
+	P _ A domain automorphisms atRandom: random bits: 10*n*n.
+	self assert: P transpose * A * P ≅ A! !
+
+!AbstractMatrixOverFieldTest methodsFor: 'as yet unclassified' stamp: 'len 12/11/2022 10:11:23'!
+testEquivalence
+	| n m A Q P |
+	n _ 5 atRandom: random.
+	m _ 5 atRandom: random.
+	A _ scalars^n ⇒ (scalars^m) atRandom: random bits: 10*n*m.
+	P _ A domain automorphisms atRandom: random bits: 10*n*n.
+	Q _ A codomain automorphisms atRandom: random bits: 10*m*m.
+	self assert: Q * A * P ≡ A! !
 
 !AbstractMatrixOverFieldTest methodsFor: 'as yet unclassified' stamp: 'len 3/27/2021 12:08:32'!
 testFundamentalSubspacesDimensions
@@ -4276,6 +4303,14 @@ testRowExtended
 	A _ self newMatrix.
 	B _ A rowExtended.
 	self assert: B = A transpose columnExtended transpose! !
+
+!AbstractMatrixOverFieldTest methodsFor: 'as yet unclassified' stamp: 'len 12/11/2022 09:57:52'!
+testSimilarity
+	| n A P |
+	n _ 5 atRandom: random.
+	A _ (scalars^n) endomorphisms atRandom: random bits: 10*n*n.
+	P _ A domain automorphisms atRandom: random bits: 10*n*n.
+	self assert: P inverse * A * P ≃ A! !
 
 !MatrixOverCyclotomicsTest methodsFor: 'as yet unclassified' stamp: 'len 7/21/2021 17:35:18'!
 initialize
@@ -4551,23 +4586,15 @@ testRightInverseRational
 	[A _ ℚ^5 ⇒ (ℚ^3) atRandom: random bits: 1000. A rank = 3] whileFalse.
 	self assert: (A * A section) isIdentity! !
 
-!MatrixOverRationalsTest methodsFor: 'as yet unclassified' stamp: 'len 3/28/2021 11:24:23'!
+!MatrixOverRationalsTest methodsFor: 'as yet unclassified' stamp: 'len 12/11/2022 09:51:00'!
 testSimilarityExample
 	"Examples from wikipedia article on SNF"
 	| A B C |
 	A _ ℚ matrix: {(1,2). (0,1)}.
 	B _ ℚ matrix: {(3,-4). (1,-1)}.
 	C _ ℚ matrix: {(1,0). (1,2)}.
-	self assert: A ~ B.
-	self deny: A ~ C! !
-
-!MatrixOverRationalsTest methodsFor: 'as yet unclassified' stamp: 'len 12/25/2021 13:02:09'!
-testSimilarityRational
-	| n A P |
-	n _ 5 atRandom: random.
-	A _ (ℚ^n) endomorphisms atRandom: random bits: 10*n*n.
-	[(P _ A parent atRandom: random bits: 10*n*n) isSingular] whileTrue.
-	self assert: A ~ (P inverse * A * P)! !
+	self assert: A ≃ B.
+	self deny: A ≃ C! !
 
 !MatrixOverRationalsTest methodsFor: 'as yet unclassified' stamp: 'len 10/5/2022 17:10:16'!
 testSlashWithMatrixExample
