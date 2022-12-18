@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5438] on 10 December 2022 at 11:43:00 am'!
+'From Cuis 6.0 [latest update: #5438] on 15 December 2022 at 1:27:08 pm'!
 'Description '!
-!provides: 'Etc' 1 19!
+!provides: 'Etc' 1 20!
 !requires: 'Algebra' 1 7 nil!
 SystemOrganization addCategory: #Etc!
 SystemOrganization addCategory: #'Etc-Lie'!
@@ -207,7 +207,7 @@ TupleOld class
 	instanceVariableNames: ''!
 
 !classDefinition: #EuclideanGaussianElimination category: #Etc!
-GaussianElimination subclass: #EuclideanGaussianElimination
+GaussJordanEchelonization subclass: #EuclideanGaussianElimination
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
@@ -217,7 +217,7 @@ EuclideanGaussianElimination class
 	instanceVariableNames: ''!
 
 !classDefinition: #GaussBareiss category: #Etc!
-GaussianElimination subclass: #GaussBareiss
+GaussJordanEchelonization subclass: #GaussBareiss
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
@@ -2839,38 +2839,38 @@ coefficients: anArray parent: aFreeModule
 new
 	^ self shouldNotImplement! !
 
-!EuclideanGaussianElimination methodsFor: 'private' stamp: 'len 4/28/2022 12:58:26'!
+!EuclideanGaussianElimination methodsFor: 'private' stamp: 'len 12/13/2022 13:12:29'!
 reduceStep
 	"Perform one step in the reduction of the matrix using the current pivot."
 	| row j |
 	row _ currentPivot x.
 	j _ currentPivot y.
 	self assert: row = j.
-	1 to: matrix height do: [:i|
-		(i = j or: [matrix isZeroAt: i @ j])
+	1 to: echelon height do: [:i|
+		(i = j or: [echelon isZeroAt: i @ j])
 			ifFalse:
 				[| ajj aij euclid g bi bj ri rj |
-				ajj _ matrix at: j @ j.
-				aij _ matrix at: i @ j.
+				ajj _ echelon at: j @ j.
+				aij _ echelon at: i @ j.
 				euclid _ ExtendedEuclid on: {aij. ajj}.
 				g _ euclid gcd.
 				bi _ euclid bezout first.
 				bj _ euclid bezout last.
 "				euclid validate ifFalse: [self halt]."
-				ri _ matrix rowAt: i.
-				rj _ matrix rowAt: j.
-				matrix rowAt: j put: ri * bi + (rj * bj).
-				matrix rowAt: i put: rj * (aij // g) - (ri * (ajj // g))]]! !
+				ri _ echelon rowAt: i.
+				rj _ echelon rowAt: j.
+				echelon rowAt: j put: ri * bi + (rj * bj).
+				echelon rowAt: i put: rj * (aij // g) - (ri * (ajj // g))]]! !
 
-!GaussBareiss methodsFor: 'private' stamp: 'len 5/30/2019 07:18:55'!
+!GaussBareiss methodsFor: 'private' stamp: 'len 12/13/2022 13:12:29'!
 reduceStep
 	"Perform one step reduction of the matrix using the current pivot."
 	| row col pivot value |
 	row _ currentPivot x.
 	col _ currentPivot y.
-	pivot _ matrix at: row @ col.
-	1 to: matrix height do: [:i|
-		(i = row or: [(value _ matrix at: i @ col) isZero])
+	pivot _ echelon at: row @ col.
+	1 to: echelon height do: [:i|
+		(i = row or: [(value _ echelon at: i @ col) isZero])
 			ifFalse:
 				[self multiplyRow: i by: pivot.
 				self addRow: row times: value negated toRow: i]]! !

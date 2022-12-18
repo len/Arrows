@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5438] on 11 December 2022 at 10:25:16 am'!
+'From Cuis 6.0 [latest update: #5438] on 18 December 2022 at 8:58:01 am'!
 'Description '!
-!provides: 'Tests-Algebra' 1 27!
+!provides: 'Tests-Algebra' 1 29!
 SystemOrganization addCategory: #'Tests-Algebra'!
 SystemOrganization addCategory: #'Tests-Algebra-Rings'!
 SystemOrganization addCategory: #'Tests-Algebra-Tuples'!
@@ -4201,18 +4201,20 @@ testDeterminant
 	self assert: (A * c) determinant = (c^n * A determinant).
 	self assert: A transpose determinant = A determinant! !
 
-!AbstractMatrixOverCommutativeRingTest methodsFor: 'as yet unclassified' stamp: 'len 12/31/2021 11:20:33'!
+!AbstractMatrixOverCommutativeRingTest methodsFor: 'as yet unclassified' stamp: 'len 12/15/2022 17:36:01'!
 testEchelonization
-	| A E T |
-	scalars hasEchelonization ifFalse: [^ self].
+	| echelonization A E T |
+	scalars isEuclidean ifFalse: [^ self].
 	A _ self newMatrix: (6 atRandom: random) @ (6 atRandom: random).
-	T _ A echelonization.
-	E _ A echelon.
+	echelonization _ A echelonAndTransformation.
+	E _ echelonization first.
+	T _ echelonization second.
 	self assert: E isEchelon.
 "	self assert: E isReducedEchelon."
 	self assert: T*A = E.
-	T _ A coechelonization.
-	E _ A coechelon.
+	echelonization _ A coechelonAndTransformation.
+	E _ echelonization first.
+	T _ echelonization second.
 	self assert: E transpose isEchelon.
 "	self assert: E isReducedEchelon."
 	self assert: A*T = E! !
@@ -7674,12 +7676,12 @@ testGroebnerCyclic5OverZ2
 	G _ I basis.
 	self testGroebnerBasis: G ideal: I! !
 
-!CommutativeAlgebraTest methodsFor: 'groebner' stamp: 'len 1/13/2022 11:56:59'!
+!CommutativeAlgebraTest methodsFor: 'groebner' stamp: 'len 12/17/2022 10:02:09'!
 testGroebnerCyclic5Reduced
 	| I G |
 	I _ (ℚ polynomialsIn: 5) cyclicIdeal.
 	G _ I basis "reduced".
-	self assert: I basisMatrix isReducedStandardBasis.
+	self assert: I basis isReducedStandardBasis.
 	self testGroebnerBasis: G ideal: I.
 	self assert: (I scalars * G) basis "reduced" = G! !
 

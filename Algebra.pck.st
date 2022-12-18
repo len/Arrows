@@ -1,4 +1,4 @@
-'From Cuis 6.0 [latest update: #5438] on 11 December 2022 at 10:25:28 am'!
+'From Cuis 6.0 [latest update: #5597] on 18 December 2022 at 12:31:07 pm'!
 'Description This package implements among other things: permutation groups, linear groups, modular integers, finite fields, Galois rings, polynomial rings, affine algebras, number fields, function fields, p-adic fields, power series rings, finitely presented modules, (co)chain complexes, finite (finitely generated as modules) associative algebras, finite distributive (not necessarily associative) algebras, schemes, and sheaves of modules.
 
 References:
@@ -58,12 +58,12 @@ References:
 [] Qing Liu; "Algebraic Geometry and Arithmetic Curves"
 [] Joseph. H. Silverman; "The Arithmetic of Elliptic Curves"
 '!
-!provides: 'Algebra' 1 50!
-!requires: 'Collections-TwoAndEightByteArrays' 1 1 nil!
+!provides: 'Algebra' 1 53!
+!requires: 'Complex' 1 7 nil!
 !requires: 'Graphs' 1 0 nil!
 !requires: 'Collections-Extras' 1 1 nil!
+!requires: 'Collections-TwoAndEightByteArrays' 1 1 nil!
 !requires: 'Transfinites' 1 2 nil!
-!requires: 'Complex' 1 7 nil!
 SystemOrganization addCategory: #'Algebra-Categories'!
 SystemOrganization addCategory: #'Algebra-Monoids'!
 SystemOrganization addCategory: #'Algebra-Monoids-Orderings'!
@@ -91,7 +91,7 @@ SystemOrganization addCategory: #'Algebra-Schemes-Projective Space'!
 SystemOrganization addCategory: #'Algebra-Sequences'!
 SystemOrganization addCategory: #'Algebra-Simplicial Complexes'!
 SystemOrganization addCategory: #'Algebra-Algorithms'!
-SystemOrganization addCategory: #'Algebra-Algorithms-Matrix Reduction'!
+SystemOrganization addCategory: #'Algebra-Algorithms-Matrices'!
 SystemOrganization addCategory: #'Algebra-Algorithms-Groebner Bases'!
 SystemOrganization addCategory: #'Algebra-Algorithms-Groups'!
 
@@ -1506,14 +1506,24 @@ Matrix subclass: #BlockSparseMatrix
 BlockSparseMatrix class
 	instanceVariableNames: ''!
 
-!classDefinition: #DenseMatrix category: #'Algebra-Modules-Matrices'!
-Matrix subclass: #DenseMatrix
+!classDefinition: #ColumnMajorMatrix category: #'Algebra-Modules-Matrices'!
+Matrix subclass: #ColumnMajorMatrix
 	instanceVariableNames: 'coefficients'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Modules-Matrices'!
-!classDefinition: 'DenseMatrix class' category: #'Algebra-Modules-Matrices'!
-DenseMatrix class
+!classDefinition: 'ColumnMajorMatrix class' category: #'Algebra-Modules-Matrices'!
+ColumnMajorMatrix class
+	instanceVariableNames: ''!
+
+!classDefinition: #RowMajorMatrix category: #'Algebra-Modules-Matrices'!
+Matrix subclass: #RowMajorMatrix
+	instanceVariableNames: 'coefficients'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Algebra-Modules-Matrices'!
+!classDefinition: 'RowMajorMatrix class' category: #'Algebra-Modules-Matrices'!
+RowMajorMatrix class
 	instanceVariableNames: ''!
 
 !classDefinition: #SparseMatrix category: #'Algebra-Modules-Matrices'!
@@ -2436,84 +2446,44 @@ Object subclass: #TonelliShanks
 TonelliShanks class
 	instanceVariableNames: ''!
 
-!classDefinition: #MatrixReduction category: #'Algebra-Algorithms-Matrix Reduction'!
-Object subclass: #MatrixReduction
-	instanceVariableNames: 'matrix extension'
+!classDefinition: #Coechelonization category: #'Algebra-Algorithms-Matrices'!
+Object subclass: #Coechelonization
+	instanceVariableNames: 'matrix echelon transformation'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Algebra-Algorithms-Matrix Reduction'!
-!classDefinition: 'MatrixReduction class' category: #'Algebra-Algorithms-Matrix Reduction'!
-MatrixReduction class
+	category: 'Algebra-Algorithms-Matrices'!
+!classDefinition: 'Coechelonization class' category: #'Algebra-Algorithms-Matrices'!
+Coechelonization class
 	instanceVariableNames: ''!
 
-!classDefinition: #GaussianElimination category: #'Algebra-Algorithms-Matrix Reduction'!
-MatrixReduction subclass: #GaussianElimination
-	instanceVariableNames: 'pivots currentPivot determinantFactor'
+!classDefinition: #GaussJordan category: #'Algebra-Algorithms-Matrices'!
+Coechelonization subclass: #GaussJordan
+	instanceVariableNames: 'determinantFactor'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Algebra-Algorithms-Matrix Reduction'!
-!classDefinition: 'GaussianElimination class' category: #'Algebra-Algorithms-Matrix Reduction'!
-GaussianElimination class
+	category: 'Algebra-Algorithms-Matrices'!
+!classDefinition: 'GaussJordan class' category: #'Algebra-Algorithms-Matrices'!
+GaussJordan class
 	instanceVariableNames: ''!
 
-!classDefinition: #HermiteReduction category: #'Algebra-Algorithms-Matrix Reduction'!
-MatrixReduction subclass: #HermiteReduction
+!classDefinition: #HermiteReduction category: #'Algebra-Algorithms-Matrices'!
+Coechelonization subclass: #HermiteReduction
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Algebra-Algorithms-Matrix Reduction'!
-!classDefinition: 'HermiteReduction class' category: #'Algebra-Algorithms-Matrix Reduction'!
+	category: 'Algebra-Algorithms-Matrices'!
+!classDefinition: 'HermiteReduction class' category: #'Algebra-Algorithms-Matrices'!
 HermiteReduction class
 	instanceVariableNames: ''!
 
-!classDefinition: #HowellReduction category: #'Algebra-Algorithms-Matrix Reduction'!
-MatrixReduction subclass: #HowellReduction
+!classDefinition: #HowellReduction category: #'Algebra-Algorithms-Matrices'!
+Coechelonization subclass: #HowellReduction
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Algebra-Algorithms-Matrix Reduction'!
-!classDefinition: 'HowellReduction class' category: #'Algebra-Algorithms-Matrix Reduction'!
+	category: 'Algebra-Algorithms-Matrices'!
+!classDefinition: 'HowellReduction class' category: #'Algebra-Algorithms-Matrices'!
 HowellReduction class
-	instanceVariableNames: ''!
-
-!classDefinition: #Buchberger category: #'Algebra-Algorithms-Groebner Bases'!
-Object subclass: #Buchberger
-	instanceVariableNames: 'matrix basis'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Algebra-Algorithms-Groebner Bases'!
-!classDefinition: 'Buchberger class' category: #'Algebra-Algorithms-Groebner Bases'!
-Buchberger class
-	instanceVariableNames: ''!
-
-!classDefinition: #ExtendedBuchberger category: #'Algebra-Algorithms-Groebner Bases'!
-Buchberger subclass: #ExtendedBuchberger
-	instanceVariableNames: 'combinations'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Algebra-Algorithms-Groebner Bases'!
-!classDefinition: 'ExtendedBuchberger class' category: #'Algebra-Algorithms-Groebner Bases'!
-ExtendedBuchberger class
-	instanceVariableNames: ''!
-
-!classDefinition: #ExtendedStrongBuchberger category: #'Algebra-Algorithms-Groebner Bases'!
-ExtendedBuchberger subclass: #ExtendedStrongBuchberger
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Algebra-Algorithms-Groebner Bases'!
-!classDefinition: 'ExtendedStrongBuchberger class' category: #'Algebra-Algorithms-Groebner Bases'!
-ExtendedStrongBuchberger class
-	instanceVariableNames: ''!
-
-!classDefinition: #StrongBuchberger category: #'Algebra-Algorithms-Groebner Bases'!
-Buchberger subclass: #StrongBuchberger
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Algebra-Algorithms-Groebner Bases'!
-!classDefinition: 'StrongBuchberger class' category: #'Algebra-Algorithms-Groebner Bases'!
-StrongBuchberger class
 	instanceVariableNames: ''!
 
 !classDefinition: #MultivariateDivision category: #'Algebra-Algorithms-Groebner Bases'!
@@ -2524,6 +2494,46 @@ Object subclass: #MultivariateDivision
 	category: 'Algebra-Algorithms-Groebner Bases'!
 !classDefinition: 'MultivariateDivision class' category: #'Algebra-Algorithms-Groebner Bases'!
 MultivariateDivision class
+	instanceVariableNames: ''!
+
+!classDefinition: #StrongBuchberger category: #'Algebra-Algorithms-Groebner Bases'!
+Object subclass: #StrongBuchberger
+	instanceVariableNames: 'matrix generators'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Algebra-Algorithms-Groebner Bases'!
+!classDefinition: 'StrongBuchberger class' category: #'Algebra-Algorithms-Groebner Bases'!
+StrongBuchberger class
+	instanceVariableNames: ''!
+
+!classDefinition: #Buchberger category: #'Algebra-Algorithms-Groebner Bases'!
+StrongBuchberger subclass: #Buchberger
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Algebra-Algorithms-Groebner Bases'!
+!classDefinition: 'Buchberger class' category: #'Algebra-Algorithms-Groebner Bases'!
+Buchberger class
+	instanceVariableNames: ''!
+
+!classDefinition: #ExtendedStrongBuchberger category: #'Algebra-Algorithms-Groebner Bases'!
+StrongBuchberger subclass: #ExtendedStrongBuchberger
+	instanceVariableNames: 'combinations'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Algebra-Algorithms-Groebner Bases'!
+!classDefinition: 'ExtendedStrongBuchberger class' category: #'Algebra-Algorithms-Groebner Bases'!
+ExtendedStrongBuchberger class
+	instanceVariableNames: ''!
+
+!classDefinition: #ExtendedBuchberger category: #'Algebra-Algorithms-Groebner Bases'!
+ExtendedStrongBuchberger subclass: #ExtendedBuchberger
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Algebra-Algorithms-Groebner Bases'!
+!classDefinition: 'ExtendedBuchberger class' category: #'Algebra-Algorithms-Groebner Bases'!
+ExtendedBuchberger class
 	instanceVariableNames: ''!
 
 !classDefinition: #ProductReplacementRandomGenerator category: #'Algebra-Algorithms-Groups'!
@@ -3154,7 +3164,10 @@ See also MatrixModule, FreeModule and Tuple.!
 !BlockSparseMatrix commentStamp: '<historical>' prior: 0!
 Sparse matrices stored in Block CSR (Block Compressed Sparse Row) format. They are fast at matrix-tuple multiplication and generally useful over ℤ/2ℤ with small blocks.!
 
-!DenseMatrix commentStamp: '<historical>' prior: 0!
+!ColumnMajorMatrix commentStamp: '<historical>' prior: 0!
+Matrices stored in column-major format. The coefficients are enumerated top to bottom starting from the first column, and they are stored in an array in this order.!
+
+!RowMajorMatrix commentStamp: '<historical>' prior: 0!
 Matrices stored in row-major format. The coefficients are enumerated left to right starting from the first row, and they are stored in an array in this order.!
 
 !SparseMatrix commentStamp: '<historical>' prior: 0!
@@ -3529,60 +3542,21 @@ This is the Tonelli-Shanks algorithm for computing square roots in a prime field
 
 See [Coh96] Algorithm 1.5.1.!
 
-!MatrixReduction commentStamp: '<historical>' prior: 0!
-Abstract superclass for matrix (row) echelonization algorithms.!
+!Coechelonization commentStamp: '<historical>' prior: 0!
+Abstract superclass for column-style echelonization algorithms. Given a matrix A, they compute a matrix E in (reduced) column echelon form and a unimodular matrix T such that A*T = E.!
 
-!GaussianElimination commentStamp: '<historical>' prior: 0!
-This is the Gaussian Elimination algorithm.
-
-My instances perform Gaussian reduction on a matrix to compute its echelon form, linear dependency of the columns, rank, determinant, inverse, etc.
-
-Input: a matrix with coefficients in a field;
-Output: the reduced echelon form of the matrix, determinant and left inverse.
+!GaussJordan commentStamp: '<historical>' prior: 0!
+This is the Gaussian elimination algorithm. It performs Gaussian elimination on a matrix to compute its column-style reduced echelon form. Can work with matrices over fields or more generally over division rings such as the quaternions.
 
 The algorithm performs O(2n^3/3) field operations for n by n matrices, but due to exponential growth of intermediate coefficients it can be impractical in many situations (for example, with rational coefficients).!
 
 !HermiteReduction commentStamp: '<historical>' prior: 0!
-This is the Hermite row reduction algorithm. Given a matrix with coefficients in a computable Euclidean domain, it reduces the matrix to its row-style Hermite normal form.
+This is the Hermite column reduction algorithm. Given a matrix with coefficients in a Euclidean domain, it reduces the matrix to its column-style Hermite normal form.
 
-The algorithm is essentially Algorithm 2.4.4 in [Coh96] but modified to do row reduction instead of column reduction and generalized to Euclidean domains.!
+The algorithm is a generalization of [Coh96, Algorithm 2.4.4] to arbitrary Euclidean domains.!
 
-!HowellReduction commentStamp: 'len 8/14/2022 11:56:40' prior: 0!
-This is the Howell row reduction algorithm. Given a matrix with coefficients in a PIR with an extended GCD algorithm to compute Bezout coefficients (for example ℤ/mℤ or other Euclidean ring, possibly with zero divisors), it reduces the matrix to its Howell normal form. See [How86], [Sto00], [SM98], [FH16].!
-
-!Buchberger commentStamp: '<historical>' prior: 0!
-This is the Buchberger algorithm for computing Groebner bases over a field.
-
-Input: a matrix over a polynomial ring over a field with a choice of monomial ordering;
-Output: a reduced standard basis or Groebner basis of the module generated by the columns.
-
-When the monomial ordering is global, the algorithm outputs a Groebner basis. In case of a local monomial ordering, the algorithm uses Mora's normal form and outputs a standard basis.
-!
-
-!ExtendedBuchberger commentStamp: '<historical>' prior: 0!
-This is the extended Buchberger algorithm for computing Groebner bases over a field. It keeps track of how the polynomials in the Groebner basis arise as linear combinations of the original generators, and produces a matrix that maps the original generators to the Groebner basis.
-
-Input: a matrix over a polynomial ring over a field with a choice of *global* monomial ordering;
-Output: a reduced Groebner basis of the module generated by the columns, and a 'change of basis' matrix that maps the original generators to the Groebner basis.
-
-See Buchberger for a more general algorithm that works with both global and local monomial orderings.!
-
-!ExtendedStrongBuchberger commentStamp: '<historical>' prior: 0!
-This is the extended Buchberger algorithm for computing strong Groebner bases over a Euclidean ring (possibly with zero divisors), based on [EPP18] and [EH19]. It keeps track of how the polynomials in the Groebner basis arise as linear combinations of the original generators, and produces a matrix that maps the original generators to the Groebner basis.
-
-Input: a matrix over a polynomial ring over a Euclidean ring with a choice of *global* monomial ordering;
-Output: a reduced strong Groebner basis of the module generated by the columns, and a 'change of basis' matrix that maps the original generators to the Groebner basis.
-
-See StrongBuchberger for a more general algorithm that works with both global and local monomial orderings.!
-
-!StrongBuchberger commentStamp: '<historical>' prior: 0!
-This is the Buchberger algorithm for computing strong Groebner bases over a Euclidean ring (possibly with zero divisors), based on [EPP18] and [EH19].
-
-Input: a matrix over a polynomial ring over a Euclidean ring with a choice of monomial ordering;
-Output: a reduced strong standard basis or Groebner basis of the module generated by the columns.
-
-When the monomial ordering is global, the algorithm outputs a Groebner basis. In case of a local monomial ordering, the algorithm uses Mora's normal form and outputs a standard basis.
-!
+!HowellReduction commentStamp: '<historical>' prior: 0!
+This is the Howell column reduction algorithm. Given a matrix with coefficients in a PIR with an extended GCD algorithm to compute Bezout coefficients (for example ℤ/mℤ or other Euclidean rings, possibly with zero divisors), it reduces the matrix to its column-style Howell normal form. See [How86], [Sto00], [SM98], [FH16].!
 
 !MultivariateDivision commentStamp: 'len 11/29/2022 10:14:14' prior: 0!
 This is the multivariate polynomial division algorithm for polynomials over a commutative ring.
@@ -3593,6 +3567,40 @@ Output: quotients q1,..,qs and remander r in R[x1..xd] such that f = q1*f1 + ...
 2. None of the monomials in r is divisible by any LM(fi).
 
 The algorithm performs O(n^d m^d) operations in the coefficients ring R, where n is the total degree of f and m is the maximum total degree of f1..fs.!
+
+!StrongBuchberger commentStamp: '<historical>' prior: 0!
+This is the Buchberger algorithm for computing strong Groebner bases over a Euclidean ring (possibly with zero divisors), based on [EPP18] and [EH19].
+
+Input: a matrix over a polynomial ring over a Euclidean ring with a choice of monomial ordering;
+Output: a reduced strong standard basis or Groebner basis of the module generated by the columns.
+
+When the monomial ordering is global, the algorithm outputs a Groebner basis. In case of a local monomial ordering, the algorithm uses Mora's normal form and outputs a standard basis.
+!
+
+!Buchberger commentStamp: '<historical>' prior: 0!
+This is the Buchberger algorithm for computing Groebner bases over a field.
+
+Input: a matrix over a polynomial ring over a field with a choice of monomial ordering;
+Output: a reduced standard basis or Groebner basis of the module generated by the columns.
+
+When the monomial ordering is global, the algorithm outputs a Groebner basis. In case of a local monomial ordering, the algorithm uses Mora's normal form and outputs a standard basis.
+!
+
+!ExtendedStrongBuchberger commentStamp: '<historical>' prior: 0!
+This is the extended Buchberger algorithm for computing strong Groebner bases over a Euclidean ring (possibly with zero divisors), based on [EPP18] and [EH19]. It keeps track of how the polynomials in the Groebner basis arise as linear combinations of the original generators, and produces a matrix that maps the original generators to the Groebner basis.
+
+Input: a matrix over a polynomial ring over a Euclidean ring with a choice of *global* monomial ordering;
+Output: a reduced strong Groebner basis of the module generated by the columns, and a 'change of basis' matrix that maps the original generators to the Groebner basis.
+
+See StrongBuchberger for a more general algorithm that works with both global and local monomial orderings.!
+
+!ExtendedBuchberger commentStamp: '<historical>' prior: 0!
+This is the extended Buchberger algorithm for computing Groebner bases over a field. It keeps track of how the polynomials in the Groebner basis arise as linear combinations of the original generators, and produces a matrix that maps the original generators to the Groebner basis.
+
+Input: a matrix over a polynomial ring over a field with a choice of *global* monomial ordering;
+Output: a reduced Groebner basis of the module generated by the columns, and a 'change of basis' matrix that maps the original generators to the Groebner basis.
+
+See Buchberger for a more general algorithm that works with both global and local monomial orderings.!
 
 !ProductReplacementRandomGenerator commentStamp: '<historical>' prior: 0!
 Product Replacement Algorithm for generating random elements in a group from a set of generators. Essentially, it performs a random walk on a Cayley graph.!
@@ -3947,10 +3955,11 @@ withSupportDo: aBlock
 			(self at: 3)*(aTuple at: 1) - ((self at: 1)*(aTuple at: 3)).
 			(self at: 1)*(aTuple at: 2) - ((self at: 2)*(aTuple at: 1))}! !
 
-!Tuple methodsFor: 'operations' stamp: 'len 11/23/2022 21:33:54'!
+!Tuple methodsFor: 'operations' stamp: 'len 12/15/2022 11:19:22'!
 ⊗ anElement
 	"Answer the outer product of the receiver with the argument."
 	anElement isTuple ifTrue: [^ Matrix from: anElement parent to: self parent fill: [:i :j| (self at: i)*(anElement at: j)]].
+	self flag: #fixme. "this looks wrong over noncommutative rings"
 	anElement isMatrix ifTrue: [^ self asMatrix ⊗ anElement transpose].
 	^ super ⊗ anElement! !
 
@@ -4115,20 +4124,21 @@ printOn: aStream
 	self do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: ', '].
 	aStream nextPut: $)! !
 
-!Tuple methodsFor: 'testing' stamp: 'len 11/24/2022 11:40:03'!
+!Tuple methodsFor: 'testing' stamp: 'len 12/18/2022 11:20:22'!
 ~ aTuple
 	"Answer true if the receiver and the argument are equivalent as homogeneous tuples."
+	| depth |
+	(depth _ self lastNonzeroIndex) ~= aTuple lastNonzeroIndex ifTrue: [^ false].
+	depth isNil ifTrue: [^ true].
 	self scalars isIntegralDomain ifTrue:
-		[| depth x y |
-		(depth _ self lastNonzeroIndex) ~= aTuple lastNonzeroIndex ifTrue: [^ false].
-		depth isNil ifTrue: [^ true].
+		[| x y |
 		x _ self at: depth.
 		y _ aTuple at: depth.
 		1 to: depth do: [:i| (self at: i) * y = ((aTuple at: i) * x) ifFalse: [^ false]].
 		^ true].
-	"Over a Euclidean ring we compare use their Howell normal form:"
-	(self scalars isEuclidean and: [self scalars size > 255])
-		ifTrue: [^ self asRowMatrix echelon = aTuple asRowMatrix echelon].
+	"Over a ring with standard bases we compare the standard bases:"
+	(self scalars hasCanonicalBases and: [self scalars size > 255])
+		ifTrue: [^ self asMatrix basis = aTuple asMatrix basis].
 	"In a general ring we have to check all units:"
 	^ self scalars units anySatisfy: [:any| self * any = aTuple]! !
 
@@ -4254,10 +4264,11 @@ printOn: aStream
 isZeroAt: anInteger
 	^ (self bitAt: anInteger) = 0! !
 
-!BitTuple class methodsFor: 'class initialization' stamp: 'len 4/30/2022 06:44:57'!
+!BitTuple class methodsFor: 'class initialization' stamp: 'len 12/18/2022 12:30:01'!
 initialize
 	| Z2 |
 	super initialize.
+	ℤ isNil ifTrue: [^ self].
 	Z2 _ ℤ / 2.
 	One _ Z2 one.
 	Zero _ Z2 zero! !
@@ -9625,54 +9636,25 @@ zero
 Modules
 	^ self propertyAt: #Modules ifAbsentPut: [Modules over: self]! !
 
-!Ring methodsFor: 'computing-matrices' stamp: 'len 1/7/2022 14:27:38'!
+!Ring methodsFor: 'computing-matrices' stamp: 'len 12/15/2022 17:36:17'!
 basisAndTransformationOf: aMatrix
-	| E T |
-	self hasEchelonization ifFalse: [^ self subclassResponsibility].
-	T _ aMatrix coechelonization.
-	E _ aMatrix coechelon copyWithoutZeroColumns.
-	^ {E. T copyFromRow: 1 to: E width}! !
+	| coechelonization E T |
+	self isEuclidean ifFalse: [^ self subclassResponsibility].
+	coechelonization _ aMatrix coechelonAndTransformation.
+	E _ coechelonization first copyWithoutZeroColumns.
+	T _ coechelonization second copyFromRow: 1 to: E width.
+	^ {E. T}! !
 
-!Ring methodsFor: 'computing-matrices' stamp: 'len 1/13/2022 11:58:15'!
+!Ring methodsFor: 'computing-matrices' stamp: 'len 12/15/2022 17:36:29'!
 basisOf: aMatrix
-	self hasEchelonization ifFalse: [^ self subclassResponsibility].
+	self isEuclidean ifFalse: [^ self subclassResponsibility].
 	^ aMatrix coechelon copyWithoutZeroColumns! !
 
-!Ring methodsFor: 'computing-matrices' stamp: 'len 12/30/2021 12:29:19'!
-echelonOf: aMatrix
-	| algorithmClass |
-	algorithmClass _ self isField
-		ifTrue: [GaussianElimination]
-		ifFalse: [self isEuclideanDomain
-			ifTrue: [HermiteReduction]
-			ifFalse: ["self isIntegralDomain
-				ifTrue: [GaussBareiss]
-				ifFalse: ["self isPIR
-					ifTrue: [HowellReduction]
-					ifFalse: [^ self subclassResponsibility]]].
-	^ (algorithmClass on: aMatrix) reduced! !
-
-!Ring methodsFor: 'computing-matrices' stamp: 'len 12/31/2021 09:26:31'!
-echelonizationOf: aMatrix
-	| algorithmClass algorithm |
-	algorithmClass _ self isField
-		ifTrue: [GaussianElimination]
-		ifFalse: [self isEuclideanDomain
-			ifTrue: [HermiteReduction]
-			ifFalse: ["self isIntegralDomain
-				ifTrue: [GaussBareiss]
-				ifFalse: ["self isPIR
-					ifTrue: [HowellReduction]
-					ifFalse: [^ self subclassResponsibility]]].
-	algorithm _ algorithmClass on: aMatrix extension: aMatrix codomain id.
-	^ {algorithm reduced. algorithm extension}! !
-
-!Ring methodsFor: 'computing-matrices' stamp: 'len 11/13/2022 06:41:49'!
+!Ring methodsFor: 'computing-matrices' stamp: 'len 12/15/2022 10:52:31'!
 matrix: B quotientBy: A
 	"Answer X such that AX + N = B, satisfying that if the i-th column of B is a linear combination of the columns of A then the i-th column of N is zero."
 	self isField ifTrue: [^ self matrixOverField: B quotientBy: A].
 	self isEuclideanDomain ifTrue: [^ self matrixOverEuclideanDomain: B quotientBy: A].
-	self isLocalization ifTrue: [^ self matrixOverLocalization: B quotientBy: A].
 	^ self subclassResponsibility! !
 
 !Ring methodsFor: 'computing-matrices' stamp: 'len 6/4/2022 21:11:48'!
@@ -9680,27 +9662,27 @@ matrix: B reductionBy: A
 	"Answer N such that AX + N = B, satisfying that if the i-th column of B is a linear combination of the columns of A then the i-th column of N is zero."
 	^ B - (A * (self matrix: B quotientBy: A))! !
 
-!Ring methodsFor: 'computing-matrices' stamp: 'len 9/1/2022 13:33:39'!
+!Ring methodsFor: 'computing-matrices' stamp: 'len 12/15/2022 11:15:29'!
 syzygiesOf: aMatrix
 	"Answer a matrix whose rows span the kernel of the given matrix.
 	For a matrix A, the output is X with AX = 0."
-	self isLocalization ifTrue: [^ self syzygiesOverLocalizationOf: aMatrix].
 	self isEuclideanDomain ifTrue: [^ self syzygiesOverEuclideanDomainOf: aMatrix].
 	^ self subclassResponsibility! !
 
-!Ring methodsFor: 'computing-matrices-private' stamp: 'len 10/5/2022 17:42:40'!
+!Ring methodsFor: 'computing-matrices-private' stamp: 'len 12/13/2022 13:38:46'!
 matrixOverEuclideanDomain: B quotientBy: A
 	"Answer X such that AX + N = B, satisfying that if the i-th column of B is a linear combination of the columns of A then the i-th column of N is zero.
 	This is based on [Mat11] but extended to work over any Euclidean domain and also to cover the case of B having more than 1 column.
 	[Mat11] Keith Matthews, 'Solving AX=B using the Hermite normal form' (2011)"
-	| X E T |
+	| X coechelonization E T |
 	X _ self^0 → A domain.
-	T _ A coechelonization.
-	E _ A coechelon.
+	coechelonization _ A coechelonAndTransformation.
+	E _ coechelonization first.
+	T _ coechelonization second.
 	B columnsDo: [:b| | G P n |
 		G _ E ⊔ b.
 		G _ G ⊓ (G domain x: G width).
-		P _ G coechelonization.
+		P _ G coechelonAndTransformation second.
 		n _ P lastRow firstNonzeroIndex.
 		X _ X ⊔ (T * ((P columnAt: n) copyFrom: 1 to: A width) negated)].
 	^ X! !
@@ -9737,47 +9719,13 @@ matrixOverField: B quotientBy: A
 	A width - rows size timesRepeat: [rows add: B domain zero].
 	^ Matrix from: B domain rows: rows"! !
 
-!Ring methodsFor: 'computing-matrices-private' stamp: 'len 10/5/2022 17:42:49'!
-matrixOverLocalization: B quotientBy: A
-	"Answer X such that AX + N = B, satisfying that if the i-th column of B is a linear combination of the columns of A then the i-th column of N is zero."
-	| X d1 d2 |
-	X _ self^0 → A domain.
-	d1 _ A denominator.
-	d2 _ B denominator.
-	B numerator columnsDo: [:b| | L i x |
-		L _ (b asMatrix ⊔ A numerator) syzygies.
-		i _ (1 to: L width) detect: [:k| (self localizationIdeal includes: (L at: 1@k)) not] ifNone: [].
-		x _ i isNil ifTrue: [A domain zero] ifFalse: [((L copyFrom: 2@i to: L height@i) over: self) * (self numerator: d1 negated denominator: d2 * (L at: 1@i))].
-		X _ X ⊔ x].
-	^ X! !
-
-!Ring methodsFor: 'computing-matrices-private' stamp: 'len 1/7/2022 14:28:21'!
+!Ring methodsFor: 'computing-matrices-private' stamp: 'len 12/15/2022 10:50:34'!
 syzygiesOverEuclideanDomainOf: aMatrix
-	| E T |
-	T _ aMatrix coechelonization.
-	E _ aMatrix coechelon.
-	^ Matrix to: aMatrix domain columns: (((1 to: E width) select: [:i| (E columnAt: i) isZero]) collect: [:i| T columnAt: i])
-
-"alternative:
-	""Reduce the augmented matrix [A^t | I], then a linear basis of the kernel is given by the rows of the extension corresponding to zero rows in the reduced matrix.""
-	| n E |
-	n _ aMatrix height.
-	E _ (aMatrix transpose ⊔ aMatrix domain id) echelon.
-	^ Matrix to: aMatrix domain columns: (E rows select: [:each| each isZeroFrom: 1 to: n]  thenCollect: [:each| aMatrix domain filling: [:i| each at: n+i]])
-"
-
-"alternative2:
-	reduction _ aMatrix transpose reductionWith: aMatrix domain id.
-	kernel _ OrderedCollection new.
-	reduction reduced rows withIndexDo: [:row :i|
-		row isZero ifTrue: [kernel add: (reduction extension rowAt: i)]].
-	^ Matrix to: aMatrix domain columns: kernel"! !
-
-!Ring methodsFor: 'computing-matrices-private' stamp: 'len 9/1/2022 13:33:10'!
-syzygiesOverLocalizationOf: aMatrix
-	"Answer a matrix whose rows span the kernel of the given matrix.
-	For a matrix A, the output is X with AX = 0."
-	^ aMatrix numerator syzygies over: self! !
+	| coechelonization E T |
+	coechelonization _ aMatrix coechelonAndTransformation.
+	E _ coechelonization first.
+	T _ coechelonization second.
+	^ Matrix to: aMatrix domain columns: (((1 to: E width) select: [:i| (E columnAt: i) isZero]) collect: [:i| T columnAt: i])! !
 
 !Ring methodsFor: 'computing-polynomials' stamp: 'len 6/16/2022 18:44:37'!
 allRootsOf: aPolynomial
@@ -10245,20 +10193,15 @@ hasCanonicalAssociates
 	See RingElement>>#normalized."
 	^ self isField! !
 
-!Ring methodsFor: 'testing' stamp: 'len 1/9/2022 09:46:34'!
+!Ring methodsFor: 'testing' stamp: 'len 12/15/2022 17:36:38'!
 hasCanonicalBases
 	"Answer true if there's an algorithm to compute canonical bases for modules over the receiver."
-	^ self hasEchelonization! !
+	^ self isEuclidean! !
 
 !Ring methodsFor: 'testing' stamp: 'len 6/3/2022 20:44:21'!
 hasCanonicalReduction
 	"Answer true if this ring is equipped with an algorithm to make canonical choices of coset representatives modulo an ideal."
 	^ self isField! !
-
-!Ring methodsFor: 'testing' stamp: 'len 5/17/2022 12:22:32'!
-hasEchelonization
-	"Answer true if matrices over the receiver can be put into echelon form or an analoge normal form."
-	^ self isField or: [self isPIR and: [self isEuclidean]]! !
 
 !Ring methodsFor: 'testing' stamp: 'len 6/3/2022 07:33:50'!
 hasGCD
@@ -10421,12 +10364,12 @@ isLocalization
 isMultivariate
 	^ false! !
 
-!Ring methodsFor: 'testing' stamp: 'len 1/12/2022 17:54:03'!
+!Ring methodsFor: 'testing' stamp: 'len 12/15/2022 17:51:52'!
 isNoetherian
 	"A ring is called Noetherian if every ideal is finitely generated.
 	This is equivalent to the ring satisfying the ascending chain condition (every ascending chain of ideals is finite), and it is also equivalent to the condition that any set of ideals contains a maximal element."
 	self isFinite ifTrue: [^ true].
-"	self isField ifTrue: [^ true]. already included in isPID"
+"	self isField ifTrue: [^ true]. already included in isEuclidean"
 	self isEuclidean ifTrue: [^ true]. "every Euclidean ring is PIR, i.e. it is Bezout and Noetherian"
 	self isPID ifTrue: [^ true].
 	self isDedekindDomain ifTrue: [^ true].
@@ -10562,6 +10505,26 @@ zero
 !FractionRing methodsFor: 'comparing' stamp: 'len 11/20/2022 11:23:22'!
 hash
 	^ self numerators hash! !
+
+!FractionRing methodsFor: 'computing-matrices' stamp: 'len 12/15/2022 13:05:04'!
+matrix: B quotientBy: A
+	"Answer X such that AX + N = B, satisfying that if the i-th column of B is a linear combination of the columns of A then the i-th column of N is zero."
+	| X d1 d2 |
+	X _ self^0 → A domain.
+	d1 _ A denominator.
+	d2 _ B denominator.
+	B numerator columnsDo: [:b| | L i x |
+		L _ (b asMatrix ⊔ A numerator) syzygies.
+		i _ (1 to: L width) detect: [:k| (L at: 1@k) isZeroDivisor not] ifNone: [].
+		x _ i isNil ifTrue: [A domain zero] ifFalse: [((L copyFrom: 2@i to: L height@i) over: self) * (self numerator: d1 negated denominator: d2 * (L at: 1@i))].
+		X _ X ⊔ x].
+	^ X! !
+
+!FractionRing methodsFor: 'computing-matrices' stamp: 'len 12/15/2022 11:14:40'!
+syzygiesOf: aMatrix
+	"Answer a matrix whose rows span the kernel of the given matrix.
+	For a matrix A, the output is X with AX = 0."
+	^ aMatrix numerator syzygies over: self! !
 
 !FractionRing methodsFor: 'converting' stamp: 'len 11/20/2022 11:24:00'!
 over: aRing
@@ -11260,6 +11223,26 @@ zero
 !LocalRing methodsFor: 'comparing' stamp: 'len 6/22/2019 03:30:45'!
 hash
 	^ self localizationIdeal hash! !
+
+!LocalRing methodsFor: 'computing-matrices' stamp: 'len 12/15/2022 10:54:28'!
+matrix: B quotientBy: A
+	"Answer X such that AX + N = B, satisfying that if the i-th column of B is a linear combination of the columns of A then the i-th column of N is zero."
+	| X d1 d2 |
+	X _ self^0 → A domain.
+	d1 _ A denominator.
+	d2 _ B denominator.
+	B numerator columnsDo: [:b| | L i x |
+		L _ (b asMatrix ⊔ A numerator) syzygies.
+		i _ (1 to: L width) detect: [:k| (self localizationIdeal includes: (L at: 1@k)) not] ifNone: [].
+		x _ i isNil ifTrue: [A domain zero] ifFalse: [((L copyFrom: 2@i to: L height@i) over: self) * (self numerator: d1 negated denominator: d2 * (L at: 1@i))].
+		X _ X ⊔ x].
+	^ X! !
+
+!LocalRing methodsFor: 'computing-matrices' stamp: 'len 12/15/2022 11:15:05'!
+syzygiesOf: aMatrix
+	"Answer a matrix whose rows span the kernel of the given matrix.
+	For a matrix A, the output is X with AX = 0."
+	^ aMatrix numerator syzygies over: self! !
 
 !LocalRing methodsFor: 'converting' stamp: 'len 11/20/2022 11:29:50'!
 over: aRing
@@ -12804,10 +12787,6 @@ printOn: aStream
 		ifTrue: [aStream print: self scalars; nextPut: $(; print: self modulus; nextPut: $)]
 		ifFalse: [super printOn: aStream]! !
 
-!AffineRing methodsFor: 'testing' stamp: 'len 7/27/2021 08:49:46'!
-hasEchelonization
-	^ false! !
-
 !AffineRing methodsFor: 'testing' stamp: 'len 10/13/2022 10:24:33'!
 isAffineAlgebra
 	^ true! !
@@ -12938,10 +12917,6 @@ printOn: aStream
 hasCanonicalAssociates
 	^ true! !
 
-!GaloisRing methodsFor: 'testing' stamp: 'len 5/17/2022 12:27:22'!
-hasEchelonization
-	^ false! !
-
 !GaloisRing methodsFor: 'testing' stamp: 'len 1/2/2022 09:57:36'!
 isBezout
 	"Answer true if the receiver is a Bezout ring, i.e. every finitely generated ideal is principal."
@@ -13071,10 +13046,6 @@ printOn: aStream
 "	aStream nextPut: $𝔽; nextPutAll: (self characteristic printString, '^', self degree printString) sub"
 "	aStream nextPutAll: 'GF('; print: self characteristic; nextPutAll: self degree printString super; nextPut: $)"! !
 
-!GaloisField methodsFor: 'testing' stamp: 'len 7/27/2021 08:48:56'!
-hasEchelonization
-	^ true! !
-
 !GaloisField methodsFor: 'testing' stamp: 'len 12/14/2016 10:15:29'!
 isAbelianExtension
 	"Galois fields are Abelian extensions."
@@ -13187,10 +13158,6 @@ genus
 project: anElement
 	^ self representative: anElement \\ self modulus! !
 
-!FunctionField methodsFor: 'testing' stamp: 'len 7/27/2021 08:48:44'!
-hasEchelonization
-	^ true! !
-
 !FunctionField methodsFor: 'testing' stamp: 'len 6/9/2019 09:35:47'!
 isField
 	^ true! !
@@ -13285,10 +13252,6 @@ nonArchimedeanPlaces
 !NumberField methodsFor: 'operations' stamp: 'len 1/11/2016 03:53'!
 regulator
 	^ self notYetImplemented! !
-
-!NumberField methodsFor: 'testing' stamp: 'len 7/27/2021 08:49:22'!
-hasEchelonization
-	^ true! !
 
 !NumberField methodsFor: 'testing' stamp: 'len 6/9/2019 09:36:07'!
 isField
@@ -13549,20 +13512,20 @@ size
 hash
 	^ scalars hash + monomials hash hashMultiply! !
 
-!PolynomialRing methodsFor: 'computing-matrices' stamp: 'len 6/7/2022 10:17:11'!
+!PolynomialRing methodsFor: 'computing-matrices' stamp: 'len 12/17/2022 10:02:15'!
 basisAndTransformationOf: aMatrix
 	"Andswer a standard basis of the module generated by the columns of aMatrix and a transformation matrix that maps the original generators to the basis."
 	| buchberger |
 	self scalars isEuclidean ifFalse: [^ self notYetImplemented].
 	buchberger _ (self scalars isField ifTrue: [ExtendedBuchberger] ifFalse: [ExtendedStrongBuchberger]) new matrix: aMatrix; run.
-	^ {buchberger basisMatrix. buchberger transformation}! !
+	^ {buchberger basis. buchberger transformation}! !
 
-!PolynomialRing methodsFor: 'computing-matrices' stamp: 'len 6/7/2022 10:17:25'!
+!PolynomialRing methodsFor: 'computing-matrices' stamp: 'len 12/17/2022 10:02:22'!
 basisOf: aMatrix
 	"Compute a standard basis from the columns of aMatrix with the specified ordering.
 	When the monomial ordering is global, the algorithm outputs a Groebner basis. In case of a local monomial ordering, the algorithm uses Mora's normal form and outputs a standard basis."
 	self scalars isEuclidean ifFalse: [^ self notYetImplemented].
-	^ (self scalars isField ifTrue: [Buchberger] ifFalse: [StrongBuchberger]) new matrix: aMatrix; run; basisMatrix! !
+	^ (self scalars isField ifTrue: [Buchberger] ifFalse: [StrongBuchberger]) new matrix: aMatrix; run; basis! !
 
 !PolynomialRing methodsFor: 'computing-matrices' stamp: 'len 6/1/2022 20:30:55'!
 matrix: B quotientBy: A
@@ -16341,7 +16304,7 @@ printOn: aStream
 	self integers printIndeterminatesOn: aStream.
 	aStream nextPut: $⟫! !
 
-!Module methodsFor: 'accessing' stamp: 'len 1/13/2022 11:48:12'!
+!Module methodsFor: 'accessing' stamp: 'len 12/17/2022 10:02:44'!
 basis
 	^ self propertyAt: #basis ifAbsentPut: [self basisMatrix columns collect: [:each| self ambient elementAt: each]]! !
 
@@ -18340,14 +18303,14 @@ fromAll: anArray
 	i _ 1.
 	^ anArray collect: [:each| self coprojection: (i to: (i _ i + each rank)-1)]! !
 
-!FreeModule methodsFor: 'morphisms' stamp: 'len 11/27/2022 13:26:57'!
+!FreeModule methodsFor: 'morphisms' stamp: 'len 12/15/2022 12:32:31'!
 id
 	"Answer the identity morphism."
 	| coefficients one |
 	coefficients _ scalars zeros: rank squared.
 	one _ scalars one.
 	1 to: rank squared by: rank+1 do: [:i| coefficients at: i put: one].
-	^ DenseMatrix from: self to: self coefficients: coefficients! !
+	^ RowMajorMatrix from: self to: self coefficients: coefficients! !
 
 !FreeModule methodsFor: 'morphisms' stamp: 'len 9/16/2022 08:11:24'!
 projection: anIntegerOrList
@@ -18781,9 +18744,9 @@ scalar: anElement
 	1 to: (domain rank min: codomain rank) do: [:i| answer at: i@i put: anElement].
 	^ answer! !
 
-!MatrixModule methodsFor: 'elements' stamp: 'len 11/27/2022 11:36:11'!
+!MatrixModule methodsFor: 'elements' stamp: 'len 12/15/2022 12:32:31'!
 zero
-	^ DenseMatrix from: domain to: codomain coefficients: (domain scalars zeros: domain rank * codomain rank)! !
+	^ RowMajorMatrix from: domain to: codomain coefficients: (domain scalars zeros: domain rank * codomain rank)! !
 
 !MatrixModule methodsFor: 'printing' stamp: 'len 7/16/2020 09:35:55'!
 printOn: aStream
@@ -20463,12 +20426,12 @@ solve: d n: n
 	(d isQuadraticResidueModulo: n) ifFalse: [^ nil].
 	"... last two steps"! !
 
-!Conic methodsFor: 'private' stamp: 'len 8/9/2020 07:50:51'!
+!Conic methodsFor: 'private' stamp: 'len 12/15/2022 11:21:11'!
 symmetricMatrix
 	| T |
 	self scalars characteristic = 2
 		ifTrue:
-			[self isDiagonal ifFalse: [self error: 'not symmetric matrix defined for non-diagonal conic over field of characteristic 2'].
+			[self isDiagonal ifFalse: [self error: 'symmetric matrix ia undefined for non-diagonal conic over field of characteristic 2'].
 			^ self upperTriangularMatrix].
 	T _ self upperTriangularMatrix.
 	^ T + T transpose / (self scalars !! 2)! !
@@ -22882,21 +22845,17 @@ right
 rightRadical
 	^ self right kernel! !
 
-!BilinearForm methodsFor: 'operations' stamp: 'len 8/9/2020 07:50:29'!
+!BilinearForm methodsFor: 'operations' stamp: 'len 12/15/2022 11:22:44'!
 skewSymmetricPart
-	| two |
-	two _ self scalars one * 2.
 	^ self class
 		on: space
-		matrix: matrix - matrix transpose / two! !
+		matrix: matrix - matrix transpose / (self scalars !! 2)! !
 
-!BilinearForm methodsFor: 'operations' stamp: 'len 8/9/2020 07:50:34'!
+!BilinearForm methodsFor: 'operations' stamp: 'len 12/15/2022 11:23:40'!
 symmetricPart
-	| two |
-	two _ self scalars one * 2.
 	^ self class
 		on: space
-		matrix: matrix + matrix transpose / two! !
+		matrix: matrix + matrix transpose / (self scalars !! 2)! !
 
 !BilinearForm methodsFor: 'operations' stamp: 'len 8/9/2020 07:48:52'!
 transpose
@@ -23133,12 +23092,13 @@ asSingletonMatrix
 	self checkCodomainsMatch: aModuleMap.
 	^ domain ⊕ aModuleMap domain to: codomain validMatrix: self asMatrix ⊔ aModuleMap asMatrix! !
 
-!ModuleMap methodsFor: 'operations' stamp: 'len 8/1/2021 10:46:10'!
+!ModuleMap methodsFor: 'operations' stamp: 'len 12/15/2022 11:24:44'!
 adjoint
 	"Answer the transpose (or dual, or adjoint) of the receiver.
 	The assignment of a linear map f:V->W to its dual f*:W*->V* produces an injective linear map between Hom(V,W) and Hom(W*,V*).
 	This is the 'operator adjoint', not to be confused with the 'Hilbert adjoint' that is defined for an operator in an inner product space."
 	(self scalars isCommutative or: [self scalars isInvolutive]) ifFalse: [^ self notYetImplemented].
+	self flag: #fixme. "shouldn't be opposite instead of transpose?"
 	^ codomain dual to: domain dual matrix: self asMatrix transpose! !
 
 !ModuleMap methodsFor: 'operations' stamp: 'len 12/15/2021 19:51:16'!
@@ -23983,7 +23943,7 @@ content
 cosquare
 	^ self transpose inverse * self! !
 
-!Matrix methodsFor: 'operations' stamp: 'len 12/2/2022 14:36:08'!
+!Matrix methodsFor: 'operations' stamp: 'len 12/18/2022 11:54:56'!
 determinant
 	| n a0 |
 	self checkIsSquare.
@@ -24001,7 +23961,7 @@ determinant
 	"For small matrices use Laplace expansion:"
 	n <= 6 ifTrue: [^ (1 to: n) sum: [:i| (self at: i@1) * (self cofactor: i@1)]].
 	"Over a field use Gaussian elimination:"
-	self scalars isField ifTrue: [^ (GaussianElimination on: self) determinant].
+	self scalars isField ifTrue: [^ (GaussJordan on: self) determinant].
 	"Otherwise get the determinant from the characteristic polynomial (possibly computed by Berkowitz algorithm):"
 	a0 _ self characteristicPolynomial independentCoefficient.
 	^ n even ifTrue: [a0] ifFalse: [a0 negated]! !
@@ -24107,12 +24067,12 @@ minors: k
 negated
 	^ self collect: [:each| each negated]! !
 
-!Matrix methodsFor: 'operations' stamp: 'len 9/20/2022 12:31:05'!
+!Matrix methodsFor: 'operations' stamp: 'len 12/13/2022 13:30:55'!
 normalization
 	"Answer a unit u such that 'self * u' is a unique choice of associate. See >>normalized."
 	self isSquare ifFalse: [^ self error: 'not square'].
 	(self scalars isPID not or: [self isZero]) ifTrue: [^ self one].
-	^ self coechelonization! !
+	^ self coechelonAndTransformation second! !
 
 !Matrix methodsFor: 'operations' stamp: 'len 1/7/2022 14:23:27'!
 normalized
@@ -24143,8 +24103,9 @@ pseudoInverse
 	"Answer the Moore-Penrose pseudoinverse matrix of the receiver."
 	^ self notYetImplemented! !
 
-!Matrix methodsFor: 'operations' stamp: 'len 3/28/2021 15:12:00'!
+!Matrix methodsFor: 'operations' stamp: 'len 12/17/2022 09:55:44'!
 rank
+	self flag: #fixme. "this is inefficient with dense matrices"
 	^ self echelon rows count: [:each| each isZero not]! !
 
 !Matrix methodsFor: 'operations' stamp: 'len 3/31/2021 09:42:21'!
@@ -24203,27 +24164,31 @@ printOn: aStream
 		aStream nextPut: $]]
 			separatedBy: [aStream newLine]! !
 
-!Matrix methodsFor: 'normal forms' stamp: 'len 12/26/2021 12:33:11'!
-HNF
-	"Answer the (row-style) Hermite normal form of the receiver."
+!Matrix methodsFor: 'normal forms' stamp: 'len 12/18/2022 11:41:50'!
+CHNF
+	"Answer the column-style Hermite normal form of the receiver."
 	self isEmpty ifTrue: [^ self].
-	self scalars isLocalization ifTrue: [^ (self numerator HNF over: self scalars) / self denominator].
-	^ (HermiteReduction on: self) reduced
-"
-alternative:
-	^ self antitransposed CHNF antitransposed
-"! !
+	self scalars isLocalization ifTrue: [^ (self numerator CHNF over: self scalars) / self denominator].
+	^ (HermiteReduction on: self) echelon! !
 
-!Matrix methodsFor: 'normal forms' stamp: 'len 12/23/2021 17:50:05'!
-HNFAndTransformation
-	"Answer the (row-style) Hermite normal form H of the receiver A and the unique unimodular matrix T such that T*A = H."
-	| reduction |
+!Matrix methodsFor: 'normal forms' stamp: 'len 12/18/2022 11:42:25'!
+CHNFAndTransformation
+	"Answer the column-style Hermite normal form H of the receiver A and the unique unimodular matrix T such that A*T = H."
 	self scalars isLocalization ifTrue:
 		[| HT |
-		HT _ self numerator HNFAndTransformation.
+		HT _ self numerator CHNFAndTransformation.
 		^ {(HT first over: self scalars) / self denominator. HT second over: self scalars}].
-	reduction _ HermiteReduction on: self extension: self codomain id.
-	^ {reduction reduced. reduction extension}! !
+	^ (HermiteReduction on: self) echelonAndTransformation! !
+
+!Matrix methodsFor: 'normal forms' stamp: 'len 12/18/2022 11:43:00'!
+HNF
+	"Answer the row-style Hermite normal form of the receiver."
+	^ self transpose CHNF transpose! !
+
+!Matrix methodsFor: 'normal forms' stamp: 'len 12/18/2022 11:43:46'!
+HNFAndTransformation
+	"Answer the row-style Hermite normal form H of the receiver A and the unique unimodular matrix T such that T*A = H."
+	^ self transpose CHNFAndTransformation collect: [:each| each transpose]! !
 
 !Matrix methodsFor: 'normal forms' stamp: 'len 5/29/2020 15:05:40'!
 PRCF
@@ -24257,21 +24222,13 @@ SNF
 	S isSmithNormalForm] whileFalse.
 	^ S! !
 
-!Matrix methodsFor: 'normal forms' stamp: 'len 5/31/2020 20:24:20'!
-SNF2
-	"Answer the Smith normal form of the receiver. Perform first a HNF reduction."
-	| H n |
-	H _ self HNF.
-	n _ H diagonal findLast: [:each| each isZero not].
-	^ (H copyFrom: 1@1 to: n@n) SNF ⊕ (self scalars ^ ((H width max: H height) - n)) endomorphisms zero! !
-
-!Matrix methodsFor: 'normal forms' stamp: 'len 5/31/2020 20:24:46'!
+!Matrix methodsFor: 'normal forms' stamp: 'len 12/13/2022 12:56:46'!
 SNFAfterHNF
 	"Answer the Smith normal form of the receiver. Perform first a HNF reduction."
 	| H n |
 	H _ self HNF.
 	n _ H diagonal findLast: [:each| each isZero not].
-	^ (H copyFrom: 1@1 to: n@n) SNF ⊕ (self scalars^((H width max: H height) - n)) endomorphisms zero! !
+	^ (H copyFrom: 1@1 to: n@n) SNF ⊕ (self scalars ^ ((H width max: H height) - n)) endomorphisms zero! !
 
 !Matrix methodsFor: 'normal forms' stamp: 'len 12/23/2021 17:50:15'!
 SNFAndTransformations
@@ -24395,16 +24352,16 @@ basis
 basisAndTransformation
 	^ self propertyAt: #basisAndTransformation ifAbsentPut: [self scalars basisAndTransformationOf: self]! !
 
-!Matrix methodsFor: 'normal forms' stamp: 'len 1/6/2022 18:28:18'!
+!Matrix methodsFor: 'normal forms' stamp: 'len 12/18/2022 12:05:10'!
 coechelon
-	"Answer the column echelon form of the receiver."
+	"Answer the row echelon form of the receiver."
 	self propertyAt: #coechelonAndTransformation ifPresent: [:anArray| ^ anArray first].
-	^ self propertyAt: #coechelon ifAbsentPut: [(self scalars echelonOf: self transpose) transpose]! !
+	^ self propertyAt: #coechelon ifAbsentPut: [(Coechelonization on: self) echelon]! !
 
-!Matrix methodsFor: 'normal forms' stamp: 'len 1/6/2022 18:28:49'!
-coechelonization
-	"Answer the transformation to column echelon form."
-	^ (self propertyAt: #coechelonAndTransformation ifAbsentPut: [(self scalars echelonizationOf: self transpose) collect: [:each| each transpose]]) second! !
+!Matrix methodsFor: 'normal forms' stamp: 'len 12/18/2022 12:05:25'!
+coechelonAndTransformation
+	"Answer an array with the row echelon form of the receiver and the transformation to echelon form."
+	^ self propertyAt: #coechelonAndTransformation ifAbsentPut: [(Coechelonization on: self) echelonAndTransformation]! !
 
 !Matrix methodsFor: 'normal forms' stamp: 'len 4/10/2021 12:28:33'!
 dependentColumns
@@ -24417,16 +24374,16 @@ dependentColumns
 	answer addAll: (d to: self width).
 	^ answer! !
 
-!Matrix methodsFor: 'normal forms' stamp: 'len 1/6/2022 18:29:19'!
+!Matrix methodsFor: 'normal forms' stamp: 'len 12/18/2022 11:12:41'!
 echelon
 	"Answer the row echelon form of the receiver."
 	self propertyAt: #echelonAndTransformation ifPresent: [:anArray| ^ anArray first].
-	^ self propertyAt: #echelon ifAbsentPut: [self scalars echelonOf: self]! !
+	^ self propertyAt: #echelon ifAbsentPut: [self transpose coechelon transpose]! !
 
-!Matrix methodsFor: 'normal forms' stamp: 'len 1/6/2022 18:29:49'!
-echelonization
-	"Answer the transformation to row echelon form."
-	^ (self propertyAt: #echelonAndTransformation ifAbsentPut: [self scalars echelonizationOf: self]) second! !
+!Matrix methodsFor: 'normal forms' stamp: 'len 12/18/2022 11:14:53'!
+echelonAndTransformation
+	"Answer an array with the row echelon form of the receiver and the transformation to echelon form."
+	^ self propertyAt: #echelonAndTransformation ifAbsentPut: [self transpose coechelonAndTransformation collect: [:each| each transpose]]! !
 
 !Matrix methodsFor: 'normal forms' stamp: 'len 6/9/2019 10:08:46'!
 elementaryDivisors
@@ -24617,7 +24574,7 @@ isAutomorphism
 isDiagonal
 	^ self isLowerTriangular and: [self isUpperTriangular]! !
 
-!Matrix methodsFor: 'testing' stamp: 'len 12/30/2021 12:16:02'!
+!Matrix methodsFor: 'testing' stamp: 'len 12/18/2022 11:23:40'!
 isEchelon
 	"Answer true if the receiver is in (row) echelon form.
 	It must satisfy the following conditions:
@@ -24626,8 +24583,7 @@ isEchelon
 	| lastPivot |
 	lastPivot _ 0@0.
 	self pivotsDo: [:each|
-		(each y > lastPivot y and: [each x - lastPivot x = 1])
-			ifFalse: [^ false].
+		(each y > lastPivot y and: [each x - lastPivot x = 1]) ifFalse: [^ false].
 		lastPivot _ each].
 	^ true! !
 
@@ -24679,8 +24635,9 @@ isIdentity
 isIsomorphism
 	^ self isUnimodular! !
 
-!Matrix methodsFor: 'testing' stamp: 'len 12/30/2021 09:22:59'!
+!Matrix methodsFor: 'testing' stamp: 'len 12/17/2022 10:58:51'!
 isLowerTriangular
+	"Answer true if the receiver is lower triangular (or left triangular)."
 	1 to: (self width min: self height) do: [:i|
 		i+1 to: self width do: [:j| (self isZeroAt: i@j) ifFalse: [^ false]]].
 	^ true! !
@@ -24754,19 +24711,17 @@ isPositiveDefinite
 isRankDeficient
 	^ self isFullRank not! !
 
-!Matrix methodsFor: 'testing' stamp: 'len 12/30/2021 12:15:52'!
+!Matrix methodsFor: 'testing' stamp: 'len 12/18/2022 11:23:26'!
 isReducedEchelon
 	"Answer true if the receiver is in reduced (row) echelon form.
 	It must satisfy the following conditions:
 	1. It is in row echelon form;
 	2. And every leading coefficient is 1 and is the only nonzero entry in its column."
-	| lastPivot one |
+	| lastPivot |
 	lastPivot _ 0@0.
-	one _ self scalars one.
 	self pivotsDo: [:each|
-		(each y > lastPivot y and: [each x - lastPivot x = 1])
-			ifFalse: [^ false].
-		(self at: each) = one ifFalse: [^ false].
+		(each y > lastPivot y and: [each x - lastPivot x = 1]) ifFalse: [^ false].
+		(self at: each) isOne ifFalse: [^ false].
 		1 to: self height do: [:j|
 			(j = each x or: [(self at: j @ each y) isZero]) ifFalse: [^ false]].
 		lastPivot _ each].
@@ -24842,8 +24797,9 @@ isSmithNormalForm
 isSquare
 	^ self height = self width! !
 
-!Matrix methodsFor: 'testing' stamp: 'len 5/24/2022 14:06:49'!
+!Matrix methodsFor: 'testing' stamp: 'len 12/18/2022 11:34:49'!
 isStandardBasis
+	"Answer true if the columns of the receiver form a standard basis of the module spanned by the columns."
 	1 to: self width do: [:i| | fi |
 		fi _ self columnAt: i.
 		i+1 to: self width do: [:j| | fj |
@@ -24871,8 +24827,9 @@ isUnitary
 		- For all v, ||Uv|| = ||v||."
 	^ self isSquare and: [(self * self conjugate) isIdentity]! !
 
-!Matrix methodsFor: 'testing' stamp: 'len 8/9/2020 07:53:48'!
+!Matrix methodsFor: 'testing' stamp: 'len 12/17/2022 10:59:13'!
 isUpperTriangular
+	"Answer true if the receiver is upper triangular (or right triangular)."
 	^ self transpose isLowerTriangular! !
 
 !Matrix methodsFor: 'testing' stamp: 'len 3/23/2016 00:27'!
@@ -24915,9 +24872,16 @@ columns: anArray
 from: aDomain rows: anArray
 	^ self from: aDomain to: aDomain scalars ^ anArray size rows: anArray! !
 
-!Matrix class methodsFor: 'instance creation' stamp: 'len 5/18/2022 12:43:01'!
+!Matrix class methodsFor: 'instance creation' stamp: 'len 12/18/2022 11:37:55'!
 from: aDomain to: aCodomain columns: anArray
-	^ (self from: aCodomain to: aDomain rows: anArray) transpose! !
+	| coefficients i n |
+	coefficients _ aDomain scalars new: aDomain rank * aCodomain rank.
+	i _ 1.
+	n _ aCodomain rank.
+	anArray do: [:each| coefficients replaceFrom: i to: i + n - 1 with: each. i _ i + n].
+	^ ColumnMajorMatrix from: aDomain to: aCodomain coefficients: coefficients
+
+"	^ (self from: aCodomain to: aDomain rows: anArray) transpose"! !
 
 !Matrix class methodsFor: 'instance creation' stamp: 'len 11/23/2022 21:33:31'!
 from: aDomain to: aCodomain fill: aBlock
@@ -24927,14 +24891,14 @@ from: aDomain to: aCodomain fill: aBlock
 from: aDomain to: aCodomain matrix: aMatrix
 	^ self shouldNotImplement! !
 
-!Matrix class methodsFor: 'instance creation' stamp: 'len 11/25/2022 06:26:30'!
+!Matrix class methodsFor: 'instance creation' stamp: 'len 12/15/2022 12:32:31'!
 from: aDomain to: aCodomain rows: anArray
 	| coefficients i n |
 	coefficients _ aDomain scalars new: aDomain rank * aCodomain rank.
 	i _ 1.
 	n _ aDomain rank.
 	anArray do: [:each| coefficients replaceFrom: i to: i + n - 1 with: each. i _ i + n].
-	^ DenseMatrix from: aDomain to: aCodomain coefficients: coefficients! !
+	^ RowMajorMatrix from: aDomain to: aCodomain coefficients: coefficients! !
 
 !Matrix class methodsFor: 'instance creation' stamp: 'len 10/26/2020 16:28:36'!
 rows: anArray
@@ -24944,64 +24908,368 @@ rows: anArray
 to: aCodomain columns: anArray
 	^ self from: aCodomain scalars ^ anArray size to: aCodomain columns: anArray! !
 
-!DenseMatrix methodsFor: 'accessing' stamp: 'len 4/20/2022 18:37:50'!
+!ColumnMajorMatrix methodsFor: 'accessing' stamp: 'len 12/15/2022 12:42:26'!
+atRow: i column: j
+	^ coefficients at: j - 1 * self height + i! !
+
+!ColumnMajorMatrix methodsFor: 'accessing' stamp: 'len 12/15/2022 12:42:46'!
+atRow: i column: j ifAbsent: exceptionBlock
+	((i between: 1 and: self height) and: [j between: 1 and: self width])
+		ifFalse: [^ exceptionBlock value].
+	^ coefficients at: j - 1 * self height + i "ifAbsent: exceptionBlock"! !
+
+!ColumnMajorMatrix methodsFor: 'accessing' stamp: 'len 12/15/2022 12:43:01'!
+atRow: i column: j put: anObject
+	((i between: 1 and: self height) and: [j between: 1 and: self width])
+		ifFalse: [^ self error: 'indices out of bounds'].
+	^ coefficients at: j - 1 * self height + i put: anObject! !
+
+!ColumnMajorMatrix methodsFor: 'accessing' stamp: 'len 12/15/2022 12:53:16'!
+columnAt: j
+	^ coefficients copyFrom: j - 1 * self height + 1 to: j * self height! !
+
+!ColumnMajorMatrix methodsFor: 'accessing' stamp: 'len 12/15/2022 12:53:52'!
+columnAt: j put: aTuple
+	coefficients replaceFrom: j - 1 * self height + 1 to: j * self height with: aTuple startingAt: 1! !
+
+!ColumnMajorMatrix methodsFor: 'accessing' stamp: 'len 12/15/2022 11:51:15'!
+lift
+	"If the coefficients ring is a quotient R/I, answer a representative of the receiver over R."
+	^ self class from: domain lift to: codomain lift coefficients: coefficients lift! !
+
+!ColumnMajorMatrix methodsFor: 'accessing' stamp: 'len 12/15/2022 12:52:04'!
+projection: anInteger
+	"If the coefficients ring is a product ring, answer matrix induced by the projection to the anInteger-th component."
+	^ self class from: (domain over: (domain scalars at: anInteger)) to: (codomain over: (domain scalars at: anInteger)) coefficients: (coefficients projection: anInteger)! !
+
+!ColumnMajorMatrix methodsFor: 'accessing' stamp: 'len 12/15/2022 12:52:12'!
+representative
+	"If the coefficients ring is a quotient R/I, answer a representative of the receiver over R."
+	^ self class from: domain lift to: codomain lift coefficients: coefficients representative! !
+
+!ColumnMajorMatrix methodsFor: 'accessing' stamp: 'len 12/15/2022 12:53:59'!
+zero
+	^ self class from: domain to: codomain coefficients: coefficients zero! !
+
+!ColumnMajorMatrix methodsFor: 'column operations' stamp: 'len 12/15/2022 11:54:01'!
+addColumn: src times: aNumber toColumn: dst
+	self addColumn: src times: aNumber toColumn: dst startingAt: 1! !
+
+!ColumnMajorMatrix methodsFor: 'column operations' stamp: 'len 12/15/2022 11:55:17'!
+addColumn: src times: anElement toColumn: dst startingAt: startRow
+	| height dstStart srcStart |
+	height _ self height.
+	dstStart _ dst - 1 * height + startRow.
+	srcStart _ src - 1 * height + startRow.
+	coefficients
+		replaceFrom: dstStart to: dstStart + height - startRow
+		with: coefficients startingAt: dstStart
+		plus: coefficients startingAt: srcStart
+		timesScalar: anElement! !
+
+!ColumnMajorMatrix methodsFor: 'column operations' stamp: 'len 12/15/2022 11:53:16'!
+multiplyColumn: j by: anElement
+	self multiplyColumn: j by: anElement startingAt: 1! !
+
+!ColumnMajorMatrix methodsFor: 'column operations' stamp: 'len 12/15/2022 11:53:10'!
+multiplyColumn: j by: anElement startingAt: startRow
+	| height start |
+	height _ self height.
+	start _ j - 1 * height + startRow.
+	coefficients
+		replaceFrom: start to: start + height - startRow
+		with: coefficients startingAt: start
+		timesScalar: anElement! !
+
+!ColumnMajorMatrix methodsFor: 'column operations' stamp: 'len 12/17/2022 12:28:49'!
+swapColumn: j1 with: j2
+	| height |
+	height _ self height.
+	coefficients
+		swapFrom: j1 - 1 * height + 1 to: j1 * height
+		with: coefficients startingAt: j2 - 1 * height + 1! !
+
+!ColumnMajorMatrix methodsFor: 'comparing' stamp: 'len 12/15/2022 11:57:59'!
+= anObject
+	^ (self class = anObject class and: [coefficients = anObject coefficients]) or: [super = anObject]! !
+
+!ColumnMajorMatrix methodsFor: 'converting' stamp: 'len 12/18/2022 10:19:18'!
+asColumnMajor
+	^ self! !
+
+!ColumnMajorMatrix methodsFor: 'converting' stamp: 'len 12/17/2022 12:34:04'!
+asRowMajor
+	^ RowMajorMatrix from: self domain to: self codomain coefficients: self transpose coefficients! !
+
+!ColumnMajorMatrix methodsFor: 'converting' stamp: 'len 12/17/2022 12:33:20'!
+asTuple
+	"Answer the receiver converted to Tuple by concatenating its rows (which is also the coordinates of the receiver in the canonical basis)."
+	^ coefficients! !
+
+!ColumnMajorMatrix methodsFor: 'converting' stamp: 'len 12/15/2022 12:51:30'!
+over: aRing
+	self scalars = aRing ifTrue: [^ self].
+	^ self class from: (domain over: aRing) to: (codomain over: aRing) coefficients: aRing !!!! coefficients! !
+
+!ColumnMajorMatrix methodsFor: 'copying' stamp: 'len 12/15/2022 12:49:15'!
+copyFrom: start to: stop
+	"Answer the submatrix of the receiver from start to stop."
+	| h w subcoefficients |
+	(stop x > self height or: [stop y > self width]) ifTrue: [^ self error: 'index out of bounds'].
+	h _ stop x - start x + 1 max: 0.
+	w _ stop y - start y + 1 max: 0.
+	subcoefficients _ self scalars new: h*w.
+	h > 0 ifTrue: [start y to: stop y do: [:j| subcoefficients replaceFrom: j - start y * h + 1 to: j - start y * h + h with: coefficients startingAt: j - 1 * self height + start x]].
+	^ self class
+		from: (domain copyFrom: start y to: stop y)
+		to: (codomain copyFrom: start x to: stop x)
+		coefficients: subcoefficients! !
+
+!ColumnMajorMatrix methodsFor: 'copying' stamp: 'len 12/15/2022 12:51:59'!
+postCopy
+	coefficients _ coefficients copy! !
+
+!ColumnMajorMatrix methodsFor: 'enumerating' stamp: 'len 12/15/2022 12:41:46'!
+allSatisfy: aBlock
+	^ coefficients allSatisfy: aBlock! !
+
+!ColumnMajorMatrix methodsFor: 'enumerating' stamp: 'len 12/15/2022 12:43:21'!
+collect: aBlock
+	^ self class from: domain to: codomain coefficients: (coefficients collect: aBlock)! !
+
+!ColumnMajorMatrix methodsFor: 'enumerating' stamp: 'len 12/15/2022 12:50:20'!
+diagonalDo: aBlock
+	| i step |
+	i _ 1.
+	step _ self height + 1.
+	[i <= coefficients size]
+		whileTrue:
+			[aBlock value: (coefficients at: i).
+			i _ i + step]! !
+
+!ColumnMajorMatrix methodsFor: 'enumerating' stamp: 'len 12/15/2022 12:50:40'!
+do: aBlock
+	coefficients do: aBlock! !
+
+!ColumnMajorMatrix methodsFor: 'enumerating' stamp: 'len 12/15/2022 13:01:21'!
+withIndicesDo: aBlock
+	| h i j |
+	h _ self height.
+	i _ 1.
+	j _ 1.
+	coefficients do: [:each|
+		aBlock value: each value: i value: j.
+		(i _ i + 1) > h ifTrue: [i _ 1. j _ j + 1]].! !
+
+!ColumnMajorMatrix methodsFor: 'operations' stamp: 'len 12/15/2022 11:57:38'!
+* anObject
+	(self scalars includes: anObject) ifTrue: [^ self class from: domain to: codomain coefficients: coefficients * anObject].
+	anObject isInteger ifTrue: [^ self * (self scalars !! anObject)].
+	anObject isMatrix ifTrue: [^ self · anObject].
+	anObject isTuple ifTrue: [^ self value: anObject].
+	(anObject isKindOf: ModuleMap) ifTrue: [^ self · anObject].
+	^ DomainError signal! !
+
+!ColumnMajorMatrix methodsFor: 'operations' stamp: 'len 12/15/2022 11:57:45'!
++ aMatrix
+	self class = aMatrix class ifFalse: [^ super + aMatrix].
+	self checkDomainsMatch: aMatrix.
+	self checkCodomainsMatch: aMatrix.
+	^ self class from: domain to: codomain coefficients: coefficients + aMatrix coefficients! !
+
+!ColumnMajorMatrix methodsFor: 'operations' stamp: 'len 12/15/2022 11:57:53'!
+- aMatrix
+	self class = aMatrix class ifFalse: [^ super - aMatrix].
+	self checkDomainsMatch: aMatrix.
+	self checkCodomainsMatch: aMatrix.
+	^ self class from: domain to: codomain coefficients: coefficients - aMatrix coefficients! !
+
+!ColumnMajorMatrix methodsFor: 'operations' stamp: 'len 12/15/2022 12:35:58'!
+⊕ aMatrix
+	"Answer the block sum of the receiver and the argument.
+	If the receiver is A and the argument is B, output a matrix of the form:
+	  [A 0]
+	  [0 B]"
+	| newCoefficients h |
+	self class = aMatrix class ifFalse: [^ super ⊕ aMatrix].
+	h _ self height + aMatrix height.
+	newCoefficients _ self scalars zeros: h * (self width + aMatrix width).
+	1 to: self width do: [:j|
+		newCoefficients replaceFrom: j - 1 * h + 1 to: j - 1 * h + self height with: coefficients startingAt: j - 1 * self height + 1].
+	1 to: aMatrix width do: [:j|
+		newCoefficients replaceFrom: j - 1 + self width * h + self height + 1 to: j + self width * h with: aMatrix coefficients startingAt: j - 1 * aMatrix height + 1].
+	^ self class from: domain ⊕ aMatrix domain to: codomain ⊕ aMatrix codomain coefficients: newCoefficients
+! !
+
+!ColumnMajorMatrix methodsFor: 'operations' stamp: 'len 12/15/2022 12:37:27'!
+∘ aMatrix
+	self class = aMatrix class ifFalse: [^ super ∘ aMatrix].
+	self checkCompatibleComposition: aMatrix.
+	(coefficients isEmpty or: [aMatrix coefficients isEmpty])
+		ifTrue: [^ self class from: aMatrix domain to: codomain coefficients: (self scalars zeros: aMatrix width * self height)].
+	^ self class
+		from: aMatrix domain
+		to: codomain
+		coefficients:
+			((coefficients species new: aMatrix width * self height)
+				fillWithMatrix: coefficients height: self height
+				timesMatrix: aMatrix coefficients height: aMatrix height)! !
+
+!ColumnMajorMatrix methodsFor: 'operations' stamp: 'len 12/15/2022 12:41:29'!
+⊓ aMatrix
+	"Answer the product morphism of the receiver and the argument.
+	This is the row-augmented matrix with the receiver stacked on top of the argument.
+	If the receiver is A and the argument is B, output a matrix of the form:
+	  [A]
+	  [B]"
+	| newCoefficients h |
+	self class = aMatrix class ifFalse: [^ super ⊓ aMatrix].
+	self checkDomainsMatch: aMatrix.
+	newCoefficients _ self scalars new: coefficients size + aMatrix coefficients size.
+	h _ self height + aMatrix height.
+	1 to: self width do: [:j|
+		newCoefficients
+			replaceFrom: j - 1 * h + 1 to: j - 1 * h + self height with: coefficients startingAt: j - 1 * self height + 1;
+			replaceFrom: j - 1 * h + self width + 1 to: j * h with: aMatrix coefficients startingAt: j - 1 * aMatrix height + 1].
+	^ self class from: domain to: codomain ⊕ aMatrix codomain coefficients: newCoefficients! !
+
+!ColumnMajorMatrix methodsFor: 'operations' stamp: 'len 12/18/2022 10:20:43'!
+⊔ aMatrix
+	"Answer the coproduct morphism of the receiver and the argument.
+	This is the column-augmented matrix with the receiver concatenated with the argument.
+	If the receiver is A and the argument is B, output a matrix of the form:
+	  [A B]"
+	self class = aMatrix class ifFalse: [^ super ⊔ aMatrix].
+	self checkCodomainsMatch: aMatrix.
+	^ self class from: domain ⊕ aMatrix domain to: codomain coefficients: coefficients, aMatrix coefficients! !
+
+!ColumnMajorMatrix methodsFor: 'operations' stamp: 'len 12/15/2022 12:41:57'!
+apply: aFunction
+	"Answer a new tuple with coefficients obtainted by applying aFunction to the coefficients of the receiver.
+	If aFunction is a block we assume the parent doesn't change, i.e. the block must evaluate to values within the scalars ring of the receiver."
+
+	aFunction isBlock ifTrue: [^ self collect: aFunction].
+	^ self class from: (domain over: aFunction codomain) to: (codomain over: aFunction codomain) coefficients: (coefficients apply: aFunction)! !
+
+!ColumnMajorMatrix methodsFor: 'operations' stamp: 'len 12/15/2022 12:51:23'!
+negated
+	^ self class from: domain to: codomain coefficients: coefficients negated! !
+
+!ColumnMajorMatrix methodsFor: 'operations' stamp: 'len 12/18/2022 10:17:42'!
+trace
+	self checkIsSquare.
+	self isEmpty ifTrue: [^ self scalars zero].
+	^ coefficients sumFrom: 1 to: coefficients size by: self height + 1! !
+
+!ColumnMajorMatrix methodsFor: 'operations' stamp: 'len 12/15/2022 12:54:42'!
+transpose
+	^ self class
+		from: codomain
+		to: domain
+		coefficients:
+			((coefficients species new: coefficients size)
+				fillWithMatrixTranspose: coefficients height: self height)! !
+
+!ColumnMajorMatrix methodsFor: 'operations' stamp: 'len 12/15/2022 13:00:31'!
+value: aTuple
+"	(self domain includes: aTuple) ifFalse: [^ DomainError signal]."
+	(coefficients isEmpty or: [aTuple isEmpty]) ifTrue: [^ codomain zero].
+	^ (coefficients species new: self height)
+		replaceFrom: 1 to: self height
+		withMatrix: coefficients height: self height
+		timesTuple: aTuple startingAt: 1! !
+
+!ColumnMajorMatrix methodsFor: 'testing' stamp: 'len 12/15/2022 12:50:45'!
+isZero
+	^ coefficients isZero! !
+
+!ColumnMajorMatrix methodsFor: 'testing' stamp: 'len 12/15/2022 12:51:00'!
+isZeroAt: aPoint
+	^ coefficients isZeroAt: aPoint y - 1 * self height + aPoint x! !
+
+!ColumnMajorMatrix methodsFor: 'private' stamp: 'len 12/15/2022 12:43:08'!
+coefficients
+	^ coefficients! !
+
+!ColumnMajorMatrix methodsFor: 'private' stamp: 'len 12/15/2022 12:43:13'!
+coefficients: aTuple
+	coefficients _ aTuple! !
+
+!ColumnMajorMatrix methodsFor: 'private' stamp: 'len 12/15/2022 12:54:50'!
+validate
+	self assert: coefficients size = (domain rank * codomain rank).
+	^ super validate! !
+
+!ColumnMajorMatrix class methodsFor: 'as yet unclassified' stamp: 'len 12/16/2022 09:46:11'!
+from: aDomain to: aCodomain coefficients: anArray
+	^ self new domain: aDomain; codomain: aCodomain; coefficients: anArray! !
+
+!RowMajorMatrix methodsFor: 'accessing' stamp: 'len 4/20/2022 18:37:50'!
 atRow: i column: j
 	^ coefficients at: i - 1 * self width + j! !
 
-!DenseMatrix methodsFor: 'accessing' stamp: 'len 5/15/2022 22:37:43'!
+!RowMajorMatrix methodsFor: 'accessing' stamp: 'len 5/15/2022 22:37:43'!
 atRow: i column: j ifAbsent: exceptionBlock
 	((i between: 1 and: self height) and: [j between: 1 and: self width])
 		ifFalse: [^ exceptionBlock value].
 	^ coefficients at: i - 1 * self width + j "ifAbsent: exceptionBlock"! !
 
-!DenseMatrix methodsFor: 'accessing' stamp: 'len 5/15/2022 22:38:15'!
+!RowMajorMatrix methodsFor: 'accessing' stamp: 'len 5/15/2022 22:38:15'!
 atRow: i column: j put: anObject
 	((i between: 1 and: self height) and: [j between: 1 and: self width])
 		ifFalse: [^ self error: 'indices out of bounds'].
 	^ coefficients at: i - 1 * self width + j put: anObject! !
 
-!DenseMatrix methodsFor: 'accessing' stamp: 'len 12/2/2022 14:25:46'!
+!RowMajorMatrix methodsFor: 'accessing' stamp: 'len 12/2/2022 14:25:46'!
 lift
 	"If the coefficients ring is a quotient R/I, answer a representative of the receiver over R."
 	^ self class from: domain lift to: codomain lift coefficients: coefficients lift! !
 
-!DenseMatrix methodsFor: 'accessing' stamp: 'len 12/2/2022 14:30:26'!
+!RowMajorMatrix methodsFor: 'accessing' stamp: 'len 12/2/2022 14:30:26'!
 projection: anInteger
 	"If the coefficients ring is a product ring, answer matrix induced by the projection to the anInteger-th component."
 	^ self class from: (domain over: (domain scalars at: anInteger)) to: (codomain over: (domain scalars at: anInteger)) coefficients: (coefficients projection: anInteger)! !
 
-!DenseMatrix methodsFor: 'accessing' stamp: 'len 12/2/2022 14:28:23'!
+!RowMajorMatrix methodsFor: 'accessing' stamp: 'len 12/2/2022 14:28:23'!
 representative
 	"If the coefficients ring is a quotient R/I, answer a representative of the receiver over R."
 	^ self class from: domain lift to: codomain lift coefficients: coefficients representative! !
 
-!DenseMatrix methodsFor: 'accessing' stamp: 'len 5/16/2022 11:50:37'!
+!RowMajorMatrix methodsFor: 'accessing' stamp: 'len 12/15/2022 12:53:24'!
 rowAt: i
-	^ domain elementAt: (coefficients copyFrom: i - 1 * self width + 1 to: i * self width)! !
+	^ coefficients copyFrom: i - 1 * self width + 1 to: i * self width! !
 
-!DenseMatrix methodsFor: 'accessing' stamp: 'len 11/23/2022 21:50:58'!
+!RowMajorMatrix methodsFor: 'accessing' stamp: 'len 11/23/2022 21:50:58'!
 rowAt: i put: aTuple
 	coefficients replaceFrom: i - 1 * self width + 1 to: i * self width with: aTuple startingAt: 1! !
 
-!DenseMatrix methodsFor: 'accessing' stamp: 'len 5/15/2022 12:06:01'!
+!RowMajorMatrix methodsFor: 'accessing' stamp: 'len 5/15/2022 12:06:01'!
 zero
 	^ self class from: domain to: codomain coefficients: coefficients zero! !
 
-!DenseMatrix methodsFor: 'comparing' stamp: 'len 12/11/2022 09:53:10'!
+!RowMajorMatrix methodsFor: 'comparing' stamp: 'len 12/11/2022 09:53:10'!
 = anObject
 	^ (self class = anObject class and: [coefficients = anObject coefficients]) or: [super = anObject]! !
 
-!DenseMatrix methodsFor: 'converting' stamp: 'len 11/23/2022 17:10:29'!
+!RowMajorMatrix methodsFor: 'converting' stamp: 'len 12/17/2022 12:34:28'!
+asColumnMajor
+	^ ColumnMajorMatrix from: self domain to: self codomain coefficients: self transpose coefficients! !
+
+!RowMajorMatrix methodsFor: 'converting' stamp: 'len 12/18/2022 10:20:03'!
+asRowMajor
+	^ self! !
+
+!RowMajorMatrix methodsFor: 'converting' stamp: 'len 11/23/2022 17:10:29'!
 asTuple
 	"Answer the receiver converted to Tuple by concatenating its rows (which is also the coordinates of the receiver in the canonical basis)."
 	^ coefficients! !
 
-!DenseMatrix methodsFor: 'converting' stamp: 'len 5/15/2022 12:08:21'!
+!RowMajorMatrix methodsFor: 'converting' stamp: 'len 5/15/2022 12:08:21'!
 over: aRing
 	self scalars = aRing ifTrue: [^ self].
 	^ self class from: (domain over: aRing) to: (codomain over: aRing) coefficients: aRing !!!! coefficients! !
 
-!DenseMatrix methodsFor: 'copying' stamp: 'len 5/16/2022 11:09:18'!
+!RowMajorMatrix methodsFor: 'copying' stamp: 'len 5/16/2022 11:09:18'!
 copyFrom: start to: stop
 	"Answer the submatrix of the receiver from start to stop."
 	| h w subcoefficients |
@@ -25015,33 +25283,33 @@ copyFrom: start to: stop
 		to: (codomain copyFrom: start x to: stop x)
 		coefficients: subcoefficients! !
 
-!DenseMatrix methodsFor: 'copying' stamp: 'len 11/22/2022 15:54:11'!
+!RowMajorMatrix methodsFor: 'copying' stamp: 'len 11/22/2022 15:54:11'!
 postCopy
 	coefficients _ coefficients copy! !
 
-!DenseMatrix methodsFor: 'enumerating' stamp: 'len 4/21/2022 12:32:12'!
+!RowMajorMatrix methodsFor: 'enumerating' stamp: 'len 4/21/2022 12:32:12'!
 allSatisfy: aBlock
 	^ coefficients allSatisfy: aBlock! !
 
-!DenseMatrix methodsFor: 'enumerating' stamp: 'len 5/29/2020 04:11:36'!
+!RowMajorMatrix methodsFor: 'enumerating' stamp: 'len 5/29/2020 04:11:36'!
 collect: aBlock
 	^ self class from: domain to: codomain coefficients: (coefficients collect: aBlock)! !
 
-!DenseMatrix methodsFor: 'enumerating' stamp: 'len 5/28/2020 10:32:10'!
+!RowMajorMatrix methodsFor: 'enumerating' stamp: 'len 12/15/2022 12:50:32'!
 diagonalDo: aBlock
-	| i w |
+	| i step |
 	i _ 1.
-	w _ self width + 1.
+	step _ self width + 1.
 	[i <= coefficients size]
 		whileTrue:
 			[aBlock value: (coefficients at: i).
-			i _ i + w]! !
+			i _ i + step]! !
 
-!DenseMatrix methodsFor: 'enumerating' stamp: 'len 5/28/2020 10:34:42'!
+!RowMajorMatrix methodsFor: 'enumerating' stamp: 'len 5/28/2020 10:34:42'!
 do: aBlock
 	coefficients do: aBlock! !
 
-!DenseMatrix methodsFor: 'enumerating' stamp: 'len 5/20/2022 11:37:50'!
+!RowMajorMatrix methodsFor: 'enumerating' stamp: 'len 5/20/2022 11:37:50'!
 pivotsDo: aBlock
 	"Enumerate the row-style pivot indices. These are the pairs i@j corresponding to the first nonzero entry of each row."
 	| w rowStart |
@@ -25051,7 +25319,7 @@ pivotsDo: aBlock
 		(coefficients findFirstNonzeroFrom: rowStart to: rowStart + w - 1) ifNotNil: [:j| aBlock value: i@(j - rowStart + 1)].
 		rowStart _ rowStart + w]! !
 
-!DenseMatrix methodsFor: 'enumerating' stamp: 'len 4/21/2022 12:35:08'!
+!RowMajorMatrix methodsFor: 'enumerating' stamp: 'len 4/21/2022 12:35:08'!
 withIndicesDo: aBlock
 	| width i j |
 	width _ self width.
@@ -25061,7 +25329,7 @@ withIndicesDo: aBlock
 		aBlock value: each value: i value: j.
 		(j _ j + 1) > width ifTrue: [j _ 1. i _ i + 1]].! !
 
-!DenseMatrix methodsFor: 'operations' stamp: 'len 6/6/2022 10:58:46'!
+!RowMajorMatrix methodsFor: 'operations' stamp: 'len 6/6/2022 10:58:46'!
 * anObject
 	(self scalars includes: anObject) ifTrue: [^ self class from: domain to: codomain coefficients: coefficients * anObject].
 	anObject isInteger ifTrue: [^ self * (self scalars !! anObject)].
@@ -25070,21 +25338,21 @@ withIndicesDo: aBlock
 	(anObject isKindOf: ModuleMap) ifTrue: [^ self · anObject].
 	^ DomainError signal! !
 
-!DenseMatrix methodsFor: 'operations' stamp: 'len 6/9/2022 07:23:50'!
+!RowMajorMatrix methodsFor: 'operations' stamp: 'len 6/9/2022 07:23:50'!
 + aMatrix
 	self class = aMatrix class ifFalse: [^ super + aMatrix].
 	self checkDomainsMatch: aMatrix.
 	self checkCodomainsMatch: aMatrix.
 	^ self class from: domain to: codomain coefficients: coefficients + aMatrix coefficients! !
 
-!DenseMatrix methodsFor: 'operations' stamp: 'len 6/9/2022 07:23:32'!
+!RowMajorMatrix methodsFor: 'operations' stamp: 'len 6/9/2022 07:23:32'!
 - aMatrix
 	self class = aMatrix class ifFalse: [^ super - aMatrix].
 	self checkDomainsMatch: aMatrix.
 	self checkCodomainsMatch: aMatrix.
 	^ self class from: domain to: codomain coefficients: coefficients - aMatrix coefficients! !
 
-!DenseMatrix methodsFor: 'operations' stamp: 'len 5/16/2022 11:32:28'!
+!RowMajorMatrix methodsFor: 'operations' stamp: 'len 5/16/2022 11:32:28'!
 ⊕ aMatrix
 	"Answer the block sum of the receiver and the argument.
 	If the receiver is A and the argument is B, output a matrix of the form:
@@ -25101,7 +25369,7 @@ withIndicesDo: aBlock
 	^ self class from: domain ⊕ aMatrix domain to: codomain ⊕ aMatrix codomain coefficients: newCoefficients
 ! !
 
-!DenseMatrix methodsFor: 'operations' stamp: 'len 11/24/2022 11:49:31'!
+!RowMajorMatrix methodsFor: 'operations' stamp: 'len 11/24/2022 11:49:31'!
 ∘ aMatrix
 	self class = aMatrix class ifFalse: [^ super ∘ aMatrix].
 	self checkCompatibleComposition: aMatrix.
@@ -25115,7 +25383,7 @@ withIndicesDo: aBlock
 				fillWithMatrix: coefficients width: self width
 				timesMatrix: aMatrix coefficients width: aMatrix width)! !
 
-!DenseMatrix methodsFor: 'operations' stamp: 'len 6/9/2022 07:22:20'!
+!RowMajorMatrix methodsFor: 'operations' stamp: 'len 6/9/2022 07:22:20'!
 ⊓ aMatrix
 	"Answer the product morphism of the receiver and the argument.
 	This is the row-augmented matrix with the receiver stacked on top of the argument.
@@ -25126,7 +25394,7 @@ withIndicesDo: aBlock
 	self checkDomainsMatch: aMatrix.
 	^ self class from: domain to: codomain ⊕ aMatrix codomain coefficients: coefficients, aMatrix coefficients! !
 
-!DenseMatrix methodsFor: 'operations' stamp: 'len 6/9/2022 07:22:36'!
+!RowMajorMatrix methodsFor: 'operations' stamp: 'len 6/9/2022 07:22:36'!
 ⊔ aMatrix
 	"Answer the coproduct morphism of the receiver and the argument.
 	This is the column-augmented matrix with the receiver concatenated with the argument.
@@ -25143,7 +25411,7 @@ withIndicesDo: aBlock
 			replaceFrom: i - 1 * w + self width + 1 to: i * w with: aMatrix coefficients startingAt: i - 1 * aMatrix width + 1].
 	^ self class from: domain ⊕ aMatrix domain to: codomain coefficients: newCoefficients! !
 
-!DenseMatrix methodsFor: 'operations' stamp: 'len 4/28/2022 06:28:52'!
+!RowMajorMatrix methodsFor: 'operations' stamp: 'len 4/28/2022 06:28:52'!
 apply: aFunction
 	"Answer a new tuple with coefficients obtainted by applying aFunction to the coefficients of the receiver.
 	If aFunction is a block we assume the parent doesn't change, i.e. the block must evaluate to values within the scalars ring of the receiver."
@@ -25151,16 +25419,17 @@ apply: aFunction
 	aFunction isBlock ifTrue: [^ self collect: aFunction].
 	^ self class from: (domain over: aFunction codomain) to: (codomain over: aFunction codomain) coefficients: (coefficients apply: aFunction)! !
 
-!DenseMatrix methodsFor: 'operations' stamp: 'len 4/21/2022 12:38:12'!
+!RowMajorMatrix methodsFor: 'operations' stamp: 'len 4/21/2022 12:38:12'!
 negated
 	^ self class from: domain to: codomain coefficients: coefficients negated! !
 
-!DenseMatrix methodsFor: 'operations' stamp: 'len 12/10/2022 12:28:12'!
+!RowMajorMatrix methodsFor: 'operations' stamp: 'len 12/18/2022 10:16:51'!
 trace
 	self checkIsSquare.
+	self isEmpty ifTrue: [^ self scalars zero].
 	^ coefficients sumFrom: 1 to: coefficients size by: self width + 1! !
 
-!DenseMatrix methodsFor: 'operations' stamp: 'len 11/24/2022 11:49:53'!
+!RowMajorMatrix methodsFor: 'operations' stamp: 'len 11/24/2022 11:49:53'!
 transpose
 	^ self class
 		from: codomain
@@ -25169,21 +25438,20 @@ transpose
 			((coefficients species new: coefficients size)
 				fillWithMatrixTranspose: coefficients width: self width)! !
 
-!DenseMatrix methodsFor: 'operations' stamp: 'len 11/24/2022 11:50:03'!
+!RowMajorMatrix methodsFor: 'operations' stamp: 'len 12/15/2022 13:00:04'!
 value: aTuple
 "	(self domain includes: aTuple) ifFalse: [^ DomainError signal]."
 	(coefficients isEmpty or: [aTuple isEmpty]) ifTrue: [^ codomain zero].
-	^ codomain elementAt:
-		((coefficients species new: self height)
-			replaceFrom: 1 to: self height
-			withMatrix: coefficients width: self width
-			timesTuple: aTuple startingAt: 1)! !
+	^ (coefficients species new: self height)
+		replaceFrom: 1 to: self height
+		withMatrix: coefficients width: self width
+		timesTuple: aTuple startingAt: 1! !
 
-!DenseMatrix methodsFor: 'row operations' stamp: 'len 4/24/2022 20:33:20'!
+!RowMajorMatrix methodsFor: 'row operations' stamp: 'len 4/24/2022 20:33:20'!
 addRow: src times: aNumber toRow: dst
 	self addRow: src times: aNumber toRow: dst startingAt: 1! !
 
-!DenseMatrix methodsFor: 'row operations' stamp: 'len 5/20/2022 05:37:46'!
+!RowMajorMatrix methodsFor: 'row operations' stamp: 'len 5/20/2022 05:37:46'!
 addRow: src times: aNumber toRow: dst startingAt: startColumn
 	| width dstStart srcStart |
 	width _ self width.
@@ -25195,21 +25463,21 @@ addRow: src times: aNumber toRow: dst startingAt: startColumn
 		plus: coefficients startingAt: srcStart
 		timesScalar: aNumber! !
 
-!DenseMatrix methodsFor: 'row operations' stamp: 'len 4/24/2022 20:33:32'!
-multiplyRow: i by: aNumber
-	self multiplyRow: i by: aNumber startingAt: 1! !
+!RowMajorMatrix methodsFor: 'row operations' stamp: 'len 12/15/2022 11:53:33'!
+multiplyRow: i by: anElement
+	self multiplyRow: i by: anElement startingAt: 1! !
 
-!DenseMatrix methodsFor: 'row operations' stamp: 'len 5/20/2022 05:39:01'!
-multiplyRow: i by: aNumber startingAt: startColumn
+!RowMajorMatrix methodsFor: 'row operations' stamp: 'len 12/15/2022 11:53:24'!
+multiplyRow: i by: anElement startingAt: startColumn
 	| width start |
 	width _ self width.
 	start _ i - 1 * width + startColumn.
 	coefficients
 		replaceFrom: start to: start + width - startColumn
 		with: coefficients startingAt: start
-		timesScalar: aNumber! !
+		timesScalar: anElement! !
 
-!DenseMatrix methodsFor: 'row operations' stamp: 'len 4/25/2022 08:01:26'!
+!RowMajorMatrix methodsFor: 'row operations' stamp: 'len 4/25/2022 08:01:26'!
 swapRow: i1 with: i2
 	| width start1 start2 |
 	width _ self width.
@@ -25219,28 +25487,28 @@ swapRow: i1 with: i2
 		swapFrom: start1 to: start1 + width - 1
 		with: coefficients startingAt: start2! !
 
-!DenseMatrix methodsFor: 'testing' stamp: 'len 4/21/2022 12:45:41'!
+!RowMajorMatrix methodsFor: 'testing' stamp: 'len 4/21/2022 12:45:41'!
 isZero
 	^ coefficients isZero! !
 
-!DenseMatrix methodsFor: 'testing' stamp: 'len 4/21/2022 12:47:28'!
+!RowMajorMatrix methodsFor: 'testing' stamp: 'len 4/21/2022 12:47:28'!
 isZeroAt: aPoint
 	^ coefficients isZeroAt: aPoint x - 1 * self width + aPoint y! !
 
-!DenseMatrix methodsFor: 'private' stamp: 'len 5/28/2020 09:57:19'!
+!RowMajorMatrix methodsFor: 'private' stamp: 'len 5/28/2020 09:57:19'!
 coefficients
 	^ coefficients! !
 
-!DenseMatrix methodsFor: 'private' stamp: 'len 5/29/2020 07:04:34'!
+!RowMajorMatrix methodsFor: 'private' stamp: 'len 5/29/2020 07:04:34'!
 coefficients: aTuple
 	coefficients _ aTuple! !
 
-!DenseMatrix methodsFor: 'private' stamp: 'len 7/8/2022 11:08:41'!
+!RowMajorMatrix methodsFor: 'private' stamp: 'len 7/8/2022 11:08:41'!
 validate
 	self assert: coefficients size = (domain rank * codomain rank).
 	^ super validate! !
 
-!DenseMatrix class methodsFor: 'instance creation' stamp: 'len 4/20/2022 20:57:36'!
+!RowMajorMatrix class methodsFor: 'instance creation' stamp: 'len 4/20/2022 20:57:36'!
 from: aDomain to: aCodomain coefficients: anArray
 	^ self new domain: aDomain; codomain: aCodomain; coefficients: anArray! !
 
@@ -25249,16 +25517,13 @@ atRow: i column: j ifAbsent: exceptionBlock
 	(rowPointers at: i) to: (rowPointers at: i+1) - 1 do: [:k| (columnIndices at: k) = j ifTrue: [^ coefficients at: k]].
 	^ exceptionBlock value! !
 
-!SparseMatrix methodsFor: 'operations' stamp: 'len 11/24/2022 11:50:10'!
+!SparseMatrix methodsFor: 'operations' stamp: 'len 12/15/2022 12:59:38'!
 value: aTuple
 "	(self domain includes: aTuple) ifFalse: [^ DomainError signal]."
-	^ codomain elementAt:
-		((coefficients species new: self height)
-			replaceFrom: 1 to: self height
-			withSparseMatrix: coefficients
-			columnIndices: columnIndices
-			rowPointers: rowPointers
-			timesTuple: aTuple)! !
+	^ (coefficients species new: self height)
+		replaceFrom: 1 to: self height
+		withSparseMatrix: coefficients columnIndices: columnIndices rowPointers: rowPointers
+		timesTuple: aTuple! !
 
 !SparseMatrix methodsFor: 'private' stamp: 'len 5/3/2022 05:36:47'!
 coefficients: anArray columnIndices: anArray2 rowPointers: anArray3
@@ -29149,10 +29414,11 @@ corepresentation
 divisionBy: anElement
 	^ Division divide: self by: anElement! !
 
-!RingElement methodsFor: 'operations' stamp: 'len 10/16/2022 10:41:16'!
+!RingElement methodsFor: 'operations' stamp: 'len 12/18/2022 08:45:51'!
 gauge
 	"Answer the value of the Euclidean function at the receiver."
 	self parent isDVR ifTrue: [^ self isZero ifTrue: [0] ifFalse: [self valuation + 1]].
+	self parent isField ifTrue: [^ self isZero ifTrue: [0] ifFalse: [1]].
 	^ self subclassResponsibility! !
 
 !RingElement methodsFor: 'operations' stamp: 'len 6/1/2022 18:05:51'!
@@ -35882,574 +36148,220 @@ squareRootOf: anInteger
 	t _ y. r - m - 1 timesRepeat: [t _ t squared \\ p]. "t _ y ^ (2 ^ (r - m - 1)) mod p"
 	y _ t squared \\ p. r _ m. x _ x * t \\ p. b _ b * y \\ p] repeat! !
 
-!MatrixReduction methodsFor: 'accessing' stamp: 'len 12/26/2015 05:38'!
-extension
-	^ extension! !
+!Coechelonization methodsFor: 'as yet unclassified' stamp: 'len 12/17/2022 10:10:40'!
+addColumn: j0 times: anElement toColumn: j1
+	self addColumn: j0 times: anElement toColumn: j1 startingAt: 1! !
 
-!MatrixReduction methodsFor: 'accessing' stamp: 'len 4/5/2018 15:36:11'!
-pivots
-	| answer i j n |
-	answer _ OrderedCollection new: matrix height.
-	j _ 1.
-	i _ 1.
-	n _ matrix width.
-	matrix rowsDo: [:row|
-		j > n ifTrue: [^ answer].
-		((j to: n) detect: [:j0| (row isZeroAt: j0) not] ifNone: [])
-			ifNotNil: [:j0| answer add: i@j0. j _ j0 + 1].
-		i _ i + 1].
-	^ answer! !
+!Coechelonization methodsFor: 'as yet unclassified' stamp: 'len 12/17/2022 10:11:52'!
+addColumn: j0 times: anElement toColumn: j1 startingAt: startIndex
+	echelon addColumn: j0 times: anElement toColumn: j1 startingAt: startIndex.
+	transformation ifNotNil: [transformation addColumn: j0 times: anElement toColumn: j1]! !
 
-!MatrixReduction methodsFor: 'accessing' stamp: 'len 12/26/2015 03:23'!
-reduced
-	"Answer the reduced matrix."
-	^ matrix! !
+!Coechelonization methodsFor: 'as yet unclassified' stamp: 'len 12/18/2022 10:56:00'!
+echelon
+	echelon isNil ifTrue: [echelon _ matrix asColumnMajor copy. transformation _ nil. self run].
+	^ echelon! !
 
-!MatrixReduction methodsFor: 'operations' stamp: 'len 5/30/2019 07:21:15'!
-addRow: i0 times: aNumber toRow: i1
-	self addRow: i0 times: aNumber toRow: i1 startingAt: 1! !
+!Coechelonization methodsFor: 'as yet unclassified' stamp: 'len 12/18/2022 11:01:29'!
+echelonAndTransformation
+	transformation isNil ifTrue: [echelon _ matrix asColumnMajor copy. transformation _ matrix domain id asColumnMajor copy. self run].
+	^ {echelon. transformation}! !
 
-!MatrixReduction methodsFor: 'operations' stamp: 'len 5/16/2022 20:03:12'!
-addRow: i0 times: aNumber toRow: i1 startingAt: startIndex
-	"Transcript cr; show: 'addRow: ', i0 printString, ' toRow: ', i1 printString, ' startingAt: ', startIndex printString."
-	matrix addRow: i0 times: aNumber toRow: i1 startingAt: startIndex.
-	extension ifNotNil: [extension addRow: i0 times: aNumber toRow: i1]! !
-
-!MatrixReduction methodsFor: 'operations' stamp: 'len 1/19/2018 21:38:21'!
-multiplyRow: i by: aNumber
-	self multiplyRow: i by: aNumber startingAt: 1! !
-
-!MatrixReduction methodsFor: 'operations' stamp: 'len 11/29/2022 19:22:50'!
-multiplyRow: i by: aNumber startingAt: startIndex
-	"Transcript cr; show: 'multiplyRow: ', i printString, ' by: ', aNumber printString, ' startingAt: ', startIndex printString."
-	matrix multiplyRow: i by: aNumber startingAt: startIndex.
-	extension ifNotNil: [extension multiplyRow: i by: aNumber]! !
-
-!MatrixReduction methodsFor: 'operations' stamp: 'len 11/29/2022 19:23:28'!
-swapRow: i with: j
-	"Transcript cr; show: 'swapRow: ', i printString, ' with: ', j printString."
-	matrix swapRow: i with: j.
-	extension ifNotNil: [extension swapRow: i with: j]! !
-
-!MatrixReduction methodsFor: 'private' stamp: 'len 11/29/2022 19:24:08'!
-matrix: aMatrix extension: anotherMatrix
-	matrix _ aMatrix copy.
-	extension _ anotherMatrix ifNotNil: [anotherMatrix copy].
-	self run! !
-
-!MatrixReduction class methodsFor: 'instance creation' stamp: 'len 12/26/2015 05:41'!
-on: aMatrix
-	^ self on: aMatrix extension: nil! !
-
-!MatrixReduction class methodsFor: 'instance creation' stamp: 'len 12/26/2015 05:15'!
-on: aMatrix extension: anotherMatrix
-	^ self new matrix: aMatrix extension: anotherMatrix! !
-
-!GaussianElimination methodsFor: 'operations' stamp: 'len 5/30/2019 07:21:00'!
-addRow: i0 times: aNumber toRow: i1
-	self addRow: i0 times: aNumber toRow: i1 startingAt: currentPivot y! !
-
-!GaussianElimination methodsFor: 'operations' stamp: 'len 1/19/2018 21:54:00'!
-multiplyRow: i by: aNumber
-	self multiplyRow: i by: aNumber startingAt: currentPivot y! !
-
-!GaussianElimination methodsFor: 'operations' stamp: 'len 11/29/2022 19:22:41'!
-multiplyRow: i by: aNumber startingAt: startIndex
-	super multiplyRow: i by: aNumber startingAt: startIndex.
-	determinantFactor _ determinantFactor * aNumber! !
-
-!GaussianElimination methodsFor: 'operations' stamp: 'len 1/19/2018 23:22:35'!
-swapRow: i
-	"Swap the anInteger-th row with the row at the current pivot."
-	i = currentPivot x ifTrue: [^ self].
-	self swapRow: i with: currentPivot x.
-	pivots removeLast.
-	self addPivot: i @ currentPivot y! !
-
-!GaussianElimination methodsFor: 'operations' stamp: 'len 11/29/2022 19:23:22'!
-swapRow: i with: j
-	super swapRow: i with: j.
-	determinantFactor _ determinantFactor negated! !
-
-!GaussianElimination methodsFor: 'private' stamp: 'len 1/19/2018 21:31:10'!
-addPivot: aPoint
-	currentPivot _ aPoint.
-	^ pivots add: aPoint! !
-
-!GaussianElimination methodsFor: 'private' stamp: 'len 11/29/2022 19:24:30'!
-matrix: aMatrix extension: anotherMatrix
-	pivots _ OrderedCollection new: aMatrix height.
-	currentPivot _ 0 @ 0.
-	determinantFactor _ aMatrix scalars one.
-	super matrix: aMatrix extension: anotherMatrix! !
-
-!GaussianElimination methodsFor: 'private' stamp: 'len 4/5/2018 15:37:51'!
-nextPivot
-	"Advance the position to the next available pivot."
-	| col |
-	col _ currentPivot y + 1.
-	[col <= matrix width]
-		whileTrue:
-			[1 to: matrix height do: [:each|
-				((pivots anySatisfy: [:one| one x = each]) or: [matrix isZeroAt: each @ col])
-						ifFalse: [^ self addPivot: each @ col]].
-			col _ col + 1].
-	^ nil! !
-
-!GaussianElimination methodsFor: 'private' stamp: 'len 1/19/2018 21:59:16'!
-pivots
-	^ pivots! !
-
-!GaussianElimination methodsFor: 'private' stamp: 'len 8/22/2021 12:44:57'!
-reduceStep
-	"Perform one step in the reduction of the matrix using the current pivot."
-	| row col |
-	row _ currentPivot x.
-	col _ currentPivot y.
-	self multiplyRow: row by: (matrix at: row @ col) inverse.
-	1 to: matrix height do: [:i|
-		(i = row or: [matrix isZeroAt: i @ col])
-			ifFalse: [self addRow: row times: (matrix at: i @ col) negated toRow: i]]! !
-
-!GaussianElimination methodsFor: 'private' stamp: 'len 1/19/2018 22:13:04'!
-run
-	| row |
-	row _ 1.
-	[self nextPivot isNil]
-		whileFalse:
-			[self swapRow: row.
-			row _ row + 1.
-			self reduceStep]! !
-
-!GaussianElimination methodsFor: 'accessing' stamp: 'len 11/29/2022 19:20:55'!
-determinant
-	"Answer the determinant of the matrix."
-	| determinant |
-	determinant _ matrix scalars one.
-	1 to: matrix height do: [:i|
-		determinant _ determinant * (matrix at: i@i)].
-	^ determinant / determinantFactor! !
-
-!HermiteReduction methodsFor: 'private' stamp: 'len 10/16/2022 10:47:17'!
-reduceStep: k column: j
-	"Perform the reduction step on row k and column j."
-	| i0 b |
-	"2. Column finished?"
-	[i0 _ (matrix height to: k+1 by: -1)
-		detect: [:i| (matrix at: i@j) isZero not]
-		ifNone: [self multiplyRow: k by: (matrix at: k@j) normalization. ^ self "go to step 5"].
-	"3. Choose nonzero entry with smallest absolute value:"
-	i0 _ ((k to: i0) select: [:i| (matrix at: i@j) isZero not]) detectMin: [:i| (matrix at: i@j) gauge].
-	i0 > k ifTrue: [self swapRow: i0 with: k].
-	self multiplyRow: k by: (matrix at: k@j) normalization.
-	b _ matrix at: k@j.
-	"4. Reduce:"
-	matrix height to: k+1 by: -1 do: [:i| | q |
-		q _ (matrix at: i@j) // b.
-		self addRow: k times: q negated toRow: i]] repeat! !
-
-!HermiteReduction methodsFor: 'private' stamp: 'len 8/3/2020 12:20:59'!
-run
-	| n m k j b |
-	m _ matrix height.
-	n _ matrix width.
-	(m = 0 or: [n = 0]) ifTrue: [^ self]. "nothing to do"
-	"1. Initialize:"
-	k _ 1.
-	j _ 1.
-	[self reduceStep: k column: j.
-	"5. Final reductions:"
-	b _ matrix at: k@j.
-	b isZero
-		ifTrue:
-			[k _ k - 1]
-		ifFalse:
-			[1 to: k-1 do: [:i| | q |
-				q _ (matrix at: i@j) // b.
-				self addRow: k times: q negated toRow: i]].
-	"6. Finished?"
-	j = n or: [k = m]] whileFalse: [j _ j + 1. k _ k + 1].
-	^ matrix! !
-
-!HowellReduction methodsFor: 'private' stamp: 'len 5/21/2022 13:18:06'!
-cancel: aPoint with: anotherPoint
-	| a b mgcd g s t u v j i Aj Ai |
-	mgcd _ (a _ matrix at: aPoint) xxgcd: (b _ matrix at: anotherPoint).
-	g _ mgcd at: 1.
-	s _ mgcd at: 2.
-	t _ mgcd at: 3.
-	u _ mgcd at: 4.
-	v _ mgcd at: 5.
-	self assert: s*a + (t*b) = g.
-	self assert: (u*a + (v*b)) isZero.
-	self assert: (s*v - (t*u)) = g one.
-	"optimize!! avoid wasting memory"
-	"is this changing the determinant?"
-	j _ aPoint x.
-	i _ anotherPoint x.
-	Aj _ (matrix rowAt: j) copy.
-	Ai _ (matrix rowAt: i) copy.
-	matrix rowAt: j put: Aj*s + (Ai*t).
-	matrix rowAt: i put: Aj*u + (Ai*v).
-	extension ifNotNil:
-		[Aj _ (extension rowAt: j) copy.
-		Ai _ (extension rowAt: i) copy.
-		extension rowAt: j put: Aj*s + (Ai*t).
-		extension rowAt: i put: Aj*u + (Ai*v)]! !
-
-!HowellReduction methodsFor: 'private' stamp: 'len 5/21/2022 13:18:17'!
-cancel: aPoint withTemporary: aTuple
-	| a b mgcd g s t u v j Aj |
-	mgcd _ (a _ matrix at: aPoint) xxgcd: (b _ aTuple at: aPoint y).
-	g _ mgcd at: 1.
-	s _ mgcd at: 2.
-	t _ mgcd at: 3.
-	u _ mgcd at: 4.
-	v _ mgcd at: 5.
-	self assert: s*a + (t*b) = g.
-	self assert: (u*a + (v*b)) isZero.
-	self assert: (s*v - (t*u)) = g one.
-	"optimize!! avoid wasting memory"
-	"is this changing the determinant? should also update the extension?"
-	j _ aPoint x.
-	Aj _ (matrix rowAt: j) copy.
-	matrix rowAt: j put: Aj*s + (aTuple*t).
-	^ Aj*u + (aTuple*v)! !
-
-!HowellReduction methodsFor: 'private' stamp: 'len 10/5/2022 17:24:31'!
-run
-	| n m |
-	n _ matrix width.
-	m _ matrix height.
-	"If more columns than rows, augment the matrix with zero rows to make it square:"
-	n > m ifTrue:
-		[matrix _ matrix ⊓ (matrix domain ⇒ (matrix scalars ^ (n - m))) zero.
-		extension ifNotNil: [extension _ extension ⊓ (extension domain ⇒ (matrix scalars ^ (n - m))) zero].
-		m _ n].
-	"Put it in upper triangular form:"
-	1 to: n do: [:j| j+1 to: m do: [:i| self cancel: j@j with: i@j]].
-	self assert: matrix isUpperTriangular.
-	"Put it in Howell form:"
-	1 to: n do: [:j|
-		| B |
-		(matrix isZeroAt: j@j)
-			ifTrue:
-				[B _ (matrix rowAt: j) copy]
-			ifFalse:
-				[self multiplyRow: j by: (matrix at: j@j) normalization.
-				1 to: j-1 do: [:i| self addRow: j times: ((matrix at: i@j) // (matrix at: j@j)) negated toRow: i].
-				B _ (matrix rowAt: j) * (matrix at: j@j) annihilator].
-		j+1 to: n do: [:i| B _ self cancel: i@i withTemporary: B]].
-	^ matrix! !
-
-!Buchberger methodsFor: 'accessing' stamp: 'len 1/10/2022 12:23:20'!
-basis
-	^ basis! !
-
-!Buchberger methodsFor: 'accessing' stamp: 'len 1/10/2022 12:27:30'!
-basisMatrix
-	^ self isRankOne
-		ifTrue: [(matrix scalars^basis size !! basis) asRowMatrix]
-		ifFalse: [Matrix to: matrix codomain columns: basis]! !
-
-!Buchberger methodsFor: 'accessing' stamp: 'len 1/12/2022 14:05:12'!
-ordering
-	^ matrix scalars ordering! !
-
-!Buchberger methodsFor: 'accessing' stamp: 'len 1/13/2022 08:09:29'!
-scalars
-	^ matrix scalars scalars! !
-
-!Buchberger methodsFor: 'computing' stamp: 'len 5/24/2022 14:45:20'!
-autoreduce
-	"Make the basis a reduced basis.
-	Based on [BW93], algorithm REDGROEBNER (p. 216) and REDUCTION (p. 203)."
-	| H |
-	H _ OrderedCollection new.
-	1 to: basis size do: [:i| | f m |
-		f _ basis at: i.
-		m _ f leadingMonomial.
-		(((i+1 to: basis size) noneSatisfy: [:j| (basis at: j) leadingMonomial | m])
-			and: [H noneSatisfy: [:h| h leadingMonomial | m]])
-				ifTrue: [H add: f]].
-	H _ H asArray.
-	basis _ OrderedCollection new.
-	1 to: H size do: [:i| | h r |
-		h _ H at: i.
-		(r _ h reductionFullBy: (H copyWithoutIndex: i)) isZero ifFalse: [basis add: r normalized]]! !
-
-!Buchberger methodsFor: 'computing' stamp: 'len 5/22/2022 19:31:31'!
-process: anArray
-	| i0 r queue |
-	i0 _ basis size + 1.
-	anArray do: [:f| (r _ f reductionBy: basis) isZero ifFalse: [basis add: r normalized]].
-	queue _ OrderedCollection new.
-	1 to: basis size do: [:i| | fi hi ci |
-		fi _ basis at: i.
-		hi _ fi leadingMonomial.
-		ci _ fi leadingCoefficient.
-		(i+1 max: i0) to: basis size do: [:k| | fk hk ck s |
-			fk _ basis at: k.
-			hk _ fk leadingMonomial.
-			(hi lcm: hk) ifNotNil: [:m|
-				"Add S-polynomial. Apply Buchberger Product Criterion (only applicable to rank 1) and Chain Criterion:"
-				((self isRankOne not or: [m ~= (hi * hk)]) and: [((1 to: i-1) noneSatisfy: [:j| (basis at: j) leadingMonomial | m])])
-					ifTrue:
-						[ck _ fk leadingCoefficient.
-						s _ fi * (m / hi) / ci + (fk * (m / hk) / ck negated).
-						(r _ s reductionBy: basis) isZero ifFalse: [queue add: r]]]]].
-	^ queue! !
-
-!Buchberger methodsFor: 'computing' stamp: 'len 6/7/2022 10:41:49'!
-run
-	| queue |
-	basis _ OrderedCollection new.
-	queue _ OrderedCollection new.
-	(self isRankOne ifTrue: [matrix asTuple asArray] ifFalse: [matrix columns])
-		withIndexDo: [:each :i| each isZero ifFalse: [queue add: each]].
-	[queue isEmpty] whileFalse:
-		[queue _ self process: (queue asSortedCollection: [:a :b| a leadingMonomial <= b leadingMonomial])].
-	"This adds about 50% time in some cases:"
-	self autoreduce.
-	self sort.
-"	self validate"! !
-
-!Buchberger methodsFor: 'computing' stamp: 'len 6/3/2022 06:20:37'!
-sort
-	"Sort the basis to make an autoreduced basis unique."
-	basis sort: [:a :b| self compare: a with: b]! !
-
-!Buchberger methodsFor: 'testing' stamp: 'len 1/10/2022 12:12:04'!
-isRankOne
-	^ matrix height = 1! !
-
-!Buchberger methodsFor: 'private' stamp: 'len 6/3/2022 06:20:20'!
-compare: a with: b
-	^ a leadingMonomial >= b leadingMonomial! !
-
-!Buchberger methodsFor: 'private' stamp: 'len 1/10/2022 12:12:41'!
+!Coechelonization methodsFor: 'as yet unclassified' stamp: 'len 12/17/2022 10:07:38'!
 matrix: aMatrix
 	matrix _ aMatrix! !
 
-!Buchberger methodsFor: 'private' stamp: 'len 7/8/2022 11:18:12'!
-validate
-	self basisMatrix isStandardBasis ifFalse: [^ self error: 'not standard basis'].
-"	self assert: self basisMatrix isReducedStandardBasis.
-	self assert: self basisMatrix isMinimalStandardBasis."
-	(basis sorted: [:a :b| a leadingMonomial >= b leadingMonomial]) = basis asArray ifFalse: [^ self error: 'not sorted']! !
+!Coechelonization methodsFor: 'as yet unclassified' stamp: 'len 12/17/2022 10:08:58'!
+multiplyColumn: i by: anElement
+	self multiplyColumn: i by: anElement startingAt: 1! !
 
-!ExtendedBuchberger methodsFor: 'accessing' stamp: 'len 11/23/2022 21:37:04'!
-transformation
-	^ matrix scalars^combinations size to: matrix domain fill: [:i :j| (combinations at: j) at: i]! !
+!Coechelonization methodsFor: 'as yet unclassified' stamp: 'len 12/17/2022 10:09:31'!
+multiplyColumn: i by: anElement startingAt: startIndex
+	echelon multiplyColumn: i by: anElement startingAt: startIndex.
+	transformation ifNotNil: [transformation multiplyColumn: i by: anElement]! !
 
-!ExtendedBuchberger methodsFor: 'computing' stamp: 'len 5/24/2022 14:41:44'!
-autoreduce
-	"Make the basis a reduced basis.
-	Based on [BW93], algorithm REDGROEBNER (p. 216) and REDUCTION (p. 203)."
-	| H T |
-	H _ OrderedCollection new.
-	T _ OrderedCollection new.
-	1 to: basis size do: [:i| | f m |
-		f _ basis at: i.
-		m _ f leadingMonomial.
-		(((i+1 to: basis size) noneSatisfy: [:j| (basis at: j) leadingMonomial | m])
-			and: [H noneSatisfy: [:h| h leadingMonomial | m]])
-				ifTrue: [H add: f. T add: (combinations at: i)]].
-	H _ H asArray.
-	T _ T asArray.
-	H size > 1 ifFalse: [basis _ H. combinations _ T. ^ self].
-	basis _ OrderedCollection new.
-	combinations _ OrderedCollection new.
-	1 to: H size do: [:i| | h division r u |
-		h _ H at: i.
-		division _ h divisionBy: (H copyWithoutIndex: i).
-		(r _ division remainder) isZero ifFalse:
-			[u _ r normalization.
-			basis add: r*u.
-			combinations add: (T at: i) - ((T copyWithoutIndex: i) * division quotients) sum * u]]! !
+!Coechelonization methodsFor: 'as yet unclassified' stamp: 'len 12/17/2022 10:08:12'!
+swapColumn: i with: j
+	echelon swapColumn: i with: j.
+	transformation ifNotNil: [transformation swapColumn: i with: j]! !
 
-!ExtendedBuchberger methodsFor: 'computing' stamp: 'len 5/24/2022 20:36:25'!
-process: anArray
-	| i0 division queue |
-	i0 _ basis size + 1.
-	"Full reduction in this step produces a reduced basis:"
-	anArray do: [:f|
-		(division _ f key divisionBy: basis) remainder isZero ifFalse:
-			[| u |
-			u _ division remainder normalization.
-			basis add: division remainder * u.
-			combinations add: (combinations isEmpty ifTrue: [f value] ifFalse: [f value - (combinations * division quotients) sum])*u]].
-	queue _ OrderedCollection new.
-	1 to: basis size do: [:i| | fi hi ci ai |
-		fi _ basis at: i.
-		hi _ fi leadingMonomial.
-		ci _ fi leadingCoefficient.
-		ai _ combinations at: i.
-		(i+1 max: i0) to: basis size do: [:k| | fk hk ck s ak |
-			fk _ basis at: k.
-			hk _ fk leadingMonomial.
-			(hi lcm: hk) ifNotNil: [:m|
-				"Add S-polynomial. Apply Buchberger Product Criterion (only applicable to rank 1) and Chain Criterion:"
-				((self isRankOne not or: [m ~= (hi * hk)]) and: [((1 to: i-1) noneSatisfy: [:j| (basis at: j) leadingMonomial | m])])
-					ifTrue:
-						[ck _ fk leadingCoefficient.
-						ak _ combinations at: k.
-						s _ fi * (m / hi) / ci - (fk * (m / hk) / ck).
-						(division _ s divisionBy: basis) remainder isZero ifFalse:
-							[queue add: (Association key: division remainder value: ((ai * (matrix scalars one * (m / hi) / ci) - (ak * (matrix scalars one * (m / hk) / ck))) - (combinations * division quotients) sum))]]]]].
-	^ queue! !
+!Coechelonization class methodsFor: 'instance creation' stamp: 'len 12/18/2022 12:08:52'!
+on: aMatrix
+	| R |
+	self = Coechelonization ifFalse: [^ self new matrix: aMatrix].
+	R _ aMatrix scalars.
+	^ (R isField
+		ifTrue: [GaussJordan]
+		ifFalse: [R isEuclideanDomain
+			ifTrue: [HermiteReduction]
+			ifFalse: [R isEuclidean
+					ifTrue: [HowellReduction]
+					ifFalse: [^ self notYetImplemented]]]) new matrix: aMatrix! !
 
-!ExtendedBuchberger methodsFor: 'computing' stamp: 'len 5/24/2022 21:02:25'!
+!GaussJordan methodsFor: 'as yet unclassified' stamp: 'len 12/18/2022 11:54:29'!
+determinant
+	| determinant |
+	determinant _ matrix scalars one.
+	1 to: self echelon height do: [:i| determinant _ determinant * (echelon at: i@i)].
+	^ determinant / determinantFactor! !
+
+!GaussJordan methodsFor: 'as yet unclassified' stamp: 'len 12/18/2022 11:52:26'!
+multiplyColumn: i by: aNumber startingAt: startIndex
+	super multiplyColumn: i by: aNumber startingAt: startIndex.
+	determinantFactor _ determinantFactor * aNumber! !
+
+!GaussJordan methodsFor: 'as yet unclassified' stamp: 'len 12/18/2022 12:27:26'!
+reduceStep: pivot
+	"Perform the reduction step on row i and column j."
+	| i j j₀ |
+	i _ pivot x.
+	j _ pivot y.
+	"2. Row finished?"
+	[j₀ _ (echelon width to: j+1 by: -1)
+		detect: [:k| (echelon isZeroAt: i@k) not]
+		ifNone: [^ self multiplyColumn: j by: (echelon at: pivot) normalization "go to step 5"].
+	j₀ > j ifTrue: [self swapColumn: j₀ with: j].
+	self multiplyColumn: j by: (echelon at: pivot) inverse.
+	"4. Reduce:"
+	echelon width to: j+1 by: -1 do: [:k|
+		self addColumn: j times: (echelon at: i@k) negated toColumn: k]] repeat! !
+
+!GaussJordan methodsFor: 'as yet unclassified' stamp: 'len 12/18/2022 11:53:42'!
 run
-	| queue |
-	self ordering isGlobal ifFalse: [^ self notYetImplemented].
-	basis _ OrderedCollection new.
-	combinations _ OrderedCollection new.
-	queue _ OrderedCollection new.
-	(self isRankOne ifTrue: [matrix asTuple asArray] ifFalse: [matrix columns])
-		withIndexDo: [:each :i| each isZero ifFalse: [queue add: (Association key: each value: (matrix domain x: i))]].
-	[(queue _ self process: (queue asSortedCollection: [:a :b| a key leadingMonomial <= b key leadingMonomial])) isEmpty] whileFalse.
-	self autoreduce.
-	self sort.
-"	self validate"! !
+	| n m i j b |
+	determinantFactor _ matrix scalars one.
+	m _ echelon height.
+	n _ echelon width.
+	(m = 0 or: [n = 0]) ifTrue: [^ self]. "nothing to do"
+	i _ 1.
+	j _ 1.
+	[self reduceStep: i@j.
+	b _ echelon at: i@j.
+	b isZero
+		ifTrue:
+			[j _ j - 1]
+		ifFalse:
+			[1 to: j-1 do: [:k| | q |
+				q _ (echelon at: i@k) / b.
+				self addColumn: j times: q negated toColumn: k]].
+	j = n or: [i = m]] whileFalse: [i _ i + 1. j _ j + 1]! !
 
-!ExtendedBuchberger methodsFor: 'computing' stamp: 'len 6/3/2022 06:19:51'!
-sort
-	"Sort the basis to make an autoreduced basis unique."
-	| temp |
-	temp _ (1 to: basis size) collect: [:i| Association key: (basis at: i) value: (combinations at: i)].
-	temp sort: [:a :b| self compare: a key with: b key].
-	basis _ temp collect: [:each| each key].
-	combinations _ temp collect: [:each| each value]! !
+!GaussJordan methodsFor: 'as yet unclassified' stamp: 'len 12/18/2022 11:53:23'!
+swapColumn: i with: j
+	i = j ifTrue: [^ self].
+	super swapColumn: i with: j.
+	determinantFactor _ determinantFactor negated! !
 
-!ExtendedBuchberger methodsFor: 'private' stamp: 'len 7/8/2022 11:10:49'!
-validate
-	super validate.
-	matrix * self transformation = self basisMatrix ifFalse: [self error: 'change of basis failed']! !
+!HermiteReduction methodsFor: 'as yet unclassified' stamp: 'len 12/18/2022 12:16:17'!
+reduceStep: pivot
+	"Perform the reduction step on row i and column j."
+	| i j j₀ b |
+	i _ pivot x.
+	j _ pivot y.
+	"2. Row finished?"
+	[j₀ _ (echelon width to: j+1 by: -1)
+		detect: [:k| (echelon isZeroAt: i@k) not]
+		ifNone: [self multiplyColumn: j by: (echelon at: pivot) normalization. ^ self "go to step 5"].
+	"3. Choose nonzero entry with smallest Euclidean valuation:"
+	j₀ _ ((j to: j₀) select: [:k| (echelon isZeroAt: i@k) not]) detectMin: [:k| (echelon at: i@k) gauge].
+	j₀ > j ifTrue: [self swapColumn: j₀ with: j].
+	self multiplyColumn: j by: (echelon at: pivot) normalization.
+	b _ echelon at: pivot.
+	"4. Reduce:"
+	echelon width to: j+1 by: -1 do: [:k| | q |
+		q _ (echelon at: i@k) // b.
+		self addColumn: j times: q negated toColumn: k]] repeat! !
 
-!ExtendedStrongBuchberger methodsFor: 'computing' stamp: 'len 5/24/2022 20:13:08'!
-autoreduce
-	"Make the basis a reduced basis.
-	Based on [BW93], algorithm REDGROEBNER (p. 216) and REDUCTION (p. 203)."
-	| H T |
-	H _ OrderedCollection new.
-	T _ OrderedCollection new.
-	1 to: basis size do: [:i| | f m c |
-		f _ basis at: i.
-		m _ f leadingMonomial.
-		c _ f leadingCoefficient.
-		(((i+1 to: basis size) noneSatisfy: [:j| (basis at: j) leadingMonomial | m and: [(basis at: j) leadingCoefficient | c]])
-			and: [H noneSatisfy: [:h| h leadingMonomial | m and: [h leadingCoefficient | c]]])
-				ifTrue: [H add: f. T add: (combinations at: i)]].
-	H _ H asArray.
-	T _ T asArray.
-	H size > 1 ifFalse: [basis _ H. combinations _ T. ^ self].
-	basis _ OrderedCollection new.
-	combinations _ OrderedCollection new.
-	1 to: H size do: [:i| | h division r u |
-		h _ H at: i.
-		division _ h divisionBy: (H copyWithoutIndex: i).
-		(r _ division remainder) isZero ifFalse:
-			[u _ r normalization.
-			basis add: r*u.
-			combinations add: (T at: i) - ((T copyWithoutIndex: i) * division quotients) sum * u]]! !
+!HermiteReduction methodsFor: 'as yet unclassified' stamp: 'len 12/17/2022 12:58:37'!
+run
+	| n m i j b |
+	m _ echelon height.
+	n _ echelon width.
+	(m = 0 or: [n = 0]) ifTrue: [^ self]. "nothing to do"
+	"1. Initialize:"
+	i _ 1.
+	j _ 1.
+	[self reduceStep: i@j.
+	"5. Final reductions:"
+	b _ echelon at: i@j.
+	b isZero
+		ifTrue:
+			[j _ j - 1]
+		ifFalse:
+			[1 to: j-1 do: [:k| | q |
+				q _ (echelon at: i@k) // b.
+				self addColumn: j times: q negated toColumn: k]].
+	"6. Finished?"
+	j = n or: [i = m]] whileFalse: [i _ i + 1. j _ j + 1]! !
 
-!ExtendedStrongBuchberger methodsFor: 'computing' stamp: 'len 5/24/2022 20:34:27'!
-process: anArray
-	| i0 division queue |
-	i0 _ basis size + 1.
-	"Full reduction in this step produces a reduced basis:"
-	anArray do: [:f|
-		(division _ f key divisionBy: basis) remainder isZero ifFalse:
-			[| u |
-			u _ division remainder normalization.
-			basis add: division remainder * u.
-			combinations add: (combinations isEmpty ifTrue: [f value] ifFalse: [f value - (combinations * division quotients) sum])*u]].
-	queue _ OrderedCollection new.
-	1 to: basis size do: [:i| | fi hi ci ai ann |
-		fi _ basis at: i.
-		hi _ fi leadingMonomial.
-		ci _ fi leadingCoefficient.
-		ai _ combinations at: i.
-		"Add A-polynomial:"
-		ann _ ci annihilator.
-		(division _ fi * ann divisionBy: basis) remainder isZero ifFalse:
-			[queue add: (Association key: division remainder value: ai * ann - (combinations * division quotients) sum)].
-		(i+1 max: i0) to: basis size do: [:k| | fk hk |
-			fk _ basis at: k.
-			hk _ fk leadingMonomial.
-			(hi lcm: hk) ifNotNil: [:m| | ck ak c s xgcd g |
-				ck _ fk leadingCoefficient.
-				ak _ combinations at: k.
-				c _ ci lcm: ck.
-				"Add S-polynomial. Apply Buchberger Product Criterion (only applicable to rank 1) and Chain Criterion:"
-				((self isRankOne not or: [hi * hk ~= m or: [ci * ck ~= c]]) and: [(1 to: i-1) noneSatisfy: [:j| (basis at: j) leadingMonomial | m and: [(basis at: j) leadingCoefficient | c]]]) ifTrue:
-					[s _ fi * (m / hi) * (c / ci) + (fk * (m / hk) * (c negated / ck)).
-					(division _ s divisionBy: basis) remainder isZero ifFalse:
-						[queue add: (Association key: division remainder value: ((ai * (matrix scalars one * (m / hi) * (c / ci)) + (ak * (matrix scalars one * (m / hk) * (c negated / ck)))) - (combinations * division quotients) sum))]].
-				xgcd _ ci xgcd: ck.
-				"Add G-polynomial. Apply Chain Criterion for GCD:"
-				((1 to: i-1) noneSatisfy: [:j| (basis at: j) leadingMonomial | m and: [(basis at: j) leadingCoefficient | (xgcd at: 1)]]) ifTrue:
-					[g _ fi * (m / hi) * (xgcd at: 2) + (fk * (m / hk) * (xgcd at: 3)).
-					(division _ g divisionBy: basis) remainder isZero ifFalse:
-						[queue add: (Association key: division remainder value: ((ai * (matrix scalars one * (m / hi) * (xgcd at: 2)) + (ak * (matrix scalars one * (m / hk) * (xgcd at: 3)))) - (combinations * division quotients) sum))]]]]].
-	^ queue! !
+!HowellReduction methodsFor: 'as yet unclassified' stamp: 'len 12/17/2022 11:09:14'!
+cancel: aPoint with: anotherPoint
+	| a b mgcd g s t u v j i Aj Ai |
+	mgcd _ (a _ echelon at: aPoint) xxgcd: (b _ echelon at: anotherPoint).
+	g _ mgcd at: 1.
+	s _ mgcd at: 2.
+	t _ mgcd at: 3.
+	u _ mgcd at: 4.
+	v _ mgcd at: 5.
+	self assert: s*a + (t*b) = g.
+	self assert: (u*a + (v*b)) isZero.
+	self assert: (s*v - (t*u)) isOne.
+	"optimize!! avoid wasting memory"
+	j _ aPoint y.
+	i _ anotherPoint y.
+	Aj _ (echelon columnAt: j) copy.
+	Ai _ (echelon columnAt: i) copy.
+	echelon columnAt: j put: Aj*s + (Ai*t).
+	echelon columnAt: i put: Aj*u + (Ai*v).
+	transformation ifNotNil:
+		[Aj _ (transformation columnAt: j) copy.
+		Ai _ (transformation columnAt: i) copy.
+		transformation columnAt: j put: Aj*s + (Ai*t).
+		transformation columnAt: i put: Aj*u + (Ai*v)]! !
 
-!ExtendedStrongBuchberger methodsFor: 'private' stamp: 'len 10/16/2022 10:47:31'!
-compare: a with: b
-	^ a leadingMonomial > b leadingMonomial or: [a leadingMonomial = b leadingMonomial and: [a leadingCoefficient gauge >= b leadingCoefficient gauge]]! !
+!HowellReduction methodsFor: 'as yet unclassified' stamp: 'len 12/17/2022 11:08:46'!
+cancel: aPoint withTemporary: aTuple
+	| a b mgcd g s t u v j Aj |
+	mgcd _ (a _ echelon at: aPoint) xxgcd: (b _ aTuple at: aPoint x).
+	g _ mgcd at: 1.
+	s _ mgcd at: 2.
+	t _ mgcd at: 3.
+	u _ mgcd at: 4.
+	v _ mgcd at: 5.
+	self assert: s*a + (t*b) = g.
+	self assert: (u*a + (v*b)) isZero.
+	self assert: (s*v - (t*u)) isOne.
+	"optimize!! avoid wasting memory"
+	j _ aPoint y.
+	Aj _ (echelon columnAt: j) copy.
+	echelon columnAt: j put: Aj*s + (aTuple*t).
+	^ Aj*u + (aTuple*v)! !
 
-!StrongBuchberger methodsFor: 'computing' stamp: 'len 5/24/2022 20:18:21'!
-autoreduce
-	"Make the basis a reduced basis.
-	Based on [BW93], algorithm REDGROEBNER (p. 216) and REDUCTION (p. 203)."
-	| H |
-	H _ OrderedCollection new.
-	1 to: basis size do: [:i| | f m c |
-		f _ basis at: i.
-		m _ f leadingMonomial.
-		c _ f leadingCoefficient.
-		(((i+1 to: basis size) noneSatisfy: [:j| (basis at: j) leadingMonomial | m and: [(basis at: j) leadingCoefficient | c]])
-			and: [H noneSatisfy: [:h| h leadingMonomial | m and: [h leadingCoefficient | c]]])
-				ifTrue: [H add: f]].
-	H _ H asArray.
-	basis _ OrderedCollection new.
-	1 to: H size do: [:i| | h r |
-		h _ H at: i.
-		(r _ h reductionFullBy: (H copyWithoutIndex: i)) isZero ifFalse: [basis add: r normalized]]! !
-
-!StrongBuchberger methodsFor: 'computing' stamp: 'len 5/22/2022 19:19:36'!
-process: anArray
-	| i0 r queue |
-	i0 _ basis size + 1.
-	anArray do: [:f| (r _ f reductionBy: basis) isZero ifFalse: [basis add: r normalized]].
-	queue _ OrderedCollection new.
-	1 to: basis size do: [:i| | fi hi ci |
-		fi _ basis at: i.
-		hi _ fi leadingMonomial.
-		ci _ fi leadingCoefficient.
-		"Add A-polynomial:"
-		(r _ fi * ci annihilator reductionBy: basis) isZero ifFalse: [queue add: r].
-		(i+1 max: i0) to: basis size do: [:k| | fk hk |
-			fk _ basis at: k.
-			hk _ fk leadingMonomial.
-			(hi lcm: hk) ifNotNil: [:m| | ck c s xgcd g |
-				ck _ fk leadingCoefficient.
-				c _ ci lcm: ck.
-				"Add S-polynomial. Apply Buchberger Product Criterion (only applicable to rank 1) and Chain Criterion:"
-				((self isRankOne not or: [hi * hk ~= m or: [ci * ck ~= c]]) and: [(1 to: i-1) noneSatisfy: [:j| (basis at: j) leadingMonomial | m and: [(basis at: j) leadingCoefficient | c]]]) ifTrue:
-					[s _ fi * (m / hi) * (c / ci) - (fk * (m / hk) * (c / ck)).
-					(r _ s reductionBy: basis) isZero ifFalse: [queue add: r]].
-				xgcd _ ci xgcd: ck.
-				"Add G-polynomial. Apply Chain Criterion for GCD:"
-				((1 to: i-1) noneSatisfy: [:j| (basis at: j) leadingMonomial | m and: [(basis at: j) leadingCoefficient | (xgcd at: 1)]]) ifTrue:
-					[g _ fi * (m / hi) * (xgcd at: 2) + (fk * (m / hk) * (xgcd at: 3)).
-					(r _ g reductionBy: basis) isZero ifFalse: [queue add: r]]]]].
-	^ queue! !
-
-!StrongBuchberger methodsFor: 'private' stamp: 'len 10/16/2022 10:47:40'!
-compare: a with: b
-	^ a leadingMonomial > b leadingMonomial or: [a leadingMonomial = b leadingMonomial and: [a leadingCoefficient gauge >= b leadingCoefficient gauge]]! !
+!HowellReduction methodsFor: 'as yet unclassified' stamp: 'len 12/18/2022 11:05:12'!
+run
+	| n m |
+	n _ echelon width.
+	m _ echelon height.
+	(m = 0 or: [n = 0]) ifTrue: [^ self]. "nothing to do"
+	"If more rows than columns, augment the matrix with zero columns to make it square:"
+	m > n ifTrue:
+		[echelon _ echelon ⊔ (echelon scalars ^ (m - n) ⇒ echelon codomain) zero asColumnMajor.
+		transformation ifNotNil: [transformation _ transformation ⊔ (echelon scalars ^ (m - n) ⇒ transformation codomain) zero asColumnMajor].
+		n _ m].
+	"Put it in lower triangular form:"
+	1 to: m do: [:i| i+1 to: n do: [:j| self cancel: i@i with: i@j]].
+	self assert: echelon isLowerTriangular.
+	"Put it in Howell form:"
+	1 to: n do: [:j|
+		| B |
+		(echelon isZeroAt: j@j)
+			ifTrue:
+				[B _ (echelon columnAt: j) copy]
+			ifFalse:
+				[self multiplyColumn: j by: (echelon at: j@j) normalization.
+				1 to: j-1 do: [:i| self addColumn: j times: ((echelon at: j@i) // (echelon at: j@j)) negated toColumn: i].
+				B _ (echelon columnAt: j) * (echelon at: j@j) annihilator].
+		j+1 to: n do: [:i| B _ self cancel: i@i withTemporary: B]]! !
 
 !MultivariateDivision methodsFor: 'printing' stamp: 'len 1/24/98 12:49'!
 printOn: aStream
@@ -36552,6 +36464,311 @@ validate
 !MultivariateDivision class methodsFor: 'instance creation' stamp: 'len 11/20/2016 15:19:29'!
 divide: aPolynomial by: anArrayOfPolynomials
 	^ self new divide: aPolynomial by: anArrayOfPolynomials! !
+
+!StrongBuchberger methodsFor: 'accessing' stamp: 'len 12/17/2022 10:01:51'!
+basis
+	^ self isRankOne
+		ifTrue: [(matrix scalars^generators size !! generators) asRowMatrix]
+		ifFalse: [Matrix to: matrix codomain columns: generators]! !
+
+!StrongBuchberger methodsFor: 'accessing' stamp: 'len 1/12/2022 14:05:12'!
+ordering
+	^ matrix scalars ordering! !
+
+!StrongBuchberger methodsFor: 'accessing' stamp: 'len 1/13/2022 08:09:29'!
+scalars
+	^ matrix scalars scalars! !
+
+!StrongBuchberger methodsFor: 'computing' stamp: 'len 12/17/2022 10:01:15'!
+autoreduce
+	"Make the basis a reduced basis.
+	Based on [BW93], algorithm REDGROEBNER (p. 216) and REDUCTION (p. 203)."
+	| H |
+	H _ OrderedCollection new.
+	1 to: generators size do: [:i| | f m c |
+		f _ generators at: i.
+		m _ f leadingMonomial.
+		c _ f leadingCoefficient.
+		(((i+1 to: generators size) noneSatisfy: [:j| (generators at: j) leadingMonomial | m and: [(generators at: j) leadingCoefficient | c]])
+			and: [H noneSatisfy: [:h| h leadingMonomial | m and: [h leadingCoefficient | c]]])
+				ifTrue: [H add: f]].
+	H _ H asArray.
+	generators _ OrderedCollection new.
+	1 to: H size do: [:i| | h r |
+		h _ H at: i.
+		(r _ h reductionFullBy: (H copyWithoutIndex: i)) isZero ifFalse: [generators add: r normalized]]! !
+
+!StrongBuchberger methodsFor: 'computing' stamp: 'len 12/17/2022 10:01:15'!
+process: anArray
+	| i0 r queue |
+	i0 _ generators size + 1.
+	anArray do: [:f| (r _ f reductionBy: generators) isZero ifFalse: [generators add: r normalized]].
+	queue _ OrderedCollection new.
+	1 to: generators size do: [:i| | fi hi ci |
+		fi _ generators at: i.
+		hi _ fi leadingMonomial.
+		ci _ fi leadingCoefficient.
+		"Add A-polynomial:"
+		(r _ fi * ci annihilator reductionBy: generators) isZero ifFalse: [queue add: r].
+		(i+1 max: i0) to: generators size do: [:k| | fk hk |
+			fk _ generators at: k.
+			hk _ fk leadingMonomial.
+			(hi lcm: hk) ifNotNil: [:m| | ck c s xgcd g |
+				ck _ fk leadingCoefficient.
+				c _ ci lcm: ck.
+				"Add S-polynomial. Apply Buchberger Product Criterion (only applicable to rank 1) and Chain Criterion:"
+				((self isRankOne not or: [hi * hk ~= m or: [ci * ck ~= c]]) and: [(1 to: i-1) noneSatisfy: [:j| (generators at: j) leadingMonomial | m and: [(generators at: j) leadingCoefficient | c]]]) ifTrue:
+					[s _ fi * (m / hi) * (c / ci) - (fk * (m / hk) * (c / ck)).
+					(r _ s reductionBy: generators) isZero ifFalse: [queue add: r]].
+				xgcd _ ci xgcd: ck.
+				"Add G-polynomial. Apply Chain Criterion for GCD:"
+				((1 to: i-1) noneSatisfy: [:j| (generators at: j) leadingMonomial | m and: [(generators at: j) leadingCoefficient | (xgcd at: 1)]]) ifTrue:
+					[g _ fi * (m / hi) * (xgcd at: 2) + (fk * (m / hk) * (xgcd at: 3)).
+					(r _ g reductionBy: generators) isZero ifFalse: [queue add: r]]]]].
+	^ queue! !
+
+!StrongBuchberger methodsFor: 'computing' stamp: 'len 12/17/2022 10:01:15'!
+run
+	| queue |
+	generators _ OrderedCollection new.
+	queue _ OrderedCollection new.
+	(self isRankOne ifTrue: [matrix asTuple asArray] ifFalse: [matrix columns])
+		withIndexDo: [:each :i| each isZero ifFalse: [queue add: each]].
+	[queue isEmpty] whileFalse:
+		[queue _ self process: (queue asSortedCollection: [:a :b| a leadingMonomial <= b leadingMonomial])].
+	"This adds about 50% time in some cases:"
+	self autoreduce.
+	self sort.
+"	self validate"! !
+
+!StrongBuchberger methodsFor: 'computing' stamp: 'len 12/17/2022 10:01:15'!
+sort
+	"Sort the basis to make an autoreduced basis unique."
+	generators sort: [:a :b| self compare: a with: b]! !
+
+!StrongBuchberger methodsFor: 'testing' stamp: 'len 1/10/2022 12:12:04'!
+isRankOne
+	^ matrix height = 1! !
+
+!StrongBuchberger methodsFor: 'private' stamp: 'len 12/12/2022 11:43:04'!
+compare: a with: b
+	^ a leadingMonomial > b leadingMonomial or: [a leadingMonomial = b leadingMonomial and: [a leadingCoefficient gauge >= b leadingCoefficient gauge]]! !
+
+!StrongBuchberger methodsFor: 'private' stamp: 'len 1/10/2022 12:12:41'!
+matrix: aMatrix
+	matrix _ aMatrix! !
+
+!StrongBuchberger methodsFor: 'private' stamp: 'len 12/17/2022 10:03:07'!
+validate
+	self basis isStandardBasis ifFalse: [^ self error: 'not standard basis'].
+"	self assert: self basisMatrix isReducedStandardBasis.
+	self assert: self basisMatrix isMinimalStandardBasis."
+	(generators sorted: [:a :b| a leadingMonomial >= b leadingMonomial]) = generators asArray ifFalse: [^ self error: 'not sorted']! !
+
+!Buchberger methodsFor: 'computing' stamp: 'len 12/17/2022 10:01:15'!
+autoreduce
+	"Make the basis a reduced basis.
+	Based on [BW93], algorithm REDGROEBNER (p. 216) and REDUCTION (p. 203)."
+	| H |
+	H _ OrderedCollection new.
+	1 to: generators size do: [:i| | f m |
+		f _ generators at: i.
+		m _ f leadingMonomial.
+		(((i+1 to: generators size) noneSatisfy: [:j| (generators at: j) leadingMonomial | m])
+			and: [H noneSatisfy: [:h| h leadingMonomial | m]])
+				ifTrue: [H add: f]].
+	H _ H asArray.
+	generators _ OrderedCollection new.
+	1 to: H size do: [:i| | h r |
+		h _ H at: i.
+		(r _ h reductionFullBy: (H copyWithoutIndex: i)) isZero ifFalse: [generators add: r normalized]]! !
+
+!Buchberger methodsFor: 'computing' stamp: 'len 12/17/2022 10:01:15'!
+process: anArray
+	| i0 r queue |
+	i0 _ generators size + 1.
+	anArray do: [:f| (r _ f reductionBy: generators) isZero ifFalse: [generators add: r normalized]].
+	queue _ OrderedCollection new.
+	1 to: generators size do: [:i| | fi hi ci |
+		fi _ generators at: i.
+		hi _ fi leadingMonomial.
+		ci _ fi leadingCoefficient.
+		(i+1 max: i0) to: generators size do: [:k| | fk hk ck s |
+			fk _ generators at: k.
+			hk _ fk leadingMonomial.
+			(hi lcm: hk) ifNotNil: [:m|
+				"Add S-polynomial. Apply Buchberger Product Criterion (only applicable to rank 1) and Chain Criterion:"
+				((self isRankOne not or: [m ~= (hi * hk)]) and: [((1 to: i-1) noneSatisfy: [:j| (generators at: j) leadingMonomial | m])])
+					ifTrue:
+						[ck _ fk leadingCoefficient.
+						s _ fi * (m / hi) / ci + (fk * (m / hk) / ck negated).
+						(r _ s reductionBy: generators) isZero ifFalse: [queue add: r]]]]].
+	^ queue! !
+
+!Buchberger methodsFor: 'private' stamp: 'len 12/12/2022 11:40:57'!
+compare: a with: b
+	^ a leadingMonomial >= b leadingMonomial! !
+
+!ExtendedStrongBuchberger methodsFor: 'accessing' stamp: 'len 12/12/2022 11:48:22'!
+transformation
+	^ matrix scalars^combinations size to: matrix domain fill: [:i :j| (combinations at: j) at: i]! !
+
+!ExtendedStrongBuchberger methodsFor: 'computing' stamp: 'len 12/17/2022 10:01:15'!
+autoreduce
+	"Make the basis a reduced basis.
+	Based on [BW93], algorithm REDGROEBNER (p. 216) and REDUCTION (p. 203)."
+	| H T |
+	H _ OrderedCollection new.
+	T _ OrderedCollection new.
+	1 to: generators size do: [:i| | f m c |
+		f _ generators at: i.
+		m _ f leadingMonomial.
+		c _ f leadingCoefficient.
+		(((i+1 to: generators size) noneSatisfy: [:j| (generators at: j) leadingMonomial | m and: [(generators at: j) leadingCoefficient | c]])
+			and: [H noneSatisfy: [:h| h leadingMonomial | m and: [h leadingCoefficient | c]]])
+				ifTrue: [H add: f. T add: (combinations at: i)]].
+	H _ H asArray.
+	T _ T asArray.
+	H size > 1 ifFalse: [generators _ H. combinations _ T. ^ self].
+	generators _ OrderedCollection new.
+	combinations _ OrderedCollection new.
+	1 to: H size do: [:i| | h division r u |
+		h _ H at: i.
+		division _ h divisionBy: (H copyWithoutIndex: i).
+		(r _ division remainder) isZero ifFalse:
+			[u _ r normalization.
+			generators add: r*u.
+			combinations add: (T at: i) - ((T copyWithoutIndex: i) * division quotients) sum * u]]! !
+
+!ExtendedStrongBuchberger methodsFor: 'computing' stamp: 'len 12/17/2022 10:01:15'!
+process: anArray
+	| i0 division queue |
+	i0 _ generators size + 1.
+	"Full reduction in this step produces a reduced basis:"
+	anArray do: [:f|
+		(division _ f key divisionBy: generators) remainder isZero ifFalse:
+			[| u |
+			u _ division remainder normalization.
+			generators add: division remainder * u.
+			combinations add: (combinations isEmpty ifTrue: [f value] ifFalse: [f value - (combinations * division quotients) sum])*u]].
+	queue _ OrderedCollection new.
+	1 to: generators size do: [:i| | fi hi ci ai ann |
+		fi _ generators at: i.
+		hi _ fi leadingMonomial.
+		ci _ fi leadingCoefficient.
+		ai _ combinations at: i.
+		"Add A-polynomial:"
+		ann _ ci annihilator.
+		(division _ fi * ann divisionBy: generators) remainder isZero ifFalse:
+			[queue add: (Association key: division remainder value: ai * ann - (combinations * division quotients) sum)].
+		(i+1 max: i0) to: generators size do: [:k| | fk hk |
+			fk _ generators at: k.
+			hk _ fk leadingMonomial.
+			(hi lcm: hk) ifNotNil: [:m| | ck ak c s xgcd g |
+				ck _ fk leadingCoefficient.
+				ak _ combinations at: k.
+				c _ ci lcm: ck.
+				"Add S-polynomial. Apply Buchberger Product Criterion (only applicable to rank 1) and Chain Criterion:"
+				((self isRankOne not or: [hi * hk ~= m or: [ci * ck ~= c]]) and: [(1 to: i-1) noneSatisfy: [:j| (generators at: j) leadingMonomial | m and: [(generators at: j) leadingCoefficient | c]]]) ifTrue:
+					[s _ fi * (m / hi) * (c / ci) + (fk * (m / hk) * (c negated / ck)).
+					(division _ s divisionBy: generators) remainder isZero ifFalse:
+						[queue add: (Association key: division remainder value: ((ai * (matrix scalars one * (m / hi) * (c / ci)) + (ak * (matrix scalars one * (m / hk) * (c negated / ck)))) - (combinations * division quotients) sum))]].
+				xgcd _ ci xgcd: ck.
+				"Add G-polynomial. Apply Chain Criterion for GCD:"
+				((1 to: i-1) noneSatisfy: [:j| (generators at: j) leadingMonomial | m and: [(generators at: j) leadingCoefficient | (xgcd at: 1)]]) ifTrue:
+					[g _ fi * (m / hi) * (xgcd at: 2) + (fk * (m / hk) * (xgcd at: 3)).
+					(division _ g divisionBy: generators) remainder isZero ifFalse:
+						[queue add: (Association key: division remainder value: ((ai * (matrix scalars one * (m / hi) * (xgcd at: 2)) + (ak * (matrix scalars one * (m / hk) * (xgcd at: 3)))) - (combinations * division quotients) sum))]]]]].
+	^ queue! !
+
+!ExtendedStrongBuchberger methodsFor: 'computing' stamp: 'len 12/17/2022 10:01:15'!
+run
+	| queue |
+	self ordering isGlobal ifFalse: [^ self notYetImplemented].
+	generators _ OrderedCollection new.
+	combinations _ OrderedCollection new.
+	queue _ OrderedCollection new.
+	(self isRankOne ifTrue: [matrix asTuple asArray] ifFalse: [matrix columns])
+		withIndexDo: [:each :i| each isZero ifFalse: [queue add: (Association key: each value: (matrix domain x: i))]].
+	[(queue _ self process: (queue asSortedCollection: [:a :b| a key leadingMonomial <= b key leadingMonomial])) isEmpty] whileFalse.
+	self autoreduce.
+	self sort.
+"	self validate"! !
+
+!ExtendedStrongBuchberger methodsFor: 'computing' stamp: 'len 12/17/2022 10:01:15'!
+sort
+	"Sort the basis to make an autoreduced basis unique."
+	| temp |
+	temp _ (1 to: generators size) collect: [:i| Association key: (generators at: i) value: (combinations at: i)].
+	temp sort: [:a :b| self compare: a key with: b key].
+	generators _ temp collect: [:each| each key].
+	combinations _ temp collect: [:each| each value]! !
+
+!ExtendedStrongBuchberger methodsFor: 'private' stamp: 'len 12/17/2022 10:03:13'!
+validate
+	super validate.
+	matrix * self transformation = self basis ifFalse: [self error: 'change of basis failed']! !
+
+!ExtendedBuchberger methodsFor: 'computing' stamp: 'len 12/17/2022 10:01:15'!
+autoreduce
+	"Make the basis a reduced basis.
+	Based on [BW93], algorithm REDGROEBNER (p. 216) and REDUCTION (p. 203)."
+	| H T |
+	H _ OrderedCollection new.
+	T _ OrderedCollection new.
+	1 to: generators size do: [:i| | f m |
+		f _ generators at: i.
+		m _ f leadingMonomial.
+		(((i+1 to: generators size) noneSatisfy: [:j| (generators at: j) leadingMonomial | m])
+			and: [H noneSatisfy: [:h| h leadingMonomial | m]])
+				ifTrue: [H add: f. T add: (combinations at: i)]].
+	H _ H asArray.
+	T _ T asArray.
+	H size > 1 ifFalse: [generators _ H. combinations _ T. ^ self].
+	generators _ OrderedCollection new.
+	combinations _ OrderedCollection new.
+	1 to: H size do: [:i| | h division r u |
+		h _ H at: i.
+		division _ h divisionBy: (H copyWithoutIndex: i).
+		(r _ division remainder) isZero ifFalse:
+			[u _ r normalization.
+			generators add: r*u.
+			combinations add: (T at: i) - ((T copyWithoutIndex: i) * division quotients) sum * u]]! !
+
+!ExtendedBuchberger methodsFor: 'computing' stamp: 'len 12/17/2022 10:01:15'!
+process: anArray
+	| i0 division queue |
+	i0 _ generators size + 1.
+	"Full reduction in this step produces a reduced basis:"
+	anArray do: [:f|
+		(division _ f key divisionBy: generators) remainder isZero ifFalse:
+			[| u |
+			u _ division remainder normalization.
+			generators add: division remainder * u.
+			combinations add: (combinations isEmpty ifTrue: [f value] ifFalse: [f value - (combinations * division quotients) sum])*u]].
+	queue _ OrderedCollection new.
+	1 to: generators size do: [:i| | fi hi ci ai |
+		fi _ generators at: i.
+		hi _ fi leadingMonomial.
+		ci _ fi leadingCoefficient.
+		ai _ combinations at: i.
+		(i+1 max: i0) to: generators size do: [:k| | fk hk ck s ak |
+			fk _ generators at: k.
+			hk _ fk leadingMonomial.
+			(hi lcm: hk) ifNotNil: [:m|
+				"Add S-polynomial. Apply Buchberger Product Criterion (only applicable to rank 1) and Chain Criterion:"
+				((self isRankOne not or: [m ~= (hi * hk)]) and: [((1 to: i-1) noneSatisfy: [:j| (generators at: j) leadingMonomial | m])])
+					ifTrue:
+						[ck _ fk leadingCoefficient.
+						ak _ combinations at: k.
+						s _ fi * (m / hi) / ci - (fk * (m / hk) / ck).
+						(division _ s divisionBy: generators) remainder isZero ifFalse:
+							[queue add: (Association key: division remainder value: ((ai * (matrix scalars one * (m / hi) / ci) - (ak * (matrix scalars one * (m / hk) / ck))) - (combinations * division quotients) sum))]]]]].
+	^ queue! !
+
+!ExtendedBuchberger methodsFor: 'private' stamp: 'len 12/12/2022 11:52:31'!
+compare: a with: b
+	^ a leadingMonomial >= b leadingMonomial! !
 
 !ProductReplacementRandomGenerator methodsFor: 'accessing' stamp: 'len 5/25/2019 04:34:49'!
 generators: aCollection
@@ -36821,20 +37038,6 @@ bindingOf: aString
 			ifTrue: [^nil]
 			ifFalse: ["bindings at: aString put: nil]"]".
 	^bindings associationAt: aString! !
-
-!Class methodsFor: '*algebra' stamp: 'len 12/1/2016 09:03:19'!
-newSubclass
-	"Answer a new subclass of the receiver. The new subclass will be unnamed and uncategorized, and if no instances exist it can be subject of garbage collection."
-	| newMetaclass |
-	newMetaclass _ Metaclass new.
-	newMetaclass
-		superclass: self class
-		methodDictionary: MethodDictionary new
-		format: self class format.
-	^ newMetaclass new
-		superclass: self
-		methodDictionary: MethodDictionary new
-		format: self format! !
 
 !Number methodsFor: '*algebra' stamp: 'len 7/4/2022 13:00:11'!
 ^ aNumber
@@ -37623,6 +37826,20 @@ raisedToInteger: anInteger
 inverse
 	^ self class key: value value: key! !
 
+!Class methodsFor: '*algebra' stamp: 'len 12/1/2016 09:03:19'!
+newSubclass
+	"Answer a new subclass of the receiver. The new subclass will be unnamed and uncategorized, and if no instances exist it can be subject of garbage collection."
+	| newMetaclass |
+	newMetaclass _ Metaclass new.
+	newMetaclass
+		superclass: self class
+		methodDictionary: MethodDictionary new
+		format: self class format.
+	^ newMetaclass new
+		superclass: self
+		methodDictionary: MethodDictionary new
+		format: self format! !
+
 !Character class methodsFor: '*algebra' stamp: 'len 10/6/2022 11:48:23'!
 namedCharactersTable
 	"Table of named characters that we can enter in an editor using \name.
@@ -37801,7 +38018,17 @@ dot: anArray modulo: modulus
 		answer > modulus ifTrue: [answer _ answer \\ modulus]].
 	^ answer! !
 
-!ArrayedCollection methodsFor: '*algebra-low level' stamp: 'len 12/6/2022 13:16:50'!
+!ArrayedCollection methodsFor: '*algebra-low level' stamp: 'len 12/16/2022 12:12:48'!
+fillWithMatrix: anArray1 height: height1 timesMatrix: anArray2 height: height2
+	| i1 i2 |
+	i1 _ 1.
+	i2 _ 1.
+	[i1 <= self size] whileTrue:
+		[self replaceFrom: i1 to: i1 + height1 - 1 withMatrix: anArray1 height: height1 timesTuple: anArray2 startingAt: i2.
+		i1 _ i1 + height1.
+		i2 _ i2 + height2]! !
+
+!ArrayedCollection methodsFor: '*algebra-low level' stamp: 'len 12/17/2022 09:46:00'!
 fillWithMatrix: anArray width: width1 timesMatrix: anotherArray width: width2
 	| j k |
 	j _ 1.
@@ -37825,6 +38052,24 @@ fillWithMatrix: anArray width: width1 timesMatrixTranspose: anotherArray width: 
 		k > max ifTrue:
 			[k _ 1.
 			j _ j + width1]]! !
+
+!ArrayedCollection methodsFor: '*algebra-low level' stamp: 'len 12/16/2022 12:00:31'!
+fillWithMatrixTranspose: anArray height: height
+	^ self fillWithMatrixTranspose: anArray width: height
+"	| n width |
+	(n _ anArray size) = 0 ifTrue: [^ self].
+	width _ n // height.
+	1 to: width do: [:j| | i0 |
+		i0 _  j-1*height.
+		1 to: height do: [:i|
+			self at: i-1*width + i put: (anArray at: i0 + i)]]"
+
+"	blockSize _ 16.
+	1 to: height by: blockSize do: [:i|
+		1 to: width by: blockSize do: [:j|
+			i to: i + blockSize - 1 do: [:k|
+				j to: j + blockSize - 1 do: [:l|
+					self at: l-1*height + k put: (anArray at: k-1*width + l)]]]]"! !
 
 !ArrayedCollection methodsFor: '*algebra-low level' stamp: 'len 5/15/2022 12:14:41'!
 fillWithMatrixTranspose: anArray width: width
@@ -37859,6 +38104,18 @@ findLastNonzeroFrom: start to: stop
 firstNonzeroIndex
 	"Answer the index of the first nonzero entry, or nil."
 	^ self findFirstNonzeroFrom: 1 to: self size! !
+
+!ArrayedCollection methodsFor: '*algebra-low level' stamp: 'len 12/17/2022 09:43:42'!
+from: start to: stop by: increment dot: anArray startingAt: start2 by: increment2
+	| answer i j |
+	answer _ self first zero.
+	i _ start.
+	j _ start2.
+	[i <= stop] whileTrue:
+		[answer _ (self at: i) * (anArray at: j) + answer.
+		i _ i + increment.
+		j _ j + increment2].
+	^ answer! !
 
 !ArrayedCollection methodsFor: '*algebra-low level' stamp: 'len 4/24/2022 18:11:18'!
 from: start to: stop dot: anArray startingAt: start2 by: increment2
@@ -38063,6 +38320,30 @@ replaceFrom: start to: stop with: anArray startingAt: srcStart timesScalar: anEl
 	start to: stop do: [:i|
 		self at: i put: (anArray at: j) * anElement \\ modulus.
 		j _ j + 1]! !
+
+!ArrayedCollection methodsFor: '*algebra-low level' stamp: 'len 12/17/2022 06:38:29'!
+replaceFrom: start to: stop withMatrix: anArray height: height timesTuple: anotherArray startingAt: start2
+	| width j |
+	height = 0 ifTrue: [^ self].
+	width _ anArray size // height.
+	width = 0 ifTrue: [^ self].
+	self replaceFrom: start to: stop with: anArray startingAt: 1 timesScalar: (anotherArray at: start2).
+	j _ height + 1.
+	start2 + 1 to: start2 + width - 1 do: [:i|
+		self replaceFrom: start to: stop with: self startingAt: start plus: anArray startingAt: j timesScalar: (anotherArray at: i).
+		j _ j + height]! !
+
+!ArrayedCollection methodsFor: '*algebra-low level' stamp: 'len 12/17/2022 06:39:17'!
+replaceFrom: start to: stop withMatrix: anArray height: height timesTuple: anotherArray startingAt: start2 modulo: modulus
+	| width j |
+	height = 0 ifTrue: [^ self].
+	width _ anArray size // height.
+	width = 0 ifTrue: [^ self].
+	self replaceFrom: start to: stop with: anArray startingAt: 1 timesScalar: (anotherArray at: start2) modulo: modulus.
+	j _ height + 1.
+	start2 + 1 to: start2 + width - 1 do: [:i|
+		self replaceFrom: start to: stop with: self startingAt: start plus: anArray startingAt: j timesScalar: (anotherArray at: i) modulo: modulus.
+		j _ j + height]! !
 
 !ArrayedCollection methodsFor: '*algebra-low level' stamp: 'len 12/6/2022 13:12:32'!
 replaceFrom: start to: stop withMatrix: anArray width: width timesTuple: anotherArray startingAt: start2
